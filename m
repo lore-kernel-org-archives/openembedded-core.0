@@ -2,923 +2,8375 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7015CA5FF5
-	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 21:43:20 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13634.1791063793482199891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1BECA5FE6
+	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 21:43:19 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13639.1791063796778805505
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Oct 2026 14:43:13 -0700
+ Sat, 03 Oct 2026 14:43:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XYuRoe/m;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso8166375e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 14:43:13 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ECYW5/L4;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48b0ef9c76eso494739f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 14:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791063792; x=1791668592; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=+vqEpF+XG3YkuhRecmTxX7O3tNMUxWcFXyy5fnp8ERo=;
-        b=XYuRoe/mW7OOSh3Pw7kQpdiP1uPlJMkb8oBlgVusiG2mMWoOfCdcQG39yUe41wnJws
-         SvG+fnMIzHKosvN8aAhFshXosabVWesh5rADKr1LfIJmJ+uKLiOZM3TFm52dc3nuhfIb
-         tINwOV8aQmOqsQb3eS7LjIVhAUDWaOU2PxL1s=
+        d=smile.fr; s=google; t=1791063795; x=1791668595; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SMBqy6cSvG7jN4+qLRz4YCvIL6c97VLp8jS1N1as3Ws=;
+        b=ECYW5/L4/J0viWAr8w06id9tBsj79CTAk2wF5OraylIuMAv8Dq0voG2mGDny3TYxCp
+         z0e3v+N8giW0nzA1JR93a+0PGJqBklqFmcBtJZbnxo1mnWd9nAGiv8d830fGXCGG9TIN
+         jwt4rVT4GSb4kPmgFJwlCcDeDB1ga7ydzh5J4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791063792; x=1791668592;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=+vqEpF+XG3YkuhRecmTxX7O3tNMUxWcFXyy5fnp8ERo=;
-        b=QRJeEXfGXAhxDKH4c8wgEZm6oDib/qVy0vJ/NbP5PtFZGKYuIDLj3C/YSKJcug2nwD
-         1SSyTruzeN10186v1Ha0rxSc6uaSCcAF/S2RBwM7NcsC5g6lbSBlmJkraQeUpldOZTtQ
-         Vw/bXrQCMbL3Dg1Ak7WKzirrRzWemOjQRMJkAubtlTnEismFScElDSqBaPo9ASOb72Lf
-         B6KJDhdHMYZ7pJf7pMRwRrfWrrmNbl9MSAH0UD9hArMbSDnMo1nsUqcPbg3FzLJfPuSH
-         qe++SlhU8p8rkcfz9+IQT+PrqcQWEqMc5jypzqEhPvYfgATwhyCOf6bCOzUV9Ofp5EPB
-         1/IA==
-X-Gm-Message-State: AFuF++ngyJs51hpPx2erggvGyK1Ptm/iaojoIEs2wX878HHyePftfqJZ
-	vTHHGlF8ZrZcIcuG7iVbbEW+dG0PgyKdMWOveiqsgUeyJ4QKTuRua6+gbhiPQVk2p+0lwQpwTHn
-	NgHzTg+o=
-X-Gm-Gg: AYBFou3OoioJeED8CeB/kGL12QRP8p7SfYArf+vPSvMkuRYvEMw3LN1OIPaAPQ66JHk
-	uZVQRRj3+eQKatPargKkRPlYygZJUGq8GTb5j0JF7FlnvBxCE2vriywLKJzmNnmRyrsCf3+MnQV
-	/bBd76vO7tY/s1pehAOus4OImVPwL4Lw/80J4qqNGH2HsJrpAUBQLgPVnOaOfktcPN/izU6lLMz
-	8pL1Gv2apg5ENajBlC6irKoTPPhc0mKFHK/e2axQxlG9f6pyVKJF5d4F6v1pT2TEPBQXYRMF4dx
-	YRj05p0Mye4WWzzUSh7WslISXw3v0QiB7nhUpT3WcQG79ihRCbu8rupoxFAATs4S92oQtnpzLZ4
-	jNa0ZKwoXkayPtiUXt1ldwsIZVyqHPo0hpEW5FXGxnbQoJMMF6Psyp35WvvXJ/2coWB/f1nRYC8
-	R97gPUHy66bmPprdCpsE+L3KEWZGJSZSMJjRZ7cDlP8a095iQ/bGbCxc2107c9Fgko+8O8w8FV4
-	UKeELNC+6HiBDE0LX8PxLY+C0yJpQpmC2fGjoHQvV06Kbff2HzHjO0iSyod2KRX+G0=
-X-Received: by 2002:a05:600c:6208:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4a168105df5mr45574935e9.32.1791063791404;
-        Sat, 03 Oct 2026 14:43:11 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791063795; x=1791668595;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SMBqy6cSvG7jN4+qLRz4YCvIL6c97VLp8jS1N1as3Ws=;
+        b=Pw3iT9OO12zqn24fkhB+/CxU5ZYnwhzBqkoylkhvWUZ5W36vPuKneSUEoVo0k3A9I+
+         +PeLCHAoxXJuxp5zjz03u3Y8L9jgMMMx4MlIHN0yzhDdVq9zG1pGub0WQRL0GTqyjTGV
+         aTmNOvHJgv0ly3lmVVGVDL16DQ6AW4NSpPNiIZOzAiAqDfQhO5vZErpSAKbTLVm24prm
+         jLu9vPdE68Zc8qM8ywWV1XfZ+pCACVRVpyYOuCy2osQFclfokAsGA1DfEpIIpHP3yrzC
+         mp3sydMnbs9IW7Ichww4Aim916HJDFx4ZEgUBvJMr5BRuhdZ7UMOCxlUvtaMIGb7ZmUc
+         cqFw==
+X-Gm-Message-State: AFuF++l1tmJqc6nSaJjYSohPJQm/MwcpSttRtbuf2z6jRVBBWglGjEZB
+	i8ppPS5hTWUa4tuIQPAKDMZY3HnXgF+XHz+9TNsjMBENxjRt5/iR+0PsYCSkffyc8TmXCKuKrBG
+	hvljl1f0=
+X-Gm-Gg: AYBFou1YL4tWAQuyUZfdhVKTKDakyPjuV2ur9irJ/6l4t0ZJOuVRxzfVvpRPE3Draqr
+	0FknPRx88Ws9OH7nCgYowQFvTGMmOK3DcGCbasc4Tj4khYPSNdA6yZePNxtJlATt4jj8Z1G+fK8
+	SXMBTiK/LXWlu3jzymwf3jMQ3nhdwnazqQpG980Z4tbNptutcV/yDKVO2VssB9g1yJT44wnQx4x
+	dIPx7jwrSiZtF2BV9hHesDdmaAYCbTaYBodOV3QOHE5pktYJSD320O5nX5LWhCSomHJSjUatf3q
+	0tfQCc2nomw+IqXV4mzjBvTTlFKBjWatL/MBlUadI/B0VaGY7Ls7qJOzqTzrCSdZ0mSlRWCwQ+3
+	z7r3+I2VCkBlt2zB9aqYY+WrUF1Qd23OnSRLcvCGy7ux195T+htQKQhiSFupfzU6TCj1IWzK6p7
+	vsMDNPEEB/pLXnjnpjxNBdRa+9z4gGuDZdEGB0KJWMDP/U7NWXx51XHS+z+XxFHN2bHcLnywnby
+	L19pjVBVqmfVpjXQHF8CT4A/JAgxWvbxJzLY3qTqev8m1Mul7AwtcU2tJc45RVFknY=
+X-Received: by 2002:a05:600c:1f82:b0:4a1:6c79:fd31 with SMTP id 5b1f17b1804b1-4a16c79fe9fmr29477005e9.12.1791063792387;
+        Sat, 03 Oct 2026 14:43:12 -0700 (PDT)
 Received: from FRSMI25-LASER (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380f04e2sm12832952f8f.15.2026.10.03.14.43.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380f04e2sm12832952f8f.15.2026.10.03.14.43.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 03 Oct 2026 14:43:11 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 1/8] glibc: Fix CVE-2026-6238
-Date: Sat,  3 Oct 2026 23:42:09 +0200
-Message-ID: <7761a8aaac0703a738a2a4979ddb015157374dcb.1791061402.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 2/8] expat: upgrade 2.6.4 -> 2.8.3, exception security update
+Date: Sat,  3 Oct 2026 23:42:10 +0200
+Message-ID: <408425eee8d281188a0f8b8e3e535e7c3af99f12.1791061402.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791061402.git.yoann.congal@smile.fr>
 References: <cover.1791061402.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 21:43:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247178
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 21:43:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247185
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+From: Jakub Szczudlo (Nokia) <jakub.szczudlo@nokia.com>
 
-Backport six commits from upstream glibc to fix CVE-2026-6238.
+Unusual upgrade for expat to version 2.8.3
+This is because there is a lot of CVEs and some are bigger than 20+ commits
+so maintaining them is difficult
+In new version there are fixes for CVE-2026-50219, CVE-2026-56131,
+CVE-2026-56412, CVE-2026-72522 that was not backported yet
+No braking ABI changes only 3 functions was added:
+3 Added functions:
 
-4ba0b79b95 resolv: Add test case tst-ns_sprintrr (bug 34033, bug 34069)
-a7b60d23bb resolv: Fix buffer overreads in ns_sprintrrf (CVE-2026-6238)
-cd0db208d5 resolv: Check for inet_ntop failure in ns_sprintrrf
-d58415eb17 resolv: Improve formatting of unknown records in ns_sprintrrf
-f69b7f95e3 resolv: Fix ns_sprintrrf formatting of class, type values (bug 34289)
-360f352c9a resolv: Declare __p_class_syms, __p_type_syms for internal use
+  [A] 'function XML_Bool XML_SetAllocTrackerActivationThreshold(XML_Parser, long long unsigned int)'    {XML_SetAllocTrackerActivationThreshold}
+  [A] 'function XML_Bool XML_SetAllocTrackerMaximumAmplification(XML_Parser, float)'    {XML_SetAllocTrackerMaximumAmplification}
+  [A] 'function XML_Bool XML_SetHashSalt16Bytes(XML_Parser, const uint8_t*)'    {XML_SetHashSalt16Bytes}
 
-The upstream patch series [PATCH 0/5] contains five commits:
-  1/5: Update GLIBC-SA-2026-0012 to mention A6 records (doc only)
-  2/5: resolv: Check for inet_ntop failure in ns_sprintrrf
-  3/5: resolv: Remove incorrect parts of TSIG handling from ns_sprintrrf
-       (CVE-2026-5435)
-  4/5: resolv: Fix buffer overreads in ns_sprintrrf (CVE-2026-6238)
-  5/5: resolv: Add test case tst-ns_sprintrr (bug 34033, bug 34069)
+SONAME name stays the same as it was before - libexpat.so.1
+Build all find package that depends on expat:
+python3-xml fontconfig python3-xmltodict apr-util libxml-parser-perl exiv2
+graphviz libdbus-c++ libwmf log4c neon poco polkit sdbus-c++ sdbus-c++-tools
+wbxml2 apache2 lftp unbound wireshark libmusicbrainz mpd gegl
 
-For this backport:
-- Patch 1/5 is skipped (documentation-only change to advisories,
-  upstream glibc itself does not backport this to older releases)
-- Patch 3/5 (CVE-2026-5435) is already patched in scarthgap sources
-- Patches 2/5, 4/5, and 5/5 are backported as:
-  0028-CVE-2026-6238-0004.patch (inet_ntop failure check)
-  0029-CVE-2026-6238-0005.patch (buffer overread fix - CVE-2026-6238)
-  0030-CVE-2026-6238-0006.patch (test case for bug 34033, bug 34069)
+Tested using ptests for python3-xmltodict apr-util libxml-parser-perl
+and expat itself
 
-However, the test case (tst-ns_sprintrr) from patch 5/5 failed on
-scarthgap's glibc 2.39 due to missing prerequisite commits. Three
-additional patches were backported to resolve the test failure:
-  0025-CVE-2026-6238-0001.patch (Declare __p_class_syms, __p_type_syms for internal)
-  0026-CVE-2026-6238-0002.patch (Fix ns_sprintrrf formatting of class, type values)
-  0027-CVE-2026-6238-0003.patch (Improve formatting of unknown records in ns_sprintrrf)
+There is already planned expat 2.8.4 release but CVE fix there are small
+and thus maintainable
 
-CVE-2026-6238 fixes buffer overreads in ns_sprintrrf affecting A6 and
-LOC record handling. The vulnerable LOC record handling was introduced
-before glibc 2.0, while A6 record handling was added in glibc 2.7.
+Changelog notes here:
+https://github.com/libexpat/libexpat/blob/R_2_8_3/expat/Changes
 
-Reference:
-https://inbox.sourceware.org/libc-alpha/cover.1777546194.git.fweimer@redhat.com/
-https://nvd.nist.gov/vuln/detail/CVE-2026-6238
-https://sourceware.org/bugzilla/show_bug.cgi?id=34069
-
-Testing Results:
-             Before    After    Diff
-PASS         4896      4897     +1
-XPASS        4         4         0
-FAIL         372       372       0
-XFAIL        16        16        0
-UNSUPPORTED  224       224       0
-
-Changes in testcases:
-
-testcase-name                                before  after
-resolv/tst-ns_sprintrr(new)                    -     PASS
-
-commit - 4ba0b79b95 resolv: Add test case tst-ns_sprintrr (bug 34033, bug 34069)
-+PASS: resolv/tst-ns_sprintrr
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: fixed patch format]
+[YC: CVE-2026-72522 was ignored in the meantime, I removed the
+CVE_STATUS line]
 ---
- .../glibc/glibc/0025-CVE-2026-6238-0001.patch |  59 +++
- .../glibc/glibc/0026-CVE-2026-6238-0002.patch |  81 ++++
- .../glibc/glibc/0027-CVE-2026-6238-0003.patch |  58 +++
- .../glibc/glibc/0028-CVE-2026-6238-0004.patch |  73 ++++
- .../glibc/glibc/0029-CVE-2026-6238-0005.patch |  69 ++++
- .../glibc/glibc/0030-CVE-2026-6238-0006.patch | 382 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.39.bb         |   6 +
- 7 files changed, 728 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0025-CVE-2026-6238-0001.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0026-CVE-2026-6238-0002.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0027-CVE-2026-6238-0003.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0028-CVE-2026-6238-0004.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0029-CVE-2026-6238-0005.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0030-CVE-2026-6238-0006.patch
+ ...ests-Cover-indirect-entity-recursion.patch |  103 --
+ .../expat/expat/CVE-2024-8176-01.patch        | 1477 -----------------
+ .../expat/expat/CVE-2024-8176-02.patch        |  248 ---
+ .../expat/expat/CVE-2024-8176-03.patch        |   35 -
+ .../expat/expat/CVE-2024-8176-04.patch        |  115 --
+ .../expat/expat/CVE-2024-8176-05.patch        |   78 -
+ .../expat/expat/CVE-2025-59375-00.patch       |   52 -
+ .../expat/expat/CVE-2025-59375-01.patch       |   48 -
+ .../expat/expat/CVE-2025-59375-02.patch       |  109 --
+ .../expat/expat/CVE-2025-59375-03.patch       |  127 --
+ .../expat/expat/CVE-2025-59375-04.patch       |   62 -
+ .../expat/expat/CVE-2025-59375-05.patch       |   64 -
+ .../expat/expat/CVE-2025-59375-06.patch       |   68 -
+ .../expat/expat/CVE-2025-59375-07.patch       |   52 -
+ .../expat/expat/CVE-2025-59375-08.patch       |  577 -------
+ .../expat/expat/CVE-2025-59375-09.patch       |   43 -
+ .../expat/expat/CVE-2025-59375-10.patch       |   54 -
+ .../expat/expat/CVE-2025-59375-11.patch       |   66 -
+ .../expat/expat/CVE-2025-59375-12.patch       |   58 -
+ .../expat/expat/CVE-2025-59375-13.patch       |  309 ----
+ .../expat/expat/CVE-2025-59375-14.patch       |  122 --
+ .../expat/expat/CVE-2025-59375-15.patch       |   70 -
+ .../expat/expat/CVE-2025-59375-16.patch       |  146 --
+ .../expat/expat/CVE-2025-59375-17.patch       |   28 -
+ .../expat/expat/CVE-2025-59375-18.patch       |   74 -
+ .../expat/expat/CVE-2025-59375-19.patch       |  103 --
+ .../expat/expat/CVE-2025-59375-20.patch       |  285 ----
+ .../expat/expat/CVE-2025-59375-21.patch       |  196 ---
+ .../expat/expat/CVE-2025-59375-22.patch       |   37 -
+ .../expat/expat/CVE-2025-59375-23.patch       |   47 -
+ .../expat/expat/CVE-2025-59375-24.patch       |   36 -
+ .../expat/expat/CVE-2026-24515-01.patch       |   43 -
+ .../expat/expat/CVE-2026-24515-02.patch       |  117 --
+ .../expat/expat/CVE-2026-25210-01.patch       |   27 -
+ .../expat/expat/CVE-2026-25210-02.patch       |   38 -
+ .../expat/expat/CVE-2026-25210-03.patch       |   28 -
+ .../expat/expat/CVE-2026-32776.patch          |   91 -
+ .../expat/expat/CVE-2026-32777-01.patch       |   49 -
+ .../expat/expat/CVE-2026-32777-02.patch       |   66 -
+ .../expat/expat/CVE-2026-32778-01.patch       |   91 -
+ .../expat/expat/CVE-2026-32778-02.patch       |   61 -
+ .../expat/expat/CVE-2026-41080-01.patch       |   50 -
+ .../expat/expat/CVE-2026-41080-02.patch       |   29 -
+ .../expat/expat/CVE-2026-41080-03.patch       |  467 ------
+ .../expat/expat/CVE-2026-45186-01.patch       |   70 -
+ .../expat/expat/CVE-2026-45186-02.patch       |  318 ----
+ .../expat/expat/CVE-2026-45186-03.patch       |   46 -
+ .../expat/expat/CVE-2026-45186-04.patch       |   32 -
+ .../expat/expat/CVE-2026-45186-05.patch       |   32 -
+ .../expat/expat/CVE-2026-45186-06.patch       |   87 -
+ .../expat/expat/CVE-2026-45186-07.patch       |   52 -
+ .../expat/expat/CVE-2026-56132_p1.patch       |   80 -
+ .../expat/expat/CVE-2026-56132_p2.patch       |   60 -
+ .../expat/expat/CVE-2026-56132_p3.patch       |   74 -
+ .../expat/expat/CVE-2026-56132_p4.patch       |   60 -
+ .../expat/expat/CVE-2026-56132_p5.patch       |   56 -
+ .../expat/expat/CVE-2026-56403_p1.patch       |   81 -
+ .../expat/expat/CVE-2026-56403_p2.patch       |   52 -
+ .../expat/expat/CVE-2026-56404.patch          |   45 -
+ .../expat/expat/CVE-2026-56405.patch          |   30 -
+ .../expat/CVE-2026-56406-dependent.patch      |   59 -
+ .../expat/expat/CVE-2026-56406.patch          |   34 -
+ .../expat/expat/CVE-2026-56407.patch          |   41 -
+ .../expat/expat/CVE-2026-56408.patch          |   29 -
+ .../expat/expat/CVE-2026-56409.patch          |   51 -
+ .../expat/expat/CVE-2026-56410_p1.patch       |   46 -
+ .../expat/expat/CVE-2026-56410_p2.patch       |   39 -
+ .../expat/expat/CVE-2026-56411.patch          |   50 -
+ meta/recipes-core/expat/expat_2.6.4.bb        |  104 --
+ meta/recipes-core/expat/expat_2.8.3.bb        |   33 +
+ 70 files changed, 33 insertions(+), 7674 deletions(-)
+ delete mode 100644 meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-01.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-02.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-03.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-04.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2024-8176-05.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-00.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-01.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-02.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-03.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-04.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-05.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-06.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-07.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-08.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-09.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-10.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-11.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-12.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-13.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-14.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-15.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-16.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-17.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-18.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-19.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-20.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-21.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-22.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-23.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2025-59375-24.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515-01.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-24515-02.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-01.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-02.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-25210-03.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-32776.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-32778-01.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-32778-02.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56404.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56405.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56407.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56408.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56409.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch
+ delete mode 100644 meta/recipes-core/expat/expat/CVE-2026-56411.patch
+ delete mode 100644 meta/recipes-core/expat/expat_2.6.4.bb
+ create mode 100644 meta/recipes-core/expat/expat_2.8.3.bb
 
-diff --git a/meta/recipes-core/glibc/glibc/0025-CVE-2026-6238-0001.patch b/meta/recipes-core/glibc/glibc/0025-CVE-2026-6238-0001.patch
+diff --git a/meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch b/meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch
+deleted file mode 100644
+index 802d7627871..00000000000
+--- a/meta/recipes-core/expat/expat/0001-tests-Cover-indirect-entity-recursion.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-From 3d5fdbb44e80ed789e4f6510542d77d6284fbd0e Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sat, 23 Nov 2024 14:20:21 +0100
+-Subject: [PATCH] tests: Cover indirect entity recursion
+-
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/3d5fdbb44e80ed789e4f6510542d77d6284fbd0e]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- expat/tests/basic_tests.c | 74 +++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 74 insertions(+)
+-
+-diff --git a/expat/tests/basic_tests.c b/expat/tests/basic_tests.c
+-index d38b8fd1..d2306772 100644
+---- a/expat/tests/basic_tests.c
+-+++ b/expat/tests/basic_tests.c
+-@@ -1202,6 +1202,79 @@ START_TEST(test_wfc_no_recursive_entity_refs) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_no_indirectly_recursive_entity_refs) {
+-+  struct TestCase {
+-+    const char *doc;
+-+    bool usesParameterEntities;
+-+  };
+-+
+-+  const struct TestCase cases[] = {
+-+      // general entity + character data
+-+      {"<!DOCTYPE a [\n"
+-+       "  <!ENTITY e1 '&e2;'>\n"
+-+       "  <!ENTITY e2 '&e1;'>\n"
+-+       "]><a>&e2;</a>\n",
+-+       false},
+-+
+-+      // general entity + attribute value
+-+      {"<!DOCTYPE a [\n"
+-+       "  <!ENTITY e1 '&e2;'>\n"
+-+       "  <!ENTITY e2 '&e1;'>\n"
+-+       "]><a k1='&e2;' />\n",
+-+       false},
+-+
+-+      // parameter entity
+-+      {"<!DOCTYPE doc [\n"
+-+       "  <!ENTITY % p1 '&#37;p2;'>\n"
+-+       "  <!ENTITY % p2 '&#37;p1;'>\n"
+-+       "  <!ENTITY % define_g \"<!ENTITY g '&#37;p2;'>\">\n"
+-+       "  %define_g;\n"
+-+       "]>\n"
+-+       "<doc/>\n",
+-+       true},
+-+  };
+-+  for (size_t i = 0; i < sizeof(cases) / sizeof(cases[0]); i++) {
+-+    const char *const doc = cases[i].doc;
+-+    const bool usesParameterEntities = cases[i].usesParameterEntities;
+-+
+-+    set_subtest("[%i] %s", (int)i, doc);
+-+
+-+#ifdef XML_DTD // both GE and DTD
+-+    const bool rejection_expected = true;
+-+#elif XML_GE == 1 // GE but not DTD
+-+    const bool rejection_expected = ! usesParameterEntities;
+-+#else             // neither DTD nor GE
+-+    const bool rejection_expected = false;
+-+#endif
+-+
+-+    XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+#ifdef XML_DTD
+-+    if (usesParameterEntities) {
+-+      assert_true(
+-+          XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS)
+-+          == 1);
+-+    }
+-+#else
+-+    UNUSED_P(usesParameterEntities);
+-+#endif // XML_DTD
+-+
+-+    const enum XML_Status status
+-+        = _XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
+-+                                  /*isFinal*/ XML_TRUE);
+-+
+-+    if (rejection_expected) {
+-+      assert_true(status == XML_STATUS_ERROR);
+-+      assert_true(XML_GetErrorCode(parser) == XML_ERROR_RECURSIVE_ENTITY_REF);
+-+    } else {
+-+      assert_true(status == XML_STATUS_OK);
+-+    }
+-+
+-+    XML_ParserFree(parser);
+-+  }
+-+}
+-+END_TEST
+-+
+- START_TEST(test_recursive_external_parameter_entity_2) {
+-   struct TestCase {
+-     const char *doc;
+-@@ -5969,6 +6042,7 @@ make_basic_test_case(Suite *s) {
+-   tcase_add_test(tc_basic, test_not_standalone_handler_reject);
+-   tcase_add_test(tc_basic, test_not_standalone_handler_accept);
+-   tcase_add_test__if_xml_ge(tc_basic, test_wfc_no_recursive_entity_refs);
+-+  tcase_add_test(tc_basic, test_no_indirectly_recursive_entity_refs);
+-   tcase_add_test__ifdef_xml_dtd(tc_basic, test_ext_entity_invalid_parse);
+-   tcase_add_test__if_xml_ge(tc_basic, test_dtd_default_handling);
+-   tcase_add_test(tc_basic, test_dtd_attr_handling);
+diff --git a/meta/recipes-core/expat/expat/CVE-2024-8176-01.patch b/meta/recipes-core/expat/expat/CVE-2024-8176-01.patch
+deleted file mode 100644
+index dc8a5201612..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2024-8176-01.patch
++++ /dev/null
+@@ -1,1477 +0,0 @@
+-From 3f924a715cfa97e70df1c24334d2d728973d1020 Mon Sep 17 00:00:00 2001
+-From: Peter Marko <peter.marko@siemens.com>
+-Date: Mon, 17 Mar 2025 20:41:24 +0100
+-Subject: [PATCH] [CVE-2024-8176] Resolve the recursion during entity
+- processing to prevent stack overflow (fixes #893)
+-
+-Fixes #893
+-
+-CVE: CVE-2024-8176
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/973]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- expat/Changes             |  29 +-
+- expat/lib/xmlparse.c      | 564 ++++++++++++++++++++++++++++----------
+- expat/tests/alloc_tests.c |  27 ++
+- expat/tests/basic_tests.c | 247 +++++++++++++++--
+- expat/tests/handlers.c    |  14 +
+- expat/tests/handlers.h    |   5 +
+- expat/tests/misc_tests.c  |  43 +++
+- 7 files changed, 751 insertions(+), 178 deletions(-)
+-
+-diff --git a/expat/Changes b/expat/Changes
+-index aa19f70a..8c5db88c 100644
+---- a/expat/Changes
+-+++ b/expat/Changes
+-@@ -11,7 +11,6 @@
+- !! The following topics need *additional skilled C developers* to progress   !!
+- !! in a timely manner or at all (loosely ordered by descending priority):    !!
+- !!                                                                           !!
+--!! - <blink>fixing a complex non-public security issue</blink>,              !!
+- !! - teaming up on researching and fixing future security reports and        !!
+- !!   ClusterFuzz findings with few-days-max response times in communication  !!
+- !!   in order to (1) have a sound fix ready before the end of a 90 days      !!
+-@@ -30,6 +29,34 @@
+- !! THANK YOU!                        Sebastian Pipping -- Berlin, 2024-03-09 !!
+- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+- 
+-+Patches:
+-+        Security fixes:
+-+       #893 #???  CVE-2024-8176 -- Fix crash from chaining a large number
+-+                    of entities caused by stack overflow by resolving use of
+-+                    recursion, for all three uses of entities:
+-+                    - general entities in character data ("<e>&g1;</e>")
+-+                    - general entities in attribute values ("<e k1='&g1;'/>")
+-+                    - parameter entities ("%p1;")
+-+                    Known impact is (reliable and easy) denial of service:
+-+                    CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C
+-+                    (Base Score: 7.5, Temporal Score: 7.2)
+-+                    Please note that a layer of compression around XML can
+-+                    significantly reduce the minimum attack payload size.
+-+
+-+         Special thanks to:
+-+            Alexander Gieringer
+-+            Berkay Eren Ürün
+-+            Jann Horn
+-+            Sebastian Andrzej Siewior
+-+            Snild Dolkow
+-+            Thomas Pröll
+-+            Tomas Korbar
+-+                 and
+-+            Google Project Zero
+-+            Linutronix
+-+            Red Hat
+-+            Siemens
+-+
+- Release 2.6.4 Wed November 6 2024
+-         Security fixes:
+-             #915  CVE-2024-50602 -- Fix crash within function XML_ResumeParser
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index a4e091e7..473c791d 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -39,7 +39,7 @@
+-    Copyright (c) 2022      Sean McBride <sean@rogue-research.com>
+-    Copyright (c) 2023      Owain Davies <owaind@bath.edu>
+-    Copyright (c) 2023-2024 Sony Corporation / Snild Dolkow <snild@sony.com>
+--   Copyright (c) 2024      Berkay Eren Ürün <berkay.ueruen@siemens.com>
+-+   Copyright (c) 2024-2025 Berkay Eren Ürün <berkay.ueruen@siemens.com>
+-    Copyright (c) 2024      Hanno Böck <hanno@gentoo.org>
+-    Licensed under the MIT license:
+- 
+-@@ -325,6 +325,10 @@ typedef struct {
+-   const XML_Char *publicId;
+-   const XML_Char *notation;
+-   XML_Bool open;
+-+  XML_Bool hasMore; /* true if entity has not been completely processed */
+-+  /* An entity can be open while being already completely processed (hasMore ==
+-+    XML_FALSE). The reason is the delayed closing of entities until their inner
+-+    entities are processed and closed */
+-   XML_Bool is_param;
+-   XML_Bool is_internal; /* true if declared in internal subset outside PE */
+- } ENTITY;
+-@@ -415,6 +419,12 @@ typedef struct {
+-   int *scaffIndex;
+- } DTD;
+- 
+-+enum EntityType {
+-+  ENTITY_INTERNAL,
+-+  ENTITY_ATTRIBUTE,
+-+  ENTITY_VALUE,
+-+};
+-+
+- typedef struct open_internal_entity {
+-   const char *internalEventPtr;
+-   const char *internalEventEndPtr;
+-@@ -422,6 +432,7 @@ typedef struct open_internal_entity {
+-   ENTITY *entity;
+-   int startTagLevel;
+-   XML_Bool betweenDecl; /* WFC: PE Between Declarations */
+-+  enum EntityType type;
+- } OPEN_INTERNAL_ENTITY;
+- 
+- enum XML_Account {
+-@@ -481,8 +492,8 @@ static enum XML_Error doProlog(XML_Parser parser, const ENCODING *enc,
+-                                const char *next, const char **nextPtr,
+-                                XML_Bool haveMore, XML_Bool allowClosingDoctype,
+-                                enum XML_Account account);
+--static enum XML_Error processInternalEntity(XML_Parser parser, ENTITY *entity,
+--                                            XML_Bool betweenDecl);
+-+static enum XML_Error processEntity(XML_Parser parser, ENTITY *entity,
+-+                                    XML_Bool betweenDecl, enum EntityType type);
+- static enum XML_Error doContent(XML_Parser parser, int startTagLevel,
+-                                 const ENCODING *enc, const char *start,
+-                                 const char *end, const char **endPtr,
+-@@ -513,18 +524,22 @@ static enum XML_Error storeAttributeValue(XML_Parser parser,
+-                                           const char *ptr, const char *end,
+-                                           STRING_POOL *pool,
+-                                           enum XML_Account account);
+--static enum XML_Error appendAttributeValue(XML_Parser parser,
+--                                           const ENCODING *enc,
+--                                           XML_Bool isCdata, const char *ptr,
+--                                           const char *end, STRING_POOL *pool,
+--                                           enum XML_Account account);
+-+static enum XML_Error
+-+appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
+-+                     const char *ptr, const char *end, STRING_POOL *pool,
+-+                     enum XML_Account account, const char **nextPtr);
+- static ATTRIBUTE_ID *getAttributeId(XML_Parser parser, const ENCODING *enc,
+-                                     const char *start, const char *end);
+- static int setElementTypePrefix(XML_Parser parser, ELEMENT_TYPE *elementType);
+- #if XML_GE == 1
+- static enum XML_Error storeEntityValue(XML_Parser parser, const ENCODING *enc,
+-                                        const char *start, const char *end,
+--                                       enum XML_Account account);
+-+                                       enum XML_Account account,
+-+                                       const char **nextPtr);
+-+static enum XML_Error callStoreEntityValue(XML_Parser parser,
+-+                                           const ENCODING *enc,
+-+                                           const char *start, const char *end,
+-+                                           enum XML_Account account);
+- #else
+- static enum XML_Error storeSelfEntityValue(XML_Parser parser, ENTITY *entity);
+- #endif
+-@@ -709,6 +724,10 @@ struct XML_ParserStruct {
+-   const char *m_positionPtr;
+-   OPEN_INTERNAL_ENTITY *m_openInternalEntities;
+-   OPEN_INTERNAL_ENTITY *m_freeInternalEntities;
+-+  OPEN_INTERNAL_ENTITY *m_openAttributeEntities;
+-+  OPEN_INTERNAL_ENTITY *m_freeAttributeEntities;
+-+  OPEN_INTERNAL_ENTITY *m_openValueEntities;
+-+  OPEN_INTERNAL_ENTITY *m_freeValueEntities;
+-   XML_Bool m_defaultExpandInternalEntities;
+-   int m_tagLevel;
+-   ENTITY *m_declEntity;
+-@@ -756,6 +775,7 @@ struct XML_ParserStruct {
+-   ACCOUNTING m_accounting;
+-   ENTITY_STATS m_entity_stats;
+- #endif
+-+  XML_Bool m_reenter;
+- };
+- 
+- #define MALLOC(parser, s) (parser->m_mem.malloc_fcn((s)))
+-@@ -1028,7 +1048,29 @@ callProcessor(XML_Parser parser, const char *start, const char *end,
+- #if defined(XML_TESTING)
+-   g_bytesScanned += (unsigned)have_now;
+- #endif
+--  const enum XML_Error ret = parser->m_processor(parser, start, end, endPtr);
+-+  // Run in a loop to eliminate dangerous recursion depths
+-+  enum XML_Error ret;
+-+  *endPtr = start;
+-+  while (1) {
+-+    // Use endPtr as the new start in each iteration, since it will
+-+    // be set to the next start point by m_processor.
+-+    ret = parser->m_processor(parser, *endPtr, end, endPtr);
+-+
+-+    // Make parsing status (and in particular XML_SUSPENDED) take
+-+    // precedence over re-enter flag when they disagree
+-+    if (parser->m_parsingStatus.parsing != XML_PARSING) {
+-+      parser->m_reenter = XML_FALSE;
+-+    }
+-+
+-+    if (! parser->m_reenter) {
+-+      break;
+-+    }
+-+
+-+    parser->m_reenter = XML_FALSE;
+-+    if (ret != XML_ERROR_NONE)
+-+      return ret;
+-+  }
+-+
+-   if (ret == XML_ERROR_NONE) {
+-     // if we consumed nothing, remember what we had on this parse attempt.
+-     if (*endPtr == start) {
+-@@ -1139,6 +1181,8 @@ parserCreate(const XML_Char *encodingName,
+-   parser->m_freeBindingList = NULL;
+-   parser->m_freeTagList = NULL;
+-   parser->m_freeInternalEntities = NULL;
+-+  parser->m_freeAttributeEntities = NULL;
+-+  parser->m_freeValueEntities = NULL;
+- 
+-   parser->m_groupSize = 0;
+-   parser->m_groupConnector = NULL;
+-@@ -1241,6 +1285,8 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
+-   parser->m_eventEndPtr = NULL;
+-   parser->m_positionPtr = NULL;
+-   parser->m_openInternalEntities = NULL;
+-+  parser->m_openAttributeEntities = NULL;
+-+  parser->m_openValueEntities = NULL;
+-   parser->m_defaultExpandInternalEntities = XML_TRUE;
+-   parser->m_tagLevel = 0;
+-   parser->m_tagStack = NULL;
+-@@ -1251,6 +1297,8 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
+-   parser->m_unknownEncodingData = NULL;
+-   parser->m_parentParser = NULL;
+-   parser->m_parsingStatus.parsing = XML_INITIALIZED;
+-+  // Reentry can only be triggered inside m_processor calls
+-+  parser->m_reenter = XML_FALSE;
+- #ifdef XML_DTD
+-   parser->m_isParamEntity = XML_FALSE;
+-   parser->m_useForeignDTD = XML_FALSE;
+-@@ -1310,6 +1358,24 @@ XML_ParserReset(XML_Parser parser, const XML_Char *encodingName) {
+-     openEntity->next = parser->m_freeInternalEntities;
+-     parser->m_freeInternalEntities = openEntity;
+-   }
+-+  /* move m_openAttributeEntities to m_freeAttributeEntities (i.e. same task but
+-+   * for attributes) */
+-+  openEntityList = parser->m_openAttributeEntities;
+-+  while (openEntityList) {
+-+    OPEN_INTERNAL_ENTITY *openEntity = openEntityList;
+-+    openEntityList = openEntity->next;
+-+    openEntity->next = parser->m_freeAttributeEntities;
+-+    parser->m_freeAttributeEntities = openEntity;
+-+  }
+-+  /* move m_openValueEntities to m_freeValueEntities (i.e. same task but
+-+   * for value entities) */
+-+  openEntityList = parser->m_openValueEntities;
+-+  while (openEntityList) {
+-+    OPEN_INTERNAL_ENTITY *openEntity = openEntityList;
+-+    openEntityList = openEntity->next;
+-+    openEntity->next = parser->m_freeValueEntities;
+-+    parser->m_freeValueEntities = openEntity;
+-+  }
+-   moveToFreeBindingList(parser, parser->m_inheritedBindings);
+-   FREE(parser, parser->m_unknownEncodingMem);
+-   if (parser->m_unknownEncodingRelease)
+-@@ -1323,6 +1389,19 @@ XML_ParserReset(XML_Parser parser, const XML_Char *encodingName) {
+-   return XML_TRUE;
+- }
+- 
+-+static XML_Bool
+-+parserBusy(XML_Parser parser) {
+-+  switch (parser->m_parsingStatus.parsing) {
+-+  case XML_PARSING:
+-+  case XML_SUSPENDED:
+-+    return XML_TRUE;
+-+  case XML_INITIALIZED:
+-+  case XML_FINISHED:
+-+  default:
+-+    return XML_FALSE;
+-+  }
+-+}
+-+
+- enum XML_Status XMLCALL
+- XML_SetEncoding(XML_Parser parser, const XML_Char *encodingName) {
+-   if (parser == NULL)
+-@@ -1331,8 +1410,7 @@ XML_SetEncoding(XML_Parser parser, const XML_Char *encodingName) {
+-      XXX There's no way for the caller to determine which of the
+-      XXX possible error cases caused the XML_STATUS_ERROR return.
+-   */
+--  if (parser->m_parsingStatus.parsing == XML_PARSING
+--      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+-+  if (parserBusy(parser))
+-     return XML_STATUS_ERROR;
+- 
+-   /* Get rid of any previous encoding name */
+-@@ -1569,7 +1647,34 @@ XML_ParserFree(XML_Parser parser) {
+-     entityList = entityList->next;
+-     FREE(parser, openEntity);
+-   }
+--
+-+  /* free m_openAttributeEntities and m_freeAttributeEntities */
+-+  entityList = parser->m_openAttributeEntities;
+-+  for (;;) {
+-+    OPEN_INTERNAL_ENTITY *openEntity;
+-+    if (entityList == NULL) {
+-+      if (parser->m_freeAttributeEntities == NULL)
+-+        break;
+-+      entityList = parser->m_freeAttributeEntities;
+-+      parser->m_freeAttributeEntities = NULL;
+-+    }
+-+    openEntity = entityList;
+-+    entityList = entityList->next;
+-+    FREE(parser, openEntity);
+-+  }
+-+  /* free m_openValueEntities and m_freeValueEntities */
+-+  entityList = parser->m_openValueEntities;
+-+  for (;;) {
+-+    OPEN_INTERNAL_ENTITY *openEntity;
+-+    if (entityList == NULL) {
+-+      if (parser->m_freeValueEntities == NULL)
+-+        break;
+-+      entityList = parser->m_freeValueEntities;
+-+      parser->m_freeValueEntities = NULL;
+-+    }
+-+    openEntity = entityList;
+-+    entityList = entityList->next;
+-+    FREE(parser, openEntity);
+-+  }
+-   destroyBindings(parser->m_freeBindingList, parser);
+-   destroyBindings(parser->m_inheritedBindings, parser);
+-   poolDestroy(&parser->m_tempPool);
+-@@ -1611,8 +1716,7 @@ XML_UseForeignDTD(XML_Parser parser, XML_Bool useDTD) {
+-     return XML_ERROR_INVALID_ARGUMENT;
+- #ifdef XML_DTD
+-   /* block after XML_Parse()/XML_ParseBuffer() has been called */
+--  if (parser->m_parsingStatus.parsing == XML_PARSING
+--      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+-+  if (parserBusy(parser))
+-     return XML_ERROR_CANT_CHANGE_FEATURE_ONCE_PARSING;
+-   parser->m_useForeignDTD = useDTD;
+-   return XML_ERROR_NONE;
+-@@ -1627,8 +1731,7 @@ XML_SetReturnNSTriplet(XML_Parser parser, int do_nst) {
+-   if (parser == NULL)
+-     return;
+-   /* block after XML_Parse()/XML_ParseBuffer() has been called */
+--  if (parser->m_parsingStatus.parsing == XML_PARSING
+--      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+-+  if (parserBusy(parser))
+-     return;
+-   parser->m_ns_triplets = do_nst ? XML_TRUE : XML_FALSE;
+- }
+-@@ -1897,8 +2000,7 @@ XML_SetParamEntityParsing(XML_Parser parser,
+-   if (parser == NULL)
+-     return 0;
+-   /* block after XML_Parse()/XML_ParseBuffer() has been called */
+--  if (parser->m_parsingStatus.parsing == XML_PARSING
+--      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+-+  if (parserBusy(parser))
+-     return 0;
+- #ifdef XML_DTD
+-   parser->m_paramEntityParsing = peParsing;
+-@@ -1915,8 +2017,7 @@ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
+-   if (parser->m_parentParser)
+-     return XML_SetHashSalt(parser->m_parentParser, hash_salt);
+-   /* block after XML_Parse()/XML_ParseBuffer() has been called */
+--  if (parser->m_parsingStatus.parsing == XML_PARSING
+--      || parser->m_parsingStatus.parsing == XML_SUSPENDED)
+-+  if (parserBusy(parser))
+-     return 0;
+-   parser->m_hash_secret_salt = hash_salt;
+-   return 1;
+-@@ -2230,6 +2331,11 @@ XML_GetBuffer(XML_Parser parser, int len) {
+-   return parser->m_bufferEnd;
+- }
+- 
+-+static void
+-+triggerReenter(XML_Parser parser) {
+-+  parser->m_reenter = XML_TRUE;
+-+}
+-+
+- enum XML_Status XMLCALL
+- XML_StopParser(XML_Parser parser, XML_Bool resumable) {
+-   if (parser == NULL)
+-@@ -2704,8 +2810,9 @@ static enum XML_Error PTRCALL
+- contentProcessor(XML_Parser parser, const char *start, const char *end,
+-                  const char **endPtr) {
+-   enum XML_Error result = doContent(
+--      parser, 0, parser->m_encoding, start, end, endPtr,
+--      (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_ACCOUNT_DIRECT);
+-+      parser, parser->m_parentParser ? 1 : 0, parser->m_encoding, start, end,
+-+      endPtr, (XML_Bool)! parser->m_parsingStatus.finalBuffer,
+-+      XML_ACCOUNT_DIRECT);
+-   if (result == XML_ERROR_NONE) {
+-     if (! storeRawNames(parser))
+-       return XML_ERROR_NO_MEMORY;
+-@@ -2793,6 +2900,11 @@ externalEntityInitProcessor3(XML_Parser parser, const char *start,
+-       return XML_ERROR_NONE;
+-     case XML_FINISHED:
+-       return XML_ERROR_ABORTED;
+-+    case XML_PARSING:
+-+      if (parser->m_reenter) {
+-+        return XML_ERROR_UNEXPECTED_STATE; // LCOV_EXCL_LINE
+-+      }
+-+      /* Fall through */
+-     default:
+-       start = next;
+-     }
+-@@ -2966,7 +3078,7 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-             reportDefault(parser, enc, s, next);
+-           break;
+-         }
+--        result = processInternalEntity(parser, entity, XML_FALSE);
+-+        result = processEntity(parser, entity, XML_FALSE, ENTITY_INTERNAL);
+-         if (result != XML_ERROR_NONE)
+-           return result;
+-       } else if (parser->m_externalEntityRefHandler) {
+-@@ -3092,7 +3204,9 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-     }
+-       if ((parser->m_tagLevel == 0)
+-           && (parser->m_parsingStatus.parsing != XML_FINISHED)) {
+--        if (parser->m_parsingStatus.parsing == XML_SUSPENDED)
+-+        if (parser->m_parsingStatus.parsing == XML_SUSPENDED
+-+            || (parser->m_parsingStatus.parsing == XML_PARSING
+-+                && parser->m_reenter))
+-           parser->m_processor = epilogProcessor;
+-         else
+-           return epilogProcessor(parser, next, end, nextPtr);
+-@@ -3153,7 +3267,9 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-         }
+-         if ((parser->m_tagLevel == 0)
+-             && (parser->m_parsingStatus.parsing != XML_FINISHED)) {
+--          if (parser->m_parsingStatus.parsing == XML_SUSPENDED)
+-+          if (parser->m_parsingStatus.parsing == XML_SUSPENDED
+-+              || (parser->m_parsingStatus.parsing == XML_PARSING
+-+                  && parser->m_reenter))
+-             parser->m_processor = epilogProcessor;
+-           else
+-             return epilogProcessor(parser, next, end, nextPtr);
+-@@ -3293,6 +3409,12 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-       return XML_ERROR_NONE;
+-     case XML_FINISHED:
+-       return XML_ERROR_ABORTED;
+-+    case XML_PARSING:
+-+      if (parser->m_reenter) {
+-+        *nextPtr = next;
+-+        return XML_ERROR_NONE;
+-+      }
+-+      /* Fall through */
+-     default:;
+-     }
+-   }
+-@@ -4217,6 +4339,11 @@ doCdataSection(XML_Parser parser, const ENCODING *enc, const char **startPtr,
+-       return XML_ERROR_NONE;
+-     case XML_FINISHED:
+-       return XML_ERROR_ABORTED;
+-+    case XML_PARSING:
+-+      if (parser->m_reenter) {
+-+        return XML_ERROR_UNEXPECTED_STATE; // LCOV_EXCL_LINE
+-+      }
+-+      /* Fall through */
+-     default:;
+-     }
+-   }
+-@@ -4549,7 +4676,7 @@ entityValueInitProcessor(XML_Parser parser, const char *s, const char *end,
+-       }
+-       /* found end of entity value - can store it now */
+-       return storeEntityValue(parser, parser->m_encoding, s, end,
+--                              XML_ACCOUNT_DIRECT);
+-+                              XML_ACCOUNT_DIRECT, NULL);
+-     } else if (tok == XML_TOK_XML_DECL) {
+-       enum XML_Error result;
+-       result = processXmlDecl(parser, 0, start, next);
+-@@ -4676,7 +4803,7 @@ entityValueProcessor(XML_Parser parser, const char *s, const char *end,
+-         break;
+-       }
+-       /* found end of entity value - can store it now */
+--      return storeEntityValue(parser, enc, s, end, XML_ACCOUNT_DIRECT);
+-+      return storeEntityValue(parser, enc, s, end, XML_ACCOUNT_DIRECT, NULL);
+-     }
+-     start = next;
+-   }
+-@@ -5119,9 +5246,9 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+- #if XML_GE == 1
+-         // This will store the given replacement text in
+-         // parser->m_declEntity->textPtr.
+--        enum XML_Error result
+--            = storeEntityValue(parser, enc, s + enc->minBytesPerChar,
+--                               next - enc->minBytesPerChar, XML_ACCOUNT_NONE);
+-+        enum XML_Error result = callStoreEntityValue(
+-+            parser, enc, s + enc->minBytesPerChar, next - enc->minBytesPerChar,
+-+            XML_ACCOUNT_NONE);
+-         if (parser->m_declEntity) {
+-           parser->m_declEntity->textPtr = poolStart(&dtd->entityValuePool);
+-           parser->m_declEntity->textLen
+-@@ -5546,7 +5673,7 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-           enum XML_Error result;
+-           XML_Bool betweenDecl
+-               = (role == XML_ROLE_PARAM_ENTITY_REF ? XML_TRUE : XML_FALSE);
+--          result = processInternalEntity(parser, entity, betweenDecl);
+-+          result = processEntity(parser, entity, betweenDecl, ENTITY_INTERNAL);
+-           if (result != XML_ERROR_NONE)
+-             return result;
+-           handleDefault = XML_FALSE;
+-@@ -5751,6 +5878,12 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-       return XML_ERROR_NONE;
+-     case XML_FINISHED:
+-       return XML_ERROR_ABORTED;
+-+    case XML_PARSING:
+-+      if (parser->m_reenter) {
+-+        *nextPtr = next;
+-+        return XML_ERROR_NONE;
+-+      }
+-+    /* Fall through */
+-     default:
+-       s = next;
+-       tok = XmlPrologTok(enc, s, end, &next);
+-@@ -5825,21 +5958,49 @@ epilogProcessor(XML_Parser parser, const char *s, const char *end,
+-       return XML_ERROR_NONE;
+-     case XML_FINISHED:
+-       return XML_ERROR_ABORTED;
+-+    case XML_PARSING:
+-+      if (parser->m_reenter) {
+-+        return XML_ERROR_UNEXPECTED_STATE; // LCOV_EXCL_LINE
+-+      }
+-+    /* Fall through */
+-     default:;
+-     }
+-   }
+- }
+- 
+- static enum XML_Error
+--processInternalEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl) {
+--  const char *textStart, *textEnd;
+--  const char *next;
+--  enum XML_Error result;
+--  OPEN_INTERNAL_ENTITY *openEntity;
+-+processEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl,
+-+              enum EntityType type) {
+-+  OPEN_INTERNAL_ENTITY *openEntity, **openEntityList, **freeEntityList;
+-+  switch (type) {
+-+  case ENTITY_INTERNAL:
+-+    parser->m_processor = internalEntityProcessor;
+-+    openEntityList = &parser->m_openInternalEntities;
+-+    freeEntityList = &parser->m_freeInternalEntities;
+-+    break;
+-+  case ENTITY_ATTRIBUTE:
+-+    openEntityList = &parser->m_openAttributeEntities;
+-+    freeEntityList = &parser->m_freeAttributeEntities;
+-+    break;
+-+  case ENTITY_VALUE:
+-+    openEntityList = &parser->m_openValueEntities;
+-+    freeEntityList = &parser->m_freeValueEntities;
+-+    break;
+-+    /* default case serves merely as a safety net in case of a
+-+     * wrong entityType. Therefore we exclude the following lines
+-+     * from the test coverage.
+-+     *
+-+     * LCOV_EXCL_START
+-+     */
+-+  default:
+-+    // Should not reach here
+-+    assert(0);
+-+    /* LCOV_EXCL_STOP */
+-+  }
+- 
+--  if (parser->m_freeInternalEntities) {
+--    openEntity = parser->m_freeInternalEntities;
+--    parser->m_freeInternalEntities = openEntity->next;
+-+  if (*freeEntityList) {
+-+    openEntity = *freeEntityList;
+-+    *freeEntityList = openEntity->next;
+-   } else {
+-     openEntity
+-         = (OPEN_INTERNAL_ENTITY *)MALLOC(parser, sizeof(OPEN_INTERNAL_ENTITY));
+-@@ -5847,55 +6008,34 @@ processInternalEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl) {
+-       return XML_ERROR_NO_MEMORY;
+-   }
+-   entity->open = XML_TRUE;
+-+  entity->hasMore = XML_TRUE;
+- #if XML_GE == 1
+-   entityTrackingOnOpen(parser, entity, __LINE__);
+- #endif
+-   entity->processed = 0;
+--  openEntity->next = parser->m_openInternalEntities;
+--  parser->m_openInternalEntities = openEntity;
+-+  openEntity->next = *openEntityList;
+-+  *openEntityList = openEntity;
+-   openEntity->entity = entity;
+-+  openEntity->type = type;
+-   openEntity->startTagLevel = parser->m_tagLevel;
+-   openEntity->betweenDecl = betweenDecl;
+-   openEntity->internalEventPtr = NULL;
+-   openEntity->internalEventEndPtr = NULL;
+--  textStart = (const char *)entity->textPtr;
+--  textEnd = (const char *)(entity->textPtr + entity->textLen);
+--  /* Set a safe default value in case 'next' does not get set */
+--  next = textStart;
+- 
+--  if (entity->is_param) {
+--    int tok
+--        = XmlPrologTok(parser->m_internalEncoding, textStart, textEnd, &next);
+--    result = doProlog(parser, parser->m_internalEncoding, textStart, textEnd,
+--                      tok, next, &next, XML_FALSE, XML_FALSE,
+--                      XML_ACCOUNT_ENTITY_EXPANSION);
+--  } else {
+--    result = doContent(parser, parser->m_tagLevel, parser->m_internalEncoding,
+--                       textStart, textEnd, &next, XML_FALSE,
+--                       XML_ACCOUNT_ENTITY_EXPANSION);
+-+  // Only internal entities make use of the reenter flag
+-+  // therefore no need to set it for other entity types
+-+  if (type == ENTITY_INTERNAL) {
+-+    triggerReenter(parser);
+-   }
+--
+--  if (result == XML_ERROR_NONE) {
+--    if (textEnd != next && parser->m_parsingStatus.parsing == XML_SUSPENDED) {
+--      entity->processed = (int)(next - textStart);
+--      parser->m_processor = internalEntityProcessor;
+--    } else if (parser->m_openInternalEntities->entity == entity) {
+--#if XML_GE == 1
+--      entityTrackingOnClose(parser, entity, __LINE__);
+--#endif /* XML_GE == 1 */
+--      entity->open = XML_FALSE;
+--      parser->m_openInternalEntities = openEntity->next;
+--      /* put openEntity back in list of free instances */
+--      openEntity->next = parser->m_freeInternalEntities;
+--      parser->m_freeInternalEntities = openEntity;
+--    }
+--  }
+--  return result;
+-+  return XML_ERROR_NONE;
+- }
+- 
+- static enum XML_Error PTRCALL
+- internalEntityProcessor(XML_Parser parser, const char *s, const char *end,
+-                         const char **nextPtr) {
+-+  UNUSED_P(s);
+-+  UNUSED_P(end);
+-+  UNUSED_P(nextPtr);
+-   ENTITY *entity;
+-   const char *textStart, *textEnd;
+-   const char *next;
+-@@ -5905,68 +6045,67 @@ internalEntityProcessor(XML_Parser parser, const char *s, const char *end,
+-     return XML_ERROR_UNEXPECTED_STATE;
+- 
+-   entity = openEntity->entity;
+--  textStart = ((const char *)entity->textPtr) + entity->processed;
+--  textEnd = (const char *)(entity->textPtr + entity->textLen);
+--  /* Set a safe default value in case 'next' does not get set */
+--  next = textStart;
+- 
+--  if (entity->is_param) {
+--    int tok
+--        = XmlPrologTok(parser->m_internalEncoding, textStart, textEnd, &next);
+--    result = doProlog(parser, parser->m_internalEncoding, textStart, textEnd,
+--                      tok, next, &next, XML_FALSE, XML_TRUE,
+--                      XML_ACCOUNT_ENTITY_EXPANSION);
+--  } else {
+--    result = doContent(parser, openEntity->startTagLevel,
+--                       parser->m_internalEncoding, textStart, textEnd, &next,
+--                       XML_FALSE, XML_ACCOUNT_ENTITY_EXPANSION);
+--  }
+-+  // This will return early
+-+  if (entity->hasMore) {
+-+    textStart = ((const char *)entity->textPtr) + entity->processed;
+-+    textEnd = (const char *)(entity->textPtr + entity->textLen);
+-+    /* Set a safe default value in case 'next' does not get set */
+-+    next = textStart;
+- 
+--  if (result != XML_ERROR_NONE)
+--    return result;
+-+    if (entity->is_param) {
+-+      int tok
+-+          = XmlPrologTok(parser->m_internalEncoding, textStart, textEnd, &next);
+-+      result = doProlog(parser, parser->m_internalEncoding, textStart, textEnd,
+-+                        tok, next, &next, XML_FALSE, XML_FALSE,
+-+                        XML_ACCOUNT_ENTITY_EXPANSION);
+-+    } else {
+-+      result = doContent(parser, openEntity->startTagLevel,
+-+                         parser->m_internalEncoding, textStart, textEnd, &next,
+-+                         XML_FALSE, XML_ACCOUNT_ENTITY_EXPANSION);
+-+    }
+-+
+-+    if (result != XML_ERROR_NONE)
+-+      return result;
+-+    // Check if entity is complete, if not, mark down how much of it is
+-+    // processed
+-+    if (textEnd != next
+-+        && (parser->m_parsingStatus.parsing == XML_SUSPENDED
+-+            || (parser->m_parsingStatus.parsing == XML_PARSING
+-+                && parser->m_reenter))) {
+-+      entity->processed = (int)(next - (const char *)entity->textPtr);
+-+      return result;
+-+    }
+- 
+--  if (textEnd != next && parser->m_parsingStatus.parsing == XML_SUSPENDED) {
+--    entity->processed = (int)(next - (const char *)entity->textPtr);
+-+    // Entity is complete. We cannot close it here since we need to first
+-+    // process its possible inner entities (which are added to the
+-+    // m_openInternalEntities during doProlog or doContent calls above)
+-+    entity->hasMore = XML_FALSE;
+-+    triggerReenter(parser);
+-     return result;
+--  }
+-+  } // End of entity processing, "if" block will return here
+- 
+-+  // Remove fully processed openEntity from open entity list.
+- #if XML_GE == 1
+-   entityTrackingOnClose(parser, entity, __LINE__);
+- #endif
+-+  // openEntity is m_openInternalEntities' head, as we set it at the start of
+-+  // this function and we skipped doProlog and doContent calls with hasMore set
+-+  // to false. This means we can directly remove the head of
+-+  // m_openInternalEntities
+-+  assert(parser->m_openInternalEntities == openEntity);
+-   entity->open = XML_FALSE;
+--  parser->m_openInternalEntities = openEntity->next;
+-+  parser->m_openInternalEntities = parser->m_openInternalEntities->next;
+-+
+-   /* put openEntity back in list of free instances */
+-   openEntity->next = parser->m_freeInternalEntities;
+-   parser->m_freeInternalEntities = openEntity;
+- 
+--  // If there are more open entities we want to stop right here and have the
+--  // upcoming call to XML_ResumeParser continue with entity content, or it would
+--  // be ignored altogether.
+--  if (parser->m_openInternalEntities != NULL
+--      && parser->m_parsingStatus.parsing == XML_SUSPENDED) {
+--    return XML_ERROR_NONE;
+--  }
+--
+--  if (entity->is_param) {
+--    int tok;
+--    parser->m_processor = prologProcessor;
+--    tok = XmlPrologTok(parser->m_encoding, s, end, &next);
+--    return doProlog(parser, parser->m_encoding, s, end, tok, next, nextPtr,
+--                    (XML_Bool)! parser->m_parsingStatus.finalBuffer, XML_TRUE,
+--                    XML_ACCOUNT_DIRECT);
+--  } else {
+--    parser->m_processor = contentProcessor;
+--    /* see externalEntityContentProcessor vs contentProcessor */
+--    result = doContent(parser, parser->m_parentParser ? 1 : 0,
+--                       parser->m_encoding, s, end, nextPtr,
+--                       (XML_Bool)! parser->m_parsingStatus.finalBuffer,
+--                       XML_ACCOUNT_DIRECT);
+--    if (result == XML_ERROR_NONE) {
+--      if (! storeRawNames(parser))
+--        return XML_ERROR_NO_MEMORY;
+--    }
+--    return result;
+-+  if (parser->m_openInternalEntities == NULL) {
+-+    parser->m_processor = entity->is_param ? prologProcessor : contentProcessor;
+-   }
+-+  triggerReenter(parser);
+-+  return XML_ERROR_NONE;
+- }
+- 
+- static enum XML_Error PTRCALL
+-@@ -5982,8 +6121,70 @@ static enum XML_Error
+- storeAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
+-                     const char *ptr, const char *end, STRING_POOL *pool,
+-                     enum XML_Account account) {
+--  enum XML_Error result
+--      = appendAttributeValue(parser, enc, isCdata, ptr, end, pool, account);
+-+  const char *next = ptr;
+-+  enum XML_Error result = XML_ERROR_NONE;
+-+
+-+  while (1) {
+-+    if (! parser->m_openAttributeEntities) {
+-+      result = appendAttributeValue(parser, enc, isCdata, next, end, pool,
+-+                                    account, &next);
+-+    } else {
+-+      OPEN_INTERNAL_ENTITY *const openEntity = parser->m_openAttributeEntities;
+-+      if (! openEntity)
+-+        return XML_ERROR_UNEXPECTED_STATE;
+-+
+-+      ENTITY *const entity = openEntity->entity;
+-+      const char *const textStart
+-+          = ((const char *)entity->textPtr) + entity->processed;
+-+      const char *const textEnd
+-+          = (const char *)(entity->textPtr + entity->textLen);
+-+      /* Set a safe default value in case 'next' does not get set */
+-+      const char *nextInEntity = textStart;
+-+      if (entity->hasMore) {
+-+        result = appendAttributeValue(
+-+            parser, parser->m_internalEncoding, isCdata, textStart, textEnd,
+-+            pool, XML_ACCOUNT_ENTITY_EXPANSION, &nextInEntity);
+-+        if (result != XML_ERROR_NONE)
+-+          break;
+-+        // Check if entity is complete, if not, mark down how much of it is
+-+        // processed. A XML_SUSPENDED check here is not required as
+-+        // appendAttributeValue will never suspend the parser.
+-+        if (textEnd != nextInEntity) {
+-+          entity->processed
+-+              = (int)(nextInEntity - (const char *)entity->textPtr);
+-+          continue;
+-+        }
+-+
+-+        // Entity is complete. We cannot close it here since we need to first
+-+        // process its possible inner entities (which are added to the
+-+        // m_openAttributeEntities during appendAttributeValue)
+-+        entity->hasMore = XML_FALSE;
+-+        continue;
+-+      } // End of entity processing, "if" block skips the rest
+-+
+-+      // Remove fully processed openEntity from open entity list.
+-+#if XML_GE == 1
+-+      entityTrackingOnClose(parser, entity, __LINE__);
+-+#endif
+-+      // openEntity is m_openAttributeEntities' head, since we set it at the
+-+      // start of this function and because we skipped appendAttributeValue call
+-+      // with hasMore set to false. This means we can directly remove the head
+-+      // of m_openAttributeEntities
+-+      assert(parser->m_openAttributeEntities == openEntity);
+-+      entity->open = XML_FALSE;
+-+      parser->m_openAttributeEntities = parser->m_openAttributeEntities->next;
+-+
+-+      /* put openEntity back in list of free instances */
+-+      openEntity->next = parser->m_freeAttributeEntities;
+-+      parser->m_freeAttributeEntities = openEntity;
+-+    }
+-+
+-+    // Break if an error occurred or there is nothing left to process
+-+    if (result || (parser->m_openAttributeEntities == NULL && end == next)) {
+-+      break;
+-+    }
+-+  }
+-+
+-   if (result)
+-     return result;
+-   if (! isCdata && poolLength(pool) && poolLastChar(pool) == 0x20)
+-@@ -5996,7 +6197,7 @@ storeAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
+- static enum XML_Error
+- appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
+-                      const char *ptr, const char *end, STRING_POOL *pool,
+--                     enum XML_Account account) {
+-+                     enum XML_Account account, const char **nextPtr) {
+-   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
+- #ifndef XML_DTD
+-   UNUSED_P(account);
+-@@ -6014,6 +6215,9 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
+- #endif
+-     switch (tok) {
+-     case XML_TOK_NONE:
+-+      if (nextPtr) {
+-+        *nextPtr = next;
+-+      }
+-       return XML_ERROR_NONE;
+-     case XML_TOK_INVALID:
+-       if (enc == parser->m_encoding)
+-@@ -6154,21 +6358,11 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
+-         return XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF;
+-       } else {
+-         enum XML_Error result;
+--        const XML_Char *textEnd = entity->textPtr + entity->textLen;
+--        entity->open = XML_TRUE;
+--#if XML_GE == 1
+--        entityTrackingOnOpen(parser, entity, __LINE__);
+--#endif
+--        result = appendAttributeValue(parser, parser->m_internalEncoding,
+--                                      isCdata, (const char *)entity->textPtr,
+--                                      (const char *)textEnd, pool,
+--                                      XML_ACCOUNT_ENTITY_EXPANSION);
+--#if XML_GE == 1
+--        entityTrackingOnClose(parser, entity, __LINE__);
+--#endif
+--        entity->open = XML_FALSE;
+--        if (result)
+--          return result;
+-+        result = processEntity(parser, entity, XML_FALSE, ENTITY_ATTRIBUTE);
+-+        if ((result == XML_ERROR_NONE) && (nextPtr != NULL)) {
+-+          *nextPtr = next;
+-+        }
+-+        return result;
+-       }
+-     } break;
+-     default:
+-@@ -6197,7 +6391,7 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
+- static enum XML_Error
+- storeEntityValue(XML_Parser parser, const ENCODING *enc,
+-                  const char *entityTextPtr, const char *entityTextEnd,
+--                 enum XML_Account account) {
+-+                 enum XML_Account account, const char **nextPtr) {
+-   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
+-   STRING_POOL *pool = &(dtd->entityValuePool);
+-   enum XML_Error result = XML_ERROR_NONE;
+-@@ -6215,8 +6409,9 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
+-       return XML_ERROR_NO_MEMORY;
+-   }
+- 
+-+  const char *next;
+-   for (;;) {
+--    const char *next
+-+    next
+-         = entityTextPtr; /* XmlEntityValueTok doesn't always set the last arg */
+-     int tok = XmlEntityValueTok(enc, entityTextPtr, entityTextEnd, &next);
+- 
+-@@ -6278,16 +6473,8 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
+-           } else
+-             dtd->keepProcessing = dtd->standalone;
+-         } else {
+--          entity->open = XML_TRUE;
+--          entityTrackingOnOpen(parser, entity, __LINE__);
+--          result = storeEntityValue(
+--              parser, parser->m_internalEncoding, (const char *)entity->textPtr,
+--              (const char *)(entity->textPtr + entity->textLen),
+--              XML_ACCOUNT_ENTITY_EXPANSION);
+--          entityTrackingOnClose(parser, entity, __LINE__);
+--          entity->open = XML_FALSE;
+--          if (result)
+--            goto endEntityValue;
+-+          result = processEntity(parser, entity, XML_FALSE, ENTITY_VALUE);
+-+          goto endEntityValue;
+-         }
+-         break;
+-       }
+-@@ -6375,6 +6562,81 @@ endEntityValue:
+- #  ifdef XML_DTD
+-   parser->m_prologState.inEntityValue = oldInEntityValue;
+- #  endif /* XML_DTD */
+-+  // If 'nextPtr' is given, it should be updated during the processing
+-+  if (nextPtr != NULL) {
+-+    *nextPtr = next;
+-+  }
+-+  return result;
+-+}
+-+
+-+static enum XML_Error
+-+callStoreEntityValue(XML_Parser parser, const ENCODING *enc,
+-+                     const char *entityTextPtr, const char *entityTextEnd,
+-+                     enum XML_Account account) {
+-+  const char *next = entityTextPtr;
+-+  enum XML_Error result = XML_ERROR_NONE;
+-+  while (1) {
+-+    if (! parser->m_openValueEntities) {
+-+      result
+-+          = storeEntityValue(parser, enc, next, entityTextEnd, account, &next);
+-+    } else {
+-+      OPEN_INTERNAL_ENTITY *const openEntity = parser->m_openValueEntities;
+-+      if (! openEntity)
+-+        return XML_ERROR_UNEXPECTED_STATE;
+-+
+-+      ENTITY *const entity = openEntity->entity;
+-+      const char *const textStart
+-+          = ((const char *)entity->textPtr) + entity->processed;
+-+      const char *const textEnd
+-+          = (const char *)(entity->textPtr + entity->textLen);
+-+      /* Set a safe default value in case 'next' does not get set */
+-+      const char *nextInEntity = textStart;
+-+      if (entity->hasMore) {
+-+        result = storeEntityValue(parser, parser->m_internalEncoding, textStart,
+-+                                  textEnd, XML_ACCOUNT_ENTITY_EXPANSION,
+-+                                  &nextInEntity);
+-+        if (result != XML_ERROR_NONE)
+-+          break;
+-+        // Check if entity is complete, if not, mark down how much of it is
+-+        // processed. A XML_SUSPENDED check here is not required as
+-+        // appendAttributeValue will never suspend the parser.
+-+        if (textEnd != nextInEntity) {
+-+          entity->processed
+-+              = (int)(nextInEntity - (const char *)entity->textPtr);
+-+          continue;
+-+        }
+-+
+-+        // Entity is complete. We cannot close it here since we need to first
+-+        // process its possible inner entities (which are added to the
+-+        // m_openValueEntities during storeEntityValue)
+-+        entity->hasMore = XML_FALSE;
+-+        continue;
+-+      } // End of entity processing, "if" block skips the rest
+-+
+-+      // Remove fully processed openEntity from open entity list.
+-+#  if XML_GE == 1
+-+      entityTrackingOnClose(parser, entity, __LINE__);
+-+#  endif
+-+      // openEntity is m_openValueEntities' head, since we set it at the
+-+      // start of this function and because we skipped storeEntityValue call
+-+      // with hasMore set to false. This means we can directly remove the head
+-+      // of m_openValueEntities
+-+      assert(parser->m_openValueEntities == openEntity);
+-+      entity->open = XML_FALSE;
+-+      parser->m_openValueEntities = parser->m_openValueEntities->next;
+-+
+-+      /* put openEntity back in list of free instances */
+-+      openEntity->next = parser->m_freeValueEntities;
+-+      parser->m_freeValueEntities = openEntity;
+-+    }
+-+
+-+    // Break if an error occurred or there is nothing left to process
+-+    if (result
+-+        || (parser->m_openValueEntities == NULL && entityTextEnd == next)) {
+-+      break;
+-+    }
+-+  }
+-+
+-   return result;
+- }
+- 
+-diff --git a/expat/tests/alloc_tests.c b/expat/tests/alloc_tests.c
+-index e5d46ebe..12ea3b2a 100644
+---- a/expat/tests/alloc_tests.c
+-+++ b/expat/tests/alloc_tests.c
+-@@ -19,6 +19,7 @@
+-    Copyright (c) 2020      Tim Gates <tim.gates@iress.com>
+-    Copyright (c) 2021      Donghee Na <donghee.na@python.org>
+-    Copyright (c) 2023      Sony Corporation / Snild Dolkow <snild@sony.com>
+-+   Copyright (c) 2025      Berkay Eren Ürün <berkay.ueruen@siemens.com>
+-    Licensed under the MIT license:
+- 
+-    Permission is  hereby granted,  free of charge,  to any  person obtaining
+-@@ -450,6 +451,31 @@ START_TEST(test_alloc_internal_entity) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_alloc_parameter_entity) {
+-+  const char *text = "<!DOCTYPE foo ["
+-+                     "<!ENTITY % param1 \"<!ENTITY internal 'some_text'>\">"
+-+                     "%param1;"
+-+                     "]> <foo>&internal;content</foo>";
+-+  int i;
+-+  const int alloc_test_max_repeats = 30;
+-+
+-+  for (i = 0; i < alloc_test_max_repeats; i++) {
+-+    g_allocation_count = i;
+-+    XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+-+    if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
+-+        != XML_STATUS_ERROR)
+-+      break;
+-+    alloc_teardown();
+-+    alloc_setup();
+-+  }
+-+  g_allocation_count = -1;
+-+  if (i == 0)
+-+    fail("Parameter entity processed despite duff allocator");
+-+  if (i == alloc_test_max_repeats)
+-+    fail("Parameter entity not processed at max allocation count");
+-+}
+-+END_TEST
+-+
+- /* Test the robustness against allocation failure of element handling
+-  * Based on test_dtd_default_handling().
+-  */
+-@@ -2079,6 +2105,7 @@ make_alloc_test_case(Suite *s) {
+-   tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_external_entity);
+-   tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_ext_entity_set_encoding);
+-   tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_internal_entity);
+-+  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_parameter_entity);
+-   tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_dtd_default_handling);
+-   tcase_add_test(tc_alloc, test_alloc_explicit_encoding);
+-   tcase_add_test(tc_alloc, test_alloc_set_base);
+-diff --git a/expat/tests/basic_tests.c b/expat/tests/basic_tests.c
+-index d2306772..29be32cf 100644
+---- a/expat/tests/basic_tests.c
+-+++ b/expat/tests/basic_tests.c
+-@@ -10,7 +10,7 @@
+-    Copyright (c) 2003      Greg Stein <gstein@users.sourceforge.net>
+-    Copyright (c) 2005-2007 Steven Solie <steven@solie.ca>
+-    Copyright (c) 2005-2012 Karl Waclawek <karl@waclawek.net>
+--   Copyright (c) 2016-2024 Sebastian Pipping <sebastian@pipping.org>
+-+   Copyright (c) 2016-2025 Sebastian Pipping <sebastian@pipping.org>
+-    Copyright (c) 2017-2022 Rhodri James <rhodri@wildebeest.org.uk>
+-    Copyright (c) 2017      Joe Orton <jorton@redhat.com>
+-    Copyright (c) 2017      José Gutiérrez de la Concha <jose@zeroc.com>
+-@@ -19,6 +19,7 @@
+-    Copyright (c) 2020      Tim Gates <tim.gates@iress.com>
+-    Copyright (c) 2021      Donghee Na <donghee.na@python.org>
+-    Copyright (c) 2023-2024 Sony Corporation / Snild Dolkow <snild@sony.com>
+-+   Copyright (c) 2024-2025 Berkay Eren Ürün <berkay.ueruen@siemens.com>
+-    Licensed under the MIT license:
+- 
+-    Permission is  hereby granted,  free of charge,  to any  person obtaining
+-@@ -1233,44 +1234,58 @@ START_TEST(test_no_indirectly_recursive_entity_refs) {
+-        "<doc/>\n",
+-        true},
+-   };
+-+  const XML_Bool reset_or_not[] = {XML_TRUE, XML_FALSE};
+-+
+-   for (size_t i = 0; i < sizeof(cases) / sizeof(cases[0]); i++) {
+--    const char *const doc = cases[i].doc;
+--    const bool usesParameterEntities = cases[i].usesParameterEntities;
+-+    for (size_t j = 0; j < sizeof(reset_or_not) / sizeof(reset_or_not[0]);
+-+         j++) {
+-+      const XML_Bool reset_wanted = reset_or_not[j];
+-+      const char *const doc = cases[i].doc;
+-+      const bool usesParameterEntities = cases[i].usesParameterEntities;
+- 
+--    set_subtest("[%i] %s", (int)i, doc);
+-+      set_subtest("[%i,reset=%i] %s", (int)i, (int)j, doc);
+- 
+- #ifdef XML_DTD // both GE and DTD
+--    const bool rejection_expected = true;
+-+      const bool rejection_expected = true;
+- #elif XML_GE == 1 // GE but not DTD
+--    const bool rejection_expected = ! usesParameterEntities;
+-+      const bool rejection_expected = ! usesParameterEntities;
+- #else             // neither DTD nor GE
+--    const bool rejection_expected = false;
+-+      const bool rejection_expected = false;
+- #endif
+- 
+--    XML_Parser parser = XML_ParserCreate(NULL);
+-+      XML_Parser parser = XML_ParserCreate(NULL);
+- 
+- #ifdef XML_DTD
+--    if (usesParameterEntities) {
+--      assert_true(
+--          XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS)
+--          == 1);
+--    }
+-+      if (usesParameterEntities) {
+-+        assert_true(
+-+            XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS)
+-+            == 1);
+-+      }
+- #else
+--    UNUSED_P(usesParameterEntities);
+-+      UNUSED_P(usesParameterEntities);
+- #endif // XML_DTD
+- 
+--    const enum XML_Status status
+--        = _XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
+--                                  /*isFinal*/ XML_TRUE);
+-+      const enum XML_Status status
+-+          = _XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
+-+                                    /*isFinal*/ XML_TRUE);
+- 
+--    if (rejection_expected) {
+--      assert_true(status == XML_STATUS_ERROR);
+--      assert_true(XML_GetErrorCode(parser) == XML_ERROR_RECURSIVE_ENTITY_REF);
+--    } else {
+--      assert_true(status == XML_STATUS_OK);
+-+      if (rejection_expected) {
+-+        assert_true(status == XML_STATUS_ERROR);
+-+        assert_true(XML_GetErrorCode(parser) == XML_ERROR_RECURSIVE_ENTITY_REF);
+-+      } else {
+-+        assert_true(status == XML_STATUS_OK);
+-+      }
+-+
+-+      if (reset_wanted) {
+-+        // This covers free'ing of (eventually) all three open entity lists by
+-+        // XML_ParserReset.
+-+        XML_ParserReset(parser, NULL);
+-+      }
+-+
+-+      // This covers free'ing of (eventually) all three open entity lists by
+-+      // XML_ParserFree (unless XML_ParserReset has already done that above).
+-+      XML_ParserFree(parser);
+-     }
+--
+--    XML_ParserFree(parser);
+-   }
+- }
+- END_TEST
+-@@ -4033,7 +4048,7 @@ START_TEST(test_skipped_null_loaded_ext_entity) {
+-       = {"<!ENTITY % pe1 SYSTEM 'http://example.org/two.ent'>\n"
+-          "<!ENTITY % pe2 '%pe1;'>\n"
+-          "%pe2;\n",
+--         external_entity_null_loader};
+-+         external_entity_null_loader, NULL};
+- 
+-   XML_SetUserData(g_parser, &test_data);
+-   XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+-@@ -4051,7 +4066,7 @@ START_TEST(test_skipped_unloaded_ext_entity) {
+-       = {"<!ENTITY % pe1 SYSTEM 'http://example.org/two.ent'>\n"
+-          "<!ENTITY % pe2 '%pe1;'>\n"
+-          "%pe2;\n",
+--         NULL};
+-+         NULL, NULL};
+- 
+-   XML_SetUserData(g_parser, &test_data);
+-   XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+-@@ -5351,6 +5366,151 @@ START_TEST(test_pool_integrity_with_unfinished_attr) {
+- }
+- END_TEST
+- 
+-+/* Test a possible early return location in internalEntityProcessor */
+-+START_TEST(test_entity_ref_no_elements) {
+-+  const char *const text = "<!DOCTYPE foo [\n"
+-+                           "<!ENTITY e1 \"test\">\n"
+-+                           "]> <foo>&e1;"; // intentionally missing newline
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+              == XML_STATUS_ERROR);
+-+  assert_true(XML_GetErrorCode(parser) == XML_ERROR_NO_ELEMENTS);
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+/* Tests if chained entity references lead to unbounded recursion */
+-+START_TEST(test_deep_nested_entity) {
+-+  const size_t N_LINES = 60000;
+-+  const size_t SIZE_PER_LINE = 50;
+-+
+-+  char *const text = (char *)malloc((N_LINES + 4) * SIZE_PER_LINE);
+-+  if (text == NULL) {
+-+    fail("malloc failed");
+-+  }
+-+
+-+  char *textPtr = text;
+-+
+-+  // Create the XML
+-+  textPtr += snprintf(textPtr, SIZE_PER_LINE,
+-+                      "<!DOCTYPE foo [\n"
+-+                      "	<!ENTITY s0 'deepText'>\n");
+-+
+-+  for (size_t i = 1; i < N_LINES; ++i) {
+-+    textPtr += snprintf(textPtr, SIZE_PER_LINE, "  <!ENTITY s%lu '&s%lu;'>\n",
+-+                        (long unsigned)i, (long unsigned)(i - 1));
+-+  }
+-+
+-+  snprintf(textPtr, SIZE_PER_LINE, "]> <foo>&s%lu;</foo>\n",
+-+           (long unsigned)(N_LINES - 1));
+-+
+-+  const XML_Char *const expected = XCS("deepText");
+-+
+-+  CharData storage;
+-+  CharData_Init(&storage);
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+  XML_SetCharacterDataHandler(parser, accumulate_characters);
+-+  XML_SetUserData(parser, &storage);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      == XML_STATUS_ERROR)
+-+    xml_failure(parser);
+-+
+-+  CharData_CheckXMLChars(&storage, expected);
+-+  XML_ParserFree(parser);
+-+  free(text);
+-+}
+-+END_TEST
+-+
+-+/* Tests if chained entity references in attributes
+-+lead to unbounded recursion */
+-+START_TEST(test_deep_nested_attribute_entity) {
+-+  const size_t N_LINES = 60000;
+-+  const size_t SIZE_PER_LINE = 100;
+-+
+-+  char *const text = (char *)malloc((N_LINES + 4) * SIZE_PER_LINE);
+-+  if (text == NULL) {
+-+    fail("malloc failed");
+-+  }
+-+
+-+  char *textPtr = text;
+-+
+-+  // Create the XML
+-+  textPtr += snprintf(textPtr, SIZE_PER_LINE,
+-+                      "<!DOCTYPE foo [\n"
+-+                      "	<!ENTITY s0 'deepText'>\n");
+-+
+-+  for (size_t i = 1; i < N_LINES; ++i) {
+-+    textPtr += snprintf(textPtr, SIZE_PER_LINE, "  <!ENTITY s%lu '&s%lu;'>\n",
+-+                        (long unsigned)i, (long unsigned)(i - 1));
+-+  }
+-+
+-+  snprintf(textPtr, SIZE_PER_LINE, "]> <foo name='&s%lu;'>mainText</foo>\n",
+-+           (long unsigned)(N_LINES - 1));
+-+
+-+  AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
+-+  ElementInfo info[] = {{XCS("foo"), 1, NULL, NULL}, {NULL, 0, NULL, NULL}};
+-+  info[0].attributes = doc_info;
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  ParserAndElementInfo parserPlusElemenInfo = {parser, info};
+-+
+-+  XML_SetStartElementHandler(parser, counting_start_element_handler);
+-+  XML_SetUserData(parser, &parserPlusElemenInfo);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      == XML_STATUS_ERROR)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+  free(text);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_deep_nested_entity_delayed_interpretation) {
+-+  const size_t N_LINES = 70000;
+-+  const size_t SIZE_PER_LINE = 100;
+-+
+-+  char *const text = (char *)malloc((N_LINES + 4) * SIZE_PER_LINE);
+-+  if (text == NULL) {
+-+    fail("malloc failed");
+-+  }
+-+
+-+  char *textPtr = text;
+-+
+-+  // Create the XML
+-+  textPtr += snprintf(textPtr, SIZE_PER_LINE,
+-+                      "<!DOCTYPE foo [\n"
+-+                      "	<!ENTITY %% s0 'deepText'>\n");
+-+
+-+  for (size_t i = 1; i < N_LINES; ++i) {
+-+    textPtr += snprintf(textPtr, SIZE_PER_LINE,
+-+                        "  <!ENTITY %% s%lu '&#37;s%lu;'>\n", (long unsigned)i,
+-+                        (long unsigned)(i - 1));
+-+  }
+-+
+-+  snprintf(textPtr, SIZE_PER_LINE,
+-+           "  <!ENTITY %% define_g \"<!ENTITY g '&#37;s%lu;'>\">\n"
+-+           "  %%define_g;\n"
+-+           "]>\n"
+-+           "<foo/>\n",
+-+           (long unsigned)(N_LINES - 1));
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+  XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      == XML_STATUS_ERROR)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+  free(text);
+-+}
+-+END_TEST
+-+
+- START_TEST(test_nested_entity_suspend) {
+-   const char *const text = "<!DOCTYPE a [\n"
+-                            "  <!ENTITY e1 '<!--e1-->'>\n"
+-@@ -5381,6 +5541,35 @@ START_TEST(test_nested_entity_suspend) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_nested_entity_suspend_2) {
+-+  const char *const text = "<!DOCTYPE doc [\n"
+-+                           "  <!ENTITY ge1 'head1Ztail1'>\n"
+-+                           "  <!ENTITY ge2 'head2&ge1;tail2'>\n"
+-+                           "  <!ENTITY ge3 'head3&ge2;tail3'>\n"
+-+                           "]>\n"
+-+                           "<doc>&ge3;</doc>";
+-+  const XML_Char *const expected = XCS("head3") XCS("head2") XCS("head1")
+-+      XCS("Z") XCS("tail1") XCS("tail2") XCS("tail3");
+-+  CharData storage;
+-+  CharData_Init(&storage);
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  ParserPlusStorage parserPlusStorage = {parser, &storage};
+-+
+-+  XML_SetCharacterDataHandler(parser, accumulate_char_data_and_suspend);
+-+  XML_SetUserData(parser, &parserPlusStorage);
+-+
+-+  enum XML_Status status = XML_Parse(parser, text, (int)strlen(text), XML_TRUE);
+-+  while (status == XML_STATUS_SUSPENDED) {
+-+    status = XML_ResumeParser(parser);
+-+  }
+-+  if (status != XML_STATUS_OK)
+-+    xml_failure(parser);
+-+
+-+  CharData_CheckXMLChars(&storage, expected);
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- /* Regression test for quadratic parsing on large tokens */
+- START_TEST(test_big_tokens_scale_linearly) {
+-   const struct {
+-@@ -6221,7 +6410,13 @@ make_basic_test_case(Suite *s) {
+-   tcase_add_test(tc_basic, test_empty_element_abort);
+-   tcase_add_test__ifdef_xml_dtd(tc_basic,
+-                                 test_pool_integrity_with_unfinished_attr);
+-+  tcase_add_test__if_xml_ge(tc_basic, test_entity_ref_no_elements);
+-+  tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_entity);
+-+  tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_attribute_entity);
+-+  tcase_add_test__if_xml_ge(tc_basic,
+-+                            test_deep_nested_entity_delayed_interpretation);
+-   tcase_add_test__if_xml_ge(tc_basic, test_nested_entity_suspend);
+-+  tcase_add_test__if_xml_ge(tc_basic, test_nested_entity_suspend_2);
+-   tcase_add_test(tc_basic, test_big_tokens_scale_linearly);
+-   tcase_add_test(tc_basic, test_set_reparse_deferral);
+-   tcase_add_test(tc_basic, test_reparse_deferral_is_inherited);
+-diff --git a/expat/tests/handlers.c b/expat/tests/handlers.c
+-index 0211985f..f15029e3 100644
+---- a/expat/tests/handlers.c
+-+++ b/expat/tests/handlers.c
+-@@ -1882,6 +1882,20 @@ accumulate_entity_decl(void *userData, const XML_Char *entityName,
+-   CharData_AppendXMLChars(storage, XCS("\n"), 1);
+- }
+- 
+-+void XMLCALL
+-+accumulate_char_data_and_suspend(void *userData, const XML_Char *s, int len) {
+-+  ParserPlusStorage *const parserPlusStorage = (ParserPlusStorage *)userData;
+-+
+-+  CharData_AppendXMLChars(parserPlusStorage->storage, s, len);
+-+
+-+  for (int i = 0; i < len; i++) {
+-+    if (s[i] == 'Z') {
+-+      XML_StopParser(parserPlusStorage->parser, /*resumable=*/XML_TRUE);
+-+      break;
+-+    }
+-+  }
+-+}
+-+
+- void XMLCALL
+- accumulate_start_element(void *userData, const XML_Char *name,
+-                          const XML_Char **atts) {
+-diff --git a/expat/tests/handlers.h b/expat/tests/handlers.h
+-index 8850bb94..4d6a08d5 100644
+---- a/expat/tests/handlers.h
+-+++ b/expat/tests/handlers.h
+-@@ -325,6 +325,7 @@ extern int XMLCALL external_entity_devaluer(XML_Parser parser,
+- typedef struct ext_hdlr_data {
+-   const char *parse_text;
+-   XML_ExternalEntityRefHandler handler;
+-+  CharData *storage;
+- } ExtHdlrData;
+- 
+- extern int XMLCALL external_entity_oneshot_loader(XML_Parser parser,
+-@@ -569,6 +570,10 @@ extern void XMLCALL accumulate_entity_decl(
+-     const XML_Char *systemId, const XML_Char *publicId,
+-     const XML_Char *notationName);
+- 
+-+extern void XMLCALL accumulate_char_data_and_suspend(void *userData,
+-+                                                     const XML_Char *s,
+-+                                                     int len);
+-+
+- extern void XMLCALL accumulate_start_element(void *userData,
+-                                              const XML_Char *name,
+-                                              const XML_Char **atts);
+-diff --git a/expat/tests/misc_tests.c b/expat/tests/misc_tests.c
+-index 9afe0922..f9a78f66 100644
+---- a/expat/tests/misc_tests.c
+-+++ b/expat/tests/misc_tests.c
+-@@ -59,6 +59,9 @@
+- #include "handlers.h"
+- #include "misc_tests.h"
+- 
+-+void XMLCALL accumulate_characters_ext_handler(void *userData,
+-+                                               const XML_Char *s, int len);
+-+
+- /* Test that a failure to allocate the parser structure fails gracefully */
+- START_TEST(test_misc_alloc_create_parser) {
+-   XML_Memory_Handling_Suite memsuite = {duff_allocator, realloc, free};
+-@@ -519,6 +522,45 @@ START_TEST(test_misc_stopparser_rejects_unstarted_parser) {
+- }
+- END_TEST
+- 
+-+/* Adaptation of accumulate_characters that takes ExtHdlrData input to work with
+-+ * test_renter_loop_finite_content below */
+-+void XMLCALL
+-+accumulate_characters_ext_handler(void *userData, const XML_Char *s, int len) {
+-+  ExtHdlrData *const test_data = (ExtHdlrData *)userData;
+-+  CharData_AppendXMLChars(test_data->storage, s, len);
+-+}
+-+
+-+/* Test that internalEntityProcessor does not re-enter forever;
+-+ * based on files tests/xmlconf/xmltest/valid/ext-sa/012.{xml,ent} */
+-+START_TEST(test_renter_loop_finite_content) {
+-+  CharData storage;
+-+  CharData_Init(&storage);
+-+  const char *const text = "<!DOCTYPE doc [\n"
+-+                           "<!ENTITY e1 '&e2;'>\n"
+-+                           "<!ENTITY e2 '&e3;'>\n"
+-+                           "<!ENTITY e3 SYSTEM '012.ent'>\n"
+-+                           "<!ENTITY e4 '&e5;'>\n"
+-+                           "<!ENTITY e5 '(e5)'>\n"
+-+                           "<!ELEMENT doc (#PCDATA)>\n"
+-+                           "]>\n"
+-+                           "<doc>&e1;</doc>\n";
+-+  ExtHdlrData test_data = {"&e4;\n", external_entity_null_loader, &storage};
+-+  const XML_Char *const expected = XCS("(e5)\n");
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(parser != NULL);
+-+  XML_SetUserData(parser, &test_data);
+-+  XML_SetExternalEntityRefHandler(parser, external_entity_oneshot_loader);
+-+  XML_SetCharacterDataHandler(parser, accumulate_characters_ext_handler);
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      == XML_STATUS_ERROR)
+-+    xml_failure(parser);
+-+
+-+  CharData_CheckXMLChars(&storage, expected);
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- void
+- make_miscellaneous_test_case(Suite *s) {
+-   TCase *tc_misc = tcase_create("miscellaneous tests");
+-@@ -545,4 +587,5 @@ make_miscellaneous_test_case(Suite *s) {
+-   tcase_add_test(tc_misc, test_misc_char_handler_stop_without_leak);
+-   tcase_add_test(tc_misc, test_misc_resumeparser_not_crashing);
+-   tcase_add_test(tc_misc, test_misc_stopparser_rejects_unstarted_parser);
+-+  tcase_add_test__if_xml_ge(tc_misc, test_renter_loop_finite_content);
+- }
+diff --git a/meta/recipes-core/expat/expat/CVE-2024-8176-02.patch b/meta/recipes-core/expat/expat/CVE-2024-8176-02.patch
+deleted file mode 100644
+index a22ace3be69..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2024-8176-02.patch
++++ /dev/null
+@@ -1,248 +0,0 @@
+-From 5f7af592557495a99e7badaf5c03362a20650156 Mon Sep 17 00:00:00 2001
+-From: Peter Marko <peter.marko@siemens.com>
+-Date: Thu, 27 Mar 2025 20:28:26 +0100
+-Subject: [PATCH] Stop updating event pointer on exit for reentry (fixes #980)
+- #989
+-
+-Fixes #980
+-
+-CVE: CVE-2024-8176
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/989]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- expat/Changes            | 15 ++++++++++++
+- expat/lib/xmlparse.c     | 12 ++++++---
+- expat/tests/common.c     | 25 +++++++++++++++++++
+- expat/tests/common.h     |  2 ++
+- expat/tests/misc_tests.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++
+- 5 files changed, 112 insertions(+), 3 deletions(-)
+-
+-diff --git a/expat/Changes b/expat/Changes
+-index 8c5db88c..7ba33497 100644
+---- a/expat/Changes
+-+++ b/expat/Changes
+-@@ -30,6 +30,21 @@
+- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+- 
+- Patches:
+-+        Bug fixes:
+-+       #980 #989  Restore event pointer behavior from Expat 2.6.4
+-+                    (that the fix to CVE-2024-8176 changed in 2.7.0);
+-+                    affected API functions are:
+-+                    - XML_GetCurrentByteCount
+-+                    - XML_GetCurrentByteIndex
+-+                    - XML_GetCurrentColumnNumber
+-+                    - XML_GetCurrentLineNumber
+-+                    - XML_GetInputContext
+-+
+-+        Special thanks to:
+-+            Berkay Eren Ürün
+-+                 and
+-+            Perl XML::Parser
+-+
+-         Security fixes:
+-        #893 #???  CVE-2024-8176 -- Fix crash from chaining a large number
+-                     of entities caused by stack overflow by resolving use of
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 473c791d..c6085d38 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -3402,12 +3402,13 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-       break;
+-       /* LCOV_EXCL_STOP */
+-     }
+--    *eventPP = s = next;
+-     switch (parser->m_parsingStatus.parsing) {
+-     case XML_SUSPENDED:
+-+      *eventPP = next;
+-       *nextPtr = next;
+-       return XML_ERROR_NONE;
+-     case XML_FINISHED:
+-+      *eventPP = next;
+-       return XML_ERROR_ABORTED;
+-     case XML_PARSING:
+-       if (parser->m_reenter) {
+-@@ -3416,6 +3417,7 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-       }
+-       /* Fall through */
+-     default:;
+-+      *eventPP = s = next;
+-     }
+-   }
+-   /* not reached */
+-@@ -4332,12 +4334,13 @@ doCdataSection(XML_Parser parser, const ENCODING *enc, const char **startPtr,
+-       /* LCOV_EXCL_STOP */
+-     }
+- 
+--    *eventPP = s = next;
+-     switch (parser->m_parsingStatus.parsing) {
+-     case XML_SUSPENDED:
+-+      *eventPP = next;
+-       *nextPtr = next;
+-       return XML_ERROR_NONE;
+-     case XML_FINISHED:
+-+      *eventPP = next;
+-       return XML_ERROR_ABORTED;
+-     case XML_PARSING:
+-       if (parser->m_reenter) {
+-@@ -4345,6 +4348,7 @@ doCdataSection(XML_Parser parser, const ENCODING *enc, const char **startPtr,
+-       }
+-       /* Fall through */
+-     default:;
+-+      *eventPP = s = next;
+-     }
+-   }
+-   /* not reached */
+-@@ -5951,12 +5955,13 @@ epilogProcessor(XML_Parser parser, const char *s, const char *end,
+-     default:
+-       return XML_ERROR_JUNK_AFTER_DOC_ELEMENT;
+-     }
+--    parser->m_eventPtr = s = next;
+-     switch (parser->m_parsingStatus.parsing) {
+-     case XML_SUSPENDED:
+-+      parser->m_eventPtr = next;
+-       *nextPtr = next;
+-       return XML_ERROR_NONE;
+-     case XML_FINISHED:
+-+      parser->m_eventPtr = next;
+-       return XML_ERROR_ABORTED;
+-     case XML_PARSING:
+-       if (parser->m_reenter) {
+-@@ -5964,6 +5969,7 @@ epilogProcessor(XML_Parser parser, const char *s, const char *end,
+-       }
+-     /* Fall through */
+-     default:;
+-+      parser->m_eventPtr = s = next;
+-     }
+-   }
+- }
+-diff --git a/expat/tests/common.c b/expat/tests/common.c
+-index 3aea8d74..b267dbb3 100644
+---- a/expat/tests/common.c
+-+++ b/expat/tests/common.c
+-@@ -42,6 +42,8 @@
+- */
+- 
+- #include <assert.h>
+-+#include <errno.h>
+-+#include <stdint.h> // for SIZE_MAX
+- #include <stdio.h>
+- #include <string.h>
+- 
+-@@ -294,3 +296,26 @@ duff_reallocator(void *ptr, size_t size) {
+-     g_reallocation_count--;
+-   return realloc(ptr, size);
+- }
+-+
+-+// Portable remake of strndup(3) for C99; does not care about space efficiency
+-+char *
+-+portable_strndup(const char *s, size_t n) {
+-+  if ((s == NULL) || (n == SIZE_MAX)) {
+-+    errno = EINVAL;
+-+    return NULL;
+-+  }
+-+
+-+  char *const buffer = (char *)malloc(n + 1);
+-+  if (buffer == NULL) {
+-+    errno = ENOMEM;
+-+    return NULL;
+-+  }
+-+
+-+  errno = 0;
+-+
+-+  memcpy(buffer, s, n);
+-+
+-+  buffer[n] = '\0';
+-+
+-+  return buffer;
+-+}
+-diff --git a/expat/tests/common.h b/expat/tests/common.h
+-index bc4c7da6..88711308 100644
+---- a/expat/tests/common.h
+-+++ b/expat/tests/common.h
+-@@ -146,6 +146,8 @@ extern void *duff_allocator(size_t size);
+- 
+- extern void *duff_reallocator(void *ptr, size_t size);
+- 
+-+extern char *portable_strndup(const char *s, size_t n);
+-+
+- #endif /* XML_COMMON_H */
+- 
+- #ifdef __cplusplus
+-diff --git a/expat/tests/misc_tests.c b/expat/tests/misc_tests.c
+-index f9a78f66..2b9f793b 100644
+---- a/expat/tests/misc_tests.c
+-+++ b/expat/tests/misc_tests.c
+-@@ -561,6 +561,66 @@ START_TEST(test_renter_loop_finite_content) {
+- }
+- END_TEST
+- 
+-+// Inspired by function XML_OriginalString of Perl's XML::Parser
+-+static char *
+-+dup_original_string(XML_Parser parser) {
+-+  const int byte_count = XML_GetCurrentByteCount(parser);
+-+
+-+  assert_true(byte_count >= 0);
+-+
+-+  int offset = -1;
+-+  int size = -1;
+-+
+-+  const char *const context = XML_GetInputContext(parser, &offset, &size);
+-+
+-+#if XML_CONTEXT_BYTES > 0
+-+  assert_true(context != NULL);
+-+  assert_true(offset >= 0);
+-+  assert_true(size >= 0);
+-+  return portable_strndup(context + offset, byte_count);
+-+#else
+-+  assert_true(context == NULL);
+-+  return NULL;
+-+#endif
+-+}
+-+
+-+static void
+-+on_characters_issue_980(void *userData, const XML_Char *s, int len) {
+-+  (void)s;
+-+  (void)len;
+-+  XML_Parser parser = (XML_Parser)userData;
+-+
+-+  char *const original_string = dup_original_string(parser);
+-+
+-+#if XML_CONTEXT_BYTES > 0
+-+  assert_true(original_string != NULL);
+-+  assert_true(strcmp(original_string, "&draft.day;") == 0);
+-+  free(original_string);
+-+#else
+-+  assert_true(original_string == NULL);
+-+#endif
+-+}
+-+
+-+START_TEST(test_misc_expected_event_ptr_issue_980) {
+-+  // NOTE: This is a tiny subset of sample "REC-xml-19980210.xml"
+-+  //       from Perl's XML::Parser
+-+  const char *const doc = "<!DOCTYPE day [\n"
+-+                          "  <!ENTITY draft.day '10'>\n"
+-+                          "]>\n"
+-+                          "<day>&draft.day;</day>\n";
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  XML_SetUserData(parser, parser);
+-+  XML_SetCharacterDataHandler(parser, on_characters_issue_980);
+-+
+-+  assert_true(_XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
+-+                                      /*isFinal=*/XML_TRUE)
+-+              == XML_STATUS_OK);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- void
+- make_miscellaneous_test_case(Suite *s) {
+-   TCase *tc_misc = tcase_create("miscellaneous tests");
+-@@ -588,4 +648,5 @@ make_miscellaneous_test_case(Suite *s) {
+-   tcase_add_test(tc_misc, test_misc_resumeparser_not_crashing);
+-   tcase_add_test(tc_misc, test_misc_stopparser_rejects_unstarted_parser);
+-   tcase_add_test__if_xml_ge(tc_misc, test_renter_loop_finite_content);
+-+  tcase_add_test(tc_misc, test_misc_expected_event_ptr_issue_980);
+- }
+diff --git a/meta/recipes-core/expat/expat/CVE-2024-8176-03.patch b/meta/recipes-core/expat/expat/CVE-2024-8176-03.patch
+deleted file mode 100644
+index c9990d5547e..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2024-8176-03.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From ba80428c2207259103b73871d447dee34755340c Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@tum.de>
+-Date: Tue, 23 Sep 2025 11:22:14 +0200
+-Subject: [PATCH] lib: Fix detection of asynchronous tags in entities
+-
+-According to the XML standard, tags must be closed within the same
+-element in which they are opened. Since the change of the entity
+-processing method in version 2.7.0, violations of this rule have not
+-been handled correctly for entities.
+-
+-This commit adds the required checks to detect any violations and
+-restores the correct behaviour.
+-
+-CVE: CVE-2024-8176
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1059]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index ce29ab6f..ba4e3c48 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -6087,6 +6087,10 @@ internalEntityProcessor(XML_Parser parser, const char *s, const char *end,
+-     // process its possible inner entities (which are added to the
+-     // m_openInternalEntities during doProlog or doContent calls above)
+-     entity->hasMore = XML_FALSE;
+-+    if (! entity->is_param
+-+        && (openEntity->startTagLevel != parser->m_tagLevel)) {
+-+      return XML_ERROR_ASYNC_ENTITY;
+-+    }
+-     triggerReenter(parser);
+-     return result;
+-   } // End of entity processing, "if" block will return here
+diff --git a/meta/recipes-core/expat/expat/CVE-2024-8176-04.patch b/meta/recipes-core/expat/expat/CVE-2024-8176-04.patch
+deleted file mode 100644
+index 9623467698f..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2024-8176-04.patch
++++ /dev/null
+@@ -1,115 +0,0 @@
+-From 81a114f7eebcd41a6993337128cda337986a26f4 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 15 Sep 2025 21:57:07 +0200
+-Subject: [PATCH] tests: Cover XML_ERROR_ASYNC_ENTITY cases
+-
+-CVE: CVE-2024-8176
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1059]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- tests/misc_tests.c | 87 ++++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 87 insertions(+)
+-
+-diff --git a/tests/misc_tests.c b/tests/misc_tests.c
+-index 3346bce6..19f41df7 100644
+---- a/tests/misc_tests.c
+-+++ b/tests/misc_tests.c
+-@@ -621,6 +621,91 @@ START_TEST(test_misc_expected_event_ptr_issue_980) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_misc_sync_entity_tolerated) {
+-+  const char *const doc = "<!DOCTYPE t0 [\n"
+-+                          "   <!ENTITY a '<t1></t1>'>\n"
+-+                          "   <!ENTITY b '<t2>two</t2>'>\n"
+-+                          "   <!ENTITY c '<t3>three<t4>four</t4>three</t3>'>\n"
+-+                          "   <!ENTITY d '<t5>&b;</t5>'>\n"
+-+                          "]>\n"
+-+                          "<t0>&a;&b;&c;&d;</t0>\n";
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+  assert_true(_XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
+-+                                      /*isFinal=*/XML_TRUE)
+-+              == XML_STATUS_OK);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_misc_async_entity_rejected) {
+-+  struct test_case {
+-+    const char *doc;
+-+    enum XML_Status expectedStatusNoGE;
+-+    enum XML_Error expectedErrorNoGE;
+-+  };
+-+  const struct test_case cases[] = {
+-+      // Opened by one entity, closed by another
+-+      {"<!DOCTYPE t0 [\n"
+-+       "   <!ENTITY open '<t1>'>\n"
+-+       "   <!ENTITY close '</t1>'>\n"
+-+       "]>\n"
+-+       "<t0>&open;&close;</t0>\n",
+-+       XML_STATUS_OK, XML_ERROR_NONE},
+-+      // Opened by tag, closed by entity (non-root case)
+-+      {"<!DOCTYPE t0 [\n"
+-+       "  <!ENTITY g0 ''>\n"
+-+       "  <!ENTITY g1 '&g0;</t1>'>\n"
+-+       "]>\n"
+-+       "<t0><t1>&g1;</t0>\n",
+-+       XML_STATUS_ERROR, XML_ERROR_TAG_MISMATCH},
+-+      // Opened by tag, closed by entity (root case)
+-+      {"<!DOCTYPE t0 [\n"
+-+       "  <!ENTITY g0 ''>\n"
+-+       "  <!ENTITY g1 '&g0;</t0>'>\n"
+-+       "]>\n"
+-+       "<t0>&g1;\n",
+-+       XML_STATUS_ERROR, XML_ERROR_NO_ELEMENTS},
+-+      // Opened by entity, closed by tag <-- regression from 2.7.0
+-+      {"<!DOCTYPE t0 [\n"
+-+       "  <!ENTITY g0 ''>\n"
+-+       "  <!ENTITY g1 '<t1>&g0;'>\n"
+-+       "]>\n"
+-+       "<t0>&g1;</t1></t0>\n",
+-+       XML_STATUS_ERROR, XML_ERROR_TAG_MISMATCH},
+-+      // Opened by tag, closed by entity; then the other way around
+-+      {"<!DOCTYPE t0 [\n"
+-+       "  <!ENTITY open '<t1>'>\n"
+-+       "  <!ENTITY close '</t1>'>\n"
+-+       "]>\n"
+-+       "<t0><t1>&close;&open;</t1></t0>\n",
+-+       XML_STATUS_OK, XML_ERROR_NONE},
+-+  };
+-+
+-+  for (size_t i = 0; i < sizeof(cases) / sizeof(cases[0]); i++) {
+-+    const struct test_case testCase = cases[i];
+-+    set_subtest("cases[%d]", (int)i);
+-+
+-+    const char *const doc = testCase.doc;
+-+#if XML_GE == 1
+-+    const enum XML_Status expectedStatus = XML_STATUS_ERROR;
+-+    const enum XML_Error expectedError = XML_ERROR_ASYNC_ENTITY;
+-+#else
+-+    const enum XML_Status expectedStatus = testCase.expectedStatusNoGE;
+-+    const enum XML_Error expectedError = testCase.expectedErrorNoGE;
+-+#endif
+-+
+-+    XML_Parser parser = XML_ParserCreate(NULL);
+-+    assert_true(_XML_Parse_SINGLE_BYTES(parser, doc, (int)strlen(doc),
+-+                                        /*isFinal=*/XML_TRUE)
+-+                == expectedStatus);
+-+    assert_true(XML_GetErrorCode(parser) == expectedError);
+-+    XML_ParserFree(parser);
+-+  }
+-+}
+-+END_TEST
+-+
+- void
+- make_miscellaneous_test_case(Suite *s) {
+-   TCase *tc_misc = tcase_create("miscellaneous tests");
+-@@ -649,4 +734,6 @@ make_miscellaneous_test_case(Suite *s) {
+-   tcase_add_test(tc_misc, test_misc_stopparser_rejects_unstarted_parser);
+-   tcase_add_test__if_xml_ge(tc_misc, test_renter_loop_finite_content);
+-   tcase_add_test(tc_misc, test_misc_expected_event_ptr_issue_980);
+-+  tcase_add_test(tc_misc, test_misc_sync_entity_tolerated);
+-+  tcase_add_test(tc_misc, test_misc_async_entity_rejected);
+- }
+diff --git a/meta/recipes-core/expat/expat/CVE-2024-8176-05.patch b/meta/recipes-core/expat/expat/CVE-2024-8176-05.patch
+deleted file mode 100644
+index 063a590a118..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2024-8176-05.patch
++++ /dev/null
+@@ -1,78 +0,0 @@
+-From a9aaf85cfc3025b7013b5adc4bef2ce32ecc7fb1 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@tum.de>
+-Date: Tue, 23 Sep 2025 12:12:50 +0200
+-Subject: [PATCH] tests: Add line/column checks to async entity tests
+-
+-CVE: CVE-2024-8176
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1059]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- tests/misc_tests.c | 17 ++++++++++++-----
+- 1 file changed, 12 insertions(+), 5 deletions(-)
+-
+-diff --git a/tests/misc_tests.c b/tests/misc_tests.c
+-index 19f41df7..7a4d2455 100644
+---- a/tests/misc_tests.c
+-+++ b/tests/misc_tests.c
+-@@ -644,6 +644,8 @@ START_TEST(test_misc_async_entity_rejected) {
+-     const char *doc;
+-     enum XML_Status expectedStatusNoGE;
+-     enum XML_Error expectedErrorNoGE;
+-+    XML_Size expectedErrorLine;
+-+    XML_Size expectedErrorColumn;
+-   };
+-   const struct test_case cases[] = {
+-       // Opened by one entity, closed by another
+-@@ -652,35 +654,35 @@ START_TEST(test_misc_async_entity_rejected) {
+-        "   <!ENTITY close '</t1>'>\n"
+-        "]>\n"
+-        "<t0>&open;&close;</t0>\n",
+--       XML_STATUS_OK, XML_ERROR_NONE},
+-+       XML_STATUS_OK, XML_ERROR_NONE, 5, 4},
+-       // Opened by tag, closed by entity (non-root case)
+-       {"<!DOCTYPE t0 [\n"
+-        "  <!ENTITY g0 ''>\n"
+-        "  <!ENTITY g1 '&g0;</t1>'>\n"
+-        "]>\n"
+-        "<t0><t1>&g1;</t0>\n",
+--       XML_STATUS_ERROR, XML_ERROR_TAG_MISMATCH},
+-+       XML_STATUS_ERROR, XML_ERROR_TAG_MISMATCH, 5, 8},
+-       // Opened by tag, closed by entity (root case)
+-       {"<!DOCTYPE t0 [\n"
+-        "  <!ENTITY g0 ''>\n"
+-        "  <!ENTITY g1 '&g0;</t0>'>\n"
+-        "]>\n"
+-        "<t0>&g1;\n",
+--       XML_STATUS_ERROR, XML_ERROR_NO_ELEMENTS},
+-+       XML_STATUS_ERROR, XML_ERROR_NO_ELEMENTS, 5, 4},
+-       // Opened by entity, closed by tag <-- regression from 2.7.0
+-       {"<!DOCTYPE t0 [\n"
+-        "  <!ENTITY g0 ''>\n"
+-        "  <!ENTITY g1 '<t1>&g0;'>\n"
+-        "]>\n"
+-        "<t0>&g1;</t1></t0>\n",
+--       XML_STATUS_ERROR, XML_ERROR_TAG_MISMATCH},
+-+       XML_STATUS_ERROR, XML_ERROR_TAG_MISMATCH, 5, 4},
+-       // Opened by tag, closed by entity; then the other way around
+-       {"<!DOCTYPE t0 [\n"
+-        "  <!ENTITY open '<t1>'>\n"
+-        "  <!ENTITY close '</t1>'>\n"
+-        "]>\n"
+-        "<t0><t1>&close;&open;</t1></t0>\n",
+--       XML_STATUS_OK, XML_ERROR_NONE},
+-+       XML_STATUS_OK, XML_ERROR_NONE, 5, 8},
+-   };
+- 
+-   for (size_t i = 0; i < sizeof(cases) / sizeof(cases[0]); i++) {
+-@@ -701,6 +703,11 @@ START_TEST(test_misc_async_entity_rejected) {
+-                                         /*isFinal=*/XML_TRUE)
+-                 == expectedStatus);
+-     assert_true(XML_GetErrorCode(parser) == expectedError);
+-+#if XML_GE == 1
+-+    assert_true(XML_GetCurrentLineNumber(parser) == testCase.expectedErrorLine);
+-+    assert_true(XML_GetCurrentColumnNumber(parser)
+-+                == testCase.expectedErrorColumn);
+-+#endif
+-     XML_ParserFree(parser);
+-   }
+- }
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-00.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-00.patch
+deleted file mode 100644
+index e3cbd0f6048..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-00.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 87321ac84a0d6cb42ee64a591adc79c1ec37fb5b Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Tue, 2 Sep 2025 20:52:29 +0200
+-Subject: [PATCH] xmlwf: Mention supported environment variables in --help
+- output
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/87321ac84a0d6cb42ee64a591adc79c1ec37fb5b]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- xmlwf/xmlwf.c          | 8 ++++++++
+- xmlwf/xmlwf_helpgen.py | 8 ++++++++
+- 2 files changed, 16 insertions(+)
+-
+-diff --git a/xmlwf/xmlwf.c b/xmlwf/xmlwf.c
+-index ec7e51c9..8cfc73ca 100644
+---- a/xmlwf/xmlwf.c
+-+++ b/xmlwf/xmlwf.c
+-@@ -926,6 +926,14 @@ usage(const XML_Char *prog, int rc) {
+-       T("  -h, --help     show this [h]elp message and exit\n")
+-       T("  -v, --version  show program's [v]ersion number and exit\n")
+-       T("\n")
+-+      T("environment variables:\n")
+-+      T("  EXPAT_ACCOUNTING_DEBUG=(0|1|2|3)\n")
+-+      T("                 Control verbosity of accounting debugging (default: 0)\n")
+-+      T("  EXPAT_ENTITY_DEBUG=(0|1)\n")
+-+      T("                 Control verbosity of entity debugging (default: 0)\n")
+-+      T("  EXPAT_ENTROPY_DEBUG=(0|1)\n")
+-+      T("                 Control verbosity of entropy debugging (default: 0)\n")
+-+      T("\n")
+-       T("exit status:\n")
+-       T("  0              the input files are well-formed and the output (if requested) was written successfully\n")
+-       T("  1              could not allocate data structures, signals a serious problem with execution environment\n")
+-diff --git a/xmlwf/xmlwf_helpgen.py b/xmlwf/xmlwf_helpgen.py
+-index c3257f0e..39a3dc13 100755
+---- a/xmlwf/xmlwf_helpgen.py
+-+++ b/xmlwf/xmlwf_helpgen.py
+-@@ -32,6 +32,14 @@
+- import argparse
+- 
+- epilog = """
+-+environment variables:
+-+  EXPAT_ACCOUNTING_DEBUG=(0|1|2|3)
+-+                 Control verbosity of accounting debugging (default: 0)
+-+  EXPAT_ENTITY_DEBUG=(0|1)
+-+                 Control verbosity of entity debugging (default: 0)
+-+  EXPAT_ENTROPY_DEBUG=(0|1)
+-+                 Control verbosity of entropy debugging (default: 0)
+-+
+- exit status:
+-   0              the input files are well-formed and the output (if requested) was written successfully
+-   1              could not allocate data structures, signals a serious problem with execution environment
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-01.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-01.patch
+deleted file mode 100644
+index 6708bbef45c..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-01.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 0872c189db6e457084fca335662a9cb49e8ec4c7 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 1 Sep 2025 18:06:59 +0200
+-Subject: [PATCH] lib: Make function dtdCreate use macro MALLOC
+-
+-.. and give its body access to the parser for upcoming changes
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/0872c189db6e457084fca335662a9cb49e8ec4c7]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 9 +++++----
+- 1 file changed, 5 insertions(+), 4 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 25f786ec..b9d6eed1 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -555,7 +555,7 @@ static XML_Bool setContext(XML_Parser parser, const XML_Char *context);
+- 
+- static void FASTCALL normalizePublicId(XML_Char *s);
+- 
+--static DTD *dtdCreate(const XML_Memory_Handling_Suite *ms);
+-+static DTD *dtdCreate(XML_Parser parser);
+- /* do not call if m_parentParser != NULL */
+- static void dtdReset(DTD *p, const XML_Memory_Handling_Suite *ms);
+- static void dtdDestroy(DTD *p, XML_Bool isDocEntity,
+-@@ -1166,7 +1166,7 @@ parserCreate(const XML_Char *encodingName,
+-   if (dtd)
+-     parser->m_dtd = dtd;
+-   else {
+--    parser->m_dtd = dtdCreate(&parser->m_mem);
+-+    parser->m_dtd = dtdCreate(parser);
+-     if (parser->m_dtd == NULL) {
+-       FREE(parser, parser->m_dataBuf);
+-       FREE(parser, parser->m_atts);
+-@@ -7126,8 +7126,9 @@ normalizePublicId(XML_Char *publicId) {
+- }
+- 
+- static DTD *
+--dtdCreate(const XML_Memory_Handling_Suite *ms) {
+--  DTD *p = ms->malloc_fcn(sizeof(DTD));
+-+dtdCreate(XML_Parser parser) {
+-+  const XML_Memory_Handling_Suite *const ms = &parser->m_mem;
+-+  DTD *p = MALLOC(parser, sizeof(DTD));
+-   if (p == NULL)
+-     return p;
+-   poolInit(&(p->pool), ms);
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-02.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-02.patch
+deleted file mode 100644
+index b0543370ad8..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-02.patch
++++ /dev/null
+@@ -1,109 +0,0 @@
+-From 8768dadae479d9f2e984b747fb2ba79bb78de94f Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 1 Sep 2025 18:10:26 +0200
+-Subject: [PATCH] lib: Make string pools use macros MALLOC, FREE, REALLOC
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/8768dadae479d9f2e984b747fb2ba79bb78de94f]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 27 +++++++++++++--------------
+- 1 file changed, 13 insertions(+), 14 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index b9d6eed1..a56c71ea 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -357,7 +357,7 @@ typedef struct {
+-   const XML_Char *end;
+-   XML_Char *ptr;
+-   XML_Char *start;
+--  const XML_Memory_Handling_Suite *mem;
+-+  XML_Parser parser;
+- } STRING_POOL;
+- 
+- /* The XML_Char before the name is used to determine whether
+-@@ -574,8 +574,7 @@ static void FASTCALL hashTableIterInit(HASH_TABLE_ITER *iter,
+-                                        const HASH_TABLE *table);
+- static NAMED *FASTCALL hashTableIterNext(HASH_TABLE_ITER *iter);
+- 
+--static void FASTCALL poolInit(STRING_POOL *pool,
+--                              const XML_Memory_Handling_Suite *ms);
+-+static void FASTCALL poolInit(STRING_POOL *pool, XML_Parser parser);
+- static void FASTCALL poolClear(STRING_POOL *pool);
+- static void FASTCALL poolDestroy(STRING_POOL *pool);
+- static XML_Char *poolAppend(STRING_POOL *pool, const ENCODING *enc,
+-@@ -1200,8 +1199,8 @@ parserCreate(const XML_Char *encodingName,
+- 
+-   parser->m_protocolEncodingName = NULL;
+- 
+--  poolInit(&parser->m_tempPool, &(parser->m_mem));
+--  poolInit(&parser->m_temp2Pool, &(parser->m_mem));
+-+  poolInit(&parser->m_tempPool, parser);
+-+  poolInit(&parser->m_temp2Pool, parser);
+-   parserInit(parser, encodingName);
+- 
+-   if (encodingName && ! parser->m_protocolEncodingName) {
+-@@ -7131,8 +7130,8 @@ dtdCreate(XML_Parser parser) {
+-   DTD *p = MALLOC(parser, sizeof(DTD));
+-   if (p == NULL)
+-     return p;
+--  poolInit(&(p->pool), ms);
+--  poolInit(&(p->entityValuePool), ms);
+-+  poolInit(&(p->pool), parser);
+-+  poolInit(&(p->entityValuePool), parser);
+-   hashTableInit(&(p->generalEntities), ms);
+-   hashTableInit(&(p->elementTypes), ms);
+-   hashTableInit(&(p->attributeIds), ms);
+-@@ -7596,13 +7595,13 @@ hashTableIterNext(HASH_TABLE_ITER *iter) {
+- }
+- 
+- static void FASTCALL
+--poolInit(STRING_POOL *pool, const XML_Memory_Handling_Suite *ms) {
+-+poolInit(STRING_POOL *pool, XML_Parser parser) {
+-   pool->blocks = NULL;
+-   pool->freeBlocks = NULL;
+-   pool->start = NULL;
+-   pool->ptr = NULL;
+-   pool->end = NULL;
+--  pool->mem = ms;
+-+  pool->parser = parser;
+- }
+- 
+- static void FASTCALL
+-@@ -7629,13 +7628,13 @@ poolDestroy(STRING_POOL *pool) {
+-   BLOCK *p = pool->blocks;
+-   while (p) {
+-     BLOCK *tem = p->next;
+--    pool->mem->free_fcn(p);
+-+    FREE(pool->parser, p);
+-     p = tem;
+-   }
+-   p = pool->freeBlocks;
+-   while (p) {
+-     BLOCK *tem = p->next;
+--    pool->mem->free_fcn(p);
+-+    FREE(pool->parser, p);
+-     p = tem;
+-   }
+- }
+-@@ -7790,8 +7789,8 @@ poolGrow(STRING_POOL *pool) {
+-     if (bytesToAllocate == 0)
+-       return XML_FALSE;
+- 
+--    temp = (BLOCK *)pool->mem->realloc_fcn(pool->blocks,
+--                                           (unsigned)bytesToAllocate);
+-+    temp = (BLOCK *)REALLOC(pool->parser, pool->blocks,
+-+                            (unsigned)bytesToAllocate);
+-     if (temp == NULL)
+-       return XML_FALSE;
+-     pool->blocks = temp;
+-@@ -7831,7 +7830,7 @@ poolGrow(STRING_POOL *pool) {
+-     if (bytesToAllocate == 0)
+-       return XML_FALSE;
+- 
+--    tem = pool->mem->malloc_fcn(bytesToAllocate);
+-+    tem = MALLOC(pool->parser, bytesToAllocate);
+-     if (! tem)
+-       return XML_FALSE;
+-     tem->size = blockSize;
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-03.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-03.patch
+deleted file mode 100644
+index b8c2c595e1a..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-03.patch
++++ /dev/null
+@@ -1,127 +0,0 @@
+-From 4fc6f1ee9f2b282cfe446bf645c992e37f8c3e15 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 1 Sep 2025 18:14:09 +0200
+-Subject: [PATCH] lib: Make function hash tables use macros MALLOC and FREE
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/4fc6f1ee9f2b282cfe446bf645c992e37f8c3e15]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 34 ++++++++++++++++------------------
+- 1 file changed, 16 insertions(+), 18 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index a56c71ea..a65b0265 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -234,7 +234,7 @@ typedef struct {
+-   unsigned char power;
+-   size_t size;
+-   size_t used;
+--  const XML_Memory_Handling_Suite *mem;
+-+  XML_Parser parser;
+- } HASH_TABLE;
+- 
+- static size_t keylen(KEY s);
+-@@ -566,8 +566,7 @@ static int copyEntityTable(XML_Parser oldParser, HASH_TABLE *newTable,
+-                            STRING_POOL *newPool, const HASH_TABLE *oldTable);
+- static NAMED *lookup(XML_Parser parser, HASH_TABLE *table, KEY name,
+-                      size_t createSize);
+--static void FASTCALL hashTableInit(HASH_TABLE *table,
+--                                   const XML_Memory_Handling_Suite *ms);
+-+static void FASTCALL hashTableInit(HASH_TABLE *table, XML_Parser parser);
+- static void FASTCALL hashTableClear(HASH_TABLE *table);
+- static void FASTCALL hashTableDestroy(HASH_TABLE *table);
+- static void FASTCALL hashTableIterInit(HASH_TABLE_ITER *iter,
+-@@ -7126,19 +7125,18 @@ normalizePublicId(XML_Char *publicId) {
+- 
+- static DTD *
+- dtdCreate(XML_Parser parser) {
+--  const XML_Memory_Handling_Suite *const ms = &parser->m_mem;
+-   DTD *p = MALLOC(parser, sizeof(DTD));
+-   if (p == NULL)
+-     return p;
+-   poolInit(&(p->pool), parser);
+-   poolInit(&(p->entityValuePool), parser);
+--  hashTableInit(&(p->generalEntities), ms);
+--  hashTableInit(&(p->elementTypes), ms);
+--  hashTableInit(&(p->attributeIds), ms);
+--  hashTableInit(&(p->prefixes), ms);
+-+  hashTableInit(&(p->generalEntities), parser);
+-+  hashTableInit(&(p->elementTypes), parser);
+-+  hashTableInit(&(p->attributeIds), parser);
+-+  hashTableInit(&(p->prefixes), parser);
+- #ifdef XML_DTD
+-   p->paramEntityRead = XML_FALSE;
+--  hashTableInit(&(p->paramEntities), ms);
+-+  hashTableInit(&(p->paramEntities), parser);
+- #endif /* XML_DTD */
+-   p->defaultPrefix.name = NULL;
+-   p->defaultPrefix.binding = NULL;
+-@@ -7473,7 +7471,7 @@ lookup(XML_Parser parser, HASH_TABLE *table, KEY name, size_t createSize) {
+-     /* table->size is a power of 2 */
+-     table->size = (size_t)1 << INIT_POWER;
+-     tsize = table->size * sizeof(NAMED *);
+--    table->v = table->mem->malloc_fcn(tsize);
+-+    table->v = MALLOC(table->parser, tsize);
+-     if (! table->v) {
+-       table->size = 0;
+-       return NULL;
+-@@ -7513,7 +7511,7 @@ lookup(XML_Parser parser, HASH_TABLE *table, KEY name, size_t createSize) {
+-       }
+- 
+-       size_t tsize = newSize * sizeof(NAMED *);
+--      NAMED **newV = table->mem->malloc_fcn(tsize);
+-+      NAMED **newV = MALLOC(table->parser, tsize);
+-       if (! newV)
+-         return NULL;
+-       memset(newV, 0, tsize);
+-@@ -7529,7 +7527,7 @@ lookup(XML_Parser parser, HASH_TABLE *table, KEY name, size_t createSize) {
+-           }
+-           newV[j] = table->v[i];
+-         }
+--      table->mem->free_fcn(table->v);
+-+      FREE(table->parser, table->v);
+-       table->v = newV;
+-       table->power = newPower;
+-       table->size = newSize;
+-@@ -7542,7 +7540,7 @@ lookup(XML_Parser parser, HASH_TABLE *table, KEY name, size_t createSize) {
+-       }
+-     }
+-   }
+--  table->v[i] = table->mem->malloc_fcn(createSize);
+-+  table->v[i] = MALLOC(table->parser, createSize);
+-   if (! table->v[i])
+-     return NULL;
+-   memset(table->v[i], 0, createSize);
+-@@ -7555,7 +7553,7 @@ static void FASTCALL
+- hashTableClear(HASH_TABLE *table) {
+-   size_t i;
+-   for (i = 0; i < table->size; i++) {
+--    table->mem->free_fcn(table->v[i]);
+-+    FREE(table->parser, table->v[i]);
+-     table->v[i] = NULL;
+-   }
+-   table->used = 0;
+-@@ -7565,17 +7563,17 @@ static void FASTCALL
+- hashTableDestroy(HASH_TABLE *table) {
+-   size_t i;
+-   for (i = 0; i < table->size; i++)
+--    table->mem->free_fcn(table->v[i]);
+--  table->mem->free_fcn(table->v);
+-+    FREE(table->parser, table->v[i]);
+-+  FREE(table->parser, table->v);
+- }
+- 
+- static void FASTCALL
+--hashTableInit(HASH_TABLE *p, const XML_Memory_Handling_Suite *ms) {
+-+hashTableInit(HASH_TABLE *p, XML_Parser parser) {
+-   p->power = 0;
+-   p->size = 0;
+-   p->used = 0;
+-   p->v = NULL;
+--  p->mem = ms;
+-+  p->parser = parser;
+- }
+- 
+- static void FASTCALL
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-04.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-04.patch
+deleted file mode 100644
+index 78d9e2fc91b..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-04.patch
++++ /dev/null
+@@ -1,62 +0,0 @@
+-From 51487ad9d760faa4809b0f8e189d2f666317e41a Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 1 Sep 2025 17:45:50 +0200
+-Subject: [PATCH] lib: Make function copyString use macro MALLOC
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/51487ad9d760faa4809b0f8e189d2f666317e41a]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 11 +++++------
+- 1 file changed, 5 insertions(+), 6 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index a65b0265..c0576abd 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -593,8 +593,7 @@ static XML_Content *build_model(XML_Parser parser);
+- static ELEMENT_TYPE *getElementType(XML_Parser parser, const ENCODING *enc,
+-                                     const char *ptr, const char *end);
+- 
+--static XML_Char *copyString(const XML_Char *s,
+--                            const XML_Memory_Handling_Suite *memsuite);
+-+static XML_Char *copyString(const XML_Char *s, XML_Parser parser);
+- 
+- static unsigned long generate_hash_secret_salt(XML_Parser parser);
+- static XML_Bool startParsing(XML_Parser parser);
+-@@ -1231,7 +1230,7 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
+-   parser->m_processor = prologInitProcessor;
+-   XmlPrologStateInit(&parser->m_prologState);
+-   if (encodingName != NULL) {
+--    parser->m_protocolEncodingName = copyString(encodingName, &(parser->m_mem));
+-+    parser->m_protocolEncodingName = copyString(encodingName, parser);
+-   }
+-   parser->m_curBase = NULL;
+-   XmlInitEncoding(&parser->m_initEncoding, &parser->m_encoding, 0);
+-@@ -1419,7 +1418,7 @@ XML_SetEncoding(XML_Parser parser, const XML_Char *encodingName) {
+-     parser->m_protocolEncodingName = NULL;
+-   else {
+-     /* Copy the new encoding name into allocated memory */
+--    parser->m_protocolEncodingName = copyString(encodingName, &(parser->m_mem));
+-+    parser->m_protocolEncodingName = copyString(encodingName, parser);
+-     if (! parser->m_protocolEncodingName)
+-       return XML_STATUS_ERROR;
+-   }
+-@@ -8064,7 +8063,7 @@ getElementType(XML_Parser parser, const ENCODING *enc, const char *ptr,
+- }
+- 
+- static XML_Char *
+--copyString(const XML_Char *s, const XML_Memory_Handling_Suite *memsuite) {
+-+copyString(const XML_Char *s, XML_Parser parser) {
+-   size_t charsRequired = 0;
+-   XML_Char *result;
+- 
+-@@ -8076,7 +8075,7 @@ copyString(const XML_Char *s, const XML_Memory_Handling_Suite *memsuite) {
+-   charsRequired++;
+- 
+-   /* Now allocate space for the copy */
+--  result = memsuite->malloc_fcn(charsRequired * sizeof(XML_Char));
+-+  result = MALLOC(parser, charsRequired * sizeof(XML_Char));
+-   if (result == NULL)
+-     return NULL;
+-   /* Copy the original into place */
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-05.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-05.patch
+deleted file mode 100644
+index 37b882fbf49..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-05.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From b3f0bda5f5e979781469532f7c304f7e223568d5 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 1 Sep 2025 17:48:02 +0200
+-Subject: [PATCH] lib: Make function dtdReset use macro FREE
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/b3f0bda5f5e979781469532f7c304f7e223568d5]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 12 ++++++------
+- 1 file changed, 6 insertions(+), 6 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index c0576abd..65fcce30 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -557,7 +557,7 @@ static void FASTCALL normalizePublicId(XML_Char *s);
+- 
+- static DTD *dtdCreate(XML_Parser parser);
+- /* do not call if m_parentParser != NULL */
+--static void dtdReset(DTD *p, const XML_Memory_Handling_Suite *ms);
+-+static void dtdReset(DTD *p, XML_Parser parser);
+- static void dtdDestroy(DTD *p, XML_Bool isDocEntity,
+-                        const XML_Memory_Handling_Suite *ms);
+- static int dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+-@@ -1382,7 +1382,7 @@ XML_ParserReset(XML_Parser parser, const XML_Char *encodingName) {
+-   FREE(parser, (void *)parser->m_protocolEncodingName);
+-   parser->m_protocolEncodingName = NULL;
+-   parserInit(parser, encodingName);
+--  dtdReset(parser->m_dtd, &parser->m_mem);
+-+  dtdReset(parser->m_dtd, parser);
+-   return XML_TRUE;
+- }
+- 
+-@@ -7155,7 +7155,7 @@ dtdCreate(XML_Parser parser) {
+- }
+- 
+- static void
+--dtdReset(DTD *p, const XML_Memory_Handling_Suite *ms) {
+-+dtdReset(DTD *p, XML_Parser parser) {
+-   HASH_TABLE_ITER iter;
+-   hashTableIterInit(&iter, &(p->elementTypes));
+-   for (;;) {
+-@@ -7163,7 +7163,7 @@ dtdReset(DTD *p, const XML_Memory_Handling_Suite *ms) {
+-     if (! e)
+-       break;
+-     if (e->allocDefaultAtts != 0)
+--      ms->free_fcn(e->defaultAtts);
+-+      FREE(parser, e->defaultAtts);
+-   }
+-   hashTableClear(&(p->generalEntities));
+- #ifdef XML_DTD
+-@@ -7180,9 +7180,9 @@ dtdReset(DTD *p, const XML_Memory_Handling_Suite *ms) {
+- 
+-   p->in_eldecl = XML_FALSE;
+- 
+--  ms->free_fcn(p->scaffIndex);
+-+  FREE(parser, p->scaffIndex);
+-   p->scaffIndex = NULL;
+--  ms->free_fcn(p->scaffold);
+-+  FREE(parser, p->scaffold);
+-   p->scaffold = NULL;
+- 
+-   p->scaffLevel = 0;
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-06.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-06.patch
+deleted file mode 100644
+index 04f975a458f..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-06.patch
++++ /dev/null
+@@ -1,68 +0,0 @@
+-From 53a3eda0ae2e0317afd071b72b41976053d82732 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 1 Sep 2025 17:50:59 +0200
+-Subject: [PATCH] lib: Make function dtdDestroy use macro FREE
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/53a3eda0ae2e0317afd071b72b41976053d82732]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 16 +++++++---------
+- 1 file changed, 7 insertions(+), 9 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 65fcce30..e7df97da 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -558,8 +558,7 @@ static void FASTCALL normalizePublicId(XML_Char *s);
+- static DTD *dtdCreate(XML_Parser parser);
+- /* do not call if m_parentParser != NULL */
+- static void dtdReset(DTD *p, XML_Parser parser);
+--static void dtdDestroy(DTD *p, XML_Bool isDocEntity,
+--                       const XML_Memory_Handling_Suite *ms);
+-+static void dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser);
+- static int dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+-                    const XML_Memory_Handling_Suite *ms);
+- static int copyEntityTable(XML_Parser oldParser, HASH_TABLE *newTable,
+-@@ -1685,8 +1684,7 @@ XML_ParserFree(XML_Parser parser) {
+- #else
+-   if (parser->m_dtd)
+- #endif /* XML_DTD */
+--    dtdDestroy(parser->m_dtd, (XML_Bool)! parser->m_parentParser,
+--               &parser->m_mem);
+-+    dtdDestroy(parser->m_dtd, (XML_Bool)! parser->m_parentParser, parser);
+-   FREE(parser, (void *)parser->m_atts);
+- #ifdef XML_ATTR_INFO
+-   FREE(parser, (void *)parser->m_attInfo);
+-@@ -7196,7 +7194,7 @@ dtdReset(DTD *p, XML_Parser parser) {
+- }
+- 
+- static void
+--dtdDestroy(DTD *p, XML_Bool isDocEntity, const XML_Memory_Handling_Suite *ms) {
+-+dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser) {
+-   HASH_TABLE_ITER iter;
+-   hashTableIterInit(&iter, &(p->elementTypes));
+-   for (;;) {
+-@@ -7204,7 +7202,7 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, const XML_Memory_Handling_Suite *ms) {
+-     if (! e)
+-       break;
+-     if (e->allocDefaultAtts != 0)
+--      ms->free_fcn(e->defaultAtts);
+-+      FREE(parser, e->defaultAtts);
+-   }
+-   hashTableDestroy(&(p->generalEntities));
+- #ifdef XML_DTD
+-@@ -7216,10 +7214,10 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, const XML_Memory_Handling_Suite *ms) {
+-   poolDestroy(&(p->pool));
+-   poolDestroy(&(p->entityValuePool));
+-   if (isDocEntity) {
+--    ms->free_fcn(p->scaffIndex);
+--    ms->free_fcn(p->scaffold);
+-+    FREE(parser, p->scaffIndex);
+-+    FREE(parser, p->scaffold);
+-   }
+--  ms->free_fcn(p);
+-+  FREE(parser, p);
+- }
+- 
+- /* Do a deep copy of the DTD. Return 0 for out of memory, non-zero otherwise.
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-07.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-07.patch
+deleted file mode 100644
+index 7eff0009d2c..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-07.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 4e7a5d03daf672f20c73d40dc8970385c18b30d3 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 1 Sep 2025 17:52:58 +0200
+-Subject: [PATCH] lib: Make function dtdCopy use macro MALLOC
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/4e7a5d03daf672f20c73d40dc8970385c18b30d3]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index e7df97da..9f0a8b3e 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -560,7 +560,7 @@ static DTD *dtdCreate(XML_Parser parser);
+- static void dtdReset(DTD *p, XML_Parser parser);
+- static void dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser);
+- static int dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+--                   const XML_Memory_Handling_Suite *ms);
+-+                   XML_Parser parser);
+- static int copyEntityTable(XML_Parser oldParser, HASH_TABLE *newTable,
+-                            STRING_POOL *newPool, const HASH_TABLE *oldTable);
+- static NAMED *lookup(XML_Parser parser, HASH_TABLE *table, KEY name,
+-@@ -1572,7 +1572,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
+-   parser->m_prologState.inEntityValue = oldInEntityValue;
+-   if (context) {
+- #endif /* XML_DTD */
+--    if (! dtdCopy(oldParser, parser->m_dtd, oldDtd, &parser->m_mem)
+-+    if (! dtdCopy(oldParser, parser->m_dtd, oldDtd, parser)
+-         || ! setContext(parser, context)) {
+-       XML_ParserFree(parser);
+-       return NULL;
+-@@ -7225,7 +7225,7 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser) {
+- */
+- static int
+- dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+--        const XML_Memory_Handling_Suite *ms) {
+-+        XML_Parser parser) {
+-   HASH_TABLE_ITER iter;
+- 
+-   /* Copy the prefix table. */
+-@@ -7306,7 +7306,7 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+-       }
+- #endif
+-       newE->defaultAtts
+--          = ms->malloc_fcn(oldE->nDefaultAtts * sizeof(DEFAULT_ATTRIBUTE));
+-+          = MALLOC(parser, oldE->nDefaultAtts * sizeof(DEFAULT_ATTRIBUTE));
+-       if (! newE->defaultAtts) {
+-         return 0;
+-       }
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-08.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-08.patch
+deleted file mode 100644
+index deda31bebcd..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-08.patch
++++ /dev/null
+@@ -1,577 +0,0 @@
+-From cfce28e171676fe6f70d17b97ed8a59eaeb83f15 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 1 Sep 2025 17:34:58 +0200
+-Subject: [PATCH] lib: Implement tracking of dynamic memory allocations
+-
+-**PLEASE NOTE** that distributors intending to backport (or cherry-pick)
+-this fix need to copy 99% of the related pull request, not just this
+-commit, to not end up with a state that literally does both too much and
+-too little at the same time. Appending ".diff" to the pull request URL
+-could be of help.
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/cfce28e171676fe6f70d17b97ed8a59eaeb83f15]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/expat.h            |  15 +-
+- lib/internal.h         |   5 +
+- lib/libexpat.def.cmake |   3 +
+- lib/xmlparse.c         | 337 +++++++++++++++++++++++++++++++++++++++--
+- tests/basic_tests.c    |   4 +
+- tests/nsalloc_tests.c  |   5 +
+- xmlwf/xmlwf.c          |   2 +
+- xmlwf/xmlwf_helpgen.py |   2 +
+- 8 files changed, 361 insertions(+), 12 deletions(-)
+-
+-diff --git a/lib/expat.h b/lib/expat.h
+-index 610e1ddc..66a253c1 100644
+---- a/lib/expat.h
+-+++ b/lib/expat.h
+-@@ -1032,7 +1032,10 @@ enum XML_FeatureEnum {
+-   XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_DEFAULT,
+-   XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEFAULT,
+-   /* Added in Expat 2.6.0. */
+--  XML_FEATURE_GE
+-+  XML_FEATURE_GE,
+-+  /* Added in Expat 2.7.2. */
+-+  XML_FEATURE_ALLOC_TRACKER_MAXIMUM_AMPLIFICATION_DEFAULT,
+-+  XML_FEATURE_ALLOC_TRACKER_ACTIVATION_THRESHOLD_DEFAULT,
+-   /* Additional features must be added to the end of this enum. */
+- };
+- 
+-@@ -1057,6 +1060,16 @@ XML_SetBillionLaughsAttackProtectionMaximumAmplification(
+- XMLPARSEAPI(XML_Bool)
+- XML_SetBillionLaughsAttackProtectionActivationThreshold(
+-     XML_Parser parser, unsigned long long activationThresholdBytes);
+-+
+-+/* Added in Expat 2.7.2. */
+-+XMLPARSEAPI(XML_Bool)
+-+XML_SetAllocTrackerMaximumAmplification(XML_Parser parser,
+-+                                        float maximumAmplificationFactor);
+-+
+-+/* Added in Expat 2.7.2. */
+-+XMLPARSEAPI(XML_Bool)
+-+XML_SetAllocTrackerActivationThreshold(
+-+    XML_Parser parser, unsigned long long activationThresholdBytes);
+- #endif
+- 
+- /* Added in Expat 2.6.0. */
+-diff --git a/lib/internal.h b/lib/internal.h
+-index 6bde6ae6..eb67cf50 100644
+---- a/lib/internal.h
+-+++ b/lib/internal.h
+-@@ -145,6 +145,11 @@
+-   100.0f
+- #define EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEFAULT    \
+-   8388608 // 8 MiB, 2^23
+-+
+-+#define EXPAT_ALLOC_TRACKER_MAXIMUM_AMPLIFICATION_DEFAULT 100.0f
+-+#define EXPAT_ALLOC_TRACKER_ACTIVATION_THRESHOLD_DEFAULT                       \
+-+  67108864 // 64 MiB, 2^26
+-+
+- /* NOTE END */
+- 
+- #include "expat.h" // so we can use type XML_Parser below
+-diff --git a/lib/libexpat.def.cmake b/lib/libexpat.def.cmake
+-index 10ee9cd6..7a3a7ec0 100644
+---- a/lib/libexpat.def.cmake
+-+++ b/lib/libexpat.def.cmake
+-@@ -79,3 +79,6 @@ EXPORTS
+- @_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionMaximumAmplification @70
+- ; added with version 2.6.0
+-   XML_SetReparseDeferralEnabled @71
+-+; added with version 2.7.2
+-+@_EXPAT_COMMENT_DTD_OR_GE@ XML_SetAllocTrackerMaximumAmplification @72
+-+@_EXPAT_COMMENT_DTD_OR_GE@ XML_SetAllocTrackerActivationThreshold @73
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 9f0a8b3e..fcf1cfdd 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -452,6 +452,14 @@ typedef struct accounting {
+-   unsigned long long activationThresholdBytes;
+- } ACCOUNTING;
+- 
+-+typedef struct MALLOC_TRACKER {
+-+  XmlBigCount bytesAllocated;
+-+  XmlBigCount peakBytesAllocated; // updated live only for debug level >=2
+-+  unsigned long debugLevel;
+-+  float maximumAmplificationFactor; // >=1.0
+-+  XmlBigCount activationThresholdBytes;
+-+} MALLOC_TRACKER;
+-+
+- typedef struct entity_stats {
+-   unsigned int countEverOpened;
+-   unsigned int currentDepth;
+-@@ -599,7 +607,8 @@ static XML_Bool startParsing(XML_Parser parser);
+- 
+- static XML_Parser parserCreate(const XML_Char *encodingName,
+-                                const XML_Memory_Handling_Suite *memsuite,
+--                               const XML_Char *nameSep, DTD *dtd);
+-+                               const XML_Char *nameSep, DTD *dtd,
+-+                               XML_Parser parentParser);
+- 
+- static void parserInit(XML_Parser parser, const XML_Char *encodingName);
+- 
+-@@ -769,14 +778,220 @@ struct XML_ParserStruct {
+-   unsigned long m_hash_secret_salt;
+- #if XML_GE == 1
+-   ACCOUNTING m_accounting;
+-+  MALLOC_TRACKER m_alloc_tracker;
+-   ENTITY_STATS m_entity_stats;
+- #endif
+-   XML_Bool m_reenter;
+- };
+- 
+--#define MALLOC(parser, s) (parser->m_mem.malloc_fcn((s)))
+--#define REALLOC(parser, p, s) (parser->m_mem.realloc_fcn((p), (s)))
+--#define FREE(parser, p) (parser->m_mem.free_fcn((p)))
+-+#if XML_GE == 1
+-+#  define MALLOC(parser, s) (expat_malloc((parser), (s), __LINE__))
+-+#  define REALLOC(parser, p, s) (expat_realloc((parser), (p), (s), __LINE__))
+-+#  define FREE(parser, p) (expat_free((parser), (p), __LINE__))
+-+#else
+-+#  define MALLOC(parser, s) (parser->m_mem.malloc_fcn((s)))
+-+#  define REALLOC(parser, p, s) (parser->m_mem.realloc_fcn((p), (s)))
+-+#  define FREE(parser, p) (parser->m_mem.free_fcn((p)))
+-+#endif
+-+
+-+#if XML_GE == 1
+-+static void
+-+expat_heap_stat(XML_Parser rootParser, char operator, XmlBigCount absDiff,
+-+                XmlBigCount newTotal, XmlBigCount peakTotal, int sourceLine) {
+-+  // NOTE: This can be +infinity or -nan
+-+  const float amplification
+-+      = (float)newTotal / (float)rootParser->m_accounting.countBytesDirect;
+-+  fprintf(
+-+      stderr,
+-+      "expat: Allocations(%p): Direct " EXPAT_FMT_ULL("10") ", allocated %c" EXPAT_FMT_ULL(
+-+          "10") " to " EXPAT_FMT_ULL("10") " (" EXPAT_FMT_ULL("10") " peak), amplification %8.2f (xmlparse.c:%d)\n",
+-+      (void *)rootParser, rootParser->m_accounting.countBytesDirect, operator,
+-+      absDiff, newTotal, peakTotal, (double)amplification, sourceLine);
+-+}
+-+
+-+static bool
+-+expat_heap_increase_tolerable(XML_Parser rootParser, XmlBigCount increase,
+-+                              int sourceLine) {
+-+  assert(rootParser != NULL);
+-+  assert(increase > 0);
+-+
+-+  XmlBigCount newTotal = 0;
+-+  bool tolerable = true;
+-+
+-+  // Detect integer overflow
+-+  if ((XmlBigCount)-1 - rootParser->m_alloc_tracker.bytesAllocated < increase) {
+-+    tolerable = false;
+-+  } else {
+-+    newTotal = rootParser->m_alloc_tracker.bytesAllocated + increase;
+-+
+-+    if (newTotal >= rootParser->m_alloc_tracker.activationThresholdBytes) {
+-+      assert(newTotal > 0);
+-+      // NOTE: This can be +infinity when dividing by zero but not -nan
+-+      const float amplification
+-+          = (float)newTotal / (float)rootParser->m_accounting.countBytesDirect;
+-+      if (amplification
+-+          > rootParser->m_alloc_tracker.maximumAmplificationFactor) {
+-+        tolerable = false;
+-+      }
+-+    }
+-+  }
+-+
+-+  if (! tolerable && (rootParser->m_alloc_tracker.debugLevel >= 1)) {
+-+    expat_heap_stat(rootParser, '+', increase, newTotal, newTotal, sourceLine);
+-+  }
+-+
+-+  return tolerable;
+-+}
+-+
+-+static void *
+-+expat_malloc(XML_Parser parser, size_t size, int sourceLine) {
+-+  // Detect integer overflow
+-+  if (SIZE_MAX - size < sizeof(size_t)) {
+-+    return NULL;
+-+  }
+-+
+-+  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-+  assert(rootParser->m_parentParser == NULL);
+-+
+-+  const size_t bytesToAllocate = sizeof(size_t) + size;
+-+
+-+  if ((XmlBigCount)-1 - rootParser->m_alloc_tracker.bytesAllocated
+-+      < bytesToAllocate) {
+-+    return NULL; // i.e. signal integer overflow as out-of-memory
+-+  }
+-+
+-+  if (! expat_heap_increase_tolerable(rootParser, bytesToAllocate,
+-+                                      sourceLine)) {
+-+    return NULL; // i.e. signal violation as out-of-memory
+-+  }
+-+
+-+  // Actually allocate
+-+  void *const mallocedPtr = parser->m_mem.malloc_fcn(bytesToAllocate);
+-+
+-+  if (mallocedPtr == NULL) {
+-+    return NULL;
+-+  }
+-+
+-+  // Update in-block recorded size
+-+  *(size_t *)mallocedPtr = size;
+-+
+-+  // Update accounting
+-+  rootParser->m_alloc_tracker.bytesAllocated += bytesToAllocate;
+-+
+-+  // Report as needed
+-+  if (rootParser->m_alloc_tracker.debugLevel >= 2) {
+-+    if (rootParser->m_alloc_tracker.bytesAllocated
+-+        > rootParser->m_alloc_tracker.peakBytesAllocated) {
+-+      rootParser->m_alloc_tracker.peakBytesAllocated
+-+          = rootParser->m_alloc_tracker.bytesAllocated;
+-+    }
+-+    expat_heap_stat(rootParser, '+', bytesToAllocate,
+-+                    rootParser->m_alloc_tracker.bytesAllocated,
+-+                    rootParser->m_alloc_tracker.peakBytesAllocated, sourceLine);
+-+  }
+-+
+-+  return (char *)mallocedPtr + sizeof(size_t);
+-+}
+-+
+-+static void
+-+expat_free(XML_Parser parser, void *ptr, int sourceLine) {
+-+  assert(parser != NULL);
+-+
+-+  if (ptr == NULL) {
+-+    return;
+-+  }
+-+
+-+  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-+  assert(rootParser->m_parentParser == NULL);
+-+
+-+  // Extract size (to the eyes of malloc_fcn/realloc_fcn) and
+-+  // the original pointer returned by malloc/realloc
+-+  void *const mallocedPtr = (char *)ptr - sizeof(size_t);
+-+  const size_t bytesAllocated = sizeof(size_t) + *(size_t *)mallocedPtr;
+-+
+-+  // Update accounting
+-+  assert(rootParser->m_alloc_tracker.bytesAllocated >= bytesAllocated);
+-+  rootParser->m_alloc_tracker.bytesAllocated -= bytesAllocated;
+-+
+-+  // Report as needed
+-+  if (rootParser->m_alloc_tracker.debugLevel >= 2) {
+-+    expat_heap_stat(rootParser, '-', bytesAllocated,
+-+                    rootParser->m_alloc_tracker.bytesAllocated,
+-+                    rootParser->m_alloc_tracker.peakBytesAllocated, sourceLine);
+-+  }
+-+
+-+  // NOTE: This may be freeing rootParser, so freeing has to come last
+-+  parser->m_mem.free_fcn(mallocedPtr);
+-+}
+-+
+-+static void *
+-+expat_realloc(XML_Parser parser, void *ptr, size_t size, int sourceLine) {
+-+  assert(parser != NULL);
+-+
+-+  if (ptr == NULL) {
+-+    return expat_malloc(parser, size, sourceLine);
+-+  }
+-+
+-+  if (size == 0) {
+-+    expat_free(parser, ptr, sourceLine);
+-+    return NULL;
+-+  }
+-+
+-+  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-+  assert(rootParser->m_parentParser == NULL);
+-+
+-+  // Extract original size (to the eyes of the caller) and the original
+-+  // pointer returned by malloc/realloc
+-+  void *mallocedPtr = (char *)ptr - sizeof(size_t);
+-+  const size_t prevSize = *(size_t *)mallocedPtr;
+-+
+-+  // Classify upcoming change
+-+  const bool isIncrease = (size > prevSize);
+-+  const size_t absDiff
+-+      = (size > prevSize) ? (size - prevSize) : (prevSize - size);
+-+
+-+  // Ask for permission from accounting
+-+  if (isIncrease) {
+-+    if (! expat_heap_increase_tolerable(rootParser, absDiff, sourceLine)) {
+-+      return NULL; // i.e. signal violation as out-of-memory
+-+    }
+-+  }
+-+
+-+  // Actually allocate
+-+  mallocedPtr = parser->m_mem.realloc_fcn(mallocedPtr, sizeof(size_t) + size);
+-+
+-+  if (mallocedPtr == NULL) {
+-+    return NULL;
+-+  }
+-+
+-+  // Update accounting
+-+  if (isIncrease) {
+-+    assert((XmlBigCount)-1 - rootParser->m_alloc_tracker.bytesAllocated
+-+           >= absDiff);
+-+    rootParser->m_alloc_tracker.bytesAllocated += absDiff;
+-+  } else { // i.e. decrease
+-+    assert(rootParser->m_alloc_tracker.bytesAllocated >= absDiff);
+-+    rootParser->m_alloc_tracker.bytesAllocated -= absDiff;
+-+  }
+-+
+-+  // Report as needed
+-+  if (rootParser->m_alloc_tracker.debugLevel >= 2) {
+-+    if (rootParser->m_alloc_tracker.bytesAllocated
+-+        > rootParser->m_alloc_tracker.peakBytesAllocated) {
+-+      rootParser->m_alloc_tracker.peakBytesAllocated
+-+          = rootParser->m_alloc_tracker.bytesAllocated;
+-+    }
+-+    expat_heap_stat(rootParser, isIncrease ? '+' : '-', absDiff,
+-+                    rootParser->m_alloc_tracker.bytesAllocated,
+-+                    rootParser->m_alloc_tracker.peakBytesAllocated, sourceLine);
+-+  }
+-+
+-+  // Update in-block recorded size
+-+  *(size_t *)mallocedPtr = size;
+-+
+-+  return (char *)mallocedPtr + sizeof(size_t);
+-+}
+-+#endif // XML_GE == 1
+- 
+- XML_Parser XMLCALL
+- XML_ParserCreate(const XML_Char *encodingName) {
+-@@ -1096,19 +1311,40 @@ XML_Parser XMLCALL
+- XML_ParserCreate_MM(const XML_Char *encodingName,
+-                     const XML_Memory_Handling_Suite *memsuite,
+-                     const XML_Char *nameSep) {
+--  return parserCreate(encodingName, memsuite, nameSep, NULL);
+-+  return parserCreate(encodingName, memsuite, nameSep, NULL, NULL);
+- }
+- 
+- static XML_Parser
+- parserCreate(const XML_Char *encodingName,
+-              const XML_Memory_Handling_Suite *memsuite, const XML_Char *nameSep,
+--             DTD *dtd) {
+--  XML_Parser parser;
+-+             DTD *dtd, XML_Parser parentParser) {
+-+  XML_Parser parser = NULL;
+-+
+-+#if XML_GE == 1
+-+  const size_t increase = sizeof(size_t) + sizeof(struct XML_ParserStruct);
+-+
+-+  if (parentParser != NULL) {
+-+    const XML_Parser rootParser = getRootParserOf(parentParser, NULL);
+-+    if (! expat_heap_increase_tolerable(rootParser, increase, __LINE__)) {
+-+      return NULL;
+-+    }
+-+  }
+-+#else
+-+  UNUSED_P(parentParser);
+-+#endif
+- 
+-   if (memsuite) {
+-     XML_Memory_Handling_Suite *mtemp;
+-+#if XML_GE == 1
+-+    void *const sizeAndParser = memsuite->malloc_fcn(
+-+        sizeof(size_t) + sizeof(struct XML_ParserStruct));
+-+    if (sizeAndParser != NULL) {
+-+      *(size_t *)sizeAndParser = sizeof(struct XML_ParserStruct);
+-+      parser = (XML_Parser)((char *)sizeAndParser + sizeof(size_t));
+-+#else
+-     parser = memsuite->malloc_fcn(sizeof(struct XML_ParserStruct));
+-     if (parser != NULL) {
+-+#endif
+-       mtemp = (XML_Memory_Handling_Suite *)&(parser->m_mem);
+-       mtemp->malloc_fcn = memsuite->malloc_fcn;
+-       mtemp->realloc_fcn = memsuite->realloc_fcn;
+-@@ -1116,18 +1352,67 @@ parserCreate(const XML_Char *encodingName,
+-     }
+-   } else {
+-     XML_Memory_Handling_Suite *mtemp;
+-+#if XML_GE == 1
+-+    void *const sizeAndParser
+-+        = (XML_Parser)malloc(sizeof(size_t) + sizeof(struct XML_ParserStruct));
+-+    if (sizeAndParser != NULL) {
+-+      *(size_t *)sizeAndParser = sizeof(struct XML_ParserStruct);
+-+      parser = (XML_Parser)((char *)sizeAndParser + sizeof(size_t));
+-+#else
+-     parser = (XML_Parser)malloc(sizeof(struct XML_ParserStruct));
+-     if (parser != NULL) {
+-+#endif
+-       mtemp = (XML_Memory_Handling_Suite *)&(parser->m_mem);
+-       mtemp->malloc_fcn = malloc;
+-       mtemp->realloc_fcn = realloc;
+-       mtemp->free_fcn = free;
+-     }
+--  }
+-+  } // cppcheck-suppress[memleak symbolName=sizeAndParser] // Cppcheck >=2.18.0
+- 
+-   if (! parser)
+-     return parser;
+- 
+-+#if XML_GE == 1
+-+  // Initialize .m_alloc_tracker
+-+  memset(&parser->m_alloc_tracker, 0, sizeof(MALLOC_TRACKER));
+-+  if (parentParser == NULL) {
+-+    parser->m_alloc_tracker.debugLevel
+-+        = getDebugLevel("EXPAT_MALLOC_DEBUG", 0u);
+-+    parser->m_alloc_tracker.maximumAmplificationFactor
+-+        = EXPAT_ALLOC_TRACKER_MAXIMUM_AMPLIFICATION_DEFAULT;
+-+    parser->m_alloc_tracker.activationThresholdBytes
+-+        = EXPAT_ALLOC_TRACKER_ACTIVATION_THRESHOLD_DEFAULT;
+-+
+-+    // NOTE: This initialization needs to come this early because these fields
+-+    //       are read by allocation tracking code
+-+    parser->m_parentParser = NULL;
+-+    parser->m_accounting.countBytesDirect = 0;
+-+  } else {
+-+    parser->m_parentParser = parentParser;
+-+  }
+-+
+-+  // Record XML_ParserStruct allocation we did a few lines up before
+-+  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-+  assert(rootParser->m_parentParser == NULL);
+-+  assert(SIZE_MAX - rootParser->m_alloc_tracker.bytesAllocated >= increase);
+-+  rootParser->m_alloc_tracker.bytesAllocated += increase;
+-+
+-+  // Report on allocation
+-+  if (rootParser->m_alloc_tracker.debugLevel >= 2) {
+-+    if (rootParser->m_alloc_tracker.bytesAllocated
+-+        > rootParser->m_alloc_tracker.peakBytesAllocated) {
+-+      rootParser->m_alloc_tracker.peakBytesAllocated
+-+          = rootParser->m_alloc_tracker.bytesAllocated;
+-+    }
+-+
+-+    expat_heap_stat(rootParser, '+', increase,
+-+                    rootParser->m_alloc_tracker.bytesAllocated,
+-+                    rootParser->m_alloc_tracker.peakBytesAllocated, __LINE__);
+-+  }
+-+#else
+-+  parser->m_parentParser = NULL;
+-+#endif // XML_GE == 1
+-+
+-   parser->m_buffer = NULL;
+-   parser->m_bufferLim = NULL;
+- 
+-@@ -1291,7 +1576,6 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
+-   parser->m_unknownEncodingMem = NULL;
+-   parser->m_unknownEncodingRelease = NULL;
+-   parser->m_unknownEncodingData = NULL;
+--  parser->m_parentParser = NULL;
+-   parser->m_parsingStatus.parsing = XML_INITIALIZED;
+-   // Reentry can only be triggered inside m_processor calls
+-   parser->m_reenter = XML_FALSE;
+-@@ -1526,9 +1810,10 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
+-   */
+-   if (parser->m_ns) {
+-     XML_Char tmp[2] = {parser->m_namespaceSeparator, 0};
+--    parser = parserCreate(encodingName, &parser->m_mem, tmp, newDtd);
+-+    parser = parserCreate(encodingName, &parser->m_mem, tmp, newDtd, oldParser);
+-   } else {
+--    parser = parserCreate(encodingName, &parser->m_mem, NULL, newDtd);
+-+    parser
+-+        = parserCreate(encodingName, &parser->m_mem, NULL, newDtd, oldParser);
+-   }
+- 
+-   if (! parser)
+-@@ -2708,6 +2993,13 @@ XML_GetFeatureList(void) {
+-        EXPAT_BILLION_LAUGHS_ATTACK_PROTECTION_ACTIVATION_THRESHOLD_DEFAULT},
+-       /* Added in Expat 2.6.0. */
+-       {XML_FEATURE_GE, XML_L("XML_GE"), 0},
+-+      /* Added in Expat 2.7.2. */
+-+      {XML_FEATURE_ALLOC_TRACKER_MAXIMUM_AMPLIFICATION_DEFAULT,
+-+       XML_L("XML_AT_MAX_AMP"),
+-+       (long int)EXPAT_ALLOC_TRACKER_MAXIMUM_AMPLIFICATION_DEFAULT},
+-+      {XML_FEATURE_ALLOC_TRACKER_ACTIVATION_THRESHOLD_DEFAULT,
+-+       XML_L("XML_AT_ACT_THRES"),
+-+       (long int)EXPAT_ALLOC_TRACKER_ACTIVATION_THRESHOLD_DEFAULT},
+- #endif
+-       {XML_FEATURE_END, NULL, 0}};
+- 
+-@@ -2736,6 +3028,29 @@ XML_SetBillionLaughsAttackProtectionActivationThreshold(
+-   parser->m_accounting.activationThresholdBytes = activationThresholdBytes;
+-   return XML_TRUE;
+- }
+-+
+-+XML_Bool XMLCALL
+-+XML_SetAllocTrackerMaximumAmplification(XML_Parser parser,
+-+                                        float maximumAmplificationFactor) {
+-+  if ((parser == NULL) || (parser->m_parentParser != NULL)
+-+      || isnan(maximumAmplificationFactor)
+-+      || (maximumAmplificationFactor < 1.0f)) {
+-+    return XML_FALSE;
+-+  }
+-+  parser->m_alloc_tracker.maximumAmplificationFactor
+-+      = maximumAmplificationFactor;
+-+  return XML_TRUE;
+-+}
+-+
+-+XML_Bool XMLCALL
+-+XML_SetAllocTrackerActivationThreshold(
+-+    XML_Parser parser, unsigned long long activationThresholdBytes) {
+-+  if ((parser == NULL) || (parser->m_parentParser != NULL)) {
+-+    return XML_FALSE;
+-+  }
+-+  parser->m_alloc_tracker.activationThresholdBytes = activationThresholdBytes;
+-+  return XML_TRUE;
+-+}
+- #endif /* XML_GE == 1 */
+- 
+- XML_Bool XMLCALL
+-diff --git a/tests/basic_tests.c b/tests/basic_tests.c
+-index 129db1d8..0231e094 100644
+---- a/tests/basic_tests.c
+-+++ b/tests/basic_tests.c
+-@@ -3089,6 +3089,10 @@ START_TEST(test_buffer_can_grow_to_max) {
+-   for (int i = 0; i < num_prefixes; ++i) {
+-     set_subtest("\"%s\"", prefixes[i]);
+-     XML_Parser parser = XML_ParserCreate(NULL);
+-+#if XML_GE == 1
+-+    assert_true(XML_SetAllocTrackerActivationThreshold(parser, (size_t)-1)
+-+                == XML_TRUE); // i.e. deactivate
+-+#endif
+-     const int prefix_len = (int)strlen(prefixes[i]);
+-     const enum XML_Status s
+-         = _XML_Parse_SINGLE_BYTES(parser, prefixes[i], prefix_len, XML_FALSE);
+-diff --git a/tests/nsalloc_tests.c b/tests/nsalloc_tests.c
+-index 48520f42..0a594e14 100644
+---- a/tests/nsalloc_tests.c
+-+++ b/tests/nsalloc_tests.c
+-@@ -454,10 +454,15 @@ START_TEST(test_nsalloc_realloc_attributes) {
+-     nsalloc_teardown();
+-     nsalloc_setup();
+-   }
+-+#if XML_GE == 1
+-+  assert_true(
+-+      i == 0); // because expat_realloc relies on expat_malloc to some extent
+-+#else
+-   if (i == 0)
+-     fail("Parsing worked despite failing reallocations");
+-   else if (i == max_realloc_count)
+-     fail("Parsing failed at max reallocation count");
+-+#endif
+- }
+- END_TEST
+- 
+-diff --git a/xmlwf/xmlwf.c b/xmlwf/xmlwf.c
+-index 8cfc73ca..b9d0a7fc 100644
+---- a/xmlwf/xmlwf.c
+-+++ b/xmlwf/xmlwf.c
+-@@ -933,6 +933,8 @@ usage(const XML_Char *prog, int rc) {
+-       T("                 Control verbosity of entity debugging (default: 0)\n")
+-       T("  EXPAT_ENTROPY_DEBUG=(0|1)\n")
+-       T("                 Control verbosity of entropy debugging (default: 0)\n")
+-+      T("  EXPAT_MALLOC_DEBUG=(0|1|2)\n")
+-+      T("                 Control verbosity of allocation tracker (default: 0)\n")
+-       T("\n")
+-       T("exit status:\n")
+-       T("  0              the input files are well-formed and the output (if requested) was written successfully\n")
+-diff --git a/xmlwf/xmlwf_helpgen.py b/xmlwf/xmlwf_helpgen.py
+-index 39a3dc13..2360820d 100755
+---- a/xmlwf/xmlwf_helpgen.py
+-+++ b/xmlwf/xmlwf_helpgen.py
+-@@ -39,6 +39,8 @@ environment variables:
+-                  Control verbosity of entity debugging (default: 0)
+-   EXPAT_ENTROPY_DEBUG=(0|1)
+-                  Control verbosity of entropy debugging (default: 0)
+-+  EXPAT_MALLOC_DEBUG=(0|1|2)
+-+                 Control verbosity of allocation tracker (default: 0)
+- 
+- exit status:
+-   0              the input files are well-formed and the output (if requested) was written successfully
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-09.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-09.patch
+deleted file mode 100644
+index 364c28183ac..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-09.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 1270e5bc0836d296ac4970fc9e1cf53d83972083 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 7 Sep 2025 12:18:08 +0200
+-Subject: [PATCH] lib: Make XML_MemFree and XML_FreeContentModel match their
+- siblings
+-
+-.. XML_MemMalloc and XML_MemRealloc in structure, prior to upcoming changes
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/1270e5bc0836d296ac4970fc9e1cf53d83972083]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 10 ++++++----
+- 1 file changed, 6 insertions(+), 4 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index fcf1cfdd..5d27cd45 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -2772,8 +2772,9 @@ XML_GetCurrentColumnNumber(XML_Parser parser) {
+- 
+- void XMLCALL
+- XML_FreeContentModel(XML_Parser parser, XML_Content *model) {
+--  if (parser != NULL)
+--    FREE(parser, model);
+-+  if (parser == NULL)
+-+    return;
+-+  FREE(parser, model);
+- }
+- 
+- void *XMLCALL
+-@@ -2792,8 +2793,9 @@ XML_MemRealloc(XML_Parser parser, void *ptr, size_t size) {
+- 
+- void XMLCALL
+- XML_MemFree(XML_Parser parser, void *ptr) {
+--  if (parser != NULL)
+--    FREE(parser, ptr);
+-+  if (parser == NULL)
+-+    return;
+-+  FREE(parser, ptr);
+- }
+- 
+- void XMLCALL
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-10.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-10.patch
+deleted file mode 100644
+index fe5452000e1..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-10.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-From 96c7467281c72028aada525c1d3822512758b266 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 7 Sep 2025 12:06:43 +0200
+-Subject: [PATCH] lib: Exclude XML_Mem* functions from allocation tracking
+-
+-.. so that allocations by the user application
+-are not being limited.
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/96c7467281c72028aada525c1d3822512758b266]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 16 +++++++++++++---
+- 1 file changed, 13 insertions(+), 3 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 5d27cd45..8145a049 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -2781,21 +2781,31 @@ void *XMLCALL
+- XML_MemMalloc(XML_Parser parser, size_t size) {
+-   if (parser == NULL)
+-     return NULL;
+--  return MALLOC(parser, size);
+-+
+-+  // NOTE: We are avoiding MALLOC(..) here to not include
+-+  //       user allocations with allocation tracking and limiting.
+-+  return parser->m_mem.malloc_fcn(size);
+- }
+- 
+- void *XMLCALL
+- XML_MemRealloc(XML_Parser parser, void *ptr, size_t size) {
+-   if (parser == NULL)
+-     return NULL;
+--  return REALLOC(parser, ptr, size);
+-+
+-+  // NOTE: We are avoiding REALLOC(..) here to not include
+-+  //       user allocations with allocation tracking and limiting.
+-+  return parser->m_mem.realloc_fcn(ptr, size);
+- }
+- 
+- void XMLCALL
+- XML_MemFree(XML_Parser parser, void *ptr) {
+-   if (parser == NULL)
+-     return;
+--  FREE(parser, ptr);
+-+
+-+  // NOTE: We are avoiding FREE(..) here because XML_MemMalloc and
+-+  //       XML_MemRealloc are not using MALLOC(..) and REALLOC(..)
+-+  //       but plain .malloc_fcn(..) and .realloc_fcn(..), internally.
+-+  parser->m_mem.free_fcn(ptr);
+- }
+- 
+- void XMLCALL
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-11.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-11.patch
+deleted file mode 100644
+index be892a78046..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-11.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-From ae4086198d710a62a0a1560007b81307dba72909 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Tue, 9 Sep 2025 21:34:28 +0200
+-Subject: [PATCH] lib: Exclude the main input buffer from allocation tracking
+-
+-.. so that control of the input buffer size remains with the
+-application using Expat
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/ae4086198d710a62a0a1560007b81307dba72909]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 19 +++++++++++++++----
+- 1 file changed, 15 insertions(+), 4 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 8145a049..00139b94 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -1975,7 +1975,10 @@ XML_ParserFree(XML_Parser parser) {
+-   FREE(parser, (void *)parser->m_attInfo);
+- #endif
+-   FREE(parser, parser->m_groupConnector);
+--  FREE(parser, parser->m_buffer);
+-+  // NOTE: We are avoiding FREE(..) here because parser->m_buffer
+-+  //       is not being allocated with MALLOC(..) but with plain
+-+  //       .malloc_fcn(..).
+-+  parser->m_mem.free_fcn(parser->m_buffer);
+-   FREE(parser, parser->m_dataBuf);
+-   FREE(parser, parser->m_nsAtts);
+-   FREE(parser, parser->m_unknownEncodingMem);
+-@@ -2567,7 +2570,9 @@ XML_GetBuffer(XML_Parser parser, int len) {
+-         parser->m_errorCode = XML_ERROR_NO_MEMORY;
+-         return NULL;
+-       }
+--      newBuf = (char *)MALLOC(parser, bufferSize);
+-+      // NOTE: We are avoiding MALLOC(..) here to leave limiting
+-+      //       the input size to the application using Expat.
+-+      newBuf = (char *)parser->m_mem.malloc_fcn(bufferSize);
+-       if (newBuf == 0) {
+-         parser->m_errorCode = XML_ERROR_NO_MEMORY;
+-         return NULL;
+-@@ -2578,7 +2583,10 @@ XML_GetBuffer(XML_Parser parser, int len) {
+-         memcpy(newBuf, &parser->m_bufferPtr[-keep],
+-                EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_bufferPtr)
+-                    + keep);
+--        FREE(parser, parser->m_buffer);
+-+        // NOTE: We are avoiding FREE(..) here because parser->m_buffer
+-+        //       is not being allocated with MALLOC(..) but with plain
+-+        //       .malloc_fcn(..).
+-+        parser->m_mem.free_fcn(parser->m_buffer);
+-         parser->m_buffer = newBuf;
+-         parser->m_bufferEnd
+-             = parser->m_buffer
+-@@ -2594,7 +2602,10 @@ XML_GetBuffer(XML_Parser parser, int len) {
+-       if (parser->m_bufferPtr) {
+-         memcpy(newBuf, parser->m_bufferPtr,
+-                EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_bufferPtr));
+--        FREE(parser, parser->m_buffer);
+-+        // NOTE: We are avoiding FREE(..) here because parser->m_buffer
+-+        //       is not being allocated with MALLOC(..) but with plain
+-+        //       .malloc_fcn(..).
+-+        parser->m_mem.free_fcn(parser->m_buffer);
+-         parser->m_bufferEnd
+-             = newBuf
+-               + EXPAT_SAFE_PTR_DIFF(parser->m_bufferEnd, parser->m_bufferPtr);
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-12.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-12.patch
+deleted file mode 100644
+index 9e036a52849..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-12.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 7e35240dc97e9fd4f609e31f27c27b659535e436 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Thu, 11 Sep 2025 00:27:05 +0200
+-Subject: [PATCH] lib: Exclude the content model from allocation tracking
+-
+-.. so that applications that are not using XML_FreeContentModel
+-but plain free(..) or .free_fcn() to free the content model's
+-memory are safe
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/7e35240dc97e9fd4f609e31f27c27b659535e436]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 16 +++++++++++++---
+- 1 file changed, 13 insertions(+), 3 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 00139b94..d0b6e0cd 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -2785,7 +2785,10 @@ void XMLCALL
+- XML_FreeContentModel(XML_Parser parser, XML_Content *model) {
+-   if (parser == NULL)
+-     return;
+--  FREE(parser, model);
+-+
+-+  // NOTE: We are avoiding FREE(..) here because the content model
+-+  //       has been created using plain .malloc_fcn(..) rather than MALLOC(..).
+-+  parser->m_mem.free_fcn(model);
+- }
+- 
+- void *XMLCALL
+-@@ -6063,8 +6066,12 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-     case XML_ROLE_CONTENT_EMPTY:
+-       if (dtd->in_eldecl) {
+-         if (parser->m_elementDeclHandler) {
+-+          // NOTE: We are avoiding MALLOC(..) here to so that
+-+          //       applications that are not using XML_FreeContentModel but
+-+          //       plain free(..) or .free_fcn() to free the content model's
+-+          //       memory are safe.
+-           XML_Content *content
+--              = (XML_Content *)MALLOC(parser, sizeof(XML_Content));
+-+              = (XML_Content *)parser->m_mem.malloc_fcn(sizeof(XML_Content));
+-           if (! content)
+-             return XML_ERROR_NO_MEMORY;
+-           content->quant = XML_CQUANT_NONE;
+-@@ -8278,7 +8285,10 @@ build_model(XML_Parser parser) {
+-   const size_t allocsize = (dtd->scaffCount * sizeof(XML_Content)
+-                             + (dtd->contentStringLen * sizeof(XML_Char)));
+- 
+--  ret = (XML_Content *)MALLOC(parser, allocsize);
+-+  // NOTE: We are avoiding MALLOC(..) here to so that
+-+  //       applications that are not using XML_FreeContentModel but plain
+-+  //       free(..) or .free_fcn() to free the content model's memory are safe.
+-+  ret = (XML_Content *)parser->m_mem.malloc_fcn(allocsize);
+-   if (! ret)
+-     return NULL;
+- 
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-13.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-13.patch
+deleted file mode 100644
+index 209dd83a4b6..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-13.patch
++++ /dev/null
+@@ -1,309 +0,0 @@
+-From 31f9053c3c46741f4daf2ea2bdea75f40f720d42 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Tue, 2 Sep 2025 22:36:49 +0200
+-Subject: [PATCH] tests: Cover allocation tracking and limiting with tests
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/31f9053c3c46741f4daf2ea2bdea75f40f720d42]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/internal.h      |   3 +
+- lib/xmlparse.c      |  12 +++
+- tests/alloc_tests.c | 214 ++++++++++++++++++++++++++++++++++++++++++++
+- 3 files changed, 229 insertions(+)
+-
+-diff --git a/lib/internal.h b/lib/internal.h
+-index eb67cf50..6e087858 100644
+---- a/lib/internal.h
+-+++ b/lib/internal.h
+-@@ -173,6 +173,9 @@ extern
+- #endif
+-     XML_Bool g_reparseDeferralEnabledDefault; // written ONLY in runtests.c
+- #if defined(XML_TESTING)
+-+void *expat_malloc(XML_Parser parser, size_t size, int sourceLine);
+-+void expat_free(XML_Parser parser, void *ptr, int sourceLine);
+-+void *expat_realloc(XML_Parser parser, void *ptr, size_t size, int sourceLine);
+- extern unsigned int g_bytesScanned; // used for testing only
+- #endif
+- 
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index d0b6e0cd..6e9c6fb2 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -843,7 +843,11 @@ expat_heap_increase_tolerable(XML_Parser rootParser, XmlBigCount increase,
+-   return tolerable;
+- }
+- 
+-+#  if defined(XML_TESTING)
+-+void *
+-+#  else
+- static void *
+-+#  endif
+- expat_malloc(XML_Parser parser, size_t size, int sourceLine) {
+-   // Detect integer overflow
+-   if (SIZE_MAX - size < sizeof(size_t)) {
+-@@ -893,7 +897,11 @@ expat_malloc(XML_Parser parser, size_t size, int sourceLine) {
+-   return (char *)mallocedPtr + sizeof(size_t);
+- }
+- 
+-+#  if defined(XML_TESTING)
+-+void
+-+#  else
+- static void
+-+#  endif
+- expat_free(XML_Parser parser, void *ptr, int sourceLine) {
+-   assert(parser != NULL);
+- 
+-@@ -924,7 +932,11 @@ expat_free(XML_Parser parser, void *ptr, int sourceLine) {
+-   parser->m_mem.free_fcn(mallocedPtr);
+- }
+- 
+-+#  if defined(XML_TESTING)
+-+void *
+-+#  else
+- static void *
+-+#  endif
+- expat_realloc(XML_Parser parser, void *ptr, size_t size, int sourceLine) {
+-   assert(parser != NULL);
+- 
+-diff --git a/tests/alloc_tests.c b/tests/alloc_tests.c
+-index 4c3e2af4..275f92d5 100644
+---- a/tests/alloc_tests.c
+-+++ b/tests/alloc_tests.c
+-@@ -46,10 +46,16 @@
+- #  undef NDEBUG /* because test suite relies on assert(...) at the moment */
+- #endif
+- 
+-+#include <math.h> /* NAN, INFINITY */
+-+#include <stdbool.h>
+-+#include <stdint.h> /* for SIZE_MAX */
+- #include <string.h>
+- #include <assert.h>
+- 
+-+#include "expat_config.h"
+-+
+- #include "expat.h"
+-+#include "internal.h"
+- #include "common.h"
+- #include "minicheck.h"
+- #include "dummy.h"
+-@@ -2085,6 +2091,203 @@ START_TEST(test_alloc_reset_after_external_entity_parser_create_fail) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_alloc_tracker_size_recorded) {
+-+  XML_Memory_Handling_Suite memsuite = {malloc, realloc, free};
+-+
+-+  bool values[] = {true, false};
+-+  for (size_t i = 0; i < sizeof(values) / sizeof(values[0]); i++) {
+-+    const bool useMemSuite = values[i];
+-+    set_subtest("useMemSuite=%d", (int)useMemSuite);
+-+    XML_Parser parser = useMemSuite
+-+                            ? XML_ParserCreate_MM(NULL, &memsuite, XCS("|"))
+-+                            : XML_ParserCreate(NULL);
+-+
+-+#if XML_GE == 1
+-+    void *ptr = expat_malloc(parser, 10, -1);
+-+
+-+    assert_true(ptr != NULL);
+-+    assert_true(*((size_t *)ptr - 1) == 10);
+-+
+-+    assert_true(expat_realloc(parser, ptr, SIZE_MAX / 2, -1) == NULL);
+-+
+-+    assert_true(*((size_t *)ptr - 1) == 10); // i.e. unchanged
+-+
+-+    ptr = expat_realloc(parser, ptr, 20, -1);
+-+
+-+    assert_true(ptr != NULL);
+-+    assert_true(*((size_t *)ptr - 1) == 20);
+-+
+-+    expat_free(parser, ptr, -1);
+-+#endif
+-+
+-+    XML_ParserFree(parser);
+-+  }
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_alloc_tracker_maximum_amplification) {
+-+  if (g_reparseDeferralEnabledDefault == XML_TRUE) {
+-+    return;
+-+  }
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+  // Get .m_accounting.countBytesDirect from 0 to 3
+-+  const char *const chunk = "<e>";
+-+  assert_true(_XML_Parse_SINGLE_BYTES(parser, chunk, (int)strlen(chunk),
+-+                                      /*isFinal=*/XML_FALSE)
+-+              == XML_STATUS_OK);
+-+
+-+#if XML_GE == 1
+-+  // Stop activation threshold from interfering
+-+  assert_true(XML_SetAllocTrackerActivationThreshold(parser, 0) == XML_TRUE);
+-+
+-+  // Exceed maximum amplification: should be rejected.
+-+  assert_true(expat_malloc(parser, 1000, -1) == NULL);
+-+
+-+  // Increase maximum amplification, and try the same amount once more: should
+-+  // work.
+-+  assert_true(XML_SetAllocTrackerMaximumAmplification(parser, 3000.0f)
+-+              == XML_TRUE);
+-+
+-+  void *const ptr = expat_malloc(parser, 1000, -1);
+-+  assert_true(ptr != NULL);
+-+  expat_free(parser, ptr, -1);
+-+#endif
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_alloc_tracker_threshold) {
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+#if XML_GE == 1
+-+  // Exceed maximum amplification *before* (default) threshold: should work.
+-+  void *const ptr = expat_malloc(parser, 1000, -1);
+-+  assert_true(ptr != NULL);
+-+  expat_free(parser, ptr, -1);
+-+
+-+  // Exceed maximum amplification *after* threshold: should be rejected.
+-+  assert_true(XML_SetAllocTrackerActivationThreshold(parser, 999) == XML_TRUE);
+-+  assert_true(expat_malloc(parser, 1000, -1) == NULL);
+-+#endif
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_alloc_tracker_getbuffer_unlimited) {
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+#if XML_GE == 1
+-+  // Artificially lower threshold
+-+  assert_true(XML_SetAllocTrackerActivationThreshold(parser, 0) == XML_TRUE);
+-+
+-+  // Self-test: Prove that threshold is as rejecting as expected
+-+  assert_true(expat_malloc(parser, 1000, -1) == NULL);
+-+#endif
+-+  // XML_GetBuffer should be allowed to pass, though
+-+  assert_true(XML_GetBuffer(parser, 1000) != NULL);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_alloc_tracker_api) {
+-+  XML_Parser parserWithoutParent = XML_ParserCreate(NULL);
+-+  XML_Parser parserWithParent = XML_ExternalEntityParserCreate(
+-+      parserWithoutParent, XCS("entity123"), NULL);
+-+  if (parserWithoutParent == NULL)
+-+    fail("parserWithoutParent is NULL");
+-+  if (parserWithParent == NULL)
+-+    fail("parserWithParent is NULL");
+-+
+-+#if XML_GE == 1
+-+  // XML_SetAllocTrackerMaximumAmplification, error cases
+-+  if (XML_SetAllocTrackerMaximumAmplification(NULL, 123.0f) == XML_TRUE)
+-+    fail("Call with NULL parser is NOT supposed to succeed");
+-+  if (XML_SetAllocTrackerMaximumAmplification(parserWithParent, 123.0f)
+-+      == XML_TRUE)
+-+    fail("Call with non-root parser is NOT supposed to succeed");
+-+  if (XML_SetAllocTrackerMaximumAmplification(parserWithoutParent, NAN)
+-+      == XML_TRUE)
+-+    fail("Call with NaN limit is NOT supposed to succeed");
+-+  if (XML_SetAllocTrackerMaximumAmplification(parserWithoutParent, -1.0f)
+-+      == XML_TRUE)
+-+    fail("Call with negative limit is NOT supposed to succeed");
+-+  if (XML_SetAllocTrackerMaximumAmplification(parserWithoutParent, 0.9f)
+-+      == XML_TRUE)
+-+    fail("Call with positive limit <1.0 is NOT supposed to succeed");
+-+
+-+  // XML_SetAllocTrackerMaximumAmplification, success cases
+-+  if (XML_SetAllocTrackerMaximumAmplification(parserWithoutParent, 1.0f)
+-+      == XML_FALSE)
+-+    fail("Call with positive limit >=1.0 is supposed to succeed");
+-+  if (XML_SetAllocTrackerMaximumAmplification(parserWithoutParent, 123456.789f)
+-+      == XML_FALSE)
+-+    fail("Call with positive limit >=1.0 is supposed to succeed");
+-+  if (XML_SetAllocTrackerMaximumAmplification(parserWithoutParent, INFINITY)
+-+      == XML_FALSE)
+-+    fail("Call with positive limit >=1.0 is supposed to succeed");
+-+
+-+  // XML_SetAllocTrackerActivationThreshold, error cases
+-+  if (XML_SetAllocTrackerActivationThreshold(NULL, 123) == XML_TRUE)
+-+    fail("Call with NULL parser is NOT supposed to succeed");
+-+  if (XML_SetAllocTrackerActivationThreshold(parserWithParent, 123) == XML_TRUE)
+-+    fail("Call with non-root parser is NOT supposed to succeed");
+-+
+-+  // XML_SetAllocTrackerActivationThreshold, success cases
+-+  if (XML_SetAllocTrackerActivationThreshold(parserWithoutParent, 123)
+-+      == XML_FALSE)
+-+    fail("Call with non-NULL parentless parser is supposed to succeed");
+-+#endif // XML_GE == 1
+-+
+-+  XML_ParserFree(parserWithParent);
+-+  XML_ParserFree(parserWithoutParent);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_mem_api_cycle) {
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+  void *ptr = XML_MemMalloc(parser, 10);
+-+
+-+  assert_true(ptr != NULL);
+-+  memset(ptr, 'x', 10); // assert writability, with ASan in mind
+-+
+-+  ptr = XML_MemRealloc(parser, ptr, 20);
+-+
+-+  assert_true(ptr != NULL);
+-+  memset(ptr, 'y', 20); // assert writability, with ASan in mind
+-+
+-+  XML_MemFree(parser, ptr);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_mem_api_unlimited) {
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+#if XML_GE == 1
+-+  assert_true(XML_SetAllocTrackerActivationThreshold(parser, 0) == XML_TRUE);
+-+#endif
+-+
+-+  void *ptr = XML_MemMalloc(parser, 1000);
+-+
+-+  assert_true(ptr != NULL);
+-+
+-+  ptr = XML_MemRealloc(parser, ptr, 2000);
+-+
+-+  assert_true(ptr != NULL);
+-+
+-+  XML_MemFree(parser, ptr);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- void
+- make_alloc_test_case(Suite *s) {
+-   TCase *tc_alloc = tcase_create("allocation tests");
+-@@ -2151,4 +2354,15 @@ make_alloc_test_case(Suite *s) {
+- 
+-   tcase_add_test__ifdef_xml_dtd(
+-       tc_alloc, test_alloc_reset_after_external_entity_parser_create_fail);
+-+
+-+  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_tracker_size_recorded);
+-+  tcase_add_test__ifdef_xml_dtd(tc_alloc,
+-+                                test_alloc_tracker_maximum_amplification);
+-+  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_tracker_threshold);
+-+  tcase_add_test__ifdef_xml_dtd(tc_alloc,
+-+                                test_alloc_tracker_getbuffer_unlimited);
+-+  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_tracker_api);
+-+
+-+  tcase_add_test(tc_alloc, test_mem_api_cycle);
+-+  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_mem_api_unlimited);
+- }
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-14.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-14.patch
+deleted file mode 100644
+index a339cc3f4b2..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-14.patch
++++ /dev/null
+@@ -1,122 +0,0 @@
+-From 78366891a586f293aeff60a14a55e4afe1169586 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Tue, 2 Sep 2025 16:44:00 +0200
+-Subject: [PATCH] xmlwf: Wire allocation tracker config to existing arguments
+- -a and -b
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/78366891a586f293aeff60a14a55e4afe1169586]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- doc/xmlwf.xml          | 26 ++++++++++++++++++++------
+- xmlwf/xmlwf.c          |  7 +++++--
+- xmlwf/xmlwf_helpgen.py |  4 ++--
+- 3 files changed, 27 insertions(+), 10 deletions(-)
+-
+-diff --git a/doc/xmlwf.xml b/doc/xmlwf.xml
+-index 17e9cf51..65d8ae9b 100644
+---- a/doc/xmlwf.xml
+-+++ b/doc/xmlwf.xml
+-@@ -158,19 +158,31 @@ supports both.
+-         <listitem>
+-           <para>
+-             Sets the maximum tolerated amplification factor
+--            for protection against billion laughs attacks (default: 100.0).
+-+            for protection against amplification attacks
+-+            like the billion laughs attack
+-+            (default: 100.0
+-+            for the sum of direct and indirect output and also
+-+            for allocations of dynamic memory).
+-             The amplification factor is calculated as ..
+-           </para>
+-           <literallayout>
+-             amplification := (direct + indirect) / direct
+-           </literallayout>
+-           <para>
+--            .. while parsing, whereas
+-+            .. with regard to use of entities and ..
+-+          </para>
+-+          <literallayout>
+-+            amplification := allocated / direct
+-+          </literallayout>
+-+          <para>
+-+            .. with regard to dynamic memory while parsing.
+-             &lt;direct&gt; is the number of bytes read
+--              from the primary document in parsing and
+-+              from the primary document in parsing,
+-             &lt;indirect&gt; is the number of bytes
+-               added by expanding entities and reading of external DTD files,
+--              combined.
+-+              combined, and
+-+            &lt;allocated&gt; is the total number of bytes of dynamic memory
+-+              allocated (and not freed) per hierarchy of parsers.
+-           </para>
+-           <para>
+-             <emphasis>NOTE</emphasis>:
+-@@ -185,8 +197,10 @@ supports both.
+-         <listitem>
+-           <para>
+-             Sets the number of output bytes (including amplification)
+--            needed to activate protection against billion laughs attacks
+--            (default: 8 MiB).
+-+            needed to activate protection against amplification attacks
+-+            like billion laughs
+-+            (default: 8 MiB for the sum of direct and indirect output,
+-+            and 64 MiB for allocations of dynamic memory).
+-             This can be thought of as an &quot;activation threshold&quot;.
+-           </para>
+-           <para>
+-diff --git a/xmlwf/xmlwf.c b/xmlwf/xmlwf.c
+-index b9d0a7fc..14206d9e 100644
+---- a/xmlwf/xmlwf.c
+-+++ b/xmlwf/xmlwf.c
+-@@ -913,11 +913,11 @@ usage(const XML_Char *prog, int rc) {
+-       T("  -t             write no XML output for [t]iming of plain parsing\n")
+-       T("  -N             enable adding doctype and [n]otation declarations\n")
+-       T("\n")
+--      T("billion laughs attack protection:\n")
+-+      T("amplification attack protection (e.g. billion laughs):\n")
+-       T("  NOTE: If you ever need to increase these values for non-attack payload, please file a bug report.\n")
+-       T("\n")
+-       T("  -a FACTOR      set maximum tolerated [a]mplification factor (default: 100.0)\n")
+--      T("  -b BYTES       set number of output [b]ytes needed to activate (default: 8 MiB)\n")
+-+      T("  -b BYTES       set number of output [b]ytes needed to activate (default: 8 MiB/64 MiB)\n")
+-       T("\n")
+-       T("reparse deferral:\n")
+-       T("  -q             disable reparse deferral, and allow [q]uadratic parse runtime with large tokens\n")
+-@@ -1181,12 +1181,15 @@ tmain(int argc, XML_Char **argv) {
+- #if XML_GE == 1
+-       XML_SetBillionLaughsAttackProtectionMaximumAmplification(
+-           parser, attackMaximumAmplification);
+-+      XML_SetAllocTrackerMaximumAmplification(parser,
+-+                                              attackMaximumAmplification);
+- #endif
+-     }
+-     if (attackThresholdGiven) {
+- #if XML_GE == 1
+-       XML_SetBillionLaughsAttackProtectionActivationThreshold(
+-           parser, attackThresholdBytes);
+-+      XML_SetAllocTrackerActivationThreshold(parser, attackThresholdBytes);
+- #else
+-       (void)attackThresholdBytes; // silence -Wunused-but-set-variable
+- #endif
+-diff --git a/xmlwf/xmlwf_helpgen.py b/xmlwf/xmlwf_helpgen.py
+-index 2360820d..e91c285c 100755
+---- a/xmlwf/xmlwf_helpgen.py
+-+++ b/xmlwf/xmlwf_helpgen.py
+-@@ -84,13 +84,13 @@ output_mode.add_argument('-m', action='store_true', help='write [m]eta XML, not
+- output_mode.add_argument('-t', action='store_true', help='write no XML output for [t]iming of plain parsing')
+- output_related.add_argument('-N', action='store_true', help='enable adding doctype and [n]otation declarations')
+- 
+--billion_laughs = parser.add_argument_group('billion laughs attack protection',
+-+billion_laughs = parser.add_argument_group('amplification attack protection (e.g. billion laughs)',
+-                                            description='NOTE: '
+-                                                        'If you ever need to increase these values '
+-                                                        'for non-attack payload, please file a bug report.')
+- billion_laughs.add_argument('-a', metavar='FACTOR',
+-                             help='set maximum tolerated [a]mplification factor (default: 100.0)')
+--billion_laughs.add_argument('-b', metavar='BYTES', help='set number of output [b]ytes needed to activate (default: 8 MiB)')
+-+billion_laughs.add_argument('-b', metavar='BYTES', help='set number of output [b]ytes needed to activate (default: 8 MiB/64 MiB)')
+- 
+- reparse_deferral = parser.add_argument_group('reparse deferral')
+- reparse_deferral.add_argument('-q', metavar='FACTOR',
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-15.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-15.patch
+deleted file mode 100644
+index 8d068441928..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-15.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 5ae51be57ed0ca1e87582881d07ea9c29c4f7c05 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Wed, 3 Sep 2025 17:06:41 +0200
+-Subject: [PATCH] fuzz: Be robust towards NULL return from
+- XML_ExternalEntityParserCreate
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5ae51be57ed0ca1e87582881d07ea9c29c4f7c05]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- fuzz/xml_parse_fuzzer.c       | 14 ++++++++------
+- fuzz/xml_parsebuffer_fuzzer.c | 14 ++++++++------
+- 2 files changed, 16 insertions(+), 12 deletions(-)
+-
+-diff --git a/fuzz/xml_parse_fuzzer.c b/fuzz/xml_parse_fuzzer.c
+-index 90c38549..29ab33ff 100644
+---- a/fuzz/xml_parse_fuzzer.c
+-+++ b/fuzz/xml_parse_fuzzer.c
+-@@ -89,15 +89,17 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+- 
+-   XML_Parser externalEntityParser
+-       = XML_ExternalEntityParserCreate(parentParser, "e1", NULL);
+--  assert(externalEntityParser);
+--  ParseOneInput(externalEntityParser, data, size);
+--  XML_ParserFree(externalEntityParser);
+-+  if (externalEntityParser != NULL) {
+-+    ParseOneInput(externalEntityParser, data, size);
+-+    XML_ParserFree(externalEntityParser);
+-+  }
+- 
+-   XML_Parser externalDtdParser
+-       = XML_ExternalEntityParserCreate(parentParser, NULL, NULL);
+--  assert(externalDtdParser);
+--  ParseOneInput(externalDtdParser, data, size);
+--  XML_ParserFree(externalDtdParser);
+-+  if (externalDtdParser != NULL) {
+-+    ParseOneInput(externalDtdParser, data, size);
+-+    XML_ParserFree(externalDtdParser);
+-+  }
+- 
+-   // finally frees this parser which served as parent
+-   XML_ParserFree(parentParser);
+-diff --git a/fuzz/xml_parsebuffer_fuzzer.c b/fuzz/xml_parsebuffer_fuzzer.c
+-index 0db67dce..38b9981b 100644
+---- a/fuzz/xml_parsebuffer_fuzzer.c
+-+++ b/fuzz/xml_parsebuffer_fuzzer.c
+-@@ -101,15 +101,17 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+- 
+-   XML_Parser externalEntityParser
+-       = XML_ExternalEntityParserCreate(parentParser, "e1", NULL);
+--  assert(externalEntityParser);
+--  ParseOneInput(externalEntityParser, data, size);
+--  XML_ParserFree(externalEntityParser);
+-+  if (externalEntityParser != NULL) {
+-+    ParseOneInput(externalEntityParser, data, size);
+-+    XML_ParserFree(externalEntityParser);
+-+  }
+- 
+-   XML_Parser externalDtdParser
+-       = XML_ExternalEntityParserCreate(parentParser, NULL, NULL);
+--  assert(externalDtdParser);
+--  ParseOneInput(externalDtdParser, data, size);
+--  XML_ParserFree(externalDtdParser);
+-+  if (externalDtdParser != NULL) {
+-+    ParseOneInput(externalDtdParser, data, size);
+-+    XML_ParserFree(externalDtdParser);
+-+  }
+- 
+-   // finally frees this parser which served as parent
+-   XML_ParserFree(parentParser);
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-16.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-16.patch
+deleted file mode 100644
+index a276347d83d..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-16.patch
++++ /dev/null
+@@ -1,146 +0,0 @@
+-From d6246c31a1238d065b4d9690d3bac740326f6485 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Wed, 3 Sep 2025 01:28:03 +0200
+-Subject: [PATCH] docs: Document the two allocation tracking API functions
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/d6246c31a1238d065b4d9690d3bac740326f6485]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- doc/reference.html | 116 +++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 116 insertions(+)
+-
+-diff --git a/doc/reference.html b/doc/reference.html
+-index 89476710..81da4e6c 100644
+---- a/doc/reference.html
+-+++ b/doc/reference.html
+-@@ -157,6 +157,8 @@ interface.</p>
+-       <ul>
+-         <li><a href="#XML_SetBillionLaughsAttackProtectionMaximumAmplification">XML_SetBillionLaughsAttackProtectionMaximumAmplification</a></li>
+-         <li><a href="#XML_SetBillionLaughsAttackProtectionActivationThreshold">XML_SetBillionLaughsAttackProtectionActivationThreshold</a></li>
+-+        <li><a href="#XML_SetAllocTrackerMaximumAmplification">XML_SetAllocTrackerMaximumAmplification</a></li>
+-+        <li><a href="#XML_SetAllocTrackerActivationThreshold">XML_SetAllocTrackerActivationThreshold</a></li>
+-         <li><a href="#XML_SetReparseDeferralEnabled">XML_SetReparseDeferralEnabled</a></li>
+-       </ul>
+-     </li>
+-@@ -2262,6 +2264,120 @@ XML_SetBillionLaughsAttackProtectionActivationThreshold(XML_Parser p,
+-   </p>
+- </div>
+- 
+-+<h4 id="XML_SetAllocTrackerMaximumAmplification">XML_SetAllocTrackerMaximumAmplification</h4>
+-+<pre class="fcndec">
+-+/* Added in Expat 2.7.2. */
+-+XML_Bool
+-+XML_SetAllocTrackerMaximumAmplification(XML_Parser p,
+-+                                        float maximumAmplificationFactor);
+-+</pre>
+-+<div class="fcndef">
+-+  <p>
+-+    Sets the maximum tolerated amplification factor
+-+    between direct input and bytes of dynamic memory allocated
+-+    (default: <code>100.0</code>)
+-+    of parser <code>p</code> to <code>maximumAmplificationFactor</code>, and
+-+    returns <code>XML_TRUE</code> upon success and <code>XML_FALSE</code> upon error.
+-+  </p>
+-+
+-+  <p>
+-+    <strong>Note:</strong>
+-+    There are three types of allocations that intentionally bypass tracking and limiting:
+-+  </p>
+-+  <ul>
+-+    <li>
+-+      application calls to functions
+-+      <code><a href="#XML_MemMalloc">XML_MemMalloc</a></code>
+-+      and
+-+      <code><a href="#XML_MemRealloc">XML_MemRealloc</a></code>
+-+      &mdash;
+-+      <em>healthy</em> use of these two functions continues to be a responsibility
+-+      of the application using Expat
+-+      &mdash;,
+-+    </li>
+-+    <li>
+-+      the main character buffer used by functions
+-+      <code><a href="#XML_GetBuffer">XML_GetBuffer</a></code>
+-+      and
+-+      <code><a href="#XML_ParseBuffer">XML_ParseBuffer</a></code>
+-+      (and thus also by plain
+-+      <code><a href="#XML_Parse">XML_Parse</a></code>), and
+-+    </li>
+-+    <li>
+-+      the <a href="#XML_SetElementDeclHandler">content model memory</a>
+-+      (that is passed to the
+-+      <a href="#XML_SetElementDeclHandler">element declaration handler</a>
+-+      and freed by a call to
+-+      <code><a href="#XML_FreeContentModel">XML_FreeContentModel</a></code>).
+-+    </li>
+-+  </ul>
+-+
+-+  <p>The amplification factor is calculated as ..</p>
+-+  <pre>amplification := allocated / direct</pre>
+-+  <p>
+-+    .. while parsing, whereas
+-+    <code>direct</code> is the number of bytes read from the primary document in parsing and
+-+    <code>allocated</code> is the number of bytes of dynamic memory allocated in the parser hierarchy.
+-+  </p>
+-+
+-+  <p>For a call to <code>XML_SetAllocTrackerMaximumAmplification</code> to succeed:</p>
+-+  <ul>
+-+    <li>parser <code>p</code> must be a non-<code>NULL</code> root parser (without any parent parsers) and</li>
+-+    <li><code>maximumAmplificationFactor</code> must be non-<code>NaN</code> and greater than or equal to <code>1.0</code>.</li>
+-+  </ul>
+-+
+-+  <p>
+-+    <strong>Note:</strong>
+-+    If you ever need to increase this value for non-attack payload,
+-+    please <a href="https://github.com/libexpat/libexpat/issues">file a bug report</a>.
+-+  </p>
+-+
+-+  <p>
+-+    <strong>Note:</strong>
+-+    Amplifications factors greater than 100 can been observed near the start of parsing
+-+    even with benign files in practice.
+-+
+-+    So if you do reduce the maximum allowed amplification,
+-+    please make sure that the activation threshold is still big enough
+-+    to not end up with undesired false positives (i.e. benign files being rejected).
+-+  </p>
+-+</div>
+-+
+-+<h4 id="XML_SetAllocTrackerActivationThreshold">XML_SetAllocTrackerActivationThreshold</h4>
+-+<pre class="fcndec">
+-+/* Added in Expat 2.7.2. */
+-+XML_Bool
+-+XML_SetAllocTrackerActivationThreshold(XML_Parser p,
+-+                                       unsigned long long activationThresholdBytes);
+-+</pre>
+-+<div class="fcndef">
+-+  <p>
+-+    Sets number of allocated bytes of dynamic memory
+-+    needed to activate protection against disproportionate use of RAM
+-+    (default: <code>64 MiB</code>)
+-+    of parser <code>p</code> to <code>activationThresholdBytes</code>, and
+-+    returns <code>XML_TRUE</code> upon success and <code>XML_FALSE</code> upon error.
+-+  </p>
+-+
+-+  <p>
+-+    <strong>Note:</strong>
+-+    For types of allocations that intentionally bypass tracking and limiting, please see
+-+    <code><a href="#XML_SetAllocTrackerMaximumAmplification">XML_SetAllocTrackerMaximumAmplification</a></code>
+-+    above.
+-+  </p>
+-+
+-+  <p>For a call to <code>XML_SetAllocTrackerActivationThreshold</code> to succeed:</p>
+-+  <ul>
+-+    <li>parser <code>p</code> must be a non-<code>NULL</code> root parser (without any parent parsers).</li>
+-+  </ul>
+-+
+-+  <p>
+-+    <strong>Note:</strong>
+-+    If you ever need to increase this value for non-attack payload,
+-+    please <a href="https://github.com/libexpat/libexpat/issues">file a bug report</a>.
+-+  </p>
+-+</div>
+-+
+- <h4 id="XML_SetReparseDeferralEnabled">XML_SetReparseDeferralEnabled</h4>
+- <pre class="fcndec">
+- /* Added in Expat 2.6.0. */
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-17.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-17.patch
+deleted file mode 100644
+index ca0e3a34f73..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-17.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From a6a2a49367f03f5d8a73c9027b45b59953ca27d8 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Wed, 10 Sep 2025 19:52:39 +0200
+-Subject: [PATCH] docs: Promote the contract to call XML_FreeContentModel
+-
+-.. when registering a custom element declaration handler
+-(via a call to function XML_SetElementDeclHandler)
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/a6a2a49367f03f5d8a73c9027b45b59953ca27d8]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- doc/reference.html | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/doc/reference.html b/doc/reference.html
+-index 81da4e6c..564fc1b2 100644
+---- a/doc/reference.html
+-+++ b/doc/reference.html
+-@@ -1902,7 +1902,7 @@ struct XML_cp {
+- <p>Sets a handler for element declarations in a DTD. The handler gets
+- called with the name of the element in the declaration and a pointer
+- to a structure that contains the element model. It's the user code's 
+--responsibility to free model when finished with it. See <code>
+-+responsibility to free model when finished with via a call to <code>
+- <a href="#XML_FreeContentModel">XML_FreeContentModel</a></code>.
+- There is no need to free the model from the handler, it can be kept
+- around and freed at a later stage.</p>
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-18.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-18.patch
+deleted file mode 100644
+index c29b3018254..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-18.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From a21a3a8299e1ee0b0ae5ae2886a0746d088cf135 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 7 Sep 2025 16:00:35 +0200
+-Subject: [PATCH] Changes: Document allocation tracking
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/a21a3a8299e1ee0b0ae5ae2886a0746d088cf135]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- Changes | 37 +++++++++++++++++++++++++++++++++++++
+- 1 file changed, 37 insertions(+)
+-
+-diff --git a/Changes b/Changes
+-index cb752151..ceb5c5dc 100644
+---- a/Changes
+-+++ b/Changes
+-@@ -30,6 +30,36 @@
+- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+- 
+- Patches:
+-+        Security fixes:
+-+     #1018 #1034  CVE-2025-59375 -- Disallow use of disproportional amounts of
+-+                    dynamic memory from within an Expat parser (e.g. previously
+-+                    a ~250 KiB sized document was able to cause allocation of
+-+                    ~800 MiB from the heap, i.e. an "amplification" of factor
+-+                    ~3,300); once a threshold (that defaults to 64 MiB) is
+-+                    reached, a maximum amplification factor (that defaults to
+-+                    100.0) is enforced, and violating documents are rejected
+-+                    with an out-of-memory error.
+-+                    There are two new API functions to fine-tune this new
+-+                    behavior:
+-+                      - XML_SetAllocTrackerActivationThreshold
+-+                      - XML_SetAllocTrackerMaximumAmplification .
+-+                    If you ever need to increase these defaults for non-attack
+-+                    XML payload, please file a bug report with libexpat.
+-+                      There is also a new environment variable
+-+                    EXPAT_MALLOC_DEBUG=(0|1|2) to control the verbosity
+-+                    of allocations debugging at runtime, disabled by default.
+-+                      Known impact is (reliable and easy) denial of service:
+-+                    CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C
+-+                    (Base Score: 7.5, Temporal Score: 7.2)
+-+                    Please note that a layer of compression around XML can
+-+                    significantly reduce the minimum attack payload size.
+-+                      Distributors intending to backport (or cherry-pick) the
+-+                    fix need to copy 99% of the related pull request, not just
+-+                    the "lib: Implement tracking of dynamic memory allocations"
+-+                    commit, to not end up with a state that literally does both
+-+                    too much and too little at the same time. Appending ".diff"
+-+                    to the pull request URL could be of help.
+-+
+-         Bug fixes:
+-        #980 #989  Restore event pointer behavior from Expat 2.6.4
+-                     (that the fix to CVE-2024-8176 changed in 2.7.0);
+-@@ -39,6 +69,10 @@ Patches:
+-                     - XML_GetCurrentColumnNumber
+-                     - XML_GetCurrentLineNumber
+-                     - XML_GetInputContext
+-+        #1034  docs: Promote the contract to call function
+-+                    XML_FreeContentModel when registering a custom
+-+                    element declaration handler (via a call to function
+-+                    XML_SetElementDeclHandler)
+- 
+-         Special thanks to:
+-             Berkay Eren Ürün
+-@@ -71,6 +105,9 @@ Patches:
+-             Linutronix
+-             Red Hat
+-             Siemens
+-+                 and
+-+            OSS-Fuzz / ClusterFuzz
+-+            Perl XML::Parser
+- 
+- Release 2.6.4 Wed November 6 2024
+-         Security fixes:
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-19.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-19.patch
+deleted file mode 100644
+index afd4d91d03d..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-19.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-From f4b5bb033dc4430bbd31dcae8a55f988360bcec5 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Wed, 17 Sep 2025 23:14:02 +0200
+-Subject: [PATCH] lib: Document and regression-proof absence of integer
+- overflow from expat_realloc
+-
+-Matthew Fernandez (@Smattr) and I teamed up on whether function expat_realloc
+-could be vulnerable to integer overflow in line:
+-
+-  mallocedPtr = parser->m_mem.realloc_fcn(mallocedPtr, sizeof(size_t) + size);
+-                                                                      ^
+-We ended up with a mathematical proof that, fortunately, the current code
+-already is safe from overflow.
+-
+-The proof uses technique "proof by contradiction". Let's assume, there *was* a
+-risk of integer overflow. For a risk of overflow, these four conditions would
+-all need to be met, together:
+-
+-(1) `SIZE_MAX < sizeof(size_t) + size`
+-    or we would not hit an overflow on `size_t`.
+-
+-(2) `size > prevSize`
+-    or `expat_malloc` would have already not allocated earlier
+-    as `expat_realloc` relies on `expat_malloc` for the initial allocation.
+-
+-(3) `rootParser->m_alloc_tracker.bytesAllocated >= sizeof(size_t) + prevSize`
+-    or the previous allocation would be gone already or have bypassed accounting.
+-    The code is not thread-safe in general, race conditions are off the table.
+-
+-(4) `rootParser->m_alloc_tracker.bytesAllocated + (size - prevSize) <= SIZE_MAX`
+-    or `expat_heap_increase_tolerable` would have returned `false` and
+-    the overflow line would not be reached.
+-
+-We encoded this for the Z3 Theorem Prover (https://github.com/Z3Prover/z3)
+-and ended up with this document:
+-
+-  $ cat proof_v2.smt2
+-  ; Copyright (c) 2025 Matthew Fernandez <matthew.fernandez@gmail.com>
+-  ; Copyright (c) 2025 Sebastian Pipping <sebastian@pipping.org>
+-  ; Licensed under the MIT license
+-
+-  ; (1), (2), (3), (4) form a contradiction
+-
+-  ; define `SIZE_MAX`
+-  (declare-fun SIZE_MAX () (_ BitVec 64))
+-  (assert (= SIZE_MAX #xffffffffffffffff))
+-
+-  ; define `sizeof(size_t)`
+-  (declare-fun sizeof_size_t () (_ BitVec 64))
+-  (assert (= sizeof_size_t #x0000000000000008))
+-
+-  ; claim we have inputs `size`, `prevSize`, and `bytesAllocated`
+-  (declare-fun size () (_ BitVec 64))
+-  (declare-fun prevSize () (_ BitVec 64))
+-  (declare-fun bytesAllocated () (_ BitVec 64))
+-
+-  ; assume `SIZE_MAX - sizeof(size_t) < size` (1)
+-  (assert (bvult (bvsub SIZE_MAX sizeof_size_t) size))
+-
+-  ; assume `bytesAllocated >= sizeof(size_t) + prevSize` (3)
+-  (assert (bvuge bytesAllocated (bvadd sizeof_size_t prevSize)))
+-
+-  ; assume `bytesAllocated - prevSize <= SIZE_MAX - size` (4)
+-  (assert (bvule (bvsub bytesAllocated prevSize) (bvsub SIZE_MAX size)))
+-
+-  ; assume `SIZE_MAX - sizeof(size_t) >= prevSize` (anti-overflow for 3)
+-  (assert (bvuge (bvsub SIZE_MAX sizeof_size_t) prevSize))
+-
+-  ; prove we have a contradiction
+-  (check-sat)
+-
+-Note that we operate on fixed-size bit vectors here, and hence had
+-to transform the assertions to not allow integer overflow by themselves.
+-
+-Z3 confirms the contradiction, and thus the absence of integer overflow:
+-
+-  $ z3 -smt2 -model proof_v2.smt2
+-  unsat
+-
+-Co-authored-by: Matthew Fernandez <matthew.fernandez@gmail.com>
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/f4b5bb033dc4430bbd31dcae8a55f988360bcec5]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index de159493..24fd7b97 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -969,6 +969,10 @@ expat_realloc(XML_Parser parser, void *ptr, size_t size, int sourceLine) {
+-     }
+-   }
+- 
+-+  // NOTE: Integer overflow detection has already been done for us
+-+  //       by expat_heap_increase_tolerable(..) above
+-+  assert(SIZE_MAX - sizeof(size_t) >= size);
+-+
+-   // Actually allocate
+-   mallocedPtr = parser->m_mem.realloc_fcn(mallocedPtr, sizeof(size_t) + size);
+- 
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-20.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-20.patch
+deleted file mode 100644
+index 80628f20fb9..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-20.patch
++++ /dev/null
+@@ -1,285 +0,0 @@
+-From faf36f806c9065bfd9f0567b01924d5e27c4911c Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 15 Sep 2025 18:05:23 +0200
+-Subject: [PATCH] lib: Drop casts around malloc/realloc returns that C99 does
+- not need
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/faf36f806c9065bfd9f0567b01924d5e27c4911c]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 80 ++++++++++++++++++++++----------------------------
+- 1 file changed, 35 insertions(+), 45 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 6e9c6fb2..fb8ad2e7 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -1370,12 +1370,12 @@ parserCreate(const XML_Char *encodingName,
+-     XML_Memory_Handling_Suite *mtemp;
+- #if XML_GE == 1
+-     void *const sizeAndParser
+--        = (XML_Parser)malloc(sizeof(size_t) + sizeof(struct XML_ParserStruct));
+-+        = malloc(sizeof(size_t) + sizeof(struct XML_ParserStruct));
+-     if (sizeAndParser != NULL) {
+-       *(size_t *)sizeAndParser = sizeof(struct XML_ParserStruct);
+-       parser = (XML_Parser)((char *)sizeAndParser + sizeof(size_t));
+- #else
+--    parser = (XML_Parser)malloc(sizeof(struct XML_ParserStruct));
+-+    parser = malloc(sizeof(struct XML_ParserStruct));
+-     if (parser != NULL) {
+- #endif
+-       mtemp = (XML_Memory_Handling_Suite *)&(parser->m_mem);
+-@@ -1433,23 +1433,20 @@ parserCreate(const XML_Char *encodingName,
+-   parser->m_bufferLim = NULL;
+- 
+-   parser->m_attsSize = INIT_ATTS_SIZE;
+--  parser->m_atts
+--      = (ATTRIBUTE *)MALLOC(parser, parser->m_attsSize * sizeof(ATTRIBUTE));
+-+  parser->m_atts = MALLOC(parser, parser->m_attsSize * sizeof(ATTRIBUTE));
+-   if (parser->m_atts == NULL) {
+-     FREE(parser, parser);
+-     return NULL;
+-   }
+- #ifdef XML_ATTR_INFO
+--  parser->m_attInfo = (XML_AttrInfo *)MALLOC(
+--      parser, parser->m_attsSize * sizeof(XML_AttrInfo));
+-+  parser->m_attInfo = MALLOC(parser, parser->m_attsSize * sizeof(XML_AttrInfo));
+-   if (parser->m_attInfo == NULL) {
+-     FREE(parser, parser->m_atts);
+-     FREE(parser, parser);
+-     return NULL;
+-   }
+- #endif
+--  parser->m_dataBuf
+--      = (XML_Char *)MALLOC(parser, INIT_DATA_BUF_SIZE * sizeof(XML_Char));
+-+  parser->m_dataBuf = MALLOC(parser, INIT_DATA_BUF_SIZE * sizeof(XML_Char));
+-   if (parser->m_dataBuf == NULL) {
+-     FREE(parser, parser->m_atts);
+- #ifdef XML_ATTR_INFO
+-@@ -2588,7 +2585,7 @@ XML_GetBuffer(XML_Parser parser, int len) {
+-       }
+-       // NOTE: We are avoiding MALLOC(..) here to leave limiting
+-       //       the input size to the application using Expat.
+--      newBuf = (char *)parser->m_mem.malloc_fcn(bufferSize);
+-+      newBuf = parser->m_mem.malloc_fcn(bufferSize);
+-       if (newBuf == 0) {
+-         parser->m_errorCode = XML_ERROR_NO_MEMORY;
+-         return NULL;
+-@@ -3133,7 +3130,7 @@ storeRawNames(XML_Parser parser) {
+-       return XML_FALSE;
+-     bufSize = nameLen + (int)rawNameLen;
+-     if (bufSize > tag->bufEnd - tag->buf) {
+--      char *temp = (char *)REALLOC(parser, tag->buf, bufSize);
+-+      char *temp = REALLOC(parser, tag->buf, bufSize);
+-       if (temp == NULL)
+-         return XML_FALSE;
+-       /* if tag->name.str points to tag->buf (only when namespace
+-@@ -3459,10 +3456,10 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-         tag = parser->m_freeTagList;
+-         parser->m_freeTagList = parser->m_freeTagList->parent;
+-       } else {
+--        tag = (TAG *)MALLOC(parser, sizeof(TAG));
+-+        tag = MALLOC(parser, sizeof(TAG));
+-         if (! tag)
+-           return XML_ERROR_NO_MEMORY;
+--        tag->buf = (char *)MALLOC(parser, INIT_TAG_BUF_SIZE);
+-+        tag->buf = MALLOC(parser, INIT_TAG_BUF_SIZE);
+-         if (! tag->buf) {
+-           FREE(parser, tag);
+-           return XML_ERROR_NO_MEMORY;
+-@@ -3495,7 +3492,7 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-           }
+-           bufSize = (int)(tag->bufEnd - tag->buf) << 1;
+-           {
+--            char *temp = (char *)REALLOC(parser, tag->buf, bufSize);
+-+            char *temp = REALLOC(parser, tag->buf, bufSize);
+-             if (temp == NULL)
+-               return XML_ERROR_NO_MEMORY;
+-             tag->buf = temp;
+-@@ -3874,8 +3871,8 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
+-     }
+- #endif
+- 
+--    temp = (ATTRIBUTE *)REALLOC(parser, (void *)parser->m_atts,
+--                                parser->m_attsSize * sizeof(ATTRIBUTE));
+-+    temp = REALLOC(parser, (void *)parser->m_atts,
+-+                   parser->m_attsSize * sizeof(ATTRIBUTE));
+-     if (temp == NULL) {
+-       parser->m_attsSize = oldAttsSize;
+-       return XML_ERROR_NO_MEMORY;
+-@@ -3893,8 +3890,8 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
+-     }
+- #  endif
+- 
+--    temp2 = (XML_AttrInfo *)REALLOC(parser, (void *)parser->m_attInfo,
+--                                    parser->m_attsSize * sizeof(XML_AttrInfo));
+-+    temp2 = REALLOC(parser, (void *)parser->m_attInfo,
+-+                    parser->m_attsSize * sizeof(XML_AttrInfo));
+-     if (temp2 == NULL) {
+-       parser->m_attsSize = oldAttsSize;
+-       return XML_ERROR_NO_MEMORY;
+-@@ -4070,8 +4067,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
+-       }
+- #endif
+- 
+--      temp = (NS_ATT *)REALLOC(parser, parser->m_nsAtts,
+--                               nsAttsSize * sizeof(NS_ATT));
+-+      temp = REALLOC(parser, parser->m_nsAtts, nsAttsSize * sizeof(NS_ATT));
+-       if (! temp) {
+-         /* Restore actual size of memory in m_nsAtts */
+-         parser->m_nsAttsPower = oldNsAttsPower;
+-@@ -4252,7 +4248,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
+-     }
+- #endif
+- 
+--    uri = (XML_Char *)MALLOC(parser, (n + EXPAND_SPARE) * sizeof(XML_Char));
+-+    uri = MALLOC(parser, (n + EXPAND_SPARE) * sizeof(XML_Char));
+-     if (! uri)
+-       return XML_ERROR_NO_MEMORY;
+-     binding->uriAlloc = n + EXPAND_SPARE;
+-@@ -4498,8 +4494,8 @@ addBinding(XML_Parser parser, PREFIX *prefix, const ATTRIBUTE_ID *attId,
+-       }
+- #endif
+- 
+--      XML_Char *temp = (XML_Char *)REALLOC(
+--          parser, b->uri, sizeof(XML_Char) * (len + EXPAND_SPARE));
+-+      XML_Char *temp
+-+          = REALLOC(parser, b->uri, sizeof(XML_Char) * (len + EXPAND_SPARE));
+-       if (temp == NULL)
+-         return XML_ERROR_NO_MEMORY;
+-       b->uri = temp;
+-@@ -4507,7 +4503,7 @@ addBinding(XML_Parser parser, PREFIX *prefix, const ATTRIBUTE_ID *attId,
+-     }
+-     parser->m_freeBindingList = b->nextTagBinding;
+-   } else {
+--    b = (BINDING *)MALLOC(parser, sizeof(BINDING));
+-+    b = MALLOC(parser, sizeof(BINDING));
+-     if (! b)
+-       return XML_ERROR_NO_MEMORY;
+- 
+-@@ -4525,8 +4521,7 @@ addBinding(XML_Parser parser, PREFIX *prefix, const ATTRIBUTE_ID *attId,
+-     }
+- #endif
+- 
+--    b->uri
+--        = (XML_Char *)MALLOC(parser, sizeof(XML_Char) * (len + EXPAND_SPARE));
+-+    b->uri = MALLOC(parser, sizeof(XML_Char) * (len + EXPAND_SPARE));
+-     if (! b->uri) {
+-       FREE(parser, b);
+-       return XML_ERROR_NO_MEMORY;
+-@@ -5897,7 +5892,7 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-               return XML_ERROR_NO_MEMORY;
+-             }
+- 
+--            char *const new_connector = (char *)REALLOC(
+-+            char *const new_connector = REALLOC(
+-                 parser, parser->m_groupConnector, parser->m_groupSize *= 2);
+-             if (new_connector == NULL) {
+-               parser->m_groupSize /= 2;
+-@@ -5917,15 +5912,14 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-             }
+- #endif
+- 
+--            int *const new_scaff_index = (int *)REALLOC(
+-+            int *const new_scaff_index = REALLOC(
+-                 parser, dtd->scaffIndex, parser->m_groupSize * sizeof(int));
+-             if (new_scaff_index == NULL)
+-               return XML_ERROR_NO_MEMORY;
+-             dtd->scaffIndex = new_scaff_index;
+-           }
+-         } else {
+--          parser->m_groupConnector
+--              = (char *)MALLOC(parser, parser->m_groupSize = 32);
+-+          parser->m_groupConnector = MALLOC(parser, parser->m_groupSize = 32);
+-           if (! parser->m_groupConnector) {
+-             parser->m_groupSize = 0;
+-             return XML_ERROR_NO_MEMORY;
+-@@ -6086,8 +6080,7 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-           //       applications that are not using XML_FreeContentModel but
+-           //       plain free(..) or .free_fcn() to free the content model's
+-           //       memory are safe.
+--          XML_Content *content
+--              = (XML_Content *)parser->m_mem.malloc_fcn(sizeof(XML_Content));
+-+          XML_Content *content = parser->m_mem.malloc_fcn(sizeof(XML_Content));
+-           if (! content)
+-             return XML_ERROR_NO_MEMORY;
+-           content->quant = XML_CQUANT_NONE;
+-@@ -6364,8 +6357,7 @@ processEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl,
+-     openEntity = *freeEntityList;
+-     *freeEntityList = openEntity->next;
+-   } else {
+--    openEntity
+--        = (OPEN_INTERNAL_ENTITY *)MALLOC(parser, sizeof(OPEN_INTERNAL_ENTITY));
+-+    openEntity = MALLOC(parser, sizeof(OPEN_INTERNAL_ENTITY));
+-     if (! openEntity)
+-       return XML_ERROR_NO_MEMORY;
+-   }
+-@@ -7164,8 +7156,8 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
+-   if (type->nDefaultAtts == type->allocDefaultAtts) {
+-     if (type->allocDefaultAtts == 0) {
+-       type->allocDefaultAtts = 8;
+--      type->defaultAtts = (DEFAULT_ATTRIBUTE *)MALLOC(
+--          parser, type->allocDefaultAtts * sizeof(DEFAULT_ATTRIBUTE));
+-+      type->defaultAtts
+-+          = MALLOC(parser, type->allocDefaultAtts * sizeof(DEFAULT_ATTRIBUTE));
+-       if (! type->defaultAtts) {
+-         type->allocDefaultAtts = 0;
+-         return 0;
+-@@ -7190,8 +7182,8 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
+-       }
+- #endif
+- 
+--      temp = (DEFAULT_ATTRIBUTE *)REALLOC(parser, type->defaultAtts,
+--                                          (count * sizeof(DEFAULT_ATTRIBUTE)));
+-+      temp = REALLOC(parser, type->defaultAtts,
+-+                     (count * sizeof(DEFAULT_ATTRIBUTE)));
+-       if (temp == NULL)
+-         return 0;
+-       type->allocDefaultAtts = count;
+-@@ -8145,8 +8137,7 @@ poolGrow(STRING_POOL *pool) {
+-     if (bytesToAllocate == 0)
+-       return XML_FALSE;
+- 
+--    temp = (BLOCK *)REALLOC(pool->parser, pool->blocks,
+--                            (unsigned)bytesToAllocate);
+-+    temp = REALLOC(pool->parser, pool->blocks, (unsigned)bytesToAllocate);
+-     if (temp == NULL)
+-       return XML_FALSE;
+-     pool->blocks = temp;
+-@@ -8217,7 +8208,7 @@ nextScaffoldPart(XML_Parser parser) {
+-       return -1;
+-     }
+- #endif
+--    dtd->scaffIndex = (int *)MALLOC(parser, parser->m_groupSize * sizeof(int));
+-+    dtd->scaffIndex = MALLOC(parser, parser->m_groupSize * sizeof(int));
+-     if (! dtd->scaffIndex)
+-       return -1;
+-     dtd->scaffIndex[0] = 0;
+-@@ -8240,14 +8231,13 @@ nextScaffoldPart(XML_Parser parser) {
+-       }
+- #endif
+- 
+--      temp = (CONTENT_SCAFFOLD *)REALLOC(
+--          parser, dtd->scaffold, dtd->scaffSize * 2 * sizeof(CONTENT_SCAFFOLD));
+-+      temp = REALLOC(parser, dtd->scaffold,
+-+                     dtd->scaffSize * 2 * sizeof(CONTENT_SCAFFOLD));
+-       if (temp == NULL)
+-         return -1;
+-       dtd->scaffSize *= 2;
+-     } else {
+--      temp = (CONTENT_SCAFFOLD *)MALLOC(parser, INIT_SCAFFOLD_ELEMENTS
+--                                                    * sizeof(CONTENT_SCAFFOLD));
+-+      temp = MALLOC(parser, INIT_SCAFFOLD_ELEMENTS * sizeof(CONTENT_SCAFFOLD));
+-       if (temp == NULL)
+-         return -1;
+-       dtd->scaffSize = INIT_SCAFFOLD_ELEMENTS;
+-@@ -8304,7 +8294,7 @@ build_model(XML_Parser parser) {
+-   // NOTE: We are avoiding MALLOC(..) here to so that
+-   //       applications that are not using XML_FreeContentModel but plain
+-   //       free(..) or .free_fcn() to free the content model's memory are safe.
+--  ret = (XML_Content *)parser->m_mem.malloc_fcn(allocsize);
+-+  ret = parser->m_mem.malloc_fcn(allocsize);
+-   if (! ret)
+-     return NULL;
+- 
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-21.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-21.patch
+deleted file mode 100644
+index 38bc0d1dd8b..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-21.patch
++++ /dev/null
+@@ -1,196 +0,0 @@
+-From 4b43b8dacc96fd538254e17a69abc9745c3a2ed4 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Fri, 19 Sep 2025 23:32:46 +0200
+-Subject: [PATCH] lib: Fix alignment of internal allocations for some non-amd64
+- architectures
+-
+-sparc32 is known to be affected.
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/4b43b8dacc96fd538254e17a69abc9745c3a2ed4]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/internal.h      |  6 ++++++
+- lib/xmlparse.c      | 38 ++++++++++++++++++++++----------------
+- tests/alloc_tests.c | 13 ++++++++++---
+- 3 files changed, 38 insertions(+), 19 deletions(-)
+-
+-diff --git a/lib/internal.h b/lib/internal.h
+-index 6e087858..8f5edf48 100644
+---- a/lib/internal.h
+-+++ b/lib/internal.h
+-@@ -108,6 +108,7 @@
+- #endif
+- 
+- #include <limits.h> // ULONG_MAX
+-+#include <stddef.h> // size_t
+- 
+- #if defined(_WIN32)                                                            \
+-     && (! defined(__USE_MINGW_ANSI_STDIO)                                      \
+-@@ -150,6 +151,11 @@
+- #define EXPAT_ALLOC_TRACKER_ACTIVATION_THRESHOLD_DEFAULT                       \
+-   67108864 // 64 MiB, 2^26
+- 
+-+// NOTE: If function expat_alloc was user facing, EXPAT_MALLOC_ALIGNMENT would
+-+//       have to take sizeof(long double) into account
+-+#define EXPAT_MALLOC_ALIGNMENT sizeof(long long) // largest parser (sub)member
+-+#define EXPAT_MALLOC_PADDING ((EXPAT_MALLOC_ALIGNMENT) - sizeof(size_t))
+-+
+- /* NOTE END */
+- 
+- #include "expat.h" // so we can use type XML_Parser below
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 24fd7b97..ce29ab6f 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -850,14 +850,14 @@ static void *
+- #  endif
+- expat_malloc(XML_Parser parser, size_t size, int sourceLine) {
+-   // Detect integer overflow
+--  if (SIZE_MAX - size < sizeof(size_t)) {
+-+  if (SIZE_MAX - size < sizeof(size_t) + EXPAT_MALLOC_PADDING) {
+-     return NULL;
+-   }
+- 
+-   const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-   assert(rootParser->m_parentParser == NULL);
+- 
+--  const size_t bytesToAllocate = sizeof(size_t) + size;
+-+  const size_t bytesToAllocate = sizeof(size_t) + EXPAT_MALLOC_PADDING + size;
+- 
+-   if ((XmlBigCount)-1 - rootParser->m_alloc_tracker.bytesAllocated
+-       < bytesToAllocate) {
+-@@ -894,7 +894,7 @@ expat_malloc(XML_Parser parser, size_t size, int sourceLine) {
+-                     rootParser->m_alloc_tracker.peakBytesAllocated, sourceLine);
+-   }
+- 
+--  return (char *)mallocedPtr + sizeof(size_t);
+-+  return (char *)mallocedPtr + sizeof(size_t) + EXPAT_MALLOC_PADDING;
+- }
+- 
+- #  if defined(XML_TESTING)
+-@@ -914,8 +914,9 @@ expat_free(XML_Parser parser, void *ptr, int sourceLine) {
+- 
+-   // Extract size (to the eyes of malloc_fcn/realloc_fcn) and
+-   // the original pointer returned by malloc/realloc
+--  void *const mallocedPtr = (char *)ptr - sizeof(size_t);
+--  const size_t bytesAllocated = sizeof(size_t) + *(size_t *)mallocedPtr;
+-+  void *const mallocedPtr = (char *)ptr - EXPAT_MALLOC_PADDING - sizeof(size_t);
+-+  const size_t bytesAllocated
+-+      = sizeof(size_t) + EXPAT_MALLOC_PADDING + *(size_t *)mallocedPtr;
+- 
+-   // Update accounting
+-   assert(rootParser->m_alloc_tracker.bytesAllocated >= bytesAllocated);
+-@@ -954,7 +955,7 @@ expat_realloc(XML_Parser parser, void *ptr, size_t size, int sourceLine) {
+- 
+-   // Extract original size (to the eyes of the caller) and the original
+-   // pointer returned by malloc/realloc
+--  void *mallocedPtr = (char *)ptr - sizeof(size_t);
+-+  void *mallocedPtr = (char *)ptr - EXPAT_MALLOC_PADDING - sizeof(size_t);
+-   const size_t prevSize = *(size_t *)mallocedPtr;
+- 
+-   // Classify upcoming change
+-@@ -971,10 +972,11 @@ expat_realloc(XML_Parser parser, void *ptr, size_t size, int sourceLine) {
+- 
+-   // NOTE: Integer overflow detection has already been done for us
+-   //       by expat_heap_increase_tolerable(..) above
+--  assert(SIZE_MAX - sizeof(size_t) >= size);
+-+  assert(SIZE_MAX - sizeof(size_t) - EXPAT_MALLOC_PADDING >= size);
+- 
+-   // Actually allocate
+--  mallocedPtr = parser->m_mem.realloc_fcn(mallocedPtr, sizeof(size_t) + size);
+-+  mallocedPtr = parser->m_mem.realloc_fcn(
+-+      mallocedPtr, sizeof(size_t) + EXPAT_MALLOC_PADDING + size);
+- 
+-   if (mallocedPtr == NULL) {
+-     return NULL;
+-@@ -1005,7 +1007,7 @@ expat_realloc(XML_Parser parser, void *ptr, size_t size, int sourceLine) {
+-   // Update in-block recorded size
+-   *(size_t *)mallocedPtr = size;
+- 
+--  return (char *)mallocedPtr + sizeof(size_t);
+-+  return (char *)mallocedPtr + sizeof(size_t) + EXPAT_MALLOC_PADDING;
+- }
+- #endif // XML_GE == 1
+- 
+-@@ -1337,7 +1339,8 @@ parserCreate(const XML_Char *encodingName,
+-   XML_Parser parser = NULL;
+- 
+- #if XML_GE == 1
+--  const size_t increase = sizeof(size_t) + sizeof(struct XML_ParserStruct);
+-+  const size_t increase
+-+      = sizeof(size_t) + EXPAT_MALLOC_PADDING + sizeof(struct XML_ParserStruct);
+- 
+-   if (parentParser != NULL) {
+-     const XML_Parser rootParser = getRootParserOf(parentParser, NULL);
+-@@ -1352,11 +1355,13 @@ parserCreate(const XML_Char *encodingName,
+-   if (memsuite) {
+-     XML_Memory_Handling_Suite *mtemp;
+- #if XML_GE == 1
+--    void *const sizeAndParser = memsuite->malloc_fcn(
+--        sizeof(size_t) + sizeof(struct XML_ParserStruct));
+-+    void *const sizeAndParser
+-+        = memsuite->malloc_fcn(sizeof(size_t) + EXPAT_MALLOC_PADDING
+-+                               + sizeof(struct XML_ParserStruct));
+-     if (sizeAndParser != NULL) {
+-       *(size_t *)sizeAndParser = sizeof(struct XML_ParserStruct);
+--      parser = (XML_Parser)((char *)sizeAndParser + sizeof(size_t));
+-+      parser = (XML_Parser)((char *)sizeAndParser + sizeof(size_t)
+-+                            + EXPAT_MALLOC_PADDING);
+- #else
+-     parser = memsuite->malloc_fcn(sizeof(struct XML_ParserStruct));
+-     if (parser != NULL) {
+-@@ -1369,11 +1374,12 @@ parserCreate(const XML_Char *encodingName,
+-   } else {
+-     XML_Memory_Handling_Suite *mtemp;
+- #if XML_GE == 1
+--    void *const sizeAndParser
+--        = malloc(sizeof(size_t) + sizeof(struct XML_ParserStruct));
+-+    void *const sizeAndParser = malloc(sizeof(size_t) + EXPAT_MALLOC_PADDING
+-+                                       + sizeof(struct XML_ParserStruct));
+-     if (sizeAndParser != NULL) {
+-       *(size_t *)sizeAndParser = sizeof(struct XML_ParserStruct);
+--      parser = (XML_Parser)((char *)sizeAndParser + sizeof(size_t));
+-+      parser = (XML_Parser)((char *)sizeAndParser + sizeof(size_t)
+-+                            + EXPAT_MALLOC_PADDING);
+- #else
+-     parser = malloc(sizeof(struct XML_ParserStruct));
+-     if (parser != NULL) {
+-diff --git a/tests/alloc_tests.c b/tests/alloc_tests.c
+-index 644a4952..dabdf0da 100644
+---- a/tests/alloc_tests.c
+-+++ b/tests/alloc_tests.c
+-@@ -2091,6 +2091,13 @@ START_TEST(test_alloc_reset_after_external_entity_parser_create_fail) {
+- }
+- END_TEST
+- 
+-+#if XML_GE == 1
+-+static size_t
+-+sizeRecordedFor(void *ptr) {
+-+  return *(size_t *)((char *)ptr - EXPAT_MALLOC_PADDING - sizeof(size_t));
+-+}
+-+#endif // XML_GE == 1
+-+
+- START_TEST(test_alloc_tracker_size_recorded) {
+-   XML_Memory_Handling_Suite memsuite = {malloc, realloc, free};
+- 
+-@@ -2106,16 +2113,16 @@ START_TEST(test_alloc_tracker_size_recorded) {
+-     void *ptr = expat_malloc(parser, 10, -1);
+- 
+-     assert_true(ptr != NULL);
+--    assert_true(*((size_t *)ptr - 1) == 10);
+-+    assert_true(sizeRecordedFor(ptr) == 10);
+- 
+-     assert_true(expat_realloc(parser, ptr, SIZE_MAX / 2, -1) == NULL);
+- 
+--    assert_true(*((size_t *)ptr - 1) == 10); // i.e. unchanged
+-+    assert_true(sizeRecordedFor(ptr) == 10); // i.e. unchanged
+- 
+-     ptr = expat_realloc(parser, ptr, 20, -1);
+- 
+-     assert_true(ptr != NULL);
+--    assert_true(*((size_t *)ptr - 1) == 20);
+-+    assert_true(sizeRecordedFor(ptr) == 20);
+- 
+-     expat_free(parser, ptr, -1);
+- #endif
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-22.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-22.patch
+deleted file mode 100644
+index 9716be80841..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-22.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 5cc0010ad93868ec03248e4ac814272bc7d607bc Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Fri, 19 Sep 2025 22:50:54 +0200
+-Subject: [PATCH] tests: Fix test guard for test related to allocation tracking
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5cc0010ad93868ec03248e4ac814272bc7d607bc]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- tests/alloc_tests.c | 14 ++++++--------
+- 1 file changed, 6 insertions(+), 8 deletions(-)
+-
+-diff --git a/tests/alloc_tests.c b/tests/alloc_tests.c
+-index dabdf0da..045447b0 100644
+---- a/tests/alloc_tests.c
+-+++ b/tests/alloc_tests.c
+-@@ -2362,14 +2362,12 @@ make_alloc_test_case(Suite *s) {
+-   tcase_add_test__ifdef_xml_dtd(
+-       tc_alloc, test_alloc_reset_after_external_entity_parser_create_fail);
+- 
+--  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_tracker_size_recorded);
+--  tcase_add_test__ifdef_xml_dtd(tc_alloc,
+--                                test_alloc_tracker_maximum_amplification);
+--  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_tracker_threshold);
+--  tcase_add_test__ifdef_xml_dtd(tc_alloc,
+--                                test_alloc_tracker_getbuffer_unlimited);
+--  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_alloc_tracker_api);
+-+  tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_size_recorded);
+-+  tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_maximum_amplification);
+-+  tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_threshold);
+-+  tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_getbuffer_unlimited);
+-+  tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_api);
+- 
+-   tcase_add_test(tc_alloc, test_mem_api_cycle);
+--  tcase_add_test__ifdef_xml_dtd(tc_alloc, test_mem_api_unlimited);
+-+  tcase_add_test__if_xml_ge(tc_alloc, test_mem_api_unlimited);
+- }
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-23.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-23.patch
+deleted file mode 100644
+index 60327df22b7..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-23.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 343594dc344e543acb7478d1283b50b299a1c110 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Fri, 19 Sep 2025 22:46:01 +0200
+-Subject: [PATCH] tests: Add new test test_alloc_tracker_pointer_alignment
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/343594dc344e543acb7478d1283b50b299a1c110]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- tests/alloc_tests.c | 17 +++++++++++++++++
+- 1 file changed, 17 insertions(+)
+-
+-diff --git a/tests/alloc_tests.c b/tests/alloc_tests.c
+-index 045447b0..5ae6c6a7 100644
+---- a/tests/alloc_tests.c
+-+++ b/tests/alloc_tests.c
+-@@ -2132,6 +2132,22 @@ START_TEST(test_alloc_tracker_size_recorded) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_alloc_tracker_pointer_alignment) {
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+#if XML_GE == 1
+-+  assert_true(sizeof(long long) >= sizeof(size_t)); // self-test
+-+  long long *const ptr
+-+      = (long long *)expat_malloc(parser, 4 * sizeof(long long), -1);
+-+  ptr[0] = 0LL;
+-+  ptr[1] = 1LL;
+-+  ptr[2] = 2LL;
+-+  ptr[3] = 3LL;
+-+  expat_free(parser, ptr, -1);
+-+#endif
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- START_TEST(test_alloc_tracker_maximum_amplification) {
+-   if (g_reparseDeferralEnabledDefault == XML_TRUE) {
+-     return;
+-@@ -2363,6 +2379,7 @@ make_alloc_test_case(Suite *s) {
+-       tc_alloc, test_alloc_reset_after_external_entity_parser_create_fail);
+- 
+-   tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_size_recorded);
+-+  tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_pointer_alignment);
+-   tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_maximum_amplification);
+-   tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_threshold);
+-   tcase_add_test__if_xml_ge(tc_alloc, test_alloc_tracker_getbuffer_unlimited);
+diff --git a/meta/recipes-core/expat/expat/CVE-2025-59375-24.patch b/meta/recipes-core/expat/expat/CVE-2025-59375-24.patch
+deleted file mode 100644
+index e51b2bb3277..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2025-59375-24.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 6fe5df59a1229ca647d365a0e3a7e17fee4d4548 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Fri, 19 Sep 2025 23:49:18 +0200
+-Subject: [PATCH] Changes: Document pull request #1047
+-
+-CVE: CVE-2025-59375
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/6fe5df59a1229ca647d365a0e3a7e17fee4d4548]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- Changes | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/Changes b/Changes
+-index 706a4ae1..58c222d9 100644
+---- a/Changes
+-+++ b/Changes
+-@@ -61,6 +61,9 @@ Patches:
+-                     to the pull request URL could be of help.
+- 
+-         Bug fixes:
+-+     #1046 #1047  Fix alignment of internal allocations for some non-amd64
+-+                    architectures (e.g. sparc32); fixes up on the fix to
+-+                    CVE-2025-59375 in release 2.7.2 from #1034
+-        #980 #989  Restore event pointer behavior from Expat 2.6.4
+-                     (that the fix to CVE-2024-8176 changed in 2.7.0);
+-                     affected API functions are:
+-@@ -76,7 +79,9 @@ Patches:
+- 
+-         Special thanks to:
+-             Berkay Eren Ürün
+-+            Rolf Eike Beer
+-                  and
+-+            Clang/GCC UndefinedBehaviorSanitizer
+-             Perl XML::Parser
+- 
+-         Security fixes:
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-24515-01.patch b/meta/recipes-core/expat/expat/CVE-2026-24515-01.patch
+deleted file mode 100644
+index 0250374c76b..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-24515-01.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 86fc914a7acc49246d5fde0ab6ed97eb8a0f15f9 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 18 Jan 2026 17:53:37 +0100
+-Subject: [PATCH] lib: Make XML_ExternalEntityParserCreate copy unknown
+- encoding handler user data
+-
+-Patch suggested by Artiphishell Inc.
+-
+-CVE: CVE-2026-24515
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/86fc914a7acc49246d5fde0ab6ed97eb8a0f15f9]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 593cd90d..18577ee3 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -1749,6 +1749,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
+-   XML_ExternalEntityRefHandler oldExternalEntityRefHandler;
+-   XML_SkippedEntityHandler oldSkippedEntityHandler;
+-   XML_UnknownEncodingHandler oldUnknownEncodingHandler;
+-+  void *oldUnknownEncodingHandlerData;
+-   XML_ElementDeclHandler oldElementDeclHandler;
+-   XML_AttlistDeclHandler oldAttlistDeclHandler;
+-   XML_EntityDeclHandler oldEntityDeclHandler;
+-@@ -1794,6 +1795,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
+-   oldExternalEntityRefHandler = parser->m_externalEntityRefHandler;
+-   oldSkippedEntityHandler = parser->m_skippedEntityHandler;
+-   oldUnknownEncodingHandler = parser->m_unknownEncodingHandler;
+-+  oldUnknownEncodingHandlerData = parser->m_unknownEncodingHandlerData;
+-   oldElementDeclHandler = parser->m_elementDeclHandler;
+-   oldAttlistDeclHandler = parser->m_attlistDeclHandler;
+-   oldEntityDeclHandler = parser->m_entityDeclHandler;
+-@@ -1854,6 +1856,7 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
+-   parser->m_externalEntityRefHandler = oldExternalEntityRefHandler;
+-   parser->m_skippedEntityHandler = oldSkippedEntityHandler;
+-   parser->m_unknownEncodingHandler = oldUnknownEncodingHandler;
+-+  parser->m_unknownEncodingHandlerData = oldUnknownEncodingHandlerData;
+-   parser->m_elementDeclHandler = oldElementDeclHandler;
+-   parser->m_attlistDeclHandler = oldAttlistDeclHandler;
+-   parser->m_entityDeclHandler = oldEntityDeclHandler;
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-24515-02.patch b/meta/recipes-core/expat/expat/CVE-2026-24515-02.patch
+deleted file mode 100644
+index 7d6758fe095..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-24515-02.patch
++++ /dev/null
+@@ -1,117 +0,0 @@
+-From 8efea3e255d55c7e0a5b70b226f4652ab00e1a27 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 18 Jan 2026 17:26:31 +0100
+-Subject: [PATCH] tests: Cover effect of XML_SetUnknownEncodingHandler user
+- data
+-
+-CVE: CVE-2026-24515
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/8efea3e255d55c7e0a5b70b226f4652ab00e1a27]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- tests/basic_tests.c | 42 +++++++++++++++++++++++++++++++++++++++
+- tests/handlers.c    | 10 ++++++++++
+- tests/handlers.h    |  3 +++
+- 3 files changed, 55 insertions(+)
+-
+-diff --git a/tests/basic_tests.c b/tests/basic_tests.c
+-index 0231e094..0ed98d86 100644
+---- a/tests/basic_tests.c
+-+++ b/tests/basic_tests.c
+-@@ -4527,6 +4527,46 @@ START_TEST(test_unknown_encoding_invalid_attr_value) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_unknown_encoding_user_data_primary) {
+-+  // This test is based on ideas contributed by Artiphishell Inc.
+-+  const char *const text = "<?xml version='1.0' encoding='x-unk'?>\n"
+-+                           "<root />\n";
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  XML_SetUnknownEncodingHandler(parser,
+-+                                user_data_checking_unknown_encoding_handler,
+-+                                (void *)(intptr_t)0xC0FFEE);
+-+
+-+  assert_true(_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+              == XML_STATUS_OK);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_unknown_encoding_user_data_secondary) {
+-+  // This test is based on ideas contributed by Artiphishell Inc.
+-+  const char *const text_main = "<!DOCTYPE r [\n"
+-+                                "  <!ENTITY ext SYSTEM 'ext.ent'>\n"
+-+                                "]>\n"
+-+                                "<r>&ext;</r>\n";
+-+  const char *const text_external = "<?xml version='1.0' encoding='x-unk'?>\n"
+-+                                    "<e>data</e>";
+-+  ExtTest2 test_data = {text_external, (int)strlen(text_external), NULL, NULL};
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  XML_SetExternalEntityRefHandler(parser, external_entity_loader2);
+-+  XML_SetUnknownEncodingHandler(parser,
+-+                                user_data_checking_unknown_encoding_handler,
+-+                                (void *)(intptr_t)0xC0FFEE);
+-+  XML_SetUserData(parser, &test_data);
+-+
+-+  assert_true(_XML_Parse_SINGLE_BYTES(parser, text_main, (int)strlen(text_main),
+-+                                      XML_TRUE)
+-+              == XML_STATUS_OK);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- /* Test an external entity parser set to use latin-1 detects UTF-16
+-  * BOMs correctly.
+-  */
+-@@ -6372,6 +6412,8 @@ make_basic_test_case(Suite *s) {
+-   tcase_add_test(tc_basic, test_unknown_encoding_invalid_surrogate);
+-   tcase_add_test(tc_basic, test_unknown_encoding_invalid_high);
+-   tcase_add_test(tc_basic, test_unknown_encoding_invalid_attr_value);
+-+  tcase_add_test(tc_basic, test_unknown_encoding_user_data_primary);
+-+  tcase_add_test(tc_basic, test_unknown_encoding_user_data_secondary);
+-   tcase_add_test__if_xml_ge(tc_basic, test_ext_entity_latin1_utf16le_bom);
+-   tcase_add_test__if_xml_ge(tc_basic, test_ext_entity_latin1_utf16be_bom);
+-   tcase_add_test__if_xml_ge(tc_basic, test_ext_entity_latin1_utf16le_bom2);
+-diff --git a/tests/handlers.c b/tests/handlers.c
+-index 5bca2b1f..d077f688 100644
+---- a/tests/handlers.c
+-+++ b/tests/handlers.c
+-@@ -45,6 +45,7 @@
+- #  undef NDEBUG /* because test suite relies on assert(...) at the moment */
+- #endif
+- 
+-+#include <stdint.h>
+- #include <stdio.h>
+- #include <string.h>
+- #include <assert.h>
+-@@ -407,6 +408,15 @@ long_encoding_handler(void *userData, const XML_Char *encoding,
+-   return XML_STATUS_OK;
+- }
+- 
+-+int XMLCALL
+-+user_data_checking_unknown_encoding_handler(void *userData,
+-+                                            const XML_Char *encoding,
+-+                                            XML_Encoding *info) {
+-+  const intptr_t number = (intptr_t)userData;
+-+  assert_true(number == 0xC0FFEE);
+-+  return long_encoding_handler(userData, encoding, info);
+-+}
+-+
+- /* External Entity Handlers */
+- 
+- int XMLCALL
+-diff --git a/tests/handlers.h b/tests/handlers.h
+-index fa6267fb..915040e5 100644
+---- a/tests/handlers.h
+-+++ b/tests/handlers.h
+-@@ -159,6 +159,9 @@ extern int XMLCALL long_encoding_handler(void *userData,
+-                                          const XML_Char *encoding,
+-                                          XML_Encoding *info);
+- 
+-+extern int XMLCALL user_data_checking_unknown_encoding_handler(
+-+    void *userData, const XML_Char *encoding, XML_Encoding *info);
+-+
+- /* External Entity Handlers */
+- 
+- typedef struct ExtOption {
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-25210-01.patch b/meta/recipes-core/expat/expat/CVE-2026-25210-01.patch
+deleted file mode 100644
+index d56e8811915..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-25210-01.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 7ddea353ad3795f7222441274d4d9a155b523cba Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Thu, 2 Oct 2025 17:15:15 -0700
+-Subject: [PATCH] lib: Make a doubling more readable
+-
+-Suggested-by: Sebastian Pipping <sebastian@pipping.org>
+-
+-CVE: CVE-2026-25210
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/7ddea353ad3795f7222441274d4d9a155b523cba]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 8cf29257..2f9adffc 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -3499,7 +3499,7 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-             tag->name.strLen = convLen;
+-             break;
+-           }
+--          bufSize = (int)(tag->bufEnd - tag->buf) << 1;
+-+          bufSize = (int)(tag->bufEnd - tag->buf) * 2;
+-           {
+-             char *temp = REALLOC(parser, tag->buf, bufSize);
+-             if (temp == NULL)
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-25210-02.patch b/meta/recipes-core/expat/expat/CVE-2026-25210-02.patch
+deleted file mode 100644
+index 21bd6e4fd0e..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-25210-02.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 8855346359a475c022ec8c28484a76c852f144d9 Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Thu, 2 Oct 2025 17:15:15 -0700
+-Subject: [PATCH] lib: Realign a size with the `REALLOC` type signature it is
+- passed into
+-
+-Note that this implicitly assumes `tag->bufEnd >= tag->buf`, which should
+-already be guaranteed true.
+-
+-CVE: CVE-2026-25210
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/8855346359a475c022ec8c28484a76c852f144d9]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+----
+- lib/xmlparse.c | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 2f9adffc..ee18a87f 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -3488,7 +3488,6 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-         const char *fromPtr = tag->rawName;
+-         toPtr = (XML_Char *)tag->buf;
+-         for (;;) {
+--          int bufSize;
+-           int convLen;
+-           const enum XML_Convert_Result convert_res
+-               = XmlConvert(enc, &fromPtr, rawNameEnd, (ICHAR **)&toPtr,
+-@@ -3499,7 +3498,7 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-             tag->name.strLen = convLen;
+-             break;
+-           }
+--          bufSize = (int)(tag->bufEnd - tag->buf) * 2;
+-+          const size_t bufSize = (size_t)(tag->bufEnd - tag->buf) * 2;
+-           {
+-             char *temp = REALLOC(parser, tag->buf, bufSize);
+-             if (temp == NULL)
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-25210-03.patch b/meta/recipes-core/expat/expat/CVE-2026-25210-03.patch
+deleted file mode 100644
+index 46a1618e040..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-25210-03.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 9c2d990389e6abe2e44527eeaa8b39f16fe859c7 Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Thu, 2 Oct 2025 17:15:15 -0700
+-Subject: [PATCH] lib: Introduce an integer overflow check for tag buffer
+- reallocation
+-
+-Suggested-by: Sebastian Pipping <sebastian@pipping.org>
+-
+-CVE: CVE-2026-25210
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/9c2d990389e6abe2e44527eeaa8b39f16fe859c7]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index ee18a87f..d8c54c38 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -3498,6 +3498,8 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
+-             tag->name.strLen = convLen;
+-             break;
+-           }
+-+          if (SIZE_MAX / 2 < (size_t)(tag->bufEnd - tag->buf))
+-+            return XML_ERROR_NO_MEMORY;
+-           const size_t bufSize = (size_t)(tag->bufEnd - tag->buf) * 2;
+-           {
+-             char *temp = REALLOC(parser, tag->buf, bufSize);
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-32776.patch b/meta/recipes-core/expat/expat/CVE-2026-32776.patch
+deleted file mode 100644
+index 96a869a7c85..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-32776.patch
++++ /dev/null
+@@ -1,91 +0,0 @@
+-From 3340f971f2f92e499adf03156024105bb9bb7ed9 Mon Sep 17 00:00:00 2001
+-From: Francesco Bertolaccini <francesco.bertolaccini@trailofbits.com>
+-Date: Tue, 3 Mar 2026 16:41:43 +0100
+-Subject: [PATCH] Fix NULL function-pointer dereference for empty external
+- parameter entities
+-
+-When an external parameter entity with empty text is referenced inside
+-an entity declaration value, the sub-parser created to handle it receives
+-0 bytes of input.  Processing enters entityValueInitProcessor which calls
+-storeEntityValue() with the parser's encoding; since no bytes were ever
+-processed, encoding detection has not yet occurred and the encoding is
+-still the initial probing encoding set up by XmlInitEncoding().  That
+-encoding only populates scanners[] (for prolog and content), not
+-literalScanners[].  XmlEntityValueTok() calls through
+-literalScanners[XML_ENTITY_VALUE_LITERAL] which is NULL, causing a
+-SEGV.
+-
+-Skip the tokenization loop entirely when entityTextPtr >= entityTextEnd,
+-and initialize the `next` pointer before the early exit so that callers
+-(callStoreEntityValue) receive a valid value through nextPtr.
+-
+-CVE: CVE-2026-32776
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5be25657583ea91b09025c858b4785834c20f59c]
+-
+-(cherry picked from commit 5be25657583ea91b09025c858b4785834c20f59c)
+-Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+----
+- lib/xmlparse.c      |  9 ++++++++-
+- tests/basic_tests.c | 19 +++++++++++++++++++
+- 2 files changed, 27 insertions(+), 1 deletion(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index aa5e91e4..56faf2eb 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -6777,7 +6777,14 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
+-       return XML_ERROR_NO_MEMORY;
+-   }
+- 
+--  const char *next;
+-+  const char *next = entityTextPtr;
+-+
+-+  /* Nothing to tokenize. */
+-+  if (entityTextPtr >= entityTextEnd) {
+-+    result = XML_ERROR_NONE;
+-+    goto endEntityValue;
+-+  }
+-+
+-   for (;;) {
+-     next
+-         = entityTextPtr; /* XmlEntityValueTok doesn't always set the last arg */
+-diff --git a/tests/basic_tests.c b/tests/basic_tests.c
+-index 2a5e43d6..023d9ce4 100644
+---- a/tests/basic_tests.c
+-+++ b/tests/basic_tests.c
+-@@ -6210,6 +6210,24 @@ START_TEST(test_varying_buffer_fills) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_empty_ext_param_entity_in_value) {
+-+  const char *text = "<!DOCTYPE r SYSTEM \"ext.dtd\"><r/>";
+-+  ExtOption options[] = {
+-+      {XCS("ext.dtd"), "<!ENTITY % pe SYSTEM \"empty\">"
+-+                       "<!ENTITY ge \"%pe;\">"},
+-+      {XCS("empty"), ""},
+-+      {NULL, NULL},
+-+  };
+-+
+-+  XML_SetParamEntityParsing(g_parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+-+  XML_SetExternalEntityRefHandler(g_parser, external_entity_optioner);
+-+  XML_SetUserData(g_parser, options);
+-+  if (_XML_Parse_SINGLE_BYTES(g_parser, text, (int)strlen(text), XML_TRUE)
+-+      == XML_STATUS_ERROR)
+-+    xml_failure(g_parser);
+-+}
+-+END_TEST
+-+
+- void
+- make_basic_test_case(Suite *s) {
+-   TCase *tc_basic = tcase_create("basic tests");
+-@@ -6456,6 +6474,7 @@ make_basic_test_case(Suite *s) {
+-   tcase_add_test(tc_basic, test_empty_element_abort);
+-   tcase_add_test__ifdef_xml_dtd(tc_basic,
+-                                 test_pool_integrity_with_unfinished_attr);
+-+  tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_ext_param_entity_in_value);
+-   tcase_add_test__if_xml_ge(tc_basic, test_entity_ref_no_elements);
+-   tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_entity);
+-   tcase_add_test__if_xml_ge(tc_basic, test_deep_nested_attribute_entity);
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch b/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
+deleted file mode 100644
+index 50ba27dcd42..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-32777-01.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From a6e6cf7c30e54402b2fa3c49f9d98702e74f8c34 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 1 Mar 2026 20:16:13 +0100
+-Subject: [PATCH 1/2] lib: Reject XML_TOK_INSTANCE_START infinite loop in
+- entityValueProcessor
+-
+-.. that OSS-Fuzz/ClusterFuzz uncovered
+-
+-CVE: CVE-2026-32777
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/55cda8c7125986e17d7e1825cba413bd94a35d02]
+-
+-(cherry picked from commit 55cda8c7125986e17d7e1825cba413bd94a35d02)
+-Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+----
+- lib/xmlparse.c | 11 ++++++++++-
+- 1 file changed, 10 insertions(+), 1 deletion(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 56faf2eb..bfb8ac58 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -5077,7 +5077,7 @@ entityValueInitProcessor(XML_Parser parser, const char *s, const char *end,
+-     }
+-     /* If we get this token, we have the start of what might be a
+-        normal tag, but not a declaration (i.e. it doesn't begin with
+--       "<!").  In a DTD context, that isn't legal.
+-+       "<!" or "<?").  In a DTD context, that isn't legal.
+-     */
+-     else if (tok == XML_TOK_INSTANCE_START) {
+-       *nextPtr = next;
+-@@ -5166,6 +5166,15 @@ entityValueProcessor(XML_Parser parser, const char *s, const char *end,
+-       /* found end of entity value - can store it now */
+-       return storeEntityValue(parser, enc, s, end, XML_ACCOUNT_DIRECT, NULL);
+-     }
+-+    /* If we get this token, we have the start of what might be a
+-+       normal tag, but not a declaration (i.e. it doesn't begin with
+-+       "<!" or "<?").  In a DTD context, that isn't legal.
+-+    */
+-+    else if (tok == XML_TOK_INSTANCE_START) {
+-+      *nextPtr = next;
+-+      return XML_ERROR_SYNTAX;
+-+    }
+-+
+-     start = next;
+-   }
+- }
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch b/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
+deleted file mode 100644
+index a1518c9a3e4..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-32777-02.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-From 4b91fc7eb4998c49bfd3b701a679ad6eb7ce7682 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Fri, 6 Mar 2026 18:31:34 +0100
+-Subject: [PATCH 2/2] misc_tests.c: Cover XML_TOK_INSTANCE_START infinite loop
+- case
+-
+-.. that OSS-Fuzz/ClusterFuzz uncovered
+-
+-CVE: CVE-2026-32777
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/a7805c1a8a48d2ce83ef289cf55bdc8b45de76a8]
+-
+-(cherry picked from commit a7805c1a8a48d2ce83ef289cf55bdc8b45de76a8)
+-Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+----
+- tests/misc_tests.c | 30 ++++++++++++++++++++++++++++++
+- 1 file changed, 30 insertions(+)
+-
+-diff --git a/tests/misc_tests.c b/tests/misc_tests.c
+-index 07902d52..cdcdd507 100644
+---- a/tests/misc_tests.c
+-+++ b/tests/misc_tests.c
+-@@ -713,6 +713,35 @@ START_TEST(test_misc_async_entity_rejected) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_misc_no_infinite_loop_issue_1161) {
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+  const char *text = "<!DOCTYPE d SYSTEM 'secondary.txt'>";
+-+
+-+  struct ExtOption options[] = {
+-+      {XCS("secondary.txt"),
+-+       "<!ENTITY % p SYSTEM 'tertiary.txt'><!ENTITY g '%p;'>"},
+-+      {XCS("tertiary.txt"), "<?xml version='1.0'?><a"},
+-+      {NULL, NULL},
+-+  };
+-+
+-+  XML_SetUserData(parser, options);
+-+  XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+-+  XML_SetExternalEntityRefHandler(parser, external_entity_optioner);
+-+
+-+  assert_true(_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+              == XML_STATUS_ERROR);
+-+
+-+#if defined(XML_DTD)
+-+  assert_true(XML_GetErrorCode(parser) == XML_ERROR_EXTERNAL_ENTITY_HANDLING);
+-+#else
+-+  assert_true(XML_GetErrorCode(parser) == XML_ERROR_NO_ELEMENTS);
+-+#endif
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- void
+- make_miscellaneous_test_case(Suite *s) {
+-   TCase *tc_misc = tcase_create("miscellaneous tests");
+-@@ -743,4 +772,5 @@ make_miscellaneous_test_case(Suite *s) {
+-   tcase_add_test(tc_misc, test_misc_expected_event_ptr_issue_980);
+-   tcase_add_test(tc_misc, test_misc_sync_entity_tolerated);
+-   tcase_add_test(tc_misc, test_misc_async_entity_rejected);
+-+  tcase_add_test(tc_misc, test_misc_no_infinite_loop_issue_1161);
+- }
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-32778-01.patch b/meta/recipes-core/expat/expat/CVE-2026-32778-01.patch
+deleted file mode 100644
+index 0105fe7417b..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-32778-01.patch
++++ /dev/null
+@@ -1,91 +0,0 @@
+-From b878628b560a2ba1e11b3a12ff8df0dab7d6b8bb Mon Sep 17 00:00:00 2001
+-From: laserbear <10689391+Laserbear@users.noreply.github.com>
+-Date: Sun, 8 Mar 2026 17:28:06 -0700
+-Subject: [PATCH 1/2] copy prefix name to pool before lookup
+-
+-.. so that we cannot end up with a zombie PREFIX in the pool
+-that has NULL for a name.
+-
+-CVE: CVE-2026-32778
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/576b61e42feeea704253cb7c7bedb2eeb3754387]
+-
+-Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
+-(cherry picked from commit 576b61e42feeea704253cb7c7bedb2eeb3754387)
+-Signed-off-by: Hugo SIMELIERE <simeliere.hugo@non.se.com>
+----
+- lib/xmlparse.c | 43 +++++++++++++++++++++++++++++++++++--------
+- 1 file changed, 35 insertions(+), 8 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index bfb8ac58..9bc67f38 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -590,6 +590,8 @@ static XML_Char *poolStoreString(STRING_POOL *pool, const ENCODING *enc,
+- static XML_Bool FASTCALL poolGrow(STRING_POOL *pool);
+- static const XML_Char *FASTCALL poolCopyString(STRING_POOL *pool,
+-                                                const XML_Char *s);
+-+static const XML_Char *FASTCALL poolCopyStringNoFinish(STRING_POOL *pool,
+-+                                                       const XML_Char *s);
+- static const XML_Char *poolCopyStringN(STRING_POOL *pool, const XML_Char *s,
+-                                        int n);
+- static const XML_Char *FASTCALL poolAppendString(STRING_POOL *pool,
+-@@ -7443,16 +7445,24 @@ setContext(XML_Parser parser, const XML_Char *context) {
+-       else {
+-         if (! poolAppendChar(&parser->m_tempPool, XML_T('\0')))
+-           return XML_FALSE;
+--        prefix
+--            = (PREFIX *)lookup(parser, &dtd->prefixes,
+--                               poolStart(&parser->m_tempPool), sizeof(PREFIX));
+--        if (! prefix)
+-+        const XML_Char *const prefixName = poolCopyStringNoFinish(
+-+            &dtd->pool, poolStart(&parser->m_tempPool));
+-+        if (! prefixName) {
+-           return XML_FALSE;
+--        if (prefix->name == poolStart(&parser->m_tempPool)) {
+--          prefix->name = poolCopyString(&dtd->pool, prefix->name);
+--          if (! prefix->name)
+--            return XML_FALSE;
+-         }
+-+
+-+        prefix = (PREFIX *)lookup(parser, &dtd->prefixes, prefixName,
+-+                                  sizeof(PREFIX));
+-+
+-+        const bool prefixNameUsed = prefix && prefix->name == prefixName;
+-+        if (prefixNameUsed)
+-+          poolFinish(&dtd->pool);
+-+        else
+-+          poolDiscard(&dtd->pool);
+-+
+-+        if (! prefix)
+-+          return XML_FALSE;
+-+
+-         poolDiscard(&parser->m_tempPool);
+-       }
+-       for (context = s + 1; *context != CONTEXT_SEP && *context != XML_T('\0');
+-@@ -8041,6 +8051,23 @@ poolCopyString(STRING_POOL *pool, const XML_Char *s) {
+-   return s;
+- }
+- 
+-+// A version of `poolCopyString` that does not call `poolFinish`
+-+// and reverts any partial advancement upon failure.
+-+static const XML_Char *FASTCALL
+-+poolCopyStringNoFinish(STRING_POOL *pool, const XML_Char *s) {
+-+  const XML_Char *const original = s;
+-+  do {
+-+    if (! poolAppendChar(pool, *s)) {
+-+      // Revert any previously successful advancement
+-+      const ptrdiff_t advancedBy = s - original;
+-+      if (advancedBy > 0)
+-+        pool->ptr -= advancedBy;
+-+      return NULL;
+-+    }
+-+  } while (*s++);
+-+  return pool->start;
+-+}
+-+
+- static const XML_Char *
+- poolCopyStringN(STRING_POOL *pool, const XML_Char *s, int n) {
+-   if (! pool->ptr && ! poolGrow(pool)) {
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-32778-02.patch b/meta/recipes-core/expat/expat/CVE-2026-32778-02.patch
+deleted file mode 100644
+index 2cfda33dc85..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-32778-02.patch
++++ /dev/null
+@@ -1,61 +0,0 @@
+-From c26728576de3850258c7762c036dd0eb7783ea15 Mon Sep 17 00:00:00 2001
+-From: laserbear <10689391+Laserbear@users.noreply.github.com>
+-Date: Sun, 8 Mar 2026 17:28:06 -0700
+-Subject: [PATCH 2/2] test that we do not end up with a zombie PREFIX in the
+- pool
+-
+-CVE: CVE-2026-32778
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/d5fa769b7a7290a7e2c4a0b2287106dec9b3c030]
+-
+-(cherry picked from commit d5fa769b7a7290a7e2c4a0b2287106dec9b3c030)
+-Signed-off-by: Hugo SIMELIERE <simeliere.hugo@non.se.com>
+----
+- tests/nsalloc_tests.c | 27 +++++++++++++++++++++++++++
+- 1 file changed, 27 insertions(+)
+-
+-diff --git a/tests/nsalloc_tests.c b/tests/nsalloc_tests.c
+-index a8f5718d..d284a58a 100644
+---- a/tests/nsalloc_tests.c
+-+++ b/tests/nsalloc_tests.c
+-@@ -1505,6 +1505,32 @@ START_TEST(test_nsalloc_prefixed_element) {
+- }
+- END_TEST
+- 
+-+/* Verify that retry after OOM in setContext() does not crash.
+-+ */
+-+START_TEST(test_nsalloc_setContext_zombie) {
+-+  const char *text = "<doc>Hello</doc>";
+-+  unsigned int i;
+-+  const unsigned int max_alloc_count = 30;
+-+
+-+  for (i = 0; i < max_alloc_count; i++) {
+-+    g_allocation_count = (int)i;
+-+    if (XML_Parse(g_parser, text, (int)strlen(text), XML_TRUE)
+-+        != XML_STATUS_ERROR)
+-+      break;
+-+    /* Retry on the same parser — must not crash */
+-+    g_allocation_count = ALLOC_ALWAYS_SUCCEED;
+-+    XML_Parse(g_parser, text, (int)strlen(text), XML_TRUE);
+-+
+-+    nsalloc_teardown();
+-+    nsalloc_setup();
+-+  }
+-+  if (i == 0)
+-+    fail("Parsing worked despite failing allocations");
+-+  else if (i == max_alloc_count)
+-+    fail("Parsing failed even at maximum allocation count");
+-+}
+-+END_TEST
+-+
+- void
+- make_nsalloc_test_case(Suite *s) {
+-   TCase *tc_nsalloc = tcase_create("namespace allocation tests");
+-@@ -1539,4 +1565,5 @@ make_nsalloc_test_case(Suite *s) {
+-   tcase_add_test__if_xml_ge(tc_nsalloc, test_nsalloc_long_default_in_ext);
+-   tcase_add_test(tc_nsalloc, test_nsalloc_long_systemid_in_ext);
+-   tcase_add_test(tc_nsalloc, test_nsalloc_prefixed_element);
+-+  tcase_add_test(tc_nsalloc, test_nsalloc_setContext_zombie);
+- }
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
+deleted file mode 100644
+index 0c6af75a5de..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-41080-01.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From fe04a7f0ff8afe57ba33d919f368b1ba23bcda92 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 30 Mar 2025 19:26:55 +0200
+-Subject: [PATCH 1/3] lib/xmlparse.c: Address clang-tidy warning
+- misc-no-recursion
+-
+-CVE: CVE-2026-41080
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/fe04a7f0ff8afe57ba33d919f368b1ba23bcda92]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 17 ++++++++++-------
+- 1 file changed, 10 insertions(+), 7 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 9bc67f38..cb25c37b 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -1243,9 +1243,10 @@ generate_hash_secret_salt(XML_Parser parser) {
+- 
+- static unsigned long
+- get_hash_secret_salt(XML_Parser parser) {
+--  if (parser->m_parentParser != NULL)
+--    return get_hash_secret_salt(parser->m_parentParser);
+--  return parser->m_hash_secret_salt;
+-+  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-+  assert(! rootParser->m_parentParser);
+-+
+-+  return rootParser->m_hash_secret_salt;
+- }
+- 
+- static enum XML_Error
+-@@ -2321,12 +2322,14 @@ int XMLCALL
+- XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
+-   if (parser == NULL)
+-     return 0;
+--  if (parser->m_parentParser)
+--    return XML_SetHashSalt(parser->m_parentParser, hash_salt);
+-+
+-+  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-+  assert(! rootParser->m_parentParser);
+-+
+-   /* block after XML_Parse()/XML_ParseBuffer() has been called */
+--  if (parserBusy(parser))
+-+  if (parserBusy(rootParser))
+-     return 0;
+--  parser->m_hash_secret_salt = hash_salt;
+-+  rootParser->m_hash_secret_salt = hash_salt;
+-   return 1;
+- }
+- 
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
+deleted file mode 100644
+index 953f93c68a9..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-41080-02.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 7fb2c7a454edc9e2880073a27f899c31d9b078ce Mon Sep 17 00:00:00 2001
+-From: Atrem Borovik <polzovatellllk@gmail.com>
+-Date: Sat, 20 Dec 2025 13:22:16 +0300
+-Subject: [PATCH 2/3] WASI: remove getpid
+-
+-CVE: CVE-2026-41080
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/7fb2c7a454edc9e2880073a27f899c31d9b078ce]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- lib/xmlparse.c | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index cb25c37b..1bafb948 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -1228,8 +1228,11 @@ generate_hash_secret_salt(XML_Parser parser) {
+- #  endif /* ! defined(_WIN32) && defined(XML_DEV_URANDOM) */
+-   /* .. and self-made low quality for backup: */
+- 
+-+  entropy = gather_time_entropy();
+-+#  if ! defined(__wasi__)
+-   /* Process ID is 0 bits entropy if attacker has local access */
+--  entropy = gather_time_entropy() ^ getpid();
+-+  entropy ^= getpid();
+-+#  endif
+- 
+-   /* Factors are 2^31-1 and 2^61-1 (Mersenne primes M31 and M61) */
+-   if (sizeof(unsigned long) == 4) {
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch b/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
+deleted file mode 100644
+index 4d17f1a0b0e..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-41080-03.patch
++++ /dev/null
+@@ -1,467 +0,0 @@
+-From b77ab600e1893fdcfc3868d0a46efcc87c87943d Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Wed, 8 Apr 2026 15:41:54 +0200
+-Subject: [PATCH 3/3] [CVE-2026-41080] Improve protection against hash flooding
+- (fixes #47)
+-
+-Fixes #47
+-
+-CVE: CVE-2026-41080
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1183]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- Changes             |  16 ++++++
+- doc/reference.html  |  51 ++++++++++++++--
+- lib/expat.h         |  12 ++++
+- lib/internal.h      |   2 +
+- lib/xmlparse.c      | 118 ++++++++++++++++++++++++++------------
+- tests/basic_tests.c |  25 ++++++++
+- 6 files changed, 181 insertions(+), 43 deletions(-)
+-
+-diff --git a/Changes b/Changes
+-index 4265d608..1d87d6a0 100644
+---- a/Changes
+-+++ b/Changes
+-@@ -30,6 +30,22 @@
+- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+- 
+- Patches:
+-+        Security fixes:
+-+       #47 #1183  CVE-2026-41080 -- The existing hash flooding protection
+-+                    (based on SipHash) only used 4 to 8 bytes of entropy for
+-+                    a salt, when 16 bytes of salt are supported by the
+-+                    implementation of SipHash used by Expat. Now full 16 bytes
+-+                    of entropy are used to improve protection against hash
+-+                    flooding attacks.
+-+                      Existing API function XML_SetHashSalt is now deprecated
+-+                    because of its limitations, and its use should be
+-+                    considered a vulnerability. Please either use the new API
+-+                    function XML_SetHashSalt16Bytes (with known-high-quality
+-+                    entropy input only!) instead, or leave the derivation of
+-+                    a 16-bytes hash salt from high quality entropy to Expat's
+-+                    internal machinery (by *not* calling either of the two
+-+                    XML_SetHashSalt* functions).
+-+
+-         Security fixes:
+-      #1018 #1034  CVE-2025-59375 -- Disallow use of disproportional amounts of
+-                     dynamic memory from within an Expat parser (e.g. previously
+-diff --git a/doc/reference.html b/doc/reference.html
+-index 8f14b011..7f374f84 100644
+---- a/doc/reference.html
+-+++ b/doc/reference.html
+-@@ -174,7 +174,8 @@ interface.</p>
+-       <li><a href="#XML_GetAttributeInfo">XML_GetAttributeInfo</a></li>
+-       <li><a href="#XML_SetEncoding">XML_SetEncoding</a></li>
+-       <li><a href="#XML_SetParamEntityParsing">XML_SetParamEntityParsing</a></li>
+--      <li><a href="#XML_SetHashSalt">XML_SetHashSalt</a></li>
+-+      <li><a href="#XML_SetHashSalt">XML_SetHashSalt</a> (deprecated)</li>
+-+      <li><a href="#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></li>
+-       <li><a href="#XML_UseForeignDTD">XML_UseForeignDTD</a></li>
+-       <li><a href="#XML_SetReturnNSTriplet">XML_SetReturnNSTriplet</a></li>
+-       <li><a href="#XML_DefaultCurrent">XML_DefaultCurrent</a></li>
+-@@ -2553,10 +2554,10 @@ The choices for <code>code</code> are:
+- no effect and will always return 0.
+- </div>
+- 
+--<h4 id="XML_SetHashSalt">XML_SetHashSalt</h4>
+-+<h4 id="XML_SetHashSalt">XML_SetHashSalt (deprecated)</h4>
+- <pre class="fcndec">
+- int XMLCALL
+--XML_SetHashSalt(XML_Parser p,
+-+XML_SetHashSalt(XML_Parser parser,
+-                 unsigned long hash_salt);
+- </pre>
+- <div class="fcndef">
+-@@ -2564,15 +2565,55 @@ Sets the hash salt to use for internal hash calculations.
+- Helps in preventing DoS attacks based on predicting hash
+- function behavior. In order to have an effect this must be called
+- before parsing has started. Returns 1 if successful, 0 when called
+--after <code>XML_Parse</code> or <code>XML_ParseBuffer</code>.
+-+after <code>XML_Parse</code> or <code>XML_ParseBuffer</code> or when
+-+        <code>parser</code> is <code>NULL</code>.
+-+        <p>
+-+          <b>Note:</b> Function <code>XML_SetHashSalt</code> is
+-+          <strong>deprecated</strong>. Please use function <code><a href=
+-+          "#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></code> instead for better
+-+          security. <code>XML_SetHashSalt</code> only provides 4 to 8 bytes of entropy
+-+          (depending on the size of type <code>unsigned long</code>) while the SipHash
+-+          implementation used by Expat can leverage up to 16 bytes of entropy — at least
+-+          twice as much. Function <code><a href=
+-+          "#XML_SetHashSalt16Bytes">XML_SetHashSalt16Bytes</a></code> of Expat &gt;=2.7.6
+-+          (and where backported) matches the amount of entropy supported by SipHash.
+-+        </p>.
+- <p><b>Note:</b> This call is optional, as the parser will auto-generate
+--a new random salt value if no value has been set at the start of parsing.</p>
+-+a new random salt value internally if no value has been set by the start of parsing.</p>
+- <p><b>Note:</b> One should not call <code>XML_SetHashSalt</code> with a
+- hash salt value of 0, as this value is used as sentinel value to indicate
+- that <code>XML_SetHashSalt</code> has <b>not</b> been called. Consequently
+- such a call will have no effect, even if it returns 1.</p>
+- </div>
+- 
+-+      <h4 id="XML_SetHashSalt16Bytes">
+-+        XML_SetHashSalt16Bytes
+-+      </h4>
+-+
+-+      <pre class="fcndec">
+-+/* Added in Expat 2.7.6. */
+-+XML_Bool XMLCALL
+-+XML_SetHashSalt16Bytes(XML_Parser parser,
+-+                       const uint8_t entropy[16]);
+-+</pre>
+-+      <div class="fcndef">
+-+        Sets the hash salt to use for internal hash calculations. Helps in preventing DoS
+-+        attacks based on predicting hash function behavior. In order to have an effect
+-+        this must be called before parsing has started. Returns <code>XML_TRUE</code> if
+-+        successful, <code>XML_FALSE</code> when called after <code>XML_Parse</code> or
+-+        <code>XML_ParseBuffer</code> or when <code>parser</code> is <code>NULL</code>.
+-+        <p>
+-+          <b>Note:</b> Setting a salt that is <em>not</em> from a source of high quality
+-+          entropy (like <code>getentropy(3)</code>) will make the parser vulnerable to
+-+          hash flooding attacks.
+-+        </p>
+-+
+-+        <p>
+-+          <b>Note:</b> This call is optional, as the parser will auto-generate a new
+-+          random salt value internally if no value has been set by the start of parsing.
+-+        </p>
+-+      </div>
+-+
+- <h4 id="XML_UseForeignDTD">XML_UseForeignDTD</h4>
+- <pre class="fcndec">
+- enum XML_Error XMLCALL
+-diff --git a/lib/expat.h b/lib/expat.h
+-index df207e9e..b356e002 100644
+---- a/lib/expat.h
+-+++ b/lib/expat.h
+-@@ -44,6 +44,7 @@
+- #ifndef Expat_INCLUDED
+- #define Expat_INCLUDED 1
+- 
+-+#  include <stdint.h> // for uint8_t
+- #include <stdlib.h>
+- #include "expat_external.h"
+- 
+-@@ -916,10 +917,21 @@ XML_SetParamEntityParsing(XML_Parser parser,
+-    function behavior. This must be called before parsing is started.
+-    Returns 1 if successful, 0 when called after parsing has started.
+-    Note: If parser == NULL, the function will do nothing and return 0.
+-+   DEPRECATED since Expat 2.7.6.
+- */
+- XMLPARSEAPI(int)
+- XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt);
+- 
+-+/* Sets the hash salt to use for internal hash calculations.
+-+   Helps in preventing DoS attacks based on predicting hash function behavior.
+-+   This must be called before parsing is started.
+-+   Returns XML_TRUE if successful, XML_FALSE when called after parsing has
+-+   started or when parser is NULL.
+-+   Added in Expat 2.7.6.
+-+*/
+-+XMLPARSEAPI(XML_Bool)
+-+XML_SetHashSalt16Bytes(XML_Parser parser, const uint8_t entropy[16]);
+-+
+- /* If XML_Parse or XML_ParseBuffer have returned XML_STATUS_ERROR, then
+-    XML_GetErrorCode returns information about the error.
+- */
+-diff --git a/lib/internal.h b/lib/internal.h
+-index 32faaa05..617d6454 100644
+---- a/lib/internal.h
+-+++ b/lib/internal.h
+-@@ -113,6 +113,7 @@
+- #if defined(_WIN32)                                                            \
+-     && (! defined(__USE_MINGW_ANSI_STDIO)                                      \
+-         || (1 - __USE_MINGW_ANSI_STDIO - 1 == 0))
+-+#  define EXPAT_FMT_LLX(midpart) "%" midpart "I64x"
+- #  define EXPAT_FMT_ULL(midpart) "%" midpart "I64u"
+- #  if defined(_WIN64) // Note: modifiers "td" and "zu" do not work for MinGW
+- #    define EXPAT_FMT_PTRDIFF_T(midpart) "%" midpart "I64d"
+-@@ -122,6 +123,7 @@
+- #    define EXPAT_FMT_SIZE_T(midpart) "%" midpart "u"
+- #  endif
+- #else
+-+#  define EXPAT_FMT_LLX(midpart) "%" midpart "llx"
+- #  define EXPAT_FMT_ULL(midpart) "%" midpart "llu"
+- #  if ! defined(ULONG_MAX)
+- #    error Compiler did not define ULONG_MAX for us
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 1bafb948..75a7e5d0 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -604,7 +604,7 @@ static ELEMENT_TYPE *getElementType(XML_Parser parser, const ENCODING *enc,
+- 
+- static XML_Char *copyString(const XML_Char *s, XML_Parser parser);
+- 
+--static unsigned long generate_hash_secret_salt(XML_Parser parser);
+-+static struct sipkey generate_hash_secret_salt(void);
+- static XML_Bool startParsing(XML_Parser parser);
+- 
+- static XML_Parser parserCreate(const XML_Char *encodingName,
+-@@ -777,7 +777,8 @@ struct XML_ParserStruct {
+-   XML_Bool m_useForeignDTD;
+-   enum XML_ParamEntityParsing m_paramEntityParsing;
+- #endif
+--  unsigned long m_hash_secret_salt;
+-+  struct sipkey m_hash_secret_salt_128;
+-+  XML_Bool m_hash_secret_salt_set;
+- #if XML_GE == 1
+-   ACCOUNTING m_accounting;
+-   MALLOC_TRACKER m_alloc_tracker;
+-@@ -1189,69 +1190,65 @@ gather_time_entropy(void) {
+- 
+- #endif /* ! defined(HAVE_ARC4RANDOM_BUF) && ! defined(HAVE_ARC4RANDOM) */
+- 
+--static unsigned long
+--ENTROPY_DEBUG(const char *label, unsigned long entropy) {
+-+static struct sipkey
+-+ENTROPY_DEBUG(const char *label, struct sipkey entropy_128) {
+-   if (getDebugLevel("EXPAT_ENTROPY_DEBUG", 0) >= 1u) {
+--    fprintf(stderr, "expat: Entropy: %s --> 0x%0*lx (%lu bytes)\n", label,
+--            (int)sizeof(entropy) * 2, entropy, (unsigned long)sizeof(entropy));
+-+    fprintf(stderr,
+-+            "expat: Entropy: %s --> [0x" EXPAT_FMT_LLX(
+-+                "016") ", 0x" EXPAT_FMT_LLX("016") "] (16 bytes)\n",
+-+            label, (unsigned long long)entropy_128.k[0],
+-+            (unsigned long long)entropy_128.k[1]);
+-   }
+--  return entropy;
+-+  return entropy_128;
+- }
+- 
+--static unsigned long
+--generate_hash_secret_salt(XML_Parser parser) {
+--  unsigned long entropy;
+--  (void)parser;
+-+static struct sipkey
+-+generate_hash_secret_salt(void) {
+-+  struct sipkey entropy;
+- 
+-   /* "Failproof" high quality providers: */
+- #if defined(HAVE_ARC4RANDOM_BUF)
+-   arc4random_buf(&entropy, sizeof(entropy));
+-   return ENTROPY_DEBUG("arc4random_buf", entropy);
+- #elif defined(HAVE_ARC4RANDOM)
+--  writeRandomBytes_arc4random((void *)&entropy, sizeof(entropy));
+-+  writeRandomBytes_arc4random(&entropy, sizeof(entropy));
+-   return ENTROPY_DEBUG("arc4random", entropy);
+- #else
+-   /* Try high quality providers first .. */
+- #  ifdef _WIN32
+--  if (writeRandomBytes_rand_s((void *)&entropy, sizeof(entropy))) {
+-+  if (writeRandomBytes_rand_s(&entropy, sizeof(entropy))) {
+-     return ENTROPY_DEBUG("rand_s", entropy);
+-   }
+- #  elif defined(HAVE_GETRANDOM) || defined(HAVE_SYSCALL_GETRANDOM)
+--  if (writeRandomBytes_getrandom_nonblock((void *)&entropy, sizeof(entropy))) {
+-+  if (writeRandomBytes_getrandom_nonblock(&entropy, sizeof(entropy))) {
+-     return ENTROPY_DEBUG("getrandom", entropy);
+-   }
+- #  endif
+- #  if ! defined(_WIN32) && defined(XML_DEV_URANDOM)
+--  if (writeRandomBytes_dev_urandom((void *)&entropy, sizeof(entropy))) {
+-+  if (writeRandomBytes_dev_urandom(&entropy, sizeof(entropy))) {
+-     return ENTROPY_DEBUG("/dev/urandom", entropy);
+-   }
+- #  endif /* ! defined(_WIN32) && defined(XML_DEV_URANDOM) */
+-   /* .. and self-made low quality for backup: */
+- 
+--  entropy = gather_time_entropy();
+-+  entropy.k[0] = 0;
+-+  entropy.k[1] = gather_time_entropy();
+- #  if ! defined(__wasi__)
+-   /* Process ID is 0 bits entropy if attacker has local access */
+--  entropy ^= getpid();
+-+  entropy.k[1] ^= getpid();
+- #  endif
+- 
+-   /* Factors are 2^31-1 and 2^61-1 (Mersenne primes M31 and M61) */
+-   if (sizeof(unsigned long) == 4) {
+--    return ENTROPY_DEBUG("fallback(4)", entropy * 2147483647);
+-+    entropy.k[1] *= 2147483647;
+-+    return ENTROPY_DEBUG("fallback(4)", entropy);
+-   } else {
+--    return ENTROPY_DEBUG("fallback(8)",
+--                         entropy * (unsigned long)2305843009213693951ULL);
+-+    entropy.k[1] *= 2305843009213693951ULL;
+-+    return ENTROPY_DEBUG("fallback(8)", entropy);
+-   }
+- #endif
+- }
+- 
+--static unsigned long
+--get_hash_secret_salt(XML_Parser parser) {
+--  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+--  assert(! rootParser->m_parentParser);
+--
+--  return rootParser->m_hash_secret_salt;
+--}
+--
+- static enum XML_Error
+- callProcessor(XML_Parser parser, const char *start, const char *end,
+-               const char **endPtr) {
+-@@ -1320,8 +1316,10 @@ callProcessor(XML_Parser parser, const char *start, const char *end,
+- static XML_Bool /* only valid for root parser */
+- startParsing(XML_Parser parser) {
+-   /* hash functions must be initialized before setContext() is called */
+--  if (parser->m_hash_secret_salt == 0)
+--    parser->m_hash_secret_salt = generate_hash_secret_salt(parser);
+-+  if (parser->m_hash_secret_salt_set != XML_TRUE) {
+-+    parser->m_hash_secret_salt_128 = generate_hash_secret_salt();
+-+    parser->m_hash_secret_salt_set = XML_TRUE;
+-+  }
+-   if (parser->m_ns) {
+-     /* implicit context only set for root parser, since child
+-        parsers (i.e. external entity parsers) will inherit it
+-@@ -1609,7 +1607,9 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
+-   parser->m_useForeignDTD = XML_FALSE;
+-   parser->m_paramEntityParsing = XML_PARAM_ENTITY_PARSING_NEVER;
+- #endif
+--  parser->m_hash_secret_salt = 0;
+-+  parser->m_hash_secret_salt_128.k[0] = 0;
+-+  parser->m_hash_secret_salt_128.k[1] = 0;
+-+  parser->m_hash_secret_salt_set = XML_FALSE;
+- 
+- #if XML_GE == 1
+-   memset(&parser->m_accounting, 0, sizeof(ACCOUNTING));
+-@@ -1776,7 +1776,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
+-      from hash tables associated with either parser without us having
+-      to worry which hash secrets each table has.
+-   */
+--  unsigned long oldhash_secret_salt;
+-+  struct sipkey oldhash_secret_salt_128;
+-+  XML_Bool oldhash_secret_salt_set;
+-   XML_Bool oldReparseDeferralEnabled;
+- 
+-   /* Validate the oldParser parameter before we pull everything out of it */
+-@@ -1822,7 +1823,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
+-      from hash tables associated with either parser without us having
+-      to worry which hash secrets each table has.
+-   */
+--  oldhash_secret_salt = parser->m_hash_secret_salt;
+-+  oldhash_secret_salt_128 = parser->m_hash_secret_salt_128;
+-+  oldhash_secret_salt_set = parser->m_hash_secret_salt_set;
+-   oldReparseDeferralEnabled = parser->m_reparseDeferralEnabled;
+- 
+- #ifdef XML_DTD
+-@@ -1877,7 +1879,8 @@ XML_ExternalEntityParserCreate(XML_Parser oldParser, const XML_Char *context,
+-     parser->m_externalEntityRefHandlerArg = oldExternalEntityRefHandlerArg;
+-   parser->m_defaultExpandInternalEntities = oldDefaultExpandInternalEntities;
+-   parser->m_ns_triplets = oldns_triplets;
+--  parser->m_hash_secret_salt = oldhash_secret_salt;
+-+  parser->m_hash_secret_salt_128 = oldhash_secret_salt_128;
+-+  parser->m_hash_secret_salt_set = oldhash_secret_salt_set;
+-   parser->m_reparseDeferralEnabled = oldReparseDeferralEnabled;
+-   parser->m_parentParser = oldParser;
+- #ifdef XML_DTD
+-@@ -2321,6 +2324,7 @@ XML_SetParamEntityParsing(XML_Parser parser,
+- #endif
+- }
+- 
+-+// DEPRECATED since Expat 2.7.6.
+- int XMLCALL
+- XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
+-   if (parser == NULL)
+-@@ -2332,10 +2336,46 @@ XML_SetHashSalt(XML_Parser parser, unsigned long hash_salt) {
+-   /* block after XML_Parse()/XML_ParseBuffer() has been called */
+-   if (parserBusy(rootParser))
+-     return 0;
+--  rootParser->m_hash_secret_salt = hash_salt;
+-+
+-+  rootParser->m_hash_secret_salt_128.k[0] = 0;
+-+  rootParser->m_hash_secret_salt_128.k[1] = hash_salt;
+-+
+-+  if (hash_salt != 0) { // to remain backwards compatible
+-+    rootParser->m_hash_secret_salt_set = XML_TRUE;
+-+
+-+    if (sizeof(unsigned long) == 4)
+-+      ENTROPY_DEBUG("explicit(4)", rootParser->m_hash_secret_salt_128);
+-+    else
+-+      ENTROPY_DEBUG("explicit(8)", rootParser->m_hash_secret_salt_128);
+-+  }
+-+
+-   return 1;
+- }
+- 
+-+XML_Bool XMLCALL
+-+XML_SetHashSalt16Bytes(XML_Parser parser, const uint8_t entropy[16]) {
+-+  if (parser == NULL)
+-+    return XML_FALSE;
+-+
+-+  if (entropy == NULL)
+-+    return XML_FALSE;
+-+
+-+  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-+  assert(! rootParser->m_parentParser);
+-+
+-+  /* block after XML_Parse()/XML_ParseBuffer() has been called */
+-+  if (parserBusy(rootParser))
+-+    return XML_FALSE;
+-+
+-+  sip_tokey(&(rootParser->m_hash_secret_salt_128), entropy);
+-+
+-+  rootParser->m_hash_secret_salt_set = XML_TRUE;
+-+
+-+  ENTROPY_DEBUG("explicit(16)", rootParser->m_hash_secret_salt_128);
+-+
+-+  return XML_TRUE;
+-+}
+-+
+- enum XML_Status XMLCALL
+- XML_Parse(XML_Parser parser, const char *s, int len, int isFinal) {
+-   if ((parser == NULL) || (len < 0) || ((s == NULL) && (len != 0))) {
+-@@ -7837,8 +7877,10 @@ keylen(KEY s) {
+- 
+- static void
+- copy_salt_to_sipkey(XML_Parser parser, struct sipkey *key) {
+--  key->k[0] = 0;
+--  key->k[1] = get_hash_secret_salt(parser);
+-+  const XML_Parser rootParser = getRootParserOf(parser, NULL);
+-+  assert(! rootParser->m_parentParser);
+-+
+-+  *key = rootParser->m_hash_secret_salt_128;
+- }
+- 
+- static unsigned long FASTCALL
+-diff --git a/tests/basic_tests.c b/tests/basic_tests.c
+-index 023d9ce4..380caf19 100644
+---- a/tests/basic_tests.c
+-+++ b/tests/basic_tests.c
+-@@ -204,6 +204,30 @@ START_TEST(test_hash_collision) {
+- END_TEST
+- #undef COLLIDING_HASH_SALT
+- 
+-+START_TEST(test_hash_salt_setter) {
+-+  const uint8_t entropy[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
+-+                               '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+
+-+  // NULL parser should be rejected
+-+  assert_true(XML_SetHashSalt16Bytes(NULL, entropy) == XML_FALSE);
+-+
+-+  // NULL entropy should be rejected
+-+  assert_true(XML_SetHashSalt16Bytes(parser, NULL) == XML_FALSE);
+-+
+-+  // Setting should be allowed more than once
+-+  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_TRUE);
+-+  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_TRUE);
+-+
+-+  // But not after parsing has started
+-+  assert_true(XML_Parse(parser, "", 0, XML_FALSE /* isFinal */)
+-+              == XML_STATUS_OK);
+-+  assert_true(XML_SetHashSalt16Bytes(parser, entropy) == XML_FALSE);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- /* Regression test for SF bug #491986. */
+- START_TEST(test_danish_latin1) {
+-   const char *text = "<?xml version='1.0' encoding='iso-8859-1'?>\n"
+-@@ -6244,6 +6268,7 @@ make_basic_test_case(Suite *s) {
+-   tcase_add_test(tc_basic, test_bom_utf16_le);
+-   tcase_add_test(tc_basic, test_nobom_utf16_le);
+-   tcase_add_test(tc_basic, test_hash_collision);
+-+  tcase_add_test(tc_basic, test_hash_salt_setter);
+-   tcase_add_test(tc_basic, test_illegal_utf8);
+-   tcase_add_test(tc_basic, test_utf8_auto_align);
+-   tcase_add_test(tc_basic, test_utf16);
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
+deleted file mode 100644
+index 787006c0fdb..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-45186-01.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 3020144133b2d860c44f4eeacf72e5f2843235a3 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@siemens.com>
+-Date: Fri, 13 Mar 2026 13:26:45 +0100
+-Subject: [PATCH 1/7] Make "counting_start_element_handler" count default attrs
+-
+-(cherry picked from commit 0802a5892030610144b736dec6e2f63e8600fe85)
+-
+-CVE: CVE-2026-45186
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/0802a5892030610144b736dec6e2f63e8600fe85]
+-Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
+----
+- tests/basic_tests.c | 8 ++++----
+- tests/handlers.c    | 2 +-
+- tests/handlers.h    | 1 +
+- 3 files changed, 6 insertions(+), 5 deletions(-)
+-
+-diff --git a/tests/basic_tests.c b/tests/basic_tests.c
+-index 023d9ce..d6edb16 100644
+---- a/tests/basic_tests.c
+-+++ b/tests/basic_tests.c
+-@@ -2439,9 +2439,9 @@ START_TEST(test_attributes) {
+-                          {XCS("id"), XCS("one")},
+-                          {NULL, NULL}};
+-   AttrInfo tag_info[] = {{XCS("c"), XCS("3")}, {NULL, NULL}};
+--  ElementInfo info[] = {{XCS("doc"), 3, XCS("id"), NULL},
+--                        {XCS("tag"), 1, NULL, NULL},
+--                        {NULL, 0, NULL, NULL}};
+-+  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), NULL},
+-+                        {XCS("tag"), 1, 0, NULL, NULL},
+-+                        {NULL, 0, 0, NULL, NULL}};
+-   info[0].attributes = doc_info;
+-   info[1].attributes = tag_info;
+- 
+-@@ -5496,7 +5496,7 @@ START_TEST(test_deep_nested_attribute_entity) {
+-            (long unsigned)(N_LINES - 1));
+- 
+-   AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
+--  ElementInfo info[] = {{XCS("foo"), 1, NULL, NULL}, {NULL, 0, NULL, NULL}};
+-+  ElementInfo info[] = {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, NULL, NULL}};
+-   info[0].attributes = doc_info;
+- 
+-   XML_Parser parser = XML_ParserCreate(NULL);
+-diff --git a/tests/handlers.c b/tests/handlers.c
+-index e658223..9ff7b35 100644
+---- a/tests/handlers.c
+-+++ b/tests/handlers.c
+-@@ -137,7 +137,7 @@ counting_start_element_handler(void *userData, const XML_Char *name,
+-     fail("ID does not have the correct name");
+-     return;
+-   }
+--  for (i = 0; i < info->attr_count; i++) {
+-+  for (i = 0; i < info->attr_count + info->default_attr_count; i++) {
+-     attr = info->attributes;
+-     while (attr->name != NULL) {
+-       if (! xcstrcmp(atts[0], attr->name))
+-diff --git a/tests/handlers.h b/tests/handlers.h
+-index ac4ca94..11d45eb 100644
+---- a/tests/handlers.h
+-+++ b/tests/handlers.h
+-@@ -88,6 +88,7 @@ typedef struct attrInfo {
+- typedef struct elementInfo {
+-   const XML_Char *name;
+-   int attr_count;
+-+  int default_attr_count;
+-   const XML_Char *id_name;
+-   AttrInfo *attributes;
+- } ElementInfo;
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
+deleted file mode 100644
+index fef531a4392..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-45186-02.patch
++++ /dev/null
+@@ -1,318 +0,0 @@
+-From ba12af3b3ffd98b9e31c3a01a20d392c89aa974e Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Berkay=20Eren=20=C3=9Cr=C3=BCn?= <berkay.ueruen@siemens.com>
+-Date: Fri, 13 Mar 2026 13:27:31 +0100
+-Subject: [PATCH 2/7] test(attlist): Cover duplicate attribute names
+-
+-Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
+-(cherry picked from commit e569f47181c43dca5d262089e541ddf9a9c09927)
+-
+-CVE: CVE-2026-45186
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/e569f47181c43dca5d262089e541ddf9a9c09927]
+-Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
+----
+- tests/basic_tests.c | 282 ++++++++++++++++++++++++++++++++++++++++++++
+- 1 file changed, 282 insertions(+)
+-
+-diff --git a/tests/basic_tests.c b/tests/basic_tests.c
+-index d6edb16..907a458 100644
+---- a/tests/basic_tests.c
+-+++ b/tests/basic_tests.c
+-@@ -2462,6 +2462,279 @@ START_TEST(test_attributes) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_duplicate_cdata_attribute) {
+-+  /*
+-+  https://www.w3.org/TR/xml/#attdecls
+-+
+-+  Test the following statement from the linked specification:
+-+    When more than one definition is provided for the same attribute of a given
+-+    element type, the first declaration is binding and later declarations are
+-+    ignored.
+-+  */
+-+
+-+  const char *text
+-+      = "<!DOCTYPE doc [\n"
+-+        "  <!ATTLIST doc attribute CDATA 'expected' attribute CDATA 'ignored'>\n"
+-+        "]>\n"
+-+        "<doc/>\n";
+-+  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected")}, {NULL, NULL}};
+-+  ElementInfo info[]
+-+      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(parser != NULL);
+-+
+-+  ParserAndElementInfo parserAndElementInfos = {
+-+      parser,
+-+      info,
+-+  };
+-+
+-+  XML_SetStartElementHandler(parser, counting_start_element_handler);
+-+  XML_SetUserData(parser, &parserAndElementInfos);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      != XML_STATUS_OK)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_duplicate_id_attribute_1) {
+-+  /*
+-+  https://www.w3.org/TR/xml/#attdecls
+-+
+-+  Test the following statement from the linked specification:
+-+    When more than one definition is provided for the same attribute of a given
+-+    element type, the first declaration is binding and later declarations are
+-+    ignored.
+-+  */
+-+
+-+  const char *text
+-+      = "<!DOCTYPE doc [\n"
+-+        "  <!ATTLIST doc identifier CDATA 'expected' identifier ID #REQUIRED>\n"
+-+        "]>\n"
+-+        "<doc/>\n";
+-+  AttrInfo doc_info[] = {{XCS("identifier"), XCS("expected")}, {NULL, NULL}};
+-+  ElementInfo info[]
+-+      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(parser != NULL);
+-+
+-+  ParserAndElementInfo parserAndElementInfos = {
+-+      parser,
+-+      info,
+-+  };
+-+
+-+  XML_SetStartElementHandler(parser, counting_start_element_handler);
+-+  XML_SetUserData(parser, &parserAndElementInfos);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      != XML_STATUS_OK)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_duplicate_id_attribute_2) {
+-+  /*
+-+  https://www.w3.org/TR/xml/#attdecls
+-+
+-+  Test the following statement from the linked specification:
+-+    When more than one definition is provided for the same attribute of a given
+-+    element type, the first declaration is binding and later declarations are
+-+    ignored.
+-+  */
+-+
+-+  const char *text
+-+      = "<!DOCTYPE doc [\n"
+-+        "  <!ATTLIST doc identifier ID #REQUIRED identifier CDATA 'unexpected'>\n"
+-+        "]>\n"
+-+        "<doc/>\n";
+-+  AttrInfo doc_info[] = {{NULL, NULL}};
+-+
+-+  ElementInfo info[]
+-+      = {{XCS("doc"), 0, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(parser != NULL);
+-+
+-+  ParserAndElementInfo parserAndElementInfos = {
+-+      parser,
+-+      info,
+-+  };
+-+
+-+  XML_SetStartElementHandler(parser, counting_start_element_handler);
+-+  XML_SetUserData(parser, &parserAndElementInfos);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      != XML_STATUS_OK)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl) {
+-+  /*
+-+  https://www.w3.org/TR/xml/#attdecls
+-+
+-+  Test the following statement from the linked specification:
+-+    When more than one AttlistDecl is provided for a given element type,
+-+    the contents of all those provided are merged.
+-+  */
+-+  const char *text = "<!DOCTYPE doc [\n"
+-+                     "  <!ATTLIST doc attribute CDATA 'expected'>\n"
+-+                     "  <!ATTLIST doc attribute CDATA 'ignored'>\n"
+-+                     "]>\n"
+-+                     "<doc/>\n";
+-+  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected")}, {NULL, NULL}};
+-+  ElementInfo info[]
+-+      = {{XCS("doc"), 0, 1, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(parser != NULL);
+-+
+-+  ParserAndElementInfo parserAndElementInfos = {
+-+      parser,
+-+      info,
+-+  };
+-+
+-+  XML_SetStartElementHandler(parser, counting_start_element_handler);
+-+  XML_SetUserData(parser, &parserAndElementInfos);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      != XML_STATUS_OK)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_2) {
+-+  /*
+-+  https://www.w3.org/TR/xml/#attdecls
+-+
+-+  Test the following statement from the linked specification:
+-+    When more than one AttlistDecl is provided for a given element type,
+-+    the contents of all those provided are merged.
+-+  */
+-+  const char *text = "<!DOCTYPE doc [\n"
+-+                     "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
+-+                     "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
+-+                     "  <!ATTLIST doc attribute CDATA 'ignored_doc'>\n"
+-+                     "]>\n"
+-+                     "<doc><tag></tag></doc>\n";
+-+  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected_doc")}, {NULL, NULL}};
+-+  AttrInfo tag_info[] = {{XCS("attribute"), XCS("expected_tag")}, {NULL, NULL}};
+-+  ElementInfo info[] = {{XCS("doc"), 0, 1, NULL, doc_info},
+-+                        {XCS("tag"), 0, 1, NULL, tag_info},
+-+                        {NULL, 0, 0, NULL, NULL}};
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(parser != NULL);
+-+
+-+  ParserAndElementInfo parserAndElementInfos = {
+-+      parser,
+-+      info,
+-+  };
+-+
+-+  XML_SetStartElementHandler(parser, counting_start_element_handler);
+-+  XML_SetUserData(parser, &parserAndElementInfos);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      != XML_STATUS_OK)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_duplicate_cdata_attribute_multiple_attlistdecl_3) {
+-+  /*
+-+  https://www.w3.org/TR/xml/#attdecls
+-+
+-+  Test the following statement from the linked specification:
+-+    When more than one AttlistDecl is provided for a given element type,
+-+    the contents of all those provided are merged.
+-+  */
+-+  const char *text
+-+      = "<!DOCTYPE doc [\n"
+-+        "  <!ATTLIST doc attribute CDATA 'expected_doc'>\n"
+-+        "  <!ATTLIST tag attribute CDATA 'expected_tag'>\n"
+-+        "  <!ATTLIST doc second_attribute CDATA 'second_expected_doc' attribute CDATA 'ignored_doc'>\n"
+-+        "]>\n"
+-+        "<doc><tag></tag></doc>\n";
+-+  AttrInfo doc_info[] = {{XCS("attribute"), XCS("expected_doc")},
+-+                         {XCS("second_attribute"), XCS("second_expected_doc")},
+-+                         {NULL, NULL}};
+-+  AttrInfo tag_info[] = {{XCS("attribute"), XCS("expected_tag")}, {NULL, NULL}};
+-+  ElementInfo info[] = {{XCS("doc"), 0, 2, NULL, doc_info},
+-+                        {XCS("tag"), 0, 1, NULL, tag_info},
+-+                        {NULL, 0, 0, NULL, NULL}};
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(parser != NULL);
+-+
+-+  ParserAndElementInfo parserAndElementInfos = {
+-+      parser,
+-+      info,
+-+  };
+-+
+-+  XML_SetStartElementHandler(parser, counting_start_element_handler);
+-+  XML_SetUserData(parser, &parserAndElementInfos);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      != XML_STATUS_OK)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+-+START_TEST(test_duplicate_id_attribute_multiple_attlistdecl) {
+-+  /*
+-+  https://www.w3.org/TR/xml/#attdecls
+-+
+-+  Test the following statement from the linked specification:
+-+    When more than one AttlistDecl is provided for a given element type,
+-+    the contents of all those provided are merged.
+-+  */
+-+  const char *text = "<!DOCTYPE doc [\n"
+-+                     "  <!ATTLIST doc identifier ID #REQUIRED>\n"
+-+                     "  <!ATTLIST tag identifier CDATA 'identifier_tag'>\n"
+-+                     "  <!ATTLIST doc identifier CDATA 'ignored'>\n"
+-+                     "]>\n"
+-+                     "<doc identifier='doc_identity'><tag></tag></doc>\n";
+-+  AttrInfo doc_info[]
+-+      = {{XCS("identifier"), XCS("doc_identity")}, {NULL, NULL}};
+-+  AttrInfo tag_info[]
+-+      = {{XCS("identifier"), XCS("identifier_tag")}, {NULL, NULL}};
+-+  ElementInfo info[] = {{XCS("doc"), 1, 0, XCS("identifier"), doc_info},
+-+                        {XCS("tag"), 0, 1, NULL, tag_info},
+-+                        {NULL, 0, 0, NULL, NULL}};
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  assert_true(parser != NULL);
+-+
+-+  ParserAndElementInfo parserAndElementInfos = {
+-+      parser,
+-+      info,
+-+  };
+-+
+-+  XML_SetStartElementHandler(parser, counting_start_element_handler);
+-+  XML_SetUserData(parser, &parserAndElementInfos);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      != XML_STATUS_OK)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- /* Test reset works correctly in the middle of processing an internal
+-  * entity.  Exercises some obscure code in XML_ParserReset().
+-  */
+-@@ -6325,6 +6598,15 @@ make_basic_test_case(Suite *s) {
+-   tcase_add_test__ifdef_xml_dtd(tc_basic, test_empty_foreign_dtd);
+-   tcase_add_test(tc_basic, test_set_base);
+-   tcase_add_test(tc_basic, test_attributes);
+-+  tcase_add_test(tc_basic, test_duplicate_cdata_attribute);
+-+  tcase_add_test(tc_basic, test_duplicate_id_attribute_1);
+-+  tcase_add_test(tc_basic, test_duplicate_id_attribute_2);
+-+  tcase_add_test(tc_basic, test_duplicate_cdata_attribute_multiple_attlistdecl);
+-+  tcase_add_test(tc_basic,
+-+                 test_duplicate_cdata_attribute_multiple_attlistdecl_2);
+-+  tcase_add_test(tc_basic,
+-+                 test_duplicate_cdata_attribute_multiple_attlistdecl_3);
+-+  tcase_add_test(tc_basic, test_duplicate_id_attribute_multiple_attlistdecl);
+-   tcase_add_test__if_xml_ge(tc_basic, test_reset_in_entity);
+-   tcase_add_test(tc_basic, test_resume_invalid_parse);
+-   tcase_add_test(tc_basic, test_resume_resuspended);
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
+deleted file mode 100644
+index 2afe6dbebc4..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-45186-03.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 852ab610685b45c62017556c38096d941c154963 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 20 Apr 2026 13:44:43 +0200
+-Subject: [PATCH 3/7] tests: Define .attributes the first time around
+-
+-(cherry picked from commit 05307d352a5aa858cdda57ec53a53b597b3a4a82)
+-
+-CVE: CVE-2026-45186
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/05307d352a5aa858cdda57ec53a53b597b3a4a82]
+-Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
+----
+- tests/basic_tests.c | 10 ++++------
+- 1 file changed, 4 insertions(+), 6 deletions(-)
+-
+-diff --git a/tests/basic_tests.c b/tests/basic_tests.c
+-index 907a458..b0178fc 100644
+---- a/tests/basic_tests.c
+-+++ b/tests/basic_tests.c
+-@@ -2439,11 +2439,9 @@ START_TEST(test_attributes) {
+-                          {XCS("id"), XCS("one")},
+-                          {NULL, NULL}};
+-   AttrInfo tag_info[] = {{XCS("c"), XCS("3")}, {NULL, NULL}};
+--  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), NULL},
+--                        {XCS("tag"), 1, 0, NULL, NULL},
+-+  ElementInfo info[] = {{XCS("doc"), 3, 0, XCS("id"), doc_info},
+-+                        {XCS("tag"), 1, 0, NULL, tag_info},
+-                         {NULL, 0, 0, NULL, NULL}};
+--  info[0].attributes = doc_info;
+--  info[1].attributes = tag_info;
+- 
+-   XML_Parser parser = XML_ParserCreate(NULL);
+-   assert_true(parser != NULL);
+-@@ -5769,8 +5767,8 @@ START_TEST(test_deep_nested_attribute_entity) {
+-            (long unsigned)(N_LINES - 1));
+- 
+-   AttrInfo doc_info[] = {{XCS("name"), XCS("deepText")}, {NULL, NULL}};
+--  ElementInfo info[] = {{XCS("foo"), 1, 0, NULL, NULL}, {NULL, 0, 0, NULL, NULL}};
+--  info[0].attributes = doc_info;
+-+  ElementInfo info[]
+-+      = {{XCS("foo"), 1, 0, NULL, doc_info}, {NULL, 0, 0, NULL, NULL}};
+- 
+-   XML_Parser parser = XML_ParserCreate(NULL);
+-   ParserAndElementInfo parserPlusElemenInfo = {parser, info};
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
+deleted file mode 100644
+index f4c7733c70d..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-45186-04.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 89c6acdcd919b64014b180fadec46b0d25760832 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Mon, 13 Apr 2026 01:34:03 +0200
+-Subject: [PATCH 4/7] tests: Make counting_start_element_handler enforce
+- complete attribute lists
+-
+-(cherry picked from commit 4176aff73840711060913e0ac6aa1168d8ba5c8d)
+-
+-CVE: CVE-2026-45186
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/4176aff73840711060913e0ac6aa1168d8ba5c8d]
+-Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
+----
+- tests/handlers.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/tests/handlers.c b/tests/handlers.c
+-index 9ff7b35..5e72e8b 100644
+---- a/tests/handlers.c
+-+++ b/tests/handlers.c
+-@@ -155,6 +155,9 @@ counting_start_element_handler(void *userData, const XML_Char *name,
+-     /* Remember, two entries in atts per attribute (see above) */
+-     atts += 2;
+-   }
+-+
+-+  // Self-test that the test case's list of expected attributes is complete
+-+  assert_true(atts[0] == NULL);
+- }
+- 
+- void XMLCALL
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
+deleted file mode 100644
+index 480f941cb6f..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-45186-05.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From d352c83afaa3945c964aba74cb60a00822af96d3 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 8 Mar 2026 22:14:41 +0100
+-Subject: [PATCH 5/7] lib: Extract a constant for upcoming reuse
+-
+-(cherry picked from commit fb35f2d2040d114f355bae8a7450942533237530)
+-
+-CVE: CVE-2026-45186
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/fb35f2d2040d114f355bae8a7450942533237530]
+-Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
+----
+- lib/xmlparse.c | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 9bc67f3..8d3e8db 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -7708,8 +7708,9 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+-       newE->prefix = (PREFIX *)lookup(oldParser, &(newDtd->prefixes),
+-                                       oldE->prefix->name, 0);
+-     for (i = 0; i < newE->nDefaultAtts; i++) {
+-+      const XML_Char *const attributeName = oldE->defaultAtts[i].id->name;
+-       newE->defaultAtts[i].id = (ATTRIBUTE_ID *)lookup(
+--          oldParser, &(newDtd->attributeIds), oldE->defaultAtts[i].id->name, 0);
+-+          oldParser, &(newDtd->attributeIds), attributeName, 0);
+-       newE->defaultAtts[i].isCdata = oldE->defaultAtts[i].isCdata;
+-       if (oldE->defaultAtts[i].value) {
+-         newE->defaultAtts[i].value
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
+deleted file mode 100644
+index d39eb91f2f1..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-45186-06.patch
++++ /dev/null
+@@ -1,87 +0,0 @@
+-From a2c8ddb3d6f4df7af64e05bed4b3a4edeae33fd0 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 8 Mar 2026 23:05:49 +0100
+-Subject: [PATCH 6/7] lib: Introduce ELEMENT_TYPE.defaultAttsNames
+-
+-(cherry picked from commit 7f0f1b9e70d937072d2e9e37ae9edf27784cc080)
+-
+-CVE: CVE-2026-45186
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/7f0f1b9e70d937072d2e9e37ae9edf27784cc080]
+-Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
+----
+- lib/xmlparse.c | 17 +++++++++++++++++
+- 1 file changed, 17 insertions(+)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 8d3e8db..4a29c18 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -388,6 +388,7 @@ typedef struct {
+-   int nDefaultAtts;
+-   int allocDefaultAtts;
+-   DEFAULT_ATTRIBUTE *defaultAtts;
+-+  HASH_TABLE defaultAttsNames;
+- } ELEMENT_TYPE;
+- 
+- typedef struct {
+-@@ -3844,6 +3845,8 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
+-                                          sizeof(ELEMENT_TYPE));
+-     if (! elementType)
+-       return XML_ERROR_NO_MEMORY;
+-+    if (! elementType->defaultAttsNames.parser)
+-+      hashTableInit(&(elementType->defaultAttsNames), parser);
+-     if (parser->m_ns && ! setElementTypePrefix(parser, elementType))
+-       return XML_ERROR_NO_MEMORY;
+-   }
+-@@ -7549,6 +7552,7 @@ dtdReset(DTD *p, XML_Parser parser) {
+-     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
+-     if (! e)
+-       break;
+-+    hashTableDestroy(&(e->defaultAttsNames));
+-     if (e->allocDefaultAtts != 0)
+-       FREE(parser, e->defaultAtts);
+-   }
+-@@ -7590,6 +7594,7 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser) {
+-     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
+-     if (! e)
+-       break;
+-+    hashTableDestroy(&(e->defaultAttsNames));
+-     if (e->allocDefaultAtts != 0)
+-       FREE(parser, e->defaultAtts);
+-   }
+-@@ -7683,6 +7688,10 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+-                                   sizeof(ELEMENT_TYPE));
+-     if (! newE)
+-       return 0;
+-+
+-+    if (! newE->defaultAttsNames.parser)
+-+      hashTableInit(&(newE->defaultAttsNames), parser);
+-+
+-     if (oldE->nDefaultAtts) {
+-       /* Detect and prevent integer overflow.
+-        * The preprocessor guard addresses the "always false" warning
+-@@ -7719,6 +7728,12 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+-           return 0;
+-       } else
+-         newE->defaultAtts[i].value = NULL;
+-+
+-+      NAMED *const nameAddedOrFound = (NAMED *)lookup(
+-+          parser, &(newE->defaultAttsNames), attributeName, sizeof(NAMED));
+-+      if (! nameAddedOrFound) {
+-+        return 0;
+-+      }
+-     }
+-   }
+- 
+-@@ -8458,6 +8473,8 @@ getElementType(XML_Parser parser, const ENCODING *enc, const char *ptr,
+-                                sizeof(ELEMENT_TYPE));
+-   if (! ret)
+-     return NULL;
+-+  if (! ret->defaultAttsNames.parser)
+-+    hashTableInit(&(ret->defaultAttsNames), getRootParserOf(parser, NULL));
+-   if (ret->name != name)
+-     poolDiscard(&dtd->pool);
+-   else {
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch b/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
+deleted file mode 100644
+index 26c829b5220..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-45186-07.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 0e4829f4be500ce687b37ec82f9650b86c8419c7 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 8 Mar 2026 23:06:29 +0100
+-Subject: [PATCH 7/7] lib: Leverage ELEMENT_TYPE.defaultAttsNames for attribute
+- collision detection
+-
+-.. to resolve quadratic runtime behavior
+-
+-(cherry picked from commit 4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5)
+-
+-CVE: CVE-2026-45186
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/1216/commits/4cd4eb0683e04cd45a2ffc81a08ca2a2663994b5]
+-Signed-off-by: Theo Gaige <tgaige.opensource@witekio.com>
+----
+- lib/xmlparse.c | 14 ++++++++++----
+- 1 file changed, 10 insertions(+), 4 deletions(-)
+-
+-diff --git a/lib/xmlparse.c b/lib/xmlparse.c
+-index 4a29c18..b3f0b73 100644
+---- a/lib/xmlparse.c
+-+++ b/lib/xmlparse.c
+-@@ -7177,10 +7177,10 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
+-   if (value || isId) {
+-     /* The handling of default attributes gets messed up if we have
+-        a default which duplicates a non-default. */
+--    int i;
+--    for (i = 0; i < type->nDefaultAtts; i++)
+--      if (attId == type->defaultAtts[i].id)
+--        return 1;
+-+    NAMED *const nameFound
+-+        = (NAMED *)lookup(parser, &(type->defaultAttsNames), attId->name, 0);
+-+    if (nameFound)
+-+      return 1;
+-     if (isId && ! type->idAtt && ! attId->xmlns)
+-       type->idAtt = attId;
+-   }
+-@@ -7227,6 +7227,12 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
+-   att->isCdata = isCdata;
+-   if (! isCdata)
+-     attId->maybeTokenized = XML_TRUE;
+-+
+-+  NAMED *const nameAddedOrFound = (NAMED *)lookup(
+-+      parser, &(type->defaultAttsNames), attId->name, sizeof(NAMED));
+-+  if (! nameAddedOrFound)
+-+    return 0;
+-+
+-   type->nDefaultAtts += 1;
+-   return 1;
+- }
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+deleted file mode 100644
+index fc5b5778787..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
++++ /dev/null
+@@ -1,80 +0,0 @@
+-From 9d1c131840a501e6664c5770046153235467f574 Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Thu, 4 Jun 2026 17:01:02 -0700
+-Subject: [PATCH 13/17] lib: Remove reuse of `m_groupSize` to count
+- `m_scaffIndex` allocation
+-
+-The sizes of the two arrays `m_groupConnector` and `scaffIndex` need to
+-vary independently. This change is a step towards allowing this.
+-
+-Anthropic: ANT-2026-00037
+-Anthropic: ANT-2026-03621
+-Anthropic: ANT-2026-03867
+-Co-authored-by: Alessandro Gario <alessandro.gario@trailofbits.com>
+-
+-CVE: CVE-2026-56132
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/3a4eaf47af8fd7abda38ea2c08308c91152061f3]
+-
+-Backport Changes:
+-- Adapt scaffIndex sizing to Scarthgap 2.6.4, where m_groupSize is
+-  not temporarily doubled before reallocation.
+-  Keep the branch's equivalent size_t overflow check.
+-
+-(cherry picked from commit 3a4eaf47af8fd7abda38ea2c08308c91152061f3)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 6 ++++++
+- 1 file changed, 6 insertions(+)
+- 
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 8439dc0e..e9ad78df 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -423,6 +423,7 @@ typedef struct {
+-   unsigned scaffCount;
+-   int scaffLevel;
+-   int *scaffIndex;
+-+  size_t scaffIndexSize;
+- } DTD;
+- 
+- enum EntityType {
+-@@ -5975,6 +5976,7 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-             if (new_scaff_index == NULL)
+-               return XML_ERROR_NO_MEMORY;
+-             dtd->scaffIndex = new_scaff_index;
+-+            dtd->scaffIndexSize = parser->m_groupSize;
+-           }
+-         } else {
+-           parser->m_groupConnector = MALLOC(parser, parser->m_groupSize = 32);
+-@@ -7575,6 +7577,7 @@ dtdCreate(XML_Parser parser) {
+- 
+-   p->in_eldecl = XML_FALSE;
+-   p->scaffIndex = NULL;
+-+  p->scaffIndexSize = 0;
+-   p->scaffold = NULL;
+-   p->scaffLevel = 0;
+-   p->scaffSize = 0;
+-@@ -7615,6 +7618,7 @@ dtdReset(DTD *p, XML_Parser parser) {
+- 
+-   FREE(parser, p->scaffIndex);
+-   p->scaffIndex = NULL;
+-+  p->scaffIndexSize = 0;
+-   FREE(parser, p->scaffold);
+-   p->scaffold = NULL;
+- 
+-@@ -7790,6 +7794,7 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
+-   newDtd->scaffSize = oldDtd->scaffSize;
+-   newDtd->scaffLevel = oldDtd->scaffLevel;
+-   newDtd->scaffIndex = oldDtd->scaffIndex;
+-+  newDtd->scaffIndexSize = oldDtd->scaffIndexSize;
+- 
+-   return 1;
+- } /* End dtdCopy */
+-@@ -8310,6 +8315,7 @@ nextScaffoldPart(XML_Parser parser) {
+-     dtd->scaffIndex = MALLOC(parser, parser->m_groupSize * sizeof(int));
+-     if (! dtd->scaffIndex)
+-       return -1;
+-+    dtd->scaffIndexSize = parser->m_groupSize;
+-     dtd->scaffIndex[0] = 0;
+-   }
+- 
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+deleted file mode 100644
+index c8a4971e839..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-From a4c1b874dffcc80ee63ca3b4d6a1537c56da8dc1 Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Thu, 4 Jun 2026 17:01:02 -0700
+-Subject: [PATCH 14/17] lib: doProlog: Fix out-of-bound scaffolding index store
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-The scaffold backing array is reallocated using the caller parser’s
+-per-parser `m_groupSize`, but the DTD struct (which carries
+-`scaffIndex`) is shared between a parent parser and any external
+-parameter-entity sub-parser created via
+-`XML_ExternalEntityParserCreate(parent, NULL, …)`. A sub-parser whose
+-group nesting is shallower than the parent’s can `REALLOC` the shared
+-`scaffIndex` down to its own size; when the parent resumes and parses a
+-deeper element content model, its bounds check passes (its private
+-`m_groupSize` is still large enough), the doubling-grow path is skipped,
+-and the next write lands past the shrunken buffer.
+-
+-Anthropic: ANT-2026-00037
+-Anthropic: ANT-2026-03621
+-Anthropic: ANT-2026-03867
+-Co-authored-by: Alessandro Gario <alessandro.gario@trailofbits.com>
+-Reported-by: Trail of Bits, in collaboration with Anthropic
+-
+-CVE: CVE-2026-56132
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/58400483d7c97be316d7a77739c0a6af5d55932e]
+-
+-(cherry picked from commit 58400483d7c97be316d7a77739c0a6af5d55932e)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 15 +++++++++++++++
+- 1 file changed, 15 insertions(+)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index e9ad78df..c46c17bc 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -5992,6 +5992,21 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-         if (myindex < 0)
+-           return XML_ERROR_NO_MEMORY;
+-         assert(dtd->scaffIndex != NULL);
+-+        if ((size_t)dtd->scaffLevel >= dtd->scaffIndexSize) {
+-+          /* Detect and prevent integer overflow */
+-+          if (dtd->scaffIndexSize > SIZE_MAX / 2 / sizeof(int)) {
+-+            return XML_ERROR_NO_MEMORY;
+-+          }
+-+          assert(dtd->scaffIndexSize > 0);
+-+          const size_t new_size = dtd->scaffIndexSize * 2;
+-+          int *const new_scaff_index
+-+              = REALLOC(parser, dtd->scaffIndex, new_size * sizeof(int));
+-+          if (new_scaff_index == NULL) {
+-+            return XML_ERROR_NO_MEMORY;
+-+          }
+-+          dtd->scaffIndex = new_scaff_index;
+-+          dtd->scaffIndexSize = new_size;
+-+        }
+-         dtd->scaffIndex[dtd->scaffLevel] = myindex;
+-         dtd->scaffLevel++;
+-         dtd->scaffold[myindex].type = XML_CTYPE_SEQ;
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+deleted file mode 100644
+index 1376e1d4c0c..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From 5d4d0dab46e077b327f70a7c02a307287e8d1fe5 Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Thu, 4 Jun 2026 17:01:02 -0700
+-Subject: [PATCH 15/17] tests: Add a test case for scaffolding array limits in
+- shared DTDs
+-
+-This test case provokes the bug fixed in the previous commit.
+-
+-Anthropic: ANT-2026-00037
+-Anthropic: ANT-2026-03621
+-Anthropic: ANT-2026-03867
+-Co-authored-by: Alessandro Gario <alessandro.gario@trailofbits.com>
+-Reported-by: Trail of Bits, in collaboration with Anthropic
+-
+-CVE: CVE-2026-56132
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/353919b3b9f2174073a557ac7d517a5f3cd0cbbf]
+-
+-(cherry picked from commit 353919b3b9f2174073a557ac7d517a5f3cd0cbbf)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/tests/basic_tests.c | 33 +++++++++++++++++++++++++++++++++
+- 1 file changed, 33 insertions(+)
+-
+-diff --git a/expat/tests/basic_tests.c b/expat/tests/basic_tests.c
+-index 023d9ce4..d52dcf1c 100644
+---- a/expat/tests/basic_tests.c
+-+++ b/expat/tests/basic_tests.c
+-@@ -4044,6 +4044,37 @@ START_TEST(test_skipped_external_entity) {
+- }
+- END_TEST
+- 
+-+START_TEST(test_scaff_index_shared_across_external_entity_parser) {
+-+  const char text[]
+-+      = "<!DOCTYPE doc [\n"
+-+        "<!ELEMENT a "
+-+        "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((b))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))>\n"
+-+        "<!ENTITY % e SYSTEM 'ext'>\n"
+-+        "%e;\n"
+-+        "<!ELEMENT c "
+-+        "(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((d)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))>\n"
+-+        "]>\n"
+-+        "<doc/>";
+-+  ExtOption options[]
+-+      = {{XCS("ext"),
+-+          "<!ELEMENT x "
+-+          "((((((((((((((((((((((((((((((((y))))))))))))))))))))))))))))))))>"},
+-+         {NULL, NULL}};
+-+
+-+  XML_Parser parser = XML_ParserCreate(NULL);
+-+  XML_SetParamEntityParsing(parser, XML_PARAM_ENTITY_PARSING_ALWAYS);
+-+  XML_SetUserData(parser, options);
+-+  XML_SetExternalEntityRefHandler(parser, external_entity_optioner);
+-+  XML_SetElementDeclHandler(parser, dummy_element_decl_handler);
+-+
+-+  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+-+      == XML_STATUS_ERROR)
+-+    xml_failure(parser);
+-+
+-+  XML_ParserFree(parser);
+-+}
+-+END_TEST
+-+
+- /* Test a different form of unknown external entity */
+- START_TEST(test_skipped_null_loaded_ext_entity) {
+-   const char *text = "<!DOCTYPE doc SYSTEM 'http://example.org/one.ent'>\n"
+-@@ -6399,6 +6430,8 @@ make_basic_test_case(Suite *s) {
+-   tcase_add_test(tc_basic, test_trailing_cr_in_att_value);
+-   tcase_add_test(tc_basic, test_standalone_internal_entity);
+-   tcase_add_test(tc_basic, test_skipped_external_entity);
+-+  tcase_add_test__ifdef_xml_dtd(
+-+      tc_basic, test_scaff_index_shared_across_external_entity_parser);
+-   tcase_add_test(tc_basic, test_skipped_null_loaded_ext_entity);
+-   tcase_add_test(tc_basic, test_skipped_unloaded_ext_entity);
+-   tcase_add_test__ifdef_xml_dtd(tc_basic, test_param_entity_with_trailing_cr);
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+deleted file mode 100644
+index 74d0e33a9d9..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-From a7d7ed5d6dbcc7231529357d64eb19ede3114868 Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Thu, 4 Jun 2026 17:01:02 -0700
+-Subject: [PATCH 16/17] lib: Remove unnecessary `scaffIndex` expansion
+-
+-Following the previous changes, all locations that append entries to
+-`scaffIndex` handle expanding the array if it is not already large
+-enough. So this extra expansion code is no longer necessary. In some
+-cases such as processing siblings with alternating scaffolding counts,
+-this logic would actually _shrink_ the array only to then later
+-re-expand it.
+-
+-Anthropic: ANT-2026-00037
+-Anthropic: ANT-2026-03621
+-Anthropic: ANT-2026-03867
+-Co-authored-by: Alessandro Gario <alessandro.gario@trailofbits.com>
+-
+-CVE: CVE-2026-56132
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/bca93b4ba9e15fd84425568d772b69baebf790e4]
+-
+-Backport Changes:
+-- Remove the Scarthgap 2.6.4 scaffIndex resize block because later
+-  append paths already expand the array when required.
+-
+-(cherry picked from commit bca93b4ba9e15fd84425568d772b69baebf790e4)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 19 -------------------
+- 1 file changed, 19 deletions(-)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index c46c17bc..3afe2884 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -5959,25 +5959,6 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-             }
+-             parser->m_groupConnector = new_connector;
+-           }
+--
+--          if (dtd->scaffIndex) {
+--            /* Detect and prevent integer overflow.
+--             * The preprocessor guard addresses the "always false" warning
+--             * from -Wtype-limits on platforms where
+--             * sizeof(unsigned int) < sizeof(size_t), e.g. on x86_64. */
+--#if UINT_MAX >= SIZE_MAX
+--            if (parser->m_groupSize > (size_t)(-1) / sizeof(int)) {
+--              return XML_ERROR_NO_MEMORY;
+--            }
+--#endif
+--
+--            int *const new_scaff_index = REALLOC(
+--                parser, dtd->scaffIndex, parser->m_groupSize * sizeof(int));
+--            if (new_scaff_index == NULL)
+--              return XML_ERROR_NO_MEMORY;
+--            dtd->scaffIndex = new_scaff_index;
+--            dtd->scaffIndexSize = parser->m_groupSize;
+--          }
+-         } else {
+-           parser->m_groupConnector = MALLOC(parser, parser->m_groupSize = 32);
+-           if (! parser->m_groupConnector) {
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch b/meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+deleted file mode 100644
+index 59229f331ca..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 778ba31c47f9930fe339194f4d97081e43893362 Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Thu, 4 Jun 2026 17:01:02 -0700
+-Subject: [PATCH 17/17] lib: Remove indented scoping of `new_connector` local
+-
+-Following the previous change, the lifetime of `new_connector` as
+-constrained by this introduced scope was identical to the parent scope.
+-
+-CVE: CVE-2026-56132
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/08baa7ef9d168b99094249998fd78f8d190526e5]
+-
+-Backport Changes:
+-- Retain the Scarthgap 2.6.4 unsigned integer overflow guard while
+-  removing only the redundant new_connector scope.
+-
+-(cherry picked from commit 08baa7ef9d168b99094249998fd78f8d190526e5)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 22 ++++++++++------------
+- 1 file changed, 10 insertions(+), 12 deletions(-)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 3afe2884..df8331d5 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -5945,20 +5945,18 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-     case XML_ROLE_GROUP_OPEN:
+-       if (parser->m_prologState.level >= parser->m_groupSize) {
+-         if (parser->m_groupSize) {
+--          {
+--            /* Detect and prevent integer overflow */
+--            if (parser->m_groupSize > (unsigned int)(-1) / 2u) {
+--              return XML_ERROR_NO_MEMORY;
+--            }
+-+          /* Detect and prevent integer overflow */
+-+          if (parser->m_groupSize > (unsigned int)(-1) / 2u) {
+-+            return XML_ERROR_NO_MEMORY;
+-+          }
+- 
+--            char *const new_connector = REALLOC(
+--                parser, parser->m_groupConnector, parser->m_groupSize *= 2);
+--            if (new_connector == NULL) {
+--              parser->m_groupSize /= 2;
+--              return XML_ERROR_NO_MEMORY;
+--            }
+--            parser->m_groupConnector = new_connector;
+-+          char *const new_connector = REALLOC(parser, parser->m_groupConnector,
+-+                                              parser->m_groupSize *= 2);
+-+          if (new_connector == NULL) {
+-+            parser->m_groupSize /= 2;
+-+            return XML_ERROR_NO_MEMORY;
+-           }
+-+          parser->m_groupConnector = new_connector;
+-         } else {
+-           parser->m_groupConnector = MALLOC(parser, parser->m_groupSize = 32);
+-           if (! parser->m_groupConnector) {
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch b/meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch
+deleted file mode 100644
+index 8c9860c6e67..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-From b689559597116ee75a633453e2f7177c8541b04e Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Wed, 20 May 2026 12:12:10 +0200
+-Subject: [PATCH 01/17] lib: Protect function `storeAtts` from signed integer
+- overflow
+-
+-CVE: CVE-2026-56403
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/12dc6d8d3d65f79471a94d8565f6bf1cf245f648]
+-
+-Backport Changes:
+-- Adapt storeAtts to the Scarthgap 2.6.4 loop and URI allocation
+-  logic while preserving the upstream overflow checks.
+-
+-(cherry picked from commit 12dc6d8d3d65f79471a94d8565f6bf1cf245f648)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 30 ++++++++++++++++++++----------
+- 1 file changed, 20 insertions(+), 10 deletions(-)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 9bc67f38..df92a3ca 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -4226,26 +4226,32 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
+-     return XML_ERROR_NONE;
+-   prefixLen = 0;
+-   if (parser->m_ns_triplets && binding->prefix->name) {
+--    for (; binding->prefix->name[prefixLen++];)
+--      ; /* prefixLen includes null terminator */
+-+    size_t candidateLen = 0;
+-+    for (; binding->prefix->name[candidateLen++];)
+-+      ; /* candidateLen includes null terminator */
+-+    /* Detect and prevent integer overflow */
+-+    if (candidateLen > INT_MAX)
+-+      return XML_ERROR_NO_MEMORY;
+-+    prefixLen = (int)candidateLen;
+-   }
+-   tagNamePtr->localPart = localPart;
+-   tagNamePtr->uriLen = binding->uriLen;
+-   tagNamePtr->prefix = binding->prefix->name;
+-   tagNamePtr->prefixLen = prefixLen;
+--  for (i = 0; localPart[i++];)
+--    ; /* i includes null terminator */
+-+
+-+  size_t localPartLen = 0;
+-+  for (; localPart[localPartLen++];)
+-+    ; /* localPartLen includes null terminator */
+- 
+-   /* Detect and prevent integer overflow */
+--  if (binding->uriLen > INT_MAX - prefixLen
+--      || i > INT_MAX - (binding->uriLen + prefixLen)) {
+-+  if (localPartLen > INT_MAX || binding->uriLen > INT_MAX - prefixLen
+-+      || localPartLen > (size_t)INT_MAX - (binding->uriLen + prefixLen)) {
+-     return XML_ERROR_NO_MEMORY;
+-   }
+- 
+--  n = i + binding->uriLen + prefixLen;
+-+  n = (int)localPartLen + binding->uriLen + prefixLen;
+-   if (n > binding->uriAlloc) {
+-     TAG *p;
+--
+-     /* Detect and prevent integer overflow */
+-     if (n > INT_MAX - EXPAND_SPARE) {
+-       return XML_ERROR_NO_MEMORY;
+-@@ -4273,10 +4279,14 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
+-   }
+-   /* if m_namespaceSeparator != '\0' then uri includes it already */
+-   uri = binding->uri + binding->uriLen;
+--  memcpy(uri, localPart, i * sizeof(XML_Char));
+-+  /* Detect and prevent integer overflow */
+-+  if (localPartLen > SIZE_MAX / sizeof(XML_Char)) {
+-+    return XML_ERROR_NO_MEMORY;
+-+  }
+-+  memcpy(uri, localPart, localPartLen * sizeof(XML_Char));
+-   /* we always have a namespace separator between localPart and prefix */
+-   if (prefixLen) {
+--    uri += i - 1;
+-+    uri += localPartLen - 1;
+-     *uri = parser->m_namespaceSeparator; /* replace null terminator */
+-     memcpy(uri + 1, binding->prefix->name, prefixLen * sizeof(XML_Char));
+-   }
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch b/meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
+deleted file mode 100644
+index 88cb66c5469..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From 2855ce68a1ce9732267c06734427930364ab66c1 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Fri, 22 May 2026 00:43:52 +0200
+-Subject: [PATCH 02/17] xmlwf: Protect function `xcsdup` from signed integer
+- overflow
+-
+-CVE: CVE-2026-56403
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/147c8f36d6277d5c6011c098370a8362aed47b15]
+-
+-Backport Changes:
+-- Add stdint.h and convert count and numBytes to size_t because
+-  Scarthgap 2.6.4 lacks these upstream prerequisites.
+-
+-(cherry picked from commit 147c8f36d6277d5c6011c098370a8362aed47b15)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/xmlwf/xmlwf.c | 10 ++++++++--
+- 1 file changed, 8 insertions(+), 2 deletions(-)
+-
+-diff --git a/expat/xmlwf/xmlwf.c b/expat/xmlwf/xmlwf.c
+-index fd4fc3f8..7bbdb303 100644
+---- a/expat/xmlwf/xmlwf.c
+-+++ b/expat/xmlwf/xmlwf.c
+-@@ -45,6 +45,7 @@
+- 
+- #include <assert.h>
+- #include <stdio.h>
+-+#include <stdint.h>
+- #include <stdlib.h>
+- #include <stddef.h>
+- #include <string.h>
+-@@ -304,13 +305,18 @@ processingInstruction(void *userData, const XML_Char *target,
+- static XML_Char *
+- xcsdup(const XML_Char *s) {
+-   XML_Char *result;
+--  int count = 0;
+--  int numBytes;
+-+  size_t count = 0;
+-+  size_t numBytes;
+- 
+-   /* Get the length of the string, including terminator */
+-   while (s[count++] != 0) {
+-     /* Do nothing */
+-   }
+-+
+-+  // Detect and prevent integer overflow
+-+  if (count > SIZE_MAX / sizeof(XML_Char))
+-+    return NULL;
+-+
+-   numBytes = count * sizeof(XML_Char);
+-   result = malloc(numBytes);
+-   if (result == NULL)
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56404.patch b/meta/recipes-core/expat/expat/CVE-2026-56404.patch
+deleted file mode 100644
+index bd5f99742b7..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56404.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From d8e09a54fa9214e64d8e73057ca6918d08857022 Mon Sep 17 00:00:00 2001
+-From: netliomax25-code <netliomax25@gmail.com>
+-Date: Thu, 28 May 2026 12:44:11 +0530
+-Subject: [PATCH 04/17] lib: protect function addBinding from signed integer
+- overflow
+-
+-CVE: CVE-2026-56404
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/babfc48090977cbf7be24b2c48f6053dca75c164]
+-
+-(cherry picked from commit babfc48090977cbf7be24b2c48f6053dca75c164)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 11 ++++++++++-
+- 1 file changed, 10 insertions(+), 1 deletion(-)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 12bbe23e..9d21e136 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -4456,6 +4456,10 @@ addBinding(XML_Parser parser, PREFIX *prefix, const ATTRIBUTE_ID *attId,
+-   }
+- 
+-   for (len = 0; uri[len]; len++) {
+-+    /* Detect and prevent signed integer overflow */
+-+    if (len == INT_MAX) {
+-+      return XML_ERROR_NO_MEMORY;
+-+    }
+-     if (isXML && (len > xmlLen || uri[len] != xmlNamespace[len]))
+-       isXML = XML_FALSE;
+- 
+-@@ -4496,8 +4500,13 @@ addBinding(XML_Parser parser, PREFIX *prefix, const ATTRIBUTE_ID *attId,
+-   if (isXMLNS)
+-     return XML_ERROR_RESERVED_NAMESPACE_URI;
+- 
+--  if (parser->m_namespaceSeparator)
+-+  if (parser->m_namespaceSeparator) {
+-+    /* Detect and prevent signed integer overflow */
+-+    if (len == INT_MAX) {
+-+      return XML_ERROR_NO_MEMORY;
+-+    }
+-     len++;
+-+  }
+-   if (parser->m_freeBindingList) {
+-     b = parser->m_freeBindingList;
+-     if (len > b->uriAlloc) {
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56405.patch b/meta/recipes-core/expat/expat/CVE-2026-56405.patch
+deleted file mode 100644
+index 67595173414..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56405.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 49ba5bdafa7aaee9b77a32ffaa798e625bd46e73 Mon Sep 17 00:00:00 2001
+-From: netliomax25-code <netliomax25@gmail.com>
+-Date: Fri, 29 May 2026 11:45:17 +0530
+-Subject: [PATCH 05/17] lib: Protect function getAttributeId from signed
+- integer overflow
+-
+-CVE: CVE-2026-56405
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/2c6c42d33689f6b266a5267b639e03cde17e53c0]
+-
+-(cherry picked from commit 2c6c42d33689f6b266a5267b639e03cde17e53c0)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 9d21e136..80ad0811 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -7312,6 +7312,10 @@ getAttributeId(XML_Parser parser, const ENCODING *enc, const char *start,
+-     } else {
+-       int i;
+-       for (i = 0; name[i]; i++) {
+-+        /* Detect and prevent signed integer overflow */
+-+        if (i == INT_MAX) {
+-+          return NULL;
+-+        }
+-         /* attributes without prefix are *not* in the default namespace */
+-         if (name[i] == XML_T(ASCII_COLON)) {
+-           int j;
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch b/meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
+deleted file mode 100644
+index d749ef06089..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-From 9aafa47798332618f08af046c3471de1f3a9e031 Mon Sep 17 00:00:00 2001
+-From: Matthew Fernandez <matthew.fernandez@gmail.com>
+-Date: Wed, 27 May 2026 17:01:44 -0700
+-Subject: [PATCH 08/17] lib: Make `XML_Index` overflow check more intuitive
+-
+-In fixing a bug, 7e5b71b748491b6e459e5c9a1d090820f94544d8 introduced a magic number `2` in this code that made it difficult to understand the rationale for this overflow check without reading the commit log. This change introduces some more readable constants to use in these situations.
+-
+-CVE: CVE-2026-56406
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/252ff1a307b1490ce0f430632791e7e52d7e43fd]
+-
+-Backport Changes:
+-- Adapt include context for Scarthgap 2.6.4 and expose SIZE_MAX in
+-  the existing stdint.h comment.
+-
+-(cherry picked from commit 252ff1a307b1490ce0f430632791e7e52d7e43fd)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 12 +++++++++---
+- 1 file changed, 9 insertions(+), 3 deletions(-)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 80ad0811..5bf706b0 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -97,10 +97,10 @@
+- #include <stddef.h>
+- #include <string.h> /* memset(), memcpy() */
+- #include <assert.h>
+--#include <limits.h> /* UINT_MAX */
+-+#include <limits.h> /* INT_MAX, LLONG_MAX, LONG_MAX, UINT_MAX */
+- #include <stdio.h>  /* fprintf */
+- #include <stdlib.h> /* getenv, rand_s */
+--#include <stdint.h> /* uintptr_t */
+-+#include <stdint.h> /* SIZE_MAX, uintptr_t */
+- #include <math.h>   /* isnan */
+- 
+- #ifdef _WIN32
+-@@ -211,6 +211,12 @@ typedef char ICHAR;
+- 
+- #endif
+- 
+-+#ifdef XML_LARGE_SIZE
+-+#  define XML_INDEX_MAX LLONG_MAX
+-+#else
+-+#  define XML_INDEX_MAX LONG_MAX
+-+#endif
+-+
+- /* Round up n to be a multiple of sz, where sz is a power of 2. */
+- #define ROUND_UP(n, sz) (((n) + ((sz) - 1)) & ~((sz) - 1))
+- 
+-@@ -2360,7 +2366,7 @@ XML_Parse(XML_Parser parser, const char *s, int len, int isFinal) {
+-     int nLeftOver;
+-     enum XML_Status result;
+-     /* Detect overflow (a+b > MAX <==> b > MAX-a) */
+--    if ((XML_Size)len > ((XML_Size)-1) / 2 - parser->m_parseEndByteIndex) {
+-+    if (len > XML_INDEX_MAX - parser->m_parseEndByteIndex) {
+-       parser->m_errorCode = XML_ERROR_NO_MEMORY;
+-       parser->m_eventPtr = parser->m_eventEndPtr = NULL;
+-       parser->m_processor = errorProcessor;
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56406.patch b/meta/recipes-core/expat/expat/CVE-2026-56406.patch
+deleted file mode 100644
+index 56de9e41249..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56406.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 5db699faa6af1c66e96abec5dbd1908efd64ef70 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Sun, 31 May 2026 15:18:58 +0200
+-Subject: [PATCH 09/17] lib: Copy overflow check from `XML_Parse` to
+- `XML_ParseBuffer`
+-
+-CVE: CVE-2026-56406
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/99d8454fdf900a6d00c2a52748e6c0eeb507574d]
+-
+-(cherry picked from commit 99d8454fdf900a6d00c2a52748e6c0eeb507574d)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 8 ++++++++
+- 1 file changed, 8 insertions(+)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 5bf706b0..9f07b860 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -2483,6 +2483,14 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal) {
+-     parser->m_parsingStatus.parsing = XML_PARSING;
+-   }
+- 
+-+  // Detect and avoid integer overflow
+-+  if (len > XML_INDEX_MAX - parser->m_parseEndByteIndex) {
+-+    parser->m_errorCode = XML_ERROR_NO_MEMORY;
+-+    parser->m_eventPtr = parser->m_eventEndPtr = NULL;
+-+    parser->m_processor = errorProcessor;
+-+    return XML_STATUS_ERROR;
+-+  }
+-+
+-   start = parser->m_bufferPtr;
+-   parser->m_positionPtr = start;
+-   parser->m_bufferEnd += len;
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56407.patch b/meta/recipes-core/expat/expat/CVE-2026-56407.patch
+deleted file mode 100644
+index 498f93d5b93..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56407.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From d1cd2bd7da8ed830e9432660616e9b4831df959a Mon Sep 17 00:00:00 2001
+-From: netliomax25-code <netliomax25@gmail.com>
+-Date: Tue, 2 Jun 2026 11:59:01 +0530
+-Subject: [PATCH 12/17] cap entity textLen against signed integer overflow
+-
+-CVE: CVE-2026-56407
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/30c2fc179ce5d2b1b1bae30bbe0dfddeac894e13]
+-
+-(cherry picked from commit 30c2fc179ce5d2b1b1bae30bbe0dfddeac894e13)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 9 +++++++++
+- 1 file changed, 9 insertions(+)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index 9f07b860..8439dc0e 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -5655,6 +5655,10 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
+-             parser, enc, s + enc->minBytesPerChar, next - enc->minBytesPerChar,
+-             XML_ACCOUNT_NONE);
+-         if (parser->m_declEntity) {
+-+          /* Detect and prevent signed integer overflow */
+-+          if ((size_t)poolLength(&dtd->entityValuePool) > (size_t)INT_MAX) {
+-+            return XML_ERROR_NO_MEMORY;
+-+          }
+-           parser->m_declEntity->textPtr = poolStart(&dtd->entityValuePool);
+-           parser->m_declEntity->textLen
+-               = (int)(poolLength(&dtd->entityValuePool));
+-@@ -7076,6 +7080,11 @@ storeSelfEntityValue(XML_Parser parser, ENTITY *entity) {
+-     return XML_ERROR_NO_MEMORY;
+-   }
+- 
+-+  /* Detect and prevent signed integer overflow */
+-+  if ((size_t)poolLength(pool) > (size_t)INT_MAX) {
+-+    poolDiscard(pool);
+-+    return XML_ERROR_NO_MEMORY;
+-+  }
+-   entity->textPtr = poolStart(pool);
+-   entity->textLen = (int)(poolLength(pool));
+-   poolFinish(pool);
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56408.patch b/meta/recipes-core/expat/expat/CVE-2026-56408.patch
+deleted file mode 100644
+index 8e066565ba2..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56408.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From c1ad5610cf060c6374d8f8d3b39163edd7053321 Mon Sep 17 00:00:00 2001
+-From: Sebastian Pipping <sebastian@pipping.org>
+-Date: Thu, 23 Apr 2026 10:31:45 +0200
+-Subject: [PATCH 03/17] lib: Waterproof `copyString` from integer overflow
+-
+-CVE: CVE-2026-56408
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/16e2efd867ea8567ffa012210b52ef5918e20817]
+-
+-(cherry picked from commit 16e2efd867ea8567ffa012210b52ef5918e20817)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/lib/xmlparse.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+-index df92a3ca..12bbe23e 100644
+---- a/expat/lib/xmlparse.c
+-+++ b/expat/lib/xmlparse.c
+-@@ -8489,6 +8489,10 @@ copyString(const XML_Char *s, XML_Parser parser) {
+-   /* Include the terminator */
+-   charsRequired++;
+- 
+-+  /* Detect and prevent integer overflow */
+-+  if (charsRequired > SIZE_MAX / sizeof(XML_Char))
+-+    return NULL;
+-+
+-   /* Now allocate space for the copy */
+-   result = MALLOC(parser, charsRequired * sizeof(XML_Char));
+-   if (result == NULL)
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56409.patch b/meta/recipes-core/expat/expat/CVE-2026-56409.patch
+deleted file mode 100644
+index b0aac260739..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56409.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-From 174ce18f2a283be634d830a5259bd07142635fe8 Mon Sep 17 00:00:00 2001
+-From: netliomax25-code <netliomax25@gmail.com>
+-Date: Mon, 1 Jun 2026 11:53:19 +0530
+-Subject: [PATCH 10/17] xmlwf: protect output path join from integer overflow
+-
+-CVE: CVE-2026-56409
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/61f7cdda22546c4bee38dd2d3fa3d6e4aa64d33e]
+-
+-Backport Changes:
+-- Adapt the allocation hunk to the explicit XML_Char cast used by
+-  Scarthgap 2.6.4; overflow checks are unchanged.
+-
+-(cherry picked from commit 61f7cdda22546c4bee38dd2d3fa3d6e4aa64d33e)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/xmlwf/xmlwf.c | 22 ++++++++++++++++++++--
+- 1 file changed, 20 insertions(+), 2 deletions(-)
+-
+-diff --git a/expat/xmlwf/xmlwf.c b/expat/xmlwf/xmlwf.c
+-index 7bbdb303..bd5f68a4 100644
+---- a/expat/xmlwf/xmlwf.c
+-+++ b/expat/xmlwf/xmlwf.c
+-@@ -1240,8 +1240,26 @@ tmain(int argc, XML_Char **argv) {
+-         }
+- #endif
+-       }
+--      outName = (XML_Char *)malloc((tcslen(outputDir) + tcslen(file) + 2)
+--                                   * sizeof(XML_Char));
+-+      const size_t outputDirLen = tcslen(outputDir);
+-+      const size_t fileLen = tcslen(file);
+-+
+-+      /* Detect and prevent integer overflow in the addition (without
+-+         risking underflow) and the multiplication, mirroring the guards
+-+         in xcsdup() and resolveSystemId() */
+-+      if (outputDirLen > SIZE_MAX - fileLen
+-+          || outputDirLen > SIZE_MAX - fileLen - 2) {
+-+        tperror(T("Could not allocate memory"));
+-+        exit(XMLWF_EXIT_INTERNAL_ERROR);
+-+      }
+-+
+-+      const size_t charsRequired = outputDirLen + fileLen + 2;
+-+
+-+      if (charsRequired > SIZE_MAX / sizeof(XML_Char)) {
+-+        tperror(T("Could not allocate memory"));
+-+        exit(XMLWF_EXIT_INTERNAL_ERROR);
+-+      }
+-+
+-+      outName = malloc(charsRequired * sizeof(XML_Char));
+-       if (! outName) {
+-         tperror(T("Could not allocate memory"));
+-         exit(XMLWF_EXIT_INTERNAL_ERROR);
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch b/meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch
+deleted file mode 100644
+index 6f906e682d3..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From b454931c42290c9f0faf2a01f9634d82db636bac Mon Sep 17 00:00:00 2001
+-From: netliomax25-code <netliomax25@gmail.com>
+-Date: Fri, 29 May 2026 17:51:25 +0530
+-Subject: [PATCH 06/17] xmlwf: protect resolveSystemId from integer overflow
+-
+-CVE: CVE-2026-56410
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/deeb97f7c88d17a16b0ea2521a13733abc283347]
+-
+-Backport Changes:
+-- Adapt the allocation hunk to Scarthgap 2.6.4's explicit cast and
+-  include stdint.h so SIZE_MAX is available.
+-
+-(cherry picked from commit deeb97f7c88d17a16b0ea2521a13733abc283347)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/xmlwf/xmlfile.c | 10 ++++++++--
+- 1 file changed, 8 insertions(+), 2 deletions(-)
+-
+-diff --git a/expat/xmlwf/xmlfile.c b/expat/xmlwf/xmlfile.c
+-index 9c4f7f8d..ad691b12 100644
+---- a/expat/xmlwf/xmlfile.c
+-+++ b/expat/xmlwf/xmlfile.c
+-@@ -41,6 +41,7 @@
+- #include "expat_config.h"
+- 
+- #include <stdio.h>
+-+#include <stdint.h>
+- #include <stdlib.h>
+- #include <stddef.h>
+- #include <string.h>
+-@@ -130,8 +131,13 @@ resolveSystemId(const XML_Char *base, const XML_Char *systemId,
+- #endif
+-   )
+-     return systemId;
+--  *toFree = (XML_Char *)malloc((tcslen(base) + tcslen(systemId) + 2)
+--                               * sizeof(XML_Char));
+-+  const size_t charsRequired = tcslen(base) + tcslen(systemId) + 2;
+-+
+-+  /* Detect and prevent integer overflow */
+-+  if (charsRequired > SIZE_MAX / sizeof(XML_Char))
+-+    return systemId;
+-+
+-+  *toFree = malloc(charsRequired * sizeof(XML_Char));
+-   if (! *toFree)
+-     return systemId;
+-   tcscpy(*toFree, base);
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch b/meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch
+deleted file mode 100644
+index 148592ba9bc..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 7e6230212ddc4ea74115218fdbe5717e8e1c0f2b Mon Sep 17 00:00:00 2001
+-From: netliomax25-code <netliomax25@gmail.com>
+-Date: Sat, 30 May 2026 11:28:51 +0530
+-Subject: [PATCH 07/17] xmlwf: guard each operator in resolveSystemId length
+- sum
+-
+-CVE: CVE-2026-56410
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/cee20e91bf14dc7f6d2fc48f0d70d86b2dc3afea]
+-
+-(cherry picked from commit cee20e91bf14dc7f6d2fc48f0d70d86b2dc3afea)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/xmlwf/xmlfile.c | 12 ++++++++++--
+- 1 file changed, 10 insertions(+), 2 deletions(-)
+-
+-diff --git a/expat/xmlwf/xmlfile.c b/expat/xmlwf/xmlfile.c
+-index ad691b12..4d2e3220 100644
+---- a/expat/xmlwf/xmlfile.c
+-+++ b/expat/xmlwf/xmlfile.c
+-@@ -131,9 +131,17 @@ resolveSystemId(const XML_Char *base, const XML_Char *systemId,
+- #endif
+-   )
+-     return systemId;
+--  const size_t charsRequired = tcslen(base) + tcslen(systemId) + 2;
+-+  const size_t baseLen = tcslen(base);
+-+  const size_t systemIdLen = tcslen(systemId);
+- 
+--  /* Detect and prevent integer overflow */
+-+  /* Detect and prevent integer overflow in the addition (without risking
+-+     underflow) */
+-+  if (baseLen > SIZE_MAX - systemIdLen || baseLen > SIZE_MAX - systemIdLen - 2)
+-+    return systemId;
+-+
+-+  const size_t charsRequired = baseLen + systemIdLen + 2;
+-+
+-+  /* Detect and prevent integer overflow in the multiplication */
+-   if (charsRequired > SIZE_MAX / sizeof(XML_Char))
+-     return systemId;
+- 
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56411.patch b/meta/recipes-core/expat/expat/CVE-2026-56411.patch
+deleted file mode 100644
+index c6dd601f202..00000000000
+--- a/meta/recipes-core/expat/expat/CVE-2026-56411.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 5e696e78f8c4a709c4f774973b142e57090c4364 Mon Sep 17 00:00:00 2001
+-From: netliomax25-code <netliomax25@gmail.com>
+-Date: Tue, 2 Jun 2026 13:13:34 +0530
+-Subject: [PATCH 11/17] xmlwf: protect notation list allocation from integer
+- overflow
+-
+-CVE: CVE-2026-56411
+-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/528a4e5017e1bd3b48b689fd0c131df940ae3ea5]
+-
+-Backport Changes:
+-- Use Scarthgap 2.6.4 freeNotations cleanup and return directly
+-  because the newer shared cleanUp label is absent.
+-
+-(cherry picked from commit 528a4e5017e1bd3b48b689fd0c131df940ae3ea5)
+-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+----
+- expat/xmlwf/xmlwf.c | 12 ++++++++++--
+- 1 file changed, 10 insertions(+), 2 deletions(-)
+-
+-diff --git a/expat/xmlwf/xmlwf.c b/expat/xmlwf/xmlwf.c
+-index bd5f68a4..6a3d31b7 100644
+---- a/expat/xmlwf/xmlwf.c
+-+++ b/expat/xmlwf/xmlwf.c
+-@@ -387,9 +387,9 @@ static void XMLCALL
+- endDoctypeDecl(void *userData) {
+-   XmlwfUserData *data = (XmlwfUserData *)userData;
+-   NotationList **notations;
+--  int notationCount = 0;
+-+  size_t notationCount = 0;
+-   NotationList *p;
+--  int i;
+-+  size_t i;
+- 
+-   /* How many notations do we have? */
+-   for (p = data->notationListHead; p != NULL; p = p->next)
+-@@ -401,6 +401,14 @@ endDoctypeDecl(void *userData) {
+-     return;
+-   }
+- 
+-+  /* Detect and prevent integer overflow in the multiplication, mirroring
+-+     the guards in xcsdup() and resolveSystemId() */
+-+  if (notationCount > SIZE_MAX / sizeof(NotationList *)) {
+-+    fprintf(stderr, "Unable to sort notations");
+-+    freeNotations(data);
+-+    return;
+-+  }
+-+
+-   notations = malloc(notationCount * sizeof(NotationList *));
+-   if (notations == NULL) {
+-     fprintf(stderr, "Unable to sort notations");
+diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
+deleted file mode 100644
+index 93f0622373e..00000000000
+--- a/meta/recipes-core/expat/expat_2.6.4.bb
++++ /dev/null
+@@ -1,104 +0,0 @@
+-SUMMARY = "A stream-oriented XML parser library"
+-DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
+-HOMEPAGE = "https://github.com/libexpat/libexpat"
+-SECTION = "libs"
+-LICENSE = "MIT"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7b3b078238d0901d3b339289117cb7fb"
+-
+-VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
+-
+-SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+-           file://run-ptest \
+-           file://0001-tests-Cover-indirect-entity-recursion.patch;striplevel=2 \
+-           file://CVE-2024-8176-01.patch;striplevel=2 \
+-           file://CVE-2024-8176-02.patch;striplevel=2 \
+-           file://CVE-2024-8176-03.patch \
+-           file://CVE-2024-8176-04.patch \
+-           file://CVE-2024-8176-05.patch \
+-           file://CVE-2025-59375-00.patch \
+-           file://CVE-2025-59375-01.patch \
+-           file://CVE-2025-59375-02.patch \
+-           file://CVE-2025-59375-03.patch \
+-           file://CVE-2025-59375-04.patch \
+-           file://CVE-2025-59375-05.patch \
+-           file://CVE-2025-59375-06.patch \
+-           file://CVE-2025-59375-07.patch \
+-           file://CVE-2025-59375-08.patch \
+-           file://CVE-2025-59375-09.patch \
+-           file://CVE-2025-59375-10.patch \
+-           file://CVE-2025-59375-11.patch \
+-           file://CVE-2025-59375-12.patch \
+-           file://CVE-2025-59375-13.patch \
+-           file://CVE-2025-59375-14.patch \
+-           file://CVE-2025-59375-15.patch \
+-           file://CVE-2025-59375-16.patch \
+-           file://CVE-2025-59375-17.patch \
+-           file://CVE-2025-59375-18.patch \
+-           file://CVE-2025-59375-19.patch \
+-           file://CVE-2025-59375-20.patch \
+-           file://CVE-2025-59375-21.patch \
+-           file://CVE-2025-59375-22.patch \
+-           file://CVE-2025-59375-23.patch \
+-           file://CVE-2025-59375-24.patch \
+-           file://CVE-2026-24515-01.patch \
+-           file://CVE-2026-24515-02.patch \
+-           file://CVE-2026-25210-01.patch \
+-           file://CVE-2026-25210-02.patch \
+-           file://CVE-2026-25210-03.patch \
+-           file://CVE-2026-32776.patch \
+-           file://CVE-2026-32777-01.patch \
+-           file://CVE-2026-32777-02.patch \
+-           file://CVE-2026-32778-01.patch \
+-           file://CVE-2026-32778-02.patch \
+-           file://CVE-2026-41080-01.patch \
+-           file://CVE-2026-41080-02.patch \
+-           file://CVE-2026-41080-03.patch \
+-           file://CVE-2026-45186-01.patch \
+-           file://CVE-2026-45186-02.patch \
+-           file://CVE-2026-45186-03.patch \
+-           file://CVE-2026-45186-04.patch \
+-           file://CVE-2026-45186-05.patch \
+-           file://CVE-2026-45186-06.patch \
+-           file://CVE-2026-45186-07.patch \
+-           file://CVE-2026-56403_p1.patch;striplevel=2 \
+-           file://CVE-2026-56403_p2.patch;striplevel=2 \
+-           file://CVE-2026-56408.patch;striplevel=2 \
+-           file://CVE-2026-56404.patch;striplevel=2 \
+-           file://CVE-2026-56405.patch;striplevel=2 \
+-           file://CVE-2026-56410_p1.patch;striplevel=2 \
+-           file://CVE-2026-56410_p2.patch;striplevel=2 \
+-           file://CVE-2026-56406-dependent.patch;striplevel=2 \
+-           file://CVE-2026-56406.patch;striplevel=2 \
+-           file://CVE-2026-56409.patch;striplevel=2 \
+-           file://CVE-2026-56411.patch;striplevel=2 \
+-           file://CVE-2026-56407.patch;striplevel=2 \
+-           file://CVE-2026-56132_p1.patch;striplevel=2 \
+-           file://CVE-2026-56132_p2.patch;striplevel=2 \
+-           file://CVE-2026-56132_p3.patch;striplevel=2 \
+-           file://CVE-2026-56132_p4.patch;striplevel=2 \
+-           file://CVE-2026-56132_p5.patch;striplevel=2 \
+-           "
+-
+-GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+-UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
+-
+-SRC_URI[sha256sum] = "8dc480b796163d4436e6f1352e71800a774f73dbae213f1860b60607d2a83ada"
+-
+-EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
+-
+-RDEPENDS:${PN}-ptest += "bash"
+-
+-inherit cmake lib_package ptest github-releases
+-
+-do_install_ptest:class-target() {
+-	install -m 755 ${B}/tests/runtests* ${D}${PTEST_PATH}
+-	install -m 755 ${B}/tests/benchmark/benchmark ${D}${PTEST_PATH}
+-}
+-
+-BBCLASSEXTEND += "native nativesdk"
+-
+-CVE_PRODUCT = "expat libexpat"
+-
+-CVE_STATUS[CVE-2026-72522] = "not-applicable-config: Needs Expat compiled with 16bit character support , Issue only affects firefox/Windows. \
+-EXPAT_CHAR_TYPE:STRING=char is for Yocto builds"
+diff --git a/meta/recipes-core/expat/expat_2.8.3.bb b/meta/recipes-core/expat/expat_2.8.3.bb
 new file mode 100644
-index 00000000000..504803317be
+index 00000000000..79e8c15227a
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0025-CVE-2026-6238-0001.patch
-@@ -0,0 +1,59 @@
-+From 360f352c9a6da545d798ef3015e73ca114f0d230 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 19 Jun 2026 18:22:20 +0200
-+Subject: [PATCH] resolv: Declare __p_class_syms, __p_type_syms for internal
-+ use
++++ b/meta/recipes-core/expat/expat_2.8.3.bb
+@@ -0,0 +1,33 @@
++SUMMARY = "A stream-oriented XML parser library"
++DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
++HOMEPAGE = "https://github.com/libexpat/libexpat"
++SECTION = "libs"
++LICENSE = "MIT"
 +
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
++LIC_FILES_CHKSUM = "file://COPYING;md5=f4fedd6116da0e171f7cb4d2923d7ac2"
 +
-+CVE: CVE-2026-6238
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=360f352c9a6da545d798ef3015e73ca114f0d230]
++VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
 +
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+---
-+ include/resolv.h   | 5 +++++
-+ resolv/res_debug.c | 4 ----
-+ 2 files changed, 5 insertions(+), 4 deletions(-)
++SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
++           file://run-ptest \
++           "
 +
-+diff --git a/include/resolv.h b/include/resolv.h
-+index 4dbbac38..d5ad9994 100644
-+--- a/include/resolv.h
-++++ b/include/resolv.h
-+@@ -70,6 +70,11 @@ libc_hidden_proto (__libc_res_nameinquery)
-+ extern __typeof (__res_queriesmatch) __libc_res_queriesmatch;
-+ libc_hidden_proto (__libc_res_queriesmatch)
-+ 
-++extern const struct res_sym __p_class_syms[];
-++libresolv_hidden_proto (__p_class_syms)
-++extern const struct res_sym __p_type_syms[];
-++libresolv_hidden_proto (__p_type_syms)
-++
-+ /* Variant of res_hnok which operates on binary (but uncompressed) names.  */
-+ bool __res_binary_hnok (const unsigned char *dn) attribute_hidden;
-+ 
-+diff --git a/resolv/res_debug.c b/resolv/res_debug.c
-+index dab5283b..6f03e414 100644
-+--- a/resolv/res_debug.c
-++++ b/resolv/res_debug.c
-+@@ -389,8 +389,6 @@ p_fqname(const u_char *cp, const u_char *msg, FILE *file) {
-+  * that C_ANY is a qclass but not a class.  (You can ask for records of class
-+  * C_ANY, but you can't have any records of that class in the database.)
-+  */
-+-extern const struct res_sym __p_class_syms[];
-+-libresolv_hidden_proto (__p_class_syms)
-+ const struct res_sym __p_class_syms[] = {
-+   {C_IN,    (char *) "IN"},
-+   {C_CHAOS, (char *) "CHAOS"},
-+@@ -425,8 +423,6 @@ const struct res_sym __p_update_section_syms[] attribute_hidden = {
-+  * Names of RR types and qtypes.  The list is incomplete because its
-+  * size is part of the ABI.
-+  */
-+-extern const struct res_sym __p_type_syms[];
-+-libresolv_hidden_proto (__p_type_syms)
-+ const struct res_sym __p_type_syms[] = {
-+   {ns_t_a,      (char *) "A",     (char *) "address"},
-+   {ns_t_ns,     (char *) "NS",    (char *) "name server"},
-+-- 
-+2.49.0
++GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
++UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
 +
-diff --git a/meta/recipes-core/glibc/glibc/0026-CVE-2026-6238-0002.patch b/meta/recipes-core/glibc/glibc/0026-CVE-2026-6238-0002.patch
-new file mode 100644
-index 00000000000..ae2662df2c8
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0026-CVE-2026-6238-0002.patch
-@@ -0,0 +1,81 @@
-+From f69b7f95e3694177546faec25d88bb266885c3b8 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 19 Jun 2026 18:22:20 +0200
-+Subject: [PATCH] resolv: Fix ns_sprintrrf formatting of class, type values
-+ (bug 34289)
++SRC_URI[sha256sum] = "b4cc2483927d5e90bf8c40b44a6b95b368b42a8a96e25883fce188b48a92b670"
 +
-+The p_class and p_type results could overwrite each other if both
-+were unknown.  Format unknown values with CLASS and TYPE prefixes,
-+as in RFC 3597.  Handle A6 separately because it cannot be added
-+to __p_type_syms for ABI reasons.
++EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
 +
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
++RDEPENDS:${PN}-ptest += "bash"
 +
-+CVE: CVE-2026-6238
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=f69b7f95e3694177546faec25d88bb266885c3b8]
++inherit cmake lib_package ptest github-releases
 +
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+---
-+ resolv/ns_print.c | 38 +++++++++++++++++++++++++++++++++-----
-+ 1 file changed, 33 insertions(+), 5 deletions(-)
++do_install_ptest:class-target() {
++	install -m 755 ${B}/tests/runtests* ${D}${PTEST_PATH}
++	install -m 755 ${B}/tests/benchmark/benchmark ${D}${PTEST_PATH}
++}
 +
-+diff --git a/resolv/ns_print.c b/resolv/ns_print.c
-+index fffed4b3..59c34553 100644
-+--- a/resolv/ns_print.c
-++++ b/resolv/ns_print.c
-+@@ -78,6 +78,24 @@ ns_sprintrr(const ns_msg *handle, const ns_rr *rr,
-+ }
-+ libresolv_hidden_def (ns_sprintrr)
-+ 
-++/* Writes the class/type symbol NUMBER to *BUF, using the name from
-++   *SYMS if possible.  If NUMBER is not found in *SYMS, print the
-++   number with PREFIX.  */
-++static int
-++addsym (const struct res_sym *syms, int number, const char *prefix,
-++	char **buf, size_t *buflen)
-++{
-++  for (; syms->name != NULL; syms++)
-++    if (number == syms->number)
-++      {
-++	T (addstr (" ", 1, buf, buflen));
-++	return addstr (syms->name, strlen (syms->name), buf, buflen);
-++      }
-++  char tmp[20];
-++  int len = snprintf (tmp, sizeof (tmp), " %s%d", prefix, number);
-++  return addstr (tmp, len, buf, buflen);
-++}
-++
-+ /*%
-+  *	Convert the fields of an RR into presentation format.
-+  *
-+@@ -128,11 +146,21 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 	/*
-+ 	 * TTL, Class, Type.
-+ 	 */
-+-	T(x = ns_format_ttl(ttl, buf, buflen));
-+-	addlen(x, &buf, &buflen);
-+-	len = SPRINTF((tmp, " %s %s", p_class(class), p_type(type)));
-+-	T(addstr(tmp, len, &buf, &buflen));
-+-	T(spaced = addtab(x + len, 16, spaced, &buf, &buflen));
-++	{
-++	  char *start = buf;
-++
-++	  T (x = ns_format_ttl (ttl, buf, buflen));
-++	  addlen (x, &buf, &buflen);
-++	  T (addsym (__p_class_syms, class, "CLASS", &buf, &buflen));
-++	  if (type == ns_t_a6)
-++	    /* A6 is not part of __p_type_syms, which is exported.
-++	       Adding A6 there would change its size.  Handle it here.  */
-++	    T (addstr (" A6", 3, &buf, &buflen));
-++	  else
-++	    T (addsym (__p_type_syms, type, "TYPE", &buf, &buflen));
-++
-++	  T (spaced = addtab(buf - start, 16, spaced, &buf, &buflen));
-++	}
-+ 
-+ 	/*
-+ 	 * RData.
-+-- 
-+2.49.0
++BBCLASSEXTEND += "native nativesdk"
 +
-diff --git a/meta/recipes-core/glibc/glibc/0027-CVE-2026-6238-0003.patch b/meta/recipes-core/glibc/glibc/0027-CVE-2026-6238-0003.patch
-new file mode 100644
-index 00000000000..8aaa123a2a4
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0027-CVE-2026-6238-0003.patch
-@@ -0,0 +1,58 @@
-+From d58415eb17d457a160af99f9e8ab164404ca151b Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 19 Jun 2026 18:22:20 +0200
-+Subject: [PATCH] resolv: Improve formatting of unknown records in ns_sprintrrf
-+
-+Do not add the "unknown RR type" comment.  After adding the TYPE
-+prefix, the number is largely redundant.
-+
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+
-+CVE: CVE-2026-6238
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=d58415eb17d457a160af99f9e8ab164404ca151b]
-+
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+---
-+ resolv/ns_print.c | 9 +++------
-+ 1 file changed, 3 insertions(+), 6 deletions(-)
-+
-+diff --git a/resolv/ns_print.c b/resolv/ns_print.c
-+index 59c34553..4f4f06b6 100644
-+--- a/resolv/ns_print.c
-++++ b/resolv/ns_print.c
-+@@ -115,7 +115,6 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 
-+ 	const char *comment;
-+ 	char tmp[100];
-+-	char errbuf[40];
-+ 	int len, x;
-+ 
-+ 	/*
-+@@ -500,20 +499,18 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 
-+ 		break;
-+ 	    }
-+-
-+ 	default:
-+-		snprintf (errbuf, sizeof (errbuf), "unknown RR type %d", type);
-+-		comment = errbuf;
-++		comment = "";
-+ 		goto hexify;
-+ 	}
-+ 	return (buf - obuf);
-+  formerr:
-+-	comment = "RR format error";
-++	comment = " ; RR format error";
-+  hexify: {
-+ 	int n, m;
-+ 	char *p;
-+ 
-+-	len = SPRINTF((tmp, "\\# %u%s\t; %s", (unsigned)(edata - rdata),
-++	len = SPRINTF((tmp, "\\# %u%s%s", (unsigned)(edata - rdata),
-+ 		       rdlen != 0U ? " (" : "", comment));
-+ 	T(addstr(tmp, len, &buf, &buflen));
-+ 	while (rdata < edata) {
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-core/glibc/glibc/0028-CVE-2026-6238-0004.patch b/meta/recipes-core/glibc/glibc/0028-CVE-2026-6238-0004.patch
-new file mode 100644
-index 00000000000..16d594fc0d3
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0028-CVE-2026-6238-0004.patch
-@@ -0,0 +1,73 @@
-+From cd0db208d56a2cecd528b8ae96df752ba5344d9a Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 19 Jun 2026 18:22:20 +0200
-+Subject: [PATCH] resolv: Check for inet_ntop failure in ns_sprintrrf
-+
-+This makes the output more consistent (either failure or complete
-+output) and helps with systematic testing with varying buffer
-+sizes.
-+
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+
-+CVE: CVE-2026-6238
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=cd0db208d56a2cecd528b8ae96df752ba5344d9a ]
-+
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+---
-+ resolv/ns_print.c | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
-+
-+diff --git a/resolv/ns_print.c b/resolv/ns_print.c
-+index 882a86e5..19082bf2 100644
-+--- a/resolv/ns_print.c
-++++ b/resolv/ns_print.c
-+@@ -140,8 +140,9 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 	switch (type) {
-+ 	case ns_t_a:
-+ 	  if (rdlen != (size_t)NS_INADDRSZ)
-+-			goto formerr;
-+-		(void) inet_ntop(AF_INET, rdata, buf, buflen);
-++		  goto formerr;
-++		if (inet_ntop (AF_INET, rdata, buf, buflen) == NULL)
-++		  return -1;
-+ 		addlen(strlen(buf), &buf, &buflen);
-+ 		break;
-+ 
-+@@ -307,9 +308,10 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 	    }
-+ 
-+ 	case ns_t_aaaa:
-+-	  if (rdlen != (size_t)NS_IN6ADDRSZ)
-+-			goto formerr;
-+-		(void) inet_ntop(AF_INET6, rdata, buf, buflen);
-++		if (rdlen != (size_t)NS_IN6ADDRSZ)
-++		  goto formerr;
-++		if (inet_ntop (AF_INET6, rdata, buf, buflen) == NULL)
-++		  return -1;
-+ 		addlen(strlen(buf), &buf, &buflen);
-+ 		break;
-+ 
-+@@ -400,7 +402,8 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 			goto formerr;
-+ 
-+ 		/* Address. */
-+-		(void) inet_ntop(AF_INET, rdata, buf, buflen);
-++		if (inet_ntop (AF_INET, rdata, buf, buflen) == NULL)
-++		  return -1;
-+ 		addlen(strlen(buf), &buf, &buflen);
-+ 		rdata += NS_INADDRSZ;
-+ 
-+@@ -452,7 +455,8 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 			if (rdata + pbyte >= edata) goto formerr;
-+ 			memset(&a, 0, sizeof(a));
-+ 			memcpy(&a.s6_addr[pbyte], rdata, sizeof(a) - pbyte);
-+-			(void) inet_ntop(AF_INET6, &a, buf, buflen);
-++			if (inet_ntop (AF_INET6, &a, buf, buflen) == NULL)
-++			  return -1;
-+ 			addlen(strlen(buf), &buf, &buflen);
-+ 			rdata += sizeof(a) - pbyte;
-+ 		}
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-core/glibc/glibc/0029-CVE-2026-6238-0005.patch b/meta/recipes-core/glibc/glibc/0029-CVE-2026-6238-0005.patch
-new file mode 100644
-index 00000000000..bc64f042e5a
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0029-CVE-2026-6238-0005.patch
-@@ -0,0 +1,69 @@
-+From a7b60d23bbb56eaef59f4962e4140062e552600a Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 19 Jun 2026 18:22:20 +0200
-+Subject: [PATCH] resolv: Fix buffer overreads in ns_sprintrrf (CVE-2026-6238)
-+
-+Check that the RDATA payload does not require more than RDATALEN
-+bytes while processing it.  The fixes cover A6, LOC records.
-+(CERT, TKEY, TSIG were fixed before, by switching to the generic
-+formatter.)
-+
-+The vulnerable LOC record handling was first introduced before
-+glibc 2.0, in commit ee188d555b8c32ad9704a7440cab400af967292f.
-+
-+CERT, TSIG, TKEY handling came with commit
-+b43b13ac2544b11f35be301d1589b51a8473e32b, released with glibc 2.2.
-+
-+A6 record handling was introduced in commit
-+91633816430e7ec5a19fe3ff510a7c4822a9557e ("* resolv/ns_print.c
-+(ns_sprintrrf): Handle ns_t_a6 and ns_t_opt."), which went into glibc
-+2.7.
-+
-+This fixes bug 34069.
-+
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+
-+CVE: CVE-2026-6238
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=a7b60d23bbb56eaef59f4962e4140062e552600a]
-+
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+---
-+ resolv/ns_print.c | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/resolv/ns_print.c b/resolv/ns_print.c
-+index 882a86e5..d5da99d6 100644
-+--- a/resolv/ns_print.c
-++++ b/resolv/ns_print.c
-+@@ -316,7 +316,8 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 	case ns_t_loc: {
-+ 		char t[255];
-+ 
-+-		/* XXX protocol format checking? */
-++		if (rdlen != 16)
-++		  goto formerr;
-+ 		(void) loc_ntoa(rdata, t);
-+ 		T(addstr(t, strlen(t), &buf, &buflen));
-+ 		break;
-+@@ -449,13 +450,14 @@ ns_sprintrrf(const u_char *msg, size_t msglen,
-+ 
-+ 		/* address suffix: provided only when prefix len != 128 */
-+ 		if (pbit < 128) {
-+-			if (rdata + pbyte >= edata) goto formerr;
-++			unsigned int bytelen = sizeof(a) - pbyte;
-++			if (edata - rdata < bytelen) goto formerr;
-+ 			memset(&a, 0, sizeof(a));
-+-			memcpy(&a.s6_addr[pbyte], rdata, sizeof(a) - pbyte);
-++			memcpy(&a.s6_addr[pbyte], rdata, bytelen);
-+ 			if (inet_ntop (AF_INET6, &a, buf, buflen) == NULL)
-+ 			  return -1;
-+ 			addlen(strlen(buf), &buf, &buflen);
-+-			rdata += sizeof(a) - pbyte;
-++			rdata += bytelen;
-+ 		}
-+ 
-+ 		/* prefix name: provided only when prefix len > 0 */
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-core/glibc/glibc/0030-CVE-2026-6238-0006.patch b/meta/recipes-core/glibc/glibc/0030-CVE-2026-6238-0006.patch
-new file mode 100644
-index 00000000000..7b6b2aa3197
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0030-CVE-2026-6238-0006.patch
-@@ -0,0 +1,382 @@
-+From 4ba0b79b9596e5a4951cc9eaa1546a55e543e083 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 19 Jun 2026 18:22:20 +0200
-+Subject: [PATCH] resolv: Add test case tst-ns_sprintrr (bug 34033, bug 34069)
-+
-+This test case covers both input buffer overreads and output buffer
-+overflows.  It should systematically cover these issues.
-+
-+I used code auto-generation for updating the test expectations for
-+truncated RDATA in TXT, ISDN records, after writing the rest
-+of the test by hand.
-+
-+Assisted-by: LLM
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+
-+CVE: CVE-2026-6238
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=4ba0b79b9596e5a4951cc9eaa1546a55e543e083]
-+
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+---
-+ resolv/Makefile          |   2 +
-+ resolv/tst-ns_sprintrr.c | 329 +++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 331 insertions(+)
-+ create mode 100644 resolv/tst-ns_sprintrr.c
-+diff --git a/resolv/Makefile b/resolv/Makefile
-+index 79a1b9647f..130d8b51e0 100644
-+--- a/resolv/Makefile
-++++ b/resolv/Makefile
-+@@ -92,6 +92,7 @@ tests += \
-+   tst-ns_name \
-+   tst-ns_name_compress \
-+   tst-ns_name_pton \
-++  tst-ns_sprintrr \
-+   tst-res_hconf_reorder \
-+   tst-res_hnok \
-+   tst-resolv-aliases \
-+@@ -323,5 +324,6 @@ $(objpfx)tst-ns_name: $(objpfx)libresolv.so
-+ $(objpfx)tst-ns_name.out: tst-ns_name.data
-+ $(objpfx)tst-ns_name_compress: $(objpfx)libresolv.so
-+ $(objpfx)tst-ns_name_pton: $(objpfx)libresolv.so
-++$(objpfx)tst-ns_sprintrr: $(objpfx)libresolv.so
-+ $(objpfx)tst-res_hnok: $(objpfx)libresolv.so
-+ $(objpfx)tst-p_secstodate: $(objpfx)libresolv.so
-+diff --git a/resolv/tst-ns_sprintrr.c b/resolv/tst-ns_sprintrr.c
-+new file mode 100644
-+index 0000000000..34739b5924
-+--- /dev/null
-++++ b/resolv/tst-ns_sprintrr.c
-+@@ -0,0 +1,329 @@
-++/* Tests for the ns_sprintrr function.
-++   Copyright (C) 2026 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <arpa/nameser.h>
-++
-++#include <alloc_buffer.h>
-++#include <arpa/inet.h>
-++#include <libc-diag.h>
-++#include <stdbool.h>
-++#include <string.h>
-++#include <support/check.h>
-++#include <support/next_to_fault.h>
-++
-++#include <stdio.h>
-++
-++/* Regions that test_one_record uses for input and output.  */
-++static struct support_next_to_fault ntf_in;
-++static struct support_next_to_fault ntf_out;
-++
-++/* This is used by test_one_record to construct the packet.   */
-++static const char packet_prefix[] =
-++  /* DNS response with one question, one answer record.  */
-++  "AA\x81\x80\0\1\0\1\0\0\0\0"
-++  /* Question: www.example.org/IN/ANY.  */
-++  "\3www\7example\3org\0\0\xff\0\1"
-++  /* Response: compression reference.  */
-++  "\xc0\x0c";
-++
-++/* Use ns_sprintrr to format a DNS record (starting with
-++   packet_prefix) of type RTYPE, with a record payload of RDATALEN
-++   bytes starting at RDATA.  Check successful formatting against
-++   EXPECTED.  Try various truncated input and output buffers to catch
-++   overreads and buffer overflows, using ntf_in and ntf_out above.  */
-++static void
-++test_one_record (uint16_t rtype, const char *rdata, size_t rdatalen,
-++                 const char *expected)
-++{
-++  struct rr_header
-++  {
-++    uint16_t typ;
-++    uint16_t cls;
-++    uint32_t ttl;
-++    uint16_t rdatalen;
-++    uint16_t pad;
-++  } hdr =
-++    {
-++      .typ = htons (rtype),
-++      .cls = htons (ns_c_in),
-++      .ttl = htonl (86400),     /* One day.  */
-++      .rdatalen = htons (rdatalen),
-++    };
-++  enum { hdrlen = offsetof (struct rr_header, pad) };
-++  TEST_COMPARE (hdrlen, 10);
-++
-++  /* Construct the packet from packet_prefix, hdr, and rdata.  */
-++  unsigned char packet[512];
-++  size_t packetlen;
-++  {
-++    struct alloc_buffer buf = alloc_buffer_create (packet, sizeof (packet));
-++    alloc_buffer_copy_bytes (&buf, packet_prefix, sizeof (packet_prefix) - 1);
-++    alloc_buffer_copy_bytes (&buf, &hdr, hdrlen);
-++    alloc_buffer_copy_bytes (&buf, rdata, rdatalen);
-++    packetlen = sizeof (packet) - alloc_buffer_size (&buf);
-++  }
-++
-++  /* Parse the record.   */
-++  ns_msg msg;
-++  TEST_COMPARE (ns_initparse (packet, packetlen, &msg), 0);
-++  ns_rr rr;
-++  TEST_COMPARE (ns_parserr (&msg, ns_s_an, 0, &rr), 0);
-++
-++  /* Try sizes up to this limit.  Go a bit beyond the expected size to
-++     check for errors.  */
-++  size_t max_result_size = strlen (expected) + 16;
-++
-++  bool success = false;
-++  for (size_t result_size = 1; result_size <= max_result_size; ++result_size)
-++    {
-++      char *result_start = ntf_out.buffer + ntf_out.length - result_size;
-++      memset (result_start, 'X', result_size);
-++
-++      /* ns_sprintrr was deprecated in 2.34.  */
-++      DIAG_PUSH_NEEDS_COMMENT;
-++      DIAG_IGNORE_NEEDS_COMMENT (4.9, "-Wdeprecated-declarations");
-++      int ret = ns_sprintrr (&msg, &rr, NULL, NULL, result_start, result_size);
-++      DIAG_POP_NEEDS_COMMENT;
-++
-++      if (ret > 0)
-++        {
-++          TEST_COMPARE_STRING (result_start, expected);
-++          TEST_COMPARE (ret, strlen (expected));
-++          success = true;
-++        }
-++      else
-++        {
-++          TEST_VERIFY (!success);
-++          TEST_COMPARE (ret, -1);
-++        }
-++    }
-++  TEST_VERIFY (success);
-++
-++  /* Test with truncated RDATA.   */
-++  for (size_t rdata_size = 0; rdata_size <= rdatalen; ++rdata_size)
-++    {
-++      size_t truncated_packet_size = packetlen - rdatalen + rdata_size;
-++      unsigned char *packet_start
-++        = ((unsigned char *) ntf_in.buffer + ntf_in.length
-++           - truncated_packet_size);
-++      memcpy (packet_start, packet, truncated_packet_size);
-++      /* Patch in the updated RDATA length field.  */
-++      uint16_t new_rdatalen = htons (rdata_size);
-++      memcpy (packet_start + truncated_packet_size - rdata_size - 2,
-++              &new_rdatalen, 2);
-++
-++      ns_msg msg;
-++      TEST_COMPARE (ns_initparse (packet_start, truncated_packet_size, &msg),
-++                    0);
-++      ns_rr rr;
-++      TEST_COMPARE (ns_parserr (&msg, ns_s_an, 0, &rr), 0);
-++
-++      size_t result_size = strlen (expected) + 1;
-++      char *result_start = ntf_out.buffer + ntf_out.length - result_size;
-++      memset (result_start, 'X', result_size);
-++
-++      /* ns_sprintrr was deprecated in 2.34.  */
-++      DIAG_PUSH_NEEDS_COMMENT;
-++      DIAG_IGNORE_NEEDS_COMMENT (4.9, "-Wdeprecated-declarations");
-++      int ret = ns_sprintrr (&msg, &rr, NULL, NULL, result_start, result_size);
-++      DIAG_POP_NEEDS_COMMENT;
-++
-++      /* This flag indicates whether the output is syntactically
-++         correct.  In some cases, truncation may still yield a valid
-++         payload.  */
-++      bool broken = rdata_size < rdatalen;
-++      switch (rtype)
-++        {
-++        case ns_t_wks:
-++          /* WKS records use all trailing bytes for the port bitmap.  */
-++          broken = rdata_size < 5;
-++          break;
-++        case ns_t_nsap:
-++          /* Uses all bytes that are available.  */
-++          broken = false;
-++          break;
-++        case ns_t_txt:
-++          /* Truncation produces a valid payload if it occurs right
-++             after a complete string in the TXT payload.  */
-++          broken = false;
-++          for (size_t pos = 0; pos < rdata_size; )
-++            {
-++              unsigned int slen = rdata[pos] & 0xff;
-++              if (pos + 1 + slen > rdata_size)
-++                {
-++                  broken = true;
-++                  break;
-++                }
-++              pos += 1 + slen;
-++            }
-++          break;
-++        case ns_t_isdn:
-++          /* The second field is optional.  If it is present, it must
-++             not be truncated.  */
-++          broken = rdata_size < 6 || (rdata_size > 6 && rdata_size < rdatalen);
-++          break;
-++        case ns_t_a6:
-++          /* The first A6 subtest contains a trailing domain name,
-++             which is ignored and not formatted.  */
-++          if (rdata_size > 0 && rdata[0] == 0)
-++            broken = rdata_size < 17;
-++          break;
-++        case ns_t_cert:
-++        case ns_t_tkey:
-++        case ns_t_tsig:
-++          /* Only generic printing, which does not validate anything.  */
-++          broken = false;
-++          break;
-++        }
-++
-++      if (broken)
-++        {
-++          if (strstr (result_start, "RR format error") != NULL)
-++            /* No further checks if an error indicator has been added
-++               to the output.  */
-++            ;
-++          else
-++            TEST_COMPARE (ret, -1);
-++        }
-++      else
-++        TEST_VERIFY (ret > 0);
-++    }
-++}
-++
-++static int
-++do_test (void)
-++{
-++  ntf_in = support_next_to_fault_allocate (512);
-++  ntf_out = support_next_to_fault_allocate (256);
-++
-++#define T(rtype, rdata, expected) \
-++  test_one_record (rtype, rdata, sizeof (rdata) - 1, expected)
-++  T (ns_t_a, "\xc0\0\2\1", "www.example.org.\t1D IN A\t\t192.0.2.1");
-++  T (ns_t_cname, "\4www1\4prod\xc0\x10",
-++     "www.example.org.\t1D IN CNAME\twww1.prod.example.org.");
-++  T (ns_t_hinfo, "\5first\6second",
-++     "www.example.org.\t1D IN HINFO\t\"first\" \"second\"");
-++  T (ns_t_isdn, "\5first\6second",
-++     "www.example.org.\t1D IN ISDN\t\"first\" \"second\"");
-++  /* Bug: Extra space at the end in the text representation of ISDN RRs.  */
-++  T (ns_t_isdn, "\5first", "www.example.org.\t1D IN ISDN\t\"first\" ");
-++  T (ns_t_soa,
-++     "\2ns\xc0\x10\12hostmaster\xc0\x10"
-++     "\0\0\0\1\0\0\0\2\0\0\0\3\0\0\0\4\0\0\0\5",
-++     "www.example.org.\t1D IN SOA\tns.example.org. hostmaster.example.org. (\n"
-++     "\t\t\t\t\t1\t\t; serial\n"
-++     "\t\t\t\t\t2S\t\t; refresh\n"
-++     "\t\t\t\t\t3S\t\t; retry\n"
-++     "\t\t\t\t\t4S\t\t; expiry\n"
-++     "\t\t\t\t\t5S )\t\t; minimum\n");
-++  T (ns_t_mx, "\0\xa\2mx\xc0\x10",
-++     "www.example.org.\t1D IN MX\t10 mx.example.org.");
-++  T (ns_t_px, "\0\xa\3px1\xc0\x10\3px2\xc0\x10",
-++     "www.example.org.\t1D IN PX\t10 px1.example.org. px2.example.org.");
-++  T (ns_t_x25, "\4X.25",
-++     "www.example.org.\t1D IN X25\t\"X.25\"");
-++  T (ns_t_txt, "\1A\2BC\3DEF",
-++     "www.example.org.\t1D IN TXT\t\"A\" \"BC\" \"DEF\"");
-++  T (ns_t_nsap, "",
-++     "www.example.org.\t1D IN NSAP\t");
-++  T (ns_t_nsap, "\1",
-++     "www.example.org.\t1D IN NSAP\t01");
-++  T (ns_t_nsap, "\1\2",
-++     "www.example.org.\t1D IN NSAP\t01.02");
-++  T (ns_t_nsap, "\1\2\3",
-++     "www.example.org.\t1D IN NSAP\t01.0203");
-++  T (ns_t_nsap, "\1\2\3\4",
-++     "www.example.org.\t1D IN NSAP\t01.0203.04");
-++  T (ns_t_nsap,
-++     "\1\2\3\4\5\6\7\10\11\12\13\14\15\16\17\20\21\22\23\24\25\26\27\30\31\32"
-++     "\33\34\35\36\37\40\41\42\43\44\45\46\47\50\51\52\53\54\55\56\57\60\61"
-++     "\62\63\64\65\66\67\70\71\72\73\74\75\76\77\100\101\102\103\104\105\106"
-++     "\107\110\111\112\113\114\115\116\117\120\121\122\123\124\125\126\127"
-++     "\130\131\132\133\134\135\136\137\140\141\142\143\144\145\146\147\150"
-++     "\151\152\153\154\155\156\157\160\161\162\163\164\165\166\167\170\171"
-++     "\172\173\174\175\176\177\200\201\202\203\204\205\206\207\210\211\212"
-++     "\213\214\215\216\217\220\221\222\223\224\225\226\227\230\231\232\233"
-++     "\234\235\236\237\240\241\242\243\244\245\246\247\250\251\252\253\254"
-++     "\255\256\257\260\261\262\263\264\265\266\267\270\271\272\273\274\275"
-++     "\276\277\300\301\302\303\304\305\306\307\310\311\312\313\314\315\316"
-++     "\317\320\321\322\323\324\325\326\327\330\331\332\333\334\335\336\337"
-++     "\340\341\342\343\344\345\346\347\350\351\352\353\354\355\356\357\360"
-++     "\361\362\363\364\365\366\367\370\371\372\373\374\375\376\377",
-++     "www.example.org.\t1D IN NSAP\t"
-++     "01.0203.0405.0607.0809.0A0B.0C0D.0E0F.1011.1213.1415.1617.1819.1A1B"
-++     ".1C1D.1E1F.2021.2223.2425.2627.2829.2A2B.2C2D.2E2F.3031.3233.3435.3637"
-++     ".3839.3A3B.3C3D.3E3F.4041.4243.4445.4647.4849.4A4B.4C4D.4E4F.5051.5253"
-++     ".5455.5657.5859.5A5B.5C5D.5E5F.6061.6263.6465.6667.6869.6A6B.6C6D.6E6F"
-++     ".7071.7273.7475.7677.7879.7A7B.7C7D.7E7F.8081.8283.8485.8687.8889.8A8B"
-++     ".8C8D.8E8F.9091.9293.9495.9697.9899.9A9B.9C9D.9E9F.A0A1.A2A3.A4A5.A6A7"
-++     ".A8A9.AAAB.ACAD.AEAF.B0B1.B2B3.B4B5.B6B7.B8B9.BABB.BCBD.BEBF.C0C1.C2C3"
-++     ".C4C5.C6C7.C8C9.CACB.CCCD.CECF.D0D1.D2D3.D4D5.D6D7.D8D9.DADB.DCDD.DEDF"
-++     ".E0E1.E2E3.E4E5.E6E7.E8E9.EAEB.ECED.EEEF.F0F1.F2F3.F4F5.F6F7.F8F9.FAFB"
-++     ".FCFD.FEFF");
-++  T (ns_t_aaaa, "\x20\x01\x0d\xb8\0\0\0\0\0\0\0\0\0\0\x12\x34",
-++     "www.example.org.\t1D IN AAAA\t2001:db8::1234");
-++  /* Example from RFC 1876.  The loc_ntoa format is different from the
-++     official text representation.  */
-++  T (ns_t_loc,
-++     "\000\063\026\023\211\027\055\320\160\276\025\360\000\230\215\040",
-++     "www.example.org.\t1D IN LOC"
-++     "\t42 21 54.000 N 71 06 18.000 W -24.00m 30.00m 10000.00m 10.00m");
-++  T (ns_t_naptr,
-++     "\0\1\0\2\5flags\7service\2.*\5naptr\xc0\x10",
-++     "www.example.org.\t1D IN NAPTR\t1 2 \"flags\" \"service\" \".*\""
-++     " naptr.example.org.");
-++  T (ns_t_srv,
-++     "\0\1\0\2\0\x50\4www1\xc0\x10",
-++     "www.example.org.\t1D IN SRV\t1 2 80 www1.example.org.");
-++  T (ns_t_rp, "\3rp1\xc0\x10\3rp2\xc0\x10",
-++     "www.example.org.\t1D IN RP\trp1.example.org. rp2.example.org.");
-++  T (ns_t_wks, "\xc0\0\2\1\6\0\0\0\0\0\0\0\0\0\0\200",
-++     "www.example.org.\t1D IN WKS\t192.0.2.1 6 ( \n\t\t\t\t80 )");
-++  T (ns_t_cert, "\0\1\x04\xd2\0blob",
-++     "www.example.org.\t1D IN CERT\t\\# 9 (\n"
-++     "\t00 01 04 d2 00 62 6c 6f 62 )\t\t\t; .....blob");
-++  T (ns_t_tkey, "\4algo\0\0\0\0\1\0\0\0\2\0\3\0\4"
-++     "\0\5\xa1\xa2\xa3\xa4\xa5\0\3\xb1\xb2\xb3",
-++     "www.example.org.\t1D IN TYPE249\t\\# 30 (\n"
-++     "\t04 61 6c 67 6f 00 00 00 00 01 00 00 00 02 00 03 ; .algo...........\n"
-++     "\t00 04 00 05 a1 a2 a3 a4 a5 00 03 b1 b2 b3 )\t; ..............");
-++  T (ns_t_tsig, "\4algo\0"
-++     "\0\20\xdd\xcd\x64\x10\xe9\x21\x34\x1a\x8e\xe0\xa1\x9a\x30\xfc\x3b\xd1"
-++     "\0\2\0\3\0\5other",
-++     "www.example.org.\t1D IN TSIG\t\\# 35 (\n"
-++     "\t04 61 6c 67 6f 00 00 10 dd cd 64 10 e9 21 34 1a ; .algo.....d..!4.\n"
-++     "\t8e e0 a1 9a 30 fc 3b d1 00 02 00 03 00 05 6f 74 ; ....0.;.......ot\n"
-++     "\t68 65 72 )\t\t\t\t\t; her");
-++  T (ns_t_a6,
-++     "\0\x20\x01\x0d\xb8\0\0\0\0\0\0\0\0\0\0\x12\x34\6prefix\xc0\x10",
-++     "www.example.org.\t1D IN A6\t0 2001:db8::1234");
-++  T (ns_t_a6,
-++     "\0\x20\x01\x0d\xb8\0\0\0\0\0\0\0\0\0\0\x12\x35",
-++     "www.example.org.\t1D IN A6\t0 2001:db8::1235");
-++  T (ns_t_a6, "\200\6prefix\xc0\x10",
-++     "www.example.org.\t1D IN A6\t128  prefix.example.org.");
-++  T (ns_t_a6, "\x20\0\0\0\0\0\0\0\0\0\0\x12\x36\6prefix\xc0\x10",
-++     "www.example.org.\t1D IN A6\t32 ::1236 prefix.example.org.");
-++#undef T
-++
-++  support_next_to_fault_free (&ntf_in);
-++  support_next_to_fault_free (&ntf_out);
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
-index 88ad5e44e80..d31c8656414 100644
---- a/meta/recipes-core/glibc/glibc_2.39.bb
-+++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -57,6 +57,12 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0023-qemu-stale-process.patch \
-            file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patch \
-            file://0024-CVE-2026-5435.patch \
-+           file://0025-CVE-2026-6238-0001.patch \
-+           file://0026-CVE-2026-6238-0002.patch \
-+           file://0027-CVE-2026-6238-0003.patch \
-+           file://0028-CVE-2026-6238-0004.patch \
-+           file://0029-CVE-2026-6238-0005.patch \
-+           file://0030-CVE-2026-6238-0006.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
++CVE_PRODUCT = "expat libexpat"
 
