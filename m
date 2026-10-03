@@ -2,37 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D3ACA5FE7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BBAECA5FDD
 	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 06:22:28 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1160.1791008546425900987
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1159.1791008546188095950
  for <openembedded-core@lists.openembedded.org>;
  Fri, 02 Oct 2026 23:22:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Bd98h64K;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1EGRmbHu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1006d9a6a-1cfe6890-d38b-4f77-af16-665dd68d6524-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SMlr+ZHR;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YIFJuf7Y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1006d99c0-a8fb2603-8802-46f3-b0e4-94df4f4cef64-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1791008545;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=U5av+mMO2/moluvPx7NnrPFSpI6BuZkOcq/hK90RcEE=;
-	b=Bd98h64KnQM5jR6/E8jjSna16CG/WgaBkx0zACVpcmGaTg80H7ZUGI4mhqmsslQf
-	K3aZEAc8dYglcDTR2h/mm6taFkP4xImrKLDLybjdwcjEOoYr7rfaDEE9hA9Sl8+nTs4
-	cijqI98LoL6en+iUDLDH/X64Z0FuL++gvaTer1C8=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=t6ipSP3aoO5milYHRWZaenw/j56riU3bqEcxhOebjTo=;
+	b=SMlr+ZHRabuDKWLb3ysqTQQpzdeYt46K7X0N5J3ZhyCVn/EECp4YiddqGzFxQAIK
+	bqetf1MRPTzfaKdqg0ZPS5NXPEeuFbvtZOWp9wlHXiiv53+9sbvOcDqJsnJFl1hbdPs
+	7UM3RD3r3Tqbv1A5D5PLYtkbJW8n5js5K05RQVXg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791008545;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=U5av+mMO2/moluvPx7NnrPFSpI6BuZkOcq/hK90RcEE=;
-	b=1EGRmbHu2d+DWbbs4a438iOgChAACXKYLkeA3XavtDencplqo8JUXzS8cQsYfL7T
-	59XvmbNw3oW/la6hHPeL6F9fxXw+87bRDqHdws1dMbistHDVibPAPg2aJCU7BPaCezL
-	fOmmlCC4vWSvAYRINquJSWLSHzeMpfSovr/F9FPU=
-Content-Type: multipart/mixed; boundary="===============4245740771963916757=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=t6ipSP3aoO5milYHRWZaenw/j56riU3bqEcxhOebjTo=;
+	b=YIFJuf7Ytk3gXPvUuw15evMsgEVizFbS7KgOjY3bwbCx4gLEszUoHmqJ8obzuotu
+	m+GXfLG6KMeS20aP9ElSkz5qF9G3qTpsTrJEkfRupMlke6QL+6wNFGcE28GkusywbRG
+	4fVscxaxSN9tpAW5tXeo7LJvLLOpE6H3wlUZl+y4=
+Content-Type: multipart/mixed; boundary="===============4149773185547217969=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] cmake-native,cmake: upgrading to 4.4.4 SUCCEEDED
-Message-ID: <010101a1006d9a6a-1cfe6890-d38b-4f77-af16-665dd68d6524-000000@us-west-2.amazonses.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] librepo: upgrading to 1.21.2 SUCCEEDED
+Message-ID: <010101a1006d99c0-a8fb2603-8802-46f3-b0e4-94df4f4cef64-000000@us-west-2.amazonses.com>
 Date: Sat, 3 Oct 2026 06:22:25 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.10.03-54.240.27.30
@@ -40,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 06:22:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247141
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247140
 
---===============4245740771963916757==
+--===============4149773185547217969==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cmake-native,cmake* to *4.4.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *librepo* to *1.21.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-cmake-native-cmake-upgrade-4.4.3-4.4.4.patch
+    - apply the patch: git am 0001-librepo-upgrade-1.21.1-1.21.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,1128 +72,178 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d4628552121243859bbab469822909fbe8f8d119 Mon Sep 17 00:00:00 2001
+From abbc5af9af7b5f56ad8aa6ff0a821347d2b3c61c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 3 Oct 2026 05:23:47 +0000
-Subject: [PATCH] cmake-native,cmake: upgrade 4.4.3 -> 4.4.4
-
-CMake 4.1 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.0 include the following.
-
-New Features
-============
-
-File-Based API
---------------
-
-Generators
-----------
-
-Command-Line
-------------
-
-Configure Log
--------------
-
-Compilers
----------
-
-Commands
---------
-
-Variables
----------
-
-Environment Variables
----------------------
-
-Properties
-----------
-
-Modules
--------
-
-Regular Expressions
--------------------
-
-CTest
------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.1.0 include the following.
-
-4.1.1
------
-
-4.1.2
------
-
-4.1.3
------
-
-4.1.4, 4.1.5, 4.1.6
--------------------
-
-CMake 4.2 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.1 include the following.
-
-New Features
-============
-
-File-Based API
---------------
-
-Generators
-----------
-
-Platforms
----------
-
-Command-Line
-------------
-
-Commands
---------
-
-Variables
----------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.2.0 include the following.
-
-4.2.1
------
-
-4.2.2
------
-
-4.2.3, 4.2.4, 4.2.5, 4.2.6, 4.2.7, 4.2.8
-----------------------------------------
-
-CMake 4.3 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.2 include the following.
-
-New Features
-============
-
-Common Package Specification
-----------------------------
-
-.. |CPS| replace:: Common Package Specification
-
-Instrumentation
----------------
-
-Presets
--------
-
-File-Based API
---------------
-
-Platforms
----------
-
-Command-Line
-------------
-
-Commands
---------
-
-Variables
----------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-CTest
------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.3.0 include the following.
-
-4.3.1, 4.3.2
-------------
-
-4.3.3
------
-
-4.3.4
------
-
-4.3.5
------
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-Presets
--------
-
-File-Based API
---------------
-
-Instrumentation
----------------
-
-Generators
-----------
-
-Languages
----------
-
-Compilers
----------
-
-  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
-
-Command-Line
-------------
-
-Commands
---------
-
-File Sets
----------
-
-Variables
----------
-
-Environment Variables
----------------------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-Swift
------
-
-CTest
------
-
-  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
-  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
-  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
-  arguments to the above commands in a :ref:`Dashboard Client` script or
-  on the :program:`ctest` command line via the
-  :ctest-dashboard-option:`-D` option.
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.4.0 include the following.
-
-4.4.1
------
-
-4.4.2
------
-
-4.4.3
------
-
-4.4.4
------
+Date: Sat, 3 Oct 2026 05:28:47 +0000
+Subject: [PATCH] librepo: upgrade 1.21.1 -> 1.21.2
+
+Release 1.21.2
+downloader: Compare HTTP header names case-insensitively
+metadata_downloader: Don't use error messages as format strings
+Fix swapped function arguments
+repomd: Fix a warning message and a memory leak
+downloader: Accept file descriptor 0 in lr_download()
+Don't pass negative values to ctype functions
+checksum: Fix a memory leak and an out-of-bounds read
+Fix leaks of zchunk contexts on error paths
+package_downloader: Restore the SIGINT handler on all return paths
+mirrorlist: Close the duplicated descriptor if fdopen() fails
+repoutil_yum: Use S_ISDIR() to check for a directory
+util: Handle partial writes in lr_copy_content()
+xmlparser: Check the parser context before using it
+downloader: hold transfer state per connection, not per target
+tests: Run the repo_zck test suite
+handle: Validate the new value of LRO_MAXMIRRORTRIES
+downloader: don't rescan every target when nothing can be started
 ---
- .../cmake/{cmake-native_4.4.3.bb => cmake-native_4.4.4.bb}      | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- meta/recipes-devtools/cmake/{cmake_4.4.3.bb => cmake_4.4.4.bb}  | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_4.4.3.bb => cmake-native_4.4.4.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_4.4.3.bb => cmake_4.4.4.bb} (100%)
+ ...2-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch | 2 +-
+ .../librepo/{librepo_1.21.1.bb => librepo_1.21.2.bb}            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/librepo/{librepo_1.21.1.bb => librepo_1.21.2.bb} (94%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_4.4.3.bb b/meta/recipes-devtools/cmake/cmake-native_4.4.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_4.4.3.bb
-rename to meta/recipes-devtools/cmake/cmake-native_4.4.4.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index b6b10371ce..4c73d99fcf 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+diff --git a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
+index 30802fd4f2..0653c3f7d4 100644
+--- a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
++++ b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
+@@ -1,4 +1,4 @@
+-From e15c8ab0aab4eda7754e186c63b5ee0feb13f886 Mon Sep 17 00:00:00 2001
++From 88fa058c28a583ee30a532a9fb085be1219554c7 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:05:36 +0200
+ Subject: [PATCH] Do not try to obtain PYTHON_INSTALL_DIR by running python.
+diff --git a/meta/recipes-devtools/librepo/librepo_1.21.1.bb b/meta/recipes-devtools/librepo/librepo_1.21.2.bb
+similarity index 94%
+rename from meta/recipes-devtools/librepo/librepo_1.21.1.bb
+rename to meta/recipes-devtools/librepo/librepo_1.21.2.bb
+index 9cefbfd48e..ab60e76b6e 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.21.1.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.21.2.bb
+@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;pr
+            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
             "
  
--SRC_URI[sha256sum] = "c46400618b4f1f2b43507f24fb22f3ae830c3416cf23b776e16e1d413aa892f0"
-+SRC_URI[sha256sum] = "bd24c30d80a7744ae84b845ff080cc8453b06c622ef01066564108e9cefc44cf"
+-SRCREV = "86ed082e25bbd1901d21d75924297c7697b33307"
++SRCREV = "f892f216a8f7934f32846712f56a27f997b300a3"
  
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ DEPENDS = "curl glib-2.0 openssl attr gpgme libxml2"
  
-diff --git a/meta/recipes-devtools/cmake/cmake_4.4.3.bb b/meta/recipes-devtools/cmake/cmake_4.4.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_4.4.3.bb
-rename to meta/recipes-devtools/cmake/cmake_4.4.4.bb
 -- 
 2.47.1
 
 
---===============4245740771963916757==
+--===============4149773185547217969==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cmake-native-changelog.txt"
-
-CMake 4.1 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.0 include the following.
-
-New Features
-============
-
-File-Based API
---------------
-
-Generators
-----------
-
-Command-Line
-------------
-
-Configure Log
--------------
-
-Compilers
----------
-
-Commands
---------
-
-Variables
----------
-
-Environment Variables
----------------------
-
-Properties
-----------
-
-Modules
--------
-
-Regular Expressions
--------------------
-
-CTest
------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.1.0 include the following.
-
-4.1.1
------
-
-4.1.2
------
-
-4.1.3
------
-
-4.1.4, 4.1.5, 4.1.6
--------------------
-
-CMake 4.2 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.1 include the following.
-
-New Features
-============
-
-File-Based API
---------------
-
-Generators
-----------
-
-Platforms
----------
-
-Command-Line
-------------
-
-Commands
---------
-
-Variables
----------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.2.0 include the following.
-
-4.2.1
------
-
-4.2.2
------
-
-4.2.3, 4.2.4, 4.2.5, 4.2.6, 4.2.7, 4.2.8
-----------------------------------------
-
-CMake 4.3 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.2 include the following.
-
-New Features
-============
-
-Common Package Specification
-----------------------------
-
-.. |CPS| replace:: Common Package Specification
-
-Instrumentation
----------------
-
-Presets
--------
-
-File-Based API
---------------
-
-Platforms
----------
-
-Command-Line
-------------
-
-Commands
---------
-
-Variables
----------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-CTest
------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.3.0 include the following.
-
-4.3.1, 4.3.2
-------------
-
-4.3.3
------
-
-4.3.4
------
-
-4.3.5
------
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-Presets
--------
-
-File-Based API
---------------
-
-Instrumentation
----------------
-
-Generators
-----------
-
-Languages
----------
-
-Compilers
----------
-
-  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
-
-Command-Line
-------------
-
-Commands
---------
-
-File Sets
----------
-
-Variables
----------
-
-Environment Variables
----------------------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-Swift
------
-
-CTest
------
-
-  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
-  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
-  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
-  arguments to the above commands in a :ref:`Dashboard Client` script or
-  on the :program:`ctest` command line via the
-  :ctest-dashboard-option:`-D` option.
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.4.0 include the following.
-
-4.4.1
------
-
-4.4.2
------
-
-4.4.3
------
-
-4.4.4
------
-
---===============4245740771963916757==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cmake-changelog.txt"
-
-CMake 4.1 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.0 include the following.
-
-New Features
-============
-
-File-Based API
---------------
-
-Generators
-----------
-
-Command-Line
-------------
-
-Configure Log
--------------
-
-Compilers
----------
-
-Commands
---------
-
-Variables
----------
-
-Environment Variables
----------------------
-
-Properties
-----------
-
-Modules
--------
-
-Regular Expressions
--------------------
-
-CTest
------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.1.0 include the following.
-
-4.1.1
------
-
-4.1.2
------
-
-4.1.3
------
-
-4.1.4, 4.1.5, 4.1.6
--------------------
-
-CMake 4.2 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.1 include the following.
-
-New Features
-============
-
-File-Based API
---------------
-
-Generators
-----------
-
-Platforms
----------
-
-Command-Line
-------------
-
-Commands
---------
-
-Variables
----------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.2.0 include the following.
-
-4.2.1
------
-
-4.2.2
------
-
-4.2.3, 4.2.4, 4.2.5, 4.2.6, 4.2.7, 4.2.8
-----------------------------------------
-
-CMake 4.3 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.2 include the following.
-
-New Features
-============
-
-Common Package Specification
-----------------------------
-
-.. |CPS| replace:: Common Package Specification
-
-Instrumentation
----------------
-
-Presets
--------
-
-File-Based API
---------------
-
-Platforms
----------
-
-Command-Line
-------------
-
-Commands
---------
-
-Variables
----------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-CTest
------
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.3.0 include the following.
-
-4.3.1, 4.3.2
-------------
-
-4.3.3
------
-
-4.3.4
------
-
-4.3.5
------
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-  .. contents::
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-Presets
--------
-
-File-Based API
---------------
-
-Instrumentation
----------------
-
-Generators
-----------
-
-Languages
----------
-
-Compilers
----------
-
-  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
-
-Command-Line
-------------
-
-Commands
---------
-
-File Sets
----------
-
-Variables
----------
-
-Environment Variables
----------------------
-
-Properties
-----------
-
-Modules
--------
-
-Generator Expressions
----------------------
-
-Swift
------
-
-CTest
------
-
-  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
-  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
-  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
-  arguments to the above commands in a :ref:`Dashboard Client` script or
-  on the :program:`ctest` command line via the
-  :ctest-dashboard-option:`-D` option.
-
-CPack
------
-
-Deprecated and Removed Features
-===============================
-
-Other Changes
-=============
-
-Updates
-=======
-
-Changes made since CMake 4.4.0 include the following.
-
-4.4.1
------
-
-4.4.2
------
-
-4.4.3
------
-
-4.4.4
------
-
---===============4245740771963916757==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/cmake/cmake: FILELIST: removed "/usr/share/cmake-4.4/Modules/Compiler/IBMLLVMFlang-Fortran.cmake /usr/share/cmake-4.4/Modules/Platform/AIX-IBMLLVMFlang-Fortran.cmake /usr/share/cmake-4.4/Modules/GoogleTest/DiscoverTests.cmake /usr/share/cmake-4.4/Modules/GoogleTest/LaunchTest.cmake", added "/usr/share/cmake-4.4/Modules/Compiler/IBMFlang-Fortran.cmake /usr/share/cmake-4.4/Modules/Platform/AIX-IBMFlang-Fortran.cmake"
-Changes to packages/x86-64-v3-poky-linux/cmake (sysroot):
-  /usr/share/cmake-4.4/Modules/Compiler/IBMFlang-Fortran.cmake was added
-  /usr/share/cmake-4.4/Modules/Platform/AIX-IBMFlang-Fortran.cmake was added
-  /usr/share/cmake-4.4/Modules/Compiler/IBMLLVMFlang-Fortran.cmake was removed
-  /usr/share/cmake-4.4/Modules/GoogleTest/DiscoverTests.cmake was removed
-  /usr/share/cmake-4.4/Modules/GoogleTest/LaunchTest.cmake was removed
-  /usr/share/cmake-4.4/Modules/Platform/AIX-IBMLLVMFlang-Fortran.cmake was removed
-Changes to packages/x86_64-linux/cmake-native (sysroot):
-  /usr/share/cmake-4.4/Modules/Compiler/IBMFlang-Fortran.cmake was added
-  /usr/share/cmake-4.4/Modules/Platform/AIX-IBMFlang-Fortran.cmake was added
-  /usr/share/cmake-4.4/Modules/Compiler/IBMLLVMFlang-Fortran.cmake was removed
-  /usr/share/cmake-4.4/Modules/GoogleTest/DiscoverTests.cmake was removed
-  /usr/share/cmake-4.4/Modules/GoogleTest/LaunchTest.cmake was removed
-  /usr/share/cmake-4.4/Modules/Platform/AIX-IBMLLVMFlang-Fortran.cmake was removed
-
---===============4245740771963916757==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-cmake-native-cmake-upgrade-4.4.3-4.4.4.patch"
-
-RnJvbSBkNDYyODU1MjEyMTI0Mzg1OWJiYWI0Njk4MjI5MDlmYmU4ZjhkMTE5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMyBPY3QgMjAyNiAwNToyMzo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNt
-YWtlLW5hdGl2ZSxjbWFrZTogdXBncmFkZSA0LjQuMyAtPiA0LjQuNAoKQ01ha2UgNC4xIFJlbGVh
-c2UgTm90ZXMKKioqKioqKioqKioqKioqKioqKioqKioKCi4uIG9ubHk6OiBodG1sCiAgLi4gY29u
-dGVudHM6OgpDaGFuZ2VzIG1hZGUgc2luY2UgQ01ha2UgNC4wIGluY2x1ZGUgdGhlIGZvbGxvd2lu
-Zy4KCk5ldyBGZWF0dXJlcwo9PT09PT09PT09PT0KCkZpbGUtQmFzZWQgQVBJCi0tLS0tLS0tLS0t
-LS0tCgpHZW5lcmF0b3JzCi0tLS0tLS0tLS0KCkNvbW1hbmQtTGluZQotLS0tLS0tLS0tLS0KCkNv
-bmZpZ3VyZSBMb2cKLS0tLS0tLS0tLS0tLQoKQ29tcGlsZXJzCi0tLS0tLS0tLQoKQ29tbWFuZHMK
-LS0tLS0tLS0KClZhcmlhYmxlcwotLS0tLS0tLS0KCkVudmlyb25tZW50IFZhcmlhYmxlcwotLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KClByb3BlcnRpZXMKLS0tLS0tLS0tLQoKTW9kdWxlcwotLS0tLS0t
-CgpSZWd1bGFyIEV4cHJlc3Npb25zCi0tLS0tLS0tLS0tLS0tLS0tLS0KCkNUZXN0Ci0tLS0tCgpD
-UGFjawotLS0tLQoKRGVwcmVjYXRlZCBhbmQgUmVtb3ZlZCBGZWF0dXJlcwo9PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09CgpPdGhlciBDaGFuZ2VzCj09PT09PT09PT09PT0KClVwZGF0ZXMK
-PT09PT09PQoKQ2hhbmdlcyBtYWRlIHNpbmNlIENNYWtlIDQuMS4wIGluY2x1ZGUgdGhlIGZvbGxv
-d2luZy4KCjQuMS4xCi0tLS0tCgo0LjEuMgotLS0tLQoKNC4xLjMKLS0tLS0KCjQuMS40LCA0LjEu
-NSwgNC4xLjYKLS0tLS0tLS0tLS0tLS0tLS0tLQoKQ01ha2UgNC4yIFJlbGVhc2UgTm90ZXMKKioq
-KioqKioqKioqKioqKioqKioqKioKCi4uIG9ubHk6OiBodG1sCiAgLi4gY29udGVudHM6OgpDaGFu
-Z2VzIG1hZGUgc2luY2UgQ01ha2UgNC4xIGluY2x1ZGUgdGhlIGZvbGxvd2luZy4KCk5ldyBGZWF0
-dXJlcwo9PT09PT09PT09PT0KCkZpbGUtQmFzZWQgQVBJCi0tLS0tLS0tLS0tLS0tCgpHZW5lcmF0
-b3JzCi0tLS0tLS0tLS0KClBsYXRmb3JtcwotLS0tLS0tLS0KCkNvbW1hbmQtTGluZQotLS0tLS0t
-LS0tLS0KCkNvbW1hbmRzCi0tLS0tLS0tCgpWYXJpYWJsZXMKLS0tLS0tLS0tCgpQcm9wZXJ0aWVz
-Ci0tLS0tLS0tLS0KCk1vZHVsZXMKLS0tLS0tLQoKR2VuZXJhdG9yIEV4cHJlc3Npb25zCi0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQoKQ1BhY2sKLS0tLS0KCkRlcHJlY2F0ZWQgYW5kIFJlbW92ZWQgRmVh
-dHVyZXMKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKT3RoZXIgQ2hhbmdlcwo9PT09
-PT09PT09PT09CgpVcGRhdGVzCj09PT09PT0KCkNoYW5nZXMgbWFkZSBzaW5jZSBDTWFrZSA0LjIu
-MCBpbmNsdWRlIHRoZSBmb2xsb3dpbmcuCgo0LjIuMQotLS0tLQoKNC4yLjIKLS0tLS0KCjQuMi4z
-LCA0LjIuNCwgNC4yLjUsIDQuMi42LCA0LjIuNywgNC4yLjgKLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLQoKQ01ha2UgNC4zIFJlbGVhc2UgTm90ZXMKKioqKioqKioqKioq
-KioqKioqKioqKioKCi4uIG9ubHk6OiBodG1sCiAgLi4gY29udGVudHM6OgpDaGFuZ2VzIG1hZGUg
-c2luY2UgQ01ha2UgNC4yIGluY2x1ZGUgdGhlIGZvbGxvd2luZy4KCk5ldyBGZWF0dXJlcwo9PT09
-PT09PT09PT0KCkNvbW1vbiBQYWNrYWdlIFNwZWNpZmljYXRpb24KLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLQoKLi4gfENQU3wgcmVwbGFjZTo6IENvbW1vbiBQYWNrYWdlIFNwZWNpZmljYXRp
-b24KCkluc3RydW1lbnRhdGlvbgotLS0tLS0tLS0tLS0tLS0KClByZXNldHMKLS0tLS0tLQoKRmls
-ZS1CYXNlZCBBUEkKLS0tLS0tLS0tLS0tLS0KClBsYXRmb3JtcwotLS0tLS0tLS0KCkNvbW1hbmQt
-TGluZQotLS0tLS0tLS0tLS0KCkNvbW1hbmRzCi0tLS0tLS0tCgpWYXJpYWJsZXMKLS0tLS0tLS0t
-CgpQcm9wZXJ0aWVzCi0tLS0tLS0tLS0KCk1vZHVsZXMKLS0tLS0tLQoKR2VuZXJhdG9yIEV4cHJl
-c3Npb25zCi0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKQ1Rlc3QKLS0tLS0KCkNQYWNrCi0tLS0tCgpE
-ZXByZWNhdGVkIGFuZCBSZW1vdmVkIEZlYXR1cmVzCj09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT0KCk90aGVyIENoYW5nZXMKPT09PT09PT09PT09PQoKVXBkYXRlcwo9PT09PT09CgpDaGFu
-Z2VzIG1hZGUgc2luY2UgQ01ha2UgNC4zLjAgaW5jbHVkZSB0aGUgZm9sbG93aW5nLgoKNC4zLjEs
-IDQuMy4yCi0tLS0tLS0tLS0tLQoKNC4zLjMKLS0tLS0KCjQuMy40Ci0tLS0tCgo0LjMuNQotLS0t
-LQoKQ01ha2UgNC40IFJlbGVhc2UgTm90ZXMKKioqKioqKioqKioqKioqKioqKioqKioKCi4uIG9u
-bHk6OiBodG1sCiAgLi4gY29udGVudHM6OgpDaGFuZ2VzIG1hZGUgc2luY2UgQ01ha2UgNC4zIGlu
-Y2x1ZGUgdGhlIGZvbGxvd2luZy4KCk5ldyBGZWF0dXJlcwo9PT09PT09PT09PT0KCkRpYWdub3N0
-aWNzCi0tLS0tLS0tLS0tCgpQcmVzZXRzCi0tLS0tLS0KCkZpbGUtQmFzZWQgQVBJCi0tLS0tLS0t
-LS0tLS0tCgpJbnN0cnVtZW50YXRpb24KLS0tLS0tLS0tLS0tLS0tCgpHZW5lcmF0b3JzCi0tLS0t
-LS0tLS0KCkxhbmd1YWdlcwotLS0tLS0tLS0KCkNvbXBpbGVycwotLS0tLS0tLS0KCiAgVGhlIGBg
-QVNNX1BPQVNNYGAgbGFuZ3VhZ2Ugd2FzIGFkZGVkIHRvIHN1cHBvcnQgdGhlIFBlbGxlcyBNYWNy
-byBBc3NlbWJsZXIuCgpDb21tYW5kLUxpbmUKLS0tLS0tLS0tLS0tCgpDb21tYW5kcwotLS0tLS0t
-LQoKRmlsZSBTZXRzCi0tLS0tLS0tLQoKVmFyaWFibGVzCi0tLS0tLS0tLQoKRW52aXJvbm1lbnQg
-VmFyaWFibGVzCi0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKUHJvcGVydGllcwotLS0tLS0tLS0tCgpN
-b2R1bGVzCi0tLS0tLS0KCkdlbmVyYXRvciBFeHByZXNzaW9ucwotLS0tLS0tLS0tLS0tLS0tLS0t
-LS0KClN3aWZ0Ci0tLS0tCgpDVGVzdAotLS0tLQoKICBUaGUgOnZhcmlhYmxlOmBDVEVTVF9DT05G
-SUdVUkVfUFJFU0VUYCwgOnZhcmlhYmxlOmBDVEVTVF9CVUlMRF9QUkVTRVRgLAogIDp2YXJpYWJs
-ZTpgQ1RFU1RfVEVTVF9QUkVTRVRgLCA6dmFyaWFibGU6YENURVNUX1BSRVNFVGAsIGFuZAogIDp2
-YXJpYWJsZTpgQ1RFU1RfUFJFU0VUU19GSUxFYCB2YXJpYWJsZXMgbWF5IGJlIHVzZWQgdG8gc3Bl
-Y2lmeSBwcmVzZXQKICBhcmd1bWVudHMgdG8gdGhlIGFib3ZlIGNvbW1hbmRzIGluIGEgOnJlZjpg
-RGFzaGJvYXJkIENsaWVudGAgc2NyaXB0IG9yCiAgb24gdGhlIDpwcm9ncmFtOmBjdGVzdGAgY29t
-bWFuZCBsaW5lIHZpYSB0aGUKICA6Y3Rlc3QtZGFzaGJvYXJkLW9wdGlvbjpgLURgIG9wdGlvbi4K
-CkNQYWNrCi0tLS0tCgpEZXByZWNhdGVkIGFuZCBSZW1vdmVkIEZlYXR1cmVzCj09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT0KCk90aGVyIENoYW5nZXMKPT09PT09PT09PT09PQoKVXBkYXRl
-cwo9PT09PT09CgpDaGFuZ2VzIG1hZGUgc2luY2UgQ01ha2UgNC40LjAgaW5jbHVkZSB0aGUgZm9s
-bG93aW5nLgoKNC40LjEKLS0tLS0KCjQuNC4yCi0tLS0tCgo0LjQuMwotLS0tLQoKNC40LjQKLS0t
-LS0KLS0tCiAuLi4vY21ha2Uve2NtYWtlLW5hdGl2ZV80LjQuMy5iYiA9PiBjbWFrZS1uYXRpdmVf
-NC40LjQuYmJ9ICAgICAgfCAwCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5j
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAyICstCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Y21ha2Uve2NtYWtlXzQuNC4zLmJiID0+IGNtYWtlXzQuNC40LmJifSAgfCAwCiAzIGZpbGVzIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2NtYWtlL3tjbWFrZS1uYXRpdmVfNC40LjMuYmIgPT4gY21ha2UtbmF0aXZlXzQu
-NC40LmJifSAoMTAwJSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uve2NtYWtl
-XzQuNC4zLmJiID0+IGNtYWtlXzQuNC40LmJifSAoMTAwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UtbmF0aXZlXzQuNC4zLmJiIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2NtYWtlL2NtYWtlLW5hdGl2ZV80LjQuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDEw
-MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLW5hdGl2ZV80
-LjQuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLW5hdGl2
-ZV80LjQuNC5iYgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtl
-LmluYyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKaW5kZXggYjZiMTAz
-NzFjZS4uNGM3M2Q5OWZjZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtl
-L2NtYWtlLmluYworKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCkBA
-IC0xOSw3ICsxOSw3IEBAIENNQUtFX01BSk9SX1ZFUlNJT04gPSAiJHtAJy4nLmpvaW4oZC5nZXRW
-YXIoJ1BWJykuc3BsaXQoJy4nKVswOjJdKX0iCiBTUkNfVVJJID0gImh0dHBzOi8vY21ha2Uub3Jn
-L2ZpbGVzL3Yke0NNQUtFX01BSk9SX1ZFUlNJT059L2NtYWtlLSR7UFZ9LnRhci5neiBcCiAgICAg
-ICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImM0NjQwMDYxOGI0ZjFmMmI0MzUwN2Yy
-NGZiMjJmM2FlODMwYzM0MTZjZjIzYjc3NmUxNmUxZDQxM2FhODkyZjAiCitTUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiYmQyNGMzMGQ4MGE3NzQ0YWU4NGI4NDVmZjA4MGNjODQ1M2IwNmM2MjJlZjAxMDY2
-NTY0MTA4ZTljZWZjNDRjZiIKIAogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAiY21ha2UtKD9QPHB2
-ZXI+XGQrKFwuXGQrKSspXC50YXIiCiAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9jbWFrZS9jbWFrZV80LjQuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFr
-ZV80LjQuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2NtYWtlL2NtYWtlXzQuNC4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvY21ha2UvY21ha2VfNC40LjQuYmIKLS0gCjIuNDcuMQoK
-
---===============4245740771963916757==
+Content-Disposition: attachment; filename="librepo-changelog.txt"
+
+Release 1.21.2
+downloader: Compare HTTP header names case-insensitively
+metadata_downloader: Don't use error messages as format strings
+Fix swapped function arguments
+repomd: Fix a warning message and a memory leak
+downloader: Accept file descriptor 0 in lr_download()
+Don't pass negative values to ctype functions
+checksum: Fix a memory leak and an out-of-bounds read
+Fix leaks of zchunk contexts on error paths
+package_downloader: Restore the SIGINT handler on all return paths
+mirrorlist: Close the duplicated descriptor if fdopen() fails
+repoutil_yum: Use S_ISDIR() to check for a directory
+util: Handle partial writes in lr_copy_content()
+xmlparser: Check the parser context before using it
+downloader: hold transfer state per connection, not per target
+tests: Run the repo_zck test suite
+handle: Validate the new value of LRO_MAXMIRRORTRIES
+downloader: don't rescan every target when nothing can be started
+
+--===============4149773185547217969==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/cmake/cmake-bash-completion: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-bash-completion: PV changed from "4.4.3" to "4.4.4"
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1376924192 to 1377599784 (+0%)
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PV changed from "4.4.3" to "4.4.4"
-packages/x86-64-v3-poky-linux/cmake/cmake-dev: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-dev: PV changed from "4.4.3" to "4.4.4"
-packages/x86-64-v3-poky-linux/cmake/cmake-doc: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-doc: PV changed from "4.4.3" to "4.4.4"
-packages/x86-64-v3-poky-linux/cmake/cmake-locale: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-locale: PV changed from "4.4.3" to "4.4.4"
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PKGSIZE changed from 10912545 to 10916078 (+0%)
-packages/x86-64-v3-poky-linux/cmake/cmake-src: FILELIST: directory renamed /usr/src/debug/cmake/4.4.3/Source/cmsys -> /usr/src/debug/cmake/4.4.4/Source/cmsys, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/std/cm -> /usr/src/debug/cmake/4.4.4/Utilities/std/cm, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/cmllpkgc -> /usr/src/debug/cmake/4.4.4/Utilities/cmllpkgc, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/cmelf -> /usr/src/debug/cmake/4.4.4/Utilities/cmelf, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/cmlibrhash/librhash -> /usr/src/debug/cmake/4.4.4/Utilities/cmlibrhash/librhash, directory renamed /usr/src/debug/cmake/4.4.3/Source/CPack/IFW -> /usr/src/debug/cmake/4.4.4/Source/CPack/IFW, directory renamed /usr/src/debug/cmake/4.4.3/Source/LexerParser -> /usr/src/debug/cmake/4.4.4/Source/LexerParser, directory renamed /usr/src/debug/cmake/4.4.3/Source -> /usr/src/debug/cmake/4.4.4/Source, directory renamed /usr/src/debug/cmake/4.4.3/Source/CTest
-  -> /usr/src/debug/cmake/4.4.4/Source/CTest, directory renamed /usr/src/debug/cmake/4.4.3/Source/kwsys -> /usr/src/debug/cmake/4.4.4/Source/kwsys, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/cmjsoncpp/src/lib_json -> /usr/src/debug/cmake/4.4.4/Utilities/cmjsoncpp/src/lib_json, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/cmlibarchive/libarchive -> /usr/src/debug/cmake/4.4.4/Utilities/cmlibarchive/libarchive, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/cmjsoncpp/include/json -> /usr/src/debug/cmake/4.4.4/Utilities/cmjsoncpp/include/json, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/std/cm/bits -> /usr/src/debug/cmake/4.4.4/Utilities/std/cm/bits, directory renamed /usr/src/debug/cmake/4.4.3/Source/CPack -> /usr/src/debug/cmake/4.4.4/Source/CPack, directory renamed /usr/src/debug/cmake/4.4.3/Utilities/std/cmext -> /usr/src/debug/cmake/4.4.4/Utilities/std/cmext
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PV changed from "4.4.3" to "4.4.4"
-packages/x86-64-v3-poky-linux/cmake/cmake-staticdev: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-staticdev: PV changed from "4.4.3" to "4.4.4"
-packages/x86-64-v3-poky-linux/cmake/cmake: PKGSIZE changed from 54628004 to 54636473 (+0%)
-packages/x86-64-v3-poky-linux/cmake/cmake: FILELIST: removed "/usr/share/cmake-4.4/Modules/Platform/AIX-IBMLLVMFlang-Fortran.cmake /usr/share/cmake-4.4/Modules/GoogleTest/DiscoverTests.cmake /usr/share/cmake-4.4/Modules/Compiler/IBMLLVMFlang-Fortran.cmake /usr/share/cmake-4.4/Modules/GoogleTest/LaunchTest.cmake", added "/usr/share/cmake-4.4/Modules/Compiler/IBMFlang-Fortran.cmake /usr/share/cmake-4.4/Modules/Platform/AIX-IBMFlang-Fortran.cmake"
-packages/x86-64-v3-poky-linux/cmake/cmake: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake: PV changed from "4.4.3" to "4.4.4"
-packages/x86-64-v3-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v4.4/cmake-4.4.3.tar.gz" to "https://cmake.org/files/v4.4/cmake-4.4.4.tar.gz"
-packages/x86-64-v3-poky-linux/cmake: PKGV changed from 4.4.3 [default] to 4.4.4 [default]
-packages/x86-64-v3-poky-linux/cmake: PV changed from "4.4.3" to "4.4.4"
-Changes to packages/x86-64-v3-poky-linux/cmake (sysroot):
-  /usr/share/cmake-4.4/Modules/Compiler/IBMFlang-Fortran.cmake was added
-  /usr/share/cmake-4.4/Modules/Platform/AIX-IBMFlang-Fortran.cmake was added
-  /usr/share/cmake-4.4/Modules/Compiler/IBMLLVMFlang-Fortran.cmake was removed
-  /usr/share/cmake-4.4/Modules/GoogleTest/DiscoverTests.cmake was removed
-  /usr/share/cmake-4.4/Modules/GoogleTest/LaunchTest.cmake was removed
-  /usr/share/cmake-4.4/Modules/Platform/AIX-IBMLLVMFlang-Fortran.cmake was removed
-Changes to packages/x86_64-linux/cmake-native (sysroot):
-  /usr/share/cmake-4.4/Modules/Compiler/IBMFlang-Fortran.cmake was added
-  /usr/share/cmake-4.4/Modules/Platform/AIX-IBMFlang-Fortran.cmake was added
-  /usr/share/cmake-4.4/Modules/Compiler/IBMLLVMFlang-Fortran.cmake was removed
-  /usr/share/cmake-4.4/Modules/GoogleTest/DiscoverTests.cmake was removed
-  /usr/share/cmake-4.4/Modules/GoogleTest/LaunchTest.cmake was removed
-  /usr/share/cmake-4.4/Modules/Platform/AIX-IBMLLVMFlang-Fortran.cmake was removed
+packages/x86-64-v3-poky-linux/librepo: PV changed from "1.21.1" to "1.21.2"
+packages/x86-64-v3-poky-linux/librepo: SRC_URI changed from "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https;tag=1.21.1 file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch" to "git://github.com/rpm-software-management/librepo.git;branch=master;protocol=https;tag=1.21.2 file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch"
+packages/x86-64-v3-poky-linux/librepo: PKGV changed from 1.21.1 [default] to 1.21.2 [default]
+packages/x86-64-v3-poky-linux/librepo/librepo-dbg: PV changed from "1.21.1" to "1.21.2"
+packages/x86-64-v3-poky-linux/librepo/librepo-dbg: PKGV changed from 1.21.1 [default] to 1.21.2 [default]
+packages/x86-64-v3-poky-linux/librepo/librepo-dbg: PKGSIZE changed from 963624 to 967536 (+0%)
+packages/x86-64-v3-poky-linux/librepo/librepo-dev: PV changed from "1.21.1" to "1.21.2"
+packages/x86-64-v3-poky-linux/librepo/librepo-dev: PKGV changed from 1.21.1 [default] to 1.21.2 [default]
+packages/x86-64-v3-poky-linux/librepo/librepo-doc: PV changed from "1.21.1" to "1.21.2"
+packages/x86-64-v3-poky-linux/librepo/librepo-doc: PKGV changed from 1.21.1 [default] to 1.21.2 [default]
+packages/x86-64-v3-poky-linux/librepo/librepo-locale: PV changed from "1.21.1" to "1.21.2"
+packages/x86-64-v3-poky-linux/librepo/librepo-locale: PKGV changed from 1.21.1 [default] to 1.21.2 [default]
+packages/x86-64-v3-poky-linux/librepo/librepo-src: PV changed from "1.21.1" to "1.21.2"
+packages/x86-64-v3-poky-linux/librepo/librepo-src: FILELIST: directory renamed /usr/src/debug/librepo/1.21.1/librepo -> /usr/src/debug/librepo/1.21.2/librepo, directory renamed /usr/src/debug/librepo/1.21.1/librepo/python -> /usr/src/debug/librepo/1.21.2/librepo/python
+packages/x86-64-v3-poky-linux/librepo/librepo-src: PKGV changed from 1.21.1 [default] to 1.21.2 [default]
+packages/x86-64-v3-poky-linux/librepo/librepo-src: PKGSIZE changed from 749319 to 756745 (+1%)
+packages/x86-64-v3-poky-linux/librepo/librepo-staticdev: PV changed from "1.21.1" to "1.21.2"
+packages/x86-64-v3-poky-linux/librepo/librepo-staticdev: PKGV changed from 1.21.1 [default] to 1.21.2 [default]
+packages/x86-64-v3-poky-linux/librepo/librepo: PV changed from "1.21.1" to "1.21.2"
+packages/x86-64-v3-poky-linux/librepo/librepo: PKGV changed from 1.21.1 [default] to 1.21.2 [default]
+packages/x86-64-v3-poky-linux/librepo/librepo: PKGSIZE changed from 326574 to 330670 (+1%)
 
---===============4245740771963916757==--
+--===============4149773185547217969==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-librepo-upgrade-1.21.1-1.21.2.patch"
+
+RnJvbSBhYmJjNWFmOWFmN2I1ZjU2YWQ4YWE2ZmYwYTgyMTM0N2QyYjNjNjFjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMyBPY3QgMjAyNiAwNToyODo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnJlcG86IHVwZ3JhZGUgMS4yMS4xIC0+IDEuMjEuMgoKUmVsZWFzZSAxLjIxLjIKZG93bmxvYWRl
+cjogQ29tcGFyZSBIVFRQIGhlYWRlciBuYW1lcyBjYXNlLWluc2Vuc2l0aXZlbHkKbWV0YWRhdGFf
+ZG93bmxvYWRlcjogRG9uJ3QgdXNlIGVycm9yIG1lc3NhZ2VzIGFzIGZvcm1hdCBzdHJpbmdzCkZp
+eCBzd2FwcGVkIGZ1bmN0aW9uIGFyZ3VtZW50cwpyZXBvbWQ6IEZpeCBhIHdhcm5pbmcgbWVzc2Fn
+ZSBhbmQgYSBtZW1vcnkgbGVhawpkb3dubG9hZGVyOiBBY2NlcHQgZmlsZSBkZXNjcmlwdG9yIDAg
+aW4gbHJfZG93bmxvYWQoKQpEb24ndCBwYXNzIG5lZ2F0aXZlIHZhbHVlcyB0byBjdHlwZSBmdW5j
+dGlvbnMKY2hlY2tzdW06IEZpeCBhIG1lbW9yeSBsZWFrIGFuZCBhbiBvdXQtb2YtYm91bmRzIHJl
+YWQKRml4IGxlYWtzIG9mIHpjaHVuayBjb250ZXh0cyBvbiBlcnJvciBwYXRocwpwYWNrYWdlX2Rv
+d25sb2FkZXI6IFJlc3RvcmUgdGhlIFNJR0lOVCBoYW5kbGVyIG9uIGFsbCByZXR1cm4gcGF0aHMK
+bWlycm9ybGlzdDogQ2xvc2UgdGhlIGR1cGxpY2F0ZWQgZGVzY3JpcHRvciBpZiBmZG9wZW4oKSBm
+YWlscwpyZXBvdXRpbF95dW06IFVzZSBTX0lTRElSKCkgdG8gY2hlY2sgZm9yIGEgZGlyZWN0b3J5
+CnV0aWw6IEhhbmRsZSBwYXJ0aWFsIHdyaXRlcyBpbiBscl9jb3B5X2NvbnRlbnQoKQp4bWxwYXJz
+ZXI6IENoZWNrIHRoZSBwYXJzZXIgY29udGV4dCBiZWZvcmUgdXNpbmcgaXQKZG93bmxvYWRlcjog
+aG9sZCB0cmFuc2ZlciBzdGF0ZSBwZXIgY29ubmVjdGlvbiwgbm90IHBlciB0YXJnZXQKdGVzdHM6
+IFJ1biB0aGUgcmVwb196Y2sgdGVzdCBzdWl0ZQpoYW5kbGU6IFZhbGlkYXRlIHRoZSBuZXcgdmFs
+dWUgb2YgTFJPX01BWE1JUlJPUlRSSUVTCmRvd25sb2FkZXI6IGRvbid0IHJlc2NhbiBldmVyeSB0
+YXJnZXQgd2hlbiBub3RoaW5nIGNhbiBiZSBzdGFydGVkCi0tLQogLi4uMi1Eby1ub3QtdHJ5LXRv
+LW9idGFpbi1QWVRIT05fSU5TVEFMTF9ESVItYnktcnVubmluZy1wLnBhdGNoIHwgMiArLQogLi4u
+L2xpYnJlcG8ve2xpYnJlcG9fMS4yMS4xLmJiID0+IGxpYnJlcG9fMS4yMS4yLmJifSAgICAgICAg
+ICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8ve2xpYnJlcG9fMS4yMS4x
+LmJiID0+IGxpYnJlcG9fMS4yMS4yLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9saWJyZXBvL2xpYnJlcG8vMDAwMi1Eby1ub3QtdHJ5LXRvLW9idGFpbi1QWVRI
+T05fSU5TVEFMTF9ESVItYnktcnVubmluZy1wLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2xpYnJlcG8vbGlicmVwby8wMDAyLURvLW5vdC10cnktdG8tb2J0YWluLVBZVEhPTl9JTlNUQUxM
+X0RJUi1ieS1ydW5uaW5nLXAucGF0Y2gKaW5kZXggMzA4MDJmZDRmMi4uMDY1M2MzZjdkNCAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwby8wMDAyLURvLW5v
+dC10cnktdG8tb2J0YWluLVBZVEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXAucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwby8wMDAyLURvLW5vdC10cnkt
+dG8tb2J0YWluLVBZVEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXAucGF0Y2gKQEAgLTEsNCAr
+MSw0IEBACi1Gcm9tIGUxNWM4YWIwYWFiNGVkYTc3NTRlMTg2YzYzYjVlZTBmZWIxM2Y4ODYgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDg4ZmEwNThjMjhhNTgzZWUzMGE1MzJhOWZiMDg1
+YmUxMjE5NTU0YzcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2Fu
+YXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IEZyaSwgMzAgRGVjIDIwMTYgMTg6
+MDU6MzYgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gRG8gbm90IHRyeSB0byBvYnRhaW4gUFlUSE9O
+X0lOU1RBTExfRElSIGJ5IHJ1bm5pbmcgcHl0aG9uLgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjIxLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvbGlicmVwby9saWJyZXBvXzEuMjEuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGlicmVwby9saWJyZXBvXzEuMjEuMS5iYgpyZW5h
+bWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYnJlcG8vbGlicmVwb18xLjIxLjIuYmIKaW5k
+ZXggOWNlZmJmZDQ4ZS4uYWI2MGU3NmI2ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2xpYnJlcG8vbGlicmVwb18xLjIxLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2xpYnJlcG8vbGlicmVwb18xLjIxLjIuYmIKQEAgLTksNyArOSw3IEBAIFNSQ19VUkkgPSAiZ2l0
+Oi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9saWJyZXBvLmdpdDticmFuY2g9
+bWFzdGVyO3ByCiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLURvLW5vdC10cnktdG8tb2J0YWluLVBZ
+VEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXAucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNS
+Q1JFViA9ICI4NmVkMDgyZTI1YmJkMTkwMWQyMWQ3NTkyNDI5N2M3Njk3YjMzMzA3IgorU1JDUkVW
+ID0gImY4OTJmMjE2YThmNzkzNGYzMjg0NjcxMmY1NmEyN2Y5OTdiMzAwYTMiCiAKIERFUEVORFMg
+PSAiY3VybCBnbGliLTIuMCBvcGVuc3NsIGF0dHIgZ3BnbWUgbGlieG1sMiIKIAotLSAKMi40Ny4x
+Cgo=
+
+--===============4149773185547217969==--
 
