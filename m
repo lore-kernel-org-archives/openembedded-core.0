@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3289CA5FC1
-	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 12:34:25 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4945.1791030858699686245
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A47CA5FEC
+	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 14:32:16 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6704.1791037926674397066
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Oct 2026 05:34:20 -0700
+ Sat, 03 Oct 2026 07:32:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=JWm9GfMU;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20261003123414611412f352000207a9-8ivpib@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20261003123414611412f352000207a9
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=f0IdNlCs;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202610031432023f747213a300020706-adqgdg@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202610031432023f747213a300020706
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 03 Oct 2026 14:34:15 +0200
+        Sat, 03 Oct 2026 16:32:03 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=PE9ZoDw9iYn0R2jkBApIi+7wr1gSnO3m3pTIGmkFTcQ=;
- b=JWm9GfMUXFxJk1IkwvsWD5HziOfhRzLfoy7BxPw4Ym9iYs77YmCUiZabA+JZBTNE0JjzCN
- GoOmbjt5uw2HlVFjUJ5yVaB9hL7ggfvBqxzsP3jszXmsSaT+OzEii64pmg8bsRuaEMnX922K
- VoxynmlHgm4QD0WuWgMZjMEla0ZtQrHq1ZoHXnVrzwmGBdC8vKjUlbyV7Fnn3ccW2kDZ+rXS
- C4sqVETYI8GUlLgn+JkX4rMLTpWYLIFYBu/cpBvJAfeh424n+elJZPDcELaGKUic9XHaj8nJ
- khrTX2TCNQPZ/BF6d/wqKwHg1BlqTbwcnNcMb3aTdOi2LtcdAyLSaiBw==;
+ bh=hAm46+xvfKcXJhTYm95oNmZ2I6nNLU2Lpg8O0OkVP9Q=;
+ b=f0IdNlCsm/yMZvoVIfJGBWE3OJnCvi6Rgqjhr2u/r3Q7OhwJZ82IcJGxBwSjnXN1OfAhZU
+ REoqKWC4QsKW1L3A/BIR5J2YyYtVR76g4d9hQR1LUANfgmL2xPWfBHSRsxR+NmukEbwPzC8T
+ VMkctXTNQ1JufQDWi08mixTdBURcphRyJsMQwRF/CWexppm8J+MzcPfPrlQUP//x+QzZGdVD
+ 4YgOi6Oy0o2MgnWQ8uyu8mXtJXevBtgWTJa44smwVbgf0ousbd/EbDPJhqgp5Vdwh/LKPjXl
+ q9L8Ekab1PN9sms4S4k3KW/qi3BTcXbEPjMNLmc5t7lTA8ghpyIGFo3w==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH] glib-2.0: patch CVE-2026-15588
-Date: Sat,  3 Oct 2026 14:33:59 +0200
-Message-ID: <20261003123400.235082-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] mesa: patch CVE-2026-40393
+Date: Sat,  3 Oct 2026 16:31:47 +0200
+Message-ID: <20261003143148.333985-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,305 +37,471 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 12:34:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247158
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 14:32:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247159
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1].
+Pick patches per [1].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-15588
+Also pick two patches preparing the used helper functions.
+Drop changes in .pick_status.json not affting our builds.
+Resolve minor conflicts.
+
+[1] https://security-tracker.debian.org/tracker/CVE-2026-40393
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../glib-2.0/glib-2.0/CVE-2026-15588.patch    | 267 ++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   1 +
- 2 files changed, 268 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
+ .../mesa/files/CVE-2026-40393-01.patch        | 126 ++++++++++++++++++
+ .../mesa/files/CVE-2026-40393-02.patch        | 119 +++++++++++++++++
+ .../mesa/files/CVE-2026-40393-03.patch        | 103 ++++++++++++++
+ .../mesa/files/CVE-2026-40393-04.patch        |  54 ++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |   4 +
+ 5 files changed, 406 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/CVE-2026-40393-01.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/CVE-2026-40393-02.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/CVE-2026-40393-03.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/CVE-2026-40393-04.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
+diff --git a/meta/recipes-graphics/mesa/files/CVE-2026-40393-01.patch b/meta/recipes-graphics/mesa/files/CVE-2026-40393-01.patch
 new file mode 100644
-index 00000000000..e5ff0e87d36
+index 00000000000..f24853a1dd4
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
-@@ -0,0 +1,267 @@
-+From 4235f7b42ba51d6fdb4abd7c4276031802f39834 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Sat, 4 Jul 2026 18:13:08 +0100
-+Subject: [PATCH] gdbusauth: Limit length of lines read from client
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-graphics/mesa/files/CVE-2026-40393-01.patch
+@@ -0,0 +1,126 @@
++From b0653370d0ea7d6c72cd419451debed52e09653d Mon Sep 17 00:00:00 2001
++From: Paulo Zanoni <paulo.r.zanoni@intel.com>
++Date: Mon, 18 Mar 2024 16:33:54 -0700
++Subject: [PATCH] vulkan: don't zero-initialize STACK_ARRAY()'s stack array
 +
-+The client isn’t trusted at this point, and there was previously nothing
-+limiting how long a line `GDBusAuth` would read. So an untrusted client
-+could exhaust the server’s memory by sending anything except `\r\n`.
++STACK_ARRAY() is used in a lot of places. When games are running we
++see STACK_ARRAY() arrays being used all the time: each queue
++submission uses 6, WaitSemaphores and syncobj waiting also uses them:
++they're constantly present in Vulkan runtime.
 +
-+Fix that by applying a reasonably length limit when reading a line, and
-+add a unit test.
++There's no need for STACK_ARRAY()'s stack array to be initialized,
++callers cannot not depend on it. If the number of elements is greater
++than STACK_ARRAY_SIZE, then STACK_ARRAY() will just malloc() the array
++and return it not initialized: anybody depending of
++zero-initialization is going to break when the array is big.
 +
-+Spotted by Gitee Codepecker Lab.
++The reason why we're zero-intializing STACK_ARRAY()'s stack array is
++to silence -Wmaybe-uninitialized warnings: see commit d7957df31848
++("vulkan: fix uninitialized variables"). I don't think that commit is
++the ideal way to deal with the problem, so this patch proposes a
++better solution.
 +
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+Fixes: #3985
++The problem here is that zero-initializing it adds code we don't need
++for every single caller. STACK_ARRAY() already has 63 callers and only
++3 of them are affected by the -Wmaybe-uninitialized warining. So here
++we undo what commit d7957df31848 did and instead we fix the 3 cases
++that actually generate the -Wmaybe-uninitialized warnings.
 +
-+CVE: CVE-2026-15588
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/4235f7b42ba51d6fdb4abd7c4276031802f39834]
++Gcc is only emitting those warinings because it knows that the number
++of elements in the array may be zero, so the loops we have that set
++elements to the array may end up do nothing, and then we pass the
++array uninitialized to other functions.
++
++For the cases related to vk_sync this is just returning VK_SUCCESS
++earlier, instead of relying on the check that eventually happens at
++__vk_sync_wait_many(). For the vkCmdWaitEvents() function, the Vulkan
++spec says that "eventCount must be greater than 0", so the early
++return doesn't hurt anybody either. In both cases we make the zero
++case faster by not defining an 8-sized array, zero-initializing it,
++then returning success without using it.
++
++Reference: d7957df31848 ("vulkan: fix uninitialized variables")
++Acked-by: Yonggang Luo <luoyonggang@gmail.com>
++Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
++Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
++Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/28288>
++
++CVE: CVE-2026-40393
++Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/commit/b0653370d0ea7d6c72cd419451debed52e09653d]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ gio/gdbusauth.c        |  44 +++++++++++++++
-+ gio/tests/gdbus-auth.c | 119 +++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 163 insertions(+)
++ src/vulkan/runtime/vk_queue.c           |  4 ++++
++ src/vulkan/runtime/vk_sync_binary.c     |  3 +++
++ src/vulkan/runtime/vk_synchronization.c |  3 +++
++ src/vulkan/util/vk_util.h               | 14 +++++++-------
++ 4 files changed, 17 insertions(+), 7 deletions(-)
 +
-+diff --git a/gio/gdbusauth.c b/gio/gdbusauth.c
-+index 9e31c8318..a5938c969 100644
-+--- a/gio/gdbusauth.c
-++++ b/gio/gdbusauth.c
-+@@ -262,6 +262,21 @@ find_mech_by_name (GDBusAuth *auth,
-+   return ret;
-+ }
++diff --git a/src/vulkan/runtime/vk_queue.c b/src/vulkan/runtime/vk_queue.c
++index b54dff90d5d..c8b55b58b0a 100644
++--- a/src/vulkan/runtime/vk_queue.c
+++++ b/src/vulkan/runtime/vk_queue.c
++@@ -1037,6 +1037,10 @@ vk_queue_wait_before_present(struct vk_queue *queue,
++       return VK_SUCCESS;
 + 
-++static size_t
-++get_longest_mechanism_name_length (GDBusAuth *auth)
-++{
-++  size_t len = 0;
++    const uint32_t wait_count = pPresentInfo->waitSemaphoreCount;
 ++
-++  for (GList *l = auth->priv->available_mechanisms; l != NULL; l = l->next)
-++    {
-++      Mechanism *m = l->data;
+++   if (wait_count == 0)
+++      return VK_SUCCESS;
 ++
-++      len = MAX (len, strlen (m->name));
-++    }
-++
-++  return len;
-++}
-++
-+ GDBusAuth  *
-+ _g_dbus_auth_new (GIOStream *stream)
++    STACK_ARRAY(struct vk_sync_wait, waits, wait_count);
++ 
++    for (uint32_t i = 0; i < wait_count; i++) {
++diff --git a/src/vulkan/runtime/vk_sync_binary.c b/src/vulkan/runtime/vk_sync_binary.c
++index 3d2720f9348..c10cabe348a 100644
++--- a/src/vulkan/runtime/vk_sync_binary.c
+++++ b/src/vulkan/runtime/vk_sync_binary.c
++@@ -91,6 +91,9 @@ vk_sync_binary_wait_many(struct vk_device *device,
++                          enum vk_sync_wait_flags wait_flags,
++                          uint64_t abs_timeout_ns)
 + {
-+@@ -270,6 +285,20 @@ _g_dbus_auth_new (GIOStream *stream)
-+                        NULL);
-+ }
+++   if (wait_count == 0)
+++      return VK_SUCCESS;
+++
++    STACK_ARRAY(struct vk_sync_wait, timeline_waits, wait_count);
 + 
-++/* Arbitrarily chosen limit on the length of a DATA command payload, to prevent
-++ * unbounded reads from malicious clients.
-++ *
-++ *  - The ANONYMOUS mechanism doesn’t use DATA.
-++ *  - The EXTERNAL mechanism just uses it to transfer a decimal-encoded UID.
-++ *  - The DBUS_COOKIE_SHA1 mechanism transfers a challenge and a SHA1 hash. The
-++ *    hash is bounded in length, but the challenge is not, so could potentially
-++ *    hit this limit. It doesn’t seem unreasonable to bound the challenge to
-++ *    ~4KB though. GDBus itself generates a 16 byte challenge.
-++ *
-++ * See https://dbus.freedesktop.org/doc/dbus-specification.html#auth-command-data
++    for (uint32_t i = 0; i < wait_count; i++) {
++diff --git a/src/vulkan/runtime/vk_synchronization.c b/src/vulkan/runtime/vk_synchronization.c
++index 53fb56e686d..701474164e4 100644
++--- a/src/vulkan/runtime/vk_synchronization.c
+++++ b/src/vulkan/runtime/vk_synchronization.c
++@@ -249,6 +249,9 @@ vk_common_CmdWaitEvents(
++    VK_FROM_HANDLE(vk_command_buffer, cmd_buffer, commandBuffer);
++    struct vk_device *device = cmd_buffer->base.device;
++ 
+++   if (eventCount == 0)
+++      return;
+++
++    STACK_ARRAY(VkDependencyInfo, deps, eventCount);
++ 
++    /* Note that dstStageMask and srcStageMask in the CmdWaitEvent2() call
++diff --git a/src/vulkan/util/vk_util.h b/src/vulkan/util/vk_util.h
++index 85807f410fa..d29db67a4d0 100644
++--- a/src/vulkan/util/vk_util.h
+++++ b/src/vulkan/util/vk_util.h
++@@ -358,14 +358,14 @@ vk_spec_info_to_nir_spirv(const VkSpecializationInfo *spec_info,
++ 
++ #define STACK_ARRAY_SIZE 8
++ 
++-#ifdef __cplusplus
++-#define STACK_ARRAY_ZERO_INIT {}
++-#else
++-#define STACK_ARRAY_ZERO_INIT {0}
++-#endif
++-
+++/* Sometimes gcc may claim -Wmaybe-uninitialized for the stack array in some
+++ * places it can't verify that when size is 0 nobody down the call chain reads
+++ * the array. Please don't try to fix it by zero-initializing the array here
+++ * since it's used in a lot of different places. An "if (size == 0) return;"
+++ * may work for you.
 ++ */
-++#define MAX_DATA_PAYLOAD_LENGTH_BYTES 4096
++ #define STACK_ARRAY(type, name, size) \
++-   type _stack_##name[STACK_ARRAY_SIZE] = STACK_ARRAY_ZERO_INIT; \
+++   type _stack_##name[STACK_ARRAY_SIZE]; \
++    type *const name = \
++      ((size) <= STACK_ARRAY_SIZE ? _stack_##name : (type *)malloc((size) * sizeof(type)))
++ 
+diff --git a/meta/recipes-graphics/mesa/files/CVE-2026-40393-02.patch b/meta/recipes-graphics/mesa/files/CVE-2026-40393-02.patch
+new file mode 100644
+index 00000000000..620d50e60d3
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/CVE-2026-40393-02.patch
+@@ -0,0 +1,119 @@
++From f43cff3728e58c377d1e03b13db62514217abfe1 Mon Sep 17 00:00:00 2001
++From: Faith Ekstrand <faith.ekstrand@collabora.com>
++Date: Tue, 29 Jul 2025 03:10:41 -0400
++Subject: [PATCH] util: Move STACK_ARRAY into util
++
++It's useful for more than just Vulkan.
++
++Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
++Reviewed-by: Christoph Pillmayer <christoph.pillmayer@arm.com>
++Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385>
++
++CVE: CVE-2026-40393
++Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/commit/f43cff3728e58c377d1e03b13db62514217abfe1]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/util/meson.build      |  1 +
++ src/util/stack_array.h    | 45 +++++++++++++++++++++++++++++++++++++++
++ src/vulkan/util/vk_util.h | 17 +--------------
++ 3 files changed, 47 insertions(+), 16 deletions(-)
++ create mode 100644 src/util/stack_array.h
++
++diff --git a/src/util/meson.build b/src/util/meson.build
++index a60fbc7b660..ed746734b87 100644
++--- a/src/util/meson.build
+++++ b/src/util/meson.build
++@@ -122,6 +122,7 @@ files_mesa_util = files(
++   'softfloat.h',
++   'sparse_array.c',
++   'sparse_array.h',
+++  'stack_array.h',
++   'string_buffer.c',
++   'string_buffer.h',
++   'strndup.h',
++diff --git a/src/util/stack_array.h b/src/util/stack_array.h
++new file mode 100644
++index 00000000000..e2133bdc2f4
++--- /dev/null
+++++ b/src/util/stack_array.h
++@@ -0,0 +1,45 @@
+++/*
+++ * Copyright © 2025 Collabora, Ltd.
+++ *
+++ * Permission is hereby granted, free of charge, to any person obtaining a
+++ * copy of this software and associated documentation files (the "Software"),
+++ * to deal in the Software without restriction, including without limitation
+++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+++ * and/or sell copies of the Software, and to permit persons to whom the
+++ * Software is furnished to do so, subject to the following conditions:
+++ *
+++ * The above copyright notice and this permission notice (including the next
+++ * paragraph) shall be included in all copies or substantial portions of the
+++ * Software.
+++ *
+++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+++ * IN THE SOFTWARE.
+++ */
 ++
-+ /* ---------------------------------------------------------------------------------------------------- */
-+ /* like g_data_input_stream_read_line() but sets error if there's no content to read */
-+ static gchar *
-+@@ -307,6 +336,7 @@ _my_g_data_input_stream_read_line (GDataInputStream  *dis,
+++#include <stdlib.h>
+++
+++#ifndef UTIL_STACK_ARRAY_H
+++#define UTIL_STACK_ARRAY_H
+++
+++#define STACK_ARRAY_SIZE 8
+++
+++/* Sometimes gcc may claim -Wmaybe-uninitialized for the stack array in some
+++ * places it can't verify that when size is 0 nobody down the call chain reads
+++ * the array. Please don't try to fix it by zero-initializing the array here
+++ * since it's used in a lot of different places. An "if (size == 0) return;"
+++ * may work for you.
+++ */
+++#define STACK_ARRAY(type, name, size) \
+++   type _stack_##name[STACK_ARRAY_SIZE]; \
+++   type *const name = \
+++     ((size) <= STACK_ARRAY_SIZE ? _stack_##name : (type *)malloc((size) * sizeof(type)))
+++
+++#define STACK_ARRAY_FINISH(name) \
+++   if (name != _stack_##name) free(name)
+++
+++#endif /* UTIL_STACK_ARRAY_H */
++diff --git a/src/vulkan/util/vk_util.h b/src/vulkan/util/vk_util.h
++index aea4c569a18..4f5972b291a 100644
++--- a/src/vulkan/util/vk_util.h
+++++ b/src/vulkan/util/vk_util.h
++@@ -25,6 +25,7 @@
++ 
++ #include "util/bitscan.h"
++ #include "util/macros.h"
+++#include "util/stack_array.h"
++ #include "compiler/shader_enums.h"
++ #include <stdlib.h>
++ #include <string.h>
++@@ -356,22 +357,6 @@ struct nir_spirv_specialization*
++ vk_spec_info_to_nir_spirv(const VkSpecializationInfo *spec_info,
++                           uint32_t *out_num_spec_entries);
++ 
++-#define STACK_ARRAY_SIZE 8
++-
++-/* Sometimes gcc may claim -Wmaybe-uninitialized for the stack array in some
++- * places it can't verify that when size is 0 nobody down the call chain reads
++- * the array. Please don't try to fix it by zero-initializing the array here
++- * since it's used in a lot of different places. An "if (size == 0) return;"
++- * may work for you.
++- */
++-#define STACK_ARRAY(type, name, size) \
++-   type _stack_##name[STACK_ARRAY_SIZE]; \
++-   type *const name = \
++-     ((size) <= STACK_ARRAY_SIZE ? _stack_##name : (type *)malloc((size) * sizeof(type)))
++-
++-#define STACK_ARRAY_FINISH(name) \
++-   if (name != _stack_##name) free(name)
++-
++ static inline uint8_t
++ vk_index_type_to_bytes(enum VkIndexType type)
++ {
+diff --git a/meta/recipes-graphics/mesa/files/CVE-2026-40393-03.patch b/meta/recipes-graphics/mesa/files/CVE-2026-40393-03.patch
+new file mode 100644
+index 00000000000..96ab229a552
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/CVE-2026-40393-03.patch
+@@ -0,0 +1,103 @@
++From 978fd42b4b7d1e9c0435ffa7e1a4d339cba9b76e Mon Sep 17 00:00:00 2001
++From: Ian Romanick <ian.d.romanick@intel.com>
++Date: Fri, 23 Jan 2026 09:58:26 -0800
++Subject: [PATCH] spirv: Use STACK_ARRAY instead of NIR_VLA
++
++The number of fields comes from the shader, so it could be a value large
++enough that using alloca would be problematic.
++
++Fixes: 2a023f30a64 ("nir/spirv: Add basic support for types")
++Reviewed-by: Caio Oliveira <caio.oliveira@intel.com>
++Reviewed-by: Ryan Neph <ryanneph@google.com>
++Reviewed-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
++(cherry picked from commit 3da828d2dd12e20ba2afc152db8d7236c7a48c13)
++
++Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/40092>
++
++CVE: CVE-2026-40393
++Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/commit/978fd42b4b7d1e9c0435ffa7e1a4d339cba9b76e]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/compiler/spirv/spirv_to_nir.c | 27 +++++++++++++++++----------
++ 1 file changed, 17 insertions(+), 10 deletions(-)
++
++diff --git a/src/compiler/spirv/spirv_to_nir.c b/src/compiler/spirv/spirv_to_nir.c
++index 65229eee740..9cf2c66cec9 100644
++--- a/src/compiler/spirv/spirv_to_nir.c
+++++ b/src/compiler/spirv/spirv_to_nir.c
++@@ -27,7 +27,6 @@
++ 
++ #include "glsl_types.h"
++ #include "vtn_private.h"
++-#include "nir/nir_vla.h"
++ #include "nir/nir_control_flow.h"
++ #include "nir/nir_constant_expressions.h"
++ #include "nir/nir_deref.h"
++@@ -37,6 +36,7 @@
++ #include "util/u_math.h"
++ #include "util/u_string.h"
++ #include "util/u_debug.h"
+++#include "util/stack_array.h"
++ 
++ #include <stdio.h>
++ 
++@@ -1013,7 +1013,7 @@ vtn_type_get_nir_type(struct vtn_builder *b, struct vtn_type *type,
++       case vtn_base_type_struct: {
++          bool need_new_struct = false;
++          const uint32_t num_fields = type->length;
++-         NIR_VLA(struct glsl_struct_field, fields, num_fields);
+++         STACK_ARRAY(struct glsl_struct_field, fields, num_fields);
++          for (unsigned i = 0; i < num_fields; i++) {
++             fields[i] = *glsl_get_struct_field_data(type->type, i);
++             const struct glsl_type *field_nir_type =
++@@ -1023,20 +1023,25 @@ vtn_type_get_nir_type(struct vtn_builder *b, struct vtn_type *type,
++                need_new_struct = true;
++             }
++          }
+++
+++         const struct glsl_type *result;
++          if (need_new_struct) {
++             if (glsl_type_is_interface(type->type)) {
++-               return glsl_interface_type(fields, num_fields,
++-                                          /* packing */ 0, false,
++-                                          glsl_get_type_name(type->type));
+++               result = glsl_interface_type(fields, num_fields,
+++                                            /* packing */ 0, false,
+++                                            glsl_get_type_name(type->type));
++             } else {
++-               return glsl_struct_type(fields, num_fields,
++-                                       glsl_get_type_name(type->type),
++-                                       glsl_struct_type_is_packed(type->type));
+++               result = glsl_struct_type(fields, num_fields,
+++                                         glsl_get_type_name(type->type),
+++                                         glsl_struct_type_is_packed(type->type));
++             }
++          } else {
++             /* No changes, just pass it on */
++-            return type->type;
+++            result = type->type;
++          }
+++
+++         STACK_ARRAY_FINISH(fields);
+++         return result;
++       }
++ 
++       case vtn_base_type_image:
++@@ -1647,7 +1652,7 @@ vtn_handle_type(struct vtn_builder *b, SpvOp opcode,
++       val->type->offsets = vtn_alloc_array(b, unsigned, num_fields);
++       val->type->packed = false;
++ 
++-      NIR_VLA(struct glsl_struct_field, fields, count);
+++      STACK_ARRAY(struct glsl_struct_field, fields, count);
++       for (unsigned i = 0; i < num_fields; i++) {
++          val->type->members[i] = vtn_get_type(b, w[i + 2]);
++          const char *name = NULL;
++@@ -1703,6 +1708,8 @@ vtn_handle_type(struct vtn_builder *b, SpvOp opcode,
++                                             name ? name : "struct",
++                                             val->type->packed);
++       }
+++
+++      STACK_ARRAY_FINISH(fields);
++       break;
++    }
++ 
+diff --git a/meta/recipes-graphics/mesa/files/CVE-2026-40393-04.patch b/meta/recipes-graphics/mesa/files/CVE-2026-40393-04.patch
+new file mode 100644
+index 00000000000..71e959f0edf
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/CVE-2026-40393-04.patch
+@@ -0,0 +1,54 @@
++From 45ce75f3bcd638dcf7daae09f9bf0b7c015b81c4 Mon Sep 17 00:00:00 2001
++From: Ian Romanick <ian.d.romanick@intel.com>
++Date: Fri, 23 Jan 2026 10:07:27 -0800
++Subject: [PATCH] nir: Use STACK_ARRAY instead of NIR_VLA
++
++The number of fields comes from the shader, so it could be a value large
++enough that using alloca would be problematic.
++
++Fixes: c11833ab24d ("nir,spirv: Rework function calls")
++Reviewed-by: Caio Oliveira <caio.oliveira@intel.com>
++Reviewed-by: Ryan Neph <ryanneph@google.com>
++Reviewed-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
++(cherry picked from commit 9017d37e84771f921a63676dd8b955df9ef20f29)
++
++Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/40092>
++
++CVE: CVE-2026-40393
++Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/commit/45ce75f3bcd638dcf7daae09f9bf0b7c015b81c4]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/compiler/nir/nir_functions.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/src/compiler/nir/nir_functions.c b/src/compiler/nir/nir_functions.c
++index 5d5f66293be..d4b3e652f1c 100644
++--- a/src/compiler/nir/nir_functions.c
+++++ b/src/compiler/nir/nir_functions.c
++@@ -21,10 +21,10 @@
++  * IN THE SOFTWARE.
 +  */
-+ static gchar *
-+ _my_g_input_stream_read_line_safe (GInputStream  *i,
-++                                   size_t         max_line_length,
-+                                    gsize         *out_line_length,
-+                                    GCancellable  *cancellable,
-+                                    GError       **error)
-+@@ -316,11 +346,22 @@ _my_g_input_stream_read_line_safe (GInputStream  *i,
-+   gssize num_read;
-+   gboolean last_was_cr;
 + 
-++  g_assert (max_line_length <= SIZE_MAX - 2);
-++
-+   str = g_string_new (NULL);
+++#include "util/stack_array.h"
++ #include "nir.h"
++ #include "nir_builder.h"
++ #include "nir_control_flow.h"
++-#include "nir_vla.h"
 + 
-+   last_was_cr = FALSE;
-+   while (TRUE)
-+     {
-++      if (str->len >= max_line_length + 2  /* allow for \r\n */)
-++        {
-++          g_set_error_literal (error,
-++                               G_IO_ERROR,
-++                               G_IO_ERROR_FAILED,
-++                               _("Malformed D-Bus authentication line"));
-++          goto fail;
-++        }
-++
-+       num_read = g_input_stream_read (i,
-+                                       &c,
-+                                       1,
-+@@ -1073,6 +1114,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
-+         case SERVER_STATE_WAITING_FOR_AUTH:
-+           debug_print ("SERVER: WaitingForAuth");
-+           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
-++                                                    strlen ("AUTH ") + get_longest_mechanism_name_length (auth) + strlen (" ") + MAX_DATA_PAYLOAD_LENGTH_BYTES,
-+                                                     &line_length,
-+                                                     cancellable,
-+                                                     error);
-+@@ -1294,6 +1336,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
-+         case SERVER_STATE_WAITING_FOR_DATA:
-+           debug_print ("SERVER: WaitingForData");
-+           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
-++                                                    strlen ("DATA ") + MAX_DATA_PAYLOAD_LENGTH_BYTES,
-+                                                     &line_length,
-+                                                     cancellable,
-+                                                     error);
-+@@ -1336,6 +1379,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
-+         case SERVER_STATE_WAITING_FOR_BEGIN:
-+           debug_print ("SERVER: WaitingForBegin");
-+           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
-++                                                    MAX (strlen ("BEGIN"), strlen ("NEGOTIATE_UNIX_FD")),
-+                                                     &line_length,
-+                                                     cancellable,
-+                                                     error);
-+diff --git a/gio/tests/gdbus-auth.c b/gio/tests/gdbus-auth.c
-+index 657571be3..3323d6eeb 100644
-+--- a/gio/tests/gdbus-auth.c
-++++ b/gio/tests/gdbus-auth.c
-+@@ -263,6 +263,124 @@ temp_dbus_keyrings_teardown (void)
-+   g_unsetenv ("G_DBUS_COOKIE_SHA1_KEYRING_DIR_IGNORE_PERMISSION");
++ /*
++  * TODO: write a proper inliner for GPUs.
++@@ -177,12 +177,13 @@ static bool inline_functions_pass(nir_builder *b,
++     * to an SSA value first.
++     */
++    const unsigned num_params = call->num_params;
++-   NIR_VLA(nir_def *, params, num_params);
+++   STACK_ARRAY(nir_def *, params, num_params);
++    for (unsigned i = 0; i < num_params; i++) {
++       params[i] = call->params[i].ssa;
++    }
++ 
++    nir_inline_function_impl(b, call->callee->impl, params, NULL);
+++   STACK_ARRAY_FINISH(params);
++    return true;
 + }
 + 
-++static void
-++async_result_cb (GObject      *obj,
-++                 GAsyncResult *result,
-++                 void         *user_data)
-++{
-++  GAsyncResult **result_out = user_data;
-++
-++  g_assert (result_out != NULL);
-++  g_assert (*result_out == NULL);
-++
-++  *result_out = g_object_ref (result);
-++  g_main_context_wakeup (g_main_context_get_thread_default ());
-++}
-++
-++static gboolean
-++server_new_connection_unexpected_cb (GDBusServer     *server,
-++                                     GDBusConnection *connection,
-++                                     void            *user_data)
-++{
-++  g_assert_not_reached ();
-++  return FALSE;
-++}
-++
-++static void
-++test_auth_server_read_limit (void)
-++{
-++  GDBusServer *server = NULL;
-++  unsigned long new_connection_id = 0;
-++  const char *server_address;
-++  GIOStream *client_stream = NULL;
-++  GOutputStream *client_output_stream;
-++  GInputStream *client_input_stream;
-++  GAsyncResult *result = NULL;
-++  char *write_buffer = NULL;
-++  char read_buffer[100];
-++  ssize_t read_len;
-++  size_t bytes_written;
-++  GError *local_error = NULL;
-++
-++  g_test_summary ("Test that GDBusServer limits the lengths of reads it does during auth from a client");
-++  g_test_bug ("https://gitlab.gnome.org/GNOME/glib/-/issues/3985");
-++
-++  server = server_new_for_mechanism (NULL);
-++
-++  new_connection_id = g_signal_connect (server,
-++                                        "new-connection",
-++                                        G_CALLBACK (server_new_connection_unexpected_cb),
-++                                        NULL);
-++  server_address = g_dbus_server_get_client_address (server);
-++  g_dbus_server_start (server);
-++
-++  /* Start connecting as a client */
-++  g_dbus_address_get_stream (server_address, NULL, async_result_cb, &result);
-++
-++  while (result == NULL)
-++    g_main_context_iteration (NULL, TRUE);
-++
-++  client_stream = g_dbus_address_get_stream_finish (result, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++  g_clear_object (&result);
-++
-++  /* Send an over-long AUTH line, maliciously */
-++  client_output_stream = g_io_stream_get_output_stream (client_stream);
-++  client_input_stream = g_io_stream_get_input_stream (client_stream);
-++
-++  write_buffer = g_strdup_printf ("AUTH DBUS_COOKIE_SHA1 context%0*d 123 456\r\n", 5000, 0);
-++
-++  g_output_stream_write_all_async (client_output_stream,
-++                                   write_buffer,
-++                                   strlen (write_buffer),
-++                                   G_PRIORITY_DEFAULT,
-++                                   NULL,
-++                                   async_result_cb,
-++                                   &result);
-++
-++  while (result == NULL)
-++    g_main_context_iteration (NULL, TRUE);
-++
-++  g_output_stream_write_all_finish (client_output_stream, result, &bytes_written, &local_error);
-++  g_assert_no_error (local_error);
-++  g_assert_cmpuint (bytes_written, ==, strlen (write_buffer));
-++  g_clear_object (&result);
-++
-++  g_clear_pointer (&write_buffer, g_free);
-++
-++  /* Authentication should have been rejected, so reading or writing the stream
-++   * should now fail. */
-++  read_len = g_input_stream_read (client_input_stream,
-++                                  read_buffer,
-++                                  sizeof (read_buffer),
-++                                  NULL,
-++                                  &local_error);
-++  g_assert_error (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_CLOSED);
-++  g_assert_cmpint (read_len, <, 0);
-++  g_clear_error (&local_error);
-++
-++  write_buffer = g_strdup_printf ("AUTH\r\n");
-++
-++  g_output_stream_write_all (client_output_stream,
-++                             write_buffer,
-++                             strlen (write_buffer),
-++                             &bytes_written,
-++                             NULL,
-++                             &local_error);
-++  g_assert_error (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_CLOSED);
-++  g_assert_cmpuint (bytes_written, ==, 0);
-++  g_clear_error (&local_error);
-++
-++  g_clear_pointer (&write_buffer, g_free);
-++
-++  /* Cleanup */
-++  g_clear_object (&client_stream);
-++  g_dbus_server_stop (server);
-++
-++  g_clear_signal_handler (&new_connection_id, server);
-++  g_clear_object (&server);
-++}
-++
-+ /* ---------------------------------------------------------------------------------------------------- */
-+ 
-+ int
-+@@ -282,6 +400,7 @@ main (int   argc,
-+   g_test_add_func ("/gdbus/auth/server/ANONYMOUS",        auth_server_anonymous);
-+   g_test_add_func ("/gdbus/auth/server/EXTERNAL",         auth_server_external);
-+   g_test_add_func ("/gdbus/auth/server/DBUS_COOKIE_SHA1", auth_server_dbus_cookie_sha1);
-++  g_test_add_func ("/gdbus/auth/server/read-limit", test_auth_server_read_limit);
-+ 
-+   /* TODO: we currently don't have tests for
-+    *
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index 70b0b74e881..62f173739cf 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -58,6 +58,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2026-58015_p2.patch \
-            file://CVE-2026-58015_p3.patch \
-            file://CVE-2026-58015_p4.patch \
-+           file://CVE-2026-15588.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index eb23a3f82c3..357d371a3d1 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -20,6 +20,10 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
+            file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
+            file://0001-c11-threads-fix-build-on-c23.patch \
++           file://CVE-2026-40393-01.patch \
++           file://CVE-2026-40393-02.patch \
++           file://CVE-2026-40393-03.patch \
++           file://CVE-2026-40393-04.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "7454425f1ed4a6f1b5b107e1672b30c88b22ea0efea000ae2c7d96db93f6c26a"
 
