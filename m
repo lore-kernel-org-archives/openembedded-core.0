@@ -1,134 +1,142 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF30CCA5FF0
-	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 13:39:24 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20307.1791207561426131528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCB50CA5FFC
+	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 14:36:16 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21635.1791210973598546510
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Oct 2026 06:39:22 -0700
+ Mon, 05 Oct 2026 07:36:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=Nh5XwZYc;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 874A31A116B
-	for <openembedded-core@lists.openembedded.org>; Mon,  5 Oct 2026 13:39:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5D18C601A5;
-	Mon,  5 Oct 2026 13:39:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 552BE103306A3;
-	Mon,  5 Oct 2026 15:39:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791207554; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=m8lGEpjQr5zGYWG+V4DWf46+woIKleMYx2WwT9QAwFM=;
-	b=Nh5XwZYceUowb3XXCtog4JLHxsK2rUa+p8Ac5KwcQnb3jSShxkletEy60yeA2JcWg7KUIK
-	5UrSJ5AAInKE0vMdcuiP0BlfnrxPLJLaEhpvMC1JcelRmHXtl9pngos0KtbN68C5UmdYNK
-	KsO7yzTw8cFbcSibl5sqKwUrtLxMr0Uf7zmQudMqSisKs4Ur7G1nnVfaS7ZNzSjRP1iNur
-	7VCYoC9H6Hd11TsJJ4vqoOzpHN8nKCdF+EP55kJqffnTV4IMUjoaNw7Y66w1k0MrzNAI6d
-	MJxhA2WIqL6ynGRJa0TV+vU9xEva/ASQyi8uhDiIyc6/yE+c+QwNUWlKZgFZIg==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	tgamblin@baylibre.com,
-	ross.burton@arm.com,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-Subject: [PATCH v4 1/1] recipes-support/gnutls: disable slow tests for RISCV64
-Date: Mon,  5 Oct 2026 15:38:50 +0200
-Message-ID: <20261005133850.2350694-2-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261005133850.2350694-1-joaomarcos.costa@bootlin.com>
-References: <20261005133850.2350694-1-joaomarcos.costa@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NmNp7H2h;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a022e9cbebso15352385e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 07:36:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1791210972; x=1791815772; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=SCzMerLBHd0wpNS8jzyJNBXGZUbfPDathlHjTLamB+Y=;
+        b=NmNp7H2htc084pFawF3o3BjZD1ZmjwSIEwtfRquB0godqQnmlpbAN2fNFTTzcTmlbw
+         VMXlqvp8dEAVrwpMQy3EQYZLXyTfLGw0vno069/VrosJw5WjoDkriLXZoAmGj8eWYMCQ
+         a3ctffY8APVp1MAu2oIRQjQABa4XE2bwJReDc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791210972; x=1791815772;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SCzMerLBHd0wpNS8jzyJNBXGZUbfPDathlHjTLamB+Y=;
+        b=lz2wYxHHcg2go6xbWTZ9wzsIN+1zzCEclwMTsLs31s/noRAs6eqTxqwUTSjRN0+4KM
+         IzY1xkGuf0qCj9lPhQxksKc48FmLF4GQ5ABEUhBRJFgHGEk1eURoiCS42jjXPERY392d
+         fiXrnARfaHh8AO4IL3ekNHn/R4M8wb+pn4r9eJITLKiM1uo2A/gvR/ZNpzXVGOF9ELP6
+         splQ9waP5ggQIcIBzSyY59qHCUcHfotTVpzyb/CTsridhjd97SHRzS9alnWEeVaBx/mH
+         3haWw8rPmlL8MuVDvsfDBIRsH0BZXIn+s9BdI27AGRvanh08RY7/b5vdErZqZKJVa9Lh
+         OMpA==
+X-Forwarded-Encrypted: i=1; AKwUvByMnJwXa4y8+fJh7yoQ/OU6M2sm/VHdrABTd9YeDE/LBHpRCfipvKh+qDmrhNTT7aPRG2SSdbwDCGdkB07ubXAf/A==@lists.openembedded.org
+X-Gm-Message-State: AFuF++moXLO6Idh4Lkdt4qqhIlNrbzohP5XXyIKR/aCy/w1MSqwGV10q
+	XeH+1j/QQQxjjGuvcN3C++v/pQ/9x+pXfkF3FwpGKY9LOsDbXvu67WeEiodwi5+U7zvrXuJE690
+	Y1zgG184=
+X-Gm-Gg: AYBFou1SH3SH718FscVgTb/YeMkW6tTQWzCqKpNhu/4zw0SGu7cf2D8H0Fy5H0Lksrh
+	RV9xAYIxagEInMF+DI1REQbshNk9imKpWxH3GNxNi7YJcZYKUe5/uBGwA2oQtoJ8Ny2PrJSasHg
+	6dvmxTR293TTup6al9kAZGlW8f9VlSJm/lxfXOPmzvuCJir0Pt54xXnzvUWyRF80EloPxq1TTzV
+	pm4Ft2UyjfSaKzPvw46doMHcIn9PxpKmuUXGhJUGlahPRSrHb88dwqz/KHPgLUiGnHz9ZOusSm5
+	3Lj3B+D0A4HWswcDeIae92HCbsxXbxykKY3DwHTUATd/EHsH8TU0pg9HW0NaYhdcAvokypvAeuL
+	6pn/hRQRTcPnARPKfKu/Oqer0vJExPj5moPdMKsJKlGj4NN1Nm4IF9zNhfUQA/uvuLnYlUW541x
+	smvkg1HBSQ3CSpTpKwghuqehtZg+PZomVo564cd4oZY4XS9b7cVd/fgKuNQEZuwaqIgY6wpIPm9
+	5epwX/ZeQyeqfZdtAxqrhDNA/ldOelahGXnb1Q76fnlyd2ganKwrwqTtBuadTc=
+X-Received: by 2002:a05:600c:19d2:b0:4a1:7703:e549 with SMTP id 5b1f17b1804b1-4a17703e672mr17040345e9.26.1791210971704;
+        Mon, 05 Oct 2026 07:36:11 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c007:fc8d:8a7f:1be5? ([2001:8b0:aba:5f3c:c007:fc8d:8a7f:1be5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027741586sm343576975e9.14.2026.10.05.07.36.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 07:36:11 -0700 (PDT)
+Message-ID: <baff8d8df699d2a0b282ce80ccc0147061ee2f33.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rust: Upgrade 1.98.1 -> 1.99.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hemanth.KumarMD@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+Date: Mon, 05 Oct 2026 15:36:10 +0100
+In-Reply-To: <20261005095200.3309867-1-Hemanth.KumarMD@windriver.com>
+References: <20261005095200.3309867-1-Hemanth.KumarMD@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 13:39:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247242
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 14:36:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247243
 
-Timeouts have been observed (very frequently in the past weeks)
-in the autobuilder, and a bug [1] was filed at Bugzilla.
+On Mon, 2026-10-05 at 02:51 -0700, Hemanth Kumar M D via lists.openembedded=
+.org wrote:
+> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+>=20
+> Rust Changes:
+> https://github.com/rust-lang/rust/releases/tag/1.99.0
+>=20
+> Cargo Changes:
+> https://doc.rust-lang.org/nightly/cargo/CHANGELOG.html
+>=20
+> Update local patches:
+> 0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch
+> 0007-cargo-omit-host-triple-from-unit-metadata-hash.patch
+> rust-oe-selftest.patch
+>=20
+> Drop merged patches:
+> 0001-Define-more-ioctl-codes-on-riscv32gc-unknown-linux-g.patch
+> 0004-Backport-commits-from-rust-Fix-selftest-llvm23.patch
+> 0008-rustc-hir-make-doc-link-metadata-order-deterministic.patch
+>=20
+> rust_1.99.0.bb: drop "rust.use-lld" and "rust.lld" options.
+> =C2=A0 "rust.use-lld" was renamed to "rust.bootstrap-override-lld" and it=
+s
+> =C2=A0 alias removed this release, so bootstrap now rejects it and do_ins=
+tall
+> =C2=A0 fails. The new option keeps the previous default, so dropping thes=
+e
+> =C2=A0 lines is sufficient. See [1] and [2].
+>=20
+> [1] https://github.com/rust-lang/rust/pull/147046
+> [2] https://github.com/rust-lang/rust/pull/160142
+>=20
+> rust v1.99.0 (from autobuilder)
+> +-------------+---------+---------+
+> > Machine=C2=A0=C2=A0=C2=A0=C2=A0 | Passed=C2=A0 | Skipped |
+> +-------------+---------+---------+
+> > qemux86-64=C2=A0 |=C2=A0 23690=C2=A0 |=C2=A0 1022=C2=A0=C2=A0 |
+> > qemux86=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 23427=C2=A0 |=C2=A0 1285=C2=A0=
+=C2=A0 |
+> > qemuarm=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 23407=C2=A0 |=C2=A0 1305=C2=A0=
+=C2=A0 |
+> > qemuarm64=C2=A0=C2=A0 |=C2=A0 23521=C2=A0 |=C2=A0 1191=C2=A0=C2=A0 |
+> > qemuriscv64 |=C2=A0 23463=C2=A0 |=C2=A0 1249=C2=A0=C2=A0 |
+> +-------------+---------+---------+
+>=20
+> Test results difference (1.99.0 - 1.98.1):
+>=20
+> +-------------+--------+---------+
+> > Machine=C2=A0=C2=A0=C2=A0=C2=A0 | Passed | Skipped |
+> +-------------+--------+---------+
+> > qemux86-64=C2=A0 |=C2=A0 +520=C2=A0 |=C2=A0 +214=C2=A0=C2=A0 |
+> > qemux86=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +512=C2=A0 |=C2=A0 +222=C2=A0=
+=C2=A0 |
+> > qemuarm=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +512=C2=A0 |=C2=A0 +222=C2=A0=
+=C2=A0 |
+> > qemuarm64=C2=A0=C2=A0 |=C2=A0 +520=C2=A0 |=C2=A0 +214=C2=A0=C2=A0 |
+> > qemuriscv64 |=C2=A0 +519=C2=A0 |=C2=A0 +215=C2=A0=C2=A0 |
+> +-------------+--------+---------+
+>=20
+> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 
-After some investigation [2] was performed by Trevor Gamblin, we now have=
- a
-list of the most time consuming test cases:
+The autobuilder showed one issue so far:
 
-- mini-record-2 (187880ms)
-- record-retvals (145390ms)
-- rng-op-key (63820ms)
-- rng-op-random (63330ms)
-- rng-op-nonce (63260ms)
-- dtls-rehandshake-cert (61360ms)
-- dtls-rehandshake-cert-2 (61230ms)
-- dtls-rehandshake-anon (61030ms)
-- mini-loss-time (60130ms)
-- mini-dtls-hello-verify-48 (30050ms)
-- tls12-ffdhe (27790ms)
-- x509sign-verify-rsa (18460ms)
-- x509sign-verify-ecdsa (16050ms)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/80/builds/4613
 
-Disable the tests that take > 60000ms to avoid so many timeouts in qemuri=
-scv64-ptest runs.
+Cheers,
 
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
-[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162#c19
-
-Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
----
- meta/recipes-support/gnutls/gnutls/run-ptest |  1 +
- meta/recipes-support/gnutls/gnutls_3.8.13.bb | 18 ++++++++++++++++++
- 2 files changed, 19 insertions(+)
-
-diff --git a/meta/recipes-support/gnutls/gnutls/run-ptest b/meta/recipes-=
-support/gnutls/gnutls/run-ptest
-index b7827e1358..1d6999669a 100644
---- a/meta/recipes-support/gnutls/gnutls/run-ptest
-+++ b/meta/recipes-support/gnutls/gnutls/run-ptest
-@@ -53,6 +53,7 @@ test_disallowlist=3D"${test_disallowlist} system-overri=
-de-sig"
- test_disallowlist=3D"${test_disallowlist} system-override-sig-tls"
- test_disallowlist=3D"${test_disallowlist} system-prio-file"
- test_disallowlist=3D"${test_disallowlist} x509cert-tl"
-+test_disallowlist=3D"${test_disallowlist} @EXTRA_TEST_DISALLOWLIST@"
-=20
- LOG=3D${PWD}/tests.log
- cd tests
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.13.bb b/meta/recipes-=
-support/gnutls/gnutls_3.8.13.bb
-index 9c8c994bdc..88b6135bf1 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.13.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
-@@ -77,6 +77,24 @@ do_install:append:class-target() {
-         fi
- }
-=20
-+EXTRA_TEST_DISALLOWLIST ?=3D ""
-+
-+EXTRA_TEST_DISALLOWLIST:riscv64 =3D "\
-+    dtls-rehandshake-anon \
-+    dtls-rehandshake-cert \
-+    dtls-rehandshake-cert-2 \
-+    mini-loss-time \
-+    mini-record-2 \
-+    record-retvals \
-+    rng-op-key \
-+    rng-op-nonce \
-+    rng-op-random \
-+"
-+
-+do_install_ptest_base:append() {
-+    sed -i 's:@EXTRA_TEST_DISALLOWLIST@:${EXTRA_TEST_DISALLOWLIST}:g' ${=
-D}${PTEST_PATH}/run-ptest
-+}
-+
- PACKAGES =3D+ "${PN}-dane ${PN}-openssl ${PN}-xx ${PN}-fips"
-=20
- FILES:${PN}-dev +=3D "${bindir}/gnutls-cli-debug"
---=20
-2.55.0
-
+Richard
 
