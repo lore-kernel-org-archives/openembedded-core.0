@@ -1,265 +1,143 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CBACA5FE2
-	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 06:33:32 +0000 (UTC)
-Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13988.1791180752915219304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A405CA5FE2
+	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 06:51:42 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.10])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14364.1791183092692515034
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Oct 2026 23:12:33 -0700
+ Sun, 04 Oct 2026 23:51:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=oHQrDuNl;
- spf=permerror, err=parse error for token &{10 18 secureserver.net}: SPF record not found (domain: bmwtechworks.in, ip: 52.101.225.29, mailfrom: upstream_ip-sp@bmwtechworks.in)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=ubStgFbn;
+ spf=pass (domain: est.tech, ip: 40.107.130.10, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MSwKCVCBe13xFdkDuoK9Jxiv54VlOj57TA1GmjgZhnBu9FpZkADRZh/LCjqf4ptCcmX1QDStjcm0ot3EQRcOI+pyZ8/HlLYepGZiwxzhP+fOQ4fN5VFryPOu2taEy8DP0INY2Qcp7TTs62jrfMmJXBdXx/P7s9BxWRrl/WWAReX1ObFnxhXq+ZqRHk8La9R8AxX27g9+at7bWEeqiBiUusuGy68D3VogXlpr2+ILg/7rDBECtkcC9mW/AbchnwshBSuiu09NrWwUv8W3IP7LIO+EOlGf4hsXqJSAebo1NsGv5hF71izmgTnH8wChf2IhOrXOk12kGm8747H90GOBqA==
+ b=OdDm9VcKpMtuuXeD7Y5suOMk9e+2BqFAAQBP7XoLZ1Yu+8iibNYk5EAq9Qp/CdbPPudw4x3iqz0tlRZ23S/Lm4Wq61uooN2hGKuigkCDiApqCRSiq5ZgJm1TTkfh6d4DUlp+46O9i9YxRJZ60Z6NOMfcV6yEZr6m8KycGUakl4ghH0JgB7nzaMHXnpzDj/n5SsIG+JJeKgk+O06CefMCL2XvlmpsDwGpAwOjKvrEg+hguwzkxUjWUWNi0C412HnYqWyNF2UW13P3rMZlhjAvLBt0JWtyL7DXgTkCrGMUJK1B3kNQWGxbNfgIImoTLLU8nlO9TRt4Paxfyi0BopZHPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n/45Hdpvow1bXrYFg0Qpq+Li9axKrgirZqw8ljFxLCk=;
- b=zExX9jGDguZcMBtymliM4aE5ObU49PtuPSQ7ISbcT8TYB4RDM/p2jbdWzOG2ei+JY0xShwVif2YclzxTvaqAvmyorcSaJ+yi1FQZQKe5RUC/kHRrDWILt63uvV63RaWISyxVsnvYSH9kYp6Hp7CY8de6uN+B4rU8I81nkJW2Qp3iPGvWUtB+iJ64iM4cLQcGp9CyTRrGoNdl5/CxUpEUzjwIVqWxtnjKHgEDVu3JTuk0WS9lm9lAyQLmbC/OHzG55LDlGjRf2MyQE0W2ZfovrYjSjiV9mXToFFnqr4Gvp40KQ3RkJw17xMFP+WA3I7ZiJZdlfIvAVY/NIrFKt2Kx8w==
+ bh=i7f3VMpU44dEQJEk+2pogktjrjQdRC51kyKphGLbk8Q=;
+ b=iSHh8cuRcL7qoCALyqRgJ453GRazYn0DZ9imDOM/311VNuM8PT7jL2VdqhR/Vzcupg0m3OisHMXhOGs0Pqp3OYiQjEsPzOzKFY/5w3GaF0VyWgWmjbM87Q+5Vao+9De79U2l4WpwBAv5/pW+Vrf59KpUYE6/ZxQpyHn84yV+XEbC+izekXDNrBqIsykhK/wRoMfzRy9NjhDcOK3AtO1t64TQDfLLyJi+/HhfwpGEgEEILT9o/oL6v0KdliluaXMSLb+T5vrJcStpz0pqaiJVEuB7S/T+zVRpq6suG92bEN1AHuosWcYU0JVoQbObDZrT76Ya2hrKrRW4znmybd8oWg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
- header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
- s=selector1;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n/45Hdpvow1bXrYFg0Qpq+Li9axKrgirZqw8ljFxLCk=;
- b=oHQrDuNlI2pJOwXo03ENll6IA6nsiHnUuuYWNJLD9Dr28xox5jtsmCNC1k3M6gjSkxvWTeI7n0gMKNNKXeovKRByv6Q+N5dPU2BFLZM85oJiiEdHthPgO4KWd2Px1F1KkI6EpK+PvU4FHqIoVUHgJGmnnVWcJRfvKQmeh5eHOtdmlFzXAyNEtXQQPYcamKONM9uNATbrlQUbdz+12bAEjREuwZVWid34Yx2tsVgNXte5KNsDOy1wq+5vXd/mUINt720O4qCAHh2luh9oBQA7nsssoVAzDMR0SbjV7WubfywiTxYtr8/j7aH0XBdGF2iwp23FmvBv/SrNj20K8+3Rbg==
+ bh=i7f3VMpU44dEQJEk+2pogktjrjQdRC51kyKphGLbk8Q=;
+ b=ubStgFbnByyfGkoBO+AirAVQZhhUb5ul88mceI64syOZRofDVNmf4GByU/g3Zke/l0crMj3aMX272TaYZHCWFCaOTgg64WkrClQ0HmQ/f58PRlqzDqgHVRlfujysnOA8TiSzN3F75fKJFUgsoGbXjhdfDkzr9cvsawxM/d1fF4VHnVTKHBKeyutcqOjuUYbTdECA7EYAU0PtJBnr1+QxHanwFVeFx4ZNWxXUIY95gkwgKIVRjte6EvWE1ExCL7zq2pA3FXAEIRmfSEPndWMKZkfK/YiYyDfH57LjxvuqYGDXxwzT2usTpfSPsz/u6hQeGNqbyDbdz0kmycmzBz5o/g==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
-Received: from MA5P287MB5315.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1bb::5)
- by MA5P287MB4174.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:162::7) with
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by VI0P189MB2685.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:215::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 05:56:30 +0000
-Received: from MA5P287MB5315.INDP287.PROD.OUTLOOK.COM
- ([fe80::69b8:6140:9c:b6de]) by MA5P287MB5315.INDP287.PROD.OUTLOOK.COM
- ([fe80::69b8:6140:9c:b6de%3]) with mapi id 15.21.0472.016; Mon, 5 Oct 2026
- 05:56:30 +0000
-From: Sourav Kumar Pramanik <UpStream_IP-SP@bmwtechworks.in>
-To: openembedded-core@lists.openembedded.org
-CC: souravkumar.pramanik@bmwtechworks.in
-Subject: [scarthgap][PATCHv2 2/2] glibc: Fix CVE-2026-5928
-Date: Mon,  5 Oct 2026 11:26:01 +0530
-Message-ID: <20261005055601.111500-2-UpStream_IP-SP@bmwtechworks.in>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261005055601.111500-1-UpStream_IP-SP@bmwtechworks.in>
-References: <20261005055601.111500-1-UpStream_IP-SP@bmwtechworks.in>
-X-ClientProxiedBy: PN2PR01CA0168.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26::23) To MA5P287MB5315.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1bb::5)
+ 2026 06:51:26 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0472.016; Mon, 5 Oct 2026
+ 06:51:26 +0000
+Message-ID: <3a1b32b8-1ecf-4cb0-b178-432a56d95e84@est.tech>
+Date: Mon, 5 Oct 2026 08:51:25 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/4] libjitterentropy: upgrade 3.6.3 -> 3.7.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ mathieu.dubois-briand@bootlin.com
+Cc: openembedded-core@lists.openembedded.org
+References: <20261002071557.74249-1-jaipaul.cheernam@est.tech>
+ <20261002071557.74249-2-jaipaul.cheernam@est.tech>
+ <DLU83IUWHFP0.2IU6H1IY0JSAW@bootlin.com>
+ <CANNYZj-gd90Ls3UOXrQsSmfmNqiJXRunO2xC1btwpDSAUxCHrw@mail.gmail.com>
+Content-Language: en-US
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+In-Reply-To: <CANNYZj-gd90Ls3UOXrQsSmfmNqiJXRunO2xC1btwpDSAUxCHrw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: OS6P279CA0014.NORP279.PROD.OUTLOOK.COM
+ (2603:10a6:e10:30::20) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MA5P287MB5315:EE_|MA5P287MB4174:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5988b384-fda1-4396-bd32-08df22a5671e
-X-MS-Exchange-AtpMessageProperties: SA
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|VI0P189MB2685:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd525395-9b44-4de2-dd35-08df22ad1386
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|23010399003|366016|18002099003|55112099003|22082099003|10067099003|13003099007|260925021311599003|260925021911599003|260925022911599003|5023799004|11063799006|56012099006|38350700014;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|22082099003|18002099003|10067099003|4143699003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	xoSzIf8ja5Lz4EaGQSqERWLtcqsFCKgUCAf/vpzlvnQwyCA0XoMvhi28w4SR5mAj4L/pg54NdP7/+AWl4aQoMhWlTRwmta64wIwHX1Bof5+6QYHGOwzJgdEr5XDBu7XN+xKxDK6S3qMoO9+CyIrhxCSedIPsbxNqj9ZzM5YzQwWUBRxxsWpo18UxxgKS4nIFFPH/IB6by3C/ux9XFQISWGoKh4z79z2fL0gNxbiVDFW07Evb31nCELt/Tlx7/ZE6VZfjlEsz2xZ9upG2E8TbEk0x3jmUMLn1HeylnOaRt03LGCB0IXVNOimXo4uvbvhG9eDL532hH/v134OXEZUllWju7x1q40h93p3C2CTGeSRDZGEGSCs4zUSd+6x6NftUho1KGH9Gctsd56J9QQ2mXIKIz/gh3i7B49WBU2RrURd+X+d9y8aFc2ex1acb4UqmnNR7p+B8acQeG3RKAGHd67OfS1dC5JNy3Sx8BtITB2AsriaJKIQYO4W4YpV1Openk5F9DS9MDKlfLSJ4TcEM6rBfsfWbj8CDiVESDd7QuTteYmduqeI5myfDbEylRv7U+/e7HXiYU6SPqrxbsaBI028KcK6SGLtsOjlFETAEUiiJ++S7lf+8w5dSyHe3Y7dMNjQ+K10rzidSDCZWD94ScNzSWmkATcUjxdIPDdO+dCU=
+	DcinL+GidHROep9oGv7oTYuao53GHC+FF3TuC36M4P76NGLEMY6fLgDLoG0hEudILDnNlG/TXhlP5yfRVPidPFVZvT+Tzssiv+Dwpme0E8c/meTpw3Rhg8LpgFdRz+lLMmo/xbORJvgkvj/dR9H+762aRBY9Q6VJ8iUpE6CmPj/Zh4m4uCO57HLuIvgS1S+/Eq6zdgYGbmx9uJ5kv5shAqZCzkrNvTKh/7Q0ij3vQJfB2CxqeO2RbfsJsm5vbd7vK8oh0M+SRqMjaJR9s+AhM9BG5wnrxyQ1IfVOapZRmWxTV75afyHsuYBL1Ik4tL/mypbwFsP84kfK5fHryCg5KM69QjPT9d4cV+gVyn2y9D50c/cWqSsrzJTrnMmCM7z2Hs0IgelbDxBSsWESw5872wPT2gtUSwIQsQ+tPFDos9jwyL4HNQSQp/05V+NxaQCFUuAsXQlLaTs2UJ1sxYZaRDbapchof5MHcURlXEpyJ/0EOaJKZMrrWwlatdkgP41lhBD5HQJvSG0ztSeAE7dsWEJfFoZAHj0zzSoDkcH1Vt8X5+zG+OIC5XvXyCnerAlPTxxDj2qhZ9pKTod0C7CkXGHjpevoc7PYiqhSwVFe0TwknUct+9hUBqVF7pKyFh4y+Tx52/J+OcychbQSl7VuY+XIlwALDKKOo0HCUws+WrY=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA5P287MB5315.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(23010399003)(366016)(18002099003)(55112099003)(22082099003)(10067099003)(13003099007)(260925021311599003)(260925021911599003)(260925022911599003)(5023799004)(11063799006)(56012099006)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(22082099003)(18002099003)(10067099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?6GgIeZ4ixSY052MCoNCOTt9uK9IaGPc3zQeZUVxtY9oH7tyPmx26HxzEbLgB?=
- =?us-ascii?Q?2DikxdSGcbfUyKNO3/DwiSwX9PrxPgPi49+Q5th4gNuTewwAxR825JRgMPy1?=
- =?us-ascii?Q?S4PxQWdP5c0ZuRibhNBlynSIJXRIgFgL3hUitaVgwY4wifR+yOynTCsc2Zjq?=
- =?us-ascii?Q?DsYrzM59/4Cf4TtCc3sGKs+IO2vZLGgPwQRr9RTf8VmVNI6yLMgSfkbwlj9x?=
- =?us-ascii?Q?SiPQBmdka6F5IryKCSdaIMdk7RZR63L1wtDYUFlpTo15aNiHJAEZftMlKZRh?=
- =?us-ascii?Q?wyFIPtwxGjfS7y0yl/YUPsgdtkzvn34jb0RPgatFVejLIfZ7EtMgZIbWAYcG?=
- =?us-ascii?Q?jNMvU+hHTpg8oyW/YcvxQQi6q2w6q1m0wrDnsEag6cxlJXFLr7dSpYSl/Jxs?=
- =?us-ascii?Q?lvgLsvpD/x7UljwIO9RCKVgw4y4EV1wJmZ3km9lnMqe7xgh1MGLQu2z2Z7dN?=
- =?us-ascii?Q?NbMYg0Yz+ewN1WhcbZBSm2ajhp/NUZc/GGgM4idvaCwMbTxZ7Qegpjf0iZuN?=
- =?us-ascii?Q?+6oHMdhxYKG2Nat6ppSMC57vUPYJtwWr5AWgTLFLPnENfA3R6O8WQkYgrA1q?=
- =?us-ascii?Q?FXeRPfmkLp3Nisw+3lmE+VGgzuzDx2KyrzsvFtD7vr1IpzSD8TwgaiAX5p2D?=
- =?us-ascii?Q?go93qeJkcaxkkbjfDKWqZF4AmG9LsejDRlT7gy9O3JS2i8pLry98qJTdAxJ+?=
- =?us-ascii?Q?RJB7G+Ww9Sy9P4t1koo/5nXUWqQUnj/gdkvkfZnTC5ANlY5AogzfDlxJg5Cq?=
- =?us-ascii?Q?QsdYc8vgKJARSyFOlU0eUIOQIDYbVK099ipyD/LilN4lO9/si+NiVXZQ8NaU?=
- =?us-ascii?Q?GvC/fu+lIWyPXflkgkBgI1YbeEI6w707c2Fb4qlpgDOvSt04dk+QW4RI3zW4?=
- =?us-ascii?Q?h1/QSTSWznqHtWO9GeJBJ7usr+n8tlcpgwuBjt7+rTi6oLeTqirPQuu4cHeg?=
- =?us-ascii?Q?LDL0/Zo6PaxAql8pRdutTNBsFJKorgo5WmWpkZfGiDEAcKdMhEsO1/ULOOSo?=
- =?us-ascii?Q?vO/PnhSrvuxVLqhbZvC6uA0xNdVCUrx/j9fHAPU4jgORC7abUrsvJSUiF+Gi?=
- =?us-ascii?Q?I/68waL0CydWTp5556+WSYpbY+yxOsAqk86HU3wLrX7LNMfZDwRorwBK8wJB?=
- =?us-ascii?Q?GoAgPNx+Naad6N2Qu+TaRWik9X8ALzPopo7QQ4R+XcaH7b5CXZn+/xMx49Xx?=
- =?us-ascii?Q?qsSeTDJzLK1bpPQmdlKyzaFYhY7u5NweXtH8RYB9AjOkejr5iI15ZbdupXWg?=
- =?us-ascii?Q?x8bjGKz4Ek3xm+BZuhDXoqufIrTH64Pf3w5j7k9LJhY63Q95AZpIr46SQSbx?=
- =?us-ascii?Q?aB7eN1+f5rppbToZtq5dyEu0DXigy51rP4yq47RnviQaLlRk5LcKr0N8FZCc?=
- =?us-ascii?Q?VqOoJmN5iNGzlRj9+SODW1XPhdnKhVwlMKWecgLPCHbgzI8ZA4ObcMl1S63d?=
- =?us-ascii?Q?VDk4g8xdoHcB1eKLQzAqKCWuiu/q5yuGnLfbX5Fnk/QZikFCt3mdttmyt8im?=
- =?us-ascii?Q?AEejeQujSm6rMBSH3UGzNAfYZpAIhbylp7kEUef0eRs2fkobPSDSDCr1w+dW?=
- =?us-ascii?Q?HEUpzkyedm2LtG7NOpNYJcLpFoMr2V66utlEz666JXcBDVqWOnhzM7hjMia3?=
- =?us-ascii?Q?4/Tt9etoVL/d7odbV4I9Jchl9KCySBji/Adh0JEnO/E6tAu+UIFIIZmY0h6c?=
- =?us-ascii?Q?Sv06eiV44jVwiXPz+ADxEdeAeE4OeSwXzZZa8e4V1+3YBB+gDgxz8fmpAw3n?=
- =?us-ascii?Q?idzLjzC+ri8hPG4FIWb8IGb69LJwMWs=3D?=
-X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5988b384-fda1-4396-bd32-08df22a5671e
-X-MS-Exchange-CrossTenant-AuthSource: MA5P287MB5315.INDP287.PROD.OUTLOOK.COM
+	=?utf-8?B?TEdaQmY5VXkza2VocjMxbVh1MTRMQ2pOWU11UDJpVCtmWERGQkpWNndzTEFQ?=
+ =?utf-8?B?SEM5NDBmb1RxejNILzQvQmRNelVKSk82MkxmRXNWZzlCUmJqU2dqc29Ebnpq?=
+ =?utf-8?B?eGNyUUJhZE9YSXVLSU5xUW1pZHgzejc3VFZJT0ZrK20zZkJtcExuaXhNdkxo?=
+ =?utf-8?B?cndCdXBaaU1NMG1LaXByUnVDaVczYk50aE1mV3FTMUFXdXBxZUFWTEFkeGky?=
+ =?utf-8?B?UEFWTSswWHh4aHd0SFhrU0w4MTFHb0N3c0VNZlh3eWljZHBibml0TWc0MGZP?=
+ =?utf-8?B?WDNha0Z4OVM3Znk4QjVLNWNlZVVJSjVxQkV5WlZubndpMGNubThvMHhZNlFm?=
+ =?utf-8?B?T29jZ3U1MnlXdkxVMHk0T24xUWZOMzRnbU9NekNJMVhHYm9aTHd4SmxobVd2?=
+ =?utf-8?B?UVQ2YzFrN05kNUd1NUZ5T0NwNkxJYVQyQXZCRm0zZlFQNk5Ja3c5MStQRVRa?=
+ =?utf-8?B?alRxRkRmK2c5aVdoNkJnY2dQamNZWno2Y0Uxa3c5RFZLVUd0YlBHZ0lvS1Rm?=
+ =?utf-8?B?RFVuY0hscWxaYktodmRpNjhmU0I5eWU1OWtHUmF2cmgwZGhCR1dENnVSOFll?=
+ =?utf-8?B?SjljTTNNR0JDcCt2VmdnN3VBdEJzTWVSbGlaN3VzSFJtOFJ2dnc5RkZmMVhj?=
+ =?utf-8?B?ck13cVlFaE8rd3czM01HZjk0NmpvVlhjeW9EMHVSVDE1Nm9IOFBMb2M4aHlN?=
+ =?utf-8?B?KzRQRC9LOGhSdFR1OExQaWN4ZlJmVTg0dXlPY3pQQUZxdXNTQVl2NFdIS0VQ?=
+ =?utf-8?B?dTNheG1GQ1puK05wdzA3UjZVNlpwaElUdkdqTXBQNElwUHZMSzhRRVB1TjFF?=
+ =?utf-8?B?V1JTYy91WWJtM3lyNUdod0pSbWk5QTJPd3lMdmxSZUIwOVVudkMzSjRsOEp5?=
+ =?utf-8?B?SHpZbnRQcmErR3ZJMERtaHhnUjBtdFFSTmxpbDF5clVabWVZNmNodlJCYWIz?=
+ =?utf-8?B?bTFhSHg0RmM0aXdrcVJxb2lFNkhwYzRkVGhVYkk2eC8rNys5Q0RLSFB2MURj?=
+ =?utf-8?B?R3h3bHhJRHNUTnBzYUlEMFNmblk0NUs0NTZVbWFrcnBNdVJqTEExWkRWdDdG?=
+ =?utf-8?B?a1p2UnF2OGJWM0hJTmNDdHhzUWRkU1R4UnRIdm16Q3E2N3lxVXpmZnE5aXpO?=
+ =?utf-8?B?UlhkRmMxYm5JNU5qc1d2cnFtOUxlN1lOa2tpdzNOYmZIc2YzK2lkWDVzSkJt?=
+ =?utf-8?B?NFVRV1ZicTBCYkFUb1h1N3BXemNYYjZXUTh6czJ0UkZHZnBqZXBCdGVpaVpQ?=
+ =?utf-8?B?UVlIUlhJL042RnRSVEp1TWRmODM5Tk43cW5uRnJCcWNyN2RtNlZIZkhQL3BE?=
+ =?utf-8?B?V2ZwZ0FwcnJmU0RIZmtIZWlqTTZDRklwYjZYRDZFVW9NZmNsQ3dmT1l1eVFi?=
+ =?utf-8?B?UFpxYlJScTJaMktHcm5tZDU0ZytNeHYvaGJJKzVRWkRvQ29VZFExWmU2NnhC?=
+ =?utf-8?B?TjZVQW9VdHd3S0NJVEJYMFVSWnBHSngrRjM5SksvRGRiUW1SMGxZZCtQbUJo?=
+ =?utf-8?B?cStDbGMxK1MwZ1dSU2NNaVA2akF5OXVnbTg1SThkZ2hiM3dJOXlVaDlqTUlO?=
+ =?utf-8?B?VVBiM3BnRjZnNklkZWR2TFVmbGI4Z1prZWdDZGM1cTcvaGdLN2xWM3pNOFVO?=
+ =?utf-8?B?K2czWERnTHhBanEzYmp0UmN5K2tMYTF1aUVNZVlVQ0FySzNzOG51aFJvRFJI?=
+ =?utf-8?B?SWRnaXlxa2QySGQzaTV3N0t3blBuREtFTGI5Z3FQNHpLYWdtOXhGK3FmZEdy?=
+ =?utf-8?B?S0Z0VldqZmt4RmNzQVNsRms1YmlvUDcvRTNMYjBPdkt6Z2FvdnpCWGJmQjFK?=
+ =?utf-8?B?dG1hTXB4MCtIYTJ2VG91SUU0czNka1JSN1M5YlhkN1VNcHlPbWdzYVJzUGFV?=
+ =?utf-8?B?SE9KbTJrRU1qZHdTTXBpTUcrZ0RkR2dhVE9yOG9lZzB5eXBlMDRXcTYzMGhZ?=
+ =?utf-8?B?WnBvdUp3cHN2T0lPZmw0L2NRcDY5MTIzZlVycXUySkkxQmxWUEZQMFEzNUdj?=
+ =?utf-8?B?MlAvUm0vTUo5ZHBLeFNtMVJuT040YmdMSXZUZUhUaVl0TG1kV2k5NEVjenJM?=
+ =?utf-8?B?WHIrNWJva25nWlZsYkFhOFBZcG5nTnZRSnBSNkZxVVlYaFYvVmMrZVFzYUZE?=
+ =?utf-8?B?cUsrcWVQZlNOY2R6RFNuMWgyQ2o4Y0lDMHVFd1RyTnorQ0REQWN6ZlI2UnRI?=
+ =?utf-8?B?WEtkS3ZieGVNWDVOYWFxZDhhSndKWGV2bmpydHVJcE5tSlJJU1lxVzhiWnhH?=
+ =?utf-8?B?ZFVsVGwwVmw4ZFU4VjJ1VE1VdlAyamdUcDMvY3lnM2pqM3gwY2RyU1lFZnBj?=
+ =?utf-8?B?V3ZLTjZHS1dtOU1mWTRycVpRQmVQVUh5THZNZTJEa3k3dHJ5aEl6Zz09?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd525395-9b44-4de2-dd35-08df22ad1386
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 05:56:30.6088
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 06:51:26.3589
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8Eiyl1W33+mF2H29HFpaKVpvqPVmx62107zu/UqOhVunuCS19ookgb7flZWHG8tuZcAgFUmmxD+9C81xS0tfx2hYOd2X5XF1AZezZtye9eM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB4174
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-UserPrincipalName: MrLSw7GyivWb4l3nr3Oi1ZGzpe9inAnr6te8cOo+LfrizwUck2aW4jB1ZMSVIeg1G1pBpwRHgQqpV+nd8GhFQH/Fdj7zYyorYNbS1xz1iSM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB2685
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 06:33:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247215
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 06:51:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247216
 
-From: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.in>
 
-This change fixes CVE-2026-5928
+On 2026-10-02 11:35, Alexander Kanavin wrote:
+> I think
+> https://github.com/smuellerDD/jitterentropy-library/commit/a038d0c372f83aba10f3850c5b122dc5ff8cdc8c
+> needs to be backported.
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dco=
-mmit;h=3Def3bfb5f910011f3780cb06aa47e730035f53285]
+Hi Alex,
 
-Comment: Patch refreshed as per glibc 2.39 source code
+Thanks for pointer and I will do backport but backport needs more work 
+as code differ a lot.
 
-Signed-off-by: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.in>
----
- .../glibc/glibc/CVE-2026-5928.patch           | 105 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
- 2 files changed, 106 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-5928.patch
+Regards,
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2026-5928.patch b/meta/recip=
-es-core/glibc/glibc/CVE-2026-5928.patch
-new file mode 100644
-index 0000000000..470ab1a1ec
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2026-5928.patch
-@@ -0,0 +1,105 @@
-+From ef3bfb5f910011f3780cb06aa47e730035f53285 Mon Sep 17 00:00:00 2001
-+From: Rocket Ma <marocketbd@gmail.com>
-+Date: Fri, 1 May 2026 20:39:07 -0700
-+Subject: [PATCH] libio: Fix ungetwc operating on byte stream [BZ #33998]
-+
-+* libio/wgenops.c: When _IO_wdefault_pbackfail attempts to push back one
-+character, it accidently compare the wchar to push back with the last
-+char from byte stream, instead of wide stream. Under specific coding,
-+attacker may exploit this to leak information. This commit fix bug
-+33998, or CVE-2026-5928.
-+
-+CVE: CVE-2026-5928
-+Upstream-Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dc=
-ommit;h=3Def3bfb5f910011f3780cb06aa47e730035f53285]
-+Comment: Patch refreshed as per glibc 2.39 source code
-+
-+Signed-off-by: Rocket Ma <marocketbd@gmail.com>
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Signed-off-by: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.in=
->
-+---
-+ libio/Makefile              |  1 +
-+ libio/bug-wgenops-bz33998.c | 54 ++++++++++++++++++++++++++++++++++++++++=
-+++++
-+ libio/wgenops.c             |  4 ++--
-+ 3 files changed, 57 insertions(+), 2 deletions(-)
-+ create mode 100644 libio/bug-wgenops-bz33998.c
-+
-+diff --git a/libio/Makefile b/libio/Makefile
-+--- a/libio/Makefile
-++++ b/libio/Makefile
-+@@ -83,6 +83,7 @@ tests =3D \
-+   bug-ungetwc1 \
-+   bug-ungetwc2 \
-+   bug-wfflush \
-++  bug-wgenops-bz33998 \
-+   bug-wmemstream1 \
-+   bug-wsetpos \
-+   test-fmemopen \
-+diff --git a/libio/bug-wgenops-bz33998.c b/libio/bug-wgenops-bz33998.c
-+new file mode 100644
-+--- /dev/null
-++++ b/libio/bug-wgenops-bz33998.c
-+@@ -0,0 +1,54 @@
-++/* Regression test for ungetwc operating on byte stream (BZ #33998)
-++   Copyright (C) 2026 The GNU Toolchain Authors.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include "support/temp_file.h"
-++#include "support/xstdio.h"
-++#include "support/xunistd.h"
-++#include <stdlib.h>
-++#include <unistd.h>
-++#include <sys/mman.h>
-++#include <stdio.h>
-++#include <wchar.h>
-++#include <support/check.h>
-++
-++static int
-++do_test (void)
-++{
-++  char *filename;
-++  int fd =3D create_temp_file ("tst-bz33998-", &filename);
-++  TEST_VERIFY (fd !=3D -1);
-++  xwrite (fd, "A", sizeof ("A")); // write "A\0" by design
-++  xclose (fd);
-++
-++  FILE *fp =3D xfopen (filename, "r+");
-++  TEST_COMPARE (getwc (fp), L'A');
-++  /* If the bug is fixed, then ungetwc should not touch byte stream.
-++     If the bug is not fixed, ungetwc firstly match last read char, L'A',
-++     failed, then the pbackfail branch, matching last read char in byte
-++     stream, that is, '\0' (initialized when setup wide stream). */
-++  char *old_read_ptr =3D fp->_IO_read_ptr;
-++  TEST_COMPARE (ungetwc (L'\0', fp), L'\0');
-++  TEST_VERIFY (fp->_IO_read_ptr =3D=3D old_read_ptr);
-++
-++  xfclose (fp);
-++  free (filename);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/libio/wgenops.c b/libio/wgenops.c
-+--- a/libio/wgenops.c
-++++ b/libio/wgenops.c
-+@@ -111,2 +111,2 @@ _IO_wdefault_pbackfail (FILE *fp, wint_t c)
-+-      && (wint_t) fp->_IO_read_ptr[-1] =3D=3D c)
-+-    --fp->_IO_read_ptr;
-++      && (wint_t) fp->_wide_data->_IO_read_ptr[-1] =3D=3D c)
-++    --fp->_wide_data->_IO_read_ptr;
-+--=20
-+2.43.7
-diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glib=
-c/glibc_2.39.bb
-index b01225e530..74db1ac507 100644
---- a/meta/recipes-core/glibc/glibc_2.39.bb
-+++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -58,6 +58,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=
-=3Dglibc \
-            file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patch =
-\
-            file://0024-CVE-2026-5435.patch \
-            file://CVE-2026-5450.patch \
-+           file://CVE-2026-5928.patch \
- "
- S =3D "${WORKDIR}/git"
- B =3D "${WORKDIR}/build-${TARGET_SYS}"
---=20
-2.43.0
+Jaipaul
 
 
