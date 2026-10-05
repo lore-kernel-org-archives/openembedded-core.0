@@ -2,196 +2,185 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF8CCA5FE2
-	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 06:33:22 +0000 (UTC)
-Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13905.1791180644428204358
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CBACA5FE2
+	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 06:33:32 +0000 (UTC)
+Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13988.1791180752915219304
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Oct 2026 23:10:47 -0700
+ Sun, 04 Oct 2026 23:12:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=AvY7PLkP;
- spf=pass (domain: bmwtechworks.in, ip: 52.101.225.45, mailfrom: upstream_ip-sp@bmwtechworks.in)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=oHQrDuNl;
+ spf=permerror, err=parse error for token &{10 18 secureserver.net}: SPF record not found (domain: bmwtechworks.in, ip: 52.101.225.29, mailfrom: upstream_ip-sp@bmwtechworks.in)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hsYZAcYebBIqp8h6vxxJovF08ss/Wqvnw80FmcN1nWFHAmEzZ8IOl/fzJib02a0Y4g1ur/2NlC6rSTB8fe0ss9OChHwJ9iA64cJtAGQ9M9wSE7NQJfaRlvoZG2/FepKVpsmaVAUanBBy2v6YJJ4hL7QMHeSSbCwNywlqdXv6t7saD5rMv+mkV0cr7qlyJPBJ6KTp9IjpTGQEBWoRh8XQ+GnhRnNEb2t3K4tpNnRtJjC4EcMUn+eJJ2ms97YKlsR1Lo4mT4t6aInWhJTj+Jhu56cpgkrZsxHq01ihqtAeKQ+mRVVW38VPlavcUmrgKD1qvFiss1KeZ4w4oPhHopupeA==
+ b=MSwKCVCBe13xFdkDuoK9Jxiv54VlOj57TA1GmjgZhnBu9FpZkADRZh/LCjqf4ptCcmX1QDStjcm0ot3EQRcOI+pyZ8/HlLYepGZiwxzhP+fOQ4fN5VFryPOu2taEy8DP0INY2Qcp7TTs62jrfMmJXBdXx/P7s9BxWRrl/WWAReX1ObFnxhXq+ZqRHk8La9R8AxX27g9+at7bWEeqiBiUusuGy68D3VogXlpr2+ILg/7rDBECtkcC9mW/AbchnwshBSuiu09NrWwUv8W3IP7LIO+EOlGf4hsXqJSAebo1NsGv5hF71izmgTnH8wChf2IhOrXOk12kGm8747H90GOBqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UErfGVDT2Oo6fFQa1sy29i4Pk6SNzZM8JUTZDNBl48c=;
- b=lvdS/zMdAwovjO2zDx64yfGQNuVQuD/06RrVLer8ZAaUcQCR5UhsmSz/89y1Y6GJtxzT/n0g2uBm2VYQKsLCjqQDOeL5NaIIqQNmc4G/uWPGqdHhI6cwemJnXQwBfDGsdYctkrQVBZNEjRhZIBHlG3+VPljpgr5q3hUSLvhrRf+N3K1ZReG3xSn5tu1DfHE+07OcB5xVBBj/Sucl7V/j7rOFjXQzm2GDBIBxaQbCuQKyM1hmXVQJev0F5DbprUadAbeC4gV80HJEH5GWyC+umonucsI582m7Qyz+QH2hvFJXw45r8sBizBEtQNcAQX71WAvBSmSJ9xaSFXF87DD3rw==
+ bh=n/45Hdpvow1bXrYFg0Qpq+Li9axKrgirZqw8ljFxLCk=;
+ b=zExX9jGDguZcMBtymliM4aE5ObU49PtuPSQ7ISbcT8TYB4RDM/p2jbdWzOG2ei+JY0xShwVif2YclzxTvaqAvmyorcSaJ+yi1FQZQKe5RUC/kHRrDWILt63uvV63RaWISyxVsnvYSH9kYp6Hp7CY8de6uN+B4rU8I81nkJW2Qp3iPGvWUtB+iJ64iM4cLQcGp9CyTRrGoNdl5/CxUpEUzjwIVqWxtnjKHgEDVu3JTuk0WS9lm9lAyQLmbC/OHzG55LDlGjRf2MyQE0W2ZfovrYjSjiV9mXToFFnqr4Gvp40KQ3RkJw17xMFP+WA3I7ZiJZdlfIvAVY/NIrFKt2Kx8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
  header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UErfGVDT2Oo6fFQa1sy29i4Pk6SNzZM8JUTZDNBl48c=;
- b=AvY7PLkPg565ylIxsXtL18fryVh7vyUdGv90O4C/gPdg6W9kuS2nyCTAt+bcJwTN4dAAtfkQ0+Hmf43ggm31dfGCKfGWwDfhBi4z4W5K5sML7V2KjirOegzePuma83qH2/1RSAlbdnlDbyeNIaSmWvwEisF8MeHW8xVna6rHOwRgHRKm7AcMd3fWbQqIdkTDt3M81roVv3QMa2SXZA3U0aX5sCXUPUzmfGDnaav5pO1W/wjQHXejUGe6MvZJjGAE6kUdEe16Lgyvr2cm7v+MDG5/PGOQNsc3F724B9kqHEC5Jd+IyNDjRCHssvc8t/WsyNu1p9CXgLwfMaPAG1iSjg==
+ bh=n/45Hdpvow1bXrYFg0Qpq+Li9axKrgirZqw8ljFxLCk=;
+ b=oHQrDuNlI2pJOwXo03ENll6IA6nsiHnUuuYWNJLD9Dr28xox5jtsmCNC1k3M6gjSkxvWTeI7n0gMKNNKXeovKRByv6Q+N5dPU2BFLZM85oJiiEdHthPgO4KWd2Px1F1KkI6EpK+PvU4FHqIoVUHgJGmnnVWcJRfvKQmeh5eHOtdmlFzXAyNEtXQQPYcamKONM9uNATbrlQUbdz+12bAEjREuwZVWid34Yx2tsVgNXte5KNsDOy1wq+5vXd/mUINt720O4qCAHh2luh9oBQA7nsssoVAzDMR0SbjV7WubfywiTxYtr8/j7aH0XBdGF2iwp23FmvBv/SrNj20K8+3Rbg==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
 Received: from MA5P287MB5315.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1bb::5)
  by MA5P287MB4174.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:162::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 05:56:24 +0000
+ 2026 05:56:30 +0000
 Received: from MA5P287MB5315.INDP287.PROD.OUTLOOK.COM
  ([fe80::69b8:6140:9c:b6de]) by MA5P287MB5315.INDP287.PROD.OUTLOOK.COM
  ([fe80::69b8:6140:9c:b6de%3]) with mapi id 15.21.0472.016; Mon, 5 Oct 2026
- 05:56:24 +0000
+ 05:56:30 +0000
 From: Sourav Kumar Pramanik <UpStream_IP-SP@bmwtechworks.in>
 To: openembedded-core@lists.openembedded.org
 CC: souravkumar.pramanik@bmwtechworks.in
-Subject: [scarthgap][PATCHv2 1/2] glibc: Fix CVE-2026-5450
-Date: Mon,  5 Oct 2026 11:26:00 +0530
-Message-ID: <20261005055601.111500-1-UpStream_IP-SP@bmwtechworks.in>
+Subject: [scarthgap][PATCHv2 2/2] glibc: Fix CVE-2026-5928
+Date: Mon,  5 Oct 2026 11:26:01 +0530
+Message-ID: <20261005055601.111500-2-UpStream_IP-SP@bmwtechworks.in>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261005055601.111500-1-UpStream_IP-SP@bmwtechworks.in>
+References: <20261005055601.111500-1-UpStream_IP-SP@bmwtechworks.in>
 X-ClientProxiedBy: PN2PR01CA0168.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:c01:26::23) To MA5P287MB5315.INDP287.PROD.OUTLOOK.COM
  (2603:1096:a01:1bb::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MA5P287MB5315:EE_|MA5P287MB4174:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a93b05e-3a78-472e-f04e-08df22a5635c
+X-MS-Office365-Filtering-Correlation-Id: 5988b384-fda1-4396-bd32-08df22a5671e
 X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|23010399003|366016|6133799003|18002099003|55112099003|10067099003|13003099007|260925021311599003|260925021911599003|260925022911599003|5023799004|11063799006|56012099006|38350700014;
+	BCL:0;ARA:13230040|376014|52116014|1800799024|23010399003|366016|18002099003|55112099003|22082099003|10067099003|13003099007|260925021311599003|260925021911599003|260925022911599003|5023799004|11063799006|56012099006|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	QmUSV/EY2WWTB3zScXTtM422qGP5M9og97efzIYHHFLShBXVPyOJgVbCVuLs1KRY1pX8eb5O2cwLxK2Vo32GcSFirCQ6ynQ/i0iH6Gc06Y+dwFyitQrndShiznuElnXfASPiNydmYBKnanNlmFQIH9Dn1avTD/i8OJCeExYR9lvvSuzW7tK/AhPybB0UtbK0Uy0Mx94KBgFioVaLGAzjtf7z+mjNZC3JUO+FcCFTCtYBBqCxfx9FvegjRpxP67RAei99rGGxPGzn0yDNMrh/2L76M6+eJkV08L50Q0urkgqoLcFYFEKxiWdWO5rpON0C0ZDmOGj3cv6cMwd9rHD7KcGAnh01Z2AueVfvXlU6RcUS4ajTvJr5RjBd2hiF7J8I+aBjWP0r8bBZyWsyMf92oAUeRCZVZLgGb/kSevjkAe137CNltvKzaUeCLkEyTc8dQp7A20XVAtykeeHmHoFa00vtMe5Stp61a/3eR17LA1RqdCPQuIbUOkDMwIlGFAwv+fmUFpSPNLeH52KvPa6HLk0FJMkxn90FrpY2GJzSvIEVHscuu9E8X3awzJfbEq3l8+Fhnw8n14iBayfTeHPuELtxH/gMTJZPhhDSHF9c0pwovb0IdNHbzsdNUTvtxQ4VthFRO3a/XsQoDwQBuA5fIpYIhFTjYnWr6KYAF9UXo2A=
+	xoSzIf8ja5Lz4EaGQSqERWLtcqsFCKgUCAf/vpzlvnQwyCA0XoMvhi28w4SR5mAj4L/pg54NdP7/+AWl4aQoMhWlTRwmta64wIwHX1Bof5+6QYHGOwzJgdEr5XDBu7XN+xKxDK6S3qMoO9+CyIrhxCSedIPsbxNqj9ZzM5YzQwWUBRxxsWpo18UxxgKS4nIFFPH/IB6by3C/ux9XFQISWGoKh4z79z2fL0gNxbiVDFW07Evb31nCELt/Tlx7/ZE6VZfjlEsz2xZ9upG2E8TbEk0x3jmUMLn1HeylnOaRt03LGCB0IXVNOimXo4uvbvhG9eDL532hH/v134OXEZUllWju7x1q40h93p3C2CTGeSRDZGEGSCs4zUSd+6x6NftUho1KGH9Gctsd56J9QQ2mXIKIz/gh3i7B49WBU2RrURd+X+d9y8aFc2ex1acb4UqmnNR7p+B8acQeG3RKAGHd67OfS1dC5JNy3Sx8BtITB2AsriaJKIQYO4W4YpV1Openk5F9DS9MDKlfLSJ4TcEM6rBfsfWbj8CDiVESDd7QuTteYmduqeI5myfDbEylRv7U+/e7HXiYU6SPqrxbsaBI028KcK6SGLtsOjlFETAEUiiJ++S7lf+8w5dSyHe3Y7dMNjQ+K10rzidSDCZWD94ScNzSWmkATcUjxdIPDdO+dCU=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA5P287MB5315.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(23010399003)(366016)(6133799003)(18002099003)(55112099003)(10067099003)(13003099007)(260925021311599003)(260925021911599003)(260925022911599003)(5023799004)(11063799006)(56012099006)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA5P287MB5315.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(23010399003)(366016)(18002099003)(55112099003)(22082099003)(10067099003)(13003099007)(260925021311599003)(260925021911599003)(260925022911599003)(5023799004)(11063799006)(56012099006)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?+XA5Wk/adrAAI4ykWCYpl9hZOgkG4k9rejrOjWC+jCIHoRxk7fAnAviBGgL9?=
- =?us-ascii?Q?C4/vDIpABCBn3oVgjRmNhhCV343ITY9P0DptlMQ2/EWvvEWez//zh87xhv+3?=
- =?us-ascii?Q?y8pBkXGP91AD3EsiIcdTkAbmXatIq11KJbAX/vxsd4JsDY1oExXJvr9nAVXo?=
- =?us-ascii?Q?Djyj8iUd0HteHcYsu+l1GyxLzlwZJYYZ6r+qhba52wtU1iZ94QDp2qoeeshE?=
- =?us-ascii?Q?Q73Gazd0pd+fO9SdHCqJu00qkjWzGnvyOFbfgEbn06w2yZ6UpSIHjuGffVv3?=
- =?us-ascii?Q?LOP5NN9mI2QHrav4Qnnu49Ue/2ZEWNF136A44GCxji1ijsPQStBjlirkAuuV?=
- =?us-ascii?Q?MZzmRmwfP/hmMdvZ5iQ0Bi23kQVBhyeYe64erlz8dXX4cmS2yr74sVRUAKzl?=
- =?us-ascii?Q?hqs0YGVPCnsEPoVet5OGGPi4IlMIuYTVRp0t0ybMNvEpafEOyevjorNnsO1k?=
- =?us-ascii?Q?Jyo5jYYdpPcptvg9nLcrHovkr2YJLHtUVb0KiCe4g/PWkNAN37QSyMgzPGh8?=
- =?us-ascii?Q?ta/gVtNrw8O8pP6W56w6f/AlrjAochoo/OJYsw1rsa/Q+a5Xi4bQ9C2GM+xt?=
- =?us-ascii?Q?4MbiYeAZbIhqT35A8PVe/n6rl4aoGGJgNGS1s1hhsiN0d4xBybX5h0AvwITn?=
- =?us-ascii?Q?jgtztrD47zfWyBGHNTTDCP1g/hrYHxoQxo8ICbpuFEpK9shEn0Yh3EVoPw/8?=
- =?us-ascii?Q?W5//apkRo8XUidRPFqCfA1fSLROmv5V0FBo8Wqr77L1AV/sCrBm/Inac/vwR?=
- =?us-ascii?Q?+Wu7MfvUMNNQOK+U8+LbTDJ4d1OpIQRFNpiy5/mKf7behsUIlu86wdhgaHQA?=
- =?us-ascii?Q?/1B32FZ1f6mfsYCtY3734V7kjI3MQaaYCxzDV5HiVfwGZYsd/c5kj54+tS6I?=
- =?us-ascii?Q?i813JdhDgdokkYbG4Qih+VwPKl/KX2UAgdJP056gp9CDB09mWzWDVmRVNyHT?=
- =?us-ascii?Q?BNI091LZ7p/VwWCHTkJSoVUCZMenSACA9dPDd6BkFfzUQg/4ooTdgJLaixXR?=
- =?us-ascii?Q?TDrhbdSm65hSeg+Sg/92nr1RSD1nG+pcTcC/mn+lXkjk+54i6drzntEV1bFE?=
- =?us-ascii?Q?/fStUGvsmp3hJuPLRzlo+RRnaW0f3McOpZsUcLqtDwbOVJ0IYZ0kW3+XegmJ?=
- =?us-ascii?Q?lopWmpsAIx6rjf0oAGOr+OkknhRhfke+cJWzoOz8kxz1SWZOo8gZ0LPihr2W?=
- =?us-ascii?Q?rA15rYV5EGkDvbD2PrekiY7dwQom9Pw4oyS17jVFGVf7217WcuQOWIawLp0r?=
- =?us-ascii?Q?X0uAYFqL7MBoZJsdSpKX/kVyPKpbzyOLPRXeDJ+6OgHYPumzwV7SZTWZvN0V?=
- =?us-ascii?Q?SYly0YghIlhzL1EmsImS7vLX4P0yXIrGpVcvNUo6VOsUcDK/yrR3WtNJbLgG?=
- =?us-ascii?Q?Skz0b/JUYyYZwNgoFbmS7iorZx5a4DeBbXsiyS15FL2F6mqFs3ANVz7X5D4b?=
- =?us-ascii?Q?5xQ2bVn/z2gdz2Kx/YkwUuawmyavr4npCaQ5js4afoX2IOH5e7kZyqEiDjKY?=
- =?us-ascii?Q?NnMhYK8of401p/2gedLQQuF219Gc4b2ZYgsRwDUX9MAg1vUN/Qmk6td6XUum?=
- =?us-ascii?Q?T6nrJv72pY2WnYC40oRlPFBAqL6LKWApzXZEo6jHamazVY89TK2lnNA/JOfT?=
- =?us-ascii?Q?6ZzAweFFVyeOP8PGZtfpJSIIHTS2VAdGCA4QMXTewJWNKLw8yFgXl3JfK7vH?=
- =?us-ascii?Q?u/zvPT3KMoGue1TCWAPNXKSMuP68ivJLNqSxFDHHHmJJoCneFgyTRAoPVxwg?=
- =?us-ascii?Q?2ONPqeYJ8Lhvh5EW3YdqqHfVhfKjrt8=3D?=
+	=?us-ascii?Q?6GgIeZ4ixSY052MCoNCOTt9uK9IaGPc3zQeZUVxtY9oH7tyPmx26HxzEbLgB?=
+ =?us-ascii?Q?2DikxdSGcbfUyKNO3/DwiSwX9PrxPgPi49+Q5th4gNuTewwAxR825JRgMPy1?=
+ =?us-ascii?Q?S4PxQWdP5c0ZuRibhNBlynSIJXRIgFgL3hUitaVgwY4wifR+yOynTCsc2Zjq?=
+ =?us-ascii?Q?DsYrzM59/4Cf4TtCc3sGKs+IO2vZLGgPwQRr9RTf8VmVNI6yLMgSfkbwlj9x?=
+ =?us-ascii?Q?SiPQBmdka6F5IryKCSdaIMdk7RZR63L1wtDYUFlpTo15aNiHJAEZftMlKZRh?=
+ =?us-ascii?Q?wyFIPtwxGjfS7y0yl/YUPsgdtkzvn34jb0RPgatFVejLIfZ7EtMgZIbWAYcG?=
+ =?us-ascii?Q?jNMvU+hHTpg8oyW/YcvxQQi6q2w6q1m0wrDnsEag6cxlJXFLr7dSpYSl/Jxs?=
+ =?us-ascii?Q?lvgLsvpD/x7UljwIO9RCKVgw4y4EV1wJmZ3km9lnMqe7xgh1MGLQu2z2Z7dN?=
+ =?us-ascii?Q?NbMYg0Yz+ewN1WhcbZBSm2ajhp/NUZc/GGgM4idvaCwMbTxZ7Qegpjf0iZuN?=
+ =?us-ascii?Q?+6oHMdhxYKG2Nat6ppSMC57vUPYJtwWr5AWgTLFLPnENfA3R6O8WQkYgrA1q?=
+ =?us-ascii?Q?FXeRPfmkLp3Nisw+3lmE+VGgzuzDx2KyrzsvFtD7vr1IpzSD8TwgaiAX5p2D?=
+ =?us-ascii?Q?go93qeJkcaxkkbjfDKWqZF4AmG9LsejDRlT7gy9O3JS2i8pLry98qJTdAxJ+?=
+ =?us-ascii?Q?RJB7G+Ww9Sy9P4t1koo/5nXUWqQUnj/gdkvkfZnTC5ANlY5AogzfDlxJg5Cq?=
+ =?us-ascii?Q?QsdYc8vgKJARSyFOlU0eUIOQIDYbVK099ipyD/LilN4lO9/si+NiVXZQ8NaU?=
+ =?us-ascii?Q?GvC/fu+lIWyPXflkgkBgI1YbeEI6w707c2Fb4qlpgDOvSt04dk+QW4RI3zW4?=
+ =?us-ascii?Q?h1/QSTSWznqHtWO9GeJBJ7usr+n8tlcpgwuBjt7+rTi6oLeTqirPQuu4cHeg?=
+ =?us-ascii?Q?LDL0/Zo6PaxAql8pRdutTNBsFJKorgo5WmWpkZfGiDEAcKdMhEsO1/ULOOSo?=
+ =?us-ascii?Q?vO/PnhSrvuxVLqhbZvC6uA0xNdVCUrx/j9fHAPU4jgORC7abUrsvJSUiF+Gi?=
+ =?us-ascii?Q?I/68waL0CydWTp5556+WSYpbY+yxOsAqk86HU3wLrX7LNMfZDwRorwBK8wJB?=
+ =?us-ascii?Q?GoAgPNx+Naad6N2Qu+TaRWik9X8ALzPopo7QQ4R+XcaH7b5CXZn+/xMx49Xx?=
+ =?us-ascii?Q?qsSeTDJzLK1bpPQmdlKyzaFYhY7u5NweXtH8RYB9AjOkejr5iI15ZbdupXWg?=
+ =?us-ascii?Q?x8bjGKz4Ek3xm+BZuhDXoqufIrTH64Pf3w5j7k9LJhY63Q95AZpIr46SQSbx?=
+ =?us-ascii?Q?aB7eN1+f5rppbToZtq5dyEu0DXigy51rP4yq47RnviQaLlRk5LcKr0N8FZCc?=
+ =?us-ascii?Q?VqOoJmN5iNGzlRj9+SODW1XPhdnKhVwlMKWecgLPCHbgzI8ZA4ObcMl1S63d?=
+ =?us-ascii?Q?VDk4g8xdoHcB1eKLQzAqKCWuiu/q5yuGnLfbX5Fnk/QZikFCt3mdttmyt8im?=
+ =?us-ascii?Q?AEejeQujSm6rMBSH3UGzNAfYZpAIhbylp7kEUef0eRs2fkobPSDSDCr1w+dW?=
+ =?us-ascii?Q?HEUpzkyedm2LtG7NOpNYJcLpFoMr2V66utlEz666JXcBDVqWOnhzM7hjMia3?=
+ =?us-ascii?Q?4/Tt9etoVL/d7odbV4I9Jchl9KCySBji/Adh0JEnO/E6tAu+UIFIIZmY0h6c?=
+ =?us-ascii?Q?Sv06eiV44jVwiXPz+ADxEdeAeE4OeSwXzZZa8e4V1+3YBB+gDgxz8fmpAw3n?=
+ =?us-ascii?Q?idzLjzC+ri8hPG4FIWb8IGb69LJwMWs=3D?=
 X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a93b05e-3a78-472e-f04e-08df22a5635c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5988b384-fda1-4396-bd32-08df22a5671e
 X-MS-Exchange-CrossTenant-AuthSource: MA5P287MB5315.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 05:56:24.3072
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 05:56:30.6088
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b4lU8kgtHLrWGl6i7mCJcdZzR88GStIpvL3DxXP8eETznWF7c5dR+krJ539+TbWbOowbLm+sv9T/sXim8bL66/KFXxhQfmplcTvedMbMLyc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8Eiyl1W33+mF2H29HFpaKVpvqPVmx62107zu/UqOhVunuCS19ookgb7flZWHG8tuZcAgFUmmxD+9C81xS0tfx2hYOd2X5XF1AZezZtye9eM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB4174
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 06:33:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247214
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 06:33:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247215
 
 From: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.in>
 
-This change fixes CVE-2026-5450
+This change fixes CVE-2026-5928
 
-Upstream-Status: Backport [https://sourceware.org/cgit/glibc/commit/?id=3D8=
-39898777226a3ed88c0859f25ffe712519b4ead]
+Upstream-Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dco=
+mmit;h=3Def3bfb5f910011f3780cb06aa47e730035f53285]
 
 Comment: Patch refreshed as per glibc 2.39 source code
 
 Signed-off-by: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.in>
 ---
- .../glibc/glibc/CVE-2026-5450.patch           | 113 ++++++++++++++++++
+ .../glibc/glibc/CVE-2026-5928.patch           | 105 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
- 2 files changed, 114 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-5450.patch
+ 2 files changed, 106 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-5928.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2026-5450.patch b/meta/recip=
-es-core/glibc/glibc/CVE-2026-5450.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2026-5928.patch b/meta/recip=
+es-core/glibc/glibc/CVE-2026-5928.patch
 new file mode 100644
-index 0000000000..adea5c3f01
+index 0000000000..470ab1a1ec
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2026-5450.patch
-@@ -0,0 +1,113 @@
-+From 839898777226a3ed88c0859f25ffe712519b4ead Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/CVE-2026-5928.patch
+@@ -0,0 +1,105 @@
++From ef3bfb5f910011f3780cb06aa47e730035f53285 Mon Sep 17 00:00:00 2001
 +From: Rocket Ma <marocketbd@gmail.com>
-+Date: Fri, 17 Apr 2026 23:48:41 -0700
-+Subject: [PATCH] stdio-common: Fix buffer overflow in scanf %mc [BZ #34008=
-]
++Date: Fri, 1 May 2026 20:39:07 -0700
++Subject: [PATCH] libio: Fix ungetwc operating on byte stream [BZ #33998]
 +
-+* stdio-common/vfscanf-internal.c: When enlarging allocated buffer with
-+format %mc or %mC, glibc allocates one byte less, leading to
-+user-controlled one byte overflow. This commit fixes BZ #34008, or
-+CVE-2026-5450.
++* libio/wgenops.c: When _IO_wdefault_pbackfail attempts to push back one
++character, it accidently compare the wchar to push back with the last
++char from byte stream, instead of wide stream. Under specific coding,
++attacker may exploit this to leak information. This commit fix bug
++33998, or CVE-2026-5928.
 +
-+CVE: CVE-2026-5450
-+Upstream-Status: Backport [https://sourceware.org/cgit/glibc/commit/?id=3D=
-839898777226a3ed88c0859f25ffe712519b4ead]
++CVE: CVE-2026-5928
++Upstream-Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dc=
+ommit;h=3Def3bfb5f910011f3780cb06aa47e730035f53285]
 +Comment: Patch refreshed as per glibc 2.39 source code
 +
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
 +Signed-off-by: Rocket Ma <marocketbd@gmail.com>
-+Reviewed-by: H.J. Lu <hjl.tools@gmail.com>
++Reviewed-by: Carlos O'Donell <carlos@redhat.com>
 +Signed-off-by: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.in=
 >
 +---
-+ stdio-common/Makefile              |  4 ++++
-+ stdio-common/tst-vfscanf-bz34008.c | 48 +++++++++++++++++++++++++++++++++=
-++++
-+ stdio-common/vfscanf-internal.c    |  6 +++---
-+ 3 files changed, 55 insertions(+), 3 deletions(-)
-+ create mode 100644 stdio-common/tst-vfscanf-bz34008.c
++ libio/Makefile              |  1 +
++ libio/bug-wgenops-bz33998.c | 54 ++++++++++++++++++++++++++++++++++++++++=
++++++
++ libio/wgenops.c             |  4 ++--
++ 3 files changed, 57 insertions(+), 2 deletions(-)
++ create mode 100644 libio/bug-wgenops-bz33998.c
 +
-+diff --git a/stdio-common/Makefile b/stdio-common/Makefile
-+--- a/stdio-common/Makefile
-++++ b/stdio-common/Makefile
-+@@ -266,6 +266,7 @@ tests :=3D \
-+   tst-vfprintf-width-i18n \
-+   tst-vfprintf-width-prec \
-+   tst-vfprintf-width-prec-alloc \
-++  tst-vfscanf-bz34008 \
-+   tst-wc-printf \
-+   tstdiomisc \
-+   tstgetln \
-+@@ -401,6 +402,9 @@ tst-printf-bz18872-ENV =3D MALLOC_TRACE=3D$(objpfx)tst=
--printf-bz18872.mtrace \
-+ tst-vfprintf-width-prec-ENV =3D \
-+   MALLOC_TRACE=3D$(objpfx)tst-vfprintf-width-prec.mtrace \
-+   LD_PRELOAD=3D$(common-objpfx)/malloc/libc_malloc_debug.so
-++tst-vfscanf-bz34008-ENV =3D \
-++  MALLOC_CHECK_=3D3 \
-++  LD_PRELOAD=3D$(common-objpfx)/malloc/libc_malloc_debug.so
-+ tst-printf-bz25691-ENV =3D \
-+   MALLOC_TRACE=3D$(objpfx)tst-printf-bz25691.mtrace \
-+   LD_PRELOAD=3D$(common-objpfx)/malloc/libc_malloc_debug.so
-+diff --git a/stdio-common/tst-vfscanf-bz34008.c b/stdio-common/tst-vfscanf=
--bz34008.c
++diff --git a/libio/Makefile b/libio/Makefile
++--- a/libio/Makefile
+++++ b/libio/Makefile
++@@ -83,6 +83,7 @@ tests =3D \
++   bug-ungetwc1 \
++   bug-ungetwc2 \
++   bug-wfflush \
+++  bug-wgenops-bz33998 \
++   bug-wmemstream1 \
++   bug-wsetpos \
++   test-fmemopen \
++diff --git a/libio/bug-wgenops-bz33998.c b/libio/bug-wgenops-bz33998.c
 +new file mode 100644
 +--- /dev/null
-++++ b/stdio-common/tst-vfscanf-bz34008.c
-+@@ -0,0 +1,48 @@
-++/* Regression test for vfscanf %Nmc out-of-bound write (BZ #34008)
+++++ b/libio/bug-wgenops-bz33998.c
++@@ -0,0 +1,54 @@
+++/* Regression test for ungetwc operating on byte stream (BZ #33998)
 ++   Copyright (C) 2026 The GNU Toolchain Authors.
 ++   This file is part of the GNU C Library.
 ++
@@ -209,66 +198,64 @@ index 0000000000..adea5c3f01
 ++   License along with the GNU C Library; if not, see
 ++   <https://www.gnu.org/licenses/>.  */
 ++
-++#include "malloc/mcheck.h"
-++#include <stddef.h>
-++#include <stdio.h>
-++#include <string.h>
-++#include <wchar.h>
+++#include "support/temp_file.h"
+++#include "support/xstdio.h"
+++#include "support/xunistd.h"
 ++#include <stdlib.h>
-++#include <malloc.h>
+++#include <unistd.h>
+++#include <sys/mman.h>
+++#include <stdio.h>
+++#include <wchar.h>
 ++#include <support/check.h>
 ++
-++#define WIDTH 0x410
-++#define SCANFSTR "%1040mc"
 ++static int
 ++do_test (void)
 ++{
-++  mcheck_pedantic (NULL);
-++  char *input =3D malloc (WIDTH + 1);
-++  TEST_VERIFY (input !=3D NULL);
-++  memset (input, 'A', WIDTH);
-++  input[WIDTH] =3D '\0';
+++  char *filename;
+++  int fd =3D create_temp_file ("tst-bz33998-", &filename);
+++  TEST_VERIFY (fd !=3D -1);
+++  xwrite (fd, "A", sizeof ("A")); // write "A\0" by design
+++  xclose (fd);
 ++
-++  char *buf =3D NULL;
-++  TEST_VERIFY (sscanf (input, SCANFSTR, &buf) !=3D -1);
-++  TEST_VERIFY (buf !=3D NULL);
+++  FILE *fp =3D xfopen (filename, "r+");
+++  TEST_COMPARE (getwc (fp), L'A');
+++  /* If the bug is fixed, then ungetwc should not touch byte stream.
+++     If the bug is not fixed, ungetwc firstly match last read char, L'A',
+++     failed, then the pbackfail branch, matching last read char in byte
+++     stream, that is, '\0' (initialized when setup wide stream). */
+++  char *old_read_ptr =3D fp->_IO_read_ptr;
+++  TEST_COMPARE (ungetwc (L'\0', fp), L'\0');
+++  TEST_VERIFY (fp->_IO_read_ptr =3D=3D old_read_ptr);
 ++
-++  free (buf);
-++  free (input);
+++  xfclose (fp);
+++  free (filename);
+++
 ++  return 0;
 ++}
 ++
 ++#include <support/test-driver.c>
-+diff --git a/stdio-common/vfscanf-internal.c b/stdio-common/vfscanf-intern=
-al.c
-+--- a/stdio-common/vfscanf-internal.c
-++++ b/stdio-common/vfscanf-internal.c
-+@@ -857 +857 @@ __vfscanf_internal (FILE *s, const char *format, va_list a=
-rgptr,
-+-			      + (strsize >=3D width ? width - 1 : strsize);
-++			      + (strsize >=3D width ? width : strsize);
-+@@ -928 +928 @@ __vfscanf_internal (FILE *s, const char *format, va_list a=
-rgptr,
-+-			=3D strsize + (strsize > width ? width - 1 : strsize);
-++			=3D strsize + (strsize >=3D width ? width : strsize);
-+@@ -983 +983 @@ __vfscanf_internal (FILE *s, const char *format, va_list a=
-rgptr,
-+-		      =3D strsize + (strsize > width ? width - 1 : strsize);
-++		      =3D strsize + (strsize >=3D width ? width : strsize);
++diff --git a/libio/wgenops.c b/libio/wgenops.c
++--- a/libio/wgenops.c
+++++ b/libio/wgenops.c
++@@ -111,2 +111,2 @@ _IO_wdefault_pbackfail (FILE *fp, wint_t c)
++-      && (wint_t) fp->_IO_read_ptr[-1] =3D=3D c)
++-    --fp->_IO_read_ptr;
+++      && (wint_t) fp->_wide_data->_IO_read_ptr[-1] =3D=3D c)
+++    --fp->_wide_data->_IO_read_ptr;
 +--=20
 +2.43.7
 diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glib=
 c/glibc_2.39.bb
-index 88ad5e44e8..b01225e530 100644
+index b01225e530..74db1ac507 100644
 --- a/meta/recipes-core/glibc/glibc_2.39.bb
 +++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -57,6 +57,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=
+@@ -58,6 +58,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=
 =3Dglibc \
-            file://0023-qemu-stale-process.patch \
             file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patch =
 \
             file://0024-CVE-2026-5435.patch \
-+           file://CVE-2026-5450.patch \
+            file://CVE-2026-5450.patch \
++           file://CVE-2026-5928.patch \
  "
  S =3D "${WORKDIR}/git"
  B =3D "${WORKDIR}/build-${TARGET_SYS}"
