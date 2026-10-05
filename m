@@ -2,124 +2,286 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2B8CA5FF0
-	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 15:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF134CA5FF0
+	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 15:37:37 +0000 (UTC)
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22963.1791214453297569723
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23059.1791214655626547481
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Oct 2026 08:34:14 -0700
+ Mon, 05 Oct 2026 08:37:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=GUfrAusA;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=e17KyQpH;
  spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 13C2B1A1158
-	for <openembedded-core@lists.openembedded.org>; Mon,  5 Oct 2026 15:34:11 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 8EE0A1A116D
+	for <openembedded-core@lists.openembedded.org>; Mon,  5 Oct 2026 15:37:33 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D6871601A5;
-	Mon,  5 Oct 2026 15:34:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4818B10330663;
-	Mon,  5 Oct 2026 17:34:04 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 64000601A5
+	for <openembedded-core@lists.openembedded.org>; Mon,  5 Oct 2026 15:37:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4285E103307DB;
+	Mon,  5 Oct 2026 17:37:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791214446; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=VmmB5YzkFdND8T4GfRBMBYkawm9sZQPAkgmtSl1lTck=;
-	b=GUfrAusAaygsrpvWOA9wy38Ez53ysEc7OGarRh4/V7oMkzybT7CA7Rdqd5me5wwPnpEvhH
-	GNKKlZ7di3TQeLagyM3cVLbD6azwREFFj4L2ojzemXKOqEIhwN0Ube7JG3cX0AkyeIIX3b
-	AfoX9BdtI/nDgXk0bpMW+a9/4TGZbwzfgDPsRBmiS59iXMTaw69CARJao6j5zHN+Tei8Qd
-	5+984tzGOyvRsaSRXX9AbZCGGZjL2eXW8lDlpilbSih4Bvkd/dsMd6zabg4D89CPZLPcFc
-	XfCu9jZ7t7Gfn3F+nSEr4Mj9+6gNlzUNC/qkSVIIq3roErYSwjzSn3w162UX6Q==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 05 Oct 2026 17:34:03 +0200
-Message-Id: <DLX0IZJ8VAS9.334U1B5L5ZG53@bootlin.com>
-Cc: "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <yoann.congal@smile.fr>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 22/24] libpcre2: upgrade 10.48 -> 10.49
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260930-mathieu-upgrades-2026-02-29-v1-0-102c38be04df@bootlin.com> <20260930-mathieu-upgrades-2026-02-29-v1-22-102c38be04df@bootlin.com> <DLWSAC7YXK30.1G1YB5HCJTRHP@smile.fr>
-In-Reply-To: <DLWSAC7YXK30.1G1YB5HCJTRHP@smile.fr>
+	t=1791214649; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=AwwSMKqfLg0UPGJYIA3J47fnnsaebL9oCbluYKISIMI=;
+	b=e17KyQpHOwWOTKoCbg9aES6VUDZ/qW+A3eHS2AVhfTKbEW8xMpnJatlY8hJCXSSky+25KS
+	TWBoVEggnaFU71xx3Dp29GqWnM5CK9m3cI/PS2AnLGvLx/TbIQ/FpLHA3m4+MEPiw60S5L
+	d+w/T8qH3gfSHTKRIqAXO3gjRPG8CtHSvmDDLGBsXBfar4mSRB6KaI8g9K1Uet6P0w18BS
+	We89mZpXsl7P6+COzTnp6YF0hdotYXa9PpVCgfyDEYDBymMHq7F5E8e2pbbgbgXJ4YAOh7
+	C9pDSIvwL8AWO1dGoEz4T4gUwZIDAYoCTniFzBBTbinLPmAQ4Y51cbsPVI8VkA==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Date: Mon, 05 Oct 2026 17:37:18 +0200
+Subject: [PATCH] libpcre2: Remove testoutput3C file
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261005-mathieu-pcre-patch-v1-1-b43f0fe15f42@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAC3Ew2oC/x3MQQqAIBBA0avErBswK6GuEi1kGnMWlahFEN09a
+ fkW/z+QOAonGKsHIl+S5NgLmroC8nZfGWUpBq20aZTqcbPZC58YKDIGm8lj1zKRM8YNpKCEIbK
+ T+59O8/t+zLqjPGQAAAA=
+X-Change-ID: 20261005-mathieu-pcre-patch-43eccf66f9c0
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791214647; l=4847;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=LaTWBOlSp8XVWE3ETcN7fnSJtpzPMqTxR/T5bLW36Yc=;
+ b=g+zYfyXp7vHZ23ApcRmwRTtQgt/3zsNH/e50HVs7v/bDXmiLxOIDUn62pgGhJ1PHX4L73MF2u
+ VAZ6AxpaeYbDzZdDrSKZ6GZuqOxfpYyxGmBxxWnyubA0Ggm3V50DkB0
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
 X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 15:34:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247244
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 15:37:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247245
 
-On Mon Oct 5, 2026 at 11:06 AM CEST, Yoann Congal via lists.openembedded.or=
-g wrote:
-> On Wed Sep 30, 2026 at 10:16 AM CEST, Mathieu Dubois-Briand via lists.ope=
-nembedded.org wrote:
->> Version 10.49 28-September-2026
->> -------------------------------
->>
->> This is a security-only release, to address GHSA-r9hj-j2rw-4q3m.
->>
->> Compared to 10.48, this release has only a minimal code change to preven=
-t an
->> out-of-bounds write with arbitrary data. An attacker-controlled regex pa=
-ttern
->> is required, and applications are only affected if using the
->> pcre2_jit_stack_create() and pcre2_jit_stack_assign() APIs to provide a =
-growable
->> JIT stack, and then matching against a pattern with unusually high JIT s=
-tack
->> usage, such as a large number of capturing groups.
->>
->> The implications of an out-of-bounds write could include arbitrary code
->> execution.
->>
->> The issue is not a regression and affects releases 10.48 and earlier.
->>
->> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->> ---
->>  meta/recipes-support/libpcre/{libpcre2_10.48.bb =3D> libpcre2_10.49.bb}=
- | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-support/libpcre/libpcre2_10.48.bb b/meta/recip=
-es-support/libpcre/libpcre2_10.49.bb
->> similarity index 96%
->> rename from meta/recipes-support/libpcre/libpcre2_10.48.bb
->> rename to meta/recipes-support/libpcre/libpcre2_10.49.bb
->> index 56791171c238..5fa7c3db3b4c 100644
->> --- a/meta/recipes-support/libpcre/libpcre2_10.48.bb
->> +++ b/meta/recipes-support/libpcre/libpcre2_10.49.bb
->> @@ -20,7 +20,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/pcre2-${PV}/p=
-cre2-${PV}.tar.bz2 \
->>  GITHUB_BASE_URI =3D "https://github.com/PCRE2Project/pcre2/releases"
->>  UPSTREAM_CHECK_REGEX =3D "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
->> =20
->> -SRC_URI[sha256sum] =3D "b6c68fdf6f3ac31388b50aa89ff0fc49c00c987c16e7b51=
-46491d12003f2c8ed"
->> +SRC_URI[sha256sum] =3D "53c156e1ba416a20da8e65395daa132da0d80e76910424c=
-aca3fcdae7831d384"
->> =20
->>  CVE_PRODUCT =3D "pcre2"
->> =20
->
-> Hello,
->
-> Shouldn't this patch have removed=20
-> meta/recipes-support/libpcre/libpcre2/testoutput3C ?
->
-> See: https://git.openembedded.org/openembedded-core/commit/?id=3D3c447001=
-749427b151dc2e6f08c790bac77b1c43
->
-> Regards,
+This file had to be added to fix an issue with version 10.48. Said issue
+is no longer present in version 10.49.
 
-Hi,
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+ meta/recipes-support/libpcre/libpcre2/testoutput3C | 174 ---------------=
+------
+ meta/recipes-support/libpcre/libpcre2_10.49.bb     |   2 -
+ 2 files changed, 176 deletions(-)
 
-I assumed it had to stay for this release, but my tests are proving me
-wrong. I will send a patch to remove it.
+diff --git a/meta/recipes-support/libpcre/libpcre2/testoutput3C b/meta/re=
+cipes-support/libpcre/libpcre2/testoutput3C
+deleted file mode 100644
+index 2af67a8d0367..000000000000
+--- a/meta/recipes-support/libpcre/libpcre2/testoutput3C
++++ /dev/null
+@@ -1,174 +0,0 @@
+-# This set of tests checks local-specific features, using the "fr_FR" lo=
+cale.=20
+-# It is almost Perl-compatible. When run via RunTest, the locale is edit=
+ed to
+-# be whichever of "fr_FR", "french", or "fr" is found to exist. There is
+-# different version of this file called wintestinput3 for use on Windows=
+,
+-# where the locale is called "french" and the tests are run using
+-# RunTest.bat.=20
+-
+-#forbid_utf
+-
+-/^[\w]+/
+-\=3D Expect no match
+-    =EF=BF=BDcole
+-No match
+-
+-/^[\w]+/locale=3Dfr_FR
+-    =EF=BF=BDcole
+-No match
+-
+-/^[\W]+/
+-    =EF=BF=BDcole
+- 0: \xc9
+-
+-/^[\W]+/locale=3Dfr_FR
+-\=3D Expect no match
+-    =EF=BF=BDcole
+- 0: \xc9
+-
+-/[\b]/
+-    \b
+- 0: \x08
+-\=3D Expect no match
+-    a
+-No match
+-
+-/[\b]/locale=3Dfr_FR
+-    \b
+- 0: \x08
+-\=3D Expect no match
+-    a
+-No match
+-
+-/^\w+/
+-\=3D Expect no match
+-    =EF=BF=BDcole
+-No match
+-
+-/^\w+/locale=3Dfr_FR
+-    =EF=BF=BDcole
+-No match
+-
+-/(.+)\b(.+)/
+-    =EF=BF=BDcole
+- 0: \xc9cole
+- 1: \xc9
+- 2: cole
+-
+-/(.+)\b(.+)/locale=3Dfr_FR
+-\=3D Expect no match
+-    =EF=BF=BDcole
+- 0: \xc9cole
+- 1: \xc9
+- 2: cole
+-
+-/=EF=BF=BDcole/i
+-    =EF=BF=BDcole
+- 0: \xc9cole
+-\=3D Expect no match
+-    =EF=BF=BDcole
+-No match
+-
+-/=EF=BF=BDcole/i,locale=3Dfr_FR
+-    =EF=BF=BDcole
+- 0: \xc9cole
+-    =EF=BF=BDcole
+-No match
+-
+-/\w/I
+-Capture group count =3D 0
+-Starting code units: 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P
+-  Q R S T U V W X Y Z _ a b c d e f g h i j k l m n o p q r s t u v w x =
+y z
+-Subject length lower bound =3D 1
+-
+-/\w/I,locale=3Dfr_FR
+-Capture group count =3D 0
+-Starting code units: 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P
+-  Q R S T U V W X Y Z _ a b c d e f g h i j k l m n o p q r s t u v w x =
+y z
+-Subject length lower bound =3D 1
+-
+-# All remaining tests are in the fr_FR locale, so set the default.
+-
+-#pattern locale=3Dfr_FR
+-
+-/^[\xc8-\xc9]/i
+-    =EF=BF=BDcole
+- 0: \xc9
+-    =EF=BF=BDcole
+-No match
+-
+-/^[\xc8-\xc9]/
+-    =EF=BF=BDcole
+- 0: \xc9
+-\=3D Expect no match
+-    =EF=BF=BDcole
+-No match
+-
+-/\xb5/i
+-    =EF=BF=BD
+- 0: \xb5
+-\=3D Expect no match
+-    \x9c
+-No match
+-
+-/=EF=BF=BD/i
+-    \xff
+- 0: \xff
+-\=3D Expect no match
+-    y
+-No match
+-
+-/(.)\1/i
+-    \xfe\xde
+-No match
+-
+-/\W+/
+-    >>>\xaa<<<
+- 0: >>>\xaa<<<
+-    >>>\xba<<<=20
+- 0: >>>\xba<<<
+-
+-/[\W]+/
+-    >>>\xaa<<<
+- 0: >>>\xaa<<<
+-    >>>\xba<<<=20
+- 0: >>>\xba<<<
+-
+-/[^[:alpha:]]+/
+-    >>>\xaa<<<
+- 0: >>>\xaa<<<
+-    >>>\xba<<<=20
+- 0: >>>\xba<<<
+-
+-/\w+/
+-    >>>\xaa<<<
+-No match
+-    >>>\xba<<<=20
+-No match
+-
+-/[\w]+/
+-    >>>\xaa<<<
+-No match
+-    >>>\xba<<<=20
+-No match
+-
+-/[[:alpha:]]+/
+-    >>>\xaa<<<
+-No match
+-    >>>\xba<<<=20
+-No match
+-   =20
+-/[[:alpha:]][[:lower:]][[:upper:]]/IB
+-------------------------------------------------------------------
+-        Bra
+-        [A-Za-z]
+-        [a-z]
+-        [A-Z]
+-        Ket
+-        End
+-------------------------------------------------------------------
+-Capture group count =3D 0
+-Starting code units: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+-  a b c d e f g h i j k l m n o p q r s t u v w x y z
+-Subject length lower bound =3D 3
+-
+-# End of testinput3=20
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.49.bb b/meta/recipe=
+s-support/libpcre/libpcre2_10.49.bb
+index 5fa7c3db3b4c..8e0c44fb4c48 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.49.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.49.bb
+@@ -14,7 +14,6 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.md;md5=3D6720bf3bc=
+ff57543b915c2b22e526df0 \
+=20
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2=
+ \
+            file://run-ptest \
+-           file://testoutput3C \
+ "
+=20
+ GITHUB_BASE_URI =3D "https://github.com/PCRE2Project/pcre2/releases"
+@@ -64,7 +63,6 @@ BBCLASSEXTEND =3D "native nativesdk"
+ do_install_ptest() {
+     t=3D${D}${PTEST_PATH}
+     cp -r ${S}/testdata $t
+-    cp ${UNPACKDIR}/testoutput3C $t/testdata/testoutput3C
+=20
+     for i in pcre2posix_test pcre2grep pcre2test; do
+         "${B}/libtool" --mode=3Dinstall install "${B}/$i" "$t"
 
-Thanks,
-Mathieu
+---
+base-commit: d8195f7a0813c959e5e3337ff8297e99f7549e93
+change-id: 20261005-mathieu-pcre-patch-43eccf66f9c0
 
+Best regards,
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
 
