@@ -1,235 +1,287 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A2FCA5FFD
-	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 07:11:42 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.70])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14475.1791184299536500714
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DD5CA5FCE
+	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 08:39:33 +0000 (UTC)
+Received: from PNZPR01CU001.outbound.protection.outlook.com (PNZPR01CU001.outbound.protection.outlook.com [40.107.51.12])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15642.1791189434105829026
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Oct 2026 00:11:40 -0700
+ Mon, 05 Oct 2026 01:37:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ericsson.com header.s=selector2 header.b=QHeBMbTd;
- spf=pass (domain: ericsson.com, ip: 52.101.72.70, mailfrom: daniel.turull@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=C58qELqe;
+ spf=pass (domain: bmwtechworks.in, ip: 40.107.51.12, mailfrom: upstream_ip-sh@bmwtechworks.in)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bRbW9Mx7TfKNfZj0Y4QRnPIStd+sKvldZ2GvflBfIntQzoCVrccKSWXjDaQVGtLlnU3KTyc1Lv3tfGkr3nkJGZI6srTJONLfCZP5ns1oandL1qI1jmI3WZ9DPMIbpaqnf4KxKMphnfZtYnB43k7nZrr0wP62g2ALqJ/vTzbrFl9RmJZQ1wsP9wy4xzPMmvgGjZs1llSbFVhYSHdwaTL5jXidhs5irrKMDtf5uX08tscEXMA03DwyRvZSfXiVzmxiH1lU9VtHQWIPHsEQInerj/ysjS9vZUbJkbMdaouKIFPYOiZDvDypNz0Na8Sx8UeUQizHEV+ldMmlWsEqTIgueg==
+ b=pdzeRsmHZ6Ahz+v7FJPuTmhURsjbe+9AwTtdy8Gn5MTfCVw3IFoYwKT/mCs1l80uw4uP9Aw7OZfKokJxNPzVskN31vw2r3BwmX1VueLtG0N+5ezATxEN+mw25AShPEeHBqTJ/rvnLDoyAluZthhYtYFM3LBNcDU0SYugxe4roADNV+DpNZEsZEktiRuBiN1DEu0U5DulYqMhtboJZ1YSMPG9l4U+FdtFqEIRJA7j+z6sdtEkIr0cfyl6jcnvKYHHGTDy8wSB4/epu7Qr0Dne0okdTU4rfgdc3u2H4EoAZCKzLyyROFTOnAwZoMYYl1X1pqCDwm0vxH9DTJ/S7VFkhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gtb7RT3MFRBexsAWcrdR4UQyeJHeaS8WFVl2B9Pe3fg=;
- b=o2YXcFcYP0mu31o31k27bazNatUKh6ApkJ0HnEK2ExwAE99UNu2NOo4jcRYmhKGpUnA8nv72QG3HG320GiFIIAvScz63MulXz5rkyo3/BI6ARrkfIC4BcF3KiZ+iQv4XGhZidSCD9Q1PLICFu7uqcN7YdhXuGMpm1zveO34ZVleTx0VwSqeiBJTowA852rwIeOyxvieoH8HMK6BmlW9qcH8J49IzbIuDEW55Tvn/rLRs+JQQ4zjamgmphxqv1ZjIWAFgqBnTD/HxwgbGpVVDdnnwIb7ZcCtKqUOC8u2ECcuDOicp4fy9Mc7AlJtfsJLO5IoHl6WPbgBNBHM4MXxRUw==
+ bh=4p9usr8VoNg8zycLFw9y+XwGy40PJ7J21oQdSop0Weo=;
+ b=tuJ4sJK0NDoVr80fTgkgWPeTtJrKVijQnlWyfh8YDakRsIR5OEgX9TciKD5ej86IINiLeZ3b7LBqmKhyUFu7kQXVk/NV4QTd8CdaKR0x8m4t8NXIqvnYEyd8K1u/q6z/GpJaxzdUKX7FF19ZjSMaNIt3vnb/WHpHlH+EtCna016um4tXN81zuoQYJuiae1Kqr1cFXZgjvoiC2ZdBT1LpRu5ssZC9U7HZhVbcVdZgiD4HOPOqrnF3cUpb9AdF6EY6dkup+dQOO4mVDB1g2kk51nw2WjfGYLl3G625F7FF5HGAJz5lip7lb2itIdqsrnGO/0Jv+//hUXPZ++rwQVIQZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
- dkim=pass header.d=ericsson.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
+ smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
+ header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gtb7RT3MFRBexsAWcrdR4UQyeJHeaS8WFVl2B9Pe3fg=;
- b=QHeBMbTdkbaHPZ0J2cdTAkhl7LJaETmqOttsDDkwhrNJUUXnQblq2hkxnXZnECdEp6n3HO8xx/fbK/eh8YyCeCOipCWz/6verHNvSMwyfe5ncvkeuUHfLlAbTshrJOp/RrA6qiMBaeeSrw5oLZFiWQ2qJndbsAz4TtKKZM199OdBv8serNtSdWzU6F1J8aV0ZOti11+Q7X/6j5FEhpUC0Woz5AI4+fg6axDup5iOYXgGH/ZDnUC2dmh2dVEhgnSb/4//eLylG4BJLVe58SV5LONgfJK4+i73nu4N3inkKEDdpX5I28lG10nQP3yrHNt1pRh1JIaiAchowgPEpGl+jQ==
-Received: from AM7PR07MB6437.eurprd07.prod.outlook.com (2603:10a6:20b:140::11)
- by AM0PR07MB206184.eurprd07.prod.outlook.com (2603:10a6:20b:7fb::11) with
+ bh=4p9usr8VoNg8zycLFw9y+XwGy40PJ7J21oQdSop0Weo=;
+ b=C58qELqeWRmFmtiF0gbDhaUMHlnFPkrxma+cvXqVdyvvbkTwqcr/tKtUkubh+xtxmpP6b4zZtD+ZRhCnML9lOn3jA7X97wlizp6rU2W3w6FuCSn6lQjVFfLZKZxbCt7xmBM6I23LWhsT/+T7KmtZhfw8bjQ1YUMjWYIZIL+y/z/7TtmpqJdh/B84rGteX3EWjXG4caegyrwSY5/GZha7XL43S7AzbcEF9YSsHNsa3D/jtehHXn4iNeZgdSwfZZlejEG2cM3FRUdoZHLMa8Pg/SbobmMuSBWCp89SQfeW6by7Jtn7RKnP4uCTPGgw81JKnsR/4geGxNKEPaCMcmwSGg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
+Received: from MAUP287MB4780.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1a3::20)
+ by PN3P287MB1318.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1a1::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 07:11:35 +0000
-Received: from AM7PR07MB6437.eurprd07.prod.outlook.com
- ([fe80::fb9c:237c:ec12:2db0]) by AM7PR07MB6437.eurprd07.prod.outlook.com
- ([fe80::fb9c:237c:ec12:2db0%5]) with mapi id 15.21.0472.016; Mon, 5 Oct 2026
- 07:11:35 +0000
-From: Daniel Turull <daniel.turull@ericsson.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
-CC: "JPEWhacker@gmail.com" <JPEWhacker@gmail.com>
-Subject: Re: [OE-core] [PATCH v4 0/3] spdx: add support to include releaseTime
-Thread-Topic: [OE-core] [PATCH v4 0/3] spdx: add support to include
- releaseTime
-Thread-Index: AQHdUkM8mxFGJRoxs0eiNN24OCBcCbbsCgyAgAKC7wA=
-Date: Mon, 5 Oct 2026 07:11:35 +0000
-Message-ID: <41c29eb36a6e155610250866aeb8f11012baf791.camel@ericsson.com>
-References: <20261002075414.2311840-1-daniel.turull@ericsson.com>
-	 <DLVCWCY4UQ9E.3307IXG39F4B@bootlin.com>
-In-Reply-To: <DLVCWCY4UQ9E.3307IXG39F4B@bootlin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1.1 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ericsson.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM7PR07MB6437:EE_|AM0PR07MB206184:EE_
-x-ms-office365-filtering-correlation-id: 17ac674d-4708-4e3d-8c24-08df22afe47f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|10070799003|23010399003|1800799024|376014|366016|10067099003|56012099006|11063799006|4143699003|3023799007|6133799003|38070700021|4133799003|18002099003|22082099003;
-x-microsoft-antispam-message-info: 
- vB0HWQZKch7tAWVzcWjL1aD7Sq1PpgFx2OjCP6Hg/+JZnwKmb2UXbPtj/bgMyN5h48bHBDiWFckxlNcNvNjw5mYkbLKUDInLcnF15F1XrGP1l3tYB68lt0h2x57Ig8QW2eeHkChIweis1W+Bu61+7RMScLeIUt4mJJaLVOfI5dzR3FxEn+b7woaZuRZiCOlToppR+abraK2mFy8CfUItq9WBvmcv6AYPnGU1qfOGu2MjRQNdJGfO6/zHFr5jxtbJBuFUfIhShYNiTSWdArG+EFKNQtwZDx5Exv6gS1TRUpr+eGzl4e0zUru7xXkWD6Az8MDZJeeRUdxzVGVF+vxX8AXwuctZmAta6vLuZS4vhsJXqiMCgNuDE8uMFiYnR2ErBMd6GCyPMmjtTU5eNN496uxaCiWKzwLzC1yjWtp+7UUofPvAke/ZdaxwsIqxgYsZgjt05odwmOzDKNChDgBop4XAhhkCHwTljHe0lISFq1v5cti7rhWRLS3hvPIySiQF38S/NSvwjvW3rWiv1LSJa96IZf9K29sgEem3La34ORmM//wzvrZOVzPPeNPu2Tu20u6uIE3UgTniry10hIyNJLpAAeQBxQuO8uQNNRGm2guAy6xg34GS82tPhfUG/zkonYiPpKQEp57RDzwumS3rA6kDyaytNmJ36mxtOQeID3s=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR07MB6437.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(1800799024)(376014)(366016)(10067099003)(56012099006)(11063799006)(4143699003)(3023799007)(6133799003)(38070700021)(4133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?OVlmUEVhQkJtbmhvRmJqdVpwcHhHZDUwL2J2MHVlL2Y5MU5hN3MzcFlkOXpq?=
- =?utf-8?B?Qmx0MU4yMERBSWd3NHJmTEFMMHp4ZDEzeGFBdU9QTjdCWTZqR0dCeDdicGRi?=
- =?utf-8?B?N0tBQzNzb2l1QUs4UE5Dd2h4REdQdUdwUzNDVVhBMm1URnJXOG5NK0VyTldz?=
- =?utf-8?B?ZDNyendPakpZWjVpTHJUd0xhSjJENjlva2thUFZBSitDWFJFTnBTYUpNZkxt?=
- =?utf-8?B?RkxWVkVMc0RidFNuaWxNOXUzcncwMy9ub1JrRjZiNnkrdEdHcEpjSitzUmpp?=
- =?utf-8?B?SHNwSy82RWlSTWdERVRmL3ZkWnZTM0sxL0xYUGd0MmtSL2lsZjV2bm5vc1do?=
- =?utf-8?B?bHVTYWd1cVBiN2hLRkhQeitJUWRxV3J3Rmc4TWhaSWoxUktDeGxlcCtjTUFa?=
- =?utf-8?B?eGVST21KM1pWRTB3LzlQckJHNFdiUklmZEkyUEQxWUFCTG15WnhEcm9jN0sx?=
- =?utf-8?B?ZGw1Y0RMNGNFRnFMaUt0TjAzN0hiTWljMi82dTZBTjhzbXRYOXU2Z0VwSkFC?=
- =?utf-8?B?SXNGRmwrVDJTN2ZTVDNGRDZSSW5JcFRtMVU1ZCt2VmdWL1phQ3krTmVUZkNa?=
- =?utf-8?B?WDEwVFhlNlZLS2FaVkNhWjlEYXhCc3loangySE9obE9aWEZtWmFjdTlRK3Bt?=
- =?utf-8?B?NDYyNytGdW9JdWM4VDdGNWlzQWNVZkdpTndnbzBodEdEQlE4SXhhY21JdnBw?=
- =?utf-8?B?TGlWVGlMNkdUd2dKM25ESlF3bmw3M3IvV2tRdHo5L2RtTFdka3ozVzEvdTAv?=
- =?utf-8?B?b2tKY01ldGllVm5UUloycEE4UHhrR3B2akllK0tKaDN1aFZUd1F6b3VlZFNi?=
- =?utf-8?B?U3VWSTcwNzc5QkkrdjZPcW5UWU1KNkRKRGpHeEZRMkdsWVdNY0FsamE1UGJC?=
- =?utf-8?B?VU03cGhPalVCTVB6dXplY1puQSs2N0s1QVJGVnJjb0tYeG1sVW1lL0loRU5u?=
- =?utf-8?B?dEN2SUpwWTQza3ZRQWsrNXBDQjZYdEtIa0wvOGgzMExLNmtETjVvbExXbUxZ?=
- =?utf-8?B?RWNyaW0vRStSSjBhRkttSFV6N2pSTmJZNm12Q2xUVWJuZTdBVU9VTzNuRzZx?=
- =?utf-8?B?MkoyL1BVQjh0dU1mYVBXMFRUejdOL0w4dnBGdnJHTDhUaWlSTCtvSjJocWtR?=
- =?utf-8?B?a0VxTC80Sk4vdWNNUG5kRXgySGVoWG9xdEdhU3gvYlFtL0lTYjRPMGZob3J6?=
- =?utf-8?B?bWt0UEtrWGdMRHJ1b0V4S1kyZXZRbmdjTWVjRXl4bXlBcUNKcFRZMlBEYUtC?=
- =?utf-8?B?ZWhvby91ZUVOR3JWakJwL24wK0hFbkNiREgvNE9NTEo2TXZCaHRnQm02QlFo?=
- =?utf-8?B?L0hXajMyZG02dTViL05zTmg0YzA1aEFwbWpPbG9CTlpHeng5WWJiTURLclFH?=
- =?utf-8?B?ZDlBcE9pZU80dU5lSUZZU1c4NlR6ZUVYdW1rc05sVm9qWGRpLzVwY2lPK0ZQ?=
- =?utf-8?B?cTFuOGo0NjY5bTE5cFB1SGd0bEhMVTdWczgxTkxvL21kekpBS1B0cUJhS204?=
- =?utf-8?B?cmRPRk1DTkYzMmRvMFh5d1NzY3liNlc4NGNkRWFIU1plK3RMeWRvNkk4dmxW?=
- =?utf-8?B?WUYycWdkampud1JkOXNuaURUcm1rMXVVKzczbVVHa2t4d2NwLzZvSTdlSnpM?=
- =?utf-8?B?OGJyVVdpM2I5cDBXbGx2TGE5WTd5S1c4OXNOa0xsR0UwYmNvSHkyRFYyVW5I?=
- =?utf-8?B?V2cwbTRMSjQ3cm9qMTUyc0VNM0JWOVloT25hUEg3TzczTG1IMTZ1WEQxOXIy?=
- =?utf-8?B?bEVJN3huSDh3TDJQQnVWdFA5TUZjMkxhRm9IUXZBRiswTFZlRHl4ampaTktq?=
- =?utf-8?B?em1nRmdlS1BjNFArNlo3QUJSMGVxeFJLMzUxdUs3bm0wTXJpNXppY2pFZ1ZU?=
- =?utf-8?B?UHNmRFRDOTFzOTUxdFNEakJrdEErYUZDWVdWMFBpb1hrUTdnK0VPRXZDT3k2?=
- =?utf-8?B?MjRua0pic2kzMmo1U2Z2S1g0SXZLZ1B3d1d3a1pId2kzbWtaVDUxQXhpc1BF?=
- =?utf-8?B?SEU3RG93ZkpERENnMGV0bG1ZVHRHaCtVUnVpODZTN29MY2toK09odUV6Zjhy?=
- =?utf-8?B?VVpRR3lSWG5UT1k0bFpPR2psblVaS1owSW8xY0RLY1YraGswOFR5TjluWlhN?=
- =?utf-8?B?MGpVSmd0OVM5MUJReXUyZzRzK1RMdDc3UmxWcGFpdXJleE43NmdmSUd2ZkFL?=
- =?utf-8?B?RG5ZNnVMTUROWDhYS1VxZStqWHpZM2wwcFJIc1pMTmpCdlQ0bXdrY2Jhajdk?=
- =?utf-8?B?WURUL1FlR1A0ZnlsLzE3b1hVb25GbFpHZnduTS9CTCtHVFhvTUtVckJOSTFE?=
- =?utf-8?B?T3AzdzhIUk9YM0txRzF3VlAzalJaSi91VmJhMjNYd1JhUlg4enplQ2l2ZGZ2?=
- =?utf-8?Q?5MC747ltpRohK1bDe13YVmvLTGjsX1S+e862RdR4HY4OS?=
-x-ms-exchange-antispam-messagedata-1: +s9c0GdUOyppeKR6IrlTHr39M3FmaTdduB8=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F9374A8FF0CF2D4895FD26363EFEA22F@eurprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ 2026 08:22:17 +0000
+Received: from MAUP287MB4780.INDP287.PROD.OUTLOOK.COM
+ ([fe80::bfdd:13d0:6cd2:f14]) by MAUP287MB4780.INDP287.PROD.OUTLOOK.COM
+ ([fe80::bfdd:13d0:6cd2:f14%4]) with mapi id 15.21.0472.016; Mon, 5 Oct 2026
+ 08:22:17 +0000
+From: Suresh H A <UpStream_IP-SH@bmwtechworks.in>
+To: openembedded-core@lists.openembedded.org,
+	suresh.ha@bmwtechworks.in
+CC: Suresh H A <Suresh.HA@bmwtechworks.in>
+Subject: [poky][scarthgap][PATCH v2] systemd: replace a bunch of assert() with friendlier checks
+Date: Mon,  5 Oct 2026 13:52:07 +0530
+Message-ID: <20261005082207.3387895-1-UpStream_IP-SH@bmwtechworks.in>
+X-Mailer: git-send-email 2.43.0
+X-ClientProxiedBy: PN4PR01CA0112.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:266::6) To MAUP287MB4780.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1a3::20)
 MIME-Version: 1.0
-X-OriginatorOrg: ericsson.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MAUP287MB4780:EE_|PN3P287MB1318:EE_
+X-MS-Office365-Filtering-Correlation-Id: c291026f-9b88-44e5-bb1c-08df22b9c468
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|23010399003|1800799024|366016|260925022911599003|260925021911599003|260925021311599003|10067099003|56012099006|11063799006|6133799003|18002099003|55112099003|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	dH1gS5nhzI0OeOSs72LGYcNz6BIdr7mkPyKT5k0BL9eMS3ndVET7HQD0jCFM+VKbetPLM0BKAoAxo/pvSRl/6RErrZ+I5C/AV2xL5GsUAhe3Dr+X5iBNiewxM/OCwfHQ4CNJ/uqHLR8DQVcf2CCqGia1xDOX0YZsbZwH+o8VdnDJbsQc+Vz4mKieYPib8VilNidTyfeNoBeTzOaY/NmknqvHydK1/iSpUq+TFichFzTi1AFFzs+qimuTUIcgzf2xu030vABNlhdfBErTQqiewfrAAtygs/NwWJSkiIiCckrNcDQfKhoPz/lafjeYoQ50EsJACkN5IbElCQRf5MJkgL5G5irU+OezVPpWsv1TrBehL4oyzb/WC7HqNRUd8YhF9T7OaWAIPbAL7nYzfMoWkndPVCNFse25bKlUxjImkIx7cTZGgSUTGNHRg25t5+I9BBlghxISJxnTQPDxMg5YyE+QQIMuADJMzJe2UzwEU7q79pO0vGVAfpyD7eGVD2Zgd2v10EQH0e/g6QT1zCc4oH3qnx/345iKEAVmAt/RRk16R2jGhjQmkxjKZHKBzR9cSBbp4UzUiKcyUY8NlvG7tV4NomDLdIZj+RXiEhNFsZK29WOREVUCqjW7tQmaEmOmmTi7CeAVAzreuaBS6kkbgHFTcsC/YFqtG9LQ/lHE5mI=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAUP287MB4780.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(23010399003)(1800799024)(366016)(260925022911599003)(260925021911599003)(260925021311599003)(10067099003)(56012099006)(11063799006)(6133799003)(18002099003)(55112099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?UF6csfw/Vgoi/9NBxJfqeJmRoZoStPCD4wcukeUKSywVtQGR7A6LvyZP3MUx?=
+ =?us-ascii?Q?FSYoAC3WMrmPF5LXs41c2Nu+vUgsbxv98HP33k55pqV9cOtCCh+nHBAy2Ipb?=
+ =?us-ascii?Q?KNxQzzVKKJ9OniQ3cWqVGyAopjXEebYoI8PY4tUxo4dWASuhzG0qXv4sdMYl?=
+ =?us-ascii?Q?ztzgnX4MW3H7enE/PDwdeb3U9XqgTxKYr8OmkVXvc3RC1bOsYomg8fooPzf5?=
+ =?us-ascii?Q?6G86SqGHpxg81kDHaIvUUhphs7lGM9u5QJW1H1ug+fjbkce9yqZGbNCRFdmT?=
+ =?us-ascii?Q?TpJWA2g4xwijyPsm9BEKgreNTHT3CZDVrAhlrxK8wYufPYc7XJGaBPF9urws?=
+ =?us-ascii?Q?uuZDk/Fzwxl/oTLlySweKr884BNCg6ZW23qqdfBGiRvZrGH5Re/oFq+ywTiI?=
+ =?us-ascii?Q?vtJ0U0JT6L2Ebn8pb0D3biJdK1XUePFD19ycPqml7WOQhXe59W+O3PyB46/7?=
+ =?us-ascii?Q?4Szm5Haea1sML2v4YWLb97sW0f01DoPTJxevmabniPuBUk03i1fT3F+VIXur?=
+ =?us-ascii?Q?UHs0bF7cVgU5IXIOe7Q7SETYh1viq1JPjCsb/PyTk3ND1XtJWAecwk4AGYCc?=
+ =?us-ascii?Q?1VGSqL8DXdUQL93Fs1m8zC2n7ILadBTq+TizdhJ4W0vgCPDrRLa5Ar1qk8o7?=
+ =?us-ascii?Q?MsqUiXBDBZGy2tqK07uhAQeN9c7fSP1Z22cRyE7O/d6yzCDgZ3kgtgri3M08?=
+ =?us-ascii?Q?RLiKgKjs/I51MAlT3RnmbYUa1c5axP6KNsOBtaepXcO0d0/OwCptjSFElfIJ?=
+ =?us-ascii?Q?VH9yp7PERG5bWGSWgZoKMjv9LUnsU0lI2ICS35qa6Jh8Om3UIHesoxv34dyK?=
+ =?us-ascii?Q?UQOelGY9Z2pA9ULbb/4Gwl8j/T2JBItzdIwQJrjd7x4kiDcIw7UbQlVxKR0o?=
+ =?us-ascii?Q?AqO4Q9xZy4GoVcwQILNRCESs3c+1YCMsQoBr8pYG/zyGJUxXRGetPL0kK9t/?=
+ =?us-ascii?Q?CiM8OLbTax5ILCgwY68uaZ1YObgmflD+iWBS2rZ+K8vgaZFa1X7N2JLtXQ9n?=
+ =?us-ascii?Q?UHhjfFHGDOfUbC0o/JQlr33d91ynq1yltFQ4U4p4lM90LUoEcGZtdBpV/tQ8?=
+ =?us-ascii?Q?+u7uEr8Z0nDWMYeLetKr2oz/TrBwqMV9if7X/hjmtepqF/6d1xO0vNnoB2qZ?=
+ =?us-ascii?Q?sDC9w5PJa4EcL8co+naFZioAaaIrauqjGXcuos+1Yl9bjHRq3N8KL/4AAAhR?=
+ =?us-ascii?Q?NvdkKd3TdFrjX4ulApC95KH2NecH6/2SLCFxq5rNC1HrjMNhV8m1CdeqqaX8?=
+ =?us-ascii?Q?lIWuJ3diHEP0HzIxWK6VtTvgc6H1cBxGCkvCVWQzc0InjEKX9G1Clzg3chu6?=
+ =?us-ascii?Q?I9NccDYDV9wYWxEnxx2ZgusEH5RAxQYLRzvyf48O1JfMXl+N0KwZHh6LHv3n?=
+ =?us-ascii?Q?htU/JiGa66VF/QQhoJLEB6F6wBey1/2+7Vq9H/r7n8G9wDTnXxfFB2chveDk?=
+ =?us-ascii?Q?Aw03f2jdDhyPaGkZVnUbltcoZ+DA6kVl4+TgyHqUaW4okRMJXGDfGxJd+JSh?=
+ =?us-ascii?Q?EsfjRkuq8PSk6Xbz4MspPliS0+N2laxZ+GoVJoWL7vRqO5m5xmbJ1MYvISxu?=
+ =?us-ascii?Q?ZQKl39zQvz0XKsYJlq+lRXTqG0eYSLN2b9i8gF+1qMZ1zhpyZtm2imMsGQBW?=
+ =?us-ascii?Q?3Nepj6OMI1jmpgEcXgiRAhzAYcEoLyeWlEsMwAuVDldVZa+tZOb1s/FqHC+v?=
+ =?us-ascii?Q?rZypgg+au9Qe3XRqZcQovmEwsOnDspfIBQJSI+QCaYOdkDhLGB0lQmNnRIAr?=
+ =?us-ascii?Q?eOxz0yaKBFLATbGzOVUnqjNyUx5TVYc=3D?=
+X-OriginatorOrg: bmwtechworks.in
+X-MS-Exchange-CrossTenant-Network-Message-Id: c291026f-9b88-44e5-bb1c-08df22b9c468
+X-MS-Exchange-CrossTenant-AuthSource: MAUP287MB4780.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR07MB6437.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17ac674d-4708-4e3d-8c24-08df22afe47f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2026 07:11:35.7621
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 08:22:17.0282
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fdwTSWYjpVwYcuce6ioKbZXwUgMyJ6s3lgkjBw6IScDwJr2LLlFvxbnZ4yN0GVhP5D9EAH0xLPAgGrSH9iXgOVnR8vxjiE22cN5vX4lQOZQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR07MB206184
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lN1plsLjebFWdvNQ9gLus6BSIFyOgNnoYORomcLRGA+J/yBbRqXTcLkZL57pVh0kSIg8wbq+QdKZdC+/Ol5ZA3tV3N7kVZXXTXuOrWRaJ7w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB1318
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 07:11:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247221
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 08:39:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247222
 
-T24gU2F0LCAyMDI2LTEwLTAzIGF0IDE4OjUwICswMjAwLCBNYXRoaWV1IER1Ym9pcy1CcmlhbmQg
-d3JvdGU6DQo+IE9uIEZyaSBPY3QgMiwgMjAyNiBhdCA5OjU0IEFNIENFU1QsIERhbmllbCBUdXJ1
-bGwgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6DQo+ID4gRnJvbTogRGFuaWVsIFR1
-cnVsbCA8ZGFuaWVsLnR1cnVsbEBlcmljc3Nvbi5jb20+DQo+ID4NCj4gPiBXZSBoYXZlIGEgcmVx
-dWlyZW1lbnRzIHRvIGluY2x1ZGUgcmVsZWFzZSB0aW1lIG9mIG9wZW4gc291cmNlIGNvbXBvbmVu
-dHMNCj4gPiBpbiB0aGUgU0JPTS4gVGhlcmUgaXMgYSBmaWVsZCBzcGVjaWZpYyBmb3IgdGhhdCBp
-biBzcGR4IDMgc3BlYy4NCj4gPg0KPiA+IGh0dHBzOi8vc3BkeC5naXRodWIuaW8vc3BkeC1zcGVj
-L3YzLjAuMS9tb2RlbC9Db3JlL1Byb3BlcnRpZXMvcmVsZWFzZVRpbWUvDQo+ID4NCj4gPiBUaGlz
-IGNhbiBhbHNvIGJlIHVzZWQgdG8gZXZhbHVhdGUgaG93IG9sZCBhcmUgc29tZSBvZiB0aGUgY29y
-ZQ0KPiA+IGNvbXBvbmVudHMgYW5kIGRlY2lkZSBpZiB0aGV5IG5lZWQgcmVwbGFjZW1lbnQuDQo+
-ID4NCj4gPiBUaGUgcHJldmlvdXMgMiB2ZXJzaW9ucyBkaWQgbm90IGhhdmUgY292ZXIgbGV0dGVy
-Lg0KPiA+DQo+ID4gSW4gdjQgSSBrZXB0IHRoZSBzaW1wbGVyIGxvZ2ljIHRvIGp1c3QgY2hlY2sg
-Zm9yIHRoZSBlcG9jaCBkYXRlLCBldmVuIGlmDQo+ID4gd2UgaGF2ZSBtdWx0aXBsZSBzb3VyY2Vz
-IHdpdGggZGlmZmVyZW50IHJlbGVhc2UgZGF0ZXMuIEl0IHdhcyBnZXR0aW5nDQo+ID4gY29tcGxp
-Y2F0ZWQgYW5kIGFkZGluZyBtb3JlIGNvZGUgZm9yIGdpdCBhbmQgdGFyZmlsZXMuIEkgY2FuIGRv
-IGEgZm9sbG93DQo+ID4gdXAgcGF0Y2ggYWZ0ZXIgdGhpcyBzaW1wbGVyIHZlcnNpb24gZ2V0cyBp
-biwgc28gd2UgY2FuIGZpbmUgdHVuZSBpdC4NCj4gPg0KPiA+IFRlc3RlZCB3aXRoIG9lLXNlbGZ0
-ZXN0IC1yIHNwZHgNCj4gPg0KPiA+IERhbmllbCBUdXJ1bGwgKDMpOg0KPiA+ICAgY2xhc3Nlcy9i
-YXNlOiBleGNsdWRlIF9fQ0FDSEVEX1NPVVJDRV9EQVRFX0VQT0NIIGZyb20gdGFzayBoYXNoDQo+
-ID4gICBjcmVhdGUtc3BkeC0zLjA6IHJlY29yZCBjb21wb25lbnQgcmVsZWFzZSBkYXRlIGluIFNQ
-RFggb3V0cHV0DQo+ID4gICBzY3JpcHRzL2NvbnRyaWI6IGFkZCBzcGR4LXJlbGVhc2UtZGF0ZS1y
-ZXBvcnQucHkNCj4gPg0KPiA+ICBtZXRhL2NsYXNzZXMtZ2xvYmFsL2Jhc2UuYmJjbGFzcyAgICAg
-ICAgICAgIHwgICA0ICsNCj4gPiAgbWV0YS9saWIvb2Uvc3BkeDMwX3Rhc2tzLnB5ICAgICAgICAg
-ICAgICAgICB8ICAyMiArKysNCj4gPiAgbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9zcGR4
-LnB5ICAgICAgICB8ICA0MSArKysrKw0KPiA+ICBzY3JpcHRzL2NvbnRyaWIvc3BkeC1yZWxlYXNl
-LWRhdGUtcmVwb3J0LnB5IHwgMTkxICsrKysrKysrKysrKysrKysrKysrDQo+ID4gIDQgZmlsZXMg
-Y2hhbmdlZCwgMjU4IGluc2VydGlvbnMoKykNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNzU1IHNjcmlw
-dHMvY29udHJpYi9zcGR4LXJlbGVhc2UtZGF0ZS1yZXBvcnQucHkNCj4NCj4gSGkgRGFuaWVsLA0K
-Pg0KPiBJdCBsb29rcyBsaWtlIG9uZSBvZiB0aGUgYWRkZWQgdGVzdHMgaXMgZmFpbGluZyBoZXJl
-Og0KPg0KPiAyMDI2LTEwLTAzIDE1OjI2OjI4LDc2MCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIHNw
-ZHguU1BEWDMwQ2hlY2sudGVzdF9yZWxlYXNlX2RhdGVfc291cmNlX2RhdGVfZXBvY2ggKHN1YnVu
-aXQuUmVtb3RlZFRlc3RDYXNlKQ0KPiAyMDI2LTEwLTAzIDE1OjI2OjI4LDc2MSAtIG9lLXNlbGZ0
-ZXN0IC0gSU5GTyAtICAuLi4gRkFJTA0KPiAuLi4NCj4gMjAyNi0xMC0wMyAxNToyNjoyOCw3NjEg
-LSBvZS1zZWxmdGVzdCAtIElORk8gLSB0ZXN0dG9vbHMudGVzdHJlc3VsdC5yZWFsLl9TdHJpbmdF
-eGNlcHRpb246IFRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToNCj4gICBGaWxlICIv
-c3J2L3Bva3lidWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtZGViaWFuL2J1aWxkL2xheWVy
-cy9vcGVuZW1iZWRkZWQtY29yZS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3NwZHgucHki
-LCBsaW5lIDQ3MywgaW4gdGVzdF9yZWxlYXNlX2RhdGVfc291cmNlX2RhdGVfZXBvY2gNCj4gICAg
-IHNlbGYuYXNzZXJ0RXF1YWwocGtnLnJlbGVhc2VUaW1lLCBleHBlY3RlZCkNCj4gICBGaWxlICIv
-dXNyL2xpYi9weXRob24zLjExL3VuaXR0ZXN0L2Nhc2UucHkiLCBsaW5lIDg3MywgaW4gYXNzZXJ0
-RXF1YWwNCj4gICAgIGFzc2VydGlvbl9mdW5jKGZpcnN0LCBzZWNvbmQsIG1zZz1tc2cpDQo+ICAg
-RmlsZSAiL3Vzci9saWIvcHl0aG9uMy4xMS91bml0dGVzdC9jYXNlLnB5IiwgbGluZSA4NjYsIGlu
-IF9iYXNlQXNzZXJ0RXF1YWwNCj4gICAgIHJhaXNlIHNlbGYuZmFpbHVyZUV4Y2VwdGlvbihtc2cp
-DQo+IEFzc2VydGlvbkVycm9yOiBkYXRldGltZS5kYXRldGltZSgyMDIzLCA3LCAxOCwgNiwgNTUs
-IDIzLCB0emluZm89ZGF0ZXRpbWUudGltZXpvbmUudXRjKSAhPSBkYXRldGltZS5kYXRldGltZSgy
-MDExLCA0LCA1LCAyMywgMCwgdHppbmZvPWRhdGV0aW1lLnRpbWV6b25lLnV0YykNCj4NCj4gaHR0
-cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3ZhbGt5cmllLyMvYnVpbGRlcnMvMzUv
-YnVpbGRzLzQ5OTcNCj4NCg0KSSdsbCBuZWVkIHRvIGludmVzdGlnYXRlIGZ1cnRoZXIuDQoNCkkg
-ZGlkIGEgcmVydW4gYW5kIGl0IHdvcmtzIG9uIG15IGVuZC4gTWF5YmUgSSBjaG9vc2UgdGhlIHdy
-b25nIHJlY2lwZSBmb3IgdGhlDQpzZWxmdGVzdC4gSSdtIHN1c3BlY3Rpbmcgc29tZSBzc3RhdGUg
-aXNzdWUuIEknbGwga2VlcCB5b3UgcG9zdGVkIGlmIEkgZmluZCB0aGUNCmlzc3VlLg0KDQpiaXRi
-YWtlIHRhciAtYyBjbGVhbmFsbCAmJiBvZS1zZWxmdGVzdCAtcg0Kc3BkeC5TUERYMzBDaGVjay50
-ZXN0X3JlbGVhc2VfZGF0ZV9zb3VyY2VfZGF0ZV9lcG9jaA0KTG9hZGluZyBjYWNoZTogMTAwJQ0K
-fCMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjI3wgVGltZTogMDowMDowMA0KTG9hZGVkIDAgZW50cmllcyBmcm9tIGRlcGVuZGVuY3kgY2Fj
-aGUuDQpQYXJzaW5nIHJlY2lwZXM6IDEwMCUNCnwjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQojIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjfCBUaW1lOiAwOjAwOjEwDQpQYXJzaW5nIG9m
-IDEwNDQgLmJiIGZpbGVzIGNvbXBsZXRlICgwIGNhY2hlZCwgMTA0NCBwYXJzZWQpLiAyMDk5IHRh
-cmdldHMsIDU4DQpza2lwcGVkLCAwIG1hc2tlZCwgMCBlcnJvcnMuDQpSZW1vdmluZyAyIHJlY2lw
-ZXMgZnJvbSB0aGUgYWxsYXJjaCBzeXNyb290OiAxMDAlDQp8IyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-Iw0KIyMjIyMjfCBUaW1lOiAwOjAwOjAwDQpSZW1vdmluZyAzMiByZWNpcGVzIGZyb20gdGhlIHFl
-bXV4ODZfNjQgc3lzcm9vdDogMTAwJQ0KfCMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCiMjfCBUaW1l
-OiAwOjAwOjE2DQpSZW1vdmluZyAyOSByZWNpcGVzIGZyb20gdGhlIHg4Ni02NC12MyBzeXNyb290
-OiAxMDAlDQp8IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KIyMjfCBUaW1lOiAwOjAwOjAxDQpSZW1v
-dmluZyAxOCByZWNpcGVzIGZyb20gdGhlIHg4Nl82NCBzeXNyb290OiAxMDAlDQp8IyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIw0KIyMjIyMjfCBUaW1lOiAwOjAwOjA4DQpOT1RFOiBSZXNvbHZpbmcgYW55
-IG1pc3NpbmcgdGFzayBxdWV1ZSBkZXBlbmRlbmNpZXMNCg0KQnVpbGQgQ29uZmlndXJhdGlvbjoN
-CkJCX1ZFUlNJT04gICAgICAgICAgID0gIjIuMTkuMSINCkJVSUxEX1NZUyAgICAgICAgICAgID0g
-Ing4Nl82NC1saW51eCINCk5BVElWRUxTQlNUUklORyAgICAgID0gInVuaXZlcnNhbCINClRBUkdF
-VF9TWVMgICAgICAgICAgID0gIng4Nl82NC1vZS1saW51eCINCk1BQ0hJTkUgICAgICAgICAgICAg
-ID0gInFlbXV4ODYtNjQiDQpTREtNQUNISU5FICAgICAgICAgICA9ICJ4ODZfNjQiDQpESVNUUk8g
-ICAgICAgICAgICAgICA9ICJub2Rpc3RybyINCkRJU1RST19WRVJTSU9OICAgICAgID0gIm5vZGlz
-dHJvLjAiDQpUVU5FX0ZFQVRVUkVTICAgICAgICA9ICJtNjQgeDg2LTY0LXYzIg0KbWV0YQ0KbWV0
-YS1zZWxmdGVzdCAgICAgICAgPSAic3BkeC1yZWxlYXNlOjg2ZjNmOGJkNWUzODMyNDExYThkNGFi
-YjU2NjFmNzdiZWIxMjM1MTEiDQoNClNzdGF0ZSBzdW1tYXJ5OiBXYW50ZWQgMCBMb2NhbCAwIE1p
-cnJvcnMgMCBNaXNzZWQgMCBDdXJyZW50IDAgKDAlIG1hdGNoLCAwJQ0KY29tcGxldGUpDQpJbml0
-aWFsaXNpbmcgdGFza3M6IDEwMCUNCnwjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjDQojIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjfCBUaW1lOiAwOjAwOjAwDQpOT1RFOiBObyBzZXRzY2VuZSB0
-YXNrcw0KTk9URTogRXhlY3V0aW5nIFRhc2tzDQooc3BkeC5TUERYMzBDaGVjay50ZXN0X3JlbGVh
-c2VfZGF0ZV9zb3VyY2VfZGF0ZV9lcG9jaCkNCjIwMjYtMTAtMDUgMDc6MDU6MDksODU1IC0gb2Ut
-c2VsZnRlc3QgLSBJTkZPIC0gIC4uLiBvaw0KMjAyNi0xMC0wNSAwNzowNToyNSwxOTIgLSBvZS1z
-ZWxmdGVzdCAtIElORk8gLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCi0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCjIwMjYtMTAtMDUgMDc6MDU6MjUsMTky
-IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUmFuIDEgdGVzdCBpbiAxMDkuMjQ4cw0KMjAyNi0xMC0w
-NSAwNzowNToyNSwxOTIgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBPSw0KMjAyNi0xMC0wNSAwNzow
-NToyOCw0OTIgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBSRVNVTFRTOg0KMjAyNi0xMC0wNSAwNzow
-NToyOCw0OTIgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBSRVNVTFRTIC0NCnNwZHguU1BEWDMwQ2hl
-Y2sudGVzdF9yZWxlYXNlX2RhdGVfc291cmNlX2RhdGVfZXBvY2g6IFBBU1NFRCAoOTMuNjBzKQ0K
-MjAyNi0xMC0wNSAwNzowNToyOCw0OTIgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBTVU1NQVJZOg0K
-MjAyNi0xMC0wNSAwNzowNToyOCw0OTMgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBvZS1zZWxmdGVz
-dCAoKSAtIFJhbiAxIHRlc3QgaW4NCjEwOS4yNDlzDQoyMDI2LTEwLTA1IDA3OjA1OjI4LDQ5MyAt
-IG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIG9lLXNlbGZ0ZXN0IC0gT0sgLSBBbGwgcmVxdWlyZWQNCnRl
-c3RzIHBhc3NlZCAoc3VjY2Vzc2VzPTEsIHNraXBwZWQ9MCwgZmFpbHVyZXM9MCwgZXJyb3JzPTAp
-DQoNCkJlc3QgcmVnYXJkcywNCkRhbmllbA0KPiBUaGFua3MsDQo+IE1hdGhpZXUNCj4NCg0K
+From: Suresh H A <Suresh.HA@bmwtechworks.in>
+
+Backport a patch that replaces a bunch of assert() with friendlier checks
+Fix is already available since systemd v258-rc1.
+
+Journal file contents can change or be inconsistent on disk, so they
+must not be checked with assert(). We hit this on systemd 255.21, where
+dlt-system aborted in sd-journal:
+
+  dlt-system[1284]: Assertion 'd->object.type =3D=3D OBJECT_DATA' failed at
+  src/libsystemd/sd-journal/journal-file.c:3237,
+  function generic_array_bisect_for_data(). Aborting.
+
+generic_array_bisect_for_data() received a data object whose object.type
+was not OBJECT_DATA, and the assert aborted the whole process.
+
+The patch replaces these asserts with
+"if (type !=3D expected) return -EBADMSG;" in bump_entry_array(),
+generic_array_bisect_for_data() and the journal_file_move_to_entry_*_for_da=
+ta()
+functions. A bad object is then reported as an error to the caller instead =
+of
+aborting it.
+
+Signed-off-by: Suresh H A <Suresh.HA@bmwtechworks.in>
+---
+ ...a-bunch-of-assert-with-friendlier-ch.patch | 108 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_255.22.bb   |   1 +
+ 2 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-journal-replace-=
+a-bunch-of-assert-with-friendlier-ch.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0023-journal-replace-a-bunch=
+-of-assert-with-friendlier-ch.patch b/meta/recipes-core/systemd/systemd/002=
+3-journal-replace-a-bunch-of-assert-with-friendlier-ch.patch
+new file mode 100644
+index 0000000000..aa78f4d797
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0023-journal-replace-a-bunch-of-ass=
+ert-with-friendlier-ch.patch
+@@ -0,0 +1,108 @@
++From 5ee8b3edb385b216eb4f3316323ae1287824971a Mon Sep 17 00:00:00 2001
++From: Lennart Poettering <lennart@poettering.net>
++Date: Thu, 5 Jun 2025 22:26:03 +0200
++Subject: [PATCH] journal: replace a bunch of assert() with friendlier chec=
+ks
++
++We should not rely that data stored in the journal files remains
++entirely untouched at all times. Because we unallocate files, data might
++go away any time. Hence, never assert() on any expectations on what the
++file contains. Instead, handle it more gracefully as a corruption issue,
++and return EBADMSG.
++
++Fixes: #35229 #32436
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/pull/37757/c=
+ommits/5ee8b3edb385b216eb4f3316323ae1287824971a]
++
++Signed-off-by: Suresh H A <Suresh.HA@bmwtechworks.in>
++---
++ src/libsystemd/sd-journal/journal-file.c | 28 ++++++++++++++++++------
++ 1 file changed, 21 insertions(+), 7 deletions(-)
++
++diff --git a/src/libsystemd/sd-journal/journal-file.c b/src/libsystemd/sd-=
+journal/journal-file.c
++index fecddb932f..acceea7770 100644
++--- a/src/libsystemd/sd-journal/journal-file.c
+++++ b/src/libsystemd/sd-journal/journal-file.c
++@@ -2740,7 +2740,9 @@ static int bump_entry_array(
++=20
++         if (direction =3D=3D DIRECTION_DOWN) {
++                 assert(o);
++-                assert(o->object.type =3D=3D OBJECT_ENTRY_ARRAY);
+++
+++                if (o->object.type !=3D OBJECT_ENTRY_ARRAY)
+++                        return -EBADMSG;
++=20
++                 *ret =3D le64toh(o->entry_array.next_entry_array_offset);
++         } else {
++@@ -3241,9 +3243,11 @@ static int generic_array_bisect_for_data(
++=20
++         assert(f);
++         assert(d);
++-        assert(d->object.type =3D=3D OBJECT_DATA);
++         assert(test_object);
++=20
+++        if (d->object.type !=3D OBJECT_DATA)
+++                return -EBADMSG;
+++
++         n =3D le64toh(d->data.n_entries);
++         if (n <=3D 0)
++                 return 0;
++@@ -3609,9 +3613,11 @@ int journal_file_move_to_entry_for_data(
++=20
++         assert(f);
++         assert(d);
++-        assert(d->object.type =3D=3D OBJECT_DATA);
++         assert(IN_SET(direction, DIRECTION_DOWN, DIRECTION_UP));
++=20
+++        if (d->object.type !=3D OBJECT_DATA)
+++                return -EBADMSG;
+++
++         /* FIXME: fix return value assignment. */
++=20
++         /* This returns the first (when the direction is down, otherwise =
+the last) entry linked to the
++@@ -3671,7 +3677,9 @@ int journal_file_move_to_entry_by_offset_for_data(
++=20
++         assert(f);
++         assert(d);
++-        assert(d->object.type =3D=3D OBJECT_DATA);
+++
+++        if (d->object.type !=3D OBJECT_DATA)
+++                return -EBADMSG;
++=20
++         return generic_array_bisect_for_data(
++                         f,
++@@ -3697,7 +3705,9 @@ int journal_file_move_to_entry_by_monotonic_for_data=
+(
++=20
++         assert(f);
++         assert(d);
++-        assert(d->object.type =3D=3D OBJECT_DATA);
+++
+++        if (d->object.type !=3D OBJECT_DATA)
+++                return -EBADMSG;
++=20
++         /* First, pin the given data object, before reading the _BOOT_ID=
+=3D data object below. */
++         r =3D journal_file_pin_object(f, d);
++@@ -3763,7 +3773,9 @@ int journal_file_move_to_entry_by_seqnum_for_data(
++=20
++         assert(f);
++         assert(d);
++-        assert(d->object.type =3D=3D OBJECT_DATA);
+++
+++        if (d->object.type !=3D OBJECT_DATA)
+++                return -EBADMSG;
++=20
++         return generic_array_bisect_for_data(
++                         f,
++@@ -3783,7 +3795,9 @@ int journal_file_move_to_entry_by_realtime_for_data(
++=20
++         assert(f);
++         assert(d);
++-        assert(d->object.type =3D=3D OBJECT_DATA);
+++
+++        if (d->object.type !=3D OBJECT_DATA)
+++                return -EBADMSG;
++=20
++         return generic_array_bisect_for_data(
++                         f,
++--=20
++2.43.0
++
+diff --git a/meta/recipes-core/systemd/systemd_255.22.bb b/meta/recipes-cor=
+e/systemd/systemd_255.22.bb
+index e5a0fd9170..342d078067 100644
+--- a/meta/recipes-core/systemd/systemd_255.22.bb
++++ b/meta/recipes-core/systemd/systemd_255.22.bb
+@@ -37,6 +37,7 @@ SRC_URI +=3D " \
+            file://CVE-2026-29111-02.patch \
+            file://CVE-2026-29111-03.patch \
+            file://CVE-2026-29111-04.patch \
++           file://0023-journal-replace-a-bunch-of-assert-with-friendlier-c=
+h.patch \
+            "
+=20
+ # patches needed by musl
+--=20
+2.43.0
+
 
