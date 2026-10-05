@@ -1,2867 +1,615 @@
-Return-Path: <Hemanth.KumarMD@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 484DDCA5FF0
-	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 09:54:27 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16634.1791194054926403577
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2ED9CA5FF0
+	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 10:15:18 +0000 (UTC)
+Received: from mail-wr2-f33.google.com (mail-wr2-f33.google.com [74.125.225.97])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16947.1791195309565967238
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Oct 2026 02:54:18 -0700
+ Mon, 05 Oct 2026 03:15:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Pg5UHP+W;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=4738bdee84=hemanth.kumarmd@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6955jrui2186843
-	for <openembedded-core@lists.openembedded.org>; Mon, 5 Oct 2026 02:54:14 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=mH4/2Wcs9
-	08o7HX1nvNZbIzHTNpA2ynsXRwyIT5Clps=; b=Pg5UHP+WzOJVL8ST3KS8IwA9Y
-	pG3FPkg1akjb2zbZj1bbHUFG6K6VYdIX7TbM6IoD5Y7PURHZLCQRV0wZ8Bue7F7g
-	Fu7wBh2g08EEfuvqDOsBCvNAFDDSmpmQay4C7lsCQ6ZDNSettTtzSRlgGCw6DsIV
-	DbLGIjG4GlLYidSccwAT+BiIbJQqelS5v1s+hqmvNC6OiqW/zDIEkH9haZH78krX
-	AhMQbvf5vOV+Yd1VRfkn+QmhfzsSjWi3g66UsYq6gPjPRLAEdrpskrrwVzJtMSqb
-	SNxXXXHmC4+zO/kd3NRE3rnIqUALq3nchGlXcQE/xAVan7neNWLbT1xriReDw==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020095.outbound.protection.outlook.com [52.101.85.95])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4h317e9rqp-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 02:54:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ue9TChpz8CnXMB340rkvjvrJXNlVSxmhS5fHuZ88zo9eaZHLyAyDJz5GRfW4m2RgqPXDfjTHgYYqa/I1sqz42LhKlCDit+91qGe4AoT3lDiSxdzT9ZvlrnFDJdVtXDw6SItvDrXElCWnrHbks20NNo271LbupFQV8bLKkSMYPpGw+37smfW31EubBH5p9qXPYDqzLnVjkiMM7HB9OaCQ/cEUlGhyjBuCA9Q6/E3oCNR8EZHc8Oyx28n16OB1jq9g2XzJ1+N0ImOSHMdMVKVfEU/Zzv3aA+1UXUN6QW05WHr8P/W0NC1ZxMSlX3gFLwmhst658O3b4uQ/eSd8/l9c/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mH4/2Wcs908o7HX1nvNZbIzHTNpA2ynsXRwyIT5Clps=;
- b=fkQXopF9bSJ52yJS5UlS5VqIYP0p2kwxk5iCPoTcmUcEVYSDlIJi1H2457qAOmBEoPOD2iZW/GCgzRJ0pg208ki1jXXSy043Df4kHIByAgBdCi4gq1Ugvr7odCkEB8LYVmfeXKskL7tvpI2LExlsx5lCKZmveJdQwudKidbz+KZBuOO4MKRiFI72j/wVIdh+sBIk+sM582/ISkhUUvbFniiLN9S3wVW53teEDxPdvEhHDF1v9+N3dmznLBxs4LCkSGFy57P09xxGFab0S7vxtLS173dZZJaQ196O/YfwUQ40eRYSkI7ARur0cgcF1xX4MmtBd2Qx+TBiXQlGlgShtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=windriver.com;
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
- BL3PR11MB6313.namprd11.prod.outlook.com (2603:10b6:208:3b0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.16; Mon, 5 Oct
- 2026 09:52:15 +0000
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe%4]) with mapi id 15.21.0472.016; Mon, 5 Oct 2026
- 09:52:15 +0000
-From: Hemanth.KumarMD@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Hemanth.KumarMD@windriver.com
-Subject: [PATCH] rust: Upgrade 1.98.1 -> 1.99.0
-Date: Mon,  5 Oct 2026 02:51:46 -0700
-Message-ID: <20261005095200.3309867-1-Hemanth.KumarMD@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: SJ0PR03CA0197.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::22) To DM6PR11MB4564.namprd11.prod.outlook.com
- (2603:10b6:5:2a0::7)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Qa5c5fZM;
+ spf=pass (domain: smile.fr, ip: 74.125.225.97, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f33.google.com with SMTP id ffacd0b85a97d-48b104f6aa3so821352f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 03:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1791195307; x=1791800107; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uxZybW3V2jA2TL27kANI24aTktOwZRioaarHfcMrIss=;
+        b=Qa5c5fZMz7zNnX3LvZLZ3riuo2vaQbKPV2EJqFvQneEKw1mrQO2Dprufqk+hbwdQi0
+         MtFYOqgDqkCJyQ7e1iubuaacB0Zmvx4c5Rte/QE7Fb46IZ6sNPWYMd5aCjOAizSVPS9N
+         Y3JuGW5tWP946jt5lpLRYzMjzJkslzVHkmrj4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791195307; x=1791800107;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uxZybW3V2jA2TL27kANI24aTktOwZRioaarHfcMrIss=;
+        b=deZhkTSqrFCFZ9FVLtAj7yGc7D6fVcQCh4JiZx96Xyc7mLlay5g+Nrn1hjxV1Zgp+7
+         Qj+j7saelJFQmVatjuhVQZQQmM3s42M/KIdlFQFaNET/zVTB3PMIiascvVFtGBcv6SJT
+         9WI4SZe4pjisCL0cziL94Oyk9jCZJdRDxyg40L2Q8h4gzY0PTfvBdXLUsdvbSDtsVEl5
+         sxkBD/+0Vg5M3MZj2ioClWUXqKOJeb5s9XDet5xCVmr3dyXvWn4X4beaLDXCVwvfTBtd
+         LvEF+wHwyxiWqzy8uqht7elEcb6fLJiuvBQKfaT8FcK5JkKAVEBmwx/SKPeO+MDoZSNS
+         JSkA==
+X-Gm-Message-State: AFq9FYIeLcD6dYz+PLvseZrFuU/SO77thu1mUvpIyIhCpEUt2hZMbRb1
+	L4qMF/ANZ+ylKcv8iy2ltOu9tEIQQz/HWORm4AQz+XbrNCy2RtPfPMBRpYzM7jtmWDYb980uXYi
+	Fzm1jE+0=
+X-Gm-Gg: AYBFou2Q9HSf5Ulm/M+bFwWMtOGlnTV8J2T2jdJOxfyuHma1YQ9VjZ1xtqZhlHel6OO
+	4907S+ykMmq5fAVuHJIv3H+vv3ccrPmmDj2RNw1nnFQZ9XXqt8+Mcj1ox09urKVLJdaXfeeJvAU
+	y370jDkDume1djertTCUHlOk/1M6G1NRSgHx9YNX9naj+CV7PPqeImNdi1vIzlGnKHJOflZ/K4e
+	VdT/YpBbi6H5o6u4EeUncTJfzneoTcBUMSmVDfaUPq7oA7/NKuezlBUAKeHEXpIE5qyN8y8stop
+	qBhkIOcX71tI1lP30hFkmh/c3o9MtprtDO+gQMjk9ayLmqdfv7GggXk8M3Z25Y/Hqp5XhjeJlFP
+	JtZFL321QgVOQu7d8vDAi+CWuJSWSEVyCk1NvHqJg2NrCgTb8mG7lxf66tQnCF9C63u8x8lXCCL
+	Cg4dvirEAfIDPIi5lzmRtND5W349YIV59rcvP3emJEc5bjU6iFZNvZps9wlimFmuhBqJLzkbqYI
+	fMq4ooyiYdCoNGruYqFpuZu7OcRlFnh5sT4ZAEDVZuZqzWh+EVnA2903s6JyNYtWgOcmtxmlk1O
+	IYzNsZr+UW3FLA951tv12yRNIa4bYB9L6mJFoco9y+mk
+X-Received: by 2002:a05:6000:4304:b0:48a:fba3:d5b1 with SMTP id ffacd0b85a97d-48b127762c2mr17869423f8f.55.1791195306711;
+        Mon, 05 Oct 2026 03:15:06 -0700 (PDT)
+Received: from runner-sindu79iq-project-19509-concurrent-0.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c622ab7b5sm2724297f8f.37.2026.10.05.03.15.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 03:15:06 -0700 (PDT)
+From: yoann.congal@smile.fr
+To: OE-Core ML <openembedded-core@lists.openembedded.org>,
+	Yocto Security ML <yocto-security@lists.yoctoproject.org>
+Subject: OE-core CVE metrics for blacksail on Mon Oct 05 10:01:25 2026
+Date: Mon,  5 Oct 2026 10:15:05 +0000
+Message-ID: <20261005101505.24-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|BL3PR11MB6313:EE_
-X-MS-Office365-Filtering-Correlation-Id: e314c403-9464-4720-c9cf-08df22c655c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|52116014|376014|1800799024|29003799003|260925021311599003|260925021911599003|10067099003|260925022911599003|56012099006|11063799006|5023799004|3023799007|6133799003|25016099003|12006099003|18002099003|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	4Y+1gWmzB7jqi3kz8dP4qkOUexajwIM/85/RnshEdfYzkXkDWqBJoc97ds9i/stizDWPOVI/p+aCASeFoNbyyynh+9lCu1GJPdmsP9kIQaxR53RvhgOikgrrhZZLByKtgWfyxGBGEM5SXVQpevObhLjbzxgdov/xjur6j6YsVGaFbNw8RRUY1ptLV0xFQx7Pp1cQkq4Kt7Shno3VoXo+Zm+kehx5w5P3iPhicx7epR+tUlY6NHi6aDRbX/voL8C/8TmdliYlhrdoKeWnF2rO5nnTLtm6U2l/atIm1t17tMGWbSzn0XwP2L93MKiHRLf/TF/ZOV4WbAHP8PMmEzaAYiBXhgqCC/EQDSj2PbelNzK0LU0AmjIUFXEs9Pu/8xbWCdecwVEC3/6OegWgQutf86iP48mvJhx5srxRyoEULJCBqUMEnGNyh9fbKtDQxuYJBUZKAf9tfJTqX4kE2FdI5s21L+ObIjqB1tk8qbo67m1x8/e5fZgFe349EcRTTXtsImGe1ST5sKpRfqsgT4UvWfSPOMw0ddoT+D72USFMKqzib7VUnzUChXxTd3Uw8LrZliP+6FbJ8sLnz/MvH/WQ1rLN0UwbsoMuBDWh6FsrZejcPlOFRRohmCIytEgBxG/p6kdQAIF8btc6Vlwj1kNEhxMC5xYUgEXidhsfPCLUh84=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(52116014)(376014)(1800799024)(29003799003)(260925021311599003)(260925021911599003)(10067099003)(260925022911599003)(56012099006)(11063799006)(5023799004)(3023799007)(6133799003)(25016099003)(12006099003)(18002099003)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?VzBSN3JSNWcvbnk1S01pQTJyTk5oWS81UE9ORFN2QU1wMVlaZDF0Q2srcXZD?=
- =?utf-8?B?WGUzYnlHSXp4MFhoVzZwUnNVc083WFRQUy9Wb2ZUSXdtcmVteDdQTXYyclA4?=
- =?utf-8?B?bFgyUUU2ZFhJNVVCZ2NnazNVcHlyelhhZXVVQ3l3aVUwR011Y3Mzc0VxZlE0?=
- =?utf-8?B?OC9oQUcyNStwc3dCNmV5VThFNXNWSWxDZkNSRjB1MGZOMXB4Wkc5bEJrWS9v?=
- =?utf-8?B?ckFVNnlZZ0RPaXpiaEk4dGprRUJpNWVRbEs3RHZPbW05OHE5ZStkdDJqaTM2?=
- =?utf-8?B?K3h2YkM3UWdaeWVyTnVaZGF4T1pVNTJ3TzdhTnYyUkcydzFONGh1akx1bnZF?=
- =?utf-8?B?aFcvN3UyWk96R3ZyNndGWXBNOTZrbDZQaWZqM3hFTTlrRFNoaDhIbmxSN3FX?=
- =?utf-8?B?bVN6R2c1QXEvaWN0NU14WUt3c0tOZldWRXVJOWhZS1AzcVppNzU5NjRsNUhF?=
- =?utf-8?B?NnVHdDJIeXBuSkJGNEU0ZmZ4NGplTEpjM3dlZk1WR3BBSGJZN1hqYVozWnky?=
- =?utf-8?B?dWlkYm9MVXNxcVBzZkJlY29Nc1VzTDlnUWY2QkgxdElONEJEOG9yK1Vha3F6?=
- =?utf-8?B?clFzZkJqWUZrQUF6TFVnUk55Qys0YWxNREVwZmRYZ2xNL3pNWlUrUzdMQXd4?=
- =?utf-8?B?TjMwZU5NV1NWK3hjanIvUDl6NEJ5RGFxWWtMWG50OUUzQmpmNjR0eWI0VTB4?=
- =?utf-8?B?eURjcHRobnR2cU0rc2NtYmJrTUJzUTNMREVWbWJMNkpTZExId0VnTlk3SXVT?=
- =?utf-8?B?SzdwRjRIWWxNYVZJMU1TWEhYSmZyK3JJQXlJWGlyZ2UzdHkvV0tZNC8wd3lI?=
- =?utf-8?B?T2Jhak9KMkM4TURraXpJUG5aSC9LdFNUUnJzVW1wN0V6VTBNQW4rK0tuRHBi?=
- =?utf-8?B?V2ZQeVhPa2RRaXlqeTlJaUJ4elEzczlNazJoYWU5bWhnb3h3dVIzUHZYOVZW?=
- =?utf-8?B?czFkWWVhZHc4cFluTUJBYzNtTEZaS3AwRWZNU2JFQ1g1ckdxL0dNQ2p5SFRn?=
- =?utf-8?B?eFhUT0tEMXQrblNBQzdQNk1yMXRCenJicEF3RnFTSWdLN0tDUzJWZzdsME9t?=
- =?utf-8?B?ODlEOUJkUjVrMnFGUk5tS2JJd0dTY21weEhncStDVVpueFBsSElPQWRuMWtT?=
- =?utf-8?B?QUVQWDNMY2YwbmYyLytlMXZSS2xCUXJIT2hwRmFyR0pYVTJZcURiZ2pIQ29V?=
- =?utf-8?B?OVlCcFo5REZYVHR2bXB6cXRITUpOam9rVk9rNHNmNTRDWHE4M3lWeGRobW04?=
- =?utf-8?B?S29lUkx2OXgzMVgybTNXamowbG5YSDh4dFkvbWtUTUVBWXdRZ0pWamNUNFFC?=
- =?utf-8?B?OVhIdWlWUktkTTNJSnQyRkh0SHdNa1QyMy9jOXUvYlJiQW1rNmFxZjdwZG1T?=
- =?utf-8?B?dm1zZ1JJcWpDSVJES05udU9TRS9ORUY3L3lISnhDMjJjeHNsMjRTcGlsYWlR?=
- =?utf-8?B?RDgxTGpGejZUS1ZQNjhuTkN0Lzl3NXpOMGMrR2tpRVZrZW1Bb0RUT0RoMnRo?=
- =?utf-8?B?dnh0NExTOFd4ZXNyWXB3bk91Vnk2Rkt3NEpENmZiU2RSV3NKaVk4V2xYZ2I0?=
- =?utf-8?B?emQzd2tIdFIvZWFvUlVHUmV0MHlEOG5kZ3h3KzZHUFZDVXVEM1p2NWhnb1JY?=
- =?utf-8?B?c3JqZlhPelg5cys4TkxRd1dmTHcvcUF2MWkycU10S0ZpT0IxMWdWTCtlemRR?=
- =?utf-8?B?RE5IaytzSEVCL0NsZHVEYmdnblp2UlhubmtlblhEMXZKTWRzWmFyVms5ODlE?=
- =?utf-8?B?dS83ejFmQU9BTXE5Ulkwam10Q2FhN0d2bWpQUE16RDRjNXRoVzEvYVdKb1V3?=
- =?utf-8?B?d2M3ZnJEUnB3OVphWnBja0lOd0F6TlROZEN1bkdGUUlTdGwrYitVZXYyZ2g5?=
- =?utf-8?B?RmhOaThZNDRlSTBEbE9HcGV2REdjL2lvRDIxbHF2RkFJa2Z4RmR1TDBaTlJo?=
- =?utf-8?B?R01QQWcyZ1M0c1krVmxxbGRJUkl4Q0xqcXVtUnFrVXVMejZPVWFUSFErL2tQ?=
- =?utf-8?B?MXhtWENEcUtnVlRkNjU3WEpTV29lUnBRdjRTYzFmZklQamlzeThRbjZ5dURH?=
- =?utf-8?B?OXlvbHpwMVY4R29vUk5VZ2dNVUgwU1l2V21UYVE4WkVnN0ZYNDBneFA3anNr?=
- =?utf-8?B?WjRJYWk2MzJodEl5MEh1Zy8zM2dZRVVXV2pZdTlWNUJST2Q3WGgyOVhHMExw?=
- =?utf-8?B?L05XY1NnQ1YwV0FmQVplYzNQcklHMzhvK1FYK0RYQzE5eEFrRnRMWmFlbmZP?=
- =?utf-8?B?Wmk5RTJVVWVJVlZFanhaV2h6Z3dua3lGVWM2UFRlWEFSbDB2Y3d4UkJoT0tl?=
- =?utf-8?B?K0k1SW12YUsyZHYyTGJHd2F5RGtuOXNtY285RnJZT0ZrNVlTdFUzNTRpRHVp?=
- =?utf-8?Q?Mv9Yn9VYINU6RE9Y=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	Wg3/2Nii3CLyR2qHXfwqBvCETNsOMjiCj9aaz3WznUduF8zJm7t6xhROPRL8MQH0amfD80G1m+SUFZTWxUoigO9csi/Wc29yWna5IZO3uCOolIqo2BjSkOHhhVnLePatGUS331CcuuF/3ZZSvY0yFFmTzpwe7j/WH3txTnDgAyX/LYPz+HvIb1v+Y5Y/rn9DI20JUh5OusqUaLclnp8WxC+I8Kb9ov00gKtiw8iQy1kKrJ+JhxvZ8p46/P9zxGfifAHCCWVx1/WWp1oU3tvSo6/3TUB0zv1rZw3bfcEs0aKbcsED3w/eDSKUACYeQNLfzXaH3WQXx9ds1QBa72nywg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e314c403-9464-4720-c9cf-08df22c655c0
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 09:52:15.0286
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7r5ZMZZWWB3I/Au+ORm25PdQ6Iame0ZHma/g6IKelVkS96P56lTszLoDrAiMT7JAzYI+3cRqmhkz8TID5QIIcV4hRKLthgfdq7/+F4FDDhc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6313
-X-Authority-Analysis: v=2.4 cv=EfVd0/mC c=1 sm=1 tr=0 ts=6ac373c6 cx=c_pps
- a=ws69a72eWNNXWagsEosLDA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
- a=j57RdskLAAAA:20 a=ei4SEBeUAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8
- a=7CQSdrXTAAAA:8 a=iGHA9ds3AAAA:8 a=8wEic9LhAAAA:8 a=ag1SF4gXAAAA:8
- a=pGLkceISAAAA:8 a=ygKxlcqCfyw51OfoiAYA:9 a=k2TJpvz4dYiLxik_:21
- a=QEXdDO2ut3YA:10 a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=a-qgeE7W1pNrGK8U0ZQC:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=M9VCcFR7d36vLOFuqMn8:22
- a=Yupwre4RP9_Eg_Bd0iYG:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-GUID: OxkTrRqA76mgUuEQQSCdcJsPs4e0miDE
-X-Proofpoint-ORIG-GUID: OxkTrRqA76mgUuEQQSCdcJsPs4e0miDE
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA1MDAzOSBTYWx0ZWRfX2GOvrh2z3MDk
- UVSb+EFij1KqpHmqtvXXP2UsnRbW3Kh/k7Ke4Hjo9HlIkeJEsICFSSJlLQGFjcYoOPZdANYY4Gz
- GJMufZUrPG+neeAEh4U9AkfsWxNUuxjbRK5QgYQ4WtKegNahevPP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA1MDAzOSBTYWx0ZWRfX7EieSHSX5K9R
- 6vJWzhd4utr2eDE55ZsqFksILvv4H/GgCmR3z7PTTkxsRWPAHCwoAVDryDX3aJV04BT4ZFConM8
- 8+tj4v7iU3s4E7SvRzeE8vSxM8zpZqTUXwhun4tDX+wli5lGp5aspflOupv8YqXhUfvjrdcLLDG
- utXitqV9g3NBVBU+QBqNbja4q6L3RDYex6y8/7pdwEQt6TKIXn4C7q2R5mksO1dkFn4GVp9V5u7
- gQDr4361kFL5gTZ2F5RQZucQi+95CkjwsFenvdkOLcIxQPe9JXQ60QgijO4yN1G90/pogoWrxaA
- dgQHNN4i48sy8d8xX/97NUm15CxPHA8K65lMeHn3b8aBZy8F33IPyvMqHUBrzf6Spaln0CBahyC
- e47SoAjR4ble3jlp3Zls+rd8hEUHSC+b00qWMjYS5c/j7uZpzZZlXCgygnogx+OTAFwahliDJRt
- Y0R9v/+17Yw1TaE/0Xg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-05_01,2026-10-02_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 spamscore=0 priorityscore=1501 bulkscore=0
- malwarescore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2610050039
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 09:54:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247235
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 10:15:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247236
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+Branch: blacksail
 
-Rust Changes:
-https://github.com/rust-lang/rust/releases/tag/1.99.0
+New this week: 22 CVEs
+CVE-2026-19445 (CVSSv4: 9.2): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-19445 *
+CVE-2026-19547 (CVSSv4: 7.0): ghostscript https://nvd.nist.gov/vuln/detail/CVE-2026-19547 *
+CVE-2026-19553 (CVSSv4: 7.6): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-19553 *
+CVE-2026-71971 (CVSSv3: 8.2, CVSSv4: 8.8): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-71971 *
+CVE-2026-71972 (CVSSv3: 5.9, CVSSv4: 6.0): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-71972 *
+CVE-2026-71973 (CVSSv3: 5.2, CVSSv4: 5.2): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-71973 *
+CVE-2026-71974 (CVSSv3: 4.8, CVSSv4: 4.3): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-71974 *
+CVE-2026-74220 (CVSSv3: 8.2, CVSSv4: 8.8): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-74220 *
+CVE-2026-74221 (CVSSv3: 8.2, CVSSv4: 8.8): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-74221 *
+CVE-2026-74222 (CVSSv3: 8.2, CVSSv4: 8.8): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-74222 *
+CVE-2026-74225 (CVSSv3: 7.1, CVSSv4: 7.1): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-74225 *
+CVE-2026-76844 (CVSSv3: 7.4, CVSSv4: 8.3): zlib:zlib-native https://nvd.nist.gov/vuln/detail/CVE-2026-76844 *
+CVE-2026-94282 (CVSSv3: 5.6): libxi:libxi-native https://nvd.nist.gov/vuln/detail/CVE-2026-94282 *
+CVE-2026-94283 (CVSSv3: 6.5): libx11:libx11-native https://nvd.nist.gov/vuln/detail/CVE-2026-94283 *
+CVE-2026-94284 (CVSSv3: 5.5): libx11:libx11-native https://nvd.nist.gov/vuln/detail/CVE-2026-94284 *
+CVE-2026-94285 (CVSSv3: 5.1): libx11:libx11-native https://nvd.nist.gov/vuln/detail/CVE-2026-94285 *
+CVE-2026-94286 (CVSSv3: 7.1): libxtst:libxtst-native https://nvd.nist.gov/vuln/detail/CVE-2026-94286 *
+CVE-2026-97399 (CVSSv3: 3.7): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-97399 *
+CVE-2026-97876 (CVSSv3: 6.4): grub:grub-efi:grub-native https://nvd.nist.gov/vuln/detail/CVE-2026-97876 *
+CVE-2026-102633 (CVSSv3: 5.9, CVSSv4: 8.2): expat:expat-native https://nvd.nist.gov/vuln/detail/CVE-2026-102633 *
+CVE-2026-102991 (CVSSv3: 6.5): python3-mako:python3-mako-native https://nvd.nist.gov/vuln/detail/CVE-2026-102991 *
+CVE-2026-103111 (CVSSv3: 7.6): libpcre2:libpcre2-native https://nvd.nist.gov/vuln/detail/CVE-2026-103111 *
 
-Cargo Changes:
-https://doc.rust-lang.org/nightly/cargo/CHANGELOG.html
+Removed this week: 18 CVEs
+CVE-2026-3441 (CVSSv3: 7.1): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-3441 *
+CVE-2026-3442 (CVSSv3: 7.1): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-3442 *
+CVE-2026-19542 (CVSSv3: 5.6): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-19542 *
+CVE-2026-19774 (CVSSv3: 7.1): bluez5 https://nvd.nist.gov/vuln/detail/CVE-2026-19774 *
+CVE-2026-44950 (CVSSv3: 9.0, CVSSv4: 9.5): libxfont2 https://nvd.nist.gov/vuln/detail/CVE-2026-44950 *
+CVE-2026-55654 (CVSSv3: 3.7): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-55654 *
+CVE-2026-55655 (CVSSv3: 6.1): openssh https://nvd.nist.gov/vuln/detail/CVE-2026-55655 *
+CVE-2026-58049 (CVSSv3: 8.6, CVSSv4: 8.8): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-58049 *
+CVE-2026-59679 (CVSSv3: 9.0, CVSSv4: 9.2): libxfont2 https://nvd.nist.gov/vuln/detail/CVE-2026-59679 *
+CVE-2026-75141 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-75141 *
+CVE-2026-75142 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-75142 *
+CVE-2026-75143 (CVSSv3: 9.8, CVSSv4: 9.3): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-75143 *
+CVE-2026-75144 (CVSSv3: 7.8, CVSSv4: 8.5): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-75144 *
+CVE-2026-75145 (CVSSv3: 5.8, CVSSv4: 5.8): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-75145 *
+CVE-2026-75146 (CVSSv3: 8.1, CVSSv4: 7.2): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-75146 *
+CVE-2026-75147 (CVSSv3: 7.1, CVSSv4: 6.9): ffmpeg https://nvd.nist.gov/vuln/detail/CVE-2026-75147 *
+CVE-2026-81281 (CVSSv3: 6.5): graphene https://nvd.nist.gov/vuln/detail/CVE-2026-81281 *
+CVE-2026-87910 (CVSSv4: 5.7): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-87910 *
 
-Update local patches:
-0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch
-0007-cargo-omit-host-triple-from-unit-metadata-hash.patch
-rust-oe-selftest.patch
+Full list: Found 464 unpatched CVEs
+CVE-2019-14899 (CVSSv2: 4.9, CVSSv3: 7.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2019-14899 *
+CVE-2020-10774 (CVSSv2: 2.1, CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2020-10774 *
+CVE-2020-27748 (CVSSv2: 4.3, CVSSv3: 6.5): xdg-utils https://nvd.nist.gov/vuln/detail/CVE-2020-27748 *
+CVE-2021-3714 (CVSSv3: 5.9): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2021-3714 *
+CVE-2021-3864 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2021-3864 *
+CVE-2022-4543 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2022-4543 *
+CVE-2023-3397 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-3397 *
+CVE-2023-3640 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-3640 *
+CVE-2023-6238 (CVSSv3: 6.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-6238 *
+CVE-2023-6240 (CVSSv3: 6.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2023-6240 *
+CVE-2024-2236 (CVSSv3: 5.9): libgcrypt:libgcrypt-native https://nvd.nist.gov/vuln/detail/CVE-2024-2236 *
+CVE-2024-47850 (CVSSv3: 7.5): cups https://nvd.nist.gov/vuln/detail/CVE-2024-47850 *
+CVE-2024-50613 (CVSSv3: 6.5): libsndfile1 https://nvd.nist.gov/vuln/detail/CVE-2024-50613 *
+CVE-2025-15367 (CVSSv4: 5.9): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2025-15367 *
+CVE-2025-52194 (CVSSv3: 7.5): libsndfile1 https://nvd.nist.gov/vuln/detail/CVE-2025-52194 *
+CVE-2026-3099 (CVSSv3: 7.3): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3099 *
+CVE-2026-3632 (CVSSv3: 5.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3632 *
+CVE-2026-3633 (CVSSv3: 6.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3633 *
+CVE-2026-3634 (CVSSv3: 6.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-3634 *
+CVE-2026-5673 (CVSSv3: 7.1): libtheora https://nvd.nist.gov/vuln/detail/CVE-2026-5673 *
+CVE-2026-6844 (CVSSv3: 5.5): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-6844 *
+CVE-2026-6845 (CVSSv3: 5.0): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-6845 *
+CVE-2026-8674 (CVSSv3: 5.3): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-8674 *
+CVE-2026-12548 (CVSSv3: 4.2): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-12548 *
+CVE-2026-12549 (CVSSv3: 4.8): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-12549 *
+CVE-2026-15310 (CVSSv4: 2.1): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-15310 *
+CVE-2026-15534 (CVSSv3: 5.7): perl:perl-native https://nvd.nist.gov/vuln/detail/CVE-2026-15534 *
+CVE-2026-15806 (CVSSv4: 6.0): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-15806 *
+CVE-2026-17084 (CVSSv4: 6.0): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-17084 *
+CVE-2026-18374 (CVSSv3: 4.9): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-18374 *
+CVE-2026-18477 (CVSSv3: 4.4): tar https://nvd.nist.gov/vuln/detail/CVE-2026-18477 *
+CVE-2026-18487 (CVSSv3: 5.4): epiphany https://nvd.nist.gov/vuln/detail/CVE-2026-18487 *
+CVE-2026-18508 (CVSSv3: 4.4): tar https://nvd.nist.gov/vuln/detail/CVE-2026-18508 *
+CVE-2026-18739 (CVSSv3: 2.5): popt:popt-native https://nvd.nist.gov/vuln/detail/CVE-2026-18739 *
+CVE-2026-18743 (CVSSv3: 2.5): popt:popt-native https://nvd.nist.gov/vuln/detail/CVE-2026-18743 *
+CVE-2026-18839 (CVSSv3: 2.2): popt:popt-native https://nvd.nist.gov/vuln/detail/CVE-2026-18839 *
+CVE-2026-19445 (CVSSv4: 9.2): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-19445 *
+CVE-2026-19499 (CVSSv3: 7.7): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-19499 *
+CVE-2026-19547 (CVSSv4: 7.0): ghostscript https://nvd.nist.gov/vuln/detail/CVE-2026-19547 *
+CVE-2026-19553 (CVSSv4: 7.6): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-19553 *
+CVE-2026-19672 (CVSSv4: 6.3): python3:python3-native https://nvd.nist.gov/vuln/detail/CVE-2026-19672 *
+CVE-2026-28529 (CVSSv3: 7.8, CVSSv4: 8.5): cryptodev-linux https://nvd.nist.gov/vuln/detail/CVE-2026-28529 *
+CVE-2026-38752 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38752 *
+CVE-2026-38753 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38753 *
+CVE-2026-38755 (CVSSv3: 7.5): busybox https://nvd.nist.gov/vuln/detail/CVE-2026-38755 *
+CVE-2026-39919 (CVSSv3: 9.8, CVSSv4: 9.3): ghostscript https://nvd.nist.gov/vuln/detail/CVE-2026-39919 *
+CVE-2026-56390 (CVSSv3: 6.3, CVSSv4: 4.6): bison:bison-native https://nvd.nist.gov/vuln/detail/CVE-2026-56390 *
+CVE-2026-66337 (CVSSv3: 6.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-66337 *
+CVE-2026-66338 (CVSSv3: 7.2): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-66338 *
+CVE-2026-66339 (CVSSv3: 6.5): libsoup https://nvd.nist.gov/vuln/detail/CVE-2026-66339 *
+CVE-2026-68086 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-68086 *
+CVE-2026-71971 (CVSSv3: 8.2, CVSSv4: 8.8): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-71971 *
+CVE-2026-71972 (CVSSv3: 5.9, CVSSv4: 6.0): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-71972 *
+CVE-2026-71973 (CVSSv3: 5.2, CVSSv4: 5.2): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-71973 *
+CVE-2026-71974 (CVSSv3: 4.8, CVSSv4: 4.3): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-71974 *
+CVE-2026-74220 (CVSSv3: 8.2, CVSSv4: 8.8): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-74220 *
+CVE-2026-74221 (CVSSv3: 8.2, CVSSv4: 8.8): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-74221 *
+CVE-2026-74222 (CVSSv3: 8.2, CVSSv4: 8.8): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-74222 *
+CVE-2026-74225 (CVSSv3: 7.1, CVSSv4: 7.1): u-boot-tools https://nvd.nist.gov/vuln/detail/CVE-2026-74225 *
+CVE-2026-76844 (CVSSv3: 7.4, CVSSv4: 8.3): zlib:zlib-native https://nvd.nist.gov/vuln/detail/CVE-2026-76844 *
+CVE-2026-77117 (CVSSv3: 5.9): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-77117 *
+CVE-2026-78376 (CVSSv3: 8.8): webkitgtk https://nvd.nist.gov/vuln/detail/CVE-2026-78376 *
+CVE-2026-80489 (CVSSv3: 5.9): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-80489 *
+CVE-2026-82474 (CVSSv3: 7.8, CVSSv4: 8.5): sudo https://nvd.nist.gov/vuln/detail/CVE-2026-82474 *
+CVE-2026-82560 (CVSSv3: 7.5): perl:perl-native https://nvd.nist.gov/vuln/detail/CVE-2026-82560 *
+CVE-2026-83596 (CVSSv3: 8.8): webkitgtk https://nvd.nist.gov/vuln/detail/CVE-2026-83596 *
+CVE-2026-85091 (CVSSv3: 7.4, CVSSv4: 8.3): zlib:zlib-native https://nvd.nist.gov/vuln/detail/CVE-2026-85091 *
+CVE-2026-86805 (CVSSv3: 6.3): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-86805 *
+CVE-2026-88806 (CVSSv3: 7.5): libx11:libx11-native https://nvd.nist.gov/vuln/detail/CVE-2026-88806 *
+CVE-2026-88807 (CVSSv4: 8.9): libxrender:libxrender-native https://nvd.nist.gov/vuln/detail/CVE-2026-88807 *
+CVE-2026-89092 (CVSSv3: 4.2): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-89092 *
+CVE-2026-90781 (CVSSv3: 4.4, CVSSv4: 4.8): alsa-lib:alsa-lib-native https://nvd.nist.gov/vuln/detail/CVE-2026-90781 *
+CVE-2026-90801 (CVSSv2: 4.3, CVSSv3: 6.6, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-90801 *
+CVE-2026-90802 (CVSSv2: 3.2, CVSSv3: 4.4, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-90802 *
+CVE-2026-90803 (CVSSv2: 4.3, CVSSv3: 6.8, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-90803 *
+CVE-2026-90804 (CVSSv2: 4.3, CVSSv3: 6.1, CVSSv4: 2.4): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-90804 *
+CVE-2026-90828 (CVSSv2: 4.3, CVSSv3: 6.6, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-90828 *
+CVE-2026-90829 (CVSSv2: 4.3, CVSSv3: 5.3, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-90829 *
+CVE-2026-90830 (CVSSv2: 4.3, CVSSv3: 5.3, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-90830 *
+CVE-2026-90831 (CVSSv2: 4.3, CVSSv3: 5.3, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-90831 *
+CVE-2026-91779 (CVSSv2: 1.7, CVSSv3: 3.3, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-91779 *
+CVE-2026-91780 (CVSSv2: 1.7, CVSSv3: 3.3, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-91780 *
+CVE-2026-91781 (CVSSv2: 1.7, CVSSv3: 3.3, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-91781 *
+CVE-2026-91782 (CVSSv2: 1.7, CVSSv3: 3.3, CVSSv4: 4.8): binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite https://nvd.nist.gov/vuln/detail/CVE-2026-91782 *
+CVE-2026-93284 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-93284 *
+CVE-2026-93541 (CVSSv3: 6.5): libxi:libxi-native https://nvd.nist.gov/vuln/detail/CVE-2026-93541 *
+CVE-2026-93542 (CVSSv3: 6.5): libxi:libxi-native https://nvd.nist.gov/vuln/detail/CVE-2026-93542 *
+CVE-2026-93543 (CVSSv3: 7.4): libxi:libxi-native https://nvd.nist.gov/vuln/detail/CVE-2026-93543 *
+CVE-2026-93544 (CVSSv3: 6.5): libxi:libxi-native https://nvd.nist.gov/vuln/detail/CVE-2026-93544 *
+CVE-2026-93545 (CVSSv3: 6.5): libxi:libxi-native https://nvd.nist.gov/vuln/detail/CVE-2026-93545 *
+CVE-2026-94281 (CVSSv3: 6.5): libxi:libxi-native https://nvd.nist.gov/vuln/detail/CVE-2026-94281 *
+CVE-2026-94282 (CVSSv3: 5.6): libxi:libxi-native https://nvd.nist.gov/vuln/detail/CVE-2026-94282 *
+CVE-2026-94283 (CVSSv3: 6.5): libx11:libx11-native https://nvd.nist.gov/vuln/detail/CVE-2026-94283 *
+CVE-2026-94284 (CVSSv3: 5.5): libx11:libx11-native https://nvd.nist.gov/vuln/detail/CVE-2026-94284 *
+CVE-2026-94285 (CVSSv3: 5.1): libx11:libx11-native https://nvd.nist.gov/vuln/detail/CVE-2026-94285 *
+CVE-2026-94286 (CVSSv3: 7.1): libxtst:libxtst-native https://nvd.nist.gov/vuln/detail/CVE-2026-94286 *
+CVE-2026-95818 (CVSSv3: 3.6): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-95818 *
+CVE-2026-96674 (CVSSv3: 4.4, CVSSv4: 4.8): alsa-lib:alsa-lib-native https://nvd.nist.gov/vuln/detail/CVE-2026-96674 *
+CVE-2026-96675 (CVSSv3: 3.3, CVSSv4: 4.8): alsa-lib:alsa-lib-native https://nvd.nist.gov/vuln/detail/CVE-2026-96675 *
+CVE-2026-97399 (CVSSv3: 3.7): glibc https://nvd.nist.gov/vuln/detail/CVE-2026-97399 *
+CVE-2026-97522 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97522 *
+CVE-2026-97523 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97523 *
+CVE-2026-97524 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97524 *
+CVE-2026-97525 (CVSSv3: 8.2): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97525 *
+CVE-2026-97526 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97526 *
+CVE-2026-97527 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97527 *
+CVE-2026-97528 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97528 *
+CVE-2026-97529 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97529 *
+CVE-2026-97530 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97530 *
+CVE-2026-97531 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97531 *
+CVE-2026-97532 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97532 *
+CVE-2026-97533 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97533 *
+CVE-2026-97534 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97534 *
+CVE-2026-97535 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97535 *
+CVE-2026-97536 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97536 *
+CVE-2026-97537 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97537 *
+CVE-2026-97538 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97538 *
+CVE-2026-97539 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97539 *
+CVE-2026-97540 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97540 *
+CVE-2026-97541 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97541 *
+CVE-2026-97542 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97542 *
+CVE-2026-97543 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97543 *
+CVE-2026-97544 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97544 *
+CVE-2026-97545 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97545 *
+CVE-2026-97546 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97546 *
+CVE-2026-97547 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97547 *
+CVE-2026-97548 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97548 *
+CVE-2026-97549 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97549 *
+CVE-2026-97550 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97550 *
+CVE-2026-97551 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97551 *
+CVE-2026-97552 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97552 *
+CVE-2026-97553 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97553 *
+CVE-2026-97554 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97554 *
+CVE-2026-97555 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97555 *
+CVE-2026-97556 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97556 *
+CVE-2026-97557 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97557 *
+CVE-2026-97558 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97558 *
+CVE-2026-97559 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97559 *
+CVE-2026-97560 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97560 *
+CVE-2026-97561 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97561 *
+CVE-2026-97562 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97562 *
+CVE-2026-97563 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97563 *
+CVE-2026-97564 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97564 *
+CVE-2026-97565 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97565 *
+CVE-2026-97566 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97566 *
+CVE-2026-97567 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97567 *
+CVE-2026-97568 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97568 *
+CVE-2026-97569 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97569 *
+CVE-2026-97570 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97570 *
+CVE-2026-97571 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97571 *
+CVE-2026-97572 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97572 *
+CVE-2026-97573 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97573 *
+CVE-2026-97574 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97574 *
+CVE-2026-97575 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97575 *
+CVE-2026-97576 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97576 *
+CVE-2026-97577 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97577 *
+CVE-2026-97578 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97578 *
+CVE-2026-97579 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97579 *
+CVE-2026-97580 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97580 *
+CVE-2026-97581 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97581 *
+CVE-2026-97582 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97582 *
+CVE-2026-97583 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97583 *
+CVE-2026-97584 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97584 *
+CVE-2026-97585 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97585 *
+CVE-2026-97586 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97586 *
+CVE-2026-97587 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97587 *
+CVE-2026-97588 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97588 *
+CVE-2026-97589 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97589 *
+CVE-2026-97590 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97590 *
+CVE-2026-97591 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97591 *
+CVE-2026-97592 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97592 *
+CVE-2026-97593 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97593 *
+CVE-2026-97594 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97594 *
+CVE-2026-97595 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97595 *
+CVE-2026-97596 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97596 *
+CVE-2026-97597 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97597 *
+CVE-2026-97598 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97598 *
+CVE-2026-97599 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97599 *
+CVE-2026-97600 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97600 *
+CVE-2026-97601 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97601 *
+CVE-2026-97602 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97602 *
+CVE-2026-97603 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97603 *
+CVE-2026-97604 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97604 *
+CVE-2026-97605 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97605 *
+CVE-2026-97606 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97606 *
+CVE-2026-97607 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97607 *
+CVE-2026-97608 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97608 *
+CVE-2026-97609 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97609 *
+CVE-2026-97610 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97610 *
+CVE-2026-97611 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97611 *
+CVE-2026-97612 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97612 *
+CVE-2026-97613 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97613 *
+CVE-2026-97614 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97614 *
+CVE-2026-97615 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97615 *
+CVE-2026-97616 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97616 *
+CVE-2026-97617 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97617 *
+CVE-2026-97618 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97618 *
+CVE-2026-97619 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97619 *
+CVE-2026-97620 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97620 *
+CVE-2026-97621 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97621 *
+CVE-2026-97876 (CVSSv3: 6.4): grub:grub-efi:grub-native https://nvd.nist.gov/vuln/detail/CVE-2026-97876 *
+CVE-2026-97899 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97899 *
+CVE-2026-97900 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97900 *
+CVE-2026-97901 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97901 *
+CVE-2026-97902 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97902 *
+CVE-2026-97903 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97903 *
+CVE-2026-97904 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97904 *
+CVE-2026-97905 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97905 *
+CVE-2026-97906 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97906 *
+CVE-2026-97907 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97907 *
+CVE-2026-97908 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97908 *
+CVE-2026-97909 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97909 *
+CVE-2026-97910 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97910 *
+CVE-2026-97911 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97911 *
+CVE-2026-97912 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97912 *
+CVE-2026-97913 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97913 *
+CVE-2026-97914 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97914 *
+CVE-2026-97915 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97915 *
+CVE-2026-97916 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97916 *
+CVE-2026-97917 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97917 *
+CVE-2026-97918 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97918 *
+CVE-2026-97919 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97919 *
+CVE-2026-97920 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97920 *
+CVE-2026-97921 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97921 *
+CVE-2026-97922 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97922 *
+CVE-2026-97923 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97923 *
+CVE-2026-97924 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97924 *
+CVE-2026-97925 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97925 *
+CVE-2026-97926 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97926 *
+CVE-2026-97927 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97927 *
+CVE-2026-97928 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97928 *
+CVE-2026-97929 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97929 *
+CVE-2026-97930 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97930 *
+CVE-2026-97931 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97931 *
+CVE-2026-97932 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97932 *
+CVE-2026-97933 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97933 *
+CVE-2026-97934 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97934 *
+CVE-2026-97935 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97935 *
+CVE-2026-97936 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97936 *
+CVE-2026-97937 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97937 *
+CVE-2026-97938 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97938 *
+CVE-2026-97939 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97939 *
+CVE-2026-97940 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97940 *
+CVE-2026-97941 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97941 *
+CVE-2026-97942 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97942 *
+CVE-2026-97943 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97943 *
+CVE-2026-97944 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97944 *
+CVE-2026-97945 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97945 *
+CVE-2026-97946 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97946 *
+CVE-2026-97947 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97947 *
+CVE-2026-97948 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97948 *
+CVE-2026-97949 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97949 *
+CVE-2026-97950 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97950 *
+CVE-2026-97951 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97951 *
+CVE-2026-97952 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97952 *
+CVE-2026-97953 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97953 *
+CVE-2026-97954 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97954 *
+CVE-2026-97955 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97955 *
+CVE-2026-97956 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97956 *
+CVE-2026-97957 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97957 *
+CVE-2026-97958 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97958 *
+CVE-2026-97959 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97959 *
+CVE-2026-97960 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97960 *
+CVE-2026-97961 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97961 *
+CVE-2026-97962 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97962 *
+CVE-2026-97963 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97963 *
+CVE-2026-97964 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97964 *
+CVE-2026-97965 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97965 *
+CVE-2026-97966 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97966 *
+CVE-2026-97967 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97967 *
+CVE-2026-97968 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97968 *
+CVE-2026-97969 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97969 *
+CVE-2026-97970 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97970 *
+CVE-2026-97971 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97971 *
+CVE-2026-97972 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97972 *
+CVE-2026-97973 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97973 *
+CVE-2026-97974 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97974 *
+CVE-2026-97975 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97975 *
+CVE-2026-97976 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97976 *
+CVE-2026-97977 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97977 *
+CVE-2026-97978 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97978 *
+CVE-2026-97979 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97979 *
+CVE-2026-97980 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97980 *
+CVE-2026-97981 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97981 *
+CVE-2026-97982 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97982 *
+CVE-2026-97983 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97983 *
+CVE-2026-97984 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97984 *
+CVE-2026-97985 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97985 *
+CVE-2026-97986 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97986 *
+CVE-2026-97987 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97987 *
+CVE-2026-97988 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97988 *
+CVE-2026-97989 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97989 *
+CVE-2026-97990 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97990 *
+CVE-2026-97991 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97991 *
+CVE-2026-97992 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97992 *
+CVE-2026-97993 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97993 *
+CVE-2026-97994 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97994 *
+CVE-2026-97995 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97995 *
+CVE-2026-97996 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97996 *
+CVE-2026-97997 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97997 *
+CVE-2026-97998 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-97998 *
+CVE-2026-98000 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98000 *
+CVE-2026-98001 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98001 *
+CVE-2026-98002 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98002 *
+CVE-2026-98003 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98003 *
+CVE-2026-98004 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98004 *
+CVE-2026-98005 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98005 *
+CVE-2026-98006 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98006 *
+CVE-2026-98007 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98007 *
+CVE-2026-98008 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98008 *
+CVE-2026-98009 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98009 *
+CVE-2026-98010 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98010 *
+CVE-2026-98011 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98011 *
+CVE-2026-98012 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98012 *
+CVE-2026-98013 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98013 *
+CVE-2026-98014 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98014 *
+CVE-2026-98015 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98015 *
+CVE-2026-98016 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98016 *
+CVE-2026-98017 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98017 *
+CVE-2026-98018 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98018 *
+CVE-2026-98019 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98019 *
+CVE-2026-98020 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98020 *
+CVE-2026-98021 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98021 *
+CVE-2026-98022 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98022 *
+CVE-2026-98023 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98023 *
+CVE-2026-98024 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98024 *
+CVE-2026-98025 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98025 *
+CVE-2026-98026 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98026 *
+CVE-2026-98027 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98027 *
+CVE-2026-98028 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98028 *
+CVE-2026-98029 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98029 *
+CVE-2026-98030 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98030 *
+CVE-2026-98031 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98031 *
+CVE-2026-98032 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98032 *
+CVE-2026-98033 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98033 *
+CVE-2026-98034 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98034 *
+CVE-2026-98035 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98035 *
+CVE-2026-98036 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98036 *
+CVE-2026-98037 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98037 *
+CVE-2026-98038 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98038 *
+CVE-2026-98039 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98039 *
+CVE-2026-98040 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98040 *
+CVE-2026-98041 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98041 *
+CVE-2026-98042 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98042 *
+CVE-2026-98043 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98043 *
+CVE-2026-98044 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98044 *
+CVE-2026-98045 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98045 *
+CVE-2026-98046 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98046 *
+CVE-2026-98047 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98047 *
+CVE-2026-98048 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98048 *
+CVE-2026-98049 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98049 *
+CVE-2026-98050 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98050 *
+CVE-2026-98051 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98051 *
+CVE-2026-98052 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98052 *
+CVE-2026-98053 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98053 *
+CVE-2026-98054 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98054 *
+CVE-2026-98055 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98055 *
+CVE-2026-98056 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98056 *
+CVE-2026-98057 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98057 *
+CVE-2026-98058 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98058 *
+CVE-2026-98059 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98059 *
+CVE-2026-98060 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98060 *
+CVE-2026-98061 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98061 *
+CVE-2026-98062 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98062 *
+CVE-2026-98063 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98063 *
+CVE-2026-98064 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98064 *
+CVE-2026-98065 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98065 *
+CVE-2026-98066 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98066 *
+CVE-2026-98067 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98067 *
+CVE-2026-98068 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98068 *
+CVE-2026-98069 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98069 *
+CVE-2026-98070 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98070 *
+CVE-2026-98071 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98071 *
+CVE-2026-98072 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98072 *
+CVE-2026-98073 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98073 *
+CVE-2026-98074 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98074 *
+CVE-2026-98075 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98075 *
+CVE-2026-98076 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98076 *
+CVE-2026-98077 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98077 *
+CVE-2026-98078 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98078 *
+CVE-2026-98079 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98079 *
+CVE-2026-98080 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98080 *
+CVE-2026-98081 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98081 *
+CVE-2026-98082 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98082 *
+CVE-2026-98083 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98083 *
+CVE-2026-98084 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98084 *
+CVE-2026-98085 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98085 *
+CVE-2026-98086 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98086 *
+CVE-2026-98087 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98087 *
+CVE-2026-98088 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98088 *
+CVE-2026-98089 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98089 *
+CVE-2026-98090 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98090 *
+CVE-2026-98091 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98091 *
+CVE-2026-98092 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98092 *
+CVE-2026-98093 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98093 *
+CVE-2026-98094 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98094 *
+CVE-2026-98095 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98095 *
+CVE-2026-98096 (CVSSv3: 7.4): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98096 *
+CVE-2026-98097 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98097 *
+CVE-2026-98098 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98098 *
+CVE-2026-98099 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98099 *
+CVE-2026-98101 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98101 *
+CVE-2026-98102 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98102 *
+CVE-2026-98103 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98103 *
+CVE-2026-98104 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98104 *
+CVE-2026-98105 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98105 *
+CVE-2026-98106 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98106 *
+CVE-2026-98107 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98107 *
+CVE-2026-98108 (CVSSv3: 7.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98108 *
+CVE-2026-98109 (CVSSv3: 4.7): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98109 *
+CVE-2026-98110 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98110 *
+CVE-2026-98111 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98111 *
+CVE-2026-98112 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98112 *
+CVE-2026-98113 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98113 *
+CVE-2026-98114 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98114 *
+CVE-2026-98115 (CVSSv3: 8.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98115 *
+CVE-2026-98116 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98116 *
+CVE-2026-98117 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98117 *
+CVE-2026-98118 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98118 *
+CVE-2026-98119 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98119 *
+CVE-2026-98120 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98120 *
+CVE-2026-98121 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98121 *
+CVE-2026-98122 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98122 *
+CVE-2026-98123 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98123 *
+CVE-2026-98124 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98124 *
+CVE-2026-98125 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98125 *
+CVE-2026-98126 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98126 *
+CVE-2026-98127 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98127 *
+CVE-2026-98128 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98128 *
+CVE-2026-98129 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98129 *
+CVE-2026-98130 (CVSSv3: 8.1): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98130 *
+CVE-2026-98131 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98131 *
+CVE-2026-98132 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98132 *
+CVE-2026-98133 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98133 *
+CVE-2026-98134 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98134 *
+CVE-2026-98135 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98135 *
+CVE-2026-98136 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98136 *
+CVE-2026-98137 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98137 *
+CVE-2026-98138 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98138 *
+CVE-2026-98139 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98139 *
+CVE-2026-98140 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98140 *
+CVE-2026-98141 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98141 *
+CVE-2026-98142 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98142 *
+CVE-2026-98143 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98143 *
+CVE-2026-98144 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98144 *
+CVE-2026-98145 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98145 *
+CVE-2026-98146 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98146 *
+CVE-2026-98147 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98147 *
+CVE-2026-98148 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98148 *
+CVE-2026-98149 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98149 *
+CVE-2026-98150 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98150 *
+CVE-2026-98151 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98151 *
+CVE-2026-98152 (CVSSv3: 5.5): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98152 *
+CVE-2026-98153 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98153 *
+CVE-2026-98154 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98154 *
+CVE-2026-98155 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98155 *
+CVE-2026-98156 (CVSSv3: 7.8): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98156 *
+CVE-2026-98157 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98157 *
+CVE-2026-98158 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98158 *
+CVE-2026-98159 (CVSS: N/A): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98159 *
+CVE-2026-98163 (CVSSv3: 7.0): linux-yocto https://nvd.nist.gov/vuln/detail/CVE-2026-98163 *
+CVE-2026-102633 (CVSSv3: 5.9, CVSSv4: 8.2): expat:expat-native https://nvd.nist.gov/vuln/detail/CVE-2026-102633 *
+CVE-2026-102991 (CVSSv3: 6.5): python3-mako:python3-mako-native https://nvd.nist.gov/vuln/detail/CVE-2026-102991 *
+CVE-2026-103111 (CVSSv3: 7.6): libpcre2:libpcre2-native https://nvd.nist.gov/vuln/detail/CVE-2026-103111 *
 
-Drop merged patches:
-0001-Define-more-ioctl-codes-on-riscv32gc-unknown-linux-g.patch
-0004-Backport-commits-from-rust-Fix-selftest-llvm23.patch
-0008-rustc-hir-make-doc-link-metadata-order-deterministic.patch
+Summary of CVE counts by recipe:
+  linux-yocto: 371
+  binutils:binutils-cross-x86_64:binutils-native:binutils-testsuite: 14
+  libsoup: 9
+  glibc: 9
+  u-boot-tools: 8
+  python3:python3-native: 7
+  libxi:libxi-native: 7
+  libx11:libx11-native: 4
+  popt:popt-native: 3
+  busybox: 3
+  alsa-lib:alsa-lib-native: 3
+  libsndfile1: 2
+  perl:perl-native: 2
+  tar: 2
+  ghostscript: 2
+  zlib:zlib-native: 2
+  webkitgtk: 2
+  xdg-utils: 1
+  libgcrypt:libgcrypt-native: 1
+  cups: 1
+  libtheora: 1
+  epiphany: 1
+  cryptodev-linux: 1
+  bison:bison-native: 1
+  sudo: 1
+  libxrender:libxrender-native: 1
+  libxtst:libxtst-native: 1
+  grub:grub-efi:grub-native: 1
+  expat:expat-native: 1
+  python3-mako:python3-mako-native: 1
+  libpcre2:libpcre2-native: 1
 
-rust_1.99.0.bb: drop "rust.use-lld" and "rust.lld" options.
-  "rust.use-lld" was renamed to "rust.bootstrap-override-lld" and its
-  alias removed this release, so bootstrap now rejects it and do_install
-  fails. The new option keeps the previous default, so dropping these
-  lines is sufficient. See [1] and [2].
-
-[1] https://github.com/rust-lang/rust/pull/147046
-[2] https://github.com/rust-lang/rust/pull/160142
-
-rust v1.99.0 (from autobuilder)
-+-------------+---------+---------+
-| Machine     | Passed  | Skipped |
-+-------------+---------+---------+
-| qemux86-64  |  23690  |  1022   |
-| qemux86     |  23427  |  1285   |
-| qemuarm     |  23407  |  1305   |
-| qemuarm64   |  23521  |  1191   |
-| qemuriscv64 |  23463  |  1249   |
-+-------------+---------+---------+
-
-Test results difference (1.99.0 - 1.98.1):
-
-+-------------+--------+---------+
-| Machine     | Passed | Skipped |
-+-------------+--------+---------+
-| qemux86-64  |  +520  |  +214   |
-| qemux86     |  +512  |  +222   |
-| qemuarm     |  +512  |  +222   |
-| qemuarm64   |  +520  |  +214   |
-| qemuriscv64 |  +519  |  +215   |
-+-------------+--------+---------+
-
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
----
- meta/conf/distro/include/maintainers.inc      |   2 +-
- meta/conf/distro/include/tcmode-default.inc   |   2 +-
- .../rust/{cargo_1.98.1.bb =3D> cargo_1.99.0.bb} |   0
- ...l-codes-on-riscv32gc-unknown-linux-g.patch | 219 ------
- ...teps-tool.rs-switch-off-lto-for-rust.patch |  51 +-
- ...ommits-from-rust-Fix-selftest-llvm23.patch | 661 ------------------
- ...-host-triple-from-unit-metadata-hash.patch |   6 +-
- ...oc-link-metadata-order-deterministic.patch |  40 --
- .../rust/files/rust-oe-selftest.patch         |  14 +-
- ...ibstd-rs_1.98.1.bb =3D> libstd-rs_1.99.0.bb} |   0
- ....98.1.bb =3D> rust-cross-canadian_1.99.0.bb} |   0
- meta/recipes-devtools/rust/rust-snapshot.inc  | 104 +--
- meta/recipes-devtools/rust/rust-source.inc    |   5 +-
- ...source_1.98.1.bb =3D> rust-source_1.99.0.bb} |   0
- .../rust/{rust_1.98.1.bb =3D> rust_1.99.0.bb}   |   2 -
- 15 files changed, 89 insertions(+), 1017 deletions(-)
- rename meta/recipes-devtools/rust/{cargo_1.98.1.bb =3D> cargo_1.99.0.bb} (=
-100%)
- delete mode 100644 meta/recipes-devtools/rust/files/0001-Define-more-ioctl=
--codes-on-riscv32gc-unknown-linux-g.patch
- delete mode 100644 meta/recipes-devtools/rust/files/0004-Backport-commits-=
-from-rust-Fix-selftest-llvm23.patch
- delete mode 100644 meta/recipes-devtools/rust/files/0008-rustc-hir-make-do=
-c-link-metadata-order-deterministic.patch
- rename meta/recipes-devtools/rust/{libstd-rs_1.98.1.bb =3D> libstd-rs_1.99=
-.0.bb} (100%)
- rename meta/recipes-devtools/rust/{rust-cross-canadian_1.98.1.bb =3D> rust=
--cross-canadian_1.99.0.bb} (100%)
- rename meta/recipes-devtools/rust/{rust-source_1.98.1.bb =3D> rust-source_=
-1.99.0.bb} (100%)
- rename meta/recipes-devtools/rust/{rust_1.98.1.bb =3D> rust_1.99.0.bb} (99=
-%)
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc
-index 5223e299aa..d3af18076a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -785,7 +785,7 @@ RECIPE_MAINTAINER:pn-ruby =3D "Ross Burton <ross.burton=
-@arm.com>"
- RECIPE_MAINTAINER:pn-run-postinsts =3D "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-rust =3D "Randy MacLeod <Randy.MacLeod@windriver.com>=
-"
- RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =3D "Ra=
-ndy MacLeod <Randy.MacLeod@windriver.com>"
--RECIPE_MAINTAINER:pn-rust-source-1.98.1 =3D "Deepesh Varatharajan <Deepesh=
-.Varatharajan@windriver.com>"
-+RECIPE_MAINTAINER:pn-rust-source-1.99.0 =3D "Deepesh Varatharajan <Deepesh=
-.Varatharajan@windriver.com>"
- RECIPE_MAINTAINER:pn-rxvt-unicode =3D "Unassigned <unassigned@yoctoproject=
-.org>"
- RECIPE_MAINTAINER:pn-sassc =3D "Simone Wei=C3=9F <simone.p.weiss@posteo.co=
-m>"
- RECIPE_MAINTAINER:pn-sato-icon-theme =3D "Richard Purdie <richard.purdie@l=
-inuxfoundation.org>"
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro=
-/include/tcmode-default.inc
-index d176bd28aa..a52d5f19d8 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -12,7 +12,7 @@ PREFERRED_PROVIDER_virtual/gettext ??=3D "gettext"
- GCCVERSION ?=3D "16.%"
- SDKGCCVERSION ?=3D "${GCCVERSION}"
- GLIBCVERSION ?=3D "2.44%"
--RUSTVERSION ?=3D "1.98.1%"
-+RUSTVERSION ?=3D "1.99.0%"
-=20
- PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?=3D "${GCCVERSION}"
-diff --git a/meta/recipes-devtools/rust/cargo_1.98.1.bb b/meta/recipes-devt=
-ools/rust/cargo_1.99.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/cargo_1.98.1.bb
-rename to meta/recipes-devtools/rust/cargo_1.99.0.bb
-diff --git a/meta/recipes-devtools/rust/files/0001-Define-more-ioctl-codes-=
-on-riscv32gc-unknown-linux-g.patch b/meta/recipes-devtools/rust/files/0001-=
-Define-more-ioctl-codes-on-riscv32gc-unknown-linux-g.patch
-deleted file mode 100644
-index 92ce9ff050..0000000000
---- a/meta/recipes-devtools/rust/files/0001-Define-more-ioctl-codes-on-risc=
-v32gc-unknown-linux-g.patch
-+++ /dev/null
-@@ -1,219 +0,0 @@
--From 4b439b0953573e0383da7e092b1f516ba21f3398 Mon Sep 17 00:00:00 2001
--From: Dan Gohman <dev@sunfishcode.online>
--Date: Sun, 6 Apr 2025 05:22:49 -0700
--Subject: [PATCH] Define Linux ioctl codes on more architectures.
--
--Define ioctl codes including `FICLONE` and `FS_IOC32_GETVERSION` using
--`_IOR` and `_IOW` so that they're automatically supported on all
--architectures, including riscv32gc-unknown-linux-gnu.
--
--Upstream-Status: Backport [https://github.com/rust-lang/libc/pull/4382]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-----
-- src/unix/linux_like/linux/arch/generic/mod.rs | 75 ++++---------------
-- 1 file changed, 15 insertions(+), 60 deletions(-)
--
----- a/vendor/libc-0.2.169/src/unix/linux_like/linux/arch/generic/mod.rs
--+++ b/vendor/libc-0.2.169/src/unix/linux_like/linux/arch/generic/mod.rs
--@@ -1,5 +1,5 @@
-- use crate::prelude::*;
---use crate::Ioctl;
--+use crate::{Ioctl, _IOR, _IOW};
--=20
-- s! {
--     pub struct termios2 {
--@@ -116,21 +116,8 @@ cfg_if! {
-- // pub const SO_PREFER_BUSY_POLL: c_int =3D 69;
-- // pub const SO_BUSY_POLL_BUDGET: c_int =3D 70;
--=20
---cfg_if! {
---    if #[cfg(any(
---        target_arch =3D "x86",
---        target_arch =3D "x86_64",
---        target_arch =3D "arm",
---        target_arch =3D "aarch64",
---        target_arch =3D "riscv64",
---        target_arch =3D "s390x",
---        target_arch =3D "csky",
---        target_arch =3D "loongarch64"
---    ))] {
---        pub const FICLONE: c_ulong =3D 0x40049409;
---        pub const FICLONERANGE: c_ulong =3D 0x4020940D;
---    }
---}
--+pub const FICLONE: Ioctl =3D _IOW::<c_int>(0x94, 9) as Ioctl;
--+pub const FICLONERANGE: Ioctl =3D _IOW::<crate::file_clone_range>(0x94, 1=
-3) as Ioctl;
--=20
-- // Defined in unix/linux_like/mod.rs
-- // pub const SCM_TIMESTAMP: c_int =3D SO_TIMESTAMP;
--@@ -248,49 +235,18 @@ pub const TUNGETVNETBE: Ioctl =3D 0x800454
-- pub const TUNSETSTEERINGEBPF: Ioctl =3D 0x800454e0;
-- pub const TUNSETFILTEREBPF: Ioctl =3D 0x800454e1;
--=20
---cfg_if! {
---    // Those type are constructed using the _IOC macro
---    // DD-SS_SSSS_SSSS_SSSS-TTTT_TTTT-NNNN_NNNN
---    // where D stands for direction (either None (00), Read (01) or Write=
- (11))
---    // where S stands for size (int, long, struct...)
---    // where T stands for type ('f','v','X'...)
---    // where N stands for NR (NumbeR)
---    if #[cfg(any(
---        target_arch =3D "x86",
---        target_arch =3D "arm",
---        target_arch =3D "csky"
---    ))] {
---        pub const FS_IOC_GETFLAGS: Ioctl =3D 0x80046601;
---        pub const FS_IOC_SETFLAGS: Ioctl =3D 0x40046602;
---        pub const FS_IOC_GETVERSION: Ioctl =3D 0x80047601;
---        pub const FS_IOC_SETVERSION: Ioctl =3D 0x40047602;
---        pub const FS_IOC32_GETFLAGS: Ioctl =3D 0x80046601;
---        pub const FS_IOC32_SETFLAGS: Ioctl =3D 0x40046602;
---        pub const FS_IOC32_GETVERSION: Ioctl =3D 0x80047601;
---        pub const FS_IOC32_SETVERSION: Ioctl =3D 0x40047602;
---        pub const TUNATTACHFILTER: Ioctl =3D 0x400854d5;
---        pub const TUNDETACHFILTER: Ioctl =3D 0x400854d6;
---        pub const TUNGETFILTER: Ioctl =3D 0x800854db;
---    } else if #[cfg(any(
---        target_arch =3D "x86_64",
---        target_arch =3D "riscv64",
---        target_arch =3D "aarch64",
---        target_arch =3D "s390x",
---        target_arch =3D "loongarch64"
---    ))] {
---        pub const FS_IOC_GETFLAGS: Ioctl =3D 0x80086601;
---        pub const FS_IOC_SETFLAGS: Ioctl =3D 0x40086602;
---        pub const FS_IOC_GETVERSION: Ioctl =3D 0x80087601;
---        pub const FS_IOC_SETVERSION: Ioctl =3D 0x40087602;
---        pub const FS_IOC32_GETFLAGS: Ioctl =3D 0x80046601;
---        pub const FS_IOC32_SETFLAGS: Ioctl =3D 0x40046602;
---        pub const FS_IOC32_GETVERSION: Ioctl =3D 0x80047601;
---        pub const FS_IOC32_SETVERSION: Ioctl =3D 0x40047602;
---        pub const TUNATTACHFILTER: Ioctl =3D 0x401054d5;
---        pub const TUNDETACHFILTER: Ioctl =3D 0x401054d6;
---        pub const TUNGETFILTER: Ioctl =3D 0x801054db;
---    }
---}
--+pub const FS_IOC_GETFLAGS: Ioctl =3D _IOR::<c_long>('f' as u32, 1) as Ioc=
-tl;
--+pub const FS_IOC_SETFLAGS: Ioctl =3D _IOW::<c_long>('f' as u32, 2) as Ioc=
-tl;
--+pub const FS_IOC_GETVERSION: Ioctl =3D _IOR::<c_long>('v' as u32, 1) as I=
-octl;
--+pub const FS_IOC_SETVERSION: Ioctl =3D _IOW::<c_long>('v' as u32, 2) as I=
-octl;
--+pub const FS_IOC32_GETFLAGS: Ioctl =3D _IOR::<c_int>('f' as u32, 1) as Io=
-ctl;
--+pub const FS_IOC32_SETFLAGS: Ioctl =3D _IOW::<c_int>('f' as u32, 2) as Io=
-ctl;
--+pub const FS_IOC32_GETVERSION: Ioctl =3D _IOR::<c_int>('v' as u32, 1) as =
-Ioctl;
--+pub const FS_IOC32_SETVERSION: Ioctl =3D _IOW::<c_int>('v' as u32, 2) as =
-Ioctl;
--+
--+pub const TUNATTACHFILTER: Ioctl =3D _IOW::<crate::sock_fprog>('T' as u32=
-, 213) as Ioctl;
--+pub const TUNDETACHFILTER: Ioctl =3D _IOW::<crate::sock_fprog>('T' as u32=
-, 214) as Ioctl;
--+pub const TUNGETFILTER: Ioctl =3D _IOR::<crate::sock_fprog>('T' as u32, 2=
-19) as Ioctl;
--=20
-- cfg_if! {
--     if #[cfg(any(target_arch =3D "arm", target_arch =3D "s390x"))] {
----- a/vendor/libc-0.2.169/.cargo-checksum.json
--+++ b/vendor/libc-0.2.169/.cargo-checksum.json
--@@ -1 +1 @@
---{"$comment":"This file only protects against accidental modifications. It=
- is not a security mechanism and does not protect against malicious changes=
-.","files":{".cargo_vcs_info.json":"10b1465646eab936004b2ef7e46ba605d7b0cc5=
-8c559674e697c1c1d213d0c46",".git-blame-ignore-revs":"761aa385c661241fa77c15=
-b502c361398cf500bbb9f8c3a4579b412c4c6249d7",".release-plz.toml":"fcf2d382c4=
-a2abd96caf9cc391b63e0c94d5832f5c48e9ab9eb4b2c847c0887c","CHANGELOG.md":"e48=
-a795c934b4fbb91a59757a32b13c82c2dc9b71d6fc49da9bef3b8d85f5454","CONTRIBUTIN=
-G.md":"155e7f4e96fafe9ee5c8adb5068be27a22de89a95ca9bfc7baf517b9850d20d6","C=
-argo.toml":"647ea80df57c844de63e49629b9e13d02e8dfdcb0e1ec3b301002e3ca5e6d46=
-1","Cargo.toml.orig":"0ecb7fa67c89fdadd15d65f6495a98a8df9fa0c78f3f10a51ec91=
-3c55d719051","LICENSE-APACHE":"62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d=
-2796e7d6905db8a3636a","LICENSE-MIT":"a8d47ff51ca256f56a8932dba07660672dbfe3=
-004257ca8de708aac1415937a1","README.md":"38061c8bb600c2e01b48b662288cb11f38=
-c0ec27bbe6d496e7f0acb1016991c4","build.rs":"bcbe11dc711029460fcc4f7fd8e38c4=
-87006ad0860007915ae6718bd90fb891a","rustfmt.toml":"e9321ff995242e8cb0a49842=
-54f0748ef11a89ca4618cab8f047ee59a88768e7","src/fixed_width_ints.rs":"10eb30=
-cf48390768f0167e1fa46ae99461968a05e93bd96aff721f54550ae66c","src/fuchsia/aa=
-rch64.rs":"d430586295c7eb022eb8202f7b18e483a9dd0e7de1857f7963453792c7161def=
-","src/fuchsia/mod.rs":"2556b215558fc76d8337a8dac4d3ec8124aa442cc4676bcb2a8=
-5e248b23fb62b","src/fuchsia/riscv64.rs":"7efd6cbcbd2cb25d6380f6df69ad91cf62=
-efd55fb9cb7cb85884c490b601743e","src/fuchsia/x86_64.rs":"e63daa4085c6f6ab35=
-d9711df6d7e027247a8b3b2a6dc47fcb2b21e1f4820a2f","src/hermit.rs":"6d1d40c147=
-3a73aae2d3a470fa623ea92a196a65468acd9373b20dc6dcbd5d31","src/lib.rs":"11715=
-67598056a99dbce2ef1e5b61a6410d6ba1333cca113d50f75296688a565","src/macros.rs=
-":"ce06d8677464669530a141269dea2cf4debb24ab3f53eb136f933bcf553a4fe3","src/p=
-sp.rs":"dcf53184a1ab06d18aa34431ca42644c5646fe78d05a53678ef9529607ba3ea7","=
-src/sgx.rs":"f0f1a9fa864cd3dc94c4b3ce73f88e67f11453f63d8b4d52823de2ccbba7eb=
-49","src/solid/aarch64.rs":"98f0afdc511cd02557e506c21fed6737585490a1dce7a9d=
-4941d08c437762b99","src/solid/arm.rs":"acb7968ce99fe3f4abdf39d98f8133d21a4f=
-ba435b8ef7084777cb181d788e88","src/solid/mod.rs":"01116b18b9be6791fdf4ff572=
-d12154b64dfa43a18afc33940ea676e1884bdbb","src/switch.rs":"bb0ce1331c61a28ca=
-ea7bd201e399d1e1127f303dcc7747b4f07f63d188ea49c","src/teeos/mod.rs":"174e10=
-b1e3cd37122b557a9e9f75205f1858a31cb62cbb83582da2661228babe","src/trusty.rs"=
-:"f4c8e60896f93759eea4fa5a146dd98dd21d818a4e54df391b14513a402212c2","src/un=
-ix/aix/mod.rs":"31dd168d5d06cc60bf1b1b6bb0665640fb082ff7b1f2e13c22a888fa8bd=
-b1945","src/unix/aix/powerpc64.rs":"caf11cb47a1ac1c0316f72050f6fd82dbcbbc62=
-58a9b51ff5a9842f2825e63d7","src/unix/bsd/apple/b32/mod.rs":"9f20c77e86b812f=
-f09d8193a48fe4f3afd6dae8a43d5a0d78b8592971cc3726e","src/unix/bsd/apple/b64/=
-aarch64/mod.rs":"1ebe9f1a1e07318813da7e2a78195937533c22b51a23a4527b9404c948=
-318f86","src/unix/bsd/apple/b64/mod.rs":"164e734befe87fa6e2d79fb856ce314282=
-bd219ea4f2f357c6446dca6d2de359","src/unix/bsd/apple/b64/x86_64/mod.rs":"e03=
-794fdeaaf4a86c7b12f41e490a7538c12d4a77743a5448237f73d5a8593f4","src/unix/bs=
-d/apple/mod.rs":"1ad08f5ca6becd37bab20bae5f3153a8fc8824e9123ec77237d37b64f1=
-33741a","src/unix/bsd/freebsdlike/dragonfly/errno.rs":"07b19390b9ae8f541ac3=
-5fd4e14685d639b95152d6d7a33814bb749b8b927298","src/unix/bsd/freebsdlike/dra=
-gonfly/mod.rs":"f130937ac556080c77d7d1f011f2d2c964b65eb633bf6b7f1251a045670=
-b9ec8","src/unix/bsd/freebsdlike/freebsd/aarch64.rs":"aea276451dca89f086d01=
-4b66e2e83e1eb948ab8dfbf920170c1b8338c9777c3","src/unix/bsd/freebsdlike/free=
-bsd/arm.rs":"f70c76405a72754db37dff7de3fd586a19e1512b47f452493b430f295d7264=
-af","src/unix/bsd/freebsdlike/freebsd/freebsd11/b32.rs":"8d9bef35f3e490d047=
-55a59a99ad054ef20498beff979ae8b14acbec1097318a","src/unix/bsd/freebsdlike/f=
-reebsd/freebsd11/b64.rs":"45f718f556a8368f282944d9a14afae7261827ec4838d2671=
-9290466efc4f023","src/unix/bsd/freebsdlike/freebsd/freebsd11/mod.rs":"400f1=
-8465ef118e202ac9b1b9db47b1333fc17eb5841709082f2d1d5a5179391","src/unix/bsd/=
-freebsdlike/freebsd/freebsd12/mod.rs":"fb999d55cf4f3403ac934dff1fc70c666087=
-de234d7a91321bcfb5009bbafc6f","src/unix/bsd/freebsdlike/freebsd/freebsd12/x=
-86_64.rs":"64c4bd82eaf30a2681417f982fce28de7d1b0743bfaa14004692a56cee44be21=
-","src/unix/bsd/freebsdlike/freebsd/freebsd13/mod.rs":"e6f3430838d94dd17e35=
-9419f5de7d28a6b3adb8fcab7727d24e034bc6ed5d1e","src/unix/bsd/freebsdlike/fre=
-ebsd/freebsd13/x86_64.rs":"64c4bd82eaf30a2681417f982fce28de7d1b0743bfaa1400=
-4692a56cee44be21","src/unix/bsd/freebsdlike/freebsd/freebsd14/mod.rs":"7d23=
-d7d6b779265bca9c53c8b3e50b4dadb33f3911000ce88c8e09c9f0b60eab","src/unix/bsd=
-/freebsdlike/freebsd/freebsd14/x86_64.rs":"d6e66809e109dc779efe5584b79d34fc=
-d6fdba91973a415d64ae66f481f45940","src/unix/bsd/freebsdlike/freebsd/freebsd=
-15/mod.rs":"45921502545212949a756d0edad2d861a5c6bc1925a4c13c8afc057ce6b4d8f=
-e","src/unix/bsd/freebsdlike/freebsd/freebsd15/x86_64.rs":"d6e66809e109dc77=
-9efe5584b79d34fcd6fdba91973a415d64ae66f481f45940","src/unix/bsd/freebsdlike=
-/freebsd/mod.rs":"46d8ca655e0363676dfb9bcda60bc8f39f0f17b1d52eb9b5228dc9129=
-55ebcfc","src/unix/bsd/freebsdlike/freebsd/powerpc.rs":"36912b999e0571adccc=
-06d9ebbd237e537a95c36ddb97d67a81e940ab28b36e7","src/unix/bsd/freebsdlike/fr=
-eebsd/powerpc64.rs":"c1c13a3e7633ab6e84929ac3bfac96a67779e6cdac157d64b5b9f7=
-c2b32b1691","src/unix/bsd/freebsdlike/freebsd/riscv64.rs":"b6bbfb556ed35c38=
-97a98efffbafd5a07854dce1786643ffc1aaaa5a4e7dbe1e","src/unix/bsd/freebsdlike=
-/freebsd/x86.rs":"8102bc641970bec32d4f2b93c8ba0e9c0432f84cef1442e3bf5438c3b=
-a9c6c4d","src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs":"9ef5040678d48952=
-2ce44633643c23921a462ada95e93e7688344f72e92b3e9e","src/unix/bsd/freebsdlike=
-/mod.rs":"31adfff1db7bed60fa8044b37ef40fbabb929b055670cefe3bac88782de879f8"=
-,"src/unix/bsd/mod.rs":"a776f9bf11ab5245bcddc37bde002f28f84ff8f0d919d2dbc37=
-055b3a679d86b","src/unix/bsd/netbsdlike/mod.rs":"d089eef37c5888f59479c49614=
-15b247470a662cd14a1ec65d1f3ebcd304cf31","src/unix/bsd/netbsdlike/netbsd/aar=
-ch64.rs":"3b0dcde4999ed05d93b3415731a1f1218ae8ef6f963e7391ae266957c31878cb"=
-,"src/unix/bsd/netbsdlike/netbsd/arm.rs":"47abd680ddb4879648cac3d462e0daa7e=
-980b5e6be7ba346f5f494ccdebee6e8","src/unix/bsd/netbsdlike/netbsd/mips.rs":"=
-8420d476126ca2740ff2cbd1e85d0a31334e2c68dd0a70d3ac3e3d802b5b5782","src/unix=
-/bsd/netbsdlike/netbsd/mod.rs":"dc216609dfc6b2835e26f8c3e70f4c7c65425933eef=
-04538de603f51e9429ec5","src/unix/bsd/netbsdlike/netbsd/powerpc.rs":"42f66be=
-7650e95398a3687886db5053e55c77dc04eb139315bebf9668b2bed68","src/unix/bsd/ne=
-tbsdlike/netbsd/riscv64.rs":"0b1936bad97b3a272c2d323d3435f6860fc355abe7603c=
-a7ed8c4166cac75cc5","src/unix/bsd/netbsdlike/netbsd/sparc64.rs":"78985b140b=
-0337f6bb951f9db68e0db0b5a0a8131ac5c4426a342ed002e27a82","src/unix/bsd/netbs=
-dlike/netbsd/x86.rs":"dda4e401f03084a87762fb68c483998756a07b7c5d4b86348fc3f=
-79380024fb7","src/unix/bsd/netbsdlike/netbsd/x86_64.rs":"b60e896c10ba86a59b=
-13a189fe2e6b94265244fa4b2bc3f89a46065e7d469dea","src/unix/bsd/netbsdlike/op=
-enbsd/aarch64.rs":"91b6ac97e6411261cf5206ab1951a4e4e1f1cc9ca26217d7144f000f=
-8f7c8580","src/unix/bsd/netbsdlike/openbsd/arm.rs":"f8c975d4b94a8b8d11dcc52=
-24db628997003a8d289f12fb12b398e9445c2f122","src/unix/bsd/netbsdlike/openbsd=
-/mips64.rs":"8532a189ae10c7d668d9d4065da8b05d124e09bd39442c9f74a7f231c43eca=
-48","src/unix/bsd/netbsdlike/openbsd/mod.rs":"1e631105744b4509e528baa14bcdc=
-0738d474941d85827a6def7d00f20f8a308","src/unix/bsd/netbsdlike/openbsd/power=
-pc.rs":"f8c975d4b94a8b8d11dcc5224db628997003a8d289f12fb12b398e9445c2f122","=
-src/unix/bsd/netbsdlike/openbsd/powerpc64.rs":"d53f6ccd830b8bbe94c9be8a92a7=
-19105ed29846d6a11ce6c972fa7ff142a001","src/unix/bsd/netbsdlike/openbsd/risc=
-v64.rs":"21a90502854e1aab413700edc41bd7922bc6e0fc3d7240aa57f258bb4546fa9c",=
-"src/unix/bsd/netbsdlike/openbsd/sparc64.rs":"d04fd287afbaa2c5df9d48c94e837=
-4a532a3ba491b424ddf018270c7312f4085","src/unix/bsd/netbsdlike/openbsd/x86.r=
-s":"ebe65020c0d457af0458f549b8c44099a8c274d734bfa6c3362f0b6423fa3c7a","src/=
-unix/bsd/netbsdlike/openbsd/x86_64.rs":"2aec823a0800d28fe546d35e98ae1dc671a=
-a253663f9923d147548233def260a","src/unix/haiku/b32.rs":"c56aa69ed87dded0d29=
-7d44a9177577b1d2d4a79ed176e6768c7fc4dab90bfb4","src/unix/haiku/b64.rs":"d44=
-daef26b89e75d58ac0204a169a66ba5fbc13fc40948f67f19700e6033a07e","src/unix/ha=
-iku/mod.rs":"2589765aa89ad146cf0cb942fe371340293f97a5aaecd2dfc0ac0f563eac86=
-f3","src/unix/haiku/native.rs":"fafc7daab134d37ed260373f9c3a8177cc0fd88ba14=
-7c1001b9867eb9bd0799b","src/unix/haiku/x86_64.rs":"8d8ef6b462bc32b327044052=
-6f35c8dec572b502355c27ad451e64a816c4a176","src/unix/hurd/b32.rs":"3e79bb09b=
-66d8a1d3b7589a4b2b2076e57bd7b51b747f5219f24d3bd2019ad6a","src/unix/hurd/b64=
-.rs":"f61f0263a71f39a5130ac749bb0f146e5b95e7b054f4929197366f28e8c22815","sr=
-c/unix/hurd/mod.rs":"37fe6e548eac4add081e157524d22de976dec369104a14da1e3b20=
-a4396d45ec","src/unix/linux_like/android/b32/arm.rs":"b51bc534e9b5d31544207=
-e4b0b9cadef023b41085cfa07dae33d46771775a22a","src/unix/linux_like/android/b=
-32/mod.rs":"a94d3e03741ea30082411f0f858dd302b9a8b7b8a8f0d8325ecaf2f7ca70312=
-e","src/unix/linux_like/android/b32/x86/mod.rs":"1ea74c06e3f9b1a0b52ba0fc8e=
-d6527e68813bfe9fe931698af5554a4b2ee3c6","src/unix/linux_like/android/b64/aa=
-rch64/mod.rs":"03a71c8e142e098486dbe6674158317bc2f90a3e27132d3e9549aee8f5e3=
-b1d0","src/unix/linux_like/android/b64/mod.rs":"186edde6293b874c5ae96e10be7=
-60f38a967907fa9049bcaf8335aff51b3c6d1","src/unix/linux_like/android/b64/ris=
-cv64/mod.rs":"ad47fa7c4dcdaa6593291b5c923c8769aed105170d1e71fe8443229aeb9e2=
-430","src/unix/linux_like/android/b64/x86_64/mod.rs":"393fd4940dc44bddf3153=
-fffc000cf1fbfe61313195879aafafd849b0b20bccf","src/unix/linux_like/android/m=
-od.rs":"d300e2f5c65f8e59dcf792a2c56817c25a09db604f5ca00ef45f6477c4a5d02b","=
-src/unix/linux_like/emscripten/lfs64.rs":"3a1d1779bcf16525a578a68237f985409=
-0eae4c9819e18ffb5a288f39be4afbe","src/unix/linux_like/emscripten/mod.rs":"3=
-58a82517c559c46906b751217eea5f918d793f8bf84c3451d472b2ed9a1cf77","src/unix/=
-linux_like/linux/arch/generic/mod.rs":"695b717593cbd254bf8250521a261d87a398=
-24333f35a50b7c75f252eae5a7d6","src/unix/linux_like/linux/arch/mips/mod.rs":=
-"abcb98291a77d26f0c0792f1ee87763538559f1f9d7fcbf4e8e6401b4442515b","src/uni=
-x/linux_like/linux/arch/mod.rs":"8bc5898b03760a95dd4f124ac76ad92e5ae36b2d06=
-44203d752ef2b37e487c3a","src/unix/linux_like/linux/arch/powerpc/mod.rs":"92=
-c19d5f1ede9389f9044faf8f4f16fc5408b6fb04bbaa67c9bb1f69e32123e0","src/unix/l=
-inux_like/linux/arch/sparc/mod.rs":"dfd07a3a6d8b175678b180ff9903e0d5d529c81=
-12d01bd135f53fce742f433a6","src/unix/linux_like/linux/gnu/b32/arm/mod.rs":"=
-7ed85493e121e05d0d52a6751e744451548a390139a5ae947499fbfcff1910be","src/unix=
-/linux_like/linux/gnu/b32/csky/mod.rs":"5fa98a93b92ae3336a0f6a279c0cd6a95c7=
-9ccb86443848fc96ddc1026279696","src/unix/linux_like/linux/gnu/b32/m68k/mod.=
-rs":"c5717f5e2266a40144c236e05475ffb2d964c01d956745f29678b69170dd1a1f","src=
-/unix/linux_like/linux/gnu/b32/mips/mod.rs":"5a19abd7401743cad8e6e03ddee156=
-86bbaf7d1bd5b2710e8c2eb97224ed54f0","src/unix/linux_like/linux/gnu/b32/mod.=
-rs":"a9033d128bc441cd970caa4f912d0f842ac169b573e3dfa5539b763609e87d70","src=
-/unix/linux_like/linux/gnu/b32/powerpc.rs":"ee6e9a11848747e0a480407ba7379be=
-fef6e2abaffc91ef7906a84e585cd2440","src/unix/linux_like/linux/gnu/b32/riscv=
-32/mod.rs":"94d467ab2bacb907c039a099b81aa1ab6e79fadbc1fbc2a35f1efb092c72590=
-6","src/unix/linux_like/linux/gnu/b32/sparc/mod.rs":"5e2e2d605ca74af943e539=
-c8c1ba410715461870b314973c444eba0fee3039cd","src/unix/linux_like/linux/gnu/=
-b32/x86/mod.rs":"4869c3fa80b115803adc0a5b77754077035fae36edea27c3abe1504e73=
-f0e516","src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs":"47cc25f28c4be=
-a16c00cd6023c84d09bdc8056217f35744dfdfe27c7f2ea0ca5","src/unix/linux_like/l=
-inux/gnu/b64/aarch64/lp64.rs":"39593a2f8fd78fccbbd982734c0feb9d15cb3a6a9a6b=
-029bb972ce5b89c78420","src/unix/linux_like/linux/gnu/b64/aarch64/mod.rs":"2=
-4f9ec2670ec41ae3c108c0c412b39daef9faf315e0d7c3a53f1ef05dcd6e027","src/unix/=
-linux_like/linux/gnu/b64/loongarch64/mod.rs":"c0b4c6c252104151390dfc521ffd6=
-3e739da709dffbb5cb71a3aba6e270b6fc2","src/unix/linux_like/linux/gnu/b64/mip=
-s64/mod.rs":"dd6aeee535eb66b1286365119b7976dffee6216f6653a981963b1cc288fa75=
-16","src/unix/linux_like/linux/gnu/b64/mod.rs":"66b8a981ff02176331f2402806e=
-6ffd7d1a301fe23f285dd4e5dd2d9ed70ea1b","src/unix/linux_like/linux/gnu/b64/p=
-owerpc64/mod.rs":"450ad230da45da6ab33b4806db8ff24f6b1ca9b400fa2c5fb9187189a=
-8545347","src/unix/linux_like/linux/gnu/b64/riscv64/mod.rs":"fb3086756cc7aa=
-87c8a8f2e59ea481968314e6abd3649f472dc55db8a542e032","src/unix/linux_like/li=
-nux/gnu/b64/s390x.rs":"bcac1400cad0226c7b8b8300d6cbab300cd98922545c88b19682=
-06442501aaaf","src/unix/linux_like/linux/gnu/b64/sparc64/mod.rs":"006ce4296=
-9449eb5bb8cdd7c03422be2a436717b152b3982d267ed437be4d5e4","src/unix/linux_li=
-ke/linux/gnu/b64/x86_64/mod.rs":"bf75505d274e3185694c2d5a28fecbeff276faad5c=
-b79c7ec2122ce024b8782f","src/unix/linux_like/linux/gnu/b64/x86_64/not_x32.r=
-s":"fdb2d3b26336297d34c452633afc705bcaf9c1b4e4fda359f695c4f708d81f17","src/=
-unix/linux_like/linux/gnu/b64/x86_64/x32.rs":"54c1ac9bd8d9fe13eeb9b27a92baf=
-715c9d77af1229262fce93362da72f11fe5","src/unix/linux_like/linux/gnu/mod.rs"=
-:"850352f680643c600aaf68f7b6d0b1cf3f382a251cd2b6bb3c82cf3a65038c68","src/un=
-ix/linux_like/linux/mod.rs":"7ff1fc95cc66e398ff467c92fb0a642dd6076caf32ae52=
-daec9316f66c6b68cf","src/unix/linux_like/linux/musl/b32/arm/mod.rs":"64d2f8=
-1625dd6691ea81bc64a4a3ed88d41b125a7cd00ed347875b795d6a4905","src/unix/linux=
-_like/linux/musl/b32/hexagon.rs":"b0247dd57999a4ddbbd7247a471255181e2245882=
-5c61b5464fafd36a31a8545","src/unix/linux_like/linux/musl/b32/mips/mod.rs":"=
-b962ea54c35281131aaa990bf59949d54f24f9583c7191a7efc9c384d6159cfa","src/unix=
-/linux_like/linux/musl/b32/mod.rs":"b9adac558a356cbaddb821588645590a7a11d22=
-c1f11f6d2cc636c177f2e28e9","src/unix/linux_like/linux/musl/b32/powerpc.rs":=
-"95295bd0e58668a204799a1b5f1a0f636c67be28a959e10ee1ab92631b53c82f","src/uni=
-x/linux_like/linux/musl/b32/riscv32/mod.rs":"738bc36f9a0f312cc2336cac38ecd5=
-390a9d91b53da51d26afd2542449b54e7b","src/unix/linux_like/linux/musl/b32/x86=
-/mod.rs":"0f6e1c0d5e7d650832da95cf7dce85dff82845876e53b6587154e546b09d3efc"=
-,"src/unix/linux_like/linux/musl/b64/aarch64/mod.rs":"8e718cec34d53079e9c84=
-1084cb2eca7942a0a66139360a833a0e2ebf0bfe95a","src/unix/linux_like/linux/mus=
-l/b64/loongarch64/mod.rs":"a825259bb56e78a62f559dccfd1c35e686d8d15f781ce78f=
-83c5266cc398fe82","src/unix/linux_like/linux/musl/b64/mips64.rs":"be1c8bd1f=
-406d3fb1873075cf613ec17b545200ef514423a12190d6dbc42016c","src/unix/linux_li=
-ke/linux/musl/b64/mod.rs":"db84391acba3ed3c9462ba899f0f1a88747bdb5207658343=
-ba699505bc7d4f8c","src/unix/linux_like/linux/musl/b64/powerpc64.rs":"eb4d57=
-a7201ffbfc8090bc8f97a62e1642a09d224cd70d4556d3c18cf63ac802","src/unix/linux=
-_like/linux/musl/b64/riscv64/mod.rs":"11b166d0b63ed6eb0f24820a0b9ccef9f68eb=
-28e1bc57011ea701d57df63ed34","src/unix/linux_like/linux/musl/b64/s390x.rs":=
-"67d922c392d53c3928798d9725d3f4336a967d1ef20c5088e498cf331af17fd1","src/uni=
-x/linux_like/linux/musl/b64/x86_64/mod.rs":"9e958fbdb3cb6c3b48d2413a73961db=
-7259fc34863f4c2f67afa2a17b7b1af05","src/unix/linux_like/linux/musl/lfs64.rs=
-":"308c5b5c9b2f4b1ad17e5c2d02946f84ae83e8f5cb0e789d8d3e76c1923a5d31","src/u=
-nix/linux_like/linux/musl/mod.rs":"c7ee52da16396aea3a39573ae9a0ba071500d0e9=
-66a53b938793a5ef8b3bb25c","src/unix/linux_like/linux/uclibc/arm/mod.rs":"1b=
-0ce2d0d4467cc32a1dd5e5c62f0d57fc1963354ae223bdc636b8d6d5d6fea3","src/unix/l=
-inux_like/linux/uclibc/mips/mips32/mod.rs":"73d70042db5148d5a78988010087954=
-1563fa1de8bf5feb792341b4270244968","src/unix/linux_like/linux/uclibc/mips/m=
-ips64/mod.rs":"0a6c13d1873d3f165171a69433bb9b2df1c9151cc1085735613791e60386=
-5a06","src/unix/linux_like/linux/uclibc/mips/mod.rs":"ead3f9c05e3bdd5d5b52f=
-25dd4a2d154471555a6bae2d4cbd5c07e976513dcea","src/unix/linux_like/linux/ucl=
-ibc/mod.rs":"1cc653e9ad8524408c9023cbd7245b53b81c105ee3b341cb3e98c435196d19=
-1e","src/unix/linux_like/linux/uclibc/x86_64/l4re.rs":"076ad477f0786a2e4944=
-cc0550a4492b21d4b65d094006947ec40e0c7ee5365d","src/unix/linux_like/linux/uc=
-libc/x86_64/mod.rs":"cd37c37e03e399bb33723f984bebdcac54445d9841a0d57dcce836=
-15add4d1d4","src/unix/linux_like/linux/uclibc/x86_64/other.rs":"12f8d404986=
-2fc0c4d94b770f2d0341c1c7bf3da0619436169c12cadc4093def","src/unix/linux_like=
-/mod.rs":"979205c66cd960da2506e3115a4950a8fe24ce963fdba3d5d05b9e19d8f077ea"=
-,"src/unix/mod.rs":"d20b3b093cf2f1437bc5c18794a8e5bc296277daae6d0149aeac9b8=
-7860bb962","src/unix/newlib/aarch64/mod.rs":"e08ba9d6ac7f8b381f8699b3604cf4=
-60a5fcd5b8e68e139bba4f29bfba4781a4","src/unix/newlib/arm/mod.rs":"ddea29e7c=
-e40756f2af4c9792d5cefdd0c634401aaeb146dc686f1f125e3bac8","src/unix/newlib/e=
-spidf/mod.rs":"f7e4ac40806d5aa2d941b3864acbc50dccebe2505f48f7997abaf6e8551c=
-655e","src/unix/newlib/generic.rs":"182e584f14e0984934130425dd2be0781ca2c13=
-1449b3ae1734a07c72c3d43cd","src/unix/newlib/horizon/mod.rs":"a484d84f56fd5b=
-49fed83d6d8a5e8ec5647f0bfa3d30b496a7fa6fe5e546a980","src/unix/newlib/mod.rs=
-":"2f3e9c6217994ec34b0e3b49bf5ebe1335f3b12146f7f55a797ea7041cb1f44c","src/u=
-nix/newlib/powerpc/mod.rs":"1a161a27493adb2c3b47d60eebc8ac57b2f0ef0111abdcd=
-5b4d55d11c36d37e5","src/unix/newlib/rtems/mod.rs":"239c90d1daf783ff95168a3f=
-cbc5a0c3d1f9c4b5a0ef32a0e4a22b861f82713a","src/unix/newlib/vita/mod.rs":"92=
-7c36282a453a110e83786a5b9c31893411940d2e9b5d1ba6449cc4fec686ff","src/unix/n=
-to/aarch64.rs":"91d0448f932d0cf6af4f11e4f8c9d68a78100ed561e560665983359b7b9=
-43075","src/unix/nto/mod.rs":"01938d623e161fb8e20e28d86977403023bb1645c83ce=
-c2ffef3632d7ec29750","src/unix/nto/neutrino.rs":"039ab7b1ed702d515f3e06d7f3=
-536709704715a49905024b6c520696a65086f9","src/unix/nto/x86_64.rs":"3fdcc6f28=
-787476df78cae8e166b2b7408373a5bafc32e68e7d79febe4e5c887","src/unix/nuttx/mo=
-d.rs":"e4c2625c04bfb3b54171208af68201d897c2e0b62f6d24af6470669ffa1b6425","s=
-rc/unix/redox/mod.rs":"5f57cadca20a39430d9837824134023332b1cb6af1e8c66fa2dd=
-9c4255439d52","src/unix/solarish/compat.rs":"c02a88918852b7a9c60e45a34f7b00=
-3901000380f5c1b2832b8bd79f84936c8b","src/unix/solarish/illumos.rs":"cc7104f=
-002a5379f981c59a779ef4afad00c874e0be21dda339901cd5eea4af1","src/unix/solari=
-sh/mod.rs":"b5dae853ebfc3355b155f8c20f3a481517bce27e164e304f56dfff172e31309=
-8","src/unix/solarish/solaris.rs":"3a37167395881640117a37728ca848d1dbeb4286=
-912025d86c57608e0ddc823f","src/unix/solarish/x86.rs":"44261c1f1b300dac9fa0d=
-ab93ec85d0c3b3c48b15bc4515b9820c9421cff7427","src/unix/solarish/x86_64.rs":=
-"1601309baae50ccfd51b5d188668e6ac5dabc4e8d2ffde103592922ec15295ef","src/uni=
-x/solarish/x86_common.rs":"4ae02d88622f7f080f5e8cd328f13187edbc5e124fb3e05e=
-4cf212597f6cce48","src/vxworks/aarch64.rs":"98f0afdc511cd02557e506c21fed673=
-7585490a1dce7a9d4941d08c437762b99","src/vxworks/arm.rs":"acb7968ce99fe3f4ab=
-df39d98f8133d21a4fba435b8ef7084777cb181d788e88","src/vxworks/mod.rs":"d02d2=
-16bf652e4a1d21f01e8455beae20db30981d5d630f7b6fc113fff798a1b","src/vxworks/p=
-owerpc.rs":"acb7968ce99fe3f4abdf39d98f8133d21a4fba435b8ef7084777cb181d788e8=
-8","src/vxworks/powerpc64.rs":"98f0afdc511cd02557e506c21fed6737585490a1dce7=
-a9d4941d08c437762b99","src/vxworks/riscv32.rs":"2f018cdb5b6e9a2c0d3a2a34d9a=
-6c095d8469272ca8f137e4336140962be3177","src/vxworks/riscv64.rs":"16bff4f1c4=
-eb73df0a66a16718716340a3b541bf94aa3318065d9c627e4e3069","src/vxworks/x86.rs=
-":"552f007f38317620b23889cb7c49d1d115841252439060122f52f434fbc6e5ba","src/v=
-xworks/x86_64.rs":"018d92be3ad628a129eff9f2f5dfbc0883d8b8e5f2fa917b900a7f98=
-ed6b514a","src/wasi/mod.rs":"f7b39137ce2c005367016a00e00f0affdce627d9165681=
-c9dc9280534720640b","src/wasi/p2.rs":"feecc0485eabd2c32bc5d800df6ad1b9b4d28=
-2741342fb08792f2635204e1e08","src/windows/gnu/mod.rs":"320ddf761f731c24a27e=
-061438ddbacb0630e3ad6f3bb39f6514c28dffd8ac9f","src/windows/mod.rs":"282daea=
-cf420e36c5ba2f8129d045104e1172b29a9035e73c10739836a8af440","src/windows/msv=
-c/mod.rs":"7bc0f1e7e73815296cd6b63b2700e12624e9f47b5c4113a1a87fae8e64549c00=
-","src/xous.rs":"17b571c988119fe3f71dbcccfe722de5c772abc3ca20dc4b09b5878098=
-0b78e9","tests/const_fn.rs":"8ac3171d7bced3576a4e93f48570b3e00c553d7510ab85=
-a7473ae3b716a812dc"},"package":"b5aba8db14291edd000dfcc4d620c7ebfb122c613af=
-b886ca8803fa4e128a20a"}
--\ No newline at end of file
--+{"$comment":"This file only protects against accidental modifications. It=
- is not a security mechanism and does not protect against malicious changes=
-.","files":{".cargo_vcs_info.json":"10b1465646eab936004b2ef7e46ba605d7b0cc5=
-8c559674e697c1c1d213d0c46",".git-blame-ignore-revs":"761aa385c661241fa77c15=
-b502c361398cf500bbb9f8c3a4579b412c4c6249d7",".release-plz.toml":"fcf2d382c4=
-a2abd96caf9cc391b63e0c94d5832f5c48e9ab9eb4b2c847c0887c","CHANGELOG.md":"e48=
-a795c934b4fbb91a59757a32b13c82c2dc9b71d6fc49da9bef3b8d85f5454","CONTRIBUTIN=
-G.md":"155e7f4e96fafe9ee5c8adb5068be27a22de89a95ca9bfc7baf517b9850d20d6","C=
-argo.toml":"647ea80df57c844de63e49629b9e13d02e8dfdcb0e1ec3b301002e3ca5e6d46=
-1","Cargo.toml.orig":"0ecb7fa67c89fdadd15d65f6495a98a8df9fa0c78f3f10a51ec91=
-3c55d719051","LICENSE-APACHE":"62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d=
-2796e7d6905db8a3636a","LICENSE-MIT":"a8d47ff51ca256f56a8932dba07660672dbfe3=
-004257ca8de708aac1415937a1","README.md":"38061c8bb600c2e01b48b662288cb11f38=
-c0ec27bbe6d496e7f0acb1016991c4","build.rs":"bcbe11dc711029460fcc4f7fd8e38c4=
-87006ad0860007915ae6718bd90fb891a","rustfmt.toml":"e9321ff995242e8cb0a49842=
-54f0748ef11a89ca4618cab8f047ee59a88768e7","src/fixed_width_ints.rs":"10eb30=
-cf48390768f0167e1fa46ae99461968a05e93bd96aff721f54550ae66c","src/fuchsia/aa=
-rch64.rs":"d430586295c7eb022eb8202f7b18e483a9dd0e7de1857f7963453792c7161def=
-","src/fuchsia/mod.rs":"2556b215558fc76d8337a8dac4d3ec8124aa442cc4676bcb2a8=
-5e248b23fb62b","src/fuchsia/riscv64.rs":"7efd6cbcbd2cb25d6380f6df69ad91cf62=
-efd55fb9cb7cb85884c490b601743e","src/fuchsia/x86_64.rs":"e63daa4085c6f6ab35=
-d9711df6d7e027247a8b3b2a6dc47fcb2b21e1f4820a2f","src/hermit.rs":"6d1d40c147=
-3a73aae2d3a470fa623ea92a196a65468acd9373b20dc6dcbd5d31","src/lib.rs":"11715=
-67598056a99dbce2ef1e5b61a6410d6ba1333cca113d50f75296688a565","src/macros.rs=
-":"ce06d8677464669530a141269dea2cf4debb24ab3f53eb136f933bcf553a4fe3","src/p=
-sp.rs":"dcf53184a1ab06d18aa34431ca42644c5646fe78d05a53678ef9529607ba3ea7","=
-src/sgx.rs":"f0f1a9fa864cd3dc94c4b3ce73f88e67f11453f63d8b4d52823de2ccbba7eb=
-49","src/solid/aarch64.rs":"98f0afdc511cd02557e506c21fed6737585490a1dce7a9d=
-4941d08c437762b99","src/solid/arm.rs":"acb7968ce99fe3f4abdf39d98f8133d21a4f=
-ba435b8ef7084777cb181d788e88","src/solid/mod.rs":"01116b18b9be6791fdf4ff572=
-d12154b64dfa43a18afc33940ea676e1884bdbb","src/switch.rs":"bb0ce1331c61a28ca=
-ea7bd201e399d1e1127f303dcc7747b4f07f63d188ea49c","src/teeos/mod.rs":"174e10=
-b1e3cd37122b557a9e9f75205f1858a31cb62cbb83582da2661228babe","src/trusty.rs"=
-:"f4c8e60896f93759eea4fa5a146dd98dd21d818a4e54df391b14513a402212c2","src/un=
-ix/aix/mod.rs":"31dd168d5d06cc60bf1b1b6bb0665640fb082ff7b1f2e13c22a888fa8bd=
-b1945","src/unix/aix/powerpc64.rs":"caf11cb47a1ac1c0316f72050f6fd82dbcbbc62=
-58a9b51ff5a9842f2825e63d7","src/unix/bsd/apple/b32/mod.rs":"9f20c77e86b812f=
-f09d8193a48fe4f3afd6dae8a43d5a0d78b8592971cc3726e","src/unix/bsd/apple/b64/=
-aarch64/mod.rs":"1ebe9f1a1e07318813da7e2a78195937533c22b51a23a4527b9404c948=
-318f86","src/unix/bsd/apple/b64/mod.rs":"164e734befe87fa6e2d79fb856ce314282=
-bd219ea4f2f357c6446dca6d2de359","src/unix/bsd/apple/b64/x86_64/mod.rs":"e03=
-794fdeaaf4a86c7b12f41e490a7538c12d4a77743a5448237f73d5a8593f4","src/unix/bs=
-d/apple/mod.rs":"1ad08f5ca6becd37bab20bae5f3153a8fc8824e9123ec77237d37b64f1=
-33741a","src/unix/bsd/freebsdlike/dragonfly/errno.rs":"07b19390b9ae8f541ac3=
-5fd4e14685d639b95152d6d7a33814bb749b8b927298","src/unix/bsd/freebsdlike/dra=
-gonfly/mod.rs":"f130937ac556080c77d7d1f011f2d2c964b65eb633bf6b7f1251a045670=
-b9ec8","src/unix/bsd/freebsdlike/freebsd/aarch64.rs":"aea276451dca89f086d01=
-4b66e2e83e1eb948ab8dfbf920170c1b8338c9777c3","src/unix/bsd/freebsdlike/free=
-bsd/arm.rs":"f70c76405a72754db37dff7de3fd586a19e1512b47f452493b430f295d7264=
-af","src/unix/bsd/freebsdlike/freebsd/freebsd11/b32.rs":"8d9bef35f3e490d047=
-55a59a99ad054ef20498beff979ae8b14acbec1097318a","src/unix/bsd/freebsdlike/f=
-reebsd/freebsd11/b64.rs":"45f718f556a8368f282944d9a14afae7261827ec4838d2671=
-9290466efc4f023","src/unix/bsd/freebsdlike/freebsd/freebsd11/mod.rs":"400f1=
-8465ef118e202ac9b1b9db47b1333fc17eb5841709082f2d1d5a5179391","src/unix/bsd/=
-freebsdlike/freebsd/freebsd12/mod.rs":"fb999d55cf4f3403ac934dff1fc70c666087=
-de234d7a91321bcfb5009bbafc6f","src/unix/bsd/freebsdlike/freebsd/freebsd12/x=
-86_64.rs":"64c4bd82eaf30a2681417f982fce28de7d1b0743bfaa14004692a56cee44be21=
-","src/unix/bsd/freebsdlike/freebsd/freebsd13/mod.rs":"e6f3430838d94dd17e35=
-9419f5de7d28a6b3adb8fcab7727d24e034bc6ed5d1e","src/unix/bsd/freebsdlike/fre=
-ebsd/freebsd13/x86_64.rs":"64c4bd82eaf30a2681417f982fce28de7d1b0743bfaa1400=
-4692a56cee44be21","src/unix/bsd/freebsdlike/freebsd/freebsd14/mod.rs":"7d23=
-d7d6b779265bca9c53c8b3e50b4dadb33f3911000ce88c8e09c9f0b60eab","src/unix/bsd=
-/freebsdlike/freebsd/freebsd14/x86_64.rs":"d6e66809e109dc779efe5584b79d34fc=
-d6fdba91973a415d64ae66f481f45940","src/unix/bsd/freebsdlike/freebsd/freebsd=
-15/mod.rs":"45921502545212949a756d0edad2d861a5c6bc1925a4c13c8afc057ce6b4d8f=
-e","src/unix/bsd/freebsdlike/freebsd/freebsd15/x86_64.rs":"d6e66809e109dc77=
-9efe5584b79d34fcd6fdba91973a415d64ae66f481f45940","src/unix/bsd/freebsdlike=
-/freebsd/mod.rs":"46d8ca655e0363676dfb9bcda60bc8f39f0f17b1d52eb9b5228dc9129=
-55ebcfc","src/unix/bsd/freebsdlike/freebsd/powerpc.rs":"36912b999e0571adccc=
-06d9ebbd237e537a95c36ddb97d67a81e940ab28b36e7","src/unix/bsd/freebsdlike/fr=
-eebsd/powerpc64.rs":"c1c13a3e7633ab6e84929ac3bfac96a67779e6cdac157d64b5b9f7=
-c2b32b1691","src/unix/bsd/freebsdlike/freebsd/riscv64.rs":"b6bbfb556ed35c38=
-97a98efffbafd5a07854dce1786643ffc1aaaa5a4e7dbe1e","src/unix/bsd/freebsdlike=
-/freebsd/x86.rs":"8102bc641970bec32d4f2b93c8ba0e9c0432f84cef1442e3bf5438c3b=
-a9c6c4d","src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs":"9ef5040678d48952=
-2ce44633643c23921a462ada95e93e7688344f72e92b3e9e","src/unix/bsd/freebsdlike=
-/mod.rs":"31adfff1db7bed60fa8044b37ef40fbabb929b055670cefe3bac88782de879f8"=
-,"src/unix/bsd/mod.rs":"a776f9bf11ab5245bcddc37bde002f28f84ff8f0d919d2dbc37=
-055b3a679d86b","src/unix/bsd/netbsdlike/mod.rs":"d089eef37c5888f59479c49614=
-15b247470a662cd14a1ec65d1f3ebcd304cf31","src/unix/bsd/netbsdlike/netbsd/aar=
-ch64.rs":"3b0dcde4999ed05d93b3415731a1f1218ae8ef6f963e7391ae266957c31878cb"=
-,"src/unix/bsd/netbsdlike/netbsd/arm.rs":"47abd680ddb4879648cac3d462e0daa7e=
-980b5e6be7ba346f5f494ccdebee6e8","src/unix/bsd/netbsdlike/netbsd/mips.rs":"=
-8420d476126ca2740ff2cbd1e85d0a31334e2c68dd0a70d3ac3e3d802b5b5782","src/unix=
-/bsd/netbsdlike/netbsd/mod.rs":"dc216609dfc6b2835e26f8c3e70f4c7c65425933eef=
-04538de603f51e9429ec5","src/unix/bsd/netbsdlike/netbsd/powerpc.rs":"42f66be=
-7650e95398a3687886db5053e55c77dc04eb139315bebf9668b2bed68","src/unix/bsd/ne=
-tbsdlike/netbsd/riscv64.rs":"0b1936bad97b3a272c2d323d3435f6860fc355abe7603c=
-a7ed8c4166cac75cc5","src/unix/bsd/netbsdlike/netbsd/sparc64.rs":"78985b140b=
-0337f6bb951f9db68e0db0b5a0a8131ac5c4426a342ed002e27a82","src/unix/bsd/netbs=
-dlike/netbsd/x86.rs":"dda4e401f03084a87762fb68c483998756a07b7c5d4b86348fc3f=
-79380024fb7","src/unix/bsd/netbsdlike/netbsd/x86_64.rs":"b60e896c10ba86a59b=
-13a189fe2e6b94265244fa4b2bc3f89a46065e7d469dea","src/unix/bsd/netbsdlike/op=
-enbsd/aarch64.rs":"91b6ac97e6411261cf5206ab1951a4e4e1f1cc9ca26217d7144f000f=
-8f7c8580","src/unix/bsd/netbsdlike/openbsd/arm.rs":"f8c975d4b94a8b8d11dcc52=
-24db628997003a8d289f12fb12b398e9445c2f122","src/unix/bsd/netbsdlike/openbsd=
-/mips64.rs":"8532a189ae10c7d668d9d4065da8b05d124e09bd39442c9f74a7f231c43eca=
-48","src/unix/bsd/netbsdlike/openbsd/mod.rs":"1e631105744b4509e528baa14bcdc=
-0738d474941d85827a6def7d00f20f8a308","src/unix/bsd/netbsdlike/openbsd/power=
-pc.rs":"f8c975d4b94a8b8d11dcc5224db628997003a8d289f12fb12b398e9445c2f122","=
-src/unix/bsd/netbsdlike/openbsd/powerpc64.rs":"d53f6ccd830b8bbe94c9be8a92a7=
-19105ed29846d6a11ce6c972fa7ff142a001","src/unix/bsd/netbsdlike/openbsd/risc=
-v64.rs":"21a90502854e1aab413700edc41bd7922bc6e0fc3d7240aa57f258bb4546fa9c",=
-"src/unix/bsd/netbsdlike/openbsd/sparc64.rs":"d04fd287afbaa2c5df9d48c94e837=
-4a532a3ba491b424ddf018270c7312f4085","src/unix/bsd/netbsdlike/openbsd/x86.r=
-s":"ebe65020c0d457af0458f549b8c44099a8c274d734bfa6c3362f0b6423fa3c7a","src/=
-unix/bsd/netbsdlike/openbsd/x86_64.rs":"2aec823a0800d28fe546d35e98ae1dc671a=
-a253663f9923d147548233def260a","src/unix/haiku/b32.rs":"c56aa69ed87dded0d29=
-7d44a9177577b1d2d4a79ed176e6768c7fc4dab90bfb4","src/unix/haiku/b64.rs":"d44=
-daef26b89e75d58ac0204a169a66ba5fbc13fc40948f67f19700e6033a07e","src/unix/ha=
-iku/mod.rs":"2589765aa89ad146cf0cb942fe371340293f97a5aaecd2dfc0ac0f563eac86=
-f3","src/unix/haiku/native.rs":"fafc7daab134d37ed260373f9c3a8177cc0fd88ba14=
-7c1001b9867eb9bd0799b","src/unix/haiku/x86_64.rs":"8d8ef6b462bc32b327044052=
-6f35c8dec572b502355c27ad451e64a816c4a176","src/unix/hurd/b32.rs":"3e79bb09b=
-66d8a1d3b7589a4b2b2076e57bd7b51b747f5219f24d3bd2019ad6a","src/unix/hurd/b64=
-.rs":"f61f0263a71f39a5130ac749bb0f146e5b95e7b054f4929197366f28e8c22815","sr=
-c/unix/hurd/mod.rs":"37fe6e548eac4add081e157524d22de976dec369104a14da1e3b20=
-a4396d45ec","src/unix/linux_like/android/b32/arm.rs":"b51bc534e9b5d31544207=
-e4b0b9cadef023b41085cfa07dae33d46771775a22a","src/unix/linux_like/android/b=
-32/mod.rs":"a94d3e03741ea30082411f0f858dd302b9a8b7b8a8f0d8325ecaf2f7ca70312=
-e","src/unix/linux_like/android/b32/x86/mod.rs":"1ea74c06e3f9b1a0b52ba0fc8e=
-d6527e68813bfe9fe931698af5554a4b2ee3c6","src/unix/linux_like/android/b64/aa=
-rch64/mod.rs":"03a71c8e142e098486dbe6674158317bc2f90a3e27132d3e9549aee8f5e3=
-b1d0","src/unix/linux_like/android/b64/mod.rs":"186edde6293b874c5ae96e10be7=
-60f38a967907fa9049bcaf8335aff51b3c6d1","src/unix/linux_like/android/b64/ris=
-cv64/mod.rs":"ad47fa7c4dcdaa6593291b5c923c8769aed105170d1e71fe8443229aeb9e2=
-430","src/unix/linux_like/android/b64/x86_64/mod.rs":"393fd4940dc44bddf3153=
-fffc000cf1fbfe61313195879aafafd849b0b20bccf","src/unix/linux_like/android/m=
-od.rs":"d300e2f5c65f8e59dcf792a2c56817c25a09db604f5ca00ef45f6477c4a5d02b","=
-src/unix/linux_like/emscripten/lfs64.rs":"3a1d1779bcf16525a578a68237f985409=
-0eae4c9819e18ffb5a288f39be4afbe","src/unix/linux_like/emscripten/mod.rs":"3=
-58a82517c559c46906b751217eea5f918d793f8bf84c3451d472b2ed9a1cf77","src/unix/=
-linux_like/linux/arch/generic/mod.rs":"645e12265e1171c9fa2fb3fb5dd58891cc19=
-26c581bb0f7a94ed665daf813f5e","src/unix/linux_like/linux/arch/mips/mod.rs":=
-"abcb98291a77d26f0c0792f1ee87763538559f1f9d7fcbf4e8e6401b4442515b","src/uni=
-x/linux_like/linux/arch/mod.rs":"8bc5898b03760a95dd4f124ac76ad92e5ae36b2d06=
-44203d752ef2b37e487c3a","src/unix/linux_like/linux/arch/powerpc/mod.rs":"92=
-c19d5f1ede9389f9044faf8f4f16fc5408b6fb04bbaa67c9bb1f69e32123e0","src/unix/l=
-inux_like/linux/arch/sparc/mod.rs":"dfd07a3a6d8b175678b180ff9903e0d5d529c81=
-12d01bd135f53fce742f433a6","src/unix/linux_like/linux/gnu/b32/arm/mod.rs":"=
-7ed85493e121e05d0d52a6751e744451548a390139a5ae947499fbfcff1910be","src/unix=
-/linux_like/linux/gnu/b32/csky/mod.rs":"5fa98a93b92ae3336a0f6a279c0cd6a95c7=
-9ccb86443848fc96ddc1026279696","src/unix/linux_like/linux/gnu/b32/m68k/mod.=
-rs":"c5717f5e2266a40144c236e05475ffb2d964c01d956745f29678b69170dd1a1f","src=
-/unix/linux_like/linux/gnu/b32/mips/mod.rs":"5a19abd7401743cad8e6e03ddee156=
-86bbaf7d1bd5b2710e8c2eb97224ed54f0","src/unix/linux_like/linux/gnu/b32/mod.=
-rs":"a9033d128bc441cd970caa4f912d0f842ac169b573e3dfa5539b763609e87d70","src=
-/unix/linux_like/linux/gnu/b32/powerpc.rs":"ee6e9a11848747e0a480407ba7379be=
-fef6e2abaffc91ef7906a84e585cd2440","src/unix/linux_like/linux/gnu/b32/riscv=
-32/mod.rs":"94d467ab2bacb907c039a099b81aa1ab6e79fadbc1fbc2a35f1efb092c72590=
-6","src/unix/linux_like/linux/gnu/b32/sparc/mod.rs":"5e2e2d605ca74af943e539=
-c8c1ba410715461870b314973c444eba0fee3039cd","src/unix/linux_like/linux/gnu/=
-b32/x86/mod.rs":"4869c3fa80b115803adc0a5b77754077035fae36edea27c3abe1504e73=
-f0e516","src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs":"47cc25f28c4be=
-a16c00cd6023c84d09bdc8056217f35744dfdfe27c7f2ea0ca5","src/unix/linux_like/l=
-inux/gnu/b64/aarch64/lp64.rs":"39593a2f8fd78fccbbd982734c0feb9d15cb3a6a9a6b=
-029bb972ce5b89c78420","src/unix/linux_like/linux/gnu/b64/aarch64/mod.rs":"2=
-4f9ec2670ec41ae3c108c0c412b39daef9faf315e0d7c3a53f1ef05dcd6e027","src/unix/=
-linux_like/linux/gnu/b64/loongarch64/mod.rs":"c0b4c6c252104151390dfc521ffd6=
-3e739da709dffbb5cb71a3aba6e270b6fc2","src/unix/linux_like/linux/gnu/b64/mip=
-s64/mod.rs":"dd6aeee535eb66b1286365119b7976dffee6216f6653a981963b1cc288fa75=
-16","src/unix/linux_like/linux/gnu/b64/mod.rs":"66b8a981ff02176331f2402806e=
-6ffd7d1a301fe23f285dd4e5dd2d9ed70ea1b","src/unix/linux_like/linux/gnu/b64/p=
-owerpc64/mod.rs":"450ad230da45da6ab33b4806db8ff24f6b1ca9b400fa2c5fb9187189a=
-8545347","src/unix/linux_like/linux/gnu/b64/riscv64/mod.rs":"fb3086756cc7aa=
-87c8a8f2e59ea481968314e6abd3649f472dc55db8a542e032","src/unix/linux_like/li=
-nux/gnu/b64/s390x.rs":"bcac1400cad0226c7b8b8300d6cbab300cd98922545c88b19682=
-06442501aaaf","src/unix/linux_like/linux/gnu/b64/sparc64/mod.rs":"006ce4296=
-9449eb5bb8cdd7c03422be2a436717b152b3982d267ed437be4d5e4","src/unix/linux_li=
-ke/linux/gnu/b64/x86_64/mod.rs":"bf75505d274e3185694c2d5a28fecbeff276faad5c=
-b79c7ec2122ce024b8782f","src/unix/linux_like/linux/gnu/b64/x86_64/not_x32.r=
-s":"fdb2d3b26336297d34c452633afc705bcaf9c1b4e4fda359f695c4f708d81f17","src/=
-unix/linux_like/linux/gnu/b64/x86_64/x32.rs":"54c1ac9bd8d9fe13eeb9b27a92baf=
-715c9d77af1229262fce93362da72f11fe5","src/unix/linux_like/linux/gnu/mod.rs"=
-:"850352f680643c600aaf68f7b6d0b1cf3f382a251cd2b6bb3c82cf3a65038c68","src/un=
-ix/linux_like/linux/mod.rs":"7ff1fc95cc66e398ff467c92fb0a642dd6076caf32ae52=
-daec9316f66c6b68cf","src/unix/linux_like/linux/musl/b32/arm/mod.rs":"64d2f8=
-1625dd6691ea81bc64a4a3ed88d41b125a7cd00ed347875b795d6a4905","src/unix/linux=
-_like/linux/musl/b32/hexagon.rs":"b0247dd57999a4ddbbd7247a471255181e2245882=
-5c61b5464fafd36a31a8545","src/unix/linux_like/linux/musl/b32/mips/mod.rs":"=
-b962ea54c35281131aaa990bf59949d54f24f9583c7191a7efc9c384d6159cfa","src/unix=
-/linux_like/linux/musl/b32/mod.rs":"b9adac558a356cbaddb821588645590a7a11d22=
-c1f11f6d2cc636c177f2e28e9","src/unix/linux_like/linux/musl/b32/powerpc.rs":=
-"95295bd0e58668a204799a1b5f1a0f636c67be28a959e10ee1ab92631b53c82f","src/uni=
-x/linux_like/linux/musl/b32/riscv32/mod.rs":"738bc36f9a0f312cc2336cac38ecd5=
-390a9d91b53da51d26afd2542449b54e7b","src/unix/linux_like/linux/musl/b32/x86=
-/mod.rs":"0f6e1c0d5e7d650832da95cf7dce85dff82845876e53b6587154e546b09d3efc"=
-,"src/unix/linux_like/linux/musl/b64/aarch64/mod.rs":"8e718cec34d53079e9c84=
-1084cb2eca7942a0a66139360a833a0e2ebf0bfe95a","src/unix/linux_like/linux/mus=
-l/b64/loongarch64/mod.rs":"a825259bb56e78a62f559dccfd1c35e686d8d15f781ce78f=
-83c5266cc398fe82","src/unix/linux_like/linux/musl/b64/mips64.rs":"be1c8bd1f=
-406d3fb1873075cf613ec17b545200ef514423a12190d6dbc42016c","src/unix/linux_li=
-ke/linux/musl/b64/mod.rs":"db84391acba3ed3c9462ba899f0f1a88747bdb5207658343=
-ba699505bc7d4f8c","src/unix/linux_like/linux/musl/b64/powerpc64.rs":"eb4d57=
-a7201ffbfc8090bc8f97a62e1642a09d224cd70d4556d3c18cf63ac802","src/unix/linux=
-_like/linux/musl/b64/riscv64/mod.rs":"11b166d0b63ed6eb0f24820a0b9ccef9f68eb=
-28e1bc57011ea701d57df63ed34","src/unix/linux_like/linux/musl/b64/s390x.rs":=
-"67d922c392d53c3928798d9725d3f4336a967d1ef20c5088e498cf331af17fd1","src/uni=
-x/linux_like/linux/musl/b64/x86_64/mod.rs":"9e958fbdb3cb6c3b48d2413a73961db=
-7259fc34863f4c2f67afa2a17b7b1af05","src/unix/linux_like/linux/musl/lfs64.rs=
-":"308c5b5c9b2f4b1ad17e5c2d02946f84ae83e8f5cb0e789d8d3e76c1923a5d31","src/u=
-nix/linux_like/linux/musl/mod.rs":"c7ee52da16396aea3a39573ae9a0ba071500d0e9=
-66a53b938793a5ef8b3bb25c","src/unix/linux_like/linux/uclibc/arm/mod.rs":"1b=
-0ce2d0d4467cc32a1dd5e5c62f0d57fc1963354ae223bdc636b8d6d5d6fea3","src/unix/l=
-inux_like/linux/uclibc/mips/mips32/mod.rs":"73d70042db5148d5a78988010087954=
-1563fa1de8bf5feb792341b4270244968","src/unix/linux_like/linux/uclibc/mips/m=
-ips64/mod.rs":"0a6c13d1873d3f165171a69433bb9b2df1c9151cc1085735613791e60386=
-5a06","src/unix/linux_like/linux/uclibc/mips/mod.rs":"ead3f9c05e3bdd5d5b52f=
-25dd4a2d154471555a6bae2d4cbd5c07e976513dcea","src/unix/linux_like/linux/ucl=
-ibc/mod.rs":"1cc653e9ad8524408c9023cbd7245b53b81c105ee3b341cb3e98c435196d19=
-1e","src/unix/linux_like/linux/uclibc/x86_64/l4re.rs":"076ad477f0786a2e4944=
-cc0550a4492b21d4b65d094006947ec40e0c7ee5365d","src/unix/linux_like/linux/uc=
-libc/x86_64/mod.rs":"cd37c37e03e399bb33723f984bebdcac54445d9841a0d57dcce836=
-15add4d1d4","src/unix/linux_like/linux/uclibc/x86_64/other.rs":"12f8d404986=
-2fc0c4d94b770f2d0341c1c7bf3da0619436169c12cadc4093def","src/unix/linux_like=
-/mod.rs":"979205c66cd960da2506e3115a4950a8fe24ce963fdba3d5d05b9e19d8f077ea"=
-,"src/unix/mod.rs":"d20b3b093cf2f1437bc5c18794a8e5bc296277daae6d0149aeac9b8=
-7860bb962","src/unix/newlib/aarch64/mod.rs":"e08ba9d6ac7f8b381f8699b3604cf4=
-60a5fcd5b8e68e139bba4f29bfba4781a4","src/unix/newlib/arm/mod.rs":"ddea29e7c=
-e40756f2af4c9792d5cefdd0c634401aaeb146dc686f1f125e3bac8","src/unix/newlib/e=
-spidf/mod.rs":"f7e4ac40806d5aa2d941b3864acbc50dccebe2505f48f7997abaf6e8551c=
-655e","src/unix/newlib/generic.rs":"182e584f14e0984934130425dd2be0781ca2c13=
-1449b3ae1734a07c72c3d43cd","src/unix/newlib/horizon/mod.rs":"a484d84f56fd5b=
-49fed83d6d8a5e8ec5647f0bfa3d30b496a7fa6fe5e546a980","src/unix/newlib/mod.rs=
-":"2f3e9c6217994ec34b0e3b49bf5ebe1335f3b12146f7f55a797ea7041cb1f44c","src/u=
-nix/newlib/powerpc/mod.rs":"1a161a27493adb2c3b47d60eebc8ac57b2f0ef0111abdcd=
-5b4d55d11c36d37e5","src/unix/newlib/rtems/mod.rs":"239c90d1daf783ff95168a3f=
-cbc5a0c3d1f9c4b5a0ef32a0e4a22b861f82713a","src/unix/newlib/vita/mod.rs":"92=
-7c36282a453a110e83786a5b9c31893411940d2e9b5d1ba6449cc4fec686ff","src/unix/n=
-to/aarch64.rs":"91d0448f932d0cf6af4f11e4f8c9d68a78100ed561e560665983359b7b9=
-43075","src/unix/nto/mod.rs":"01938d623e161fb8e20e28d86977403023bb1645c83ce=
-c2ffef3632d7ec29750","src/unix/nto/neutrino.rs":"039ab7b1ed702d515f3e06d7f3=
-536709704715a49905024b6c520696a65086f9","src/unix/nto/x86_64.rs":"3fdcc6f28=
-787476df78cae8e166b2b7408373a5bafc32e68e7d79febe4e5c887","src/unix/nuttx/mo=
-d.rs":"e4c2625c04bfb3b54171208af68201d897c2e0b62f6d24af6470669ffa1b6425","s=
-rc/unix/redox/mod.rs":"5f57cadca20a39430d9837824134023332b1cb6af1e8c66fa2dd=
-9c4255439d52","src/unix/solarish/compat.rs":"c02a88918852b7a9c60e45a34f7b00=
-3901000380f5c1b2832b8bd79f84936c8b","src/unix/solarish/illumos.rs":"cc7104f=
-002a5379f981c59a779ef4afad00c874e0be21dda339901cd5eea4af1","src/unix/solari=
-sh/mod.rs":"b5dae853ebfc3355b155f8c20f3a481517bce27e164e304f56dfff172e31309=
-8","src/unix/solarish/solaris.rs":"3a37167395881640117a37728ca848d1dbeb4286=
-912025d86c57608e0ddc823f","src/unix/solarish/x86.rs":"44261c1f1b300dac9fa0d=
-ab93ec85d0c3b3c48b15bc4515b9820c9421cff7427","src/unix/solarish/x86_64.rs":=
-"1601309baae50ccfd51b5d188668e6ac5dabc4e8d2ffde103592922ec15295ef","src/uni=
-x/solarish/x86_common.rs":"4ae02d88622f7f080f5e8cd328f13187edbc5e124fb3e05e=
-4cf212597f6cce48","src/vxworks/aarch64.rs":"98f0afdc511cd02557e506c21fed673=
-7585490a1dce7a9d4941d08c437762b99","src/vxworks/arm.rs":"acb7968ce99fe3f4ab=
-df39d98f8133d21a4fba435b8ef7084777cb181d788e88","src/vxworks/mod.rs":"d02d2=
-16bf652e4a1d21f01e8455beae20db30981d5d630f7b6fc113fff798a1b","src/vxworks/p=
-owerpc.rs":"acb7968ce99fe3f4abdf39d98f8133d21a4fba435b8ef7084777cb181d788e8=
-8","src/vxworks/powerpc64.rs":"98f0afdc511cd02557e506c21fed6737585490a1dce7=
-a9d4941d08c437762b99","src/vxworks/riscv32.rs":"2f018cdb5b6e9a2c0d3a2a34d9a=
-6c095d8469272ca8f137e4336140962be3177","src/vxworks/riscv64.rs":"16bff4f1c4=
-eb73df0a66a16718716340a3b541bf94aa3318065d9c627e4e3069","src/vxworks/x86.rs=
-":"552f007f38317620b23889cb7c49d1d115841252439060122f52f434fbc6e5ba","src/v=
-xworks/x86_64.rs":"018d92be3ad628a129eff9f2f5dfbc0883d8b8e5f2fa917b900a7f98=
-ed6b514a","src/wasi/mod.rs":"f7b39137ce2c005367016a00e00f0affdce627d9165681=
-c9dc9280534720640b","src/wasi/p2.rs":"feecc0485eabd2c32bc5d800df6ad1b9b4d28=
-2741342fb08792f2635204e1e08","src/windows/gnu/mod.rs":"320ddf761f731c24a27e=
-061438ddbacb0630e3ad6f3bb39f6514c28dffd8ac9f","src/windows/mod.rs":"282daea=
-cf420e36c5ba2f8129d045104e1172b29a9035e73c10739836a8af440","src/windows/msv=
-c/mod.rs":"7bc0f1e7e73815296cd6b63b2700e12624e9f47b5c4113a1a87fae8e64549c00=
-","src/xous.rs":"17b571c988119fe3f71dbcccfe722de5c772abc3ca20dc4b09b5878098=
-0b78e9","tests/const_fn.rs":"8ac3171d7bced3576a4e93f48570b3e00c553d7510ab85=
-a7473ae3b716a812dc"},"package":"b5aba8db14291edd000dfcc4d620c7ebfb122c613af=
-b886ca8803fa4e128a20a"}
----- a/vendor/libc-0.2.171/.cargo-checksum.json
--+++ b/vendor/libc-0.2.171/.cargo-checksum.json
--@@ -1 +1 @@
---{"$comment":"This file only protects against accidental modifications. It=
- is not a security mechanism and does not protect against malicious changes=
-.","files":{".cargo_vcs_info.json":"05a2dd302c1c8516cc824f6153ebee609e34091=
-0e83f494b2c385738f9fea2ea",".git-blame-ignore-revs":"761aa385c661241fa77c15=
-b502c361398cf500bbb9f8c3a4579b412c4c6249d7",".release-plz.toml":"fcf2d382c4=
-a2abd96caf9cc391b63e0c94d5832f5c48e9ab9eb4b2c847c0887c","CHANGELOG.md":"747=
-b437db48b8ded620a8738f9c1dbc2fde3d26db03d0782796537a9e505a263","CONTRIBUTIN=
-G.md":"155e7f4e96fafe9ee5c8adb5068be27a22de89a95ca9bfc7baf517b9850d20d6","C=
-argo.lock":"8f6d0b13c977c8016b568c0a35b5ae709318e0766af3cff4a84d35121901384=
-1","Cargo.toml":"7f31f2e612b4c14b57ecdcec4912ac1514e26e3c061d5b06b54e1e34e8=
-3191b1","Cargo.toml.orig":"b690a71106c17d70788343841b89bfe6cd5359b556b5b6cf=
-394e54a1edd96281","LICENSE-APACHE":"62c7a1e35f56406896d7aa7ca52d0cc0d272ac0=
-22b5d2796e7d6905db8a3636a","LICENSE-MIT":"a8d47ff51ca256f56a8932dba07660672=
-dbfe3004257ca8de708aac1415937a1","README.md":"a198be444453fe0b24d4fb6a8b732=
-eb9e6dc77ebcfd119fca95b97b45c77c77a","build.rs":"199eb63f03c4e90cad31c1f03a=
-15bac3d81ca97f31bcb81c45bbd0d909e57d61","rustfmt.toml":"e9321ff995242e8cb0a=
-4984254f0748ef11a89ca4618cab8f047ee59a88768e7","src/fuchsia/aarch64.rs":"9c=
-d032304a54321a8926cf3157194c5d79a2491b1b974a05fe71729fa43b5738","src/fuchsi=
-a/mod.rs":"e27680db23fa506e379a86033b42813ea1f6c8f6b01d97a9a880d9d7be6d9f7f=
-","src/fuchsia/riscv64.rs":"f2aba92cb88480bd72a9eb7a41aafc63c5db293b93113fa=
-973fe5ab1fd819e29","src/fuchsia/x86_64.rs":"66c6ae7d3f81b1d7c962671aa074d70=
-9c39069e3b5830621a26d94c15caf588f","src/hermit.rs":"e414a3ecd5b5bc6c0bf7ce7=
-c31639805943b789fbbf6006ceeb85ab44f3e4564","src/lib.rs":"d65975abfeac27f8db=
-ef348fa7afa0b2b761a0a7073f4621c1bbff41334983cd","src/macros.rs":"076f328df1=
-d51017bac70456e7b8290bee1b07390328fff48102e05048ada56a","src/primitives.rs"=
-:"0096ec3f32454a630fd1e78fa5aaaa033f107c1394a0d7b8dfe92594339a547b","src/ps=
-p.rs":"b88f5659011db6a189bd06de3a365c35a34cec6b7ab547719b8ae2b371f9cb21","s=
-rc/sgx.rs":"964d6af358f5c85f948275090e5a7854e0169c43b5c338070b6a4cd156ebc9e=
-6","src/solid/aarch64.rs":"4d4236500f98858fc249f3b6858af5009851c8c582031926=
-b8195b2646f7da5e","src/solid/arm.rs":"4d4236500f98858fc249f3b6858af5009851c=
-8c582031926b8195b2646f7da5e","src/solid/mod.rs":"a2045b6089af91bd533a666773=
-d3b99fcfaf03da7a06869382969eed059b0e4c","src/switch.rs":"bfdcaf0268d79652ee=
-52c1a2837959b8253e6a4124fd94dda82727ecc442a758","src/teeos/mod.rs":"2cca695=
-904dacb13c063fb6463a6e0b2bb47ed86be0fdc9476938297441d7795","src/trusty.rs":=
-"c5012aeefc4307c11374f062ad1d530e2ec556e7069e375de326a49c77f65e22","src/uni=
-x/aix/mod.rs":"fa3fa1f33e381f9492321e47f683300460d02fa230f14965ee808eeab288=
-4408","src/unix/aix/powerpc64.rs":"c2315d638bad020e75ef15f85989f8feffb4f38b=
-ac4b7e70642031c6ae1fb65d","src/unix/bsd/apple/b32/mod.rs":"39a7f5cf92cf2d26=
-ca50f54182fe57028cf24147ec12cb89d251301d65862138","src/unix/bsd/apple/b64/a=
-arch64/mod.rs":"3ce904e72d78e6465ca52fd3905208fbb8cbc49a1695a708b12dff2ee01=
-f4d36","src/unix/bsd/apple/b64/mod.rs":"a77ef659cd2edadb39db562e655ea5efdb1=
-02ed0dfb872d8d004b38d1a0e9e49","src/unix/bsd/apple/b64/x86_64/mod.rs":"71ba=
-d5c051368805146168c4063534b010afcb358477c1f164712bb015bf3fb6","src/unix/bsd=
-/apple/mod.rs":"39216bfe363384709f0b38df6b333206ad85361e6b1389f699b2b88d46a=
-a3e1f","src/unix/bsd/freebsdlike/dragonfly/errno.rs":"07b19390b9ae8f541ac35=
-fd4e14685d639b95152d6d7a33814bb749b8b927298","src/unix/bsd/freebsdlike/drag=
-onfly/mod.rs":"9681882d03a9cc7e00db0d9f0be797426ce4e9f7584d3fe4ab43bc7967dd=
-0e4e","src/unix/bsd/freebsdlike/freebsd/aarch64.rs":"9e8e5a9f1de648b248f257=
-aab6e1bc8ccfe9e481554a52bdef06aefd262a15a2","src/unix/bsd/freebsdlike/freeb=
-sd/arm.rs":"36158ac5a31d86a919d8e477a9ba64467d38b57bc3910e19b082130811c2f28=
-9","src/unix/bsd/freebsdlike/freebsd/freebsd11/b32.rs":"8d9bef35f3e490d0475=
-5a59a99ad054ef20498beff979ae8b14acbec1097318a","src/unix/bsd/freebsdlike/fr=
-eebsd/freebsd11/b64.rs":"45f718f556a8368f282944d9a14afae7261827ec4838d26719=
-290466efc4f023","src/unix/bsd/freebsdlike/freebsd/freebsd11/mod.rs":"77bef5=
-7a5697d837331cff8947c50d070b28bb7aaa51b23f4d604cedaba76806","src/unix/bsd/f=
-reebsdlike/freebsd/freebsd12/mod.rs":"2dfe0dd90c956e3bcc8bbbd6926c5b370829f=
-411f22b80fa749fe87ebf0ea47b","src/unix/bsd/freebsdlike/freebsd/freebsd12/x8=
-6_64.rs":"64c4bd82eaf30a2681417f982fce28de7d1b0743bfaa14004692a56cee44be21"=
-,"src/unix/bsd/freebsdlike/freebsd/freebsd13/mod.rs":"f0d4d0fcd6c4e3bd77f84=
-474a404be8a3a326731e9fe52008a09bcfb123a98a0","src/unix/bsd/freebsdlike/free=
-bsd/freebsd13/x86_64.rs":"64c4bd82eaf30a2681417f982fce28de7d1b0743bfaa14004=
-692a56cee44be21","src/unix/bsd/freebsdlike/freebsd/freebsd14/mod.rs":"c6efc=
-4de30803d89d7c73ef59e5e18dfb3c4a0c0688855b9193b228573651106","src/unix/bsd/=
-freebsdlike/freebsd/freebsd14/x86_64.rs":"d6e66809e109dc779efe5584b79d34fcd=
-6fdba91973a415d64ae66f481f45940","src/unix/bsd/freebsdlike/freebsd/freebsd1=
-5/mod.rs":"48730e73367432bce709d5bcf316197c48f7501833a4798df5fc5f7043f04030=
-","src/unix/bsd/freebsdlike/freebsd/freebsd15/x86_64.rs":"d6e66809e109dc779=
-efe5584b79d34fcd6fdba91973a415d64ae66f481f45940","src/unix/bsd/freebsdlike/=
-freebsd/mod.rs":"59ba589299a415936aad6f99f253a5b31e9b1e83ab6f0db3ceba077b7b=
-a198b7","src/unix/bsd/freebsdlike/freebsd/powerpc.rs":"36a03b20551864c92852=
-e967ebf91c6a8105fd520e41a35273e2dc6487590267","src/unix/bsd/freebsdlike/fre=
-ebsd/powerpc64.rs":"3de9344db84572975b5965ac4292cf475e3c96854c58b7a478b9972=
-407ffd1fd","src/unix/bsd/freebsdlike/freebsd/riscv64.rs":"3dfdc394922c2cb66=
-790309c76913576a7235513ad3bf9d8bd86b8671e284ff0","src/unix/bsd/freebsdlike/=
-freebsd/x86.rs":"2521db73acc14867b2e16aa05dd55cc48a7650d2773a009b269bbceafd=
-819fac","src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs":"85b4b6118ef4e08a7=
-4b8cc17d364b22949b2e05e642e3240e14f2651a2126d18","src/unix/bsd/freebsdlike/=
-mod.rs":"eda51316ba108b78c3f6c383cb047855dbd04f5b4bb59d04e0f2978722c68101",=
-"src/unix/bsd/mod.rs":"c69855551561c4beeaed5ada823404c9b9d27e9e21c0e4bafb6f=
-1b52ad09ad2b","src/unix/bsd/netbsdlike/mod.rs":"ef9b617c42084db1bd3aa4f5d5d=
-1a75ce1963b23945c117b6076400905ff75ec","src/unix/bsd/netbsdlike/netbsd/aarc=
-h64.rs":"bd36c92099db501350fb8617414d1fea89a6bb12867498e1821167813ab70a02",=
-"src/unix/bsd/netbsdlike/netbsd/arm.rs":"237beaefcb12e7be9ccd4fef6e3be7db79=
-ee63d4fc714e5eaf6084d4826d6fa2","src/unix/bsd/netbsdlike/netbsd/mips.rs":"d=
-1ff114b268358e5d35e7b83d85f414d16b81ef39eeb1802682ff4424b102bc7","src/unix/=
-bsd/netbsdlike/netbsd/mod.rs":"df73622ea883b9e44980e14eb7cee3b53bcdddd62190=
-fe3d672ac5843b2e2e95","src/unix/bsd/netbsdlike/netbsd/powerpc.rs":"94494f34=
-8f011c6135d301944696c5b5a09979f5892abee4c8fdee1056388b94","src/unix/bsd/net=
-bsdlike/netbsd/riscv64.rs":"f3778a9bd2ba923220537d167cfb10b91580ffbf5831007=
-89a46d2807f7a1e3e","src/unix/bsd/netbsdlike/netbsd/sparc64.rs":"d50816e8302=
-25779ac9e9a55a7e3e097882153d72987061d76a96ee736c8af9c","src/unix/bsd/netbsd=
-like/netbsd/x86.rs":"307a9aba68071b0589e459269ef10845c302599b0fd2b0ee7b5c48=
-0177904e89","src/unix/bsd/netbsdlike/netbsd/x86_64.rs":"4ced76b3640d465f6de=
-ad8beb5e947b3ce8297884260fb943d5f417d985dbafc","src/unix/bsd/netbsdlike/ope=
-nbsd/aarch64.rs":"8be46bc5151ec1081feaf7685c18507f766f2501a2b5d35107db3babb=
-896395a","src/unix/bsd/netbsdlike/openbsd/arm.rs":"f81c71e1cfe436b8f32cfe06=
-4991019cce0c83627f0d9c3a30d68691d71c7449","src/unix/bsd/netbsdlike/openbsd/=
-mips64.rs":"bee7664d88f8451ae22552fc0721b6b6a6dee2493cc42bcb9829c1e47e4b05f=
-5","src/unix/bsd/netbsdlike/openbsd/mod.rs":"dd9e56c95e324e90e3a7c8905c5930=
-25f65c36e98c9f95eb0e033ea04e6d949f","src/unix/bsd/netbsdlike/openbsd/powerp=
-c.rs":"f81c71e1cfe436b8f32cfe064991019cce0c83627f0d9c3a30d68691d71c7449","s=
-rc/unix/bsd/netbsdlike/openbsd/powerpc64.rs":"9bd3813fe2fd7ca66ee8d70d13887=
-b4595fb8c9e819691a657ddf108ed9cafbf","src/unix/bsd/netbsdlike/openbsd/riscv=
-64.rs":"7fb322e9f5425456dd53eb07de9fc84097ef35295802e8f50a7fb3c7e1f89ac6","=
-src/unix/bsd/netbsdlike/openbsd/sparc64.rs":"8d4c5a4cae63e09e1c156164ddc82e=
-0fc77926841d4d4e419dd2e7a7b7145f58","src/unix/bsd/netbsdlike/openbsd/x86.rs=
-":"26c1b7e7f7799c5e434126c6c0ddd45f40939cae4151f8ce0a7a1836f83ac56a","src/u=
-nix/bsd/netbsdlike/openbsd/x86_64.rs":"312b77a50ee47f107e9cfd8e7e7e0d494567=
-5a859d7286fedbf192840f8a4c34","src/unix/cygwin/mod.rs":"13c9af853fa35f3318f=
-629b336fd8727e62ab106ac3a2cfa0a2ac13e77536900","src/unix/haiku/b32.rs":"c3f=
-8678ceee65a3094d8133b0d1a94470860e0b1867977f0569c52c5a20e039f","src/unix/ha=
-iku/b64.rs":"f97ce9225f4710893dab03ab3e13bc62152cc84f90c597ec88f6dc1f4c27d2=
-42","src/unix/haiku/mod.rs":"991e5ab02e8607ece273e66ab8303dc7604488bf7e0b75=
-33fdb69ea9adef83df","src/unix/haiku/native.rs":"fafc7daab134d37ed260373f9c3=
-a8177cc0fd88ba147c1001b9867eb9bd0799b","src/unix/haiku/x86_64.rs":"4480c042=
-3eac3f288202df587b54025292633869a868bd0ac2767cd40afb5173","src/unix/hurd/b3=
-2.rs":"501f426f7aeb60acf4119064100dd94bbdfebff2cec785428708059d853dc123","s=
-rc/unix/hurd/b64.rs":"b9b2082e721a5ec89ba55fd5a16bbffcc8a05ca7cef6dbfbd78af=
-f0806cb931f","src/unix/hurd/mod.rs":"4bc76f612d215300d01bd36bb5e6541cddbe62=
-858571328a03c6b7bb8a208262","src/unix/linux_like/android/b32/arm.rs":"06dfd=
-e862400151e3a667650d73c8ac8ea9c3c44c5401ef2b2406b2cca4a8672","src/unix/linu=
-x_like/android/b32/mod.rs":"2df9e7337f299a12890bccca59d65619aa5a53991aa2c0c=
-33b4fc49b64c3c93d","src/unix/linux_like/android/b32/x86/mod.rs":"ad5942e15c=
-6603469e82144076c4837e9daebb40d0195865e7d574e6433136d0","src/unix/linux_lik=
-e/android/b64/aarch64/mod.rs":"5ae558c8af8187155fa0ae8b8776459a60c08ce152f2=
-5d137f845d8371673b7e","src/unix/linux_like/android/b64/mod.rs":"6a87e7e6736=
-77882c31eb4b69375427b71f7f9f61f883322bb1fba8ecb9ff39c","src/unix/linux_like=
-/android/b64/riscv64/mod.rs":"d826b0e4f078b8ea228f2244659fc700b95aa8a7ba87c=
-aef0bc34f54c9defd2c","src/unix/linux_like/android/b64/x86_64/mod.rs":"cab0e=
-8cc6895e7af9e631196b2484e7ccb3bdf5b0a134ab14abb626eef8b2a3e","src/unix/linu=
-x_like/android/mod.rs":"980694e20136b3f83176af5b6a2fcc7c70aa8e7a76baef324ce=
-fb7c9ac3b1af8","src/unix/linux_like/emscripten/lfs64.rs":"3a1d1779bcf16525a=
-578a68237f9854090eae4c9819e18ffb5a288f39be4afbe","src/unix/linux_like/emscr=
-ipten/mod.rs":"356db0bbc7ee5c23cc79fc15add48febaf2976b0780a3c430b2f098715e4=
-153a","src/unix/linux_like/linux/arch/generic/mod.rs":"affb1e1abc4d58d8f37b=
-a834981cf86858242c2a01c1c4bfd905c9e3bbbeacab","src/unix/linux_like/linux/ar=
-ch/mips/mod.rs":"abda6685083597ed88c1f5d4121b387288d29a7bfb5f9b47a1580a45d3=
-f523d8","src/unix/linux_like/linux/arch/mod.rs":"8bc5898b03760a95dd4f124ac7=
-6ad92e5ae36b2d0644203d752ef2b37e487c3a","src/unix/linux_like/linux/arch/pow=
-erpc/mod.rs":"ca5e83ce5f0e6c7ef7f575dcc27a5669b64b759ae0871c13b91fce43ad152=
-351","src/unix/linux_like/linux/arch/sparc/mod.rs":"9735216185ae78271e8333f=
-8e8199480244d1a269b27b430f480a7b75c219c50","src/unix/linux_like/linux/gnu/b=
-32/arm/mod.rs":"aa5958011a063d025f11cf0cfc999dbc987ca5cbe0aad5385ab5e7ff7fc=
-55abe","src/unix/linux_like/linux/gnu/b32/csky/mod.rs":"e1c53b84e1c13d91d94=
-a44da0c3f120788c135d4253834782db57cccf0a39db4","src/unix/linux_like/linux/g=
-nu/b32/m68k/mod.rs":"4e8eaf62fefaaa57842259b47b21f02e21f299975a6d82a6472950=
-6781259e43","src/unix/linux_like/linux/gnu/b32/mips/mod.rs":"333c338367275e=
-c420fc4c83779e3f0e52f86cace91d7940718a5b02c2e60297","src/unix/linux_like/li=
-nux/gnu/b32/mod.rs":"7a4767d2409a4764ec0735f7f47d7d082247b324d28bdd2baee038=
-02f95fa3e3","src/unix/linux_like/linux/gnu/b32/powerpc.rs":"336f24e10b2dbd2=
-faf0fb003cf43220c08f325695a02f4f7fd63fa06c23ce381","src/unix/linux_like/lin=
-ux/gnu/b32/riscv32/mod.rs":"e5882e019997612fac4fe839915dbef9b2bcc1bea5484ef=
-a4a2664a339fa5e14","src/unix/linux_like/linux/gnu/b32/sparc/mod.rs":"756ea2=
-7c90bee66496aac32fba1a2e38b4ecb1e9c104a3160010eaa505807efb","src/unix/linux=
-_like/linux/gnu/b32/x86/mod.rs":"9d28eac7d1bf98aa38832b8e55757ddef3ee8bde4c=
-b00ba5e4145d07038bf827","src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs=
-":"638b2d717dcf5b59a0058c3dabab43edd84de9d1d7da6e16ad0c58e863000417","src/u=
-nix/linux_like/linux/gnu/b64/aarch64/lp64.rs":"28c11e70467b2f00735d3a04c369=
-e96e04fd44d0587ee33359f38328b0677ee6","src/unix/linux_like/linux/gnu/b64/aa=
-rch64/mod.rs":"335b220e43cd07c3f6a262fe161fb057dea6324ab8ad41cd419bc596e16c=
-d640","src/unix/linux_like/linux/gnu/b64/loongarch64/mod.rs":"425047046086c=
-6be01d35b6c630f70c560a58be772704329e0aae23102f7db51","src/unix/linux_like/l=
-inux/gnu/b64/mips64/mod.rs":"05c9fa18fb781f775d7fba8916b756752612590168ddc1=
-27315a0fcbbd5d8ad3","src/unix/linux_like/linux/gnu/b64/mod.rs":"d1d38f4a25d=
-885be350bc6fdfa4a633a180717d60392010c40ec2c3899fc4d42","src/unix/linux_like=
-/linux/gnu/b64/powerpc64/mod.rs":"8ea4a284cfb48c23ffa1a5dba69ac2e6433109ec0=
-0260dc3ffb241aec5219473","src/unix/linux_like/linux/gnu/b64/riscv64/mod.rs"=
-:"c20634c01c22d0d618d0f6d555f35eb339f4e75fd6491cb4a77392b48e1b2265","src/un=
-ix/linux_like/linux/gnu/b64/s390x.rs":"67cad067e292b4d8cc0743adb4506f02c53b=
-df3c2e935fbfc1467a88451c645b","src/unix/linux_like/linux/gnu/b64/sparc64/mo=
-d.rs":"8cbfa0d9c67893b18e836a7e9b70076dcbcb06386575fc261f2b8a9fefd2caa7","s=
-rc/unix/linux_like/linux/gnu/b64/x86_64/mod.rs":"10fcc444c2550be09ccf7a4231=
-024b8af4acd6024de81da110ad932b62707698","src/unix/linux_like/linux/gnu/b64/=
-x86_64/not_x32.rs":"07240332eaf44996d86e37b12d71b519b499c9c9b57898441c58ac2=
-e8c0cb6f7","src/unix/linux_like/linux/gnu/b64/x86_64/x32.rs":"914898b781dfe=
-6b2f755730d6000223d1beea177731e180ccbfdd84a0b8b3bd9","src/unix/linux_like/l=
-inux/gnu/mod.rs":"52e1300f6c25cefd4c3d491ec7e1385f423a1fbbeb97b774c9a400b1c=
-1b2b822","src/unix/linux_like/linux/mod.rs":"07f336f3e08712d51a96380250784c=
-5a3364361d6c75f1e135931779b8d752af","src/unix/linux_like/linux/musl/b32/arm=
-/mod.rs":"8aefb482620db0e6853abc2313877f6bf87b3b4d63c0891d99189cdb12ce7733"=
-,"src/unix/linux_like/linux/musl/b32/hexagon.rs":"400457049bad619da3accbca2=
-c841206d1cd2673d670baf7210bf17427510271","src/unix/linux_like/linux/musl/b3=
-2/mips/mod.rs":"fa47a3a9614ec2a964e99d30cde2d2dd4f04015e6c4dcf3b3e3061a7538=
-bd7c7","src/unix/linux_like/linux/musl/b32/mod.rs":"e0f53df7ca1dbe9b0b25cce=
-cf1adf664227995e58d67a222a8d046d2a879dfc8","src/unix/linux_like/linux/musl/=
-b32/powerpc.rs":"e97baedfe7f1a0cb48f0ba9e5389f86c19c4a08e22de1d82f18f411dba=
-4c95e2","src/unix/linux_like/linux/musl/b32/riscv32/mod.rs":"435ba055ec51d4=
-8bea1f835aeea91d01a24a12db9363aa34d1587dc7f0ac99e4","src/unix/linux_like/li=
-nux/musl/b32/x86/mod.rs":"b27cf5ff9f1f734957af06f50881360dffb20538f7703daea=
-01bbebf0e232bf0","src/unix/linux_like/linux/musl/b64/aarch64/mod.rs":"ef117=
-d729a168607bc7ddbf6fa1289e62233b50cf154237151ba1ee842208178","src/unix/linu=
-x_like/linux/musl/b64/loongarch64/mod.rs":"3075639f37378774f3991f05971a9b72=
-5766105e5884b1e97b3889b079f95514","src/unix/linux_like/linux/musl/b64/mips6=
-4.rs":"abf1eb14fff4dd1bdf081672ab92858e99c09666583d8f9952112da13036e50e","s=
-rc/unix/linux_like/linux/musl/b64/mod.rs":"07081d3471292a46d5ed69a5a376fcea=
-c9c6a01533c76db277eb6f9923092d5f","src/unix/linux_like/linux/musl/b64/power=
-pc64.rs":"606be7895a1578916b2b1f1d01518307d46b79a9c64d239a37dc8693af697466"=
-,"src/unix/linux_like/linux/musl/b64/riscv64/mod.rs":"a76a7a24d52f2fc3811d7=
-2f69e9a369d0547bdee166a5a943b94396e320b077c","src/unix/linux_like/linux/mus=
-l/b64/s390x.rs":"ffbfdefb58d27d6463757a256b1480b83e53b19fc0f9c7fc1af461be33=
-fae359","src/unix/linux_like/linux/musl/b64/wasm32/mod.rs":"f44f7b2ade822aa=
-468f4abd6ba3f1ce86d6ffd307c4b4eb50684156458abd137","src/unix/linux_like/lin=
-ux/musl/b64/wasm32/wali.rs":"69e0d06289f1c86898ef3ab505e397af2acce146accb62=
-efff654fe458b6af02","src/unix/linux_like/linux/musl/b64/x86_64/mod.rs":"a31=
-7282fb504c35a83e0de335caa01c09f8f9b2649d1250dbcedb1ebf0f75e7f","src/unix/li=
-nux_like/linux/musl/lfs64.rs":"308c5b5c9b2f4b1ad17e5c2d02946f84ae83e8f5cb0e=
-789d8d3e76c1923a5d31","src/unix/linux_like/linux/musl/mod.rs":"7fc0d475f397=
-b64eb40c57bf5835a4612267d2a42c955e12f486032a8b54b8d9","src/unix/linux_like/=
-linux/uclibc/arm/mod.rs":"32d3701fa086b2a98589b4ae4842ce62b295bc0bd9eaf1b5f=
-9792e442b681090","src/unix/linux_like/linux/uclibc/mips/mips32/mod.rs":"594=
-93f1ab84ddbcf9dc5881c9cfc26e28d4fb5322d63f60eb7de5f9e8e329580","src/unix/li=
-nux_like/linux/uclibc/mips/mips64/mod.rs":"a35532d5ae376f403873aa566f37bff9=
-9c6c323d334f3201667e5f7200b04643","src/unix/linux_like/linux/uclibc/mips/mo=
-d.rs":"ead3f9c05e3bdd5d5b52f25dd4a2d154471555a6bae2d4cbd5c07e976513dcea","s=
-rc/unix/linux_like/linux/uclibc/mod.rs":"ed8bd29fc30319dfc149ccc5d150ca41e2=
-d28ea5210fc26d9af91ad5903d0093","src/unix/linux_like/linux/uclibc/x86_64/l4=
-re.rs":"059d1f15bf84e2226be6b842dc9466fc5f5bf55cdeed7a8742658ff25f05361c","=
-src/unix/linux_like/linux/uclibc/x86_64/mod.rs":"c37752975c173aeb1641bae0e7=
-43ff2e7600976620bcb6e9ee8e74a40355d186","src/unix/linux_like/linux/uclibc/x=
-86_64/other.rs":"12f8d4049862fc0c4d94b770f2d0341c1c7bf3da0619436169c12cadc4=
-093def","src/unix/linux_like/mod.rs":"e04413e0d1c5207b58ab6c49f7995b9000be1=
-f2fb1d4595c357a32df38951410","src/unix/mod.rs":"72b609e49e61591b3082cf674bb=
-8df806f2ca5b755b9a052d94c6c8cb0f5e597","src/unix/newlib/aarch64/mod.rs":"ec=
-594c54dc0e7784668d02ef737fd194dcc3f1e6ee23328d810fd2453bcb6f20","src/unix/n=
-ewlib/arm/mod.rs":"a1fb6caa077c2ed69adf12da07c814ffab4c1311579f23bae2b26a40=
-cf180665","src/unix/newlib/espidf/mod.rs":"77e8ad5b7db027b8b0b5aa5126f15bc0=
-e35b6f3deb2339acf403c961f13df26f","src/unix/newlib/generic.rs":"182e584f14e=
-0984934130425dd2be0781ca2c131449b3ae1734a07c72c3d43cd","src/unix/newlib/hor=
-izon/mod.rs":"ae4e76ef8c04fa8580578e33037bcf1888a8e4d688aa6f115713f644b8a11=
-313","src/unix/newlib/mod.rs":"2f3e9c6217994ec34b0e3b49bf5ebe1335f3b12146f7=
-f55a797ea7041cb1f44c","src/unix/newlib/powerpc/mod.rs":"4e5f804a13e907e17eb=
-b66dcbf3b0fe6e1a611f91876aad8d8a0a69c7df0a7e8","src/unix/newlib/rtems/mod.r=
-s":"239c90d1daf783ff95168a3fcbc5a0c3d1f9c4b5a0ef32a0e4a22b861f82713a","src/=
-unix/newlib/vita/mod.rs":"66765c20482f03c3fcb57d57dd3f31eeeab9729e1bb188191=
-ad53a8fc124fc5f","src/unix/nto/aarch64.rs":"73ad54ebca13454a75c7b0815e85317=
-5070a8ac2eefa338012a03e8b59f01e0c","src/unix/nto/mod.rs":"ded4a28f5b322446b=
-0885290b917171d771b7897f39bf5616122283318b7a8e2","src/unix/nto/neutrino.rs"=
-:"039ab7b1ed702d515f3e06d7f3536709704715a49905024b6c520696a65086f9","src/un=
-ix/nto/x86_64.rs":"8da99138e210516a95d49c8c0265eada4c5f7b93d59be86224844410=
-f5e7929b","src/unix/nuttx/mod.rs":"69beba3516f66d36c5b5e38130ff1fde8a8403d6=
-d8ec79bebe437ac5d385176f","src/unix/redox/mod.rs":"a9a0005c8572ad5404cc9680=
-a83a610d8aa82278fcb5d24a4b99ab32fcc6eb60","src/unix/solarish/compat.rs":"c0=
-2a88918852b7a9c60e45a34f7b003901000380f5c1b2832b8bd79f84936c8b","src/unix/s=
-olarish/illumos.rs":"7c5da4d4ea69ebfb83a59764eeafc74e234b2b9b021eed32572b8a=
-28d991a398","src/unix/solarish/mod.rs":"ae04bf0fd7a30c0d0e22df180617c545428=
-874c50a6ff815048a82124c2c6d75","src/unix/solarish/solaris.rs":"54bae4c960b6=
-5d849beea8f0beb79dc37afebc1e9d7664424df13e6082ccc2e8","src/unix/solarish/x8=
-6.rs":"44261c1f1b300dac9fa0dab93ec85d0c3b3c48b15bc4515b9820c9421cff7427","s=
-rc/unix/solarish/x86_64.rs":"1601309baae50ccfd51b5d188668e6ac5dabc4e8d2ffde=
-103592922ec15295ef","src/unix/solarish/x86_common.rs":"4ae02d88622f7f080f5e=
-8cd328f13187edbc5e124fb3e05e4cf212597f6cce48","src/vxworks/aarch64.rs":"4d4=
-236500f98858fc249f3b6858af5009851c8c582031926b8195b2646f7da5e","src/vxworks=
-/arm.rs":"4d4236500f98858fc249f3b6858af5009851c8c582031926b8195b2646f7da5e"=
-,"src/vxworks/mod.rs":"b2857bf7695b4571ad7fba8f44ebcbdecbdd9ac26b38430b33b0=
-4f0c50addcc7","src/vxworks/powerpc.rs":"4d4236500f98858fc249f3b6858af500985=
-1c8c582031926b8195b2646f7da5e","src/vxworks/powerpc64.rs":"4d4236500f98858f=
-c249f3b6858af5009851c8c582031926b8195b2646f7da5e","src/vxworks/riscv32.rs":=
-"b1f933205800f0da00f975d53b18fe0035e075cc4613acf110a09a277dc3302a","src/vxw=
-orks/riscv64.rs":"b1f933205800f0da00f975d53b18fe0035e075cc4613acf110a09a277=
-dc3302a","src/vxworks/x86.rs":"b1f933205800f0da00f975d53b18fe0035e075cc4613=
-acf110a09a277dc3302a","src/vxworks/x86_64.rs":"b1f933205800f0da00f975d53b18=
-fe0035e075cc4613acf110a09a277dc3302a","src/wasi/mod.rs":"cac5127894b50bd188=
-0e87b54ae0cbc9afe98f99ee739f74aec04172c14bcc1a","src/wasi/p2.rs":"feecc0485=
-eabd2c32bc5d800df6ad1b9b4d282741342fb08792f2635204e1e08","src/windows/gnu/m=
-od.rs":"320ddf761f731c24a27e061438ddbacb0630e3ad6f3bb39f6514c28dffd8ac9f","=
-src/windows/mod.rs":"6be16eea8c7319c35e7efc6a70da8a04f9ab25d68173c51d561f37=
-a0935de47c","src/windows/msvc/mod.rs":"7bc0f1e7e73815296cd6b63b2700e12624e9=
-f47b5c4113a1a87fae8e64549c00","src/xous.rs":"1a83621c40248ad4d0c08e1fd4c110=
-7d5efcbc2f4f0169538b7b4a885abedbfa","tests/const_fn.rs":"8ac3171d7bced3576a=
-4e93f48570b3e00c553d7510ab85a7473ae3b716a812dc"},"package":"c19937216e9d3aa=
-9956d9bb8dfc0b0c8beb6058fc4f7a4dc4d850edf86a237d6"}
--\ No newline at end of file
--+{"$comment":"This file only protects against accidental modifications. It=
- is not a security mechanism and does not protect against malicious changes=
-.","files":{".cargo_vcs_info.json":"05a2dd302c1c8516cc824f6153ebee609e34091=
-0e83f494b2c385738f9fea2ea",".git-blame-ignore-revs":"761aa385c661241fa77c15=
-b502c361398cf500bbb9f8c3a4579b412c4c6249d7",".release-plz.toml":"fcf2d382c4=
-a2abd96caf9cc391b63e0c94d5832f5c48e9ab9eb4b2c847c0887c","CHANGELOG.md":"747=
-b437db48b8ded620a8738f9c1dbc2fde3d26db03d0782796537a9e505a263","CONTRIBUTIN=
-G.md":"155e7f4e96fafe9ee5c8adb5068be27a22de89a95ca9bfc7baf517b9850d20d6","C=
-argo.lock":"8f6d0b13c977c8016b568c0a35b5ae709318e0766af3cff4a84d35121901384=
-1","Cargo.toml":"7f31f2e612b4c14b57ecdcec4912ac1514e26e3c061d5b06b54e1e34e8=
-3191b1","Cargo.toml.orig":"b690a71106c17d70788343841b89bfe6cd5359b556b5b6cf=
-394e54a1edd96281","LICENSE-APACHE":"62c7a1e35f56406896d7aa7ca52d0cc0d272ac0=
-22b5d2796e7d6905db8a3636a","LICENSE-MIT":"a8d47ff51ca256f56a8932dba07660672=
-dbfe3004257ca8de708aac1415937a1","README.md":"a198be444453fe0b24d4fb6a8b732=
-eb9e6dc77ebcfd119fca95b97b45c77c77a","build.rs":"199eb63f03c4e90cad31c1f03a=
-15bac3d81ca97f31bcb81c45bbd0d909e57d61","rustfmt.toml":"e9321ff995242e8cb0a=
-4984254f0748ef11a89ca4618cab8f047ee59a88768e7","src/fuchsia/aarch64.rs":"9c=
-d032304a54321a8926cf3157194c5d79a2491b1b974a05fe71729fa43b5738","src/fuchsi=
-a/mod.rs":"e27680db23fa506e379a86033b42813ea1f6c8f6b01d97a9a880d9d7be6d9f7f=
-","src/fuchsia/riscv64.rs":"f2aba92cb88480bd72a9eb7a41aafc63c5db293b93113fa=
-973fe5ab1fd819e29","src/fuchsia/x86_64.rs":"66c6ae7d3f81b1d7c962671aa074d70=
-9c39069e3b5830621a26d94c15caf588f","src/hermit.rs":"e414a3ecd5b5bc6c0bf7ce7=
-c31639805943b789fbbf6006ceeb85ab44f3e4564","src/lib.rs":"d65975abfeac27f8db=
-ef348fa7afa0b2b761a0a7073f4621c1bbff41334983cd","src/macros.rs":"076f328df1=
-d51017bac70456e7b8290bee1b07390328fff48102e05048ada56a","src/primitives.rs"=
-:"0096ec3f32454a630fd1e78fa5aaaa033f107c1394a0d7b8dfe92594339a547b","src/ps=
-p.rs":"b88f5659011db6a189bd06de3a365c35a34cec6b7ab547719b8ae2b371f9cb21","s=
-rc/sgx.rs":"964d6af358f5c85f948275090e5a7854e0169c43b5c338070b6a4cd156ebc9e=
-6","src/solid/aarch64.rs":"4d4236500f98858fc249f3b6858af5009851c8c582031926=
-b8195b2646f7da5e","src/solid/arm.rs":"4d4236500f98858fc249f3b6858af5009851c=
-8c582031926b8195b2646f7da5e","src/solid/mod.rs":"a2045b6089af91bd533a666773=
-d3b99fcfaf03da7a06869382969eed059b0e4c","src/switch.rs":"bfdcaf0268d79652ee=
-52c1a2837959b8253e6a4124fd94dda82727ecc442a758","src/teeos/mod.rs":"2cca695=
-904dacb13c063fb6463a6e0b2bb47ed86be0fdc9476938297441d7795","src/trusty.rs":=
-"c5012aeefc4307c11374f062ad1d530e2ec556e7069e375de326a49c77f65e22","src/uni=
-x/aix/mod.rs":"fa3fa1f33e381f9492321e47f683300460d02fa230f14965ee808eeab288=
-4408","src/unix/aix/powerpc64.rs":"c2315d638bad020e75ef15f85989f8feffb4f38b=
-ac4b7e70642031c6ae1fb65d","src/unix/bsd/apple/b32/mod.rs":"39a7f5cf92cf2d26=
-ca50f54182fe57028cf24147ec12cb89d251301d65862138","src/unix/bsd/apple/b64/a=
-arch64/mod.rs":"3ce904e72d78e6465ca52fd3905208fbb8cbc49a1695a708b12dff2ee01=
-f4d36","src/unix/bsd/apple/b64/mod.rs":"a77ef659cd2edadb39db562e655ea5efdb1=
-02ed0dfb872d8d004b38d1a0e9e49","src/unix/bsd/apple/b64/x86_64/mod.rs":"71ba=
-d5c051368805146168c4063534b010afcb358477c1f164712bb015bf3fb6","src/unix/bsd=
-/apple/mod.rs":"39216bfe363384709f0b38df6b333206ad85361e6b1389f699b2b88d46a=
-a3e1f","src/unix/bsd/freebsdlike/dragonfly/errno.rs":"07b19390b9ae8f541ac35=
-fd4e14685d639b95152d6d7a33814bb749b8b927298","src/unix/bsd/freebsdlike/drag=
-onfly/mod.rs":"9681882d03a9cc7e00db0d9f0be797426ce4e9f7584d3fe4ab43bc7967dd=
-0e4e","src/unix/bsd/freebsdlike/freebsd/aarch64.rs":"9e8e5a9f1de648b248f257=
-aab6e1bc8ccfe9e481554a52bdef06aefd262a15a2","src/unix/bsd/freebsdlike/freeb=
-sd/arm.rs":"36158ac5a31d86a919d8e477a9ba64467d38b57bc3910e19b082130811c2f28=
-9","src/unix/bsd/freebsdlike/freebsd/freebsd11/b32.rs":"8d9bef35f3e490d0475=
-5a59a99ad054ef20498beff979ae8b14acbec1097318a","src/unix/bsd/freebsdlike/fr=
-eebsd/freebsd11/b64.rs":"45f718f556a8368f282944d9a14afae7261827ec4838d26719=
-290466efc4f023","src/unix/bsd/freebsdlike/freebsd/freebsd11/mod.rs":"77bef5=
-7a5697d837331cff8947c50d070b28bb7aaa51b23f4d604cedaba76806","src/unix/bsd/f=
-reebsdlike/freebsd/freebsd12/mod.rs":"2dfe0dd90c956e3bcc8bbbd6926c5b370829f=
-411f22b80fa749fe87ebf0ea47b","src/unix/bsd/freebsdlike/freebsd/freebsd12/x8=
-6_64.rs":"64c4bd82eaf30a2681417f982fce28de7d1b0743bfaa14004692a56cee44be21"=
-,"src/unix/bsd/freebsdlike/freebsd/freebsd13/mod.rs":"f0d4d0fcd6c4e3bd77f84=
-474a404be8a3a326731e9fe52008a09bcfb123a98a0","src/unix/bsd/freebsdlike/free=
-bsd/freebsd13/x86_64.rs":"64c4bd82eaf30a2681417f982fce28de7d1b0743bfaa14004=
-692a56cee44be21","src/unix/bsd/freebsdlike/freebsd/freebsd14/mod.rs":"c6efc=
-4de30803d89d7c73ef59e5e18dfb3c4a0c0688855b9193b228573651106","src/unix/bsd/=
-freebsdlike/freebsd/freebsd14/x86_64.rs":"d6e66809e109dc779efe5584b79d34fcd=
-6fdba91973a415d64ae66f481f45940","src/unix/bsd/freebsdlike/freebsd/freebsd1=
-5/mod.rs":"48730e73367432bce709d5bcf316197c48f7501833a4798df5fc5f7043f04030=
-","src/unix/bsd/freebsdlike/freebsd/freebsd15/x86_64.rs":"d6e66809e109dc779=
-efe5584b79d34fcd6fdba91973a415d64ae66f481f45940","src/unix/bsd/freebsdlike/=
-freebsd/mod.rs":"59ba589299a415936aad6f99f253a5b31e9b1e83ab6f0db3ceba077b7b=
-a198b7","src/unix/bsd/freebsdlike/freebsd/powerpc.rs":"36a03b20551864c92852=
-e967ebf91c6a8105fd520e41a35273e2dc6487590267","src/unix/bsd/freebsdlike/fre=
-ebsd/powerpc64.rs":"3de9344db84572975b5965ac4292cf475e3c96854c58b7a478b9972=
-407ffd1fd","src/unix/bsd/freebsdlike/freebsd/riscv64.rs":"3dfdc394922c2cb66=
-790309c76913576a7235513ad3bf9d8bd86b8671e284ff0","src/unix/bsd/freebsdlike/=
-freebsd/x86.rs":"2521db73acc14867b2e16aa05dd55cc48a7650d2773a009b269bbceafd=
-819fac","src/unix/bsd/freebsdlike/freebsd/x86_64/mod.rs":"85b4b6118ef4e08a7=
-4b8cc17d364b22949b2e05e642e3240e14f2651a2126d18","src/unix/bsd/freebsdlike/=
-mod.rs":"eda51316ba108b78c3f6c383cb047855dbd04f5b4bb59d04e0f2978722c68101",=
-"src/unix/bsd/mod.rs":"c69855551561c4beeaed5ada823404c9b9d27e9e21c0e4bafb6f=
-1b52ad09ad2b","src/unix/bsd/netbsdlike/mod.rs":"ef9b617c42084db1bd3aa4f5d5d=
-1a75ce1963b23945c117b6076400905ff75ec","src/unix/bsd/netbsdlike/netbsd/aarc=
-h64.rs":"bd36c92099db501350fb8617414d1fea89a6bb12867498e1821167813ab70a02",=
-"src/unix/bsd/netbsdlike/netbsd/arm.rs":"237beaefcb12e7be9ccd4fef6e3be7db79=
-ee63d4fc714e5eaf6084d4826d6fa2","src/unix/bsd/netbsdlike/netbsd/mips.rs":"d=
-1ff114b268358e5d35e7b83d85f414d16b81ef39eeb1802682ff4424b102bc7","src/unix/=
-bsd/netbsdlike/netbsd/mod.rs":"df73622ea883b9e44980e14eb7cee3b53bcdddd62190=
-fe3d672ac5843b2e2e95","src/unix/bsd/netbsdlike/netbsd/powerpc.rs":"94494f34=
-8f011c6135d301944696c5b5a09979f5892abee4c8fdee1056388b94","src/unix/bsd/net=
-bsdlike/netbsd/riscv64.rs":"f3778a9bd2ba923220537d167cfb10b91580ffbf5831007=
-89a46d2807f7a1e3e","src/unix/bsd/netbsdlike/netbsd/sparc64.rs":"d50816e8302=
-25779ac9e9a55a7e3e097882153d72987061d76a96ee736c8af9c","src/unix/bsd/netbsd=
-like/netbsd/x86.rs":"307a9aba68071b0589e459269ef10845c302599b0fd2b0ee7b5c48=
-0177904e89","src/unix/bsd/netbsdlike/netbsd/x86_64.rs":"4ced76b3640d465f6de=
-ad8beb5e947b3ce8297884260fb943d5f417d985dbafc","src/unix/bsd/netbsdlike/ope=
-nbsd/aarch64.rs":"8be46bc5151ec1081feaf7685c18507f766f2501a2b5d35107db3babb=
-896395a","src/unix/bsd/netbsdlike/openbsd/arm.rs":"f81c71e1cfe436b8f32cfe06=
-4991019cce0c83627f0d9c3a30d68691d71c7449","src/unix/bsd/netbsdlike/openbsd/=
-mips64.rs":"bee7664d88f8451ae22552fc0721b6b6a6dee2493cc42bcb9829c1e47e4b05f=
-5","src/unix/bsd/netbsdlike/openbsd/mod.rs":"dd9e56c95e324e90e3a7c8905c5930=
-25f65c36e98c9f95eb0e033ea04e6d949f","src/unix/bsd/netbsdlike/openbsd/powerp=
-c.rs":"f81c71e1cfe436b8f32cfe064991019cce0c83627f0d9c3a30d68691d71c7449","s=
-rc/unix/bsd/netbsdlike/openbsd/powerpc64.rs":"9bd3813fe2fd7ca66ee8d70d13887=
-b4595fb8c9e819691a657ddf108ed9cafbf","src/unix/bsd/netbsdlike/openbsd/riscv=
-64.rs":"7fb322e9f5425456dd53eb07de9fc84097ef35295802e8f50a7fb3c7e1f89ac6","=
-src/unix/bsd/netbsdlike/openbsd/sparc64.rs":"8d4c5a4cae63e09e1c156164ddc82e=
-0fc77926841d4d4e419dd2e7a7b7145f58","src/unix/bsd/netbsdlike/openbsd/x86.rs=
-":"26c1b7e7f7799c5e434126c6c0ddd45f40939cae4151f8ce0a7a1836f83ac56a","src/u=
-nix/bsd/netbsdlike/openbsd/x86_64.rs":"312b77a50ee47f107e9cfd8e7e7e0d494567=
-5a859d7286fedbf192840f8a4c34","src/unix/cygwin/mod.rs":"13c9af853fa35f3318f=
-629b336fd8727e62ab106ac3a2cfa0a2ac13e77536900","src/unix/haiku/b32.rs":"c3f=
-8678ceee65a3094d8133b0d1a94470860e0b1867977f0569c52c5a20e039f","src/unix/ha=
-iku/b64.rs":"f97ce9225f4710893dab03ab3e13bc62152cc84f90c597ec88f6dc1f4c27d2=
-42","src/unix/haiku/mod.rs":"991e5ab02e8607ece273e66ab8303dc7604488bf7e0b75=
-33fdb69ea9adef83df","src/unix/haiku/native.rs":"fafc7daab134d37ed260373f9c3=
-a8177cc0fd88ba147c1001b9867eb9bd0799b","src/unix/haiku/x86_64.rs":"4480c042=
-3eac3f288202df587b54025292633869a868bd0ac2767cd40afb5173","src/unix/hurd/b3=
-2.rs":"501f426f7aeb60acf4119064100dd94bbdfebff2cec785428708059d853dc123","s=
-rc/unix/hurd/b64.rs":"b9b2082e721a5ec89ba55fd5a16bbffcc8a05ca7cef6dbfbd78af=
-f0806cb931f","src/unix/hurd/mod.rs":"4bc76f612d215300d01bd36bb5e6541cddbe62=
-858571328a03c6b7bb8a208262","src/unix/linux_like/android/b32/arm.rs":"06dfd=
-e862400151e3a667650d73c8ac8ea9c3c44c5401ef2b2406b2cca4a8672","src/unix/linu=
-x_like/android/b32/mod.rs":"2df9e7337f299a12890bccca59d65619aa5a53991aa2c0c=
-33b4fc49b64c3c93d","src/unix/linux_like/android/b32/x86/mod.rs":"ad5942e15c=
-6603469e82144076c4837e9daebb40d0195865e7d574e6433136d0","src/unix/linux_lik=
-e/android/b64/aarch64/mod.rs":"5ae558c8af8187155fa0ae8b8776459a60c08ce152f2=
-5d137f845d8371673b7e","src/unix/linux_like/android/b64/mod.rs":"6a87e7e6736=
-77882c31eb4b69375427b71f7f9f61f883322bb1fba8ecb9ff39c","src/unix/linux_like=
-/android/b64/riscv64/mod.rs":"d826b0e4f078b8ea228f2244659fc700b95aa8a7ba87c=
-aef0bc34f54c9defd2c","src/unix/linux_like/android/b64/x86_64/mod.rs":"cab0e=
-8cc6895e7af9e631196b2484e7ccb3bdf5b0a134ab14abb626eef8b2a3e","src/unix/linu=
-x_like/android/mod.rs":"980694e20136b3f83176af5b6a2fcc7c70aa8e7a76baef324ce=
-fb7c9ac3b1af8","src/unix/linux_like/emscripten/lfs64.rs":"3a1d1779bcf16525a=
-578a68237f9854090eae4c9819e18ffb5a288f39be4afbe","src/unix/linux_like/emscr=
-ipten/mod.rs":"356db0bbc7ee5c23cc79fc15add48febaf2976b0780a3c430b2f098715e4=
-153a","src/unix/linux_like/linux/arch/generic/mod.rs":"ecfca2e786d13fd5971a=
-851bdafffade5b4236e82fe50b91451f29b9c30bc07a","src/unix/linux_like/linux/ar=
-ch/mips/mod.rs":"abda6685083597ed88c1f5d4121b387288d29a7bfb5f9b47a1580a45d3=
-f523d8","src/unix/linux_like/linux/arch/mod.rs":"8bc5898b03760a95dd4f124ac7=
-6ad92e5ae36b2d0644203d752ef2b37e487c3a","src/unix/linux_like/linux/arch/pow=
-erpc/mod.rs":"ca5e83ce5f0e6c7ef7f575dcc27a5669b64b759ae0871c13b91fce43ad152=
-351","src/unix/linux_like/linux/arch/sparc/mod.rs":"9735216185ae78271e8333f=
-8e8199480244d1a269b27b430f480a7b75c219c50","src/unix/linux_like/linux/gnu/b=
-32/arm/mod.rs":"aa5958011a063d025f11cf0cfc999dbc987ca5cbe0aad5385ab5e7ff7fc=
-55abe","src/unix/linux_like/linux/gnu/b32/csky/mod.rs":"e1c53b84e1c13d91d94=
-a44da0c3f120788c135d4253834782db57cccf0a39db4","src/unix/linux_like/linux/g=
-nu/b32/m68k/mod.rs":"4e8eaf62fefaaa57842259b47b21f02e21f299975a6d82a6472950=
-6781259e43","src/unix/linux_like/linux/gnu/b32/mips/mod.rs":"333c338367275e=
-c420fc4c83779e3f0e52f86cace91d7940718a5b02c2e60297","src/unix/linux_like/li=
-nux/gnu/b32/mod.rs":"7a4767d2409a4764ec0735f7f47d7d082247b324d28bdd2baee038=
-02f95fa3e3","src/unix/linux_like/linux/gnu/b32/powerpc.rs":"336f24e10b2dbd2=
-faf0fb003cf43220c08f325695a02f4f7fd63fa06c23ce381","src/unix/linux_like/lin=
-ux/gnu/b32/riscv32/mod.rs":"e5882e019997612fac4fe839915dbef9b2bcc1bea5484ef=
-a4a2664a339fa5e14","src/unix/linux_like/linux/gnu/b32/sparc/mod.rs":"756ea2=
-7c90bee66496aac32fba1a2e38b4ecb1e9c104a3160010eaa505807efb","src/unix/linux=
-_like/linux/gnu/b32/x86/mod.rs":"9d28eac7d1bf98aa38832b8e55757ddef3ee8bde4c=
-b00ba5e4145d07038bf827","src/unix/linux_like/linux/gnu/b64/aarch64/ilp32.rs=
-":"638b2d717dcf5b59a0058c3dabab43edd84de9d1d7da6e16ad0c58e863000417","src/u=
-nix/linux_like/linux/gnu/b64/aarch64/lp64.rs":"28c11e70467b2f00735d3a04c369=
-e96e04fd44d0587ee33359f38328b0677ee6","src/unix/linux_like/linux/gnu/b64/aa=
-rch64/mod.rs":"335b220e43cd07c3f6a262fe161fb057dea6324ab8ad41cd419bc596e16c=
-d640","src/unix/linux_like/linux/gnu/b64/loongarch64/mod.rs":"425047046086c=
-6be01d35b6c630f70c560a58be772704329e0aae23102f7db51","src/unix/linux_like/l=
-inux/gnu/b64/mips64/mod.rs":"05c9fa18fb781f775d7fba8916b756752612590168ddc1=
-27315a0fcbbd5d8ad3","src/unix/linux_like/linux/gnu/b64/mod.rs":"d1d38f4a25d=
-885be350bc6fdfa4a633a180717d60392010c40ec2c3899fc4d42","src/unix/linux_like=
-/linux/gnu/b64/powerpc64/mod.rs":"8ea4a284cfb48c23ffa1a5dba69ac2e6433109ec0=
-0260dc3ffb241aec5219473","src/unix/linux_like/linux/gnu/b64/riscv64/mod.rs"=
-:"c20634c01c22d0d618d0f6d555f35eb339f4e75fd6491cb4a77392b48e1b2265","src/un=
-ix/linux_like/linux/gnu/b64/s390x.rs":"67cad067e292b4d8cc0743adb4506f02c53b=
-df3c2e935fbfc1467a88451c645b","src/unix/linux_like/linux/gnu/b64/sparc64/mo=
-d.rs":"8cbfa0d9c67893b18e836a7e9b70076dcbcb06386575fc261f2b8a9fefd2caa7","s=
-rc/unix/linux_like/linux/gnu/b64/x86_64/mod.rs":"10fcc444c2550be09ccf7a4231=
-024b8af4acd6024de81da110ad932b62707698","src/unix/linux_like/linux/gnu/b64/=
-x86_64/not_x32.rs":"07240332eaf44996d86e37b12d71b519b499c9c9b57898441c58ac2=
-e8c0cb6f7","src/unix/linux_like/linux/gnu/b64/x86_64/x32.rs":"914898b781dfe=
-6b2f755730d6000223d1beea177731e180ccbfdd84a0b8b3bd9","src/unix/linux_like/l=
-inux/gnu/mod.rs":"52e1300f6c25cefd4c3d491ec7e1385f423a1fbbeb97b774c9a400b1c=
-1b2b822","src/unix/linux_like/linux/mod.rs":"07f336f3e08712d51a96380250784c=
-5a3364361d6c75f1e135931779b8d752af","src/unix/linux_like/linux/musl/b32/arm=
-/mod.rs":"8aefb482620db0e6853abc2313877f6bf87b3b4d63c0891d99189cdb12ce7733"=
-,"src/unix/linux_like/linux/musl/b32/hexagon.rs":"400457049bad619da3accbca2=
-c841206d1cd2673d670baf7210bf17427510271","src/unix/linux_like/linux/musl/b3=
-2/mips/mod.rs":"fa47a3a9614ec2a964e99d30cde2d2dd4f04015e6c4dcf3b3e3061a7538=
-bd7c7","src/unix/linux_like/linux/musl/b32/mod.rs":"e0f53df7ca1dbe9b0b25cce=
-cf1adf664227995e58d67a222a8d046d2a879dfc8","src/unix/linux_like/linux/musl/=
-b32/powerpc.rs":"e97baedfe7f1a0cb48f0ba9e5389f86c19c4a08e22de1d82f18f411dba=
-4c95e2","src/unix/linux_like/linux/musl/b32/riscv32/mod.rs":"435ba055ec51d4=
-8bea1f835aeea91d01a24a12db9363aa34d1587dc7f0ac99e4","src/unix/linux_like/li=
-nux/musl/b32/x86/mod.rs":"b27cf5ff9f1f734957af06f50881360dffb20538f7703daea=
-01bbebf0e232bf0","src/unix/linux_like/linux/musl/b64/aarch64/mod.rs":"ef117=
-d729a168607bc7ddbf6fa1289e62233b50cf154237151ba1ee842208178","src/unix/linu=
-x_like/linux/musl/b64/loongarch64/mod.rs":"3075639f37378774f3991f05971a9b72=
-5766105e5884b1e97b3889b079f95514","src/unix/linux_like/linux/musl/b64/mips6=
-4.rs":"abf1eb14fff4dd1bdf081672ab92858e99c09666583d8f9952112da13036e50e","s=
-rc/unix/linux_like/linux/musl/b64/mod.rs":"07081d3471292a46d5ed69a5a376fcea=
-c9c6a01533c76db277eb6f9923092d5f","src/unix/linux_like/linux/musl/b64/power=
-pc64.rs":"606be7895a1578916b2b1f1d01518307d46b79a9c64d239a37dc8693af697466"=
-,"src/unix/linux_like/linux/musl/b64/riscv64/mod.rs":"a76a7a24d52f2fc3811d7=
-2f69e9a369d0547bdee166a5a943b94396e320b077c","src/unix/linux_like/linux/mus=
-l/b64/s390x.rs":"ffbfdefb58d27d6463757a256b1480b83e53b19fc0f9c7fc1af461be33=
-fae359","src/unix/linux_like/linux/musl/b64/wasm32/mod.rs":"f44f7b2ade822aa=
-468f4abd6ba3f1ce86d6ffd307c4b4eb50684156458abd137","src/unix/linux_like/lin=
-ux/musl/b64/wasm32/wali.rs":"69e0d06289f1c86898ef3ab505e397af2acce146accb62=
-efff654fe458b6af02","src/unix/linux_like/linux/musl/b64/x86_64/mod.rs":"a31=
-7282fb504c35a83e0de335caa01c09f8f9b2649d1250dbcedb1ebf0f75e7f","src/unix/li=
-nux_like/linux/musl/lfs64.rs":"308c5b5c9b2f4b1ad17e5c2d02946f84ae83e8f5cb0e=
-789d8d3e76c1923a5d31","src/unix/linux_like/linux/musl/mod.rs":"7fc0d475f397=
-b64eb40c57bf5835a4612267d2a42c955e12f486032a8b54b8d9","src/unix/linux_like/=
-linux/uclibc/arm/mod.rs":"32d3701fa086b2a98589b4ae4842ce62b295bc0bd9eaf1b5f=
-9792e442b681090","src/unix/linux_like/linux/uclibc/mips/mips32/mod.rs":"594=
-93f1ab84ddbcf9dc5881c9cfc26e28d4fb5322d63f60eb7de5f9e8e329580","src/unix/li=
-nux_like/linux/uclibc/mips/mips64/mod.rs":"a35532d5ae376f403873aa566f37bff9=
-9c6c323d334f3201667e5f7200b04643","src/unix/linux_like/linux/uclibc/mips/mo=
-d.rs":"ead3f9c05e3bdd5d5b52f25dd4a2d154471555a6bae2d4cbd5c07e976513dcea","s=
-rc/unix/linux_like/linux/uclibc/mod.rs":"ed8bd29fc30319dfc149ccc5d150ca41e2=
-d28ea5210fc26d9af91ad5903d0093","src/unix/linux_like/linux/uclibc/x86_64/l4=
-re.rs":"059d1f15bf84e2226be6b842dc9466fc5f5bf55cdeed7a8742658ff25f05361c","=
-src/unix/linux_like/linux/uclibc/x86_64/mod.rs":"c37752975c173aeb1641bae0e7=
-43ff2e7600976620bcb6e9ee8e74a40355d186","src/unix/linux_like/linux/uclibc/x=
-86_64/other.rs":"12f8d4049862fc0c4d94b770f2d0341c1c7bf3da0619436169c12cadc4=
-093def","src/unix/linux_like/mod.rs":"e04413e0d1c5207b58ab6c49f7995b9000be1=
-f2fb1d4595c357a32df38951410","src/unix/mod.rs":"72b609e49e61591b3082cf674bb=
-8df806f2ca5b755b9a052d94c6c8cb0f5e597","src/unix/newlib/aarch64/mod.rs":"ec=
-594c54dc0e7784668d02ef737fd194dcc3f1e6ee23328d810fd2453bcb6f20","src/unix/n=
-ewlib/arm/mod.rs":"a1fb6caa077c2ed69adf12da07c814ffab4c1311579f23bae2b26a40=
-cf180665","src/unix/newlib/espidf/mod.rs":"77e8ad5b7db027b8b0b5aa5126f15bc0=
-e35b6f3deb2339acf403c961f13df26f","src/unix/newlib/generic.rs":"182e584f14e=
-0984934130425dd2be0781ca2c131449b3ae1734a07c72c3d43cd","src/unix/newlib/hor=
-izon/mod.rs":"ae4e76ef8c04fa8580578e33037bcf1888a8e4d688aa6f115713f644b8a11=
-313","src/unix/newlib/mod.rs":"2f3e9c6217994ec34b0e3b49bf5ebe1335f3b12146f7=
-f55a797ea7041cb1f44c","src/unix/newlib/powerpc/mod.rs":"4e5f804a13e907e17eb=
-b66dcbf3b0fe6e1a611f91876aad8d8a0a69c7df0a7e8","src/unix/newlib/rtems/mod.r=
-s":"239c90d1daf783ff95168a3fcbc5a0c3d1f9c4b5a0ef32a0e4a22b861f82713a","src/=
-unix/newlib/vita/mod.rs":"66765c20482f03c3fcb57d57dd3f31eeeab9729e1bb188191=
-ad53a8fc124fc5f","src/unix/nto/aarch64.rs":"73ad54ebca13454a75c7b0815e85317=
-5070a8ac2eefa338012a03e8b59f01e0c","src/unix/nto/mod.rs":"ded4a28f5b322446b=
-0885290b917171d771b7897f39bf5616122283318b7a8e2","src/unix/nto/neutrino.rs"=
-:"039ab7b1ed702d515f3e06d7f3536709704715a49905024b6c520696a65086f9","src/un=
-ix/nto/x86_64.rs":"8da99138e210516a95d49c8c0265eada4c5f7b93d59be86224844410=
-f5e7929b","src/unix/nuttx/mod.rs":"69beba3516f66d36c5b5e38130ff1fde8a8403d6=
-d8ec79bebe437ac5d385176f","src/unix/redox/mod.rs":"a9a0005c8572ad5404cc9680=
-a83a610d8aa82278fcb5d24a4b99ab32fcc6eb60","src/unix/solarish/compat.rs":"c0=
-2a88918852b7a9c60e45a34f7b003901000380f5c1b2832b8bd79f84936c8b","src/unix/s=
-olarish/illumos.rs":"7c5da4d4ea69ebfb83a59764eeafc74e234b2b9b021eed32572b8a=
-28d991a398","src/unix/solarish/mod.rs":"ae04bf0fd7a30c0d0e22df180617c545428=
-874c50a6ff815048a82124c2c6d75","src/unix/solarish/solaris.rs":"54bae4c960b6=
-5d849beea8f0beb79dc37afebc1e9d7664424df13e6082ccc2e8","src/unix/solarish/x8=
-6.rs":"44261c1f1b300dac9fa0dab93ec85d0c3b3c48b15bc4515b9820c9421cff7427","s=
-rc/unix/solarish/x86_64.rs":"1601309baae50ccfd51b5d188668e6ac5dabc4e8d2ffde=
-103592922ec15295ef","src/unix/solarish/x86_common.rs":"4ae02d88622f7f080f5e=
-8cd328f13187edbc5e124fb3e05e4cf212597f6cce48","src/vxworks/aarch64.rs":"4d4=
-236500f98858fc249f3b6858af5009851c8c582031926b8195b2646f7da5e","src/vxworks=
-/arm.rs":"4d4236500f98858fc249f3b6858af5009851c8c582031926b8195b2646f7da5e"=
-,"src/vxworks/mod.rs":"b2857bf7695b4571ad7fba8f44ebcbdecbdd9ac26b38430b33b0=
-4f0c50addcc7","src/vxworks/powerpc.rs":"4d4236500f98858fc249f3b6858af500985=
-1c8c582031926b8195b2646f7da5e","src/vxworks/powerpc64.rs":"4d4236500f98858f=
-c249f3b6858af5009851c8c582031926b8195b2646f7da5e","src/vxworks/riscv32.rs":=
-"b1f933205800f0da00f975d53b18fe0035e075cc4613acf110a09a277dc3302a","src/vxw=
-orks/riscv64.rs":"b1f933205800f0da00f975d53b18fe0035e075cc4613acf110a09a277=
-dc3302a","src/vxworks/x86.rs":"b1f933205800f0da00f975d53b18fe0035e075cc4613=
-acf110a09a277dc3302a","src/vxworks/x86_64.rs":"b1f933205800f0da00f975d53b18=
-fe0035e075cc4613acf110a09a277dc3302a","src/wasi/mod.rs":"cac5127894b50bd188=
-0e87b54ae0cbc9afe98f99ee739f74aec04172c14bcc1a","src/wasi/p2.rs":"feecc0485=
-eabd2c32bc5d800df6ad1b9b4d282741342fb08792f2635204e1e08","src/windows/gnu/m=
-od.rs":"320ddf761f731c24a27e061438ddbacb0630e3ad6f3bb39f6514c28dffd8ac9f","=
-src/windows/mod.rs":"6be16eea8c7319c35e7efc6a70da8a04f9ab25d68173c51d561f37=
-a0935de47c","src/windows/msvc/mod.rs":"7bc0f1e7e73815296cd6b63b2700e12624e9=
-f47b5c4113a1a87fae8e64549c00","src/xous.rs":"1a83621c40248ad4d0c08e1fd4c110=
-7d5efcbc2f4f0169538b7b4a885abedbfa","tests/const_fn.rs":"8ac3171d7bced3576a=
-4e93f48570b3e00c553d7510ab85a7473ae3b716a812dc"},"package":"c19937216e9d3aa=
-9956d9bb8dfc0b0c8beb6058fc4f7a4dc4d850edf86a237d6"}
----- a/vendor/libc-0.2.171/src/unix/linux_like/linux/arch/generic/mod.rs
--+++ b/vendor/libc-0.2.171/src/unix/linux_like/linux/arch/generic/mod.rs
--@@ -1,5 +1,5 @@
-- use crate::prelude::*;
---use crate::Ioctl;
--+use crate::{Ioctl, _IOR, _IOW};
--=20
-- s! {
--     pub struct termios2 {
--@@ -158,21 +158,8 @@ pub const SO_DEVMEM_LINEAR: c_int =3D 78;
-- pub const SO_DEVMEM_DMABUF: c_int =3D 79;
-- pub const SO_DEVMEM_DONTNEED: c_int =3D 80;
--=20
---cfg_if! {
---    if #[cfg(any(
---        target_arch =3D "x86",
---        target_arch =3D "x86_64",
---        target_arch =3D "arm",
---        target_arch =3D "aarch64",
---        target_arch =3D "riscv64",
---        target_arch =3D "s390x",
---        target_arch =3D "csky",
---        target_arch =3D "loongarch64"
---    ))] {
---        pub const FICLONE: c_ulong =3D 0x40049409;
---        pub const FICLONERANGE: c_ulong =3D 0x4020940D;
---    }
---}
--+pub const FICLONE: Ioctl =3D _IOW::<c_int>(0x94, 9) as Ioctl;
--+pub const FICLONERANGE: Ioctl =3D _IOW::<crate::file_clone_range>(0x94, 1=
-3) as Ioctl;
--=20
-- // Defined in unix/linux_like/mod.rs
-- // pub const SCM_TIMESTAMP: c_int =3D SO_TIMESTAMP;
--@@ -293,50 +280,18 @@ pub const TUNGETVNETBE: Ioctl =3D 0x800454
-- pub const TUNSETSTEERINGEBPF: Ioctl =3D 0x800454e0;
-- pub const TUNSETFILTEREBPF: Ioctl =3D 0x800454e1;
--=20
---cfg_if! {
---    // Those type are constructed using the _IOC macro
---    // DD-SS_SSSS_SSSS_SSSS-TTTT_TTTT-NNNN_NNNN
---    // where D stands for direction (either None (00), Read (01) or Write=
- (11))
---    // where S stands for size (int, long, struct...)
---    // where T stands for type ('f','v','X'...)
---    // where N stands for NR (NumbeR)
---    if #[cfg(any(
---        target_arch =3D "x86",
---        target_arch =3D "arm",
---        target_arch =3D "csky"
---    ))] {
---        pub const FS_IOC_GETFLAGS: Ioctl =3D 0x80046601;
---        pub const FS_IOC_SETFLAGS: Ioctl =3D 0x40046602;
---        pub const FS_IOC_GETVERSION: Ioctl =3D 0x80047601;
---        pub const FS_IOC_SETVERSION: Ioctl =3D 0x40047602;
---        pub const FS_IOC32_GETFLAGS: Ioctl =3D 0x80046601;
---        pub const FS_IOC32_SETFLAGS: Ioctl =3D 0x40046602;
---        pub const FS_IOC32_GETVERSION: Ioctl =3D 0x80047601;
---        pub const FS_IOC32_SETVERSION: Ioctl =3D 0x40047602;
---        pub const TUNATTACHFILTER: Ioctl =3D 0x400854d5;
---        pub const TUNDETACHFILTER: Ioctl =3D 0x400854d6;
---        pub const TUNGETFILTER: Ioctl =3D 0x800854db;
---    } else if #[cfg(any(
---        target_arch =3D "x86_64",
---        target_arch =3D "riscv64",
---        target_arch =3D "aarch64",
---        target_arch =3D "s390x",
---        target_arch =3D "loongarch64",
---        target_arch =3D "wasm32"
---    ))] {
---        pub const FS_IOC_GETFLAGS: Ioctl =3D 0x80086601;
---        pub const FS_IOC_SETFLAGS: Ioctl =3D 0x40086602;
---        pub const FS_IOC_GETVERSION: Ioctl =3D 0x80087601;
---        pub const FS_IOC_SETVERSION: Ioctl =3D 0x40087602;
---        pub const FS_IOC32_GETFLAGS: Ioctl =3D 0x80046601;
---        pub const FS_IOC32_SETFLAGS: Ioctl =3D 0x40046602;
---        pub const FS_IOC32_GETVERSION: Ioctl =3D 0x80047601;
---        pub const FS_IOC32_SETVERSION: Ioctl =3D 0x40047602;
---        pub const TUNATTACHFILTER: Ioctl =3D 0x401054d5;
---        pub const TUNDETACHFILTER: Ioctl =3D 0x401054d6;
---        pub const TUNGETFILTER: Ioctl =3D 0x801054db;
---    }
---}
--+pub const FS_IOC_GETFLAGS: Ioctl =3D _IOR::<c_long>('f' as u32, 1) as Ioc=
-tl;
--+pub const FS_IOC_SETFLAGS: Ioctl =3D _IOW::<c_long>('f' as u32, 2) as Ioc=
-tl;
--+pub const FS_IOC_GETVERSION: Ioctl =3D _IOR::<c_long>('v' as u32, 1) as I=
-octl;
--+pub const FS_IOC_SETVERSION: Ioctl =3D _IOW::<c_long>('v' as u32, 2) as I=
-octl;
--+pub const FS_IOC32_GETFLAGS: Ioctl =3D _IOR::<c_int>('f' as u32, 1) as Io=
-ctl;
--+pub const FS_IOC32_SETFLAGS: Ioctl =3D _IOW::<c_int>('f' as u32, 2) as Io=
-ctl;
--+pub const FS_IOC32_GETVERSION: Ioctl =3D _IOR::<c_int>('v' as u32, 1) as =
-Ioctl;
--+pub const FS_IOC32_SETVERSION: Ioctl =3D _IOW::<c_int>('v' as u32, 2) as =
-Ioctl;
--+
--+pub const TUNATTACHFILTER: Ioctl =3D _IOW::<crate::sock_fprog>('T' as u32=
-, 213) as Ioctl;
--+pub const TUNDETACHFILTER: Ioctl =3D _IOW::<crate::sock_fprog>('T' as u32=
-, 214) as Ioctl;
--+pub const TUNGETFILTER: Ioctl =3D _IOR::<crate::sock_fprog>('T' as u32, 2=
-19) as Ioctl;
--=20
-- cfg_if! {
--     if #[cfg(any(target_arch =3D "arm", target_arch =3D "s390x"))] {
-diff --git a/meta/recipes-devtools/rust/files/0001-src-core-build_steps-too=
-l.rs-switch-off-lto-for-rust.patch b/meta/recipes-devtools/rust/files/0001-=
-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch
-index d4cec95bc0..0bd32ecf61 100644
---- a/meta/recipes-devtools/rust/files/0001-src-core-build_steps-tool.rs-sw=
-itch-off-lto-for-rust.patch
-+++ b/meta/recipes-devtools/rust/files/0001-src-core-build_steps-tool.rs-sw=
-itch-off-lto-for-rust.patch
-@@ -18,35 +18,33 @@ Upstream-Status: Inappropriate [reported at https://git=
-hub.com/rust-lang/rust/is
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
- Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
- ---
-- src/bootstrap/src/core/build_steps/tool.rs | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
-+ src/bootstrap/src/core/build_steps/tool.rs | 19 +++----------------
-+ src/bootstrap/src/core/builder/mod.rs      |  2 +-
-+ 2 files changed, 4 insertions(+), 17 deletions(-)
-=20
--diff --git a/src/bootstrap/src/core/build_steps/tool.rs b/src/bootstrap/sr=
-c/core/build_steps/tool.rs
--index 087df2f8a..00790affb 100644
- --- a/src/bootstrap/src/core/build_steps/tool.rs
- +++ b/src/bootstrap/src/core/build_steps/tool.rs
--@@ -13,14 +13,12 @@ use std::ffi::OsStr;
-+@@ -13,14 +13,13 @@
-  use std::path::{Path, PathBuf};
-  use std::{env, fs};
--
-+=20
- -use crate::core::build_steps::compile::is_lto_stage;
-  use crate::core::build_steps::toolstate::ToolState;
-  use crate::core::build_steps::{compile, llvm};
-- use crate::core::builder;
---use crate::core::builder::{
---    Builder, Cargo as CargoCommand, RunConfig, ShouldRun, Step, StepMetad=
-ata, cargo_profile_var,
---};
---use crate::core::config::{DebuginfoLevel, RustcLto, TargetSelection};
--+
--+use crate::core::builder::{Builder, Cargo as CargoCommand, RunConfig, Sho=
-uldRun, Step, StepMetadata};
--+use crate::core::config::{DebuginfoLevel, TargetSelection};
-+ use crate::core::builder::{
-+     self, Builder, Cargo as CargoCommand, CommandLineStep, Kind, RunConfi=
-g, ShouldRun, Step,
-+-    StepMetadata, apply_pgo, cargo_profile_var,
-++    StepMetadata, apply_pgo,
-+ };
-+-use crate::core::config::{Allocator, DebuginfoLevel, RustcLto, TargetSele=
-ction};
-++use crate::core::config::{Allocator, DebuginfoLevel, TargetSelection};
-  use crate::utils::exec::{BootstrapCommand, command};
-- use crate::utils::helpers::{add_dylib_path, exe, t};
-- use crate::{Compiler, FileType, Kind, Mode};
--@@ -121,22 +118,7 @@ impl Step for ToolBuild {
-+ use crate::utils::helpers::{self, add_dylib_path, exe, t};
-+ use crate::{Compiler, FileType, Mode};
-+@@ -117,21 +116,7 @@
-              cargo.env("RUSTC_WRAPPER", ccache);
-          }
--
-+=20
- -        // RustcPrivate tools (miri, clippy, rustfmt, rust-analyzer) and =
-cargo
- -        // could use the additional optimizations.
- -        if is_lto_stage(&self.build_compiler)
-@@ -62,21 +60,18 @@ index 087df2f8a..00790affb 100644
- -                cargo.env(cargo_profile_var("LTO", &builder.config, self.=
-mode), lto);
- -            }
- -        }
---
- +        cargo.rustflag("-Clto=3Doff");
--         if !self.allow_features.is_empty() {
--             cargo.allow_features(self.allow_features);
--         }
--diff --git a/src/bootstrap/src/core/builder/mod.rs b/src/bootstrap/src/cor=
-e/builder/mod.rs
--index 1234567..abcdefg 100644
-+=20
-+         let pgo_config =3D match self.path {
-+             "src/tools/rustdoc" =3D> Some(&builder.config.rustdoc_pgo),
- --- a/src/bootstrap/src/core/builder/mod.rs
- +++ b/src/bootstrap/src/core/builder/mod.rs
--@@ -13,7 +13,7 @@ use clap::ValueEnum;
-+@@ -13,7 +13,7 @@
-  #[cfg(feature =3D "tracing")]
-  use tracing::instrument;
- =20
---pub use self::cargo::{Cargo, cargo_profile_var};
--+pub use self::cargo::Cargo;
-+-pub use self::cargo::{Cargo, apply_pgo, cargo_profile_var};
-++pub use self::cargo::{Cargo, apply_pgo};
-  pub use crate::Compiler;
-- use crate::core::build_steps::compile::{Std, StdLink};
-+ use crate::core::build_steps::compile::{Std, StdLink, looks_like_codegen_=
-backend};
-  use crate::core::build_steps::tool::RustcPrivateCompilers;
-diff --git a/meta/recipes-devtools/rust/files/0004-Backport-commits-from-ru=
-st-Fix-selftest-llvm23.patch b/meta/recipes-devtools/rust/files/0004-Backpo=
-rt-commits-from-rust-Fix-selftest-llvm23.patch
-deleted file mode 100644
-index 1e1bf089f1..0000000000
---- a/meta/recipes-devtools/rust/files/0004-Backport-commits-from-rust-Fix-=
-selftest-llvm23.patch
-+++ /dev/null
-@@ -1,661 +0,0 @@
--Backport commits that fix build and oe-selftest failures seen with llvm 23
--
--Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/b8d3a4=
-ac9cfeb81d1e929fe6eab0af4b77ba3bb4]
--Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/d4a24c=
-d6e18b98326429d8c7e7bbb269da14a5aa]
--Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/20ac21=
-25a2142c9bde53ca06d9b3cfb6941fd437]
--Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/2d1805=
-4569d1169bfae7ce21e5c7111f32f16774]
--Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/e21591=
-07f6ebc615ba6a92960d65528baf90cd35]
--Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/283a60=
-b64339d611b76a4ed2f9286f417b269b2f]
--Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/61d9ba=
-28a99f073fbeb19dbb552ddf343aef62f0]
--
--Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
--
--diff --git a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp b/compiler/r=
-ustc_llvm/llvm-wrapper/PassWrapper.cpp
--index fe5b8edce4a..e4807f10805 100644
----- a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
--+++ b/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
--@@ -49,6 +49,9 @@
-- #include "llvm/Transforms/Instrumentation/RealtimeSanitizer.h"
-- #include "llvm/Transforms/Instrumentation/ThreadSanitizer.h"
-- #include "llvm/Transforms/Scalar/AnnotationRemarks.h"
--+#if LLVM_VERSION_GE(23, 0)
--+#include "llvm/Transforms/Utils/AssignGUID.h"
--+#endif
-- #include "llvm/Transforms/Utils/CanonicalizeAliases.h"
-- #include "llvm/Transforms/Utils/FunctionImportUtils.h"
-- #include "llvm/Transforms/Utils/NameAnonGlobals.h"
--@@ -925,6 +928,9 @@
--   if (NeedThinLTOBufferPasses) {
--     MPM.addPass(CanonicalizeAliasesPass());
--     MPM.addPass(NameAnonGlobalPass());
--+#if LLVM_VERSION_GE(23, 0)
--+    MPM.addPass(AssignGUIDPass());
--+#endif
--   }
--   // For `-Copt-level=3D0`, and the pre-link fat/thin LTO stages.
--   if (ThinLTOBufferRef && *ThinLTOBufferRef =3D=3D nullptr) {
--@@ -1464,6 +1470,9 @@
--         PB.registerLoopAnalyses(LAM);
--         PB.crossRegisterProxies(LAM, FAM, CGAM, MAM);
--         ModulePassManager MPM;
--+#if LLVM_VERSION_GE(23, 0)
--+        MPM.addPass(AssignGUIDPass());
--+#endif
--         MPM.addPass(ThinLTOBitcodeWriterPass(OS, nullptr));
--         MPM.run(*unwrap(M), MAM);
--       } else {
--diff --git a/tests/codegen-llvm/bpf-allows-unaligned.rs b/tests/codegen-ll=
-vm/bpf-allows-unaligned.rs
--index c7a70d5b2e5..7e95a56d984 100644
----- a/tests/codegen-llvm/bpf-allows-unaligned.rs
--+++ b/tests/codegen-llvm/bpf-allows-unaligned.rs
--@@ -5,7 +5,7 @@
--=20
-- #[no_mangle]
-- #[target_feature(enable =3D "allows-misaligned-mem-access")]
---// CHECK: define noundef zeroext i8 @foo(i8 noundef returned %arg) unname=
-d_addr #0 {
--+// CHECK: define noundef zeroext i8 @foo(i8 noundef returned %arg) unname=
-d_addr #0
-- pub unsafe fn foo(arg: u8) -> u8 {
--     arg
-- }
--diff --git a/tests/codegen-llvm/branch-protection.rs b/tests/codegen-llvm/=
-branch-protection.rs
--index ed1cb2cd137..11847c256d6 100644
----- a/tests/codegen-llvm/branch-protection.rs
--+++ b/tests/codegen-llvm/branch-protection.rs
--@@ -22,7 +22,7 @@
-- use minicore::*;
--=20
-- // A basic test function.
---// CHECK: @test(){{.*}} [[ATTR:#[0-9]+]] {
--+// CHECK: @test(){{.*}} [[ATTR:#[0-9]+]]
-- #[no_mangle]
-- pub fn test() {}
--=20
--diff --git a/tests/codegen-llvm/frame-pointer-cli-control.rs b/tests/codeg=
-en-llvm/frame-pointer-cli-control.rs
--index 911a5f03cbc..79cdfc70f1a 100644
----- a/tests/codegen-llvm/frame-pointer-cli-control.rs
--+++ b/tests/codegen-llvm/frame-pointer-cli-control.rs
--@@ -45,7 +45,7 @@
--=20
-- extern crate minicore;
--=20
---// CHECK: i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]] {
--+// CHECK: i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]]
-- #[no_mangle]
-- pub fn peach(x: u32) -> u32 {
--     x
--diff --git a/tests/codegen-llvm/frame-pointer.rs b/tests/codegen-llvm/fram=
-e-pointer.rs
--index 1d0dd762826..a52d95a2386 100644
----- a/tests/codegen-llvm/frame-pointer.rs
--+++ b/tests/codegen-llvm/frame-pointer.rs
--@@ -18,7 +18,7 @@
-- extern crate minicore;
-- use minicore::*;
--=20
---// CHECK: define i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]] {
--+// CHECK: define i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]]
-- #[no_mangle]
-- pub fn peach(x: u32) -> u32 {
--     x
--diff --git a/tests/codegen-llvm/gpu-convergent.rs b/tests/codegen-llvm/gpu=
--convergent.rs
--index bb9271ab699..376d65a3d4a 100644
----- a/tests/codegen-llvm/gpu-convergent.rs
--+++ b/tests/codegen-llvm/gpu-convergent.rs
--@@ -17,7 +17,7 @@
--     fn ext();
-- }
--=20
---// CHECK: define {{.*}}_kernel void @fun(i32{{.*}}) unnamed_addr #[[ATTR:=
-[0-9]+]] {
--+// CHECK: define {{.*}}_kernel void @fun(i32{{.*}}) unnamed_addr #[[ATTR:=
-[0-9]+]]
-- // CHECK: declare void @ext() unnamed_addr #[[ATTR]]
-- // CHECK: attributes #[[ATTR]] =3D {{.*}} convergent
-- #[no_mangle]
--diff --git a/tests/codegen-llvm/instrument-coverage/testprog.rs b/tests/co=
-degen-llvm/instrument-coverage/testprog.rs
--index ef61ede6de8..67c49c438f9 100644
----- a/tests/codegen-llvm/instrument-coverage/testprog.rs
--+++ b/tests/codegen-llvm/instrument-coverage/testprog.rs
--@@ -101,7 +101,7 @@ fn main() {
-- // CHECK-SAME:   @__llvm_prf_nm
-- // CHECK-SAME:   section "llvm.metadata"
--=20
---// CHECK:        define internal { {{.*}} } @_R{{[a-zA-Z0-9_]+}}testprog1=
-4will_be_called() unnamed_addr #{{[0-9]+}} {
--+// CHECK:        define internal { {{.*}} } @_R{{[a-zA-Z0-9_]+}}testprog1=
-4will_be_called() unnamed_addr #{{[0-9]+}}
-- // CHECK-NEXT:   start:
-- // CHECK-NOT:    define internal
-- // CHECK:        atomicrmw add ptr
--@@ -109,7 +109,7 @@ fn main() {
--=20
-- // CHECK:        declare void @llvm.instrprof.increment(ptr, i64, i32, i3=
-2) #[[LLVM_INSTRPROF_INCREMENT_ATTR:[0-9]+]]
--=20
---// WIN:          define linkonce_odr hidden i32 @__llvm_profile_runtime_u=
-ser() #[[LLVM_PROFILE_RUNTIME_USER_ATTR:[0-9]+]] comdat {{.*}}{
--+// WIN:          define linkonce_odr hidden i32 @__llvm_profile_runtime_u=
-ser() #[[LLVM_PROFILE_RUNTIME_USER_ATTR:[0-9]+]] comdat {{.*}}
-- // WIN-NEXT:     %1 =3D load i32, ptr @__llvm_profile_runtime
-- // WIN-NEXT:     ret i32 %1
-- // WIN-NEXT:     }
--diff --git a/tests/codegen-llvm/link_section.rs b/tests/codegen-llvm/link_=
-section.rs
--index f196ea86c44..61bde683c0a 100644
----- a/tests/codegen-llvm/link_section.rs
--+++ b/tests/codegen-llvm/link_section.rs
--@@ -29,7 +29,7 @@ pub enum E {
-- #[link_section =3D "__TEST,three"]
-- pub static VAR3: E =3D E::B(1.);
--=20
---// CHECK: define {{(dso_local )?}}void @fn1() {{.*}} section "__TEST,four=
-" {
--+// CHECK: define {{(dso_local )?}}void @fn1() {{.*}} section "__TEST,four=
-"
-- #[no_mangle]
-- #[link_section =3D "__TEST,four"]
-- pub fn fn1() {}
--diff --git a/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-c=
-xx-abi-normalized-generalized.rs b/tests/codegen-llvm/sanitizer/cfi/emit-ty=
-pe-metadata-itanium-cxx-abi-normalized-generalized.rs
--index 7639ce7b104..5b1aa97ab33 100644
----- a/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-cxx-abi-=
-normalized-generalized.rs
--+++ b/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-cxx-abi-=
-normalized-generalized.rs
--@@ -7,21 +7,21 @@
--=20
-- pub fn foo(f: fn(i32) -> i32, arg: i32) -> i32 {
--     // CHECK-LABEL: define{{.*}}foo
---    // CHECK-SAME:  {{.*}}![[TYPE1:[0-9]+]]
--+    // CHECK-SAME:  {{.*}}!type ![[TYPE1:[0-9]+]]
--     // CHECK:       call i1 @llvm.type.test(ptr {{%f|%0}}, metadata !"_ZT=
-SFu3i32S_E.normalized.generalized")
--     f(arg)
-- }
--=20
-- pub fn bar(f: fn(i32, i32) -> i32, arg1: i32, arg2: i32) -> i32 {
--     // CHECK-LABEL: define{{.*}}bar
---    // CHECK-SAME:  {{.*}}![[TYPE2:[0-9]+]]
--+    // CHECK-SAME:  {{.*}}!type ![[TYPE2:[0-9]+]]
--     // CHECK:       call i1 @llvm.type.test(ptr {{%f|%0}}, metadata !"_ZT=
-SFu3i32S_S_E.normalized.generalized")
--     f(arg1, arg2)
-- }
--=20
-- pub fn baz(f: fn(i32, i32, i32) -> i32, arg1: i32, arg2: i32, arg3: i32) =
--> i32 {
--     // CHECK-LABEL: define{{.*}}baz
---    // CHECK-SAME:  {{.*}}![[TYPE3:[0-9]+]]
--+    // CHECK-SAME:  {{.*}}!type ![[TYPE3:[0-9]+]]
--     // CHECK:       call i1 @llvm.type.test(ptr {{%f|%0}}, metadata !"_ZT=
-SFu3i32S_S_S_E.normalized.generalized")
--     f(arg1, arg2, arg3)
-- }
--diff --git a/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs =
-b/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs
--index 35317b0dd39..3df2d569f9a 100644
----- a/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs
--+++ b/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs
--@@ -72,7 +72,7 @@ pub unsafe fn some_non_zero_from_atomic_get() -> Option<=
-NonZeroUsize> {
-- ///
-- /// The way we check that the LLVM IR is correct is by making sure that n=
-either
-- /// `panic` nor `unreachable` is part of the LLVM IR:
---// CHECK-LABEL: define {{.*}} i64 @some_non_zero_from_atomic_get2() {{.*}=
-} {
--+// CHECK-LABEL: define {{.*}} i64 @some_non_zero_from_atomic_get2() {{.*}=
-}
-- // CHECK-NOT: panic
-- // CHECK-NOT: unreachable
-- #[no_mangle]
--diff --git a/tests/codegen-llvm/target-feature-negative-implication.rs b/t=
-ests/codegen-llvm/target-feature-negative-implication.rs
--index a9cdca42839..376599738e5 100644
----- a/tests/codegen-llvm/target-feature-negative-implication.rs
--+++ b/tests/codegen-llvm/target-feature-negative-implication.rs
--@@ -13,7 +13,7 @@
-- #[no_mangle]
-- pub unsafe fn banana() {
--     // CHECK-LABEL: @banana()
---    // CHECK-SAME: [[BANANAATTRS:#[0-9]+]] {
--+    // CHECK-SAME: [[BANANAATTRS:#[0-9]+]]
-- }
--=20
-- // CHECK: attributes [[BANANAATTRS]]
--diff --git a/tests/codegen-llvm/target-feature-overrides.rs b/tests/codege=
-n-llvm/target-feature-overrides.rs
--index 2adc8ee6f53..3bf05c7977e 100644
----- a/tests/codegen-llvm/target-feature-overrides.rs
--+++ b/tests/codegen-llvm/target-feature-overrides.rs
--@@ -23,7 +23,7 @@
-- #[no_mangle]
-- pub unsafe fn apple() -> u32 {
--     // CHECK-LABEL: @apple()
---    // CHECK-SAME: [[APPLEATTRS:#[0-9]+]] {
--+    // CHECK-SAME: [[APPLEATTRS:#[0-9]+]]
--     // CHECK: {{.*}}call{{.*}}@peach
--     peach()
-- }
--@@ -32,7 +32,7 @@ pub unsafe fn apple() -> u32 {
-- #[no_mangle]
-- pub unsafe fn banana() -> u32 {
--     // CHECK-LABEL: @banana()
---    // CHECK-SAME: [[BANANAATTRS:#[0-9]+]] {
--+    // CHECK-SAME: [[BANANAATTRS:#[0-9]+]]
--     // COMPAT: {{.*}}call{{.*}}@peach
--     // INCOMPAT: {{.*}}call{{.*}}@apple
--     apple() // Compatible for inline in COMPAT revision and can't be inli=
-ned in INCOMPAT
--diff --git a/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs b/tests/co=
-degen-llvm/unwind-abis/aapcs-unwind-abi.rs
--index ecace722e0d..279780e3a7a 100644
----- a/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs
--@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
-- // `aapcs-unwind` extern functions. `aapcs-unwind` functions MUST NOT hav=
-e this attribute. We
-- // disable optimizations above to prevent LLVM from inferring the attribu=
-te.
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "aapcs" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "aapcs-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs b/tests/codege=
-n-llvm/unwind-abis/c-unwind-abi.rs
--index 46c08b5fc4f..1b3312839e3 100644
----- a/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs
--@@ -7,11 +7,11 @@
--=20
-- #![crate_type =3D "lib"]
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "C" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "C-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs b/tests/co=
-degen-llvm/unwind-abis/cdecl-unwind-abi.rs
--index 8e643d6ce49..6f4eafb353c 100644
----- a/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs
--@@ -7,11 +7,11 @@
--=20
-- #![crate_type =3D "lib"]
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "cdecl" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "cdecl-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs b/tests=
-/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs
--index 7df46813ed1..51c6fd15b9c 100644
----- a/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs
--@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
-- // `fastcall-unwind` extern functions. `fastcall-unwind` functions MUST N=
-OT have this attribute. We
-- // disable optimizations above to prevent LLVM from inferring the attribu=
-te.
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "fastcall" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "fastcall-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs b/tests/=
-codegen-llvm/unwind-abis/stdcall-unwind-abi.rs
--index cc06ee12549..b5fcea52b4d 100644
----- a/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs
--@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
-- // extern functions. `stdcall-unwind` functions MUST NOT have this attrib=
-ute. We disable
-- // optimizations above to prevent LLVM from inferring the attribute.
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "stdcall" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "stdcall-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs b/tests/c=
-odegen-llvm/unwind-abis/system-unwind-abi.rs
--index 5f910248346..15fce95fe28 100644
----- a/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs
--@@ -7,11 +7,11 @@
--=20
-- #![crate_type =3D "lib"]
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "system" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "system-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs b/tests/c=
-odegen-llvm/unwind-abis/sysv64-unwind-abi.rs
--index 69bfaf80b4b..1293e7c0a5f 100644
----- a/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs
--@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
-- // `sysv64-unwind` extern functions. `sysv64-unwind` functions MUST NOT h=
-ave this attribute. We
-- // disable optimizations above to prevent LLVM from inferring the attribu=
-te.
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "sysv64" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "sysv64-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs b/tests=
-/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs
--index 05f6b8b70e1..a9b6c34ee58 100644
----- a/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs
--@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
-- // `thiscall-unwind` extern functions. `thiscall-unwind` functions MUST N=
-OT have this attribute. We
-- // disable optimizations above to prevent LLVM from inferring the attribu=
-te.
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "thiscall" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "thiscall-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs b/tes=
-ts/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs
--index d001a16b32a..8cedb55ae1d 100644
----- a/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs
--@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
-- // `vectorcall-unwind` extern functions. `vectorcall-unwind` functions MU=
-ST NOT have this attribute.
-- // We disable optimizations above to prevent LLVM from inferring the attr=
-ibute.
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "vectorcall" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "vectorcall-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs b/tests/co=
-degen-llvm/unwind-abis/win64-unwind-abi.rs
--index 257f00b54e4..2a3ad330406 100644
----- a/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs
--+++ b/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs
--@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
-- // `win64-unwind` extern functions. `win64-unwind` functions MUST NOT hav=
-e this attribute. We
-- // disable optimizations above to prevent LLVM from inferring the attribu=
-te.
--=20
---// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
--+// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
-- #[no_mangle]
-- pub extern "win64" fn rust_item_that_cannot_unwind() {}
--=20
---// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
--+// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
-- #[no_mangle]
-- pub extern "win64-unwind" fn rust_item_that_can_unwind() {}
--=20
--diff --git a/tests/assembly-llvm/slice-is_ascii.rs b/tests/assembly-llvm/s=
-lice-is_ascii.rs
--index e53cd5160cf..6d660e78147 100644
----- a/tests/assembly-llvm/slice-is_ascii.rs
--+++ b/tests/assembly-llvm/slice-is_ascii.rs
--@@ -6,6 +6,11 @@
-- //@ only-x86_64
-- //@ ignore-sgx
--
--+// No longer optimizes as desired, tracked at:
--+// https://github.com/rust-lang/rust/issues/154141
--+// https://github.com/llvm/llvm-project/issues/209216
--+//@ max-llvm-major-version: 22
--+
-- #![feature(str_internals)]
--
-- // CHECK-LABEL: is_ascii_simple_demo:
--diff --git a/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs b/tests/ass=
-embly-llvm/simd-intrinsic-mask-reduce.rs
--index 40d16886c6d..d3698fda5fe 100644
----- a/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs
--+++ b/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs
--@@ -1,12 +1,16 @@
-- // verify that simd mask reductions do not introduce additional bit shift=
- operations
-- //@ add-minicore
---//@ revisions: x86 aarch64
--+//@ revisions: x86 aarch64-llvm22 aarch64
-- //@ [x86] compile-flags: --target=3Dx86_64-unknown-linux-gnu -C llvm-args=
-=3D-x86-asm-syntax=3Dintel
-- // Set the base cpu explicitly, in case the default has been changed.
-- //@ [x86] compile-flags: -C target-cpu=3Dx86-64
-- //@ [x86] needs-llvm-components: x86
--+//@ [aarch64-llvm22] compile-flags: --target=3Daarch64-unknown-linux-gnu
--+//@ [aarch64-llvm22] needs-llvm-components: aarch64
--+//@ [aarch64-llvm22] max-llvm-major-version: 22
-- //@ [aarch64] compile-flags: --target=3Daarch64-unknown-linux-gnu
-- //@ [aarch64] needs-llvm-components: aarch64
--+//@ [aarch64] min-llvm-version: 23
-- //@ assembly-output: emit-asm
-- //@ compile-flags: --crate-type=3Dlib -Copt-level=3D3 -C panic=3Dabort
--
--@@ -33,12 +37,19 @@
--     // x86-NEXT: {{cmp ax, -1|cmp eax, 65535|xor eax, 65535}}
--     // x86-NEXT: sete al
--     //
--+    // aarch64-llvm22-NOT: shl
--+    // aarch64-llvm22: cmge v0.16b, v0.16b, #0
--+    // aarch64-llvm22-DAG: mov [[REG1:[a-z0-9]+]], #1
--+    // aarch64-llvm22-DAG: umaxv b0, v0.16b
--+    // aarch64-llvm22-NEXT: fmov [[REG2:[a-z0-9]+]], s0
--+    // aarch64-llvm22-NEXT: bic w0, [[REG1]], [[REG2]]
--+    //
--     // aarch64-NOT: shl
--     // aarch64: cmge v0.16b, v0.16b, #0
---    // aarch64-DAG: mov [[REG1:[a-z0-9]+]], #1
---    // aarch64-DAG: umaxv b0, v0.16b
---    // aarch64-NEXT: fmov [[REG2:[a-z0-9]+]], s0
---    // aarch64-NEXT: bic w0, [[REG1]], [[REG2]]
--+    // aarch64-NEXT: addp [[REG1:d[0-9]+]], v0.2d
--+    // aarch64-NEXT: fmov [[REG2:x[0-9]+]], [[REG1]]
--+    // aarch64-NEXT: cmp [[REG2]], #0
--+    // aarch64-NEXT: cset w0, eq
--     simd_reduce_all(m)
-- }
--
--@@ -50,10 +61,17 @@
--     // x86-NEXT: test eax, eax
--     // x86-NEXT: setne al
--     //
--+    // aarch64-llvm22-NOT: shl
--+    // aarch64-llvm22: cmlt v0.16b, v0.16b, #0
--+    // aarch64-llvm22-NEXT: umaxv b0, v0.16b
--+    // aarch64-llvm22-NEXT: fmov [[REG:[a-z0-9]+]], s0
--+    // aarch64-llvm22-NEXT: and w0, [[REG]], #0x1
--+    //
--     // aarch64-NOT: shl
--     // aarch64: cmlt v0.16b, v0.16b, #0
---    // aarch64-NEXT: umaxv b0, v0.16b
---    // aarch64-NEXT: fmov [[REG:[a-z0-9]+]], s0
---    // aarch64-NEXT: and w0, [[REG]], #0x1
--+    // aarch64-NEXT: addp [[REG1:d[0-9]+]], v0.2d
--+    // aarch64-NEXT: fmov [[REG2:x[0-9]+]], [[REG1]]
--+    // aarch64-NEXT: cmp [[REG2]], #0
--+    // aarch64-NEXT: cset w0, ne
--     simd_reduce_any(m)
-- }
--diff --git a/tests/codegen-llvm/asm/global_asm.rs b/tests/codegen-llvm/asm=
-/global_asm.rs
--index 32075daa3cf..8c1c4a3b588 100644
----- a/tests/codegen-llvm/asm/global_asm.rs
--+++ b/tests/codegen-llvm/asm/global_asm.rs
--@@ -7,10 +7,10 @@
--
-- use std::arch::global_asm;
--
---// CHECK-LABEL: foo
-- // CHECK: module asm
--+// CHECK-LABEL: foo
-- // this regex will capture the correct unconditional branch inst.
---// CHECK: module asm "{{[[:space:]]+}}jmp baz"
--+// CHECK: "{{[[:space:]]+}}jmp baz"
-- global_asm!(
--     r#"
--     .global foo
--diff --git a/tests/codegen-llvm/asm/global_asm_include.rs b/tests/codegen-=
-llvm/asm/global_asm_include.rs
--index 98be9c3e333..cad9901336b 100644
----- a/tests/codegen-llvm/asm/global_asm_include.rs
--+++ b/tests/codegen-llvm/asm/global_asm_include.rs
--@@ -7,9 +7,9 @@
--
-- use std::arch::global_asm;
--
---// CHECK-LABEL: foo
-- // CHECK: module asm
---// CHECK: module asm "{{[[:space:]]+}}jmp baz"
--+// CHECK-LABEL: foo
--+// CHECK: "{{[[:space:]]+}}jmp baz"
-- global_asm!(include_str!("foo.s"));
--
-- extern "C" {
--diff --git a/tests/codegen-llvm/asm/global_asm_x2.rs b/tests/codegen-llvm/=
-asm/global_asm_x2.rs
--index 9e3a00f0680..8c6f38289de 100644
----- a/tests/codegen-llvm/asm/global_asm_x2.rs
--+++ b/tests/codegen-llvm/asm/global_asm_x2.rs
--@@ -8,12 +8,12 @@
--
-- use core::arch::global_asm;
--
---// CHECK-LABEL: foo
-- // CHECK: module asm
---// CHECK: module asm "{{[[:space:]]+}}jmp baz"
--+// CHECK-LABEL: foo
--+// CHECK: "{{[[:space:]]+}}jmp baz"
-- // any other global_asm will be appended to this first block, so:
-- // CHECK-LABEL: bar
---// CHECK: module asm "{{[[:space:]]+}}jmp quux"
--+// CHECK: "{{[[:space:]]+}}jmp quux"
-- global_asm!(
--     r#"
--     .global foo
--diff --git a/tests/codegen-llvm/array-cmp.rs b/tests/codegen-llvm/array-cm=
-p.rs
--index 0106b9c15c1..5b0a802f409 100644
----- a/tests/codegen-llvm/array-cmp.rs
--+++ b/tests/codegen-llvm/array-cmp.rs
--@@ -2,6 +2,9 @@
--
-- //@ compile-flags: -C opt-level=3D2
-- //@ needs-deterministic-layouts (checks depend on tuple layout)
--+//@ revisions: LLVM22 LLVM23
--+//@ [LLVM22] max-llvm-major-version: 22
--+//@ [LLVM23] min-llvm-version: 23
--
-- #![crate_type =3D "lib"]
--
--@@ -66,7 +69,8 @@ pub fn compare() -> bool {
--     // CHECK-NEXT: br i1 %[[EQ01]], label %{{.+}}, label %[[EXIT_U]]
--
--     // CHECK: [[DONE]]:
---    // CHECK: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_S]] ], [ %{{.+}},=
- %[[EXIT_U]] ], [ true, %[[L11]] ]
--+    // LLVM22: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_S]] ], [ %{{.+}}=
-, %[[EXIT_U]] ], [ true, %[[L11]] ]
--+    // LLVM23: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_U]] ], [ %{{.+}}=
-, %[[EXIT_S]] ], [ true, %[[L11]] ]
--     // CHECK: ret i1 %[[RET]]
--
--     a <=3D b
--diff --git a/tests/codegen-llvm/enum/enum-match.rs b/tests/codegen-llvm/en=
-um/enum-match.rs
--index 6d8b97328f8..a0cba452e12 100644
----- a/tests/codegen-llvm/enum/enum-match.rs
--+++ b/tests/codegen-llvm/enum/enum-match.rs
--@@ -1,5 +1,8 @@
-- //@ compile-flags: -Copt-level=3D1
-- //@ only-64bit
--+//@ revisions: LLVM22 LLVM23
--+//@ [LLVM22] max-llvm-major-version: 22
--+//@ [LLVM23] min-llvm-version: 23
--
-- #![crate_type =3D "lib"]
-- #![feature(core_intrinsics)]
--@@ -18,8 +21,9 @@ pub enum Enum0 {
-- // CHECK-LABEL: define{{( dso_local)?}} noundef{{( range\(i8 [0-9]+, [0-9=
-]+\))?}} i8 @match0(i8{{.+}}%0)
-- // CHECK-NEXT: start:
-- // CHECK-NEXT: %[[IS_B:.+]] =3D icmp eq i8 %0, 2
---// CHECK-NEXT: %[[TRUNC:.+]] =3D and i8 %0, 1
---// CHECK-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %[[TRUNC]]
--+// LLVM22-NEXT: %[[TRUNC:.+]] =3D and i8 %0, 1
--+// LLVM22-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %[[TRUNC]]
--+// LLVM23-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %0
-- // CHECK-NEXT: ret i8 %[[R]]
-- #[no_mangle]
-- pub fn match0(e: Enum0) -> u8 {
--diff --git a/tests/assembly-llvm/simd-bitmask.rs b/tests/assembly-llvm/sim=
-d-bitmask.rs
--index 98f63c165f3..e8bb335c5b0 100644
----- a/tests/assembly-llvm/simd-bitmask.rs
--+++ b/tests/assembly-llvm/simd-bitmask.rs
--@@ -11,7 +11,7 @@
-- //@ [aarch64] min-llvm-version: 23
-- //@ [aarch64] compile-flags: --target=3Daarch64-unknown-linux-gnu
-- //@ [aarch64] needs-llvm-components: aarch64
---//@ [aarch64-llvm-pre-23] ignore-llvm-version: 23 - 99
--+//@ [aarch64-llvm-pre-23] max-llvm-major-version: 22
-- //@ [aarch64-llvm-pre-23] compile-flags: --target=3Daarch64-unknown-linux=
--gnu
-- //@ [aarch64-llvm-pre-23] needs-llvm-components: aarch64
-- //@ assembly-output: emit-asm
--diff --git a/tests/codegen-llvm/array-equality.rs b/tests/codegen-llvm/arr=
-ay-equality.rs
--index 706caebdcb6..c0f716b6067 100644
----- a/tests/codegen-llvm/array-equality.rs
--+++ b/tests/codegen-llvm/array-equality.rs
--@@ -1,5 +1,5 @@
-- //@ revisions: llvm-current llvm-next
---//@[llvm-current] ignore-llvm-version: 23-99
--+//@[llvm-current] max-llvm-major-version: 22
-- //@[llvm-next] min-llvm-version: 23
-- //@ compile-flags: -Copt-level=3D3 -Z merge-functions=3Ddisabled
-- //@ only-x86_64
--diff --git a/tests/ui/explicit-tail-calls/support/bystack.rs b/tests/ui/ex=
-plicit-tail-calls/support/bystack.rs
--index ddd9c79f5c7..c89ad194f8b 100644
----- a/tests/ui/explicit-tail-calls/support/bystack.rs
--+++ b/tests/ui/explicit-tail-calls/support/bystack.rs
--@@ -36,11 +36,11 @@
-- //@ revisions: loongarch32
-- //@[loongarch32] compile-flags: --target loongarch32-unknown-none
-- //@[loongarch32] needs-llvm-components: loongarch
---//@[loongarch32] ignore-llvm-version: 22 - 23
--+//@[loongarch32] max-llvm-major-version: 21
-- //@ revisions: loongarch64
-- //@[loongarch64] compile-flags: --target loongarch64-unknown-linux-gnu
-- //@[loongarch64] needs-llvm-components: loongarch
---//@[loongarch64] ignore-llvm-version: 22 - 23
--+//@[loongarch64] max-llvm-major-version: 21
-- //@ revisions: bpf
-- //@[bpf] compile-flags: --target bpfeb-unknown-none
-- //@[bpf] needs-llvm-components: bpf
--diff --git a/tests/ui/explicit-tail-calls/support/byval.rs b/tests/ui/expl=
-icit-tail-calls/support/byval.rs
--index f451a953f2a..e6f26b9292e 100644
----- a/tests/ui/explicit-tail-calls/support/byval.rs
--+++ b/tests/ui/explicit-tail-calls/support/byval.rs
--@@ -36,11 +36,11 @@
-- //@ revisions: loongarch32
-- //@[loongarch32] compile-flags: --target loongarch32-unknown-none
-- //@[loongarch32] needs-llvm-components: loongarch
---//@[loongarch32] ignore-llvm-version: 22 - 23
--+//@[loongarch32] max-llvm-major-version: 21
-- //@ revisions: loongarch64
-- //@[loongarch64] compile-flags: --target loongarch64-unknown-linux-gnu
-- //@[loongarch64] needs-llvm-components: loongarch
---//@[loongarch64] ignore-llvm-version: 22 - 23
--+//@[loongarch64] max-llvm-major-version: 21
-- //@ revisions: bpf
-- //@[bpf] compile-flags: --target bpfeb-unknown-none
-- //@[bpf] needs-llvm-components: bpf
--diff --git a/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs b/=
-tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs
--index 5834255f3d3..c3090a20e4d 100644
----- a/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs
--+++ b/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs
--@@ -14,7 +14,6 @@ pub unsafe fn foo(x: &mut Copied<Iter<'_, u32>>) -> u32 =
-{
--     // CHECK-NOT: br {{.*}}
--     // CHECK-NOT: select
--     // CHECK: [[RET:%.*]] =3D load i32, ptr
---    // CHECK-NEXT: assume
---    // CHECK-NEXT: ret i32 [[RET]]
--+    // CHECK: ret i32 [[RET]]
--     x.next().unwrap_unchecked()
-- }
-diff --git a/meta/recipes-devtools/rust/files/0007-cargo-omit-host-triple-f=
-rom-unit-metadata-hash.patch b/meta/recipes-devtools/rust/files/0007-cargo-=
-omit-host-triple-from-unit-metadata-hash.patch
-index d4cb48a7a3..ebd2757e6f 100644
---- a/meta/recipes-devtools/rust/files/0007-cargo-omit-host-triple-from-uni=
-t-metadata-hash.patch
-+++ b/meta/recipes-devtools/rust/files/0007-cargo-omit-host-triple-from-uni=
-t-metadata-hash.patch
-@@ -23,10 +23,10 @@ Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.co=
-m>
-  .../core/compiler/build_runner/compilation_files.rs    | 10 ++--------
-  1 file changed, 2 insertions(+), 8 deletions(-)
-=20
--diff --git a/src/tools/cargo/src/cargo/core/compiler/build_runner/compilat=
-ion_files.rs b/src/tools/cargo/src/cargo/core/compiler/build_runner/compila=
-tion_files.rs
-+diff --git a/src/tools/cargo/src/compiler/build_runner/compilation_files.r=
-s b/src/tools/cargo/src/compiler/build_runner/compilation_files.rs
- index 88cab85..9dbd203 100644
----- a/src/tools/cargo/src/cargo/core/compiler/build_runner/compilation_fil=
-es.rs
--+++ b/src/tools/cargo/src/cargo/core/compiler/build_runner/compilation_fil=
-es.rs
-+--- a/src/tools/cargo/src/compiler/build_runner/compilation_files.rs
-++++ b/src/tools/cargo/src/compiler/build_runner/compilation_files.rs
- @@ -877,7 +877,7 @@ fn has_remap_path_prefix(args: &[String]) -> bool {
-  }
- =20
-diff --git a/meta/recipes-devtools/rust/files/0008-rustc-hir-make-doc-link-=
-metadata-order-deterministic.patch b/meta/recipes-devtools/rust/files/0008-=
-rustc-hir-make-doc-link-metadata-order-deterministic.patch
-deleted file mode 100644
-index 8cd64f21bb..0000000000
---- a/meta/recipes-devtools/rust/files/0008-rustc-hir-make-doc-link-metadat=
-a-order-deterministic.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 6630363e7bc9bc0926300e242aa538b8d92cdb95 Mon Sep 17 00:00:00 2001
--From: jprochazk <pjanv42@gmail.com>
--Date: Tue, 15 Sep 2026 17:05:36 +0530
--Subject: [PATCH] make DocLinkResMap an FxIndexMap
--
--DocLinkResMap was an UnordMap, so its iteration order varied with the buil=
-d
--host and that order ended up in the encoded rmeta. An FxIndexMap keeps the
--serialisation stable. Only the code change is carried here, not the
--upstream run-make test.
--
--Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/f9d993=
-9467a5185a72f0ee8da778a0b71fc966ae]
--
--Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-----
-- compiler/rustc_hir/src/def.rs | 6 ++++--
-- 1 file changed, 4 insertions(+), 2 deletions(-)
--
--diff --git a/compiler/rustc_hir/src/def.rs b/compiler/rustc_hir/src/def.rs
--index d0300d6..e903c0c 100644
----- a/compiler/rustc_hir/src/def.rs
--+++ b/compiler/rustc_hir/src/def.rs
--@@ -4,7 +4,7 @@ use std::fmt::Debug;
--=20
-- use rustc_ast as ast;
-- use rustc_ast::NodeId;
---use rustc_data_structures::unord::UnordMap;
--+use rustc_data_structures::fx::FxIndexMap;
-- use rustc_error_messages::{DiagArgValue, IntoDiagArg};
-- use rustc_macros::{Decodable, Encodable, StableHash};
-- use rustc_span::Symbol;
--@@ -969,4 +969,6 @@ pub enum LifetimeRes {
--     ElidedAnchor { start: NodeId, end: NodeId },
-- }
--=20
---pub type DocLinkResMap =3D UnordMap<(Symbol, Namespace), Option<Res<NodeI=
-d>>>;
--+// FxIndexMap is necessary because its data ends up in .rmeta files, so i=
-ts
--+// iteration order must be consistent. See #159677 for context.
--+pub type DocLinkResMap =3D FxIndexMap<(Symbol, Namespace), Option<Res<Nod=
-eId>>>;
----=20
--2.43.0
-diff --git a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch b/meta=
-/recipes-devtools/rust/files/rust-oe-selftest.patch
-index 41d7384f2e..e8eb80b4ec 100644
---- a/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-+++ b/meta/recipes-devtools/rust/files/rust-oe-selftest.patch
-@@ -280,10 +280,13 @@ index 89c61cd..144ea0e 100644
-  use std::process::ExitCode;
-=20
-  // A note about jemalloc: rustc uses jemalloc when built for CI and
--@@ -41,6 +41,7 @@
-- #[cfg(feature =3D "jemalloc")]
-- use tikv_jemalloc_sys as _;
--
-+@@ -34,8 +34,10 @@
-+ // to compare their performance, see
-+ // https://github.com/rust-lang/rust/commit/b90cfc887c31c3e7a9e6d462e2464=
-db1fe506175#diff-43914724af6e464c1da2171e4a9b6c7e607d5bc1203fa95c0ab85be412=
-2605ef
-+ // for an example of how to do so.
-++#[cfg(not(test))]
-+ rustc_driver::override_c_allocator_in_binary!();
-+=20
- +#[cfg(not(test))]
-  fn main() -> ExitCode {
-      rustc_driver::main()
-@@ -292,13 +295,12 @@ diff --git a/tests/ui/c-variadic/same-program-multipl=
-e-abis-arm.rs b/tests/ui/c-
- index fbc5573..f259529 100644
- --- a/tests/ui/c-variadic/same-program-multiple-abis-arm.rs
- +++ b/tests/ui/c-variadic/same-program-multiple-abis-arm.rs
--@@ -1,5 +1,6 @@
-+@@ -1,4 +1,5 @@
-  //@ run-pass
-  //@ only-arm
- +//@ ignore-arm
-  //@ ignore-thumb (this test uses arm assembly)
-  //@ only-eabihf (the assembly below requires float hardware support)
-- #![feature(c_variadic, c_variadic_naked_functions)]
- diff --git a/compiler/rustc_interface/src/tests.rs b/compiler/rustc_interf=
-ace/src/tests.rs
- index ab69cf5..f0e3fd3 100644
- --- a/compiler/rustc_interface/src/tests.rs
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.98.1.bb b/meta/recipes-=
-devtools/rust/libstd-rs_1.99.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/libstd-rs_1.98.1.bb
-rename to meta/recipes-devtools/rust/libstd-rs_1.99.0.bb
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.98.1.bb b/met=
-a/recipes-devtools/rust/rust-cross-canadian_1.99.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust-cross-canadian_1.98.1.bb
-rename to meta/recipes-devtools/rust/rust-cross-canadian_1.99.0.bb
-diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-de=
-vtools/rust/rust-snapshot.inc
-index f2ee5e308c..f5865d4bba 100644
---- a/meta/recipes-devtools/rust/rust-snapshot.inc
-+++ b/meta/recipes-devtools/rust/rust-snapshot.inc
-@@ -4,58 +4,58 @@
- ## The exact (previous) version that has been used is specified in the sou=
-rce tarball.
- ## The version is replicated here.
-=20
--SNAPSHOT_VERSION =3D "1.97.1"
--
--SRC_URI[rustc-snapshot-aarch64.sha256sum] =3D "b344b81f0cd4c2246c7da8b197f=
-e7a339d7dd02bb15cb69b2524115d9c75224c"
--SRC_URI[rust-std-snapshot-aarch64.sha256sum] =3D "46aed8e63186350004d8ec6a=
-fca798811e6530b514352e5a8a26f3dc4939b3be"
--SRC_URI[cargo-snapshot-aarch64.sha256sum] =3D "8f70bcaccea5ba4db187c3fd4d6=
-4e24592b4e16af513497201f5909d61691dbe"
--SRC_URI[clippy-snapshot-aarch64.sha256sum] =3D "d8bac7b0ba5ca9bb868ccb9e36=
-7a1d52f4837f3ebf4892eaf64cda37ce362bb5"
--
--SRC_URI[rustc-snapshot-i686.sha256sum] =3D "c096e21362fe1390e7aefc731671bc=
-e208a43828a83bcc32a35ffb8302f5802e"
--SRC_URI[rust-std-snapshot-i686.sha256sum] =3D "7f4be0697e96dd81f75f66f0e25=
-a51d595223e7c58af6675810f066cab6ef584"
--SRC_URI[cargo-snapshot-i686.sha256sum] =3D "b76d87a7a550c51c48d4e9396cec29=
-917b2e8fcac7b7ffeb6da01b22e2b723dc"
--SRC_URI[clippy-snapshot-i686.sha256sum] =3D "97d20d083e3475bb50898e399cf67=
-6d286763ecd978b2fafb57d5d582af27fdf"
--
--SRC_URI[rustc-snapshot-loongarch64.sha256sum] =3D "140c1dd5973d42fb1503b1d=
-3bdc6da23a628b07137fc126998ae7f0f41b80a30"
--SRC_URI[rust-std-snapshot-loongarch64.sha256sum] =3D "8b7cbf62dcc4a65da806=
-80f9ae6a15d9934ba1fc30a689dbe53de99f6e4622a7"
--SRC_URI[cargo-snapshot-loongarch64.sha256sum] =3D "41f0ebc698f24fef6989d0e=
-31e64d2377ba09d66ad5aba17d88634bd6aea0568"
--SRC_URI[clippy-snapshot-loongarch64.sha256sum] =3D "c48fcbae8a844db00948b0=
-c46527fb701582c8b867ee908d8bdf145953572bce"
--
--SRC_URI[rustc-snapshot-powerpc.sha256sum] =3D "929b9ab78cb8aef161420b33592=
-b070516b09f27fdc923dd4153318280449074"
--SRC_URI[rust-std-snapshot-powerpc.sha256sum] =3D "9c3286cc2aab1868f693cd45=
-8d5d7bf8c307aaf8809e9a2dddbfc31ece94629f"
--SRC_URI[cargo-snapshot-powerpc.sha256sum] =3D "673caa54fdbf5477ab18bbc20e7=
-c580f0f6179a772589abf2d22d3030a94daa2"
--SRC_URI[clippy-snapshot-powerpc.sha256sum] =3D "fd3061d0f7e31e515fc615d442=
-43588b59adaf0743980477e35bc96e48247396"
--
--SRC_URI[rustc-snapshot-powerpc64.sha256sum] =3D "a52596a0fbdb41c4f6874ae7b=
-fdeeb0197fb1227f185d897e040cd908de48d63"
--SRC_URI[rust-std-snapshot-powerpc64.sha256sum] =3D "58675598a59db1524e934a=
-27f279b6669d65e91f53675d022fd5e32046c2742c"
--SRC_URI[cargo-snapshot-powerpc64.sha256sum] =3D "48ee9abeaa117a1663c3ef3a1=
-771f808cd7d64d86db5d2904d10d8aa829b96e8"
--SRC_URI[clippy-snapshot-powerpc64.sha256sum] =3D "48b6494a0b5d5cc239827c05=
-c46444ad3e2039e11aba3efff1ad4aa6073e9550"
--
--SRC_URI[rustc-snapshot-powerpc64le.sha256sum] =3D "5ec2a5477d961114b735e43=
-138ddee914ce12be225b8a5bfbfadb8ca966bd8f3"
--SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] =3D "ab2fb5c9dd7d3a0987c9=
-7c9f56732d013a11796fcd1510651570ae2fcc512bb2"
--SRC_URI[cargo-snapshot-powerpc64le.sha256sum] =3D "fcdcda6e055a77ea7fbe6d7=
-4e30d3949a0501116c08966a97fd728dc3bf5872e"
--SRC_URI[clippy-snapshot-powerpc64le.sha256sum] =3D "df0d9c12645b006016fbf1=
-2634f4b00c54182620907808d11991bf1bc234d7a2"
--
--SRC_URI[rustc-snapshot-riscv64gc.sha256sum] =3D "3cb19f130eb83b56277c526f7=
-37ce02dedf6d38145f5220ff66af5b47c499dcb"
--SRC_URI[rust-std-snapshot-riscv64gc.sha256sum] =3D "5cec88477a70fe83c10a12=
-efd6bdad1b0f8dd4c1ebba1e427f00c69666c5b6f9"
--SRC_URI[cargo-snapshot-riscv64gc.sha256sum] =3D "df0d9edd65f4f7710a1a49a76=
-4a3da84e7a95467ded15dade41bbdf74051743b"
--SRC_URI[clippy-snapshot-riscv64gc.sha256sum] =3D "d7c1ed5a12a028e0a1213428=
-3136f24787597f879ad4e9797aedab5f54b40a5e"
--
--SRC_URI[rustc-snapshot-s390x.sha256sum] =3D "05103f9a7c658bf2b16bb810879c0=
-f73e4123ac8ac066f66e277d6809468fe9c"
--SRC_URI[rust-std-snapshot-s390x.sha256sum] =3D "6c6b2b285225f3551250bd4c5e=
-05293a0839fc18d1625c545b81fbea9f82c31b"
--SRC_URI[cargo-snapshot-s390x.sha256sum] =3D "3236fef696f28c21e754dbd78de27=
-72e8b418b7086a4511870e8e469e7ccb572"
--SRC_URI[clippy-snapshot-s390x.sha256sum] =3D "8d0a6a7759451cdbf957cda05275=
-79b59ef1b2a7600b65af05257a7d2aea6360"
--
--SRC_URI[rustc-snapshot-x86_64.sha256sum] =3D "9819d0a32d56bd339585319c8026=
-0e332779f5541fd66838ab7e016d6c814819"
--SRC_URI[rust-std-snapshot-x86_64.sha256sum] =3D "1c1e704ae80126b7de34f72ea=
-2825f7fd01736dec20732faed47374b95282fba"
--SRC_URI[cargo-snapshot-x86_64.sha256sum] =3D "e1be5f5ff7f7f80ca506fb65770b=
-759edbdc6d303781ed71c5de8ec8a8394779"
--SRC_URI[clippy-snapshot-x86_64.sha256sum] =3D "3441df8fb54db985f8c8a3e8356=
-b8874a3f92cc8cca8565cfe36f1dc15935e72"
--
--SRC_URI[rust-std-snapshot-i586.sha256sum] =3D "a3090f555a9c3fd91d3c8b73152=
-eee007fa348d20a8d026ea577a467acf5e7c7"
--
--SRC_URI[rust-std-snapshot-riscv64a23.sha256sum] =3D "1600b3358f88c8a80dc18=
-68b6d98ca899fcb1b2b9c512fdc8b832928e7a37875"
--
--SRC_URI[rust-std-snapshot-sparc64.sha256sum] =3D "be689309aae0247e0a58a87b=
-6ed69c28573ec5ec3f56766cb8b0b3066a3a0a70"
-+SNAPSHOT_VERSION =3D "1.98.0"
-+
-+SRC_URI[rustc-snapshot-aarch64.sha256sum] =3D "00590657f2356d7163ca5ef2952=
-83523974c340fa21bb94b420ce794f29b358c"
-+SRC_URI[rust-std-snapshot-aarch64.sha256sum] =3D "a36f7ac98af20ef0ba6368aa=
-ce0345efabbebaef7962eba99f47190fd256162d"
-+SRC_URI[cargo-snapshot-aarch64.sha256sum] =3D "5784379d73ac881d15a9e67eed2=
-882cd58c747c276221c23cdf9aff37e015ff6"
-+SRC_URI[clippy-snapshot-aarch64.sha256sum] =3D "bc9b5636170e4b067794bfb896=
-2c6f22b2aee5cb7358f4d9523072bb2976062a"
-+
-+SRC_URI[rustc-snapshot-i686.sha256sum] =3D "5244bd76687b64cd7305ef038d8f34=
-9774eee494174899474535c23dcbeaa009"
-+SRC_URI[rust-std-snapshot-i686.sha256sum] =3D "11c7a5cfa324e4324611793692a=
-863490902bdff8b9ccd197404711cb8dc24d4"
-+SRC_URI[cargo-snapshot-i686.sha256sum] =3D "b768fe07ae4bd233e5c3f864f93562=
-0abb8b72139f7369c869e964a0c30ae419"
-+SRC_URI[clippy-snapshot-i686.sha256sum] =3D "df4f34169dffa12cfc75fd246c750=
-92734f2ff3837299531b0dad432d58f959a"
-+
-+SRC_URI[rustc-snapshot-loongarch64.sha256sum] =3D "5af789de2072c185302377c=
-0bf6af5f6ce518670eaec62363142d60a90209986"
-+SRC_URI[rust-std-snapshot-loongarch64.sha256sum] =3D "397eb65ab17005c709a8=
-6e7bf7cb03d8aa9dae4303783a19c06ba8963247d537"
-+SRC_URI[cargo-snapshot-loongarch64.sha256sum] =3D "e00ba627af9f098f0d9527c=
-5b15f1a6886486c93f0139eee6f36cb104543a182"
-+SRC_URI[clippy-snapshot-loongarch64.sha256sum] =3D "7bda4fb4a971d23598bd48=
-8047fe8a4083f72c9af221a6018a84a8e304663c61"
-+
-+SRC_URI[rustc-snapshot-powerpc.sha256sum] =3D "a4848482dbb50b808495a32d35e=
-d5c7a7a9de86d5c9d7de1ca34a5590ce6056f"
-+SRC_URI[rust-std-snapshot-powerpc.sha256sum] =3D "ae6a38ebf8ab0b8bd20da34a=
-edc3de6f78d8314f10a6e373bd76a0dc90f22133"
-+SRC_URI[cargo-snapshot-powerpc.sha256sum] =3D "4e5760b7898b00c5b772fe7b1e4=
-8d75a0b4035b4a7d4de3ba6fc5b1544966196"
-+SRC_URI[clippy-snapshot-powerpc.sha256sum] =3D "a5c37e43b380adfeb14149ec0d=
-9c4a76c985ec8d532ac669be9055094d05f166"
-+
-+SRC_URI[rustc-snapshot-powerpc64.sha256sum] =3D "c9833ed9d2abde4c6b8f40674=
-08e9ff4a758e4252e87257d3acf780c31d3531d"
-+SRC_URI[rust-std-snapshot-powerpc64.sha256sum] =3D "e33d1517443f93dcbf151c=
-46e3969bdbe4c9df4c847455915eecd6caee08cee2"
-+SRC_URI[cargo-snapshot-powerpc64.sha256sum] =3D "fff7e0ca647951a4a42c2272c=
-857fa749e28746853190e8211849da35d1fb45d"
-+SRC_URI[clippy-snapshot-powerpc64.sha256sum] =3D "02cc96e76c2ca4e22608fbf9=
-080455211f0f6b51dc0ec7da0f54430181de7262"
-+
-+SRC_URI[rustc-snapshot-powerpc64le.sha256sum] =3D "a940bca1bce862b2233a5cc=
-07bdfb3f24b285744fc6ecb6dbb174853a41bff6a"
-+SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] =3D "ec370e4ad9712cde2f66=
-64f18a022bd8de34c71b8517040b4d14144fcf1ef3e7"
-+SRC_URI[cargo-snapshot-powerpc64le.sha256sum] =3D "98b90455b3c57086b7ee645=
-6da1075c929a495ac76850411db1e3cf76cf0cf48"
-+SRC_URI[clippy-snapshot-powerpc64le.sha256sum] =3D "2318acbbf599bd57084e4c=
-cc75252723fefd7a9f7d4acd03ee1513b41c212b46"
-+
-+SRC_URI[rustc-snapshot-riscv64gc.sha256sum] =3D "2f76a343190d8ffbe6c44666f=
-dab32b6a6696a3e1176f6d84222b6e6221a382c"
-+SRC_URI[rust-std-snapshot-riscv64gc.sha256sum] =3D "68ce716d38bcc15c6fe368=
-6bc7133f5adbadd28f5f5a8a73ef1172b4f60149fc"
-+SRC_URI[cargo-snapshot-riscv64gc.sha256sum] =3D "9fcbf7ebb55a3eefdc2145a29=
-b1cc797380edee0cee1163742c5ee06c4622347"
-+SRC_URI[clippy-snapshot-riscv64gc.sha256sum] =3D "12b08f51925b9eafae1b3ddc=
-cbab49024a05827fa965e65dbccdd63422f84b1e"
-+
-+SRC_URI[rustc-snapshot-s390x.sha256sum] =3D "c6e39df3937b6e2c2c66eb6740673=
-8036ed80f79072d136e122e61747b139b85"
-+SRC_URI[rust-std-snapshot-s390x.sha256sum] =3D "c9bcf3eb8348e04502a49345a0=
-847576e6c6fbd6600d566ef7cc74f6c2d06048"
-+SRC_URI[cargo-snapshot-s390x.sha256sum] =3D "0bc2062d88993fc590007ea2374f5=
-e784fb5b7f1eec6c024b1fb3459ccd50212"
-+SRC_URI[clippy-snapshot-s390x.sha256sum] =3D "25aad07f775b7eaac2139f1f2338=
-55f8fd81e40ea8450e2220ce9906bab5f123"
-+
-+SRC_URI[rustc-snapshot-x86_64.sha256sum] =3D "0e37cb339f447fc44d6d781073ba=
-cacebfdc5612f2600e4c7e84c266f5f3aced"
-+SRC_URI[rust-std-snapshot-x86_64.sha256sum] =3D "f5022e6c95a5ad23cca2513dc=
-8281200f585fa188de6370aa37b128a43f876a3"
-+SRC_URI[cargo-snapshot-x86_64.sha256sum] =3D "2f512d170d3dd23e16ababcda32e=
-e2e6d5172d861a7af1f504e0b1e270cafab9"
-+SRC_URI[clippy-snapshot-x86_64.sha256sum] =3D "646c6bd2450ea4c32a3c78ad7a3=
-727294eea1f1519718a3f1487424021695ffa"
-+
-+SRC_URI[rust-std-snapshot-i586.sha256sum] =3D "7d150f9ec40eaaeb4ae453dedf5=
-416855b9245420fd89203a5da420f692ead38"
-+
-+SRC_URI[rust-std-snapshot-riscv64a23.sha256sum] =3D "81fec8bb25e1377e8f143=
-c33441d12ac115781da496475ecca5601cc791be56b"
-+
-+SRC_URI[rust-std-snapshot-sparc64.sha256sum] =3D "9e0a10697c2e68707573fbcc=
-01aa927d32b9652deb771ca87d69a9b7225580ed"
-=20
- SRC_URI +=3D " \
-     ${RUST_DIST_SERVER}/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=3Drust-std-s=
-napshot-${RUST_BUILD_ARCH};subdir=3Drust-snapshot-components \
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devt=
-ools/rust/rust-source.inc
-index 562f4afb65..d9c00e94a2 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -1,19 +1,16 @@
- RUST_VERSION ?=3D "${@d.getVar('PV').split('-')[0]}"
-=20
- SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.=
-tar.xz;name=3Drust \
--            file://0001-Define-more-ioctl-codes-on-riscv32gc-unknown-linux=
--g.patch;patchdir=3D${RUSTSRC} \
-             file://rust-oe-selftest.patch;patchdir=3D${RUSTSRC} \
-             file://cc-hash-object-names-relative-to-source-roots.patch;pat=
-chdir=3D${RUSTSRC} \
-             file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-ru=
-st.patch;patchdir=3D${RUSTSRC} \
-             file://0002-Fix-rust-build-failure-with-unstable-options.patch=
-;patchdir=3D${RUSTSRC} \
-             file://0003-bootstrap-skip-StdarchVerify-when-remote-testing.p=
-atch;patchdir=3D${RUSTSRC} \
--            file://0004-Backport-commits-from-rust-Fix-selftest-llvm23.pat=
-ch;patchdir=3D${RUSTSRC} \
-             file://0005-rustc_codegen_llvm-Do-not-pass-amx-tf32-to-LLVM-23=
-.patch;patchdir=3D${RUSTSRC} \
-             file://0007-cargo-omit-host-triple-from-unit-metadata-hash.pat=
-ch;patchdir=3D${RUSTSRC} \
--            file://0008-rustc-hir-make-doc-link-metadata-order-determinist=
-ic.patch;patchdir=3D${RUSTSRC} \
-             file://0009-rustc-span-make-hygiene-encoding-order-determinist=
-ic.patch;patchdir=3D${RUSTSRC} \
- "
--SRC_URI[rust.sha256sum] =3D "be1816e7f6c40abb90245ad6e024bed2a7e88d7dda456=
-1e4d5470207df616b9f"
-+SRC_URI[rust.sha256sum] =3D "cc41916a8c84f5d9ec4f55561b44e39f43b647b133f8a=
-6f51be9ea13c83f7036"
-=20
- # Point UNPACKDIR into the work-shared location so rust-source.bb and all
- # consumers (via S/RUSTSRC) reference a single shared source tree.
-diff --git a/meta/recipes-devtools/rust/rust-source_1.98.1.bb b/meta/recipe=
-s-devtools/rust/rust-source_1.99.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust-source_1.98.1.bb
-rename to meta/recipes-devtools/rust/rust-source_1.99.0.bb
-diff --git a/meta/recipes-devtools/rust/rust_1.98.1.bb b/meta/recipes-devto=
-ols/rust/rust_1.99.0.bb
-similarity index 99%
-rename from meta/recipes-devtools/rust/rust_1.98.1.bb
-rename to meta/recipes-devtools/rust/rust_1.99.0.bb
-index 1f4ce5ebdb..7da662c453 100644
---- a/meta/recipes-devtools/rust/rust_1.98.1.bb
-+++ b/meta/recipes-devtools/rust/rust_1.99.0.bb
-@@ -151,8 +151,6 @@ python do_configure() {
-     config.set("rust", "remap-debuginfo", e(True))
-     config.set("rust", "download-rustc", e(False))
-     config.set("rust", "llvm-tools", e(False))
--    config.set("rust", "lld", e(False))
--    config.set("rust", "use-lld", e(False))
-     config.set("rust", "channel", e(d.expand("${RUST_CHANNEL}")))
-=20
-     # Whether or not to optimize the compiler and standard library
---=20
-2.49.0
-
+For further information see: https://valkyrie.yocto.io/pub/non-release/patchmetrics/
 
