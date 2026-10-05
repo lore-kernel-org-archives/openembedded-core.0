@@ -1,287 +1,154 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF134CA5FF0
-	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 15:37:37 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23059.1791214655626547481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B540DCA5FF0
+	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 17:05:36 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24902.1791219928092385261
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Oct 2026 08:37:36 -0700
+ Mon, 05 Oct 2026 10:05:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=e17KyQpH;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 8EE0A1A116D
-	for <openembedded-core@lists.openembedded.org>; Mon,  5 Oct 2026 15:37:33 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 64000601A5
-	for <openembedded-core@lists.openembedded.org>; Mon,  5 Oct 2026 15:37:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4285E103307DB;
-	Mon,  5 Oct 2026 17:37:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791214649; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=AwwSMKqfLg0UPGJYIA3J47fnnsaebL9oCbluYKISIMI=;
-	b=e17KyQpHOwWOTKoCbg9aES6VUDZ/qW+A3eHS2AVhfTKbEW8xMpnJatlY8hJCXSSky+25KS
-	TWBoVEggnaFU71xx3Dp29GqWnM5CK9m3cI/PS2AnLGvLx/TbIQ/FpLHA3m4+MEPiw60S5L
-	d+w/T8qH3gfSHTKRIqAXO3gjRPG8CtHSvmDDLGBsXBfar4mSRB6KaI8g9K1Uet6P0w18BS
-	We89mZpXsl7P6+COzTnp6YF0hdotYXa9PpVCgfyDEYDBymMHq7F5E8e2pbbgbgXJ4YAOh7
-	C9pDSIvwL8AWO1dGoEz4T4gUwZIDAYoCTniFzBBTbinLPmAQ4Y51cbsPVI8VkA==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Mon, 05 Oct 2026 17:37:18 +0200
-Subject: [PATCH] libpcre2: Remove testoutput3C file
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261005-mathieu-pcre-patch-v1-1-b43f0fe15f42@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAC3Ew2oC/x3MQQqAIBBA0avErBswK6GuEi1kGnMWlahFEN09a
- fkW/z+QOAonGKsHIl+S5NgLmroC8nZfGWUpBq20aZTqcbPZC58YKDIGm8lj1zKRM8YNpKCEIbK
- T+59O8/t+zLqjPGQAAAA=
-X-Change-ID: 20261005-mathieu-pcre-patch-43eccf66f9c0
+ dkim=fail reason="dkim: no key for signature: lookup fm1._domainkey.siemens.com on 127.0.0.53:53: no such host" header.i=peter.marko@siemens.com header.s=fm1 header.b=guE270JW;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2026100517052444bc6e15e9000207eb-cpygi3@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026100517052444bc6e15e9000207eb
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 05 Oct 2026 19:05:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=RqnvrFDPrP+7l7BdcNkHTiUa0j7OyD+T7B1nvszIrCI=;
+ b=guE270JW0JbSIw4nDGWood7u0E3Bct/gPHTOQJAnUMzpYldJosUTmW3BnRViI6Aqdo/8Zl
+ 1tQ73k/er5jVglfQK1FaqyT5dHrJZmGusk2wzkUNs1TFUHIPhyEWpC1HlsF3wixJ9ZF/xRcV
+ PvHcs84Y0d7YqfA1lJm5GYKu/P0HaYX9iSA9zBw8oq6bvt2VJwYLtpFY5HDuBVoMP+Ksbawh
+ 0FKeUCN4SE10ske4HoWeX6uVLKyJNSi6T6M8krB63OYogkmHy0r5+qB/NdIUb2CadpIWYkhg
+ jjjI+09TNWC0Sypwtt4+Q0WHRbaexiKC0O9hROUtBRYCyp/E/bz226YQ==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791214647; l=4847;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=LaTWBOlSp8XVWE3ETcN7fnSJtpzPMqTxR/T5bLW36Yc=;
- b=g+zYfyXp7vHZ23ApcRmwRTtQgt/3zsNH/e50HVs7v/bDXmiLxOIDUn62pgGhJ1PHX4L73MF2u
- VAZ6AxpaeYbDzZdDrSKZ6GZuqOxfpYyxGmBxxWnyubA0Ggm3V50DkB0
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [scarthgap][PATCH 1/7] util-linux: patch CVE-2026-53614
+Date: Mon,  5 Oct 2026 19:05:06 +0200
+Message-ID: <20261005170513.632348-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 15:37:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247245
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 17:05:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247246
 
-This file had to be added to fix an issue with version 10.48. Said issue
-is no longer present in version 10.49.
+From: Peter Marko <peter.marko@siemens.com>
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Pick patch referencing this CVE from 2.41.5 release.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-support/libpcre/libpcre2/testoutput3C | 174 ---------------=
-------
- meta/recipes-support/libpcre/libpcre2_10.49.bb     |   2 -
- 2 files changed, 176 deletions(-)
+ meta/recipes-core/util-linux/util-linux.inc   |  1 +
+ .../util-linux/CVE-2026-53614.patch           | 83 +++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-53614.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/testoutput3C b/meta/re=
-cipes-support/libpcre/libpcre2/testoutput3C
-deleted file mode 100644
-index 2af67a8d0367..000000000000
---- a/meta/recipes-support/libpcre/libpcre2/testoutput3C
-+++ /dev/null
-@@ -1,174 +0,0 @@
--# This set of tests checks local-specific features, using the "fr_FR" lo=
-cale.=20
--# It is almost Perl-compatible. When run via RunTest, the locale is edit=
-ed to
--# be whichever of "fr_FR", "french", or "fr" is found to exist. There is
--# different version of this file called wintestinput3 for use on Windows=
-,
--# where the locale is called "french" and the tests are run using
--# RunTest.bat.=20
--
--#forbid_utf
--
--/^[\w]+/
--\=3D Expect no match
--    =EF=BF=BDcole
--No match
--
--/^[\w]+/locale=3Dfr_FR
--    =EF=BF=BDcole
--No match
--
--/^[\W]+/
--    =EF=BF=BDcole
-- 0: \xc9
--
--/^[\W]+/locale=3Dfr_FR
--\=3D Expect no match
--    =EF=BF=BDcole
-- 0: \xc9
--
--/[\b]/
--    \b
-- 0: \x08
--\=3D Expect no match
--    a
--No match
--
--/[\b]/locale=3Dfr_FR
--    \b
-- 0: \x08
--\=3D Expect no match
--    a
--No match
--
--/^\w+/
--\=3D Expect no match
--    =EF=BF=BDcole
--No match
--
--/^\w+/locale=3Dfr_FR
--    =EF=BF=BDcole
--No match
--
--/(.+)\b(.+)/
--    =EF=BF=BDcole
-- 0: \xc9cole
-- 1: \xc9
-- 2: cole
--
--/(.+)\b(.+)/locale=3Dfr_FR
--\=3D Expect no match
--    =EF=BF=BDcole
-- 0: \xc9cole
-- 1: \xc9
-- 2: cole
--
--/=EF=BF=BDcole/i
--    =EF=BF=BDcole
-- 0: \xc9cole
--\=3D Expect no match
--    =EF=BF=BDcole
--No match
--
--/=EF=BF=BDcole/i,locale=3Dfr_FR
--    =EF=BF=BDcole
-- 0: \xc9cole
--    =EF=BF=BDcole
--No match
--
--/\w/I
--Capture group count =3D 0
--Starting code units: 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P
--  Q R S T U V W X Y Z _ a b c d e f g h i j k l m n o p q r s t u v w x =
-y z
--Subject length lower bound =3D 1
--
--/\w/I,locale=3Dfr_FR
--Capture group count =3D 0
--Starting code units: 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P
--  Q R S T U V W X Y Z _ a b c d e f g h i j k l m n o p q r s t u v w x =
-y z
--Subject length lower bound =3D 1
--
--# All remaining tests are in the fr_FR locale, so set the default.
--
--#pattern locale=3Dfr_FR
--
--/^[\xc8-\xc9]/i
--    =EF=BF=BDcole
-- 0: \xc9
--    =EF=BF=BDcole
--No match
--
--/^[\xc8-\xc9]/
--    =EF=BF=BDcole
-- 0: \xc9
--\=3D Expect no match
--    =EF=BF=BDcole
--No match
--
--/\xb5/i
--    =EF=BF=BD
-- 0: \xb5
--\=3D Expect no match
--    \x9c
--No match
--
--/=EF=BF=BD/i
--    \xff
-- 0: \xff
--\=3D Expect no match
--    y
--No match
--
--/(.)\1/i
--    \xfe\xde
--No match
--
--/\W+/
--    >>>\xaa<<<
-- 0: >>>\xaa<<<
--    >>>\xba<<<=20
-- 0: >>>\xba<<<
--
--/[\W]+/
--    >>>\xaa<<<
-- 0: >>>\xaa<<<
--    >>>\xba<<<=20
-- 0: >>>\xba<<<
--
--/[^[:alpha:]]+/
--    >>>\xaa<<<
-- 0: >>>\xaa<<<
--    >>>\xba<<<=20
-- 0: >>>\xba<<<
--
--/\w+/
--    >>>\xaa<<<
--No match
--    >>>\xba<<<=20
--No match
--
--/[\w]+/
--    >>>\xaa<<<
--No match
--    >>>\xba<<<=20
--No match
--
--/[[:alpha:]]+/
--    >>>\xaa<<<
--No match
--    >>>\xba<<<=20
--No match
--   =20
--/[[:alpha:]][[:lower:]][[:upper:]]/IB
--------------------------------------------------------------------
--        Bra
--        [A-Za-z]
--        [a-z]
--        [A-Z]
--        Ket
--        End
--------------------------------------------------------------------
--Capture group count =3D 0
--Starting code units: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
--  a b c d e f g h i j k l m n o p q r s t u v w x y z
--Subject length lower bound =3D 3
--
--# End of testinput3=20
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.49.bb b/meta/recipe=
-s-support/libpcre/libpcre2_10.49.bb
-index 5fa7c3db3b4c..8e0c44fb4c48 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.49.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.49.bb
-@@ -14,7 +14,6 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.md;md5=3D6720bf3bc=
-ff57543b915c2b22e526df0 \
-=20
- SRC_URI =3D "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2=
- \
-            file://run-ptest \
--           file://testoutput3C \
- "
-=20
- GITHUB_BASE_URI =3D "https://github.com/PCRE2Project/pcre2/releases"
-@@ -64,7 +63,6 @@ BBCLASSEXTEND =3D "native nativesdk"
- do_install_ptest() {
-     t=3D${D}${PTEST_PATH}
-     cp -r ${S}/testdata $t
--    cp ${UNPACKDIR}/testoutput3C $t/testdata/testoutput3C
-=20
-     for i in pcre2posix_test pcre2grep pcre2test; do
-         "${B}/libtool" --mode=3Dinstall install "${B}/$i" "$t"
-
----
-base-commit: d8195f7a0813c959e5e3337ff8297e99f7549e93
-change-id: 20261005-mathieu-pcre-patch-43eccf66f9c0
-
-Best regards,
---=20
-Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index f651dc2dab4..70acf6dfec3 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -49,6 +49,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://CVE-2026-27456.patch \
+            file://CVE-2026-13595.patch \
+            file://CVE-2026-3184.patch \
++           file://CVE-2026-53614.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-53614.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-53614.patch
+new file mode 100644
+index 00000000000..f1dd4ae5d74
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-53614.patch
+@@ -0,0 +1,83 @@
++From cc81bbcec598cb91f0eb8456282f33eed820ed5f Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Tue, 16 Jun 2026 10:58:32 +0200
++Subject: [PATCH] libmount: fix SUID bypass via LIBMOUNT_FORCE_MOUNT2 and
++ legacy mount path
++
++Use safe_getenv() for LIBMOUNT_FORCE_MOUNT2 to ignore the variable
++in SUID context, consistent with LIBMOUNT_FSTAB and other sensitive
++environment variables.
++
++Additionally, refuse multi-step mount(2) sequences (bind+remount and
++propagation) for restricted (non-root) users in the legacy mount path.
++The two-step approach has a window between syscalls where security
++flags (nosuid, noexec, ...) are not yet applied.  The new mount API
++handles this atomically.
++
++CVE-2026-53614
++
++Reported-by: Xinyao Hu <ctf_0x01@foxmail.com>
++Signed-off-by: Karel Zak <kzak@redhat.com>
++(cherry picked from commit 9cbfb823500f510b34767edabd3ffd5b436987b4)
++
++CVE: CVE-2026-53614
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/cc81bbcec598cb91f0eb8456282f33eed820ed5f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ libmount/src/hook_mount.c        | 3 ++-
++ libmount/src/hook_mount_legacy.c | 8 ++++++++
++ 2 files changed, 10 insertions(+), 1 deletion(-)
++
++diff --git a/libmount/src/hook_mount.c b/libmount/src/hook_mount.c
++index 1ffd19e83..37179fb59 100644
++--- a/libmount/src/hook_mount.c
+++++ b/libmount/src/hook_mount.c
++@@ -44,6 +44,7 @@
++  */
++ 
++ #include "mountP.h"
+++#include "env.h"
++ #include "fileutils.h"	/* statx() fallback */
++ #include "strutils.h"
++ #include "mount-api-utils.h"
++@@ -627,7 +628,7 @@ fail:
++ 
++ static int force_classic_mount(struct libmnt_context *cxt)
++ {
++-	const char *env = getenv("LIBMOUNT_FORCE_MOUNT2");
+++	const char *env = safe_getenv("LIBMOUNT_FORCE_MOUNT2");
++ 
++ 	if (env) {
++ 		if (strcmp(env, "always") == 0)
++diff --git a/libmount/src/hook_mount_legacy.c b/libmount/src/hook_mount_legacy.c
++index 18b7a0066..94a8fc685 100644
++--- a/libmount/src/hook_mount_legacy.c
+++++ b/libmount/src/hook_mount_legacy.c
++@@ -282,6 +282,8 @@ static int hook_prepare(struct libmnt_context *cxt,
++ 
++ 	/* add extra mount(2) calls for each propagation flag  */
++ 	if (flags & MS_PROPAGATION) {
+++		if (mnt_context_is_restricted(cxt))
+++			goto eperm;
++ 		rc = prepare_propagation(cxt, hs);
++ 		if (rc)
++ 			return rc;
++@@ -291,12 +293,18 @@ static int hook_prepare(struct libmnt_context *cxt,
++ 	if ((flags & MS_BIND)
++ 	    && (flags & MNT_BIND_SETTABLE)
++ 	    && !(flags & MS_REMOUNT)) {
+++		if (mnt_context_is_restricted(cxt))
+++			goto eperm;
++ 		rc = prepare_bindremount(cxt, hs);
++ 		if (rc)
++ 			return rc;
++ 	}
++ 
++ 	return rc;
+++eperm:
+++	DBG(HOOK, ul_debugobj(hs,
+++		"multi-step mount(2) refused for non-root user"));
+++	return -EPERM;
++ }
++ 
++ const struct libmnt_hookset hookset_mount_legacy =
 
