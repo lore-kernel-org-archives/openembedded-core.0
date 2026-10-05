@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1276CA5FFE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 732DFCA5FFF
 	for <webhook@archiver.kernel.org>; Mon,  5 Oct 2026 05:28:51 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13636.1791178118269409156
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13635.1791178118087436838
  for <openembedded-core@lists.openembedded.org>;
  Sun, 04 Oct 2026 22:28:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HKTRA1C/;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fpSxbmVh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a10a891128-69d0d92b-b987-44ba-a241-d0c5d782eef6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CcWBoZDJ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1r34nTTb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a10a891001-57f5377d-c78d-4d3b-a0cb-9e71c458f73f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1791178117;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=82rneQPef5vH1PTo3GUKtrB/jCLlQhUx/W6K2YzRIZU=;
-	b=HKTRA1C/rbFvT+Q0MhjMP6BlSZZfGz0uafnye+Yp/HuonGqAcsEAmgZAitE+reoM
-	BY89PlBBgPb2Fw7Tk+sYfYCWI6Er5+ugxwbCXdOknJ7+zB48/+yOAd9ueo6ViHSUv+D
-	ZhPCf0XKJ/0TA8OOH2FsxT39C29MNtfhi9YNdqLk=
+	bh=8uLVMbxNDQQGxFKznEcrbjxw/WmaVxGK/Y4pqAlu+cU=;
+	b=CcWBoZDJNwfV/8HGGZ7Il6hXARaThi5R83gI447Pts6dBQDTinyEZ2BAER0VWL+7
+	GtiOj9MdJAOyWYQ7QzD7d+Q914lQxw88xorOBlxD92oKMquOTwFButpEzcmm98L1zIR
+	Vsc3MnAKik07cDNgyofACRVy9nwa8JwdSH2f2Kc4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791178117;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=82rneQPef5vH1PTo3GUKtrB/jCLlQhUx/W6K2YzRIZU=;
-	b=fpSxbmVhLiFmMtYVud3XQQbQ3GZ8OF9odQOMjSSHdII6WjhvEr8+au7wJzRl/6QI
-	8mYPt9CmRY/tXoWzUFYh/z1JipChG0TggVWk4ZZVn7xwlpHUHtaxE5UFHQVOBEh/D7c
-	7zsPjyktNfmH4MZyR+8aEZWnYiNS5jCsAK9V9nE4=
-Content-Type: multipart/mixed; boundary="===============0303259237975828828=="
+	bh=8uLVMbxNDQQGxFKznEcrbjxw/WmaVxGK/Y4pqAlu+cU=;
+	b=1r34nTTbJ5lYTYdYRnp7dWoPa+3edFPrDqBPV5saH4hkmx7hAm+0j+zvXf1RnjI6
+	XPRlG0x1LXsHnqg6tUjPUeipwK6SSIF0WsHHWuT8UXBCuNmjyrunhjlvQiz9iQ3mgIL
+	i2ll+9JFDT6ctNDiFZPsjyEKnPi1R9gw7dRBTUAI=
+Content-Type: multipart/mixed; boundary="===============7225487962147906413=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-wcwidth: upgrading to 0.9.2 SUCCEEDED
-Message-ID: <010101a10a891128-69d0d92b-b987-44ba-a241-d0c5d782eef6-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pycairo: upgrading to 1.29.2 SUCCEEDED
+Message-ID: <010101a10a891001-57f5377d-c78d-4d3b-a0cb-9e71c458f73f-000000@us-west-2.amazonses.com>
 Date: Mon, 5 Oct 2026 05:28:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.05-54.240.27.30
+X-SES-Outgoing: 2026.10.05-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 05 Oct 2026 05:28:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247210
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247209
 
---===============0303259237975828828==
+--===============7225487962147906413==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-wcwidth* to *0.9.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pycairo* to *1.29.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-wcwidth-upgrade-0.9.1-0.9.2.patch
+    - apply the patch: git am 0001-python3-pycairo-upgrade-1.29.1-1.29.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,119 +72,120 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b3938b696c4518540edef43e21cc0a7d683f6774 Mon Sep 17 00:00:00 2001
+From 06a443a88aa510103fb9a7615e1686ac4d611b24 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 5 Oct 2026 05:28:30 +0000
-Subject: [PATCH] python3-wcwidth: upgrade 0.9.1 -> 0.9.2
+Date: Mon, 5 Oct 2026 05:20:51 +0000
+Subject: [PATCH] python3-pycairo: upgrade 1.29.1 -> 1.29.2
 
-0.9.2 *2026-10-04*
+.. _v1.29.2:
+
+1.29.2 - 2026-10-04
+-------------------
 ---
- .../{python3-wcwidth_0.9.1.bb => python3-wcwidth_0.9.2.bb}      | 2 +-
+ .../{python3-pycairo_1.29.1.bb => python3-pycairo_1.29.2.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-wcwidth_0.9.1.bb => python3-wcwidth_0.9.2.bb} (88%)
+ rename meta/recipes-devtools/python/{python3-pycairo_1.29.1.bb => python3-pycairo_1.29.2.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.9.1.bb b/meta/recipes-devtools/python/python3-wcwidth_0.9.2.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-wcwidth_0.9.1.bb
-rename to meta/recipes-devtools/python/python3-wcwidth_0.9.2.bb
-index e7156a79ee..452456ca51 100644
---- a/meta/recipes-devtools/python/python3-wcwidth_0.9.1.bb
-+++ b/meta/recipes-devtools/python/python3-wcwidth_0.9.2.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/jquast/wcwidth"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.29.1.bb b/meta/recipes-devtools/python/python3-pycairo_1.29.2.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-pycairo_1.29.1.bb
+rename to meta/recipes-devtools/python/python3-pycairo_1.29.2.bb
+index b70d1f177d..28c0ab0d7a 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.29.1.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.29.2.bb
+@@ -13,7 +13,7 @@ DEPENDS = "cairo python3"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/pycairo-${PV}.tar.gz"
+ GITHUB_BASE_URI = "https://github.com/pygobject/pycairo/releases/"
  
--SRC_URI[sha256sum] = "5823209b0d43af322ce698c689380d7c15ca31fa8e6e3be8459f27031bef0af5"
-+SRC_URI[sha256sum] = "ae0ef90b90f6af38b54f1fe6d58662ec33b3cb4b8391958a62416d654231727b"
+-SRC_URI[sha256sum] = "4fbd26b4af24c9787d84cf5448e34eb8dca064b732479aaecd03109520eebd5f"
++SRC_URI[sha256sum] = "3e69fff74fe64f5ba2dfa31f67c6bdf26413342574047437d2ac520d35e9a489"
  
- inherit pypi python_hatchling ptest-python-pytest
+ S = "${UNPACKDIR}/pycairo-${PV}"
  
 -- 
 2.47.1
 
 
---===============0303259237975828828==
+--===============7225487962147906413==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: FILELIST: directory renamed /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/wcwidth-0.9.2.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info -> /usr/lib/python3.14/site-packages/wcwidth-0.9.2.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info moved to /usr/lib/python3.14/site-packages/wcwidth-0.9.2.dist-info
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pycairo-1.29.1.dist-info -> /usr/lib/python3.14/site-packages/pycairo-1.29.2.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pycairo (sysroot):
+  /usr/lib/python3.14/site-packages/pycairo-1.29.1.dist-info moved to /usr/lib/python3.14/site-packages/pycairo-1.29.2.dist-info
 
---===============0303259237975828828==
+--===============7225487962147906413==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-pycairo-changelog.txt"
+
+.. _v1.29.2:
+
+1.29.2 - 2026-10-04
+-------------------
+
+--===============7225487962147906413==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-wcwidth-upgrade-0.9.1-0.9.2.patch"
+ filename="0001-python3-pycairo-upgrade-1.29.1-1.29.2.patch"
 
-RnJvbSBiMzkzOGI2OTZjNDUxODU0MGVkZWY0M2UyMWNjMGE3ZDY4M2Y2Nzc0IE1vbiBTZXAgMTcg
+RnJvbSAwNmE0NDNhODhhYTUxMDEwM2ZiOWE3NjE1ZTE2ODZhYzRkNjExYjI0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgNSBPY3QgMjAyNiAwNToyODozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtd2N3aWR0aDogdXBncmFkZSAwLjkuMSAtPiAwLjkuMgoKMC45LjIgKjIwMjYtMTAtMDQq
-Ci0tLQogLi4uL3tweXRob24zLXdjd2lkdGhfMC45LjEuYmIgPT4gcHl0aG9uMy13Y3dpZHRoXzAu
-OS4yLmJifSAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy13
-Y3dpZHRoXzAuOS4xLmJiID0+IHB5dGhvbjMtd2N3aWR0aF8wLjkuMi5iYn0gKDg4JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2N3aWR0aF8wLjku
-MS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13Y3dpZHRoXzAuOS4y
-LmJiCnNpbWlsYXJpdHkgaW5kZXggODglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy13Y3dpZHRoXzAuOS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2N3aWR0aF8wLjkuMi5iYgppbmRleCBlNzE1NmE3OWVl
-Li40NTI0NTZjYTUxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtd2N3aWR0aF8wLjkuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtd2N3aWR0aF8wLjkuMi5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0
-cHM6Ly9naXRodWIuY29tL2pxdWFzdC93Y3dpZHRoIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklM
-RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1iMTU5NzljMzlhMjU0Mzg5MmZjYThjZDg2
-YjRiNTJjYiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU4MjMyMDliMGQ0M2FmMzIyY2U2OThj
-Njg5MzgwZDdjMTVjYTMxZmE4ZTZlM2JlODQ1OWYyNzAzMWJlZjBhZjUiCitTUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiYWUwZWY5MGI5MGY2YWYzOGI1NGYxZmU2ZDU4NjYyZWMzM2IzY2I0YjgzOTE5NThh
-NjI0MTZkNjU0MjMxNzI3YiIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9oYXRjaGxpbmcgcHRlc3Qt
-cHl0aG9uLXB5dGVzdAogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IE1vbiwgNSBPY3QgMjAyNiAwNToyMDo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHljYWlybzogdXBncmFkZSAxLjI5LjEgLT4gMS4yOS4yCgouLiBfdjEuMjkuMjoKCjEu
+MjkuMiAtIDIwMjYtMTAtMDQKLS0tLS0tLS0tLS0tLS0tLS0tLQotLS0KIC4uLi97cHl0aG9uMy1w
+eWNhaXJvXzEuMjkuMS5iYiA9PiBweXRob24zLXB5Y2Fpcm9fMS4yOS4yLmJifSAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHljYWlyb18xLjI5LjEuYmIgPT4g
+cHl0aG9uMy1weWNhaXJvXzEuMjkuMi5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHljYWlyb18xLjI5LjEuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHljYWlyb18xLjI5LjIuYmIKc2ltaWxhcml0eSBp
+bmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXB5Y2Fpcm9fMS4yOS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtcHljYWlyb18xLjI5LjIuYmIKaW5kZXggYjcwZDFmMTc3ZC4uMjhjMGFiMGQ3YSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Y2Fpcm9f
+MS4yOS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNh
+aXJvXzEuMjkuMi5iYgpAQCAtMTMsNyArMTMsNyBAQCBERVBFTkRTID0gImNhaXJvIHB5dGhvbjMi
+CiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vcHljYWlyby0k
+e1BWfS50YXIuZ3oiCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL3B5Z29i
+amVjdC9weWNhaXJvL3JlbGVhc2VzLyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjRmYmQyNmI0
+YWYyNGM5Nzg3ZDg0Y2Y1NDQ4ZTM0ZWI4ZGNhMDY0YjczMjQ3OWFhZWNkMDMxMDk1MjBlZWJkNWYi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2U2OWZmZjc0ZmU2NGY1YmEyZGZhMzFmNjdjNmJkZjI2
+NDEzMzQyNTc0MDQ3NDM3ZDJhYzUyMGQzNWU5YTQ4OSIKIAogUyA9ICIke1VOUEFDS0RJUn0vcHlj
+YWlyby0ke1BWfSIKIAotLSAKMi40Ny4xCgo=
 
---===============0303259237975828828==
+--===============7225487962147906413==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-wcwidth: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.9.1.tar.gz" to "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.9.2.tar.gz"
-packages/x86-64-v3-poky-linux/python3-wcwidth: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGSIZE changed from 1604928 to 1606400 (+0%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGSIZE changed from 3834969 to 3841149 (+0%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGSIZE changed from 3534102 to 3535297 (+0%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: FILELIST: directory renamed /usr/src/debug/python3-wcwidth/0.9.1/wcwidth -> /usr/src/debug/python3-wcwidth/0.9.2/wcwidth, directory renamed /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth -> /usr/src/debug/python3-wcwidth/0.9.2/libwcwidth/include/wcwidth, directory renamed /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src -> /usr/src/debug/python3-wcwidth/0.9.2/libwcwidth/src, directory renamed /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables -> /usr/src/debug/python3-wcwidth/0.9.2/libwcwidth/src/tables
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PV changed from "0.9.1" to "0.9.2"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGV changed from 0.9.1 [default] to 0.9.2 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 5343493 to 5351488 (+0%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: FILELIST: directory renamed /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/wcwidth-0.9.2.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info -> /usr/lib/python3.14/site-packages/wcwidth-0.9.2.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info moved to /usr/lib/python3.14/site-packages/wcwidth-0.9.2.dist-info
+packages/x86-64-v3-poky-linux/python3-pycairo: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo: SRC_URI changed from "https://github.com/pygobject/pycairo/releases//download/v1.29.1/pycairo-1.29.1.tar.gz" to "https://github.com/pygobject/pycairo/releases//download/v1.29.2/pycairo-1.29.2.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-dbg: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-dbg: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-dev: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-dev: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-doc: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-doc: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-locale: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-locale: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-src: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-src: FILELIST: directory renamed /usr/src/debug/python3-pycairo/1.29.1/cairo -> /usr/src/debug/python3-pycairo/1.29.2/cairo
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-src: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-staticdev: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-staticdev: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pycairo-1.29.1.dist-info -> /usr/lib/python3.14/site-packages/pycairo-1.29.2.dist-info
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-pycairo (sysroot):
+  /usr/lib/python3.14/site-packages/pycairo-1.29.1.dist-info moved to /usr/lib/python3.14/site-packages/pycairo-1.29.2.dist-info
 
---===============0303259237975828828==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-wcwidth-changelog.txt"
-
-0.9.2 *2026-10-04*
-
---===============0303259237975828828==--
+--===============7225487962147906413==--
 
