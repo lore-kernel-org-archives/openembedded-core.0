@@ -1,152 +1,450 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE37CA5FED
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 20:04:11 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4233.1791317045205807092
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE57CA5FED
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 20:15:13 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4410.1791317711886110881
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 13:04:05 -0700
+ Tue, 06 Oct 2026 13:15:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=lxBex6Gv;
- spf=pass (domain: est.tech, ip: 40.107.162.49, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X4cy4IrhsV6/u8ya6c7hrifZY9UtzmZMUzS4C0G67qKf7ajo1fcBgI272j6XQrbKuET9uGGx0+yS9LOG89K1RztBCJNU1rF8hX0J03T4rEvb5LzlJa91G56lcQkVBTB7HDXmbdB72hQ8iOZ7QqaZZdBu03rHdJQXEcOicdG6wotZhUowAguxc4sg8GPm7E8sL8yqf7nD2LBKE4ZhoSFr9rAf/BaVMG7eWm7AlfTg6xuX8z/hqCz4F/QsScYPF180Lag1D2oniSEL3PaSLFu3nfsdvkYjFBSE0fWHe6DgH/f8R08RlKJmuVVfnGrfoWjgcondQ3xtmgCJVBQUAsjR4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ENbwodjVGQEKdIfKR02NcOOGQXvc1VvHPkmceuwrkno=;
- b=rWZ6phhs3zqpWo2gELm+o3uGN880ZwcMx4TuRLfKj1HMywzHdQbfDSD/fiQkU8wtcz+OhOi4iQS7MjVDBGP8m0wL6OeUO/bIIedfhNiyzpYIxXMp8vjAeL1Ea76ti9e6kdAOCJNz8+LGPByqwKK0LNbkNqiEDE5+bX6uLonboOIH8TVZTgfcu/2wZbwjPrbN1F4PD3By32lQ2LXUvDKJu9jK95AL+NJATcBy2qYsZpEHi/AHFkmbWoYiskDWoWdhULcmmjIjZp8FZO59UVxOunVp4ohllPS7HGugc0/38yr+tH7THMGBJ1dn4Pgb1rL1xDf9a6tk9/UQe9r/0ziIbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ENbwodjVGQEKdIfKR02NcOOGQXvc1VvHPkmceuwrkno=;
- b=lxBex6Gvt1nF/9s+ccCXBpM0OIA73sexpbblD9zujkpT19cW6wgCjzyxQaCB1QZ9Nc60UH/yCULpfzYR8644yUVwY6qWrob+aEUarobseTuwAikVFZVE9mq15hhG+Wz6Xc7Dq+XcXYGmrmSNhZxLMUb52ubyNCf3iZJ1cOikI/PUjyMHtipH3y/uT1QRNGnBRikeC5vgsKMlVOKCLIarnhN68oal6muL1PrGNw6cMlcC5RV1THo7FZW5YEEYwxJexeVEmJrDBbcKyxdh6kdipojETMue/X041lRGd19clkkzwqGxpAwbUWPfZee9fGQjhXkJO/UJE8+JG1TNhbYhhA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by AM7P189MB1010.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:17a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Tue, 6 Oct
- 2026 20:04:00 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0472.016; Tue, 6 Oct 2026
- 20:04:00 +0000
-Message-ID: <d53cf28c-2688-498e-95c7-41cd9e4788b0@est.tech>
-Date: Tue, 6 Oct 2026 22:03:59 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] perlcross: Upgrade 1.6.4 -> 1.6.5
-To: Yoann Congal <yoann.congal@smile.fr>,
- openembedded-core@lists.openembedded.org
-References: <20260929062603.67218-1-jaipaul.cheernam@est.tech>
- <20260929062603.67218-2-jaipaul.cheernam@est.tech>
- <DLWSV9S5HI2N.1GZN40XKWDUCT@smile.fr>
-Content-Language: en-US
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-In-Reply-To: <DLWSV9S5HI2N.1GZN40XKWDUCT@smile.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0317.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:197::16) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=tfF0q19V;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20261006201508b6f4cbbed30002070a-yvgu0v@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261006201508b6f4cbbed30002070a
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 06 Oct 2026 22:15:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=KIMfAJ5xgKJhfPRFbFXBrPqfdJCWdM6NtvD8rdWfCZQ=;
+ b=tfF0q19Vhr58y3X3op5173FBW57E1oNcsE8/d9VE+vYgY1t3Ij0Nnk8/PqKTUTa8DzqEU5
+ WM31N/pbe9ClpShTBSBKLcoLv+/r+1Mv9YjTUCtregaSPVGbJhUD0bEBe/spAiqnJYFD+/FL
+ Evrf/CH7aNWxKGotUO7jgNKUeWqgNBkXRntpAPwqU3iB5abOgZK380LNwGI8i0DFqc7gQ1km
+ Wxzie15IHX+XCblI6j7MRaBkJyD6MrXcH0cYzRwzfvOT+VAdqNMSc6x/tETo8nVllwv2PXnV
+ qRyrZgA6uP0z0rlGUPGqyY3vswdFCfUFtRNV/q/vjpXU9qU/qWodwgwA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [scarthgap][PATCH 1/6] expat: patch CVE-2026-66046 and CVE-2026-76641
+Date: Tue,  6 Oct 2026 22:14:53 +0200
+Message-ID: <20261006201458.3403655-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AM7P189MB1010:EE_
-X-MS-Office365-Filtering-Correlation-Id: 864a20a9-66ec-4d24-191a-08df23e4f684
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|18002099003|22082099003|4143699003|10067099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	GOxYr9BA0lmCQ4+/tWUXegvwSSrtQIzhI5CZ8WrpTen8M4etl3I/C6bwEDueeSUP7ntmj010wJ+6DdOrMVKgMxPXelpSZxnJPa3K+mWd6tR2TIzrGZJe3LaZxbQ1gj2m2WZQNbfcSWLtF/NasmdiJV1A7uyaPNxEZ2GBe5K/7G0X6SzO6deDQgnOT6cHre6GNyLQZx2GwNJEGJhRRIxI7mgztN67M1wb6b2tOhfiYyCzDZeb+f/n6FFBnZiH3TEFZNrZY19ErXmLRUSW6ral2Rx0S0R4Bwkkgdercy9o6aoWKf0nnrPL4qHK26wnSP8ycXokhrcxTK2tlVjUuiuHFGLakU/+eK6VdUQdUg40+AcgoW2RihQobXgptcRoOgE4E5jzpa8wFzUbN8ZvbUFGI4mUCLXas9QN+XMdu8/4Unya8S47LcCWSSjXa9wSUyOwQlOLi4M61AAS2BHePiSwWRqllBp7BO8FzVwBMU9UBX6ViX5sLP0nXsYb6Y69Se9yinwAanqe9AADSICKno0GW8tY2i4i0kJA2YbuQpC3IaeRLaWGkZoIX0LzwoZrfFPU3yQdswTx7oHGY1PB7HFMIW58rgbfvwIF/fdhr2eysXg1MAWXEjFj2kO96O7OOxyVg3sbA56Zq3sue+ggTaQKMSotgpoTNE/A4onHm1hghO4=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(18002099003)(22082099003)(4143699003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?dHZxL3RnbFprOUNlN1M5N2xidzdETWJFazFPSUJiWERqMEpwamJUT011ckdW?=
- =?utf-8?B?bWxwVXhadFRyckhlelp1SHBkSDlvQitwVUFQZmNNTk02L3JydEd6dFRQcjNl?=
- =?utf-8?B?NGp6ZVcwWkkwMU1KdmdzWUNZSHZuLzAwU0tRYmxpUnhvTWdZQVJ1OUcweXdS?=
- =?utf-8?B?d2lCZU9SVXlPVnV4TWUxQzF0cW41M1RUWEZCNGxXeFNOZTk2MjdVZlc4aEI3?=
- =?utf-8?B?R1M4MmhnZmpVR1N3d1NhbmNLa2ZLSFc0ZTVsQVZIUm9Hc0ZpOExtWlhqMVI2?=
- =?utf-8?B?dTNVWXRCckVmRlRJN3pWemJoRWlyY1Eva09iLytibnJmd29aYlRzREZDNEtQ?=
- =?utf-8?B?RUJTcldwSGFQNjN6MEs0MFRsQSt6VjJuZVhjd0JsSnA0djU5NkxrM3pPWXNp?=
- =?utf-8?B?aWw3dExJcnZOSDhGUnFvTWhwdlFlWi9wUFFDNEhKN2tHemZTU1M1WjJNSWEv?=
- =?utf-8?B?akFpTE84Uk1jc1hPMUI5QjFHUE5lRkpTeTRVSGcrTXk0MHZFa1d0dnFtSlp1?=
- =?utf-8?B?bVI3M1pta0xESVNhZ2p4a0h4c01lZmM5bEZGdFJnY0RTcWhmRG1OSmcvWjNk?=
- =?utf-8?B?SWNaV2FUdVpJYnNHMitzS05RMHRaSHJoUUtOZzRyVUtnZmNnYTBCMzl2Zjl4?=
- =?utf-8?B?UzN3MUYwZElRanhIY1EzUHVyZTArMktCNnQyTUVYMm1hdk5ObHB4dHlDWjZX?=
- =?utf-8?B?ZEExVU9pSmRPdjV6dXE4VFJoOUF4bUFnT0REUytZTmdKM3JjNTgyeC8yZ0Q4?=
- =?utf-8?B?bTc4VHJMc2dXTVNROHQvWHUxdXYyc2FGTENTOXcwZGl2MUlOTGZCL2J6cHgx?=
- =?utf-8?B?TTVaZWhqeXdTc0JsVlVXRGFMZFFrY3R4Y1dXR29Zc1FEdUJsZWYyMWtvRy9S?=
- =?utf-8?B?aWZ4aFRvY2srczRoWGgvajA2YThCRUx6MkY1emFnN1ZKdytyTjJnOE9nZktC?=
- =?utf-8?B?UUdSTDF6ZnpZeEdBbWxkeWtWVDRralp3U0VSbjlOQkFhRko4QlowcjkzaEpw?=
- =?utf-8?B?Z3NoTkFSc3VscWp5VXJoVWJZdFZ2V0FZeU9iZktmT3h1ekpybjAvVmF3MWNZ?=
- =?utf-8?B?eW1hcHcxSUptQ2JoM0lUSjZSRkxYQ2FOTXVBaDV0bjdZU1dzaWxKeDhmcDJC?=
- =?utf-8?B?S1JCZDdBTjZiSXpxMGhUWEpQUEo5Rk41Tm1HTWtSNmZxYWs0eUtGb2g1TGNY?=
- =?utf-8?B?K2NhNmw3dHlnckpmOGhIMThITVhXaG54N1dxd09VamZXR3NrUnN3Ti9uT2ho?=
- =?utf-8?B?Y3ZFNDhZV21pQVpCOUYyRFlFMVVWalZjSmVnTi9oSVdlUDJmanMrYVNuZDA0?=
- =?utf-8?B?ZFpiL3NqTWM4bHpzR29hamwwTGFyWWp0dGZJcmFYbGtIY2ZKMjEzWXVQdHdw?=
- =?utf-8?B?b0d1M3NlQlVVb1Y1cThYQjlNNUpPS2w2cHNja0VZZnd0OFZMN2U3Q1JNUFdR?=
- =?utf-8?B?dnA3WDZDc0NRVVBweURNMGlYVHlVZ3hyUi9ocWNkOVBtRmlYQUFrek5QVnpZ?=
- =?utf-8?B?bGtWQXQ3VDN6UVFZbUQwQ05ISVIvNnE3QUZYdzE3djFlZnZKQkZWUm12Zm9l?=
- =?utf-8?B?bXdiV0hkMTRBSytJblhSVEJ5NUVBWTZhUi9ocE9mQy84d05qa1RyVmxrcWVV?=
- =?utf-8?B?R25PbmoyemRWNENkVzdGY04rNUtkcFZPdzFkQzBWdEw4N2hheDZNMlhKTndn?=
- =?utf-8?B?NGc0ZVA0YzJXRVBGRzVadElQUjhZbWlxcWdJa2Y2R0FOYStBcVFSeTRDWHpi?=
- =?utf-8?B?Ym1CRkRUMW1IdGpnSllCNzZZNy9GemVlcVREc0lCUkNtQWIyMWhLZEIreFB3?=
- =?utf-8?B?ZmdGK2E1cDZuYnJCRjRsNzllZWc0UFBSKy9oK3M1VHVKWDllNE03Rm1KNzFs?=
- =?utf-8?B?Y2sreU5jUUl6STJ2TU9wMVlFd3J5TG53T2pqSE1zUHFLeXYwc3YzK3E1VGk0?=
- =?utf-8?B?L0VFRTVKL3lSQkNiZWYvS0ZsVVFYREpkaG93QlpYdU53eVlFaFlZSEJFV1V0?=
- =?utf-8?B?cnd4eCtHNDZDazUrb2MzcStPSVhkNHFTRXYzZ3F3MjNKck9Xa0IzOXB6Q2Vh?=
- =?utf-8?B?ZndsdmlOUTdCL2F2YWFrZnBCM2lpZkttcU9sWkdCREUyZ2t4UmpCV0lXcFkx?=
- =?utf-8?B?Wm8weVQzTEg0TFF1dmFLSjB0QUV6Q28xcGg5eUpRaU94eGVZUVZ0U2VLQUxT?=
- =?utf-8?B?YW9WQW4wa05QYk50bmZLT3dkeTNCSXJxWXk4enh4dCtabG9qRzV1aER4aith?=
- =?utf-8?B?QngwM0JYRU5nM3Q2djZFZ2lVdnhhN3lXc0NYUFNBZnJ4UFJPaEYyMnllWGVl?=
- =?utf-8?B?czU5YUJLN3hVUmZTVnVHMS9VeGFON0pVV1VQbnltNkJJMDl6Qis5TCtBOGt1?=
- =?utf-8?Q?YVD2Ew94cHl7LxCg=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 864a20a9-66ec-4d24-191a-08df23e4f684
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2026 20:04:00.6725
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MKaV2Zw6DzFS1sYiM93NnTdmhYAa6l1kp+fp6Xpf+eXHQihksOMievHVfPz4jcpWwFzf3QAxus/8A5Q8B9KUAEni+kBsbE/1FnB26VAqRtM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB1010
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 20:04:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247327
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 20:15:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247328
 
+From: Peter Marko <peter.marko@siemens.com>
 
-On 2026-10-05 11:33, Yoann Congal wrote:
-> Hello Jaipaul,
->
-> Do you think we should backport this to blacksail?
-> Changelogs mention perl 5.44 compatiblity that we do have on blacksail.
->
-> Any ideas?
->
-> Thanks!
+Pick patches per [1] and [2].
+(fix for CVE-2026-66046 introduces CVE-2026-76641)
 
-Hi Yoann,
+[1] https://security-tracker.debian.org/tracker/CVE-2026-66046
+[2] https://security-tracker.debian.org/tracker/CVE-2026-76641
 
-Yes, its a good idea .
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../expat/expat/CVE-2026-66046-01.patch       | 107 ++++++++++++
+ .../expat/expat/CVE-2026-66046-02.patch       |  90 ++++++++++
+ .../expat/expat/CVE-2026-76641.patch          | 160 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.8.3.bb        |   3 +
+ 4 files changed, 360 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-66046-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-66046-02.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-76641.patch
 
-We can backport this to blacksail, as this upgrade only contains fixes 
-that are local patches in recipe.
-
-Let me know if I need to send a patch for this.
-
-Regards,
-
-Jaipaul
-
-
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-66046-01.patch b/meta/recipes-core/expat/expat/CVE-2026-66046-01.patch
+new file mode 100644
+index 00000000000..9bb0e2ee139
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-66046-01.patch
+@@ -0,0 +1,107 @@
++From 98f5acc146af76859cd7c345c0906e9e9e8ea656 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Thu, 13 Aug 2026 15:47:24 +0200
++Subject: [PATCH] lib: Rename hash table `defaultAttsNames` to
++ `defaultAttForName`
++
++It was previously used as a "set". This prepares for the upcoming
++change to a true "dictionary".
++
++CVE: CVE-2026-76641
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/98f5acc146af76859cd7c345c0906e9e9e8ea656]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/xmlparse.c | 24 ++++++++++++------------
++ 1 file changed, 12 insertions(+), 12 deletions(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index e5242480..239dc6de 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -394,7 +394,7 @@ typedef struct {
++   size_t nDefaultAtts;
++   size_t allocDefaultAtts;
++   DEFAULT_ATTRIBUTE *defaultAtts;
++-  HASH_TABLE defaultAttsNames;
+++  HASH_TABLE defaultAttForName;
++ } ELEMENT_TYPE;
++ 
++ typedef struct {
++@@ -3837,8 +3837,8 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
++                                          sizeof(ELEMENT_TYPE));
++     if (! elementType)
++       return XML_ERROR_NO_MEMORY;
++-    if (! elementType->defaultAttsNames.parser)
++-      hashTableInit(&(elementType->defaultAttsNames), parser);
+++    if (! elementType->defaultAttForName.parser)
+++      hashTableInit(&(elementType->defaultAttForName), parser);
++     if (parser->m_ns && ! setElementTypePrefix(parser, elementType))
++       return XML_ERROR_NO_MEMORY;
++   }
++@@ -7239,7 +7239,7 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
++     /* The handling of default attributes gets messed up if we have
++        a default which duplicates a non-default. */
++     NAMED *const nameFound
++-        = lookup(parser, &(type->defaultAttsNames), attId->name, 0);
+++        = lookup(parser, &(type->defaultAttForName), attId->name, 0);
++     if (nameFound)
++       return 1;
++     if (isId && ! type->idAtt && ! attId->xmlns)
++@@ -7276,7 +7276,7 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
++     attId->maybeTokenized = XML_TRUE;
++ 
++   NAMED *const nameAddedOrFound
++-      = lookup(parser, &(type->defaultAttsNames), attId->name, sizeof(NAMED));
+++      = lookup(parser, &(type->defaultAttForName), attId->name, sizeof(NAMED));
++   if (! nameAddedOrFound)
++     return 0;
++ 
++@@ -7597,7 +7597,7 @@ dtdReset(DTD *p, XML_Parser parser) {
++     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
++     if (! e)
++       break;
++-    hashTableDestroy(&(e->defaultAttsNames));
+++    hashTableDestroy(&(e->defaultAttForName));
++     FREE(parser, e->defaultAtts);
++   }
++   hashTableClear(&(p->generalEntities));
++@@ -7639,7 +7639,7 @@ dtdDestroy(DTD *p, XML_Bool isDocEntity, XML_Parser parser) {
++     ELEMENT_TYPE *e = (ELEMENT_TYPE *)hashTableIterNext(&iter);
++     if (! e)
++       break;
++-    hashTableDestroy(&(e->defaultAttsNames));
+++    hashTableDestroy(&(e->defaultAttForName));
++     FREE(parser, e->defaultAtts);
++   }
++   hashTableDestroy(&(p->generalEntities));
++@@ -7732,8 +7732,8 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++     if (! newE)
++       return 0;
++ 
++-    if (! newE->defaultAttsNames.parser)
++-      hashTableInit(&(newE->defaultAttsNames), parser);
+++    if (! newE->defaultAttForName.parser)
+++      hashTableInit(&(newE->defaultAttForName), parser);
++ 
++     if (oldE->nDefaultAtts) {
++       /* Detect and prevent integer overflow. */
++@@ -7766,7 +7766,7 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++       } else
++         newE->defaultAtts[i].value = NULL;
++ 
++-      NAMED *const nameAddedOrFound = lookup(parser, &(newE->defaultAttsNames),
+++      NAMED *const nameAddedOrFound = lookup(parser, &(newE->defaultAttForName),
++                                              attributeName, sizeof(NAMED));
++       if (! nameAddedOrFound) {
++         return 0;
++@@ -8535,8 +8535,8 @@ getElementType(XML_Parser parser, const ENCODING *enc, const char *ptr,
++                                sizeof(ELEMENT_TYPE));
++   if (! ret)
++     return NULL;
++-  if (! ret->defaultAttsNames.parser)
++-    hashTableInit(&(ret->defaultAttsNames), getRootParserOf(parser, NULL));
+++  if (! ret->defaultAttForName.parser)
+++    hashTableInit(&(ret->defaultAttForName), getRootParserOf(parser, NULL));
++   if (ret->name != name)
++     poolDiscard(&dtd->pool);
++   else {
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-66046-02.patch b/meta/recipes-core/expat/expat/CVE-2026-66046-02.patch
+new file mode 100644
+index 00000000000..31e4cc2e7bc
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-66046-02.patch
+@@ -0,0 +1,90 @@
++From f8f7c4ffd883e3c2c58f0ebb49416a6c1d248738 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Thu, 13 Aug 2026 16:39:35 +0200
++Subject: [PATCH] lib: Migrate .isCdata lookup from a linear loop to a hash
++ table lookup
++
++.. to resolve quadratic runtime
++
++CVE: CVE-2026-76641
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/f8f7c4ffd883e3c2c58f0ebb49416a6c1d248738]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/xmlparse.c | 48 ++++++++++++++++++++++++++++++++++++++++--------
++ 1 file changed, 40 insertions(+), 8 deletions(-)
++
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index 239dc6de..1cd20125 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -381,6 +381,22 @@ typedef struct {
++   const XML_Char *value;
++ } DEFAULT_ATTRIBUTE;
++ 
+++// This structure allows mapping attribute names to instances of
+++// `DEFAULT_ATTRIBUTE`.
+++typedef struct {
+++  // Member `name` goes first to make this structure compatible with structure
+++  // `NAMED` (further up), which is needed to support use of structure
+++  // `NAME_AND_DEFAULT_ATTRIBUTE` in a hash table as implemented by function
+++  // `lookup` (further down).
+++  const XML_Char *name;
+++  // We would store a `DEFAULT_ATTRIBUTE *` here but the backing array
+++  // can be reallocated which would invalidate the pointer. Using an index
+++  // into the array instead, avoids that problem.
+++  size_t attIndex;
+++  // This is set to `false` by function `lookup`.
+++  bool initialized;
+++} NAME_AND_DEFAULT_ATTRIBUTE;
+++
++ typedef struct {
++   unsigned long version;
++   unsigned long hash;
++@@ -3951,11 +3967,14 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
++ 
++       /* figure out whether declared as other than CDATA */
++       if (attId->maybeTokenized) {
++-        for (size_t j = 0; j < nDefaultAtts; j++) {
++-          if (attId == elementType->defaultAtts[j].id) {
++-            isCdata = elementType->defaultAtts[j].isCdata;
++-            break;
++-          }
+++        NAME_AND_DEFAULT_ATTRIBUTE *const nameAndDefaultAttribute
+++            = (NAME_AND_DEFAULT_ATTRIBUTE *)lookup(
+++                parser, &(elementType->defaultAttForName), attId->name, 0);
+++        if (nameAndDefaultAttribute != NULL) {
+++          assert(nameAndDefaultAttribute->attIndex < elementType->nDefaultAtts);
+++          const DEFAULT_ATTRIBUTE *const att
+++              = elementType->defaultAtts + nameAndDefaultAttribute->attIndex;
+++          isCdata = att->isCdata;
++         }
++       }
++ 
++@@ -7275,11 +7294,24 @@ defineAttribute(ELEMENT_TYPE *type, ATTRIBUTE_ID *attId, XML_Bool isCdata,
++   if (! isCdata)
++     attId->maybeTokenized = XML_TRUE;
++ 
++-  NAMED *const nameAddedOrFound
++-      = lookup(parser, &(type->defaultAttForName), attId->name, sizeof(NAMED));
++-  if (! nameAddedOrFound)
+++  NAME_AND_DEFAULT_ATTRIBUTE *const nameAndDefaultAttribute
+++      = (NAME_AND_DEFAULT_ATTRIBUTE *)lookup(
+++          parser, &(type->defaultAttForName), attId->name,
+++          sizeof(NAME_AND_DEFAULT_ATTRIBUTE));
+++  if (! nameAndDefaultAttribute)
++     return 0;
++ 
+++  assert(nameAndDefaultAttribute->name == attId->name);
+++
+++  // NOTE: The XML 1.0r4 spec says:
+++  // "When more than one definition is provided for the same attribute of a
+++  // given element type, the first declaration is binding and later
+++  // declarations are ignored."
+++  if (! nameAndDefaultAttribute->initialized) {
+++    nameAndDefaultAttribute->attIndex = type->nDefaultAtts;
+++    nameAndDefaultAttribute->initialized = true;
+++  }
+++
++   type->nDefaultAtts += 1;
++   return 1;
++ }
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-76641.patch b/meta/recipes-core/expat/expat/CVE-2026-76641.patch
+new file mode 100644
+index 00000000000..26fa5704a6e
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-76641.patch
+@@ -0,0 +1,160 @@
++From 98599f6dcc2b460410881fe420f5f55d6bec63bf Mon Sep 17 00:00:00 2001
++From: Zeyou Liu <zeyouliu@tencent.com>
++Date: Thu, 20 Aug 2026 20:29:56 +0800
++Subject: [PATCH] lib: Fix out-of-bounds read from hash table entries created
++ by dtdCopy
++
++Commit f8f7c4ff grew the entries of ELEMENT_TYPE member
++.defaultAttForName from structure NAMED to the larger structure
++NAME_AND_DEFAULT_ATTRIBUTE and adjusted function defineAttribute
++accordingly, but function dtdCopy kept creating entries of size
++sizeof(NAMED).  Because function lookup allocates exactly createSize
++bytes, function storeAtts reads member .attIndex past the end of those
++entries whenever attributes are parsed by a parser that was created by
++XML_ExternalEntityParserCreate.
++
++That out-of-bounds value is then used as an index into member
++.defaultAtts, so the effects range from silently not normalizing
++whitespace in attributes that are not of type CDATA, to dereferencing a
++wild pointer: a release build of master segfaults in function storeAtts
++on the document used by the new test.  A zero-filled heap happens to
++yield index 0, which is why the existing tests did not catch this.
++
++Member .attIndex is now stored the way function defineAttribute stores
++it, i.e. keeping the index of the first declaration, so that a copied
++DTD resolves attributes exactly like the DTD that it was copied from.
++
++This was found while backporting the fix for CVE-2026-66046 onto Expat
++2.6.4 for the OpenCloudOS Stream distribution.  Only master is affected,
++no released version of Expat contains commit f8f7c4ff.
++
++CVE: CVE-2026-76641
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/98599f6dcc2b460410881fe420f5f55d6bec63bf]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/xmlparse.c      | 17 +++++++--
++ tests/basic_tests.c | 74 +++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 88 insertions(+), 3 deletions(-)
++
++diff --git a/lib/xmlparse.c b/expat/lib/xmlparse.c
++index 10592ac3..e72c4570 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -7800,11 +7800,22 @@ dtdCopy(XML_Parser oldParser, DTD *newDtd, const DTD *oldDtd,
++       } else
++         newE->defaultAtts[i].value = NULL;
++ 
++-      NAMED *const nameAddedOrFound = lookup(parser, &(newE->defaultAttForName),
++-                                             attributeName, sizeof(NAMED));
++-      if (! nameAddedOrFound) {
+++      NAME_AND_DEFAULT_ATTRIBUTE *const nameAndDefaultAttribute
+++          = (NAME_AND_DEFAULT_ATTRIBUTE *)lookup(
+++              parser, &(newE->defaultAttForName), attributeName,
+++              sizeof(NAME_AND_DEFAULT_ATTRIBUTE));
+++      if (! nameAndDefaultAttribute) {
++         return 0;
++       }
+++
+++      // NOTE: The XML 1.0r4 spec says:
+++      // "When more than one definition is provided for the same attribute of a
+++      // given element type, the first declaration is binding and later
+++      // declarations are ignored."
+++      if (! nameAndDefaultAttribute->initialized) {
+++        nameAndDefaultAttribute->attIndex = i;
+++        nameAndDefaultAttribute->initialized = true;
+++      }
++     }
++   }
++ 
++diff --git a/tests/basic_tests.c b/expat/tests/basic_tests.c
++index 308adf6c..6c2d3280 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -2809,6 +2809,79 @@ START_TEST(test_duplicate_id_attribute_multiple_attlistdecl) {
++ }
++ END_TEST
++ 
+++static void XMLCALL
+++check_second_attr_normalization(void *userData, const XML_Char *name,
+++                                const XML_Char **atts) {
+++  int *const seen_second = userData;
+++  UNUSED_P(name);
+++
+++  for (size_t i = 0; atts[i] != NULL; i += 2) {
+++    const XML_Char *const key = atts[i];
+++    const XML_Char *const value = atts[i + 1];
+++    if (xcstrcmp(key, XCS("second")) != 0)
+++      continue;
+++    *seen_second = 1;
+++    /* Attribute "second" is not of type CDATA, so leading, trailing and
+++     * repeated whitespace is to be normalized away. */
+++    if (xcstrcmp(value, XCS("a b")) != 0)
+++      fail("Attribute of non-CDATA type was not whitespace-normalized");
+++  }
+++}
+++
+++static int XMLCALL
+++external_entity_attr_checker(XML_Parser parser, const XML_Char *context,
+++                             const XML_Char *base, const XML_Char *systemId,
+++                             const XML_Char *publicId) {
+++  const char *const text = "<tag second=' a  b '/>";
+++  UNUSED_P(base);
+++  UNUSED_P(systemId);
+++  UNUSED_P(publicId);
+++
+++  XML_Parser ext_parser = XML_ExternalEntityParserCreate(parser, context, NULL);
+++  if (ext_parser == NULL)
+++    fail("Could not create external entity parser");
+++
+++  if (_XML_Parse_SINGLE_BYTES(ext_parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(ext_parser);
+++
+++  XML_ParserFree(ext_parser);
+++  return XML_STATUS_OK;
+++}
+++
+++START_TEST(test_default_attr_index_after_dtd_copy) {
+++  /* Function storeAtts resolves member .attIndex of structure
+++   * NAME_AND_DEFAULT_ATTRIBUTE to tell whether an attribute value needs
+++   * whitespace normalization, so function dtdCopy needs to carry that index
+++   * over to the copy.  Attribute "first" is declared before attribute
+++   * "second" so that a mixed-up index resolves to the wrong declaration.
+++   */
+++  const char *text = "<!DOCTYPE doc [\n"
+++                     "  <!ENTITY e SYSTEM 'entity.ent'>\n"
+++                     "  <!ELEMENT doc ANY>\n"
+++                     "  <!ELEMENT tag EMPTY>\n"
+++                     "  <!ATTLIST tag first CDATA #IMPLIED>\n"
+++                     "  <!ATTLIST tag second NMTOKENS #IMPLIED>\n"
+++                     "]>\n"
+++                     "<doc>&e;</doc>\n";
+++  int seen_second = 0;
+++
+++  XML_Parser parser = XML_ParserCreate(NULL);
+++  assert_true(parser != NULL);
+++  XML_SetUserData(parser, &seen_second);
+++  XML_SetExternalEntityRefHandler(parser, external_entity_attr_checker);
+++  XML_SetStartElementHandler(parser, check_second_attr_normalization);
+++
+++  if (_XML_Parse_SINGLE_BYTES(parser, text, (int)strlen(text), XML_TRUE)
+++      != XML_STATUS_OK)
+++    xml_failure(parser);
+++  if (! seen_second)
+++    fail("Attribute \"second\" has not been reported");
+++
+++  XML_ParserFree(parser);
+++}
+++END_TEST
+++
++ /* Test reset works correctly in the middle of processing an internal
++  * entity.  Exercises some obscure code in XML_ParserReset().
++  */
++@@ -6737,6 +6810,7 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic,
++                  test_duplicate_cdata_attribute_multiple_attlistdecl_3);
++   tcase_add_test(tc_basic, test_duplicate_id_attribute_multiple_attlistdecl);
+++  tcase_add_test__if_xml_ge(tc_basic, test_default_attr_index_after_dtd_copy);
++   tcase_add_test__if_xml_ge(tc_basic, test_reset_in_entity);
++   tcase_add_test(tc_basic, test_resume_invalid_parse);
++   tcase_add_test(tc_basic, test_resume_resuspended);
+diff --git a/meta/recipes-core/expat/expat_2.8.3.bb b/meta/recipes-core/expat/expat_2.8.3.bb
+index 79e8c15227a..5d30a844fa0 100644
+--- a/meta/recipes-core/expat/expat_2.8.3.bb
++++ b/meta/recipes-core/expat/expat_2.8.3.bb
+@@ -10,6 +10,9 @@ VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://run-ptest \
++           file://CVE-2026-66046-01.patch \
++           file://CVE-2026-66046-02.patch \
++           file://CVE-2026-76641.patch \
+            "
+ 
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
 
