@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AA1CA5FFE
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 16:43:18 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.588.1791304988922187383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 671CCCA5FED
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 16:43:29 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.627.1791304999034768859
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 09:43:10 -0700
+ Tue, 06 Oct 2026 09:43:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=hRcTr+y/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261006164305b0d3d2df8000020728-mbaq5i@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261006164305b0d3d2df8000020728
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=BDuPVASv;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202610061643164a17b7ee6c00020783-tizcbd@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202610061643164a17b7ee6c00020783
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 06 Oct 2026 18:43:05 +0200
+        Tue, 06 Oct 2026 18:43:16 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=mm2Fl8gnyC4YNuMd8ljTMFZKZ1nqyEIlwr+Dz5x7RWM=;
- b=hRcTr+y/tm7F7R64Nw5pixYZbyYtgMyGQCNoj4YJ1ta+yekaOZcuMMFvPUtHIi5F+jqe06
- w0dQ/ImFspSn2D1K+waMtX8UluaNpSgUe64OmqilPjN9/nYEeobs1634ShvaPZZMdQ88cgbB
- wOTKIngOOfNVPdJQ13IU5QQNBXUwqDG9RaFmIaTyo/kDcBDpqQvD1+KJL1LVX3De8p4v7deO
- joaSxKgsfjIk49JpRSn0gxFt18CovwhtfEL4lrxr8FySrmKhqjVzzzLihdI2l426Yzuw3U0I
- mWDQQ3CaQN0f9VeX/En9RcUYOSYPk84Pgv3oERDIR9du2HHkeghKXJew==;
+ bh=aJO8CmhnNARYHSFOhEFxfdi0DIZSRTENSSeotATMaTs=;
+ b=BDuPVASvSCr67RRF4oFsJqF8qEoBWRboCQrc0MXNDJPT7hFrqmmt9YNHIiH3mvxfY1pj/1
+ YNrVwG8ZBBwF86Qiny117kQTws9FDIbeg5cup1tRwSxiZ+YiN/agKksgwynag2yrtqZuZb/l
+ 6PN656GhfOLaTZMwYtYs3GT4W4JjL0FgpClc+dPA6sHmpj2T698uhqq4XRVWVeNexuDWQSR1
+ Q0lBhaWw6/upKpQtC+m6/Z57bBFF57mZCatBdtU59RxcAeVZsNiC+jQMiI2qV9RMttWaIH5d
+ euGpq63YvUqza7SE6JID3ZRDSWAXHZhy3CKHxIOSweF46h8ADZa9dcfQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] libsolv: patch CVE-2026-48863
-Date: Tue,  6 Oct 2026 18:42:26 +0200
-Message-ID: <20261006164226.110115-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] libsolv: patch CVE-2026-48863
+Date: Tue,  6 Oct 2026 18:42:53 +0200
+Message-ID: <20261006164253.110211-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 16:43:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247312
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 16:43:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247313
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -48,13 +48,13 @@ Pick patch per [1].
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../libsolv/libsolv/CVE-2026-48863.patch      | 25 +++++++++++++++++++
- .../libsolv/libsolv_0.7.36.bb                 |  1 +
+ .../libsolv/libsolv_0.7.28.bb                 |  1 +
  2 files changed, 26 insertions(+)
  create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
 
 diff --git a/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch b/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
 new file mode 100644
-index 0000000000..131d035b40
+index 00000000000..131d035b408
 --- /dev/null
 +++ b/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
 @@ -0,0 +1,25 @@
@@ -83,16 +83,16 @@ index 0000000000..131d035b40
 + 	res = mped25519(pub + 1 + 10 + 2 + 1, sigdata, sig + 2, hashl);
 + 	break;
 +       }
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb b/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
-index cca2511ea5..b6704a3d3b 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
-@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https;ta
-            file://run-ptest \
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
+index 4ad8a20e2f4..827b6210a69 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
+@@ -12,6 +12,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https \
+            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
             file://CVE-2026-9150.patch \
             file://CVE-2026-9149.patch \
 +           file://CVE-2026-48863.patch \
  "
  
- SRCREV = "1e377699be108ec82bb798ec9c223d45d84a733c"
+ SRCREV = "c8dbb3a77c86600ce09d4f80a504cf4e78a3c359"
 
