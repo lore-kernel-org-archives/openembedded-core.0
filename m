@@ -2,204 +2,143 @@ Return-Path: <benhur.tessele@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EFD8CA5FED
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 11:12:56 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43187.1791285174141141395
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED22ACA5FFC
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 11:13:05 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.66])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43143.1791285179799503653
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 04:12:55 -0700
+ Tue, 06 Oct 2026 04:13:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=VEztmTd7;
- spf=pass (domain: est.tech, ip: 52.101.69.27, mailfrom: benhur.tessele@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=uuIGKb/y;
+ spf=pass (domain: est.tech, ip: 52.101.65.66, mailfrom: benhur.tessele@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nO1CR7FxrCCUSWNaMkf4e19HusyGqoMuaatIQIOCEhvOydJq5epwr1zwDtAjySYOSd7FmQRPAqLRnwu5+FXW0/8VX+gHQDn6QQwcCVXJATfhoEV3Z+7LiNSTkczBw3li3EOhlY+Ch4Oe93avpC0HrctHQENXdLK/bD97A95VHCSFV9/efijRIYHx95woWrlxyhl9OPik2pHLuDmTqDoire8d67xJhbBuj3D/86CmUO7LvEBRK/eS9yCn6pxwutGViKG/FhiPxx++++OVWPCI45Dl7o4nCg2crbqI+TexJBBGDop8zxN7X7t+mN9X9YTS5y72y5dIzJgR3Y/uhxyLMg==
+ b=IQErjl7pq0yNMKkpo0QcB10rTcO8/szOZAYEmh5zcd5zCTZN3rWR5sNvM8CaCMo1XnhA5mm3HRHZz+iKZj1trO963cCoKMivfsgAvFE5WqanQ5SsYZq3na2wuV2lSbrRVkgfq11cMbOqD8z0swNqVs25CI+3ql07NUvpEYux2Jr2XoJ8PSrvNuPtNltzQ4pRXy33+hCCsqcP6YJY/R3EYzWlYpgG2/TrPvNMOuOMcBWMRy7iLwE9ApTIpn3tduHAYnqdg3RpdIEYNb3R+e4BrZ2BH9XkMKpLckfWSLN37xoE+7CAe1nYjP6rhfdRGUddEdG+XFN7JQtVI9byFCS5dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sYJ9gM48MG8/LD6Ug3wtLgGDRR8+c5N/hXlU6Csj/Rk=;
- b=r+sR46r38o+HYwnPEBcr8iPjknHJ8lmW21lb/DNcCKIowG8hHvSaMYighMe8uiwejW7tzu1eKsdlJGAQqpEIS/+weYXX9GZ6I/WCjEAlw8dnxYE3E7QG/4BzxkkeXuDXZtgPpl2ufAdQ33r1r9VFrS11pORSPxDt+ZIRjGmGD8t4AJhPS4g90Pxrib1njubOFAdfyx6t/osG8Y1lc+yvJdb9EFlVmoovlDFgd7A4TNP6259IvsVYHbx7LSfJ00Z3OBSk7S4IXqL4hYs+aagbFggRw6FbqwzKkMTDi9nM+Y5cTBR2COsqkCUifc0qQ9WHMVg11y2QC2Oxm5HoJCj2KQ==
+ bh=BnAROK30OstL2ycAFB6lHj82g4ocrhxXNMVfZZ/pt+g=;
+ b=Ywd7/ZiiucGT3wi7LVoqPZC5PJcnkvovJ1X8ETcz95c6eppwlDt+mSehhBGexrIccBc9ZeeD7GAD22T6xSYptJ6DcZEpeT9FfcuHjNF20gVHLEbObzKBaYYGzIkoLUojgwZTFJoMQtFZ+PEyL5Kn5XJQtmzTtLKCe6DDR7woNOij+hBZEeW6CQD5zjdtlCFScpe8CpB7rkFgeLUZUuDfNP/SIQibOwbDhC2kMlXI+0o7igIOi2DNil3Ztcc8g2irM5YNE33o9RwqZuCjkE65H25hrYDVWjGJgCuVTkvN1+O1bNaVUYeH/5M/jZA6861ukCCMf3o2i/NXd9lPbca1KQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sYJ9gM48MG8/LD6Ug3wtLgGDRR8+c5N/hXlU6Csj/Rk=;
- b=VEztmTd78JM0dLqfg/Ntb53Sk1zWOGrq+OegmW53E2ev/YiAUGwGZKcA8/KC10nhNVf83sTS9CvafMM2q+PlAUJTqpX2WBdA1nglw7y76tBVOPUAYn71+IdINzTV3VEF1/rRNZztjELf/chd8ud3fTnq6/9pb6ws7UFOqg7MFhFtgJ1Crtt1tElWeOVJLb//aGdN0yi1E5xOrRM09qwDKWjCRBxhDjWYm1F054m/calp/u9TsVdujcum4p/lFrBXhEUdb9Io029IdBCsHoYlf0fx+4tUGPK48y8kUWRPVz//UHHzpcUY336hpVniZT/LMRxmlb9h6y9/XHBuB4uAeA==
+ bh=BnAROK30OstL2ycAFB6lHj82g4ocrhxXNMVfZZ/pt+g=;
+ b=uuIGKb/y2zx44Dcj9h8DFISJRvNIwpeJOPkNfLjBy34JP+oynZcsGTqxS7FmX6D4uALgdMWkB1hZC5OF4q4jYgjAXfvGikIgEayj1C7X6L1WloZOh+aIMQ8pDzV/lvJhgVPh1auUD2HjxF+wqGl8+IqsZmDg4PwExrigoybtnB7Dchg2eiBGAvo/m1NB4F9V+EzCLr1ndUDsb1xJCg4u1Y92vnuxIbHCayS+O7WboAxieLzd66GH2zrU17rDQ1lxCCm+S8ozknP8pbPijNWe0tErhEzhsXFmxy3Orl6+n8OWVKI74QAJhqY8delFMC18AL2GO2fRF/6umiw5xWHjYg==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from PAWP189MB2572.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:35a::16)
- by GV2P189MB2212.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:a8::5) with
+ by VE1P189MB0974.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:149::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Tue, 6 Oct
- 2026 11:12:50 +0000
+ 2026 11:12:52 +0000
 Received: from PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
  ([fe80::5da2:7509:7be5:d74f]) by PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
  ([fe80::5da2:7509:7be5:d74f%6]) with mapi id 15.21.0472.016; Tue, 6 Oct 2026
- 11:12:50 +0000
+ 11:12:52 +0000
 From: Benhur Tessele <benhur.tessele@est.tech>
 To: openembedded-core@lists.openembedded.org
 CC: Randy MacLeod <Randy.MacLeod@windriver.com>,
 	paul@pbarker.dev,
 	mathieu.dubois-briand@bootlin.com,
 	Benhur Tessele <benhur.tessele@est.tech>
-Subject: [PATCH v2 1/2] rust: package rust-analyzer for the SDK
-Date: Tue,  6 Oct 2026 13:12:29 +0200
-Message-ID: <20261006111230.1478039-2-benhur.tessele@est.tech>
+Subject: [PATCH v2 2/2] packagegroup-rust-cross-canadian: add rust-analyzer to the SDK
+Date: Tue,  6 Oct 2026 13:12:30 +0200
+Message-ID: <20261006111230.1478039-3-benhur.tessele@est.tech>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261006111230.1478039-1-benhur.tessele@est.tech>
 References: <20261006111230.1478039-1-benhur.tessele@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DU7P190CA0006.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:10:550::18) To PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZPR01CA0159.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bd::16) To PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:102:35a::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAWP189MB2572:EE_|GV2P189MB2212:EE_
-X-MS-Office365-Filtering-Correlation-Id: a719677b-8fa2-4cdd-c671-08df239ac22b
+X-MS-TrafficTypeDiagnostic: PAWP189MB2572:EE_|VE1P189MB0974:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2cac0470-2857-48f9-304a-08df239ac391
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|5023799004|11063799006|6133799003|56012099006|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|6133799003|10067099003|22082099003|18002099003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	S/ACHNR++GOWZfommFWRlDqhSCChj5foAImKE5zuae1VEwFsR/JGalROLDm5rwwayH+1ulKELC9iIhwdiWur7WUu1KW5szn3dJnyGGabFVZxelaMAYtqEJ/FEsaOTVeF10W7jNzkc8gw1lrW7ua5KRtpBmXuWerh7Aib5FNWdabzgDylkDa1LccIncUkhuD96pXrXnGNJogB0tYaaMBZW68e0JzoTnKboJrmteqYdJWMTeYzFaR60zeyQqvSZfM1GBOWD1C4JNWRKZPecbnEbA4sVxpmpfDnVa6z4GMQRIIiquN0EjhxOI++QFrngxPOf15vKN3EqsFC+XCE7lqX5zs8mzlM5KxOtevk/fupA6ztCDMO08NQGEbARup8HBdVhwbUKiSaKp4g4yyZ6WeK4FkVmaf2FAYmnA108+xQn7XaCLhUkNYFXZlxSmAcWZyCqva6MkQs3jBNK2uJWwgLCx+XQmhgozNAsrLmMpx2ytHs7BVGpg0+vmNk6CA0VTu/l9By84/ntwPyxZwi9vvGTLgXo4zSvTplnA8z6tJUnudJju7BRdHodjD6jsfjiOdtOCqkHqYKjoA8GAdaEXJmmYHGU6m2M0huzICuO9KL4/cP5J0AmJS2QjRusOchix+XsDYACOfxRbxQoNQoRFwam7HA2yXhQA7IDC3WvvkleN0=
+	ZBYJcK30T41rnfISTyolUqTMHb2uR/QeVSNhHaa2XknRboFtpJo2pxh++U3XRjJkVLmsXtI51w642+yCDExDRUMhx4XH/VjfT0D5hykc1sAIOvn/CJaTL9jVYu8SBWA6EvZDqWN7VrMmt8KuUbhF7+0x3XOoUhspwUNU3oQmRLI7k/DBMkj610OojLhBL/Dp9JfVRWK/uPRGBTOfazqUWuEo5QF2MYND0li5p4Eh65Y2MVh/sNBJb+k4R1NM6NQpEguB+LUcqSeM/zva8uD4lXaPZ+4H330tK4aS5C/wKZtZ7DqBsmNafObn1Hr9PAXl+N/jv5w2uMLen8oXKaWjD3bEmWg2M3d6vKqcs4FujqpffAYMiH922yP/GNtL5nI78Q5WftU9ztl6E9lNeQ/AarFoF1kKFS8uEzYiEfI2MDKoyLUgahHoszMB+yBmOWEfLta36n7YI97O59zEyl0+gGRpfVqQ/nYoLmc4HzYQXMr291f9yiWrvjKETiShQEuqP8JmUC4fiw3iv5V6q98ShYsP+FhV7RxKgT05THoJpE+yX8RXWvNi/320r0fPhl/jYe26h/1coUG+0+Wpaji3qTrcw+H/NtTfLTN9EOoulK4xjKlKulbfyudBB7BATKFmLY3ZE8g/hNmCkUUMjbZClBn71FaMFmRi2C53XZHKThM=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWP189MB2572.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(5023799004)(11063799006)(6133799003)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWP189MB2572.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(6133799003)(10067099003)(22082099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?EfiyBsnOXm+1sygXOWZ7QUjJ/qV3armCWnzmN5xWomuXrzznxCQbnOZn5Nm2?=
- =?us-ascii?Q?jL/4f8nWWt7yto2CANI3QjnxdDBes1YJJF1UiDahLgzuUzVIX7uRQlfG0bBS?=
- =?us-ascii?Q?9RXwrLL9+T9/Rv8t82YOi0N8nH6JYsA2gmCDUIxi9S8p6kCd+ptq4VVJeiKl?=
- =?us-ascii?Q?h/cijxALrrWhhCw2daS0IokRpCpOZRhqQMELYGroDXR+u9I/lf1oU9dPUx6R?=
- =?us-ascii?Q?x0GpaOisH6iS0ojjmRPe8OxGYIs6GmFdrXgKt+cN/Ri9kVXutEUEMQS8Xn9b?=
- =?us-ascii?Q?z6erOQH0ND9c021i1WOKUAAbUrDEwosHCQ2TTZcLPIoGytSAHSJ0YH3tC89b?=
- =?us-ascii?Q?x6hRmlNWKi4gytn95fNMBDsZrjVhWwmNL1RVe1dE4hDgiCcgssk1dfHE6q3O?=
- =?us-ascii?Q?82PpcRxKaU1WrWGiAyhWl/PQq4iDKeqTs+2VqrD6s6qRL9TRRhdpzv7dSxxT?=
- =?us-ascii?Q?0FfWQok5ueADAEYzMX9T0GG5FS0ujb4GqLGIkIKNKKW2b5NNN4f5tQs7tN1a?=
- =?us-ascii?Q?0kz2G0GjxGFX/tOxpQLCGUv4fz41yhh+yzxEG/SBTtr7NLYbTV1Lhhz5//CM?=
- =?us-ascii?Q?DlRUUNNTOuKJHD0e8D4vSFDXJFvnS9FcJuDDGFJ/QxmzhkRSGP13+UXmNiEm?=
- =?us-ascii?Q?LDNLHA5toPI426ti2pRsIb+pUw8JpyNgjm4+dC7YqqN82UjJLddQ8xZtyvGD?=
- =?us-ascii?Q?SOIpNEIGvw1bsCBOmX3BEo+yE1lOOoF5C/zq60R5ZSqj/fdMHuf5Xr8wMjfU?=
- =?us-ascii?Q?sqN6vZDmSA67ij6dSgj8RuisZE9s9GzDXUI4vmDrMFkVKQBlBbMQYjWon1ju?=
- =?us-ascii?Q?kp+efKZLvX1fphXPQSTVG45YxxMu2nkK8WGNQCYfhoaHJe407eWXk/kIQllP?=
- =?us-ascii?Q?dr/Bif34Vpy+3XPPYnbHwRCVM5CPeuU/8Qz+FZP8ndrwK1RZrtH4aTGYLY2y?=
- =?us-ascii?Q?A8/NC1b8sDuwiuyA46Wp7EX13OY7/zoxw36eGggCikGjApLeRiPHru5bJ/vt?=
- =?us-ascii?Q?pF6y1RQMjNCGyhFUOnGWfQ72thx0an/uA8PiOEWl/TN02pc8QuEz+Bleswgp?=
- =?us-ascii?Q?PDobR9dThCnz3H3Dniid/AcKxwznKK5jTtCmoT8jQpGVFavf9rRfphALyXvl?=
- =?us-ascii?Q?k6SQsJiZEZJf8azGXJwkLLs8DTVqAH6thBzfqXfbBYljCjEoXDXH32c2+gop?=
- =?us-ascii?Q?41jMZ4ZyMKiT3QxFEu3kQCMTkrf2aODQiyWv+fR16jL8FOvlGphnXdOzOHuu?=
- =?us-ascii?Q?VBHPzvg3W351dWK04nJWrk5EdbPOzgdsQy0z5WLOKE/P6hKiGU9Nl4R0GeSV?=
- =?us-ascii?Q?5U6JrWpWrSnPGV7+GrEiSwLYZtzGH1ALtGisoEz7tiW3vv8g3FllKL0ing+x?=
- =?us-ascii?Q?0JkOtUppgNiHBuNIBEewNn/MxtQ7ny8yDqMz5LdEyMkHIqRkZknqebXKJHaN?=
- =?us-ascii?Q?pvj+jlrX85Iccl3lFDG2TgvrPixRqCrmjkY7E/mJic7XL/+kIyylSMD5ttoT?=
- =?us-ascii?Q?ck6Wiq5IPc2IrLt0VaoyfzkqTtDrOUDA6SpThrLuE6tmzQI8WrcCxRFlsCwX?=
- =?us-ascii?Q?rmayIHSwbpmOr06dpqK9ZWPVmdBK+ih+058ruiF0ayTL12gn/WAwDKtvfImq?=
- =?us-ascii?Q?UXm1X+aRPSAWmnVu/uovzSgRhxTU48qonp3JCvrT1WOPuKLmYSxSgSz8bTFl?=
- =?us-ascii?Q?I2PWibsyd9kLCWBAc10aWnTVPcTF80ix/5cj0sRaxV878cJtMXuoERVNEFzk?=
- =?us-ascii?Q?Vn0EPYUWJg=3D=3D?=
+	=?us-ascii?Q?1SmVj04CNn0W54OmdRF7BBjx3W+zUs2anS5x83lqcjRDIFl60HnEq0TUVX+e?=
+ =?us-ascii?Q?NU1sPfN+eSWfgpr38RVXSnBkkk9EGAaL+omLxpTUwMXq02FTbfGDpdGrJRk1?=
+ =?us-ascii?Q?MMeraehncM76nyENsnNafsqZPVBvJKAhCwPxXhGda3M/tzOv1wcQUavtwDfk?=
+ =?us-ascii?Q?besnadAUYvGcbAMJagycINdidy8SOMJ5/TnFOt1I9L5kE26UwtgCpH6nwxM6?=
+ =?us-ascii?Q?8uk1B9B5ZiWTfeN8F/JAyLtIN1FRlx4AMx9+AXGmXOXuRbx4j7X+Ral6faBH?=
+ =?us-ascii?Q?IRiZ6qKPlVClNAaA21V26wY6K4SxRJc7sbFmDKm6CqFZpM1xRmEfQ2GyZhqV?=
+ =?us-ascii?Q?Y9NOD3qf6XzCYJBYjH4mXHuWdr3dtXb/+xwt7Dxu50mMzTzrgcrMFoO6/bmt?=
+ =?us-ascii?Q?zCXlRcrVvGzNIWqMX6sGPfy9x59qecotf1cP35pe0G7j5kMQwU6u1u0HQ3XG?=
+ =?us-ascii?Q?sshAXp23Bxw+DrK1RiXZ3G1PVB3mjc/+I4EMeAHpieTZrPSOu005NVhtiZLc?=
+ =?us-ascii?Q?nGqAHBijfP5PeFR4+1DvRNlae/cg932nswJUxAd9x2xmAcYDYY3Cr1nh5BZe?=
+ =?us-ascii?Q?oEZ38hmZp7Jnb5/MDDcz0aBFCk+Mim1sj9OEGHUs+Q4pZDE2Q2vYL6WVtEmD?=
+ =?us-ascii?Q?51C56yLt3adhUz/aQNlSNgqGQue6Cy2dGlgDHZuFtWBkEAwQnM6x3JYz0N1Z?=
+ =?us-ascii?Q?ld5P/HVq6ygDYnw7W4zfkTdejUBmniVyl3MqYrKHgvjv1gYFjDFd/KEedWh0?=
+ =?us-ascii?Q?EEk6yjUXQ1EKSxjXkEfFOkoyK7BtWwXkAyFDCWg0GUqL/eSfmdJis+h3PZaD?=
+ =?us-ascii?Q?wQymfMg3unuR5tHgg1Q5qdeXzowt7T0E2YnAiJRJaR2k/bhzTi9fWK8ZF6yK?=
+ =?us-ascii?Q?1Ji0YT5837OM0eqexvivSxkT2Bct+8Eav35DCHWkWYDviMiThusF+WfDVHND?=
+ =?us-ascii?Q?Ej0ozK3T1qB6NyBVh21o+xLLCU6toZM6zsGRvre3MvWZ9jCZkhpyl/Xk1I0l?=
+ =?us-ascii?Q?8mFLchCXGXZ5F//vt1eqsn5EBkt+kUERV8LGYivAnhG6WQ0DjLsMX6gq550N?=
+ =?us-ascii?Q?LCS/59g9dw+mgEtSM2yd05QUuoG9PAkxmSABAI09iuerrLTSNC5EORnt1vqq?=
+ =?us-ascii?Q?fYQUcwjn+6++/yp2H17W7RIMrpuxBNef0opDe49ld4dtGNGli4Aa4S6mw0EX?=
+ =?us-ascii?Q?Eq3/bzEItSrT01ocPfQhKpzFvCRaQxRTzvk3YrR6Ud8zZhUA3QfKWuDz4riJ?=
+ =?us-ascii?Q?hX9KBFLx/S0s72MDU7SNsu+f+qQgvR8Xxf8UoWCOx6pcAiGuCL/5qmp2XfRp?=
+ =?us-ascii?Q?TWjlmeEhjg0gBjK/KX8RK3qV8vJOCikWwuit2R+sPLkL6QW90POMITYznMcr?=
+ =?us-ascii?Q?AGYkOruacDf36ldU5gQw4BTo0kFBHKZsA/uVx/s5mZ5mMN52ynTC4mVL9bRN?=
+ =?us-ascii?Q?ROvIzLYpGc1Dhpi9xbVe2Ebx51KxAMdgxxMC7PG+ylIK6wYAg6GRXNy2gFNF?=
+ =?us-ascii?Q?dLOBIFH57wCwGmXhfC207X3V/p7smsMOaLFklKUEo3WxLpGGMaMGkGHKdZR5?=
+ =?us-ascii?Q?O2T3K00RYoOX//d8xcJoZUQl4d5ksatFFYjwPt3EKbEhNCHQN1ea01UVAKlh?=
+ =?us-ascii?Q?xnihugd+TgM/LiSaLGizFyUwGA09HnVjmcqpGCD3+TSNIArRDSCajpWYNHUo?=
+ =?us-ascii?Q?7O4SKqRkxgsOeQTZs0nqb8Oazu50ZhKCi+K3N2tBxzE6fud40TdzMpLa2IwK?=
+ =?us-ascii?Q?7FpaJ5ZlBA=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: a719677b-8fa2-4cdd-c671-08df239ac22b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cac0470-2857-48f9-304a-08df239ac391
 X-MS-Exchange-CrossTenant-AuthSource: PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2026 11:12:50.1233
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2026 11:12:52.3615
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iKYrKkXzH4dJ8QW4n5DC3Kyd3VtRy3UeECQpb9vJZipTPH9r842K4khBf56k3CB3Hua2Kzq/ucx4clrRU29gzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P189MB2212
+X-MS-Exchange-CrossTenant-UserPrincipalName: CF8Cv7l+HOGP9PPeUox4QnaUI8OQ9yIDVXodETNze+gfOXoVYYBTZBaBsk6v6ylsZtwPjJstTrXzEvUJW625Sg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1P189MB0974
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 11:12:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247283
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 11:13:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247284
 
-rust-analyzer is built alongside the other Rust tools (clippy, rustfmt)
-but was not installed or packaged. Install it for the nativesdk variant
-and add a rust-tools-analyzer package so it is available in the Rust SDK.
+The Rust cross-canadian toolchain already ships clippy and rustfmt as
+host tools. Now that rust-analyzer is packaged, add
+nativesdk-rust-tools-analyzer so an SDK built with SDK_FEATURES =3D "rust"
+provides rust-analyzer as well.
 
-Two additional pieces are required for the tool to be usable:
-
- - The proc-macro server, rust-analyzer-proc-macro-srv, which
-   rust-analyzer looks up under <sysroot>/libexec. Install it into
-   ${libexecdir}; without it, analysis of any crate using a derive or
-   attribute macro fails with "cannot find proc-macro server in sysroot".
-
- - The standard library sources, which rust-analyzer analyses from source
-   rather than from the compiled rlibs. Add an RDEPENDS on ${PN}-src-lib
-   so that core/std items resolve.
-
-Both binaries link against librustc_driver from the main package, so the
-package also RDEPENDS on ${PN}.
-
-rust-analyzer is deliberately not built for the target: it adds build
-time, is unlikely to be a use case on a target device, and fails to build
-on NEON arm32 tunes (beaglebone-alt, qemuarm-alt) because it pulls its own
-simd-adler32 that uses the unstable feature in 1.98
-"stdarch_arm_neon_intrinsics".
+The standard library sources it needs are pulled in automatically via the
+package's RDEPENDS on nativesdk-rust-src-lib.
 
 Signed-off-by: Benhur Tessele <benhur.tessele@est.tech>
 ---
- meta/recipes-devtools/rust/rust_1.98.1.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ .../packagegroups/packagegroup-rust-cross-canadian.bb            | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/rust/rust_1.98.1.bb b/meta/recipes-devto=
-ols/rust/rust_1.98.1.bb
-index 1f4ce5ebdb..f9d68ea986 100644
---- a/meta/recipes-devtools/rust/rust_1.98.1.bb
-+++ b/meta/recipes-devtools/rust/rust_1.98.1.bb
-@@ -262,17 +262,21 @@ do_test_compile () {
- ALLOW_EMPTY:${PN} =3D "1"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-rust-cross-canadi=
+an.bb b/meta/recipes-core/packagegroups/packagegroup-rust-cross-canadian.bb
+index c73c8d3333..54b39189b4 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-rust-cross-canadian.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-rust-cross-canadian.bb
+@@ -17,5 +17,6 @@ RDEPENDS:${PN} =3D " \
+     nativesdk-cargo \
+     nativesdk-rust-tools-clippy \
+     nativesdk-rust-tools-rustfmt \
++    nativesdk-rust-tools-analyzer \
+ "
 =20
- PACKAGES =3D+ "${PN}-rustdoc ${PN}-tools-clippy ${PN}-tools-rustfmt ${PN}-=
-src-lib"
-+PACKAGES:prepend:class-nativesdk =3D "${PN}-tools-analyzer "
- FILES:${PN}-rustdoc =3D "${bindir}/rustdoc"
- FILES:${PN}-tools-clippy =3D "${bindir}/cargo-clippy ${bindir}/clippy-driv=
-er"
- FILES:${PN}-tools-rustfmt =3D "${bindir}/rustfmt"
-+FILES:${PN}-tools-analyzer =3D "${bindir}/rust-analyzer ${libexecdir}/rust=
--analyzer-proc-macro-srv"
- FILES:${PN}-src-lib =3D "${libdir}/rustlib/src/rust"
-=20
- RDEPENDS:${PN}-rustdoc =3D "${PN}"
- RDEPENDS:${PN}-tools-clippy =3D "${PN}"
- RDEPENDS:${PN}-tools-rustfmt =3D "${PN}"
-+RDEPENDS:${PN}-tools-analyzer =3D "${PN} ${PN}-src-lib"
-=20
- SUMMARY:${PN}-tools-clippy =3D "A collection of lints to catch common mist=
-akes and improve your Rust code"
- SUMMARY:${PN}-tools-rustfmt =3D "A tool for formatting Rust code according=
- to style guidelines"
-+SUMMARY:${PN}-tools-analyzer =3D "A language server providing IDE features=
- for Rust"
-=20
- do_install () {
-     rust_do_install
-@@ -294,14 +298,19 @@ rust_do_install:class-nativesdk() {
-     rust_runx install
-     rust_runx install clippy
-     rust_runx install rustfmt
-+    rust_runx install rust-analyzer
-     unset PSEUDO_UNLOAD
-=20
-     install -d ${D}${bindir}
--    for i in cargo-clippy clippy-driver rustfmt; do
-+    for i in cargo-clippy clippy-driver rustfmt rust-analyzer; do
-         cp rust-build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/rele=
-ase/$i ${D}${bindir}
-         patchelf --set-rpath "\$ORIGIN/../lib" ${D}${bindir}/$i
-     done
-=20
-+    install -d ${D}${libexecdir}
-+    cp rust-build/${RUST_BUILD_SYS}/stage2-tools/${RUST_HOST_SYS}/release/=
-rust-analyzer-proc-macro-srv ${D}${libexecdir}
-+    patchelf --set-rpath "\$ORIGIN/../lib" ${D}${libexecdir}/rust-analyzer=
--proc-macro-srv
-+
-     chown root:root ${D}/ -R
-     rm ${D}${libdir}/rustlib/uninstall.sh
-     rm ${D}${libdir}/rustlib/install.log
 --=20
 2.43.0
 
