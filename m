@@ -2,33 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 805DACA5FED
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 16:02:00 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.49213.1791302511995710806
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B20BCA5FFC
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 16:02:10 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.49243.1791302529571643344
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 09:01:52 -0700
+ Tue, 06 Oct 2026 09:02:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=HMLx36I7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2026100616014963565b2e1500020748-lomo4o@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026100616014963565b2e1500020748
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=EL1/e6+L;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2026100616020769f4c5450200020786-fx5ikg@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026100616020769f4c5450200020786
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 06 Oct 2026 18:01:49 +0200
+        Tue, 06 Oct 2026 18:02:07 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=44Qa/KfmIM+UsUC1zEGZ+FwxDhInGmGntxx1nUstQiI=;
- b=HMLx36I7I5DXJkauazNnpeBHtcgaBlAhq1/IXvFmz1JL8BUoP7eIWecGhcoFNB8cgyebRY
- udTBLxxe1JJu07LZJyulzRBxqP0LWPjNplUi+RCl26bI3+2DHhVIT9FLJNxDxeC2qKmtKtvD
- H4FbI1ayN9De4wKCsNtEbEcrR+G5dpyaFQY/KxD5CpQTdnu/VJuJZJFybPyzaz6xpvUkwepw
- 996belnSoqw5x+vc7ibzwyKN7u8mmeVvYNtfNq6PEFt8vwCRLcG4bGMw8+gjeNh8CRJ4hFBS
- IiKsH7nE43CKR77Vf4lClwHMg9XN97uCnXHLVe1cuwKUBIKwP5GKkuYA==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=WryBZhgU2UijyjX+wvRRc+lRdLtBoR0sQ4+62YcIGQ8=;
+ b=EL1/e6+L2zelETmQSLO8aOQEFG0qWZv1jBraEDqHgXGGxiIYQSiVT2/YVj0cfq5Y9tY1Pw
+ RQtSL5xAUT2PY0tDRqgix2dIiCoARxKsfN2guW7be/jGc1PrWUo9d1fPuoVKawBte7v6PeDZ
+ b1bEfwyZtc8b2GANxRPso1lS9HdD7cy3WSnDA0knP1JS6pnYeLx7Irma+8bYxQv+GUtQkpTU
+ USQlby907+Rsze2hRmIDvGpmbvNnokZJVTFxrZmhwZs3HG5ura4O2SCwOHEJU1Pst1dni/Ur
+ PCCaHwoF1HfW8keVPJTI24QggONzKi38RCP2CPZcpm723TlK9q+1U3nA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH 1/2] popt: patch CVE-2026-18743
-Date: Tue,  6 Oct 2026 18:01:30 +0200
-Message-ID: <20261006160131.8547-1-peter.marko@siemens.com>
+Subject: [blacksail][PATCH 2/2] popt: patch CVE-2026-18739
+Date: Tue,  6 Oct 2026 18:01:31 +0200
+Message-ID: <20261006160131.8547-2-peter.marko@siemens.com>
+In-Reply-To: <20261006160131.8547-1-peter.marko@siemens.com>
+References: <20261006160131.8547-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,137 +38,143 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 16:02:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247310
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 16:02:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247311
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patch referencing this CVE.
+Convert change in cmake file to autotools/makefile.
+Install the new test in recipe.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 6a47df77d4dda066f6c3651480546a79fd445ae6)
+(From OE-Core rev: c211972ad21e1801abc7dd15951093316c5528f4)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../popt/popt/CVE-2026-18743.patch            | 97 +++++++++++++++++++
- meta/recipes-support/popt/popt_1.19.bb        |  1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18743.patch
+ .../popt/popt/CVE-2026-18739.patch            | 92 +++++++++++++++++++
+ meta/recipes-support/popt/popt_1.19.bb        |  3 +-
+ 2 files changed, 94 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18739.patch
 
-diff --git a/meta/recipes-support/popt/popt/CVE-2026-18743.patch b/meta/recipes-support/popt/popt/CVE-2026-18743.patch
+diff --git a/meta/recipes-support/popt/popt/CVE-2026-18739.patch b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
 new file mode 100644
-index 0000000000..d57a39b470
+index 0000000000..0a1e8f3590
 --- /dev/null
-+++ b/meta/recipes-support/popt/popt/CVE-2026-18743.patch
-@@ -0,0 +1,97 @@
-+From ea2092edba8d6c1a9acd60d9fd7a587c624d6ffe Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Tue, 11 Aug 2026 11:45:44 +0300
-+Subject: [PATCH] Fix CVE-2026-18743: buffer overflow(s) in
-+ poptConfigFileToString()
++++ b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
+@@ -0,0 +1,92 @@
++From 14c42b415ba0c11640f7d4ee80920452d0287058 Mon Sep 17 00:00:00 2001
++From: Yao Zhang <294772273@qq.com>
++Date: Wed, 5 Aug 2026 14:52:10 +0800
++Subject: [PATCH] Fix CVE-2026-18739: off-by-one error in poptStuffArgs()
 +
-+Fix the reallocation logic thinko, repeated twice in the function:
-+if we need to reallocate, the current maximum value is not interesting
-+in any way. Just allocate double the required size instead.
++The poptStuffArgs function only checks whether (con->os - con->optionStack)
++is equal to POPT_OPTION_DEPTH (10) before incrementing con->os, and does
++not increment the value by 1 to perform boundary pre-checking, as
++handleAlias does.
 +
-+The reproducer test is obviously closely tied to the initial buffer
-+size of 480 and wouldn't work with other sizes, but with the current
-+default this reliably crashes popt under ASAN prior to this fix.
-+Also , the reproducer only exercises the first of these flaws.
++Add a new test program as a reproducer for this case.
 +
-+Fixes: CVE-2026-18743
++Co-authored-by: Panu Matilainen <pmatilai@redhat.com>
++
++Fixes: CVE-2026-18739
 +
 +CVE: CVE-2026-18743
-+Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/ea2092edba8d6c1a9acd60d9fd7a587c624d6ffe]
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/14c42b415ba0c11640f7d4ee80920452d0287058]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/poptparse.c            | 10 ++++------
-+ tests/test3-data/05.answer |  5 +++++
-+ tests/test3-data/05.input  |  2 ++
-+ tests/testit.sh            |  1 +
-+ 4 files changed, 12 insertions(+), 6 deletions(-)
-+ create mode 100644 tests/test3-data/05.answer
-+ create mode 100644 tests/test3-data/05.input
++ src/popt.c        |  2 +-
++ tests/Makefile.am |  5 ++++-
++ tests/testit.sh   |  2 ++
++ tests/tstuff.c    | 17 +++++++++++++++++
++ 4 files changed, 24 insertions(+), 2 deletions(-)
++ create mode 100644 tests/tstuff.c
 +
-+diff --git a/src/poptparse.c b/src/poptparse.c
-+index f405081..c2a5435 100644
-+--- a/src/poptparse.c
-++++ b/src/poptparse.c
-+@@ -139,7 +139,6 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
-+     char * p;
-+     char * q;
-+     char * x;
-+-    size_t t;
-+     size_t argvlen = 0;
-+     size_t maxlinelen = sizeof(line);
-+     size_t linelen;
-+@@ -186,9 +185,9 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
-+ 	if (*q == '\0') {
-+ 	    /* single command line option (ie, no name=val, just name) */
-+ 	    q[-1] = '\0';		/* kill off newline from fgets() call */
-+-	    argvlen += (t = (size_t)(q - p)) + (sizeof(" --")-1);
-++	    argvlen += ((size_t)(q - p)) + (sizeof(" --")-1);
-+ 	    if (argvlen >= maxargvlen) {
-+-		maxargvlen = (t > maxargvlen) ? t*2 : maxargvlen*2;
-++		maxargvlen = argvlen * 2;
-+ 		argstr_tmp = realloc(argstr, maxargvlen);
-+ 		if (argstr_tmp == NULL) {
-+ 		    free(argstr);
-+@@ -218,10 +217,9 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
-+ 	    *x = '\0';	/* null out last char if space (including fgets() NL) */
++diff --git a/src/popt.c b/src/popt.c
++index 9ea3dfe..458aadc 100644
++--- a/src/popt.c
+++++ b/src/popt.c
++@@ -1668,7 +1668,7 @@ int poptStuffArgs(poptContext con, const char ** argv)
++     int argc;
++     int rc;
 + 
-+ 	/* rest of line accept */
-+-	t = (size_t)(x - p);
-+-	argvlen += t + (sizeof("' --='")-1);
-++	argvlen += ((size_t)(x - p) + sizeof("' --='")-1);
-+ 	if (argvlen >= maxargvlen) {
-+-	    maxargvlen = (t > maxargvlen) ? t*2 : maxargvlen*2;
-++	    maxargvlen = argvlen * 2;
-+ 	    argstr_tmp = realloc(argstr, maxargvlen);
-+ 	    if (argstr_tmp == NULL) {
-+ 		free(argstr);
-+diff --git a/tests/test3-data/05.answer b/tests/test3-data/05.answer
-+new file mode 100644
-+index 0000000..37b7fb8
-+--- /dev/null
-++++ b/tests/test3-data/05.answer
-+@@ -0,0 +1,5 @@
-++single string: ' --aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-++popt array: size=2
-++'--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-++'--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-++
-+diff --git a/tests/test3-data/05.input b/tests/test3-data/05.input
-+new file mode 100644
-+index 0000000..2508292
-+--- /dev/null
-++++ b/tests/test3-data/05.input
-+@@ -0,0 +1,2 @@
-++aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-++bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
++-    if ((con->os - con->optionStack) == POPT_OPTION_DEPTH)
+++    if ((con->os - con->optionStack + 1) == POPT_OPTION_DEPTH)
++ 	return POPT_ERROR_OPTSTOODEEP;
++ 
++     for (argc = 0; argv[argc]; argc++)
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index c410389..99fbf64 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -11,7 +11,10 @@ EXTRA_DIST = testit.sh \
++ 
++ AM_CPPFLAGS = -I. -I$(top_srcdir)/src
++ 
++-noinst_PROGRAMS = test1 test2 tdict test3
+++noinst_PROGRAMS = test1 test2 tdict test3 tstuff
+++tstuff_SOURCES = tstuff.c
+++tstuff_LDFLAGS =
+++tstuff_LDADD = $(top_builddir)/src/libpopt.la
++ test1_SOURCES = test1.c
++ test1_LDFLAGS = 
++ test1_LDADD = $(top_builddir)/src/libpopt.la
 +diff --git a/tests/testit.sh b/tests/testit.sh
-+index 26724d6..4078f51 100755
++index 4078f51..d26be3a 100755
 +--- a/tests/testit.sh
 ++++ b/tests/testit.sh
-+@@ -179,6 +179,7 @@ fi
-+ run_diff test3 "test3 - 1" test3-data/01.input test3-data/01.answer
-+ run_diff test3 "test3 - 2" test3-data/02.input test3-data/02.answer
-+ run_diff test3 "test3 - 3" test3-data/03.input test3-data/03.answer
-++run_diff test3 "test3 - 5" test3-data/05.input test3-data/05.answer
++@@ -172,6 +172,8 @@ run test1 "test1 - 61" "" -x=f1
 + 
-+ echo ""
-+ echo "Passed."
++ run test1 "test1 - 62" "arg1: 0 arg2: (none) aInt: 1" --randint=-1
++ 
+++run tstuff "tstuff - 1" "-13"
+++
++ if ! [ -e test3-data ]; then
++   # create symlink for running during 'make distcheck'
++   ln -s "${srcdir}/test3-data" test3-data
++diff --git a/tests/tstuff.c b/tests/tstuff.c
++new file mode 100644
++index 0000000..b820c7b
++--- /dev/null
+++++ b/tests/tstuff.c
++@@ -0,0 +1,17 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++int main(int argc, char *argv[])
+++{
+++    poptContext ctx = poptGetContext(argv[0], argc, (const char **)argv, NULL, 0);
+++    int rc = 0;
+++    for (int i = 0; i < 100; ++i) {
+++	const char *ea[] = { "a", NULL };
+++	if ((rc = poptStuffArgs(ctx, ea)))
+++	    break;
+++    }
+++    printf("%d\n", rc);
+++
+++    poptFreeContext(ctx);
+++    return rc;
+++}
 diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
-index 525bf553b1..3e9137c156 100644
+index 3e9137c156..10c4b4b0af 100644
 --- a/meta/recipes-support/popt/popt_1.19.bb
 +++ b/meta/recipes-support/popt/popt_1.19.bb
-@@ -10,6 +10,7 @@ DEPENDS = "virtual/libiconv"
- 
+@@ -11,6 +11,7 @@ DEPENDS = "virtual/libiconv"
  SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
             file://run-ptest \
-+           file://CVE-2026-18743.patch \
+            file://CVE-2026-18743.patch \
++           file://CVE-2026-18739.patch \
             "
  SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
  
+@@ -23,7 +24,7 @@ do_compile_ptest() {
+ }
+ 
+ do_install_ptest() {
+-    for f in test1 test2 tdict test3 testit.sh test-poptrc; do
++    for f in test1 test2 tdict test3 tstuff testit.sh test-poptrc; do
+         ${B}/libtool --mode=install install ${B}/tests/$f ${D}/${PTEST_PATH}
+     done
+ }
 
