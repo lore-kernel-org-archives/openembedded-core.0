@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E37CCCA6007
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEEECA6006
 	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 20:44:18 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5173.1791319454928753161
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5172.1791319453545953510
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 13:44:15 -0700
+ Tue, 06 Oct 2026 13:44:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=M223AIyE;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a17b4c6133so11119275e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 13:44:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=lgTV/zEF;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48af27fe287so865992f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 13:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791319453; x=1791924253; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791319452; x=1791924252; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=GJmsW4/qLQD3iHvvmA+EvNv1nf4l+rok2jBKSufzwL4=;
-        b=M223AIyE+qfl/yUvOXAm4MU9LWEmkqM1dyNA5mayXoSYJfoXz7To92l4nRftqTKXqp
-         402lxih18isTTsTeo6uigau7qgGFFfpJqkSDASj5XnmkaPNFnAZAgWOvnXY0FSJgpGGh
-         Gqf86SPAIsIvR12Xols+XhH4M4cieqqU34brE=
+        bh=3rcztIs9geCfMaxeWXq+KQ8SPz5NAsdx0LP7s+D41NA=;
+        b=lgTV/zEFMQKqZEk/dT1PQOuduiS1S9XiZKLqIDPTp/9FBP/GT1WFYi9pdSTY9qs6zS
+         VAbWdKrlbNxHbhYhcPllXEkamS7F6Ho8pmUw+MgHiHyWtdLxkriT5Wty2mR3H+7/QOai
+         BxdXLp/80/8HMHkdicqZuaMBm4igWc0StzD7k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791319453; x=1791924253;
+        d=1e100.net; s=20260707; t=1791319452; x=1791924252;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=GJmsW4/qLQD3iHvvmA+EvNv1nf4l+rok2jBKSufzwL4=;
-        b=PIOSfpVBx8WhoemhT66OMgGHyR8k5UG0xwB0sFSFi3hrvodCQ+lBtQ+ceDTcf3Q7t5
-         6/kG2cpf0QivzYSlx1NLL/HoM3DgFnWtMIsL/BIPG2p+LTFq1G9iMreNq6l2WsfFU8d7
-         D+H1MhfNF1CAqzXxbTv04zJ6hYetZELQ/EtFkV0hCTt96QQrDwrXbExtuBqLfYrRPfYI
-         f7joYIdvLe+rXVBm/m7+xADifLZY1klFO8jFvod9MCsg7zIBdeD5s4w0IZbJIxGaeSpy
-         k4HnQ/7UznT9XYRH2nIcSM9S3u+YHUcQMK3XGBz98VcXszQfmAdQXZnDQofZGHEKw3/B
-         u4Vg==
-X-Gm-Message-State: AFuF++l3fVVnzlUm4JU67huk7fazHNVqOysJwJFUT6re9VxVsPAi3Br/
-	Lc8nMjNaehDgC9xhxlnrkFNgeI8Q/n4X7lwwlAZWFWSKjGhF7wSgKT8VlqNivuoftmIxEFEgGM5
-	H9T3jKp4=
-X-Gm-Gg: AYBFou28ZpMrheSd4vQkx6roRJk2aoOU5Amgb8Ky1b53Sb/d3pmm9qwzoKnvywtP/aT
-	IzdkfqB2ZVRoJXJwRgwzdnuYKQDm3I19iHapX/0dxywEFxc2mki74/v8kd1LAJGZt+80yBbwDqd
-	pRqEH/VNU76XU1M/THclN8asVylgBXGyGqoUpdivqCBEjyEf6Lmw0SmRvlM3MIuedIMjgVxg43E
-	W1wc3F5vxkGOlpAxkq5c3x//86oBPz7tWsRYy8ELJF22C9/xiAO5IdpruJk5Ukqo4RW1KZTW7qS
-	DKrmHdaQI2WqPPTZl8Xom1YD1VOA6a6W5hVCwHoV34+eVIUSOYbsAzEx60eD5IlDo+xnubhPgVD
-	aP3FiD7YM7jfdp2G0WXmHzVeVyAp/ncjyqEH9LdtNJZkvlA8gatS4QG42M9i94lYjSdBJI2jEu6
-	7we7CqUyAZaWRfIejjzN6YQj6Qnj4dSaz4W0iemiZ2ZNjI/NdPZuCJ6ZKN0UvZQHC2Bs27ETidl
-	Pb5I8NUMirKC+bUbc7VlY0jRVhJAtLpvuRJEzMZrf/jW/AHF5woa0+WQLzDhm0biXI=
-X-Received: by 2002:a05:600c:154a:b0:49c:cee0:e7c1 with SMTP id 5b1f17b1804b1-4a18043b5fcmr533635e9.16.1791319453170;
-        Tue, 06 Oct 2026 13:44:13 -0700 (PDT)
+        bh=3rcztIs9geCfMaxeWXq+KQ8SPz5NAsdx0LP7s+D41NA=;
+        b=WpPxJqNlRqgarWqLQ966tIxD3LF3ZyFWXtYnIRR84paFFfoaoEvjMwrko49KqOIq/E
+         jgTmnuWXp5e53HnR0sBp06km8PanQNUJuywIYbHX/MeaF3bFWQXu+n73px1JGN1w/prf
+         quas1633OizlWbKflIDuuy2eogKsBHsdW2U+aTRgpLmXPU8Em8jju8XKpyHSCC+gzLGk
+         UiNQAvJ+sVPAtj3oJtQLPmoIaiE5M2jy2sTn2b/zazGoAvq8nCAor7PtVkeQmSccosYd
+         umtr/6wm2/A9VbOknhVbyUhzkl6HMXakYLz8vZxZtO14kaNeizU8pUrL//WPbWTqRtUh
+         9xVQ==
+X-Gm-Message-State: AFq9FYKzOH45VYOS1oCsWzzK9rvp7UOBzgw7JK6Lv10vgH6S3vqe7S0T
+	u5Zy6jsjA93S3FufGXTr7oFpEAClkpIxG28acWsifIPFiez36v2/IeoOi656ZThqi4uLjOTj8HE
+	UAB4fMW8=
+X-Gm-Gg: AYBFou0dBGgeSVot6EnlAYiaoZiA5ReET15FeX5i/koZLSwNqQTrjK+A3VdDisOsnAc
+	F0eUNUpP5+me2VTPZQ3Ok3x7Z/HnHEyiAjQ41qq3KXIt/vs4jCIBVe1W51Xmv39v9RAXTYw88LF
+	zXRKypCcLa80YRDdSC6heiICYc2X3htqxYnueh27kUhP71Bjt7GRZ4VOiuvr79xwNh7RJcrw1Hd
+	ZsGTizbfQGK9ohJy7ZNnl5SudboGUR0vvwuYmQSnwDAX/+TXbUqGd2VxMd1kvEXCzyHbqYkB920
+	k0tIHNThpRzQjnatgNXTh0zd65BYyeH+D48VGmxZwlOfpL2vyXMzQxe5DwdtRMcpuZrlSMDa7Oa
+	JV5CjqPY7xVMKpyjLkFGNRb9SjqSrd/hLAxvY5rlf0A2n18SqWjl+YLQI/IGJ9KVqk1aPVgjyBM
+	XFoAOVrziH3+5M8YKNjvcylRD70nVG4vpGxzH8nSGSYS1J+rDRvKe2zmcOqLMRzU2BzDmTBBHX+
+	bCtZkhm856U3a0jv2nfnDdTpMfnQAZQuuV/XSOCWUrAldEJm7wOjOy3tr2zQc7QwE8=
+X-Received: by 2002:a05:6000:3cd:b0:488:8568:bb02 with SMTP id ffacd0b85a97d-48c7278837emr813168f8f.23.1791319451743;
+        Tue, 06 Oct 2026 13:44:11 -0700 (PDT)
 Received: from FRSMI25-LASER (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c7273b5e0sm997338f8f.14.2026.10.06.13.44.12
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c7273b5e0sm997338f8f.14.2026.10.06.13.44.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 13:44:12 -0700 (PDT)
+        Tue, 06 Oct 2026 13:44:11 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail v2 04/18] bluez5: fix obexd/pbap u128_to_string skipping data[4]
-Date: Tue,  6 Oct 2026 22:43:39 +0200
-Message-ID: <b694cd0daf227a4ed6521ef1d056bd7fbe2ccde5.1791318909.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail v2 02/18] go: skip internal/cgrouptest when cpu.max is not available
+Date: Tue,  6 Oct 2026 22:43:37 +0200
+Message-ID: <16ebeee71bb4f10b86467be367d64906bc5a46fa.1791318909.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791318909.git.yoann.congal@smile.fr>
 References: <cover.1791318909.git.yoann.congal@smile.fr>
@@ -66,74 +66,86 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 20:44:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247341
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247339
 
-From: Jinwang Li <jinwang.li@oss.qualcomm.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-u128_to_string() uses data[3] twice, causing data[4] to be skipped and
-DatabaseIdentifier, PrimaryCounter and SecondaryCounter properties to
-be printed with wrong values.
+The internal/cgrouptest ptest fails on qemux86-64:
 
-Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+  Erroring setting cpu.max: open /sys/fs/cgroup/go-cgrouptestNNN/cpu.max: permission denied
+
+cpu.max is only present in cgroup v2 when the kernel is built with
+CONFIG_CFS_BANDWIDTH, which the linux-yocto qemu configuration does not
+enable, even though the cpu controller is available. Writing the missing
+file makes cgroupfs return EACCES.
+
+Add a patch so that InCgroupV2 skips the test when the new cgroup has no
+cpu.max, consistent with its other best-effort checks.
+
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 57c9aead1d913a56b115f0cffdc73e4a1baa9b42)
+(cherry picked from commit 7b925b30e4753bd3698792b83f18e0848a85ba3f)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...p-Fix-u128_to_string-skipping-data-4.patch | 33 +++++++++++++++++++
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
+ meta/recipes-devtools/go/go-1.27.1.inc        |  1 +
+ ...est-skip-when-cpu.max-is-not-availab.patch | 39 +++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 67bdb6017f7..22d50bc23f9 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -68,6 +68,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
-            file://0001-gobex-Fix-ABORT-response-being-discarded.patch \
-+           file://0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
+diff --git a/meta/recipes-devtools/go/go-1.27.1.inc b/meta/recipes-devtools/go/go-1.27.1.inc
+index 61df45558da..d7ba03b1bdd 100644
+--- a/meta/recipes-devtools/go/go-1.27.1.inc
++++ b/meta/recipes-devtools/go/go-1.27.1.inc
+@@ -15,5 +15,6 @@ SRC_URI += "\
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
++    file://0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch \
+ "
+ SRC_URI[main.sha256sum] = "4e408abae126d916b6164627193f2c54f0e3ca1312d693b86db45f862ab238b1"
+diff --git a/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch b/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
 new file mode 100644
-index 00000000000..13adce3aa2e
+index 00000000000..f13cf78f7a7
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
-@@ -0,0 +1,33 @@
-+From 8b4a4176063831476bc9244d20f43b552e4b5554 Mon Sep 17 00:00:00 2001
-+From: Jinwang Li <jinwang.li@oss.qualcomm.com>
-+Date: Wed, 23 Sep 2026 11:29:57 +0800
-+Subject: [PATCH] obexd/pbap: Fix u128_to_string skipping data[4]
++++ b/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
+@@ -0,0 +1,39 @@
++From 3335a08288a68ebce5f3e99745186ded36c564c9 Mon Sep 17 00:00:00 2001
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Thu, 24 Sep 2026 10:22:23 -0700
++Subject: [PATCH] internal/cgrouptest: skip when cpu.max is not available
 +
-+u128_to_string uses data[3] twice causing data[4] to be skipped and
-+DatabaseIdentifier, PrimaryCounter and SecondaryCounter properties to
-+be printed with wrong values.
++The cpu.max interface file is only present in cgroup v2 when the kernel
++is built with CONFIG_CFS_BANDWIDTH, even if the cpu controller is enabled
++in the parent's cgroup.subtree_control. Without it, SetCPUMax tries to
++create the file, which cgroupfs rejects with EACCES, and TestInCgroupV2
++fails with:
 +
-+Fixes: 5ee26d43c65c ("obexd/client: Add DatabaseIdentifier property")
-+Assisted-by: opencode:claude-sonnet-5
-+Upstream-Status: Backport [commit 8b4a4176063831476bc9244d20f43b552e4b5554]
-+Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
++  Erroring setting cpu.max: open /sys/fs/cgroup/go-cgrouptestNNN/cpu.max: permission denied
++
++Skip, like the other best-effort checks in InCgroupV2, when the new
++cgroup does not have cpu.max.
++
++Upstream-Status: Submitted [https://github.com/golang/go/pull/81745]
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 +---
-+ obexd/client/pbap.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/internal/cgrouptest/cgrouptest_linux.go | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/obexd/client/pbap.c b/obexd/client/pbap.c
-+index ce5e6cd5d..1970d3357 100644
-+--- a/obexd/client/pbap.c
-++++ b/obexd/client/pbap.c
-+@@ -1099,7 +1099,7 @@ static int u128_to_string(uint8_t *data, char *str, size_t len)
-+ 	return snprintf(str, len, "%02X%02X%02X%02X%02X%02X%02X%02X"
-+ 					"%02X%02X%02X%02X%02X%02X%02X%02X",
-+ 					data[0], data[1], data[2], data[3],
-+-					data[3], data[5], data[6], data[7],
-++					data[4], data[5], data[6], data[7],
-+ 					data[8], data[9], data[10], data[11],
-+ 					data[12], data[13], data[14], data[15]);
-+ }
-+-- 
-+2.34.1
++diff --git a/src/internal/cgrouptest/cgrouptest_linux.go b/src/internal/cgrouptest/cgrouptest_linux.go
++index ad9599c..a4b9b52 100644
++--- a/src/internal/cgrouptest/cgrouptest_linux.go
+++++ b/src/internal/cgrouptest/cgrouptest_linux.go
++@@ -82,6 +82,12 @@ func InCgroupV2(t *testing.T, fn func(*CgroupV2)) {
++ 		}
++ 	}()
++
+++	// cpu.max only exists when the kernel supports CPU bandwidth control
+++	// (CONFIG_CFS_BANDWIDTH), even if the cpu controller is enabled.
+++	if _, err := os.Stat(filepath.Join(path, "cpu.max")); err != nil {
+++		t.Skipf("cgroup %s does not support cpu.max: %v", path, err)
+++	}
+++
++ 	migrateTo(t, path)
++ 	defer migrateTo(t, orig)
 +
 
