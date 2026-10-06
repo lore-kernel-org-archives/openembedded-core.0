@@ -2,150 +2,301 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29658CA6004
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 20:44:18 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5171.1791319453134653876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3201CA5FED
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 20:44:28 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5167.1791319458948495471
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 13:44:13 -0700
+ Tue, 06 Oct 2026 13:44:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=uvX3KIRM;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a17baef589so7602315e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 13:44:12 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=wR6eSps5;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a16af2a232so9444095e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 13:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791319451; x=1791924251; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=xCRhsY71gjJ5dAgtOVLKWNP4MsZKd0z+wCZ+mR6CTlQ=;
-        b=uvX3KIRMUuC6M4S3P2RgVKJjjluSt7Oyelw598fYvoEeks4ox03BVtNMDzZabMPzqc
-         VvIrw8Yr0J14JU2zQSxMEC5rUSDT7tKtnwsPzFaKFi0cv5Blt9y3rN6Auo/eTuIrqdJq
-         Tzdp4ey7IrjnPKrEAmBk55io1zw+hWgV7LLHk=
+        d=smile.fr; s=google; t=1791319457; x=1791924257; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DLshmaqadcAN9SyI+ulcVX5LFGf9BwDaRBpX82jzluE=;
+        b=wR6eSps5f/cbHRFYsnEC8DC70m4OH9M0OB5pA6hpk076/5L0V4KSYcSSOn9f+mKCE8
+         Uor+Nf5+8YzSpgRUTgjJyf/RB3sG9pfTPWG6+FclaR8hkmjjBosoo2BLNRfhg+imsMZG
+         nL2GIPHPwmyTJJYo6AJCkyLmPXTjkvXzUcv1s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791319451; x=1791924251;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=xCRhsY71gjJ5dAgtOVLKWNP4MsZKd0z+wCZ+mR6CTlQ=;
-        b=YADdhs+SxYfrdjP1UgiwoI6LyX/boHW621WXIsjn0bVlrpl5Cc50ZZE7tWaMM/5n57
-         I0Olm/NazvaP0IT1UyOwL24J6My1HJLxGwZWU+B7gdU9H24XmoBRr493pjPQcTBxNqI/
-         WkWZe2viV7fOfNgsmH7cfAor4dlXtpGnYYRrsiRbqrRmdypvHtWRCAmnx/dISryBzaMJ
-         mrmVTSw4jbB/LqxSI4leESrEaIlnvey+w6aOmDD9x0lWyrTu4jcVIEu/oSkWpROgQT4X
-         oTAWGZdxc6YP9WTsww4rqUHEW0xFypAdecP/q07i7DDaaB5COvTwJyn8MQbjq0ezrgFk
-         A3YQ==
-X-Gm-Message-State: AFuF++lsLeBTOu25QdE/b+/gB99+z3b/028J3xtXOe3danql3tya2Fuc
-	IL3dENulSVg1jmvCE2Jgb7r36kIl3ZAOPoqk9rWzEi+1gZCIGzwJ8jq7B89fK0MB7pn3h95Ukvk
-	F48wLB7w=
-X-Gm-Gg: AYBFou0t9NUtXzdt/GoldMlbuemJHu1/usP/mtOKdTG3IJfi9WKmcmUgN7eeZN1U6v3
-	wwxBa3ur7DKf2g7a0nL3b7wVxCYAT+PIW3LN9s6RDwUbgWEAeW/trFpetTl7wTqzTaZT2PutGz0
-	r0xi/eIlKpnhKlDQ9RRqZNi0/q9DAQFOd/zW8Ed61Cn/4N61q6Yjfg7J1PRGlOyzxO06Uin+TVh
-	4SUfQpNvNArlH7V2KiCcKdprRmt4RysripPqtPO161aS5FxHaOxbV7DcMAlWnbh7RXGTkyim+LN
-	dLv+V5c3ey12fu7FWzPLdum7tjihXeEtrlECyFFYEoqw64ImR5Wyzv5YYN+AOQTaOyttRWKkxLP
-	Cj5sMbfQc3gYEb+6nzq5KehgFIotjAE4UGF+NJX35c6mSRe47ur8POe8G2xcPXyWoyRFp9y5E24
-	bGKoFvVq/vThOXQJcjVpCZ5dbHKTQaz8btXDXXCvNr9uBAU6B1RkACTpWo9bHkBy3zdxahMzh0C
-	rY3D6h83qioofWIwTUb9fVRgbZfbcX0qjAQgqbymmIIUMAzaG1MeLG3AXiFvwu9IECX2mCuo8cl
-	xA==
-X-Received: by 2002:a05:600c:34d5:b0:4a0:25c:8af2 with SMTP id 5b1f17b1804b1-4a18064cf50mr483505e9.17.1791319451260;
-        Tue, 06 Oct 2026 13:44:11 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791319457; x=1791924257;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DLshmaqadcAN9SyI+ulcVX5LFGf9BwDaRBpX82jzluE=;
+        b=ZU39F5PqEouWFi316ZGTEj++C8Aiv3yoRsX+PIzPvuZbCnTkoHz13q3UZIXkhIWzmt
+         FIhDNRh1GtECzFI/xhV51W83HxXobNSzPY1AMByp5vfwhCZjCXY3U0mTaL+3AB/f/gRM
+         StKkrR1nf5n7MxW2KPoppIN+OEdMjtOgkpElUtWv0BO3UpbAGVDtM8BXv5OC7gyi9aNm
+         En+WdsboXklBjXwiueCXJPLFB0m2PP2al3bNo07Xk0I34veWJ1ZG/i5c9pGkFQlWArhy
+         3eazvngUlvN4l8iGSsWTpyue+Dge/nDQ2txbz4Bfe+OR7MjjNc32eFPygdpeDy8UA12Y
+         l9Gw==
+X-Gm-Message-State: AFq9FYKrrwB9yKyLjcAnfvkZlfecZqu/mZY+H2+kfezvRmrbPYTnLDnI
+	54EfbiSprtl9pQ51Z3QVA4nBmTa8g2hx9lSj0xEphYl91N/5Euvkk9OuXW4EtXJVnXnxsrbFYOh
+	OaJ+fAG0=
+X-Gm-Gg: AYBFou0SE+CUV5kh48VfiDedp3Y7eySB2bbpbbFVMT7Rs1DNtvsS5G7O2OanQTS4Q33
+	WTIwhGf3VuM+xlky/2FB0hBWfl69P/TZ4PHOLVsuv6asONWToVYD581UUYN3W22wJCiwa47VlIY
+	WKxl0XRwu0mZKKbg8f6wdgkQg4HiNeoEqaaXvUfI6VZcBDyGGd18SvwNq+mhcnF2ioa6U98RNKN
+	j171JtbVKt6xP8rIaTHC5cGAW1Xq4dEbilFFueeHZkmvXcsWCPukHMn/Ng9QjkVa902dfONbgZz
+	eZnUTPGWfz8wS4U4oAqO62CVPr5tjEtO5pB6L84i8DzG6Jv1K3ylvZA+aRY3S5r9mBzjZfjjb5G
+	UI6R6XZK7kka0rgYB8Kxw/YRjROIK4P5wRpPyrKNFn7uRaqaPDpyrSQlbXJrSXWwV7hh+qNHQDg
+	5L4vmfOJcl95fGVFD5NeKkmLy5devJ7xxUG+kU9hFi4UBVAC3Uxx8ImoqYOb8UIKEBibqwtXYJZ
+	OIkPvXlmvEdphglDF3p2Hfbuh/iCrkEATnSrkDTRhrB2JcrlYL0eAsGvAT2xqiLSw0=
+X-Received: by 2002:a05:6000:2002:b0:488:8cf8:14 with SMTP id ffacd0b85a97d-48c72583a2cmr941889f8f.0.1791319457099;
+        Tue, 06 Oct 2026 13:44:17 -0700 (PDT)
 Received: from FRSMI25-LASER (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c7273b5e0sm997338f8f.14.2026.10.06.13.44.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c7273b5e0sm997338f8f.14.2026.10.06.13.44.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 13:44:10 -0700 (PDT)
+        Tue, 06 Oct 2026 13:44:13 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail v2 01/18] alsa-lib: patch CVE-2026-90781
-Date: Tue,  6 Oct 2026 22:43:36 +0200
-Message-ID: <59fdb500b23e3cb1b167935c82092bd43a535dce.1791318909.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail v2 05/18] libpcre2-ptest: add testoutput3C for locale variant
+Date: Tue,  6 Oct 2026 22:43:40 +0200
+Message-ID: <521c3f838baa688119fc0369cdaee6861980a36c.1791318909.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791318909.git.yoann.congal@smile.fr>
 References: <cover.1791318909.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 20:44:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247338
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 20:44:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247342
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Bhavikkumar Girishbhai Ronvelia <BhavikkumarGirishbhai.Ronvelia@windriver.com>
 
-Pick patch per [1].
+Test 3 (locale-specific features) fails because testoutput3C is missing
+from the PCRE2 10.48 release tarball. It exists on upstream main branch
+and will be in the next release. This carries it until OE bumps to that
+version.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-90781
+On systems where glibc fr_FR locale does not classify extended Latin-1
+bytes (0xC9, 0xE9, 0xAA, 0xBA) as alphabetic, none of the existing
+expected outputs (3, 3A, 3B) match, causing Test 3 to fail.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+testoutput3C was generated on the target by running:
+  ./RunTest 3
+  cp testoutput8/testoutput3 testdata/testoutput3C
+
+The file is installed into the ptest testdata directory at package time,
+following the same pattern as the existing run-ptest file.
+
+Signed-off-by: Bhavikkumar Girishbhai Ronvelia <BhavikkumarGirishbhai.Ronvelia@windriver.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 37d0e17fbb7848340169ba00ca8dee2567a68462)
+(cherry picked from commit 3c447001749427b151dc2e6f08c790bac77b1c43)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../alsa/alsa-lib/CVE-2026-90781.patch        | 41 +++++++++++++++++++
- .../alsa/alsa-lib_1.2.16.1.bb                 |  4 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
+ .../libpcre/libpcre2/testoutput3C             | 174 ++++++++++++++++++
+ .../recipes-support/libpcre/libpcre2_10.48.bb |   2 +
+ 2 files changed, 176 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/testoutput3C
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
+diff --git a/meta/recipes-support/libpcre/libpcre2/testoutput3C b/meta/recipes-support/libpcre/libpcre2/testoutput3C
 new file mode 100644
-index 00000000000..57883b81694
+index 00000000000..2af67a8d036
 --- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
-@@ -0,0 +1,41 @@
-+From f84cd4ced7b36fddb8e4ee24404cf7c091d27020 Mon Sep 17 00:00:00 2001
-+From: Jaroslav Kysela <perex@perex.cz>
-+Date: Sun, 30 Aug 2026 20:20:30 +0200
-+Subject: [PATCH] control: ctlparse - another fix for one-byte overrrun in
-+ __snd_ctl_ascii_elem_id_parse
++++ b/meta/recipes-support/libpcre/libpcre2/testoutput3C
+@@ -0,0 +1,174 @@
++# This set of tests checks local-specific features, using the "fr_FR" locale. 
++# It is almost Perl-compatible. When run via RunTest, the locale is edited to
++# be whichever of "fr_FR", "french", or "fr" is found to exist. There is
++# different version of this file called wintestinput3 for use on Windows,
++# where the locale is called "french" and the tests are run using
++# RunTest.bat. 
 +
-+Follows 1e27d63ef6d1dcf7d1f1a1e1eca3ea779e7de377 .
++#forbid_utf
 +
-+Link: https://lore.kernel.org/alsa-devel/CACBQ=P2FhO3M6dkv3cWuKb6Qhs92ouV+FJ3SJZ_PVBSSdJWRAQ@mail.gmail.com/
-+Reported-by: Harsh Raj Singhania <raj.harshraut@gmail.com>
-+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
++/^[\w]+/
++\= Expect no match
++    �cole
++No match
 +
-+CVE: CVE-2026-90781
-+Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/f84cd4ced7b36fddb8e4ee24404cf7c091d27020]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/control/ctlparse.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++/^[\w]+/locale=fr_FR
++    �cole
++No match
 +
-+diff --git a/src/control/ctlparse.c b/src/control/ctlparse.c
-+index c40de2bd..7132210e 100644
-+--- a/src/control/ctlparse.c
-++++ b/src/control/ctlparse.c
-+@@ -219,7 +219,7 @@ int __snd_ctl_ascii_elem_id_parse(snd_ctl_elem_id_t *dst, const char *str,
-+ 			if (*str == '\'' || *str == '\"') {
-+ 				c = *str++;
-+ 				while (*str && *str != c) {
-+-					if (size < (int)sizeof(buf)) {
-++					if (size < (int)sizeof(buf) - 1) {
-+ 						*ptr++ = *str;
-+ 						size++;
-+ 					}
-+@@ -229,7 +229,7 @@ int __snd_ctl_ascii_elem_id_parse(snd_ctl_elem_id_t *dst, const char *str,
-+ 					str++;
-+ 			} else {
-+ 				while (*str && *str != ',') {
-+-					if (size < (int)sizeof(buf)) {
-++					if (size < (int)sizeof(buf) - 1) {
-+ 						*ptr++ = *str;
-+ 						size++;
-+ 					}
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
-index 10332502044..685f06c7268 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
-@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
-                     file://src/socket.c;md5=285675b45e83f571c6a957fe4ab79c93;beginline=9;endline=24 \
-                     "
++/^[\W]+/
++    �cole
++ 0: \xc9
++
++/^[\W]+/locale=fr_FR
++\= Expect no match
++    �cole
++ 0: \xc9
++
++/[\b]/
++    \b
++ 0: \x08
++\= Expect no match
++    a
++No match
++
++/[\b]/locale=fr_FR
++    \b
++ 0: \x08
++\= Expect no match
++    a
++No match
++
++/^\w+/
++\= Expect no match
++    �cole
++No match
++
++/^\w+/locale=fr_FR
++    �cole
++No match
++
++/(.+)\b(.+)/
++    �cole
++ 0: \xc9cole
++ 1: \xc9
++ 2: cole
++
++/(.+)\b(.+)/locale=fr_FR
++\= Expect no match
++    �cole
++ 0: \xc9cole
++ 1: \xc9
++ 2: cole
++
++/�cole/i
++    �cole
++ 0: \xc9cole
++\= Expect no match
++    �cole
++No match
++
++/�cole/i,locale=fr_FR
++    �cole
++ 0: \xc9cole
++    �cole
++No match
++
++/\w/I
++Capture group count = 0
++Starting code units: 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P
++  Q R S T U V W X Y Z _ a b c d e f g h i j k l m n o p q r s t u v w x y z
++Subject length lower bound = 1
++
++/\w/I,locale=fr_FR
++Capture group count = 0
++Starting code units: 0 1 2 3 4 5 6 7 8 9 A B C D E F G H I J K L M N O P
++  Q R S T U V W X Y Z _ a b c d e f g h i j k l m n o p q r s t u v w x y z
++Subject length lower bound = 1
++
++# All remaining tests are in the fr_FR locale, so set the default.
++
++#pattern locale=fr_FR
++
++/^[\xc8-\xc9]/i
++    �cole
++ 0: \xc9
++    �cole
++No match
++
++/^[\xc8-\xc9]/
++    �cole
++ 0: \xc9
++\= Expect no match
++    �cole
++No match
++
++/\xb5/i
++    �
++ 0: \xb5
++\= Expect no match
++    \x9c
++No match
++
++/�/i
++    \xff
++ 0: \xff
++\= Expect no match
++    y
++No match
++
++/(.)\1/i
++    \xfe\xde
++No match
++
++/\W+/
++    >>>\xaa<<<
++ 0: >>>\xaa<<<
++    >>>\xba<<< 
++ 0: >>>\xba<<<
++
++/[\W]+/
++    >>>\xaa<<<
++ 0: >>>\xaa<<<
++    >>>\xba<<< 
++ 0: >>>\xba<<<
++
++/[^[:alpha:]]+/
++    >>>\xaa<<<
++ 0: >>>\xaa<<<
++    >>>\xba<<< 
++ 0: >>>\xba<<<
++
++/\w+/
++    >>>\xaa<<<
++No match
++    >>>\xba<<< 
++No match
++
++/[\w]+/
++    >>>\xaa<<<
++No match
++    >>>\xba<<< 
++No match
++
++/[[:alpha:]]+/
++    >>>\xaa<<<
++No match
++    >>>\xba<<< 
++No match
++    
++/[[:alpha:]][[:lower:]][[:upper:]]/IB
++------------------------------------------------------------------
++        Bra
++        [A-Za-z]
++        [a-z]
++        [A-Z]
++        Ket
++        End
++------------------------------------------------------------------
++Capture group count = 0
++Starting code units: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
++  a b c d e f g h i j k l m n o p q r s t u v w x y z
++Subject length lower bound = 3
++
++# End of testinput3 
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.48.bb b/meta/recipes-support/libpcre/libpcre2_10.48.bb
+index d5daff03c0e..56791171c23 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.48.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.48.bb
+@@ -14,6 +14,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0 \
  
--SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
-+SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
-+           file://CVE-2026-90781.patch \
-+           "
- SRC_URI[sha256sum] = "f740db7f488255944ffd4428416ee3390a96742856916433df468c281436480e"
+ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
+            file://run-ptest \
++           file://testoutput3C \
+ "
  
- inherit autotools pkgconfig
+ GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+@@ -63,6 +64,7 @@ BBCLASSEXTEND = "native nativesdk"
+ do_install_ptest() {
+     t=${D}${PTEST_PATH}
+     cp -r ${S}/testdata $t
++    cp ${UNPACKDIR}/testoutput3C $t/testdata/testoutput3C
+ 
+     for i in pcre2posix_test pcre2grep pcre2test; do
+         "${B}/libtool" --mode=install install "${B}/$i" "$t"
 
