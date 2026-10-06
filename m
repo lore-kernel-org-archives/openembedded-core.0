@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB58CA5FFF
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 19:37:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CEBCA6004
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 19:37:41 +0000 (UTC)
 Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3556.1791315445642124526
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3586.1791315453231380694
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 12:37:25 -0700
+ Tue, 06 Oct 2026 12:37:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=rvpG/u0E;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20261006193723a7561524df00020747-k0uv8v@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261006193723a7561524df00020747
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZXHFjLIN;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20261006193731eb12a3e1260002079d-_e6frz@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261006193731eb12a3e1260002079d
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 06 Oct 2026 21:37:23 +0200
+        Tue, 06 Oct 2026 21:37:31 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=9+g8xDwnrkmG2k1ttevvuH1hAXG+dtjXQWXyofMy354=;
- b=rvpG/u0EDDFM+LEW4K2lTC1dySbs2euHfie7DVqYKT5vyJ+a1a0hOBCrOnShmjiFWqO6Vz
- 497/CTQsKMYTvFgzkQ8mfPn0nFm/eaqss7FJIOsMm/L6yZzXoSmOoY0FfycIAm6lh44JxfU+
- tbOfnuhllC+/nAdJSIGmpn/eNoxMzTnI1WEoDw4GA0l1OH8fHQVB93Td5Jt59pLWiWUDVk0n
- WAzlJoF8XzmnBqeMbIJw2KmWo9dtCZAkvSmlwE9uyypDT9Ch3x6Wp164/0TPEtPrlLfw24sR
- jxkJUECSldF7haZBtNcnWJ9GNled9xSwQxWg/mG4lH0kucBnzt1GEbeQ==;
+ bh=gTe9DEarG7Jf9Z0mvS/nxbAv8ylL/fkGVN51CGTBZ+4=;
+ b=ZXHFjLINzKlfCunDJViw2O7ld/DplKWWpvnO6OIA1XmeiOFx/nwU5tFYIZkyLM3VG82UA8
+ E9kM34bxCG7SJRJqGPlfSOZ+nMiXXnGE5cvS7zdXpGRjh/OenrQ0SRBf/CqnEYyl0CHqkZPs
+ +54I61CGpIhzIGcJ1LGQ+lqrE0Ngn+UxdHtwzSN3ZOU81QD6Io3Jjga+pv4wdH5yiEWa6CFV
+ dRrRoA7cmPMUguRCD2H8/mDuKpjAWjnn8JMtKpgd0VQK4cvZlVjLrI3SVs5S5CUJHjvfh8c6
+ k+dVsjgBP7QmrPUVciXvfU6jf/DcoriSlZsqNsdU61Syrr66rJaX4SvQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH 3/6] expat: patch CVE-2026-76957
-Date: Tue,  6 Oct 2026 21:36:35 +0200
-Message-ID: <20261006193638.2018393-3-peter.marko@siemens.com>
+Subject: [wrynose][PATCH 4/6] expat: patch CVE-2026-93990
+Date: Tue,  6 Oct 2026 21:36:36 +0200
+Message-ID: <20261006193638.2018393-4-peter.marko@siemens.com>
 In-Reply-To: <20261006193638.2018393-1-peter.marko@siemens.com>
 References: <20261006193638.2018393-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -38,252 +38,565 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 19:37:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247322
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 19:37:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247323
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patches per [1].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-76957
+[1] https://security-tracker.debian.org/tracker/CVE-2026-93990
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../expat/expat/CVE-2026-76957-01.patch       | 121 ++++++++++++++++++
- .../expat/expat/CVE-2026-76957-02.patch       |  85 ++++++++++++
+ .../expat/expat/CVE-2026-93990-01.patch       | 191 ++++++++++
+ .../expat/expat/CVE-2026-93990-02.patch       | 328 ++++++++++++++++++
  meta/recipes-core/expat/expat_2.8.3.bb        |   2 +
- 3 files changed, 208 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-76957-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-76957-02.patch
+ 3 files changed, 521 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-93990-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-93990-02.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-76957-01.patch b/meta/recipes-core/expat/expat/CVE-2026-76957-01.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-93990-01.patch b/meta/recipes-core/expat/expat/CVE-2026-93990-01.patch
 new file mode 100644
-index 0000000000..fb7a8e0b02
+index 0000000000..fde01b916a
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-76957-01.patch
-@@ -0,0 +1,121 @@
-+From 127b7d4beb8fe7e5ce5cb021c2e56379c95863d0 Mon Sep 17 00:00:00 2001
-+From: Darren Carreras <carrerasdarren@gmail.com>
-+Date: Mon, 17 Aug 2026 21:16:00 -0400
-+Subject: [PATCH] Protect custom encoding callbacks from parser reentry
++++ b/meta/recipes-core/expat/expat/CVE-2026-93990-01.patch
+@@ -0,0 +1,191 @@
++From 0cfd15bdf4b2c22d6b0df73610709dfb60921091 Mon Sep 17 00:00:00 2001
++From: Kartik Kenchi <netliomax25@gmail.com>
++Date: Tue, 23 Jun 2026 15:51:06 +0530
++Subject: [PATCH] lib: reject UTF-16 high surrogate not followed by a low
++ surrogate
 +
-+Co-authored-by: Sebastian Pipping <sebastian@pipping.org>
-+
-+CVE: CVE-2026-76957
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/127b7d4beb8fe7e5ce5cb021c2e56379c95863d0]
++CVE: CVE-2026-93990
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/0cfd15bdf4b2c22d6b0df73610709dfb60921091]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ lib/xmlparse.c | 49 ++++++++++++++++++++++++++++++++++++++++---------
-+ 1 file changed, 40 insertions(+), 9 deletions(-)
++ lib/xmltok.c      | 53 ++++++++++++++++++++++++++++++++++++++++-------
++ lib/xmltok_impl.c |  4 ----
++ 2 files changed, 45 insertions(+), 12 deletions(-)
 +
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index e5242480..4f9dcbb6 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -771,6 +771,8 @@ struct XML_ParserStruct {
-+   void *m_unknownEncodingMem;
-+   void *m_unknownEncodingData;
-+   void *m_unknownEncodingHandlerData;
-++  // Application callback invoked by callUnknownEncodingConvert.
-++  int(XMLCALL *m_unknownEncodingConvert)(void *, const char *);
-+   void(XMLCALL *m_unknownEncodingRelease)(void *);
-+   PROLOG_STATE m_prologState;
-+   Processor *m_processor;
-+@@ -1193,6 +1195,25 @@ isCalledFromInsideHandler(XML_Parser parser) {
-+   return parser->m_handlerCallDepth > 0;
++diff --git a/lib/xmltok.c b/lib/xmltok.c
++index 8abb145e..5f4e78ec 100644
++--- a/lib/xmltok.c
+++++ b/lib/xmltok.c
++@@ -232,6 +232,19 @@ struct normal_encoding {
++       /* isNmstrt2 */ NULL, /* isNmstrt3 */ NULL, /* isNmstrt4 */ NULL,        \
++       /* isInvalid2 */ NULL, /* isInvalid3 */ NULL, /* isInvalid4 */ NULL
++ 
+++/* Like NULL_VTABLE but with a real isInvalid4 so the UTF-16 encodings reject a
+++   high surrogate that is not followed by a low surrogate.  Only needed for the
+++   XML_MIN_SIZE build, where the shared tokenizer dispatches through the vtable;
+++   the regular build inlines the same check via IS_INVALID_CHAR. */
+++#ifdef XML_MIN_SIZE
+++#  define UTF16_NULL_VTABLE(E)                                                 \
+++    /* isName2 */ NULL, /* isName3 */ NULL, /* isName4 */ NULL,                \
+++        /* isNmstrt2 */ NULL, /* isNmstrt3 */ NULL, /* isNmstrt4 */ NULL,      \
+++        /* isInvalid2 */ NULL, /* isInvalid3 */ NULL, E##isInvalid4
+++#else
+++#  define UTF16_NULL_VTABLE(E) NULL_VTABLE
+++#endif
+++
++ static int FASTCALL checkCharRefNumber(int result);
++ 
++ #include "xmltok_impl.h"
++@@ -749,6 +762,11 @@ DEFINE_UTF16_TO_UTF16(big2_)
++   UCS2_GET_NAMING(namePages, (unsigned char)p[1], (unsigned char)p[0])
++ #define LITTLE2_IS_NMSTRT_CHAR_MINBPC(p)                                       \
++   UCS2_GET_NAMING(nmstrtPages, (unsigned char)p[1], (unsigned char)p[0])
+++/* A 4-byte UTF-16 character is a surrogate pair; byteType only reports BT_LEAD4
+++   for a high surrogate, so the pair is invalid unless the second unit is a low
+++   surrogate (U+DC00..U+DFFF, i.e. high byte 0xDC..0xDF). */
+++#define LITTLE2_IS_INVALID_CHAR(p, n)                                          \
+++  ((n) == 4 && ((unsigned char)(p)[3] & 0xFC) != 0xDC)
++ 
++ #ifdef XML_MIN_SIZE
++ 
++@@ -781,6 +799,12 @@ little2_isNmstrtMin(const ENCODING *enc, const char *p) {
++   return LITTLE2_IS_NMSTRT_CHAR_MINBPC(p);
 + }
 + 
-++static void
-++callUnknownEncodingRelease(XML_Parser parser) {
-++  beforeHandler(parser);
-++  parser->m_unknownEncodingRelease(parser->m_unknownEncodingData);
-++  afterHandler(parser);
-++  parser->m_unknownEncodingRelease = NULL;
-++  parser->m_unknownEncodingData = NULL;
+++static int
+++little2_isInvalid4(const ENCODING *enc, const char *p) {
+++  UNUSED_P(enc);
+++  return LITTLE2_IS_INVALID_CHAR(p, 4);
 ++}
 ++
-++static int XMLCALL
-++callUnknownEncodingConvert(void *data, const char *p) {
-++  XML_Parser parser = data;
-++  beforeHandler(parser);
-++  const int result
-++      = parser->m_unknownEncodingConvert(parser->m_unknownEncodingData, p);
-++  afterHandler(parser);
-++  return result;
-++}
-++
-+ static enum XML_Error
-+ callProcessor(XML_Parser parser, const char *start, const char *end,
-+               const char **endPtr) {
-+@@ -1540,6 +1561,7 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
-+   parser->m_inheritedBindings = NULL;
-+   parser->m_nSpecifiedAtts = 0;
-+   parser->m_unknownEncodingMem = NULL;
-++  parser->m_unknownEncodingConvert = NULL;
-+   parser->m_unknownEncodingRelease = NULL;
-+   parser->m_unknownEncodingData = NULL;
-+   parser->m_parsingStatus.parsing = XML_INITIALIZED;
-+@@ -1620,7 +1642,7 @@ XML_ParserReset(XML_Parser parser, const XML_Char *encodingName) {
-+   moveToFreeBindingList(parser, parser->m_inheritedBindings);
-+   FREE(parser, parser->m_unknownEncodingMem);
-+   if (parser->m_unknownEncodingRelease)
-+-    parser->m_unknownEncodingRelease(parser->m_unknownEncodingData);
-++    callUnknownEncodingRelease(parser);
-+   poolClear(&parser->m_tempPool);
-+   poolClear(&parser->m_temp2Pool);
-+   FREE(parser, (void *)parser->m_protocolEncodingName);
-+@@ -1931,7 +1953,7 @@ XML_ParserFree(XML_Parser parser) {
-+   FREE(parser, parser->m_nsAtts);
-+   FREE(parser, parser->m_unknownEncodingMem);
-+   if (parser->m_unknownEncodingRelease)
-+-    parser->m_unknownEncodingRelease(parser->m_unknownEncodingData);
-++    callUnknownEncodingRelease(parser);
-+   FREE(parser, parser);
++ #  undef VTABLE
++ #  define VTABLE VTABLE1, little2_toUtf8, little2_toUtf16
++ 
++@@ -797,6 +821,7 @@ little2_isNmstrtMin(const ENCODING *enc, const char *p) {
++ #  define IS_NAME_CHAR_MINBPC(enc, p) LITTLE2_IS_NAME_CHAR_MINBPC(p)
++ #  define IS_NMSTRT_CHAR(enc, p, n) (0)
++ #  define IS_NMSTRT_CHAR_MINBPC(enc, p) LITTLE2_IS_NMSTRT_CHAR_MINBPC(p)
+++#  define IS_INVALID_CHAR(enc, p, n) LITTLE2_IS_INVALID_CHAR(p, n)
++ 
++ #  define XML_TOK_IMPL_C
++ #  include "xmltok_impl.c"
++@@ -828,7 +853,7 @@ static const struct normal_encoding little2_encoding_ns
++ #  include "asciitab.h"
++ #  include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(little2_) NULL_VTABLE};
+++       STANDARD_VTABLE(little2_) UTF16_NULL_VTABLE(little2_)};
++ 
++ #endif
++ 
++@@ -846,7 +871,7 @@ static const struct normal_encoding little2_encoding
++ #undef BT_COLON
++ #include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(little2_) NULL_VTABLE};
+++       STANDARD_VTABLE(little2_) UTF16_NULL_VTABLE(little2_)};
++ 
++ #if BYTEORDER != 4321
++ 
++@@ -858,7 +883,7 @@ static const struct normal_encoding internal_little2_encoding_ns
++ #    include "iasciitab.h"
++ #    include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(little2_) NULL_VTABLE};
+++       STANDARD_VTABLE(little2_) UTF16_NULL_VTABLE(little2_)};
++ 
++ #  endif
++ 
++@@ -870,7 +895,7 @@ static const struct normal_encoding internal_little2_encoding
++ #  undef BT_COLON
++ #  include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(little2_) NULL_VTABLE};
+++       STANDARD_VTABLE(little2_) UTF16_NULL_VTABLE(little2_)};
++ 
++ #endif
++ 
++@@ -882,6 +907,11 @@ static const struct normal_encoding internal_little2_encoding
++   UCS2_GET_NAMING(namePages, (unsigned char)p[0], (unsigned char)p[1])
++ #define BIG2_IS_NMSTRT_CHAR_MINBPC(p)                                          \
++   UCS2_GET_NAMING(nmstrtPages, (unsigned char)p[0], (unsigned char)p[1])
+++/* A 4-byte UTF-16 character is a surrogate pair; byteType only reports BT_LEAD4
+++   for a high surrogate, so the pair is invalid unless the second unit is a low
+++   surrogate (U+DC00..U+DFFF, i.e. high byte 0xDC..0xDF). */
+++#define BIG2_IS_INVALID_CHAR(p, n)                                             \
+++  ((n) == 4 && ((unsigned char)(p)[2] & 0xFC) != 0xDC)
++ 
++ #ifdef XML_MIN_SIZE
++ 
++@@ -914,6 +944,12 @@ big2_isNmstrtMin(const ENCODING *enc, const char *p) {
++   return BIG2_IS_NMSTRT_CHAR_MINBPC(p);
 + }
 + 
-+@@ -4965,25 +4987,34 @@ handleUnknownEncoding(XML_Parser parser, const XML_Char *encodingName) {
-+     const int status = parser->m_unknownEncodingHandler(
-+         parser->m_unknownEncodingHandlerData, encodingName, &info);
-+     afterHandler(parser);
+++static int
+++big2_isInvalid4(const ENCODING *enc, const char *p) {
+++  UNUSED_P(enc);
+++  return BIG2_IS_INVALID_CHAR(p, 4);
+++}
 ++
-++    parser->m_unknownEncodingRelease = info.release;
-++    parser->m_unknownEncodingData = info.data;
-++
-+     if (status) {
-+       ENCODING *enc;
-+       parser->m_unknownEncodingMem = MALLOC(parser, XmlSizeOfUnknownEncoding());
-+       if (! parser->m_unknownEncodingMem) {
-+-        if (info.release)
-+-          info.release(info.data);
-++        if (parser->m_unknownEncodingRelease)
-++          callUnknownEncodingRelease(parser);
-++        else
-++          parser->m_unknownEncodingData = NULL;
-+         return XML_ERROR_NO_MEMORY;
-+       }
-++      parser->m_unknownEncodingConvert = info.convert;
-+       enc = (parser->m_ns ? XmlInitUnknownEncodingNS : XmlInitUnknownEncoding)(
-+-          parser->m_unknownEncodingMem, info.map, info.convert, info.data);
-++          parser->m_unknownEncodingMem, info.map,
-++          info.convert ? callUnknownEncodingConvert : NULL, parser);
-+       if (enc) {
-+-        parser->m_unknownEncodingData = info.data;
-+-        parser->m_unknownEncodingRelease = info.release;
-+         parser->m_encoding = enc;
-+         return XML_ERROR_NONE;
-+       }
-++      parser->m_unknownEncodingConvert = NULL;
-+     }
-+-    if (info.release != NULL)
-+-      info.release(info.data);
-++    if (parser->m_unknownEncodingRelease != NULL)
-++      callUnknownEncodingRelease(parser);
-++    else
-++      parser->m_unknownEncodingData = NULL;
-+   }
-+   return XML_ERROR_UNKNOWN_ENCODING;
-+ }
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-76957-02.patch b/meta/recipes-core/expat/expat/CVE-2026-76957-02.patch
++ #  undef VTABLE
++ #  define VTABLE VTABLE1, big2_toUtf8, big2_toUtf16
++ 
++@@ -930,6 +966,7 @@ big2_isNmstrtMin(const ENCODING *enc, const char *p) {
++ #  define IS_NAME_CHAR_MINBPC(enc, p) BIG2_IS_NAME_CHAR_MINBPC(p)
++ #  define IS_NMSTRT_CHAR(enc, p, n) (0)
++ #  define IS_NMSTRT_CHAR_MINBPC(enc, p) BIG2_IS_NMSTRT_CHAR_MINBPC(p)
+++#  define IS_INVALID_CHAR(enc, p, n) BIG2_IS_INVALID_CHAR(p, n)
++ 
++ #  define XML_TOK_IMPL_C
++ #  include "xmltok_impl.c"
++@@ -961,7 +998,7 @@ static const struct normal_encoding big2_encoding_ns
++ #  include "asciitab.h"
++ #  include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(big2_) NULL_VTABLE};
+++       STANDARD_VTABLE(big2_) UTF16_NULL_VTABLE(big2_)};
++ 
++ #endif
++ 
++@@ -979,7 +1016,7 @@ static const struct normal_encoding big2_encoding
++ #undef BT_COLON
++ #include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(big2_) NULL_VTABLE};
+++       STANDARD_VTABLE(big2_) UTF16_NULL_VTABLE(big2_)};
++ 
++ #if BYTEORDER != 1234
++ 
++@@ -991,7 +1028,7 @@ static const struct normal_encoding internal_big2_encoding_ns
++ #    include "iasciitab.h"
++ #    include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(big2_) NULL_VTABLE};
+++       STANDARD_VTABLE(big2_) UTF16_NULL_VTABLE(big2_)};
++ 
++ #  endif
++ 
++@@ -1003,7 +1040,7 @@ static const struct normal_encoding internal_big2_encoding
++ #  undef BT_COLON
++ #  include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(big2_) NULL_VTABLE};
+++       STANDARD_VTABLE(big2_) UTF16_NULL_VTABLE(big2_)};
++ 
++ #endif
++ 
++diff --git a/lib/xmltok_impl.c b/lib/xmltok_impl.c
++index b7a9b5eb..3cc9e5ab 100644
++--- a/lib/xmltok_impl.c
+++++ b/lib/xmltok_impl.c
++@@ -44,10 +44,6 @@
++ 
++ #ifdef XML_TOK_IMPL_C
++ 
++-#  ifndef IS_INVALID_CHAR // i.e. for UTF-16 and XML_MIN_SIZE not defined
++-#    define IS_INVALID_CHAR(enc, ptr, n) (0)
++-#  endif
++-
++ #  define INVALID_LEAD_CASE(n, ptr, nextTokPtr)                                \
++   case BT_LEAD##n:                                                             \
++     if (end - ptr < n)                                                         \
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-93990-02.patch b/meta/recipes-core/expat/expat/CVE-2026-93990-02.patch
 new file mode 100644
-index 0000000000..827499958a
+index 0000000000..25e38e3956
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-76957-02.patch
-@@ -0,0 +1,85 @@
-+From acbd2e1179c04fe9a8c3f3837701904d05de71fc Mon Sep 17 00:00:00 2001
-+From: Darren Carreras <carrerasdarren@gmail.com>
-+Date: Mon, 17 Aug 2026 21:19:12 -0400
-+Subject: [PATCH] Test custom encoding callback reentry protection
++++ b/meta/recipes-core/expat/expat/CVE-2026-93990-02.patch
+@@ -0,0 +1,328 @@
++From 28fcfba540f6933aa8904a1514c4811713d2ab72 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Thu, 17 Sep 2026 15:12:43 +0200
++Subject: [PATCH] tests: Cover UTF-16 decoding of surrogates
 +
-+CVE: CVE-2026-76957
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/acbd2e1179c04fe9a8c3f3837701904d05de71fc]
++Co-authored-by: Kartik Kenchi <netliomax25@gmail.com>
++
++CVE: CVE-2026-93990
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/28fcfba540f6933aa8904a1514c4811713d2ab72]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ tests/misc_tests.c | 55 ++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 55 insertions(+)
++ tests/basic_tests.c | 296 ++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 296 insertions(+)
 +
-+diff --git a/tests/misc_tests.c b/tests/misc_tests.c
-+index 82b4b54b..04538c25 100644
-+--- a/tests/misc_tests.c
-++++ b/tests/misc_tests.c
-+@@ -839,6 +839,60 @@ START_TEST(test_misc_resume_parser_forbidden_from_handler) {
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index dd0494ce..92172a27 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -1845,6 +1845,301 @@ START_TEST(test_utf16_bad_surrogate_pair) {
 + }
 + END_TEST
 + 
-++typedef struct {
-++  XML_Parser parser;
-++  int converterCallCount;
-++  int releaseCallCount;
-++} EncodingCallbackData;
+++// Helper that creates a UTF-16LE copy of UTF-16BE literal input and vice versa
+++static char *
+++utf16_dup_flipped(const char *text, size_t lenBytes) {
+++  assert_true(lenBytes < SIZE_MAX);
+++  assert_true(lenBytes % 2 == 0);
+++  char *const buffer = malloc(lenBytes + 1);
+++  assert_true(buffer != NULL);
 ++
-++static int XMLCALL
-++reentrant_encoding_converter(void *userData, const char *s) {
-++  EncodingCallbackData *const data = userData;
-++  UNUSED_P(s);
-++  data->converterCallCount++;
-++  forbidden_calls_character_handler(data->parser, NULL, 0);
-++  return 'A';
+++  for (size_t i = 0; i < lenBytes; i++) {
+++    // This maps 0 -> 1, 1 -> 0, 2 -> 3, 3 -> 2, 4 -> 5, ..
+++    size_t j = i + ((i % 2 == 0) ? +1 : -1);
+++    assert_true(j < lenBytes);
+++    buffer[j] = text[i];
+++  }
+++
+++  buffer[lenBytes] = '\0';
+++
+++  return buffer;
 ++}
 ++
-++static void XMLCALL
-++reentrant_encoding_release(void *userData) {
-++  EncodingCallbackData *const data = userData;
-++  data->releaseCallCount++;
-++  forbidden_calls_character_handler(data->parser, NULL, 0);
-++}
+++/* Tests that invalid combinations of surrogates are detected when decoding
+++   UTF-16, both little-endian and big-endian.
+++   Previously, a high surrogate not followed by a low surrogate slipped
+++   through.  Without validation the high would consume the next
+++   code unit as a fake low, hiding e.g. a following '<' from the
+++   tokenizer. */
+++START_TEST(test_utf16_surrogate_pairs) {
+++  struct TestCase {
+++    const char *idea;
+++    const char *content;
+++    bool expectedSuccess;
+++  };
 ++
-++static int XMLCALL
-++reentrant_encoding_handler(void *userData, const XML_Char *name,
-++                           XML_Encoding *info) {
-++  EncodingCallbackData *const data = userData;
-++  UNUSED_P(name);
+++  struct TestCase testCases[] = {
+++      // Group {smallest high - 1}{*}
+++      {"{smallest high - 1}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{smallest high - 1}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high - 1}{largest high}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high - 1}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high - 1}{largest low}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high - 1}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       true},
+++      // Group {smallest high}{*}
+++      {"{smallest high}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high}{largest high}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{smallest high}{largest low}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{smallest high}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      // Group {largest high}{*}
+++      {"{largest high}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest high}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest high}{largest high}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest high}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{largest high}{largest low}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{largest high}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      // Group {smallest low}{*}
+++      {"{smallest low}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{largest high}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{largest low}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      // Group {largest low}{*}
+++      {"{largest low}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{largest high}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{largest low}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      // Group {largest low + 1}{*}
+++      {"{largest low + 1}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{largest low + 1}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low + 1}{largest high}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low + 1}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low + 1}{largest low}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low + 1}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       true},
+++  };
 ++
-++  for (int i = 0; i < 256; i++)
-++    info->map[i] = i;
-++  info->map[0x80] = -2; // Route byte 0x80 through the custom converter.
-++  info->data = data;
-++  info->convert = reentrant_encoding_converter;
-++  info->release = reentrant_encoding_release;
-++  return XML_STATUS_OK;
-++}
+++  for (size_t i = 0; i < sizeof(testCases) / sizeof(testCases[0]); i++) {
+++    set_subtest("%s", testCases[i].idea);
 ++
-++START_TEST(test_misc_unknown_encoding_callbacks_protected) {
-++  const char *const doc
-++      = "<?xml version='1.0' encoding='reentrant-conv'?><doc>\x80\x80</doc>";
-++  XML_Parser parser = XML_ParserCreate(NULL);
-++  EncodingCallbackData data = {parser, 0, 0};
-++  XML_SetUnknownEncodingHandler(parser, reentrant_encoding_handler, &data);
+++    const int lenBytes = /*<a>*/ 6 + /*first*/ 2 + /*second*/ 2 + /*</a>*/ 8;
+++    const bool expectedSuccess = testCases[i].expectedSuccess;
+++    const enum XML_Status expectedStatus
+++        = (expectedSuccess ? XML_STATUS_OK : XML_STATUS_ERROR);
 ++
-++  assert_true(XML_Parse(parser, doc, (int)strlen(doc), /*isFinal=*/XML_TRUE)
-++              == XML_STATUS_OK);
-++  assert_true(data.converterCallCount > 0);
-++  assert_true(data.releaseCallCount == 0); // Released by XML_ParserFree below.
+++    const char *const bigEndian = testCases[i].content;
+++    char *const littleEndian = utf16_dup_flipped(bigEndian, lenBytes);
+++    assert_true(littleEndian != NULL);
+++    const char *endianCases[] = {bigEndian, littleEndian};
 ++
-++  XML_ParserFree(parser);
-++  assert_true(data.releaseCallCount == 1);
+++    for (size_t j = 0; j < sizeof(endianCases) / sizeof(endianCases[0]); j++) {
+++      const char *text = endianCases[j];
+++
+++      assert_true(text[lenBytes] == '\0'); // self-test
+++      assert_true((text[0] == '\0')
+++                  != (text[lenBytes - 1] == '\0')); // self-test
+++
+++      XML_Parser parser = XML_ParserCreate(NULL);
+++      assert_true(parser != NULL);
+++
+++      assert_true(_XML_Parse_SINGLE_BYTES(parser, text, lenBytes, XML_TRUE)
+++                  == expectedStatus);
+++      if (! expectedSuccess) {
+++        assert_true(XML_GetErrorCode(parser) == XML_ERROR_INVALID_TOKEN);
+++      }
+++
+++      XML_ParserFree(parser);
+++    }
+++
+++    free(littleEndian);
+++  }
 ++}
 ++END_TEST
 ++
-+ // General attack payload idea by Jason Kratzer of Mozilla
-+ START_TEST(test_misc_low_surrogate_mozilla_bug_2053153) {
-+   const char doc_before[] = "<\0!\0D\0O\0C\0T\0Y\0P\0E\0 \0d\0 \0[\0\n\0"
-+@@ -936,6 +990,7 @@ make_miscellaneous_test_case(Suite *s) {
-+   tcase_add_test(tc_misc, test_misc_no_infinite_loop_issue_1161);
-+   tcase_add_test(tc_misc, test_misc_calls_forbidden_from_handlers);
-+   tcase_add_test(tc_misc, test_misc_resume_parser_forbidden_from_handler);
-++  tcase_add_test(tc_misc, test_misc_unknown_encoding_callbacks_protected);
-+   tcase_add_test(tc_misc, test_misc_input_2gb);
-+   tcase_add_test(tc_misc, test_misc_low_surrogate_mozilla_bug_2053153);
-+ }
++ START_TEST(test_bad_cdata) {
++   struct CaseData {
++     const char *text;
++@@ -6711,6 +7006,7 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_long_cdata_utf16);
++   tcase_add_test(tc_basic, test_multichar_cdata_utf16);
++   tcase_add_test(tc_basic, test_utf16_bad_surrogate_pair);
+++  tcase_add_test(tc_basic, test_utf16_surrogate_pairs);
++   tcase_add_test(tc_basic, test_bad_cdata);
++   tcase_add_test(tc_basic, test_bad_cdata_utf16);
++   tcase_add_test(tc_basic, test_stop_parser_between_cdata_calls);
 diff --git a/meta/recipes-core/expat/expat_2.8.3.bb b/meta/recipes-core/expat/expat_2.8.3.bb
-index c3c9f73845..c9a1c9b18e 100644
+index c9a1c9b18e..6d08a3fd94 100644
 --- a/meta/recipes-core/expat/expat_2.8.3.bb
 +++ b/meta/recipes-core/expat/expat_2.8.3.bb
-@@ -14,6 +14,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-66046-02.patch \
-            file://CVE-2026-76641.patch \
+@@ -16,6 +16,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
             file://CVE-2026-76956.patch \
-+           file://CVE-2026-76957-01.patch \
-+           file://CVE-2026-76957-02.patch \
+            file://CVE-2026-76957-01.patch \
+            file://CVE-2026-76957-02.patch \
++           file://CVE-2026-93990-01.patch \
++           file://CVE-2026-93990-02.patch \
             "
  
  GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
