@@ -1,180 +1,117 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <andrej.kozemcak@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEEFCA5FED
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 07:35:07 +0000 (UTC)
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40086.1791272099515232433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95808CA5FED
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 09:07:08 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.41211.1791277623840091861
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 00:34:59 -0700
+ Tue, 06 Oct 2026 02:07:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=Crha3lVi;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=f8+G4kOs;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.158, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B02037A00AB
-	for <openembedded-core@lists.openembedded.org>; Tue,  6 Oct 2026 03:34:58 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Tue, 06 Oct 2026 03:34:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1791272098;
-	 x=1791358498; bh=H7k8Bppkk6yDDhR59LUhR4GVysIhX79gEIZHKiSJL/k=; b=
-	Crha3lViI9rNPLmruCGcjBxuW31JRNOM2pBWPlyr9xXtyoTjBOdzl7v9l6OXNQkm
-	BWn3MPPhp9x3U6i2lJjdrs/2ThU9fSqCkfYhCcWDxiSFREYS4FTVbOhwdKS4LRgE
-	VtmO8n8XSZMDvspj2N+yvD6ssVnu9DW6B3ZwPJXpepuyDrCrVF5gs5eABl23Dhtm
-	tEyGjlxXqKNgFQ8gnnDTmQ8qw/DV2PBbQ0d4LKzyy7Mnu+P4ci9beMYZFFzixAvg
-	vOhJC+ecy3/H7xVrOENv8LRe5bXhdfHlPyY2/QIs2QrglTtztpelERcfLYklDFhC
-	BD5CeW8SyiaMta7DMIAjeQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1791272098; x=1791358498; bh=H
-	7k8Bppkk6yDDhR59LUhR4GVysIhX79gEIZHKiSJL/k=; b=f8+G4kOsdkeeZViEJ
-	7LuONBwxZ0B4ZYGPMoM9AyldZpOtJhzZ7MMH1zKGkm6yRSIdPCWfePeL2HbKvchr
-	RcH39zPj9RLpGC8KhQ/Y6xq5xhv4dMsS7E38T3i5QDJiyOenvbv+6b8ldtGFtzbN
-	xbDjzDWwYlzqAh//RWX89YF2b6INbQC3+c5WU/7Izw3NQnchg+PGXH7oCpRvfAZW
-	d3bwcIje8OyJCMO7dOwqSozPnGYZLOEJ/b5mkz0cCN8U2UTcsQ1PvKlzvcZqeVVw
-	4lIkTUx4lJzuObs3sARUNNcWRo55RQPVGzJLqGhZreKtQnjAqkczFlAnd/FiEwDe
-	S7HJg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1791272098; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm3:rsa-sha256:BsbVDJhN9ADQR8sG0gU4QnEsi8s9N4TzHsQ6fuaipRzkR/p
-	YEf9xNBB6Ppg5cZ1Ko7AqYcZbnb+pITPdL9kfHfpVoZgjPPYdmFxotJKsM1Cd+k/
-	UaiQoa/sAAxW5M3HPgc0bZpboP5D9oQ5hgtNBBOMV2jbGPOZY/AUH6RlrIc1lOID
-	QTixhFhfwHgE02gJWOPwD6sH+sYsAE4mjkPLVkjfda2M1W7qBLvndvij2fJun3gm
-	UGm69+qgq9IoruTZJm+HniOK4wgvwAhc+TuVGryCwVsejnHFdlXtCdvur6gom/q1
-	dRRdP57WYQrAFa7d4kSiUUTVsGIIkG8v3Seuuaw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=content-transfer-encoding,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:HNUNSZyIMA0zr8dTOllPwnNUk+IkIsMrHMDUKj1mKnY=:SSjVFf5JtOmrn5ZCLn+D+pnmfkSXu6tXPxX0RoGzzK8=;
-X-ME-Sender: <xms:oqTEahKX021rnT8D4ezk3BYIlW1l6IKvOgT-QI0i2CJrRayKekLLGw>
-    <xme:oqTEajIe_ZXhFdXqSrrOSrvdJTnVdokT2ggUwKWbyL1L_U44PFiSN0HSW2LXgKAJ2
-    -j0OtPJy8VNdhZ11tiJwwNm-48X3dm5tw-MlghWaWdGZXhqUY6XuqO5>
-X-ME-Received: <xmr:oqTEanW9R6wwBvG8eYKqFgV7bo-OCKOa3NunkuYYDx_SP7XDARM4b7C1xhbXeH-e>
-X-ME-Proxy-Cause: dmFkZTG1haycvHgT/JNIq84gdHy09LzgjsMuQ4c/25FeHMyqFRTGAj7Bhx2owcN39rHpGL
-    Zd+x9buqvSFY4YnRADRVSS7eBUHdXScxrLA3Gi12TiAdYgab8Gx/YKruoCdU6WUwY5CSHv
-    KsguRBhvq0WI0gG3caX8UFqu5tH0zbXhS8kvmcSKWhLNixZFECMo3/AjZvi4YxoqZQn0ky
-    ypdEAcNz4bqJUZp1M72sHh+so+7rjSCeANayW1chVKpw+VUcjqkWxaEBKZygt8ks7dOn/9
-    vt0oLhs9Kg4UpA1rhn16ayHAiuHfCX2jgtivi/Rc2BP6MceDvlfkScc3+S1EY5ne1ClIn1
-    A3ZHOjLHnyQsiSAPbyfA0HHu7prj4OApaQcMzPEPqCyksr8kcHn2DR2thPrGcq2Tjj0KyR
-    q2ulFpypdYznrBB8LOcmKxptLAR4y+8WabYY2zbOlME90voWbrlQA3i63M2Ma5xxh0+tOv
-    TPenXy+q1QpyR6Oxiiq85biqyKBmSku1uIslb1WUBE1duSB2sBtkq/blznV5kKRjzrWhyk
-    BtVRT+6wL2inryAmu4Wi5gnct8IVG9ti6BsJ0k91aPuc7lKcLbZw7CxK2+szte0TIDrpAI
-    caazdqoeg9g9kzQf4IGVHH0auHXAn7Vscqs/qV4ecJbXkH2pRSpi/66BDpPQ
-X-ME-Proxy: <xmx:oqTEatgReRTaTJ3yllCUpPBlFvZXTLWLOcSQT9pfUcND62211CuKSg>
-    <xmx:oqTEaq8meyosqpL-4p5JGh2SVzXn5WzSGEqpUvtDlbutCX1D2pIcYw>
-    <xmx:oqTEavCdHMQgFgyPd6ZfFINUOGXhIA_x-3dxrJi2ZFL7FAfvZuyK7g>
-    <xmx:oqTEavKR6crdKcXxgBDUozuQEpGrK3V8L1q9noBX4cKNGhBsCd-v_Q>
-    <xmx:oqTEaqQFbO6LL2Yk7AX2Gmc76o25psNhgA0G2A2mAlVpPcjpvQnJQE_J>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Oct 2026 03:34:57 -0400 (EDT)
-Message-ID: <9ecab349757517b9cc7e9997e3e292325d945b2d.camel@pbarker.dev>
-Subject: Re: [PATCH v3] systemd: Upgrade 261.3 -> 262
-From: Paul Barker <paul@pbarker.dev>
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 06 Oct 2026 08:34:54 +0100
-In-Reply-To: <20261001075039.4339-1-jaipaul.cheernam@est.tech>
-References: <20260928113956.42485-2-jaipaul.cheernam@est.tech>
-	 <20261001075039.4339-1-jaipaul.cheernam@est.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=andrej.kozemcak@siemens.com header.s=fm1 header.b=Lz/6g3Ke;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1334352-20261006090700662e405645000207a3-anrhur@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261006090700662e405645000207a3
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 06 Oct 2026 11:07:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=andrej.kozemcak@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=mRSz5ylX5CGPTOFyK+qVYVOACV4jSCND9fnhgNogows=;
+ b=Lz/6g3KezJAFlANmhqj85U8U1mSXJYxo/5e8P8ULDthWubnrNcgOaN0MjJjuzeoqaFrIur
+ cd1JSqhpfMGdmGjKvuWUBzeIWOh+YkQ2esofYasg3mAhMtEvSHjxY3lFBxPuhogMt6kXbeOF
+ /Ui6DMFHZSQdMJOfROmtoEtWIot2c6iJGvfgNcZ/K2hEhQWKfPDkbqNIPP1BHQMH4J42cOjx
+ m3OwwL4wKeHZFpPW4DnxP42CTi027ufCdOyEl2Gd5LgB882tbOeHFalGKjowHKHaqNads5ha
+ ES/ho1XygPGdyjf3XKHpw3M6f1hELksDRX8tadrH2si+Sznd5q5Z5Hfg==;
+From: Andrej Kozemcak <andrej.kozemcak@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Andrej Kozemcak <andrej.kozemcak@siemens.com>
+Subject: [PATCH v2 1/3] qemu: enable pseudo for nfs rootfs export
+Date: Tue,  6 Oct 2026 11:06:52 +0200
+Message-ID: <20261006090654.3445576-1-andrej.kozemcak@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1334352:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 07:35:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247276
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 09:07:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247279
 
-On Thu, 2026-10-01 at 09:50 +0200, Jaipaul Cheernam wrote:
-> NEWS: https://github.com/systemd/systemd/blob/v262-stable/NEWS#L3-L877
->=20
-> - Refresh patches for v262
-> - Drop deprecated meson build options [1]
-> - Drop 0001-include-fix-limits.h-override.patch [2]
-> - Add rules: install 60-persistent-media-controller.rules [3]
-> - Gate systemd-coredumpd.service on kernel >=3D 6.19
->=20
->   262's systemd-coredumpd.service needs PIDFD_INFO_COREDUMP_SIGNAL (Linux
->   6.19); on older kernels its ExecCondition fails and the unit flaps into
->   start-limit-hit, failing test_systemd_failed on qemu*-alt (6.18). Add a
->   ConditionKernelVersion=3D>=3D6.19 drop-in so it is skipped on 6.18 and =
-active
->   on 7.2. Upstream report: [4]
->=20
-> [1] https://github.com/systemd/systemd/blob/v262-stable/NEWS#L41
-> [2] https://github.com/systemd/systemd/commit/6a131b32e0fe948e845ae4bf41f=
-8fed003ec30ce
-> [3] https://github.com/systemd/systemd/commit/d153b49473
-> [4] https://github.com/systemd/systemd/issues/43963
->=20
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Testimage.bbclass can now boot from nfs, but pseudo is globally
+disabled by default in the environment. This corrupts file access
+rights when qemu boots from nfs, causing failures. Explicitly
+enable pseudo in runqemu-export-rootfs since it is required here.
+Explicitly enable pseudo during rootfs extraction so an inherited
+PSEUDO_DISABLED=1 does not lose archive ownership before NFS export.
 
-> diff --git a/meta/recipes-core/systemd/systemd/coredumpd-kernel-version.c=
-onf b/meta/recipes-core/systemd/systemd/coredumpd-kernel-version.conf
-> new file mode 100644
-> index 00000000000..dcc23825f42
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/coredumpd-kernel-version.conf
-> @@ -0,0 +1,14 @@
-> +# systemd 262's kernel coredump socket manager (systemd-coredumpd.servic=
-e)
-> +# requires the PIDFD_INFO_COREDUMP_SIGNAL pidfd flag, added in Linux 6.1=
-9
-> +# (PIDFD_INFO_COREDUMP itself is from 6.16). Its ExecCondition
-> +# (systemd-coredump --check-requirements) fails on older kernels, and co=
-mbined
-> +# with Restart=3Don-failure and the Upholds=3D relationship the unit fla=
-ps into
-> +# start-limit-hit instead of being skipped, which fails the systemd runt=
-ime
-> +# tests. OE-Core ships both linux-yocto 6.18 (< 6.19) and 7.2 (>=3D 6.19=
-), so
-> +# gate activation on the kernel version at runtime: this keeps coredumpd=
- active
-> +# on 7.2 while cleanly skipping it on 6.18. A ConditionKernelVersion=3D =
-failure is
-> +# a clean skip and does not trigger the restart/start-limit escalation.
-> +# The per-coredump systemd-coredump@.service path remains available on a=
-ll kernels.
-> +# Upstream report: https://github.com/systemd/systemd/issues/43963
-> +[Unit]
-> +ConditionKernelVersion=3D>=3D6.19
+Also export OECORE_NATIVE_SYSROOT from qemurunner so
+runqemu-export-rootfs can locate pseudo without needing a second
+tinfoil connection.
 
-Hi Jaipaul,
+Skip the snapshot tmpfs copy for NFS rootfs directories, which cannot
+be copied as disk-image files.
 
-Thanks for the patch!
+Signed-off-by: Andrej Kozemcak <andrej.kozemcak@siemens.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py  | 4 ++++
+ scripts/lib/pseudo_rootfs_utils.py | 1 +
+ scripts/runqemu                    | 2 +-
+ scripts/runqemu-export-rootfs      | 2 ++
+ 4 files changed, 8 insertions(+), 1 deletion(-)
 
-The comment here needs a little re-work, it's too long and verbose. It
-also references specific kernel recipe versions which will change
-regularly, and this patch might not be looked at again until after the
-comment becomes out-of-date.
-
-We should also keep this conf file even when OE-core stops shipping
-Linux 6.18 because BSP layers may continue using older kernel versions
-for a while longer.
-
-I think just keeping the first sentence of this comment is probably
-enough detail.
-
-Best regards,
-
---=20
-Paul Barker
-
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 5979b52650..1a83c01ea8 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -166,6 +166,10 @@ class QemuRunner:
+         if self.tmpfsdir:
+             env["RUNQEMU_TMPFS_DIR"] = self.tmpfsdir
+ 
++        if self.native_sysroot:
++            # Needed by runqemu-export-rootfs (avoid a second tinfoil connection)
++            env["OECORE_NATIVE_SYSROOT"] = self.native_sysroot
++
+         if not launch_cmd:
+             launch_cmd = 'runqemu %s' % ('snapshot' if discard_writes else '')
+             if self.use_kvm:
+diff --git a/scripts/lib/pseudo_rootfs_utils.py b/scripts/lib/pseudo_rootfs_utils.py
+index 12431e2080..e539a69f82 100644
+--- a/scripts/lib/pseudo_rootfs_utils.py
++++ b/scripts/lib/pseudo_rootfs_utils.py
+@@ -97,6 +97,7 @@ def extract_sdk_rootfs(rootfs_tarball, rootfs_dir, pseudo_cmd, environment):
+     environment = dict(environment)
+     environment['PSEUDO_LOCALSTATEDIR'] = state_dir
+     environment['PSEUDO_INCLUDE_PATHS'] = rootfs_dir
++    environment['PSEUDO_DISABLED'] = '0'
+ 
+     command = list(pseudo_cmd) + ['tar', '-C', rootfs_dir] + tar_options + [rootfs_tarball]
+     print('Extracting rootfs tarball using pseudo...')
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 2c126e7f54..74a00e5481 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1289,7 +1289,7 @@ to your build configuration.
+         rootfs_format = self.fstype if self.fstype in ('vmdk', 'vhd', 'vhdx', 'qcow2', 'vdi') else 'raw'
+ 
+         tmpfsdir = os.environ.get("RUNQEMU_TMPFS_DIR", None)
+-        if self.snapshot and tmpfsdir:
++        if self.snapshot and tmpfsdir and self.fstype != 'nfs':
+             newrootfs = os.path.join(tmpfsdir, os.path.basename(self.rootfs)) + "." + str(os.getpid())
+             logger.info("Copying rootfs to %s" % newrootfs)
+             copy_start = time.time()
+diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
+index 150513bc50..ff19a0ccc9 100755
+--- a/scripts/runqemu-export-rootfs
++++ b/scripts/runqemu-export-rootfs
+@@ -58,6 +58,8 @@ PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/../$(basename $NFS_EXPORT_DIR).pseudo_stat
+ export PSEUDO_LOCALSTATEDIR
+ PSEUDO_INCLUDE_PATHS="$NFS_EXPORT_DIR"
+ export PSEUDO_INCLUDE_PATHS
++# Enable pseudo
++export PSEUDO_DISABLED=0
+ 
+ if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
+ 	echo "Error: $PSEUDO_LOCALSTATEDIR does not exist."
 
