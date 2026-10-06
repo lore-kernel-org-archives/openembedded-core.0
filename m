@@ -2,62 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45155CA6006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 065D6CA5FED
 	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 15:46:29 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.48816.1791301586968510016
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.48857.1791301585705392765
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 08:46:27 -0700
+ Tue, 06 Oct 2026 08:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=hmUEgS5M;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48c02782159so622866f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 08:46:26 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Nu6ng5DJ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48b9d8055dfso2537755f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 08:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791301585; x=1791906385; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791301584; x=1791906384; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=aHtDJI288n0Hdx6XHTei6JPoGcaa1Vkz9RTqqFkTDYw=;
-        b=hmUEgS5Mnae09h/+EnjoEstwOH4/y3T6GGCXroyXtvYV0ZxiErKyAxCDTaM533nRO2
-         F9KWxjUBBmSJ+aHS2s7po0KIIbwd1QYH4wkdNld6ZLNJAUt2uv41aQcJ/2e5L7Zmapuz
-         tj26a5sKzuRMWr5MOVJ8v6jTCWmG3qrge2bJo=
+        bh=xCRhsY71gjJ5dAgtOVLKWNP4MsZKd0z+wCZ+mR6CTlQ=;
+        b=Nu6ng5DJw/sF/ydAIhS7SEy67VqADAqle4+n7jEN+zTMc597Z0erjqC6vQIndYXkgZ
+         JG+umJ9R/wpD1Bqw4iusnvzelLnN3T0MHInCRrlRtIqxnvfPnVxIZ/hVYuzG1L2eV7VB
+         KRhqMB/BXr9uVd/nc6C7VsX3fdhj/dG3Yr/9Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791301585; x=1791906385;
+        d=1e100.net; s=20260707; t=1791301584; x=1791906384;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=aHtDJI288n0Hdx6XHTei6JPoGcaa1Vkz9RTqqFkTDYw=;
-        b=pXDXq5sp2o+gRje2TcC7yH3ICXkcIPvC0kGSj9XWurdck9g9Z9019FlPe6dKXkhXl2
-         y+x+seaSvvPSJA8Bp7N+EG9KU9z8WhXmXoSCpGsOJcLYcAuICnwCR10h748Tc4GwNQF8
-         WWnG94jB6wAGDF6Oyu9mwZArTgez/VHaQ7ztHqtLVHVlGZvZXKQAuH2v9+tcpiXn9YsP
-         skZyYU0pO7jOhgaJ8ySlGnQ39QduHWj8lJyyYOp2RJwUd0/AhObDeMTWuzSyFn0gBs/2
-         JXPjQCBuika4VPGuLnzOdH5Pj4IgDW7rWlYPNphUNwDnNGs/o57EhDbKvPAMog+LwzuD
-         TB6Q==
-X-Gm-Message-State: AFq9FYKCVn9o6K+4QMaAR5O5gGOVkWEn3S07KlEwcqqaspegSdKGuV1z
-	697vd2hrCcvvNf6sDgBT1baUfA84M1UF+dGgA9QyrffbG97XQmNny5G1p1xXU6PqMMWqItiCKbW
-	bbAq2X3g=
-X-Gm-Gg: AYBFou0SjwoGlLvA847KFs6Gw5OTzX7Ez0IbyNBUxbNfEYnJOE6u0d18jnbhxpXUeUe
-	zcbw3T+l6Ojhw59tmSnaXPymGaHgHhBzXaOq42o5q9XUfzy7N4H356Y3Cl/Jm8zdaHJ7aGP3Rwb
-	axd1mXLnP2GfxlkdHBSCohVmnmfQwyMcTKgfsN5LV8I8pHro/INKLISzhhuRJTi4YGbTk/aX5AX
-	Kx3WDGkTtsJy0GR+Hmm/Fk7CA/j87Eniu5EtVtwAIv2CDTdqsysOp+7NULLgyAQosjBxzN54dy4
-	LyDb/DtZU9HLq2gLtvViPKMsR5FoI9oMMIIJjY1GqsAO9nwkW4XD83TEcW7p8ZOv4wXZURz41Fq
-	W0UGt5QqK5AUREhjjtcDKbcKohaC46CDW+qDWjXjYhth73xSDxQL86v313/co4tzZm7W17waF48
-	/bKUUQBFOV3ubScybl2rmCL0znSlETWXsM7iQ2RTx1vStMJvBGiZH/Vdws0gg1Lwuk+2qd6tOWv
-	4pKFSffVzPiSBHQCZLCi2/Bc7FIPKTedjm6MZRQQWU11QqzApMgCaXZ6EHKAYaHuC/jhjTeOZxi
-	UWzqWQ==
-X-Received: by 2002:a5d:5f95:0:b0:48c:5c2e:434d with SMTP id ffacd0b85a97d-48c6d1aa579mr3385947f8f.21.1791301585101;
-        Tue, 06 Oct 2026 08:46:25 -0700 (PDT)
+        bh=xCRhsY71gjJ5dAgtOVLKWNP4MsZKd0z+wCZ+mR6CTlQ=;
+        b=O/tbKw2EORXZnWkxRMnCSHwEKXpeh84IWjTImfG+W8NhfPZiitJoN4G++J8r/SFaPK
+         RPkKPA9ujvDa/Gzn1IM6SRve8zdLpHOpw41PNYJAMCwzT9CnMS2JO0UhO1s98D7V2rhQ
+         T9+2yUmRdQVT2QkRRPuebuR/dmI3nugcnePAqQv9jVb3FLzjxHQX0QS0Z9WKNS4CvAq8
+         4yBjTk1xh6k5JytIB6agcQwfVf+9hl6G6LD7rogqxD5WhhnqQeLlaDRyUVBjz7Nq19ps
+         wK0sxoto75zPbcL3uQQPWm3i1un3kZYa6WQbCqYXzERzudZOTSKCTyYdYOPXPN3cpuOJ
+         +05Q==
+X-Gm-Message-State: AFq9FYIjYSYNFWMopUSTI8gZ2rrcy5pKTnXcHoejkaMEK3D49wz4A1us
+	W0LZwZIT5SI6veeLGZ5RUuH9fk2MDwxgFsLUBgam3CrF1yU448V9Hz78TkF0ofMOikv05ZkIf16
+	/rr3SKxs=
+X-Gm-Gg: AYBFou3/9kZBA5x230ib71yE5UO25yg+PLJ+p+QOvt0J93JE5iuQ0q9Jy/VktNPG0Sm
+	qx76AUAHbph9SiN39ysZ4bn0k4eSuoiUH/6gnri73yNkKmDoe/TiHKOIRX30wJ+7iQNCqYk2yEf
+	axCNqeYAtaaYA3gdY2eEqkm5KNBnwnQC2rqAuusTBsxFAz210tz18FszR+kkLMTlAX8iCCY/z3A
+	jaBFB0SEOrnZgA9WhNRb0fjH7a2ZqsY+sq91UnQnkXX+BoAUtAFUBPCjR5eeviXdVu6p0b73RD5
+	vLr5ThvPyNAdPeX3CAA3oaUNNSURbYUU/u6HbLCrSyK+bLUQ05b62mIaOoSPz3j+NYUVD48KKfR
+	G5M62pJAn0f+6fJ7WZvXSbrhGLvMAYFE5FnQcg7+DkohNVTOGEbLw8LlePyvT+lw62/y0yBYUEw
+	PdW+VdOums1b9N328FcJ6Rb88o8u29xxsRNKl9WoTF2h5+FIZZZqr324LHbgXYZsT99DGA1MQhy
+	bAlsrlgeTVnqL9PyI32ff6rbr7hAm6SdLikb16Q3S/bV+uWXSOW8lubF+0zkWZ0tMATr29Cc41N
+	u/H6uA==
+X-Received: by 2002:a05:6000:2289:b0:488:8546:d0b2 with SMTP id ffacd0b85a97d-48c48023a32mr17887276f8f.51.1791301583885;
+        Tue, 06 Oct 2026 08:46:23 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d3032csm257281f8f.45.2026.10.06.08.46.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d3032csm257281f8f.45.2026.10.06.08.46.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 08:46:24 -0700 (PDT)
+        Tue, 06 Oct 2026 08:46:23 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 03/19] elfutils: fix handling of DWARF5 compilation units
-Date: Tue,  6 Oct 2026 17:45:49 +0200
-Message-ID: <56d4dfb8b8e02d50006a35b4d93a0a2cc5c9dbb3.1791299195.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 01/19] alsa-lib: patch CVE-2026-90781
+Date: Tue,  6 Oct 2026 17:45:47 +0200
+Message-ID: <59fdb500b23e3cb1b167935c82092bd43a535dce.1791299195.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791299195.git.yoann.congal@smile.fr>
 References: <cover.1791299195.git.yoann.congal@smile.fr>
@@ -67,109 +67,85 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 15:46:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247292
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247290
 
-From: Ross Burton <ross.burton@arm.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-If a source file doesn't contain any functions or variable  then it
-won't appear in the source file list for the generated object if the
-debug information is DWARF5.  Details of why this is are in the patch
-header.
+Pick patch per [1].
 
-Backport a patch from upstream to fix this oversight, adding files to
-the -src packages that were previously missing.
+[1] https://security-tracker.debian.org/tracker/CVE-2026-90781
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8bdc2869a1a9307ee4ad9cc1d662c2fc1ddd9d2c)
+(cherry picked from commit 37d0e17fbb7848340169ba00ca8dee2567a68462)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../elfutils/elfutils_0.196.bb                |  1 +
- .../elfutils/files/srcfiles.patch             | 65 +++++++++++++++++++
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/srcfiles.patch
+ .../alsa/alsa-lib/CVE-2026-90781.patch        | 41 +++++++++++++++++++
+ .../alsa/alsa-lib_1.2.16.1.bb                 |  4 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.196.bb b/meta/recipes-devtools/elfutils/elfutils_0.196.bb
-index c2466134cdc..4541000840b 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.196.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.196.bb
-@@ -20,6 +20,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
-            file://0001-config-eu.am-do-not-force-Werror.patch \
-            file://0001-backends-use-sys-uio.h-instead-of-linux-uio.h-for-s.patch \
-+           file://srcfiles.patch \
-            "
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/srcfiles.patch b/meta/recipes-devtools/elfutils/files/srcfiles.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
 new file mode 100644
-index 00000000000..abd0226b0fd
+index 00000000000..57883b81694
 --- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/srcfiles.patch
-@@ -0,0 +1,65 @@
-+From: Mark Wielaard <mark@klomp.org>
-+To: elfutils-devel@sourceware.org
-+Cc: ross@burtonini.com, Mark Wielaard <mark@klomp.org>
-+Subject: [PATCH] srcfiles: Always process the "zero" file table entry (CU comp_dir/name)
-+Date: Tue, 22 Sep 2026 13:46:06 +0200
-+Message-ID: <20260922114606.2865660-1-mark@klomp.org>
-+X-Mailer: git-send-email 2.55.0
-+MIME-Version: 1.0
-+Content-Transfer-Encoding: 8bit
-+X-Spam-Flag: NO
-+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00 autolearn=ham autolearn_force=no version=3.4.0
-+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on gnu.wildebeest.org
++++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
+@@ -0,0 +1,41 @@
++From f84cd4ced7b36fddb8e4ee24404cf7c091d27020 Mon Sep 17 00:00:00 2001
++From: Jaroslav Kysela <perex@perex.cz>
++Date: Sun, 30 Aug 2026 20:20:30 +0200
++Subject: [PATCH] control: ctlparse - another fix for one-byte overrrun in
++ __snd_ctl_ascii_elem_id_parse
 +
-+If the main CU file doesn't contain any references to the file table
-+it wouldn't show up in the src files list (except if --cu-only was
-+given). This is because file entry "zero" is special. It cannot be
-+referred to by DW_AT file attributes (because zero means, no
-+file). But technically it should be equal to (implicitly before
-+DWARF5) the DW_AT_name of the main CU DIE (using a zero directory
-+entry, equal to DW_AT_comp_dir). collect_sourcefiles skipped this
-+implicit zero entry unless --cu-only was given.
++Follows 1e27d63ef6d1dcf7d1f1a1e1eca3ea779e7de377 .
 +
-+Fix this by always handling the zero file table entry. And for
-+--cu-only to just exit the loop early, so no other entries are handled
-+This is also an optimization, before --cu-only would go through all
-+indexes, but always added the CU name. Which worked, because
-+duplicates were removed, but was somewhat inefficient.
++Link: https://lore.kernel.org/alsa-devel/CACBQ=P2FhO3M6dkv3cWuKb6Qhs92ouV+FJ3SJZ_PVBSSdJWRAQ@mail.gmail.com/
++Reported-by: Harsh Raj Singhania <raj.harshraut@gmail.com>
++Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 +
-+	   * src/srcfiles.cxx (collect_sourcefiles): Go from index
-+	   zero, exit after zero index for CU_only, always handle
-+	   index zero specially.
-+
-+https://sourceware.org/bugzilla/show_bug.cgi?id=34666
-+
-+Signed-off-by: Mark Wielaard <mark@klomp.org>
-+
-+Upstream-Status: Backport [7b675cbdb0d1f216938b4b33aea30fd35fb1ae0a]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
++CVE: CVE-2026-90781
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/f84cd4ced7b36fddb8e4ee24404cf7c091d27020]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/srcfiles.cxx | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
++ src/control/ctlparse.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/srcfiles.cxx b/src/srcfiles.cxx
-+index 9bbb6ef10473..e2fc0f128d71 100644
-+--- a/src/srcfiles.cxx
-++++ b/src/srcfiles.cxx
-+@@ -273,10 +273,14 @@ collect_sourcefiles (Dwfl_Module *dwflmod,
-+             clog << "skipping cu=" << cuname << " due to empty comp_dir" << endl;
-+           continue;
-+         }
-+-      for (size_t f = 1; f < nfiles; ++f)
-++      for (size_t f = 0; f < nfiles; ++f)
-+         {
-++	  /* For --cu-only we are only interested in the "zero" entry.  */
-++	  if (CU_only && f != 0)
-++	    break;
-++
-+           const char *hat;
-+-          if (CU_only)
-++          if (f == 0)
-+           {
-+             if (strcmp(cuname, "<unknown>") == 0 || strcmp(cuname, "<artificial>") == 0 )
-+               continue;
-+-- 
-+2.55.0
++diff --git a/src/control/ctlparse.c b/src/control/ctlparse.c
++index c40de2bd..7132210e 100644
++--- a/src/control/ctlparse.c
+++++ b/src/control/ctlparse.c
++@@ -219,7 +219,7 @@ int __snd_ctl_ascii_elem_id_parse(snd_ctl_elem_id_t *dst, const char *str,
++ 			if (*str == '\'' || *str == '\"') {
++ 				c = *str++;
++ 				while (*str && *str != c) {
++-					if (size < (int)sizeof(buf)) {
+++					if (size < (int)sizeof(buf) - 1) {
++ 						*ptr++ = *str;
++ 						size++;
++ 					}
++@@ -229,7 +229,7 @@ int __snd_ctl_ascii_elem_id_parse(snd_ctl_elem_id_t *dst, const char *str,
++ 					str++;
++ 			} else {
++ 				while (*str && *str != ',') {
++-					if (size < (int)sizeof(buf)) {
+++					if (size < (int)sizeof(buf) - 1) {
++ 						*ptr++ = *str;
++ 						size++;
++ 					}
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+index 10332502044..685f06c7268 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     file://src/socket.c;md5=285675b45e83f571c6a957fe4ab79c93;beginline=9;endline=24 \
+                     "
+ 
+-SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
++SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
++           file://CVE-2026-90781.patch \
++           "
+ SRC_URI[sha256sum] = "f740db7f488255944ffd4428416ee3390a96742856916433df468c281436480e"
+ 
+ inherit autotools pkgconfig
 
