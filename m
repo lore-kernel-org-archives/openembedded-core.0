@@ -2,196 +2,151 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C11FBCA5FFC
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 15:46:28 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.48815.1791301585401946177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17238CA6004
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 15:46:29 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.48860.1791301586497348653
  for <openembedded-core@lists.openembedded.org>;
  Tue, 06 Oct 2026 08:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YfLXaSM/;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so29484635e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 08:46:25 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=JYqVaSvm;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48b03f23305so2693276f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 08:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791301584; x=1791906384; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LyOELdmAvaGn0oe2Iu0GMm7uqJXeK7tTZHALUzRkrXE=;
-        b=YfLXaSM/DYKMj7ZJ3LNSJ+lx4awQaSqjv7ejQCA53TvzpCpKYQsVchAS9mfIqze5pp
-         EKqXE2ZqPCceAuGmGtEghaKRAtgCn5WMiUrlycGt7o8s82H2i0dJ5cqAP3Yhc6XCsGEW
-         lcGNHaCYRDy+5KTWLB8Z13Dh0A2VpmTiI4bgA=
+        d=smile.fr; s=google; t=1791301585; x=1791906385; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=3rcztIs9geCfMaxeWXq+KQ8SPz5NAsdx0LP7s+D41NA=;
+        b=JYqVaSvmxP3muDQ+6BeDFcPRLECcyT+cIwUMGmrQu9HZB6T6jhlFHs/RMlHnKqOshn
+         8bWhIZvj6AReHZJwmcUJ48LPwNHRDHTrnRI9OGvTGS5kK+icYjsRWOE7oKX40Uf8GYBK
+         a8R87QzgILKIZy6cmBvpkGKCKWhEwXNGrc5To=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791301584; x=1791906384;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LyOELdmAvaGn0oe2Iu0GMm7uqJXeK7tTZHALUzRkrXE=;
-        b=mmDwUuymwiYz7Omnji4N6v+fGhEVfW+wA0N+BIwKaC5kOk+20ww7Pp5QT7VKm1Vo/Y
-         9Wd8Fgv+iEsCMnPpqb55UBdCMDzynIC07a3/M06H3msW9ArzaLKRVx34n0UJTKFcAW6u
-         K80mFPCOWo9DbB3vklqgRKWG3ZuCl6HaDdC89+eIx2vAYh57ng+iEKc+8LsFRXi6Ki8N
-         090lTRthsaHv0nDO94VNxv1/iUJwqeERCIhOjbJu6QUflpcIlCi24SVx3G50t1tLILY/
-         VMSZ4ouNi5CoXGJTz/Z1Fr+F0p/MAQpOc5qrocS5MgFJ47XDLVOTL9ZUxTtm0zXvdlOu
-         EJJQ==
-X-Gm-Message-State: AFuF++nK0AnMrvQOj602uEULX+TGO2qSfGA2eJY5PNX1qau9xHzz8VbJ
-	qa96wfTRjNUo2KivNwTuXuBRivZ+I0UXxnefKZadTX/iIhC0ugD7zVquAD6i7vurN3jN/Y+fvUG
-	jeSWN89c=
-X-Gm-Gg: AYBFou3mnwhrzJmGXYIFsG2FJVt1AXJClPqQydvfQ5+LypIw2GrOhN1hpuOxnaBYihF
-	SCrytskmttrnv3vVCJft27Ma8Fhx0XyioKrv6brotrGGfFDNiyiJiMSCK9PU5Ohvl7avc3GUL7E
-	aoxsxyGXjNAhb+cy4pQlcOX+XM/xcjgQcS0geqWcyXuFf5AsKXtI3X1FeDyx10ArXiDXDDjeADz
-	rwBPT4exQFq2sQcGOmzVXGjADgzwkhEJhO+2ME61BuCsWzUUOp/ZhjLBozq1USXVZeeUdRpiSbb
-	0MT3fNSkPpSuC/A63gTCU2SR2aZ+BWXOKQeEx9/IHbkilRAD4mByQSggbaUGDGcFLUCc/ARHj39
-	Z/lvNzMU9uMx3H53gdIznL7CovOL1VllPTFHPwCQXVf3CH0aEw73vGxsKW36hxVVY93wWaCUVFL
-	QtG2dRprbtE03s9BMwgPilXOxWAEHC79dE6pUf3osXgtnAdkBLQQlqjUG0vnRsH33gFkLTG6T3H
-	VpWS5A/lFcctPE2mqz4gWMA7Vmijq6LtpVQKkEjXSgBIyreQ44Kv0z6Iq+ZofCx+3RHjck5twER
-	RgwGCI8=
-X-Received: by 2002:a05:600c:4708:b0:4a1:706f:b40d with SMTP id 5b1f17b1804b1-4a17b533ff7mr29200225e9.7.1791301583324;
-        Tue, 06 Oct 2026 08:46:23 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791301585; x=1791906385;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=3rcztIs9geCfMaxeWXq+KQ8SPz5NAsdx0LP7s+D41NA=;
+        b=ysT5UUuTFWhQxciokFrKWZNNiruIgr3sZrKcRG5VjBTWE4LZvFMjw7VeGKqy2fLKR+
+         dnehgfhQBRaV/bnXHJT8l33f7aioTHaG1WttEh1Y6d088BSjjXJ4QB9nd6pdD2fu8bvx
+         J/UKg1qA5cBKSsU7vXTCm8mlIrUEqCrEJzdaPSISoFd46iykS72Xn7xv+Uw9VE2KxwTt
+         shQfxtrAx4vPJfZbBtQwEVz+zEShIlxHP6NjCTsdmMHA2idDFF6lWBQtHQ2XwfVYvSPr
+         W9q6cDrce9YNaFZXqv2qlOxqJQ032RIh2Nq7q+NTnFwanbPFGXZHeCOyqFMLz3PYXWf8
+         Fkiw==
+X-Gm-Message-State: AFq9FYKtRRLlaePQG5+ZHqv8cVC+oSBkEzZr1SY5+UZza/KJkRW14/K4
+	G8Sg71x9jo4kSgCy1nZOhEWrRFeTKGtU/DhlAVP+h8OpU/LmAd5a3wjABJN7YBJwQi9LNmcu70G
+	9xBKQj1Q=
+X-Gm-Gg: AYBFou3BcfQyueCNkSXOhJR1nrTZvETHjteqgOCEcLozpIekMzUonczVuHVsFLqa3wz
+	aHiNEoFoXoh9a1Irk3LynR6UeOfuyHzLybhruOkdxZ7hScuzIGJTAdlDKIKLVaP98mMhfIXxspo
+	O+PjRqXD4CRdDuJOyvQOCVFfoPOhx7crmQEE/T6GEcHb/Dm/Kwte8Z0LAmio3Qrq0StAd9s1hnk
+	vchIAUn7l1ws/L3VxZrWrHBvMIBiD5HdXIblEBdyNOnWSTN3mVGvCCrAYZO0s7dL5DCcyw7tYhq
+	KRwlagVJ9/tVIf8XogW5Qv4jg1m/MLlfRCIiD2CttwPOaGeLKPUVnPBKssmejNEu6b+yA/SgNny
+	E8KYvDbzy6CiEnFk2IOWYhRi9K4e0osCDcwyH6VcAzogCPCsSqgDgH5QtBeT1x3GNneKixcozNn
+	usILTGo7wqXFoGLz1fUAc8FDspWKPWFPa1E0B/7qccNW5buxivD4kZvx7frf8+FLAY5gLVWo7cs
+	q0mzw+973ZcGXVkcaq51kSo2JOum+n1yVP0N7rwJE3ijmPR+wCqiiDMuz9Xz9Ywvul5vxefVGDM
+	yUq3wg==
+X-Received: by 2002:a05:6000:40cb:b0:48c:45ed:2425 with SMTP id ffacd0b85a97d-48c47c8ed6cmr17231654f8f.4.1791301584482;
+        Tue, 06 Oct 2026 08:46:24 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d3032csm257281f8f.45.2026.10.06.08.46.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d3032csm257281f8f.45.2026.10.06.08.46.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 08:46:22 -0700 (PDT)
+        Tue, 06 Oct 2026 08:46:24 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 00/19] Patch review
-Date: Tue,  6 Oct 2026 17:45:46 +0200
-Message-ID: <cover.1791299195.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 02/19] go: skip internal/cgrouptest when cpu.max is not available
+Date: Tue,  6 Oct 2026 17:45:48 +0200
+Message-ID: <16ebeee71bb4f10b86467be367d64906bc5a46fa.1791299195.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1791299195.git.yoann.congal@smile.fr>
+References: <cover.1791299195.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 15:46:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247289
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 15:46:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247291
 
-Please review this set of changes for blacksail and have comments back by
-end of day Thursday, October 8.
+From: Khem Raj <raj.khem@gmail.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4887
-(The review branch slightly changed from this commit: SoBs, patch
-comments, no code change.
-* qemuriscv64-ptest failed on:
-  * 16422 – AB-INT PTEST RISCV64: python3 ptest failure (python3-more-itertools)
-  * 15896 – AB-INT PTEST RISCV64: e2fsprogs ptest failure
-  ... both known AB-INT issues that a similar branch passed:
-      https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2553
-  I don't think a re-spin is needed here.
+The internal/cgrouptest ptest fails on qemux86-64:
 
-The following changes since commit 419c1b0f1ed0e3ce22b1022061f763d007883121:
+  Erroring setting cpu.max: open /sys/fs/cgroup/go-cgrouptestNNN/cpu.max: permission denied
 
-  build-appliance-image: Update to blacksail head revisions (2026-09-29 20:31:43 +0100)
+cpu.max is only present in cgroup v2 when the kernel is built with
+CONFIG_CFS_BANDWIDTH, which the linux-yocto qemu configuration does not
+enable, even though the cpu controller is available. Writing the missing
+file makes cgroupfs return EACCES.
 
-are available in the Git repository at:
+Add a patch so that InCgroupV2 skips the test when the new cgroup has no
+cpu.max, consistent with its other best-effort checks.
 
-  https://git.openembedded.org/openembedded-core-contrib stable/blacksail-review
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/blacksail-review
-
-for you to fetch changes up to f59af8082a2f7cdb27a4ba5968b81d740bdeff35:
-
-  recipes-support/gnutls: disable slow tests for RISCV64 (2026-10-06 17:04:27 +0200)
-
-----------------------------------------------------------------
-
-Ankur Tyagi (1):
-  tzdata/tzcode-native: upgrade 2026d -> 2026e
-
-Bhavikkumar Girishbhai Ronvelia (1):
-  libpcre2-ptest: add testoutput3C for locale variant
-
-Bruce Ashfield (2):
-  linux-yocto/6.18: update to v6.18.54
-  linux-yocto/7.2: update to v7.2.8
-
-Jaipaul Cheernam (2):
-  perlcross: Upgrade 1.6.4 -> 1.6.5
-  perlcross: drop redundant LDFLAGS-when-linking-libperl patch
-
-Jinwang Li (1):
-  bluez5: fix obexd/pbap u128_to_string skipping data[4]
-
-Joao Marcos Costa (1):
-  recipes-support/gnutls: disable slow tests for RISCV64
-
-Joerg Vehlow (1):
-  tclibc-baremetal.inc: fix gcc-cross EXTRA_OECONF
-
-Khem Raj (1):
-  go: skip internal/cgrouptest when cpu.max is not available
-
-Mathieu Dubois-Briand (3):
-  libpcre2: upgrade 10.48 -> 10.49
-  python3-pytz: upgrade 2026.3.post1 -> 2026.4
-  python3-hypothesis: upgrade 6.168.1 -> 6.168.3
-
-Peter Marko (1):
-  alsa-lib: patch CVE-2026-90781
-
-Pratik Farkase (1):
-  util-linux: update flock test patch Upstream-Status to Backport
-
-Richard Purdie (1):
-  python3-hypothesis: upgrade 6.168.0 -> 6.168.1
-
-Ross Burton (1):
-  elfutils: fix handling of DWARF5 compilation units
-
-Sunil Dora (1):
-  opkg: take the default architecture from the target CPU
-
-Yoann Congal (1):
-  opkg: update Upstream-Status for a merged patch
-
- meta/conf/distro/include/tclibc-baremetal.inc |   1 -
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- ...p-Fix-u128_to_string-skipping-data-4.patch |  33 ++++
- ...ncrease-wait-for-flock-child-timeout.patch |   2 +-
- .../elfutils/elfutils_0.196.bb                |   1 +
- .../elfutils/files/srcfiles.patch             |  65 +++++++
- meta/recipes-devtools/go/go-1.27.1.inc        |   1 +
- ...est-skip-when-cpu.max-is-not-availab.patch |  39 ++++
- ...the-default-architecture-from-the-ta.patch |  45 +++++
- meta/recipes-devtools/opkg/opkg_0.10.0.bb     |   1 +
- ...ile-check-the-file-if-patched-or-not.patch |   2 +-
- .../files/0001-patches-for-perl-5.44.0.patch  | 110 -----------
- ...oss-add-LDFLAGS-when-linking-libperl.patch |  24 ---
- ...Add-configure-checks-for-perl-5.44.0.patch |  47 -----
- ...Fix-checkfield-for-C23-compatibility.patch |  35 ----
- .../perl-cross/files/determinism.patch        |   4 +-
- ...{perlcross_1.6.4.bb => perlcross_1.6.5.bb} |   6 +-
- ...168.0.bb => python3-hypothesis_6.168.3.bb} |   2 +-
- ...2026.3.post1.bb => python3-pytz_2026.4.bb} |   2 +-
- meta/recipes-extended/timezone/timezone.inc   |   6 +-
- .../linux/linux-yocto-rt_6.18.bb              |   6 +-
- .../linux/linux-yocto-rt_7.2.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.18.bb            |   6 +-
- .../linux/linux-yocto-tiny_7.2.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.18.bb |  24 +--
- meta/recipes-kernel/linux/linux-yocto_7.2.bb  |  24 +--
- .../alsa/alsa-lib/CVE-2026-90781.patch        |  41 +++++
- .../alsa/alsa-lib_1.2.16.1.bb                 |   4 +-
- meta/recipes-support/gnutls/gnutls/run-ptest  |   1 +
- meta/recipes-support/gnutls/gnutls_3.8.13.bb  |  18 ++
- .../libpcre/libpcre2/testoutput3C             | 174 ++++++++++++++++++
- .../{libpcre2_10.48.bb => libpcre2_10.49.bb}  |   4 +-
- 32 files changed, 472 insertions(+), 269 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/srcfiles.patch
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7b925b30e4753bd3698792b83f18e0848a85ba3f)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-devtools/go/go-1.27.1.inc        |  1 +
+ ...est-skip-when-cpu.max-is-not-availab.patch | 39 +++++++++++++++++++
+ 2 files changed, 40 insertions(+)
  create mode 100644 meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
- create mode 100644 meta/recipes-devtools/opkg/opkg/0003-CMakeLists-take-the-default-architecture-from-the-ta.patch
- delete mode 100644 meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5.44.0.patch
- delete mode 100644 meta/recipes-devtools/perl-cross/files/0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch
- delete mode 100644 meta/recipes-devtools/perl-cross/files/0002-Add-configure-checks-for-perl-5.44.0.patch
- delete mode 100644 meta/recipes-devtools/perl-cross/files/0003-Fix-checkfield-for-C23-compatibility.patch
- rename meta/recipes-devtools/perl-cross/{perlcross_1.6.4.bb => perlcross_1.6.5.bb} (75%)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.168.0.bb => python3-hypothesis_6.168.3.bb} (91%)
- rename meta/recipes-devtools/python/{python3-pytz_2026.3.post1.bb => python3-pytz_2026.4.bb} (86%)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
- create mode 100644 meta/recipes-support/libpcre/libpcre2/testoutput3C
- rename meta/recipes-support/libpcre/{libpcre2_10.48.bb => libpcre2_10.49.bb} (93%)
 
+diff --git a/meta/recipes-devtools/go/go-1.27.1.inc b/meta/recipes-devtools/go/go-1.27.1.inc
+index 61df45558da..d7ba03b1bdd 100644
+--- a/meta/recipes-devtools/go/go-1.27.1.inc
++++ b/meta/recipes-devtools/go/go-1.27.1.inc
+@@ -15,5 +15,6 @@ SRC_URI += "\
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
++    file://0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch \
+ "
+ SRC_URI[main.sha256sum] = "4e408abae126d916b6164627193f2c54f0e3ca1312d693b86db45f862ab238b1"
+diff --git a/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch b/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
+new file mode 100644
+index 00000000000..f13cf78f7a7
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
+@@ -0,0 +1,39 @@
++From 3335a08288a68ebce5f3e99745186ded36c564c9 Mon Sep 17 00:00:00 2001
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Thu, 24 Sep 2026 10:22:23 -0700
++Subject: [PATCH] internal/cgrouptest: skip when cpu.max is not available
++
++The cpu.max interface file is only present in cgroup v2 when the kernel
++is built with CONFIG_CFS_BANDWIDTH, even if the cpu controller is enabled
++in the parent's cgroup.subtree_control. Without it, SetCPUMax tries to
++create the file, which cgroupfs rejects with EACCES, and TestInCgroupV2
++fails with:
++
++  Erroring setting cpu.max: open /sys/fs/cgroup/go-cgrouptestNNN/cpu.max: permission denied
++
++Skip, like the other best-effort checks in InCgroupV2, when the new
++cgroup does not have cpu.max.
++
++Upstream-Status: Submitted [https://github.com/golang/go/pull/81745]
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
++---
++ src/internal/cgrouptest/cgrouptest_linux.go | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/src/internal/cgrouptest/cgrouptest_linux.go b/src/internal/cgrouptest/cgrouptest_linux.go
++index ad9599c..a4b9b52 100644
++--- a/src/internal/cgrouptest/cgrouptest_linux.go
+++++ b/src/internal/cgrouptest/cgrouptest_linux.go
++@@ -82,6 +82,12 @@ func InCgroupV2(t *testing.T, fn func(*CgroupV2)) {
++ 		}
++ 	}()
++
+++	// cpu.max only exists when the kernel supports CPU bandwidth control
+++	// (CONFIG_CFS_BANDWIDTH), even if the cpu controller is enabled.
+++	if _, err := os.Stat(filepath.Join(path, "cpu.max")); err != nil {
+++		t.Skipf("cgroup %s does not support cpu.max: %v", path, err)
+++	}
+++
++ 	migrateTo(t, path)
++ 	defer migrateTo(t, orig)
++
 
