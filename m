@@ -2,105 +2,128 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2BDCA5FFC
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 20:27:13 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4682.1791318423997299757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70316CA5FED
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 20:29:33 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4733.1791318563382299728
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 13:27:04 -0700
+ Tue, 06 Oct 2026 13:29:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=W83kkFGh;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49ff680331aso34001745e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 13:27:03 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=oYVzKxTM;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48c4d99c32bso941498f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 13:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791318422; x=1791923222; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791318561; x=1791923361; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kgpUyfHAldJyUfK67YORp/hFpxjTFVjSN+43x6/Tnvs=;
-        b=W83kkFGhVdYxchBlDAh6iDQ/Jd3Xv3n4aT8t0a86KPAp7HVP7PVwRNUspKNPkgo0Is
-         S5hdDaOYfuOGtxr9PxdvnyNjUcoH/r1/cXmWXnEUZJU5/3qfFSxJ9a40a4fnQ97r0iip
-         Bk0XrAUq/q/gbvb6n2k1kyO2KC3hOFYCKbIoM=
+        bh=U+Oki1Ljv+35dd789lsFGrb+VGBgcctBsdbGyU5hwzE=;
+        b=oYVzKxTM0HEYwxvBAwKr4HhiOi4N+IQcCyV4nlYN1GduI68NO9sFcZSGsD0PcvU1oI
+         74ulBWY1wK9flwDKuBNqIYtYtNArg4qwngkLsogudsje6IF6RYrsx4ZX8bJ6NKCwtpEf
+         Ri5yIcpZ1etFJzXKQfK9kXuzRXbz6l6gwho58=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791318422; x=1791923222;
+        d=1e100.net; s=20260707; t=1791318561; x=1791923361;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kgpUyfHAldJyUfK67YORp/hFpxjTFVjSN+43x6/Tnvs=;
-        b=IuxchgCe52OakImJYe8iVzcG1SzHD88/g4k8WxT5h9KguNuRA9sThKfj+dmaprsZ/h
-         VI7oRe/QM4uFaBjKfmtdGp3IeegHN/H6+/441a1b6mKSaVJX3OaZKcWYCPPtfR66h4wv
-         MIQTxsyOWhSf5ms0KUdxjGTqymZZppdS+uVvKEMJ3Z4ZWpeENFhqOgLl4V3M0IBcWpj4
-         HSzU8Gx1RTcM43Ag5wQhFsizkkFJzrZ7ZPMOvkZm+e1TocoDIffxJKWRyuWxHJnQCM5U
-         oXdDIVNnymyu8W02br/Fvw/3qfWOdN1RJ8Z7CrJpJI+Bvqy0wwmUtDI7dZuncQfVINsX
-         QteA==
-X-Forwarded-Encrypted: i=1; AKwUvBxb3KbyhodMEjiaqLMYOprEMV6auoXPYBiMxz8/Tn37USfg4+D2ive1JJ6zCVnbc6O5C4rE1HzwCX5LpgTEs2Oj3A==@lists.openembedded.org
-X-Gm-Message-State: AFuF++mNIII7XeGqgo1ftpm7Y7Pzy1iD+bmrskURQ+VGTParjxA6ApU8
-	b1s+HnrNq29Lb4D6J3SesXMh+NMOtS764QBd/fdCV1V+f4bG2T3NNIWV+FBSt4vTCpU=
-X-Gm-Gg: AYBFou0xzsgD50kkxFQc4T+atF5KCwNVJnLEyK33idFwECUQs2nuQP+v2GGA2PVymPw
-	CWPdH0UtsPHRNRBlbU/g5oM9Tiz+JSH5PkJGzNwWSzMRapMyyFvSRPJU+qo9SDhGyGWRlom+mKh
-	1Fl9CgwY4iUM6mFo5JdRFjQbjs81DuUATiXmZQF3Y1yO3aZs7FPGEicYyZOyrvU3fvrcWlpMkNR
-	FC47RP74msBHcWPvZEC1KC/PovCCeDPGchUp3Mn+Uby2KZK1UFupzkC55rPXCRPDyZ+9JyMjN7r
-	TAryjOVU3aF9b22vcG2F9y1a9/1/JESrOD0P9/JvYOCv0r2hZq+ncRbZ2i2+cRmHecTdHXxWF34
-	TtAA2GXMcM0td1xz2X/pZ6ymSFYbIR25VLVaqWos16ARMXqgQ4UOpyuQIeFmP1HnCRhdZwOM23M
-	BCKgDgXBqXhBznzKT7Jedou9yXSXlPv8zt0mZkFKDXBhO+9mctZiVRd3Z5F/hAeTE+YzGtMlyAe
-	Yrs/fnNLTx32b+n4HWWU7Iyf+UYTjbUeN3FJcm8QeQHVSuUv6atPD9rqbOzeA==
-X-Received: by 2002:a05:600c:548e:b0:4a0:4a8:d444 with SMTP id 5b1f17b1804b1-4a168106b7bmr173377165e9.33.1791318422185;
-        Tue, 06 Oct 2026 13:27:02 -0700 (PDT)
+        bh=U+Oki1Ljv+35dd789lsFGrb+VGBgcctBsdbGyU5hwzE=;
+        b=mFfB768AcgZFI0E4vqjQc69OCasMvlJR9z5L4WdTVjTr2bfHQLhV3zwK1e41UCVQiN
+         3/PgtHGGqMrYoYNXGSPszBPvPPBkNd4+QmYVlomJh2iDlJlR+leg8ZumNkIPmK54Gz8E
+         BDqr8KxqHtmQRTp8ujs0RbnT/eiFohM98E8MYpV1w9duXwHXeJwnBibSjBnf7VSrrNeM
+         yeuGk1jRY34NGooB/JdUmge3x3gN84uSl4OM5mWSBPmnpWXKSmW934GuOoKOUe4QaMj/
+         nLxsVvIAYRNvpfesWWT4pJG9L3MiP/+THuFsMzZ50WFaTh2vmIfTQbCbUQhr6vtnrr3M
+         S0xQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx/m7uJnw51llfzC7m2RqxjzeIqUqV22SW7oLBSUhK7nDB6Pxw3CoDFms7UnArMV3aW68i5L6IZ5bqzYFDSB88vUw==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYJiGh1s0YXUIpHdbcXQE97P1jCzSrtWGqJ9Yavm6XlcC+GbRoJ8
+	MWkWBU6gCUUowPvRQ6Pz3FGrNfvqliYRgXSwUmQlS7k/3vGaD3vm3R2Pr+awVKdg430=
+X-Gm-Gg: AYBFou0xKLA0mZKSJK4HoeQY225ZkPw2wM1eTELuvhoAjzOPR7w8RvmUzOHESV3A/EO
+	o8CifJSCxWaNx9W1hym6gV6LnwibeqHozXGojkf3MqDXaKOdacd8cYs+m7imHKDKOq/0EeDnMh1
+	1Re2yA5i8MLMqv2ACChQGQT5vdcAv8ZrutHcHJpFPsZ3PsHNZ1w+jARsaWGRyGBIPXo/5urOhfg
+	L2HhNEjWF37EhQDlRmC0bjOaXCpWXKhe3m8N0P66VQSV128fxVW16lnbsNgQCS65rwlzxEuensq
+	EUOk0KFG9f1RVOUbr8Ao7yvE+oNMaLicHh0P210p/Bdzh2OV8OKdmgPB8wDz65upIqZ89lKwKCz
+	3i6W9BMnoliM8AyzVYAr/IcdMK5ZiMZRw/vVBXW7jbZQiKZNUgvdT5d6tj0RR4pOcNEwX4mzusI
+	+Cp3AnHv5IiMZc3FpOjFn/oTJGNmXqRB59HHP43p+6VJh71iGcgP9OorVCNmPyujOIcbpxulYGp
+	ZibtBr2esHdsRuj8jj2ntHxqnDvq8mIYv0Pom0OdZb/zc16zNLMPaCCzrjV/g==
+X-Received: by 2002:a05:6000:29c9:b0:48c:660f:5e7d with SMTP id ffacd0b85a97d-48c72779ab1mr564969f8f.16.1791318561415;
+        Tue, 06 Oct 2026 13:29:21 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d10309sm1362576f8f.22.2026.10.06.13.27.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d1245bsm1350579f8f.26.2026.10.06.13.29.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Oct 2026 13:27:01 -0700 (PDT)
+        Tue, 06 Oct 2026 13:29:21 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 06 Oct 2026 22:27:00 +0200
-Message-Id: <DLY1DTYR1IMI.1DOHEP6ZAFFQF@smile.fr>
-Subject: Re: [OE-core] [PATCH 1/2] perlcross: Upgrade 1.6.4 -> 1.6.5
+Date: Tue, 06 Oct 2026 22:29:20 +0200
+Message-Id: <DLY1FLZMYDML.21FPWQ5THBVV6@smile.fr>
+Subject: Re: [OE-core][blacksail 00/19] Patch review
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
+To: "Richard Purdie" <richard.purdie@linuxfoundation.org>,
  <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260929062603.67218-1-jaipaul.cheernam@est.tech>
- <20260929062603.67218-2-jaipaul.cheernam@est.tech>
- <DLWSV9S5HI2N.1GZN40XKWDUCT@smile.fr>
- <d53cf28c-2688-498e-95c7-41cd9e4788b0@est.tech>
-In-Reply-To: <d53cf28c-2688-498e-95c7-41cd9e4788b0@est.tech>
+References: <cover.1791299195.git.yoann.congal@smile.fr>
+ <8e2ed66c100c18257c4d8f1d6ce85c7dd28ac12f.camel@linuxfoundation.org>
+In-Reply-To: <8e2ed66c100c18257c4d8f1d6ce85c7dd28ac12f.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 20:27:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247334
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 20:29:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247335
 
-qn Tue Oct 6, 2026 at 10:03 PM CEST, Jaipaul Cheernam wrote:
+On Tue Oct 6, 2026 at 8:45 PM CEST, Richard Purdie wrote:
+> On Tue, 2026-10-06 at 17:45 +0200, Yoann Congal via lists.openembedded.or=
+g wrote:
+>> Please review this set of changes for blacksail and have comments back b=
+y
+>> end of day Thursday, October 8.
+>>=20
+>> Passed a-full on autobuilder:
+>> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4887
+>> (The review branch slightly changed from this commit: SoBs, patch
+>> comments, no code change.
+>> * qemuriscv64-ptest failed on:
+>> =C2=A0 * 16422 =E2=80=93 AB-INT PTEST RISCV64: python3 ptest failure (py=
+thon3-more-itertools)
+>> =C2=A0 * 15896 =E2=80=93 AB-INT PTEST RISCV64: e2fsprogs ptest failure
+>> =C2=A0 ... both known AB-INT issues that a similar branch passed:
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 https://autobuilder.yoctoproject.org/valk=
+yrie/#/builders/56/builds/2553
+>> =C2=A0 I don't think a re-spin is needed here.
+>>=20
+>> The following changes since commit 419c1b0f1ed0e3ce22b1022061f763d007883=
+121:
+>>=20
+>> =C2=A0 build-appliance-image: Update to blacksail head revisions (2026-0=
+9-29 20:31:43 +0100)
+>>=20
+>> are available in the Git repository at:
+>>=20
+>> =C2=A0 https://git.openembedded.org/openembedded-core-contrib=C2=A0stabl=
+e/blacksail-review
+>> =C2=A0 https://git.openembedded.org/openembedded-core-contrib/log/?h=3Ds=
+table/blacksail-review
+>>=20
+>> for you to fetch changes up to f59af8082a2f7cdb27a4ba5968b81d740bdeff35:
+>>=20
+>> =C2=A0 recipes-support/gnutls: disable slow tests for RISCV64 (2026-10-0=
+6 17:04:27 +0200)
+>>=20
+>> ----------------------------------------------------------------
+[...]
+>>=20
+>> Joerg Vehlow (1):
+>> =C2=A0 tclibc-baremetal.inc: fix gcc-cross EXTRA_OECONF
 >
-> On 2026-10-05 11:33, Yoann Congal wrote:
->> Hello Jaipaul,
->>
->> Do you think we should backport this to blacksail?
->> Changelogs mention perl 5.44 compatiblity that we do have on blacksail.
->>
->> Any ideas?
->>
->> Thanks!
->
-> Hi Yoann,
->
-> Yes, its a good idea .
->
-> We can backport this to blacksail, as this upgrade only contains fixes=20
-> that are local patches in recipe.
->
-> Let me know if I need to send a patch for this.
+> Definitely not this. There is a request for a revert.
 
-No need, I cherry-picked the commit from master.
+Ok, I'll send a v2 without this one.
 
 Thanks!
 
 >
-> Regards,
+> Cheers,
 >
-> Jaipaul
+> Richard
 --=20
 Yoann Congal
 Smile ECS
