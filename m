@@ -2,35 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B20BCA5FFC
-	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 16:02:10 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.49243.1791302529571643344
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AA1CA5FFE
+	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 16:43:18 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.588.1791304988922187383
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 09:02:10 -0700
+ Tue, 06 Oct 2026 09:43:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=EL1/e6+L;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2026100616020769f4c5450200020786-fx5ikg@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026100616020769f4c5450200020786
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=hRcTr+y/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261006164305b0d3d2df8000020728-mbaq5i@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261006164305b0d3d2df8000020728
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 06 Oct 2026 18:02:07 +0200
+        Tue, 06 Oct 2026 18:43:05 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=WryBZhgU2UijyjX+wvRRc+lRdLtBoR0sQ4+62YcIGQ8=;
- b=EL1/e6+L2zelETmQSLO8aOQEFG0qWZv1jBraEDqHgXGGxiIYQSiVT2/YVj0cfq5Y9tY1Pw
- RQtSL5xAUT2PY0tDRqgix2dIiCoARxKsfN2guW7be/jGc1PrWUo9d1fPuoVKawBte7v6PeDZ
- b1bEfwyZtc8b2GANxRPso1lS9HdD7cy3WSnDA0knP1JS6pnYeLx7Irma+8bYxQv+GUtQkpTU
- USQlby907+Rsze2hRmIDvGpmbvNnokZJVTFxrZmhwZs3HG5ura4O2SCwOHEJU1Pst1dni/Ur
- PCCaHwoF1HfW8keVPJTI24QggONzKi38RCP2CPZcpm723TlK9q+1U3nA==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=mm2Fl8gnyC4YNuMd8ljTMFZKZ1nqyEIlwr+Dz5x7RWM=;
+ b=hRcTr+y/tm7F7R64Nw5pixYZbyYtgMyGQCNoj4YJ1ta+yekaOZcuMMFvPUtHIi5F+jqe06
+ w0dQ/ImFspSn2D1K+waMtX8UluaNpSgUe64OmqilPjN9/nYEeobs1634ShvaPZZMdQ88cgbB
+ wOTKIngOOfNVPdJQ13IU5QQNBXUwqDG9RaFmIaTyo/kDcBDpqQvD1+KJL1LVX3De8p4v7deO
+ joaSxKgsfjIk49JpRSn0gxFt18CovwhtfEL4lrxr8FySrmKhqjVzzzLihdI2l426Yzuw3U0I
+ mWDQQ3CaQN0f9VeX/En9RcUYOSYPk84Pgv3oERDIR9du2HHkeghKXJew==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH 2/2] popt: patch CVE-2026-18739
-Date: Tue,  6 Oct 2026 18:01:31 +0200
-Message-ID: <20261006160131.8547-2-peter.marko@siemens.com>
-In-Reply-To: <20261006160131.8547-1-peter.marko@siemens.com>
-References: <20261006160131.8547-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH] libsolv: patch CVE-2026-48863
+Date: Tue,  6 Oct 2026 18:42:26 +0200
+Message-ID: <20261006164226.110115-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -38,143 +36,63 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 16:02:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247311
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 16:43:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247312
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch referencing this CVE.
-Convert change in cmake file to autotools/makefile.
-Install the new test in recipe.
+Pick patch per [1].
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: c211972ad21e1801abc7dd15951093316c5528f4)
+[1] https://security-tracker.debian.org/tracker/CVE-2026-48863
+
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../popt/popt/CVE-2026-18739.patch            | 92 +++++++++++++++++++
- meta/recipes-support/popt/popt_1.19.bb        |  3 +-
- 2 files changed, 94 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18739.patch
+ .../libsolv/libsolv/CVE-2026-48863.patch      | 25 +++++++++++++++++++
+ .../libsolv/libsolv_0.7.36.bb                 |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
 
-diff --git a/meta/recipes-support/popt/popt/CVE-2026-18739.patch b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
+diff --git a/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch b/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
 new file mode 100644
-index 0000000000..0a1e8f3590
+index 0000000000..131d035b40
 --- /dev/null
-+++ b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
-@@ -0,0 +1,92 @@
-+From 14c42b415ba0c11640f7d4ee80920452d0287058 Mon Sep 17 00:00:00 2001
-+From: Yao Zhang <294772273@qq.com>
-+Date: Wed, 5 Aug 2026 14:52:10 +0800
-+Subject: [PATCH] Fix CVE-2026-18739: off-by-one error in poptStuffArgs()
++++ b/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
+@@ -0,0 +1,25 @@
++From 44f8c085045b1f771641091bbb2b810d12cff9e8 Mon Sep 17 00:00:00 2001
++From: Michael Schroeder <mls@suse.de>
++Date: Tue, 26 May 2026 10:30:31 +0200
++Subject: [PATCH] Fix wrong variable being used in solv_pgpvrfy
 +
-+The poptStuffArgs function only checks whether (con->os - con->optionStack)
-+is equal to POPT_OPTION_DEPTH (10) before incrementing con->os, and does
-+not increment the value by 1 to perform boundary pre-checking, as
-+handleAlias does.
-+
-+Add a new test program as a reproducer for this case.
-+
-+Co-authored-by: Panu Matilainen <pmatilai@redhat.com>
-+
-+Fixes: CVE-2026-18739
-+
-+CVE: CVE-2026-18743
-+Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/14c42b415ba0c11640f7d4ee80920452d0287058]
++CVE: CVE-2026-48863
++Upstream-Status: Backport [https://github.com/openSUSE/libsolv/commit/44f8c085045b1f771641091bbb2b810d12cff9e8]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/popt.c        |  2 +-
-+ tests/Makefile.am |  5 ++++-
-+ tests/testit.sh   |  2 ++
-+ tests/tstuff.c    | 17 +++++++++++++++++
-+ 4 files changed, 24 insertions(+), 2 deletions(-)
-+ create mode 100644 tests/tstuff.c
++ ext/solv_pgpvrfy.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/popt.c b/src/popt.c
-+index 9ea3dfe..458aadc 100644
-+--- a/src/popt.c
-++++ b/src/popt.c
-+@@ -1668,7 +1668,7 @@ int poptStuffArgs(poptContext con, const char ** argv)
-+     int argc;
-+     int rc;
-+ 
-+-    if ((con->os - con->optionStack) == POPT_OPTION_DEPTH)
-++    if ((con->os - con->optionStack + 1) == POPT_OPTION_DEPTH)
-+ 	return POPT_ERROR_OPTSTOODEEP;
-+ 
-+     for (argc = 0; argv[argc]; argc++)
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index c410389..99fbf64 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -11,7 +11,10 @@ EXTRA_DIST = testit.sh \
-+ 
-+ AM_CPPFLAGS = -I. -I$(top_srcdir)/src
-+ 
-+-noinst_PROGRAMS = test1 test2 tdict test3
-++noinst_PROGRAMS = test1 test2 tdict test3 tstuff
-++tstuff_SOURCES = tstuff.c
-++tstuff_LDFLAGS =
-++tstuff_LDADD = $(top_builddir)/src/libpopt.la
-+ test1_SOURCES = test1.c
-+ test1_LDFLAGS = 
-+ test1_LDADD = $(top_builddir)/src/libpopt.la
-+diff --git a/tests/testit.sh b/tests/testit.sh
-+index 4078f51..d26be3a 100755
-+--- a/tests/testit.sh
-++++ b/tests/testit.sh
-+@@ -172,6 +172,8 @@ run test1 "test1 - 61" "" -x=f1
-+ 
-+ run test1 "test1 - 62" "arg1: 0 arg2: (none) aInt: 1" --randint=-1
-+ 
-++run tstuff "tstuff - 1" "-13"
-++
-+ if ! [ -e test3-data ]; then
-+   # create symlink for running during 'make distcheck'
-+   ln -s "${srcdir}/test3-data" test3-data
-+diff --git a/tests/tstuff.c b/tests/tstuff.c
-+new file mode 100644
-+index 0000000..b820c7b
-+--- /dev/null
-++++ b/tests/tstuff.c
-+@@ -0,0 +1,17 @@
-++#include <stdio.h>
-++#include <popt.h>
-++
-++int main(int argc, char *argv[])
-++{
-++    poptContext ctx = poptGetContext(argv[0], argc, (const char **)argv, NULL, 0);
-++    int rc = 0;
-++    for (int i = 0; i < 100; ++i) {
-++	const char *ea[] = { "a", NULL };
-++	if ((rc = poptStuffArgs(ctx, ea)))
-++	    break;
-++    }
-++    printf("%d\n", rc);
-++
-++    poptFreeContext(ctx);
-++    return rc;
-++}
-diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
-index 3e9137c156..10c4b4b0af 100644
---- a/meta/recipes-support/popt/popt_1.19.bb
-+++ b/meta/recipes-support/popt/popt_1.19.bb
-@@ -11,6 +11,7 @@ DEPENDS = "virtual/libiconv"
- SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
++diff --git a/ext/solv_pgpvrfy.c b/ext/solv_pgpvrfy.c
++index 9f1bd72e..9358558b 100644
++--- a/ext/solv_pgpvrfy.c
+++++ b/ext/solv_pgpvrfy.c
++@@ -589,7 +589,7 @@ solv_pgpvrfy(const unsigned char *pub, int publ, const unsigned char *sig, int s
++ 	if (rlen)
++ 	  memcpy(sigdata + 32 - rlen, r, rlen);
++ 	if (slen)
++-	  memcpy(sigdata + 64 - slen, s, rlen);
+++	  memcpy(sigdata + 64 - slen, s, slen);
++ 	res = mped25519(pub + 1 + 10 + 2 + 1, sigdata, sig + 2, hashl);
++ 	break;
++       }
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb b/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
+index cca2511ea5..b6704a3d3b 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.36.bb
+@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https;ta
             file://run-ptest \
-            file://CVE-2026-18743.patch \
-+           file://CVE-2026-18739.patch \
-            "
- SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
+            file://CVE-2026-9150.patch \
+            file://CVE-2026-9149.patch \
++           file://CVE-2026-48863.patch \
+ "
  
-@@ -23,7 +24,7 @@ do_compile_ptest() {
- }
- 
- do_install_ptest() {
--    for f in test1 test2 tdict test3 testit.sh test-poptrc; do
-+    for f in test1 test2 tdict test3 tstuff testit.sh test-poptrc; do
-         ${B}/libtool --mode=install install ${B}/tests/$f ${D}/${PTEST_PATH}
-     done
- }
+ SRCREV = "1e377699be108ec82bb798ec9c223d45d84a733c"
 
