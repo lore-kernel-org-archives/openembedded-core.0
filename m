@@ -2,154 +2,150 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A42C0CA5FED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A599ACA6004
 	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 20:44:38 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5174.1791319470866853279
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5184.1791319476909394436
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Oct 2026 13:44:31 -0700
+ Tue, 06 Oct 2026 13:44:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=mJ2D1H2U;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so9307275e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 13:44:30 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=2NJhwAdd;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4995b0343c1so19874915e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 13:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791319469; x=1791924269; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VYJCR6v7F75rR+8z7Yk+cS4NiHV4vcZcWVMQP1Z64fE=;
-        b=mJ2D1H2UhhOPh+ZIYVMSW29UzPAXC2+1YmIjr9qgCzJ2JLqjxJNFRRWYD/95Zv6uQU
-         NnK5vEr9rveW6pS9E5sQ3e/8m6W7DxbiHk8+gd9lPhHKMJfHJ8lTnIso2bv077D9Isyw
-         dMwYs1DlvPwlRF6yJOjh0KcD+XkJbjylM2zg0=
+        d=smile.fr; s=google; t=1791319475; x=1791924275; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=w+0l6o6kFbUJPMEYnH7np2ZXGQQLRad+3mAT/sQXDf4=;
+        b=2NJhwAddWZK2IjXseiKaJjzrJLCBAFGexIDOdHbWRwVsgaV2SKBUx89YUlH/ctqc/F
+         66bk9PQMyGZ4KgaRBOS2iUDEXSFgH7gFOwOX2otAkSj7yRl5NWRTBcUss4sTckXFjMU/
+         wMM4JftXtakpOFJVSOkwicPFuyGK4YTfPi/pU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791319469; x=1791924269;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=VYJCR6v7F75rR+8z7Yk+cS4NiHV4vcZcWVMQP1Z64fE=;
-        b=OHXi5ndyuZ8kJtRmVKytkL/ALJicVdlsrUeh3gBaUoZUzf9p8LsvZSc9AiRBjfyhac
-         YM8Obugt2bOrO+dRCDepIhFYkM+sj9p8NMUyja979ggA/FTYZBlHPKO+AtQR8ceLr10K
-         rukIZgX/Faw9S8N4IDZHtNOicNzaSrD8FVKRhpYocyqcyQ3GRgOC4atMQETOpnrUwwNg
-         ugVzaChHqbOLSVLgGWQvskPIY8SFkYQyjwGDkVD7dj5oGS6h/jYMkIR+MZWrVXUljYVm
-         NR6XldFVf0mVhnUkon05GL2xKarGa36IqzC3q7hXKWwuCNZcsQCGEYS2EjBH4g+bCUbp
-         YDdg==
-X-Gm-Message-State: AFuF++kQXG20iqVol3J0OwkZs3/gXRRGhGbNANEXXYavPL1zCF+9m1IZ
-	iMh3cZyFmQM76KvCre1u7XJfoT+ZW9KwZe3xsM//r3bv8tbKcF2rTNrAX8l1OX8tkCCWI62wt8J
-	jkPIqiJs=
-X-Gm-Gg: AYBFou1v064R5ZkMAXFfw8jkFVE20zTgs5Ud7v0XQFSR0g2JaMfxqf6JLp/v5BfZN1a
-	R3lBiCCqK+4IODPVP5MY2R1/ncwG5hGzxrJOkZ3AqqzB4JJyBuQG6e0e2xjLv30wN85GIsbNFP7
-	B++OPHLdNwVz3FfPu9SIZKnh9T7rC5um4SKgunkxRA1vapl6OKe3tXj9n7BToykhuVWWWdG+laX
-	BC1ln+1F6okwH1oa7zr8GncYYN1s4D5fL1TrikcDJQz9+4N+bfcxvQFyf+bOlU9tWhDIHmN1eqW
-	dy2Rn6ROj+S4cBaJn4C+dRZ1IegCVAgadYNOtfvi0ghdCF6kUqDAh/satO3uEBtvEbker44/wC0
-	iHqzG852jvIb7+cGADe/hQ1zBlY8hHxSstVVUvDlYf5532WaA06N++OPZ8qne+8EfOgiybl8swc
-	ICSsr+JP1yCQheqJdj668s0qIcR1q8ohRWRo6M9VvL3psUvC1AsJBjYl8QLyCY5lHhf3CFj2xUI
-	gfdt12IxHa+228m604sTSWPHGpLxd9KGcVvY6L1vNJb0eNRgXRh2O/pCNtZdrEfNFe1CairzEf4
-	pg==
-X-Received: by 2002:a05:600c:524c:b0:49c:c0d4:53d9 with SMTP id 5b1f17b1804b1-4a1802f632bmr646325e9.14.1791319469057;
-        Tue, 06 Oct 2026 13:44:29 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791319475; x=1791924275;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=w+0l6o6kFbUJPMEYnH7np2ZXGQQLRad+3mAT/sQXDf4=;
+        b=zehHFMmaw25qT4Dzv68L0LTfkLn044FNjZ3lsmvDzbfTRFLQBj7WVmVhs79p1eLe9i
+         M6XY4icl5JhTuIDO1I4I4nbgLbxaQXGsnCCyuldde4ZWXOBVLpnwV1iyswc+XlteCNm2
+         SvGEQ1DtdIPlY6G4YYWK9/57M7SNXnVOotUQSETqSOPODek6RiPAY95V3ejaFbhZkwRo
+         /udAdVQF7KldYiBDzXeUvIla7COlD8FcE2huC8EPb7nIgl9uatOc9sbDKCShbTqfcxh+
+         wYK63GHJWs/c9VMJnf4PnDrAasKB7omiK32Cy6Xk1IJl2wx5tkFk1k0LPP7Yly2P4YtZ
+         fQRw==
+X-Gm-Message-State: AFuF++kOIRKbHZM0eMWpWtPUC67ZpxoLV1+JVvvM6tVxBgSlQmA8yCx7
+	grph8tFWGDLBydsc27JQVqfv3JCqS5EPoIDadbJbqmhXysU0CLNoCcqeATvn4UitXAGLM37FRIT
+	4d36AcnE=
+X-Gm-Gg: AYBFou1R9ugRirxZUhDYGju8aOWSXqITpKfFS/pbMscmL/cDfiAj2uprmAt7rpQ3tJv
+	uhbKDwToTqYL0Vn+aw9m2YNqDTKsblZE+9RPd/VcmQK58jKWBujXQASimK0ySsTsiF10husbHXR
+	qsZEZG1q3iPxHZaZHZFK7NzaeRsgcIQCHZ36wjJvCjhj5rSnDJH9PhkRJs9AfKCuBqKF4EMCcgW
+	zM8nntd0GyrFfjfjnG/RkKU7dYZ0wJbygkeIp3L8w5Q+5YGrmpIQSW4J9poTI91ZOQ2JVlNWaRl
+	kFGLomDkoa1180lloOgl8w2e7OV6M1dmK7Gv4EeDsfeQESP6EJuds79n9iAnyyHyAviqo1sgQIC
+	1G+Z4vmDIcub30WOZeT5wLRLY4ICrP41redZE0D8w1+NF3O68auFRFG5O6jhp4Nb/xixcZIRg67
+	csaIkA3lg3FSXGSmGgGuG2L7OS8OUlXUemSv2Bcy/Z+LcdcLyg38mb4mJgp1Af1CIfnN4XY59wC
+	4jNiGxUDHXpLWPbtGZfw4DX4xYE+psEjmTNWQkIEJbyoC6CHkFb0pk6gbu3YHDkyMo=
+X-Received: by 2002:a05:600c:4ed0:b0:4a1:7f41:b9dc with SMTP id 5b1f17b1804b1-4a18043b80amr528075e9.23.1791319475194;
+        Tue, 06 Oct 2026 13:44:35 -0700 (PDT)
 Received: from FRSMI25-LASER (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c7273b5e0sm997338f8f.14.2026.10.06.13.44.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c7273b5e0sm997338f8f.14.2026.10.06.13.44.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 13:44:28 -0700 (PDT)
+        Tue, 06 Oct 2026 13:44:34 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail v2 09/18] opkg: take the default architecture from the target CPU
-Date: Tue,  6 Oct 2026 22:43:44 +0200
-Message-ID: <29e59577dc697f550296881ba6ed4c48ecc0ba4c.1791318909.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail v2 18/18] recipes-support/gnutls: disable slow tests for RISCV64
+Date: Tue,  6 Oct 2026 22:43:53 +0200
+Message-ID: <e182a0c4b91fd459c1f9dece0c7c23f7f9eaa7ab.1791318909.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791318909.git.yoann.congal@smile.fr>
 References: <cover.1791318909.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 20:44:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247344
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247355
 
-From: Sunil Dora <sunilkumar.dora@windriver.com>
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
 
-opkg sets HOST_CPU_STR from the build machine's CPU, so libopkg built
-for aarch64 contains "x86_64" on an x86_64 worker and "aarch64" on an
-aarch64 worker. Carry the upstream fix, which uses
-CMAKE_SYSTEM_PROCESSOR (HOST_ARCH via cmake.bbclass).
+Timeouts have been observed (very frequently in the past weeks)
+in the autobuilder, and a bug [1] was filed at Bugzilla.
 
-[YOCTO #15784]
-[YOCTO #16376]
+After some investigation [2] was performed by Trevor Gamblin, we now have a
+list of the most time consuming test cases:
 
-Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+- mini-record-2 (187880ms)
+- record-retvals (145390ms)
+- rng-op-key (63820ms)
+- rng-op-random (63330ms)
+- rng-op-nonce (63260ms)
+- dtls-rehandshake-cert (61360ms)
+- dtls-rehandshake-cert-2 (61230ms)
+- dtls-rehandshake-anon (61030ms)
+- mini-loss-time (60130ms)
+- mini-dtls-hello-verify-48 (30050ms)
+- tls12-ffdhe (27790ms)
+- x509sign-verify-rsa (18460ms)
+- x509sign-verify-ecdsa (16050ms)
+
+Disable the tests that take > 60000ms to avoid so many timeouts in qemuriscv64-ptest runs.
+
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=16162
+[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=16162#c19
+
+Signed-off-by: João Marcos Costa <joaomarcos.costa@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 97592b875b64db8490b5265a08577bf73a0e9c45)
+(cherry picked from commit cc848c403aa3832453f1adfaa45411b8b72b9363)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: [YOCTO #16162] ]
 ---
- ...the-default-architecture-from-the-ta.patch | 45 +++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.10.0.bb     |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg/opkg/0003-CMakeLists-take-the-default-architecture-from-the-ta.patch
+ meta/recipes-support/gnutls/gnutls/run-ptest |  1 +
+ meta/recipes-support/gnutls/gnutls_3.8.13.bb | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/meta/recipes-devtools/opkg/opkg/0003-CMakeLists-take-the-default-architecture-from-the-ta.patch b/meta/recipes-devtools/opkg/opkg/0003-CMakeLists-take-the-default-architecture-from-the-ta.patch
-new file mode 100644
-index 00000000000..ee7d35e34c4
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/0003-CMakeLists-take-the-default-architecture-from-the-ta.patch
-@@ -0,0 +1,45 @@
-+From fd8b3359e9e26a6a81f5f7cb04346c7bf44de279 Mon Sep 17 00:00:00 2001
-+From: Sunil Dora <sunilkumar.dora@windriver.com>
-+Date: Tue, 29 Sep 2026 23:55:32 -0700
-+Subject: [PATCH] CMakeLists: take the default architecture from the target CPU
-+
-+HOST_CPU_STR is the default architecture opkg accepts when no "arch"
-+lines are configured. It is set from CMAKE_HOST_SYSTEM_PROCESSOR, which
-+is the CPU of the build machine, so a cross-compiled opkg gets the wrong
-+default and libopkg differs depending on the machine it was built on.
-+
-+Use CMAKE_SYSTEM_PROCESSOR, which CMake sets for native builds and the
-+toolchain file sets when cross-compiling, and stop with an error if a
-+cross build doesn't set it.
-+
-+Fixes Bugzilla: #15784
-+
-+Upstream-Status: Submitted [https://lists.yoctoproject.org/g/opkg/message/218]
-+
-+Suggested-by: Alex Stewart <alex.stewart@emerson.com>
-+Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-+---
-+ CMakeLists.txt | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index e6deba8..7da091d 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -45,8 +45,11 @@ option(WITH_GPGME "Enable signature checking with gpgme" ON)
-+ set(DATADIR "/share" CACHE STRING "datadir")
-+ set(SYSCONFDIR "/etc" CACHE STRING "sysconfdir")
-+ set(VARDIR "/var" CACHE STRING "vardir")
-+-# This was ported from autoconf (it used to be "host_cpu"), but it should be target_cpu: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15784
-+-set(HOST_CPU_STR ${CMAKE_HOST_SYSTEM_PROCESSOR} CACHE STRING "Host CPU architecture")
-++# Default architecture: the CPU opkg runs on, not the build machine
-++if(CMAKE_CROSSCOMPILING AND NOT CMAKE_SYSTEM_PROCESSOR)
-++    message(FATAL_ERROR "Cross-compiling requires CMAKE_SYSTEM_PROCESSOR")
-++endif()
-++set(HOST_CPU_STR "${CMAKE_SYSTEM_PROCESSOR}" CACHE STRING "Default package architecture")
-+ 
-+ configure_file(config.h.in config.h)
-+ configure_file(libopkg.pc.in libopkg.pc @ONLY)
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-devtools/opkg/opkg_0.10.0.bb b/meta/recipes-devtools/opkg/opkg_0.10.0.bb
-index 0631868a30c..8563c85780c 100644
---- a/meta/recipes-devtools/opkg/opkg_0.10.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.10.0.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://opkg.conf \
-            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
-            file://0002-config.h.in-add-missing-WITH_SHA256-define.patch \
-+           file://0003-CMakeLists-take-the-default-architecture-from-the-ta.patch \
-            file://run-ptest \
-            "
+diff --git a/meta/recipes-support/gnutls/gnutls/run-ptest b/meta/recipes-support/gnutls/gnutls/run-ptest
+index b7827e1358a..1d6999669a3 100644
+--- a/meta/recipes-support/gnutls/gnutls/run-ptest
++++ b/meta/recipes-support/gnutls/gnutls/run-ptest
+@@ -53,6 +53,7 @@ test_disallowlist="${test_disallowlist} system-override-sig"
+ test_disallowlist="${test_disallowlist} system-override-sig-tls"
+ test_disallowlist="${test_disallowlist} system-prio-file"
+ test_disallowlist="${test_disallowlist} x509cert-tl"
++test_disallowlist="${test_disallowlist} @EXTRA_TEST_DISALLOWLIST@"
  
+ LOG=${PWD}/tests.log
+ cd tests
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.13.bb b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+index 9c8c994bdc8..88b6135bf1f 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.13.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+@@ -77,6 +77,24 @@ do_install:append:class-target() {
+         fi
+ }
+ 
++EXTRA_TEST_DISALLOWLIST ?= ""
++
++EXTRA_TEST_DISALLOWLIST:riscv64 = "\
++    dtls-rehandshake-anon \
++    dtls-rehandshake-cert \
++    dtls-rehandshake-cert-2 \
++    mini-loss-time \
++    mini-record-2 \
++    record-retvals \
++    rng-op-key \
++    rng-op-nonce \
++    rng-op-random \
++"
++
++do_install_ptest_base:append() {
++    sed -i 's:@EXTRA_TEST_DISALLOWLIST@:${EXTRA_TEST_DISALLOWLIST}:g' ${D}${PTEST_PATH}/run-ptest
++}
++
+ PACKAGES =+ "${PN}-dane ${PN}-openssl ${PN}-xx ${PN}-fips"
+ 
+ FILES:${PN}-dev += "${bindir}/gnutls-cli-debug"
 
