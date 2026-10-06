@@ -2,62 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 252B4CA5FED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E4BCA5FFC
 	for <webhook@archiver.kernel.org>; Tue,  6 Oct 2026 15:46:50 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.48871.1791301600155873037
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.48870.1791301599925390454
  for <openembedded-core@lists.openembedded.org>;
  Tue, 06 Oct 2026 08:46:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Ew7uKX36;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b9d8055dfso2538086f8f.3
+ dkim=pass header.i=@smile.fr header.s=google header.b=T3+musbb;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48c5358fc28so1745778f8f.0
         for <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 08:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1791301598; x=1791906398; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=iJR0ziekbJSfTWfAAfSAl3K3B7FIO2PEUvkRz7DAUp4=;
-        b=Ew7uKX36vPlKLrfmDOFQDeaNxWPtcg0r65sOs0Nc8Krz4WQxRxH4adkjAp7o6xzGUw
-         DzBCc9LxNYiceHviwRyrxjQOpk+L0EOZeyC1n31w/rXs6hlWIIWA0Nnn8AcLdfzfKzdP
-         LN//C0QQZzmVBBbL2bwWxjWDor2ExEvwkV0bo=
+        bh=cnBf3cVYQgiLwm3FRyl/LLlS1cl/Da76mPjtnZMhoVQ=;
+        b=T3+musbbLFOvSJz+mkNXtgZ9NdorW47sh7vFYacRoKoDBO5gspi1TOErkIRQldm+3k
+         L8fEVE76oOkYIuHixR/4G9m3i9ypbJ0yFr1yDW5NXTKHfRLEayG2Y3KmwMv4os+yAYbD
+         IlClPLmnd7accneyvKltu2wNV2OhrQxu4bGy0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1791301598; x=1791906398;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=iJR0ziekbJSfTWfAAfSAl3K3B7FIO2PEUvkRz7DAUp4=;
-        b=zQymfpMDm/rI/O8sL7nxIvG1EH4x/p//8Ca15VREwsBUXg+6YB5z2HMKHAgkwuZwGr
-         Ii/Y8lVTqpDcr+Ukze9+Y6SJXZUl6LhoqOkmUM1P80GEQ4OQD41zukXOZa3zOI7ENXgb
-         TS1boDl6mHD9ydPKCs/93ZxsAKc3qhAbK3U8JaPetUcyAQmY/woQDIu8pVDU6i2LeGYZ
-         90m08wXot1yCwII0P/ODlDPKJ48DGAa9/GW9nbjGDdj6WzRm7ekFNXeV1ONElV3oMnCK
-         apjag4fx910h/JBvxYTepQm4xsIoVNKaGu/1eUYd6oZTM3LVEWUBwNuUxEsmo8/Wo8wA
-         i5Eg==
-X-Gm-Message-State: AFq9FYJ/TBSX96eSeo9OorTEKzPNhOxMZCklO5YadxBRUeBq5+Z7IAjp
-	WZT3pHSONuJonuyJHVrPZwm4BX3ksRASn6eQi9qe10AmnqO+5Ig28kqjUCAgnqrN5w2BlNZZcdF
-	8ZY5uAIc=
-X-Gm-Gg: AYBFou1xwqqYzrK29Ri3qOmAOBQS+V8fJt1Kdfj7qb3omzrNTlfDXvF8old9OpiiBr9
-	v266QCeXpztq409j4S4hHhq+ridmgZZmgRPTgLCpHL3czhPOLOGc5qk11KoTt7M2uVeDdbKqnyw
-	jrTXArJ3tFKm1RK6NdFwYuB67RdhoDehEr8jgkFzU+m4ucq6cELTS2sfvrKHKy6bg8txUHHJJmu
-	oNgx6ffcAf/oahio3ipJHr+OsPGLwgo+kW7BanU20I8ldETdNIwmQ1xfpQ3rNx3c47f4Zo0DNZH
-	QD4mWGuKDfJIXYIshdrRdGjbB9pXLuPdJYHRc0/WFzmlBTy3wOzCoqqRzVkejINuOpe4/1FXMFQ
-	esBk7dBhH+cSCtduZ7pwR0NukhqtyOAmSH+aLlJv8IHiTkfA1y81EVnR5nFb0K/dq09bnf8hAsu
-	gho9s1DShxRovThkTeUjmQqkgrzFksUuypA3aNsrLauWfrBr3l64xxog905sIgC9oMIAlmjBYUM
-	aOho3SsFSCSsU38OHzt+jII8gW4mkU8VXEP4FZcLsRuWSYuoMTFqakofYYr/2lVaqDgTrME+FkR
-	M+e6U1w=
-X-Received: by 2002:a05:6000:98f:b0:488:7097:3b45 with SMTP id ffacd0b85a97d-48c47c8ece9mr17432864f8f.7.1791301598395;
-        Tue, 06 Oct 2026 08:46:38 -0700 (PDT)
+        bh=cnBf3cVYQgiLwm3FRyl/LLlS1cl/Da76mPjtnZMhoVQ=;
+        b=Hsccju+dTQ45aXcDRQ7l6ej14lsyq0iVZ4cSUFQcEXrpmWGgC9sAAh4LFqojztBiYV
+         Sr62oc8f3y406Wu+fiHzOaQEYt1BCfPPUBKRO3pIU+fhXWyI9xKe55ykOhNhGRno7AKG
+         0s2zPb4PVPNcouIOx1yBEBIVrF4R8ZtzzHMAs+eYO0KTXg2J9mWtlFXElgkfqM5JWTvN
+         eLhvvn844xdAC8n8QXnOkhNvAGLs+XOy4JR0xomUYZol9DRXyE0y6OlQhfvCIfDUQ5jN
+         38Accr2nLwsF60BZLOt783+GBVIfQ6FKfbL8jiQ/ILvzLpxr2zcW3rl7CAgEA+dRJSG1
+         sPtw==
+X-Gm-Message-State: AFq9FYKw2D3RBd2wollKX2V78RuOLKBBE0c9oM8aDWnmWeDiaps5QA9K
+	hDjBTyG1haZhny60U1t9v3kghpvsDtZkyIoesx0S654T/ZEmMFw8u1pPUCOADORHcAeojVHGiPE
+	YIklWmOg=
+X-Gm-Gg: AYBFou0yUfojkI/6Ud3qHwCwN3TWXJM04ykIkhIZTXubsSTzwkJSBKYIsf1Zb50z11+
+	xuLuhpfvUMXd02X46NjTL93IJtUKiBD6PKYYiIU/i2QsaZiAty5fh38GyP9XfsQN5BFp+KlaC6X
+	ybnMYG/EjKGfNmcEh1sjp2bMElfd98T13QWZBw5zY7+0hzmKkKtccqLeux6r4NG60Lic6oz9oUx
+	gsVYRtNk+0wCr/WtnREuGcTRlu7W69PD0qnCSFPgKHfLveLSBdZJzo+4GCL53rkpd5lRULNL2xa
+	ySPPQpzb5YvguMppvAH3sNVTQ5VF7y4UcjlZEgNOVm/LDZpNlz3q300mBs+N1O2q+hn2W1h+r9Y
+	kyaIcbZRr7nzq1N/UlUqoXQgAuTV5O1oRaaMAffeiauB08UKWD00/gIo4/92i3tm5qH/8jV3vS0
+	pGJuWFGlUqlI1zJZGk46PioNtUWi77w6pQNJjQL1T/tfJuMuFJK399+0tEoFCHdFYEoB02dSj5H
+	lr1npUJdF+KFc0WcWbG4uSlxxlAr8/qf7PNFsXhIxh2uw4P2Ma1L+KPq8uH7kmHFuV8lR/FUWuo
+	ZdJmFQ==
+X-Received: by 2002:a5d:5f09:0:b0:48a:f464:2cc5 with SMTP id ffacd0b85a97d-48c4800d152mr20099181f8f.37.1791301596662;
+        Tue, 06 Oct 2026 08:46:36 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d3032csm257281f8f.45.2026.10.06.08.46.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d3032csm257281f8f.45.2026.10.06.08.46.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 08:46:38 -0700 (PDT)
+        Tue, 06 Oct 2026 08:46:36 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 18/19] python3-hypothesis: upgrade 6.168.1 -> 6.168.3
-Date: Tue,  6 Oct 2026 17:46:04 +0200
-Message-ID: <7d751c02c23caef98af3bc727ef5f05d851b380d.1791299195.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 16/19] python3-pytz: upgrade 2026.3.post1 -> 2026.4
+Date: Tue,  6 Oct 2026 17:46:02 +0200
+Message-ID: <2f796944eecaa93ecb062c19a2007e60275325b2.1791299195.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791299195.git.yoann.congal@smile.fr>
 References: <cover.1791299195.git.yoann.congal@smile.fr>
@@ -67,47 +67,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 Oct 2026 15:46:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247307
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247306
 
 From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
-Changelog:
-6.168.3 - 2026-09-28
-- This patch fixes quadratic-time behaviour when summarising the
-  statistics of a test run, which Hypothesis does for every test when
-  running under pytest. This avoids an apparent hang after the last test
-  case with a high number of test cases (>100k).
-
-6.168.2 - 2026-09-27
-- This patch makes writes to the cache of constants collected from local
-  source files atomic. Previously, a concurrent process sharing the same
-  .hypothesis directory, such as another pytest-xdist worker, could read
-  a partially written cache file, which silently changed the data
-  generated for a given @seed.
+Full changelog:
+https://github.com/stub42/pytz/compare/release_2026.3.post1...release_2026.4
 
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ca44cc161537f7f37b7ff7305ce6f58af7719308)
+(cherry picked from commit 79cb8f719518a5a4134dc17546b6d8cbe3c6bc8a)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...hon3-hypothesis_6.168.1.bb => python3-hypothesis_6.168.3.bb} | 2 +-
+ .../{python3-pytz_2026.3.post1.bb => python3-pytz_2026.4.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.168.1.bb => python3-hypothesis_6.168.3.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-pytz_2026.3.post1.bb => python3-pytz_2026.4.bb} (86%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.168.3.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.168.3.bb
-index 7386f26afa4..980161d42cb 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.168.3.bb
-@@ -16,7 +16,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb b/meta/recipes-devtools/python/python3-pytz_2026.4.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
+rename to meta/recipes-devtools/python/python3-pytz_2026.4.bb
+index 72a74db3577..4a2eda07a60 100644
+--- a/meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
++++ b/meta/recipes-devtools/python/python3-pytz_2026.4.bb
+@@ -7,7 +7,7 @@ inherit pypi setuptools3 ptest-python-pytest
  
--SRC_URI[sha256sum] = "fd8acb5c67f260dfbdcc1b2dc95ff48b2b3f90708ae595c76f591bbf3f6f8eeb"
-+SRC_URI[sha256sum] = "a43388f9067678fef6e13bdff325b6cfa6961a590498bb37f7ff31589c83bc75"
+ PTEST_PYTEST_DIR = "pytz/tests"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+-SRC_URI[sha256sum] = "2211d3fcf9a797d3405cac96ac7f61d80e6a644f72a3309607282fe8a2010c5d"
++SRC_URI[sha256sum] = "464303645bafafd72418898368b2429458f709cf1eb6a15372fbcc396b64da63"
+ 
+ RDEPENDS:${PN}:class-target += "\
+     python3-datetime \
 
