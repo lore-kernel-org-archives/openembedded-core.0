@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C20F0CA600A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4F28CA600C
 	for <webhook@archiver.kernel.org>; Wed,  7 Oct 2026 05:48:44 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1963.1791352117646477275
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1829.1791352117751337737
  for <openembedded-core@lists.openembedded.org>;
  Tue, 06 Oct 2026 22:48:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Mw6Nt/FR;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=myrwfQrX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a114e815c4-560ef97e-2584-4203-9106-010ff21ad1eb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=iah25eLK;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rF/vq9zl;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a114e81618-bbf76308-562a-4d2b-b7f0-7f091a2b68ff-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1791352116;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=6UVsLyULZr25m/02G1hT9ziqrAOpYt7JBzlcGUvgv+M=;
-	b=Mw6Nt/FRH7Oj3DPdGV1jAMOivLbyRXDtSMkf2u9G7X7CtG0ZEjjei2da9o2xyV9L
-	uD1XRXTwOxAzAVAO2SkgmPXYjXacLjzcx9k0RDW92CdfbExfu3OI4y3AuVmT4Q7EYek
-	YA4ukskQ1waoyw3xwdd2d+UZ8iNcXJQi4EFpHO2w=
+	bh=BX+IkzZQ7Ni6ZVXIDeY5g0XuMBNuBYBHtZNgh3PGQdk=;
+	b=iah25eLKuG/feJGCVSYQfiAb9mvy5qXX6lrlXxAkdohUG8wnrFV6Q87zlq6tWO1U
+	P5Y0PH3J3dQ3mfIjfCHBw8OuYjJxEWD0NnaBIDAOKLZ7oPTNW/dg4RbcLJZGN5uQBLg
+	JlIzoL7wGmBsXpoLGrK502EGvvktEv3tQ7GtrN90=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791352116;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=6UVsLyULZr25m/02G1hT9ziqrAOpYt7JBzlcGUvgv+M=;
-	b=myrwfQrXQCw3yl/Myy6lfi1oE1CO2pyAUqhLvbKQ2wORacHIwqxMo2heFx76eLZu
-	GH7Cq/XGGSyBiOFZRcCwnqK3e8/64gEgA/+KqWJnqZ1iC6hBUaUMsgkiaElUgTeldPz
-	xVrMzs1O6L27qCeNynHopGju8aNPv7OwsR/+5bYo=
-Content-Type: multipart/mixed; boundary="===============8853594108126803958=="
+	bh=BX+IkzZQ7Ni6ZVXIDeY5g0XuMBNuBYBHtZNgh3PGQdk=;
+	b=rF/vq9zlwE0tZv6Mkptgi34s5LJDnm6VEerwfNOjhJuMCvNAHpxAOFwNozu+f0n0
+	cO1sAZjIQvWLCZzhKbR3mfsJQeACkS2ylHL0UWn9X30eI2MIHTNQGlmFyDqLPMdzCa9
+	P/mRjhzxqU5wRZHzSmPp6s6csinSEZbZ3zmQK+yA=
+Content-Type: multipart/mixed; boundary="===============8419304859790431784=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] openssh: upgrading to 10.6p1 SUCCEEDED
-Message-ID: <010101a114e815c4-560ef97e-2584-4203-9106-010ff21ad1eb-000000@us-west-2.amazonses.com>
+Subject: [AUH] log4cplus: upgrading to 2.2.1 SUCCEEDED
+Message-ID: <010101a114e81618-bbf76308-562a-4d2b-b7f0-7f091a2b68ff-000000@us-west-2.amazonses.com>
 Date: Wed, 7 Oct 2026 05:48:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.07-54.240.27.30
+X-SES-Outgoing: 2026.10.07-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Oct 2026 05:48:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247360
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247361
 
---===============8853594108126803958==
+--===============8419304859790431784==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *openssh* to *10.6p1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *log4cplus* to *2.2.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-openssh-upgrade-10.5p1-10.6p1.patch
+    - apply the patch: git am 0001-log4cplus-upgrade-2.2.0.1-2.2.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,462 +71,445 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dae49ade37fafe4dd27d3aec3d3fc39fe4ef6ad2 Mon Sep 17 00:00:00 2001
+From 3e1211fb68e3be05318e36b318b14fb4f64fee24 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 7 Oct 2026 05:22:35 +0000
-Subject: [PATCH] openssh: upgrade 10.5p1 -> 10.6p1
+Date: Wed, 7 Oct 2026 05:26:41 +0000
+Subject: [PATCH] log4cplus: upgrade 2.2.0.1 -> 2.2.1
 
-.depend
-update RPM spec files
-upstream: openssh-10.6
-upstream: Add test for proxycommand percent expansions.
-upstream: backout regress bits related to multiplexing change
-remove the --disable-fd-passing configure option
-disable features when post-auth sshd runs as root
-Don't automatically enable FORTIFY_SOURCE.
-upstream: Further restrict the characters allowed in a command-line
-Remove NetBSD 9.0 test target.
-Replace native ARM runner with remote runner.
-Pull older NetBSD sudo package from archive.
-upstream: make StreamLocalBindMask properly first-match-wins;
-upstream: make StreamLocalBindMask properly respect Host/Match
-upstream: start process of deprecating the -R flag. This was the
-upstream: mention default KDF rounds is now 32
-upstream: Implement a maximum number of KDF rounds that will be
-upstream: fix the bit length of ML-DSA 44/Ed25519 keys that was
-upstream: sftp: be stricter in accepting paths returned by the
-upstream: handle max-pk-ok path identically when the incoming user
-upstream: Disallow nul byte in received scp -O filename. Not
-upstream: backout
-upstream: Check that compressed payloads don't inflate beyond the
-upstream: ssh-agent: no unlink(2) on empty filename
-upstream: ssh-agent: fix socket cleanup for -a option (no pathspec)
-upstream: Disable LZ77 dictionary coder to avoid a potential
-upstream: check ssh's handling of stale multiplexing sockets From Jens
-upstream: avoid race between multiple processes attempting to
-upstream: Include local and remote versions in ~I connection info.
-Remove the NetBSD BROKEN_READ_COMPARISON workaround.
-Ignore build/install status of netcat in tests.
-Add FreeBSD 15 test targets.
-upstream: Better wording.
-upstream: use Nm instead of Xr to self
-Don't deref NULL on STREAMS tty alloc failure.
-upstream: Plug leak. CID 913600.
-upstream: an abbreviation ending in a dot at EOL requires escaping
-upstream: tweak 1.406: minor wording and markup OK djm@
-upstream: draft-ietf-sshm-ssh-agent became RFC 9987 ok dtucker@
-Remove leftover from testing.
-Add fallback for mkdir_path() without openat().
-upstream: Use >= instead of > for max comparison so that the
-upstream: Use equality not assignment in ternary. CID 913600.
-upstream: spelling; ok deraadt@
-Also skip scp3 test on Darwin 26 and 27.
-upstream: convert channel timeouts to use floating points, allows
-upstream: masking signals requried sigaddset, not sigdelset; bz3981
-upstream: bz3635 - ssh-add -P to skip PIN entry
-upstream: simpler
-upstream: leaks on error paths; spotted by Coverity CID 913598
-upstream: fix inverted logic that could cause a memleak; spotted en
-upstream: Add missing semicolon after return. CID 913599, ok
-upstream: correctly check sshauthopt->restricted merging
-unbreak readpassphrase.c sync
-sync readpassphrase(3) with OpenBSD libc
-upstream: whitespace
-upstream: adapt to libsodium ed25519 implementation
-upstream: missing part of previous commit: update script to
-upstream: switch from SUPERCOP ed25519 to libsodium
-upstream: Only store GSSAPI creds when authn succeeds
-upstream: Reset GSSAPI client state before authentication
-upstream: Correctly handle some options that accept "none"
-upstream: Propagate authorized_keys "resrict" keyword
-upstream: Check key and CA sig type during key parsing
-upstream: Add WarnWeakCrypto to sshd
-upstream: Allow specification of agent socket directories
-upstream: Account pubkey checks separately to auth attempts
-upstream: Extend TCPKeepAlive to support forwardings too
-upstream: Mask SIGTERM/SIGQUIT when processing a SIGHUP restart
-fix merge botch that put lines in wrong function
-upstream: Correct handling of DST when converting dates
-upstream: sk-usbhid: preserve UV requirement for resident keys
-upstream: Fix memory leak on an error path in mkdir_path
-upstream: sftp: don't crash when glob(3) results lack stat information
-openpty: mark inputs const
-upstream: replace testing of vendor PQ signature algorithm
-upstream: minor leak of fingerprint text when printing
-upstream: the default KDF rounds for keys generated by ssh-keygen
-Don't link sshd against libselinux
-upstream: warnings fixes (static vs missing prototype, sign conversion)
-sshd doesn't need sshpty.c any more
-upstream: wrap line
-upstream: g/c prototype
-upstream: disconnect_controlling_tty() is the only thing from sshpty.c
-upstream: Fix ChannelTimeout specificity
-allow madvise(..., MADV_DONTNEED_LOCKED)
-upstream: fix case for ssh -G option output; bz4005, reported by
-upstream: mux proxy sockets also share in and out fds, so using
-upstream: don't attempt to set TCP_NODELAY on non-AF_INET[6]
-upstream: add a "hexdump" export mode that dumps the key blob in
-upstream: Add '-p' to sftp mkdir/lmkdir to create directories as
-upstream: Use getexecpath(3); if it fails use argv[0] as before
-upstream: Change three paragraphs in different parts of the manual
-upstream: update fingerprint example from RSA to Ed25519 host key
-upstream: Remove scp '-s' flag from synopsis, the flag has been a
-set -Wno-error=discarded-qualifiers
-seccomp sandbox:
+# Unreleased (2.2.1)
+
+  - **IMPORTANT**: CMake builds now require CMake 3.20 or later. The
+    implementation language remains C++11. GitHub PR #698.
+
+  - **IMPORTANT**: iOS builds now use CMake's native platform support. The
+    legacy custom iOS toolchain, `IOS_PLATFORM`/`CMAKE_IOS_*` variables, and
+    ARMv7/i386 build scripts have been removed. The obsolete Android
+    `LIBRARY_OUTPUT_PATH_ROOT` toolchain integration has also been removed.
+    GitHub PR #698.
+
+  - Prevent `DailyRollingFileAppender` process-exit rollover from accessing a
+    destroyed directory separator string when `RollOnClose` is enabled. Keep
+    the separator valid throughout shutdown by using a constant character.
+    GitHub issue #272. GitHub PR #711.
+
+  - Fix `TimeBasedRollingFileAppender` archive cleanup when consecutive
+    cleanups cross a partial rollover period, so expired archives are not
+    skipped during sparse logging. GitHub issue #634. GitHub PR #687,
+    backported in #690. (fhgffy)
+
+  - Fix `TimeBasedRollingFileAppender` rollover when `File` is omitted or
+    empty. Keep completed dated files and append to the next `FilenamePattern`
+    destination, preserving existing messages during repeated rollover and
+    `RollOnClose`. Initial opening still honors `Append`. GitHub issue #668.
+    GitHub PR #697.
+
+  - Honor `CreateDirs` for dated archive directories in
+    `TimeBasedRollingFileAppender` with a fixed `File`. On rename failure,
+    preserve the active log and retry the original archive destination on the
+    next eligible event instead of truncating the log. Report rename errors
+    through the appender's error handler. GitHub issue #644. GitHub PR #708.
+
+  - Fix `TimeBasedRollingFileAppender` period recovery across sequential
+    process restarts. Use the modification time of a nonempty fixed `File`
+    opened with `Append=true` to select its archive period, and roll over an
+    expired period before writing the first eligible new event. Retain that
+    period through stream reopens and failed rollover retries. GitHub issue
+    #588. GitHub PR #710.
+
+  - Fix accounting for asynchronous events dropped when the nonblocking thread
+    pool queue is full. Appender shutdown and destruction can now finish after
+    accepted events drain when `log4cplus.threadPoolBlockOnFull=false`. GitHub
+    PR #694.
+
+  - Fix asynchronous event accounting when an accepted nonblocking task
+    finishes with an exception before its result is polled. Decrement the
+    pending count only once, preventing unsigned underflow and shutdown hangs
+    after queued work has drained. GitHub PR #716.
+
+  - Fix `AsyncAppender::close()` to join its queue worker even after the
+    worker stops running, so `close()` waits for thread-local cleanup after
+    worker failure. Preserve queue draining and the synchronous logging
+    fallback. GitHub PR #705.
+
+  - Update the internal ThreadPool to recover safely from worker creation and
+    pool growth failures, create one worker when a zero size is requested,
+    reclaim retired workers, and wait for complete worker exit during
+    shutdown. GitHub issue #646. GitHub PR #701 and ThreadPool PR
+    log4cplus/ThreadPool#3.
+
+  - Fix Windows DLL cleanup hangs and crashes during process termination
+    through `exit()` or `ExitProcess()`. Skip resource cleanup once Windows
+    has started terminating threads. Pending logging may be lost during
+    process termination; orderly shutdown still drains accepted events. GitHub
+    issue #408. GitHub PR #703.
+
+  - Keep fractional timestamp padding for `%q` and `%Q` valid during startup
+    and shutdown by replacing global strings with constant literal tables.
+    Preserve the existing formatted output. GitHub issue #273. GitHub PR #714.
+
+  - Fix installed CMake packages to discover `Threads` for static
+    multithreaded libraries and provide `log4cplus::log4cplus` for static and
+    Unicode builds with decorated library names. Add installed-package
+    consumer regression coverage for shared/static and narrow/Unicode
+    configurations. GitHub PR #690.
+
+  - Generate CMake pkg-config metadata using the selected library name,
+    including static/Unicode decoration and the Windows Debug postfix. Refresh
+    the installed metadata when switching build configurations. GitHub PR
+    #698.
+
+  - Enable the internal thread pool in the handwritten MSBuild projects,
+    restoring asynchronous logging support in both shared and static builds.
+    GitHub PR #698.
+
+  - Fix Windows archive-cleanup unit-test compilation and fixture creation.
+    Remove an obsolete Win32 stream test source dependency from MinGW
+    Autotools builds. GitHub PR #691 and #698.
+
+  - Move Visual Studio 2019 and 2022 CMake/MSBuild CI builds to GitHub Actions
+    with explicit `v142`/`v143` toolsets. Retain Visual Studio 2017 on
+    AppVeyor and update its CMake installation to satisfy the new minimum
+    version. GitHub PR #691 and #699.
+
+  - Support native CMake device and Simulator builds for iOS 15 and la
 
 [Changelog truncated as it exceeds 5000 characters;
 the full changelog can be found in an attachment to the AUH email]
 ---
- ...1-regress-banner.sh-log-input-and-output-files-on-erro.patch | 2 +-
- .../openssh/{openssh_10.5p1.bb => openssh_10.6p1.bb}            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh_10.5p1.bb => openssh_10.6p1.bb} (99%)
+ .../log4cplus/{log4cplus_2.2.0.1.bb => log4cplus_2.2.1.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/log4cplus/{log4cplus_2.2.0.1.bb => log4cplus_2.2.1.bb} (91%)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-index f424288e37..aa25f09537 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-@@ -1,4 +1,4 @@
--From 5cc897fe2effe549e1e280c2f606bce8b532b61e Mon Sep 17 00:00:00 2001
-+From af460c6fc73213c41a498dc15f72e6e64f2342f1 Mon Sep 17 00:00:00 2001
- From: Mikko Rapeli <mikko.rapeli@linaro.org>
- Date: Mon, 11 Sep 2023 09:55:21 +0100
- Subject: [PATCH] regress/banner.sh: log input and output files on error
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.5p1.bb b/meta/recipes-connectivity/openssh/openssh_10.6p1.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssh/openssh_10.5p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_10.6p1.bb
-index 052686f289..6043f140b3 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.6p1.bb
-@@ -25,7 +25,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://sshd_check_keys \
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-            "
--SRC_URI[sha256sum] = "d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11"
-+SRC_URI[sha256sum] = "a9dc9565dffe8640f64d863cd29a32bc4a3dbdec0566a7fc44c5d6ee767d5f39"
+diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb b/meta/recipes-devtools/log4cplus/log4cplus_2.2.1.bb
+similarity index 91%
+rename from meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
+rename to meta/recipes-devtools/log4cplus/log4cplus_2.2.1.bb
+index a10dd175a2..6aa29fb953 100644
+--- a/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
++++ b/meta/recipes-devtools/log4cplus/log4cplus_2.2.1.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=41e8e060c26822886b592ab4765c756b"
+ GITHUB_TAG = "REL_${@d.getVar('PV').replace('.', '_')}"
  
- CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
+ SRC_URI = "https://github.com/log4cplus/log4cplus/releases/download/${GITHUB_TAG}/log4cplus-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "374175c22fabe752eb1c20138e732b69ae191e641f92d32c9432985cd860a2df"
++SRC_URI[sha256sum] = "e19d9b294f8c4c8f60467e0f456e1a347c81d479369d5840afc80c1137b7db6c"
  
+ UPSTREAM_CHECK_URI = "https://github.com/log4cplus/log4cplus/releases"
+ UPSTREAM_CHECK_REGEX = "log4cplus-(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.47.1
 
 
---===============8853594108126803958==
+--===============8419304859790431784==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dev: FILELIST: added "/usr/include/log4cplus/androidappender.h"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus: FILELIST: removed "/usr/lib/liblog4cplusU-2.2.so.11.0.0 /usr/lib/liblog4cplus-2.2.so.11.0.0", added "/usr/lib/liblog4cplus-2.2.so.11.1.0 /usr/lib/liblog4cplusU-2.2.so.11.1.0"
+Changes to packages/x86-64-v3-poky-linux/log4cplus (sysroot):
+  /usr/lib/liblog4cplus-2.2.so.11 changed symlink target from liblog4cplus-2.2.so.11.0.0 to liblog4cplus-2.2.so.11.1.0
+  /usr/lib/liblog4cplus.so changed symlink target from liblog4cplus-2.2.so.11.0.0 to liblog4cplus-2.2.so.11.1.0
+  /usr/lib/liblog4cplusU-2.2.so.11 changed symlink target from liblog4cplusU-2.2.so.11.0.0 to liblog4cplusU-2.2.so.11.1.0
+  /usr/lib/liblog4cplusU.so changed symlink target from liblog4cplusU-2.2.so.11.0.0 to liblog4cplusU-2.2.so.11.1.0
+  /usr/lib/liblog4cplus-2.2.so.11.0.0 moved to /usr/lib/liblog4cplus-2.2.so.11.1.0
+  /usr/lib/liblog4cplusU-2.2.so.11.0.0 moved to /usr/lib/liblog4cplusU-2.2.so.11.1.0
+  /usr/include/log4cplus/androidappender.h was added
+
+--===============8419304859790431784==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="log4cplus-changelog.txt"
+
+# Unreleased (2.2.1)
+
+  - **IMPORTANT**: CMake builds now require CMake 3.20 or later. The
+    implementation language remains C++11. GitHub PR #698.
+
+  - **IMPORTANT**: iOS builds now use CMake's native platform support. The
+    legacy custom iOS toolchain, `IOS_PLATFORM`/`CMAKE_IOS_*` variables, and
+    ARMv7/i386 build scripts have been removed. The obsolete Android
+    `LIBRARY_OUTPUT_PATH_ROOT` toolchain integration has also been removed.
+    GitHub PR #698.
+
+  - Prevent `DailyRollingFileAppender` process-exit rollover from accessing a
+    destroyed directory separator string when `RollOnClose` is enabled. Keep
+    the separator valid throughout shutdown by using a constant character.
+    GitHub issue #272. GitHub PR #711.
+
+  - Fix `TimeBasedRollingFileAppender` archive cleanup when consecutive
+    cleanups cross a partial rollover period, so expired archives are not
+    skipped during sparse logging. GitHub issue #634. GitHub PR #687,
+    backported in #690. (fhgffy)
+
+  - Fix `TimeBasedRollingFileAppender` rollover when `File` is omitted or
+    empty. Keep completed dated files and append to the next `FilenamePattern`
+    destination, preserving existing messages during repeated rollover and
+    `RollOnClose`. Initial opening still honors `Append`. GitHub issue #668.
+    GitHub PR #697.
+
+  - Honor `CreateDirs` for dated archive directories in
+    `TimeBasedRollingFileAppender` with a fixed `File`. On rename failure,
+    preserve the active log and retry the original archive destination on the
+    next eligible event instead of truncating the log. Report rename errors
+    through the appender's error handler. GitHub issue #644. GitHub PR #708.
+
+  - Fix `TimeBasedRollingFileAppender` period recovery across sequential
+    process restarts. Use the modification time of a nonempty fixed `File`
+    opened with `Append=true` to select its archive period, and roll over an
+    expired period before writing the first eligible new event. Retain that
+    period through stream reopens and failed rollover retries. GitHub issue
+    #588. GitHub PR #710.
+
+  - Fix accounting for asynchronous events dropped when the nonblocking thread
+    pool queue is full. Appender shutdown and destruction can now finish after
+    accepted events drain when `log4cplus.threadPoolBlockOnFull=false`. GitHub
+    PR #694.
+
+  - Fix asynchronous event accounting when an accepted nonblocking task
+    finishes with an exception before its result is polled. Decrement the
+    pending count only once, preventing unsigned underflow and shutdown hangs
+    after queued work has drained. GitHub PR #716.
+
+  - Fix `AsyncAppender::close()` to join its queue worker even after the
+    worker stops running, so `close()` waits for thread-local cleanup after
+    worker failure. Preserve queue draining and the synchronous logging
+    fallback. GitHub PR #705.
+
+  - Update the internal ThreadPool to recover safely from worker creation and
+    pool growth failures, create one worker when a zero size is requested,
+    reclaim retired workers, and wait for complete worker exit during
+    shutdown. GitHub issue #646. GitHub PR #701 and ThreadPool PR
+    log4cplus/ThreadPool#3.
+
+  - Fix Windows DLL cleanup hangs and crashes during process termination
+    through `exit()` or `ExitProcess()`. Skip resource cleanup once Windows
+    has started terminating threads. Pending logging may be lost during
+    process termination; orderly shutdown still drains accepted events. GitHub
+    issue #408. GitHub PR #703.
+
+  - Keep fractional timestamp padding for `%q` and `%Q` valid during startup
+    and shutdown by replacing global strings with constant literal tables.
+    Preserve the existing formatted output. GitHub issue #273. GitHub PR #714.
+
+  - Fix installed CMake packages to discover `Threads` for static
+    multithreaded libraries and provide `log4cplus::log4cplus` for static and
+    Unicode builds with decorated library names. Add installed-package
+    consumer regression coverage for shared/static and narrow/Unicode
+    configurations. GitHub PR #690.
+
+  - Generate CMake pkg-config metadata using the selected library name,
+    including static/Unicode decoration and the Windows Debug postfix. Refresh
+    the installed metadata when switching build configurations. GitHub PR
+    #698.
+
+  - Enable the internal thread pool in the handwritten MSBuild projects,
+    restoring asynchronous logging support in both shared and static builds.
+    GitHub PR #698.
+
+  - Fix Windows archive-cleanup unit-test compilation and fixture creation.
+    Remove an obsolete Win32 stream test source dependency from MinGW
+    Autotools builds. GitHub PR #691 and #698.
+
+  - Move Visual Studio 2019 and 2022 CMake/MSBuild CI builds to GitHub Actions
+    with explicit `v142`/`v143` toolsets. Retain Visual Studio 2017 on
+    AppVeyor and update its CMake installation to satisfy the new minimum
+    version. GitHub PR #691 and #699.
+
+  - Support native CMake device and Simulator builds for iOS 15 and later. iOS
+    builds default to static libraries with tests and the logging server
+    disabled, and disable interprocedural optimization so that installed
+    archives can be packaged into an XCFramework. GitHub PR #698.
+
+  - Add the Android-only `log4cplus::AndroidAppender`, which writes formatted
+    events to Logcat through system `liblog`. Its `Tag` property defaults to
+    `log4cplus`; tags and long message chunks preserve UTF-8 boundaries.
+    Android production builds now link `liblog`, with static CMake consumers
+    receiving the dependency without an absolute NDK path. GitHub PR #698.
+
+  - Modernize Android build and installed-package validation using NDK r29,
+    C++11, API level 21, and all four current NDK ABIs. The logging server now
+    defaults to disabled on Android. GitHub PR #698.
+
+  - Add iOS archive and XCFramework CI validation. Mobile CI checks
+    compilation, linking, installation and packaging, without running device
+    tests. GitHub PR #698.
+
+  - Preserve the configured IPv6 setting when `SocketAppender` and
+    `SysLogAppender` reconnect. Improve Apple socket portability by preventing
+    `SIGPIPE` on socket writes and avoiding descriptor and size narrowing.
+    GitHub PR #698.
+
+--===============8419304859790431784==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-openssh-upgrade-10.5p1-10.6p1.patch"
+ filename="0001-log4cplus-upgrade-2.2.0.1-2.2.1.patch"
 
-RnJvbSBkYWU0OWFkZTM3ZmFmZTRkZDI3ZDNhZWMzZDNmYzM5ZmU0ZWY2YWQyIE1vbiBTZXAgMTcg
+RnJvbSAzZTEyMTFmYjY4ZTNiZTA1MzE4ZTM2YjMxOGIxNGZiNGY2NGZlZTI0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgNyBPY3QgMjAyNiAwNToyMjozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9w
-ZW5zc2g6IHVwZ3JhZGUgMTAuNXAxIC0+IDEwLjZwMQoKLmRlcGVuZAp1cGRhdGUgUlBNIHNwZWMg
-ZmlsZXMKdXBzdHJlYW06IG9wZW5zc2gtMTAuNgp1cHN0cmVhbTogQWRkIHRlc3QgZm9yIHByb3h5
-Y29tbWFuZCBwZXJjZW50IGV4cGFuc2lvbnMuCnVwc3RyZWFtOiBiYWNrb3V0IHJlZ3Jlc3MgYml0
-cyByZWxhdGVkIHRvIG11bHRpcGxleGluZyBjaGFuZ2UKcmVtb3ZlIHRoZSAtLWRpc2FibGUtZmQt
-cGFzc2luZyBjb25maWd1cmUgb3B0aW9uCmRpc2FibGUgZmVhdHVyZXMgd2hlbiBwb3N0LWF1dGgg
-c3NoZCBydW5zIGFzIHJvb3QKRG9uJ3QgYXV0b21hdGljYWxseSBlbmFibGUgRk9SVElGWV9TT1VS
-Q0UuCnVwc3RyZWFtOiBGdXJ0aGVyIHJlc3RyaWN0IHRoZSBjaGFyYWN0ZXJzIGFsbG93ZWQgaW4g
-YSBjb21tYW5kLWxpbmUKUmVtb3ZlIE5ldEJTRCA5LjAgdGVzdCB0YXJnZXQuClJlcGxhY2UgbmF0
-aXZlIEFSTSBydW5uZXIgd2l0aCByZW1vdGUgcnVubmVyLgpQdWxsIG9sZGVyIE5ldEJTRCBzdWRv
-IHBhY2thZ2UgZnJvbSBhcmNoaXZlLgp1cHN0cmVhbTogbWFrZSBTdHJlYW1Mb2NhbEJpbmRNYXNr
-IHByb3Blcmx5IGZpcnN0LW1hdGNoLXdpbnM7CnVwc3RyZWFtOiBtYWtlIFN0cmVhbUxvY2FsQmlu
-ZE1hc2sgcHJvcGVybHkgcmVzcGVjdCBIb3N0L01hdGNoCnVwc3RyZWFtOiBzdGFydCBwcm9jZXNz
-IG9mIGRlcHJlY2F0aW5nIHRoZSAtUiBmbGFnLiBUaGlzIHdhcyB0aGUKdXBzdHJlYW06IG1lbnRp
-b24gZGVmYXVsdCBLREYgcm91bmRzIGlzIG5vdyAzMgp1cHN0cmVhbTogSW1wbGVtZW50IGEgbWF4
-aW11bSBudW1iZXIgb2YgS0RGIHJvdW5kcyB0aGF0IHdpbGwgYmUKdXBzdHJlYW06IGZpeCB0aGUg
-Yml0IGxlbmd0aCBvZiBNTC1EU0EgNDQvRWQyNTUxOSBrZXlzIHRoYXQgd2FzCnVwc3RyZWFtOiBz
-ZnRwOiBiZSBzdHJpY3RlciBpbiBhY2NlcHRpbmcgcGF0aHMgcmV0dXJuZWQgYnkgdGhlCnVwc3Ry
-ZWFtOiBoYW5kbGUgbWF4LXBrLW9rIHBhdGggaWRlbnRpY2FsbHkgd2hlbiB0aGUgaW5jb21pbmcg
-dXNlcgp1cHN0cmVhbTogRGlzYWxsb3cgbnVsIGJ5dGUgaW4gcmVjZWl2ZWQgc2NwIC1PIGZpbGVu
-YW1lLiBOb3QKdXBzdHJlYW06IGJhY2tvdXQKdXBzdHJlYW06IENoZWNrIHRoYXQgY29tcHJlc3Nl
-ZCBwYXlsb2FkcyBkb24ndCBpbmZsYXRlIGJleW9uZCB0aGUKdXBzdHJlYW06IHNzaC1hZ2VudDog
-bm8gdW5saW5rKDIpIG9uIGVtcHR5IGZpbGVuYW1lCnVwc3RyZWFtOiBzc2gtYWdlbnQ6IGZpeCBz
-b2NrZXQgY2xlYW51cCBmb3IgLWEgb3B0aW9uIChubyBwYXRoc3BlYykKdXBzdHJlYW06IERpc2Fi
-bGUgTFo3NyBkaWN0aW9uYXJ5IGNvZGVyIHRvIGF2b2lkIGEgcG90ZW50aWFsCnVwc3RyZWFtOiBj
-aGVjayBzc2gncyBoYW5kbGluZyBvZiBzdGFsZSBtdWx0aXBsZXhpbmcgc29ja2V0cyBGcm9tIEpl
-bnMKdXBzdHJlYW06IGF2b2lkIHJhY2UgYmV0d2VlbiBtdWx0aXBsZSBwcm9jZXNzZXMgYXR0ZW1w
-dGluZyB0bwp1cHN0cmVhbTogSW5jbHVkZSBsb2NhbCBhbmQgcmVtb3RlIHZlcnNpb25zIGluIH5J
-IGNvbm5lY3Rpb24gaW5mby4KUmVtb3ZlIHRoZSBOZXRCU0QgQlJPS0VOX1JFQURfQ09NUEFSSVNP
-TiB3b3JrYXJvdW5kLgpJZ25vcmUgYnVpbGQvaW5zdGFsbCBzdGF0dXMgb2YgbmV0Y2F0IGluIHRl
-c3RzLgpBZGQgRnJlZUJTRCAxNSB0ZXN0IHRhcmdldHMuCnVwc3RyZWFtOiBCZXR0ZXIgd29yZGlu
-Zy4KdXBzdHJlYW06IHVzZSBObSBpbnN0ZWFkIG9mIFhyIHRvIHNlbGYKRG9uJ3QgZGVyZWYgTlVM
-TCBvbiBTVFJFQU1TIHR0eSBhbGxvYyBmYWlsdXJlLgp1cHN0cmVhbTogUGx1ZyBsZWFrLiBDSUQg
-OTEzNjAwLgp1cHN0cmVhbTogYW4gYWJicmV2aWF0aW9uIGVuZGluZyBpbiBhIGRvdCBhdCBFT0wg
-cmVxdWlyZXMgZXNjYXBpbmcKdXBzdHJlYW06IHR3ZWFrIDEuNDA2OiBtaW5vciB3b3JkaW5nIGFu
-ZCBtYXJrdXAgT0sgZGptQAp1cHN0cmVhbTogZHJhZnQtaWV0Zi1zc2htLXNzaC1hZ2VudCBiZWNh
-bWUgUkZDIDk5ODcgb2sgZHR1Y2tlckAKUmVtb3ZlIGxlZnRvdmVyIGZyb20gdGVzdGluZy4KQWRk
-IGZhbGxiYWNrIGZvciBta2Rpcl9wYXRoKCkgd2l0aG91dCBvcGVuYXQoKS4KdXBzdHJlYW06IFVz
-ZSA+PSBpbnN0ZWFkIG9mID4gZm9yIG1heCBjb21wYXJpc29uIHNvIHRoYXQgdGhlCnVwc3RyZWFt
-OiBVc2UgZXF1YWxpdHkgbm90IGFzc2lnbm1lbnQgaW4gdGVybmFyeS4gQ0lEIDkxMzYwMC4KdXBz
-dHJlYW06IHNwZWxsaW5nOyBvayBkZXJhYWR0QApBbHNvIHNraXAgc2NwMyB0ZXN0IG9uIERhcndp
-biAyNiBhbmQgMjcuCnVwc3RyZWFtOiBjb252ZXJ0IGNoYW5uZWwgdGltZW91dHMgdG8gdXNlIGZs
-b2F0aW5nIHBvaW50cywgYWxsb3dzCnVwc3RyZWFtOiBtYXNraW5nIHNpZ25hbHMgcmVxdXJpZWQg
-c2lnYWRkc2V0LCBub3Qgc2lnZGVsc2V0OyBiejM5ODEKdXBzdHJlYW06IGJ6MzYzNSAtIHNzaC1h
-ZGQgLVAgdG8gc2tpcCBQSU4gZW50cnkKdXBzdHJlYW06IHNpbXBsZXIKdXBzdHJlYW06IGxlYWtz
-IG9uIGVycm9yIHBhdGhzOyBzcG90dGVkIGJ5IENvdmVyaXR5IENJRCA5MTM1OTgKdXBzdHJlYW06
-IGZpeCBpbnZlcnRlZCBsb2dpYyB0aGF0IGNvdWxkIGNhdXNlIGEgbWVtbGVhazsgc3BvdHRlZCBl
-bgp1cHN0cmVhbTogQWRkIG1pc3Npbmcgc2VtaWNvbG9uIGFmdGVyIHJldHVybi4gQ0lEIDkxMzU5
-OSwgb2sKdXBzdHJlYW06IGNvcnJlY3RseSBjaGVjayBzc2hhdXRob3B0LT5yZXN0cmljdGVkIG1l
-cmdpbmcKdW5icmVhayByZWFkcGFzc3BocmFzZS5jIHN5bmMKc3luYyByZWFkcGFzc3BocmFzZSgz
-KSB3aXRoIE9wZW5CU0QgbGliYwp1cHN0cmVhbTogd2hpdGVzcGFjZQp1cHN0cmVhbTogYWRhcHQg
-dG8gbGlic29kaXVtIGVkMjU1MTkgaW1wbGVtZW50YXRpb24KdXBzdHJlYW06IG1pc3NpbmcgcGFy
-dCBvZiBwcmV2aW91cyBjb21taXQ6IHVwZGF0ZSBzY3JpcHQgdG8KdXBzdHJlYW06IHN3aXRjaCBm
-cm9tIFNVUEVSQ09QIGVkMjU1MTkgdG8gbGlic29kaXVtCnVwc3RyZWFtOiBPbmx5IHN0b3JlIEdT
-U0FQSSBjcmVkcyB3aGVuIGF1dGhuIHN1Y2NlZWRzCnVwc3RyZWFtOiBSZXNldCBHU1NBUEkgY2xp
-ZW50IHN0YXRlIGJlZm9yZSBhdXRoZW50aWNhdGlvbgp1cHN0cmVhbTogQ29ycmVjdGx5IGhhbmRs
-ZSBzb21lIG9wdGlvbnMgdGhhdCBhY2NlcHQgIm5vbmUiCnVwc3RyZWFtOiBQcm9wYWdhdGUgYXV0
-aG9yaXplZF9rZXlzICJyZXNyaWN0IiBrZXl3b3JkCnVwc3RyZWFtOiBDaGVjayBrZXkgYW5kIENB
-IHNpZyB0eXBlIGR1cmluZyBrZXkgcGFyc2luZwp1cHN0cmVhbTogQWRkIFdhcm5XZWFrQ3J5cHRv
-IHRvIHNzaGQKdXBzdHJlYW06IEFsbG93IHNwZWNpZmljYXRpb24gb2YgYWdlbnQgc29ja2V0IGRp
-cmVjdG9yaWVzCnVwc3RyZWFtOiBBY2NvdW50IHB1YmtleSBjaGVja3Mgc2VwYXJhdGVseSB0byBh
-dXRoIGF0dGVtcHRzCnVwc3RyZWFtOiBFeHRlbmQgVENQS2VlcEFsaXZlIHRvIHN1cHBvcnQgZm9y
-d2FyZGluZ3MgdG9vCnVwc3RyZWFtOiBNYXNrIFNJR1RFUk0vU0lHUVVJVCB3aGVuIHByb2Nlc3Np
-bmcgYSBTSUdIVVAgcmVzdGFydApmaXggbWVyZ2UgYm90Y2ggdGhhdCBwdXQgbGluZXMgaW4gd3Jv
-bmcgZnVuY3Rpb24KdXBzdHJlYW06IENvcnJlY3QgaGFuZGxpbmcgb2YgRFNUIHdoZW4gY29udmVy
-dGluZyBkYXRlcwp1cHN0cmVhbTogc2stdXNiaGlkOiBwcmVzZXJ2ZSBVViByZXF1aXJlbWVudCBm
-b3IgcmVzaWRlbnQga2V5cwp1cHN0cmVhbTogRml4IG1lbW9yeSBsZWFrIG9uIGFuIGVycm9yIHBh
-dGggaW4gbWtkaXJfcGF0aAp1cHN0cmVhbTogc2Z0cDogZG9uJ3QgY3Jhc2ggd2hlbiBnbG9iKDMp
-IHJlc3VsdHMgbGFjayBzdGF0IGluZm9ybWF0aW9uCm9wZW5wdHk6IG1hcmsgaW5wdXRzIGNvbnN0
-CnVwc3RyZWFtOiByZXBsYWNlIHRlc3Rpbmcgb2YgdmVuZG9yIFBRIHNpZ25hdHVyZSBhbGdvcml0
-aG0KdXBzdHJlYW06IG1pbm9yIGxlYWsgb2YgZmluZ2VycHJpbnQgdGV4dCB3aGVuIHByaW50aW5n
-CnVwc3RyZWFtOiB0aGUgZGVmYXVsdCBLREYgcm91bmRzIGZvciBrZXlzIGdlbmVyYXRlZCBieSBz
-c2gta2V5Z2VuCkRvbid0IGxpbmsgc3NoZCBhZ2FpbnN0IGxpYnNlbGludXgKdXBzdHJlYW06IHdh
-cm5pbmdzIGZpeGVzIChzdGF0aWMgdnMgbWlzc2luZyBwcm90b3R5cGUsIHNpZ24gY29udmVyc2lv
-bikKc3NoZCBkb2Vzbid0IG5lZWQgc3NocHR5LmMgYW55IG1vcmUKdXBzdHJlYW06IHdyYXAgbGlu
-ZQp1cHN0cmVhbTogZy9jIHByb3RvdHlwZQp1cHN0cmVhbTogZGlzY29ubmVjdF9jb250cm9sbGlu
-Z190dHkoKSBpcyB0aGUgb25seSB0aGluZyBmcm9tIHNzaHB0eS5jCnVwc3RyZWFtOiBGaXggQ2hh
-bm5lbFRpbWVvdXQgc3BlY2lmaWNpdHkKYWxsb3cgbWFkdmlzZSguLi4sIE1BRFZfRE9OVE5FRURf
-TE9DS0VEKQp1cHN0cmVhbTogZml4IGNhc2UgZm9yIHNzaCAtRyBvcHRpb24gb3V0cHV0OyBiejQw
-MDUsIHJlcG9ydGVkIGJ5CnVwc3RyZWFtOiBtdXggcHJveHkgc29ja2V0cyBhbHNvIHNoYXJlIGlu
-IGFuZCBvdXQgZmRzLCBzbyB1c2luZwp1cHN0cmVhbTogZG9uJ3QgYXR0ZW1wdCB0byBzZXQgVENQ
-X05PREVMQVkgb24gbm9uLUFGX0lORVRbNl0KdXBzdHJlYW06IGFkZCBhICJoZXhkdW1wIiBleHBv
-cnQgbW9kZSB0aGF0IGR1bXBzIHRoZSBrZXkgYmxvYiBpbgp1cHN0cmVhbTogQWRkICctcCcgdG8g
-c2Z0cCBta2Rpci9sbWtkaXIgdG8gY3JlYXRlIGRpcmVjdG9yaWVzIGFzCnVwc3RyZWFtOiBVc2Ug
-Z2V0ZXhlY3BhdGgoMyk7IGlmIGl0IGZhaWxzIHVzZSBhcmd2WzBdIGFzIGJlZm9yZQp1cHN0cmVh
-bTogQ2hhbmdlIHRocmVlIHBhcmFncmFwaHMgaW4gZGlmZmVyZW50IHBhcnRzIG9mIHRoZSBtYW51
-YWwKdXBzdHJlYW06IHVwZGF0ZSBmaW5nZXJwcmludCBleGFtcGxlIGZyb20gUlNBIHRvIEVkMjU1
-MTkgaG9zdCBrZXkKdXBzdHJlYW06IFJlbW92ZSBzY3AgJy1zJyBmbGFnIGZyb20gc3lub3BzaXMs
-IHRoZSBmbGFnIGhhcyBiZWVuIGEKc2V0IC1Xbm8tZXJyb3I9ZGlzY2FyZGVkLXF1YWxpZmllcnMK
-c2VjY29tcCBzYW5kYm94OgoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVkcyA1MDAw
-IGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4gYXR0YWNo
-bWVudCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLjEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlu
-cHV0LWFuZC1vdXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaCB8IDIgKy0KIC4uLi9vcGVuc3NoL3tv
-cGVuc3NoXzEwLjVwMS5iYiA9PiBvcGVuc3NoXzEwLjZwMS5iYn0gICAgICAgICAgICB8IDIgKy0K
-IDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC97b3BlbnNzaF8xMC41cDEuYmIgPT4g
-b3BlbnNzaF8xMC42cDEuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdyZXNzLWJhbm5lci5zaC1sb2ctaW5wdXQt
-YW5kLW91dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdyZXNzLWJhbm5lci5zaC1sb2ctaW5wdXQtYW5kLW91
-dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoCmluZGV4IGY0MjQyODhlMzcuLmFhMjVmMDk1MzcgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEt
-cmVncmVzcy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1vdXRwdXQtZmlsZXMtb24tZXJyby5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXJl
-Z3Jlc3MtYmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2gK
-QEAgLTEsNCArMSw0IEBACi1Gcm9tIDVjYzg5N2ZlMmVmZmU1NDllMWUyODBjMmY2MDZiY2U4YjUz
-MmI2MWUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGFmNDYwYzZmYzczMjEzYzQxYTQ5
-OGRjMTVmNzJlNmU2NGYyMzQyZjEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBNaWtr
-byBSYXBlbGkgPG1pa2tvLnJhcGVsaUBsaW5hcm8ub3JnPgogRGF0ZTogTW9uLCAxMSBTZXAgMjAy
-MyAwOTo1NToyMSArMDEwMAogU3ViamVjdDogW1BBVENIXSByZWdyZXNzL2Jhbm5lci5zaDogbG9n
-IGlucHV0IGFuZCBvdXRwdXQgZmlsZXMgb24gZXJyb3IKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzEwLjVwMS5iYiBiL21ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzEwLjZwMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk5
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF8x
-MC41cDEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVu
-c3NoXzEwLjZwMS5iYgppbmRleCAwNTI2ODZmMjg5Li42MDQzZjE0MGIzIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF8xMC41cDEuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfMTAuNnAxLmJiCkBAIC0y
-NSw3ICsyNSw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9mdHAub3BlbmJzZC5vcmcvcHViL09wZW5C
-U0QvT3BlblNTSC9wb3J0YWJsZS9vcGVuc3NoLSR7UFZ9LnRhCiAgICAgICAgICAgIGZpbGU6Ly9z
-c2hkX2NoZWNrX2tleXMgXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1yZWdyZXNzLWJhbm5lci5z
-aC1sb2ctaW5wdXQtYW5kLW91dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoIFwKICAgICAgICAgICAg
-IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImQ0NGQyOGE4MzllYTlkYWY5NjljYzY5MTUwZmRlNTk5
-MTBiMmIzOTM2MWRhZDgxYTNiZDZjYmQxOTIxOGRiMTEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-YTlkYzk1NjVkZmZlODY0MGY2NGQ4NjNjZDI5YTMyYmM0YTNkYmRlYzA1NjZhN2ZjNDRjNWQ2ZWU3
-NjdkNWYzOSIKIAogQ1ZFX1NUQVRVU1tDVkUtMjAwNy0yNzY4XSA9ICJub3QtYXBwbGljYWJsZS1j
-b25maWc6IFRoaXMgQ1ZFIGlzIHNwZWNpZmljIHRvIE9wZW5TU0ggd2l0aCB0aGUgcGFtIG9waWUg
-d2hpY2ggd2UgZG9uJ3QgYnVpbGQvdXNlIGhlcmUuIgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgNyBPY3QgMjAyNiAwNToyNjo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxv
+ZzRjcGx1czogdXBncmFkZSAyLjIuMC4xIC0+IDIuMi4xCgojIFVucmVsZWFzZWQgKDIuMi4xKQoK
+ICAtICoqSU1QT1JUQU5UKio6IENNYWtlIGJ1aWxkcyBub3cgcmVxdWlyZSBDTWFrZSAzLjIwIG9y
+IGxhdGVyLiBUaGUKICAgIGltcGxlbWVudGF0aW9uIGxhbmd1YWdlIHJlbWFpbnMgQysrMTEuIEdp
+dEh1YiBQUiAjNjk4LgoKICAtICoqSU1QT1JUQU5UKio6IGlPUyBidWlsZHMgbm93IHVzZSBDTWFr
+ZSdzIG5hdGl2ZSBwbGF0Zm9ybSBzdXBwb3J0LiBUaGUKICAgIGxlZ2FjeSBjdXN0b20gaU9TIHRv
+b2xjaGFpbiwgYElPU19QTEFURk9STWAvYENNQUtFX0lPU18qYCB2YXJpYWJsZXMsIGFuZAogICAg
+QVJNdjcvaTM4NiBidWlsZCBzY3JpcHRzIGhhdmUgYmVlbiByZW1vdmVkLiBUaGUgb2Jzb2xldGUg
+QW5kcm9pZAogICAgYExJQlJBUllfT1VUUFVUX1BBVEhfUk9PVGAgdG9vbGNoYWluIGludGVncmF0
+aW9uIGhhcyBhbHNvIGJlZW4gcmVtb3ZlZC4KICAgIEdpdEh1YiBQUiAjNjk4LgoKICAtIFByZXZl
+bnQgYERhaWx5Um9sbGluZ0ZpbGVBcHBlbmRlcmAgcHJvY2Vzcy1leGl0IHJvbGxvdmVyIGZyb20g
+YWNjZXNzaW5nIGEKICAgIGRlc3Ryb3llZCBkaXJlY3Rvcnkgc2VwYXJhdG9yIHN0cmluZyB3aGVu
+IGBSb2xsT25DbG9zZWAgaXMgZW5hYmxlZC4gS2VlcAogICAgdGhlIHNlcGFyYXRvciB2YWxpZCB0
+aHJvdWdob3V0IHNodXRkb3duIGJ5IHVzaW5nIGEgY29uc3RhbnQgY2hhcmFjdGVyLgogICAgR2l0
+SHViIGlzc3VlICMyNzIuIEdpdEh1YiBQUiAjNzExLgoKICAtIEZpeCBgVGltZUJhc2VkUm9sbGlu
+Z0ZpbGVBcHBlbmRlcmAgYXJjaGl2ZSBjbGVhbnVwIHdoZW4gY29uc2VjdXRpdmUKICAgIGNsZWFu
+dXBzIGNyb3NzIGEgcGFydGlhbCByb2xsb3ZlciBwZXJpb2QsIHNvIGV4cGlyZWQgYXJjaGl2ZXMg
+YXJlIG5vdAogICAgc2tpcHBlZCBkdXJpbmcgc3BhcnNlIGxvZ2dpbmcuIEdpdEh1YiBpc3N1ZSAj
+NjM0LiBHaXRIdWIgUFIgIzY4NywKICAgIGJhY2twb3J0ZWQgaW4gIzY5MC4gKGZoZ2ZmeSkKCiAg
+LSBGaXggYFRpbWVCYXNlZFJvbGxpbmdGaWxlQXBwZW5kZXJgIHJvbGxvdmVyIHdoZW4gYEZpbGVg
+IGlzIG9taXR0ZWQgb3IKICAgIGVtcHR5LiBLZWVwIGNvbXBsZXRlZCBkYXRlZCBmaWxlcyBhbmQg
+YXBwZW5kIHRvIHRoZSBuZXh0IGBGaWxlbmFtZVBhdHRlcm5gCiAgICBkZXN0aW5hdGlvbiwgcHJl
+c2VydmluZyBleGlzdGluZyBtZXNzYWdlcyBkdXJpbmcgcmVwZWF0ZWQgcm9sbG92ZXIgYW5kCiAg
+ICBgUm9sbE9uQ2xvc2VgLiBJbml0aWFsIG9wZW5pbmcgc3RpbGwgaG9ub3JzIGBBcHBlbmRgLiBH
+aXRIdWIgaXNzdWUgIzY2OC4KICAgIEdpdEh1YiBQUiAjNjk3LgoKICAtIEhvbm9yIGBDcmVhdGVE
+aXJzYCBmb3IgZGF0ZWQgYXJjaGl2ZSBkaXJlY3RvcmllcyBpbgogICAgYFRpbWVCYXNlZFJvbGxp
+bmdGaWxlQXBwZW5kZXJgIHdpdGggYSBmaXhlZCBgRmlsZWAuIE9uIHJlbmFtZSBmYWlsdXJlLAog
+ICAgcHJlc2VydmUgdGhlIGFjdGl2ZSBsb2cgYW5kIHJldHJ5IHRoZSBvcmlnaW5hbCBhcmNoaXZl
+IGRlc3RpbmF0aW9uIG9uIHRoZQogICAgbmV4dCBlbGlnaWJsZSBldmVudCBpbnN0ZWFkIG9mIHRy
+dW5jYXRpbmcgdGhlIGxvZy4gUmVwb3J0IHJlbmFtZSBlcnJvcnMKICAgIHRocm91Z2ggdGhlIGFw
+cGVuZGVyJ3MgZXJyb3IgaGFuZGxlci4gR2l0SHViIGlzc3VlICM2NDQuIEdpdEh1YiBQUiAjNzA4
+LgoKICAtIEZpeCBgVGltZUJhc2VkUm9sbGluZ0ZpbGVBcHBlbmRlcmAgcGVyaW9kIHJlY292ZXJ5
+IGFjcm9zcyBzZXF1ZW50aWFsCiAgICBwcm9jZXNzIHJlc3RhcnRzLiBVc2UgdGhlIG1vZGlmaWNh
+dGlvbiB0aW1lIG9mIGEgbm9uZW1wdHkgZml4ZWQgYEZpbGVgCiAgICBvcGVuZWQgd2l0aCBgQXBw
+ZW5kPXRydWVgIHRvIHNlbGVjdCBpdHMgYXJjaGl2ZSBwZXJpb2QsIGFuZCByb2xsIG92ZXIgYW4K
+ICAgIGV4cGlyZWQgcGVyaW9kIGJlZm9yZSB3cml0aW5nIHRoZSBmaXJzdCBlbGlnaWJsZSBuZXcg
+ZXZlbnQuIFJldGFpbiB0aGF0CiAgICBwZXJpb2QgdGhyb3VnaCBzdHJlYW0gcmVvcGVucyBhbmQg
+ZmFpbGVkIHJvbGxvdmVyIHJldHJpZXMuIEdpdEh1YiBpc3N1ZQogICAgIzU4OC4gR2l0SHViIFBS
+ICM3MTAuCgogIC0gRml4IGFjY291bnRpbmcgZm9yIGFzeW5jaHJvbm91cyBldmVudHMgZHJvcHBl
+ZCB3aGVuIHRoZSBub25ibG9ja2luZyB0aHJlYWQKICAgIHBvb2wgcXVldWUgaXMgZnVsbC4gQXBw
+ZW5kZXIgc2h1dGRvd24gYW5kIGRlc3RydWN0aW9uIGNhbiBub3cgZmluaXNoIGFmdGVyCiAgICBh
+Y2NlcHRlZCBldmVudHMgZHJhaW4gd2hlbiBgbG9nNGNwbHVzLnRocmVhZFBvb2xCbG9ja09uRnVs
+bD1mYWxzZWAuIEdpdEh1YgogICAgUFIgIzY5NC4KCiAgLSBGaXggYXN5bmNocm9ub3VzIGV2ZW50
+IGFjY291bnRpbmcgd2hlbiBhbiBhY2NlcHRlZCBub25ibG9ja2luZyB0YXNrCiAgICBmaW5pc2hl
+cyB3aXRoIGFuIGV4Y2VwdGlvbiBiZWZvcmUgaXRzIHJlc3VsdCBpcyBwb2xsZWQuIERlY3JlbWVu
+dCB0aGUKICAgIHBlbmRpbmcgY291bnQgb25seSBvbmNlLCBwcmV2ZW50aW5nIHVuc2lnbmVkIHVu
+ZGVyZmxvdyBhbmQgc2h1dGRvd24gaGFuZ3MKICAgIGFmdGVyIHF1ZXVlZCB3b3JrIGhhcyBkcmFp
+bmVkLiBHaXRIdWIgUFIgIzcxNi4KCiAgLSBGaXggYEFzeW5jQXBwZW5kZXI6OmNsb3NlKClgIHRv
+IGpvaW4gaXRzIHF1ZXVlIHdvcmtlciBldmVuIGFmdGVyIHRoZQogICAgd29ya2VyIHN0b3BzIHJ1
+bm5pbmcsIHNvIGBjbG9zZSgpYCB3YWl0cyBmb3IgdGhyZWFkLWxvY2FsIGNsZWFudXAgYWZ0ZXIK
+ICAgIHdvcmtlciBmYWlsdXJlLiBQcmVzZXJ2ZSBxdWV1ZSBkcmFpbmluZyBhbmQgdGhlIHN5bmNo
+cm9ub3VzIGxvZ2dpbmcKICAgIGZhbGxiYWNrLiBHaXRIdWIgUFIgIzcwNS4KCiAgLSBVcGRhdGUg
+dGhlIGludGVybmFsIFRocmVhZFBvb2wgdG8gcmVjb3ZlciBzYWZlbHkgZnJvbSB3b3JrZXIgY3Jl
+YXRpb24gYW5kCiAgICBwb29sIGdyb3d0aCBmYWlsdXJlcywgY3JlYXRlIG9uZSB3b3JrZXIgd2hl
+biBhIHplcm8gc2l6ZSBpcyByZXF1ZXN0ZWQsCiAgICByZWNsYWltIHJldGlyZWQgd29ya2Vycywg
+YW5kIHdhaXQgZm9yIGNvbXBsZXRlIHdvcmtlciBleGl0IGR1cmluZwogICAgc2h1dGRvd24uIEdp
+dEh1YiBpc3N1ZSAjNjQ2LiBHaXRIdWIgUFIgIzcwMSBhbmQgVGhyZWFkUG9vbCBQUgogICAgbG9n
+NGNwbHVzL1RocmVhZFBvb2wjMy4KCiAgLSBGaXggV2luZG93cyBETEwgY2xlYW51cCBoYW5ncyBh
+bmQgY3Jhc2hlcyBkdXJpbmcgcHJvY2VzcyB0ZXJtaW5hdGlvbgogICAgdGhyb3VnaCBgZXhpdCgp
+YCBvciBgRXhpdFByb2Nlc3MoKWAuIFNraXAgcmVzb3VyY2UgY2xlYW51cCBvbmNlIFdpbmRvd3MK
+ICAgIGhhcyBzdGFydGVkIHRlcm1pbmF0aW5nIHRocmVhZHMuIFBlbmRpbmcgbG9nZ2luZyBtYXkg
+YmUgbG9zdCBkdXJpbmcKICAgIHByb2Nlc3MgdGVybWluYXRpb247IG9yZGVybHkgc2h1dGRvd24g
+c3RpbGwgZHJhaW5zIGFjY2VwdGVkIGV2ZW50cy4gR2l0SHViCiAgICBpc3N1ZSAjNDA4LiBHaXRI
+dWIgUFIgIzcwMy4KCiAgLSBLZWVwIGZyYWN0aW9uYWwgdGltZXN0YW1wIHBhZGRpbmcgZm9yIGAl
+cWAgYW5kIGAlUWAgdmFsaWQgZHVyaW5nIHN0YXJ0dXAKICAgIGFuZCBzaHV0ZG93biBieSByZXBs
+YWNpbmcgZ2xvYmFsIHN0cmluZ3Mgd2l0aCBjb25zdGFudCBsaXRlcmFsIHRhYmxlcy4KICAgIFBy
+ZXNlcnZlIHRoZSBleGlzdGluZyBmb3JtYXR0ZWQgb3V0cHV0LiBHaXRIdWIgaXNzdWUgIzI3My4g
+R2l0SHViIFBSICM3MTQuCgogIC0gRml4IGluc3RhbGxlZCBDTWFrZSBwYWNrYWdlcyB0byBkaXNj
+b3ZlciBgVGhyZWFkc2AgZm9yIHN0YXRpYwogICAgbXVsdGl0aHJlYWRlZCBsaWJyYXJpZXMgYW5k
+IHByb3ZpZGUgYGxvZzRjcGx1czo6bG9nNGNwbHVzYCBmb3Igc3RhdGljIGFuZAogICAgVW5pY29k
+ZSBidWlsZHMgd2l0aCBkZWNvcmF0ZWQgbGlicmFyeSBuYW1lcy4gQWRkIGluc3RhbGxlZC1wYWNr
+YWdlCiAgICBjb25zdW1lciByZWdyZXNzaW9uIGNvdmVyYWdlIGZvciBzaGFyZWQvc3RhdGljIGFu
+ZCBuYXJyb3cvVW5pY29kZQogICAgY29uZmlndXJhdGlvbnMuIEdpdEh1YiBQUiAjNjkwLgoKICAt
+IEdlbmVyYXRlIENNYWtlIHBrZy1jb25maWcgbWV0YWRhdGEgdXNpbmcgdGhlIHNlbGVjdGVkIGxp
+YnJhcnkgbmFtZSwKICAgIGluY2x1ZGluZyBzdGF0aWMvVW5pY29kZSBkZWNvcmF0aW9uIGFuZCB0
+aGUgV2luZG93cyBEZWJ1ZyBwb3N0Zml4LiBSZWZyZXNoCiAgICB0aGUgaW5zdGFsbGVkIG1ldGFk
+YXRhIHdoZW4gc3dpdGNoaW5nIGJ1aWxkIGNvbmZpZ3VyYXRpb25zLiBHaXRIdWIgUFIKICAgICM2
+OTguCgogIC0gRW5hYmxlIHRoZSBpbnRlcm5hbCB0aHJlYWQgcG9vbCBpbiB0aGUgaGFuZHdyaXR0
+ZW4gTVNCdWlsZCBwcm9qZWN0cywKICAgIHJlc3RvcmluZyBhc3luY2hyb25vdXMgbG9nZ2luZyBz
+dXBwb3J0IGluIGJvdGggc2hhcmVkIGFuZCBzdGF0aWMgYnVpbGRzLgogICAgR2l0SHViIFBSICM2
+OTguCgogIC0gRml4IFdpbmRvd3MgYXJjaGl2ZS1jbGVhbnVwIHVuaXQtdGVzdCBjb21waWxhdGlv
+biBhbmQgZml4dHVyZSBjcmVhdGlvbi4KICAgIFJlbW92ZSBhbiBvYnNvbGV0ZSBXaW4zMiBzdHJl
+YW0gdGVzdCBzb3VyY2UgZGVwZW5kZW5jeSBmcm9tIE1pbkdXCiAgICBBdXRvdG9vbHMgYnVpbGRz
+LiBHaXRIdWIgUFIgIzY5MSBhbmQgIzY5OC4KCiAgLSBNb3ZlIFZpc3VhbCBTdHVkaW8gMjAxOSBh
+bmQgMjAyMiBDTWFrZS9NU0J1aWxkIENJIGJ1aWxkcyB0byBHaXRIdWIgQWN0aW9ucwogICAgd2l0
+aCBleHBsaWNpdCBgdjE0MmAvYHYxNDNgIHRvb2xzZXRzLiBSZXRhaW4gVmlzdWFsIFN0dWRpbyAy
+MDE3IG9uCiAgICBBcHBWZXlvciBhbmQgdXBkYXRlIGl0cyBDTWFrZSBpbnN0YWxsYXRpb24gdG8g
+c2F0aXNmeSB0aGUgbmV3IG1pbmltdW0KICAgIHZlcnNpb24uIEdpdEh1YiBQUiAjNjkxIGFuZCAj
+Njk5LgoKICAtIFN1cHBvcnQgbmF0aXZlIENNYWtlIGRldmljZSBhbmQgU2ltdWxhdG9yIGJ1aWxk
+cyBmb3IgaU9TIDE1IGFuZCBsYQoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVkcyA1
+MDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4gYXR0
+YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLi9sb2c0Y3BsdXMve2xvZzRjcGx1c18y
+LjIuMC4xLmJiID0+IGxvZzRjcGx1c18yLjIuMS5iYn0gICAgICB8IDIgKy0KIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9sb2c0Y3BsdXMve2xvZzRjcGx1c18yLjIuMC4xLmJiID0+IGxvZzRjcGx1c18yLjIu
+MS5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbG9nNGNwbHVz
+L2xvZzRjcGx1c18yLjIuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xvZzRjcGx1cy9s
+b2c0Y3BsdXNfMi4yLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2xvZzRjcGx1cy9sb2c0Y3BsdXNfMi4yLjAuMS5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2xvZzRjcGx1cy9sb2c0Y3BsdXNfMi4yLjEuYmIKaW5kZXgg
+YTEwZGQxNzVhMi4uNmFhMjlmYjk1MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2xvZzRjcGx1cy9sb2c0Y3BsdXNfMi4yLjAuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvbG9nNGNwbHVzL2xvZzRjcGx1c18yLjIuMS5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNfRklM
+RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT00MWU4ZTA2MGMyNjgyMjg4NmI1OTJhYjQ3
+NjVjNzU2YiIKIEdJVEhVQl9UQUcgPSAiUkVMXyR7QGQuZ2V0VmFyKCdQVicpLnJlcGxhY2UoJy4n
+LCAnXycpfSIKIAogU1JDX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vbG9nNGNwbHVzL2xvZzRj
+cGx1cy9yZWxlYXNlcy9kb3dubG9hZC8ke0dJVEhVQl9UQUd9L2xvZzRjcGx1cy0ke1BWfS50YXIu
+Z3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzc0MTc1YzIyZmFiZTc1MmViMWMyMDEzOGU3MzJi
+NjlhZTE5MWU2NDFmOTJkMzJjOTQzMjk4NWNkODYwYTJkZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICJlMTlkOWIyOTRmOGM0YzhmNjA0NjdlMGY0NTZlMWEzNDdjODFkNDc5MzY5ZDU4NDBhZmM4MGMx
+MTM3YjdkYjZjIgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xv
+ZzRjcGx1cy9sb2c0Y3BsdXMvcmVsZWFzZXMiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJsb2c0
+Y3BsdXMtKD9QPHB2ZXI+XGQrKFwuXGQrKSspXC50YXIiCi0tIAoyLjQ3LjEKCg==
 
---===============8853594108126803958==
+--===============8419304859790431784==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/openssh: SRC_URI changed from "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz file://sshd_config file://ssh_config file://init file://sshd file://sshd.service file://sshd.socket file://sshd@.service file://sshdgenkeys.service file://volatiles.99_sshd file://run-ptest file://sshd_check_keys file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch" to "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.6p1.tar.gz file://sshd_config file://ssh_config file://init file://sshd file://sshd.service file://sshd.socket file://sshd@.service file://sshdgenkeys.service file://volatiles.99_sshd file://run-ptest file://sshd_check_keys file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch"
-packages/x86-64-v3-poky-linux/openssh: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PKGSIZE changed from 41238880 to 41417456 (+0%)
-packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-dev: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-dev: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-doc: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-doc: PKGSIZE changed from 359571 to 363454 (+1%)
-packages/x86-64-v3-poky-linux/openssh/openssh-doc: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-keygen: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-keygen: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-locale: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-locale: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-misc: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-misc: PKGSIZE changed from 2481365 to 2501845 (+1%)
-packages/x86-64-v3-poky-linux/openssh/openssh-misc: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PKGSIZE changed from 8473505 to 8499598 (+0%)
-packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-scp: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-scp: PKGSIZE changed from 231864 to 235960 (+2%)
-packages/x86-64-v3-poky-linux/openssh/openssh-scp: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp-server: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp-server: PKGSIZE changed from 170160 to 174256 (+2%)
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp-server: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-src: FILELIST: directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/hostkeys -> /usr/src/debug/openssh/10.6p1/regress/unittests/hostkeys, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/bitmap -> /usr/src/debug/openssh/10.6p1/regress/unittests/bitmap, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/match -> /usr/src/debug/openssh/10.6p1/regress/unittests/match, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/crypto -> /usr/src/debug/openssh/10.6p1/regress/unittests/crypto, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/kex -> /usr/src/debug/openssh/10.6p1/regress/unittests/kex, directory renamed /usr/src/debug/openssh/10.5p1 -> /usr/src/debug/openssh/10.6p1, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/authopt -> /usr/src/debug/openssh/10.6p1/regress/unittests/authopt, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests
- /misc -> /usr/src/debug/openssh/10.6p1/regress/unittests/misc, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/test_helper -> /usr/src/debug/openssh/10.6p1/regress/unittests/test_helper, directory renamed /usr/src/debug/openssh/10.5p1/openbsd-compat -> /usr/src/debug/openssh/10.6p1/openbsd-compat, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/sshsig -> /usr/src/debug/openssh/10.6p1/regress/unittests/sshsig, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/sshkey -> /usr/src/debug/openssh/10.6p1/regress/unittests/sshkey, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/servconf -> /usr/src/debug/openssh/10.6p1/regress/unittests/servconf, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/sshbuf -> /usr/src/debug/openssh/10.6p1/regress/unittests/sshbuf, directory renamed /usr/src/debug/openssh/10.5p1/regress -> /usr/src/debug/openssh/10.6p1/regress, directory renamed /usr/src/debug/openssh/10.5p1/re
- gress/unittests/conversion -> /usr/src/debug/openssh/10.6p1/regress/unittests/conversion, directory renamed /usr/src/debug/openssh/10.5p1/regress/unittests/utf8 -> /usr/src/debug/openssh/10.6p1/regress/unittests/utf8
-packages/x86-64-v3-poky-linux/openssh/openssh-src: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-src: PKGSIZE changed from 4839579 to 4856148 (+0%)
-packages/x86-64-v3-poky-linux/openssh/openssh-src: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-ssh: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-ssh: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PKGSIZE changed from 3490200 to 3506584 (+0%)
-packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh-staticdev: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-staticdev: PV changed from "10.5p1" to "10.6p1"
-packages/x86-64-v3-poky-linux/openssh/openssh: PKGV changed from 10.5p1 [default] to 10.6p1 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh: PV changed from "10.5p1" to "10.6p1"
+packages/x86-64-v3-poky-linux/log4cplus: PV changed from "2.2.0.1" to "2.2.1"
+packages/x86-64-v3-poky-linux/log4cplus: PKGV changed from 2.2.0.1 [default] to 2.2.1 [default]
+packages/x86-64-v3-poky-linux/log4cplus: SRC_URI changed from "https://github.com/log4cplus/log4cplus/releases/download/REL_2_2_0_1/log4cplus-2.2.0.1.tar.gz" to "https://github.com/log4cplus/log4cplus/releases/download/REL_2_2_1/log4cplus-2.2.1.tar.gz"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dbg: PV changed from "2.2.0.1" to "2.2.1"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dbg: PKGV changed from 2.2.0.1 [default] to 2.2.1 [default]
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dbg: FILELIST: removed "/usr/lib/.debug/liblog4cplusU-2.2.so.11.0.0 /usr/lib/.debug/liblog4cplus-2.2.so.11.0.0", added "/usr/lib/.debug/liblog4cplus-2.2.so.11.1.0 /usr/lib/.debug/liblog4cplusU-2.2.so.11.1.0"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dbg: PKGSIZE changed from 22126352 to 21999600 (-1%)
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dev: PV changed from "2.2.0.1" to "2.2.1"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dev: PKGV changed from 2.2.0.1 [default] to 2.2.1 [default]
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dev: FILELIST: added "/usr/include/log4cplus/androidappender.h"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-dev: PKGSIZE changed from 439283 to 443351 (+1%)
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-doc: PV changed from "2.2.0.1" to "2.2.1"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-doc: PKGV changed from 2.2.0.1 [default] to 2.2.1 [default]
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-locale: PV changed from "2.2.0.1" to "2.2.1"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-locale: PKGV changed from 2.2.0.1 [default] to 2.2.1 [default]
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-src: PV changed from "2.2.0.1" to "2.2.1"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-src: PKGV changed from 2.2.0.1 [default] to 2.2.1 [default]
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-src: FILELIST: directory renamed /usr/src/debug/log4cplus/2.2.0.1/include/log4cplus/helpers -> /usr/src/debug/log4cplus/2.2.1/include/log4cplus/helpers, directory renamed /usr/src/debug/log4cplus/2.2.0.1/include/log4cplus/spi -> /usr/src/debug/log4cplus/2.2.1/include/log4cplus/spi, directory renamed /usr/src/debug/log4cplus/2.2.0.1/include/log4cplus/thread/impl -> /usr/src/debug/log4cplus/2.2.1/include/log4cplus/thread/impl, directory renamed /usr/src/debug/log4cplus/2.2.0.1/include/log4cplus/thread -> /usr/src/debug/log4cplus/2.2.1/include/log4cplus/thread, directory renamed /usr/src/debug/log4cplus/2.2.0.1/include/log4cplus/internal -> /usr/src/debug/log4cplus/2.2.1/include/log4cplus/internal, directory renamed /usr/src/debug/log4cplus/2.2.0.1/include/log4cplus -> /usr/src/debug/log4cplus/2.2.1/include/log4cplus, directory renamed /usr/src/debug/log4cplus/2.2.0.1/threadpool -> /usr/src/debug/log4cplus/2.2.1/threadpool, removed "/usr
+ /src/debug/log4cplus/2.2.0.1/src/logger.cxx /usr/src/debug/log4cplus/2.2.0.1/src/patternlayout.cxx /usr/src/debug/log4cplus/2.2.0.1/src/clogger.cxx /usr/src/debug/log4cplus/2.2.0.1/src/loggingevent.cxx /usr/src/debug/log4cplus/2.2.0.1/src/fileappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/env.cxx /usr/src/debug/log4cplus/2.2.0.1/src/mdc.cxx /usr/src/debug/log4cplus/2.2.0.1/src/appenderattachableimpl.cxx /usr/src/debug/log4cplus/2.2.0.1/src/ndc.cxx /usr/src/debug/log4cplus/2.2.0.1/src/socket-unix.cxx /usr/src/debug/log4cplus/2.2.0.1/src/syslogappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/tls.cxx /usr/src/debug/log4cplus/2.2.0.1/src/lockfile.cxx /usr/src/debug/log4cplus/2.2.0.1/src/socket-win32.cxx /usr/src/debug/log4cplus/2.2.0.1/src/rootlogger.cxx /usr/src/debug/log4cplus/2.2.0.1/src/layout.cxx /usr/src/debug/log4cplus/2.2.0.1/src/objectregistry.cxx /usr/src/debug/log4cplus/2.2.0.1/src/stringhelper-iconv.cxx /usr/src/debug/log4cplus/2.2.0.1/src/log4judpappender.cxx /usr/src/d
+ ebug/log4cplus/2.2.0.1/src/nullappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/nteventlogappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/win32debugappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/configurator.cxx /usr/src/debug/log4cplus/2.2.0.1/src/fileinfo.cxx /usr/src/debug/log4cplus/2.2.0.1/src/appender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/callbackappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/property.cxx /usr/src/debug/log4cplus/2.2.0.1/src/timehelper.cxx /usr/src/debug/log4cplus/2.2.0.1/src/eventcounter.cxx /usr/src/debug/log4cplus/2.2.0.1/src/consoleappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/snprintf.cxx /usr/src/debug/log4cplus/2.2.0.1/src/hierarchylocker.cxx /usr/src/debug/log4cplus/2.2.0.1/src/win32consoleappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/exception.cxx /usr/src/debug/log4cplus/2.2.0.1/src/asyncappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/loggerimpl.cxx /usr/src/debug/log4cplus/2.2.0.1/src/loglog.cxx /usr/src/debug/log4cplus/2.2.0.1/
+ src/global-init.cxx /usr/src/debug/log4cplus/2.2.0.1/src/loggingmacros.cxx /usr/src/debug/log4cplus/2.2.0.1/src/socketappender.cxx /usr/src/debug/log4cplus/2.2.0.1/src/stringhelper-cxxlocale.cxx /usr/src/debug/log4cplus/2.2.0.1/src/socket.cxx /usr/src/debug/log4cplus/2.2.0.1/src/stringhelper.cxx /usr/src/debug/log4cplus/2.2.0.1/src/pointer.cxx /usr/src/debug/log4cplus/2.2.0.1/src/socketbuffer.cxx /usr/src/debug/log4cplus/2.2.0.1/src/loglevel.cxx /usr/src/debug/log4cplus/2.2.0.1/src/syncprims.cxx /usr/src/debug/log4cplus/2.2.0.1/src/stringhelper-clocale.cxx /usr/src/debug/log4cplus/2.2.0.1/src/hierarchy.cxx /usr/src/debug/log4cplus/2.2.0.1/src/connectorthread.cxx /usr/src/debug/log4cplus/2.2.0.1/src/version.cxx /usr/src/debug/log4cplus/2.2.0.1/src/threads.cxx /usr/src/debug/log4cplus/2.2.0.1/src/filter.cxx /usr/src/debug/log4cplus/2.2.0.1/src/factory.cxx /usr/src/debug/log4cplus/2.2.0.1/src/queue.cxx", added "/usr/src/debug/log4cplus/2.2.1/src/exception.cxx /usr/src/debug/log4cplus/2
+ .2.1/src/objectregistry.cxx /usr/src/debug/log4cplus/2.2.1/src/factory.cxx /usr/src/debug/log4cplus/2.2.1/src/fileinfo.cxx /usr/src/debug/log4cplus/2.2.1/src/clogger.cxx /usr/src/debug/log4cplus/2.2.1/src/pointer.cxx /usr/src/debug/log4cplus/2.2.1/src/callbackappender.cxx /usr/src/debug/log4cplus/2.2.1/src/appender.cxx /usr/src/debug/log4cplus/2.2.1/src/property.cxx /usr/src/debug/log4cplus/2.2.1/src/stringhelper-clocale.cxx /usr/src/debug/log4cplus/2.2.1/src/asyncappender.cxx /usr/src/debug/log4cplus/2.2.1/src/queue.cxx /usr/src/debug/log4cplus/2.2.1/src/eventcounter.cxx /usr/src/debug/log4cplus/2.2.1/src/version.cxx /usr/src/debug/log4cplus/2.2.1/src/rootlogger.cxx /usr/src/debug/log4cplus/2.2.1/src/socket-win32.cxx /usr/src/debug/log4cplus/2.2.1/src/socketbuffer.cxx /usr/src/debug/log4cplus/2.2.1/src/stringhelper-cxxlocale.cxx /usr/src/debug/log4cplus/2.2.1/src/hierarchy.cxx /usr/src/debug/log4cplus/2.2.1/src/threads.cxx /usr/src/debug/log4cplus/2.2.1/src/connectorthread.cxx /usr
+ /src/debug/log4cplus/2.2.1/src/androidappender.cxx /usr/src/debug/log4cplus/2.2.1/src/global-init.cxx /usr/src/debug/log4cplus/2.2.1/src/loggerimpl.cxx /usr/src/debug/log4cplus/2.2.1/src/env.cxx /usr/src/debug/log4cplus/2.2.1/src/mdc.cxx /usr/src/debug/log4cplus/2.2.1/src/ndc.cxx /usr/src/debug/log4cplus/2.2.1/src/patternlayout.cxx /usr/src/debug/log4cplus/2.2.1/src/syslogappender.cxx /usr/src/debug/log4cplus/2.2.1/src/timehelper.cxx /usr/src/debug/log4cplus/2.2.1/src/tls.cxx /usr/src/debug/log4cplus/2.2.1/src/loglevel.cxx /usr/src/debug/log4cplus/2.2.1/src/loggingevent.cxx /usr/src/debug/log4cplus/2.2.1/src/win32consoleappender.cxx /usr/src/debug/log4cplus/2.2.1/src/layout.cxx /usr/src/debug/log4cplus/2.2.1/src/socket.cxx /usr/src/debug/log4cplus/2.2.1/src/appenderattachableimpl.cxx /usr/src/debug/log4cplus/2.2.1/src/nteventlogappender.cxx /usr/src/debug/log4cplus/2.2.1/src/fileappender.cxx /usr/src/debug/log4cplus/2.2.1/src/nullappender.cxx /usr/src/debug/log4cplus/2.2.1/src/socke
+ tappender.cxx /usr/src/debug/log4cplus/2.2.1/src/filter.cxx /usr/src/debug/log4cplus/2.2.1/src/lockfile.cxx /usr/src/debug/log4cplus/2.2.1/src/logger.cxx /usr/src/debug/log4cplus/2.2.1/src/hierarchylocker.cxx /usr/src/debug/log4cplus/2.2.1/src/socket-unix.cxx /usr/src/debug/log4cplus/2.2.1/src/configurator.cxx /usr/src/debug/log4cplus/2.2.1/src/stringhelper.cxx /usr/src/debug/log4cplus/2.2.1/src/syncprims.cxx /usr/src/debug/log4cplus/2.2.1/src/consoleappender.cxx /usr/src/debug/log4cplus/2.2.1/src/snprintf.cxx /usr/src/debug/log4cplus/2.2.1/src/stringhelper-iconv.cxx /usr/src/debug/log4cplus/2.2.1/src/loggingmacros.cxx /usr/src/debug/log4cplus/2.2.1/src/log4judpappender.cxx /usr/src/debug/log4cplus/2.2.1/src/loglog.cxx /usr/src/debug/log4cplus/2.2.1/src/win32debugappender.cxx"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-src: PKGSIZE changed from 827848 to 906359 (+9%)
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-staticdev: PV changed from "2.2.0.1" to "2.2.1"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus-staticdev: PKGV changed from 2.2.0.1 [default] to 2.2.1 [default]
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus: PV changed from "2.2.0.1" to "2.2.1"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus: PKGV changed from 2.2.0.1 [default] to 2.2.1 [default]
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus: FILELIST: removed "/usr/lib/liblog4cplusU-2.2.so.11.0.0 /usr/lib/liblog4cplus-2.2.so.11.0.0", added "/usr/lib/liblog4cplus-2.2.so.11.1.0 /usr/lib/liblog4cplusU-2.2.so.11.1.0"
+packages/x86-64-v3-poky-linux/log4cplus/log4cplus: PKGSIZE changed from 1672101 to 1659749 (-1%)
+Changes to packages/x86-64-v3-poky-linux/log4cplus (sysroot):
+  /usr/lib/liblog4cplus-2.2.so.11 changed symlink target from liblog4cplus-2.2.so.11.0.0 to liblog4cplus-2.2.so.11.1.0
+  /usr/lib/liblog4cplus.so changed symlink target from liblog4cplus-2.2.so.11.0.0 to liblog4cplus-2.2.so.11.1.0
+  /usr/lib/liblog4cplusU-2.2.so.11 changed symlink target from liblog4cplusU-2.2.so.11.0.0 to liblog4cplusU-2.2.so.11.1.0
+  /usr/lib/liblog4cplusU.so changed symlink target from liblog4cplusU-2.2.so.11.0.0 to liblog4cplusU-2.2.so.11.1.0
+  /usr/lib/liblog4cplus-2.2.so.11.0.0 moved to /usr/lib/liblog4cplus-2.2.so.11.1.0
+  /usr/lib/liblog4cplusU-2.2.so.11.0.0 moved to /usr/lib/liblog4cplusU-2.2.so.11.1.0
+  /usr/include/log4cplus/androidappender.h was added
 
---===============8853594108126803958==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="openssh-changelog.txt"
-
-.depend
-update RPM spec files
-upstream: openssh-10.6
-upstream: Add test for proxycommand percent expansions.
-upstream: backout regress bits related to multiplexing change
-remove the --disable-fd-passing configure option
-disable features when post-auth sshd runs as root
-Don't automatically enable FORTIFY_SOURCE.
-upstream: Further restrict the characters allowed in a command-line
-Remove NetBSD 9.0 test target.
-Replace native ARM runner with remote runner.
-Pull older NetBSD sudo package from archive.
-upstream: make StreamLocalBindMask properly first-match-wins;
-upstream: make StreamLocalBindMask properly respect Host/Match
-upstream: start process of deprecating the -R flag. This was the
-upstream: mention default KDF rounds is now 32
-upstream: Implement a maximum number of KDF rounds that will be
-upstream: fix the bit length of ML-DSA 44/Ed25519 keys that was
-upstream: sftp: be stricter in accepting paths returned by the
-upstream: handle max-pk-ok path identically when the incoming user
-upstream: Disallow nul byte in received scp -O filename. Not
-upstream: backout
-upstream: Check that compressed payloads don't inflate beyond the
-upstream: ssh-agent: no unlink(2) on empty filename
-upstream: ssh-agent: fix socket cleanup for -a option (no pathspec)
-upstream: Disable LZ77 dictionary coder to avoid a potential
-upstream: check ssh's handling of stale multiplexing sockets From Jens
-upstream: avoid race between multiple processes attempting to
-upstream: Include local and remote versions in ~I connection info.
-Remove the NetBSD BROKEN_READ_COMPARISON workaround.
-Ignore build/install status of netcat in tests.
-Add FreeBSD 15 test targets.
-upstream: Better wording.
-upstream: use Nm instead of Xr to self
-Don't deref NULL on STREAMS tty alloc failure.
-upstream: Plug leak. CID 913600.
-upstream: an abbreviation ending in a dot at EOL requires escaping
-upstream: tweak 1.406: minor wording and markup OK djm@
-upstream: draft-ietf-sshm-ssh-agent became RFC 9987 ok dtucker@
-Remove leftover from testing.
-Add fallback for mkdir_path() without openat().
-upstream: Use >= instead of > for max comparison so that the
-upstream: Use equality not assignment in ternary. CID 913600.
-upstream: spelling; ok deraadt@
-Also skip scp3 test on Darwin 26 and 27.
-upstream: convert channel timeouts to use floating points, allows
-upstream: masking signals requried sigaddset, not sigdelset; bz3981
-upstream: bz3635 - ssh-add -P to skip PIN entry
-upstream: simpler
-upstream: leaks on error paths; spotted by Coverity CID 913598
-upstream: fix inverted logic that could cause a memleak; spotted en
-upstream: Add missing semicolon after return. CID 913599, ok
-upstream: correctly check sshauthopt->restricted merging
-unbreak readpassphrase.c sync
-sync readpassphrase(3) with OpenBSD libc
-upstream: whitespace
-upstream: adapt to libsodium ed25519 implementation
-upstream: missing part of previous commit: update script to
-upstream: switch from SUPERCOP ed25519 to libsodium
-upstream: Only store GSSAPI creds when authn succeeds
-upstream: Reset GSSAPI client state before authentication
-upstream: Correctly handle some options that accept "none"
-upstream: Propagate authorized_keys "resrict" keyword
-upstream: Check key and CA sig type during key parsing
-upstream: Add WarnWeakCrypto to sshd
-upstream: Allow specification of agent socket directories
-upstream: Account pubkey checks separately to auth attempts
-upstream: Extend TCPKeepAlive to support forwardings too
-upstream: Mask SIGTERM/SIGQUIT when processing a SIGHUP restart
-fix merge botch that put lines in wrong function
-upstream: Correct handling of DST when converting dates
-upstream: sk-usbhid: preserve UV requirement for resident keys
-upstream: Fix memory leak on an error path in mkdir_path
-upstream: sftp: don't crash when glob(3) results lack stat information
-openpty: mark inputs const
-upstream: replace testing of vendor PQ signature algorithm
-upstream: minor leak of fingerprint text when printing
-upstream: the default KDF rounds for keys generated by ssh-keygen
-Don't link sshd against libselinux
-upstream: warnings fixes (static vs missing prototype, sign conversion)
-sshd doesn't need sshpty.c any more
-upstream: wrap line
-upstream: g/c prototype
-upstream: disconnect_controlling_tty() is the only thing from sshpty.c
-upstream: Fix ChannelTimeout specificity
-allow madvise(..., MADV_DONTNEED_LOCKED)
-upstream: fix case for ssh -G option output; bz4005, reported by
-upstream: mux proxy sockets also share in and out fds, so using
-upstream: don't attempt to set TCP_NODELAY on non-AF_INET[6]
-upstream: add a "hexdump" export mode that dumps the key blob in
-upstream: Add '-p' to sftp mkdir/lmkdir to create directories as
-upstream: Use getexecpath(3); if it fails use argv[0] as before
-upstream: Change three paragraphs in different parts of the manual
-upstream: update fingerprint example from RSA to Ed25519 host key
-upstream: Remove scp '-s' flag from synopsis, the flag has been a
-set -Wno-error=discarded-qualifiers
-seccomp sandbox: restrict mremap flags
-upstream: reenable ssh-mldsa44-ed25519 at a low priority position
-upstream: IANA has allocated a non-vendor codepoint for
-upstream: grammar; a -> an
-upstream: Bump size of key comment buffers. Prevents warnings on
-allow PAMServiceName in Match (regressed in 10.4)
-Move le32toh and friends to after platform flags.
-Skip scp3 test on macosx 26 until debugged.
-Remove ubuntu-26.04-arm kitchensink test target.
-special treatment for a more Turkic languages
-Group command for Yubico PPA correctly.
-Make FIDO2 packages optional.
-Update dependencies for Debian derivatives.
-Install libcrypt-dev package.
-Fix quoting in failed log output step.
-Add newer OS X and Ubunty 26.04 test targets.
-Require kSBXProfilePureComputation for OS X sandbox.
-upstream: Refer to id_mldsa44_ed25519.pub in the pubkey list. bz#3989.
-Add instructions for pin_actions.
-Update NetBSD vmaction pin to pick up 11.0 release.
-Update x11-ssh-askpass upstream location.
-Add NetBSD 11.0 test targets.
-Add 10.5 branch to test status display.
-whitespace at eol
-
---===============8853594108126803958==--
+--===============8419304859790431784==--
 
