@@ -1,132 +1,173 @@
-Return-Path: <maxin.john@gehealthcare.com>
+Return-Path: <yurade@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 570FDCA5FFF
-	for <webhook@archiver.kernel.org>; Wed,  7 Oct 2026 07:59:46 +0000 (UTC)
-Received: from PH7PR06CU001.outbound.protection.outlook.com (PH7PR06CU001.outbound.protection.outlook.com [52.101.201.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4490.1791359981762232701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D69BCA5FFF
+	for <webhook@archiver.kernel.org>; Wed,  7 Oct 2026 08:50:06 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5068.1791363005153087013
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Oct 2026 00:59:41 -0700
+ Wed, 07 Oct 2026 01:50:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@gehealthcare.com header.s=selector1 header.b=feHTsotH;
- spf=pass (domain: gehealthcare.com, ip: 52.101.201.49, mailfrom: maxin.john@gehealthcare.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mVUjGq7emfOC6+n5bu9gg2lLdctSLszzSlI8DYvoFtvYdLM2nKVgkq10hCDDJ1JAOoqRpXEG+CTX0OLJh6WFa5fcRKUl49dr7gfN6Ldexw8YOE6qR6i5UxNncmG0ZWP8lRgmzQlu3FTMV5nx+e0cbso6yttO8afcvQw6lTDuUtWdeVNFGd3W143GfXew3ryXriFMZb+NwemZQhl6gTldFoR/uzsFhk+Jc/Ln9YvXhzsLdOrpBZRaS2Xrn35yBst8KAJSu647Q0aFbhvsliv7JlIiAhee9Y11bQcFY1DnmGJrSmleHNLn7GPG5oq86KNEcATGst7ZYjoU6dtSuq+ydw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sZo97bck5VmeOL0saiAO5n0mpyW2KF2n/hX3nZWR3KQ=;
- b=c2KDDTS64t/mEfqW/nAQTKEEFBXg/GLhIOgVfYzE9G9WE9m64piFpU4cQpSz6M+3xbJBTCwUOskOGllXOUtiuPLFEcduTQjX4xTnrC7wSSyOHZXo/h1xkTV/W0fHFqXfOMIFZgYsXNmY1un8cwIs81XT/ui+5nZKK0SPdC8/4DMVT5EHHNdMtxyiEVkuUH7lvNy4d8XSPPJYOXCES2lJPibKP4m86qgHfSHXOaJMTNQwvyUAUi2T+EzkXtjrcG4dUdNhYfEHakPA1Q3YW+prAkShm7jTWda9BcEvhyZ6K90DRFlc1nQbyzZ+Ra+GbKiU4zLlrU6XsXNNyUNgnM8bfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 165.85.157.49) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
- pct=100) action=quarantine header.from=gehealthcare.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sZo97bck5VmeOL0saiAO5n0mpyW2KF2n/hX3nZWR3KQ=;
- b=feHTsotHeV2txW0GUMhyeBzamQxHMPDkTJv+RhYqaQW7WangTc/5UhygUAtR/D8lptrvbUBt0pGlNQezMGLUJRBJkrB5eSGrYKJc/HDFS39SNgQi2h8quXYaF6u3Xq2NLALuFXbUsQ6w43cgJxziq6ctpoIcEu69sJodiMrrm3CB9gaooRV5x8TBWlNjqUf60+HH+WAsuYcVKDj16VUVoIPioT3yllIfgen3+P/eE7VGBHJ6G3Bt5p8TQ/oB65vY160CAGjttsyvJ0R6jVnDkE/MslmSM5WbpgAmeHu5IGWCx5IZ9e2yvekBpuLizwj7YIsUUpa83q+l0brpzHmuGg==
-Received: from PH8PR07CA0038.namprd07.prod.outlook.com (2603:10b6:510:2cf::18)
- by SJ2PR22MB5264.namprd22.prod.outlook.com (2603:10b6:a03:586::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.15; Wed, 7 Oct
- 2026 07:59:38 +0000
-Received: from SJ5PEPF000001EA.namprd05.prod.outlook.com
- (2603:10b6:510:2cf:cafe::62) by PH8PR07CA0038.outlook.office365.com
- (2603:10b6:510:2cf::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Wed, 7
- Oct 2026 07:59:38 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
- is 165.85.157.49) smtp.mailfrom=gehealthcare.com; dkim=none (message not
- signed) header.d=none;dmarc=fail action=quarantine
- header.from=gehealthcare.com;
-Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
- not designate 165.85.157.49 as permitted sender)
- receiver=protection.outlook.com; client-ip=165.85.157.49;
- helo=atlrelay1.compute.ge-healthcare.net;
-Received: from atlrelay1.compute.ge-healthcare.net (165.85.157.49) by
- SJ5PEPF000001EA.mail.protection.outlook.com (10.167.242.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.496.14 via Frontend Transport; Wed, 7 Oct 2026 07:59:37 +0000
-Received: from b782ceaeccd1.fihel.lab.ge-healthcare.net (zoo12.fihel.lab.ge-healthcare.net [10.168.174.110])
-	by builder1.fihel.lab.ge-healthcare.net (Postfix) with ESMTP id 1CD951A2D0
-	for <openembedded-core@lists.openembedded.org>; Wed,  7 Oct 2026 10:59:36 +0300 (EEST)
-From: Maxin John <maxin.john@gehealthcare.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=RXFsDcVy;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: yurade@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=3745; q=dns/txt;
+  s=iport01; t=1791363005; x=1792572605;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vt2Cwkipj/Q3cHCMRmlk0HftKWbbscGl0KgtZCwl9/Q=;
+  b=RXFsDcVyssb3QQwvBVeToyfD9VAe6BZtRUOPm5ict75Tju2uRcilFZ8x
+   6i/mRmhxZw16eF2VR0BCkDGy9GDYyywSxycZT8YU4n6nPV2r9f3aySu9K
+   CfSaUrhhwjSPuPryO7emwveB85EHsKHZi4ox8VuNTiQl9jbtJMBY69/kI
+   yPKhHy8syv5l9VcDL8jv1JYPbMUMzxylyRMhoHSKAKvqfQBzXZVYk+TGZ
+   774MjCw045EfAPBCO7KonQdq5ff0fbd3fPB4iisU8zOq7bIeYGlnYJjpt
+   L8iX4nx1j9c65wa59Jh22i0gp8a82l7I2UvZ9DqFDA5A4AlHpd52ek5WY
+   w==;
+X-CSE-ConnectionGUID: PZmjGRi7Rz2pWRxXTYonNA==
+X-CSE-MsgGUID: UFzPnYLMS/qZtowBEbsYCg==
+X-IPAS-Result: =?us-ascii?q?A0BDAgDWBsZq/5H/Ja1aglmCV3VgQ0mUKYIhnh2Bfg8BA?=
+ =?us-ascii?q?QEPRA0EAQGTEAImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGTw2QEgE4ARgBWQMBAlojIYMCAYJ0AxG1IIIsgQGDCh8BPwJDUNlKgWgBC?=
+ =?us-ascii?q?xQBgTiFQIgjXRgBhHwnG4FJRIR+gQWBXAEBgUqGWwSDHBKBWpN1SIEeA1ksA?=
+ =?us-ascii?q?VUTDQoLBwWBZgM1EioVbjIdgSM+F4EHGwYFgR2BIIIWIxk2eoEJXoErKWEQF?=
+ =?us-ascii?q?4EJggcCglSCAAIBSUEOB0VTCSVDEkcmIggSCQETGjALgRs4PAkoQRcMKRgNS?=
+ =?us-ascii?q?BEsNxUZBD5uB5BbHoJggQ4BExggNxyBFTULpVqhD4QojCKVOhozhVulFAuYf?=
+ =?us-ascii?q?Y4KllCEaYFoPIFHCwczGggbFYMiCUoZD445g2uBf4IIyDInMgIJMgEBBwIHD?=
+ =?us-ascii?q?gMLgWiQAAEnBIFSAQE?=
+IronPort-Data: A9a23:WFgZq67O4TDy4Hc4NPkXYQxRtG/GchMFZxGqfqrLsTDasY5as4F+v
+ mQWXWmBMqmONzakctl2aN7kpB9XuZbSmINiGQRqqnsyZn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyGa+1H1dOex9RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wo/KUzBHf/g2QqazpMtPrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eBb8d+MlNAD505
+ 6YAFwodXiyygOSQ6efuIgVsrpxLwMjDJogTvDRkiDreF/tjGcCFSKTR7tge1zA17ixMNa+BP
+ IxCNnw1MUmGOkESUrsUIMpWcOOAl2TlejFVgFmUvqEwpWPUyWSd1ZCwa4OFIIzSHZQ9ckCwm
+ 0zUx2LIJjQhc8Wt1T2a2F+mnd7kknauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBVi4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rHnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:Sj/5natCXiC2/BS7e9sQVvoL7skDRtV00zEX/kB9WHVpm6uj5q
+ KTdZsguyMc5Ax9ZJhCo6HiBED/exLhHPdOiOF7V4tKNzOIhILHFu1fBPPZowHIKmnZ6vNX07
+ tmfuxVDd39CkU/sOPBiTPIdurJBLK8gceVbSC09QYIcT1X
+X-Talos-CUID: =?us-ascii?q?9a23=3AU6lC9Wl9qSxVIZR6r/1SNb5IoufXOUXvyXX/GU7?=
+ =?us-ascii?q?nM3QzUIKvWW+syaRiteM7zg=3D=3D?=
+X-Talos-MUID: 9a23:OwMUlwSbp5hnU45bRXTRqiNaMvZMxp/pEXIRlooslsOfBAd/bmI=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,144,1787011200"; 
+   d="scan'208";a="531828009"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 07 Oct 2026 08:50:04 +0000
+Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id E40EC18000466
+	for <openembedded-core@lists.openembedded.org>; Wed,  7 Oct 2026 08:50:03 +0000 (GMT)
+Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
+	id 8B6BFCC1611; Wed,  7 Oct 2026 01:50:03 -0700 (PDT)
+From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] buildhistory-diff: fix handling of a missing previous build revision
-Date: Wed,  7 Oct 2026 10:59:35 +0300
-Message-ID: <20261007075935.12-1-maxin.john@gehealthcare.com>
-X-Mailer: git-send-email 2.39.2
+Subject: [oe][meta-oe][scarthgap][PATCH v2 1/2] hdf5: Fix CVE-2026-17573
+Date: Wed,  7 Oct 2026 01:50:01 -0700
+Message-Id: <20261007085002.1261301-1-yurade@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001EA:EE_|SJ2PR22MB5264:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: de204caf-8e74-4200-e38b-08df2448ef35
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|376014|23010399003|18002099003|10067099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	yBA4a1/5Xt/5IUxKsfmxYbctkwVJz3IH54LYQuxtMe5ZPoEM5dC647hDyr8gHZhViRSUEyfpev679tKIFGZxXYBgItKNydMx98VQmcpo92ItEoHOM/7EctIjHK1ukEF0T5zLpaX4mb0AA3vL+hs2Zam2ljlLjD+mlYCnb48VGOVSTzwO0Ke50ywENci61jpnfAJ5aY2TkVvQlIiSU1IdlOcjKtsMH2kuQ45lGVOzgUUxXdVVhixh8+etVW70aeR4DxQItHCtPcx8joc2AHE7NaaXZ2mXdxfS7czkKQ7z7PnAQ0/lf0E/eA1z3T02kUPq6XhgZXkRW4tIGE5u9yocNP11ilOS4GI5Of+yAulJAwrH326bcYokzN4VPYYEblcnrjsVh7yLuod/JADoSHMX5dK2C+X++86m+Fm1/tmUukkfK8baczFlVRbcDVvqKdMrr4fXOxM3vmQWStxOTdvU+oW7Ykfq7NQKHzFViAhMMvt3lHdGDWhY5BIjIdM/hzuDIuMyKHoWCWIF7OuzEQhQr2nKqXE68uxo/wtuHXBXh9woEIsCB5NIKgEidQ2BIXEM9oj84vcv++LUdwuhr7u9mi2EpIP619vAOhbELvshuVxxFgAwVSap3WHwUMrJGwTX+Ds8+ly290axbZM5LFx6apkPw4gSi5aVQaOqc8MN3sn0uvJYc5fWy5mlBxo0YqDYglVbgkfBBy3uV0YJu6CPQA==
-X-Forefront-Antispam-Report: 
-	CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:atlrelay1.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(376014)(23010399003)(18002099003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	vfPD6qWqKyLzV2kpDMdMYc0HEKTVFmz6s/y1VGu8Vq9E6Iik0dESGOcUaUVWVZrdWu9dBHFzLOoizoaOkithYdpPF7Mra3C3NDmYBdutahmn/CYxwD91TgyD9St5NXmYcQkSaLGyU3yNeeBD2IQAa8HSZvhyWXGC4OKY1bO+rhnOxj16hjTzbiuknEaBKFXj/2kNRQrBVMt/W+Z6zYxjphDXaSHyMGmdYkCQkonyrQ8IzPCQGRu6MUIZgHDmkQbVGebYBk5XjE/5k8nsl00IvUNIMqTB4iDQdGBoYXJLLBNLBdvRAnbJAcJ29thMqj5iN3BmQUR6BE1xqwR0Pp/o4c+VRQlX4x9boRJuSQBKfczgxac4a2WjemwVHkw9ixMQTQtbBB3afSNPb/PzjzKIKfgoMSqTCTRgdCfr8F0L7KXy1PJIuAIff+kkLEEz3p88
-X-OriginatorOrg: gehealthcare.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2026 07:59:37.7099
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: de204caf-8e74-4200-e38b-08df2448ef35
-X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[atlrelay1.compute.ge-healthcare.net]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ5PEPF000001EA.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR22MB5264
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Oct 2026 07:59:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247377
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Oct 2026 08:50:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247378
 
-When buildhistory has no previous build revision, GitPython raises BadName,
-causing buildhistory-diff to print a traceback as shown below:
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-Traceback (most recent call last):
-    ...
-    ...	raise BadName(name)
-gitdb.exc.BadName: Ref 'build-minus-1' did not resolve to an object
+[1] https://github.com/HDFGroup/hdf5/commit/dd3080a58cc6bb86f3b34284399915da9e513262
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-17573
 
-Catch both revision lookup exceptions and compare the parsed revisions with
-the parser default to show the intended message.
-
-Signed-off-by: Maxin John <maxin.john@gehealthcare.com>
+Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
- scripts/buildhistory-diff | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+- Prepared v2 to include the previously missed CVE-2026-26197.patch
+  and CVE-2026-26199.patch patches. Updated the source code to
+  resolve hunk errors.
+---
+ .../hdf5/files/CVE-2026-17573.patch           | 49 +++++++++++++++++++
+ meta-oe/recipes-support/hdf5/hdf5_1.14.4-3.bb |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta-oe/recipes-support/hdf5/files/CVE-2026-17573.patch
 
-diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
-index a6e785aa23..aefe8b9fae 100755
---- a/scripts/buildhistory-diff
-+++ b/scripts/buildhistory-diff
-@@ -115,8 +115,8 @@ def main():
-         changes =3D process_changes(args.buildhistory_dir, fromrev, torev,
-                                   args.report_all, args.report_ver, args.s=
-igs,
-                                   args.sigsdiff, args.exclude_path)
--    except gitdb.exc.BadObject as e:
--        if not args.revisions:
-+    except (gitdb.exc.BadObject, gitdb.exc.BadName) as e:
-+        if args.revisions =3D=3D parser.get_default('revisions'):
-             sys.stderr.write("Unable to find previous build revision in bu=
-ildhistory repository\n\n")
-             parser.print_help()
-         else:
---=20
-2.39.2
+diff --git a/meta-oe/recipes-support/hdf5/files/CVE-2026-17573.patch b/meta-oe/recipes-support/hdf5/files/CVE-2026-17573.patch
+new file mode 100644
+index 0000000000..0acbbbf0c8
+--- /dev/null
++++ b/meta-oe/recipes-support/hdf5/files/CVE-2026-17573.patch
+@@ -0,0 +1,49 @@
++From dd3080a58cc6bb86f3b34284399915da9e513262 Mon Sep 17 00:00:00 2001
++From: jhendersonHDF <jhenderson@hdfgroup.org>
++Date: Tue, 27 Jan 2026 05:55:38 -0600
++Subject: [PATCH] Fix double-free issue in H5D__chunk_copy (#6160)
++
++Fix double-free caused by loss of buffer pointer after re-allocation
++
++CVE: CVE-2026-17573
++Upstream-Status: Backport [https://github.com/HDFGroup/hdf5/commit/dd3080a58cc6bb86f3b34284399915da9e513262]
++
++Backport Changes:
++- Omitted CHANGELOG.md file changes
++
++Co-authored-by: Larry Knox <lrknox@hdfgroup.org>
++(cherry picked from commit dd3080a58cc6bb86f3b34284399915da9e513262)
++Signed-off-by: Yogita Urade <yurade@cisco.com>
++---
++ src/H5Dchunk.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/src/H5Dchunk.c b/src/H5Dchunk.c
++index 4727cc5d12..86340be16e 100644
++--- a/src/H5Dchunk.c
+++++ b/src/H5Dchunk.c
++@@ -6809,7 +6809,7 @@ H5D__chunk_copy(H5F_t *f_src, H5O_storage_chunk_t *storage_src, H5O_layout_chunk
++                 H5O_storage_chunk_t *storage_dst, const H5S_extent_t *ds_extent_src, H5T_t *dt_src,
++                 const H5O_pline_t *pline_src, H5O_copy_t *cpy_info)
++ {
++-    H5D_chunk_it_ud3_t udata;                       /* User data for iteration callback */
+++    H5D_chunk_it_ud3_t udata = {0};                 /* User data for iteration callback */
++     H5D_chk_idx_info_t idx_info_dst;                /* Dest. chunked index info */
++     H5D_chk_idx_info_t idx_info_src;                /* Source chunked index info */
++     int                sndims;                      /* Rank of dataspace */
++@@ -6974,5 +6974,4 @@ H5D__chunk_copy(H5F_t *f_src, H5O_storage_chunk_t *storage_src, H5O_layout_chunk
++     /* Initialize the callback structure for the source */
++-    memset(&udata, 0, sizeof udata);
++     udata.common.layout    = layout_src;
++     udata.common.storage   = storage_src;
++     udata.file_src         = f_src;
++@@ -7024,3 +7023,4 @@ H5D__chunk_copy(H5F_t *f_src, H5O_storage_chunk_t *storage_src, H5O_layout_chunk
+++done:
++     /* I/O buffers may have been re-allocated */
++     buf = udata.buf;
++     bkg = udata.bkg;
++@@ -7029,2 +7029,1 @@ H5D__chunk_copy(H5F_t *f_src, H5O_storage_chunk_t *storage_src, H5O_layout_chunk
++-done:
++     if (dt_dst && (H5T_close(dt_dst) < 0))
++         HDONE_ERROR(H5E_DATASET, H5E_CANTCLOSEOBJ, FAIL, "can't close temporary datatype");
++     if (dt_mem && (H5T_close(dt_mem) < 0))
+diff --git a/meta-oe/recipes-support/hdf5/hdf5_1.14.4-3.bb b/meta-oe/recipes-support/hdf5/hdf5_1.14.4-3.bb
+index a69e86ee5f..d0da4dc086 100644
+--- a/meta-oe/recipes-support/hdf5/hdf5_1.14.4-3.bb
++++ b/meta-oe/recipes-support/hdf5/hdf5_1.14.4-3.bb
+@@ -33,6 +33,7 @@ SRC_URI = " \
+     file://CVE-2026-26199.patch \
+     file://CVE-2026-26197.patch \
+     file://CVE-2026-17572.patch \
++    file://CVE-2026-17573.patch \
+ "
+ SRC_URI[sha256sum] = "019ac451d9e1cf89c0482ba2a06f07a46166caf23f60fea5ef3c37724a318e03"
+ 
+-- 
+2.35.6
 
 
