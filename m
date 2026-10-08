@@ -1,83 +1,160 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24F47CA600E
-	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 09:41:16 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11603.1791452465368937863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A21CA600E
+	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 09:42:06 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11624.1791452518187872714
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2026 02:41:06 -0700
+ Thu, 08 Oct 2026 02:41:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=YLzTz3nC;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 1F43E1A1196;
-	Thu,  8 Oct 2026 09:41:03 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E706960341;
-	Thu,  8 Oct 2026 09:41:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 80DBA10333858;
-	Thu,  8 Oct 2026 11:40:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791452462; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=CzXyuH356vLOoLO/qHruxowS1iVNtvVcS8y06lXZ1ro=;
-	b=YLzTz3nCxOHM4qclMlrJ6iJBeNg6vuLhnqbX7rkh0ZiPi6EopHp+/HFuLBmBu70YUqb2M9
-	Aasxm3Cpqw1xop9ic3ZBTN76TvVdHBavsCfwtTaNVD/YyJzjlWX8fsr6XxrPiKr/bd6dJv
-	h8XHewZs2cumSTT/09aqFIKTEtvfZ0dxRwrq5jotz8NvqRyI1bbYDGMNGl/Tgu1FIe6juX
-	PthcvUbEfFpEU6s+kQXz3f2U9yvbeitYAQKSRx+NaXu78rO9FPQ7w3CN4D2iwwnt0BGB/p
-	pbRXyDeJbFhMtqOU3bbHMOlpwTeWy6jSR7stoXfuduRQa+3mlEGYVVZjb4px+g==
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=GuljLmRR;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0ECD01477
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Oct 2026 02:41:54 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 032803F959
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Oct 2026 02:41:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791452517; bh=QqF0X0qAUEKoo4CZjGl8f/elQ1r/z0F98JOHam+3D+A=;
+	h=From:To:Subject:Date:From;
+	b=GuljLmRRav5Pi8/TKRiernT8rjLshxgL1+zFSBios7/NjsnhoqLM+bdB1OBFEqqUl
+	 avA83YWPpLqbwhornNaLKKE3Y/hO4v8iOUWbvzCuKjxf6rs1uh4DHjPcG4Miffh9B0
+	 v+EzEZxfTvPn3h2wGa0m6ndUeWZq0Tw8RO31xSwk=
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] python3-cython: upgrade 3.2.9 -> 3.3.0
+Date: Thu,  8 Oct 2026 10:41:48 +0100
+Message-ID: <20261008094148.752601-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+X-ARM-No-Footer: NoDisclaimer
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 08 Oct 2026 11:40:58 +0200
-Message-Id: <DLZCWA0IG6Y2.2EUN06UJ6GXWT@bootlin.com>
-To: <Hemanth.KumarMD@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] gcc: Fix for CVE-2026-102010
-Cc: <Sundeep.kokkonda@Windriver.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261007102718.1288681-1-Hemanth.KumarMD@windriver.com>
-In-Reply-To: <20261007102718.1288681-1-Hemanth.KumarMD@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 09:41:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247422
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 09:42:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247423
 
-On Wed Oct 7, 2026 at 12:27 PM CEST, Hemanth Kumar M D via lists.openembedd=
-ed.org wrote:
-> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
->
-> PR 127656 use-after-free in libstdc++ pbds binary heap erase_if
->
-> After reallocating the storage the m_a_entries pointer is left dangling
-> and the new storage is leaked. Update m_a_entries after reallocation
->
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2026-102010
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D127656
-> https://gcc.gnu.org/git/?p=3Dgcc.git;a=3Dcommit;h=3Daaa8351f4d2e636f9680a=
-1f0a8ebc2f0a60611e6
->
-> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-> ---
+Lots of upstream changes, see the full release notes at
+https://github.com/cython/cython/blob/master/CHANGES.rst
 
-I do note this is triggering some warning on the autobuilder, but I
-don't understand what might be the link with this patch. It might be a
-previously existing issue.
+Backport a commit to fix non-reproducible code generation. The type
+inference is still non-deterministic if there's ambiguity[1], but this
+fix ensures there's no ambiguity in cython itself.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/4789
+Disable parallel builds because there's a race which causes occasional
+build failures[2]. This has a non-trivial implication to build time
+(89.1s to 243.1s on my machine), but it builds.
 
-Thanks,
-Mathieu
+[1] https://github.com/cython/cython/issues/8002
+[2] https://github.com/cython/cython/issues/7997
 
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ ...ictable-build-path-prefix-with-hardc.patch |  4 ++--
+ .../python3-cython/ambiguous-type.patch       | 24 +++++++++++++++++++
+ ...ython_3.2.9.bb =3D> python3-cython_3.3.0.bb} |  7 +++++-
+ 3 files changed, 32 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-cython/ambiguous=
+-type.patch
+ rename meta/recipes-devtools/python/{python3-cython_3.2.9.bb =3D> python=
+3-cython_3.3.0.bb} (83%)
+
+diff --git a/meta/recipes-devtools/python/python3-cython/0001-Replace-not=
+-predictable-build-path-prefix-with-hardc.patch b/meta/recipes-devtools/p=
+ython/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-=
+hardc.patch
+index 573a53ee561..01d019e554d 100644
+--- a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predic=
+table-build-path-prefix-with-hardc.patch
++++ b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predic=
+table-build-path-prefix-with-hardc.patch
+@@ -53,10 +53,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 3 insertions(+), 1 deletion(-)
+=20
+ diff --git a/Cython/Compiler/ModuleNode.py b/Cython/Compiler/ModuleNode.=
+py
+-index 34f1b32..b09350b 100644
++index 6e0a3e5..ce35b25 100644
+ --- a/Cython/Compiler/ModuleNode.py
+ +++ b/Cython/Compiler/ModuleNode.py
+-@@ -877,7 +877,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
++@@ -888,7 +888,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
+          code.put_generated_by()
+          if metadata:
+              code.putln("/* BEGIN: Cython Metadata")
+diff --git a/meta/recipes-devtools/python/python3-cython/ambiguous-type.p=
+atch b/meta/recipes-devtools/python/python3-cython/ambiguous-type.patch
+new file mode 100644
+index 00000000000..003fb8fc366
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cython/ambiguous-type.patch
+@@ -0,0 +1,24 @@
++From 0a948c7d65f91690674db4c855dadce501a3181d Mon Sep 17 00:00:00 2001
++From: Stefan Behnel <stefan_ml@behnel.de>
++Date: Tue, 6 Oct 2026 10:51:39 +0200
++Subject: [PATCH] Avoid ambiguity due to type inference.
++
++Upstream-Status: Backport [https://github.com/cython/cython/commit/0a948=
+c7d65f91690674db4c855dadce501a3181d]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ Cython/Compiler/FlowControl.py | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/Cython/Compiler/FlowControl.py b/Cython/Compiler/FlowContro=
+l.py
++index 4c751b329d1..c5d3af1ec59 100644
++--- a/Cython/Compiler/FlowControl.py
+++++ b/Cython/Compiler/FlowControl.py
++@@ -575,6 +575,8 @@ def check_definitions(flow: ControlFlow, compiler_di=
+rectives: dict):
++=20
++     block: ControlBlock
++     assmt: NameAssignment
+++    i_state: cython.py_int
+++
++     for block in flow.blocks:
++         i_state =3D block.i_input
++         for stat in block.stats:
+diff --git a/meta/recipes-devtools/python/python3-cython_3.2.9.bb b/meta/=
+recipes-devtools/python/python3-cython_3.3.0.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-cython_3.2.9.bb
+rename to meta/recipes-devtools/python/python3-cython_3.3.0.bb
+index 3457a914901..f5bf7fd81e7 100644
+--- a/meta/recipes-devtools/python/python3-cython_3.2.9.bb
++++ b/meta/recipes-devtools/python/python3-cython_3.3.0.bb
+@@ -7,11 +7,12 @@ SECTION =3D "devel/python"
+ LICENSE =3D "Apache-2.0"
+ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D61c3ee8961575861fa86c7e62=
+bc9f69c"
+=20
+-SRC_URI[sha256sum] =3D "d249c9022ab13286b17bd66f30609e800c5f95efeecb0616=
+8990c7a66cecde6c"
++SRC_URI[sha256sum] =3D "eed0d93fbca7087f143b42c34b05a825849bdf17f101572c=
+2105acfa49aa88b8"
+=20
+ inherit pypi setuptools3 cython
+=20
+ SRC_URI +=3D "file://0001-Replace-not-predictable-build-path-prefix-with=
+-hardc.patch"
++SRC_URI +=3D "file://ambiguous-type.patch"
+=20
+ # No need to depend on self
+ DEPENDS:remove =3D "python3-cython-native"
+@@ -44,3 +45,7 @@ RDEPENDS:${PN}:class-nativesdk +=3D "\
+ "
+=20
+ BBCLASSEXTEND =3D "native nativesdk"
++
++# Disable parallel builds for now as there's a build race in 3.3.0:
++# https://github.com/cython/cython/issues/7997
++PARALLEL_MAKE =3D ""
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
 
 
