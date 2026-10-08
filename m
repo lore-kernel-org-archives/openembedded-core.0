@@ -1,160 +1,102 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A21CA600E
-	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 09:42:06 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11624.1791452518187872714
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D5FCA6007
+	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 09:54:26 +0000 (UTC)
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12012.1791453262317900849
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2026 02:41:58 -0700
+ Thu, 08 Oct 2026 02:54:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=GuljLmRR;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0ECD01477
-	for <openembedded-core@lists.openembedded.org>; Thu,  8 Oct 2026 02:41:54 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 032803F959
-	for <openembedded-core@lists.openembedded.org>; Thu,  8 Oct 2026 02:41:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791452517; bh=QqF0X0qAUEKoo4CZjGl8f/elQ1r/z0F98JOHam+3D+A=;
-	h=From:To:Subject:Date:From;
-	b=GuljLmRRav5Pi8/TKRiernT8rjLshxgL1+zFSBios7/NjsnhoqLM+bdB1OBFEqqUl
-	 avA83YWPpLqbwhornNaLKKE3Y/hO4v8iOUWbvzCuKjxf6rs1uh4DHjPcG4Miffh9B0
-	 v+EzEZxfTvPn3h2wGa0m6ndUeWZq0Tw8RO31xSwk=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=XGppV3dN;
+ spf=pass (domain: mvista.com, ip: 74.125.82.173, mailfrom: vanusuri@mvista.com)
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-34ceab2900eso4900716eec.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 02:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1791453262; x=1792058062; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=u+JFQ3JsBp9VOWdCcDVnzX6Yymk0A7mdyH9AWP0vF2k=;
+        b=XGppV3dNUuxtGDlgV9OrrXIojWOFNdxhCkCD2/2y3Rv5FK4kezg0lipeqaipugEuPO
+         xiqUPnpC1dAS6eKUbZ6GBYTnOQFfhYzPHMpYh2YBwYxrMvIwFVRwmu2ckc8AEVH2h+2B
+         cTsqu4sD8EH/ioN/YaBKkCeH3fSBhZvz3pQzs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791453262; x=1792058062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=u+JFQ3JsBp9VOWdCcDVnzX6Yymk0A7mdyH9AWP0vF2k=;
+        b=tsYlG+nkt0J9ABNbB+U3+OyVQGtmD5GCXW65UpfJnVwA69kXWvoVANStDrDOuFVkd0
+         lPFAnPj39laOn13k9ALvSni1vaQwU8CEo1EUzhm3vwy4c/j6i79hDXdEQnSzz/4tqqsE
+         82lYyLWE1wIIiS0YxorT2ittBihFJqULHMkX83/w0XCt5mcXLiKbusW6FHJC3YI5gL+2
+         futg43B5nwldOiBHKB0vMEnAGmxdjyI3CSX+KuuB4tj7Z2hsP++UthXxFuwSYOPTEzcs
+         3pF7YLe+wIiigSrZ227naJyEaFFsdO7245wT1IoaZSrNWYEpyRecjzj6WDwXwj+ux0Gf
+         +OnA==
+X-Gm-Message-State: AFq9FYIF4HwFFtPHHS8oT9R+DDsLy21HFfPeZJh4BtMxFJPUif26JIRM
+	/cePvyWDksIe4ucsQoyxJAslgoMFiK3UVaLGrF1NtRXtzQEcSSnJMOsbbNsvVyNPNWtyH694L1H
+	Dft594+c=
+X-Gm-Gg: AYBFou20Kehblb+TFqkFZLlAbUAuU/JM/O/vDtacPZJePfSOhGc5bt6jria7QGmSRe9
+	MdySKwmJFZHGEZ2v0HcvKuyH98TuIEGDr84ZwBLdt55jLX34DEjsMXqNgSfRh0OHbfuKR/V/C05
+	omwgNZeMlhX0Xf/SDLsO5qq3wi/a0UnTgMK9cpQ9Rr/Q5Fil6wvwrh5v27Z88eFG/69DCjDKqls
+	tW0SLDzyIJV8R4s8AqNwRnmtJG5y/D+wCOuzUdvnGLt4nCCUMWpscM6jupumHBk/PCIXAwbUH5i
+	I8NADVOeCidjZ4RwKX6vW1G95eYMYIdpKV6f15HkPjXF9ijYpAV0MpoVKE8qHOMevO3UCg8Uj4r
+	og+/H8M0C4NXjRbYZIXNSCerjzFVJhgRiELwQ1zeI1587nkgHWizw+KbQ8oqsp38iN9zwyI8zHJ
+	C5R7VOXHLOWybYoGO7k7L0XADvXnlaDi+n3OAFKqIOUBM1GAge9wnxNdKw3yiXN2vdySKOKC6Uc
+	qeSIdtU
+X-Received: by 2002:a05:7301:670a:b0:351:595:750b with SMTP id 5a478bee46e88-3515dec9a10mr10167933eec.36.1791453261504;
+        Thu, 08 Oct 2026 02:54:21 -0700 (PDT)
+Received: from MVIN00352.mvista.com ([106.200.27.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3515a8b7c5dsm16757750eec.0.2026.10.08.02.54.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2026 02:54:20 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] python3-cython: upgrade 3.2.9 -> 3.3.0
-Date: Thu,  8 Oct 2026 10:41:48 +0100
-Message-ID: <20261008094148.752601-1-ross.burton@arm.com>
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][patch] python3: upgrade 3.12.14 -> 3.12.15
+Date: Thu,  8 Oct 2026 15:24:11 +0530
+Message-ID: <20261008095411.1492881-1-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 09:42:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247423
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 09:54:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247424
 
-Lots of upstream changes, see the full release notes at
-https://github.com/cython/cython/blob/master/CHANGES.rst
+Release information:
+* https://www.python.org/downloads/release/python-31215/
+* The release you're looking at is Python 3.12.15, a security bugfix release for the legacy 3.12 series.
 
-Backport a commit to fix non-reproducible code generation. The type
-inference is still non-deterministic if there's ambiguity[1], but this
-fix ensures there's no ambiguity in cython itself.
+Handles CVE-2026-19445 CVE-2026-19553 CVE-2026-82049 CVE-2026-15310
+CVE-2026-19672 CVE-2026-15806 CVE-2026-17084 CVE-2026-87910
 
-Disable parallel builds because there's a race which causes occasional
-build failures[2]. This has a non-trivial implication to build time
-(89.1s to 243.1s on my machine), but it builds.
+Changelog: https://docs.python.org/release/3.12.15/whatsnew/changelog.html#python-3-12-15
 
-[1] https://github.com/cython/cython/issues/8002
-[2] https://github.com/cython/cython/issues/7997
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- ...ictable-build-path-prefix-with-hardc.patch |  4 ++--
- .../python3-cython/ambiguous-type.patch       | 24 +++++++++++++++++++
- ...ython_3.2.9.bb =3D> python3-cython_3.3.0.bb} |  7 +++++-
- 3 files changed, 32 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-cython/ambiguous=
--type.patch
- rename meta/recipes-devtools/python/{python3-cython_3.2.9.bb =3D> python=
-3-cython_3.3.0.bb} (83%)
+ .../python/{python3_3.12.14.bb => python3_3.12.15.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3_3.12.14.bb => python3_3.12.15.bb} (99%)
 
-diff --git a/meta/recipes-devtools/python/python3-cython/0001-Replace-not=
--predictable-build-path-prefix-with-hardc.patch b/meta/recipes-devtools/p=
-ython/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-=
-hardc.patch
-index 573a53ee561..01d019e554d 100644
---- a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predic=
-table-build-path-prefix-with-hardc.patch
-+++ b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predic=
-table-build-path-prefix-with-hardc.patch
-@@ -53,10 +53,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 3 insertions(+), 1 deletion(-)
-=20
- diff --git a/Cython/Compiler/ModuleNode.py b/Cython/Compiler/ModuleNode.=
-py
--index 34f1b32..b09350b 100644
-+index 6e0a3e5..ce35b25 100644
- --- a/Cython/Compiler/ModuleNode.py
- +++ b/Cython/Compiler/ModuleNode.py
--@@ -877,7 +877,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
-+@@ -888,7 +888,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
-          code.put_generated_by()
-          if metadata:
-              code.putln("/* BEGIN: Cython Metadata")
-diff --git a/meta/recipes-devtools/python/python3-cython/ambiguous-type.p=
-atch b/meta/recipes-devtools/python/python3-cython/ambiguous-type.patch
-new file mode 100644
-index 00000000000..003fb8fc366
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cython/ambiguous-type.patch
-@@ -0,0 +1,24 @@
-+From 0a948c7d65f91690674db4c855dadce501a3181d Mon Sep 17 00:00:00 2001
-+From: Stefan Behnel <stefan_ml@behnel.de>
-+Date: Tue, 6 Oct 2026 10:51:39 +0200
-+Subject: [PATCH] Avoid ambiguity due to type inference.
-+
-+Upstream-Status: Backport [https://github.com/cython/cython/commit/0a948=
-c7d65f91690674db4c855dadce501a3181d]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ Cython/Compiler/FlowControl.py | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/Cython/Compiler/FlowControl.py b/Cython/Compiler/FlowContro=
-l.py
-+index 4c751b329d1..c5d3af1ec59 100644
-+--- a/Cython/Compiler/FlowControl.py
-++++ b/Cython/Compiler/FlowControl.py
-+@@ -575,6 +575,8 @@ def check_definitions(flow: ControlFlow, compiler_di=
-rectives: dict):
-+=20
-+     block: ControlBlock
-+     assmt: NameAssignment
-++    i_state: cython.py_int
-++
-+     for block in flow.blocks:
-+         i_state =3D block.i_input
-+         for stat in block.stats:
-diff --git a/meta/recipes-devtools/python/python3-cython_3.2.9.bb b/meta/=
-recipes-devtools/python/python3-cython_3.3.0.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-cython_3.2.9.bb
-rename to meta/recipes-devtools/python/python3-cython_3.3.0.bb
-index 3457a914901..f5bf7fd81e7 100644
---- a/meta/recipes-devtools/python/python3-cython_3.2.9.bb
-+++ b/meta/recipes-devtools/python/python3-cython_3.3.0.bb
-@@ -7,11 +7,12 @@ SECTION =3D "devel/python"
- LICENSE =3D "Apache-2.0"
- LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D61c3ee8961575861fa86c7e62=
-bc9f69c"
-=20
--SRC_URI[sha256sum] =3D "d249c9022ab13286b17bd66f30609e800c5f95efeecb0616=
-8990c7a66cecde6c"
-+SRC_URI[sha256sum] =3D "eed0d93fbca7087f143b42c34b05a825849bdf17f101572c=
-2105acfa49aa88b8"
-=20
- inherit pypi setuptools3 cython
-=20
- SRC_URI +=3D "file://0001-Replace-not-predictable-build-path-prefix-with=
--hardc.patch"
-+SRC_URI +=3D "file://ambiguous-type.patch"
-=20
- # No need to depend on self
- DEPENDS:remove =3D "python3-cython-native"
-@@ -44,3 +45,7 @@ RDEPENDS:${PN}:class-nativesdk +=3D "\
- "
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+# Disable parallel builds for now as there's a build race in 3.3.0:
-+# https://github.com/cython/cython/issues/7997
-+PARALLEL_MAKE =3D ""
---=20
+diff --git a/meta/recipes-devtools/python/python3_3.12.14.bb b/meta/recipes-devtools/python/python3_3.12.15.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.12.14.bb
+rename to meta/recipes-devtools/python/python3_3.12.15.bb
+index 14be125180..6c6289b0e6 100644
+--- a/meta/recipes-devtools/python/python3_3.12.14.bb
++++ b/meta/recipes-devtools/python/python3_3.12.15.bb
+@@ -42,7 +42,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a"
++SRC_URI[sha256sum] = "c2c4321961fab0fb999d66e0cecf521c2ab3994c7992873ea99e306c1094fd5a"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+-- 
 2.43.0
 
 
