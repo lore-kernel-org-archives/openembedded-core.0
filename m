@@ -2,128 +2,249 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 453E7CA6007
-	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 06:11:57 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9761.1791439911673581948
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6512DCA6007
+	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 06:37:37 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.58])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9945.1791441453763348054
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Oct 2026 23:11:53 -0700
+ Wed, 07 Oct 2026 23:37:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=hAaUsjFv;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20261008061147bfe902d03e000207e6-dkhtgw@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20261008061147bfe902d03e000207e6
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 08 Oct 2026 08:11:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=sN92xq7WpHhs0TBjriCjXG+eQaaQnBya9JNk3hEcEQg=;
- b=hAaUsjFvVW+4G+dS1IV0J03bbLmd0PaQb5Qtr20jVF0gGK5BWlMuMt5cA5yp4qr4U/WOk2
- WL3HxrY8QdoLzEcdoKHEMojOVSkUW1kQz92sZFThNWIbrN/SKG5//f0/7crM5dEc8XwswXtS
- jGjOcAeQQn5UKOThYOIMnZWTVEU50jd++g7/mQCVQQdtpu6r9aceXjEHhf69j24uuwE2xLOf
- gUCMQjXQUqTKunpvnO6vnj/GK4wBcWUIF+A6yeNfGEICPVFW4yab4Z+wiYRUYaCyRauTsYI5
- YpILgYqSlqfwD2txntehB5qgWjAlgRxwPJORun9lsLKdnfqh2m+TJN6Q==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] glibc: stable 2.44 branch updates to 34106fee69
-Date: Thu,  8 Oct 2026 08:11:36 +0200
-Message-ID: <20261008061136.6429-1-peter.marko@siemens.com>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=NXWZczlx;
+ spf=pass (domain: siemens.com, ip: 40.107.159.58, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WPn7wUCeGfwC98jR571060E4IK4CIdIAG5aQpucgYpRDgdHT6n6ddXWrws7P0mP0zDlr+kZgmN4JtgJd2I0nrgzoRcnHjPUVmsS5D+1wwfp8+S0eOQwiiQHuK0xhPAjqFJI/ySS8VQIYO0i4OQx4VeeMsZa6YQbRxbaWQN2sLIHVQU9O+EZoU+yCOXZHot/Qb4Q5LIcbybOkWDyYslO7XNoHBBRPtqiYgsoGmYY44Kn+pybqezSKInxrSrmfXE4nPObRsw/4LHP2LAQQLODLCTZ+x7VyBNNpbzbwgQEBxazb5p8QiKFUObut1uOWOk+2nqG2EHx7NZTIcr3pSmvc8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GySP5vDxYhRgzMaK036WsBUizIKP/uPPb+nd5nZZpCo=;
+ b=Unk32XOwUSRDiGifJMGfz0TpovlZNwDm2vB4L1MgVUYlEVmYavHdMvQuiUc8q0os0HfTgySOgM9BEbR2EfM9O4qRtIAAmndwJOjgK67jthMNNZRb12LbIcFqEAcLeY+eaUIFcHSjlVhB9e+27LuuYraf6MWrZPPFmJasINcNtf0/K3sfvLe6RRAUXISWpuOM5TBf/mhodepj2IfghAoHb2Y2tqKdh4LQZDLeekDgMYkZKLUkb51XaxuCETEl3FsFiXXtdvQIaMmA7YisE17bjMw5OyBscZEISTOszYobxNonEV2+8JHOws3bQ4LgVuGklAX3bGzXBGqjzDFv7qg+iQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GySP5vDxYhRgzMaK036WsBUizIKP/uPPb+nd5nZZpCo=;
+ b=NXWZczlx1I2y8nEg/43FOj4rX547yitoIklnjWIWplnMNQ+OvAfvSztJ3RTVzOdhcZPOr0k5Euh2WWNi2NbhDy/xohd6OOJKdJGlIsO2DjIioofNKdyvChalIiV5J7aTy6txC8iJ207HCC6YehZiCbZtv/hLUomWAs1QMs3soSbuVXSf3ap7ACgLEtPeQJS1gaHB+BPsnmfSQdB2dMrdu9L4zZb81vAfEC5unHN5Wy7kgUSTSgasd27ZPW2pnbPdnfqey/HOp0fCjC1Pqp42bFGtUaONmzlj+vncfjeSjjjmI2YkpNtsp35ie40Hh/i8keddPZc8uhpUqU9Yy1Jeew==
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
+ by AM4PR10MB9422.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:6cd::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Thu, 8 Oct
+ 2026 06:37:27 +0000
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0496.015; Thu, 8 Oct 2026
+ 06:37:27 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "Harish.Sadineni@windriver.com" <Harish.Sadineni@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [wrynose][PATCH] glibc: stable 2.43 branch updates to
+ 562cd7badd
+Thread-Topic: [OE-core] [wrynose][PATCH] glibc: stable 2.43 branch updates to
+ 562cd7badd
+Thread-Index: AQHdVkY51BxY1bO6WEW73krJds3wCbbx4TKAgAADNJCAAU3bAA==
+Date: Thu, 8 Oct 2026 06:37:26 +0000
+Message-ID: 
+ <AS8PR10MB507360622178472ED636F75EFD932@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+References: <20261007102442.1180223-1-Harish.Sadineni@windriver.com>
+ <1690975.1791369029109026328@lists.openembedded.org>
+ <AS8PR10MB5073014B65BD921986587E1BFD942@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: 
+ <AS8PR10MB5073014B65BD921986587E1BFD942@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=f12a6455-f6ed-45a1-9f53-37948fd5459e;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-10-07T10:41:56Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|AM4PR10MB9422:EE_
+x-ms-office365-filtering-correlation-id: d92c13eb-7efc-44f9-8d8f-08df25069ec5
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|13003099007|38070700021|4143699003|11063799006|10067099003|56012099006|18002099003|22082099003|55112099003|8096899003;
+x-microsoft-antispam-message-info: 
+ g4QRFjFnh5lP8Zy/wi233eu9kuqRLZb9guBHpvWJTFzDXrnAv87Cx+uT4g4xE0CSTk29eaRjQodZLzYeHMbJgjLs3rXkkDVnVsEBGDMRM/0km9vXL6AZ/1Cm+HvgSQ1I4RoncJ5JCv+wgbWjgOU0yzX/yXnI0zjAP+jttQPOhPT5tPo+HwNzHTHak7dp7gPVmbv+Gimw/Al3doJbs8OxiOph9v0fKIoBogJ48QCmmqs/QvfUvPmT5002O4hy1X0/AM1sWKaL902zNUyfMHRAHtS2A/+OGmT2/KjwFea3Wy+h64I7uKQ21zfqJMNa1rx+k3ykT5EaXwpP+pwgJVoB0cDv4LeRsLBiRfYr0G8gMkBtGUnQ99IQCinJvMu8hQLW7jWiuY2SwbxU7y5/lWXC8nbscyvfXjGov26c9R5qxHGJeKH5sqGuOU+HUrAuktiKUgT9NuAziUK4sOFHkPY2tGAkzvf1MSZXTdGtiJzX18J28oZ99oGTrQQm1QR+RhyA/ipYwVT9jIh4oOQNR9sBkTD+y9ZxcmcHy6fUu+TqTgDglatROioQ5ecM/I2lwZ49jzfZxXCfU6Fr49Nlmj4mcka4wny13NahG4JtJMT5woHFL9RCWrid23YX2J4Hzvu6JaHTPblc1Fe/RWGF2FrkMyXFYfCbRm+BZwa2S0kBdrQ=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(13003099007)(38070700021)(4143699003)(11063799006)(10067099003)(56012099006)(18002099003)(22082099003)(55112099003)(8096899003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?MDJ4MEdJWlZqc0RnWC9ubUJvQ2ZSbmhqTEVBc1hHZ0N6NHB4REJVelVtemJQ?=
+ =?utf-8?B?OUM5dndKRFNlaGF2dnd5dUprL3dVdUoyZzBGNmkxMFVpbjRtTjgvZG1Eazls?=
+ =?utf-8?B?OWgvY3J6cUExaFloWTlGdmdjcC85K2FhVTQrMzM3VFQ1eFByUk90YytjcExJ?=
+ =?utf-8?B?cTFCNGczWVIwUFJvVG9nTXJBM1RXeFJSYXFGNjF6MWg1cE9NSitHZEFtNjJW?=
+ =?utf-8?B?bTZKRHp3MjNOd2ZwdUJBMUgrVHFRWUVISHlEeWpoZE5xRm0ya1EvZ3c3SjVX?=
+ =?utf-8?B?RkQ0YUZhMUs0SWpoOHVIRjdSdDQxUzE4cW85MjBONFhnWFZZSnB2N2dhQWR6?=
+ =?utf-8?B?RnlFWSs3TFd0S2lRS1pkSGJ3Ly9UUVpoT1pwamIwS2tnTVBvV3prR0s5c1du?=
+ =?utf-8?B?RjZJaTBRNnMxcGhMWjdaNU5JbW9ueWx6QUp0NnZ4ZURpSzZ0TVNMN2g3aG9B?=
+ =?utf-8?B?SHpXSkkrNWkrRkZXdEpPTnRVQjV1aFdYazBqam9VSVp5bDdZLzc5ekVQaHlL?=
+ =?utf-8?B?VW0xT3Jna3gyb3YrbXMrWVZtNFlpTmRtYWdzdzdtQ0xLa1Z4QTdHUjY5aFk5?=
+ =?utf-8?B?Ynlna0xXUENwaFYvM0lMSFlSNHlyL3BjYXAzS2RMRS9rcW5RVTR4eTVjeGc2?=
+ =?utf-8?B?YXMvSk9wUUIrRnRsSjRscWVMYzI5Q0wyWHdqalB6d21GY0c0WnZYVjlSN2Vw?=
+ =?utf-8?B?UjJCc1A1L0NOcHhYa3h3OFVSZy82MkpKa3Baam9qcHhHaXhJY2cxOHBFa1Iw?=
+ =?utf-8?B?M1pFQ05jRUlXRVA2b1ZZWmdXL3ZIeGxzVnhvN2NOZlJ6TkZhdHlIRDFPSTU3?=
+ =?utf-8?B?SXBKdlpjWWtaZ1l1M0RoQkdqaTNWMlcrZ2xvVTRQNy9kQXgvc3VwRnJjZzF2?=
+ =?utf-8?B?NHdjcXphSU9uUnA4cWVaeXNaZklBYTNRNGRmMzNmK2F5RHY4R003cy9DenU4?=
+ =?utf-8?B?ckR1bDNIU1ZkNmlvY0NpMjhabmFuT0JVcU1FeWd0RzBENnF0Y2RHenRqalZU?=
+ =?utf-8?B?cXpHWU5SSzEzUWQ5dS9jUU02SHNJemhxSHluUm9iTXNXU1ltWVVmVjdoZU9z?=
+ =?utf-8?B?dUwyYlhQZ2hWUTI0NFpNc1JYenkxdDNvU1h2dFZBK28zVHFTTmFZUjBtQ2U3?=
+ =?utf-8?B?bGx3SVpDajVWN1ExZ3ZacnNNbzZLQkpLQllIT1RtMWo2MEx3RjhRVW5FYXp1?=
+ =?utf-8?B?cmVJbUZQKytHNjA0cUJkMDdWajBpL3NzYnJzcUhBQmp5Y2NRZitFOFZjS0Vx?=
+ =?utf-8?B?ZHc0Z3BwMU1sVE5MVHdpRUFudFY1RkVvektnTmlRMEFEQkdudXFremtlZXFh?=
+ =?utf-8?B?VmNPNDlOY255d0pDTTUxR2o0NlNmRmdodklEL1NteERlY1RUYmZGTmVhdGNS?=
+ =?utf-8?B?UWRFQUVHTlZhUy9qaDUwb2twVWRzUGdzcmxnZVJDVU9qeG5YcjNjSHVYZnAy?=
+ =?utf-8?B?Y3NGRWZnTCtiN1JqRDJpYzRXeXArbkV1eUxzSU5CamI0Yi9zQVYrSmRJLzkr?=
+ =?utf-8?B?dm5tTHY1WWhEVjV1TlJtblkydXI0alZXZk1NZndQc1pGbnMzWWNQRG5pdFll?=
+ =?utf-8?B?aVNOMDczUjZubEpCdVFLQUx1b1JYSTZXbUlaZDNOQTJkNFg5MkF3bmhIblhh?=
+ =?utf-8?B?RStrMUNKOXJUSDhWTWMxTE5IME9EeU9DZHNPby9FdmFnMUZESURGaGNxYjBn?=
+ =?utf-8?B?UXZ3ZEpPNC8wbEc0LzVQK1BtUmdBeUpVeUMzVlBYVzdsVUEwVlRSUW5BRlpS?=
+ =?utf-8?B?QlhpTDYvVTVIT3htTHQ2R0tob1lIazVwTUJuYkVwdllvakZnanFPR2NwWTMz?=
+ =?utf-8?B?SVVleThyTUtORkpkSUJTR0hLbVFCQXQ4NXFKTU1neFlPcGVyaXhQTy8xRVBQ?=
+ =?utf-8?B?eTdmM2crWVlqWW9RYUdCNktLL2Jvd21pVWtMWVVUSElNZXNIQ1dQM09zZ2hX?=
+ =?utf-8?B?RWtraXVNQlJNWms5VWt3clh3cjVWaUN3QnR3UkYzdTlzR0lRaEdQNVlLRW1v?=
+ =?utf-8?B?a0hXL2phcHlmeWMvWk8zeUJxTDBUT2RieWZkSGlPRXJzbG5oYmd2aVAreWRa?=
+ =?utf-8?B?NzNacDlKMjRKbTU4YlZnNUc1Z2Z6cERUeDY4b3FCYmlMVlhLckgvK2JZbVJK?=
+ =?utf-8?B?eVFPRU5NUFRRblEyU1YxWXVDQUFEVURleElmSXE2QS9zZW04MWlyOXdvRGw4?=
+ =?utf-8?B?em9qWjNsbEdYdWVmZVJNRmh2ejZ4WEpQZTRjYlQzY1ZwNXRJaTlxVlZzRGd3?=
+ =?utf-8?B?Ykk3WFBZUzFQNm1tcmk3dTlvdkJ2TTNKUkg4OUNrZms2M0V4UysvMXVsTkJL?=
+ =?utf-8?B?aEhOdXVrbWd2UDd0Rzc3bmpaTVBEK0JyTG9hd0V2RmZTNDdobCtDZz09?=
+Content-Type: multipart/alternative;
+	boundary="_000_AS8PR10MB507360622178472ED636F75EFD932AS8PR10MB5073EURP_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: d92c13eb-7efc-44f9-8d8f-08df25069ec5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2026 06:37:27.3386
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2BFQ4O1Bx6+eDpdUSLaF8cLmlfXdwJmYcdjs9qSsz4cZLCiJxFi6+G4yHVAUcSAQfX5MjlgIkPpPnES9vlwtOA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR10MB9422
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 06:11:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247416
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 06:37:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247417
 
-From: Peter Marko <peter.marko@siemens.com>
+--_000_AS8PR10MB507360622178472ED636F75EFD932AS8PR10MB5073EURP_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Update SRCREV to pull the latest fixes from the upstream
-release/2.44/master branch, including fixes for the following CVEs:
+SSBoYXZlIHNlbnQgdGhlIHVwZGF0ZSBmb3IgbWFzdGVyIG5vdy4NCkJsYWNrc2FpbCB3aWxsIGJl
+IGRvbmUgd2hlbiBpdCBtZXJnZXMgaW4gbWFzdGVyLg0KDQpQZXRlcg0KDQpGcm9tOiBNYXJrbywg
+UGV0ZXIgKEZUIEQgRVUgU0sgQkZTMSkNClNlbnQ6IFdlZG5lc2RheSwgT2N0b2JlciA3LCAyMDI2
+IDEyOjQzIFBNDQpUbzogSGFyaXNoLlNhZGluZW5pQHdpbmRyaXZlci5jb207IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJFOiBbT0UtY29yZV0gW3dy
+eW5vc2VdW1BBVENIXSBnbGliYzogc3RhYmxlIDIuNDMgYnJhbmNoIHVwZGF0ZXMgdG8gNTYyY2Q3
+YmFkZA0KDQpUaGVzZSB0d28gdXBkYXRlcyB3b3VsZCBwdXQgd3J5bm9zZSBhaGVhZCBvZiBtYXN0
+ZXIgYW5kIGJsYWNrc2FpbC4NCg0KUGV0ZXINCg0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFp
+bHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+PiBPbiBCZWhhbGYg
+T2YgU2FkaW5lbmksIEhhcmlzaCB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU2VudDogV2Vk
+bmVzZGF5LCBPY3RvYmVyIDcsIDIwMjYgMTI6MzAgUE0NClRvOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbd3J5bm9zZV1bUEFUQ0hdIGds
+aWJjOiBzdGFibGUgMi40MyBicmFuY2ggdXBkYXRlcyB0byA1NjJjZDdiYWRkDQoNCkhpIGFsbCwN
+Cg0KcGxlYXNlIHRha2UgdGhpcyB1cGRhdGUgb24gdG9wIG9mIFt3cnlub3NlXVtQQVRDSCB2Ml0g
+Z2xpYmM6IHN0YWJsZSAyLjQzIGJyYW5jaCB1cGRhdGVzIHRvIDljZGE2ZmM5NmFiLg0KaHR0cHM6
+Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yNDY5
+MDcNCg0KVGhhbmtzLA0KSGFyaXNoDQo=
 
-CVE-2026-18374 CVE-2026-8674 CVE-2026-86805 CVE-2026-89092
-CVE-2026-95818 CVE-2026-97399
+--_000_AS8PR10MB507360622178472ED636F75EFD932AS8PR10MB5073EURP_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Also mark following CVEs are fixed as they have been included in
-previous hash already:
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpBcHRvczt9DQovKiBTdHlsZSBEZWZpbml0
+aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJn
+aW46MGNtOw0KCWZvbnQtc2l6ZToxMi4wcHQ7DQoJZm9udC1mYW1pbHk6IkFwdG9zIixzYW5zLXNl
+cmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5
+Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQouTXNvQ2hwRGVm
+YXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LXNpemU6MTAuMHB0Ow0K
+CW1zby1saWdhdHVyZXM6bm9uZTt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0
+IDc5Mi4wcHQ7DQoJbWFyZ2luOjcyLjBwdCA3Mi4wcHQgNzIuMHB0IDcyLjBwdDt9DQpkaXYuV29y
+ZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUg
+bXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2
+IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFw
+ZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4N
+CjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9
+IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13cmFwOmJyZWFr
+LXdvcmQiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1
+b3Q7LHNhbnMtc2VyaWYiPkkgaGF2ZSBzZW50IHRoZSB1cGRhdGUgZm9yIG1hc3RlciBub3cuPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+
+QmxhY2tzYWlsIHdpbGwgYmUgZG9uZSB3aGVuIGl0IG1lcmdlcyBpbiBtYXN0ZXIuPG86cD48L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZiI+PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJp
+ZiI+UGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpw
+PiZuYnNwOzwvbzpwPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNv
+bGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBz
+dHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6
+My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
+cmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gTWFya28sIFBldGVyIChGVCBE
+IEVVIFNLIEJGUzEpDQo8YnI+DQo8Yj5TZW50OjwvYj4gV2VkbmVzZGF5LCBPY3RvYmVyIDcsIDIw
+MjYgMTI6NDMgUE08YnI+DQo8Yj5Ubzo8L2I+IEhhcmlzaC5TYWRpbmVuaUB3aW5kcml2ZXIuY29t
+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+U3ViamVj
+dDo8L2I+IFJFOiBbT0UtY29yZV0gW3dyeW5vc2VdW1BBVENIXSBnbGliYzogc3RhYmxlIDIuNDMg
+YnJhbmNoIHVwZGF0ZXMgdG8gNTYyY2Q3YmFkZDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2
+Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPlRoZXNlIHR3byB1cGRhdGVzIHdvdWxk
+IHB1dCB3cnlub3NlIGFoZWFkIG9mIG1hc3RlciBhbmQgYmxhY2tzYWlsLjxvOnA+PC9vOnA+PC9z
+cGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAu
+MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWYiPlBl
+dGVyPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
+cDs8L286cD48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBi
+bHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRpdiBzdHlsZT0iYm9yZGVy
+Om5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBj
+bSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwv
+c3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4NCjxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5vcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPC9hPiAmbHQ7PGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmciPm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmc8L2E+Jmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5TYWRpbmVuaSwgSGFyaXNoIHZpYSBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+U2VudDo8L2I+IFdlZG5lc2RheSwgT2N0b2Jl
+ciA3LCAyMDI2IDEyOjMwIFBNPGJyPg0KPGI+VG86PC9iPiA8YSBocmVmPSJtYWlsdG86b3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyI+b3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3Jl
+XSBbd3J5bm9zZV1bUEFUQ0hdIGdsaWJjOiBzdGFibGUgMi40MyBicmFuY2ggdXBkYXRlcyB0byA1
+NjJjZDdiYWRkPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkhpIGFsbCwm
+bmJzcDs8YnI+DQo8YnI+DQpwbGVhc2UgdGFrZSB0aGlzIHVwZGF0ZSBvbiB0b3Agb2YgW3dyeW5v
+c2VdW1BBVENIIHYyXSBnbGliYzogc3RhYmxlIDIuNDMgYnJhbmNoIHVwZGF0ZXMgdG8gOWNkYTZm
+Yzk2YWIuPGJyPg0KPGEgaHJlZj0iaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3Bl
+bmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yNDY5MDciIHRhcmdldD0iX2JsYW5rIj5odHRwczovL2xp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzI0NjkwNzwv
+YT48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZuYnNwOzxvOnA+PC9vOnA+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VGhhbmtzLDxicj4NCkhhcmlzaDxvOnA+PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-cb61572ea3 iconvdata: EUC_JISX0213 decoding lacks pending character reset (CVE-2026-80489)
-6f9b2bfa50 iconvdata: SHIFT_JISX0213 decoding lacks pending character reset (CVE-2026-77117)
-[CVE-2026-19499] e88b9f0e5c stdio-common: Convert vfprintf and related functions to buffers
-
-Commits between the old SRCREV (5c479454d1) and the new SRCREV (34106fee69):
-
-34106fee69 powerpc: Fix one byte overread in strncasecmp (bug 34683, CVE-2026-97399)
-07dc0a64a3 realloc: Fix mmap non-mremap reallocation case [BZ #34697]
-c90398e005 CVE-2026-89092: nscd: replace alloca with malloc in aicache, hstcache
-67dd5150c6 LoongArch: Add standard search paths for 32-bit
-2ee4e25c97 LoongArch: Support pointer guard on LoongArch32
-6dea23eeac LoongArch: Fix intermittent nptl/tst-cancel32 failure
-13fd9fe7df Revert "posix: Add POSIX aliases to some spawn functions" (BZ 34437)
-1848099f06 stdlib: Don't call clearenv from __libc_setenv_freemem
-[CVE-2026-86805,CVE-2026-95818] 6b48c0b29c elf: Open the normalized $ORIGIN rpath in AT_SECURE programs (BZ 34360)
-1f50262410 resolv: Fix assertion failure on search list truncation [BZ 31026, CVE-2026-8674]
-e01330dcec fcntl: drop nonnull attribute for openat, openat2's path argument [BZ #34313]
-e58294a5a7 io: drop nonnull attribute for fchmodat, faccessat, fchownat's path argument [BZ #34313]
-d7179269b7 Revert "io: drop nonnull attribute for fchmodat, faccessat, fchownat's path argument [BZ #34313]"
-d19791b12a x86-64: Link tst-shstk-legacy-1{f,g} with -Wl,--no-as-needed
-b14c4b0bc9 io: drop nonnull attribute for fchmodat, faccessat, fchownat's path argument [BZ #34313]
-b84047b5b7 elf: Do not load cache extensions from an old-format ld.so.cache [BZ #34600]
-b4f51887c4 nptl: Skip pretty-printer tests without python3 [BZ #34507]
-30950ce64d libio: Add test for fopen with an empty ", ccs=" value [BZ #34574]
-0b4e41fc51 libio: Fix CVE-2026-18374 heap buffer overflow in ccs= handling
-
-Testing Results:
-+--------------+--------+--------+------+
-| Result       | Before | After  | Diff |
-+--------------+--------+--------+------+
-| PASS         | 6029   | 6031   | +2   |
-| FAIL         | 76     | 74     | -2   |
-| XFAIL        | 16     | 16     |  0   |
-| UNSUPPORTED  | 587    | 589    | +2   |
-+--------------+--------+--------+------+
-
-Changes in testcases:                            Before   After
-elf/tst-dl-cache-old-format                       ---     UNSUPPORTED
-elf/tst-origin-secure                             ---     UNSUPPORTED
-malloc/tst-malloc-tcache-leak-malloc-largetcache  FAIL    PASS
-malloc/tst-malloc-too-large-malloc-check          FAIL    PASS
-malloc/tst-mallocfork3-malloc-largetcache         FAIL    PASS
-posix/tst-regcomp-truncated                       PASS    FAIL
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- meta/recipes-core/glibc/glibc_2.44.bb     | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index b9a4539277..2fb355a29b 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.44/master"
- PV = "2.44+git"
--SRCREV_glibc ?= "5c479454d1232f71c78fa21584e90a2f57883407"
-+SRCREV_glibc ?= "34106fee698c83eb0af71d4d0381e66b399be746"
- SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
-diff --git a/meta/recipes-core/glibc/glibc_2.44.bb b/meta/recipes-core/glibc/glibc_2.44.bb
-index d547f595ab..886a15f157 100644
---- a/meta/recipes-core/glibc/glibc_2.44.bb
-+++ b/meta/recipes-core/glibc/glibc_2.44.bb
-@@ -22,7 +22,8 @@ CVE_STATUS[CVE-2025-0577] = "not-applicable-platform: specific to RHEL patches"
- # when upgrading, clear CVE list but keep the variables
- CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
- CVE_STATUS_STABLE_BACKPORTS = "\
--    CVE-2026-5435 CVE-2026-19542 \
-+    CVE-2026-5435 CVE-2026-19542 CVE-2026-18374 CVE-2026-19499 CVE-2026-77117 CVE-2026-80489 \
-+    CVE-2026-8674 CVE-2026-86805 CVE-2026-89092 CVE-2026-95818 CVE-2026-97399 \
- "
- CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
- 
+--_000_AS8PR10MB507360622178472ED636F75EFD932AS8PR10MB5073EURP_--
 
