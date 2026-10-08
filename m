@@ -1,99 +1,312 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15370CA6016
-	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 21:08:00 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4866.1791493678426618778
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A48FCA6017
+	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 21:53:41 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5961.1791496415759537494
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2026 14:07:58 -0700
+ Thu, 08 Oct 2026 14:53:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=U26cFMQ1;
- spf=pass (domain: snapchat.com, ip: 209.85.128.43, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a180fbeef5so22574385e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 14:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1791493677; x=1792098477; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3gqdbKfeDCyrond1M8mO9ZOhrlZHuXt0w+gPdXUM5Bk=;
-        b=U26cFMQ1wfk0sdz6UhJBJ5N4JU5Wu3AQk/Vl1CnXQesGN1l6qtn6II2JMe5yeYfTo+
-         H9Ts8S8PSQujcLXK3K4+tzANyIQBEwfrCdu8mhdubP2Isnot+afJODJFsE0Xg12XI4R0
-         vfVHmqUjPenq1INXSLeE/YSn3nOC4RHFfpVjM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791493677; x=1792098477;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3gqdbKfeDCyrond1M8mO9ZOhrlZHuXt0w+gPdXUM5Bk=;
-        b=Beban95g27SjLaBFWehC7Ez0ML2UFWPNXGyvhFEOKp5Ij03fh3cIKwfgs3Hl3F1G9J
-         W6O6P+L+JC+IliHToDb2Ot797KlWn5qu8tOul4tmJcb93ksdG+BxOIB0OpdUn388EfSy
-         z0G5dJoG16g3sgzyA2/mMjFYve6wn5KtMbYqSPz74P5A1po9sp7IZrtYMoUb1qjmGcCU
-         tSPJfQlTFd22Z1b2AyErjxUn1VGYcc3EeZCwIQgY1L2R2PiiUVsJ99FVgrOCBJ6kvtIB
-         tDr77Y2RpCUxDxeBu3hBJYYsPOEwyy/6SwZd+d0MbSOYmLTaP5K+9U/QePVy3Mh/4Tid
-         FfhQ==
-X-Gm-Message-State: AFuF++mcm/TlbDDeTy7eEVmtdiEWHh/nGHOzFSlS62oHe4GOAPc8JJm4
-	eYyQZTq0WIZI6irhEKT94CNloSQNCM1RU4ELRVmSHO1nKHdr56FDsNRYMC4iUTcdBfsDLsLDbcs
-	Gnj6wDlmYXg==
-X-Gm-Gg: AYBFou0I85uIRiWqyIC5XOuI9sy9Azx4f/PqC5zdXaN7zrWu2u7df+ggPZ0xz9XJLIe
-	Pq0jL0CbcHMq+YP1ZyP76JnuonORrk6VHiDUPrQiaiEb8Dy1HadtmKuU1DpvRXOFajt/7ZS3Lav
-	V8eQHhAcirIECjhAvaMahIHJYFKa/DGQ1sbQV12u5Moj7Z+5AuJ7SFcaoElaLauOte79efCtUUz
-	fwLYunvOS+A94Qa6AJ6SG6v9flzpMscQ/X4yVXeXT1Ngmn03E6+LFRO45G8iQUIOqIbAxpkeAxy
-	odIrEnl5PKe9yWiEPQs5DF5q0mSgvdCyJOmn805QZ2do3JkK0kvwfCZW1HSCx2ifSwdE4bKyfb0
-	G+5XazoknHIzRpMnueV/8A8s3gNo+hI4gJ6mbawNNRCy/3AX/61zW9n5d8hPRucEhY8ZxVXvWmZ
-	O4FshLKGDlY5yOCgoGKOLXa/kXPDPJkJlurqsluHuepYpRHiMiobYK2RVygsx/m4DzCL6R3gARq
-	x76yfjgkLF6YP0lR+mHyJVTa3ZjBBMfE2Ijb7B2tEk=
-X-Received: by 2002:a05:600c:19cf:b0:4a1:7bae:d80a with SMTP id 5b1f17b1804b1-4a18dcc0855mr121985e9.9.1791493676499;
-        Thu, 08 Oct 2026 14:07:56 -0700 (PDT)
-Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18c85009csm3413865e9.2.2026.10.08.14.07.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 14:07:56 -0700 (PDT)
-From: ecordonnier@snap.com
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=nM4iEYIw;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20261008215332685269420e00020741-hwgm6o@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20261008215332685269420e00020741
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 08 Oct 2026 23:53:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=8LxG6cGsyoGcBPGGq3N0V0Y6r1/8ii22RPqLMStxMDk=;
+ b=nM4iEYIw1jPwmJQFJS6NuC26DiM/4RSolzdCgrsjZwQ20VHkDQ64AqUrB1PbcACmZEtD9Q
+ l5XjZ6hCcBGKoWp9NJsgSUwdiFU3UiAZ+/lJWlnEksXR/BXyLOm9So3IkrrUYKiBteX1hEwk
+ 8asku0pyPQpc4n5f2fSjlMVh+7RinCgdivm5QrDqnkoKOTC0qHqBeZXIPBZhTUO2fWNssi4Z
+ epmX++GX0oZXYl9aWWGxqVyf4k3qFKCD8GUpX9SaDEkN03uJSKbCZiQ9HZNwX/rhYmO4eBcI
+ eGFs+PMgpFqJRBf3KjRoolh6A1iQ6HEvhW3cow7dcUWyNulZLCvbXQPw==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH] create-spdx-3.0: track SPDX_INCLUDE_SOURCES in do_create_spdx's sstate signature
-Date: Thu,  8 Oct 2026 23:07:50 +0200
-Message-ID: <20261008210750.3105654-1-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] go: upgrade 1.27.1 -> 1.27.2
+Date: Thu,  8 Oct 2026 23:52:23 +0200
+Message-ID: <20261008215223.622708-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 21:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247448
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 21:53:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247449
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-SPDX_INCLUDE_SOURCES and SPDX_INCLUDE_COMPILED_SOURCES control whether
-do_create_spdx walks the source tree, but neither was in
-SPDX3_VAR_DEPS, so toggling them left sstate serving stale output.
-Verified on zlib: without this fix, setting SPDX_INCLUDE_SOURCES=1 left
-the cached 2-file output unchanged; with it, the task reran and
-produced 266 files.
+Upgrade to latest 1.27.x release [1]:
 
-AI-Generated: Claude Sonnet 5
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+$ git --no-pager log --oneline go1.27.1..go1.27.2
+022c863611 (tag: go1.27.2) [release-branch.go1.27] go1.27.2
+cbb0fb8b51 [release-branch.go1.27] net/http: apply header limits to Trailer headers too
+12acaf3086 [release-branch.go1.27] net/http/internal/http2: prevent crash due to HPACK encoder race
+31dc9e2449 [release-branch.go1.27] net/http/internal/http2: avoid 2x refund on stream close with buffered data
+1d58cdaa10 [release-branch.go1.27] net/http/internal/http2: avoid excessive work on initial window changes
+ababc3cd87 [release-branch.go1.27] net/http: limit the size of range headers parsed in ServeContent
+9636ab0f17 [release-branch.go1.27] os: correct Root junction handling on Windows (avoid mkdir escape)
+e92229e24a [release-branch.go1.27] net/http: avoid server reuse of connection after CONNECT
+76875df0f3 [release-branch.go1.27] net/http, net/http/httputil: avoid post-CONNECT pool corruption
+7c79b50a74 [release-branch.go1.27] net/textproto: enforce MIME memory limit on first line
+f022e61963 [release-branch.go1.27] crypto/tls: validate ECH outer extension references
+68fa7699a2 [release-branch.go1.27] cmd/go: always verify toolchain downloads with sumdb
+1e4f1fec6f [release-branch.go1.27] cmd/go: bundle go.sum h1 hashes for golang.org/fips140
+6e2cfab0a1 [release-branch.go1.27] html/template: recognize `yield` as regexp preceder keyword
+b26d150e69 [release-branch.go1.27] html/template: reset JS context for template expressions
+bd9992d1d1 [release-branch.go1.27] cmd/link: pass -no_fixup_chains to C linker when building plugin on macOS
+ce0ff94df1 [release-branch.go1.27] cmd/cover: preserve statement counts when splitting coverage blocks
+87b06e2c18 [release-branch.go1.27] runtime: create Windows threads on the system stack
+9c26a3af46 [release-branch.go1.27] cmd/internal/obj/ppc64: fix async preempt safepoint bug
+b73c143090 [release-branch.go1.27] cmd/compile: use a 32-bit type for rewritten rotate amounts
+8ada93d797 [release-branch.go1.27] encoding/json: fix UnsupportedValueError.Value regression
+d995fb820d [release-branch.go1.27] net/http: populate Request.TLS from HTTP/2 connection state
+322f1785b0 [release-branch.go1.27] encoding/json/v2: avoid setting with errors parsing float
+bc516c2b36 [release-branch.go1.27] cmd/go: include VetxOnly in the vet action ID
+4e4eec75bd [release-branch.go1.27] os: preserve completion notification modes for NewFile handles
+359bec41ae [release-branch.go1.27] cmd/compile: support unified V5 export data (method indices)
+bd8f7a67b7 [release-branch.go1.27] cmd: vendor changes for "go fix"
+fa3bd01f47 [release-branch.go1.27] cmd/compile: call racefuncexit before a tail call
+aee72efe29 [release-branch.go1.27] testing: escape framing markers only in test2json mode
+620e2e0a1a [release-branch.go1.27] runtime: keep the working directory for non-bundled ios/arm64 binaries
+d16d95ce1d [release-branch.go1.27] compress/flate: do not emit the preset dictionary into the output
+e89d44fee0 [release-branch.go1.27] os: handle unsupported OBJ_DONT_REPARSE on older Windows
+c407a15ec8 [release-branch.go1.27] cmd/compile: don't stack-allocate a slice whose element interior escapes
+ff5898f7aa [release-branch.go1.27] internal/runtime/syscall/linux: sync EpollEvent with the kernel header
+072779d815 [release-branch.go1.27] net/http/internal/http2: delete malformed framing-related headers
+2e4b38eeb8 [release-branch.go1.27] net/http: discard trailer when draining a response body
+8cd5a090e0 [release-branch.go1.27] net/http: return nil from Body.Close after a failed Read
+db5314201a [release-branch.go1.27] net/http: read Response before signaling eofc in readLoop
+aa6fc252ed [release-branch.go1.27] net/http: fix HTTP/1 deadlock on concurrent response body Read and Close
+1cfd8f0112 [release-branch.go1.27] encoding/json: avoid calling MarshalText on named string map keys
+f8a45f672b [release-branch.go1.27] cmd/compile: fix large riscv64 move/zero
+072330d2ed [release-branch.go1.27] cmd/compile: correctly mark interface calls as used for tail call wrappers
+1e44a4c9d9 [release-branch.go1.27] runtime: don't add the itabs of a plugin twice
+2ee6421c51 [release-branch.go1.27] runtime: netpoll: fix 32-bit little-endian eventfd type confusion
+33c04bd7da [release-branch.go1.27] runtime: disable mutex profile during async preemption on windows
+113a7a0a0f [release-branch.go1.27] crypto/mlkem: fix FIPS 130-3 CAST
+
+Fixes CVE-2026-97032, CVE-2026-78659, CVE-2026-97031, CVE-2026-94444,
+      CVE-2026-94447, CVE-2026-94448, CVE-2026-97030, CVE-2026-94440,
+      CVE-2026-56866, CVE-2026-94439, CVE-2026-78669, CVE-2026-78660,
+      CVE-2026-56857, CVE-2026-78667 and CVE-2026-78663.
+
+Release information: [2]
+
+[1] https://github.com/golang/go/compare/go1.27.1...go1.27.2
+[2] https://groups.google.com/g/golang-announce/c/U2fTuyDJznI
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/classes/create-spdx-3.0.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/go/{go-1.27.1.inc => go-1.27.2.inc} | 2 +-
+ ...binary-native_1.27.1.bb => go-binary-native_1.27.2.bb} | 6 +++---
+ ...oss-canadian_1.27.1.bb => go-cross-canadian_1.27.2.bb} | 0
+ .../go/{go-cross_1.27.1.bb => go-cross_1.27.2.bb}         | 0
+ .../go/{go-crosssdk_1.27.1.bb => go-crosssdk_1.27.2.bb}   | 0
+ .../go/{go-runtime_1.27.1.bb => go-runtime_1.27.2.bb}     | 0
+ ...go-make-content-based-hash-generation-less-pedan.patch | 8 ++++----
+ .../go/go/0003-ld-add-soname-to-shareable-objects.patch   | 6 +++---
+ .../go/0006-cmd-go-make-GOROOT-precious-by-default.patch  | 2 +-
+ ....go-filter-out-build-specific-paths-from-linker-.patch | 4 ++--
+ ...rnal-cgrouptest-skip-when-cpu.max-is-not-availab.patch | 6 +++---
+ meta/recipes-devtools/go/{go_1.27.1.bb => go_1.27.2.bb}   | 0
+ 12 files changed, 17 insertions(+), 17 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.27.1.inc => go-1.27.2.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.27.1.bb => go-binary-native_1.27.2.bb} (80%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.27.1.bb => go-cross-canadian_1.27.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.27.1.bb => go-cross_1.27.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.27.1.bb => go-crosssdk_1.27.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.27.1.bb => go-runtime_1.27.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.27.1.bb => go_1.27.2.bb} (100%)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 56fd01fd53..6d47aa1301 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -186,6 +186,8 @@ SPDX3_VAR_DEPS = "\
-     SPDX_PROFILES \
-     SPDX_NAMESPACE_PREFIX \
-     SPDX_UUID_NAMESPACE \
-+    SPDX_INCLUDE_SOURCES \
-+    SPDX_INCLUDE_COMPILED_SOURCES \
-     "
+diff --git a/meta/recipes-devtools/go/go-1.27.1.inc b/meta/recipes-devtools/go/go-1.27.2.inc
+similarity index 91%
+rename from meta/recipes-devtools/go/go-1.27.1.inc
+rename to meta/recipes-devtools/go/go-1.27.2.inc
+index d7ba03b1bd..86598ad22f 100644
+--- a/meta/recipes-devtools/go/go-1.27.1.inc
++++ b/meta/recipes-devtools/go/go-1.27.2.inc
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+     file://0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch \
+ "
+-SRC_URI[main.sha256sum] = "4e408abae126d916b6164627193f2c54f0e3ca1312d693b86db45f862ab238b1"
++SRC_URI[main.sha256sum] = "03495da2ba64894d40f5c4992e49454fa78b50690604ff92b6afff5081b76e62"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.27.1.bb b/meta/recipes-devtools/go/go-binary-native_1.27.2.bb
+similarity index 80%
+rename from meta/recipes-devtools/go/go-binary-native_1.27.1.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.27.2.bb
+index f909581e49..19482f79c4 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.27.1.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.27.2.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
- python do_create_recipe_spdx() {
--- 
-2.43.0
-
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445"
+-SRC_URI[go_linux_arm64.sha256sum] = "3450b45a3f9ee8568792736a5c5e70a1f2e9b36c35a8f74958c03e51d7d92bec"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "ad1ff83c24f783c2d4a025852b928a05c199e8742a14a5482d88de0293d2bd0d"
++SRC_URI[go_linux_amd64.sha256sum] = "ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5"
++SRC_URI[go_linux_arm64.sha256sum] = "94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8"
++SRC_URI[go_linux_ppc64le.sha256sum] = "059d5f01b1607a724ea5ae87c5589041a51c577a6f3f20099e49d00f31c803fa"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.27.1.bb b/meta/recipes-devtools/go/go-cross-canadian_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.27.1.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.27.2.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.27.1.bb b/meta/recipes-devtools/go/go-cross_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.27.1.bb
+rename to meta/recipes-devtools/go/go-cross_1.27.2.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.27.1.bb b/meta/recipes-devtools/go/go-crosssdk_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.27.1.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.27.2.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.27.1.bb b/meta/recipes-devtools/go/go-runtime_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.27.1.bb
+rename to meta/recipes-devtools/go/go-runtime_1.27.2.bb
+diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+index 6372b7805b..92e2a1bc8b 100644
+--- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
++++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+@@ -108,7 +108,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	}
+  
+  	// Configuration specific to compiler toolchain.
+-@@ -2838,8 +2840,25 @@ func envList(key, def string) []string {
++@@ -2839,8 +2841,25 @@ func envList(key, def string) []string {
+  	return args
+  }
+  
+@@ -135,7 +135,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
+  		return
+  	}
+-@@ -2855,6 +2874,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
++@@ -2856,6 +2875,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
+  	if ldflags, err = buildFlags("LDFLAGS", DefaultCFlags, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
+  		return
+  	}
+@@ -149,7 +149,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  
+  	return
+  }
+-@@ -2943,7 +2969,7 @@ func (b *Builder) runCgo(ctx context.Context, a *Action) error {
++@@ -2944,7 +2970,7 @@ func (b *Builder) runCgo(ctx context.Context, a *Action) error {
+  	cgoExe := base.Tool("cgo")
+  	cgofiles = mkAbsFiles(p.Dir, cgofiles)
+  
+@@ -158,7 +158,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	if err != nil {
+  		return err
+  	}
+-@@ -3501,7 +3527,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
++@@ -3502,7 +3528,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
+  	p := a.Package
+  	sh := b.Shell(a)
+  
+diff --git a/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch b/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
+index 59ae99c44d..2e46e22161 100644
+--- a/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
++++ b/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
+@@ -22,7 +22,7 @@ diff --git a/src/cmd/link/internal/ld/lib.go b/src/cmd/link/internal/ld/lib.go
+ index 9cbc12919f1d..0f33521777d1 100644
+ --- a/src/cmd/link/internal/ld/lib.go
+ +++ b/src/cmd/link/internal/ld/lib.go
+-@@ -1672,6 +1672,7 @@ func (ctxt *Link) hostlink() {
++@@ -1680,6 +1680,7 @@ func (ctxt *Link) hostlink() {
+  				argv = append(argv, "-Wl,-z,relro")
+  			}
+  			argv = append(argv, "-shared")
+@@ -30,7 +30,7 @@ index 9cbc12919f1d..0f33521777d1 100644
+  			if ctxt.HeadType == objabi.Hwindows {
+  				argv = addASLRargs(argv, *flagAslr)
+  			} else {
+-@@ -1687,6 +1688,7 @@ func (ctxt *Link) hostlink() {
++@@ -1695,6 +1696,7 @@ func (ctxt *Link) hostlink() {
+  			argv = append(argv, "-Wl,-z,relro")
+  		}
+  		argv = append(argv, "-shared")
+@@ -38,7 +38,7 @@ index 9cbc12919f1d..0f33521777d1 100644
+  	case BuildModePlugin:
+  		if ctxt.HeadType == objabi.Hdarwin {
+  			argv = append(argv, "-dynamiclib")
+-@@ -1695,6 +1697,7 @@ func (ctxt *Link) hostlink() {
++@@ -1703,6 +1705,7 @@ func (ctxt *Link) hostlink() {
+  				argv = append(argv, "-Wl,-z,relro")
+  			}
+  			argv = append(argv, "-shared")
+diff --git a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+index 74fd1faa69..77b4bedd01 100644
+--- a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
++++ b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+@@ -94,7 +94,7 @@ index 617b7ece73f0..46c0712c5bd0 100644
+  	if err := sh.Mkdir(buildAction.Objdir); err != nil {
+  		return nil, err
+  	}
+-@@ -1922,6 +1939,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
++@@ -1923,6 +1940,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
+  		return err
+  	}
+  
+diff --git a/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch b/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
+index 0cc770a006..e6a5ce587e 100644
+--- a/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
++++ b/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
+@@ -18,7 +18,7 @@ diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
+ index 46c0712c5bd0..e7c0459ee4c0 100644
+ --- a/src/cmd/go/internal/work/exec.go
+ +++ b/src/cmd/go/internal/work/exec.go
+-@@ -1597,6 +1597,29 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
++@@ -1598,6 +1598,29 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
+  	return h.Sum()
+  }
+  
+@@ -48,7 +48,7 @@ index 46c0712c5bd0..e7c0459ee4c0 100644
+  // printLinkerConfig prints the linker config into the hash h,
+  // as part of the computation of a linker-related action ID.
+  func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
+-@@ -1607,7 +1630,7 @@ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
++@@ -1608,7 +1631,7 @@ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
+  	case "gc":
+  		fmt.Fprintf(h, "link %s %q %s\n", b.toolID("link"), forcedLdflags, ldBuildmode)
+  		if p != nil {
+diff --git a/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch b/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
+index f13cf78f7a..cf6283b2bf 100644
+--- a/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
++++ b/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
+@@ -21,13 +21,13 @@ Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+  1 file changed, 6 insertions(+)
+ 
+ diff --git a/src/internal/cgrouptest/cgrouptest_linux.go b/src/internal/cgrouptest/cgrouptest_linux.go
+-index ad9599c..a4b9b52 100644
++index ad9599c9..a4b9b52d 100644
+ --- a/src/internal/cgrouptest/cgrouptest_linux.go
+ +++ b/src/internal/cgrouptest/cgrouptest_linux.go
+ @@ -82,6 +82,12 @@ func InCgroupV2(t *testing.T, fn func(*CgroupV2)) {
+  		}
+  	}()
+-
++ 
+ +	// cpu.max only exists when the kernel supports CPU bandwidth control
+ +	// (CONFIG_CFS_BANDWIDTH), even if the cpu controller is enabled.
+ +	if _, err := os.Stat(filepath.Join(path, "cpu.max")); err != nil {
+@@ -36,4 +36,4 @@ index ad9599c..a4b9b52 100644
+ +
+  	migrateTo(t, path)
+  	defer migrateTo(t, orig)
+-
++ 
+diff --git a/meta/recipes-devtools/go/go_1.27.1.bb b/meta/recipes-devtools/go/go_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.27.1.bb
+rename to meta/recipes-devtools/go/go_1.27.2.bb
 
