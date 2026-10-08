@@ -1,145 +1,102 @@
-Return-Path: <peter.tatrai.ext@siemens.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F3CCA600A
-	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 08:57:48 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11098.1791449865499046722
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF7FCA6007
+	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 09:01:48 +0000 (UTC)
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11342.1791450107878294429
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2026 01:57:46 -0700
+ Thu, 08 Oct 2026 02:01:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.tatrai.ext@siemens.com header.s=fm1 header.b=AjBV2gxi;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1328017-202610080857419a6d68c29d000207b8-_meuxn@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202610080857419a6d68c29d000207b8
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 08 Oct 2026 10:57:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.tatrai.ext@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=ufkOWkOk4AB13m8ZYDPdXvq/Nq02unnltoFeVXffNwI=;
- b=AjBV2gxiqYPmbHyfBqpZWPQcFjVVBSoGCyiHtF9CYOs76HtcGICLByXXGuzdRc/uWFqsKP
- 35c+J3Y2qAwhFjfHZ1+85ofZmuVNGbY4JbyY6Tl7I6vhKy7ta9fhBJnByaZHPEqboo82hAb0
- aqPLspB+zt3O4Nqu0REWhxixacGfoTGsktj9Tlq2VwpKyVp7xH1PUtI+ammgqbLPTw3WO6OS
- ZzPlCI9vNMdxvsxk9d6898E5XspVYTH8bvwJU/8lMiLsHeU/CB51HDFa13ROttPUH1R2z4cA
- d63VaLgVyi/aWr2J0M6tDSh2DGnX/0GHFDdhiMo33wmHSjXnqouh8A3w==;
-From: "P. Tatrai" <peter.tatrai.ext@siemens.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=GGm6PiLH;
+ spf=pass (domain: mvista.com, ip: 74.125.82.181, mailfrom: vanusuri@mvista.com)
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-3514e7cbbbaso5670535eec.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 02:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1791450107; x=1792054907; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GVy7sa5CQUsBZn5GfR8ZMoXVcyzWflW6bnojRYmbXmw=;
+        b=GGm6PiLHYoz2qradb16T8hZf2MBGPunsDEAUM0jRMj+YjOMyD8ykM+vKp8/5K3E9iK
+         Hmvk9F7VBF0Xz6OsBSJ9pvfGrwmfogkAVa4TLRRakp0ngPSZ7czXdbp8vnXqz2EqU8U5
+         7r5PtqIN2wUJzKyBVIKdmz43uMpjTy0Pw3Uqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791450107; x=1792054907;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GVy7sa5CQUsBZn5GfR8ZMoXVcyzWflW6bnojRYmbXmw=;
+        b=C7ZLGQRLAnTPML++/5mpY9ww4kjnXG5uk8mHbimjCObhX2RkLSEcxBbeUYTGMSrlha
+         e/AXDCpCyc/aUuOa8bR6kz6nJ6FFXiKSDxd+n9mHwI4x0ryt1c0sQz7rPOXsBMXGHkfN
+         OAIv0Prz8ypVLvE2OsXybxuaTY0ObRNp0wuvs88qaOsOCzLIaZeEgKSwfN4nZ5w5LhnG
+         r2RG1mO2rZBZOh+hBzeRlFQztzCELdkXww0pH4HBRX/oqNnS6L9sFHhMeJ/RV+wNVInl
+         iwqJPrJOXn758vTdZAZOhdTuJ2PIN6tr75wuBBNKIYtn33JF8nuUJjaP5ARzLqaVYIm/
+         zMCA==
+X-Gm-Message-State: AFuF++mTNbwLRgqQWZEp2a+hf8IjJtMRnvsVRbZYI9bndSClo079Sr5b
+	PS6UD75upAqUMxrk47MsymbpAEJBLFac78yN3zUNZtWJQOi9S2mdgiH6poE27Z4CEbPWHyBNbCn
+	WHJwWKP8=
+X-Gm-Gg: AYBFou2gqSlbonO3V1ds38ljh6pJj42UUstoN14hBaRIndmgL+6+45In+2ZoxyQZ7sO
+	bsErWovXhamJg2hyV9tFiGrwPO0eHdyo//IRqfeBdtJqYyyP214mN3LyaaN3RizRYpIJdobR5Wt
+	fH+YsgMEVmK3E7yW673XTGTHSIIzB+cELx3bfdBrUuew3r92Rwu5pDFoBJJaYZ5GYQp1P8fyVHk
+	ZhasA/H+2GFxxxBm9C/3RoEOjXfE3VphaiH0nCt8cFohdq1bOGnXkG9wIoeUnrp5viQtR7qwtNh
+	LNmr8sCm8qC3sAXbVm24i6SnrtRZu0XOzP2d7cJBoIR/UvTvDwwE+Q+T/p49zZzLVSSDrhSob9x
+	ygQW9KqIZ0nGCjkC2rz2s/8/1x9ACL5OxUYSgeCtZ1m9ZaeAC6Z3nNpKT7Q9yB+rgkLYkz/aAZ+
+	2ubsyMWLQIGxmPRdYV1txBhUj0jCjyHH4b3zmwVGTsSOu3BgSiHWo6qbsb2y2lZ5PxxGlpbvueX
+	iRGJzPA
+X-Received: by 2002:a05:693c:8817:10b0:346:d790:9e10 with SMTP id 5a478bee46e88-3515de8b4b8mr5597001eec.39.1791450106856;
+        Thu, 08 Oct 2026 02:01:46 -0700 (PDT)
+Received: from MVIN00352.mvista.com ([106.200.27.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3517810b895sm6448518eec.17.2026.10.08.02.01.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2026 02:01:46 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Tatrai <peter.tatrai.ext@siemens.com>
-Subject: [wrynose][PATCH] systemd: fix mDNS hostname changes
-Date: Thu,  8 Oct 2026 10:57:37 +0200
-Message-Id: <20261008085737.168125-1-peter.tatrai.ext@siemens.com>
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][patch] python3: upgrade 3.14.7 -> 3.14.8
+Date: Thu,  8 Oct 2026 14:31:35 +0530
+Message-ID: <20261008090135.1485765-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1328017:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 08:57:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247420
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 09:01:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247421
 
-From: Peter Tatrai <peter.tatrai.ext@siemens.com>
+Release information:
+* https://www.python.org/downloads/release/python-3148/
+* Python 3.14.8 is an expedited security release and the eighth maintenance release of 3.14, containing around 354 bugfixes, build improvements and documentation changes from 142 contributors since 3.14.7.
 
-When a DNS-SD service unregisters, resolved re-probes its records.
-The looped-back mDNS announcement can then be treated as a conflicting
-reply, causing resolved to rename the host.
+Handles CVE-2026-19445 CVE-2026-19553 CVE-2026-19672 CVE-2026-15310
+CVE-2026-15806 CVE-2026-17084
 
-Backport systemd commit 658e5ac06f80ee2078b034f7cc483204d7f91c5e
-to move the local-address check ahead of reply processing while
-continuing to allow legacy unicast queries from non-mDNS ports.
+Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-14-8-final
 
-This is needed on wrynose, which uses systemd 259.5 and checks local
-addresses only for queries. OE-Core master uses systemd 261, whose
-source already checks local addresses before the query/reply split.
-
-Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- ...use-traffic-from-the-local-host-only.patch | 61 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_259.5.bb    |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-resolve-refuse-traffic-from-the-local-host-only.patch
+ .../python/{python3_3.14.7.bb => python3_3.14.8.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3_3.14.7.bb => python3_3.14.8.bb} (99%)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-Revert-resolve-refuse-traffic-from-the-local-host-only.patch b/meta/recipes-core/systemd/systemd/0001-Revert-resolve-refuse-traffic-from-the-local-host-only.patch
-new file mode 100644
-index 0000000000..efdc2852f9
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-Revert-resolve-refuse-traffic-from-the-local-host-only.patch
-@@ -0,0 +1,61 @@
-+From 658e5ac06f80ee2078b034f7cc483204d7f91c5e Mon Sep 17 00:00:00 2001
-+From: Bret Comnes <bret@comnes.org>
-+Date: Thu, 26 Mar 2026 05:59:09 +0000
-+Subject: [PATCH] Revert "resolve: refuse traffic from the local host only for
-+ queries"
-+
-+This reverts commit 526f1594daec073269c3e70ee7914f6dd8740d5c.
-+
-+This revert is necessary because the change breaks mDNS hostname stability
-+whenever a DNS-SD service calls UnregisterService. When a service
-+unregisters (e.g. on process restart), manager_refresh_rrs() clears and
-+re-adds all RRs in PROBING state, which sends a multicast announcement
-+(QR=1). The kernel reflects this back to resolved's own socket. Because
-+the local-address check was moved inside the query-only branch by the
-+reverted commit, the reply path in on_mdns_packet() is now unguarded.
-+The looped-back announcement matches the pending probe transaction and
-+completes it with DNS_TRANSACTION_SUCCESS. Since the zone item is still
-+in PROBING state (not ESTABLISHED), dns_zone_item_notify() sets
-+we_lost=true and calls dns_zone_item_conflict(), which invokes
-+manager_next_hostname() and renames the hostname (e.g. foo.local to
-+foo4.local). This happens reliably on every restart of any service using
-+RegisterService/UnregisterService (homebridge, avahi-compat wrappers,
-+etc.).
-+
-+The top-level local-address check in on_mdns_packet() suppresses all
-+looped-back multicast traffic before the reply/query split. Restoring it
-+there is consistent with the overall design: dns_scope_check_conflicts()
-+already has its own manager_packet_from_local_address() guard and is
-+unaffected.
-+
-+A more targeted long-term fix (e.g. guarding dns_transaction_process_reply()
-+for mDNS, or avoiding unnecessary re-probing of already-established records
-+in manager_refresh_rrs()) can be pursued separately.
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/658e5ac06f80ee2078b034f7cc483204d7f91c5e]
-+Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
-+---
-+ src/resolve/resolved-mdns.c | 16 ++++++++--------
-+ 1 file changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/src/resolve/resolved-mdns.c b/src/resolve/resolved-mdns.c
-+--- a/src/resolve/resolved-mdns.c
-++++ b/src/resolve/resolved-mdns.c
-+@@ -415,0 +416,8 @@
-++        /* Refuse traffic from the local host, to avoid query loops. However, allow legacy mDNS
-++         * unicast queries through anyway (we never send those ourselves, hence no risk).
-++         * i.e. check for the source port nr. */
-++        if (p->sender_port == MDNS_PORT && manager_packet_from_local_address(m, p)) {
-++                log_debug("Got mDNS UDP packet from local host, ignoring.");
-++                return 0;
-++        }
-++
-+@@ -532,8 +539,0 @@
-+-                /* Refuse traffic from the local host, to avoid query loops. However, allow legacy mDNS
-+-                 * unicast queries through anyway (we never send those ourselves, hence no risk).
-+-                 * i.e. check for the source port nr. */
-+-                if (p->sender_port == MDNS_PORT && manager_packet_from_local_address(m, p)) {
-+-                        log_debug("Got mDNS UDP packet from local host, ignoring.");
-+-                        return 0;
-+-                }
-+-
-diff --git a/meta/recipes-core/systemd/systemd_259.5.bb b/meta/recipes-core/systemd/systemd_259.5.bb
-index f3ec0edae7..e924884bf9 100644
---- a/meta/recipes-core/systemd/systemd_259.5.bb
-+++ b/meta/recipes-core/systemd/systemd_259.5.bb
-@@ -35,6 +35,7 @@ SRC_URI += " \
-            file://0001-meson-use-libfido2_cflags-dependency.patch \
-            file://0018-shared-fdset-add-detailed-debug-logging-to-fdset_new.patch \
-            file://0004-tpm2-util-fix-PCR-bank-guessing-without-EFI.patch \
-+           file://0001-Revert-resolve-refuse-traffic-from-the-local-host-only.patch \
+diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb b/meta/recipes-devtools/python/python3_3.14.8.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.14.7.bb
+rename to meta/recipes-devtools/python/python3_3.14.8.bb
+index f917edebd8..4663ee85cd 100644
+--- a/meta/recipes-devtools/python/python3_3.14.7.bb
++++ b/meta/recipes-devtools/python/python3_3.14.8.bb
+@@ -30,7 +30,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
             "
  
- PAM_PLUGINS = " \
+-SRC_URI[sha256sum] = "3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81"
++SRC_URI[sha256sum] = "c2215904f02b175596dc49351585104f4bc20341e1c47378b26a2c274360ce73"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
-2.39.5
+2.43.0
 
 
