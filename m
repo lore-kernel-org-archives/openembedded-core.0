@@ -1,88 +1,193 @@
-Return-Path: <denis@denix.org>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64178CA6007
-	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 01:17:24 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6280.1791422234137323916
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 740C5CA6007
+	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 05:25:55 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9308.1791437149215217288
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Oct 2026 18:17:15 -0700
+ Wed, 07 Oct 2026 22:25:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 15F3440CAB;
-	Thu,  8 Oct 2026 01:17:13 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zwjNhFMGrlME; Thu,  8 Oct 2026 01:17:13 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C415140A22;
-	Thu,  8 Oct 2026 01:17:09 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id F355517EEF3; Wed,  7 Oct 2026 21:17:08 -0400 (EDT)
-Date: Wed, 7 Oct 2026 21:17:08 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Ryan Eatmon <reatmon@ti.com>
-Cc: joerg.vehlow@emlix.com, openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Subject: Re: [OE-core] [PATCH] libgcc: fix build for baremetal
-Message-ID: <20261008011708.GQ4190@denix.org>
-References: <20261007055706.1493585-1-joerg.vehlow@emlix.com>
- <5982d605-36e8-4a04-810f-d4fdebf75cdd@ti.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=oNd3/eDS;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kfoAoTXJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a119f99084-fba8edfc-6e6a-4725-acae-7c1bac24da84-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1791437148;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=X4cjy49SYDPf6FRL+7LGeUONLbCtEjYwIefCLhQMjRE=;
+	b=oNd3/eDSgl1Maweo+qiDwo2tPY2Mb00YC/NA8k4m0ZH7EYNhunI0Cgdv0FUCjZrV
+	wh1L5Siza24wKWxR6CK5bDNfNLVVjx1yMK3mvr7Ew9Oo1xZ2lXN0DpF6S7oZsVihunS
+	kgBfdNNHSxm9t97lJVkwZWhc6KPG+KtzLeXWE+TA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791437148;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=X4cjy49SYDPf6FRL+7LGeUONLbCtEjYwIefCLhQMjRE=;
+	b=kfoAoTXJOe1cQxRS0R6M+SZOpxoVc1pZ0z7LsfTGKx9MdkTn01R09L/xIlfQUcZj
+	t5TIw9GxAcSqta7DtI9Y3x+0W3dkrJkwV48GLqWPO3Cq77mE7hmTypaEHlUyEx2NKnb
+	2OB2PDElD/qDPJxWLKFDNwSqtz/wVhQeYvxEClAE=
+Content-Type: multipart/mixed; boundary="===============6821114235799626635=="
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5982d605-36e8-4a04-810f-d4fdebf75cdd@ti.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+From: auh@yoctoproject.org
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-pbr: upgrading to 7.1.3 SUCCEEDED
+Message-ID: <010101a119f99084-fba8edfc-6e6a-4725-acae-7c1bac24da84-000000@us-west-2.amazonses.com>
+Date: Thu, 8 Oct 2026 05:25:48 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.10.08-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 01:17:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247405
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 05:25:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247407
 
-On Wed, Oct 07, 2026 at 03:33:56PM -0500, Ryan Eatmon wrote:
-> 
-> 
-> On 10/7/2026 12:57 AM, Joerg Vehlow via lists.openembedded.org wrote:
-> >By removing the erroneous EXTRA_OECONF override in 020d5f0, gcc-cross is now configured with correct sysroot flags, which removes the hosts include directory from the internal paths.
-> >This in turn leads to libgcc not finding libc headers (as it should) and breaks libgcc build.
-> >In order to fix this, libgcc must be built almost like libgcc-initial.
-> >
-> >Signed-off-by: Joerg Vehlow <joerg.vehlow@emlix.com>
-> >---
-> >  meta/recipes-devtools/gcc/libgcc.inc | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> >
-> >diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-> >index e92dadf021..93e217f567 100644
-> >--- a/meta/recipes-devtools/gcc/libgcc.inc
-> >+++ b/meta/recipes-devtools/gcc/libgcc.inc
-> >@@ -37,6 +37,16 @@ LICENSE:${PN}-dev = "GPL-3.0-or-later WITH GCC-exception-3.1"
-> >  LICENSE:${PN}-dbg = "GPL-3.0-or-later WITH GCC-exception-3.1"
-> >  LICENSE:${PN}-src = "GPL-3.0-or-later WITH GCC-exception-3.1"
-> >+# On baremetal there is no libc:
-> >+# configure need limits.h for its sanity check
-> >+# libc dependencies have to be patched out just like in libgcc-initial
-> >+do_configure:prepend:libc-baremetal () {
-> >+	install -d ${STAGING_INCDIR}
-> >+	touch ${STAGING_INCDIR}/limits.h
-> >+	sed -i -e 's#INHIBIT_LIBC_CFLAGS =.*#INHIBIT_LIBC_CFLAGS = -Dinhibit_libc#' ${B}/gcc/libgcc.mvars
-> >+	sed -i -e 's#inhibit_libc = false#inhibit_libc = true#' ${B}/gcc/Makefile
-> >+}
-> >+
-> >  FILES:${PN}-dev = "\
-> >      ${base_libdir}/libgcc*.so \
-> >      ${@oe.utils.conditional('BASETARGET_SYS', '${TARGET_SYS}', '', '${libdir}/${BASETARGET_SYS}', d)} \
-> 
-> 
-> This does fix our build issue.  So it should be safe to pick up this
-> patch and not revert the original change.
+--===============6821114235799626635==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Yes, I can confirm this change fixes all my other test builds for this issue.
+Hello,
 
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-pbr* to *7.1.3* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-pbr-upgrade-7.1.0-7.1.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From e809d6df0e348fc1144737ef92b8b851153b89f0 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 8 Oct 2026 05:10:15 +0000
+Subject: [PATCH] python3-pbr: upgrade 7.1.0 -> 7.1.3
+
+7.1.3
+-----
+
+7.1.2
+-----
+
+7.1.1
+-----
+---
+ .../python/{python3-pbr_7.1.0.bb => python3-pbr_7.1.3.bb}       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pbr_7.1.0.bb => python3-pbr_7.1.3.bb} (83%)
+
+diff --git a/meta/recipes-devtools/python/python3-pbr_7.1.0.bb b/meta/recipes-devtools/python/python3-pbr_7.1.3.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-pbr_7.1.0.bb
+rename to meta/recipes-devtools/python/python3-pbr_7.1.3.bb
+index 7fc227e6bb..e11dbe6398 100644
+--- a/meta/recipes-devtools/python/python3-pbr_7.1.0.bb
++++ b/meta/recipes-devtools/python/python3-pbr_7.1.3.bb
+@@ -13,4 +13,4 @@ RDEPENDS:${PN} += "python3-setuptools"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[sha256sum] = "66ece3a2f5c4f05e5f37569213e755193f6e00b8aa361bfb190533ea8ee8b10c"
++SRC_URI[sha256sum] = "9a4a85b84e906337708009af0b5f5cdabeeb72d4dc213c9e97974da54fd9acc5"
 -- 
-Denys
+2.47.1
+
+
+--===============6821114235799626635==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-pbr-changelog.txt"
+
+7.1.3
+-----
+
+7.1.2
+-----
+
+7.1.1
+-----
+
+--===============6821114235799626635==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info -> /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pbr (sysroot):
+  /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info moved to /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info
+
+--===============6821114235799626635==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pbr-upgrade-7.1.0-7.1.3.patch"
+
+RnJvbSBlODA5ZDZkZjBlMzQ4ZmMxMTQ0NzM3ZWY5MmI4Yjg1MTE1M2I4OWYwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgOCBPY3QgMjAyNiAwNToxMDoxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcGJyOiB1cGdyYWRlIDcuMS4wIC0+IDcuMS4zCgo3LjEuMwotLS0tLQoKNy4xLjIKLS0t
+LS0KCjcuMS4xCi0tLS0tCi0tLQogLi4uL3B5dGhvbi97cHl0aG9uMy1wYnJfNy4xLjAuYmIgPT4g
+cHl0aG9uMy1wYnJfNy4xLjMuYmJ9ICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi97cHl0aG9uMy1wYnJfNy4xLjAuYmIgPT4gcHl0aG9uMy1wYnJfNy4xLjMuYmJ9ICg4MyUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBicl83
+LjEuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYnJfNy4xLjMu
+YmIKc2ltaWxhcml0eSBpbmRleCA4MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXBicl83LjEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXBicl83LjEuMy5iYgppbmRleCA3ZmMyMjdlNmJiLi5lMTFkYmU2
+Mzk4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGJy
+XzcuMS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYnJf
+Ny4xLjMuYmIKQEAgLTEzLDQgKzEzLDQgQEAgUkRFUEVORFM6JHtQTn0gKz0gInB5dGhvbjMtc2V0
+dXB0b29scyIKIAogQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgogCi1TUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiNjZlY2UzYTJmNWM0ZjA1ZTVmMzc1NjkyMTNlNzU1MTkzZjZlMDBiOGFh
+MzYxYmZiMTkwNTMzZWE4ZWU4YjEwYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5YTRhODViODRl
+OTA2MzM3NzA4MDA5YWYwYjVmNWNkYWJlZWI3MmQ0ZGMyMTNjOWU5Nzk3NGRhNTRmZDlhY2M1Igot
+LSAKMi40Ny4xCgo=
+
+--===============6821114235799626635==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-pbr: PV changed from "7.1.0" to "7.1.3"
+packages/x86-64-v3-poky-linux/python3-pbr: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pbr/pbr-7.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pbr/pbr-7.1.3.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pbr: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dbg: PV changed from "7.1.0" to "7.1.3"
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dbg: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dev: PV changed from "7.1.0" to "7.1.3"
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dev: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-doc: PV changed from "7.1.0" to "7.1.3"
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-doc: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-locale: PV changed from "7.1.0" to "7.1.3"
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-locale: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-src: PV changed from "7.1.0" to "7.1.3"
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-src: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-staticdev: PV changed from "7.1.0" to "7.1.3"
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-staticdev: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PV changed from "7.1.0" to "7.1.3"
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info -> /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info, directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
+packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PKGSIZE changed from 740280 to 741067 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-pbr (sysroot):
+  /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info moved to /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info
+
+--===============6821114235799626635==--
 
