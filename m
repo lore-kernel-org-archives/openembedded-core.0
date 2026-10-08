@@ -1,102 +1,129 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <frieder.schrempf@kontron.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D5FCA6007
-	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 09:54:26 +0000 (UTC)
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12012.1791453262317900849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0F0CCA600E
+	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 10:18:46 +0000 (UTC)
+Received: from mail.fris.de (mail.fris.de [116.203.77.234])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12364.1791454717233972324
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2026 02:54:22 -0700
+ Thu, 08 Oct 2026 03:18:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=XGppV3dN;
- spf=pass (domain: mvista.com, ip: 74.125.82.173, mailfrom: vanusuri@mvista.com)
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-34ceab2900eso4900716eec.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 02:54:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1791453262; x=1792058062; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=u+JFQ3JsBp9VOWdCcDVnzX6Yymk0A7mdyH9AWP0vF2k=;
-        b=XGppV3dNUuxtGDlgV9OrrXIojWOFNdxhCkCD2/2y3Rv5FK4kezg0lipeqaipugEuPO
-         xiqUPnpC1dAS6eKUbZ6GBYTnOQFfhYzPHMpYh2YBwYxrMvIwFVRwmu2ckc8AEVH2h+2B
-         cTsqu4sD8EH/ioN/YaBKkCeH3fSBhZvz3pQzs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791453262; x=1792058062;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=u+JFQ3JsBp9VOWdCcDVnzX6Yymk0A7mdyH9AWP0vF2k=;
-        b=tsYlG+nkt0J9ABNbB+U3+OyVQGtmD5GCXW65UpfJnVwA69kXWvoVANStDrDOuFVkd0
-         lPFAnPj39laOn13k9ALvSni1vaQwU8CEo1EUzhm3vwy4c/j6i79hDXdEQnSzz/4tqqsE
-         82lYyLWE1wIIiS0YxorT2ittBihFJqULHMkX83/w0XCt5mcXLiKbusW6FHJC3YI5gL+2
-         futg43B5nwldOiBHKB0vMEnAGmxdjyI3CSX+KuuB4tj7Z2hsP++UthXxFuwSYOPTEzcs
-         3pF7YLe+wIiigSrZ227naJyEaFFsdO7245wT1IoaZSrNWYEpyRecjzj6WDwXwj+ux0Gf
-         +OnA==
-X-Gm-Message-State: AFq9FYIF4HwFFtPHHS8oT9R+DDsLy21HFfPeZJh4BtMxFJPUif26JIRM
-	/cePvyWDksIe4ucsQoyxJAslgoMFiK3UVaLGrF1NtRXtzQEcSSnJMOsbbNsvVyNPNWtyH694L1H
-	Dft594+c=
-X-Gm-Gg: AYBFou20Kehblb+TFqkFZLlAbUAuU/JM/O/vDtacPZJePfSOhGc5bt6jria7QGmSRe9
-	MdySKwmJFZHGEZ2v0HcvKuyH98TuIEGDr84ZwBLdt55jLX34DEjsMXqNgSfRh0OHbfuKR/V/C05
-	omwgNZeMlhX0Xf/SDLsO5qq3wi/a0UnTgMK9cpQ9Rr/Q5Fil6wvwrh5v27Z88eFG/69DCjDKqls
-	tW0SLDzyIJV8R4s8AqNwRnmtJG5y/D+wCOuzUdvnGLt4nCCUMWpscM6jupumHBk/PCIXAwbUH5i
-	I8NADVOeCidjZ4RwKX6vW1G95eYMYIdpKV6f15HkPjXF9ijYpAV0MpoVKE8qHOMevO3UCg8Uj4r
-	og+/H8M0C4NXjRbYZIXNSCerjzFVJhgRiELwQ1zeI1587nkgHWizw+KbQ8oqsp38iN9zwyI8zHJ
-	C5R7VOXHLOWybYoGO7k7L0XADvXnlaDi+n3OAFKqIOUBM1GAge9wnxNdKw3yiXN2vdySKOKC6Uc
-	qeSIdtU
-X-Received: by 2002:a05:7301:670a:b0:351:595:750b with SMTP id 5a478bee46e88-3515dec9a10mr10167933eec.36.1791453261504;
-        Thu, 08 Oct 2026 02:54:21 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([106.200.27.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3515a8b7c5dsm16757750eec.0.2026.10.08.02.54.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 02:54:20 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@fris.de header.s=mail header.b=prhpNOwg;
+ spf=pass (domain: fris.de, ip: 116.203.77.234, mailfrom: frieder@fris.de)
+From: Frieder Schrempf <frieder@fris.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=mail;
+	t=1791454714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Xf0z6BdS546fIj2OWEWkIjjraeG+OhA6NL9G06+p/eo=;
+	b=prhpNOwgpm2K1YqCh9q4BKFKwNpdqsKLHgMMYtOIr7Bydoh5b1f729kai8JAAlApV3ATA2
+	18OdJAXNdjWOSUkCordOk8ARvLUFMzS9igMGx0Pg93XWpyRjkQBMyscUo76Hcbgw5iTkhw
+	NMJfFJuR8nWqGHctJwraz3ZkWq8gKbrJu8BxXe7khPijmk3UJVKeiCesbhBkfJ533B2aJL
+	qV7/D+kcU8AyW1xlr3yuLDarXatDPsTUR5P1GEvac3WpxKTN1yYsZNftgSBRjQup2mCr5g
+	M5l0tLLfm0R9ITY4ofajapDp0zhtHuNn/ltc6Akvk3TkjkccqxIjEVIQeshz5g==
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch] python3: upgrade 3.12.14 -> 3.12.15
-Date: Thu,  8 Oct 2026 15:24:11 +0530
-Message-ID: <20261008095411.1492881-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+Subject: [wrynose][PATCH] weston: fix VNC backend build with aml 1.0
+Date: Thu,  8 Oct 2026 12:18:05 +0200
+Message-ID: <20261008101805.2770110-1-frieder@fris.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 09:54:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247424
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 10:18:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247425
 
-Release information:
-* https://www.python.org/downloads/release/python-31215/
-* The release you're looking at is Python 3.12.15, a security bugfix release for the legacy 3.12 series.
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
 
-Handles CVE-2026-19445 CVE-2026-19553 CVE-2026-82049 CVE-2026-15310
-CVE-2026-19672 CVE-2026-15806 CVE-2026-17084 CVE-2026-87910
+meta-oe's aml 1.0 installs aml1.pc, but weston 15 looks for aml 0.3.x, so
+enabling the vnc PACKAGECONFIG fails at configure time. Backport the aml
+part of the upstream fix from weston 16 and add aml to the vnc
+dependencies, as weston uses it directly.
 
-Changelog: https://docs.python.org/release/3.12.15/whatsnew/changelog.html#python-3-12-15
+Tested by building weston with PACKAGECONFIG vnc for ARMv7.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+AI-Generated: Uses Claude Code (Claude Opus 5.5)
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 ---
- .../python/{python3_3.12.14.bb => python3_3.12.15.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3_3.12.14.bb => python3_3.12.15.bb} (99%)
+ .../weston/0001-backend-vnc-Use-aml-v1.patch  | 23 +++++++++++++++++++
+ .../recipes-graphics/wayland/weston_15.0.0.bb |  3 ++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-backend-vnc=
+-Use-aml-v1.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.12.14.bb b/meta/recipes-devtools/python/python3_3.12.15.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.12.14.bb
-rename to meta/recipes-devtools/python/python3_3.12.15.bb
-index 14be125180..6c6289b0e6 100644
---- a/meta/recipes-devtools/python/python3_3.12.14.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.15.bb
-@@ -42,7 +42,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
- 
--SRC_URI[sha256sum] = "5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a"
-+SRC_URI[sha256sum] = "c2c4321961fab0fb999d66e0cecf521c2ab3994c7992873ea99e306c1094fd5a"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
--- 
-2.43.0
+diff --git a/meta/recipes-graphics/wayland/weston/0001-backend-vnc-Use-am=
+l-v1.patch b/meta/recipes-graphics/wayland/weston/0001-backend-vnc-Use-am=
+l-v1.patch
+new file mode 100644
+index 0000000000..b767c9ac07
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/0001-backend-vnc-Use-aml-v1.pa=
+tch
+@@ -0,0 +1,23 @@
++From: Frieder Schrempf <frieder.schrempf@kontron.de>
++Subject: [PATCH] backend-vnc: Use aml v1
++
++aml 1.0 installs aml1.pc and neatvnc already uses it. Only the aml part
++of the upstream commit is taken, as the rest needs Neat VNC 1.0.
++
++Upstream-Status: Backport [partial, https://gitlab.freedesktop.org/wayla=
+nd/weston/-/commit/8a1c91e7]
++---
++ libweston/backend-vnc/meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libweston/backend-vnc/meson.build b/libweston/backend-vnc/m=
+eson.build
++--- a/libweston/backend-vnc/meson.build
+++++ b/libweston/backend-vnc/meson.build
++@@ -8,7 +8,7 @@ if not dep_neatvnc.found()
++ 	error('VNC backend requires neatvnc which was not found. Or, you can u=
+se \'-Dbackend-vnc=3Dfalse\'.')
++ endif
++=20
++-dep_aml =3D dependency('aml', version: ['>=3D 0.3.0', '< 0.4.0'], requi=
+red: false, fallback: ['aml', 'aml_dep'])
+++dep_aml =3D dependency('aml1', version: ['>=3D 1.0.0', '< 2.0.0'], requ=
+ired: false, fallback: ['aml', 'aml_dep'])
++ if not dep_aml.found()
++ 	error('VNC backend requires libaml which was not found. Or, you can us=
+e \'-Dbackend-vnc=3Dfalse\'.')
++ endif
+diff --git a/meta/recipes-graphics/wayland/weston_15.0.0.bb b/meta/recipe=
+s-graphics/wayland/weston_15.0.0.bb
+index da347659f1..3f9fff51fd 100644
+--- a/meta/recipes-graphics/wayland/weston_15.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_15.0.0.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd79ee9e66bb0f9=
+5d3386a7acae780b70 \
+ SRC_URI =3D "https://gitlab.freedesktop.org/wayland/weston/-/releases/${=
+PV}/downloads/${BPN}-${PV}.tar.xz \
+            file://0001-vulkan-renderer-guard-surface-output-creation-wit=
+h-b.patch \
+            file://0001-gl-shaders-Remove-asserts-relying-on-shader-compi=
+ler.patch \
++           file://0001-backend-vnc-Use-aml-v1.patch \
+            file://weston.png \
+            file://weston.desktop \
+            file://xwayland.weston-start \
+@@ -98,7 +99,7 @@ PACKAGECONFIG[image-jpeg] =3D "-Dimage-jpeg=3Dtrue,-Dim=
+age-jpeg=3Dfalse, jpeg"
+ # screencasting via PipeWire
+ PACKAGECONFIG[pipewire] =3D "-Dbackend-pipewire=3Dtrue,-Dbackend-pipewir=
+e=3Dfalse,pipewire,pipewire"
+ # VNC remote screensharing
+-PACKAGECONFIG[vnc] =3D "-Dbackend-vnc=3Dtrue,-Dbackend-vnc=3Dfalse,neatv=
+nc libpam"
++PACKAGECONFIG[vnc] =3D "-Dbackend-vnc=3Dtrue,-Dbackend-vnc=3Dfalse,neatv=
+nc aml libpam"
+ # Perfetto performance analysis support
+ PACKAGECONFIG[perfetto] =3D "-Dperfetto=3Dtrue,-Dperfetto=3Dfalse,libper=
+fetto"
+=20
+--=20
+2.55.0
 
 
