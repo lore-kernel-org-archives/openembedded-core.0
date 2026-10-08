@@ -2,339 +2,150 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2862CA6016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8039CA6017
 	for <webhook@archiver.kernel.org>; Thu,  8 Oct 2026 19:59:37 +0000 (UTC)
 Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.57])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.3384.1791489566310501056
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2026 12:59:31 -0700
+ Thu, 08 Oct 2026 12:59:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=BZlw4ET8;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=aRR6M+Sn;
  spf=pass (domain: est.tech, ip: 40.107.159.57, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oGbEaA9JcP0CdnabTNSK3P72+W/ve/eJQjjlUTw6hbM1xUa+IjWbSVlIO9ZipWhcrNnkvTWdI+/RFbEmEe4LhPmDTxBDsqyYSbA1h1UeP5W//OrN2b8WBlSPXq+mA9W52hlaRs4sot47tZincWY4Mrg3E1WJTR/8XMj/vVRHl2rblxSvXoehBdnczqor64hGVq0OcD8EINX8/ctCdHHrw6UVW596GZSP1CsjfFKmy1jbN9boun4g1VS9fFtM/Wxn1wBjPbKtUnddQrjsJXAFhjORdw6J1OMYvJQRLYkClhX2ihNLh5pxeH32o9X3hAvFPXysdw9hi7aLfQANNi9+ew==
+ b=lGoYIHnKMtUgU+9b82PUMA3xmEuETBpqo4KGyWtOkvFk3dY91gjZ8CxvtLbA3Ci7cpXVWkQrJrV1yN2W5S2jR14FfkFr0qnsvRdagfBUtR6IT4EP9GmEaDtF1LiKLcCdxxU5/Dxv8fB7EDlJS1GU4ciamNQRuoPDCsKh7mDRB9YC0aESV592mOTluw6N5Kqc2zRTUw+vdSH3Flx2jHkOFkYqtQ7CPmQKD4SfKTu6fC6RCJO+hEFtWVMqPq8gssupw7uhWiu0VCi60rvj+n3zWsVvo8x2zS82P8ygp8e4wdT9s6v/sAswx2I1dmr1rkGUPJDN6kXQDeM8cQ7R/nmnsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1io7WnCOfRG32XHnLRUXJvZMbtkp5zASdS6G5sw6F0k=;
- b=qwjscKPsY8ojdqiXD7NJkjwWWxmRA9MZneQMJl9e15/MEnkljpYXGEmAbDSRaBUMUWXnYvEtlhXDMdemPthGdOsMqeHaz55bcGKn7OPTHOuP6Fvu2nGDkvgU0/BnAVCztwJiNPA/g7BYtYavltbNjxv5nxqV+FVy2drN63UaXkGr/7jdI+/Qt1wcCzdUsZub1JfOgARZQur5SDHu/Uekr6ELIIvGtO5tXn7lyBg4JtOdrUVcZfi3AifOgUmhCD8h/vEzGN843MZtX3nkhT8YdCH4Sg3qRK5Qd4YMNam5UR2hnH8qe8Kvk9sf5v6wJg36WLYu8dIVk7nRNpzszfHNlA==
+ bh=ZC1T3Jwdzq53JbTXRVr6DNLLQFfeX9FdsPMHoHgZEnA=;
+ b=e4WpHj7Lai9jzh+UqTihhrDQkTvB2GJzmFa47d11EG6IlsznyPjzENT6hWo2hh9apT+Nhwbj4SQ8dUG6TucZGFr9v8bPol1K44jZKQK79RrWruZf9IrGiKjb/7xMWd4Lp11Jv9yb+jFmbAtEgUsiRI8HpK6ycLYpEbWopeg6gZn5XX8n5oAiLW7g9bqbzULgM2EJOHrjBUMVRc/Aw0mrzOL8G1dYwjMfPr56dy+OjZWXPs3GC4sFhdDwcP/hyQSf8W/9PKdwQvXn08j/rYtbIspSrtUbtU3OWGRjYqZ04KF1Lh5DtJr4LJcRWkhsiFC3k2cpkwtFaVy4+jsXWCw4qw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1io7WnCOfRG32XHnLRUXJvZMbtkp5zASdS6G5sw6F0k=;
- b=BZlw4ET8sdfDQ/AUGi5Ev16jJHskmshvhtt5T3fh35ncrWcO7KXfg/jRlbifAFyRGOQlWwIQW7IO1nf1I7kKqz/CGAGLnhzWCogXx2A2NzzXdu5T2nkGZNZxs3r0tezAOIpiGvRn2EkwzS/dMh3W1D01lcE3O1sQbPxQ39yUYXskUtWt3SiUqevfx2jdEsey5g8ZIpyY1sUXa5opX76KW4BrKYV0QknaLKoN5zGqREoR6h3cGCYKO37l8cvFrKw1lzdmAcRj0Vs/zYGAFoeCYk+QMglA9RZQt11qgiPwIqpF4EXgc8/uLyBFO3UO25ZRitomjtN0WRKk4MV5Zd1YXQ==
+ bh=ZC1T3Jwdzq53JbTXRVr6DNLLQFfeX9FdsPMHoHgZEnA=;
+ b=aRR6M+SnWv+n+q+q3bmv2JMdzolw4DAZx4pgDgy7CzG3vv38Rp/klSF0AExuZYb++AUvjEyiR8Mm6ajGyJxN/2thdaGCtfphoYNYu3cBfnMAG/SyBmJywZtF+0o6aHSUlp3VINb4kGrgejFlgeHWhJXbjnUT5aOzAkna/DV8wx72R3f+7d+VS9kmy7Cly+zM89d2oMm2UU+zQvsUatfIDVMKn6ZAiBvFBDmGX39IjRGYDHO7QQW/qeJz/8cy5E1BMjmk5Mx4RAqpHbHBfC/QLbZPtcyoqBDNuT4gpKnk2fVeCuuS66lM9xuIXy61JPox+szVmNwF2P6Ygc6s+MEADA==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by DB4P189MB3118.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:5dc::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Thu, 8 Oct
- 2026 19:59:27 +0000
+ 2026 19:59:22 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0496.010; Thu, 8 Oct 2026
- 19:59:27 +0000
+ 19:59:20 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/6] subversion: upgrade 1.14.5 -> 1.15.0
-Date: Thu,  8 Oct 2026 21:59:17 +0200
-Message-ID: <20261008195917.22382-6-jaipaul.cheernam@est.tech>
+Subject: [PATCH 2/6] libzip: upgrade 1.11.4 -> 1.12
+Date: Thu,  8 Oct 2026 21:59:13 +0200
+Message-ID: <20261008195917.22382-2-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261008195917.22382-1-jaipaul.cheernam@est.tech>
 References: <20261008195917.22382-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0169.eurprd04.prod.outlook.com
- (2603:10a6:10:2b0::24) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZPR01CA0068.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c2::18) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DB4P189MB3118:EE_
-X-MS-Office365-Filtering-Correlation-Id: b5bf7d6a-98db-4d12-2a33-08df2576a88f
+X-MS-Office365-Filtering-Correlation-Id: 8ad5d593-d666-4367-0a1b-08df2576a486
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|260925022911599003|56012099006|11063799006|260925021911599003|260925021311599003|10067099003|18002099003|6133799003|22082099003;
+	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|56012099006|11063799006|10067099003|18002099003|12006099003|22082099003;
 X-Microsoft-Antispam-Message-Info: 
-	cPZXPaZMr5f6JNjiQWoYAGOI+a2RBpZq0QOWMyhoIb+bgZ2jJVSwvTPrOOcxTq4OPE8auGBQhuCQ4Y90k4Irzu3THbPM2Af3Gr1vs0KuAecaTBEaf6Iz+ForrM1ERVCMfnyVpbH1JPOkwGmlk+hJ/p004VAp1YznkCCTSlnvvPlVA9rSBM4SqYxTQTRJSYvS6XG1ZD0qu+h/tFQYHDoAEVgA3ACSpqIfFZC7OII3jUyTwuZdeBRPPbUipY7Udc6R/JxufC1syad5wv6hjANfYtBZlNtgfBLJc4lHL2ehQbEd94yenyYN+GifVfB1l0JbWU8MqGIlfHQO+EM2OMwrscq1Kj0dfCQDd23Ljj9CXxIgX5tLC3oSDOi2FP7CF2BPlxmFpKtYtxYEX/dJGNwYGCwD0VGyEcSL2Qm/8cZ487xNR5OWax1VM9kpgFtHsgFgParkGscHLu1MXZQAZVGDBBaCC9uH/6xNgNHYt0LWXLprxF0i3kI5xJMTAy5Og/BjCc47moAR9jvuMus2UYkzQALC6hcZutiw5xsT6HcppcXyD4NBfmfYMd2D1f4OqPu/MXXvc6joa0hXZ6oE53tcVXia6K/PxRClq6lebq1s5Rc=
+	u0u5bs6GnOCfI4VhgIgt3krfTfz44Cz4ahlwlWkgfyK8WL0iHRpwzndHLqmDx7wfWwpqzT2B2sI+zFEATMpsPhtRTatHc2yGkaYN8hn9Q6qPPdGOYI4uc14dgY9BzIKGpRc6H8gwiTAFEobn0a70R2qfQjlqMyvkwJL/hktMUMGv9wyjtc9xxGapXeFuLPmyA835BXXlJ4P703Xn58Muk6xphZnjMHwbr55k213NZ1tVmfY1fnGrkVB8tiHg0kS123GG+CIGoBQmuX3wFrb83+7lh48gFvgG+Se7p38Q4P3zs59qM3Rhx7uZxxPJ/BqfOfOzaHshORsG4er+FQAt/16P7Xp3Do5TvjyeR5mJs0qihkU0DNtz/rE/0u9fsTeL+iM//V/UbRn3zyEq5Z3rusvHJmNRdLwc/twV0YTfibZbgaRTHJ+IjPRlo1XzzHW5SNa9ri1BVjeYvgINkrOXXBOcxr7Wz6p/Ix461N2TTtoE9LQUqfymrD/MewA4uJJ+zLfS/ecNcr6PhR1caLc3R8WabWQxvUPyZetV9G3J6cMVQ7uhpxPz5lLMzJRXB5fccLwHxk76MtNs8oLuNFlwbmAXdb0JyDeJc+KYH8z5xxU=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(260925022911599003)(56012099006)(11063799006)(260925021911599003)(260925021311599003)(10067099003)(18002099003)(6133799003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(56012099006)(11063799006)(10067099003)(18002099003)(12006099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?yXA70Gvh510bGgDqQxXzc9jiDcyCjt8SaGutm9hP/5X3Ej9jhDAYxW55V/KU?=
- =?us-ascii?Q?GT5y5Pvu3TjRnEh7PpxEUZHCfM/4bumSuSNlsJx5K/ixF8U0sBMhUyjXdEL/?=
- =?us-ascii?Q?OItAiblpkjkbCgUNXaHMzgVSuXnBQmhhKmc+VZiSLY9+GNkrcHamUCg06zul?=
- =?us-ascii?Q?91LHKKowz4zyspRFzRFzcpArvKxCY0f/p3AYYofKtlhjjNs4C4FXYR9W5XH+?=
- =?us-ascii?Q?zSmfPNSU0bA89BQgHr+Ejdgk4Mc9MbmwWZWMA7m6P2ErV+3HYGtYL6CQENVe?=
- =?us-ascii?Q?2Dzzu9eWpj2HEzgEd2xDo0bLukoUCwyKgiXockrkRYUXBqp4nOK43xTz2+13?=
- =?us-ascii?Q?0SlP1iYK6YROvms4wSrJrAC7/nwwx7sxFpN0G1kr4L/pTpKiioZxUedYQ10e?=
- =?us-ascii?Q?9qmLsxhv9n4QrQW6CFpSflYfl3PkFc0ypXqROgeEL0h8lbgVd++1kbgk5t+r?=
- =?us-ascii?Q?pTCCFhzF+bm5CtCwfGzROKP+wJFZlQgFNJbOsT/IFYsxXjEFnDelPR6+KSUK?=
- =?us-ascii?Q?VFtYN8rQO24vIxB2yWP3AnSNn5Zdj2lt+yDs62qe+7JdHwe9PZ5fRwK5S64g?=
- =?us-ascii?Q?/Xjp3OHFqyYDORTA45J/3z7s6QNV5/dhR7QTcHZfHEYZBaK7JYDxuC+o4fxt?=
- =?us-ascii?Q?o/Dw6mm+sv7zCkwaKcrxZ2f4zM4ICxtxPtIhceC3lFLJLYwHC8DPa8vGQQsX?=
- =?us-ascii?Q?4qtMQKaxjOHJ43Zw1ailper6vXfJGXPj4hihyG+Sv1m+1y22kmpc5d2Wx3hm?=
- =?us-ascii?Q?yJMs5yKj98ZUC0PhoYuBYNIJG82BwJSikPL7Bk4cDNb9BkqgMSTy3FAKzty8?=
- =?us-ascii?Q?2OJM+y1+z6GK6d5Z++qpIV2DG5XY4Imo3NCgzeImcbE+fH6E+Cu9RI6vnyXA?=
- =?us-ascii?Q?8+h1KlL248OENcs7SMge37C0tJxIgJ4GvvS6G6fgr71zgbYAdP0PC/c0qLWn?=
- =?us-ascii?Q?yHucu9zJUV40Ub+hL1jlS+2xv3fxTIcw6AFlbxCrBTNHEVYjQBzeNlOOFov5?=
- =?us-ascii?Q?u1i1gXbLmX6YpbApXQ4PIk/FlNxdHTXTriVJ3YOT4rOZ8b0TL85nMjml/erU?=
- =?us-ascii?Q?cEm445CBF98saNi61sw+gFpL36FYNmBFPC83xgNgJWUPQO1oTzQMSoviIxxU?=
- =?us-ascii?Q?oLhhaZBm44JH1kdcLzNWnvfVCNLs84mKjIxFErd5psYG3qT5w2WfHN/wo+Lj?=
- =?us-ascii?Q?Xs2WRy3pY3VsHgdAuafrob3jGfARNd3QE/K+1C2Rehtb4gjYK28TPSp1FZAC?=
- =?us-ascii?Q?3dcUwrTRhatqkH/R5lRjbxvWLY+LfuQG5dhhne5JXxuKIkeo2Lrwv+uAExMa?=
- =?us-ascii?Q?KPck4YZ5opK2sbQaAsLkfBLnmQUx2stW4jeAEkH8sEwm815nUuF3xKjlNRzU?=
- =?us-ascii?Q?W+Tyro7urQaa8qllQhnzqNanZuxnuWiYEPJqz9+S8FL6kBHgBWCQBT6l7rEI?=
- =?us-ascii?Q?SJ07RjxsujS7BzZp2gWGUjIrkuh+kqGH8BwMmkrxjjOyrXeBSPPDIZgRU43T?=
- =?us-ascii?Q?uQpf5Ng3lExFtkXpauwzCiahRphWuq8ADXUAl+Ys4TealBFQ0grSC9WHVip4?=
- =?us-ascii?Q?42CwcoeFxYQM2BOj/tP20yCV/YooiOpL/ptOEbSbJgMXHJoqRjb9iMkdUkLl?=
- =?us-ascii?Q?9YfXU93B5B4Yj2gd+i/Mp0zsfemsksoQXPWFtfqSM7AD984ZCDm/BGxQgraU?=
- =?us-ascii?Q?VXVPmdzRgFhCqUQWJQ7TDXTiFfdJVC8efgAjbz6zEFQZf7lHDlyenpFxIOl6?=
- =?us-ascii?Q?I3mYrCsQ2cqcgTq0Fdbu3szpDyAUnrY=3D?=
+	=?us-ascii?Q?QFDsMhp0fkTt+ftYOGcEkDSufk5ZEW/8IWl4jTHb/s9chLHY3zoKpkxROch9?=
+ =?us-ascii?Q?cloz5pRY9BjwVCayxhDVI1bcwnhhuYPnXPqY4Ceo+x7zgAeI8HjbqPsPetRX?=
+ =?us-ascii?Q?dh/5J2XiqMoTbzQau49xTLyiIf4ZFruB1NXDJes0HV5w54lXelVqyxa18oA+?=
+ =?us-ascii?Q?vnoFqtIYNamYxvvGbzbob1YgdSo+hO7t9ADriWIPfjwZcHOOF0m1Jg+lShHk?=
+ =?us-ascii?Q?R/NXgF6fxUFag2L5h9dl7QPQpFCR6JGtodReWA31EQSJ+neKiAr3IAbl+PJq?=
+ =?us-ascii?Q?woKiEF3Af+euyZ2z7/5HRDOJJfwzsQNhaTF8H6aQVJN740cRmIou9OKAwJ9G?=
+ =?us-ascii?Q?2EzwhAgDH6dHtmRO58YXU7tXzvUfQGwm7O2WVHFJz8E3xGVuypkSQtEoY0U8?=
+ =?us-ascii?Q?yeloK1DqIPeZXUjmd4m/hTHSCqG8C2Vx84+5Jgc3UkJ3/DBp9ey5+j2jm382?=
+ =?us-ascii?Q?ejpFJ/NT3JcgMzhirH4PekBSRRq5t2dNLSDmL3rod5bw7HWDIQ6rOBboDRTv?=
+ =?us-ascii?Q?o3bUZxDm+LshtLv7yj4GY9oOT9+ZTHzAguU/f5sVoNzvZ2JVnAEd1r0QYH56?=
+ =?us-ascii?Q?ZDlTM95W+W9jHdJAuc4IsFovQnTUIaN56LM3/zz+Vw/e99pQwWvzsmawJSx4?=
+ =?us-ascii?Q?UzoEJUm2oufu2/04dl4N3DZLslwXRNPBXJWH0IalyMxg3Al1ZFqQd19joZQY?=
+ =?us-ascii?Q?UGphYjMJSihWRUa43NOiAwvsonODYMQWJJK42fLCqTM4g7Y5JXmBlDlKbn+6?=
+ =?us-ascii?Q?9gJnGUne2yhLofxx91kP6ZkgKFwVbSNSJZn4ZebEWnYet3a5bOhjV7bkkcsL?=
+ =?us-ascii?Q?twX9jG7l9QGsREBfiI/XNHWlf5fGFTCUAvLTDjJ1meADvVuSb4rUvon2+5AL?=
+ =?us-ascii?Q?UH7/A2MCJUn/aZ4q5WmrcQlNEVvGm0fux6Gp6mBcw9hd0mxZZNT0D7hT74W/?=
+ =?us-ascii?Q?/1Ugb6Nk8iFS3LG+/8SNnBd6STIFuSFuUAdsNoBoIbhSpNsGlM9L9v6hgvBX?=
+ =?us-ascii?Q?Yi1W16nAghtzBcbbGj9DlOXliTiEi5HC2cyVb+R9R6wm7uKhthhKIFU8EPS4?=
+ =?us-ascii?Q?/tnWCuPHwwcSlN4Znb5RHBzdeqY13CYYwg2SrR5MkE+mAIzXTpNKfZTiica7?=
+ =?us-ascii?Q?u66v2tHEl2frgHnf8QlegZHUWmlMKTMl8dDi1lwaUKpYearrPIx/ftRseTsf?=
+ =?us-ascii?Q?cTao2YESHDZjqVd4yjjNwuGDHZ87ulMFEhTY5WedTgVJvFlY7BOizBt4t5BO?=
+ =?us-ascii?Q?kR/cQIps2JGv3th0Rj7ZoHVL0YlYltdmavrY24oiyJy+hcrvF0RkZBFXXeEl?=
+ =?us-ascii?Q?1+qfW/ZZc3s9bGSVX2Z+T3Ync4Yia6ccO/Rf9AiyJURpELLWrARFden7qJub?=
+ =?us-ascii?Q?2AdNNkxa3k3ruFsV5VEPBDhdqt9HbqE5T4wxTOyiqWJzrmTzYIYJtZXwfhJd?=
+ =?us-ascii?Q?a9FWgaFseCfuNWddXdoF5oK/nk4PLfrlCTv3X3EnnvunH3fJUqJpzigF/qqP?=
+ =?us-ascii?Q?4wH6p6zT1J4k+f+P9lPPx0OtX0e8HXf2z1KUUJfucQeddMdYH/MM7FezciSW?=
+ =?us-ascii?Q?+tpS4HDTOyvdIG36Y51fCIrhsPoRu1xoe2i3oCCZuQCCUgLhom7GrqL1PtuF?=
+ =?us-ascii?Q?RQ2w2NwkSKJp8tR6A0mdtJj7JmUhJ936DaCqR/6QkDILoRvh3zvjbbrqm2vV?=
+ =?us-ascii?Q?RJ0+pV6kNyiIfrLfKvfA06K3XZw4RNJqVcYg6EjNHncX/slgL3ZMzXo/H7eS?=
+ =?us-ascii?Q?u/RAeJMm4CsDXrmTpueSQuSVfLgG3SI=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5bf7d6a-98db-4d12-2a33-08df2576a88f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ad5d593-d666-4367-0a1b-08df2576a486
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 19:59:27.5646
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 19:59:20.7794
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0kop8mlvm/cGQnHMTSokH/od+D1tV2nOxP1eRXGMT7LPh9CV6Q3KxCNl7wFMhgcw1QGS2L0qzcK+8szymnXUe7AdWXEia6hHKZ2PRtIaRgw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: hGUBCgx2QlB4Bt6z6j09IrNNXgsXyBwjAOpHPeomJCo66TQ6DzS04QPVDGGPUlWXai3/A8hkOJmQ2NNT4lowAV+asiCI42uxJIWd+o0wALk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4P189MB3118
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 08 Oct 2026 19:59:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247447
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247443
 
-Version 1.15.0
-(21 Sep 2026, from /branches/1.15.x)
-https://svn.apache.org/repos/asf/subversion/tags/1.15.0
+NEWS: https://github.com/nih-at/libzip/blob/v1.12/NEWS.md
 
-See the 1.15 release notes for a more verbose overview of the changes since
-the 1.14 release:  https://subversion.apache.org/docs/release-notes/1.15.ht=
-ml
-
-License-Update: Update content due to Remove experimental move-tracking dev=
-elopment. [1]
-
-[1] https://github.com/apache/subversion/commit/d3c038eb5da2c56040193df8de1=
-28bb896d7b642
+License-Update: copyright years updated.
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...-fix-svn-revision-host-contamination.patch |  9 ++--
- .../subversion/subversion/parallel.patch      | 19 ++++---
- .../subversion/subversion/serfmacro.patch     | 12 +++--
- ...version_1.14.5.bb =3D> subversion_1.15.0.bb} | 53 ++++++++++++++++++-
- 4 files changed, 74 insertions(+), 19 deletions(-)
- rename meta/recipes-devtools/subversion/{subversion_1.14.5.bb =3D> subvers=
-ion_1.15.0.bb} (61%)
+ .../libzip/{libzip_1.11.4.bb =3D> libzip_1.12.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/libzip/{libzip_1.11.4.bb =3D> libzip_1.12.bb}=
+ (87%)
 
-diff --git a/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revis=
-ion-host-contamination.patch b/meta/recipes-devtools/subversion/subversion/=
-0001-fix-svn-revision-host-contamination.patch
-index 9741a6499c..cfcf090ce3 100644
---- a/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revision-hos=
-t-contamination.patch
-+++ b/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revision-hos=
-t-contamination.patch
-@@ -1,4 +1,4 @@
--From 54b2cf44445820ea7c3250a25ed957a389aafbd6 Mon Sep 17 00:00:00 2001
-+From d8f18b85e017f7fcfffaeb46cfbf6cc07ce1376c Mon Sep 17 00:00:00 2001
- From: Haixiao Yan <haixiao.yan.cn@windriver.com>
- Date: Thu, 28 May 2026 09:20:59 +0800
- Subject: [PATCH] build: do not run svnversion during install
-@@ -23,10 +23,10 @@ Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.co=
-m>
-  1 file changed, 1 insertion(+), 4 deletions(-)
+diff --git a/meta/recipes-extended/libzip/libzip_1.11.4.bb b/meta/recipes-e=
+xtended/libzip/libzip_1.12.bb
+similarity index 87%
+rename from meta/recipes-extended/libzip/libzip_1.11.4.bb
+rename to meta/recipes-extended/libzip/libzip_1.12.bb
+index 36f7d1faf5..37071592b7 100644
+--- a/meta/recipes-extended/libzip/libzip_1.11.4.bb
++++ b/meta/recipes-extended/libzip/libzip_1.12.bb
+@@ -8,12 +8,12 @@ BUGTRACKER =3D "https://github.com/nih-at/libzip/issues"
+ SECTION =3D "libs"
 =20
- diff --git a/Makefile.in b/Makefile.in
--index 7f0a37dd9a9b..914c1c37790c 100644
-+index bea3a35..92ca3a0 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -499,10 +499,7 @@ local-install: @INSTALL_RULES@
-+@@ -500,10 +500,7 @@ local-install: @INSTALL_RULES@
-  revision-install:
-  	test -d $(DESTDIR)$(includedir)/subversion-1 || \
-  	  $(MKDIR) $(DESTDIR)$(includedir)/subversion-1
-@@ -38,6 +38,3 @@ index 7f0a37dd9a9b..914c1c37790c 100644
- =20
-  install-static: @INSTALL_STATIC_RULES@
- =20
----=20
--2.53.0
--
-diff --git a/meta/recipes-devtools/subversion/subversion/parallel.patch b/m=
-eta/recipes-devtools/subversion/subversion/parallel.patch
-index 1fee1523ee..ad0babe034 100644
---- a/meta/recipes-devtools/subversion/subversion/parallel.patch
-+++ b/meta/recipes-devtools/subversion/subversion/parallel.patch
-@@ -1,4 +1,8 @@
--Ensure that directories are created before files are compiled into them.
-+From a0aad59e068b6ed852db38cf26c5d862ce0ec2ab Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Thu, 5 Mar 2026 11:51:30 +0000
-+Subject: [PATCH] Ensure that directories are created before files are comp=
-iled
-+ into them.
+ LICENSE =3D "BSD-3-Clause"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd8a9d2078f35e61cf1122ccd440687c=
+f"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3De6fcea978dc627f41e0bada0de889ec=
+4"
 =20
- This is a hacky workaround, upstream have been informed and a better
- solution proposed:
-@@ -7,12 +11,15 @@ https://lists.apache.org/thread/nr0w8hcpr9my2gkys09kj89r=
-lxgd84of
+ DEPENDS =3D "zlib bzip2"
 =20
- Upstream-Status: Inappropriate [discussion upstream]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ Makefile.in | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
+ SRC_URI =3D "https://libzip.org/download/libzip-${PV}.tar.xz"
+-SRC_URI[sha256sum] =3D "8a247f57d1e3e6f6d11413b12a6f28a9d388de110adc0ec608=
+d893180ed7097b"
++SRC_URI[sha256sum] =3D "376908d0f0fda13180a19fdc4f7062a1abfb59e09ca07a392d=
+361253b8e60c2b"
 =20
--diff --git i/Makefile.in w/Makefile.in
--index 0fb9e39602..8bae2cc3d2 100644
----- i/Makefile.in
--+++ w/Makefile.in
--@@ -424,7 +424,9 @@ ECHO_N =3D @ECHO_N@
-+diff --git a/Makefile.in b/Makefile.in
-+index 983f3d1..bea3a35 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -419,7 +419,9 @@ ECHO_N =3D @ECHO_N@
- =20
-  TESTS =3D $(TEST_PROGRAMS) @BDB_TEST_PROGRAMS@
- =20
-diff --git a/meta/recipes-devtools/subversion/subversion/serfmacro.patch b/=
-meta/recipes-devtools/subversion/subversion/serfmacro.patch
-index 507de0f08b..b16a0c866f 100644
---- a/meta/recipes-devtools/subversion/subversion/serfmacro.patch
-+++ b/meta/recipes-devtools/subversion/subversion/serfmacro.patch
-@@ -1,3 +1,8 @@
-+From d8f21366d2b9bd72faf078099d4ba8146396ac59 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 7 Dec 2016 13:54:18 +0000
-+Subject: [PATCH] subversion: Fix issues in LDFLAGS sed manipulation
-+
- The existing sed expression can match expressions like
- --sysroot=3D/some/path/xxx-linux/ which clearly isn't intended and injects
- incorrect paths into LDFLAGS.
-@@ -14,10 +19,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/build/ac-macros/serf.m4 b/build/ac-macros/serf.m4
--index 0a549b3..3a069ac 100644
-+index 4637430..126eb74 100644
- --- a/build/ac-macros/serf.m4
- +++ b/build/ac-macros/serf.m4
--@@ -171,7 +171,7 @@ AC_DEFUN(SVN_SERF_PKG_CONFIG,
-+@@ -185,7 +185,7 @@ AC_DEFUN(SVN_SERF_PKG_CONFIG,
-            SVN_SERF_INCLUDES=3D[`$PKG_CONFIG $serf_pc_arg --cflags-only-I`=
-]
-            SVN_SERF_LIBS=3D[`$PKG_CONFIG $serf_pc_arg --libs-only-l`]
-            dnl don't use --libs-only-L because then we might miss some opt=
-ions
-@@ -26,6 +31,3 @@ index 0a549b3..3a069ac 100644
-            break
-          else
-            AC_MSG_RESULT([no])
----=20
--2.7.4
--
-diff --git a/meta/recipes-devtools/subversion/subversion_1.14.5.bb b/meta/r=
-ecipes-devtools/subversion/subversion_1.15.0.bb
-similarity index 61%
-rename from meta/recipes-devtools/subversion/subversion_1.14.5.bb
-rename to meta/recipes-devtools/subversion/subversion_1.15.0.bb
-index f6a5b9950f..a70e1f813d 100644
---- a/meta/recipes-devtools/subversion/subversion_1.14.5.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.15.0.bb
-@@ -1,9 +1,58 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade=
-'.
-+# The following is the difference between the old and the new license text=
-.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -367,35 +367,6 @@
-+#   *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-+#   *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+# =20
-+# -For the (modified) 'linenoise' library in tools/dev/svnmover/linenoise
-+# -
-+# -  Copyright (c) 2010-2014, Salvatore Sanfilippo <antirez at gmail dot c=
-om>
-+# -  Copyright (c) 2010-2013, Pieter Noordhuis <pcnoordhuis at gmail dot c=
-om>
-+# -
-+# -  All rights reserved.
-+# -
-+# -  Redistribution and use in source and binary forms, with or without
-+# -  modification, are permitted provided that the following conditions ar=
-e met:
-+# -
-+# -  * Redistributions of source code must retain the above copyright noti=
-ce,
-+# -    this list of conditions and the following disclaimer.
-+# -
-+# -  * Redistributions in binary form must reproduce the above copyright n=
-otice,
-+# -    this list of conditions and the following disclaimer in the documen=
-tation
-+# -    and/or other materials provided with the distribution.
-+# -
-+# -  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-+# -  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-+# -  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-+# -  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRI=
-GHT
-+# -  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-+# -  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMI=
-TED
-+# -  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, O=
-R
-+# -  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY O=
-F
-+# -  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-+# -  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-+# -  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+# -
-+#  For the (modified) LZ4 library files in subversion/libsvn_subr/lz4
-+# =20
-+#    LZ4 Library
-+#=20
-+#
-+
- SUMMARY =3D "Subversion (svn) version control system client"
- HOMEPAGE =3D "http://subversion.apache.org"
- DESCRIPTION =3D "Subversion is an open source version control system."
- SECTION =3D "console/network"
- LICENSE =3D "Apache-2.0 AND MIT"
--LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D6487ae7094d359fa90fb9c4096e52e2=
-b"
-+LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd9c5b0e279cdb238d735af75554a390=
-2"
-=20
- DEPENDS =3D "apr-util serf sqlite3 file lz4 expat"
- DEPENDS:append:class-native =3D " file-replacement-native"
-@@ -14,7 +63,7 @@ SRC_URI =3D "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2=
- \
-            file://0001-fix-svn-revision-host-contamination.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "e78a29e7766b8b7b354497d08f71a55641abc53675ce187558=
-4781aae35644a1"
-+SRC_URI[sha256sum] =3D "dfb7b1e5270c7def971ccbd5938b0c03b1b5bd60b6674a2d8a=
-74a9560839fb8c"
-=20
- inherit autotools pkgconfig gettext python3native
+ inherit cmake
 =20
 
