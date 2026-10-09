@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E1A2CA601E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B6C7CA9EBD
 	for <webhook@archiver.kernel.org>; Fri,  9 Oct 2026 18:47:39 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2876.1791571648945491152
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2879.1791571658708697867
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2026 11:47:29 -0700
+ Fri, 09 Oct 2026 11:47:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=A1bVi2zH;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261009184727c0e2e691ed00020752-kdo0zs@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261009184727c0e2e691ed00020752
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=n7Vc+U97;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202610091847378dc3effb8d000207f0-w4ctns@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202610091847378dc3effb8d000207f0
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 09 Oct 2026 20:47:27 +0200
+        Fri, 09 Oct 2026 20:47:37 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=45fUbLFwz7D9EKVIIvyHWA4oUDFKZpxEcaZWpi+0OcU=;
- b=A1bVi2zHNuvYqdsPko33M4FgoJ2VG9hqZI52WM9hFBQ0cX3qw+JkiqNTvzlGn9xnIKOIbP
- VDZ3o4mglkE3F5nm4JYcBfB4D+/io+KEmDjRkQGmWTySCquh5rYarHO1PHtO7sJqpn1YpGZF
- zsieyRlwbiSdqrnJfrLUSgdhE29fJ1wxlBF4GJMWQHgKxyALtcl0FuqdcjmrG8elKC68s/nW
- cICTB8iN9SzxJ8tErlVUsKBd/u+54CHnEG67GCLy2WmUE/w6znYFuxCol7ZuaetqVJB2p9Q0
- bYZTpcB2wn8Y07UbArTLxC+cO+jNKjGodaJ7nPnb2e1x5SH5iY7KYazg==;
+ bh=0INocukSu1uZsFSbHN8lcjxRnqcXGG8r6Xjao9aEflo=;
+ b=n7Vc+U978dBHDVBEMQMSasgaCb0CzNdcSG2/qs+W2jmof6V1UkYluPy+p4/pDuNNJfuqRR
+ 50/2cv8uq9WIbgZm9eqVZshNVIfSiOPTzQkYvfOD6sKXW6PK6bm39JP7xMN+5JOuW0TPJYDC
+ GlKnB0DTl/jnMEAN3dN+fmCBnDXE2Cm7srzvPO+hvjT18XYZenxHDu/oJpRf9/tO07xJfS1z
+ /YyINQCtmhhSkNlRZx9SulMRiv0p5nw73pa80t2CUlyhFGfwZfr/lkX1pRAPjQsvJN2vfR9B
+ yPM5gpAU7zxJWgKeinGv4CtNCMohfCNxqc5z9fpXvHYUIo3ut2VNnmIw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH 6/8] libpcre2: patch CVE-2026-89158
-Date: Fri,  9 Oct 2026 20:45:46 +0200
-Message-ID: <20261009184548.2962197-6-peter.marko@siemens.com>
+Subject: [wrynose][PATCH 7/8] libpcre2: patch CVE-2026-86145
+Date: Fri,  9 Oct 2026 20:45:47 +0200
+Message-ID: <20261009184548.2962197-7-peter.marko@siemens.com>
 In-Reply-To: <20261009184548.2962197-1-peter.marko@siemens.com>
 References: <20261009184548.2962197-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -39,245 +39,195 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 18:47:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247481
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247482
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1] since [2] does not provide it.
+Pick patch per [1] since [2] does not provide valid commit hash.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-89158
-[2] https://github.com/PCRE2Project/pcre2/security/advisories/GHSA-fmgr-6ggq-9859
+[1] https://security-tracker.debian.org/tracker/CVE-2026-86145
+[2] https://github.com/PCRE2Project/pcre2/security/advisories/GHSA-3r4p-g7gg-ppmf
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../libpcre/libpcre2/CVE-2026-89158.patch     | 208 ++++++++++++++++++
+ .../libpcre/libpcre2/CVE-2026-86145.patch     | 158 ++++++++++++++++++
  .../recipes-support/libpcre/libpcre2_10.47.bb |   1 +
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-89158.patch
+ 2 files changed, 159 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-86145.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-89158.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89158.patch
+diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-86145.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-86145.patch
 new file mode 100644
-index 0000000000..8099667433
+index 0000000000..a044a006e5
 --- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89158.patch
-@@ -0,0 +1,208 @@
-+From ec9c286d5c10cf1c388b58a442ccefded42254fd Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-86145.patch
+@@ -0,0 +1,158 @@
++From c932e70451eafef922ebef364ac25042f0031135 Mon Sep 17 00:00:00 2001
 +From: Nicholas Wilson <nicholas@nicholaswilson.me.uk>
 +Date: Thu, 27 Aug 2026 16:52:16 +0100
-+Subject: [PATCH] Fix compiler integer overflows; see GHSA-fmgr-6ggq-9859 for
++Subject: [PATCH] Fix DFA workspace overflows; see GHSA-3r4p-g7gg-ppmf for
 + details
 +
-+CVE: CVE-2026-89158
-+Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/ec9c286d5c10cf1c388b58a442ccefded42254fd]
++CVE: CVE-2026-86145
++Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/c932e70451eafef922ebef364ac25042f0031135]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/pcre2_compile.c       | 55 ++++++++++++++++++++++++++++++++++++---
-+ src/pcre2_compile_class.c | 35 ++++++++++++++++---------
-+ 2 files changed, 74 insertions(+), 16 deletions(-)
++ src/pcre2_dfa_match.c | 44 ++++++++++++++++++++++++++++++++++++-------
++ testdata/testinput6   |  7 +++++++
++ testdata/testoutput6  |  8 ++++++++
++ 3 files changed, 52 insertions(+), 7 deletions(-)
 +
-+diff --git a/src/pcre2_compile.c b/src/pcre2_compile.c
-+index 1081cf64..32cb32f6 100644
-+--- a/src/pcre2_compile.c
-++++ b/src/pcre2_compile.c
-+@@ -6195,7 +6195,8 @@ for (;; pptr++)
++diff --git a/src/pcre2_dfa_match.c b/src/pcre2_dfa_match.c
++index 314e9775..8e9512c4 100644
++--- a/src/pcre2_dfa_match.c
+++++ b/src/pcre2_dfa_match.c
++@@ -405,8 +405,8 @@ return (mb->callout)(cb, mb->callout_data);
 + 
-+     if (meta < META_ASTERISK || meta > META_MINMAX_QUERY)
-+       {
-+-      if (OFLOW_MAX - *lengthptr < (PCRE2_SIZE)(code - orig_code))
-++      if (*lengthptr > OFLOW_MAX ||
-++          OFLOW_MAX - *lengthptr < (PCRE2_SIZE)(code - orig_code))
-+         {
-+         *errorcodeptr = ERR20;   /* Integer overflow */
-+         cb->erroroffset = 0;
-+@@ -8795,7 +8796,8 @@ for (;;)
-+     *reqcuflagsptr = reqcuflags;
-+     if (lengthptr != NULL)
-+       {
-+-      if (OFLOW_MAX - *lengthptr < length)
-++      if (*lengthptr > MAX_PATTERN_SIZE ||
-++          MAX_PATTERN_SIZE - *lengthptr < length)
-+         {
-+         *errorcodeptr = ERR20;
-+         return 0;
-+@@ -8818,6 +8820,19 @@ for (;;)
-+     {
-+     code = *codeptr + 1 + LINK_SIZE + skipunits;
-+     length += 1 + LINK_SIZE;
++ /* This function is called when internal_dfa_match() is about to be called
++ recursively and there is insufficient working space left in the current
++-workspace block. If there's an existing next block, use it; otherwise get a new
++-block unless the heap limit is reached.
+++workspace block. If there's a sufficiently large next block, use it; get a new
+++block unless the heap limit is (or has been) reached.
++ 
++ Arguments:
++   rwsptr     pointer to block pointer (updated)
++@@ -422,9 +422,18 @@ more_workspace(RWS_anchor **rwsptr, unsigned int ovecsize, dfa_match_block *mb)
++ {
++ RWS_anchor *rws = *rwsptr;
++ RWS_anchor *new;
+++uint32_t requested;
 ++
-++    /* Move the accumulated length into *lengthptr, providing the next call to
-++    compile_branch with as much space in &length and &code as the first did. */
-++
-++    if (*lengthptr > MAX_PATTERN_SIZE ||
-++        MAX_PATTERN_SIZE - *lengthptr < length)
-++      {
-++      *errorcodeptr = ERR20;
-++      cb->erroroffset = 0;
-++      return 0;
-++      }
-++    *lengthptr += length;
-++    length = 0;
-+     }
-+   else
-+     {
-+@@ -10831,7 +10846,8 @@ if (errorcode != 0) goto HAD_CB_ERROR;  /* Offset is in cb.erroroffset */
-+ #if defined SUPPORT_WIDE_CHARS
-+ PCRE2_ASSERT((cb.char_lists_size & 0x3) == 0);
-+ if (length > MAX_PATTERN_SIZE ||
-+-    MAX_PATTERN_SIZE - length < (cb.char_lists_size / sizeof(PCRE2_UCHAR)))
-++    BYTES2CU(cb.char_lists_size) > MAX_PATTERN_SIZE ||
-++    MAX_PATTERN_SIZE - length < BYTES2CU(cb.char_lists_size))
-+ #else
-+ if (length > MAX_PATTERN_SIZE)
-+ #endif
-+@@ -10856,11 +10872,36 @@ if (cb.char_lists_size != 0)
-+   /* Align to 32 bit first. This ensures the
-+   allocated area will also be 32 bit aligned. */
-+   re_blocksize = (PCRE2_SIZE)CLIST_ALIGN_TO(re_blocksize, sizeof(uint32_t));
-++#else
-++  /* Already 32 bit aligned. */
-+ #endif
-++
-++  /* We have bounded the length and BYTES2CU(char_lists_size) to
-++  MAX_PATTERN_SIZE units, however (with 32-bit code units) char_lists_size
-++  in bytes could still be extremely close to (or greater than) SIZE_MAX, so
-++  we require another overflow check. */
-++
-++  if (cb.char_lists_size > PCRE2_SIZE_MAX - re_blocksize)
+++PCRE2_ASSERT(ovecsize <= UINT32_MAX - RWS_RSIZE - RWS_ANCHOR_SIZE);
+++requested = RWS_RSIZE + ovecsize + RWS_ANCHOR_SIZE;
++ 
++ if (rws->next != NULL)
++   {
+++  /* Although the initial block is large, and subsequent ones try to double, the
+++  heap limit may cause the last one to be smaller; in this case, we have already
+++  hit the heap limit and allocating a larger block will not be possible. */
+++  if (rws->next->size < requested)
+++    return PCRE2_ERROR_HEAPLIMIT;
++   new = rws->next;
++   }
++ 
++@@ -434,14 +443,30 @@ overflow. */
++ 
++ else
++   {
++-  uint32_t newsize = (rws->size >= UINT32_MAX/(sizeof(int)*2))? UINT32_MAX/sizeof(int) : rws->size * 2;
+++  uint32_t newsize = (rws->size >= (UINT32_MAX/sizeof(int))/2)?
+++    UINT32_MAX/sizeof(int) : rws->size * 2;
++   uint32_t newsizeK = newsize/(1024/sizeof(int));
++ 
++-  if (newsizeK + mb->heap_used > mb->heap_limit)
++-    newsizeK = (uint32_t)(mb->heap_limit - mb->heap_used);
++-  newsize = newsizeK*(1024/sizeof(int));
+++  /* Clamp the allocation to the remaining heap allowance with care for overflows */
++ 
++-  if (newsize < RWS_RSIZE + ovecsize + RWS_ANCHOR_SIZE)
+++  if (mb->heap_used >= mb->heap_limit)
 ++    {
-++    errorcode = ERR20;
-++    cb.erroroffset = 0;
-++    goto HAD_CB_ERROR;
+++    newsize = 0;
+++    newsizeK = 0;
+++    }
+++  else
+++    {
+++    PCRE2_SIZE availableK = mb->heap_limit - mb->heap_used;
+++    /* newsize always capped at UINT32_MAX/sizeof(int), so newsizeK also capped;
+++    and - if availableK is smaller - then multiplication to form newsize is safe */
+++    if (newsizeK > availableK)
+++      {
+++      newsize = (uint32_t)(availableK*(1024/sizeof(int)));
+++      newsizeK = availableK;
+++      }
 ++    }
 ++
-+   re_blocksize += cb.char_lists_size;
-+   }
-+ #endif
+++  if (newsize < requested)
++     return PCRE2_ERROR_HEAPLIMIT;
++   new = mb->memctl.malloc(newsize*sizeof(int), mb->memctl.memory_data);
++   if (new == NULL) return PCRE2_ERROR_NOMEMORY;
++@@ -2801,6 +2826,7 @@ for (;;)
 + 
-++if (length > BYTES2CU(PCRE2_SIZE_MAX - re_blocksize))
-++  {
-++  /* Given the current value of 2^30 for MAX_PATTERN_SIZE, this block is only
-++  reachable when both PCRE2_CODE_UNIT_WIDTH >= 16 and sizeof(size_t) is
-++  32 bits. */
-++  errorcode = ERR20;
-++  cb.erroroffset = 0;
-++  goto HAD_CB_ERROR;
-++  }
++         local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
++         local_workspace = ((int *)local_offsets) + RWS_OVEC_OSIZE;
+++        PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_OSIZE);
++         rws->free -= RWS_RSIZE + RWS_OVEC_OSIZE;
++ 
++         while (*endasscode == OP_ALT) endasscode += GET(endasscode, 1);
++@@ -2900,6 +2926,7 @@ for (;;)
++ 
++           local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
++           local_workspace = ((int *)local_offsets) + RWS_OVEC_OSIZE;
+++          PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_OSIZE);
++           rws->free -= RWS_RSIZE + RWS_OVEC_OSIZE;
++ 
++           while (*endasscode == OP_ALT) endasscode += GET(endasscode, 1);
++@@ -2951,6 +2978,7 @@ for (;;)
++ 
++         local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
++         local_workspace = ((int *)local_offsets) + RWS_OVEC_RSIZE;
+++        PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_RSIZE);
++         rws->free -= RWS_RSIZE + RWS_OVEC_RSIZE;
++ 
++         /* Check for repeating a recursion without advancing the subject
++@@ -3050,6 +3078,7 @@ for (;;)
++ 
++         local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
++         local_workspace = ((int *)local_offsets) + RWS_OVEC_OSIZE;
+++        PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_OSIZE);
++         rws->free -= RWS_RSIZE + RWS_OVEC_OSIZE;
++ 
++         if (codevalue == OP_BRAPOSZERO)
++@@ -3149,6 +3178,7 @@ for (;;)
++ 
++         local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
++         local_workspace = ((int *)local_offsets) + RWS_OVEC_OSIZE;
+++        PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_OSIZE);
++         rws->free -= RWS_RSIZE + RWS_OVEC_OSIZE;
++ 
++         rc = internal_dfa_match(
++diff --git a/testdata/testinput6 b/testdata/testinput6
++index f6f5cbf4..197f6f76 100644
++--- a/testdata/testinput6
+++++ b/testdata/testinput6
++@@ -5263,4 +5263,11 @@
++     abc\=replace=xyz
++     abc\=replace=xyz,substitute_matched
++ 
+++# --------------
 ++
-+ re_blocksize += CU2BYTES(length);
-+ 
-+ if (re_blocksize > ccontext->max_pattern_compiled_length)
-+@@ -10870,7 +10911,15 @@ if (re_blocksize > ccontext->max_pattern_compiled_length)
-+   goto HAD_CB_ERROR;
-+   }
-+ 
-++if (sizeof(pcre2_real_code) > PCRE2_SIZE_MAX - re_blocksize)
-++  {
-++  errorcode = ERR20;
-++  cb.erroroffset = 0;
-++  goto HAD_CB_ERROR;
-++  }
+++# Test workspace resizing and workspace re-use
 ++
-+ re_blocksize += sizeof(pcre2_real_code);
+++/(*LIMIT_HEAP=4)(?=(?=(?=(?=(?=(?=(?=(?=a))(?R)))))))./
+++    a\=dfa
 ++
-+ re = (pcre2_real_code *)
-+   ccontext->memctl.malloc(re_blocksize, ccontext->memctl.memory_data);
-+ if (re == NULL)
-+diff --git a/src/pcre2_compile_class.c b/src/pcre2_compile_class.c
-+index c6f30d6f..c0606643 100644
-+--- a/src/pcre2_compile_class.c
-++++ b/src/pcre2_compile_class.c
-+@@ -498,7 +498,7 @@ static const uint32_t char_list_starts[] = {
++ # End of testinput6
++diff --git a/testdata/testoutput6 b/testdata/testoutput6
++index 8ecf0040..4316c8a6 100644
++--- a/testdata/testoutput6
+++++ b/testdata/testoutput6
++@@ -8237,4 +8237,12 @@ Failed: error -42: pattern contains an item that is not supported for DFA matchi
++     abc\=replace=xyz,substitute_matched
++ Failed: error -41: function is not supported for DFA matching
 + 
-+ static class_ranges *
-+ compile_optimize_class(uint32_t *start_ptr, uint32_t options,
-+-  uint32_t xoptions, compile_block *cb)
-++  uint32_t xoptions, int *errorcodeptr, compile_block *cb)
-+ {
-+ class_ranges* cranges;
-+ uint32_t *ptr;
-+@@ -538,12 +538,23 @@ PCRE2_ASSERT((range_list_size & 0x1) == 0);
-+ 
-+ total_size = range_list_size +
-+    ((range_list_size >= 2) ? CHAR_LIST_EXTRA_SIZE : 0);
-++if (total_size > (PCRE2_SIZE_MAX - sizeof(class_ranges)) / sizeof(uint32_t))
-++  {
-++  *errorcodeptr = ERR20;
-++  cb->erroroffset = 0;
-++  return NULL;
-++  }
-+ 
-+ cranges = cb->cx->memctl.malloc(
-+   sizeof(class_ranges) + total_size * sizeof(uint32_t),
-+   cb->cx->memctl.memory_data);
-+ 
-+-if (cranges == NULL) return NULL;
-++if (cranges == NULL)
-++  {
-++  *errorcodeptr = ERR21;
-++  cb->erroroffset = 0;
-++  return NULL;
-++  }
-+ 
-+ cranges->header.next = NULL;
-+ #ifdef PCRE2_DEBUG
-+@@ -1116,13 +1127,10 @@ if (utf)
-+   {
-+   if (lengthptr != NULL)
-+     {
-+-    cranges = compile_optimize_class(pptr, options, xoptions, cb);
-++    cranges = compile_optimize_class(pptr, options, xoptions, errorcodeptr, cb);
-+ 
-+     if (cranges == NULL)
-+-      {
-+-      *errorcodeptr = ERR21;
-+       return NULL;
-+-      }
-+ 
-+     /* Caching the pre-processed character ranges. */
-+     if (cb->last_data != NULL)
-+@@ -1755,18 +1763,17 @@ if ((xclass_props & XCLASS_REQUIRED) != 0)
-+       *lengthptr += 1 + LINK_SIZE;
-+ #endif
-+ 
-+-      cb->char_lists_size += char_lists_size;
-++      PCRE2_ASSERT(BYTES2CU(cb->char_lists_size) <= MAX_PATTERN_SIZE);
-+ 
-+-      char_lists_size /= sizeof(PCRE2_UCHAR);
-+-
-+-      /* Storage space for character lists is included
-+-      in the maximum pattern size. */
-+-      if (*lengthptr > MAX_PATTERN_SIZE ||
-+-          MAX_PATTERN_SIZE - *lengthptr < char_lists_size)
-++      if (char_lists_size > PCRE2_SIZE_MAX - cb->char_lists_size ||
-++          BYTES2CU(char_lists_size) > MAX_PATTERN_SIZE ||
-++          BYTES2CU(cb->char_lists_size) > MAX_PATTERN_SIZE - BYTES2CU(char_lists_size))
-+         {
-+         *errorcodeptr = ERR20;   /* Pattern is too large */
-+         return NULL;
-+         }
+++# --------------
 ++
-++      cb->char_lists_size += char_lists_size;
-+       }
-+     else
-+       {
-+@@ -1789,6 +1796,8 @@ if ((xclass_props & XCLASS_REQUIRED) != 0)
-+       Each list is aligned to 32 bit with an optional unused
-+       16 bit value at the beginning of the character list. */
-+ 
-++      PCRE2_ASSERT(char_lists_size <= PCRE2_SIZE_MAX - cb->char_lists_size);
+++# Test workspace resizing and workspace re-use
 ++
-+       cb->char_lists_size += char_lists_size;
-+       data = (uint8_t*)cb->start_code - cb->char_lists_size;
-+ 
+++/(*LIMIT_HEAP=4)(?=(?=(?=(?=(?=(?=(?=(?=a))(?R)))))))./
+++    a\=dfa
+++Failed: error -63: heap limit exceeded
+++
++ # End of testinput6
 diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-index ef8274c9b1..2f40ef463e 100644
+index 2f40ef463e..60ba56014b 100644
 --- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
 +++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
-            file://CVE-2026-89156.patch \
+@@ -20,6 +20,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
             file://CVE-2026-89157.patch \
             file://CVE-2026-89160.patch \
-+           file://CVE-2026-89158.patch \
+            file://CVE-2026-89158.patch \
++           file://CVE-2026-86145.patch \
  "
  
  GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
