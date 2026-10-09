@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E147CA9EBD
-	for <webhook@archiver.kernel.org>; Fri,  9 Oct 2026 18:46:59 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2788.1791571609913471659
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 396BECA9EBD
+	for <webhook@archiver.kernel.org>; Fri,  9 Oct 2026 18:47:09 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2863.1791571619354572589
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2026 11:46:50 -0700
+ Fri, 09 Oct 2026 11:46:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=VBSTIvIL;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20261009184647bd0f3ab4d0000207f7-uapzmk@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20261009184647bd0f3ab4d0000207f7
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=IDhIpmq9;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20261009184657d6386262c100020756-lg1jrh@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261009184657d6386262c100020756
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 09 Oct 2026 20:46:47 +0200
+        Fri, 09 Oct 2026 20:46:57 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=XatiTZiI8ml7BWzjsxziycsdZpxQ5XleG8EaNG48osQ=;
- b=VBSTIvILRR2cYNCP258xBC2DeHlDDqCTblmxPYwYj8kg/gEv5CrR8mysH+2DIQGC20azBP
- wwLxUGbIP4qkTDroGbTgYXAVk88CDbMvL9w96+KjoyGI0FR7t0c/ArWmBYCmdgGadEDum/DX
- FED3EFNjFjkJsvaY4T1PMokrCMHB77Vcpl+49GbHhn6YIXeeqL7G7XqVX4zUBnV60g4uZ5RM
- Tds+AydUULq2x9YdVlBeuBrtPs8qfjzfPEaqRaUE+WeoXdG28ss8kBOXZDvk5jgqHfMcyC2T
- sYfQAfy0n/62foPoBxN8JFoVYWF+L5TKEjYp9f19z8KcUvLmFcfBjdOg==;
+ bh=ep5IZZ85TRJU7LFG18vU8PpRn6CijYgulW/vGAZoS1g=;
+ b=IDhIpmq9MTPJTFDnsuNUvOYJwfAPVcCvNCzCW1OkMhIQzoCydOPY5S5i711kd0f55agoqF
+ g3z2ayYfgLdXh8pqtD0x3dFin9U4g9i6ztdPXPKhdLOFgOn/DmKqU/FoIgP34Oi6cqNFYmZt
+ 29Pyc7GAL4Z9aispmsOPygB88KW6rL0prJi2bv0XMpfzVTI3JScNZYGOd6qL8/nOdNMMtOwA
+ bRheqNFoIoEWHQSBWW5LeucjRhc/nNak/B7wYgSjeioHXotg6e02MLDB0OM1VVqd8O2sydXL
+ O+KU8/U5pNF3FZI/3GMO9u9N3UZusCGr5I9lUNIeXpCP/jCyJMWa6f8A==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH 2/8] libpcre2: patch CVE-2026-89161
-Date: Fri,  9 Oct 2026 20:45:42 +0200
-Message-ID: <20261009184548.2962197-2-peter.marko@siemens.com>
+Subject: [wrynose][PATCH 3/8] libpcre2: patch CVE-2026-89156
+Date: Fri,  9 Oct 2026 20:45:43 +0200
+Message-ID: <20261009184548.2962197-3-peter.marko@siemens.com>
 In-Reply-To: <20261009184548.2962197-1-peter.marko@siemens.com>
 References: <20261009184548.2962197-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -38,258 +38,313 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 18:46:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247477
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 18:47:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247478
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1].
+Pick patch per [1] and [2].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-89161
+[1] https://security-tracker.debian.org/tracker/CVE-2026-89156
+[2] https://github.com/PCRE2Project/pcre2/security/advisories/GHSA-2p8c-ff85-vh9x
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../libpcre/libpcre2/CVE-2026-89161.patch     | 221 ++++++++++++++++++
+ .../libpcre/libpcre2/CVE-2026-89156.patch     | 275 ++++++++++++++++++
  .../recipes-support/libpcre/libpcre2_10.47.bb |   1 +
- 2 files changed, 222 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-89161.patch
+ 2 files changed, 276 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-89156.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-89161.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89161.patch
+diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-89156.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89156.patch
 new file mode 100644
-index 0000000000..42e69acbcc
+index 0000000000..7937a6a4c5
 --- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89161.patch
-@@ -0,0 +1,221 @@
-+From 1dcd0cf42a6a7cb62cc9a7c024196733abcfda95 Mon Sep 17 00:00:00 2001
-+From: Nicholas Wilson <nicholas@nicholaswilson.me.uk>
-+Date: Sat, 8 Aug 2026 19:17:36 +0100
-+Subject: [PATCH] Fix leak & stale PCRE2_MD_COPIED_SUBJECT if pcre2_jit_match
-+ used with existing match context (#937)
++++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89156.patch
+@@ -0,0 +1,275 @@
++From f67db227af31bba7cdf2a7a00b97af91b588c2f5 Mon Sep 17 00:00:00 2001
++From: Zoltan Herczeg <zherczeg7@gmail.com>
++Date: Sun, 9 Aug 2026 11:05:54 +0200
++Subject: [PATCH] Fix pcre2_match to check for JIT support before JIT
++ validation & execution (#926)
 +
-+The problem is not that pcre2_jit_match() needs to add support for PCRE2_COPY_MATCHED_SUBJECT. Instead, if the passed-in context somehow contains a previously-copied subject (by non-JIT matcher using a global or cached subject) then it will be leaked, and worse, incorrectly free'd later.
++This fixes the issue that the JIT branch's UTF validation is not pinned to be identical to the interpreter's validation.
 +
-+CVE: CVE-2026-89161
-+Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/1dcd0cf42a6a7cb62cc9a7c024196733abcfda95]
++This was not robust, and lead to a bug, in the case where the JIT UTF validation is done, but because the relevant JIT mode was not compiled, it falls through to the interpreter and skips the interpreter's own UTF validation and setup.
++
++CVE: CVE-2026-89156
++Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/f67db227af31bba7cdf2a7a00b97af91b588c2f5]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ doc/html/pcre2jit.html    |  9 +++---
-+ doc/pcre2.txt             | 10 +++----
-+ doc/pcre2jit.3            |  9 +++---
-+ src/pcre2_jit_match_inc.h | 10 +++++++
-+ src/pcre2test_inc.h       | 60 ++++++++++++++++++++++++++++++++-------
-+ testdata/testinput17      |  1 +
-+ testdata/testoutput17     |  2 ++
-+ 7 files changed, 77 insertions(+), 24 deletions(-)
++ src/pcre2_internal.h      |  2 +
++ src/pcre2_jit_match_inc.h |  1 +
++ src/pcre2_jit_misc_inc.h  | 38 +++++++++++++---
++ src/pcre2_match.c         | 95 +++++++++++++++------------------------
++ 4 files changed, 71 insertions(+), 65 deletions(-)
 +
-+diff --git a/doc/html/pcre2jit.html b/doc/html/pcre2jit.html
-+index cc26cc06..4e6d31e5 100644
-+--- a/doc/html/pcre2jit.html
-++++ b/doc/html/pcre2jit.html
-+@@ -460,10 +460,11 @@ processed by <b>pcre2_jit_compile()</b>).
-+ The fast path function is called <b>pcre2_jit_match()</b>, and it takes exactly
-+ the same arguments as <b>pcre2_match()</b>. However, the subject string must be
-+ specified with a length; PCRE2_ZERO_TERMINATED is not supported. Unsupported
-+-option bits (for example, PCRE2_ANCHORED and PCRE2_ENDANCHORED) are ignored, as
-+-is the PCRE2_NO_JIT option. The return values are also the same as for
-+-<b>pcre2_match()</b>, plus PCRE2_ERROR_JIT_BADOPTION if a matching mode (partial
-+-or complete) is requested that was not compiled.
-++option bits (for example, PCRE2_ANCHORED, PCRE2_ENDANCHORED, and
-++PCRE2_COPY_MATCHED_SUBJECT) are ignored, as is the PCRE2_NO_JIT option. The
-++return values are also the same as for <b>pcre2_match()</b>, plus
-++PCRE2_ERROR_JIT_BADOPTION if a matching mode (partial or complete) is requested
-++that was not compiled.
-+ </p>
-+ <p>
-+ When you call <b>pcre2_match()</b>, as well as testing for invalid options, a
-+diff --git a/doc/pcre2.txt b/doc/pcre2.txt
-+index 693908ee..cc316178 100644
-+--- a/doc/pcre2.txt
-++++ b/doc/pcre2.txt
-+@@ -6176,11 +6176,11 @@ JIT FAST PATH API
-+        The  fast  path  function is called pcre2_jit_match(), and it takes ex-
-+        actly the same arguments as pcre2_match(). However, the subject  string
-+        must  be  specified  with  a  length; PCRE2_ZERO_TERMINATED is not sup-
-+-       ported.  Unsupported  option  bits  (for  example,  PCRE2_ANCHORED  and
-+-       PCRE2_ENDANCHORED)  are ignored, as is the PCRE2_NO_JIT option. The re-
-+-       turn values are also the same  as  for  pcre2_match(),  plus  PCRE2_ER-
-+-       ROR_JIT_BADOPTION if a matching mode (partial or complete) is requested
-+-       that was not compiled.
-++       ported. Unsupported option bits (for example, PCRE2_ANCHORED, PCRE2_EN-
-++       DANCHORED, and  PCRE2_COPY_MATCHED_SUBJECT)  are  ignored,  as  is  the
-++       PCRE2_NO_JIT  option.  The  return  values  are  also  the  same as for
-++       pcre2_match(), plus PCRE2_ERROR_JIT_BADOPTION if a matching mode  (par-
-++       tial or complete) is requested that was not compiled.
-+ 
-+        When  you call pcre2_match(), as well as testing for invalid options, a
-+        number of other sanity checks are performed on the arguments. For exam-
-+diff --git a/doc/pcre2jit.3 b/doc/pcre2jit.3
-+index 95451b56..729d898f 100644
-+--- a/doc/pcre2jit.3
-++++ b/doc/pcre2jit.3
-+@@ -444,10 +444,11 @@ processed by \fBpcre2_jit_compile()\fP).
-+ The fast path function is called \fBpcre2_jit_match()\fP, and it takes exactly
-+ the same arguments as \fBpcre2_match()\fP. However, the subject string must be
-+ specified with a length; PCRE2_ZERO_TERMINATED is not supported. Unsupported
-+-option bits (for example, PCRE2_ANCHORED and PCRE2_ENDANCHORED) are ignored, as
-+-is the PCRE2_NO_JIT option. The return values are also the same as for
-+-\fBpcre2_match()\fP, plus PCRE2_ERROR_JIT_BADOPTION if a matching mode (partial
-+-or complete) is requested that was not compiled.
-++option bits (for example, PCRE2_ANCHORED, PCRE2_ENDANCHORED, and
-++PCRE2_COPY_MATCHED_SUBJECT) are ignored, as is the PCRE2_NO_JIT option. The
-++return values are also the same as for \fBpcre2_match()\fP, plus
-++PCRE2_ERROR_JIT_BADOPTION if a matching mode (partial or complete) is requested
-++that was not compiled.
-+ .P
-+ When you call \fBpcre2_match()\fP, as well as testing for invalid options, a
-+ number of other sanity checks are performed on the arguments. For example, if
++diff --git a/src/pcre2_internal.h b/src/pcre2_internal.h
++index 2e8c7e47..930c745b 100644
++--- a/src/pcre2_internal.h
+++++ b/src/pcre2_internal.h
++@@ -2296,6 +2296,7 @@ is available. */
++ #define _pcre2_is_newline            PCRE2_SUFFIX(_pcre2_is_newline_)
++ #define _pcre2_jit_free_rodata       PCRE2_SUFFIX(_pcre2_jit_free_rodata_)
++ #define _pcre2_jit_free              PCRE2_SUFFIX(_pcre2_jit_free_)
+++#define _pcre2_jit_check_exec        PCRE2_SUFFIX(_pcre2_jit_check_exec_)
++ #define _pcre2_jit_get_size          PCRE2_SUFFIX(_pcre2_jit_get_size_)
++ #define _pcre2_jit_get_target        PCRE2_SUFFIX(_pcre2_jit_get_target_)
++ #define _pcre2_memctl_malloc         PCRE2_SUFFIX(_pcre2_memctl_malloc_)
++@@ -2325,6 +2326,7 @@ extern BOOL         _pcre2_is_newline(PCRE2_SPTR, uint32_t, PCRE2_SPTR,
++                       uint32_t *, BOOL);
++ extern void         _pcre2_jit_free_rodata(void *, void *);
++ extern void         _pcre2_jit_free(void *, pcre2_memctl *);
+++extern BOOL         _pcre2_jit_check_exec(void *, uint32_t);
++ extern size_t       _pcre2_jit_get_size(void *);
++ const char *        _pcre2_jit_get_target(void);
++ extern void *       _pcre2_memctl_malloc(size_t, pcre2_memctl *);
 +diff --git a/src/pcre2_jit_match_inc.h b/src/pcre2_jit_match_inc.h
-+index 32d4c8a5..4163cf61 100644
++index 4163cf61..ba210007 100644
 +--- a/src/pcre2_jit_match_inc.h
 ++++ b/src/pcre2_jit_match_inc.h
-+@@ -125,6 +125,16 @@ else if ((options & PCRE2_PARTIAL_SOFT) != 0)
-+ if (functions == NULL || functions->executable_funcs[index] == NULL)
-+   return match_data->rc = PCRE2_ERROR_JIT_BADOPTION;
++@@ -117,6 +117,7 @@ jit_arguments arguments;
++ int rc;
++ int index = 0;
 + 
-++/* If the match data block was previously used with PCRE2_COPY_MATCHED_SUBJECT,
-++free the memory that was obtained. */
+++/* The same check is performed by jit_check_exec(). */
++ if ((options & PCRE2_PARTIAL_HARD) != 0)
++   index = 2;
++ else if ((options & PCRE2_PARTIAL_SOFT) != 0)
++diff --git a/src/pcre2_jit_misc_inc.h b/src/pcre2_jit_misc_inc.h
++index 0225fc6b..16c230e9 100644
++--- a/src/pcre2_jit_misc_inc.h
+++++ b/src/pcre2_jit_misc_inc.h
++@@ -200,17 +200,28 @@ if (jit_stack != NULL)
++ 
++ 
++ /*************************************************
++-*               Get target CPU type              *
+++*          Checks function compilation           *
++ *************************************************/
++ 
++-const char*
++-PRIV(jit_get_target)(void)
+++BOOL
+++PRIV(jit_check_exec)(void *executable_jit, uint32_t options)
++ {
++ #ifndef SUPPORT_JIT
++-return "JIT is not supported";
+++(void)executable_jit;
+++(void)options;
+++return FALSE;
++ #else  /* SUPPORT_JIT */
++-return sljit_get_platform_name();
++-#endif  /* SUPPORT_JIT */
+++/* The same check is performed at the beginning of pcre2_jit_match(). */
+++executable_functions *functions = (executable_functions *)executable_jit;
+++int index = 0;
 ++
-++if ((match_data->flags & PCRE2_MD_COPIED_SUBJECT) != 0)
-++  {
-++  match_data->memctl.free((void *)match_data->subject,
-++    match_data->memctl.memory_data);
-++  match_data->flags &= ~PCRE2_MD_COPIED_SUBJECT;
-++  }
+++if ((options & PCRE2_PARTIAL_HARD) != 0)
+++  index = 2;
+++else if ((options & PCRE2_PARTIAL_SOFT) != 0)
+++  index = 1;
 ++
-+ /* Sanity checks should be handled by pcre2_match. */
-+ arguments.str = subject + start_offset;
-+ arguments.begin = subject;
-+diff --git a/src/pcre2test_inc.h b/src/pcre2test_inc.h
-+index 5d282435..a74e3368 100644
-+--- a/src/pcre2test_inc.h
-++++ b/src/pcre2test_inc.h
-+@@ -5171,20 +5171,28 @@ for (gmatched = 0;; gmatched++)
-+     /* If PCRE2_COPY_MATCHED_SUBJECT was set, check that things are as they
-+     should be, but not for fast JIT, where it isn't supported. */
-+ 
-+-    if ((dat_datctl.options & PCRE2_COPY_MATCHED_SUBJECT) != 0 &&
-+-        (pat_patctl.control & CTL_JITFAST) == 0)
-++    if ((dat_datctl.options & PCRE2_COPY_MATCHED_SUBJECT) != 0)
-+       {
-+-      if ((match_data->flags & PCRE2_MD_COPIED_SUBJECT) == 0)
-+-        cfprintf(clr_test_error, outfile,
-+-          "** PCRE2 error: flag not set after copy_matched_subject\n");
-++      if ((pat_patctl.control & CTL_JITFAST) != 0)
-++        {
-++        if ((match_data->flags & PCRE2_MD_COPIED_SUBJECT) != 0)
-++          cfprintf(clr_test_error, outfile,
-++            "** PCRE2 error: flag set after unsupported copy_matched_subject\n");
-++        }
-++      else
-++        {
-++        if ((match_data->flags & PCRE2_MD_COPIED_SUBJECT) == 0)
-++          cfprintf(clr_test_error, outfile,
-++            "** PCRE2 error: flag not set after copy_matched_subject\n");
-+ 
-+-      if (match_data->subject == pp)
-+-        cfprintf(clr_test_error, outfile,
-+-          "** PCRE2 error: copy_matched_subject has not copied\n");
-++        if (match_data->subject == pp)
-++          cfprintf(clr_test_error, outfile,
-++            "** PCRE2 error: copy_matched_subject has not copied\n");
-+ 
-+-      if (memcmp(match_data->subject, pp, ulen) != 0)
-+-        cfprintf(clr_test_error, outfile,
-+-          "** PCRE2 error: copy_matched_subject mismatch\n");
-++        if (memcmp(match_data->subject, pp, ulen) != 0)
-++          cfprintf(clr_test_error, outfile,
-++            "** PCRE2 error: copy_matched_subject mismatch\n");
-++        }
-+       }
-+ 
-+     /* If this is not the first time round a global loop, check that the
-+@@ -5661,6 +5669,9 @@ pcre2_match_context *test_dat_context = NULL, *test_dat_context_copy = NULL;
-+ pcre2_convert_context *test_con_context = NULL, *test_con_context_copy = NULL;
-+ pcre2_match_data *test_match_data = NULL;
-+ pcre2_code *test_compiled_code = NULL;
-++#ifdef SUPPORT_JIT
-++BOOL test_compiled_with_jit = FALSE;
+++return functions->executable_funcs[index] != NULL;
 ++#endif
-+ PCRE2_UCHAR pattern[] = { CHAR_A, CHAR_B, CHAR_C, 0 };
-+ PCRE2_UCHAR callout_int_pattern[] = {
-+   CHAR_LEFT_PARENTHESIS, CHAR_QUESTION_MARK, CHAR_C, CHAR_RIGHT_PARENTHESIS, 0 };
-+@@ -5965,11 +5976,38 @@ ASSERT(rc == 0 && sizeval == 0, "pcre2_pattern_info(JIT)");
++ }
 + 
-+ if (pcre2_jit_compile(test_compiled_code, PCRE2_JIT_COMPLETE) == 0)
-+   {
-++  test_compiled_with_jit = TRUE;
-++
-+   rc = pcre2_pattern_info(test_compiled_code, PCRE2_INFO_JITSIZE, &sizeval);
-+   ASSERT(rc == 0 && sizeval > 0, "pcre2_pattern_info(JIT after compile)");
-+   }
++ 
++@@ -231,4 +242,19 @@ return executable_sizes[0] + executable_sizes[1] + executable_sizes[2];
 + #endif
++ }
 + 
-++/* ----------------------- Matching functions ------------------------------ */
+++/*************************************************
+++*               Get target CPU type              *
+++*************************************************/
 ++
-++#ifdef SUPPORT_JIT
+++const char*
+++PRIV(jit_get_target)(void)
+++{
+++#ifndef SUPPORT_JIT
+++return "JIT is not supported";
+++#else  /* SUPPORT_JIT */
+++return sljit_get_platform_name();
+++#endif  /* SUPPORT_JIT */
+++}
 ++
-++/* Check that fast JIT releases a copied subject when reusing match data. */
-++if (test_compiled_with_jit)
-++  {
-++  test_match_data = pcre2_match_data_create_from_pattern(test_compiled_code,
-++    test_gen_context);
-++  ASSERT(test_match_data != NULL, "pcre2_match_data_create_from_pattern(JIT)");
 ++
-++  rc = pcre2_match(test_compiled_code, pattern, 3, 0,
-++    PCRE2_COPY_MATCHED_SUBJECT, test_match_data, NULL);
-++  ASSERT(rc == 1, "pcre2_match(COPY_MATCHED_SUBJECT)");
-++
-++  rc = pcre2_jit_match(test_compiled_code, subject_abcz, 4, 0, 0,
-++    test_match_data, NULL);
-++  ASSERT(rc == 1, "pcre2_jit_match(reused match data)");
-++
-++  pcre2_match_data_free(test_match_data);
-++  test_match_data = NULL;
-++  }
-++
-++#endif
-++
-+ /* ----------------------- POSIX functions --------------------------------- */
++ /* End of pcre2_jit_misc_inc.h */
++diff --git a/src/pcre2_match.c b/src/pcre2_match.c
++index 9ee8a476..a5a8421f 100644
++--- a/src/pcre2_match.c
+++++ b/src/pcre2_match.c
++@@ -6995,10 +6995,6 @@ PCRE2_SPTR req_cu_ptr;
++ PCRE2_SPTR start_partial;
++ PCRE2_SPTR match_partial;
 + 
-+ #if PCRE2_CODE_UNIT_WIDTH == 8
-+diff --git a/testdata/testinput17 b/testdata/testinput17
-+index 08fd72e0..9d728965 100644
-+--- a/testdata/testinput17
-++++ b/testdata/testinput17
-+@@ -298,6 +298,7 @@
-+     
-+ /abc/jitfast
-+     abc
-++    abc\=copy_matched_subject
-+     abc\=no_jit 
-+     
-+ # ---- 
-+diff --git a/testdata/testoutput17 b/testdata/testoutput17
-+index 6d550084..773ec18a 100644
-+--- a/testdata/testoutput17
-++++ b/testdata/testoutput17
-+@@ -542,6 +542,8 @@ Failed: error -47: match limit exceeded
-+     
-+ /abc/jitfast
-+     abc
-++ 0: abc (JIT)
-++    abc\=copy_matched_subject
-+  0: abc (JIT)
-+     abc\=no_jit 
-+  0: abc (JIT)
++-#ifdef SUPPORT_JIT
++-BOOL use_jit;
++-#endif
++-
++ /* This flag is needed even when Unicode is not supported for convenience
++ (it is used by the IS_NEWLINE macro). */
++ 
++@@ -7008,9 +7004,6 @@ BOOL utf = FALSE;
++ BOOL ucp = FALSE;
++ BOOL allow_invalid;
++ uint32_t fragment_options = 0;
++-#ifdef SUPPORT_JIT
++-BOOL jit_checked_utf = FALSE;
++-#endif
++ #endif  /* SUPPORT_UNICODE */
++ 
++ PCRE2_SIZE frame_size;
++@@ -7073,15 +7066,6 @@ options |= (re->flags & FF) / ((FF & (~FF+1)) / (OO & (~OO+1)));
++ #undef FF
++ #undef OO
++ 
++-/* If the pattern was successfully studied with JIT support, we will run the
++-JIT executable instead of the rest of this function. Most options must be set
++-at compile time for the JIT code to be usable. */
++-
++-#ifdef SUPPORT_JIT
++-use_jit = (re->executable_jit != NULL &&
++-          (options & ~PUBLIC_JIT_MATCH_OPTIONS) == 0);
++-#endif
++-
++ /* Initialize UTF/UCP parameters. */
++ 
++ #ifdef SUPPORT_UNICODE
++@@ -7128,20 +7112,25 @@ match_data->startchar = 0;
++ 
++ /* ============================= JIT matching ============================== */
++ 
++-/* Prepare for JIT matching. Check a UTF string for validity unless no check is
++-requested or invalid UTF can be handled. We check only the portion of the
++-subject that might be be inspected during matching - from the offset minus the
++-maximum lookbehind to the given length. This saves time when a small part of a
++-large subject is being matched by the use of a starting offset. Note that the
++-maximum lookbehind is a number of characters, not code units. */
+++/* If the pattern was successfully studied with JIT support, we will run the
+++JIT executable instead of the rest of this function. Most options must be set
+++at compile time for the JIT code to be usable. */
++ 
++ #ifdef SUPPORT_JIT
++-if (use_jit)
+++if (re->executable_jit != NULL &&
+++    (options & ~PUBLIC_JIT_MATCH_OPTIONS) == 0 &&
+++    PRIV(jit_check_exec)(re->executable_jit, options))
++   {
+++  /* Prepare for JIT matching. Check a UTF string for validity unless no check
+++  is requested or invalid UTF can be handled. We check only the portion of the
+++  subject that might be be inspected during matching - from the offset minus
+++  the maximum lookbehind to the given length. This saves time when a small part
+++  of a large subject is being matched by the use of a starting offset. Note that
+++  the maximum lookbehind is a number of characters, not code units. */
+++
++ #ifdef SUPPORT_UNICODE
++   if (utf && (options & PCRE2_NO_UTF_CHECK) == 0 && !allow_invalid)
++     {
++-
++     /* For 8-bit and 16-bit UTF, check that the first code unit is a valid
++     character start. */
++ 
++@@ -7194,40 +7183,36 @@ if (use_jit)
++       match_data->startchar += start_match - subject;
++       return match_data->rc = rc;
++       }
++-    jit_checked_utf = TRUE;
++     }
++ #endif  /* SUPPORT_UNICODE */
++ 
++-  /* If JIT returns BADOPTION, which means that the selected complete or
++-  partial matching mode was not compiled, fall through to the interpreter. */
++-
++   rc = pcre2_jit_match(code, subject, length, start_offset, options,
++     match_data, mcontext);
++-  if (rc != PCRE2_ERROR_JIT_BADOPTION)
+++  /* JIT must be able to perform the match. */
+++  PCRE2_ASSERT(rc != PCRE2_ERROR_JIT_BADOPTION);
+++
+++  match_data->options = original_options;
+++  if (rc >= 0 && (options & PCRE2_COPY_MATCHED_SUBJECT) != 0)
++     {
++-    match_data->options = original_options;
++-    if (rc >= 0 && (options & PCRE2_COPY_MATCHED_SUBJECT) != 0)
+++    if (length != 0)
++       {
++-      if (length != 0)
++-        {
++-        match_data->subject = match_data->memctl.malloc(CU2BYTES(length),
++-          match_data->memctl.memory_data);
++-        if (match_data->subject == NULL)
++-          return match_data->rc = PCRE2_ERROR_NOMEMORY;
++-        memcpy((void *)match_data->subject, subject, CU2BYTES(length));
++-        }
++-      else
++-        match_data->subject = NULL;
++-      match_data->flags |= PCRE2_MD_COPIED_SUBJECT;
+++      match_data->subject = match_data->memctl.malloc(CU2BYTES(length),
+++        match_data->memctl.memory_data);
+++      if (match_data->subject == NULL)
+++        return match_data->rc = PCRE2_ERROR_NOMEMORY;
+++      memcpy((void *)match_data->subject, subject, CU2BYTES(length));
++       }
++     else
++-      {
++-      /* When pcre2_jit_match sets the subject, it doesn't know what the
++-      original passed-in pointer was. */
++-      if (match_data->subject != NULL) match_data->subject = original_subject;
++-      }
++-    return rc;
+++      match_data->subject = NULL;
+++    match_data->flags |= PCRE2_MD_COPIED_SUBJECT;
++     }
+++  else
+++    {
+++    /* When pcre2_jit_match sets the subject, it doesn't know what the
+++    original passed-in pointer was. */
+++    if (match_data->subject != NULL) match_data->subject = original_subject;
+++    }
+++  return rc;
++   }
++ #endif  /* SUPPORT_JIT */
++ 
++@@ -7240,12 +7225,8 @@ this. */
++ 
++ mb->check_subject = subject;
++ 
++-/* If a UTF subject string was not checked for validity in the JIT code above,
++-check it here, and handle support for invalid UTF strings. The check above
++-happens only when invalid UTF is not supported and PCRE2_NO_CHECK_UTF is unset.
++-If we get here in those circumstances, it means the subject string is valid,
++-but for some reason JIT matching was not successful. There is no need to check
++-the subject again.
+++/* Check the validity of UTF subject strings. The check happens only when
+++PCRE2_NO_CHECK_UTF is unset.
++ 
++ We check only the portion of the subject that might be be inspected during
++ matching - from the offset minus the maximum lookbehind to the given length.
++@@ -7257,11 +7238,7 @@ Note also that support for invalid UTF forces a check, overriding the setting
++ of PCRE2_NO_CHECK_UTF. */
++ 
++ #ifdef SUPPORT_UNICODE
++-if (utf &&
++-#ifdef SUPPORT_JIT
++-    !jit_checked_utf &&
++-#endif
++-    ((options & PCRE2_NO_UTF_CHECK) == 0 || allow_invalid))
+++if (utf && ((options & PCRE2_NO_UTF_CHECK) == 0 || allow_invalid))
++   {
++ #if PCRE2_CODE_UNIT_WIDTH != 32
++   BOOL skipped_bad_start = FALSE;
 diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-index b81480c8ff..fa59747fdc 100644
+index fa59747fdc..7d027e90ee 100644
 --- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
 +++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0 \
- SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
+@@ -16,6 +16,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
             file://run-ptest \
             file://CVE-2026-89162.patch \
-+           file://CVE-2026-89161.patch \
+            file://CVE-2026-89161.patch \
++           file://CVE-2026-89156.patch \
  "
  
  GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
