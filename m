@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12B0FCA601B
-	for <webhook@archiver.kernel.org>; Fri,  9 Oct 2026 06:50:24 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2264.1791528622522117690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 055F6CA9EBC
+	for <webhook@archiver.kernel.org>; Fri,  9 Oct 2026 06:50:25 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2263.1791528621247333832
  for <openembedded-core@lists.openembedded.org>;
  Thu, 08 Oct 2026 23:50:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=iRT84Lq+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2rnRgIFp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a11f6d566c-5b0a0756-a94d-4a00-af7a-fccad65bdc0b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=keiIiwKN;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=m7Nuk08I;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a11f6d582f-82c10d4c-a51c-4dcd-9281-fea6a3d4fd47-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1791528621;
+	t=1791528622;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=9iqaeLfzGybh8ecijr3HEzpVCDBvVJoutmEPZA6Y3gI=;
-	b=iRT84Lq+RYT3XAN6goyweudG4GGmGWLRprK8qAnFlhItzSVIoMxrr+XESyunu7XO
-	EI7XNcag0K3ntLPzdDkHyH3AViDbXHWh86rrGW/wiKzFf4h7RbmNILk8Jf8YCK312PV
-	1T0E5urCIB9a+v5F378kseQgrfH4MaWrjr0A25Sc=
+	bh=cpam+9pWCxKttxbLx8ZyuNOaP2953L0WjVtZflUtjTU=;
+	b=keiIiwKN4CZpJBqWNaNE9XdJq6SYv47UJTHux7P1Rs/E7l5hCpkywbmKZqU3n2a8
+	+/A6ZrghCDdNDut12jPzmIiTmwv7AjuHgCXYU9kdzA69EtZOjIZHtfA56B0hdc6bN80
+	A47sUON5sTQSuxM9ZJDYJvjBqa1WtrcGNsbfEx3k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791528621;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791528622;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=9iqaeLfzGybh8ecijr3HEzpVCDBvVJoutmEPZA6Y3gI=;
-	b=2rnRgIFpenJmjQUk1bZx1AXbTDA876PF910nhVu8NzFMMyzy7XMHiiXifbTqElk1
-	9VudIXmbyqzdudmyDKC+hVtShYTuz1uI0ag/7cb7zy16JlPHtfy1vLgM8QpUZfola+q
-	GI5Bs4OVhVxpJsnE6MnHobRtkfst0gvvir6fqPVw=
-Content-Type: multipart/mixed; boundary="===============5527445796086136234=="
+	bh=cpam+9pWCxKttxbLx8ZyuNOaP2953L0WjVtZflUtjTU=;
+	b=m7Nuk08IePpvv4x8bfGrxVhOgJPyQRVqR06yfgAYNjSglLZ4bYg702c1A39Tzf2a
+	AJG2d+7k0ZktnDbCkfiuUxCnr7MS0HGvtkrw4zZS/IOcxv76mxox9A1/UX+b0biAbil
+	d64EodvCHZbOLUWSyWbVfjeYMSOBgOyU1XaKmWYQ=
+Content-Type: multipart/mixed; boundary="===============1167185366408709695=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] gst-examples: upgrading to 1.28.8 SUCCEEDED
-Message-ID: <010101a11f6d566c-5b0a0756-a94d-4a00-af7a-fccad65bdc0b-000000@us-west-2.amazonses.com>
-Date: Fri, 9 Oct 2026 06:50:21 +0000
+Subject: [AUH] gstreamer1.0: upgrading to 1.28.8 SUCCEEDED
+Message-ID: <010101a11f6d582f-82c10d4c-a51c-4dcd-9281-fea6a3d4fd47-000000@us-west-2.amazonses.com>
+Date: Fri, 9 Oct 2026 06:50:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.09-54.240.27.31
+X-SES-Outgoing: 2026.10.09-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 06:50:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247463
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 06:50:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247465
 
---===============5527445796086136234==
+--===============1167185366408709695==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gst-examples* to *1.28.8* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0* to *1.28.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gst-examples-upgrade-1.28.7-1.28.8.patch
+    - apply the patch: git am 0001-gstreamer1.0-upgrade-1.28.7-1.28.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,10 +71,10 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d1f4d43353ec09ccacb5a9f253ebc6e261e62924 Mon Sep 17 00:00:00 2001
+From 87bb1db743001e54bbe68b2f6c84c8b0d2eab7b2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 9 Oct 2026 06:33:19 +0000
-Subject: [PATCH] gst-examples: upgrade 1.28.7 -> 1.28.8
+Date: Fri, 9 Oct 2026 06:50:11 +0000
+Subject: [PATCH] gstreamer1.0: upgrade 1.28.7 -> 1.28.8
 
 # GStreamer 1.28 Release Notes
 GStreamer 1.28.0 was originally released on 27 January 2026.
@@ -179,260 +179,227 @@ other improvements.
 [Changelog truncated as it exceeds 5000 characters;
 the full changelog can be found in an attachment to the AUH email]
 ---
- .../0001-Make-player-examples-installable.patch             | 6 +++---
- ...-examples-gtk-show-player-warnings-in-a-dialog-box.patch | 4 ++--
- .../{gst-examples_1.28.7.bb => gst-examples_1.28.8.bb}      | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.28.7.bb => gst-examples_1.28.8.bb} (97%)
+ .../0001-tests-respect-the-idententaion-used-in-meson.patch   | 2 +-
+ .../0002-tests-add-support-for-install-the-tests.patch        | 4 ++--
+ .../0003-tests-use-a-dictionaries-for-environment.patch       | 2 +-
+ ...4-tests-add-helper-script-to-run-the-installed_tests.patch | 2 +-
+ .../{gstreamer1.0_1.28.7.bb => gstreamer1.0_1.28.8.bb}        | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.7.bb => gstreamer1.0_1.28.8.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-index 72fe5a26aa..ab5bc03de3 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+index 61844d793a..aa5db13237 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
 @@ -1,4 +1,4 @@
--From c93f7aba35171abfc913684a26f85a03714e2a4c Mon Sep 17 00:00:00 2001
-+From 92694bd5103b3a6e655aad0fed9c0c2ccdc20e50 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Thu, 17 Aug 2017 11:07:02 +0300
- Subject: [PATCH] Make player examples installable
-@@ -13,7 +13,7 @@ https://bugzilla.gnome.org/show_bug.cgi?id=777827
-  2 files changed, 2 insertions(+)
- 
- diff --git a/subprojects/gst-examples/playback/player/gst-play/meson.build b/subprojects/gst-examples/playback/player/gst-play/meson.build
--index 5e80ca8dd4a8..129e5bdcbe3d 100644
-+index 5e80ca8dd4..129e5bdcbe 100644
- --- a/subprojects/gst-examples/playback/player/gst-play/meson.build
- +++ b/subprojects/gst-examples/playback/player/gst-play/meson.build
- @@ -2,5 +2,6 @@ executable('gst-play',
-@@ -24,7 +24,7 @@ index 5e80ca8dd4a8..129e5bdcbe3d 100644
-      dependencies : [gst_dep, dependency('gstreamer-play-1.0'), m_dep])
-  
- diff --git a/subprojects/gst-examples/playback/player/gtk/meson.build b/subprojects/gst-examples/playback/player/gtk/meson.build
--index 6892f152544f..20d7505877c2 100644
-+index 6892f15254..20d7505877 100644
- --- a/subprojects/gst-examples/playback/player/gtk/meson.build
- +++ b/subprojects/gst-examples/playback/player/gtk/meson.build
- @@ -21,5 +21,6 @@ if gtk_dep.found()
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/0002-examples-gtk-show-player-warnings-in-a-dialog-box.patch b/meta/recipes-multimedia/gstreamer/gst-examples/0002-examples-gtk-show-player-warnings-in-a-dialog-box.patch
-index 6c02d8d71f..60169dc944 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples/0002-examples-gtk-show-player-warnings-in-a-dialog-box.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples/0002-examples-gtk-show-player-warnings-in-a-dialog-box.patch
+-From 27bae0561a09f06375c6c6d1d3fec2a142a1ca20 Mon Sep 17 00:00:00 2001
++From a4d5aef324bc7e66d293cb500d077b18fdd7545c Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: respect the idententaion used in meson
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+index 9752ebe921..7b555352c9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
 @@ -1,4 +1,4 @@
--From 1609881b8d1246e85d9eb68275d54d28e2170301 Mon Sep 17 00:00:00 2001
-+From 1ef021f661d6343eb2be7dfbd12f4033bb2b5cc7 Mon Sep 17 00:00:00 2001
- From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
- Date: Tue, 25 Aug 2026 11:03:34 +0200
- Subject: [PATCH] examples: gtk: show player warnings in a dialog box
-@@ -13,7 +13,7 @@ Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-  1 file changed, 20 insertions(+)
+-From 00dad437c119cd23883cbef35d2a620ccdf3816b Mon Sep 17 00:00:00 2001
++From 59403a0c5d2bbd3e00cdf4855f0a2d9761395e1e Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: add support for install the tests
+@@ -19,7 +19,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+  create mode 100644 tests/check/template.test.in
  
- diff --git a/subprojects/gst-examples/playback/player/gtk/gtk-play.c b/subprojects/gst-examples/playback/player/gtk/gtk-play.c
--index fb83f6be29c5..2310c716f2e9 100644
-+index fb83f6be29..2310c716f2 100644
- --- a/subprojects/gst-examples/playback/player/gtk/gtk-play.c
- +++ b/subprojects/gst-examples/playback/player/gtk/gtk-play.c
- @@ -88,6 +88,7 @@ typedef struct
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.7.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.8.bb
+ diff --git a/meson.build b/meson.build
+-index bffea3b..a51b1af 100644
++index 4abaad7..b08d43e 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -665,6 +665,10 @@ if bashcomp_dep.found()
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+index 5637eff7a5..246292332b 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+@@ -1,4 +1,4 @@
+-From a686b15bf7ec5ca99467f138c57ebb17aa25c24f Mon Sep 17 00:00:00 2001
++From 9e728516ce60c128cb6666820e5449efc7bcfb64 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 24 Apr 2021 10:34:47 +0100
+ Subject: [PATCH] tests: use a dictionaries for environment
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+index eb14d519fe..bb08b116f2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+@@ -1,4 +1,4 @@
+-From e0290fc20f52ad7dfc21e8a572587ad826e5b32e Mon Sep 17 00:00:00 2001
++From 42225b4709aefdd3250be30d79b5646b2c0da926 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 2 May 2021 01:58:01 +0100
+ Subject: [PATCH] tests: add helper script to run the installed_tests
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
 similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_1.28.7.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.28.8.bb
-index 9a4c73f092..f108e62037 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.8.bb
-@@ -13,7 +13,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;b
-            file://gst-player.desktop \
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
+index 0d1a931ced..01829ad778 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
+@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0003-tests-use-a-dictionaries-for-environment.patch \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
             "
+-SRC_URI[sha256sum] = "787329b2c5758e228a71d926a6dcf960bceaacca3cadd63874ba665dfcda013e"
++SRC_URI[sha256sum] = "baa8e86985ad6417cc0ad6e7b79ff2884c6779c8b1c7a6240e7121822c86e524"
  
--SRCREV = "070125524a8422e29d3b69a372ed4f62fd343ffa"
-+SRCREV = "1b2a95a1b72787cda146b46df9605b168e5b683b"
- 
- S = "${UNPACKDIR}/${BP}/subprojects/gst-examples"
- 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
 -- 
 2.47.1
 
 
---===============5527445796086136234==
-Content-Type: application/octet-stream
+--===============1167185366408709695==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gst-examples-upgrade-1.28.7-1.28.8.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-RnJvbSBkMWY0ZDQzMzUzZWMwOWNjYWNiNWE5ZjI1M2ViYzZlMjYxZTYyOTI0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgOSBPY3QgMjAyNiAwNjozMzoxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dC1leGFtcGxlczogdXBncmFkZSAxLjI4LjcgLT4gMS4yOC44CgojIEdTdHJlYW1lciAxLjI4IFJl
-bGVhc2UgTm90ZXMKR1N0cmVhbWVyIDEuMjguMCB3YXMgb3JpZ2luYWxseSByZWxlYXNlZCBvbiAy
-NyBKYW51YXJ5IDIwMjYuCgpUaGUgbGF0ZXN0IGJ1Zy1maXggcmVsZWFzZSBpbiB0aGUgc3RhYmxl
-IDEuMjggc2VyaWVzIGlzIFsxLjI4LjhdKCMxLjI4LjgpIGFuZAp3YXMgcmVsZWFzZWQgb24gMDgg
-T2N0b2JlciAyMDI2LgoKU2VlIFtodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvcmVs
-ZWFzZXMvMS4yOC9dW2xhdGVzdF0gZm9yIHRoZSBsYXRlc3QKdmVyc2lvbiBvZiB0aGlzIGRvY3Vt
-ZW50LgoKKkxhc3QgdXBkYXRlZDogVGh1cnNkYXkgMDggT2N0b2JlciAyMDI2LCAxNzowMCBVVEMg
-Wyhsb2cpXVtnaXRsb2ddKgoKW2xhdGVzdF06IGh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9w
-Lm9yZy9yZWxlYXNlcy8xLjI4LwpbZ2l0bG9nXTogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Au
-b3JnL2dzdHJlYW1lci93d3cvY29tbWl0cy9tYWluL3NyYy9odGRvY3MvcgplbGVhc2VzLzEuMjgv
-cmVsZWFzZS1ub3Rlcy0xLjI4Lm1kCgo8YSBpZD0iaW50cm9kdWN0aW9uIj48L2E+CiMjIEludHJv
-ZHVjdGlvbgoKVGhlIEdTdHJlYW1lciB0ZWFtIGlzIHByb3VkIHRvIGFubm91bmNlIGEgbmV3IG1h
-am9yIGZlYXR1cmUgcmVsZWFzZSBpbiB0aGUKc3RhYmxlIDEueCBBUEkgc2VyaWVzIG9mIHlvdXIg
-ZmF2b3VyaXRlIGNyb3NzLXBsYXRmb3JtIG11bHRpbWVkaWEgZnJhbWV3b3JrIQoKQXMgYWx3YXlz
-LCB0aGlzIHJlbGVhc2UgaXMgYWdhaW4gcGFja2VkIHdpdGggbWFueSBuZXcgZmVhdHVyZXMsIGJ1
-ZyBmaXhlcywgYW5kCm90aGVyIGltcHJvdmVtZW50cy4KCjxhIGlkPSJoaWdobGlnaHRzIj48L2E+
-CiMjIEhpZ2hsaWdodHMKCi0gQU1EIEhJUCBwbHVnaW4gYW5kIGludGVncmF0aW9uIGhlbHBlciBs
-aWJyYXJ5Ci0gVnVsa2FuIFZpZGVvIEFWMSBhbmQgVlA5IGRlY29kaW5nLCBILjI2NCBlbmNvZGlu
-ZywgYW5kIDEwLWJpdCBzdXBwb3J0IGZvcgogIEguMjY1IGRlY29kZXIKLSB3YXlsYW5kc2luazog
-UGFyc2UgYW5kIHNldCB0aGUgSERSMTAgbWV0YWRhdGEgYW5kIG90aGVyIGNvbG9yIG1hbmFnZW1l
-bnQKICBpbXByb3ZlbWVudHMKLSBBdWRpbyBzb3VyY2Ugc2VwYXJhdGlvbiBlbGVtZW50IGJhc2Vk
-IG9uIGRlbXVjcyBpbiBSdXN0Ci0gQW5hbHl0aWNzIGNvbWJpbmVyIGFuZCBzcGxpdHRlciBlbGVt
-ZW50cyBwbHVzIGJhdGNoIG1ldGEgdG8gYmF0Y2ggYnVmZmVycyBmcm9tCiAgb25lIG9yIG1vcmUg
-c3RyZWFtcwotIExpdGVSVCBpbmZlcmVuY2UgZWxlbWVudDsgbW92ZSBtb2RlbGluZm8gdG8gYW5h
-bHl0aWNzIGxpYjsgYWRkIHNjcmlwdCB0byBoZWxwCiAgd2l0aCBtb2RlbGluZm8gZ2VuZXJhdGlv
-biBhbmQgdXBncmFkZQotIEFkZCBnZW5lcmFsIGNsYXNzaWZpZXIgdGVuc29yLWRlY29kZXIsIGZh
-Y2VkZXRlY3RvciwgYW5kIG1vcmUgYW5hbHl0aWNzCiAgY29udmVuaWVuY2UgQVBJCi0gTmV3IHRl
-bnNvcmRlY29kZWJpbiBlbGVtZW50IHRvIGF1dG8tcGx1ZyBjb21wYXRpYmxlIHRlbnNvciBkZWNv
-ZGVycyBiYXNlZCBvbgogIHRoZWlyIGNhcHMgYW5kIG1hbnkgb3RoZXIgYWRkaXRpb25zIGFuZCBp
-bXByb3ZlbWVudHMKLSBBZGQgYSBidXJuLWJhc2VkIFlPTE9YIGluZmVyZW5jZSBlbGVtZW50IGFu
-ZCBhIFlPTE9YIHRlbnNvciBkZWNvZGVyIGluIFJ1c3QKLSBhcHBsZW1lZGlhOiBWaWRlb1Rvb2xi
-b3ggVlA5IGFuZCBBVjEgaGFyZHdhcmUtYWNjZWxlcmF0ZWQgZGVjb2Rpbmcgc3VwcG9ydCwKICBh
-bmQgMTAtYml0IEhFVkMgZW5jb2RpbmcKLSBBZGQgbmV3IEdJRiBkZWNvZGVyIGVsZW1lbnQgaW4g
-UnVzdCB3aXRoIGxvb3Bpbmcgc3VwcG9ydAotIGlucHV0LXNlbGVjdG9yOiBpbXBsZW1lbnRzIGEg
-dHdvLXBoYXNlIHNpbmtwYWQgc3dpdGNoIG5vdyB0byBhdm9pZCByYWNlcyB3aGVuCiAgc3dpdGNo
-aW5nIGlucHV0IHBhZHMKLSBUaGUgaW50ZXIgd29ybWhvbGUgc2luayBhbmQgc291cmNlIGVsZW1l
-bnRzIGdhaW5lZCBhIHdheSB0byBmb3J3YXJkIHVwc3RyZWFtCiAgZXZlbnRzIHRvIHRoZSBwcm9k
-dWNlciBhcyB3ZWxsIGFzIG5ldyBmaW5lLXR1bmluZyBwcm9wZXJ0aWVzCi0gd2VicnRjc2luazog
-YWRkIHJlbmVnb3RpYXRpb24gc3VwcG9ydCBhbmQgc3VwcG9ydCBmb3IgdmEgaGFyZHdhcmUgZW5j
-b2RlcnMKLSB3ZWJydGMgV0hFUCBjbGllbnQgYW5kIHNlcnZlciBzaWduYWxsZXIKLSBOZXcgU1Qt
-MjAzOCBhbmNpbGxhcnkgZGF0YSBjb21iaW5lciBhbmQgZXh0cmFjdG9yIGVsZW1lbnRzCi0gZmFs
-bGJhY2tzcmMgZ2FpbmVkIHN1cHBvcnQgZm9yIGVuY29kZWQgc3RyZWFtcwotIGZsdjogZW5oYW5j
-ZWQgcnRtcCBILjI2NSB2aWRlbyBzdXBwb3J0LCBhbmQgc3VwcG9ydCBmb3IgbXVsdGl0cmFjayBh
-dWRpbwotIGdsdXBsb2FkOiBJbXBsZW1lbnQgdWRtYWJ1ZiB1cGxvYWRlciB0byBzaGFyZSBidWZm
-ZXJzIGJldHdlZW4gc29mdHdhcmUKICBkZWNvZGVycy9zb3VyY2VzIGFuZCBHUFVzLCBkaXNwbGF5
-IGVuZ2luZXMgKHdheWxhbmQpLCBhbmQgb3RoZXIgZG1hIGRldmljZXMKLSB2aWRlbzogQWRkIGNy
-b3AsIHNjYWxlLCByb3RhdGUsIGZsaXAsIHNoZWFyIGFuZCBtb3JlIEdzdE1ldGEgdHJhbnNmb3Jt
-YXRpb24KLSBOZXcgdGFzayBwb29sIEdzdENvbnRleHQgdG8gc2hhcmUgYSB0aHJlYWQgcG9vbCBh
-bW9uZ3N0IGVsZW1lbnRzIGZvciBiZXR0ZXIKICByZXNvdXJjZSBtYW5hZ2VtZW50IGFuZCBwZXJm
-b3JtYW5jZSwgZXNwZWNpYWxseSBmb3IgdmlkZW8gY29udmVyc2lvbiBhbmQKICBjb21wb3NpdGlu
-ZwotIE5ldyBEZWVwZ3JhbSBzcGVlY2gtdG8tdGV4dCB0cmFuc2NyaXB0aW9uIHBsdWdpbiBhbmQg
-bWFueSBvdGhlciB0cmFuc2xhdGlvbgogIGFuZCB0cmFuc2NyaXB0aW9uIGltcHJvdmVtZW50cwot
-IFNwZWVjaCBzeW50aGVzaXplcnM6IGV4cG9zZSBuZXcgImNvbXByZXNzIiBvdmVyZmxvdyBtb2Rl
-IHRoYXQgY2FuIHNwZWVkIHVwCiAgYXVkaW8gd2hpbGUgcHJlc2VydmluZyBwaXRjaAotIEVsZXZl
-bkxhYnMgdm9pY2UgY2xvbmluZyBlbGVtZW50IGFuZCBzdXBwb3J0IGZvciBTcGVlY2htYXRpY3Mg
-c3BlYWtlcgogIGlkZW50aWZpY2F0aW9uIEFQSQotIHRleHRhY2N1bXVsYXRlOiBuZXcgZWxlbWVu
-dCBmb3Igc3BlZWNoIHN5bnRoZXNpcyBvciB0cmFuc2xhdGlvbiBwcmVwcm9jZXNzaW5nCi0gTmV3
-IHZtYWYgZWxlbWVudCB0byBjYWxjdWxhdGUgcGVyY2VwdHVhbCB2aWRlbyBxdWFsaXR5IGFzc2Vz
-c21lbnQgc2NvcmVzIHVzaW5nCiAgTmV0ZmxpeCdzIFZNQUYgZnJhbWV3b3JrCi0gZGVjb2RlYmlu
-MzogZXhwb3NlIEtMViwgSUQzIFBFUyBhbmQgU1QtMjAzOCBhbmNpbGxhcnkgZGF0YSBzdHJlYW1z
-IHdpdGggbmV3CiAgbWV0YWRhdGEgR3N0U3RyZWFtIHR5cGUKLSBOZXcgTVBFRy1IIGF1ZGlvIGRl
-Y29kaW5nIHBsdWdpbiBwbHVzIE1QNCBkZW11eGluZyBzdXBwb3J0Ci0gTENFVkM6IEFkZCBhdXRv
-cGx1Z2dpbmcgZGVjb2Rpbmcgc3VwcG9ydCBmb3IgTENFVkMgSDI2NSBhbmQgSDI2NiB2aWRlbyBz
-dHJlYW1zCiAgYW5kIExDRVZDIEguMjY1IGFuZCBILjI2NiBlbmNvZGVycwotIFJUUCAicm9idXN0
-IE1QRUcgYXVkaW8iLCByYXcgYXVkaW8gKEw4LCBMMTYsIEwyNCksIGFuZCBTTVBURSBTVDI5MSBh
-bmNpbGxhcnkKICBtZXRhZGF0YSBwYXlsb2FkZXJzL2RlcGF5bG9hZGVycyBpbiBSdXN0Ci0gQWRk
-IGEgUnVzdC1iYXNlZCBpY2VjYXN0c2luayBlbGVtZW50IHdpdGggQUFDIHN1cHBvcnQKLSBUaGUg
-V2luZG93cyBJUEMgcGx1Z2luIGdhaW5lZCBzdXBwb3J0IGZvciBwYXNzaW5nIGdlbmVyaWMgZGF0
-YSBpbiBhZGRpdGlvbiB0bwogIHJhdyBhdWRpby92aWRlbywgYW5kIHZhcmlvdXMgcHJvcGVydGll
-cwotIE5ldyBEM0QxMiBpbnRlcmxhY2UgYW5kIG92ZXJsYXkgY29tcG9zaXRvciBlbGVtZW50cywg
-cGx1cyBtYW55IG90aGVyIEQzRDEyCiAgaW1wcm92ZW1lbnRzCi0gQmxhY2ttYWdpYyBEZWNrbGlu
-ayBlbGVtZW50cyBnYWluZWQgc3VwcG9ydCBmb3IgY2FwdHVyaW5nIGFuZCBvdXRwdXR0aW5nIGFs
-bAogIHR5cGVzIG9mIFZBTkMgdmlhIEdzdEFuY2lsbGFyeU1ldGEKLSBHc3RMb2dDb250ZXh0IEFQ
-SSB0byByZWR1Y2UgbG9nIHNwYW0gaW4gc2V2ZXJhbCBjb21wb25lbnRzIGFuZAogIGBHU1RfREVC
-VUdfT05DRWAgKGV0YykgY29udmVuaWVuY2UgbWFjcm9zIHRvIGxvZyB0aGluZ3Mgb25seSBvbmNl
-Ci0gaGxzc2luazMsIGhsc2NtYWZzaW5rOiBTdXBwb3J0IHRoZSB1c2Ugb2YgYSBzaW5nbGUgbWVk
-aWEgZmlsZSwgcGx1cyBJLWZyYW1lCiAgb25seSBwbGF5bGlzdCBzdXBwb3J0Ci0gV2Via2l0OiBO
-ZXcgd3BlMiBwbHVnaW4gbWFraW5nIHVzZSBvZiB0aGUgIldQRSBQbGF0Zm9ybSBBUEkiCi0gTVBF
-Ry1UUyBkZW11eGVyIGNhbiBub3cgZGlzYWJsZSBza2V3IGNvcnJlY3Rpb25zCi0gTmV3IFF0NiBR
-TUwgcmVuZGVyIHNvdXJjZSBlbGVtZW50Ci0gcW1sNmdsb3ZlcmxheTogc3VwcG9ydCBkaXJlY3Rs
-eSBwYXNzaW5nIGEgUVF1aWNrSXRlbSBmb3IgUU1MIHRoZSByZW5kZXIgdHJlZQotIHVuaWZ4ZmRz
-aW5rOiBBZGQgYSBwcm9wZXJ0eSB0byBhbGxvdyBjb3B5aW5nIHRvIG1ha2Ugc2luayB1c2FibGUg
-d2l0aCBtb3JlCiAgdXBzdHJlYW0gZWxlbWVudHMKLSBkb3RzLXZpZXdlcjogSW1wcm92ZSBkb3Qg
-ZmlsZSBnZW5lcmF0aW9uIGFuZCBpbnRlcmFjdGl2aXR5Ci0gUHl0aG9uIGJpbmRpbmdzOiBtb3Jl
-IHN5bnRhY3RpYyBzdWdhciwgYW5hbHl0aWNzIEFQSSBpbXByb3ZlbWVudHMgYW5kIHR5cGUKICBh
-bm5vdGF0aW9ucwotIGNlcmJlcm86IGFkZCBzdXBwb3J0IGZvciBQeXRob24gd2hlZWwgcGFja2Fn
-aW5nLCBXaW5kb3dzIEFSTTY0LCBuZXcgaU9TCiAgeGNmcmFtZXdvcmssIEd0azQgb24gbWFjT1Mg
-YW5kIFdpbmRvd3MsIGFuZCBtb3JlIHBsdWdpbnMKLSBTbWFsbGVyIGJpbmFyeSBzaXplcyBvZiBS
-dXN0IHBsdWdpbnMgaW4gV2luZG93cwoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVk
-cyA1MDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4g
-YXR0YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLi8wMDAxLU1ha2UtcGxheWVyLWV4
-YW1wbGVzLWluc3RhbGxhYmxlLnBhdGNoICAgICAgICAgICAgIHwgNiArKystLS0KIC4uLi1leGFt
-cGxlcy1ndGstc2hvdy1wbGF5ZXItd2FybmluZ3MtaW4tYS1kaWFsb2ctYm94LnBhdGNoIHwgNCAr
-Ky0tCiAuLi4ve2dzdC1leGFtcGxlc18xLjI4LjcuYmIgPT4gZ3N0LWV4YW1wbGVzXzEuMjguOC5i
-Yn0gICAgICB8IDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA2IGRlbGV0
-aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0LWV4
-YW1wbGVzXzEuMjguNy5iYiA9PiBnc3QtZXhhbXBsZXNfMS4yOC44LmJifSAoOTclKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZXhhbXBsZXMvMDAw
-MS1NYWtlLXBsYXllci1leGFtcGxlcy1pbnN0YWxsYWJsZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZXhhbXBsZXMvMDAwMS1NYWtlLXBsYXllci1leGFtcGxl
-cy1pbnN0YWxsYWJsZS5wYXRjaAppbmRleCA3MmZlNWEyNmFhLi5hYjViYzAzZGUzIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWV4YW1wbGVzLzAwMDEt
-TWFrZS1wbGF5ZXItZXhhbXBsZXMtaW5zdGFsbGFibGUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1leGFtcGxlcy8wMDAxLU1ha2UtcGxheWVyLWV4YW1w
-bGVzLWluc3RhbGxhYmxlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBjOTNmN2FiYTM1MTcx
-YWJmYzkxMzY4NGEyNmY4NWEwMzcxNGUyYTRjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSA5MjY5NGJkNTEwM2IzYTZlNjU1YWFkMGZlZDljMGMyY2NkYzIwZTUwIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogSnVzc2kgS3Vra29uZW4gPGp1c3NpLmt1a2tvbmVuQGludGVsLmNv
-bT4KIERhdGU6IFRodSwgMTcgQXVnIDIwMTcgMTE6MDc6MDIgKzAzMDAKIFN1YmplY3Q6IFtQQVRD
-SF0gTWFrZSBwbGF5ZXIgZXhhbXBsZXMgaW5zdGFsbGFibGUKQEAgLTEzLDcgKzEzLDcgQEAgaHR0
-cHM6Ly9idWd6aWxsYS5nbm9tZS5vcmcvc2hvd19idWcuY2dpP2lkPTc3NzgyNwogIDIgZmlsZXMg
-Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS9zdWJwcm9qZWN0cy9nc3Qt
-ZXhhbXBsZXMvcGxheWJhY2svcGxheWVyL2dzdC1wbGF5L21lc29uLmJ1aWxkIGIvc3VicHJvamVj
-dHMvZ3N0LWV4YW1wbGVzL3BsYXliYWNrL3BsYXllci9nc3QtcGxheS9tZXNvbi5idWlsZAotaW5k
-ZXggNWU4MGNhOGRkNGE4Li4xMjllNWJkY2JlM2QgMTAwNjQ0CitpbmRleCA1ZTgwY2E4ZGQ0Li4x
-MjllNWJkY2JlIDEwMDY0NAogLS0tIGEvc3VicHJvamVjdHMvZ3N0LWV4YW1wbGVzL3BsYXliYWNr
-L3BsYXllci9nc3QtcGxheS9tZXNvbi5idWlsZAogKysrIGIvc3VicHJvamVjdHMvZ3N0LWV4YW1w
-bGVzL3BsYXliYWNrL3BsYXllci9nc3QtcGxheS9tZXNvbi5idWlsZAogQEAgLTIsNSArMiw2IEBA
-IGV4ZWN1dGFibGUoJ2dzdC1wbGF5JywKQEAgLTI0LDcgKzI0LDcgQEAgaW5kZXggNWU4MGNhOGRk
-NGE4Li4xMjllNWJkY2JlM2QgMTAwNjQ0CiAgICAgIGRlcGVuZGVuY2llcyA6IFtnc3RfZGVwLCBk
-ZXBlbmRlbmN5KCdnc3RyZWFtZXItcGxheS0xLjAnKSwgbV9kZXBdKQogIAogZGlmZiAtLWdpdCBh
-L3N1YnByb2plY3RzL2dzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3RrL21lc29uLmJ1aWxk
-IGIvc3VicHJvamVjdHMvZ3N0LWV4YW1wbGVzL3BsYXliYWNrL3BsYXllci9ndGsvbWVzb24uYnVp
-bGQKLWluZGV4IDY4OTJmMTUyNTQ0Zi4uMjBkNzUwNTg3N2MyIDEwMDY0NAoraW5kZXggNjg5MmYx
-NTI1NC4uMjBkNzUwNTg3NyAxMDA2NDQKIC0tLSBhL3N1YnByb2plY3RzL2dzdC1leGFtcGxlcy9w
-bGF5YmFjay9wbGF5ZXIvZ3RrL21lc29uLmJ1aWxkCiArKysgYi9zdWJwcm9qZWN0cy9nc3QtZXhh
-bXBsZXMvcGxheWJhY2svcGxheWVyL2d0ay9tZXNvbi5idWlsZAogQEAgLTIxLDUgKzIxLDYgQEAg
-aWYgZ3RrX2RlcC5mb3VuZCgpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
-c3RyZWFtZXIvZ3N0LWV4YW1wbGVzLzAwMDItZXhhbXBsZXMtZ3RrLXNob3ctcGxheWVyLXdhcm5p
-bmdzLWluLWEtZGlhbG9nLWJveC5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
-YW1lci9nc3QtZXhhbXBsZXMvMDAwMi1leGFtcGxlcy1ndGstc2hvdy1wbGF5ZXItd2FybmluZ3Mt
-aW4tYS1kaWFsb2ctYm94LnBhdGNoCmluZGV4IDZjMDJkOGQ3MWYuLjYwMTY5ZGM5NDQgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZXhhbXBsZXMvMDAw
-Mi1leGFtcGxlcy1ndGstc2hvdy1wbGF5ZXItd2FybmluZ3MtaW4tYS1kaWFsb2ctYm94LnBhdGNo
-CisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZXhhbXBsZXMvMDAw
-Mi1leGFtcGxlcy1ndGstc2hvdy1wbGF5ZXItd2FybmluZ3MtaW4tYS1kaWFsb2ctYm94LnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSAxNjA5ODgxYjhkMTI0NmU4NWQ5ZWI2ODI3NWQ1NGQyOGUy
-MTcwMzAxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAxZWYwMjFmNjYxZDYzNDNlYjJi
-ZTdkZmJkMTJmNDAzM2JiMmI1Y2M3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWF0
-aGlldSBEdWJvaXMtQnJpYW5kIDxtYXRoaWV1LmR1Ym9pcy1icmlhbmRAYm9vdGxpbi5jb20+CiBE
-YXRlOiBUdWUsIDI1IEF1ZyAyMDI2IDExOjAzOjM0ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGV4
-YW1wbGVzOiBndGs6IHNob3cgcGxheWVyIHdhcm5pbmdzIGluIGEgZGlhbG9nIGJveApAQCAtMTMs
-NyArMTMsNyBAQCBTaWduZWQtb2ZmLWJ5OiBNYXRoaWV1IER1Ym9pcy1CcmlhbmQgPG1hdGhpZXUu
-ZHVib2lzLWJyaWFuZEBib290bGluLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9u
-cygrKQogCiBkaWZmIC0tZ2l0IGEvc3VicHJvamVjdHMvZ3N0LWV4YW1wbGVzL3BsYXliYWNrL3Bs
-YXllci9ndGsvZ3RrLXBsYXkuYyBiL3N1YnByb2plY3RzL2dzdC1leGFtcGxlcy9wbGF5YmFjay9w
-bGF5ZXIvZ3RrL2d0ay1wbGF5LmMKLWluZGV4IGZiODNmNmJlMjljNS4uMjMxMGM3MTZmMmU5IDEw
-MDY0NAoraW5kZXggZmI4M2Y2YmUyOS4uMjMxMGM3MTZmMiAxMDA2NDQKIC0tLSBhL3N1YnByb2pl
-Y3RzL2dzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3RrL2d0ay1wbGF5LmMKICsrKyBiL3N1
-YnByb2plY3RzL2dzdC1leGFtcGxlcy9wbGF5YmFjay9wbGF5ZXIvZ3RrL2d0ay1wbGF5LmMKIEBA
-IC04OCw2ICs4OCw3IEBAIHR5cGVkZWYgc3RydWN0CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWV4YW1wbGVzXzEuMjguNy5iYiBiL21ldGEvcmVjaXBl
-cy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZXhhbXBsZXNfMS4yOC44LmJiCnNpbWlsYXJpdHkg
-aW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
-c3QtZXhhbXBsZXNfMS4yOC43LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
-c3RyZWFtZXIvZ3N0LWV4YW1wbGVzXzEuMjguOC5iYgppbmRleCA5YTRjNzNmMDkyLi5mMTA4ZTYy
-MDM3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWV4
-YW1wbGVzXzEuMjguNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
-Z3N0LWV4YW1wbGVzXzEuMjguOC5iYgpAQCAtMTMsNyArMTMsNyBAQCBTUkNfVVJJID0gImdpdDov
-L2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvZ3N0cmVhbWVyL2dzdHJlYW1lci5naXQ7cHJvdG9jb2w9
-aHR0cHM7YgogICAgICAgICAgICBmaWxlOi8vZ3N0LXBsYXllci5kZXNrdG9wIFwKICAgICAgICAg
-ICAgIgogCi1TUkNSRVYgPSAiMDcwMTI1NTI0YTg0MjJlMjlkM2I2OWEzNzJlZDRmNjJmZDM0M2Zm
-YSIKK1NSQ1JFViA9ICIxYjJhOTVhMWI3Mjc4N2NkYTE0NmI0NmRmOTYwNWIxNjhlNWI2ODNiIgog
-CiBTID0gIiR7VU5QQUNLRElSfS8ke0JQfS9zdWJwcm9qZWN0cy9nc3QtZXhhbXBsZXMiCiAKLS0g
-CjIuNDcuMQoK
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGSIZE changed from 19189967 to 19224319 (+0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dbg: FILELIST: removed "/usr/lib/.debug/libgstnet-1.0.so.0.2807.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2807.0 /usr/lib/.debug/libgstreamer-1.0.so.0.2807.0 /usr/lib/.debug/libgstbase-1.0.so.0.2807.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2807.0-gdb.py /usr/lib/.debug/libgstcontroller-1.0.so.0.2807.0", added "/usr/lib/.debug/libgstnet-1.0.so.0.2808.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2808.0 /usr/lib/.debug/libgstbase-1.0.so.0.2808.0 /usr/lib/.debug/libgstcontroller-1.0.so.0.2808.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2808.0-gdb.py /usr/lib/.debug/libgstreamer-1.0.so.0.2808.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGSIZE changed from 6783255 to 6783263 (+0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-doc: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-doc: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ar: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ar: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-kk: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-kk: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-lv: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGSIZE changed from 4235186 to 4243634 (+0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGSIZE changed from 10069071 to 10083670 (+0%)
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0/1.28.7/tests/check/generic -> /usr/src/debug/gstreamer1.0/1.28.8/tests/check/generic, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/libs/gst/controller -> /usr/src/debug/gstreamer1.0/1.28.8/libs/gst/controller, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/gst/printf -> /usr/src/debug/gstreamer1.0/1.28.8/gst/printf, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/tests/check/gst -> /usr/src/debug/gstreamer1.0/1.28.8/tests/check/gst, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/tests/check/libs -> /usr/src/debug/gstreamer1.0/1.28.8/tests/check/libs, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/gst/parse -> /usr/src/debug/gstreamer1.0/1.28.8/gst/parse, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/libs/gst/base -> /usr/src/debug/gstreamer1.0/1.28.8/libs/gst/base, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/libs/gst/check
+  -> /usr/src/debug/gstreamer1.0/1.28.8/libs/gst/check, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/libs/gst/helpers -> /usr/src/debug/gstreamer1.0/1.28.8/libs/gst/helpers, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/gst -> /usr/src/debug/gstreamer1.0/1.28.8/gst, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/tests/check/tools -> /usr/src/debug/gstreamer1.0/1.28.8/tests/check/tools, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/tools -> /usr/src/debug/gstreamer1.0/1.28.8/tools, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/plugins/elements -> /usr/src/debug/gstreamer1.0/1.28.8/plugins/elements, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/libs/gst/check/libcheck -> /usr/src/debug/gstreamer1.0/1.28.8/libs/gst/check/libcheck, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/tests/check/elements -> /usr/src/debug/gstreamer1.0/1.28.8/tests/check/elements, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/tests/validate -> /usr/src/debu
+ g/gstreamer1.0/1.28.8/tests/validate, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/tests/check/pipelines -> /usr/src/debug/gstreamer1.0/1.28.8/tests/check/pipelines, directory renamed /usr/src/debug/gstreamer1.0/1.28.7/libs/gst/net -> /usr/src/debug/gstreamer1.0/1.28.8/libs/gst/net
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstbase-1.0.so.0.2807.0 /usr/lib/libgstnet-1.0.so.0.2807.0 /usr/lib/libgstcheck-1.0.so.0.2807.0 /usr/lib/libgstcontroller-1.0.so.0.2807.0 /usr/lib/libgstreamer-1.0.so.0.2807.0", added "/usr/lib/libgstcheck-1.0.so.0.2808.0 /usr/lib/libgstbase-1.0.so.0.2808.0 /usr/lib/libgstnet-1.0.so.0.2808.0 /usr/lib/libgstreamer-1.0.so.0.2808.0 /usr/lib/libgstcontroller-1.0.so.0.2808.0"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.28.7.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch" to "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.28.8.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch file://0004-tests-add-helper-script-to-run-the-installed_tests.patch"
+Changes to packages/x86-64-v3-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2807.0 to libgstbase-1.0.so.0.2808.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2807.0 to libgstcheck-1.0.so.0.2808.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2807.0 to libgstcontroller-1.0.so.0.2808.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2807.0 to libgstnet-1.0.so.0.2808.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2807.0 to libgstreamer-1.0.so.0.2808.0
+  /usr/lib/libgstbase-1.0.so.0.2807.0 moved to /usr/lib/libgstbase-1.0.so.0.2808.0
+  /usr/lib/libgstcheck-1.0.so.0.2807.0 moved to /usr/lib/libgstcheck-1.0.so.0.2808.0
+  /usr/lib/libgstcontroller-1.0.so.0.2807.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2808.0
+  /usr/lib/libgstnet-1.0.so.0.2807.0 moved to /usr/lib/libgstnet-1.0.so.0.2808.0
+  /usr/lib/libgstreamer-1.0.so.0.2807.0 moved to /usr/lib/libgstreamer-1.0.so.0.2808.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2807.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2808.0-gdb.py
 
---===============5527445796086136234==
+--===============1167185366408709695==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="gst-examples-changelog.txt"
+Content-Disposition: attachment; filename="gstreamer1.0-changelog.txt"
 
 IyBHU3RyZWFtZXIgMS4yOCBSZWxlYXNlIE5vdGVzCkdTdHJlYW1lciAxLjI4LjAgd2FzIG9yaWdp
 bmFsbHkgcmVsZWFzZWQgb24gMjcgSmFudWFyeSAyMDI2LgoKVGhlIGxhdGVzdCBidWctZml4IHJl
@@ -4362,30 +4329,214 @@ YW4gRHLDtmdlLCBUaGliYXVsdApTYXVuaWVyLCBWw61jdG9yIE1hbnVlbCBKw6FxdWV6IExlYWws
 IGFuZCBYYXZpZXIgQ2xhZXNzZW5zKgoKKkxpY2Vuc2U6IFtDQyBCWS1TQSA0LjBdKGh0dHA6Ly9j
 cmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LXNhLzQuMC8pKgo=
 
---===============5527445796086136234==
+--===============1167185366408709695==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-upgrade-1.28.7-1.28.8.patch"
+
+RnJvbSA4N2JiMWRiNzQzMDAxZTU0YmJlNjhiMmY2Yzg0YzhiMGQyZWFiN2IyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgOSBPY3QgMjAyNiAwNjo1MDoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMDogdXBncmFkZSAxLjI4LjcgLT4gMS4yOC44CgojIEdTdHJlYW1lciAxLjI4IFJl
+bGVhc2UgTm90ZXMKR1N0cmVhbWVyIDEuMjguMCB3YXMgb3JpZ2luYWxseSByZWxlYXNlZCBvbiAy
+NyBKYW51YXJ5IDIwMjYuCgpUaGUgbGF0ZXN0IGJ1Zy1maXggcmVsZWFzZSBpbiB0aGUgc3RhYmxl
+IDEuMjggc2VyaWVzIGlzIFsxLjI4LjhdKCMxLjI4LjgpIGFuZAp3YXMgcmVsZWFzZWQgb24gMDgg
+T2N0b2JlciAyMDI2LgoKU2VlIFtodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvcmVs
+ZWFzZXMvMS4yOC9dW2xhdGVzdF0gZm9yIHRoZSBsYXRlc3QKdmVyc2lvbiBvZiB0aGlzIGRvY3Vt
+ZW50LgoKKkxhc3QgdXBkYXRlZDogVGh1cnNkYXkgMDggT2N0b2JlciAyMDI2LCAxNzowMCBVVEMg
+Wyhsb2cpXVtnaXRsb2ddKgoKW2xhdGVzdF06IGh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9w
+Lm9yZy9yZWxlYXNlcy8xLjI4LwpbZ2l0bG9nXTogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Au
+b3JnL2dzdHJlYW1lci93d3cvY29tbWl0cy9tYWluL3NyYy9odGRvY3MvcgplbGVhc2VzLzEuMjgv
+cmVsZWFzZS1ub3Rlcy0xLjI4Lm1kCgo8YSBpZD0iaW50cm9kdWN0aW9uIj48L2E+CiMjIEludHJv
+ZHVjdGlvbgoKVGhlIEdTdHJlYW1lciB0ZWFtIGlzIHByb3VkIHRvIGFubm91bmNlIGEgbmV3IG1h
+am9yIGZlYXR1cmUgcmVsZWFzZSBpbiB0aGUKc3RhYmxlIDEueCBBUEkgc2VyaWVzIG9mIHlvdXIg
+ZmF2b3VyaXRlIGNyb3NzLXBsYXRmb3JtIG11bHRpbWVkaWEgZnJhbWV3b3JrIQoKQXMgYWx3YXlz
+LCB0aGlzIHJlbGVhc2UgaXMgYWdhaW4gcGFja2VkIHdpdGggbWFueSBuZXcgZmVhdHVyZXMsIGJ1
+ZyBmaXhlcywgYW5kCm90aGVyIGltcHJvdmVtZW50cy4KCjxhIGlkPSJoaWdobGlnaHRzIj48L2E+
+CiMjIEhpZ2hsaWdodHMKCi0gQU1EIEhJUCBwbHVnaW4gYW5kIGludGVncmF0aW9uIGhlbHBlciBs
+aWJyYXJ5Ci0gVnVsa2FuIFZpZGVvIEFWMSBhbmQgVlA5IGRlY29kaW5nLCBILjI2NCBlbmNvZGlu
+ZywgYW5kIDEwLWJpdCBzdXBwb3J0IGZvcgogIEguMjY1IGRlY29kZXIKLSB3YXlsYW5kc2luazog
+UGFyc2UgYW5kIHNldCB0aGUgSERSMTAgbWV0YWRhdGEgYW5kIG90aGVyIGNvbG9yIG1hbmFnZW1l
+bnQKICBpbXByb3ZlbWVudHMKLSBBdWRpbyBzb3VyY2Ugc2VwYXJhdGlvbiBlbGVtZW50IGJhc2Vk
+IG9uIGRlbXVjcyBpbiBSdXN0Ci0gQW5hbHl0aWNzIGNvbWJpbmVyIGFuZCBzcGxpdHRlciBlbGVt
+ZW50cyBwbHVzIGJhdGNoIG1ldGEgdG8gYmF0Y2ggYnVmZmVycyBmcm9tCiAgb25lIG9yIG1vcmUg
+c3RyZWFtcwotIExpdGVSVCBpbmZlcmVuY2UgZWxlbWVudDsgbW92ZSBtb2RlbGluZm8gdG8gYW5h
+bHl0aWNzIGxpYjsgYWRkIHNjcmlwdCB0byBoZWxwCiAgd2l0aCBtb2RlbGluZm8gZ2VuZXJhdGlv
+biBhbmQgdXBncmFkZQotIEFkZCBnZW5lcmFsIGNsYXNzaWZpZXIgdGVuc29yLWRlY29kZXIsIGZh
+Y2VkZXRlY3RvciwgYW5kIG1vcmUgYW5hbHl0aWNzCiAgY29udmVuaWVuY2UgQVBJCi0gTmV3IHRl
+bnNvcmRlY29kZWJpbiBlbGVtZW50IHRvIGF1dG8tcGx1ZyBjb21wYXRpYmxlIHRlbnNvciBkZWNv
+ZGVycyBiYXNlZCBvbgogIHRoZWlyIGNhcHMgYW5kIG1hbnkgb3RoZXIgYWRkaXRpb25zIGFuZCBp
+bXByb3ZlbWVudHMKLSBBZGQgYSBidXJuLWJhc2VkIFlPTE9YIGluZmVyZW5jZSBlbGVtZW50IGFu
+ZCBhIFlPTE9YIHRlbnNvciBkZWNvZGVyIGluIFJ1c3QKLSBhcHBsZW1lZGlhOiBWaWRlb1Rvb2xi
+b3ggVlA5IGFuZCBBVjEgaGFyZHdhcmUtYWNjZWxlcmF0ZWQgZGVjb2Rpbmcgc3VwcG9ydCwKICBh
+bmQgMTAtYml0IEhFVkMgZW5jb2RpbmcKLSBBZGQgbmV3IEdJRiBkZWNvZGVyIGVsZW1lbnQgaW4g
+UnVzdCB3aXRoIGxvb3Bpbmcgc3VwcG9ydAotIGlucHV0LXNlbGVjdG9yOiBpbXBsZW1lbnRzIGEg
+dHdvLXBoYXNlIHNpbmtwYWQgc3dpdGNoIG5vdyB0byBhdm9pZCByYWNlcyB3aGVuCiAgc3dpdGNo
+aW5nIGlucHV0IHBhZHMKLSBUaGUgaW50ZXIgd29ybWhvbGUgc2luayBhbmQgc291cmNlIGVsZW1l
+bnRzIGdhaW5lZCBhIHdheSB0byBmb3J3YXJkIHVwc3RyZWFtCiAgZXZlbnRzIHRvIHRoZSBwcm9k
+dWNlciBhcyB3ZWxsIGFzIG5ldyBmaW5lLXR1bmluZyBwcm9wZXJ0aWVzCi0gd2VicnRjc2luazog
+YWRkIHJlbmVnb3RpYXRpb24gc3VwcG9ydCBhbmQgc3VwcG9ydCBmb3IgdmEgaGFyZHdhcmUgZW5j
+b2RlcnMKLSB3ZWJydGMgV0hFUCBjbGllbnQgYW5kIHNlcnZlciBzaWduYWxsZXIKLSBOZXcgU1Qt
+MjAzOCBhbmNpbGxhcnkgZGF0YSBjb21iaW5lciBhbmQgZXh0cmFjdG9yIGVsZW1lbnRzCi0gZmFs
+bGJhY2tzcmMgZ2FpbmVkIHN1cHBvcnQgZm9yIGVuY29kZWQgc3RyZWFtcwotIGZsdjogZW5oYW5j
+ZWQgcnRtcCBILjI2NSB2aWRlbyBzdXBwb3J0LCBhbmQgc3VwcG9ydCBmb3IgbXVsdGl0cmFjayBh
+dWRpbwotIGdsdXBsb2FkOiBJbXBsZW1lbnQgdWRtYWJ1ZiB1cGxvYWRlciB0byBzaGFyZSBidWZm
+ZXJzIGJldHdlZW4gc29mdHdhcmUKICBkZWNvZGVycy9zb3VyY2VzIGFuZCBHUFVzLCBkaXNwbGF5
+IGVuZ2luZXMgKHdheWxhbmQpLCBhbmQgb3RoZXIgZG1hIGRldmljZXMKLSB2aWRlbzogQWRkIGNy
+b3AsIHNjYWxlLCByb3RhdGUsIGZsaXAsIHNoZWFyIGFuZCBtb3JlIEdzdE1ldGEgdHJhbnNmb3Jt
+YXRpb24KLSBOZXcgdGFzayBwb29sIEdzdENvbnRleHQgdG8gc2hhcmUgYSB0aHJlYWQgcG9vbCBh
+bW9uZ3N0IGVsZW1lbnRzIGZvciBiZXR0ZXIKICByZXNvdXJjZSBtYW5hZ2VtZW50IGFuZCBwZXJm
+b3JtYW5jZSwgZXNwZWNpYWxseSBmb3IgdmlkZW8gY29udmVyc2lvbiBhbmQKICBjb21wb3NpdGlu
+ZwotIE5ldyBEZWVwZ3JhbSBzcGVlY2gtdG8tdGV4dCB0cmFuc2NyaXB0aW9uIHBsdWdpbiBhbmQg
+bWFueSBvdGhlciB0cmFuc2xhdGlvbgogIGFuZCB0cmFuc2NyaXB0aW9uIGltcHJvdmVtZW50cwot
+IFNwZWVjaCBzeW50aGVzaXplcnM6IGV4cG9zZSBuZXcgImNvbXByZXNzIiBvdmVyZmxvdyBtb2Rl
+IHRoYXQgY2FuIHNwZWVkIHVwCiAgYXVkaW8gd2hpbGUgcHJlc2VydmluZyBwaXRjaAotIEVsZXZl
+bkxhYnMgdm9pY2UgY2xvbmluZyBlbGVtZW50IGFuZCBzdXBwb3J0IGZvciBTcGVlY2htYXRpY3Mg
+c3BlYWtlcgogIGlkZW50aWZpY2F0aW9uIEFQSQotIHRleHRhY2N1bXVsYXRlOiBuZXcgZWxlbWVu
+dCBmb3Igc3BlZWNoIHN5bnRoZXNpcyBvciB0cmFuc2xhdGlvbiBwcmVwcm9jZXNzaW5nCi0gTmV3
+IHZtYWYgZWxlbWVudCB0byBjYWxjdWxhdGUgcGVyY2VwdHVhbCB2aWRlbyBxdWFsaXR5IGFzc2Vz
+c21lbnQgc2NvcmVzIHVzaW5nCiAgTmV0ZmxpeCdzIFZNQUYgZnJhbWV3b3JrCi0gZGVjb2RlYmlu
+MzogZXhwb3NlIEtMViwgSUQzIFBFUyBhbmQgU1QtMjAzOCBhbmNpbGxhcnkgZGF0YSBzdHJlYW1z
+IHdpdGggbmV3CiAgbWV0YWRhdGEgR3N0U3RyZWFtIHR5cGUKLSBOZXcgTVBFRy1IIGF1ZGlvIGRl
+Y29kaW5nIHBsdWdpbiBwbHVzIE1QNCBkZW11eGluZyBzdXBwb3J0Ci0gTENFVkM6IEFkZCBhdXRv
+cGx1Z2dpbmcgZGVjb2Rpbmcgc3VwcG9ydCBmb3IgTENFVkMgSDI2NSBhbmQgSDI2NiB2aWRlbyBz
+dHJlYW1zCiAgYW5kIExDRVZDIEguMjY1IGFuZCBILjI2NiBlbmNvZGVycwotIFJUUCAicm9idXN0
+IE1QRUcgYXVkaW8iLCByYXcgYXVkaW8gKEw4LCBMMTYsIEwyNCksIGFuZCBTTVBURSBTVDI5MSBh
+bmNpbGxhcnkKICBtZXRhZGF0YSBwYXlsb2FkZXJzL2RlcGF5bG9hZGVycyBpbiBSdXN0Ci0gQWRk
+IGEgUnVzdC1iYXNlZCBpY2VjYXN0c2luayBlbGVtZW50IHdpdGggQUFDIHN1cHBvcnQKLSBUaGUg
+V2luZG93cyBJUEMgcGx1Z2luIGdhaW5lZCBzdXBwb3J0IGZvciBwYXNzaW5nIGdlbmVyaWMgZGF0
+YSBpbiBhZGRpdGlvbiB0bwogIHJhdyBhdWRpby92aWRlbywgYW5kIHZhcmlvdXMgcHJvcGVydGll
+cwotIE5ldyBEM0QxMiBpbnRlcmxhY2UgYW5kIG92ZXJsYXkgY29tcG9zaXRvciBlbGVtZW50cywg
+cGx1cyBtYW55IG90aGVyIEQzRDEyCiAgaW1wcm92ZW1lbnRzCi0gQmxhY2ttYWdpYyBEZWNrbGlu
+ayBlbGVtZW50cyBnYWluZWQgc3VwcG9ydCBmb3IgY2FwdHVyaW5nIGFuZCBvdXRwdXR0aW5nIGFs
+bAogIHR5cGVzIG9mIFZBTkMgdmlhIEdzdEFuY2lsbGFyeU1ldGEKLSBHc3RMb2dDb250ZXh0IEFQ
+SSB0byByZWR1Y2UgbG9nIHNwYW0gaW4gc2V2ZXJhbCBjb21wb25lbnRzIGFuZAogIGBHU1RfREVC
+VUdfT05DRWAgKGV0YykgY29udmVuaWVuY2UgbWFjcm9zIHRvIGxvZyB0aGluZ3Mgb25seSBvbmNl
+Ci0gaGxzc2luazMsIGhsc2NtYWZzaW5rOiBTdXBwb3J0IHRoZSB1c2Ugb2YgYSBzaW5nbGUgbWVk
+aWEgZmlsZSwgcGx1cyBJLWZyYW1lCiAgb25seSBwbGF5bGlzdCBzdXBwb3J0Ci0gV2Via2l0OiBO
+ZXcgd3BlMiBwbHVnaW4gbWFraW5nIHVzZSBvZiB0aGUgIldQRSBQbGF0Zm9ybSBBUEkiCi0gTVBF
+Ry1UUyBkZW11eGVyIGNhbiBub3cgZGlzYWJsZSBza2V3IGNvcnJlY3Rpb25zCi0gTmV3IFF0NiBR
+TUwgcmVuZGVyIHNvdXJjZSBlbGVtZW50Ci0gcW1sNmdsb3ZlcmxheTogc3VwcG9ydCBkaXJlY3Rs
+eSBwYXNzaW5nIGEgUVF1aWNrSXRlbSBmb3IgUU1MIHRoZSByZW5kZXIgdHJlZQotIHVuaWZ4ZmRz
+aW5rOiBBZGQgYSBwcm9wZXJ0eSB0byBhbGxvdyBjb3B5aW5nIHRvIG1ha2Ugc2luayB1c2FibGUg
+d2l0aCBtb3JlCiAgdXBzdHJlYW0gZWxlbWVudHMKLSBkb3RzLXZpZXdlcjogSW1wcm92ZSBkb3Qg
+ZmlsZSBnZW5lcmF0aW9uIGFuZCBpbnRlcmFjdGl2aXR5Ci0gUHl0aG9uIGJpbmRpbmdzOiBtb3Jl
+IHN5bnRhY3RpYyBzdWdhciwgYW5hbHl0aWNzIEFQSSBpbXByb3ZlbWVudHMgYW5kIHR5cGUKICBh
+bm5vdGF0aW9ucwotIGNlcmJlcm86IGFkZCBzdXBwb3J0IGZvciBQeXRob24gd2hlZWwgcGFja2Fn
+aW5nLCBXaW5kb3dzIEFSTTY0LCBuZXcgaU9TCiAgeGNmcmFtZXdvcmssIEd0azQgb24gbWFjT1Mg
+YW5kIFdpbmRvd3MsIGFuZCBtb3JlIHBsdWdpbnMKLSBTbWFsbGVyIGJpbmFyeSBzaXplcyBvZiBS
+dXN0IHBsdWdpbnMgaW4gV2luZG93cwoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVk
+cyA1MDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4g
+YXR0YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLi8wMDAxLXRlc3RzLXJlc3BlY3Qt
+dGhlLWlkZW50ZW50YWlvbi11c2VkLWluLW1lc29uLnBhdGNoICAgfCAyICstCiAuLi4vMDAwMi10
+ZXN0cy1hZGQtc3VwcG9ydC1mb3ItaW5zdGFsbC10aGUtdGVzdHMucGF0Y2ggICAgICAgIHwgNCAr
+Ky0tCiAuLi4vMDAwMy10ZXN0cy11c2UtYS1kaWN0aW9uYXJpZXMtZm9yLWVudmlyb25tZW50LnBh
+dGNoICAgICAgIHwgMiArLQogLi4uNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10by1ydW4tdGhl
+LWluc3RhbGxlZF90ZXN0cy5wYXRjaCB8IDIgKy0KIC4uLi97Z3N0cmVhbWVyMS4wXzEuMjguNy5i
+YiA9PiBnc3RyZWFtZXIxLjBfMS4yOC44LmJifSAgICAgICAgfCAyICstCiA1IGZpbGVzIGNoYW5n
+ZWQsIDYgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
+bXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMF8xLjI4LjcuYmIgPT4gZ3N0cmVhbWVy
+MS4wXzEuMjguOC5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAwMDEtdGVzdHMtcmVzcGVjdC10aGUtaWRlbnRlbnRh
+aW9uLXVzZWQtaW4tbWVzb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
+ZXIvZ3N0cmVhbWVyMS4wLzAwMDEtdGVzdHMtcmVzcGVjdC10aGUtaWRlbnRlbnRhaW9uLXVzZWQt
+aW4tbWVzb24ucGF0Y2gKaW5kZXggNjE4NDRkNzkzYS4uYWE1ZGIxMzIzNyAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAxLXRlc3Rz
+LXJlc3BlY3QtdGhlLWlkZW50ZW50YWlvbi11c2VkLWluLW1lc29uLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMS10ZXN0cy1yZXNw
+ZWN0LXRoZS1pZGVudGVudGFpb24tdXNlZC1pbi1tZXNvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
+LUZyb20gMjdiYWUwNTYxYTA5ZjA2Mzc1YzZjNmQxZDNmZWMyYTE0MmExY2EyMCBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTRkNWFlZjMyNGJjN2U2NmQyOTNjYjUwMGQwNzdiMThmZGQ3
+NTQ1YyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJl
+c21hLmpvc2VAZ21haWwuY29tPgogRGF0ZTogU3VuLCAxMSBBcHIgMjAyMSAxOTo0ODoxMyArMDEw
+MAogU3ViamVjdDogW1BBVENIXSB0ZXN0czogcmVzcGVjdCB0aGUgaWRlbnRlbnRhaW9uIHVzZWQg
+aW4gbWVzb24KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjAvMDAwMi10ZXN0cy1hZGQtc3VwcG9ydC1mb3ItaW5zdGFsbC10aGUtdGVzdHMu
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLzAw
+MDItdGVzdHMtYWRkLXN1cHBvcnQtZm9yLWluc3RhbGwtdGhlLXRlc3RzLnBhdGNoCmluZGV4IDk3
+NTJlYmU5MjEuLjdiNTU1MzUyYzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
+L2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwMi10ZXN0cy1hZGQtc3VwcG9ydC1mb3ItaW5zdGFs
+bC10aGUtdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC8wMDAyLXRlc3RzLWFkZC1zdXBwb3J0LWZvci1pbnN0YWxsLXRoZS10ZXN0
+cy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDBkYWQ0MzdjMTE5Y2QyMzg4M2NiZWYzNWQy
+YTYyMGNjZGYzODE2YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNTk0MDNhMGM1ZDJi
+YmQzZTAwY2RmNDg1NWYwYTJkOTc2MTM5NWUxZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogRGF0ZTogU3VuLCAx
+MSBBcHIgMjAyMSAxOTo0ODoxMyArMDEwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0czogYWRkIHN1
+cHBvcnQgZm9yIGluc3RhbGwgdGhlIHRlc3RzCkBAIC0xOSw3ICsxOSw3IEBAIFNpZ25lZC1vZmYt
+Ynk6IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPgogIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCB0ZXN0cy9jaGVjay90ZW1wbGF0ZS50ZXN0LmluCiAKIGRpZmYgLS1naXQgYS9tZXNv
+bi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCBiZmZlYTNiLi5hNTFiMWFmIDEwMDY0NAoraW5k
+ZXggNGFiYWFkNy4uYjA4ZDQzZSAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNv
+bi5idWlsZAogQEAgLTY2NSw2ICs2NjUsMTAgQEAgaWYgYmFzaGNvbXBfZGVwLmZvdW5kKCkKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAv
+MDAwMy10ZXN0cy11c2UtYS1kaWN0aW9uYXJpZXMtZm9yLWVudmlyb25tZW50LnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVz
+ZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1lbnQucGF0Y2gKaW5kZXggNTYzN2VmZjdhNS4u
+MjQ2MjkyMzMyYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1l
+bnQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
+cjEuMC8wMDAzLXRlc3RzLXVzZS1hLWRpY3Rpb25hcmllcy1mb3ItZW52aXJvbm1lbnQucGF0Y2gK
+QEAgLTEsNCArMSw0IEBACi1Gcm9tIGE2ODZiMTViZjdlYzVjYTk5NDY3ZjEzOGM1N2ViYjE3YWEy
+NWMyNGYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDllNzI4NTE2Y2U2MGMxMjhjYjY2
+NjY4MjBlNTQ0OWVmYzdiY2ZiNjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBKb3Nl
+IFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KIERhdGU6IFNhdCwgMjQgQXByIDIw
+MjEgMTA6MzQ6NDcgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IHVzZSBhIGRpY3Rpb25h
+cmllcyBmb3IgZW52aXJvbm1lbnQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
+L2dzdHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10by1y
+dW4tdGhlLWluc3RhbGxlZF90ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dz
+dHJlYW1lci9nc3RyZWFtZXIxLjAvMDAwNC10ZXN0cy1hZGQtaGVscGVyLXNjcmlwdC10by1ydW4t
+dGhlLWluc3RhbGxlZF90ZXN0cy5wYXRjaAppbmRleCBlYjE0ZDUxOWZlLi5iYjA4YjExNmYyIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
+LzAwMDQtdGVzdHMtYWRkLWhlbHBlci1zY3JpcHQtdG8tcnVuLXRoZS1pbnN0YWxsZWRfdGVzdHMu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
+MC8wMDA0LXRlc3RzLWFkZC1oZWxwZXItc2NyaXB0LXRvLXJ1bi10aGUtaW5zdGFsbGVkX3Rlc3Rz
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlMDI5MGZjMjBmNTJhZDdkZmMyMWU4YTU3MjU4
+N2FkODI2ZTViMzJlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0MjIyNWI0NzA5YWVm
+ZGQzMjUwYmUzMGQ3OWI1NjQ2YjJjMGRhOTI2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDIg
+TWF5IDIwMjEgMDE6NTg6MDEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IGFkZCBoZWxw
+ZXIgc2NyaXB0IHRvIHJ1biB0aGUgaW5zdGFsbGVkX3Rlc3RzCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjguNy5iYiBiL21ldGEv
+cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yOC44LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3RyZWFtZXIxLjBfMS4yOC43LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGlt
+ZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjguOC5iYgppbmRleCAwZDFhOTMxY2VkLi4w
+MTgyOWFkNzc4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
+Z3N0cmVhbWVyMS4wXzEuMjguNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
+ZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjguOC5iYgpAQCAtMjIsNyArMjIsNyBAQCBTUkNfVVJJID0g
+Imh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0cmVhbWVyL2dzdHJlYW1l
+ci0ke1BWfS50YXIueAogICAgICAgICAgICBmaWxlOi8vMDAwMy10ZXN0cy11c2UtYS1kaWN0aW9u
+YXJpZXMtZm9yLWVudmlyb25tZW50LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDQtdGVz
+dHMtYWRkLWhlbHBlci1zY3JpcHQtdG8tcnVuLXRoZS1pbnN0YWxsZWRfdGVzdHMucGF0Y2ggXAog
+ICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzg3MzI5YjJjNTc1OGUyMjhhNzFk
+OTI2YTZkY2Y5NjBiY2VhYWNjYTNjYWRkNjM4NzRiYTY2NWRmY2RhMDEzZSIKK1NSQ19VUklbc2hh
+MjU2c3VtXSA9ICJiYWE4ZTg2OTg1YWQ2NDE3Y2MwYWQ2ZTdiNzlmZjI4ODRjNjc3OWM4YjFjN2E2
+MjQwZTcxMjE4MjJjODZlNTI0IgogCiBQQUNLQUdFQ09ORklHID8/PSAiJHtAYmIudXRpbHMuY29u
+dGFpbnMoJ1BURVNUX0VOQUJMRUQnLCAnMScsICd0ZXN0cycsICcnLCBkKX0gXAogICAgICAgICAg
+ICAgICAgICAgIGNoZWNrIFwKLS0gCjIuNDcuMQoK
+
+--===============1167185366408709695==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-dbg: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-dbg: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-dev: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-dev: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-doc: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-doc: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-locale: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-locale: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-src: FILELIST: directory renamed /usr/src/debug/gst-examples/1.28.7/playback/player/gtk -> /usr/src/debug/gst-examples/1.28.8/playback/player/gtk, directory renamed /usr/src/debug/gst-examples/1.28.7/playback/player/gst-play -> /usr/src/debug/gst-examples/1.28.8/playback/player/gst-play
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-src: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-src: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-staticdev: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples-staticdev: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gst-examples/gst-examples: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gst-examples: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gst-examples: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gst-examples: SRC_URI changed from "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;branch=1.28;tag=1.28.7 file://0001-Make-player-examples-installable.patch;striplevel=3 file://0002-examples-gtk-show-player-warnings-in-a-dialog-box.patch;striplevel=3 file://gst-player.desktop" to "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;branch=1.28;tag=1.28.8 file://0001-Make-player-examples-installable.patch;striplevel=3 file://0002-examples-gtk-show-player-warnings-in-a-dialog-box.patch;striplevel=3 file://gst-player.desktop"
+packages/x86-64-v3-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstnet-1.0.so.0.2807.0 /usr/lib/libgstcontroller-1.0.so.0.2807.0 /usr/lib/libgstcheck-1.0.so.0.2807.0 /usr/lib/libgstreamer-1.0.so.0.2807.0 /usr/lib/libgstbase-1.0.so.0.2807.0", added "/usr/lib/libgstnet-1.0.so.0.2808.0 /usr/lib/libgstcontroller-1.0.so.0.2808.0 /usr/lib/libgstreamer-1.0.so.0.2808.0 /usr/lib/libgstbase-1.0.so.0.2808.0 /usr/lib/libgstcheck-1.0.so.0.2808.0"
+Changes to packages/x86-64-v3-poky-linux/gstreamer1.0 (sysroot):
+  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2807.0 to libgstbase-1.0.so.0.2808.0
+  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2807.0 to libgstcheck-1.0.so.0.2808.0
+  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2807.0 to libgstcontroller-1.0.so.0.2808.0
+  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2807.0 to libgstnet-1.0.so.0.2808.0
+  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2807.0 to libgstreamer-1.0.so.0.2808.0
+  /usr/lib/libgstbase-1.0.so.0.2807.0 moved to /usr/lib/libgstbase-1.0.so.0.2808.0
+  /usr/lib/libgstcheck-1.0.so.0.2807.0 moved to /usr/lib/libgstcheck-1.0.so.0.2808.0
+  /usr/lib/libgstcontroller-1.0.so.0.2807.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2808.0
+  /usr/lib/libgstnet-1.0.so.0.2807.0 moved to /usr/lib/libgstnet-1.0.so.0.2808.0
+  /usr/lib/libgstreamer-1.0.so.0.2807.0 moved to /usr/lib/libgstreamer-1.0.so.0.2808.0
+  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2807.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2808.0-gdb.py
 
---===============5527445796086136234==--
+--===============1167185366408709695==--
 
