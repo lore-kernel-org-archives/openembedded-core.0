@@ -1,353 +1,280 @@
-Return-Path: <Ghanshyam.BanaitSanjay@windriver.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A4B5CA5FED
-	for <webhook@archiver.kernel.org>; Fri,  9 Oct 2026 08:21:16 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3136.1791534069477692561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 434D9CA6012
+	for <webhook@archiver.kernel.org>; Fri,  9 Oct 2026 09:05:46 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.38])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3573.1791536739902175165
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Oct 2026 01:21:09 -0700
+ Fri, 09 Oct 2026 02:05:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=eoz+C9oM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=4742cbd0fc=ghanshyam.banaitsanjay@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6998Hjru4058061
-	for <openembedded-core@lists.openembedded.org>; Fri, 9 Oct 2026 08:21:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=TdIGD0q7dXTaKBJsPkDO
-	rI6IKIXnWyCJRNg6dMujRrk=; b=eoz+C9oMxaeLJQ6rRF+ayhTG+k9IyttjwltX
-	Hczm+bFT7nXPt0Gm7CyGmuHoE3duHxQALx1Nh36EPUIZ7nFvi7kpUsta/nVFpEcl
-	RbdQn4yEH5rJqFHUGNSPwfiTZYv37Req0TurdbU5UkzXpChWP72t2Om5Va2EDkZr
-	1nbKIIPECl7TobpMAnAi5WS5MqH4AHGhLG1U7lPXdh4FJTZCuZg+1vFtlV1sWZbn
-	Dt5utfkrrdxlOlqhj4nsKeQF1kU8ErwecRpuL/utdGVvSIS4/Vk65TN8/ICAwuHh
-	opceHNutEh9czY72/lmIFsn9v9erA07zohp2mlY2fPRtS6+4pA==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021088.outbound.protection.outlook.com [40.107.208.88])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4h5xep234f-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 08:21:07 +0000 (GMT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=CVqrTHTv;
+ spf=pass (domain: est.tech, ip: 52.101.70.38, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OMfjOU63jifqUuuE4eKEMhngdcGLKFEIyvQD89plHfKvtM8ePC33K8DbY1vXEbXCYmSeD0f4lqUu/43OxrvXbbqM0L1bEESvHc2Bsw+G8rKF3zsCoT6h/Z52uxP9mU2CK9e+Mt0rNXCBVbQhYnIhG+I2RXu2EkVYGkXXOs0ndzb2hQ9xwL9NyFJqsPzxLycLjQRO97A7CW9rdmYV5D9/T44N5fWO4hficrBHlO2EEqKMoz948zP54UbAEZjzuOFyoZMxfc12GLv/4mVfjnIpj7TU97ZMDVjzWv36UNNlXXUtSd5zSVw4sZSZv0OGLMBqeqRLgx4pDCZochrBdndyAA==
+ b=sS1mf0okbP9/xfADLFdd15fShqT22LGSAOR1jqClA/gJKlKxdwpgtFvJIfp0rKSCTfqH9WC/FJmvFqecn7s9n3+IPgvqDXauscnc8bV9OXUk53Jl3X0e6BkheCfQZs+Oe1MwKwdlRn8PpbQzRcQqOWuOH8ugYzHQR4d/pXBx6+1pcK0Qf+oTcGUlOfyyTJLAdeH1J7itC0bQ4rBwd9lsgIfUB3PXrCkIyXsEOAwPmOPsTQv5S30+Qn44MpnaSfNGCuwYdBVqzTKgUQaqtJ42pv4HOXTfq9adTItnjBNfiWFYQDHIdPOpoL8HhBAaWHaMviNLVZO1CEs9oy1AD7lQGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TdIGD0q7dXTaKBJsPkDOrI6IKIXnWyCJRNg6dMujRrk=;
- b=cj70EUjih6dnGD7KubS7vfCQ8yRl/1YxG8Af9u9F01f+BUer7fv8yzYx51aGPJr+3oEGIe7/7qEE/hyhTaFYYqX2IipPTwScTb/8TpLMHuY5jhTvxQgdAG34kYmBBF0G+5RrUg0ogkAxSqzg4Jy+sDzxQZ3+zWqG0f5RFIx8eltNZVLGb+Kn3Ijv7YtQnumW2rLlqRMiYaNv8uO7njrvCn1AYKZpzjlnzyuvTpIzFxrZtTyCdoKvTbIRTH8Bp1JeUqVkJjlnLba8WkWGmOPBZ7oEbU/jsx71vEsyKYD584xOfVh6K/TK1CkDRpYvsv0WAFb2rixLSRx9KOl1WesxoQ==
+ bh=brp5Fjw2K29Jc83ZwovaKrglFlTcEXR70Nu2CMANaVE=;
+ b=hdM50lC5hptArj2uXSsYZyUK5ugjI1XQK1Xtkpwh8hRQfSXaIbCu994MS30aAL9ta27fI4y2q4PDbq/YBHahVXAAuXEVBy3vXT+E1SRXZiD3HSgPvszriE5pgPvhYpHCgEyj9bMPtqCgDqcLgDF44vX2lzSkZcXtRCqq1cMBZN/OVllBEbzCdWWcJzp0AOclecnNjDIfQ+4Itta5rbj4TiVNLpfMCXiVNuwYLNP3zR3QPuyEL8QlDjIbFzuFGDk+85vRlX7IcuSFLIqKf3C9hOhEbl9yu8hpnlolcpc3eKbBqAg9EiZ7KkLrmHmZDDrAsmMxg9GF/UKGntRMpscffQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=brp5Fjw2K29Jc83ZwovaKrglFlTcEXR70Nu2CMANaVE=;
+ b=CVqrTHTvvFe6/OUjVYo+2t13FTB2nI+eq0pzGCP8/3OZ3wXYC0GtgHB5ACssSfD5jVZR9H3QIPR8PUHNA/Vo4KZ0LKs0xtPYFEinSy1Vg6gNF6SWb2Pi4p+sxAn6lWovqEfZoLrgmxKWynEV3zy50FRPd0t1A4qoUANVle+bKBCczxrSp9hAGDWJcNp5hQmP3V9dqam6OQG9/5v+wtmvOXLLkWO4SLVKlZ4NXgwShbsPkQ5Rfq5CsGHMN7APwi5tOwhvI598QvCt5jsF8+KGFyBhaMLWLh6LOLaGySQkAFZvTnCZw3af2t0bpXJrF1127PvPkfuLURenEEkaRwLM+A==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=windriver.com;
-Received: from SJ5PPF57F27BA08.namprd11.prod.outlook.com
- (2603:10b6:a0f:fc02::82b) by DM3PR11MB8670.namprd11.prod.outlook.com
- (2603:10b6:0:3d::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Fri, 9 Oct
- 2026 08:21:03 +0000
-Received: from SJ5PPF57F27BA08.namprd11.prod.outlook.com
- ([fe80::68e:cafc:75a:3e02]) by SJ5PPF57F27BA08.namprd11.prod.outlook.com
- ([fe80::68e:cafc:75a:3e02%8]) with mapi id 15.21.0496.015; Fri, 9 Oct 2026
- 08:21:02 +0000
-From: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by AMBP189MB620134.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:818::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.16; Fri, 9 Oct
+ 2026 09:05:36 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0496.015; Fri, 9 Oct 2026
+ 09:05:35 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH] wget: fix CVE-2026-15146
-Date: Fri,  9 Oct 2026 13:50:42 +0530
-Message-Id: <20261009082042.3148796-1-Ghanshyam.BanaitSanjay@windriver.com>
-X-Mailer: git-send-email 2.40.0
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: SL2P216CA0166.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:1b::17) To SJ5PPF57F27BA08.namprd11.prod.outlook.com
- (2603:10b6:a0f:fc02::82b)
+Subject: [PATCH v2] subversion: upgrade 1.14.5 -> 1.15.0
+Date: Fri,  9 Oct 2026 11:05:32 +0200
+Message-ID: <20261009090532.38244-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20261008195917.22382-6-jaipaul.cheernam@est.tech>
+References: <20261008195917.22382-6-jaipaul.cheernam@est.tech>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU7PR01CA0019.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:50f::22) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PPF57F27BA08:EE_|DM3PR11MB8670:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9cd4c6ef-2e20-4730-7a10-08df25de41c1
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AMBP189MB620134:EE_
+X-MS-Office365-Filtering-Correlation-Id: 832bd117-f17f-4f43-05c9-08df25e47b05
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|23010399003|18002099003|10067099003|13003099007|11063799006|38350700014|260925021311599003|260925021911599003|260925022911599003|56012099006;
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|260925021911599003|56012099006|11063799006|260925021311599003|260925022911599003|18002099003|10067099003|22082099003|6133799003;
 X-Microsoft-Antispam-Message-Info: 
-	0ddOg11NwWu6wgI04NVRTiswXB/4J6x1+HIg3rhF0kWo0iDDYA3/T2PeFCSXDxvHX+f/KHQXrlRq2Ppix9Q6h8/19JccRiXDd33XM46ikk9c1fuWtuNUNjZz4D4NyC+iAEzZODKfCr/nGmWBhGaIEsswZYoUWzyuxMxgHBlYkrozd1qpct4cQGDHjWz2+wKqalgnTi3aWQj26DQtp2FL7w11Tr0OffO9eH7uHyPXqDiODFMQJ0SFaKdD/BDDwDzCBTzD2w534ED9weN+WsfVsjKLpgf0Pzo7ir/jfeveZHZZyflTYOsXSwbZ3FpTQdGzZNrXBYT/DMlVRUAEBgv00/gNfrC1pGqNZzQmxouqzyd4cI7Wv197UWXQog1ycA23CAq8cZKYQ5qKyfeRGcjtZy9LPluUJbDsRh2XZJ2YUr8+AlT+8Q1bUL2hOgZqJDqKOkXD5wxqHntj2WSRPCoguhq6KaYMoDIjgifzv9Qkvnxygb1yGELYxn4bIGG9HJ6zNOXUKHZ3E1jH2DOYj9cXxR719rUjweNIV0FVj46UPDQSzvSlzH+wE0KkuVGTA5psPNQjXZDwghn/iqiT4f/kYPk2iSrfP+t8D4a18slibrFbB+Y3R2O7GDy8KTNQXvDLbCiqpsisEIew0YoMNPCP6Rse+JYu7mEFcAhdCbfmO3E=
+	ShgHV8d4tq9nCf9tK5ythRKbnZ37uLfRNH0BKFCi0rR1odrn1fSaDS+bMhrOyhNXshR/AnMDCbmu9gAgep5nApOLodLelBMlhqg1Sr62qZzGrXd45TMg0rGaSudfh2ZafROmadO12lbtR5XW5uHIN4supxEu5pnecO4lHqwXkgshhqIKUtZvuC1zcFLOfIygvdYkJ0Dy5Bdk8bxgDUOBBnCw02Ix7OYE9DwY3gYL9A/qLNNtMJbkHiYI5/VKF8SkgCt9qX9cgpBbkTHafX2bJnLJkpNUv7ijglAiQFGTBcft3+Ie4Rrw/aoU9Hwp5Gp5emmgDu8FLGGZyV6fA96u9o0cAGLHbAQINZ7E+KrQZXLtno8ib2VU2kKG+4Ty07DVLP+9Q6aLiVli5DVLLRjAsQFSRxgr2KAnWWtQZE2kI9Kti0hNUYw7mBe+/AiNF5CiJ5Ctmwzm3Yz4j/HbTpcoyOpDiVfPosoxNh/UR9uXyRqtKwQME8zG0sY9Bou4Hwmzrq6+uinvWn4h1rnggtiQPZlahKWbGdgR/ugzooJp9Eo81xUTTMeQccrVd8dZC2BmB3UrDx08wAwbSdEsDthqFuC3v2eaEG67jT2+sjd2UQA=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ5PPF57F27BA08.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(23010399003)(18002099003)(10067099003)(13003099007)(11063799006)(38350700014)(260925021311599003)(260925021911599003)(260925022911599003)(56012099006);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(260925021911599003)(56012099006)(11063799006)(260925021311599003)(260925022911599003)(18002099003)(10067099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MG5qRk44VjNvY0l0OXNNZjRyYnQ0eHV1TXJuSWROTEFMc3FFVXVEMEpRV2cw?=
- =?utf-8?B?UFAreURJUURFOTZWSTI2TW9MN1hZblJVaDNvYkFVV1RZSUlpNnBGNW1GU3Nn?=
- =?utf-8?B?eERLYWQ0bFJwWThUT2FLcjZVa1lPTmlnVFRXeE94STEvZ1JRZXZLYUJTOWY1?=
- =?utf-8?B?ZERoaEtZbnBKWkpQczV4aXpMcUpKclQxaTU2UGpsRlpZNkUxNVQ5aDFIM0w4?=
- =?utf-8?B?eWdpRVJ5UVMzOVVZVjlNMitZbWJvdTNjNDRUdFNoMi8rbXU5S2lFYm9DT3RQ?=
- =?utf-8?B?V3ZBR3Z4VTBPU2RRbnVQWG1ncVhXQ3BSZi8wQmlubUVwbTIwM1J6azJMOGE4?=
- =?utf-8?B?VnJWTmVjS3NyRkRPSUFUcCtNN3ZVdVE0djNPalJyUHlEY0ZGT01DUTlIMTRS?=
- =?utf-8?B?emRYRlRDZUZmY3dGWFBMaS80bzdVUU9zbkl4QVdqTmlzaHBCQ3JtcFV1ZlRJ?=
- =?utf-8?B?RnpzUDZtVTk0RVRFUHlqTVFSWWxEN0xwVlIrcmcyNWs0M2F5YWxlZGhsNE52?=
- =?utf-8?B?cHFPRXpuMFBZV0M3SllGalREcURVQ2I2US8zNnMzeEVubU9mekNERktNQVpo?=
- =?utf-8?B?ejNMMjdBNHNhNDk5YXp0YTE3RDFxclhtOVVCVnhaZGcvVmpNcnZ6N1FvMldH?=
- =?utf-8?B?djk5aTcwVlhIT2w2czhxOUxYQWk1dENWVlNCOXBpdkdTeXJiUXlzSVBWZ01S?=
- =?utf-8?B?VTNaOW5DN0p4K3hMOGtKaFQwU0FMQnBEQndkYzBCd2x0d2VmaHNWMTFsOGtv?=
- =?utf-8?B?YVF3SE1reWRHRzlEOTRrMmZLaFRCeFViOG83dENyUXgvQmN1Y2tWbVBSWERu?=
- =?utf-8?B?WEFldFJ5bG1MZUU5bkJOQ2hValZEVVBRdUxyejRselZ5RS9mNHVmSEZnR0xy?=
- =?utf-8?B?Y3lRRkd6RWhVcXcrQnRENCtma0tTdFVkaEhZVndkcEFnSy92YzI2MFBuSERv?=
- =?utf-8?B?b2hoVURVeXkrbGNxOU52ZHR6THJTZ2ZXQlFGZGZTTy9YaTdPb1pEbXQyOHl4?=
- =?utf-8?B?cHNMNmlRTFFoM3h1TUV1MndTNUgrTDBiMmZZampYakVYUE4yRnZpZkpyQXZC?=
- =?utf-8?B?bnNmUm9KQnIrbEwxVUhDT25yRHNBTVZ2UStUanZUZWdoZ1ZWUW5ZUkFPZGVS?=
- =?utf-8?B?Vyt6Q2JwdFVvUVhPWWptYTlxdm1QTW1meVVML0JPOUJkeHVnV2FaalRnQ25D?=
- =?utf-8?B?NUZQTld2V1pCd1FuS0p0S1NyWUNoQlQwcFB5T3lTdDJlbk9hQm9EZ0ovMUND?=
- =?utf-8?B?bWxGNnc3WXUrbGVIS0srMWVJaXU2U2g0L3U2YU9Td0NFQ0hKc0lBVUlsTFpS?=
- =?utf-8?B?NnVNZWRQRS9PTEx1UlExN29YZ1U2RTNOU1I4Slp2Q1kyMjZRVlNXSTJoNHhT?=
- =?utf-8?B?aFRuMTBpQVh0RE81MjQ4WnZXTVB1Y1pBcCtyZGN0YytwdFFlNTJJaG4ydGF0?=
- =?utf-8?B?cXZhRytCTThUUG9WUGw4RnFUdkp6R1dCcTVCRm1KOHB3eWpFTDVjcnpwYTF2?=
- =?utf-8?B?TG9BSmt4YmFKQ09abmhLZHNnaUFYcU43SzhDbExKbGRxNXJUOWZ3WHlTMjNB?=
- =?utf-8?B?RGloK0NZZGFOQko1R0J5djFBbFpJazdPcFJkK1ptNzl0UXVGdE1mcHdzY1N1?=
- =?utf-8?B?U1Fyd2RwN1ByQThid21QNlQyNWpreGNDTmRmY1AzVzBodHU0WEROem1YQXVs?=
- =?utf-8?B?dVBYNmNUazg0ZTN6MHVTUmdIc3hpL0JuaUtjd3FmeTBxRDVCQVo4bmNNMERO?=
- =?utf-8?B?dGZxWmxwcnhVcU5EaHVnS2U2QmtPMXA3QnZxYkdqcURnZVFGb3FvRmJPcWJQ?=
- =?utf-8?B?U1pwMXNsMlkwQUZWaURvMEh6R0dwVnY4NjM3SUlyaEJpbmx5dUZQd3VUaG55?=
- =?utf-8?B?S3JreVp2c0FMRm9yeWp6UlBCVWVDREFoV2ROSVJnRzdUUnFpQmRybm42cDJF?=
- =?utf-8?B?Q0NwOWJ1S0d5L1E2WlpjUUljTEJSMDVTTjRhNmhwQlNleE5CT2ZsbkdyOUhr?=
- =?utf-8?B?am1UMzJwMWw4dmh2N1dHOENuQzh4dTFMa0VKVWhxVUJ5aVd5OUxlNVB3S0l6?=
- =?utf-8?B?Y0JSQ2xDTytJUG5CYitZMUhOQStocXBMOS9NYjRGbFpEUlhyT3FrK1U0UC91?=
- =?utf-8?B?WUYrRkpvY0huL3k1dlFYOEVUMkIrL2E4cVRLd0QvTGRHVEhTMU5pd04zdkE3?=
- =?utf-8?B?SkJTaDZ2VnpiWWYrSWhmZXlEbVFXWUF0UVFvOWwxK3pjTE1UMktCOG4zb1Jo?=
- =?utf-8?B?My9JM1ZIWkF0V3pFOGRQbVIvRXVWdHo1RkNTVG12UzBHU3V2Q1VYWEtBU09G?=
- =?utf-8?B?WGlWelI0K2M4RlRhcHM4dlFjbFRTRVl5RVBtblo1a1ZTUFYvV21aSi9Bdi9D?=
- =?utf-8?Q?FpGMhWgVExCo45ENoKVMkLJi1LaWXOtvA0Mj4?=
-X-Exchange-RoutingPolicyChecked: 
-	sA5HiE9jWxsCON5NUnwv4ml0XrenQW1dQRz3I6s1x7Hfb9WGa8fUiy35nnQZReFjl7RTM9uJxIH+bItRjx79xJwzERXV7LjSJL0TTt9RagVmr2Kj8FD2KEwJIqpmZigjGcbQAnBuXYfZW/I/joUCxr4Cc1QawYWwS+PNcvd1UuK49OjEc62Nk/nhZXtgR1V5/fz3uIVSE/w8iu0wc5V4p9QNX/IB+Eh+aDxUZpVcMY0lEC/MTGzCpYxpXZiAQcxUF6KMMcVsTHWP82Zy84u0oGdOp5aSIc4KJV/UPNJEVsodg/V44OlY5X/yD8DKvWr7fzCnWHOynLy/cxn7LU7UAA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cd4c6ef-2e20-4730-7a10-08df25de41c1
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PPF57F27BA08.namprd11.prod.outlook.com
+	=?us-ascii?Q?yzxRthUUfE9X50DGMncJU1coODHFJEDWheV/1oc7J4aqXEtKuyahOs5NuabL?=
+ =?us-ascii?Q?tBfNIx7awvx0DL4Dj46In2dLzYc+jWTEwAeGqlHnpkyYMQy6F1bI8A+ANAR4?=
+ =?us-ascii?Q?vwfjc7ObQODaD0qiuaqK+SR9R4pqnVS/4h/iphlNVqaTUy81+HRGem9VXmM3?=
+ =?us-ascii?Q?zyF9q1GwF/rJkhjf9nTTNWgDEfemc8UJeAzDlN79qwE4EmIpf7ZxJlIAXUfw?=
+ =?us-ascii?Q?X5Hgi6sa6AMTRThh17yyzKG7eQncTf79X7B71ELd27fXdUnhG8bzud+mZtT4?=
+ =?us-ascii?Q?JVNW5sQs6EtxPwYMbbN4sqzXgRLh+moyc34/pWNMe016I2p3ESpoAxhBW0TZ?=
+ =?us-ascii?Q?FY+Ry1xq0sRoUDuti0rT9BcuuaVvQQTXDiY2XHizaEMlkKLX1nBPiGpRq1p0?=
+ =?us-ascii?Q?uzlkWVjMBeyFDqYuyteUsefwIeYIXyFpR7hdp9IjfomzxzFq5qCz73MPEiJP?=
+ =?us-ascii?Q?uKpWH8F8w+UOt+XK363SwXkjPKDh+vUI6cIE8bjVzUeWxLsjk0rEZkVyOZJb?=
+ =?us-ascii?Q?T6d41fP5lOao/xLCMU0rGXowFqW3tgAZX4dAGPubBo5iqi8UasJaoC0+OTiS?=
+ =?us-ascii?Q?qgDcZA1YPBiEl/tyCVACJQPF2prdccNp1ipVj01IufkckbiHHL8qUoP6Skpe?=
+ =?us-ascii?Q?tFIjCW77bzPrO3c5Rdz9/m11dBEK41xXweyjMot8dIw1CPhteBVZy9DNgIU7?=
+ =?us-ascii?Q?6v0QkKa49mFFTzaMk2rhjhFzjALCeiyZhTltQVnJ02wV5S7A4GILLttqZA+8?=
+ =?us-ascii?Q?vbic6Yv4+KRoRL9Abq0q8s1RRX+TkOKuCG8ayIH0ENbfLxo6cFNNUvgrYqub?=
+ =?us-ascii?Q?vL538UCuYQnpTlMoOb1Bie1veC6VDoMu1TLkyHTD8Dp3PfXQrl4dSwFHAnCs?=
+ =?us-ascii?Q?ZeC8zb5y944OiJHc9Ao5l3DsAh/Htw5L2CCjP8KG+RlyfCE0lRvwEOrXU0rE?=
+ =?us-ascii?Q?pdPIjEE559wS72ijqF07a//RfaYP6AYtM+7KsPSh71nvB1Qw5bULlAlbp4ef?=
+ =?us-ascii?Q?qE9ZNUEy3KwnOcLFZPbBppBMMvNscdE9GP2bWPBIhtqBrHHxh7K4A4RVPJrq?=
+ =?us-ascii?Q?DY/fWhULJSrl8NRgin4XbcJCXDK1vGvnHXT5ScEnYuIKXW5go78synp5J0Xn?=
+ =?us-ascii?Q?9u6sNbC8hONVylH6wlqefnwb4hPLEApq0kaOSIiKnZTkYk78QHqIx14nYFSk?=
+ =?us-ascii?Q?9+myMRf4jVQ7gU3m3nQ9pwwthUZSfEyvTQQIJN1EPOm6fLZ48w9JAKA84v1k?=
+ =?us-ascii?Q?leCaeCzRjscGXX/AV08IxcBuRQs5VtrHItUBdsugTMYseMEFM67rR5ksf/NY?=
+ =?us-ascii?Q?1SzqVI6CB2W06aFDadw/ZSvBKD70eRLEp7Oe1QbBlTFftAKdBdW5sFPnCGuz?=
+ =?us-ascii?Q?9qM4hEttPbCD+r6oHNrwIxaS0UCTzO4LNDS2E0w0yiWfd+EpgKzVajbi4/Jf?=
+ =?us-ascii?Q?yzP1soChKY0xpkFwNwcuNpRD8A3TgRSp0khVyNqzQAmOb+xFfbPwxiWQhamW?=
+ =?us-ascii?Q?lUckZ5yDBLSy/7iRqHVmgcBzcQEYIXUtYDIQ0fJb70CbapBV/bQk335GLGSk?=
+ =?us-ascii?Q?f902Uikjh+ayPCpZ3BaeUcIl99V/DzYJrEJp+S8ENGlJCtx2kgBP8cRGkwN8?=
+ =?us-ascii?Q?9D2O7mhWJ3qFnzY6+WVYp85l4cbBPCoOSFE+oJTB8K0WF9vxawICtHCgmar8?=
+ =?us-ascii?Q?vuGhm4sHENE2miW7CuEpDl9nYh6XOA4jI/fevhBpb9BR2qBGyuUkP7hx1567?=
+ =?us-ascii?Q?XitM3X34yg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 832bd117-f17f-4f43-05c9-08df25e47b05
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2026 08:21:02.8718
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2026 09:05:35.8478
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: R4zfB5fpA2tc/7edjtjt9cLerSDCBf+3p513emEafFFZo+hfwPTksIG0WXoRus1c2dBG4udPOOSAZUr2mvi84ai97aJTOQLAvLoAtva7qPTEZ51fFwIHeN15l5siCZHW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8670
-X-Proofpoint-ORIG-GUID: NXqRDq-gL6QgNAAoy7UNR9sZeaEd3IQ_
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDAzMyBTYWx0ZWRfXzXofaSQDawc1
- 8INaw0wIzO6py50EB2A0opTglv9VdLW/fcEs1xcXYLVOpcqf85nHw7BFK+Tx0X4oI7+ubGG07cb
- NraHqqV2LYs/r4S85KJtpL/fAIkcKjJx59eTKLeirPIMmGZEvXJJ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDAzMyBTYWx0ZWRfX7qZfiQoLtcZ5
- aF6Zq/Gg2cXRc7ccAOuwBwLg+kPYG0J15AQIMzSR+tu0I11gsEESVNBL+tanN2cPOm9ctsfpQqY
- W0yKDUUq21e+dEmnIJZ7QMAiAD3/hkW8NP4ASow9nbzfLEyzLsWn3fsVuAlYmM6DmVrPu6MeDjO
- 6ZO7CKMhfaGFAvrwbQR6IPi52/gC4uQtbmm0Mj32UxVIs3lz4n0jmZJUEgaMJr4yzKGgbtwVFpi
- VYq9TxQGLz2+8DejtAlkgygc+6LzlgGMTEcXYmX6kvYKSvQoQueTlq6DRgV0OxOQwVuCnmo3eQj
- 3GkhvryUI/fpHc4hRRT+n+VrWc+MO0EN49+HzSOoqIfSozCt7loBjCKXirWeX9HouY9yIlFH5Mv
- gPLPpQFmdQX2BNaMsNPlvW5ZAwfMLGH+CUWHsXxNkrLyio0C77nhMm9nfVjuGxG1OCXNcfNHv9l
- rr71gz4XcZ3NKYmpF0g==
-X-Proofpoint-GUID: NXqRDq-gL6QgNAAoy7UNR9sZeaEd3IQ_
-X-Authority-Analysis: v=2.4 cv=G6uJgNk5 c=1 sm=1 tr=0 ts=6ac8a3f4 cx=c_pps
- a=bSkFQXo9YJPfdG4GsN7qoA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
- a=mDV3o1hIAAAA:8 a=PYnjg3YJAAAA:8 a=8r2qhXULAAAA:8 a=xNf9USuDAAAA:8
- a=fxJcL_dCAAAA:8 a=t7CeM3EgAAAA:8 a=koS_CkKyrU6iBq9c7OQA:9
- a=7jqKeCjk4K9AMwHj:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=8gvLZcY7Nlvl4CGD_6nf:22 a=FdTzh2GWekK77mhwV6Dw:22 a=ObmvtD6WMDJ6O4cpRQe4:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-09_03,2026-10-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0 spamscore=0
- bulkscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610020000 definitions=main-2610090033
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6998Hjru4058061
+X-MS-Exchange-CrossTenant-UserPrincipalName: OSk3wMDbxNeaVD5vVQ/f3+J686WiuaKjctP+sr//7QlfuYFn0h5eecVVj1pXQffLea+iPVZexcZYC2ui0M9l12Nf9Jrj3N9ny0idbKdJa9E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP189MB620134
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 08:21:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247469
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 09:05:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247470
 
-GNU Wget does not validate the IP address provided by an FTP PASV respons=
-e while operating in FTP passive mode.
-A malicious FTP server, or an HTTP server that redirects to an FTP URL, c=
-an exploit this behavior to redirect
-Wget=E2=80=99s data connection to an arbitrary IP address and port.This a=
-llows an attacker to forge server-side requests
-(SSRF) from the machine running Wget, potentially accessing localhost ser=
-vices or internal network resources.
+Version 1.15.0
+(21 Sep 2026, from /branches/1.15.x)
+https://svn.apache.org/repos/asf/subversion/tags/1.15.0
 
-Backport patch to fix CVE-2026-15146.
-https://cgit.git.savannah.gnu.org/cgit/wget.git/commit/?id=3D4f85853f6418=
-63d5915786a8413e1a213726a62b
+See the 1.15 release notes for a more verbose overview of the changes since
+the 1.14 release:  https://subversion.apache.org/docs/release-notes/1.15.ht=
+ml
 
-Ptest Result
-DURATION: 18
-END: /usr/lib/wget/ptest
-2026-10-09T11:05
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
+License-Update: Update content due to Remove experimental move-tracking dev=
+elopment. [1]
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-15146
-  https://www.cve.org/CVERecord?id=3DCVE-2026-15146
-  https://security-tracker.debian.org/tracker/CVE-2026-15146
-  https://ubuntu.com/security/CVE-2026-15146
+[1] https://github.com/apache/subversion/commit/d3c038eb5da2c56040193df8de1=
+28bb896d7b642
 
-Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../wget/wget/CVE-2026-15146.patch            | 126 ++++++++++++++++++
- meta/recipes-extended/wget/wget_1.25.0.bb     |   1 +
- 2 files changed, 127 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-15146.patch
+Changes since v1:
+  - Remove License FIXME text from AUH
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-15146.patch b/meta/=
-recipes-extended/wget/wget/CVE-2026-15146.patch
-new file mode 100644
-index 0000000000..5d8d1a898e
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-15146.patch
-@@ -0,0 +1,126 @@
-+From 4f85853f641863d5915786a8413e1a213726a62b Mon Sep 17 00:00:00 2001
-+From: Acts1631 <acts1631kjv@proton.me>
-+Date: Sun, 5 Jul 2026 17:22:55 -0400
-+Subject: ftp: validate PASV/LPSV response address against control connec=
-tion
-+ peer
-+
-+* src/ftp-basic.c (ftp_pasv): Reject if peer address doesn't match adver=
-tised
-+  address,
-+  (ftp_lpsv): Likewise.
-+
-+ftp_pasv() and ftp_lpsv() copied the IP address and port advertised in
-+the server's 227 response without checking that it matched the peer
-+of the control connection.  A malicious or compromised FTP server
-+could therefore direct wget's data connection to an arbitrary host and
-+port of its choosing (e.g. an internal service unreachable from the
-+attacker directly), which is a server-side request forgery.
-+
-+ftp_epsv() was already safe since it only extracts a port and reuses
-+the pre-filled control-connection address.
-+
-+Fix ftp_pasv() and ftp_lpsv() the same way: capture the control
-+connection's peer address via socket_ip_address() before parsing the
-+response, and reject the response (FTPINVPASV) if the parsed address
-+does not match.
-+
-+Verified with a fake FTP server that returns a PASV response pointing
-+at a different loopback address (127.0.0.2 instead of the real peer
-+127.0.0.1): before the fix wget connects to the spoofed address, after
-+the fix it rejects the response with "Cannot parse PASV response."
-+Legitimate transfers using a correctly-addressed PASV response
-+continue to work.
-+
-+Copyright-paperwork-exempt: Yes
-+
-+CVE: CVE-2026-15146
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/wget.g=
-it/commit/?id=3D4f85853f641863d5915786a8413e1a213726a62b]
-+
-+Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
+ ...-fix-svn-revision-host-contamination.patch |  9 +++------
+ .../subversion/subversion/parallel.patch      | 19 +++++++++++++------
+ .../subversion/subversion/serfmacro.patch     | 12 +++++++-----
+ ...version_1.14.5.bb =3D> subversion_1.15.0.bb} |  4 ++--
+ 4 files changed, 25 insertions(+), 19 deletions(-)
+ rename meta/recipes-devtools/subversion/{subversion_1.14.5.bb =3D> subvers=
+ion_1.15.0.bb} (95%)
+
+diff --git a/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revis=
+ion-host-contamination.patch b/meta/recipes-devtools/subversion/subversion/=
+0001-fix-svn-revision-host-contamination.patch
+index 9741a6499c..cfcf090ce3 100644
+--- a/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revision-hos=
+t-contamination.patch
++++ b/meta/recipes-devtools/subversion/subversion/0001-fix-svn-revision-hos=
+t-contamination.patch
+@@ -1,4 +1,4 @@
+-From 54b2cf44445820ea7c3250a25ed957a389aafbd6 Mon Sep 17 00:00:00 2001
++From d8f18b85e017f7fcfffaeb46cfbf6cc07ce1376c Mon Sep 17 00:00:00 2001
+ From: Haixiao Yan <haixiao.yan.cn@windriver.com>
+ Date: Thu, 28 May 2026 09:20:59 +0800
+ Subject: [PATCH] build: do not run svnversion during install
+@@ -23,10 +23,10 @@ Signed-off-by: Haixiao Yan <haixiao.yan.cn@windriver.co=
+m>
+  1 file changed, 1 insertion(+), 4 deletions(-)
+=20
+ diff --git a/Makefile.in b/Makefile.in
+-index 7f0a37dd9a9b..914c1c37790c 100644
++index bea3a35..92ca3a0 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -499,10 +499,7 @@ local-install: @INSTALL_RULES@
++@@ -500,10 +500,7 @@ local-install: @INSTALL_RULES@
+  revision-install:
+  	test -d $(DESTDIR)$(includedir)/subversion-1 || \
+  	  $(MKDIR) $(DESTDIR)$(includedir)/subversion-1
+@@ -38,6 +38,3 @@ index 7f0a37dd9a9b..914c1c37790c 100644
+ =20
+  install-static: @INSTALL_STATIC_RULES@
+ =20
+---=20
+-2.53.0
+-
+diff --git a/meta/recipes-devtools/subversion/subversion/parallel.patch b/m=
+eta/recipes-devtools/subversion/subversion/parallel.patch
+index 1fee1523ee..ad0babe034 100644
+--- a/meta/recipes-devtools/subversion/subversion/parallel.patch
++++ b/meta/recipes-devtools/subversion/subversion/parallel.patch
+@@ -1,4 +1,8 @@
+-Ensure that directories are created before files are compiled into them.
++From a0aad59e068b6ed852db38cf26c5d862ce0ec2ab Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Thu, 5 Mar 2026 11:51:30 +0000
++Subject: [PATCH] Ensure that directories are created before files are comp=
+iled
++ into them.
+=20
+ This is a hacky workaround, upstream have been informed and a better
+ solution proposed:
+@@ -7,12 +11,15 @@ https://lists.apache.org/thread/nr0w8hcpr9my2gkys09kj89r=
+lxgd84of
+=20
+ Upstream-Status: Inappropriate [discussion upstream]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
-+ src/ftp-basic.c | 40 ++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 40 insertions(+)
++ Makefile.in | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
+=20
+-diff --git i/Makefile.in w/Makefile.in
+-index 0fb9e39602..8bae2cc3d2 100644
+---- i/Makefile.in
+-+++ w/Makefile.in
+-@@ -424,7 +424,9 @@ ECHO_N =3D @ECHO_N@
++diff --git a/Makefile.in b/Makefile.in
++index 983f3d1..bea3a35 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -419,7 +419,9 @@ ECHO_N =3D @ECHO_N@
+ =20
+  TESTS =3D $(TEST_PROGRAMS) @BDB_TEST_PROGRAMS@
+ =20
+diff --git a/meta/recipes-devtools/subversion/subversion/serfmacro.patch b/=
+meta/recipes-devtools/subversion/subversion/serfmacro.patch
+index 507de0f08b..b16a0c866f 100644
+--- a/meta/recipes-devtools/subversion/subversion/serfmacro.patch
++++ b/meta/recipes-devtools/subversion/subversion/serfmacro.patch
+@@ -1,3 +1,8 @@
++From d8f21366d2b9bd72faf078099d4ba8146396ac59 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 7 Dec 2016 13:54:18 +0000
++Subject: [PATCH] subversion: Fix issues in LDFLAGS sed manipulation
 +
-+diff --git a/src/ftp-basic.c b/src/ftp-basic.c
-+index 4870256a..0f4bb821 100644
-+--- a/src/ftp-basic.c
-++++ b/src/ftp-basic.c
-+@@ -623,10 +623,19 @@ ftp_pasv (int csock, ip_address *addr, int *port)
-+   int nwritten, i;
-+   uerr_t err;
-+   unsigned char tmp[6];
-++  ip_address peer_addr;
-+=20
-+   assert (addr !=3D NULL);
-+   assert (port !=3D NULL);
-+=20
-++  /* Remember who we are talking to on the control connection, so that
-++     the address returned in the PASV response can be checked below.
-++     Accepting an arbitrary server-supplied address would let a
-++     malicious FTP server redirect our data connection to any host of
-++     its choosing (SSRF).  */
-++  if (!socket_ip_address (csock, &peer_addr, ENDPOINT_PEER))
-++    return FTPINVPASV;
-++
-+   xzero (*addr);
-+=20
-+   /* Form the request.  */
-+@@ -677,6 +686,16 @@ ftp_pasv (int csock, ip_address *addr, int *port)
-+   memcpy (IP_INADDR_DATA (addr), tmp, 4);
-+   *port =3D ((tmp[4] << 8) & 0xff00) + tmp[5];
-+=20
-++  /* Reject the response if the advertised address does not match the
-++     control connection's peer.  */
-++  if (peer_addr.family !=3D AF_INET
-++      || memcmp (IP_INADDR_DATA (addr), IP_INADDR_DATA (&peer_addr), 4)=
- !=3D 0)
-++    {
-++      xzero (*addr);
-++      *port =3D 0;
-++      return FTPINVPASV;
-++    }
-++
-+   return FTPOK;
-+ }
-+=20
-+@@ -692,10 +711,19 @@ ftp_lpsv (int csock, ip_address *addr, int *port)
-+   uerr_t err;
-+   unsigned char tmp[16];
-+   unsigned char tmpprt[2];
-++  ip_address peer_addr;
-+=20
-+   assert (addr !=3D NULL);
-+   assert (port !=3D NULL);
-+=20
-++  /* Remember who we are talking to on the control connection, so that
-++     the address returned in the LPSV response can be checked below.
-++     Accepting an arbitrary server-supplied address would let a
-++     malicious FTP server redirect our data connection to any host of
-++     its choosing (SSRF).  */
-++  if (!socket_ip_address (csock, &peer_addr, ENDPOINT_PEER))
-++    return FTPINVPASV;
-++
-+   xzero (*addr);
-+=20
-+   /* Form the request.  */
-+@@ -842,6 +870,18 @@ ftp_lpsv (int csock, ip_address *addr, int *port)
-+       DEBUGP (("*port is: %d\n", *port));
-+     }
-+=20
-++  /* Reject the response if the advertised address does not match the
-++     control connection's peer.  */
-++  if (peer_addr.family !=3D addr->family
-++      || memcmp (IP_INADDR_DATA (addr), IP_INADDR_DATA (&peer_addr),
-++                 af =3D=3D 4 ? 4 : 16) !=3D 0)
-++    {
-++      xzero (*addr);
-++      *port =3D 0;
-++      xfree (respline);
-++      return FTPINVPASV;
-++    }
-++
-+   xfree (respline);
-+   return FTPOK;
-+ }
-+--=20
-+cgit v1.3
-+
-diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-ext=
-ended/wget/wget_1.25.0.bb
-index 26f5c84e5a..b8c803aae1 100644
---- a/meta/recipes-extended/wget/wget_1.25.0.bb
-+++ b/meta/recipes-extended/wget/wget_1.25.0.bb
-@@ -24,6 +24,7 @@ SRC_URI =3D "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://CVE-2026-16599.patch \
-            file://CVE-2026-58470.patch \
-            file://CVE-2026-58470-regression.patch \
-+           file://CVE-2026-15146.patch \
+ The existing sed expression can match expressions like
+ --sysroot=3D/some/path/xxx-linux/ which clearly isn't intended and injects
+ incorrect paths into LDFLAGS.
+@@ -14,10 +19,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+ diff --git a/build/ac-macros/serf.m4 b/build/ac-macros/serf.m4
+-index 0a549b3..3a069ac 100644
++index 4637430..126eb74 100644
+ --- a/build/ac-macros/serf.m4
+ +++ b/build/ac-macros/serf.m4
+-@@ -171,7 +171,7 @@ AC_DEFUN(SVN_SERF_PKG_CONFIG,
++@@ -185,7 +185,7 @@ AC_DEFUN(SVN_SERF_PKG_CONFIG,
+            SVN_SERF_INCLUDES=3D[`$PKG_CONFIG $serf_pc_arg --cflags-only-I`=
+]
+            SVN_SERF_LIBS=3D[`$PKG_CONFIG $serf_pc_arg --libs-only-l`]
+            dnl don't use --libs-only-L because then we might miss some opt=
+ions
+@@ -26,6 +31,3 @@ index 0a549b3..3a069ac 100644
+            break
+          else
+            AC_MSG_RESULT([no])
+---=20
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/subversion/subversion_1.14.5.bb b/meta/r=
+ecipes-devtools/subversion/subversion_1.15.0.bb
+similarity index 95%
+rename from meta/recipes-devtools/subversion/subversion_1.14.5.bb
+rename to meta/recipes-devtools/subversion/subversion_1.15.0.bb
+index f6a5b9950f..ec053f6b61 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.14.5.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.15.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE =3D "http://subversion.apache.org"
+ DESCRIPTION =3D "Subversion is an open source version control system."
+ SECTION =3D "console/network"
+ LICENSE =3D "Apache-2.0 AND MIT"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D6487ae7094d359fa90fb9c4096e52e2=
+b"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd9c5b0e279cdb238d735af75554a390=
+2"
+=20
+ DEPENDS =3D "apr-util serf sqlite3 file lz4 expat"
+ DEPENDS:append:class-native =3D " file-replacement-native"
+@@ -14,7 +14,7 @@ SRC_URI =3D "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2=
+ \
+            file://0001-fix-svn-revision-host-contamination.patch \
             "
 =20
- SRC_URI[sha256sum] =3D "766e48423e79359ea31e41db9e5c289675947a7fcf2efdce=
-db726ac9d0da3784"
---=20
-2.40.0
-
+-SRC_URI[sha256sum] =3D "e78a29e7766b8b7b354497d08f71a55641abc53675ce187558=
+4781aae35644a1"
++SRC_URI[sha256sum] =3D "dfb7b1e5270c7def971ccbd5938b0c03b1b5bd60b6674a2d8a=
+74a9560839fb8c"
+=20
+ inherit autotools pkgconfig gettext python3native
+=20
 
