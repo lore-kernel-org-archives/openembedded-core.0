@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93AD8CA6012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEEDBCA6015
 	for <webhook@archiver.kernel.org>; Fri,  9 Oct 2026 06:50:23 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2377.1791528622973692882
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2376.1791528622604647421
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Oct 2026 23:50:23 -0700
+ Thu, 08 Oct 2026 23:50:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ayvA/lNF;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=brSCymmd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a11f6d57b7-2c9bcc34-8c03-46ac-af2f-9d9ff5dc9b09-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Qp9ZOK8e;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yyH9Jlz2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a11f6d5753-3e52e130-2bec-42ad-a8c5-01c3acc27e61-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1791528622;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=QXfNyOw+b4zbFeYn6DmTlR7iRq662YJxvPtd+LVr/rY=;
-	b=ayvA/lNF0UmpvMyHGG1PzNQo8SUkx0WLuyw1fzCgWT5U01O8kb+T0Gx58U5qrvF+
-	a0Q47yQVq0al69DesIzKR1mOYD3EHWPMKjIgTgFEKegxF/Sgk41tvuVhPe4+qF/kVfZ
-	1wj2qpBXrT9eNR9NeuSnnn+6boo6V+23jxa70KVg=
+	bh=V947Dc54lGvQh2BIZB7pkmwb3qy2uqcF/XrrdYxLxnc=;
+	b=Qp9ZOK8eya5bkknQOCyPMVK3Lc4umhYUrZbcJbh04oFnnokry565K/lDaqC0mWU6
+	6aPM0BABMozAUE7THm5nrYlXgxJqjjtx7qA7pCGCECu5GQXWHA8zsTqpbEfxIL0wneW
+	XFSV/nJzV44Oac3XzJ8pFxEaWJOYLK6kJ1pl9/oA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791528622;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=QXfNyOw+b4zbFeYn6DmTlR7iRq662YJxvPtd+LVr/rY=;
-	b=brSCymmd6QqCNfKZFer53V0xKvd2sF2MwXJ/S7sC+b6qQ1jczfU3oEE2mIruCYYg
-	1EXRC0vZHHXJBHlU66EyS96/pHKIe0otXoa+0Mkso3bvF/bkMkV+jXX4Ildk8Z9CagC
-	2onYyHMURJfqom1IFwjtYcSbvxXVMHNfkdDpVjOs=
-Content-Type: multipart/mixed; boundary="===============5737200069852957450=="
+	bh=V947Dc54lGvQh2BIZB7pkmwb3qy2uqcF/XrrdYxLxnc=;
+	b=yyH9Jlz2A/qDhdYU2IGjtVizIHB8okSv2FAyK6/pRupiA684QhSx6+XubhUTDCEu
+	Q/EOd8E+JTLUBClSd2TLMrl+N0jPcrqlDSpCS0P2HVpcZ7/KBMoULk/lEo9ojgHu8Pb
+	xM6hjpSocj+fhZSMLN+M0c+HikoyNN2CRPxgNarA=
+Content-Type: multipart/mixed; boundary="===============8917931105549848618=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-libav: upgrading to 1.28.8 SUCCEEDED
-Message-ID: <010101a11f6d57b7-2c9bcc34-8c03-46ac-af2f-9d9ff5dc9b09-000000@us-west-2.amazonses.com>
-Date: Fri, 9 Oct 2026 06:50:22 +0000
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.28.8 SUCCEEDED
+Message-ID: <010101a11f6d5753-3e52e130-2bec-42ad-a8c5-01c3acc27e61-000000@us-west-2.amazonses.com>
+Date: Fri, 9 Oct 2026 06:50:21 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.09-54.240.27.30
+X-SES-Outgoing: 2026.10.09-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 Oct 2026 06:50:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247466
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247464
 
---===============5737200069852957450==
+--===============8917931105549848618==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-libav* to *1.28.8* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.28.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-libav-upgrade-1.28.7-1.28.8.patch
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.28.7-1.28.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,10 +71,10 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b58bf9af6e55cb2692ef12fea1d11e0ac09004a9 Mon Sep 17 00:00:00 2001
+From 305b340d004a41e47e83c1cdd66486c413c12d85 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 9 Oct 2026 06:38:24 +0000
-Subject: [PATCH] gstreamer1.0-libav: upgrade 1.28.7 -> 1.28.8
+Date: Fri, 9 Oct 2026 06:44:42 +0000
+Subject: [PATCH] gstreamer1.0-python: upgrade 1.28.7 -> 1.28.8
 
 # GStreamer 1.28 Release Notes
 GStreamer 1.28.0 was originally released on 27 January 2026.
@@ -179,184 +179,185 @@ other improvements.
 [Changelog truncated as it exceeds 5000 characters;
 the full changelog can be found in an attachment to the AUH email]
 ---
- ...streamer1.0-libav_1.28.7.bb => gstreamer1.0-libav_1.28.8.bb} | 2 +-
+ ...reamer1.0-python_1.28.7.bb => gstreamer1.0-python_1.28.8.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.28.7.bb => gstreamer1.0-libav_1.28.8.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.28.7.bb => gstreamer1.0-python_1.28.8.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.8.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.7.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.8.bb
-index 0eb98da021..22f071b17c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.8.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.8.bb
+similarity index 93%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.8.bb
+index a33bc0f057..c7efa31ecf 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.8.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "58da51dd39ecf1cf6faade34cc6412001be2e2e145bca8ae0f45336f60a36ab2"
-+SRC_URI[sha256sum] = "98ad3d7f8932c495e268708903f1c3388d5f26a0db34727a9f861ee23b724177"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "9c23c5dddfd2c9b94bb1b4e4f5b90ebc6400d84277c77cf91b1dbdb4a8b451f9"
++SRC_URI[sha256sum] = "6e0d8dd920234b9feeb86003d8f43c1996491f9d8190882329bf56f60a70206e"
  
- S = "${UNPACKDIR}/gst-libav-${PV}"
- 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
 -- 
 2.47.1
 
 
---===============5737200069852957450==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-libav-upgrade-1.28.7-1.28.8.patch"
-
-RnJvbSBiNThiZjlhZjZlNTVjYjI2OTJlZjEyZmVhMWQxMWUwYWMwOTAwNGE5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgOSBPY3QgMjAyNiAwNjozODoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1saWJhdjogdXBncmFkZSAxLjI4LjcgLT4gMS4yOC44CgojIEdTdHJlYW1lciAx
-LjI4IFJlbGVhc2UgTm90ZXMKR1N0cmVhbWVyIDEuMjguMCB3YXMgb3JpZ2luYWxseSByZWxlYXNl
-ZCBvbiAyNyBKYW51YXJ5IDIwMjYuCgpUaGUgbGF0ZXN0IGJ1Zy1maXggcmVsZWFzZSBpbiB0aGUg
-c3RhYmxlIDEuMjggc2VyaWVzIGlzIFsxLjI4LjhdKCMxLjI4LjgpIGFuZAp3YXMgcmVsZWFzZWQg
-b24gMDggT2N0b2JlciAyMDI2LgoKU2VlIFtodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5v
-cmcvcmVsZWFzZXMvMS4yOC9dW2xhdGVzdF0gZm9yIHRoZSBsYXRlc3QKdmVyc2lvbiBvZiB0aGlz
-IGRvY3VtZW50LgoKKkxhc3QgdXBkYXRlZDogVGh1cnNkYXkgMDggT2N0b2JlciAyMDI2LCAxNzow
-MCBVVEMgWyhsb2cpXVtnaXRsb2ddKgoKW2xhdGVzdF06IGh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVk
-ZXNrdG9wLm9yZy9yZWxlYXNlcy8xLjI4LwpbZ2l0bG9nXTogaHR0cHM6Ly9naXRsYWIuZnJlZWRl
-c2t0b3Aub3JnL2dzdHJlYW1lci93d3cvY29tbWl0cy9tYWluL3NyYy9odGRvY3MvcgplbGVhc2Vz
-LzEuMjgvcmVsZWFzZS1ub3Rlcy0xLjI4Lm1kCgo8YSBpZD0iaW50cm9kdWN0aW9uIj48L2E+CiMj
-IEludHJvZHVjdGlvbgoKVGhlIEdTdHJlYW1lciB0ZWFtIGlzIHByb3VkIHRvIGFubm91bmNlIGEg
-bmV3IG1ham9yIGZlYXR1cmUgcmVsZWFzZSBpbiB0aGUKc3RhYmxlIDEueCBBUEkgc2VyaWVzIG9m
-IHlvdXIgZmF2b3VyaXRlIGNyb3NzLXBsYXRmb3JtIG11bHRpbWVkaWEgZnJhbWV3b3JrIQoKQXMg
-YWx3YXlzLCB0aGlzIHJlbGVhc2UgaXMgYWdhaW4gcGFja2VkIHdpdGggbWFueSBuZXcgZmVhdHVy
-ZXMsIGJ1ZyBmaXhlcywgYW5kCm90aGVyIGltcHJvdmVtZW50cy4KCjxhIGlkPSJoaWdobGlnaHRz
-Ij48L2E+CiMjIEhpZ2hsaWdodHMKCi0gQU1EIEhJUCBwbHVnaW4gYW5kIGludGVncmF0aW9uIGhl
-bHBlciBsaWJyYXJ5Ci0gVnVsa2FuIFZpZGVvIEFWMSBhbmQgVlA5IGRlY29kaW5nLCBILjI2NCBl
-bmNvZGluZywgYW5kIDEwLWJpdCBzdXBwb3J0IGZvcgogIEguMjY1IGRlY29kZXIKLSB3YXlsYW5k
-c2luazogUGFyc2UgYW5kIHNldCB0aGUgSERSMTAgbWV0YWRhdGEgYW5kIG90aGVyIGNvbG9yIG1h
-bmFnZW1lbnQKICBpbXByb3ZlbWVudHMKLSBBdWRpbyBzb3VyY2Ugc2VwYXJhdGlvbiBlbGVtZW50
-IGJhc2VkIG9uIGRlbXVjcyBpbiBSdXN0Ci0gQW5hbHl0aWNzIGNvbWJpbmVyIGFuZCBzcGxpdHRl
-ciBlbGVtZW50cyBwbHVzIGJhdGNoIG1ldGEgdG8gYmF0Y2ggYnVmZmVycyBmcm9tCiAgb25lIG9y
-IG1vcmUgc3RyZWFtcwotIExpdGVSVCBpbmZlcmVuY2UgZWxlbWVudDsgbW92ZSBtb2RlbGluZm8g
-dG8gYW5hbHl0aWNzIGxpYjsgYWRkIHNjcmlwdCB0byBoZWxwCiAgd2l0aCBtb2RlbGluZm8gZ2Vu
-ZXJhdGlvbiBhbmQgdXBncmFkZQotIEFkZCBnZW5lcmFsIGNsYXNzaWZpZXIgdGVuc29yLWRlY29k
-ZXIsIGZhY2VkZXRlY3RvciwgYW5kIG1vcmUgYW5hbHl0aWNzCiAgY29udmVuaWVuY2UgQVBJCi0g
-TmV3IHRlbnNvcmRlY29kZWJpbiBlbGVtZW50IHRvIGF1dG8tcGx1ZyBjb21wYXRpYmxlIHRlbnNv
-ciBkZWNvZGVycyBiYXNlZCBvbgogIHRoZWlyIGNhcHMgYW5kIG1hbnkgb3RoZXIgYWRkaXRpb25z
-IGFuZCBpbXByb3ZlbWVudHMKLSBBZGQgYSBidXJuLWJhc2VkIFlPTE9YIGluZmVyZW5jZSBlbGVt
-ZW50IGFuZCBhIFlPTE9YIHRlbnNvciBkZWNvZGVyIGluIFJ1c3QKLSBhcHBsZW1lZGlhOiBWaWRl
-b1Rvb2xib3ggVlA5IGFuZCBBVjEgaGFyZHdhcmUtYWNjZWxlcmF0ZWQgZGVjb2Rpbmcgc3VwcG9y
-dCwKICBhbmQgMTAtYml0IEhFVkMgZW5jb2RpbmcKLSBBZGQgbmV3IEdJRiBkZWNvZGVyIGVsZW1l
-bnQgaW4gUnVzdCB3aXRoIGxvb3Bpbmcgc3VwcG9ydAotIGlucHV0LXNlbGVjdG9yOiBpbXBsZW1l
-bnRzIGEgdHdvLXBoYXNlIHNpbmtwYWQgc3dpdGNoIG5vdyB0byBhdm9pZCByYWNlcyB3aGVuCiAg
-c3dpdGNoaW5nIGlucHV0IHBhZHMKLSBUaGUgaW50ZXIgd29ybWhvbGUgc2luayBhbmQgc291cmNl
-IGVsZW1lbnRzIGdhaW5lZCBhIHdheSB0byBmb3J3YXJkIHVwc3RyZWFtCiAgZXZlbnRzIHRvIHRo
-ZSBwcm9kdWNlciBhcyB3ZWxsIGFzIG5ldyBmaW5lLXR1bmluZyBwcm9wZXJ0aWVzCi0gd2VicnRj
-c2luazogYWRkIHJlbmVnb3RpYXRpb24gc3VwcG9ydCBhbmQgc3VwcG9ydCBmb3IgdmEgaGFyZHdh
-cmUgZW5jb2RlcnMKLSB3ZWJydGMgV0hFUCBjbGllbnQgYW5kIHNlcnZlciBzaWduYWxsZXIKLSBO
-ZXcgU1QtMjAzOCBhbmNpbGxhcnkgZGF0YSBjb21iaW5lciBhbmQgZXh0cmFjdG9yIGVsZW1lbnRz
-Ci0gZmFsbGJhY2tzcmMgZ2FpbmVkIHN1cHBvcnQgZm9yIGVuY29kZWQgc3RyZWFtcwotIGZsdjog
-ZW5oYW5jZWQgcnRtcCBILjI2NSB2aWRlbyBzdXBwb3J0LCBhbmQgc3VwcG9ydCBmb3IgbXVsdGl0
-cmFjayBhdWRpbwotIGdsdXBsb2FkOiBJbXBsZW1lbnQgdWRtYWJ1ZiB1cGxvYWRlciB0byBzaGFy
-ZSBidWZmZXJzIGJldHdlZW4gc29mdHdhcmUKICBkZWNvZGVycy9zb3VyY2VzIGFuZCBHUFVzLCBk
-aXNwbGF5IGVuZ2luZXMgKHdheWxhbmQpLCBhbmQgb3RoZXIgZG1hIGRldmljZXMKLSB2aWRlbzog
-QWRkIGNyb3AsIHNjYWxlLCByb3RhdGUsIGZsaXAsIHNoZWFyIGFuZCBtb3JlIEdzdE1ldGEgdHJh
-bnNmb3JtYXRpb24KLSBOZXcgdGFzayBwb29sIEdzdENvbnRleHQgdG8gc2hhcmUgYSB0aHJlYWQg
-cG9vbCBhbW9uZ3N0IGVsZW1lbnRzIGZvciBiZXR0ZXIKICByZXNvdXJjZSBtYW5hZ2VtZW50IGFu
-ZCBwZXJmb3JtYW5jZSwgZXNwZWNpYWxseSBmb3IgdmlkZW8gY29udmVyc2lvbiBhbmQKICBjb21w
-b3NpdGluZwotIE5ldyBEZWVwZ3JhbSBzcGVlY2gtdG8tdGV4dCB0cmFuc2NyaXB0aW9uIHBsdWdp
-biBhbmQgbWFueSBvdGhlciB0cmFuc2xhdGlvbgogIGFuZCB0cmFuc2NyaXB0aW9uIGltcHJvdmVt
-ZW50cwotIFNwZWVjaCBzeW50aGVzaXplcnM6IGV4cG9zZSBuZXcgImNvbXByZXNzIiBvdmVyZmxv
-dyBtb2RlIHRoYXQgY2FuIHNwZWVkIHVwCiAgYXVkaW8gd2hpbGUgcHJlc2VydmluZyBwaXRjaAot
-IEVsZXZlbkxhYnMgdm9pY2UgY2xvbmluZyBlbGVtZW50IGFuZCBzdXBwb3J0IGZvciBTcGVlY2ht
-YXRpY3Mgc3BlYWtlcgogIGlkZW50aWZpY2F0aW9uIEFQSQotIHRleHRhY2N1bXVsYXRlOiBuZXcg
-ZWxlbWVudCBmb3Igc3BlZWNoIHN5bnRoZXNpcyBvciB0cmFuc2xhdGlvbiBwcmVwcm9jZXNzaW5n
-Ci0gTmV3IHZtYWYgZWxlbWVudCB0byBjYWxjdWxhdGUgcGVyY2VwdHVhbCB2aWRlbyBxdWFsaXR5
-IGFzc2Vzc21lbnQgc2NvcmVzIHVzaW5nCiAgTmV0ZmxpeCdzIFZNQUYgZnJhbWV3b3JrCi0gZGVj
-b2RlYmluMzogZXhwb3NlIEtMViwgSUQzIFBFUyBhbmQgU1QtMjAzOCBhbmNpbGxhcnkgZGF0YSBz
-dHJlYW1zIHdpdGggbmV3CiAgbWV0YWRhdGEgR3N0U3RyZWFtIHR5cGUKLSBOZXcgTVBFRy1IIGF1
-ZGlvIGRlY29kaW5nIHBsdWdpbiBwbHVzIE1QNCBkZW11eGluZyBzdXBwb3J0Ci0gTENFVkM6IEFk
-ZCBhdXRvcGx1Z2dpbmcgZGVjb2Rpbmcgc3VwcG9ydCBmb3IgTENFVkMgSDI2NSBhbmQgSDI2NiB2
-aWRlbyBzdHJlYW1zCiAgYW5kIExDRVZDIEguMjY1IGFuZCBILjI2NiBlbmNvZGVycwotIFJUUCAi
-cm9idXN0IE1QRUcgYXVkaW8iLCByYXcgYXVkaW8gKEw4LCBMMTYsIEwyNCksIGFuZCBTTVBURSBT
-VDI5MSBhbmNpbGxhcnkKICBtZXRhZGF0YSBwYXlsb2FkZXJzL2RlcGF5bG9hZGVycyBpbiBSdXN0
-Ci0gQWRkIGEgUnVzdC1iYXNlZCBpY2VjYXN0c2luayBlbGVtZW50IHdpdGggQUFDIHN1cHBvcnQK
-LSBUaGUgV2luZG93cyBJUEMgcGx1Z2luIGdhaW5lZCBzdXBwb3J0IGZvciBwYXNzaW5nIGdlbmVy
-aWMgZGF0YSBpbiBhZGRpdGlvbiB0bwogIHJhdyBhdWRpby92aWRlbywgYW5kIHZhcmlvdXMgcHJv
-cGVydGllcwotIE5ldyBEM0QxMiBpbnRlcmxhY2UgYW5kIG92ZXJsYXkgY29tcG9zaXRvciBlbGVt
-ZW50cywgcGx1cyBtYW55IG90aGVyIEQzRDEyCiAgaW1wcm92ZW1lbnRzCi0gQmxhY2ttYWdpYyBE
-ZWNrbGluayBlbGVtZW50cyBnYWluZWQgc3VwcG9ydCBmb3IgY2FwdHVyaW5nIGFuZCBvdXRwdXR0
-aW5nIGFsbAogIHR5cGVzIG9mIFZBTkMgdmlhIEdzdEFuY2lsbGFyeU1ldGEKLSBHc3RMb2dDb250
-ZXh0IEFQSSB0byByZWR1Y2UgbG9nIHNwYW0gaW4gc2V2ZXJhbCBjb21wb25lbnRzIGFuZAogIGBH
-U1RfREVCVUdfT05DRWAgKGV0YykgY29udmVuaWVuY2UgbWFjcm9zIHRvIGxvZyB0aGluZ3Mgb25s
-eSBvbmNlCi0gaGxzc2luazMsIGhsc2NtYWZzaW5rOiBTdXBwb3J0IHRoZSB1c2Ugb2YgYSBzaW5n
-bGUgbWVkaWEgZmlsZSwgcGx1cyBJLWZyYW1lCiAgb25seSBwbGF5bGlzdCBzdXBwb3J0Ci0gV2Vi
-a2l0OiBOZXcgd3BlMiBwbHVnaW4gbWFraW5nIHVzZSBvZiB0aGUgIldQRSBQbGF0Zm9ybSBBUEki
-Ci0gTVBFRy1UUyBkZW11eGVyIGNhbiBub3cgZGlzYWJsZSBza2V3IGNvcnJlY3Rpb25zCi0gTmV3
-IFF0NiBRTUwgcmVuZGVyIHNvdXJjZSBlbGVtZW50Ci0gcW1sNmdsb3ZlcmxheTogc3VwcG9ydCBk
-aXJlY3RseSBwYXNzaW5nIGEgUVF1aWNrSXRlbSBmb3IgUU1MIHRoZSByZW5kZXIgdHJlZQotIHVu
-aWZ4ZmRzaW5rOiBBZGQgYSBwcm9wZXJ0eSB0byBhbGxvdyBjb3B5aW5nIHRvIG1ha2Ugc2luayB1
-c2FibGUgd2l0aCBtb3JlCiAgdXBzdHJlYW0gZWxlbWVudHMKLSBkb3RzLXZpZXdlcjogSW1wcm92
-ZSBkb3QgZmlsZSBnZW5lcmF0aW9uIGFuZCBpbnRlcmFjdGl2aXR5Ci0gUHl0aG9uIGJpbmRpbmdz
-OiBtb3JlIHN5bnRhY3RpYyBzdWdhciwgYW5hbHl0aWNzIEFQSSBpbXByb3ZlbWVudHMgYW5kIHR5
-cGUKICBhbm5vdGF0aW9ucwotIGNlcmJlcm86IGFkZCBzdXBwb3J0IGZvciBQeXRob24gd2hlZWwg
-cGFja2FnaW5nLCBXaW5kb3dzIEFSTTY0LCBuZXcgaU9TCiAgeGNmcmFtZXdvcmssIEd0azQgb24g
-bWFjT1MgYW5kIFdpbmRvd3MsIGFuZCBtb3JlIHBsdWdpbnMKLSBTbWFsbGVyIGJpbmFyeSBzaXpl
-cyBvZiBSdXN0IHBsdWdpbnMgaW4gV2luZG93cwoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQg
-ZXhjZWVkcyA1MDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQg
-aW4gYW4gYXR0YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLnN0cmVhbWVyMS4wLWxp
-YmF2XzEuMjguNy5iYiA9PiBnc3RyZWFtZXIxLjAtbGliYXZfMS4yOC44LmJifSB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wLWxpYmF2XzEuMjguNy5i
-YiA9PiBnc3RyZWFtZXIxLjAtbGliYXZfMS4yOC44LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZfMS4yOC43
-LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1saWJh
-dl8xLjI4LjguYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1saWJhdl8xLjI4LjcuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZf
-MS4yOC44LmJiCmluZGV4IDBlYjk4ZGEwMjEuLjIyZjA3MWIxN2MgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGliYXZfMS4yOC43LmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtbGli
-YXZfMS4yOC44LmJiCkBAIC0xMiw3ICsxMiw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
-L0NPUFlJTkc7bWQ1PTY5MzMzZGFhMDQ0Y2I3N2U0ODZjYzM2MTI5ZjdhNzcwIFwKICAgICAgICAg
-ICAgICAgICAgICAgIgogCiBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9w
-Lm9yZy9zcmMvZ3N0LWxpYmF2L2dzdC1saWJhdi0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiNThkYTUxZGQzOWVjZjFjZjZmYWFkZTM0Y2M2NDEyMDAxYmUyZTJlMTQ1YmNhOGFl
-MGY0NTMzNmY2MGEzNmFiMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5OGFkM2Q3Zjg5MzJjNDk1
-ZTI2ODcwODkwM2YxYzMzODhkNWYyNmEwZGIzNDcyN2E5Zjg2MWVlMjNiNzI0MTc3IgogCiBTID0g
-IiR7VU5QQUNLRElSfS9nc3QtbGliYXYtJHtQVn0iCiAKLS0gCjIuNDcuMQoK
-
---===============5737200069852957450==
+--===============8917931105549848618==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dbg: PKGSIZE changed from 1011480 to 1014056 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-dev: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-doc: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-locale: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: PKGSIZE changed from 565194 to 567330 (+0%)
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-libav/1.28.7/ext/libav -> /usr/src/debug/gstreamer1.0-libav/1.28.8/ext/libav
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav-staticdev: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav/gstreamer1.0-libav: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav: PV changed from "1.28.7" to "1.28.8"
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
-packages/x86-64-v3-poky-linux/gstreamer1.0-libav: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.28.7.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.28.8.tar.xz"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: FILELIST: directory renamed /usr/src/debug/gstreamer1.0-python/1.28.7/gi/overrides -> /usr/src/debug/gstreamer1.0-python/1.28.8/gi/overrides, directory renamed /usr/src/debug/gstreamer1.0-python/1.28.7/plugin -> /usr/src/debug/gstreamer1.0-python/1.28.8/plugin
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PV changed from "1.28.7" to "1.28.8"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python: PKGV changed from 1.28.7 [default] to 1.28.8 [default]
+packages/x86-64-v3-poky-linux/gstreamer1.0-python: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.28.7.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.28.8.tar.xz"
+packages/x86-64-v3-poky-linux/gstreamer1.0-python: PV changed from "1.28.7" to "1.28.8"
 
---===============5737200069852957450==
+--===============8917931105549848618==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-python-upgrade-1.28.7-1.28.8.patch"
+
+RnJvbSAzMDViMzQwZDAwNGE0MWU0N2U4M2MxY2RkNjY0ODZjNDEzYzEyZDg1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgOSBPY3QgMjAyNiAwNjo0NDo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMC1weXRob246IHVwZ3JhZGUgMS4yOC43IC0+IDEuMjguOAoKIyBHU3RyZWFtZXIg
+MS4yOCBSZWxlYXNlIE5vdGVzCkdTdHJlYW1lciAxLjI4LjAgd2FzIG9yaWdpbmFsbHkgcmVsZWFz
+ZWQgb24gMjcgSmFudWFyeSAyMDI2LgoKVGhlIGxhdGVzdCBidWctZml4IHJlbGVhc2UgaW4gdGhl
+IHN0YWJsZSAxLjI4IHNlcmllcyBpcyBbMS4yOC44XSgjMS4yOC44KSBhbmQKd2FzIHJlbGVhc2Vk
+IG9uIDA4IE9jdG9iZXIgMjAyNi4KClNlZSBbaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Au
+b3JnL3JlbGVhc2VzLzEuMjgvXVtsYXRlc3RdIGZvciB0aGUgbGF0ZXN0CnZlcnNpb24gb2YgdGhp
+cyBkb2N1bWVudC4KCipMYXN0IHVwZGF0ZWQ6IFRodXJzZGF5IDA4IE9jdG9iZXIgMjAyNiwgMTc6
+MDAgVVRDIFsobG9nKV1bZ2l0bG9nXSoKCltsYXRlc3RdOiBodHRwczovL2dzdHJlYW1lci5mcmVl
+ZGVza3RvcC5vcmcvcmVsZWFzZXMvMS4yOC8KW2dpdGxvZ106IGh0dHBzOi8vZ2l0bGFiLmZyZWVk
+ZXNrdG9wLm9yZy9nc3RyZWFtZXIvd3d3L2NvbW1pdHMvbWFpbi9zcmMvaHRkb2NzL3IKZWxlYXNl
+cy8xLjI4L3JlbGVhc2Utbm90ZXMtMS4yOC5tZAoKPGEgaWQ9ImludHJvZHVjdGlvbiI+PC9hPgoj
+IyBJbnRyb2R1Y3Rpb24KClRoZSBHU3RyZWFtZXIgdGVhbSBpcyBwcm91ZCB0byBhbm5vdW5jZSBh
+IG5ldyBtYWpvciBmZWF0dXJlIHJlbGVhc2UgaW4gdGhlCnN0YWJsZSAxLnggQVBJIHNlcmllcyBv
+ZiB5b3VyIGZhdm91cml0ZSBjcm9zcy1wbGF0Zm9ybSBtdWx0aW1lZGlhIGZyYW1ld29yayEKCkFz
+IGFsd2F5cywgdGhpcyByZWxlYXNlIGlzIGFnYWluIHBhY2tlZCB3aXRoIG1hbnkgbmV3IGZlYXR1
+cmVzLCBidWcgZml4ZXMsIGFuZApvdGhlciBpbXByb3ZlbWVudHMuCgo8YSBpZD0iaGlnaGxpZ2h0
+cyI+PC9hPgojIyBIaWdobGlnaHRzCgotIEFNRCBISVAgcGx1Z2luIGFuZCBpbnRlZ3JhdGlvbiBo
+ZWxwZXIgbGlicmFyeQotIFZ1bGthbiBWaWRlbyBBVjEgYW5kIFZQOSBkZWNvZGluZywgSC4yNjQg
+ZW5jb2RpbmcsIGFuZCAxMC1iaXQgc3VwcG9ydCBmb3IKICBILjI2NSBkZWNvZGVyCi0gd2F5bGFu
+ZHNpbms6IFBhcnNlIGFuZCBzZXQgdGhlIEhEUjEwIG1ldGFkYXRhIGFuZCBvdGhlciBjb2xvciBt
+YW5hZ2VtZW50CiAgaW1wcm92ZW1lbnRzCi0gQXVkaW8gc291cmNlIHNlcGFyYXRpb24gZWxlbWVu
+dCBiYXNlZCBvbiBkZW11Y3MgaW4gUnVzdAotIEFuYWx5dGljcyBjb21iaW5lciBhbmQgc3BsaXR0
+ZXIgZWxlbWVudHMgcGx1cyBiYXRjaCBtZXRhIHRvIGJhdGNoIGJ1ZmZlcnMgZnJvbQogIG9uZSBv
+ciBtb3JlIHN0cmVhbXMKLSBMaXRlUlQgaW5mZXJlbmNlIGVsZW1lbnQ7IG1vdmUgbW9kZWxpbmZv
+IHRvIGFuYWx5dGljcyBsaWI7IGFkZCBzY3JpcHQgdG8gaGVscAogIHdpdGggbW9kZWxpbmZvIGdl
+bmVyYXRpb24gYW5kIHVwZ3JhZGUKLSBBZGQgZ2VuZXJhbCBjbGFzc2lmaWVyIHRlbnNvci1kZWNv
+ZGVyLCBmYWNlZGV0ZWN0b3IsIGFuZCBtb3JlIGFuYWx5dGljcwogIGNvbnZlbmllbmNlIEFQSQot
+IE5ldyB0ZW5zb3JkZWNvZGViaW4gZWxlbWVudCB0byBhdXRvLXBsdWcgY29tcGF0aWJsZSB0ZW5z
+b3IgZGVjb2RlcnMgYmFzZWQgb24KICB0aGVpciBjYXBzIGFuZCBtYW55IG90aGVyIGFkZGl0aW9u
+cyBhbmQgaW1wcm92ZW1lbnRzCi0gQWRkIGEgYnVybi1iYXNlZCBZT0xPWCBpbmZlcmVuY2UgZWxl
+bWVudCBhbmQgYSBZT0xPWCB0ZW5zb3IgZGVjb2RlciBpbiBSdXN0Ci0gYXBwbGVtZWRpYTogVmlk
+ZW9Ub29sYm94IFZQOSBhbmQgQVYxIGhhcmR3YXJlLWFjY2VsZXJhdGVkIGRlY29kaW5nIHN1cHBv
+cnQsCiAgYW5kIDEwLWJpdCBIRVZDIGVuY29kaW5nCi0gQWRkIG5ldyBHSUYgZGVjb2RlciBlbGVt
+ZW50IGluIFJ1c3Qgd2l0aCBsb29waW5nIHN1cHBvcnQKLSBpbnB1dC1zZWxlY3RvcjogaW1wbGVt
+ZW50cyBhIHR3by1waGFzZSBzaW5rcGFkIHN3aXRjaCBub3cgdG8gYXZvaWQgcmFjZXMgd2hlbgog
+IHN3aXRjaGluZyBpbnB1dCBwYWRzCi0gVGhlIGludGVyIHdvcm1ob2xlIHNpbmsgYW5kIHNvdXJj
+ZSBlbGVtZW50cyBnYWluZWQgYSB3YXkgdG8gZm9yd2FyZCB1cHN0cmVhbQogIGV2ZW50cyB0byB0
+aGUgcHJvZHVjZXIgYXMgd2VsbCBhcyBuZXcgZmluZS10dW5pbmcgcHJvcGVydGllcwotIHdlYnJ0
+Y3Npbms6IGFkZCByZW5lZ290aWF0aW9uIHN1cHBvcnQgYW5kIHN1cHBvcnQgZm9yIHZhIGhhcmR3
+YXJlIGVuY29kZXJzCi0gd2VicnRjIFdIRVAgY2xpZW50IGFuZCBzZXJ2ZXIgc2lnbmFsbGVyCi0g
+TmV3IFNULTIwMzggYW5jaWxsYXJ5IGRhdGEgY29tYmluZXIgYW5kIGV4dHJhY3RvciBlbGVtZW50
+cwotIGZhbGxiYWNrc3JjIGdhaW5lZCBzdXBwb3J0IGZvciBlbmNvZGVkIHN0cmVhbXMKLSBmbHY6
+IGVuaGFuY2VkIHJ0bXAgSC4yNjUgdmlkZW8gc3VwcG9ydCwgYW5kIHN1cHBvcnQgZm9yIG11bHRp
+dHJhY2sgYXVkaW8KLSBnbHVwbG9hZDogSW1wbGVtZW50IHVkbWFidWYgdXBsb2FkZXIgdG8gc2hh
+cmUgYnVmZmVycyBiZXR3ZWVuIHNvZnR3YXJlCiAgZGVjb2RlcnMvc291cmNlcyBhbmQgR1BVcywg
+ZGlzcGxheSBlbmdpbmVzICh3YXlsYW5kKSwgYW5kIG90aGVyIGRtYSBkZXZpY2VzCi0gdmlkZW86
+IEFkZCBjcm9wLCBzY2FsZSwgcm90YXRlLCBmbGlwLCBzaGVhciBhbmQgbW9yZSBHc3RNZXRhIHRy
+YW5zZm9ybWF0aW9uCi0gTmV3IHRhc2sgcG9vbCBHc3RDb250ZXh0IHRvIHNoYXJlIGEgdGhyZWFk
+IHBvb2wgYW1vbmdzdCBlbGVtZW50cyBmb3IgYmV0dGVyCiAgcmVzb3VyY2UgbWFuYWdlbWVudCBh
+bmQgcGVyZm9ybWFuY2UsIGVzcGVjaWFsbHkgZm9yIHZpZGVvIGNvbnZlcnNpb24gYW5kCiAgY29t
+cG9zaXRpbmcKLSBOZXcgRGVlcGdyYW0gc3BlZWNoLXRvLXRleHQgdHJhbnNjcmlwdGlvbiBwbHVn
+aW4gYW5kIG1hbnkgb3RoZXIgdHJhbnNsYXRpb24KICBhbmQgdHJhbnNjcmlwdGlvbiBpbXByb3Zl
+bWVudHMKLSBTcGVlY2ggc3ludGhlc2l6ZXJzOiBleHBvc2UgbmV3ICJjb21wcmVzcyIgb3ZlcmZs
+b3cgbW9kZSB0aGF0IGNhbiBzcGVlZCB1cAogIGF1ZGlvIHdoaWxlIHByZXNlcnZpbmcgcGl0Y2gK
+LSBFbGV2ZW5MYWJzIHZvaWNlIGNsb25pbmcgZWxlbWVudCBhbmQgc3VwcG9ydCBmb3IgU3BlZWNo
+bWF0aWNzIHNwZWFrZXIKICBpZGVudGlmaWNhdGlvbiBBUEkKLSB0ZXh0YWNjdW11bGF0ZTogbmV3
+IGVsZW1lbnQgZm9yIHNwZWVjaCBzeW50aGVzaXMgb3IgdHJhbnNsYXRpb24gcHJlcHJvY2Vzc2lu
+ZwotIE5ldyB2bWFmIGVsZW1lbnQgdG8gY2FsY3VsYXRlIHBlcmNlcHR1YWwgdmlkZW8gcXVhbGl0
+eSBhc3Nlc3NtZW50IHNjb3JlcyB1c2luZwogIE5ldGZsaXgncyBWTUFGIGZyYW1ld29yawotIGRl
+Y29kZWJpbjM6IGV4cG9zZSBLTFYsIElEMyBQRVMgYW5kIFNULTIwMzggYW5jaWxsYXJ5IGRhdGEg
+c3RyZWFtcyB3aXRoIG5ldwogIG1ldGFkYXRhIEdzdFN0cmVhbSB0eXBlCi0gTmV3IE1QRUctSCBh
+dWRpbyBkZWNvZGluZyBwbHVnaW4gcGx1cyBNUDQgZGVtdXhpbmcgc3VwcG9ydAotIExDRVZDOiBB
+ZGQgYXV0b3BsdWdnaW5nIGRlY29kaW5nIHN1cHBvcnQgZm9yIExDRVZDIEgyNjUgYW5kIEgyNjYg
+dmlkZW8gc3RyZWFtcwogIGFuZCBMQ0VWQyBILjI2NSBhbmQgSC4yNjYgZW5jb2RlcnMKLSBSVFAg
+InJvYnVzdCBNUEVHIGF1ZGlvIiwgcmF3IGF1ZGlvIChMOCwgTDE2LCBMMjQpLCBhbmQgU01QVEUg
+U1QyOTEgYW5jaWxsYXJ5CiAgbWV0YWRhdGEgcGF5bG9hZGVycy9kZXBheWxvYWRlcnMgaW4gUnVz
+dAotIEFkZCBhIFJ1c3QtYmFzZWQgaWNlY2FzdHNpbmsgZWxlbWVudCB3aXRoIEFBQyBzdXBwb3J0
+Ci0gVGhlIFdpbmRvd3MgSVBDIHBsdWdpbiBnYWluZWQgc3VwcG9ydCBmb3IgcGFzc2luZyBnZW5l
+cmljIGRhdGEgaW4gYWRkaXRpb24gdG8KICByYXcgYXVkaW8vdmlkZW8sIGFuZCB2YXJpb3VzIHBy
+b3BlcnRpZXMKLSBOZXcgRDNEMTIgaW50ZXJsYWNlIGFuZCBvdmVybGF5IGNvbXBvc2l0b3IgZWxl
+bWVudHMsIHBsdXMgbWFueSBvdGhlciBEM0QxMgogIGltcHJvdmVtZW50cwotIEJsYWNrbWFnaWMg
+RGVja2xpbmsgZWxlbWVudHMgZ2FpbmVkIHN1cHBvcnQgZm9yIGNhcHR1cmluZyBhbmQgb3V0cHV0
+dGluZyBhbGwKICB0eXBlcyBvZiBWQU5DIHZpYSBHc3RBbmNpbGxhcnlNZXRhCi0gR3N0TG9nQ29u
+dGV4dCBBUEkgdG8gcmVkdWNlIGxvZyBzcGFtIGluIHNldmVyYWwgY29tcG9uZW50cyBhbmQKICBg
+R1NUX0RFQlVHX09OQ0VgIChldGMpIGNvbnZlbmllbmNlIG1hY3JvcyB0byBsb2cgdGhpbmdzIG9u
+bHkgb25jZQotIGhsc3NpbmszLCBobHNjbWFmc2luazogU3VwcG9ydCB0aGUgdXNlIG9mIGEgc2lu
+Z2xlIG1lZGlhIGZpbGUsIHBsdXMgSS1mcmFtZQogIG9ubHkgcGxheWxpc3Qgc3VwcG9ydAotIFdl
+YmtpdDogTmV3IHdwZTIgcGx1Z2luIG1ha2luZyB1c2Ugb2YgdGhlICJXUEUgUGxhdGZvcm0gQVBJ
+IgotIE1QRUctVFMgZGVtdXhlciBjYW4gbm93IGRpc2FibGUgc2tldyBjb3JyZWN0aW9ucwotIE5l
+dyBRdDYgUU1MIHJlbmRlciBzb3VyY2UgZWxlbWVudAotIHFtbDZnbG92ZXJsYXk6IHN1cHBvcnQg
+ZGlyZWN0bHkgcGFzc2luZyBhIFFRdWlja0l0ZW0gZm9yIFFNTCB0aGUgcmVuZGVyIHRyZWUKLSB1
+bmlmeGZkc2luazogQWRkIGEgcHJvcGVydHkgdG8gYWxsb3cgY29weWluZyB0byBtYWtlIHNpbmsg
+dXNhYmxlIHdpdGggbW9yZQogIHVwc3RyZWFtIGVsZW1lbnRzCi0gZG90cy12aWV3ZXI6IEltcHJv
+dmUgZG90IGZpbGUgZ2VuZXJhdGlvbiBhbmQgaW50ZXJhY3Rpdml0eQotIFB5dGhvbiBiaW5kaW5n
+czogbW9yZSBzeW50YWN0aWMgc3VnYXIsIGFuYWx5dGljcyBBUEkgaW1wcm92ZW1lbnRzIGFuZCB0
+eXBlCiAgYW5ub3RhdGlvbnMKLSBjZXJiZXJvOiBhZGQgc3VwcG9ydCBmb3IgUHl0aG9uIHdoZWVs
+IHBhY2thZ2luZywgV2luZG93cyBBUk02NCwgbmV3IGlPUwogIHhjZnJhbWV3b3JrLCBHdGs0IG9u
+IG1hY09TIGFuZCBXaW5kb3dzLCBhbmQgbW9yZSBwbHVnaW5zCi0gU21hbGxlciBiaW5hcnkgc2l6
+ZXMgb2YgUnVzdCBwbHVnaW5zIGluIFdpbmRvd3MKCltDaGFuZ2Vsb2cgdHJ1bmNhdGVkIGFzIGl0
+IGV4Y2VlZHMgNTAwMCBjaGFyYWN0ZXJzOwp0aGUgZnVsbCBjaGFuZ2Vsb2cgY2FuIGJlIGZvdW5k
+IGluIGFuIGF0dGFjaG1lbnQgdG8gdGhlIEFVSCBlbWFpbF0KLS0tCiAuLi5yZWFtZXIxLjAtcHl0
+aG9uXzEuMjguNy5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjguOC5iYn0gfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1weXRob25fMS4yOC43
+LmJiID0+IGdzdHJlYW1lcjEuMC1weXRob25fMS4yOC44LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcHl0aG9uXzEu
+MjguNy5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
+cHl0aG9uXzEuMjguOC5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI4LjcuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
+cHl0aG9uXzEuMjguOC5iYgppbmRleCBhMzNiYzBmMDU3Li5jN2VmYTMxZWNmIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXB5dGhvbl8x
+LjI4LjcuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
+cjEuMC1weXRob25fMS4yOC44LmJiCkBAIC04LDcgKzgsNyBAQCBMSUNFTlNFID0gIkxHUEwtMi4x
+LW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YzM0ZGVh
+ZTRlMzk1Y2EwN2U3MjVhYjAwNzZhNWY3NDAiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFt
+ZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy8ke1BOUkVBTH0vJHtQTlJFQUx9LSR7UFZ9LnRhci54eiIK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5YzIzYzVkZGRmZDJjOWI5NGJiMWI0ZTRmNWI5MGViYzY0
+MDBkODQyNzdjNzdjZjkxYjFkYmRiNGE4YjQ1MWY5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjZl
+MGQ4ZGQ5MjAyMzRiOWZlZWI4NjAwM2Q4ZjQzYzE5OTY0OTFmOWQ4MTkwODgyMzI5YmY1NmY2MGE3
+MDIwNmUiCiAKIERFUEVORFMgPSAiZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJh
+c2UgcHl0aG9uMy1weWdvYmplY3QgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkIgogUkRFUEVORFM6
+JHtQTn0gKz0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlIHB5dGhvbjMt
+cHlnb2JqZWN0IgotLSAKMi40Ny4xCgo=
+
+--===============8917931105549848618==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="gstreamer1.0-libav-changelog.txt"
+Content-Disposition: attachment; filename="gstreamer1.0-python-changelog.txt"
 
 IyBHU3RyZWFtZXIgMS4yOCBSZWxlYXNlIE5vdGVzCkdTdHJlYW1lciAxLjI4LjAgd2FzIG9yaWdp
 bmFsbHkgcmVsZWFzZWQgb24gMjcgSmFudWFyeSAyMDI2LgoKVGhlIGxhdGVzdCBidWctZml4IHJl
@@ -4286,5 +4287,5 @@ YW4gRHLDtmdlLCBUaGliYXVsdApTYXVuaWVyLCBWw61jdG9yIE1hbnVlbCBKw6FxdWV6IExlYWws
 IGFuZCBYYXZpZXIgQ2xhZXNzZW5zKgoKKkxpY2Vuc2U6IFtDQyBCWS1TQSA0LjBdKGh0dHA6Ly9j
 cmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LXNhLzQuMC8pKgo=
 
---===============5737200069852957450==--
+--===============8917931105549848618==--
 
