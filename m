@@ -1,124 +1,146 @@
-Return-Path: <marcel@ziswiler.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8900ACA9EC1
-	for <webhook@archiver.kernel.org>; Sat, 10 Oct 2026 20:00:54 +0000 (UTC)
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.194])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15433.1791662444927410250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A345DCA6017
+	for <webhook@archiver.kernel.org>; Sat, 10 Oct 2026 21:40:12 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16985.1791668411450533592
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Oct 2026 13:00:45 -0700
+ Sat, 10 Oct 2026 14:40:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=marcel@ziswiler.com header.s=s1-ionos header.b=uQcSxqgG;
- spf=pass (domain: ziswiler.com, ip: 74.208.4.194, mailfrom: marcel@ziswiler.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziswiler.com;
-	s=s1-ionos; t=1791662443; x=1792267243; i=marcel@ziswiler.com;
-	bh=rPUnoJH+N7MUNjA1GCvAxk5paHi9S2sJ/9AaOuWbUmM=;
-	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:MIME-Version:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=uQcSxqgGtrkp4wl/ra1EVEzEfEGeJ6/vAQ1n7NVxXlWP8S+jSoqpITcrf8G1C+cl
-	 3dkVk/PJSCureK/dChFi1hviX3+Zmz2hVuSSKtc/9tce31GJ8lHFZxYL80DWASTzs
-	 hZypjVDPmQYbTwqvWTfw5ymwR3wg5H8nWW/Xpk6GysXtJF3QCw86eeQg0VTYgnCno
-	 KdH6CWSLQNJ5KsRnn3C0jWphE33Hux6lqlV9Ikz8BCBmcE6zwhKNqmJtrpmgaWx2B
-	 TmYKTRyY3eBTf2XToq0Dok9rUK7svJJrercC8dgrVxgWNlSU7njnscxZKF1QYw1o4
-	 vlwxa5npzRxKXhvZNg==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from client.hidden.invalid by mrelay.perfora.net (mreueus003
- [74.208.114.78]) with ESMTPSA (Nemesis) id 0MaHgk-1wvtR5139M-00SSFa; Sat, 10
- Oct 2026 22:00:43 +0200
-Message-ID: <51ce6c98f2f466092ba077da44f0232bbcc16366.camel@ziswiler.com>
-Subject: Re: [PATCH 0/2] mesa 26.2.4 upgrade and gallivm llvm 23 build fix
-From: Marcel Ziswiler <marcel@ziswiler.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton	
- <ross.burton@arm.com>, Khem Raj <raj.khem@gmail.com>, Zoltan Boszormenyi	
- <zboszor@gmail.com>, Deepesh Varatharajan
- <Deepesh.Varatharajan@windriver.com>,  Antoine Gouby
- <antoine.gouby@toradex.com>
-Date: Sat, 10 Oct 2026 22:00:39 +0200
-In-Reply-To: <cover.1791224526.git.marcel.ziswiler@codethink.co.uk>
-References: <cover.1791224526.git.marcel.ziswiler@codethink.co.uk>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@smile.fr header.s=google header.b=XTyY4Faw;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a16c399641so7888965e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 14:40:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1791668409; x=1792273209; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+c7J97JHEg6y7lgP1IFdeAgDPpaeHxRFSKi4N9baEjE=;
+        b=XTyY4Faw/RtWMrt7JQ9qQW6SL5VwilXLdD0Hs2/V42avSOpKbMK0sgx/KpPyd6mXfh
+         7wdgZaeHppe9ppDhPUJS6FpdQX63GP4O02qMsVqQbGEHn7q+XtVelpw8lB8Wjm0ve5Bg
+         Hz+7jeWS8j6q9NtSC/ae25xhudvgwyI9M4T7A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791668409; x=1792273209;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+c7J97JHEg6y7lgP1IFdeAgDPpaeHxRFSKi4N9baEjE=;
+        b=GTvKRg4MuAT5hYzZjqvOlqzEn7vKVXTu8fgHKpJLR+MM+usehOV0LwFvxB3utu5pWx
+         FEFU9A8AqpZPNZ4CeM+cuPp0dVjgbK1MZhlUdRWcvECpLd9D4HhjVaYXB5kYWFemNZi7
+         BfZOglq+UV9H5O7/Q9g0hn68m6O5ouThScIPyYVgIKzaiONqWxCQXM1wwrrHx9YVVXnH
+         HdsnMWhJTCSAEpR56V/xGjsA/c5bFt9k2RU3H7QiY7UYF8NIMmlNzqwmmdrwawCWpbbj
+         UWnABrFIGzrxk2+RkChQQ9LxJ6pn/GwXCA/WIHuhGPRiwKfuQ7wQUpegEqoTc4cE98TI
+         g7hA==
+X-Forwarded-Encrypted: i=1; AKwUvBxpzXWtOwOZKplFBMvPDOf5qL7zlEH6VExdVeuG1UZSvvx1KjLQQAUj0d72wP6tp84RRQ5/cRRnK90zQoB3ENuBqg==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYJJ5WC4Mrb3WZDEOpDa3jyh4psMjzax5A6fv1K+cZ0EsxaoZGay
+	Xdk0eQSUQJSgKWHH992cWsGwqG57HSxfvJZxRM1g6xsotWRUGTYneLEqqOS5Roy0qKE=
+X-Gm-Gg: AYBFou2sYxDOjE5fQQutEyY0hpTls5qprS2d1u+Rq0vPxYjHc05aLo7cym7Ia4mhLMk
+	njq8IHcOWhXgw50LLufbXrixO6f5KFD//L+DAYrD5BjMW8kvZC0gFLxyKOCPqICrC9dIlQldr/l
+	6JrAM6Yu5tSnhlJ7ESfyDiHDczn2dfgdfrEgmkq2ZmCLGvYAfbJye8ZfdFiMrkZmqM20vLT5vrW
+	XtQM/gdRo3qEK7KZzTM/v4WhZkf/FALFTfOgV/Jly17y6Mi/N8VjwKF/LbGPOlbVoZQucrFnq29
+	WkF220o7Ihkx6dnJxgeyQYroAMDRxabzyCFNI8JIdivg6ZNdtoEG2rh5ROLD1dofFnl3bjh17hN
+	+Wmqr7Cgge/dUDehKTy0w3WxAJw6G04cQh9LsTGjsBPDdodSdDDHEl/k2cXp8IQKOcuYHo08olH
+	QOtb40sCjJ//sdY2GEx1BtLypAK3VTK4ydIVcow5jyK1nutk5qvZukMJNWimfE+StDTnYiJC7GA
+	AJvC3jvHNk3mkE9TYD898kBQhcL7tT5g2t2OeQTCG9XZVx4gbVaExc/x6rhew==
+X-Received: by 2002:a05:600c:8b28:b0:49f:bd3c:bc1b with SMTP id 5b1f17b1804b1-4a18e499da4mr101265995e9.22.1791668409330;
+        Sat, 10 Oct 2026 14:40:09 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19ba624b3sm1104365e9.2.2026.10.10.14.40.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Oct 2026 14:40:08 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.0 (by Flathub.org) 
-MIME-Version: 1.0
-X-Provags-ID: V03:K1:KBl33YIsIozNy0B8WANfElEbo4CV+gl7O939qxQFapSsWoA8Xhq
- Ctd0yyLJR/Ruu7Vo9PxWB3IFyFFYoam8nHFNKs6qhm1T0aVx6AxHvWOjiH3CZbqx82lvqxY
- H1PA5jtN80LgvAsOkcacDRGU3MnDcsCT/edUPq41BJUNjG+gvb8k4yMzOi5/SM4XgRP3aPo
- JjTCbcuCe3S5SVW4nQX6Q==
-UI-OutboundReport: notjunk:1;M01:P0:ME+AsTtEGDE=;KdywWcWDN+dZ6eD/zwcLAzbIBaL
- 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
- BJjL7f1e/IETPZPkKMHoKD1J
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 10 Oct 2026 23:40:07 +0200
+Message-Id: <DM1HFZQZ467Q.2FDKVXY2TSZRK@smile.fr>
+To: <Roopa.Kalmath@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH] u-boot: fix CVE-2026-29009
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20261009120200.848470-1-Roopa.Kalmath@windriver.com>
+In-Reply-To: <20261009120200.848470-1-Roopa.Kalmath@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 20:00:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247500
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 21:40:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247501
 
-On Mon, 2026-10-05 at 20:36 +0200, Marcel Ziswiler wrote:
-> This series upgrades mesa to 26.2.4 and fixes a gallivm llvm 23 build iss=
-ue.
->=20
-> Build tested on x86_64 and run tested on LicheePi 4A.
+Hello,
 
-Any comments anybody? Thanks!
+I have a few format issues with your patch but the gist of it looks good
+to me.
 
-Cheers
+On Fri Oct 9, 2026 at 2:02 PM CEST, Roopa via lists.openembedded.org Kalmat=
+h wrote:
+> U-Boot before 2026.07-rc2 contains a buffer overflow vulnerability in
+> nfs_readlink_reply() (net/nfs-common.c) when CONFIG_CMD_NFS is enabled,
+> allowing a malicious or compromised NFS server to overflow the 2048-byte
+> nfs_path_buff buffer by returning multiple relative symlink targets that
+> are appended without cumulative length validation. Attackers can send
+> two or more READLINK responses containing relative symlink targets of
+> approximately 1100 bytes each to corrupt adjacent BSS variables
+> including nfs_server_ip, nfs_server_mount_port, nfs_server_port,
+> nfs_our_port, nfs_state, and rpc_id, potentially achieving memory
+> corruption and control over the NFS client state machine.
 
-Marcel
+All this paragraph is the CVE description which is not what reader of
+these commit messages look for. We want to know what you did to fix the
+CVE and why. In this case a simple
+"Backport fix referenced by NVD: https://nvd.nist.gov/vuln/detail/cve-2026-=
+29009"
+is enough.
 
-> Marcel Ziswiler (2):
-> =C2=A0 mesa,mesa-tools-native: upgrade 26.2.3 -> 26.2.4
-> =C2=A0 mesa: gallivm llvm 23 build fix
->=20
-> =C2=A0...uiltin_cpu_supports-for-avx2-detecti.patch |=C2=A0 2 +-
-> =C2=A0...on-t-encode-build-path-into-binaries.patch |=C2=A0 2 +-
-> =C2=A0...gallivm-adapt-for-JITLink-in-LLVM-23.patch | 51 ++++++++++++++++=
-+++
-> =C2=A0...sdetects-64bit-atomics-on-mips-clang.patch |=C2=A0 2 +-
-> =C2=A0...er-jay-jay_ir.h-do-not-used-typed-en.patch |=C2=A0 2 +-
-> =C2=A0...c-do-not-use-arm-fpu-instructions-if.patch |=C2=A0 2 +-
-> =C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
-> =C2=A07 files changed, 59 insertions(+), 7 deletions(-)
-> =C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-gallivm-ad=
-apt-for-JITLink-in-LLVM-23.patch
+Look at https://git.openembedded.org/openembedded-core/log/?h=3Dwrynose&qt=
+=3Dgrep&q=3DCVE
+to get an idea of what a commit message usually look like.
+
+> Reference:
+> [https://www.cve.org/CVERecord?id=3DCVE-2026-29009]
+>
+> Backport the patch to fix CVE-2026-29009:
+> [https://git.u-boot-project.org/u-boot/u-boot/-/commit/d6694018eaddefac6a=
+ae974f9cec72fd6e58f1bc]
+>
+> Signed-off-by: Roopa Kalmath <Roopa.Kalmath@windriver.com>
+> ---
+>  .../u-boot/files/CVE-2026-29009.patch         | 34 +++++++++++++++++++
+>  meta/recipes-bsp/u-boot/u-boot_2026.01.bb     |  4 ++-
+>  2 files changed, 37 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2026-29009.patch
+>
+> diff --git a/meta/recipes-bsp/u-boot/files/CVE-2026-29009.patch b/meta/re=
+cipes-bsp/u-boot/files/CVE-2026-29009.patch
+> new file mode 100644
+> index 0000000000..1e04562ede
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/files/CVE-2026-29009.patch
+> @@ -0,0 +1,34 @@
+> +From 2b88f08722584cf235f7dacaa190af3d24deb40f Mon Sep 17 00:00:00 2001
+> +From: Roopa Kalmath <Roopa.Kalmath@windriver.com>
+> +Date: Fri, 9 Oct 2026 08:38:23 +0000
+> +Subject: [PATCH] u-boot:Fix CVE-2026-29009
+> +
+> +CVE: CVE-2026-29009
+> +
+> +Upstream-Status: Backport [https://git.u-boot-project.org/u-boot/u-boot/=
+-/commit/d6694018eaddefac6aae974f9cec72fd6e58f1bc]
+> +
+> +Signed-off-by: Roopa Kalmath <Roopa.Kalmath@windriver.com>
+
+While backporting this patch you complely erased the existing commit
+message and authorship information. Please keep those, they help
+checking that we are indeed fixing the vulnerability, not introducing
+regressions, ...
+
+Can you send a v2 with the above fixed?
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
 
