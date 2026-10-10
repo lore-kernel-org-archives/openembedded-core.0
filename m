@@ -1,106 +1,124 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <marcel@ziswiler.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A83CA9EC1
-	for <webhook@archiver.kernel.org>; Sat, 10 Oct 2026 16:05:33 +0000 (UTC)
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11992.1791648331475506002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8900ACA9EC1
+	for <webhook@archiver.kernel.org>; Sat, 10 Oct 2026 20:00:54 +0000 (UTC)
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.194])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15433.1791662444927410250
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Oct 2026 09:05:31 -0700
+ Sat, 10 Oct 2026 13:00:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=di0bmmyk;
- spf=pass (domain: gmail.com, ip: 74.125.82.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-354ba08cfd1so1193971eec.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 09:05:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791648331; x=1792253131; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RVbdpGspdN0kPHBoBQUW7LmOR/TzPGaETIPmiLGJzPU=;
-        b=di0bmmyksrt8WMHi4WRp2TQhxQJ/gju9r9Fd7TcEBCfIqnu0hrhgKk01AwjAUzojok
-         JB/0LiM5ni+OEEjvzLOtkheH/wzdHBBQbntMzGvY9ip6EkPpoEL3pEI9qUUcBJgFow4X
-         kP2LAKq/ASnjjVSpSR4JIj37f8+b1CdEb0FAwtkc7OhsgLpY4fw1J2owcD3OdBp+NB0J
-         VdqdutygDrQegJedeFCtlHHFszxUVBgxShE7SKEpN+Rspq2HY0iiDubE3WpmTsRF6K7d
-         QvqneXmBD9TWTAwLPz1LPMVYwilPKEt09cW8oOz3Vt90gbsj5aMJzkAbM0FT1/77rC6s
-         0lpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791648331; x=1792253131;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RVbdpGspdN0kPHBoBQUW7LmOR/TzPGaETIPmiLGJzPU=;
-        b=eVz7pzvueJATBGX5vJ/Kw2GUG3x/Rxe8l2e4C8T2m6MFkppNaPz7E0rpq6dARCIWRw
-         R/J9fCOlCxw0PrintsUZ4tgAh2tmSdXnmDZt9maYfk3N4hLRgyIp8nQnl40xEafsvPJM
-         ykd2sdKS1o7k4ffrIRTF/g7Jc7d7L4lRYA3tk0JxflEFI+mut27UBbChaafxuLJUVYFa
-         ufJAvErdq8WOY5+fiz74IyEct9zcKKEquL6K/GW8lE8huYCCJfPJ3ovGCrCjmcxoK749
-         H6NcPpwxwGJGENJ10EDIRPQjSm6q0tFyCSwgmqaEp0sNRwwLK7W6QNe0jeovQQ4b1EtO
-         /K9A==
-X-Gm-Message-State: AFq9FYJJMsWjMJfy6kS2AAX+WRJKHEvTwbAremvD/d4Spp2LiHd/+0/L
-	3i9cOnB+ynpErtskpkWPqewIijBNE5njp32tUedXdbxUyiWrg6Sze7C3s1Sbpj4l
-X-Gm-Gg: AYBFou18w5G4GCWaGQz/FuT5HGWCuyn7uN8hghTjuB8Ldo5DQQ4IHpn/KPU+wV6bt/s
-	FNYerxmZcIJFtmJQBUW636CsELHgPm9c0hL107Z9ZsxVQsJEJ2eTd+YikmmgiAvaM38t2KwwCB/
-	vEL/qZHXFegk7MQdQOip93q8t+oQ/8gk7KE9A2HwyOl70efv297ya9FjClHEWejcZejRxd9d9xQ
-	/12KhfwJMlC2Mhkv9Gy1CRmpahpIyITWC1/4RoMAJccKvrXxnWVGoya3j53kEO6mqUZaKf6494p
-	WXD6ht07TaEPlS4j4SHFVdcZx62+gvxhTjTDcIQQBsWd+Iq8L8k/exRdacUI4PjLgkTzTuvioLl
-	qd7SlI+KsQ2IejL8crGBQnflQgFS7w2tfvhUqcaKy7KMAmGG943hYStJhrX0B4nJwYTa5SPRUcx
-	RJG+/mrgHuoTkmyQNKPm6nVOgJHig+nupctwETvH+BhFWwYmIs3kfEx0izMCOlzxTBKPRnNorxI
-	23NDZTBwguTSyTVbrUbD/IbMxYWfiO+4D/zy5tBCmv1PrJzcCAq/QGHqBVA5Fv39O6kukUubIwn
-	RrRdZMMEcWLDHCPNegC2tXgm9z25klpcn0wQUt9tYS6Hl5SGgVR79zkJ33kw9Z28m6as8uilxEq
-	mq1FGPvmMRpI0BBqaDppv1QPxUE+sZ1Z0YdzqP+oK13u1q3VOoJsHIO0eaO4UFwIiy537QrIKTT
-	jVnsj5h3FtCmedwFg9+WhxFJ8afUFAJGP5TSuDrFNBYjgRQqw=
-X-Received: by 2002:a05:7300:d10e:b0:34b:401a:4648 with SMTP id 5a478bee46e88-3537e0be3cbmr6504701eec.20.1791648330480;
-        Sat, 10 Oct 2026 09:05:30 -0700 (PDT)
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-358ee8a3387sm4242503eec.15.2026.10.10.09.05.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2026 09:05:29 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+ dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=marcel@ziswiler.com header.s=s1-ionos header.b=uQcSxqgG;
+ spf=pass (domain: ziswiler.com, ip: 74.208.4.194, mailfrom: marcel@ziswiler.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziswiler.com;
+	s=s1-ionos; t=1791662443; x=1792267243; i=marcel@ziswiler.com;
+	bh=rPUnoJH+N7MUNjA1GCvAxk5paHi9S2sJ/9AaOuWbUmM=;
+	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+	 References:Content-Type:Content-Transfer-Encoding:MIME-Version:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=uQcSxqgGtrkp4wl/ra1EVEzEfEGeJ6/vAQ1n7NVxXlWP8S+jSoqpITcrf8G1C+cl
+	 3dkVk/PJSCureK/dChFi1hviX3+Zmz2hVuSSKtc/9tce31GJ8lHFZxYL80DWASTzs
+	 hZypjVDPmQYbTwqvWTfw5ymwR3wg5H8nWW/Xpk6GysXtJF3QCw86eeQg0VTYgnCno
+	 KdH6CWSLQNJ5KsRnn3C0jWphE33Hux6lqlV9Ikz8BCBmcE6zwhKNqmJtrpmgaWx2B
+	 TmYKTRyY3eBTf2XToq0Dok9rUK7svJJrercC8dgrVxgWNlSU7njnscxZKF1QYw1o4
+	 vlwxa5npzRxKXhvZNg==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from client.hidden.invalid by mrelay.perfora.net (mreueus003
+ [74.208.114.78]) with ESMTPSA (Nemesis) id 0MaHgk-1wvtR5139M-00SSFa; Sat, 10
+ Oct 2026 22:00:43 +0200
+Message-ID: <51ce6c98f2f466092ba077da44f0232bbcc16366.camel@ziswiler.com>
+Subject: Re: [PATCH 0/2] mesa 26.2.4 upgrade and gallivm llvm 23 build fix
+From: Marcel Ziswiler <marcel@ziswiler.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH v2] ptest-packagelists: Skip dbus ptest when dbus-broker is the dbus provider
-Date: Sat, 10 Oct 2026 09:05:27 -0700
-Message-ID: <20261010160527.2676547-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton	
+ <ross.burton@arm.com>, Khem Raj <raj.khem@gmail.com>, Zoltan Boszormenyi	
+ <zboszor@gmail.com>, Deepesh Varatharajan
+ <Deepesh.Varatharajan@windriver.com>,  Antoine Gouby
+ <antoine.gouby@toradex.com>
+Date: Sat, 10 Oct 2026 22:00:39 +0200
+In-Reply-To: <cover.1791224526.git.marcel.ziswiler@codethink.co.uk>
+References: <cover.1791224526.git.marcel.ziswiler@codethink.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.62.0 (by Flathub.org) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:KBl33YIsIozNy0B8WANfElEbo4CV+gl7O939qxQFapSsWoA8Xhq
+ Ctd0yyLJR/Ruu7Vo9PxWB3IFyFFYoam8nHFNKs6qhm1T0aVx6AxHvWOjiH3CZbqx82lvqxY
+ H1PA5jtN80LgvAsOkcacDRGU3MnDcsCT/edUPq41BJUNjG+gvb8k4yMzOi5/SM4XgRP3aPo
+ JjTCbcuCe3S5SVW4nQX6Q==
+UI-OutboundReport: notjunk:1;M01:P0:ME+AsTtEGDE=;KdywWcWDN+dZ6eD/zwcLAzbIBaL
+ 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
+ BJjL7f1e/IETPZPkKMHoKD1J
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 16:05:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247499
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 20:00:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247500
 
-When a distro sets VIRTUAL-RUNTIME_dbus = "dbus-broker", systemd
-RDEPENDS on dbus-broker, which RCONFLICTS with dbus. dbus-ptest
-RDEPENDS on dbus, so core-image-ptest-dbus fails in do_rootfs:
+On Mon, 2026-10-05 at 20:36 +0200, Marcel Ziswiler wrote:
+> This series upgrades mesa to 26.2.4 and fixes a gallivm llvm 23 build iss=
+ue.
+>=20
+> Build tested on x86_64 and run tested on LicheePi 4A.
 
-  package systemd requires dbus-broker, but none of the providers can be installed
-  package dbus-broker conflicts with dbus provided by dbus-1
-  package dbus-ptest requires dbus, but none of the providers can be installed
+Any comments anybody? Thanks!
 
-Remove dbus from PTESTS_SLOW when dbus-broker is not the dbus provider.
+Cheers
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
----
-v2: Use remove instead of append to avoid missing-ptest QA warning
+Marcel
 
- meta/conf/distro/include/ptest-packagelists.inc | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index e8c9c18f92..22a2e3c3ad 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -180,6 +180,10 @@ PTESTS_SLOW:remove:libc-musl:qemux86-64 = "perl gnutls"
- PTESTS_FAST:remove:libc-musl:qemux86-64 = "libarchive"
- PTESTS_PROBLEMS:append:libc-musl:qemux86-64 = " perl gnutls libarchive"
-
-+# dbus conflicts with dbus-broker
-+PTESTS_SLOW:remove = "${@'dbus' if d.getVar('VIRTUAL-RUNTIME_dbus') == 'dbus-broker' else ''}"
-+PTESTS_PROBLEMS:append = "${@' dbus' if d.getVar('VIRTUAL-RUNTIME_dbus') == 'dbus-broker' else ''}"
-+
- #    ruby \ # Timeout
- #    rt-tests \ # Needs to be checked whether it runs at all
- #    bash \ # Test outcomes are non-deterministic by design
+> Marcel Ziswiler (2):
+> =C2=A0 mesa,mesa-tools-native: upgrade 26.2.3 -> 26.2.4
+> =C2=A0 mesa: gallivm llvm 23 build fix
+>=20
+> =C2=A0...uiltin_cpu_supports-for-avx2-detecti.patch |=C2=A0 2 +-
+> =C2=A0...on-t-encode-build-path-into-binaries.patch |=C2=A0 2 +-
+> =C2=A0...gallivm-adapt-for-JITLink-in-LLVM-23.patch | 51 ++++++++++++++++=
++++
+> =C2=A0...sdetects-64bit-atomics-on-mips-clang.patch |=C2=A0 2 +-
+> =C2=A0...er-jay-jay_ir.h-do-not-used-typed-en.patch |=C2=A0 2 +-
+> =C2=A0...c-do-not-use-arm-fpu-instructions-if.patch |=C2=A0 2 +-
+> =C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
+> =C2=A07 files changed, 59 insertions(+), 7 deletions(-)
+> =C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-gallivm-ad=
+apt-for-JITLink-in-LLVM-23.patch
 
