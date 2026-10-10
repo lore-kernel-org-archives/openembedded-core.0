@@ -1,218 +1,124 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B988DCA9EC5
-	for <webhook@archiver.kernel.org>; Sat, 10 Oct 2026 22:01:02 +0000 (UTC)
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17331.1791669656650679781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C1BCA9EC5
+	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 02:07:43 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14196.1791657672511276456
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Oct 2026 15:00:56 -0700
+ Sat, 10 Oct 2026 11:41:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=M/2hm4Up;
- spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-67718201466so449996d50.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 15:00:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791669656; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HW/zOJZIwj4JTkDIn+AMa/aSl3ooysEplDeqDYGT8O54geCYMcMQgd8xF83tVzVXWy
-         chjd1hCjwdBYYYqrfHooFVXCOOcD7EfVGWKKSD4aPd3IiJSUet+oXZHrGWeRlC0DDmjW
-         y+IOEeq7WlX8XFZIeyJE+3uX0WJTT03aOmP5R3NxrZ2aJd3/VO7361yDQHnjdoGCUUb4
-         /rMZTCYQ5z4UwPGbin6bycURo37SxalRwVK6JpEzqfat+0wx0VlvSS1ouFsBtIBXZyBS
-         Ai66lmLRZZmHmTQwbrcXpQMc8MZ1AGD/r8K5Top60Yo9m5V+LN2cXNvQAZNDbDnEH2E1
-         Hfow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9FVRTThVd8HjfLXqBbbSUcCsJ98Ki4jjK9ZtlVm+rUA=;
-        fh=2xdA28mwox/TgWPx/kDxWnZtV+esHH2tBoOHJo78oCo=;
-        b=fcW/MeiBKYl7MWOJj47IyLU6sHKo799K/yPXJ1zeMz5IEj/CGn/ug4o/WJov9tgk6t
-         shX5J3yDxZxOjBqGhxs8cKHdW0vNOOzj2YFlinsS/EqiMcMR370cZzWJQgVGtozaM3G6
-         vraCbES58C6THEZ1RYM413juCqqdY5jXmz7KMJ1xY8T45oVjfjZ7ohF/p22T4bMxTybC
-         MDi2HbPnXHtjn/npms9tIlBDK+Tm5AUpPyWOx7ovyu+Ivho1DXLZW3CFmGCKhotbhLVp
-         VI5vSfmGyGCbBhDknGkHA/80lUxAnWfjNBtSrNZ0Mzz8/OmyYHgI91xJTFlsLY5ej/DK
-         fveA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=X8UsCZXX;
+ spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: collin.funk1@gmail.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-917a4b69a79so11972906d6.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 11:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791669656; x=1792274456; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791657671; x=1792262471; darn=lists.openembedded.org;
+        h=content-type:mime-version:user-agent:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9FVRTThVd8HjfLXqBbbSUcCsJ98Ki4jjK9ZtlVm+rUA=;
-        b=M/2hm4UpiFAUQq62GvmLv+3ah+FfUoosqlU6Ak2Gnfwcc+ucs2kLrwn1DL//DMwzeF
-         TyK78uDvcLxQ6AvQlSR7Vlgp5/kT+QsTuaN4CMpSBxeD12zMEBvazGYq7oA9BnRALvAk
-         nnqVjxFDWnhTNlAxRGjWXV83w7Bd+PDH8o4FxR1iyDISddlVUMxj0g0WDe8JzxKkXJ8U
-         H7OcMdZEk5ekZRe/nyMVY9EIzhHX53O5b9z6s9vOgvvtuD70m69tYR9gVpY/mN6Yf3K1
-         OUVHHX9zpEO2wGnCQyZY7cPd3y6qCJnXEqbrMhVh4yLXcqFCZ8y88MI3lkpy655t+qxO
-         vJGg==
+        bh=4qnn3sFp2ovTBtItTvjPTMc5ioy5skye5XfJ3LfBHyc=;
+        b=X8UsCZXXd8m2gBxgmuqxBQVmJQIgVGSSHD0s9xl2nfMnFkBKT9vl2pt6BnV8SXoXTA
+         TTJ1ZmcO3g5JWD2puT2wKyI4+DrMIUAnGiggi87XvpRHIQ/TJxmos8yDLE8B4rcnajkv
+         vJnsUa+lb4gqWcSCBN9p00RYpmUfVz2JiKP/0xGXWP/496z1rmhP9Jvmr2wq2UQRCMqu
+         PkOmeXUQHgxu5rzwbVMcQolk+FoAmlo4+nm7+KJm3EIX7ciekcRrwqbUT/B+dl13Pk83
+         1+P9Xr3qBmPFxRzyMZK8gv3Wfnbv6J4ry41wwUAdZGBMZ9cxyZht4qIIrQBGzgD1OAG3
+         JzrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791669656; x=1792274456;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9FVRTThVd8HjfLXqBbbSUcCsJ98Ki4jjK9ZtlVm+rUA=;
-        b=HcZuhv9OHBOi+VxiR+6P3+LMpvp5tByonbc8Zk1QAutsSz8Lr6FrpHt5hyG7aHpaUD
-         DlByUlKSmzmH5Sh2zEQ4oParTe9PTWytykhuc2Xdp45PD+qWChAx7Hy1M2oqwCHNpQsf
-         xsISShhbAlWlzEr96T1wL9xRP9JoMqG6NI8Y1oKbbbS9PcMMbOdv9LNd7d75rfzgbSc1
-         FBKEUri6mN6ViQNAqt14zFURnEzZ6Mw2rudcev1oTtGsRofYdfl5FNnND6oy7qA099jP
-         ap7po06CdHlL+5+JKJxNm+chnQIDXEcEy5SNsQkl3Xn7RIH40JMUMwfmwI2nh/paqWl3
-         C/Rw==
-X-Gm-Message-State: AFq9FYImKSDh/OoMuz4lMTmKEpHRxYKTWwUwJUm9FHOtNtD4rNQzd+Ll
-	uDfj5guVuzNyg2hrLubcjd5wQXe6OHeehyYWz+ZlX6yEnNijYWRWCDNL441Tgdu1/PTxdedzLyH
-	sklJ0PBS4XStT+dS+S1zrkuKnOYdqrlE=
-X-Gm-Gg: AYBFou3OY4SjgQ/Cu8jbvagwAc9egLEMR9qXQmI28peMe1nRBZsrnq608N5RQGfjYSm
-	l5GO8NIo0Ge0OIkDjJVXkP8Joe8nc9pGgOXad9JydwBWyiR7VMJQ69cXagt4+cWg0vQV/Lx+6j5
-	VyZq7x/tC9mwIyamb9ux/BVvqq+0MJDbr1UShO/NXrt3AkLcN+aB9BI/ucKmVXrQBmdn/jDcmWG
-	OyQTzRzoDcJbnJ49FtzvDnV8sDweNH7+ow5T5Bwv7ZtUrYd4b/09vE7IlMIoS+SyKl5CcWV5+CG
-	zu12lF4PrXlbTRV7O0fFDMrERk932oBYKmp1qwVqe7Gno02M8b1OPMRPHM3d8dJmdOTYmAhJp/S
-	MWElGotfHyf+LKJIvzKxkaPvabPw/wE6y1pOu8KvdKMwMhHEpq/i+TIlz2G0zalFech9vAkd9Ej
-	g3naVn4Z8DbY8UnrLqS6o0IqQRuAKUDLElEgHCGIno+NpCUK0SdXtVTkKNh3CUYp1Uyg02DRpBx
-	V4+KhqHm+POUn2FJHlVXE+hb0TTVZPLofvn42eaCP5tpt/PdKvnsnD+sAt064ckRLfexwbUZVDE
-	BH8rfC0=
-X-Received: by 2002:a05:690e:bc4:b0:66d:1877:121b with SMTP id
- 956f58d0204a3-67936984466mr2172039d50.32.1791669655596; Sat, 10 Oct 2026
- 15:00:55 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791657671; x=1792262471;
+        h=content-type:mime-version:user-agent:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4qnn3sFp2ovTBtItTvjPTMc5ioy5skye5XfJ3LfBHyc=;
+        b=m/ZXyKGEOxkPZY8LyzRmvO0q/HZggybXU/Zszdy83fKVgkr5B1+8te+B/5+DgjwRPV
+         agBX1kntpEuV37XbNvblRjY3AebxOFQPn8M2WR8rhGE0CYaD5XuihJ//x8kBA3wHpGzX
+         m/i9t47lQUkzzhihdJHew17QQ4E3W01GyZtaftTlZ1sS9DaRD7WU/qz1/l7UvpLyB0Yo
+         mDLm5A5GdX67QnwZqWojgw1xWt2MjJBEgXPeDG/OJpGJ2ya1gG6q6WuM3D/+NT6BXu59
+         RXtDVuUQGHpFwEVYSPO8+bg7GULfQDJDMMLuKEh535kCQD4mz8D4ltAxzBXXXANS7zYO
+         Tjvw==
+X-Gm-Message-State: AFq9FYJ8T7x57wv4U9f+JnoN4P4KC/XNklpg+KF+VrP85pWr5j/sWvtu
+	0HcBQNJGkXMNWrPHeH089AsL4aQ0MwWc20ae5REBbMHjZMe6g48LUPodeY+8Eg==
+X-Gm-Gg: AYBFou2H6nBy1x3ea/H2WHMoxR/FMe0xDXMQ6+vSIGJg+APc3oVpzhxxf10p38PaOGZ
+	SUWLHAdl55hwabVzPUnZEp38OpBFVS4Owcl5XMS4XWORzaJSxb480R8vlDD3OmU/0LaUo6BDt0p
+	USjwxHbmMizm3QPdASkkg+2BWhqo8h9cKROin+aC5Cngb0ZekQ5nc2W9kCOLeeBk+j3q4shfcvy
+	SUHnfZqCkrwgITSjvDlXj5MUzOiB85S8JhVV2UG6zEsKWyBJUTM20tglgGLfxSJLsuw8uNhKEMj
+	VMpLYwJQanhxmRDkUxD/eu6Tq6+lFfPUsqic9J1NAZpkA7FuCVy94vtm/3PUoVqqiqGS0lHmzxg
+	zWNSDZnjzh2zgR5gmFXQv5u19M6G3GrpBw8BSwA3RXlwSOBUL9I6IoGTtZRL88fqgwXnlEk6ghV
+	rsfSb2OLviYcLKzcfeCoJYAUQRMfZAuexdA7GLc5nxiSTxVW8fHrND
+X-Received: by 2002:a05:7022:290:b0:151:2e62:fe5b with SMTP id a92af1059eb24-16a5dbfd567mr8096684c88.22.1791657222804;
+        Sat, 10 Oct 2026 11:33:42 -0700 (PDT)
+Received: from fedora ([2601:646:8081:3770::61a9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a31f6be0sm31991266c88.13.2026.10.10.11.33.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 11:33:42 -0700 (PDT)
+From: Collin Funk <collin.funk1@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: Re: [PATCH] uutils-coreutils: move from meta-openembedded
+In-Reply-To: <20261010113029.2347847-1-ecordonnier@snap.com>
+Date: Sat, 10 Oct 2026 11:33:41 -0700
+Message-ID: <87pkxh2ynu.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 MIME-Version: 1.0
-References: <cover.1791224526.git.marcel.ziswiler@codethink.co.uk> <51ce6c98f2f466092ba077da44f0232bbcc16366.camel@ziswiler.com>
-In-Reply-To: <51ce6c98f2f466092ba077da44f0232bbcc16366.camel@ziswiler.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 10 Oct 2026 15:00:29 -0700
-X-Gm-Features: AclHuK_ZVrqVcvOFgrEmOQ1zGyuRrCVQl3teA9QvsFLpuuL9Ng2roNHeoU4LNYM
-Message-ID: <CAMKF1sp_VNWppn=cDfFOh=DTSkeB_iJ0ZmmWqFc64+tTSmJ_Xw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/2] mesa 26.2.4 upgrade and gallivm llvm 23
- build fix
-To: marcel@ziswiler.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>, 
-	Zoltan Boszormenyi <zboszor@gmail.com>, 
-	Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>, 
-	Antoine Gouby <antoine.gouby@toradex.com>
-Content-Type: multipart/alternative; boundary="000000000000607578065d839948"
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 22:01:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247502
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 02:07:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247503
 
---000000000000607578065d839948
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Etienne Cordonnier <ecordonnier@snap.com> wrote:
 
-On Sat, Oct 10, 2026 at 1:00=E2=80=AFPM Marcel Ziswiler via lists.openembed=
-ded.org
-<marcel=3Dziswiler.com@lists.openembedded.org> wrote:
+> uutils-coreutils, the Rust reimplementation of GNU coreutils, is mature
+> enough for production use, so move the recipe from meta-oe to oe-core.
+> It provides and rprovides coreutils, and is excluded from world unless
+> selected as the coreutils provider.
 
-> On Mon, 2026-10-05 at 20:36 +0200, Marcel Ziswiler wrote:
-> > This series upgrades mesa to 26.2.4 and fixes a gallivm llvm 23 build
-> issue.
-> >
-> > Build tested on x86_64 and run tested on LicheePi 4A.
->
-> Any comments anybody? Thanks!
->
+Total disregard for the requirements imposed by the GPL is helpful to it
+being "mature enough for production use", of course. See the downplayed
+mention in the 0.12.0 release notes:
 
-Looks ok. Its already staged in
-https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dmathieu/mas=
-ter-next
+    Also, some contributions had carried comments and code over from GNU
+    coreutils, against our own rule that uutils is an original
+    implementation. We reviewed the tree and rewrote what we found, in
+    comments and in the few functions that followed the C too closely;
+    no behaviour change. The GNU coreutils maintainers have been
+    notified.
 
+> +SUMMARY = "coreutils ~ GNU coreutils (updated); implemented as universal (cross-platform) utils, written in Rust"
 
->
-> Cheers
->
-> Marcel
->
-> > Marcel Ziswiler (2):
-> >   mesa,mesa-tools-native: upgrade 26.2.3 -> 26.2.4
-> >   mesa: gallivm llvm 23 build fix
-> >
-> >  ...uiltin_cpu_supports-for-avx2-detecti.patch |  2 +-
-> >  ...on-t-encode-build-path-into-binaries.patch |  2 +-
-> >  ...gallivm-adapt-for-JITLink-in-LLVM-23.patch | 51 +++++++++++++++++++
-> >  ...sdetects-64bit-atomics-on-mips-clang.patch |  2 +-
-> >  ...er-jay-jay_ir.h-do-not-used-typed-en.patch |  2 +-
-> >  ...c-do-not-use-arm-fpu-instructions-if.patch |  2 +-
-> >  meta/recipes-graphics/mesa/mesa.inc           |  5 +-
-> >  7 files changed, 59 insertions(+), 7 deletions(-)
-> >  create mode 100644
-> meta/recipes-graphics/mesa/files/0001-gallivm-adapt-for-JITLink-in-LLVM-2=
-3.patch
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#247500):
-> https://lists.openembedded.org/g/openembedded-core/message/247500
-> Mute This Topic: https://lists.openembedded.org/mt/121599185/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+This summary reads as if it is trying to claim that uutils is the
+official GNU coreutils project.
 
---000000000000607578065d839948
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'm not familiar enough with openembedded, but a concern raised by other
+distributions and me is that supporting two packages as "coreutils"
+increases maintainers' workload because the implementations are bound to
+diverge, requiring otherwise unnecessary code churn. E.g., for around a
+year, Ubuntu 26.04 had the following:
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Oct 10,=
- 2026 at 1:00=E2=80=AFPM Marcel Ziswiler via <a href=3D"http://lists.openem=
-bedded.org">lists.openembedded.org</a> &lt;marcel=3D<a href=3D"mailto:ziswi=
-ler.com@lists.openembedded.org">ziswiler.com@lists.openembedded.org</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, =
-2026-10-05 at 20:36 +0200, Marcel Ziswiler wrote:<br>
-&gt; This series upgrades mesa to 26.2.4 and fixes a gallivm llvm 23 build =
-issue.<br>
-&gt; <br>
-&gt; Build tested on x86_64 and run tested on LicheePi 4A.<br>
-<br>
-Any comments anybody? Thanks!<br></blockquote><div><br></div><div>Looks ok.=
- Its already staged in=C2=A0<a href=3D"https://git.openembedded.org/openemb=
-edded-core-contrib/log/?h=3Dmathieu/master-next">https://git.openembedded.o=
-rg/openembedded-core-contrib/log/?h=3Dmathieu/master-next</a></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers<br>
-<br>
-Marcel<br>
-<br>
-&gt; Marcel Ziswiler (2):<br>
-&gt; =C2=A0 mesa,mesa-tools-native: upgrade 26.2.3 -&gt; 26.2.4<br>
-&gt; =C2=A0 mesa: gallivm llvm 23 build fix<br>
-&gt; <br>
-&gt; =C2=A0...uiltin_cpu_supports-for-avx2-detecti.patch |=C2=A0 2 +-<br>
-&gt; =C2=A0...on-t-encode-build-path-into-binaries.patch |=C2=A0 2 +-<br>
-&gt; =C2=A0...gallivm-adapt-for-JITLink-in-LLVM-23.patch | 51 +++++++++++++=
-++++++<br>
-&gt; =C2=A0...sdetects-64bit-atomics-on-mips-clang.patch |=C2=A0 2 +-<br>
-&gt; =C2=A0...er-jay-jay_ir.h-do-not-used-typed-en.patch |=C2=A0 2 +-<br>
-&gt; =C2=A0...c-do-not-use-arm-fpu-instructions-if.patch |=C2=A0 2 +-<br>
-&gt; =C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-<br>
-&gt; =C2=A07 files changed, 59 insertions(+), 7 deletions(-)<br>
-&gt; =C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-gallivm=
--adapt-for-JITLink-in-LLVM-23.patch<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#247500): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/247500" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/247500</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121599185/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/121599185/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+    $ export LC_ALL=en_US.UTF-8
+    $ printf 'USA\nU.S.A\nU-S-A\n' | sort -u
+    USA
+    $ printf 'USA\nU.S.A\nU-S-A\n' | gnusort -u
+    U-S-A
+    U.S.A
+    USA
 
---000000000000607578065d839948--
+It still has the following issue [1]:
+
+    $ export LC_ALL=en_US.UTF-8
+    $ echo a A b B | tr ' ' '\n' | sort > tst1.txt
+    $ echo a A b C | tr ' ' '\n' | sort > tst2.txt
+    $ comm -23 tst1.txt tst2.txt
+    comm: file 1 is not in sorted order
+    comm: file 2 is not in sorted order
+    B
+    comm: input is not in sorted order
+    $ gnucomm -23 tst1.txt tst2.txt
+    B
+
+Collin
+
+[1] https://bugs.launchpad.net/ubuntu/+source/rust-coreutils/+bug/2169780
 
