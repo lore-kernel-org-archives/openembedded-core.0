@@ -1,146 +1,218 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A345DCA6017
-	for <webhook@archiver.kernel.org>; Sat, 10 Oct 2026 21:40:12 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16985.1791668411450533592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B988DCA9EC5
+	for <webhook@archiver.kernel.org>; Sat, 10 Oct 2026 22:01:02 +0000 (UTC)
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17331.1791669656650679781
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Oct 2026 14:40:11 -0700
+ Sat, 10 Oct 2026 15:00:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XTyY4Faw;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a16c399641so7888965e9.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 14:40:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=M/2hm4Up;
+ spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-67718201466so449996d50.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 15:00:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791669656; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HW/zOJZIwj4JTkDIn+AMa/aSl3ooysEplDeqDYGT8O54geCYMcMQgd8xF83tVzVXWy
+         chjd1hCjwdBYYYqrfHooFVXCOOcD7EfVGWKKSD4aPd3IiJSUet+oXZHrGWeRlC0DDmjW
+         y+IOEeq7WlX8XFZIeyJE+3uX0WJTT03aOmP5R3NxrZ2aJd3/VO7361yDQHnjdoGCUUb4
+         /rMZTCYQ5z4UwPGbin6bycURo37SxalRwVK6JpEzqfat+0wx0VlvSS1ouFsBtIBXZyBS
+         Ai66lmLRZZmHmTQwbrcXpQMc8MZ1AGD/r8K5Top60Yo9m5V+LN2cXNvQAZNDbDnEH2E1
+         Hfow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9FVRTThVd8HjfLXqBbbSUcCsJ98Ki4jjK9ZtlVm+rUA=;
+        fh=2xdA28mwox/TgWPx/kDxWnZtV+esHH2tBoOHJo78oCo=;
+        b=fcW/MeiBKYl7MWOJj47IyLU6sHKo799K/yPXJ1zeMz5IEj/CGn/ug4o/WJov9tgk6t
+         shX5J3yDxZxOjBqGhxs8cKHdW0vNOOzj2YFlinsS/EqiMcMR370cZzWJQgVGtozaM3G6
+         vraCbES58C6THEZ1RYM413juCqqdY5jXmz7KMJ1xY8T45oVjfjZ7ohF/p22T4bMxTybC
+         MDi2HbPnXHtjn/npms9tIlBDK+Tm5AUpPyWOx7ovyu+Ivho1DXLZW3CFmGCKhotbhLVp
+         VI5vSfmGyGCbBhDknGkHA/80lUxAnWfjNBtSrNZ0Mzz8/OmyYHgI91xJTFlsLY5ej/DK
+         fveA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791668409; x=1792273209; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+c7J97JHEg6y7lgP1IFdeAgDPpaeHxRFSKi4N9baEjE=;
-        b=XTyY4Faw/RtWMrt7JQ9qQW6SL5VwilXLdD0Hs2/V42avSOpKbMK0sgx/KpPyd6mXfh
-         7wdgZaeHppe9ppDhPUJS6FpdQX63GP4O02qMsVqQbGEHn7q+XtVelpw8lB8Wjm0ve5Bg
-         Hz+7jeWS8j6q9NtSC/ae25xhudvgwyI9M4T7A=
+        d=gmail.com; s=20251104; t=1791669656; x=1792274456; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9FVRTThVd8HjfLXqBbbSUcCsJ98Ki4jjK9ZtlVm+rUA=;
+        b=M/2hm4UpiFAUQq62GvmLv+3ah+FfUoosqlU6Ak2Gnfwcc+ucs2kLrwn1DL//DMwzeF
+         TyK78uDvcLxQ6AvQlSR7Vlgp5/kT+QsTuaN4CMpSBxeD12zMEBvazGYq7oA9BnRALvAk
+         nnqVjxFDWnhTNlAxRGjWXV83w7Bd+PDH8o4FxR1iyDISddlVUMxj0g0WDe8JzxKkXJ8U
+         H7OcMdZEk5ekZRe/nyMVY9EIzhHX53O5b9z6s9vOgvvtuD70m69tYR9gVpY/mN6Yf3K1
+         OUVHHX9zpEO2wGnCQyZY7cPd3y6qCJnXEqbrMhVh4yLXcqFCZ8y88MI3lkpy655t+qxO
+         vJGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791668409; x=1792273209;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+c7J97JHEg6y7lgP1IFdeAgDPpaeHxRFSKi4N9baEjE=;
-        b=GTvKRg4MuAT5hYzZjqvOlqzEn7vKVXTu8fgHKpJLR+MM+usehOV0LwFvxB3utu5pWx
-         FEFU9A8AqpZPNZ4CeM+cuPp0dVjgbK1MZhlUdRWcvECpLd9D4HhjVaYXB5kYWFemNZi7
-         BfZOglq+UV9H5O7/Q9g0hn68m6O5ouThScIPyYVgIKzaiONqWxCQXM1wwrrHx9YVVXnH
-         HdsnMWhJTCSAEpR56V/xGjsA/c5bFt9k2RU3H7QiY7UYF8NIMmlNzqwmmdrwawCWpbbj
-         UWnABrFIGzrxk2+RkChQQ9LxJ6pn/GwXCA/WIHuhGPRiwKfuQ7wQUpegEqoTc4cE98TI
-         g7hA==
-X-Forwarded-Encrypted: i=1; AKwUvBxpzXWtOwOZKplFBMvPDOf5qL7zlEH6VExdVeuG1UZSvvx1KjLQQAUj0d72wP6tp84RRQ5/cRRnK90zQoB3ENuBqg==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYJJ5WC4Mrb3WZDEOpDa3jyh4psMjzax5A6fv1K+cZ0EsxaoZGay
-	Xdk0eQSUQJSgKWHH992cWsGwqG57HSxfvJZxRM1g6xsotWRUGTYneLEqqOS5Roy0qKE=
-X-Gm-Gg: AYBFou2sYxDOjE5fQQutEyY0hpTls5qprS2d1u+Rq0vPxYjHc05aLo7cym7Ia4mhLMk
-	njq8IHcOWhXgw50LLufbXrixO6f5KFD//L+DAYrD5BjMW8kvZC0gFLxyKOCPqICrC9dIlQldr/l
-	6JrAM6Yu5tSnhlJ7ESfyDiHDczn2dfgdfrEgmkq2ZmCLGvYAfbJye8ZfdFiMrkZmqM20vLT5vrW
-	XtQM/gdRo3qEK7KZzTM/v4WhZkf/FALFTfOgV/Jly17y6Mi/N8VjwKF/LbGPOlbVoZQucrFnq29
-	WkF220o7Ihkx6dnJxgeyQYroAMDRxabzyCFNI8JIdivg6ZNdtoEG2rh5ROLD1dofFnl3bjh17hN
-	+Wmqr7Cgge/dUDehKTy0w3WxAJw6G04cQh9LsTGjsBPDdodSdDDHEl/k2cXp8IQKOcuYHo08olH
-	QOtb40sCjJ//sdY2GEx1BtLypAK3VTK4ydIVcow5jyK1nutk5qvZukMJNWimfE+StDTnYiJC7GA
-	AJvC3jvHNk3mkE9TYD898kBQhcL7tT5g2t2OeQTCG9XZVx4gbVaExc/x6rhew==
-X-Received: by 2002:a05:600c:8b28:b0:49f:bd3c:bc1b with SMTP id 5b1f17b1804b1-4a18e499da4mr101265995e9.22.1791668409330;
-        Sat, 10 Oct 2026 14:40:09 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19ba624b3sm1104365e9.2.2026.10.10.14.40.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Oct 2026 14:40:08 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 10 Oct 2026 23:40:07 +0200
-Message-Id: <DM1HFZQZ467Q.2FDKVXY2TSZRK@smile.fr>
-To: <Roopa.Kalmath@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH] u-boot: fix CVE-2026-29009
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20261009120200.848470-1-Roopa.Kalmath@windriver.com>
-In-Reply-To: <20261009120200.848470-1-Roopa.Kalmath@windriver.com>
+        d=1e100.net; s=20260707; t=1791669656; x=1792274456;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=9FVRTThVd8HjfLXqBbbSUcCsJ98Ki4jjK9ZtlVm+rUA=;
+        b=HcZuhv9OHBOi+VxiR+6P3+LMpvp5tByonbc8Zk1QAutsSz8Lr6FrpHt5hyG7aHpaUD
+         DlByUlKSmzmH5Sh2zEQ4oParTe9PTWytykhuc2Xdp45PD+qWChAx7Hy1M2oqwCHNpQsf
+         xsISShhbAlWlzEr96T1wL9xRP9JoMqG6NI8Y1oKbbbS9PcMMbOdv9LNd7d75rfzgbSc1
+         FBKEUri6mN6ViQNAqt14zFURnEzZ6Mw2rudcev1oTtGsRofYdfl5FNnND6oy7qA099jP
+         ap7po06CdHlL+5+JKJxNm+chnQIDXEcEy5SNsQkl3Xn7RIH40JMUMwfmwI2nh/paqWl3
+         C/Rw==
+X-Gm-Message-State: AFq9FYImKSDh/OoMuz4lMTmKEpHRxYKTWwUwJUm9FHOtNtD4rNQzd+Ll
+	uDfj5guVuzNyg2hrLubcjd5wQXe6OHeehyYWz+ZlX6yEnNijYWRWCDNL441Tgdu1/PTxdedzLyH
+	sklJ0PBS4XStT+dS+S1zrkuKnOYdqrlE=
+X-Gm-Gg: AYBFou3OY4SjgQ/Cu8jbvagwAc9egLEMR9qXQmI28peMe1nRBZsrnq608N5RQGfjYSm
+	l5GO8NIo0Ge0OIkDjJVXkP8Joe8nc9pGgOXad9JydwBWyiR7VMJQ69cXagt4+cWg0vQV/Lx+6j5
+	VyZq7x/tC9mwIyamb9ux/BVvqq+0MJDbr1UShO/NXrt3AkLcN+aB9BI/ucKmVXrQBmdn/jDcmWG
+	OyQTzRzoDcJbnJ49FtzvDnV8sDweNH7+ow5T5Bwv7ZtUrYd4b/09vE7IlMIoS+SyKl5CcWV5+CG
+	zu12lF4PrXlbTRV7O0fFDMrERk932oBYKmp1qwVqe7Gno02M8b1OPMRPHM3d8dJmdOTYmAhJp/S
+	MWElGotfHyf+LKJIvzKxkaPvabPw/wE6y1pOu8KvdKMwMhHEpq/i+TIlz2G0zalFech9vAkd9Ej
+	g3naVn4Z8DbY8UnrLqS6o0IqQRuAKUDLElEgHCGIno+NpCUK0SdXtVTkKNh3CUYp1Uyg02DRpBx
+	V4+KhqHm+POUn2FJHlVXE+hb0TTVZPLofvn42eaCP5tpt/PdKvnsnD+sAt064ckRLfexwbUZVDE
+	BH8rfC0=
+X-Received: by 2002:a05:690e:bc4:b0:66d:1877:121b with SMTP id
+ 956f58d0204a3-67936984466mr2172039d50.32.1791669655596; Sat, 10 Oct 2026
+ 15:00:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1791224526.git.marcel.ziswiler@codethink.co.uk> <51ce6c98f2f466092ba077da44f0232bbcc16366.camel@ziswiler.com>
+In-Reply-To: <51ce6c98f2f466092ba077da44f0232bbcc16366.camel@ziswiler.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 10 Oct 2026 15:00:29 -0700
+X-Gm-Features: AclHuK_ZVrqVcvOFgrEmOQ1zGyuRrCVQl3teA9QvsFLpuuL9Ng2roNHeoU4LNYM
+Message-ID: <CAMKF1sp_VNWppn=cDfFOh=DTSkeB_iJ0ZmmWqFc64+tTSmJ_Xw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/2] mesa 26.2.4 upgrade and gallivm llvm 23
+ build fix
+To: marcel@ziswiler.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>, 
+	Zoltan Boszormenyi <zboszor@gmail.com>, 
+	Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>, 
+	Antoine Gouby <antoine.gouby@toradex.com>
+Content-Type: multipart/alternative; boundary="000000000000607578065d839948"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 21:40:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247501
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Oct 2026 22:01:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247502
 
-Hello,
+--000000000000607578065d839948
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I have a few format issues with your patch but the gist of it looks good
-to me.
+On Sat, Oct 10, 2026 at 1:00=E2=80=AFPM Marcel Ziswiler via lists.openembed=
+ded.org
+<marcel=3Dziswiler.com@lists.openembedded.org> wrote:
 
-On Fri Oct 9, 2026 at 2:02 PM CEST, Roopa via lists.openembedded.org Kalmat=
-h wrote:
-> U-Boot before 2026.07-rc2 contains a buffer overflow vulnerability in
-> nfs_readlink_reply() (net/nfs-common.c) when CONFIG_CMD_NFS is enabled,
-> allowing a malicious or compromised NFS server to overflow the 2048-byte
-> nfs_path_buff buffer by returning multiple relative symlink targets that
-> are appended without cumulative length validation. Attackers can send
-> two or more READLINK responses containing relative symlink targets of
-> approximately 1100 bytes each to corrupt adjacent BSS variables
-> including nfs_server_ip, nfs_server_mount_port, nfs_server_port,
-> nfs_our_port, nfs_state, and rpc_id, potentially achieving memory
-> corruption and control over the NFS client state machine.
-
-All this paragraph is the CVE description which is not what reader of
-these commit messages look for. We want to know what you did to fix the
-CVE and why. In this case a simple
-"Backport fix referenced by NVD: https://nvd.nist.gov/vuln/detail/cve-2026-=
-29009"
-is enough.
-
-Look at https://git.openembedded.org/openembedded-core/log/?h=3Dwrynose&qt=
-=3Dgrep&q=3DCVE
-to get an idea of what a commit message usually look like.
-
-> Reference:
-> [https://www.cve.org/CVERecord?id=3DCVE-2026-29009]
+> On Mon, 2026-10-05 at 20:36 +0200, Marcel Ziswiler wrote:
+> > This series upgrades mesa to 26.2.4 and fixes a gallivm llvm 23 build
+> issue.
+> >
+> > Build tested on x86_64 and run tested on LicheePi 4A.
 >
-> Backport the patch to fix CVE-2026-29009:
-> [https://git.u-boot-project.org/u-boot/u-boot/-/commit/d6694018eaddefac6a=
-ae974f9cec72fd6e58f1bc]
+> Any comments anybody? Thanks!
 >
-> Signed-off-by: Roopa Kalmath <Roopa.Kalmath@windriver.com>
-> ---
->  .../u-boot/files/CVE-2026-29009.patch         | 34 +++++++++++++++++++
->  meta/recipes-bsp/u-boot/u-boot_2026.01.bb     |  4 ++-
->  2 files changed, 37 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2026-29009.patch
+
+Looks ok. Its already staged in
+https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dmathieu/mas=
+ter-next
+
+
 >
-> diff --git a/meta/recipes-bsp/u-boot/files/CVE-2026-29009.patch b/meta/re=
-cipes-bsp/u-boot/files/CVE-2026-29009.patch
-> new file mode 100644
-> index 0000000000..1e04562ede
-> --- /dev/null
-> +++ b/meta/recipes-bsp/u-boot/files/CVE-2026-29009.patch
-> @@ -0,0 +1,34 @@
-> +From 2b88f08722584cf235f7dacaa190af3d24deb40f Mon Sep 17 00:00:00 2001
-> +From: Roopa Kalmath <Roopa.Kalmath@windriver.com>
-> +Date: Fri, 9 Oct 2026 08:38:23 +0000
-> +Subject: [PATCH] u-boot:Fix CVE-2026-29009
-> +
-> +CVE: CVE-2026-29009
-> +
-> +Upstream-Status: Backport [https://git.u-boot-project.org/u-boot/u-boot/=
--/commit/d6694018eaddefac6aae974f9cec72fd6e58f1bc]
-> +
-> +Signed-off-by: Roopa Kalmath <Roopa.Kalmath@windriver.com>
+> Cheers
+>
+> Marcel
+>
+> > Marcel Ziswiler (2):
+> >   mesa,mesa-tools-native: upgrade 26.2.3 -> 26.2.4
+> >   mesa: gallivm llvm 23 build fix
+> >
+> >  ...uiltin_cpu_supports-for-avx2-detecti.patch |  2 +-
+> >  ...on-t-encode-build-path-into-binaries.patch |  2 +-
+> >  ...gallivm-adapt-for-JITLink-in-LLVM-23.patch | 51 +++++++++++++++++++
+> >  ...sdetects-64bit-atomics-on-mips-clang.patch |  2 +-
+> >  ...er-jay-jay_ir.h-do-not-used-typed-en.patch |  2 +-
+> >  ...c-do-not-use-arm-fpu-instructions-if.patch |  2 +-
+> >  meta/recipes-graphics/mesa/mesa.inc           |  5 +-
+> >  7 files changed, 59 insertions(+), 7 deletions(-)
+> >  create mode 100644
+> meta/recipes-graphics/mesa/files/0001-gallivm-adapt-for-JITLink-in-LLVM-2=
+3.patch
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#247500):
+> https://lists.openembedded.org/g/openembedded-core/message/247500
+> Mute This Topic: https://lists.openembedded.org/mt/121599185/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-While backporting this patch you complely erased the existing commit
-message and authorship information. Please keep those, they help
-checking that we are indeed fixing the vulnerability, not introducing
-regressions, ...
+--000000000000607578065d839948
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Can you send a v2 with the above fixed?
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Oct 10,=
+ 2026 at 1:00=E2=80=AFPM Marcel Ziswiler via <a href=3D"http://lists.openem=
+bedded.org">lists.openembedded.org</a> &lt;marcel=3D<a href=3D"mailto:ziswi=
+ler.com@lists.openembedded.org">ziswiler.com@lists.openembedded.org</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, =
+2026-10-05 at 20:36 +0200, Marcel Ziswiler wrote:<br>
+&gt; This series upgrades mesa to 26.2.4 and fixes a gallivm llvm 23 build =
+issue.<br>
+&gt; <br>
+&gt; Build tested on x86_64 and run tested on LicheePi 4A.<br>
+<br>
+Any comments anybody? Thanks!<br></blockquote><div><br></div><div>Looks ok.=
+ Its already staged in=C2=A0<a href=3D"https://git.openembedded.org/openemb=
+edded-core-contrib/log/?h=3Dmathieu/master-next">https://git.openembedded.o=
+rg/openembedded-core-contrib/log/?h=3Dmathieu/master-next</a></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers<br>
+<br>
+Marcel<br>
+<br>
+&gt; Marcel Ziswiler (2):<br>
+&gt; =C2=A0 mesa,mesa-tools-native: upgrade 26.2.3 -&gt; 26.2.4<br>
+&gt; =C2=A0 mesa: gallivm llvm 23 build fix<br>
+&gt; <br>
+&gt; =C2=A0...uiltin_cpu_supports-for-avx2-detecti.patch |=C2=A0 2 +-<br>
+&gt; =C2=A0...on-t-encode-build-path-into-binaries.patch |=C2=A0 2 +-<br>
+&gt; =C2=A0...gallivm-adapt-for-JITLink-in-LLVM-23.patch | 51 +++++++++++++=
+++++++<br>
+&gt; =C2=A0...sdetects-64bit-atomics-on-mips-clang.patch |=C2=A0 2 +-<br>
+&gt; =C2=A0...er-jay-jay_ir.h-do-not-used-typed-en.patch |=C2=A0 2 +-<br>
+&gt; =C2=A0...c-do-not-use-arm-fpu-instructions-if.patch |=C2=A0 2 +-<br>
+&gt; =C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-<br>
+&gt; =C2=A07 files changed, 59 insertions(+), 7 deletions(-)<br>
+&gt; =C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-gallivm=
+-adapt-for-JITLink-in-LLVM-23.patch<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#247500): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/247500" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/247500</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121599185/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/121599185/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
-
+--000000000000607578065d839948--
 
