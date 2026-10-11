@@ -2,62 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB156CA9ECA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CAFCA9EC7
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:28 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23571.1791708080073430873
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23576.1791708087852152830
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:20 -0700
+ Sun, 11 Oct 2026 01:41:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=N7w6FfUh;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48afe75f055so928571f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:19 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=xeumlKDz;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a0213948d3so5922865e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708078; x=1792312878; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708086; x=1792312886; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ntD1fLOdn0QX9QZ+f6AwbMX9P7fN0nNHfIj79hhZQBU=;
-        b=N7w6FfUhIdmwTPBPWiF1tmTY4qXWaYNmXcfzYRQd6oWt6CTE9En38Vd0pLosxohV/l
-         spElNLYp8qTIrWcgra4z45nO0alEOteIiMengSxFQTTr5t0FOwoLpvtXpZeRinUdGlw/
-         jIJnixVRMFqPcdkZjRRqqQvcwdFY5bAns2NGs=
+        bh=MGV9SwW0n+TV2tCg77WAWatGSVfuRSXCp7XUN50HmTk=;
+        b=xeumlKDzp9KIBrbmn0Eid48FHX+xHE8q9JCH14ec0cmRA8YfEtlmjg/D5ht6dt1WdK
+         p2Ft2bmgHHZxvd/5GJfYuU5zVCPQGfwLOe0bTdqCHaa2+Vu4k1dXecTWaF9wD1dPcUXl
+         8EgccGU7feKFCru8GIKtbwDypTyZfj/LNdj88=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708078; x=1792312878;
+        d=1e100.net; s=20260707; t=1791708086; x=1792312886;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=ntD1fLOdn0QX9QZ+f6AwbMX9P7fN0nNHfIj79hhZQBU=;
-        b=vld2ln5+lkTv1r7SxPn5A7GKKskYz2n1iRwUYyEILZGbsgc3EZ7DJVESU4l+YRKB7y
-         ImaA/xuOHNcSbUz363mWWu5jn3pL0Mlfk68IJDcqeLRkSChWIOZfREuciklZsXkU+FQE
-         blvqzycYp3r8/d+i/bjVb10E5YKK0hGwwczOPPb89RdDM0Xz07a62fQeJnXKlzOcqgUg
-         cQo3EMSFEfb/7tJxdN7cUX421M/dh3xBvPKp3kdAEbTLF23x5IR51rG/YFSggKQFdFIq
-         IQkTA6dmI0Ywh5ldek74mOpgkrY45exuauk7K4zf4+FMvCetCrp/VouUjFdwf++3oYym
-         aX0A==
-X-Gm-Message-State: AFq9FYIiA2UutsTUDEyWOB+itqcFNDptXZUaHPy9XQ34MRbR5/LciPbI
-	pxidiEMd9eua2IyVQlZugWFhxhUflv3F+HGZZXG4b1cmIpm6Np8QLQoD5vUhNK16FJRoPS9pMt0
-	7AplH79A=
-X-Gm-Gg: AYBFou1Vq+N3dQ4vAsK9CoGElVqGH+N2P3mDDrpbGeEdiRESVwiQXkfxo/yd/KNoHjZ
-	eN5hfrakbPNcnXMeiFUm32e2uQSRgpdhEwM8yIqE2kiq922zzHgTslaFFedJlpflsvsowMuHNK1
-	O97Rj9KATMDiMJO5jutUuy0+n380s+RDKXAcH/VXbV32xqTLRQa7WunH05eZLPAsnivZG6oHuUQ
-	Qg04UrhKkveH9/dpYJTz4kInk3U8FCR9JZwUFBMkGnvsoI5E3MeDKUN1CuYXFrYeZg+NFK5ZZrV
-	OOpEnKWTRciMjUjRVOG41m4bqsFxumvR8BArCRfZl6pUYXNA+E5i9lvitTeQghZLjT7j3PP4UiT
-	Fluqpc+sMQvjAmagq4feUTtO7maGM8U75VkTQXXgCntqiVynx6kSpL4/moR3eOegW0hPXRlHJc0
-	w70mvgfN/H+A+E0yTIdT1fxwo2K3Ar+2O9EVOzyxUwdOAYEXE5qkEvqERouTkXJL4drbPNfxsvh
-	+FP38ZzZfpAjI4Q9Cl5Xm8y9dKex7QhS1CnF/TJHx69duxDLM0T/+Ztqydpxov+XZzeJAeeJYet
-	S6weA1jc
-X-Received: by 2002:a5d:5590:0:b0:48c:6cdd:ba89 with SMTP id ffacd0b85a97d-48dbaaefa6emr8361571f8f.36.1791708078270;
-        Sun, 11 Oct 2026 01:41:18 -0700 (PDT)
+        bh=MGV9SwW0n+TV2tCg77WAWatGSVfuRSXCp7XUN50HmTk=;
+        b=IZj9zi9x1Sh+hUbrbC1y4yp8qmHYcQrzDSsahcRhcCTqycoT4YHfkciN/DJ4Djl1IJ
+         AxWmTxH/3XaKsbMN+rJmBZj9owXr4+VayW45u+j5OJnVBd5dzdPiNOGEPirJahZhm6Sr
+         Admp9hKbSqXV4NtqKYaz8yAB3DIZPSyrht2EKPVPkTSv2lKgOzbZn+E1j5PjLi930fTS
+         03FTb4LJL9+8NrrPKUUzVVjhgOjg162jZFbEnzblBfIs+QDhmnGRlWwLMFjXai49CD4+
+         DxgxcpPqnIwtqTPuugrYbaRPFHPdRqO3PJvIW92a2bpZVKnAdJ2e5XGA5wiHsp2IIuYj
+         aX8A==
+X-Gm-Message-State: AFq9FYIdLjCmfmwFrJqF0Rag60sjCiH2brMVLeOXqhkISfXNojvxVRRJ
+	amY2ux8Sbs717l7P/uSuX1prO3ooOn2Y5fZJLDJMKlCIEe2NAMem/ZNv75M/hciSUai+DczdKE2
+	39JV4MT4=
+X-Gm-Gg: AYBFou2fBrYMd34DxLYvKrVO6T5l+wVi2Bue/gU197RavfcVU34S4SLxHda/hvz1M06
+	tfopahNpUfuOgSdkPUX/q/DBFlMafEytHzwtt5A0CPwCaP87NAyjHSwNl41fi/kh84OkbOk+p3u
+	A/4lIl08cfQc3V+JW41ODE1xiBn85NvhF+I6stpKIKHj3p6XcjM5YCXToSqMAxS2aHfvB9CKvgo
+	oG6kXw8SMX6Wg9IFZtNU0iJxPf2hBT+dQgPuydW/XhFT4IdUiiegfszshvfSfOwpukpNumVyCef
+	682eO/CDPygLOc2RmD51pV2gFk2j3NteA4s4n2c3+dnJhQEaqvwf2wd9WoZAs4ehk6OudrctBog
+	HrzZcHoZzAweCxBIUmWlykA7eOW2aaAwgAJuBHOWxJNv+O82nT99WIGiyzYmqOah2qLWYBnmrVK
+	0YYUqlGt+M64HqamMfZSNFDClsUnNGYvCaos+tX2udCxJjiiLNXRjGIdnH7otUpvb3p0+scrNEf
+	j74tELaPH4TSMKWiw7ZB/j4uHyfc5ThBfaS503JeJO48q8gO1gSzlxqaCGY1R3LyUoVmwsHRw==
+X-Received: by 2002:a05:600c:64c7:b0:49f:ff32:803c with SMTP id 5b1f17b1804b1-4a18e49c536mr117069305e9.16.1791708086068;
+        Sun, 11 Oct 2026 01:41:26 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:17 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:25 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 27/60] openssl: upgrade 3.5.8 -> 3.5.9
-Date: Sun, 11 Oct 2026 10:40:00 +0200
-Message-ID: <cc3c5d3c3f37cdc1db8f3fcaeb4d286f2e67cc46.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 38/60] qemuriscv.inc: default to fw_dynamic.elf as QEMU BIOS
+Date: Sun, 11 Oct 2026 10:40:11 +0200
+Message-ID: <cfb8875e37a46b88b9ad1f3756a348d005394420.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -67,52 +66,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247536
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247547
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-Release information [1]:
+QEMU RISC-V can hang at boot when using fw_jump.elf as the BIOS if
+the kernel Image is large enough to overlap the memory region where
+the FDT (device tree blob) is loaded. This was observed with
+KERNEL_DEBUG-enabled 6.18 kernel builds, which inflate the Image
+size (e.g. ~27M -> ~33M on qemuriscv64), but the underlying issue is
+not specific to KERNEL_DEBUG or to any one kernel version, it is a
+property of fw_jump.elf's fixed compile-time boot address layout
+which does not adapt to a larger next-stage image.
 
-OpenSSL 3.5.9 is a security patch release. The most severe CVE fixed in this release is High.
-This release incorporates the following bug fixes and mitigations:
-* Fixed DTLS retransmissions of handshake messages from a stale buffer offset. (CVE-2026-84782)
-* Fixed excessive memory allocation in relative CRLDP processing. (CVE-2026-35189)
-* Fixed QUIC unvalidated amplification credit may be over-accounted. (CVE-2026-35191)
-* Fixed potential CPU DoS via O(n^2) fragment reassembly in QUIC. (CVE-2026-42772)
-* Fixed a timing side-channel in scalar multiplication for mon-NIST EC curves. (CVE-2026-54872)
-* Fixed QUIC STREAM fragment metadata DoS. (CVE-2026-54873)
-* Fixed non-constant-time SM2 scalar multiplication on ARM64 and RISC-V. (CVE-2026-54875)
-* Fixed out-of-bounds access after SSL_set_SSL_CTX() during a handshake. (CVE-2026-72897)
-* Fixed QUIC connection-level flow control was not enforced for streams. (CVE-2026-75804)
-* Fixed a NULL pointer dereference in CMP client revocation response handling. (CVE-2026-75805)
-* Fixed an unauthenticated and undersized DTLS 1.2 AEAD record causing DoS. (CVE-2026-75806)
-* Fixed a timing side-channel in SM2 signature generation. (CVE-2026-77696)
-* Fixed an unbounded RETIRE_CONNECTION_ID backlog in QUIC stack implementation. (CVE-2026-84784)
-* Fixed a bug where EVP_DecryptFinal() incorrectly reported a stale success on AES-SIV authentication failure.
+This was confirmed by dumping guest memory from the QEMU monitor at
+the kernel load address and finding the FDT magic number
+(0xd00dfeed, see scripts/dtc/libfdt/fdt.h) sitting where kernel code
+should be, i.e. the DTB and Image had started to overlap [1].
 
-[1] https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-358-and-openssl-359-29-sep-2026
+fw_dynamic.elf instead receives next-stage boot information at
+runtime from the prior boot stage rather than assuming a fixed
+address, avoiding this overlap.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+[1] https://lists.openembedded.org/g/openembedded-core/message/246090
+
+[YOCTO #16409]
+
+Suggested-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 51b72fb2e8917a8627023f419b27a1d83132a361)
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssl/{openssl_3.5.8.bb => openssl_3.5.9.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.8.bb => openssl_3.5.9.bb} (99%)
+ meta/conf/machine/include/riscv/qemuriscv.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.8.bb b/meta/recipes-connectivity/openssl/openssl_3.5.9.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssl/openssl_3.5.8.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.5.9.bb
-index 71446e62e31..06e25a61587 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.5.8.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.9.bb
-@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "a8f84a39918ec6415ce765d9b429d313ba97b8143169c172e734b9514464f5b2"
-+SRC_URI[sha256sum] = "603f5602e2eef00d77fbd429d34dcd5822bb301757a1bc9cdb24c670f1eb859a"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative manpages
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
+index bac376ce5a8..d8522fd552e 100644
+--- a/meta/conf/machine/include/riscv/qemuriscv.inc
++++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+@@ -29,7 +29,10 @@ QB_SMP ?= "-smp 4"
+ QB_KERNEL_CMDLINE_APPEND = "earlycon=sbi"
+ QB_CPU:riscv64 ?= "-cpu rva23s64,pmp=true"
+ QB_MACHINE = "-machine virt"
+-QB_DEFAULT_BIOS = "fw_jump.elf"
++# fw_jump.elf's memory layout can be overrun by a sufficiently large kernel Image,
++# causing it to overlap the FDT load address and hang QEMU at boot (see [YOCTO #16409]),
++# so use fw_dynamic.elf in that case instead, which avoids the overlap.
++QB_DEFAULT_BIOS = "fw_dynamic.elf"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+ QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
+ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
 
