@@ -2,1056 +2,1013 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE21CA9ECF
-	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 05:21:54 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22152.1791696103100212999
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CF5CCA9EC9
+	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 05:21:55 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22059.1791696106262577975
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Oct 2026 22:21:45 -0700
+ Sat, 10 Oct 2026 22:21:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=u0IW5fhV;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Vs9TmZ82;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a12968ee5f-1daa311e-65b4-4951-ad8b-d135629f6800-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OyhF7uzA;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QX910MlP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a12968ef3e-91d6bfd4-1a3a-4ae0-937f-c3fd6204d975-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1791696105;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=a1wqFI2qIE3B2wBtn9wnpo7ty9uNtnmvnUseqF2vU4M=;
-	b=u0IW5fhVUNru1ajI6ftVd4V+wRau7iPODy4rfjzq3bJvi5LDx/3a/AMOs2VomW7x
-	yuJQEigiiNXSqUZw9bfMb1+vmtBBakyIVn4aESPE/UnXUGRdjAa6VuGjlciGdX57WLB
-	4DvpZYRXBfHgqgxus9OspeJ6yXNI+pJTw6u1AJlw=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=TEGoscFEth6O5EMQjqRmlgXM0VgjxCY4EZ481PGG9OE=;
+	b=OyhF7uzAdEo1Q8GyDHN25QGhPs/VwDWcf1f/dlM3UuOYGY1t7+YgDB5zXw0f3crd
+	6YvH+ouv8UY5g1SIzamOv/sUogsczoF60lCt/v7m04B56zq650DeQoLIj8KSEIFfo36
+	/LL65v9j37SevFiWUnur6OvyTbnVivdsCxcIL3XM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791696105;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=a1wqFI2qIE3B2wBtn9wnpo7ty9uNtnmvnUseqF2vU4M=;
-	b=Vs9TmZ82tCo6WEk+jUD9C4BoqlRMhcRJV8fhT/b3WzsFnVS9lpU4lLijSiWBnVuI
-	v83Tixss7dlLYterLMZ1HvYPwsfbt1yowPxdMKX3zrZcMj7FIqW6bIDomrVdedHSgSl
-	EWx2jVFh36NcPTSaGAmQGzQPiZwxwFpv533+mgus=
-Content-Type: multipart/mixed; boundary="===============5958100179434858673=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=TEGoscFEth6O5EMQjqRmlgXM0VgjxCY4EZ481PGG9OE=;
+	b=QX910MlPA7uvz2Xdd8HhwJVy+mm0AEcRIDd90tOMt25Mky5qdts9m/J41zKSYQud
+	JiNF12JMGl9BAQEkLacZj+tS+iJvwwdtua1VVrHqb4vuWuSED9BuHqrGckQygey4bYM
+	HSUCJpoJ0cg9BxOJvG9Le+UE9dLFyVVJVnlNNFnc=
+Content-Type: multipart/mixed; boundary="===============8584616282842845497=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] Upgrade status: 2026-10-11
-Message-ID: <010101a12968ee5f-1daa311e-65b4-4951-ad8b-d135629f6800-000000@us-west-2.amazonses.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-numpy: upgrading to 2.5.4 SUCCEEDED
+Message-ID: <010101a12968ef3e-91d6bfd4-1a3a-4ae0-937f-c3fd6204d975-000000@us-west-2.amazonses.com>
 Date: Sun, 11 Oct 2026 05:21:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.11-54.240.27.191
+X-SES-Outgoing: 2026.10.11-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 05:21:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247506
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 05:21:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247508
 
---===============5958100179434858673==
-Content-Type: text/plain; charset="utf-8"
+--===============8584616282842845497==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-QVVIIGZpbmlzaGVkIHVwZ3JhZGUgYmF0Y2ggdGhlIHJlc3VsdCBwYXRjaGVzL2xvZ3MgY2FuIGJl
-IGZvdW5kIGF0OgpodHRwczovL3ZhbGt5cmllLnlvY3RvLmlvL3B1Yi9hdWgvMjAyNjEwMTEwNTAw
-NTgsIG5leHQgYXJlIHRoZSBzdGF0aXN0aWNzOgoKUmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoK
-CiAgICAqIFN1Y2NlZWRlZDogNAogICAgICAgIHB5dGhvbjMtYmVhcnR5cGUsIDAuMjMuMCwgTWFy
-dGEgUnliY3p5bnNrYSA8bWFydGEucnliY3p5bnNrYUB5Z3Jla3kuY29tPgogICAgICAgIHB5dGhv
-bjMtanNvbnBvaW50ZXIsIDMuMi4xLCBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21h
-aWwuY29tPgogICAgICAgIHB5dGhvbjMtbnVtcHksIDIuNS40LCBUcmV2b3IgR2FtYmxpbiA8dGdh
-bWJsaW5AYmF5bGlicmUuY29tPgogICAgICAgIGF0LXNwaTItY29yZSwgMi42Mi4xLCBUaW0gT3Js
-aW5nIDx0aW0ub3JsaW5nQGtvbnN1bGtvLmNvbT4KICAgICogU2tpcHBlZDogNzUKICAgICAgICBn
-bGliLTIuMCwgMi45MC4xLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wNyAwNToxMDozNiByZXN1bHQ9
-ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyNyBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRA
-eW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBnbGliLTIuMC1pbml0aWFsLCAyLjkwLjEsIGxhc3Qg
-YXR0ZW1wdCAyMDI2LTEwLTA3IDA1OjEwOjM2IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGlu
-IDI3IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAg
-ICAgIGxsdm0tcHJvamVjdC1zb3VyY2UtMjMuMS4yLCAyMy4xLjMsIGxhc3QgYXR0ZW1wdCAyMDI2
-LTEwLTA3IDA1OjE1OjIzIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDI3IGRheShzKSwg
-S2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBnbywgMS4yNy4yLCBsYXN0IGF0
-dGVtcHQgMjAyNi0xMC0wOSAwNTowNzowMSByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAy
-OSBkYXkocyksIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ28tcnVudGlt
-ZSwgMS4yNy4yLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wOSAwNTowNzowMSByZXN1bHQ9ZmFpbHVy
-ZTsgd2lsbCByZXRyeSBpbiAyOSBkYXkocyksIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
-CiAgICAgICAgZ28tY3Jvc3NzZGsteDg2XzY0LXBva3lzZGstbGludXgsIDEuMjcuMiwgbGFzdCBh
-dHRlbXB0IDIwMjYtMTAtMDkgMDU6MDc6MDEgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4g
-MjkgZGF5KHMpLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIGdvLWNyb3Nz
-LWNhbmFkaWFuLXg4Ni02NCwgMS4yNy4yLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wOSAwNTowNzow
-MSByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyOSBkYXkocyksIEtoZW0gUmFqIDxyYWou
-a2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ28tY3Jvc3MteDg2LTY0LXYzLCAxLjI3LjIsIGxhc3Qg
-YXR0ZW1wdCAyMDI2LTEwLTA5IDA1OjA3OjAxIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGlu
-IDI5IGRheShzKSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBweXRob24z
-LXB5Y3J5cHRvZG9tZXgsIDMuMjQuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDUgMDU6MDg6Mjkg
-cmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjUgZGF5KHMpLCBKb3NodWEgV2F0dCA8SlBF
-V2hhY2tlckBnbWFpbC5jb20+CiAgICAgICAgcHl0aG9uMy1weWNyeXB0b2RvbWUsIDMuMjQuMCwg
-bGFzdCBhdHRlbXB0IDIwMjYtMTAtMDUgMDU6MDg6MjkgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0
-cnkgaW4gMjUgZGF5KHMpLCBKb3NodWEgV2F0dCA8SlBFV2hhY2tlckBnbWFpbC5jb20+CiAgICAg
-ICAgc2JvbS1jdmUtY2hlY2stdXBkYXRlLWN2ZWxpc3QtbmF0aXZlLCAyMDI2LTEwLTExLCByYXBp
-ZC1maXJlOyBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xMiAwNTozODo1MSByZXN1bHQ9c3VjY2Vzczsg
-d2lsbCByZXRyeSBpbiAyIGRheShzKSwgQmVuamFtaW4gUm9iaW4gPGJlbmphbWluLnJvYmluQGJv
-b3RsaW4uY29tPgogICAgICAgIHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1udmQtbmF0aXZlLCAyMDI2
-LjEwLjExLTAwMDAxNiwgcmFwaWQtZmlyZTsgbGFzdCBhdHRlbXB0IDIwMjYtMDktMTIgMDU6Mzg6
-NTEgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMiBkYXkocyksIEJlbmphbWluIFJvYmlu
-IDxiZW5qYW1pbi5yb2JpbkBib290bGluLmNvbT4KICAgICAgICBtZXNhLCAyNi4yLjQsIGxhc3Qg
-YXR0ZW1wdCAyMDI2LTEwLTAyIDA1OjMwOjI0IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGlu
-IDIyIGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAg
-ICAgIG1lc2EtdG9vbHMtbmF0aXZlLCAyNi4yLjQsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTAyIDA1
-OjMwOjI0IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDIyIGRheShzKSwgVW5hc3NpZ25l
-ZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIGdzdHJlYW1lcjEuMC1ydHNw
-LXNlcnZlciwgMS4yOC44LCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wOSAwNToyMDo0MiByZXN1bHQ9
-ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyOSBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRA
-eW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlLCAxLjI4
-LjgsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTA5IDA1OjIwOjQyIHJlc3VsdD1mYWlsdXJlOyB3aWxs
-IHJldHJ5IGluIDI5IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qu
-b3JnPgogICAgICAgIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2QsIDEuMjguOCwgbGFzdCBhdHRl
-bXB0IDIwMjYtMTAtMDkgMDU6MjA6NDIgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMjkg
-ZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAg
-Z3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseSwgMS4yOC44LCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0w
-OSAwNToyMDo0MiByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyOSBkYXkocyksIFVuYXNz
-aWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBnc3RyZWFtZXIxLjAt
-cGx1Z2lucy1iYWQsIDEuMjguOCwgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDkgMDU6MjA6NDIgcmVz
-dWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMjkgZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFzc2ln
-bmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtcnMsIDAu
-MTUuNCwgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDkgMDU6MjA6NDIgcmVzdWx0PWZhaWx1cmU7IHdp
-bGwgcmV0cnkgaW4gMjkgZGF5KHMpLCBKYW4gU2NobWlkdCA8amFuQGNlbnRyaWN1bGFyLmNvbT4K
-ICAgICAgICBscnpzeiwgMC4xMy4xLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wNSAwNToxMDozMCBy
-ZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyNSBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNz
-aWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBkYnVzLWdsaWIsIDAuMTE2LCBsYXN0IGF0
-dGVtcHQgMjAyNi0wOS0yOCAwNTowNzozNiByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAx
-OCBkYXkocyksIEp1aGFuZHLDqSBLbm9ldHplIDxqdWhhbmRyZS5rbm9ldHplQHdpbmRyaXZlci5j
-b20+CiAgICAgICAgb3ZtZiwgZWRrMi1zdGFibGUyMDI2MDgsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5
-LTIyIDA1OjE2OjUzIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDEyIGRheShzKSwgVW5h
-c3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIGZhc3RmbG9hdCwg
-OC4zLjIsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTEwIDA1OjA2OjI0IHJlc3VsdD1zdWNjZXNzOyB3
-aWxsIHJldHJ5IGluIDMwIGRheShzKSwgTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgog
-ICAgICAgIGduLCAwLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgbGFzdCBhdHRlbXB0IDIwMjYtMDkt
-MTIgMDU6NDI6MDIgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMiBkYXkocyksIEtoZW0g
-UmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ28tYmluYXJ5LW5hdGl2ZSwgMS4yNy4y
-LCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wOSAwNToyMzozNSByZXN1bHQ9c3VjY2Vzczsgd2lsbCBy
-ZXRyeSBpbiAyOSBkYXkocyksIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAg
-bGlicmVwbywgMS4yMS4yLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wMyAwNToyODo0NyByZXN1bHQ9
-c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyMyBkYXkocyksIFdhbmcgTWluZ3l1IDx3YW5nbXlAZnVq
-aXRzdS5jb20+CiAgICAgICAgbG9nNGNwbHVzLCAyLjIuMSwgbGFzdCBhdHRlbXB0IDIwMjYtMTAt
-MDcgMDU6MjY6NDEgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjcgZGF5KHMpLCBVbmFz
-c2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgcGtnY29uZiwgMy4w
-LjgsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTA5IDA1OjQxOjI4IHJlc3VsdD1zdWNjZXNzOyB3aWxs
-IHJldHJ5IGluIDI5IGRheShzKSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAg
-ICAgICAgcHl0aG9uMy1jeXRob24sIDMuMy4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMyAwNjow
-MTozNiByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAxMyBkYXkocyksIFRyZXZvciBHYW1i
-bGluIDx0Z2FtYmxpbkBiYXlsaWJyZS5jb20+CiAgICAgICAgcHl0aG9uMy1mbGl0LWNvcmUsIDQu
-MS4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xNyAwNTo1MjowNSByZXN1bHQ9c3VjY2Vzczsgd2ls
-bCByZXRyeSBpbiA3IGRheShzKSwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+
-CiAgICAgICAgcHl0aG9uMy1pbmljb25maWcsIDIuMy4xLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0w
-NyAwNToyOTo1NSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNyBkYXkocyksIFRpbSBP
-cmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgogICAgICAgIHB5dGhvbjMtbGliYXJjaGl2
-ZS1jLCA1LjMsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTA2IDA1OjQzOjMzIHJlc3VsdD1mYWlsdXJl
-OyB3aWxsIHJldHJ5IGluIDI2IGRheShzKSwgSm9zaHVhIFdhdHQgPEpQRVdoYWNrZXJAZ21haWwu
-Y29tPgogICAgICAgIHB5dGhvbjMtbWFya3Vwc2FmZSwgMy4wLjQsIGxhc3QgYXR0ZW1wdCAyMDI2
-LTEwLTAzIDA1OjMyOjE3IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDIzIGRheShzKSwg
-UmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAg
-ICAgcHl0aG9uMy1tb3JlLWl0ZXJ0b29scywgMTEuMS4wLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0w
-NiAwNTo0NjowMCByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNiBkYXkocyksIFRpbSBP
-cmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgogICAgICAgIHB5dGhvbjMtcGJyLCA3LjEu
-MywgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDggMDU6MTA6MTYgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwg
-cmV0cnkgaW4gMjggZGF5KHMpLCBUcmV2b3IgR2FtYmxpbiA8dGdhbWJsaW5AYmF5bGlicmUuY29t
-PgogICAgICAgIHB5dGhvbjMtcHljYWlybywgMS4yOS4yLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0w
-NSAwNToyMDo1MSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNSBkYXkocyksIFRyZXZv
-ciBHYW1ibGluIDx0Z2FtYmxpbkBiYXlsaWJyZS5jb20+CiAgICAgICAgcHl0aG9uMy1weWNwYXJz
-ZXIsIDMuMTEsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTEwIDA1OjA5OjM5IHJlc3VsdD1zdWNjZXNz
-OyB3aWxsIHJldHJ5IGluIDMwIGRheShzKSwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxr
-by5jb20+CiAgICAgICAgcHl0aG9uMy1weWdvYmplY3QsIDMuNTguMSwgbGFzdCBhdHRlbXB0IDIw
-MjYtMTAtMTAgMDU6MTI6NTggcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMzAgZGF5KHMp
-LCBUcmV2b3IgR2FtYmxpbiA8dGdhbWJsaW5AYmF5bGlicmUuY29tPgogICAgICAgIHB5dGhvbjMt
-c2hhY2wyY29kZSwgMS4zLjIsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTAyIDA1OjQ2OjM0IHJlc3Vs
-dD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDIyIGRheShzKSwgQmVuamFtaW4gUm9iaW4gPGJlbmph
-bWluLnJvYmluQGJvb3RsaW4uY29tPgogICAgICAgIHB5dGhvbjMtc3BkeC10b29scywgMC44LjUs
-IGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTA2IDA1OjQ4OjM1IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJl
-dHJ5IGluIDI2IGRheShzKSwgTWFydGEgUnliY3p5bnNrYSA8bWFydGEucnliY3p5bnNrYUB5Z3Jl
-a3kuY29tPgogICAgICAgIHB5dGhvbjMtc3VidW5pdCwgMS40LjYsIGxhc3QgYXR0ZW1wdCAyMDI2
-LTEwLTA2IDA1OjUwOjA0IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDI2IGRheShzKSwg
-VHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNvbT4KICAgICAgICBweXRob24zLXV2
-LWJ1aWxkLCAwLjEzLjAsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTEwIDA1OjE5OjEwIHJlc3VsdD1z
-dWNjZXNzOyB3aWxsIHJldHJ5IGluIDMwIGRheShzKSwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGlu
-QGJheWxpYnJlLmNvbT4KICAgICAgICBweXRob24zLXZjcy12ZXJzaW9uaW5nLCAyLjYuMCwgbGFz
-dCBhdHRlbXB0IDIwMjYtMTAtMDcgMDU6MzQ6NDYgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkg
-aW4gMjcgZGF5KHMpLCBUcmV2b3IgR2FtYmxpbiA8dGdhbWJsaW5AYmF5bGlicmUuY29tPgogICAg
-ICAgIHB5dGhvbjMtd2N3aWR0aCwgMC45LjIsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTA1IDA1OjI4
-OjMxIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI1IGRheShzKSwgVGltIE9ybGluZyA8
-dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAgcHl0aG9uMy13ZWJzb2NrZXRzLCAxNy4y
-LCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wNCAwNToxNjoxOCByZXN1bHQ9c3VjY2Vzczsgd2lsbCBy
-ZXRyeSBpbiAyNCBkYXkocyksIFRpbSBPcmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgog
-ICAgICAgIHB5dGhvbjMtemlwcCwgNC4xLjEsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTA0IDA1OjE5
-OjI4IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI0IGRheShzKSwgVGltIE9ybGluZyA8
-dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAgcHl0aG9uMywgMy4xNS4wLCBsYXN0IGF0
-dGVtcHQgMjAyNi0xMC0xMCAwNToyMTozNyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAz
-MCBkYXkocyksIFRyZXZvciBHYW1ibGluIDx0Z2FtYmxpbkBiYXlsaWJyZS5jb20+CiAgICAgICAg
-cnBtLXNlcXVvaWEsIDEuMTAuMywgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDkgMDY6MDE6MTEgcmVz
-dWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMjkgZGF5KHMpLCBab2x0w6FuIELDtnN6w7ZybcOp
-bnlpIDx6Ym9zem9yQGdtYWlsLmNvbT4KICAgICAgICBycG0sIDYuMS4wLCBsYXN0IGF0dGVtcHQg
-MjAyNi0wOS0yMSAwNToxMjoyNCByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAxMSBkYXko
-cyksIFN1bWFudGggR2F2aW5pIDxzdW1hbnRoLmdhdmluaUB3aW5kcml2ZXIuY29tPgogICAgICAg
-IHN1YnZlcnNpb24sIDEuMTUuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDggMDU6MTU6MjMgcmVz
-dWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjggZGF5KHMpLCBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KICAgICAgICBnaG9zdHNjcmlwdCwgMTAu
-MDguMCwgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMTAgMDU6MjY6MjIgcmVzdWx0PWZhaWx1cmU7IHdp
-bGwgcmV0cnkgaW4gMzAgZGF5KHMpLCBLYW5rc2hhIFBhdHVyaSA8S2Fua3NoYS5QYXR1cmlAd2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBsZXNzLCA3MTAsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE4IDA1
-OjQ1OjMzIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDggZGF5KHMpLCBTdW1hbnRoIEdh
-dmluaSA8c3VtYW50aC5nYXZpbmlAd2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJ6aXAsIDEuMTIs
-IGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTA4IDA1OjE4OjM4IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJl
-dHJ5IGluIDI4IGRheShzKSwgSWdvciBPcGFuaXVrIDxpZ29yLm9wYW5pdWtAb3NzLnF1YWxjb21t
-LmNvbT4KICAgICAgICBibHVlcHJpbnQtY29tcGlsZXIsIDAuMjIuMiwgbGFzdCBhdHRlbXB0IDIw
-MjYtMDktMTEgMDU6NTc6MTAgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMSBkYXkocyks
-IExpdSBZaWRpbmcgPGxpdXlkLmZuc3RAZnVqaXRzdS5jb20+CiAgICAgICAgZ3RrNCwgNC4yNC4x
-LCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wMiAwNjowMDozNyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCBy
-ZXRyeSBpbiAyMiBkYXkocyksIE1hcmt1cyBWb2xrIDxmX2xfa0B0LW9ubGluZS5kZT4KICAgICAg
-ICBsaWJhZHdhaXRhLCAxLjEwLjAsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE1IDA1OjQ5OjIwIHJl
-c3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDUgZGF5KHMpLCBTaW1vbmUgV2Vpw58gPHNpbW9u
-ZS5wLndlaXNzQHBvc3Rlby5jb20+CiAgICAgICAgbWVzYS1kZW1vcywgOS4wLjAtbmV3LWNvbW1p
-dHMtYXZhaWxhYmxlLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wMyAwNTozNjozOSByZXN1bHQ9c3Vj
-Y2Vzczsgd2lsbCByZXRyeSBpbiAyMyBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9j
-dG9wcm9qZWN0Lm9yZz4KICAgICAgICBwaWdsaXQsIDEuMC1uZXctY29tbWl0cy1hdmFpbGFibGUs
-IGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTEyIDA2OjIzOjI5IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJl
-dHJ5IGluIDIgZGF5KHMpLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAg
-ICB2dWxrYW4tc2FtcGxlcywgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgcmFwaWQtZmlyZTsg
-bGFzdCBhdHRlbXB0IDIwMjYtMDktMTQgMDU6NDA6MzggcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0
-cnkgaW4gNCBkYXkocyksIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAg
-IHhvcmdwcm90bywgMjAyNi4xLCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wNCAwNToyMjozNSByZXN1
-bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWdu
-ZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICB4c2VydmVyLXhvcmcsIDIxLjEuMjUsIGxhc3Qg
-YXR0ZW1wdCAyMDI2LTEwLTA3IDA1OjQ0OjIwIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGlu
-IDI3IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAg
-ICAgIHh3YXlsYW5kLCAyNC4xLjE0LCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0wNyAwNTo0ODozMyBy
-ZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNyBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNz
-aWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBwb3dlcnRvcCwgMi4xNi4xLCBsYXN0IGF0
-dGVtcHQgMjAyNi0xMC0wOCAwNToyMjozNyByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAy
-OCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAg
-ICBnc3QtZGV2dG9vbHMsIDEuMjguOCwgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDkgMDY6MTA6NDAg
-cmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjkgZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFz
-c2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgZ3N0LWV4YW1wbGVzLCAxLjI4LjgsIGxh
-c3QgYXR0ZW1wdCAyMDI2LTEwLTA5IDA2OjMzOjIwIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5
-IGluIDI5IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgog
-ICAgICAgIGdzdHJlYW1lcjEuMC1saWJhdiwgMS4yOC44LCBsYXN0IGF0dGVtcHQgMjAyNi0xMC0w
-OSAwNjozODoyNCByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyOSBkYXkocyksIFVuYXNz
-aWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBnc3RyZWFtZXIxLjAt
-cHl0aG9uLCAxLjI4LjgsIGxhc3QgYXR0ZW1wdCAyMDI2LTEwLTA5IDA2OjQ0OjQyIHJlc3VsdD1z
-dWNjZXNzOyB3aWxsIHJldHJ5IGluIDI5IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5
-b2N0b3Byb2plY3Qub3JnPgogICAgICAgIGdzdHJlYW1lcjEuMCwgMS4yOC44LCBsYXN0IGF0dGVt
-cHQgMjAyNi0xMC0wOSAwNjo1MDoxMSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyOSBk
-YXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBw
-dXp6bGVzLCAwLjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0y
-MCAwNToxODoyNCByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAxMCBkYXkocyksIFVuYXNz
-aWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICB3ZWJraXRndGssIDIu
-NTQuMSwgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDMgMDY6MTk6MjEgcmVzdWx0PWZhaWx1cmU7IHdp
-bGwgcmV0cnkgaW4gMjMgZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVj
-dC5vcmc+CiAgICAgICAgaHdkYXRhLCAwLjQxMiwgbGFzdCBhdHRlbXB0IDIwMjYtMTAtMDMgMDY6
-MjI6MjIgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjMgZGF5KHMpLCBIaWFnbyBEZSBG
-cmFuY28gPGhmcmFuY29AYmF5bGlicmUuY29tPgogICAgICAgIGxpYmV2ZGV2LCAxLjE0LjAsIGxh
-c3QgYXR0ZW1wdCAyMDI2LTEwLTA4IDA1OjI1OjQ0IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5
-IGluIDI4IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgog
-ICAgICAgIGxpYmppdHRlcmVudHJvcHksIDMuNy4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xMiAw
-Njo0MjozMiByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyIGRheShzKSwgUm9zcyBCdXJ0
-b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgc3FsaXRlMywgMy41NC4wLCBsYXN0IGF0
-dGVtcHQgMjAyNi0xMC0xMCAwNTozNzo0OCByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAz
-MCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KCiAgICBU
-T1RBTDogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTQoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCgpS
-ZWNpcGUgdXBncmFkZSBzdGF0aXN0aWNzIHBlciBNYWludGFpbmVyOgoKICAgIFRpbSBPcmxpbmcg
-PHRpbS5vcmxpbmc6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAu
-MDAlKQogICAgQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkOiBhdHRlbXB0ZWQ9MSBzdWNj
-ZWVkZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIFRyZXZvciBHYW1ibGluIDx0Z2Ft
-YmxpbjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAg
-ICBNYXJ0YSBSeWJjenluc2thIDxtYXJ0YS5yeWJjenluc2thOiBhdHRlbXB0ZWQ9MSBzdWNjZWVk
-ZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkK
+Hello,
 
---===============5958100179434858673==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-numpy* to *2.5.4* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-numpy-upgrade-2.5.3-2.5.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 51bae7cbe369a9f6a105f12218df181d6dbba9fa Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 11 Oct 2026 05:17:42 +0000
+Subject: [PATCH] python3-numpy: upgrade 2.5.3 -> 2.5.4
+
+Contributors
+============
+
+A total of 9 people contributed to this release.  People with a "+" by their
+names contributed a patch for the first time.
+
+Pull requests merged
+====================
+
+A total of 17 pull requests were merged for this release.
+.. currentmodule:: numpy
+
+=========================
+NumPy 2.5.4 Release Notes
+=========================
+
+*Released on 2026-10-10.*
+
+NumPy 2.5.4 is a patch release that fixes bugs discovered after the 2.5.3
+release. Highlights are:
+
+- Many typing fixes and improvements,
+- A workaround for the MSVC 19.51 bug, see below.
+
+This release supports Python versions 3.12-3.15.
+
+Improvements
+============
+
+- ``numpy.linalg.svd`` and ``numpy.linalg.lstsq`` now raise for inputs
+  containing
+  infinities instead of returning garbage results.
+- Fixed hangs in ``numpy.linalg.svd`` and ``numpy.linalg.lstsq`` for certain
+  inputs
+  containing infinities for recent versions of some LAPACK implementations.
+- ``numpy.linalg.cond`` now handles non-finite inputs more consistently.
+
+  (`gh-32593 < >`__)
+
+StringDType hashing with NaN sentinels
+--------------------------------------
+``StringDType`` instances with equivalent floating-point NaN sentinels now
+have equal hashes. Previously, distinct NaN objects could produce equal
+dtype instances with different hashes, causing dictionary lookups and set
+deduplication to fail.
+
+(`gh-32563 < >`__)
+
+Changes
+=======
+
+``MaskedArray`` resets a fill_value that cannot be represented in a new dtype
+-----------------------------------------------------------------------------
+A fill_value copied from a source array is now reset to the default fill_value
+for the new dtype when it cannot be represented in that dtype.  Previously the
+copied value could be stale: ufuncs that change dtype left the result holding a
+fill_value typed for the old dtype, which raised a ``TypeError`` only when
+something later validated it (such as ``.view()``), and a floating point
+fill_value that overflows an integer dtype was kept as an out-of-range value
+together with a ``RuntimeWarning``.  Both now fall back to the default,
+including when a masked array is passed to ``MaskedArray`` with a different
+``dtype``.  A fill_value given explicitly by the user is still validated and
+raises as before.  This can now raise a ``ComplexWarning`` if the fill_value is
+complex and the new dtype is real.
+
+(`gh-32508 < >`__)
+(`gh-32562 < >`__)
+
+Contributors
+============
+
+A total of 9 people contributed to this release.  People with a "+" by their
+names contributed a patch for the first time.
+
+Pull requests merged
+====================
+
+A total of 17 pull requests were merged for this release.
+
+---
+title: Release 1.11.0
+short-description: Release notes for 1.11.0
+# New features
+
+Meson 1.11.0 was released on 13 April 2026
+## BuildTarget(install_dir) length > 1 replaced with keywords
+
+Build targets previously supported (with limited documentation) passing an array
+of more than one element to `install_dir:` (except in some wrappers), and
+would map these additional `install_dir`s to extra outputs. This was only used
+by
+Vala, and separate explicit keyword arguments are now available that provide
+the same functionality.
+
+Code like this:
+```meson
+library(
+  'foo',
+  'foo.vala',
+  install : true,
+  install_dir : [true, get_option('includedir') / 'foo', true],
+)
+```
+
+should now be written as the much clearer:
+
+```meson
+library(
+  'foo',
+  'foo.vala',
+  install : true,
+  install_vala_header : get_option('includedir') / 'foo',
+  install_vala_vapi : true,
+)
+```
+
+Note that the default is `false` for the Vala extra outputs.
+## Cargo workspace object
+
+Meson is now able to parse the toplevel `Cargo.toml` file of the
+project when the `workspace()` method of the Rust module is called.
+This guarantees that features are resolved according to what is
+in the `Cargo.toml` file, and in fact enables configuration of
+features for the build.
+
+The returned object allows retrieving features and dependencies
+for Cargo subprojects, and contains methods to build targets
+declared in `Cargo.toml` files.
+
+While Cargo subprojects remain experimental, the Meson project will
+try to keep the workspace object reasonably backwards-compatible.
+
+## Cython no longer requires explicitly enabling C or C++
+
+This only provides these languages as an implementation detail of Cython, so
+native C/C++ targets cannot be compiled.
+
+## Deduplication of OpenMP linker arguments
+Meson now deduplicates linker arguments `-fopenmp` and `-qopenmp`.
+## `meson dist` now accepts `-j`/`--num-processes`
+
+`meson dist` now supports a `-j`/`--num-processes` flag to control the number of
+parallel processes used during the distribution check (compilation and testing
+of
+the generated package).  The `MESON_NUM_PROCESSES` environment variable is also
+honored, consistent with other Meson commands.
+
+## Deprecate `should_fail` and rename it to `expected_fail`, also introduce
+`expected_exitcode`
+
+In 1.11.0 `should_fail` has been renamed to `expected_fail`.
+
+Before 1.11.0,
+
+[Changelog truncated as it exceeds 5000 characters;
+the full changelog can be found in an attachment to the AUH email]
+---
+ .../python/{python3-numpy_2.5.3.bb => python3-numpy_2.5.4.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-numpy_2.5.3.bb => python3-numpy_2.5.4.bb} (97%)
+
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.5.3.bb b/meta/recipes-devtools/python/python3-numpy_2.5.4.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-numpy_2.5.3.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.5.4.bb
+index 338bdd2bbd..93aa356db1 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.5.3.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.5.4.bb
+@@ -10,7 +10,7 @@ SRCNAME = "numpy"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "df2d5874ff183595a4ba404edd04f6bd9b5505c1d7708573f6a6c17489a67563"
++SRC_URI[sha256sum] = "9a94cf751c9ad8ebaa835bcd3d40dacf8534ad086b88c38029b65123c7999d2a"
+ 
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+-- 
+2.47.1
+
+
+--===============8584616282842845497==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/fft/pocketfft -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/highway -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/umath/svml -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/mt19937 -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/num
+ py/random/src/mt19937, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/distributions -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/ma -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/ma, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/philox -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/philox, directory renamed /usr
+ /lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/pcg64 -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/pcg64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/multiarray -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/multiarray, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/linalg/lapack_lite -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite, directo
+ ry renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/sfc64 -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/include/numpy/libdivide -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/splitmix64 -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64
+Changes to packages/x86-64-v3-poky-linux/python3-numpy (sysroot):
+  /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info moved to /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info
+
+--===============8584616282842845497==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-numpy-changelog.txt"
+
+Contributors
+============
+
+A total of 9 people contributed to this release.  People with a "+" by their
+names contributed a patch for the first time.
+
+Pull requests merged
+====================
+
+A total of 17 pull requests were merged for this release.
+.. currentmodule:: numpy
+
+=========================
+NumPy 2.5.4 Release Notes
+=========================
+
+*Released on 2026-10-10.*
+
+NumPy 2.5.4 is a patch release that fixes bugs discovered after the 2.5.3
+release. Highlights are:
+
+- Many typing fixes and improvements,
+- A workaround for the MSVC 19.51 bug, see below.
+
+This release supports Python versions 3.12-3.15.
+
+Improvements
+============
+
+- ``numpy.linalg.svd`` and ``numpy.linalg.lstsq`` now raise for inputs
+  containing
+  infinities instead of returning garbage results.
+- Fixed hangs in ``numpy.linalg.svd`` and ``numpy.linalg.lstsq`` for certain
+  inputs
+  containing infinities for recent versions of some LAPACK implementations.
+- ``numpy.linalg.cond`` now handles non-finite inputs more consistently.
+
+  (`gh-32593 < >`__)
+
+StringDType hashing with NaN sentinels
+--------------------------------------
+``StringDType`` instances with equivalent floating-point NaN sentinels now
+have equal hashes. Previously, distinct NaN objects could produce equal
+dtype instances with different hashes, causing dictionary lookups and set
+deduplication to fail.
+
+(`gh-32563 < >`__)
+
+Changes
+=======
+
+``MaskedArray`` resets a fill_value that cannot be represented in a new dtype
+-----------------------------------------------------------------------------
+A fill_value copied from a source array is now reset to the default fill_value
+for the new dtype when it cannot be represented in that dtype.  Previously the
+copied value could be stale: ufuncs that change dtype left the result holding a
+fill_value typed for the old dtype, which raised a ``TypeError`` only when
+something later validated it (such as ``.view()``), and a floating point
+fill_value that overflows an integer dtype was kept as an out-of-range value
+together with a ``RuntimeWarning``.  Both now fall back to the default,
+including when a masked array is passed to ``MaskedArray`` with a different
+``dtype``.  A fill_value given explicitly by the user is still validated and
+raises as before.  This can now raise a ``ComplexWarning`` if the fill_value is
+complex and the new dtype is real.
+
+(`gh-32508 < >`__)
+(`gh-32562 < >`__)
+
+Contributors
+============
+
+A total of 9 people contributed to this release.  People with a "+" by their
+names contributed a patch for the first time.
+
+Pull requests merged
+====================
+
+A total of 17 pull requests were merged for this release.
+
+---
+title: Release 1.11.0
+short-description: Release notes for 1.11.0
+# New features
+
+Meson 1.11.0 was released on 13 April 2026
+## BuildTarget(install_dir) length > 1 replaced with keywords
+
+Build targets previously supported (with limited documentation) passing an array
+of more than one element to `install_dir:` (except in some wrappers), and
+would map these additional `install_dir`s to extra outputs. This was only used
+by
+Vala, and separate explicit keyword arguments are now available that provide
+the same functionality.
+
+Code like this:
+```meson
+library(
+  'foo',
+  'foo.vala',
+  install : true,
+  install_dir : [true, get_option('includedir') / 'foo', true],
+)
+```
+
+should now be written as the much clearer:
+
+```meson
+library(
+  'foo',
+  'foo.vala',
+  install : true,
+  install_vala_header : get_option('includedir') / 'foo',
+  install_vala_vapi : true,
+)
+```
+
+Note that the default is `false` for the Vala extra outputs.
+## Cargo workspace object
+
+Meson is now able to parse the toplevel `Cargo.toml` file of the
+project when the `workspace()` method of the Rust module is called.
+This guarantees that features are resolved according to what is
+in the `Cargo.toml` file, and in fact enables configuration of
+features for the build.
+
+The returned object allows retrieving features and dependencies
+for Cargo subprojects, and contains methods to build targets
+declared in `Cargo.toml` files.
+
+While Cargo subprojects remain experimental, the Meson project will
+try to keep the workspace object reasonably backwards-compatible.
+
+## Cython no longer requires explicitly enabling C or C++
+
+This only provides these languages as an implementation detail of Cython, so
+native C/C++ targets cannot be compiled.
+
+## Deduplication of OpenMP linker arguments
+Meson now deduplicates linker arguments `-fopenmp` and `-qopenmp`.
+## `meson dist` now accepts `-j`/`--num-processes`
+
+`meson dist` now supports a `-j`/`--num-processes` flag to control the number of
+parallel processes used during the distribution check (compilation and testing
+of
+the generated package).  The `MESON_NUM_PROCESSES` environment variable is also
+honored, consistent with other Meson commands.
+
+## Deprecate `should_fail` and rename it to `expected_fail`, also introduce
+`expected_exitcode`
+
+In 1.11.0 `should_fail` has been renamed to `expected_fail`.
+
+Before 1.11.0, there was no way to positively test a command/binary returning
+error/non-zero exit code when the used protocol was set to exitcode, so
+`expected_exitcode` has been introduced to achieve this. Do note that if the
+exitcode does not match the expected value, GNU skip and exit codes are still
+valid and the test result may be skip or error.
+
+## The external_project module uses the cygpath command to convert paths
+
+In previous versions, the external_project module on Windows used a Windows-
+style path (e.g., `C:/path/to/configure`) to execute the configure file, and a
+relative path from the drive root (e.g., `/path/to/prefix`) as the installation
+prefix.
+However, since configure scripts are typically intended to be run in a POSIX-
+like environment (MSYS2, Cygwin, or GitBash), these paths were incompatible with
+some configure scripts.
+
+The external_project module now uses the `cygpath` command to convert the
+configure command path and prefix to Unix-style paths (e.g.,
+`/c/path/to/configure` for MSYS2 and `/cygdrive/c/path/to/configure` for
+Cygwin).
+If the `cygpath` command is not found in the PATH, it will fall back to the
+previous behavior.
+
+## install_man and install_headers: add support for install_tag kwarg
+
+`install_man` and `install_headers` now support the `install_tag` keyword
+argument,
+allowing selection of installed files via `meson install --tags`. Previously,
+`install_man` always used the `man` tag and `install_headers` always used the
+`devel` tag, with no way to override them.
+
+## Added `link_early_args` to targets performing linking
+
+Options passed to the linker using the `link_args` keyword argument
+get placed on the command line after all objects and libraries. Some
+linker options, like `-u` or `--defsym`, are only useful if placed
+before objects and libraries as they control how the linker
+manipulates those.
+
+The new `link_early_args` keyword argument passes linker options which
+are inserted into the command line before any objects and libraries,
+allowing applications to use these kinds of linker options with Meson.
+
+This is currently only supported when using the `ninja` backend.
+## Machine files now expand `~` as the user's home directory
+
+A new constant `~` has been added which can be used in machine files (native
+and cross files) to refer to the user's home directory. This is useful for
+specifying paths to SDKs and toolchains that are commonly installed into `~`,
+such as Qt, the Android SDK/NDK, or user-installed frameworks on macOS:
+
+```ini
+[constants]
+toolchain = ~ /
+'Android/sdk/ndk/27.1.12297006/toolchains/llvm/prebuilt/linux-x86_64'
+
+[binaries]
+c = toolchain / 'bin/clang'
+cpp = toolchain / 'bin/clang++'
+ar = toolchain / 'bin/llvm-ar'
+```
+
+Note that `~` can be used anywhere in the machine file. In the above example,
+the purpose of defining a new constant called `toolchain` is to not have to
+repeat yourself when using the path multiple times.
+
+## `meson format` file sorting is now disabled by default and uses natural
+sorting
+
+The `sort_files` option to `meson format`, which sorts the arguments of
+`files()` invocations, is now disabled by default.
+
+If the `sort_files` option is enabled, `meson format` now sorts `files()`
+arguments [naturally](Style-guide.md#sorting-source-paths) rather than
+alphabetically.
+
+## `-Db_lto` and `-Db_pgo` now supported for MSVC
+
+`-Db_lto` is now supported for MSVC's `/LTCG`, as is `-Db_lto_mode=thin`
+for `/LTCG:INCREMENTAL`. `-Db_pgo` is also supported, and should be used
+alongside `-Db_lto=true`.
+
+## Last major version supporting Python 3.7, 3.8, and 3.9
+
+Python older than 3.10 is now EOL, and Meson will drop support for these
+versions in the next major release, and will freely use features from 3.8, 3.9
+and 3.10. Support for these versions will remain for the 1.11.x series.
+
+## Python extension modules default to C ABI for Rust
+
+`py.extension_module()` now defaults `rust_abi` to `'c'`, so that Rust
+extension modules produce a `cdylib` instead of a `dylib`.  This is the
+correct crate type for Python extension modules written in Rust, and
+previously had to be specified manually via `rust_crate_type: 'cdylib'`
+or `rust_abi: 'c'`.
+
+## Meson now defines `QT_DEBUG` or `QT_NO_DEBUG` depending on build type
+
+When using the `qt` Meson modules, the `QT_DEBUG` or `QT_NO_DEBUG` preprocessor
+macro is now set depending on the value of the `debug` built-in Meson option.
+This mimics the behavior of `qmake`, and is expected by the `<QtGlobal>` header.
+
+## `compiler_target()` method in the Rust module
+
+A `compiler_target()` method that returns the Rust target triple has been added
+to
+the `rust` module. This method can be useful when converting build scripts
+making use of Cargo's `TARGET` and `HOST` environment variables to
+Meson.
+
+## Change to handling of linker arguments for Rust
+
+Since the Rust compiler integrates the compiler and linker phase, previous
+Meson versions did not obey `link_args`, `add_project_link_arguments`
+or `add_global_link_arguments`.
+
+Starting in this version, `add_project_link_arguments()`,
+`add_global_link_arguments()`, and the `link_args` keyword argument are
+supported for Rust.  They wrap the arguments with `-Clink-arg=` when
+invoking rustc, and are only included when creating binary or shared
+library crates.
+
+Likewise, methods such as `has_link_argument()` now wrap the arguments
+being tested with `-Clink-arg=`.
+
+## XC32 support now aware of v5.00 features
+
+XC32 features introduced in v5.00 can now be used. This includes
+support for LTO auto and the C2x and CPP23 standards.
+
+## windows.compile_resources now detects header changes with rc.exe
+
+The `rc.exe` resource compiler neither provides *depfile* support nor
+allows showing includes, as is possible with C or C++ compilers.
+Therefore, changes to files included by the `.rc` file did not trigger
+recompilation of the resource file.
+
+A workaround was added to Meson by calling the preprocessor on the
+`.rc` file to display the included headers and allow ninja to record them
+as dependencies.
+
+## Added `implicit_include_directories` argument to `windows.compile_resources`
+
+[Windows](Windows-module.md) module [compile_resources](Windows-
+module.md#compile_resources)
+now has an `implicit_include_directories` keyword argument to automatically
+add current build and source directories to the included paths when compiling
+a resource.
+
+---
+title: Release 1.12.0
+short-description: Release notes for 1.12.0
+# New features
+
+Meson 1.12.0 was released on 10 August 2026
+## Custom dependency for atomic now works on MSVC
+
+`dependency('atomic')` now works on MSVC >=19.35.32124.
+It requires `c_std=c11` or later, otherwise the dependency will return not
+found.
+
+## Support for CACHEDIR.TAG specification
+
+A CACHEDIR.TAG file (https://bford.info/cachedir/) is now created in the build
+directory as part of the setup and regenerate phases, allowing backup software
+to ignore the whole directory.
+
+## New "clippy-json" Ninja Target For rust-analyzer
+A new `clippy-json` ninja target will now be generated for rust projects.
+
+rust-analyzer supports non-cargo based projects so long as you provide it with a
+`rust-project.json` file and a custom "check command" to provide compiler
+errors.  Meson already for some time has generated a `rust-project.json` file
+for rust-analyzer, but had no way to hook up its rustc/clippy output to rust-
+analyzer.
+
+To use the new feature, you need to override the rust-analyzer check command as
+shown [in the rust-analyzer documentation](https://rust-
+analyzer.github.io/book/non_cargo_based_projects.html), and set it to a `ninja
+invocation along the lines of `ninja clippy-json -C build`.
+
+## Add a new `default()` function and object
+
+This function and object allow setting a keyword argument to it's default value.
+This is especially useful for cases when a non-default value is wanted in some
+cases but not all.
+
+For example:
+```meson
+library(
+  ...
+  name_prefix : host_machine.system() == 'windows' ? '' : default(),
+)
+```
+
+## Delay install script errors to install time
+
+Previously, `gnome.post_install` might've caused a configure to fail
+due to tools such as `update-desktop-database` not being installed or
+due to an `exe_wrapper` missing when cross-building glib. Those
+errors will now be delayed to install time, or not emitted at all
+if installing with `DESTDIR` set, since then they'll be skipped.
+
+## find_program() now respects --force-fallback-for
+
+If a subproject listed in --force-fallback-for provides a particular
+program (via program_names in its wrapfile), find_program will use the
+program from the subproject instead of looking it up from the system.
+
+## `fs.copyfile()` now has a `build_subdir` argument
+
+`fs.copyfile()`'s new `build_subdir` argument allows creating a file
+inside a subdirectory of the current build directory.
+
+## Added `depends` kwarg to `generator.process()`
+
+The [[generator.process]] method now supports specifying `depends` as a kwarg
+to extend the list of dependencies for generated files.
+
+## Added `msgfmt_args` arg to `i18n.gettext`
+
+`i18n.gettext` now supports the `msgfmt_args` argument.
+This argument can be used to pass additional arguments to
+`msgfmt` when building the translations.
+
+```meson
+i18n = import('i18n')
+i18n.gettext('mycatalog',
+             args : ['-k_', '-kN_'],
+             msgfmt_args : ['--use-fuzzy'])
+```
+
+## include_directories object now have a to_list() method
+
+The [[@inc]] object returned by [[include_directories]] now has a `to_list()`
+method that
+returns a list of strings of absolute paths. Unless the include path is a
+system path, there will be a path for the source root and one for the build
+root.
+
+```
+inc = include_directories('include')
+include_paths = inc.to_list()
+```
+
+## Added integer base conversions to `str.to_int()` and `int.to_string()`
+
+Meson strings can now be converted from hexadecimal, octal, and binary
+integer literals with `str.to_int()`. Integers can also be formatted back to
+strings in those bases with `int.to_string(format:)`.
+
+```meson
+assert('0xff'.to_int() == 255)
+assert(255.to_string(format: 'hex') == '0xff')
+```
+
+## Multiple positional arguments for `meson wrap install`
+
+Previously `meson wrap install` only accepted a single wrap name to install.
+This limitation has now been lifted, and it is now possible to specify
+multiple wrap names for installation. The exit code will be non-zero
+if *any* of the wraps fail to install.
+
+## `meson format` allows `--recursive` with `--check-diff`
+
+Previously, the `--recursive` option to `meson format` required
+either `--inplace` or `--output`.  With this version, `--check-diff`
+is allowed to.
+
+## New option `--subprojects` for `meson format`
+
+A new option `--subprojects`, to be specified together with `--recursive`,
+tells `meson format` to also recurse into subprojects.
+
+## OpenHarmony (OHOS) is now recognized as an Android subsystem
+
+Meson now recognizes OpenHarmony / HarmonyOS (OHOS). OHOS behaves like
+Android -- applications are shared libraries, shared libraries are not
+versioned, and so on -- but uses musl instead of Bionic. It is therefore
+modelled as an Android subsystem rather than a separate system.
+
+Machine files select it in the `[host_machine]` section with:
+
+```ini
+[host_machine]
+system = 'android'
+subsystem = 'ohos'
+```
+
+With this, `host_machine.system()` is `'android'` (so all Android handling
+applies, including unversioned `libfoo.so` output) while
+`host_machine.subsystem()` is `'ohos'`. When cross-compiling a CMake
+subproject, the toolchain file generated by the CMake module sets
+`CMAKE_SYSTEM_NAME = OHOS`.
+
+## External programs as inputs and dependencies to custom targets
+
+Custom targets now allow specifying an external program in
+the `input` and `depends` keyword arguments.  This also applies
+to several methods provided by modules, as they are lowered to
+custom targets internally.
+
+## External programs as dependencies to tests
+
+Tests now allow specifying an external program in
+the `depends` keyword argument.
+
+## Support for Python 3.7, 3.8, and 3.9 dropped
+Meson 1.12 is the first version to require Python version 3.10 or greater.
+
+Support for older versions of Python is maintained with bug fixes only for
+some LTS releases. See the [FAQ
+entry](FAQ.md#Do-you-at-least-support-my-ancient-python-install) for more
+information.
+
+## More types of generated files allowed by `qt.preprocess`
+
+`qt.preprocess` now allows custom target indexes or generators
+in addition to custom targets for `ui_files`, `moc_sources`
+and `moc_headers`.
+
+## The Rust module includes a basic wrapper for cbindgen
+
+This will correctly track the config.toml, and generate a rust source from the
+marked C files. This handles structured_sources correctly, and also handles
+depfile generation transparently.
+
+## Non-default members of Cargo workspaces can now be built
+
+The new keyword argument `extra_members` to the `workspace()` method
+allows configuring non-default members of a Cargo workspace.  Previously,
+non-default members were never used for dependency resolution and
+could not be built.
+
+## subproject() and meson.override_find_program() now support the native keyword
+argument
+
+Subprojects may now be built for the host or build machine (or both). Therefore,
+in a cross compile setup, build-time dependencies can be built for the machine
+running the build. When a subproject is run for the build machine it will act
+just like a normal build == host setup, except that no targets will be
+installed.
+
+This necessarily means that `meson.override_find_program()` must differentiate
+between programs for the host and those for the build machine, as you may need
+two versions of the same program, which have different outputs based on the
+machine they are for. For backwards compatibility reasons the default is for the
+host machine. Inside a native subproject the host and build machine will both be
+the build machine.
+
+Cargo workspaces use this feature automatically when building procedural macro
+crates and their dependencies.
+
+## `meson test` now accepts `--exclude`
+
+`meson test` has a new `--exclude` argument to allow skipping named
+tests. It takes a full test name and can be specified repeatedly. This
+should help distributions that need to skip tests irrelevant for them
+or known to be buggy.
+
+## Vala cross compilation changes
+
+Traditionally Meson has used the same Vala compiler for cross and
+native compilation. It turned out that even though the Vala compiler
+generated C code, the output and its dependencies are platform
+dependent. Now Meson uses Vala in the same way as all other cross
+compilers and it can be defined in the cross file.
+
+## `werror=true` now applies to the linker as well
+
+When `werror=true` is set, Meson now passes the appropriate
+fatal-warnings flag to the linker (for example `--fatal-warnings`
+for GNU ld, `-fatal_warnings` for Apple ld, `/WX` for MSVC link).
+Previously, `werror=true` only affected compiler warnings.
+
+## Added `win_subsystem` to `shared_library()` and `shared_module()`
+Synonym for the one found in `executable()`.
+
+Mostly useful for setting the subsystem version in PE headers.
+This can affects Windows's ShimEngine, but not SxS lookups. Usually you still
+want to provide a manifest when targeting modern Windows.
+Sometime also useful for targeting other subsystems.
+
+Visual Studio backends now also properly supports setting subsystem versions.
+## i18n.xgettext recursive option now includes "private" dependencies
+Suppose we have:
+
+```
+libA.dll -> libB.dll -> libC.dll
+```
+
+Here, `libA` links with `libB`, and `libB` links with `libC`, but `libA` does
+not link with `libC` directly. So, `libC` is a "private" dependency of `libB`.
+If we collect strings to translate using:
+
+```
+i18n.xgettext(libC)
+i18n.xgettext(libB)
+pot_file = i18n.xgettext(libA, recursive: true)
+```
+
+Previously, strings from `libC` would not be included in `pot_file`, since
+`libC` is not a direct link dependency of `libA`. This has been fixed: when
+the `recursive: true` option is used, `xgettext` now recursively includes
+translations from all dependencies, including those of dependencies. This is
+more logical, as even if `libA` does not directly link with `libC`, it may
+still need translated strings from `libC`.
+
+--===============8584616282842845497==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="20261011050058.tar.gz"
+Content-Disposition: attachment;
+ filename="0001-python3-numpy-upgrade-2.5.3-2.5.4.patch"
 
-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
-AA==
+RnJvbSA1MWJhZTdjYmUzNjlhOWY2YTEwNWYxMjIxOGRmMTgxZDZkYmJhOWZhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTEgT2N0IDIwMjYgMDU6MTc6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLW51bXB5OiB1cGdyYWRlIDIuNS4zIC0+IDIuNS40CgpDb250cmlidXRvcnMKPT09PT09
+PT09PT09CgpBIHRvdGFsIG9mIDkgcGVvcGxlIGNvbnRyaWJ1dGVkIHRvIHRoaXMgcmVsZWFzZS4g
+IFBlb3BsZSB3aXRoIGEgIisiIGJ5IHRoZWlyCm5hbWVzIGNvbnRyaWJ1dGVkIGEgcGF0Y2ggZm9y
+IHRoZSBmaXJzdCB0aW1lLgoKUHVsbCByZXF1ZXN0cyBtZXJnZWQKPT09PT09PT09PT09PT09PT09
+PT0KCkEgdG90YWwgb2YgMTcgcHVsbCByZXF1ZXN0cyB3ZXJlIG1lcmdlZCBmb3IgdGhpcyByZWxl
+YXNlLgouLiBjdXJyZW50bW9kdWxlOjogbnVtcHkKCj09PT09PT09PT09PT09PT09PT09PT09PT0K
+TnVtUHkgMi41LjQgUmVsZWFzZSBOb3Rlcwo9PT09PT09PT09PT09PT09PT09PT09PT09CgoqUmVs
+ZWFzZWQgb24gMjAyNi0xMC0xMC4qCgpOdW1QeSAyLjUuNCBpcyBhIHBhdGNoIHJlbGVhc2UgdGhh
+dCBmaXhlcyBidWdzIGRpc2NvdmVyZWQgYWZ0ZXIgdGhlIDIuNS4zCnJlbGVhc2UuIEhpZ2hsaWdo
+dHMgYXJlOgoKLSBNYW55IHR5cGluZyBmaXhlcyBhbmQgaW1wcm92ZW1lbnRzLAotIEEgd29ya2Fy
+b3VuZCBmb3IgdGhlIE1TVkMgMTkuNTEgYnVnLCBzZWUgYmVsb3cuCgpUaGlzIHJlbGVhc2Ugc3Vw
+cG9ydHMgUHl0aG9uIHZlcnNpb25zIDMuMTItMy4xNS4KCkltcHJvdmVtZW50cwo9PT09PT09PT09
+PT0KCi0gYGBudW1weS5saW5hbGcuc3ZkYGAgYW5kIGBgbnVtcHkubGluYWxnLmxzdHNxYGAgbm93
+IHJhaXNlIGZvciBpbnB1dHMKICBjb250YWluaW5nCiAgaW5maW5pdGllcyBpbnN0ZWFkIG9mIHJl
+dHVybmluZyBnYXJiYWdlIHJlc3VsdHMuCi0gRml4ZWQgaGFuZ3MgaW4gYGBudW1weS5saW5hbGcu
+c3ZkYGAgYW5kIGBgbnVtcHkubGluYWxnLmxzdHNxYGAgZm9yIGNlcnRhaW4KICBpbnB1dHMKICBj
+b250YWluaW5nIGluZmluaXRpZXMgZm9yIHJlY2VudCB2ZXJzaW9ucyBvZiBzb21lIExBUEFDSyBp
+bXBsZW1lbnRhdGlvbnMuCi0gYGBudW1weS5saW5hbGcuY29uZGBgIG5vdyBoYW5kbGVzIG5vbi1m
+aW5pdGUgaW5wdXRzIG1vcmUgY29uc2lzdGVudGx5LgoKICAoYGdoLTMyNTkzIDwgPmBfXykKClN0
+cmluZ0RUeXBlIGhhc2hpbmcgd2l0aCBOYU4gc2VudGluZWxzCi0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tCmBgU3RyaW5nRFR5cGVgYCBpbnN0YW5jZXMgd2l0aCBlcXVpdmFs
+ZW50IGZsb2F0aW5nLXBvaW50IE5hTiBzZW50aW5lbHMgbm93CmhhdmUgZXF1YWwgaGFzaGVzLiBQ
+cmV2aW91c2x5LCBkaXN0aW5jdCBOYU4gb2JqZWN0cyBjb3VsZCBwcm9kdWNlIGVxdWFsCmR0eXBl
+IGluc3RhbmNlcyB3aXRoIGRpZmZlcmVudCBoYXNoZXMsIGNhdXNpbmcgZGljdGlvbmFyeSBsb29r
+dXBzIGFuZCBzZXQKZGVkdXBsaWNhdGlvbiB0byBmYWlsLgoKKGBnaC0zMjU2MyA8ID5gX18pCgpD
+aGFuZ2VzCj09PT09PT0KCmBgTWFza2VkQXJyYXlgYCByZXNldHMgYSBmaWxsX3ZhbHVlIHRoYXQg
+Y2Fubm90IGJlIHJlcHJlc2VudGVkIGluIGEgbmV3IGR0eXBlCi0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+CkEgZmlsbF92YWx1ZSBjb3BpZWQgZnJvbSBhIHNvdXJjZSBhcnJheSBpcyBub3cgcmVzZXQgdG8g
+dGhlIGRlZmF1bHQgZmlsbF92YWx1ZQpmb3IgdGhlIG5ldyBkdHlwZSB3aGVuIGl0IGNhbm5vdCBi
+ZSByZXByZXNlbnRlZCBpbiB0aGF0IGR0eXBlLiAgUHJldmlvdXNseSB0aGUKY29waWVkIHZhbHVl
+IGNvdWxkIGJlIHN0YWxlOiB1ZnVuY3MgdGhhdCBjaGFuZ2UgZHR5cGUgbGVmdCB0aGUgcmVzdWx0
+IGhvbGRpbmcgYQpmaWxsX3ZhbHVlIHR5cGVkIGZvciB0aGUgb2xkIGR0eXBlLCB3aGljaCByYWlz
+ZWQgYSBgYFR5cGVFcnJvcmBgIG9ubHkgd2hlbgpzb21ldGhpbmcgbGF0ZXIgdmFsaWRhdGVkIGl0
+IChzdWNoIGFzIGBgLnZpZXcoKWBgKSwgYW5kIGEgZmxvYXRpbmcgcG9pbnQKZmlsbF92YWx1ZSB0
+aGF0IG92ZXJmbG93cyBhbiBpbnRlZ2VyIGR0eXBlIHdhcyBrZXB0IGFzIGFuIG91dC1vZi1yYW5n
+ZSB2YWx1ZQp0b2dldGhlciB3aXRoIGEgYGBSdW50aW1lV2FybmluZ2BgLiAgQm90aCBub3cgZmFs
+bCBiYWNrIHRvIHRoZSBkZWZhdWx0LAppbmNsdWRpbmcgd2hlbiBhIG1hc2tlZCBhcnJheSBpcyBw
+YXNzZWQgdG8gYGBNYXNrZWRBcnJheWBgIHdpdGggYSBkaWZmZXJlbnQKYGBkdHlwZWBgLiAgQSBm
+aWxsX3ZhbHVlIGdpdmVuIGV4cGxpY2l0bHkgYnkgdGhlIHVzZXIgaXMgc3RpbGwgdmFsaWRhdGVk
+IGFuZApyYWlzZXMgYXMgYmVmb3JlLiAgVGhpcyBjYW4gbm93IHJhaXNlIGEgYGBDb21wbGV4V2Fy
+bmluZ2BgIGlmIHRoZSBmaWxsX3ZhbHVlIGlzCmNvbXBsZXggYW5kIHRoZSBuZXcgZHR5cGUgaXMg
+cmVhbC4KCihgZ2gtMzI1MDggPCA+YF9fKQooYGdoLTMyNTYyIDwgPmBfXykKCkNvbnRyaWJ1dG9y
+cwo9PT09PT09PT09PT0KCkEgdG90YWwgb2YgOSBwZW9wbGUgY29udHJpYnV0ZWQgdG8gdGhpcyBy
+ZWxlYXNlLiAgUGVvcGxlIHdpdGggYSAiKyIgYnkgdGhlaXIKbmFtZXMgY29udHJpYnV0ZWQgYSBw
+YXRjaCBmb3IgdGhlIGZpcnN0IHRpbWUuCgpQdWxsIHJlcXVlc3RzIG1lcmdlZAo9PT09PT09PT09
+PT09PT09PT09PQoKQSB0b3RhbCBvZiAxNyBwdWxsIHJlcXVlc3RzIHdlcmUgbWVyZ2VkIGZvciB0
+aGlzIHJlbGVhc2UuCgotLS0KdGl0bGU6IFJlbGVhc2UgMS4xMS4wCnNob3J0LWRlc2NyaXB0aW9u
+OiBSZWxlYXNlIG5vdGVzIGZvciAxLjExLjAKIyBOZXcgZmVhdHVyZXMKCk1lc29uIDEuMTEuMCB3
+YXMgcmVsZWFzZWQgb24gMTMgQXByaWwgMjAyNgojIyBCdWlsZFRhcmdldChpbnN0YWxsX2Rpcikg
+bGVuZ3RoID4gMSByZXBsYWNlZCB3aXRoIGtleXdvcmRzCgpCdWlsZCB0YXJnZXRzIHByZXZpb3Vz
+bHkgc3VwcG9ydGVkICh3aXRoIGxpbWl0ZWQgZG9jdW1lbnRhdGlvbikgcGFzc2luZyBhbiBhcnJh
+eQpvZiBtb3JlIHRoYW4gb25lIGVsZW1lbnQgdG8gYGluc3RhbGxfZGlyOmAgKGV4Y2VwdCBpbiBz
+b21lIHdyYXBwZXJzKSwgYW5kCndvdWxkIG1hcCB0aGVzZSBhZGRpdGlvbmFsIGBpbnN0YWxsX2Rp
+cmBzIHRvIGV4dHJhIG91dHB1dHMuIFRoaXMgd2FzIG9ubHkgdXNlZApieQpWYWxhLCBhbmQgc2Vw
+YXJhdGUgZXhwbGljaXQga2V5d29yZCBhcmd1bWVudHMgYXJlIG5vdyBhdmFpbGFibGUgdGhhdCBw
+cm92aWRlCnRoZSBzYW1lIGZ1bmN0aW9uYWxpdHkuCgpDb2RlIGxpa2UgdGhpczoKYGBgbWVzb24K
+bGlicmFyeSgKICAnZm9vJywKICAnZm9vLnZhbGEnLAogIGluc3RhbGwgOiB0cnVlLAogIGluc3Rh
+bGxfZGlyIDogW3RydWUsIGdldF9vcHRpb24oJ2luY2x1ZGVkaXInKSAvICdmb28nLCB0cnVlXSwK
+KQpgYGAKCnNob3VsZCBub3cgYmUgd3JpdHRlbiBhcyB0aGUgbXVjaCBjbGVhcmVyOgoKYGBgbWVz
+b24KbGlicmFyeSgKICAnZm9vJywKICAnZm9vLnZhbGEnLAogIGluc3RhbGwgOiB0cnVlLAogIGlu
+c3RhbGxfdmFsYV9oZWFkZXIgOiBnZXRfb3B0aW9uKCdpbmNsdWRlZGlyJykgLyAnZm9vJywKICBp
+bnN0YWxsX3ZhbGFfdmFwaSA6IHRydWUsCikKYGBgCgpOb3RlIHRoYXQgdGhlIGRlZmF1bHQgaXMg
+YGZhbHNlYCBmb3IgdGhlIFZhbGEgZXh0cmEgb3V0cHV0cy4KIyMgQ2FyZ28gd29ya3NwYWNlIG9i
+amVjdAoKTWVzb24gaXMgbm93IGFibGUgdG8gcGFyc2UgdGhlIHRvcGxldmVsIGBDYXJnby50b21s
+YCBmaWxlIG9mIHRoZQpwcm9qZWN0IHdoZW4gdGhlIGB3b3Jrc3BhY2UoKWAgbWV0aG9kIG9mIHRo
+ZSBSdXN0IG1vZHVsZSBpcyBjYWxsZWQuClRoaXMgZ3VhcmFudGVlcyB0aGF0IGZlYXR1cmVzIGFy
+ZSByZXNvbHZlZCBhY2NvcmRpbmcgdG8gd2hhdCBpcwppbiB0aGUgYENhcmdvLnRvbWxgIGZpbGUs
+IGFuZCBpbiBmYWN0IGVuYWJsZXMgY29uZmlndXJhdGlvbiBvZgpmZWF0dXJlcyBmb3IgdGhlIGJ1
+aWxkLgoKVGhlIHJldHVybmVkIG9iamVjdCBhbGxvd3MgcmV0cmlldmluZyBmZWF0dXJlcyBhbmQg
+ZGVwZW5kZW5jaWVzCmZvciBDYXJnbyBzdWJwcm9qZWN0cywgYW5kIGNvbnRhaW5zIG1ldGhvZHMg
+dG8gYnVpbGQgdGFyZ2V0cwpkZWNsYXJlZCBpbiBgQ2FyZ28udG9tbGAgZmlsZXMuCgpXaGlsZSBD
+YXJnbyBzdWJwcm9qZWN0cyByZW1haW4gZXhwZXJpbWVudGFsLCB0aGUgTWVzb24gcHJvamVjdCB3
+aWxsCnRyeSB0byBrZWVwIHRoZSB3b3Jrc3BhY2Ugb2JqZWN0IHJlYXNvbmFibHkgYmFja3dhcmRz
+LWNvbXBhdGlibGUuCgojIyBDeXRob24gbm8gbG9uZ2VyIHJlcXVpcmVzIGV4cGxpY2l0bHkgZW5h
+YmxpbmcgQyBvciBDKysKClRoaXMgb25seSBwcm92aWRlcyB0aGVzZSBsYW5ndWFnZXMgYXMgYW4g
+aW1wbGVtZW50YXRpb24gZGV0YWlsIG9mIEN5dGhvbiwgc28KbmF0aXZlIEMvQysrIHRhcmdldHMg
+Y2Fubm90IGJlIGNvbXBpbGVkLgoKIyMgRGVkdXBsaWNhdGlvbiBvZiBPcGVuTVAgbGlua2VyIGFy
+Z3VtZW50cwpNZXNvbiBub3cgZGVkdXBsaWNhdGVzIGxpbmtlciBhcmd1bWVudHMgYC1mb3Blbm1w
+YCBhbmQgYC1xb3Blbm1wYC4KIyMgYG1lc29uIGRpc3RgIG5vdyBhY2NlcHRzIGAtamAvYC0tbnVt
+LXByb2Nlc3Nlc2AKCmBtZXNvbiBkaXN0YCBub3cgc3VwcG9ydHMgYSBgLWpgL2AtLW51bS1wcm9j
+ZXNzZXNgIGZsYWcgdG8gY29udHJvbCB0aGUgbnVtYmVyIG9mCnBhcmFsbGVsIHByb2Nlc3NlcyB1
+c2VkIGR1cmluZyB0aGUgZGlzdHJpYnV0aW9uIGNoZWNrIChjb21waWxhdGlvbiBhbmQgdGVzdGlu
+ZwpvZgp0aGUgZ2VuZXJhdGVkIHBhY2thZ2UpLiAgVGhlIGBNRVNPTl9OVU1fUFJPQ0VTU0VTYCBl
+bnZpcm9ubWVudCB2YXJpYWJsZSBpcyBhbHNvCmhvbm9yZWQsIGNvbnNpc3RlbnQgd2l0aCBvdGhl
+ciBNZXNvbiBjb21tYW5kcy4KCiMjIERlcHJlY2F0ZSBgc2hvdWxkX2ZhaWxgIGFuZCByZW5hbWUg
+aXQgdG8gYGV4cGVjdGVkX2ZhaWxgLCBhbHNvIGludHJvZHVjZQpgZXhwZWN0ZWRfZXhpdGNvZGVg
+CgpJbiAxLjExLjAgYHNob3VsZF9mYWlsYCBoYXMgYmVlbiByZW5hbWVkIHRvIGBleHBlY3RlZF9m
+YWlsYC4KCkJlZm9yZSAxLjExLjAsCgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNlZWRz
+IDUwMDAgY2hhcmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBhbiBh
+dHRhY2htZW50IHRvIHRoZSBBVUggZW1haWxdCi0tLQogLi4uL3B5dGhvbi97cHl0aG9uMy1udW1w
+eV8yLjUuMy5iYiA9PiBweXRob24zLW51bXB5XzIuNS40LmJifSAgIHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1udW1weV8yLjUuMy5iYiA9PiBweXRob24zLW51bXB5
+XzIuNS40LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy1udW1weV8yLjUuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1udW1weV8yLjUuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHlfMi41LjMuYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1udW1weV8yLjUuNC5iYgpp
+bmRleCAzMzhiZGQyYmJkLi45M2FhMzU2ZGIxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHlfMi41LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5XzIuNS40LmJiCkBAIC0xMCw3ICsxMCw3IEBAIFNS
+Q05BTUUgPSAibnVtcHkiCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92
+JHtQVn0vJHtTUkNOQU1FfS0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0
+ZXN0IFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImRmMmQ1ODc0ZmYxODM1
+OTVhNGJhNDA0ZWRkMDRmNmJkOWI1NTA1YzFkNzcwODU3M2Y2YTZjMTc0ODlhNjc1NjMiCitTUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiOWE5NGNmNzUxYzlhZDhlYmFhODM1YmNkM2Q0MGRhY2Y4NTM0YWQw
+ODZiODhjMzgwMjliNjUxMjNjNzk5OWQyYSIKIAogR0lUSFVCX0JBU0VfVVJJID0gImh0dHBzOi8v
+Z2l0aHViLmNvbS9udW1weS9udW1weS9yZWxlYXNlcyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0g
+InJlbGVhc2VzL3RhZy92Pyg/UDxwdmVyPlxkKyhcLlxkKykrKSQiCi0tIAoyLjQ3LjEKCg==
 
---===============5958100179434858673==--
+--===============8584616282842845497==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-numpy: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy: SRC_URI changed from "https://github.com/numpy/numpy/releases/download/v2.5.3/numpy-2.5.3.tar.gz file://run-ptest" to "https://github.com/numpy/numpy/releases/download/v2.5.4/numpy-2.5.4.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PKGSIZE changed from 101309008 to 101316648 (+0%)
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dev: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dev: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-doc: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-doc: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-locale: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-locale: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-ptest: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-ptest: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: FILELIST: directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/highway/hwy -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/highway/hwy, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_exponent_log.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_exponent_log.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_exponent_log.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_exponent_log.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_arithm_fp.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_arithm_fp.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/include/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/include/numpy/random, directory r
+ enamed /usr/src/debug/python3-numpy/2.5.3/numpy/fft -> /usr/src/debug/python3-numpy/2.5.4/numpy/fft, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_exponent_log.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_exponent_log.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/linalg/lapack_lite -> /usr/src/debug/python3-numpy/2.5.4/numpy/linalg/lapack_lite, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/dlpack -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/common/dlpack, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_unary_fp.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_unary_fp.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/linalg -> /usr/src/debug/python3-numpy/2.5.4/numpy/linalg, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/include ->
+  /usr/src/debug/python3-numpy/2.5.4/numpy/random/include, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/_umath_tests.cpython-314-x86_64-linux-gnu.so.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/_umath_tests.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/lib_simd.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/lib_simd.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/_bounded_integers.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/_bounded_integers.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_unary_fp_le.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_unary_fp_le.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/_simd -> /usr/src/debug/python3-numpy/2.5
+ .4/numpy/_core/src/_simd, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_hyperbolic.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_hyperbolic.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/simd/avx2 -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/common/simd/avx2, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_unary.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_unary.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/multiarray/stringdtype -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/multiarray/stringdtype, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/include/numpy/libdivide -> /usr/src/debug/python3-numpy/2.5.4/numpy/_c
+ ore/include/numpy/libdivide, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_umath_fp.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_umath_fp.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/mt19937 -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/src/mt19937, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/_mt19937.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/_mt19937.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/philox -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/src/philox, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libargfunc.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libargfunc.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/multiarray/textrea
+ ding -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/multiarray/textreading, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libargfunc.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libargfunc.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_arithmetic.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_arithmetic.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/_common.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/_common.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_hyperbolic.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_hyperbolic.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/include/numpy -> /usr/src/debug/python3-numpy/2.5.
+ 4/numpy/_core/include/numpy, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/multiarray -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/multiarray, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_autovec.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_autovec.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_autovec.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_autovec.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/npymath -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/npymath, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/_sfc64.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/_sfc64.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_una
+ ry_complex.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_unary_complex.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_unary_complex.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_unary_complex.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/distributions -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/src/distributions, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/simd/sse -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/common/simd/sse, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_arithm_fp.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_arithm_fp.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_unary_complex.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/
+ numpy/_core/libloops_unary_complex.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_comparison.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_comparison.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_half.dispatch.h_AVX512_SPR.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_half.dispatch.h_AVX512_SPR.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_hyperbolic.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_hyperbolic.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_arithmetic.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_arithmetic.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_comparison.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-nu
+ mpy/2.5.4/numpy/_core/libloops_comparison.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_umath_fp.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_umath_fp.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/_multiarray_umath.cpython-314-x86_64-linux-gnu.so.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/_multiarray_umath.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/_multiarray_tests.cpython-314-x86_64-linux-gnu.so.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/_multiarray_tests.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/pythoncapi-compat -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/common/pythoncapi-compat, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_unary.dispatch.h_X86_V3.a.p -> /usr/src/debug/
+ python3-numpy/2.5.4/numpy/_core/libloops_unary.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_unary.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_unary.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/npysort -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/npysort, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libnpymath.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libnpymath.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/umath -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/umath, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_half.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_half.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/fft/pocketfft -> /usr/src/debug/python3-numpy/2.5.4/numpy/fft/pock
+ etfft, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/mtrand.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/mtrand.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/npysort/x86-simd-sort/src -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/npysort/x86-simd-sort/src, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/common, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/sfc64 -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/src/sfc64, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/pcg64 -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/src/pcg64, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/lib_simd.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/lib_simd.dispatch.h_baseline.a.p, directo
+ ry renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_arithmetic.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_arithmetic.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_minmax.dispatch.h_X86_V3.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_minmax.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_minmax.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_minmax.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_comparison.dispatch.h_X86_V4.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_comparison.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/_philox.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/_philox.cpython-314-x86_64-linux-gnu.so.p, dir
+ ectory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/simd/avx512 -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/common/simd/avx512, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/bit_generator.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/bit_generator.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_minmax.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_minmax.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_modulo.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_modulo.dispatch.h_baseline.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/libloops_half.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libloops_half.dispatch.h_baseline.a.p, directory renamed /usr/src/
+ debug/python3-numpy/2.5.3/numpy/_core/libargfunc.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/libargfunc.dispatch.h_X86_V4.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/_pcg64.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/_pcg64.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/lib_simd.dispatch.h_baseline.a.p -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/lib_simd.dispatch.h_X86_V3.a.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/simd -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/common/simd, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/highway/hwy/ops -> /usr/src/debug/python3-numpy/2.5.4/numpy/_core/src/highway/hwy/ops, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/_generator.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/p
+ ython3-numpy/2.5.4/numpy/random/_generator.cpython-314-x86_64-linux-gnu.so.p, directory renamed /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/legacy -> /usr/src/debug/python3-numpy/2.5.4/numpy/random/src/legacy
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PKGSIZE changed from 57904648 to 57907738 (+0%)
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-staticdev: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-staticdev: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-staticdev: PKGSIZE changed from 357910 to 357918 (+0%)
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/linalg/lapack_lite -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/linalg/lapack_lite, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/distributions -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/distributions, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort,
+  directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/splitmix64 -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/splitmix64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/highway -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/highway, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/sfc64 -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/sfc64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/mt19937 -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/mt19937, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licen
+ ses/numpy/_core/src/common/pythoncapi-compat, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/fft/pocketfft -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/fft/pocketfft, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/philox -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random/src/philox, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/multiarray -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/multiarray, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/umath/svml -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/src/umath/svml, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/pcg64 -> /usr/lib/python3.14/site-packages/nump
+ y-2.5.4.dist-info/licenses/numpy/random/src/pcg64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/ma -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/ma, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/include/numpy/libdivide -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/_core/include/numpy/libdivide, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random -> /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info/licenses/numpy/random
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PKGSIZE changed from 41643433 to 41686500 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-numpy (sysroot):
+  /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info moved to /usr/lib/python3.14/site-packages/numpy-2.5.4.dist-info
+
+--===============8584616282842845497==--
 
