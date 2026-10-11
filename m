@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF904CA9EDF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 841ABCA9ED8
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:40 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23459.1791708099678164364
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23453.1791708091328304466
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:40 -0700
+ Sun, 11 Oct 2026 01:41:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=1t68sBC1;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48870973bddso533774f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:39 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=0XRJhWpc;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48b0ef9c76eso780226f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708098; x=1792312898; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708089; x=1792312889; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=A3DcDtqcC5qc1JDR4EqCY7a0FAIAb+d2++rTXC5PREw=;
-        b=1t68sBC1Vj+CZdD9hNnAOtYMO3woH6plohSrsF7pUbOo7wVUqSLOaRFDA4HBBP1elp
-         AX/6sCB6kLGuapdD3Df0MHFFYzz8pKfJ9Vy+4pOOR63Ar1IJ/iBEmd2JVcymcOeUllut
-         qBVy07LQEFhnqK9Du1gmELvNaTP93CcqeBUoM=
+        bh=IMtUr6QdYy46NyOdO6cO4WIrGcVkzBf4z6Wqq90h8VQ=;
+        b=0XRJhWpcb1H/jdvD5QKi1nZOEVtcJh6p4Edd6ATDF5g3bWbNtcI7KJSd4f8FJhfYrB
+         Q9Gkr9MxkPb9UVeFwxcZ1Ht09FRPWsdxE30XavYuJm10PWMIaBHyrABCi9FxQaASN2Ko
+         ubi/eiOaN0/Zaa3uymLnC1TT+FIG2cm2L6TL0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708098; x=1792312898;
+        d=1e100.net; s=20260707; t=1791708089; x=1792312889;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=A3DcDtqcC5qc1JDR4EqCY7a0FAIAb+d2++rTXC5PREw=;
-        b=sWZrwuIfiI9UByOOrWz/F0po3Kv03KC3RSek9sYJAnNw0R0x0lY7rC3k6Gd6wB48u6
-         zoRwEP7t+z++aQYlX9EEu2WF2F+dwzoi5yCwBOHDaGVpo/MrtrFCLfIJjShE7+V/Ncq/
-         1SGdeQH078gHD83M7s8K1b/wkdTtHD0SeLnH+FC5zHQVUJIohKstpiX7r4rdKIpO5uv6
-         VmtLZHVSSrZOn3cY4aEz0VTLNg2B9tR16zQmTYs9AXr9Cn6GTcUbranBOq0Ib/+kAro9
-         9ZxL5EYlAL0a4gVDUMznkjXGs8PI9o29CZRe5/JPB7Dvwd9LwRCQpWFi35HXa044ILNX
-         cGxA==
-X-Gm-Message-State: AFq9FYKA2BP//PSbXaJzGT3+xO/AvHqHqLMXAKuQLbkSyQhfOEm1JIy0
-	xHGeMHVyzcGt/NFvnZebujV47hyHDkRTKyEwFfFaBRxdCUXDzerR0b/Ur8ZY2pQTRQr1AHRcjqn
-	MtK1eUlc=
-X-Gm-Gg: AYBFou146yC3acq9tTDiiQsuOTrRDszHa4/ojv7Z8G5OskjHAG9SQtzVLxoxBrUTvnf
-	vuGaK22vXVPQ/fTZdp2PeY1SmffwJ7JKLQazLb2JMulJ5YjgkLRcKuy4ifNe5NfwcPh725Aw/+u
-	uwS9LvKXap7fLpPK3+O1p8HvveMvWRA6hbKA9RA8EQ5rfaoxMXfTiJSj0YTG76Ok2yu1z8nPDM9
-	eBVLaJh0o7Gy61tc/Ot0FXtz2/8jbdtBRGgptLHYc790B2MyMJLN6KaVIL8mUU2K9CuZzgBxOaq
-	A/bbNiaF8lU+il7cad3A/TP5DsTeBGcYMSbshT0kuna9/hz7F7ullm9k3wGy0yS0xdrpfbMNeYP
-	G3Jl2Zg00OeXqvOakOPOO+u4qPiElwtPTuY0VDIPJgQ/04OCdOD3/SGQ4JOfLMHtW9+IVdvObu2
-	2a4yt+YUeYrvBvcwZ6tiq5lcFbb2v0Xzx9NqmTOwTsNKaKub8k8wTi7++z2cFQwgCZKxlvHsVkH
-	7q2XlI9UG1cWSbr471xGf4aWFZDutGTmEM2qLCd8Dlxc5z/L95tTYZLzYBv54VMVI0m9SQ+MA==
-X-Received: by 2002:a5d:4d45:0:b0:48a:fe00:ad1 with SMTP id ffacd0b85a97d-48dba9e641amr9443966f8f.6.1791708097650;
-        Sun, 11 Oct 2026 01:41:37 -0700 (PDT)
+        bh=IMtUr6QdYy46NyOdO6cO4WIrGcVkzBf4z6Wqq90h8VQ=;
+        b=lan5GXPxO/9G5FXkT36rLHrmLwGt+k5r3UlCz8CS/BhH/xWxIip31N9TDBETJ+NkwY
+         1FPGbpxcIw+Vol5Wt8D7j/yH5vWnviaLUcry0P1UtvvfF2AwM4lxGYfqUZEcrQ5tdZjT
+         wrfI/SM2gt0Mh9o+b/RBoOwArIW2npEVyBCPxx3/6Jfuk+IY14FdMOmTumYLVDVt1L2c
+         bFu9SO68unGWPGusP3EUYgFIaNmJouXhgSS7PaPWERL8BUg8JYFmbLXsSJeZT9uHbdul
+         T80h0wrA7baf1kNSc0NTnYDgS01GoRns/7ty4xv7aT3XYEVnPTT+AVp9hEbXsPUzSYqb
+         BWww==
+X-Gm-Message-State: AFq9FYKpLVyvznHNVLhX/csN8qFG5XJT3WOvDLWdvtWPMRqGCCN5xvC1
+	UgiEhLUyCDm7JuxK0dSkeF10H9BGgH5BHc4urxjRPITxSqZhyRvqy5dqbcyAAUGT6+i7rh3u+kp
+	ZIWvAc5o=
+X-Gm-Gg: AYBFou29nJpIufzO/J8kzgFqpOSvdPzARPVWrET6YiKl9DiDqgwUpuZLEz0mJb0JJq2
+	WX0i6WFs4bcxf1TpJRIiISmMW81Y+RCN+XmAPqEQ2h74EnuVJ3/1wE7OEW4GkeMTgEO0dQQKnuQ
+	Bhxo11idzIAs9U7GF+h6eKwIPgQwXZH+1cgll7vQD9vCQqvkCFJwTMYBdauDmMMnJC6o9TvvOs3
+	4GQ1G0bvf+Oyf8QLHTWU+TpwHKIRIuWXvQmotN7Rz9h/zeb6eFwUtfUyoYPPACmzMVEnLiiJi6L
+	uwbppxHHaryZDwTSVnX8AAJ0Pu5Fq67zdteeEATVNy/DC68n/wDEe49xdRd/t8qHE+bxvEUCOEC
+	LVolEtQcIBubxo4cjdZG4kfdYiaqNO0U7OpuK/0JKufRNbBl4VmprP/ThTgGHQrnDSAoN1UZaCp
+	6Tz5Yr2Ay6IQ+JxizZELqP2X+Vvxwb+jmbLtnD5Ax9Drxr5dbHfkaoQ4HD4ue+GDMA4w+sosnFX
+	clN0LEM5IXEV9HdynO2IWsK9kt5FKpD5XisoPLoZivt2EFX62N3M+46A49q5i3FFeTl5MYjbQ==
+X-Received: by 2002:a05:6000:1787:b0:488:6561:b324 with SMTP id ffacd0b85a97d-48dba9bdb31mr10896965f8f.9.1791708089230;
+        Sun, 11 Oct 2026 01:41:29 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:37 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:28 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 57/60] libpcre2: patch CVE-2026-89160
-Date: Sun, 11 Oct 2026 10:40:30 +0200
-Message-ID: <2e1cea675dfe766f31abbb42f6554852553ae14b.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 43/60] expat: patch CVE-2026-93990
+Date: Sun, 11 Oct 2026 10:40:16 +0200
+Message-ID: <15ef201a2b30e2513f949040fdc999299ddba77c.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -66,264 +66,566 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247566
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247552
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1] since [2] does not provide it.
+Pick patches per [1].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-89160
-[2] https://github.com/PCRE2Project/pcre2/security/advisories/GHSA-9qww-pwc4-77qq
+[1] https://security-tracker.debian.org/tracker/CVE-2026-93990
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpcre/libpcre2/CVE-2026-89160.patch     | 225 ++++++++++++++++++
- .../recipes-support/libpcre/libpcre2_10.47.bb |   1 +
- 2 files changed, 226 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-89160.patch
+ .../expat/expat/CVE-2026-93990-01.patch       | 191 ++++++++++
+ .../expat/expat/CVE-2026-93990-02.patch       | 328 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.8.3.bb        |   2 +
+ 3 files changed, 521 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-93990-01.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-93990-02.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-89160.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89160.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-93990-01.patch b/meta/recipes-core/expat/expat/CVE-2026-93990-01.patch
 new file mode 100644
-index 00000000000..bff6bc83efa
+index 00000000000..fde01b916ad
 --- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89160.patch
-@@ -0,0 +1,225 @@
-+From 4889caf31a4c5a6b3c051f0031bf2dbd78f2c287 Mon Sep 17 00:00:00 2001
-+From: Nicholas Wilson <nicholas@nicholaswilson.me.uk>
-+Date: Thu, 27 Aug 2026 16:52:16 +0100
-+Subject: [PATCH] Fix invalid UTF backwards-scan reads; see GHSA-9qww-pwc4-77qq
-+ for details
++++ b/meta/recipes-core/expat/expat/CVE-2026-93990-01.patch
+@@ -0,0 +1,191 @@
++From 0cfd15bdf4b2c22d6b0df73610709dfb60921091 Mon Sep 17 00:00:00 2001
++From: Kartik Kenchi <netliomax25@gmail.com>
++Date: Tue, 23 Jun 2026 15:51:06 +0530
++Subject: [PATCH] lib: reject UTF-16 high surrogate not followed by a low
++ surrogate
 +
-+CVE: CVE-2026-89160
-+Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/4889caf31a4c5a6b3c051f0031bf2dbd78f2c287]
++CVE: CVE-2026-93990
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/0cfd15bdf4b2c22d6b0df73610709dfb60921091]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/pcre2_extuni.c       | 10 +++++-----
-+ src/pcre2_match.c        | 10 +++++-----
-+ testdata/testinput10     | 10 ++++++++++
-+ testdata/testinput12     | 10 ++++++++++
-+ testdata/testoutput10    | 12 ++++++++++++
-+ testdata/testoutput12-16 | 12 ++++++++++++
-+ testdata/testoutput12-32 | 12 ++++++++++++
-+ 7 files changed, 66 insertions(+), 10 deletions(-)
++ lib/xmltok.c      | 53 ++++++++++++++++++++++++++++++++++++++++-------
++ lib/xmltok_impl.c |  4 ----
++ 2 files changed, 45 insertions(+), 12 deletions(-)
 +
-+diff --git a/src/pcre2_extuni.c b/src/pcre2_extuni.c
-+index 1b7f04b4..fea098a7 100644
-+--- a/src/pcre2_extuni.c
-++++ b/src/pcre2_extuni.c
-+@@ -54,12 +54,12 @@ support, because some compilers do not like functionless source files. */
++diff --git a/lib/xmltok.c b/lib/xmltok.c
++index 8abb145e..5f4e78ec 100644
++--- a/lib/xmltok.c
+++++ b/lib/xmltok.c
++@@ -232,6 +232,19 @@ struct normal_encoding {
++       /* isNmstrt2 */ NULL, /* isNmstrt3 */ NULL, /* isNmstrt4 */ NULL,        \
++       /* isInvalid2 */ NULL, /* isInvalid3 */ NULL, /* isInvalid4 */ NULL
 + 
-+ #ifndef SUPPORT_UNICODE
-+ PCRE2_SPTR
-+-PRIV(extuni)(uint32_t c, PCRE2_SPTR eptr, PCRE2_SPTR start_subject,
-++PRIV(extuni)(uint32_t c, PCRE2_SPTR eptr, PCRE2_SPTR check_subject,
-+   PCRE2_SPTR end_subject, BOOL utf, int *xcount)
-+ {
-+ (void)c;
-+ (void)eptr;
-+-(void)start_subject;
-++(void)check_subject;
-+ (void)end_subject;
-+ (void)utf;
-+ (void)xcount;
-+@@ -80,7 +80,7 @@ same behaviour.
-+ Arguments:
-+   c              the first character
-+   eptr           pointer to next character
-+-  start_subject  pointer to start of subject
-++  check_subject  pointer to start of validated subject
-+   end_subject    pointer to end of subject
-+   utf            TRUE if in UTF mode
-+   xcount         pointer to count of additional characters,
-+@@ -90,7 +90,7 @@ Returns:         pointer after the end of the sequence
-+ */
+++/* Like NULL_VTABLE but with a real isInvalid4 so the UTF-16 encodings reject a
+++   high surrogate that is not followed by a low surrogate.  Only needed for the
+++   XML_MIN_SIZE build, where the shared tokenizer dispatches through the vtable;
+++   the regular build inlines the same check via IS_INVALID_CHAR. */
+++#ifdef XML_MIN_SIZE
+++#  define UTF16_NULL_VTABLE(E)                                                 \
+++    /* isName2 */ NULL, /* isName3 */ NULL, /* isName4 */ NULL,                \
+++        /* isNmstrt2 */ NULL, /* isNmstrt3 */ NULL, /* isNmstrt4 */ NULL,      \
+++        /* isInvalid2 */ NULL, /* isInvalid3 */ NULL, E##isInvalid4
+++#else
+++#  define UTF16_NULL_VTABLE(E) NULL_VTABLE
+++#endif
+++
++ static int FASTCALL checkCharRefNumber(int result);
 + 
-+ PCRE2_SPTR
-+-PRIV(extuni)(uint32_t c, PCRE2_SPTR eptr, PCRE2_SPTR start_subject,
-++PRIV(extuni)(uint32_t c, PCRE2_SPTR eptr, PCRE2_SPTR check_subject,
-+   PCRE2_SPTR end_subject, BOOL utf, int *xcount)
-+ {
-+ BOOL was_ep_ZWJ = FALSE;
-+@@ -121,7 +121,7 @@ while (eptr < end_subject)
++ #include "xmltok_impl.h"
++@@ -749,6 +762,11 @@ DEFINE_UTF16_TO_UTF16(big2_)
++   UCS2_GET_NAMING(namePages, (unsigned char)p[1], (unsigned char)p[0])
++ #define LITTLE2_IS_NMSTRT_CHAR_MINBPC(p)                                       \
++   UCS2_GET_NAMING(nmstrtPages, (unsigned char)p[1], (unsigned char)p[0])
+++/* A 4-byte UTF-16 character is a surrogate pair; byteType only reports BT_LEAD4
+++   for a high surrogate, so the pair is invalid unless the second unit is a low
+++   surrogate (U+DC00..U+DFFF, i.e. high byte 0xDC..0xDF). */
+++#define LITTLE2_IS_INVALID_CHAR(p, n)                                          \
+++  ((n) == 4 && ((unsigned char)(p)[3] & 0xFC) != 0xDC)
 + 
-+     /* bptr is pointing to the left-hand character */
++ #ifdef XML_MIN_SIZE
 + 
-+-    while (bptr > start_subject)
-++    while (bptr > check_subject)
-+       {
-+       bptr--;
-+       if (utf)
-+diff --git a/src/pcre2_match.c b/src/pcre2_match.c
-+index a5a8421f..966576e1 100644
-+--- a/src/pcre2_match.c
-++++ b/src/pcre2_match.c
-+@@ -2893,7 +2893,7 @@ fprintf(stderr, "++ %2ld op=%3d %s\n", Fecode - mb->start_code, *Fecode,
-+     else
-+       {
-+       GETCHARINCTEST(fc, Feptr);
-+-      Feptr = PRIV(extuni)(fc, Feptr, mb->start_subject, mb->end_subject, utf,
-++      Feptr = PRIV(extuni)(fc, Feptr, mb->check_subject, mb->end_subject, utf,
-+         NULL);
-+       }
-+     CHECK_PARTIAL();
-+@@ -3244,7 +3244,7 @@ fprintf(stderr, "++ %2ld op=%3d %s\n", Fecode - mb->start_code, *Fecode,
-+           else
-+             {
-+             GETCHARINCTEST(fc, Feptr);
-+-            Feptr = PRIV(extuni)(fc, Feptr, mb->start_subject,
-++            Feptr = PRIV(extuni)(fc, Feptr, mb->check_subject,
-+               mb->end_subject, utf, NULL);
-+             }
-+           CHECK_PARTIAL();
-+@@ -4069,7 +4069,7 @@ fprintf(stderr, "++ %2ld op=%3d %s\n", Fecode - mb->start_code, *Fecode,
-+           else
-+             {
-+             GETCHARINCTEST(fc, Feptr);
-+-            Feptr = PRIV(extuni)(fc, Feptr, mb->start_subject, mb->end_subject,
-++            Feptr = PRIV(extuni)(fc, Feptr, mb->check_subject, mb->end_subject,
-+               utf, NULL);
-+             }
-+           CHECK_PARTIAL();
-+@@ -4658,7 +4658,7 @@ fprintf(stderr, "++ %2ld op=%3d %s\n", Fecode - mb->start_code, *Fecode,
-+           else
-+             {
-+             GETCHARINCTEST(fc, Feptr);
-+-            Feptr = PRIV(extuni)(fc, Feptr, mb->start_subject, mb->end_subject,
-++            Feptr = PRIV(extuni)(fc, Feptr, mb->check_subject, mb->end_subject,
-+               utf, NULL);
-+             }
-+           CHECK_PARTIAL();
-+@@ -6233,7 +6233,7 @@ fprintf(stderr, "++ %2ld op=%3d %s\n", Fecode - mb->start_code, *Fecode,
-+       {
-+       for (i = 0; i < Lmax; i++)
-+         {
-+-        if (Feptr == mb->start_subject)
-++        if (Feptr <= mb->check_subject)
-+           {
-+           if (i < Lmin) RRETURN(MATCH_NOMATCH);
-+           Lmax = i;
-+diff --git a/testdata/testinput10 b/testdata/testinput10
-+index d9e6ba8c..bfa9dad8 100644
-+--- a/testdata/testinput10
-++++ b/testdata/testinput10
-+@@ -585,6 +585,16 @@
-+     AAA\x80BXYZ 
-+     AAA\x80BBXYZ 
++@@ -781,6 +799,12 @@ little2_isNmstrtMin(const ENCODING *enc, const char *p) {
++   return LITTLE2_IS_NMSTRT_CHAR_MINBPC(p);
++ }
 + 
-++# Backward scans must not enter the invalid prefix before check_subject.
+++static int
+++little2_isInvalid4(const ENCODING *enc, const char *p) {
+++  UNUSED_P(enc);
+++  return LITTLE2_IS_INVALID_CHAR(p, 4);
+++}
 ++
-++/(?<=a{1,2})X/utf,match_invalid_utf
-++\= Expect no match
-++    \x80X
-++
-++/\X\X/utf,match_invalid_utf
-++\= Expect no match
-++    \x80\x{1f1e6}\x{1f1e7}
-++
-+ # -------------------------------------
++ #  undef VTABLE
++ #  define VTABLE VTABLE1, little2_toUtf8, little2_toUtf16
 + 
-+ /(*UTF)(?=\x{123})/I
-+diff --git a/testdata/testinput12 b/testdata/testinput12
-+index 01cc76a4..c4a89a26 100644
-+--- a/testdata/testinput12
-++++ b/testdata/testinput12
-+@@ -498,6 +498,16 @@
-+ /(..)(*scs:(1)ab$)/match_invalid_utf
-+     ab\x{df00}cde         
++@@ -797,6 +821,7 @@ little2_isNmstrtMin(const ENCODING *enc, const char *p) {
++ #  define IS_NAME_CHAR_MINBPC(enc, p) LITTLE2_IS_NAME_CHAR_MINBPC(p)
++ #  define IS_NMSTRT_CHAR(enc, p, n) (0)
++ #  define IS_NMSTRT_CHAR_MINBPC(enc, p) LITTLE2_IS_NMSTRT_CHAR_MINBPC(p)
+++#  define IS_INVALID_CHAR(enc, p, n) LITTLE2_IS_INVALID_CHAR(p, n)
 + 
-++# Backward scans must not enter the invalid prefix before check_subject.
-++
-++/(?<=a{1,2})X/utf,match_invalid_utf
-++\= Expect no match
-++    \x{dc00}X
-++
-++/\X\X/utf,match_invalid_utf
-++\= Expect no match
-++    \x{dc00}\x{1f1e6}\x{1f1e7}
-++
-+ # ---------------------------------------------------- 
++ #  define XML_TOK_IMPL_C
++ #  include "xmltok_impl.c"
++@@ -828,7 +853,7 @@ static const struct normal_encoding little2_encoding_ns
++ #  include "asciitab.h"
++ #  include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(little2_) NULL_VTABLE};
+++       STANDARD_VTABLE(little2_) UTF16_NULL_VTABLE(little2_)};
 + 
-+ /(*UTF)(?=\x{123})/I
-+diff --git a/testdata/testoutput10 b/testdata/testoutput10
-+index 393ac207..9e124e2b 100644
-+--- a/testdata/testoutput10
-++++ b/testdata/testoutput10
-+@@ -1779,6 +1779,18 @@ No match
-+     AAA\x80BBXYZ 
-+ No match
++ #endif
 + 
-++# Backward scans must not enter the invalid prefix before check_subject.
-++
-++/(?<=a{1,2})X/utf,match_invalid_utf
-++\= Expect no match
-++    \x80X
-++No match
-++
-++/\X\X/utf,match_invalid_utf
-++\= Expect no match
-++    \x80\x{1f1e6}\x{1f1e7}
-++No match
-++
-+ # -------------------------------------
++@@ -846,7 +871,7 @@ static const struct normal_encoding little2_encoding
++ #undef BT_COLON
++ #include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(little2_) NULL_VTABLE};
+++       STANDARD_VTABLE(little2_) UTF16_NULL_VTABLE(little2_)};
 + 
-+ /(*UTF)(?=\x{123})/I
-+diff --git a/testdata/testoutput12-16 b/testdata/testoutput12-16
-+index d235c11f..b0676a19 100644
-+--- a/testdata/testoutput12-16
-++++ b/testdata/testoutput12-16
-+@@ -1659,6 +1659,18 @@ No match
-+  0: ab
-+  1: ab
++ #if BYTEORDER != 4321
 + 
-++# Backward scans must not enter the invalid prefix before check_subject.
-++
-++/(?<=a{1,2})X/utf,match_invalid_utf
-++\= Expect no match
-++    \x{dc00}X
-++No match
-++
-++/\X\X/utf,match_invalid_utf
-++\= Expect no match
-++    \x{dc00}\x{1f1e6}\x{1f1e7}
-++No match
-++
-+ # ---------------------------------------------------- 
++@@ -858,7 +883,7 @@ static const struct normal_encoding internal_little2_encoding_ns
++ #    include "iasciitab.h"
++ #    include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(little2_) NULL_VTABLE};
+++       STANDARD_VTABLE(little2_) UTF16_NULL_VTABLE(little2_)};
 + 
-+ /(*UTF)(?=\x{123})/I
-+diff --git a/testdata/testoutput12-32 b/testdata/testoutput12-32
-+index 725cb274..a97051a6 100644
-+--- a/testdata/testoutput12-32
-++++ b/testdata/testoutput12-32
-+@@ -1658,6 +1658,18 @@ No match
-+  0: ab
-+  1: ab
++ #  endif
 + 
-++# Backward scans must not enter the invalid prefix before check_subject.
-++
-++/(?<=a{1,2})X/utf,match_invalid_utf
-++\= Expect no match
-++    \x{dc00}X
-++No match
-++
-++/\X\X/utf,match_invalid_utf
-++\= Expect no match
-++    \x{dc00}\x{1f1e6}\x{1f1e7}
-++No match
-++
-+ # ---------------------------------------------------- 
++@@ -870,7 +895,7 @@ static const struct normal_encoding internal_little2_encoding
++ #  undef BT_COLON
++ #  include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(little2_) NULL_VTABLE};
+++       STANDARD_VTABLE(little2_) UTF16_NULL_VTABLE(little2_)};
 + 
-+ /(*UTF)(?=\x{123})/I
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-index bbe37573215..ef8274c9b16 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
-            file://CVE-2026-89161.patch \
-            file://CVE-2026-89156.patch \
-            file://CVE-2026-89157.patch \
-+           file://CVE-2026-89160.patch \
- "
++ #endif
++ 
++@@ -882,6 +907,11 @@ static const struct normal_encoding internal_little2_encoding
++   UCS2_GET_NAMING(namePages, (unsigned char)p[0], (unsigned char)p[1])
++ #define BIG2_IS_NMSTRT_CHAR_MINBPC(p)                                          \
++   UCS2_GET_NAMING(nmstrtPages, (unsigned char)p[0], (unsigned char)p[1])
+++/* A 4-byte UTF-16 character is a surrogate pair; byteType only reports BT_LEAD4
+++   for a high surrogate, so the pair is invalid unless the second unit is a low
+++   surrogate (U+DC00..U+DFFF, i.e. high byte 0xDC..0xDF). */
+++#define BIG2_IS_INVALID_CHAR(p, n)                                             \
+++  ((n) == 4 && ((unsigned char)(p)[2] & 0xFC) != 0xDC)
++ 
++ #ifdef XML_MIN_SIZE
++ 
++@@ -914,6 +944,12 @@ big2_isNmstrtMin(const ENCODING *enc, const char *p) {
++   return BIG2_IS_NMSTRT_CHAR_MINBPC(p);
++ }
++ 
+++static int
+++big2_isInvalid4(const ENCODING *enc, const char *p) {
+++  UNUSED_P(enc);
+++  return BIG2_IS_INVALID_CHAR(p, 4);
+++}
+++
++ #  undef VTABLE
++ #  define VTABLE VTABLE1, big2_toUtf8, big2_toUtf16
++ 
++@@ -930,6 +966,7 @@ big2_isNmstrtMin(const ENCODING *enc, const char *p) {
++ #  define IS_NAME_CHAR_MINBPC(enc, p) BIG2_IS_NAME_CHAR_MINBPC(p)
++ #  define IS_NMSTRT_CHAR(enc, p, n) (0)
++ #  define IS_NMSTRT_CHAR_MINBPC(enc, p) BIG2_IS_NMSTRT_CHAR_MINBPC(p)
+++#  define IS_INVALID_CHAR(enc, p, n) BIG2_IS_INVALID_CHAR(p, n)
++ 
++ #  define XML_TOK_IMPL_C
++ #  include "xmltok_impl.c"
++@@ -961,7 +998,7 @@ static const struct normal_encoding big2_encoding_ns
++ #  include "asciitab.h"
++ #  include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(big2_) NULL_VTABLE};
+++       STANDARD_VTABLE(big2_) UTF16_NULL_VTABLE(big2_)};
++ 
++ #endif
++ 
++@@ -979,7 +1016,7 @@ static const struct normal_encoding big2_encoding
++ #undef BT_COLON
++ #include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(big2_) NULL_VTABLE};
+++       STANDARD_VTABLE(big2_) UTF16_NULL_VTABLE(big2_)};
++ 
++ #if BYTEORDER != 1234
++ 
++@@ -991,7 +1028,7 @@ static const struct normal_encoding internal_big2_encoding_ns
++ #    include "iasciitab.h"
++ #    include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(big2_) NULL_VTABLE};
+++       STANDARD_VTABLE(big2_) UTF16_NULL_VTABLE(big2_)};
++ 
++ #  endif
++ 
++@@ -1003,7 +1040,7 @@ static const struct normal_encoding internal_big2_encoding
++ #  undef BT_COLON
++ #  include "latin1tab.h"
++        },
++-       STANDARD_VTABLE(big2_) NULL_VTABLE};
+++       STANDARD_VTABLE(big2_) UTF16_NULL_VTABLE(big2_)};
++ 
++ #endif
++ 
++diff --git a/lib/xmltok_impl.c b/lib/xmltok_impl.c
++index b7a9b5eb..3cc9e5ab 100644
++--- a/lib/xmltok_impl.c
+++++ b/lib/xmltok_impl.c
++@@ -44,10 +44,6 @@
++ 
++ #ifdef XML_TOK_IMPL_C
++ 
++-#  ifndef IS_INVALID_CHAR // i.e. for UTF-16 and XML_MIN_SIZE not defined
++-#    define IS_INVALID_CHAR(enc, ptr, n) (0)
++-#  endif
++-
++ #  define INVALID_LEAD_CASE(n, ptr, nextTokPtr)                                \
++   case BT_LEAD##n:                                                             \
++     if (end - ptr < n)                                                         \
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-93990-02.patch b/meta/recipes-core/expat/expat/CVE-2026-93990-02.patch
+new file mode 100644
+index 00000000000..25e38e39565
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-93990-02.patch
+@@ -0,0 +1,328 @@
++From 28fcfba540f6933aa8904a1514c4811713d2ab72 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Thu, 17 Sep 2026 15:12:43 +0200
++Subject: [PATCH] tests: Cover UTF-16 decoding of surrogates
++
++Co-authored-by: Kartik Kenchi <netliomax25@gmail.com>
++
++CVE: CVE-2026-93990
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/28fcfba540f6933aa8904a1514c4811713d2ab72]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ tests/basic_tests.c | 296 ++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 296 insertions(+)
++
++diff --git a/tests/basic_tests.c b/tests/basic_tests.c
++index dd0494ce..92172a27 100644
++--- a/tests/basic_tests.c
+++++ b/tests/basic_tests.c
++@@ -1845,6 +1845,301 @@ START_TEST(test_utf16_bad_surrogate_pair) {
++ }
++ END_TEST
++ 
+++// Helper that creates a UTF-16LE copy of UTF-16BE literal input and vice versa
+++static char *
+++utf16_dup_flipped(const char *text, size_t lenBytes) {
+++  assert_true(lenBytes < SIZE_MAX);
+++  assert_true(lenBytes % 2 == 0);
+++  char *const buffer = malloc(lenBytes + 1);
+++  assert_true(buffer != NULL);
+++
+++  for (size_t i = 0; i < lenBytes; i++) {
+++    // This maps 0 -> 1, 1 -> 0, 2 -> 3, 3 -> 2, 4 -> 5, ..
+++    size_t j = i + ((i % 2 == 0) ? +1 : -1);
+++    assert_true(j < lenBytes);
+++    buffer[j] = text[i];
+++  }
+++
+++  buffer[lenBytes] = '\0';
+++
+++  return buffer;
+++}
+++
+++/* Tests that invalid combinations of surrogates are detected when decoding
+++   UTF-16, both little-endian and big-endian.
+++   Previously, a high surrogate not followed by a low surrogate slipped
+++   through.  Without validation the high would consume the next
+++   code unit as a fake low, hiding e.g. a following '<' from the
+++   tokenizer. */
+++START_TEST(test_utf16_surrogate_pairs) {
+++  struct TestCase {
+++    const char *idea;
+++    const char *content;
+++    bool expectedSuccess;
+++  };
+++
+++  struct TestCase testCases[] = {
+++      // Group {smallest high - 1}{*}
+++      {"{smallest high - 1}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{smallest high - 1}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high - 1}{largest high}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high - 1}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high - 1}{largest low}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high - 1}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xD7\xFF"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       true},
+++      // Group {smallest high}{*}
+++      {"{smallest high}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high}{largest high}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest high}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{smallest high}{largest low}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{smallest high}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xD8\x00"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      // Group {largest high}{*}
+++      {"{largest high}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest high}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest high}{largest high}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest high}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{largest high}{largest low}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{largest high}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xDB\xFF"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      // Group {smallest low}{*}
+++      {"{smallest low}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{largest high}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{largest low}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{smallest low}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xDC\x00"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      // Group {largest low}{*}
+++      {"{largest low}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{largest high}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{largest low}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xDF\xFF"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      // Group {largest low + 1}{*}
+++      {"{largest low + 1}{smallest high - 1}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xD7\xFF"
+++       "\0<\0/\0a\0>",
+++       true},
+++      {"{largest low + 1}{smallest high}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xD8\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low + 1}{largest high}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xDB\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low + 1}{smallest low}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xDC\x00"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low + 1}{largest low}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xDF\xFF"
+++       "\0<\0/\0a\0>",
+++       false},
+++      {"{largest low + 1}{largest low + 1}",
+++       "\0<\0a\0>"
+++       "\xE0\x00"
+++       "\xE0\x00"
+++       "\0<\0/\0a\0>",
+++       true},
+++  };
+++
+++  for (size_t i = 0; i < sizeof(testCases) / sizeof(testCases[0]); i++) {
+++    set_subtest("%s", testCases[i].idea);
+++
+++    const int lenBytes = /*<a>*/ 6 + /*first*/ 2 + /*second*/ 2 + /*</a>*/ 8;
+++    const bool expectedSuccess = testCases[i].expectedSuccess;
+++    const enum XML_Status expectedStatus
+++        = (expectedSuccess ? XML_STATUS_OK : XML_STATUS_ERROR);
+++
+++    const char *const bigEndian = testCases[i].content;
+++    char *const littleEndian = utf16_dup_flipped(bigEndian, lenBytes);
+++    assert_true(littleEndian != NULL);
+++    const char *endianCases[] = {bigEndian, littleEndian};
+++
+++    for (size_t j = 0; j < sizeof(endianCases) / sizeof(endianCases[0]); j++) {
+++      const char *text = endianCases[j];
+++
+++      assert_true(text[lenBytes] == '\0'); // self-test
+++      assert_true((text[0] == '\0')
+++                  != (text[lenBytes - 1] == '\0')); // self-test
+++
+++      XML_Parser parser = XML_ParserCreate(NULL);
+++      assert_true(parser != NULL);
+++
+++      assert_true(_XML_Parse_SINGLE_BYTES(parser, text, lenBytes, XML_TRUE)
+++                  == expectedStatus);
+++      if (! expectedSuccess) {
+++        assert_true(XML_GetErrorCode(parser) == XML_ERROR_INVALID_TOKEN);
+++      }
+++
+++      XML_ParserFree(parser);
+++    }
+++
+++    free(littleEndian);
+++  }
+++}
+++END_TEST
+++
++ START_TEST(test_bad_cdata) {
++   struct CaseData {
++     const char *text;
++@@ -6711,6 +7006,7 @@ make_basic_test_case(Suite *s) {
++   tcase_add_test(tc_basic, test_long_cdata_utf16);
++   tcase_add_test(tc_basic, test_multichar_cdata_utf16);
++   tcase_add_test(tc_basic, test_utf16_bad_surrogate_pair);
+++  tcase_add_test(tc_basic, test_utf16_surrogate_pairs);
++   tcase_add_test(tc_basic, test_bad_cdata);
++   tcase_add_test(tc_basic, test_bad_cdata_utf16);
++   tcase_add_test(tc_basic, test_stop_parser_between_cdata_calls);
+diff --git a/meta/recipes-core/expat/expat_2.8.3.bb b/meta/recipes-core/expat/expat_2.8.3.bb
+index c9a1c9b18e3..6d08a3fd94b 100644
+--- a/meta/recipes-core/expat/expat_2.8.3.bb
++++ b/meta/recipes-core/expat/expat_2.8.3.bb
+@@ -16,6 +16,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://CVE-2026-76956.patch \
+            file://CVE-2026-76957-01.patch \
+            file://CVE-2026-76957-02.patch \
++           file://CVE-2026-93990-01.patch \
++           file://CVE-2026-93990-02.patch \
+            "
  
- GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
 
