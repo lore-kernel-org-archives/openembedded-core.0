@@ -2,62 +2,63 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB72CA9ED6
-	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:07 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23562.1791708067055448713
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A61CA9EC7
+	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:17 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23440.1791708077042498508
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:07 -0700
+ Sun, 11 Oct 2026 01:41:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fo+mf0Ky;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48bbb06e746so522740f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:06 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Pl6iApY7;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48af27fe287so818846f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708065; x=1792312865; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708075; x=1792312875; darn=lists.openembedded.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZOdFOlnTyP7kP+SbGiJW9wmUUTFg9XLKphkdwo2mxNg=;
-        b=fo+mf0KyFLHt+msIgvg8fufFi28yl7aPAJUEBsYeTGY8U+bhTJmfDuWRuMmA2Z5XAx
-         rYJtzij4VGnF1XvdtEkdnuLkWH2WuxhLlo+MLZSwoV9oSycFHv+6LDQF84iqhrf446K+
-         VVIKcjE53UEgI54p/gCrbmLgkr53PCA8npa98=
+        bh=V23RtXl4Lyyx7QLRvMbNj5+7rsZN7u++iwDpLKOTgic=;
+        b=Pl6iApY7rEbVlzmYhgOZN7Kt+4UOu+TcJ6/NfI9apzL7KfuSrt9EBgtWegZLOl4hRO
+         AFF+uEMHkQ+EZ+9hRbc4EjIizIClsr8TQaZ8n91VodT1Oljnv+PEYqBDCmLswCa/RD3g
+         WvwtuxljZeahJfFkNEcZwisaeiCO9dmblArYs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708065; x=1792312865;
+        d=1e100.net; s=20260707; t=1791708075; x=1792312875;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZOdFOlnTyP7kP+SbGiJW9wmUUTFg9XLKphkdwo2mxNg=;
-        b=1alRUEgURZyCRY59Q6+kr012kKvRqYtQ4fyCCVyxHFHRsxYVh023AP+QIza3YbQSmR
-         f+YqO/35kwtmB1NBeW0/CXrIBMqz5iuIA1jcec3ZfFAEkaO0WC6Kod3Gux29MHM0zrDt
-         Ciwd8vH8Qwd053IEoG96UY9cggayqBoKJHMhXlbiJdi0tU/ChSynnEI2HQDKq9iOpD6i
-         g2sBPPfDGWUywF/utkEdZ/Kh3WZUoUcVj2gyOlCobRtOYcl3JsEMBla28ABWykvgQ23A
-         rWF36FxVjtb+3n1uV+2upwnOCqWXbDSd8qrkF+uTtR8o3Bk1A1EMJwiOrMXkmO7Kn8a1
-         Oz5g==
-X-Gm-Message-State: AFq9FYLYEDq1pLyPYKVz3W+99ffaXU8xBwRmPOMlPknf1lbF2LNQ1KtP
-	WlgbZwC82EjNhev6hMfaVC2ZwuIp2BxRaUGtqcE4KZ080FjHKwyGw2rMHUL0+/FTWiY2Ya/hkwf
-	PwBvL4Oc=
-X-Gm-Gg: AYBFou0DzbWJvKs7zUEWmbr9ztwn7hYquZT3MjOSyBmrW7hPDNipkxpuNfEEOxIYWLr
-	g7Gi4NLjQrCc31AYWb1efhjJeTy/ejWfo2X6ErDWIM7X8DRo9+O6DWZzi8CFEo0TbqD9FTI+unV
-	pLgAFVX7YGSPgAvADV7CeWCv4R0wVDI8SiUszXk0pQnimu3VrLcXyhOj0X8lr0TD5F/QLcI24WE
-	+y2PnmHXCZt6ULiq/oSf7j4PfoqLK5Q5cue9vxB7UGZMWjxaQGaFUbDi7BeihXcurQzSsZ5oPDw
-	u8fOodPCJ9bffle+iiKFe48dpwVt9KpWaaPaV4JPb7Vvsf2LSfMUhiVzcH+gb8QvvYTrbuQ3ueg
-	p0D3EL1W30j+DVohV+pZ4V6VF2D/DoxwIUW4t5RdH6TdAAYpBmH4PJz5nOPG50b0WqdYC7u2yGB
-	BhGUzzHu1yZfXDSbggxPcJYy33LL3KuriI3zGDidvbo/d4kDWjK4zrGrbNUB5Jxd1eZphA7qML7
-	pkjQnAUHwUAuqrnTa0K3BNJOEK3WQ+Yh1Lbv3q1zWNatINKGz2Y/ZC8LPFWUOSDiALgugbhaA==
-X-Received: by 2002:a05:6000:46da:b0:488:641b:2dfa with SMTP id ffacd0b85a97d-48dba77cd6fmr6390485f8f.2.1791708065264;
-        Sun, 11 Oct 2026 01:41:05 -0700 (PDT)
+        bh=V23RtXl4Lyyx7QLRvMbNj5+7rsZN7u++iwDpLKOTgic=;
+        b=0ZOkak4LpCnpkRVy66p/FW4x2IoK7qsnLU4R7RrZUlcEM8R9OSZnX7SVSixB2RTuzW
+         KfT2ujVK6DjGO/iV8ezgMIryKpkZrkEk92GGJu9Kf2dLbTJ5APtBjFyv6U1ucTm+tnJ8
+         GkLksJtKrz4FY5rBwTAFuu5+sCm+oZJ5RgqHx2wZ8LIB41kiZ2rK2GALxfN3Bh99WqoY
+         t4g/2oC4S+RhpPq5Zlu+YSj05dzsvzNdpngAE6Fu4VXfaiteqzkGObGoEo4osKRZzupl
+         a0c6c3J38MdhQxMfqBKeLcBjz9FyzHDR3D4+IcXvTcL3GaAtmRTql4TTbQC55PqaRoh5
+         I2Tg==
+X-Gm-Message-State: AFq9FYKhRMvq8UxOLHO9FI/pKHub6dk/i7xk+x89wclPp0ncBoAucSkj
+	YakcjlpdumOAWOA5gYjWeTuP/nWhNqV0Od/81ldb2tGt7SBQSR5o/f9aLj8fVQTknuqtDcIdaCA
+	IhWXiH54=
+X-Gm-Gg: AYBFou1//fjmP4RfhYavf8HtnzJpaZVkkyYFVZO8RVK3T71SV5Sd74z9IO0J5RrKyvO
+	O8lGHA0OSkJxXhhoBLlVf6loIfOfhW86LbP18y0T9ig3wefGzC6NzmYRo1Cjgw7zfk5KOVazByj
+	1+GBEhbZdlvDDYnwuyapiJVIiJolA7BSi41cGpNJOsf9r4GOf2AolFkRYHgWsNUoGOXh1APq/X1
+	YRXWPOGZKjQavgtkaRRhxI9GPsE8Qr5j67EONDxJu5624SD/JPOUSr+jxr/jIlm9I+v2TozuJKr
+	NXICG7n24GVS6xwpx66K2trH+wNrxOcY0enDasGKID43bLMr6+TAVQPA8jLYt0LMHJgOohSMdPq
+	bZt7bl63gJ4O/1YFgWtOLhpOAlWA16DYPvYtwVqA1oeO2gZ0NxZwjdyj3Zx+j/Si5OI3LiRu/QB
+	OCWM/ZN+Sh+6cS1zb7uP+K2hqXg7pcHlIKf/qSBu+Uw39g+NBBMctIWiMOYVw7MiTW2nAOJXXMY
+	hWxBkpZVZXWr7yTAt8aGrHr3nBoXoqsNxIIaCNW8NAs/hxVnKr4X4PCvxGLhP09IrTDT+heSsJh
+	0+E5ZXGj
+X-Received: by 2002:a5d:59c3:0:b0:48c:7082:ebb with SMTP id ffacd0b85a97d-48dbaaef693mr11624304f8f.42.1791708075064;
+        Sun, 11 Oct 2026 01:41:15 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:04 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:14 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 10/60] tzdata/tzcode-native: upgrade 2026c -> 2026d
-Date: Sun, 11 Oct 2026 10:39:43 +0200
-Message-ID: <2e7e0643ce8594d106f3d9d4efc30a890344b912.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 23/60] gnutls: fix CVE-2026-42013
+Date: Sun, 11 Oct 2026 10:39:56 +0200
+Message-ID: <7bb61fbec24285a15d6f43d4fe3fa21d2e93ae75.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -67,121 +68,185 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247519
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247532
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Jakub Szczudlo (Nokia) <jakub.szczudlo@nokia.com>
 
-Briefly:
-    Canada’s Northwest Territories moved to permanent -06 on 2026-08-21.
-    Obsolescent settings like TZ="EST5EDT" now conform better to POSIX.
-    Fix security, performance and porting bugs in zic and localtime.
+Backport patch to fix CVE-2026-42013.
 
-  Changes to future timestamps
+References:
+  https://nvd.nist.gov/vuln/detail/CVE-2026-42013
 
-    Canada’s Northwest Territories will not fall back on 2026-11-01
-    and will stay on -06 year-round, matching Alberta’s recent change.
-    Model this with its traditional abbreviation CST.  Although the
-    change to permanent -06 legally took place on 2026-08-21,
-    temporarily model the change to occur on 2026-11-01 at 02:00
-    for the same reason as other recent temporary hacks.  (Caution:
-    see “NOTE FOR 2026b TEMPORARY HACK FOR CLDR AND CANADA” below.)
-    This affects only America/Inuvik as the rest of the territory is
-    covered by America/Edmonton, for which the equivalent change was
-    released in 2026c.
+Upstream fix:
+  https://gitlab.com/gnutls/gnutls/-/commit/29801bef00ecc0f23c0bac4cd333b269cd2c1af4
 
-  Changes to past timestamps
+Tested with ptest
+Pre patch taken from upstream so CVE fix will land cleanly
 
-    Colombia’s 1992-05-02 spring forward was at 00:00, not 24:00.
-
-    Iran’s 1979-05-26 spring forward was at 00:00, not 24:00.
-    (Thanks to N.F. Hase.)
-
-    The backward-compatibility names EST5EDT, CST6CDT, MST7MDT, and
-    PST8PDT now conform better to POSIX.  For example, EST5EDT now
-    always uses the abbreviation "EST" for standard time (now always 5
-    hours behind UT) and "EDT" for daylight saving time, whereas it
-    formerly had different UT offsets before standard time was
-    introduced and sometimes used abbreviations like "LMT", "EWT" and
-    "EPT", all contrary to POSIX.  Also, though not required by POSIX
-    these names now use US federal rules rather than rules of places
-    like New York, reverting to 2024a behavior.  This change affects
-    only timestamps before 1966-10-30 at 01:00 standard time.
-
-  Other data changes
-
-    The temporary hacks used for North American timekeeping changes
-    now work around a libstdc++ std::chrono bug in GCC 14.1-14.4,
-    15.1-15.2, and 16.1; see GCC bug 124851.  This data change does
-    not affect TZif files or timestamps.  The change does not work
-    around the related but less serious GCC bugs 116110 and 124513.
-    These GCC bugs are all fixed in GCC 16.2.
-
-  Changes to code
-
-    zic now rejects Link targets that would have invalid names, and
-    more efficiently processes Expires, Leap and Rule lines with years
-    far in the past or future.  (Thanks to Darren Carreras.)
-
-    zic now ports to systems that report lack of link support via
-    EINVAL, ENOSYS or EPERM errno values. (Thanks to Tom Lane.)
-
-    When tzset and related functions encounter a TZif file that is too
-    large for them, they now consistently fail instead of sometimes
-    silently ignoring excess parts of the file.
-
-    localtime-related functions no longer mishandle extreme timestamps
-    when given TZif files holding some unlikely timezone histories.
-    (Problem reported by David Sarkisyan.)
-
-    localtime-related functions no longer check the values of TZif
-    files’ standard/wall and UT/local indicators, which these
-    functions have not used since 2026a’s removal of the old
-    posixrules feature.
-
-    tzcode has been ported to Haiku.
-
-    localtime.c now works again by default on AIX and DragonFly BSD.
-
-    zic now rejects ‘:’ and ‘\’ in Zone and Link names when running on
-    Microsoft Windows.  (Problem reported by David Diaz.)
-
-  Changes to documentation
-
-    URLs for release tarballs in tz-link.html have been updated to
-    reflect their new canonical URLs on data.iana.org.
-
-Ref: https://www.iana.org/time-zones/releases/2026d
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 400938b8ca41654fbda6c34c6eb8c12aec1f43b0)
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../gnutls/gnutls/CVE-2026-42013-pre1.patch   | 56 ++++++++++++++
+ .../gnutls/gnutls/CVE-2026-42013.patch        | 74 +++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb  |  2 +
+ 3 files changed, 132 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index a09da2617f4..6a65f2deb22 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch
+new file mode 100644
+index 00000000000..53687cb53b9
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch
+@@ -0,0 +1,56 @@
++From 3ee2cb707002f755e4bda3f75285caa0cb36c214 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Wed, 15 Apr 2026 15:35:59 +0200
++Subject: [PATCH] x509/email-verify: call fallback DN fallback
++
++A comment was inaccurately referring to DN email field fallback
++as CN fallback.
++Rename a few things as well to match x509/hostname-verify more closely.
++
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++CVE: CVE-2026-42013
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/3ee2cb707002f755e4bda3f75285caa0cb36c214]
++
++Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
++---
++ lib/x509/email-verify.c | 12 +++++-------
++ 1 file changed, 5 insertions(+), 7 deletions(-)
++
++diff --git a/lib/x509/email-verify.c b/lib/x509/email-verify.c
++index dbef0bb86e..3c22ffed37 100644
++--- a/lib/x509/email-verify.c
+++++ b/lib/x509/email-verify.c
++@@ -42,7 +42,7 @@ unsigned gnutls_x509_crt_check_email(gnutls_x509_crt_t cert, const char *email,
++ {
++ 	char rfc822name[MAX_CN];
++ 	size_t rfc822namesize;
++-	int found_rfc822name = 0;
+++	bool dn_fallback_allowed = true;
++ 	int ret = 0;
++ 	int i = 0;
++ 	char *a_email;
++@@ -76,7 +76,7 @@ unsigned gnutls_x509_crt_check_email(gnutls_x509_crt_t cert, const char *email,
++ 			cert, i, rfc822name, &rfc822namesize, NULL);
++ 
++ 		if (ret == GNUTLS_SAN_RFC822NAME) {
++-			found_rfc822name = 1;
+++			dn_fallback_allowed = false;
++ 
++ 			if (memchr(rfc822name, '\0', rfc822namesize)) {
++ 				_gnutls_debug_log(
++@@ -102,12 +102,10 @@ unsigned gnutls_x509_crt_check_email(gnutls_x509_crt_t cert, const char *email,
++ 		}
++ 	}
++ 
++-	if (!found_rfc822name) {
++-		/* did not get the necessary extension, use CN instead
++-		 */
+++	if (dn_fallback_allowed) {
+++		/* did not get the necessary extension, use DN email instead */
++ 
++-		/* enforce the RFC6125 (§1.8) requirement that only
++-		 * a single CN must be present */
+++		/* only a single one must be present */
++ 		rfc822namesize = sizeof(rfc822name);
++ 		ret = gnutls_x509_crt_get_dn_by_oid(cert,
++ 						    GNUTLS_OID_PKCS9_EMAIL, 1,
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch
+new file mode 100644
+index 00000000000..c63e4d7039d
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch
+@@ -0,0 +1,74 @@
++From 29801bef00ecc0f23c0bac4cd333b269cd2c1af4 Mon Sep 17 00:00:00 2001
++From: Alexander Sosedkin <asosedkin@redhat.com>
++Date: Wed, 15 Apr 2026 16:02:19 +0200
++Subject: [PATCH] x509: prevent fallback on oversized SAN
++
++Passing oversized SAN did not preclude CN (or DN email) fallback
++during verification, which is an RFC 6125 6.4.4 violation.
++
++Now oversized SAN are skipped over,
++but prevent the fallback from happening.
++
++Reported-by: Haruto Kimura (Stella)
++Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
++Fixes: #1825
++Fixes: #1849
++Fixes: CVE-2026-42013
++Fixes: GNUTLS-SA-2026-04-27-8
++CVSS: 6.5 Moderate CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:H/A:N
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++CVE: CVE-2026-42013
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/29801bef00ecc0f23c0bac4cd333b269cd2c1af4]
++
++Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
++---
++ lib/x509/email-verify.c    | 14 ++++++++++++++
++ lib/x509/hostname-verify.c | 14 ++++++++++++++
++ 2 files changed, 28 insertions(+)
++
++--- a/lib/x509/email-verify.c
+++++ b/lib/x509/email-verify.c
++@@ -75,6 +75,20 @@ unsigned gnutls_x509_crt_check_email(gnu
++ 		ret = gnutls_x509_crt_get_subject_alt_name(
++ 			cert, i, rfc822name, &rfc822namesize, NULL);
++ 
+++		if (ret < 0) {
+++			if (ret == GNUTLS_E_SHORT_MEMORY_BUFFER) {
+++				/* oversized SAN; proceed without DN fallback */
+++				_gnutls_debug_log("oversized SAN ignored, "
+++						  "disabling DN fallback\n");
+++				dn_fallback_allowed = false;
+++				ret = 0;
+++				continue;
+++			}
+++			if (ret != GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE)
+++				gnutls_assert();
+++			break;
+++		}
+++
++ 		if (ret == GNUTLS_SAN_RFC822NAME) {
++ 			dn_fallback_allowed = false;
++ 
++--- a/lib/x509/hostname-verify.c
+++++ b/lib/x509/hostname-verify.c
++@@ -213,6 +213,20 @@ hostname_fallback:
++ 		ret = gnutls_x509_crt_get_subject_alt_name(cert, i, dnsname,
++ 							   &dnsnamesize, NULL);
++ 
+++		if (ret < 0) {
+++			if (ret == GNUTLS_E_SHORT_MEMORY_BUFFER) {
+++				/* oversized SAN; proceed without CN fallback */
+++				_gnutls_debug_log("oversized SAN ignored, "
+++						  "disabling CN fallback\n");
+++				cn_fallback_allowed = false;
+++				ret = 0;
+++				continue;
+++			}
+++			if (ret != GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE)
+++				gnutls_assert();
+++			break;
+++		}
+++
++ 		if (PRECLUDES_CN_FALLBACK(ret))
++ 			cn_fallback_allowed = false;
++ 
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+index fd332ee8c55..b5b3736a773 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
+@@ -45,6 +45,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://CVE-2026-42012-pre1.patch \
+            file://CVE-2026-42012-pre2.patch \
+            file://CVE-2026-42012.patch \
++           file://CVE-2026-42013-pre1.patch \
++           file://CVE-2026-42013.patch \
+            "
  
--PV = "2026c"
-+PV = "2026d"
- 
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -14,5 +14,5 @@ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
- 
- S = "${UNPACKDIR}/tz"
- 
--SRC_URI[tzcode.sha256sum] = "b1cffc3ace4c4c7cd0efba2f7add86ec3d0b79da48bcf03582671fd3c8feace8"
--SRC_URI[tzdata.sha256sum] = "e4a178a4477f3d0ea77cc31828ff72aa38feff8d61aa13e7e99e142e9d902be4"
-+SRC_URI[tzcode.sha256sum] = "2f5c9f7fe29e6b8cb863583667884b8ce17b0a485355a054b591c6bdfcd81791"
-+SRC_URI[tzdata.sha256sum] = "0cb2aa8e333c3dc049badc42a0c61f21987b8cd44e107fa900bad764aacc7767"
+ SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
 
