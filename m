@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEAA2CA9ED8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF0BACA9EDA
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:18 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23441.1791708077383997662
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23569.1791708078186269214
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:17 -0700
+ Sun, 11 Oct 2026 01:41:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=KlXaPDpn;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48afe75f055so928553f8f.2
+ dkim=pass header.i=@smile.fr header.s=google header.b=IruvinmK;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a02753c04fso4743335e9.3
         for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1791708076; x=1792312876; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=veVcv8nywW2rVWrIQALXP0Hb45wdQ7fTuaDGZrLMAxw=;
-        b=KlXaPDpnUlXAafwkbr5BhgXYl9ZmvZveEn3kbOMeqEAwKsM8bOXooG+2AmpGvzT3ik
-         71MjhMz2Z2L7pgCY7Ya1o+NgXkmLmpV35HZ/2B6BVP+GkvdLew9J/iOmTfL7TWkrXVz/
-         nhRN2p6Bj6U/ilRk1qoRF1RUQy1mhg4SOlaYU=
+        bh=q1VAMJuuJf6f/0jwp70Dli2hx10p7UVI6pGYer5VNDo=;
+        b=IruvinmKOIJSMUCBrDJblZubdmW6k/2ijy4UsAf2QrEthLYWqC2GaN8F28jLBYwuUv
+         3peaxGjElGBvt634hN7r711MzDOLzPgm3bpM7notG77OMZYrknapGQ8h7VFtmS0dagOh
+         l8r9CvxZO4PnZxGbN88dJc0UFDa+xCfn9SXRM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1791708076; x=1792312876;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=veVcv8nywW2rVWrIQALXP0Hb45wdQ7fTuaDGZrLMAxw=;
-        b=fSfI9pJksVcgDCnFYpJUuP9c03qa/a5IfWVbplf9xmxqDDQIH2dfbOcrm4vOMhQ6Hi
-         XaP3TVLZrhHj3TtIOHD3DG8qDaaBvEG0pGnLoKz6VExEn1UX6j435dd39ygi3r14oEHc
-         VpZuIdmFWsERnoLhuVmQ07B+RLcoegZXQEzbcib2pWRG3UwhmzPqnwCGTIZ9YYPL5kYf
-         jNvzLV+Nb8Hqx3Fcnb1lYU+ggEUe+IvBVVk/zHFSspjHB42Nd5xRnJ4Bn14FyrXIlG48
-         l1ISV1+nxbgZBAPNcZ1uCg+jKBEnPejqjuHzekk6IpKN9ikEY801rbrSouaxz2Anu5B7
-         QX2g==
-X-Gm-Message-State: AFq9FYLfYMOeGcsmBPijZp9qQiOP0FzA4MVtPcECDFkKGnVYBQhTF3+W
-	k8Rs0PhWEZZxpOcTqYSZ7oe4x3WyoneFmUe9cL5YbV7RDntlCLfowdtXRFNPcK9a4KaAzI4e83m
-	mmLQqBww=
-X-Gm-Gg: AYBFou1ECK+sOIPPHZh6h0Xjhx3UBG+cWOPg0BEDT1xYTEdZlITWffi3ijQBSomoeTr
-	oixIH/1IK0tLXpR0H46S+BTBJe5QO9YqCH0leSsrnq4h9+WpkkdyK82ds2cTIuG85+YiuTMpeMJ
-	f90WjXKCzlvwU27QtMJzS9FO8kYSeunWZ1HRUIJUXYFdm3gfP2rwp5/TH7uaE2RbroySkhOwqDs
-	mA/yCnKMgculDAZn7A9PVYwA4BCN7q5kbnJMj683yNPs1AnTkQqmw1GoG04+/4ZDVsY0QDgIf7M
-	2urcNYIlF83r1rdUBAzlQEBOl0swvBVRYIQ0a+JM3FYpk9eyfKAvnCysPNT+2HZjt1FSCOqyWH0
-	XK9Mi4Zjw3V1khBAA7bCkLNN6homn1Cj4S3g2i9pbDcVaIEUbzceghyGmqYBjmnYltkEexIYAs6
-	hfX26iGMrHB/MrMcjvFYXlowbu9zRjG5Bh2tcw8fIzKI179L8+ur5XD8cAMFQEMu/OMbje+48xt
-	k5evFy5peDXD3sfRnBV++nFH3imnScP3VQi1xf+2D/yRx+FpNvlwYXhvMMnaIwkeTqYP4+ewg==
-X-Received: by 2002:a05:6000:420b:b0:48c:a08:5858 with SMTP id ffacd0b85a97d-48dbaae6fa0mr10554818f8f.23.1791708075534;
-        Sun, 11 Oct 2026 01:41:15 -0700 (PDT)
+        bh=q1VAMJuuJf6f/0jwp70Dli2hx10p7UVI6pGYer5VNDo=;
+        b=m577oUE5defrT1oP3tmDGYvYkSxKlQOk7TOGO4DJ8gTnfyYP/dBCxZyxN/qF3JES/7
+         JOO+NryEoSBDfMW14kZ2I67CSynZ0P2dMo6qYkeP+n4daiUuM8SJZ9LIkzVrGsaWFwkY
+         d/M2qOzmWyqGr0W+5hujJa7oyUNxyxyaHRu8e9j6pqb7RQWt6HW+x/2Yo9oz7uEy/Yt0
+         Do55g/onTS+ufwJLng1zB/czhnakjvNKQUwRPYCmqz4qma5u3t49XGfqZUz3KJUiH1A0
+         REVuSA3OVNqu4pd6bqvpZJYVeut2AZMkB62F/kasOq+9FfXX89Vh4LrhzuN7O3/ygMwy
+         yYDw==
+X-Gm-Message-State: AFq9FYK8uuMw91cXp8c1P8WC+G+OgZ5r9rR23YKJrcv8DX213haC1MOA
+	jHIdpqUZQ689/FYdJyCbWjQ+COdZwcjwkYrqJHBk1dI8m0WQh8zt8npxbeaIJAW3MSm2oTDjBvk
+	rT6FpXM0=
+X-Gm-Gg: AYBFou2Tloc3PtIzZ00eTGrRLcseLGcZhW528M3qVtiYeH+FfLCLcjK0SdPX27lIp+t
+	cG2X25FXHNG783qUR7rEjpSIFJruq/khGPZxvBtMNANTGlbh4kiOuZIBFlQ1+sbWorlRcknSu5A
+	XxRHwjXUlpiBZE8B9NXzRbk8+raxIgBcFeDfoVd8yS2P4wJrn5bmRzRLOSzRnEDM3o3vjg7vPSj
+	zSnUKjEgzp6iMCoDB1xFhk1HthxoOa7BXipaKc4z07fcY95VKI5Ys5S1rOS9fca+6rP2PbxmLrU
+	b6iG59oycZgZwSjkN4BbeIoee29jrC41hd0xjEGmyyHRVPreY4d2f2w6mt9NFcx/Uf8SUJt76Kw
+	kW5hUmoeOkmdxKCraGWmYWSf4Y5Mqjr7AlD9SFWebxxjsF4ezrxdm+el9FZPtqWgVzSKs7Yzd6M
+	cckRoENk5r/JHnaWFECOG1YOAPIJ050s3BXE1PKYdggpM/WTrgCYIUoOGuL05jOg8yhfTMam8Ft
+	GEnGluzIrzQG7CFzYUf7G+5Luyq+v1gKVDDs/4NiuRfmbaMhyXEcc047bxSvtjtELYHykMHoA==
+X-Received: by 2002:a05:600d:6409:10b0:4a1:96cd:2f6e with SMTP id 5b1f17b1804b1-4a196cd3213mr31223035e9.4.1791708076230;
+        Sun, 11 Oct 2026 01:41:16 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.15
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Sun, 11 Oct 2026 01:41:15 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 24/60] gnutls: fix CVE-2026-42014
-Date: Sun, 11 Oct 2026 10:39:57 +0200
-Message-ID: <0442eedb5e359e2a6de0006274c96a772a18fd3f.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 25/60] gnutls: fix CVE-2026-42015
+Date: Sun, 11 Oct 2026 10:39:58 +0200
+Message-ID: <afafa8585be80ec139994375f8db62db01ac4862.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -66,103 +66,86 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247533
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247534
 
 From: Jakub Szczudlo (Nokia) <jakub.szczudlo@nokia.com>
 
-Backport patch to fix CVE-2026-42014.
+Backport patch to fix CVE-2026-42015.
 
 References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-42014
+  https://nvd.nist.gov/vuln/detail/CVE-2026-42015
 
 Upstream fix:
-  https://gitlab.com/gnutls/gnutls/-/commit/3957f136e2ed23caf176a594b54b3827f5cef701
+  https://gitlab.com/gnutls/gnutls/-/commit/a3e7c50d3e1761e5ef1d4b225507cab8f2b2c3ca
 
 Tested with ptest
 
 Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gnutls/gnutls/CVE-2026-42014.patch        | 60 +++++++++++++++++++
+ .../gnutls/gnutls/CVE-2026-42015.patch        | 43 +++++++++++++++++++
  meta/recipes-support/gnutls/gnutls_3.8.12.bb  |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42014.patch
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42014.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42014.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch
 new file mode 100644
-index 00000000000..776733829ad
+index 00000000000..1a2065371d4
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42014.patch
-@@ -0,0 +1,60 @@
-+From 3957f136e2ed23caf176a594b54b3827f5cef701 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch
+@@ -0,0 +1,43 @@
++From a3e7c50d3e1761e5ef1d4b225507cab8f2b2c3ca Mon Sep 17 00:00:00 2001
 +From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Wed, 18 Mar 2026 18:19:06 +0100
-+Subject: [PATCH] pkcs11_write: fix UAF and leak in gnutls_pkcs11_token_set_pin
++Date: Mon, 20 Apr 2026 22:42:20 +0200
++Subject: [PATCH] x509/pkcs12_bag: fix off-by-one in bag element bounds check
 +
-+Changing Security Officer PIN with gnutls_pkcs11_token_set_pin() with
-+oldpin == NULL for a token that lacks a protected authentication path
-+led to a use-after-free.
++Appending elements to a PKCS#12 bag had a bounds check that
++prevented adding the 32nd element.
++On the other hand, it is possible to import one that already has 32.
++Subsequent appending then led to writing past the 32-element array,
++smashing its length.
 +
-+Reported-by: Luigino Camastra and Joshua Rogers of AISLE Research Team
-+Fixes: #1766
-+Fixes: #1809
-+Fixes: CVE-2026-42014
-+Fixes: GNUTLS-SA-2026-04-29-9
-+CVSS: 4.0 Medium CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L
++Tighten the check to reject any bag with 32 or more elements.
++
++We'll treat this vulnerability as a Low due to how contrived
++the requirements are: for the code to be vulnerable,
++it needs to append to an imported untrusted unencrypted PKCS#12 structure.
++
++Reported-by: Zou Dikai
++Fixes: #1840
++Fixes: CVE-2026-42015
++Fixes: GNUTLS-SA-2026-04-29-11
++CVSS: 6.1 Medium CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H
++Severity: Low
 +Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
 +
-+CVE: CVE-2026-42014
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/3957f136e2ed23caf176a594b54b3827f5cef701]
++CVE: CVE-2026-42015
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/a3e7c50d3e1761e5ef1d4b225507cab8f2b2c3ca]
 +
 +Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
 +---
-+diff --git a/lib/pkcs11_write.c b/lib/pkcs11_write.c
-+index 64b85a2..1dff578 100644
-+--- a/lib/pkcs11_write.c
-++++ b/lib/pkcs11_write.c
-+@@ -1266,10 +1266,9 @@ int gnutls_pkcs11_token_set_pin(const char *token_url, const char *oldpin,
-+ 		ses_flags = SESSION_WRITE | SESSION_LOGIN;
-+ 
-+ 	ret = pkcs11_open_session(&sinfo, NULL, info, ses_flags);
-+-	p11_kit_uri_free(info);
-+-
-+ 	if (ret < 0) {
-+ 		gnutls_assert();
-++		p11_kit_uri_free(info);
-+ 		return ret;
++diff --git a/lib/x509/pkcs12_bag.c b/lib/x509/pkcs12_bag.c
++index 911aeff..3822861 100644
++--- a/lib/x509/pkcs12_bag.c
+++++ b/lib/x509/pkcs12_bag.c
++@@ -375,7 +375,7 @@ int gnutls_pkcs12_bag_set_data(gnutls_pkcs12_bag_t bag,
++ 		return GNUTLS_E_INVALID_REQUEST;
 + 	}
 + 
-+@@ -1290,9 +1289,11 @@ int gnutls_pkcs11_token_set_pin(const char *token_url, const char *oldpin,
-+ 		oldpin_size = L(oldpin);
-+ 
-+ 		if (!(sinfo.tinfo.flags & CKF_PROTECTED_AUTHENTICATION_PATH)) {
-+-			if (newpin == NULL)
-+-				return gnutls_assert_val(
-++			if (newpin == NULL) {
-++				ret = gnutls_assert_val(
-+ 					GNUTLS_E_INVALID_REQUEST);
-++				goto finish;
-++			}
-+ 
-+ 			if (oldpin == NULL) {
-+ 				struct pin_info_st pin_info;
-+@@ -1324,6 +1325,7 @@ int gnutls_pkcs11_token_set_pin(const char *token_url, const char *oldpin,
-+ 	ret = 0;
-+ 
-+ finish:
-++	p11_kit_uri_free(info);
-+ 	pkcs11_close_session(&sinfo);
-+ 	return ret;
-+ }
++-	if (bag->bag_elements == MAX_BAG_ELEMENTS - 1) {
+++	if (bag->bag_elements >= MAX_BAG_ELEMENTS - 1) {
++ 		gnutls_assert();
++ 		/* bag is full */
++ 		return GNUTLS_E_MEMORY_ERROR;
 diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index b5b3736a773..f0fec16d039 100644
+index f0fec16d039..c9ec3b08f96 100644
 --- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
 +++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -47,6 +47,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2026-42012.patch \
+@@ -48,6 +48,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
             file://CVE-2026-42013-pre1.patch \
             file://CVE-2026-42013.patch \
-+           file://CVE-2026-42014.patch \
+            file://CVE-2026-42014.patch \
++           file://CVE-2026-42015.patch \
             "
  
  SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
