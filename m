@@ -2,50 +2,50 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36576CA9ED3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44AD6CA9ED5
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:40 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23581.1791708093797545806
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23580.1791708093396594415
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:34 -0700
+ Sun, 11 Oct 2026 01:41:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=R/X77V4n;
- spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48c4be28b82so869626f8f.2
+ dkim=pass header.i=@smile.fr header.s=google header.b=jmO7zhCb;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48c4207ac26so959399f8f.0
         for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1791708092; x=1792312892; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=8JT4plW57wsD//XFDoB+0kiDGKejYZxeW6h9BQXPE5M=;
-        b=R/X77V4n30nHSO1j9BrG5eJYMbs9KaK4BAgNVBUayafWgBybu77lAEeKeyG07wGzKg
-         uUnl8a66SCwMLISllVA3SqD2qwNWBrnGwBS5c2fw3Ou6Rq8Y3hFMICDWExDIpT1jxf0W
-         KoLr1OPkT/1KW4TlwD0OnqJkB3P2qzPt1wuG4=
+        bh=5SYQq43Arbkx6LNu7EH+ccpXmcn5RIKlUEakBft//rI=;
+        b=jmO7zhCbzl8UVaygrsviobZod90uWHDs++zVZ5bJgcKY0xlIeeZuTUnmmZnKFHgOdT
+         gNRBH7vpBDMVHCM8+OmX89VU0EGW+PMEPJrgFvSyhT7B5yrqUZOf1rnA/t42NNM8iDld
+         tbiDkIv0TQKZPsUSEHV/O0gJa8KQ+lv2Pt1Zw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1791708092; x=1792312892;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=8JT4plW57wsD//XFDoB+0kiDGKejYZxeW6h9BQXPE5M=;
-        b=YXGyT93HwSDKHkXJruHdow2pBha9e0ODVnz/Nn/JvxkevXVfqpAYwN0mMDk7zV1uPa
-         YONPmKHsoHCXIm4nitwDpJMpkP7ae2Msm/02PXwt9+o3GgGdSjzwdaxKlrs0sL4VLpP+
-         MAbZ0XKLL5Xe988bucrghCkVes0Cj5TSkGuGO3oMOBF/MYQc3UpQD4ojT41RTUlF3c5O
-         6R6gvENuLpxPjnRuT/Hnqv4VIKj5OKUd7itPJPuXgqOvRQ7WdADBUNy0G2vsQDdgzile
-         Ifyrufo/wox3iU1fUad9+qYXnRtmpRfQ4q9yyEgpI1xHC0r3jsdUa8AOwm+zkaxSFWzp
-         PmvA==
-X-Gm-Message-State: AFq9FYJGDg3964T20ITRd81yQVqlWnp3dKjiME74NNMTXvfuxL+nRhsX
-	/XinZ5MePQZuIP7eAkHxL5spgxwF8ioIb1VshJskwxfy40aWwWlmR4Xf9Q2wb1XoNvAglG+3yur
-	pYrTEq8M=
-X-Gm-Gg: AYBFou2+vgH8VB2spVFlHTALPLO0lUW1miFI+vgSMA/He1jK5In62BteiRSYSTSanQU
-	7xrqHJVVd/ifJgXEx1QJvhv2TRmQ2zzqHxS2Fu9YzarLqdjO0B7vKUE3Z4m9JeCpfgXktQXEQWx
-	kja5TDNeuNq8ObmS32o/vZWfy1gKThZUH90KMEHCYjhdjcPShRyT8z1VbSvbQbTy7ZdLxhVCY1X
-	/Cl9HkAnk4l5HtK9OnNIfbp4ae5DI4jQsrKU4P82xbj1uGzJU7q6mIendxdLnvxk1CBQCAMOzTg
-	ykmZFYkLX4muUvmz9dyHZE51ifs/52rFsl02XsR7q+Wyt2G+mLMP+Huewnm3n7H4x0ft9uBRvXf
-	SkRqVIPEp7jWXukSqkvvp5ruyWf9/ahhrz7mGOumZ5oVE8pYEi2Q6nhZiWJV6DKKYruHecNsT3e
-	xb4G35JiHx3lbgL8xANPMGPaK6WU61YaN1JcBP/5c3t+6uRaKvm2HVSahfzAVStzUM+gHLPi6ei
-	cA4oJGp20/d4DjFaGJW34kKKE0F0NDAwEDw8unfUby1aih6ec/gGB0VSzkhOW/8ywgDIa60Bg==
-X-Received: by 2002:a05:6000:46db:b0:48b:e50:7152 with SMTP id ffacd0b85a97d-48dbaae21dcmr7723655f8f.28.1791708091991;
+        bh=5SYQq43Arbkx6LNu7EH+ccpXmcn5RIKlUEakBft//rI=;
+        b=P6xj6hWxamadiXn9+Xhw5vVAugpUCSvCoMzv9EcOgIPp4ItRlHNH3RQ6vU+8Zho52U
+         Vizv/b36Vw2t08DpqlQE34ATo/PfjD53fUN7rUozfnlBEX1llU6Nw8+JnBt9RKwkhn7Q
+         uy25u4wZGAW7IxVWsjq4bLqAwBj4xUYSbI7/hxde5fXCvAqr3ylBehGhd8lCGtE6suWP
+         A2QMi1oqAjSe02eVOx+A0GW9MpbV6RLeh+pVNCoygjY0SEErr/GlZD9bk+nbcRB+vvyA
+         87WoB7yVyhielC5+wkyu3ecavZEQPyLNM9U4f8YlkunPjiYWbC47Fs5K3UxZNWrMcecV
+         KlKQ==
+X-Gm-Message-State: AFq9FYIKGe/37w/8Cbur3MR4HRT5gQnrxUUD4TywYHJiqkzHgNYs/0Fu
+	AJQBOa0PEC1+TMhMIMLNRZeyuhv7JB/5WtACFhHsyj4iSerEyXt8qiZqjjUIQ0bw0NX2P95A9e6
+	1N8uasNk=
+X-Gm-Gg: AYBFou2uywxxxxqIHlMJK+HVMvUHJ3+A9MNvW50r7iD6KiA8s61Wi/BCjZvvOawC+OX
+	ifrdCq7dt5mBI+VwD5sF5VlhNSlRzM/DeykgsY+07+lmegX/IuYNskNcvh9fdtfi9V8Dujyud15
+	tUiFnYDl6/if8nsP3M1bjsSamI54Lbl2t2F9nheXGOdFPTpnS+S1rFsFXHM1sYCzBJzvxjSwpE8
+	ua11BOeatrmeeeiQzH39vnVioZ1ExvLNrShYG2+7nz1tcjz8XJDetqRTOue2tFTRVDZ9Jnv3Y9b
+	sOig9ildoEa+tGr7fwXcpT67v9SvH1kR6yaM9hjjpNW7N+LMfu/8j4nt0KcjPQQDBNI+pFTt3Xk
+	n8P6C7xcHHPGEG/p4a1ijzLtVTPCGfySTluIdPGl04Jo6Ry8032YZPJRWHe3P+9orIQftdVkPjv
+	/ZRRBGswjIS9JasBLPMNUpxUq6IWxZkPreP9UFXaSWMpxodvhzRJJDIqC7fZveYEV0s+77UUV2Q
+	RlYp5L7WO81XLJlmazP0kXsplbT+4OfsdnZQ90mqRt1KkF4mvwxBZgotOLPJBy00BAOgumYsw==
+X-Received: by 2002:a5d:504d:0:b0:48b:1b6:3df8 with SMTP id ffacd0b85a97d-48dbaaefac4mr8666211f8f.35.1791708091471;
         Sun, 11 Oct 2026 01:41:31 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.31
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Sun, 11 Oct 2026 01:41:31 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 48/60] libaio: update SRC_URI
-Date: Sun, 11 Oct 2026 10:40:21 +0200
-Message-ID: <e26f5a0b486034c5907d30ad42b79feb0defd940.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 47/60] gstreamer: skip test_queue:test_leaky_downstream test as it's flakey
+Date: Sun, 11 Oct 2026 10:40:20 +0200
+Message-ID: <f0d256b7822e30fa64e4558cb4804ba916bb8b21.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -66,32 +66,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247557
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247556
 
 From: Ross Burton <ross.burton@arm.com>
 
-libaio has moved to Codeberg as pagure.io will be closed down shortly.
+This test occasionally fails, so skip it.  A bug has been filed upstream.
+
+[ YOCTO #15408 ]
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 237c32e181cd47194c3877d220360d6e6fbb2af8)
-Suggested-by: Preeti Sachan <preeti.sachan@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ac8fa6ada2a0cf0ae27316837985dd57b01e727f)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/libaio/libaio_0.3.113.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/libaio/libaio_0.3.113.bb b/meta/recipes-extended/libaio/libaio_0.3.113.bb
-index 2392fd5db23..5f4c5547a11 100644
---- a/meta/recipes-extended/libaio/libaio_0.3.113.bb
-+++ b/meta/recipes-extended/libaio/libaio_0.3.113.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://lse.sourceforge.net/io/aio.html"
- LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
+index 83a78fabd0f..d425eed825d 100755
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
+@@ -27,4 +27,7 @@ GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,parser_convert_duration,parser_pull_frame_
+ # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/work_items/5163
+ GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,test_device_monitor"
  
--SRC_URI = "git://pagure.io/libaio.git;protocol=https;branch=master \
-+SRC_URI = "git://codeberg.org/jmoyer/libaio.git;protocol=https;branch=master;tag=${BP} \
-            file://00_arches.patch \
-            file://libaio_fix_for_mips_syscalls.patch \
-            file://system-linkage.patch \
++# https://bugzilla.yoctoproject.org/show_bug.cgi?id=15408
++GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,test_leaky_downstream"
++
+ gnome-desktop-testing-runner --parallel=4 gstreamer "$@"
 
