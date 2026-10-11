@@ -2,261 +2,191 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7B8CA9ECA
-	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:50 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23460.1791708100901681068
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47FD8CA9EC9
+	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 09:08:11 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23918.1791709686678401762
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:41 -0700
+ Sun, 11 Oct 2026 02:08:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=jqCkmlMZ;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48c5358fc28so690461f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:40 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=vebSvmA0;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a16aaf2067so12412705e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 02:08:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708099; x=1792312899; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=mwrZqK4Qplpg6atDCoeQoX12HRu82oZKicCONPa8fEk=;
-        b=jqCkmlMZpolG4PdaERSxSFzvfV2OKwo5w0exKswzKcAzNvKATvmdMhEIV2CK1p5VM3
-         gTzvh1n72HJg3aF7c2Rf7IXe2bfo1jek2qoLtoimt1cWRm5zNAr/l+05+MMEYxJKLQmv
-         ANCfMKPHB5xqFcFOyT7Hhizstw5LJrj4stvk0=
+        d=smile.fr; s=google; t=1791709685; x=1792314485; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3WTmB8RhhmV2/Wb8msL0hbYtGV5WasKZQlA7TTOMNpM=;
+        b=vebSvmA0wxO3mgE5mrSlx+5T8mXRYLWhisIVJKZv26rvN/Ag2IXPG8xtHw0IASWoCQ
+         Cba8j5cV1N07NZ64lNRUQvLJ3yKAkgjbhk8WsNk6pjFPmlX+kc5sePIrOb7Px58ROZhG
+         oJZUSzQA6WfeMJ0HkuPcmrYElcGpUCiAA0QJ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708099; x=1792312899;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=mwrZqK4Qplpg6atDCoeQoX12HRu82oZKicCONPa8fEk=;
-        b=M/76FU9sQn9ESLHiwBWkRHlXpmMb/Hqc8MeQ8gpCeXpFpEzEphCwpxHrXGr5oLqxQz
-         /LlG2pRnhAyXFksIhqQL1Xm62R1454YeUC7yuxOgV/e5mJSspsTDPrB0qlUkeT945TC4
-         Uo1B39h7N0j7rj+QxN8e8jFQHjCtJU0lqOfNeeDbUd1hSiQFxRiJ6wmdLWCbPbvJOweB
-         faBvoJXrLjmwN3zCPzFlaKStMCR6RCi0NgRypquO90BRblvLdsVHpTsR3c9SSUrl55Wa
-         6xCYb2ACGeyUeSjDzcEYYhpHsNY/fFcMsXacSPeQbhtZBQ1fr6jSO63cpU+mVhRalFCD
-         SZ+A==
-X-Gm-Message-State: AFq9FYKSUnDEaFpef5dCc0aNI7sbzYPlyEpaMh/kSJ2yehCxDA1SC0XE
-	SIhcmiXZ6bCYLJth82rjCMEGDG6ULIZW7v2ChuvO/lKyHaAZp7jmMDQLy8WkP5A7sGebP0KuRZR
-	zN+qD2CI=
-X-Gm-Gg: AYBFou3Q/qtIrk3so1RnMtJHlLRWUthpVZrQyUU1RlmelVOoJJ7TuUn81wv++b6g+Hq
-	1E23WkN2rsGZchKc/CKk3hmpSplM/wMtSh+8t1Bk0EogNeeWNLHyGB7U80Ap0LDOkdbpPieti7k
-	yT6xwUfizplxdHrq8BVskzYNJVItVHoG/hPo9d1BT4S2djat1cT9A3x/UzQc6VgsBSpzmIiyYCY
-	/48qrtGNBn+3Sq2DcPP8jCa/6b2ON4RnQCCfoxqirWqmCEdm9zOgT7h/InRXwT6O3Paj6L/W8uu
-	BjvAHTRH0v2akpWo6Zeck5kFmJpUC6MZpnYznAHX8yFG5QeziUKCxgajuPzGY2SnAvgZZ0JvvS1
-	AXPgXdv3lWmNSUr2j/0mU8IOZwCp8dYCxQAAE57YAawyNwSu8iB3ryju8CFzonyhJnzC6I6Vmz6
-	/5EjhGawFF+rGcHyi/e7JTYvLBatKzrbpoKbyHRTy3FKdxkak2SccillrHVk0pIvYPNmPxTAAcx
-	/N9aLuHZBNTVqJTmHpbJL0WU5htzjQGBQFHR+NoDFaQbxx37B5pROJGNkOj3sUpnSx60hTbqA==
-X-Received: by 2002:adf:f24d:0:b0:485:8c16:5ee9 with SMTP id ffacd0b85a97d-48dbaaef911mr8531132f8f.35.1791708098864;
-        Sun, 11 Oct 2026 01:41:38 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791709685; x=1792314485;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3WTmB8RhhmV2/Wb8msL0hbYtGV5WasKZQlA7TTOMNpM=;
+        b=iU6iAnXk7SPRl6BF/cO4ZytCArulUWBvSvnuOKpmPxmQAqtIm5TViPaGGMpFJRToUT
+         m5Am846t39/Tk7v9/kTGDmInrD8ZkkaeE2+hz0N16L9mhllm5rIU31/090urGg3aprsX
+         nfs+O3AYA5XK2udtNZje/w4jUHTH5BllWIM014OEPtfJlongnorSLKNrKNvYk99DMaes
+         li918LYAC1OIcpYFRG19bH+apstf0PgpqFcGZ05zv6x0VrTmTiKE2gH0Vbk2/BwNMckZ
+         LaBEN4Gn4gfOqnU4+OCjVgv/u6PaFVJiogsAOoeUbZG1wZTx9X+/ZEd2y+d2WJR34MG1
+         LEjQ==
+X-Gm-Message-State: AFq9FYIFsOo3VoS88uTe+qvMZmNZwWghzpYSDVL1qRB0Qk5PhR1fTOHe
+	A2BHP1xpsLMJ7Y0QaL7LdnwfOLFf/jdmRscFqVQQyNwbiMn8ry9B+InF+CLEWxVH9ksr+NXf6zy
+	WDwpLuWQ=
+X-Gm-Gg: AYBFou0m/fJJJZgl+BC58tO0RFDVnQd6Flkej8nb+aWQHuNRcqd4aU4k58fd2FLhJxx
+	r1ZAUcO+abvQFQnMpZvLZPQTVgStPu0mzP84guDc0h/MfnizzPQoHJFQjsQSprG8Ob47jJS71dw
+	hwcNZHN/QT1BfYc0ZQ7dsBoTFyJ0jWKf8iQsQQlYgCpWp9irHGN196IXCnWrecItUlFl9Rju4xv
+	/Lb4Y6zlsmRqMjU4QTbDusOoNdvBgGlgCSa14Oi97pYh31OEUnWAPoNNUYDW/tKtSjtlE55ao0z
+	XEaP0Gi6i/B+7AL6Ueg1q66WugIE6gLKRq4lHvyGw4Qlnl/IYy39J0pf+ccO8fWC3yxDpMRF4LG
+	HStTRh9H9ejp0DBPweNnbu2fmwL+qdM6BhXizc0BlxmlLY6dIdlKKOPaO1EUFniTBAzbnQlxD/H
+	4QQoHIYJMnCn129vGkGLom3mcxNpdJsquodwlP5N2dfiN+si75hBlWqQPotFmTbjGba96rYHarN
+	l3XTEByLMQD58jnbjMjyQ0cdgRcQguuXDZ98nRpX6JmuNr8FEl/g574rKBy+m1lGTIXSmep/Q==
+X-Received: by 2002:a05:600c:524a:b0:49b:9202:6f80 with SMTP id 5b1f17b1804b1-4a18e4a4f2amr119662865e9.6.1791709684748;
+        Sun, 11 Oct 2026 02:08:04 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.38
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bf214a1sm227036635e9.7.2026.10.11.02.08.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:38 -0700 (PDT)
+        Sun, 11 Oct 2026 02:08:04 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 59/60] libpcre2: patch CVE-2026-86145
-Date: Sun, 11 Oct 2026 10:40:32 +0200
-Message-ID: <2bd1c40bcfc139c47eb5433b3a2e3aa5de18ae53.1791707817.git.yoann.congal@smile.fr>
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [OE-core][blacksail 00/18] Pull request (cover letter only)
+Date: Sun, 11 Oct 2026 11:07:50 +0200
+Message-ID: <cover.1791709419.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
-References: <cover.1791707817.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247568
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 09:08:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247570
 
-From: Peter Marko <peter.marko@siemens.com>
+Those are the patches from the last patch review:
+https://lore.kernel.org/all/cover.1791318909.git.yoann.congal@smile.fr/
 
-Pick patch per [1] since [2] does not provide valid commit hash.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4887
+* qemuriscv64-ptest failed on:
+  * 16422 – AB-INT PTEST RISCV64: python3 ptest failure (python3-more-itertools)
+  * 15896 – AB-INT PTEST RISCV64: e2fsprogs ptest failure
+  ... both known AB-INT issues that a similar branch passed:
+      https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2553
+* Since this test, I dropped "tclibc-baremetal.inc: fix gcc-cross EXTRA_OECONF" per review.
+I don't think this is worth restarting an a-full run for this patch
+removal.
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-86145
-[2] https://github.com/PCRE2Project/pcre2/security/advisories/GHSA-3r4p-g7gg-ppmf
+The following changes since commit 419c1b0f1ed0e3ce22b1022061f763d007883121:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- .../libpcre/libpcre2/CVE-2026-86145.patch     | 158 ++++++++++++++++++
- .../recipes-support/libpcre/libpcre2_10.47.bb |   1 +
- 2 files changed, 159 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-86145.patch
+  build-appliance-image: Update to blacksail head revisions (2026-09-29 20:31:43 +0100)
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-86145.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-86145.patch
-new file mode 100644
-index 00000000000..a044a006e5f
---- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-86145.patch
-@@ -0,0 +1,158 @@
-+From c932e70451eafef922ebef364ac25042f0031135 Mon Sep 17 00:00:00 2001
-+From: Nicholas Wilson <nicholas@nicholaswilson.me.uk>
-+Date: Thu, 27 Aug 2026 16:52:16 +0100
-+Subject: [PATCH] Fix DFA workspace overflows; see GHSA-3r4p-g7gg-ppmf for
-+ details
-+
-+CVE: CVE-2026-86145
-+Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/c932e70451eafef922ebef364ac25042f0031135]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/pcre2_dfa_match.c | 44 ++++++++++++++++++++++++++++++++++++-------
-+ testdata/testinput6   |  7 +++++++
-+ testdata/testoutput6  |  8 ++++++++
-+ 3 files changed, 52 insertions(+), 7 deletions(-)
-+
-+diff --git a/src/pcre2_dfa_match.c b/src/pcre2_dfa_match.c
-+index 314e9775..8e9512c4 100644
-+--- a/src/pcre2_dfa_match.c
-++++ b/src/pcre2_dfa_match.c
-+@@ -405,8 +405,8 @@ return (mb->callout)(cb, mb->callout_data);
-+ 
-+ /* This function is called when internal_dfa_match() is about to be called
-+ recursively and there is insufficient working space left in the current
-+-workspace block. If there's an existing next block, use it; otherwise get a new
-+-block unless the heap limit is reached.
-++workspace block. If there's a sufficiently large next block, use it; get a new
-++block unless the heap limit is (or has been) reached.
-+ 
-+ Arguments:
-+   rwsptr     pointer to block pointer (updated)
-+@@ -422,9 +422,18 @@ more_workspace(RWS_anchor **rwsptr, unsigned int ovecsize, dfa_match_block *mb)
-+ {
-+ RWS_anchor *rws = *rwsptr;
-+ RWS_anchor *new;
-++uint32_t requested;
-++
-++PCRE2_ASSERT(ovecsize <= UINT32_MAX - RWS_RSIZE - RWS_ANCHOR_SIZE);
-++requested = RWS_RSIZE + ovecsize + RWS_ANCHOR_SIZE;
-+ 
-+ if (rws->next != NULL)
-+   {
-++  /* Although the initial block is large, and subsequent ones try to double, the
-++  heap limit may cause the last one to be smaller; in this case, we have already
-++  hit the heap limit and allocating a larger block will not be possible. */
-++  if (rws->next->size < requested)
-++    return PCRE2_ERROR_HEAPLIMIT;
-+   new = rws->next;
-+   }
-+ 
-+@@ -434,14 +443,30 @@ overflow. */
-+ 
-+ else
-+   {
-+-  uint32_t newsize = (rws->size >= UINT32_MAX/(sizeof(int)*2))? UINT32_MAX/sizeof(int) : rws->size * 2;
-++  uint32_t newsize = (rws->size >= (UINT32_MAX/sizeof(int))/2)?
-++    UINT32_MAX/sizeof(int) : rws->size * 2;
-+   uint32_t newsizeK = newsize/(1024/sizeof(int));
-+ 
-+-  if (newsizeK + mb->heap_used > mb->heap_limit)
-+-    newsizeK = (uint32_t)(mb->heap_limit - mb->heap_used);
-+-  newsize = newsizeK*(1024/sizeof(int));
-++  /* Clamp the allocation to the remaining heap allowance with care for overflows */
-+ 
-+-  if (newsize < RWS_RSIZE + ovecsize + RWS_ANCHOR_SIZE)
-++  if (mb->heap_used >= mb->heap_limit)
-++    {
-++    newsize = 0;
-++    newsizeK = 0;
-++    }
-++  else
-++    {
-++    PCRE2_SIZE availableK = mb->heap_limit - mb->heap_used;
-++    /* newsize always capped at UINT32_MAX/sizeof(int), so newsizeK also capped;
-++    and - if availableK is smaller - then multiplication to form newsize is safe */
-++    if (newsizeK > availableK)
-++      {
-++      newsize = (uint32_t)(availableK*(1024/sizeof(int)));
-++      newsizeK = availableK;
-++      }
-++    }
-++
-++  if (newsize < requested)
-+     return PCRE2_ERROR_HEAPLIMIT;
-+   new = mb->memctl.malloc(newsize*sizeof(int), mb->memctl.memory_data);
-+   if (new == NULL) return PCRE2_ERROR_NOMEMORY;
-+@@ -2801,6 +2826,7 @@ for (;;)
-+ 
-+         local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
-+         local_workspace = ((int *)local_offsets) + RWS_OVEC_OSIZE;
-++        PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_OSIZE);
-+         rws->free -= RWS_RSIZE + RWS_OVEC_OSIZE;
-+ 
-+         while (*endasscode == OP_ALT) endasscode += GET(endasscode, 1);
-+@@ -2900,6 +2926,7 @@ for (;;)
-+ 
-+           local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
-+           local_workspace = ((int *)local_offsets) + RWS_OVEC_OSIZE;
-++          PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_OSIZE);
-+           rws->free -= RWS_RSIZE + RWS_OVEC_OSIZE;
-+ 
-+           while (*endasscode == OP_ALT) endasscode += GET(endasscode, 1);
-+@@ -2951,6 +2978,7 @@ for (;;)
-+ 
-+         local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
-+         local_workspace = ((int *)local_offsets) + RWS_OVEC_RSIZE;
-++        PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_RSIZE);
-+         rws->free -= RWS_RSIZE + RWS_OVEC_RSIZE;
-+ 
-+         /* Check for repeating a recursion without advancing the subject
-+@@ -3050,6 +3078,7 @@ for (;;)
-+ 
-+         local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
-+         local_workspace = ((int *)local_offsets) + RWS_OVEC_OSIZE;
-++        PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_OSIZE);
-+         rws->free -= RWS_RSIZE + RWS_OVEC_OSIZE;
-+ 
-+         if (codevalue == OP_BRAPOSZERO)
-+@@ -3149,6 +3178,7 @@ for (;;)
-+ 
-+         local_offsets = (PCRE2_SIZE *)(RWS + rws->size - rws->free);
-+         local_workspace = ((int *)local_offsets) + RWS_OVEC_OSIZE;
-++        PCRE2_ASSERT(rws->free >= RWS_RSIZE + RWS_OVEC_OSIZE);
-+         rws->free -= RWS_RSIZE + RWS_OVEC_OSIZE;
-+ 
-+         rc = internal_dfa_match(
-+diff --git a/testdata/testinput6 b/testdata/testinput6
-+index f6f5cbf4..197f6f76 100644
-+--- a/testdata/testinput6
-++++ b/testdata/testinput6
-+@@ -5263,4 +5263,11 @@
-+     abc\=replace=xyz
-+     abc\=replace=xyz,substitute_matched
-+ 
-++# --------------
-++
-++# Test workspace resizing and workspace re-use
-++
-++/(*LIMIT_HEAP=4)(?=(?=(?=(?=(?=(?=(?=(?=a))(?R)))))))./
-++    a\=dfa
-++
-+ # End of testinput6
-+diff --git a/testdata/testoutput6 b/testdata/testoutput6
-+index 8ecf0040..4316c8a6 100644
-+--- a/testdata/testoutput6
-++++ b/testdata/testoutput6
-+@@ -8237,4 +8237,12 @@ Failed: error -42: pattern contains an item that is not supported for DFA matchi
-+     abc\=replace=xyz,substitute_matched
-+ Failed: error -41: function is not supported for DFA matching
-+ 
-++# --------------
-++
-++# Test workspace resizing and workspace re-use
-++
-++/(*LIMIT_HEAP=4)(?=(?=(?=(?=(?=(?=(?=(?=a))(?R)))))))./
-++    a\=dfa
-++Failed: error -63: heap limit exceeded
-++
-+ # End of testinput6
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-index 2f40ef463eb..60ba56014bf 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
-            file://CVE-2026-89157.patch \
-            file://CVE-2026-89160.patch \
-            file://CVE-2026-89158.patch \
-+           file://CVE-2026-86145.patch \
- "
- 
- GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/blacksail-next
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/blacksail-next
+
+for you to fetch changes up to e182a0c4b91fd459c1f9dece0c7c23f7f9eaa7ab:
+
+  recipes-support/gnutls: disable slow tests for RISCV64 (2026-10-06 22:31:54 +0200)
+
+----------------------------------------------------------------
+
+Ankur Tyagi (1):
+  tzdata/tzcode-native: upgrade 2026d -> 2026e
+
+Bhavikkumar Girishbhai Ronvelia (1):
+  libpcre2-ptest: add testoutput3C for locale variant
+
+Bruce Ashfield (2):
+  linux-yocto/6.18: update to v6.18.54
+  linux-yocto/7.2: update to v7.2.8
+
+Jaipaul Cheernam (2):
+  perlcross: Upgrade 1.6.4 -> 1.6.5
+  perlcross: drop redundant LDFLAGS-when-linking-libperl patch
+
+Jinwang Li (1):
+  bluez5: fix obexd/pbap u128_to_string skipping data[4]
+
+Joao Marcos Costa (1):
+  recipes-support/gnutls: disable slow tests for RISCV64
+
+Khem Raj (1):
+  go: skip internal/cgrouptest when cpu.max is not available
+
+Mathieu Dubois-Briand (3):
+  libpcre2: upgrade 10.48 -> 10.49
+  python3-pytz: upgrade 2026.3.post1 -> 2026.4
+  python3-hypothesis: upgrade 6.168.1 -> 6.168.3
+
+Peter Marko (1):
+  alsa-lib: patch CVE-2026-90781
+
+Pratik Farkase (1):
+  util-linux: update flock test patch Upstream-Status to Backport
+
+Richard Purdie (1):
+  python3-hypothesis: upgrade 6.168.0 -> 6.168.1
+
+Ross Burton (1):
+  elfutils: fix handling of DWARF5 compilation units
+
+Sunil Dora (1):
+  opkg: take the default architecture from the target CPU
+
+Yoann Congal (1):
+  opkg: update Upstream-Status for a merged patch
+
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...p-Fix-u128_to_string-skipping-data-4.patch |  33 ++++
+ ...ncrease-wait-for-flock-child-timeout.patch |   2 +-
+ .../elfutils/elfutils_0.196.bb                |   1 +
+ .../elfutils/files/srcfiles.patch             |  65 +++++++
+ meta/recipes-devtools/go/go-1.27.1.inc        |   1 +
+ ...est-skip-when-cpu.max-is-not-availab.patch |  39 ++++
+ ...the-default-architecture-from-the-ta.patch |  45 +++++
+ meta/recipes-devtools/opkg/opkg_0.10.0.bb     |   1 +
+ ...ile-check-the-file-if-patched-or-not.patch |   2 +-
+ .../files/0001-patches-for-perl-5.44.0.patch  | 110 -----------
+ ...oss-add-LDFLAGS-when-linking-libperl.patch |  24 ---
+ ...Add-configure-checks-for-perl-5.44.0.patch |  47 -----
+ ...Fix-checkfield-for-C23-compatibility.patch |  35 ----
+ .../perl-cross/files/determinism.patch        |   4 +-
+ ...{perlcross_1.6.4.bb => perlcross_1.6.5.bb} |   6 +-
+ ...168.0.bb => python3-hypothesis_6.168.3.bb} |   2 +-
+ ...2026.3.post1.bb => python3-pytz_2026.4.bb} |   2 +-
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ .../linux/linux-yocto-rt_6.18.bb              |   6 +-
+ .../linux/linux-yocto-rt_7.2.bb               |   6 +-
+ .../linux/linux-yocto-tiny_6.18.bb            |   6 +-
+ .../linux/linux-yocto-tiny_7.2.bb             |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb |  24 +--
+ meta/recipes-kernel/linux/linux-yocto_7.2.bb  |  24 +--
+ .../alsa/alsa-lib/CVE-2026-90781.patch        |  41 +++++
+ .../alsa/alsa-lib_1.2.16.1.bb                 |   4 +-
+ meta/recipes-support/gnutls/gnutls/run-ptest  |   1 +
+ meta/recipes-support/gnutls/gnutls_3.8.13.bb  |  18 ++
+ .../libpcre/libpcre2/testoutput3C             | 174 ++++++++++++++++++
+ .../{libpcre2_10.48.bb => libpcre2_10.49.bb}  |   4 +-
+ 31 files changed, 472 insertions(+), 268 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/srcfiles.patch
+ create mode 100644 meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0003-CMakeLists-take-the-default-architecture-from-the-ta.patch
+ delete mode 100644 meta/recipes-devtools/perl-cross/files/0001-patches-for-perl-5.44.0.patch
+ delete mode 100644 meta/recipes-devtools/perl-cross/files/0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch
+ delete mode 100644 meta/recipes-devtools/perl-cross/files/0002-Add-configure-checks-for-perl-5.44.0.patch
+ delete mode 100644 meta/recipes-devtools/perl-cross/files/0003-Fix-checkfield-for-C23-compatibility.patch
+ rename meta/recipes-devtools/perl-cross/{perlcross_1.6.4.bb => perlcross_1.6.5.bb} (75%)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.168.0.bb => python3-hypothesis_6.168.3.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-pytz_2026.3.post1.bb => python3-pytz_2026.4.bb} (86%)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/testoutput3C
+ rename meta/recipes-support/libpcre/{libpcre2_10.48.bb => libpcre2_10.49.bb} (93%)
+
 
