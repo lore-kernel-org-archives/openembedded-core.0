@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F025CA9ECF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3969CA9ED0
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:06 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23552.1791708062830826378
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23557.1791708064943136866
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:03 -0700
+ Sun, 11 Oct 2026 01:41:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=d7h9EXJx;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a180fbeef5so8743855e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:02 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=2FKG35qw;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48b042c0728so142836f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708061; x=1792312861; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708063; x=1792312863; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=pD7trybnOoUKfXdjQqb5bGjwMzL7cyTBsfJeC2xOMh8=;
-        b=d7h9EXJx8oP5v50myucBV/I+t52Gcm69HIWjqcrZrKUoGbn5qO5oYxqfMl8FdvdBHK
-         IDmluB8BFu9iV2VMI8p1oCMErtp7u0lyd2NzBrJw24sZpJhYv7yqngLgxs/MXwHPtA8O
-         KxVNJi7PImSPEsLHPbIZuf3BCHgohKvDzVI1w=
+        bh=kZqQnKu/8mZh0OsxmNrw2ySDLNirZ3Jwtzb/EghNPUI=;
+        b=2FKG35qwsqPnk6dmvD8+yJDUPeDG0Gs9QSJ9U8uYaupeoFU7fjYyyBp9YLZTj6IPa+
+         zTU9A1pnIOy/7YiCdpyZGkpus2b8t7VJIUI3MyaovWfdYMElZ6npF9UBh3zaw42IJNqn
+         ZHlPeN6XcnxWcDv3djAnG8k3zl22ly0w3lLJw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708061; x=1792312861;
+        d=1e100.net; s=20260707; t=1791708063; x=1792312863;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=pD7trybnOoUKfXdjQqb5bGjwMzL7cyTBsfJeC2xOMh8=;
-        b=xx8Pt9cIAGZbviePJULoMVlDK/V99gij2p1lX81bIqNns382GSm685M6Up65FIY93/
-         PulrbWHzZ44v7nImL0t2nUSc6hsO7o06eKa5p4k93NfD/3JtVIe6SyTCnGlgR/bBdKIQ
-         rdFKZatOVzN5DEl1qC2XDVy4k8PNXNOW9h9IFjeK8031IWVaauKzhfSROFq/fagr/bQa
-         sqhU9maV5kc3ptFffVv7+F9N7yHWX00Pl++vdH+s09otqduNeubAOi8FMx2dCqeRKMFy
-         j81RlnkGRT723/LZP5ctOrWDfNlNaSaTFiMI4cuQ30FWHv2MvsCtJLq3Q9P1qupPwuoC
-         bQ6Q==
-X-Gm-Message-State: AFq9FYID5wMvZGDN43GczbzMisa5VhtUt0JJBo6ND4a1+12OAAslnRQd
-	FXRIdCUaajKSBj50g45jwYBsf5EAwtuajJx7mFnpmj/MUQmDkGYBxafyz/dYvs0vqBhIToMIw/q
-	dt/JxQ8w=
-X-Gm-Gg: AYBFou3aCKILGDNS8GENzMflpwF91cxZoB5tJBm1GUCH//jvxmYhP0QOZ9ldtXtLdN6
-	njf5VhdGDNv6mzegJeLLXFNA6ACXonWMmF5Ut8VQfEEUZQCt6dJ9GDfkxUT5tX4g1M2h8xkjWlI
-	+c6fbtOgkQ+35wqDLP6SXhxmoGhZIIVZxMru+KIxk/5A00/NSx0auYsY0+U5xkzvFR2eKSY0NMz
-	Zd7gVdO7IuJUXYRF8nHb6LiyYJdqQpAy5nxaaVyFeUQU5owfgD5T5cRQziGC06G74qsZFNvLreV
-	tEGJAjIwjHAOljenU1EazAVRrVO5Nbu507h88BaRBmBRHHrCGnHmFo5tmCsHIhsgj+6nOAvK57E
-	f46vsPd3SOP+n/y8bySmC5tlM6wiZBUeqKGMQufvHt7kEs9R52szMK/e2wwJgmjEJAU+8WIHNuR
-	1tUHYsFDgdx7aoNv9fj6rxwRGa6bYZq89mucAg5fq+HKG3B+0nDrJgqicZRux4I4xRqIfiYji3j
-	0G6DNL9mMU6zv6WVG6ZR/FmGcgDfUkHm2qIMegU7JBVcI/fjzE6Ew0p3QvlHx+5gmn4GZuVYw==
-X-Received: by 2002:a05:600c:3f0c:b0:4a1:85d9:13be with SMTP id 5b1f17b1804b1-4a18e498471mr135427615e9.20.1791708061140;
-        Sun, 11 Oct 2026 01:41:01 -0700 (PDT)
+        bh=kZqQnKu/8mZh0OsxmNrw2ySDLNirZ3Jwtzb/EghNPUI=;
+        b=nw3yeN15jJ6HsBD+iYMKp9ixx36QTx1Vp9ANuRQVBl3C4vM1v9/UOOw8xUkiXk75BZ
+         dVbsEXtaBBH/tRrQ3QSR3WjAb2h0vTKA0Tkoyz56bfo2f+pjlPnq9zTud+Nd3ouE9yHC
+         DmN1nz3RCmroqGibh5irMXta6LeKWN1O46I+AvT8eq64y13mRoihdkeXt5cgWdw2Hc0z
+         xMF1KJ4Rxef8tZ6Unb6xAzbkhqxrbkHyXw/MIpDWD+JTopPBkI6rm3EmSCZoA7u5u949
+         gH0L9ROGdlIpnM1UPfy6xyljqmsbJUvsI2tjF+ZUOyKzNX+PVJFBZ+UTVDk5+EoblZNj
+         jOoA==
+X-Gm-Message-State: AFq9FYIk6F8IPN04pDRA4a9JdfzOKsjnXb2pk5ou46ZZbJCxBDAGwNrk
+	rQX/NC8S5xk6pK41UgxBGofvDrNghiza2W23d+dWvEdS7Zr1pxfh8uXJzHLUAVQpHcUhrOWWRXl
+	mVQ9iQP0=
+X-Gm-Gg: AYBFou0XfdyEuD1+Sz59AZKT96AqnxCUuiZJcgmcK3cXahLTz9vvJjRZzmDfgR03h1d
+	+yxiZsYx8ILmBPNiyXWKeJpvu8hO+5WEHwgjt2J6UzGP994HdlpjfiQOj5ak+3J+vQidA9KMqD0
+	rX6UcRKKESloF6/NZC7k5YjafE/cRqONWvtsA/1dBNEpxDQb2BgwaIPL4NtvuIUOi6YvIBMu1Uz
+	akfudUqPExDossZVwhv4ajuFQ9OK8GMTF7y+60s5w1EtY8cS524hs/Pdzg8b2QCu8GPmNihxyUu
+	HcfAwmSXXDUwWAg+m35J310Umtz0GXSxuLBAJ0EfYn07o52tqsCksKAgSOiI8l7k5WOmlyWhils
+	M6hET72+QVry3gctVCTSOqZsXkuoTVA3NNszJbw2bAah3kx8jl3y4FvFWJOhNuifmj8DERYZEGO
+	6i4SYgofn+A3FWjN1K/g9CeSEymTdDaSDP84/SBpjyXWFKV5eSX0jchZqtRw7e7b5/+0cTD274d
+	WQ2sxOxHYZxe7VH44wvx8n1TdzBS8/A53KZ5xP8kF+qBX1XngY/fegGj3jfHQQ7LYPIFEG62w==
+X-Received: by 2002:a05:6000:4b0d:b0:48b:d2d:2fcc with SMTP id ffacd0b85a97d-48dbaade73amr11046434f8f.9.1791708063067;
+        Sun, 11 Oct 2026 01:41:03 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:00 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:02 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 03/60] libarchive: set status for CVE-2026-4424
-Date: Sun, 11 Oct 2026 10:39:36 +0200
-Message-ID: <2cc935e7deeffe8483d634df2c2ff7a7f95eb15a.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 06/60] ovmf: set status of CVE-2017-5731 and CVE-2019-14584
+Date: Sun, 11 Oct 2026 10:39:39 +0200
+Message-ID: <6131cb81820260cefb20bf03663b597546ef52b7.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -66,7 +66,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247512
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247515
 
 From: Peter Marko <peter.marko@siemens.com>
 
@@ -74,32 +74,37 @@ New version of sbom-cve-check makes more torough version validation
 and version strings with distro specific suffix is no longer accepted,
 thus leaving some CVEs without version to compare (no-version-ranges).
 
-These are RedHat CVEs listing version-less or distro versions.
+OVMF has a generic problem that version is encoded in different ways.
+Both CVE have their fixed version in NVD CVE reports encoded as
+YYYY-MM-DD...
 
-Release 3.8.7 notes [1] contain reference to pull [2] from NVD report.
-
-[1] https://github.com/libarchive/libarchive/releases/tag/v3.8.7
-[2] https://github.com/libarchive/libarchive/pull/2898
+CVE-2017-5731 additionally predates tags in vurrent git repository.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 4359d85f9dcb0a6d188859f1ae0200352668b9cc)
+(From OE-Core rev: 1ac5e07968d2dc23343ca3a7c1eab7c3788fff41)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-extended/libarchive/libarchive_3.8.7.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/ovmf/ovmf_git.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.8.7.bb b/meta/recipes-extended/libarchive/libarchive_3.8.7.bb
-index afc06f85d4c..c0a29211434 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.8.7.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.8.7.bb
-@@ -89,6 +89,7 @@ do_install_ptest() {
- 
- RDEPENDS:${PN}-ptest += "bsdtar bsdcpio"
- 
-+CVE_STATUS[CVE-2026-4424] = "fixed-version: fixed since 3.8.7"
- CVE_STATUS[CVE-2026-4426] = "fixed-version: fixed since 3.8.7"
- CVE_STATUS[CVE-2026-5121] = "fixed-version: fixed since 3.8.7"
- CVE_STATUS[CVE-2026-5745] = "fixed-version: fixed since 3.8.6"
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 01f840c2154..cd6a40a9d07 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -40,11 +40,13 @@ CVE_VERSION = "${@d.getVar('PV').split('stable')[1]}"
+ CVE_STATUS[CVE-2014-8271] = "fixed-version: Fixed in svn_16280, which is an unusual versioning breaking version comparison."
+ CVE_STATUS[CVE-2014-4859] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
+ CVE_STATUS[CVE-2014-4860] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
++CVE_STATUS[CVE-2017-5731] = "fixed-version: fixed since 2017-11-07"
+ CVE_STATUS[CVE-2019-14553] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
+ CVE_STATUS[CVE-2019-14559] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
+ CVE_STATUS[CVE-2019-14562] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
+ CVE_STATUS[CVE-2019-14563] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
+ CVE_STATUS[CVE-2019-14575] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
++CVE_STATUS[CVE-2019-14584] = "fixed-version: fixed since edk2-stables202011"
+ CVE_STATUS[CVE-2019-14586] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
+ CVE_STATUS[CVE-2019-14587] = "fixed-version: The CPE in the NVD database doesn't reflect correctly the vulnerable versions."
+ CVE_STATUS[CVE-2024-1298] = "fixed-version: fixed since edk2-stable202405"
 
