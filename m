@@ -1,294 +1,115 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 766F4CA9EDB
-	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 20:00:00 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32878.1791748795283185554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F97CA9ECC
+	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 20:40:52 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.320.1791751245755585822
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 12:59:56 -0700
+ Sun, 11 Oct 2026 13:40:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=OQN0HG0z;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-202610111959528ef0daf9670002073c-skt_l0@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202610111959528ef0daf9670002073c
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 11 Oct 2026 21:59:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=JHRW9ZrbXfzaP4wBrmNscPqF/Kd7PxyPgPoVn0aiReY=;
- b=OQN0HG0zL1JZkaigGLHYvZzZN92qzNTNi29G59y0YhszPVOKJrWrIznYixfoziZgQRpDQc
- dHjs6mCKs116MYhiZ+whzjDBNIICkPwJ3cYDJ7bpMdXO9G9ou1Vdo1pa27tCuEFbXDU6G8hF
- WH1UBPwxGxDqUG3UHXWO3bcBaTdO1QSIA4xXG4TCR+ueTmWzpp4sHhWMvBpMBmCU3dX6L169
- O8XMgHJfCZ02aJgs9pxSn7NEDTYGqCvbdb2TOPdQrs57EYMCudLO/RuXGC0gt6k0XMD3h/xL
- k57mOnS7td8BjK6maoVjDtXTUivc8miD7sfxxeKW0wI2C1KuYRNtE92g==;
-From: AdrianF <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 07/11] devtool: ide-sdk: use the effective slirp host ports in debugger configs
-Date: Sun, 11 Oct 2026 21:59:12 +0200
-Message-ID: <20261011195949.2118607-8-adrian.freihofer@siemens.com>
-In-Reply-To: <20261011195949.2118607-1-adrian.freihofer@siemens.com>
-References: <20261011195949.2118607-1-adrian.freihofer@siemens.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=3Cu31nBk;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a021c809e3so12746745e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 13:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1791751244; x=1792356044; darn=lists.openembedded.org;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=WUdkbPMYmHil0n99qWAuFpn5OQht/47xRlGsjrL52bo=;
+        b=3Cu31nBkGeLDK+BwX+16ZEkZXnZ93lCBdaWnNqit3fWqrgGHvHKbxFk3iRR0oaFUA6
+         MvtnWlpoQsbqLWxUpDB7L0tUEA+SkhLKULsK1mwJeQOhT/O0K6Vx8YEJhJDGM7hTlLgt
+         fEL6yDLT4bgWoK0Y7dAY38try4U1G8axULZA0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791751244; x=1792356044;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WUdkbPMYmHil0n99qWAuFpn5OQht/47xRlGsjrL52bo=;
+        b=mfvmIX4qu4o7fNlnfDtTBuHxI+VxeoMwopq2dDEISR/IUxDsY3KYezjwpAzPRSEaEB
+         bSQKfPEs0H4nRYd1Yn9k6knW7x1/QUAyam5MzwNzAQw0qOQNa+XqKcaZlJKWtJ3NNzDX
+         1EN1HPFSiB630WJP32/x2YET15t5TjMI1tsQUSgGpe1gGWYxNJ0VXAPP7KWD5EIoinUE
+         flv7Fjs/Fa5RsQl8Sl0j29Hbr9YSUwbTgiQbZUnlPEJn3DbLi1eYeUJMOLk5bOMU3iA2
+         PoC1B4hcy5t76ckfyi9e/6i1QpQz5QKBcn+SrG9adkSW71tg2MaGgtRCgzla62bMUTu8
+         EGOw==
+X-Gm-Message-State: AFq9FYJD4uoym5eJ1aQuB0+BD13tAuBlHFSG6zI08ICGr5u8tOMczgg+
+	TIK4JSoIfM7VK6E1rV2pb+qrLccKuhXkMmmq3LdlcHcdY4zShmk6J9kFOxZIeTDF0rc=
+X-Gm-Gg: AYBFou1o0g9I+FYOUKhtaCjwLSYzLsA9Yb/PVau/iPRmyH1OwkNji2pof9UGCNlFLfB
+	jhgUll0lLw1lPB2/8xdVIsTJ3ZWzxmnHjJzfka7PdOYWGLxW0hudYCjSX439ujPHlO2yqaB87s0
+	aiz5QjyQ0b3nwLV+eEpWtBE3sSvav/UkauJxcO4mdVJUgWAWFZy2G3uj/ecpx5pM8p8UAwUDZOn
+	94x1+1TSvGitFV7PoKbHzy3nD96b1/daSKLBzyXr+b3U5K0TsrjUXL5x1o+9/hwAiMCW5FEM3wN
+	M+IU513hHyjA/xuPnusV76Xp/5qEOGD78Eon7A951to2lkf3y4sqf9hMxy1IWSuhzYy6Ta5k9Ox
+	58aqASEbyuUZEotsbI1bpejWYyj8IfBaNDSBMq8UxKrpg2m/s7pCK99N4rBkc9tYc8mOmBvjt7X
+	OoxfJt2v3qxmXDxEP3Hapi8aJ4DPsswPB0UFkx4juDp5ChddgzheRo/FZ96NNCEuR4w+Nn3OZLX
+	t6UDpAeH/mX3dJ0dItnMw6IN8qtTsQEJhuwmvdoUyVK/ntwYcw9kfG9nsIICQ==
+X-Received: by 2002:a05:600c:698d:b0:4a1:97c6:d2b4 with SMTP id 5b1f17b1804b1-4a197c6d614mr66769335e9.15.1791751243627;
+        Sun, 11 Oct 2026 13:40:43 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18e48db03sm334547385e9.3.2026.10.11.13.40.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Oct 2026 13:40:43 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+Date: Sun, 11 Oct 2026 22:40:42 +0200
+Message-Id: <DM2AT1MD4MQM.3ALT5IJJTVMVI@smile.fr>
+To: "Marko, Peter" <Peter.Marko@siemens.com>, "Paul Barker"
+ <paul@pbarker.dev>
+Subject: Re: [OE-core][wrynose 00/60] Patch review
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <cover.1791707817.git.yoann.congal@smile.fr>
+ <AS8PR10MB507316F31E025A7F7EEC2533FD902@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS8PR10MB507316F31E025A7F7EEC2533FD902@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 20:00:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247586
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 20:40:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247593
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+On Sun Oct 11, 2026 at 12:19 PM CEST, Peter Marko wrote:
+> Please drop my libpcre2 series for now.
 
-The generated debugger configurations only support forwards where the
-host port equals the target port. If the requested host port is in use,
-runqemu forwards the target port from the next free host port instead,
-e.g. target port 1234 from host port 1235, and the debugger connects to
-the wrong port.
+Ok, I dropped it from stable/wrynose-next.
 
-Look up the host port of each debug server's TCP target port in the
-QB_SLIRP_OPT forwards, including those already in the bbappend, and
-keep known mappings when adding missing forwards. To debug a QEMU whose
-ports were moved, write its effective mappings back into the bbappend
-and rerun devtool ide-sdk with --skip-bitbake. This mostly matters on
-autobuilders running several QEMU instances at once.
+> When trying to create this series for scarthgap and trying to resolve
+> conflicts I found that pcre2 now committed to do "at least five years"
+> of maintenance for each release.
+> https://github.com/PCRE2Project/pcre2/commit/0f85a365a7ab586a39089f4ecdc4=
+f9f6857c043e#diff-599c7525a19150cfd62bfa7bafbf578487389804a4ec3964ffa60d322=
+db9bbfdR22-R44
+>
+> Release branches are available that we could use.
+> Checking contents of release/10.47 branch, it contains commits which I
+> picked, however some are squashed with other ones indicating that my
+> backport was not complete.
+> For example fix for CVE-2026-89156 now consists of two squashed
+> commits where I picked only one.
+> https://github.com/PCRE2Project/pcre2/commit/5528f329f597eabbf1cfd5a1f3b4=
+fa51a8c02d60
+> This requires further study before merging.
 
-For ide=none, the connect and run commands move from the gdbinit and
-lldbinit files into the generated start scripts, which hold the
-resolved port. The init files keep only symbol and source setup, and
-their help comments point to the scripts.
+Agreed but this upstream maintenance branch looks - on paper -
+compatible with our policy. So, this is encouraging.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- scripts/lib/devtool/ide_plugins/__init__.py | 12 +++++
- scripts/lib/devtool/ide_plugins/ide_code.py |  4 +-
- scripts/lib/devtool/ide_plugins/ide_none.py | 43 ++++++++++--------
- scripts/lib/devtool/ide_sdk.py              | 49 ++++++++++++++++-----
- 4 files changed, 78 insertions(+), 30 deletions(-)
+> This also opens second question, similar to one recently asked for
+> rsync very recently.
+> May I switch libpcre2 to gif fetcher and update to latest release
+> branch hash instead of backporting commits?
+> Or should I rather pick (potentially all) commits from there?
+> I'd prefer to switch to the git fetcher.
 
-diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
-index 7841bc37b9..1e1e32b74b 100644
---- a/scripts/lib/devtool/ide_plugins/__init__.py
-+++ b/scripts/lib/devtool/ide_plugins/__init__.py
-@@ -163,6 +163,18 @@ class DebuggerCrossConfig:
-         """Called after construction to generate any required config files."""
-         pass
- 
-+    def resolve_host_port(self, mode=None):
-+        """Return the host port this debug server's target port is reachable on."""
-+        target_port = self.port(mode)
-+        if not is_loopback_target(self.debugger_cross.target_device.target):
-+            return target_port
-+        return self.image_recipe.slirp_port_mappings.get(('tcp', target_port), target_port)
-+
-+    def _resolve_host_port_shell_lines(self, var_name, mode=None):
-+        """Shell line assigning $<var_name> to resolve_host_port(), for use in
-+        a generated ide=none wrapper script."""
-+        return ['%s=%d' % (var_name, self.resolve_host_port(mode))]
-+
-     # Abstract — subclasses must implement
-     def _target_start_cmd(self, mode):
-         raise NotImplementedError
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
-index 081dc08657..89013139ea 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -423,7 +423,7 @@ class IdeVSCode(IdeBase):
-             "MIMode": "gdb",
-             "preLaunchTask": cross_debug_config.id_pretty_mode(server_mode),
-             "miDebuggerPath": modified_recipe.debugger_cross.gdb,
--            "miDebuggerServerAddress": "%s:%d" % (modified_recipe.debugger_cross.host, cross_debug_config.port(server_mode))
-+            "miDebuggerServerAddress": "%s:%d" % (modified_recipe.debugger_cross.host, cross_debug_config.resolve_host_port(server_mode))
-         }
- 
-         if is_attach:
-@@ -530,7 +530,7 @@ class IdeVSCode(IdeBase):
- 
-         init_commands = [
-             "platform select remote-linux",
--            "platform connect connect://%s:%d" % (debugger_cross.host, lldb_config.port(server_mode)),
-+            "platform connect connect://%s:%d" % (debugger_cross.host, lldb_config.resolve_host_port(server_mode)),
-             # Clear the default step-avoid-regexp so std:: and other library
-             # namespaces are not silently skipped on step-in. (default is "std::" in LLDB 15+)
-             "settings set target.process.thread.step-avoid-regexp \"\"",
-diff --git a/scripts/lib/devtool/ide_plugins/ide_none.py b/scripts/lib/devtool/ide_plugins/ide_none.py
-index eba576bfdb..d5fed0809e 100644
---- a/scripts/lib/devtool/ide_plugins/ide_none.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_none.py
-@@ -60,17 +60,14 @@ class GdbCrossConfigNone(GdbCrossConfig):
-         gdbinit_lines = ['# This file is generated by devtool ide-sdk']
-         if server_mode == DebuggerServerModes.MULTI:
-             target_help = '#   gdbserver --multi :%d' % self.debug_server_port
--            remote_cmd = 'target extended-remote'
-         else:
-             target_help = '#   gdbserver :%d %s' % (
-                 self.debug_server_port, self.binary)
--            remote_cmd = 'target remote'
-         gdbinit_lines.append('# On the remote target:')
-         gdbinit_lines.append(target_help)
-         gdbinit_lines.append('# On the build machine:')
-         gdbinit_lines.append('#   cd ' + self.modified_recipe.real_srctree)
--        gdbinit_lines.append(
--            '#   ' + self.debugger_cross.gdb + ' -ix ' + self.gdbinit)
-+        gdbinit_lines.append('#   ' + self.gdb_script)
-         gdbinit_lines.append('set sysroot ' + self.modified_recipe.d)
- 
-         if self.image_recipe.rootfs_dbg:
-@@ -114,18 +111,25 @@ class GdbCrossConfigNone(GdbCrossConfig):
-             gdbinit_lines.append("end" + os.linesep)
- 
-         gdbinit_lines.append(
--            '%s %s:%d' % (remote_cmd, self.debugger_cross.host, self.debug_server_port))
--        gdbinit_lines.append('set remote exec-file ' + self.binary.binary_path)
--        gdbinit_lines.append('run ' + self.binary.binary_path)
-+            'set remote exec-file ' + self.binary.binary_path)
- 
-         GdbCrossConfigNone.write_file(self.gdbinit, gdbinit_lines)
- 
--    def _gen_gdb_start_script(self):
-+    def _gen_gdb_start_script(self, server_mode=None):
-         """Generate a script starting GDB with the corresponding gdbinit configuration."""
-+        if server_mode is None:
-+            server_mode = self.default_mode
-+        remote_cmd = ('target extended-remote'
-+                      if server_mode == DebuggerServerModes.MULTI
-+                      else 'target remote')
-         cmd_lines = ['#!/bin/sh']
-         cmd_lines.append('cd ' + self.modified_recipe.real_srctree)
--        cmd_lines.append(self.debugger_cross.gdb + ' -ix ' +
--                         self.gdbinit + ' "$@"')
-+        cmd_lines += self._resolve_host_port_shell_lines('GDB_PORT', server_mode)
-+        gdb_cmd = self.debugger_cross.gdb + ' -ix ' + self.gdbinit
-+        gdb_cmd += " -ex '%s %s:'\"$GDB_PORT\"" % (remote_cmd, self.debugger_cross.host)
-+        gdb_cmd += " -ex 'run %s'" % self.binary.binary_path
-+        gdb_cmd += ' "$@"'
-+        cmd_lines.append(gdb_cmd)
-         GdbCrossConfigNone.write_file(self.gdb_script, cmd_lines, True)
- 
-     def initialize(self):
-@@ -210,10 +214,8 @@ class LldbServerConfigNone(LldbServerConfig):
-             self.port(server_mode), self.gdbserver_ports[server_mode]))
-         lines.append('# On the build machine:')
-         lines.append('#   cd ' + self.modified_recipe.real_srctree)
--        lines.append('#   ' + self.debugger_cross.lldb + ' -s ' + self.lldbinit)
-+        lines.append('#   ' + self.lldb_script)
-         lines.append('platform select remote-linux')
--        lines.append('platform connect connect://%s:%d' % (
--            self.debugger_cross.host, self.port(server_mode)))
-         lines.append('settings set target.process.thread.step-avoid-regexp ""')
- 
-         if self.image_recipe.rootfs_dbg:
-@@ -248,16 +250,21 @@ class LldbServerConfigNone(LldbServerConfig):
-                 'Cannot setup debug symbols configuration for LLDB. '
-                 'IMAGE_GEN_DEBUGFS is not enabled.')
- 
--        lines.append('target create --remote-file %s %s' % (
--            self.binary.binary_path, self.binary.binary_host_path))
--
-         LldbServerConfigNone.write_file(self.lldbinit, lines)
- 
--    def _gen_lldb_start_script(self):
-+    def _gen_lldb_start_script(self, server_mode=None):
-         """Generate a script starting lldb with the lldbinit configuration."""
-+        if server_mode is None:
-+            server_mode = self.default_mode
-         cmd_lines = ['#!/bin/sh']
-         cmd_lines.append('cd ' + self.modified_recipe.real_srctree)
--        cmd_lines.append(self.debugger_cross.lldb + ' -s ' + self.lldbinit + ' "$@"')
-+        cmd_lines += self._resolve_host_port_shell_lines('LLDB_PORT', server_mode)
-+        lldb_cmd = self.debugger_cross.lldb + ' -s ' + self.lldbinit
-+        lldb_cmd += " -o 'platform connect connect://%s:'\"$LLDB_PORT\"" % self.debugger_cross.host
-+        lldb_cmd += " -o 'target create --remote-file %s %s'" % (
-+            self.binary.binary_path, self.binary.binary_host_path)
-+        lldb_cmd += ' "$@"'
-+        cmd_lines.append(lldb_cmd)
-         LldbServerConfigNone.write_file(self.lldb_script, cmd_lines, True)
- 
-     def initialize(self):
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 9faf041957..65f6e02675 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -306,6 +306,24 @@ class RecipeImage:
-     def debug_support(self):
-         return bool(self.rootfs_dbg)
- 
-+    @property
-+    def slirp_port_mappings(self):
-+        """QB_SLIRP_OPT's hostfwd rules as {(protocol, target_port): host_port}.
-+
-+        QB_SLIRP_OPT is only a wishlist: runqemu moves a forward to another
-+        host port whenever qemu cannot bind the wished-for one, so host
-+        port == target port cannot be assumed. A caller that knows the
-+        effective mapping of a running qemu (see QemuRunner.slirp_port_mappings)
-+        can write it back into the bbappend and re-run devtool ide-sdk
-+        --skip-bitbake to have the debugger configs regenerated against the
-+        ports that really work.
-+        """
-+        mappings = {}
-+        for content in (self.qb_slirp_opt, self._orig_bbappend_content or ''):
-+            for m in re.finditer(r'hostfwd=([a-z]+):[^:]*:(\d+)-[^:,]*:(\d+)', content):
-+                mappings[(m.group(1), int(m.group(3)))] = int(m.group(2))
-+        return mappings
-+
-     @property
-     def rootfs(self):
-         """Prefer the live NFS-exported rootfs (if --nfs=rootfs is used) over the
-@@ -548,28 +566,39 @@ class RecipeImage:
-         if not ports:
-             return False
- 
--        # Determine which ports are already in the base value
--        already = {int(m.group(1))
--                   for m in re.finditer(r':(\d+)-:\d+', self.qb_slirp_opt)}
--        missing_ports = [p for p in ports if p not in already]
-+        # Determine which ports are already in the base value. Match the
-+        # target port, not the host port: once the effective mapping is
-+        # written back the two differ, and a forward already exists for a
-+        # target port regardless of which host port it ended up on.
-+        already = {(m.group(1), int(m.group(2)))
-+               for m in re.finditer(r'hostfwd=([a-z]+):[^:]*:\d+-[^:,]*:(\d+)', self.qb_slirp_opt)}
-+        missing_ports = [p for p in ports if ('tcp', p) not in already]
-         if not missing_ports:
-             logger.info("QB_SLIRP_OPT already contains all needed port forwards")
-             return False
- 
-+        # Keep any already known effective mapping instead of wishing for
-+        # host port == target port again, so re-running does not discard a
-+        # mapping written back from a running qemu (see slirp_port_mappings).
-+        mappings = self.slirp_port_mappings
-+
-+        def hostfwd(target_port):
-+            return ',hostfwd=tcp:127.0.0.1:%d-:%d' % (
-+                mappings.get(('tcp', target_port), target_port), target_port)
-+
-         if self.qb_slirp_opt:
-             # Base value exists: :append only the missing port forwards
--            extra = ''.join(
--                ',hostfwd=tcp:127.0.0.1:%d-:%d' % (p, p) for p in missing_ports)
-+            extra = ''.join(hostfwd(p) for p in missing_ports)
-             new_line = 'QB_SLIRP_OPT:append = "%s"' % extra
-         else:
-             # No base value: mirror runqemu's built-in default (SSH 2222, telnet
-             # 2323, tftp) and add the debugger ports.
-             all_hostfwds = (
--                'hostfwd=tcp:127.0.0.1:2222-:22,'
--                'hostfwd=tcp:127.0.0.1:2323-:23'
-+                'hostfwd=tcp:127.0.0.1:%d-:22,'
-+                'hostfwd=tcp:127.0.0.1:%d-:23'
-+                % (mappings.get(('tcp', 22), 2222), mappings.get(('tcp', 23), 2323))
-             )
--            all_hostfwds += ''.join(
--                ',hostfwd=tcp:127.0.0.1:%d-:%d' % (p, p) for p in missing_ports)
-+            all_hostfwds += ''.join(hostfwd(p) for p in missing_ports)
-             new_line = 'QB_SLIRP_OPT = "-netdev user,id=net0,%s,tftp=${DEPLOY_DIR_IMAGE}"' % all_hostfwds
- 
-         if os.path.exists(self._bbappend):
--- 
-2.56.0
+I also like the idea of switching to git fetcher. So, I'll happily
+review a series doing the switch then upgrade along the branch.
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
 
