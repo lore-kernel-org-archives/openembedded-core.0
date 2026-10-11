@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF376CA9ED2
-	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 19:59:58 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32781.1791748795226074486
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA2A7CA9ED3
+	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 19:59:59 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32874.1791748795181070821
  for <openembedded-core@lists.openembedded.org>;
  Sun, 11 Oct 2026 12:59:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=tVRUPiSz;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20261011195952168f7d1eb40002070d-vtryde@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20261011195952168f7d1eb40002070d
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=OmsanzWf;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-20261011195952d772e228b8000207d6-zdyvsn@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261011195952d772e228b8000207d6
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 11 Oct 2026 21:59:53 +0200
+        Sun, 11 Oct 2026 21:59:52 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=1d4HjYt7MP8wF7neRuwv9J8KvolG/6RXWXA6DkrvTPs=;
- b=tVRUPiSzhg2PJkro8HmhyRkEzjNb3MdwwN0OtIf7CsJJV9rb7YO5ABGUuEymb/E+NtMyMy
- p4COLN4EUDxsHhJ+I2I5liNoDbrakmeGt6gXhNOdMhw1adF2qoypsjSPaJ5QBGqt1Wrnpbqp
- GAM2R+oojHI2o+JMZ0a0YsmSeVdpsE/jaS7ioPJHILTJHiYQ8kmH+bBmv2Brzv1rXvdqFWrK
- tN5PO/Iruq/Mu3uJvBZHe52r13KBlU1ohpPhfzYW/mSyIaSuISFKZkJgfZ59ZXQIaOkz92uw
- Lq66MFrjaHVrtCx2hycZgn3fFKLyctq31oIAgf/zZi34Irp0mKIyLwDg==;
+ bh=urfVPRJpvto8SGYKkWZhmUQlSlQVwrVQbbZ2MwhoDU8=;
+ b=OmsanzWfXzWkvi/qAf3EM/OF0ByVTJ9pEDrordSyBood721Gjsc8vUbMttLKh0ErTda1Vh
+ 5UWS5bkJd6Z6LhjVQMnrrvx5cLzeGkMCTH0angzuYtYq6PiuiouVVvYCf0MsbhaGohs2g7RB
+ 2Iod7C2IRcUrFuw7xb2tLSrabgzcC7ByCRLfJffbQauZHbQu99jHfEpEz82coclqCsP6UWn7
+ LZwmsUrILlY3JbVPeGorX8lRPm6OMX7ELFMYPQD8LEWusFhwaYVo484jpRqfI71gEFdZTMWQ
+ ecfK8zNm1Mh6bOpCd4UfcxRuStoXp4r1dldoW1WljVu1OmHYghtXQMKw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 08/11] oe-selftest: devtool ide-sdk: allocate slirp debug server ports via qemu
-Date: Sun, 11 Oct 2026 21:59:13 +0200
-Message-ID: <20261011195949.2118607-9-adrian.freihofer@siemens.com>
+Subject: [PATCH 06/11] runqemu: add slirp hostfwd ports via QMP after qemu started
+Date: Sun, 11 Oct 2026 21:59:11 +0200
+Message-ID: <20261011195949.2118607-7-adrian.freihofer@siemens.com>
 In-Reply-To: <20261011195949.2118607-1-adrian.freihofer@siemens.com>
 References: <20261011195949.2118607-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,185 +38,224 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 19:59:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247583
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 19:59:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247591
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-The ide-sdk tests assumed every slirp port forwarding gets its requested
-host port. With several QEMU instances running in parallel, runqemu may
-move a port forwarding to another host port.
+This is the second step of letting QEMU bind the slirp host ports and
+retrying on failure, instead of taking a flock per port.
 
-After booting QEMU, read the effective forwards from QemuRunner, write
-them back into QB_SLIRP_OPT and regenerate the debugger configurations
-with devtool ide-sdk --skip-bitbake.
+So far runqemu locked and probed each hostfwd port before starting QEMU.
+The lock only coordinates runqemu instances, so any other process can
+still bind the port before QEMU does, and QEMU then fails to start.
 
-Each test still reserves a block of debug server ports, so parallel
-tests do not request the same ports. This only coordinates the tests;
-QEMU decides which host port is actually free. Warn if a forward was
-moved anyway. This should not happen, and points to another process
-holding a port from the reserved block which is probably unexpected.
+Now runqemu strips the hostfwd rules from the QEMU command line and adds
+them through a private QMP monitor once QEMU runs. If QEMU cannot bind a
+host port, runqemu tries the next one. TCP and UDP are tracked
+separately, so both can use the same host port. QemuRunner already
+reads the effective forwards from QEMU and briefly waits for the SSH
+forward before adding its own.
 
-The gdbserver spawned by lldb-server is reached by the lldb client on
-its target port number, so it needs a forward with equal host and
-target port. Add that forward explicitly if it is missing.
+The QMP exchange is bounded and validated so a broken monitor cannot
+hang startup, and QEMU's stderr is reported if it exits early.
+
+Coordination with older runqemu instances via the legacy port locks
+is added separately later in this series, so it can be reverted once
+older branches have the backports or reach EOL.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 91 +++++++++++++++++++++----
- 1 file changed, 78 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py |   5 ++
+ scripts/runqemu                   | 127 +++++++++++++++++++++++++-----
+ 2 files changed, 112 insertions(+), 20 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 265f2147a4..6d3be66188 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3082,10 +3082,6 @@ class DevtoolIdeSdkTests(DevtoolBase):
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 5d7374446e..81434dc117 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -404,6 +404,11 @@ class QemuRunner:
+                 # The running qemu is the authoritative source for the
+                 # effective hostfwd rules: the host port a rule ends up on is
+                 # not necessarily the one that was wished for.
++                # runqemu adds its forwards via QMP shortly after qemu starts.
++                endtime = time.time() + 10
++                while (('tcp', 22) not in self.slirp_port_mappings
++                       and self.is_alive() and time.time() < endtime):
++                    time.sleep(0.1)
+                 try:
+                     host, port = self._get_slirp_host_endpoint(22)
+                     self.ip = "%s:%s" % (host, port)
+diff --git a/scripts/runqemu b/scripts/runqemu
+index ca1f74e9d7..c569fc7c84 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -19,6 +19,8 @@ import glob
+ import configparser
+ import signal
+ import time
++import json
++import tempfile
+ import shlex
+ import socket
+ import traceback
+@@ -221,6 +223,8 @@ class BaseConfig(object):
+         # slirp qemus are running.
+         self.mac_tap = "52:54:00:12:34:"
+         self.mac_slirp = "52:54:00:12:35:"
++        self.slirp_hostfwd_allowlist = []
++        self.internal_qmp_path = None
+         # pid of the actual qemu process
+         self.qemu_environ = os.environ.copy()
+         self.qemuprocess = None
+@@ -1156,30 +1160,103 @@ to your build configuration.
+         hostfwd = ",hostfwd=tcp:127.0.0.1:2222-:22,hostfwd=tcp:127.0.0.1:2323-:23"
+         qb_slirp_opt_default = "-netdev user,id=net0%s,tftp=%s" % (hostfwd, self.get('DEPLOY_DIR_IMAGE'))
+         qb_slirp_opt = self.get('QB_SLIRP_OPT') or qb_slirp_opt_default
+-        # Figure out the port
+-        ports = re.findall('hostfwd=[^-]*:([0-9]+)-[^,-]*', qb_slirp_opt)
+-        ports = [int(i) for i in ports]
  
-     MAGIC_STRING_ORIG = "Magic: 123456789"
-     SLIRP_PORT_BLOCK_SIZE = 32
--    # runqemu locks /tmp/qemu-port-locks itself while picking the slirp host
--    # ports, so the reservation below needs a lock directory of its own:
--    # holding runqemu's locks would make it consider the reserved ports taken
--    # and move the forwards away again.
-     SLIRP_PORT_LOCK_DIR = '/tmp/oe-selftest-ide-sdk-port-locks'
+-        lockdir = "/tmp/qemu-port-locks"
+-        self.make_lock_dir(lockdir)
++        # Strip hostfwd rules from argv and add them via QMP after startup,
++        # making QEMU's host port binding authoritative.
++        self.slirp_hostfwd_allowlist = [
++            (proto, hostip, int(hostport), guestip, int(targetport)) for
++            proto, hostip, hostport, guestip, targetport in
++            re.findall(r'hostfwd=([a-z]+):([^:]*):([0-9]+)-([^:,]*):([0-9]+)', qb_slirp_opt)
++        ]
++        qb_slirp_opt = re.sub(r',hostfwd=[a-z]+:[^:]*:[0-9]+-[^:,]*:[0-9]+', '', qb_slirp_opt)
  
-     def setUp(self):
-@@ -3544,12 +3540,12 @@ class DevtoolIdeSdkTests(DevtoolBase):
-     def _reserve_slirp_port_block(self):
-         """Reserve a block of host ports for this test's debug servers and return its first port.
- 
--        runqemu moves a QB_SLIRP_OPT forward to the next host port whenever the
--        wished-for one is already taken, and lldb-server's spawned gdbserver
--        has no way to tell its client about a remapped host port, so the wishes
--        have to be granted 1:1. Every parallel oe-selftest worker otherwise
--        starts from the same default port, so claim a block that is free right
--        now and hold it for the rest of the test.
-+        A QB_SLIRP_OPT port forward only stays 1:1 while the wished-for host
-+        port is free, and lldb-server's spawned gdbserver has no way to tell
-+        its client about a remapped host port, so it needs host == target.
-+        Since every parallel oe-selftest worker otherwise starts from the same
-+        default port, claim a block that is free right now and hold it for the
-+        rest of the test.
-         """
-         os.makedirs(self.SLIRP_PORT_LOCK_DIR, exist_ok=True)
-         for start in range(1234, 20000, self.SLIRP_PORT_BLOCK_SIZE):
-@@ -3585,6 +3581,45 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.fail('Could not reserve %d consecutive free host ports'
-                   % self.SLIRP_PORT_BLOCK_SIZE)
- 
-+    def _apply_slirp_port_mappings(self, testimage, qemu):
-+        """Rewrite the image bbappend's QB_SLIRP_OPT with qemu's effective port mappings.
+-        # Find a free port to avoid conflicts
+-        for p in ports[:]:
+-            p_new = p
+-            while not self.check_free_port('localhost', p_new, lockdir):
+-                p_new += 1
+-                while p_new in ports:
+-                        p_new += 1
+-            if p != p_new:
+-                ports.append(p_new)
+-                qb_slirp_opt = re.sub(':%s-' % p, ':%s-' % p_new, qb_slirp_opt)
+-                logger.info("Port forward changed: %s -> %s" % (p, p_new))
+         mac = "%s%02x" % (self.mac_slirp, self.alloc_mac_slot("/tmp/qemu-mac-locks"))
+         self.set('NETWORK_CMD', '%s %s' % (self.network_device.replace('@MAC@', mac), qb_slirp_opt))
+-        # Print out port foward
+-        hostfwd = re.findall('(hostfwd=[^,]*)', qb_slirp_opt)
+-        if hostfwd:
+-            logger.info('Port forward: %s' % ' '.join(hostfwd))
 +
-+        QB_SLIRP_OPT is only a wishlist: runqemu moves a forward to another
-+        host port whenever qemu cannot bind the wished-for one (e.g. because
-+        a parallel oe-selftest worker's qemu holds it). Writing the mappings
-+        the running qemu reports back into QB_SLIRP_OPT is what lets the
-+        subsequent `devtool ide-sdk --skip-bitbake` run generate debugger
-+        configs pointing at the ports that actually work.
-+        """
-+        mappings = qemu.slirp_port_mappings
-+        self.assertTrue(mappings, 'Running qemu reported no slirp port mappings')
++    SLIRP_QMP_TIMEOUT = 10
 +
-+        bbappend = os.path.join(self.workspacedir, 'appends', testimage + '.bbappend')
-+        with open(bbappend) as f:
-+            content = f.read()
++    def add_slirp_hostfwds(self):
++        """Add the slirp hostfwd allowlist to the running qemu via QMP"""
++        # qemu creates/binds this socket itself soon after it starts, so it
++        # may not be ready to accept a connection yet right after Popen().
++        sock = None
++        for _ in range(100):
++            if self.qemuprocess and self.qemuprocess.poll() is not None:
++                raise RunQemuError("Failed to run qemu: %s" % self.qemuprocess.stderr.read().decode())
++            try:
++                sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
++                sock.settimeout(self.SLIRP_QMP_TIMEOUT)
++                sock.connect(self.internal_qmp_path)
++                break
++            except (FileNotFoundError, ConnectionRefusedError):
++                sock.close()
++                sock = None
++                time.sleep(0.1)
++            except socket.timeout as error:
++                sock.close()
++                raise RunQemuError("Timed out connecting to internal QMP socket %s" % self.internal_qmp_path) from error
++            except OSError:
++                sock.close()
++                raise
++        else:
++            raise RunQemuError("Timed out waiting for internal QMP socket %s" % self.internal_qmp_path)
++        sockf = sock.makefile('rw')
 +
-+        def remap(m):
-+            protocol = m.group(2)
-+            wished_port, target_port = int(m.group(3)), int(m.group(4))
-+            self.assertIn((protocol, target_port), mappings,
-+                          'qemu is not forwarding wished-for %s target port %d' % (protocol, target_port))
-+            host_port = mappings[(protocol, target_port)]
-+            if host_port != wished_port:
-+                # The reserved block (see _reserve_slirp_port_block) should
-+                # make this unreachable; if it still happens, something else
-+                # grabbed a port from the block between the reservation and
-+                # qemu's own bind.
-+                self.logger.warning(
-+                    'Slirp %s host port for target %d moved from the reserved '
-+                    '%d to %d: the reserved port block was not exclusive '
-+                    'after all.', protocol, target_port, wished_port, host_port)
-+            return '%s%d-:%d' % (m.group(1), host_port, target_port)
++        def read_response():
++            # QMP may interleave asynchronous event messages with command
++            # responses; skip those and return the first actual reply.
++            while True:
++                line = sockf.readline()
++                if not line:
++                    raise RunQemuError("Internal QMP connection closed unexpectedly")
++                msg = json.loads(line)
++                if 'event' not in msg:
++                    return msg
 +
-+        new_content = re.sub(r'(hostfwd=([a-z]+):[^:]*:)(\d+)-:(\d+)', remap, content)
-+        with open(bbappend, 'w') as f:
-+            f.write(new_content)
-+        return mappings
++        try:
++            greeting = read_response()
++            if 'QMP' not in greeting:
++                raise RunQemuError("Invalid internal QMP greeting: %s" % greeting)
++            sockf.write(json.dumps({"execute": "qmp_capabilities"}) + '\n')
++            sockf.flush()
++            response = read_response()
++            if 'error' in response or response.get('return') != {}:
++                raise RunQemuError("Internal QMP negotiation failed: %s" % response)
 +
-     def _verify_nfs_debug_rootfs(self, testimage, nfs):
-         """Verify the NFS debug rootfs was extracted and its runqemu launch helper generated."""
-         nfs_rootfs = os.path.join(self.workspacedir, 'nfs-exports', testimage, nfs)
-@@ -3680,9 +3715,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             self._meson_recipe_name, "meson.build", testimage)
-         package_opts = self._ide_sdk_package_opts()
-         nfs_opts = ' --nfs=%s' % nfs_export if nfs else ''
--        # runqemu only grants a QB_SLIRP_OPT wish while the host port is free,
--        # and lldb-server's spawned gdbserver needs host == target, so give the
--        # debug servers a block no parallel worker uses (see
-+        # A reserved block keeps the QB_SLIRP_OPT wishlist 1:1, which
-+        # lldb-server's spawned gdbserver depends on (see
-         # _reserve_slirp_port_block); both invocations must agree on it.
-         port_opts = ' -G %d' % self._reserve_slirp_port_block() if slirp else ''
-         runCmd('devtool ide-sdk %s -c --ide=code --ide=none %s%s%s' % (
-@@ -3723,6 +3757,10 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             if slirp:
-                 self.assertIsNotNone(qemu.port, 'No SSH port for the slirp target')
-                 target_options = '-t root@%s -P %s' % (qemu.ip, qemu.port)
-+                # The wished-for ports in QB_SLIRP_OPT are only known to have
-+                # been honoured now that qemu is up, so feed its effective
-+                # mappings back in before regenerating the debugger configs.
-+                self._apply_slirp_port_mappings(testimage, qemu)
-             else:
-                 target_options = '-t root@%s -c' % qemu.ip
++            used_ports = set()
++            hostfwd_added = []
++            for proto, hostip, hostport, guestip, targetport in self.slirp_hostfwd_allowlist:
++                candidate = hostport
++                for _ in range(100):
++                    while (proto, candidate) in used_ports:
++                        candidate += 1
++                    cmdline = 'hostfwd_add %s:%s:%d-%s:%d' % (proto, hostip, candidate, guestip, targetport)
++                    sockf.write(json.dumps({"execute": "human-monitor-command",
++                                            "arguments": {"command-line": cmdline}}) + '\n')
++                    sockf.flush()
++                    response = read_response()
++                    # hostfwd_add prints nothing on success; on failure it
++                    # prints a message like "Could not set up host forwarding
++                    # rule ..." which does NOT contain the word "error", so
++                    # check for empty output rather than absence of that word.
++                    result = response.get('return')
++                    if 'error' not in response and isinstance(result, str) and result.strip() == '':
++                        used_ports.add((proto, candidate))
++                        hostfwd_added.append('hostfwd=%s:%s:%d-%s:%d' % (proto, hostip, candidate, guestip, targetport))
++                        if candidate != hostport:
++                            logger.info("Port forward changed: %s -> %s" % (hostport, candidate))
++                        break
++                    candidate += 1
++                else:
++                    raise RunQemuError("Could not find a free host port for hostfwd target %d after 100 attempts" % targetport)
++        except socket.timeout as error:
++            raise RunQemuError("Timed out communicating with internal QMP socket %s" % self.internal_qmp_path) from error
++        finally:
++            sockf.close()
++            sock.close()
++
++        if hostfwd_added:
++            logger.info('Port forward: %s' % ' '.join(hostfwd_added))
  
-@@ -4763,6 +4801,19 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-             self.assertTrue(task,
-                             f"Configuration '{config_name}' preLaunchTask should not be empty")
+     def setup_tap(self):
+         """Setup tap"""
+@@ -1460,6 +1537,14 @@ to your build configuration.
+     def setup_qmp(self):
+         if self.qmp:
+             self.qemu_opt += " -qmp %s,server,nowait" % self.qmp
++        if self.slirp_hostfwd_allowlist:
++            # A private monitor, in addition to any user-requested self.qmp,
++            # used internally to add the hostfwd allowlist once qemu is up
++            # (see add_slirp_hostfwds()).
++            qmp_dir = tempfile.mkdtemp(prefix='qemu-slirp-qmp-')
++            self.cleanup_files.append(qmp_dir)
++            self.internal_qmp_path = os.path.join(qmp_dir, 'monitor.sock')
++            self.qemu_opt += " -qmp unix:%s,server,nowait" % self.internal_qmp_path
  
-+    def _ensure_1to1_hostfwd(self, qemu, lldb_server_cmd):
-+        """Ensure the --gdbserver-port in lldb_server_cmd is forwarded host==target."""
-+        match = re.search(r'--gdbserver-port (\d+)', lldb_server_cmd)
-+        self.assertIsNotNone(match,
-+                             "lldb-server start command should specify --gdbserver-port")
-+        port = int(match.group(1))
-+        if not qemu.slirp_port_mappings:
-+            return
-+        if qemu.slirp_port_mappings.get(('tcp', port)) == port:
-+            return
-+        self.assertEqual(qemu.add_hostfwd(port, port), port,
-+                         "Could not forward lldb-server gdbserver port %d 1:1" % port)
-+
-     def _find_source_break_line(self, tempdir, source_file, marker):
-         """Find the 1-based line number of `marker` in tempdir/source_file
- 
-@@ -5016,6 +5067,14 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-         connect_cmd = next((c for c in init_commands if "platform connect" in c), None)
-         self.assertIsNotNone(connect_cmd, "initCommands should contain a platform connect command")
- 
-+        # Once a debug session is started, the lldb client automatically
-+        # reconnects to lldb-server's spawned gdbserver sub-instance using the
-+        # raw --gdbserver-port target port number, with no hook to tell it to
-+        # use a different (remapped) host port -- unlike the platform connect
-+        # port above, which is resolved from the effective mapping. So this
-+        # port needs an explicit host==target slirp forward.
-+        self._ensure_1to1_hostfwd(qemu, ssh_cmd[-1])
-+
-         lldb_binary = self._lldb_native_binary()
- 
-         self.logger.debug("Starting lldb-server via SSH: %s", " ".join(ssh_cmd))
-@@ -5093,6 +5152,12 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-         self.assertExists(lldb_server_script)
-         self.assertExists(lldb_script)
- 
-+        # See the comment in _lldb_server_debugging_once() about why this
-+        # port specifically needs an explicit host==target slirp forward.
-+        with open(lldb_server_script) as f:
-+            lldb_server_script_content = f.read()
-+        self._ensure_1to1_hostfwd(qemu, lldb_server_script_content)
-+
-         # Start lldb-server (script exits once the port is ready)
-         r = runCmd(lldb_server_script, output_log=self._cmd_logger)
-         self.assertEqual(r.status, 0)
+     def setup_vga(self):
+         if self.nographic == True:
+@@ -1645,6 +1730,8 @@ to your build configuration.
+                 pass_fds.append(descriptor.fileno())
+         process = subprocess.Popen(cmds, stderr=subprocess.PIPE, pass_fds=pass_fds, env=self.qemu_environ)
+         self.qemuprocess = process
++        if self.slirp_hostfwd_allowlist:
++            self.add_slirp_hostfwds()
+         retcode = process.wait()
+         if retcode:
+             if retcode == -signal.SIGTERM:
 -- 
 2.56.0
 
