@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C020DCA9EDD
-	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:40 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23587.1791708100159847413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8161CA9EC9
+	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:50 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23588.1791708101308108688
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:40 -0700
+ Sun, 11 Oct 2026 01:41:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=qrw1kNmf;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48b02b1b4cfso1947423f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:39 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=izuewGq6;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48afe0081a6so609257f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708098; x=1792312898; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708099; x=1792312899; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=eT/T38/ITBxXm+fBFVBkDOApdUQ3mfKdRd5ZwkzkilY=;
-        b=qrw1kNmfp5Ht2iXZp2EcAyE8mMyA7rLeax6osIS+GIn0eOXMCPJ7FpTR1PklFBXp0C
-         2jHWb83VwNQ6Js9sJAMLUaxx5QI1scbvoI+SM5JF152AsqaOxvnw0CgXXC2Y/hKbA3hr
-         58A/KE6F6xTgxQK/gBMHxUz+b8GuHHZaMD48E=
+        bh=y+/h+CeNecC7ZCX8QrR5HB0tJLtzxXhB55wiZToO7LU=;
+        b=izuewGq6Z+278kFkpVJF7gTQ1tanWQLkKr1CIRsnUy/jpLC+iElXHiywCBcL8bxQOb
+         Te6nufggCTA05RtY+19/7iSBixw5ag+wo3t6OAopiZb+z2FxSBbq1diW4PhG21Y1TOGS
+         7K8/V8FEW7ZHz45vNuOncankogKxZ2l7Ts7VE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708098; x=1792312898;
+        d=1e100.net; s=20260707; t=1791708099; x=1792312899;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=eT/T38/ITBxXm+fBFVBkDOApdUQ3mfKdRd5ZwkzkilY=;
-        b=Gakaxg+sMs2ueIMKfQFRTA4PnD0Z0DtXMWZ0Jjfj0G69MU+h66qbeSJRbe4WkWItkG
-         LLKK9X5qbkljBPezlX/6xL9RsPfHM14EhiJ1w/z3GGc3K3hfQG7u/E4A+pEQzYlcJ/hZ
-         gopXFv5kC/MJQDVb82qAJaN7PlzHLZ/XIiIlCLzpc6E4dvwI4mmzUJVWqNn3Q7h2VB+y
-         eYyD3a80pNYRDk3XePiaDB6KjKSfGG7dFwSR7ZzQym1TK521m057VWD1biKotzxwa8aG
-         E64T1ZUVlWxCfo+Krb/TLoybtZqMdbEaxbvtVbsTjE6CrNPe6KrdPbgdPwqA7Vtw7bLK
-         OOqg==
-X-Gm-Message-State: AFq9FYKRZSD8iSIuH1uHh4iBcI50c7ttDVUyzJ5rN2WYmL13Bdxu7W0Y
-	KM18jU12HQx43+hlq/G6g813AxIcVX0yX0a+cgZYsCRrW97Tsrez8M/DvJjfuSnEOAAlRLxpCsz
-	yxZz+Jco=
-X-Gm-Gg: AYBFou1DF80Li+nfvk67iPmaH9xyWDvvo+0k8zd2BeTKXaQYnQd1rKmOlRmg5PdjfJu
-	RR39L/cTo2UXb7Z3qQgZmy88OhpBl5Z11lAv3LYkB7tDlJh5liii8O99/T8u+PJIX5GI1nUcpNQ
-	J8t72WWjgwcdlMZBVQaZg4PeMsvm7p7MOOuuRLHsL2OFTWkXukfT857KHudZlX1iXwJJPqFABmk
-	wN1U/1bEx20LIIHxCYu64VrEx6XUgM2ZzrwL3uH1r1CPtHI+w5riQH1lnkbGqbE6Ku+Yt+0Rqr1
-	uVE0+x3ZA5a7XVUyh0p6+xE4q+COCfRtcx1gxjRtSYYFFKXp06lDRYgcToB3W7JRr/lLHUhYudP
-	8DNiMklifTImj7Kfw2/CU8GGVDtigcl2an2v5VdNODtgJ3EYNaNyQpYkOqU8mSn5AT/nBDpq7At
-	kZTGF1q1+wPbEOAOj7cywZtFjVJJkojGIvbkiD79XykLhV3NouWA3wleKQHqdi1U0erpjLRFuCO
-	yTbIck8IbJzS63tKQW37PJeD+uYmqsIAdvCHPfo8sgX8wRbPS5Yyur3IoUzKrQM7/I6ANSRMg==
-X-Received: by 2002:a05:6000:298d:20b0:48b:469:b562 with SMTP id ffacd0b85a97d-48dba7b3284mr8836136f8f.2.1791708098251;
-        Sun, 11 Oct 2026 01:41:38 -0700 (PDT)
+        bh=y+/h+CeNecC7ZCX8QrR5HB0tJLtzxXhB55wiZToO7LU=;
+        b=RGZiHXOZEZXaV7HpRGXEGc43bJcoGl/jnv6oC/J4jh2NfHExypd6ST2f8zeBXVBYot
+         bwBZ5TLvll+9vds9H+w+nZA/bJ+os4+BdJhZaiZum1uENn6i80kcnq+GMMsy7+rJg7Zr
+         CFVVTUmUGD53jFxPyuY65Rz/jgPft1I5ZlVvVs+oMcChqicQqfL27alM5OIb9x3MeETt
+         SCo4y4fdt4g+5dYjrTYc6T+7G9RgtQ89YSQ4q0nyO4C1DilYutrWLieuEiuplykSXmn1
+         r7jMC79/RS0CQKwg8nN7PhQSrEH19Ajxh3Lc6rOnAGpWREnzlAwNYTMH2WnLptG/h/+G
+         6JIw==
+X-Gm-Message-State: AFq9FYKN1nnksj91N0nkv4bLb8+TGv3UE3daMvEZMx7IQu6gZBmsKIGW
+	Kp9fDrLzsyw+lxTK2VfwgXR+MZlsDsfCq62si6l8Sfmgh6MQpgs3GGQk4pgdppi7gL5wQ0fNZsT
+	XoMJS+EU=
+X-Gm-Gg: AYBFou3Xk10J0bS0ul7tsqWeO0UNl12Owl1OPt15Hx17hIeBVEjcdl3DxdKj3XaQjXJ
+	12M+yJKTkUlDbmhRPUI4c6bK+of+DfInoP7etqW3LKZb1d13Hp5PHm4/s6OlUU02XAgkiol6rKq
+	amruDKhUPcxMhdEqAP/SVaIwX+bNDyhaGZXvBg5/KCfD3qgvSab7JdONvvR9WREQ2xyGiXB1BAF
+	WSaK1Ux3blD4Z4C1369cGxVT7n602AflYHyVV3UvjoMxL2azxf7O2MTnXjPYzkmfG/0usWW9ReQ
+	+OKHaMnC7wzVUPbnYsex0RqsTrNKATVA1q4aC6540FncaRQ4spH8Zo0N/gKc+dLHyZH85IN3yRm
+	JzDBGuVV8HUvPtGhfcNaOWDqg/Uvtx/NjaDtuH7VKzbFfOn8NokBGrWupPAO3C3SvXN7BTA7QKI
+	GfyVetVzyXOOnKWad0GYeazurrJXGXqrjgmAwRy3RB4hq81PKzpHqL71/IbO0UljqgzRwtKv6tT
+	n0GNU5KACZu3Ncr9Xr4OPyQmlvECB/B0/VD6bXJsPVguf0xFGjKxscCOl6HF4F0I8zGyl/Vyw==
+X-Received: by 2002:a5d:5f8f:0:b0:48b:42c:8b44 with SMTP id ffacd0b85a97d-48dbaaee9bcmr11080666f8f.32.1791708099381;
+        Sun, 11 Oct 2026 01:41:39 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:37 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:39 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 58/60] libpcre2: patch CVE-2026-89158
-Date: Sun, 11 Oct 2026 10:40:31 +0200
-Message-ID: <d4427ccd6c01d733440e3afb05f0ca0d7e808c76.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 60/60] libpcre2: patch CVE-2026-103111
+Date: Sun, 11 Oct 2026 10:40:33 +0200
+Message-ID: <d1d174cf7d58aae5f00281aafcebc2fe11e41200.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -65,247 +65,150 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247567
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247569
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1] since [2] does not provide it.
+Pick patch per [1] and [2].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-89158
-[2] https://github.com/PCRE2Project/pcre2/security/advisories/GHSA-fmgr-6ggq-9859
+[1] https://security-tracker.debian.org/tracker/CVE-2026-103111
+[2] https://github.com/PCRE2Project/pcre2/security/advisories/GHSA-r9hj-j2rw-4q3m
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpcre/libpcre2/CVE-2026-89158.patch     | 208 ++++++++++++++++++
+ .../libpcre/libpcre2/CVE-2026-103111.patch    | 111 ++++++++++++++++++
  .../recipes-support/libpcre/libpcre2_10.47.bb |   1 +
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-89158.patch
+ 2 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-103111.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-89158.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89158.patch
+diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-103111.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-103111.patch
 new file mode 100644
-index 00000000000..80996674332
+index 00000000000..6006566d840
 --- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89158.patch
-@@ -0,0 +1,208 @@
-+From ec9c286d5c10cf1c388b58a442ccefded42254fd Mon Sep 17 00:00:00 2001
-+From: Nicholas Wilson <nicholas@nicholaswilson.me.uk>
-+Date: Thu, 27 Aug 2026 16:52:16 +0100
-+Subject: [PATCH] Fix compiler integer overflows; see GHSA-fmgr-6ggq-9859 for
-+ details
++++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-103111.patch
+@@ -0,0 +1,111 @@
++From 2b4038298072684b0fae29b15bedfb1a75bda46d Mon Sep 17 00:00:00 2001
++From: Zoltan Herczeg <zherczeg@inf.u-szeged.hu>
++Date: Mon, 21 Sep 2026 07:46:13 +0000
++Subject: [PATCH] Fix large JIT stack allocation
 +
-+CVE: CVE-2026-89158
-+Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/ec9c286d5c10cf1c388b58a442ccefded42254fd]
++(GHSA-r9hj-j2rw-4q3m) Security fix to prevent an out of bounds write with
++arbitrary data. Applications are only affected if using the
++pcre2_jit_stack_assign() API to create a growable JIT stack, and then matching
++against a pattern with an extremely JIT stack usage, such as a large number of
++capturing groups.
++
++The implications of an out of bounds write could include arbitrary code
++execution.
++
++The issue is not a regression and affects releases 10.48 and earlier.
++
++CVE: CVE-2026-103111
++Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/2b4038298072684b0fae29b15bedfb1a75bda46d]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/pcre2_compile.c       | 55 ++++++++++++++++++++++++++++++++++++---
-+ src/pcre2_compile_class.c | 35 ++++++++++++++++---------
-+ 2 files changed, 74 insertions(+), 16 deletions(-)
++ src/pcre2_jit_compile.c | 21 +++++++++++++++++++--
++ testdata/testinput17    |  5 +++++
++ testdata/testoutput17   |  6 ++++++
++ 3 files changed, 30 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/pcre2_compile.c b/src/pcre2_compile.c
-+index 1081cf64..32cb32f6 100644
-+--- a/src/pcre2_compile.c
-++++ b/src/pcre2_compile.c
-+@@ -6195,7 +6195,8 @@ for (;; pptr++)
++diff --git a/src/pcre2_jit_compile.c b/src/pcre2_jit_compile.c
++index 105a1dd3..c5da883c 100644
++--- a/src/pcre2_jit_compile.c
+++++ b/src/pcre2_jit_compile.c
++@@ -99,7 +99,7 @@ Fast, but limited size. */
 + 
-+     if (meta < META_ASTERISK || meta > META_MINMAX_QUERY)
-+       {
-+-      if (OFLOW_MAX - *lengthptr < (PCRE2_SIZE)(code - orig_code))
-++      if (*lengthptr > OFLOW_MAX ||
-++          OFLOW_MAX - *lengthptr < (PCRE2_SIZE)(code - orig_code))
-+         {
-+         *errorcodeptr = ERR20;   /* Integer overflow */
-+         cb->erroroffset = 0;
-+@@ -8795,7 +8796,8 @@ for (;;)
-+     *reqcuflagsptr = reqcuflags;
-+     if (lengthptr != NULL)
-+       {
-+-      if (OFLOW_MAX - *lengthptr < length)
-++      if (*lengthptr > MAX_PATTERN_SIZE ||
-++          MAX_PATTERN_SIZE - *lengthptr < length)
-+         {
-+         *errorcodeptr = ERR20;
-+         return 0;
-+@@ -8818,6 +8820,19 @@ for (;;)
-+     {
-+     code = *codeptr + 1 + LINK_SIZE + skipunits;
-+     length += 1 + LINK_SIZE;
-++
-++    /* Move the accumulated length into *lengthptr, providing the next call to
-++    compile_branch with as much space in &length and &code as the first did. */
-++
-++    if (*lengthptr > MAX_PATTERN_SIZE ||
-++        MAX_PATTERN_SIZE - *lengthptr < length)
-++      {
-++      *errorcodeptr = ERR20;
-++      cb->erroroffset = 0;
-++      return 0;
-++      }
-++    *lengthptr += length;
-++    length = 0;
-+     }
-+   else
-+     {
-+@@ -10831,7 +10846,8 @@ if (errorcode != 0) goto HAD_CB_ERROR;  /* Offset is in cb.erroroffset */
-+ #if defined SUPPORT_WIDE_CHARS
-+ PCRE2_ASSERT((cb.char_lists_size & 0x3) == 0);
-+ if (length > MAX_PATTERN_SIZE ||
-+-    MAX_PATTERN_SIZE - length < (cb.char_lists_size / sizeof(PCRE2_UCHAR)))
-++    BYTES2CU(cb.char_lists_size) > MAX_PATTERN_SIZE ||
-++    MAX_PATTERN_SIZE - length < BYTES2CU(cb.char_lists_size))
-+ #else
-+ if (length > MAX_PATTERN_SIZE)
-+ #endif
-+@@ -10856,11 +10872,36 @@ if (cb.char_lists_size != 0)
-+   /* Align to 32 bit first. This ensures the
-+   allocated area will also be 32 bit aligned. */
-+   re_blocksize = (PCRE2_SIZE)CLIST_ALIGN_TO(re_blocksize, sizeof(uint32_t));
-++#else
-++  /* Already 32 bit aligned. */
-+ #endif
-++
-++  /* We have bounded the length and BYTES2CU(char_lists_size) to
-++  MAX_PATTERN_SIZE units, however (with 32-bit code units) char_lists_size
-++  in bytes could still be extremely close to (or greater than) SIZE_MAX, so
-++  we require another overflow check. */
-++
-++  if (cb.char_lists_size > PCRE2_SIZE_MAX - re_blocksize)
-++    {
-++    errorcode = ERR20;
-++    cb.erroroffset = 0;
-++    goto HAD_CB_ERROR;
-++    }
-++
-+   re_blocksize += cb.char_lists_size;
-+   }
-+ #endif
++ /* Growth rate for stack allocated by the OS. Should be the multiply
++ of page size. */
++-#define STACK_GROWTH_RATE 8192
+++#define STACK_GROWTH_RATE (sljit_sw)8192
 + 
-++if (length > BYTES2CU(PCRE2_SIZE_MAX - re_blocksize))
++ /* Enable to check that the allocation could destroy temporaries. */
++ #if defined SLJIT_DEBUG && SLJIT_DEBUG
++@@ -472,6 +472,8 @@ typedef struct compiler_common {
++   BOOL local_quit_available;
++   /* Currently in a positive assertion. */
++   BOOL in_positive_assertion;
+++  /* More than STACK_GROWTH_RATE / 2 stack memory is allocated. */
+++  BOOL large_stack_allocation;
++   /* Newline control. */
++   int nltype;
++   sljit_u32 nlmax;
++@@ -3523,6 +3525,8 @@ static SLJIT_INLINE void allocate_stack(compiler_common *common, sljit_s32 size)
++ DEFINE_COMPILER;
++ 
++ SLJIT_ASSERT(size > 0);
+++if (size > (STACK_GROWTH_RATE / (SSIZE_OF(sw) * 2)))
+++  common->large_stack_allocation = TRUE;
++ OP2(SLJIT_SUB, STACK_TOP, 0, STACK_TOP, 0, SLJIT_IMM, size * SSIZE_OF(sw));
++ #ifdef DESTROY_REGISTERS
++ OP1(SLJIT_MOV, TMP1, 0, SLJIT_IMM, 12345);
++@@ -13974,7 +13978,20 @@ SLJIT_ASSERT(TMP1 == SLJIT_R0 && STR_PTR == SLJIT_R1);
++ 
++ OP1(SLJIT_MOV, SLJIT_MEM1(SLJIT_SP), LOCAL1, STR_PTR, 0);
++ OP1(SLJIT_MOV, SLJIT_R0, 0, ARGUMENTS, 0);
++-OP2(SLJIT_SUB, SLJIT_R1, 0, STACK_LIMIT, 0, SLJIT_IMM, STACK_GROWTH_RATE);
+++if (common->large_stack_allocation)
 ++  {
-++  /* Given the current value of 2^30 for MAX_PATTERN_SIZE, this block is only
-++  reachable when both PCRE2_CODE_UNIT_WIDTH >= 16 and sizeof(size_t) is
-++  32 bits. */
-++  errorcode = ERR20;
-++  cb.erroroffset = 0;
-++  goto HAD_CB_ERROR;
+++  SLJIT_COMPILE_ASSERT((STACK_GROWTH_RATE & (STACK_GROWTH_RATE - 1)) == 0, stack_growth_must_be_power_of_2);
+++  // Negative difference. The positive difference would also use the same amount
+++  // of operations, but the last subtraction emits several instructions on x86.
+++  OP2(SLJIT_SUB, SLJIT_R1, 0, STACK_TOP, 0, STACK_LIMIT, 0);
+++  // Minimum extra space after allocation.
+++  OP2(SLJIT_SUB, SLJIT_R1, 0, SLJIT_R1, 0, SLJIT_IMM, (STACK_GROWTH_RATE / 2));
+++  // Rounds down negative numbers.
+++  OP2(SLJIT_AND, SLJIT_R1, 0, SLJIT_R1, 0, SLJIT_IMM, ~(STACK_GROWTH_RATE - 1));
+++  OP2(SLJIT_ADD, SLJIT_R1, 0, SLJIT_R1, 0, STACK_LIMIT, 0);
 ++  }
+++else
+++  OP2(SLJIT_SUB, SLJIT_R1, 0, STACK_LIMIT, 0, SLJIT_IMM, STACK_GROWTH_RATE);
++ OP1(SLJIT_MOV, SLJIT_R0, 0, SLJIT_MEM1(SLJIT_R0), SLJIT_OFFSETOF(jit_arguments, stack));
++ OP1(SLJIT_MOV, STACK_LIMIT, 0, TMP2, 0);
++ 
++diff --git a/testdata/testinput17 b/testdata/testinput17
++index a02e6be2..486998b4 100644
++--- a/testdata/testinput17
+++++ b/testdata/testinput17
++@@ -188,6 +188,11 @@
++ /(?(R)a*(?1)|((?R))b)/
++ \= Expect JIT stack limit reached
++     aaaabcde
 ++
-+ re_blocksize += CU2BYTES(length);
-+ 
-+ if (re_blocksize > ccontext->max_pattern_compiled_length)
-+@@ -10870,7 +10911,15 @@ if (re_blocksize > ccontext->max_pattern_compiled_length)
-+   goto HAD_CB_ERROR;
-+   }
-+ 
-++if (sizeof(pcre2_real_code) > PCRE2_SIZE_MAX - re_blocksize)
-++  {
-++  errorcode = ERR20;
-++  cb.erroroffset = 0;
-++  goto HAD_CB_ERROR;
-++  }
+++# A single large stack allocation must grow beyond the current stack top.
 ++
-+ re_blocksize += sizeof(pcre2_real_code);
+++/((?(DEFINE)\[()\g{-1}]{1400}).{1}(?R)|)/expand,jit
+++    AAAAAA\=jitstack=192
++     
++ # Invalid options disable JIT when called via pcre2_match(), causing the
++ # match to happen via the interpreter, but for fast JIT invalid options are
++diff --git a/testdata/testoutput17 b/testdata/testoutput17
++index c678587f..b6e7e1a6 100644
++--- a/testdata/testoutput17
+++++ b/testdata/testoutput17
++@@ -350,6 +350,12 @@ Failed: error -46: JIT stack limit reached
++ \= Expect JIT stack limit reached
++     aaaabcde
++ Failed: error -46: JIT stack limit reached
 ++
-+ re = (pcre2_real_code *)
-+   ccontext->memctl.malloc(re_blocksize, ccontext->memctl.memory_data);
-+ if (re == NULL)
-+diff --git a/src/pcre2_compile_class.c b/src/pcre2_compile_class.c
-+index c6f30d6f..c0606643 100644
-+--- a/src/pcre2_compile_class.c
-++++ b/src/pcre2_compile_class.c
-+@@ -498,7 +498,7 @@ static const uint32_t char_list_starts[] = {
-+ 
-+ static class_ranges *
-+ compile_optimize_class(uint32_t *start_ptr, uint32_t options,
-+-  uint32_t xoptions, compile_block *cb)
-++  uint32_t xoptions, int *errorcodeptr, compile_block *cb)
-+ {
-+ class_ranges* cranges;
-+ uint32_t *ptr;
-+@@ -538,12 +538,23 @@ PCRE2_ASSERT((range_list_size & 0x1) == 0);
-+ 
-+ total_size = range_list_size +
-+    ((range_list_size >= 2) ? CHAR_LIST_EXTRA_SIZE : 0);
-++if (total_size > (PCRE2_SIZE_MAX - sizeof(class_ranges)) / sizeof(uint32_t))
-++  {
-++  *errorcodeptr = ERR20;
-++  cb->erroroffset = 0;
-++  return NULL;
-++  }
-+ 
-+ cranges = cb->cx->memctl.malloc(
-+   sizeof(class_ranges) + total_size * sizeof(uint32_t),
-+   cb->cx->memctl.memory_data);
-+ 
-+-if (cranges == NULL) return NULL;
-++if (cranges == NULL)
-++  {
-++  *errorcodeptr = ERR21;
-++  cb->erroroffset = 0;
-++  return NULL;
-++  }
-+ 
-+ cranges->header.next = NULL;
-+ #ifdef PCRE2_DEBUG
-+@@ -1116,13 +1127,10 @@ if (utf)
-+   {
-+   if (lengthptr != NULL)
-+     {
-+-    cranges = compile_optimize_class(pptr, options, xoptions, cb);
-++    cranges = compile_optimize_class(pptr, options, xoptions, errorcodeptr, cb);
-+ 
-+     if (cranges == NULL)
-+-      {
-+-      *errorcodeptr = ERR21;
-+       return NULL;
-+-      }
-+ 
-+     /* Caching the pre-processed character ranges. */
-+     if (cb->last_data != NULL)
-+@@ -1755,18 +1763,17 @@ if ((xclass_props & XCLASS_REQUIRED) != 0)
-+       *lengthptr += 1 + LINK_SIZE;
-+ #endif
-+ 
-+-      cb->char_lists_size += char_lists_size;
-++      PCRE2_ASSERT(BYTES2CU(cb->char_lists_size) <= MAX_PATTERN_SIZE);
-+ 
-+-      char_lists_size /= sizeof(PCRE2_UCHAR);
-+-
-+-      /* Storage space for character lists is included
-+-      in the maximum pattern size. */
-+-      if (*lengthptr > MAX_PATTERN_SIZE ||
-+-          MAX_PATTERN_SIZE - *lengthptr < char_lists_size)
-++      if (char_lists_size > PCRE2_SIZE_MAX - cb->char_lists_size ||
-++          BYTES2CU(char_lists_size) > MAX_PATTERN_SIZE ||
-++          BYTES2CU(cb->char_lists_size) > MAX_PATTERN_SIZE - BYTES2CU(char_lists_size))
-+         {
-+         *errorcodeptr = ERR20;   /* Pattern is too large */
-+         return NULL;
-+         }
+++# A single large stack allocation must grow beyond the current stack top.
 ++
-++      cb->char_lists_size += char_lists_size;
-+       }
-+     else
-+       {
-+@@ -1789,6 +1796,8 @@ if ((xclass_props & XCLASS_REQUIRED) != 0)
-+       Each list is aligned to 32 bit with an optional unused
-+       16 bit value at the beginning of the character list. */
-+ 
-++      PCRE2_ASSERT(char_lists_size <= PCRE2_SIZE_MAX - cb->char_lists_size);
-++
-+       cb->char_lists_size += char_lists_size;
-+       data = (uint8_t*)cb->start_code - cb->char_lists_size;
-+ 
+++/((?(DEFINE)\[()\g{-1}]{1400}).{1}(?R)|)/expand,jit
+++    AAAAAA\=jitstack=192
+++Failed: error -46: JIT stack limit reached
++     
++ # Invalid options disable JIT when called via pcre2_match(), causing the
++ # match to happen via the interpreter, but for fast JIT invalid options are
 diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-index ef8274c9b16..2f40ef463eb 100644
+index 60ba56014bf..4884ffb0928 100644
 --- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
 +++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
-            file://CVE-2026-89156.patch \
-            file://CVE-2026-89157.patch \
+@@ -21,6 +21,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
             file://CVE-2026-89160.patch \
-+           file://CVE-2026-89158.patch \
+            file://CVE-2026-89158.patch \
+            file://CVE-2026-86145.patch \
++           file://CVE-2026-103111.patch \
  "
  
  GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
