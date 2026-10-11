@@ -1,159 +1,144 @@
-Return-Path: <marcel@ziswiler.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A12CA9EBD
-	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 12:10:35 +0000 (UTC)
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.197])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25715.1791720633160191815
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79645CA9EC7
+	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 16:23:17 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29399.1791735796554173952
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 05:10:33 -0700
+ Sun, 11 Oct 2026 09:23:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: signature did not verify: crypto/rsa: verification error" header.i=marcel@ziswiler.com header.s=s1-ionos header.b=cd8S5aIl;
- spf=pass (domain: ziswiler.com, ip: 74.208.4.197, mailfrom: marcel@ziswiler.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziswiler.com;
-	s=s1-ionos; t=1791720632; x=1792325432; i=marcel@ziswiler.com;
-	bh=PMbVLErqMdDdXKoXLXkYTNWJUlhuibO8foqIYItkSsY=;
-	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:Content-Transfer-Encoding:MIME-Version:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=cd8S5aIlpVeCO4IWeH8PJ/6AGO/K67OGkGATWqScnn6njRMDp1Xexb5zDSFEl5Dx
-	 D9zL/Q76lC7Y+w9je+LUxfUla3kfi6cZGHTZJr/bwwL7nR4UqOm0gY/rokEbErAHi
-	 N4HYzWm6KqSqkpUlWu3e2O0oh10XfbjvxmVUEAD4usOG7QvqM2/EAWoCg3ZH4op86
-	 HX64d+rxIBndVYO4v4AujUFnYmtY+tRAwGJ8m38bD3sjABv26DRF76Xyu+dKgvk7z
-	 W40Yfld7yiDuYDhFnn9wNsQKBkQTKsCrRTtZsbVW6eJPDgeQMFa6qXSZKRuaIRJdE
-	 aOqKdzD2nxYVUqFGRQ==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from client.hidden.invalid by mrelay.perfora.net (mreueus002
- [74.208.114.78]) with ESMTPSA (Nemesis) id 0LptxZ-1wlTJA3b0R-00p7Ok; Sun, 11
- Oct 2026 14:10:32 +0200
-Message-ID: <1d9ad4f09d0935af3cab63be654e8572e3a37694.camel@ziswiler.com>
-Subject: Re: [OE-core] [PATCH 0/2] mesa 26.2.4 upgrade and gallivm llvm 23
- build fix
-From: Marcel Ziswiler <marcel@ziswiler.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Richard Purdie	
- <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>, 
- Zoltan Boszormenyi	 <zboszor@gmail.com>, Deepesh Varatharajan
- <Deepesh.Varatharajan@windriver.com>,  Antoine Gouby
- <antoine.gouby@toradex.com>
-Date: Sun, 11 Oct 2026 14:10:27 +0200
-In-Reply-To: <CAMKF1sp_VNWppn=cDfFOh=DTSkeB_iJ0ZmmWqFc64+tTSmJ_Xw@mail.gmail.com>
-References: <cover.1791224526.git.marcel.ziswiler@codethink.co.uk>
-	 <51ce6c98f2f466092ba077da44f0232bbcc16366.camel@ziswiler.com>
-	 <CAMKF1sp_VNWppn=cDfFOh=DTSkeB_iJ0ZmmWqFc64+tTSmJ_Xw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@smile.fr header.s=google header.b=HxZjO0Xc;
+ spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48c4207ac26so1132550f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 09:23:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1791735795; x=1792340595; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fY1TgeQEhvYuz+gBvQcGtliKD/1umUnwBzqqkVozMtU=;
+        b=HxZjO0XcybqKd3JrqlJxuAdBa+p81fjii7NPhNEGCbAw+w0bBLthaRET7uW9++Lm2R
+         snK0lrWJvgafmJUX+/5D8qD4Bk257K5XHBVTcmJpXsvFnp6r0KviU8MPXZqviKyCVW06
+         qzqFHGAup537fKL9uJNNkua1V72lB+xGnND7w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791735795; x=1792340595;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fY1TgeQEhvYuz+gBvQcGtliKD/1umUnwBzqqkVozMtU=;
+        b=i+d1LMv8RLO2EyV4QZo+D3zloYsf/7YQvTZF9l/U4+bFliwJ7hFoE2m54LwRG3Yueu
+         ND2MsMWFYC66emdxdtKrXS/lNHTr0kBC4iQzsATk37ng4VDn4eDSSSa5L3YL2GukPMdx
+         PyQ3sCSxsWOQwaBlNpkctZ3v0Yjl0wrwm+fFRG8VuFs8ReYhWSD7tPZytq2lVakneXQx
+         uvwHNG6pYe4puiPVn2z7RfsZXojdAY/DMFSb6IeOo5iRYrSty3nw0Z+Hy7fWo2hKcbfP
+         zaVIMcECP9spOCDYAcJA3zmXzJ8JQQ9K4ExNY0kPcrr+sCMfbQG8LO+9Wf7tlxThK1yt
+         B9NA==
+X-Forwarded-Encrypted: i=1; AKwUvByrSHna0IEduqRibtCp3Ot7G2byQF2eSQ6kzkBTgCWGqBtobyHu2eMTy3kRAwXAcCuI9ozxiVKWboHwFIJXcOZxCw==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYLkChBezqOWaFpixi7HG8XaFSpWzWP6zxCbneE7BTksB3MW/p0v
+	HMBCTmLhgxPbOi0VHsCprXiGSrxJBj1pfbCGtRCJVVcyTVfr2vS2ToLuPna3MIMgzIU=
+X-Gm-Gg: AYBFou2w6x2KQdv2BqaucCSr7clpTXMOKeBH/mNXqlEg56D6LEMhTOIR+KVwnVm0Hz7
+	nXuV2zv8xuy9B7S8OAxIaWWMn+IzPtrJxQl5ROIpM/JTTIiMdi8Qn6iVQy/PW5gYqVXNosjCbuE
+	RoI5Upd2ASYnWwlUoHcl6I/yv6cKnF5lbZwUB6IhKVYkHD33B9hYrHkP1uVowsNR5BItx6aZnXr
+	Ew19v9z1DQexp8bFuq3xr5/Aoqo5uv9kcvL0pgLfTuNl2aZqZtz88n39nvxexohZhQtZ6ypgYQn
+	i/+sBm+dO14/ppio7VOLLOOloSydtard7NveWrPS0raMy3w8ppjeel38x0jzewdAcNZZAxlNF1M
+	pZWhbnWS94HWxeMBl/fyrZvnrcNwgSIUuqdfEeQK94xCEZOImRsGTfCYMVO5xpgXZ2ntqp2LReo
+	K3PZVQm/01G05DOYdfsUsI77Ty7m8Rzk7Jb9sq/VOXYaEskzgWt7MBoI4o6yvxTg+YFopOZWD1P
+	pFFOC2BmyenUocGXPBOjqYQgcd5C1VP1DZHoQFJxqBk5y48gqlctUqqLPeIAw==
+X-Received: by 2002:a05:6000:1283:b0:48c:4c35:3ab5 with SMTP id ffacd0b85a97d-48dbaadd3femr10308214f8f.18.1791735794486;
+        Sun, 11 Oct 2026 09:23:14 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9aac6a4sm14968465f8f.28.2026.10.11.09.23.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Oct 2026 09:23:14 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.0 (by Flathub.org) 
-MIME-Version: 1.0
-X-Provags-ID: V03:K1:5QmStjOCX1K6G+YjXzixQ+U9JMb3SZqTDLXbOjArZjehIuPJsxn
- 0OjVJFlkfHujLcsGi1UsaZO2+4SwbqBOfiNP9FID21MbghS7J4DRTxIBr3yXbDfU++DgqEg
- RFRIWoR+r3UiNXEECjYGI/Mf/QEh54L46r6TDcV+A0y958DhaL2HXPU6Smg93c3iLk0e7yC
- DXBzpvAH6pKD+lK2O+PaA==
-UI-OutboundReport: notjunk:1;M01:P0:Dv+CwzLzpuU=;Ooj50yeyUVKVXPl0vDYgKceLFnV
- OV8mD9y1InUyaZpZTLWHfORrpwFIP8JRi2GV3/JOjKmOkX9NRqHS8dfoFUmeasLcD+GNraH9Q
- 2LGOyqWcia/AHSYYThco66j8o85uAszbEog6E4ojCd3TBlu8aNSNE/Bx47dhOeRvMYVK18V23
- lt5tMg14ocKWNEz/6zge9uG24JhiwSrVfkQybrnuJwP+8lr5iiZK1TlJ5H8k9w247y9F5bVQ3
- eVclPLJpmHtxGCH4et8Y8PJzcyOVHkdRP9mM0q6ZcWYt4T3xpWuTc3VjHaNy3YvjSARzsdxqO
- a9MFlBN6N/sAC8JcHVdlbiZllzJdKgYo0wxdC4bxi7Z5K0devDZdHTik1eWDNsUhiA+nC7DkT
- hhw5TngrHMmK4Qfoo8ivOx6XpW5q0krd3FvFWnPEXMNis/tc1Abj82LSKKnOrIyav2Mhgobow
- zPbITgJtYpSx/I8jiAIiSQ7XdBTYrHHnrusfdIzCyw+WF6gkWXeZb59j6eRmTXZX1YRGF31Ch
- vULrBsPaBNYOFo89gN5NkNocy20mCKYzTi2rUTUzZneTzqJAd0YAaYzsCVyH1rzaj5irN/A2A
- ITeJzxjkqxIgmYHucKaCQoi2JajaXZYzWhQjPxPMgC8FkWYm/pWmw1efDUn+l9xQ84Wd5Hjy6
- Lg9Zwt9k3USQIOKZHpZHBRFPVdnVpE6gaSpagAkduClbOJUEnTCLLlUd30AtvBJWxV05uj/ug
- r/BaT7orv8icJnS7Awfe5Qp1kfoWwsqJA5Cq+m3pYYP4TZfz0Hoh8wQkABsEbsg9hoUMLG+cO
- GXE0jL2fyIst8lSoOH6FVJkiaHstrYIBYGLEWQ9knOG4NXDbu5hA7aMqlTd/wrw194IrTO/by
- oJVsW8G8L1MFzhHQQ/J+b8nqM2SCjr5C4Q0b1KXfxnhehvMP3HninMuj2V4YhcK/rTfG8Xkaf
- dYkAQ5uuBKa11wOvY47adVdKh66WFb8wuYYk1Ca33sQjAID4VB7WHaTgzV2DQ9Ern7+EYlUHv
- Zp+jQYZaC6EoP0zHbjjiXqPu7XiYVOvaksPQB5wMM3HNfOYCncMXQg9J29moQyG2Wb8/HFJ2L
- W6cebfAwJhiNp7yeXI5iVrjSCJZJJ76hQ8AkL/oAocDS4i5AlJ2bAjc6piwJyV3ys3n/PD2Y3
- FnWBzTBA6/gonSrSfeOlTHARGCFYw7pr10YLi02w7wDRrQyPBZSZVnhl7dtXGP77sOiELBS2i
- jBct8fE1GYQ+OuGrd0T6I5U7X6xO4SBjzut5Ue4ygr1BWfi1qazv9JkIPFc3UerTRal5RaxTY
- AlgIEQNNqZBoUclGtYIb1SW7u6I92jufB5kJ9Pbfd3ZVIG0WyCJ5017drDdSFz+/lvtmwUC/N
- Uk4dmhLMpv+KSUfoqPh3AK64PmqMuVgP/y7Lw8gwsMB8uDMnlgp2dl2zT2qddwJ5MsAfVmn/t
- N5MKbMgINQbJK5me+V8Mk4CA7jpEagd5N/YixCHTc0TT8OCiyHyQNMnxhPzZCcSB7/W0BKd0+
- TeuGzYpfWboScZIDsxkj8mlZUKh+qV3ehl6pyWRsAQld4hYQ86VzPGP8Lc5lEepdN+5tWLoL4
- qVGEx6FK8DLfNwCiiQHmH8DvLvlydI03H96OCwR0hScmGSlw45Xy4D9euqbGApYzIAIpJcSk0
- 75xXsHdkhkNXpiMTakVTnvNGSakCQVcfgdfbwVJUF3/yqlx/Y0DfOFOeMC5YatEP6ptLOITEj
- KSOohXV8NH8MLlR36YW6LxCdbfMr/2UH7ZeWIpWhgwPJCwniw6tWH6VhoNi00zE9vsNyThKXn
- EBuK74O+qe5k6Nr18mrIHMmnnoSLa65jQCeNFjo8M3h3mYkMYh92pRj7akxtQlHofl6N9z02o
- GiFkSUvyVK6JAaVppz6z9gxo+BLKv+GwqjuHiVpcXIALDtXFJPUpo+NqrMNXw5RqVJkwcG/QM
- +G8zQUVi532BW5MQ1tfF0dUBkFVZbeXcCF5Jh93mK4SKC+wqc66PJtkqCBrsebpdLft+rVaZc
- olKzpYT+zGiaCZhsX571YJAYhZbIm7A2OLY1o3SnQqJweTVaG4r0uc3+HmQq2yAx7CHrnWwez
- CdR9XQFWE9ZaulVifIZFr419AgnN5bahitcJx/uVwppU3Dd8shlqSISssDUVQrcI4uCqmS/BV
- I+kG0oMXEw8QlSTf9TIX5CE0YIRA1IpAx4O6jvYh0DhGDHhbkzzI0dDcUuSmEgH54IQd2291H
- /IVPwbifWLDdr2AEnafLYAPcALnqDlzaGGCV7cjT5MoBeceKM6//vgOcbyoILlcwbEy316Rhr
- ObtzDeTQyplofGSu2oaSI7lk/B8kaQxqtPowgieYrMcQgWJFf0RiVEQfh6Rr2rPjnGhZRW/SX
- oPa5jOxlNq6pqthFsH04Yzqx/gGKF8hwIXXcXL8J+VDYN1Jb2xZtYib9KjMRiWtglrX38hOER
- OFijSlY670/8nfd3JSzOwtcs3mkXIto9wjHfpACBhTsQbfhXG0et1asow+6HwsYq9MJa3S/bZ
- H+lA2bPPgfsRw6IK9u6BCxEh8GlRJjtAibAmV113rJ5K40SYjhZJpuCnE8UXsG4A3i0ObVNAY
- g1wrJYDLOsm2l4C1JAxEOQdkyVqJdYXo7DnDVrN3BZkJbTRHCOWF7kbJ3wAPrF8mdpyBc5QO2
- WiVgzUdgSciVOnTK4+iKioOm0Iug09evGxBagdXYoIYv1w==
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 11 Oct 2026 18:23:12 +0200
+Message-Id: <DM25BW40VU6P.OL7ABO4PSRKK@smile.fr>
+Subject: Re: [OE-core] [PATCH] uutils-coreutils: move from meta-openembedded
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Etienne Cordonnier" <ecordonnier@snap.com>
+To: <collin.funk1@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261010113029.2347847-1-ecordonnier@snap.com>
+ <87pkxh2ynu.fsf@gmail.com>
+In-Reply-To: <87pkxh2ynu.fsf@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 12:10:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247576
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 16:23:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247577
 
-On Sat, 2026-10-10 at 15:00 -0700, Khem Raj wrote:
->=20
-> On Sat, Oct 10, 2026 at 1:00=E2=80=AFPM Marcel Ziswiler via lists.openemb=
-edded.org
-> <marcel=3Dziswiler.com@lists.openembedded.org> wrote:
-> > On Mon, 2026-10-05 at 20:36 +0200, Marcel Ziswiler wrote:
-> > > This series upgrades mesa to 26.2.4 and fixes a gallivm llvm 23 build=
- issue.
-> > >=20
-> > > Build tested on x86_64 and run tested on LicheePi 4A.
-> >=20
-> > Any comments anybody? Thanks!
->=20
-> Looks ok. Its already staged
-> in=C2=A0https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dm=
-athieu/master-next
+On Sat Oct 10, 2026 at 8:33 PM CEST, Collin Funk via lists.openembedded.org=
+ wrote:
+> Etienne Cordonnier <ecordonnier@snap.com> wrote:
+>
+>> uutils-coreutils, the Rust reimplementation of GNU coreutils, is mature
+>> enough for production use, so move the recipe from meta-oe to oe-core.
+>> It provides and rprovides coreutils, and is excluded from world unless
+>> selected as the coreutils provider.
+>
+> Total disregard for the requirements imposed by the GPL is helpful to it
+> being "mature enough for production use", of course. See the downplayed
+> mention in the 0.12.0 release notes:
+>
+>     Also, some contributions had carried comments and code over from GNU
+>     coreutils, against our own rule that uutils is an original
+>     implementation. We reviewed the tree and rewrote what we found, in
+>     comments and in the few functions that followed the C too closely;
+>     no behaviour change. The GNU coreutils maintainers have been
+>     notified.
+>
+>> +SUMMARY =3D "coreutils ~ GNU coreutils (updated); implemented as univer=
+sal (cross-platform) utils, written in Rust"
+>
+> This summary reads as if it is trying to claim that uutils is the
+> official GNU coreutils project.
+>
+> I'm not familiar enough with openembedded, but a concern raised by other
+> distributions and me is that supporting two packages as "coreutils"
+> increases maintainers' workload because the implementations are bound to
+> diverge, requiring otherwise unnecessary code churn. E.g., for around a
+> year, Ubuntu 26.04 had the following:
+>
+>     $ export LC_ALL=3Den_US.UTF-8
+>     $ printf 'USA\nU.S.A\nU-S-A\n' | sort -u
+>     USA
+>     $ printf 'USA\nU.S.A\nU-S-A\n' | gnusort -u
+>     U-S-A
+>     U.S.A
+>     USA
+>
+> It still has the following issue [1]:
+>
+>     $ export LC_ALL=3Den_US.UTF-8
+>     $ echo a A b B | tr ' ' '\n' | sort > tst1.txt
+>     $ echo a A b C | tr ' ' '\n' | sort > tst2.txt
+>     $ comm -23 tst1.txt tst2.txt
+>     comm: file 1 is not in sorted order
+>     comm: file 2 is not in sorted order
+>     B
+>     comm: input is not in sorted order
+>     $ gnucomm -23 tst1.txt tst2.txt
+>     B
+>
+> Collin
+>
+> [1] https://bugs.launchpad.net/ubuntu/+source/rust-coreutils/+bug/2169780
 
-Ah, yes, indeed. I forgot that openembedded-core also maintains a master-ne=
-xt staging area.
+For reference we also had issues with uutils-coreutils implementations:
+* classes/base: prefer gnu-prefixed HOSTTOOLS - openembedded-core - OpenEmb=
+edded Core layer
+  https://git.openembedded.org/openembedded-core/commit/?id=3D16f2684ebeffa=
+72b5d90525cf9102751b68c298e
+* 16028 =E2=80=93 Investigate pseudo/uutils incompatibilities
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16028
 
-I now did a successful build of openembedded-core/master-next together with=
- my latest meta-riscv/th1520-
-graphics-enablement branch, which also successfully ran on the LicheePi 4A.=
- Full logs are available on my pull-
-request there:
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
-https://github.com/riscv/meta-riscv/pull/707
-
-Thanks!
-
-> > Cheers
-> >=20
-> > Marcel
-> >=20
-> > > Marcel Ziswiler (2):
-> > > =C2=A0 mesa,mesa-tools-native: upgrade 26.2.3 -> 26.2.4
-> > > =C2=A0 mesa: gallivm llvm 23 build fix
-> > >=20
-> > > =C2=A0...uiltin_cpu_supports-for-avx2-detecti.patch |=C2=A0 2 +-
-> > > =C2=A0...on-t-encode-build-path-into-binaries.patch |=C2=A0 2 +-
-> > > =C2=A0...gallivm-adapt-for-JITLink-in-LLVM-23.patch | 51 ++++++++++++=
-+++++++
-> > > =C2=A0...sdetects-64bit-atomics-on-mips-clang.patch |=C2=A0 2 +-
-> > > =C2=A0...er-jay-jay_ir.h-do-not-used-typed-en.patch |=C2=A0 2 +-
-> > > =C2=A0...c-do-not-use-arm-fpu-instructions-if.patch |=C2=A0 2 +-
-> > > =C2=A0meta/recipes-graphics/mesa/mesa.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
-> > > =C2=A07 files changed, 59 insertions(+), 7 deletions(-)
-> > > =C2=A0create mode 100644 meta/recipes-graphics/mesa/files/0001-galliv=
-m-adapt-for-JITLink-in-LLVM-23.patch
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#247500): https://lists.openembedded.org/g/openembed=
-ded-core/message/247500
-> > Mute This Topic: https://lists.openembedded.org/mt/121599185/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 
