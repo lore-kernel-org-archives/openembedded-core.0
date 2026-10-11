@@ -2,249 +2,191 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5375CA9ED1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E61CA9ECA
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:39 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23584.1791708096239296998
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23585.1791708097038521589
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:36 -0700
+ Sun, 11 Oct 2026 01:41:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Oe8uvABi;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48c4649b3aaso514294f8f.2
+ dkim=pass header.i=@smile.fr header.s=google header.b=abSk/DJK;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a018792ab3so8339845e9.0
         for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708094; x=1792312894; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=H+X6OAp+nQehujSJQqE+H+ngxA9jq6jg9v0VXpplhHw=;
-        b=Oe8uvABibnSTKojd2fr1FUIZIEjqmfbuVfeTGNEpdFh/qMY9rD1OKKEaGFa8hWzRTd
-         BX4t39xJfdQ8OriwCjpZy0zlqvCAf4EL9hzDToVwH57Em+ZjNbW/qjkM2v0opVVkXV4u
-         4VJMyabzcPTRvcLSE6EWCK5IZc4xbiFGrCDJU=
+        d=smile.fr; s=google; t=1791708095; x=1792312895; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=VuLA0mMc5DUSyznsCU4szGXCGr6itUmi9afYjccLrg0=;
+        b=abSk/DJK5FrWVHIiYndlgcolpJosm9eCOv9k3BvN4UTcgKR5Ys8l+IpL46tkpC6LfH
+         rKCrl9MDxA59KFDbS9lZjsznE6FLrmSCTa+8yqsGt5RXSiGE1NDCexKWRQ/J2viiWJvz
+         7F9Dx6/xLgScRQ/vtC0Nh3cNcdZ1NQsU5f9bg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708094; x=1792312894;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=H+X6OAp+nQehujSJQqE+H+ngxA9jq6jg9v0VXpplhHw=;
-        b=rzqkmjAQ4JGznzNniCNELqvnRC8q69GSkaZmelhWtLQTREciJMQ9oBG6BUVbsA0cYH
-         RnHYW2mWbQUVQdgDvHE5HcO43kX4O+aOfcsCqx0yznSaouUnxvhQiZsVZoBZhr/9VfPa
-         p+TsaLgjK3QYvx+XJN1Q42jxIZoNHQG0W7ao0vNVXBJ6PEdVLnWbV8fphrLG4Ri9Blry
-         +WeNidKizNHvTDgOHj1R2Dey5Vs+aznpfzFuV9WgXwfTNBC/IKMnWWSN1SKZlLh/UU7z
-         l7cCA07OhADhO0VoNvayDPP8Blm9DW3bwB334Kzpc552tPgurnK0vAG7uavtzQVrpIrE
-         pCxA==
-X-Gm-Message-State: AFq9FYJPpmzRDyELFYsYFnu8fiXZztc5WdU+A8r4zH7twL1NM7UVb4xx
-	D+YHbKhJ2gdb1GBHvp2TBFC3uVl4Vt4tap4Au3Sfa06cIALJXk0yCfocYIn8Bz5XH5qL2lEziV4
-	crrMruWY=
-X-Gm-Gg: AYBFou0QcTVwl4L6FLX9RSglPLsrbAF/wucR9o5qoX+6Qf6/jXy9q73+yxghrn/tnpn
-	U06lCrQt75z0W/i+KEeFy0o3GW9Bs1H/Q86edO/1jnH/s+u50sCDfSRxRHVdGwQf8wEksoVNuYK
-	r22Q4tvvNccUCzN0DUnPecbxLoaU8a3FI3gGkUOurfSTCjGmCytIZim0v5QkksskHymIMljsjGV
-	Y+WuBUBP5PBkTuyZZlGBjBHspZRjEdudtZLvTpMCOapMlwJdW1UAiAoVQgI0zCtLgg0I+F6zf4U
-	e0cS9ZoyE28Wza3iyhbj/6FLScPycDL6YsvJLutOrZ4z9vUfMfjLFx6ZEUMzt/QHE/E7tDSkTkB
-	z+asH660NhvuNsupLxjliYUu+jzvJ+wZ2HDpTl0/rzf9WAPUljuIJlV7gtHe9/tmb5EepPDbTtR
-	PjRnH9LYYmaGYdMXDPwaInZTZI2j29T6XES3mDuA7vkcUbxI6j2HvJdNLM4CweGwNFB/JtT2ztg
-	YGG/vkx9BF3jkAppYyzEhqP6I9ymAIuypCj+mLmexSjLfYaNZmuB+flJzIzbO+tAy48A+UwAQ==
-X-Received: by 2002:a05:6000:1ac5:b0:487:91e:d8ed with SMTP id ffacd0b85a97d-48dba784ca9mr11751975f8f.2.1791708094338;
-        Sun, 11 Oct 2026 01:41:34 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791708095; x=1792312895;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=VuLA0mMc5DUSyznsCU4szGXCGr6itUmi9afYjccLrg0=;
+        b=XmuKDoLr3vPQv49cEAOmZGss07gJA08Pe0lNGxAhipdp56vNOGrbU7lhSgRfH+FDgX
+         utieMIuOn3qNR2cPerEQsyvsdCRTRRhh0bk5xhnBuTOYzRdkW4A0ZyC9ah++7mTH8U/d
+         RacsQlMTSc31Vh8PeaRs2FyY/qLXkKuKvHx8+Y13EWv9lsOJr17J7HqUZr6CORb9wxmZ
+         kDhO/fesDUfASFSp6yoMcPL4Lc2+VeJatk4rLnrFUfvdy4iB/lex35ojOLNZb5Qf22H9
+         Yz1ofAY5Jv+R+uAB42tef82pPpqtGRwMZ5A6VRJ82jmvoeBaP6tIvCvrmmZz6LKNJXhb
+         7g1w==
+X-Gm-Message-State: AFq9FYIvIyM5bz82TBwnm6XJePMO/I+uG8cRoP96X560znuKhBoOs0qO
+	b4UrKSr/HVJxEE6cboG9YHT9qBbC/AyUa0Mq3D1vJr/Ikb9BNbCYJdH+O9H4z2uCW4vuUNYi0Nu
+	fU2NEMPE=
+X-Gm-Gg: AYBFou3dXnK8P77bBSvnOE6faqic8HkuRrhUD32DZ1ZUqQNUrULfnC03gsAhNgOHJZu
+	qpJqj9KafHp9rJLW8kgTkwhY4B4od6/QbwmkYNIWSOtAMqHeGiJRcp/xWGFcf/qMRbnpLly2eIb
+	+g9foidNxJt3NQAXZ3LDC+XPuOrH68voH6ngoNBryTcSmTGL7eeQL7qr1w/j5cekfye42lrELe4
+	/y9f1dCsXh6mXulIrqtr75rCkf32QhhTyl1Xjlw/eyUh2CIpOgze1r3U70NdsqPHSJYKHEoEPSs
+	NS5LL5mbn6gcFTyDXhcaScxs3XMyrOPR0CDssDrNz5+aFhqeB4AzYt6585+WiRYO1LE7iTSA1xy
+	v6ZTVAEILSPEx6yNb+ec54+V/N6J+3ITVZJdzR4Pap6quB9Hw7QIbT1R6H/mM2LHKLoc+ae3MJb
+	sxobCGGi0kTsRjEwrbjFAc19s/NKSlUaHFMMKciEaP6r8/248d7AO4rC6aB1DMOs+t7filU/2mn
+	Vkr6/R0F9xGGL1FNmx6afrzHrlKOMzaT4geKcNt2lGmxm2r9PwTGnzNPR8Uydhtg0iBgOlG3Q==
+X-Received: by 2002:a05:600d:1b:b0:4a1:9661:14b7 with SMTP id 5b1f17b1804b1-4a196611b9amr40980395e9.32.1791708095116;
+        Sun, 11 Oct 2026 01:41:35 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:33 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:34 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 52/60] wget: fix CVE-2026-15146
-Date: Sun, 11 Oct 2026 10:40:25 +0200
-Message-ID: <4f963a7691766a181a743b6fa91339800454be20.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 53/60] libpcre2: patch CVE-2026-89162
+Date: Sun, 11 Oct 2026 10:40:26 +0200
+Message-ID: <97f556be4dc13ec70e7b898f44ee7fecdde2e679.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247561
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247562
 
-From: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-GNU Wget does not validate the IP address provided by an FTP PASV response while operating in FTP passive mode.
-A malicious FTP server, or an HTTP server that redirects to an FTP URL, can exploit this behavior to redirect
-Wget’s data connection to an arbitrary IP address and port.This allows an attacker to forge server-side requests
-(SSRF) from the machine running Wget, potentially accessing localhost services or internal network resources.
+Pick patch per [1] since [2] does not provide it.
 
-Backport patch to fix CVE-2026-15146.
-https://cgit.git.savannah.gnu.org/cgit/wget.git/commit/?id=4f85853f641863d5915786a8413e1a213726a62b
+[1] https://security-tracker.debian.org/tracker/CVE-2026-89162
+[2] https://github.com/PCRE2Project/pcre2/security/advisories/GHSA-q7rw-r7qq-2hx6
 
-Ptest Result
-DURATION: 18
-END: /usr/lib/wget/ptest
-2026-10-09T11:05
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
-
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-15146
-  https://www.cve.org/CVERecord?id=CVE-2026-15146
-  https://security-tracker.debian.org/tracker/CVE-2026-15146
-  https://ubuntu.com/security/CVE-2026-15146
-
-Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1a3f905de376f5a79a2a8b70545f08a4daec5a37)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../wget/wget/CVE-2026-15146.patch            | 126 ++++++++++++++++++
- meta/recipes-extended/wget/wget_1.25.0.bb     |   1 +
- 2 files changed, 127 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-15146.patch
+ .../libpcre/libpcre2/CVE-2026-89162.patch     | 88 +++++++++++++++++++
+ .../recipes-support/libpcre/libpcre2_10.47.bb |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-89162.patch
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-15146.patch b/meta/recipes-extended/wget/wget/CVE-2026-15146.patch
+diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-89162.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89162.patch
 new file mode 100644
-index 00000000000..5d8d1a898ea
+index 00000000000..efc6c856b98
 --- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-15146.patch
-@@ -0,0 +1,126 @@
-+From 4f85853f641863d5915786a8413e1a213726a62b Mon Sep 17 00:00:00 2001
-+From: Acts1631 <acts1631kjv@proton.me>
-+Date: Sun, 5 Jul 2026 17:22:55 -0400
-+Subject: ftp: validate PASV/LPSV response address against control connection
-+ peer
++++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89162.patch
+@@ -0,0 +1,88 @@
++From edc111a6831591f68b5355a08cc9df8be8f35304 Mon Sep 17 00:00:00 2001
++From: Nicholas Wilson <nicholas@nicholaswilson.me.uk>
++Date: Sat, 25 Oct 2025 10:50:27 +0100
++Subject: [PATCH] Write padding values to ensure pcre2_serialize_encode()
++ outputs defined values (#826)
 +
-+* src/ftp-basic.c (ftp_pasv): Reject if peer address doesn't match advertised
-+  address,
-+  (ftp_lpsv): Likewise.
++Fixes low-severity valgrind error reported in GHSA-q7rw-r7qq-2hx6.
 +
-+ftp_pasv() and ftp_lpsv() copied the IP address and port advertised in
-+the server's 227 response without checking that it matched the peer
-+of the control connection.  A malicious or compromised FTP server
-+could therefore direct wget's data connection to an arbitrary host and
-+port of its choosing (e.g. an internal service unreachable from the
-+attacker directly), which is a server-side request forgery.
-+
-+ftp_epsv() was already safe since it only extracts a port and reuses
-+the pre-filled control-connection address.
-+
-+Fix ftp_pasv() and ftp_lpsv() the same way: capture the control
-+connection's peer address via socket_ip_address() before parsing the
-+response, and reject the response (FTPINVPASV) if the parsed address
-+does not match.
-+
-+Verified with a fake FTP server that returns a PASV response pointing
-+at a different loopback address (127.0.0.2 instead of the real peer
-+127.0.0.1): before the fix wget connects to the spoofed address, after
-+the fix it rejects the response with "Cannot parse PASV response."
-+Legitimate transfers using a correctly-addressed PASV response
-+continue to work.
-+
-+Copyright-paperwork-exempt: Yes
-+
-+CVE: CVE-2026-15146
-+
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/wget.git/commit/?id=4f85853f641863d5915786a8413e1a213726a62b]
-+
-+Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
++CVE: CVE-2026-89162
++Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/edc111a6831591f68b5355a08cc9df8be8f35304]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/ftp-basic.c | 40 ++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 40 insertions(+)
++ src/pcre2_compile_class.c | 17 +++++++----------
++ src/pcre2test_inc.h       | 25 +++++++++++++++++++++++++
++ 2 files changed, 32 insertions(+), 10 deletions(-)
 +
-+diff --git a/src/ftp-basic.c b/src/ftp-basic.c
-+index 4870256a..0f4bb821 100644
-+--- a/src/ftp-basic.c
-++++ b/src/ftp-basic.c
-+@@ -623,10 +623,19 @@ ftp_pasv (int csock, ip_address *addr, int *port)
-+   int nwritten, i;
-+   uerr_t err;
-+   unsigned char tmp[6];
-++  ip_address peer_addr;
++diff --git a/src/pcre2_compile_class.c b/src/pcre2_compile_class.c
++index 9a1fc022..55b641c1 100644
++--- a/src/pcre2_compile_class.c
+++++ b/src/pcre2_compile_class.c
++@@ -1802,17 +1802,14 @@ if ((xclass_props & XCLASS_REQUIRED) != 0)
++       PUT(code, 0, (uint32_t)(char_lists_size >> 1));
++       code += LINK_SIZE;
 + 
-+   assert (addr != NULL);
-+   assert (port != NULL);
-+ 
-++  /* Remember who we are talking to on the control connection, so that
-++     the address returned in the PASV response can be checked below.
-++     Accepting an arbitrary server-supplied address would let a
-++     malicious FTP server redirect our data connection to any host of
-++     its choosing (SSRF).  */
-++  if (!socket_ip_address (csock, &peer_addr, ENDPOINT_PEER))
-++    return FTPINVPASV;
++-#if defined PCRE2_DEBUG || defined SUPPORT_VALGRIND
+++      /* If we added padding to align the list, initialize the bytes to
+++      defined values, so the library is valgrind-clean. It could also
+++      be a security concern for clients calling into PCRE2 via bindings
+++      from a memory-safe language, if pcre2_serialize_encode() exposes
+++      uninitialized memory that may contain sensitive information. */
 ++
-+   xzero (*addr);
++       if ((char_lists_size & 0x2) != 0)
++-        {
++-        /* In debug the unused 16 bit value is set
++-        to a fixed value and marked unused. */
++-        ((uint16_t*)data)[-1] = 0x5555;
++-#ifdef SUPPORT_VALGRIND
++-        VALGRIND_MAKE_MEM_NOACCESS(data - 2, 2);
++-#endif
++-        }
++-#endif
+++        ((uint16_t*)data)[-1] = 0xdead;
 + 
-+   /* Form the request.  */
-+@@ -677,6 +686,16 @@ ftp_pasv (int csock, ip_address *addr, int *port)
-+   memcpy (IP_INADDR_DATA (addr), tmp, 4);
-+   *port = ((tmp[4] << 8) & 0xff00) + tmp[5];
++       cb->char_lists_size =
++         CLIST_ALIGN_TO(char_lists_size, sizeof(uint32_t));
++diff --git a/src/pcre2test_inc.h b/src/pcre2test_inc.h
++index 8124e9ca..c4707417 100644
++--- a/src/pcre2test_inc.h
+++++ b/src/pcre2test_inc.h
++@@ -2019,6 +2019,9 @@ uint32_t use_forbid_utf = forbid_utf;
++ PCRE2_SIZE patlen, full_patlen;
++ PCRE2_SIZE valgrind_access_length;
++ PCRE2_SIZE erroroffset;
+++int32_t serialize_rc;
+++uint8_t *serialized_bytes;
+++PCRE2_SIZE serialized_size;
 + 
-++  /* Reject the response if the advertised address does not match the
-++     control connection's peer.  */
-++  if (peer_addr.family != AF_INET
-++      || memcmp (IP_INADDR_DATA (addr), IP_INADDR_DATA (&peer_addr), 4) != 0)
-++    {
-++      xzero (*addr);
-++      *port = 0;
-++      return FTPINVPASV;
-++    }
++ /* The perltest.sh script supports only / as a delimiter. */
++ 
++@@ -2966,6 +2969,28 @@ if ((pat_patctl.control2 & CTL2_NL_SET) != 0)
++ rc = show_pattern_info();
++ if (rc != PR_OK) return rc;
++ 
+++/* Verify that the compiled structure can be serialized without generating
+++memory errors. */
 ++
-+   return FTPOK;
-+ }
-+ 
-+@@ -692,10 +711,19 @@ ftp_lpsv (int csock, ip_address *addr, int *port)
-+   uerr_t err;
-+   unsigned char tmp[16];
-+   unsigned char tmpprt[2];
-++  ip_address peer_addr;
-+ 
-+   assert (addr != NULL);
-+   assert (port != NULL);
-+ 
-++  /* Remember who we are talking to on the control connection, so that
-++     the address returned in the LPSV response can be checked below.
-++     Accepting an arbitrary server-supplied address would let a
-++     malicious FTP server redirect our data connection to any host of
-++     its choosing (SSRF).  */
-++  if (!socket_ip_address (csock, &peer_addr, ENDPOINT_PEER))
-++    return FTPINVPASV;
+++serialize_rc = pcre2_serialize_encode((const pcre2_code **)&compiled_code, 1,
+++  &serialized_bytes, &serialized_size, general_context);
+++if (serialize_rc != 1)
+++  {
+++  cfprintf(clr_test_error, outfile, "** pcre2_serialize_encode() returned %d instead of 1\n",
+++    serialize_rc);
+++  return PR_ABEND;
+++  }
 ++
-+   xzero (*addr);
-+ 
-+   /* Form the request.  */
-+@@ -842,6 +870,18 @@ ftp_lpsv (int csock, ip_address *addr, int *port)
-+       DEBUGP (("*port is: %d\n", *port));
-+     }
-+ 
-++  /* Reject the response if the advertised address does not match the
-++     control connection's peer.  */
-++  if (peer_addr.family != addr->family
-++      || memcmp (IP_INADDR_DATA (addr), IP_INADDR_DATA (&peer_addr),
-++                 af == 4 ? 4 : 16) != 0)
-++    {
-++      xzero (*addr);
-++      *port = 0;
-++      xfree (respline);
-++      return FTPINVPASV;
-++    }
+++#if defined SUPPORT_VALGRIND
+++if (VALGRIND_CHECK_MEM_IS_DEFINED(serialized_bytes, serialized_size) != 0)
+++  {
+++  cfprintf(clr_test_error, outfile, "** pcre2_serialize_encode() returned undefined data\n");
+++  return PR_ABEND;
+++  }
+++#endif
 ++
-+   xfree (respline);
-+   return FTPOK;
-+ }
-+-- 
-+cgit v1.3
-+
-diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-extended/wget/wget_1.25.0.bb
-index 26f5c84e5a7..b8c803aae1f 100644
---- a/meta/recipes-extended/wget/wget_1.25.0.bb
-+++ b/meta/recipes-extended/wget/wget_1.25.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://CVE-2026-16599.patch \
-            file://CVE-2026-58470.patch \
-            file://CVE-2026-58470-regression.patch \
-+           file://CVE-2026-15146.patch \
-            "
+++pcre2_serialize_free(serialized_bytes);
+++
++ /* The "push" control requests that the compiled pattern be remembered on a
++ stack. This is mainly for testing the serialization functionality. */
++ 
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+index 70079e0b65b..b81480c8ffb 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+@@ -14,6 +14,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0 \
  
- SRC_URI[sha256sum] = "766e48423e79359ea31e41db9e5c289675947a7fcf2efdcedb726ac9d0da3784"
+ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
+            file://run-ptest \
++           file://CVE-2026-89162.patch \
+ "
+ 
+ GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
 
