@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52486CA9ED3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 427C4CA9ED2
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:29 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23444.1791708081869457368
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23445.1791708082665486611
  for <openembedded-core@lists.openembedded.org>;
  Sun, 11 Oct 2026 01:41:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3G52hj+q;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso6665645e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:21 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=eKXrqe4V;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso6665725e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708080; x=1792312880; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708081; x=1792312881; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=jbFQqZPH3x6/TWPcEU592xyn33AG8u1hNjuuqEj85D0=;
-        b=3G52hj+qpzDdZcbiG3NYPhyJj12eF3xsSwoc9p7McNGPCu7Gy8yv2F1XT/fRd4kJ20
-         GlQ16P+8VYAio6AqTs37VwgdaPB8hDd3hm+vAv1LcNlnOVJ3qhO4UfUjgVECV1xTuTZz
-         6T2mkevvD4lxr/paZLEKXE2rhUBm4OlIIHjSw=
+        bh=VAJScOss0VUVQMgPsM8KCuFQ668tr4/nE6Kh0T1bJjA=;
+        b=eKXrqe4VVcYEuIA+8llNh/yWOTm4KI1zyP1jeKEOckZ0SM512JN5JZjMi/oLHnonUA
+         LBbDj1dQkWd8WPNLyab7Hf3d3/GLNnU6oxr7jgfaXQDFfroHmuBTasBX+XFUANazhSjF
+         m8p3BuxtA3rPY/zv582cHGlWjKfQgapHff1Yk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708080; x=1792312880;
+        d=1e100.net; s=20260707; t=1791708081; x=1792312881;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=jbFQqZPH3x6/TWPcEU592xyn33AG8u1hNjuuqEj85D0=;
-        b=0uz0d/Y5Z7blt4aj0TRjmeqXrHwyhnnDHDXC5Xs7JINRHGX3NBxz9KYGhpzV+j/yHo
-         INRPoRnhvYTW1iGa66Ru3BeXNPqXNjkG2lrOPBZTosAPkvaJ0FX2k5AKFioCoea2S9nH
-         3D0BiHKtQRehFYR5oOjqOjsW6TlhLta+0vUUWR39c4cQw+J4peejohK8rcYfEbfkbLzM
-         BpEKIhPjMgfy53+KALz9JcGGh2QLR+liEGz1zRYhODDgQlxmIzbn0X/4mviz/TwpZovV
-         G5v0iZdJ/r9mptJPqp6xne/Kpr2VT4f8dLv8Rv3QjbOBU0WlpujUlTam4/HVUO5ETY/2
-         aDtQ==
-X-Gm-Message-State: AFq9FYIzV+tl/gKXteEwuweluew+NxTmrrsOB2o3uThx1/PxbirAZExv
-	r9HGxDPwzNwV0ObH4jVSt8KkyzMi+eZcFX8bZuzBssQxX0nm0gUzB+Ap8+vGQtSuZVktg066adn
-	2gWib/fg=
-X-Gm-Gg: AYBFou1wgLLx9GT+ByzK1qDwzCwW4wcTI/arqrmRQCOHTNewXc2UF0CwJJ0PcOTGtLH
-	SDY1MStf0O1bNwpZpTbZw0vi9Gi+S+ePdvrsPf+5Ak1SN/SioSrEixcd+muTnpZwQQhrayk7QOG
-	d2lzTXlf05OeUfv3xe5aTPPbjNJt1c8MxEDqYqBUQ4BUQtXGf+5g5jcXvNB3ZaWUDzbVLxVErtv
-	JRiaovd0zX2349IE2+9DuGZjeS4fgp5QXn5H6VG3PH3RyoMWJG8iaHuufVl5kSPojQepVRjAtz3
-	Fz0/kvLJkF2kD251cF4lhZGcfOhP7WXM38WH0ellpttxQGgJu1g1KP3VR+GvHiPKFHOl8/Sye4Y
-	iL2FUlmttcWLySq+tR5qHOSCoH3w6KGtT8H3Gw1XsGogSMWCazUH0a9f0t+Hv6of1xscNoKH1+c
-	GwCFiRvZ96Pq50Kh71ud1d+97cVotqc+fMZ0PpLy5aI18jljKnTCS9FIf0rk0ijQvmr2C/77SZE
-	kKEeYk6olFi8b420Cu3LfJX8vWjOfPYJ9PU2CpLQIddJkjcaRVXjX2btSkfI3Uiclke00IVIw==
-X-Received: by 2002:a5d:5f8f:0:b0:48b:42c:8b44 with SMTP id ffacd0b85a97d-48dbaaee9bcmr11079876f8f.32.1791708080029;
+        bh=VAJScOss0VUVQMgPsM8KCuFQ668tr4/nE6Kh0T1bJjA=;
+        b=LaSrqEzAbEUPfyMqwX2OGKGotiRXEawUuKXhfJAkSDq/90aB66hSFQlyvQgaZ052LE
+         Hi9SkfiM+kkUS+7HCZWTCxr4TxPMsF4/JvQ1WS9Xw+MCZ6qDKWCYNGaCSHBU4yoDUsQA
+         t00bT+Lp9FBAE1SATdYIkF3ketQi6FzX8eBj7t6lhfo3/8EIaGZHQiz71bUWbLIVZOxt
+         mhNAHjL62Ulr3UOqMB+0wG9cBMNEUM1EvCjDw/t0iwVSrtk6IVWgjPE1iZAbwZ4DdQXi
+         pEnnzATOT2+MZFftAd4m8UFc88cdomgpSwX/OpCEBPXxKMh5e6GP7pIt766hA9R6BRLm
+         VjAw==
+X-Gm-Message-State: AFq9FYJqwjY1v9XYSPZDspQDabVv/ATeRnoKI/ZK2J3BAguVmpfWhJ7o
+	P0f5EDpv8KTEQi6+yVyao3Ul/BkHkol10kJ3Yydtti07HPSvyZqLGXwi7UIT7UMjjPntjoM5cZC
+	QXW/noxI=
+X-Gm-Gg: AYBFou2ewGli1xmJC2cYZptAlNaGdiFi3uFTcHRtUsmMBu5oIgGXXxCahrhu3XCRL/E
+	yh9TtkbPa1nYDrODo70LimqpJ4Ieze4nzffMXYkhld922+CGnjPnUg9S4OObqVAlVM4Z3fZ+4Dn
+	y1O09OutqxVxvIEnPTQVFTJRuYOAXvq4r2BZhVRNfz8fyHJ2hJHbJKS3sZsAGK3mqHJ/ocpFQva
+	2tDhP/Si5NXH5C+95qMweD2Hdxms8Q+n6DfwgyA1nKmJaasCDPWzajvDgVPuNy/6B51utggS6rS
+	waLzOAnSdscyuaGnZUuj0RKjWzrQsJEu4fNCoiAoxbQfyDlWIIgHeBD6XsaELgvDrbVPznKpV9r
+	URypt7gtw+Z6S5/KfGxLuWKGHkz4q1jDp4nOBDBScx0ef+RUWooY9pgMrGdCWeWpRNcOpdarg03
+	UqP4s8xTrg/rAJHAmnwdtwIv3LfW01doENj7FvhIVdAmiTc3xqUTeNaSYltow/E+xGaQRDkEH6K
+	+AUHVbDpthUFo4sZwB1Pk8cYr/rhkb/QetKWKSkxxftcufDi1oNlMlUQaC8VnMq2MT7oecd7A==
+X-Received: by 2002:a05:600c:8718:b0:4a1:7259:349e with SMTP id 5b1f17b1804b1-4a18e4e0a33mr120178435e9.27.1791708080538;
         Sun, 11 Oct 2026 01:41:20 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:19 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:20 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 30/60] glibc: set status for CVE-2026-86805 and CVE-2026-95818
-Date: Sun, 11 Oct 2026 10:40:03 +0200
-Message-ID: <cef60071814e22e8beec5197c3798e2e247cbeb9.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 31/60] devtool: standard: fix update-recipe/finish --initial-rev override
+Date: Sun, 11 Oct 2026 10:40:04 +0200
+Message-ID: <81a3c5764376bc36e9f0c22a43869b5fdd41efc5.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -66,35 +66,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247539
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247540
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Babanpreet Singh <bbnpreetsingh@gmail.com>
 
-These CVEs are fixed in current hash with commit [1].
-It is commit equivalent to [2] mentioned in [3] and [4].
+Since 900129cbdf ("devtool: add support for git submodules") the
+--initial-rev option of update-recipe and finish has been broken: the
+parse loop in _get_patchset_revs() deliberately skips the recorded
+"# initial_rev ." entry from the workspace bbappend when an override
+is passed, but the override value itself is never inserted into the
+initial_revs dict. For a recipe without submodules the dict therefore
+ends up empty and update-recipe/finish fails in patch mode with:
 
-[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=533e1c955c7bb9b761749751ec743b46c6bd2238
-[2] https://sourceware.org/git/?p=glibc.git;a=commit;h=ed0c137b97eb940b4b64981e84ed806d3276edd9
-[3] https://sourceware.org/git/?p=glibc.git;a=blob;f=advisories/GLIBC-SA-2026-0022
-[4] https://sourceware.org/git/?p=glibc.git;a=blob;f=advisories/GLIBC-SA-2026-0023
+  ERROR: Unable to find initial revision - please specify it with
+  --initial-rev
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+i.e. passing --initial-rev produces the very error message that
+instructs the user to pass --initial-rev. Before 900129cbdf the passed
+value simply took precedence over the one recorded in the bbappend.
+
+Seed initial_revs with the override before parsing so the option
+behaves as documented again; recorded values are still used for
+submodules and for the main repo when no override is given.
+
+AI-Generated: Uses Claude (claude-fable-5)
+Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 62abb60b899e63ea6db5c745f4b1b6af0d4b40f1)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/glibc/glibc_2.43.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/devtool/standard.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
-index 3d642e6738d..c962171cf3a 100644
---- a/meta/recipes-core/glibc/glibc_2.43.bb
-+++ b/meta/recipes-core/glibc/glibc_2.43.bb
-@@ -24,7 +24,7 @@ CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915 CVE-20
-     CVE-2026-4046 \
-     CVE-2026-5435 CVE-2026-5450 CVE-2026-5928 CVE-2026-6238 CVE-2026-6791 \
-     CVE-2026-6368 CVE-2026-19499 CVE-2026-77117 CVE-2026-80489 CVE-2026-18374 CVE-2026-8674 \
--    CVE-2026-89092 CVE-2026-97399 CVE-2026-19542 \
-+    CVE-2026-89092 CVE-2026-97399 CVE-2026-19542 CVE-2026-86805 CVE-2026-95818 \
- "
- CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
- 
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 42fb13872d3..e2f5c28f8b6 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -1200,6 +1200,10 @@ def _get_patchset_revs(srctree, recipe_path, initial_rev=None, force_patch_refre
+     commits = {}
+     patches = []
+     initial_revs = {}
++    if initial_rev:
++        # A user-specified override applies to the main repo ("."); the
++        # parse loop below leaves it in place of the recorded value
++        initial_revs["."] = initial_rev
+     with open(recipe_path, 'r') as f:
+         for line in f:
+             pattern = r'^#\s.*\s(.*):\s([0-9a-fA-F]+)$'
 
