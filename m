@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A893CA9ED0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF22CA9ED6
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:29 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23573.1791708084677141629
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23447.1791708083315965392
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:24 -0700
+ Sun, 11 Oct 2026 01:41:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=mCEnE59J;
- spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48c45111bebso504949f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:24 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=24p2Kv5I;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48c4d870d54so487159f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708083; x=1792312883; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708081; x=1792312881; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=xaVOYYJnet0FXo0a8dHgLWS6KaTeqx+rT/yOXsv3fgE=;
-        b=mCEnE59JWMn3GBS9orlunH0XxG/+VfCJbjRFSRtvThCYVujzsPNRK8ZnId/wFl0y8M
-         /0k/qNJvskM/3pT1FnydXQJlyWfLCLOW7KllmBGYHCnmxeZ8J3+a1vt74+4OxgtDkgGM
-         n+PL4C0NhZ/UE+Foo9SQKUfS4TES2ouNv1LNU=
+        bh=JcMASnky9rXchH/awBt0pVIQOymnxJBTmPQUsv3Tc64=;
+        b=24p2Kv5IT5KPowX0+sFKBQ71j1LxsrZFF7/wKMxfCUXf5jqy+nwh5hu0/RWywirbl2
+         QetxA5+VcdmaQJp8WiGNOtFrqh9DiYIp7ZlDzb6jrbqY9Xo93PgBJRJd/5nkTxdZeY31
+         rSyPdZ6p2HlXT2spDOG8KOuGGdD5Skf1hsFNQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708083; x=1792312883;
+        d=1e100.net; s=20260707; t=1791708081; x=1792312881;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=xaVOYYJnet0FXo0a8dHgLWS6KaTeqx+rT/yOXsv3fgE=;
-        b=WHQFCJiew13lKNrGwOsf7v93v8vsHNehZqwJdY9UP88ylZJGi0DOzpka1TKzgxGmCN
-         mCu5jB+oxZ/XwEZbuYlwFP6ZnvH8q4RnY/M3/0dVyTpgaox+ykCWBlFLK3s/X2Uw+dVN
-         10/dHCB31Wac1WLYJOyINRZ0eNe7P5flUQtdTvx8DEZjKssoTgY5GnGR60Vg0gAU0X69
-         aReF8dHbd4zyfTSnSTl3EGpaHXSX3QXR1tjTIqAxOuAfLF48pFSR8KQZHiq5nK4CVhyU
-         Z4pyNKAH6qPazVlFv8z8YIqDtiSBOvBSh9i22xturz1fg0KrhJzHWYXsLe2+MrEYkX7u
-         2ulw==
-X-Gm-Message-State: AFq9FYK+2/d0QOmYLsgbguhDNX3v6Cc/RZLL8KYTgNNGvI4IohGXFlIh
-	wxF1/pqXyXvGPr+ohEPkIxvyWcrmerIh+ZFWO3vE0aFmjm+T73m6hie39cVVDt4LBEjM3mtU2xp
-	pFs3SURY=
-X-Gm-Gg: AYBFou3sDqMRIFu+6+YatMhRFx9rfpf0PE0gvRp+yMOgLoF8059ZDw9P6VuiOkgf4bM
-	NyhGVViB98uAvp7YH4AqULixbB2SR9ItnK7S4P5GrXCLHi2qxB8pryj1WTjRFyBU177tzr5p68T
-	vHjasQNdXC30ERTbxOdVdWhAbKOljSG6bEBmLo4xC8xBKDP3GOLbzztnKIp53NeWAUoxgXEy441
-	1y5oe/MH1I4HZ6QikPjRSaB8lVlFSVeAlgK+qeQMWhyZTg1Mar+kdDGy7j3UctvYjSqTZNqBYLr
-	uTRwffB9hzUrTbIJoPxe1kDtZXunTuYCWd1Hj+jpOYVIT5eFpngYI5IPZM/vOxakxhAQ90wEArN
-	S2Wjga+m7hz4vFl39SHq8OgFAq6SwaLHHcaPMjxzvNjMiNVHpHutnoFGUwTHLh+I8v8XIERSeue
-	sYrQf5qpzFkAnDtuTb8to6oaxV+8FygCK80HSrTQD5zwuZfioY290uP4xjdVzP++MwG3+yJLJXK
-	rqloCLDWusQNBbc9pg+Z2KklD2pxHJTEnXDpjFNVDE5fzubsiXePzAhR1xRncnfM0sKBE7E8g==
-X-Received: by 2002:a05:600c:698d:b0:4a1:98ed:7a79 with SMTP id 5b1f17b1804b1-4a198ed7aecmr29123635e9.8.1791708082943;
-        Sun, 11 Oct 2026 01:41:22 -0700 (PDT)
+        bh=JcMASnky9rXchH/awBt0pVIQOymnxJBTmPQUsv3Tc64=;
+        b=f9DhdhvKMVNdNTBHgzayLMZeTEBSrHSh0Fq6elD6MG7/nB0FzHzfuOxKRDBEUAxJGh
+         TZmymCpOJDMuhKvc1Ara0cDR5x7Fed+COPdSvaeHLc8FTEJCPJ2h9O8lSiEMP55BHg4B
+         xIKq3nfXW0v897k/P+CxkP2Qc90Xrw1H8f71Ih57QXf7M/Bw5uGdnZlN8vDDd4UiLVUi
+         3Ejbm2EIVC4GjTdiPsFp19uTvV6CW5pp6gpMs37Q4009gOoxln5Lj2E67dXjRemQQHUV
+         JOrdFrfru1yn0ncxh6ADdWwo4/t/wTCrWaoNrHqnyX6rC4IKMaO7j8pXIjWQUyX0r3Ox
+         t2fw==
+X-Gm-Message-State: AFq9FYJOyorydNqBh/F8XwXKXvojbDCBqHtsdesLwadcc8qpZuZc2a3+
+	VZOy/ofEkd5aM0Bn2xLP9AdwQHqqKKwD2KcRda2V+X/1nNQqgYmOwebeZ5O1hJ9+seHKndSLO9x
+	wYc0YVe8=
+X-Gm-Gg: AYBFou1a+lb7kgmIszLbt34tvPYT+Je+9Tim5Ko2s4CCljCcy7jBh0OyFqXG4n1Fo1V
+	y0Cqb/st+yo/mpdq/IirXxDPo2ixykGurtUUPmWm7Dw0ycp4/6r3J3dN4nZerLjteRFxY2K3Rj2
+	KRzbQvQewDLnWQ7fB2ZPjXRR53mfydIZytNHp7hJGEe6fMuWq8XeTGx+AWaB6n4/up/EYeca4Gd
+	VQi1+QIPUgahC5xdQt14aNk1YaC+RMuxCDjR1lKsPWjmMH0zb0dpgt1QbVZNMb44W6kJgIgzch+
+	gg7bIZBgNhrlKpUcMCpIigvngknqhfeqqp7oOsrVvENEHjXIqPNJQ3DI7JAyxt4um097RAkKjPT
+	xDtJMfAS6wrHGq16E4w/G0QCG0KcasbonkELe3QTDBRgvRc1gh9tkKRtf687Nk2myAV6t3+HQCE
+	unbX7sxHk7MvhDsrNywPs3Ug8fJsjJ3WH7oVvkRiHmlKaGkHwJGnH1ev9tCao63rE4EvgoFR9gp
+	APBUgDb/F+OKDPgyndBXFqEz9RJXUWbtCIOtrQxeSEVEc0ToFBLfCfnLpFwo62VFqVyLfphpg==
+X-Received: by 2002:a05:6000:4541:b0:48c:7161:43e3 with SMTP id ffacd0b85a97d-48dbacfa612mr6901256f8f.54.1791708081028;
+        Sun, 11 Oct 2026 01:41:21 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:22 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:20 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 34/60] python3-click: depend on python3-shell for shlex
-Date: Sun, 11 Oct 2026 10:40:07 +0200
-Message-ID: <39904a443d351da342109c6be23e77286e1949f0.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 32/60] oeqa/selftest/devtool: cover update-recipe --initial-rev
+Date: Sun, 11 Oct 2026 10:40:05 +0200
+Message-ID: <e125b42ec400cae83660e04aaff663031cb457a0.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -66,34 +66,63 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247543
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247541
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+From: Babanpreet Singh <bbnpreetsingh@gmail.com>
 
-Click 8.3.3 imports shlex when loading _termui_impl. OE packages
-shlex.py in python3-shell, so add it to the main package's runtime
-dependencies. Confirmed module ownership in python3-manifest.json.
+The --initial-rev option had no selftest coverage, which let the
+regression fixed by the previous commit go unnoticed since 2023.
+Extend test_devtool_update_recipe to run update-recipe twice more with
+--initial-rev: once with the recorded initial revision, which must
+produce the same result as not passing the option, and once with a
+revision in the middle of the local commits, which must export only
+the commits after it.
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+Without the fix in the previous commit, the first --initial-rev
+invocation fails with "Unable to find initial revision - please
+specify it with --initial-rev".
+
+AI-Generated: Uses Claude (claude-fable-5)
+Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8dded0894fdb2c17ab8f8cb2f13f9f95638d493e)
+(cherry picked from commit 171af3b2915dd076c8d1b205ff75eac1ebd5a586)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: updated Click version to match wrynose's ]
 ---
- meta/recipes-devtools/python/python3-click_8.3.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/selftest/cases/devtool.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-click_8.3.3.bb b/meta/recipes-devtools/python/python3-click_8.3.3.bb
-index 9e80f8aff0f..44612cb8f3e 100644
---- a/meta/recipes-devtools/python/python3-click_8.3.3.bb
-+++ b/meta/recipes-devtools/python/python3-click_8.3.3.bb
-@@ -30,6 +30,7 @@ CLEANBROKEN = "1"
- RDEPENDS:${PN} += "\
-     python3-io \
-     python3-threading \
-+    python3-shell \
-     "
- RDEPENDS:${PN}-ptest += "coreutils less"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 5ed69aee1b1..b485d752e7b 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -1219,6 +1219,28 @@ class DevtoolUpdateTests(DevtoolBase):
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+         result = runCmd(cleanup_cmd)
+         self._check_repo_status(os.path.dirname(recipefile), [])
++        # Now try the same passing --initial-rev: the recorded initial
++        # revision must give the same result as not passing the option, and a
++        # later revision must export only the commits after it
++        result = runCmd('git rev-parse devtool-base', cwd=tempdir)
++        initial_rev = result.output.strip()
++        result = runCmd('devtool update-recipe --initial-rev %s %s' % (initial_rev, testrecipe))
++        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
++        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
++                           ('A ', '.*/0001-Change-the-README.patch$'),
++                           ('A ', '.*/0002-Add-a-new-file.patch$')]
++        self._check_repo_status(os.path.dirname(recipefile), expected_status)
++        result = runCmd(cleanup_cmd)
++        self._check_repo_status(os.path.dirname(recipefile), [])
++        result = runCmd('git rev-parse HEAD~1', cwd=tempdir)
++        midpoint_rev = result.output.strip()
++        result = runCmd('devtool update-recipe --initial-rev %s %s' % (midpoint_rev, testrecipe))
++        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
++        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
++                           ('A ', '.*/0001-Add-a-new-file.patch$')]
++        self._check_repo_status(os.path.dirname(recipefile), expected_status)
++        result = runCmd(cleanup_cmd)
++        self._check_repo_status(os.path.dirname(recipefile), [])
  
+     def test_devtool_update_recipe_git(self):
+         # Check preconditions
 
