@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52D80CA9ED4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7848DCA9ED7
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:40 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23457.1791708097773871313
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.23454.1791708091789543366
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:38 -0700
+ Sun, 11 Oct 2026 01:41:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=lMZCYZZQ;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a061a13884so8430565e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:37 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=siGfsJ6Y;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48c4d870d54so487179f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708096; x=1792312896; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708090; x=1792312890; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=pCUpZdb8y1a0Hrd02Mcs5yiVk0CBgwN0inhjEHB/4AU=;
-        b=lMZCYZZQ+B9ptbl+Jbl3BFFh+mM1OlX95qmmAkI9+FI3OKlBV4S5qXDs0HIpy5G4lQ
-         8J3J2KGorQjQzNx1eDcuYn+3bOplDPoppo28q9cFyfYi77kjBXWubMzVJ49g4UnPr7Kl
-         mjarBc0wPVtR/AUdJnUk/rtzkjuNg504J8FI0=
+        bh=ZiDnD0G/xOk+a0RM2S/PfDj7Z1O2VHY3GSZ6M6UfrtA=;
+        b=siGfsJ6YFSLObe8WJ/g784DY3HF3gJST8faMIMhGCdrIANQn7jhVc/v0ai6t4qYKn1
+         HSXhlwGDgmSvqSRqYd1ArStAqEyyKkUycs9PPvVO7udKDbfA8djJ84F7QQRrMsocr/4t
+         eGI8k4/eDanHWE3F6W5tl+Gvgj8OhiSNqv6AM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708096; x=1792312896;
+        d=1e100.net; s=20260707; t=1791708090; x=1792312890;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=pCUpZdb8y1a0Hrd02Mcs5yiVk0CBgwN0inhjEHB/4AU=;
-        b=OvLS3LYGxWrAXG+MhkbaeXWvJRfptmkNntTGIj3Cgis80Iva/Cm3mHpSaJzDetewOl
-         JSJdYm37Xi+WwLHsyHLM+L2uUOlWCczFL55ktB1G5UEcVASpMb+1JNMnDbvtgY8S20oU
-         EL38bSdoOasVK9qBifqXW5NRSLhqUsyegkTtZdntWAurnJ66Q6Wb7lhT1K8ctignq14n
-         BBFIm1cFMTAwGnpLzECqz7P9smBkYHDviZT8G6iQIeGWePieSQYVY4aHpLGMO7ZCp0Wg
-         dE1gwrYgylJT4/YXb4DSfdD4wjRHQEhjADDBj8MUETxG3xE0/FQOUxux7T6/ByWJGF9S
-         Kwjg==
-X-Gm-Message-State: AFq9FYLqcxFbL0OJHal8aX1By724urmvLRFNBsKhNbyxaoY4FRz8f/Kq
-	rYFzKxDAF7wraaN8EMb6gyhqj/G0WJ3BbI/qdQhlNM2b6xDY2ZlWuda+zDwZcoxFY9OoeevuCSW
-	4bY1LDqs=
-X-Gm-Gg: AYBFou2pJx5Z5edxwGv6VMR9Vm/Cj9L88hSjHmy144UwvLctVl3mOxNrfJlgWYcXG0m
-	kfrGdpAJhRWgtXLE1vunUTXMsjgAJEGTobgHG2uB30ViXiQbpyGOjx4txHmeqD/YQ5frs7M9N4E
-	H0JEEWFAVjtbNDB0U4C9HtD9vXqoBvzjvWkpHuZXW9Do9RiaGma6/BmPbdkW+/e1nD+gdbBTjFW
-	PYX3ZdsVBKSrQGkZT6YZhmReJx2BMxn2WIKjNBCdrcJ1Xus7qgo1YMcE+6udS2Q2tBNGccnX5qp
-	0uPRv4U/XFWbHdaQxd/5SoXXdls5I+qryAUPj1heAeLJ/AbkIbcWm/9BrgPFpZY+yfjdpD749J8
-	0XLmCqjAHjE+mI7T1gaEqJqOZbXIkindCe8g73MEoJPmxX9P+ny4xjtPhlTJlb5rDplmGZlTtJq
-	/cHlJ+tesj+DV80eT4Y/WVQu2PkQffZ3QXSgH5RG4BD30HFzMnbtWqOZqrtcwy7g2LZpHneflwK
-	CJQ02ckJeYoZjTmId+9BL7RKd786Z5mqrJ0j08Kyd1sWI8O0ATbYoucoI+KHtvwJW4h9t9SbmA=
-X-Received: by 2002:a05:600c:154c:b0:49f:ce78:3562 with SMTP id 5b1f17b1804b1-4a18e4a9159mr132024565e9.19.1791708095802;
-        Sun, 11 Oct 2026 01:41:35 -0700 (PDT)
+        bh=ZiDnD0G/xOk+a0RM2S/PfDj7Z1O2VHY3GSZ6M6UfrtA=;
+        b=RJ+twwn4WUIGJoIscpyYt0aXiUXnJzDysWtFUrEafQ56fPu/wUNSUgog9qCS6Dk451
+         5ZzmBaLMIw/aJjl8VAGPZW1oP9CVFDVrZgkifpdNe5NVs1RVqh7WGCjrulMLYSLO2PA2
+         bvQ3OraTiy7H98e++OULi9eZn4gemm0B8CrtpNIEbQGS82dxn01XbjRbqe/GxaWBlGl2
+         DpVeCDbC4QsJKG4TpG4p+WHtv70Pye/XYcTvU8Jr5A8fvaPGJxcOz0slVUip4clc5blT
+         be4M59QHvu2hteRsTesfY2cwUWIArdcFDkv2bTQM6mETLsJ+1WBQkG5Z90DwchCpbbud
+         61XA==
+X-Gm-Message-State: AFq9FYI8XzBxSM1SZbN2teJOfGC/Ci+DXGt4V0zHIaSy9llBPnmh8rmL
+	zeLK763Q5qopMPD/oljYUqXB9yUP1u8KwuMEHwjeOwy0g7Lw13iP+gezLtOL77qwP2y3AQl1bKL
+	wnd5SYWM=
+X-Gm-Gg: AYBFou1A0JQ3AkP1dGQseo4KM4ypElEXwP/WgnJ+4Cm31JDNnvmu7OlJn8c2f+INWWd
+	6ECxet1Zs+owfC1pP/u/PSt4aZ3aatkE6m+LwhIvpQAsj3f/K0daHU5rQk7UgUKs3iS2q9IEAvh
+	VPhr28xO+SBNUtyGu6d3Z3awFA5tdvjtzR0revHR6G4EttMHaMZ5N0NPoVHpwqrB9S2bmxS8XiR
+	WAgequxVJE/vFeXj3wK4/GpV2RoRlHWgIiDwll9MbxvfyJokrgMyxQdQMCL03I4pKOMIEHfx6Iy
+	LyUlpKum5RhiyU+P3y1Z4UCTHp3HcYNmjgLYaJanZ5Zjgajt6u1QJL+exRmO00MVrzmIAaeCH1A
+	vf5PcJ8/7YdEaTt/93X80Wo7zQZ/t66N8TkOPN2VN/S7owjPrj+XMqaVeUDdv3iXtBlX2hvEzzT
+	5EAEsdGv+dMraCigFFjC1RW5Bxob6cjQXKqobGrkFd6sWEbgkuoniJoNx2tYQmd/LB30Sxy5FRJ
+	rfJ0yAiuZRi0qJj6XXYgwShvdiRsY6kkBS3hoM2qK8KKgaQ2R/PLV/E3AwS+9uIysoc+6BO1g==
+X-Received: by 2002:a05:6000:26c5:b0:48c:7ab9:99cc with SMTP id ffacd0b85a97d-48dbacf9da3mr11475251f8f.52.1791708089774;
+        Sun, 11 Oct 2026 01:41:29 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:35 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:29 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 54/60] libpcre2: patch CVE-2026-89161
-Date: Sun, 11 Oct 2026 10:40:27 +0200
-Message-ID: <7971cdddb4458fa6b5c1ca5f6846d34be6f178c5.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 44/60] ffmpeg: Fix for CVE-2026-66036
+Date: Sun, 11 Oct 2026 10:40:17 +0200
+Message-ID: <76e0d54cd1cb355c8ae98af515ae9ce9b3d8fd85.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -66,259 +66,242 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247563
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247553
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
-Pick patch per [1].
+Pick the patch from [1] and [2], mentioned in PR#23783 [3] which is
+referenced in the NVD report [4]
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-89161
+[1] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/f0f634b6585fdc7bbb43ab3ae461499bfca9ad2e
+[2] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/5d7112c60e6f0f0742ce47d448e6da0718a70f4c
+[3] https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/23783
+[4] https://nvd.nist.gov/vuln/detail/cve-2026-66036
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpcre/libpcre2/CVE-2026-89161.patch     | 221 ++++++++++++++++++
- .../recipes-support/libpcre/libpcre2_10.47.bb |   1 +
- 2 files changed, 222 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2026-89161.patch
+ .../ffmpeg/ffmpeg/CVE-2026-66036_p1.patch     | 120 ++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2026-66036_p2.patch     |  71 +++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |   2 +
+ 3 files changed, 193 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p2.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/CVE-2026-89161.patch b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89161.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch
 new file mode 100644
-index 00000000000..42e69acbcc1
+index 00000000000..bce02651143
 --- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre2/CVE-2026-89161.patch
-@@ -0,0 +1,221 @@
-+From 1dcd0cf42a6a7cb62cc9a7c024196733abcfda95 Mon Sep 17 00:00:00 2001
-+From: Nicholas Wilson <nicholas@nicholaswilson.me.uk>
-+Date: Sat, 8 Aug 2026 19:17:36 +0100
-+Subject: [PATCH] Fix leak & stale PCRE2_MD_COPIED_SUBJECT if pcre2_jit_match
-+ used with existing match context (#937)
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch
+@@ -0,0 +1,120 @@
++From 7ac88955c4678fc10cc44a786ff9bf724bb12deb Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sun, 12 Jul 2026 13:05:07 +0200
++Subject: [PATCH 1/2] avfilter/vf_hqdn3d: reject unsupported frame parameter
++ changes
 +
-+The problem is not that pcre2_jit_match() needs to add support for PCRE2_COPY_MATCHED_SUBJECT. Instead, if the passed-in context somehow contains a previously-copied subject (by non-JIT matcher using a global or cached subject) then it will be leaked, and worse, incorrectly free'd later.
++Fixes: out of array access
++Fixes: 9aj_hqdn3d_dynamic_res.mjpg / 9aj_generate_hqdn3d_dynamic_res_mjpg.py
++Fixes: wWDsy2oDvMuR
++Found-by: Adrian Junge (vurlo) <adjun37@gmail.com>
 +
-+CVE: CVE-2026-89161
-+Upstream-Status: Backport [https://github.com/PCRE2Project/pcre2/commit/1dcd0cf42a6a7cb62cc9a7c024196733abcfda95]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++CVE: CVE-2026-66036
++Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/f0f634b6585fdc7bbb43ab3ae461499bfca9ad2e]
++
++Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 +---
-+ doc/html/pcre2jit.html    |  9 +++---
-+ doc/pcre2.txt             | 10 +++----
-+ doc/pcre2jit.3            |  9 +++---
-+ src/pcre2_jit_match_inc.h | 10 +++++++
-+ src/pcre2test_inc.h       | 60 ++++++++++++++++++++++++++++++++-------
-+ testdata/testinput17      |  1 +
-+ testdata/testoutput17     |  2 ++
-+ 7 files changed, 77 insertions(+), 24 deletions(-)
++ libavfilter/vf_hqdn3d.c | 34 +++++++++++++++++++++++++---------
++ libavfilter/vf_hqdn3d.h |  2 ++
++ 2 files changed, 27 insertions(+), 9 deletions(-)
 +
-+diff --git a/doc/html/pcre2jit.html b/doc/html/pcre2jit.html
-+index cc26cc06..4e6d31e5 100644
-+--- a/doc/html/pcre2jit.html
-++++ b/doc/html/pcre2jit.html
-+@@ -460,10 +460,11 @@ processed by <b>pcre2_jit_compile()</b>).
-+ The fast path function is called <b>pcre2_jit_match()</b>, and it takes exactly
-+ the same arguments as <b>pcre2_match()</b>. However, the subject string must be
-+ specified with a length; PCRE2_ZERO_TERMINATED is not supported. Unsupported
-+-option bits (for example, PCRE2_ANCHORED and PCRE2_ENDANCHORED) are ignored, as
-+-is the PCRE2_NO_JIT option. The return values are also the same as for
-+-<b>pcre2_match()</b>, plus PCRE2_ERROR_JIT_BADOPTION if a matching mode (partial
-+-or complete) is requested that was not compiled.
-++option bits (for example, PCRE2_ANCHORED, PCRE2_ENDANCHORED, and
-++PCRE2_COPY_MATCHED_SUBJECT) are ignored, as is the PCRE2_NO_JIT option. The
-++return values are also the same as for <b>pcre2_match()</b>, plus
-++PCRE2_ERROR_JIT_BADOPTION if a matching mode (partial or complete) is requested
-++that was not compiled.
-+ </p>
-+ <p>
-+ When you call <b>pcre2_match()</b>, as well as testing for invalid options, a
-+diff --git a/doc/pcre2.txt b/doc/pcre2.txt
-+index 693908ee..cc316178 100644
-+--- a/doc/pcre2.txt
-++++ b/doc/pcre2.txt
-+@@ -6176,11 +6176,11 @@ JIT FAST PATH API
-+        The  fast  path  function is called pcre2_jit_match(), and it takes ex-
-+        actly the same arguments as pcre2_match(). However, the subject  string
-+        must  be  specified  with  a  length; PCRE2_ZERO_TERMINATED is not sup-
-+-       ported.  Unsupported  option  bits  (for  example,  PCRE2_ANCHORED  and
-+-       PCRE2_ENDANCHORED)  are ignored, as is the PCRE2_NO_JIT option. The re-
-+-       turn values are also the same  as  for  pcre2_match(),  plus  PCRE2_ER-
-+-       ROR_JIT_BADOPTION if a matching mode (partial or complete) is requested
-+-       that was not compiled.
-++       ported. Unsupported option bits (for example, PCRE2_ANCHORED, PCRE2_EN-
-++       DANCHORED, and  PCRE2_COPY_MATCHED_SUBJECT)  are  ignored,  as  is  the
-++       PCRE2_NO_JIT  option.  The  return  values  are  also  the  same as for
-++       pcre2_match(), plus PCRE2_ERROR_JIT_BADOPTION if a matching mode  (par-
-++       tial or complete) is requested that was not compiled.
++diff --git a/libavfilter/vf_hqdn3d.c b/libavfilter/vf_hqdn3d.c
++index 1136931b9b..44fb3574a0 100644
++--- a/libavfilter/vf_hqdn3d.c
+++++ b/libavfilter/vf_hqdn3d.c
++@@ -165,12 +165,8 @@ static int denoise_depth(HQDN3DContext *s,
++             case 14: ret = denoise_depth(__VA_ARGS__, 14); break;             \
++             case 16: ret = denoise_depth(__VA_ARGS__, 16); break;             \
++         }                                                                     \
++-        if (ret < 0) {                                                        \
++-            av_frame_free(&out);                                              \
++-            if (!direct)                                                      \
++-                av_frame_free(&in);                                           \
+++        if (ret < 0)                                                          \
++             return ret;                                                       \
++-        }                                                                     \
++     } while (0)
 + 
-+        When  you call pcre2_match(), as well as testing for invalid options, a
-+        number of other sanity checks are performed on the arguments. For exam-
-+diff --git a/doc/pcre2jit.3 b/doc/pcre2jit.3
-+index 95451b56..729d898f 100644
-+--- a/doc/pcre2jit.3
-++++ b/doc/pcre2jit.3
-+@@ -444,10 +444,11 @@ processed by \fBpcre2_jit_compile()\fP).
-+ The fast path function is called \fBpcre2_jit_match()\fP, and it takes exactly
-+ the same arguments as \fBpcre2_match()\fP. However, the subject string must be
-+ specified with a length; PCRE2_ZERO_TERMINATED is not supported. Unsupported
-+-option bits (for example, PCRE2_ANCHORED and PCRE2_ENDANCHORED) are ignored, as
-+-is the PCRE2_NO_JIT option. The return values are also the same as for
-+-\fBpcre2_match()\fP, plus PCRE2_ERROR_JIT_BADOPTION if a matching mode (partial
-+-or complete) is requested that was not compiled.
-++option bits (for example, PCRE2_ANCHORED, PCRE2_ENDANCHORED, and
-++PCRE2_COPY_MATCHED_SUBJECT) are ignored, as is the PCRE2_NO_JIT option. The
-++return values are also the same as for \fBpcre2_match()\fP, plus
-++PCRE2_ERROR_JIT_BADOPTION if a matching mode (partial or complete) is requested
-++that was not compiled.
-+ .P
-+ When you call \fBpcre2_match()\fP, as well as testing for invalid options, a
-+ number of other sanity checks are performed on the arguments. For example, if
-+diff --git a/src/pcre2_jit_match_inc.h b/src/pcre2_jit_match_inc.h
-+index 32d4c8a5..4163cf61 100644
-+--- a/src/pcre2_jit_match_inc.h
-++++ b/src/pcre2_jit_match_inc.h
-+@@ -125,6 +125,16 @@ else if ((options & PCRE2_PARTIAL_SOFT) != 0)
-+ if (functions == NULL || functions->executable_funcs[index] == NULL)
-+   return match_data->rc = PCRE2_ERROR_JIT_BADOPTION;
-+ 
-++/* If the match data block was previously used with PCRE2_COPY_MATCHED_SUBJECT,
-++free the memory that was obtained. */
-++
-++if ((match_data->flags & PCRE2_MD_COPIED_SUBJECT) != 0)
-++  {
-++  match_data->memctl.free((void *)match_data->subject,
-++    match_data->memctl.memory_data);
-++  match_data->flags &= ~PCRE2_MD_COPIED_SUBJECT;
-++  }
-++
-+ /* Sanity checks should be handled by pcre2_match. */
-+ arguments.str = subject + start_offset;
-+ arguments.begin = subject;
-+diff --git a/src/pcre2test_inc.h b/src/pcre2test_inc.h
-+index 5d282435..a74e3368 100644
-+--- a/src/pcre2test_inc.h
-++++ b/src/pcre2test_inc.h
-+@@ -5171,20 +5171,28 @@ for (gmatched = 0;; gmatched++)
-+     /* If PCRE2_COPY_MATCHED_SUBJECT was set, check that things are as they
-+     should be, but not for fast JIT, where it isn't supported. */
-+ 
-+-    if ((dat_datctl.options & PCRE2_COPY_MATCHED_SUBJECT) != 0 &&
-+-        (pat_patctl.control & CTL_JITFAST) == 0)
-++    if ((dat_datctl.options & PCRE2_COPY_MATCHED_SUBJECT) != 0)
-+       {
-+-      if ((match_data->flags & PCRE2_MD_COPIED_SUBJECT) == 0)
-+-        cfprintf(clr_test_error, outfile,
-+-          "** PCRE2 error: flag not set after copy_matched_subject\n");
-++      if ((pat_patctl.control & CTL_JITFAST) != 0)
-++        {
-++        if ((match_data->flags & PCRE2_MD_COPIED_SUBJECT) != 0)
-++          cfprintf(clr_test_error, outfile,
-++            "** PCRE2 error: flag set after unsupported copy_matched_subject\n");
-++        }
-++      else
-++        {
-++        if ((match_data->flags & PCRE2_MD_COPIED_SUBJECT) == 0)
-++          cfprintf(clr_test_error, outfile,
-++            "** PCRE2 error: flag not set after copy_matched_subject\n");
-+ 
-+-      if (match_data->subject == pp)
-+-        cfprintf(clr_test_error, outfile,
-+-          "** PCRE2 error: copy_matched_subject has not copied\n");
-++        if (match_data->subject == pp)
-++          cfprintf(clr_test_error, outfile,
-++            "** PCRE2 error: copy_matched_subject has not copied\n");
-+ 
-+-      if (memcmp(match_data->subject, pp, ulen) != 0)
-+-        cfprintf(clr_test_error, outfile,
-+-          "** PCRE2 error: copy_matched_subject mismatch\n");
-++        if (memcmp(match_data->subject, pp, ulen) != 0)
-++          cfprintf(clr_test_error, outfile,
-++            "** PCRE2 error: copy_matched_subject mismatch\n");
-++        }
-+       }
-+ 
-+     /* If this is not the first time round a global loop, check that the
-+@@ -5661,6 +5669,9 @@ pcre2_match_context *test_dat_context = NULL, *test_dat_context_copy = NULL;
-+ pcre2_convert_context *test_con_context = NULL, *test_con_context_copy = NULL;
-+ pcre2_match_data *test_match_data = NULL;
-+ pcre2_code *test_compiled_code = NULL;
-++#ifdef SUPPORT_JIT
-++BOOL test_compiled_with_jit = FALSE;
-++#endif
-+ PCRE2_UCHAR pattern[] = { CHAR_A, CHAR_B, CHAR_C, 0 };
-+ PCRE2_UCHAR callout_int_pattern[] = {
-+   CHAR_LEFT_PARENTHESIS, CHAR_QUESTION_MARK, CHAR_C, CHAR_RIGHT_PARENTHESIS, 0 };
-+@@ -5965,11 +5976,38 @@ ASSERT(rc == 0 && sizeval == 0, "pcre2_pattern_info(JIT)");
-+ 
-+ if (pcre2_jit_compile(test_compiled_code, PCRE2_JIT_COMPLETE) == 0)
-+   {
-++  test_compiled_with_jit = TRUE;
-++
-+   rc = pcre2_pattern_info(test_compiled_code, PCRE2_INFO_JITSIZE, &sizeval);
-+   ASSERT(rc == 0 && sizeval > 0, "pcre2_pattern_info(JIT after compile)");
-+   }
++ static void precalc_coefs(double dist25, int depth, int16_t *ct)
++@@ -283,12 +279,15 @@ static int config_input(AVFilterLink *inlink)
++     ff_hqdn3d_init_x86(s);
 + #endif
 + 
-++/* ----------------------- Matching functions ------------------------------ */
+++    s->format = inlink->format;
+++    s->width  = inlink->w;
+++    s->height = inlink->h;
 ++
-++#ifdef SUPPORT_JIT
-++
-++/* Check that fast JIT releases a copied subject when reusing match data. */
-++if (test_compiled_with_jit)
-++  {
-++  test_match_data = pcre2_match_data_create_from_pattern(test_compiled_code,
-++    test_gen_context);
-++  ASSERT(test_match_data != NULL, "pcre2_match_data_create_from_pattern(JIT)");
-++
-++  rc = pcre2_match(test_compiled_code, pattern, 3, 0,
-++    PCRE2_COPY_MATCHED_SUBJECT, test_match_data, NULL);
-++  ASSERT(rc == 1, "pcre2_match(COPY_MATCHED_SUBJECT)");
-++
-++  rc = pcre2_jit_match(test_compiled_code, subject_abcz, 4, 0, 0,
-++    test_match_data, NULL);
-++  ASSERT(rc == 1, "pcre2_jit_match(reused match data)");
-++
-++  pcre2_match_data_free(test_match_data);
-++  test_match_data = NULL;
-++  }
-++
-++#endif
-++
-+ /* ----------------------- POSIX functions --------------------------------- */
++     return 0;
++ }
 + 
-+ #if PCRE2_CODE_UNIT_WIDTH == 8
-+diff --git a/testdata/testinput17 b/testdata/testinput17
-+index 08fd72e0..9d728965 100644
-+--- a/testdata/testinput17
-++++ b/testdata/testinput17
-+@@ -298,6 +298,7 @@
-+     
-+ /abc/jitfast
-+     abc
-++    abc\=copy_matched_subject
-+     abc\=no_jit 
-+     
-+ # ---- 
-+diff --git a/testdata/testoutput17 b/testdata/testoutput17
-+index 6d550084..773ec18a 100644
-+--- a/testdata/testoutput17
-++++ b/testdata/testoutput17
-+@@ -542,6 +542,8 @@ Failed: error -47: match limit exceeded
-+     
-+ /abc/jitfast
-+     abc
-++ 0: abc (JIT)
-++    abc\=copy_matched_subject
-+  0: abc (JIT)
-+     abc\=no_jit 
-+  0: abc (JIT)
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-index b81480c8ffb..fa59747fdca 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0 \
- SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
-            file://run-ptest \
-            file://CVE-2026-89162.patch \
-+           file://CVE-2026-89161.patch \
- "
++ typedef struct ThreadData {
++     AVFrame *in, *out;
++-    int direct;
++ } ThreadData;
++ 
++ static int do_denoise(AVFilterContext *ctx, void *data, int job_nr, int n_jobs)
++@@ -297,7 +296,6 @@ static int do_denoise(AVFilterContext *ctx, void *data, int job_nr, int n_jobs)
++     const ThreadData *td = data;
++     AVFrame *out = td->out;
++     AVFrame *in = td->in;
++-    int direct = td->direct;
++ 
++     denoise(s, in->data[job_nr], out->data[job_nr],
++                 s->line[job_nr], &s->frame_prev[job_nr],
++@@ -314,10 +312,21 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
++ {
++     AVFilterContext *ctx  = inlink->dst;
++     AVFilterLink *outlink = ctx->outputs[0];
+++    HQDN3DContext *s = ctx->priv;
++ 
++     AVFrame *out;
++     int direct = av_frame_is_writable(in) && !ctx->is_disabled;
++     ThreadData td;
+++    int ret[3];
+++
+++    if (in->format != s->format ||
+++        in->width  != s->width  ||
+++        in->height != s->height) {
+++        av_log(ctx, AV_LOG_ERROR,
+++               "Frame size or format changed without filter graph reinitialization\n");
+++        av_frame_free(&in);
+++        return AVERROR(EINVAL);
+++    }
++ 
++     if (direct) {
++         out = in;
++@@ -333,9 +342,16 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
++ 
++     td.in = in;
++     td.out = out;
++-    td.direct = direct;
++     /* one thread per plane */
++-    ff_filter_execute(ctx, do_denoise, &td, NULL, 3);
+++    ff_filter_execute(ctx, do_denoise, &td, ret, 3);
+++    for (int i = 0; i < FF_ARRAY_ELEMS(ret); i++) {
+++        if (ret[i] < 0) {
+++            av_frame_free(&out);
+++            if (!direct)
+++                av_frame_free(&in);
+++            return ret[i];
+++        }
+++    }
++ 
++     if (ctx->is_disabled) {
++         av_frame_free(&out);
++diff --git a/libavfilter/vf_hqdn3d.h b/libavfilter/vf_hqdn3d.h
++index 3279bbcc77..3467f27145 100644
++--- a/libavfilter/vf_hqdn3d.h
+++++ b/libavfilter/vf_hqdn3d.h
++@@ -36,6 +36,8 @@ typedef struct HQDN3DContext {
++     double strength[4];
++     int hsub, vsub;
++     int depth;
+++    int width, height;
+++    enum AVPixelFormat format;
++     void (*denoise_row[17])(uint8_t *src, uint8_t *dst, uint16_t *line_ant, uint16_t *frame_ant, ptrdiff_t w, int16_t *spatial, int16_t *temporal);
++ } HQDN3DContext;
++ 
++-- 
++2.53.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p2.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p2.patch
+new file mode 100644
+index 00000000000..e5148e86291
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p2.patch
+@@ -0,0 +1,71 @@
++From 6e2b4a7713d9fd4ddfc0e2775af9ba6a03e77d55 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sun, 12 Jul 2026 13:05:33 +0200
++Subject: [PATCH 2/2] avfilter/vf_hqdn3d: support dynamic frame sizes
++
++CVE: CVE-2026-66036
++Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/5d7112c60e6f0f0742ce47d448e6da0718a70f4c]
++
++Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
++---
++ libavfilter/avfilter.c  |  3 ++-
++ libavfilter/vf_hqdn3d.c | 21 ++++++++++++++-------
++ 2 files changed, 16 insertions(+), 8 deletions(-)
++
++diff --git a/libavfilter/avfilter.c b/libavfilter/avfilter.c
++index 5bcf0b4ef7..c039f3a1ff 100644
++--- a/libavfilter/avfilter.c
+++++ b/libavfilter/avfilter.c
++@@ -1072,7 +1072,8 @@ int ff_filter_frame(AVFilterLink *link, AVFrame *frame)
++             strcmp(link->dst->filter->name, "idet") &&
++             strcmp(link->dst->filter->name, "null") &&
++             strcmp(link->dst->filter->name, "scale") &&
++-            strcmp(link->dst->filter->name, "libplacebo")) {
+++            strcmp(link->dst->filter->name, "libplacebo") &&
+++            strcmp(link->dst->filter->name, "hqdn3d")) {
++             av_assert1(frame->format        == link->format);
++             av_assert1(frame->width         == link->w);
++             av_assert1(frame->height        == link->h);
++diff --git a/libavfilter/vf_hqdn3d.c b/libavfilter/vf_hqdn3d.c
++index 44fb3574a0..92163042eb 100644
++--- a/libavfilter/vf_hqdn3d.c
+++++ b/libavfilter/vf_hqdn3d.c
++@@ -317,21 +317,28 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
++     AVFrame *out;
++     int direct = av_frame_is_writable(in) && !ctx->is_disabled;
++     ThreadData td;
++-    int ret[3];
+++    int err, ret[3];
++ 
++-    if (in->format != s->format ||
++-        in->width  != s->width  ||
++-        in->height != s->height) {
++-        av_log(ctx, AV_LOG_ERROR,
++-               "Frame size or format changed without filter graph reinitialization\n");
+++    if (in->format != s->format) {
++         av_frame_free(&in);
++         return AVERROR(EINVAL);
++     }
++ 
+++    if (in->width != s->width || in->height != s->height) {
+++        inlink->w = in->width;
+++        inlink->h = in->height;
+++        if ((err = config_input(inlink)) < 0) {
+++            av_frame_free(&in);
+++            return err;
+++        }
+++        outlink->w = in->width;
+++        outlink->h = in->height;
+++    }
+++
++     if (direct) {
++         out = in;
++     } else {
++-        out = ff_get_video_buffer(outlink, outlink->w, outlink->h);
+++        out = ff_get_video_buffer(outlink, in->width, in->height);
++         if (!out) {
++             av_frame_free(&in);
++             return AVERROR(ENOMEM);
++-- 
++2.53.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+index 06c6e402c97..9a2a3353ca4 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+@@ -40,6 +40,8 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2026-66037.patch \
+            file://CVE-2026-66038.patch \
+            file://CVE-2026-66039.patch \
++           file://CVE-2026-66036_p1.patch \
++           file://CVE-2026-66036_p2.patch \
+            "
  
- GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+ SRC_URI[sha256sum] = "6136812ea6d4e68bdba27e33c2a94382711cdf4f8602ffef056ff792bd6f9818"
 
