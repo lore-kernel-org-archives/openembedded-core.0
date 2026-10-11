@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF0BACA9EDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F034CA9ED9
 	for <webhook@archiver.kernel.org>; Sun, 11 Oct 2026 08:41:18 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23569.1791708078186269214
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23564.1791708069285868406
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Oct 2026 01:41:18 -0700
+ Sun, 11 Oct 2026 01:41:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=IruvinmK;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a02753c04fso4743335e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:17 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tU6oOnvl;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48b042c0759so656214f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 01:41:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791708076; x=1792312876; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1791708067; x=1792312867; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=q1VAMJuuJf6f/0jwp70Dli2hx10p7UVI6pGYer5VNDo=;
-        b=IruvinmKOIJSMUCBrDJblZubdmW6k/2ijy4UsAf2QrEthLYWqC2GaN8F28jLBYwuUv
-         3peaxGjElGBvt634hN7r711MzDOLzPgm3bpM7notG77OMZYrknapGQ8h7VFtmS0dagOh
-         l8r9CvxZO4PnZxGbN88dJc0UFDa+xCfn9SXRM=
+        bh=TrsbDjNhTpr6m+6ftGT3SA1Jkb0yZRMl++FkGQRQuu4=;
+        b=tU6oOnvlqJZmiZanQV6aVtRIHdh/JVJT9rSmj5z2ayGf0m4I9gqj7DBO6BPH+uLNSj
+         gmC1yjZkXrGNPvLrN9NAZ6XhX0N2gh4JkvCu9+/hfhktGM/WG5auY7hCOjl24DFBWBlk
+         tz+cOMmIc6YrZg1M+KEoK+6mRzMCeFhvpOz9g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791708076; x=1792312876;
+        d=1e100.net; s=20260707; t=1791708067; x=1792312867;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=q1VAMJuuJf6f/0jwp70Dli2hx10p7UVI6pGYer5VNDo=;
-        b=m577oUE5defrT1oP3tmDGYvYkSxKlQOk7TOGO4DJ8gTnfyYP/dBCxZyxN/qF3JES/7
-         JOO+NryEoSBDfMW14kZ2I67CSynZ0P2dMo6qYkeP+n4daiUuM8SJZ9LIkzVrGsaWFwkY
-         d/M2qOzmWyqGr0W+5hujJa7oyUNxyxyaHRu8e9j6pqb7RQWt6HW+x/2Yo9oz7uEy/Yt0
-         Do55g/onTS+ufwJLng1zB/czhnakjvNKQUwRPYCmqz4qma5u3t49XGfqZUz3KJUiH1A0
-         REVuSA3OVNqu4pd6bqvpZJYVeut2AZMkB62F/kasOq+9FfXX89Vh4LrhzuN7O3/ygMwy
-         yYDw==
-X-Gm-Message-State: AFq9FYK8uuMw91cXp8c1P8WC+G+OgZ5r9rR23YKJrcv8DX213haC1MOA
-	jHIdpqUZQ689/FYdJyCbWjQ+COdZwcjwkYrqJHBk1dI8m0WQh8zt8npxbeaIJAW3MSm2oTDjBvk
-	rT6FpXM0=
-X-Gm-Gg: AYBFou2Tloc3PtIzZ00eTGrRLcseLGcZhW528M3qVtiYeH+FfLCLcjK0SdPX27lIp+t
-	cG2X25FXHNG783qUR7rEjpSIFJruq/khGPZxvBtMNANTGlbh4kiOuZIBFlQ1+sbWorlRcknSu5A
-	XxRHwjXUlpiBZE8B9NXzRbk8+raxIgBcFeDfoVd8yS2P4wJrn5bmRzRLOSzRnEDM3o3vjg7vPSj
-	zSnUKjEgzp6iMCoDB1xFhk1HthxoOa7BXipaKc4z07fcY95VKI5Ys5S1rOS9fca+6rP2PbxmLrU
-	b6iG59oycZgZwSjkN4BbeIoee29jrC41hd0xjEGmyyHRVPreY4d2f2w6mt9NFcx/Uf8SUJt76Kw
-	kW5hUmoeOkmdxKCraGWmYWSf4Y5Mqjr7AlD9SFWebxxjsF4ezrxdm+el9FZPtqWgVzSKs7Yzd6M
-	cckRoENk5r/JHnaWFECOG1YOAPIJ050s3BXE1PKYdggpM/WTrgCYIUoOGuL05jOg8yhfTMam8Ft
-	GEnGluzIrzQG7CFzYUf7G+5Luyq+v1gKVDDs/4NiuRfmbaMhyXEcc047bxSvtjtELYHykMHoA==
-X-Received: by 2002:a05:600d:6409:10b0:4a1:96cd:2f6e with SMTP id 5b1f17b1804b1-4a196cd3213mr31223035e9.4.1791708076230;
-        Sun, 11 Oct 2026 01:41:16 -0700 (PDT)
+        bh=TrsbDjNhTpr6m+6ftGT3SA1Jkb0yZRMl++FkGQRQuu4=;
+        b=l8YtuCrztBDNjhJXD9raMD4kWc9FwZbNBGX3nn6n5mx7vG+UJkQ0YL+G0iw0WGK5gd
+         TXufUoCgl5nlQfD720ZInLmz5gNm9RqjovMD+k/l55s2AhthEWMZ4jdyfHlAc6+a9tpg
+         FXXtcedRkHAVpVbB6JVUUjz2rXSzFdOqMmRamKOF7JGJHARxXg1ONJNOg4YHwtBtAKxy
+         n8iIVjh4h1Tzgzh9oPGq0h+hs3SGW/WX7vgtlXFsYBuAUKrl0v0Z2nq+mQrBFXwubYlj
+         GO/qvwtLmK3SRZ9hTBCYFVclIDR8c3OqQ/gaPXPMqMze1K+8GLRVRUIFqyFS+d8awZPX
+         7+1w==
+X-Gm-Message-State: AFq9FYISACt6/9x45bqhNBrdIwsnXJjX3NR7f362LnHOJXHe1ECEAZ+r
+	LrUG+8/Uz7tMev/Qla8kTIf06wGTeOrG4G+5gWk444GBSJb5TGMRqni5jLIdd9kjdu4ZTMQBcc5
+	CGh6p/y8=
+X-Gm-Gg: AYBFou1xk/kv+b7MCHEE3yH81rervHjw8URstpzZcGhrhm07zMoObb0cBKkRI12yHW6
+	v0gUG0aJ+q/w34YShFEdyD5Do4+Lgvn6sbf7Zi18nYxNl4rC4xAdMerKBOlsWJm1WVgNHgGjiT5
+	/OfA6HGaZVVGpJ0094teIbCyWtZPCms+bR1PSqtaFPd/rk+U/H0WB2FmI9bWUwBjSoNqXLzNMgv
+	Vbp5hspVUPejxA/QTKRkozUPit5sO9sBxcAo32p8aMCjNWi4oBgQb7uQdsq1PvnireH5jj3c+rw
+	MTAwhJOeDvDAlgCHx4xHacpZnWG0uhCpRUOEKk+3cPP2OC560Hdaf/PgB2VsYvyWzmQ00TRq0Dj
+	dzL/q3shpjELo/SuP/NOpgOW6HjNoRu4kO3cTJzaDO3B82Coqify5UaiysvoybVx4B8xaLZF9Qv
+	D4tx1pPcYx1JDw7gSxF6+0+sbQY1Uk7n7QMvJYN5Nd0MqFXq6wF3HE1ln8E52n/ZHANjH5/59o/
+	gnFLvp0DOWepYsKTPoRQjmCLwY0byPu1T44V51knUAvr5AYHavxtLeombvVh/qstRPkatGkZkwZ
+	YRVQrBmh
+X-Received: by 2002:a05:6000:400d:b0:48b:10c8:2183 with SMTP id ffacd0b85a97d-48dbacdd2afmr10015500f8f.32.1791708067449;
+        Sun, 11 Oct 2026 01:41:07 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9acfa28sm13481734f8f.51.2026.10.11.01.41.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 01:41:15 -0700 (PDT)
+        Sun, 11 Oct 2026 01:41:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 25/60] gnutls: fix CVE-2026-42015
-Date: Sun, 11 Oct 2026 10:39:58 +0200
-Message-ID: <afafa8585be80ec139994375f8db62db01ac4862.1791707817.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 13/60] graphene: set status for CVE-2026-81281
+Date: Sun, 11 Oct 2026 10:39:46 +0200
+Message-ID: <577e328f76acd93025b54329d8aec72ddfbe38f7.1791707817.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1791707817.git.yoann.congal@smile.fr>
 References: <cover.1791707817.git.yoann.congal@smile.fr>
@@ -66,87 +67,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 11 Oct 2026 08:41:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247534
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247522
 
-From: Jakub Szczudlo (Nokia) <jakub.szczudlo@nokia.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport patch to fix CVE-2026-42015.
+Per description in [1] and also per [2] this is CVE is for WordPress
+theme.
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-42015
+[1] https://github.com/CVEProject/cvelistV5/blob/main/cves/2026/81xxx/CVE-2026-81281.json
+[2] https://security-tracker.debian.org/tracker/CVE-2026-81281
 
-Upstream fix:
-  https://gitlab.com/gnutls/gnutls/-/commit/a3e7c50d3e1761e5ef1d4b225507cab8f2b2c3ca
-
-Tested with ptest
-
-Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(From OE-Core rev: 41cfe5df728cfeef3adac69f0bbdace70c339e78)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gnutls/gnutls/CVE-2026-42015.patch        | 43 +++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch
+ meta/recipes-graphics/graphene/graphene_1.10.8.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch
-new file mode 100644
-index 00000000000..1a2065371d4
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch
-@@ -0,0 +1,43 @@
-+From a3e7c50d3e1761e5ef1d4b225507cab8f2b2c3ca Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Mon, 20 Apr 2026 22:42:20 +0200
-+Subject: [PATCH] x509/pkcs12_bag: fix off-by-one in bag element bounds check
-+
-+Appending elements to a PKCS#12 bag had a bounds check that
-+prevented adding the 32nd element.
-+On the other hand, it is possible to import one that already has 32.
-+Subsequent appending then led to writing past the 32-element array,
-+smashing its length.
-+
-+Tighten the check to reject any bag with 32 or more elements.
-+
-+We'll treat this vulnerability as a Low due to how contrived
-+the requirements are: for the code to be vulnerable,
-+it needs to append to an imported untrusted unencrypted PKCS#12 structure.
-+
-+Reported-by: Zou Dikai
-+Fixes: #1840
-+Fixes: CVE-2026-42015
-+Fixes: GNUTLS-SA-2026-04-29-11
-+CVSS: 6.1 Medium CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:H
-+Severity: Low
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+
-+CVE: CVE-2026-42015
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/a3e7c50d3e1761e5ef1d4b225507cab8f2b2c3ca]
-+
-+Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
-+---
-+diff --git a/lib/x509/pkcs12_bag.c b/lib/x509/pkcs12_bag.c
-+index 911aeff..3822861 100644
-+--- a/lib/x509/pkcs12_bag.c
-++++ b/lib/x509/pkcs12_bag.c
-+@@ -375,7 +375,7 @@ int gnutls_pkcs12_bag_set_data(gnutls_pkcs12_bag_t bag,
-+ 		return GNUTLS_E_INVALID_REQUEST;
-+ 	}
-+ 
-+-	if (bag->bag_elements == MAX_BAG_ELEMENTS - 1) {
-++	if (bag->bag_elements >= MAX_BAG_ELEMENTS - 1) {
-+ 		gnutls_assert();
-+ 		/* bag is full */
-+ 		return GNUTLS_E_MEMORY_ERROR;
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index f0fec16d039..c9ec3b08f96 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -48,6 +48,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2026-42013-pre1.patch \
-            file://CVE-2026-42013.patch \
-            file://CVE-2026-42014.patch \
-+           file://CVE-2026-42015.patch \
-            "
+diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+index 7aa72b4a78f..0d526d3d76f 100644
+--- a/meta/recipes-graphics/graphene/graphene_1.10.8.bb
++++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+@@ -28,3 +28,4 @@ FILES:${PN} += "${libdir}/graphene-1.0"
+ BBCLASSEXTEND = "native nativesdk"
  
- SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
+ CVE_STATUS[CVE-2024-1984] = "cpe-incorrect: issue in a WordPress theme"
++CVE_STATUS[CVE-2026-81281] = "cpe-incorrect: issue in a WordPress theme"
 
