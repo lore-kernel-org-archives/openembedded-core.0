@@ -1,92 +1,110 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <tdarote@qti.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB4F8CA9ED1
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 10:26:07 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10450.1791800765818896074
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF90ACA9ED0
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 10:32:47 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10387.1791801162281057876
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 03:26:06 -0700
+ Mon, 12 Oct 2026 03:32:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ZYSVC1eM;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso20309755e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 03:26:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791800764; x=1792405564; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=int7wwStUxVc59V3MJNxSyjXA6+SxVcbL5x0DcDQLac=;
-        b=ZYSVC1eMWJ+X3H3nTZSYv45HLS1/M13D1secRGVp2L37ZKOZ5cU9BNELS2vLemcEUj
-         Yun4WLjxtbPIDys5aTLfWbmD5IVczCCVGnFHCs/2unDBr+IxAL5llS+MCsj/YV4l6WCd
-         uRa8YUSLKIAtGFRc8EZEuXWWYAy9/LI2HhX20=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791800764; x=1792405564;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=int7wwStUxVc59V3MJNxSyjXA6+SxVcbL5x0DcDQLac=;
-        b=Za1soiTptrMtD8bOWGTHQf7jhOWIlHdKDn49bQG4mCRfV+6A4HVPU++GYPObH6lbs7
-         pY4xO7VPEq2KgyF9sB1XVgzP/RxD7uwOn9ul/ok3kRy6jZrkhurEjMosDCsU/cbSljEk
-         RIb5Fak/hlSJJrb4gYE7JFxqHlkKH65DGPm87b5TgJFw5pkc/8ksrV8RJ2TWJfv41E1C
-         1Js/kZv08SUmOAbhBGlEwuHyLaikylTRc8/repcqisKD/GQX3ozWlfBl8OHRGyeVLnhK
-         VHX781Gx19PE/VmddPDttyxi8ckB3PCKq0Zg7PBkDXcYJolLHEV5kVsps90wja4GOW8h
-         ocZQ==
-X-Forwarded-Encrypted: i=1; AKwUvByPmO7bKBZfzy2eN9KTZcNaoBpz75EuQRQHtAlMeGU5nn7VBB5KnuAd8OOXniu8TAVRbu1Wgxz8dKKMnQ8kNLo6AA==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYI10FAuapnRFYHn+GisA/wHcrq4D7LeDMFETgKIC8Q9D8JO7U0q
-	708R+KL6KyijNfpoFzWoxe/v7yCn6GtPY57Ld5Hx4bznOLVO082Rmgbm2vtA+yoMOsU=
-X-Gm-Gg: AYBFou2B1sLXkXw3TBdmw1FoCsoi8Nh5kD77WlDmq6Qik91Y/YMFmlUNOpPTCcf43wm
-	6RfQw/H0ciLl/ZoU4YF1//SBvAND2TD6Qvpcfooymf+2o5rFLaJ7S+4mjiZ9BW8mqFbfjV79wyI
-	eFo9Fvi24lro9iWBIf+Gqzs7+B730nPshFno+z8Hov+FeWL6Lhd8g+/FLESBeDX1rEpK2W7yKDD
-	74rLqeScA1iNnYup1Nq9dkaRTObHZ2ODAXvBeh3kzYv5oCCeM/AzD0wJOL5s0huIWbMpuD0KxdX
-	zr8bEpfyVCQ9gDiAUJLntqDkeIzb2RhbhfBsA234IjtmYihJoI7jHknoLIUQ0EyMB4jKhHp7Ogq
-	IKPA8JAo41GGR7BO2EBkHX4BkyC8GmZh/iIyxNr1pcNC6t5csLfi48EeO9il035FW0U9UZ+wJEA
-	83OgHEwnkO+cjLt0HReHvf9x5Z1MSuotanbuZo2q+euRdOXu2lZJFO7l3ciYUSwprCVf4jLYMkb
-	+bnrOFNyUkQCXawlxhqk/X77xF3P4ebqVT5RVy8QjWBI0b/yv915cNOU9xRnQ==
-X-Received: by 2002:a05:600c:46c5:b0:4a0:eae0:769a with SMTP id 5b1f17b1804b1-4a18e4cd224mr173513305e9.28.1791800763810;
-        Mon, 12 Oct 2026 03:26:03 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a198c80cb3sm112084925e9.3.2026.10.12.03.26.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Oct 2026 03:26:03 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 12 Oct 2026 12:26:03 +0200
-Message-Id: <DM2SCYXOZWHY.2SXKNKXF6ZI4F@smile.fr>
-Subject: Re: [OE-core] [wrynose][PATCH] libarchive: fix CVE-2026-15028
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <jakub.szczudlo@nokia.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261002110211.11669-1-jakub.szczudlo@nokia.com>
- <DM0OFC89C3EH.CCKMED8WYWDC@smile.fr>
- <1823924.1791788633257107744@lists.openembedded.org>
- <1823924.1791800189463127023@lists.openembedded.org>
-In-Reply-To: <1823924.1791800189463127023@lists.openembedded.org>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=V/ysfd2C;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: tdarote@qualcomm.com)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69C8KBFH1779284
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 10:32:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=dwSx0Y0Uyxh7UX/hZ9X58VIEWbxabD7xgAX
+	EYNBu/EI=; b=V/ysfd2C4Q7qdrmjSUEvsNjH894NCQQFxnCn2DNVVWRwE+MW207
+	sj7Op2pcpqbQk3jPwWAfk8Fvs4SVxfpzUy9uO6+nBv1dd4e6r7y3xs20xEaGfW+i
+	17Il2K5kxYciuQ6hiFn+SuKRusXGp6lAeh5nu6bSMGJDeFZpwUbmrIpVWieM74EN
+	q3hfInuTkAZKUfvQ+t2Q+9IZ9IaGhuaRJaxDAGmm7K8MqWAvaXIvuQtVUFu8TX7h
+	AyWJQdAHeFu8u7czK/3n3LUjmcEjLUpNla+Gx7hSy/6DRRwWxH8csazKbTT9KESS
+	QkxsETRxuA/PLtACw2st2Y40+3BhW8jCwRQ==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h8udq0rga-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 10:32:41 +0000 (GMT)
+Received: from pps.filterd (apblrppmta02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69CAND1A3934210
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 10:23:13 GMT
+Received: from hu-devc-hyd-u24-a.qualcomm.com (hu-tdarote-hyd.qualcomm.com [10.147.247.89])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 69CANCAF3934202
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 12 Oct 2026 10:23:12 +0000 (GMT)
+Received: by hu-devc-hyd-u24-a.qualcomm.com (Postfix, from userid 4146169)
+	id 9862521524; Mon, 12 Oct 2026 15:53:11 +0530 (+0530)
+From: Tushar Darote <tdarote@qti.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Shantanu Majumdar <shanmaju@qti.qualcomm.com>,
+        Tushar Darote <tdarote@qti.qualcomm.com>
+Subject: [WRYNOSE PATCH v1] gstreamer1.0-plugins-bad: use gtk+3 dependency name
+Date: Mon, 12 Oct 2026 15:53:08 +0530
+Message-ID: <20261012102308.2640411-1-tdarote@qti.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Authority-Analysis: v=2.4 cv=evJKXYpX c=1 sm=1 tr=0 ts=6accb749 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8 a=Cv24dpK0CmeL2Y3-DUMA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA0MSBTYWx0ZWRfXxayKiWm8A98c
+ ueSKKMu02AqfQVrxCYtLHYXOH8Sdm2uqiRgUPSa+/sZ0AmhbV1lH1yFauWO6A/neCJE6oXyEiAJ
+ u5xW2WvuUzXhwwU5VjyTkDt4/Wu1oX0=
+X-Proofpoint-GUID: X5U8-1bqPC0mbDOeBte52wbm8el-Wc9Q
+X-Proofpoint-ORIG-GUID: X5U8-1bqPC0mbDOeBte52wbm8el-Wc9Q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA0MSBTYWx0ZWRfX2JY3HZztQK+G
+ 04J8T2wQFxUXJ8Cf8OYXD2oqQ0EiGMbNfiuHDlbthh+H4VurGYZ148u3q0c4oYJVOlUMephog+p
+ N6M7UNy26nqyI32K6fHkFBbvvdU9eO4136BMeTuDm7i1bvuacHLok9uA6EPDPYwfXF3CCKy1EOs
+ 7m9Hbq/yQrfUZgcJQu20F58ExK7tdU+hJ2c1A6w1DSwdSVJh9besfQWn9Cj5pBfgvPP+1uBJvx1
+ cGSBquJTbCs2uKGUm8uS1hYSjxjoMoGPI7PNFnB8SSstW7WTuqKZelcXaSBrrPAOoP4WB+xnO5i
+ hfLx5IFggvW8VfYXKjkbmRNzFTym7Wk+eiV+48fLtmWtfz4ZhOIOgxygkhpecPdDqC+SLLL3mMB
+ qFxIlHDULYf0bJiPjYmnDNSUtyHJd1l8Gt3XPV9B07QdhSQE9WYezisa/6EXX13Gif0hxaLiS2R
+ /VMNuecbW5GnNrwRU+A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-12_03,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0 bulkscore=0
+ phishscore=0 adultscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610120041
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 10:26:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247624
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 10:32:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247625
 
-On Mon Oct 12, 2026 at 12:16 PM CEST, Jakub Szczudlo via lists.openembedded=
-.org wrote:
-> Hi,
-> I spend some time today checking it and it seems that this CVE was fixed =
-in 3.8.9 by cherry-pick:
-> https://github.com/libarchive/libarchive/commit/22ffe8e8e459970f3bc86b026=
-7493fc4aa8249b8
-> What should I do on a master then?
+From: Shantanu Majumdar <shanmaju@qti.qualcomm.com>
 
-Thanks for checking. I agree with you.
-In this case, there is nothing to do on master.
-But, please add this info on your v2 wrynose patch.
+Replace the PACKAGECONFIG gtk3 dependency from gtk3+ to
+gtk+3 to match the recipe name used in OE-Core.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+Signed-off-by: Shantanu Majumdar <shanmaju@qti.qualcomm.com>
+Signed-off-by: Tushar Darote <tdarote@qti.qualcomm.com>
+---
+ .../gstreamer/gstreamer1.0-plugins-bad_1.28.7.bb                | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.7.bb
+index 7964d5b6de..de143b26a0 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.7.bb
+@@ -53,7 +53,7 @@ PACKAGECONFIG[faac]            = "-Dfaac=enabled,-Dfaac=disabled,faac"
+ PACKAGECONFIG[faad]            = "-Dfaad=enabled,-Dfaad=disabled,faad2"
+ PACKAGECONFIG[fdkaac]          = "-Dfdkaac=enabled,-Dfdkaac=disabled,fdk-aac"
+ PACKAGECONFIG[fluidsynth]      = "-Dfluidsynth=enabled,-Dfluidsynth=disabled,fluidsynth"
+-PACKAGECONFIG[gtk3]            = "-Dgtk3=enabled,-Dgtk3=disabled,gtk3+"
++PACKAGECONFIG[gtk3]            = "-Dgtk3=enabled,-Dgtk3=disabled,gtk+3"
+ PACKAGECONFIG[hls]             = "-Dhls=enabled,-Dhls=disabled,"
+ # Pick atleast one crypto backend below when enabling hls
+ PACKAGECONFIG[nettle]          = "-Dhls-crypto=nettle,,nettle"
+-- 
+2.43.0
 
 
