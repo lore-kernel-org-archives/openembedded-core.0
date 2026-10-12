@@ -2,22 +2,22 @@ Return-Path: <jakub.szczudlo@nokia.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B1FCA9ED0
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 10:59:38 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.36])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10892.1791802776622534089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A10C6CA9ED0
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 11:00:58 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10907.1791802848104261225
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 03:59:37 -0700
+ Mon, 12 Oct 2026 04:00:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nokia.com header.s=selector1 header.b=LxEFUJMD;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: nokia.com, ip: 52.101.69.36, mailfrom: jakub.szczudlo@nokia.com)
+ dkim=pass header.i=@nokia.com header.s=selector1 header.b=kw1D1MOo;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: nokia.com, ip: 52.101.69.67, mailfrom: jakub.szczudlo@nokia.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aaceS2Tg7G6CFaWjefF7o5yT5pdexD6lLKOkevFw93QrqTFoQdZ2lBFXnkXEezQYF8S5kHpmXkzcvXYPf4Sp/AUkrxWR2uSJkWD20/DmWFVoBVQ6I4ZNf2Rs8g2hjDdGEjVvqK+weyBu5Ng8jomuVZ3Le0vTT1B59+DI1o8QepWqmLMycI1E2mI879l9j0UfUoZJ8VkdvdV0BHitu5H896STOFT/Oyqg7xtWDER3nIGSORpKNlWQNfF0As3F0lrpih5YNmyvRxfFUBbt/ifCp3lE38ASWbMe1EAb3H0CyB2ob9AA/z3U23taU0gD0z5GPIM7c53HkWzB+xVOsifVMQ==
+ b=WSW1d0xiyt95VgxvR2HlSlnKRahoaF85fotHArVEBSMAIUDDe97VOXRKaoNBdPsG3fzqvyJQEUYLsHRIvboL8Cf68KzhwmW01dRwf8DUGHbv4cSSqdL7z+QaiAEowCo2AFAyC060OtTlXrrpToHSNiXLVAE8aEhx9bKyOx01dBCEhd5qOLVAna159lh4T0vhaGtbgdeIZBa7ze9cKEX+Moa/ZfBgLYbz2FrykGBqX7y4exVWOhyDLQuGOln0gg1WzlSfVJKM/nnSgCEOsBAufi5abDCFo251WPdsVIdb9joqFn75hhSRQ7sg502YB1ZNhUJmcgScHHo8rf2vo/vLAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
  bh=WgjqhY/y9KcMolxcdf9TxpwNWBFngWfAPqj8+TLyJWw=;
- b=oUZ96slHD+gMaaV3hAXqhHhy4CJxj6etSSnErimd9THEfHCxV+gCbK9FLPkzbOi/plrpj7q247/3dpP86D4PbrUKhQkyX8wUP2b24KqgdkI0BITG3EL9qkbgz4qttvZbAogHSgS5i88eBgxf+Y9pucRnabhFT+YuBNB90lDwoloU9Rj7KBHs1B/+8O5E7IJDN9SdWChl28jeIRjRv6PBPeizS+qLRFqkWeSXl4/C45A7E7E+gFMazzdA4S89O5de9NOsPML+vFWIH0l7dKMLbwshQ3UcgmgQefFOkz6thCVDpzYfu+zMsFgKLO/P7Fu0D+XFXmUwIy6wjwAkLe8qyw==
+ b=G0GJZcjx7Xfg8rbcXVrjPZJ3bUW7+vIVdy2GlPog3/09PVG39CkuLoNPrdHxnehAfxHJhFWIwI92Ky5f4+LYOt4VLDgfn36+7n9B8VHxThkW3MyrSjnb9ctDSjn8rZYGRmknw/mimDoka4GgAAEjkrdbtGXtDRfqDfCPqvDwEoSp1AaWoQGKlYjwFgJJ+SzJlLsDXO5/auT7ZAnPa2JqOzbsE20yGraI5D4zVVtqcamn2TdACGufWERXNRFNEHw5u4lEkUrJw6CdY5/zvJtVnTh0eSa0fdbONdl1GbMZXd9WddhTHk6r4MifthwmG9Fh3opD/q8zEwRFt65agqVKoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
  dkim=pass header.d=nokia.com; arc=none
@@ -25,26 +25,26 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=WgjqhY/y9KcMolxcdf9TxpwNWBFngWfAPqj8+TLyJWw=;
- b=LxEFUJMDZHs3YVXuXqwFmg9jWpervNDMuF7WwdKwm3287polq60L7yebwIJcHCXZI0R7qbueInkraUhRsaMPUT5YfUZO3AK8M1d1q/BrkASzsV1MFlm7vTdFcsDPKoi72+YoKOn+yRxmAhf9nGyjm0HmnAMAXXIR1DxLLvDxOTA/GNDY2V/LTHN96yUJGXgoeGCHBF8J26KoIpEg4bPUmnb/ckjIVYZFr06FHPfQGtkV9NUCyEFho3AM0ziogWEHKAkh6tTulDuSdpisA+aKLTWkVy8aoivDvydJ/ePNZxYaz3+51BAaVD0/P9KuQlDumUxgtSoC2SXSY2NOhfiO+w==
+ b=kw1D1MOoTFMwj95vjfC46SpYPj6C+wncQ4MTbq9s6eQd4laGoUaennNGPY6hHPuB0eXTNjiSkY3w+vMY5iVgY2NMtbbWBdFCm/i6Z5vq4Uqj/Nd8rpnArExhYBeDK0/n9UnRRSLBkhbQ8U5g3rrXECPCYcruV1Mlpker5DUDkyPiqTujL2zEj3UvAxVJRsWyc//qHiwnlrPGvPGppySdihDHr8sncQfZM28yOSIWEueiBiwR+mwl+QzgMBjek7HYdIBxIvMGIsFwey3+Jn4d2XWk3SGbd89IZaQ22H2sjXYs336Ah3d9jvz34TAJknPkaS2uMWy+FHvkFtcuq1MGcw==
 Received: from GV2PR07MB11919.eurprd07.prod.outlook.com
  (2603:10a6:150:357::20) by MI9PR07MB375903.eurprd07.prod.outlook.com
  (2603:10a6:290:ad::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
- 2026 10:59:32 +0000
+ 2026 11:00:45 +0000
 Received: from GV2PR07MB11919.eurprd07.prod.outlook.com
  ([fe80::159a:9a82:1362:e680]) by GV2PR07MB11919.eurprd07.prod.outlook.com
  ([fe80::159a:9a82:1362:e680%3]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
- 10:59:32 +0000
+ 11:00:45 +0000
 From: "Jakub Szczudlo (Nokia)" <jakub.szczudlo@nokia.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 CC: "yoann.congal@smile.fr" <yoann.congal@smile.fr>, "Jakub Szczudlo (Nokia)"
 	<jakub.szczudlo@nokia.com>
-Subject: [wrynose][PATCH] libarchive: fix CVE-2026-15028
-Thread-Topic: [wrynose][PATCH] libarchive: fix CVE-2026-15028
-Thread-Index: AQHdWjjCgVCxfsKR902Xwafj1Qlebg==
-Date: Mon, 12 Oct 2026 10:59:31 +0000
-Message-ID: <20261012105920.11004-1-jakub.szczudlo@nokia.com>
+Subject: [wrynose][PATCH v2] libarchive: fix CVE-2026-15028
+Thread-Topic: [wrynose][PATCH v2] libarchive: fix CVE-2026-15028
+Thread-Index: AQHdWjjuUXq5SI1yQUOa3FsvUPUiHQ==
+Date: Mon, 12 Oct 2026 11:00:45 +0000
+Message-ID: <20261012110033.11294-1-jakub.szczudlo@nokia.com>
 Accept-Language: en-US, en-150
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -53,67 +53,67 @@ authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nokia.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: GV2PR07MB11919:EE_|MI9PR07MB375903:EE_
-x-ms-office365-filtering-correlation-id: c63dae43-4315-4a5f-e938-08df284fe509
+x-ms-office365-filtering-correlation-id: 07fe71ba-d6d4-43a8-8b9f-08df285010b7
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
  BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|260925022911599003|260925021911599003|260925021311599003|10067099003|13003099007|261009223027099003|38070700021|11063799006|6133799003|12006099003|18002099003|56012099006;
 x-microsoft-antispam-message-info: 
- c7B9b685KIJdiZR/ZHY7OKj97w2Jqxaqsm4OY9+APpibGUadB8ute8gjh3GAWGqZ+dVdAP5NMwQHSlknZoqrKveLpJLfu6cuBvO7f1YsPzHkeDiqMQPGVqwrSxlS4MfgGOhG1WQHtpHjUlnFviF3gz/5OKiwl/TmmNRkirMkEsfjfGwgfSvMMNJyBwKO7mIADuGDGR9pTF1hsXPf1uO4OKucPBplQi+TDiaojy8xUYxJnMnBlcjR7JvE3bzNpLPHPyTeJ8pFXRnT2y5TpIpd5D1qnQHiulvTpUfKtGfcIXtqRkJ18OjipPmMZG1dK+wI3cJdDNa6m9Q9O4ZU7MdbjSnl0p/K0yyR2poePVGjhLYfgXduas3uTUyh1jqm5rJVTn3BR5KpXo/EBYAo4qPdWWOQpd1A3a7wwsu21r/pE4nfAEODMd3FFFUHmG9DOF7Z1JIw+yixu3BxIJXhzvEeMyyVrXU9KXG2x0NEmikdcOK2zEQ7+VPiDSZmIFwLQ1FCt7w+xNYjZ8lO1QubYUwOcXr49pEcr+VUZSE3osHBlkzsqyriuLyqAK6i6AMWcbEJbyrdGgHQ7n4NlS6/AyAU/kNcALTGoJ47LzyAfY6mNogl52TRvtsA9sarclz0X6S1QeXjrswg1cvYz5YoE3WAoGe1BqzVJGnoGAsJ7Dv9t2Q=
+ CCHD04elXyZPLCfSiZ9GHh9MBNc/LLURQrgt5tyix6e6VH00MQu4vha5SxS5XdRh9r9JJtZfom2Z3IN2SbF9/FQRDiwKRKG8hglE6AAbM4oc8IfL/XiQrFOMYZG+tQGZx+frgQ2WGn4AoIpDGM2POfTruoAYcgzwz8hLAZXaozUiTogKMiwuWMOkRvYSVydaT/24l4/w7CFx/c43QOLIp9FnAhuqw2HuBlFnJ9F2Zl8kupQ9q0UksscKDiCnQ3qhtm3rvTGVKrnsJNB533u+0EobxHFL7ftCGYXKBxgAvNsb/H1Y/ILJFVALYVZ7SpmHHuOy3qcsipuWpKRxsAb/Pu08Y6z3gJwkCaz698LsJ/UNivneQpXrcaBlOxXSzJWeKlNv90OZcLSrFpPfH2JEWCYYmLa+QUUyGx6YTNPHp/awZA+yQUJoci3+qCnSx/Ri6dwNRYTep+BP8RrCqisxhM7Ax0dypf/AVU8nuKcikDCKw2xmqwdhOTNdPI9EmO1pc+biP+yTLVi161tPnzmSUBqV3/SrupNPIrFG1KP20mzp4OBQ2ARcwoEij3Hlb5Fg8VouEispRWz/1yliD6M0vwplY6r0tnwfkaGwnR8DHVcXD7c3YT71bvMcro592RWXUBLc6QzELBqnJ3AVfOjV/BtoRv0E0emxiJtLuxMq0H8=
 x-forefront-antispam-report: 
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR07MB11919.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(260925022911599003)(260925021911599003)(260925021311599003)(10067099003)(13003099007)(261009223027099003)(38070700021)(11063799006)(6133799003)(12006099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?A1XJfr1T+FWkDz/LNOcloMwOBw/v3b3l5S8z9XX/2wf/gnSrFEOT4768V+?=
- =?iso-8859-1?Q?3j6sc4vr1qGr1FAJzM704MfXqZV+qn01RR1hROUMh3iYeLbjiyZCH7wo+r?=
- =?iso-8859-1?Q?UpwaR5g0rtpldN/Xd+W5Li1kkEUkgsdeH6RTVADN7VqwTcD8WBeNKEAdnH?=
- =?iso-8859-1?Q?wlon13ce0OvFDT6mJVT/qRsgbz1fOWidDlw6zrLoI1SvtCjmoWo14VTCy9?=
- =?iso-8859-1?Q?LaVwq0U4hOPlQwi8CF+CK73eYVOpUMbk5d2PwScn0w/IHa/M1P2is885vt?=
- =?iso-8859-1?Q?5ceDxc23XsTwOsIpeXB9W4Tkb2Y3a/PbO9z4hsymLROxU803vP/mlIP+0e?=
- =?iso-8859-1?Q?Ns6KQnTsijh5asqDbBqD7C2G5/2XGyHyLKLGmXev4Zy+KcwT4UB4nP0L3+?=
- =?iso-8859-1?Q?qi7a6ORzP7ILgUd7zFfHkRsLSs3HXNd6K4QnfxSVheRt0UCK4sxP8FF39o?=
- =?iso-8859-1?Q?yWm16+UkZ8SserXUPb+hMwVi2MIa/OR9tsrGwxvNjc/Hg4PVQI88sTt6ax?=
- =?iso-8859-1?Q?+dS2724o5sqWsc4ozopHpzH52KMMkGF9ScJGWvUZ3OV1HiTqgPqHsUR5Ka?=
- =?iso-8859-1?Q?jP7lJJt6xHYnFUX+xCc3FwVV4prrjUX73XMdDR4cX3sR93iag+eA9LgOyJ?=
- =?iso-8859-1?Q?qCwQfGDzaOb3egdIuf7efMdBhIP419Sc0c3Ugvqhw8FtdZM6tMLptwMyVJ?=
- =?iso-8859-1?Q?NUzVZ4iGDB8e3jKJCDnJsrJev2BzLeJT5DjBdONwVNJMGphs/MC2mKPD8B?=
- =?iso-8859-1?Q?pc78cod4p6DNzDqn/sDrypBqkOnpG1C/cscoDsidNOCh/K0A3s0+NCJkj9?=
- =?iso-8859-1?Q?R8xlZDbgOau5PPZKaJXuhPGqrZ4eddzB2F6/u2PSW+/KWHd3GujJiVJ2Im?=
- =?iso-8859-1?Q?jFKLlEJ0aHoLduBe0TgYZ+UjtV/j5epgqnDJj9EbQpv8T4ltwxRvV+7kwo?=
- =?iso-8859-1?Q?RwQsj8AoWRLMU/7L6dUdnCJothb/vkCDvnIjlYdD6q8Out0U6oEmBay5Dg?=
- =?iso-8859-1?Q?XE/1wdCKbczPijd1AfMiblIdz/xQ8k+e4I/bAHEc/5I+1Fy2WU53VSFNAO?=
- =?iso-8859-1?Q?1p49i8rGAbLw1kv5jncRi9HBC2GxDJjb6WHboFr4nuYfuBXNJJfCHAow6X?=
- =?iso-8859-1?Q?NIVcmIp2atK22HKl2eQey+rHA4EOyBQ/9fROlfYyvx+D8y64+M27yEeDg7?=
- =?iso-8859-1?Q?MBxA6hR0HO4Okj4vFuViOpS1fJDcPmjCLXIhqlgEXLZD0FnlCzTotGrTBz?=
- =?iso-8859-1?Q?1OzuMPSxOZE2vGz/weVoTHvoUcnQoDd7cIJHX7J2NYX68WJtWNKKChg+Uk?=
- =?iso-8859-1?Q?mMzHK412uNC6OIO27HBTIY5z84tAoaz4NtH7hStle35E/MsdU6nolR7SGB?=
- =?iso-8859-1?Q?9xFvbzjKqT/lxCcGS3kBEpbAE0vHZLiTzZBXoef6AuF2TOiNMAaXiPa3RF?=
- =?iso-8859-1?Q?d/pBI+aw+uXOmHKkvohY8yGlfarqBoJYFT96W9P05fCLhAHajg6QweaIDI?=
- =?iso-8859-1?Q?dVACIdPQHJny4NzPPL+RaHyD+2A+2q4vamdRoX9SYx3KArXi2zEFxFB9sY?=
- =?iso-8859-1?Q?wxe8AWrTWjhAyggXIDtEYDckiyQrqTaqd1uTt1xQl+iilutd6PiQzr2IwD?=
- =?iso-8859-1?Q?pvgHD/ixvFD1M6XvU9zCze0ZpXNHN5/ECioIgefw7bwx+G2hRCjANjIVt2?=
- =?iso-8859-1?Q?KOh3gvKvu9pkMR1lf1abOeDFFx4tG6rfR5Ejjq0M61dpEDuv8qdSEVYSED?=
- =?iso-8859-1?Q?g46TCVEtR8OZGiY//29o4S0WjvfnKPAEW7KRnLBAgxly6JeyRN8rDxFYvz?=
- =?iso-8859-1?Q?UQpOwxqDcQ=3D=3D?=
+ =?iso-8859-1?Q?tRBKGybAq6/QQPIrCGihUSctNA30exYuhBiA6aAcZlos1WSjzzEwfrVCJW?=
+ =?iso-8859-1?Q?yNcaHSNuVZX23ySsV/+9loW12/B8ao9AmCdJ7gPEFCbmeY1/vNlDN82mur?=
+ =?iso-8859-1?Q?AiKN696F4/x4JcKGEuaaksMzp5gMprp63DYFrsEmvZU69kSRJLcMOOwVr8?=
+ =?iso-8859-1?Q?F5lQ93CwByzngLH8OMf0tMjZOqcnrJ1ENHmB9xN9/dPn6p9iWMoeeaSChP?=
+ =?iso-8859-1?Q?69KFHf8sIRTaw5DQmkVeAbC8dc+srXtCMrFK6JKMh2vA2PR4HKrkQRWw35?=
+ =?iso-8859-1?Q?wDNE2rZheBXi2Sj5FPSqkka3thVrjgCyK1f/C0EvNHcl3GitEcJ0sS70ds?=
+ =?iso-8859-1?Q?ft4X1PdomH5a5/ZaeMZjTxYBFJFa3hkg4LkqDKjYid1273cV29Z7GOW88m?=
+ =?iso-8859-1?Q?u1r10rFgdDfok5oiKr8JwmJamIPfLjVuS+USwcw+p2/wk4f7aErYu+tZDP?=
+ =?iso-8859-1?Q?hqUXSNg3UqxgvSXZe4ZP1Bw/chbW9nU5a5fqJ6zebt67m3NeL5KLpGNfSQ?=
+ =?iso-8859-1?Q?LtZmLa/hJi4+/jpbql4RcFFe3husc5Y8mteUet9U29O5rMR00bMstplEX7?=
+ =?iso-8859-1?Q?0rORm96slcbeWIQ/qSLNr3w6R4omzByG5ekNzTdCT7UKrQVEmdy5AVj+8l?=
+ =?iso-8859-1?Q?83GUbTdgqeqAVqbOq9a8ue14C3n9MKAn+RysMvERVTcoDgU4Zlgn737wap?=
+ =?iso-8859-1?Q?VxapaZ9lfa7NppkQ7s/K30bi5h/xOVVpsXswFPyzrsumk0+gZrh7IQ1CSh?=
+ =?iso-8859-1?Q?XUDpadJ6q16WikeZNByVlrPty3bcUL0Y/+rKitzFSX6KPr3nlyOLjvESku?=
+ =?iso-8859-1?Q?VuyxEZufRpB0m6SIBxpVrKl1MGjlB4jprSLwwabQKb0Yr6UVLIsv2I8y1Y?=
+ =?iso-8859-1?Q?2giE+BsS2yZp7Uu1xZYEfQpaDMtpFdS2RG2I5mXMWgqUnIKT+NZddUj6wg?=
+ =?iso-8859-1?Q?w2NxIXwpjpeuWtnY+57ES2P7bpE4VeMLIG+vXsTnBNCBaho7zs6v8O0OZ1?=
+ =?iso-8859-1?Q?dnyUJEW7fZQmxPGNgMSmo7VDXfMZ5DcILWJj68RMQW6BXnvkzvEwEgMmG7?=
+ =?iso-8859-1?Q?ioS+1p4ZhgvBCYVV67p5cw6wHXdQ52GMyALm97fKT7NRn+WKWNvQjL9Ysu?=
+ =?iso-8859-1?Q?a2IDuSk0h0JQEu5wz4DxGM6mli11t1amvB0JmdV6YQXwMrXTTTirZeRkHP?=
+ =?iso-8859-1?Q?hd7V7V2aTnFA7xeRqdjNORGfA0En19PtIS63AT6lu17H8d3kesJSmkLsND?=
+ =?iso-8859-1?Q?9LHAR/Zfh8XiomWVXK3I0E801IZcZbSjs3SvDVp1esRTgx9knKMd7mnYYW?=
+ =?iso-8859-1?Q?lSVAxQ7OSffwMeS4xcz6esIl/9338nifqgZOKzOoC5sphBDl3nWwPYvRbC?=
+ =?iso-8859-1?Q?lx/lAKgVa2Q5W1QlfkfQ+4Gpr4N6ennngvE7xn2nQHUxXKRzPP8XNZejjK?=
+ =?iso-8859-1?Q?ipC06BSbhJlGLJqtOyl6oH36us3ek9PPQVHhDXYr+BEQsJZN2vGOntEZ2D?=
+ =?iso-8859-1?Q?hLZJEGGorkON+GqmxKOM74bbJn6NC0dHIUAn4jDigL8hvykL43WVmlD2lu?=
+ =?iso-8859-1?Q?G475BKcMliLN3n5Qh9s6G5WQWP7Wz+MUH0A0WJmUdeL33uyyAwfYLrH3PY?=
+ =?iso-8859-1?Q?Zp1mpg7YW8mYuVH4JvUkMGrxIpCuTaibFRzHUPI6nuBY7Pio8v8uzvPL1j?=
+ =?iso-8859-1?Q?VIpQn9f/W9cfLj4zk6erG5BBgA9bQRTcv8/Vki0f9/yUlNzmeOIOolTWhL?=
+ =?iso-8859-1?Q?yrFBQ6kYr5SiKDF8CnulJ07bOKIRb3NpXSEvi5hfJ6hANk6UHMhZGqiJn6?=
+ =?iso-8859-1?Q?Mp5Ydax04A=3D=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nokia.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR07MB11919.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c63dae43-4315-4a5f-e938-08df284fe509
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2026 10:59:31.9814
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07fe71ba-d6d4-43a8-8b9f-08df285010b7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2026 11:00:45.2658
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: e0ZoI63cr0xCTQcI+OZ5hI3Vj39t+/44YjXSfq0d2i3cN2P0CvpotCN+vdDBG3n3lmGQnLsdECYTjpKHJRDWhS4S8zvkZrIcDWeUh6lQSEI=
+X-MS-Exchange-CrossTenant-userprincipalname: zZQ9KPwhGwVHVRWF4qUZ1JnXegswK0bYjcQOSGu/PThdtlR0RS2YFKR/FWaoWwRS2gEWo+cJ9iFkM7vFmoM1uShz3T/j0Vil6c7Cgi9DoPo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI9PR07MB375903
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 10:59:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247632
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 11:00:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247633
 
 Backport patch to fix CVE-2026-15028.=0A=
 =0A=
