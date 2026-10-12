@@ -2,144 +2,163 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F102BCA9ED1
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 13:20:35 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13147.1791811226690939817
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA87CC6B01
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 13:20:36 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.15])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13144.1791811225705403211
  for <openembedded-core@lists.openembedded.org>;
  Mon, 12 Oct 2026 06:20:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=H0HHMB9H;
- spf=pass (domain: est.tech, ip: 52.101.84.23, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Q5iGnHuN;
+ spf=pass (domain: est.tech, ip: 40.107.162.15, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TMz3VmZd7iomIKz29Ol/oDsQmJsqkQ+gGJbJY1AA2vElMdyLHyhx2CV/NSvObvI86NQy7ADI4b84zzHjiqgnTig7EUHIPAjcxOgDDk2/1Tjv4gZSKfrog/7dHvGMj2vx0VXRVIFnDNOsoIwuyplblMXfm7icqA541As6LgFJn1VOHOkvNfnwcCCfLcw/NCWusnuDtO9FpLXvl1k/YW17HLzngw5qcj2uVct6bw1SfYTOb+OnK4+o0g6t8fn1MeLLMAzG7cIqxA6G8y1TldDnNLygPp2oIduWzXEhNi+FwDDiLnQoc92j/5ewezqfxxxS4RQOxjNC4RfRo+5ImDy/Mw==
+ b=O/jJu+OmjNS0zCM02k58Z8sX2LfJvlIF9CNI3195cnsA8EUOebfgv+JJOtbd0NSCJbdCqueovBC1Xk6K9nf7LG8HXWdxSMo1bpWgrFK/qQMQHqn6LTNaoQ47aaCWCKjUSTQ6s7+VdOkkD1TKBP95P0JM2KF8BdEw+9qiK+fl4tm6zRnwqV2ndq19JnBi04TzQUCB4/785DPQEcNLKbVmHmIoocG0rqKy4zI5D/Tx1vL6UTwGtHTt+z1XKa+zNruF4xN97YzaqOkMQk6gGUAyjBIC0+JTvIp3ahMYr6x8Hosa1fUX2WOzTtgdq5FaXxf5fQx8atzkX0z0Ng8v6kvPGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8j5PmrU1Ix5BGuDVBJgjQ1MOH5f/gve195sZW/PIqX0=;
- b=j5zGchAZy77QxMVJY6cPl3NSIsvHLAiwFdHYVkLeri5FzWBy1S4OaCS2n6HWRhHW+kfP6Ti7b46wvR6ZU8ELJ6sVvX7td8Zkds++3C9hq372i3d8ffcY4yYbFSIOvv9btBAPBo/nNTPBw9PkcTgAXnPfxAo1Nt+rGjddyrVYH8pjwyb7B4760rburd6SmZqAOCL/Mif50rJKHFMxsLziaUbxNJEh0eKyTwu5CHfx1vfLmtTrjXZkxXX1nTb6gA85CYwBsss6WFJ+76zjzzY6nWJ/E24lggSOK+9FtIlEvubeSWq5pbt6nCTBvlAc9nmY9/OtKOt5gOQi7aXdikDyhg==
+ bh=uVoFizPA3W72VYIa8rgsyFGI8BCNkwUEZva8bjCfybs=;
+ b=bf0yx5t3JMsgwwGO0aROF8y+oBudgKTi9mNRSFozCOYEg55wpWUkY8zRwQV+POANLKCh2SW5qmMqJ351HMa99Aa6UuqgbUiTgLT2416m+X0/swzC9WjMYdkvWjTywv8k1Px4kSlhJ0PomvfQBkW4W/G4UNYJx+tInqbN2hQRWi7GRj7Rk0O1tVGQwA+Nm4NdIc0NCZ/Rw3KHIWY48qEhQhOZe2jPnPQtmaI4uhRrvpUygGglZeojpbQVKo13ZS5u2rXG61k2b9JsvxWxITpf9eUe7ldNUXJQH2Uen/Vqw7tzqpMJA6oIvPhIMmyra0WNIYN2fwfJOte+OiUOojuyrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8j5PmrU1Ix5BGuDVBJgjQ1MOH5f/gve195sZW/PIqX0=;
- b=H0HHMB9H84/qT0HsVS0c930Hc8X5EL4Jln/gZXazF8/8rOdj1tugY/1F24b8r+6S/SUECnbdzLLrYCWQW1YoAGdygqkZvjTnTf0qXe9Y81LWbhf0DRXsP7WxRl40ckQ74pAPiCDF8rlqjAX6KQT/B23wTaeMMm6P2w4mXk2oGYHVqdCDIDXkM0/nJGR89Tcvv6oaG/QdiGArv2ZKID8rewB6HivkyF1cFL22sq7C7N/3lKsjNzV7rEIAtWe2/0UXjHKj+10uHB/5zMIqZMbYxh8b8c7VswZioeIHTQlXy3ar63N2Vt7HjNoLXXP3F2rixMYdDsjGYpoAB+4EhPhi6w==
+ bh=uVoFizPA3W72VYIa8rgsyFGI8BCNkwUEZva8bjCfybs=;
+ b=Q5iGnHuNlWc9kOE62Ny+k3qjSJKDsxjK0lXfTBT9U4hPleSJm1rTwPhEFRz+GWbqMOhhGMteAZC5UOKx274W/abhHkIDDP+nHFXV7xs4+rIGq39pUM30B9w0AYET+atr9zysKe6OoX5xLvg/iH2RuQQibZhGIkmXQDebv7uIVLfXijs/IJK9E0FNqlidtskZTQyOdLnjMRGvpxJ6W40yHW1XLCDB0K3kNC/ZoZ3MP/dOPjj2+cyhW1IpZZTY0r6kh+wX6bGKniqd/1GFCTYCL2yJihwNOy9dK4cMvWIvQwzrN5Z7Xve/GDXRfaIy4pjCQmZJIArcSvFhS/b6ZAmI2A==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by AS4P189MB1966.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:4b8::17) with
+ by DU0P189MB2091.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3b9::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Mon, 12 Oct
- 2026 13:20:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
+ 2026 13:20:21 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
- 13:20:22 +0000
+ 13:20:21 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/18] python3-pygobject: upgrade 3.58.0 -> 3.58.1
-Date: Mon, 12 Oct 2026 15:19:57 +0200
-Message-ID: <20261012132005.23909-11-jaipaul.cheernam@est.tech>
+Subject: [PATCH 09/18] fastfloat: upgrade 8.3.0 -> 8.3.2
+Date: Mon, 12 Oct 2026 15:19:56 +0200
+Message-ID: <20261012132005.23909-10-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261012132005.23909-1-jaipaul.cheernam@est.tech>
 References: <20261012132005.23909-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0046.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::15) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P265CA0168.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:312::11) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS4P189MB1966:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd2a1f4c-e669-4e2b-788e-08df286391db
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU0P189MB2091:EE_
+X-MS-Office365-Filtering-Correlation-Id: c72e67b7-de94-49cd-a045-08df2863910b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|56012099006|18002099003|10067099003|6133799003|11063799006|22082099003|261009223027099003;
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|260925022911599003|260925021911599003|260925021311599003|10067099003|3023799007|261009223027099003|11063799006|6133799003|22082099003|18002099003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	zgdM2uNhhdb1AwQQXYw1Kfw6NtQwuWfqMPrYxpYbL6S6eo4eEq2k9qFjiHddnQNsyKob0ny8UhOkp0dknBnTGMTA10VGCTbZyNu4MHpr9q/LPQwoJcQGc7I9AZWkuZmbH4q720XqN/WoLJ9EHXWWGx5Rtmz6BxlgMhpXww4p1s9kCA6vRkEiqGex4ku/GfSxLHUTrV01TgFHkZ5Z5sfcjZiFd9ZQt+hFr+Y1oVYqC4YI9dtrfSOCGzbUbeT8GHnkS025jIu242AeWDCp4XSctCtKt2z+d+sO4cz6xpH1C/d9LVWr+ieQTPDUOLP1rcI/1vamjlfk31kYas5lDavO1rrWB2d8syaR2/8RNTYgu+FgNdb89PpVb6B2pvyYEC3M0W6oMhGAjGAwRghaLk5LiCvcW9+1O/nlvETZHuofS95qaqX1rJ06OfnilmD/tzYgXSXRrOsx7nCqqlvbGY2YqpCELQ4MZQt1Y9HenMdjPnOpFEfAM8PcVEcQZOkHLPFmdDeHDl7GiK1YeDBxdCcpdgPzxxn0/sjrlRvYojC5TXIas9AlJvsPdY7EtFjrWQlXlmfMxCNXBAaO4VlkvfKgR4+Vm40LxnytA5yBMOZtSk0=
+	X2n7DY73ihHen9Hx6TyiKixMY92vQ+SYdf8n0lBtqJS4UF0i4fJak06x+Vlh4Wi1+EKEwxFs3TY4AwZevmClPDp8bswnpr4JeXk0Q5ypAukLCUNGnrrtJm41dbAd8WyjecznMBOupAelFIivZ/eiWnzJws55NrYV77Z2fY86EF3p/Dyv7MtKqsDYS3h7c4X3kWH7XSBh8Fcqeriw+FDQ6q9uG0EXRyt5Bc9XbaQlaqFzZ+LzWDm3739i6UHGeGuk5VnQNwZHGrAFSPHPh79RGzsiftqgU9DzPftNLKNRLhTLMy5b8LuXEtOzSY8dOzvChA7jKvmTBPEtcxlaJoPDaVevvxDmnqLUHMbnKWnHUuDJfJvxrZ2VbJwgmqnipuXRCbHl8Mkoor17vr9/meIrwaj3XSy6zh+h8UyOxLQOXstetKTdahlrEVBb/rnU0LieFp5miJS41feQPg7r+P6kMkEGAkaF88FRs3lG7oRHGunaQ06FXpR8POUtmQ4ORDAJJ8ptULXA9URmCfiK4pPUchQMcC7FlaRtmx/E9Qyuon6Ldn9ufvMrxLjghj/ctP6u2qhvsPZsNbf9bTfckv8LWLt3QOcpIE3QuBqqHnicEA0luSsMDUpwGzhKVjc13Uwyz1i4CTqwX9QOFil0udH7uGdreySAlUDAeazxVy1EVTY=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(56012099006)(18002099003)(10067099003)(6133799003)(11063799006)(22082099003)(261009223027099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(260925022911599003)(260925021911599003)(260925021311599003)(10067099003)(3023799007)(261009223027099003)(11063799006)(6133799003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?f5BP8Zrq6aGt28p1E9AcXQh5s0IuiBb/HYBbQbplZTl+jfTWBvR2ek86C5c/?=
- =?us-ascii?Q?vmTPSbZjCfHVpKTwE4ubO+3OmQUuctLjzVMRmOvbIbWbleKuVxZBzZ7NY7as?=
- =?us-ascii?Q?oLkhBoLkqTcpgtgTNhPvg4KrNQNUBUYz9M8sdIFvwzfD9j5za9azi3xXXPr/?=
- =?us-ascii?Q?nR2YdLkSJQm1ORvj5cqKKITJuQYggWvmwx7345d2G7O2FPUx3wYDLG5fjHrv?=
- =?us-ascii?Q?NJECYxWH9oZy7SKfYork4FdhY3LXrrlLDd9OR5zeGjZTNdod4QRY7sBbPP/J?=
- =?us-ascii?Q?h3T+xZuPDnVYvbrcfnINbQjRM47qKH10xzSqN1h7M5hO+Ee+HL5OSCNpmmcm?=
- =?us-ascii?Q?lZ5g3rV8OT4CrHTCV8am0lUbHhw01z1QklC1olw7+fv7XpwbAfcTe+UVQd24?=
- =?us-ascii?Q?aVNbhJuvN59linsVwkOCSmTm4mDk1bNk3W4ZeV9fNmSkrg+uw30CNfsVsRtO?=
- =?us-ascii?Q?FKB0cK6ftsEql9eWG6Yl3M9g1YmaR7JXdk0PUtsT/b1Z17/Jb8UxfsCIND8U?=
- =?us-ascii?Q?DLMHSVu3L+h05EOwJKGTdexNF1hVfZKDZyS64m0cWKLJDbMCi2eAqn9yWqhb?=
- =?us-ascii?Q?Z4At5HH89Ed/PqtEQ+gbNkRAE6SzWnw9ppxSQR8CKLgEa/8bhkJqrVFAs50o?=
- =?us-ascii?Q?4ZZ5DPf7q9JftG49q2dHQ51iR+8Sar6CheqQAt1OX7dcHXPMF7VjYjX2Yhgh?=
- =?us-ascii?Q?/O8cEJyK+n0An6KNepeDWU7IT4hBGTVbiQVJoBCSxtBOe0jr/oHwvmAOMsnC?=
- =?us-ascii?Q?C5qj7dxpoKoFLZSNAULkxaTuEt9EupCH99vBf832B43/PSxrVe01iD3ib4bw?=
- =?us-ascii?Q?3B9mWOxpDKZ+fWdf0wGl8CtmRqsE0AH+Wg6gTsZVJgA/OOTsu+n7fEC9bacC?=
- =?us-ascii?Q?eJB4XEZJ+vWTiWOg9FZlPkMJN/X3x9drSbaj5pe9Fk0ffb+MFiAsgq97yTYw?=
- =?us-ascii?Q?DkXTHtiDPWSXBzvhb28Fq1NzzMlmPXzBBfOssLZ78R5LgPZnDVOK3C8TZWQE?=
- =?us-ascii?Q?JH/S2z6rqUisGskkW3GXTRsT6q8lipwUxeSiDpyKILRwFH6U+Z4RgCm7Kpx+?=
- =?us-ascii?Q?Ma9W68csxudAw7CQi4jTacNtII49JRjYP/wffMtdKelHTV1R4niovXEUkGV6?=
- =?us-ascii?Q?8f26t5ymXcXjymOKJo6W76gme6zP4p30mr6bzhgF8AkbOG92k6IDnLF+APEQ?=
- =?us-ascii?Q?+NaaWEhzcTjlx/YNuuhX+SwN3X/y8ezPWwH52gnhOmBNPC1DD61ai+rKMDAb?=
- =?us-ascii?Q?sNfZ2MkDteWm4/3iWGCEZK904/un88x+jgPhmtEDaRlKSdU9xBbN/Dhfm6Gr?=
- =?us-ascii?Q?4WtPHWUK5BKl4oKmREXRaxCiMNAG3IP+BWjWvrWaZZkHDn4MQWFueFd1HMUi?=
- =?us-ascii?Q?vJ9iomS5887aP1BTI2Y9mPJqX9W3LRMaGqtgjEBjaV3dSL4JTm3+nxvykHe4?=
- =?us-ascii?Q?xQ/ZFaZO9CFoWYz4z3Q1NXTR6ntBMmqzr8mvDs/Wl2rZd6WdJm/uJOaRRaU/?=
- =?us-ascii?Q?Q2Sz3izCJAR28ict5rLBUAgD+URrr94SVpTUxYCoba1Rfy6P53wUZ3OzOs+k?=
- =?us-ascii?Q?+Y9I9EVHmBX7xrFPunIWl9nPLJ4ZZ/jLQmto3ZqPC1VfYotQArxdIPI+D5pt?=
- =?us-ascii?Q?X3sebpTusk/jNMyyKWCiCsxEaLaCgqzvZU8uzZpx2tho5pHQBiw86EtcZgAT?=
- =?us-ascii?Q?NKwxTjHzPnxT41hL/IVt3Z61LI6pB4PoM/P9n2BCBw6M0FmHvxhxyl1l+fxv?=
- =?us-ascii?Q?mGU5NDcliw=3D=3D?=
+	=?us-ascii?Q?n0gcoaHHeWUDCwkVnvYOaYWgUsqge0zivM6JRWTcuGIk1Sj3azS88s3MK1N0?=
+ =?us-ascii?Q?lt8LoDyMxk7UgLIqyAuYJEkl0+bJTc+ysHJfV2ykKGjpRHN6Q1Lx75a/Op0j?=
+ =?us-ascii?Q?l/aJm8sDqj+NTLf1K5FKcrc7CKtW8C/IMcy9puZh5O10aCixrfY/X0iqc4o0?=
+ =?us-ascii?Q?DiCZp5Mrhg60HyZyf5/y+COn+/pa57xg4dGsFu/qN1xjcDBiinOKoHjDS5+5?=
+ =?us-ascii?Q?r5e6kDi51XYTPSKxCaCDM1E66CGJS5qWZNq/I7Q8aVdNaf1adjjCYuqusZ0Z?=
+ =?us-ascii?Q?gH3xi1jV1tC/oK8wXiLx/nQAiADGWzzuhHW8e6rQhkzq4lsNK3F4HXpWl4Vj?=
+ =?us-ascii?Q?kClESJN1SJS1Q/CliP4YxRIUPNSizJPi1xxuhWR2GwmQ6lXs5VnKlIn3SKCZ?=
+ =?us-ascii?Q?0X+ZkiQA8sGqjy/70kz0SxRyeR6BZRg8WhWSYYcAHXolv/oFIiy49sLvy/HJ?=
+ =?us-ascii?Q?Y0+AxkLPeNdMDbKGurPJTNtezfuG0TtsN0Ufg/u7X/xiMht6n0TEyZh+bU7a?=
+ =?us-ascii?Q?lb96teEJVI/m1zP33f9/I7XsWbPp+eytb7XTRZceTPA1NWZQn1xcqvE3GcXX?=
+ =?us-ascii?Q?5oe299f/bzHWxh3EavFDTG1bNVHL5rJ1sOY+ud7KhmQVb8xaKVHpJ1J6RRlE?=
+ =?us-ascii?Q?RjKb+i7xEdrFxDnEy6kyi+IeW2LoWO1yRvRZk4MYvOlLT4TnxMm5NZOyD+gX?=
+ =?us-ascii?Q?DIFe/6DBe+5ebLp52lxkb7grlCCQTMfnoc21h56WOHs9Nqp3Q3R8lIrzJUAw?=
+ =?us-ascii?Q?So6jGT4cDvVTt9cVKhJJKXDF1WdmztUGdLqeiM8Um/ukMbcQP9LBVtrELOmn?=
+ =?us-ascii?Q?5l+sJpCakUMdAnDdN+6iyOvL9g8srxEjXSr/JI52t/XTys3H/z7xIn3jr3dg?=
+ =?us-ascii?Q?m0yVq8YYHTc5VBu6IaAN/rGiZZXI9JiCxdN+NWq7LFKzakkICMjL7iv7SMDU?=
+ =?us-ascii?Q?FR5eg1U7f4wan4UoHnx7mQa3gxzHElSG4IIAWrMqhmBOg0FdALBLvSxCpFuW?=
+ =?us-ascii?Q?XrZHQDXpYvGLUjsv+rBdo/d6Fltbv08d/2a1isx5FQnJBEJ5OD5/iUjEhWx+?=
+ =?us-ascii?Q?NDNt72/U2T1UUlVZDP8uEs+PQ8HLr7Ckjhv8eaIfpU23XSqBpPDKJRennnHV?=
+ =?us-ascii?Q?pz/M4BV8hIMrkRE3KV+UUxxZTaVzuTBot2CwkeYO9iDgI4EHhiB9GZ0c/okf?=
+ =?us-ascii?Q?Pf591PGrwenUONmN2+ctGVuFS4MYCOLQ+aM30lhXNkHJ5SVz9OOEJy8nBoqC?=
+ =?us-ascii?Q?z25xTHaXOmKNCYjaSN6yhPH7fr9j1+u0vbBXjbptxWNbhYMKk/bJXEXeOALf?=
+ =?us-ascii?Q?TyNguMg324h+4hkNcIZRsNiTBcP9DTXB4RSFwtTcEpkkCuexSq4zveSiR9tY?=
+ =?us-ascii?Q?GqoynaQZHCsAXH6573cfaukF8C2FZ9D6/AHgdXp6RFD4+Yp+P25QDJJ/alcU?=
+ =?us-ascii?Q?/lMc2ec4gqdCyyV6AykZydktdUR96Y1ot7g5V6YgPBPrRnMS/LNxD/IZ650f?=
+ =?us-ascii?Q?MfUPh+q0fXfdEtVz8yT5DSVEahEYC/25h/DcAqQcNt9nxpI2kVHYhm/SUyP+?=
+ =?us-ascii?Q?8mLSvmC7URP72EWK0DeKxXjeowcwOUTPHxm9ioCyblYay3rr+E2R6VhCx4RN?=
+ =?us-ascii?Q?Gww6BOTPawDmUL9ctIzv+oLsIQGtcWLYFNb+VlvtLXGj3g+kDm6NknpRMJCJ?=
+ =?us-ascii?Q?ZsuU+lbq73m4Z+GtkDi52X7+A5Rrf9W7HkPWE8rjh0Q3zhBBGKfxt9KAufxr?=
+ =?us-ascii?Q?REj0NKgVJQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd2a1f4c-e669-4e2b-788e-08df286391db
+X-MS-Exchange-CrossTenant-Network-Message-Id: c72e67b7-de94-49cd-a045-08df2863910b
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 13:20:22.5146
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 13:20:21.1517
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zk10obuWFrXyUk0kPAJzP30Oquyk5omDNQKEaLkw+Sb9ENNEPal93NB2i7yRksPlgBzj98qd/IErKvzhtqHwGZiOpAZI1IYGgwXXGCW06iY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB1966
+X-MS-Exchange-CrossTenant-UserPrincipalName: XqhoqNbkCK6lw/O8//35OhnA9HCNC9mngFjelodfd8O5u2YsO8xFwEkiSAnxqR9/NglxxkAhTpCgC4TWDeLosyGlcxjG0tS1mbqiwFE3FO8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2091
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 13:20:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247654
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 13:20:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247653
 
-ChangeLog: https://pygobject.gnome.org/changelog.html#id1
-
-3.58.1 - 2026-10-09
--------------------
-(backport) Fix GStreamer crash with python-debug !570
+Version 8.3.2
+Merge pull request #422 from sahvx655-wq/is-integer-signed-overflow
+avoid signed overflow in is_integer for negative code units
+Merge pull request #421 from sahvx655-wq/times-pow10-int64-min
+avoid signed negation overflow in integer_times_pow10
+Version 8.3.1
+Merge pull request #420 from fastfloat/release-workflow
+Add manually triggered release workflow; fix on-release asset upload
+Merge pull request #419 from fastfloat/fix-418-struct-layout
+Reorder parsed_number_string_t fields to avoid padding (fixes #418)
+Merge pull request #417 from fastfloat/fix-alpine-ci
+CI: pin Alpine to v3.22 (setup-alpine v1 fails with apk-tools v3)
+Merge pull request #409 from caolanm/main
+Merge pull request #415 from Algunenano/fix-benchmark-branch-misses
+Average branch misses over the repetitions in the benchmark
+Merge pull request #408 from jadidbourbaki/float16-exactness
+Avoid right-shifting a negative value in subnormal_ties_possible()
+Merge pull request #413 from fastfloat/clang-format-fold
+Fold the format at compile time under clang, mark cold checks unlikely
+Merge pull request #412 from fastfloat/strncasecmp-simple
+Restore the simple loop in fastfloat_strncasecmp
+Merge pull request #410 from Algunenano/javascript-fmt-hot-path
+Keep chars_format::javascript out of the common hot path
+Gate the subnormal tie test on a compile-time predicate
+drop the unreachable tail of parse_mantissa
+Fix std::float16_t rounding of subnormal ties and fast-path overflow
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...{python3-pygobject_3.58.0.bb =3D> python3-pygobject_3.58.1.bb} | 2 +-
+ .../fastfloat/{fastfloat_8.3.0.bb =3D> fastfloat_8.3.2.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pygobject_3.58.0.bb =3D> pyth=
-on3-pygobject_3.58.1.bb} (93%)
+ rename meta/recipes-devtools/fastfloat/{fastfloat_8.3.0.bb =3D> fastfloat_=
+8.3.2.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.58.0.bb b/met=
-a/recipes-devtools/python/python3-pygobject_3.58.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-pygobject_3.58.0.bb
-rename to meta/recipes-devtools/python/python3-pygobject_3.58.1.bb
-index 7f5bec8f70..82089c2ad7 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.58.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.58.1.bb
-@@ -19,7 +19,7 @@ DEPENDS +=3D "python3 glib-2.0"
- GNOME_COMPRESS_TYPE =3D "gz"
- GNOMEBN =3D "pygobject"
+diff --git a/meta/recipes-devtools/fastfloat/fastfloat_8.3.0.bb b/meta/reci=
+pes-devtools/fastfloat/fastfloat_8.3.2.bb
+similarity index 90%
+rename from meta/recipes-devtools/fastfloat/fastfloat_8.3.0.bb
+rename to meta/recipes-devtools/fastfloat/fastfloat_8.3.2.bb
+index a041f32988..db4312bfd9 100644
+--- a/meta/recipes-devtools/fastfloat/fastfloat_8.3.0.bb
++++ b/meta/recipes-devtools/fastfloat/fastfloat_8.3.2.bb
+@@ -9,6 +9,6 @@ LIC_FILES_CHKSUM =3D " \
 =20
--SRC_URI[archive.sha256sum] =3D "45068697de3ffe46840ca369705f23118b34db4f7d=
-eb63f6eff079a6734ddcca"
-+SRC_URI[archive.sha256sum] =3D "4c80598ade17fbaa7798e01a25d0bf29ce10974078=
-6026a074c5c62bb3e79d23"
+ SRC_URI =3D "git://github.com/fastfloat/fast_float.git;protocol=3Dhttps;br=
+anch=3Dmain;tag=3Dv${PV}"
 =20
- S =3D "${UNPACKDIR}/${GNOMEBN}-${PV}"
+-SRCREV =3D "b0ab987b3dfdde13fa1915f65ef2a5c068d9208c"
++SRCREV =3D "42f254836ee416ffcf2f4e6576260003ac33d48c"
 =20
+ inherit cmake
 
