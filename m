@@ -1,144 +1,378 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 085C4CA9ED0
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 13:20:47 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.1])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12999.1791811237221481756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 366E7CA9EC5
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 13:33:27 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13236.1791811999858527844
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 06:20:37 -0700
+ Mon, 12 Oct 2026 06:33:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=WaZEIxfU;
- spf=pass (domain: est.tech, ip: 52.101.84.1, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X6wiw3x7xECH+NssJjx2uaVKEx0sQ4CVWVsjAC+aV51JEjDZt0IWQhWkcfsn0uDaeHoy5KLn5x/UDKNJYWIkhaqQfl/MsTODmi1m4Jewq0XJP7khqVp2v05j0eZpDhyg/ubzGH71hTWGJTkkZE+uQfShQSl7wCEBKSJWt6fG2P0qKSGLi9gKIN1mMfDGIheOmrQbfXuC1206Ow1qv4do4dGJGI7UAsLRhFi82305FZfTJHs/4qhwIyouGjbYBzekucRHNN6NBDePP7/HPlq8VIHcW/6zdT2huSWzrE/i3FEXkGXCjmTsD9O5N+sVtWh/cbhqaAZB6DbK6zUEfy78Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b5fXjZtpHzaLQAQFB981zIfNTOwYACXBBNTfu0CEQyw=;
- b=W3pfYJOqOrYUvBcQ5czmW3/OIYRGY50A2prbYeQ1Yuli8tQquOxtS8JFWgIBItwiy8/Hc5WDIGHey2xtSeYspJQpFNd23i6uNAijSIekeKg3S4hQku/4O+VLHY2xiP9T0YoewPl7xs8OXzSgNLBMShf6pOdJI0t6xR3FipQvLFlOBYQWOVhqbh+zXpX3b8BKAlyuDbZECjdciDTfDlaTU7Q4MCQYD7Dw59OaeV5KjqdWZBfMyGxhW5NSJaVzfhrtziHUyUhfcq2frhRSD2Uafzuko4vgXR+zBXONLCD27h/804F5Ll4hCi9Uqk9BZY2FEwOjPeSbfsji6YtYflg0nQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b5fXjZtpHzaLQAQFB981zIfNTOwYACXBBNTfu0CEQyw=;
- b=WaZEIxfUL/1JFGWy/VnfYVZ35V4eeb//pUwt3iZrBN/nWGUlINAvW/n38iJLp+VSY/E+QbPJcfbvb3NCpBKwWj1mIuCH1zYU+y6u0hC2x99aJtIdsF5g6bFpVMC2Ph0GaRRQ6j4u0NqKIvx4VXIekSaQ1DXsziIKmJkcrMjVeIDh9/fSBy/2Z5xWf4F4YL92VUEPKgvBb75Yx+JT03yrISMwwv1+nMiNCNXjL4keXhO6XSdLMpFfQ9/iqlG6i03L2xpA5cpLWUjIBNEfcvDHSMc6jMl3gxL5w6081h5EoJY2mQeQw00zdWxqL7N9hvxqw07v2dDR+FuNcdgfgTQBxA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by PR3P189MB0937.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:45::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Mon, 12 Oct
- 2026 13:20:34 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
- 13:20:34 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 18/18] python3-beartype: Upgrade 0.23.0 -> 0.23.1
-Date: Mon, 12 Oct 2026 15:20:05 +0200
-Message-ID: <20261012132005.23909-19-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261012132005.23909-1-jaipaul.cheernam@est.tech>
-References: <20261012132005.23909-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0045.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::14) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=JvCsZK7D;
+ spf=pass (domain: gmail.com, ip: 209.85.219.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-917a64f28d0so53565606d6.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 06:33:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791811999; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dwjRd5uaK0yx0Xfv7L0R1zJwbk5XrGgaMHBD9K9omFHdWRluCddEBsCZ5XoouFRcjS
+         dT2C8uDSS9y8Lu4DumLihOYp/DofSI0ceftJ9NCAoruLQ1MMYEo5FBcCh5OOt3n89lnq
+         X4gKayLRqH3uX/W7MglSwSf/LE8aUryJideVrVXY2kE2g0Or1YPvpSbH0KboDFQk9KlE
+         YdGSzxnNzYqDLCEyYktrsybhvGhch1Pq5fkAjpVXDf2J2n3sceCLbWC/5q0Ii0BjGxUb
+         U+GNpmTAccxmAslwFX7AVJnN+uRJJib43toXh1eY0ay8JLgM+U5H0hig4Dd5PCR8QLVb
+         WADQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+q9oGBkzS41ncs7Ao/HOgObV3o+vZeDZ8C/Hd/pFzpc=;
+        fh=6Z4xUuTqkcxNv6cvnn0HdSGcZYvnhz2BRm++iEwx924=;
+        b=MQf3Ado1VTpyqfp2B20rlPOvquJNILk6yCp9LuldUlbMbcUKroKv6e8s00zjjYl1fS
+         wIkpiG8r3BATp6Sfg6sH0gC96qF15wTG7HcldJZZbBl1SfOZD958aCLZXI/9yscxgMv0
+         JM0rYzRj94Y1xjfKHK0RdYRV2cmHMdtWGDY7OJfHiywTjwKM/3j9gzeiEnf7Tlo4h/pz
+         Cmz7eTIt0xu6YByE6JyUv/0j+WFzVqy7cTf9Xp0RSV4tvGHxTe+p7IRgsUU/vHlKMbr2
+         kUODWGLlFDp8lQiwgCYdNIe5iRKQjIKTmg16pQ4kK9drJXMO663E0ycAPEK7oPLRpsTD
+         +cLg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791811999; x=1792416799; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+q9oGBkzS41ncs7Ao/HOgObV3o+vZeDZ8C/Hd/pFzpc=;
+        b=JvCsZK7DINKXEDgti6w4e83i74xtn06VlSPhm4EMTdL0I1/TX6WmunFKdV+TGyKEBk
+         17EG5TpPwfFZx6zXaxYmCHkmjtJlxAbZx+RN7K3hWDYFCVD4POOGSXwRyZf9boMIMLJ5
+         ldbCNOmumN6Hl0WT2Mz8yCHTgXCvaL7J7Aa6r+zxI2l3vDxzF98sDPuV4GzBFMY2SIlM
+         WRinTZDitaedt/LXXUCWDOEGyh4XRH/nwTy79ymyT6iJksuDaJvH0XbIAB3G+8WbD7/2
+         BPkuvlu1VCXRpjrllIVJL0Tk+eCUDBrmCTglmarJ3rISXKZZmSr/nVbIkHw9zIT7JNDW
+         Wp6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791811999; x=1792416799;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=+q9oGBkzS41ncs7Ao/HOgObV3o+vZeDZ8C/Hd/pFzpc=;
+        b=mIip2/0wpF/z8gU17J18wBwUNrXEY2DvYbj8mflyZPLfuG0jh7MwCwrRD5jvPlfJWl
+         U5I+TThxrMW0LgaGdHsKvp8GC/AfY5GkflOZXww5DhPCTPwblMqr1NIaCPHDKcqRMjLE
+         EH5KYFGUUw1EndfkAcCtTJGOX0bPh7paG6Y7QxZdw/R67NMLiy6LIw2C2W3TyKTjfCJg
+         cp51Szt0crd6hNU5lsm3zFYYNgL6PUZzdsePI5isTGRYkMUq4lBDl7A0Lw4Mxug7vcKc
+         duuWxxW/0ubYt6HfwMOHOvKh0F+pYDF2cygyAp/GvCQfCW9yakNDNU9bGE/QjY6JQhMn
+         pn+g==
+X-Gm-Message-State: AFq9FYKVflwgttPD7Y+WJI9blTUNJPgTmbYY1UIM4tV30l7JuE8zxlSO
+	MCDhgn24Wxz418kffizGDQWBWiMIqSpVR9bRtiB2/wSk59iqajk3mtRu1VL/QktZiTxEALVAO6p
+	v98vmJy15G5xL8gnCedvEsbVP8+v0c5hdnQ==
+X-Gm-Gg: AYBFou0IiieDFZhLjm2lYEzIlVEkR3OXjO2oB5GxJpn7PRNV+ib6r4udmAn2JOOn+X0
+	id7lNw0OTAIg4RtShfzD5SFlkIpzffZq70r4ts2yKMtggH1kJCRJIcdsVQZ9CtNd2/53sswlj7d
+	k+WBLMhNmltIb9XM/GuyhJd+AKsAe+f4Q4DLwvtO3zRaHbQcg8dy+kBuH7XOozmOe7Zhwq1K2m9
+	uot2GYIljw6AfBYwVCXKYzWW3Qt7b3G02JJ/09hc2c3kjZ6mrsOoRlhRLxGMX1qDEha4wXQJVBD
+	STRn9vr656hcucI8onlhWPywKj2+Uc+rbF5vP0MURSaSIvP3MoUy4ciIjVe78aG//4MUP9gBDO9
+	sd9F/H15VWXqzCA==
+X-Received: by 2002:a05:6214:5411:b0:919:56b1:48fa with SMTP id
+ 6a1803df08f44-91b5d595aadmr139663976d6.20.1791811998768; Mon, 12 Oct 2026
+ 06:33:18 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PR3P189MB0937:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1f2e7dc-b7e8-4ac7-a367-08df286398f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|56012099006|11063799006|261009223027099003|10067099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info: 
-	7/mewN9xBF7jA+l710Iof3BQl3tB0me644YRDVEd2ZL3NpIEUSUc7HGGqo7zZDfCtb/iA/lJLVaF6AK6uWAPoHEkt0ULMlVfcg8MaEbpCAgwDu75K0K31PVNhvVSCnwRekT05237AN9+d67VmQ6cEs01dm6ads3VWUcIa8jTB7WnkJXcO1FCxGuIOz7E+h2YmY2DAFUo2SEIvuOoRGeWZ2/jHW2kKQv2EUWuETXA9N6mJh7no13jpG6ykYjBHF7w90cU1Ea4814ZqDipRpAz3sf/Q8hzK6wcugKVal+HeT/4wKKxNMWw1+eEqeXCK400wuiG1F+mO5LMAQSEoo6TJhBss4WQ9Upeq4b9wSwYxE9umiZ5nkP/E9qYN9FBjV7Y4tOnx4qmUdsnshlcwJnKjCnGdtenyGhaRc53nV296uAikraISlZl27M7V+tLy9Jgzq+virIKgYMY4KUixUYiYv03ou12xYkkViu8AxAjE1mY6tqH8V0LkpCst3AYqvqPnEUmyzXf+3Nv1dIekI2vfia2kIdPd9u0YKmo06l6CZfX71PrEn9SmMT0Bis7PqFkJsW0LmE9ViXV0CLdzIakTT+kPK3VWRKzgNIQSXrvW/0=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(56012099006)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?RVFL3wKkifEwYEP5/7w9Kaqt9w1KtJgcBEK0PlykeKC58da6LsJzdeAnqx/A?=
- =?us-ascii?Q?PeaY5ljXdishpFGnDbs8rd/8LCFOBuS1MlibnNlEbd6SY2O/Q1z1L9KT3TAG?=
- =?us-ascii?Q?m74yG47xyyOhqqcpNwU+7jpwct8Dg/sY5yN4ZugAQq0Wr+TwdHgx+l2i9viO?=
- =?us-ascii?Q?d67Zpy7mHN1YljZ7/UEcggxcrxEcsQjKG48byRdAq6ES2fenvtc38KUgqqnl?=
- =?us-ascii?Q?MqLSlxECl5Zk00sUoTrxp/CUgrTHUyySRlJrMFNczf23kWO17jZVf5qoz1aK?=
- =?us-ascii?Q?oLEDnsmGVUYOq5W5x8Hbg8rPq0Kh4lLi0mL3Sg86/gfakRBle35slCcMbrZA?=
- =?us-ascii?Q?qo4ILc9MjdHBzq4N5tWnkc7wqk0PDOw2u/mt7qibG6Qw/59c/kgoQu7CyLBi?=
- =?us-ascii?Q?MO/NL24mlyYIVSUV1hWmv8mEvF3C457KsMc6+N+r6Q9Osj1aVOZVrqPysPCs?=
- =?us-ascii?Q?Mug18UAW3FFY1MElu7euBa7TqDePh/E1YhtODkLGbawtpY9+7QsawV76/9Vy?=
- =?us-ascii?Q?bwR65fm2Emyb2A9ZaKJg6RpZAVBhCF9J8318uNONyv/aXpuwqQK55DUkZFAa?=
- =?us-ascii?Q?YqRwkjPBBB6LYrGglYPBN5Dtx8iF6oty10l0G4jaP4pm4slB7b6avXa7qthP?=
- =?us-ascii?Q?Mbhlea3fV5DSMyJlWz83P6ye9cVxsYwrvQv5UdLGGC248913BcghDpLDdh2+?=
- =?us-ascii?Q?FKEdEi7FeT4LxqdE3dXRKWyTmmN7l4HYvtRJKROuKOw4VcAVt/O9iuRJ3H+n?=
- =?us-ascii?Q?RzubVrB50LJhHhq5Fy0Ibn8YALwQ+v1dL//UNcpAQLZlNiTsXmdyTwSIvrlY?=
- =?us-ascii?Q?p7LBza/1GRgo9GmtjK0jsVwRSUQbxw6xh3Xp6cm+Xfn6KpwPnV98aFcNcW8f?=
- =?us-ascii?Q?sqYKuvPB5CbmWCSOjew7+ABKq7BTGCZamlse9KkO7RpQiP2qinttCvUCnyl+?=
- =?us-ascii?Q?HBVRpzxDrci95wqwlums4iTJeXRFlk8/QsOVMP/3V2EM5WgyVvAul66GnO4K?=
- =?us-ascii?Q?8GfSXl2izLqLaF1iZPa+NFxxflCkesk+DWQhWt8rOhqMoouMp9w4IBr1Q2lh?=
- =?us-ascii?Q?UfxxNxLezE66Vp3QrJ32QvBEQ0Yn3snsICPSZgl8Qs//1nJE3DBl+BGu1qXC?=
- =?us-ascii?Q?LjX/zGQ8N3wrYGAcmAgBnU45w3UTpgnlqYXHbCpeFI/06wO0cQo2yZA+ZIVU?=
- =?us-ascii?Q?C/+cEJQuZZ5uvp3EaN7gzh+gGzDR2cDXNo8Pt33kHHknPPtFTkQ14ltIaBQN?=
- =?us-ascii?Q?H6S1EZJI41pmK1/Q06Cfb1vRVOfWuqf4YIf6aODXr3h77QVx0uVi14JmH8na?=
- =?us-ascii?Q?YN2vmRz+CIlnTwSgZPJiWAoNliY0AszZrnuzTWQlf1GIKDF/h+CTQDBVlQ+n?=
- =?us-ascii?Q?hN05aQm4Wx1R1tP3s3W2Kn2ygW6UYwG+xSV5warF3yJwr2bkh8QBStEqtIII?=
- =?us-ascii?Q?T8VYrMUpv/Mlm1zu9lsTnacNPXskTOn8n12Jr3NB8jL3u+YOUyPwzsIiDm7C?=
- =?us-ascii?Q?deelvlPD73j73Tp1YGHfns3xjCPMz4MRan7NHsdUMNj4gcwz14iz8HhFvVor?=
- =?us-ascii?Q?O9q7D/mHrjyCNy2WBYyVhknKWeWMxg8X/TDYcGoaEUjNq3yOMlSjtGgKdbzq?=
- =?us-ascii?Q?MfaWAaptJp4xhghJNqI2v57KSNv/f9dBSngxFLrbki59Qmdn1qzKnFODi/zm?=
- =?us-ascii?Q?E+Y4Rf+BrWCburELvbkJ/iIWBPruE5IuHT4MZq+I8KJGJaS6QqzKtsAfY8fF?=
- =?us-ascii?Q?gkLb3WzKig=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1f2e7dc-b7e8-4ac7-a367-08df286398f0
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 13:20:34.3725
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FuSB43uXQnHrZ/8s8GsyamslZDsmBU4RXDV4RmLcqsEc28DSKqNJugZxBES5htPgVm+aDIbuWsMKh5JVlijrgOvQqWPapae4fPLvJYiV72E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB0937
+References: <20261012132005.23909-1-jaipaul.cheernam@est.tech> <20261012132005.23909-5-jaipaul.cheernam@est.tech>
+In-Reply-To: <20261012132005.23909-5-jaipaul.cheernam@est.tech>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 12 Oct 2026 15:33:06 +0200
+X-Gm-Features: AclHuK8Cd-nNKk7KJ_-VE80_WlqFIO5wtfjQ9M39ssZ-uVA4Q2lgpiL9KVMGytk
+Message-ID: <CANNYZj-8Gy+K9MsndHf_BzKh4kZdp9Qsa3aucGQNG+EP=Vb9Bg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 04/18] gstreamer1.0: upgrade 1.28.7 -> 1.28.8
+To: jaipaul.cheernam@est.tech
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000b0e1c1065da4bd5c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 13:20:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247662
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 13:33:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247663
 
-ReleaseNotes: https://github.com/beartype/beartype/releases/tag/v0.23.1
+--000000000000b0e1c1065da4bd5c
+Content-Type: text/plain; charset="UTF-8"
 
-License-Update: copyright years updated.
+You need to update all gstreamer recipes (including plugins) in lockstep,
+not just the core parts.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- .../{python3-beartype_0.23.0.bb =3D> python3-beartype_0.23.1.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-beartype_0.23.0.bb =3D> pytho=
-n3-beartype_0.23.1.bb} (78%)
+Alex
 
-diff --git a/meta/recipes-devtools/python/python3-beartype_0.23.0.bb b/meta=
-/recipes-devtools/python/python3-beartype_0.23.1.bb
-similarity index 78%
-rename from meta/recipes-devtools/python/python3-beartype_0.23.0.bb
-rename to meta/recipes-devtools/python/python3-beartype_0.23.1.bb
-index fc2b40d6b8..8cd5431e8f 100644
---- a/meta/recipes-devtools/python/python3-beartype_0.23.0.bb
-+++ b/meta/recipes-devtools/python/python3-beartype_0.23.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE =3D "https://beartype.readthedocs.io"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D2597b30908b2171ba6cb2080fd5be4c=
-5"
-=20
--SRC_URI[sha256sum] =3D "9d915ce043a2262ee3eb110d1c1c528179f06eb4145e375a75=
-0f72ddbdf40fa3"
-+SRC_URI[sha256sum] =3D "8b805f246b32931c74f2b321ea0939fe5bb2ff43c12a3eff19=
-cc4c854b832e1d"
-=20
- inherit pypi python_hatchling
-=20
+On Mon, 12 Oct 2026 at 15:20, Jaipaul Cheernam via lists.openembedded.org
+<jaipaul.cheernam=est.tech@lists.openembedded.org> wrote:
+
+> ReleaseNotes: https://gstreamer.freedesktop.org/releases/1.28/#1.28.8
+>
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> ---
+>  .../0001-tests-respect-the-idententaion-used-in-meson.patch   | 2 +-
+>  .../0002-tests-add-support-for-install-the-tests.patch        | 4 ++--
+>  .../0003-tests-use-a-dictionaries-for-environment.patch       | 2 +-
+>  ...4-tests-add-helper-script-to-run-the-installed_tests.patch | 2 +-
+>  .../{gstreamer1.0_1.28.7.bb => gstreamer1.0_1.28.8.bb}        | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.7.bb =>
+> gstreamer1.0_1.28.8.bb} (97%)
+>
+> diff --git
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+> index 61844d793a..aa5db13237 100644
+> ---
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+> +++
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+> @@ -1,4 +1,4 @@
+> -From 27bae0561a09f06375c6c6d1d3fec2a142a1ca20 Mon Sep 17 00:00:00 2001
+> +From a4d5aef324bc7e66d293cb500d077b18fdd7545c Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sun, 11 Apr 2021 19:48:13 +0100
+>  Subject: [PATCH] tests: respect the idententaion used in meson
+> diff --git
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+> index 9752ebe921..7b555352c9 100644
+> ---
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+> +++
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
+> @@ -1,4 +1,4 @@
+> -From 00dad437c119cd23883cbef35d2a620ccdf3816b Mon Sep 17 00:00:00 2001
+> +From 59403a0c5d2bbd3e00cdf4855f0a2d9761395e1e Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sun, 11 Apr 2021 19:48:13 +0100
+>  Subject: [PATCH] tests: add support for install the tests
+> @@ -19,7 +19,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+>   create mode 100644 tests/check/template.test.in
+>
+>  diff --git a/meson.build b/meson.build
+> -index bffea3b..a51b1af 100644
+> +index 4abaad7..b08d43e 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+>  @@ -665,6 +665,10 @@ if bashcomp_dep.found()
+> diff --git
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+> index 5637eff7a5..246292332b 100644
+> ---
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+> +++
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+> @@ -1,4 +1,4 @@
+> -From a686b15bf7ec5ca99467f138c57ebb17aa25c24f Mon Sep 17 00:00:00 2001
+> +From 9e728516ce60c128cb6666820e5449efc7bcfb64 Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sat, 24 Apr 2021 10:34:47 +0100
+>  Subject: [PATCH] tests: use a dictionaries for environment
+> diff --git
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+> index eb14d519fe..bb08b116f2 100644
+> ---
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+> +++
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
+> @@ -1,4 +1,4 @@
+> -From e0290fc20f52ad7dfc21e8a572587ad826e5b32e Mon Sep 17 00:00:00 2001
+> +From 42225b4709aefdd3250be30d79b5646b2c0da926 Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sun, 2 May 2021 01:58:01 +0100
+>  Subject: [PATCH] tests: add helper script to run the installed_tests
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
+> similarity index 97%
+> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb
+> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
+> index 0d1a931ced..01829ad778 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
+> @@ -22,7 +22,7 @@ SRC_URI = "
+> https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+>             file://0003-tests-use-a-dictionaries-for-environment.patch \
+>
+> file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
+>             "
+> -SRC_URI[sha256sum] =
+> "787329b2c5758e228a71d926a6dcf960bceaacca3cadd63874ba665dfcda013e"
+> +SRC_URI[sha256sum] =
+> "baa8e86985ad6417cc0ad6e7b79ff2884c6779c8b1c7a6240e7121822c86e524"
+>
+>  PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests',
+> '', d)} \
+>                     check \
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#247648):
+> https://lists.openembedded.org/g/openembedded-core/message/247648
+> Mute This Topic: https://lists.openembedded.org/mt/121714557/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000b0e1c1065da4bd5c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>You need to update all gstreamer recipes (including p=
+lugins) in lockstep, not just the core parts.</div><div><br></div><div>Alex=
+</div></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, 12 Oct 2026 at 15:20, Jaipaul Cheerna=
+m via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> =
+&lt;jaipaul.cheernam=3D<a href=3D"mailto:est.tech@lists.openembedded.org">e=
+st.tech@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">ReleaseNotes: <a href=3D"https://gstreamer.fr=
+eedesktop.org/releases/1.28/#1.28.8" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://gstreamer.freedesktop.org/releases/1.28/#1.28.8</a><br>
+<br>
+Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
+---<br>
+=C2=A0.../0001-tests-respect-the-idententaion-used-in-meson.patch=C2=A0 =C2=
+=A0| 2 +-<br>
+=C2=A0.../0002-tests-add-support-for-install-the-tests.patch=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 4 ++--<br>
+=C2=A0.../0003-tests-use-a-dictionaries-for-environment.patch=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 2 +-<br>
+=C2=A0...4-tests-add-helper-script-to-run-the-installed_tests.patch | 2 +-<=
+br>
+=C2=A0.../{<a href=3D"http://gstreamer1.0_1.28.7.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">gstreamer1.0_1.28.7.bb</a> =3D&gt; <a href=3D"http://gstream=
+er1.0_1.28.8.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.8.b=
+b</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A05 files changed, 6 insertions(+), 6 deletions(-)<br>
+=C2=A0rename meta/recipes-multimedia/gstreamer/{<a href=3D"http://gstreamer=
+1.0_1.28.7.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.7.bb<=
+/a> =3D&gt; <a href=3D"http://gstreamer1.0_1.28.8.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">gstreamer1.0_1.28.8.bb</a>} (97%)<br>
+<br>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-resp=
+ect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreame=
+r/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch<br>
+index 61844d793a..aa5db13237 100644<br>
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the=
+-idententaion-used-in-meson.patch<br>
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the=
+-idententaion-used-in-meson.patch<br>
+@@ -1,4 +1,4 @@<br>
+-From 27bae0561a09f06375c6c6d1d3fec2a142a1ca20 Mon Sep 17 00:00:00 2001<br>
++From a4d5aef324bc7e66d293cb500d077b18fdd7545c Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" ta=
+rget=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+=C2=A0Date: Sun, 11 Apr 2021 19:48:13 +0100<br>
+=C2=A0Subject: [PATCH] tests: respect the idententaion used in meson<br>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-=
+support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gst=
+reamer1.0/0002-tests-add-support-for-install-the-tests.patch<br>
+index 9752ebe921..7b555352c9 100644<br>
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support=
+-for-install-the-tests.patch<br>
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support=
+-for-install-the-tests.patch<br>
+@@ -1,4 +1,4 @@<br>
+-From 00dad437c119cd23883cbef35d2a620ccdf3816b Mon Sep 17 00:00:00 2001<br>
++From 59403a0c5d2bbd3e00cdf4855f0a2d9761395e1e Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" ta=
+rget=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+=C2=A0Date: Sun, 11 Apr 2021 19:48:13 +0100<br>
+=C2=A0Subject: [PATCH] tests: add support for install the tests<br>
+@@ -19,7 +19,7 @@ Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quares=
+ma.jose@gmail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+=C2=A0 create mode 100644 tests/check/<a href=3D"http://template.test.in" r=
+el=3D"noreferrer" target=3D"_blank">template.test.in</a><br>
+<br>
+=C2=A0diff --git a/meson.build b/meson.build<br>
+-index bffea3b..a51b1af 100644<br>
++index 4abaad7..b08d43e 100644<br>
+=C2=A0--- a/meson.build<br>
+=C2=A0+++ b/meson.build<br>
+=C2=A0@@ -665,6 +665,10 @@ if bashcomp_dep.found()<br>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-=
+a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gs=
+treamer1.0/0003-tests-use-a-dictionaries-for-environment.patch<br>
+index 5637eff7a5..246292332b 100644<br>
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dicti=
+onaries-for-environment.patch<br>
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dicti=
+onaries-for-environment.patch<br>
+@@ -1,4 +1,4 @@<br>
+-From a686b15bf7ec5ca99467f138c57ebb17aa25c24f Mon Sep 17 00:00:00 2001<br>
++From 9e728516ce60c128cb6666820e5449efc7bcfb64 Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" ta=
+rget=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+=C2=A0Date: Sat, 24 Apr 2021 10:34:47 +0100<br>
+=C2=A0Subject: [PATCH] tests: use a dictionaries for environment<br>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-=
+helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gs=
+treamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_test=
+s.patch<br>
+index eb14d519fe..bb08b116f2 100644<br>
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-=
+script-to-run-the-installed_tests.patch<br>
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-=
+script-to-run-the-installed_tests.patch<br>
+@@ -1,4 +1,4 @@<br>
+-From e0290fc20f52ad7dfc21e8a572587ad826e5b32e Mon Sep 17 00:00:00 2001<br>
++From 42225b4709aefdd3250be30d79b5646b2c0da926 Mon Sep 17 00:00:00 2001<br>
+=C2=A0From: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail.com" ta=
+rget=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+=C2=A0Date: Sun, 2 May 2021 01:58:01 +0100<br>
+=C2=A0Subject: [PATCH] tests: add helper script to run the installed_tests<=
+br>
+diff --git a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1=
+.0_1.28.7.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.7.bb</=
+a> b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0_1.28.=
+8.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.8.bb</a><br>
+similarity index 97%<br>
+rename from meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.=
+0_1.28.7.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.7.bb</a=
+><br>
+rename to meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0_=
+1.28.8.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.8.bb</a><=
+br>
+index 0d1a931ced..01829ad778 100644<br>
+--- a/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0_1.28=
+.7.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.7.bb</a><br>
++++ b/meta/recipes-multimedia/gstreamer/<a href=3D"http://gstreamer1.0_1.28=
+.8.bb" rel=3D"noreferrer" target=3D"_blank">gstreamer1.0_1.28.8.bb</a><br>
+@@ -22,7 +22,7 @@ SRC_URI =3D &quot;<a href=3D"https://gstreamer.freedeskto=
+p.org/src/gstreamer/gstreamer-$%7BPV%7D.tar.x" rel=3D"noreferrer" target=3D=
+"_blank">https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.ta=
+r.x</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0003-tests-use-a-dictionar=
+ies-for-environment.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0004-tests-add-helper-scri=
+pt-to-run-the-installed_tests.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+-SRC_URI[sha256sum] =3D &quot;787329b2c5758e228a71d926a6dcf960bceaacca3cadd=
+63874ba665dfcda013e&quot;<br>
++SRC_URI[sha256sum] =3D &quot;baa8e86985ad6417cc0ad6e7b79ff2884c6779c8b1c7a=
+6240e7121822c86e524&quot;<br>
+<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;${@bb.utils.contains(&#39;PTEST_ENABLED&#39=
+;, &#39;1&#39;, &#39;tests&#39;, &#39;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 check=
+ \<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#247648): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/247648" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/247648</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121714557/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/121714557/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000b0e1c1065da4bd5c--
 
