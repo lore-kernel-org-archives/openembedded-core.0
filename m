@@ -1,253 +1,182 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A29AECA9ED1
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 08:36:51 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8922.1791794205803148067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA09CA9ED0
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 09:00:43 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.24])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9383.1791795637860349831
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 01:36:48 -0700
+ Mon, 12 Oct 2026 02:00:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Y5zs+pjS;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=47453a78d5=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69C8MuKh2390754
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 01:36:45 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=YI16lZYuz
-	b3X+n3vu1Gge1pICzquoDz0s/TjP2byzTQ=; b=Y5zs+pjS+7wD8sXHO7jEW8a6S
-	HppUJ6onVgSLSL0WdvKiZEqbCDho6NAdO8BafBKD5j+19vsuFdTU+O/Oy4TuZLXc
-	QDkahmVAkR/KdlGaVjSPC1w31l2W1yfMYoJRwU8VnLI84a775pF+HQBAODbZG/xi
-	+25lXNKoBB42gmEteNyLpHHrhPWv12g+YTL8i0Bif3SiIxZDr3qGX1zrYWbx1KEb
-	k9T0u3Q02F+EtoE+qsDeK/HIuZrKGwC8BUFhMZNdrH9IkBw4SCV9uJPBe+zXUkha
-	P1pBfo+k1jWD4RcstRCNczAKOZpu5xFkeLWRyx55LGu+G4F15fkHp6/MLCq0A==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020106.outbound.protection.outlook.com [52.101.61.106])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4h7gn19shc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 01:36:45 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=jKQY7ocq;
+ spf=pass (domain: est.tech, ip: 52.101.65.24, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PkIXman+dspfyiEHCCIzqQEM3jqMxi5knIs2eDMNoNAbYKSxk571TFJ0n/kGt1Jpq2/rz0+O6LD32euZabFl8tWdiUzOsG2pEUjJv26UjUVOG6oeIaV3BIhpwWVEggYz6xPPjaNcaQyaaFTbxQWjXG7ltNZ4GlKWiKwYdatHjZDb7y93xG8ClXZjFO2kBzHntLxuDRZQ5404hNt9zNhr6atNMnYq/qikQsMPzeOBz4Of0dNYUHCqmG4MW90k8vDmVYvp7ewPO0ARQltjv85C+dU0zHNHuiXudCKmj2RGHkleWMsZ80+z245oILdao0JScS+xTbq9yjqp7uZZONdc4A==
+ b=bvobNcPIKTUpg8PuGc5h+aZPK7QfCHm8kP9MOXT1fTqzUC9r5ZYyWpVhlxSMyY15ymV8G0xnvbZ9/oybORSuCfCtHKRwEVg8S39veMjBkdpo++INkHPn5zzqQhc5yXM/Dl3yhunr6UTXdAZya9A0z1ANAqYjdCrF331G32gi8yktbyKDd5DWpwtlTS/pm8laBWRQxb9Tf9cmcOkQKiW2br5XjhoktusR+hIIsTaBAS4wEST6ClxShiJedW1DAzmK7J2kD0F2UNTfrBC2kdmUFZHaqg629zxsTBCWr2/YruqKw/+I2sviZ4p0jxRK5d21I/rtXRMl6Ek5lluLUIRSGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YI16lZYuzb3X+n3vu1Gge1pICzquoDz0s/TjP2byzTQ=;
- b=YzxyjXgiuWAlqgI0sKcvFHN0y+vPBGnwAItbfSXMNB8nf9/FzJ21EAlLMXXjodq8uxnLDsPBGuq0c7ZMbTFibrH9tUz4S3SdBQYN1KRAEdXUEHOfW852PB9M5bXV5jxVeG45wQyc99pGlavbA4NVPVzWTevl1NPjDj8AkEapcAM7ajTLWRYPHL9e+kxIMG8YXCHcKtuqhPGgY0EKWRQxnHzxnbLE6sjQN8yMcHqmriV3xGjAjszrP8iQYQL9mceahRtPxPi9R9lXVVMvRDoQZTLMJeqzMG/3ykPQiK5ai7aCgEnJFHa/TArj/wb18pAHy+NTSXeBRQyHWx++GKDMow==
+ bh=QmXbmhGLVSJNWut1uTHfw9tIH56ncy5BaFDBJklNHjQ=;
+ b=KerKtBDbyMiTOiWvGKiOGpTCNG36LTF2jt2dZZM/Lq+ffKE5+A+jeCXU9SAegFQf1bf4fiBB4w1z2wTpJwbk27S9AoHnJY1s6F3a4YIA/rpQrl+34mb3/jvVNsUUe90yvgTB3V5TW7J7YYnkK2uV2Uu2gtiWieRzEy2ReU7kFiMd/43Ezr7q8LNc3+LwoCid7bmtZENNtY+RZZBVin24z3GU226ppFLgcqcQ8xP6qvQzs2N9/JnDb1Vh0GIifJVrUiHdyPCwXvhMnZLlbh7/49nRkEP0EikZRMxR6fxHhwGzhYW5mIZQvgBh7gAyF7IQrzislR+xcHb0mIghdAr3QQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QmXbmhGLVSJNWut1uTHfw9tIH56ncy5BaFDBJklNHjQ=;
+ b=jKQY7ocqpjsk2WxGnz+H65aKmR80mUwFngZKY2zfi655iJd1H7v9QX9mYFtZurL2FZeuhF9KKSoZgnZD/wZ7DEYRS3IJToi5DcUl6N5b2PuD5uejWx+KRH+4pxwmMKQfgzX7muleyfhIPGL70ke0XdLrxVTV5a6qlqQyYSvwhQdIMLCafvsK8jU4Fzpd14n2HI94O8MOZKKNkNrte2rQ28DLApxNcWAC1u/X+6J7Ih6bsLhFzs0QUykUj0maDMnkz5LsamYpQiqUASoQOIFyoozFjm62RkzpN9AMDu+hAr+QKpC1MrKs8zJu1nhMp4cYrg+EBrMinlBIvbuz+FxkOQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=windriver.com;
-Received: from DM4PR11MB7328.namprd11.prod.outlook.com (2603:10b6:8:104::9) by
- SN7PR11MB6897.namprd11.prod.outlook.com (2603:10b6:806:2a5::11) with
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by DU4P189MB2719.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:55e::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.20; Mon, 12 Oct
- 2026 08:34:24 +0000
-Received: from DM4PR11MB7328.namprd11.prod.outlook.com
- ([fe80::26e8:ea57:9a33:9a86]) by DM4PR11MB7328.namprd11.prod.outlook.com
- ([fe80::26e8:ea57:9a33:9a86%4]) with mapi id 15.21.0451.026; Mon, 12 Oct 2026
- 08:34:23 +0000
-From: Deepesh.Varatharajan@windriver.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
+ 2026 09:00:32 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
+ 09:00:32 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
-Subject: [PATCH] clang/llvm: Upgrade to 23.1.3 release
-Date: Mon, 12 Oct 2026 01:33:51 -0700
-Message-ID: <20261012083351.659848-1-Deepesh.Varatharajan@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH 1/2] mpdecimal: Add mpdecimal 4.0.1 as a new recipe in oe-core
+Date: Mon, 12 Oct 2026 11:00:29 +0200
+Message-ID: <20261012090030.95901-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0178.namprd13.prod.outlook.com
- (2603:10b6:a03:2c7::33) To DM4PR11MB7328.namprd11.prod.outlook.com
- (2603:10b6:8:104::9)
+X-ClientProxiedBy: LO4P123CA0133.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:193::12) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB7328:EE_|SN7PR11MB6897:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3e81270-4e3c-497c-93e3-08df283b9e67
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU4P189MB2719:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67a364bf-886f-40c7-e0be-08df283f456f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|376014|52116014|23010399003|1800799024|11063799006|38350700014|56012099006|18002099003|6133799003|260925022911599003|260925021311599003|260925021911599003|261009223027099003|3023799007|10067099003;
+	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|56012099006|11063799006|261009223027099003|260925021311599003|260925021911599003|260925022911599003|10067099003|18002099003|6133799003|12006099003;
 X-Microsoft-Antispam-Message-Info: 
-	/IF0S/BDLvNOtF1UeL7Q/SJMCoQ6sNUCCWNo1BW9C3fxpTuzROY2x8yIAAcwt6AYWS1k72C40uDK2ev/tnTKncVWe4X6bM7eK1SHExmhL6SRTjqeae95VaQXhBVNxOoNDPZxx7fyqm/O6BTrN/fYCGtKEWzB+4ITzT+xJLSUlJ4ORsOYyWnZ3WZ9wtd39I73O8bKc8QwbngagrfzjmJcaQaZ5h6i2kXTNvgZXZS42c6E5Fq1hfBTN8+UFPNp0NjbTWzkyJ0Jl4iuAHKtxbweP5dg4ejlpsv3dEmpYl3F3MA9iuwOCIwHfC7xLvklZy4g0CVu06FmYWWDStMB9v+MbEuYjBL6EO7RHOOYfUQQYvPXYWeyFuE8jxmqnJgn4Oj3T4N2GAAMy9glyxN9LLwGm6Fs/4uQ6CPsUqiWARGCcEZ32xIpFZyPSDQNuvyjXfSfRpO6UVinhk5pDm8ApcNsxNruJjRqdKKInncDzTWZJb/NMVJOUrYHRw8PakmVAV6GlTF1sqkMnqUGQZyemM/h38vGP3MQDulb7bwIz8CQdqFcGklTeemAukJOe59q+0K1StKfnKFVZN3vmb6LTzSQK7UbY0HQFbl65Wz6URGMi7Fn2R5BsRNoeS6fhuCUeGaoXl78Zv3jNWQMvEta0ZCne6TdMed3mPULhn2pzcf7kt3BgQkgdzq9No0trhIQWtZD
+	w8lCYIfm18B74LpgKQ4M2euttmmhsCbBjh/T/3RLPhrdCTWjQE4wqVFncH6n2dhS504QtuLKd3br0AudeHRYT+iBRCJ0Lj7x3vquuq4wwe88zpeeSgySgzidhzuZhBzKjzig5eQS5p9lF94EZCxTAIi2rsl0tmjxP9shNmWpFvdpEF56mtvTe4nvJBM6vJlR7MgSzH+iee3Dw2Htd7hIenBTYqIqs++/phFx/F0DiDJeisdMVXTAD1YdCTvn8E39qmdIs1Q6/HOw7OSoM2boaAT3lyZ2pYzaMHOlQnvloVebk4FwSVmlhnj7QStP9VO6TAi1qz7QyIEsTtlpNv5zQg13Rjp0/txFyzOBDHKfGJRDBbHzTXs6aU8OldFv3wbhfyG0I+gnd73SO3w+u0dNprerNu+xwDJ5IbQFBZB5WM633tOyt3qnue36yCatSuGSXm2lGoyX5MgTJnvCqM1O8ByamxzsI+s7ypu/pF28dcowLogDOHddtaHovEC3GIjrIw7fDi5e2nvTKKrjbb1UONNpQKs/0ZdCT76BNrGIlMreaUWs1L127gmItm6zQtZQXbIR7p7vvD824wnxVFFlIIj2gsaTY8NnPyv3w7xxQaA=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7328.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(23010399003)(1800799024)(11063799006)(38350700014)(56012099006)(18002099003)(6133799003)(260925022911599003)(260925021311599003)(260925021911599003)(261009223027099003)(3023799007)(10067099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(56012099006)(11063799006)(261009223027099003)(260925021311599003)(260925021911599003)(260925022911599003)(10067099003)(18002099003)(6133799003)(12006099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ZRg8gwuUM1WHlsoRSRNi+f4R+fzrN/pA3aDxVFje8YEDMvzB4ChBbiKg88V6?=
- =?us-ascii?Q?LTBHM15/PnnfnKD1Y7IYPe1GgU7YgnoZR53EBWonz66mLdlLmII6+Rptimwc?=
- =?us-ascii?Q?MxaDwEPR7wuXOK/aYlAJm2NLXFG1VuXNXfhsLCM95lshZfMXwKiwtKL62Mla?=
- =?us-ascii?Q?KXFrtrc3feerHqNyywxUZA0YWPk2X0Bp7bGrNurQUNg1S1fBLX+2TyaIKreU?=
- =?us-ascii?Q?b84cgJ6Lf8ao9ClT62X8u5eFqlf+D5CeRoJSRD3BN0UApKYz1qKXSgvwybY5?=
- =?us-ascii?Q?T4hwfPizmhM6XREk1JBdWRzMshmGoWkOjA+Sw2ir8RE43qHlfZsFowIabADS?=
- =?us-ascii?Q?CrjAYx2+8bCFd9X+SRvtxdJlRluVSWfChBcL5hHlltfwtKgRr1jA2YYL3eDz?=
- =?us-ascii?Q?ZHrZ9kIKxdRBxFEaWWeM4c3c7rarFRPARBMZ/fWiQw1xCZMAQl+pnzoSGvs7?=
- =?us-ascii?Q?JNyfL2ZQJD1Is84AM6xYvHXMMtue6T5F+RfIFA/+Eq52tU+AdElvIcuXN3Q0?=
- =?us-ascii?Q?XluGENIz3v/LIZGoMkD6CcWfymcbDhGO1xLaBlkX3EnCNPB6QWAzKV81KkB8?=
- =?us-ascii?Q?gPjsbCp2yAghiKWaYVaOMDiGavjZW2jXgy1YtVdO6MpOhbuzxYy/YMTAxhxw?=
- =?us-ascii?Q?V+n7G4xiaI0m4oCZr3N8ZMuFnI3dl1V4B4dmhvUxV4Zqf+BBnMSP0FQOPPcG?=
- =?us-ascii?Q?UirEgwUPrEcC+JhDH1v1p9Bdt8QXARqca365uYNh2nWtyF9wELOVEW7S4Yzp?=
- =?us-ascii?Q?zXzrY0jxaxoou3SYVtWgw1dOq90M4595j4hKEQg6JaoaFsF82Fe7q3veXgLM?=
- =?us-ascii?Q?vihNDbX3Bi/9RkMHcoFK892SVQ+FzxSm+XTZh/g4wPfRCa4dgLkMvOQMu3ro?=
- =?us-ascii?Q?VF/x1HXmOwOH0uBHlD0UuNcnNs+qg/pIcyPFWdbSMx6Bw+F8ReiTvl9Sst0B?=
- =?us-ascii?Q?TeWIMBagJf74iKR3r/TW52H8829hmt43AlzhBOGoh567hTuGJtIQvK6l3yjk?=
- =?us-ascii?Q?OD4lLTcuaY/Pp0qkDaxHLWLskO6xblICHtLpj4dn/va9BAvZ/Q/vso6FOakR?=
- =?us-ascii?Q?1uJLDMTWa7K7E8FSXRog0ryk39RbSbp3a/rq+7QvtU8m8mTFyn8hGrWCcyUh?=
- =?us-ascii?Q?cCiqtRA2dIF7ft77NYqOVamedvnNBDG8nhWlZvm8ckCkzZaFwIccY7L8/fWI?=
- =?us-ascii?Q?MCcO9OgA++9q8wkPjFuK0JSViYyfCiARAwzCq1bY5P954PFSM/jOg2ajl0KH?=
- =?us-ascii?Q?+lq8DFcJkHQaM62/cIGO9L54wxXy9VuOXqMFciOvIe76wzhVnnB85UkE6p+5?=
- =?us-ascii?Q?AY0k+12AC1u6HkmTlFUgQs9F1xa5aBxWCG3FEkLgl3Iz1B7SvdLJFV0FXzP3?=
- =?us-ascii?Q?rP54Bi+9x2urDiTDUA2W07PzYARaz8fDe8nlw423OvM/q0weYKs9XUWhThV1?=
- =?us-ascii?Q?8oA/ESxwJh0Fa4hKfhuWTgtytr5pf+3QpHnBL+YADlRqGQm3xEz6szGMkMgj?=
- =?us-ascii?Q?Ie9X8gtBjRGzj4yqp51GioybgXaa20PysSANOTgShcMr6NVLEr/tye1tM2K6?=
- =?us-ascii?Q?NwfIoP9LUE4E+EcBR9ofyVtbht9Nk5+/f/AltTitbY3X3oylu2KbkPamKabv?=
- =?us-ascii?Q?9dVQqZXf0FS9n7lJWyVmKN9h2mNZE5QNnao02sUrvGYQgSoF1oBIXMEuyJNc?=
- =?us-ascii?Q?Vm6xarZB5Mi9NY8VtnA/DgQAntw5jo4jS8JLUnX571v5cRvAkcAbcIlJ2SQx?=
- =?us-ascii?Q?UND0zwHoG19ER2J23phgVXMYOML/0H+VaM9tGXzuK87O7ge2dSKH?=
-X-Exchange-RoutingPolicyChecked: 
-	W6IELdPP8bwn/lJqzo6ouCcdZ3GqeCnVcHk+pRHFPihylx9pxQdalZuKKMIIE5V5WX9b24WD4DV9oNLLBzzbL6RkXvL64toXuGrA4m0cvZJboruRptSszmQpU+lRz4oQ6o9qg1HnZhOREUfxbQBSV+9TT9rg939XWV3Z0bdvaz0OavXsjDqKfhm3GdneYmVmW03HiYMWYMUanBcUw8adwiV78WrMLWWHQZ0Z3n6jUtoKgd61YRPdWeobHbzHRgPNGnc4Rl6G+Y4NLoDKLxJno7n0QlemCOlUCG6T40tKV6TA5NtU9ZxZ4flOLBs7PaYr0ngPJ+YpZPspD1CXxzEJYQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3e81270-4e3c-497c-93e3-08df283b9e67
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7328.namprd11.prod.outlook.com
+	=?us-ascii?Q?sVF6PI0NtYnKY4L4NkWRMSk4IAnX1GcOYcpTq5pza7vxLOhm+PA93XBaO62n?=
+ =?us-ascii?Q?DQeQ5V4owSscO/FV+KhPJy9QcNCiprqD0YYqmEicbv1BeHWYWzu9OK78r3xa?=
+ =?us-ascii?Q?Y2+QnlZe3BbbkVmkEXCiQgsUuwbWW5VZeg8UNYndD+QTPwvJ/UGcm9fkcQwL?=
+ =?us-ascii?Q?yW2koKU8FKxbdl+xxXv/4DdEKYUbEk8+5+xp2EesHGo2n3I9RHNtlXcX+9S1?=
+ =?us-ascii?Q?hJ7V06zcvgTqZgGe5GHEZWr1+Fv1o4XJ2S8aojCSlV9FnVlAMPDXLLaYTpD5?=
+ =?us-ascii?Q?g6JlLSyV7gxJrbFUyt+wQ3obQc4CJ8kDKWyZqNdtDEnEREEfw6qpIV9DNxCU?=
+ =?us-ascii?Q?MYCKyaUBKwAmxZvi90lt8iI38Ezj/rGmr/zVTKGR45aetUpA0twEC029l9jG?=
+ =?us-ascii?Q?ALbrJNICRqJP3gKQZMM9UY5P9ujpc7OpNuzn5ZryGJezRS9YZI/5Np2CZPx/?=
+ =?us-ascii?Q?yPp4yOIOCnrLfSrcsMPeveQFjwEC6D8fvTx946MTd2jo/gxxl8D9EpYHGXF8?=
+ =?us-ascii?Q?CCOd1kYYFy9rK00AgFqTllyxZx0SXMh9KVhz/f499b8C0OpaWHPr5mc26eux?=
+ =?us-ascii?Q?vZ/l7JWp79xAuDWpgSFqK5A0gh+ZhGauHgnCS9tyk3HugO3Q/HcUGNgM4Wa5?=
+ =?us-ascii?Q?VaBf/ZKKXuH6aYtk0BoMwdoOV1estvM0+4Mn51/Kecdna2j02U/ceOOX4r9m?=
+ =?us-ascii?Q?gS16D4sEKWe+GYBnjerjHu2S3JWJmPIitY8NnA6K5t1kwHxARwrbg61nIOc2?=
+ =?us-ascii?Q?QGdo+tKIg1+uI7XhpGxND9uBFwbNYjJ6QbTJBxha4QestRGaaurn55NWYP7C?=
+ =?us-ascii?Q?li5/uaJT0RuQQlc6tEUHAwq4xhGmJeSJfAKBBZ+IkzbFCg3XrYzOP06ONDAj?=
+ =?us-ascii?Q?BDUpTY+VQ9mvIjDV/VNM3SgZuwMvlXoiQvTADwMAQUFCT0aC9YmPlUjj2+vO?=
+ =?us-ascii?Q?5OJIEBNK1faSU5n2UPSgah0J0Ky5ak3pYT6GKrFVA/nypjzHC0O7FMGv2fNR?=
+ =?us-ascii?Q?hLklHDSBxeR9p/oQAcO9f2F0FGSL1mP6cTpSNWMlMyi4ZWHBEzugjyYzbSv5?=
+ =?us-ascii?Q?Uq2fKLZ2P9RYuyAveAHsKaJZ1oWGLIUErhY3RbIafokM/Bb3pJMCGoeN7IDl?=
+ =?us-ascii?Q?5Kfzm2T2ePjfh+3Plhsq993Dmd4cRJKGw4PKTZIGgl1CHCr3y/zQqpgtplEs?=
+ =?us-ascii?Q?Ixj91vFjHPZpBsvWrYz1wd7i6WHMwu+UA4NElITZ7Yvq19vK6pU+HIne/lNG?=
+ =?us-ascii?Q?5IMoAkdWKBejCFOPJPcgY7gK7N1rGfiLyhy6HVCcxvDIhuM83mVtOFjXPfSz?=
+ =?us-ascii?Q?qXzRZvWY6OuVOGwPB50jAksQ2GzFcP4nruQ6PlXi0sqseSDvFy5hv8iddn/b?=
+ =?us-ascii?Q?UG2vNrD+sy5MwXZ7CjsfK69Spc5sR3s9BfULH9nFwGro96BejhQvTqe7IjRs?=
+ =?us-ascii?Q?gh854PWW0GO2x0eINLRQ7Ho9YUyjsLnL5g+Bkm3FugBEgKkKICmstWBDC7Ec?=
+ =?us-ascii?Q?81ajFaEfpiTJRAFQHrL9GdflQjHKjTNoy6TzDbKuRpqGY5tKdrjWL+s38fJy?=
+ =?us-ascii?Q?/ea+Xix/dNxR0lhoK2bCm/hT++y7dJHh0FpUiXU05LUFeF1K6+FMb7+sEPek?=
+ =?us-ascii?Q?LbtwqHhmUbuzeHWXbvHn42X6TpoEbN5xOb03ns5jUnnFWapLqMg+fYFni5CW?=
+ =?us-ascii?Q?UnxT17p6oGNCngmnwoSEic+Y+wdP9YTBq5I1B/7I6/6/agOQjghPtshlvmnJ?=
+ =?us-ascii?Q?SojuguQAcQ=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67a364bf-886f-40c7-e0be-08df283f456f
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 08:34:23.8229
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 09:00:32.5573
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VviVxMRUNmqCAGeSOQEhpLcuvC1xbWxaGR7GP7hFzvgm9eg9Bvv+JOTNX3WZPlb8vrm/VRdETx64/m5F8Q2wMTy027i5c5NqjhWgwd1c2SouLDcCKDx2KohCWXDT1ELN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6897
-X-Authority-Analysis: v=2.4 cv=KcNHIgYD c=1 sm=1 tr=0 ts=6acc9c1d cx=c_pps
- a=X0tkg3G9SmSAvlwNIS9bXQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=Twlkf-z8AAAA:8
- a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=iGHA9ds3AAAA:8
- a=_N5UKeOgqk9vG6_m1YsA:9 a=-74SuR6ZdpOK_LpdRCUo:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=nM-MV4yxpKKO9kiQg6Ot:22
-X-Proofpoint-ORIG-GUID: rC192FBy02f4Qzzpv5b66mywzxsKoojF
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDAzNCBTYWx0ZWRfX+isUsydpw7F2
- jwcMmV1gsVXPRDNGrjZI3aOS4Ucqmr+gSEg7CxiYILCj6d8+xI1x4KiFbmjmiCmIA96hWJssNhg
- bw3lmAlmsw/HdagwXHvcZASIdvIS31w8BNScM0xgHXc6wPIm3TqZ
-X-Proofpoint-GUID: rC192FBy02f4Qzzpv5b66mywzxsKoojF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDAzNCBTYWx0ZWRfX1D5n7+07Zmf6
- mmmlXf7xNmTShSb+qHEu2123a9csCODUGMPdrkiF9MI35lBmHbgUdBIgHWpYqf+2RL2pobwYdyE
- ny5YrQqkIXwzYYcoc1cCfG/1bKstnvAK18a8omDdRx0UEbkso6ztEEdbB+KStfdmFGRGT7d/nZX
- VxYvDrjLUf8TgPwYfj1BvfTEd9UVLRnXzseO+mH5/PA9aC0lvkcq4a/atKO0kM/1OiJti3nhsmE
- ga4He+qq/r6y1eYSDn+3V/y323nPYTgzYjQzRk81ok5bfB3ISlmdEsolzA7dC4UgQ7PeoEHQWCC
- LtpjCEZ/CnGA5FtaTQQ+TPPD1hlW1vSz0INGtTwMDfsFzDoTpKfW6Ojq1Yu0IPUY+aiItiofhCN
- J11iMF+dJnRILZqHe1auIJ//XoT56MH8gMuZvyow9gFdwbrZuvGvKmJ7BkG8BIJf8/DEgA79h79
- u/JSCAjwoo5sCP83WOQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-12_03,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0 malwarescore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610120034
+X-MS-Exchange-CrossTenant-UserPrincipalName: CSG6JfVJCMjLrignC+1pz1r7v/yDmQT+OTGXBG2oInzpUYAXleSU0feP0sAplDluDjHCNNwZ+qARBH4kLpV9Vbgu6yPLkIEj5CaijlC8nAE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4P189MB2719
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 08:36:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247615
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 09:00:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247616
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Python 3.15 removed the implicit fallback to the bundled copy of
+libmpdec, requiring a system libmpdecimal to build the _decimal
+module. [1]
 
-https://discourse.llvm.org/t/llvm-23-1-3-released/92432
+- Volunteer to maintain mpdecimal
 
-Brings following fixes:
-0d261d1ca552 [NFC][clang][Serialization] Fix std::set_difference sorting mismatch in ASTReader (#219053)
-65d339f61025 [ARM] fix `r14` aliasing `lr` on `thumb-1` (#225746)
-c23967f24eeb [Mips][MSA] Fix commutability of unordered comparisons (#228567)
-c06551266dbf [X86] combineConcatVectorOps - ensure all suboperand concatenation types are simple (#228522)
-31c414240aa7 [libc++][format] Don't leave the output buffer full after a bulk write (#226791)
-2bf6af3d8c93 [AVR] Implement selection of 'ISD::RETURNADDR' and 'ISD::FRAMEADDR' (#222909)
-76a44e46d47b [cmake] Build libxml from source in release (#221365)
-c2cf51f7320a [X86] Don't skip frame setup/destroy on SEH pseudos and regenerate tests (#225445)
-d54ecc1aecae [lld][LoongArch] Prevent relaxation oscillation for LA.PCRel and CALL (#226713)
-6459dc471c97 [Loongarch] fix int to float conversion on non-MVT vector types (#228896)
-fb050e696e7c [Mips][MSA] Lower vector fabs to BCLRI (#228532)
-fb2a21b4f875 [llvm-objcopy][MachO] Fix use-after-free when stripping (#228607)
-d9eddcfb4748 [clangd] Fix header-name completion replace ranges (#225473)
-0da1d6ee125d [RISCV] Consider truncate semantics in performINSERT_VECTOR_ELTCombine (#228243)
-6e2bb08c5682 [InstCombine] Fix miscompilation in sinkNotIntoOtherHandOfLogicalOp (#226783)
-d8965120316b [clang][AArch64] Fix range check for _Read/_WriteStatusReg (#227052)
-21ef2ddb8060 [KnownFPClass] Do not propagate non-NaN through `asin` and `acos` (#213812)
-1f2d65a9e7d7 [AArch64] Fix accumulator chain opcode for SABAv2i32 (#226062)
-9669f0a31161 [Mips] Restrict rdhwr+synci to Linux on MIPS R6 (#222566)
-d3b23d8b0c19 [libc][math] Fix fast path with small inputs for double precision sin/cos. (#221012)
-dfb1297f7c3f [C++20] [Modules] Load friends for classes in ADL (#219094)
-6abb6e738b33 [clang-repl] Keep earlier declarations alive when an input fails (#218149)
-ee66426152f9 Avoid abi break
-8f747d63ffb2 [lldb] Attempt to unbreak building lldb with the 27 SDK (#223090)
-532fa5afbe2b [ld64.lld, llvm-otool] Minimal arm64e.x1 support (#222721)
-9efc50ac8a20 [Windows] Don't export clang::interp symbols for plugins (#221295)
-c0f43c82604c [SelectionDAG] Fix result index and vector width in unrollExpandedOp (#225886)
-b3aebbf2de7b [CI] Bump python dependencies
-c9376624635f [RISC-V] Fix assert after 255162a (#212791)
-4db63eeac73f [RISC-V] Do not emit cm.popret[z] with zicfiss (#196267)
-6b34061eb9d4 [AArch64] Don't emit stack restore for SME ZA non-sibling tail calls (#224721)
-3273cdaa5ea1 [GlobalISel][AArch64] Do not remove dst type predicates from pattern children nodes. (#221576)
-5f2881edaf60 [lldb][Windows] Remove use of unstable ABI and fix SB API visibility (#222665)
-28a01b03e11f [lldb][Windows] Translate file descriptors between CRT instances (#217126)
-e24fcb694410 [AArch64] Guard against large types in performOrXorChainCombine (#222146)
-ff3d38593e6d [Mips] Strip \x01 no-mangle prefix from R_MIPS_JALR symbol name (#219427)
-5d31c0334b03 [lldb] Fix switch case for i386 in COFF GetModuleSpecifications (#222030)
-898bafa6c855 [AArch64][GISel][FastISel] Fix Windows "sret inreg". (#225190)
-8646466e3a4f [DAGCombiner] Restrict combineOrOfSetCCToUSUBOCarry to ZeroOrOneBooleanContent. (#224759)
-557e1d658863 [DAGCombiner] Require a 0/1 carry-in when rebuilding a borrow chain (#223396)
-615ef6c76842 github-upload-release: Create draft releases (#209876)
-243739128971 [lld] Don't drop RELR relocations for late-added GOT entries (#211911)
+[1] https://github.com/python/cpython/issues/115119
 
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- meta/conf/distro/include/maintainers.inc     | 2 +-
- meta/recipes-devtools/clang/common-clang.inc | 2 +-
- meta/recipes-devtools/clang/common.inc       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../mpdecimal/mpdecimal_4.0.1.bb              | 24 +++++++++++++++++++
+ 2 files changed, 25 insertions(+)
+ create mode 100644 meta/recipes-support/mpdecimal/mpdecimal_4.0.1.bb
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 94ab0ccace..4446732e9f 100644
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc
+index 94ab0ccace..952ca58cb1 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -484,7 +484,7 @@ RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.co
- RECIPE_MAINTAINER:pn-lld = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-lldb = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-llvm = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-llvm-project-source-23.1.2 = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-llvm-project-source-23.1.3 = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-llvm-tblgen-native = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
-diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-index d34858d8a2..cf93fd0f62 100644
---- a/meta/recipes-devtools/clang/common-clang.inc
-+++ b/meta/recipes-devtools/clang/common-clang.inc
-@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
- 
- MAJOR_VER = "23"
- MINOR_VER = "1"
--PATCH_VER = "2"
-+PATCH_VER = "3"
- # could be 'rcX' or 'git' or empty ( for release )
- VER_SUFFIX = ""
- 
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-index 0bcd259047..6465fe3399 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}${VER_SUFFI
- UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
- SOURCEDIR ?= "llvm-project-${PV}${VER_SUFFIX}.src"
--SRC_URI[sha256sum] = "c98bbef08a2b4c2613cd50e9aa9ae7b69b1fe6c16b2c40373bc0ab6116fdf78a"
-+SRC_URI[sha256sum] = "c44186a7762ed28954be72e5ff6df9808e0779d4f1bf014ecc4e7e211d31ee34"
- 
- SRC_URI = "\
-     ${BASEURI} \
--- 
-2.49.0
-
+@@ -542,6 +542,7 @@ RECIPE_MAINTAINER:pn-mkfontscale =3D "Unassigned <unass=
+igned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-mmc-utils =3D "Unassigned <unassigned@yoctoproject.or=
+g>"
+ RECIPE_MAINTAINER:pn-mobile-broadband-provider-info =3D "Unassigned <unass=
+igned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-modutils-initscripts =3D "Yi Zhao <yi.zhao@windriver.=
+com>"
++RECIPE_MAINTAINER:pn-mpdecimal =3D "Jaipaul Cheernam <jaipaul.cheernam@est=
+.tech>"
+ RECIPE_MAINTAINER:pn-mpfr =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-mpg123 =3D "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-msmtp =3D "Wang Mingyu <wangmy@fujitsu.com>"
+diff --git a/meta/recipes-support/mpdecimal/mpdecimal_4.0.1.bb b/meta/recip=
+es-support/mpdecimal/mpdecimal_4.0.1.bb
+new file mode 100644
+index 0000000000..75d6b71150
+--- /dev/null
++++ b/meta/recipes-support/mpdecimal/mpdecimal_4.0.1.bb
+@@ -0,0 +1,24 @@
++SUMMARY =3D "Library for arbitrary precision decimal floating point arithm=
+etic"
++DESCRIPTION =3D "mpdecimal is a C/C++ library for correctly rounded arbitr=
+ary \
++precision decimal floating point arithmetic. It is a complete implementati=
+on \
++of Mike Cowlishaw/IBM's General Decimal Arithmetic Specification and provi=
+des \
++libmpdec (C) and libmpdec++ (C++)."
++HOMEPAGE =3D "https://www.bytereef.org/mpdecimal/"
++SECTION =3D "libs"
++LICENSE =3D "BSD-2-Clause"
++LIC_FILES_CHKSUM =3D "file://COPYRIGHT.txt;md5=3D61bb27059c72d53804ef475f5=
+b18d38f"
++
++SRC_URI =3D "https://www.bytereef.org/software/mpdecimal/releases/mpdecima=
+l-${PV}.tar.gz"
++SRC_URI[sha256sum] =3D "96d33abb4bb0070c7be0fed4246cd38416188325f820468214=
+471938545b1ac8"
++
++inherit autotools
++
++# The test suites require network/large data downloads and are not needed
++# for the library build consumed by python3's _decimal module.
++EXTRA_OECONF =3D "--disable-static"
++
++PACKAGES =3D+ "libmpdec libmpdec++"
++FILES:libmpdec =3D "${libdir}/libmpdec.so.*"
++FILES:libmpdec++ =3D "${libdir}/libmpdec++.so.*"
++
++BBCLASSEXTEND =3D "native nativesdk"
 
