@@ -1,255 +1,266 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B09B3CA9ED0
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 21:13:25 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5128.1791839597757476819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5424CA9ED2
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 21:35:55 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5600.1791840954059017858
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 14:13:18 -0700
+ Mon, 12 Oct 2026 14:35:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=G9wicT5I;
- spf=pass (domain: snapchat.com, ip: 209.85.221.44, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48b0946c2c2so1348265f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 14:13:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791839596; cv=none;
-        d=google.com; s=arc-20260327;
-        b=aLeRSWzB1Q+kWtfQiC/D7hPApyB0OAzla6/1Xfg1WpafuY7QkwQa1XxTMGlXugg9Qq
-         Ua3i4IUs6P1vY9F9y4qGBcNlBKupcVIrHo/RcQtHz7uYMxh1OHs7//U5MfsAAZBPatCZ
-         zQkSBmcMUivZpraPWRdP1BkctPP42EYjlXs/5hnUuwR2TZDNeUks9X39OooCacOQFg/R
-         CqXt0lbYbo9bWCZNlzqeTiG+RBXNBj43Gb1UzxC5C19Fz+fseGXB+EMz0saqbowJkDO/
-         RLRPRW58roWDCsnPbAE1QiUvnHA9IWTTVMOkCoq0eASMA5pLfZZGSePyHaqZ5z+A1fan
-         J3EQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=bxP9E2OgrFXi3HFBuHEGnRyOHnJz0sB30LMlQjQKwdQ=;
-        fh=toEqJZwqRVBtWFdjvbnHcK/jgjDz0NeahqiJS/bEzeo=;
-        b=VeUaSPVRo2j4wROw2N/lz7pX6/Q9JKpns1ek4qfHE0Qfn36CDomE3Kh89NvNwX1zdK
-         qcSmBIgjyYvJ7+Rh4nkGs9o2C2ucT9ns3IzRMn8MeRLU1eBMOiC306aOFsTeaMMhbaGP
-         SDdAnOn1NxcsaiPYpYCA2bkwewQb4A7BFqjDBk9P/9EXfedWFsccdFdQ7dmyRI/6u/CK
-         oMz6FmxYrdFpvHs48FoGeLT/zhpJs3yyi9yoL2597kMKDcx3/pfrsY+KtGsM8+mqsZ7S
-         yNGa62mJB/6m0EuzmvUzpW+VFoxttJ4A3+DscJpmN6KKhRBhRLV+NpiLWlBISjtnt4r9
-         bNUA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=dZbsiiJj;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so23741995e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 14:35:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1791839596; x=1792444396; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bxP9E2OgrFXi3HFBuHEGnRyOHnJz0sB30LMlQjQKwdQ=;
-        b=G9wicT5IAjtKQrus680iD9mIMr2c8uO39in5L5R99FVXFtS2FslB4Ib+ZZYuKXOUN3
-         1F4GrrQOYKXmrTVZnF/IbdOykR+EsFnTLyOrkUefHFyfkDtXA9XCTHi3NJ0LVdBkZYmx
-         8nPCB5QEiTdTNXAfbG2KuxusQgKiIKgHfd5hQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791839596; x=1792444396;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=smile.fr; s=google; t=1791840952; x=1792445752; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=bxP9E2OgrFXi3HFBuHEGnRyOHnJz0sB30LMlQjQKwdQ=;
-        b=z5InL95XAJ2UAyi3KgITgUPHdeLMDHbsUJQut1Ehs9lAwFQEtgFfd5u6GLknNCMBic
-         HM/BQdVR585zlMAJaM6N5YoA8QWGNPWeTLV52f4dzhGYtg67dPcDS++QeVwfv0Y+BDza
-         4P5MjyT0adQL7N4Sh8KuKOtg9hamjk2wQD9KUIsieJR8bD1Ib32nO00WGTiNDStDzjJY
-         Njr0/gTjAsIUSC4T+M1goUwBS9So+1Gq8ZRhXrE6qsTx3MXdDhN0WDc9xJN7gEmU2VUG
-         3JBw4Wuy8oWG+vGGqBQ4q4KcQiS8Q6/vn64BvRGv1jcB3ucT3mMcS+PMOW7zqxnfgsCf
-         Sicw==
-X-Gm-Message-State: AFq9FYKyFveTS0wcNlPqeJ0zaG/QDbs26MG08iUzbJ0W0VO52ERPQmI9
-	/ddvfyin9Kf/gg9w57CwgsRQWIbS/8aqk5T6fMCZTquQG4GMSH27nMykyFFxJ9dEJ+TEvFmwoZQ
-	IeFx9HkS5fQINKSMCnTYXun/Yl1hDemtiKb1lVmHd5Q==
-X-Gm-Gg: AYBFou3F6WX6OkPOv1tA9pPWJ5UL36SCvHBoqXbwBR4iZ29ebXwuEQXe2g5GHg+gWCw
-	SM8Z/J0LOkPnbrxgMsz30Ztj9Twb8UEwJnuWruJ9ugYmIdNKscvveF9Sstl8qfMaRRg+3sn7Y4G
-	bcP7bhirEaMJSswnH2fXJubICyS4eiFjuN6DLhtUxtb0x+fJKkDsOMLJsWVkT9JvidvLteSAH/5
-	geLM1DJpAuiIkO7KRu8wtLy0xvChrLifI8PA0+mMRk4rJbs3uv/fbOenW+u/0mnCmaXnmmSlqNJ
-	ZsAjBaOHu+uFmg05nga1Ah06S8o8y+pzjDUKyM/Fxkdvn74RO56Y8AtPFi55mbmUHYMMa7OcbDF
-	9KOQ+YTyQukE=
-X-Received: by 2002:a05:6000:40dd:b0:487:72f:fb41 with SMTP id
- ffacd0b85a97d-48dbace8754mr20653301f8f.39.1791839595757; Mon, 12 Oct 2026
- 14:13:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20261010113029.2347847-1-ecordonnier@snap.com> <CANNYZj9kcJ+_Q8gEtmLYqKjwLsHogY1o4b8MeZQf6jTgDp3gtg@mail.gmail.com>
-In-Reply-To: <CANNYZj9kcJ+_Q8gEtmLYqKjwLsHogY1o4b8MeZQf6jTgDp3gtg@mail.gmail.com>
-From: Etienne Cordonnier <ecordonnier@snap.com>
-Date: Mon, 12 Oct 2026 23:13:03 +0200
-X-Gm-Features: AclHuK_94R9JZl-3irMJqJCedvpjg0lxKh2EIkD0GOXGyQTxOew7aMNaTfiS8QY
-Message-ID: <CAHUKmYZOUvohA9psyEiJ251a9mCnTteUDkdAVU1LEAAFC_PdZw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] uutils-coreutils: move from meta-openembedded
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000099a6c9065dab2a5f"
+        bh=BgrPVgZjE0ie9w9toQmIkvADuW7nUNc2FQPYMyfxXTE=;
+        b=dZbsiiJj/a2h+y78NBauSXhlUVIK3JnKtCzhs9eb3+1UQ7rs8eNsT4x+lH1pDTF+uW
+         bHa+LpypEX18Hl1sCLVAxYGrs/+8cUEoGj0W/Xqh/HMZHZIDm9M/DRyUP6OXMTKbkCiH
+         kGLESk1T3VoTGSNU9WO1lD9LNOixFcYf2VnUA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791840952; x=1792445752;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BgrPVgZjE0ie9w9toQmIkvADuW7nUNc2FQPYMyfxXTE=;
+        b=VccbTsRTdCOISOQP9/TNbW0fCkPb4Jhidp7S5AO06gnoImBootqP13hfTf7bc3JMaG
+         YY753Pnp7qC5AZ2UiPRIJz8h6U+ad6l8T2JOPlvHk6Q0DtgmvGalUUVt0YVyT8O3Xat7
+         2PzF5i/L27156RhS7nawLFbbQ9/TactXpP5fjpmCtrmYx5v6JVGrmJYgeWVkF4y6SFnf
+         C/m7bu64C6NemzF7zRoq8/lzbobrh3T6opcnjHZOM4w56a8yGLERImYubBC2euAfmZXR
+         +wbDSNS4Z4kO6IXvGzNA13HXwfkO9tzwRJqDJNxnMDKy5e3zJ6CmwO2WePMMe1v8YxWm
+         c60Q==
+X-Forwarded-Encrypted: i=1; AKwUvBw+jae9z9sPUGDTpurSBB4pHlEZMZXtHNYo1ks+P1O6xMuzWzeH6xgfOjAxvMTJmQSOMa/dR40MmkQDzz3CwBO55Q==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYJc+c6tRuPiZ8zQaQPgUbUCIa2GADnXvyr13xChhR4m9Cr5iv9b
+	BBLbpY2VPE4QoaNbs+bNutkqzz9C+DcXMzxc8emkAarbpNEc6dZ4gNRTcyMa9XLfmkM=
+X-Gm-Gg: AYBFou1HM77frOqmuStCwl1c4rTnlJHukjfQd2HuKCrW2xWSW7tACIZTpkkQD9bpNC6
+	yVdqRqqwr2t0otP3PewyjIGssQUKkqabmRaVLAZCGGxKgWleJJVJRx0bJtIOXjx+ykQedOAPLyx
+	MZnbszUkw4EcQefSOTG6U0FG/es9bslOPvq5MWOZQSi77NozTz/asR5/5ofs41/ZOTjWNjw4VY5
+	D4TzcmcldVCiZuS/bNWBLB/Crr4g1/L9UTFt6YqL5ODDeKGUw8vcqIjaxkwPHCAPz2SZ9FPk1FG
+	XBzYn4w39nBwLYWdXmfFbLubvCxqwOHV+DioPkf6VA9pHmgOZ4WmGKPCIbgudFyVSGhfN4OT/eQ
+	iDgeA2ykuAx1KvmYXt/e5i3ytap+s66PwkvCJZXPC2lAagpxZMNKA7dk80GEjVf1BdiiRUxvm8q
+	mnzdgEB/whUtWgNE7P4euXG2+s4EltWj6Nid+A+8LXCFjEzlLZszyMRzw0292F2/Y4faAbzx1O/
+	9M0zvm40bV2iEg3s9R7Nrms3HOxVyVSTvFOWKjlrn2C81vdT5LpbAhaZjvqGg==
+X-Received: by 2002:a05:600c:8b65:b0:4a1:742e:3 with SMTP id 5b1f17b1804b1-4a18e4ca244mr190817445e9.27.1791840952065;
+        Mon, 12 Oct 2026 14:35:52 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ab4764sm1327903f8f.25.2026.10.12.14.35.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Oct 2026 14:35:51 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 12 Oct 2026 23:35:51 +0200
+Message-Id: <DM36LT8OIOKL.36QN6AXZ0AO52@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCHv2 1/2] glibc: Fix CVE-2026-5450
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <souravkumar.pramanik@bmwtechworks.in>
+To: <UpStream_IP-SP@bmwtechworks.in>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261005055601.111500-1-UpStream_IP-SP@bmwtechworks.in>
+In-Reply-To: <20261005055601.111500-1-UpStream_IP-SP@bmwtechworks.in>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 21:13:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247687
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 21:35:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247688
 
---00000000000099a6c9065dab2a5f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Hi Alex,
-- what is achieved by moving it to core is improving no-gplv3.inc for users
-who are not using gplv3 and still want full coreutils syntax support. It
-will also make it possible to add it to poky-altcfg.conf, and generally
-make it easier to consume without needing meta-openembedded.
-
-- what specifically makes this component mature enough is:
-  - I've added the recipe to meta-openembedded in July 2022 and it has been
-continuously tested and improved since (e.g. I fixed the musl support
-upstream, the cross-compilation of stdbuf upstream, some buildpath issue)
-  - its adoption in Ubuntu 26.04 as default coreutils implementation and
-the resulting large-scale usage and bug-fixing
-  - its availability in Windows as "Coreutils for Windows" starting in June
-2026 as a package maintained by Microsoft, and the resulting large-scale
-usage and bug-fixing
-  - its massive adoption in various distros and package-managers (see
-https://uutils.org/users/ )
-  - its >95% pass-rate of the GNU testing suite in release 0.0.12 (some
-tests are still skipped)
-  - anecdotally, my own usage in production on embedded devices for several
-years without issues (on arm and qemu-arm64)
-
-- "should we make uutils-coreutils the default choice, or maybe the only
-choice?"
-  -> maybe in several years when uutils-coreutils has matured even more and
-has 100% test coverage of the GNU test suite? At the moment I think the
-safest choice on critical devices is still GNU coreutils, so I wouldn't
-remove or make rust coreutils the default or only choice. Also rust
-binaries are bigger than C binaries so there is some tradeoff involved. GNU
-coreutils 9.12 main package is 10.3MB big in my test build, compared to
-13.6MB for the uutils-coreutils 0.0.12 main package (uutils-coreutils uses
-a multi-binary executable to save space, GNU coreutils doesn't).
-
-- "Does it work as a provider of coreutils-native and is it compatible with
-pseudo?"
-  - the recipe uutils-coreutils-native compiles, but it's not compatible
-with pseudo because of differences in syscalls, and it's not suitable as a
-replacement for coreutils-native at the moment. I'll try to make it work
-with pseudo in the future, but I think almost all users consume it as a
-target recipe and that's where it provides most value.
-
-- "Does it pass the full autobuilder matrix when selected as coreutils
-provider? Should we add that test to the autobuilder?"
-  -> it should, but I've not tested the full matrix of the autobuilder. I
-would like to add the recipe to poky-altcfg.conf, and as far as I
-understand this would add it to the autobuilder as side-effect.
-I am also working on adding ptest support for the recipe and can send this
-if necessary for the acceptance to oe-core.
-
-=C3=89tienne
-
-On Mon, Oct 12, 2026 at 3:04=E2=80=AFPM Alexander Kanavin <alex.kanavin@gma=
-il.com>
-wrote:
-
-> On Sat, 10 Oct 2026 at 13:30, Etienne Cordonnier via
-> lists.openembedded.org
-> <https://urldefense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openembedded=
-.org&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNon=
-VuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DPf9ypvX_MT4dU4cYC3brv9jpglRcRrrz1l=
-uHXObxYfW6J0oO8XAW6KnUoiQHzUES&s=3DQSmPEv1BkubeZVNksJqkHkppRkyy-Bac7QdkZuoY=
-qaA&e=3D>
-> <ecordonnier=3Dsnap.com@lists.openembedded.org> wrote:
+On Mon Oct 5, 2026 at 7:56 AM CEST, Sourav Kumar Pramanik via lists.openemb=
+edded.org wrote:
+> From: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.in>
 >
->>
->> uutils-coreutils, the Rust reimplementation of GNU coreutils, is mature
->> enough for production use, so move the recipe from meta-oe to oe-core.
->> It provides and rprovides coreutils, and is excluded from world unless
->> selected as the coreutils provider.
->>
->
-> This needs a bit more justification. What is achieved by moving it to
-> core? What specifically makes this component mature enough? What tests we=
-re
-> performed with it? Does it pass the full autobuilder matrix when selected
-> as coreutiuls provider? Should we add that test to the autobuilder? Shoul=
-d
-> we make uutils-coreutils the default choice, or maybe the only choice? Do=
-es
-> it work as a provider of coreutils-native, and is it compatible with pseu=
-do?
->
-> Adding things to core has a pretty high bar, and the above commit message
-> does not meet it.
->
-> Alex
->
+> This change fixes CVE-2026-5450
 
---00000000000099a6c9065dab2a5f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Why? Please explain why you think this patch does fix this CVE (Usually
+it comes from NVD data)
 
-<div dir=3D"ltr">Hi Alex,<br>- what is achieved by moving it to core is=C2=
-=A0improving no-gplv3.inc for users who are not using gplv3 and still want =
-full coreutils syntax support. It will also make it possible to add it to p=
-oky-altcfg.conf, and generally make it easier to consume without needing me=
-ta-openembedded.<br><br>- what specifically makes this component mature eno=
-ugh is:<br>=C2=A0 - I&#39;ve added the recipe to meta-openembedded in July =
-2022 and it has been continuously tested and improved since (e.g. I fixed t=
-he musl support upstream, the cross-compilation of stdbuf upstream, some bu=
-ildpath issue)<br>=C2=A0 - its adoption in Ubuntu 26.04 as default coreutil=
-s implementation and the resulting large-scale usage and bug-fixing<br>=C2=
-=A0 - its availability in Windows as &quot;Coreutils for Windows&quot; star=
-ting in June 2026 as a package maintained by Microsoft, and the resulting l=
-arge-scale usage and bug-fixing<br>=C2=A0 - its massive adoption in various=
- distros and package-managers (see=C2=A0<a href=3D"https://uutils.org/users=
-/">https://uutils.org/users/</a> )=C2=A0<br>=C2=A0 - its &gt;95% pass-rate =
-of the GNU testing suite in release 0.0.12 (some tests are still skipped)<b=
-r>=C2=A0 - anecdotally, my own usage in production on embedded devices for =
-several years without issues (on arm and qemu-arm64)<br><br>- &quot;should =
-we make uutils-coreutils the default choice, or maybe the only choice?&quot=
-;<br>=C2=A0 -&gt; maybe in several years when uutils-coreutils has matured =
-even more and has 100% test coverage of the GNU test suite? At the moment I=
- think the safest choice on critical devices is still GNU coreutils, so I w=
-ouldn&#39;t remove or make rust coreutils the default or only choice. Also =
-rust binaries are bigger than C binaries so there is some tradeoff involved=
-. GNU coreutils 9.12 main package is 10.3MB big in my test build, compared =
-to 13.6MB for the uutils-coreutils 0.0.12 main package (uutils-coreutils us=
-es a multi-binary executable to save space, GNU coreutils doesn&#39;t).<br>=
-<br>- &quot;Does it work as a provider of coreutils-native and is it compat=
-ible with pseudo?&quot;<br>=C2=A0 - the recipe uutils-coreutils-native comp=
-iles, but it&#39;s not compatible with pseudo because of differences in sys=
-calls, and it&#39;s not suitable as a replacement for coreutils-native at t=
-he moment. I&#39;ll try to make it work with pseudo in the future, but I th=
-ink almost all users consume it as a target recipe and that&#39;s where it =
-provides most value.<br><br>- &quot;Does it pass the full autobuilder matri=
-x when selected as coreutils provider? Should we add that test to the autob=
-uilder?&quot;<br>=C2=A0 -&gt; it should, but I&#39;ve not tested the full m=
-atrix of the autobuilder. I would like to add the recipe to poky-altcfg.con=
-f, and as far as I understand this would add it to the autobuilder as side-=
-effect.<br>I am also working on adding ptest support for the recipe and can=
- send this if necessary for the acceptance to oe-core.<br><br>=C3=89tienne<=
-/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Mon, Oct 12, 2026 at 3:04=E2=80=AFPM Alexander Kanavin &lt;<a href=3D"mai=
-lto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
-r=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
-On Sat, 10 Oct 2026 at 13:30, Etienne Cordonnier via <a href=3D"https://url=
-defense.proofpoint.com/v2/url?u=3Dhttp-3A__lists.openembedded.org&amp;d=3DD=
-wMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVu=
-MIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DPf9ypvX_MT4dU4cYC3brv9jpglRcRrrz=
-1luHXObxYfW6J0oO8XAW6KnUoiQHzUES&amp;s=3DQSmPEv1BkubeZVNksJqkHkppRkyy-Bac7Q=
-dkZuoYqaA&amp;e=3D" target=3D"_blank">lists.openembedded.org</a> &lt;ecordo=
-nnier=3D<a href=3D"mailto:snap.com@lists.openembedded.org" target=3D"_blank=
-">snap.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><br>
-uutils-coreutils, the Rust reimplementation of GNU coreutils, is mature<br>
-enough for production use, so move the recipe from meta-oe to oe-core.<br>
-It provides and rprovides coreutils, and is excluded from world unless<br>
-selected as the coreutils provider.<br></blockquote><div><br></div><div>Thi=
-s needs a bit more justification. What is achieved by moving it to core? Wh=
-at specifically makes this component mature enough? What tests were perform=
-ed with it? Does it pass the full autobuilder matrix when selected as coreu=
-tiuls provider? Should we add that test to the autobuilder? Should we make =
-uutils-coreutils the default choice, or maybe the only choice? Does it work=
- as a provider of coreutils-native, and is it compatible with pseudo?</div>=
-<div><br></div><div>Adding things to core has a pretty high bar, and the ab=
-ove commit message does not meet it.</div><div><br></div><div>Alex</div></d=
-iv></div>
-</blockquote></div>
+>
+> Upstream-Status: Backport [https://sourceware.org/cgit/glibc/commit/?id=
+=3D839898777226a3ed88c0859f25ffe712519b4ead]
+^ This line is only useful in the patch file itself, not in the commit
+message.
 
---00000000000099a6c9065dab2a5f--
+>
+> Comment: Patch refreshed as per glibc 2.39 source code
+Sorry but this comment states the obviously and does not provide
+information about what was modified during the refresh.
+
+>
+> Signed-off-by: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.i=
+n>
+> ---
+>  .../glibc/glibc/CVE-2026-5450.patch           | 113 ++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
+>  2 files changed, 114 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-5450.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/CVE-2026-5450.patch b/meta/rec=
+ipes-core/glibc/glibc/CVE-2026-5450.patch
+> new file mode 100644
+> index 0000000000..adea5c3f01
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/CVE-2026-5450.patch
+> @@ -0,0 +1,113 @@
+> +From 839898777226a3ed88c0859f25ffe712519b4ead Mon Sep 17 00:00:00 2001
+> +From: Rocket Ma <marocketbd@gmail.com>
+> +Date: Fri, 17 Apr 2026 23:48:41 -0700
+> +Subject: [PATCH] stdio-common: Fix buffer overflow in scanf %mc [BZ #340=
+08]
+> +
+> +* stdio-common/vfscanf-internal.c: When enlarging allocated buffer with
+> +format %mc or %mC, glibc allocates one byte less, leading to
+> +user-controlled one byte overflow. This commit fixes BZ #34008, or
+> +CVE-2026-5450.
+> +
+> +CVE: CVE-2026-5450
+> +Upstream-Status: Backport [https://sourceware.org/cgit/glibc/commit/?id=
+=3D839898777226a3ed88c0859f25ffe712519b4ead]
+> +Comment: Patch refreshed as per glibc 2.39 source code
+
+(See above about "Comment:")
+
+
+> +
+> +Reviewed-by: Carlos O'Donell <carlos@redhat.com>
+> +Signed-off-by: Rocket Ma <marocketbd@gmail.com>
+> +Reviewed-by: H.J. Lu <hjl.tools@gmail.com>
+> +Signed-off-by: Sourav Kumar Pramanik <souravkumar.pramanik@bmwtechworks.=
+in>
+> +---
+> + stdio-common/Makefile              |  4 ++++
+> + stdio-common/tst-vfscanf-bz34008.c | 48 +++++++++++++++++++++++++++++++=
+++++++
+> + stdio-common/vfscanf-internal.c    |  6 +++---
+> + 3 files changed, 55 insertions(+), 3 deletions(-)
+> + create mode 100644 stdio-common/tst-vfscanf-bz34008.c
+> +
+> +diff --git a/stdio-common/Makefile b/stdio-common/Makefile
+> +--- a/stdio-common/Makefile
+> ++++ b/stdio-common/Makefile
+> +@@ -266,6 +266,7 @@ tests :=3D \
+> +   tst-vfprintf-width-i18n \
+> +   tst-vfprintf-width-prec \
+> +   tst-vfprintf-width-prec-alloc \
+> ++  tst-vfscanf-bz34008 \
+> +   tst-wc-printf \
+> +   tstdiomisc \
+> +   tstgetln \
+> +@@ -401,6 +402,9 @@ tst-printf-bz18872-ENV =3D MALLOC_TRACE=3D$(objpfx)t=
+st-printf-bz18872.mtrace \
+> + tst-vfprintf-width-prec-ENV =3D \
+> +   MALLOC_TRACE=3D$(objpfx)tst-vfprintf-width-prec.mtrace \
+> +   LD_PRELOAD=3D$(common-objpfx)/malloc/libc_malloc_debug.so
+> ++tst-vfscanf-bz34008-ENV =3D \
+> ++  MALLOC_CHECK_=3D3 \
+> ++  LD_PRELOAD=3D$(common-objpfx)/malloc/libc_malloc_debug.so
+> + tst-printf-bz25691-ENV =3D \
+> +   MALLOC_TRACE=3D$(objpfx)tst-printf-bz25691.mtrace \
+> +   LD_PRELOAD=3D$(common-objpfx)/malloc/libc_malloc_debug.so
+> +diff --git a/stdio-common/tst-vfscanf-bz34008.c b/stdio-common/tst-vfsca=
+nf-bz34008.c
+> +new file mode 100644
+> +--- /dev/null
+> ++++ b/stdio-common/tst-vfscanf-bz34008.c
+> +@@ -0,0 +1,48 @@
+> ++/* Regression test for vfscanf %Nmc out-of-bound write (BZ #34008)
+> ++   Copyright (C) 2026 The GNU Toolchain Authors.
+> ++   This file is part of the GNU C Library.
+> ++
+> ++   The GNU C Library is free software; you can redistribute it and/or
+> ++   modify it under the terms of the GNU Lesser General Public
+> ++   License as published by the Free Software Foundation; either
+> ++   version 2.1 of the License, or (at your option) any later version.
+> ++
+> ++   The GNU C Library is distributed in the hope that it will be useful,
+> ++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+> ++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> ++   Lesser General Public License for more details.
+> ++
+> ++   You should have received a copy of the GNU Lesser General Public
+> ++   License along with the GNU C Library; if not, see
+> ++   <https://www.gnu.org/licenses/>.  */
+> ++
+> ++#include "malloc/mcheck.h"
+> ++#include <stddef.h>
+> ++#include <stdio.h>
+> ++#include <string.h>
+> ++#include <wchar.h>
+> ++#include <stdlib.h>
+> ++#include <malloc.h>
+> ++#include <support/check.h>
+> ++
+> ++#define WIDTH 0x410
+> ++#define SCANFSTR "%1040mc"
+> ++static int
+> ++do_test (void)
+> ++{
+> ++  mcheck_pedantic (NULL);
+> ++  char *input =3D malloc (WIDTH + 1);
+> ++  TEST_VERIFY (input !=3D NULL);
+> ++  memset (input, 'A', WIDTH);
+> ++  input[WIDTH] =3D '\0';
+> ++
+> ++  char *buf =3D NULL;
+> ++  TEST_VERIFY (sscanf (input, SCANFSTR, &buf) !=3D -1);
+> ++  TEST_VERIFY (buf !=3D NULL);
+> ++
+> ++  free (buf);
+> ++  free (input);
+> ++  return 0;
+> ++}
+> ++
+> ++#include <support/test-driver.c>
+> +diff --git a/stdio-common/vfscanf-internal.c b/stdio-common/vfscanf-inte=
+rnal.c
+> +--- a/stdio-common/vfscanf-internal.c
+> ++++ b/stdio-common/vfscanf-internal.c
+> +@@ -857 +857 @@ __vfscanf_internal (FILE *s, const char *format, va_list=
+ argptr,
+> +-			      + (strsize >=3D width ? width - 1 : strsize);
+> ++			      + (strsize >=3D width ? width : strsize);
+> +@@ -928 +928 @@ __vfscanf_internal (FILE *s, const char *format, va_list=
+ argptr,
+> +-			=3D strsize + (strsize > width ? width - 1 : strsize);
+> ++			=3D strsize + (strsize >=3D width ? width : strsize);
+> +@@ -983 +983 @@ __vfscanf_internal (FILE *s, const char *format, va_list=
+ argptr,
+> +-		      =3D strsize + (strsize > width ? width - 1 : strsize);
+> ++		      =3D strsize + (strsize >=3D width ? width : strsize);
+
+The above 3 hunks have no context which greatly increase the chances of
+a badly applied patch.
+
+Can you send a v3 with the usual "3 lines of context"?
+
+> +--=20
+> +2.43.7
+> diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/gl=
+ibc/glibc_2.39.bb
+> index 88ad5e44e8..b01225e530 100644
+> --- a/meta/recipes-core/glibc/glibc_2.39.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.39.bb
+> @@ -57,6 +57,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};na=
+me=3Dglibc \
+>             file://0023-qemu-stale-process.patch \
+>             file://0001-stdlib-Add-single-threaded-fast-path-to-rand.patc=
+h \
+>             file://0024-CVE-2026-5435.patch \
+> +           file://CVE-2026-5450.patch \
+>  "
+>  S =3D "${WORKDIR}/git"
+>  B =3D "${WORKDIR}/build-${TARGET_SYS}"
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
 
