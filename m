@@ -2,135 +2,97 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A4F6CC6B1A
-	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 17:52:38 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3915.1791913952636558445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 002CACC6B1C
+	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 17:54:07 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3950.1791914045202377035
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2026 10:52:32 -0700
+ Tue, 13 Oct 2026 10:54:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=RwFVFtmm;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=xgYjZo15;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 59BF84E41217
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 17:52:30 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 8D5ED1A1215
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 17:54:03 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2E14560362
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 17:52:30 +0000 (UTC)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5D3896075C
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 17:54:03 +0000 (UTC)
 Received: by mail.galae.net (Postcow, from userid 0)
-	id B748311D7188E; Tue, 13 Oct 2026 19:50:00 +0200 (CEST)
+	id D510311D7188E; Tue, 13 Oct 2026 19:50:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791913949; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1791914043; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=aY3xkbMOIcmWyHM198xASOjvY/dscLrS7W37Cw8oK1M=;
-	b=RwFVFtmmU09+XnSBgElVsdWLadPjB63Rdsbt3yoTmjXOLQpq9lEtn3+qI0S8ZW5DtiG3lU
-	TxTIseve3pO3AZ8pWXZuf98/xfBrgNv/Z2g9yMh7A+I4VuimxSyNEKm5PvGZlrreWAcDQp
-	GJShOrBnHRByCcXzCoSYF7UFkt2yxJbCQri3pQ22Hx/VV149kWXkvMrumouX3bXI2XcFxf
-	iGgILJpES9pUXAmgPxBdudcfO9eWiRDffip3wEb3Xp8HQcaaK8ZyriqT8CEe3ScOt/QrhN
-	RNTqMS/QJ7EFoOACuCDHOT8hhAACtscTC/AVWvi2AurcDeb6SE6QblP6c0ZO/w==
+	bh=akC3HB9IffmDj7JTUDXwIRlVqOMKbT4REOGebkjgyQE=;
+	b=xgYjZo15GRlRCRTM+WCVYyeJtyN3j71qGeJq8WBN+jGbvwK4YmAJQTow1GKX0uki5y77Jg
+	J6iqYpQs7fu4ifRedLsUxmdwCsLkXxD5jq30LNzGRg4andyy/bKxfIjL/sLXBKhFi3M7y3
+	qmhIY+ntSxa8P/K+amUCV1oM+91EK3i9Yn3bQaZgctLTMPwbKeOy3WCGCDyJCxfsZVKnOh
+	ICrX+01CZ8K3B7EYDUDidoBQJJsZjoSQkNfDXGMuZ4MswDbNl0dEWSHb8GGJdKAAunKSqO
+	8Oyu4WIigmP2EvdoUJfdt9tKEX42IUXo0CxbQz1DzA5OLqa1yEEyQ8UOZL6N9g==
 Authentication-Results: mail.galae.net;
 	none
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 09 Oct 2026 11:17:29 +0200
-Message-Id: <DM070UI0TERG.1A3WINVYE19HJ@bootlin.com>
+Date: Mon, 12 Oct 2026 19:15:22 +0200
+Message-Id: <DM312DDZ2DWX.2IXZ0C78337R1@bootlin.com>
+Subject: Re: [OE-core][PATCH] libsoup: add ptest support
+Cc: <pratik.farkase@ericsson.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][patch] python3: upgrade 3.14.7 -> 3.14.8
+To: "Pratik Farkase" <pratik.farkase@est.tech>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261008090135.1485765-1-vanusuri@mvista.com>
-In-Reply-To: <20261008090135.1485765-1-vanusuri@mvista.com>
-X-TUID: BVB7XN7/avRg
+References: <20261012095602.19261-1-pratik.farkase@est.tech>
+In-Reply-To: <20261012095602.19261-1-pratik.farkase@est.tech>
+X-TUID: cluclto/XKr6
 X-Last-TLS-Session-Version: None
-X-Rspamd-Queue-Id: B748311D7188E
-X-Spamd-Result: default: False [-4.10 / 30.00];
-	BAYES_HAM(-5.50)[99.99%];
-	DATE_IN_PAST(1.00)[104];
+X-Rspamd-Queue-Id: D510311D7188E
+X-Spamd-Result: default: False [-1.26 / 30.00];
+	BAYES_HAM(-2.66)[91.32%];
+	DATE_IN_PAST(1.00)[24];
 	MV_CASE(0.50)[];
 	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
+	MAILCOW_DOMAIN_HEADER_FROM(0.00)[bootlin.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_ZERO(0.00)[0];
+	TO_DN_SOME(0.00)[];
 	BCC(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_ZERO(0.00)[0];
-	ARC_NA(0.00)[];
-	MAILCOW_DOMAIN_HEADER_FROM(0.00)[bootlin.com];
-	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	URIBL_BLOCKED(0.00)[localhost:rdns,localhost:helo,bootlin.com:mid,bootlin.com:url,est.tech:email];
 	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	URIBL_BLOCKED(0.00)[bootlin.com:mid,bootlin.com:url,mvista.com:email,yoctoproject.org:url,openembedded.org:url,localhost:rdns,localhost:helo,python.org:url];
 	DKIM_SIGNED(0.00)[bootlin.com:s=dkim]
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 17:52:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247733
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 17:54:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247734
 
-On Thu Oct 8, 2026 at 11:01 AM CEST, Vijay Anusuri via lists.openembedded.o=
-rg wrote:
-> Release information:
-> * https://www.python.org/downloads/release/python-3148/
-> * Python 3.14.8 is an expedited security release and the eighth maintenan=
-ce release of 3.14, containing around 354 bugfixes, build improvements and =
-documentation changes from 142 contributors since 3.14.7.
+On Mon Oct 12, 2026 at 11:56 AM CEST, Pratik Farkase wrote:
+> Build the installed-tests via the meson tests/installed_tests options
+> (enabled through a new 'tests' PACKAGECONFIG when ptest is in
+> DISTRO_FEATURES) and run them under ptest with
+> gnome-desktop-testing-runner.
 >
-> Handles CVE-2026-19445 CVE-2026-19553 CVE-2026-19672 CVE-2026-15310
-> CVE-2026-15806 CVE-2026-17084
+> header-parsing-test is excluded as it aborts in do_param_list_tests()
+> with the current glib; the rest of the suite passes.
 >
-> Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-14-=
-8-final
+> Tested on qemux86-64 with ptest-runner: 34 tests, all pass.
 >
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 > ---
 
-Hi Vijay,
+Hi Pratik,
 
-Thanks for this upgrade, but we have failing ptests when building with
-musl:
+We have an upgrade to libsoup 3.8.0 that was merged a few days ago. I
+could try to merge the conflicts, but as the recipe did evolve a bit, it
+would mean the merged patch would be really different from what you
+sent. And we should probably avoid that.
 
-WARNING: core-image-ptest-python3-1.0-r0 do_testimage: There were failing p=
-tests.
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/qemux86-64-musl-ptest/build/layers/open=
-embedded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrappe=
-d_f
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/qemux86-64-musl-ptest/build/layers/open=
-embedded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrappe=
-d_f
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/qemux86-64-musl-ptest/build/layers/open=
-embedded-core/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrappe=
-d_f
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/qemux86-64-musl-ptest/build/layers/open=
-embedded-core/meta/lib/oeqa/runtime/cases/ptest.py", line 27, in test_ptest=
-runner_expectfail
-    self.do_ptestrunner()
-  File "/srv/pokybuild/yocto-worker/qemux86-64-musl-ptest/build/layers/open=
-embedded-core/meta/lib/oeqa/runtime/cases/ptest.py", line 121, in do_ptestr=
-unner
-    self.fail(failmsg)
-AssertionError:
-Failed ptests:
-{'python3': ['test_append_limited_history', 'python3']}
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/1353
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1341
-
-This was recently discussed here:
-https://lore.kernel.org/openembedded-core/DLUD1OK99YO3.1QPQV67EMZI06@bootli=
-n.com/
-
-Are you willing to investigate this further? We need to understand if
-the test is failing because an issue in python code or because of a
-dependency we are using in oe-core.
+Can you rebase on top of master and send a new version please?
 
 Thanks,
 Mathieu
