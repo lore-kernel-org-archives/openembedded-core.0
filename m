@@ -2,145 +2,213 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2C3CC6B0A
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 20:27:34 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3966.1791836850017089277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E3BCC6B08
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 20:27:33 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3961.1791836843813899989
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 13:27:31 -0700
+ Mon, 12 Oct 2026 13:27:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=RyV2JgmK;
- spf=pass (domain: est.tech, ip: 52.101.84.68, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=awjwmZjv;
+ spf=pass (domain: est.tech, ip: 52.101.84.50, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LuV8Lt0lWA/qSzIFpQhCOinZNdMrmMb712mzkTdpd9FUWUnwr6ST3FPjVmap/DcadKwG7cQAnSJRAMjoY/SFTr53g3tmemDAD3vI0QUGoLk/aTAtm2xtxYwo+5i1cmZ8X1CZecXTdo2pX6Fkpv+HtqFRoJMwNEbN+jf8ow359QfvsM4kjz92FDQ/B6ItD0sVUAd4Eqpp1JHsGSe6UxNMtmHtWJr4UmpY+Ecqlb2uAE+TZXF+bWfN62Fw6b6tUGB/b64kpwGgeehLMrqUOx4G9spmRhT/C/yCZXxz08hpEFcMS8sMLIpHXAZ0vX8nI3UaPnJ/dMnPltwSSpfRJ2ybsQ==
+ b=quVoQ72SJ3DBf6oqwHLJz6VoufXbAiCI2LjJCvkjYMWt8AepV7rF5RT36OGZpbKo4Dt/3xhDdI9GnMGakUweNGUsW9HpeSAMhvts6Us4Y+JD5T5SnjsDqH7XUF3+eAnLaO2/hDxc2tUnN+30K2vXydelDcuo/HR5IsUDbslY3FGj1EMwlzGa0Z5NEV29iZ+qSNRRLGk17+SlvyG+xMOxLm0YBoC0iLDW3sqPIIIrMmzq/nKtsQDgmP2evanua/m51Xo7OqS+eXSIocpuYGb3mEw9+kqE+Y/i1oDA9l/ePl9OYm/9KfYDeLH2YFnYh8bMbatzWz01QG4QMyU32gBHnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JZq+Wxmm5fp1123WBbL9f7cVHJnFsEdP4ltK0GFxcbo=;
- b=CtptR5Mzz4HEQKseEkyzDWll5zkm0KNDnOkf5n+AKdBt+7ML28DlmD85fpCzR3lmRiy6osYdHzP5GuRyd7mqwQljgCN9P5mRtc2PRHrnrLZz9YS7qLogcfigGi/aD5GvTnDVg/S3dTL6wM/0wYjNvT6rhdNtcDVxnDzloTUPtd2yw6QDUYW5VUu0NeFdmOpw0Ndco8TnHUQfQjhWRBCb1zDpwXTLSBvJH+3BGafkH8OUYFTYvbvKfc5206e/7hoJvcFLWxXwBtTZDdvt/5dWIrqX1c3GIyQy+mAqzZu9I5TKdIG0YjMXubP2Gp1NO8tgLTwGxRjANE7iNSD5/ieg3w==
+ bh=6niljhDoEEQiWWotxQCP7Re2fIl0LN5osTONHSenxyo=;
+ b=iKOOfOaHJiIdAvawAPi0lIOYuvZpSx0r6Rqh3YCu3iPXeNeDOBDJFeu6h9OSTbzApvih+x9/ogabFVwUa9ViimYHzlKTuHy1UmgnZR7l7xwgR/b2g4F8xlJl0e0n8B7Ej7D7wUZV0A3vemGhzFnqjIHv4qS93wFy4eZY7ayMReY3r3At32zOQLLrLG8aYoqIZIuuFYg036doKyJE+KAHZ7uFtQfFGsCKZa7SKtu8bq+0hn5j1S7gDKUIubDlpvXbINqf62TQ0JBqS1kSYn3KCxLyUFTQ6dW61rgZ70ux7/y/LBNbfhxScNxtH34cEJfftTMjyDWEQTYvgJh18RmkSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JZq+Wxmm5fp1123WBbL9f7cVHJnFsEdP4ltK0GFxcbo=;
- b=RyV2JgmKXBdYsDFxue4T+egu7SSuE29E0WpKpwbZUnZmfrQQA7UjuWRIqZdntbJX1NNI/UFfAicRcVTebVwOcYTZv0nbzGvq2wU+orIr/u9f0WCf+o1WC+AAHjDbX1oj4K5CptngBE2zFBZWPxSZhjAv8L0hL3Km7CXi9sSUFsVb7LQg/VRExv3E1r/0DKozGkvcozugfDG/dbG1jHL5SsvQRGu9OT6wqhSKTsK0K0kf8YIObuQPDAOsvaywK4+7cOabloVajvjzDMt7xvoMiZPsyS7KWnRleXrhz6m8neer/enbT8iBM4dCmXhwdzrXe7uQsu3xsRXPtLwtnsN7zQ==
+ bh=6niljhDoEEQiWWotxQCP7Re2fIl0LN5osTONHSenxyo=;
+ b=awjwmZjvEE+2yOou8+YVtgVLLSG5zwpuCtL2ScbU0C/+bOZW+yUTDyqHWge7klNKhogcv8k85ptjHaPzin2jLZEWREQfsP3TZ2lOi7r58MpL6jvuQuNqjJm1vGPRRBnhnVfgvq3hef0dfpzBMwiNvway3lXQd3kmZFZNWvVkLJmKdaUcHTcB2HGUDaGGNLZXklWnzlExXiDYX/PRGSHdFa/8Kp88NkB3bRMZsTeVB7TpcscFZLhlvwl/CO57ylFo50YOVNKpoVIJ6ySn+t8rK6ER2YAtgvJls3CuARmTUXPPMINeMv/HPQwgxNZEwJYrFQNmHNY4pK9+NqOgGFccDw==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by PA3P189MB3295.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4da::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Mon, 12 Oct
- 2026 20:27:30 +0000
+ 2026 20:27:20 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0496.021; Mon, 12 Oct 2026
- 20:27:30 +0000
+ 20:27:20 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 08/10] gstreamer1.0-plugins-good: Upgrade 1.28.7 -> 1.28.8
-Date: Mon, 12 Oct 2026 22:27:14 +0200
-Message-ID: <20261012202716.38597-9-jaipaul.cheernam@est.tech>
+Subject: [PATCH v2 01/10] gstreamer1.0: upgrade 1.28.7 -> 1.28.8
+Date: Mon, 12 Oct 2026 22:27:07 +0200
+Message-ID: <20261012202716.38597-2-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261012202716.38597-1-jaipaul.cheernam@est.tech>
 References: <20261012202716.38597-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DB9PR02CA0013.eurprd02.prod.outlook.com
- (2603:10a6:10:1d9::18) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZPR01CA0052.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:469::8) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PA3P189MB3295:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e1d92a8-c16e-4854-ebc6-08df289f3d67
+X-MS-Office365-Filtering-Correlation-Id: 520f57ee-d9b1-47e3-db5e-08df289f371c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|6133799003|12006099003|10067099003|18002099003|22082099003|11063799006|261009223027099003|56012099006;
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|12006099003|10067099003|18002099003|22082099003|11063799006|261009223027099003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	gxwXQVBzgZ97CgazsjH+nwoxEeJmxNRAJ8nizR0eC94c7CbFPtXm9+rpDk/Ipty4KPJIAa1iOHjy/0wd3WFQZ0Mvy9lY0JLxe6h7GXH+sJnKG2m0rC3wH1a5SEP5za5xq8L9Os2viiylNbVBVvY+tT2UthrYeB27SSa/ueQdTAKbaO/HDauDS+pAZR22fmFCycmGPzvgdWH2gFIzKz8OPLIh0VcfjC8L+7Rvne8sTRgJ++0lg9noPJ/05wQJuY4s2jUvbqmabjibD8q7WqsEHZJExNHPchbaVe4c+CKaf/VlZaO3N147Lol0MSxysJqW/nnMU4+oONetYVI2cvGDfWcpNOyg26aZRSYg8VxmVX1eLke+XuKn+u9Bw2lqvY6JgsEwewEl+YlOLP3fNLdLcgMcYQm8rnUjATuH8DdH/snHBWIRC5oy5/MOmhacQ1bz6NLD1zrECXZhBIiwZCNdqf/2DYEQZthPzAqpJAw6s3t7+mfvquBcbVvyW/9bKglbRZnnuZii4K4xYnh7E17GIDTMVVxfOvw3RkW0mewszB6zZL8dIfgaBMkPEcyoWBX+YBK+Ulby6IIwrvRjXekQEAcpTLh+qufbCrlqDb0Qb+c=
+	12hwYQAeTkpFxkWhFg6MkgugYwZCD3YEP9ep2qvoCjiud0Su5mfN0FhEeQLxEsKUqkpGdAZGLejtFeLyjPToOID9Hz1eQe/C4TV0AN7ZCAXgwigdsTrP1of0VPp4xdJWLhN1VcW3gfztGn7rVRAlxhnZt6sTGxP3/UMz9ttY9dTiHech7wZoAtEIFmWz/WfeY4XdmUxlYQwCnlbL57phh7RUo30oVZx7Yja3tLhGi8oeUpdVojmqAYVeu3svW4DpZHelIaZVY1OsjyVfC8L4ub2GsxJ7TMYJK43Ovey0XYygDs59oFK3TGuDPt0HJmQPbVyKB7zNBgIAkjArUN0oXMs6IFZ2EIzqbm4vFpifwpJwdwSqxSB0kO3YX7kKgfi9FFhlxb/aQqQz3B0SBzARIFt0WpTQ8co/Kod6DIlYPQWw3r5vA/ePshTQFAufDrkeIbe+kchvZuqlDpnyiaSSbA+C7qGKs870o2ekpyJSbYmMyb7Zhk+SeJ6FtxEw2WEfb9LPt1d3c/76lBv8IFDJngpHfFcTLxkmlQjFJWQ60bKTkm4aif7rJnZtZ9s8kDwsriCstTY9Y+Stx1CkG8NX0PutigdlM9c8uIrsmpzifio=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(6133799003)(12006099003)(10067099003)(18002099003)(22082099003)(11063799006)(261009223027099003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(12006099003)(10067099003)(18002099003)(22082099003)(11063799006)(261009223027099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?jbouc/6KPT4yYxZKCjxWilw3yIA/nE5IoNJcn3KZAJmDmCRqqrSjq/U+JxDh?=
- =?us-ascii?Q?Q9yNg8cln4BvWc1b8bExFGdtjdR+rANAttm2OqQC2LDFbsPEK9rInC+qDRyL?=
- =?us-ascii?Q?Hqc85xuBNP/vje/bJaxFOgspYiJILeBZGlBZuwN/5Ep6vQSJTyTDtgkuz3pZ?=
- =?us-ascii?Q?kIxd7D8fyOdC7AiSe+EBFqcvNLGOD7j0QvM9okgSMcAWIlQFKgK1oM5jMnbN?=
- =?us-ascii?Q?yziI24BPi0q4TxUN/D+K24qZEdOEEfUbw6bAiWqJWphWkrVZSSTn1BtocSvJ?=
- =?us-ascii?Q?jjpL+x20jHeVOOfLX0B0jrpJ4YHTRO3SO2HQ2mhl6n/oUbz9aBEG7bkfjT8G?=
- =?us-ascii?Q?QXoHGEPICeIrQ8VCRlVasMwC/9CpMBLmIuP8ZPg+731aBGRrbA/+x70IjIPO?=
- =?us-ascii?Q?tY8RztU6hCgtzW2v4V7LN6I5D2CxK3Mj5irYFEGcSg5P2hs4NMDHTeETipDT?=
- =?us-ascii?Q?Tgy6op9BjzaLkPpKhAHMpW6LzTM1lrMzB9BqKhR4mHNz/MsawDdNzV/KNzvu?=
- =?us-ascii?Q?SDX38Xdl9qLurxgsHHv1mIe52tU0FpGJ9b+s1r/GE2uBoUroJAEJMlHg8LV5?=
- =?us-ascii?Q?5c5/zg3NQAvmOnszLotV39rK3S+2aBsioKjtqhJuEuuBkHHSUcWLVHPY3SE1?=
- =?us-ascii?Q?1aBwMhuMwYZ8xx9aKlX3lhiF3Y97Oq/QwlAv55gqNNC0SQ+NbXP9+67hxfVT?=
- =?us-ascii?Q?m2dwQ/EVWa3i9daDr6U1Pn87h+AIZZ8axFiSOY1MFvH7eIbJc14TbsLRwNIQ?=
- =?us-ascii?Q?tHWsGbSWZw0w2SJIhF7OAQ9H15LEky2TXcBQxSqhm5lImHYbchqEVbG5ZSgq?=
- =?us-ascii?Q?w3InvGeDPNPoE7Ybz0EJIaKXrd8qVhRFKONldFftxp2PVC4IAd7PoVkW4S85?=
- =?us-ascii?Q?OAgYRIws75hTfsCNpGaHhNbMkGvqIQXM88ks5nBmYKbljFyYru/RcJcyvxH1?=
- =?us-ascii?Q?Vbsj627niv81bCtPRDMm/39y4WjHL2WbMsUrccC/evY1lvVATvpA+23EFZal?=
- =?us-ascii?Q?0VaCYkVI0V8nysN14L2SfY6aaPfh4GtVlj1zdnOrWLp55LYdUYBp1fqj4Hx1?=
- =?us-ascii?Q?XsHtnVYNoikK9Mdt2pnvkK6QvMxNEua/uJSunIBbAhuxBiyPFvtpV2I6MCPN?=
- =?us-ascii?Q?T8LpBIZUuBOfJRgtuifntlBTHux5lbCoJ7Lw2TCEsTFPwp2Fr8Dq9M9lGJV3?=
- =?us-ascii?Q?uzAwqau5ydPwYjfEbKOZf94ifij3EOKgmc5jVBPoTdA5aFnO/GZ48+WjBu5H?=
- =?us-ascii?Q?HxZP9vWtyh+ZvFcyc/3gL9FLQ5XDKFDEqSO0o0jLoE2UGxfhXBGcgpJs0nBQ?=
- =?us-ascii?Q?AyfZ+USAmfWonBmfqSmWcw8y44ApX9N0LFynxZf1P+Unw736B00vKQZehw4t?=
- =?us-ascii?Q?mwgdC5zA2NajUi6IFaRI/D1kiozdJ6i/tcGe7c7WNHkvVR+ERYeKPFbmJZJO?=
- =?us-ascii?Q?wWbirk0Yltr85gWxlLTpS256PiPS1giieOF2QasrJFRC6rMLAmmEGJM0k8PY?=
- =?us-ascii?Q?6L0OabcJ/dBUCGt1/VqxDr2ePa9Vr3l+RQZst4hq489sYFKQkWT8eqo7ESzd?=
- =?us-ascii?Q?tAbZgEllOJhIjS/mpkk1EWTGLEphTE50QEnIN+IEpbWi1msbr5cGKMU4MzUC?=
- =?us-ascii?Q?HlAV9wvV04j+XcM5KUVamUo6jiI52V6penY6Lr0k0++bC3LmQqB+x1CWGDc2?=
- =?us-ascii?Q?7UxTOvm/A4vjhZLHwp6qxy0dxBCXyh08WYUDR4wCRLkDAsIgPqooNi3EIv0G?=
- =?us-ascii?Q?z0/mH32S+Q=3D=3D?=
+	=?us-ascii?Q?8EVpo1rVsNaZEBpub/geCkPTIjnMMif+GFasvx/rF5iATw7NzWsI4UBdeCLx?=
+ =?us-ascii?Q?AmG5yV5TcblGAfdJjR2Nk/4ulzzMaWf/k9iX92XgiWTFIhWqyhIKPDIN9Irc?=
+ =?us-ascii?Q?qcRA3qyF8JMINvH+FV2OK7mVEQoQJymKQmpqshVUi7erhENER0aqWHmm2SoJ?=
+ =?us-ascii?Q?wLt15/bZikohPT229+etz7ncGdpX+Zsrvjv5xxmZLOkXAQS/zjsJ1AvCuVgI?=
+ =?us-ascii?Q?I+1hy0SQKgGSZMpMk43RhqLKfxUR86VszDZGYEaITBHDY1+m5Pq9k6CvEyhO?=
+ =?us-ascii?Q?Lfy0OMcB9o/IN8tOw5dFrx0vAwXuiC3w0OcXlYf5rijuOrt2fDq5QJCp7qSf?=
+ =?us-ascii?Q?AC/TE2OTABtw0euDlEeRo321iXMMXtISNPYrRxARo8jE9o9X3y0KqqJ5474K?=
+ =?us-ascii?Q?bBVoPYgwCofXLDjnNwbEo557U4QaQpGpzDOohxjrYk8HF0tmco1YWCQ91ujo?=
+ =?us-ascii?Q?uBlRzrZnzMHwJOYDu4lVGKA6h1lqBjrzu7UdQRTYlmPSGTxgmD/lUWm57IeJ?=
+ =?us-ascii?Q?PwRXmgYhbIF6N+8ClCL73HKg+ns63aKK+o9z+HUX0Mfo5fzLj1yONNlY3ceA?=
+ =?us-ascii?Q?+c6Zz7+KATLnvtCcwr8UpheGURz/hlci2vCuGRHMfExI7em2KroBB5vS4z6K?=
+ =?us-ascii?Q?BdVXOKkihrLi76U4lTw9DBSGWtf+zpYeplHj2lKQAMzUmH9cboY1iuSst4gj?=
+ =?us-ascii?Q?B3J2eaKpHjNLd1EQIudehADb8bFltjro9/q077HBHdqDgox2NmJwHwEscvXJ?=
+ =?us-ascii?Q?pvCtJib8CFhdgWNOJyW2jEAuDWULoyLD7EdME9bxovgHXv7s49pBDK2nIvEH?=
+ =?us-ascii?Q?TDtpp9LPo5L0vnygRw/lhmY5NohIw/K7q5fH/ER2rQrkFxQNinSnSNRWBYcg?=
+ =?us-ascii?Q?htEknDw8Eznkldx5PpGx9O0QMSLvLbRduDOL3BVjX36qIdHD0rxXMRA3kuhB?=
+ =?us-ascii?Q?c0fywzGdUIZBo445EV3OjdiH7H9A2ZM69HFbAwGE5FbQ1gDjnsdkcND2QTGk?=
+ =?us-ascii?Q?Jeqedec8nv37L+VbIfXbM2XZbXMVIkTvwF3X1bMAoAuvL7nuku6hluQSa7Tc?=
+ =?us-ascii?Q?UzCZuEhvXbgaj1lepnrXysB5gvkNmqTU7F8gEgnaEoaJwVwTyFNR7zbRhxWi?=
+ =?us-ascii?Q?p6ppY79AjokGISkwIGJRgP6Mja2o9+p28kiMVs52iE4jaLiM2nTMzwv3FWd/?=
+ =?us-ascii?Q?VvDcmkgITQWSY80nnYwD9Lf3Z7lqllbMHpRBKsHNF9NwLnMCZ30EzMSf1CCc?=
+ =?us-ascii?Q?eqEzPQfoCt8tzMBbRq1ldPZVeUiIGNLznQFoK6cPTiy7ijZGvCTn1yrcPvds?=
+ =?us-ascii?Q?D02xDs17ZO4jHHl9FBV4jdUkglBDOTiegpCTAxAJTcToAX2dCJAAKUr0JweP?=
+ =?us-ascii?Q?Qn0dR//woXsFbK2Y6HXJKzaWl5kYeUBbFObKR8F4ja+cT23JEb3zxMFGsr32?=
+ =?us-ascii?Q?UvWzX/d3B+9QY85Lz58eEsCmEOonkq4rBMbueu57Fl6mDSAC6bflS8Wu7TkP?=
+ =?us-ascii?Q?7SYblMSWf5oafPVoKrR729kGfYzttWN1PhHVBF2IN2WS6WDMLtVYX5WKnE56?=
+ =?us-ascii?Q?Xb4PVIFDGCcNNfcG9lM+VGH5/5cDXsGWBM8rtvccsvBv2Z1uwkaP2Oe+Wwxv?=
+ =?us-ascii?Q?OkLBXEnGsNUAzhUMVNstz8QhXC7H7NQiVtEs30Mcz7jDUtlAlubiyBRE2uDW?=
+ =?us-ascii?Q?CA+qrBzXxS/dgLk9Yyc3d4QW1/beDCCSXlz6a8EJCDM3jmEzPqG/xE4OYVaa?=
+ =?us-ascii?Q?vA/vGpXKug=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e1d92a8-c16e-4854-ebc6-08df289f3d67
+X-MS-Exchange-CrossTenant-Network-Message-Id: 520f57ee-d9b1-47e3-db5e-08df289f371c
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 20:27:30.5651
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 20:27:20.0449
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mm9shUess0IU2i8YShzqfcfEIx8dlnO2C/NfrSGfctHce1jtAwIkDfuAo2bcYuc4x5tuwtPwEQNQ9xxp5Rh1RkZRQd0eX5jHICNVK2Cv2cs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Da/52DGvqD2oxUqIRW9xNcGaFyBs8DkF3zZufkB1rv6kiDuI99V/cQn4VvOLbnOeMzAGsexMWEVfvS1ECJppa39Wczvwom9mMmILr4xILPQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA3P189MB3295
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 20:27:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247683
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 20:27:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247676
 
 ReleaseNotes: https://gstreamer.freedesktop.org/releases/1.28/#1.28.8
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...ugins-good_1.28.7.bb =3D> gstreamer1.0-plugins-good_1.28.8.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.28.7=
-.bb =3D> gstreamer1.0-plugins-good_1.28.8.bb} (97%)
+ .../0001-tests-respect-the-idententaion-used-in-meson.patch   | 2 +-
+ .../0002-tests-add-support-for-install-the-tests.patch        | 4 ++--
+ .../0003-tests-use-a-dictionaries-for-environment.patch       | 2 +-
+ ...4-tests-add-helper-script-to-run-the-installed_tests.patch | 2 +-
+ .../{gstreamer1.0_1.28.7.bb =3D> gstreamer1.0_1.28.8.bb}        | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.7.bb =3D> gstr=
+eamer1.0_1.28.8.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.=
-28.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.=
-8.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-resp=
+ect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreame=
+r/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
+index 61844d793a..aa5db13237 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the=
+-idententaion-used-in-meson.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the=
+-idententaion-used-in-meson.patch
+@@ -1,4 +1,4 @@
+-From 27bae0561a09f06375c6c6d1d3fec2a142a1ca20 Mon Sep 17 00:00:00 2001
++From a4d5aef324bc7e66d293cb500d077b18fdd7545c Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: respect the idententaion used in meson
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-=
+support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gst=
+reamer1.0/0002-tests-add-support-for-install-the-tests.patch
+index 9752ebe921..7b555352c9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support=
+-for-install-the-tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support=
+-for-install-the-tests.patch
+@@ -1,4 +1,4 @@
+-From 00dad437c119cd23883cbef35d2a620ccdf3816b Mon Sep 17 00:00:00 2001
++From 59403a0c5d2bbd3e00cdf4855f0a2d9761395e1e Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 11 Apr 2021 19:48:13 +0100
+ Subject: [PATCH] tests: add support for install the tests
+@@ -19,7 +19,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+  create mode 100644 tests/check/template.test.in
+=20
+ diff --git a/meson.build b/meson.build
+-index bffea3b..a51b1af 100644
++index 4abaad7..b08d43e 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -665,6 +665,10 @@ if bashcomp_dep.found()
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-=
+a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gs=
+treamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
+index 5637eff7a5..246292332b 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dicti=
+onaries-for-environment.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dicti=
+onaries-for-environment.patch
+@@ -1,4 +1,4 @@
+-From a686b15bf7ec5ca99467f138c57ebb17aa25c24f Mon Sep 17 00:00:00 2001
++From 9e728516ce60c128cb6666820e5449efc7bcfb64 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 24 Apr 2021 10:34:47 +0100
+ Subject: [PATCH] tests: use a dictionaries for environment
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-=
+helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gs=
+treamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_test=
+s.patch
+index eb14d519fe..bb08b116f2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-=
+script-to-run-the-installed_tests.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-=
+script-to-run-the-installed_tests.patch
+@@ -1,4 +1,4 @@
+-From e0290fc20f52ad7dfc21e8a572587ad826e5b32e Mon Sep 17 00:00:00 2001
++From 42225b4709aefdd3250be30d79b5646b2c0da926 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sun, 2 May 2021 01:58:01 +0100
+ Subject: [PATCH] tests: add helper script to run the installed_tests
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb b/met=
+a/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
 similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2=
-8.7.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.=
-8.bb
-index 027e7b34c9..7cc675faf5 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.8.bb
-@@ -6,7 +6,7 @@ BUGTRACKER =3D "https://gitlab.freedesktop.org/gstreamer/gs=
-t-plugins-good/-/issues
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
+index 0d1a931ced..01829ad778 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.8.bb
+@@ -22,7 +22,7 @@ SRC_URI =3D "https://gstreamer.freedesktop.org/src/gstrea=
+mer/gstreamer-${PV}.tar.x
+            file://0003-tests-use-a-dictionaries-for-environment.patch \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.=
+patch \
+            "
+-SRC_URI[sha256sum] =3D "787329b2c5758e228a71d926a6dcf960bceaacca3cadd63874=
+ba665dfcda013e"
++SRC_URI[sha256sum] =3D "baa8e86985ad6417cc0ad6e7b79ff2884c6779c8b1c7a6240e=
+7121822c86e524"
 =20
- SRC_URI =3D "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-pl=
-ugins-good-${PV}.tar.xz"
-=20
--SRC_URI[sha256sum] =3D "87256969c82cf3bc8574301f3e7044a90de0ac500a5a27d8ba=
-38c4dde894dd8b"
-+SRC_URI[sha256sum] =3D "a7670ed900d3d03be744d25c1873b239896e9a82ce6d17f8fe=
-bc6fffbaee9521"
-=20
- S =3D "${UNPACKDIR}/gst-plugins-good-${PV}"
-=20
+ PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '=
+', d)} \
+                    check \
 
