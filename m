@@ -2,152 +2,155 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5968CA9ED0
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 21:43:45 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.6])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5728.1791841416490910711
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 206CBCA9ED0
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 21:59:07 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5998.1791842339553847944
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 14:43:37 -0700
+ Mon, 12 Oct 2026 14:59:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=Ms6+WjHv;
- spf=pass (domain: siemens.com, ip: 52.101.70.6, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F9Aby052aRRcjALOmvpAncfbpZ2NhM2SlCSkDncr6VDxZNX/HdzlCfN7xpYuHiX7foZF48i0kZ2E5jqIcC21i8J0Mh32gQtSufOYtdcKqkRhHPv/lhtmJo6zAVa8GppNllr4f+t2HzSOSRV5n3J8YYV/i3RVI7A2Vs+/wdVCsPCpwO6ISpWmBOyYRyO5OPDyWm4oyvvIWcQnj2AHIJgZVRAz0k7/64oIPs2JJ9mLfvn/BOOstWx9c13uFC8E6ykTkIpaDgjBaascC9btlWvxqVag1lzzJGhEhYbcccvzsrJz57mhStnC5Bk1VkNNoA6BfXIN/HA/IwkVqio4+RQNYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tHkFYJDYJ196UdpR0FcbIsCNUD0SqFyr9TO7Su+JxCE=;
- b=DjviC4k64LxWcrPYcqsgU8yfbGGUgDBWRcWDXCQIi3rAr14oInIVDvPScH2TboXTO6bvJUV8U6kC4EOTXC64EfZ/lRXqhbKVvIin0GwRsbH2pJKfBo7rUwBA3x1om04S5BTSkcit/yBbcx3IYciDo6OD2iteVnnl09V2gazUNbD88ydYxAZDUucisFPsZ/oJcBaPmb/5nP2f7lMyMj7VUbCGpl3uapQUvVh0VGI6MEMrHgmZPmKs2fKYhmdfHumh8WTf7zdDHe2rnp0CXKc4NoRjCCiQX58oQ8XzvHJ48kvndVv4VuwAZCX97GwUqS3hr4PZ/zfJ3Z03b9NAC40zfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tHkFYJDYJ196UdpR0FcbIsCNUD0SqFyr9TO7Su+JxCE=;
- b=Ms6+WjHvZM0uVHhjgiN9tJPG/eYLh9/R5Az1MHU/9QGgzThlKmQwD1fH907xDZ8h918r/h+9IWMggArjr+oPGFAg5GIjDWn1DGG6qhgzWBahgveBALXnA9D40U9Kag2YFTj5J/v43dMV0cXYqxU23uxibsOy8Ss3hyR5XNk+qEVYXb51QEyHxg6of8QQH+a0aqFVAXsA/WjvvTU9hJ2Mv8tyjJ9EI43HSq7pGm6M6cOdJn9dp+ekbAD44XAhZUaYfG3V48LRHkcdP38xCJxg4LGyW0qfK21UTPxnfUR01n9+ImdONmXYUbQ1zt9KBdrWiKtd+JbYlzOYIBECTWiInA==
-Received: from AM9PR10MB5082.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:435::23)
- by GV1PR10MB6009.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:5c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Mon, 12 Oct
- 2026 21:43:31 +0000
-Received: from AM9PR10MB5082.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c5a:f9c2:dc48:6388]) by AM9PR10MB5082.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c5a:f9c2:dc48:6388%6]) with mapi id 15.21.0496.021; Mon, 12 Oct 2026
- 21:43:31 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [scarthgap][PATCH] glib-2.0: patch CVE-2026-15588
-Thread-Topic: [OE-core] [scarthgap][PATCH] glib-2.0: patch CVE-2026-15588
-Thread-Index: AQHdUzOCBWtQrOLTgEaNEeGNO5l/Fbb6Gu2AgABkBYA=
-Date: Mon, 12 Oct 2026 21:43:31 +0000
-Message-ID: 
- <AM9PR10MB5082FADA7C00F37CEC605767FD9F2@AM9PR10MB5082.EURPRD10.PROD.OUTLOOK.COM>
-References: <20261003123400.235082-1-peter.marko@siemens.com>
- <DM2Z5BIMBVKM.3FWEF1MP2Q9FH@smile.fr>
-In-Reply-To: <DM2Z5BIMBVKM.3FWEF1MP2Q9FH@smile.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=b50f51f8-bd36-473a-a0b2-56dead3b573b;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-10-12T21:43:09Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR10MB5082:EE_|GV1PR10MB6009:EE_
-x-ms-office365-filtering-correlation-id: f25cceb4-b4df-4c02-3853-08df28a9dbe4
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|4143699003|11063799006|38070700021|55112099003|56012099006|22082099003|18002099003|261009223027099003|10067099003;
-x-microsoft-antispam-message-info: 
- TyM8JkkuSgS6IjM6R3zOhYnC+V1bb4xJJNaT3KXzm9JkajLZ5WiUW63hMMWbOLBESphxPvLQUyp7hYQLlzInN7BOgNYsKM2S6d+Z0PmAadOfwPrIYX7eNBCdP48h4Qvma2n45jEIA8u3D/2YewI3xdGe+92ErLXmH585EIQLraMLaK8Nmn87H86hMiNjuEcwAvWGB00ynAuXh5pEVoCNRiOOqCrtm1gK3T2qRvBpDkRtxRcBAxF1rbX+8W0FGwqv4MobyG/2yorqAIcr6e60OmuyiSF7j3HS3ylWAy7eT2/P7pLkUtfM7AIYJ6YWlS2dpZ0DsJ/AFejnKnEcpqmG0sOPkKQ4pdu+bkmGnxhPMPE09a5tpDeRL96M0bLhzZYrq+Zu2f0dP5iR8a1Pz5qKNEo/3a1AEX7XPTevYDMWx+ojgC3FgzoipAnha6M7GeGSqcp/8ASxWvdTKEJRvnyZb+Sf57pO8+3GNPjJ4okyXpwIh48IC5igqSnHlXcp+/YvKcSbrlSpQ/hJjCr/0lemcUuwekbSeWzp+k994bIQvJjfnUc20AyDFodbFB7zXveFzEvWt+UveK+gCGMrTt0kYiT4758JTXE3CdSoODmeqZc2yfAVYOoTcMUGT/26LTGj4MjTnSzYUUISmLhsD1+WvPpS28LLvK2lTy5JL+OHK4c=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB5082.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(4143699003)(11063799006)(38070700021)(55112099003)(56012099006)(22082099003)(18002099003)(261009223027099003)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?aG45U3YzdGVmdzlGUXBseTJoS1AxcTEyYm5mL3BZNjJyVE9NZEw4MXliV1Bp?=
- =?utf-8?B?NTZmdUxwcDcvaFVTVWg1K1dSbVJYemVkSTcyYWhrVURleGpBZGd2N1AxMUtU?=
- =?utf-8?B?Y3pBYndFVlRQdmpvZUdNUDQ2ZEJyVVVnWUxyM1BPREpYRVRaMXVWR25tVTNj?=
- =?utf-8?B?RUF0V2xXdGc0VG9tNXlQTCt4OVZvQkt5SFVJOHJ3S2dEZWZIQUliYUxrb2py?=
- =?utf-8?B?OG9CS1h1NjZCVzdoQXhGM1o2MmVxQ3NoNXZuZzRvU2F0RUJvZE9GM1NqOFR6?=
- =?utf-8?B?TTVRVnhQY1lxSjlsOVVuRjk1aC85cGdVT0h3WHN5ZzhUbDFpMUIzeDE5Ull5?=
- =?utf-8?B?Qlg4YTVDUi85YnFVaDFwancvTHlQSWpUVWZGSjhiODdtb1NxQ09TTmRjNXFE?=
- =?utf-8?B?UHlpMEduU25PdU4vNE5obXRnSzRGNmx0Sy9QdkJxVDRsSnAzUHBaVkdLK1U1?=
- =?utf-8?B?NUlCQkgrMVlRcklDQXE2bW5nRURycitTZ042dUhuNTZGbWRqdmRwS002UjhM?=
- =?utf-8?B?SmM0U0xGdWxxNFFpck03bTZ1OG1qUHd5VUwwRjVGRUdwQjZFS1QrMFl4K28v?=
- =?utf-8?B?b3dBVTVsRHpReGhwRmFNbmRCVHZnT0d3dWEveFo1UDBEVmQvYUNoUlhzVW9z?=
- =?utf-8?B?aXBUZGNyMzFyRUZoc3h3OVFSZjI4ZHRmMlVpWXBVVWNsU3FRWkRwNkEwWnZT?=
- =?utf-8?B?T1ZYcmx6V3dkT2luMm1BNzBGSFRHQkExdGtLZnQ1UXNJbzdpZjNvSGVrdjZX?=
- =?utf-8?B?b3hTWVRsUVFFWG9zVk1NQllLUGpmYmVCWUdBeW5hVi9nZHIraHIvc1dpOStB?=
- =?utf-8?B?NlJUei80anhZUHI5VzJVMFJ4WThMdGV5VFVLYkJoUHQ2d09NNkdCSmkxQ2hm?=
- =?utf-8?B?SUFjVE8yZG1QME8rWmxtL09rK09hbkJVMng2T2M5YkNpZkNPdy9pcWtzcmVX?=
- =?utf-8?B?bm5rTjlWbmh6SmNFc2RUWm5PeFYwZ1Q3dkRvZldVT2Y4dXFCbEFNOFhTM2N4?=
- =?utf-8?B?N0dzTVd3U3hYd2FUUjdNN3h3VjBtOWV1M3JmdGdqSGNUU2w1aldLYzUrZlR5?=
- =?utf-8?B?MTVMZTVISUZFOXF4cnFnUFpUZEZ2L1BTTXdJSWMycVJIQ1ErUU1RbXhkYVhV?=
- =?utf-8?B?c1lueFNGL0NlamdzWlpzZ2lUMjNiMHJRdXFMQjE3L3gzekpQYUtTUmVmT0RQ?=
- =?utf-8?B?WkpJYTZzNmRQYUZhOWxocVJBYmZvelB5a1c0RmVIK2NqYWIzb20xWVJydHVD?=
- =?utf-8?B?UjM5SnNzK1dwTkV6Q1BOUVFPdndMaTlPSmxMOGtmblIyMFd0S082RkQvaCsw?=
- =?utf-8?B?Y29jdUVtbUZmMkM2V0ROZzVXUEQyNm5ISVZZb1k5U01PbkZHdkw5Q2ZDTkNa?=
- =?utf-8?B?dW9UNXV6bTFWMmkzeEduTzJ3QkJNcXIwd0xmdnh6am5tb3NwUmFLUmdJSnhv?=
- =?utf-8?B?cnNiRm5KT09LZG9kVWF2azVXcG8wUXdyZ1U3NWpEMnFXUG9lcG5yU0tweGNp?=
- =?utf-8?B?YWwvWU5JTzBzcGl5QWFodXM4TTV6RUh2L0NSUThQNjRpUkdvd0pZMjVCeTdK?=
- =?utf-8?B?OHVNaENXL2xKb3VLdlZyUWN0RmRwYUtTdEVIN0F2N2tFR0hiZk9JN2V2QitV?=
- =?utf-8?B?STZtT1M3c3lkSWNMendWRnh6QXg4bWdldTBMRitNYk1ZZlRBa0UrNUhyOU1E?=
- =?utf-8?B?UEk4WmpNc2dveHkzOG80RmRQS3BtNU55NnlwT0o0TlF4Uk1INkJZUkFoYnA1?=
- =?utf-8?B?VzhocURGR3dpdG1UWjF1Tm5aeWJhQ0Vac2cwRGRFWFcxdWoraXFCR2tYazNC?=
- =?utf-8?B?enlIaGNJRm9kTkdFNEJPSy9CdHZqUWpTZWFkSWpINk1RVnpmZXVwaEI4K2hT?=
- =?utf-8?B?bWp1blNXSlc5dTNwVVE3RHQrZ3lZUUFWUmdsY2tDWXQ5aDRzVWRKVmdmdEsy?=
- =?utf-8?B?NmUra0Y2TkRHOEhRYktXak1WTG1wZ0V0aGo1RGFabituK3hRRFFZbXI1a3BC?=
- =?utf-8?B?VWF6dFcvNjV3NzdzVEx1TWphZjhtYkl1bXo0d1J3RjFUWkFaS0FaUWFOQjR4?=
- =?utf-8?B?RllsTGx2Z2JDZ3VwVDhxQUdNU1lJbzRScmJHd1krQWltZkJTREdLMjlJVUxy?=
- =?utf-8?B?cDNPQkQ3OUNEZ1NvRWtpWWFGTFdEUGoxT29aZTc1RVFmMUxjUUFVNFhnbW8y?=
- =?utf-8?B?NU0wRmFJLzZzME1LZk1UeXJsRGxSMm85YVljakg0bFRSY0xXbFVyTTh1N0o1?=
- =?utf-8?B?VkZLRE42dGFCaUlwTEdNU25PZ0pweXpOK0l2QUlhREFaemd0cDgxRlhrMjgy?=
- =?utf-8?B?cFJDWmg1ZnJXeVZyVFI4QjhZUG9NWE9kbWx1Z1JoNnRiVTE0QlQwUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=gEI/r4r4;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202610122158560511b1f02a000207d0-xqrai0@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202610122158560511b1f02a000207d0
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 12 Oct 2026 23:58:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=KfNBtP6gWaZPnjNWnmdTrwKAiNpwnsc04jLEsY2vKAQ=;
+ b=gEI/r4r4gGMpDxJGkBSH7Ixfu8PI74K+AMXSbgbsLyWCxUgi4S8Z88B63j0ILtgtNCXBIK
+ uoNmuUQE4Ras6lyW6EGoxcTiquHo5nA1Zv9VYQ2l+s28+ls/wELTa43JV2SPItIJr4Z+fIhR
+ k6Skc4cCe42ctizM1vm9ZNHwFYltkw1qHWxqHg8hZ7nZ/rYYp66LuwyykiX3fXyWuGgOZ8kS
+ TBkFbR+J031Hn1gbVtTVVW7q+J3cNXDoKLzJDFGaYetVtTxBDKMDdjjhQGqoUZcF+M8+UZ7g
+ Mv2PD+b8KqNqR3NUPnpKCctqKzeXTF6KcnoMrrDnMakqDvjD2lAxNr/g==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>,
+	Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+Subject: [blacksail][PATCH] gcc: Fix for CVE-2026-102010
+Date: Mon, 12 Oct 2026 23:58:44 +0200
+Message-ID: <20261012215845.3847419-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB5082.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f25cceb4-b4df-4c02-3853-08df28a9dbe4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2026 21:43:31.2567
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mE46QPhX0wXreosj9hQ/uxc3IpdJZ23gkuIoDLHN6Mkk/PjWpMLQLmspXOEGr0mglKT8QdPsMZODrhnEGwYjWQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6009
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 21:43:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247691
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 21:59:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247692
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWW9hbm4gQ29uZ2FsIDx5
-b2Fubi5jb25nYWxAc21pbGUuZnI+DQo+IFNlbnQ6IE1vbmRheSwgT2N0b2JlciAxMiwgMjAyNiA1
-OjQ1IFBNDQo+IFRvOiBNYXJrbywgUGV0ZXIgKEZUIEQgRVUgU0sgQkZTMSkgPFBldGVyLk1hcmtv
-QHNpZW1lbnMuY29tPjsNCj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtzY2FydGhnYXBdW1BBVENIXSBnbGliLTIuMDog
-cGF0Y2ggQ1ZFLTIwMjYtMTU1ODgNCj4gDQo+IE9uIFNhdCBPY3QgMywgMjAyNiBhdCAyOjMzIFBN
-IENFU1QsIFBldGVyIE1hcmtvIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IHdyb3RlOg0K
-PiA+IEZyb206IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0BzaWVtZW5zLmNvbT4NCj4gPg0KPiA+
-IFBpY2sgcGF0Y2ggcGVyIFsxXS4NCj4gPg0KPiA+IFsxXSBodHRwczovL3NlY3VyaXR5LXRyYWNr
-ZXIuZGViaWFuLm9yZy90cmFja2VyL0NWRS0yMDI2LTE1NTg4DQo+ID4NCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+ID4gLS0tDQo+ID4g
-IC4uLi9nbGliLTIuMC9nbGliLTIuMC9DVkUtMjAyNi0xNTU4OC5wYXRjaCAgICB8IDI2NyArKysr
-KysrKysrKysrKysrKysNCj4gPiAgbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjBf
-Mi43OC42LmJiIHwgICAxICsNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAyNjggaW5zZXJ0aW9ucygr
-KQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xp
-Yi0yLjAvQ1ZFLTIwMjYtMTU1ODgucGF0Y2gNCj4gDQo+IEhlbGxvLA0KPiANCj4gSSBiZWxpZXZl
-IHRoaXMgQ1ZFIGFsc28gbmVlZCBhIGZpeCBvbiB3cnlub3NlICgyLjg4LjIpOiBmaXggaW4gMi44
-OC4zLg0KDQpEb25lIHdpdGggaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVt
-YmVkZGVkLWNvcmUvbWVzc2FnZS8yNDc2OTANCg0KUGV0ZXINCg0KPiANCj4gUmVnYXJkcywNCj4g
-LS0NCj4gWW9hbm4gQ29uZ2FsDQo+IFNtaWxlIEVDUw0KDQo=
+From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+
+PR 127656 use-after-free in libstdc++ pbds binary heap erase_if
+
+After reallocating the storage the m_a_entries pointer is left dangling
+and the new storage is leaked. Update m_a_entries after reallocation
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2026-102010
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=127656
+https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6
+
+Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(From OE-Core rev: afc275bd17dea41c2ea6a5c73c697052c2df4e38)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-devtools/gcc/gcc-16.2.inc        |  1 +
+ .../gcc/gcc/0026-CVE-2026-102010.patch        | 71 +++++++++++++++++++
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0026-CVE-2026-102010.patch
+
+diff --git a/meta/recipes-devtools/gcc/gcc-16.2.inc b/meta/recipes-devtools/gcc/gcc-16.2.inc
+index 818dea8ac5..3497493619 100644
+--- a/meta/recipes-devtools/gcc/gcc-16.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-16.2.inc
+@@ -74,6 +74,7 @@ SRC_URI = "${BASEURI} \
+            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
+            file://0001-mapper-localhost-might-not-be-known.patch \
+            file://0001-Fix-check-for-working-assembler-gdwarf-4-option.patch \
++	   file://0026-CVE-2026-102010.patch \
+ "
+ 
+ UNPACKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/sources"
+diff --git a/meta/recipes-devtools/gcc/gcc/0026-CVE-2026-102010.patch b/meta/recipes-devtools/gcc/gcc/0026-CVE-2026-102010.patch
+new file mode 100644
+index 0000000000..407119c076
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc/0026-CVE-2026-102010.patch
+@@ -0,0 +1,71 @@
++From aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6 Mon Sep 17 00:00:00 2001
++From: Jonathan Wakely <jwakely@redhat.com>
++Date: Fri, 25 Sep 2026 18:14:34 +0100
++Subject: [PATCH] libstdc++: Fix use-after-free in pbds binary heap
++ (CVE-2026-102010) [PR127656]
++MIME-Version: 1.0
++Content-Type: text/plain; charset=utf-8
++Content-Transfer-Encoding: 8bit
++
++After reallocating the storage the m_a_entries pointer is left dangling
++and the new storage is leaked.
++
++libstdc++-v3/ChangeLog:
++
++        PR libstdc++/127656
++        * include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp
++        (erase_if): Update m_a_entries after reallocation.
++        * testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc:
++        New test.
++
++CVE: CVE-2026-102010
++
++Upstream-Status: Backport [https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6]
++
++Reviewed-by: Tomasz Kamiński <tkaminsk@redhat.com>
++Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
++---
++ .../detail/binary_heap_/erase_fn_imps.hpp     |  1 +
++ .../regression/priority_queues_erase_if.cc    | 19 +++++++++++++++++++
++ 2 files changed, 20 insertions(+)
++ create mode 100644 libstdc++-v3/testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc
++
++diff --git a/libstdc++-v3/include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp b/libstdc++-v3/include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp
++index 2e70ed5c663..80d2cccbbf0 100644
++--- a/libstdc++-v3/include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp
+++++ b/libstdc++-v3/include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp
++@@ -121,6 +121,7 @@ erase_if(Pred pred)
++       entry_pointer new_entries = s_entry_allocator.allocate(new_size);
++       std::copy(m_a_entries, m_a_entries + left, new_entries);
++       s_entry_allocator.deallocate(m_a_entries, m_actual_size);
+++      m_a_entries = new_entries;
++       m_actual_size = new_size;
++       resize_policy::notify_arbitrary(m_actual_size);
++     }
++diff --git a/libstdc++-v3/testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc b/libstdc++-v3/testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc
++new file mode 100644
++index 00000000000..30b8452eff9
++--- /dev/null
+++++ b/libstdc++-v3/testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc
++@@ -0,0 +1,19 @@
+++// { dg-do run }
+++
+++// CVE-2026-201020 use-after-free in binary heap erase_if
+++
+++#include <ext/pb_ds/priority_queue.hpp>
+++
+++bool is_odd(int v) { return v & 1; }
+++
+++int main()
+++{
+++  using __gnu_pbds::priority_queue;
+++  using __gnu_pbds::binary_heap_tag;
+++  priority_queue<int, std::less<int>, binary_heap_tag> q;
+++  q.push(1);
+++  q.push(2);
+++  q.push(3);
+++  q.erase_if(&is_odd);
+++  q.clear();
+++}
++-- 
++2.49.0
 
