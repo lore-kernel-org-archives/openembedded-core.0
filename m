@@ -1,141 +1,141 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 255AECA9ED0
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 11:53:53 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11542.1791806028360669853
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D1ACA9EC5
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 13:04:43 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12624.1791810280858874866
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 04:53:48 -0700
+ Mon, 12 Oct 2026 06:04:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=lpZaEYIV;
- spf=pass (domain: ericsson.com, ip: 40.107.130.50, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ySuAPs05rnh6xZep5Yjo+GojLVHFUpvBpgS4+NUB3s2Tbi7U3ANgU5LBm3Te7QKOucjO2TH9i9aYExBlBu4m+UGcg3tErycamu5UvxSxwyeanhhogB9i+PWBwARmGG3IU3tmsLBmr440y3Q+gBg7iSYFTSeXKLQWgqB0MtsdDj5GIu94trT2knI3K1zZ46U2oUBVJTun+H3MfdraVnd6ZwNlS4Cz0PcvIlN5G6ZMJ5kCxcHHKHxOrhe7VLu1Srtc7vISag3z1CZLLfmRFqw79/sEdC1Lcg6HgBx1RRBscVQJCyRsRWvCfIXJJZz/VrohCzpANuxF4frKWaRL/yYuKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b7EfrB5X37dWayq88Eqa9sWYIr4qXtfB/GbQvvDZmaU=;
- b=rSljUR5vEaVPbTWZ/4tYdAXpq28UhJX290e0vez6TQCjGcTwFGE+gOc2gV8bWbPyMJ/XS8sk/NS6ZJwsgHFKAN6AY8G08p5MenVGQ7sdxQ5/xqW+JrTdZJ5Hrsm7cgM5DDUhXYsqfhPsnB8djguvR81xljDcMXFwklSrw8oRFb92/o7TovbEZR++IfYaWPLJ7jStX61vVlww5risI2366iRC/g4NKVl1guD6eXvJ1FAXMnwb73mwwTWtdtIU3w5DnpHXepjnHjiLf6hQKvraJXoBY6kOi8ymmEPN2pG09A5R4M7STRLruVwvqAzWjRwbieD32PuPVEBYujm0XnhKTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=bootlin.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b7EfrB5X37dWayq88Eqa9sWYIr4qXtfB/GbQvvDZmaU=;
- b=lpZaEYIVc2gJjpwA8Ul+IDzVkFgldXcTPaXzurpgeIMlv9Ih+IvtlYwr7Z0WG5w+M9xw2u+qaaVPzeYkzoIeTjIOT3IQt3Wq+kzjrBDVDthzy5uG5a09d2RStbbtsFHAlzF0vUeSNn64NWrH9qUC4r4grJ1j89av47ygxH/7lDvDzEY568StPdPQb/n25kr3DPSHiIom6iOu0/e+aouUYzVFaBGQlj4qGv6Kq45hNahrjIyU86V3wSlgj30ivAxKzoThCds5sFlrSQpZG0lG83qNPAU+MlPAC//95wmnI6Sex1MP05O+II8H/nNNl52vse9WyPUb4VZaLiAOhhx3ow==
-Received: from AS9PR06CA0752.eurprd06.prod.outlook.com (2603:10a6:20b:484::7)
- by DBBPR07MB7675.eurprd07.prod.outlook.com (2603:10a6:10:1e8::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
- 2026 11:53:42 +0000
-Received: from DB3PEPF0000885D.eurprd02.prod.outlook.com
- (2603:10a6:20b:484:cafe::a3) by AS9PR06CA0752.outlook.office365.com
- (2603:10a6:20b:484::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Mon, 12
- Oct 2026 11:53:42 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 192.176.1.74) smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB3PEPF0000885D.mail.protection.outlook.com (10.167.242.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.522.6 via Frontend Transport; Mon, 12 Oct 2026 11:53:41 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 12 Oct 2026 13:53:41 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 4809C4020E5F;
-	Mon, 12 Oct 2026 13:53:24 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 17C46700E7CC; Mon, 12 Oct 2026 13:53:24 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <JPEWhacker@gmail.com>, <mathieu.dubois-briand@bootlin.com>, Daniel Turull
-	<daniel.turull@ericsson.com>
-Subject: [PATCH v5 1/3] classes/base: exclude __CACHED_SOURCE_DATE_EPOCH from task hash
-Date: Mon, 12 Oct 2026 13:53:17 +0200
-Message-ID: <20261012115319.1704048-2-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261012115319.1704048-1-daniel.turull@ericsson.com>
-References: <20261012115319.1704048-1-daniel.turull@ericsson.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ft7GoJY7;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-91b55859245so33455126d6.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 06:04:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791810280; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Yq91ZdTkTnvjSN/cTlneA/LPe99i6tn/2fsguEZtIuYGVFug75kZEwPrljWjLrvDzK
+         NeE2JlzUvoR6B33/N3RrHhgeVsZ3JJyPdBBnAu9cXG6oeNUx2KWfYLASHzTS6xHpfPFm
+         Gnkmu8BKACSfeJfH229FQA7kta55LvbxXHhAPWr60JeV0pdW3oFoqjgJXov0406fMldI
+         o+RMMv3/RPZmVY3YIKkc+l9VgKM08LQ0WOA133m+W1mK5JryESeNXZwaf9Z0y4UoYNQ4
+         9kMaS/DweyDBYis+T1gfXpVp/4/Rl8NQC4Z1V5JgJYup+iTul3IPHdLH63qhbms1WTOj
+         ky8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=5r8583vtzN/Q9VqaaI0t1S8UF0Nx/KunJYqUvCM0flE=;
+        fh=0iqoBJlOrkZ2+Jga7DlN61sJI371FuApCqqkKjY4ing=;
+        b=rDXG0pYf8kF3mJm3+mXve+RJcrUc3kvL1y0vi+ZpLnXyeRM4/jkv5lq0cUHLGxJwDx
+         I4SAx0G6XtPaGFKctmtCkCYURZraM0kLXJINMLTTwDnAHe4WXpVT7LUJrOJT511q0C3b
+         i38svp4MT9pZvqc5TpAOBYMMV8380gJ9LohD7HdhogWHVzZhmJZ1Yydfs3YRFlLTo2bi
+         cWJ4uXAR0rtGRBwVx1AvSgDPPwxMcu6CIDJszLjgT+4P4wQqmGdZw57KG5iMDZ5Wsqqv
+         zo02Q8/B1Ik5ZB4LdWuq+gcri0IIgFkgesJ4XFpoT5tCJWSTmM5O2qGXkC01jyX8WRUG
+         phKQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791810280; x=1792415080; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5r8583vtzN/Q9VqaaI0t1S8UF0Nx/KunJYqUvCM0flE=;
+        b=ft7GoJY7WgiZejNtiWiDAbYjFSIeKxp4s96VdtvrEQM5mYmkRGSvLyUvtNb3RVrz5O
+         EU2ZJN5VNnXGXNYx9paaigMr0A60TNTYuoc5e1Ez2hxpnZJrptlJmJ30A7foCkFvdhBp
+         4bCnYW7TPDelSz4XXtxtCp+knrOm4zoQacvoNwgSOeO05/zo7Jl1m1D8RkvXv4C3/t3q
+         4V2vxDZjxcli+1xcGWo307LfQthinaCfylpFJio0tc2gftAEqvanHfg/XoR2o/mUVa2c
+         nMmN6CW96O8xYErXmnlLx7E2iF03a8OVBjQIXTZZTxHksRst833hjI84TKUFGyCewkAG
+         +2/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791810280; x=1792415080;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5r8583vtzN/Q9VqaaI0t1S8UF0Nx/KunJYqUvCM0flE=;
+        b=ZAxJWLifHtJGvOmyy4YTELts5ScQdurjr1O0jO7DoTGGimsKhMqJ9vmLaA1oyq4ZKQ
+         xcngXrulpMOKtVDN53a2i+EZLgPwrHnrRQ4VjhZarDBlnBGzgYdXeK1up3vdHVSJshUu
+         Bl/QwCXFF+sIQRAS9vyPSSBAMhZn7GJ1Pv5mmSvkGg+TuOhE+0Ln11xQ6mXmkndBYl+m
+         SUeudDB94/10WVZ93V0cPcRH5O1gdPjoTncm1c/0EQBaglYBxH0plIaapkcfqTHPSD3K
+         Kq1oEkciuKQtcvqRm8SP27fxajBY5yrvjRxhSydvZQsSP1tRqCp38iH+c5HmTsRAz4MD
+         lOEA==
+X-Gm-Message-State: AFq9FYJNEk2ykRt75RM7dHphLkUmsd9ZiLbnUFN+2mGVvsY3JFVKXIUa
+	biKLQVxtVi2Dz5mFpKs+ptElJA732K9c8/e4S6JfMp6Sp4K9knlJT35Luvzf3c9S8ZUu8rRTdS7
+	hiOEzg2VryGTB49FK4kOcZQoWktYNfuM=
+X-Gm-Gg: AYBFou02tHsZjnOshZ8wtcln/b3Lhy0SLeSMcWO2k4UkpFhjCE2qkgTRmOkxuwvj7PJ
+	qgGEU1Tm2tHLT+62udpSyuDZxQ60eb+0aLaknNkFceDE6ehyweLr5ARBDM30nQkH0w1p4ynfpro
+	8ScL0i83CglgmUSsPfvod2EqbejKcPA8sJYoHqvRxdN4BbfXsGWERme8vfDcDejGPrAFAjU0ymd
+	l1C7C0yznJO7OKduORn514bmrtKvLY1lcn+Xrt9CmCOdH0vR0UpAoCPEBUNCBtyKALVlGQEOVS4
+	BfxjLbROBYckRYFZ4GYiv2HmUjZAYikFfV7ZdyKBEvpU3WegTOYEL0xvVvXoVCu62RAbqNPzv/x
+	r6X0gjoif3EWwlg==
+X-Received: by 2002:a05:620a:a0d2:20b0:93e:c12c:f144 with SMTP id
+ af79cd13be357-93ec12d0787mr1030500385a.78.1791810279472; Mon, 12 Oct 2026
+ 06:04:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PEPF0000885D:EE_|DBBPR07MB7675:EE_
-X-MS-Office365-Filtering-Correlation-Id: d2398daa-4a93-4c5f-d352-08df28577639
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|82310400026|36860700016|56012099006|11063799006|261009223027099003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	zeCfVdWDtd3FXFIEhDsdqljxyW3C23UxHev5laAJGUUxxNoXE3pWVqKxMb2197SQ10T57VPfiOdyvnikJNuF0xMtBJ7Sl7MgnR1qyxQcgpAPlfpz3ZwcIaDZUE/ntNEBUdfEhRVhMq4eJzB5bMYxLrUgYcBSTqCfaUYROi++JEgPjT5O0gtQK7AmrekJ7HIgoMujrHtfprWKjo6EOBwCPpQTQzvWjMspmU+BXDAywrJ9xEI2NFh6aeiXVppk/YiAGjAN9qm9GblgjMF086bvtk0AbsGFGDPnjS4wFe0vcDC1lnYsR0Ak8P3DaY59tIEiLq1/pKIsihgBoJ12Oa/ConA02GcM6BSzpTTyvKszJHFXJWp0no5mSdXYqm7hxiJC5iCZrMzsquXWjhyjn0kz4e4rK2XlalrWXv6EYnEf/A6RVi3kkbXpMND7n1fZPfZwTwfFadppOXodz9cXdU8chKCOxrK64Qt1lmsmTMktvr/t/eRlrZQg3QO4zJKOS8J0yk6HURH1r9fhkf3KFvB4DMs1jPGQzgW9D6yfUsPuy9x30v/OO2FeejqWEE+Xl/17qcSQdDWxvzsVat9/003oABtA1/ugt/H8/Io+Gv/crJClJZWtxZU8FAIsuCb6oS0kKUUpARlV1I17m/TCzFKmXX3p4oVDecjxiPiu+HOtURego1St0MQELVbx9ZQa3CAggaVWkwlh5Sb2FJSRuPK6RA==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(82310400026)(36860700016)(56012099006)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	2lB8K/fAg2eLX9kYBUKE2x/FTphjxAd+WiqwmhlS2l+uBZauVBK66q3IJNWuqxj5Dc7blVQU8QiktGILkGzcJJRMAYkFuMWH8YZvZoLDMcCK482/lhM7MGt63jXnIxDzS6XhJauMLXZ/0Dx+/jTgPnbdzXBm/MRF33+O/PCWRWFEGeEF5dek3xF5mwA2Z+qt2IcViOnDleD8UH68OwVQLyyY5KZI9em6N/nWTVy6e9Mk2EBhIeTIAh7c4tHQG/tLmcIsJOP2bwXVkRy0Sq66rI1kiLrDUZWHSqiwNY/a2Bd6zdL5jOcicVGJeSmR3Kx2jByiVSRKiGmEl4//Z+161C+KJ3d+HY5GseURnNpVBcSGe/T3rLCL8C8cIBJiWj1mZfqWdH43oZWTZNa2JS0jytYvHlo2oGqcnu0pEEVnBl10kD/AC5m3eaaSDstkCpXh
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 11:53:41.9839
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2398daa-4a93-4c5f-d352-08df28577639
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB3PEPF0000885D.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR07MB7675
+References: <20261010113029.2347847-1-ecordonnier@snap.com>
+In-Reply-To: <20261010113029.2347847-1-ecordonnier@snap.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 12 Oct 2026 15:04:27 +0200
+X-Gm-Features: AclHuK8x3ivb5mVqQzYFpxf6kgYaO7xh5Mk4Y6RWPUuN5gyWfMYDzICg6ky3JlM
+Message-ID: <CANNYZj9kcJ+_Q8gEtmLYqKjwLsHogY1o4b8MeZQf6jTgDp3gtg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uutils-coreutils: move from meta-openembedded
+To: ecordonnier@snap.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000368ae3065da4575b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 11:53:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247642
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 13:04:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247643
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+--000000000000368ae3065da4575b
+Content-Type: text/plain; charset="UTF-8"
 
-epochfile_read() memoizes its result into __CACHED_SOURCE_DATE_EPOCH
-via d.setVar(), so its runtime value leaks into the basehash of any
-task that calls it, causing a "metadata is not deterministic" error
-once SDE_FILE is populated.
+On Sat, 10 Oct 2026 at 13:30, Etienne Cordonnier via lists.openembedded.org
+<ecordonnier=snap.com@lists.openembedded.org> wrote:
 
-Exclude it, since it is not meaningful build metadata.
+>
+> uutils-coreutils, the Rust reimplementation of GNU coreutils, is mature
+> enough for production use, so move the recipe from meta-oe to oe-core.
+> It provides and rprovides coreutils, and is excluded from world unless
+> selected as the coreutils provider.
+>
 
-AI-Generated: Uses Kiro with Claude Sonnet 5
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
-This should fix the selftest errors reported by Mathieu
----
- meta/classes-global/base.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+This needs a bit more justification. What is achieved by moving it to core?
+What specifically makes this component mature enough? What tests were
+performed with it? Does it pass the full autobuilder matrix when selected
+as coreutiuls provider? Should we add that test to the autobuilder? Should
+we make uutils-coreutils the default choice, or maybe the only choice? Does
+it work as a provider of coreutils-native, and is it compatible with pseudo?
 
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bb=
-class
-index 9553f00432..01a030399e 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -249,6 +249,10 @@ do_unpack[postfuncs] +=3D "create_source_date_epoch_st=
-amp"
- def get_source_date_epoch_value(d):
-     return oe.reproducible.epochfile_read(d.getVar('SDE_FILE'), d)
-=20
-+# epochfile_read() memoizes into this variable via d.setVar(), so its
-+# runtime value must not leak into any task's hash.
-+oe.reproducible.epochfile_read[vardepsexclude] =3D "__CACHED_SOURCE_DATE_E=
-POCH"
-+
- def get_layers_branch_rev(d):
-     revisions =3D oe.buildcfg.get_layer_revisions(d)
-     layers_branch_rev =3D ["%-20s =3D \"%s:%s\"" % (r[1], r[2], r[3]) for =
-r in revisions]
+Adding things to core has a pretty high bar, and the above commit message
+does not meet it.
+
+Alex
+
+--000000000000368ae3065da4575b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Sat, 10 Oct 2026 at 13:30, Etienne Cordonn=
+ier via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a=
+> &lt;ecordonnier=3D<a href=3D"mailto:snap.com@lists.openembedded.org">snap=
+.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex"><br>
+uutils-coreutils, the Rust reimplementation of GNU coreutils, is mature<br>
+enough for production use, so move the recipe from meta-oe to oe-core.<br>
+It provides and rprovides coreutils, and is excluded from world unless<br>
+selected as the coreutils provider.<br></blockquote><div><br></div><div>Thi=
+s needs a bit more justification. What is achieved by moving it to core? Wh=
+at specifically makes this component mature enough? What tests were perform=
+ed with it? Does it pass the full autobuilder matrix when selected as coreu=
+tiuls provider? Should we add that test to the autobuilder? Should we make =
+uutils-coreutils the default choice, or maybe the only choice? Does it work=
+ as a provider of coreutils-native, and is it compatible with pseudo?</div>=
+<div><br></div><div>Adding things to core has a pretty high bar, and the ab=
+ove commit message does not meet it.</div><div><br></div><div>Alex</div></d=
+iv></div>
+
+--000000000000368ae3065da4575b--
 
