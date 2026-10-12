@@ -1,1146 +1,896 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93754CA9ED2
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 09:00:43 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.24])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9383.1791795637860349831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BDFCA9ED0
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 09:40:47 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9807.1791798037834580605
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 02:00:38 -0700
+ Mon, 12 Oct 2026 02:40:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=iyZZkHch;
- spf=pass (domain: est.tech, ip: 52.101.65.24, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=jj9QaqQa;
+ spf=pass (domain: siemens.com, ip: 52.101.69.52, mailfrom: peter.marko@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bcmri+i/OHb2hE0YOHY6jPwgvu+bvEjVE0vBSZ1ZOCN4UdDeCAG/xqA+Y3FB/3rHDwNa2SHBbn/Gg7BePKOed5v4rVA/N2xRWU5YzJWqpFmJRsKR13eeA4Jyvlz7omSYw1F3zlLqWGHqDN0wEi2llji3Few736Vr4mBa4ths+1mCNjY0cS6Svafs0xfRCIySeW05h1oTY1o4d2VdJ8Rz6hPLIwasFK0/63nMUTqAB4uKbgZVKOU6eSanRhVUBGZi6wHezu9BQsbyJixJsDLTJkZ0j5F1TCOn5HmyAje86Pi6vhDyO/VJ8xZf47/rY/zJWZ+elzEtb4mpbmAhbEnreA==
+ b=INpA3+Hql7VECaaD8uWI9P5n71F8oqn7TuGaO+XAItqOvIjh7Wre3of1IFvxstcHwXdGCRJaLRL1a29TyTVqSH+JxPKG+yrON8KYMCc1FIhjzaUxAq4iJIDORuW0YVHi39RyRpCZgHr3t8014k7J3Zg9/UFesqDFFgiaM7q+h267D0Y/5LS8zkKf47MIN1Ik8vJQbjLu1VrB/HNDtELDb2fwL/Ok6NDCUjYSnJMLL4sRfDsNxNVvcZ5pM86OlL13B0ZSy6FykdXsBwXDdOvm4bJMQdAmf3rVSXL5qFso4/LvfPhM24EMEMGFTPGDWP5CfQjywYKNy0nAiekLIpRJBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ua1YvUj3DtJCykobhazLm0kYAtt9HiknHvkw2wjravQ=;
- b=USYds8haHkpD1JrABwD6X9C7j+MFwH9IzVFw07ireByke8FrlsXA8GP6hNHjUuDRtC0PuddF4bM/ewmiPnE8Jc6fezNIafXC0YcpnhGLoziR++/PBMFm3xfuEIyo3mhdiPAiGLD3dHIa/DPGXvD8eALzBbwo7Yr2UAq26vhkZDQHlSTuXs2YB3VkEzGPnedyHBVy3+k8saFlxn6EShPAxctvI8121J5DBa+wARiHu9Ldv/+PcpNco2R5B7PU6/2fehfB7BONeiQno9pjWfsebe1vfigvOQxDc3Ct67lCDk2g6uklcElZLawL4iR7oy7A0M6eEZtxPxB4OU3Y8VngeQ==
+ bh=y1M8vwDxVithZviIrkZUxMwzVaSJ0LMkSxtv6ZKH6Es=;
+ b=gRGAUg1hFwdI/X4VdwCRlzwk1O7wxkGIW6CZCiIIhhve0Jg34I2fffAndCD4h7ygTIfV7elbxeP8aCdGHOqDMCBojhC0EVnHVK5PPyOEVREUdyJmRfISh7pDNlSyM+RXyYATME9ODFyR40/dyD8kPXU3uP+W2KEZ34NrMLU+DMJrS1tI8bU2Fi+P5+nFbgIXtsq9RqzYbXGCz23g9cKyq4JxyJQ23Flq1s9PlREVaPeEy2h1Ihv01eN7Py1YZ/jxH3M5DE69wzo4zwBUGy7f6BbRz5tqhPrFzrPknDcMhqi2qNEP22ckazVHgOCbSyila52KYJkLlXivbsDeVzgq0Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ua1YvUj3DtJCykobhazLm0kYAtt9HiknHvkw2wjravQ=;
- b=iyZZkHch+iAIqNpvtBDR/ehqFefmT27SMwtp+CH606LAcn89AQ3LMbzQ0TKQslzZ0eLxUcg4FQEZaVhbli//pyZvmhcjSVhn5qbSo9I6JF3UdbA3dEk57BU0M5YKzPPmQPLy352szYRb+s4XMAxyWwR1COnt68Tbu+k/UlkOa+Cku4YXv8suIU8Ob21PWLf0pyL1ROYqUa7DpjcDW6VanN2o36jTHqlb2oxp+GGedFN9Qh9MHaJrykcR2wsmgXXofVBtJnBwYpzkagQ2swjlRZK9u/ERyBZPONVj48AO1VcgEGV5/XG9T+oA1d5AnDqK7IKXdabNyxdBds39hjGrgg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by DU4P189MB2719.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:55e::11) with
+ bh=y1M8vwDxVithZviIrkZUxMwzVaSJ0LMkSxtv6ZKH6Es=;
+ b=jj9QaqQasE/26zxvWB5MekWUKbxbmw3QkSJRhXGf4kaN6xCzbAl2iMNCUk6zWVATsXp33jYKhPtAwWPL/CiyITjtPifXVFvlXFc/NPqMm1I8eGmbjQF4qogEPbWXPWjcAEK580SQg4pevLB/dus9Mh9gyCZN5lEQOMYfnBGzQICkTWFEpUBwzFTwKhVYRL5Ms58ILdzyYzzW5rNaZzjOzKAbiPN6E71qn88ei+FtHldfwAgKgOImEGxCzwb8aM+sqj7VniRPy6LBsPYtFvrJ9zEQHDK3bkgpJAOkCeNSbebGtlePAhfGAtHxSwdq9JhUrvNAMm7lRZCe2uQQNiQYLQ==
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
+ by GV2PR10MB6982.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:d5::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
- 2026 09:00:34 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
- 09:00:34 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] python3: upgrade 3.14.7 -> 3.15.0
-Date: Mon, 12 Oct 2026 11:00:30 +0200
-Message-ID: <20261012090030.95901-2-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261012090030.95901-1-jaipaul.cheernam@est.tech>
+ 2026 09:40:32 +0000
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
+ 09:40:32 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 2/2] python3: upgrade 3.14.7 -> 3.15.0
+Thread-Topic: [OE-core] [PATCH 2/2] python3: upgrade 3.14.7 -> 3.15.0
+Thread-Index: AQHdWig1Zbl1vnfOb02W7C9nyxgS4Lb5pgzg
+Date: Mon, 12 Oct 2026 09:40:32 +0000
+Message-ID: 
+ <AS8PR10MB507376B998F2981766DBEAE6FD9F2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
 References: <20261012090030.95901-1-jaipaul.cheernam@est.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: PR1P264CA0079.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:2cc::15) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
+ <20261012090030.95901-2-jaipaul.cheernam@est.tech>
+In-Reply-To: <20261012090030.95901-2-jaipaul.cheernam@est.tech>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=d72c4a7b-6f22-4a99-8d2b-873dbcbe604b;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-10-12T09:36:38Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|GV2PR10MB6982:EE_
+x-ms-office365-filtering-correlation-id: 2c04808b-d20b-4c15-997d-08df2844dc06
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|260925021311599003|260925022911599003|260925021911599003|10067099003|3023799007|261009223027099003|261009223327099003|261009220027099003|261009221227099003|261009221727099003|38070700021|11063799006|4143699003|6133799003|12006099003|56012099006|22082099003|18002099003|55112099003;
+x-microsoft-antispam-message-info: 
+ qg4kD8XgkxInP7701oXFnDO7d/LS2DcYemq8KdzUiD8pLLV205p1TWpWfaDEZqKAysmmVMOLCAwJ5WAV7DH3JqtTFX7+674Pxrt/v3WLTmLgmX5qaEW3T9nykzAIW0DtoaToSrKJW9116Lap7XC7pRhuPgf3fwKIDMY6lr9jzzVFVJ7bj5I8qwLZM1DqgSCutelenCcu588JjANDry8oJxAyDEJnuF9DY9vpZBKH5NLRmJOndpEuENjTGSvll52zPl+RwpfnTKXKcjywjL07iJ5+LH6h+3c9xjvKSLr/qlWcgzpJ9t4+K8MGRbzU2Fi7CmNHk2/b1ldSH1PDIGJt1n7hSX1ivtIkhXX4R8TQeH2H2oa4xah/5rKijgvKilXTJLNfbRdsJ3M5mtibfNdO9bc+po5r37T8jw7DnBRNbf/CbHRVD+VsmfprXdm/1eORSWvXZRaUkBHTXQP7k4namNmQrsCs+Fv/wIAr6g5NfuBpWrQmja+8QCLa6/VGy/qvJ4CF+g8Ah1hOPfrLpSvR+QHkyADCaPe9jMJ0cbiQcRGEd+EHHYijdhZEyBkdd0bTgKqpvzkomSeaSvq5qZzLWgPr+muqNabdIhI97aJiROQRvXbjIEwIT2tRpj9AM0d2Wqszlj8ND9x4i1kthBTJrgShMMvIn8lGLXQq+Orwjz3+pLDN8v3sETE8eDsFHa7tez78n/F9NA3F6dB4WqYezcgEjS9ExN72SskCPY2zOr0=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(260925021311599003)(260925022911599003)(260925021911599003)(10067099003)(3023799007)(261009223027099003)(261009223327099003)(261009220027099003)(261009221227099003)(261009221727099003)(38070700021)(11063799006)(4143699003)(6133799003)(12006099003)(56012099006)(22082099003)(18002099003)(55112099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?bHd6QmJxUWRsZUFVdmY3SVlaYjc5Q1Q0dS9FOG9kZEtCUlF0ZzZBM1hQMzRN?=
+ =?utf-8?B?bGxkdTgrMGhIQmxtNDVQZjVYSEZkRnBobElRdHZmdi9VcDlQZHV0TDlIS3E3?=
+ =?utf-8?B?QUN1Yk9vOUV5ZWhucjg5NXBmd2s1ei85SHFpaUFMZlorQ0hSUTArSTdUQlZa?=
+ =?utf-8?B?WG1aOFdQR2FxUS9rR0lWa2xYMGw0aGVoeVlYZ0xyenU2Q1MvVUwxTis1NUkr?=
+ =?utf-8?B?cGtkYkYwNHkyWms0WEMvVU9FeStjZDVFaE1PTEZWdi8zdGpGSUxSQTN6djlM?=
+ =?utf-8?B?NW1GZmxKNHR2NWxDV0E5ZFArbVAvbkREcElLU2VGV2xxKzhZeEQza2xIZERO?=
+ =?utf-8?B?TWUwV0hGM0tFMlVxcVExYmh3OGxHM0xid1ZNMU1IREN0azFkazJFUEt3SWZ6?=
+ =?utf-8?B?Z3FOUTZlM2VkN1IwRThnSk5SQkIyQmtTcWltNDRHd2lpNGhjbENDZmkzSVlD?=
+ =?utf-8?B?NlRZZ2I0YVk2QURvaVNUcnBFOVNRNkFxektQMjY1cEJrb0d1RG5GY0pRajBk?=
+ =?utf-8?B?Qi9BZTd4U0dPTmpxWGlFZWxUTU11ZURKSHpFUjNkWEw0azlTMDh4ODFHd05w?=
+ =?utf-8?B?YUR6dExPVGswVTZoRDlaWVpuYzJodTFTSmsxT3ltNjhvdUUxYldXSStCZUx4?=
+ =?utf-8?B?SjdHTndNNHFJU3RCMzZKWDh0ci9ZVjZRNWlkTmpvZThUZndKTjQydGxuYk5y?=
+ =?utf-8?B?RDFpYTNIQldIei84UlRsbHZFWk1tbi90TmRqcVIxcjdRWXEzbE1zKzFrcUY4?=
+ =?utf-8?B?dkluODdDdk1va1Q5Zkp3QlU5L01YV2dRcUpxZ1pxbGZ3cDZsN3VIRUFaSXNy?=
+ =?utf-8?B?RTJLQU9raG5Xam9KV1R6VWtXaktGWTIzN1YvV1o0NHVweGMweG9KaVRhUm5n?=
+ =?utf-8?B?TkI3d2l0NWRQK3R1dzl4QzZrbGpWcDBIMWM0TXN0bUdLQ093Ulc3Qi9qSWpE?=
+ =?utf-8?B?SEtnclBiZmRvcG5RVW55eWhOeVhRN0VaVURSYjROeCswVTRVTmlvMkIrYyt3?=
+ =?utf-8?B?M3BrU2NJMDg2aWcrdWkxRzlqd254Y29ma3pHMm9DclNwdUpGYVBBaEYzM2hX?=
+ =?utf-8?B?YlhMUzZLclg1L2JxR0ZEN1JjU051UGVya3dndmVNejgvWE5SQ0hlNWdhU3kx?=
+ =?utf-8?B?RTgxVStBR01GaXN4SzlUV01ZcUhmdlpzckwzQk9MdnJPNEtYNjY1c2dxQlQ4?=
+ =?utf-8?B?NUVZTm9OQnVFMmJpTGtjam1WVmU5R05kSE9oOXRFU3RpMjNkVW8zNWFHME15?=
+ =?utf-8?B?K2VQOXh2QXhnZ0hiaDVvT1lvN3RmMlk5aVhxcTZaVVFSOWdiZzdaYVJXd1Nx?=
+ =?utf-8?B?N3lNZVg0WlViQjFrdjg0RkF3c2d6TllwL0hFdEo4aDJiUlBzOTdJdFI0ak5t?=
+ =?utf-8?B?Mmh2NytaY1FESCt3UUx1NEVTcWYzZ0U3a1dOdlVoOVNFSnlGR080clZybThp?=
+ =?utf-8?B?QlB0SWwxYk1kRk1JL1ZsSTJ6ZFFIc0pXcWhsbkNqMzkzTlIrczkzNVVTc1F4?=
+ =?utf-8?B?ZVJCWElZMzkyekhUOG5MR0xoeVF2b1VJa052Nkt6RXBzUFlTaHZqR0NCL3BS?=
+ =?utf-8?B?SUkxTEZGbnMvbGFyajFIZm8xSjM1U2xaRkZaZnpGQUlRTTNIVzBhNjk1UEw5?=
+ =?utf-8?B?Vi8xWTlkOTFxYjhST2hsOVBKeTlmY3IzenJ1WDN1WlVxVUJsR1NoRDhZaGVE?=
+ =?utf-8?B?emIvMk4yNEdpcTZkK3MvLzNUY3IvQ3k2K2E3QnV2d0hHZVRPYlRlTzRXOEhY?=
+ =?utf-8?B?VVROd1BkczB3bllGUjF3ZGZ2ZkNpU1psQ0MzY2N3aHRUalBUZy9oRE1EcWxH?=
+ =?utf-8?B?RTlmdDNxY1NZVXpnU0h4d2JYL3dMRGluUFo4YVdZQm00dlFEa1g0RkJlelJM?=
+ =?utf-8?B?ZHJZeDRjOXhIM0YzUEhMaFpneW1ycStEU3A2cmJoMUZTTU1YcjMrUGprZkZL?=
+ =?utf-8?B?WWNQM1JjdUxMQWxNOEhYMUw4dGkzSUwyMDQ5T0Y5V0pWb2JxajNlK0EyeFNQ?=
+ =?utf-8?B?ZnJIMGJYd00xczdFT1MyeVIwODhQK2lvc2YrVHFnZ1c0MFVxanJpTnFNcndU?=
+ =?utf-8?B?RlkrSHh1KzVYVEJYdHY2Wmo1dWhkeXhJbmVSbnpXeHVwYnkzdmJmbWFMajJw?=
+ =?utf-8?B?RmI4ekJTNkFlWXlVcGd6NmNrWksrb3dUMzZFNytvMkllSm5oYjhWbGxkZkFp?=
+ =?utf-8?B?Q01TcUo1NVZqL2ZLRmlRSjRsVEpuMnkwTjJERUQvNmYzeUxHWmFZejJqR240?=
+ =?utf-8?B?ektyUkg3THE0d200dG5HVFVmS1Y3eWZmcGJoQ1lhRStUaUFNbUpLWVhveXNR?=
+ =?utf-8?B?K2d3V0NzMXh0emIyZklPb0cra0dqV0d4ZzBzeDRaTmdNeFV4dXJ4dz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU4P189MB2719:EE_
-X-MS-Office365-Filtering-Correlation-Id: df8641fc-d1e5-4ba2-7a1e-08df283f4670
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|56012099006|11063799006|261009221227099003|261009221727099003|261009220027099003|261009223027099003|261009223327099003|260925021311599003|260925021911599003|260925022911599003|10067099003|22082099003|18002099003|6133799003|12006099003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	zIIHyf1jlyfeSFBronTS/gdis6y3GgEMEls2GU8eOAKwewwbQcKVeLgYHcWDmPZFvYzDjIQIVYMBkrSgWom3MrR/XN6prThef+jiEm83A+akPCEhVX0DIxYuD/R5S6EnUNsRoa9yq8YoW1A41SYrZJRdj0xQGoVo5sV5NZydJvQoavtIZ8TdudPBDe+ewFVB/1vgIfm22Dm86dZ6yHHoWcv5GmsoWsywUtLlDJzvStNTLB3/Dkpb/A/658I7IzvqKXS2DTB3Ebi3heXbI+D7Fsb6dHbfuW4Kd2AzZ3o5ZYIbWyi75tWmuy/9HkH/He/S98d+XIfmcejQexvyoIWrSYl3zvicDNy3up3nHWZmxAMDI+dcHC84Rul/Sgfc6rb4V7zET16h0pmjvt90L6+qeLtiw2HJjBps3tPWVMh5aVB6t6xiJcPOTJmTveIcCml8MwIZTpvuyBSkwxaKckleLbLWieq2ah1gmAcF9bCjTU1Hnb/tUMMC4tNulTa3knAGM7BhMqhZq9FacYweHKUFDTGnBrcDaZp6Y90cfkqGe+MjDhx5tPZLhOj/7Z5y3vYyYgGEb56cfcGOvmmLDQk6rZ419tOkkm0erE3/qjI0wJD4LdkylbhSpH9X29kHFmVfwKx/UDZuxlvBUorax5xzbuzfkX9ylvZwK8eK1uMBkeQ=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(56012099006)(11063799006)(261009221227099003)(261009221727099003)(261009220027099003)(261009223027099003)(261009223327099003)(260925021311599003)(260925021911599003)(260925022911599003)(10067099003)(22082099003)(18002099003)(6133799003)(12006099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?PToxGHyt+SOXC9M8ZrLm07pLxYKWPtbPDVsy79U09iV8woTHMu4rUb4UPkiY?=
- =?us-ascii?Q?YorYhmN9S9Q0lpFQTYi/DeE76mpb7D3qQHSHCpru/qUlPdbFjpoPPkfDz84h?=
- =?us-ascii?Q?vqciqneUlf30TpV+rGG9tSnNnlvZl9cwNabwcnNxf610a/9ieqj1P4xmrTAr?=
- =?us-ascii?Q?H+9kbBYUMR0lPxBapbwpNoS2oZolLWCPqvi1JJEsOizlwZP2GsFx/pJ4NOFS?=
- =?us-ascii?Q?Oq6u+yklDz/51m6geQnioX2sehfQyckAQaDzZTuwB0TGpPYI/pDrXxuE7azh?=
- =?us-ascii?Q?rZ0V/XWDcQAPIs/eYKOTC+W1PTb3zivuXbAkoNQ04DLUUh4sI78KzSwmlR/U?=
- =?us-ascii?Q?HTO/9LC9dyaqKLJlOUbxVIpbi5cCCZi5by7nLvx+Os53lMjWriVw4PkRWM3F?=
- =?us-ascii?Q?5EsoiMNZK/yQ6vYSclibAmu+k8UF/Ql8kpzsJk+dCEtEopyZwKYjTbPS3/Xb?=
- =?us-ascii?Q?Sdt14p6jgy0S0tjUKpvSm730ZdF/qBLGaV+/o8Az5N2ZgfPiRlan6gYQYH1D?=
- =?us-ascii?Q?+hOpM1c2Xwlj3JMRPmsXAu8tk15LvSFK/3fWLSFhUbrnUNDn88VXIpn+Zupm?=
- =?us-ascii?Q?vENxb6VnjfX1IV1oRN5NGeWV8JOSKMCKzG1jo3zD6KT/fzzYUhGbQJGEvzP+?=
- =?us-ascii?Q?j839K2EASO2wY0FdjjQpR/wXeGsHRYmvhSmFpJjlMBmn1yjgmWc4pd41EFWE?=
- =?us-ascii?Q?yKxz7luECqbzl55vPeuh5E2sL+FTOkx3cKN4XdKplBhO9rr7S+8ZGct4ce0S?=
- =?us-ascii?Q?53WsE07/vaxYXxkHAl2wW65cBjOECoBbG9Bb9CjQPCDoxM4Ikl+T1nq/fi/Z?=
- =?us-ascii?Q?Bu6OxfgjiJYQU6AxbNAF1dD4ndCPKhRGNGxO0AJPeYG7we+GH44Q7lsH7H3s?=
- =?us-ascii?Q?xBNy6aiQvHhcAtdr3bgf3OFc6T1afdG0Rc45+kXoD0QIPUe5NHjBt/UrxEqX?=
- =?us-ascii?Q?K0nXu0QwC2UYvFgppiRTjnUv9BmnBw0Xzdf9QwVMQAxwKmwh903OZsvVgKdf?=
- =?us-ascii?Q?P0eQuOHN51OYdFb9h6L9j9gG5jSOxcRCfOrDV81sZMCLMqF/U4BgxrfvOfyk?=
- =?us-ascii?Q?s7WS2IMN2Y58itItHdGz+ocW2KJIiZT4B4cXZlROmtSKsddbc3dKDLNb9GHP?=
- =?us-ascii?Q?pdPtu3Z503xKw0vzZXwts0KfU0Mbe9giGfLpBzPgmLDgcYllu1dQpVUJRJE5?=
- =?us-ascii?Q?F4dSq8s7WVGEC8v04d8bOXOBJdz/npHkKTsJLHXpgf6xybO+TFvOW7nEVaIJ?=
- =?us-ascii?Q?it/FKUC89eXDePSk2eBF5bFErx7lXEaj6vialRXv3hGbqvEgXkFTL0K7vsR7?=
- =?us-ascii?Q?A8W9TD2Aov/cZ9s+OrTqZPo0Utav5PO7OXPp2Zrg/BPdvKwXikm9Am/W//DG?=
- =?us-ascii?Q?81XL5U0FQVyRZyCHOE+IV5+e0JtpUIUH3KJD6Wg8OFGDc8jeaJ1GTqtxzSFv?=
- =?us-ascii?Q?+v3b3DFwjsHDiNhUuFpfeUpzuxPOu8x5PBS/Kbh54uEJAi5RLifEw2rKRskK?=
- =?us-ascii?Q?hGbdPqLa7waOZInuFsFgH67iBnf5dfRdEuHt3zYZz2zGV7qTnNRXWJazE5h5?=
- =?us-ascii?Q?7opUPu2/HDqLxcAhT7VFvsSmRCtBrEa+JO0rjk4syHVdtLhtknl4vwTZj83x?=
- =?us-ascii?Q?Ko7+uGtQ5Rd713lF1CWdDd8UhUb5EFXq4iofVh770qiukoM5CEQbIIM3lHkG?=
- =?us-ascii?Q?q7nuVFZQN00MLak/lto8oozbyjQ24xZ8AvIoNMGpbgvLxcbcKb/Jkpp5Ibms?=
- =?us-ascii?Q?m8vfxUbn5A=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: df8641fc-d1e5-4ba2-7a1e-08df283f4670
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 09:00:34.2042
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c04808b-d20b-4c15-997d-08df2844dc06
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2026 09:40:32.4067
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jCdpbMhRan4/bn9p0XydWhFpHYhwBMvUqS8fqNrNG5pAs3hpIUJtCjWx/r1xmR46cF+pQkfHjfhwRK/f7Ilz+3jEWZv5cwL14bFEOX0wp/E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4P189MB2719
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Htz+VUhqfDiHQULknBN0j4S3NJzY0Mxe06qe9jhqmj/OYhuoTqHyKEvfDG0H29jSqnUM1lmQyi4zSu/cYHGrSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR10MB6982
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 09:00:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247617
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 09:40:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247618
 
-ReleaseNotes: https://docs.python.org/3/whatsnew/changelog.html#python-3-15=
--0-final
-
-- Drop patches which are part of upstream release
-  - 0001-gh-146207-Add-support-for-OpenSSL-4.0.0.patch
-  - 0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch
-  - 0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.patch
-  - valid-dists.patch
-- Add mpdecimal dependency and --with-system-libmpdec configure option
-- Bump PYTHON_BASEVERSION to 3.15 in python3-dir.bbclass
-- Refresh existing patches
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- meta/classes-recipe/python3-dir.bbclass       |   2 +-
- ...shebang-overflow-on-python-config.py.patch |   2 +-
- ...e-stdin-I-O-errors-same-way-as-maste.patch |   2 +-
- ...-use-prefix-value-from-build-configu.patch |   2 +-
- ...-qemu-wrapper-when-gathering-profile.patch |   2 +-
- ...est_sysconfig-for-posix_user-purelib.patch |   2 +-
- ...146207-Add-support-for-OpenSSL-4.0.0.patch | 257 ------------------
- .../0001-prefer-valid-entrypoints.patch       |   2 +-
- ...g.py-use-platlibdir-also-for-purelib.patch |   2 +-
- ...le.py-correct-the-test-output-format.patch |   2 +-
- ...Update-_ssl._SSLSocket-for-OpenSSL-4.patch | 234 ----------------
- ...utdown-test-in-test_ssl.test_got_eof.patch |  41 ---
- .../python/python3/makerace.patch             |   2 +-
- .../python/python3/valid-dists.patch          | 164 -----------
- .../{python3_3.14.7.bb =3D> python3_3.15.0.bb}  |  11 +-
- 15 files changed, 14 insertions(+), 713 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/0001-gh-146207-Add=
--support-for-OpenSSL-4.0.0.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0002-gh-148292-Upd=
-ate-_ssl._SSLSocket-for-OpenSSL-4.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0003-gh-148292-Rem=
-ove-shutdown-test-in-test_ssl.test_got_eof.patch
- delete mode 100644 meta/recipes-devtools/python/python3/valid-dists.patch
- rename meta/recipes-devtools/python/{python3_3.14.7.bb =3D> python3_3.15.0=
-.bb} (98%)
-
-diff --git a/meta/classes-recipe/python3-dir.bbclass b/meta/classes-recipe/=
-python3-dir.bbclass
-index 3eb0dea9b2..b26621f365 100644
---- a/meta/classes-recipe/python3-dir.bbclass
-+++ b/meta/classes-recipe/python3-dir.bbclass
-@@ -4,7 +4,7 @@
- # SPDX-License-Identifier: MIT
- #
-=20
--PYTHON_BASEVERSION =3D "3.14"
-+PYTHON_BASEVERSION =3D "3.15"
- PYTHON_ABI =3D ""
- PYTHON_DIR =3D "python${PYTHON_BASEVERSION}"
- PYTHON_PN =3D "python3"
-diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overfl=
-ow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Av=
-oid-shebang-overflow-on-python-config.py.patch
-index 7a60538364..47ac29f209 100644
---- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-p=
-ython-config.py.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-p=
-ython-config.py.patch
-@@ -1,4 +1,4 @@
--From 3f2df0e1fce8c7425998dade00d084f1b101a982 Mon Sep 17 00:00:00 2001
-+From b19edb306e2c035536a904c82c2fb4b18f529cf2 Mon Sep 17 00:00:00 2001
- From: Paulo Neves <ptsneves@gmail.com>
- Date: Tue, 7 Jun 2022 16:16:41 +0200
- Subject: [PATCH] Avoid shebang overflow on python-config.py
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-st=
-din-I-O-errors-same-way-as-maste.patch b/meta/recipes-devtools/python/pytho=
-n3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
-index 532adfe69a..cc2fdf4bb8 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O=
--errors-same-way-as-maste.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O=
--errors-same-way-as-maste.patch
-@@ -1,4 +1,4 @@
--From 9cd44429215352eb2753e0fd8e25fef24f714006 Mon Sep 17 00:00:00 2001
-+From cb744d2ccf74d5ef21fa496a418d2963df28a38f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 16 Sep 2021 16:35:37 +0200
- Subject: [PATCH] Lib/pty.py: handle stdin I/O errors same way as master I/=
-O
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use=
--prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/pytho=
-n3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-index 60391e726b..0fce0fc027 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix=
--value-from-build-configu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix=
--value-from-build-configu.patch
-@@ -1,4 +1,4 @@
--From b5aad6a9b6c5add7a85861aed8aa030c1ad3d52f Mon Sep 17 00:00:00 2001
-+From 5bd6a3c5f957cacdf51e07ae94c74fbf6e7f0f28 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Fri, 17 Nov 2023 14:26:32 +0100
- Subject: [PATCH] Lib/sysconfig.py: use prefix value from build configurati=
-on
-diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qem=
-u-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/pytho=
-n3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-index c7f14cad1e..d83d00e0cf 100644
---- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapp=
-er-when-gathering-profile.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapp=
-er-when-gathering-profile.patch
-@@ -1,4 +1,4 @@
--From d6f77e3a934616d1f6c083b7144c50a32e08b70a Mon Sep 17 00:00:00 2001
-+From 64a42f1a618be7af4e5d31ffbeeb4169bad865a9 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 30 Jan 2019 12:41:04 +0100
- Subject: [PATCH] Makefile.pre: use qemu wrapper when gathering profile dat=
-a
-diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfi=
-g-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-=
-Update-test_sysconfig-for-posix_user-purelib.patch
-index 5509b7475a..95d7e4bd07 100644
---- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-p=
-osix_user-purelib.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-p=
-osix_user-purelib.patch
-@@ -1,4 +1,4 @@
--From c608cb4b3c8c31f1aa25ad1264ff58733fb99769 Mon Sep 17 00:00:00 2001
-+From 2cca08e2cb4be0a725c4c9ea76234bfea5a8534c Mon Sep 17 00:00:00 2001
- From: Wentao Zhang <wentao.zhang@windriver.com>
- Date: Mon, 20 Mar 2023 13:39:52 +0800
- Subject: [PATCH] Update test_sysconfig for posix_user purelib
-diff --git a/meta/recipes-devtools/python/python3/0001-gh-146207-Add-suppor=
-t-for-OpenSSL-4.0.0.patch b/meta/recipes-devtools/python/python3/0001-gh-14=
-6207-Add-support-for-OpenSSL-4.0.0.patch
-deleted file mode 100644
-index bef6044358..0000000000
---- a/meta/recipes-devtools/python/python3/0001-gh-146207-Add-support-for-O=
-penSSL-4.0.0.patch
-+++ /dev/null
-@@ -1,257 +0,0 @@
--From 3364e7e62fa24d0e19133fb0f90b1c24ef1110c5 Mon Sep 17 00:00:00 2001
--From: Victor Stinner <vstinner@python.org>
--Date: Wed, 25 Mar 2026 07:44:47 +0100
--Subject: [PATCH] gh-146207: Add support for OpenSSL 4.0.0 alpha1 (#146217)
--
--OpenSSL 4.0.0 alpha1 removed these functions:
--
--* SSLv3_method()
--* TLSv1_method()
--* TLSv1_1_method()
--* TLSv1_2_method()
--
--Other changes:
--
--* Update test_openssl_version().
--* Update multissltests.py for OpenSSL 4.
--* Add const qualifier to fix compiler warnings.
--
--Co-authored-by: B=C3=A9n=C3=A9dikt Tran <10796600+picnixz@users.noreply.gi=
-thub.com>
--Signed-off-by: Victor Stinner <vstinner@python.org>
--
--Upstream-Status: Backport [https://github.com/python/cpython/commit/3364e7=
-e62fa24d0e19133fb0f90b1c24ef1110c5]
--Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-----
-- Lib/test/test_ssl.py       | 52 ++++++++++++++++++++------------------
-- Modules/_ssl.c             | 27 ++++++++++++++++----
-- Modules/_ssl/cert.c        |  3 ++-
-- Tools/ssl/multissltests.py |  7 ++++-
-- 4 files changed, 58 insertions(+), 31 deletions(-)
--
--diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
--index dc795c6bd8a..61355927296 100644
----- a/Lib/test/test_ssl.py
--+++ b/Lib/test/test_ssl.py
--@@ -395,7 +395,7 @@ def test_constants(self):
--         ssl.OP_NO_COMPRESSION
--         self.assertEqual(ssl.HAS_SNI, True)
--         self.assertEqual(ssl.HAS_ECDH, True)
---        self.assertEqual(ssl.HAS_TLSv1_2, True)
--+        self.assertIsInstance(ssl.HAS_TLSv1_2, bool)
--         self.assertEqual(ssl.HAS_TLSv1_3, True)
--         ssl.OP_NO_SSLv2
--         ssl.OP_NO_SSLv3
--@@ -586,11 +586,11 @@ def test_openssl_version(self):
--         # Some sanity checks follow
--         # >=3D 1.1.1
--         self.assertGreaterEqual(n, 0x10101000)
---        # < 4.0
---        self.assertLess(n, 0x40000000)
--+        # < 5.0
--+        self.assertLess(n, 0x50000000)
--         major, minor, fix, patch, status =3D t
--         self.assertGreaterEqual(major, 1)
---        self.assertLess(major, 4)
--+        self.assertLess(major, 5)
--         self.assertGreaterEqual(minor, 0)
--         self.assertLess(minor, 256)
--         self.assertGreaterEqual(fix, 0)
--@@ -656,12 +656,14 @@ def test_openssl111_deprecations(self):
--             ssl.OP_NO_TLSv1_2,
--             ssl.OP_NO_TLSv1_3
--         ]
---        protocols =3D [
---            ssl.PROTOCOL_TLSv1,
---            ssl.PROTOCOL_TLSv1_1,
---            ssl.PROTOCOL_TLSv1_2,
---            ssl.PROTOCOL_TLS
---        ]
--+        protocols =3D []
--+        if hasattr(ssl, 'PROTOCOL_TLSv1'):
--+            protocols.append(ssl.PROTOCOL_TLSv1)
--+        if hasattr(ssl, 'PROTOCOL_TLSv1_1'):
--+            protocols.append(ssl.PROTOCOL_TLSv1_1)
--+        if hasattr(ssl, 'PROTOCOL_TLSv1_2'):
--+            protocols.append(ssl.PROTOCOL_TLSv1_2)
--+        protocols.append(ssl.PROTOCOL_TLS)
--         versions =3D [
--             ssl.TLSVersion.SSLv3,
--             ssl.TLSVersion.TLSv1,
--@@ -1205,6 +1207,7 @@ def test_min_max_version(self):
--                 ssl.TLSVersion.TLSv1,
--                 ssl.TLSVersion.TLSv1_1,
--                 ssl.TLSVersion.TLSv1_2,
--+                ssl.TLSVersion.TLSv1_3,
--                 ssl.TLSVersion.SSLv3,
--             }
--         )
--@@ -1218,7 +1221,7 @@ def test_min_max_version(self):
--         with self.assertRaises(ValueError):
--             ctx.minimum_version =3D 42
--=20
---        if has_tls_protocol(ssl.PROTOCOL_TLSv1_1):
--+        if has_tls_protocol('PROTOCOL_TLSv1_1'):
--             ctx =3D ssl.SSLContext(ssl.PROTOCOL_TLSv1_1)
--=20
--             self.assertIn(
--@@ -1675,23 +1678,24 @@ def test__create_stdlib_context(self):
--         self.assertFalse(ctx.check_hostname)
--         self._assert_context_options(ctx)
--=20
---        if has_tls_protocol(ssl.PROTOCOL_TLSv1):
--+        if has_tls_protocol('PROTOCOL_TLSv1'):
--             with warnings_helper.check_warnings():
--                 ctx =3D ssl._create_stdlib_context(ssl.PROTOCOL_TLSv1)
--             self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLSv1)
--             self.assertEqual(ctx.verify_mode, ssl.CERT_NONE)
--             self._assert_context_options(ctx)
--=20
---        with warnings_helper.check_warnings():
---            ctx =3D ssl._create_stdlib_context(
---                ssl.PROTOCOL_TLSv1_2,
---                cert_reqs=3Dssl.CERT_REQUIRED,
---                check_hostname=3DTrue
---            )
---        self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLSv1_2)
---        self.assertEqual(ctx.verify_mode, ssl.CERT_REQUIRED)
---        self.assertTrue(ctx.check_hostname)
---        self._assert_context_options(ctx)
--+        if has_tls_protocol('PROTOCOL_TLSv1_2'):
--+            with warnings_helper.check_warnings():
--+                ctx =3D ssl._create_stdlib_context(
--+                    ssl.PROTOCOL_TLSv1_2,
--+                    cert_reqs=3Dssl.CERT_REQUIRED,
--+                    check_hostname=3DTrue
--+                )
--+            self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLSv1_2)
--+            self.assertEqual(ctx.verify_mode, ssl.CERT_REQUIRED)
--+            self.assertTrue(ctx.check_hostname)
--+            self._assert_context_options(ctx)
--=20
--         ctx =3D ssl._create_stdlib_context(purpose=3Dssl.Purpose.CLIENT_A=
-UTH)
--         self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLS_SERVER)
--@@ -3654,10 +3658,10 @@ def test_protocol_tlsv1_2(self):
--                            client_options=3Dssl.OP_NO_TLSv1_2)
--=20
--         try_protocol_combo(ssl.PROTOCOL_TLS, ssl.PROTOCOL_TLSv1_2, 'TLSv1=
-.2')
---        if has_tls_protocol(ssl.PROTOCOL_TLSv1):
--+        if has_tls_protocol('PROTOCOL_TLSv1'):
--             try_protocol_combo(ssl.PROTOCOL_TLSv1_2, ssl.PROTOCOL_TLSv1, =
-False)
--             try_protocol_combo(ssl.PROTOCOL_TLSv1, ssl.PROTOCOL_TLSv1_2, =
-False)
---        if has_tls_protocol(ssl.PROTOCOL_TLSv1_1):
--+        if has_tls_protocol('PROTOCOL_TLSv1_1'):
--             try_protocol_combo(ssl.PROTOCOL_TLSv1_2, ssl.PROTOCOL_TLSv1_1=
-, False)
--             try_protocol_combo(ssl.PROTOCOL_TLSv1_1, ssl.PROTOCOL_TLSv1_2=
-, False)
--=20
--diff --git a/Modules/_ssl.c b/Modules/_ssl.c
--index b45295b4c0c..6f75af86113 100644
----- a/Modules/_ssl.c
--+++ b/Modules/_ssl.c
--@@ -164,6 +164,17 @@ static void _PySSLFixErrno(void) {
-- #error Unsupported OpenSSL version
-- #endif
--=20
--+#if (OPENSSL_VERSION_NUMBER >=3D 0x40000000L)
--+#  define OPENSSL_NO_SSL3
--+#  define OPENSSL_NO_TLS1
--+#  define OPENSSL_NO_TLS1_1
--+#  define OPENSSL_NO_TLS1_2
--+#  define OPENSSL_NO_SSL3_METHOD
--+#  define OPENSSL_NO_TLS1_METHOD
--+#  define OPENSSL_NO_TLS1_1_METHOD
--+#  define OPENSSL_NO_TLS1_2_METHOD
--+#endif
--+
-- /* OpenSSL API 1.1.0+ does not include version methods */
-- #ifndef OPENSSL_NO_SSL3_METHOD
-- extern const SSL_METHOD *SSLv3_method(void);
--@@ -1151,7 +1162,7 @@ _asn1obj2py(_sslmodulestate *state, const ASN1_OBJEC=
-T *name, int no_name)
--=20
-- static PyObject *
-- _create_tuple_for_attribute(_sslmodulestate *state,
---                            ASN1_OBJECT *name, ASN1_STRING *value)
--+                            const ASN1_OBJECT *name, const ASN1_STRING *v=
-alue)
-- {
--     Py_ssize_t buflen;
--     PyObject *pyattr;
--@@ -1180,16 +1191,16 @@ _create_tuple_for_attribute(_sslmodulestate *state=
-,
-- }
--=20
-- static PyObject *
---_create_tuple_for_X509_NAME (_sslmodulestate *state, X509_NAME *xname)
--+_create_tuple_for_X509_NAME(_sslmodulestate *state, const X509_NAME *xnam=
-e)
-- {
--     PyObject *dn =3D NULL;    /* tuple which represents the "distinguishe=
-d name" */
--     PyObject *rdn =3D NULL;   /* tuple to hold a "relative distinguished =
-name" */
--     PyObject *rdnt;
--     PyObject *attr =3D NULL;   /* tuple to hold an attribute */
--     int entry_count =3D X509_NAME_entry_count(xname);
---    X509_NAME_ENTRY *entry;
---    ASN1_OBJECT *name;
---    ASN1_STRING *value;
--+    const X509_NAME_ENTRY *entry;
--+    const ASN1_OBJECT *name;
--+    const ASN1_STRING *value;
--     int index_counter;
--     int rdn_level =3D -1;
--     int retcode;
--@@ -6967,9 +6978,15 @@ sslmodule_init_constants(PyObject *m)
--     ADD_INT_CONST("PROTOCOL_TLS", PY_SSL_VERSION_TLS);
--     ADD_INT_CONST("PROTOCOL_TLS_CLIENT", PY_SSL_VERSION_TLS_CLIENT);
--     ADD_INT_CONST("PROTOCOL_TLS_SERVER", PY_SSL_VERSION_TLS_SERVER);
--+#ifndef OPENSSL_NO_TLS1
--     ADD_INT_CONST("PROTOCOL_TLSv1", PY_SSL_VERSION_TLS1);
--+#endif
--+#ifndef OPENSSL_NO_TLS1_1
--     ADD_INT_CONST("PROTOCOL_TLSv1_1", PY_SSL_VERSION_TLS1_1);
--+#endif
--+#ifndef OPENSSL_NO_TLS1_2
--     ADD_INT_CONST("PROTOCOL_TLSv1_2", PY_SSL_VERSION_TLS1_2);
--+#endif
--=20
-- #define ADD_OPTION(NAME, VALUE) if (sslmodule_add_option(m, NAME, (VALUE)=
-) < 0) return -1
--=20
--diff --git a/Modules/_ssl/cert.c b/Modules/_ssl/cert.c
--index f2e7be89668..061b0fb3171 100644
----- a/Modules/_ssl/cert.c
--+++ b/Modules/_ssl/cert.c
--@@ -128,7 +128,8 @@ _ssl_Certificate_get_info_impl(PySSLCertificate *self)
-- }
--=20
-- static PyObject*
---_x509name_print(_sslmodulestate *state, X509_NAME *name, int indent, unsi=
-gned long flags)
--+_x509name_print(_sslmodulestate *state, const X509_NAME *name,
--+                int indent, unsigned long flags)
-- {
--     PyObject *res;
--     BIO *biobuf;
--diff --git a/Tools/ssl/multissltests.py b/Tools/ssl/multissltests.py
--index 3b4507c6771..48207e5330f 100755
----- a/Tools/ssl/multissltests.py
--+++ b/Tools/ssl/multissltests.py
--@@ -429,9 +429,11 @@ def _post_install(self):
--     def _post_install(self):
--         if self.version.startswith("3."):
--             self._post_install_3xx()
--+        elif self.version.startswith("4."):
--+            self._post_install_4xx()
--=20
--     def _build_src(self, config_args=3D()):
---        if self.version.startswith("3."):
--+        if self.version.startswith(("3.", "4.")):
--             config_args +=3D ("enable-fips",)
--         super()._build_src(config_args)
--=20
--@@ -447,6 +449,9 @@ def _post_install_3xx(self):
--             lib64 =3D self.lib_dir + "64"
--             os.symlink(lib64, self.lib_dir)
--=20
--+    def _post_install_4xx(self):
--+        self._post_install_3xx()
--+
--     @property
--     def short_version(self):
--         """Short version for OpenSSL download URL"""
----=20
--2.25.1
--
-diff --git a/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypo=
-ints.patch b/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypo=
-ints.patch
-index ae3698fac4..030f82f99b 100644
---- a/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypoints.pa=
-tch
-+++ b/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypoints.pa=
-tch
-@@ -1,4 +1,4 @@
--From 8d7fcf04c6513841c7985e64b746b1ef5de0c426 Mon Sep 17 00:00:00 2001
-+From 8889d373f2218253555d69b9ad022f52bc4ad78d Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Fri, 17 Apr 2026 16:53:42 +0100
- Subject: [PATCH] prefer valid entrypoints
-diff --git a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-pla=
-tlibdir-also-for-purelib.patch b/meta/recipes-devtools/python/python3/0001-=
-sysconfig.py-use-platlibdir-also-for-purelib.patch
-index 7807827d9a..3ac97d348b 100644
---- a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir=
--also-for-purelib.patch
-+++ b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir=
--also-for-purelib.patch
-@@ -1,4 +1,4 @@
--From c10d1b295a9fb93836830cce441da3f22e5c7cd7 Mon Sep 17 00:00:00 2001
-+From 31ca770452781c56c19b98e584db3bc964116b44 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sun, 12 Sep 2021 21:44:36 +0200
- Subject: [PATCH] sysconfig.py: use platlibdir also for purelib
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-corre=
-ct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001=
--test_locale.py-correct-the-test-output-format.patch
-index a60d082e2f..8e72a374d9 100644
---- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-=
-test-output-format.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-=
-test-output-format.patch
-@@ -1,4 +1,4 @@
--From f0ac5b479b99bfb7f5e937a941b31a596f4caafc Mon Sep 17 00:00:00 2001
-+From a712d1ebb55ac8e5801a5c2179945ce26638a548 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Mon, 5 Aug 2019 15:57:39 +0800
- Subject: [PATCH] test_locale.py: correct the test output format
-diff --git a/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ss=
-l._SSLSocket-for-OpenSSL-4.patch b/meta/recipes-devtools/python/python3/000=
-2-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch
-deleted file mode 100644
-index 587f141dd4..0000000000
---- a/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ssl._SSLS=
-ocket-for-OpenSSL-4.patch
-+++ /dev/null
-@@ -1,234 +0,0 @@
--From 3c2a3014af7d73cc34f2498f60fdf863d9bc7c6c Mon Sep 17 00:00:00 2001
--From: Victor Stinner <vstinner@python.org>
--Date: Mon, 4 May 2026 13:52:57 +0200
--Subject: [PATCH] gh-148292: Update _ssl._SSLSocket for OpenSSL 4 (#149102)
--
--The _SSLSocket object now remembers if it gets an EOF error. In this
--case, read(), sendfile(), write() and do_handshake method calls fail
--with SSLEOFError without calling the underlying OpenSSL function.
--
--Co-authored-by: Gregory P. Smith <greg@krypto.org>
--(cherry picked from commit 7b7fa3f9bf3d7cdf3eb669d02b386e05b39c402a)
--
--Upstream-Status: Backport [https://github.com/python/cpython/commit/3c2a30=
-14af7d]
--
--Note: This is from the unmerged CPython PR #149783 which backports
--OpenSSL 4.0 support to the 3.14 branch. Upstream deferred merging
--until after Python 3.15.1 is released.
--
--Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-----
-- Lib/test/test_ssl.py                          | 82 +++++++++++++++++++
-- ...-04-28-17-47-55.gh-issue-148292.oIq3ml.rst |  7 ++
-- Modules/_ssl.c                                | 42 ++++++++++
-- 3 files changed, 131 insertions(+)
-- create mode 100644 Misc/NEWS.d/next/Library/2026-04-28-17-47-55.gh-issue-=
-148292.oIq3ml.rst
--
--diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
--index 965dbc36f096499..03d9e3f9e5e96b5 100644
----- a/Lib/test/test_ssl.py
--+++ b/Lib/test/test_ssl.py
--@@ -2711,6 +2711,36 @@ def close(self):
--     def stop(self):
--         self.active =3D False
--=20
--+class TestEOFServer(threading.Thread):
--+    def __init__(self):
--+        super().__init__()
--+        self.listening =3D threading.Event()
--+        self.address =3D None
--+
--+    def run(self):
--+        context =3D ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
--+        context.load_cert_chain(CERTFILE)
--+        server_sock =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
--+        with server_sock:
--+            server_sock.settimeout(support.SHORT_TIMEOUT)
--+            server_sock.bind((HOST, 0))
--+            server_sock.listen(5)
--+
--+            self.address =3D server_sock.getsockname()
--+            self.listening.set()
--+
--+            sock, addr =3D server_sock.accept()
--+            sslconn =3D context.wrap_socket(sock, server_side=3DTrue)
--+            with sslconn:
--+                request =3D b''
--+                while chunk :=3D sslconn.recv(1024):
--+                    request +=3D chunk
--+                    if b'\n' in chunk:
--+                        break
--+
--+                sslconn.sendall(b'server\n')
--+                sslconn.shutdown(socket.SHUT_WR)
--+
-- class AsyncoreEchoServer(threading.Thread):
--=20
--     # this one's based on asyncore.dispatcher
--@@ -4747,6 +4777,58 @@ def background(sock):
--                     if cm.exc_value is not None:
--                         raise cm.exc_value
--=20
--+    def test_got_eof(self):
--+        # gh-148292: Test that _ssl._SSLSocket behaves the same on all Op=
-enSSL
--+        # versions on calling methods after EOF (after the first SSLEOFEr=
-ror).
--+
--+        server =3D TestEOFServer()
--+        server.start()
--+        if not server.listening.wait(support.SHORT_TIMEOUT):
--+            raise RuntimeError("server took too long")
--+        self.addCleanup(server.join)
--+
--+        context =3D ssl.create_default_context(cafile=3DCERTFILE)
--+        sock =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
--+        sock.settimeout(support.SHORT_TIMEOUT)
--+        sock.connect(server.address)
--+        sslsock =3D context.wrap_socket(sock, server_hostname=3D'localhos=
-t')
--+        with sslsock:
--+            sslsock.sendall(b'client\n')
--+            # test the _ssl._SSLSocket object, not ssl.SSLSocket
--+            sslobj =3D sslsock._sslobj
--+
--+            data =3D sslobj.read(1024)
--+            self.assertEqual(data, b'server\n')
--+
--+            # The second read gets EOF error and sets got_eof_error to 1
--+            with self.assertRaises(ssl.SSLEOFError):
--+                sslobj.read(1024)
--+
--+            # Following read(), sendfile(), write() and do_handshake() ca=
-lls
--+            # must raise SSLEOFError
--+            with self.assertRaises(ssl.SSLEOFError):
--+                # The _SSLSocket remembers the previous EOF error
--+                # and raises again SSLEOFError
--+                sslobj.read(1024)
--+            if hasattr(sslobj, 'sendfile'):
--+                with open(__file__, "rb") as fp:
--+                    with self.assertRaises(ssl.SSLEOFError):
--+                        sslobj.sendfile(fp.fileno(), 0, 1)
--+            with self.assertRaises(ssl.SSLEOFError):
--+                sslobj.write(b'client2\n')
--+            with self.assertRaises(ssl.SSLEOFError):
--+                sslsock.do_handshake()
--+
--+            self.assertEqual(sslsock.pending(), 0)
--+            try:
--+                sslsock.shutdown(socket.SHUT_WR)
--+            except OSError as exc:
--+                self.assertEqual(exc.errno, errno.ENOTCONN)
--+            else:
--+                # On Windows and on OpenSSL 1.1.1, shutdown() doesn't
--+                # raise an error
--+                pass
--+
--=20
-- @unittest.skipUnless(has_tls_version('TLSv1_3') and ssl.HAS_PHA,
--                      "Test needs TLS 1.3 PHA")
--diff --git a/Misc/NEWS.d/next/Library/2026-04-28-17-47-55.gh-issue-148292.=
-oIq3ml.rst b/Misc/NEWS.d/next/Library/2026-04-28-17-47-55.gh-issue-148292.o=
-Iq3ml.rst
--new file mode 100644
--index 000000000000000..e1f308df5a678e6
----- /dev/null
--+++ b/Misc/NEWS.d/next/Library/2026-04-28-17-47-55.gh-issue-148292.oIq3ml.=
-rst
--@@ -0,0 +1,7 @@
--+:mod:`ssl`: Update :class:`ssl.SSLSocket` and :class:`ssl.SSLObject` for
--+OpenSSL 4. The classes now remember if they get a :exc:`ssl.SSLEOFError`.=
- In this
--+case, following :meth:`~ssl.SSLSocket.read`, :meth:`!sendfile`,
--+:meth:`~ssl.SSLSocket.write`, and :meth:`~ssl.SSLSocket.do_handshake` cal=
-ls
--+raise :exc:`ssl.SSLEOFError` without calling the underlying OpenSSL funct=
-ion.
--+Thanks to that, :class:`ssl.SSLSocket` behaves the same on all OpenSSL ve=
-rsions
--+on EOF.  Patch by Victor Stinner.
--diff --git a/Modules/_ssl.c b/Modules/_ssl.c
--index 1603d0ffd559559..376df32b7cb4bd6 100644
----- a/Modules/_ssl.c
--+++ b/Modules/_ssl.c
--@@ -352,6 +352,16 @@ typedef struct {
--      * and shutdown methods check for chained exceptions.
--      */
--     PyObject *exc;
--+    // gh-148292: If non-zero, read(), sendfile(), write() and do_handsha=
-ke()
--+    // methods raise SSLEOFError without calling the underlying OpenSSL
--+    // function. Set to 1 on PY_SSL_ERROR_EOF error.
--+    //
--+    // On OpenSSL 4, if SSL_read_ex() fails with
--+    // SSL_R_UNEXPECTED_EOF_WHILE_READING, the following SSL_read_ex() ca=
-ll
--+    // fails with a generic protocol error (ERR_peek_last_error() returns=
- 0).
--+    // Use got_eof_error to have the same behavior on OpenSSL 4 and newer=
- and
--+    // on OpenSSL 3 and older.
--+    int got_eof_error;
-- } PySSLSocket;
--=20
-- #define PySSLSocket_CAST(op)    ((PySSLSocket *)(op))
--@@ -499,6 +509,10 @@ fill_and_set_sslerror(_sslmodulestate *state,
--     PyObject *init_value, *msg, *key;
--     PyUnicodeWriter *writer =3D NULL;
--=20
--+    if (ssl_errno =3D=3D PY_SSL_ERROR_EOF && sslsock !=3D NULL) {
--+        sslsock->got_eof_error =3D 1;
--+    }
--+
--     if (errcode !=3D 0) {
--         int lib, reason;
--=20
--@@ -654,6 +668,18 @@ PySSL_ChainExceptions(PySSLSocket *sslsock) {
--     return -1;
-- }
--=20
--+
--+static void
--+set_eof_error(PySSLSocket *sslsock)
--+{
--+    _sslmodulestate *state =3D get_state_sock(sslsock);
--+    fill_and_set_sslerror(state, sslsock, state->PySSLEOFErrorObject,
--+                          PY_SSL_ERROR_EOF,
--+                          "EOF occurred in violation of protocol",
--+                          __LINE__, 0);
--+}
--+
--+
-- static PyObject *
-- PySSL_SetError(PySSLSocket *sslsock, const char *filename, int lineno)
-- {
--@@ -901,6 +927,7 @@ newPySSLSocket(PySSLContext *sslctx, PySocketSockObjec=
-t *sock,
--     self->server_hostname =3D NULL;
--     self->err =3D err;
--     self->exc =3D NULL;
--+    self->got_eof_error =3D 0;
--=20
--     /* Make sure the SSL error state is initialized */
--     ERR_clear_error();
--@@ -1041,6 +1068,11 @@ _ssl__SSLSocket_do_handshake_impl(PySSLSocket *self=
-)
--         BIO_set_nbio(SSL_get_wbio(self->ssl), nonblocking);
--     }
--=20
--+    if (self->got_eof_error) {
--+        set_eof_error(self);
--+        goto error;
--+    }
--+
--     timeout =3D GET_SOCKET_TIMEOUT(sock);
--     has_timeout =3D (timeout > 0);
--     if (has_timeout) {
--@@ -2504,6 +2536,11 @@ _ssl__SSLSocket_write_impl(PySSLSocket *self, Py_bu=
-ffer *b)
--         BIO_set_nbio(SSL_get_wbio(self->ssl), nonblocking);
--     }
--=20
--+    if (self->got_eof_error) {
--+        set_eof_error(self);
--+        goto error;
--+    }
--+
--     timeout =3D GET_SOCKET_TIMEOUT(sock);
--     has_timeout =3D (timeout > 0);
--     if (has_timeout) {
--@@ -2644,6 +2681,11 @@ _ssl__SSLSocket_read_impl(PySSLSocket *self, Py_ssi=
-ze_t len,
--         Py_INCREF(sock);
--     }
--=20
--+    if (self->got_eof_error) {
--+        set_eof_error(self);
--+        goto error;
--+    }
--+
--     if (!group_right_1) {
--         dest =3D PyBytes_FromStringAndSize(NULL, len);
--         if (dest =3D=3D NULL)
-diff --git a/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shu=
-tdown-test-in-test_ssl.test_got_eof.patch b/meta/recipes-devtools/python/py=
-thon3/0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.patch
-deleted file mode 100644
-index af067f549c..0000000000
---- a/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shutdown-t=
-est-in-test_ssl.test_got_eof.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 81911909bc439d6de8ce6a173b0691b3c58e9e1a Mon Sep 17 00:00:00 2001
--From: Victor Stinner <vstinner@python.org>
--Date: Mon, 4 May 2026 16:20:25 +0200
--Subject: [PATCH] gh-148292: Remove shutdown() test in test_ssl.test_got_eo=
-f()
-- (#149366)
--
--The shutdown() behavior depends too much on the operating system and
--it's unrelated to the got_eof_error change.
--
--(cherry picked from commit 1e21cf6fee3830012e458c0fe5dbc6fcd45ace92)
--
--Upstream-Status: Backport [https://github.com/python/cpython/commit/819119=
-09bc43]
--
--Note: This is from the unmerged CPython PR #149783 which backports
--OpenSSL 4.0 support to the 3.14 branch. Upstream deferred merging
--until after Python 3.15.1 is released.
--
--Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-----
-- Lib/test/test_ssl.py | 8 --------
-- 1 file changed, 8 deletions(-)
--
--diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
--index 03d9e3f9e5e96b5..6445f122b4272be 100644
----- a/Lib/test/test_ssl.py
--+++ b/Lib/test/test_ssl.py
--@@ -4820,14 +4820,6 @@ def test_got_eof(self):
--                 sslsock.do_handshake()
--=20
--             self.assertEqual(sslsock.pending(), 0)
---            try:
---                sslsock.shutdown(socket.SHUT_WR)
---            except OSError as exc:
---                self.assertEqual(exc.errno, errno.ENOTCONN)
---            else:
---                # On Windows and on OpenSSL 1.1.1, shutdown() doesn't
---                # raise an error
---                pass
--=20
--=20
-- @unittest.skipUnless(has_tls_version('TLSv1_3') and ssl.HAS_PHA,
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/rec=
-ipes-devtools/python/python3/makerace.patch
-index 248a521118..c6c01332ce 100644
---- a/meta/recipes-devtools/python/python3/makerace.patch
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -1,4 +1,4 @@
--From b41557f570ff4451c477669d6ca5bfacabe21c66 Mon Sep 17 00:00:00 2001
-+From 7b796f0e8953a9c9e9402c8c60eccc19a33874a9 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Tue, 13 Jul 2021 23:19:29 +0100
- Subject: [PATCH] python3: Fix make race
-diff --git a/meta/recipes-devtools/python/python3/valid-dists.patch b/meta/=
-recipes-devtools/python/python3/valid-dists.patch
-deleted file mode 100644
-index 7fe18254e5..0000000000
---- a/meta/recipes-devtools/python/python3/valid-dists.patch
-+++ /dev/null
-@@ -1,164 +0,0 @@
--From 66874ce1a9f21b4b00dc85919734d58e6243ca29 Mon Sep 17 00:00:00 2001
--From: "Jason R. Coombs" <jaraco@jaraco.com>
--Date: Tue, 23 Jul 2024 08:36:16 -0400
--Subject: [PATCH] Prioritize valid dists to invalid dists when retrieving b=
-y
-- name.
--
--Closes python/importlib_metadata#489
--
--Upstream-Status: Backport [https://github.com/python/importlib_metadata/co=
-mmit/a65c29adc027b3615154cab73aaedd58a6aa23da]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- Lib/importlib/metadata/__init__.py   | 14 +++-
-- Lib/importlib/metadata/_itertools.py | 98 ++++++++++++++++++++++++++++
-- 2 files changed, 110 insertions(+), 2 deletions(-)
--
--diff --git a/Lib/importlib/metadata/__init__.py b/Lib/importlib/metadata/_=
-_init__.py
--index 8ce62dd..085378c 100644
----- a/Lib/importlib/metadata/__init__.py
--+++ b/Lib/importlib/metadata/__init__.py
--@@ -21,7 +21,7 @@ import collections
-- from . import _meta
-- from ._collections import FreezableDefaultDict, Pair
-- from ._functools import method_cache, pass_none
---from ._itertools import always_iterable, unique_everseen
--+from ._itertools import always_iterable, bucket, unique_everseen
-- from ._meta import PackageMetadata, SimplePath
--=20
-- from contextlib import suppress
--@@ -404,7 +404,7 @@ class Distribution(DeprecatedNonAbstract):
--         if not name:
--             raise ValueError("A distribution name is required.")
--         try:
---            return next(iter(cls.discover(name=3Dname)))
--+            return next(iter(cls._prefer_valid(cls.discover(name=3Dname))=
-))
--         except StopIteration:
--             raise PackageNotFoundError(name)
--=20
--@@ -428,6 +428,16 @@ class Distribution(DeprecatedNonAbstract):
--             resolver(context) for resolver in cls._discover_resolvers()
--         )
--=20
--+    @staticmethod
--+    def _prefer_valid(dists: Iterable[Distribution]) -> Iterable[Distribu=
-tion]:
--+        """
--+        Prefer (move to the front) distributions that have metadata.
--+
--+        Ref python/importlib_resources#489.
--+        """
--+        buckets =3D bucket(dists, lambda dist: bool(dist.metadata))
--+        return itertools.chain(buckets[True], buckets[False])
--+
--     @staticmethod
--     def at(path: str | os.PathLike[str]) -> Distribution:
--         """Return a Distribution for the indicated metadata path.
--diff --git a/Lib/importlib/metadata/_itertools.py b/Lib/importlib/metadata=
-/_itertools.py
--index d4ca9b9..79d3719 100644
----- a/Lib/importlib/metadata/_itertools.py
--+++ b/Lib/importlib/metadata/_itertools.py
--@@ -1,3 +1,4 @@
--+from collections import defaultdict, deque
-- from itertools import filterfalse
--=20
--=20
--@@ -71,3 +72,100 @@ def always_iterable(obj, base_type=3D(str, bytes)):
--         return iter(obj)
--     except TypeError:
--         return iter((obj,))
--+
--+
--+# Copied from more_itertools 10.3
--+class bucket:
--+    """Wrap *iterable* and return an object that buckets the iterable int=
-o
--+    child iterables based on a *key* function.
--+
--+        >>> iterable =3D ['a1', 'b1', 'c1', 'a2', 'b2', 'c2', 'b3']
--+        >>> s =3D bucket(iterable, key=3Dlambda x: x[0])  # Bucket by 1st=
- character
--+        >>> sorted(list(s))  # Get the keys
--+        ['a', 'b', 'c']
--+        >>> a_iterable =3D s['a']
--+        >>> next(a_iterable)
--+        'a1'
--+        >>> next(a_iterable)
--+        'a2'
--+        >>> list(s['b'])
--+        ['b1', 'b2', 'b3']
--+
--+    The original iterable will be advanced and its items will be cached u=
-ntil
--+    they are used by the child iterables. This may require significant st=
-orage.
--+
--+    By default, attempting to select a bucket to which no items belong  w=
-ill
--+    exhaust the iterable and cache all values.
--+    If you specify a *validator* function, selected buckets will instead =
-be
--+    checked against it.
--+
--+        >>> from itertools import count
--+        >>> it =3D count(1, 2)  # Infinite sequence of odd numbers
--+        >>> key =3D lambda x: x % 10  # Bucket by last digit
--+        >>> validator =3D lambda x: x in {1, 3, 5, 7, 9}  # Odd digits on=
-ly
--+        >>> s =3D bucket(it, key=3Dkey, validator=3Dvalidator)
--+        >>> 2 in s
--+        False
--+        >>> list(s[2])
--+        []
--+
--+    """
--+
--+    def __init__(self, iterable, key, validator=3DNone):
--+        self._it =3D iter(iterable)
--+        self._key =3D key
--+        self._cache =3D defaultdict(deque)
--+        self._validator =3D validator or (lambda x: True)
--+
--+    def __contains__(self, value):
--+        if not self._validator(value):
--+            return False
--+
--+        try:
--+            item =3D next(self[value])
--+        except StopIteration:
--+            return False
--+        else:
--+            self._cache[value].appendleft(item)
--+
--+        return True
--+
--+    def _get_values(self, value):
--+        """
--+        Helper to yield items from the parent iterator that match *value*=
-.
--+        Items that don't match are stored in the local cache as they
--+        are encountered.
--+        """
--+        while True:
--+            # If we've cached some items that match the target value, emi=
-t
--+            # the first one and evict it from the cache.
--+            if self._cache[value]:
--+                yield self._cache[value].popleft()
--+            # Otherwise we need to advance the parent iterator to search =
-for
--+            # a matching item, caching the rest.
--+            else:
--+                while True:
--+                    try:
--+                        item =3D next(self._it)
--+                    except StopIteration:
--+                        return
--+                    item_value =3D self._key(item)
--+                    if item_value =3D=3D value:
--+                        yield item
--+                        break
--+                    elif self._validator(item_value):
--+                        self._cache[item_value].append(item)
--+
--+    def __iter__(self):
--+        for item in self._it:
--+            item_value =3D self._key(item)
--+            if self._validator(item_value):
--+                self._cache[item_value].append(item)
--+
--+        yield from self._cache.keys()
--+
--+    def __getitem__(self, value):
--+        if not self._validator(value):
--+            return iter(())
--+
--+        return self._get_values(value)
-diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb b/meta/recipes-=
-devtools/python/python3_3.15.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.14.7.bb
-rename to meta/recipes-devtools/python/python3_3.15.0.bb
-index f917edebd8..71a2973e20 100644
---- a/meta/recipes-devtools/python/python3_3.14.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.15.0.bb
-@@ -18,19 +18,15 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
-hon-${PV}.tar.xz \
-            file://makerace.patch \
-            file://0001-sysconfig.py-use-platlibdir-also-for-purelib.patch =
-\
-            file://0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-mast=
-e.patch \
--           file://valid-dists.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch =
-\
-            file://0001-prefer-valid-entrypoints.patch \
--           file://0001-gh-146207-Add-support-for-OpenSSL-4.0.0.patch \
--           file://0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patc=
-h \
--           file://0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got=
-_eof.patch \
-            "
- SRC_URI:append:class-native =3D " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-config=
-u.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e25=
-2c11a66be27f81"
-+SRC_URI[sha256sum] =3D "ba4bed1ba346b916890b76d9e320451420aa69f6408997d33c=
-66482eeae3d575"
-=20
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-@@ -41,7 +37,7 @@ inherit upstream-stable-release-point
-=20
- CVE_PRODUCT =3D "python:python python_software_foundation:python cpython"
-=20
--PYTHON_MAJMIN =3D "3.14"
-+PYTHON_MAJMIN =3D "3.15"
-=20
- S =3D "${UNPACKDIR}/Python-${PV}"
-=20
-@@ -61,6 +57,7 @@ DEPENDS =3D "\
-     bzip2-replacement-native \
-     expat \
-     libffi \
-+    mpdecimal \
-     ncurses \
-     openssl \
-     sqlite3 \
-@@ -75,7 +72,7 @@ DEPENDS =3D "\
- DEPENDS:append:class-target =3D " python3-native"
- DEPENDS:append:class-nativesdk =3D " python3-native"
-=20
--EXTRA_OECONF =3D " --without-ensurepip --enable-shared --with-platlibdir=
-=3D${baselib} --with-system-expat"
-+EXTRA_OECONF =3D " --without-ensurepip --enable-shared --with-platlibdir=
-=3D${baselib} --with-system-expat --with-system-libmpdec"
- EXTRA_OECONF:append:class-native =3D " --bindir=3D${bindir}/${PN}"
- EXTRA_OECONF:append:class-target =3D " --with-build-python=3Dnativepython3=
- PLATFORM_TRIPLET=3D${HOST_ARCH}-${HOST_OS}"
- EXTRA_OECONF:append:class-nativesdk =3D " --with-build-python=3Dnativepyth=
-on3"
+SGVsbG8sDQoNCkknZCBhbHNvIGV4cGVjdCBzb21lIGNoYW5nZXMgaW4gcHl0aG9uMy1tYW5pZmVz
+dC5qc29uIGZvciBhIG5ldyByZWxlYXNlLg0KSGF2ZSB5b3UgY2hlY2tlZCB0aGF0Pw0KDQpQZXRl
+cg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgSmFpcGF1bCBDaGVlcm5hbQ0KPiBTZW50OiBN
+b25kYXksIE9jdG9iZXIgMTIsIDIwMjYgMTE6MDEgQU0NCj4gVG86IG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRDSCAyLzJd
+IHB5dGhvbjM6IHVwZ3JhZGUgMy4xNC43IC0+IDMuMTUuMA0KPiANCj4gUmVsZWFzZU5vdGVzOiBo
+dHRwczovL2RvY3MucHl0aG9uLm9yZy8zL3doYXRzbmV3L2NoYW5nZWxvZy5odG1sI3B5dGhvbi0z
+LTE1LQ0KPiAwLWZpbmFsDQo+IA0KPiAtIERyb3AgcGF0Y2hlcyB3aGljaCBhcmUgcGFydCBvZiB1
+cHN0cmVhbSByZWxlYXNlDQo+ICAgLSAwMDAxLWdoLTE0NjIwNy1BZGQtc3VwcG9ydC1mb3ItT3Bl
+blNTTC00LjAuMC5wYXRjaA0KPiAgIC0gMDAwMi1naC0xNDgyOTItVXBkYXRlLV9zc2wuX1NTTFNv
+Y2tldC1mb3ItT3BlblNTTC00LnBhdGNoDQo+ICAgLSAwMDAzLWdoLTE0ODI5Mi1SZW1vdmUtc2h1
+dGRvd24tdGVzdC1pbi10ZXN0X3NzbC50ZXN0X2dvdF9lb2YucGF0Y2gNCj4gICAtIHZhbGlkLWRp
+c3RzLnBhdGNoDQo+IC0gQWRkIG1wZGVjaW1hbCBkZXBlbmRlbmN5IGFuZCAtLXdpdGgtc3lzdGVt
+LWxpYm1wZGVjIGNvbmZpZ3VyZSBvcHRpb24NCj4gLSBCdW1wIFBZVEhPTl9CQVNFVkVSU0lPTiB0
+byAzLjE1IGluIHB5dGhvbjMtZGlyLmJiY2xhc3MNCj4gLSBSZWZyZXNoIGV4aXN0aW5nIHBhdGNo
+ZXMNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEphaXBhdWwgQ2hlZXJuYW0gPGphaXBhdWwuY2hlZXJu
+YW1AZXN0LnRlY2g+DQo+IC0tLQ0KPiAgbWV0YS9jbGFzc2VzLXJlY2lwZS9weXRob24zLWRpci5i
+YmNsYXNzICAgICAgIHwgICAyICstDQo+ICAuLi5zaGViYW5nLW92ZXJmbG93LW9uLXB5dGhvbi1j
+b25maWcucHkucGF0Y2ggfCAgIDIgKy0NCj4gIC4uLmUtc3RkaW4tSS1PLWVycm9ycy1zYW1lLXdh
+eS1hcy1tYXN0ZS5wYXRjaCB8ICAgMiArLQ0KPiAgLi4uLXVzZS1wcmVmaXgtdmFsdWUtZnJvbS1i
+dWlsZC1jb25maWd1LnBhdGNoIHwgICAyICstDQo+ICAuLi4tcWVtdS13cmFwcGVyLXdoZW4tZ2F0
+aGVyaW5nLXByb2ZpbGUucGF0Y2ggfCAgIDIgKy0NCj4gIC4uLmVzdF9zeXNjb25maWctZm9yLXBv
+c2l4X3VzZXItcHVyZWxpYi5wYXRjaCB8ICAgMiArLQ0KPiAgLi4uMTQ2MjA3LUFkZC1zdXBwb3J0
+LWZvci1PcGVuU1NMLTQuMC4wLnBhdGNoIHwgMjU3IC0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgLi4u
+LzAwMDEtcHJlZmVyLXZhbGlkLWVudHJ5cG9pbnRzLnBhdGNoICAgICAgIHwgICAyICstDQo+ICAu
+Li5nLnB5LXVzZS1wbGF0bGliZGlyLWFsc28tZm9yLXB1cmVsaWIucGF0Y2ggfCAgIDIgKy0NCj4g
+IC4uLmxlLnB5LWNvcnJlY3QtdGhlLXRlc3Qtb3V0cHV0LWZvcm1hdC5wYXRjaCB8ICAgMiArLQ0K
+PiAgLi4uVXBkYXRlLV9zc2wuX1NTTFNvY2tldC1mb3ItT3BlblNTTC00LnBhdGNoIHwgMjM0IC0t
+LS0tLS0tLS0tLS0tLS0NCj4gIC4uLnV0ZG93bi10ZXN0LWluLXRlc3Rfc3NsLnRlc3RfZ290X2Vv
+Zi5wYXRjaCB8ICA0MSAtLS0NCj4gIC4uLi9weXRob24vcHl0aG9uMy9tYWtlcmFjZS5wYXRjaCAg
+ICAgICAgICAgICB8ICAgMiArLQ0KPiAgLi4uL3B5dGhvbi9weXRob24zL3ZhbGlkLWRpc3RzLnBh
+dGNoICAgICAgICAgIHwgMTY0IC0tLS0tLS0tLS0tDQo+ICAuLi4ve3B5dGhvbjNfMy4xNC43LmJi
+ID0+IHB5dGhvbjNfMy4xNS4wLmJifSAgfCAgMTEgKy0NCj4gIDE1IGZpbGVzIGNoYW5nZWQsIDE0
+IGluc2VydGlvbnMoKyksIDcxMyBkZWxldGlvbnMoLSkNCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1naC0xNDYyMDctDQo+IEFk
+ZC1zdXBwb3J0LWZvci1PcGVuU1NMLTQuMC4wLnBhdGNoDQo+ICBkZWxldGUgbW9kZSAxMDA2NDQg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDItZ2gtMTQ4MjkyLQ0KPiBV
+cGRhdGUtX3NzbC5fU1NMU29ja2V0LWZvci1PcGVuU1NMLTQucGF0Y2gNCj4gIGRlbGV0ZSBtb2Rl
+IDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMy1naC0xNDgy
+OTItDQo+IFJlbW92ZS1zaHV0ZG93bi10ZXN0LWluLXRlc3Rfc3NsLnRlc3RfZ290X2VvZi5wYXRj
+aA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy92YWxpZC1kaXN0cy5wYXRjaA0KPiAgcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24ve3B5dGhvbjNfMy4xNC43LmJiID0+DQo+IHB5dGhvbjNfMy4xNS4wLmJifSAoOTglKQ0K
+PiANCj4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy1yZWNpcGUvcHl0aG9uMy1kaXIuYmJjbGFz
+cyBiL21ldGEvY2xhc3Nlcy0NCj4gcmVjaXBlL3B5dGhvbjMtZGlyLmJiY2xhc3MNCj4gaW5kZXgg
+M2ViMGRlYTliMi4uYjI2NjIxZjM2NSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jbGFzc2VzLXJlY2lw
+ZS9weXRob24zLWRpci5iYmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy1yZWNpcGUvcHl0aG9u
+My1kaXIuYmJjbGFzcw0KPiBAQCAtNCw3ICs0LDcgQEANCj4gICMgU1BEWC1MaWNlbnNlLUlkZW50
+aWZpZXI6IE1JVA0KPiAgIw0KPiANCj4gLVBZVEhPTl9CQVNFVkVSU0lPTiA9ICIzLjE0Ig0KPiAr
+UFlUSE9OX0JBU0VWRVJTSU9OID0gIjMuMTUiDQo+ICBQWVRIT05fQUJJID0gIiINCj4gIFBZVEhP
+Tl9ESVIgPSAicHl0aG9uJHtQWVRIT05fQkFTRVZFUlNJT059Ig0KPiAgUFlUSE9OX1BOID0gInB5
+dGhvbjMiDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMvMDAwMS1Bdm9pZC1zaGViYW5nLW92ZXJmbG93LQ0KPiBvbi1weXRob24tY29uZmlnLnB5LnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtQXZvaWQtDQo+
+IHNoZWJhbmctb3ZlcmZsb3ctb24tcHl0aG9uLWNvbmZpZy5weS5wYXRjaA0KPiBpbmRleCA3YTYw
+NTM4MzY0Li40N2FjMjlmMjA5IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMvMDAwMS1Bdm9pZC1zaGViYW5nLW92ZXJmbG93LW9uLQ0KPiBweXRob24t
+Y29uZmlnLnB5LnBhdGNoDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy8wMDAxLUF2b2lkLXNoZWJhbmctb3ZlcmZsb3ctb24tDQo+IHB5dGhvbi1jb25maWcucHku
+cGF0Y2gNCj4gQEAgLTEsNCArMSw0IEBADQo+IC1Gcm9tIDNmMmRmMGUxZmNlOGM3NDI1OTk4ZGFk
+ZTAwZDA4NGYxYjEwMWE5ODIgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+ICtGcm9tIGIx
+OWVkYjMwNmUyYzAzNTUzNmE5MDRjODJjMmZiNGIxOGY1MjljZjIgTW9uIFNlcCAxNyAwMDowMDow
+MA0KPiAyMDAxDQo+ICBGcm9tOiBQYXVsbyBOZXZlcyA8cHRzbmV2ZXNAZ21haWwuY29tPg0KPiAg
+RGF0ZTogVHVlLCA3IEp1biAyMDIyIDE2OjE2OjQxICswMjAwDQo+ICBTdWJqZWN0OiBbUEFUQ0hd
+IEF2b2lkIHNoZWJhbmcgb3ZlcmZsb3cgb24gcHl0aG9uLWNvbmZpZy5weQ0KPiBkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtTGliLXB0eS5weS1o
+YW5kbGUtc3RkaW4tSS0NCj4gTy1lcnJvcnMtc2FtZS13YXktYXMtbWFzdGUucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtDQo+IGRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtTGliLXB0eS5weS1oYW5k
+bGUtc3RkaW4tSS1PLWVycm9ycy1zYW1lLXdheS1hcy0NCj4gbWFzdGUucGF0Y2gNCj4gaW5kZXgg
+NTMyYWRmZTY5YS4uY2MyZmRmNGJiOCAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLzAwMDEtTGliLXB0eS5weS1oYW5kbGUtc3RkaW4tSS1PLQ0KPiBl
+cnJvcnMtc2FtZS13YXktYXMtbWFzdGUucGF0Y2gNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLzAwMDEtTGliLXB0eS5weS1oYW5kbGUtc3RkaW4tSS1PLQ0KPiBl
+cnJvcnMtc2FtZS13YXktYXMtbWFzdGUucGF0Y2gNCj4gQEAgLTEsNCArMSw0IEBADQo+IC1Gcm9t
+IDljZDQ0NDI5MjE1MzUyZWIyNzUzZTBmZDhlMjVmZWYyNGY3MTQwMDYgTW9uIFNlcCAxNyAwMDow
+MDowMA0KPiAyMDAxDQo+ICtGcm9tIGNiNzQ0ZDJjY2Y3NGQ1ZWYyMWZhNDk2YTQxOGQyOTYzZGYy
+OGEzOGYgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+ICBGcm9tOiBBbGV4YW5kZXIgS2Fu
+YXZpbiA8YWxleEBsaW51dHJvbml4LmRlPg0KPiAgRGF0ZTogVGh1LCAxNiBTZXAgMjAyMSAxNjoz
+NTozNyArMDIwMA0KPiAgU3ViamVjdDogW1BBVENIXSBMaWIvcHR5LnB5OiBoYW5kbGUgc3RkaW4g
+SS9PIGVycm9ycyBzYW1lIHdheSBhcyBtYXN0ZXIgSS9PDQo+IGRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1MaWItc3lzY29uZmlnLnB5LXVzZS0N
+Cj4gcHJlZml4LXZhbHVlLWZyb20tYnVpbGQtY29uZmlndS5wYXRjaCBiL21ldGEvcmVjaXBlcy0N
+Cj4gZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1MaWItc3lzY29uZmlnLnB5LXVzZS1wcmVm
+aXgtdmFsdWUtZnJvbS1idWlsZC0NCj4gY29uZmlndS5wYXRjaA0KPiBpbmRleCA2MDM5MWU3MjZi
+Li4wZmNlMGZjMDI3IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMvMDAwMS1MaWItc3lzY29uZmlnLnB5LXVzZS1wcmVmaXgtDQo+IHZhbHVlLWZyb20t
+YnVpbGQtY29uZmlndS5wYXRjaA0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMvMDAwMS1MaWItc3lzY29uZmlnLnB5LXVzZS1wcmVmaXgtDQo+IHZhbHVlLWZyb20t
+YnVpbGQtY29uZmlndS5wYXRjaA0KPiBAQCAtMSw0ICsxLDQgQEANCj4gLUZyb20gYjVhYWQ2YTli
+NmM1YWRkN2E4NTg2MWFlZDhhYTAzMGMxYWQzZDUyZiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIw
+MDENCj4gK0Zyb20gNWJkNmEzYzVmOTU3Y2FjZGY1MWUwN2FlOTRjNzRmYmY2ZTdmMGYyOCBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxp
+bnV0cm9uaXguZGU+DQo+ICBEYXRlOiBGcmksIDE3IE5vdiAyMDIzIDE0OjI2OjMyICswMTAwDQo+
+ICBTdWJqZWN0OiBbUEFUQ0hdIExpYi9zeXNjb25maWcucHk6IHVzZSBwcmVmaXggdmFsdWUgZnJv
+bSBidWlsZCBjb25maWd1cmF0aW9uDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1NYWtlZmlsZS5wcmUtdXNlLXFlbXUtDQo+IHdyYXBwZXIt
+d2hlbi1nYXRoZXJpbmctcHJvZmlsZS5wYXRjaCBiL21ldGEvcmVjaXBlcy0NCj4gZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMvMDAwMS1NYWtlZmlsZS5wcmUtdXNlLXFlbXUtd3JhcHBlci13aGVuLWdh
+dGhlcmluZy0NCj4gcHJvZmlsZS5wYXRjaA0KPiBpbmRleCBjN2YxNGNhZDFlLi5kODNkMDBlMGNm
+IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAw
+MS1NYWtlZmlsZS5wcmUtdXNlLXFlbXUtDQo+IHdyYXBwZXItd2hlbi1nYXRoZXJpbmctcHJvZmls
+ZS5wYXRjaA0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAw
+MS1NYWtlZmlsZS5wcmUtdXNlLXFlbXUtDQo+IHdyYXBwZXItd2hlbi1nYXRoZXJpbmctcHJvZmls
+ZS5wYXRjaA0KPiBAQCAtMSw0ICsxLDQgQEANCj4gLUZyb20gZDZmNzdlM2E5MzQ2MTZkMWY2YzA4
+M2I3MTQ0YzUwYTMyZTA4YjcwYSBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gK0Zyb20g
+NjRhNDJmMWE2MThiZTdhZjRlNWQzMWZmYmVlYjQxNjliYWQ4NjVhOSBNb24gU2VwIDE3IDAwOjAw
+OjAwDQo+IDIwMDENCj4gIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21h
+aWwuY29tPg0KPiAgRGF0ZTogV2VkLCAzMCBKYW4gMjAxOSAxMjo0MTowNCArMDEwMA0KPiAgU3Vi
+amVjdDogW1BBVENIXSBNYWtlZmlsZS5wcmU6IHVzZSBxZW11IHdyYXBwZXIgd2hlbiBnYXRoZXJp
+bmcgcHJvZmlsZSBkYXRhDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMvMDAwMS1VcGRhdGUtdGVzdF9zeXNjb25maWctZm9yLQ0KPiBwb3NpeF91c2Vy
+LXB1cmVsaWIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAw
+MS1VcGRhdGUtDQo+IHRlc3Rfc3lzY29uZmlnLWZvci1wb3NpeF91c2VyLXB1cmVsaWIucGF0Y2gN
+Cj4gaW5kZXggNTUwOWI3NDc1YS4uOTVkN2U0YmQwNyAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtVXBkYXRlLXRlc3Rfc3lzY29uZmlnLWZv
+ci0NCj4gcG9zaXhfdXNlci1wdXJlbGliLnBhdGNoDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy8wMDAxLVVwZGF0ZS10ZXN0X3N5c2NvbmZpZy1mb3ItDQo+IHBv
+c2l4X3VzZXItcHVyZWxpYi5wYXRjaA0KPiBAQCAtMSw0ICsxLDQgQEANCj4gLUZyb20gYzYwOGNi
+NGIzYzhjMzFmMWFhMjVhZDEyNjRmZjU4NzMzZmI5OTc2OSBNb24gU2VwIDE3IDAwOjAwOjAwDQo+
+IDIwMDENCj4gK0Zyb20gMmNjYTA4ZTJjYjRiZTBhNzI1YzRjOWVhNzYyMzRiZmVhNWE4NTM0YyBN
+b24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gIEZyb206IFdlbnRhbyBaaGFuZyA8d2VudGFv
+LnpoYW5nQHdpbmRyaXZlci5jb20+DQo+ICBEYXRlOiBNb24sIDIwIE1hciAyMDIzIDEzOjM5OjUy
+ICswODAwDQo+ICBTdWJqZWN0OiBbUEFUQ0hdIFVwZGF0ZSB0ZXN0X3N5c2NvbmZpZyBmb3IgcG9z
+aXhfdXNlciBwdXJlbGliDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMvMDAwMS1naC0xNDYyMDctQWRkLXN1cHBvcnQtDQo+IGZvci1PcGVuU1NMLTQu
+MC4wLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtZ2gt
+DQo+IDE0NjIwNy1BZGQtc3VwcG9ydC1mb3ItT3BlblNTTC00LjAuMC5wYXRjaA0KPiBkZWxldGVk
+IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggYmVmNjA0NDM1OC4uMDAwMDAwMDAwMA0KPiAtLS0g
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1naC0xNDYyMDctQWRk
+LXN1cHBvcnQtZm9yLQ0KPiBPcGVuU1NMLTQuMC4wLnBhdGNoDQo+ICsrKyAvZGV2L251bGwNCj4g
+QEAgLTEsMjU3ICswLDAgQEANCj4gLUZyb20gMzM2NGU3ZTYyZmEyNGQwZTE5MTMzZmIwZjkwYjFj
+MjRlZjExMTBjNSBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gLUZyb206IFZpY3RvciBT
+dGlubmVyIDx2c3Rpbm5lckBweXRob24ub3JnPg0KPiAtRGF0ZTogV2VkLCAyNSBNYXIgMjAyNiAw
+Nzo0NDo0NyArMDEwMA0KPiAtU3ViamVjdDogW1BBVENIXSBnaC0xNDYyMDc6IEFkZCBzdXBwb3J0
+IGZvciBPcGVuU1NMIDQuMC4wIGFscGhhMSAoIzE0NjIxNykNCj4gLQ0KPiAtT3BlblNTTCA0LjAu
+MCBhbHBoYTEgcmVtb3ZlZCB0aGVzZSBmdW5jdGlvbnM6DQo+IC0NCj4gLSogU1NMdjNfbWV0aG9k
+KCkNCj4gLSogVExTdjFfbWV0aG9kKCkNCj4gLSogVExTdjFfMV9tZXRob2QoKQ0KPiAtKiBUTFN2
+MV8yX21ldGhvZCgpDQo+IC0NCj4gLU90aGVyIGNoYW5nZXM6DQo+IC0NCj4gLSogVXBkYXRlIHRl
+c3Rfb3BlbnNzbF92ZXJzaW9uKCkuDQo+IC0qIFVwZGF0ZSBtdWx0aXNzbHRlc3RzLnB5IGZvciBP
+cGVuU1NMIDQuDQo+IC0qIEFkZCBjb25zdCBxdWFsaWZpZXIgdG8gZml4IGNvbXBpbGVyIHdhcm5p
+bmdzLg0KPiAtDQo+IC1Dby1hdXRob3JlZC1ieTogQsOpbsOpZGlrdCBUcmFuIDwxMDc5NjYwMCtw
+aWNuaXh6QHVzZXJzLm5vcmVwbHkuZ2l0aHViLmNvbT4NCj4gLVNpZ25lZC1vZmYtYnk6IFZpY3Rv
+ciBTdGlubmVyIDx2c3Rpbm5lckBweXRob24ub3JnPg0KPiAtDQo+IC1VcHN0cmVhbS1TdGF0dXM6
+IEJhY2twb3J0DQo+IFtodHRwczovL2dpdGh1Yi5jb20vcHl0aG9uL2NweXRob24vY29tbWl0LzMz
+NjRlN2U2MmZhMjRkMGUxOTEzM2ZiMGY5MGIxYzI0DQo+IGVmMTExMGM1XQ0KPiAtU2lnbmVkLW9m
+Zi1ieTogSmFpcGF1bCBDaGVlcm5hbSA8amFpcGF1bC5jaGVlcm5hbUBlc3QudGVjaD4NCj4gLS0t
+LQ0KPiAtIExpYi90ZXN0L3Rlc3Rfc3NsLnB5ICAgICAgIHwgNTIgKysrKysrKysrKysrKysrKysr
+KystLS0tLS0tLS0tLS0tLS0tLS0NCj4gLSBNb2R1bGVzL19zc2wuYyAgICAgICAgICAgICB8IDI3
+ICsrKysrKysrKysrKysrKystLS0tDQo+IC0gTW9kdWxlcy9fc3NsL2NlcnQuYyAgICAgICAgfCAg
+MyArKy0NCj4gLSBUb29scy9zc2wvbXVsdGlzc2x0ZXN0cy5weSB8ICA3ICsrKystDQo+IC0gNCBm
+aWxlcyBjaGFuZ2VkLCA1OCBpbnNlcnRpb25zKCspLCAzMSBkZWxldGlvbnMoLSkNCj4gLQ0KPiAt
+ZGlmZiAtLWdpdCBhL0xpYi90ZXN0L3Rlc3Rfc3NsLnB5IGIvTGliL3Rlc3QvdGVzdF9zc2wucHkN
+Cj4gLWluZGV4IGRjNzk1YzZiZDhhLi42MTM1NTkyNzI5NiAxMDA2NDQNCj4gLS0tLSBhL0xpYi90
+ZXN0L3Rlc3Rfc3NsLnB5DQo+IC0rKysgYi9MaWIvdGVzdC90ZXN0X3NzbC5weQ0KPiAtQEAgLTM5
+NSw3ICszOTUsNyBAQCBkZWYgdGVzdF9jb25zdGFudHMoc2VsZik6DQo+IC0gICAgICAgICBzc2wu
+T1BfTk9fQ09NUFJFU1NJT04NCj4gLSAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwoc3NsLkhBU19T
+TkksIFRydWUpDQo+IC0gICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHNzbC5IQVNfRUNESCwgVHJ1
+ZSkNCj4gLS0gICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwoc3NsLkhBU19UTFN2MV8yLCBUcnVlKQ0K
+PiAtKyAgICAgICAgc2VsZi5hc3NlcnRJc0luc3RhbmNlKHNzbC5IQVNfVExTdjFfMiwgYm9vbCkN
+Cj4gLSAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwoc3NsLkhBU19UTFN2MV8zLCBUcnVlKQ0KPiAt
+ICAgICAgICAgc3NsLk9QX05PX1NTTHYyDQo+IC0gICAgICAgICBzc2wuT1BfTk9fU1NMdjMNCj4g
+LUBAIC01ODYsMTEgKzU4NiwxMSBAQCBkZWYgdGVzdF9vcGVuc3NsX3ZlcnNpb24oc2VsZik6DQo+
+IC0gICAgICAgICAjIFNvbWUgc2FuaXR5IGNoZWNrcyBmb2xsb3cNCj4gLSAgICAgICAgICMgPj0g
+MS4xLjENCj4gLSAgICAgICAgIHNlbGYuYXNzZXJ0R3JlYXRlckVxdWFsKG4sIDB4MTAxMDEwMDAp
+DQo+IC0tICAgICAgICAjIDwgNC4wDQo+IC0tICAgICAgICBzZWxmLmFzc2VydExlc3MobiwgMHg0
+MDAwMDAwMCkNCj4gLSsgICAgICAgICMgPCA1LjANCj4gLSsgICAgICAgIHNlbGYuYXNzZXJ0TGVz
+cyhuLCAweDUwMDAwMDAwKQ0KPiAtICAgICAgICAgbWFqb3IsIG1pbm9yLCBmaXgsIHBhdGNoLCBz
+dGF0dXMgPSB0DQo+IC0gICAgICAgICBzZWxmLmFzc2VydEdyZWF0ZXJFcXVhbChtYWpvciwgMSkN
+Cj4gLS0gICAgICAgIHNlbGYuYXNzZXJ0TGVzcyhtYWpvciwgNCkNCj4gLSsgICAgICAgIHNlbGYu
+YXNzZXJ0TGVzcyhtYWpvciwgNSkNCj4gLSAgICAgICAgIHNlbGYuYXNzZXJ0R3JlYXRlckVxdWFs
+KG1pbm9yLCAwKQ0KPiAtICAgICAgICAgc2VsZi5hc3NlcnRMZXNzKG1pbm9yLCAyNTYpDQo+IC0g
+ICAgICAgICBzZWxmLmFzc2VydEdyZWF0ZXJFcXVhbChmaXgsIDApDQo+IC1AQCAtNjU2LDEyICs2
+NTYsMTQgQEAgZGVmIHRlc3Rfb3BlbnNzbDExMV9kZXByZWNhdGlvbnMoc2VsZik6DQo+IC0gICAg
+ICAgICAgICAgc3NsLk9QX05PX1RMU3YxXzIsDQo+IC0gICAgICAgICAgICAgc3NsLk9QX05PX1RM
+U3YxXzMNCj4gLSAgICAgICAgIF0NCj4gLS0gICAgICAgIHByb3RvY29scyA9IFsNCj4gLS0gICAg
+ICAgICAgICBzc2wuUFJPVE9DT0xfVExTdjEsDQo+IC0tICAgICAgICAgICAgc3NsLlBST1RPQ09M
+X1RMU3YxXzEsDQo+IC0tICAgICAgICAgICAgc3NsLlBST1RPQ09MX1RMU3YxXzIsDQo+IC0tICAg
+ICAgICAgICAgc3NsLlBST1RPQ09MX1RMUw0KPiAtLSAgICAgICAgXQ0KPiAtKyAgICAgICAgcHJv
+dG9jb2xzID0gW10NCj4gLSsgICAgICAgIGlmIGhhc2F0dHIoc3NsLCAnUFJPVE9DT0xfVExTdjEn
+KToNCj4gLSsgICAgICAgICAgICBwcm90b2NvbHMuYXBwZW5kKHNzbC5QUk9UT0NPTF9UTFN2MSkN
+Cj4gLSsgICAgICAgIGlmIGhhc2F0dHIoc3NsLCAnUFJPVE9DT0xfVExTdjFfMScpOg0KPiAtKyAg
+ICAgICAgICAgIHByb3RvY29scy5hcHBlbmQoc3NsLlBST1RPQ09MX1RMU3YxXzEpDQo+IC0rICAg
+ICAgICBpZiBoYXNhdHRyKHNzbCwgJ1BST1RPQ09MX1RMU3YxXzInKToNCj4gLSsgICAgICAgICAg
+ICBwcm90b2NvbHMuYXBwZW5kKHNzbC5QUk9UT0NPTF9UTFN2MV8yKQ0KPiAtKyAgICAgICAgcHJv
+dG9jb2xzLmFwcGVuZChzc2wuUFJPVE9DT0xfVExTKQ0KPiAtICAgICAgICAgdmVyc2lvbnMgPSBb
+DQo+IC0gICAgICAgICAgICAgc3NsLlRMU1ZlcnNpb24uU1NMdjMsDQo+IC0gICAgICAgICAgICAg
+c3NsLlRMU1ZlcnNpb24uVExTdjEsDQo+IC1AQCAtMTIwNSw2ICsxMjA3LDcgQEAgZGVmIHRlc3Rf
+bWluX21heF92ZXJzaW9uKHNlbGYpOg0KPiAtICAgICAgICAgICAgICAgICBzc2wuVExTVmVyc2lv
+bi5UTFN2MSwNCj4gLSAgICAgICAgICAgICAgICAgc3NsLlRMU1ZlcnNpb24uVExTdjFfMSwNCj4g
+LSAgICAgICAgICAgICAgICAgc3NsLlRMU1ZlcnNpb24uVExTdjFfMiwNCj4gLSsgICAgICAgICAg
+ICAgICAgc3NsLlRMU1ZlcnNpb24uVExTdjFfMywNCj4gLSAgICAgICAgICAgICAgICAgc3NsLlRM
+U1ZlcnNpb24uU1NMdjMsDQo+IC0gICAgICAgICAgICAgfQ0KPiAtICAgICAgICAgKQ0KPiAtQEAg
+LTEyMTgsNyArMTIyMSw3IEBAIGRlZiB0ZXN0X21pbl9tYXhfdmVyc2lvbihzZWxmKToNCj4gLSAg
+ICAgICAgIHdpdGggc2VsZi5hc3NlcnRSYWlzZXMoVmFsdWVFcnJvcik6DQo+IC0gICAgICAgICAg
+ICAgY3R4Lm1pbmltdW1fdmVyc2lvbiA9IDQyDQo+IC0NCj4gLS0gICAgICAgIGlmIGhhc190bHNf
+cHJvdG9jb2woc3NsLlBST1RPQ09MX1RMU3YxXzEpOg0KPiAtKyAgICAgICAgaWYgaGFzX3Rsc19w
+cm90b2NvbCgnUFJPVE9DT0xfVExTdjFfMScpOg0KPiAtICAgICAgICAgICAgIGN0eCA9IHNzbC5T
+U0xDb250ZXh0KHNzbC5QUk9UT0NPTF9UTFN2MV8xKQ0KPiAtDQo+IC0gICAgICAgICAgICAgc2Vs
+Zi5hc3NlcnRJbigNCj4gLUBAIC0xNjc1LDIzICsxNjc4LDI0IEBAIGRlZiB0ZXN0X19jcmVhdGVf
+c3RkbGliX2NvbnRleHQoc2VsZik6DQo+IC0gICAgICAgICBzZWxmLmFzc2VydEZhbHNlKGN0eC5j
+aGVja19ob3N0bmFtZSkNCj4gLSAgICAgICAgIHNlbGYuX2Fzc2VydF9jb250ZXh0X29wdGlvbnMo
+Y3R4KQ0KPiAtDQo+IC0tICAgICAgICBpZiBoYXNfdGxzX3Byb3RvY29sKHNzbC5QUk9UT0NPTF9U
+TFN2MSk6DQo+IC0rICAgICAgICBpZiBoYXNfdGxzX3Byb3RvY29sKCdQUk9UT0NPTF9UTFN2MScp
+Og0KPiAtICAgICAgICAgICAgIHdpdGggd2FybmluZ3NfaGVscGVyLmNoZWNrX3dhcm5pbmdzKCk6
+DQo+IC0gICAgICAgICAgICAgICAgIGN0eCA9IHNzbC5fY3JlYXRlX3N0ZGxpYl9jb250ZXh0KHNz
+bC5QUk9UT0NPTF9UTFN2MSkNCj4gLSAgICAgICAgICAgICBzZWxmLmFzc2VydEVxdWFsKGN0eC5w
+cm90b2NvbCwgc3NsLlBST1RPQ09MX1RMU3YxKQ0KPiAtICAgICAgICAgICAgIHNlbGYuYXNzZXJ0
+RXF1YWwoY3R4LnZlcmlmeV9tb2RlLCBzc2wuQ0VSVF9OT05FKQ0KPiAtICAgICAgICAgICAgIHNl
+bGYuX2Fzc2VydF9jb250ZXh0X29wdGlvbnMoY3R4KQ0KPiAtDQo+IC0tICAgICAgICB3aXRoIHdh
+cm5pbmdzX2hlbHBlci5jaGVja193YXJuaW5ncygpOg0KPiAtLSAgICAgICAgICAgIGN0eCA9IHNz
+bC5fY3JlYXRlX3N0ZGxpYl9jb250ZXh0KA0KPiAtLSAgICAgICAgICAgICAgICBzc2wuUFJPVE9D
+T0xfVExTdjFfMiwNCj4gLS0gICAgICAgICAgICAgICAgY2VydF9yZXFzPXNzbC5DRVJUX1JFUVVJ
+UkVELA0KPiAtLSAgICAgICAgICAgICAgICBjaGVja19ob3N0bmFtZT1UcnVlDQo+IC0tICAgICAg
+ICAgICAgKQ0KPiAtLSAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChjdHgucHJvdG9jb2wsIHNzbC5Q
+Uk9UT0NPTF9UTFN2MV8yKQ0KPiAtLSAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChjdHgudmVyaWZ5
+X21vZGUsIHNzbC5DRVJUX1JFUVVJUkVEKQ0KPiAtLSAgICAgICAgc2VsZi5hc3NlcnRUcnVlKGN0
+eC5jaGVja19ob3N0bmFtZSkNCj4gLS0gICAgICAgIHNlbGYuX2Fzc2VydF9jb250ZXh0X29wdGlv
+bnMoY3R4KQ0KPiAtKyAgICAgICAgaWYgaGFzX3Rsc19wcm90b2NvbCgnUFJPVE9DT0xfVExTdjFf
+MicpOg0KPiAtKyAgICAgICAgICAgIHdpdGggd2FybmluZ3NfaGVscGVyLmNoZWNrX3dhcm5pbmdz
+KCk6DQo+IC0rICAgICAgICAgICAgICAgIGN0eCA9IHNzbC5fY3JlYXRlX3N0ZGxpYl9jb250ZXh0
+KA0KPiAtKyAgICAgICAgICAgICAgICAgICAgc3NsLlBST1RPQ09MX1RMU3YxXzIsDQo+IC0rICAg
+ICAgICAgICAgICAgICAgICBjZXJ0X3JlcXM9c3NsLkNFUlRfUkVRVUlSRUQsDQo+IC0rICAgICAg
+ICAgICAgICAgICAgICBjaGVja19ob3N0bmFtZT1UcnVlDQo+IC0rICAgICAgICAgICAgICAgICkN
+Cj4gLSsgICAgICAgICAgICBzZWxmLmFzc2VydEVxdWFsKGN0eC5wcm90b2NvbCwgc3NsLlBST1RP
+Q09MX1RMU3YxXzIpDQo+IC0rICAgICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChjdHgudmVyaWZ5
+X21vZGUsIHNzbC5DRVJUX1JFUVVJUkVEKQ0KPiAtKyAgICAgICAgICAgIHNlbGYuYXNzZXJ0VHJ1
+ZShjdHguY2hlY2tfaG9zdG5hbWUpDQo+IC0rICAgICAgICAgICAgc2VsZi5fYXNzZXJ0X2NvbnRl
+eHRfb3B0aW9ucyhjdHgpDQo+IC0NCj4gLSAgICAgICAgIGN0eCA9IHNzbC5fY3JlYXRlX3N0ZGxp
+Yl9jb250ZXh0KHB1cnBvc2U9c3NsLlB1cnBvc2UuQ0xJRU5UX0FVVEgpDQo+IC0gICAgICAgICBz
+ZWxmLmFzc2VydEVxdWFsKGN0eC5wcm90b2NvbCwgc3NsLlBST1RPQ09MX1RMU19TRVJWRVIpDQo+
+IC1AQCAtMzY1NCwxMCArMzY1OCwxMCBAQCBkZWYgdGVzdF9wcm90b2NvbF90bHN2MV8yKHNlbGYp
+Og0KPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNsaWVudF9vcHRpb25zPXNzbC5PUF9O
+T19UTFN2MV8yKQ0KPiAtDQo+IC0gICAgICAgICB0cnlfcHJvdG9jb2xfY29tYm8oc3NsLlBST1RP
+Q09MX1RMUywgc3NsLlBST1RPQ09MX1RMU3YxXzIsDQo+ICdUTFN2MS4yJykNCj4gLS0gICAgICAg
+IGlmIGhhc190bHNfcHJvdG9jb2woc3NsLlBST1RPQ09MX1RMU3YxKToNCj4gLSsgICAgICAgIGlm
+IGhhc190bHNfcHJvdG9jb2woJ1BST1RPQ09MX1RMU3YxJyk6DQo+IC0gICAgICAgICAgICAgdHJ5
+X3Byb3RvY29sX2NvbWJvKHNzbC5QUk9UT0NPTF9UTFN2MV8yLCBzc2wuUFJPVE9DT0xfVExTdjEs
+DQo+IEZhbHNlKQ0KPiAtICAgICAgICAgICAgIHRyeV9wcm90b2NvbF9jb21ibyhzc2wuUFJPVE9D
+T0xfVExTdjEsIHNzbC5QUk9UT0NPTF9UTFN2MV8yLA0KPiBGYWxzZSkNCj4gLS0gICAgICAgIGlm
+IGhhc190bHNfcHJvdG9jb2woc3NsLlBST1RPQ09MX1RMU3YxXzEpOg0KPiAtKyAgICAgICAgaWYg
+aGFzX3Rsc19wcm90b2NvbCgnUFJPVE9DT0xfVExTdjFfMScpOg0KPiAtICAgICAgICAgICAgIHRy
+eV9wcm90b2NvbF9jb21ibyhzc2wuUFJPVE9DT0xfVExTdjFfMiwNCj4gc3NsLlBST1RPQ09MX1RM
+U3YxXzEsIEZhbHNlKQ0KPiAtICAgICAgICAgICAgIHRyeV9wcm90b2NvbF9jb21ibyhzc2wuUFJP
+VE9DT0xfVExTdjFfMSwNCj4gc3NsLlBST1RPQ09MX1RMU3YxXzIsIEZhbHNlKQ0KPiAtDQo+IC1k
+aWZmIC0tZ2l0IGEvTW9kdWxlcy9fc3NsLmMgYi9Nb2R1bGVzL19zc2wuYw0KPiAtaW5kZXggYjQ1
+Mjk1YjRjMGMuLjZmNzVhZjg2MTEzIDEwMDY0NA0KPiAtLS0tIGEvTW9kdWxlcy9fc3NsLmMNCj4g
+LSsrKyBiL01vZHVsZXMvX3NzbC5jDQo+IC1AQCAtMTY0LDYgKzE2NCwxNyBAQCBzdGF0aWMgdm9p
+ZCBfUHlTU0xGaXhFcnJubyh2b2lkKSB7DQo+IC0gI2Vycm9yIFVuc3VwcG9ydGVkIE9wZW5TU0wg
+dmVyc2lvbg0KPiAtICNlbmRpZg0KPiAtDQo+IC0rI2lmIChPUEVOU1NMX1ZFUlNJT05fTlVNQkVS
+ID49IDB4NDAwMDAwMDBMKQ0KPiAtKyMgIGRlZmluZSBPUEVOU1NMX05PX1NTTDMNCj4gLSsjICBk
+ZWZpbmUgT1BFTlNTTF9OT19UTFMxDQo+IC0rIyAgZGVmaW5lIE9QRU5TU0xfTk9fVExTMV8xDQo+
+IC0rIyAgZGVmaW5lIE9QRU5TU0xfTk9fVExTMV8yDQo+IC0rIyAgZGVmaW5lIE9QRU5TU0xfTk9f
+U1NMM19NRVRIT0QNCj4gLSsjICBkZWZpbmUgT1BFTlNTTF9OT19UTFMxX01FVEhPRA0KPiAtKyMg
+IGRlZmluZSBPUEVOU1NMX05PX1RMUzFfMV9NRVRIT0QNCj4gLSsjICBkZWZpbmUgT1BFTlNTTF9O
+T19UTFMxXzJfTUVUSE9EDQo+IC0rI2VuZGlmDQo+IC0rDQo+IC0gLyogT3BlblNTTCBBUEkgMS4x
+LjArIGRvZXMgbm90IGluY2x1ZGUgdmVyc2lvbiBtZXRob2RzICovDQo+IC0gI2lmbmRlZiBPUEVO
+U1NMX05PX1NTTDNfTUVUSE9EDQo+IC0gZXh0ZXJuIGNvbnN0IFNTTF9NRVRIT0QgKlNTTHYzX21l
+dGhvZCh2b2lkKTsNCj4gLUBAIC0xMTUxLDcgKzExNjIsNyBAQCBfYXNuMW9iajJweShfc3NsbW9k
+dWxlc3RhdGUgKnN0YXRlLCBjb25zdA0KPiBBU04xX09CSkVDVCAqbmFtZSwgaW50IG5vX25hbWUp
+DQo+IC0NCj4gLSBzdGF0aWMgUHlPYmplY3QgKg0KPiAtIF9jcmVhdGVfdHVwbGVfZm9yX2F0dHJp
+YnV0ZShfc3NsbW9kdWxlc3RhdGUgKnN0YXRlLA0KPiAtLSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBBU04xX09CSkVDVCAqbmFtZSwgQVNOMV9TVFJJTkcgKnZhbHVlKQ0KPiAtKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBjb25zdCBBU04xX09CSkVDVCAqbmFtZSwgY29uc3QgQVNOMV9T
+VFJJTkcgKnZhbHVlKQ0KPiAtIHsNCj4gLSAgICAgUHlfc3NpemVfdCBidWZsZW47DQo+IC0gICAg
+IFB5T2JqZWN0ICpweWF0dHI7DQo+IC1AQCAtMTE4MCwxNiArMTE5MSwxNiBAQCBfY3JlYXRlX3R1
+cGxlX2Zvcl9hdHRyaWJ1dGUoX3NzbG1vZHVsZXN0YXRlICpzdGF0ZSwNCj4gLSB9DQo+IC0NCj4g
+LSBzdGF0aWMgUHlPYmplY3QgKg0KPiAtLV9jcmVhdGVfdHVwbGVfZm9yX1g1MDlfTkFNRSAoX3Nz
+bG1vZHVsZXN0YXRlICpzdGF0ZSwgWDUwOV9OQU1FICp4bmFtZSkNCj4gLStfY3JlYXRlX3R1cGxl
+X2Zvcl9YNTA5X05BTUUoX3NzbG1vZHVsZXN0YXRlICpzdGF0ZSwgY29uc3QgWDUwOV9OQU1FDQo+
+ICp4bmFtZSkNCj4gLSB7DQo+IC0gICAgIFB5T2JqZWN0ICpkbiA9IE5VTEw7ICAgIC8qIHR1cGxl
+IHdoaWNoIHJlcHJlc2VudHMgdGhlICJkaXN0aW5ndWlzaGVkIG5hbWUiICovDQo+IC0gICAgIFB5
+T2JqZWN0ICpyZG4gPSBOVUxMOyAgIC8qIHR1cGxlIHRvIGhvbGQgYSAicmVsYXRpdmUgZGlzdGlu
+Z3Vpc2hlZCBuYW1lIiAqLw0KPiAtICAgICBQeU9iamVjdCAqcmRudDsNCj4gLSAgICAgUHlPYmpl
+Y3QgKmF0dHIgPSBOVUxMOyAgIC8qIHR1cGxlIHRvIGhvbGQgYW4gYXR0cmlidXRlICovDQo+IC0g
+ICAgIGludCBlbnRyeV9jb3VudCA9IFg1MDlfTkFNRV9lbnRyeV9jb3VudCh4bmFtZSk7DQo+IC0t
+ICAgIFg1MDlfTkFNRV9FTlRSWSAqZW50cnk7DQo+IC0tICAgIEFTTjFfT0JKRUNUICpuYW1lOw0K
+PiAtLSAgICBBU04xX1NUUklORyAqdmFsdWU7DQo+IC0rICAgIGNvbnN0IFg1MDlfTkFNRV9FTlRS
+WSAqZW50cnk7DQo+IC0rICAgIGNvbnN0IEFTTjFfT0JKRUNUICpuYW1lOw0KPiAtKyAgICBjb25z
+dCBBU04xX1NUUklORyAqdmFsdWU7DQo+IC0gICAgIGludCBpbmRleF9jb3VudGVyOw0KPiAtICAg
+ICBpbnQgcmRuX2xldmVsID0gLTE7DQo+IC0gICAgIGludCByZXRjb2RlOw0KPiAtQEAgLTY5Njcs
+OSArNjk3OCwxNSBAQCBzc2xtb2R1bGVfaW5pdF9jb25zdGFudHMoUHlPYmplY3QgKm0pDQo+IC0g
+ICAgIEFERF9JTlRfQ09OU1QoIlBST1RPQ09MX1RMUyIsIFBZX1NTTF9WRVJTSU9OX1RMUyk7DQo+
+IC0gICAgIEFERF9JTlRfQ09OU1QoIlBST1RPQ09MX1RMU19DTElFTlQiLA0KPiBQWV9TU0xfVkVS
+U0lPTl9UTFNfQ0xJRU5UKTsNCj4gLSAgICAgQUREX0lOVF9DT05TVCgiUFJPVE9DT0xfVExTX1NF
+UlZFUiIsDQo+IFBZX1NTTF9WRVJTSU9OX1RMU19TRVJWRVIpOw0KPiAtKyNpZm5kZWYgT1BFTlNT
+TF9OT19UTFMxDQo+IC0gICAgIEFERF9JTlRfQ09OU1QoIlBST1RPQ09MX1RMU3YxIiwgUFlfU1NM
+X1ZFUlNJT05fVExTMSk7DQo+IC0rI2VuZGlmDQo+IC0rI2lmbmRlZiBPUEVOU1NMX05PX1RMUzFf
+MQ0KPiAtICAgICBBRERfSU5UX0NPTlNUKCJQUk9UT0NPTF9UTFN2MV8xIiwgUFlfU1NMX1ZFUlNJ
+T05fVExTMV8xKTsNCj4gLSsjZW5kaWYNCj4gLSsjaWZuZGVmIE9QRU5TU0xfTk9fVExTMV8yDQo+
+IC0gICAgIEFERF9JTlRfQ09OU1QoIlBST1RPQ09MX1RMU3YxXzIiLCBQWV9TU0xfVkVSU0lPTl9U
+TFMxXzIpOw0KPiAtKyNlbmRpZg0KPiAtDQo+IC0gI2RlZmluZSBBRERfT1BUSU9OKE5BTUUsIFZB
+TFVFKSBpZiAoc3NsbW9kdWxlX2FkZF9vcHRpb24obSwgTkFNRSwNCj4gKFZBTFVFKSkgPCAwKSBy
+ZXR1cm4gLTENCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL01vZHVsZXMvX3NzbC9jZXJ0LmMgYi9Nb2R1
+bGVzL19zc2wvY2VydC5jDQo+IC1pbmRleCBmMmU3YmU4OTY2OC4uMDYxYjBmYjMxNzEgMTAwNjQ0
+DQo+IC0tLS0gYS9Nb2R1bGVzL19zc2wvY2VydC5jDQo+IC0rKysgYi9Nb2R1bGVzL19zc2wvY2Vy
+dC5jDQo+IC1AQCAtMTI4LDcgKzEyOCw4IEBAIF9zc2xfQ2VydGlmaWNhdGVfZ2V0X2luZm9faW1w
+bChQeVNTTENlcnRpZmljYXRlICpzZWxmKQ0KPiAtIH0NCj4gLQ0KPiAtIHN0YXRpYyBQeU9iamVj
+dCoNCj4gLS1feDUwOW5hbWVfcHJpbnQoX3NzbG1vZHVsZXN0YXRlICpzdGF0ZSwgWDUwOV9OQU1F
+ICpuYW1lLCBpbnQgaW5kZW50LA0KPiB1bnNpZ25lZCBsb25nIGZsYWdzKQ0KPiAtK194NTA5bmFt
+ZV9wcmludChfc3NsbW9kdWxlc3RhdGUgKnN0YXRlLCBjb25zdCBYNTA5X05BTUUgKm5hbWUsDQo+
+IC0rICAgICAgICAgICAgICAgIGludCBpbmRlbnQsIHVuc2lnbmVkIGxvbmcgZmxhZ3MpDQo+IC0g
+ew0KPiAtICAgICBQeU9iamVjdCAqcmVzOw0KPiAtICAgICBCSU8gKmJpb2J1ZjsNCj4gLWRpZmYg
+LS1naXQgYS9Ub29scy9zc2wvbXVsdGlzc2x0ZXN0cy5weSBiL1Rvb2xzL3NzbC9tdWx0aXNzbHRl
+c3RzLnB5DQo+IC1pbmRleCAzYjQ1MDdjNjc3MS4uNDgyMDdlNTMzMGYgMTAwNzU1DQo+IC0tLS0g
+YS9Ub29scy9zc2wvbXVsdGlzc2x0ZXN0cy5weQ0KPiAtKysrIGIvVG9vbHMvc3NsL211bHRpc3Ns
+dGVzdHMucHkNCj4gLUBAIC00MjksOSArNDI5LDExIEBAIGRlZiBfcG9zdF9pbnN0YWxsKHNlbGYp
+Og0KPiAtICAgICBkZWYgX3Bvc3RfaW5zdGFsbChzZWxmKToNCj4gLSAgICAgICAgIGlmIHNlbGYu
+dmVyc2lvbi5zdGFydHN3aXRoKCIzLiIpOg0KPiAtICAgICAgICAgICAgIHNlbGYuX3Bvc3RfaW5z
+dGFsbF8zeHgoKQ0KPiAtKyAgICAgICAgZWxpZiBzZWxmLnZlcnNpb24uc3RhcnRzd2l0aCgiNC4i
+KToNCj4gLSsgICAgICAgICAgICBzZWxmLl9wb3N0X2luc3RhbGxfNHh4KCkNCj4gLQ0KPiAtICAg
+ICBkZWYgX2J1aWxkX3NyYyhzZWxmLCBjb25maWdfYXJncz0oKSk6DQo+IC0tICAgICAgICBpZiBz
+ZWxmLnZlcnNpb24uc3RhcnRzd2l0aCgiMy4iKToNCj4gLSsgICAgICAgIGlmIHNlbGYudmVyc2lv
+bi5zdGFydHN3aXRoKCgiMy4iLCAiNC4iKSk6DQo+IC0gICAgICAgICAgICAgY29uZmlnX2FyZ3Mg
+Kz0gKCJlbmFibGUtZmlwcyIsKQ0KPiAtICAgICAgICAgc3VwZXIoKS5fYnVpbGRfc3JjKGNvbmZp
+Z19hcmdzKQ0KPiAtDQo+IC1AQCAtNDQ3LDYgKzQ0OSw5IEBAIGRlZiBfcG9zdF9pbnN0YWxsXzN4
+eChzZWxmKToNCj4gLSAgICAgICAgICAgICBsaWI2NCA9IHNlbGYubGliX2RpciArICI2NCINCj4g
+LSAgICAgICAgICAgICBvcy5zeW1saW5rKGxpYjY0LCBzZWxmLmxpYl9kaXIpDQo+IC0NCj4gLSsg
+ICAgZGVmIF9wb3N0X2luc3RhbGxfNHh4KHNlbGYpOg0KPiAtKyAgICAgICAgc2VsZi5fcG9zdF9p
+bnN0YWxsXzN4eCgpDQo+IC0rDQo+IC0gICAgIEBwcm9wZXJ0eQ0KPiAtICAgICBkZWYgc2hvcnRf
+dmVyc2lvbihzZWxmKToNCj4gLSAgICAgICAgICIiIlNob3J0IHZlcnNpb24gZm9yIE9wZW5TU0wg
+ZG93bmxvYWQgVVJMIiIiDQo+IC0tLQ0KPiAtMi4yNS4xDQo+IC0NCj4gZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy8wMDAxLXByZWZlci12YWxpZC0NCj4g
+ZW50cnlwb2ludHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMv
+MDAwMS1wcmVmZXItdmFsaWQtDQo+IGVudHJ5cG9pbnRzLnBhdGNoDQo+IGluZGV4IGFlMzY5OGZh
+YzQuLjAzMGY4MmY5OWIgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy8wMDAxLXByZWZlci12YWxpZC1lbnRyeXBvaW50cy5wYXRjaA0KPiArKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1wcmVmZXItdmFsaWQtZW50
+cnlwb2ludHMucGF0Y2gNCj4gQEAgLTEsNCArMSw0IEBADQo+IC1Gcm9tIDhkN2ZjZjA0YzY1MTM4
+NDFjNzk4NWU2NGI3NDZiMWVmNWRlMGM0MjYgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+
+ICtGcm9tIDg4ODlkMzczZjIyMTgyNTM1NTVkNjliOWFkMDIyZjUyYmM0YWQ3OGQgTW9uIFNlcCAx
+NyAwMDowMDowMA0KPiAyMDAxDQo+ICBGcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJt
+LmNvbT4NCj4gIERhdGU6IEZyaSwgMTcgQXByIDIwMjYgMTY6NTM6NDIgKzAxMDANCj4gIFN1Ympl
+Y3Q6IFtQQVRDSF0gcHJlZmVyIHZhbGlkIGVudHJ5cG9pbnRzDQo+IGRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1zeXNjb25maWcucHktdXNlLXBs
+YXRsaWJkaXItDQo+IGFsc28tZm9yLXB1cmVsaWIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMvMDAwMS1zeXNjb25maWcucHktDQo+IHVzZS1wbGF0bGliZGlyLWFs
+c28tZm9yLXB1cmVsaWIucGF0Y2gNCj4gaW5kZXggNzgwNzgyN2Q5YS4uM2FjOTdkMzQ4YiAxMDA2
+NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtc3lz
+Y29uZmlnLnB5LXVzZS1wbGF0bGliZGlyLWFsc28tDQo+IGZvci1wdXJlbGliLnBhdGNoDQo+ICsr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy8wMDAxLXN5c2NvbmZpZy5w
+eS11c2UtcGxhdGxpYmRpci0NCj4gYWxzby1mb3ItcHVyZWxpYi5wYXRjaA0KPiBAQCAtMSw0ICsx
+LDQgQEANCj4gLUZyb20gYzEwZDFiMjk1YTlmYjkzODM2ODMwY2NlNDQxZGEzZjIyZTVjN2NkNyBN
+b24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gK0Zyb20gMzFjYTc3MDQ1Mjc4MWM1NmMxOWI5
+OGU1ODRkYjNiYzk2NDExNmI0NCBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gIEZyb206
+IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+DQo+ICBEYXRlOiBTdW4sIDEy
+IFNlcCAyMDIxIDIxOjQ0OjM2ICswMjAwDQo+ICBTdWJqZWN0OiBbUEFUQ0hdIHN5c2NvbmZpZy5w
+eTogdXNlIHBsYXRsaWJkaXIgYWxzbyBmb3IgcHVyZWxpYg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtdGVzdF9sb2NhbGUucHktY29ycmVj
+dC10aGUtDQo+IHRlc3Qtb3V0cHV0LWZvcm1hdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy8wMDAxLQ0KPiB0ZXN0X2xvY2FsZS5weS1jb3JyZWN0LXRoZS10ZXN0
+LW91dHB1dC1mb3JtYXQucGF0Y2gNCj4gaW5kZXggYTYwZDA4MmUyZi4uOGU3MmEzNzRkOSAxMDA2
+NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDEtdGVz
+dF9sb2NhbGUucHktY29ycmVjdC10aGUtdGVzdC0NCj4gb3V0cHV0LWZvcm1hdC5wYXRjaA0KPiAr
+KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMS10ZXN0X2xvY2Fs
+ZS5weS1jb3JyZWN0LXRoZS10ZXN0LQ0KPiBvdXRwdXQtZm9ybWF0LnBhdGNoDQo+IEBAIC0xLDQg
+KzEsNCBAQA0KPiAtRnJvbSBmMGFjNWI0NzliOTliZmI3ZjVlOTM3YTk0MWIzMWE1OTZmNGNhYWZj
+IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiArRnJvbSBhNzEyZDFlYmI1NWFjOGU1ODAx
+YTVjMjE3OTk0NWNlMjY2MzhhNTQ4IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiAgRnJv
+bTogTWluZ2xpIFl1IDxtaW5nbGkueXVAd2luZHJpdmVyLmNvbT4NCj4gIERhdGU6IE1vbiwgNSBB
+dWcgMjAxOSAxNTo1NzozOSArMDgwMA0KPiAgU3ViamVjdDogW1BBVENIXSB0ZXN0X2xvY2FsZS5w
+eTogY29ycmVjdCB0aGUgdGVzdCBvdXRwdXQgZm9ybWF0DQo+IGRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMi1naC0xNDgyOTItVXBkYXRlLQ0KPiBf
+c3NsLl9TU0xTb2NrZXQtZm9yLU9wZW5TU0wtNC5wYXRjaCBiL21ldGEvcmVjaXBlcy0NCj4gZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMvMDAwMi1naC0xNDgyOTItVXBkYXRlLV9zc2wuX1NTTFNvY2tl
+dC1mb3ItDQo+IE9wZW5TU0wtNC5wYXRjaA0KPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4g
+aW5kZXggNTg3ZjE0MWRkNC4uMDAwMDAwMDAwMA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMvMDAwMi1naC0xNDgyOTItVXBkYXRlLQ0KPiBfc3NsLl9TU0xTb2Nr
+ZXQtZm9yLU9wZW5TU0wtNC5wYXRjaA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDIzNCArMCww
+IEBADQo+IC1Gcm9tIDNjMmEzMDE0YWY3ZDczY2MzNGYyNDk4ZjYwZmRmODYzZDliYzdjNmMgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxDQo+IC1Gcm9tOiBWaWN0b3IgU3Rpbm5lciA8dnN0aW5uZXJA
+cHl0aG9uLm9yZz4NCj4gLURhdGU6IE1vbiwgNCBNYXkgMjAyNiAxMzo1Mjo1NyArMDIwMA0KPiAt
+U3ViamVjdDogW1BBVENIXSBnaC0xNDgyOTI6IFVwZGF0ZSBfc3NsLl9TU0xTb2NrZXQgZm9yIE9w
+ZW5TU0wgNCAoIzE0OTEwMikNCj4gLQ0KPiAtVGhlIF9TU0xTb2NrZXQgb2JqZWN0IG5vdyByZW1l
+bWJlcnMgaWYgaXQgZ2V0cyBhbiBFT0YgZXJyb3IuIEluIHRoaXMNCj4gLWNhc2UsIHJlYWQoKSwg
+c2VuZGZpbGUoKSwgd3JpdGUoKSBhbmQgZG9faGFuZHNoYWtlIG1ldGhvZCBjYWxscyBmYWlsDQo+
+IC13aXRoIFNTTEVPRkVycm9yIHdpdGhvdXQgY2FsbGluZyB0aGUgdW5kZXJseWluZyBPcGVuU1NM
+IGZ1bmN0aW9uLg0KPiAtDQo+IC1Dby1hdXRob3JlZC1ieTogR3JlZ29yeSBQLiBTbWl0aCA8Z3Jl
+Z0BrcnlwdG8ub3JnPg0KPiAtKGNoZXJyeSBwaWNrZWQgZnJvbSBjb21taXQgN2I3ZmEzZjliZjNk
+N2NkZjNlYjY2OWQwMmIzODZlMDViMzljNDAyYSkNCj4gLQ0KPiAtVXBzdHJlYW0tU3RhdHVzOiBC
+YWNrcG9ydA0KPiBbaHR0cHM6Ly9naXRodWIuY29tL3B5dGhvbi9jcHl0aG9uL2NvbW1pdC8zYzJh
+MzAxNGFmN2RdDQo+IC0NCj4gLU5vdGU6IFRoaXMgaXMgZnJvbSB0aGUgdW5tZXJnZWQgQ1B5dGhv
+biBQUiAjMTQ5NzgzIHdoaWNoIGJhY2twb3J0cw0KPiAtT3BlblNTTCA0LjAgc3VwcG9ydCB0byB0
+aGUgMy4xNCBicmFuY2guIFVwc3RyZWFtIGRlZmVycmVkIG1lcmdpbmcNCj4gLXVudGlsIGFmdGVy
+IFB5dGhvbiAzLjE1LjEgaXMgcmVsZWFzZWQuDQo+IC0NCj4gLVNpZ25lZC1vZmYtYnk6IEphaXBh
+dWwgQ2hlZXJuYW0gPGphaXBhdWwuY2hlZXJuYW1AZXN0LnRlY2g+DQo+IC0tLS0NCj4gLSBMaWIv
+dGVzdC90ZXN0X3NzbC5weSAgICAgICAgICAgICAgICAgICAgICAgICAgfCA4MiArKysrKysrKysr
+KysrKysrKysrDQo+IC0gLi4uLTA0LTI4LTE3LTQ3LTU1LmdoLWlzc3VlLTE0ODI5Mi5vSXEzbWwu
+cnN0IHwgIDcgKysNCj4gLSBNb2R1bGVzL19zc2wuYyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfCA0MiArKysrKysrKysrDQo+IC0gMyBmaWxlcyBjaGFuZ2VkLCAxMzEgaW5zZXJ0aW9u
+cygrKQ0KPiAtIGNyZWF0ZSBtb2RlIDEwMDY0NCBNaXNjL05FV1MuZC9uZXh0L0xpYnJhcnkvMjAy
+Ni0wNC0yOC0xNy00Ny01NS5naC1pc3N1ZS0NCj4gMTQ4MjkyLm9JcTNtbC5yc3QNCj4gLQ0KPiAt
+ZGlmZiAtLWdpdCBhL0xpYi90ZXN0L3Rlc3Rfc3NsLnB5IGIvTGliL3Rlc3QvdGVzdF9zc2wucHkN
+Cj4gLWluZGV4IDk2NWRiYzM2ZjA5NjQ5OS4uMDNkOWUzZjllNWU5NmI1IDEwMDY0NA0KPiAtLS0t
+IGEvTGliL3Rlc3QvdGVzdF9zc2wucHkNCj4gLSsrKyBiL0xpYi90ZXN0L3Rlc3Rfc3NsLnB5DQo+
+IC1AQCAtMjcxMSw2ICsyNzExLDM2IEBAIGRlZiBjbG9zZShzZWxmKToNCj4gLSAgICAgZGVmIHN0
+b3Aoc2VsZik6DQo+IC0gICAgICAgICBzZWxmLmFjdGl2ZSA9IEZhbHNlDQo+IC0NCj4gLStjbGFz
+cyBUZXN0RU9GU2VydmVyKHRocmVhZGluZy5UaHJlYWQpOg0KPiAtKyAgICBkZWYgX19pbml0X18o
+c2VsZik6DQo+IC0rICAgICAgICBzdXBlcigpLl9faW5pdF9fKCkNCj4gLSsgICAgICAgIHNlbGYu
+bGlzdGVuaW5nID0gdGhyZWFkaW5nLkV2ZW50KCkNCj4gLSsgICAgICAgIHNlbGYuYWRkcmVzcyA9
+IE5vbmUNCj4gLSsNCj4gLSsgICAgZGVmIHJ1bihzZWxmKToNCj4gLSsgICAgICAgIGNvbnRleHQg
+PSBzc2wuY3JlYXRlX2RlZmF1bHRfY29udGV4dChzc2wuUHVycG9zZS5DTElFTlRfQVVUSCkNCj4g
+LSsgICAgICAgIGNvbnRleHQubG9hZF9jZXJ0X2NoYWluKENFUlRGSUxFKQ0KPiAtKyAgICAgICAg
+c2VydmVyX3NvY2sgPSBzb2NrZXQuc29ja2V0KHNvY2tldC5BRl9JTkVULCBzb2NrZXQuU09DS19T
+VFJFQU0pDQo+IC0rICAgICAgICB3aXRoIHNlcnZlcl9zb2NrOg0KPiAtKyAgICAgICAgICAgIHNl
+cnZlcl9zb2NrLnNldHRpbWVvdXQoc3VwcG9ydC5TSE9SVF9USU1FT1VUKQ0KPiAtKyAgICAgICAg
+ICAgIHNlcnZlcl9zb2NrLmJpbmQoKEhPU1QsIDApKQ0KPiAtKyAgICAgICAgICAgIHNlcnZlcl9z
+b2NrLmxpc3Rlbig1KQ0KPiAtKw0KPiAtKyAgICAgICAgICAgIHNlbGYuYWRkcmVzcyA9IHNlcnZl
+cl9zb2NrLmdldHNvY2tuYW1lKCkNCj4gLSsgICAgICAgICAgICBzZWxmLmxpc3RlbmluZy5zZXQo
+KQ0KPiAtKw0KPiAtKyAgICAgICAgICAgIHNvY2ssIGFkZHIgPSBzZXJ2ZXJfc29jay5hY2NlcHQo
+KQ0KPiAtKyAgICAgICAgICAgIHNzbGNvbm4gPSBjb250ZXh0LndyYXBfc29ja2V0KHNvY2ssIHNl
+cnZlcl9zaWRlPVRydWUpDQo+IC0rICAgICAgICAgICAgd2l0aCBzc2xjb25uOg0KPiAtKyAgICAg
+ICAgICAgICAgICByZXF1ZXN0ID0gYicnDQo+IC0rICAgICAgICAgICAgICAgIHdoaWxlIGNodW5r
+IDo9IHNzbGNvbm4ucmVjdigxMDI0KToNCj4gLSsgICAgICAgICAgICAgICAgICAgIHJlcXVlc3Qg
+Kz0gY2h1bmsNCj4gLSsgICAgICAgICAgICAgICAgICAgIGlmIGInXG4nIGluIGNodW5rOg0KPiAt
+KyAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrDQo+IC0rDQo+IC0rICAgICAgICAgICAgICAg
+IHNzbGNvbm4uc2VuZGFsbChiJ3NlcnZlclxuJykNCj4gLSsgICAgICAgICAgICAgICAgc3NsY29u
+bi5zaHV0ZG93bihzb2NrZXQuU0hVVF9XUikNCj4gLSsNCj4gLSBjbGFzcyBBc3luY29yZUVjaG9T
+ZXJ2ZXIodGhyZWFkaW5nLlRocmVhZCk6DQo+IC0NCj4gLSAgICAgIyB0aGlzIG9uZSdzIGJhc2Vk
+IG9uIGFzeW5jb3JlLmRpc3BhdGNoZXINCj4gLUBAIC00NzQ3LDYgKzQ3NzcsNTggQEAgZGVmIGJh
+Y2tncm91bmQoc29jayk6DQo+IC0gICAgICAgICAgICAgICAgICAgICBpZiBjbS5leGNfdmFsdWUg
+aXMgbm90IE5vbmU6DQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgcmFpc2UgY20uZXhjX3Zh
+bHVlDQo+IC0NCj4gLSsgICAgZGVmIHRlc3RfZ290X2VvZihzZWxmKToNCj4gLSsgICAgICAgICMg
+Z2gtMTQ4MjkyOiBUZXN0IHRoYXQgX3NzbC5fU1NMU29ja2V0IGJlaGF2ZXMgdGhlIHNhbWUgb24g
+YWxsDQo+IE9wZW5TU0wNCj4gLSsgICAgICAgICMgdmVyc2lvbnMgb24gY2FsbGluZyBtZXRob2Rz
+IGFmdGVyIEVPRiAoYWZ0ZXIgdGhlIGZpcnN0IFNTTEVPRkVycm9yKS4NCj4gLSsNCj4gLSsgICAg
+ICAgIHNlcnZlciA9IFRlc3RFT0ZTZXJ2ZXIoKQ0KPiAtKyAgICAgICAgc2VydmVyLnN0YXJ0KCkN
+Cj4gLSsgICAgICAgIGlmIG5vdCBzZXJ2ZXIubGlzdGVuaW5nLndhaXQoc3VwcG9ydC5TSE9SVF9U
+SU1FT1VUKToNCj4gLSsgICAgICAgICAgICByYWlzZSBSdW50aW1lRXJyb3IoInNlcnZlciB0b29r
+IHRvbyBsb25nIikNCj4gLSsgICAgICAgIHNlbGYuYWRkQ2xlYW51cChzZXJ2ZXIuam9pbikNCj4g
+LSsNCj4gLSsgICAgICAgIGNvbnRleHQgPSBzc2wuY3JlYXRlX2RlZmF1bHRfY29udGV4dChjYWZp
+bGU9Q0VSVEZJTEUpDQo+IC0rICAgICAgICBzb2NrID0gc29ja2V0LnNvY2tldChzb2NrZXQuQUZf
+SU5FVCwgc29ja2V0LlNPQ0tfU1RSRUFNKQ0KPiAtKyAgICAgICAgc29jay5zZXR0aW1lb3V0KHN1
+cHBvcnQuU0hPUlRfVElNRU9VVCkNCj4gLSsgICAgICAgIHNvY2suY29ubmVjdChzZXJ2ZXIuYWRk
+cmVzcykNCj4gLSsgICAgICAgIHNzbHNvY2sgPSBjb250ZXh0LndyYXBfc29ja2V0KHNvY2ssIHNl
+cnZlcl9ob3N0bmFtZT0nbG9jYWxob3N0JykNCj4gLSsgICAgICAgIHdpdGggc3Nsc29jazoNCj4g
+LSsgICAgICAgICAgICBzc2xzb2NrLnNlbmRhbGwoYidjbGllbnRcbicpDQo+IC0rICAgICAgICAg
+ICAgIyB0ZXN0IHRoZSBfc3NsLl9TU0xTb2NrZXQgb2JqZWN0LCBub3Qgc3NsLlNTTFNvY2tldA0K
+PiAtKyAgICAgICAgICAgIHNzbG9iaiA9IHNzbHNvY2suX3NzbG9iag0KPiAtKw0KPiAtKyAgICAg
+ICAgICAgIGRhdGEgPSBzc2xvYmoucmVhZCgxMDI0KQ0KPiAtKyAgICAgICAgICAgIHNlbGYuYXNz
+ZXJ0RXF1YWwoZGF0YSwgYidzZXJ2ZXJcbicpDQo+IC0rDQo+IC0rICAgICAgICAgICAgIyBUaGUg
+c2Vjb25kIHJlYWQgZ2V0cyBFT0YgZXJyb3IgYW5kIHNldHMgZ290X2VvZl9lcnJvciB0byAxDQo+
+IC0rICAgICAgICAgICAgd2l0aCBzZWxmLmFzc2VydFJhaXNlcyhzc2wuU1NMRU9GRXJyb3IpOg0K
+PiAtKyAgICAgICAgICAgICAgICBzc2xvYmoucmVhZCgxMDI0KQ0KPiAtKw0KPiAtKyAgICAgICAg
+ICAgICMgRm9sbG93aW5nIHJlYWQoKSwgc2VuZGZpbGUoKSwgd3JpdGUoKSBhbmQgZG9faGFuZHNo
+YWtlKCkgY2FsbHMNCj4gLSsgICAgICAgICAgICAjIG11c3QgcmFpc2UgU1NMRU9GRXJyb3INCj4g
+LSsgICAgICAgICAgICB3aXRoIHNlbGYuYXNzZXJ0UmFpc2VzKHNzbC5TU0xFT0ZFcnJvcik6DQo+
+IC0rICAgICAgICAgICAgICAgICMgVGhlIF9TU0xTb2NrZXQgcmVtZW1iZXJzIHRoZSBwcmV2aW91
+cyBFT0YgZXJyb3INCj4gLSsgICAgICAgICAgICAgICAgIyBhbmQgcmFpc2VzIGFnYWluIFNTTEVP
+RkVycm9yDQo+IC0rICAgICAgICAgICAgICAgIHNzbG9iai5yZWFkKDEwMjQpDQo+IC0rICAgICAg
+ICAgICAgaWYgaGFzYXR0cihzc2xvYmosICdzZW5kZmlsZScpOg0KPiAtKyAgICAgICAgICAgICAg
+ICB3aXRoIG9wZW4oX19maWxlX18sICJyYiIpIGFzIGZwOg0KPiAtKyAgICAgICAgICAgICAgICAg
+ICAgd2l0aCBzZWxmLmFzc2VydFJhaXNlcyhzc2wuU1NMRU9GRXJyb3IpOg0KPiAtKyAgICAgICAg
+ICAgICAgICAgICAgICAgIHNzbG9iai5zZW5kZmlsZShmcC5maWxlbm8oKSwgMCwgMSkNCj4gLSsg
+ICAgICAgICAgICB3aXRoIHNlbGYuYXNzZXJ0UmFpc2VzKHNzbC5TU0xFT0ZFcnJvcik6DQo+IC0r
+ICAgICAgICAgICAgICAgIHNzbG9iai53cml0ZShiJ2NsaWVudDJcbicpDQo+IC0rICAgICAgICAg
+ICAgd2l0aCBzZWxmLmFzc2VydFJhaXNlcyhzc2wuU1NMRU9GRXJyb3IpOg0KPiAtKyAgICAgICAg
+ICAgICAgICBzc2xzb2NrLmRvX2hhbmRzaGFrZSgpDQo+IC0rDQo+IC0rICAgICAgICAgICAgc2Vs
+Zi5hc3NlcnRFcXVhbChzc2xzb2NrLnBlbmRpbmcoKSwgMCkNCj4gLSsgICAgICAgICAgICB0cnk6
+DQo+IC0rICAgICAgICAgICAgICAgIHNzbHNvY2suc2h1dGRvd24oc29ja2V0LlNIVVRfV1IpDQo+
+IC0rICAgICAgICAgICAgZXhjZXB0IE9TRXJyb3IgYXMgZXhjOg0KPiAtKyAgICAgICAgICAgICAg
+ICBzZWxmLmFzc2VydEVxdWFsKGV4Yy5lcnJubywgZXJybm8uRU5PVENPTk4pDQo+IC0rICAgICAg
+ICAgICAgZWxzZToNCj4gLSsgICAgICAgICAgICAgICAgIyBPbiBXaW5kb3dzIGFuZCBvbiBPcGVu
+U1NMIDEuMS4xLCBzaHV0ZG93bigpIGRvZXNuJ3QNCj4gLSsgICAgICAgICAgICAgICAgIyByYWlz
+ZSBhbiBlcnJvcg0KPiAtKyAgICAgICAgICAgICAgICBwYXNzDQo+IC0rDQo+IC0NCj4gLSBAdW5p
+dHRlc3Quc2tpcFVubGVzcyhoYXNfdGxzX3ZlcnNpb24oJ1RMU3YxXzMnKSBhbmQgc3NsLkhBU19Q
+SEEsDQo+IC0gICAgICAgICAgICAgICAgICAgICAgIlRlc3QgbmVlZHMgVExTIDEuMyBQSEEiKQ0K
+PiAtZGlmZiAtLWdpdCBhL01pc2MvTkVXUy5kL25leHQvTGlicmFyeS8yMDI2LTA0LTI4LTE3LTQ3
+LTU1LmdoLWlzc3VlLQ0KPiAxNDgyOTIub0lxM21sLnJzdCBiL01pc2MvTkVXUy5kL25leHQvTGli
+cmFyeS8yMDI2LTA0LTI4LTE3LTQ3LTU1LmdoLWlzc3VlLQ0KPiAxNDgyOTIub0lxM21sLnJzdA0K
+PiAtbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gLWluZGV4IDAwMDAwMDAwMDAwMDAwMC4uZTFmMzA4
+ZGY1YTY3OGU2DQo+IC0tLS0gL2Rldi9udWxsDQo+IC0rKysgYi9NaXNjL05FV1MuZC9uZXh0L0xp
+YnJhcnkvMjAyNi0wNC0yOC0xNy00Ny01NS5naC1pc3N1ZS0NCj4gMTQ4MjkyLm9JcTNtbC5yc3QN
+Cj4gLUBAIC0wLDAgKzEsNyBAQA0KPiAtKzptb2Q6YHNzbGA6IFVwZGF0ZSA6Y2xhc3M6YHNzbC5T
+U0xTb2NrZXRgIGFuZCA6Y2xhc3M6YHNzbC5TU0xPYmplY3RgIGZvcg0KPiAtK09wZW5TU0wgNC4g
+VGhlIGNsYXNzZXMgbm93IHJlbWVtYmVyIGlmIHRoZXkgZ2V0IGEgOmV4Yzpgc3NsLlNTTEVPRkVy
+cm9yYC4gSW4NCj4gdGhpcw0KPiAtK2Nhc2UsIGZvbGxvd2luZyA6bWV0aDpgfnNzbC5TU0xTb2Nr
+ZXQucmVhZGAsIDptZXRoOmAhc2VuZGZpbGVgLA0KPiAtKzptZXRoOmB+c3NsLlNTTFNvY2tldC53
+cml0ZWAsIGFuZCA6bWV0aDpgfnNzbC5TU0xTb2NrZXQuZG9faGFuZHNoYWtlYCBjYWxscw0KPiAt
+K3JhaXNlIDpleGM6YHNzbC5TU0xFT0ZFcnJvcmAgd2l0aG91dCBjYWxsaW5nIHRoZSB1bmRlcmx5
+aW5nIE9wZW5TU0wgZnVuY3Rpb24uDQo+IC0rVGhhbmtzIHRvIHRoYXQsIDpjbGFzczpgc3NsLlNT
+TFNvY2tldGAgYmVoYXZlcyB0aGUgc2FtZSBvbiBhbGwgT3BlblNTTA0KPiB2ZXJzaW9ucw0KPiAt
+K29uIEVPRi4gIFBhdGNoIGJ5IFZpY3RvciBTdGlubmVyLg0KPiAtZGlmZiAtLWdpdCBhL01vZHVs
+ZXMvX3NzbC5jIGIvTW9kdWxlcy9fc3NsLmMNCj4gLWluZGV4IDE2MDNkMGZmZDU1OTU1OS4uMzc2
+ZGYzMmI3Y2I0YmQ2IDEwMDY0NA0KPiAtLS0tIGEvTW9kdWxlcy9fc3NsLmMNCj4gLSsrKyBiL01v
+ZHVsZXMvX3NzbC5jDQo+IC1AQCAtMzUyLDYgKzM1MiwxNiBAQCB0eXBlZGVmIHN0cnVjdCB7DQo+
+IC0gICAgICAqIGFuZCBzaHV0ZG93biBtZXRob2RzIGNoZWNrIGZvciBjaGFpbmVkIGV4Y2VwdGlv
+bnMuDQo+IC0gICAgICAqLw0KPiAtICAgICBQeU9iamVjdCAqZXhjOw0KPiAtKyAgICAvLyBnaC0x
+NDgyOTI6IElmIG5vbi16ZXJvLCByZWFkKCksIHNlbmRmaWxlKCksIHdyaXRlKCkgYW5kIGRvX2hh
+bmRzaGFrZSgpDQo+IC0rICAgIC8vIG1ldGhvZHMgcmFpc2UgU1NMRU9GRXJyb3Igd2l0aG91dCBj
+YWxsaW5nIHRoZSB1bmRlcmx5aW5nIE9wZW5TU0wNCj4gLSsgICAgLy8gZnVuY3Rpb24uIFNldCB0
+byAxIG9uIFBZX1NTTF9FUlJPUl9FT0YgZXJyb3IuDQo+IC0rICAgIC8vDQo+IC0rICAgIC8vIE9u
+IE9wZW5TU0wgNCwgaWYgU1NMX3JlYWRfZXgoKSBmYWlscyB3aXRoDQo+IC0rICAgIC8vIFNTTF9S
+X1VORVhQRUNURURfRU9GX1dISUxFX1JFQURJTkcsIHRoZSBmb2xsb3dpbmcNCj4gU1NMX3JlYWRf
+ZXgoKSBjYWxsDQo+IC0rICAgIC8vIGZhaWxzIHdpdGggYSBnZW5lcmljIHByb3RvY29sIGVycm9y
+IChFUlJfcGVla19sYXN0X2Vycm9yKCkgcmV0dXJucyAwKS4NCj4gLSsgICAgLy8gVXNlIGdvdF9l
+b2ZfZXJyb3IgdG8gaGF2ZSB0aGUgc2FtZSBiZWhhdmlvciBvbiBPcGVuU1NMIDQgYW5kIG5ld2Vy
+DQo+IGFuZA0KPiAtKyAgICAvLyBvbiBPcGVuU1NMIDMgYW5kIG9sZGVyLg0KPiAtKyAgICBpbnQg
+Z290X2VvZl9lcnJvcjsNCj4gLSB9IFB5U1NMU29ja2V0Ow0KPiAtDQo+IC0gI2RlZmluZSBQeVNT
+TFNvY2tldF9DQVNUKG9wKSAgICAoKFB5U1NMU29ja2V0ICopKG9wKSkNCj4gLUBAIC00OTksNiAr
+NTA5LDEwIEBAIGZpbGxfYW5kX3NldF9zc2xlcnJvcihfc3NsbW9kdWxlc3RhdGUgKnN0YXRlLA0K
+PiAtICAgICBQeU9iamVjdCAqaW5pdF92YWx1ZSwgKm1zZywgKmtleTsNCj4gLSAgICAgUHlVbmlj
+b2RlV3JpdGVyICp3cml0ZXIgPSBOVUxMOw0KPiAtDQo+IC0rICAgIGlmIChzc2xfZXJybm8gPT0g
+UFlfU1NMX0VSUk9SX0VPRiAmJiBzc2xzb2NrICE9IE5VTEwpIHsNCj4gLSsgICAgICAgIHNzbHNv
+Y2stPmdvdF9lb2ZfZXJyb3IgPSAxOw0KPiAtKyAgICB9DQo+IC0rDQo+IC0gICAgIGlmIChlcnJj
+b2RlICE9IDApIHsNCj4gLSAgICAgICAgIGludCBsaWIsIHJlYXNvbjsNCj4gLQ0KPiAtQEAgLTY1
+NCw2ICs2NjgsMTggQEAgUHlTU0xfQ2hhaW5FeGNlcHRpb25zKFB5U1NMU29ja2V0ICpzc2xzb2Nr
+KSB7DQo+IC0gICAgIHJldHVybiAtMTsNCj4gLSB9DQo+IC0NCj4gLSsNCj4gLStzdGF0aWMgdm9p
+ZA0KPiAtK3NldF9lb2ZfZXJyb3IoUHlTU0xTb2NrZXQgKnNzbHNvY2spDQo+IC0rew0KPiAtKyAg
+ICBfc3NsbW9kdWxlc3RhdGUgKnN0YXRlID0gZ2V0X3N0YXRlX3NvY2soc3Nsc29jayk7DQo+IC0r
+ICAgIGZpbGxfYW5kX3NldF9zc2xlcnJvcihzdGF0ZSwgc3Nsc29jaywgc3RhdGUtPlB5U1NMRU9G
+RXJyb3JPYmplY3QsDQo+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICBQWV9TU0xfRVJST1Jf
+RU9GLA0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgICAgIkVPRiBvY2N1cnJlZCBpbiB2aW9s
+YXRpb24gb2YgcHJvdG9jb2wiLA0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAgICAgX19MSU5F
+X18sIDApOw0KPiAtK30NCj4gLSsNCj4gLSsNCj4gLSBzdGF0aWMgUHlPYmplY3QgKg0KPiAtIFB5
+U1NMX1NldEVycm9yKFB5U1NMU29ja2V0ICpzc2xzb2NrLCBjb25zdCBjaGFyICpmaWxlbmFtZSwg
+aW50IGxpbmVubykNCj4gLSB7DQo+IC1AQCAtOTAxLDYgKzkyNyw3IEBAIG5ld1B5U1NMU29ja2V0
+KFB5U1NMQ29udGV4dCAqc3NsY3R4LA0KPiBQeVNvY2tldFNvY2tPYmplY3QgKnNvY2ssDQo+IC0g
+ICAgIHNlbGYtPnNlcnZlcl9ob3N0bmFtZSA9IE5VTEw7DQo+IC0gICAgIHNlbGYtPmVyciA9IGVy
+cjsNCj4gLSAgICAgc2VsZi0+ZXhjID0gTlVMTDsNCj4gLSsgICAgc2VsZi0+Z290X2VvZl9lcnJv
+ciA9IDA7DQo+IC0NCj4gLSAgICAgLyogTWFrZSBzdXJlIHRoZSBTU0wgZXJyb3Igc3RhdGUgaXMg
+aW5pdGlhbGl6ZWQgKi8NCj4gLSAgICAgRVJSX2NsZWFyX2Vycm9yKCk7DQo+IC1AQCAtMTA0MSw2
+ICsxMDY4LDExIEBADQo+IF9zc2xfX1NTTFNvY2tldF9kb19oYW5kc2hha2VfaW1wbChQeVNTTFNv
+Y2tldCAqc2VsZikNCj4gLSAgICAgICAgIEJJT19zZXRfbmJpbyhTU0xfZ2V0X3diaW8oc2VsZi0+
+c3NsKSwgbm9uYmxvY2tpbmcpOw0KPiAtICAgICB9DQo+IC0NCj4gLSsgICAgaWYgKHNlbGYtPmdv
+dF9lb2ZfZXJyb3IpIHsNCj4gLSsgICAgICAgIHNldF9lb2ZfZXJyb3Ioc2VsZik7DQo+IC0rICAg
+ICAgICBnb3RvIGVycm9yOw0KPiAtKyAgICB9DQo+IC0rDQo+IC0gICAgIHRpbWVvdXQgPSBHRVRf
+U09DS0VUX1RJTUVPVVQoc29jayk7DQo+IC0gICAgIGhhc190aW1lb3V0ID0gKHRpbWVvdXQgPiAw
+KTsNCj4gLSAgICAgaWYgKGhhc190aW1lb3V0KSB7DQo+IC1AQCAtMjUwNCw2ICsyNTM2LDExIEBA
+IF9zc2xfX1NTTFNvY2tldF93cml0ZV9pbXBsKFB5U1NMU29ja2V0ICpzZWxmLA0KPiBQeV9idWZm
+ZXIgKmIpDQo+IC0gICAgICAgICBCSU9fc2V0X25iaW8oU1NMX2dldF93YmlvKHNlbGYtPnNzbCks
+IG5vbmJsb2NraW5nKTsNCj4gLSAgICAgfQ0KPiAtDQo+IC0rICAgIGlmIChzZWxmLT5nb3RfZW9m
+X2Vycm9yKSB7DQo+IC0rICAgICAgICBzZXRfZW9mX2Vycm9yKHNlbGYpOw0KPiAtKyAgICAgICAg
+Z290byBlcnJvcjsNCj4gLSsgICAgfQ0KPiAtKw0KPiAtICAgICB0aW1lb3V0ID0gR0VUX1NPQ0tF
+VF9USU1FT1VUKHNvY2spOw0KPiAtICAgICBoYXNfdGltZW91dCA9ICh0aW1lb3V0ID4gMCk7DQo+
+IC0gICAgIGlmIChoYXNfdGltZW91dCkgew0KPiAtQEAgLTI2NDQsNiArMjY4MSwxMSBAQCBfc3Ns
+X19TU0xTb2NrZXRfcmVhZF9pbXBsKFB5U1NMU29ja2V0ICpzZWxmLA0KPiBQeV9zc2l6ZV90IGxl
+biwNCj4gLSAgICAgICAgIFB5X0lOQ1JFRihzb2NrKTsNCj4gLSAgICAgfQ0KPiAtDQo+IC0rICAg
+IGlmIChzZWxmLT5nb3RfZW9mX2Vycm9yKSB7DQo+IC0rICAgICAgICBzZXRfZW9mX2Vycm9yKHNl
+bGYpOw0KPiAtKyAgICAgICAgZ290byBlcnJvcjsNCj4gLSsgICAgfQ0KPiAtKw0KPiAtICAgICBp
+ZiAoIWdyb3VwX3JpZ2h0XzEpIHsNCj4gLSAgICAgICAgIGRlc3QgPSBQeUJ5dGVzX0Zyb21TdHJp
+bmdBbmRTaXplKE5VTEwsIGxlbik7DQo+IC0gICAgICAgICBpZiAoZGVzdCA9PSBOVUxMKQ0KPiBk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDMtZ2gt
+MTQ4MjkyLVJlbW92ZS0NCj4gc2h1dGRvd24tdGVzdC1pbi10ZXN0X3NzbC50ZXN0X2dvdF9lb2Yu
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtDQo+IGRldnRvb2xzL3B5dGhvbi9weXRob24zLzAwMDMtZ2gt
+MTQ4MjkyLVJlbW92ZS1zaHV0ZG93bi10ZXN0LWluLQ0KPiB0ZXN0X3NzbC50ZXN0X2dvdF9lb2Yu
+cGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IGFmMDY3ZjU0OWMuLjAw
+MDAwMDAwMDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLzAw
+MDMtZ2gtMTQ4MjkyLVJlbW92ZS1zaHV0ZG93bi0NCj4gdGVzdC1pbi10ZXN0X3NzbC50ZXN0X2dv
+dF9lb2YucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSw0MSArMCwwIEBADQo+IC1Gcm9t
+IDgxOTExOTA5YmM0MzlkNmRlOGNlNmExNzNiMDY5MWIzYzU4ZTllMWEgTW9uIFNlcCAxNyAwMDow
+MDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBWaWN0b3IgU3Rpbm5lciA8dnN0aW5uZXJAcHl0aG9uLm9y
+Zz4NCj4gLURhdGU6IE1vbiwgNCBNYXkgMjAyNiAxNjoyMDoyNSArMDIwMA0KPiAtU3ViamVjdDog
+W1BBVENIXSBnaC0xNDgyOTI6IFJlbW92ZSBzaHV0ZG93bigpIHRlc3QgaW4gdGVzdF9zc2wudGVz
+dF9nb3RfZW9mKCkNCj4gLSAoIzE0OTM2NikNCj4gLQ0KPiAtVGhlIHNodXRkb3duKCkgYmVoYXZp
+b3IgZGVwZW5kcyB0b28gbXVjaCBvbiB0aGUgb3BlcmF0aW5nIHN5c3RlbSBhbmQNCj4gLWl0J3Mg
+dW5yZWxhdGVkIHRvIHRoZSBnb3RfZW9mX2Vycm9yIGNoYW5nZS4NCj4gLQ0KPiAtKGNoZXJyeSBw
+aWNrZWQgZnJvbSBjb21taXQgMWUyMWNmNmZlZTM4MzAwMTJlNDU4YzBmZTVkYmM2ZmNkNDVhY2U5
+MikNCj4gLQ0KPiAtVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydA0KPiBbaHR0cHM6Ly9naXRodWIu
+Y29tL3B5dGhvbi9jcHl0aG9uL2NvbW1pdC84MTkxMTkwOWJjNDNdDQo+IC0NCj4gLU5vdGU6IFRo
+aXMgaXMgZnJvbSB0aGUgdW5tZXJnZWQgQ1B5dGhvbiBQUiAjMTQ5NzgzIHdoaWNoIGJhY2twb3J0
+cw0KPiAtT3BlblNTTCA0LjAgc3VwcG9ydCB0byB0aGUgMy4xNCBicmFuY2guIFVwc3RyZWFtIGRl
+ZmVycmVkIG1lcmdpbmcNCj4gLXVudGlsIGFmdGVyIFB5dGhvbiAzLjE1LjEgaXMgcmVsZWFzZWQu
+DQo+IC0NCj4gLVNpZ25lZC1vZmYtYnk6IEphaXBhdWwgQ2hlZXJuYW0gPGphaXBhdWwuY2hlZXJu
+YW1AZXN0LnRlY2g+DQo+IC0tLS0NCj4gLSBMaWIvdGVzdC90ZXN0X3NzbC5weSB8IDggLS0tLS0t
+LS0NCj4gLSAxIGZpbGUgY2hhbmdlZCwgOCBkZWxldGlvbnMoLSkNCj4gLQ0KPiAtZGlmZiAtLWdp
+dCBhL0xpYi90ZXN0L3Rlc3Rfc3NsLnB5IGIvTGliL3Rlc3QvdGVzdF9zc2wucHkNCj4gLWluZGV4
+IDAzZDllM2Y5ZTVlOTZiNS4uNjQ0NWYxMjJiNDI3MmJlIDEwMDY0NA0KPiAtLS0tIGEvTGliL3Rl
+c3QvdGVzdF9zc2wucHkNCj4gLSsrKyBiL0xpYi90ZXN0L3Rlc3Rfc3NsLnB5DQo+IC1AQCAtNDgy
+MCwxNCArNDgyMCw2IEBAIGRlZiB0ZXN0X2dvdF9lb2Yoc2VsZik6DQo+IC0gICAgICAgICAgICAg
+ICAgIHNzbHNvY2suZG9faGFuZHNoYWtlKCkNCj4gLQ0KPiAtICAgICAgICAgICAgIHNlbGYuYXNz
+ZXJ0RXF1YWwoc3Nsc29jay5wZW5kaW5nKCksIDApDQo+IC0tICAgICAgICAgICAgdHJ5Og0KPiAt
+LSAgICAgICAgICAgICAgICBzc2xzb2NrLnNodXRkb3duKHNvY2tldC5TSFVUX1dSKQ0KPiAtLSAg
+ICAgICAgICAgIGV4Y2VwdCBPU0Vycm9yIGFzIGV4YzoNCj4gLS0gICAgICAgICAgICAgICAgc2Vs
+Zi5hc3NlcnRFcXVhbChleGMuZXJybm8sIGVycm5vLkVOT1RDT05OKQ0KPiAtLSAgICAgICAgICAg
+IGVsc2U6DQo+IC0tICAgICAgICAgICAgICAgICMgT24gV2luZG93cyBhbmQgb24gT3BlblNTTCAx
+LjEuMSwgc2h1dGRvd24oKSBkb2Vzbid0DQo+IC0tICAgICAgICAgICAgICAgICMgcmFpc2UgYW4g
+ZXJyb3INCj4gLS0gICAgICAgICAgICAgICAgcGFzcw0KPiAtDQo+IC0NCj4gLSBAdW5pdHRlc3Qu
+c2tpcFVubGVzcyhoYXNfdGxzX3ZlcnNpb24oJ1RMU3YxXzMnKSBhbmQgc3NsLkhBU19QSEEsDQo+
+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvbWFrZXJh
+Y2UucGF0Y2ggYi9tZXRhL3JlY2lwZXMtDQo+IGRldnRvb2xzL3B5dGhvbi9weXRob24zL21ha2Vy
+YWNlLnBhdGNoDQo+IGluZGV4IDI0OGE1MjExMTguLmM2YzAxMzMyY2UgMTAwNjQ0DQo+IC0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy9tYWtlcmFjZS5wYXRjaA0KPiAr
+KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvbWFrZXJhY2UucGF0Y2gN
+Cj4gQEAgLTEsNCArMSw0IEBADQo+IC1Gcm9tIGI0MTU1N2Y1NzBmZjQ0NTFjNDc3NjY5ZDZjYTVi
+ZmFjYWJlMjFjNjYgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+ICtGcm9tIDdiNzk2ZjBl
+ODk1M2E5YzllOTQwMmM4YzYwZWNjYzE5YTMzODc0YTkgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAy
+MDAxDQo+ICBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0
+aW9uLm9yZz4NCj4gIERhdGU6IFR1ZSwgMTMgSnVsIDIwMjEgMjM6MTk6MjkgKzAxMDANCj4gIFN1
+YmplY3Q6IFtQQVRDSF0gcHl0aG9uMzogRml4IG1ha2UgcmFjZQ0KPiBkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zL3ZhbGlkLWRpc3RzLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLQ0KPiBkZXZ0b29scy9weXRob24vcHl0aG9uMy92YWxpZC1kaXN0cy5wYXRjaA0K
+PiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggN2ZlMTgyNTRlNS4uMDAwMDAwMDAw
+MA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMvdmFsaWQtZGlz
+dHMucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwxNjQgKzAsMCBAQA0KPiAtRnJvbSA2
+Njg3NGNlMWE5ZjIxYjRiMDBkYzg1OTE5NzM0ZDU4ZTYyNDNjYTI5IE1vbiBTZXAgMTcgMDA6MDA6
+MDANCj4gMjAwMQ0KPiAtRnJvbTogIkphc29uIFIuIENvb21icyIgPGphcmFjb0BqYXJhY28uY29t
+Pg0KPiAtRGF0ZTogVHVlLCAyMyBKdWwgMjAyNCAwODozNjoxNiAtMDQwMA0KPiAtU3ViamVjdDog
+W1BBVENIXSBQcmlvcml0aXplIHZhbGlkIGRpc3RzIHRvIGludmFsaWQgZGlzdHMgd2hlbiByZXRy
+aWV2aW5nIGJ5DQo+IC0gbmFtZS4NCj4gLQ0KPiAtQ2xvc2VzIHB5dGhvbi9pbXBvcnRsaWJfbWV0
+YWRhdGEjNDg5DQo+IC0NCj4gLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gW2h0dHBzOi8v
+Z2l0aHViLmNvbS9weXRob24vaW1wb3J0bGliX21ldGFkYXRhL2NvbW1pdC9hNjVjMjlhZGMwMjdi
+MzYxNTE1NGNhDQo+IGI3M2FhZWRkNThhNmFhMjNkYV0NCj4gLVNpZ25lZC1vZmYtYnk6IFJvc3Mg
+QnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPg0KPiAtLS0tDQo+IC0gTGliL2ltcG9ydGxpYi9t
+ZXRhZGF0YS9fX2luaXRfXy5weSAgIHwgMTQgKysrLQ0KPiAtIExpYi9pbXBvcnRsaWIvbWV0YWRh
+dGEvX2l0ZXJ0b29scy5weSB8IDk4ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gLSAy
+IGZpbGVzIGNoYW5nZWQsIDExMCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiAtDQo+
+IC1kaWZmIC0tZ2l0IGEvTGliL2ltcG9ydGxpYi9tZXRhZGF0YS9fX2luaXRfXy5weSBiL0xpYi9p
+bXBvcnRsaWIvbWV0YWRhdGEvX19pbml0X18ucHkNCj4gLWluZGV4IDhjZTYyZGQuLjA4NTM3OGMg
+MTAwNjQ0DQo+IC0tLS0gYS9MaWIvaW1wb3J0bGliL21ldGFkYXRhL19faW5pdF9fLnB5DQo+IC0r
+KysgYi9MaWIvaW1wb3J0bGliL21ldGFkYXRhL19faW5pdF9fLnB5DQo+IC1AQCAtMjEsNyArMjEs
+NyBAQCBpbXBvcnQgY29sbGVjdGlvbnMNCj4gLSBmcm9tIC4gaW1wb3J0IF9tZXRhDQo+IC0gZnJv
+bSAuX2NvbGxlY3Rpb25zIGltcG9ydCBGcmVlemFibGVEZWZhdWx0RGljdCwgUGFpcg0KPiAtIGZy
+b20gLl9mdW5jdG9vbHMgaW1wb3J0IG1ldGhvZF9jYWNoZSwgcGFzc19ub25lDQo+IC0tZnJvbSAu
+X2l0ZXJ0b29scyBpbXBvcnQgYWx3YXlzX2l0ZXJhYmxlLCB1bmlxdWVfZXZlcnNlZW4NCj4gLStm
+cm9tIC5faXRlcnRvb2xzIGltcG9ydCBhbHdheXNfaXRlcmFibGUsIGJ1Y2tldCwgdW5pcXVlX2V2
+ZXJzZWVuDQo+IC0gZnJvbSAuX21ldGEgaW1wb3J0IFBhY2thZ2VNZXRhZGF0YSwgU2ltcGxlUGF0
+aA0KPiAtDQo+IC0gZnJvbSBjb250ZXh0bGliIGltcG9ydCBzdXBwcmVzcw0KPiAtQEAgLTQwNCw3
+ICs0MDQsNyBAQCBjbGFzcyBEaXN0cmlidXRpb24oRGVwcmVjYXRlZE5vbkFic3RyYWN0KToNCj4g
+LSAgICAgICAgIGlmIG5vdCBuYW1lOg0KPiAtICAgICAgICAgICAgIHJhaXNlIFZhbHVlRXJyb3Io
+IkEgZGlzdHJpYnV0aW9uIG5hbWUgaXMgcmVxdWlyZWQuIikNCj4gLSAgICAgICAgIHRyeToNCj4g
+LS0gICAgICAgICAgICByZXR1cm4gbmV4dChpdGVyKGNscy5kaXNjb3ZlcihuYW1lPW5hbWUpKSkN
+Cj4gLSsgICAgICAgICAgICByZXR1cm4gbmV4dChpdGVyKGNscy5fcHJlZmVyX3ZhbGlkKGNscy5k
+aXNjb3ZlcihuYW1lPW5hbWUpKSkpDQo+IC0gICAgICAgICBleGNlcHQgU3RvcEl0ZXJhdGlvbjoN
+Cj4gLSAgICAgICAgICAgICByYWlzZSBQYWNrYWdlTm90Rm91bmRFcnJvcihuYW1lKQ0KPiAtDQo+
+IC1AQCAtNDI4LDYgKzQyOCwxNiBAQCBjbGFzcyBEaXN0cmlidXRpb24oRGVwcmVjYXRlZE5vbkFi
+c3RyYWN0KToNCj4gLSAgICAgICAgICAgICByZXNvbHZlcihjb250ZXh0KSBmb3IgcmVzb2x2ZXIg
+aW4gY2xzLl9kaXNjb3Zlcl9yZXNvbHZlcnMoKQ0KPiAtICAgICAgICAgKQ0KPiAtDQo+IC0rICAg
+IEBzdGF0aWNtZXRob2QNCj4gLSsgICAgZGVmIF9wcmVmZXJfdmFsaWQoZGlzdHM6IEl0ZXJhYmxl
+W0Rpc3RyaWJ1dGlvbl0pIC0+IEl0ZXJhYmxlW0Rpc3RyaWJ1dGlvbl06DQo+IC0rICAgICAgICAi
+IiINCj4gLSsgICAgICAgIFByZWZlciAobW92ZSB0byB0aGUgZnJvbnQpIGRpc3RyaWJ1dGlvbnMg
+dGhhdCBoYXZlIG1ldGFkYXRhLg0KPiAtKw0KPiAtKyAgICAgICAgUmVmIHB5dGhvbi9pbXBvcnRs
+aWJfcmVzb3VyY2VzIzQ4OS4NCj4gLSsgICAgICAgICIiIg0KPiAtKyAgICAgICAgYnVja2V0cyA9
+IGJ1Y2tldChkaXN0cywgbGFtYmRhIGRpc3Q6IGJvb2woZGlzdC5tZXRhZGF0YSkpDQo+IC0rICAg
+ICAgICByZXR1cm4gaXRlcnRvb2xzLmNoYWluKGJ1Y2tldHNbVHJ1ZV0sIGJ1Y2tldHNbRmFsc2Vd
+KQ0KPiAtKw0KPiAtICAgICBAc3RhdGljbWV0aG9kDQo+IC0gICAgIGRlZiBhdChwYXRoOiBzdHIg
+fCBvcy5QYXRoTGlrZVtzdHJdKSAtPiBEaXN0cmlidXRpb246DQo+IC0gICAgICAgICAiIiJSZXR1
+cm4gYSBEaXN0cmlidXRpb24gZm9yIHRoZSBpbmRpY2F0ZWQgbWV0YWRhdGEgcGF0aC4NCj4gLWRp
+ZmYgLS1naXQgYS9MaWIvaW1wb3J0bGliL21ldGFkYXRhL19pdGVydG9vbHMucHkNCj4gYi9MaWIv
+aW1wb3J0bGliL21ldGFkYXRhL19pdGVydG9vbHMucHkNCj4gLWluZGV4IGQ0Y2E5YjkuLjc5ZDM3
+MTkgMTAwNjQ0DQo+IC0tLS0gYS9MaWIvaW1wb3J0bGliL21ldGFkYXRhL19pdGVydG9vbHMucHkN
+Cj4gLSsrKyBiL0xpYi9pbXBvcnRsaWIvbWV0YWRhdGEvX2l0ZXJ0b29scy5weQ0KPiAtQEAgLTEs
+MyArMSw0IEBADQo+IC0rZnJvbSBjb2xsZWN0aW9ucyBpbXBvcnQgZGVmYXVsdGRpY3QsIGRlcXVl
+DQo+IC0gZnJvbSBpdGVydG9vbHMgaW1wb3J0IGZpbHRlcmZhbHNlDQo+IC0NCj4gLQ0KPiAtQEAg
+LTcxLDMgKzcyLDEwMCBAQCBkZWYgYWx3YXlzX2l0ZXJhYmxlKG9iaiwgYmFzZV90eXBlPShzdHIs
+IGJ5dGVzKSk6DQo+IC0gICAgICAgICByZXR1cm4gaXRlcihvYmopDQo+IC0gICAgIGV4Y2VwdCBU
+eXBlRXJyb3I6DQo+IC0gICAgICAgICByZXR1cm4gaXRlcigob2JqLCkpDQo+IC0rDQo+IC0rDQo+
+IC0rIyBDb3BpZWQgZnJvbSBtb3JlX2l0ZXJ0b29scyAxMC4zDQo+IC0rY2xhc3MgYnVja2V0Og0K
+PiAtKyAgICAiIiJXcmFwICppdGVyYWJsZSogYW5kIHJldHVybiBhbiBvYmplY3QgdGhhdCBidWNr
+ZXRzIHRoZSBpdGVyYWJsZSBpbnRvDQo+IC0rICAgIGNoaWxkIGl0ZXJhYmxlcyBiYXNlZCBvbiBh
+ICprZXkqIGZ1bmN0aW9uLg0KPiAtKw0KPiAtKyAgICAgICAgPj4+IGl0ZXJhYmxlID0gWydhMScs
+ICdiMScsICdjMScsICdhMicsICdiMicsICdjMicsICdiMyddDQo+IC0rICAgICAgICA+Pj4gcyA9
+IGJ1Y2tldChpdGVyYWJsZSwga2V5PWxhbWJkYSB4OiB4WzBdKSAgIyBCdWNrZXQgYnkgMXN0IGNo
+YXJhY3Rlcg0KPiAtKyAgICAgICAgPj4+IHNvcnRlZChsaXN0KHMpKSAgIyBHZXQgdGhlIGtleXMN
+Cj4gLSsgICAgICAgIFsnYScsICdiJywgJ2MnXQ0KPiAtKyAgICAgICAgPj4+IGFfaXRlcmFibGUg
+PSBzWydhJ10NCj4gLSsgICAgICAgID4+PiBuZXh0KGFfaXRlcmFibGUpDQo+IC0rICAgICAgICAn
+YTEnDQo+IC0rICAgICAgICA+Pj4gbmV4dChhX2l0ZXJhYmxlKQ0KPiAtKyAgICAgICAgJ2EyJw0K
+PiAtKyAgICAgICAgPj4+IGxpc3Qoc1snYiddKQ0KPiAtKyAgICAgICAgWydiMScsICdiMicsICdi
+MyddDQo+IC0rDQo+IC0rICAgIFRoZSBvcmlnaW5hbCBpdGVyYWJsZSB3aWxsIGJlIGFkdmFuY2Vk
+IGFuZCBpdHMgaXRlbXMgd2lsbCBiZSBjYWNoZWQgdW50aWwNCj4gLSsgICAgdGhleSBhcmUgdXNl
+ZCBieSB0aGUgY2hpbGQgaXRlcmFibGVzLiBUaGlzIG1heSByZXF1aXJlIHNpZ25pZmljYW50IHN0
+b3JhZ2UuDQo+IC0rDQo+IC0rICAgIEJ5IGRlZmF1bHQsIGF0dGVtcHRpbmcgdG8gc2VsZWN0IGEg
+YnVja2V0IHRvIHdoaWNoIG5vIGl0ZW1zIGJlbG9uZyAgd2lsbA0KPiAtKyAgICBleGhhdXN0IHRo
+ZSBpdGVyYWJsZSBhbmQgY2FjaGUgYWxsIHZhbHVlcy4NCj4gLSsgICAgSWYgeW91IHNwZWNpZnkg
+YSAqdmFsaWRhdG9yKiBmdW5jdGlvbiwgc2VsZWN0ZWQgYnVja2V0cyB3aWxsIGluc3RlYWQgYmUN
+Cj4gLSsgICAgY2hlY2tlZCBhZ2FpbnN0IGl0Lg0KPiAtKw0KPiAtKyAgICAgICAgPj4+IGZyb20g
+aXRlcnRvb2xzIGltcG9ydCBjb3VudA0KPiAtKyAgICAgICAgPj4+IGl0ID0gY291bnQoMSwgMikg
+ICMgSW5maW5pdGUgc2VxdWVuY2Ugb2Ygb2RkIG51bWJlcnMNCj4gLSsgICAgICAgID4+PiBrZXkg
+PSBsYW1iZGEgeDogeCAlIDEwICAjIEJ1Y2tldCBieSBsYXN0IGRpZ2l0DQo+IC0rICAgICAgICA+
+Pj4gdmFsaWRhdG9yID0gbGFtYmRhIHg6IHggaW4gezEsIDMsIDUsIDcsIDl9ICAjIE9kZCBkaWdp
+dHMgb25seQ0KPiAtKyAgICAgICAgPj4+IHMgPSBidWNrZXQoaXQsIGtleT1rZXksIHZhbGlkYXRv
+cj12YWxpZGF0b3IpDQo+IC0rICAgICAgICA+Pj4gMiBpbiBzDQo+IC0rICAgICAgICBGYWxzZQ0K
+PiAtKyAgICAgICAgPj4+IGxpc3Qoc1syXSkNCj4gLSsgICAgICAgIFtdDQo+IC0rDQo+IC0rICAg
+ICIiIg0KPiAtKw0KPiAtKyAgICBkZWYgX19pbml0X18oc2VsZiwgaXRlcmFibGUsIGtleSwgdmFs
+aWRhdG9yPU5vbmUpOg0KPiAtKyAgICAgICAgc2VsZi5faXQgPSBpdGVyKGl0ZXJhYmxlKQ0KPiAt
+KyAgICAgICAgc2VsZi5fa2V5ID0ga2V5DQo+IC0rICAgICAgICBzZWxmLl9jYWNoZSA9IGRlZmF1
+bHRkaWN0KGRlcXVlKQ0KPiAtKyAgICAgICAgc2VsZi5fdmFsaWRhdG9yID0gdmFsaWRhdG9yIG9y
+IChsYW1iZGEgeDogVHJ1ZSkNCj4gLSsNCj4gLSsgICAgZGVmIF9fY29udGFpbnNfXyhzZWxmLCB2
+YWx1ZSk6DQo+IC0rICAgICAgICBpZiBub3Qgc2VsZi5fdmFsaWRhdG9yKHZhbHVlKToNCj4gLSsg
+ICAgICAgICAgICByZXR1cm4gRmFsc2UNCj4gLSsNCj4gLSsgICAgICAgIHRyeToNCj4gLSsgICAg
+ICAgICAgICBpdGVtID0gbmV4dChzZWxmW3ZhbHVlXSkNCj4gLSsgICAgICAgIGV4Y2VwdCBTdG9w
+SXRlcmF0aW9uOg0KPiAtKyAgICAgICAgICAgIHJldHVybiBGYWxzZQ0KPiAtKyAgICAgICAgZWxz
+ZToNCj4gLSsgICAgICAgICAgICBzZWxmLl9jYWNoZVt2YWx1ZV0uYXBwZW5kbGVmdChpdGVtKQ0K
+PiAtKw0KPiAtKyAgICAgICAgcmV0dXJuIFRydWUNCj4gLSsNCj4gLSsgICAgZGVmIF9nZXRfdmFs
+dWVzKHNlbGYsIHZhbHVlKToNCj4gLSsgICAgICAgICIiIg0KPiAtKyAgICAgICAgSGVscGVyIHRv
+IHlpZWxkIGl0ZW1zIGZyb20gdGhlIHBhcmVudCBpdGVyYXRvciB0aGF0IG1hdGNoICp2YWx1ZSou
+DQo+IC0rICAgICAgICBJdGVtcyB0aGF0IGRvbid0IG1hdGNoIGFyZSBzdG9yZWQgaW4gdGhlIGxv
+Y2FsIGNhY2hlIGFzIHRoZXkNCj4gLSsgICAgICAgIGFyZSBlbmNvdW50ZXJlZC4NCj4gLSsgICAg
+ICAgICIiIg0KPiAtKyAgICAgICAgd2hpbGUgVHJ1ZToNCj4gLSsgICAgICAgICAgICAjIElmIHdl
+J3ZlIGNhY2hlZCBzb21lIGl0ZW1zIHRoYXQgbWF0Y2ggdGhlIHRhcmdldCB2YWx1ZSwgZW1pdA0K
+PiAtKyAgICAgICAgICAgICMgdGhlIGZpcnN0IG9uZSBhbmQgZXZpY3QgaXQgZnJvbSB0aGUgY2Fj
+aGUuDQo+IC0rICAgICAgICAgICAgaWYgc2VsZi5fY2FjaGVbdmFsdWVdOg0KPiAtKyAgICAgICAg
+ICAgICAgICB5aWVsZCBzZWxmLl9jYWNoZVt2YWx1ZV0ucG9wbGVmdCgpDQo+IC0rICAgICAgICAg
+ICAgIyBPdGhlcndpc2Ugd2UgbmVlZCB0byBhZHZhbmNlIHRoZSBwYXJlbnQgaXRlcmF0b3IgdG8g
+c2VhcmNoIGZvcg0KPiAtKyAgICAgICAgICAgICMgYSBtYXRjaGluZyBpdGVtLCBjYWNoaW5nIHRo
+ZSByZXN0Lg0KPiAtKyAgICAgICAgICAgIGVsc2U6DQo+IC0rICAgICAgICAgICAgICAgIHdoaWxl
+IFRydWU6DQo+IC0rICAgICAgICAgICAgICAgICAgICB0cnk6DQo+IC0rICAgICAgICAgICAgICAg
+ICAgICAgICAgaXRlbSA9IG5leHQoc2VsZi5faXQpDQo+IC0rICAgICAgICAgICAgICAgICAgICBl
+eGNlcHQgU3RvcEl0ZXJhdGlvbjoNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4N
+Cj4gLSsgICAgICAgICAgICAgICAgICAgIGl0ZW1fdmFsdWUgPSBzZWxmLl9rZXkoaXRlbSkNCj4g
+LSsgICAgICAgICAgICAgICAgICAgIGlmIGl0ZW1fdmFsdWUgPT0gdmFsdWU6DQo+IC0rICAgICAg
+ICAgICAgICAgICAgICAgICAgeWllbGQgaXRlbQ0KPiAtKyAgICAgICAgICAgICAgICAgICAgICAg
+IGJyZWFrDQo+IC0rICAgICAgICAgICAgICAgICAgICBlbGlmIHNlbGYuX3ZhbGlkYXRvcihpdGVt
+X3ZhbHVlKToNCj4gLSsgICAgICAgICAgICAgICAgICAgICAgICBzZWxmLl9jYWNoZVtpdGVtX3Zh
+bHVlXS5hcHBlbmQoaXRlbSkNCj4gLSsNCj4gLSsgICAgZGVmIF9faXRlcl9fKHNlbGYpOg0KPiAt
+KyAgICAgICAgZm9yIGl0ZW0gaW4gc2VsZi5faXQ6DQo+IC0rICAgICAgICAgICAgaXRlbV92YWx1
+ZSA9IHNlbGYuX2tleShpdGVtKQ0KPiAtKyAgICAgICAgICAgIGlmIHNlbGYuX3ZhbGlkYXRvcihp
+dGVtX3ZhbHVlKToNCj4gLSsgICAgICAgICAgICAgICAgc2VsZi5fY2FjaGVbaXRlbV92YWx1ZV0u
+YXBwZW5kKGl0ZW0pDQo+IC0rDQo+IC0rICAgICAgICB5aWVsZCBmcm9tIHNlbGYuX2NhY2hlLmtl
+eXMoKQ0KPiAtKw0KPiAtKyAgICBkZWYgX19nZXRpdGVtX18oc2VsZiwgdmFsdWUpOg0KPiAtKyAg
+ICAgICAgaWYgbm90IHNlbGYuX3ZhbGlkYXRvcih2YWx1ZSk6DQo+IC0rICAgICAgICAgICAgcmV0
+dXJuIGl0ZXIoKCkpDQo+IC0rDQo+IC0rICAgICAgICByZXR1cm4gc2VsZi5fZ2V0X3ZhbHVlcyh2
+YWx1ZSkNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+M18zLjE0LjcuYmIgYi9tZXRhL3JlY2lwZXMtDQo+IGRldnRvb2xzL3B5dGhvbi9weXRob24zXzMu
+MTUuMC5iYg0KPiBzaW1pbGFyaXR5IGluZGV4IDk4JQ0KPiByZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjNfMy4xNC43LmJiDQo+IHJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjNfMy4xNS4wLmJiDQo+IGluZGV4IGY5MTdlZGVi
+ZDguLjcxYTI5NzNlMjAgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uM18zLjE0LjcuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zXzMuMTUuMC5iYg0KPiBAQCAtMTgsMTkgKzE4LDE1IEBAIFNSQ19VUkkgPQ0KPiAi
+aHR0cDovL3d3dy5weXRob24ub3JnL2Z0cC9weXRob24vJHtQVn0vUHl0aG9uLSR7UFZ9LnRhci54
+eiBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly9tYWtlcmFjZS5wYXRjaCBcDQo+ICAgICAgICAgICAg
+IGZpbGU6Ly8wMDAxLXN5c2NvbmZpZy5weS11c2UtcGxhdGxpYmRpci1hbHNvLWZvci1wdXJlbGli
+LnBhdGNoIFwNCj4gICAgICAgICAgICAgZmlsZTovLzAwMDEtTGliLXB0eS5weS1oYW5kbGUtc3Rk
+aW4tSS1PLWVycm9ycy1zYW1lLXdheS1hcy1tYXN0ZS5wYXRjaCBcDQo+IC0gICAgICAgICAgIGZp
+bGU6Ly92YWxpZC1kaXN0cy5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUF2b2lk
+LXNoZWJhbmctb3ZlcmZsb3ctb24tcHl0aG9uLWNvbmZpZy5weS5wYXRjaCBcDQo+ICAgICAgICAg
+ICAgIGZpbGU6Ly8wMDAxLVVwZGF0ZS10ZXN0X3N5c2NvbmZpZy1mb3ItcG9zaXhfdXNlci1wdXJl
+bGliLnBhdGNoIFwNCj4gICAgICAgICAgICAgZmlsZTovLzAwMDEtcHJlZmVyLXZhbGlkLWVudHJ5
+cG9pbnRzLnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovLzAwMDEtZ2gtMTQ2MjA3LUFkZC1z
+dXBwb3J0LWZvci1PcGVuU1NMLTQuMC4wLnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmlsZTovLzAw
+MDItZ2gtMTQ4MjkyLVVwZGF0ZS1fc3NsLl9TU0xTb2NrZXQtZm9yLU9wZW5TU0wtNC5wYXRjaCBc
+DQo+IC0gICAgICAgICAgIGZpbGU6Ly8wMDAzLWdoLTE0ODI5Mi1SZW1vdmUtc2h1dGRvd24tdGVz
+dC1pbi0NCj4gdGVzdF9zc2wudGVzdF9nb3RfZW9mLnBhdGNoIFwNCj4gICAgICAgICAgICAgIg0K
+PiAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBcDQo+ICAgICAgICAgICAgIGZpbGU6
+Ly8wMDAxLUxpYi1zeXNjb25maWcucHktdXNlLXByZWZpeC12YWx1ZS1mcm9tLWJ1aWxkLWNvbmZp
+Z3UucGF0Y2ggXA0KPiAgICAgICAgICAgICAiDQo+IA0KPiAtU1JDX1VSSVtzaGEyNTZzdW1dID0N
+Cj4gIjNiNDhkYWM4ZmI1OWY2MmVhYTY3YWM4M2MxZWIxMmJkYTFiN2EwODQwNmRkMjg2ZTI1MmMx
+MWE2NmJlMjdmODEiDQo+ICtTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiYmE0YmVkMWJhMzQ2Yjkx
+Njg5MGI3NmQ5ZTMyMDQ1MTQyMGFhNjlmNjQwODk5N2QzM2M2NjQ4MmVlYWUzZDU3DQo+IDUiDQo+
+IA0KPiAgIyBleGNsdWRlIHByZS1yZWxlYXNlcyBmb3IgYm90aCBweXRob24gMi54IGFuZCAzLngN
+Cj4gIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gIltQcF15dGhvbi0oP1A8cHZlcj5cZCsoXC5cZCsp
+KykudGFyIg0KPiBAQCAtNDEsNyArMzcsNyBAQCBpbmhlcml0IHVwc3RyZWFtLXN0YWJsZS1yZWxl
+YXNlLXBvaW50DQo+IA0KPiAgQ1ZFX1BST0RVQ1QgPSAicHl0aG9uOnB5dGhvbiBweXRob25fc29m
+dHdhcmVfZm91bmRhdGlvbjpweXRob24gY3B5dGhvbiINCj4gDQo+IC1QWVRIT05fTUFKTUlOID0g
+IjMuMTQiDQo+ICtQWVRIT05fTUFKTUlOID0gIjMuMTUiDQo+IA0KPiAgUyA9ICIke1VOUEFDS0RJ
+Un0vUHl0aG9uLSR7UFZ9Ig0KPiANCj4gQEAgLTYxLDYgKzU3LDcgQEAgREVQRU5EUyA9ICJcDQo+
+ICAgICAgYnppcDItcmVwbGFjZW1lbnQtbmF0aXZlIFwNCj4gICAgICBleHBhdCBcDQo+ICAgICAg
+bGliZmZpIFwNCj4gKyAgICBtcGRlY2ltYWwgXA0KPiAgICAgIG5jdXJzZXMgXA0KPiAgICAgIG9w
+ZW5zc2wgXA0KPiAgICAgIHNxbGl0ZTMgXA0KPiBAQCAtNzUsNyArNzIsNyBAQCBERVBFTkRTID0g
+IlwNCj4gIERFUEVORFM6YXBwZW5kOmNsYXNzLXRhcmdldCA9ICIgcHl0aG9uMy1uYXRpdmUiDQo+
+ICBERVBFTkRTOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIHB5dGhvbjMtbmF0aXZlIg0KPiAN
+Cj4gLUVYVFJBX09FQ09ORiA9ICIgLS13aXRob3V0LWVuc3VyZXBpcCAtLWVuYWJsZS1zaGFyZWQg
+LS13aXRoLQ0KPiBwbGF0bGliZGlyPSR7YmFzZWxpYn0gLS13aXRoLXN5c3RlbS1leHBhdCINCj4g
+K0VYVFJBX09FQ09ORiA9ICIgLS13aXRob3V0LWVuc3VyZXBpcCAtLWVuYWJsZS1zaGFyZWQgLS13
+aXRoLQ0KPiBwbGF0bGliZGlyPSR7YmFzZWxpYn0gLS13aXRoLXN5c3RlbS1leHBhdCAtLXdpdGgt
+c3lzdGVtLWxpYm1wZGVjIg0KPiAgRVhUUkFfT0VDT05GOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAi
+IC0tYmluZGlyPSR7YmluZGlyfS8ke1BOfSINCj4gIEVYVFJBX09FQ09ORjphcHBlbmQ6Y2xhc3Mt
+dGFyZ2V0ID0gIiAtLXdpdGgtYnVpbGQtcHl0aG9uPW5hdGl2ZXB5dGhvbjMNCj4gUExBVEZPUk1f
+VFJJUExFVD0ke0hPU1RfQVJDSH0tJHtIT1NUX09TfSINCj4gIEVYVFJBX09FQ09ORjphcHBlbmQ6
+Y2xhc3MtbmF0aXZlc2RrID0gIiAtLXdpdGgtYnVpbGQtDQo+IHB5dGhvbj1uYXRpdmVweXRob24z
+Ig0K
 
