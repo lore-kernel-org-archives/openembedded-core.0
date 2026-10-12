@@ -1,269 +1,253 @@
-Return-Path: <rsangam@mvista.com>
+Return-Path: <jose.quaresma@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A86C7CA9EDE
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 17:48:29 +0000 (UTC)
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.497.1791827300401950190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC259CA9EDE
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 18:18:49 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1103.1791829125889068329
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 10:48:20 -0700
+ Mon, 12 Oct 2026 11:18:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=MeSk6qaV;
- spf=pass (domain: mvista.com, ip: 74.125.82.177, mailfrom: rsangam@mvista.com)
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-35aa0cf7c40so1319932eec.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 10:48:20 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=m8WCiX8k;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=bR7N4qZY;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: jose.quaresma@oss.qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69CHuibd2022738
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 18:18:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=DMBxWDdXrg80e5KKly6rqKPB
+	7FsDpxFixigssivzoWk=; b=m8WCiX8kAKdfIAjSlcAfaXWEkdJgFUd+j6U4BIBk
+	lFZ5f4C0PVQLozXGxTTLi96b1d8qvEtFD9QXAbIH2DQARk8/BVzUGuuItvqiXsRN
+	9pHeKHeSMfM4BRANggUT6zQo00/GoKNrk6aD/0h+aN9qi9ImGwmHWb4OSzn9LLp/
+	c5dX8rboKM3A9mLmXetexvG9Cq+n9r3E8Ls5z4O1MDPzcnv/fKDy/dRM93VmNjxL
+	WSU3QB1JJbfDCdalzySLnzpbJ2EbLHTSBqlyAmV14QDlnDpOcyMg1PWZ2+yC9Vco
+	xrHjD5t/Xn6c+pW0YskGuRroU1lk8hBWD7hXIb8P7P7a4g==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h93aerdwk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 18:18:44 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-91961d4b31bso49202586d6.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 11:18:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791829124; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rqz4MKOR8kZZ4Uzzknzt8QJ1CxE2OLIuakrdX4U3/S84MOcm/bvwq2BgxPrg6nLj6i
+         VwfJ3S1c0x7P0K9Bl5zb0I3nFSDP5X3m4SHrfzaEK1Wer6rxyg1CVPctAjfaGvQbh1Zz
+         iZffJ0rIJbxCSQb7fo+tL67DfPPnGxWWz7T77widcZZc1FC7fIxYsRg/rO8B8w82i9UW
+         VFU867Eh8pQOAOxvbjx30Wi63bLqzhurwwM5lEA7pn01uGg+ftXBWRVI6KXNJMU4uJod
+         sYfoG6uDqFzXE3+ikqZI/SGDGYJZur7NqgvqNSB9kLPBA75lEBZfbT/UyFJhm/CR+6Qq
+         ttkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DMBxWDdXrg80e5KKly6rqKPB7FsDpxFixigssivzoWk=;
+        fh=Tyc0Jk2T+8fGWDixU3qFe8BDCZOG+4XtkeWc0U40ryA=;
+        b=UUkJvJKm4eUuUIYYrbpBPQxPFgVkjKHZaejwGAWh4OV5tLYWrvfeKyEB42rkCokGcM
+         8PsIamtwha3qQt/B9LOAbMV1EevCY2p/yt6XEvYfSm/flX3KpwKyuKGQ3yzuZqlBHxyL
+         kYvpGLAXnPwDkVztZUajxzlLz3HiljGt2mpOXngBH987RpLL+jN/hjhQB9NFkqhFUlIa
+         FCFQPmRFWNgWMSN2JUvJa36KWJCbCrSieTS97jX5gvrDcFl/S875CPpURvK9nCqp1+mq
+         K9l7lgospgYduVWoEykUsmagR4T4Ck389QMlzrF3PG9pxGyDsmkNCToxqerjko6OgWvX
+         Q+Gg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1791827300; x=1792432100; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FFrBta6GGZrAymBkRW34uhSTioJRuyKQ/lSDqp02D9o=;
-        b=MeSk6qaVAl5Kc0vO57Ec4xxHmDBfEZd5qZ3JDR+xYhGizRt1xheexYAjJ7/GO+17UM
-         zkcRO0IApquPJ8AOcnlZ6DFTNmDapQ7RGgOUXfiIXRNkOJCmzacjT592rz5s8I0q2Xtg
-         MoiSa3PzZmLuW0xBK+cX+hXlIHWNWFJ36AQag=
+        d=oss.qualcomm.com; s=google; t=1791829124; x=1792433924; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DMBxWDdXrg80e5KKly6rqKPB7FsDpxFixigssivzoWk=;
+        b=bR7N4qZYE3uDuBlrKHXRnL7p1E5UTWs8yYXEtrYoWZa8CZ2324yq3EzC7O0Syz4dYA
+         hMQA740Vmw+j5oteIJhYKCbwPuWsLLlYI0JR1zIJ4XIyly5XSjveC4T+wIaz3Z8ZB8Hz
+         Pe1Wd2jnSjODaJbFh4b4d9sn4XXJG4CoDTSmEFfJaxn9+1EwVsF3439ce+yKM+XlNm1s
+         z+iJVeNCuxFMnL4AnGOUnvUP8eaHly7Q3kn8akPh5psqW4NxM232zyijuqsD5PcM+0Hw
+         hyGuKTGhn/KMPmVAiz6dGhq54aBbf7Sz0EAx7QwhxAj4Hf+yA5UQZUseOe1xEC2FpMZE
+         ozEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791827300; x=1792432100;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FFrBta6GGZrAymBkRW34uhSTioJRuyKQ/lSDqp02D9o=;
-        b=joAGprjJ8FQ7XmW1cwyG5ZZGKkiite8v9f/2Rx6Zofilw/cPKGFcrSCmAWIOf/QsTh
-         qvU+i/gNItg2WqSQt75yS+p2zitaKm6XW3YcbExRjkdLnpqc7/LhiCLtgP/S3o6vxxHU
-         ys6KjfaINDHjOiYjirWKGCAh6WD4R4gKGaVFH+2AAfViV6tC5bcF7D9pKZzIJw8JN6ki
-         AZiXgELfXpVp5xBNRJXGbYXCrJ4bn+eT6wN8Oqkbu0VbSJ+9rMw2gPdYCcE42FxtX3ug
-         xrzGxTW2ED/3+EhWaArX1+ii814DLPR7Ri6+yZi+PlhhIjqeDQgU5nEdCE9i9Qa2myfq
-         lC8w==
-X-Gm-Message-State: AFq9FYISD+RP6nU/kgNK0k4hvu0ULmaTFuMB8ulI311NkEihxLNpI9Cn
-	3QY8PLW0aX3sPLycBhlziGFSX8vMHinOO4eVJKF7D/wHEiyTlTo2jmkg7EXG6j9p8AK2VVjGRil
-	3uHl0BUo=
-X-Gm-Gg: AYBFou0197AMsGvEcs32WSiXVxftupJ0bD9xVY1Av+w8uhoY1wE88yOEI+XkgR9Q++J
-	tTT4l/Fh/lxPAY7JVB3JEW8qZISIdHi2iyfhQrkW1Bg/bLFrB5CYG4S1ZlgcMWMr99uAGiwEIAG
-	P1BvXkRwtFOQAh7rHSuqDhoojBaFbdrXvA/wxXs2HnII34jBmjgMEQAn8Wyi3t6xwJAMKhREN60
-	SgdFR8O/dq6+4MaK3RKfPDh1avWRYCrJzxlpsnih4x3eEiVjXjY9p1w6PVlxI2bspm+IRT8z3CM
-	z5eEE/YJfX2PIEzZPY7TWy5zUoVZdm2GbIAgpSryhVJqMIVbcH6/bTwecEo0irG+zxrrKS2r53V
-	W59eNVm80iNwIk2xC0b91YCnHcTsk/pohoStaWuLqLO04BI/aATPJEP2It5mlj5bq2alXW700Sk
-	POmoJ6YFdIZ5QzUE/Nw3pa85reZKMKOk4JTAO17XRY8SbqMKQ47z5Ew2gmhHynj1x7e2iXeFApC
-	d9pAw==
-X-Received: by 2002:a05:693c:8099:b0:358:c755:81a9 with SMTP id 5a478bee46e88-358c75589d0mr9226809eec.11.1791827298925;
-        Mon, 12 Oct 2026 10:48:18 -0700 (PDT)
-Received: from MVIN00040.mvista.com ([49.207.212.49])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cb2fd33sm34565596eec.28.2026.10.12.10.48.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 10:48:17 -0700 (PDT)
-From: Rohini Sangam <rsangam@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Rohini Sangam <rsangam@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] perl: Security fix for CVE-2026-48962
-Date: Mon, 12 Oct 2026 23:18:10 +0530
-Message-Id: <20261012174810.45428-1-rsangam@mvista.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20260707; t=1791829124; x=1792433924;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DMBxWDdXrg80e5KKly6rqKPB7FsDpxFixigssivzoWk=;
+        b=xZDELvix6vTw63rNlivOxOrUZXhmhUYAm63mY0ExLS3FUw4Xr1VFwFFjtpdLCAPZP1
+         H5ac/xNPR2LHGIGObnnNOkK4j0EHG+rPyBMncIMgaifVTLaHP05aZQRKA94GYMEJpsgy
+         P5tYmtV8Q0T4m4Gzlad6sv79gYg8wESqwaSKnOPMl9QO7/AapkQeh08SbKvekYhzGFXG
+         8tn99E3AZMI3DPZ71GHPskHBRbSveKwin4DoMUlxKPGCkCSifBMhIrpak+PbZejNG/HR
+         FK9nJChum4+uvgth58hbJ3DT2rp4/baYDItEgJqlzpRPSlSrKO8jwvDrou54F+0KR7sH
+         OeGA==
+X-Gm-Message-State: AFq9FYKYsP4sLCn/3UvYla8sdNxHbyukDvzmbsMxPbH70su4aUce3DoH
+	Hkih5gBb3JEyUY4INBbgLUmjDQfgmrAhtckyehiP1NdKmXRJ4k8i9PVrxJRuWVV3Hb99tjk26uB
+	/lhCdDp5kxStVTY+eiDs8fIKpgIV3PxtwOOcWT3kLexEmn1F/Ijdv3Rrwy4F5XtT+4po61X/APK
+	WT/OspLSXy8et8gedbX+F4jLBnVMyg2GzIm6xz+G1nYlotlymKGYhBOtTQAslfKagav6Q6
+X-Gm-Gg: AYBFou1MLO7aVHJC9W0RM5xNLFLe21NAocJBR6pSNz/ggD1d4g5YaX7gHI/+kD0JEWR
+	yyR1U0fPQQwE1hUpOvKpDSPRxPUVu5/YywuUqrRojwZK02TBY4U6gksysqIaCeLqX4RUAwt4MlD
+	MaRoH9nQosrXubd5+HcaNLTqYyIiOZeDwmHy78Z8ut11COHMkliydyWSDzLf4=
+X-Received: by 2002:a05:6214:29ea:b0:912:517b:8fc with SMTP id 6a1803df08f44-91b557d1e68mr186887236d6.46.1791829123683;
+        Mon, 12 Oct 2026 11:18:43 -0700 (PDT)
+X-Received: by 2002:a05:6214:29ea:b0:912:517b:8fc with SMTP id
+ 6a1803df08f44-91b557d1e68mr186886846d6.46.1791829123067; Mon, 12 Oct 2026
+ 11:18:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261009200155.1040688-1-jose.quaresma@oss.qualcomm.com> <61ddef022463353447681c6d77033fadfe47f753.camel@linuxfoundation.org>
+In-Reply-To: <61ddef022463353447681c6d77033fadfe47f753.camel@linuxfoundation.org>
+From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+Date: Mon, 12 Oct 2026 19:18:30 +0100
+X-Gm-Features: AclHuK-VXQcHyHVNvPhOxbR26LJmkJG2qIydFHdBnpQ0B5vorY6DDoaCuRI1adw
+Message-ID: <CADWMC-YzMNDrYUpo=_i25uSAW1cJXJX5m3zG-z6hoNGmvGE4Bg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] testimage: excluding TESTIMAGE_AUTO from
+ initramfs images
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000006105df065da8baf4"
+X-Proofpoint-GUID: mnWlyLXJq1jPGk7GulGS54vXKb-q-aKZ
+X-Authority-Analysis: v=2.4 cv=JJuuIMKb c=1 sm=1 tr=0 ts=6acd2484 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=ag1SF4gXAAAA:8 a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=IRWi4dCofZEOYWtkj2IA:9
+ a=QEXdDO2ut3YA:10 a=4pf7h7LjaYbtA_QMBoAA:9 a=9yk2A0_v3jO90BGD:21
+ a=lqcHg5cX4UMA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA3MiBTYWx0ZWRfX2ZrhtpkRi//5
+ O/sHozrgY/QfLaVcro9buhavJqNU0q51dKtOHVU/bDdPEqv1L6gFM3MNIU/fZJGPZ073juytzKG
+ sCFKDWdOTRiKEIKPmGGK68nGPzWTxWw=
+X-Proofpoint-ORIG-GUID: mnWlyLXJq1jPGk7GulGS54vXKb-q-aKZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA3MiBTYWx0ZWRfXzVjApfRSY3R5
+ jg2wM9EkGBHiy3wEr1GlGe/YzqzmnS51pzM+isoFyWHNVQLCX0GpHM6bRZG6tRI0zxD5eb0sx98
+ YzpsxDnLTG8Vtpf0hBRDWvJlVrj6XL0tTsx5b0ha8MAV1zppJLfb9mtuqKu0vLgi7DAL/uw0SWn
+ lqbr6gylb5jJqaF8Gd30ML9XXbF04acUhVEdJMgroJ+az5we9+sQOj0iCmiTKtLC/evTc2DIMN9
+ 7r/K717TDUrVzjI6kpCamgt6+mFiOOKe33nZKC3QnosZUpHayGkYWOD6aE7/I6NfE0W7rSf2AYh
+ 1l5eZxhmlKL0IIDQDipe4urp92Evch7w1dMxNScKRi4oRzuaoY27sPZ8gyB8hyw7IBGkRDT2+Ur
+ iNzptN6cS9UgtiOT+a8xX72e1BMmmN6MfQEju8deNGurRTIWGEKHQR1nph1WP1D7iLaz0D1WBfT
+ cyTy4ZzXYzVyFqmf9rA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-12_05,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 adultscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610120072
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 17:48:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247673
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 18:18:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247674
 
-Pick patch from [1] also mentioned at Debian tracker in [2]
+--0000000000006105df065da8baf4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://github.com/pmqs/IO-Compress/commit/f2db247bf90d4cc7ee2710be384946081f3b4610
-[2] https://security-tracker.debian.org/tracker/CVE-2026-48962
+On Mon, Oct 12, 2026 at 5:28=E2=80=AFPM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Signed-off-by: Rohini Sangam <rsangam@mvista.com>
----
- .../perl/files/CVE-2026-48962.patch           | 168 ++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.38.4.bb     |   1 +
- 2 files changed, 169 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-48962.patch
+> On Fri, 2026-10-09 at 21:01 +0100, Jose Quaresma via
+> lists.openembedded.org wrote:
+> > When TESTIMAGE_AUTO is enabled, the testimage task is automatically
+> > executed for all images.
+> > However, this is not the desired behavior for initramfs images,
+> > so it is necessary to disable TESTIMAGE_AUTO in these cases.
+> >
+> > Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+> > ---
+> >  meta/classes-recipe/testimage.bbclass | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes-recipe/testimage.bbclass
+> b/meta/classes-recipe/testimage.bbclass
+> > index 419ad6dcb0..f21c87487f 100644
+> > --- a/meta/classes-recipe/testimage.bbclass
+> > +++ b/meta/classes-recipe/testimage.bbclass
+> > @@ -520,6 +520,7 @@ def package_extraction(d, test_suites):
+> >  testimage_main[vardepsexclude] +=3D "BB_ORIGENV DATETIME"
+> >
+> >  python () {
+> > -    if oe.types.boolean(d.getVar("TESTIMAGE_AUTO") or "False"):
+> > +    if oe.types.boolean(d.getVar("TESTIMAGE_AUTO") or "False") and \
+> > +      d.getVar('IMAGE_FSTYPES') !=3D d.getVar('INITRAMFS_FSTYPES'):
+> >          bb.build.addtask("testimage", "do_build", "do_image_complete",
+> d)
+> >  }
+>
+> This looks a bit fragile as an image might use the same type as the
+> initramfs.
+>
+> Could we just force TESTIMAGE_AUTO off in some of the initramfs
+> specific classes/code?
+>
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2026-48962.patch b/meta/recipes-devtools/perl/files/CVE-2026-48962.patch
-new file mode 100644
-index 0000000000..b883f8e13e
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2026-48962.patch
-@@ -0,0 +1,168 @@
-+From f2db247bf90d4cc7ee2710be384946081f3b4610 Mon Sep 17 00:00:00 2001
-+From: pmqs <pmqs@cpan.org>
-+Date: Sat, 16 May 2026 17:48:34 +0100
-+Subject: [PATCH] remove use of eval in globmapper. #73
-+
-+CVE: CVE-2026-48962
-+Upstream-Status: Backport [https://github.com/pmqs/IO-Compress/commit/f2db247bf90d4cc7ee2710be384946081f3b4610]
-+
-+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-+---
-+ cpan/IO-Compress/lib/File/GlobMapper.pm | 52 ++++++++++++++++++++-----
-+ cpan/IO-Compress/t/globmapper.t         | 52 ++++++++++++++++++++++++-
-+ 2 files changed, 94 insertions(+), 10 deletions(-)
-+
-+diff --git a/cpan/IO-Compress/lib/File/GlobMapper.pm b/cpan/IO-Compress/lib/File/GlobMapper.pm
-+index f015b16..8936146 100644
-+--- a/cpan/IO-Compress/lib/File/GlobMapper.pm
-++++ b/cpan/IO-Compress/lib/File/GlobMapper.pm
-+@@ -29,6 +29,11 @@ our ($VERSION, @EXPORT_OK);
-+ $VERSION = '1.001';
-+ @EXPORT_OK = qw( globmap );
-+ 
-++our $BEGIN_DELIM = "\xFF"#########################
-++our $END_DELIM   = "\xFE";
-++our $BACKSLASH_ESC = "\xFD";
-++our $HASH_ESC = "\xFC";
-++our $STAR_ESC = "\xFB";
-+ 
-+ our ($noPreBS, $metachars, $matchMetaRE, %mapping, %wildCount);
-+ $noPreBS = '(?<!\\\)' ; # no preceding backslash
-+@@ -310,14 +315,23 @@ sub _parseOutputGlob
-+     }
-+ 
-+     my $noPreBS = '(?<!\\\)' ; # no preceding backslash
-+-    #warn "noPreBS = '$noPreBS'\n";
-++    my $noPreESC = '(?<![${BEGIN_DELIM}])' ; # no preceding backslash
-+ 
-+-    #$string =~ s/${noPreBS}\$(\d)/\${$1}/g;
-+-    $string =~ s/${noPreBS}#(\d)/\${$1}/g;
-+-    $string =~ s#${noPreBS}\*#\${inFile}#g;
-+-    $string = '"' . $string . '"';
-++    # escape any use of the delimiter symbols
-++    # $string =~ s/(${BEGIN_DELIM}|${END_DELIM}|${BACKSLASH_ESC})/$1$1/g;
-++
-++    # escape \# and \*
-++    $string =~ s/\\#/${HASH_ESC}/g;
-++    $string =~ s/\\\*/${STAR_ESC}/g;
-++
-++    # Transform "#3" to BEGIN_DELIM 3 END_DELIM
-++    $string =~ s/${noPreESC}#(\d)/${BEGIN_DELIM}${1}${END_DELIM}/g;
-++
-++    $string =~ s#\*#${BEGIN_DELIM}${END_DELIM}#g;
-++
-++    # print "INPUT  '$self->{InputPattern}'\n";
-++    # print "OUTPUT '$self->{OutputGlob}' => '$string'\n";
-+ 
-+-    #print "OUTPUT '$self->{OutputGlob}' => '$string'\n";
-+     $self->{OutputPattern} = $string ;
-+ 
-+     return 1 ;
-+@@ -335,11 +349,31 @@ sub _getFiles
-+         next if $inFiles{$inFile} ++ ;
-+ 
-+         my $outFile = $inFile ;
-++        my @matches ;
-++
-++        my $noPreESC = '(?<![${BEGIN_DELIM}])' ; # no preceding backslash
-+ 
-+-        if ( $inFile =~ m/$self->{InputPattern}/ )
-++        if (@matches = ($inFile =~ m/$self->{InputPattern}/ ))
-+         {
-+-            no warnings 'uninitialized';
-+-            eval "\$outFile = $self->{OutputPattern};" ;
-++            $outFile = $self->{OutputPattern};
-++            my $ix = 1;
-++
-++            # get the filename glob
-++            $outFile =~ s/${noPreESC}${BEGIN_DELIM}${END_DELIM}/$inFile/g;
-++
-++            # now each of the #1, #2,...
-++            for my $pattern (@matches)
-++            {
-++                $outFile =~ s/${noPreESC}${BEGIN_DELIM}${ix}${END_DELIM}/$pattern/g;
-++
-++                ++ $ix;
-++            }
-++
-++            # unescape
-++            $outFile =~ s/${BEGIN_DELIM}${BEGIN_DELIM}/${BEGIN_DELIM}/g;
-++            $outFile =~ s/${END_DELIM}${END_DELIM}/${END_DELIM}/g;
-++            $outFile =~ s/${HASH_ESC}/#/g;
-++            $outFile =~ s/${STAR_ESC}/*/g;
-+ 
-+             if (defined $outInMapping{$outFile})
-+             {
-+diff --git a/cpan/IO-Compress/t/globmapper.t b/cpan/IO-Compress/t/globmapper.t
-+index c97beb6..08802ec 100644
-+--- a/cpan/IO-Compress/t/globmapper.t
-++++ b/cpan/IO-Compress/t/globmapper.t
-+@@ -24,7 +24,7 @@ Perl $]" )
-+     $extra = 1
-+         if eval { require Test::NoWarnings ;  import Test::NoWarnings; 1 };
-+ 
-+-    plan tests => 68 + $extra ;
-++    plan tests => 76 + $extra ;
-+ 
-+     use_ok('File::GlobMapper') ;
-+ }
-+@@ -290,6 +290,56 @@ Perl $]" )
-+         ], "  got mapping";
-+ }
-+ 
-++{
-++    title "check escaping";
-++
-++    my $tmpDir ;#= 'td';
-++    my $lex = LexDir->new( $tmpDir );
-++
-++    my $BEGIN_DELIM = "\xFF";
-++    my $END_DELIM   = "\xFE";
-++
-++    #mkdir $tmpDir, 0777 ;
-++
-++    touch map { "$tmpDir/$_.tmp" } qw( abc1 abc2 abc3 ) ;
-++
-++    my $map = File::GlobMapper::globmap("$tmpDir/*b*.tmp", "$tmpDir/X-${BEGIN_DELIM}#2-#1${END_DELIM}-X");
-++    ok $map, "  got map"
-++        or diag $File::GlobMapper::Error ;
-++
-++    is @{ $map }, 3, "  returned 3 maps";
-++    is_deeply $map,
-++        [ [map { "$tmpDir/$_" } ("abc1.tmp", "X-${BEGIN_DELIM}c1-a${END_DELIM}-X")],
-++          [map { "$tmpDir/$_" } ("abc2.tmp", "X-${BEGIN_DELIM}c2-a${END_DELIM}-X")],
-++          [map { "$tmpDir/$_" } ("abc3.tmp", "X-${BEGIN_DELIM}c3-a${END_DELIM}-X")],
-++	], "  got mapping";
-++}
-++
-++{
-++    title "check backslash escaping";
-++
-++    my $tmpDir ;#= 'td';
-++    my $lex = LexDir->new( $tmpDir );
-++
-++    my $BEGIN_DELIM = "\xFF";
-++    my $END_DELIM   = "\xFE";
-++
-++    #mkdir $tmpDir, 0777 ;
-++
-++    touch map { "$tmpDir/$_.tmp" } qw( abc1 abc2 abc3 ) ;
-++
-++    my $map = File::GlobMapper::globmap("$tmpDir/*b*.tmp", $tmpDir . '/X-#2-\\#1\\*-X');
-++    ok $map, "  got map"
-++        or diag $File::GlobMapper::Error ;
-++
-++    is @{ $map }, 3, "  returned 3 maps";
-++    is_deeply $map,
-++        [ [map { "$tmpDir/$_" } ("abc1.tmp", "X-c1-#1*-X")],
-++          [map { "$tmpDir/$_" } ("abc2.tmp", "X-c2-#1*-X")],
-++          [map { "$tmpDir/$_" } ("abc3.tmp", "X-c3-#1*-X")],
-++        ], "  got mapping";
-++}
-++
-+ # TODO
-+ # test each of the wildcard metacharacters can be mapped to the output filename
-+ #
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devtools/perl/perl_5.38.4.bb
-index 8ce5d3f5d0..a0adbacad7 100644
---- a/meta/recipes-devtools/perl/perl_5.38.4.bb
-+++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
-@@ -25,6 +25,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://CVE-2026-57432-02.patch \
-            file://CVE-2025-40909.patch \
-            file://CVE-2026-19487.patch \
-+           file://CVE-2026-48962.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://perl-configpm-switch.patch \
--- 
-2.34.1
+I agree that it's a bit fragile this way; I'll look for a more robust way
+to do it.
 
+Jose
+
+
+>
+> Cheers,
+>
+> Richard
+>
+
+--0000000000006105df065da8baf4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 12,=
+ 2026 at 5:28=E2=80=AFPM Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
+e@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 2026-10-09=
+ at 21:01 +0100, Jose Quaresma via <a href=3D"http://lists.openembedded.org=
+" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br=
+>
+&gt; When TESTIMAGE_AUTO is enabled, the testimage task is automatically<br=
+>
+&gt; executed for all images.<br>
+&gt; However, this is not the desired behavior for initramfs images,<br>
+&gt; so it is necessary to disable TESTIMAGE_AUTO in these cases.<br>
+&gt; <br>
+&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@oss.q=
+ualcomm.com" target=3D"_blank">jose.quaresma@oss.qualcomm.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/classes-recipe/testimage.bbclass | 3 ++-<br>
+&gt; =C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-reci=
+pe/testimage.bbclass<br>
+&gt; index 419ad6dcb0..f21c87487f 100644<br>
+&gt; --- a/meta/classes-recipe/testimage.bbclass<br>
+&gt; +++ b/meta/classes-recipe/testimage.bbclass<br>
+&gt; @@ -520,6 +520,7 @@ def package_extraction(d, test_suites):<br>
+&gt; =C2=A0testimage_main[vardepsexclude] +=3D &quot;BB_ORIGENV DATETIME&qu=
+ot;<br>
+&gt; =C2=A0<br>
+&gt; =C2=A0python () {<br>
+&gt; -=C2=A0=C2=A0=C2=A0 if oe.types.boolean(d.getVar(&quot;TESTIMAGE_AUTO&=
+quot;) or &quot;False&quot;):<br>
+&gt; +=C2=A0=C2=A0=C2=A0 if oe.types.boolean(d.getVar(&quot;TESTIMAGE_AUTO&=
+quot;) or &quot;False&quot;) and \<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.getVar(&#39;IMAGE_FSTYPES&#39;) !=3D=
+ d.getVar(&#39;INITRAMFS_FSTYPES&#39;):<br>
+&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.build.addtask(&quo=
+t;testimage&quot;, &quot;do_build&quot;, &quot;do_image_complete&quot;, d)<=
+br>
+&gt; =C2=A0}<br>
+<br>
+This looks a bit fragile as an image might use the same type as the<br>
+initramfs.<br>
+<br>
+Could we just force TESTIMAGE_AUTO off in some of the initramfs<br>
+specific classes/code?<br></blockquote><div><br></div><div>I agree that it&=
+#39;s a bit fragile this way; I&#39;ll look for a more robust way to do it.=
+</div><div><br></div><div>Jose</div><div>=C2=A0</div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div></div>
+
+--0000000000006105df065da8baf4--
 
