@@ -1,141 +1,163 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D1ACA9EC5
-	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 13:04:43 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12624.1791810280858874866
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A757CA9ED0
+	for <webhook@archiver.kernel.org>; Mon, 12 Oct 2026 13:20:13 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13139.1791811212025663397
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 06:04:41 -0700
+ Mon, 12 Oct 2026 06:20:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ft7GoJY7;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-91b55859245so33455126d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 06:04:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791810280; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Yq91ZdTkTnvjSN/cTlneA/LPe99i6tn/2fsguEZtIuYGVFug75kZEwPrljWjLrvDzK
-         NeE2JlzUvoR6B33/N3RrHhgeVsZ3JJyPdBBnAu9cXG6oeNUx2KWfYLASHzTS6xHpfPFm
-         Gnkmu8BKACSfeJfH229FQA7kta55LvbxXHhAPWr60JeV0pdW3oFoqjgJXov0406fMldI
-         o+RMMv3/RPZmVY3YIKkc+l9VgKM08LQ0WOA133m+W1mK5JryESeNXZwaf9Z0y4UoYNQ4
-         9kMaS/DweyDBYis+T1gfXpVp/4/Rl8NQC4Z1V5JgJYup+iTul3IPHdLH63qhbms1WTOj
-         ky8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5r8583vtzN/Q9VqaaI0t1S8UF0Nx/KunJYqUvCM0flE=;
-        fh=0iqoBJlOrkZ2+Jga7DlN61sJI371FuApCqqkKjY4ing=;
-        b=rDXG0pYf8kF3mJm3+mXve+RJcrUc3kvL1y0vi+ZpLnXyeRM4/jkv5lq0cUHLGxJwDx
-         I4SAx0G6XtPaGFKctmtCkCYURZraM0kLXJINMLTTwDnAHe4WXpVT7LUJrOJT511q0C3b
-         i38svp4MT9pZvqc5TpAOBYMMV8380gJ9LohD7HdhogWHVzZhmJZ1Yydfs3YRFlLTo2bi
-         cWJ4uXAR0rtGRBwVx1AvSgDPPwxMcu6CIDJszLjgT+4P4wQqmGdZw57KG5iMDZ5Wsqqv
-         zo02Q8/B1Ik5ZB4LdWuq+gcri0IIgFkgesJ4XFpoT5tCJWSTmM5O2qGXkC01jyX8WRUG
-         phKQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791810280; x=1792415080; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5r8583vtzN/Q9VqaaI0t1S8UF0Nx/KunJYqUvCM0flE=;
-        b=ft7GoJY7WgiZejNtiWiDAbYjFSIeKxp4s96VdtvrEQM5mYmkRGSvLyUvtNb3RVrz5O
-         EU2ZJN5VNnXGXNYx9paaigMr0A60TNTYuoc5e1Ez2hxpnZJrptlJmJ30A7foCkFvdhBp
-         4bCnYW7TPDelSz4XXtxtCp+knrOm4zoQacvoNwgSOeO05/zo7Jl1m1D8RkvXv4C3/t3q
-         4V2vxDZjxcli+1xcGWo307LfQthinaCfylpFJio0tc2gftAEqvanHfg/XoR2o/mUVa2c
-         nMmN6CW96O8xYErXmnlLx7E2iF03a8OVBjQIXTZZTxHksRst833hjI84TKUFGyCewkAG
-         +2/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791810280; x=1792415080;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5r8583vtzN/Q9VqaaI0t1S8UF0Nx/KunJYqUvCM0flE=;
-        b=ZAxJWLifHtJGvOmyy4YTELts5ScQdurjr1O0jO7DoTGGimsKhMqJ9vmLaA1oyq4ZKQ
-         xcngXrulpMOKtVDN53a2i+EZLgPwrHnrRQ4VjhZarDBlnBGzgYdXeK1up3vdHVSJshUu
-         Bl/QwCXFF+sIQRAS9vyPSSBAMhZn7GJ1Pv5mmSvkGg+TuOhE+0Ln11xQ6mXmkndBYl+m
-         SUeudDB94/10WVZ93V0cPcRH5O1gdPjoTncm1c/0EQBaglYBxH0plIaapkcfqTHPSD3K
-         Kq1oEkciuKQtcvqRm8SP27fxajBY5yrvjRxhSydvZQsSP1tRqCp38iH+c5HmTsRAz4MD
-         lOEA==
-X-Gm-Message-State: AFq9FYJNEk2ykRt75RM7dHphLkUmsd9ZiLbnUFN+2mGVvsY3JFVKXIUa
-	biKLQVxtVi2Dz5mFpKs+ptElJA732K9c8/e4S6JfMp6Sp4K9knlJT35Luvzf3c9S8ZUu8rRTdS7
-	hiOEzg2VryGTB49FK4kOcZQoWktYNfuM=
-X-Gm-Gg: AYBFou02tHsZjnOshZ8wtcln/b3Lhy0SLeSMcWO2k4UkpFhjCE2qkgTRmOkxuwvj7PJ
-	qgGEU1Tm2tHLT+62udpSyuDZxQ60eb+0aLaknNkFceDE6ehyweLr5ARBDM30nQkH0w1p4ynfpro
-	8ScL0i83CglgmUSsPfvod2EqbejKcPA8sJYoHqvRxdN4BbfXsGWERme8vfDcDejGPrAFAjU0ymd
-	l1C7C0yznJO7OKduORn514bmrtKvLY1lcn+Xrt9CmCOdH0vR0UpAoCPEBUNCBtyKALVlGQEOVS4
-	BfxjLbROBYckRYFZ4GYiv2HmUjZAYikFfV7ZdyKBEvpU3WegTOYEL0xvVvXoVCu62RAbqNPzv/x
-	r6X0gjoif3EWwlg==
-X-Received: by 2002:a05:620a:a0d2:20b0:93e:c12c:f144 with SMTP id
- af79cd13be357-93ec12d0787mr1030500385a.78.1791810279472; Mon, 12 Oct 2026
- 06:04:39 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=kySRol6s;
+ spf=pass (domain: est.tech, ip: 52.101.66.48, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JKnFZf69aQ7U5M+FOFyipexDUPJm7Ad4GMTg4roTj2fmELlcFGN/2ZAxunMj+r4Vbuu1Np0LP3YKm2DomvvDja5D1sIEMX0LnO0L/5kw+pbgRb5jnEZCgQ5JLghvzVur46XW85FTLoXpZmNWJbzSDBBffUjRoWm3hBQEjhO4Pehe+gH9C9t0kiBEqcrbkIMtYKq14jQ+cZ/N29yGFujzw49eqRGjUx0dAvPo4GS0n24uXKZPmk8+P4kTCSze6j8L4P9IsjTa7xKdNJ+rukfBcgxGrTMCjWz0NoLVV4OkkqUbsvxpGDPfHSS2VWAHN783oTFlZ62RvPepZEBQbYrS5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7c1lioqtUNaTSMebJ9aeLn9XvX3Q7VuovYbB3CxXRZM=;
+ b=gL3ppeD5XNiB7uTX+PztqNZlQ6kNDn5ZXSYKAKyAz4cWp8/fXgiLNvXSwNnj0ELjfkKCZRBQ1KkqW4F0b8LQbo1zqb6TRAxEjw3iB8T6xKk6qggoN7kYmV+7IgbsJhTPw8svON/oOmwnoz4zITSBoU/M3c+F+D9h6p/nCEpZKK1xdUoZNXhZC6FG+eQ64thltBfO94YD06sRQH5ajYKpBHahOcgNx1tw2+kcX7BSS086iLEod7QkOCyWMfdw5GCCcn3ZZB98cmzabMrqEfv8rlEAZNd2vwz+B+N4M7S0Fzs73sbBG4+bzdVY492wZ5yNnjwNFjMh7P0p9ZekpDbfPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7c1lioqtUNaTSMebJ9aeLn9XvX3Q7VuovYbB3CxXRZM=;
+ b=kySRol6s52mhxxirzzxGR4rFOc5eRRutNb+8iFhi2TI6fT/7PZLZbjYR5blYc8s9f5y1uiqQCcUuDdboBmSxV4X60SCXtkakczV9hhCXlLaNAwyd/VYdFUrfiekw5zfFCMbZVgiWg6RZrECNybkolZKfbrcyntTQ3gsYZ0W4C7R2NzAOCf8ZvAw5FDTlXW42OKnis6gJMMx0eVAvF9R+/OZtXEr3TILegGEtuaKrEWsDPKbqt1uzGN8HXZ9s17Bi6PrJ2kPpjgnkHp5IL+QAKb+XF5bwEWw+lsJOisc5oKhKans4QLfWgnOu13IP1WTtsn+Z40RBW+0bccO+T6cf3w==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by DU0P189MB2091.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3b9::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
+ 2026 13:20:08 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
+ 13:20:08 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 01/18] pkgconf: upgrade 3.0.7 -> 3.0.8
+Date: Mon, 12 Oct 2026 15:19:48 +0200
+Message-ID: <20261012132005.23909-2-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20261012132005.23909-1-jaipaul.cheernam@est.tech>
+References: <20261012132005.23909-1-jaipaul.cheernam@est.tech>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU7P195CA0004.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:10:54d::34) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
-References: <20261010113029.2347847-1-ecordonnier@snap.com>
-In-Reply-To: <20261010113029.2347847-1-ecordonnier@snap.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 12 Oct 2026 15:04:27 +0200
-X-Gm-Features: AclHuK8x3ivb5mVqQzYFpxf6kgYaO7xh5Mk4Y6RWPUuN5gyWfMYDzICg6ky3JlM
-Message-ID: <CANNYZj9kcJ+_Q8gEtmLYqKjwLsHogY1o4b8MeZQf6jTgDp3gtg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] uutils-coreutils: move from meta-openembedded
-To: ecordonnier@snap.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000368ae3065da4575b"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU0P189MB2091:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d7f81e4-96fc-498e-a486-08df2863898f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|10067099003|3023799007|261009223027099003|11063799006|6133799003|22082099003|18002099003|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	BWwc2irrFw0UQReHNOio/Z98JP7VSuwBfcd9mIRnY4R17dT9+H8kzux9ng7UZuJara5HrsJVvMFaehC8OwtUcs1BudMUlBX2mIvJA2WtC3y/Rk9y0rI2LBqtxnV8bLTNzbjDEp8QpZNq5REu+kB7FrSULEKAM6K7iKmoIBgn72ln3KRqwV8IcwRn4oxSkA+3MayzcBE0YIe5q/O33Lqr13hKsqkkb/3e7LlrIfk3Alm3Lq4bo1eEXPIVSIx40dHt4Wpz6wXXDL5j4+jLYtKp2TuzW8glxIF0m9lS++QXGT42yF3BqUATC96n31A2gBWtriE2cGarLL7CrWCnXO0uRI7RvJfiyhRaJUAjjtjDCp9BvNBJ6GPsbhNlwr+UjzufLnlp+Nji58LkuxF3MV9q39h51ex9oQOy9g8Akq6b3I0JG/RFaa7ih8h7lAZPTq3VzTCuHPIU7s2fkzNL9mLbLBQ3+xOKPVLKfQOXtApmCvjPLUvFDDgjwJnYZaItvXYhgfYgvZnEWwegMSXWXRv6r4BXIWq523yur5IvXKXTznsr588x2UYN+4rxaAKLNd9x5bdgtfjoiuIjbE6DmThvKOi4Ltzukj6NpbUkxavt+JcocLU+CEb33DmfdBJBiiZmrD3p3BKn2w1o3UYgoj4CnXJPxdpJJCj66e86XtqVFG8=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(10067099003)(3023799007)(261009223027099003)(11063799006)(6133799003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?DY9yPQulMmT9oztldkGHQocwrLNtenan/j1nQ4CiYYnhXXlPWARtq8GE/LEc?=
+ =?us-ascii?Q?Nfl0OCBIUUt/qWI/pSolKNeH++lKsQvIg+Pn51t1OGTttAROkC0BziB4HyWa?=
+ =?us-ascii?Q?VZGRuxD+2Ym5CL4c6DdPW1HNX3x52pFp3erZrJu+CihD1SKGNy3ULfvI97md?=
+ =?us-ascii?Q?X6+x5qJFijoakICd0dakVCDdY/bjcT9L+d/LX/IhDrEVb1yqm8xEwLFLdqKJ?=
+ =?us-ascii?Q?6AxGOugIDAxiswfa0wkgZ0EcaQ1a4DRA4+pQryjjCiQ7QUXaK5BBG9p1N02/?=
+ =?us-ascii?Q?BJ2JZHGgsXgn+hzSnxXEdVjuzGC07Dm9Yoknt5B/VkyJibp4R4mMiO5PfwTc?=
+ =?us-ascii?Q?SaQnkU3lOelupEuqUZ5MfwI6i5phKuDW/7ZGQOi5qBoHPBaVWeTEAhEwldkP?=
+ =?us-ascii?Q?am8gRGECvXBRI2b7WVg5yLm0aCPJbVSVPHWnxL6qEFD0baG0Voz0mBKG21fT?=
+ =?us-ascii?Q?tVFBsr2gFl6J3nXwt/zoctt/iMIqshzeXecD03anZ5utwre1rCjvLWxt+89r?=
+ =?us-ascii?Q?ChVYq651vQRuS8EObHfyIdC4d/CfjAPYlkbTOlYS/LDZPHk0rLpAZaXgz0H2?=
+ =?us-ascii?Q?MrC5acoXQWWa5JJDA4AuaQNCJLMclLCNPro24CuU7vhI8mqHNYpAJqkDTtvA?=
+ =?us-ascii?Q?JiRmR6Ihz0P7SPKfXWRDUHebc46B74yZ9re8z+0gW+xYyUtPKuq19XwVJiV0?=
+ =?us-ascii?Q?itFb6SDxkpQQoEjjzxb+i94MWOzhwVUVfghBYuba710OX7wtpduuK5pQ9pAV?=
+ =?us-ascii?Q?8ydO7k2hpKEzr3KmROnR8oP++PhH/l4Bk/LWZvJxr5LQuv5j/yYO0PEoiSFt?=
+ =?us-ascii?Q?scYt8q/GN/xZ0q1QQ/sTm1+gtGMmUsnT24KxuOpRpzvEwAtr1GmclZ1slo9c?=
+ =?us-ascii?Q?W64niVPxm3iMOKviAeveKolqMRFCXG3WBoC9QB6PiHw8G3Z+jRmrCzQ3fTZb?=
+ =?us-ascii?Q?+K3E+yQcVM4oV31enhBMXzuq6goIRll5Y6ndhsrrm4n7qjwRWA+Aak+OB55q?=
+ =?us-ascii?Q?Z5pQnsj5/Z3B84uIQY1hnGfo35+Yz3fFODQBIDjYVCAIKzCSJSARWe3s/2xd?=
+ =?us-ascii?Q?BAlrmf6Rf9eTJKyv1KnMnRBEQTCN9fAigsmI/xBPgJEf4CuUYXa34fV2uhf+?=
+ =?us-ascii?Q?Os8ArjWXNjjRE1sgcWC5keEzmDQCLuuodpDKaihh+CA8UXcL385pswHlp2hr?=
+ =?us-ascii?Q?p98SUHxe/37MpBsloSIkTgHKesmAY2GD51wIDMUyYMJy1YfMjWYLQyIDslYU?=
+ =?us-ascii?Q?AHRj2LtZGjSlt9pXXx8HzDbNo58JtU3HSIp6WmlulCouXRaEYTljmkvK0yst?=
+ =?us-ascii?Q?sO/NdcwByzU0ZNUWGKRplI6kGSFL+4MDE4QAXHWdJ1ebEvAuvCZRmce4Phuy?=
+ =?us-ascii?Q?5p1t9XcfPT5dLZAabUtUqphIvc2/uJcfupSCMpWcnGlrZGWeCwy/Sleathuz?=
+ =?us-ascii?Q?tE2RGV6ea2KsbMe9sQtbne7kmiL7b0Tg82c4IcWt/ZyCkcwqVhBO2IwfrOSk?=
+ =?us-ascii?Q?xcvCDAcKHWRW15QZQ9WVZ0dFpSVgndIQIo6EnzPgr/FTZ3iejFc070okaZXI?=
+ =?us-ascii?Q?8mFVQVZPibFPiNv/bdx0hyr20JdyIoDvvJ1TDqSQSY8YG3aFJ9NXztl1RpNk?=
+ =?us-ascii?Q?eNBqgvGeChC3AjbHd0rgtdIR+kpQrXZHBUUQ7/FgrxcUEdoUrOS/RYTyG9mu?=
+ =?us-ascii?Q?Q7GrI9n1i4k1WmYx+ZjUZEhYfqqCpNz/XhAMmH9WAGpOZXaBQIuk8JR9SGzU?=
+ =?us-ascii?Q?uRJ9QUyGew=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d7f81e4-96fc-498e-a486-08df2863898f
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 13:20:08.6200
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hwupBTs9LPjxRQalreMtUe2TvnFAV5s3c/rkr4d6VbbB4uChX7GzmmShhj7w0/3Kqlo0ERJcr6ElNc2vJMcH39Vc4U523gu5qygO5LtIXLA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2091
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 13:04:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247643
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 13:20:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247645
 
---000000000000368ae3065da4575b
-Content-Type: text/plain; charset="UTF-8"
+Changes from 3.0.7 to 3.0.8: [1]
+----------------------------
+* Correctness and portability fixes:
+  - spdxtool now percent-encodes problematic ASCII characters in generated
+    SPDX URLs and URNs.  Patch by Tuukka Pasanen, sponsored by The FreeBSD
+    Foundation.
+  - The built-in pc_path, pc_system_libdirs and pc_system_includedirs varia=
+bles
+    now use the platform path separator, fixing their output for multiple p=
+aths
+    on Windows.  Patch by Christoph Reiter.
 
-On Sat, 10 Oct 2026 at 13:30, Etienne Cordonnier via lists.openembedded.org
-<ecordonnier=snap.com@lists.openembedded.org> wrote:
+* Documentation and build fixes:
+  - Correct the pkgconf(1) description of --variable to document that it pr=
+ints
+    values for every module specified on the command line.  Patch by Christ=
+oph
+    Reiter.
+  - Update the bug-report URL embedded by Meson builds to point to the pkgc=
+onf
+    issue tracker on GitHub.
 
->
-> uutils-coreutils, the Rust reimplementation of GNU coreutils, is mature
-> enough for production use, so move the recipe from meta-oe to oe-core.
-> It provides and rprovides coreutils, and is excluded from world unless
-> selected as the coreutils provider.
->
+[1] https://github.com/pkgconf/pkgconf/blob/pkgconf-3.0.8/NEWS
 
-This needs a bit more justification. What is achieved by moving it to core?
-What specifically makes this component mature enough? What tests were
-performed with it? Does it pass the full autobuilder matrix when selected
-as coreutiuls provider? Should we add that test to the autobuilder? Should
-we make uutils-coreutils the default choice, or maybe the only choice? Does
-it work as a provider of coreutils-native, and is it compatible with pseudo?
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../pkgconf/{pkgconf_3.0.7.bb =3D> pkgconf_3.0.8.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_3.0.7.bb =3D> pkgconf_3.0.8.=
+bb} (97%)
 
-Adding things to core has a pretty high bar, and the above commit message
-does not meet it.
-
-Alex
-
---000000000000368ae3065da4575b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Sat, 10 Oct 2026 at 13:30, Etienne Cordonn=
-ier via <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a=
-> &lt;ecordonnier=3D<a href=3D"mailto:snap.com@lists.openembedded.org">snap=
-.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><br>
-uutils-coreutils, the Rust reimplementation of GNU coreutils, is mature<br>
-enough for production use, so move the recipe from meta-oe to oe-core.<br>
-It provides and rprovides coreutils, and is excluded from world unless<br>
-selected as the coreutils provider.<br></blockquote><div><br></div><div>Thi=
-s needs a bit more justification. What is achieved by moving it to core? Wh=
-at specifically makes this component mature enough? What tests were perform=
-ed with it? Does it pass the full autobuilder matrix when selected as coreu=
-tiuls provider? Should we add that test to the autobuilder? Should we make =
-uutils-coreutils the default choice, or maybe the only choice? Does it work=
- as a provider of coreutils-native, and is it compatible with pseudo?</div>=
-<div><br></div><div>Adding things to core has a pretty high bar, and the ab=
-ove commit message does not meet it.</div><div><br></div><div>Alex</div></d=
-iv></div>
-
---000000000000368ae3065da4575b--
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_3.0.7.bb b/meta/recipes-=
+devtools/pkgconf/pkgconf_3.0.8.bb
+similarity index 97%
+rename from meta/recipes-devtools/pkgconf/pkgconf_3.0.7.bb
+rename to meta/recipes-devtools/pkgconf/pkgconf_3.0.8.bb
+index 4579476ae4..cd55484c30 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_3.0.7.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_3.0.8.bb
+@@ -20,7 +20,7 @@ SRC_URI =3D "\
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+ "
+-SRC_URI[sha256sum] =3D "c926ff491cbd9a331a589160811bd97ab1749b4d5198a51933=
+8f2cdfabe6940a"
++SRC_URI[sha256sum] =3D "943f0bc88bcaeceb630b00262e2a8ad5ea4fac3fba72a4267d=
+8b9ec6b35d1194"
+ UPSTREAM_CHECK_REGEX =3D "pkgconf-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)\.tar"
+=20
+ inherit autotools pkgconfig
 
