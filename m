@@ -1,211 +1,262 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE31DCC6B0E
-	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 07:07:42 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1768.1791875255181311066
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F7ECC6B0F
+	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 07:08:12 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1772.1791875291604398772
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2026 00:07:35 -0700
+ Tue, 13 Oct 2026 00:08:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=w5yN81Ps;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a0213948d3so15755495e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 00:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791875253; x=1792480053; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=u4ouosuNY/BrkJUBrRFvyic4vOmnxbrBOmDd8Y3j10Y=;
-        b=w5yN81Ps3iTdMWWYPkRbfOv6DEEuIf5GqcV1tOwJMTeT5T3LJYjoZ47weeRRxS3ffd
-         nu2kQerPl9jKfKdd54KCokllhhRuBBozq1EotxpJuJaWlIGPShLaRZ0IGKYAYKel0ARp
-         FxVZkAXUmf/7CeCjX70P7JZfNcVOYa1IgVMPU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791875253; x=1792480053;
-        h=in-reply-to:references:subject:to:from:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=u4ouosuNY/BrkJUBrRFvyic4vOmnxbrBOmDd8Y3j10Y=;
-        b=AKUCP9jiPp5uHCux7oz/p4jddTbpdobh5VrGuw0JBCoj2HluTDGBrFBJygWkp2UOE3
-         pDKnB0N0CEOjAPlk1jLiAIgE/TwB8OHimefxF/bDsW9QjeupHAepysQGydl2yDjz+Q2Z
-         1tHRSBUWx0swUm/DP2XkKagRTG6TtNPX0H0t51YZvzn2YtDXz9tq0+gkGMOnBJc1O4jN
-         H0aXi62PD6Vukr1FEKAZ5wk0KX7vbBpeDYw3RgfwoZBERApVeLBJ1FYsqwOgM6pGgjQJ
-         FUYMyqUfth5q1+KARu52ITrP4LYqlnCgM407XvEbr6XRJsYl71ky1maX4YHT1Dz4GYAZ
-         GsgA==
-X-Forwarded-Encrypted: i=1; AKwUvBzV8E47zv3eBIUkkH8A6LqoYhp0g04AqlR42M0oFeN657daGBAl0fKAYNWpEO5fYtM79zlVQHvnOgeBwHt0v/zzWw==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYIr5cBynZH0SzH2aiFa4GPbd+QVdYzQ7+de0lsDuzgYnrRYT6lK
-	BMxFLwlGx30HQL35AqJNIrDIxmhp7lCoqT6AkI1TCziToI4MD5efoIuORz+mwkBMDAg=
-X-Gm-Gg: AYBFou3r3nNkr3HSB9qarW5mk6fHMu625w8c2E89oTGS/4dYIy+wYL4EbunUrOfHcIq
-	w5WZHNxbUKBFCE3Q0Iriid/ls6jbguPskU+YYRrgpEzGaS+bOmLZik5ZnK21+GhBIP4eaBegor4
-	7+E2y3dSF5TCTfw3GxfJktZkI9Y7g/oQWt7AFb8RcpHkym+3vE3ZdpaVIRXXCCzFpimbzG1U6Vp
-	v1fRtQyxoEof0n18F/5FQZXrvZhS7g5TG7XMxSnzU80u5dqY8ew+bHQPhiLNZpjm1Erpfb8OOMR
-	m+KPsa9+UWLhMkgACm04cYJGF7Q6dJOmfzDXaw17ZAQjUXs6AWBDR4VYEmQjNTtByNZ/jgfGINB
-	8/KchFUb1NJ3mLpBoz6yA+vc9Dc+8Jn9iqQQTQ9efE3rGLlUlo6iwlOe7ackcpNRYrxQ0ugrujL
-	oGFPkhw+G9IjWoEx2C7Pd4nJmsAnS4X6Gn1mSXccZEHEsfEPNowMKn1ryFT76yQmSSZZZjdbcDV
-	CSv/osSnKBKyQ+6Xw3eH6idDMb/vPZJL8K/vElWH5OMLrHb1xMDTYaPQqJs
-X-Received: by 2002:a05:600c:3b29:b0:49f:ce78:3561 with SMTP id 5b1f17b1804b1-4a18e49c420mr216442705e9.18.1791875253229;
-        Tue, 13 Oct 2026 00:07:33 -0700 (PDT)
-Received: from localhost (2a02-8440-2605-485d-f30c-a3cf-2eac-16ad.rev.sfr.net. [2a02:8440:2605:485d:f30c:a3cf:2eac:16ad])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ac36f9sm3332773f8f.36.2026.10.13.00.07.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 00:07:32 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Oct 2026 09:07:31 +0200
-Message-Id: <DM3IRINXDTGO.2NLDKY3Y0YD8T@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: =?utf-8?q?Ga=C3=ABl_PORTAY?= <gael.portay+rtone@gmail.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] connman: fix syslog identity with
- glibc
-X-Mailer: aerc 0.20.0
-References: <20260929093009.847328-1-gael.portay+rtone@gmail.com>
- <DLUGAJL0DW01.2UDQ8P6GXPBUN@smile.fr>
- <DM3GKQKJ8VE0.1XOVP37F28VC4@gmail.com>
-In-Reply-To: <DM3GKQKJ8VE0.1XOVP37F28VC4@gmail.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ROvAgKZm;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=oPSTeVgu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a134171643-5ec4bffd-83a0-42e9-8843-794de6d31094-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1791875290;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=BAuVld43I6F4cyFfbgghECRicDLud7iZNmeWwQPx5J4=;
+	b=ROvAgKZmjMupHeA6MIz19RnC3Wrw3o5yACZTjeCegiqmozzvJGDpCPY91lFPk3uf
+	uac8ZtBgdSwlBpQvpKWgMksT/vKZbfsoGFus5GxeTm2smcQusTvDZ57V4mbPEDtB8oT
+	ER5hqWooSA2ZyEJq00qTdiIDR8sEdAg7pZfO2RaA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791875290;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=BAuVld43I6F4cyFfbgghECRicDLud7iZNmeWwQPx5J4=;
+	b=oPSTeVgu9t7GXV3waGFeNNVLg+j5SEWxIo+JQNitT28L6A1BNdI/yUc9xPAKIfzV
+	cFzpt2DwXXq8W8V1nce1RIngOzfAKUgZMRCEnBFa61EOahcQ1R4LSorPhAY/H0oy7CN
+	/d+xhH+0uXQ6k2of/hiTpxPH5kSTDOkV/V5yKuyk=
+Content-Type: multipart/mixed; boundary="===============3622149745262128473=="
+MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-installer: upgrading to 1.1.0 SUCCEEDED
+Message-ID: <010101a134171643-5ec4bffd-83a0-42e9-8843-794de6d31094-000000@us-west-2.amazonses.com>
+Date: Tue, 13 Oct 2026 07:08:10 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.10.13-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 07:07:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247697
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 07:08:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247700
 
-On Tue Oct 13, 2026 at 7:24 AM CEST, Ga=C3=ABl PORTAY wrote:
-> Hello Yoann,
+--===============3622149745262128473==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
 Hello,
 
-> On Fri Oct 2, 2026 at 5:17 PM CEST, Yoann Congal wrote:
->> Hello,
->>
->> On Tue Sep 29, 2026 at 11:30 AM CEST, Ga=C3=ABl PORTAY via lists.openemb=
-edded.org wrote:
->> > The connman syslog patch modifies the handling of the ident string to
->> > solve a build issue with musl.
->> What "connman syslog patch"?
->> I'm having a hard time understanding this patch...
->>
->
-> I am sorry to hear that.
->
-> By "connman syslog pach", I wanted to reference that downstream change:
->
-> 	0001-src-log.c-Include-libgen.h-for-basename-API.patch
->
-> I can reword the commit message if it is unclear; or I can remove some
-> parts of it that bring some unnecessary noise.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-installer* to *1.1.0* has Succeeded.
 
-Yes, please reword to make it clearer. No need to remove parts though.
+Next steps:
+    - apply the patch: git am 0001-python3-installer-upgrade-1.0.1-1.1.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
->> > (...)
->> >
->> > This removes 0001-src-log.c-Include-libgen.h-for-basename-API.patch[4]
->> > from the SRC_URI if libc-glibc overrides so that it is not applied whe=
-n
->> > using glibc.
->>
->> Hmm, this patch moves "0001-vpn-Adding-support-for-latest-pppd-2.5.0-rel=
-ease.patch"
->> not 0001-src-log.c-Include-libgen.h-for-basename-API.patch"
->>
->
-> Oops, I made a terrible mistake; let me respin a v2 to fix this.
->
-> Note that I have that following change in a .bbappend; this would
-> explain why I have not figured it out :facepalm:
->
-> 	SRC_URI:remove:libc-glibc =3D "file://0001-src-log.c-Include-libgen.h-fo=
-r-basename-API.patch"
->
-> Again, I am sorry for that mistake; and I will retest it correctly later
-> this day.
->
->> > (...)
->> >=20
->> > This fixes commit 992d59564b84333740e6465ec696238274b73938.
->> Where it this commit from? I can't find it in oe-core nor poky.
->>
->
-> This is weird, it comes from poky tree: 992d59564b (connman: Fix build
-> with musl). And you are right, it is not part of oe-core.
->
-> Nevermind, I wanted to link this change in poky tree:
-> https://git.yoctoproject.org/poky/commit/?id=3D992d59564b84333740e6465ec6=
-96238274b73938
->
-> Or that one in oe-core tree:
-> https://git.openembedded.org/openembedded-core/commit/?id=3Dd0139bcbe0499=
-e570f02f8f7b7e364763f7359ec
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From b14724cd3f984c1c0303e830baa10963893aa932 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 13 Oct 2026 06:22:09 +0000
+Subject: [PATCH] python3-installer: upgrade 1.0.1 -> 1.1.0
+
+## v1.1.0 (Oct 12, 2026)
+- Add early return when there are no optimization levels to compile bytecode for
+- Avoid building a `pathlib.Path` object for each record entry
+- Declare support for Python 3.15
+- Use `os.path.commonpath` instead of `os.path.commonprefix` to address
+  deprecation warnings on Python 3.15
+---
+ .../python/python3-installer/interpreter.patch       | 12 +++++-------
+ ...installer_1.0.1.bb => python3-installer_1.1.0.bb} |  2 +-
+ 2 files changed, 6 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/python/{python3-installer_1.0.1.bb => python3-installer_1.1.0.bb} (90%)
+
+diff --git a/meta/recipes-devtools/python/python3-installer/interpreter.patch b/meta/recipes-devtools/python/python3-installer/interpreter.patch
+index 0a5d34a349..aa9cb6f6c3 100644
+--- a/meta/recipes-devtools/python/python3-installer/interpreter.patch
++++ b/meta/recipes-devtools/python/python3-installer/interpreter.patch
+@@ -1,7 +1,7 @@
+-From 22fa800b4cbcfddd57fa262fd7f2aeb06a15a711 Mon Sep 17 00:00:00 2001
++From 23e4f2d9c47de7c4b855e72691217e98c1a504ba Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 14 Mar 2022 14:39:22 +0000
+-Subject: [PATCH 1/2] installer: add --interpreter option
++Subject: [PATCH] installer: add --interpreter option
+ 
+ The currently running Python might not be the right one for the installed
+ wheels, so add an option to allow the interpreter to be overridden.
+@@ -14,8 +14,9 @@ host might not be the right path for the scripts to use on the target.
+ Upstream-Status: Submitted [https://github.com/pypa/installer/pull/332]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ ---
+- src/installer/__main__.py | 9 ++++++++-
+- 1 file changed, 8 insertions(+), 1 deletion(-)
++ src/installer/__main__.py |  9 ++++++++-
++ src/installer/scripts.py  | 15 +--------------
++ 2 files changed, 9 insertions(+), 15 deletions(-)
+ 
+ diff --git a/src/installer/__main__.py b/src/installer/__main__.py
+ index b7a7445..25415ea 100644
+@@ -67,6 +68,3 @@ index b21a72e..551941f 100644
+ -        # I don't understand a lick what this is trying to do.
+ -        return b"#!/bin/sh\n'''exec' " + quoted + b' "$0" "$@"\n' + b"' '''"
+ +        return b"#!" + executable_bytes
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-devtools/python/python3-installer_1.0.1.bb b/meta/recipes-devtools/python/python3-installer_1.1.0.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-installer_1.0.1.bb
+rename to meta/recipes-devtools/python/python3-installer_1.1.0.bb
+index 6727f8e21e..83e53f6a0c 100644
+--- a/meta/recipes-devtools/python/python3-installer_1.0.1.bb
++++ b/meta/recipes-devtools/python/python3-installer_1.1.0.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5038641aec7a77451e31da828ebfae00"
+ 
+ SRC_URI += "file://interpreter.patch"
+ 
+-SRC_URI[sha256sum] = "052c7fc3721d54c696e2dea019be67539d7b144e924f559f54beb3121831c364"
++SRC_URI[sha256sum] = "5adc0c01ce62d809989e246987cd68944fe5df8af562d0358f65b2ab15cb5de7"
+ 
+ inherit pypi python_flit_core
+ 
+-- 
+2.47.1
 
 
-Huh, weird, I believed I checked poky.
-Anyway, I'd rather have a oe-core sha1(+commit title) reference instead
-of a poky one.
+--===============3622149745262128473==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-installer-changelog.txt"
 
->
->> > (...)
->> > diff --git a/meta/recipes-connectivity/connman/connman_1.42.bb b/meta/=
-recipes-connectivity/connman/connman_1.42.bb
->> > index 9b3abbe258..5c8bdd43f2 100644
->> > --- a/meta/recipes-connectivity/connman/connman_1.42.bb
->> > +++ b/meta/recipes-connectivity/connman/connman_1.42.bb
->> > @@ -5,13 +5,14 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN=
-}/${BP}.tar.xz \
->> >             file://0001-connman.service-stop-systemd-resolved-when-we-=
-use-co.patch \
->> >             file://connman \
->> >             file://no-version-scripts.patch \
->> > -           file://0001-vpn-Adding-support-for-latest-pppd-2.5.0-relea=
-se.patch \
->> >             file://0001-src-log.c-Include-libgen.h-for-basename-API.pa=
-tch \
->> >             file://CVE-2025-32743.patch \
->> >             file://CVE-2025-32366.patch \
->> >             "
->> > =20
->> > -SRC_URI:append:libc-musl =3D " file://0002-resolve-musl-does-not-impl=
-ement-res_ninit.patch"
->> > +SRC_URI:append:libc-musl =3D " file://0001-vpn-Adding-support-for-lat=
-est-pppd-2.5.0-release.patch \
->> > +                             file://0002-resolve-musl-does-not-implem=
-ent-res_ninit.patch \
->> > +                           "
->> > =20
->> >  SRC_URI[sha256sum] =3D "a3e6bae46fc081ef2e9dae3caa4f7649de892c3de622c=
-20283ac0ca81423c2aa"
->
-> Here is what the change would look like:
->
-> 	@@ -6,12 +6,13 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/=
-${BP}.tar.xz \
-> 	            file://connman \
-> 	            file://no-version-scripts.patch \
-> 	            file://0001-vpn-Adding-support-for-latest-pppd-2.5.0-release=
-.patch \
-> 	-           file://0001-src-log.c-Include-libgen.h-for-basename-API.patc=
-h \
-> 	            file://CVE-2025-32743.patch \
-> 	            file://CVE-2025-32366.patch \
-> 	            "
-> =09
-> 	-SRC_URI:append:libc-musl =3D " file://0002-resolve-musl-does-not-implem=
-ent-res_ninit.patch"
-> 	+SRC_URI:append:libc-musl =3D " file://0001-src-log.c-Include-libgen.h-f=
-or-basename-API.patch \
-> 	+                             file://0002-resolve-musl-does-not-implemen=
-t-res_ninit.patch \
-> 	+                           "
-> =09
-> 	 SRC_URI[sha256sum] =3D "a3e6bae46fc081ef2e9dae3caa4f7649de892c3de622c20=
-283ac0ca81423c2aa"=20
+## v1.1.0 (Oct 12, 2026)
+- Add early return when there are no optimization levels to compile bytecode for
+- Avoid building a `pathlib.Path` object for each record entry
+- Declare support for Python 3.15
+- Use `os.path.commonpath` instead of `os.path.commonprefix` to address
+  deprecation warnings on Python 3.15
 
-This change does look better :)
+--===============3622149745262128473==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-installer-upgrade-1.0.1-1.1.0.patch"
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+RnJvbSBiMTQ3MjRjZDNmOTg0YzFjMDMwM2U4MzBiYWExMDk2Mzg5M2FhOTMyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTMgT2N0IDIwMjYgMDY6MjI6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWluc3RhbGxlcjogdXBncmFkZSAxLjAuMSAtPiAxLjEuMAoKIyMgdjEuMS4wIChPY3Qg
+MTIsIDIwMjYpCi0gQWRkIGVhcmx5IHJldHVybiB3aGVuIHRoZXJlIGFyZSBubyBvcHRpbWl6YXRp
+b24gbGV2ZWxzIHRvIGNvbXBpbGUgYnl0ZWNvZGUgZm9yCi0gQXZvaWQgYnVpbGRpbmcgYSBgcGF0
+aGxpYi5QYXRoYCBvYmplY3QgZm9yIGVhY2ggcmVjb3JkIGVudHJ5Ci0gRGVjbGFyZSBzdXBwb3J0
+IGZvciBQeXRob24gMy4xNQotIFVzZSBgb3MucGF0aC5jb21tb25wYXRoYCBpbnN0ZWFkIG9mIGBv
+cy5wYXRoLmNvbW1vbnByZWZpeGAgdG8gYWRkcmVzcwogIGRlcHJlY2F0aW9uIHdhcm5pbmdzIG9u
+IFB5dGhvbiAzLjE1Ci0tLQogLi4uL3B5dGhvbi9weXRob24zLWluc3RhbGxlci9pbnRlcnByZXRl
+ci5wYXRjaCAgICAgICB8IDEyICsrKysrLS0tLS0tLQogLi4uaW5zdGFsbGVyXzEuMC4xLmJiID0+
+IHB5dGhvbjMtaW5zdGFsbGVyXzEuMS4wLmJifSB8ICAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDYg
+aW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3tweXRob24zLWluc3RhbGxlcl8xLjAuMS5iYiA9PiBweXRob24zLWluc3RhbGxl
+cl8xLjEuMC5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3B5dGhvbjMtaW5zdGFsbGVyL2ludGVycHJldGVyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWluc3RhbGxlci9pbnRlcnByZXRlci5wYXRjaAppbmRleCAw
+YTVkMzRhMzQ5Li5hYTljYjZmNmMzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaW5zdGFsbGVyL2ludGVycHJldGVyLnBhdGNoCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1pbnN0YWxsZXIvaW50ZXJwcmV0ZXIucGF0Y2gK
+QEAgLTEsNyArMSw3IEBACi1Gcm9tIDIyZmE4MDBiNGNiY2ZkZGQ1N2ZhMjYyZmQ3ZjJhZWIwNmEx
+NWE3MTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDIzZTRmMmQ5YzQ3ZGU3YzRiODU1
+ZTcyNjkxMjE3ZTk4YzFhNTA0YmEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSb3Nz
+IEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIERhdGU6IE1vbiwgMTQgTWFyIDIwMjIgMTQ6
+Mzk6MjIgKzAwMDAKLVN1YmplY3Q6IFtQQVRDSCAxLzJdIGluc3RhbGxlcjogYWRkIC0taW50ZXJw
+cmV0ZXIgb3B0aW9uCitTdWJqZWN0OiBbUEFUQ0hdIGluc3RhbGxlcjogYWRkIC0taW50ZXJwcmV0
+ZXIgb3B0aW9uCiAKIFRoZSBjdXJyZW50bHkgcnVubmluZyBQeXRob24gbWlnaHQgbm90IGJlIHRo
+ZSByaWdodCBvbmUgZm9yIHRoZSBpbnN0YWxsZWQKIHdoZWVscywgc28gYWRkIGFuIG9wdGlvbiB0
+byBhbGxvdyB0aGUgaW50ZXJwcmV0ZXIgdG8gYmUgb3ZlcnJpZGRlbi4KQEAgLTE0LDggKzE0LDkg
+QEAgaG9zdCBtaWdodCBub3QgYmUgdGhlIHJpZ2h0IHBhdGggZm9yIHRoZSBzY3JpcHRzIHRvIHVz
+ZSBvbiB0aGUgdGFyZ2V0LgogVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vZ2l0
+aHViLmNvbS9weXBhL2luc3RhbGxlci9wdWxsLzMzMl0KIFNpZ25lZC1vZmYtYnk6IFJvc3MgQnVy
+dG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogLS0tCi0gc3JjL2luc3RhbGxlci9fX21haW5fXy5w
+eSB8IDkgKysrKysrKystCi0gMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgMSBkZWxl
+dGlvbigtKQorIHNyYy9pbnN0YWxsZXIvX19tYWluX18ucHkgfCAgOSArKysrKysrKy0KKyBzcmMv
+aW5zdGFsbGVyL3NjcmlwdHMucHkgIHwgMTUgKy0tLS0tLS0tLS0tLS0tCisgMiBmaWxlcyBjaGFu
+Z2VkLCA5IGluc2VydGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvc3Jj
+L2luc3RhbGxlci9fX21haW5fXy5weSBiL3NyYy9pbnN0YWxsZXIvX19tYWluX18ucHkKIGluZGV4
+IGI3YTc0NDUuLjI1NDE1ZWEgMTAwNjQ0CkBAIC02Nyw2ICs2OCwzIEBAIGluZGV4IGIyMWE3MmUu
+LjU1MTk0MWYgMTAwNjQ0CiAtICAgICAgICAjIEkgZG9uJ3QgdW5kZXJzdGFuZCBhIGxpY2sgd2hh
+dCB0aGlzIGlzIHRyeWluZyB0byBkby4KIC0gICAgICAgIHJldHVybiBiIiMhL2Jpbi9zaFxuJycn
+ZXhlYycgIiArIHF1b3RlZCArIGInICIkMCIgIiRAIlxuJyArIGIiJyAnJyciCiArICAgICAgICBy
+ZXR1cm4gYiIjISIgKyBleGVjdXRhYmxlX2J5dGVzCi0tLSAKLTIuNDMuMAotCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW5zdGFsbGVyXzEuMC4xLmJi
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWluc3RhbGxlcl8xLjEuMC5i
+YgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaW5zdGFsbGVyXzEuMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW5zdGFsbGVyXzEuMS4wLmJiCmluZGV4IDY3MjdmOGUy
+MWUuLjgzZTUzZjZhMGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1pbnN0YWxsZXJfMS4wLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWluc3RhbGxlcl8xLjEuMC5iYgpAQCAtOCw3ICs4LDcgQEAgTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NTAzODY0MWFlYzdhNzc0NTFlMzFkYTgyOGVi
+ZmFlMDAiCiAKIFNSQ19VUkkgKz0gImZpbGU6Ly9pbnRlcnByZXRlci5wYXRjaCIKIAotU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjA1MmM3ZmMzNzIxZDU0YzY5NmUyZGVhMDE5YmU2NzUzOWQ3YjE0NGU5
+MjRmNTU5ZjU0YmViMzEyMTgzMWMzNjQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWFkYzBjMDFj
+ZTYyZDgwOTk4OWUyNDY5ODdjZDY4OTQ0ZmU1ZGY4YWY1NjJkMDM1OGY2NWIyYWIxNWNiNWRlNyIK
+IAogaW5oZXJpdCBweXBpIHB5dGhvbl9mbGl0X2NvcmUKIAotLSAKMi40Ny4xCgo=
 
+--===============3622149745262128473==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-installer: PV changed from "1.0.1" to "1.1.0"
+packages/x86-64-v3-poky-linux/python3-installer: PKGV changed from 1.0.1 [default] to 1.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-installer: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/installer/installer-1.0.1.tar.gz file://interpreter.patch" to "https://files.pythonhosted.org/packages/source/i/installer/installer-1.1.0.tar.gz file://interpreter.patch"
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-dbg: PV changed from "1.0.1" to "1.1.0"
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-dbg: PKGV changed from 1.0.1 [default] to 1.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-dev: PV changed from "1.0.1" to "1.1.0"
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-dev: PKGV changed from 1.0.1 [default] to 1.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-doc: PV changed from "1.0.1" to "1.1.0"
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-doc: PKGV changed from 1.0.1 [default] to 1.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-locale: PV changed from "1.0.1" to "1.1.0"
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-locale: PKGV changed from 1.0.1 [default] to 1.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-src: PV changed from "1.0.1" to "1.1.0"
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-src: PKGV changed from 1.0.1 [default] to 1.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-staticdev: PV changed from "1.0.1" to "1.1.0"
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer-staticdev: PKGV changed from 1.0.1 [default] to 1.1.0 [default]
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer: PV changed from "1.0.1" to "1.1.0"
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer: PKGSIZE changed from 1054252 to 1054352 (+0%)
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/installer-1.0.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/installer-1.1.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/installer-1.0.1.dist-info -> /usr/lib/python3.14/site-packages/installer-1.1.0.dist-info
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer: PKGV changed from 1.0.1 [default] to 1.1.0 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-installer (sysroot):
+  /usr/lib/python3.14/site-packages/installer-1.0.1.dist-info moved to /usr/lib/python3.14/site-packages/installer-1.1.0.dist-info
+
+--===============3622149745262128473==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-installer/python3-installer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/installer-1.0.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/installer-1.1.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/installer-1.0.1.dist-info -> /usr/lib/python3.14/site-packages/installer-1.1.0.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-installer (sysroot):
+  /usr/lib/python3.14/site-packages/installer-1.0.1.dist-info moved to /usr/lib/python3.14/site-packages/installer-1.1.0.dist-info
+
+--===============3622149745262128473==--
 
