@@ -1,129 +1,142 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <gael.portay+rtone@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15345CA9ED2
-	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 12:57:53 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6425.1791896265412365748
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CD0CC6B03
+	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 13:23:53 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7108.1791897832518577921
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2026 05:57:45 -0700
+ Tue, 13 Oct 2026 06:23:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=H9IdsB2W;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a172eb31f0so23154905e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 05:57:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=inJEPonK;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: gael.portay+rtone@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48c5b7d5865so323768f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 06:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791896264; x=1792501064; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Zjt9rx8hmeJPIMOnnDQiPXlmSVxkSQ1vW/oASDq4Jbo=;
-        b=H9IdsB2W72vH66aa77zRzA8rKqGfDXnEp57XT9fioLXu7U9vlo0f9Ok5HTa6vzfTJ9
-         HQgkE0uYcCDxuvE/y/GqlXYFpu2aa4bpkdqksPkDWQo9N/FB/ekKmJRAMLy1xDoh6l4E
-         F13VPVVtZuDbHJMJ9WGLemwr9JfXc/m+lwprI=
+        d=gmail.com; s=20251104; t=1791897831; x=1792502631; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=UwGMX9QBy8p3ZRulZIOj+BE+8yE1kZWLHtmaSm00xCw=;
+        b=inJEPonKT2tio/kOrvcQoAvaosu+VgtV/kuHf5djuDD74HeljwtGX8KWBhSPSEthqu
+         JsVTpzWGhpCHGSANpMfV7G+MFoga0MwhuMndxesaAiyMfeK9RdMsaWBEXzHgtFwNpDLD
+         XKHgLVDqHaAjIctkY/X/OnBz5W3fCN+VIsM5kvdXzh4FIC2KSDdNHOWY+2rihxhcFwmI
+         /kO/2RVx7AQtViliNnka6RfmhCD0/dB37egFQlKhv5EY9OlDKJ73JudSwIgrD8cJncTr
+         YYvJmHf+QnFWGN1NounIycKmgNVZbWrViWZSDClnJqebWa48xOjXWQ/ebm/0cTJWY1iS
+         ZuQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791896264; x=1792501064;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Zjt9rx8hmeJPIMOnnDQiPXlmSVxkSQ1vW/oASDq4Jbo=;
-        b=N20005fPDeQKTafpr3z/QDYoqsNw+0sY9E0eqDozDQQs9e94BEWRCDGbK5LQjMeJqO
-         R5Z+R53xNd3Vw4pjeCe3w6BkP6IcRnsQdz4Z54WRWZt6HOp0eU0miJ908qJrpz3SvgDJ
-         0glrIVq6wOYLktBdrTTeWmS6m0ih1seVp2NgrOf34h3kZRGFz/p0y4xa3xkr5lPWWug2
-         hcBFo2HKs8qEiPPSBRHk2NEfBN8TYwZ6DW12jLL75CGrZZb60QEDTDFRWS/NfFBkkAFk
-         1DO81cJvV+VyqbISjiOeCqOTeGCL00IXyytQrFGOZNMquPDvg+79MoQyeXkWnOKENWVh
-         i1OA==
-X-Forwarded-Encrypted: i=1; AKwUvBzJhyHlVomybSPWaumVofxlCdL2Jf2A5v0MT8N6AKQJnma2ORJ5YgbkKLwff1dL8yRAMNY4Qe1zCaigMVJ7C2qVNA==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYIR2M27o0JdTDi3q6SBKgJ4uPftUq8bH0vLxwxoY2SPtXDqHi/g
-	40ZVAam62QI4cpd4u9EK7uuqbIlNNeM36sqJV7bsaLFDw7Mlqng06qa9dNUUwN5HaU+GtgK45D2
-	TLb0L/kE=
-X-Gm-Gg: AYBFou2lTtPZvvuXTi9fO0hPMR7gTw/EeCDvp8rk2PxvhsEtYZ2t6NXQs7A+KPYIXj3
-	SNevG51js+qb1Un98ChIkausNxcKO0Mj60Nz8tbqXJrdWBdWpVuf77w94Zlqqm0yKENdF/DPjlH
-	6AF5fmVfCSODHBpHk2bqUdE0Hf4EK3aYT0qvRnCnlsBA7c4Fjix42gYJySur145or+pFMiEQw9F
-	H84yNU4u/bl8yXo/AfeJdkI44+fqSO6HMuN47SEZTk1MTySvCxkFwuZSmIagNznhMynQ41e1844
-	8eY3f6XKFtciAK4ysk7TLd1b3Tihq3RqIICrfQcnkcy90le1ZZwtihkAzZjPV9O4NwwvEEab4I8
-	6l7N6RiSMegmcdyaWoA87FKQs8pcKqd+kDL72DHLZXTdQPPXQywmgYwx+HOFveBnCSA6XBN3R8E
-	s6+MA0tAlD0Etjc06GV/cswx+XG1rMz7KXmQi3DEqsYXylRqYJ1Psa60uzXEnb/8oIgMq1h6gCv
-	471dPAkS2zTxB9Rx00aLdEWR04JBTgSJumhwyGYs0jtNB1BVQRHvL+i+EY=
-X-Received: by 2002:a05:600c:8518:b0:49f:cbf3:551c with SMTP id 5b1f17b1804b1-4a18e4a8ca6mr226690905e9.12.1791896263527;
-        Tue, 13 Oct 2026 05:57:43 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19ba624b3sm254408215e9.2.2026.10.13.05.57.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 05:57:42 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+        d=1e100.net; s=20260707; t=1791897831; x=1792502631;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UwGMX9QBy8p3ZRulZIOj+BE+8yE1kZWLHtmaSm00xCw=;
+        b=stnePe50P66r+qC1k3fVspyPk3FGrYln0+A1J7Xj7DZvR0u4OXTGahZNuIUFNAG6Jx
+         75pLu84Ati+I1jWf8sSw6iQwyF1++UgwRE6G6GqfyPd91Y3u6DgjSFNKZb5twWBuMxds
+         NGHh7WgwmKCUpNwKMV4DQPLv5stmOqE6ROVqCfNTsQGk3snmUm4ceUOVO61KGASDQb97
+         uZwe+F7YU41fodcLVI/zWhrHg+8LaQiYUtv0zd+UoArv1W4uqkAUmpUGLKTvzWu3koHG
+         eEVFcqWmzVWzdVHFPq73Fo48poB6kXK1DZDC9Vo5VNmbIWPssiYksineN/ZNxq2UIeXO
+         quMA==
+X-Gm-Message-State: AFq9FYIlT5/QvwxXe9S7UQRvaeLXOfw0bOGICP3u3t4Tl4LjqGoyRqgG
+	zHABXC0NcKEu8E5e/mTJt13YOG93orA9jYK2jLYKPX1gVwT8k84kUWNhtGnXzmMj
+X-Gm-Gg: AYBFou3/HNiwM1hBH1q3EBnntWMbuXpIPpgLT/lCZsqlNOzhAFqnK2AB52I+NyC4Slm
+	igLdG8EY/AEDfm8Rv0nI1WpXXQEsfi7Yq2q2NFKS31IC1OmWqCog8lQOPv8i3tFxAXyzK0dKysG
+	/RWz7eJR5IR844pfqKtlh12Ixu/h5fbi/B3j33AwNiYYTpbDjN2wK+0O03tsl2Qn8VsBguOPwNW
+	sk6u2j8jLYpFF6f6RdJNcDW6SfWL6Avwoeqk/LlAFSVDgCY6bpbYEWZJB8qKkpD2ihRXFAHVNc5
+	rbgK2be5nxMhB3NPRTMc6+qoUJxHcnMDV4NLq24u99pJFcPmIzscEq0iNnOf7b5AnVNBnKkepkI
+	ExH1GLuAliTYIo6EZzyEWRvGWnlSz3DsDuLXYEzrF1jRhgfbDN3G9bNtSmKRhJpBjrg/rbEaR2K
+	aHArJTziHa1MpuwYkzchf19y/GBGNYvS5MscMxf/kLoJPK9u++zltxSPKuVypLtRS16/GjCtRAX
+	AwHbMlZz7fiIPHpVqEX2X8PLR3rXJIJrJciH/y36P7AgI9dZGO3GJWkzoSPqRkz2coqktuX49I9
+	iekF3RwBxC3OUQ==
+X-Received: by 2002:a05:6000:41c9:b0:48c:6756:d9b1 with SMTP id ffacd0b85a97d-48dba7a8ceamr25127538f8f.2.1791897830286;
+        Tue, 13 Oct 2026 06:23:50 -0700 (PDT)
+Received: from chipmunk-161.. (fau42-h04-89-84-225-38.dsl.sta.abo.bbox.fr. [89.84.225.38])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0aaabc3sm5312942f8f.16.2026.10.13.06.23.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2026 06:23:49 -0700 (PDT)
+Sender: =?UTF-8?B?R2HDq2wgUE9SVEFZ?= <gael.portay@gmail.com>
+From: =?UTF-8?q?Ga=C3=ABl=20PORTAY?= <gael.portay+rtone@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Yoann Congal <yoann.congal@smile.fr>
+Cc: =?UTF-8?q?Ga=C3=ABl=20PORTAY?= <gael.portay+rtone@gmail.com>
+Subject: [scarthgap][PATCH v2] connman: fix syslog identity with glibc
+Date: Tue, 13 Oct 2026 15:23:07 +0200
+Message-ID: <20261013132308.3742518-1-gael.portay+rtone@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Oct 2026 14:57:42 +0200
-Message-Id: <DM3Q7MN7ZUP7.X96W6FEAUBGT@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCHv2] vim: Fix for CVE-2026-73076
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261007112343.774232-1-hprajapati@mvista.com>
-In-Reply-To: <20261007112343.774232-1-hprajapati@mvista.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 12:57:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247725
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 13:23:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247726
 
-On Wed Oct 7, 2026 at 1:23 PM CEST, Hitendra Prajapati via lists.openembedd=
-ed.org wrote:
-> Pick the patch from [1], also referenced in the NVD report [2].
->
-> [1] https://github.com/vim/vim/commit/581a2f3ac9c6f96a26324f6b2c8c11415fd=
-0d452
-> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-73076
->
-> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> ---
->  .../vim/files/CVE-2026-73076.patch            | 136 ++++++++++++++++++
->  meta/recipes-support/vim/vim.inc              |   1 +
->  2 files changed, 137 insertions(+)
->  create mode 100644 meta/recipes-support/vim/files/CVE-2026-73076.patch
->
-> diff --git a/meta/recipes-support/vim/files/CVE-2026-73076.patch b/meta/r=
-ecipes-support/vim/files/CVE-2026-73076.patch
-> new file mode 100644
-> index 0000000000..9ef6aec99a
-> --- /dev/null
-> +++ b/meta/recipes-support/vim/files/CVE-2026-73076.patch
-> @@ -0,0 +1,136 @@
-> +From 581a2f3ac9c6f96a26324f6b2c8c11415fd0d452 Mon Sep 17 00:00:00 2001
-> +From: Christian Brabandt <cb@256bit.org>
-> +Date: Fri, 24 Jul 2026 17:43:51 +0200
-> +Subject: [PATCH] patch 9.2.0847: [security]: vimball: code execution via
-> + .VimballRecord file
-> +
-> +Problem:  [security]: vimball: code execution via .VimballRecord file
-> +          (tdjackey)
-> +Solution: Forbid arbitrary commands, fix broken directory deletion code,
-> +          refactor code
-> +
-> +Github Security Advisory:
-> +https://github.com/vim/vim/security/advisories/GHSA-r22p-fhw4-84p2
-> +
-> +Signed-off-by: Christian Brabandt <cb@256bit.org>
-> +
-> +CVE: CVE-2026-73076
-> +Upstream-Status: Backport [https://github.com/vim/vim/commit/581a2f3ac9c=
-6f96a26324f6b2c8c11415fd0d452]
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +---
-> + runtime/autoload/vimball.vim | 58 ++++++++++++++++++++++--------------
-> + 1 file changed, 35 insertions(+), 23 deletions(-)
+The patch 0001-src-log.c-Include-libgen.h-for-basename-API.patch changes
+how the syslog's ident string is handled to fix a build issue with musl.
 
-Hello,
+It passes a locally allocated string to openlog(), which introduces a
+regression with glibc, as glibc does not make an internal copy of the
+ident string[1], unlike musl[2].
 
-That patch changes in a non-trivial way from upstream. Can you check
-that all those changes are intended and explain them in the patch
-message?
+As documented in the syslog(3) man page[3], the ident string passed to
+openlog() may be stored as-is. Modifying the string or allowing it to
+cease to exist can therefore lead to unexpected behavior or undefined
+results.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+This removes 0001-src-log.c-Include-libgen.h-for-basename-API.patch from
+SRC_URI for glibc by moving it to the libc-musl override, ensuring that
+it is applied only when building with musl.
+
+Note: The patch was submitted upstream to connman but was never
+merged[4]. It was also removed from oe-core when connman was upgraded to
+version 1.43[5].
+
+Fixes:
+
+	Sep  7 06:10:36 qemux86-64 daemon.info ^A[776]: Connection Manager version 1.42
+
+This fixes commit d0139bcbe0 (connman: Fix build with musl).
+
+[1]: https://sourceware.org/git/?p=glibc.git;a=blob;f=misc/syslog.c;h=b7414e7b43a510342273bece335b4258e8754905;hb=47dd7e0dacf50c740b04c78d3f85fbf983d53aba#l338
+[2]: https://git.musl-libc.org/cgit/musl/tree/src/misc/syslog.c?h=v1.2.4#n64
+[3]: https://linux.die.net/man/3/syslog
+[4]: https://lore.kernel.org/connman/0caf957f-e046-4453-a8ae-fd6c994ac95d@gmail.com/
+[5]: https://github.com/openembedded/openembedded-core/commit/467d28f5d243d821722cf8dcdbb9675a2820cd4f
+
+Signed-off-by: Gaël PORTAY <gael.portay+rtone@gmail.com>
+---
+Changes since v1:
+ - Move file 0001-src-log.c-Include-libgen.h-for-basename-API.patch to
+   libc-musl override (instead of moving incorrect file
+   0001-vpn-Adding-support-for-latest-pppd-2.5.0-release.patch)
+ - Entire message reword
+ - Update references using oe-core instead of poky
+
+ meta/recipes-connectivity/connman/connman_1.42.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman_1.42.bb b/meta/recipes-connectivity/connman/connman_1.42.bb
+index 9b3abbe258..4fb7bf6a35 100644
+--- a/meta/recipes-connectivity/connman/connman_1.42.bb
++++ b/meta/recipes-connectivity/connman/connman_1.42.bb
+@@ -6,12 +6,13 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://connman \
+            file://no-version-scripts.patch \
+            file://0001-vpn-Adding-support-for-latest-pppd-2.5.0-release.patch \
+-           file://0001-src-log.c-Include-libgen.h-for-basename-API.patch \
+            file://CVE-2025-32743.patch \
+            file://CVE-2025-32366.patch \
+            "
+ 
+-SRC_URI:append:libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
++SRC_URI:append:libc-musl = " file://0001-src-log.c-Include-libgen.h-for-basename-API.patch \
++                             file://0002-resolve-musl-does-not-implement-res_ninit.patch \
++                           "
+ 
+ SRC_URI[sha256sum] = "a3e6bae46fc081ef2e9dae3caa4f7649de892c3de622c20283ac0ca81423c2aa"
+ 
+-- 
+2.43.0
 
 
