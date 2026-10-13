@@ -2,49 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92FE7CC6B0E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2ED7CC6B10
 	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 07:08:12 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1673.1791875288776054721
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1674.1791875292089667049
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2026 00:08:08 -0700
+ Tue, 13 Oct 2026 00:08:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Y+9c5i2q;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=xJyBqzV4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a134170a58-995adbc2-447f-4ed4-a97b-2bceb8ea281c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mC5jbyAR;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UMC7JniS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a1341717e8-f8fc3eca-698a-4c65-a743-023e61e1ed69-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1791875287;
+	t=1791875291;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=/mnMoHaCbfZeG9ELr3POG4CspOCLC3WApGb+Jp0pguY=;
-	b=Y+9c5i2qDN0eEAULeWawqYQRTVVJfa1UM467dad3jYKyRRWOkQh6ftmGk32hSAnU
-	dwqOR1F4CF01VWUB9yyGWpBWLSa96+6y+cB37NbI9H6uilClrEhG+MHzWWszVRbyX/j
-	VPw8uoXJa228u7nGKmEozwbJxHQtx8AAuHAj+92Q=
+	bh=ICg7d4HNAik9tnLpZ6oZ5z4YQbgbxlv9QtLnUltCx/g=;
+	b=mC5jbyARuWj9TZWKPj/2tSVcZQuhiS9XLB6RxAezQLsZYcn5HIxozz38feLqJCku
+	G9GSTfQcsGiFjyeBXOzv5EGjAplb+gyNoe9Pq1ZtCBCyMTAtN/SyU2OgKyUGcclCRBr
+	llk5yhFQz/jrgnJjrms89ycROmzozZLVt99ViFfQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791875287;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791875291;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=/mnMoHaCbfZeG9ELr3POG4CspOCLC3WApGb+Jp0pguY=;
-	b=xJyBqzV42sQZ6/n8FjsQcpzfyb73f1MLUcLOvCVQSdmEvVADivar9iVepX20pWjF
-	rT0y8zUGTkQyyfj2h665O84+gjX76Oe9zrFTUVcBSCgIqoNGo8ihXJc/UteWxfakORA
-	bf+BntR2psDYvdLv+3KhcGA39XLG6ZD5ismk5bXs=
-Content-Type: multipart/mixed; boundary="===============7748832771710106702=="
+	bh=ICg7d4HNAik9tnLpZ6oZ5z4YQbgbxlv9QtLnUltCx/g=;
+	b=UMC7JniS+VMj1b/JEwzh2s8G5GQGcxVOhVi3Q1I7FMRBfvDdJFZ8CWVlWT+5QMF4
+	M/uOho1tJjhD1BBm8LsPXCWh27FBRDtl/nNW1zy/LhST431wpS5BGvw8PJ9sokczsOt
+	TR08aoDSxrCiORPdAsJU8B0dq9aTwHF+EorL0MfY=
+Content-Type: multipart/mixed; boundary="===============1819867742014853149=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gn: upgrading to 0817afa577428da457b6482c027d7202cd01fcbf
+Subject: [AUH] piglit: upgrading to f73c2b554e565d6ee3fa2a331c60236141a73768
  SUCCEEDED
-Message-ID: <010101a134170a58-995adbc2-447f-4ed4-a97b-2bceb8ea281c-000000@us-west-2.amazonses.com>
-Date: Tue, 13 Oct 2026 07:08:07 +0000
+Message-ID: <010101a1341717e8-f8fc3eca-698a-4c65-a743-023e61e1ed69-000000@us-west-2.amazonses.com>
+Date: Tue, 13 Oct 2026 07:08:11 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.13-54.240.27.31
+X-SES-Outgoing: 2026.10.13-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 07:08:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247698
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247701
 
---===============7748832771710106702==
+--===============1819867742014853149==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gn* to *0817afa577428da457b6482c027d7202cd01fcbf* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *piglit* to *f73c2b554e565d6ee3fa2a331c60236141a73768* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gn-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,331 +73,345 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2a62dcac4c44fd3d619baa2d195b92e36e3ff5b2 Mon Sep 17 00:00:00 2001
+From 2fc53ca080e67f0b0653ebfa0d896642397a68ef Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 13 Oct 2026 05:44:09 +0000
-Subject: [PATCH] gn: upgrade to latest revision
+Date: Tue, 13 Oct 2026 07:05:03 +0000
+Subject: [PATCH] piglit: upgrade to latest revision
 
-Make StringAtom use pointer equality and hashing
-Fix "Ouput" typos
-Add no_check_generated_targets .gn variable
-Improve the suggestion heuristic for depending on targets.
-Do not generate last_commit_position.h in debug builds.
-Enable check_includes_strict by default.
-Disable rust formatter on main branch.
-Add include sorting configuration to .clang-format and reformat
-Delayed generated_file() writes if they collect validations metadata
-Stop forwarding private hard_deps on check_includes_strict targets
-Add `collect_validations_metadata` boolean flag to generated_file() targets.
-Add new experimental_collect_validations_metadata .gn variable
-Move generated_file() writes to dedicated function.
-Avoid canonicalization + string comparisons during metadata collection.
-Use internal state struct for Target::GetMetadata().
-Fix minor Scheduler data races.
-rust: Don't make rlibs depend on non-Rust link inputs
-gn edit: keep build files alive for warnings
-Add instructions for agent to build GN and run code / tests
-Write phony rules for harddeps
-Support conditional sources for gn check.
-Don't write order-only deps reachable through direct deps
-When suggestions have a known includer target, don't complain that they don't
-resolve to a single target.
-rust_project_writer: Support aliased_deps in rust-project.json
-Header check: validate includes before building diagnostics
-Header check: defer unrestricted dependency walks
-Header check: batch reachability and file checking tasks
-Header check: select files from the existing file map
-Add an allowlist for allow_circular_includes_from.
-[gn] Use std::unordered_map for waiting_map_
-[gn] Shard StringAtomSet to avoid lock contention
-[gn] Use DCHECK in Target::info()
-[gn] Make ResolvedTargetData stateless
-[recipe] Enable THP for jemalloc build in GN recipe
+egl-configless-context: check result of releasing the context
+arb_separate_shader_objects: check link status in compat-builtins test
+cl/api/enqueue-read_write-buffer: initialize host_buffer_write
+ext_image_dma_buf_import/sample_yuv: catch byte-swapped 16-bit samples
+ext_image_dma_buf_import/sample_yuv: match 4:4:4 chroma to expected colors
+ext_image_dma_buf_import: pack Y410 test data with htole32
+ext_image_dma_buf_import/sample_rgb: test more formats
+ext_image_dma_buf_import/export-tex: test more formats
+gles-3.0: add a reproducer for mesa!43541
+arb_copy_image: add rp-sync test for threaded context renderpass desync
+arb_gpu_shader_fp64: test varyings read by both XFB and the FS
+texturing: add a test for BPTC alpha compression
+ext_image_dma_buf_import: Use glFramebufferTexture2D(..)
+ext_image_dma_buf_import: Use different color in export-tex
+ext_mesh_shader: add some mesh shader tests
+ovr_multiview: fix negative base layer check in fb_blit_first_view
+arb_separate_shader_objects: check link status in 3-stages test
+README: Fix the reference to the CONTRIBUTING file
+arb_clear_texture: accept NaN initial texels in float comparison
+arb_clear_texture: fix GL_UNSIGNED_INT depth comparison on big-endian
+glsl: require GLSL 4.10 for FS underflow tests
+glsl: fix values used for floating point underflow test
+arb_texture_view-rendering-formats: handle big-endian hosts
+arb_query_buffer_object-qbo: handle 64-bit results on big-endian hosts
+arb_query_buffer_object-qbo: read 32-bit CPU results into 32-bit variables
+util: add piglit_is_big_endian()
+khr_texture_compression_astc: Drop the sRGB precision variants.
+khr_texture_compression_astc: Regenerate ldrs golden images.
+ext_transform_feedback: warns when XFB mode differs from draw mode
+glx: use piglit_egl_get_display over eglGetDisplay
+egl_khr_create_context: use piglit_egl_get_display over eglGetDisplay
+egl-configless-context: use piglit_egl_get_display over eglGetDisplay
+arb_sample_locations: bind piglit_winsys_fbo, not 0
+arb_texture_view-blit-from-tex-view: bind piglit_winsys_fbo, not 0
+fbo-pbo-readpixels-small: decode packed depth/stencil in host byte order
+framebuffer-blit-levels: pack depth/stencil test data as host-endian words
+arb_framebuffer_srgb-srgb_pbo: decode the packed texels it reads back
+util: read KTX files with the opposite byte order
+streaming-texture-leak: upload the texture from a byte array
+push-pop-color-material: use byte arrays for glColor4ubv()
+cmake: make incompatible pointer types a hard error
+gl-1.0/fog-linear-floor: use a per-component tolerance array
 ---
- meta/recipes-devtools/gn/gn_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch | 4 ++--
+ ...01-tests-no_error.py-modify-_command-and-not-command.patch | 2 +-
+ .../0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch | 2 +-
+ ...tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch | 2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb                    | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
-index 6e8626dc32..895577e9ce 100644
---- a/meta/recipes-devtools/gn/gn_git.bb
-+++ b/meta/recipes-devtools/gn/gn_git.bb
-@@ -8,7 +8,7 @@ UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+index 5ae8d4a499..333e5a28c3 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+@@ -1,4 +1,4 @@
+-From 1b3d0741044c782731d22d7fed7e92ef409bb966 Mon Sep 17 00:00:00 2001
++From 45bd75328057b19286e21066a69a046cccb6af2a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 23 Aug 2024 15:29:45 +0200
+ Subject: [PATCH] CMakeLists.txt: do not obtain wayland-scanner path from
+@@ -17,7 +17,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+), 5 deletions(-)
  
- SRC_URI = "git://gn.googlesource.com/gn;protocol=https;branch=main \
- "
--SRCREV = "cfcd774b98f3433e18b722f9a7ff06119825b8eb"
-+SRCREV = "0817afa577428da457b6482c027d7202cd01fcbf"
- PV = "0+git"
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 1a38c21f9..45c181e85 100644
++index 9115d3c79..93c6fd44c 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+ @@ -211,11 +211,7 @@ if(PIGLIT_USE_WAYLAND)
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
+index ee39d6df5a..51f9d89d53 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-no_error.py-modify-_command-and-not-command.patch
+@@ -1,4 +1,4 @@
+-From f4de80be6ed99bbade73281c0cac99bac7f5e2eb Mon Sep 17 00:00:00 2001
++From d6584a39cf47759007dfd58235bc488871104946 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Thu, 22 May 2025 17:34:15 +0200
+ Subject: [PATCH] tests/no_error.py: modify _command and not command
+diff --git a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+index 701c7076ae..9a25185651 100644
+--- a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
++++ b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+@@ -1,4 +1,4 @@
+-From e02e95a4c3103a8223dc89b6dbad3747e641f203 Mon Sep 17 00:00:00 2001
++From 1a65f18c336ca13fcbf8e7a179375a9447a95285 Mon Sep 17 00:00:00 2001
+ From: Pascal Bach <pascal.bach@siemens.com>
+ Date: Thu, 4 Oct 2018 14:43:17 +0200
+ Subject: [PATCH] cmake: use proper WAYLAND_INCLUDE_DIRS variable
+diff --git a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+index 2f53abf419..e469a09a3d 100644
+--- a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
++++ b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+@@ -1,4 +1,4 @@
+-From d10663b34ce8606b82bc153638a2f89bda32d4c0 Mon Sep 17 00:00:00 2001
++From ebca1b952f830dcd7cb57a3f90a9cb1ccd65a63e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 10 Nov 2020 17:13:50 +0000
+ Subject: [PATCH] tests/util/piglit-shader.c: do not hardcode build path into
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index cd1ae5d6d2..8f02496b4f 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
- BB_GIT_SHALLOW = ""
+-SRCREV = "4950babfd2cd4408e4bfd103d935c6e5cff53d20"
++SRCREV = "f73c2b554e565d6ee3fa2a331c60236141a73768"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr"
+ 
 -- 
 2.47.1
 
 
---===============7748832771710106702==
+--===============1819867742014853149==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gn-upgrade-to-latest-revision.patch"
+ filename="0001-piglit-upgrade-to-latest-revision.patch"
 
-RnJvbSAyYTYyZGNhYzRjNDRmZDNkNjE5YmFhMmQxOTViOTJlMzZlM2ZmNWIyIE1vbiBTZXAgMTcg
+RnJvbSAyZmM1M2NhMDgwZTY3ZjBiMDY1M2ViZmEwZDg5NjY0MjM5N2E2OGVmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTMgT2N0IDIwMjYgMDU6NDQ6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bjogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCk1ha2UgU3RyaW5nQXRvbSB1c2UgcG9pbnRl
-ciBlcXVhbGl0eSBhbmQgaGFzaGluZwpGaXggIk91cHV0IiB0eXBvcwpBZGQgbm9fY2hlY2tfZ2Vu
-ZXJhdGVkX3RhcmdldHMgLmduIHZhcmlhYmxlCkltcHJvdmUgdGhlIHN1Z2dlc3Rpb24gaGV1cmlz
-dGljIGZvciBkZXBlbmRpbmcgb24gdGFyZ2V0cy4KRG8gbm90IGdlbmVyYXRlIGxhc3RfY29tbWl0
-X3Bvc2l0aW9uLmggaW4gZGVidWcgYnVpbGRzLgpFbmFibGUgY2hlY2tfaW5jbHVkZXNfc3RyaWN0
-IGJ5IGRlZmF1bHQuCkRpc2FibGUgcnVzdCBmb3JtYXR0ZXIgb24gbWFpbiBicmFuY2guCkFkZCBp
-bmNsdWRlIHNvcnRpbmcgY29uZmlndXJhdGlvbiB0byAuY2xhbmctZm9ybWF0IGFuZCByZWZvcm1h
-dApEZWxheWVkIGdlbmVyYXRlZF9maWxlKCkgd3JpdGVzIGlmIHRoZXkgY29sbGVjdCB2YWxpZGF0
-aW9ucyBtZXRhZGF0YQpTdG9wIGZvcndhcmRpbmcgcHJpdmF0ZSBoYXJkX2RlcHMgb24gY2hlY2tf
-aW5jbHVkZXNfc3RyaWN0IHRhcmdldHMKQWRkIGBjb2xsZWN0X3ZhbGlkYXRpb25zX21ldGFkYXRh
-YCBib29sZWFuIGZsYWcgdG8gZ2VuZXJhdGVkX2ZpbGUoKSB0YXJnZXRzLgpBZGQgbmV3IGV4cGVy
-aW1lbnRhbF9jb2xsZWN0X3ZhbGlkYXRpb25zX21ldGFkYXRhIC5nbiB2YXJpYWJsZQpNb3ZlIGdl
-bmVyYXRlZF9maWxlKCkgd3JpdGVzIHRvIGRlZGljYXRlZCBmdW5jdGlvbi4KQXZvaWQgY2Fub25p
-Y2FsaXphdGlvbiArIHN0cmluZyBjb21wYXJpc29ucyBkdXJpbmcgbWV0YWRhdGEgY29sbGVjdGlv
-bi4KVXNlIGludGVybmFsIHN0YXRlIHN0cnVjdCBmb3IgVGFyZ2V0OjpHZXRNZXRhZGF0YSgpLgpG
-aXggbWlub3IgU2NoZWR1bGVyIGRhdGEgcmFjZXMuCnJ1c3Q6IERvbid0IG1ha2UgcmxpYnMgZGVw
-ZW5kIG9uIG5vbi1SdXN0IGxpbmsgaW5wdXRzCmduIGVkaXQ6IGtlZXAgYnVpbGQgZmlsZXMgYWxp
-dmUgZm9yIHdhcm5pbmdzCkFkZCBpbnN0cnVjdGlvbnMgZm9yIGFnZW50IHRvIGJ1aWxkIEdOIGFu
-ZCBydW4gY29kZSAvIHRlc3RzCldyaXRlIHBob255IHJ1bGVzIGZvciBoYXJkZGVwcwpTdXBwb3J0
-IGNvbmRpdGlvbmFsIHNvdXJjZXMgZm9yIGduIGNoZWNrLgpEb24ndCB3cml0ZSBvcmRlci1vbmx5
-IGRlcHMgcmVhY2hhYmxlIHRocm91Z2ggZGlyZWN0IGRlcHMKV2hlbiBzdWdnZXN0aW9ucyBoYXZl
-IGEga25vd24gaW5jbHVkZXIgdGFyZ2V0LCBkb24ndCBjb21wbGFpbiB0aGF0IHRoZXkgZG9uJ3QK
-cmVzb2x2ZSB0byBhIHNpbmdsZSB0YXJnZXQuCnJ1c3RfcHJvamVjdF93cml0ZXI6IFN1cHBvcnQg
-YWxpYXNlZF9kZXBzIGluIHJ1c3QtcHJvamVjdC5qc29uCkhlYWRlciBjaGVjazogdmFsaWRhdGUg
-aW5jbHVkZXMgYmVmb3JlIGJ1aWxkaW5nIGRpYWdub3N0aWNzCkhlYWRlciBjaGVjazogZGVmZXIg
-dW5yZXN0cmljdGVkIGRlcGVuZGVuY3kgd2Fsa3MKSGVhZGVyIGNoZWNrOiBiYXRjaCByZWFjaGFi
-aWxpdHkgYW5kIGZpbGUgY2hlY2tpbmcgdGFza3MKSGVhZGVyIGNoZWNrOiBzZWxlY3QgZmlsZXMg
-ZnJvbSB0aGUgZXhpc3RpbmcgZmlsZSBtYXAKQWRkIGFuIGFsbG93bGlzdCBmb3IgYWxsb3dfY2ly
-Y3VsYXJfaW5jbHVkZXNfZnJvbS4KW2duXSBVc2Ugc3RkOjp1bm9yZGVyZWRfbWFwIGZvciB3YWl0
-aW5nX21hcF8KW2duXSBTaGFyZCBTdHJpbmdBdG9tU2V0IHRvIGF2b2lkIGxvY2sgY29udGVudGlv
-bgpbZ25dIFVzZSBEQ0hFQ0sgaW4gVGFyZ2V0OjppbmZvKCkKW2duXSBNYWtlIFJlc29sdmVkVGFy
-Z2V0RGF0YSBzdGF0ZWxlc3MKW3JlY2lwZV0gRW5hYmxlIFRIUCBmb3IgamVtYWxsb2MgYnVpbGQg
-aW4gR04gcmVjaXBlCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2duL2duX2dpdC5iYiB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nbi9nbl9naXQuYmIgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZ24vZ25fZ2l0LmJiCmluZGV4IDZlODYyNmRjMzIuLjg5NTU3N2U5Y2UgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nbi9nbl9naXQuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2duL2duX2dpdC5iYgpAQCAtOCw3ICs4LDcgQEAgVVBTVFJFQU1fQ0hFQ0tf
-Q09NTUlUUyA9ICIxIgogCiBTUkNfVVJJID0gImdpdDovL2duLmdvb2dsZXNvdXJjZS5jb20vZ247
-cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW4gXAogIgotU1JDUkVWID0gImNmY2Q3NzRiOThmMzQz
-M2UxOGI3MjJmOWE3ZmYwNjExOTgyNWI4ZWIiCitTUkNSRVYgPSAiMDgxN2FmYTU3NzQyOGRhNDU3
-YjY0ODJjMDI3ZDcyMDJjZDAxZmNiZiIKIFBWID0gIjArZ2l0IgogCiBCQl9HSVRfU0hBTExPVyA9
-ICIiCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMTMgT2N0IDIwMjYgMDc6MDU6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+aWdsaXQ6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgplZ2wtY29uZmlnbGVzcy1jb250ZXh0
+OiBjaGVjayByZXN1bHQgb2YgcmVsZWFzaW5nIHRoZSBjb250ZXh0CmFyYl9zZXBhcmF0ZV9zaGFk
+ZXJfb2JqZWN0czogY2hlY2sgbGluayBzdGF0dXMgaW4gY29tcGF0LWJ1aWx0aW5zIHRlc3QKY2wv
+YXBpL2VucXVldWUtcmVhZF93cml0ZS1idWZmZXI6IGluaXRpYWxpemUgaG9zdF9idWZmZXJfd3Jp
+dGUKZXh0X2ltYWdlX2RtYV9idWZfaW1wb3J0L3NhbXBsZV95dXY6IGNhdGNoIGJ5dGUtc3dhcHBl
+ZCAxNi1iaXQgc2FtcGxlcwpleHRfaW1hZ2VfZG1hX2J1Zl9pbXBvcnQvc2FtcGxlX3l1djogbWF0
+Y2ggNDo0OjQgY2hyb21hIHRvIGV4cGVjdGVkIGNvbG9ycwpleHRfaW1hZ2VfZG1hX2J1Zl9pbXBv
+cnQ6IHBhY2sgWTQxMCB0ZXN0IGRhdGEgd2l0aCBodG9sZTMyCmV4dF9pbWFnZV9kbWFfYnVmX2lt
+cG9ydC9zYW1wbGVfcmdiOiB0ZXN0IG1vcmUgZm9ybWF0cwpleHRfaW1hZ2VfZG1hX2J1Zl9pbXBv
+cnQvZXhwb3J0LXRleDogdGVzdCBtb3JlIGZvcm1hdHMKZ2xlcy0zLjA6IGFkZCBhIHJlcHJvZHVj
+ZXIgZm9yIG1lc2EhNDM1NDEKYXJiX2NvcHlfaW1hZ2U6IGFkZCBycC1zeW5jIHRlc3QgZm9yIHRo
+cmVhZGVkIGNvbnRleHQgcmVuZGVycGFzcyBkZXN5bmMKYXJiX2dwdV9zaGFkZXJfZnA2NDogdGVz
+dCB2YXJ5aW5ncyByZWFkIGJ5IGJvdGggWEZCIGFuZCB0aGUgRlMKdGV4dHVyaW5nOiBhZGQgYSB0
+ZXN0IGZvciBCUFRDIGFscGhhIGNvbXByZXNzaW9uCmV4dF9pbWFnZV9kbWFfYnVmX2ltcG9ydDog
+VXNlIGdsRnJhbWVidWZmZXJUZXh0dXJlMkQoLi4pCmV4dF9pbWFnZV9kbWFfYnVmX2ltcG9ydDog
+VXNlIGRpZmZlcmVudCBjb2xvciBpbiBleHBvcnQtdGV4CmV4dF9tZXNoX3NoYWRlcjogYWRkIHNv
+bWUgbWVzaCBzaGFkZXIgdGVzdHMKb3ZyX211bHRpdmlldzogZml4IG5lZ2F0aXZlIGJhc2UgbGF5
+ZXIgY2hlY2sgaW4gZmJfYmxpdF9maXJzdF92aWV3CmFyYl9zZXBhcmF0ZV9zaGFkZXJfb2JqZWN0
+czogY2hlY2sgbGluayBzdGF0dXMgaW4gMy1zdGFnZXMgdGVzdApSRUFETUU6IEZpeCB0aGUgcmVm
+ZXJlbmNlIHRvIHRoZSBDT05UUklCVVRJTkcgZmlsZQphcmJfY2xlYXJfdGV4dHVyZTogYWNjZXB0
+IE5hTiBpbml0aWFsIHRleGVscyBpbiBmbG9hdCBjb21wYXJpc29uCmFyYl9jbGVhcl90ZXh0dXJl
+OiBmaXggR0xfVU5TSUdORURfSU5UIGRlcHRoIGNvbXBhcmlzb24gb24gYmlnLWVuZGlhbgpnbHNs
+OiByZXF1aXJlIEdMU0wgNC4xMCBmb3IgRlMgdW5kZXJmbG93IHRlc3RzCmdsc2w6IGZpeCB2YWx1
+ZXMgdXNlZCBmb3IgZmxvYXRpbmcgcG9pbnQgdW5kZXJmbG93IHRlc3QKYXJiX3RleHR1cmVfdmll
+dy1yZW5kZXJpbmctZm9ybWF0czogaGFuZGxlIGJpZy1lbmRpYW4gaG9zdHMKYXJiX3F1ZXJ5X2J1
+ZmZlcl9vYmplY3QtcWJvOiBoYW5kbGUgNjQtYml0IHJlc3VsdHMgb24gYmlnLWVuZGlhbiBob3N0
+cwphcmJfcXVlcnlfYnVmZmVyX29iamVjdC1xYm86IHJlYWQgMzItYml0IENQVSByZXN1bHRzIGlu
+dG8gMzItYml0IHZhcmlhYmxlcwp1dGlsOiBhZGQgcGlnbGl0X2lzX2JpZ19lbmRpYW4oKQpraHJf
+dGV4dHVyZV9jb21wcmVzc2lvbl9hc3RjOiBEcm9wIHRoZSBzUkdCIHByZWNpc2lvbiB2YXJpYW50
+cy4Ka2hyX3RleHR1cmVfY29tcHJlc3Npb25fYXN0YzogUmVnZW5lcmF0ZSBsZHJzIGdvbGRlbiBp
+bWFnZXMuCmV4dF90cmFuc2Zvcm1fZmVlZGJhY2s6IHdhcm5zIHdoZW4gWEZCIG1vZGUgZGlmZmVy
+cyBmcm9tIGRyYXcgbW9kZQpnbHg6IHVzZSBwaWdsaXRfZWdsX2dldF9kaXNwbGF5IG92ZXIgZWds
+R2V0RGlzcGxheQplZ2xfa2hyX2NyZWF0ZV9jb250ZXh0OiB1c2UgcGlnbGl0X2VnbF9nZXRfZGlz
+cGxheSBvdmVyIGVnbEdldERpc3BsYXkKZWdsLWNvbmZpZ2xlc3MtY29udGV4dDogdXNlIHBpZ2xp
+dF9lZ2xfZ2V0X2Rpc3BsYXkgb3ZlciBlZ2xHZXREaXNwbGF5CmFyYl9zYW1wbGVfbG9jYXRpb25z
+OiBiaW5kIHBpZ2xpdF93aW5zeXNfZmJvLCBub3QgMAphcmJfdGV4dHVyZV92aWV3LWJsaXQtZnJv
+bS10ZXgtdmlldzogYmluZCBwaWdsaXRfd2luc3lzX2Zibywgbm90IDAKZmJvLXBiby1yZWFkcGl4
+ZWxzLXNtYWxsOiBkZWNvZGUgcGFja2VkIGRlcHRoL3N0ZW5jaWwgaW4gaG9zdCBieXRlIG9yZGVy
+CmZyYW1lYnVmZmVyLWJsaXQtbGV2ZWxzOiBwYWNrIGRlcHRoL3N0ZW5jaWwgdGVzdCBkYXRhIGFz
+IGhvc3QtZW5kaWFuIHdvcmRzCmFyYl9mcmFtZWJ1ZmZlcl9zcmdiLXNyZ2JfcGJvOiBkZWNvZGUg
+dGhlIHBhY2tlZCB0ZXhlbHMgaXQgcmVhZHMgYmFjawp1dGlsOiByZWFkIEtUWCBmaWxlcyB3aXRo
+IHRoZSBvcHBvc2l0ZSBieXRlIG9yZGVyCnN0cmVhbWluZy10ZXh0dXJlLWxlYWs6IHVwbG9hZCB0
+aGUgdGV4dHVyZSBmcm9tIGEgYnl0ZSBhcnJheQpwdXNoLXBvcC1jb2xvci1tYXRlcmlhbDogdXNl
+IGJ5dGUgYXJyYXlzIGZvciBnbENvbG9yNHVidigpCmNtYWtlOiBtYWtlIGluY29tcGF0aWJsZSBw
+b2ludGVyIHR5cGVzIGEgaGFyZCBlcnJvcgpnbC0xLjAvZm9nLWxpbmVhci1mbG9vcjogdXNlIGEg
+cGVyLWNvbXBvbmVudCB0b2xlcmFuY2UgYXJyYXkKLS0tCiAuLi5DTWFrZUxpc3RzLnR4dC1kby1u
+b3Qtb2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNoIHwgNCArKy0tCiAuLi4wMS10
+ZXN0cy1ub19lcnJvci5weS1tb2RpZnktX2NvbW1hbmQtYW5kLW5vdC1jb21tYW5kLnBhdGNoIHwg
+MiArLQogLi4uLzAwMDItY21ha2UtdXNlLXByb3Blci1XQVlMQU5EX0lOQ0xVREVfRElSUy12YXJp
+YWJsZS5wYXRjaCB8IDIgKy0KIC4uLnRlc3RzLXV0aWwtcGlnbGl0LXNoYWRlci5jLWRvLW5vdC1o
+YXJkY29kZS1idWlsZC1wYXQucGF0Y2ggfCAyICstCiBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGln
+bGl0L3BpZ2xpdF9naXQuYmIgICAgICAgICAgICAgICAgICAgIHwgMiArLQogNSBmaWxlcyBjaGFu
+Z2VkLCA2IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS1DTWFrZUxpc3RzLnR4dC1kby1ub3Qt
+b2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3BpZ2xpdC9waWdsaXQvMDAwMS1DTWFrZUxpc3RzLnR4dC1kby1ub3Qtb2J0YWluLXdheWxh
+bmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNoCmluZGV4IDVhZThkNGE0OTkuLjMzM2U1YTI4YzMgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtQ01ha2VM
+aXN0cy50eHQtZG8tbm90LW9idGFpbi13YXlsYW5kLXNjYW5uZXItcGF0aC1mci5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0
+LWRvLW5vdC1vYnRhaW4td2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2gKQEAgLTEsNCArMSw0
+IEBACi1Gcm9tIDFiM2QwNzQxMDQ0Yzc4MjczMWQyMmQ3ZmVkN2U5MmVmNDA5YmI5NjYgTW9uIFNl
+cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQ1YmQ3NTMyODA1N2IxOTI4NmUyMTA2NmE2OWEwNDZj
+Y2NiNmFmMmEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZp
+biA8YWxleEBsaW51dHJvbml4LmRlPgogRGF0ZTogRnJpLCAyMyBBdWcgMjAyNCAxNToyOTo0NSAr
+MDIwMAogU3ViamVjdDogW1BBVENIXSBDTWFrZUxpc3RzLnR4dDogZG8gbm90IG9idGFpbiB3YXls
+YW5kLXNjYW5uZXIgcGF0aCBmcm9tCkBAIC0xNyw3ICsxNyw3IEBAIFNpZ25lZC1vZmYtYnk6IEFs
+ZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCA1IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvQ01ha2VMaXN0cy50
+eHQgYi9DTWFrZUxpc3RzLnR4dAotaW5kZXggMWEzOGMyMWY5Li40NWMxODFlODUgMTAwNjQ0Citp
+bmRleCA5MTE1ZDNjNzkuLjkzYzZmZDQ0YyAxMDA2NDQKIC0tLSBhL0NNYWtlTGlzdHMudHh0CiAr
+KysgYi9DTWFrZUxpc3RzLnR4dAogQEAgLTIxMSwxMSArMjExLDcgQEAgaWYoUElHTElUX1VTRV9X
+QVlMQU5EKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQv
+MDAwMS10ZXN0cy1ub19lcnJvci5weS1tb2RpZnktX2NvbW1hbmQtYW5kLW5vdC1jb21tYW5kLnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0cy1ub19l
+cnJvci5weS1tb2RpZnktX2NvbW1hbmQtYW5kLW5vdC1jb21tYW5kLnBhdGNoCmluZGV4IGVlMzlk
+NmRmNWEuLjUxZjlkODlkNTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWds
+aXQvcGlnbGl0LzAwMDEtdGVzdHMtbm9fZXJyb3IucHktbW9kaWZ5LV9jb21tYW5kLWFuZC1ub3Qt
+Y29tbWFuZC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8w
+MDAxLXRlc3RzLW5vX2Vycm9yLnB5LW1vZGlmeS1fY29tbWFuZC1hbmQtbm90LWNvbW1hbmQucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGY0ZGU4MGJlNmVkOTliYmFkZTczMjgxYzBjYWM5OWJh
+YzdmNWUyZWIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGQ2NTg0YTM5Y2Y0Nzc1OTAw
+N2RmZDU4MjM1YmM0ODg4NzExMDQ5NDYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBB
+bGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPgogRGF0ZTogVGh1LCAyMiBNYXkg
+MjAyNSAxNzozNDoxNSArMDIwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0cy9ub19lcnJvci5weTog
+bW9kaWZ5IF9jb21tYW5kIGFuZCBub3QgY29tbWFuZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5D
+TFVERV9ESVJTLXZhcmlhYmxlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9w
+aWdsaXQvMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZhcmlhYmxl
+LnBhdGNoCmluZGV4IDcwMWM3MDc2YWUuLjlhMjUxODU2NTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDItY21ha2UtdXNlLXByb3Blci1XQVlMQU5E
+X0lOQ0xVREVfRElSUy12YXJpYWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+cGlnbGl0L3BpZ2xpdC8wMDAyLWNtYWtlLXVzZS1wcm9wZXItV0FZTEFORF9JTkNMVURFX0RJUlMt
+dmFyaWFibGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGUwMmU5NWE0YzMxMDNhODIyM2Rj
+ODliNmRiYWQzNzQ3ZTY0MWYyMDMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDFhNjVm
+MThjMzM2Y2ExM2ZjYmY4ZTdhMTc5Mzc1YTk0NDdhOTUyODUgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCiBGcm9tOiBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+CiBEYXRlOiBU
+aHUsIDQgT2N0IDIwMTggMTQ6NDM6MTcgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gY21ha2U6IHVz
+ZSBwcm9wZXIgV0FZTEFORF9JTkNMVURFX0RJUlMgdmFyaWFibGUKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hh
+ZGVyLmMtZG8tbm90LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8tbm90
+LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaAppbmRleCAyZjUzYWJmNDE5Li5lNDY5YTA5YTNkIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAzLXRlc3Rz
+LXV0aWwtcGlnbGl0LXNoYWRlci5jLWRvLW5vdC1oYXJkY29kZS1idWlsZC1wYXQucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMy10ZXN0cy11dGlsLXBp
+Z2xpdC1zaGFkZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoCkBAIC0xLDQgKzEs
+NCBAQAotRnJvbSBkMTA2NjNiMzRjZTg2MDZiODJiYzE1MzYzOGEyZjg5YmRhMzJkNGMwIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlYmNhMWI5NTJmODMwZGNkN2NiNTdhM2Y5MGE5Y2Ix
+Y2NkNjVhNjNlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2
+aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBUdWUsIDEwIE5vdiAyMDIwIDE3OjEz
+OjUwICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzL3V0aWwvcGlnbGl0LXNoYWRlci5jOiBk
+byBub3QgaGFyZGNvZGUgYnVpbGQgcGF0aCBpbnRvCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvcGlnbGl0L3BpZ2xpdF9naXQuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGln
+bGl0L3BpZ2xpdF9naXQuYmIKaW5kZXggY2QxYWU1ZDZkMi4uOGYwMjQ5NmI0ZiAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXRfZ2l0LmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYgpAQCAtMTQsNyArMTQsNyBAQCBT
+UkNfVVJJID0gImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9waWdsaXQuZ2l0O3By
+b3RvY29sPWh0dHBzO2JyYW5jaD1tYQogICAgICAgICAgICAiCiBVUFNUUkVBTV9DSEVDS19DT01N
+SVRTID0gIjEiCiAKLVNSQ1JFViA9ICI0OTUwYmFiZmQyY2Q0NDA4ZTRiZmQxMDNkOTM1YzZlNWNm
+ZjUzZDIwIgorU1JDUkVWID0gImY3M2MyYjU1NGU1NjVkNmVlM2ZhMmEzMzFjNjAyMzYxNDFhNzM3
+NjgiCiAjICh3aGVuIFBWIGdvZXMgYWJvdmUgMS4wIHJlbW92ZSB0aGUgdHJhaWxpbmcgcikKIFBW
+ID0gIjEuMCtnaXRyIgogCi0tIAoyLjQ3LjEKCg==
 
---===============7748832771710106702==
+--===============1819867742014853149==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="piglit-changelog.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 958 .bb files complete (0 cached, 958 parsed). 1992 targets, 43 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+egl-configless-context: check result of releasing the context
+arb_separate_shader_objects: check link status in compat-builtins test
+cl/api/enqueue-read_write-buffer: initialize host_buffer_write
+ext_image_dma_buf_import/sample_yuv: catch byte-swapped 16-bit samples
+ext_image_dma_buf_import/sample_yuv: match 4:4:4 chroma to expected colors
+ext_image_dma_buf_import: pack Y410 test data with htole32
+ext_image_dma_buf_import/sample_rgb: test more formats
+ext_image_dma_buf_import/export-tex: test more formats
+gles-3.0: add a reproducer for mesa!43541
+arb_copy_image: add rp-sync test for threaded context renderpass desync
+arb_gpu_shader_fp64: test varyings read by both XFB and the FS
+texturing: add a test for BPTC alpha compression
+ext_image_dma_buf_import: Use glFramebufferTexture2D(..)
+ext_image_dma_buf_import: Use different color in export-tex
+ext_mesh_shader: add some mesh shader tests
+ovr_multiview: fix negative base layer check in fb_blit_first_view
+arb_separate_shader_objects: check link status in 3-stages test
+README: Fix the reference to the CONTRIBUTING file
+arb_clear_texture: accept NaN initial texels in float comparison
+arb_clear_texture: fix GL_UNSIGNED_INT depth comparison on big-endian
+glsl: require GLSL 4.10 for FS underflow tests
+glsl: fix values used for floating point underflow test
+arb_texture_view-rendering-formats: handle big-endian hosts
+arb_query_buffer_object-qbo: handle 64-bit results on big-endian hosts
+arb_query_buffer_object-qbo: read 32-bit CPU results into 32-bit variables
+util: add piglit_is_big_endian()
+khr_texture_compression_astc: Drop the sRGB precision variants.
+khr_texture_compression_astc: Regenerate ldrs golden images.
+ext_transform_feedback: warns when XFB mode differs from draw mode
+glx: use piglit_egl_get_display over eglGetDisplay
+egl_khr_create_context: use piglit_egl_get_display over eglGetDisplay
+egl-configless-context: use piglit_egl_get_display over eglGetDisplay
+arb_sample_locations: bind piglit_winsys_fbo, not 0
+arb_texture_view-blit-from-tex-view: bind piglit_winsys_fbo, not 0
+fbo-pbo-readpixels-small: decode packed depth/stencil in host byte order
+framebuffer-blit-levels: pack depth/stencil test data as host-endian words
+arb_framebuffer_srgb-srgb_pbo: decode the packed texels it reads back
+util: read KTX files with the opposite byte order
+streaming-texture-leak: upload the texture from a byte array
+push-pop-color-material: use byte arrays for glColor4ubv()
+cmake: make incompatible pointer types a hard error
+gl-1.0/fog-linear-floor: use a per-component tolerance array
 
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-1620df10631579bc692ce5375f1bbcfc66f6f1b4"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:1620df10631579bc692ce5375f1bbcfc66f6f1b4"
-meta-yocto-bsp       
-meta-poky            = "master:49a2b44583968d321b3195bfd0cb2232dff13950"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 209 Local 198 Mirrors 0 Missed 11 Current 145 (94% match, 96% complete)
-done.
-Removing 1 stale sstate objects for arch qemux86_64...done.
-Removing 8 stale sstate objects for arch x86-64-v3...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 224 of 354 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 239 of 354 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.44.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 243 of 354 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_create_spdx_setscene)
-NOTE: Running task 385 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_fetch)
-NOTE: recipe gn-0+git-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe gn-0+git-r0: task do_fetch: Started
-NOTE: recipe glibc-2.44+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ninja-native-1.13.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gn-0+git-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe ninja-native-1.13.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 276 of 354 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe glibc-2.44+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 287 of 354 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ninja-native-1.13.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 308 of 354 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe ninja-native-1.13.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 343 of 354 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/re2c/re2c_4.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 345 of 354 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ninja-native-1.13.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe re2c-native-4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ninja-native-1.13.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe re2c-native-4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 347 of 354 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/re2c/re2c_4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe re2c-native-4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe re2c-native-4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 349 of 354 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.47.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 350 of 354 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.2.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 354 of 354 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.47.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe gn-0+git-r0: task do_fetch: Succeeded
-NOTE: Running task 973 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_unpack)
-NOTE: Running task 974 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gn-0+git-r0: task do_unpack: Started
-NOTE: recipe gn-0+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gn-0+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gn-0+git-r0: task do_unpack: Succeeded
-NOTE: Running task 975 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_patch)
-NOTE: recipe gn-0+git-r0: task do_patch: Started
-NOTE: recipe gn-0+git-r0: task do_patch: Succeeded
-NOTE: Running task 976 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 977 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_lic)
-NOTE: recipe gn-0+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gn-0+git-r0: task do_populate_lic: Started
-NOTE: recipe gn-0+git-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_lic unihash changed to 32e669a88727ba263a70b54286ad69cf4555b4e66cecdf2c8872bb05d50a2cf6
-NOTE: recipe gn-0+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 978 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_configure)
-NOTE: recipe gn-0+git-r0: task do_configure: Started
-NOTE: recipe gn-0+git-r0: task do_configure: Succeeded
-NOTE: Running task 979 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_compile)
-NOTE: recipe gn-0+git-r0: task do_compile: Started
-NOTE: recipe gn-0+git-r0: task do_compile: Succeeded
-NOTE: Running task 980 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_install)
-NOTE: recipe gn-0+git-r0: task do_install: Started
-NOTE: recipe gn-0+git-r0: task do_install: Succeeded
-NOTE: Running task 981 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_package)
-NOTE: Running task 982 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_sysroot)
-NOTE: recipe gn-0+git-r0: task do_populate_sysroot: Started
-NOTE: recipe gn-0+git-r0: task do_package: Started
-NOTE: recipe gn-0+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_populate_sysroot unihash changed to 576576634539b0ff0d2ed748599481f5ea3dd753e7812753d7f953cc73fbc7a2
-NOTE: Setscene tasks completed
-NOTE: recipe gn-0+git-r0: task do_package: Succeeded
-NOTE: Running task 983 of 990 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata)
-NOTE: recipe gn-0+git-r0: task do_packagedata: Started
-NOTE: recipe gn-0+git-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 983 tasks of which 971 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261013054235.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261013054235.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gn/0+git/temp/log.do_packagedata.2059184
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-src went backwards which would break package feeds (from 0:0+git0+cfcd774b98-r0 to 0:0+git0+0817afa577-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-dbg went backwards which would break package feeds (from 0:0+git0+cfcd774b98-r0 to 0:0+git0+0817afa577-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-staticdev went backwards which would break package feeds (from 0:0+git0+cfcd774b98-r0 to 0:0+git0+0817afa577-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-dev went backwards which would break package feeds (from 0:0+git0+cfcd774b98-r0 to 0:0+git0+0817afa577-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-doc went backwards which would break package feeds (from 0:0+git0+cfcd774b98-r0 to 0:0+git0+0817afa577-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn-locale went backwards which would break package feeds (from 0:0+git0+cfcd774b98-r0 to 0:0+git0+0817afa577-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: QA Issue: Package version for package gn went backwards which would break package feeds (from 0:0+git0+cfcd774b98-r0 to 0:0+git0+0817afa577-r0) [version-going-backwards]
-ERROR: gn-0+git-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/gn/0+git/temp/log.do_packagedata.2059184
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gn/gn_git.bb:do_packagedata) failed with exit code '1'
-
---===============7748832771710106702==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="gn-changelog.txt"
-
-Make StringAtom use pointer equality and hashing
-Fix "Ouput" typos
-Add no_check_generated_targets .gn variable
-Improve the suggestion heuristic for depending on targets.
-Do not generate last_commit_position.h in debug builds.
-Enable check_includes_strict by default.
-Disable rust formatter on main branch.
-Add include sorting configuration to .clang-format and reformat
-Delayed generated_file() writes if they collect validations metadata
-Stop forwarding private hard_deps on check_includes_strict targets
-Add `collect_validations_metadata` boolean flag to generated_file() targets.
-Add new experimental_collect_validations_metadata .gn variable
-Move generated_file() writes to dedicated function.
-Avoid canonicalization + string comparisons during metadata collection.
-Use internal state struct for Target::GetMetadata().
-Fix minor Scheduler data races.
-rust: Don't make rlibs depend on non-Rust link inputs
-gn edit: keep build files alive for warnings
-Add instructions for agent to build GN and run code / tests
-Write phony rules for harddeps
-Support conditional sources for gn check.
-Don't write order-only deps reachable through direct deps
-When suggestions have a known includer target, don't complain that they don't
-resolve to a single target.
-rust_project_writer: Support aliased_deps in rust-project.json
-Header check: validate includes before building diagnostics
-Header check: defer unrestricted dependency walks
-Header check: batch reachability and file checking tasks
-Header check: select files from the existing file map
-Add an allowlist for allow_circular_includes_from.
-[gn] Use std::unordered_map for waiting_map_
-[gn] Shard StringAtomSet to avoid lock contention
-[gn] Use DCHECK in Target::info()
-[gn] Make ResolvedTargetData stateless
-[recipe] Enable THP for jemalloc build in GN recipe
-
---===============7748832771710106702==
+--===============1819867742014853149==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGSIZE changed from 114538736 to 115707152 (+1%)
-packages/x86-64-v3-poky-linux/gn/gn-dev: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-dev: RRECOMMENDS: removed "gn (['= 0+git0+cfcd774b98-r0'])", added "gn (['= 0+git0+0817afa577-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-doc: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-locale: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGSIZE changed from 3380363 to 3422257 (+1%)
-packages/x86-64-v3-poky-linux/gn/gn-src: FILELIST: added "/usr/src/debug/gn/0+git/src/gn/generated_file_writer.h /usr/src/debug/gn/0+git/src/gn/generated_file_writer.cc"
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: RDEPENDS: removed "gn-dev (['= 0+git0+cfcd774b98-r0'])", added "gn-dev (['= 0+git0+0817afa577-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn: PKGSIZE changed from 4358376 to 4362472 (+0%)
+packages/x86-64-v3-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-doc: PKGSIZE changed from 22454 to 22467 (+0%)
+packages/x86-64-v3-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit: FILELIST: removed "/usr/lib/piglit/tests/spec/glsl-1.20/execution/fs-underflow-mul-compare-zero.shader_test /usr/lib/piglit/tests/spec/glsl-1.20/execution/fs-underflow-pow-compare-zero.shader_test /usr/lib/piglit/tests/spec/glsl-1.20/execution/fs-underflow-exp2-compare-zero.shader_test", added "/usr/lib/piglit/bin/bptc-compress-alpha /usr/lib/piglit/bin/arb_copy_image-rp-sync /usr/lib/piglit/tests/spec/khr_texture_compression_astc/generate-decompressed.py /usr/lib/piglit/tests/spec/glsl-4.10/execution/fs-underflow-exp2-compare-zero.shader_test /usr/lib/piglit/tests/spec/glsl-4.10/execution/fs-underflow-mul-compare-zero.shader_test /usr/lib/piglit/bin/ext_mesh_shader-ubo-invalidate-between-draws /usr/lib/piglit/tests/spec/glsl-4.10/execution/fs-underflow-pow-compare-zero.shader_test /usr/lib/piglit/bin/gles-3.0-subdata-after-orphan /usr/lib/piglit/bin/ext_mesh_shader-ssbo-rebind-between-draws /usr/lib/piglit/bin/ext_mesh_shader-ubo-rebind-b
+ etween-draws /usr/lib/piglit/bin/arb_gpu_shader_fp64-tf-fs-varyings"
+packages/x86-64-v3-poky-linux/piglit/piglit: PKGSIZE changed from 2060269340 to 2060394300 (+0%)
 
---===============7748832771710106702==
+--===============1819867742014853149==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/gn/gn-dbg: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-dev: RRECOMMENDS: removed "gn (['= 0+git0+cfcd774b98-r0'])", added "gn (['= 0+git0+0817afa577-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-dev: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-doc: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-locale: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-src: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: RDEPENDS: removed "gn-dev (['= 0+git0+cfcd774b98-r0'])", added "gn-dev (['= 0+git0+0817afa577-r0'])"
-packages/x86-64-v3-poky-linux/gn/gn-staticdev: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
-packages/x86-64-v3-poky-linux/gn/gn: PKGV changed from 0+git0+cfcd774b98 to 0+git0+0817afa577
+packages/x86-64-v3-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+4950babfd2 to 1.0+gitr0+f73c2b554e
+packages/x86-64-v3-poky-linux/piglit/piglit: FILELIST: removed "/usr/lib/piglit/tests/spec/glsl-1.20/execution/fs-underflow-exp2-compare-zero.shader_test /usr/lib/piglit/tests/spec/glsl-1.20/execution/fs-underflow-mul-compare-zero.shader_test /usr/lib/piglit/tests/spec/glsl-1.20/execution/fs-underflow-pow-compare-zero.shader_test", added "/usr/lib/piglit/tests/spec/khr_texture_compression_astc/generate-decompressed.py /usr/lib/piglit/bin/arb_copy_image-rp-sync /usr/lib/piglit/bin/ext_mesh_shader-ssbo-rebind-between-draws /usr/lib/piglit/bin/ext_mesh_shader-ubo-invalidate-between-draws /usr/lib/piglit/bin/bptc-compress-alpha /usr/lib/piglit/bin/ext_mesh_shader-ubo-rebind-between-draws /usr/lib/piglit/tests/spec/glsl-4.10/execution/fs-underflow-mul-compare-zero.shader_test /usr/lib/piglit/tests/spec/glsl-4.10/execution/fs-underflow-pow-compare-zero.shader_test /usr/lib/piglit/bin/arb_gpu_shader_fp64-tf-fs-varyings /usr/lib/piglit/bin/gles-3.0-subdata-after-orphan /usr/lib/piglit/tests/
+ spec/glsl-4.10/execution/fs-underflow-exp2-compare-zero.shader_test"
 
---===============7748832771710106702==--
+--===============1819867742014853149==--
 
