@@ -2,66 +2,66 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAB31CC6B03
-	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 10:49:59 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4062.1791888595851966565
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0641ACC6B03
+	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 10:50:10 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4140.1791888600789002320
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2026 03:49:56 -0700
+ Tue, 13 Oct 2026 03:50:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=q6zRAd3D;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a16c1608faso36366925e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 03:49:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=R9pE0PPL;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49ff680331aso23270945e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 03:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791888594; x=1792493394; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1791888599; x=1792493399; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PQaPQGXMJ68Ym6L+LX3oDVCci+yREZ8PSjEVnbCV5I8=;
-        b=q6zRAd3DlLIy/x5Bu9qHKbNAZibMmLEeCFk0dkZCudo2qTvLrwKVQ8fEM9DijeO4Q0
-         J12MwabE23ovsi3uwfFsY9m8PktKr0nSA0aN4zILdxOhDlG698NeE5hJPcfhEMEumdPx
-         hHma943auOC+tPv/lxgU6mUXxdqspmxYyZyqhSVuDJi1d4WC7huTYFFtymbExmbp5drf
-         7Or6qvW4+V5wj3T5gnTooFKFNrruVMYb/NIC89VPWmKC+S2q9j46m7B0fmJ/sTZkR1yj
-         xCMXfxgvutYjuM3jBMSSGbQsuM1kBiJ2dySui8bXU0y4nCYebnFHIpz05YYndhI6KZmt
-         4mRA==
+        bh=L/j9iag7SFmf3Hfse0BIQHy0RfFliFSLuChwKvU/+NM=;
+        b=R9pE0PPLU3pmwE+tlaIhondUnv6BI77Sl+H6hPbeseq/CJ+2zsQF4QwZOxwlROX9Wh
+         E93xL7sFVpsTw68jbjQrkOyBU2o+4dt0uMLAeenN1RzzPPJmoZhBXmew1xnOnSHBTmf0
+         yrozC74hSC/EWXxyRcLsv734UG/7Vyzh7C7bWyQlO5uT/R6o2t1w1Ht2uV745Ccsdi4C
+         biv1mn5u7HDSmGG1kyCqfdqToQ398Xa5LiV4j66HXbQxIBXhJYApBZ7UOo2gSA3UpuKP
+         1PgJRi8XKC5/H5ZoU2ZoE01FvbXkXnitJnZi8fo+G/NXYaJNSFTd/S+r+WxXHsKqvf7D
+         84JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791888594; x=1792493394;
+        d=1e100.net; s=20260707; t=1791888599; x=1792493399;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PQaPQGXMJ68Ym6L+LX3oDVCci+yREZ8PSjEVnbCV5I8=;
-        b=PqZiLOrogAkG1Drl3k26a6H4r4n3C2CguKisSStWjrD0FalVNHfIKDg9FeAzyPSo/v
-         Oa71baAP4yk5Ox4qalYhc86Mnw3zA5h82QIKD7/gF1+8sIunSWBFMBNaiUBOHsPOth4H
-         BxTMAnQZhjV+ZjClYY/El9ZlUrk5sovQIFAoVUABORoP4GoPA6tE5bi7TV53wiJnRllw
-         4RKx0oJBB17dz0YUpUClYw7veyBU1qq4SfltpvewkA5aMbfNQ8/Gn29MiSozMqc5lPLB
-         apbH6rseGA7KfGDp/p/tae9UpyWSc4sGrWZCTtF3Yu9mgFDebDQoaZ0zlgjZ54zDr+Q9
-         iukg==
-X-Gm-Message-State: AFq9FYLCK4KAZkXHmeABPeoJFQjuCrP+rMdS8WYNBMH3ryhNrCX2hsAS
-	pVEWfOCG60nuf7DQjNi2sUnW80lRIbdvuPoadsFd6ca6yZYFz3+pmgQoNz0urQ==
-X-Gm-Gg: AYBFou3RKH90N8A7hXGEocH/hlK4ekmGKWcCyWN1BWPlfSo0nvlHuRmHYwuZanxxZkr
-	GvtnuFSJ6cJErYxYvKYOJlfHfm2ucGg79k2qlQOznyQcQjdh5NQLrJ2Hw1jn22rLhkBsr+D01ks
-	n7kE1esSYurcRGtDr825sbPy6pfK5GJvL/+Fp3EF7Fyn+Zs2E01QOCB+V+DOgLQMBMdglvFaE6A
-	CdxZZJIHzNLAP7e+MaVduFqzvWMDXJuvyPDbHZ5IE5RGlLhYyscujKTtrlco0+B9JS5Ne0wheJ+
-	7hZAifRNgNpP6Y4N8t05FEYt63M+PcpPTcIALLa99kfb6/GASrw2KawSt86kHZv0ZeaM2IRcTbj
-	5EXM2W10K8YiWa9T0FmxERHeDc8G4cs8ofYARHW5jLzV1GD5HFYMInnA04ASPhUfwa9OBJQRwGQ
-	Bj+B253fn/zygEmAnUA4Qs0JcbQrIuJe41CazIi9ly0vY5o2Q7uFKDMLfw1TG+eYdxZMy7UZkQi
-	jeVOhe1TGBGdzyOfWhLdxA3jDw592VdVaw39/UQpFhIw6MTDw==
-X-Received: by 2002:a05:600c:4e92:b0:49e:63cc:6324 with SMTP id 5b1f17b1804b1-4a18e4837e7mr237221165e9.6.1791888594054;
-        Tue, 13 Oct 2026 03:49:54 -0700 (PDT)
+        bh=L/j9iag7SFmf3Hfse0BIQHy0RfFliFSLuChwKvU/+NM=;
+        b=DQsBXd4TXpZWe4bHrDgf0musqeLyUXLJ7XJ1FBjbn61EAYOscnBgb4jYEzqedBWcCP
+         2RF20/KY6vusvPpkOAipMZbjglJPahPPSAtauPi1c5TvHe7Ax7xEh81E7mTE6nLPs5Xm
+         5GWJqlmXq3v6lpZWjibZr4LSUxd1dRb4dELNorlBoGOdzhpnVbbN31wnwLCeueSAzVit
+         52FpXqSCCww1M/xukWoRK3RwzwrG6z291ab789IiJSNXHekt2/4GCgZbHpnTatuL+Oqe
+         LmjKxMyI9jO0gedT1jwHP5SE+NtekDSAwGkeNBdDj0PXg/dWEdjEv8LtZVsg2SUih5iY
+         fFbg==
+X-Gm-Message-State: AFq9FYKyxQSazr0ZJgyaud2/LgWKTZ7kNvROfOx/oWDFlwekwX+WLEz8
+	rGEHL9n6laMI5QEeS8Dk6MCaJWJ6Er2BpNgGeZXbp+bO+LfXyopiyLge1zuw3g==
+X-Gm-Gg: AYBFou1OTcmaaC8TH5xZePBVzQbkxloG3YKV4+HaSPXeI17C0SsmNytSzZzlNmxD9//
+	gACQzhN4xaDa2SprgfyjCc8r6zF7Jg8rDhzR+US7YXhRCwVZTqI/2g55R1s2KNlIEwdYQyYhAq3
+	P/HP+Ye2dPRs2QThMFIPU5+vHUQAJUzADxU/Eyez+BOjy074xDIWSExX7FvotusEpeCpHtBa/ix
+	z94duUVVpguQtj1pOWRAo5JvbTzJZDSFtAboN92eVrbnaXSyskcelspSEAhagRXQBAPLFG831fT
+	vuA3RpEJe521mNob1T+8eQiMmNLcMH/jeOr5u+qi2wSJpJJD/Rg9bkoXePZ2jh2NDqMiw3ySOQq
+	5ANoNiUdkyF+oHnq9zWPepz7HEOhI3X1nOUx27/Ej1jqTSGbBq9DOxSaHHIBETVyN8mWM0sYXs4
+	I7hf3xAEYUG86y333XlHpUat150aW+hM9x+b4S+fm5fGAQfMboRJ6+TsliaQA2LwREt83VP0bx8
+	BB1BsVHGnqb2K99Rg63NluD8YBPcRW2Wlcy44aOJpuDw9Hvxw==
+X-Received: by 2002:a05:600c:46d1:b0:4a1:7d56:663b with SMTP id 5b1f17b1804b1-4a18e4a7844mr256455185e9.24.1791888598864;
+        Tue, 13 Oct 2026 03:49:58 -0700 (PDT)
 Received: from [192.168.5.15] (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19303d4a9sm31623155e9.2.2026.10.13.03.49.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19303d4a9sm31623155e9.2.2026.10.13.03.49.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 03:49:51 -0700 (PDT)
+        Tue, 13 Oct 2026 03:49:55 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 13 Oct 2026 11:49:36 +0100
-Subject: [PATCH 2/4] update_font_cache: write caches that are valid in the
- final image
+Date: Tue, 13 Oct 2026 11:49:38 +0100
+Subject: [PATCH 4/4] oeqa/selftest: check the font caches an image ships
+ are used
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261013-fontcache-reproducible-mtime-v1-2-950f07b80f0f@gmail.com>
+Message-Id: <20261013-fontcache-reproducible-mtime-v1-4-950f07b80f0f@gmail.com>
 References: <20261013-fontcache-reproducible-mtime-v1-0-950f07b80f0f@gmail.com>
 In-Reply-To: <20261013-fontcache-reproducible-mtime-v1-0-950f07b80f0f@gmail.com>
 To: openembedded-core@lists.openembedded.org
@@ -70,66 +70,67 @@ X-Mailer: b4 0.16.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 10:49:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247718
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 10:50:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247720
 
-fontconfig accepts a directory's cache only while the mtime recorded in
-it matches the directory, and fc-cache records the mtime clamped to
-SOURCE_DATE_EPOCH. The intercept runs with the image's
-SOURCE_DATE_EPOCH, against font directories that still carry their
-packages' mtimes, and reproducible_final_image_task later sets every
-mtime in the image to REPRODUCIBLE_TIMESTAMP_ROOTFS. The recorded and
-final mtimes never match, so on the target every cache the image ships
-is rejected and each process using fontconfig rescans the fonts and
-writes a cache of its own.
-
-When REPRODUCIBLE_TIMESTAMP_ROOTFS is set, set the mtime of every
-directory under ${datadir}/fonts to it before running fc-cache, and run
-fc-cache with it as SOURCE_DATE_EPOCH, so the caches record the mtimes
-the image ships with.
+Boot an image carrying a font and have fontconfig report the caches it
+checks: every one must match its directory, and nothing may be written,
+neither to the system cache nor to a per-user one.
 
 AI-Generated: Claude Opus 5.5 (Claude Code)
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/classes-recipe/fontcache.bbclass         |  1 +
- scripts/postinst-intercepts/update_font_cache | 12 +++++++++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/fontcache.py | 42 +++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/meta/classes-recipe/fontcache.bbclass b/meta/classes-recipe/fontcache.bbclass
-index deadcd2fbbeb..37ff7d7cbc7e 100644
---- a/meta/classes-recipe/fontcache.bbclass
-+++ b/meta/classes-recipe/fontcache.bbclass
-@@ -28,6 +28,7 @@ if [ -n "$D" ] ; then
- 		'libdir="${libdir}"' \
- 		'libexecdir="${libexecdir}"' \
- 		'base_libdir="${base_libdir}"' \
-+		'datadir="${datadir}"' \
- 		'fontconfigcachedir="${FONTCONFIG_CACHE_DIR}"' \
- 		'fontconfigcacheparams="${FONTCONFIG_CACHE_PARAMS}"' \
- 		'fontconfigcacheenv="${FONTCONFIG_CACHE_ENV}"'
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index 900db042d64e..5098b2890cc8 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -7,7 +7,17 @@ set -e
- 
- rm -f $D${fontconfigcachedir}/CACHEDIR.TAG
- 
--PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv} $D${libexecdir}/${binprefix}fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
-+# fontconfig only uses a cache while the mtime it recorded for a font
-+# directory, clamped to SOURCE_DATE_EPOCH, matches the directory. Every
-+# mtime in the image is set to REPRODUCIBLE_TIMESTAMP_ROOTFS later, so set
-+# the font directories' mtimes to it now and have fc-cache record that.
-+sde=
-+if [ -n "$REPRODUCIBLE_TIMESTAMP_ROOTFS" ] && [ -d $D${datadir}/fonts ]; then
-+	find $D${datadir}/fonts -type d -exec touch -h --date=@$REPRODUCIBLE_TIMESTAMP_ROOTFS '{}' +
-+	sde="-E SOURCE_DATE_EPOCH=$REPRODUCIBLE_TIMESTAMP_ROOTFS"
-+fi
+diff --git a/meta/lib/oeqa/selftest/cases/fontcache.py b/meta/lib/oeqa/selftest/cases/fontcache.py
+new file mode 100644
+index 000000000000..df88a229aab2
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/fontcache.py
+@@ -0,0 +1,42 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
 +
-+PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv} $sde $D${libexecdir}/${binprefix}fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
- 
- chown -R root:root $D${fontconfigcachedir}
- find $D -type f -name .uuid -exec chown root:root '{}' +
++import re
++
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.core.decorator import OETestTag
++from oeqa.utils.commands import bitbake, runqemu
++
++class FontCache(OESelftestTestCase):
++
++    @OETestTag("runqemu")
++    def test_image_font_cache_is_valid(self):
++        """
++        Summary:  Check the fontconfig caches built into an image are used
++        Expected: fontconfig accepts the cache of every font directory and
++                  writes no cache of its own, system or per-user
++        Product:  oe-core
++        """
++        features = 'EXTRA_IMAGE_FEATURES = "empty-root-password allow-empty-password allow-root-login"\n'
++        features += 'IMAGE_INSTALL:append = " ttf-bitstream-vera"\n'
++        self.write_config(features)
++        bitbake('core-image-minimal')
++
++        with runqemu('core-image-minimal') as qemu:
++            # FC_DEBUG=16 reports each cache fontconfig checks and each one it
++            # writes. An empty HOME catches a per-user cache, which fontconfig
++            # writes whenever it cannot use the system one.
++            status, output = qemu.run_serial(
++                'H=$(mktemp -d); HOME=$H XDG_CACHE_HOME=$H FC_DEBUG=16 fc-match sans-serif; echo "user cache: [$(ls -A $H)]"')
++            self.assertEqual(status, 1, msg=output)
++
++            checks = re.findall(r'FcCacheTimeValid dir "([^"]+)" cache checksum (\d+) dir checksum (\d+)', output)
++            self.assertTrue(checks, msg="fontconfig checked no cache:\n" + output)
++            for directory, cache, mtime in checks:
++                self.assertEqual(cache, mtime, msg="%s: the cache records mtime %s, the directory has %s\n%s" % (directory, cache, mtime, output))
++
++            self.assertNotIn('FcDirCacheWriteDir', output, msg="fontconfig rewrote a cache:\n" + output)
++            self.assertIn('user cache: []', output, msg="fontconfig wrote a per-user cache:\n" + output)
 
 -- 
 2.43.0
