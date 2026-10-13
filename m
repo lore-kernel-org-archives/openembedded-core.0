@@ -1,138 +1,157 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0641ACC6B03
-	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 10:50:10 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4140.1791888600789002320
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A6B0CA9ED2
+	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 10:54:40 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4129.1791888870128827672
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2026 03:50:01 -0700
+ Tue, 13 Oct 2026 03:54:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=R9pE0PPL;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49ff680331aso23270945e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 03:50:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=KcxbAv21;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-917997ab0d9so36793536d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 03:54:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791888869; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hwn0IIyWl3SR8Nx7N9lu95pFyWho4yQIgNazOjk4QDOEoV18LzSAtotl+ufd24xwUJ
+         UaBh/4XPBDWxahx8iyFN9Fud2UBPsnBqnnMBlQ86cgh6IhUuKdaoZJ3k1YAB8d5sJ46D
+         /YYY5T8Obx20wfl5Lb7XMv8jhfxqdXE2mfr1qojN1RX0UqUmgjU0YFspdMimcax+CloE
+         wDdQXmnXhyfaEn5uTp57LL0JTpgS/TBRjb+WwZROTXwJCEz/H1SDIkp1aKyd41G7SzCn
+         ZBdvDWTq/5ZXVwhxd93QAwBnm/QM07CxQvwy75xC+n0+ayiC7xjQiC3L8r2DJgRlJPMg
+         RaqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=uHE08S/aGbpxSi3mMtoFHIJ5l4wTKqWA2qTeYJYzIBQ=;
+        fh=PmRlrUr4fPzdrmqYL26YQhih7ON+5j/GRPlovzxMdkU=;
+        b=EqwX53vQlZ2ykXdP2B9o0Ep9m3lh2VAzcE3vcQoEnhJ0Cz2X71IdMyiPOJ1ZIuYOTC
+         hHtP005DatSyU7Bd4cQpek3HgnmbTqx88UVKUjVBI4FUJDMaTnLMefuR4/Of3ral8HZU
+         qZv80rq8p944X5zRBB2zqhgYn32Pv0y2ioIVq9JsM8resI8CfPu5Kk/qFuJmbfKtuncD
+         EUW6hfg0rTajJ7aQBr7bd3qJqqftCWF0Kb0+zWW+MVNPjh0M9E4I7/vuFUB0DwEJ7zjp
+         0dwdPLRF/bRXCLSJAG7Y/vuqw7LyaX2daONb7wTv1TkmDEjew05j2Wv3SAbUbwIkKxn/
+         UuRA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791888599; x=1792493399; darn=lists.openembedded.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=L/j9iag7SFmf3Hfse0BIQHy0RfFliFSLuChwKvU/+NM=;
-        b=R9pE0PPLU3pmwE+tlaIhondUnv6BI77Sl+H6hPbeseq/CJ+2zsQF4QwZOxwlROX9Wh
-         E93xL7sFVpsTw68jbjQrkOyBU2o+4dt0uMLAeenN1RzzPPJmoZhBXmew1xnOnSHBTmf0
-         yrozC74hSC/EWXxyRcLsv734UG/7Vyzh7C7bWyQlO5uT/R6o2t1w1Ht2uV745Ccsdi4C
-         biv1mn5u7HDSmGG1kyCqfdqToQ398Xa5LiV4j66HXbQxIBXhJYApBZ7UOo2gSA3UpuKP
-         1PgJRi8XKC5/H5ZoU2ZoE01FvbXkXnitJnZi8fo+G/NXYaJNSFTd/S+r+WxXHsKqvf7D
-         84JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791888599; x=1792493399;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791888869; x=1792493669; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=L/j9iag7SFmf3Hfse0BIQHy0RfFliFSLuChwKvU/+NM=;
-        b=DQsBXd4TXpZWe4bHrDgf0musqeLyUXLJ7XJ1FBjbn61EAYOscnBgb4jYEzqedBWcCP
-         2RF20/KY6vusvPpkOAipMZbjglJPahPPSAtauPi1c5TvHe7Ax7xEh81E7mTE6nLPs5Xm
-         5GWJqlmXq3v6lpZWjibZr4LSUxd1dRb4dELNorlBoGOdzhpnVbbN31wnwLCeueSAzVit
-         52FpXqSCCww1M/xukWoRK3RwzwrG6z291ab789IiJSNXHekt2/4GCgZbHpnTatuL+Oqe
-         LmjKxMyI9jO0gedT1jwHP5SE+NtekDSAwGkeNBdDj0PXg/dWEdjEv8LtZVsg2SUih5iY
-         fFbg==
-X-Gm-Message-State: AFq9FYKyxQSazr0ZJgyaud2/LgWKTZ7kNvROfOx/oWDFlwekwX+WLEz8
-	rGEHL9n6laMI5QEeS8Dk6MCaJWJ6Er2BpNgGeZXbp+bO+LfXyopiyLge1zuw3g==
-X-Gm-Gg: AYBFou1OTcmaaC8TH5xZePBVzQbkxloG3YKV4+HaSPXeI17C0SsmNytSzZzlNmxD9//
-	gACQzhN4xaDa2SprgfyjCc8r6zF7Jg8rDhzR+US7YXhRCwVZTqI/2g55R1s2KNlIEwdYQyYhAq3
-	P/HP+Ye2dPRs2QThMFIPU5+vHUQAJUzADxU/Eyez+BOjy074xDIWSExX7FvotusEpeCpHtBa/ix
-	z94duUVVpguQtj1pOWRAo5JvbTzJZDSFtAboN92eVrbnaXSyskcelspSEAhagRXQBAPLFG831fT
-	vuA3RpEJe521mNob1T+8eQiMmNLcMH/jeOr5u+qi2wSJpJJD/Rg9bkoXePZ2jh2NDqMiw3ySOQq
-	5ANoNiUdkyF+oHnq9zWPepz7HEOhI3X1nOUx27/Ej1jqTSGbBq9DOxSaHHIBETVyN8mWM0sYXs4
-	I7hf3xAEYUG86y333XlHpUat150aW+hM9x+b4S+fm5fGAQfMboRJ6+TsliaQA2LwREt83VP0bx8
-	BB1BsVHGnqb2K99Rg63NluD8YBPcRW2Wlcy44aOJpuDw9Hvxw==
-X-Received: by 2002:a05:600c:46d1:b0:4a1:7d56:663b with SMTP id 5b1f17b1804b1-4a18e4a7844mr256455185e9.24.1791888598864;
-        Tue, 13 Oct 2026 03:49:58 -0700 (PDT)
-Received: from [192.168.5.15] (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19303d4a9sm31623155e9.2.2026.10.13.03.49.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 03:49:55 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 13 Oct 2026 11:49:38 +0100
-Subject: [PATCH 4/4] oeqa/selftest: check the font caches an image ships
- are used
+        bh=uHE08S/aGbpxSi3mMtoFHIJ5l4wTKqWA2qTeYJYzIBQ=;
+        b=KcxbAv21NiOt1aJ44kwsVQn9UD7Gf6C2wMab287PMQucoprjjpWg8+bK25EqMG7CyN
+         5m6l4GqcGS5W9VDN6iZXKCz39mz0mxZvtzdQMH2SFXGtO6dcipTb28mx14oVJnM/M598
+         X02HM9nBxHTGLvuFiyIZXCp31VvF/XBeLIOmPvTjIw4vMg4wqaSVW5fG5PTTyJ43VDyS
+         LaDzH/PR70b2w9M0KuKgLuobx4ZznnwDuaTFaUmBCPib1QJQyK/c/QlnER5wLLYv1mhT
+         m5gruviwcKByxErbdhiQ1wSSGYOutp2fe2rwIzxxYlK08KKj8AMnKi6WAgo78a6/FbY5
+         HtXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791888869; x=1792493669;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=uHE08S/aGbpxSi3mMtoFHIJ5l4wTKqWA2qTeYJYzIBQ=;
+        b=yPACl5ujuxrcUl+0njD4vg1eLhapieq8gJYjt2UMIr9Rn09ffus+P9g5JII1DL73ki
+         a++dYsOwsaYgHyKOfqmU6eQteLKXNtWgpW1WHrSfTbeb9dv3oaglVnL9PqXt8Ootuum5
+         SWj3eNjVPkXFqg3gfPb6v8wzKlebI3YiTEDlRn7GZfpZBkBqVBBxRcPvnKeLH716RavI
+         PTGpDtxb3k4h9JUJUWDR11yEXBDh69sq+JmoYZrQF8xI3iqpzHDo42WF+o9+LsTwC9lL
+         wcts8dDdAp/SCuMjQbVqXhShzEQ7L8x8GShjmrlOQtnw3zN16EBm3jLxhbHXwJUveYGh
+         Tb3Q==
+X-Gm-Message-State: AFq9FYIZ5Pi1kxNocYMUqUwQmYIta6DmEjjLDtdiFOzOFZ65an5h1tDA
+	ZzkTPoY4b24xAG++KYlAcZ3Pe290D3cMXxNxpQH+RiLkI0TCzcqoxyB/BEidZZf+3nyp9fD9TGs
+	bfi9IfEasHNuqPBOr6sRc0SmMinYSiHY=
+X-Gm-Gg: AYBFou17BNfSAnIvE2zVH9pmr+KtKT8Zed4VoJlvhysuZyjiFvyv/xYlO1S4jalMwcG
+	vCSlv2e2fnylY2VBN0WOf7kuDbmEG4lCoEFIbPF+uPJScYWfdibAcUEPC/QRsVEVCUsBWAeHfgQ
+	3c4yKfIukQifriI0qN9Pi6VLOgFYUd8J8vvdJMjlJgYQmhrEkN9wSjPmuFz57enP/PLz+rl8A/b
+	9lELr9VNhXnWTDjMw0yd8TPD8Oy+HNO5am0EeWRpbm/LaVD2FmF9T51JUHai5ogKfU0/eyTgCm0
+	cJdVv3gfSATF5ltmaAlOWoq3G0EaEoSzYsZeWFuECw2ogYqVAa1QUlhlP3QN31huD6CmeiKdJ8m
+	fMcVJM8yF/y5Vnw==
+X-Received: by 2002:a05:6214:410a:b0:917:c904:4ae7 with SMTP id
+ 6a1803df08f44-91b5555df66mr232086996d6.42.1791888868809; Tue, 13 Oct 2026
+ 03:54:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261013-fontcache-reproducible-mtime-v1-4-950f07b80f0f@gmail.com>
-References: <20261013-fontcache-reproducible-mtime-v1-0-950f07b80f0f@gmail.com>
-In-Reply-To: <20261013-fontcache-reproducible-mtime-v1-0-950f07b80f0f@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-X-Mailer: b4 0.16.0
+References: <20261010113029.2347847-1-ecordonnier@snap.com>
+ <CANNYZj9kcJ+_Q8gEtmLYqKjwLsHogY1o4b8MeZQf6jTgDp3gtg@mail.gmail.com>
+ <CAHUKmYZOUvohA9psyEiJ251a9mCnTteUDkdAVU1LEAAFC_PdZw@mail.gmail.com>
+ <CANNYZj9y8xONSSQAAjov-5QSeTEkjD_iahpu-bUpn5kzGnbOQQ@mail.gmail.com> <CAHUKmYbEwbbsx+DeAvw+wf9AggQws0G4nGbjWe=Wp4ESxe5kaA@mail.gmail.com>
+In-Reply-To: <CAHUKmYbEwbbsx+DeAvw+wf9AggQws0G4nGbjWe=Wp4ESxe5kaA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 13 Oct 2026 12:54:17 +0200
+X-Gm-Features: AclHuK9OIKgUCkt9jU6YcvYHf_dXlfQ5UChRksKKrwyuQsT9XCnBJPlxAdTS63E
+Message-ID: <CANNYZj-=7nx_DOHVxCvX6DSdgvK4K12-8RT+YR8H3KSrdb291Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uutils-coreutils: move from meta-openembedded
+To: Etienne Cordonnier <ecordonnier@snap.com>
+Cc: openembedded-core@lists.openembedded.org, Paul Barker <paul@pbarker.dev>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, collin.funk1@gmail.com
+Content-Type: multipart/alternative; boundary="00000000000080a50b065db6a37f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 10:50:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247720
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 10:54:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247721
 
-Boot an image carrying a font and have fontconfig report the caches it
-checks: every one must match its directory, and nothing may be written,
-neither to the system cache nor to a per-user one.
+--00000000000080a50b065db6a37f
+Content-Type: text/plain; charset="UTF-8"
 
-AI-Generated: Claude Opus 5.5 (Claude Code)
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
- meta/lib/oeqa/selftest/cases/fontcache.py | 42 +++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+On Tue, 13 Oct 2026 at 12:02, Etienne Cordonnier <ecordonnier@snap.com>
+wrote:
 
-diff --git a/meta/lib/oeqa/selftest/cases/fontcache.py b/meta/lib/oeqa/selftest/cases/fontcache.py
-new file mode 100644
-index 000000000000..df88a229aab2
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/fontcache.py
-@@ -0,0 +1,42 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import re
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.core.decorator import OETestTag
-+from oeqa.utils.commands import bitbake, runqemu
-+
-+class FontCache(OESelftestTestCase):
-+
-+    @OETestTag("runqemu")
-+    def test_image_font_cache_is_valid(self):
-+        """
-+        Summary:  Check the fontconfig caches built into an image are used
-+        Expected: fontconfig accepts the cache of every font directory and
-+                  writes no cache of its own, system or per-user
-+        Product:  oe-core
-+        """
-+        features = 'EXTRA_IMAGE_FEATURES = "empty-root-password allow-empty-password allow-root-login"\n'
-+        features += 'IMAGE_INSTALL:append = " ttf-bitstream-vera"\n'
-+        self.write_config(features)
-+        bitbake('core-image-minimal')
-+
-+        with runqemu('core-image-minimal') as qemu:
-+            # FC_DEBUG=16 reports each cache fontconfig checks and each one it
-+            # writes. An empty HOME catches a per-user cache, which fontconfig
-+            # writes whenever it cannot use the system one.
-+            status, output = qemu.run_serial(
-+                'H=$(mktemp -d); HOME=$H XDG_CACHE_HOME=$H FC_DEBUG=16 fc-match sans-serif; echo "user cache: [$(ls -A $H)]"')
-+            self.assertEqual(status, 1, msg=output)
-+
-+            checks = re.findall(r'FcCacheTimeValid dir "([^"]+)" cache checksum (\d+) dir checksum (\d+)', output)
-+            self.assertTrue(checks, msg="fontconfig checked no cache:\n" + output)
-+            for directory, cache, mtime in checks:
-+                self.assertEqual(cache, mtime, msg="%s: the cache records mtime %s, the directory has %s\n%s" % (directory, cache, mtime, output))
-+
-+            self.assertNotIn('FcDirCacheWriteDir', output, msg="fontconfig rewrote a cache:\n" + output)
-+            self.assertIn('user cache: []', output, msg="fontconfig wrote a per-user cache:\n" + output)
+> > - last, but not least. Actually this is the most important one: fix your
+> relationship with GNU coreutils. It's painful to watch you two bicker, and
+> I do not want the Yocto project to be dragged into this.
+>
+> On the last point: I can see Collin feels strongly about this, and I take
+> the licensing concern seriously. But I haven't been in conflict with him or
+> with GNU coreutils. If there's a specific exchange you'd like me to look
+> at, please point me to it.
+>
 
--- 
-2.43.0
+The risk of AI-assisted contributions that basically rewrite GPLd gnu
+coreutils C code into rust is very real, and it has happened in other
+projects, causing their complete derailment. Are you able to spot and
+reject such contributions?
 
+There's also a distinct lack of collaboration. Both projects obviously must
+implement the exact same UI, and the only way to do it is to have a shared,
+independent, rigorous test suite. Collin has explicitly said he is not
+endorsing the use of GNU tests for uutils.
+
+I'd also note that quietly skipping my points without saying anything about
+them only means they remain unresolved.
+
+Alex
+
+--00000000000080a50b065db6a37f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, 13 Oct 2026 at 12:02, Etienne Cordonn=
+ier &lt;<a href=3D"mailto:ecordonnier@snap.com">ecordonnier@snap.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
+r=3D"ltr">&gt; - last, but not least. Actually this is the most important o=
+ne: fix your relationship with GNU coreutils. It&#39;s painful to watch you=
+ two bicker, and I do not want the Yocto project to be dragged into this.<b=
+r><br>On the last point: I can see Collin feels strongly about this, and I =
+take the licensing concern seriously. But I haven&#39;t been in conflict wi=
+th him or with GNU coreutils. If there&#39;s a specific exchange you&#39;d =
+like me to look at, please point me to it.<br></div></blockquote><br></div>=
+<div class=3D"gmail_quote gmail_quote_container">The risk of AI-assisted co=
+ntributions that basically rewrite GPLd gnu coreutils C code into rust is v=
+ery real, and it has happened in other projects, causing their complete der=
+ailment. Are you able to spot and reject such contributions?</div><div clas=
+s=3D"gmail_quote gmail_quote_container"><br></div><div class=3D"gmail_quote=
+ gmail_quote_container">There&#39;s also a distinct lack of collaboration. =
+Both projects obviously must implement the exact same UI, and the only way =
+to do it is to have a shared, independent, rigorous test suite. Collin has =
+explicitly said he is not endorsing the use of GNU tests for uutils.</div><=
+div class=3D"gmail_quote gmail_quote_container"><br></div><div class=3D"gma=
+il_quote gmail_quote_container">I&#39;d also note that quietly skipping my =
+points without saying anything about them only means they remain unresolved=
+.</div><div class=3D"gmail_quote gmail_quote_container"><br></div><div clas=
+s=3D"gmail_quote gmail_quote_container">Alex</div></div>
+
+--00000000000080a50b065db6a37f--
 
