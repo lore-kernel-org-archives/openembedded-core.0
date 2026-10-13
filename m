@@ -1,123 +1,877 @@
-Return-Path: <leon.anavi@konsulko.com>
+Return-Path: <sjolley.yp.pm@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD20CC6B08
-	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 14:25:06 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8412.1791901498608551111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D93D6CC6B0E
+	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 14:52:06 +0000 (UTC)
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9206.1791903125453160760
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2026 07:24:59 -0700
+ Tue, 13 Oct 2026 07:52:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=Xqhj9vqH;
- spf=pass (domain: konsulko.com, ip: 209.85.128.47, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a16c399641so30684605e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 07:24:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ToP40UTG;
+ spf=pass (domain: gmail.com, ip: 74.125.82.176, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-3282db206d3so857488eec.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 07:52:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791903125; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Mnj52uL8xar5TK+Xtl+FV+HW3Cz+lR9C9obJ4e5HFAYbo08e9Moh/SyRaNpDVaqUT8
+         VyOOoQOM3GER/TuGilIVS8fcWf8BnnCJ8ukdCFuSGfNeSpddkRKQRm/bwfTnmdlbmjtX
+         cYHGdSt6/bPS3Q5+nu8OysjaRW8H8FntJXyKyh55ryPaVOcM3dBraqoHpfqWsUcoYVRy
+         Vs682NkachnnH1bQKefur3KTLKSTvD1uq3qbHFBTrdZ6OySnto7BsI0MIAllN0mG+Wom
+         Bf80BUjXbbxPRFi0qCCgOWt4W4gt+Hzn/nzMbBwZBL9lydPNXyR2iveEWbXqlLwXtMkn
+         djeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=QLpfvy2BCCBoQjVC1K0CMxHYvYk0VFr7zPMgrb2I6pw=;
+        fh=Pt4GnnBgL/wQJ8OOn1pbp+DxTw3NUcoVG5CsKOq2ZE4=;
+        b=RBUlSpaJ9Lh5mklldEI2eo0tx3l3r4Z4OqjA8UiQIi2azWm6r2NisqzIOs2RWUrKn5
+         wTXOlmKrief8d1Zhd1QhcBsdHvSNnZO9kmZ+hPzwQoHNpTRQ9Tx4imO4xVM+LMH9nRKN
+         k2cnplHZQMqIHWCpzQ1/RxjBVbXir+ElfouSaI6mcjtgKTUtDnGFEKhNZgi9RbsVoIDN
+         LS6zcQ3K1ny5rOv/WTa8fhM9qWS/eQBJz0Ty43C8hNjgXH/Ci4ij2mBsUheotbFE1WtE
+         SG4cCW3EnUeC49tSsfBjLtf6lcwWNMXcaECVJV2yyEBvNB4iiYS9E124fvR5jQcIBoNj
+         c4vw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1791901497; x=1792506297; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=G7VJUZucChJniw/zS+4q0bwzdTChRC1vMkm1d8k1UEI=;
-        b=Xqhj9vqHoWszvcx8XLvL1JkZTl8NHKa37IfZ2IMrq2/Csb3w9Gliadu2cmOJ5rVv0X
-         p8cC4l90Jvl2+dByOvPmerhPnPR6n929V9sL1zY92cHpXePqOkW6oairhReEIyeCSoMh
-         hHUgj8t6SBEJTjMWKJ74Sev+/JzBSGLnROEqw=
+        d=gmail.com; s=20251104; t=1791903125; x=1792507925; darn=lists.openembedded.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=QLpfvy2BCCBoQjVC1K0CMxHYvYk0VFr7zPMgrb2I6pw=;
+        b=ToP40UTGVo1PypmJdLirln7cW9Cv7QSSgHyR4dZVHbsQReZITq4r4qRvdrxzzP6q0W
+         r+NSA6FUlCpCzqv+rEfaxXefDd2X4d/3En/D358UTSA4jGVNz6rVvtTQHaNjYjJ5pvJ/
+         3quwijScVJ/kiGqFzCRkt3LZhr6glKzbjQ3ecbRPp2XAn0g7sRkFXJtDtulBWC36KMrK
+         sulZUZoNiDtZkFSSFGLnf9TFs+rLzBf2mdFA6Pcd6voS0JihRGIJ5TLACtnXn8IyU05j
+         W/Tq/BuDhMmiR01FaXe2M2/+vCMZiL+Luqdcd6AWwt5eGoKHXvSa59B90l4Y5dnNFllN
+         c5Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791901497; x=1792506297;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=G7VJUZucChJniw/zS+4q0bwzdTChRC1vMkm1d8k1UEI=;
-        b=F1cF0cyMINIsUaHRqhjqVxKlgdz8+2pnpcjpzE8AA6nwXnugV299eWkN6yTK4sU2Bj
-         shnkQG8OQAz38G0XpIc9mxDoU3gOuQ6+eoh3vCyQ+zYoz86byFrYpncKhd7GJ+j18WJE
-         GZNpT8zIhEm4mkGaDR8vosrEa/+yD8P5tgh97ADOzuHxeT8HkJnGf2Ra0Pp3nm5l82Ot
-         inPiWhZeFRYCGTYexcfNxL/udTYunYsCUIg/3XgPXIaDRLEe0PVDoaNN3qZ/QaW8VYSi
-         UwZoTrXG4+n+2KR5VpwUqh7okhyG8xyxomGJHHDNUf4nF8fvSq/Uh6Fhl+KciQVzCuBV
-         7EbA==
-X-Gm-Message-State: AFq9FYK+rTpzEqEc+83dtB+v5FHBj3Y3vN0Er6P1pevjuYJHo2WKtGE/
-	IRGcA9ue03jydmPPRfLKfOs8c2xqo4ibX6/b4eFbLfyUPQI2ZO6M8Y++pUSq/1R7gOuL7crCpY8
-	UO/v7
-X-Gm-Gg: AYBFou2+Bj1sVbEIhLbU9l8/c+vtgutS3/0V+kjAviyUGh9op7HGguOM81RfB5o+xNc
-	8jFIhEilEC0Xkd5vQGcwxL0b3Foyq/E3Hu20ixPcd0DKk2VppiUbwBMDTZSescbF23i16hu6RGm
-	I8SYSNx4kSxXJlqkkAf/SVJ689PF06HpKkaJn13nuj9xluRsP/cMzG24IY2dMUcErsoYRdagKud
-	3upg/kIRWe0TTMWqaTbttpUf7UckfpwEGnTsFz8/paoKI9sqOUZpeqJneUB+4+d9QCVNqqOGslt
-	Y0FmbNyYA6zBLF7PhSStf7/WySy0W3s7t+1ocrWhLnAi4kxVGDlA+sanfYSUfe/e3e/bHkCjY5g
-	PPZBKBszJanvIu5O5Py6x1DLeXkif/ruH/2tjfZNLWRw2zfOoVBc1Jgec8LY3s8r4OtR2dAgDTU
-	Ftt1RNtdACke76GpHjcy2RFwaRspsD7x88iVbDIY0DZd3bE+g8sIIRa5Q2y+Ewm7mcTQAKFktLe
-	KLTjvl80jcW3oCVAh3ug6VilFskQMkRtHmz0YUI5R+CUI765+VaZxqEnuqMuZZltXKUCebbpvR9
-	N9Ezqwuoazw8MW+WQGWg56IC
-X-Received: by 2002:a05:600c:6097:b0:49f:bd3c:bc24 with SMTP id 5b1f17b1804b1-4a18e4b8885mr237203835e9.31.1791901496541;
-        Tue, 13 Oct 2026 07:24:56 -0700 (PDT)
-Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19471edd5sm473009815e9.11.2026.10.13.07.24.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 07:24:55 -0700 (PDT)
-From: Leon Anavi <leon.anavi@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [PATCH 2/2] python3-subunit: Upgrade 1.4.4 -> 1.4.6
-Date: Tue, 13 Oct 2026 17:24:50 +0300
-Message-ID: <20261013142450.2456130-2-leon.anavi@konsulko.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261013142450.2456130-1-leon.anavi@konsulko.com>
-References: <20261013142450.2456130-1-leon.anavi@konsulko.com>
+        d=1e100.net; s=20260707; t=1791903125; x=1792507925;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QLpfvy2BCCBoQjVC1K0CMxHYvYk0VFr7zPMgrb2I6pw=;
+        b=Mcr+RMnXLcdi184tNEm5CH+q/wmEFNV5JoxVI7jwqqU5MGNC4EyRcN4xI3OJGq2LgO
+         Y8TE9HkLjrZdorCUAuLJ1xu+DmjDlSp5iWF5Q07WPLx8UvsJJK7TjfORhXavWyc/Zfvs
+         1+MJSmRzcklq2RLG/q7rr3RMpmA+bZ+eENrzKbi8LZ+r7dYlCY88uIdXYYbqm06GtSbA
+         VqZqy3QYgZXPhamFCsuaMG0JY58jI6S7Cu0UrOkL18i3po5aauZ1l4k0wHvxxtPsfBkf
+         VXdFIBxyfbtxWoabzqU01FO8t8xUotHKIRvidp/KP0fEf9Cg9tHF0KxXmfToMwCPLnYb
+         c43g==
+X-Forwarded-Encrypted: i=1; AKwUvBw8TD8bWHG9I01rB2SSRyMgWwDm0H7uGEMtEx6rOPlbcwydEa6tPCEOX52hFZqZoB40cIWbUSs8pa8OJwJi+Bp83A==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYJUP9dVSBUQDa7YTFabLagX42tZpNTA0nzsI/RNGB6Mc2m4FR8u
+	8Ogz/yLvqoQbRHzKGD0vQF6kHFA2emqAURfhn6fGvsEhYOXY0eNdUc7ela25E7Tq0TOj0MrEv0q
+	YilFEU3t3Nzzk2bpY3yK/MSHstt1cWlm6aIn7
+X-Gm-Gg: AYBFou1koM7zAiTIqM2a98rRcoKnAIwzmq1/QQy64vhFRIm9gXyYaLC7mi/XFXnNskn
+	8MK72bZfY/pF2ViiSWHsINfOxyfN4Fuh2kqnBoOeJd88O9dZvHzYQkOUAwk+qMzU3YTPQgve8/Q
+	2jRYvPua6djubdxnNrTsg1HAXOE49B1MagwnDZhW6Ailpyp9hElci1TpGuAlaMho0/ne2s3grmi
+	zyvk/p+lC6E1mQggtL1uMyDhwcbgkGJo4qeYb0zeUx9gFUHtb82htMW9mm67R25zRKBmo1b7mS1
+	62xvYdTeAf6h0RZCwI4W6/NprSkcbwnt74lcLqgsuMhv83JMm8v+ez6DUbUSHFbsU6K+Nsfj3fh
+	S6Pm/Iyc6t9v32tgGrlC1DoXjTs66c65eTAoNpliLOQiG4S8Usd3QjrRlQosrZjMe6QHuHKzutL
+	z9q1UsF34uI7OTiBy5t0PjNRrieXL3xzsPwCfgK+kEJz0Ahk7GpQjLjd29X2zX+IJrL5xXXzIB2
+	pZakml+eMrC0TlOYlVF3ASxmwSx0ujWbOlYDuCyzupEKgMoXA==
+X-Received: by 2002:a05:7301:188a:b0:358:7bea:88d5 with SMTP id
+ 5a478bee46e88-3587bea9608mr15488232eec.21.1791903124123; Tue, 13 Oct 2026
+ 07:52:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Stephen K Jolley <sjolley.yp.pm@gmail.com>
+Date: Tue, 13 Oct 2026 07:51:51 -0700
+X-Gm-Features: AclHuK_GZfJRuhEaqvRYteLWpVr0eH-4D89CQCgWGdZC5zcQHyf3F8a_3uGGvWk
+Message-ID: <CAK5yBb9QHZ0i1x19JAp1pRD3bR7EgFdyh=7UZLhrJ8cqoz5KzQ@mail.gmail.com>
+Subject: Yocto Project Status 13 October 2026 (WW42)
+To: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	yocto-status@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000002f750b065db9f5cc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 14:25:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247728
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 14:52:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247729
 
-Upgrade to release 1.4.6:
+--0000000000002f750b065db9f5cc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- Fix compatibility with testtools 2.8.2
-- Fix ExecTestCase to work without executable permissions on the
-  test script.
-- Fix ExecTestCase to properly handle shell scripts.
-- Stop installing tests.
-- Add subunit-combine script that runs multiple subunit-producing
-  commands and merges their streams, optionally prefixing each
-  command's test ids.
-- subunit-combine supports testr-style $LISTOPT, $IDOPTION,
-  $IDFILE and $IDLIST placeholders in command argv, along with
-  --list, --load-list and positional test ids for per-command
-    filtering.
-- Add gojson2subunit script for converting go test -json streams
-  to subunit.
-- Add junitxml2subunit script for converting JUnit XML test reports
-  to subunit.
+Current Dev Position: YP 6.2 M1 - Development
 
-Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
----
- .../{python3-subunit_1.4.4.bb => python3-subunit_1.4.6.bb}   | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-subunit_1.4.4.bb => python3-subunit_1.4.6.bb} (70%)
+Next Deadline: YP 6.2 M1: w/c 2026-12-21
 
-diff --git a/meta/recipes-devtools/python/python3-subunit_1.4.4.bb b/meta/recipes-devtools/python/python3-subunit_1.4.6.bb
-similarity index 70%
-rename from meta/recipes-devtools/python/python3-subunit_1.4.4.bb
-rename to meta/recipes-devtools/python/python3-subunit_1.4.6.bb
-index ff93d19df4..809aa7309a 100644
---- a/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
-+++ b/meta/recipes-devtools/python/python3-subunit_1.4.6.bb
-@@ -5,12 +5,13 @@ LICENSE = "Apache-2.0 OR BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;beginline=1;endline=20;md5=b1121e68d06c8d9ea544fcd895df0d39"
- 
- PYPI_PACKAGE = "python-subunit"
--PYPI_PACKAGE_SDIST = "python-subunit"
-+PYPI_PACKAGE_SDIST = "python_subunit"
- 
--SRC_URI[sha256sum] = "1079363131aa1d3f45259237265bc2e61a77e35f20edfb6e3d1d2558a2cdea34"
-+SRC_URI[sha256sum] = "31fe6a7b35550b0d72da98caaa6ba64c547d9346c2846b845cb5c781849e2762"
- 
- inherit pypi python_setuptools_build_meta
- 
-+DEPENDS += "python3-iso8601-native python3-testtools-native"
- RDEPENDS:${PN} = " python3-testtools python3-iso8601"
- 
- BBCLASSEXTEND = "nativesdk"
--- 
-2.47.3
+Next Team Meetings:
 
+   -
+
+   Bug Triage meeting - Thursday 15th Oct. 7:30am PDT (
+   https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
+   -
+
+   Weekly Project Engineering Sync  - Tuesday 13rd Oct. 8am PDT (
+   https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
+   <https://zoom.us/j/990892712>
+   -
+
+   Yocto Project Patch Review - Thursday 15th Oct. 10am GMT and Monday 19th
+   Oct. 9am PDT (
+   https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1)
+
+
+Project data dashboard: https://dashboard.yoctoproject.org/
+
+Key Status/Updates:
+
+   -
+
+   YP 6.1 is due for release after final review
+   -
+
+   YP 6.0.4 is in QA.
+   -
+
+   YP 5.0.21 is queued for QA next.
+   -
+
+   Blacksail and master are now on separate branches and have diverged.
+   -
+
+   Patches for 6.2 have started merging into master
+   -
+
+   There are changes to the pypi class so that PYPI_PACKAGE is the
+   normalised name
+   -
+
+   There are issues where we could accept help:
+   -
+
+      Matchbox-wm segfault/xserver restart
+      -
+
+      aarch64/x86-64 build host contamination/reproducibility issue -
+      thanks for the work and fixes so far on this.
+      -
+
+      Remaining github.com references in bitbake-selftest
+      -
+
+   Thanks to everyone who attended the Dev Day or came and saw us in
+   Prague. This was the largest Yocto Dev Day so far!
+
+
+Want to contribute? We would appreciate help with the following areas:
+
+   -
+
+   We have several open issues for pseudo and limited maintainer time to
+   work on them. Help from someone familiar with systems programming in C
+   would be greatly appreciated.
+   https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&priority=
+=3DHigh&priority=3DMedium%2B&product=3DPseudo&query_format=3Dadvanced&resol=
+ution=3D---
+   -
+
+   There are a large number of intermittent failures on our autobuilder,
+   any help with investigating, reproducing or solving these issues would b=
+e
+   welcome! https://valkyrie.yocto.io/pub/non-release/abint/
+   -
+
+   Many recipes in openembedded-core would benefit from a new recipe
+   maintainer. Please look at
+   https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/inc=
+lude/maintainers.inc
+   and see if you can adopt any of the unassigned recipes.
+   -
+
+   For more ways to contribute, see
+   https://docs.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuC=
+WbzgjOk/edit?usp=3Dsharing
+
+
+New to the project?
+
+   -
+
+   We have a list of issues we think are good places to start contributing:
+   https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER
+
+
+Tracking Metrics:
+
+   -
+
+   WDD 2659 (last week 2644) (
+   https://wiki.yoctoproject.org/charts/combo.html)
+   -
+
+   OE-Core/Poky Patch Metrics
+   -
+
+      Total found: 1041 (last week 1057)
+      -
+
+      Patches in the Pending State: 135 (13%) [last week 135 (13%)]
+      -
+
+      https://valkyrie.yocto.io/pub/non-release/patchmetrics/
+
+
+Upcoming development releases
+
+   -
+
+   6.1.0: is in review.
+   -
+
+   YP 6.2 M1
+   -
+
+      Build Date w/c 2026-12-07
+      -
+
+      Release Date w/c 2026-12-21
+      -
+
+   YP 6.2 M2
+   -
+
+      Build Date w/c 2027-01-18
+      -
+
+      Release Date w/c 2027-02-01
+      -
+
+   YP 6.2 M3
+   -
+
+      Build Date w/c 2027-03-01
+      -
+
+      Release Date w/c 2027-03-15
+      -
+
+   YP 6.2.0
+   -
+
+      Build Date w/c 2027-04-26
+      -
+
+      Release Date w/c 2027-05-03
+
+
+Upcoming dot releases:
+
+   -
+
+   YP 6.0.4
+   -
+
+      In QA
+      -
+
+      Release Date w/c 2026-10-12
+      -
+
+   YP 5.0.21
+   -
+
+      In QA
+      -
+
+      Release Date w/c 2026-10-19
+      -
+
+   YP 6.1.1
+   -
+
+      Build Date w/c 2026-11-16
+      -
+
+      Release Date w/c 2026-11-30
+      -
+
+   YP 6.0.5
+   -
+
+      Build Date w/c 2026-11-23
+      -
+
+      Release Date w/c 2026-12-07
+      -
+
+   YP 5.0.22
+   -
+
+      Build Date w/c 2026-11-30
+      -
+
+      Release Date w/c 2026-12-14
+      -
+
+   For future release dates, see
+   https://wiki.yoctoproject.org/wiki/Release_calendar
+
+
+The Yocto Project=E2=80=99s technical governance is through its Technical S=
+teering
+Committee, more information is available at:
+
+https://wiki.yoctoproject.org/wiki/TSC
+
+The Status reports are stored on the wiki at:
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+[If anyone has suggestions for other information you=E2=80=99d like to see =
+on this
+weekly status update, let us know!]
+
+Thanks,
+
+
+
+*Stephen K. Jolley*
+
+*Yocto Project Program Manager*
+
+(    *Cell*:                (208) 244-4460
+
+* *Email*:                 *s
+<stephen.k.jolley@intel.com>jolley.yp.pm@gmail.com <jolley.yp.pm@gmail.com>=
+*
+
+--0000000000002f750b065db9f5cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><span id=3D"gmail-docs-internal-guid-33f29e70-7fff-38=
+8e-8c28-80101ef4bbfa"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
+pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-=
+serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;ver=
+tical-align:baseline;white-space:pre-wrap">Current Dev Position: YP 6.2 M1 =
+- Development</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
+:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,san=
+s-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;v=
+ertical-align:baseline;white-space:pre-wrap">Next Deadline: YP 6.2 M1: w/c =
+2026-12-21=C2=A0</span></p><br><p dir=3D"ltr" style=3D"line-height:1.38;mar=
+gin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Ar=
+ial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:n=
+ormal;vertical-align:baseline;white-space:pre-wrap">Next Team Meetings:</sp=
+an></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=
+=3D"list-style-type:disc;font-size:9.5pt;font-family:Arial,sans-serif;color=
+:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-align=
+:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-=
+top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:1=
+1pt;background-color:transparent;font-variant:normal;vertical-align:baselin=
+e;white-space:pre-wrap">Bug Triage meeting - Thursday 15th Oct. 7:30am PDT =
+(</span><a href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aV=
+pHVVZ6dz09" style=3D"text-decoration:none"><span style=3D"font-size:11pt;ba=
+ckground-color:transparent;font-variant:normal;text-decoration:underline;ve=
+rtical-align:baseline;white-space:pre-wrap">https://zoom.us/j/454367603?pwd=
+=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</span></a><span style=3D"font-size:11pt=
+;background-color:transparent;font-variant:normal;vertical-align:baseline;w=
+hite-space:pre-wrap">)</span></p></li><li dir=3D"ltr" style=3D"list-style-t=
+ype:disc;font-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);back=
+ground-color:transparent;font-variant:normal;vertical-align:baseline;white-=
+space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
+ottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-c=
+olor:transparent;font-variant:normal;vertical-align:baseline;white-space:pr=
+e-wrap">Weekly Project Engineering Sync=C2=A0 - Tuesday 13rd Oct. 8am PDT (=
+</span><a href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjR=
+rcmJsUT09" style=3D"text-decoration:none"><span style=3D"font-size:11pt;bac=
+kground-color:transparent;font-variant:normal;text-decoration:underline;ver=
+tical-align:baseline;white-space:pre-wrap">https://zoom.us/j/990892712?pwd=
+=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</span></a><a href=3D"https://zoom.us/j/=
+990892712" style=3D"text-decoration:none"><span style=3D"font-size:11pt;bac=
+kground-color:transparent;font-variant:normal;text-decoration:underline;ver=
+tical-align:baseline;white-space:pre-wrap">)</span></a></p></li><li dir=3D"=
+ltr" style=3D"list-style-type:disc;font-size:9.5pt;font-family:Arial,sans-s=
+erif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;vert=
+ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
+38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"f=
+ont-size:11pt;background-color:transparent;font-variant:normal;vertical-ali=
+gn:baseline;white-space:pre-wrap">Yocto Project Patch Review - Thursday 15t=
+h Oct. 10am GMT and Monday 19th Oct. 9am PDT (</span><a href=3D"https://zoo=
+m.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1" style=3D"text-d=
+ecoration:none"><span style=3D"font-size:11pt;background-color:transparent;=
+font-variant:normal;text-decoration:underline;vertical-align:baseline;white=
+-space:pre-wrap">https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwT=
+b6iWry4Eb.1</span></a><span style=3D"font-size:11pt;background-color:transp=
+arent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">)</=
+span></p></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:=
+0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans=
+-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;ve=
+rtical-align:baseline;white-space:pre-wrap">Project data dashboard: </span>=
+<a href=3D"https://dashboard.yoctoproject.org/" style=3D"text-decoration:no=
+ne"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;background-c=
+olor:transparent;font-variant:normal;text-decoration:underline;vertical-ali=
+gn:baseline;white-space:pre-wrap">https://dashboard.yoctoproject.org/</span=
+></a><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0=
+,0,0);background-color:transparent;font-variant:normal;vertical-align:basel=
+ine;white-space:pre-wrap">=C2=A0</span></p><br><p dir=3D"ltr" style=3D"line=
+-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11p=
+t;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparen=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Key Sta=
+tus/Updates:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li d=
+ir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,s=
+ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
+;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
+ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
+l-align:baseline;white-space:pre-wrap">YP 6.1 is due for release after fina=
+l review</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-=
+size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tr=
+ansparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p d=
+ir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">YP 6.0.=
+4 is in QA.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;fo=
+nt-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color=
+:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"><=
+p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" r=
+ole=3D"presentation"><span style=3D"font-size:11pt;background-color:transpa=
+rent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">YP 5=
+.0.21 is queued for QA next.</span></p></li><li dir=3D"ltr" style=3D"list-s=
+tyle-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0)=
+;background-color:transparent;font-variant:normal;vertical-align:baseline;w=
+hite-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
+gin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgro=
+und-color:transparent;font-variant:normal;vertical-align:baseline;white-spa=
+ce:pre-wrap">Blacksail and master are now on separate branches and have div=
+erged.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-si=
+ze:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tran=
+sparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=
+=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Patches=
+ for 6.2 have started merging into master</span></p></li><li dir=3D"ltr" st=
+yle=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;col=
+or:rgb(0,0,0);background-color:transparent;font-variant:normal;vertical-ali=
+gn:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margi=
+n-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size=
+:11pt;background-color:transparent;font-variant:normal;vertical-align:basel=
+ine;white-space:pre-wrap">There are changes to the pypi class so that PYPI_=
+PACKAGE is the normalised name</span></p></li><li dir=3D"ltr" style=3D"list=
+-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,=
+0);background-color:transparent;font-variant:normal;vertical-align:baseline=
+;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
+argin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backg=
+round-color:transparent;font-variant:normal;vertical-align:baseline;white-s=
+pace:pre-wrap">There are issues where we could accept help:</span></p></li>=
+<ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"lis=
+t-style-type:circle;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0=
+,0,0);background-color:transparent;font-variant:normal;vertical-align:basel=
+ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
+t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;ba=
+ckground-color:transparent;font-variant:normal;vertical-align:baseline;whit=
+e-space:pre-wrap">Matchbox-wm segfault/xserver restart</span></p></li><li d=
+ir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial=
+,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:norm=
+al;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-he=
+ight:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span sty=
+le=3D"font-size:11pt;background-color:transparent;font-variant:normal;verti=
+cal-align:baseline;white-space:pre-wrap">aarch64/x86-64 build host contamin=
+ation/reproducibility issue - thanks for the work and fixes so far on this.=
+</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:1=
+1pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpar=
+ent;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"=
+ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pr=
+esentation"><span style=3D"font-size:11pt;background-color:transparent;font=
+-variant:normal;vertical-align:baseline;white-space:pre-wrap">Remaining </s=
+pan><a href=3D"http://github.com" style=3D"text-decoration:none"><span styl=
+e=3D"font-size:11pt;background-color:transparent;font-variant:normal;text-d=
+ecoration:underline;vertical-align:baseline;white-space:pre-wrap">github.co=
+m</span></a><span style=3D"font-size:11pt;background-color:transparent;font=
+-variant:normal;vertical-align:baseline;white-space:pre-wrap"> references i=
+n bitbake-selftest</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-=
+type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);back=
+ground-color:transparent;font-variant:normal;vertical-align:baseline;white-=
+space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
+ottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-c=
+olor:transparent;font-variant:normal;vertical-align:baseline;white-space:pr=
+e-wrap">Thanks to everyone who attended the Dev Day or came and saw us in P=
+rague. This was the largest Yocto Dev Day so far!</span></p></li></ul><br><=
+p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><=
+span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);=
+background-color:transparent;font-variant:normal;vertical-align:baseline;wh=
+ite-space:pre-wrap">Want to contribute? We would appreciate help with the f=
+ollowing areas:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><l=
+i dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Aria=
+l,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:nor=
+mal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span st=
+yle=3D"font-size:11pt;background-color:transparent;font-variant:normal;vert=
+ical-align:baseline;white-space:pre-wrap">We have several open issues for p=
+seudo and limited maintainer time to work on them. Help from someone famili=
+ar with systems programming in C would be greatly appreciated. </span><a hr=
+ef=3D"https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&amp;pr=
+iority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo&amp;query_forma=
+t=3Dadvanced&amp;resolution=3D---" style=3D"text-decoration:none"><span sty=
+le=3D"font-size:11pt;background-color:transparent;font-variant:normal;text-=
+decoration:underline;vertical-align:baseline;white-space:pre-wrap">https://=
+bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&amp;priority=3DHigh&=
+amp;priority=3DMedium%2B&amp;product=3DPseudo&amp;query_format=3Dadvanced&a=
+mp;resolution=3D---</span></a></p></li><li dir=3D"ltr" style=3D"list-style-=
+type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);back=
+ground-color:transparent;font-variant:normal;vertical-align:baseline;white-=
+space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
+ottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-c=
+olor:transparent;font-variant:normal;vertical-align:baseline;white-space:pr=
+e-wrap">There are a large number of intermittent failures on our autobuilde=
+r, any help with investigating, reproducing or solving these issues would b=
+e welcome! </span><a href=3D"https://valkyrie.yocto.io/pub/non-release/abin=
+t/" style=3D"text-decoration:none"><span style=3D"font-size:11pt;background=
+-color:transparent;font-variant:normal;text-decoration:underline;vertical-a=
+lign:baseline;white-space:pre-wrap">https://valkyrie.yocto.io/pub/non-relea=
+se/abint/</span></a></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;=
+font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-col=
+or:transparent;font-variant:normal;vertical-align:baseline;white-space:pre"=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
+ role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
+parent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Ma=
+ny recipes in openembedded-core would benefit from a new recipe maintainer.=
+ Please look at </span><a href=3D"https://git.openembedded.org/openembedded=
+-core/tree/meta/conf/distro/include/maintainers.inc" style=3D"text-decorati=
+on:none"><span style=3D"font-size:11pt;background-color:transparent;font-va=
+riant:normal;text-decoration:underline;vertical-align:baseline;white-space:=
+pre-wrap">https://git.openembedded.org/openembedded-core/tree/meta/conf/dis=
+tro/include/maintainers.inc</span></a><span style=3D"font-size:11pt;backgro=
+und-color:transparent;font-variant:normal;vertical-align:baseline;white-spa=
+ce:pre-wrap"> and see if you can adopt any of the unassigned recipes.</span=
+></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font=
+-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font=
+-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" sty=
+le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentati=
+on"><span style=3D"font-size:11pt;background-color:transparent;font-variant=
+:normal;vertical-align:baseline;white-space:pre-wrap">For more ways to cont=
+ribute, see </span><a href=3D"https://docs.google.com/document/d/18oxKWxLor=
+fF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsharing" style=3D"text-decora=
+tion:none"><span style=3D"font-size:11pt;background-color:transparent;font-=
+variant:normal;text-decoration:underline;vertical-align:baseline;white-spac=
+e:pre-wrap">https://docs.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeB=
+p_-9owFuCWbzgjOk/edit?usp=3Dsharing</span></a></p></li></ul><br><p dir=3D"l=
+tr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=
+=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background=
+-color:transparent;font-variant:normal;vertical-align:baseline;white-space:=
+pre-wrap">New to the project?</span></p><ul style=3D"margin-top:0px;margin-=
+bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;fo=
+nt-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;fo=
+nt-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" s=
+tyle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presenta=
+tion"><span style=3D"font-size:11pt;background-color:transparent;font-varia=
+nt:normal;vertical-align:baseline;white-space:pre-wrap">We have a list of i=
+ssues we think are good places to start contributing: </span><a href=3D"htt=
+ps://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER" style=3D=
+"text-decoration:none"><span style=3D"font-size:11pt;background-color:trans=
+parent;font-variant:normal;text-decoration:underline;vertical-align:baselin=
+e;white-space:pre-wrap">https://bugzilla.yoctoproject.org/buglist.cgi?quick=
+search=3DNEWCOMER</span></a></p></li></ul><br><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt=
+;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent=
+;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Tracking=
+ Metrics:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
+=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,san=
+s-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal;v=
+ertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height=
+:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
+l-align:baseline;white-space:pre-wrap">WDD 2659 (last week 2644) </span><sp=
+an style=3D"font-size:11pt;font-family:Consolas,sans-serif;background-color=
+:transparent;font-variant:normal;vertical-align:baseline;white-space:pre-wr=
+ap">(</span><a href=3D"https://wiki.yoctoproject.org/charts/combo.html" sty=
+le=3D"text-decoration:none"><span style=3D"font-size:11pt;background-color:=
+transparent;font-variant:normal;text-decoration:underline;vertical-align:ba=
+seline;white-space:pre-wrap">https://wiki.yoctoproject.org/charts/combo.htm=
+l</span></a><span style=3D"font-size:11pt;font-family:Consolas,sans-serif;b=
+ackground-color:transparent;font-variant:normal;vertical-align:baseline;whi=
+te-space:pre-wrap">)</span></p></li><li dir=3D"ltr" style=3D"list-style-typ=
+e:disc;font-size:11pt;font-family:Consolas,sans-serif;color:rgb(0,0,0);back=
+ground-color:transparent;font-variant:normal;vertical-align:baseline;white-=
+space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
+ottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;font-family:=
+Arial,sans-serif;background-color:transparent;font-variant:normal;vertical-=
+align:baseline;white-space:pre-wrap">OE-Core/Poky Patch Metrics</span></p><=
+/li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D=
+"list-style-type:circle;font-size:11pt;font-family:Arial,sans-serif;color:r=
+gb(0,0,0);background-color:transparent;font-variant:normal;vertical-align:b=
+aseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-to=
+p:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11p=
+t;background-color:transparent;font-variant:normal;vertical-align:baseline;=
+white-space:pre-wrap">Total found: 1041 (last week 1057)</span></p></li><li=
+ dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Ari=
+al,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:no=
+rmal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span s=
+tyle=3D"font-size:11pt;background-color:transparent;font-variant:normal;ver=
+tical-align:baseline;white-space:pre-wrap">Patches in the Pending State: 13=
+5 (13%) [last week 135 (13%)]</span></p></li><li dir=3D"ltr" style=3D"list-=
+style-type:circle;font-size:11pt;font-family:Consolas,sans-serif;color:rgb(=
+0,0,0);background-color:transparent;font-variant:normal;vertical-align:base=
+line;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
+pt;margin-bottom:0pt" role=3D"presentation"><a href=3D"https://valkyrie.yoc=
+to.io/pub/non-release/patchmetrics/" style=3D"text-decoration:none"><span s=
+tyle=3D"font-size:11pt;font-family:Arial,sans-serif;background-color:transp=
+arent;font-variant:normal;text-decoration:underline;vertical-align:baseline=
+;white-space:pre-wrap">https://valkyrie.yocto.io/pub/non-release/patchmetri=
+cs/</span></a></p></li></ul></ul><br><p dir=3D"ltr" style=3D"line-height:1.=
+38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-fam=
+ily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-var=
+iant:normal;vertical-align:baseline;white-space:pre-wrap">Upcoming developm=
+ent releases</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li d=
+ir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,s=
+ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant:normal=
+;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
+ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertica=
+l-align:baseline;white-space:pre-wrap">6.1.0: is in review.</span></p></li>=
+<li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Ar=
+ial,sans-serif;background-color:transparent;font-variant:normal;vertical-al=
+ign:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;marg=
+in-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-siz=
+e:11pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">YP=
+ 6.2 M1</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li d=
+ir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial=
+,sans-serif;background-color:transparent;font-variant:normal;vertical-align=
+:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-=
+top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:1=
+1pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Build=
+ Date w/c </span><span style=3D"font-size:11pt;background-color:transparent=
+;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">2026-12-=
+07</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size=
+:11pt;font-family:Arial,sans-serif;background-color:transparent;font-varian=
+t:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"l=
+ine-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><sp=
+an style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline;whit=
+e-space:pre-wrap">Release Date w/c </span><span style=3D"font-size:11pt;bac=
+kground-color:transparent;font-variant:normal;vertical-align:baseline;white=
+-space:pre-wrap">2026-12-21</span></p></li></ul><li dir=3D"ltr" style=3D"li=
+st-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;background-c=
+olor:transparent;font-variant:normal;vertical-align:baseline;white-space:pr=
+e"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0p=
+t" role=3D"presentation"><span style=3D"font-size:11pt;font-variant:normal;=
+vertical-align:baseline;white-space:pre-wrap">YP 6.2 M2</span></p></li><ul =
+style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-st=
+yle-type:circle;font-size:11pt;font-family:Arial,sans-serif;background-colo=
+r:transparent;font-variant:normal;vertical-align:baseline;white-space:pre">=
+<p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" =
+role=3D"presentation"><span style=3D"font-size:11pt;font-variant:normal;ver=
+tical-align:baseline;white-space:pre-wrap">Build Date w/c </span><span styl=
+e=3D"font-size:11pt;background-color:transparent;font-variant:normal;vertic=
+al-align:baseline;white-space:pre-wrap">2027-01-18</span></p></li><li dir=
+=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
+ans-serif;background-color:transparent;font-variant:normal;vertical-align:b=
+aseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-to=
+p:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11p=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Release=
+ Date w/c </span><span style=3D"font-size:11pt;background-color:transparent=
+;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">2027-02-=
+01</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;font-s=
+ize:11pt;font-family:Arial,sans-serif;background-color:transparent;font-var=
+iant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
+"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline=
+;white-space:pre-wrap">YP 6.2 M3</span></p></li><ul style=3D"margin-top:0px=
+;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:circle;font-si=
+ze:11pt;font-family:Arial,sans-serif;background-color:transparent;font-vari=
+ant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D=
+"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><=
+span style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline;wh=
+ite-space:pre-wrap">Build Date w/c </span><span style=3D"font-size:11pt;bac=
+kground-color:transparent;font-variant:normal;vertical-align:baseline;white=
+-space:pre-wrap">2027-03-01</span></p></li><li dir=3D"ltr" style=3D"list-st=
+yle-type:circle;font-size:11pt;font-family:Arial,sans-serif;background-colo=
+r:transparent;font-variant:normal;vertical-align:baseline;white-space:pre">=
+<p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" =
+role=3D"presentation"><span style=3D"font-size:11pt;font-variant:normal;ver=
+tical-align:baseline;white-space:pre-wrap">Release Date w/c </span><span st=
+yle=3D"font-size:11pt;background-color:transparent;font-variant:normal;vert=
+ical-align:baseline;white-space:pre-wrap">2027-03-15</span></p></li></ul><l=
+i dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Aria=
+l,sans-serif;background-color:transparent;font-variant:normal;vertical-alig=
+n:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin=
+-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:=
+11pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">YP 6=
+.2.0</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
+=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
+ans-serif;background-color:transparent;font-variant:normal;vertical-align:b=
+aseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-to=
+p:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11p=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">Build D=
+ate w/c </span><span style=3D"font-size:11pt;background-color:transparent;f=
+ont-variant:normal;vertical-align:baseline;white-space:pre-wrap">2027-04-26=
+</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:1=
+1pt;font-family:Arial,sans-serif;background-color:transparent;font-variant:=
+normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"lin=
+e-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span=
+ style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline;white-=
+space:pre-wrap">Release Date w/c </span><span style=3D"font-size:11pt;backg=
+round-color:transparent;font-variant:normal;vertical-align:baseline;white-s=
+pace:pre-wrap">2027-05-03</span></p></li></ul></ul><br><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-=
+size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tr=
+ansparent;font-variant:normal;vertical-align:baseline;white-space:pre-wrap"=
+>Upcoming dot releases:</span></p><ul style=3D"margin-top:0px;margin-bottom=
+:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fam=
+ily:Arial,sans-serif;background-color:transparent;font-variant:normal;verti=
+cal-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.3=
+8;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fo=
+nt-size:11pt;font-variant:normal;vertical-align:baseline;white-space:pre-wr=
+ap">YP 6.0.4</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px">=
+<li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:=
+Arial,sans-serif;background-color:transparent;font-variant:normal;vertical-=
+align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;ma=
+rgin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-s=
+ize:11pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">=
+In QA</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-s=
+ize:11pt;font-family:Arial,sans-serif;background-color:transparent;font-var=
+iant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
+"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline=
+;white-space:pre-wrap">Release Date w/c 2026-10-12</span></p></li></ul><li =
+dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,=
+sans-serif;background-color:transparent;font-variant:normal;vertical-align:=
+baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
+op:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11=
+pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">YP 5.0=
+.21</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=
+=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,s=
+ans-serif;background-color:transparent;font-variant:normal;vertical-align:b=
+aseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-to=
+p:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11p=
+t;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">In QA</=
+span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11p=
+t;font-family:Arial,sans-serif;background-color:transparent;font-variant:no=
+rmal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span s=
+tyle=3D"font-size:11pt;font-variant:normal;vertical-align:baseline;white-sp=
+ace:pre-wrap">Release Date w/c 2026-10-19</span></p></li></ul><li dir=3D"lt=
+r" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-seri=
+f;background-color:transparent;font-variant:normal;vertical-align:baseline;=
+white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
+rgin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;font-v=
+ariant:normal;vertical-align:baseline;white-space:pre-wrap">YP 6.1.1</span>=
+</p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" sty=
+le=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans-serif;ba=
+ckground-color:transparent;font-variant:normal;vertical-align:baseline;whit=
+e-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin=
+-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;font-varia=
+nt:normal;vertical-align:baseline;white-space:pre-wrap">Build Date w/c 2026=
+-11-16</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-=
+size:11pt;font-family:Arial,sans-serif;background-color:transparent;font-va=
+riant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
+"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:baseline=
+;white-space:pre-wrap">Release Date w/c 2026-11-30</span></p></li></ul><li =
+dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,=
+sans-serif;background-color:transparent;font-variant:normal;vertical-align:=
+baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
+op:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11=
+pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">YP 6.0=
+.5</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D=
+"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:Arial,sans=
+-serif;background-color:transparent;font-variant:normal;vertical-align:base=
+line;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
+pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;f=
+ont-variant:normal;vertical-align:baseline;white-space:pre-wrap">Build Date=
+ w/c 2026-11-23</span></p></li><li dir=3D"ltr" style=3D"list-style-type:cir=
+cle;font-size:11pt;font-family:Arial,sans-serif;background-color:transparen=
+t;font-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"lt=
+r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pres=
+entation"><span style=3D"font-size:11pt;font-variant:normal;vertical-align:=
+baseline;white-space:pre-wrap">Release Date w/c 2026-12-07</span></p></li><=
+/ul><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-famil=
+y:Arial,sans-serif;background-color:transparent;font-variant:normal;vertica=
+l-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;=
+margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font=
+-size:11pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap=
+">YP 5.0.22</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"><=
+li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:A=
+rial,sans-serif;background-color:transparent;font-variant:normal;vertical-a=
+lign:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;mar=
+gin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-si=
+ze:11pt;font-variant:normal;vertical-align:baseline;white-space:pre-wrap">B=
+uild Date w/c 2026-11-30</span></p></li><li dir=3D"ltr" style=3D"list-style=
+-type:circle;font-size:11pt;font-family:Arial,sans-serif;background-color:t=
+ransparent;font-variant:normal;vertical-align:baseline;white-space:pre"><p =
+dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" rol=
+e=3D"presentation"><span style=3D"font-size:11pt;font-variant:normal;vertic=
+al-align:baseline;white-space:pre-wrap">Release Date w/c 2026-12-14</span><=
+/p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;f=
+ont-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;f=
+ont-variant:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" =
+style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"present=
+ation"><span style=3D"font-size:11pt;background-color:transparent;font-vari=
+ant:normal;vertical-align:baseline;white-space:pre-wrap">For future release=
+ dates, see </span><a href=3D"https://wiki.yoctoproject.org/wiki/Release_ca=
+lendar" style=3D"text-decoration:none"><span style=3D"font-size:11pt;backgr=
+ound-color:transparent;font-variant:normal;text-decoration:underline;vertic=
+al-align:baseline;white-space:pre-wrap">https://wiki.yoctoproject.org/wiki/=
+Release_calendar</span></a></p></li></ul><br><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;=
+font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;=
+font-variant:normal;vertical-align:baseline;white-space:pre-wrap">The Yocto=
+ Project=E2=80=99s technical governance is through its Technical Steering C=
+ommittee, more information is available at:</span></p><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><a href=3D"https://w=
+iki.yoctoproject.org/wiki/TSC" style=3D"text-decoration:none"><span style=
+=3D"font-size:11pt;font-family:Arial,sans-serif;background-color:transparen=
+t;font-variant:normal;text-decoration:underline;vertical-align:baseline;whi=
+te-space:pre-wrap">https://wiki.yoctoproject.org/wiki/TSC</span></a></p><br=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
+><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0=
+);background-color:transparent;font-variant:normal;vertical-align:baseline;=
+white-space:pre-wrap">The Status reports are stored on the wiki at: </span>=
+<a href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status" style=3D"text-=
+decoration:none"><span style=3D"font-size:11pt;font-family:Arial,sans-serif=
+;background-color:transparent;font-variant:normal;text-decoration:underline=
+;vertical-align:baseline;white-space:pre-wrap">https://wiki.yoctoproject.or=
+g/wiki/Weekly_Status</span></a></p><br><p dir=3D"ltr" style=3D"line-height:=
+1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-f=
+amily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-v=
+ariant:normal;vertical-align:baseline;white-space:pre-wrap">[If anyone has =
+suggestions for other information you=E2=80=99d like to see on this weekly =
+status update, let us know!]</span></p></span><br class=3D"gmail-Apple-inte=
+rchange-newline"></div><div dir=3D"ltr" class=3D"gmail_signature" data-smar=
+tmail=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr"><p class=3D"Mso=
+Normal" style=3D"background-image:initial;background-position:initial;backg=
+round-repeat:initial"><span style=3D"font-size:12pt;font-family:Arial,sans-=
+serif">Thanks,<span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:12pt;font-fam=
+ily:Arial,sans-serif">=C2=A0<span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><b><i><span style=3D"font-size:16pt;co=
+lor:purple">Stephen K. Jolley</span></i></b><span style=3D"font-size:12pt;f=
+ont-family:Arial,sans-serif"><span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><b><span style=3D"font-size:8pt;font-f=
+amily:&quot;Courier New&quot;;color:blue">Yocto Project Program Manager</sp=
+an></b></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
+ly:Wingdings;color:black">(</span><span style=3D"font-size:9pt;font-family:=
+&quot;MS Sans Serif&quot;,serif;color:teal">=C2=A0=C2=A0=C2=A0=C2=A0</span>=
+<b><span style=3D"font-size:8pt;font-family:&quot;Comic Sans MS&quot;;color=
+:teal">Cell</span></b><span style=3D"font-size:9pt;font-family:&quot;MS San=
+s Serif&quot;,serif;color:teal">:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 </span><span style=3D"font=
+-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif">(208) 244-4460</span=
+><span style=3D"font-size:12pt;font-family:Arial,sans-serif"><span></span><=
+/span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
+ly:Wingdings">*=C2=A0</span><b><span lang=3D"FR" style=3D"font-size:8pt;fon=
+t-family:&quot;Comic Sans MS&quot;;color:teal">Email</span></b><span lang=
+=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif;=
+color:teal">:</span><span lang=3D"FR" style=3D"font-size:9pt;font-family:&q=
+uot;MS Sans Serif&quot;,serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0</span><u><span=
+ lang=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,s=
+erif;color:blue"><span style=3D"color:rgb(17,85,204)"><a href=3D"mailto:ste=
+phen.k.jolley@intel.com" target=3D"_blank">s</a><a href=3D"mailto:jolley.yp=
+.pm@gmail.com" target=3D"_blank">jolley.yp.pm@gmail.com</a></span></span></=
+u></p></div></div></div></div>
+
+--0000000000002f750b065db9f5cc--
 
