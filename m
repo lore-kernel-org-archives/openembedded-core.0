@@ -1,201 +1,108 @@
-Return-Path: <gael.portay+rtone@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FA1CC6B03
-	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 05:24:51 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.743.1791869081936833802
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0655CC6B0F
+	for <webhook@archiver.kernel.org>; Tue, 13 Oct 2026 06:54:42 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1512.1791874474425110668
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Oct 2026 22:24:42 -0700
+ Mon, 12 Oct 2026 23:54:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=IIld+Qvd;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: gael.portay+rtone@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48b09c273caso357859f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 22:24:41 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=PBsicyO4;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a1af482519so793305e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Oct 2026 23:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791869080; x=1792473880; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:sender:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fU9Njhq9GiJ6rRkmtvGkLKgKe8BSpOUMBPZnguyqWcc=;
-        b=IIld+QvdK77+/+SOJNOyqc4sWZgORMVohsXvuAmm72QY/6TK7L4XETcx5iSsv00KMG
-         4unZ9GD2oirzl8R9TJaeOhk+RZ8q6M6mq8O4WLluk71mt6KWBt36fToUiMf3XY1JCq8/
-         IRF/wbsj7oZj7Tr6Ahl7gKZdo8JEfxzfFc3hfcQF7yaq/OeI5aYMHdLVfOkT9Gte7LzL
-         OJMBMwqQckew5zfujHxNaxIc4fytzspmNk5sXVlEV014Md4z11US4IN2w31l9a1vqipp
-         BFgDA4eY8ywLBSSjLxxBkJt1FQPi314VxPaMZr+kedSfqztdFBs5gmhgQS91Rda0vx4Z
-         S/KQ==
+        d=smile.fr; s=google; t=1791874472; x=1792479272; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=MTQMryuCf0BTBBQeQRlipEV7lOyOdRjrCkc90hoDLfM=;
+        b=PBsicyO44Lr5yQBYGLpSyJElfB9QOuZFWJq7uWHiuObqJFvHqTPM5TuQfWmpCybYap
+         p3QiGJ6jGlJo5rttfHbJsTS2PSBHuZH0Gzs1M6HNd35iiUuedQtn1C2JOf9rAnKc+kR4
+         j0Og4t2Szvy6GgcvrxBNNRNEcGakeenlcZSCg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791869080; x=1792473880;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:sender:x-gm-gg
+        d=1e100.net; s=20260707; t=1791874472; x=1792479272;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fU9Njhq9GiJ6rRkmtvGkLKgKe8BSpOUMBPZnguyqWcc=;
-        b=GVJRTJZaCk3IIYt0rIJF+w0nWFrJEyjmn65CJ9VrQUBWl4pBU8tbCJKT5C4G1mGtig
-         ncTtq867UeIiU2VDWzOX2PbywrguLwLqLsws+HftLm7NGNgu5WtGdrWfHsbRaFMpMnOG
-         fFdvn2+FEnC40DgfvUo+AyfjK0e2EBcnpY0Yn5wKdOCCQI4Fh91xXdLfji/JAaKMlhXh
-         DPd9S3XR2XbdOfvnVAI5szHe+tp5Dj/6avmIFK3b/Xi/QCoKR57pYIkE0pfu7IYlcFQD
-         5K4DhIC3Jd9Vhd0PupHcLbgb7OVKfi+Mw9z3ZKWDXNs0imtd6pVJj7xTJB78HyMHq62b
-         0G4Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzXFNg3fDnhkwadv3FZNrG21QizkpJ9mGJQYklBxxA45QG4qImT/g02BXuNBCoMs7e1haYhrNw6z4vmohhUTDZITw==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYLrQPP0AtUUjEjiw/n/tjY2WfEpRVb+NRXDn93oMX2DnMnLG/Uo
-	+wEHkjyKjY6083W8tbhP92eEimU5eZ4U+I5H1+vJdiheHqIO7Uy1KdZl
-X-Gm-Gg: AYBFou1vpgEMJBkfZIlVUMxEXlX/+3LixtNWrZXyHN/kXa4Jvw6Qit4nF5emwN8k+Gv
-	m78JjiI4KE1ZWVa37a0Qk0XP51J9t/4GJQie4urTHCetJBMR9RYa2I5zcsMSDsVs9Qpaji407MF
-	bv5rKrl9PSwhpuO38HeXvTWoq6r9YAamp43ftohR5NxqDgPsF8VMhi20Yut4u+8QZ7KVKHefYoO
-	xB9JqeotiZwNHwfFDD7Zf3MOG0UNlxezOZyugcIMUaEyw/O673YIX7Tal7MUicuVPT/qSJ+dl3B
-	+pl/+3DyzAU/2EG97SxQWFu0SBL7UCJVdhfCgwK2/aMA2wZHrjI4Ix7zdYBU/rq+z2rjSj9Bxut
-	DlGTvWmRbMk0Tb/X+zbyjuYBIoZkqjNF22TRTRemZecNdyX4AofBE0mRZCi+Z/acAW7lXiNGJbj
-	tVqxOqWiSJsuMZ61PZLhsiZg3vVaIRGd/Sgt4CyxOQO32aXS4mDNC35UBIR1+hthJlBskr9ig8Y
-	xPzCGbo/vC+zyU94GDLy1zt9UhUjwqtTmlCF1/0
-X-Received: by 2002:a05:600c:4ecc:b0:4a1:7dcf:be1f with SMTP id 5b1f17b1804b1-4a18e476022mr243882865e9.1.1791869079450;
-        Mon, 12 Oct 2026 22:24:39 -0700 (PDT)
-Received: from localhost ([2a01:e0a:1169:72f0:c42f:9430:647a:4c7d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19ba624b3sm217308505e9.2.2026.10.12.22.24.38
+        bh=MTQMryuCf0BTBBQeQRlipEV7lOyOdRjrCkc90hoDLfM=;
+        b=0oNwu4HZka7WWPZjBqARJfBhb/uYWIbt1wRwgOKeF+tj2Zmc6QCs80oKo2+81imIOg
+         elSroTg8sTFutCNrEXj/k1dcPs6ADo3EPptLbE99sGZknCobLJ1W1wToNWSSonCl+0I0
+         cI9i1xc9zJTmA0QCISjGFSJIy+7Ipy3i0fY4JSuedNvbNFyNhV+kphhgItD296Jyr40a
+         Ne70riwouB5onOEEFl4GgyrvSeomkpot4ThrotqOkVyPaeofA2ZD9kkcEONaVQVT5rU6
+         qY4u4nvtQa94INRBBOdTKcLuQZKRV9pGszWAu0KrDs0DrooY7TXEMEvEGS93/2ZIgY85
+         zdvg==
+X-Forwarded-Encrypted: i=1; AKwUvByBv8RzWVEIyq6tV4TQecsKnUvLeuhGCrbsXzLsBC690ugh4XIH5oPCuXMPpr5ouEU6PrsPnkgpSRD8S/zcD/smxw==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYII/loC2kkBN8OknAGAytsWCi3XIMYa0tTpeGEDbpI65quBbEMk
+	64HxdNPz90oAcuuoTOPWkOqde2/3CIP3Sg8GWAs0rHej3bJsumc3WvCXFKqGQZZyw8I=
+X-Gm-Gg: AYBFou0mXDsiNkPzh/sCKGQaSN+4Hdq8ceQ1APkK5WDOVPSfy0P1PoUVj9g/oONhQfV
+	2o3aPrAg+P7rcMOB30DhkTygQeNBwAH3nB7++1IxEEz1nRYB9ygcgI58a+rQdhHZHjR2iJ67q6O
+	lMuHmRxsFMUNkRd6PLSD4VUPM1e3GychdiCXOwlUxiP31JZC4IaPi7zsaK6uAbx7yQJZeJabFl/
+	++3nc1WIPjG4pzlCuRwY8/J99S9hBokzDIFjsJLl2tNbgCfCHamroXRHjsohnxHQGtY/Pqn27Rs
+	dWQz4wyDztZOsm4yjKqm8y2xDuSsnKEYcNfBkAql4Bt40UnMnRpnZaRL+F4hKMEzLPGZBMR+qZO
+	Bw2CzXppxo86cfOj0IS5E3zm5bC8lrwBbWibRVlhCG3G2vD0BmgnUzpg1fXGZ9JDtwefpmF7zy/
+	yJcxjSMXXwWeIou3/bNmgdKAEW19FNht7Obr+iYbM/dMEEyVRGQmRmYF4hseSiwiIlyqEcyW2Ge
+	G/lonutUB9i86EUXoqfNazictq2bJWKYWgSZgxXbRSdjr+JJAK+GqTLv7dJ
+X-Received: by 2002:a05:600c:8b78:b0:49e:65f2:db64 with SMTP id 5b1f17b1804b1-4a18e4837f2mr212876205e9.5.1791874472510;
+        Mon, 12 Oct 2026 23:54:32 -0700 (PDT)
+Received: from localhost (2a02-8440-2605-485d-f30c-a3cf-2eac-16ad.rev.sfr.net. [2a02:8440:2605:485d:f30c:a3cf:2eac:16ad])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bea1021sm314265365e9.10.2026.10.12.23.54.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Oct 2026 22:24:38 -0700 (PDT)
-Sender: =?UTF-8?B?R2HDq2wgUE9SVEFZ?= <gael.portay@gmail.com>
+        Mon, 12 Oct 2026 23:54:32 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Oct 2026 07:24:38 +0200
-Message-Id: <DM3GKQKJ8VE0.1XOVP37F28VC4@gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] connman: fix syslog identity with
- glibc
-From: =?utf-8?q?Ga=C3=ABl_PORTAY?= <gael.portay+rtone@gmail.com>
-To: "Yoann Congal" <yoann.congal@smile.fr>,
+Date: Tue, 13 Oct 2026 08:54:30 +0200
+Message-Id: <DM3IHJS5SOAY.3RZ32LVIU57KO@smile.fr>
+Subject: Re: [OE-core] Walnascar: enquiry about backporting the pseudo
+ openat2 fix
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Harish Bansal" <hbansal@lynx.com>
+To: <abiswas@lynx.com>, "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.17.0
-References: <20260929093009.847328-1-gael.portay+rtone@gmail.com>
- <DLUGAJL0DW01.2UDQ8P6GXPBUN@smile.fr>
-In-Reply-To: <DLUGAJL0DW01.2UDQ8P6GXPBUN@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <CH2PR22MB2038668BD49A629158C12893CA9E2@CH2PR22MB2038.namprd22.prod.outlook.com>
+In-Reply-To: <CH2PR22MB2038668BD49A629158C12893CA9E2@CH2PR22MB2038.namprd22.prod.outlook.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 05:24:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247695
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Oct 2026 06:54:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247696
 
-Hello Yoann,
+On Tue Oct 13, 2026 at 7:15 AM CEST, Ansh Biswas via lists.openembedded.org=
+ wrote:
+> Hi,
 
-On Fri Oct 2, 2026 at 5:17 PM CEST, Yoann Congal wrote:
-> Hello,
->
-> On Tue Sep 29, 2026 at 11:30 AM CEST, Ga=C3=ABl PORTAY via lists.openembe=
-dded.org wrote:
-> > The connman syslog patch modifies the handling of the ident string to
-> > solve a build issue with musl.
-> What "connman syslog patch"?
-> I'm having a hard time understanding this patch...
->
+Hello,
 
-I am sorry to hear that.
+> We encountered a linux-libc-headers failure on Walnascar during tar
+> extraction, with errors including =E2=80=9Cunknown base path for fd=E2=80=
+=9D and
+> =E2=80=9CCannot mkdir: Bad address=E2=80=9D.
+> Updating pseudo to SRCREV 9ab513512d8b5180a430ae4fa738cb531154cdef
+> resolved the observed failure in our tests. The forced packaging task
+> was completed successfully on Ubuntu 22.04 with GNU tar 1.34 and
+> Ubuntu 24.04 with GNU tar 1.35, using BitBake 2.12.1.
+> This pseudo revision is already included in OE-Core master through
+> commit 2c20c05b324e5d6564c8554381019170839509bb.
+> I understand Walnascar is EOL and backports are normally not accepted.
+> Would you consider a backport for this issue, or should we maintain it
+> downstream?
 
-By "connman syslog pach", I wanted to reference that downstream change:
+Sorry but no, I won't consider it.
+Walnascar is EOL and the situation you describe does not fall into the
+very (very!) rare cases where we would backport commits to EOL branches.
 
-	0001-src-log.c-Include-libgen.h-for-basename-API.patch
+You will have to maintain it downstream.
 
-I can reword the commit message if it is unclear; or I can remove some
-parts of it that bring some unnecessary noise.
-
-> > (...)
-> >
-> > This removes 0001-src-log.c-Include-libgen.h-for-basename-API.patch[4]
-> > from the SRC_URI if libc-glibc overrides so that it is not applied when
-> > using glibc.
->
-> Hmm, this patch moves "0001-vpn-Adding-support-for-latest-pppd-2.5.0-rele=
-ase.patch"
-> not 0001-src-log.c-Include-libgen.h-for-basename-API.patch"
->
-
-Oops, I made a terrible mistake; let me respin a v2 to fix this.
-
-Note that I have that following change in a .bbappend; this would
-explain why I have not figured it out :facepalm:
-
-	SRC_URI:remove:libc-glibc =3D "file://0001-src-log.c-Include-libgen.h-for-=
-basename-API.patch"
-
-Again, I am sorry for that mistake; and I will retest it correctly later
-this day.
-
-> > (...)
-> >=20
-> > This fixes commit 992d59564b84333740e6465ec696238274b73938.
-> Where it this commit from? I can't find it in oe-core nor poky.
->
-
-This is weird, it comes from poky tree: 992d59564b (connman: Fix build
-with musl). And you are right, it is not part of oe-core.
-
-Nevermind, I wanted to link this change in poky tree:
-https://git.yoctoproject.org/poky/commit/?id=3D992d59564b84333740e6465ec696=
-238274b73938
-
-Or that one in oe-core tree:
-https://git.openembedded.org/openembedded-core/commit/?id=3Dd0139bcbe0499e5=
-70f02f8f7b7e364763f7359ec
-
-> > (...)
-> > diff --git a/meta/recipes-connectivity/connman/connman_1.42.bb b/meta/r=
-ecipes-connectivity/connman/connman_1.42.bb
-> > index 9b3abbe258..5c8bdd43f2 100644
-> > --- a/meta/recipes-connectivity/connman/connman_1.42.bb
-> > +++ b/meta/recipes-connectivity/connman/connman_1.42.bb
-> > @@ -5,13 +5,14 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}=
-/${BP}.tar.xz \
-> >             file://0001-connman.service-stop-systemd-resolved-when-we-u=
-se-co.patch \
-> >             file://connman \
-> >             file://no-version-scripts.patch \
-> > -           file://0001-vpn-Adding-support-for-latest-pppd-2.5.0-releas=
-e.patch \
-> >             file://0001-src-log.c-Include-libgen.h-for-basename-API.pat=
-ch \
-> >             file://CVE-2025-32743.patch \
-> >             file://CVE-2025-32366.patch \
-> >             "
-> > =20
-> > -SRC_URI:append:libc-musl =3D " file://0002-resolve-musl-does-not-imple=
-ment-res_ninit.patch"
-> > +SRC_URI:append:libc-musl =3D " file://0001-vpn-Adding-support-for-late=
-st-pppd-2.5.0-release.patch \
-> > +                             file://0002-resolve-musl-does-not-impleme=
-nt-res_ninit.patch \
-> > +                           "
-> > =20
-> >  SRC_URI[sha256sum] =3D "a3e6bae46fc081ef2e9dae3caa4f7649de892c3de622c2=
-0283ac0ca81423c2aa"
-
-Here is what the change would look like:
-
-	@@ -6,12 +6,13 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/${=
-BP}.tar.xz \
-	            file://connman \
-	            file://no-version-scripts.patch \
-	            file://0001-vpn-Adding-support-for-latest-pppd-2.5.0-release.p=
-atch \
-	-           file://0001-src-log.c-Include-libgen.h-for-basename-API.patch =
-\
-	            file://CVE-2025-32743.patch \
-	            file://CVE-2025-32366.patch \
-	            "
-=09
-	-SRC_URI:append:libc-musl =3D " file://0002-resolve-musl-does-not-implemen=
-t-res_ninit.patch"
-	+SRC_URI:append:libc-musl =3D " file://0001-src-log.c-Include-libgen.h-for=
--basename-API.patch \
-	+                             file://0002-resolve-musl-does-not-implement-=
-res_ninit.patch \
-	+                           "
-=09
-	 SRC_URI[sha256sum] =3D "a3e6bae46fc081ef2e9dae3caa4f7649de892c3de622c2028=
-3ac0ca81423c2aa"=20
-=09
->
-> Regards,
+Obviously, I recommend an upgrade to a maintained branch.
 
 Regards,
-Ga=C3=ABl
+--=20
+Yoann Congal
+Smile ECS
+
 
