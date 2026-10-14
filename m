@@ -1,356 +1,223 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <debal.ghosh@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2255CCC6B1A
-	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 16:55:36 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19121.1791996929623177867
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95043CC6B1A
+	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 17:09:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19628.1791997767973800387
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2026 09:55:29 -0700
+ Wed, 14 Oct 2026 10:09:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=rRpUtdHM;
- spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e6038cebefso32765155ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 09:55:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791996929; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nwwsC1JMUyvWBWGQkdBMd8QQZCZyyHfO+0BpgohP+4Ez7R20MWXBlCB5rHayeSbFVa
-         tlWRj1OyYmoS9o+DKHgutDNa9K7DF8D3uQUKCsqUBKCS+nQmtS45a3/e0svYh6TJeqec
-         dbaUZfngDefe/w74R/MlLDXYHwvMyoD4PJj7+o/c8BLEYSqo+Bu9BmlAFSsHdPN1MmWR
-         msGAYNBE5dl3vI0rXRYcDTwoWqNH/V3pxwbqpjL37py/556uJuAhdBTiKyOadRTvktze
-         Fzvkz1MsACwWywAGoF8jsxH4b/4YZ/vXZcedtiGmytR1CiDWkQz3de/sncWCj0Ju8a73
-         SedQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1T8Wqmb1JduDm/WYdNi8iDBUuIyXU5L+aX4h+scYhv8=;
-        fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
-        b=lpykp+rBXUYTuVPLpnuBiRmMI8PlWREJbBhluKAWmv8xy4Uu/ReT0hDzNxLWNnmTNK
-         8gYKPW+0NncT5Tx3QnIGuWYNvd7jJloYKVFBw1tMZ4PztMvrwt+u/1P0ePryf2SlSxWo
-         4JXiHwu8/ObSUQgE0I22tFmJV49dn0hfG2BA7fYokcJa9KHxBccxwD5rk78FMSK00yHJ
-         1wf0M76jaJ+f+yo2BpqRLsKZiKx3S2nQfrkDNx19mGxjaugi8URDFQsGOzqQD59BFKi7
-         cSWFvfyoJp21Wvsv9oXpjtI0rvWR7r6DaJa56c9HOJRnC1SNDtqs2P5YXT0C8CuF/nnv
-         RqnA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791996929; x=1792601729; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1T8Wqmb1JduDm/WYdNi8iDBUuIyXU5L+aX4h+scYhv8=;
-        b=rRpUtdHMcnnvlqbM3PwVZgpaWD4WZxt3efLD2LYr3wcTJ2H3JLZY5HEZ2ffhNZDiVP
-         EX5/0z6YNIIazD802cwc7u6nVRjgky3lGuFiG70yFLMAyYZ9WttagTCdSC0hulPdSWQ/
-         XMRTjfLOtcOTXvFxK/2LUTLDjFnh4XnuvyPjVk2Os1lGY1HViWLddQejk6wa8fvLernt
-         w+g2EBeQvJ+s04fmw8fKQGav989TseztgXjwGyNIwMX94LsIlP1RZehuLCGcKlO+iDqO
-         BR7OYo1Lp1O4eU3zr2N+zyCT1nGekhkGOKLGtgLU8maOogeD/NTVp7g0QSeuSq77FeKk
-         DpGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791996929; x=1792601729;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=1T8Wqmb1JduDm/WYdNi8iDBUuIyXU5L+aX4h+scYhv8=;
-        b=Ln04ZRo/iDEPbbQpQlYOqf/22VMZowJsvE08WBQu6XtK+bpy+JaMyk0p6EIg/WzmaD
-         JAiz5lOzCU2paiiZjOaeRHOpO8/zO8tYY7Mrd8I6r9IFk8U8krZAB3NFKR+AwCPfoKu8
-         Wz6SFdSd1mG3dNJycKHV47sO+HXUPxgS9zZdor7mpyiTdVKOJtL9qbwZO5bIv3bVmnuf
-         iScQVTsmZf2/DqfFsh2UCAP8xHsQrcx/Qe2idpnAichwSwl3OB4Ys6yAnl7btsiaW7Or
-         jIObNmEbQmktEnM9DNVpEYNRuMk6eW/2MSZ0Ht4zIT5q01JtDX2Qgoj2l4NaBiGwYoBj
-         OdJw==
-X-Gm-Message-State: AFq9FYKEZfLcho5t6yOOE9ruy3cHR89R/03cYzWDFvgaT3bnIiMDuFG/
-	DTP2MAkYD16e52tHfYisQl15Mn9OYWJvULbLzFiBOZwi4LawlILsO56a9UcnxR81tqbklZiMNhf
-	fZM/6E6Vkz+AR0xmRWvB5TtRPlKzA+qI=
-X-Gm-Gg: AYBFou2KbliR1BOGtwlc1ZI5rr8rRnKwD3fLQxMhvmJligES1tiYkjUGm8HN3qPU1VM
-	/7IcMrxUBm0ykotbb7UX3vxpO4rht08h2KtYDVKLT8IPIdywqLBk4iJBc/NjNs1SlGYHHPr5bTI
-	e8KrsY3Nxcfb+0+T9nDuFauR6ZuT/gsMgEoBokGY1Yfl2B2k5XC7bnvwejGHii5BrBQwe4CfeuE
-	xVgzakgcne6oVXg+FjtIvp0OFkUXGJrOVrHh/ulu8ato3kFlal04Ur5Pw0j1stmQ4tCSOCBw8c1
-	Pu0ivFeBZ+GYEivi3aQDTN2rk+A0o7oC4kIDfvAp5QsmoEvVqnN/BY7fFg+7XONxp0YCAeX/kgd
-	CaLHr9zJgT+Ay136wbOnV61BOvnnpGqZXdn6l0dfH6/2FnypgQqecEcjviu6LV76A7QZVuPkKfA
-	==
-X-Received: by 2002:a17:903:2f8c:b0:2e2:cc2d:b84a with SMTP id
- d9443c01a7336-2e842bbedc2mr158256405ad.41.1791996928689; Wed, 14 Oct 2026
- 09:55:28 -0700 (PDT)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=fZCoykBe;
+ spf=pass (domain: intel.com, ip: 198.175.65.17, mailfrom: debal.ghosh@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791997768; x=1823533768;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=wqX73KMUYxuXmY/vyCcaE4O6L4k+5ejSHVlyYudqzyc=;
+  b=fZCoykBe7OvZAdsfbyIUdbQmQBFBFYI+XnhqcwE+d60GTB1uABJTLa3p
+   s0Y1XVU+xkqO2tV3vxPXVoKreIfsPmBopb4HMmPXc7pwgtMEZAn3UlIcw
+   NfJTshuP9nLyKHITz4mt7FCAxgJCc/TEo97c1rqDMBXq27Fw0keE9MHuP
+   wT718QcPZ6M5NqRR21F1yNotrpQpM+bg4HeJIbshXMegLnIMJzNXz5uIn
+   RDUFfNuzE9rLDlSYlJsZkdRIO3CR7Pk8HxdGGoEo2+dl0WY9tM4ivi0ur
+   K4SirhKMs0N4l8DiEDbt7noFtngHGJ3fDzmuQUyTzoq4aLrNDVy6r88XH
+   g==;
+X-CSE-ConnectionGUID: 66+XHjDfSBuT2xeT4kWNFQ==
+X-CSE-MsgGUID: 7C83+UbrQzactWYXEsea0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="759373"
+X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
+   d="scan'208";a="759373"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 10:09:28 -0700
+X-CSE-ConnectionGUID: zunNYArnTLCyjGsdfL9o4g==
+X-CSE-MsgGUID: yVlmvWwIQ6qmNj3uJ7/RoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
+   d="scan'208";a="3318742"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa011.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 10:09:27 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 14 Oct 2026 10:09:26 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Wed, 14 Oct 2026 10:09:26 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.64) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 14 Oct 2026 10:09:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CRxNvQOdy4JITX34xMDEpO0DagyuzPk6akBBmaxXfpy+0ZROwIaqSwevVXFaz0UA90qIGoQ1WpTZqZiGegI4Jg6pBKestEOja/LJA/oaepCYkGCWPffSxi/USJCEYMLmgCdWFhn+34UEMyHBBLdavqnh9f/Wai9Bb81sRLdEWgItkLBBD12TkMIpTFABy63hoMGfJoYfWSNU17OI87XWqyi6oZNh3cX/Vupt1pkymQLQXpzH+yI/oNGBxvK9DcQBOHMzIP0ICs480S3g4UnWJafm/NGtn15wbnUo4JSizfAxOsPtHFflINOxoEgdm2B626fHHf9Hxo6xD288qgyPaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wqX73KMUYxuXmY/vyCcaE4O6L4k+5ejSHVlyYudqzyc=;
+ b=SytyVPCSPcszX/kTSm5QGNglqZ3rfhnNPhqAyfxfg3w1QNbNu84pumkL6e27yrsalgBAs93VPgkOnTpj37JtYBF4Xppk++K933mWNTYZl9Aro/Sx4Khtc9UTFPHI+jUX+EmIRmFp+YvCvRrtvvDqvt62UowwFRZ9h3UbVT15yTshs64PFzxutuFc12GPPAZvNwh4Kntc/Fwaszcn02wojykDs3sgU6oIttdxceVrGfh8ml25NxoFNC6+AnFvX+GMswW1x6Xx14SOquvKpSXYB2zXypLRff5KOlVMrpZJBclfLQZvVWKhCnivLMekmoGENRHTiJOo0r0ISCGQeDcqRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SN7PR11MB7018.namprd11.prod.outlook.com (2603:10b6:806:2ad::14)
+ by SA1PR11MB9614.namprd11.prod.outlook.com (2603:10b6:806:4c4::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Wed, 14 Oct
+ 2026 17:09:24 +0000
+Received: from SN7PR11MB7018.namprd11.prod.outlook.com
+ ([fe80::bc48:bc16:39d:b43]) by SN7PR11MB7018.namprd11.prod.outlook.com
+ ([fe80::bc48:bc16:39d:b43%2]) with mapi id 15.21.0496.021; Wed, 14 Oct 2026
+ 17:09:20 +0000
+From: "Ghosh, Debal" <debal.ghosh@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>, Yocto-mailing-list
+	<yocto@lists.yoctoproject.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, Pokybuild User
+	<pokybuild@yoctoproject.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-6.0.4.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-6.0.4.rc1)
+Thread-Index: AQHdUOrryTCXWw6wskSmzIZaJE+JDrbzu1XAgAmgIJA=
+Date: Wed, 14 Oct 2026 17:09:19 +0000
+Message-ID: <SN7PR11MB70184C9A275BDC8B5BC0DA60F49D2@SN7PR11MB7018.namprd11.prod.outlook.com>
+References: <010101a0f2bb1dc3-f7d94a5b-ddf5-4408-a5ca-9cfacb88f136-000000@us-west-2.amazonses.com>
+ <DLSQG0G120BV.3CN1II58OGZMK@smile.fr>
+ <PH7PR11MB70275D5CFC282F02740D79D6F4932@PH7PR11MB7027.namprd11.prod.outlook.com>
+In-Reply-To: <PH7PR11MB70275D5CFC282F02740D79D6F4932@PH7PR11MB7027.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR11MB7018:EE_|SA1PR11MB9614:EE_
+x-ms-office365-filtering-correlation-id: 9af9a09d-6426-44dd-10cc-08df2a15e2f9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|4022899009|38070700021|56012099006|11063799006|261009223027099003|4143699003|260925022911599003|260925021911599003|10067099003|22082099003|18002099003|6133799003|260925021311599003;
+x-microsoft-antispam-message-info: 0s0TamDUYpYXgUTfTKlZI0Bu8uLsbmDlS72qjo+qzpi5ejZvi/7j6FD6+u1U9CDTI2FXx4WX35DWKWhwoVzKmvTYxW1xKK5dEbfvfleHeifKSQv7fP0ObPrA5jGEA9t7wB73pEZv2o8LFSULHphVgX6cA2eIECvl0zzpnW8xxFRfKdbvXA/NyuPzUEQx6ZTp6zVb9FP75IauBTHcu6MaMIMVds7TiOx2lx41eFw6U/5tVvlvohmaBZdqiRrJ55LnzeWf7RRezDtno3IvKuiZD5h7rA7EGKVrexRQ/GBrKSBn2IMlBUDBm+p/iOM4jmEovqWsm2DjfzopLT6yyzFOFmIGL79FrWNCcobTGe+zm9/nn1u7lOQJ48Gs/+s0p80i7SCz9ke9u+iI3LnbRALbOpDSGrYWLVmjDqwblkB0p8XB1viq0+ASu+souscpPqJSsWxnjEDv7a7awg7alDDU3c8x6LKjc6xdyWJYwFwA95irBAz47Uh4wqABAZ+OKF1vIKcO+mqvYHcUdxRf+agcrYLEwRoCh6RzREYrCdyBwSmvzk3iPU1aQzfMBb98oug09qhPMkYC9VYETEM14cDbcCpzgabbRjuwnaUTQVl0SI7RsWHF8wFgrHbzTVz63g8c+fkjkRX+5fs3bVW6aedx57qZ//VECNFDze4j/749d3g=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7018.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(4022899009)(38070700021)(56012099006)(11063799006)(261009223027099003)(4143699003)(260925022911599003)(260925021911599003)(10067099003)(22082099003)(18002099003)(6133799003)(260925021311599003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eit3TnA3cTVVUWlFM2Q3NG9zYnp5OUF5V1VLaTRFUFFZTmxFcUZRLzVQc3Fi?=
+ =?utf-8?B?T25aVUIxQ0N3eEh0eWxWUzZBZnl2a1RMcmJFcHBzNDJ6Sm9kVDhUTjhBVlNu?=
+ =?utf-8?B?NXhYT21mazZrcXRkVmM3bDhMcW95RVNucTlVVVlMblFiNFliSmV5VTVBdlNM?=
+ =?utf-8?B?YVM0SENkQkF0a0w3UTl5d1BFUDZLZ2twSmh2SGZSY1BPclc5Kzg4R1dQNUZr?=
+ =?utf-8?B?djlGR2c2UjUvK3BRbENNeDVUUkhXdEl6dmVhQndyMWZ3bkNQQnFBTFlncjhV?=
+ =?utf-8?B?ekVXSGczSWhRbi9oWXA3UjF3K1VBQkxteGR3N1lvODFnbERjdG0yUVYweHg1?=
+ =?utf-8?B?YU9HdUpKLzhheE53Vi9OYWkxQmdzT3lHTVdOcUlqRGtNZnpSV2IrTmFVZ29V?=
+ =?utf-8?B?Z3l2MFRqaVgxWm02bm43TktPTjR4eC9VeWFHRlprekVVSis3R3FMYXBRcE9L?=
+ =?utf-8?B?Nm5aUjBScVBjdkpwbWxyTkt3SVNNV2VNRGI1ZkJWTXJsSVo0MkxwclV4WmZH?=
+ =?utf-8?B?NEh3VjdhZnJkVFFaS1I5RGZ4OVlnN0VHRHc1YWdJcU1lOFFyWS9KYlMwVWdG?=
+ =?utf-8?B?YkM3dUlrMHZDejhEVzE1R0lKZ1RnR0paQVY1ZUlxc1pOcU52QzhGQ1lEMEZU?=
+ =?utf-8?B?Nm9Pa2VQMHVYdUNKcnFQUEJlaisvbS95NnJ5VDlVWFUxcmtHUWdHYmxpQlV5?=
+ =?utf-8?B?TTZYTitNZ2UzNHRpZ3NvaVhTK1BzS0xXdE13OEVDMWtsNzgrcXBvcEV6Ris4?=
+ =?utf-8?B?ZzVTQjNLU0ZKQ3lyN0MwN0JXNGEvd2JiT04zUlVoSFBsL3NXL05MVVIvVFd0?=
+ =?utf-8?B?Q2tIRGlnN2pGSnZtbDNGcW1mOVlBY2dMb0lFRlVtQk9SNnFDNEZsQlMyaG8r?=
+ =?utf-8?B?YndCSXd6UCtyOVkxL0dWOWdzemNDL2FENEhIcFNvcmEyTkFYWWNXeEVMMWNU?=
+ =?utf-8?B?UkRmamtqWEpzNVNrQ1BlTTBMblZDbGduN3RxREVvRVlLSTZ1YkVHQUNZMWxT?=
+ =?utf-8?B?VzhjMGMxNW1FeTIzeVVNZlRMdnF4ZmVqMSsreCtJTEtrY1ExYzUyVS9VV2tV?=
+ =?utf-8?B?SGlMUlJ5S2ZhS2hjdjRYT0RzVEkwMXFmNGx6MHhWMWVPc0pTZEw4WmQxTmw1?=
+ =?utf-8?B?STVOTEt6bnRXSTBCdzFwN3Z4WEp0SEs2R2owOHh2cXpMYldLOFZqL2YzZlh5?=
+ =?utf-8?B?Vlo1R3IvZEJkcXRQdkR3OU1UQlNrU0JpZmRLK1dPRnc0R29XdjlyU2Z4S2hP?=
+ =?utf-8?B?bHVkaDJxQ0J4KzJaWWExQ3NGSFh3ZVBNOUt4Qk5OTHJCT0QzcnhkUklwdUdX?=
+ =?utf-8?B?L255czNWWm9iM3YycXF3aUJFM3JwVEJoZG50ZlZnUzdXWlZOQUZMV3k3YUJl?=
+ =?utf-8?B?VVVoN0ZMeU0zbjlwdXJGU1VPc1RRYktycmNFeVRFT0ZOWndVOE12NEx3eWdX?=
+ =?utf-8?B?NmIzT2laS0hqVWdqQUVDMFJlUjh3dUxDbGF2UE1ERlltT21iMTczTXg3OHJP?=
+ =?utf-8?B?Q3BnWVlOcDhoc09qMkRXN1o0MVNlbitqNHpaZW5STXlZUDdBRlFUeWsxL2Zy?=
+ =?utf-8?B?WVBTdUJEbm01blNMQWFiZGNGVldBYmR4M05YRkRhOGdhb2NvVjgzM3YyYWk4?=
+ =?utf-8?B?Wmt4WC84T0JmTTQzb3hBUzkyUGhDVVphaHpCamd5QUUzNGRBdjJYUHA5RXZx?=
+ =?utf-8?B?WVNudDY1dXRyQ04wMkEwUXpRZHVPNFpmNVZxb3U2dVNtYU9zb0VZWERhS0RZ?=
+ =?utf-8?B?Rk1ISTVGR1ljanJZSEE5NWt0cHl4OUdPSWlrcWlEUnVDNDFQWG5Ia2pKQS8v?=
+ =?utf-8?B?amlDNUtUaVF5eVUzUkZYWGFFRW94QVk0RCtiOUJmaUdoNHIwaFk5cXJBRHhS?=
+ =?utf-8?B?WE5qRmM0QkhaMWNIRnJiZlpCUGVabDZKU1BNRndjU3c5cUdWeG55L0pqNFdG?=
+ =?utf-8?B?SkxGQjVNUjlkZmc0b2dpUTMwRzQ0bVV1OVFudk9QNjdIa1duTlJSZnhyNUZD?=
+ =?utf-8?B?TThtS1J3ZXFrZlUzbVRwS2JOTXAwNk15QjNNc1ZOL2ZEQ2ZGa2QyVVoyMEtL?=
+ =?utf-8?B?cHVXZ1pEbm1GM2RwdTBPU3VaZFJuVGtvRU83UldETEI2b0MzNlh5cXpUa0hZ?=
+ =?utf-8?B?M1ZqeVJjL3JaMEQ4cFJOZWV2bWtPUStQVnhvRFlSQ3ZKVFRsdXpNbi83Z3c0?=
+ =?utf-8?B?VHBPc1BLZjd5M2I1U0R0TzNZNVJ4MzkvL1ppcXBnbCtjRGRJSjVQbUJONVJ6?=
+ =?utf-8?B?UUV0MklqYTZhME1CNC9jRW5iTnZSL0hLZGhBY3lKM05qdzhwd1NQaFZxRFR3?=
+ =?utf-8?Q?akpMnt88Vu3+802HyH?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20260917051600.1472502-1-bruce.ashfield@gmail.com>
- <DLLOWJJZP939.377A2ZRET8LZ1@smile.fr> <DM4MU1O808QU.3D1G1PPSLRL5V@smile.fr>
-In-Reply-To: <DM4MU1O808QU.3D1G1PPSLRL5V@smile.fr>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 14 Oct 2026 12:55:16 -0400
-X-Gm-Features: AclHuK8-wxICSCqqDyQDWt72NqyUVa3ypUAzU8ZcsRKrlxWaukkQn2e0TYV2V_M
-Message-ID: <CADkTA4PdELZG3bQYeDXvMRc2qDw+6b5yNot2Fvjjq4gY3s_Wxg@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap] linux-yocto/6.6: update to v6.6.157
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005f886a065dcfcc39"
+X-Exchange-RoutingPolicyChecked: t5fhITviMftK32ptZuXoUjCnOOaBh6Zjh7MpLOCI+vyZoDZEkASD+ULK+bq2bj/3uVOf9Wig/PVvnistoLM1rYO5zPKRM7M/mvh6btlM4FCSE7CAoIcA7rekcsKfrrK7hC0tfTT+i96hdSLTd3RX/A/0hdP9lzNpP2g2KRdxTVhhcq8ozQE4XM0/kIVy8+G0ln4A5EtFySt0pkPIbp/YkFtBlPQCiIGI/D0fGEC/O25SnhCsuPRyfL97bF7lMgZaqbe9gqlUP5xwkxNEHDQRiojlPUqE+ToatZP4sjT1iuT33r+XuDZmb6Tpz5LZK48eNshKUSQSOSC7OXPgf9FfnA==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7018.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9af9a09d-6426-44dd-10cc-08df2a15e2f9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2026 17:09:19.9960
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: L+OvSO2lG4DSzloW74mIiXwfSMboJ7pbVNKT5SHn1EclP1JcyCZMR5/x1GnWCVrECqTAKkkFVkSv/uU6Mp4FaQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB9614
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 16:55:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247790
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 17:09:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247791
 
---0000000000005f886a065dcfcc39
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 14, 2026 at 10:31=E2=80=AFAM Yoann Congal <yoann.congal@smile.f=
-r> wrote:
-
-> On Tue Sep 22, 2026 at 10:08 AM CEST, Yoann Congal wrote:
-> > On Thu Sep 17, 2026 at 7:16 AM CEST, Bruce Ashfield via
-> lists.openembedded.org wrote:
-> >> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >>
-> >> Updating linux-yocto/6.6 to the latest korg -stable release that
-> comprises
-> >> the following commits:
-> >>
-> >>     79643295eba17 Linux 6.6.157
-> >>     32e598324edc3 nvmet-rdma: fix queue leak when connect backlog is
-> exceeded
-> >>     [...]
-> >>     73b7a11814838 Revert "arm64: mm: Don't remap pgtables for allocate
-> vs populate"
-> >>
-> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >> ---
-> >>  .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
-> >>  .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
-> >>  meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++---------=
--
-> >>  3 files changed, 20 insertions(+), 20 deletions(-)
-> >
-> > Hello Bruce,
-> >
-> > I think either this 6.6.157 upgrade or the 6.6.156 one triggers a
-> > lttng ptest failure:
-> > https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/460=
-4
-> > qemux86-64-ptest debian11-vk-3 scarthgap completed at 2026-09-21
-> 11:38:31+00:00
-> > https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/457=
-7
-> > qemuarm64-ptest ubuntu2404-vk-arm2 scarthgap completed at 2026-09-21
-> 14:57:16+00:00
-> >
-> >
-> https://valkyrie.yocto.io/pub/non-release/20260921-71/testresults/qemux86=
--64-ptest/core-image-ptest-lttng-tools/log.do_testimage.311077.202609211108=
-38
-> :
-> > (only one of each message):
-> > |FAIL: kernel/test_userspace_probe 91 - Load command with opts:
-> --input-path=3D/tmp/tmp.test_userspace_probe_save_load_elf_trace_path.zSA=
-9mh
-> > |FAIL: tools/base-path/test_ust 35 - Load command with opts: -i
-> ./tools/base-path//load-stream-extra-path.lttng
-> > |FAIL: tools/save-load/test_load 2 - Load command with opts: -i
-> ./tools/save-load//load-42.lttng
-> > |FAIL: tools/rotation/test_ust 101 - App is un-registered
-> > |FAIL: tools/save-load/test_autoload 2 - Lttng-tool list command with
-> option load-42
-> > |FAIL: tools/rotation/test_save_load_mi 17 - Lttng-tool list command
-> with option yTVkM2lxbFoDS7Nu
-> > |FAIL: tools/rotation/test_save_load_mi 8 - Valid lttng enable-rotation
-> size XML
-> > |FAIL: tools/rotation/test_save_load_mi 5 - Valid lttng enable-rotation
-> timer XML
-> > |FAIL: tools/relayd-grouping/test_ust 120 - Valid lttng list XML
-> > |FAIL: tools/rotation/test_save_load_mi 18 - Valid lttng list XML after
-> load
-> > |FAIL: tools/base-path/test_ust 37 - Stop lttng tracing for session
-> load-stream-extra-path
-> > |FAIL: tools/trigger/test_add_trigger_cli 293 - add-trigger mi is valid
-> > |FAIL: tools/trigger/test_remove_trigger_cli 20 - remove-trigger mi is
-> valid
-> > |FAIL: tools/base-path/test_ust 39 - UST per-uid network trace path is
-> valid
-> > |FAIL: tools/save-load/test_autoload 1 - Start session daemon
-> > |FAIL: tools/save-load/test_autoload 3 - No session daemon to kill
-> > |FAIL: tools/save-load/test_load 3 - Destroy session load-42
-> > |FAIL: tools/base-path/test_ust 38 - Destroy session
-> load-stream-extra-path
-> > |FAIL: tools/rotation/test_save_load_mi 21 - Destroy session
-> yTVkM2lxbFoDS7Nu
-> > |FAIL: tools/mi/test_mi 3 - MI test: Version xsd validation
-> > |FAIL: tools/rotation/test_save_load_mi 20 - Found the right rotation
-> size value in list XML after load
-> > |FAIL: tools/base-path/test_ust 40 - Validate trace for event tp:tptest
-> > |FAIL: tools/base-path/test_ust 36 - Start tracing for session
-> load-stream-extra-path
-> > |FAIL: kernel/test_userspace_probe 92 - Validate userspace probe listin=
-g
-> >
-> > Any ideas?
-> >
-> > Thanks!
->
-> Hello Bruce,
->
-> Gentle ping on the above upgrade failure.
->
-> Do you have time to look at this? If you don't, we'll have organize to
-> find other resources, we can't not update the kernel.
->
-
-I'll have time next week, but I can't run the test images locally, so I'll
-need to come up with my
-own tests :)
-
-Bruce
-
-
-
->
-> Regards,
-> --
-> Yoann Congal
-> Smile ECS
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000005f886a065dcfcc39
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 14, 2026 at 10:31=
-=E2=80=AFAM Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann=
-.congal@smile.fr</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">On Tue Sep 22, 2026 at 10:08 AM CEST, Yoann Congal wrote:<b=
-r>
-&gt; On Thu Sep 17, 2026 at 7:16 AM CEST, Bruce Ashfield via <a href=3D"htt=
-p://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.open=
-embedded.org</a> wrote:<br>
-&gt;&gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.co=
-m" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Updating linux-yocto/6.6 to the latest korg -stable release that c=
-omprises<br>
-&gt;&gt; the following commits:<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A079643295eba17 Linux 6.6.157<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A032e598324edc3 nvmet-rdma: fix queue leak when c=
-onnect backlog is exceeded<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0[...]<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A073b7a11814838 Revert &quot;arm64: mm: Don&#39;t=
- remap pgtables for allocate vs populate&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield=
-@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 .../linux/<a href=3D"http://linux-yocto-rt_6.6.bb" rel=3D"no=
-referrer" target=3D"_blank">linux-yocto-rt_6.6.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++--<br>
-&gt;&gt;=C2=A0 .../linux/<a href=3D"http://linux-yocto-tiny_6.6.bb" rel=3D"=
-noreferrer" target=3D"_blank">linux-yocto-tiny_6.6.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++--<br>
-&gt;&gt;=C2=A0 meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.6.=
-bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto_6.6.bb</a>=C2=A0 | 28 =
-+++++++++----------<br>
-&gt;&gt;=C2=A0 3 files changed, 20 insertions(+), 20 deletions(-)<br>
-&gt;<br>
-&gt; Hello Bruce,<br>
-&gt;<br>
-&gt; I think either this 6.6.157 upgrade or the 6.6.156 one triggers a<br>
-&gt; lttng ptest failure:<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/?#/builders/7=
-3/builds/4604" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoc=
-toproject.org/valkyrie/?#/builders/73/builds/4604</a><br>
-&gt; qemux86-64-ptest debian11-vk-3 scarthgap completed at 2026-09-21 11:38=
-:31+00:00<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/?#/builders/6=
-1/builds/4577" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoc=
-toproject.org/valkyrie/?#/builders/61/builds/4577</a><br>
-&gt; qemuarm64-ptest ubuntu2404-vk-arm2 scarthgap completed at 2026-09-21 1=
-4:57:16+00:00<br>
-&gt;<br>
-&gt; <a href=3D"https://valkyrie.yocto.io/pub/non-release/20260921-71/testr=
-esults/qemux86-64-ptest/core-image-ptest-lttng-tools/log.do_testimage.31107=
-7.20260921110838" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yoc=
-to.io/pub/non-release/20260921-71/testresults/qemux86-64-ptest/core-image-p=
-test-lttng-tools/log.do_testimage.311077.20260921110838</a>:<br>
-&gt; (only one of each message):<br>
-&gt; |FAIL: kernel/test_userspace_probe 91 - Load command with opts: --inpu=
-t-path=3D/tmp/tmp.test_userspace_probe_save_load_elf_trace_path.zSA9mh<br>
-&gt; |FAIL: tools/base-path/test_ust 35 - Load command with opts: -i ./tool=
-s/base-path//load-stream-extra-path.lttng<br>
-&gt; |FAIL: tools/save-load/test_load 2 - Load command with opts: -i ./tool=
-s/save-load//load-42.lttng<br>
-&gt; |FAIL: tools/rotation/test_ust 101 - App is un-registered<br>
-&gt; |FAIL: tools/save-load/test_autoload 2 - Lttng-tool list command with =
-option load-42<br>
-&gt; |FAIL: tools/rotation/test_save_load_mi 17 - Lttng-tool list command w=
-ith option yTVkM2lxbFoDS7Nu<br>
-&gt; |FAIL: tools/rotation/test_save_load_mi 8 - Valid lttng enable-rotatio=
-n size XML<br>
-&gt; |FAIL: tools/rotation/test_save_load_mi 5 - Valid lttng enable-rotatio=
-n timer XML<br>
-&gt; |FAIL: tools/relayd-grouping/test_ust 120 - Valid lttng list XML<br>
-&gt; |FAIL: tools/rotation/test_save_load_mi 18 - Valid lttng list XML afte=
-r load<br>
-&gt; |FAIL: tools/base-path/test_ust 37 - Stop lttng tracing for session lo=
-ad-stream-extra-path<br>
-&gt; |FAIL: tools/trigger/test_add_trigger_cli 293 - add-trigger mi is vali=
-d<br>
-&gt; |FAIL: tools/trigger/test_remove_trigger_cli 20 - remove-trigger mi is=
- valid<br>
-&gt; |FAIL: tools/base-path/test_ust 39 - UST per-uid network trace path is=
- valid<br>
-&gt; |FAIL: tools/save-load/test_autoload 1 - Start session daemon<br>
-&gt; |FAIL: tools/save-load/test_autoload 3 - No session daemon to kill<br>
-&gt; |FAIL: tools/save-load/test_load 3 - Destroy session load-42<br>
-&gt; |FAIL: tools/base-path/test_ust 38 - Destroy session load-stream-extra=
--path<br>
-&gt; |FAIL: tools/rotation/test_save_load_mi 21 - Destroy session yTVkM2lxb=
-FoDS7Nu<br>
-&gt; |FAIL: tools/mi/test_mi 3 - MI test: Version xsd validation<br>
-&gt; |FAIL: tools/rotation/test_save_load_mi 20 - Found the right rotation =
-size value in list XML after load<br>
-&gt; |FAIL: tools/base-path/test_ust 40 - Validate trace for event tp:tptes=
-t<br>
-&gt; |FAIL: tools/base-path/test_ust 36 - Start tracing for session load-st=
-ream-extra-path<br>
-&gt; |FAIL: kernel/test_userspace_probe 92 - Validate userspace probe listi=
-ng<br>
-&gt;<br>
-&gt; Any ideas?<br>
-&gt;<br>
-&gt; Thanks!<br>
-<br>
-Hello Bruce,<br>
-<br>
-Gentle ping on the above upgrade failure.<br>
-<br>
-Do you have time to look at this? If you don&#39;t, we&#39;ll have organize=
- to<br>
-find other resources, we can&#39;t not update the kernel.<br></blockquote><=
-div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">I=
-&#39;ll have time next week, but I can&#39;t run the test images locally, s=
-o I&#39;ll need to come up with my</div><div class=3D"gmail_default" style=
-=3D"font-size:small">own tests :)</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
-<br>
-Regards,<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000005f886a065dcfcc39--
+SGkgQWxsLA0KDQpRQSBmb3IgeW9jdG8tNi4wLjQucmMxIGlzIGNvbXBsZXRlZC4gVGhpcyBpcyB0
+aGUgZnVsbCByZXBvcnQgZm9yIHRoaXMgcmVsZWFzZTogDQpodHRwczovL2dpdC55b2N0b3Byb2pl
+Y3Qub3JnL3lvY3RvLXRlc3RyZXN1bHRzLWNvbnRyaWIvdHJlZS8/aD1pbnRlbC15b2N0by10ZXN0
+cmVzdWx0cw0KDQo9PT09PT09IFN1bW1hcnkgPT09PT09PT0NCk5vIGhpZ2ggbWlsZXN0b25lIGRl
+ZmVjdHMuDQoNCk5vIG5ldyBpc3N1ZSBmb3VuZC4NCg0KVGhhbmtzLA0KRGViYWwgR2hvc2gNCg0K
+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEdob3NoLCBEZWJhbCANClNlbnQ6IDA4
+IE9jdG9iZXIgMjAyNiAxOTo0Mg0KVG86ICdxYS1idWlsZC1ub3RpZmljYXRpb25AbGlzdHMueW9j
+dG9wcm9qZWN0Lm9yZycgPHFhLWJ1aWxkLW5vdGlmaWNhdGlvbkBsaXN0cy55b2N0b3Byb2plY3Qu
+b3JnPjsgJ1lvY3RvLW1haWxpbmctbGlzdCcgPHlvY3RvQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc+
+OyAnb3BlbmVtYmVkZGVkLWNvcmUnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnPjsgJ1Bva3lidWlsZCBVc2VyJyA8cG9reWJ1aWxkQHlvY3RvcHJvamVjdC5vcmc+DQpT
+dWJqZWN0OiBSRTogW3FhLWJ1aWxkLW5vdGlmaWNhdGlvbl0gUUEgbm90aWZpY2F0aW9uIGZvciBj
+b21wbGV0ZWQgYXV0b2J1aWxkZXIgYnVpbGQgKHlvY3RvLTYuMC40LnJjMSkNCg0KSGkgYWxsLA0K
+DQpJbnRlbCBZUCBRQSBpcyBwbGFubmluZyBmb3IgUUEgZXhlY3V0aW9uIGZvciBZUCBidWlsZCB5
+b2N0by02LjAuNC5yYzEuIFdlIGFyZSBwbGFubmluZyB0byBleGVjdXRlIHRoZSBmb2xsb3dpbmcg
+dGVzdHMgZm9yIHRoaXMgY3ljbGU6DQoNCk9FUUEtbWFudWFsIHRlc3RzIGZvciBmb2xsb3dpbmcg
+bW9kdWxlOg0KDQpPRS1Db3JlDQpCU1AtaHcNCg0KDQpSdW50aW1lIGF1dG8gdGVzdCBmb3IgZm9s
+bG93aW5nIHBsYXRmb3JtczoNCg0KQWxkZXIgTGFrZQ0KUGFudGhlciBMYWtlDQpBcnJvdyBsYWtl
+DQpCYXJ0bGV0dCBsYWtlLVMNCkFtc3RvbiBsYWtlDQpUd2luIGxha2UNCg0KRVRBIGZvciBjb21w
+bGV0aW9uOiAxMi8xMC8yMDI2Lg0KDQoNCkJlc3QgcmVnYXJkcywNCkRlYmFsIEdob3NoDQoNCi0t
+LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBxYS1idWlsZC1ub3RpZmljYXRpb25AbGlz
+dHMueW9jdG9wcm9qZWN0Lm9yZyA8cWEtYnVpbGQtbm90aWZpY2F0aW9uQGxpc3RzLnlvY3RvcHJv
+amVjdC5vcmc+IE9uIEJlaGFsZiBPZiBZb2FubiBDb25nYWwgdmlhIGxpc3RzLnlvY3RvcHJvamVj
+dC5vcmcNClNlbnQ6IDMwIFNlcHRlbWJlciAyMDI2IDIwOjE5DQpUbzogcWEtYnVpbGQtbm90aWZp
+Y2F0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc7IHlvY3RvQGxpc3RzLnlvY3RvcHJvamVjdC5v
+cmcNClN1YmplY3Q6IFJlOiBbcWEtYnVpbGQtbm90aWZpY2F0aW9uXSBRQSBub3RpZmljYXRpb24g
+Zm9yIGNvbXBsZXRlZCBhdXRvYnVpbGRlciBidWlsZCAoeW9jdG8tNi4wLjQucmMxKQ0KDQpPbiBX
+ZWQgU2VwIDMwLCAyMDI2IGF0IDQ6MzIgUE0gQ0VTVCwgUG9reWJ1aWxkIFVzZXIgdmlhIGxpc3Rz
+LnlvY3RvcHJvamVjdC5vcmcgd3JvdGU6DQo+DQo+ICAgICBBIGJ1aWxkIGZsYWdnZWQgZm9yIFFB
+ICh5b2N0by02LjAuNC5yYzEpIHdhcyBjb21wbGV0ZWQgb24gdGhlIGF1dG9idWlsZGVyIGFuZCBp
+cyBhdmFpbGFibGUgYXQ6DQo+DQo+DQo+ICAgICAgICAgaHR0cHM6Ly92YWxreXJpZS55b2N0by5p
+by9wdWIvcmVsZWFzZXMveW9jdG8tNi4wLjQucmMxDQo+DQo+DQo+ICAgICBCdWlsZCBVUkw6IGh0
+dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy92YWxreXJpZS8jL2J1aWxkZXJzLzI5
+L2J1aWxkcy80ODQwDQo+DQo+ICAgICBCdWlsZCBoYXNoIGluZm9ybWF0aW9uOiANCj4NCj4gICAg
+IGJpdGJha2U6IDUxZmQ5NGE2N2ZhMTc2NTBhOWZmNjIzNDkyMDA1OTcyYmJjN2QyNmYNCj4gbWV0
+YS1hZ2w6IGMzNmYwZTBiYmVkNjAwMGYyOGNmZDEwNDE3YzI4MGM5ZmRjYTM3Y2QNCj4gbWV0YS1h
+cm06IDY3M2U4ZDdjNWRjZDE0ZGU1ODA5MmViNzNlNmVjYzVlZWU1YzE3MzUNCj4gbWV0YS1hd3M6
+IDNmMTEwMzAxYmVmODcxYzU1MmEzNDI0ZjQ0N2RlNTlhNTVkYjcxYzgNCj4gbWV0YS1jbGFuZzog
+ZWYwZDIyZjIxOTEwYTBjMzBjOTY3ZWViMTdkOGYyMDk4MDZlMmQ4MQ0KPiBtZXRhLWludGVsOiA3
+OWE5NjgxY2U4M2Y2YmYzNmFlZGUzYWViOGMxNzA3ZDI5YmNhMzI5DQo+IG1ldGEtbWluZ3c6IDU4
+NzZjMTkzZGEzYWQ4NmI1ZTIzMDEyMzc0YjUzNTBlNDliMGM3NTUNCj4gbWV0YS1vcGVuZW1iZWRk
+ZWQ6IDQ3ZDdkYmRkMTA4OTBiYmQ0MjliYzBjY2NiZTE0NDM1YzM3ZTVhZjENCj4gbWV0YS1xY29t
+OiA1MDliNzcyZTU4MTQ0MjU1OGU3YjdlZmVhMDVjNWFlMDgyNTA0ZjUwDQo+IG1ldGEtdmlydHVh
+bGl6YXRpb246IGEwN2JmNzhkYWIwZDQ2MDk5YTdlNmNhOGIyYWFkYjA3NTM1ZWZjMTMNCj4gbWV0
+YS15b2N0bzogN2MyNWIxMTE1NjU1MzE0NWZhNmIyNDFhMmQ0ZjY1ZDk0NDM4ZjgwNA0KPiBtaXhp
+bi13cnlub3NlLWxpbnV4LWZpcm13YXJlOiA3MWRmYjgxYmQ5OGY1OWNhMjEyN2QzOWIxMDBlY2Ji
+OGNlMWUwYmEzDQo+IG9lY29yZTogMGYwM2M3MzJhMGEyZDA1MDZiNDFiMWFiZTYwYjNmMzY4YjIz
+MDBkYw0KPiB5b2N0by1kb2NzOiBhMmNjMWY1Yjg2ZjNjZGM5YWQzMjU3YTI1NDUzMjJjNTE2OWRh
+M2NhDQoNClRoaXMgd2FzIGFuICJhbGwgZ3JlZW4iIGJ1aWxkLCBzbyBPSyB0byBwcm9jZWVkIHdp
+dGggUUEuDQoNCllvYW5uDQotLSANCllvYW5uIENvbmdhbA0KU21pbGUgRUNTDQoNCg0KDQotPS09
+LT0tPS09LT0tPS09LT0tPS09LQ0KTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50
+IHRvIHRoaXMgZ3JvdXAuDQpWaWV3L1JlcGx5IE9ubGluZSAoIzc1NCk6IGh0dHBzOi8vbGlzdHMu
+eW9jdG9wcm9qZWN0Lm9yZy9nL3FhLWJ1aWxkLW5vdGlmaWNhdGlvbi9tZXNzYWdlLzc1NA0KTXV0
+ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvbXQvMTIxNTA5MjAw
+Lzk5NzYxMjcNCkdyb3VwIE93bmVyOiBxYS1idWlsZC1ub3RpZmljYXRpb24rb3duZXJAbGlzdHMu
+eW9jdG9wcm9qZWN0Lm9yZw0KVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0
+Lm9yZy9nL3FhLWJ1aWxkLW5vdGlmaWNhdGlvbi9sZWF2ZS8xNDQyNjk5OS85OTc2MTI3LzQ0MDMz
+NDU1L3h5enp5IFtkZWJhbC5naG9zaEBpbnRlbC5jb21dDQotPS09LT0tPS09LT0tPS09LT0tPS09
+LQ0KDQoNCg==
 
