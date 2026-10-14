@@ -1,167 +1,131 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F6F5CC6B1A
-	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 10:11:49 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9836.1791972703530734886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A108BCC6B1A
+	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 10:44:00 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10587.1791974633529260423
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2026 03:11:43 -0700
+ Wed, 14 Oct 2026 03:43:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=oS62ws+T;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D5CC153B
-	for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 03:11:39 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8A6233F673
-	for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 03:11:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791972702; bh=IS+lkR6V8WucS9BwC2AkPrBSpJx9YZFd5rTpB9WHTZA=;
-	h=From:To:Subject:Date:From;
-	b=oS62ws+TyTjdsQ9hT6jS9mO9/rnqKoZJGEOtgZ2uvSCI2HQCW5A1IihifyMsm/3q3
-	 pBcZ3ZHYnn0YfNmhlhNh79f6yYv3VSrybDHjVJRtNYTGWHO3FtuKP0ZOtn5PjOP0at
-	 bCaMuxnypW/M/OIHJiPMpHl41HiXfA0wB8jeuy0Y=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-packaging: refresh patch
-Date: Wed, 14 Oct 2026 11:11:38 +0100
-Message-ID: <20261014101138.3948702-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
+ dkim=pass header.i=@smile.fr header.s=google header.b=XwptelYR;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso195989f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 03:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1791974632; x=1792579432; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/V66pfciVSslBaM/HJQqmYYOCk62PU9UZLzAOGSPhjk=;
+        b=XwptelYRNGa6Ef9EhLk2m2LA+fLbnnDL4FGQvcoXPxD9pVDT1YpOh0/cktFfCUkrix
+         mt4nHiD5PuLwWRl7BxZFJ+wNkhiT8ud6DwShjHULoU0r74duZuhcbB7IPrtjTUmMM4Bw
+         HbW6n6TB27l/a8dqX9KSDc9a4J2JibwVz39Pk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791974632; x=1792579432;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/V66pfciVSslBaM/HJQqmYYOCk62PU9UZLzAOGSPhjk=;
+        b=WiEE1mQMkP9D4VVEhYY6ZbB2R08Cbs2F6stqyFTQJqN8JtYPyIJwWr0+dZynrA8fK3
+         VCYZiKgbyhXESrM1vHqBtZBaD8Bo6dzGrqMUG2Ed3eRb46gyt+5T33KEI/IpQ1XYjzBR
+         XrUcsEuZI9KCFqdkZqRJfhO+luTHoxPX2O8KCOTrVCBAY1U2BwOEKB2D4khAHGNaI1A0
+         Ko1Dw0FH6RTlKXZseAQxKeaqu82/3jy/6Oo0KS8792dvRUhycSWmXHUABClQHY+m4XCJ
+         NrIXSTUxFUc9uuW14zjg9kHNYuMEMoyG/7zXf4909NmEaNZwe6t2okysXkMMBO9Vw0fX
+         Gntg==
+X-Forwarded-Encrypted: i=1; AKwUvByCiRz4ygWz/wO2HXz9KfZfjoywOZIPHuuv79Xv3ycqMsBJ14Oy4v74SsXUFPi64z2EPsUz2szWH9hoAXU24v67SQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYLurrd9iurdQRIOIAyV8p62ezWHMSjLko3c0SmjEu+ZlO/cXfE/
+	QdU4NewH0LCwAU1jg02O2D8BreZscuLQRu8sLcTZCm5NQFZV1l1YHptcnX0EUT4HVfEyyKFenUz
+	vRhkJdXI=
+X-Gm-Gg: AYBFou0LaQofC2fbk1ORmFZV10T9Yx77pTJnS0xRSlgcpv/l7i7dr1yRoHYUJ728S4a
+	YKcVCeEAHFSWbGf4zPgfxyyuu9atIlKVAmRxTKlMJO+JroEBE24Jo66kRn/xedDokjvTht9bvKl
+	jNhui1s6DlJKStD+vecC4baAWPsPYPeykg8FslhPPJ0nw+BcxL0uRFie3gkkOs+JENsmMSdHh93
+	S7+F2sFD2c7fMhxZ/n+Ygaghx1NFiE/tTqsymQLmtu2aFHjL0nJyRDHV4rmLYx5K5YYfUf86zlA
+	BKWY6x3FD8/h9ztEaAxIXko1jEXib/+LMmptRsz0GYXo8SAr8642aBuk70SPGzmd2xEvL2l/H6y
+	0BvQCPNgY7VG6Dmt51pZ9vjuoGFwH2ABV1NBvld+4hEL1Vxb7yubbbX0LNJ/66boM1O7o+WIfa/
+	mzhV4GAF9JqAqiim18rcezapyOyq3pAVBig96o3F59TfMyZDwgucP98kr1fwJsgX1f0JV22jtA8
+	t/RBsvL9d1EWiBD5tH/+MOs8AGEKmsxaw6F4nuI/IxI/4kMRiJtoMv57Gk=
+X-Received: by 2002:a05:6000:260b:b0:485:8c16:a34b with SMTP id ffacd0b85a97d-48dba9dd11bmr31755299f8f.35.1791974631564;
+        Wed, 14 Oct 2026 03:43:51 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bc4ec6sm10909326f8f.48.2026.10.14.03.43.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 03:43:51 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 14 Oct 2026 12:43:50 +0200
+Message-Id: <DM4HZOR2X62Q.1H5GIKJ27WR6K@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH] perl: Security fix for
+ CVE-2026-48962
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <rsangam@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261012174810.45428-1-rsangam@mvista.com>
+In-Reply-To: <20261012174810.45428-1-rsangam@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 10:11:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247753
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 10:44:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247754
 
-There were several proposed fixes for the intermittent failures, update
-our patch to the one that was actually merged upstream.
+Hello,
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../python3-packaging/reliable-test.patch     | 79 +++++++++++++++----
- 1 file changed, 64 insertions(+), 15 deletions(-)
+On Mon Oct 12, 2026 at 7:48 PM CEST, Rohini Sangam via lists.openembedded.o=
+rg wrote:
+> Pick patch from [1] also mentioned at Debian tracker in [2]
+>
+> [1] https://github.com/pmqs/IO-Compress/commit/f2db247bf90d4cc7ee2710be38=
+4946081f3b4610
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-48962
+>
+> Signed-off-by: Rohini Sangam <rsangam@mvista.com>
+> ---
+>  .../perl/files/CVE-2026-48962.patch           | 168 ++++++++++++++++++
+>  meta/recipes-devtools/perl/perl_5.38.4.bb     |   1 +
+>  2 files changed, 169 insertions(+)
+>  create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-48962.patch
+>
+> diff --git a/meta/recipes-devtools/perl/files/CVE-2026-48962.patch b/meta=
+/recipes-devtools/perl/files/CVE-2026-48962.patch
+> new file mode 100644
+> index 0000000000..b883f8e13e
+> --- /dev/null
+> +++ b/meta/recipes-devtools/perl/files/CVE-2026-48962.patch
+> @@ -0,0 +1,168 @@
+> +From f2db247bf90d4cc7ee2710be384946081f3b4610 Mon Sep 17 00:00:00 2001
+> +From: pmqs <pmqs@cpan.org>
+> +Date: Sat, 16 May 2026 17:48:34 +0100
+> +Subject: [PATCH] remove use of eval in globmapper. #73
+> +
+> +CVE: CVE-2026-48962
+> +Upstream-Status: Backport [https://github.com/pmqs/IO-Compress/commit/f2=
+db247bf90d4cc7ee2710be384946081f3b4610]
+> +
+> +Signed-off-by: Rohini Sangam <rsangam@mvista.com>
+> +---
+> + cpan/IO-Compress/lib/File/GlobMapper.pm | 52 ++++++++++++++++++++-----
+> + cpan/IO-Compress/t/globmapper.t         | 52 ++++++++++++++++++++++++-
+> + 2 files changed, 94 insertions(+), 10 deletions(-)
+> +
+> +diff --git a/cpan/IO-Compress/lib/File/GlobMapper.pm b/cpan/IO-Compress/=
+lib/File/GlobMapper.pm
+> +index f015b16..8936146 100644
+> +--- a/cpan/IO-Compress/lib/File/GlobMapper.pm
+> ++++ b/cpan/IO-Compress/lib/File/GlobMapper.pm
+> +@@ -29,6 +29,11 @@ our ($VERSION, @EXPORT_OK);
+> + $VERSION =3D '1.001';
+> + @EXPORT_OK =3D qw( globmap );
+> +=20
+> ++our $BEGIN_DELIM =3D "\xFF"#########################
+                             ^ that # block is new and does not look right.
 
-diff --git a/meta/recipes-devtools/python/python3-packaging/reliable-test=
-.patch b/meta/recipes-devtools/python/python3-packaging/reliable-test.pat=
-ch
-index 1746c1d21e5..f830917f97c 100644
---- a/meta/recipes-devtools/python/python3-packaging/reliable-test.patch
-+++ b/meta/recipes-devtools/python/python3-packaging/reliable-test.patch
-@@ -1,30 +1,79 @@
--From 47b0db5b7b9a5fd9f4d1d3236e90f205c8b34625 Mon Sep 17 00:00:00 2001
--From: Christopher Pruijsen <christopher.pruijsen@gmail.com>
--Date: Fri, 11 Sep 2026 02:32:41 +0100
--Subject: [PATCH] test(specifiers): stop filtering compatible-release exa=
-mples
-- by epoch
-+From ef837aad3127167671eb37b9f6bd8a94ec7ce26e Mon Sep 17 00:00:00 2001
-+From: Louis Deconinck <louis.dck@gmail.com>
-+Date: Tue, 13 Oct 2026 21:17:05 +0200
-+Subject: [PATCH] test: avoid filtering compatible release examples (#140=
-7)
-=20
--assume() dropped most draws when the specifier and candidate epochs
--differed, so Hypothesis intermittently failed HealthCheck.filter_too_muc=
-h.
-+Assisted-by: Codex
-=20
--Upstream-Status: Submitted [https://github.com/pypa/packaging/pull/1409]
-+Signed-off-by: Louis Deconinck <louis.dck@gmail.com>
-+
-+Upstream-Status: Backport [https://github.com/pypa/packaging/pull/1407]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-- tests/property/test_specifier_matching.py | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
-+ tests/property/strategies.py              | 13 ++++++++++++-
-+ tests/property/test_specifier_matching.py |  7 ++++---
-+ 2 files changed, 16 insertions(+), 4 deletions(-)
-=20
-+diff --git a/tests/property/strategies.py b/tests/property/strategies.py
-+index 4ce828b76..b42b6dcb4 100644
-+--- a/tests/property/strategies.py
-++++ b/tests/property/strategies.py
-+@@ -85,9 +85,11 @@ def pep440_versions(
-+     *,
-+     include_local: bool =3D True,
-+     min_segments: int =3D 1,
-++    epoch: int | None =3D None,
-+ ) -> Version:
-+     """Generate a random PEP 440 version."""
-+-    epoch =3D draw(st.sampled_from([None, 0, 1, 2, 3]))
-++    if epoch is None:
-++        epoch =3D draw(st.sampled_from([None, 0, 1, 2, 3]))
-+     num_segments =3D draw(st.integers(min_value=3Dmin_segments, max_val=
-ue=3D4))
-+     release =3D tuple(draw(small_ints) for _ in range(num_segments))
-+=20
-+@@ -153,6 +155,15 @@ def multi_segment_versions(draw: st.DrawFn) -> Vers=
-ion:
-+     return v
-+=20
-+=20
-++@st.composite
-++def compatible_release_version_pairs(draw: st.DrawFn) -> tuple[Version,=
- Version]:
-++    """Generate compatible-release examples whose versions share an epo=
-ch."""
-++    epoch =3D draw(st.integers(min_value=3D0, max_value=3D3))
-++    spec_ver =3D draw(pep440_versions(include_local=3DFalse, min_segmen=
-ts=3D2, epoch=3Depoch))
-++    candidate =3D draw(pep440_versions(epoch=3Depoch))
-++    return spec_ver, candidate
-++
-++
-+ @st.composite
-+ def versions_with_local(draw: st.DrawFn) -> Version:
-+     """Generate a PEP 440 version that always has a local segment."""
- diff --git a/tests/property/test_specifier_matching.py b/tests/property/=
-test_specifier_matching.py
--index 4552ce8ce..4aedafe56 100644
-+index 4552ce8ce..d85eadaa7 100644
- --- a/tests/property/test_specifier_matching.py
- +++ b/tests/property/test_specifier_matching.py
--@@ -205,7 +205,9 @@ def test_compatible_release_matches_expected_compati=
-ble(
-+@@ -12,6 +12,7 @@
-+ from packaging.version import Version
-+ from tests.property.strategies import (
-+     SETTINGS,
-++    compatible_release_version_pairs,
-+     multi_segment_versions,
-+     nonlocal_versions,
-+     ops,
-+@@ -198,14 +199,14 @@ class TestCompatibleReleaseDefinition:
-+     and a version identifier. It matches any candidate version that is =
-expected
-+     to be compatible with the specified version."""
-+=20
-+-    @given(spec_ver=3Dmulti_segment_versions(), candidate=3Dpep440_vers=
-ions())
-++    @given(versions=3Dcompatible_release_version_pairs())
-+     @SETTINGS
-+     def test_compatible_release_matches_expected_compatible(
-+-        self, spec_ver: Version, candidate: Version
-++        self, versions: tuple[Version, Version]
-      ) -> None:
-          """~=3DV matches candidate iff candidate >=3D V and candidate m=
-atches the
-          prefix wildcard derived from V."""
- -        assume(spec_ver.epoch =3D=3D candidate.epoch)
--+        # Share an epoch without assume(), which rejects most draws and=
- trips
--+        # Hypothesis HealthCheck.filter_too_much.
--+        candidate =3D candidate.__replace__(epoch=3Dspec_ver.epoch)
-++        spec_ver, candidate =3D versions
-          spec =3D Specifier(f"~=3D{spec_ver}")
-          result =3D candidate in spec
-          # Also check via the expanded form
+Can you check?
+
+Regards,
 --=20
-2.43.0
+Yoann Congal
+Smile ECS
 
 
