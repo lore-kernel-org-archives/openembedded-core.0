@@ -1,255 +1,184 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98970CC6B1A
-	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 05:20:38 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6854.1791955227157519327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 021F7CC6B19
+	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 05:52:48 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.61])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7094.1791957167552091418
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Oct 2026 22:20:27 -0700
+ Tue, 13 Oct 2026 22:52:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RIlRYnqb;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mu7x2bxs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a138dace65-1074b837-286f-40d9-8648-e6d69b4475f2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1791955226;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=6ljCwJzrKlyFg4DQOgElO4RvFQbXK9cR8uiIZfnf6hw=;
-	b=RIlRYnqbhOwl0xsZBAl6cxetF05tpQx9E9s7wDqfLe9t2gzfnT6c8Qvd77tvLth7
-	fkoEucD4iDC98yCh/yIIJD+viOOhRUAMuVfMJMky6xBvj6TxXHplR/xyGpbMd788s86
-	EaV0XfNcbWNEasBQOhTp+lRbrOSuhezV4+Aer1hM=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1791955226;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=6ljCwJzrKlyFg4DQOgElO4RvFQbXK9cR8uiIZfnf6hw=;
-	b=mu7x2bxswHRSjW2giofvbllYnyARZtFVKzgGIEPk8ubfgyGLN49+pYMG/uJlSmyM
-	FEhjb1owGB7r2lrVMVQrh5vniyJ+JHEM6u0Nd43IDMHwfufbsrG69TWn5UCB4hN+Eoi
-	n22VxYmECjyprlw0T8QBo8eoRrieV3TbQXy+7L4U=
-Content-Type: multipart/mixed; boundary="===============0194958221104416703=="
-MIME-Version: 1.0
-From: auh@yoctoproject.org
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=xK0vDmBd;
+ spf=pass (domain: est.tech, ip: 52.101.83.61, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OL8G7c+kDazOCtZlTqdePWkMEDLec6xE2/owRuXC4icLtBYaA3ostT6t4azyUgq53AUlcBvWElvd+0HeIqN//btidB4K7h+a7u2YagZnNbImVoRNMc5wtCOzFB2eAq9s97WjRhSbABg9mgZ1A31IR2EpGyeiF8+ZbSlaN+nFxBDhZYdyivI5cN0hIb/dzX8ow9t/VVdhjWXsbcHPEMbUNNe9epdsxvVj0x1Ao4VOd1GIHOd5pQNtcFjTLHPyOMzefTtjd8tS/79My6DqUY9jFdrphmefNYKqccn5KgQ94Y/bYfCAjays/sJHO6EE85wWVwnb1gG9ki1/TtyDyXY6VQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cMgyrUY0y2V9/KBySGGwhDdkZyVM7K+UlVX4ElN1Ijk=;
+ b=t91HfjUJue4wulKRg7y6v7UGcYgpjd0AgZ3hYgkAN+DGqigazJQjeGHbYexu2NZ+TxnpGN9uOhFmZXc496BWZ0orBmPiw3oWT9nUsi6Wwx+BHFjslxqNPEKAGvdKNWjmO6YSyeLgHNct38KWTdbivHXKS6dwzFiYMuVkL8tpQHK2cg8wkmnC6Sj0fbmxBmA60Abw+5q7yJqFozupfEq6exDY/vvl9Ay1z58vhhxNJoN6sVNAkjxCX5Lvg3vHr0DY6/Y/zqwExfu34Lpym6iHEByUYBiY7Dr2DaZq/9DMCeE/2QnnPFE/FRTBg0way32L39NRUBEbfxS6if7lAtQL2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cMgyrUY0y2V9/KBySGGwhDdkZyVM7K+UlVX4ElN1Ijk=;
+ b=xK0vDmBdLX6sTUQMOhf7O+/DvCMxDLgc8uaN2+3A8jWsXNmplDlIg00ak0JReM9kZb3aFzk4FVhImHIRcYalhYKEfwqezcAQQ+xxLmnNI7uZX8w8slmJtt5BRU078uThwMJt3Xdm3AhiSMedARhHZLAtkJcaSIaqN7nBTeDJs4Y9lYBMGWIsKfCwkEjitlxXUGewYg9/XgkHzeIMu/Bm8HbAz3/oErnP6Pp6hCx4E9hW//bs9Y4VJasjjPPCXfp01tzRarUHLpp9X6uu4h4kUQTOZliU5F7MFn+f7C27s2hXQUNNc0VG4k7/OVozucOEyVvuukJq53yyg/TInKzDOw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by AS4P189MB1893.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:4b4::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Wed, 14 Oct
+ 2026 05:52:40 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0522.012; Wed, 14 Oct 2026
+ 05:52:39 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] createrepo-c: upgrading to 1.2.5 SUCCEEDED
-Message-ID: <010101a138dace65-1074b837-286f-40d9-8648-e6d69b4475f2-000000@us-west-2.amazonses.com>
-Date: Wed, 14 Oct 2026 05:20:26 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.14-54.240.27.33
+Subject: [PATCH v2 1/2] python3-cryptography-vectors: allow uv-build 0.13.0
+Date: Wed, 14 Oct 2026 07:52:36 +0200
+Message-ID: <20261014055237.9974-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20261012132005.23909-3-jaipaul.cheernam@est.tech>
+References: <20261012132005.23909-3-jaipaul.cheernam@est.tech>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO6P265CA0002.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:339::11) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS4P189MB1893:EE_
+X-MS-Office365-Filtering-Correlation-Id: c17dd93c-e6ad-4e4f-6717-08df29b75b30
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|261009223027099003|22082099003|261009221227099003|18002099003|260925022911599003|6133799003|260925021311599003|10067099003|260925021911599003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	kPJsHtxtcBxVNl8qayhNklT8ohXLJp1uhU6I9zAPdTrOqHWEsdfgHXGdiw+nF9GMG3hQfih5poINdH1UzA2cK55iVrZSwaEOxt6Ie7sLcWIFN4NtB8PAa+IhH17PHfnzxhkpB0zDLWXwO1KcpZyEuuZB5YckBpOvQeKtCmm8tPHDQ+bpncxvdXN4Cr0GFWJK7vUuFRHMpsNiXdEQVxwtqZTfzH4ZYls2pvQ4ZQZ338rAH8UgBXh6kkwFLTlfURP5RRjI6G9/I7Nj9UJQ/7D83myDoz2cWwNzjhN+3E3O0ENQOQ2Fzis/5VpiWIMH+owbbSUYM+xI5tvEdiHu2D8w3RhRrfmpKvcDegptdj8QtFDaKvOHrRxsHjZCyYTYzfXy6jLUQD4Qn9eANNG/pLd9mQc0jF4iU3iDrsQ6x4X9b8hjUmIsVXhCpqIqS8fnQu7ufbkXAmPcENYsJ1Mz0KJZS0HuxLKzX4ia8CVi5CJsM6TNlBecs/s0UqE7OQbkDq65qBRknqhzNkbIX2exSSBNIHTzTVs0WjoNHZcqaFbgmgmxPzPiuLj0ZIYLujD5RLnU29yKgj4oQ3faBOLFekX+1S1bcolnF5whcmSUadmGXf9dM8sWgSwt3oe5cdwdiwtbQ2UKBL8bu6Eis9uRPKcwGTX6Qdxrqt84tIRu1/WGAz8=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(261009223027099003)(22082099003)(261009221227099003)(18002099003)(260925022911599003)(6133799003)(260925021311599003)(10067099003)(260925021911599003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Z7pSZCMImtRR1s10Wa5eqUpBayJK9xfksgiIx+/jVf3JeHLTBgsR8QoY4VBd?=
+ =?us-ascii?Q?9JZIcxO1k/Q279PvJhEaUbP2Vsuy5UQlI+3ZHaWKGXdqW8pYrHI2dNBJ2X+b?=
+ =?us-ascii?Q?siCrjF+M+jJi/NOUnXQqWVm/QMd6IiXO7IAlDZKEheRoZ/EPLkL7rQG65bHG?=
+ =?us-ascii?Q?n9VTP58xmkGx7RNPhjSRDl9dOYpiiUH/iezGCpxjggU0NdC25qkUnmEVR2Y1?=
+ =?us-ascii?Q?QEnnmTmY3gcbD9Bn7IFQeTckm5S95iwuCSNcgujTsb58u0VLRmDRjyrUavV+?=
+ =?us-ascii?Q?TsWtsG9EMPLKdonZOp3QSgmiJZloDLfTtVEHb3uEHby5rvvi3ukSU/EiqIML?=
+ =?us-ascii?Q?oBBK3p3Yank9Shox27YSLDC/kUWkFTY85PDxn2tYW+YKB51pbizWGGpVAluL?=
+ =?us-ascii?Q?Qe9tfdhe0Y3vNQu0VlL8chHfwYVqtNamG0oUAVKet8gyK+2UtoyZ+WAmEhB7?=
+ =?us-ascii?Q?hfcXY5VhuvsfFGu5epHtztoxjEhpVMutuCR51jFeMvUYc68eWHk01m/hAvpZ?=
+ =?us-ascii?Q?EiMUr45KD+OwTBR19RRT9sgoV0VMyarmI01CyHEe0EU1dleydh70nLT9XB+f?=
+ =?us-ascii?Q?T1r1xqbXXSkCDm/pDS8Ml1iR6/45fZxBToJeYLTP8B3x64bShuAjEhC59hm7?=
+ =?us-ascii?Q?3aFQqQkx9HBad7c9ollKyCyNtp8DXC+SKTL3ekeD+yY0ywz0YuCvJf/4B04a?=
+ =?us-ascii?Q?faOKrcV36myqkMAgwAsy4bBsQB14hO0rJFmLH9L6h26V2A8YWSqje4TVQN0H?=
+ =?us-ascii?Q?x7DDC8C/ScWfH/RnqYrqSn+Jx9hd7NBcFUqBNkNZpzwe2kSxdZJFaH3aMipc?=
+ =?us-ascii?Q?ZsKVPO7DH6W0yOCzz2deByB9aEXaGQB6s8jQUCt5Oe55gjU37BhymU8I0pTA?=
+ =?us-ascii?Q?7vxviNyL5wCmYgm2Q+Prn8oiNCIzk7yyZRK3wlf7twJWE2qCr4TZ3DQOmk96?=
+ =?us-ascii?Q?bTWDvnhTg6fxZQClGgHXiKII0XJhiWWMe8POf/qGFnhVIo4OtP/h1Hkp+k8p?=
+ =?us-ascii?Q?/jYhtUaP462GXP8naBDA3gnM4+KQfny+l6aHj1pK0zGsWHneBb/+Sp7fqW/r?=
+ =?us-ascii?Q?KoE7XwNEU6Q9ZL2t4/ZJK+nC7g9NDJVXFa7b9JR/rAte2cmIuFTjZ/OkB5dU?=
+ =?us-ascii?Q?M0L0IqKj2LEZphGhQDceibm2l1M8fet2zWJdD7vWmlllCyirksacqnomju8y?=
+ =?us-ascii?Q?nX2fRHQLnJ+63Fpia03Bx0fRzhlv5ML0R6AKYtqJYX3EIZF2J/FDAS0hgbwz?=
+ =?us-ascii?Q?PfD9y8gOT0zA11uUqL5keYt/eqT2Zu5XapSnwbVElPjl+WL6eemgToLHSz7V?=
+ =?us-ascii?Q?fkPXSSODudVYI29hhVmHzH/m4fR1o33/f/J9erFBVKO80JoBdiy1vGzZFFgF?=
+ =?us-ascii?Q?f48RTB8zYOPht5PcYy33nKnJABpNk4HIRfPIjh/U7100DdWJvkBCYqEClZgG?=
+ =?us-ascii?Q?3DUQA2dJALXRp9EvvT+AqCS2U+y4dm9D0bcoy0o88BriO7ipgp66tEeY396h?=
+ =?us-ascii?Q?JXZIRVLZGYyhl9ecTUh49/9W4j64KWC+qXPuweSFY/T/ux4PVouujgAN73p1?=
+ =?us-ascii?Q?u9/QAtZzt2b9UkGifzW1jK48GeRYcacjWYPCr/OW8CFSdhCOlqcp76+IbUDu?=
+ =?us-ascii?Q?XT57u388kzRorgKu3bgJgRyVkl5wlwGdp1IEiV6pSZ+7iTPOzH7Egqq2wTKv?=
+ =?us-ascii?Q?GLNr6pM7rgcYmNQL7rtwlBex6HzPKAKxrwi17h7jp7h2GXk4wUwlIBdEPJ4l?=
+ =?us-ascii?Q?MT/9v5pNzg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: c17dd93c-e6ad-4e4f-6717-08df29b75b30
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 05:52:39.7058
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B1WRzZOlYXsGA0zvCTotgKgae5FvZpTpb7PPy5d42i4R/o0YL+vHDXG+REHB9T4Q32wvPVByVzZF1eWer+etj8osCHQwGk+1T3PfLGnpUAw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB1893
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 05:20:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247743
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 05:52:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247746
 
---===============0194958221104416703==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Relax the build backend pin to <0.14.0 so it builds against uv-build
+0.13.0. Backport of pyca/cryptography PR [1].
 
-Hello,
+[1] https://github.com/pyca/cryptography/pull/15818
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *createrepo-c* to *1.2.5* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-createrepo-c-upgrade-1.2.4-1.2.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 96c492433c4c05495646d1a3ea42ba8102c8de96 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 14 Oct 2026 05:08:47 +0000
-Subject: [PATCH] createrepo-c: upgrade 1.2.4 -> 1.2.5
-
-Release 1.2.5
-Cover description, summary & other fields with UTF-8 replacement
-Decode invalid UTF-8 in Python changelog fields
-Avoid Python tuple corruption on invalid UTF-8
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch | 4 ++--
- .../{createrepo-c_1.2.4.bb => createrepo-c_1.2.5.bb}          | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_1.2.4.bb => createrepo-c_1.2.5.bb} (94%)
+ .../python/python3-cryptography-vectors.bb    |  1 +
+ ...ject.toml-relax-uv_build-upper-bound.patch | 29 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography-vecto=
+rs/0001-pyproject.toml-relax-uv_build-upper-bound.patch
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-index e2f90644c2..3ace4dd896 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
-@@ -1,4 +1,4 @@
--From 71df5a5471081cf2338f9f046cdc51d064534297 Mon Sep 17 00:00:00 2001
-+From 333a5394f1f13bca50fc7bbd2eeb6d6381bce06f Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:31:02 +0200
- Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python
-@@ -13,7 +13,7 @@ Signed-off-by: Moritz Haase <Moritz.Haase@bmw.de>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/src/python/CMakeLists.txt b/src/python/CMakeLists.txt
--index 05ac89f9f491f93367283974ea38b5e314f0c5b6..44e38b386abc1c8eb135721d89509c649fdc6297 100644
-+index 05ac89f..44e38b3 100644
- --- a/src/python/CMakeLists.txt
- +++ b/src/python/CMakeLists.txt
- @@ -48,7 +48,7 @@ IF (SKBUILD)
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.5.bb
-similarity index 94%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_1.2.5.bb
-index f6da852f0d..7ffb7bce66 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.4.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_1.2.5.bb
-@@ -4,11 +4,11 @@ HOMEPAGE = "https://github.com/rpm-software-management/createrepo_c/wiki"
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https;tag=${PV} \
-+SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=1.x.x-maint;protocol=https;tag=${PV} \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
- 
--SRCREV = "47ab8a418fb3abd58ef3760a7eace1481610c659"
-+SRCREV = "6a48c5f599d30a20d15ea13b1dea82a86734d3d2"
- 
- DEPENDS = "expat curl glib-2.0 libxml2 openssl bzip2 zlib file sqlite3 xz rpm"
- DEPENDS:append:class-native = " file-replacement-native"
--- 
-2.47.1
-
-
---===============0194958221104416703==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="createrepo-c-changelog.txt"
-
-Release 1.2.5
-Cover description, summary & other fields with UTF-8 replacement
-Decode invalid UTF-8 in Python changelog fields
-Avoid Python tuple corruption on invalid UTF-8
-
---===============0194958221104416703==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-createrepo-c-upgrade-1.2.4-1.2.5.patch"
-
-RnJvbSA5NmM0OTI0MzNjNGMwNTQ5NTY0NmQxYTNlYTQyYmE4MTAyYzhkZTk2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTQgT2N0IDIwMjYgMDU6MDg6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-cmVhdGVyZXBvLWM6IHVwZ3JhZGUgMS4yLjQgLT4gMS4yLjUKClJlbGVhc2UgMS4yLjUKQ292ZXIg
-ZGVzY3JpcHRpb24sIHN1bW1hcnkgJiBvdGhlciBmaWVsZHMgd2l0aCBVVEYtOCByZXBsYWNlbWVu
-dApEZWNvZGUgaW52YWxpZCBVVEYtOCBpbiBQeXRob24gY2hhbmdlbG9nIGZpZWxkcwpBdm9pZCBQ
-eXRob24gdHVwbGUgY29ycnVwdGlvbiBvbiBpbnZhbGlkIFVURi04Ci0tLQogLi4uMDAwMS1Eby1u
-b3Qtc2V0LVBZVEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXB5dGhvbi5wYXRjaCB8IDQgKyst
-LQogLi4uL3tjcmVhdGVyZXBvLWNfMS4yLjQuYmIgPT4gY3JlYXRlcmVwby1jXzEuMi41LmJifSAg
-ICAgICAgICB8IDQgKystLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVs
-ZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy97Y3Jl
-YXRlcmVwby1jXzEuMi40LmJiID0+IGNyZWF0ZXJlcG8tY18xLjIuNS5iYn0gKDk0JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8w
-MDAxLURvLW5vdC1zZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNo
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWMvMDAwMS1E
-by1ub3Qtc2V0LVBZVEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXB5dGhvbi5wYXRjaAppbmRl
-eCBlMmY5MDY0NGMyLi4zYWNlNGRkODk2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAxLURvLW5vdC1zZXQtUFlUSE9OX0lOU1RB
-TExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jLzAwMDEtRG8tbm90LXNldC1QWVRIT05fSU5TVEFM
-TF9ESVItYnktcnVubmluZy1weXRob24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDcxZGY1
-YTU0NzEwODFjZjIzMzhmOWYwNDZjZGM1MWQwNjQ1MzQyOTcgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCitGcm9tIDMzM2E1Mzk0ZjFmMTNiY2E1MGZjN2JiZDJlZWI2ZDYzODFiY2UwNmYgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmlu
-QGdtYWlsLmNvbT4KIERhdGU6IEZyaSwgMzAgRGVjIDIwMTYgMTg6MzE6MDIgKzAyMDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gRG8gbm90IHNldCBQWVRIT05fSU5TVEFMTF9ESVIgYnkgcnVubmluZyBweXRo
-b24KQEAgLTEzLDcgKzEzLDcgQEAgU2lnbmVkLW9mZi1ieTogTW9yaXR6IEhhYXNlIDxNb3JpdHou
-SGFhc2VAYm13LmRlPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL3B5dGhvbi9DTWFrZUxpc3RzLnR4dCBiL3NyYy9weXRo
-b24vQ01ha2VMaXN0cy50eHQKLWluZGV4IDA1YWM4OWY5ZjQ5MWY5MzM2NzI4Mzk3NGVhMzhiNWUz
-MTRmMGM1YjYuLjQ0ZTM4YjM4NmFiYzFjOGViMTM1NzIxZDg5NTA5YzY0OWZkYzYyOTcgMTAwNjQ0
-CitpbmRleCAwNWFjODlmLi40NGUzOGIzIDEwMDY0NAogLS0tIGEvc3JjL3B5dGhvbi9DTWFrZUxp
-c3RzLnR4dAogKysrIGIvc3JjL3B5dGhvbi9DTWFrZUxpc3RzLnR4dAogQEAgLTQ4LDcgKzQ4LDcg
-QEAgSUYgKFNLQlVJTEQpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRl
-cmVwby1jL2NyZWF0ZXJlcG8tY18xLjIuNC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVh
-dGVyZXBvLWMvY3JlYXRlcmVwby1jXzEuMi41LmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzEu
-Mi40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0
-ZXJlcG8tY18xLjIuNS5iYgppbmRleCBmNmRhODUyZjBkLi43ZmZiN2JjZTY2IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18xLjIuNC5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18x
-LjIuNS5iYgpAQCAtNCwxMSArNCwxMSBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20v
-cnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvY3JlYXRlcmVwb19jL3dpa2kiCiBMSUNFTlNFID0gIkdQ
-TC0yLjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWIyMzRl
-ZTRkNjlmNWZjZTQ0ODZhODBmZGFmNGE0MjYzIgogCi1TUkNfVVJJID0gImdpdDovL2dpdGh1Yi5j
-b20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvY3JlYXRlcmVwb19jO2JyYW5jaD1tYXN0ZXI7cHJv
-dG9jb2w9aHR0cHM7dGFnPSR7UFZ9IFwKK1NSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9ycG0t
-c29mdHdhcmUtbWFuYWdlbWVudC9jcmVhdGVyZXBvX2M7YnJhbmNoPTEueC54LW1haW50O3Byb3Rv
-Y29sPWh0dHBzO3RhZz0ke1BWfSBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURvLW5vdC1zZXQt
-UFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoIFwKICAgICAgICAgICAg
-IgogCi1TUkNSRVYgPSAiNDdhYjhhNDE4ZmIzYWJkNThlZjM3NjBhN2VhY2UxNDgxNjEwYzY1OSIK
-K1NSQ1JFViA9ICI2YTQ4YzVmNTk5ZDMwYTIwZDE1ZWExM2IxZGVhODJhODY3MzRkM2QyIgogCiBE
-RVBFTkRTID0gImV4cGF0IGN1cmwgZ2xpYi0yLjAgbGlieG1sMiBvcGVuc3NsIGJ6aXAyIHpsaWIg
-ZmlsZSBzcWxpdGUzIHh6IHJwbSIKIERFUEVORFM6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmls
-ZS1yZXBsYWNlbWVudC1uYXRpdmUiCi0tIAoyLjQ3LjEKCg==
-
---===============0194958221104416703==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c: FILELIST: directory renamed /usr/lib/python3.14/site-packages/createrepo_c-1.2.4.dist-info -> /usr/lib/python3.14/site-packages/createrepo_c-1.2.5.dist-info, removed "/usr/lib/libcreaterepo_c.so.1.2.4", added "/usr/lib/libcreaterepo_c.so.1.2.5"
-Changes to packages/x86-64-v3-poky-linux/createrepo-c (sysroot):
-  /usr/lib/libcreaterepo_c.so.1 changed symlink target from libcreaterepo_c.so.1.2.4 to libcreaterepo_c.so.1.2.5
-  /usr/lib/libcreaterepo_c.so.1.2.4 moved to /usr/lib/libcreaterepo_c.so.1.2.5
-  /usr/lib/python3.14/site-packages/createrepo_c-1.2.4.dist-info moved to /usr/lib/python3.14/site-packages/createrepo_c-1.2.5.dist-info
-
---===============0194958221104416703==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-bash-completion: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-bash-completion: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-dbg: FILELIST: removed "/usr/lib/.debug/libcreaterepo_c.so.1.2.4", added "/usr/lib/.debug/libcreaterepo_c.so.1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-dbg: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-dbg: PKGSIZE changed from 1610488 to 1616568 (+0%)
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-dbg: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-dev: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-dev: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-doc: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-doc: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-locale: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-locale: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-src: FILELIST: directory renamed /usr/src/debug/createrepo-c/1.2.4/src/python -> /usr/src/debug/createrepo-c/1.2.5/src/python, directory renamed /usr/src/debug/createrepo-c/1.2.4/src -> /usr/src/debug/createrepo-c/1.2.5/src
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-src: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-src: PKGSIZE changed from 1289597 to 1290812 (+0%)
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-src: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-staticdev: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c-staticdev: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c: FILELIST: directory renamed /usr/lib/python3.14/site-packages/createrepo_c-1.2.4.dist-info -> /usr/lib/python3.14/site-packages/createrepo_c-1.2.5.dist-info, removed "/usr/lib/libcreaterepo_c.so.1.2.4", added "/usr/lib/libcreaterepo_c.so.1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c/createrepo-c: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-packages/x86-64-v3-poky-linux/createrepo-c: SRC_URI changed from "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https;tag=1.2.4 file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch" to "git://github.com/rpm-software-management/createrepo_c;branch=1.x.x-maint;protocol=https;tag=1.2.5 file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch"
-packages/x86-64-v3-poky-linux/createrepo-c: PV changed from "1.2.4" to "1.2.5"
-packages/x86-64-v3-poky-linux/createrepo-c: PKGV changed from 1.2.4 [default] to 1.2.5 [default]
-Changes to packages/x86-64-v3-poky-linux/createrepo-c (sysroot):
-  /usr/lib/libcreaterepo_c.so.1 changed symlink target from libcreaterepo_c.so.1.2.4 to libcreaterepo_c.so.1.2.5
-  /usr/lib/libcreaterepo_c.so.1.2.4 moved to /usr/lib/libcreaterepo_c.so.1.2.5
-  /usr/lib/python3.14/site-packages/createrepo_c-1.2.4.dist-info moved to /usr/lib/python3.14/site-packages/createrepo_c-1.2.5.dist-info
-
---===============0194958221104416703==--
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb b=
+/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+index 86e437ea5a..e19b9611cc 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
++++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D8c3617db4fb6fae0=
+1f1d253ab91511e4 \
+ # NOTE: Make sure to keep this recipe at the same version as python3-crypt=
+ography
+ #       Upgrade both recipes at the same time
+ require python3-cryptography-common.inc
++SRC_URI +=3D "file://0001-pyproject.toml-relax-uv_build-upper-bound.patch"
+ SRC_URI[sha256sum] =3D "d99111fe5dd5a8d40650e300aad34b6e6910ca198c674b8008=
+450ca69f8f05c4"
+=20
+ inherit pypi python_uv_build
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors/0001=
+-pyproject.toml-relax-uv_build-upper-bound.patch b/meta/recipes-devtools/py=
+thon/python3-cryptography-vectors/0001-pyproject.toml-relax-uv_build-upper-=
+bound.patch
+new file mode 100644
+index 0000000000..008be12e30
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cryptography-vectors/0001-pyproj=
+ect.toml-relax-uv_build-upper-bound.patch
+@@ -0,0 +1,29 @@
++From 9315d44ea059d68629c5adb33df7a84fa8ea03c2 Mon Sep 17 00:00:00 2001
++From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++Date: Tue, 13 Oct 2026 17:53:26 +0000
++Subject: [PATCH] Allow uv-build 0.13.0
++
++Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/1e0=
+ced8ad61d3c84215fd749abb183e87b58caea]
++
++Note: The upstream change also updates .github/requirements/build-requirem=
+ents.{in,txt},
++which only exist in the git repository. The PyPI sdist that this recipe bu=
+ilds
++from contains just pyproject.toml, so only that file is patched here.
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ pyproject.toml | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pyproject.toml b/pyproject.toml
++index 0b10dcc..ee03759 100644
++--- a/pyproject.toml
+++++ b/pyproject.toml
++@@ -1,5 +1,5 @@
++ [build-system]
++-requires =3D ["uv_build>=3D0.7.19,<0.13.0"]
+++requires =3D ["uv_build>=3D0.7.19,<0.14.0"]
++ build-backend =3D "uv_build"
++=20
++ [project]
++--=20
++2.40.0
 
