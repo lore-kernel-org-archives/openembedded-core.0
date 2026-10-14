@@ -1,319 +1,170 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98F68CC6B27
-	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 09:04:00 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8991.1791968637475224511
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22792CC6B1F
+	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 09:43:19 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.60])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9550.1791970987802653737
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2026 02:03:57 -0700
+ Wed, 14 Oct 2026 02:43:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wnEaefJQ;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48deeadb3fdso204998f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 02:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1791968636; x=1792573436; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EPJWF1qceoDxWiiLqhoBF5BmkFk++Wje+2MskT0/ujs=;
-        b=wnEaefJQo3f5NJP0zuEE+CbRBSZZQLSzqfBNX/CaVTCB02RxnU0U7keTu4mO2YtBRT
-         XscGL4f0I3jf2YxSiM2dzviXmyr+0lXhokvelUaVDH+bhekh8Ut1i4G0cxKJLLcPmDK8
-         rVdNP3qr9jkCR2SpywtIQF3vb7Qtixx27Euhk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791968636; x=1792573436;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EPJWF1qceoDxWiiLqhoBF5BmkFk++Wje+2MskT0/ujs=;
-        b=NrwBIIoBhids2GTD6souZp348fGTrWFuZ64v0ziLRV5prJqOTUHQ/8e+SOiohMuSxY
-         Q/WbL1aYIdh6OteodpPc0IjGvLEIoXlsaPww1R9cJVL84yLImo0aRqbQu+Av8q7pZ9Tv
-         2VOuif2Mdb4WvuJa6SqPIqrmSoMLbYhZqWT19p0e+Q40LE6PbWPsXlWeuFD/Rfv6FPyq
-         PEfhAnzy8t/KaPMGnAzbmsUk+oYs+jdc32+cnKU+MRA+3cfBnccc619O2B5WrO+XhxJz
-         zUO6gENIAMkHMmKWqBXP99AghsjLF1i3JyIvWTmUyLXC+vjAGikUvQaHsgXktexQUQNZ
-         nMSA==
-X-Gm-Message-State: AFq9FYIHvrAW6LvwaCG3DOn6aRWPXwg5VfV87L9VjHhiKMhSOoYs1NcE
-	svpYAR+gWK//44aoErbEtH3wlZN73DuZigNtLPHf2xli9vCEh6GdZN0ik6WdNVKWBwoMhxuOYmO
-	TGrCYmLk=
-X-Gm-Gg: AYBFou16mivILrOu1nPmy8vjdDh+5EdPfA7HBsARYASG3KZUJooeKYZmiZtwQHC1tY2
-	SeltCMFw1xO2gyrbhVnkJTU5gVS/zOucLiN7GhNgGOtcDBwi0iVAQ44rFBBesgRPfXpONRCSSag
-	cUm8HAqTeSCUp/zwBAHN0DXQdYYeVljMecRyvqIq3O+O2inpbmPrh3ABmpxUrW8gFt9WL9hrco7
-	UcCO5lxUb96eMSl7nJDMBnwObYIH5cQy//d1/dQGIKnmsh07QYT+Dx+jfBkioU+/0P/lWJ1AOD7
-	ymp0R+KcXyk4wT498VKOG0SXhc1oRgzvkh3ZVvkolnANiCi8cgogr4/ny73G8My/Jj3uM6JYeua
-	WyFRLwvV0K2/OSeUteZXmVheAJ/aWrG7GL5NXBFskUPzbuKmIL7tyDn6dp4boCiu11AggxmWIN2
-	1HJw49Wgoq7K5CoJcBSX+gp9w/bWV2IxrB4MN7poJRry9Lat9TLN3+q9AQD3a9IKwUOWR19vPQs
-	Ov5ExlvakDD0juKQ9X81AtfJi+vC+JFJM0Y3DpRmCcRGcR7jqp+MsLEs4XPmlKwKE/u5LYTajKr
-	7F/IYsXTgLt2YlB3
-X-Received: by 2002:a5d:6f08:0:b0:48d:bae5:41c with SMTP id ffacd0b85a97d-48dbae50634mr29089069f8f.17.1791968633958;
-        Wed, 14 Oct 2026 02:03:53 -0700 (PDT)
-Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de72c7e36sm5131592f8f.37.2026.10.14.02.03.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 02:03:53 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][wrynose 00/51] Pull request (cover letter only)
-Date: Wed, 14 Oct 2026 11:03:49 +0200
-Message-ID: <cover.1791968405.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.55.0
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=X4B2TwqC;
+ spf=pass (domain: est.tech, ip: 52.101.83.60, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vw7k6jbAWEKY5PgAlPW4I08qkemm6o/+sJbvLDk/E7YXpJaPeEVuKYumCiMHDuI85vJpw44y54ZLauXtOBzKr2XKoXhgGLkkHIJkP9JpvungTHDcUXfpWfdfW0y6tdGCj6vRaJaSE7RCisKM0nT10T4QKugzXreNMINCTpKfJraoygMS+CMQTfMlT9JPONjOLheC5yFJwxURTlwGhj7XVUWM6u1hfd1vP5mR30mGczv3i6l/lvVbIsC4LJuP8gYOUr/ImBxPbz5Onrx1GjhnO/TZwopqUgNYheDppshl/Vtr7N5Fkawk88dDTmow8C11n8lzFxqtGHCDCg/pfDEwZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GVjmOBODaI33L4UthSs1xd4iMv0tlsHM3TEpUiJAG+w=;
+ b=J92ZpNs8SDfHFSLZHCdK5FVknXSPVcr9CmMRtL9nowOWeLkvJKmQlLwMkN1RMHcRA3MJQpZNcw2chVIJOaq2eF5PeWoEDpQg21ETDvNFLcnqRh9GJhG521n5Unh5zPv981Y1o1pVGsG28WFbyhdlUomjcsTawediCNUU0y5e7vsfMYKzJADsyMvkA2XYxgFr5d8FiVkqF52FtFx30r3h6Poj0dR8BoxJQdGHphWSeYusfiUdpByZcWZgbMuyFcxpUKHVZuJj/3TgEBB6qKcRyEoBNv2KaAmd0O2C2XZNe9l+uyug8KJYPH7bk5tWCMLv/2CGiOIMjR+Da3VO1UVkZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GVjmOBODaI33L4UthSs1xd4iMv0tlsHM3TEpUiJAG+w=;
+ b=X4B2TwqCh/Q840wYSutbI6aolN8pG1u7JunVPg/9CM/CUEAcuXqX9OUgRw8nlm5NQSqkdilFn0xlB23nR/jvaBVkgVCl0UGIKbIEKrrQTja/Ca8XhOwWJTaB9eIiF1WDm2p3UyzmDEj4w3UgL8RyryRYDlpX7nxaXtb/1zpDhxF9f4VMZ0ia161OkE6hnt9iA8CVuXJBoyC2iGut00vQ1kVSqdq5WffIN5Byx4/7OGurd+kJ2Ec4kvhQQ6aEO9JjKuvW0nn40B2Jh6ue5JbFcFgxGahRzCjkBxY6fLkXUZFjZa/zECxy51E8NZY7E97pCxH8MlYH4DGPRwZBdIBEZw==
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
+ by AS8P189MB2272.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:549::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
+ 2026 09:43:00 +0000
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0522.012; Wed, 14 Oct 2026
+ 09:43:00 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "pratik.farkase@ericsson.com" <pratik.farkase@ericsson.com>
+Subject: Re: [OE-core][PATCH] libsoup: add ptest support
+Thread-Topic: [OE-core][PATCH] libsoup: add ptest support
+Thread-Index: AQHdWusevn2R0F7k2kmoAa/9Gkj9Yrb71I0AgAD2J4g=
+Date: Wed, 14 Oct 2026 09:43:00 +0000
+Message-ID: 
+ <PA3P189MB3239C1C488407E284BA617C9FE9D2@PA3P189MB3239.EURP189.PROD.OUTLOOK.COM>
+References: <20261013081611.10995-1-pratik.farkase@est.tech>
+ <DM3XXUK2K2YS.1YF6BBJFAEVM4@bootlin.com>
+In-Reply-To: <DM3XXUK2K2YS.1YF6BBJFAEVM4@bootlin.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3P189MB3239:EE_|AS8P189MB2272:EE_
+x-ms-office365-filtering-correlation-id: c4498355-b321-41a7-c107-08df29d78904
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|10067099003|22082099003|18002099003|11063799006|4143699003|261009221227099003|261009223327099003|261009223027099003|261009220027099003|261009221727099003|38070700021|56012099006;
+x-microsoft-antispam-message-info: 
+ Yy8hQW8FUNTZ9gYXmQZNoeZ0X6+93zHoUpMMss3/52lgpJ1CREMl0qMs2eFOBhOAsSIodngORlFw75cdGyUhhWxqV64JFq+mYG7B/DHzTUkr3ko2tGmody103E/94Gtnt4kchKsD8B/fYypu0S4X5VCViA057kGMuY7Mk9ymxgZ7faEtR/WIdc8eiiyOwsynPGHktvaEP9ghACQlJHDFv0TI3zAtjm3N9rWUIMS/YMIoMdRDRfTQj/nvPoAIUu9m9nIlMLAPgJaz1Wd8F6aRWcvuE/pReE3ABEErM832aYwSMhHI5EPtD51/Xmefkk4X/Gm+Eog/WcNc6A+t4CI8zcg49ZB08KbywwCXHu89Ow4t3fmnfXy7/GwqGdBdjcU5IZncufQKcMz8GxP5ijVSavh8cUpnle23/taSDqksSKM9sds+ZChuegFzpuwoYVK0RINml1H7I4hdsTzeGb9T4fI4DNmVb1iwzKRSmxS1DKc+mIoQ2FsxmTahup3cF8WmRLVxr+cO6jd3pRMpQ7d4dGJD6N/BbUK6yYsfP+G4mwyMWRbA2KW60Q5kvkeQSNQGOQgkSSRf3O+BreVsYFARcPw4yiSuLOeNzwSdcOhaeEz3O+aiWXI9uqt1+H1LDzB7dV1X3aTAOrzG5v9k1UfIGWWSGtRrhxw94yRYuxuDcyM=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(10067099003)(22082099003)(18002099003)(11063799006)(4143699003)(261009221227099003)(261009223327099003)(261009223027099003)(261009220027099003)(261009221727099003)(38070700021)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?MPxeFMCfa2+JNbf+DqEtomrVLK9ZQxlsSWFtixwGi5EjmOoQaeUHRH4oNIN9?=
+ =?us-ascii?Q?slb3pcCHRNE31AIECv1JG4lOwJnwr6X/qxeeYadPhpN4D/tctKDZRyvaiTB9?=
+ =?us-ascii?Q?V5aRC205JqkIwJBCPMZ7fUC+/xcNXAL6D/AvBeMPpRzLAWS71piKzk7KGUMG?=
+ =?us-ascii?Q?EQOCq/AB28jFNo/nsO7B+o+Bem6Zla4sWeP2ZmZRT4b7COKVtHkUtQk3/D3y?=
+ =?us-ascii?Q?wRjgN90EkrejxEkW//xgobYZf3ZaoDvWIIxP8UAklflPtR7aeSayw4DWNbS7?=
+ =?us-ascii?Q?bdGnPpN4mWZw0DeGpTQggxfQcJXBvAYbd09YB+9x0C085yAsquMx5HItvMVK?=
+ =?us-ascii?Q?4vK9AU+K2J3URoS38lP5SwAWM53QyKwFcfGeivAU5VlEVHyCKS2Ev7fx9aVf?=
+ =?us-ascii?Q?BJ58JwuTlEq0WAqBvZc8wEBU+MW9yiUaWVVW55WBoyi3MCy4pgEoBhU148hJ?=
+ =?us-ascii?Q?tiSO9Z8KUMOBIqYB9Nn5J1xPHS8uQhUhs72CPCF5qpZr64LpIrpHOuWu1ohN?=
+ =?us-ascii?Q?Jh/nvlpuEhFfSkqkMzSqUMZtGoyGLgtHZyTKowxKTwaJGSbu+v6zmfdBecUy?=
+ =?us-ascii?Q?76Of4ZCZAisUCv75FmxUi3+OVtDan+O1DzxBQmeWUyQwfVv2OrzNJ07Qlj0+?=
+ =?us-ascii?Q?6UvWdOCO6XAdhzM6NUAOO16fGcijTeH0w9E0ayaiu4UWDbTowrxviajjEBN/?=
+ =?us-ascii?Q?H5/SS3pG5Svt045fl6P8QeoPn/THWwSDoI3Js2q8Dx2N6L8k82WqmWf99oX0?=
+ =?us-ascii?Q?0pCYNh6vp/aQOmrS9LfNNYiv+uDDLI1naxCZIht0VNxjHs0/yL7f1o4W7Izt?=
+ =?us-ascii?Q?Z9+oxxTdCwgEIO13Cy3LJS9kc4ILi6YrZTGBtYgfZSLAKYWgq41yGg/RyMuS?=
+ =?us-ascii?Q?gzBluQ6CVO08KEKASpRfiKnDmTlRRit6RCOmbY1/qWpih0eJoMW3Tiff0iTT?=
+ =?us-ascii?Q?dffAF54CBxMLORZFYiYvU0qOoYqkpy4N3rZDjNF/WQlcr+Wm5eu5dhnxx7pd?=
+ =?us-ascii?Q?ZCzK2v3NS0M7CpvOos0ZXCRx5JuCJ+c4KXWTJsSvmLjH5XNslz8qW67jHhmz?=
+ =?us-ascii?Q?r6iAKCw7ADnLiSVwzA5xoeZit//LzATrjI8YQx4TDlre2Q97NPV1/yXdjPs4?=
+ =?us-ascii?Q?z4ZeAVBtN6RruqjeaYgwwKPzxnFTHxsMp/nC663KbwJcRFNAQkYTmweju2wO?=
+ =?us-ascii?Q?PkHEoumQFNneVhDQKyZoZ2/Ttq0IZHpYyPY4JF2XJ5rBQbaLpVadAzPkANoc?=
+ =?us-ascii?Q?9I4lEj3TNwKOhTrDvVNoCvcnCNIk7dZIUeoAXicCQhkmyN07haYVcdEPi6Ba?=
+ =?us-ascii?Q?2q/gvfyCDE7omKnDbysFOiAzMgguqKrC2d4kvW1yDDFUwT+dUq3fosredYgS?=
+ =?us-ascii?Q?nV64G+B206MMd6iAL9Jvif9Y5ice48jnBibe1dsqeGUnEJ8+J2jnBL71RjLd?=
+ =?us-ascii?Q?Sv44tH2GAPVJUf/2QImdfK8G5NY2L5rzzovM71q7KrcfAavB30lB+jgR5SLA?=
+ =?us-ascii?Q?lUCVoLVBNUxiKYmS3MXGTqgMa+ol6U0B/DYtRoo2Hb7JbpAS+XEQaK22cT08?=
+ =?us-ascii?Q?4htPmvtGnWlFwR97ll+A5p4RLUVSR+i8BaUQ1SLHg1ip6lCHxbV/MuVPzbn/?=
+ =?us-ascii?Q?uS7T4Ua2Gi8Qn2IoA5ls0EbbsPGmDRVVCoqVh7gMN0KhKK30x2gzEla6C/wS?=
+ =?us-ascii?Q?UYYet2nS50Mm7lDk+wLgv3IymsjEHAYOXQW7gyKBsZJs9PI2/MEpLhDj9oEb?=
+ =?us-ascii?Q?KJOlpOVPmQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4498355-b321-41a7-c107-08df29d78904
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2026 09:43:00.3041
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DDj+wkWO8D7RIlhKN5mRidNuYms2x30MVLdFApFyPP3hOkF6g/n0j5Lwf9735MMUJxTL4okIrJVZUsvZaRCmig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB2272
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 09:04:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247750
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 09:43:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247751
 
-Those are the patches from the last patch review:
-https://lore.kernel.org/all/cover.1791707817.git.yoann.congal@smile.fr/
-with the following changes:
-* "libpng: upgrade 1.6.58 -> 1.6.59" held until the equivalent merge on
-  blacksail
-* libpcre2 series dropped per Peter's request.
-  https://lore.kernel.org/all/AS8PR10MB507316F31E025A7F7EEC2533FD902@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM/
+Hi Mathieu,
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4920
-* qemuarm64-armhost failed with disk space issues (now fixed)
-   rebuild in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/8/builds/4855
-* oe-selftest-armhost failed with #16450 – AB-INT: gopkg.in connectivity issues
-  rebuild in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/23/builds/5086
-* oe-selftest-debian failed with #16236 – AB-INT: test_list_pkg_files: ResourceWarning: unclosed transport
-  rebuild in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/5058
+Saw these failures, these are OOM's. Sent a v2 to allocate more memory.
 
-The following changes since commit 0f03c732a0a2d0506b41b1abe60b3f368b2300dc:
+Best Regards,
+Pratik
 
-  build-appliance-image: Update to wrynose head revisions (2026-09-30 11:06:32 +0100)
+________________________________________
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Sent: Tuesday, October 13, 2026 9:01 PM
+To: Pratik Farkase; openembedded-core@lists.openembedded.org
+Cc: pratik.farkase@ericsson.com
+Subject: Re: [OE-core][PATCH] libsoup: add ptest support
 
-are available in the Git repository at:
+On Tue Oct 13, 2026 at 10:16 AM CEST, Pratik Farkase wrote:
+> Build the installed-tests via the meson tests/installed_tests options
+> (enabled through a new 'tests' PACKAGECONFIG when ptest is in
+> DISTRO_FEATURES) and run them under ptest with
+> gnome-desktop-testing-runner.
+>
+> Tested on qemux86-64 with ptest-runner: 36 tests, all pass.
+>
+> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+> ---
 
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-next
+Hi Pratik,
 
-for you to fetch changes up to 636e5d3b12d54951c13d57346648bc29a0e6b24e:
+Thanks for the rebase.
 
-  wget: fix CVE-2026-15146 (2026-10-12 17:35:35 +0200)
+So not it looks like one of the tests is failing:
 
-----------------------------------------------------------------
+Failed ptests:
+{'libsoup': ['libsoup-3.0/http2-body-stream-test.test']}
 
-Alexander Kanavin (1):
-  tzcode/tzdata: fix upstream version check
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/4711
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/4739
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/1374
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1361
 
-Babanpreet Singh (2):
-  devtool: standard: fix update-recipe/finish --initial-rev override
-  oeqa/selftest/devtool: cover update-recipe --initial-rev
+Can you have a look at the issue?
 
-Bhavesh R Maheshwari (2):
-  ffmpeg: Fix for CVE-2026-66036
-  ffmpeg: Fix for CVE-2026-66041
+Thanks,
+Mathieu
 
-Darsh Kelaiya (1):
-  python3-click: depend on python3-shell for shlex
-
-Deepesh Varatharajan (1):
-  glibc: stable 2.43 branch updates to 9cda6fc96ab
-
-Frieder Schrempf (1):
-  weston: fix VNC backend build with aml 1.0
-
-Ghanshyam Banait (1):
-  wget: fix CVE-2026-15146
-
-Harish Sadineni (2):
-  glibc: stable 2.43 branch updates to 562cd7badd
-  qemuriscv.inc: default to fw_dynamic.elf as QEMU BIOS
-
-Hetvi Thakar (5):
-  openssh: fix CVE-2026-73283
-  openssh: fix CVE-2026-73282
-  openssh: fix CVE-2026-73281
-  vim: set CVE_STATUS for CVE-2026-51400
-  vim: set CVE_STATUS for CVE-2026-51401
-
-Jaipaul Cheernam (1):
-  bind: upgrade 9.20.26 -> 9.20.27
-
-Jakub Szczudlo (Nokia) (5):
-  gnutls: fix CVE-2026-42012
-  gnutls: fix CVE-2026-42013
-  gnutls: fix CVE-2026-42014
-  gnutls: fix CVE-2026-42015
-  gnutls: fix CVE-2026-5260
-
-Lucas Stach (1):
-  barebox: upgrade 2026.04.0 -> 2026.04.2
-
-Peter Marko (23):
-  glibc: set status for CVE-2011-0536 and CVE-2025-0577
-  gnutls: set status for CVE-2023-0361
-  libarchive: set status for CVE-2026-4424
-  nfs-utils: set status for CVE-2025-12801
-  openssl: set status for CVE-2015-3216
-  ovmf: set status of CVE-2017-5731 and CVE-2019-14584
-  ppp: set status for CVE-2020-15704
-  pulseaudio: set status for CVE-2020-15710 and CVE-2020-16123
-  graphene: set status for CVE-2026-81281
-  openssh: set status for CVE-2026-55655
-  openssh: set status for CVE-2026-55654
-  xserver-xorg: set status for CVE-2026-55999 and CVE-2026-56000
-  openssl: upgrade 3.5.8 -> 3.5.9
-  glibc: set status for CVE-2026-86805 and CVE-2026-95818
-  libpng: upgrade 1.6.56 -> 1.6.58
-  util-linux(-uuid): upgrade 2.41.5 -> 2.41.6
-  libsolv: patch CVE-2026-48863
-  expat: patch CVE-2026-66046 and CVE-2026-76641
-  expat: patch CVE-2026-76956
-  expat: patch CVE-2026-76957
-  expat: patch CVE-2026-93990
-  alsa-lib: patch CVE-2026-90781
-  go: upgrade 1.26.8 -> 1.26.9
-
-Peter Tatrai (1):
-  systemd: fix mDNS hostname changes
-
-Richard Purdie (1):
-  bind: upgrade 9.20.27 -> 9.20.29
-
-Ross Burton (2):
-  gstreamer: skip test_queue:test_leaky_downstream test as it's flakey
-  libaio: update SRC_URI
-
-Vijay Anusuri (1):
-  tzdata/tzcode-native: upgrade 2026c -> 2026d
-
- meta/conf/machine/include/riscv/qemuriscv.inc |   5 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |  22 +
- meta/recipes-bsp/barebox/barebox-common.inc   |   4 +-
- ...1-avoid-start-failure-with-bind-user.patch |   2 +-
- ...kport-ax_prog_cc_for_build.m4-macros.patch |   2 +-
- ...d-V-and-start-log-hide-build-options.patch |   4 +-
- ...ching-for-json-headers-searches-sysr.patch |   4 +-
- .../recipes-connectivity/bind/bind/conf.patch |   2 +-
- ...t.d-add-support-for-read-only-rootfs.patch |   2 +-
- .../bind/make-etc-initd-bind-stop-work.patch  |   2 +-
- .../bind/{bind_9.20.26.bb => bind_9.20.29.bb} |   2 +-
- .../nfs-utils/nfs-utils_2.8.7.bb              |   2 +
- .../openssh/openssh/CVE-2026-73281.patch      |  80 +++
- .../openssh/openssh/CVE-2026-73282.patch      |  80 +++
- .../openssh/openssh/CVE-2026-73283.patch      |  42 ++
- .../openssh/openssh_10.3p1.bb                 |   5 +
- .../{openssl_3.5.8.bb => openssl_3.5.9.bb}    |   4 +-
- meta/recipes-connectivity/ppp/ppp_2.5.2.bb    |   1 +
- .../expat/expat/CVE-2026-66046-01.patch       | 107 ++++
- .../expat/expat/CVE-2026-66046-02.patch       |  90 +++
- .../expat/expat/CVE-2026-76641.patch          | 160 ++++++
- .../expat/expat/CVE-2026-76956.patch          |  26 +
- .../expat/expat/CVE-2026-76957-01.patch       | 121 ++++
- .../expat/expat/CVE-2026-76957-02.patch       |  85 +++
- .../expat/expat/CVE-2026-93990-01.patch       | 191 +++++++
- .../expat/expat/CVE-2026-93990-02.patch       | 328 +++++++++++
- meta/recipes-core/expat/expat_2.8.3.bb        |   8 +
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- meta/recipes-core/glibc/glibc_2.43.bb         |   5 +
- meta/recipes-core/ovmf/ovmf_git.bb            |   2 +
- ...use-traffic-from-the-local-host-only.patch |  61 +++
- meta/recipes-core/systemd/systemd_259.5.bb    |   1 +
- ...2.41.5.bb => util-linux-libuuid_2.41.6.bb} |   0
- meta/recipes-core/util-linux/util-linux.inc   |   5 +-
- ...sing-fileutils.h-include-to-hook_idm.patch |  38 ++
- .../util-linux/CVE-2026-78408.patch           |  75 +++
- .../util-linux/CVE-2026-78410.patch           | 115 ++++
- ...l-linux_2.41.5.bb => util-linux_2.41.6.bb} |   0
- .../go/{go-1.26.8.inc => go-1.26.9.inc}       |   2 +-
- ...e_1.26.8.bb => go-binary-native_1.26.9.bb} |   6 +-
- ..._1.26.8.bb => go-cross-canadian_1.26.9.bb} |   0
- ...{go-cross_1.26.8.bb => go-cross_1.26.9.bb} |   0
- ...osssdk_1.26.8.bb => go-crosssdk_1.26.9.bb} |   0
- ...runtime_1.26.8.bb => go-runtime_1.26.9.bb} |   0
- ...ent-based-hash-generation-less-pedan.patch |   8 +-
- ...3-ld-add-soname-to-shareable-objects.patch |   6 +-
- ...d-go-make-GOROOT-precious-by-default.patch |   2 +-
- ...ut-build-specific-paths-from-linker-.patch |   4 +-
- .../go/{go_1.26.8.bb => go_1.26.9.bb}         |   0
- .../python/python3-click_8.3.3.bb             |   1 +
- .../recipes-extended/libaio/libaio_0.3.113.bb |   2 +-
- .../libarchive/libarchive_3.8.7.bb            |   1 +
- .../libsolv/libsolv/CVE-2026-48863.patch      |  25 +
- .../libsolv/libsolv_0.7.36.bb                 |   1 +
- meta/recipes-extended/timezone/timezone.inc   |   8 +-
- .../wget/wget/CVE-2026-15146.patch            | 126 +++++
- meta/recipes-extended/wget/wget_1.25.0.bb     |   1 +
- .../graphene/graphene_1.10.8.bb               |   1 +
- .../weston/0001-backend-vnc-Use-aml-v1.patch  |  24 +
- .../recipes-graphics/wayland/weston_15.0.0.bb |   3 +-
- .../xorg-xserver/xserver-xorg.inc             |   2 +
- .../alsa/alsa-lib/CVE-2026-90781.patch        |  41 ++
- .../alsa/alsa-lib_1.2.15.3.bb                 |   1 +
- .../ffmpeg/ffmpeg/CVE-2026-66036_p1.patch     | 120 ++++
- .../ffmpeg/ffmpeg/CVE-2026-66036_p2.patch     |  71 +++
- .../ffmpeg/ffmpeg/CVE-2026-66041.patch        |  60 ++
- .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |   3 +
- .../gstreamer/gstreamer1.0/run-ptest          |   3 +
- .../libpng/files/CVE-2026-34757_p1.patch      | 518 ------------------
- .../libpng/files/CVE-2026-34757_p2.patch      | 481 ----------------
- .../{libpng_1.6.56.bb => libpng_1.6.58.bb}    |   7 +-
- .../pulseaudio/pulseaudio.inc                 |   2 +
- .../gnutls/gnutls/CVE-2026-42012-pre1.patch   |  69 +++
- .../gnutls/gnutls/CVE-2026-42012-pre2.patch   | 161 ++++++
- .../gnutls/gnutls/CVE-2026-42012.patch        |  48 ++
- .../gnutls/gnutls/CVE-2026-42013-pre1.patch   |  56 ++
- .../gnutls/gnutls/CVE-2026-42013.patch        |  74 +++
- .../gnutls/gnutls/CVE-2026-42014.patch        |  60 ++
- .../gnutls/gnutls/CVE-2026-42015.patch        |  43 ++
- .../gnutls/gnutls/CVE-2026-5260_p1.patch      |  69 +++
- .../gnutls/gnutls/CVE-2026-5260_p2.patch      |  33 ++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |  10 +
- meta/recipes-support/vim/vim.inc              |   3 +
- scripts/lib/devtool/standard.py               |   4 +
- 84 files changed, 2805 insertions(+), 1040 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.20.26.bb => bind_9.20.29.bb} (97%)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-73281.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-73282.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-73283.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.5.8.bb => openssl_3.5.9.bb} (98%)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-66046-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-66046-02.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-76641.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-76956.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-76957-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-76957-02.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-93990-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-93990-02.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-resolve-refuse-traffic-from-the-local-host-only.patch
- rename meta/recipes-core/util-linux/{util-linux-libuuid_2.41.5.bb => util-linux-libuuid_2.41.6.bb} (100%)
- create mode 100644 meta/recipes-core/util-linux/util-linux/0001-libmount-add-missing-fileutils.h-include-to-hook_idm.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-78410.patch
- rename meta/recipes-core/util-linux/{util-linux_2.41.5.bb => util-linux_2.41.6.bb} (100%)
- rename meta/recipes-devtools/go/{go-1.26.8.inc => go-1.26.9.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.8.bb => go-binary-native_1.26.9.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.8.bb => go-cross-canadian_1.26.9.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.8.bb => go-cross_1.26.9.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.8.bb => go-crosssdk_1.26.9.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.8.bb => go-runtime_1.26.9.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.26.8.bb => go_1.26.9.bb} (100%)
- create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-15146.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-backend-vnc-Use-aml-v1.patch
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p2.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p1.patch
- delete mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-34757_p2.patch
- rename meta/recipes-multimedia/libpng/{libpng_1.6.56.bb => libpng_1.6.58.bb} (94%)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre2.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42012.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42014.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42015.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-5260_p1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-5260_p2.patch
+--
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
