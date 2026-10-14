@@ -1,262 +1,149 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 319B2CC6B1A
-	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 08:51:00 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8851.1791967854780735774
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6539ACC6B29
+	for <webhook@archiver.kernel.org>; Wed, 14 Oct 2026 08:54:20 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.18])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8895.1791968055607953583
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2026 01:50:55 -0700
+ Wed, 14 Oct 2026 01:54:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=aJBE38X1;
- spf=pass (domain: est.tech, ip: 52.101.66.30, mailfrom: pratik.farkase@est.tech)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=kXY6Zi7F;
+ spf=pass (domain: est.tech, ip: 52.101.66.18, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZBiXMuZhyv17ISFPExXDEnifS0j26xFE6uU6Twn+XyRqjUbw+DWfntuh7EUrWFz7TwFplXjJsDPDCJZm51uWTX3L2xQcnzbquIyFgFKijW3DewKMLK2ixMBEYs1kzsG63Rm6YvlKt0Jo2Jt5HE9akDzzA5/OCk/3H4xphAPi2VHUESlASqunicbbBzAXe66V/ZRW0SueMa8Tur9nLhL7ubGbTXnUkVrfR1ddo1DDJ3Fwg4aUHcNexjQsMghPKaR6nWndT2SJaYhdrCPE69CwMfLpjorDpufLXaRZ3XlI8CeCF5jHt6isHxDHIRFQLEukNuKM3s/GQTC3xVXiGl4QEg==
+ b=CdjXqZQptpyz1Z3psyFi40XBXufIlKHscUY69eVDbpU89SOkYK6/fg8qtgx+DRdiS9IvhSArQlVAySQq7qk3F3m9Cx8tF9+KosqhiHTPHtVoIcvUdpv9Wmn3rNXH8qoWLg3tP8k20cLObBKo/v/5n3nlnfbWjPdPTjrtAVnXlkUxSWxnZ3Q7MgUgEnSs5kKrya1FIiX3vvIsH5WFzx2W6KJA0KciJT7VdFwBAqlvkm+BsvAzcAh6SOqP2LKkT6wJL+hDFvuFhS4/UZ+MlpzSuwp1rnjrrNiAodoXPiHionS1QNfhyEDzRKsOZK3YXaXfDX+3OaYFD3d8t9V8aVB/uA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1yrAZlQRsHgDZyZE52pikb8/TQVQeVRfsq5+lzOg7FA=;
- b=n6bl45dk8BLoGx+M2gtsj5FWkvtYuatck4XNPh65ZqRHSZl8n/Wlij7ThSVkK14Xn2kWMeUrEgYN9WHqeC7FxQ/Ksv5oxeiL2YZk7d6U4skiPIIteaWLmUrZxjPZUftFjAsYor8OIeTz8/nulcFWIWY3grcXFmU1vwIoK9+OnlveKjM50K51ezoieREcKQguCY2ToFgdInOmdT7K78PHAbUUrM9dty+jDK5YFfA9i2j4i578XR6FTTgmhR5A3UtG2ccgZGVCYJiZZlZCYnPlhXXdq/Y92UI3JdKaJTZ3pnfch0MyJ/9pp5efcV6trK9iP2frRyEGYpHXJhR14PlkLQ==
+ bh=N4p4Nf00/jQvcJ60ABbPlrQaGF38rgavuDcyUM+M7r4=;
+ b=e4zQXt8W/50DRwuLDJuSJzGtzJWv+4lYYy45ij16wJhSZmcCmA6gPaD3BWwMKHzta070zEvFBtThgOH0kPJVrSl3RdpqdLdqgSvitORb6H6mgPoeNuNEVl4ZGWFXlq/JDBaXiJOQ+dZpA8qy7LeYFgXeRBQUihXO+IYtWZa/r8qveUbd3T1lNmdYAOFzh6Ff4cbrc5Q4x6sNJuifXGm7Qi+PS+8RaCvucfjIfUGnln4Uxon06XXwHtwBoqEETcIYP8Bosd3YsSZHeAbUJD6fY+8mHdD/iGPDxIUv/oyDccSnqb72OC03BcSST4/xxu/Pg8HxxW7hC/Kovl2XmzU8bQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1yrAZlQRsHgDZyZE52pikb8/TQVQeVRfsq5+lzOg7FA=;
- b=aJBE38X1g54fgmUk4uj/XvOthPHpV74lGqppxowwbZeMXMbAbUUcQuHAOVz3eefTvOp3j/yNUHdZnpiW0xQI9ntSypvv5nCl1adBSEw5AuqRheytzo6MmttI4uXCjQaA2qySkzlMnJhnSZHX3ez9+btG6TapzEniqu26PT91QFlmMZuruyP9JE/lpuSF7xdGhI5O9sIwLuDMlCTS321iQthUk2wSv1snSS4lu08XZcaT9aUHFxZS4D295lSe/QIzS4PinwpVM614Gq1rHkkQJFARp8q0sFMEkoVx6RXZnuAqDiPK415xBIArpnu51cfy0yuZaS6ViiBfRLbI6YOjSw==
+ bh=N4p4Nf00/jQvcJ60ABbPlrQaGF38rgavuDcyUM+M7r4=;
+ b=kXY6Zi7FWCTXB1dwBSrRZKOQtCW+MYBIyhf8eRkjnPLYGSDf23D9YvilZxEKhpzDT2zI+LUW780KfV/+0f8xRzwn3OeyCjIlnVbE4tKES3KvmnYx0xQj6JBOdyPexljLkHCCfW0BatES5d2bGi8fmJo6pIF1kCb/XIuBjkOd8P9A/3WST6ydRcSGo8TjtReZzfgBRvTP1GmsLBLKvKhu7KmG25GIsfns6uaap1cklNfplPwjsZe6mKrF/ZEAelUHJmBqt6F/gdxjgtn/e5wnT8RBqRJLzRwmUU+l6/BgTIlKx40586NlmwGpx18sPIENWXE71x/KcOF9lTL3A2CFaw==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by AS8P189MB2048.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:508::13) with
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by PA1P189MB3467.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4f9::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Wed, 14 Oct
- 2026 08:50:50 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0522.012; Wed, 14 Oct 2026
- 08:50:50 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v2] libsoup: add ptest support
-Date: Wed, 14 Oct 2026 10:50:44 +0200
-Message-ID: <20261014085044.14497-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261012095602.19261-1-pratik.farkase@est.tech>
-References: <20261012095602.19261-1-pratik.farkase@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: PAZP264CA0176.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:236::23) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
+ 2026 08:54:11 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0522.012; Wed, 14 Oct 2026
+ 08:54:11 +0000
+Message-ID: <db708460-55d3-4b11-aca9-5f790a57eac2@est.tech>
+Date: Wed, 14 Oct 2026 10:54:09 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [scarthgap][PATCH v2 2/7] libpcap: Fix CVE-2026-31912
+To: Yoann Congal <yoann.congal@smile.fr>,
+ openembedded-core@lists.openembedded.org
+References: <20260915194520.45847-1-jaipaul.cheernam@est.tech>
+ <20260921201715.79085-1-jaipaul.cheernam@est.tech>
+ <20260921201715.79085-3-jaipaul.cheernam@est.tech>
+ <DLU7MXCRDG6L.3GEYY13WESLNP@smile.fr>
+Content-Language: en-US
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+In-Reply-To: <DLU7MXCRDG6L.3GEYY13WESLNP@smile.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR3P193CA0054.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:102:51::29) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|AS8P189MB2048:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2eeeaff4-07e4-4f23-ee3e-08df29d03f64
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PA1P189MB3467:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc1f8840-c6e8-4e3a-e179-08df29d0b702
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|260925022911599003|260925021911599003|260925021311599003|10067099003|56012099006|261009223327099003|11063799006|261009221227099003|261009221727099003|6133799003|18002099003|22082099003|261009220027099003|261009223027099003;
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|10067099003|22082099003|18002099003|3023799007|11063799006|4143699003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	LWYA7WGd1A3mM97S4sv4NGmMuQxTY5ijJy5A1t5A2ibRlBHyDAf1fQM7n6vdmUs1dtI2tsrFV7LBBsEZxriAZLs7PcnOXGz5XZlxUSZvBgCpWGwlKGcXaXWTucSp968hF7hAUE3g3f6mzs8UIjPVosnyqZcGRrtKNvZXKthXxa0+lJEooKKZK1VrFuwUaoCmRPtTE71cokuW59rDjKheGjo1e0t+lmg/ay34J+aqWKJJPPvTs+mfD4HseRyFme5ocpYB82aMQBjeNtEMVnUKo+aIxSI+OfO/2SBBb34/HfjbO7KsSAV0Toxx+8dOX4Mo0Iuz63Y7SMgIgbtbRdGyVsFxdt/ZcoZOe6OfaPzBIH4PLY1FV1mdmsHHpAY3ZE3Dnen3MGQX08M8hfVBdETFOWfuk+ihp2TUK9OlK+KBO9dfqqPC360Q1lAPjBeclm5NXbRF9+3DBBodxxNf3FkyscF9BafwXrhW56uW32vgdF/d6MUihx+U8+VRPNsy1gazOIXZ3oLpBu0U1m8MPSSoDuuPJH4o+ETT7S5O7/quzEyB5q47LnQPBpZEd2YK5eEM38KphnsGnCr1NFpamGPydzqhqXhOL/WUytbY5yaENpCG0fDoKBcCa6O2BrltVSPN8kOe9HEfhZTR4aEinQQTLiWKujSZbzjUrgRdGSQBmbs=
+	QmmfN2qG9LnDUZ7fOkOV7Tld4fQLdxPA/fMvphIjuwjbIilMVaAHSuSGIqVrkeafnZPITsv4swNECNOUZR252aqoUpe6p8ib/z3M2SuaZbuoCTvj8W6uqpBkfyub/utwYlBSwGZ1oZ5+p0QOFIVb4LL4m3gDZwzEyr1cpO8wSGQ2ob5ddgazTogU3RDWFkBsMbSmrmj6Z7+GMEDlodVFEBYUzhCRoDFidCdtzLe8WnGnqK0RgVqE0QwE9d/rQevdC21FqST3e6K2Tql4z6CfGc3jz7T3bFKj9pzcyJmYvUyXzj/yS8tYFRh9Q08A/W+xRW6VTSiIQcv1sjNB/AgaWMCt1rLdSL++5N+ryE/7vI5WR5zCKfeQNctDiU31w2qncMS3wF0qIANe2DSIFGTIbRT5xwoEd47gzDvoGUK0PX7jiTZ7YX/8i+q7MtkNWam7CIQO2bsrWswz641zVQnvu7eaSwjZxpFJKhIp3rgU5meEHbZPMAHOOM3O1N+uCpYmFiHWjAI95opul2yHW1mS/zrWJZF5fUpwDKtYQgYdisHVVGQQRU4oY1j0P/tRGiUhUXZv7LSBWjyePKn/Uj1m0Gc7EoUbVvy8Pb9/Y2lcyvDq/aRvtV740aZfrS9DyEuinfj2UFv0quRf/Iq1DQEmzB3MBQZm3KYxs4O5NIA2MbI=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(260925022911599003)(260925021911599003)(260925021311599003)(10067099003)(56012099006)(261009223327099003)(11063799006)(261009221227099003)(261009221727099003)(6133799003)(18002099003)(22082099003)(261009220027099003)(261009223027099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(10067099003)(22082099003)(18002099003)(3023799007)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1FQToRbBeEAa1oqiaIyjXc0oUIsrWsW3udBhIpyWOOHsXPdifGMt1Hu5lt0i?=
- =?us-ascii?Q?EWViGJSvjwpOk6cMO2MqqFrRt09UUOVbmn3nhOf7x1AWuSRHPR35THzTX04X?=
- =?us-ascii?Q?x8SCK+2ritqwkfrikIg0uE5wuvhL+Dtv4hn81xW1hRKIRac28MNNAJo1A4Vi?=
- =?us-ascii?Q?9iaxzFn7x6g/UH7ZQtNYglGQoDQ7hkbmEIWWS51qw0gZVCFpkUQxKAWaBZZI?=
- =?us-ascii?Q?4KI2nwb+zgOY06cLxjbsmpn+1WMJZzr4bZyJo9zOWYzcN+2ttSuM5BfgYpwY?=
- =?us-ascii?Q?qlkdZOWYPYjWNzkDamaXEMlqFs/m6fATpV7VbT+TZtGHY5dXQ4m7R77rFw5Z?=
- =?us-ascii?Q?p4gWPCvbC3AUuZEzaMVhrnDuKrLzEd26ow63XGTBsdTn3rqJRJKaSQvUhR49?=
- =?us-ascii?Q?cdd54jrWMKa1AhhiQIKUSE2MjTBE9bjBhEkcGJhleRL2Qn+W8YamJ4boI86z?=
- =?us-ascii?Q?H0qMeRuF6rSv1N7NSw9L34tG1qVPjmxfn+bueEsWoKn50y6VIn1di3ivxn/T?=
- =?us-ascii?Q?F6rw+5NUC4dHvv52KLyJQpZTxeQV8aZiVkLL3J9v7jO0QaOjBUJuj0FofEEg?=
- =?us-ascii?Q?s+qVUzu6bR7YB7pz4BdDQBcllB3S2DjkUn/zxRWcLqGQMyAiD71FFhKFMCTE?=
- =?us-ascii?Q?Q5IfjwaUEgn8jMhU9yjR9zly1D0iIPlmwgR1LJXJxKp5gFJvw1aem2dCugtu?=
- =?us-ascii?Q?t3LL1nZORGLqxN0KPrkYdpvAcDN5lskyWbBdCAxLBDsab23Zo1OD0yUU8HBe?=
- =?us-ascii?Q?iwLPsZ2YnZRp8G2YM2kFclJryIzBpgDDtPoFI4Ye66qA8tNRxCnUQxEzdgZ6?=
- =?us-ascii?Q?GdZU/955abZHOV/h0o6Jusc5XPfRtJN75YwiXNZqqNIGeq/E4aNdRKji4DoD?=
- =?us-ascii?Q?4BRM+q/M9iF5+5Xb96A51RJlAdqJ39pUlfnRJCwH1X9MMeM1AAOCXLhJYvlk?=
- =?us-ascii?Q?rh2cWosSDbQsJNJbXv4/5JD/uR5zxNZ9lwX8lrfl0ky8pZKe9t/Iqck92tGc?=
- =?us-ascii?Q?bniXsBYOl6+FAJAW5nhkrNN7mxV2QfmCfl+8NvFeDdS0wV5txPjePhBlsXV2?=
- =?us-ascii?Q?kpKq5DdTP5dGWE2bPHlEW2Xz/eEvWG2Q0M1P8ODhpCY/jnxJyZsAlPdl9V4Y?=
- =?us-ascii?Q?zgNAGMnH4T8/gdZp3knDi5JLI0ESDzVOfR1zZYbAcOrLdaj96IX7TEPN022H?=
- =?us-ascii?Q?ojNLwJZ5zSt0WDURqz/EEdriWPVuCcFTEMV5z6ty2osnFGqEYmOOGUm3bvlK?=
- =?us-ascii?Q?fgx/B63fnNTYntT+LIdaIiRmvKc3D4mDedwWABhLb9H6iDzHXq1eB2BbZEXT?=
- =?us-ascii?Q?MWwcj5gurxeaV1dZyadDd14HBC70yoCWmGXU9mWS7jY6nQSlgd4i04X6P3Wy?=
- =?us-ascii?Q?Aorj1Wzip/ChStxEdafOYSiwLVNWCM2Z5dIhdapCtxi68S4ZEAQGyxiUlm4R?=
- =?us-ascii?Q?w8fHeFMN/b7wOTkUa8vue+jVtrLyP/llYGMCnMJX0RwYlT/YyO+nywz8JqqC?=
- =?us-ascii?Q?KSsezl7AMexIBcTEIraUb/TYkZnmaofN42ez7XnMdWJ6ikcLml4LcjqQWxAY?=
- =?us-ascii?Q?Te4iYtosIHX4xG3fN0RammekEU8kgrbQmd8LoAfS/612Zz93gYLmRCTOXEtg?=
- =?us-ascii?Q?ZmF7pFxY9gbRf8RRlcW7airmZ9xRn6hICnnTkp52BAfc7i5ATLuMQqh1glEV?=
- =?us-ascii?Q?WvyFtvvnfxbcryePlRAFgq8Iy/2myDGgg3m5atZZ693WBRQNR/DrQZEmYaGG?=
- =?us-ascii?Q?YAVDtoMENg=3D=3D?=
+	=?utf-8?B?QUFaTzNqQmM0NUdvVmZoYXI1WEV1d0RaUmExd21hV1VwWnNRWHhvT3ppdDZt?=
+ =?utf-8?B?bTlnMi9RWForc1hhc3VvT2hoNW9uWFBmRGNERGhteng3VTJMUDBpSGtKNUpT?=
+ =?utf-8?B?MHRyMk53YWE2QTcvUEJBQlRHYkhYSmZQbWptTVJkMUxHM0dRNWFtbU9CWFo4?=
+ =?utf-8?B?dGxkVjF6bkExNWMxQnpxRDROYTJmd3BhMytWK1Q0Z3BqL2VhN3ZiYStacVI2?=
+ =?utf-8?B?VjJjMEhubG05cm1iOGtMTWhBTklJaE9XMUI1NmpxbjZYaXhESlE2OVJldzNr?=
+ =?utf-8?B?NnlWZWlrMXF4QkUwcCt6RHlLRy9ZWS80S0g4bHRwUGlsSVFWcGMyNGpzNGRN?=
+ =?utf-8?B?R3E4aHJWTUltK29ZN2lKWTljSTd3aXJySkI3RHRjemxQaEZISVpDS3RnQTg3?=
+ =?utf-8?B?aXdlY3VQYXo4alpobGx1ZHd5OFNaV3E2TysxVnVKcjRHTVdVSlRDMGtCRXY5?=
+ =?utf-8?B?NG4zNkVCeTZjRVY3TUpwcWg4RktMTHRDcWNUZGpjOUp2YmFWMGlIRUZDamE2?=
+ =?utf-8?B?T0RqN1ozVzdJNDk2VEVoSGN3NWRkK1BsUlgwYjErV1NhY09QaFJZVVZzd2tQ?=
+ =?utf-8?B?N21CRDliakxkOHU4QXRoNXB5VkpIeERVNUpPWDlhTlByNlR5WlJ0aUF4RkpJ?=
+ =?utf-8?B?a29qT0FuZERPNnUzdmdxSmljd1lxekVCblUxT3kvUmlxYXVDc3o5ZldZdTRn?=
+ =?utf-8?B?THdqYUt3UEd4V2dEa2RtZ1c5NUp4N0dJRVlaSkh6V2ZQNjd3ZDd5K3BRcE5F?=
+ =?utf-8?B?UDczVmt2MkFTb0tBL1NpTWtUU245Y1kwWTBuTWd1enR2REFTTWczZlRRSkNB?=
+ =?utf-8?B?SnB3TTJPUUJnUVI1a000aGhIQ1FJNW1waE5rVHNSRlpta2phd3ZvY1pubDlq?=
+ =?utf-8?B?UFZ3SWd6NEtMb2IrV1NQckdvOHNDWjUrT2lSNjlobEdEME5LZ1FEeEF6ekk5?=
+ =?utf-8?B?Z0l1dDYzNTcyQmptTEsrMmd2WWFGanIya3NKSUdtSFJDRzNCUnlpclRobTA2?=
+ =?utf-8?B?TjBoa3VIcUY0SVhmQmc2TE5OSXpRWVNFSmxhNUE1UVZoZEtsSFVOUVBRbkZq?=
+ =?utf-8?B?V3FoL2krR2FRME5SeXhrOE1yYmdObDljM1FVSWhqMkV3TFVDSndxSU13eWgx?=
+ =?utf-8?B?dUhaZ1R6ZlpadTMvdGN2c3c5M2xja3BzdmVGVHVYYUdOcHQzR05ZTFcwbDBZ?=
+ =?utf-8?B?Ynp5QUtDUjdpUGdRRjhSMFo1MmJySXBPem9VcktXTjliUitwM1VNZWhSK0Er?=
+ =?utf-8?B?TytIMG95RTdleFlYQVIzRGRCdythTDZDY2tPa1VESWRQd0RCSFRMcW8yY3Fs?=
+ =?utf-8?B?cXoreTlQZFIyM3ZQZVpTR0hjU1JnVVQ5RCs4L0lhMWV6VU5TeDU3enY2UEhD?=
+ =?utf-8?B?SmRQZXRoaUFIeE9KYk1KTDhyTlJ2b3lHa0srSS9PZy8vTS9LNVhOOU1WaDBY?=
+ =?utf-8?B?Tm1yTnRheXpYenorYzBmNHRoN3NRaVY4aFNLSHdGNHdwWnY5YzFKdG9KVHJK?=
+ =?utf-8?B?aG5Ta0QyaC9ZcFplT2hmeXFjTGVpM3c2bXhNeCtpeUpMeDlsQi92d3dFbWd3?=
+ =?utf-8?B?UHRiSTkxRDB6bmh4aU1yNGgyV3dZZzBLeVhsYjVsL0EwZWN5ajNob0pvajNT?=
+ =?utf-8?B?ZERnQ05UR25sS1dVQVdnaTVNR3QxaGxqOGp2SGdDUDJmOGZESTBNRS9tTjNk?=
+ =?utf-8?B?M1NwL1Rnc0NkUkxJdUJsS0RYQ28xM2RmeDZGUWN1V3NxaWltQnV1ZDVEcHR2?=
+ =?utf-8?B?ZHJtL3JFK0pqYlZFbU14SW5kMlFoaEd0Uld1a1NadFpqaHN3alVRUCs1MXl1?=
+ =?utf-8?B?dlkxVzM0M2VLQVN5bjNaay9rZlRXZ2hKOTlKeUVnK3Y5czh1WjJSd1JVNm01?=
+ =?utf-8?B?SGRxMGZQRE5NVGxWNkhWbWg1WDNtY2VFdS9xaWVDOS9oYVRWSkJyVk1LZkpC?=
+ =?utf-8?B?aDJxRGNaRk83WjFhR25HQ1lhME85SlB3NG13bG9lb0hUV0RUbjRzcTZaZ0hK?=
+ =?utf-8?B?ak1Ob3J2MHNsNmJ3bDgreEhnRm1KSGtWbndYM0hkUm02MFQxdWRGSEMwMDZo?=
+ =?utf-8?B?YUFobGlLSHkwazk4UTM0T1JlL01TdjdCek9LclBUeTdCUVNRZ3cvQVVBeWJn?=
+ =?utf-8?B?WHlYM0ZieUMxUURpQW85cTh2K21VVWRmenhLY0dKMHU1b2YzN2xEZkNMVVJ2?=
+ =?utf-8?B?eGp4WGFSbzZqa3dYa2FBck1TaE4zUnkrb0VJa3lEenc1dEtCa2JpRFkrcG9r?=
+ =?utf-8?B?RE1wUnYrVXdoeWZCajdVSGo0eWkzbzhkVmxRVHRpbkM2NlhlckxJWmhVYitQ?=
+ =?utf-8?B?bzFoSkZQOEd3LzJ3K0pCK1lrVHZQMmVsK3hCVGN1RmJZMjdhZ3hPUT09?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2eeeaff4-07e4-4f23-ee3e-08df29d03f64
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc1f8840-c6e8-4e3a-e179-08df29d0b702
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 08:50:50.4400
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 08:54:11.1764
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +yqFqq7LJ8jEBxEyUFe1QOCykFespMirDQJVArcDA7o3PAxjJfrIZq3TVDRhYfFGBpVUe1rtFXNqM2Dgmga6/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB2048
+X-MS-Exchange-CrossTenant-UserPrincipalName: N9pm5iKdm9559lskblF1fRZqj/1LWwpHUxc7JBb4zRhyoVsyrg/OeymnPEOA5wSL2p7NJNBqKeHH0tt6/BzlsRHM2/Pi9n+wuwehjjjsR7o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P189MB3467
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 08:51:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247748
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 08:54:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247749
 
-Build the installed-tests via the meson tests/installed_tests options
-(enabled through a new 'tests' PACKAGECONFIG when ptest is in
-DISTRO_FEATURES) and run them under ptest with
-gnome-desktop-testing-runner.
 
-Tested on qemux86-64 with ptest-runner: 36 tests, all pass.
+On 2026-10-02 10:30, Yoann Congal wrote:
+> This also drop a pcap-haiku.c hunk. Should'nt we patch pcap-haiku.cpp?
+> This was before it was rewriten in C.
+>
+> I may have missed it for the wrynose patch but if a patch is needed, could
+> you send a fix for wrynose as well?
+>
+> Also, please check that the backport notes are exhaustive (e.g. there is
+> also a missing man patch for which a note would have been appreciated)
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
+Hi Yoann,
 
-Notes:
-    Changes in v2:
-    - Rebased onto master after the libsoup 3.6.6 -> 3.8.0 upgrade.
-    - Keep logger-test and http2-body-stream-test; instead of excluding the=
-m,
-      raise QB_MEM for libsoup in core-image-ptest.bb so the large-allocati=
-on
-      cases do not hit the OOM killer. Only header-parsing-test remains
-      excluded (a glib parameter-list parsing assertion failure).
+I will fix and send new series and Yes, I missed about haiku.
 
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-core/images/core-image-ptest.bb  |  1 +
- .../recipes-support/libsoup/libsoup/run-ptest |  3 +++
- meta/recipes-support/libsoup/libsoup_3.8.0.bb | 24 +++++++++++++++----
- 4 files changed, 25 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-support/libsoup/libsoup/run-ptest
+wrynose looks correct , so no patch needed there.
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 2bd11b1706..992d3666b9 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -138,6 +138,7 @@ PTESTS_SLOW =3D "\
-     libmodule-build-perl \
-     libpcap \
-     libpng \
-+    libsoup \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'libseccomp', '',d)=
-} \
-     lttng-tools \
-     lz4 \
-diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-co=
-re/images/core-image-ptest.bb
-index 22bb23c0e7..35ffb933bb 100644
---- a/meta/recipes-core/images/core-image-ptest.bb
-+++ b/meta/recipes-core/images/core-image-ptest.bb
-@@ -49,6 +49,7 @@ QB_MEM:virtclass-mcextend-tcl =3D "-m 5100"
- QB_MEM:virtclass-mcextend-go =3D "-m 4096"
- QB_MEM:virtclass-mcextend-gnutls =3D "-m 1536"
- QB_MEM:virtclass-mcextend-zstd =3D "-m 4096"
-+QB_MEM:virtclass-mcextend-libsoup =3D "-m 4096"
-=20
- TEST_SUITES =3D "ping ssh parselogs ptest"
-=20
-diff --git a/meta/recipes-support/libsoup/libsoup/run-ptest b/meta/recipes-=
-support/libsoup/libsoup/run-ptest
-new file mode 100644
-index 0000000000..efe975cf3f
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/run-ptest
-@@ -0,0 +1,3 @@
-+#! /bin/sh
-+
-+gnome-desktop-testing-runner libsoup-3.0
-diff --git a/meta/recipes-support/libsoup/libsoup_3.8.0.bb b/meta/recipes-s=
-upport/libsoup/libsoup_3.8.0.bb
-index 2a40eecaea..277023881f 100644
---- a/meta/recipes-support/libsoup/libsoup_3.8.0.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.8.0.bb
-@@ -9,20 +9,23 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5f30f0716dfdd0=
-d91eb439ebec522ec2"
-=20
- DEPENDS =3D "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
-=20
--inherit gettext gnomebase upstream-version-is-even gobject-introspection g=
-i-docgen vala
-+inherit gettext gnomebase upstream-version-is-even gobject-introspection g=
-i-docgen vala ptest-gnome
-=20
- SRC_URI[archive.sha256sum] =3D "bbf08fa3e03a88c31a3d27a0d87cb422e9490f2d08=
-e149211103df6d638a2238"
-=20
-+SRC_URI +=3D "file://run-ptest"
-+
- PROVIDES =3D "libsoup-3.0"
-=20
- GIR_MESON_ENABLE_FLAG =3D 'enabled'
- GIR_MESON_DISABLE_FLAG =3D 'disabled'
-=20
--PACKAGECONFIG ??=3D ""
-+PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '=
-', d)}"
- PACKAGECONFIG[brotli] =3D "-Dbrotli=3Denabled,-Dbrotli=3Ddisabled,brotli"
- PACKAGECONFIG[gssapi] =3D "-Dgssapi=3Denabled,-Dgssapi=3Ddisabled,krb5"
- PACKAGECONFIG[ntlm] =3D "-Dntlm=3Denabled,-Dntlm=3Ddisabled"
- PACKAGECONFIG[sysprof] =3D "-Dsysprof=3Denabled,-Dsysprof=3Ddisabled,syspr=
-of"
-+PACKAGECONFIG[tests] =3D "-Dtests=3Dtrue -Dinstalled_tests=3Dtrue,-Dtests=
-=3Dfalse -Dinstalled_tests=3Dfalse"
-=20
- # Tell libsoup where the target ntlm_auth is installed
- do_write_config:append:class-target() {
-@@ -34,13 +37,22 @@ EOF
- EXTRA_OEMESON:append:class-target =3D " --cross-file ${WORKDIR}/soup.cross=
-"
-=20
- EXTRA_OEMESON +=3D "-Dtls_check=3Dfalse"
--# Disable the test suites
--EXTRA_OEMESON +=3D "-Dtests=3Dfalse -Dautobahn=3Ddisabled -Dpkcs11_tests=
-=3Ddisabled"
-+# tests are controlled via the 'tests' PACKAGECONFIG (enabled for ptest)
-+EXTRA_OEMESON +=3D "-Dautobahn=3Ddisabled -Dpkcs11_tests=3Ddisabled"
-=20
- GIDOCGEN_MESON_OPTION =3D 'docs'
- GIDOCGEN_MESON_ENABLE_FLAG =3D 'enabled'
- GIDOCGEN_MESON_DISABLE_FLAG =3D 'disabled'
-=20
-+# header-parsing-test aborts in do_param_list_tests(): a g_hash_table_size=
-()
-+# assertion on a parsed parameter list does not hold (returns one entry
-+# instead of three) with the current glib. The memory-hungry logger and
-+# http2-body-stream tests are handled by raising QB_MEM for libsoup in
-+# core-image-ptest.bb.
-+do_install_ptest:append() {
-+    rm -f ${D}${datadir}/installed-tests/libsoup-3.0/header-parsing-test.t=
-est
-+}
-+
- # When built without gnome support, libsoup will contain only one shared l=
-ib
- # and will therefore become subject to renaming by debian.bbclass. Prevent
- # renaming in order to keep the package name consistent regardless of whet=
-her
-@@ -50,6 +62,10 @@ DEBIAN_NOAUTONAME:${PN} =3D "1"
- # glib-networking is needed for SSL, proxies, etc.
- RRECOMMENDS:${PN} =3D "glib-networking"
-=20
-+# The TLS-based tests (ssl, server-auth, websocket, hsts) need a glib TLS
-+# backend at runtime.
-+RDEPENDS:${PN}-ptest +=3D "glib-networking"
-+
- BBCLASSEXTEND =3D "native nativesdk"
-=20
- CVE_STATUS[CVE-2026-1467] =3D "fixed-version: fixed in 3.6.6"
---=20
-2.43.0
+
+Regards,
+
+Jaipaul
 
 
