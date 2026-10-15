@@ -2,116 +2,132 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 044E6CC6B3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1855FCC6B3C
 	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 05:04:14 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32844.1792040648098877134
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32845.1792040648685496584
  for <openembedded-core@lists.openembedded.org>;
  Wed, 14 Oct 2026 22:04:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=c4AMOjpx;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso14743595e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 22:04:07 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=jO6dNatW;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a19cba5c14so42865645e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 22:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792040646; x=1792645446; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=QE1ePBcHWgbo47U7xlPB6ZRfPi9VOSJ7fOE/tIKj3I8=;
-        b=c4AMOjpx6/dzj9PQMudClQ8lozhMWsVf1Rn/2DRlVEjbOWVStJdmw0dZiOH3bPQO1e
-         1j267zO2FyL86vYeubOy/zySGwIUSTPH8VBaeFGPimyXnTxjs+uGTBsVKh0TpJqC8b29
-         PzD+aQ4fdKz6NiCjKydjef/zrvhSb7u7umDM4=
+        d=smile.fr; s=google; t=1792040647; x=1792645447; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KBM56g3cjBRPOd3iTU5k8JsVu932aoPpfS8OmJRVH/o=;
+        b=jO6dNatWFkpHzf3s4tLCstDdY6PBxzbNdAfbFTYF9VEbgQQZlcQqdKLhjtfGvJFyNt
+         9ybt12p3mjsS3fqtliy9u5cLsXCBmS3HD7yW7/dgZteAJ/QU61HxTtgBx+U6f0T7GN1i
+         Oxd3M/C709FC6hpRxnUuhUHdBB7OxVUydUv7Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792040646; x=1792645446;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=QE1ePBcHWgbo47U7xlPB6ZRfPi9VOSJ7fOE/tIKj3I8=;
-        b=1khhoS/rEEVIuQoteLdhDOyiVgI1JXZaITJf175kapHykDSHOqEwje1M9yLxNNDyOg
-         2ECpkhHto4G0D7T7XC+MiJjbEeM1Qb++kB+xoXx1xeWYQCyaNNQmi6rlOX2Hi5I1EyKG
-         6o1Rv0+NeCYs275EFX0+yfCYNL4+VJN9I3OaXZwsgzNVIfK7jZ9JGZ6vMOlo1El1EmRg
-         QT3+QzeabkxVlWEkGSCy0cUy/JJe9bwhA6Mb33wNAihg0USpoONZhlOl4yVkkrJGNI9S
-         Q6AP/ATXzcoOqFs8VukA4oZycZvw2iR9qoo9btvGM2+EYLfCRmJPpMTrsEIeL6lBLkLa
-         k89g==
-X-Gm-Message-State: AFq9FYIhu/oEZOyzX9VZLLihweMmWDjjeI7Yl43oHlxouu14QKT2GIXL
-	IHVEAr2yi3qsYA7uxms9fKOGr0L1nFfi3537VxX8A/6ae0oqMLjj1O15xE0Y4zNGvUj7r3ZNCzd
-	azsBt0GU=
-X-Gm-Gg: AYBFou25CqXIf7IpB/SDawRL+wYAPCwPnq8vUkFrrbg18UwgjqSTJXOrpbNI9viRFvT
-	Tbdpw4mA6eIpUWhpexR5/A/VOsRDYM5xM94j5TlwPSiYhF+JK4T8aDByjTQ1cp86oTi9t1wTxV8
-	lPioL+/8G18MXzbgeG405ZHT/A1M9ZZV4gapZq9Wh3a3vSaNG0bx1RMjFsmvXtthA8M6vlupZ47
-	tvYDE7m+wgUUUMFwUur3O6GP6JomgKn2x9QVRzX8cNvChnGXLWpUM+1+TD4+QU1oEhJd8YDX8WV
-	XOVFDIfxYLL3kK20hS7ezlheaePSb3mTfDztj+hjfECQFKsvZtT5cAxJJIUsBbzePVkvTJ4zg1W
-	Bsx0aVe5Wqm6MuQMIrdh7pdq5pvO+pUpy/zXQxzHUEYdLA/RL08D+hWS63uzTu39SO6yj4zX/pR
-	C7NgGk3vnGOvKRCiyHXlZ7lq/h/uGjAyBfSqxsUkjcf0APP/mN8bKw6MbLHozppnJkQ9mpcoosB
-	No87kTikMVLE1PYPy59i39zBilUGsbqcx2Vc5umyiGMkBXyI5CvU8FYyrX7kTw96VMjan8O6g==
-X-Received: by 2002:a05:600c:8105:b0:4a1:83f0:7c8a with SMTP id 5b1f17b1804b1-4a18e4433d6mr356696825e9.1.1792040646193;
+        d=1e100.net; s=20260707; t=1792040647; x=1792645447;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KBM56g3cjBRPOd3iTU5k8JsVu932aoPpfS8OmJRVH/o=;
+        b=YiaUIhnsdsPxrfK/Naf0s2K/mZZ+D6eDVJP6WTOiA9GI9Syh2aiYpfqXy/hREbxMuP
+         MDb8F7HI45wPrlobUtrzYiYhHD3I3PILwswzwxyXr2PAgGGG8dibX1jHJRKNsXC2fZC5
+         fmqv0d1Ns1AJqNNKfAD5WOtFtraJp9BfH9dgHdhrQ+DZYYsoaqzl14jFW43QS9g9eq77
+         fWtGUx4vBkYJHVyX+75cQWZQV3FMmK8PELvS3yWxiYkpkdD6bG9yzFtOYsE74j8s9uaQ
+         6KoJTmKD/83Bku7su6oARydL7fpJyNlKfsKcibJmtCz5uXlEK5F6f8II7wiYJQkp6uUR
+         YF9Q==
+X-Gm-Message-State: AFq9FYKByU3qB8KBl1uhEs+3aJ+VyUo0U7J+Ai90bkVzLT/rRS+RmBNd
+	btzsHcA8BYf+mvFhvZNLn/lkma7Lgs8+W6tNAiJ1CeOxLxC5IMQCXv7LmqkZfpb3EnGhiDoSsxB
+	fn4sgmDM=
+X-Gm-Gg: AYBFou0FmNAJgf46W3KG2TxvXveX/XaXr6x2w6JUDhuEIT4UEllHRSGRy9xROWx90ZW
+	kvmgnK1/8UTivkW7QDBQmAHdXAGDILVWBG7l3nRCSx+dA6fYElawrcC9wpMF42on6Mwkb1rkLCW
+	qtSTuvFpkAip6StV1a7QEoj76KwOXbhaVONM8gwVmudCWIAuQeyb4YZ7HVD5l4IkCTZVRShmWmW
+	Y96s2YrG/eDc5FPGz76rMwyNECRGj7QaBfanK0vJR64pyiNPqtl2Dsv2/NbvVREIg/bvNN2KaHy
+	w14Dl24J9WjR215Nt2yMnfWuvtW9mQBhfqFK0AEJF7bziN/hKKWpTdV3kSX4memMnjMaaSRofGG
+	w4BByiny0w2bWHXdmibabgqUU38zngCXTZ/jS8gy9ynRMnK5sJO5szV4y4tKhKmU1rFs29AVbWD
+	WjauIcB/QExzW5bUZmW+i/7vO1x0n1xniziDYqifJacXncBaIdG0wvz3a6HMRXaUp0RCBszkESQ
+	K1XTeru1B/9dlNesYYloLNY2BUeAy8jJfZ+XltgO9TNeX+iOQvPBwQoA80ntI2bfEBBpgvPfw==
+X-Received: by 2002:a05:600c:820c:b0:49c:fa21:1c81 with SMTP id 5b1f17b1804b1-4a18e4d5563mr338446345e9.22.1792040646994;
         Wed, 14 Oct 2026 22:04:06 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm46376245e9.1.2026.10.14.22.04.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm46376245e9.1.2026.10.14.22.04.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 22:04:05 -0700 (PDT)
+        Wed, 14 Oct 2026 22:04:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 42/55] openssl: upgrade 3.5.8 -> 3.5.9
-Date: Thu, 15 Oct 2026 07:03:05 +0200
-Message-ID: <f035c4ec526ef52690e6fbfc4c02fd27a5b6a975.1792020605.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 43/55] connman: fix syslog identity with glibc
+Date: Thu, 15 Oct 2026 07:03:06 +0200
+Message-ID: <507c75cb27bdd59cb0f372f7cd4d22abba9861b0.1792020605.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792020605.git.yoann.congal@smile.fr>
 References: <cover.1792020605.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 05:04:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247840
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247841
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Gaël PORTAY <gael.portay+rtone@gmail.com>
 
-Release information [1]:
+The patch 0001-src-log.c-Include-libgen.h-for-basename-API.patch changes
+how the syslog's ident string is handled to fix a build issue with musl.
 
-OpenSSL 3.5.9 is a security patch release. The most severe CVE fixed in this release is High.
-This release incorporates the following bug fixes and mitigations:
-* Fixed DTLS retransmissions of handshake messages from a stale buffer offset. (CVE-2026-84782)
-* Fixed excessive memory allocation in relative CRLDP processing. (CVE-2026-35189)
-* Fixed QUIC unvalidated amplification credit may be over-accounted. (CVE-2026-35191)
-* Fixed potential CPU DoS via O(n^2) fragment reassembly in QUIC. (CVE-2026-42772)
-* Fixed a timing side-channel in scalar multiplication for mon-NIST EC curves. (CVE-2026-54872)
-* Fixed QUIC STREAM fragment metadata DoS. (CVE-2026-54873)
-* Fixed non-constant-time SM2 scalar multiplication on ARM64 and RISC-V. (CVE-2026-54875)
-* Fixed out-of-bounds access after SSL_set_SSL_CTX() during a handshake. (CVE-2026-72897)
-* Fixed QUIC connection-level flow control was not enforced for streams. (CVE-2026-75804)
-* Fixed a NULL pointer dereference in CMP client revocation response handling. (CVE-2026-75805)
-* Fixed an unauthenticated and undersized DTLS 1.2 AEAD record causing DoS. (CVE-2026-75806)
-* Fixed a timing side-channel in SM2 signature generation. (CVE-2026-77696)
-* Fixed an unbounded RETIRE_CONNECTION_ID backlog in QUIC stack implementation. (CVE-2026-84784)
-* Fixed a bug where EVP_DecryptFinal() incorrectly reported a stale success on AES-SIV authentication failure.
+It passes a locally allocated string to openlog(), which introduces a
+regression with glibc, as glibc does not make an internal copy of the
+ident string[1], unlike musl[2].
 
-[1] https://github.com/openssl/openssl/blob/openssl-3.5/NEWS.md#major-changes-between-openssl-358-and-openssl-359-29-sep-2026
+As documented in the syslog(3) man page[3], the ident string passed to
+openlog() may be stored as-is. Modifying the string or allowing it to
+cease to exist can therefore lead to unexpected behavior or undefined
+results.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+This removes 0001-src-log.c-Include-libgen.h-for-basename-API.patch from
+SRC_URI for glibc by moving it to the libc-musl override, ensuring that
+it is applied only when building with musl.
+
+Note: The patch was submitted upstream to connman but was never
+merged[4]. It was also removed from oe-core when connman was upgraded to
+version 1.43[5].
+
+Fixes:
+
+	Sep  7 06:10:36 qemux86-64 daemon.info ^A[776]: Connection Manager version 1.42
+
+This fixes commit d0139bcbe0 (connman: Fix build with musl).
+
+[1]: https://sourceware.org/git/?p=glibc.git;a=blob;f=misc/syslog.c;h=b7414e7b43a510342273bece335b4258e8754905;hb=47dd7e0dacf50c740b04c78d3f85fbf983d53aba#l338
+[2]: https://git.musl-libc.org/cgit/musl/tree/src/misc/syslog.c?h=v1.2.4#n64
+[3]: https://linux.die.net/man/3/syslog
+[4]: https://lore.kernel.org/connman/0caf957f-e046-4453-a8ae-fd6c994ac95d@gmail.com/
+[5]: https://github.com/openembedded/openembedded-core/commit/467d28f5d243d821722cf8dcdbb9675a2820cd4f
+
+Signed-off-by: Gaël PORTAY <gael.portay+rtone@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../openssl/{openssl_3.5.8.bb => openssl_3.5.9.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.8.bb => openssl_3.5.9.bb} (99%)
+ meta/recipes-connectivity/connman/connman_1.42.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.8.bb b/meta/recipes-connectivity/openssl/openssl_3.5.9.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssl/openssl_3.5.8.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.5.9.bb
-index be52e228f10..ef806d0d984 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.5.8.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.9.bb
-@@ -19,7 +19,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
+diff --git a/meta/recipes-connectivity/connman/connman_1.42.bb b/meta/recipes-connectivity/connman/connman_1.42.bb
+index 9b3abbe2583..4fb7bf6a350 100644
+--- a/meta/recipes-connectivity/connman/connman_1.42.bb
++++ b/meta/recipes-connectivity/connman/connman_1.42.bb
+@@ -6,12 +6,13 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+            file://connman \
+            file://no-version-scripts.patch \
+            file://0001-vpn-Adding-support-for-latest-pppd-2.5.0-release.patch \
+-           file://0001-src-log.c-Include-libgen.h-for-basename-API.patch \
+            file://CVE-2025-32743.patch \
+            file://CVE-2025-32366.patch \
             "
  
--SRC_URI[sha256sum] = "a8f84a39918ec6415ce765d9b429d313ba97b8143169c172e734b9514464f5b2"
-+SRC_URI[sha256sum] = "603f5602e2eef00d77fbd429d34dcd5822bb301757a1bc9cdb24c670f1eb859a"
+-SRC_URI:append:libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
++SRC_URI:append:libc-musl = " file://0001-src-log.c-Include-libgen.h-for-basename-API.patch \
++                             file://0002-resolve-musl-does-not-implement-res_ninit.patch \
++                           "
  
- inherit lib_package multilib_header multilib_script ptest perlnative manpages
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ SRC_URI[sha256sum] = "a3e6bae46fc081ef2e9dae3caa4f7649de892c3de622c20283ac0ca81423c2aa"
+ 
 
