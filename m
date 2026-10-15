@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46943CCA460
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 892B8CCA463
 	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 05:04:03 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32825.1792040633812814912
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32834.1792040642290758602
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2026 22:03:54 -0700
+ Wed, 14 Oct 2026 22:04:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fo+4k98s;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso34994915e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 22:03:53 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dTcVCkbF;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a16aaf2067so20493915e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 22:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792040632; x=1792645432; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1792040640; x=1792645440; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=KymkPiEtd6Nu97UFpAiZ9rssq5aRW4WudneBSOAbko0=;
-        b=fo+4k98s/tx2GoxQSoRtiqv/LGvrbUfh8B/+jsIe5KXxlAp+dB+ijpGwY3w6JPOt2C
-         2Hh5yHrPjQ03JCVF0T9zxNWMxPxaPaI+8ag7klR2Qu//srsA+wUeJ7eJ0HgCoNd1NTHl
-         xIH6ZNStYkAUwEZTtTOr3gwSvYKC68uoKxD+A=
+        bh=IknFW2GZ2te9C8//Rgn9BDI0lvQROQsCyF3BxpZtWk4=;
+        b=dTcVCkbFso+AnEABI/ZeibsXDA/Ak8Cb3XIQ3VS671Fn7ZxhLKqJuDVWVg7djSGkwG
+         TZ5P6XKQggUmAvugXCcyg0pDbyo2lSkEh6Eo5P37BF2Kw8FFKiJ7wEEuPnbEb5ed+LMl
+         qvzF3gZbkYj6dB9M+u2RFTdWvQUimD/blTmss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792040632; x=1792645432;
+        d=1e100.net; s=20260707; t=1792040640; x=1792645440;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=KymkPiEtd6Nu97UFpAiZ9rssq5aRW4WudneBSOAbko0=;
-        b=VQim3b+n3wbwoeo+LWihbskVieN1TB8w13k9GKDF2tj8LLbdeluRulFMRaEt7rYN3X
-         CZAY7vp/O/egWPo7nLHmvChMhk/7+8hW6SN27w/qnLpfVWjJvhJgUaUoaNHui72gJ9ks
-         qrY6ymnG/oiawE6yr8fG4N5TsaHrBxSRKJeKX7I6TZvwiSvlki6kAxVGh596efNcZ+oA
-         0C0v/SYjoYRmA5zrpOQB0mRNA/aT2ehlTyF6LpWG6L5Tc55nFA+OIHnJwjHhFgMkfQI3
-         4McNyeK19FWbiG5CzZVS9aonz51dtiDjgPuo27AgIui7hdUwr/rIB3qw+hrTkHg3RVXi
-         tXXw==
-X-Gm-Message-State: AFq9FYLmK21lIVVpqiSEM6qdvWb3J1mEphs3jI8kfA1mwIJSlkUdfXM8
-	ynjwFhww0YbhDmVGYk4SnaweoCzlKvEYCGmNDjIASPcaUFpdCUwz+uTwdZXvoDsUW+nUwJTB19e
-	ofWDw+EU=
-X-Gm-Gg: AYBFou00A9Lthphqvkbz8zhOWGmu5MHgjCGDKMQk58zxkmrCwkyNFjXrKlzNkNsIttx
-	lcKb/UxXbGLT/TQfyTOl95ku7BtXnQCEtmzCMd0BxuzNnsYse4ukn8LNRU/sRRAOrVTuNXyTpjA
-	TRNC++DI1pyxiLcAzu/tuV32cqG6Mq7Sjxi9fn/q6CKDeDkX4ZrspnGCfVUWZjj03FX/7BvYgwD
-	6nEFeqwTN44fZIYUp6Q/AQwUEtCOBPv+CRQHBES3F8prEygqwualrlngADmG+u1VG9rvu0v6tuE
-	mdQM7PaqkC350KtAAD9Gi8ljngQ4iq76p09yrib2KR++K7mq9/w6NiOFdOcMv1pokOsiR5FJp7h
-	BsU/X4hdJWCxWQKkQBROdXVi1atJzvkJ+Ej9124l02q+zTYYUQR2eAkVXDyhl/XZofaGGF4Rwzc
-	b2sQMSJluL4qM0jrj0McsApPRoYG/rB3uUZKNhpxsmJJUYgF+lPt1tompWW1PRrSh2ui2lgSmi0
-	jFkLxZ7T58PTKoEv9BT+NCbR1MeKzEVwAEsbUQk3NOTcdjqvO2OgVQVcV9xaTtkp8sVOLt99g==
-X-Received: by 2002:a05:600c:6388:b0:4a1:ac66:5ffe with SMTP id 5b1f17b1804b1-4a1ac666396mr145350855e9.15.1792040631846;
-        Wed, 14 Oct 2026 22:03:51 -0700 (PDT)
+        bh=IknFW2GZ2te9C8//Rgn9BDI0lvQROQsCyF3BxpZtWk4=;
+        b=0MQ5sr1LsArX/491ZVXPiG0twzFu521Brdpnl9FFkd6GE17avgywnAq8CuIyyM40IE
+         1ckfKDZvAnGNRTyUFgwVhKMtfFLUVhyujssIpbSr7Wm42sLtsLIVEI6GDrF7dacq2JEu
+         rIZXcjS8TxwI1eQhROw769YkCkWEKBIRL1tCz31tBeCF+/jtfQUdkCp3VRXB4o3bDSqL
+         rlpDZUkR8YrV8TuCK8g2+xUEpuwNRBmIQHaO0PlSBj1B/eFdyhkk2lJdsFH9t9yRNZoB
+         bt7obwTiDvC57ZZWSyzePYPL/l5brhuJqnV4df+KYB73bW/iHDWdtdGhRFcgPwZntKnu
+         HgLg==
+X-Gm-Message-State: AFq9FYI9rEJdtusR3eluNFSzo6i4vpNBl0WG5lm6Ix5XeINx+VE170ud
+	JfO8ThOp6ncsyMG8EFUxfyN8QolAWcah+sTaJ4vzdtmGkbsNA2oUDwbUeRPBZKvQHryH7BEfvLQ
+	zdCgbKXI=
+X-Gm-Gg: AYBFou0i96fdAb1czwTTuUbjjs7SDeGEV1JvMUBG8mJROr0FZnpGS8uBEcTaGKTxrxX
+	WxidOJBZCKdrXLvQz8/Vx+ZhMl5cDoGQtBXNdLxR0EfS4vB8xtNIIx6giZ1iIwu6nJVp8pW7vh2
+	1rTKlH5gz+p7UBE2M9Gos8tiVFyb/ImtM0Y7HpdghuAxau+jczj1pYAWuoS3mQaZF7Ck0Sp4MsI
+	BH5P5U9a+sRgQJGNRpMPC2wXLRoyVRnANncVh+Kn1nt2mtmT3dA2PnA+7AMfuPnjajhagJyfAg6
+	D3wSBW02LAWkSxKEbR1bIs7G7yY7K52vlDCT2W3uJVogKBxzL7RCCgpsGJe3oDINdYPDZhR1+iy
+	VUUwhdMYpYM11ycIvUejUwdk126SJKjPvxTZFC4BupdiLHJugawAIMesu4ko2EDHKmjwCH4fC8B
+	jLNOU4C33Dx7yaUysYF530A4qXzN3H7GDLYyrOvUIMYWN1OjOyRbujntLf5e1qW7qDp/tVmpflU
+	U5VoOFm/De9cLN5cPOTDh4jYPaZ6kbLd2MBEryz6qWtU2VoisOXxLe6QUt9rxnUCD9Jl1f4qjAZ
+	cOtFhw8v
+X-Received: by 2002:a05:600c:a11c:b0:4a1:97c6:d2e8 with SMTP id 5b1f17b1804b1-4a197c6d902mr212126445e9.32.1792040640399;
+        Wed, 14 Oct 2026 22:04:00 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm46376245e9.1.2026.10.14.22.03.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm46376245e9.1.2026.10.14.22.04.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 22:03:51 -0700 (PDT)
+        Wed, 14 Oct 2026 22:04:00 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 22/55] libsolv: patch CVE-2026-48863
-Date: Thu, 15 Oct 2026 07:02:45 +0200
-Message-ID: <28c807ab8de3d274b04c2dffb271e050fb8270cd.1792020605.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 34/55] openssh: fix CVE-2026-73283
+Date: Thu, 15 Oct 2026 07:02:57 +0200
+Message-ID: <9eafc35227e70fc4a0979e99b77a804684ef9bf1.1792020605.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792020605.git.yoann.congal@smile.fr>
 References: <cover.1792020605.git.yoann.congal@smile.fr>
@@ -66,63 +67,83 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 05:04:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247820
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247832
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Pick patch per [1].
+This patch applies the upstream fix that makes the authorized_keys
+restrict keyword apply to tunnel forwarding. The upstream fix commit
+is referenced in [1], and the public CVE advisory is referenced in [2].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-48863
+[1] https://github.com/openssh/openssh-portable/commit/d322f2ccf7da095ce94d1d99cb563246f61487b
+[2] https://www.cve.org/CVERecord?id=CVE-2026-73283
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libsolv/libsolv/CVE-2026-48863.patch      | 25 +++++++++++++++++++
- .../libsolv/libsolv_0.7.28.bb                 |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
+ .../openssh/openssh/CVE-2026-73283.patch      | 42 +++++++++++++++++++
+ .../openssh/openssh_9.6p1.bb                  |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-73283.patch
 
-diff --git a/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch b/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-73283.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-73283.patch
 new file mode 100644
-index 00000000000..131d035b408
+index 00000000000..c9acb8dd137
 --- /dev/null
-+++ b/meta/recipes-extended/libsolv/libsolv/CVE-2026-48863.patch
-@@ -0,0 +1,25 @@
-+From 44f8c085045b1f771641091bbb2b810d12cff9e8 Mon Sep 17 00:00:00 2001
-+From: Michael Schroeder <mls@suse.de>
-+Date: Tue, 26 May 2026 10:30:31 +0200
-+Subject: [PATCH] Fix wrong variable being used in solv_pgpvrfy
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-73283.patch
+@@ -0,0 +1,42 @@
++From d322f2ccf7da095ce94d1d99cb563246f61487b0 Mon Sep 17 00:00:00 2001
++From: djm@openbsd.org <djm@openbsd.org>
++Date: Tue, 14 Jul 2026 01:05:05 +0000
++Subject: [PATCH] upstream: make authorized_keys "restrict" keyword apply
++ correctly
 +
-+CVE: CVE-2026-48863
-+Upstream-Status: Backport [https://github.com/openSUSE/libsolv/commit/44f8c085045b1f771641091bbb2b810d12cff9e8]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++to tunnel forwarding (which is administratively disabled by default).
++
++Reported by Erichen, Institute of Computing Technology,
++Chinese Academy of Sciences
++
++OpenBSD-Commit-ID: 5b3cc987a64749c94b20e12755db32a83f8f01e6
++
++CVE: CVE-2026-73283
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/d322f2ccf7da095ce94d1d99cb563246f61487b0]
++
++Backport Changes:
++- Omitted the upstream OpenBSD RCS revision header update because it does
++  not apply to the OpenSSH 9.6p1 source revision.
++
++(cherry picked from commit d322f2ccf7da095ce94d1d99cb563246f61487b0)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 +---
-+ ext/solv_pgpvrfy.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ serverloop.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/ext/solv_pgpvrfy.c b/ext/solv_pgpvrfy.c
-+index 9f1bd72e..9358558b 100644
-+--- a/ext/solv_pgpvrfy.c
-++++ b/ext/solv_pgpvrfy.c
-+@@ -589,7 +589,7 @@ solv_pgpvrfy(const unsigned char *pub, int publ, const unsigned char *sig, int s
-+ 	if (rlen)
-+ 	  memcpy(sigdata + 32 - rlen, r, rlen);
-+ 	if (slen)
-+-	  memcpy(sigdata + 64 - slen, s, rlen);
-++	  memcpy(sigdata + 64 - slen, s, slen);
-+ 	res = mped25519(pub + 1 + 10 + 2 + 1, sigdata, sig + 2, hashl);
-+ 	break;
-+       }
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
-index 4ad8a20e2f4..827b6210a69 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.28.bb
-@@ -12,6 +12,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https \
-            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
-            file://CVE-2026-9150.patch \
-            file://CVE-2026-9149.patch \
-+           file://CVE-2026-48863.patch \
- "
++diff --git a/serverloop.c b/serverloop.c
++index c1fe99d1..56d8be75 100644
++--- a/serverloop.c
+++++ b/serverloop.c
++@@ -531,7 +531,8 @@ server_request_tun(struct ssh *ssh)
++ 		ssh_packet_send_debug(ssh, "Unsupported tunnel device mode.");
++ 		return NULL;
++ 	}
++-	if ((options.permit_tun & mode) == 0 || options.disable_forwarding) {
+++	if ((options.permit_tun & mode) == 0 || options.disable_forwarding ||
+++	    auth_opts->restricted) {
++ 		ssh_packet_send_debug(ssh, "Server has rejected tunnel device "
++ 		    "forwarding");
++ 		return NULL;
++-- 
++2.43.0
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index b48e262c725..f660e78dba7 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -44,6 +44,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://CVE-2026-60001.patch \
+            file://CVE-2026-60002.patch \
+            file://CVE-2026-60000.patch \
++           file://CVE-2026-73283.patch \
+            "
+ SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
  
- SRCREV = "c8dbb3a77c86600ce09d4f80a504cf4e78a3c359"
 
