@@ -2,68 +2,67 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50513CC6B33
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC3DCC6B34
 	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 13:08:49 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39772.1792069727297281472
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.39278.1792069728508157322
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 06:08:47 -0700
+ Thu, 15 Oct 2026 06:08:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=EQ2MfZnK;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48dee593f18so322271f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 06:08:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=jhQkJ9QE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso49773725e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 06:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792069725; x=1792674525; darn=lists.openembedded.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Sc3rjSBoXwAXUdFpLYTbNhDerW4RjY9ZO/FLZxqtbxM=;
-        b=EQ2MfZnKZ2pHTjdJQAv5iECCmlw3O2y5fZBPNqOZO1ixcBhFRsNFmtUYD+iL3Yx0vQ
-         dtmbbYHPxl5f7hWh3KO2sdwDqtzmzHBBUnkJWsgSmB9DW8NSoCPs5WqeIDGtDsKDarQR
-         A9+icK/snAzRT/PTEQ7AnNag3/emPDxOCdKGShf3m7XoyWgM0SLri/57EvEaHvqq/7X2
-         LYpA+l7RViyKja5FnJP1eBWVUUDTjRgxCW26WCiTDOq/7nMAp9IiHMameMWFnb5oRSUb
-         vSG0iqilR/L7z4mXRiEX8k4srNIU14KERrpWKK3v4cdpkHZD+1xvmHD+eeonx02AcDmm
-         p4Fg==
+        d=gmail.com; s=20251104; t=1792069727; x=1792674527; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Dj5DEVQAm/j+CbbnSBBaIWMyB096fjsercsNy09eLEE=;
+        b=jhQkJ9QElW36SgZiRhwOJ/SAA1YC3S9+5ogv/EbHTozADiVDCsDJOsECBAZ6hjOAhp
+         FuPtJ2/cj3/ITV8LPx6zKBFLrSXWZENGc/CHeD3aD7q54O9+XjUYz6hXi6pJchTbRaVk
+         PiA7UtdI7QdOoC25SI4+PtWHBV1bIOt28Zc/bnd4RLjRdH/gvr2PGURQirOEjbwlT52+
+         5CuorxZLeazV82CsENXWsv5E/gRUS7RRjtvg/Cxw1Th7SSyqsmcg6zFwRW1w+HWZPmOC
+         idkuUaRNT9rfaE9c+G0Px9/qnmJxgJmbyDlN8E1X8/v/sWP/Qb1pkygx1CycegcfJkh5
+         UO/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792069725; x=1792674525;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Sc3rjSBoXwAXUdFpLYTbNhDerW4RjY9ZO/FLZxqtbxM=;
-        b=BdIxuK8k8OI53KJUmt5tNXOp10xJKsounigtJhg+JT6n90uWVivXVSd+vyb2/EDjlX
-         tzTFZxYAjYG8BadTUpx5fOcZWkAGAu2tpIEn4g7B5mC6L+zkP4oto2FikQdXe01wyYPq
-         qgH6WeLBUtImXtpkGWlAeMoD8vCCbiEj5ymiJ2LPCQ8MTv4TNVwc+/tBA3Olfv5Vok2o
-         v6EapDQb6h0HhEYFLtT9CeZWdo+u3KND223/bToNv/Bg+KfEHrdGdIuT6U0FD86pAj7+
-         RSbiAq4rf5mtpck0OuRANKsr2K8uAU+F3w9hypiF7S/Espae9DS2nR8MK4UvoK0AJh8+
-         XggA==
-X-Gm-Message-State: AFq9FYI/O1IAhBCKOyFuho/NlEdGvovOpmavVeXlMrpN6Y6JBswfKNrj
-	gdSAN2WW0MRVH15SjhJSJjRKLdrC97Y1N+x63WYd73JTc4kX1E1tLZasE7Wlog==
-X-Gm-Gg: AYBFou2YYo1gXGSdC8OvX/tPCNiU4VPbv6KtB63hbyHhikdCqxJW8YhlwCQrD5A1XHK
-	JfxOhslz2MG1pFyOaXDb0mWbBuzcyxL8sYIQO9seAGDRQNFd195XscSR/qCAQcdXvdO3X4APvuE
-	bAJ+MbNBlcxcEVC7er453RjhgiiZYF0SBXrIS6ftJQW165IRZ9Hx7aXBWBAbhDmL4uAdAlhuvTJ
-	iVnN/99HItR6ZtDgGgpjEmhNrpgCzOGNY/mISohTVkCr9jwP1suB80fpx1VVd/iA1lun2o0A/4F
-	9aKL1GXZ12pdLpGQ+thEii0mtRdlC0WHRSZHl36s7I+Xm6aeLoGkyzwwQoEWlMvQgcxoSA5Ywpf
-	OnZxGXrRGrpRkVLqrXC/LjBrAuuymwXW8n8Va9dChNlAMKrEG2uqzk9MJF+IfxazALpFBsr4zj8
-	db4wPVNNMItaVPtRtoI7jnlNLj0kHrq2BXf6pXcO3yH0I0gQn2OAWyrY5XOGWNeF6SCWks8HR09
-	yjN1cwR60v8JddoHsII+U2sivRXnu6WLttBVi3KgsG12x3fdw==
-X-Received: by 2002:a05:6000:2407:b0:48b:9d2:1a6a with SMTP id ffacd0b85a97d-48ddf883a1bmr18917280f8f.1.1792069725236;
-        Thu, 15 Oct 2026 06:08:45 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792069727; x=1792674527;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Dj5DEVQAm/j+CbbnSBBaIWMyB096fjsercsNy09eLEE=;
+        b=yTHL2E3vk71I2eUvTktRHI4B2Zi0w1fkzoldaqaxAp5JpcHpVYbT4l4uxmHxuUwILZ
+         OtZFnw7x95VmD7RuBoERUwurNWvBMI9Gr7uErMDuE4YKvDyRveIDklyFsSxftwZiDGeG
+         gLqL5fLO6np4oR1Xb3BcVPwWaOU0fSw1l6kOkX4OiC37gXX2hORvzFFuBepnA4/kp3gx
+         YrD6E42U8jdkrJeP85I0pJ2OwO1VJcJ/wL0bqDMicWJIcSqp12FM9zoM33qxJtTGiATV
+         7uGZOoAVCelMctSjzJtOKyNMN0AYWg2MpIRugXl4PxFAVI2mwJKomADuOmq71kmt3gYk
+         MKiQ==
+X-Gm-Message-State: AFq9FYJBDXWvKlSFmNMAuxPxX1+AAw9I1PIC0JyT/CzxBRrf7J5QuKxe
+	KDF7iVpzFxFV5r8EzPHpFjXwHQGGtMrNl23uqWqbSrAtyl2UdDaN3oikCmZw2g==
+X-Gm-Gg: AYBFou0LTZrhL4/JO90nMkHJNdmnQEZyiMPOvOJcP/9397ulaZSSsImFbTzkwlf1uFe
+	QluEWD/NZF3mbln7oPoqVXMV3jBAdwj30UOAhos6SsdhgIbFh1ByHJHIAwDw6BnoJSpW4z+T6zg
+	VRtMvOvC8EEJlRYp7O+AMZPNTTNfzxq0tB2SBj9gK3S2RTzzlkjco/dMxtQuhHwqSozHJCtP2nz
+	PnusLrGibZCP9LQurHK9C6bYjowDwcTGyvMsKq/utZPQ876KOlGGn3LiWyC6NRnf8ca+XCPoOgw
+	OPbqAxRmZTB86F+yzYWVTylLPuFz+Yhlx6ba+BUY8uQ0Bd0TddK3QoPm8E5Pp+D7+nqVtOcyn36
+	xpaaJJD+tuS/puCR8lfF25EfxhkDhhOabNH8wM2l385nK83/QgOw8W1aJYIPv6zBioerr7oHbN0
+	r4Hmw+DO76rj7iZ0Tc/qnAbCcXBcBsiS+JclyOnPRvvq5g47aSdpnlH4geUtEHoSGtBkbPCLufs
+	l7omG+W9df7A6y8KUh/bi15vM15VVRPo7etS1uD310ryajLbw==
+X-Received: by 2002:a05:600c:a112:b0:4a1:9663:7633 with SMTP id 5b1f17b1804b1-4a1966379f7mr270469975e9.11.1792069726415;
+        Thu, 15 Oct 2026 06:08:46 -0700 (PDT)
 Received: from [192.168.5.15] (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ac36f9sm17782453f8f.36.2026.10.15.06.08.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ac36f9sm17782453f8f.36.2026.10.15.06.08.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 06:08:44 -0700 (PDT)
+        Thu, 15 Oct 2026 06:08:45 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [PATCH 0/2] eudev: upgrade 3.2.14 -> 3.2.15
-Date: Thu, 15 Oct 2026 14:08:42 +0100
-Message-Id: <20261015-eudev-3-2-15-v1-0-407ba1a93edb@gmail.com>
+Date: Thu, 15 Oct 2026 14:08:43 +0100
+Subject: [PATCH 1/2] base-passwd: add the render group for eudev-3.2.15
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFrQ0GoC/yXMTQ5AMBBA4avIrE3Sjt+4ilhUDcYCaRGJuLti+
- S3eu8CzE/ZQRRc4PsTLMgfoOAI7mnlglC4YSFGulc6Q944PTJDwRapyQ4UpbUEQktVxL+e3q5v
- ffm8nttv7gPt+AFYBWANwAAAA
-X-Change-ID: 20261015-eudev-3-2-15-e406a27a8c72
+Message-Id: <20261015-eudev-3-2-15-v1-1-407ba1a93edb@gmail.com>
+References: <20261015-eudev-3-2-15-v1-0-407ba1a93edb@gmail.com>
+In-Reply-To: <20261015-eudev-3-2-15-v1-0-407ba1a93edb@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
 X-Mailer: b4 0.16.0
@@ -71,29 +70,88 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 13:08:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247882
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247883
 
-eudev 3.2.15 adds a render group for DRM render nodes, so we add that to
-base-passwd first, then upgrade eudev.
+Also add a comment to document why we add groups here and not in eudev,
+and why they're not submitted upstream.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
-Alex Kiernan (2):
-      base-passwd: add the render group for eudev-3.2.15
-      eudev: upgrade 3.2.14 -> 3.2.15
+ .../0001-base-passwd-add-the-render-group.patch    | 29 ++++++++++++++++++++++
+ meta/recipes-core/base-passwd/base-passwd_3.6.8.bb | 16 ++++++++++++
+ 2 files changed, 45 insertions(+)
 
- .../0001-base-passwd-add-the-render-group.patch    |  29 +++++
- meta/recipes-core/base-passwd/base-passwd_3.6.8.bb |  16 +++
- ....c-sync-dev_urandom-implementation-to-sys.patch | 138 ---------------------
- meta/recipes-core/udev/eudev/netifnames.patch      |  17 ---
- .../udev/{eudev_3.2.14.bb => eudev_3.2.15.bb}      |   4 +-
- 5 files changed, 46 insertions(+), 158 deletions(-)
----
-base-commit: 6b2dcfdbe16055edc88f72dabf07e33f8163d8eb
-change-id: 20261015-eudev-3-2-15-e406a27a8c72
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-add-the-render-group.patch b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-add-the-render-group.patch
+new file mode 100644
+index 000000000000..33ac1ec9e017
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/0001-base-passwd-add-the-render-group.patch
+@@ -0,0 +1,29 @@
++From 8e1b08f3e701bb08b57c85c6818991f92a9611ae Mon Sep 17 00:00:00 2001
++From: Alex Kiernan <alex.kiernan@gmail.com>
++Date: Thu, 15 Oct 2026 10:58:02 +0100
++Subject: [PATCH] base-passwd: add the render group
++
++eudev-3.2.15 adds the render group:
++
++    Use the dedicated render group for /dev/dri/renderD*, kfd and accel
++    devices, as systemd does. Access is unchanged (mode 0666); systems
++    without a render group log an error and keep them root-owned.
++
++Upstream-Status: Inappropriate [oe-specific]
++Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
++---
++ group.master | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/group.master b/group.master
++index a0f9daf92d57..20ea5da3a450 100644
++--- a/group.master
+++++ b/group.master
++@@ -35,6 +35,7 @@ sasl:*:45:
++ plugdev:*:46:
++ kvm:*:47:
++ sgx:*:48:
+++render:*:49:
++ staff:*:50:
++ games:*:60:
++ shutdown:*:70:
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
+index ec11e8827855..dddc326bc575 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.6.8.bb
+@@ -5,6 +5,21 @@ SECTION = "base"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+ 
++# We carry a number of extra groups in group.master which can neither go
++# upstream nor be created by the recipes which need them:
++#
++# - Upstream base-passwd only serves Debian and Debian-based systems. Debian
++#   policy (9.2.2) restricts base-passwd to IDs which must be statically
++#   allocated and identical everywhere; any other group is created by the
++#   package which needs it (adduser/systemd-sysusers). Upstream has told us
++#   anyone else using base-passwd is on their own:
++#   https://salsa.debian.org/debian/base-passwd/-/merge_requests/17
++#
++# - We can't create them with useradd.bbclass in the recipes which use them.
++#   Using useradd also brings shadow's login into the image, which fails with
++#   "setgid: Function not implemented" on kernels without CONFIG_MULTIUSER,
++#   unlike busybox's login.
++
+ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar.xz \
+            file://0001-Add-a-shutdown-group.patch \
+            file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch \
+@@ -14,6 +29,7 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://0007-Add-wheel-group.patch \
+            file://0001-base-passwd-Add-the-sgx-group.patch \
+            file://0001-Add-clock-group.patch \
++           file://0001-base-passwd-add-the-render-group.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "fab3d0e6e8b641e116bda9bd5f7a7ed24482384c1513f6a369b506327fbc8dde"
 
-Best regards,
---  
-Alex Kiernan <alex.kiernan@gmail.com>
+-- 
+2.43.0
 
 
