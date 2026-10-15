@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E168ECC6B39
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B30B5CC6B2E
 	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 05:04:13 +0000 (UTC)
 Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32848.1792040651568378917
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32850.1792040652918454246
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2026 22:04:12 -0700
+ Wed, 14 Oct 2026 22:04:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fn6OwRMG;
+ dkim=pass header.i=@smile.fr header.s=google header.b=DN2X13nD;
  spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a021c809e3so45975615e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 22:04:11 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49fbb2acc90so40831935e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 22:04:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792040650; x=1792645450; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1792040651; x=1792645451; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=/E+9PGS7p6M/GA8sNJgyj2KOv/LpTLbQRy5ibDLtb5k=;
-        b=fn6OwRMGSw/43HhDooWv2nn62P1u1dhvWpG+oSY3X9so/A8ax6a0qr+AxVfgAzw+Ff
-         /22TUjlk4J1o3XdjRwFAHWv19ikDu/Q+H4gupE+hM797C8bc/Co4y35dcpLqwxl8jAYI
-         IL5Kbo6K6vGX+YVinP0SaceQ2CbClVMsU7SXw=
+        bh=kxKVBr572UE8tkQcJYkI89STiRjYUqqNfcfZ4OyrO8M=;
+        b=DN2X13nDUE8vDWadAFghFJgSl404/E0MkgSYJGlOedvj/kX2oODWhAq0YcJW74Ofnl
+         BTuIszqxlH4cDY9OPj2ebedpKx70Xljr6OEoLRHw1oS7RXhFAK/JkBN2fBZORMXmlRaR
+         xzhDoLr3hst7I+H+qOtdtD0ceJ2jj0AeJIei8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792040650; x=1792645450;
+        d=1e100.net; s=20260707; t=1792040651; x=1792645451;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=/E+9PGS7p6M/GA8sNJgyj2KOv/LpTLbQRy5ibDLtb5k=;
-        b=W/oVY09HQaTW/hfjIKctw+M4ktMbAuhgnD/jMdviVm0tCKwMJPC7QbzT8YemeoY9MO
-         VdLcS2PGd5NT4uSr2n+PPhxhzgNdQgyRivEGgONJb3tvjy8t9GDzbSf7f3fc55nuhYAI
-         fYDaDEZmYGDyj+XTSsA4lN3zJVyVmqgoNFIXN4Te8skzi7yZ9tC6MVFcIMhZQW8dh9jm
-         ma2kDKJ4xIWxm3nVMbbtFbXTdAtrUcSDJInI5r5vvkP4Ifn0N71N8yOzEedCGaLvJTPW
-         KdU4C9iMD8yRBkt9UfLoj8wc6QR+ST64WvuFcN2ujGPbr5juA4mwLw1wRLv9cSp8+t/i
-         TkMQ==
-X-Gm-Message-State: AFq9FYIDT1VMRtsZQAh5IZe9BrNDHIRzyf+SDagvv+e+GZoFkXIJNCld
-	3KbwYXE+nqE/kxeTbj10XRfXegKnLAU1hBHfxUyU+FXx1oEblyMionVaL+CmbPFBkWjNBx+BlKP
-	9MJDrzB4=
-X-Gm-Gg: AYBFou1S9JW4cxPyvDk0h7ePgi1J4xvdo0wJ+NiwoA0R/WYtTUk0d3kdeIXShmPqreM
-	QcKz2eYxolXtkPEjX7ZA3F/HUR3Xy6wNym2jUHnZu8csR7TZE86tUkry3SWQz+f3BS84DzQloVh
-	BFdXyoZKFxwwkb3xZYhEAIum7n953WDuF0OfDYSWUxrVkP2P7YT5grFIyiDkH2PKrtmm43iJsvV
-	SI6t0142IkgkVHUAhBMqz/5PwV1AOGjpbkw91csutouQv+mOPKlXAqcdyQQIXKjlVxuPCU6pXTo
-	6fZ5FFiC3sDc4ODSHEvLN7jHl3Ym5RdA8gkAx6RjwgP31Cr0z/P92rACodpY1zru3OLvb0yCULV
-	mwWQSM7Lw8rk5BLbD0UmOI7k0YYQeNXdzLL5lbLlT+gGf7KV0zV5cGIEjUbJVjTBFI16LkU+Cg1
-	d5YTLT6WbnABzk/t4Ao2eLItR8Numontk3wHhI97wUw/OPwttVOESMsxWqnbaVLBpKFOu3hQgcX
-	VooxDf/5T6BrUJc3MlXjekppisbMMYYtPK8BBQDFyQ6c10g9pfFc6PO8e54qLHx5VZSQ5t5YA==
-X-Received: by 2002:a05:600c:46cf:b0:499:b65e:49c9 with SMTP id 5b1f17b1804b1-4a18e47ad5fmr391992755e9.10.1792040649577;
-        Wed, 14 Oct 2026 22:04:09 -0700 (PDT)
+        bh=kxKVBr572UE8tkQcJYkI89STiRjYUqqNfcfZ4OyrO8M=;
+        b=m/YOe7Rtx1/PnF/ayUjx82eAGICxhI2SYvAA10Ad2O9t2MZNQ3dTsizuFmqwMcuiJS
+         imCd3OoE08sAYXWGkP6oLJMDqItb9bUpnwWiLR2uUmaNLkQELr5WbHTi0N8s7sqxnQdr
+         1/e3q0msSjCMTWu8kpecit4C/LnStOBUqCkRW//jxZafN9vy5xILN66e3pbexS0chyFp
+         YrL1HTA7WIZlGurEB1gb+RMLbuLxnSCT5Qy7CA600HI+BWZXmAfU7yYTBNTf0zxWs5zn
+         d0fBaKovGqNu66zDu1TgDdyhaxf+IpUy8h3Ho869aNQHZL6wTelaYjTB9DYDlbFMqTsI
+         WCxw==
+X-Gm-Message-State: AFq9FYIR31JHntxfnXY6X6HnoLnVG8yZjJBdRWSc3q4bgkQ6Gl9YaZ8O
+	AGZUvWb4a7yQtAdm3CAslSWBFpP2hRcrf7uzD/CNRIbFt1wDAy7dxPwnj48W9cdNBQTOpDHiVad
+	wHEHTOrU=
+X-Gm-Gg: AYBFou2gV7SMKJZ/R2Idutv9MbK+2uNbChw0HXty0/zNjI/CZoNibiiIoJiMMu0kkAk
+	vn0Uu0DWEAKZv30fYGXsoJfwhmpmrCltF7vubEi8/6ymaO+D2KeI1UVwyy7acRqyZkQX9ilc1K9
+	ggc4w4WY3MSKGasrd1DG0f066Max8DJshhjfq8EiflYf2wPwQW5WGWMMttWAFOEHuv3VU27ndXt
+	hd7jmJXIDXxGUaHbOcMvD5mwCCsz9LlSPDWYJPCtSx/sMN5p8/5wBJj+tqdIl4XvcVaO3Tfup9g
+	/ImRmoCCFc5pZD2WSSCOCLtzBsUTlPtDMw5SidBE6YuroNdfeeoB4570oWI4G5IWBJueIfoy1Ts
+	IatIbLDXnsdDhCiqrZxfXOpoM2GTwyebZr2RchjLBGSdGbsKkZBVwYrigXZYqv8hAUJIKv3XDYA
+	7bg0fW9Nlpe7pRWzHjo7AbewQoIf3qPvO2Tj65ugNAGyMnppD5cOaRb+t26tZXI7p9ODyCtNhK6
+	wVlbQqLlmnDnHVRmpW7QNOM6+Agpl0M0Jr7scG2j/h/RUGawcZfeMNevAFYVASvXap3H6Me1A==
+X-Received: by 2002:a05:600c:4e4f:b0:4a1:ad27:e797 with SMTP id 5b1f17b1804b1-4a1ad27e79cmr153776715e9.6.1792040650808;
+        Wed, 14 Oct 2026 22:04:10 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm46376245e9.1.2026.10.14.22.04.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm46376245e9.1.2026.10.14.22.04.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 22:04:09 -0700 (PDT)
+        Wed, 14 Oct 2026 22:04:10 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 45/55] qemu: restore 64-bit file lock handling for 32-bit guests
-Date: Thu, 15 Oct 2026 07:03:08 +0200
-Message-ID: <81c4b64e499d4f90ed0d76ec9fbe05b75f9ec74d.1792020605.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 47/55] libpcap: Fix CVE-2026-31912
+Date: Thu, 15 Oct 2026 07:03:10 +0200
+Message-ID: <5fde7b713549a84f2e5bb3988032f24bf91779c2.1792020605.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792020605.git.yoann.congal@smile.fr>
 References: <cover.1792020605.git.yoann.congal@smile.fr>
@@ -66,749 +66,628 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 05:04:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247843
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247845
 
-From: Babanpreet Singh <bbnpreetsingh@gmail.com>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch removes the
-TARGET_F_GETLK64, TARGET_F_SETLK64 and TARGET_F_SETLKW64 cases from
-target_to_host_fcntl_cmd(), along with the struct target_flock64
-conversions. So every 32-bit guest calling fcntl64() to lock a file gets -TARGET_EINVAL.
+NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-31912
+Upstream-commit: https://github.com/the-tcpdump-group/libpcap/commit/d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9
 
-[YOCTO #16326]
-
-AI-Generated: Uses Claude (claude-fable-5-1)
-Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
-Reviewed-by: Daniel R. Slater <daniel.slater@thermofisher.com>
-Tested-by: Daniel R. Slater <daniel.slater@thermofisher.com>
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |   3 +-
- ...all.c-drop-64-suffix-from-flock64-Co.patch | 225 +++++++++++
- ...ce-use-of-lfs64-related-functions-an.patch | 355 ------------------
- ...-eliminate-other-explicit-LFS-usages.patch | 107 ++++++
- 4 files changed, 334 insertions(+), 356 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0002-linux-user-syscall.c-eliminate-other-explicit-LFS-usages.patch
+ .../libpcap/libpcap/02-CVE-2026-31912.patch   | 591 ++++++++++++++++++
+ .../libpcap/libpcap_1.10.4.bb                 |   1 +
+ 2 files changed, 592 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 46cc7cb5cb0..1f510cbcb98 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -30,7 +30,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0008-tests-meson.build-use-relative-path-to-refer-to-file.patch \
-            file://0009-Define-MAP_SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch \
-            file://0010-hw-pvrdma-Protect-against-buggy-or-malicious-guest-d.patch \
--           file://0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch \
-+           file://0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch \
-+           file://0002-linux-user-syscall.c-eliminate-other-explicit-LFS-usages.patch \
-            file://fixedmeson.patch \
-            file://no-pip.patch \
-            file://4a8579ad8629b57a43daa62e46cc7af6e1078116.patch \
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch b/meta/recipes-devtools/qemu/qemu/0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch b/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
 new file mode 100644
-index 00000000000..6ebe2b895db
+index 00000000000..11182870409
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-linux-user-syscall.c-drop-64-suffix-from-flock64-Co.patch
-@@ -0,0 +1,225 @@
-+From ac1bbe8ca46c550b3ad99c85744119a3ace7b4f4 Mon Sep 17 00:00:00 2001
-+From: Michael Tokarev <mjt@tls.msk.ru>
-+Date: Thu, 29 Aug 2024 09:39:50 +0300
-+Subject: [PATCH] linux-user/syscall.c: drop 64 suffix from flock64 &Co
++++ b/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
+@@ -0,0 +1,591 @@
++From d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9 Mon Sep 17 00:00:00 2001
++From: Denis Ovsienko <denis@ovsienko.info>
++Date: Thu, 30 Jul 2026 13:33:55 +0100
++Subject: [PATCH] CVE-2026-31912: Mind the program bounds in pcap_offline_filter().
 +
-+Since we are always building with LFS enabled, in particular
-+with -D_FILE_OFFSET_BITS=64, we should always have struct flock
-+mapped to the 64bit variant (with off64_t), and F_GETLK mapped
-+to F_GETLK64 etc, automatically.
++The current revision of pcapint_filter_with_aux_data() does not know the
++number of instructions in the filter program, it assumes the program
++counter always remains within the bounds of the provided filter program
++and always reaches a return instruction.  This holds for programs that
++have been generated or validated by libpcap.
 +
-+So there should be no need to explicitly use the "64" suffix
-+for these things anymore.
++However, this does not necessarily hold for programs that come from an
++external source via pcap_offline_filter() or [deprecated] bpf_filter()
++and have not been explicitly validated.  If the interpreter executes
++such a program and advances the program counter beyond the last
++instruction, it will be interpreting memory space after the filter
++program as BPF instructions, which in the current implementation will
++eventually cause either abort() (another commit addresses that) or
++SIGSEGV.
 +
-+Also fix a misleading comment near safe_fcntl telling us to
-+always use flock64 (since v2.6.0-1311-g435da5e7092a "linux-user:
-+Use safe_syscall wrapper for fcntl").
++To fix the latter problem, in pcapint_filter_with_aux_data() add a
++parameter for the number of instructions in the program and reject the
++packet as soon as (or just before) the program counter goes out of
++bounds.  Update all incoming code paths to specify the length; also in
++pcap_offline_filter(3PCAP) make it clear the function now requires the
++'bf_len' member to be set correctly and uses it.
 +
-+Reference: https://gitlab.com/qemu-project/qemu/-/issues/2215
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++(backported from commit d1209988c74dd9330659898d3b676ee6bbe1c551)
 +
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/ac1bbe8ca46c550b3ad99c85744119a3ace7b4f4]
++(cherry picked from commit d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9)
++
++Notes on backporting to 1.10.4:
++ - Adapted to the 1.10.4 pcap_filter*() names (renamed to pcapint_*()
++   after 1.10.4).
++ - The upstream pcap-haiku.c hunk is applied to pcap-haiku.cpp instead
++   (the Haiku module was rewritten from C++ to C after 1.10.4).
++ - The upstream CHANGES/changelog hunk is not backported.
++
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9]
++CVE: CVE-2026-31912
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ linux-user/syscall.c | 92 ++++++++++++++++++++--------------------------------
-+ 1 file changed, 40 insertions(+), 52 deletions(-)
-+
-+--- a/linux-user/syscall.c
-++++ b/linux-user/syscall.c
-+@@ -758,10 +758,8 @@
-+  * the libc function.
++diff --git a/bpf_filter.c b/bpf_filter.c
++index fa82d1d0..dec336ea 100644
++--- a/bpf_filter.c
+++++ b/bpf_filter.c
++@@ -72,6 +72,24 @@ enum {
++         BPF_S_ANC_VLAN_TAG_PRESENT,
++ };
++ 
+++/*
+++ * Kernel BPF implementations tend to define BPF_MAXINSNS to 512 or 4096, the
+++ * userland interpreter in libpcap is meant to support much longer filter
+++ * programs.  In the latter case it is important that BPF_MAXINSNS does not
+++ * interfere with the safety checks in the validator and the interpreter:
+++ *   (BPF_MAXINSNS + UINT8_MAX) * sizeof(struct bpf_insn) < UINT32_MAX
+++ * It makes the most sense to be able to interpret as many instructions as
+++ * pcap_compile() can produce, without optimization, for a valid filter
+++ * expression before it consumes as much memory as the current definitions of
+++ * NCHUNKS and CHUNKSIZE() allow.  For some expressions this can be almost
+++ * 1.53 million instructions on a 64-bit machine and twice as many on a 32-bit
+++ * machine.
+++ */
+++#ifdef BPF_MAXINSNS
+++#undef BPF_MAXINSNS
+++#endif
+++#define BPF_MAXINSNS 3060000U
+++
++ /*
++  * Execute the filter program starting at pc on the packet p
++  * wirelen is the length of the original packet
++@@ -86,12 +104,14 @@ enum {
 +  */
-+ #define safe_ioctl(...) safe_syscall(__NR_ioctl, __VA_ARGS__)
-+-/* Similarly for fcntl. Note that callers must always:
-+- *  pass the F_GETLK64 etc constants rather than the unsuffixed F_GETLK
-+- *  use the flock64 struct rather than unsuffixed flock
-+- * This will then work and use a 64-bit offset for both 32-bit and 64-bit hosts.
-++/* Similarly for fcntl. Since we always build with LFS enabled,
-++ * we should be using the 64-bit structures automatically.
++ #if defined(SKF_AD_VLAN_TAG_PRESENT)
++ u_int
++-pcap_filter_with_aux_data(const struct bpf_insn *pc, const u_char *p,
++-    u_int wirelen, u_int buflen, const struct pcap_bpf_aux_data *aux_data)
+++pcap_filter_with_aux_data(const struct bpf_insn *pc, const u_int proglen,
+++    const u_char *p, const u_int wirelen, const u_int buflen,
+++    const struct pcap_bpf_aux_data *aux_data)
++ #else
++ u_int
++-pcap_filter_with_aux_data(const struct bpf_insn *pc, const u_char *p,
++-    u_int wirelen, u_int buflen, const struct pcap_bpf_aux_data *aux_data _U_)
+++pcap_filter_with_aux_data(const struct bpf_insn *pc, const u_int proglen,
+++    const u_char *p, const u_int wirelen, const u_int buflen,
+++    const struct pcap_bpf_aux_data *aux_data _U_)
++ #endif
++ {
++ 	register uint32_t A, X;
++@@ -101,13 +121,36 @@ pcap_filter_with_aux_data(const struct bpf_insn *pc, const u_char *p,
++ 	if (pc == 0)
++ 		/*
++ 		 * No filter means accept all.
+++		 * In this case the value of 'proglen' is irrelevant.
++ 		 */
++ 		return (u_int)-1;
+++	if (proglen < 1 || proglen > BPF_MAXINSNS)
+++		return 0;
+++
+++	/*
+++	 * Require the current instruction pointer not to overflow for both the
+++	 * filter program (where the pointer will be dereferenced) and an
+++	 * immediately following margin (where it will be not).  So long as the
+++	 * margin is large enough to represent the destination of any single
+++	 * conditional [forward] jump from within the filter program, a single
+++	 * guard prevents all filter program over-read attempts that result
+++	 * from the program running out of instructions before a BPF_RET or a
+++	 * conditional jump directing the interpreter beyond the program end.
+++	 * Unconditional jumps mean a larger problem space, which the BPF_JA
+++	 * case below addresses separately.
+++	 */
+++	const struct bpf_insn *pcend = pc + proglen;
+++	if (pcend + UINT8_MAX < pc)
+++		return 0;
+++
++ 	A = 0;
++ 	X = 0;
+++	const struct bpf_insn *pc0 = pc;
++ 	--pc;
++ 	for (;;) {
++ 		++pc;
+++		if (pc >= pcend)
+++			return 0;
++ 		switch (pc->code) {
++ 
++ 		default:
++@@ -243,6 +286,40 @@ DIAG_ON_DEFAULT_ONLY_SWITCH
++ 			continue;
++ 
++ 		case BPF_JMP|BPF_JA:
+++			/*
+++			 * The pointer (pc) decrements and increments in units
+++			 * of sizeof(struct bpf_insn) == 8 bytes.  The number
+++			 * of units is in the [INT32_MIN, INT32_MAX] interval,
+++			 * hence the result can point before the beginning or
+++			 * beyond the end of the filter program and can under-
+++			 * or overflow; also on 32-bit architectures it can
+++			 * under- or overflow more than once and can test
+++			 * negative for underflow, overflow and out-of-range
+++			 * conditions after under- or overflowing at least
+++			 * once.
+++			 *
+++			 * However, it has been verified above that the program
+++			 * length is sufficiently small and the pointer does
+++			 * not wrap within the bounds of the filter program, so
+++			 * there is a one-to-one correspondence between BPF
+++			 * program counter values [0, proglen) and all valid
+++			 * values of the pointer.  In other words, after this
+++			 * unconditional jump the pointer arithmetic result
+++			 * will be valid iff BPF program counter value will be
+++			 * valid.  For the latter problem the solution is
+++			 * almost the same as in the validator.
+++			 *
+++			 * The main difference is that here the current value
+++			 * of BPF program counter is not a 32-bit unsigned
+++			 * variable, but a ptrdiff_t expression, which is
+++			 * 64-bit signed on 64-bit architectures and 32-bit
+++			 * signed on 32-bit architectures.  However, the cast
+++			 * to 32-bit unsigned is safe in both cases because:
+++			 * pc0 <= pc < pc0 + proglen, therefore:
+++			 * 0 <= pc - pc0 < proglen <= BPF_MAXINSNS < INT32_MAX
+++			 */
+++			if ((bpf_u_int32)(pc - pc0) + 1 + pc->k >= proglen)
+++				return 0;
++ 			/*
++ 			 * XXX - we currently implement "ip6 protochain"
++ 			 * with backward jumps, so sign-extend pc->k.
++@@ -396,10 +473,10 @@ DIAG_ON_DEFAULT_ONLY_SWITCH
++ }
++ 
++ u_int
++-pcap_filter(const struct bpf_insn *pc, const u_char *p, u_int wirelen,
++-    u_int buflen)
+++pcap_filter(const struct bpf_insn *pc, const u_int proglen, const u_char *p,
+++    u_int wirelen, u_int buflen)
++ {
++-	return pcap_filter_with_aux_data(pc, p, wirelen, buflen, NULL);
+++	return pcap_filter_with_aux_data(pc, proglen, p, wirelen, buflen, NULL);
++ }
++ 
++ /*
++@@ -419,7 +496,7 @@ pcap_validate_filter(const struct bpf_insn *f, int len)
++ 	u_int i, from;
++ 	const struct bpf_insn *p;
++ 
++-	if (len < 1)
+++	if (len < 1 || (u_int)len > BPF_MAXINSNS || f + len < f)
++ 		return 0;
++ 
++ 	for (i = 0; i < (u_int)len; ++i) {
++@@ -485,33 +562,45 @@ pcap_validate_filter(const struct bpf_insn *f, int len)
++ 		case BPF_JMP:
++ 			/*
++ 			 * Check that jumps are within the code block,
++-			 * and that unconditional branches don't go
++-			 * backwards as a result of an overflow.
+++			 * regardless of the direction.  libpcap uses
+++			 * backward jumps to implement the "protochain"
+++			 * primitive.  All offsets that mean a backward
+++			 * jump in libpcap (whether in-range or not) in
+++			 * kernel BPF implementations mean out-of-range
+++			 * or overflow forward jumps -- kernel
+++			 * implementations must reject that.
+++			 *
++ 			 * Unconditional branches have a 32-bit offset,
++ 			 * so they could overflow; we check to make
++ 			 * sure they don't.  Conditional branches have
++ 			 * an 8-bit offset, and the from address is <=
++-			 * BPF_MAXINSNS, and we assume that BPF_MAXINSNS
+++			 * BPF_MAXINSNS, and we know that BPF_MAXINSNS
++ 			 * is sufficiently small that adding 255 to it
++ 			 * won't overflow.
++ 			 *
++ 			 * We know that len is <= BPF_MAXINSNS, and we
++-			 * assume that BPF_MAXINSNS is < the maximum size
+++			 * know that BPF_MAXINSNS is < the maximum value
++ 			 * of a u_int, so that i + 1 doesn't overflow.
++-			 *
++-			 * For userland, we don't know that the from
++-			 * or len are <= BPF_MAXINSNS, but we know that
++-			 * from <= len, and, except on a 64-bit system,
++-			 * it's unlikely that len, if it truly reflects
++-			 * the size of the program we've been handed,
++-			 * will be anywhere near the maximum size of
++-			 * a u_int.  We also don't check for backward
++-			 * branches, as we currently support them in
++-			 * userland for the protochain operation.
++ 			 */
++ 			from = i + 1;
++ 			switch (BPF_OP(p->code)) {
++ 			case BPF_JA:
+++				/*
+++				 * So long as both 'from' and bpf_insn.k are
+++				 * 32-bit unsigned, this check rejects any jump
+++				 * offset that points outside of the valid BPF
+++				 * address space of the filter program no
+++				 * matter whether signed interpretation of the
+++				 * offset is positive or negative.
+++				 *
+++				 * Note that this condition is necessary, but
+++				 * not sufficient to get correct results from
+++				 * respective pointer arithmetic in the process
+++				 * address space.  Other necessary conditions
+++				 * are that BPF_MAXINSNS is correctly defined
+++				 * and enforced, and that the pointer does not
+++				 * overflow.
+++				 */
++ 				if (from + p->k >= (u_int)len)
++ 					return 0;
++ 				break;
++@@ -539,12 +628,14 @@ pcap_validate_filter(const struct bpf_insn *f, int len)
++ 
++ /*
++  * Exported because older versions of libpcap exported them.
+++ * This function is deprecated and unsafe, use pcap_offline_filter() instead.
 +  */
-+ #ifdef __NR_fcntl64
-+ #define safe_fcntl(...) safe_syscall(__NR_fcntl64, __VA_ARGS__)
-+@@ -6720,13 +6718,13 @@
-+         ret = cmd;
-+         break;
-+     case TARGET_F_GETLK:
-+-        ret = F_GETLK64;
-++        ret = F_GETLK;
-+         break;
-+     case TARGET_F_SETLK:
-+-        ret = F_SETLK64;
-++        ret = F_SETLK;
-+         break;
-+     case TARGET_F_SETLKW:
-+-        ret = F_SETLKW64;
-++        ret = F_SETLKW;
-+         break;
-+     case TARGET_F_GETOWN:
-+         ret = F_GETOWN;
-+@@ -6742,13 +6740,13 @@
-+         break;
-+ #if TARGET_ABI_BITS == 32
-+     case TARGET_F_GETLK64:
-+-        ret = F_GETLK64;
-++        ret = F_GETLK;
-+         break;
-+     case TARGET_F_SETLK64:
-+-        ret = F_SETLK64;
-++        ret = F_SETLK;
-+         break;
-+     case TARGET_F_SETLKW64:
-+-        ret = F_SETLKW64;
-++        ret = F_SETLKW;
-+         break;
++ u_int
++ bpf_filter(const struct bpf_insn *pc, const u_char *p, u_int wirelen,
++     u_int buflen)
++ {
++-	return pcap_filter(pc, p, wirelen, buflen);
+++	// The actual length of the filter program is not known.
+++	return pcap_filter(pc, BPF_MAXINSNS, p, wirelen, buflen);
++ }
++ 
++ int
++diff --git a/dlpisubs.c b/dlpisubs.c
++index 6815b0ec..790acf28 100644
++--- a/dlpisubs.c
+++++ b/dlpisubs.c
++@@ -195,7 +195,8 @@ pcap_process_pkts(pcap_t *p, pcap_handler callback, u_char *user,
++ 		bufp += caplen;
 + #endif
-+     case TARGET_F_SETLEASE:
-+@@ -6802,8 +6800,8 @@
-+      * them to 5, 6 and 7 before making the syscall(). Since we make the
-+      * syscall directly, adjust to what is supported by the kernel.
-+      */
-+-    if (ret >= F_GETLK64 && ret <= F_SETLKW64) {
-+-        ret -= F_GETLK64 - 5;
-++    if (ret >= F_GETLK && ret <= F_SETLKW) {
-++        ret -= F_GETLK - 5;
++ 		++pd->stat.ps_recv;
++-		if (pcap_filter(p->fcode.bf_insns, pk, origlen, caplen)) {
+++		if (pcap_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                   pk, origlen, caplen)) {
++ #ifdef HAVE_SYS_BUFMOD_H
++ 			pkthdr.ts.tv_sec = sbp->sbh_timestamp.tv_sec;
++ 			pkthdr.ts.tv_usec = sbp->sbh_timestamp.tv_usec;
++diff --git a/pcap-bpf.c b/pcap-bpf.c
++index 2898e598..04b5620d 100644
++--- a/pcap-bpf.c
+++++ b/pcap-bpf.c
++@@ -1255,7 +1255,8 @@ pcap_read_bpf(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ #endif
++ 		 */
++ 		if (pb->filtering_in_kernel ||
++-		    pcap_filter(p->fcode.bf_insns, datap, bhp->bh_datalen, caplen)) {
+++		    pcap_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                   datap, bhp->bh_datalen, caplen)) {
++ 			struct pcap_pkthdr pkthdr;
++ #ifdef BIOCSTSTAMP
++ 			struct bintime bt;
++diff --git a/pcap-bt-linux.c b/pcap-bt-linux.c
++index c7bfef1d..dcf3b575 100644
++--- a/pcap-bt-linux.c
+++++ b/pcap-bt-linux.c
++@@ -394,7 +394,8 @@ bt_read_linux(pcap_t *handle, int max_packets _U_, pcap_handler callback, u_char
++ 	pkth.caplen+=sizeof(pcap_bluetooth_h4_header);
++ 	pkth.len = pkth.caplen;
++ 	if (handle->fcode.bf_insns == NULL ||
++-	    pcap_filter(handle->fcode.bf_insns, pktd, pkth.len, pkth.caplen)) {
+++	    pcap_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++	                   pktd, pkth.len, pkth.caplen)) {
++ 		callback(user, &pkth, pktd);
++ 		return 1;
++ 	}
++diff --git a/pcap-bt-monitor-linux.c b/pcap-bt-monitor-linux.c
++index 206e65b5..3f9d5b49 100644
++--- a/pcap-bt-monitor-linux.c
+++++ b/pcap-bt-monitor-linux.c
++@@ -151,7 +151,8 @@ bt_monitor_read(pcap_t *handle, int max_packets _U_, pcap_handler callback, u_ch
++     bthdr->opcode = htons(hdr.opcode);
++ 
++     if (handle->fcode.bf_insns == NULL ||
++-        pcap_filter(handle->fcode.bf_insns, pktd, pkth.len, pkth.caplen)) {
+++        pcap_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++                       pktd, pkth.len, pkth.caplen)) {
++         callback(user, &pkth, pktd);
++         return 1;
 +     }
-+ #endif
++diff --git a/pcap-dag.c b/pcap-dag.c
++index f261ead0..c3fe1dbd 100644
++--- a/pcap-dag.c
+++++ b/pcap-dag.c
++@@ -668,8 +668,9 @@ dag_read(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ 			caplen = p->snapshot;
 + 
-+@@ -6836,7 +6834,7 @@
-+     return type;
++ 		/* Run the packet filter if there is one. */
++-		if ((p->fcode.bf_insns == NULL) || pcap_filter(p->fcode.bf_insns, dp, packet_len, caplen)) {
++-
+++		if (p->fcode.bf_insns == NULL ||
+++		    pcap_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                   dp, packet_len, caplen)) {
++ 			/* convert between timestamp formats */
++ 			register unsigned long long ts;
++ 
++diff --git a/pcap-dbus.c b/pcap-dbus.c
++index 506f150f..760bb9ba 100644
++--- a/pcap-dbus.c
+++++ b/pcap-dbus.c
++@@ -91,7 +91,8 @@ dbus_read(pcap_t *handle, int max_packets _U_, pcap_handler callback, u_char *us
++ 
++ 		gettimeofday(&pkth.ts, NULL);
++ 		if (handle->fcode.bf_insns == NULL ||
++-		    pcap_filter(handle->fcode.bf_insns, (u_char *)raw_msg, pkth.len, pkth.caplen)) {
+++		    pcap_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++		                   (u_char *)raw_msg, pkth.len, pkth.caplen)) {
++ 			handlep->packets_read++;
++ 			callback(user, &pkth, (u_char *)raw_msg);
++ 			count++;
++diff --git a/pcap-dpdk.c b/pcap-dpdk.c
++index 025a6748..cc31d2f2 100644
++--- a/pcap-dpdk.c
+++++ b/pcap-dpdk.c
++@@ -407,7 +407,9 @@ static int pcap_dpdk_dispatch(pcap_t *p, int max_cnt, pcap_handler cb, u_char *c
++ 
++ 			}
++ 			if (bp){
++-				if (p->fcode.bf_insns==NULL || pcap_filter(p->fcode.bf_insns, bp, pcap_header.len, pcap_header.caplen)){
+++				if (p->fcode.bf_insns==NULL ||
+++				    pcap_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++				                   bp, pcap_header.len, pcap_header.caplen)){
++ 					cb(cb_arg, &pcap_header, bp);
++ 				}else{
++ 					pd->bpf_drop++;
++diff --git a/pcap-haiku.cpp b/pcap-haiku.cpp
++index 8ae9119c..3d34220c 100644
++--- a/pcap-haiku.cpp
+++++ b/pcap-haiku.cpp
++@@ -85,8 +85,8 @@ pcap_read_haiku(pcap_t* handle, int maxPackets _U_, pcap_handler callback,
++ 
++ 	// run the packet filter
++ 	if (handle->fcode.bf_insns) {
++-		if (pcap_filter(handle->fcode.bf_insns, buffer, bytesReceived,
++-				captureLength) == 0) {
+++		if (pcap_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++				buffer, bytesReceived, captureLength) == 0) {
++ 			// packet got rejected
++ 			return 0;
++ 		}
++diff --git a/pcap-int.h b/pcap-int.h
++index 894e74af..11ca3c56 100644
++--- a/pcap-int.h
+++++ b/pcap-int.h
++@@ -619,13 +619,15 @@ struct pcap_bpf_aux_data {
++  * Filtering routine that takes the auxiliary data as an additional
++  * argument.
++  */
++-u_int	pcap_filter_with_aux_data(const struct bpf_insn *,
++-    const u_char *, u_int, u_int, const struct pcap_bpf_aux_data *);
+++u_int	pcap_filter_with_aux_data(const struct bpf_insn *, const u_int,
+++    const u_char *, const u_int, const u_int,
+++    const struct pcap_bpf_aux_data *);
++ 
++ /*
++  * Filtering routine that doesn't.
++  */
++-u_int	pcap_filter(const struct bpf_insn *, const u_char *, u_int, u_int);
+++u_int	pcap_filter(const struct bpf_insn *, const u_int, const u_char *,
+++    u_int, u_int);
++ 
++ /*
++  * Routine to validate a BPF program.
++diff --git a/pcap-linux.c b/pcap-linux.c
++index 13bd8529..b2b2ca70 100644
++--- a/pcap-linux.c
+++++ b/pcap-linux.c
++@@ -3993,6 +3993,7 @@ static int pcap_handle_packet_mmap(
++ 		aux_data.vlan_tag = tp_vlan_tci & 0x0fff;
++ 
++ 		if (pcap_filter_with_aux_data(handle->fcode.bf_insns,
+++					      handle->fcode.bf_len,
++ 					      bp,
++ 					      tp_len,
++ 					      snaplen,
++diff --git a/pcap-netfilter-linux.c b/pcap-netfilter-linux.c
++index 2eb0fc8c..5b5f5c18 100644
++--- a/pcap-netfilter-linux.c
+++++ b/pcap-netfilter-linux.c
++@@ -259,8 +259,8 @@ netfilter_read_linux(pcap_t *handle, int max_packets, pcap_handler callback, u_c
++ 
++ 				gettimeofday(&pkth.ts, NULL);
++ 				if (handle->fcode.bf_insns == NULL ||
++-						pcap_filter(handle->fcode.bf_insns, payload, pkth.len, pkth.caplen))
++-				{
+++				    pcap_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++				                   payload, pkth.len, pkth.caplen)) {
++ 					handlep->packets_read++;
++ 					callback(user, &pkth, payload);
++ 					count++;
++diff --git a/pcap-netmap.c b/pcap-netmap.c
++index 27d36e5b..bcfd6e93 100644
++--- a/pcap-netmap.c
+++++ b/pcap-netmap.c
++@@ -81,7 +81,8 @@ pcap_netmap_filter(u_char *arg, struct pcap_pkthdr *h, const u_char *buf)
++ 	const struct bpf_insn *pc = p->fcode.bf_insns;
++ 
++ 	++pn->rx_pkts;
++-	if (pc == NULL || pcap_filter(pc, buf, h->len, h->caplen))
+++	if (pc == NULL ||
+++	    pcap_filter(pc, p->fcode.bf_len, buf, h->len, h->caplen))
++ 		pn->cb(pn->cb_arg, h, buf);
 + }
 + 
-+-static inline abi_long copy_from_user_flock(struct flock64 *fl,
-++static inline abi_long copy_from_user_flock(struct flock *fl,
-+                                             abi_ulong target_flock_addr)
-+ {
-+     struct target_flock *target_fl;
-+@@ -6861,7 +6859,7 @@
++diff --git a/pcap-npf.c b/pcap-npf.c
++index 99b5981e..a4364353 100644
++--- a/pcap-npf.c
+++++ b/pcap-npf.c
++@@ -682,7 +682,8 @@ pcap_read_npf(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ 		 */
++ 		if (pw->filtering_in_kernel ||
++ 		    p->fcode.bf_insns == NULL ||
++-		    pcap_filter(p->fcode.bf_insns, datap, bhp->bh_datalen, caplen)) {
+++		    pcap_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                   datap, bhp->bh_datalen, caplen)) {
++ #ifdef ENABLE_REMOTE
++ 			switch (p->rmt_samp.method) {
++ 
++diff --git a/pcap-rdmasniff.c b/pcap-rdmasniff.c
++index d63ca898..c8763b33 100644
++--- a/pcap-rdmasniff.c
+++++ b/pcap-rdmasniff.c
++@@ -172,7 +172,8 @@ rdmasniff_read(pcap_t *handle, int max_packets, pcap_handler callback, u_char *u
++ 		pktd = (u_char *) handle->buffer + wc.wr_id * RDMASNIFF_RECEIVE_SIZE;
++ 
++ 		if (handle->fcode.bf_insns == NULL ||
++-		    pcap_filter(handle->fcode.bf_insns, pktd, pkth.len, pkth.caplen)) {
+++		    pcap_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++		                   pktd, pkth.len, pkth.caplen)) {
++ 			callback(user, &pkth, pktd);
++ 			++priv->packets_recv;
++ 			++count;
++diff --git a/pcap-snf.c b/pcap-snf.c
++index fe9cc9c8..16ce9c8e 100644
++--- a/pcap-snf.c
+++++ b/pcap-snf.c
++@@ -192,7 +192,8 @@ snf_read(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ 			caplen = p->snapshot;
++ 
++ 		if ((p->fcode.bf_insns == NULL) ||
++-		     pcap_filter(p->fcode.bf_insns, req.pkt_addr, req.length, caplen)) {
+++		     pcap_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                 req.pkt_addr, req.length, caplen)) {
++ 			hdr.ts = snf_timestamp_to_timeval(req.timestamp, p->opt.tstamp_precision);
++ 			hdr.caplen = caplen;
++ 			hdr.len = req.length;
++diff --git a/pcap-usb-linux.c b/pcap-usb-linux.c
++index 726e4a8a..44b2bf30 100644
++--- a/pcap-usb-linux.c
+++++ b/pcap-usb-linux.c
++@@ -735,8 +735,8 @@ usb_read_linux_bin(pcap_t *handle, int max_packets _U_, pcap_handler callback, u
++ 	pkth.ts.tv_usec = info.hdr->ts_usec;
++ 
++ 	if (handle->fcode.bf_insns == NULL ||
++-	    pcap_filter(handle->fcode.bf_insns, handle->buffer,
++-	      pkth.len, pkth.caplen)) {
+++	    pcap_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++	                   handle->buffer, pkth.len, pkth.caplen)) {
++ 		handlep->packets_read++;
++ 		callback(user, &pkth, handle->buffer);
++ 		return 1;
++@@ -904,8 +904,8 @@ usb_read_linux_mmap(pcap_t *handle, int max_packets, pcap_handler callback, u_ch
++ 			pkth.ts.tv_usec = hdr->ts_usec;
++ 
++ 			if (handle->fcode.bf_insns == NULL ||
++-			    pcap_filter(handle->fcode.bf_insns, (u_char*) hdr,
++-			      pkth.len, pkth.caplen)) {
+++			    pcap_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++			                   (u_char*) hdr, pkth.len, pkth.caplen)) {
++ 				handlep->packets_read++;
++ 				callback(user, &pkth, (u_char*) hdr);
++ 				packets++;
++diff --git a/pcap.c b/pcap.c
++index ef1bbb71..9ee83f98 100644
++--- a/pcap.c
+++++ b/pcap.c
++@@ -4179,7 +4179,7 @@ pcap_offline_filter(const struct bpf_program *fp, const struct pcap_pkthdr *h,
++ 	const struct bpf_insn *fcode = fp->bf_insns;
++ 
++ 	if (fcode != NULL)
++-		return (pcap_filter(fcode, pkt, h->len, h->caplen));
+++		return (pcap_filter(fcode, fp->bf_len, pkt, h->len, h->caplen));
++ 	else
++ 		return (0);
 + }
-+ 
-+ static inline abi_long copy_to_user_flock(abi_ulong target_flock_addr,
-+-                                          const struct flock64 *fl)
-++                                          const struct flock *fl)
-+ {
-+     struct target_flock *target_fl;
-+     short l_type;
-+@@ -6880,8 +6878,8 @@
-+     return 0;
-+ }
-+ 
-+-typedef abi_long from_flock64_fn(struct flock64 *fl, abi_ulong target_addr);
-+-typedef abi_long to_flock64_fn(abi_ulong target_addr, const struct flock64 *fl);
-++typedef abi_long from_flock64_fn(struct flock *fl, abi_ulong target_addr);
-++typedef abi_long to_flock64_fn(abi_ulong target_addr, const struct flock *fl);
-+ 
-+ #if defined(TARGET_ARM) && TARGET_ABI_BITS == 32
-+ struct target_oabi_flock64 {
-+@@ -6892,7 +6890,7 @@
-+     abi_int   l_pid;
-+ } QEMU_PACKED;
-+ 
-+-static inline abi_long copy_from_user_oabi_flock64(struct flock64 *fl,
-++static inline abi_long copy_from_user_oabi_flock64(struct flock *fl,
-+                                                    abi_ulong target_flock_addr)
-+ {
-+     struct target_oabi_flock64 *target_fl;
-+@@ -6917,7 +6915,7 @@
-+ }
-+ 
-+ static inline abi_long copy_to_user_oabi_flock64(abi_ulong target_flock_addr,
-+-                                                 const struct flock64 *fl)
-++                                                 const struct flock *fl)
-+ {
-+     struct target_oabi_flock64 *target_fl;
-+     short l_type;
-+@@ -6937,7 +6935,7 @@
-+ }
-+ #endif
-+ 
-+-static inline abi_long copy_from_user_flock64(struct flock64 *fl,
-++static inline abi_long copy_from_user_flock64(struct flock *fl,
-+                                               abi_ulong target_flock_addr)
-+ {
-+     struct target_flock64 *target_fl;
-+@@ -6962,7 +6960,7 @@
-+ }
-+ 
-+ static inline abi_long copy_to_user_flock64(abi_ulong target_flock_addr,
-+-                                            const struct flock64 *fl)
-++                                            const struct flock *fl)
-+ {
-+     struct target_flock64 *target_fl;
-+     short l_type;
-+@@ -6983,7 +6981,7 @@
-+ 
-+ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
-+ {
-+-    struct flock64 fl64;
-++    struct flock fl;
-+ #ifdef F_GETOWN_EX
-+     struct f_owner_ex fox;
-+     struct target_f_owner_ex *target_fox;
-+@@ -6996,45 +6994,45 @@
-+ 
-+     switch(cmd) {
-+     case TARGET_F_GETLK:
-+-        ret = copy_from_user_flock(&fl64, arg);
-++        ret = copy_from_user_flock(&fl, arg);
-+         if (ret) {
-+             return ret;
-+         }
-+-        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
-++        ret = get_errno(safe_fcntl(fd, host_cmd, &fl));
-+         if (ret == 0) {
-+-            ret = copy_to_user_flock(arg, &fl64);
-++            ret = copy_to_user_flock(arg, &fl);
-+         }
-+         break;
-+ 
-+     case TARGET_F_SETLK:
-+     case TARGET_F_SETLKW:
-+-        ret = copy_from_user_flock(&fl64, arg);
-++        ret = copy_from_user_flock(&fl, arg);
-+         if (ret) {
-+             return ret;
-+         }
-+-        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
-++        ret = get_errno(safe_fcntl(fd, host_cmd, &fl));
-+         break;
-+ 
-+     case TARGET_F_GETLK64:
-+     case TARGET_F_OFD_GETLK:
-+-        ret = copy_from_user_flock64(&fl64, arg);
-++        ret = copy_from_user_flock64(&fl, arg);
-+         if (ret) {
-+             return ret;
-+         }
-+-        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
-++        ret = get_errno(safe_fcntl(fd, host_cmd, &fl));
-+         if (ret == 0) {
-+-            ret = copy_to_user_flock64(arg, &fl64);
-++            ret = copy_to_user_flock64(arg, &fl);
-+         }
-+         break;
-+     case TARGET_F_SETLK64:
-+     case TARGET_F_SETLKW64:
-+     case TARGET_F_OFD_SETLK:
-+     case TARGET_F_OFD_SETLKW:
-+-        ret = copy_from_user_flock64(&fl64, arg);
-++        ret = copy_from_user_flock64(&fl, arg);
-+         if (ret) {
-+             return ret;
-+         }
-+-        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
-++        ret = get_errno(safe_fcntl(fd, host_cmd, &fl));
-+         break;
-+ 
-+     case TARGET_F_GETFL:
-+@@ -12301,7 +12299,7 @@
-+     case TARGET_NR_fcntl64:
-+     {
-+         int cmd;
-+-        struct flock64 fl;
-++        struct flock fl;
-+         from_flock64_fn *copyfrom = copy_from_user_flock64;
-+         to_flock64_fn *copyto = copy_to_user_flock64;
-+ 
-diff --git a/meta/recipes-devtools/qemu/qemu/0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch b/meta/recipes-devtools/qemu/qemu/0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch
-deleted file mode 100644
-index ceae67be644..00000000000
---- a/meta/recipes-devtools/qemu/qemu/0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch
-+++ /dev/null
-@@ -1,355 +0,0 @@
--From 71f14902256e3c3529710b713e1ea43100bf4c40 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 17 Dec 2022 08:37:46 -0800
--Subject: [PATCH 2/2] linux-user: Replace use of lfs64 related functions and
-- macros
--
--Builds defines -D_FILE_OFFSET_BITS=64 which makes the original functions
--anf macros behave same as their 64 suffixed counterparts. This also
--helps in compiling with latest musl C library, where these macros and
--functions are no more available under _GNU_SOURCE feature macro
--
--Upstream-Status: Submitted [https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg02841.html]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Cc: Laurent Vivier <laurent@vivier.eu>
-----
-- linux-user/syscall.c | 153 +++++++++++--------------------------------
-- 1 file changed, 39 insertions(+), 114 deletions(-)
--
--Index: qemu-8.0.0/linux-user/syscall.c
--===================================================================
----- qemu-8.0.0.orig/linux-user/syscall.c
--+++ qemu-8.0.0/linux-user/syscall.c
--@@ -761,8 +761,8 @@ safe_syscall6(ssize_t, copy_file_range,
--  */
-- #define safe_ioctl(...) safe_syscall(__NR_ioctl, __VA_ARGS__)
-- /* Similarly for fcntl. Note that callers must always:
--- *  pass the F_GETLK64 etc constants rather than the unsuffixed F_GETLK
--- *  use the flock64 struct rather than unsuffixed flock
--+ *  pass the F_GETLK etc constants rather than the unsuffixed F_GETLK
--+ *  use the flock struct rather than unsuffixed flock
--  * This will then work and use a 64-bit offset for both 32-bit and 64-bit hosts.
--  */
-- #ifdef __NR_fcntl64
--@@ -6813,13 +6813,13 @@ static int target_to_host_fcntl_cmd(int
--         ret = cmd;
--         break;
--     case TARGET_F_GETLK:
---        ret = F_GETLK64;
--+        ret = F_GETLK;
--         break;
--     case TARGET_F_SETLK:
---        ret = F_SETLK64;
--+        ret = F_SETLK;
--         break;
--     case TARGET_F_SETLKW:
---        ret = F_SETLKW64;
--+        ret = F_SETLKW;
--         break;
--     case TARGET_F_GETOWN:
--         ret = F_GETOWN;
--@@ -6833,17 +6833,6 @@ static int target_to_host_fcntl_cmd(int
--     case TARGET_F_SETSIG:
--         ret = F_SETSIG;
--         break;
---#if TARGET_ABI_BITS == 32
---    case TARGET_F_GETLK64:
---        ret = F_GETLK64;
---        break;
---    case TARGET_F_SETLK64:
---        ret = F_SETLK64;
---        break;
---    case TARGET_F_SETLKW64:
---        ret = F_SETLKW64;
---        break;
---#endif
--     case TARGET_F_SETLEASE:
--         ret = F_SETLEASE;
--         break;
--@@ -6895,8 +6884,8 @@ static int target_to_host_fcntl_cmd(int
--      * them to 5, 6 and 7 before making the syscall(). Since we make the
--      * syscall directly, adjust to what is supported by the kernel.
--      */
---    if (ret >= F_GETLK64 && ret <= F_SETLKW64) {
---        ret -= F_GETLK64 - 5;
--+    if (ret >= F_GETLK && ret <= F_SETLKW) {
--+        ret -= F_GETLK - 5;
--     }
-- #endif
-- 
--@@ -6929,55 +6918,11 @@ static int host_to_target_flock(int type
--     return type;
-- }
-- 
---static inline abi_long copy_from_user_flock(struct flock64 *fl,
---                                            abi_ulong target_flock_addr)
---{
---    struct target_flock *target_fl;
---    int l_type;
---
---    if (!lock_user_struct(VERIFY_READ, target_fl, target_flock_addr, 1)) {
---        return -TARGET_EFAULT;
---    }
---
---    __get_user(l_type, &target_fl->l_type);
---    l_type = target_to_host_flock(l_type);
---    if (l_type < 0) {
---        return l_type;
---    }
---    fl->l_type = l_type;
---    __get_user(fl->l_whence, &target_fl->l_whence);
---    __get_user(fl->l_start, &target_fl->l_start);
---    __get_user(fl->l_len, &target_fl->l_len);
---    __get_user(fl->l_pid, &target_fl->l_pid);
---    unlock_user_struct(target_fl, target_flock_addr, 0);
---    return 0;
---}
---
---static inline abi_long copy_to_user_flock(abi_ulong target_flock_addr,
---                                          const struct flock64 *fl)
---{
---    struct target_flock *target_fl;
---    short l_type;
---
---    if (!lock_user_struct(VERIFY_WRITE, target_fl, target_flock_addr, 0)) {
---        return -TARGET_EFAULT;
---    }
---
---    l_type = host_to_target_flock(fl->l_type);
---    __put_user(l_type, &target_fl->l_type);
---    __put_user(fl->l_whence, &target_fl->l_whence);
---    __put_user(fl->l_start, &target_fl->l_start);
---    __put_user(fl->l_len, &target_fl->l_len);
---    __put_user(fl->l_pid, &target_fl->l_pid);
---    unlock_user_struct(target_fl, target_flock_addr, 1);
---    return 0;
---}
---
---typedef abi_long from_flock64_fn(struct flock64 *fl, abi_ulong target_addr);
---typedef abi_long to_flock64_fn(abi_ulong target_addr, const struct flock64 *fl);
--+typedef abi_long from_flock_fn(struct flock *fl, abi_ulong target_addr);
--+typedef abi_long to_flock_fn(abi_ulong target_addr, const struct flock *fl);
-- 
-- #if defined(TARGET_ARM) && TARGET_ABI_BITS == 32
---struct target_oabi_flock64 {
--+struct target_oabi_flock {
--     abi_short l_type;
--     abi_short l_whence;
--     abi_llong l_start;
--@@ -6985,10 +6930,10 @@ struct target_oabi_flock64 {
--     abi_int   l_pid;
-- } QEMU_PACKED;
-- 
---static inline abi_long copy_from_user_oabi_flock64(struct flock64 *fl,
--+static inline abi_long copy_from_user_oabi_flock(struct flock *fl,
--                                                    abi_ulong target_flock_addr)
-- {
---    struct target_oabi_flock64 *target_fl;
--+    struct target_oabi_flock *target_fl;
--     int l_type;
-- 
--     if (!lock_user_struct(VERIFY_READ, target_fl, target_flock_addr, 1)) {
--@@ -7009,10 +6954,10 @@ static inline abi_long copy_from_user_oa
--     return 0;
-- }
-- 
---static inline abi_long copy_to_user_oabi_flock64(abi_ulong target_flock_addr,
---                                                 const struct flock64 *fl)
--+static inline abi_long copy_to_user_oabi_flock(abi_ulong target_flock_addr,
--+                                                 const struct flock *fl)
-- {
---    struct target_oabi_flock64 *target_fl;
--+    struct target_oabi_flock *target_fl;
--     short l_type;
-- 
--     if (!lock_user_struct(VERIFY_WRITE, target_fl, target_flock_addr, 0)) {
--@@ -7030,10 +6975,10 @@ static inline abi_long copy_to_user_oabi
-- }
-- #endif
-- 
---static inline abi_long copy_from_user_flock64(struct flock64 *fl,
--+static inline abi_long copy_from_user_flock(struct flock *fl,
--                                               abi_ulong target_flock_addr)
-- {
---    struct target_flock64 *target_fl;
--+    struct target_flock *target_fl;
--     int l_type;
-- 
--     if (!lock_user_struct(VERIFY_READ, target_fl, target_flock_addr, 1)) {
--@@ -7054,10 +6999,10 @@ static inline abi_long copy_from_user_fl
--     return 0;
-- }
-- 
---static inline abi_long copy_to_user_flock64(abi_ulong target_flock_addr,
---                                            const struct flock64 *fl)
--+static inline abi_long copy_to_user_flock(abi_ulong target_flock_addr,
--+                                            const struct flock *fl)
-- {
---    struct target_flock64 *target_fl;
--+    struct target_flock *target_fl;
--     short l_type;
-- 
--     if (!lock_user_struct(VERIFY_WRITE, target_fl, target_flock_addr, 0)) {
--@@ -7076,7 +7021,7 @@ static inline abi_long copy_to_user_floc
-- 
-- static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
-- {
---    struct flock64 fl64;
--+    struct flock fl64;
-- #ifdef F_GETOWN_EX
--     struct f_owner_ex fox;
--     struct target_f_owner_ex *target_fox;
--@@ -7089,6 +7034,7 @@ static abi_long do_fcntl(int fd, int cmd
-- 
--     switch(cmd) {
--     case TARGET_F_GETLK:
--+    case TARGET_F_OFD_GETLK:
--         ret = copy_from_user_flock(&fl64, arg);
--         if (ret) {
--             return ret;
--@@ -7098,32 +7044,11 @@ static abi_long do_fcntl(int fd, int cmd
--             ret = copy_to_user_flock(arg, &fl64);
--         }
--         break;
---
--     case TARGET_F_SETLK:
--     case TARGET_F_SETLKW:
---        ret = copy_from_user_flock(&fl64, arg);
---        if (ret) {
---            return ret;
---        }
---        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
---        break;
---
---    case TARGET_F_GETLK64:
---    case TARGET_F_OFD_GETLK:
---        ret = copy_from_user_flock64(&fl64, arg);
---        if (ret) {
---            return ret;
---        }
---        ret = get_errno(safe_fcntl(fd, host_cmd, &fl64));
---        if (ret == 0) {
---            ret = copy_to_user_flock64(arg, &fl64);
---        }
---        break;
---    case TARGET_F_SETLK64:
---    case TARGET_F_SETLKW64:
--     case TARGET_F_OFD_SETLK:
--     case TARGET_F_OFD_SETLKW:
---        ret = copy_from_user_flock64(&fl64, arg);
--+        ret = copy_from_user_flock(&fl64, arg);
--         if (ret) {
--             return ret;
--         }
--@@ -7348,7 +7273,7 @@ static inline abi_long target_truncate64
--         arg2 = arg3;
--         arg3 = arg4;
--     }
---    return get_errno(truncate64(arg1, target_offset64(arg2, arg3)));
--+    return get_errno(truncate(arg1, target_offset64(arg2, arg3)));
-- }
-- #endif
-- 
--@@ -7362,7 +7287,7 @@ static inline abi_long target_ftruncate6
--         arg2 = arg3;
--         arg3 = arg4;
--     }
---    return get_errno(ftruncate64(arg1, target_offset64(arg2, arg3)));
--+    return get_errno(ftruncate(arg1, target_offset64(arg2, arg3)));
-- }
-- #endif
-- 
--@@ -8598,7 +8523,7 @@ static int do_getdents(abi_long dirfd, a
--     void *tdirp;
--     int hlen, hoff, toff;
--     int hreclen, treclen;
---    off64_t prev_diroff = 0;
--+    off_t prev_diroff = 0;
-- 
--     hdirp = g_try_malloc(count);
--     if (!hdirp) {
--@@ -8651,7 +8576,7 @@ static int do_getdents(abi_long dirfd, a
--              * Return what we have, resetting the file pointer to the
--              * location of the first record not returned.
--              */
---            lseek64(dirfd, prev_diroff, SEEK_SET);
--+            lseek(dirfd, prev_diroff, SEEK_SET);
--             break;
--         }
-- 
--@@ -8685,7 +8610,7 @@ static int do_getdents64(abi_long dirfd,
--     void *tdirp;
--     int hlen, hoff, toff;
--     int hreclen, treclen;
---    off64_t prev_diroff = 0;
--+    off_t prev_diroff = 0;
-- 
--     hdirp = g_try_malloc(count);
--     if (!hdirp) {
--@@ -8727,7 +8652,7 @@ static int do_getdents64(abi_long dirfd,
--              * Return what we have, resetting the file pointer to the
--              * location of the first record not returned.
--              */
---            lseek64(dirfd, prev_diroff, SEEK_SET);
--+            lseek(dirfd, prev_diroff, SEEK_SET);
--             break;
--         }
-- 
--@@ -11158,7 +11083,7 @@ static abi_long do_syscall1(CPUArchState
--                 return -TARGET_EFAULT;
--             }
--         }
---        ret = get_errno(pread64(arg1, p, arg3, target_offset64(arg4, arg5)));
--+        ret = get_errno(pread(arg1, p, arg3, target_offset64(arg4, arg5)));
--         unlock_user(p, arg2, ret);
--         return ret;
--     case TARGET_NR_pwrite64:
--@@ -11175,7 +11100,7 @@ static abi_long do_syscall1(CPUArchState
--                 return -TARGET_EFAULT;
--             }
--         }
---        ret = get_errno(pwrite64(arg1, p, arg3, target_offset64(arg4, arg5)));
--+        ret = get_errno(pwrite(arg1, p, arg3, target_offset64(arg4, arg5)));
--         unlock_user(p, arg2, 0);
--         return ret;
-- #endif
--@@ -11998,14 +11923,14 @@ static abi_long do_syscall1(CPUArchState
--     case TARGET_NR_fcntl64:
--     {
--         int cmd;
---        struct flock64 fl;
---        from_flock64_fn *copyfrom = copy_from_user_flock64;
---        to_flock64_fn *copyto = copy_to_user_flock64;
--+        struct flock fl;
--+        from_flock_fn *copyfrom = copy_from_user_flock;
--+        to_flock_fn *copyto = copy_to_user_flock;
-- 
-- #ifdef TARGET_ARM
--         if (!cpu_env->eabi) {
---            copyfrom = copy_from_user_oabi_flock64;
---            copyto = copy_to_user_oabi_flock64;
--+            copyfrom = copy_from_user_oabi_flock;
--+            copyto = copy_to_user_oabi_flock;
--         }
-- #endif
-- 
--@@ -12015,7 +11940,7 @@ static abi_long do_syscall1(CPUArchState
--         }
-- 
--         switch(arg2) {
---        case TARGET_F_GETLK64:
--+        case TARGET_F_GETLK:
--             ret = copyfrom(&fl, arg3);
--             if (ret) {
--                 break;
--@@ -12026,8 +11951,8 @@ static abi_long do_syscall1(CPUArchState
--             }
-- 	    break;
-- 
---        case TARGET_F_SETLK64:
---        case TARGET_F_SETLKW64:
--+        case TARGET_F_SETLK:
--+        case TARGET_F_SETLKW:
--             ret = copyfrom(&fl, arg3);
--             if (ret) {
--                 break;
-diff --git a/meta/recipes-devtools/qemu/qemu/0002-linux-user-syscall.c-eliminate-other-explicit-LFS-usages.patch b/meta/recipes-devtools/qemu/qemu/0002-linux-user-syscall.c-eliminate-other-explicit-LFS-usages.patch
-new file mode 100644
-index 00000000000..435ce519464
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0002-linux-user-syscall.c-eliminate-other-explicit-LFS-usages.patch
-@@ -0,0 +1,107 @@
-+From 99174ce39e86ec6aea7bb7ce326b16e3eed9e3da Mon Sep 17 00:00:00 2001
-+From: Michael Tokarev <mjt@tls.msk.ru>
-+Date: Thu, 29 Aug 2024 09:59:51 +0300
-+Subject: [PATCH] linux-user/syscall.c: eliminate other explicit LFS usages
-+
-+Since we alwasy build with LFS enabled, and with -D_FILE_OFFSET_BITS=64
-+in particular, there is no need to use 64bit versions of various system
-+calls and constants, regular ones will do just fine.  Eliminate a few
-+last uses of the following constructs in linux-user/syscall.c:
-+  off64_t
-+  ftruncate64()
-+  lseek64()
-+  pread64()
-+  pwrite64()
-+
-+This way it can be built on systems where the 64bit variants of
-+everything is not defined (since the system always uses 64bit
-+variants), such as on recent MUSL.
-+
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/2215
-+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-+
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/99174ce39e86ec6aea7bb7ce326b16e3eed9e3da]
-+---
-+ linux-user/syscall.c | 16 ++++++++--------
-+ 1 file changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-+index 48c459e515..a666986189 100644
-+--- a/linux-user/syscall.c
-++++ b/linux-user/syscall.c
-+@@ -7265,7 +7265,7 @@ static inline abi_long target_truncate64(CPUArchState *cpu_env, const char *arg1
-+         arg2 = arg3;
-+         arg3 = arg4;
-+     }
-+-    return get_errno(truncate64(arg1, target_offset64(arg2, arg3)));
-++    return get_errno(truncate(arg1, target_offset64(arg2, arg3)));
-+ }
-+ #endif
-+ 
-+@@ -7279,7 +7279,7 @@ static inline abi_long target_ftruncate64(CPUArchState *cpu_env, abi_long arg1,
-+         arg2 = arg3;
-+         arg3 = arg4;
-+     }
-+-    return get_errno(ftruncate64(arg1, target_offset64(arg2, arg3)));
-++    return get_errno(ftruncate(arg1, target_offset64(arg2, arg3)));
-+ }
-+ #endif
-+ 
-+@@ -8664,7 +8664,7 @@ static int do_getdents(abi_long dirfd, abi_long arg2, abi_long count)
-+     void *tdirp;
-+     int hlen, hoff, toff;
-+     int hreclen, treclen;
-+-    off64_t prev_diroff = 0;
-++    off_t prev_diroff = 0;
-+ 
-+     hdirp = g_try_malloc(count);
-+     if (!hdirp) {
-+@@ -8717,7 +8717,7 @@ static int do_getdents(abi_long dirfd, abi_long arg2, abi_long count)
-+              * Return what we have, resetting the file pointer to the
-+              * location of the first record not returned.
-+              */
-+-            lseek64(dirfd, prev_diroff, SEEK_SET);
-++            lseek(dirfd, prev_diroff, SEEK_SET);
-+             break;
-+         }
-+ 
-+@@ -8751,7 +8751,7 @@ static int do_getdents64(abi_long dirfd, abi_long arg2, abi_long count)
-+     void *tdirp;
-+     int hlen, hoff, toff;
-+     int hreclen, treclen;
-+-    off64_t prev_diroff = 0;
-++    off_t prev_diroff = 0;
-+ 
-+     hdirp = g_try_malloc(count);
-+     if (!hdirp) {
-+@@ -8793,7 +8793,7 @@ static int do_getdents64(abi_long dirfd, abi_long arg2, abi_long count)
-+              * Return what we have, resetting the file pointer to the
-+              * location of the first record not returned.
-+              */
-+-            lseek64(dirfd, prev_diroff, SEEK_SET);
-++            lseek(dirfd, prev_diroff, SEEK_SET);
-+             break;
-+         }
-+ 
-+@@ -11524,7 +11524,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-+                 return -TARGET_EFAULT;
-+             }
-+         }
-+-        ret = get_errno(pread64(arg1, p, arg3, target_offset64(arg4, arg5)));
-++        ret = get_errno(pread(arg1, p, arg3, target_offset64(arg4, arg5)));
-+         unlock_user(p, arg2, ret);
-+         return ret;
-+     case TARGET_NR_pwrite64:
-+@@ -11541,7 +11541,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-+                 return -TARGET_EFAULT;
-+             }
-+         }
-+-        ret = get_errno(pwrite64(arg1, p, arg3, target_offset64(arg4, arg5)));
-++        ret = get_errno(pwrite(arg1, p, arg3, target_offset64(arg4, arg5)));
-+         unlock_user(p, arg2, 0);
-+         return ret;
-+ #endif
-+-- 
-+2.43.0
-+
++diff --git a/pcap_offline_filter.3pcap b/pcap_offline_filter.3pcap
++index dbb6e966..406604dc 100644
++--- a/pcap_offline_filter.3pcap
+++++ b/pcap_offline_filter.3pcap
++@@ -17,7 +17,7 @@
++ .\" WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
++ .\" MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
++ .\"
++-.TH PCAP_OFFLINE_FILTER 3PCAP "7 April 2014"
+++.TH PCAP_OFFLINE_FILTER 3PCAP "12 March 2026"
++ .SH NAME
++ pcap_offline_filter \- check whether a filter matches a packet
++ .SH SYNOPSIS
++@@ -46,10 +46,35 @@ points to the
++ structure for the packet, and
++ .I pkt
++ points to the data in the packet.
+++.PP
+++In the
+++.B \%bpf_program
+++structure the
+++.B \%bf_insns
+++member is either
+++.B NULL
+++(which means to reject all packets) or points to an array of one or more
+++.B \%struct bpf_insn
+++elements, in which case the
+++.B \%bf_len
+++member must be set to the number of elements (this is what
+++.BR \%pcap_compile ()
+++produces).
+++.PP
+++The filter program must have been compiled for a link-layer header type
+++that matches the packet data; also on Linux the filter must not use
+++BPF extensions, see
+++.BR \%pcap_compile ()
+++for more information.
++ .SH RETURN VALUE
++ .BR pcap_offline_filter ()
++ returns the return value of the filter program.  This will be zero if
++ the packet doesn't match the filter and non-zero if the packet matches
++ the filter.
+++.SH BACKWARD COMPATIBILITY
+++.PP
+++In libpcap releases before 1.10.7 this function ignored the provided
+++.B \%bf_len
+++value.
++ .SH SEE ALSO
++ .BR pcap (3PCAP)
++diff --git a/savefile.c b/savefile.c
++index db8a3aa0..e9708b23 100644
++--- a/savefile.c
+++++ b/savefile.c
++@@ -687,7 +687,8 @@ pcap_offline_read(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ 		 * and, if it passes, process it.
++ 		 */
++ 		if ((fcode = p->fcode.bf_insns) == NULL ||
++-		    pcap_filter(fcode, data, h.len, h.caplen)) {
+++		    pcap_filter(fcode, p->fcode.bf_len,
+++		                   data, h.len, h.caplen)) {
++ 			(*callback)(user, &h, data);
++ 			n++;	/* count the packet */
++ 			if (n >= cnt)
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
+index 692fdf606c0..323cca3d985 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
+@@ -18,6 +18,7 @@ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
+            file://CVE-2025-11961-02.patch \
+            file://CVE-2025-11964.patch \
+            file://01-CVE-2026-0799.patch \
++           file://02-CVE-2026-31912.patch \
+           "
+ 
+ SRC_URI[sha256sum] = "ed19a0383fad72e3ad435fd239d7cd80d64916b87269550159d20e47160ebe5f"
 
