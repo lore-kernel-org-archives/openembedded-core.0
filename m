@@ -1,561 +1,214 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <tgaige.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CC3CC6B34
-	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 13:08:59 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39773.1792069729769819648
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E30EFCC6B3A
+	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 14:01:59 +0000 (UTC)
+Received: from mx-relay79-hz1-if1.hornetsecurity.com (mx-relay79-hz1-if1.hornetsecurity.com [94.100.128.89])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40914.1792072914429210757
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 06:08:50 -0700
+ Thu, 15 Oct 2026 07:01:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=fhLNAltq;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a171b677d2so33164285e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 06:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792069728; x=1792674528; darn=lists.openembedded.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=k+7aBp73jUbDpm0g5qVZNAlR5hyFvkpQvTAV50K+f08=;
-        b=fhLNAltql4NkE4KMEupVq3jhIaeuwbYWRtSNzMUKoRamJcahDIusNPAn2Qct/hUIif
-         DlxK97GJ13FvPihXeyQ4UC+mNT49FlJ/6de11ULmyy8zbZskAXhkCA46PKSSqXO03i3L
-         Pc/jVYJeN0uK6JFdXN5HMsIb4NGAtgCpK8BM74hnheMAcrmP7Z+qSkA2+KWsR1XhLid2
-         19LyIqo4gbeSkaoIpid4LVrifyr1JUEATN6KrjfyZrx/muWDH9MHvy4WuB3SZzHEzvTH
-         5OCt9x9rjAylaeH48sZIEWyXTzLXaPjjskTCMnAAAurwEQVDx8TuDdZy+EmdBnOZ/727
-         4grw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792069728; x=1792674528;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=k+7aBp73jUbDpm0g5qVZNAlR5hyFvkpQvTAV50K+f08=;
-        b=FWgnr0v36sK/e9KtlDDhQ29g1gYbTNgkBbD7pSEb9Utow2QFgWAsRbc+n+YMKTkHcQ
-         xtEmRcUqOsGy1qYPnH7ZHXq5Gz75wTppx5KLefs4y927feyDL1YKAzmQUFJ2/6/xfyij
-         WTVbvfd/r8AXSG1QAe03nMFSsGCWPvk+X2dtSS/G9Ki4t/pyNtrRV2qTgV9gURGbWA51
-         4C4mW8Y7ZS15QcUtUh9ZxUlqZ9o8KTVcLpbIj44uzSpGcI8Q21bOT3ogi77OiOKq0uuY
-         d8S7MDfQ6goASShDu0CfSzNwnDf3PLb6dVkqe1jYHdf7cJXEF5oDvISLZnkj6IBHF+3p
-         8roA==
-X-Gm-Message-State: AFq9FYLSBXSG8wbrd8F5HsPL1bCbKInZlCc8m91/TRXk7Cjb5uMaR6XC
-	EPajmMeYdT6GuVvDRj0uhLbh8unTDWZqVljXrAuoJLpWuHIFAcLkBeMv0rdRtw==
-X-Gm-Gg: AYBFou3le2pKQG2i+wZR1OoVX8s09uzgyN1IViPEDI63p7a93wrVTtJ1qEKLqDvYxGy
-	WfsNNDQ5sIngvYekl60gxz85p9Pmv52IxRyOGtXzbjdyrRpyBs5eybwDWJyzUKpEhtDlZI0R5eI
-	s7RWA5hwlxUTKv3/5kfkNoMR3XpsP2CUX5cYZoJS5oOr8RCzBAcMZaIR4W0AxDwawCGlA+EA7my
-	Rux/elU8cWHhpqYdfe1HYWd2BM1wWEDfsD+Vf6lI7AAeC3jJLFJrsleytZESnA42maOV0DxakCt
-	TMUtB8K6SKdPVwCbEehxYzo7B6mJ+1kNo/t0yYAnGxRAaNIphVUlekeI8e+NAOCwOV0arXaSsG8
-	b2j1olHeeAlvsIe+LcCiTi+bwaSX6Taup2Qr4HMStHR3UKm6UBVfUiSXXRTfJbgUI9QS1lZ/Pdx
-	clP1k8a8PGy6xsaMs5upIoU2WZt/zu83nuq60eC96t5synl6YucnZigDV3oViJyehaAc9VB2wF6
-	kNJj5dXMrHtSfLbvWVwoZdMLiMMIQjqH13yA78rHm11MFH7Cw==
-X-Received: by 2002:a05:600c:8b01:b0:4a1:c4d3:2fc0 with SMTP id 5b1f17b1804b1-4a1c4d32fe7mr22144045e9.6.1792069727439;
-        Thu, 15 Oct 2026 06:08:47 -0700 (PDT)
-Received: from [192.168.5.15] (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ac36f9sm17782453f8f.36.2026.10.15.06.08.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 06:08:46 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Thu, 15 Oct 2026 14:08:44 +0100
-Subject: [PATCH 2/2] eudev: upgrade 3.2.14 -> 3.2.15
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261015-eudev-3-2-15-v1-2-407ba1a93edb@gmail.com>
-References: <20261015-eudev-3-2-15-v1-0-407ba1a93edb@gmail.com>
-In-Reply-To: <20261015-eudev-3-2-15-v1-0-407ba1a93edb@gmail.com>
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=RKUE3XEY;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.128.89, mailfrom: tgaige@witekio.com)
+ARC-Authentication-Results: i=2; mx-gate79-hz1.hornetsecurity.com 1; spf=pass
+ reason=mailfrom (ip=52.101.83.143, headerfrom=witekio.com)
+ smtp.mailfrom=witekio.com
+ smtp.helo=gvxpr05cu001.outbound.protection.outlook.com; dkim=pass
+ header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
+ header.from=witekio.com orig.disposition=pass
+ARC-Message-Signature: a=rsa-sha256;
+ bh=A4ESuIE2QnC38DUbDALiAL2msxxb+f5cio94L2Vp1so=; c=relaxed/relaxed;
+ d=hornetsecurity.com; h=from:to:date:subject:mime-version; i=2; s=hse1;
+ t=1792072911;
+ b=f2NZNI8DIKWknoSE0HHREmzZWVI8oFHxPuQ2KOPzGrnIaj07WuMTnULhpfY5orsolppBn0/+
+ chyxABZYEsXEoy8Oy7MAkdxyqlK+17EKdJQDlea8Mf89qHBbx3Gj4wkEdtrRSCBfn+6LF5Ue3Ll
+ mEtZgms7GLXvM34e/8Fa4ni96i7i7BZ4F8xlXAiWdgPda4uD4shKzPycll3X0SEDFfQ+P43Hkag
+ qiU3fzHa5tbdemFa8INbehugBH2CrSYpxNm52K/7YXDwL4FVF9sKwi9JlXRLLoTi1t9IULGzkCA
+ i9cNqnMkUnwm4vpkXP8BBzkvvaznESp0p0RCVCaAVJl9w==
+ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
+ t=1792072911;
+ b=JBZiaRJxirCIlZzgV+1eXskSk706Pa5i98tBPCaOheq/FRXzJKHV+9/aX7sS7E0RgI7J7YAe
+ VD39DWnev7rE0UUJ0LzzzBeW8PrqehLVF7qXa67Y+QMapFbxeojchrSSHzY55PwZFKP76Ox4f5y
+ pF/lfURmS3oxpQoo21pArcn81gCSTCroJjaf4KkQjQgG7096MraoJndITMNjuQS5zTSBRfIIalK
+ kQ+5TYuk8bi1ysccBllErhaWrbw3Wd5AOLpui6HsWmRRnd9aRnC2D/sxhoVLoe5CzN/p5crmIB3
+ cZjt09VkYC9xntnffuL7RlVC7iub6qjrgiNHeE+JDNeQw==
+Received: from mail-swedencentralazon11023143.outbound.protection.outlook.com ([52.101.83.143]) by mx-gate79-hz1;
+ Thu, 15 Oct 2026 16:01:51 +0200
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xJhEsNS3/Zf0nzCQOEk0d+OIBZfBiW/w5RPCd6z7/RxfeRaD8zH9zSs8kiog4UpSKRoRGNM0AIBqx8RT8ooK4ygfck4eYbopp3sUjLCnS61P5Z/Uxo4IHK8C3p1CNj8q/EKnfEwAx33TCqdUjxTLeDrZBJJjEfkuWnA2pCgR+PiRWSciQqDQmP8X3IqjH6cb2ssFxLJKXKhC+SDPjob93GBfjgouSRt77lmpNniCwUd5rdSOShqBtH52ZSr9FI7Zdcy7liHnJvvIqTfzrl3HQmNd6GJmOul5JwZoBSN2JdgjtBAjHyBYitzNfs7F/H+E3g32Old+KrjXtQuAxg9Drg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A4ESuIE2QnC38DUbDALiAL2msxxb+f5cio94L2Vp1so=;
+ b=TxDcGhviiwELxQFX8g9sOQEoyDzvuL+Z/KzZST4E72G69sbNbbOo3v164QmBrhLNZZnF/1QzSrOjkELzmKori5xMFHQDaq1QzfZ3ugLdi8SjolwmQPPb04jjihaeJu4wz30SxVTyJxjHSBMan/nAIizSRwd8rvNOP2168/w1WBx/9CobyldVNL/ztSsZKL/YroP1B/90WnySAA/vJTpR6vRMhsOg4e5J0FwbgcgMyum55s7GaA6Wlny5eeRpNSXeJZOTb+gBAxlCATDb8YkByCk1u2aWHU4j/767OyUXJ1IiSVZMsp5O82I8RiYC2PrXdHLLgMPEjw0xnHC3M4i6/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
+ dkim=pass header.d=witekio.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A4ESuIE2QnC38DUbDALiAL2msxxb+f5cio94L2Vp1so=;
+ b=RKUE3XEY97B3nHPQkWB+aphfhFeq4TzWLwfOCLJKJqDCU5pCxk+1qR6Zmw1EL7dUBrwz5CHORBD4Sb9p1cLoTiIahWg/YdoSvDtGDObLCgNGgE0mwdZ35VJZIlxlXnbG94cOwB6ixudc/ANdzDWDk+utfCtD1q4+Fms0Vu3kkwlMNmlBDtHEpYyow4j3rvcXJ8j9qLuUklvWBpbbjeGmQ6Rgca1cZh+5f9bZbT4kKuzJ33s3GkPjvRWjbqQGCojLZIJqlVCFrMBYitVzZvZxlrwpZwD4ulLyDoyNmqgArJz4bM4SUgg+ElF+4Sk7iJqMP6LMuhPM6gIHLl4OtZKHlw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=witekio.com;
+Received: from AS4P192MB1862.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:51d::6)
+ by VI2P192MB3242.EURP192.PROD.OUTLOOK.COM (2603:10a6:800:2df::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Thu, 15 Oct
+ 2026 14:01:43 +0000
+Received: from AS4P192MB1862.EURP192.PROD.OUTLOOK.COM
+ ([fe80::81a:852d:56c0:eb58]) by AS4P192MB1862.EURP192.PROD.OUTLOOK.COM
+ ([fe80::81a:852d:56c0:eb58%6]) with mapi id 15.21.0522.013; Thu, 15 Oct 2026
+ 14:01:42 +0000
+From: tgaige.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-X-Mailer: b4 0.16.0
+Cc: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>,
+	Hugo SIMELIERE <hsimeliere.opensource@witekio.com>,
+	Wahid ESSID <wahid.essid@se.com>
+Subject: [PATCH] python3-pyelftools: add missing runtime dependencies
+Date: Thu, 15 Oct 2026 16:01:35 +0200
+Message-ID: <20261015140135.2188972-1-tgaige.opensource@witekio.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR3P281CA0083.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1f::21) To AS4P192MB1862.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:51d::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4P192MB1862:EE_|VI2P192MB3242:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a119646-23c4-4671-0651-08df2ac4d77a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|366016|52116014|23010399003|38350700014|56012099006|261009223027099003|10067099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: 
+	ng08IBMTt2pCWXB7fyh6Mb4sSQVmXSj3Yzw/5ozQcIc8rnhQYBIVNu+f6KsxMtEeyG+WsK7kP6yy7zWzlIPHf27UuUK7s405V/4dR8payhZ1r1uLxegDnxxKscjHkLK99hUGw+MuW+WpNfSM+Cx3gi32ch/n4uhKSwvsN9PAc3JXbifpZy2gFQVsSaJMxF5HPu7iYRY/lLQHxIkQy9A59cpM03iVDBgHoLrBOt8ApUjan6rMARUY3RvLMhNyJ6Eai9KHqmSGVA0+Cj5DX9SgcBV3Et7krsdb5TlPBnWvSbOoE9QIgmcCAeL/23+tqEfsZQ5LG+1dhRmT9fv6FZPlrJarsnzYQGNymEiVQezzbvqgmEmCZKRs+WppfKnRaOJbrip/Yu6PLIuW2vbq1TDiflbdQtl9e4iBhrx7WsD/hKkstcZ8PJD17lNfsNAhhGiKyaTXeJAzg6uDBgPomoJVx6IaJhYtKkJey9fFqixQl9l6LVZqN6vCEWqzwnEk2Xre1fX/GKmdsSYast+tIiKCH9Fh5jGFRSxcy/erFqhj8IPEAXMIO9w2nat4Tg90qm4hr8tfMc83Lfl1+HHpBAeBgnxWbol3Duc5hiXQ2eR9lmd8MAi3WxTYeodgIh9ng9KM6jcEM+P4QJ9vgv7e4546gDkBsVCIMPAPei0rNP/cN/SloBAE7EbmeMWs7XRIUGvCl3rRW6lr697oIQjopoknzbLUSTTRxvmHQOczvy6Rrco=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4P192MB1862.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(52116014)(23010399003)(38350700014)(56012099006)(261009223027099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Sp3vhNF6+2YpWFCiajv+WtCIgVJa4k2JsoK2QhhTagSYZyUotgn0JX1G4FpV?=
+ =?us-ascii?Q?bAPmc4v707CmpTa+wAxPDtOknAgkGZvaUSytLe1tmd9cANbv3da/sXNb3L9D?=
+ =?us-ascii?Q?SPYQI9nbkBDB5rQbF0thyrKWHEYDeyPL8u10zToi4fIlCv95mrGn3vZUd6OE?=
+ =?us-ascii?Q?Tff7lpDu5gt0NKS1Im0HqDJEY+VHIZVfgjal14DAgq/lhfJUUb3Vv7d8Y+5i?=
+ =?us-ascii?Q?l8llLtsBujaavS461R0ZxALlt1XI2e/eS4wkx1iO/O+F/LIuwrkYWAQUFC6X?=
+ =?us-ascii?Q?9OPD35+go68yf2AOo2ACAA1KmtCC2m1t6bGAODjUMlm+Anll2u0ChXywR3Me?=
+ =?us-ascii?Q?LloKc59reqnqjy4Zgfs8Bscty57Cmw6RpzOlDIBtG85oNhowFhOzxB8pnB6C?=
+ =?us-ascii?Q?W8gETeimTJEV/FllVWOQ23P0S1+zP/UzU6FWINPao8JRODdAlJ+poRVHHe0F?=
+ =?us-ascii?Q?VYpzGYg0oRZMuKJ1f2citOObcWqonfIlsnZ8XGj/azKHaVh8cpXkGqkli/PQ?=
+ =?us-ascii?Q?ayZ2keb5oXXjXPUqo0L3BWfJFKO+AjqJkJ5udQGeB5CYo0azB5/aMor3Ljej?=
+ =?us-ascii?Q?R2uf5MWvOpIdBD3ZziPu+XpUsJy5Q1n4DwQCBXgBHmg3Nv2s5N+beGtoBbJD?=
+ =?us-ascii?Q?Nash+6KhzBxaq+oCFNWixPPM6y4OHsIgbdgQz6AKZp5/E3fD+CpdOea+J5SY?=
+ =?us-ascii?Q?Cj2QJo23XdDEtuw40Sm1R4fnDNB5FxdWVrTlh4S4Eh/P6Vr+nBDMaWBPjv4j?=
+ =?us-ascii?Q?Ej3edLzOcj2E51LcfgidTwqDRNfK9yf4xpxWDZTr5xXnfqTDnGMG4Wfkwdro?=
+ =?us-ascii?Q?aboHXBD/W/hjQg7VjCXh7l1gUo9wWJEyXx3sdRW0vJ/L4Tq8nkTymDCgPWNE?=
+ =?us-ascii?Q?85yz7oUPn13Ac09dt3bITK3BtGIxKSWhSEE4LZF7wT04rU09xdAhyC2On4Q2?=
+ =?us-ascii?Q?NuD7OqQpkmzNQHT9O4TCShKDS/5GqWLFcKWO6l+DNM37APriqS6AvZcPFdNp?=
+ =?us-ascii?Q?uFBUUSLURKX3NV7gPA5byQHXjqarPFyt2j7US2/mTHpIWwVZv1LfR+tKI0pm?=
+ =?us-ascii?Q?7kaOMWs8075B2LR4tbGZQfa30BCYbtT7cvEpDy6ZqkLci9oM081Ux1W4uwQ3?=
+ =?us-ascii?Q?/6eN9DMTBMZF1Qn5cVPoLI1rJwY/JBPAsvYO1D2G+Rs2W0SLq+U0MyGibBSF?=
+ =?us-ascii?Q?/ll0EW56t3UCSdo10DJAIW8o7jMmrPZcBLV41f7jlXQ2ExoDW/gaS2I8GMjo?=
+ =?us-ascii?Q?oNpicLfHGmQZrgqi8zFOTlfkCl40QoZIkjfS72MhSMbb8vU/2ikr3RgyOLxg?=
+ =?us-ascii?Q?8AvlojOfJnQYnHaF00KIUQc6WlYi778PdXtl96ASBPiXfzJif14ztYc6cDZ3?=
+ =?us-ascii?Q?mGR8ljoM3szNX0zOS1F1RZExBWdDUYTrkQmaaqthBQw1yWMn1PQwKRT9VLCG?=
+ =?us-ascii?Q?DZm0ElXnZdSDiYEQ7giizTRBYkihTsIJUumRcEJ9lBktTUsMl0cF8Mjf7XQs?=
+ =?us-ascii?Q?AfYnyy0axrG9QLZCCwHV8V+AiRuypV7uxVDNmDk84ysqBs/BHr5ji8+lvW5f?=
+ =?us-ascii?Q?klcTnnZx5bvspj+W4jJFTHGvawoD8cUAE+I4EsJbKPtWtMthjFWhouzCFNbY?=
+ =?us-ascii?Q?Uo6PmkSB/GuLixIHK6FQXvh5+xp4nFaWhN/55CvclMysicO80GnB/zOMFJh/?=
+ =?us-ascii?Q?94LrCzPJ4fJHU5CcRUs4bu3f+K4hcaY6U3KGYIF7pktCZvQm36ys9F9kKX3l?=
+ =?us-ascii?Q?xGZ5Ear1Mg=3D=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	fUnylam417tH/lfziLW1QvhlwKKwMqY0xQwUgneMnt0tvpwypeLOoYvkLClX2AJ551NXzwVrA/xEV9l7GxDu2gvrPt+ppkxzyXgu0Pl0cUsbobc+kBAD4d/vezvVVNIN0J27dzt66OQ8R7H58EzW4bSHeM9xLw2c2DREo/Z2xtq80EwYrn/wpeILxqnCl9+DewF+eR4jKSU3Cl8AQ01s5p7XSKOIACd1HQ3yQmlqSsy1v/lgJ1BN3jpkE0SzHf99b5lbLJUMpKT3qqARTo5Ju2q9MOO5vBpemtZxoRoYZPanpAoeWBZYj4a9Wk1VXNysBDPpYPc36LZA8nsQYAmXfQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	IjS4Ei2GhQFwTdVXU072HkdZdQbUAu6svsESBol/yALaW1Uw+KWbYthnum+K+7lkQvc/t1eZwcxPVBTu7u+IKg/hmLmqG7gh5jy3neB1q5osbFW0524hB2MGvAbIDE3C/5NxEGihX1QTeGNSUrTzmDWCxEZgC71NQsUqDQXT7MTAl4n+xmuuZMRqWovE98A0GS0JZZn9/lOdRGH56X2vLe/0zAEk5/BMenspUX1ArROc/ijPqR71GHTvXnzU9LO6sxkVMaBFSZtf8CcU2x5spGr83J3rvJyDxeazBsRg9fR/X6/psn8K8tA5JfJetCE3JzBq9qI3JChXwFvUNGty8OO07k8TU7Ne3/iLx1y9GepApxDPJpqUQuZZzEn9Hls1eGrKvAJd7K+8Y0GT2/HVvVpXns+SXPqEJA6zORT7z2HeoLg12/TEgbKezpUE6fWF6tawSSIsjazrCNnHqiOlo3593GDyBbla/1WnnUhJQdX+6+o51Vmzkf9tp1O3aBXQhOfjgZUNRVBoE6RyzhUwAkig1sjQSHP4GOTfnWGNh7Kkpszc1D5eBwO1QoNrHrZaAWIkGHo88OHz7bhccI8UqGf3MjRHqU5LKcHwUomnnOZ9taG+472lGSUX5OpJQWSC
+X-OriginatorOrg: witekio.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a119646-23c4-4671-0651-08df2ac4d77a
+X-MS-Exchange-CrossTenant-AuthSource: AS4P192MB1862.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2026 14:01:42.8663
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: H8YgeIJHZTnS296JBCx2tvp/S+tF8s041tIaDqWBe/jt8bnTfiwaxVtXYa+CauagacKVuOAecam2GK7M7lhYNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2P192MB3242
+X-cloud-security-sender: tgaige@witekio.com
+X-cloud-security-recipient: openembedded-core@lists.openembedded.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
+X-cloud-security-Mailarchivtype: outbound
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate79-hz1 with 4j58rV11PTz2hKGb
+X-cloud-security-connect: mail-swedencentralazon11023143.outbound.protection.outlook.com[52.101.83.143], TLS=1, IP=52.101.83.143
+X-cloud-security-Digest: 89b728370e502b98cb6a61e03c6fdb67
+X-cloud-security: scantime:3.561
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 13:08:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247884
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 14:01:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247885
 
-Drop backported commits.
+From: "Theo Gaige (Schneider Electric)" <tgaige.opensource@witekio.com>
 
-Changes:
+python3-asyncio and python3-json are needed as runtime dependencies of
+python3-pyelftools else the readelf.py script run into the following errors :
 
-Aitor Cuadrado Zubizarreta (1):
-      Fix a mistake in the length of USEC_INITIALIZED when parsing property string
+```
+Traceback (most recent call last):
+  File "/bin/readelf.py", line 30, in <module>
+    from elftools.common.utils import bytes2str, iterbytes
+  File "/usr/lib/python3.14/site-packages/elftools/common/utils.py", line 11, in <module>
+    from ..construct import ConstructError, ULInt8
+  File "/usr/lib/python3.14/site-packages/elftools/construct/__init__.py", line 36, in <module>
+    from .debug import Probe, Debugger
+  File "/usr/lib/python3.14/site-packages/elftools/construct/debug.py", line 7, in <module>
+    import pdb
+  File "/usr/lib/python3.14/pdb.py", line 87, in <module>
+    import asyncio
+ModuleNotFoundError: No module named 'asyncio'
+```
 
-Aleksey Vasenev (1):
-      ata_id: Fixed getting Response Code from SCSI Sense Data (#24921)
+```
+Traceback (most recent call last):
+  File "/bin/readelf.py", line 30, in <module>
+    from elftools.common.utils import bytes2str, iterbytes
+  File "/usr/lib/python3.14/site-packages/elftools/common/utils.py", line 11, in <module>
+    from ..construct import ConstructError, ULInt8
+  File "/usr/lib/python3.14/site-packages/elftools/construct/__init__.py", line 36, in <module>
+    from .debug import Probe, Debugger
+  File "/usr/lib/python3.14/site-packages/elftools/construct/debug.py", line 7, in <module>
+    import pdb
+  File "/usr/lib/python3.14/pdb.py", line 77, in <module>
+    import json
+ModuleNotFoundError: No module named 'json'
+```
 
-Andre Eikmeyer (1):
-      udev: derive path ID for PNP devices from ACPI firmware node
-
-Andrey Albershteyn (1):
-      udev: enable BLKID_SUBLKS_FSINFO tags
-
-Boian Bonev (39):
-      Better wording
-      use a dynamic buffer to fix 'dmi_memory_id' ressize 16384 too short
-      log: return the negative error from log_*_errno() and map %m to it
-      udev-event: do not overflow the argv array in udev_build_argv()
-      man: RUN substitutions are performed while the rule is processed
-      udevadm-hwdb: write the compatible database format by default, add hwdb_format= to udev.conf
-      libudev-monitor: filter in userspace if the socket filter does not fit
-      udev-rules: do not ignore rd.* kernel command line options in IMPORT{cmdline}
-      udev-ctrl: NUL terminate received strings and validate the log level
-      Merge hwdb from systemd
-      udev-builtin-path_id: add sas_legacy_path udev.conf option
-      udev-builtin-path_id: add fallbacks for USB_HUB_PR_* constants
-      fido_id: fix use of uninitialized variable
-      udev-builtin: size the argv array with UDEV_ARGV_MAX
-      Merge suitable rules changes from systemd
-      ci: build on current Devuan and supported Alpine releases
-      udev-watch: do not log an error when the watched device is already gone
-      udevadm-trigger: add --type=all
-      README: point Gentoo users to the without-systemd overlay
-      hwdb: add Chromium OS autosuspend list
-      util: set the umask when declaring the cleanup variable in mk[o]stemp_safe()
-      udevadm-info: check the result of dirfd() in the db cleanup helpers
-      udev-watch: check the result of dirfd() when restoring watches
-      udevd: drop dead stores when skipping a locked block device
-      net_id: drop dead initialization of prefix
-      udevadm-hwdb: do not lose entries when splitting a trie node fails
-      scsi_id: do not read past the end of a config line with an unterminated quote
-      ci: install libselinux-dev or libselinux1-dev on Devuan
-      log: make the return value of log_oom() visible at the call site
-      udev-rules: stop reading a rules file once a continued line hits EOF
-      path-util: decide on the separator before reallocating the path
-      libudev-monitor: initialize the address buffer for getsockname()
-      udevd: assert that worker_returned() gets a valid socket
-      collect: handle unexpected states explicitly in everybody()
-      tree-wide: fix constness with C23 qualifier-preserving glibc functions
-      configure.ac: point the bug report URL to eudev-project
-      rules: put render nodes in the render group
-      libudev: bump the library revision
-      bump version to 3.2.15
-
-Csókás, Bence (1):
-      udev-rules: Fix compile errors with `-DDEBUG=1`
-
-CuriouslyCurious (1):
-      build: Add libtool as build-dependency for Alpine
-
-Daniel Mack (1):
-      util: fix another cunescape() regression
-
-Daniel28972897 (1):
-      libudev-device: set errno also for a cached failed parent lookup
-
-David Herrmann (2):
-      libudev-hwdb: fix child/value offset calculation
-      hwdb: order properties by origin
-
-David Milburn (1):
-      udev: build by-path identifiers for ATA devices.
-
-Davin McCall (1):
-      udevd: add support for S6/dinit-compatible readiness notification
-
-Franck Bui (1):
-      udev-rules: support '-=' operator for SYMLINK
-
-Frantisek Sumsal (2):
-      shared: parse the whole /proc/cmdline
-      scsi_id: use safe_atoi() instead of plain atoi()
-
-Hendrik Brueckner (1):
-      udev/path_id: correct segmentation fault due to missing NULL check
-
-Jiri Pirko (1):
-      udev-builtin-path_id: emit 'sf-<N>' token for auxiliary sub-functions
-
-Joe Slater (1):
-      80-net-name-slot.rules: consider ID_NET_NAME_MAC as a name
-
-Johannes Nixdorf (1):
-      78-sound-card.rules: Import ID_PATH early
-
-Joshua Goins (2):
-      udev: Fix some tablet pads being classified as mouse or joysticks
-      udev: Don't mark as tablet if device has relative coordinates
-
-Karel Zak (1):
-      udev-builtin-blkid: add support for --hint offsets
-
-Kay Sievers (2):
-      libudev-device: translate / vs. ! in sysname and refuse non-normalized names
-      get_process_environ: exit early when there is nothing to read
-
-Keith Busch (1):
-      udev/path_id: introduce support for NVMe devices
-
-Lennart Poettering (11):
-      udev-rules: proc_cmdline_get_key() FTW!
-      libudev-monitor: add missing errno initialization/error propagation
-      udev-rules: consider "-" and "_" equivalent in IMPORT{cmdline} keys
-      mtd_probe: fix lseek() parameter order
-      udev-builtin-blkid: pick up info of backing file
-      udev: modernize udev-builtin-btrfs a bit
-      utf8: let's update utf16_to_utf8() a bit
-      process: an empty environment block should be returned as such
-      fileio: try to read one byte too much in read_full_stream()
-      fileio: initialize errno to zero before we do fread()
-      udevadm: use xopendirat() where appropriate
-
-Lidong Zhong (1):
-      udev: rename the persistent link for ATA devices
-
-Luca Boccassi (9):
-      libudev-monitor: bound the tag filter BPF program size
-      libudev-monitor: avoid 32-bit overflow in the monitor properties bounds check
-      helpers: check for invalid chars in various fields received from the kernel
-      scsi_id: use strscpy instead of strncpy for wwn fields
-      scsi_id: null-terminate serial after append_vendor_model
-      scsi_id: check for invalid chars in various fields received from the kernel
-      scsi_id: check for invalid header from kernel buffer
-      udev: ensure tag parsing stays within bounds
-      net_id: check for invalid chars in various fields received from the kernel
-
-Lukas Nykryn (1):
-      udev: add new builtin net_driver
-
-Marek Vasut (1):
-      udev: Handle AMBA bus the same way as generic platform bus
-
-Martin Wilck (2):
-      udevadm: cleanup-db: don't delete information for kept db entries
-      udev-builtin-path_id: SAS wide ports must have num_phys > 1
-
-Masahisa Kojima (1):
-      random-util.c: sync dev_urandom implementation to systemd-udev
-
-Matthias Schiffer (1):
-      rules: add mtd/by-name symlinks
-
-Michal Schmidt (1):
-      udevd: fix crash with invalid udev.log-priority
-
-Michal Sekletar (1):
-      udev-rules: allow substitutions for SECLABEL key
-
-Mike Yuan (1):
-      udev-ctrl: add missing size check of received message
-
-Milan Kyselica (1):
-      udev: fix bounds check in dev_if_packed_info()
-
-Nate Clark (1):
-      udev-builtin-blkid: Use _cleanup_blkid_free_probe_ to free probe (#6108)
-
-Nicolas Boichat (1):
-      udevadm-hwdb: Return non-zero exit code on error when --strict is used
-
-Peter Hutterer (7):
-      libudev-hwdb: fix matching for characters with an ord > 127
-      udev-builtin-input_id: any i2c mouse is a pointing stick
-      udev: if a tablet has BTN_0, label it as ID_INPUT_TABLET_PAD
-      udev-builtin-input_id: don't label absolute mice as pointing sticks
-      udev-builtin-input_id: use heuristics to detect joysticks
-      udev: don't allow pointing stick sensitivities greater than 255 (#5927)
-      udev: skip EVDEV_ABS override on devices without EV_ABS (#5984)
-
-Ross Burton (1):
-      udevadm-hwdb: strip the root from filenames when generating hwdb.bin
-
-Ryan Attard (1):
-      ata_id: Add support for host managed zone block devices (#14933)
-
-Tobias Stoeckmann (1):
-      udev: spot inconsistent quoting (just one single quote)
-
-Tom Gundersen (1):
-      udev: bulitin-hwdb - fix memory leak
-
-Tomas Bzatek (1):
-      ata_id: export read look-ahead values
-
-Vicente Bergas (1):
-      Add BTN_ key codes
-
-Viktor Mihajlovski (1):
-      udev: Use parent bus id for virtio disk builtin path-id (#5500)
-
-Vito Caputo (2):
-      strxcpyx: don't overflow dest on strpcpyf truncate
-      fileio: fix read_full_stream() bugs (#3887)
-
-Wenchao Hao (1):
-      scsi_id: retry inquiry ioctl if host_byte is DID_TRANSPORT_DISRUPTED
-
-Yu Watanabe (37):
-      udev-rules: fix negative match rule for SYMLINK and TAG
-      udev-rules: replace unsafe characters on assigning ENV{key}="val" when OPTIONS="string_escape=replace" is set
-      udev-rules: support case insensitive match
-      udev-rules: evaluate formatting in RUN= key earlier
-      udev-rules: allow to execute longer command line
-      udev-rules: protect more properties often set by kernel and internally used by udevd
-      udev-rules: refuse invalid devlink
-      libudev-device,udev-rules: tag must be a valid filename
-      udevd: make newer event also blocked by DEVPATH_OLD and by events for the same device node
-      udevd: refuse to enable inotify watch on remove event
-      udev-watch: also save map from device ID to watch handle in /run/udev/watch
-      udev-rules: do not import property value from truncated line of program result
-      libudev-monitor: use SO_DETACH_FILTER to remove BPF program
-      libudev-device: make udev_device_set_syspath() clear sysname and sysnum
-      libudev-enumerate: use path_startswith() to match parent device
-      libudev-enumerate: also check is_initialized match when scanning by tags or children
-      libudev: check arguments of more public functions
-      libudev-device: ignore failure in caching the written sysattr value
-      udev: end the watch of the processed device, and drop redundant db update
-      cdrom_id: check last track info
-      helpers: always open with O_NOCTTY
-      scsi_id: rename positional arguments
-      dmi_memory_id: update table with latest SMBIOS specification
-      helpers: gracefully handle ENODEV or friends in opening device node
-      udev: gracefully handle ENODEV or friends in opening device node
-      udev: make udevadm test and test-builtin not destructive
-      udev-builtin-kmod: support to run without arguments
-      udev: always open with O_NOCTTY
-      udev: always create device symlinks for USB disks
-      udev: support by-path devlink for multipath nvme block devices
-      udev: add USB revision in ID_PATH
-      udev: do not set ID_PATH and by-path symlink for nvmf disks
-      udev-builtin: make btrfs builtin command only check arguments when run in test mode
-      udev-builtin-btrfs: refuse to call for irrelevant device node
-      net_id: fix potential buffer overflow
-      udevd: use worker_free() on failure in worker_new()
-      udev-event: check command is not empty before executing
-
-Yu, Li-Yu (1):
-      udev-rules: escaped string syntax e"..." in rule files
-
-Zbigniew Jędrzejewski-Szmek (9):
-      libudev-device: attempt to read db again if it wasn't found
-      libudev-device: fix udev_device_set_sysattr_value()
-      v4l_id: use O_CLOEXEC|O_NOCTTY
-      helpers: downgrade ENOMEDIUM warnings
-      scsi_id: do not ignore positive error values from set_inq_values()
-      udev: change the modalias string for usb devices to include the device name
-      tree-wide: make new/new0/malloc_multiply/reallocarray safe for size 0
-      basic/escape: merge utf8 and non-utf8 paths in cunescape_one
-      tree-wide: add bsearch_safe and use where appropriate
-
-chenjiayi (1):
-      scsi_id: distinguish host-managed zoned block in scsi_id
-
-dongshengyuan (1):
-      udev: avoid reading before empty capability masks
-
-gaoyi (1):
-      udevd: don't kill worker in worker_kill() when it's running
-
-huyubiao (1):
-      udevadm-hwdb: fix unsigned and signed comparison problem
-
-jeffhuang (1):
-      libudev-hwdb: bounds-check trie offsets against the mmap before dereferencing
-
-jmestwa-coder (1):
-      cdrom_id: zero scsi response buffers before parsing
-
-spaette (1):
-      typos
-
-我超厉害 (1):
-      ata_id: even if a device is a zac device, scsi-$ID_SERIAL will be reserved for it (#30459)
-
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
+Reviewed-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
+Reviewed-by: Wahid ESSID <wahid.essid@se.com>
 ---
- ....c-sync-dev_urandom-implementation-to-sys.patch | 138 ---------------------
- meta/recipes-core/udev/eudev/netifnames.patch      |  17 ---
- .../udev/{eudev_3.2.14.bb => eudev_3.2.15.bb}      |   4 +-
- 3 files changed, 1 insertion(+), 158 deletions(-)
+ meta/recipes-devtools/python/python3-pyelftools_0.33.bb | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch b/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch
-deleted file mode 100644
-index 668aa731aca1..000000000000
---- a/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch
-+++ /dev/null
-@@ -1,138 +0,0 @@
--From 95c871b7b912f39539777ac222ef7f8798bb0225 Mon Sep 17 00:00:00 2001
--From: Masahisa Kojima <kojima.masahisa@socionext.com>
--Date: Thu, 25 Apr 2024 17:23:10 +0900
--Subject: [PATCH] random-util.c: sync dev_urandom implementation to
-- systemd-udev
--
--Current dev_urandom() assumes that reading /dev/urandom
--will never block regardless if the random pool is fully
--initialized or not.
--This assumption is no longer applicable since linux kerrnel
--enforces the /dev/urandom entropy initialization from
--v5.18-rc2 with the commit:
--48bff1053c17 ("random: opportunistically initialize on /dev/urandom reads").
--
--With this, when we use the linux v5.18-rc2 or later,
--dev_urandom() will block if enough random pool is not supplied.
--It causes the boot delay, typically 1024msec(4msec * 256 = 1024msec)
--delay to fill the 256 bits entropy for the case CONFIG_HZ=250.
--
--To prevent this boot delay, this commit syncs dev_urandom()
--implementation to the systemd-udev.
--The systemd-udev implementation of reading /dev/urandom is as follows.
-- - Try to get random with calling getrandom(GRND_INSECURE)
-- - If kernel does not support GRND_INSECURE, fallback to GRND_NONBLOCK
-- - If enough entropy is not supplied, fallback to reading /dev/urandom,
--   this will block when the kernel version is v5.18-rc2 or later
--
--With this modification, dev_urandom() tries not to block
--as much as possible.
--
--This modification still keeps the backword compatibility,
--dev_random() will never block if the commit(48bff1053c17) is not
--applied to the linux kernel, the behavior is same as before
--in this case.
--
--Upstream-Status: Backport [a49a3aaa460add6ae7ea208b4cac630e56fe1180]
--Signed-off-by: Masahisa Kojima <kojima.masahisa@socionext.com>
-----
-- src/shared/missing.h     |  4 +++
-- src/shared/random-util.c | 70 ++++++++++++++++++----------------------
-- 2 files changed, 35 insertions(+), 39 deletions(-)
--
--diff --git a/src/shared/missing.h b/src/shared/missing.h
--index 1967840cdbf3..1caec0f9207c 100644
----- a/src/shared/missing.h
--+++ b/src/shared/missing.h
--@@ -79,6 +79,10 @@ static inline int getrandom(void *buffer, size_t count, unsigned flags) {
-- #define GRND_RANDOM 0x0002
-- #endif
-- 
--+#ifndef GRND_INSECURE
--+#define GRND_INSECURE 0x0004
--+#endif
--+
-- #ifndef BTRFS_IOCTL_MAGIC
-- #define BTRFS_IOCTL_MAGIC 0x94
-- #endif
--diff --git a/src/shared/random-util.c b/src/shared/random-util.c
--index 01a28c8ef4e9..852b00e4ce2b 100644
----- a/src/shared/random-util.c
--+++ b/src/shared/random-util.c
--@@ -31,45 +31,37 @@
-- #include "util.h"
-- 
-- int dev_urandom(void *p, size_t n) {
---        static int have_syscall = -1;
---
---        _cleanup_close_ int fd = -1;
---        int r;
---
---        /* Gathers some randomness from the kernel. This call will
---         * never block, and will always return some data from the
---         * kernel, regardless if the random pool is fully initialized
---         * or not. It thus makes no guarantee for the quality of the
---         * returned entropy, but is good enough for or usual usecases
---         * of seeding the hash functions for hashtable */
---
---        /* Use the getrandom() syscall unless we know we don't have
---         * it, or when the requested size is too large for it. */
---        if (have_syscall != 0 || (size_t) (int) n != n) {
---                r = getrandom(p, n, GRND_NONBLOCK);
---                if (r == (int) n) {
---                        have_syscall = true;
---                        return 0;
---                }
---
---                if (r < 0) {
---                        if (errno == ENOSYS)
---                                /* we lack the syscall, continue with
---                                 * reading from /dev/urandom */
---                                have_syscall = false;
---                        else if (errno == EAGAIN)
---                                /* not enough entropy for now. Let's
---                                 * remember to use the syscall the
---                                 * next time, again, but also read
---                                 * from /dev/urandom for now, which
---                                 * doesn't care about the current
---                                 * amount of entropy.  */
---                                have_syscall = true;
---                        else
---                                return -errno;
---                } else
---                        /* too short read? */
---                        return -ENODATA;
--+        static bool have_getrandom = true, have_grndinsecure = true;
--+        _cleanup_close_ int fd = -EBADF;
--+
--+        if (n == 0)
--+                return 0;
--+
--+        for (;;) {
--+                ssize_t l;
--+
--+                if (!have_getrandom)
--+                        break;
--+
--+                l = getrandom(p, n, have_grndinsecure ? GRND_INSECURE : GRND_NONBLOCK);
--+                if (l > 0) {
--+                        if ((size_t) l == n)
--+                                return 0; /* Done reading, success. */
--+                        p = (uint8_t *) p + l;
--+                        n -= l;
--+                        continue; /* Interrupted by a signal; keep going. */
--+                } else if (l == 0)
--+                        break; /* Weird, so fallback to /dev/urandom. */
--+                else if (errno == ENOSYS) {
--+                        have_getrandom = false;
--+                        break; /* No syscall, so fallback to /dev/urandom. */
--+                } else if (errno == EINVAL && have_grndinsecure) {
--+                        have_grndinsecure = false;
--+                        continue; /* No GRND_INSECURE; fallback to GRND_NONBLOCK. */
--+                } else if (errno == EAGAIN && !have_grndinsecure)
--+                        break; /* Will block, but no GRND_INSECURE, so fallback to /dev/urandom. */
--+
--+                break; /* Unexpected, so just give up and fallback to /dev/urandom. */
--         }
-- 
--         fd = open("/dev/urandom", O_RDONLY|O_CLOEXEC|O_NOCTTY);
-diff --git a/meta/recipes-core/udev/eudev/netifnames.patch b/meta/recipes-core/udev/eudev/netifnames.patch
-deleted file mode 100644
-index 4f8e54d12d4a..000000000000
---- a/meta/recipes-core/udev/eudev/netifnames.patch
-+++ /dev/null
-@@ -1,17 +0,0 @@
--eudev: consider ID_NET_NAME_MAC as an interface name
--
--eudev might not create names based on slot or path.
--
--Upstream-Status: Backport [github.com/eudev-project/eudev/pull/274]
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
--
----- a/rules/80-net-name-slot.rules
--+++ b/rules/80-net-name-slot.rules
--@@ -10,5 +10,6 @@ ENV{net.ifnames}=="0", GOTO="net_name_sl
-- NAME=="", ENV{ID_NET_NAME_ONBOARD}!="", NAME="$env{ID_NET_NAME_ONBOARD}"
-- NAME=="", ENV{ID_NET_NAME_SLOT}!="", NAME="$env{ID_NET_NAME_SLOT}"
-- NAME=="", ENV{ID_NET_NAME_PATH}!="", NAME="$env{ID_NET_NAME_PATH}"
--+NAME=="", ENV{ID_NET_NAME_MAC}!="", NAME="$env{ID_NET_NAME_MAC}"
-- 
-- LABEL="net_name_slot_end"
-diff --git a/meta/recipes-core/udev/eudev_3.2.14.bb b/meta/recipes-core/udev/eudev_3.2.15.bb
-similarity index 93%
-rename from meta/recipes-core/udev/eudev_3.2.14.bb
-rename to meta/recipes-core/udev/eudev_3.2.15.bb
-index 3e4972694ac0..2ff2370bcb5e 100644
---- a/meta/recipes-core/udev/eudev_3.2.14.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.15.bb
-@@ -10,13 +10,11 @@ DEPENDS = "gperf-native"
- PROVIDES = "udev"
+diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.33.bb b/meta/recipes-devtools/python/python3-pyelftools_0.33.bb
+index 8a696407db..724d5afd4b 100644
+--- a/meta/recipes-devtools/python/python3-pyelftools_0.33.bb
++++ b/meta/recipes-devtools/python/python3-pyelftools_0.33.bb
+@@ -10,4 +10,10 @@ inherit pypi python_setuptools_build_meta
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
--           file://netifnames.patch \
-            file://init \
-            file://local.rules \
--           file://0001-random-util.c-sync-dev_urandom-implementation-to-sys.patch \
-            "
+ BBCLASSEXTEND = "native"
  
--SRC_URI[sha256sum] = "8da4319102f24abbf7fff5ce9c416af848df163b29590e666d334cc1927f006f"
-+SRC_URI[sha256sum] = "eb69809fc0d1187f2463ab2149c53aa9f42a78e59f14ebea68eae6cb6b4fc1c3"
- 
- GITHUB_BASE_URI = "https://github.com/eudev-project/eudev/releases"
- 
-
+-RDEPENDS:${PN} += "python3-debugger python3-pprint python3-logging"
++RDEPENDS:${PN} += " \
++    python3-debugger \
++    python3-pprint \
++    python3-logging \
++    python3-asyncio \
++    python3-json \
++"
 -- 
 2.43.0
 
