@@ -1,191 +1,238 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C8ECC6B34
-	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 07:05:41 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34025.1792047938916852423
- for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 00:05:39 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=oizCjmq3;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a061a13884so40966425e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 00:05:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792047937; x=1792652737; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=80AyDY2ffXAdS9Bqw5U1jb/o2DOHgUUHmJBjyjY5kWI=;
-        b=oizCjmq30kv7GvY0eOY/4ZytE/LPTGWBBhLBKgO3ZU7mR7vRnGumKAqoIh6AYqDxua
-         e3Ju0FAuB2FhQO3yzm5CzahlbMgP0HPksLH629jDpRl2mlkoE4t4oMFPJBhJRpcV49P2
-         dJYUNKUCnu0cxW4M0I1J2K2/jdHApg/3bx3Nk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792047937; x=1792652737;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=80AyDY2ffXAdS9Bqw5U1jb/o2DOHgUUHmJBjyjY5kWI=;
-        b=HD7LivRTkrwR8tDvosTiclUy9aG8xBJClfw2D6CUoGNwZrrgOtallzdfO/JKVGQOWu
-         D6xinUtjVUTHRO6MaYLAmjr0TRGDuOhdFXkAMRWeroWonicAq3qTErI+qp1iLHXvQwi0
-         yCzJhPBzow5ZejE4Xnoxg3iuf9ISPJYO3MEyWEEq1M2kFKySUMfM7yltC55t0K1lKTbC
-         X3xQOcvfJNbb0kZ4ZHgQ1qDIoHO+Aocw58Y9Ex+53NiUG3ubXmZWJg4GuHo5TI2oMbId
-         sCZDqVdTbH5ocTOUcSNUIm1sbbSB1JFGQC/XereiQnX9gJVL9vovmGvu7Tqc+LimKMov
-         CE+w==
-X-Gm-Message-State: AFq9FYLvps9wuTPwkSd20SqcbqzpUZW7TAkRcnTPMiS7p1RVsS6u7wjq
-	/+vsyofigHLSFLFPM7m/qJlAAjDGkWu2k59kOT00hBzgqcDwRCm7dEfNnEdWb4+MoDo=
-X-Gm-Gg: AYBFou1c2xA9dBN4C10kHN27cVWl7jht6jVk5vMnDYO6leMp/eH4uHra4tdebftbCOS
-	VCkVE/rQP5qOCEzyfGw3nxbJNCWqEPbhumMKuovQMeJkkmsU9wp4AkAU6o99Y3oey3n0eoWHCqv
-	8xZOC+oEt40Lp/LR4CtVuEQGS7XAT0jTFBKZOM3t92lFzOhGXvX8iAhCDqDe9XCSgKX/0gKuFY5
-	beHXZhnRxbw6xaQm2S5keo75GvPE+MxnuUoYC4mQLPMQmb2FEAdSRgUumAW3qJEX5OBQlt1ZFV1
-	pN22UPCPLXDoQI+t/CSJnO4bvqayD/xegbedaXpHb11aasEm4ozyqQ7N/YuQZ9YEOuj0p/2zhdA
-	qd9r3xhVvzyF8sWd4BMiU6e0XYEOTCq9NKgElOJUdjHb1DRvn24tgB4+m64Ctzhuv90qIxaIe6g
-	m7YGNfqBIcI9WwoSgPXOyA5vueL6ct8Byblsy09aCBbiiqC6MTCMf1DhD5wL9R/Z/lnzYJr4J47
-	D3SgvQykwLbuIKs+J8rObkOkCCo/PvlfQPzfpN2Hd+FLtvnHpObLE7986JHNeMu73ue9Dhi
-X-Received: by 2002:a05:600c:630f:b0:4a1:9f59:ee7 with SMTP id 5b1f17b1804b1-4a19f5911f4mr232679125e9.0.1792047937096;
-        Thu, 15 Oct 2026 00:05:37 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd99faf3sm48552455e9.14.2026.10.15.00.05.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Oct 2026 00:05:36 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 15 Oct 2026 09:05:35 +0200
-Message-Id: <DM57Z4HX0NXW.27RXSRT7ZD21K@smile.fr>
-Subject: Re: [OE-core][scarthgap] linux-yocto/6.6: update to v6.6.157
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-X-Mailer: aerc 0.20.0
-References: <20260917051600.1472502-1-bruce.ashfield@gmail.com>
- <DLLOWJJZP939.377A2ZRET8LZ1@smile.fr> <DM4MU1O808QU.3D1G1PPSLRL5V@smile.fr>
- <CADkTA4PdELZG3bQYeDXvMRc2qDw+6b5yNot2Fvjjq4gY3s_Wxg@mail.gmail.com>
-In-Reply-To: <CADkTA4PdELZG3bQYeDXvMRc2qDw+6b5yNot2Fvjjq4gY3s_Wxg@mail.gmail.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD0FCC6B2F
+	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 07:54:21 +0000 (UTC)
+Subject: Re: [scarthgap][Patch 02/11] u-boot-tools: Ignore CVE-2024-42040
+To: openembedded-core@lists.openembedded.org
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.83)
+X-Originating-Platform: Windows Edge 154
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Thu, 15 Oct 2026 00:54:20 -0700
+References: <cover.1787731424.git.hthakar@cisco.com> <240b02378283bcfe760e1902a29fad5361fda380.1787731424.git.hthakar@cisco.com> <DLCHXHGCOH27.3OW22UEZ4WRRG@smile.fr> <DLCI03E7XIUV.244KWPU4PD674@smile.fr> <967518.1790247412147100715@lists.openembedded.org>
+In-Reply-To: <967518.1790247412147100715@lists.openembedded.org>
+Message-ID: <2269369.1792050860134896226@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="iDmnAovzKaYxzHbE3rpt"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 07:05:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247867
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 07:54:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247868
 
-On Wed Oct 14, 2026 at 6:55 PM CEST, Bruce Ashfield wrote:
-> On Wed, Oct 14, 2026 at 10:31=E2=80=AFAM Yoann Congal <yoann.congal@smile=
-.fr> wrote:
->
->> On Tue Sep 22, 2026 at 10:08 AM CEST, Yoann Congal wrote:
->> > On Thu Sep 17, 2026 at 7:16 AM CEST, Bruce Ashfield via
->> lists.openembedded.org wrote:
->> >> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->> >>
->> >> Updating linux-yocto/6.6 to the latest korg -stable release that
->> comprises
->> >> the following commits:
->> >>
->> >>     79643295eba17 Linux 6.6.157
->> >>     32e598324edc3 nvmet-rdma: fix queue leak when connect backlog is
->> exceeded
->> >>     [...]
->> >>     73b7a11814838 Revert "arm64: mm: Don't remap pgtables for allocat=
-e
->> vs populate"
->> >>
->> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> >> ---
->> >>  .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
->> >>  .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
->> >>  meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++--------=
---
->> >>  3 files changed, 20 insertions(+), 20 deletions(-)
->> >
->> > Hello Bruce,
->> >
->> > I think either this 6.6.157 upgrade or the 6.6.156 one triggers a
->> > lttng ptest failure:
->> > https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/46=
-04
->> > qemux86-64-ptest debian11-vk-3 scarthgap completed at 2026-09-21
->> 11:38:31+00:00
->> > https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/45=
-77
->> > qemuarm64-ptest ubuntu2404-vk-arm2 scarthgap completed at 2026-09-21
->> 14:57:16+00:00
->> >
->> >
->> https://valkyrie.yocto.io/pub/non-release/20260921-71/testresults/qemux8=
-6-64-ptest/core-image-ptest-lttng-tools/log.do_testimage.311077.20260921110=
-838
->> :
->> > (only one of each message):
->> > |FAIL: kernel/test_userspace_probe 91 - Load command with opts:
->> --input-path=3D/tmp/tmp.test_userspace_probe_save_load_elf_trace_path.zS=
-A9mh
->> > |FAIL: tools/base-path/test_ust 35 - Load command with opts: -i
->> ./tools/base-path//load-stream-extra-path.lttng
->> > |FAIL: tools/save-load/test_load 2 - Load command with opts: -i
->> ./tools/save-load//load-42.lttng
->> > |FAIL: tools/rotation/test_ust 101 - App is un-registered
->> > |FAIL: tools/save-load/test_autoload 2 - Lttng-tool list command with
->> option load-42
->> > |FAIL: tools/rotation/test_save_load_mi 17 - Lttng-tool list command
->> with option yTVkM2lxbFoDS7Nu
->> > |FAIL: tools/rotation/test_save_load_mi 8 - Valid lttng enable-rotatio=
-n
->> size XML
->> > |FAIL: tools/rotation/test_save_load_mi 5 - Valid lttng enable-rotatio=
-n
->> timer XML
->> > |FAIL: tools/relayd-grouping/test_ust 120 - Valid lttng list XML
->> > |FAIL: tools/rotation/test_save_load_mi 18 - Valid lttng list XML afte=
-r
->> load
->> > |FAIL: tools/base-path/test_ust 37 - Stop lttng tracing for session
->> load-stream-extra-path
->> > |FAIL: tools/trigger/test_add_trigger_cli 293 - add-trigger mi is vali=
-d
->> > |FAIL: tools/trigger/test_remove_trigger_cli 20 - remove-trigger mi is
->> valid
->> > |FAIL: tools/base-path/test_ust 39 - UST per-uid network trace path is
->> valid
->> > |FAIL: tools/save-load/test_autoload 1 - Start session daemon
->> > |FAIL: tools/save-load/test_autoload 3 - No session daemon to kill
->> > |FAIL: tools/save-load/test_load 3 - Destroy session load-42
->> > |FAIL: tools/base-path/test_ust 38 - Destroy session
->> load-stream-extra-path
->> > |FAIL: tools/rotation/test_save_load_mi 21 - Destroy session
->> yTVkM2lxbFoDS7Nu
->> > |FAIL: tools/mi/test_mi 3 - MI test: Version xsd validation
->> > |FAIL: tools/rotation/test_save_load_mi 20 - Found the right rotation
->> size value in list XML after load
->> > |FAIL: tools/base-path/test_ust 40 - Validate trace for event tp:tptes=
+--iDmnAovzKaYxzHbE3rpt
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Sep 24, 2026 at 04:26 PM, Hetvi Thakar -X (hthakar - E INFOCHIPS PR=
+IVATE LIMITED at Cisco) wrote:
+
+>=20
+> On Fri, Sep 11, 2026 at 06:19 PM, Yoann Congal wrote:
+>=20
+>> On Fri Sep 11, 2026 at 2:46 PM CEST, Yoann Congal wrote:
+>>=20
+>>> On Wed Aug 26, 2026 at 10:12 AM CEST, Hetvi Thakar -X (hthakar - E
+>>> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+>>>=20
+>>>> From: Hetvi Thakar <hthakar@cisco.com>
+>>>>=20
+>>>> Analysis:
+>>>> - CVE-2024-42040 affects the U-Boot DHCP client in net/bootp.c [1].
+>>>> - u-boot-tools uses tools-only_defconfig, where CONFIG_NET is disabled
+>>>> [2].
+>>>> - Hence ignore this CVE for u-boot-tools; the exclusion is
+>>>> configuration-based.
+>>>>=20
+>>>> Reference:
+>>>> [1] https://nvd.nist.gov/vuln/detail/CVE-2024-42040
+>>>> [2] https://github.com/u-boot/u-boot/blob/866ca972d6c3/configs/tools-o=
+nly_defconfig
+>>>>=20
+>>>>=20
+>>>> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+>>>> ---
+>>>> meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb | 2 ++
+>>>> 1 file changed, 2 insertions(+)
+>>>>=20
+>>>> diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb
+>>>> b/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb
+>>>> index 4b6d89ed4e..b5711e1f97 100644
+>>>> --- a/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb
+>>>> +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb
+>>>> @@ -2,3 +2,5 @@ require u-boot-common.inc
+>>>> require u-boot-tools.inc
+>>>>=20
+>>>> SRC_URI +=3D "file://CVE-2026-46728.patch"
+>>>> +
+>>>> +CVE_STATUS[CVE-2024-42040] =3D "not-applicable-config: DHCP client co=
+de in
+>>>> net/bootp.c is not built by tools-only_defconfig, which disables
+>>>> CONFIG_NET."
+>>>=20
+>>> Hello,
+>>>=20
+>>> I don't think we need this because, even if the code is not compiled, i=
 t
->> > |FAIL: tools/base-path/test_ust 36 - Start tracing for session
->> load-stream-extra-path
->> > |FAIL: kernel/test_userspace_probe 92 - Validate userspace probe listi=
-ng
->> >
->> > Any ideas?
->> >
->> > Thanks!
->>
->> Hello Bruce,
->>
->> Gentle ping on the above upgrade failure.
->>
->> Do you have time to look at this? If you don't, we'll have organize to
->> find other resources, we can't not update the kernel.
->>
+>>> has been fixed earlier in scarthgap:
+>>> See 5c086db3f44 (u-boot: fix CVE-2024-42040, 2025-10-29)
+>>> Same reasonning apply to other patches in this series. Can you check if
+>>> we really need those?
+>>>=20
+>>> Thanks!
+>>=20
+>> In the meantime, I took 1/11 in my branch and held the rest (2-11/11).
+>> Be aware of this if you send a new series.
+>=20
+>=20
+> Hi Yoann,
+>=20
+> Thanks for pointing this out.
+>=20
+> The referenced fix was initially added in u-boot-common.inc, where
+> it applied to both u-boot and u-boot-tools. It was later moved to
+> u-boot.inc [1], so it now applies only to the u-boot recipe and
+> not to u-boot-tools.
+>=20
+> u-boot-tools does not inherit u-boot.inc; it uses
+> u-boot-common.inc and u-boot-tools.inc. Therefore, the existing
+> CVE status is no longer applied to u-boot-tools.
+>=20
+> The CVE is still reported against u-boot-tools because its
+> CVE_PRODUCT [2] maps to the U-Boot product. However, u-boot-tools
+> uses tools-only_defconfig, where CONFIG_NET is disabled, so the
+> vulnerable DHCP client code in net/bootp.c is not compiled.
+>=20
+> Therefore, the proposed change only adds a recipe-specific CVE status
+> for u-boot-tools; it does not duplicate the source fix.
+>=20
+> I also noticed Peter's proposed change [3], which moves these CVE
+> patches from u-boot.inc to u-boot-common.inc. Since
+> u-boot-common.inc is inherited by both u-boot and u-boot-tools,
+> this would cause all of those patches to be applied to u-boot-tools
+> as well.
+>=20
+> I don't think this move is necessary, since not all of the affected
+> code is built by u-boot-tools. The actual source fixes should remain
+> with u-boot, where they are required. For u-boot-tools, the CVEs
+> whose vulnerable code is not compiled can instead be handled with the
+> appropriate CVE_STATUS entries.
+>=20
+> References:
+> [1]
+> https://git.openembedded.org/openembedded-core/commit/?h=3Dscarthgap&id=
+=3Df4ced8ff03147dd532a88cf3ce08d61fab057522
+>=20
+> [2]
+> https://git.openembedded.org/openembedded-core/commit/?h=3Dscarthgap&id=
+=3D9170fe393c379b9161a8843506420269f5b53e40
+>=20
+> [3]
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20260923173850.2=
+1338-1-peter.marko@siemens.com/
+>=20
+>=20
+> Regards,
+> Hetvi
+>=20
+>> Thanks!
+>> --
+>> Yoann Congal
+>> Smile ECS
+>=20
+>=20
+>=20
+
+Hi Yoann,
+Any update on this?
+
+Regards,
+Hetvi
+
+>=20
+>=20
 >
-> I'll have time next week, but I can't run the test images locally, so I'l=
-l
-> need to come up with my
-> own tests :)
 
-Awesome, thanks Bruce!
---=20
-Yoann Congal
-Smile ECS
+--iDmnAovzKaYxzHbE3rpt
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div>On Thu, Sep 24, 2026 at 04:26 PM, Hetvi Thakar -X (hthakar - E INFOCHI=
+PS PRIVATE LIMITED at Cisco) wrote:</div>
+<div>
+<blockquote>
+<div>On Fri, Sep 11, 2026 at 06:19 PM, Yoann Congal wrote:</div>
+<div>
+<blockquote>On Fri Sep 11, 2026 at 2:46 PM CEST, Yoann Congal wrote:<br />
+<blockquote>On Wed Aug 26, 2026 at 10:12 AM CEST, Hetvi Thakar -X (hthakar =
+- E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:<b=
+r />
+<blockquote>From: Hetvi Thakar &lt;hthakar@cisco.com&gt;<br /><br />Analysi=
+s:<br />- CVE-2024-42040 affects the U-Boot DHCP client in net/bootp.c [1].=
+<br />- u-boot-tools uses tools-only_defconfig, where CONFIG_NET is disable=
+d<br />[2].<br />- Hence ignore this CVE for u-boot-tools; the exclusion is=
+<br />configuration-based.<br /><br />Reference:<br />[1] <a href=3D"https:=
+//nvd.nist.gov/vuln/detail/CVE-2024-42040" target=3D"_blank" rel=3D"noopene=
+r">https://nvd.nist.gov/vuln/detail/CVE-2024-42040</a><br />[2] <a href=3D"=
+https://github.com/u-boot/u-boot/blob/866ca972d6c3/configs/tools-only_defco=
+nfig" target=3D"_blank" rel=3D"noopener">https://github.com/u-boot/u-boot/b=
+lob/866ca972d6c3/configs/tools-only_defconfig</a><br /><br />Signed-off-by:=
+ Hetvi Thakar &lt;hthakar@cisco.com&gt;<br />---<br />meta/recipes-bsp/u-bo=
+ot/u-boot-tools_2024.01.bb | 2 ++<br />1 file changed, 2 insertions(+)<br /=
+><br />diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb b/meta/=
+recipes-bsp/u-boot/u-boot-tools_2024.01.bb<br />index 4b6d89ed4e..b5711e1f9=
+7 100644<br />--- a/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb<br />++=
++ b/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb<br />@@ -2,3 +2,5 @@ re=
+quire u-boot-common.inc<br />require u-boot-tools.inc<br /><br />SRC_URI +=
+=3D "file://CVE-2026-46728.patch"<br />+<br />+CVE_STATUS[CVE-2024-42040] =
+=3D "not-applicable-config: DHCP client code in net/bootp.c is not built by=
+ tools-only_defconfig, which disables CONFIG_NET."</blockquote>
+Hello,<br /><br />I don't think we need this because, even if the code is n=
+ot compiled, it<br />has been fixed earlier in scarthgap:<br />See 5c086db3=
+f44 (u-boot: fix CVE-2024-42040, 2025-10-29)<br />Same reasonning apply to =
+other patches in this series. Can you check if<br />we really need those?<b=
+r /><br />Thanks!</blockquote>
+In the meantime, I took 1/11 in my branch and held the rest (2-11/11).<br /=
+>Be aware of this if you send a new series.</blockquote>
+<br />Hi Yoann,<br /><br />Thanks for pointing this out.<br /><br />The ref=
+erenced fix was initially added in u-boot-common.inc, where<br />it applied=
+ to both u-boot and u-boot-tools. It was later moved to<br />u-boot.inc [1]=
+, so it now applies only to the u-boot recipe and<br />not to u-boot-tools.=
+<br /><br />u-boot-tools does not inherit u-boot.inc; it uses<br />u-boot-c=
+ommon.inc and u-boot-tools.inc. Therefore, the existing<br />CVE status is =
+no longer applied to u-boot-tools.<br /><br />The CVE is still reported aga=
+inst u-boot-tools because its<br />CVE_PRODUCT [2] maps to the U-Boot produ=
+ct. However, u-boot-tools<br />uses tools-only_defconfig, where CONFIG_NET =
+is disabled, so the<br />vulnerable DHCP client code in net/bootp.c is not =
+compiled.<br /><br />Therefore, the proposed change only adds a recipe-spec=
+ific CVE status<br />for u-boot-tools; it does not duplicate the source fix=
+.<br /><br />I also noticed Peter's proposed change [3], which moves these =
+CVE<br />patches from u-boot.inc to u-boot-common.inc. Since<br />u-boot-co=
+mmon.inc is inherited by both u-boot and u-boot-tools,<br />this would caus=
+e all of those patches to be applied to u-boot-tools<br />as well.<br /><br=
+ />I don't think this move is necessary, since not all of the affected<br /=
+>code is built by u-boot-tools. The actual source fixes should remain<br />=
+with u-boot, where they are required. For u-boot-tools, the CVEs<br />whose=
+ vulnerable code is not compiled can instead be handled with the<br />appro=
+priate CVE_STATUS entries.<br /><br />References:<br />[1] https://git.open=
+embedded.org/openembedded-core/commit/?h=3Dscarthgap&amp;id=3Df4ced8ff03147=
+dd532a88cf3ce08d61fab057522<br />[2] https://git.openembedded.org/openembed=
+ded-core/commit/?h=3Dscarthgap&amp;id=3D9170fe393c379b9161a8843506420269f5b=
+53e40<br />[3] https://patchwork.yoctoproject.org/project/oe-core/patch/202=
+60923173850.21338-1-peter.marko@siemens.com/<br /><br />Regards,<br />Hetvi=
+<br />
+<blockquote style=3D"padding-left: 40px;">Thanks!<br />-- <br />Yoann Conga=
+l<br />Smile ECS</blockquote>
+</div>
+</blockquote>
+<br />Hi Yoann,<br />Any update on this?<br /><br />Regards,<br />Hetvi<br =
+/>
+<blockquote>
+<div>&nbsp;</div>
+</blockquote>
+</div>
+
+--iDmnAovzKaYxzHbE3rpt--
 
