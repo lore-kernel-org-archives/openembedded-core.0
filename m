@@ -2,251 +2,160 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2770ECC6B3E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA81CC6B3D
 	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 05:03:51 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32815.1792040620339474105
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32434.1792040626879075343
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Oct 2026 22:03:40 -0700
+ Wed, 14 Oct 2026 22:03:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=S34qqyXR;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b0584ad71so2872227f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 22:03:40 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=TT8U754z;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49d05d51553so10416665e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Oct 2026 22:03:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792040618; x=1792645418; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qhUg5JeXtSlF0vS+Fv0VzyR6D3TT1mk/tBVDuxp7Cso=;
-        b=S34qqyXRuHquUyKChN0Dj8IGD4L4FsbNICreeNYsoRf1+cSIYavN8v4+hMi5PeBBtl
-         LLWgJGfU5PQDKaNq4niMWHLFdQ0dh7CBd3nK/cmH0SKPALAEDblIDOF9Z+/33eoDEs0V
-         HdrOCCKqSewjdbjM6uAz6MlEyHbCHiob/K6So=
+        d=smile.fr; s=google; t=1792040625; x=1792645425; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=k91KfJ0wbhI03nb6UeIKe9ucn/GRfTFZ+SNVA40zVQ4=;
+        b=TT8U754zyI19PsmAvOGbByj7I/53G/wHQ2xgSq0jb2ZqeN0H5BM8Dfp5OsJKjd2WFj
+         NwScmUOdm+d/kXHNuy/UT5n0G1mNAY6t6DsiyEHZ1OF5BdTrUqHuMjlam9bI0zuHDOra
+         2mxGv4oRC8FS5bTyccf9DYFnc9D820FNBfHP8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792040618; x=1792645418;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qhUg5JeXtSlF0vS+Fv0VzyR6D3TT1mk/tBVDuxp7Cso=;
-        b=wAZE0X1SKjawEyDCejDUWk3ZcI7N+5EMQXjIVSXH41nMZuEDFc2+doHXyjrOnCNn9R
-         mpui6OyRpl6aYUwtysEbE9Jno3BQCVvU8jFD4vXxeY9mx2vVWaGGw6SZEMNK3ul1OHFD
-         6BJZHhqUPwlDWN3J2reYIFeYB3AUBHYKyFGnGofbqEiXoC8zakVKwN9UmvVQHskkUps1
-         uaFkoQYmIPyDs4VMGSYS0kCTo1Oo0biP91/LCR2TMeP699na76IxBpYuGWTaa37Xwajk
-         BvWW+ePq2mGKcR9dB4e2Fg/sn0mc4o9jsw8vVFMwBEtG5XnIgeNyloTj3Z8ke9swZxwP
-         EbEA==
-X-Gm-Message-State: AFq9FYISIlLjSLAfgja3lM2WlOvNiG5WMvrb2L7fRdWfmZf1rvMCYqr1
-	seNoUvk3aTV3YYe2/BtwU1qsam5ZsoqQ+c84TzhT1bG9UwB8+93d3gWD98fF91eWZoM6jSPGN1X
-	61/Zbg3A=
-X-Gm-Gg: AYBFou3VjRUtZrBCnxkt40cYFX6pqYRXtP5DqbYr/4O/dk3CaL0yO/4A2U5U9/SsBya
-	FZC1+okJw6cy/TbO7h3jbKbchNXH4xMZO59KJ+Ui8hmh23RDWdmk4Hg6PdMFIau0O1An3PHfu0q
-	zoK3S0bVcmgmI9VS5PgFPBFQaxwgznEr0jW4H/FLjaskW7GgoMSalFzsCxFIRzvmxgPvPqkVSuJ
-	7vEhSrmNRYKF5sbMDN25Tm+aAoejNpanATuRVD2s5w1JjOjjsY+dkKyPLRPXJachGue58H8t7J/
-	b18g39cJ8bq7wXPxlTHrTn6l0hPIAHgm00ULUQLqNqr7tbYzLuIpSrd+3Dt+mEciw7HW9H6vEdV
-	hXvtoxavDhny1gnxYwcnerIsylvvMBMvmTVEBFuPSpQbS2GVV083H2Srk/l+WgxcniNctfqKlN0
-	TlfVKnSzvJEDUVRKsH6LFr222adPNibdFsauByh4iafWJmYL8ujQxQ+nkGocpcaD0msfcxWak6X
-	hYtKpSUpadBtFyiR86CqZ0RKX7ahLxnOxoX1Jj6UM9V3gOfLsQrGX+ud3sNdPfLv0ufdBJ71mFR
-	6AGv5pGp
-X-Received: by 2002:a05:600c:a088:b0:4a0:2644:80db with SMTP id 5b1f17b1804b1-4a18e4d55a2mr346683785e9.35.1792040618530;
-        Wed, 14 Oct 2026 22:03:38 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792040625; x=1792645425;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=k91KfJ0wbhI03nb6UeIKe9ucn/GRfTFZ+SNVA40zVQ4=;
+        b=sgPSucCp/Y79Uo39IKO9N1OuuieCjU71LPhoyJj+6XslD7n/sWFYD3xh+dtKMoJCDf
+         MweiyK1uTbJxVsG5MeTFwAP0h6IAQxMfQSER6tFoD0ZAEroL8myqHMK20HVKT/h5V9N4
+         ZHhiU3sBVBL96G+WOyhokriLokSzUbcsgb/RvVd+mG6OS+xX/OCWneq4VNGtW7B1F/cN
+         0DnytwJAVkiKGRnNEVSOmpNfHQXW8D6FbJd9lTnRywfhuVygD210I6BpS9dqHq0iVEIh
+         23A4DUjlWrCAvv5U6jNtwb6rgI99ELOYooXTkXrU2J67pqizQx7gpRCLyf7L4Xltc5y1
+         9gfQ==
+X-Gm-Message-State: AFq9FYLTZno/BMruInmoaPKMcMKSXlG6X5ZmE7xbmt2dTwxulbE8FRND
+	X1O9oocFurDRfnXhVwx9LmIfagwgIhKT3G0jnxU1KY1BtDQIslZ8Ms3abQjuSCSWNK/D8X9zeJx
+	nPrDpZ9Y=
+X-Gm-Gg: AYBFou1F+ERAPOYaJ0DLGQapeKlXtoK7ohJ65bCeDjZA3S+sdZKZO1Df/UmniQucqAd
+	tiX2NkMvszFmeGNfzs36VL9gb0WwE9qCtPT7vjTwhA6pAAHcdo2nsgFj5Q7y2eUH2G2BWZoFNWx
+	ac20LqruAxqDr6wM9u91MDyL6UGUfwHirbcjZlp6HC6SzIAiptTJAKwxb7qeFRdc/8M2lgRLINJ
+	Q8+OeIF78hsucyWf7v6cbtRF8URidSVX4Pt4RJqnRcxJe/9OpwPp2OGwoXRo8eAhmESNzzH6M/i
+	g3x9pS0njek/1jUP+qtcHKKXE+bzYj7yTU7i6GvMGQuQailViIzPoteFgI9+cOvilXyCqco6G2A
+	F3WF84K+GVds+mRu5iQIqV9xfgKKji277J4u88aVIllVAOx1PrktMLB5AeBhz2HlWmJXK/PtPJy
+	EOr0p3BfcUCh5eenoovSSQJm+8AAvtVaSfdy0ZHHpCRxKCxeXHhNU+LkLA1RtMtHGgmbDerK16G
+	Ds6am9AooRgt1eXGECJM/6BY4srpARVJfWCJPkExD/sBWyZpl7zhfSzcHubNr0u+p6dqxsgMQ==
+X-Received: by 2002:a05:600c:8509:b0:4a1:7d9b:d4ae with SMTP id 5b1f17b1804b1-4a18e47a8cdmr335992075e9.5.1792040624961;
+        Wed, 14 Oct 2026 22:03:44 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm46376245e9.1.2026.10.14.22.03.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd972aebsm46376245e9.1.2026.10.14.22.03.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 22:03:38 -0700 (PDT)
+        Wed, 14 Oct 2026 22:03:44 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/55] gnutls: fix CVE-2026-42013
-Date: Thu, 15 Oct 2026 07:02:26 +0200
-Message-ID: <aa901f65306145be382b2ac96a3383ed7a236ff0.1792020605.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 10/55] libpng: patch CVE-2026-33416 regression
+Date: Thu, 15 Oct 2026 07:02:33 +0200
+Message-ID: <333878e97547b6aeaa69691e4827af54ac838045.1792020605.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792020605.git.yoann.congal@smile.fr>
 References: <cover.1792020605.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 05:03:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247801
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247808
 
-From: Jakub Szczudlo (Nokia) <jakub.szczudlo@nokia.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport patch to fix CVE-2026-42013.
+Pick patch per [1].
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-42013
+[1] https://security-tracker.debian.org/tracker/CVE-2026-33416
 
-Upstream fix:
-  https://gitlab.com/gnutls/gnutls/-/commit/29801bef00ecc0f23c0bac4cd333b269cd2c1af4
-
-Tested with ptest
-Pre patch taken from upstream so CVE fix will land cleanly
-
-Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gnutls/gnutls/CVE-2026-42013-pre1.patch   | 56 ++++++++++++++
- .../gnutls/gnutls/CVE-2026-42013.patch        | 74 +++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.4.bb   |  2 +
- 3 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch
+ .../libpng/files/CVE-2026-33416-05.patch      | 58 +++++++++++++++++++
+ .../libpng/libpng_1.6.42.bb                   |  1 +
+ 2 files changed, 59 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-05.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-05.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-05.patch
 new file mode 100644
-index 00000000000..53687cb53b9
+index 00000000000..c42f2213b35
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42013-pre1.patch
-@@ -0,0 +1,56 @@
-+From 3ee2cb707002f755e4bda3f75285caa0cb36c214 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Wed, 15 Apr 2026 15:35:59 +0200
-+Subject: [PATCH] x509/email-verify: call fallback DN fallback
++++ b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-05.patch
+@@ -0,0 +1,58 @@
++From d4c4e49eb5c8981075ec2cd946428758c0cda6ac Mon Sep 17 00:00:00 2001
++From: Cosmin Truta <ctruta@gmail.com>
++Date: Wed, 15 Apr 2026 14:58:35 +0300
++Subject: [PATCH] fix: Sync `info_ptr->palette` unconditionally after in-place
++ transforms
 +
-+A comment was inaccurately referring to DN email field fallback
-+as CN fallback.
-+Rename a few things as well to match x509/hostname-verify more closely.
++The palette sync in `png_read_transform_info` was guarded by
++`if (transformations != 0)`, but the palette-modifying transforms clear
++their own bits before this function gets to run. When one of these was
++the sole transform, the guard was false and the sync was skipped, which
++caused `png_get_PLTE` to return stale palette data.
 +
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+CVE: CVE-2026-42013
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/3ee2cb707002f755e4bda3f75285caa0cb36c214]
++Drop this guard.
 +
-+Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
++This was a regression from commit c1b0318b39 (version 1.6.56).
++
++Reported-by: ralfjunker <ralfjunker@users.noreply.github.com>
++Resolves: https://github.com/pnggroup/libpng/issues/848
++
++CVE: CVE-2026-33416
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/d4c4e49eb5c8981075ec2cd946428758c0cda6ac]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ lib/x509/email-verify.c | 12 +++++-------
-+ 1 file changed, 5 insertions(+), 7 deletions(-)
++ pngrtran.c | 20 ++++++++------------
++ 1 file changed, 8 insertions(+), 12 deletions(-)
 +
-+diff --git a/lib/x509/email-verify.c b/lib/x509/email-verify.c
-+index dbef0bb86e..3c22ffed37 100644
-+--- a/lib/x509/email-verify.c
-++++ b/lib/x509/email-verify.c
-+@@ -42,7 +42,7 @@ unsigned gnutls_x509_crt_check_email(gnutls_x509_crt_t cert, const char *email,
++diff --git a/pngrtran.c b/pngrtran.c
++index 1b04cafa5..0ac8df749 100644
++--- a/pngrtran.c
+++++ b/pngrtran.c
++@@ -1984,19 +1984,15 @@ png_read_transform_info(png_structrp png_ptr, png_inforp info_ptr)
 + {
-+ 	char rfc822name[MAX_CN];
-+ 	size_t rfc822namesize;
-+-	int found_rfc822name = 0;
-++	bool dn_fallback_allowed = true;
-+ 	int ret = 0;
-+ 	int i = 0;
-+ 	char *a_email;
-+@@ -76,7 +76,7 @@ unsigned gnutls_x509_crt_check_email(gnutls_x509_crt_t cert, const char *email,
-+ 			cert, i, rfc822name, &rfc822namesize, NULL);
++    png_debug(1, "in png_read_transform_info");
 + 
-+ 		if (ret == GNUTLS_SAN_RFC822NAME) {
-+-			found_rfc822name = 1;
-++			dn_fallback_allowed = false;
++-   if (png_ptr->transformations != 0)
+++   if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE &&
+++       info_ptr->palette != NULL && png_ptr->palette != NULL)
++    {
++-      if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE &&
++-          info_ptr->palette != NULL && png_ptr->palette != NULL)
++-      {
++-         /* Sync info_ptr->palette with png_ptr->palette.
++-          * The function png_init_read_transformations may have modified
++-          * png_ptr->palette in place (e.g. for gamma correction or for
++-          * background compositing).
++-          */
++-         memcpy(info_ptr->palette, png_ptr->palette,
++-             PNG_MAX_PALETTE_LENGTH * (sizeof (png_color)));
++-      }
+++      /* Sync info_ptr->palette with png_ptr->palette, which may
+++       * have been modified by png_init_read_transformations
+++       * (e.g. for gamma correction or background compositing).
+++       */
+++      memcpy(info_ptr->palette, png_ptr->palette,
+++          PNG_MAX_PALETTE_LENGTH * (sizeof (png_color)));
++    }
 + 
-+ 			if (memchr(rfc822name, '\0', rfc822namesize)) {
-+ 				_gnutls_debug_log(
-+@@ -102,12 +102,10 @@ unsigned gnutls_x509_crt_check_email(gnutls_x509_crt_t cert, const char *email,
-+ 		}
-+ 	}
-+ 
-+-	if (!found_rfc822name) {
-+-		/* did not get the necessary extension, use CN instead
-+-		 */
-++	if (dn_fallback_allowed) {
-++		/* did not get the necessary extension, use DN email instead */
-+ 
-+-		/* enforce the RFC6125 (§1.8) requirement that only
-+-		 * a single CN must be present */
-++		/* only a single one must be present */
-+ 		rfc822namesize = sizeof(rfc822name);
-+ 		ret = gnutls_x509_crt_get_dn_by_oid(cert,
-+ 						    GNUTLS_OID_PKCS9_EMAIL, 1,
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch
-new file mode 100644
-index 00000000000..c63e4d7039d
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42013.patch
-@@ -0,0 +1,74 @@
-+From 29801bef00ecc0f23c0bac4cd333b269cd2c1af4 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Wed, 15 Apr 2026 16:02:19 +0200
-+Subject: [PATCH] x509: prevent fallback on oversized SAN
-+
-+Passing oversized SAN did not preclude CN (or DN email) fallback
-+during verification, which is an RFC 6125 6.4.4 violation.
-+
-+Now oversized SAN are skipped over,
-+but prevent the fallback from happening.
-+
-+Reported-by: Haruto Kimura (Stella)
-+Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
-+Fixes: #1825
-+Fixes: #1849
-+Fixes: CVE-2026-42013
-+Fixes: GNUTLS-SA-2026-04-27-8
-+CVSS: 6.5 Moderate CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:H/A:N
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+CVE: CVE-2026-42013
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/29801bef00ecc0f23c0bac4cd333b269cd2c1af4]
-+
-+Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
-+---
-+ lib/x509/email-verify.c    | 14 ++++++++++++++
-+ lib/x509/hostname-verify.c | 14 ++++++++++++++
-+ 2 files changed, 28 insertions(+)
-+
-+--- a/lib/x509/email-verify.c
-++++ b/lib/x509/email-verify.c
-+@@ -75,6 +75,20 @@ unsigned gnutls_x509_crt_check_email(gnu
-+ 		ret = gnutls_x509_crt_get_subject_alt_name(
-+ 			cert, i, rfc822name, &rfc822namesize, NULL);
-+ 
-++		if (ret < 0) {
-++			if (ret == GNUTLS_E_SHORT_MEMORY_BUFFER) {
-++				/* oversized SAN; proceed without DN fallback */
-++				_gnutls_debug_log("oversized SAN ignored, "
-++						  "disabling DN fallback\n");
-++				dn_fallback_allowed = false;
-++				ret = 0;
-++				continue;
-++			}
-++			if (ret != GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE)
-++				gnutls_assert();
-++			break;
-++		}
-++
-+ 		if (ret == GNUTLS_SAN_RFC822NAME) {
-+ 			dn_fallback_allowed = false;
-+ 
-+--- a/lib/x509/hostname-verify.c
-++++ b/lib/x509/hostname-verify.c
-+@@ -213,6 +213,20 @@ hostname_fallback:
-+ 		ret = gnutls_x509_crt_get_subject_alt_name(cert, i, dnsname,
-+ 							   &dnsnamesize, NULL);
-+ 
-++		if (ret < 0) {
-++			if (ret == GNUTLS_E_SHORT_MEMORY_BUFFER) {
-++				/* oversized SAN; proceed without CN fallback */
-++				_gnutls_debug_log("oversized SAN ignored, "
-++						  "disabling CN fallback\n");
-++				cn_fallback_allowed = false;
-++				ret = 0;
-++				continue;
-++			}
-++			if (ret != GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE)
-++				gnutls_assert();
-++			break;
-++		}
-++
-+ 		if (PRECLUDES_CN_FALLBACK(ret))
-+ 			cn_fallback_allowed = false;
-+ 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-index 646cc350d9d..f85feb7dd2e 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-@@ -56,6 +56,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2026-42012-pre2.patch \
-            file://CVE-2026-42012-pre3.patch \
-            file://CVE-2026-42012.patch \
-+           file://CVE-2026-42013-pre1.patch \
-+           file://CVE-2026-42013.patch \
-            "
++ #ifdef PNG_READ_EXPAND_SUPPORTED
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+index b226e327b64..f375aa5f4e9 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
+@@ -31,6 +31,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz
+            file://CVE-2026-33416-04.patch \
+            file://CVE-2026-34757_p1.patch \
+            file://CVE-2026-34757_p2.patch \
++           file://CVE-2026-33416-05.patch \
+ "
  
- SRC_URI[sha256sum] = "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"
+ SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
 
