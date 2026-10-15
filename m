@@ -1,201 +1,189 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <francesco@valla.it>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB0DCCA464
-	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 20:10:46 +0000 (UTC)
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6648.1792095038716263456
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BEDCC6B38
+	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 20:58:59 +0000 (UTC)
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.10])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7819.1792097932440928956
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 13:10:39 -0700
+ Thu, 15 Oct 2026 13:58:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=lhBwoVrM;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=yTKMDkxv;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.148, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 3A0F31D00116
-	for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 16:10:38 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 15 Oct 2026 16:10:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1792095037;
-	 x=1792181437; bh=JmXROVOiiJpKR9PMELf3baSaX9ukbnfN9B8dEIK0VtQ=; b=
-	lhBwoVrM4i5QugbjgiWnI7QWZul1c3E1CXJ1liCPClUJvwa/h10yVf98iGLoUnIX
-	/KmTWInZjS+lmgRDalaWdjTF29AVZst813Rgmef2qT9/YJ1HWSRvozu9pOxxonnH
-	oBYhuIJ2gRQieA+El4x2SGKs4IX4sehbVs/zFEaylHWC2K9xmArM3cef6jNaCm0L
-	iKAvwdW5KrIrTZL2CF7oZ6D6yGJqDoLT5QkjDfgY/EcVzn6AfhkIZ1SfjKwq4i2Q
-	xex5qjSNSIqN84abXpqYKOvg+JkgciE/PJkrcHZhHOREPmGXg+VeeiDjtrcZrmSg
-	4JE5m1F/t/tqh5kmmVXNyg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1792095037; x=1792181437; bh=J
-	mXROVOiiJpKR9PMELf3baSaX9ukbnfN9B8dEIK0VtQ=; b=yTKMDkxvB3BbzOLr8
-	OgZhlYIUP8Gqd1/g55y2GBg2Sxb4WLp2Da94wKUv5Rp42iDfoKlWeUb483IJ0p6q
-	sxpJE+6OwphlOIRWKfE88tX9Xg0YTKsWl3S0S9d6THIxGerLJg6ITJk5ZxhKzbDt
-	RiXL0dRE7lL4nCisdmtvQktBfSWJwjfAES0QKKN7T16XBI3dqfdr2pBv5jGsdNQx
-	UQ2JkQRVGtdnroy89tL1gG/ppEauTYvigaN6Ym/Wck+Pdo/1FEHuWgp3VKMg+1BJ
-	VSKuMLKBmo5nHXbZfSTV1Ogkd+tlzppk/sr6rtHpHqV4tpwAhq2P4BhwT6LnbaZd
-	f5gaw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792095037; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm3:rsa-sha256:mt20BOukcml4f4k+cfcWXHd+cHr0eAJ4h75F01Odcl9AylT
-	92OTl9+hWDC5Fo4uEYwdHeRIH+V9CP5XA3RTVSVXBGC3I9GZKw7qx9lZ/yslQxYH
-	4+aZIBoLn5XZmO3boVBwWo8ik7ILYiKBHden7m+5M/3LTe49E6XBmCrtyxgOtS7N
-	wFW7x57kbjq5GPvflCsY/j4KLY6a6TQO3q5QUu2HbpxS9ACiAq1n68mgaLlqCOoc
-	SK/+94V902VsAtcdb60X2xnup4gfqw/NHpz+5eq5j8QSMCn9QLOcxhsIVO+Mk/im
-	atHCPk5KNIsks+4pUzYVTmrjAR1y0CfMSYe95nA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=content-transfer-encoding,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:ndCiJYxxyjGo6jhunv0Jpj1sJ4Z1+YQUItKywl5CLJc=:JmXROVOiiJpKR9PMELf3baSaX9ukbnfN9B8dEIK0VtQ=;
-X-ME-Sender: <xms:PTPRanBD9HUhxkINUG2eJrZrrjqZ_CSOPy6LhG4XamMS818W5oGZTQ>
-    <xme:PTPRajj2atESns6FiRxKGX4xBQq1xsA1z0K1sCtCLNEJeo1d9IynScW3S5TFwCS2q
-    _qSN7cc2Mrn4Pa_IJgYnLRenNJaH52Sk-Ccd3amYoUmX_XMfSlNhGpC>
-X-ME-Received: <xmr:PTPRagMcqgNXtr5xVvAD9E3mdlORJH5KJYW4tJrYtomyXOtB_GtY2XajJ4jxnySSRvlnHPixBrf7siND-4NN8em_tsucib0nUcvk>
-X-ME-Proxy-Cause: dmFkZTF3ztjU5wXpuHV/XeaLzlAZsFCOufkoErA2bsD3K4gaJmeZmbuxyooulcgubkjOcT
-    9PGK6UpbhQW8nHq7JihE9VjkxdJccJAGYV8yRzD2qe1SgW691WctBm5nagyEhkbs/T43S1
-    stnsnhWq6kNonSwh/suAmjY1TtNrivTY5Lzk/xGh0fO9A4fxEL9k1s0yyMHN1Sg2N8X/Gt
-    7W9cqEibU2VAu57SXhZFxhN7p6rBw87uMP2YuHihdbvROO/jq+93dEKxdzEB4k1ETN5t2T
-    8VBcI4ACvM+UfU2aZbPQQyjwA/rjxTzBmnAo/uHQPPkl8WWqyp0PTtkl4zHBakQZxKBoYM
-    wFi7hTCopcuVZmKzveW9c3q6fdfOV1mqsOwJ3vtv+rukiXKKDKHdd0bCFIc5Hvtd6uvFUy
-    fSg1iwksxaCjYzmABRSK0qzIsX7W6K2IIaRCB5o2GhZycfNQFNKwWn/B23LGW0ehZmqMCe
-    WQWFFt9+EReM0OAeMe/Izro/0hWJmLtXTy0TAxwxC6Esw4luFfShqK1TNU0mpUSdzTHRDY
-    L5IKmt6k6g78pCnzC4L/h4Gut/vPv0GN+3ued0g417HTciruydt6yW76VMAomGjZ+5GCts
-    ue4GV1lYsfiESpq+KJyFs/bsi2Jkwx8tM0KmchPJmU4gWSBCej5AjAF5OgMw
-X-ME-Proxy: <xmx:PTPRak7oNvmgrxsjjzl_nOscNLQZFPtQs-omYvHf-bq0iZsRxiJlQA>
-    <xmx:PTPRau16xSYAdLJpuDdtpRrpkaEwYrrjTMS_Y6QPPUg5LaSXPhhjqw>
-    <xmx:PTPRalYwmmSg7XHVwST0JJyt497itWhrTGloM_mGn0EZaPYPW8O4Qg>
-    <xmx:PTPRamCL8FtkHy7YAGSdCDCMm0lJaDU91bqn3Z5-AkQemWEYabZRYg>
-    <xmx:PTPRaoRczfSCdsMGcdbROGmNnlSmOeicz0G97tIW0rf-R2yWgzSgrc4p>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Oct 2026 16:10:37 -0400 (EDT)
-Message-ID: <b27fd2e45f37d9d49e311c457d1684ba03dc3543.camel@pbarker.dev>
-Subject: Re: [wrynose][patch] rsync: Security fixes from v3.4.1-sec-patches3
-From: Paul Barker <paul@pbarker.dev>
-To: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)"
-	 <hthakar@cisco.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 15 Oct 2026 21:10:36 +0100
-In-Reply-To: <1614257.1791448822431275973@lists.openembedded.org>
-References: <20260917105551.76512-1-vanusuri@mvista.com>
-	 <DLHK8G1OWTE8.394FSK4TR0VS5@smile.fr> <DLHLDE6HLTRH.2AFGSZ80URG52@smile.fr>
-	 <9faaa5bbc70d619058d8abecda9cd235d210d422.camel@pbarker.dev>
-	 <CANQUz1_hMwrLp4tuVS4+cEXXaj71-L0Nijw6n+pjzGpAKh=prw@mail.gmail.com>
-	 <546192.1789655591562202413@lists.openembedded.org>
-	 <CANQUz19S86jm7H3aoNKvm3NwEZ_L=QEmt53g4i2j=fgOz=e8jw@mail.gmail.com>
-	 <4ccc62a34b7c0ff418951a62c873daa589e45683.camel@pbarker.dev>
-	 <1614257.1791448822431275973@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=Wf4SGUBV;
+ dkim=pass header.i=@valla.it header.s=default header.b=qXv4Tj0k;
+ spf=pass (domain: valla.it, ip: 185.56.87.10, mailfrom: francesco@valla.it)
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-82tq.prod.antispam.mailspamprotection.com; s=arckey; t=1792097932;
+	 b=Ye2YsS9flVMbJM+iLYGLD5OTpeHxpRXUAruoIAJhjiHgSZKn5nTDUlJxO+qiFXz8Aah/VFWIh/
+	  bwXFv0K+I4h2CP/+o7RW/I+hNvgt0ILXvZpiAVf47iymkx4ZeIbdZMT2NFu+Ot7rM34ysZ2WCg
+	  v4aR6zf4wtGikGpZBOVbNnpGNijWx7sARuu8NfOKJaA9+ykmExSBL4VD5Fvz2fdf5r/8v83OgT
+	  Do/OFiUy6xT3SOnvnMSLUHu8RNckunxsmtiY6PzcdwuXstqXcDFvI8OgeG5ibp00AVVzRn4aFO
+	  8acClwMxGwLvPzUl259tDTszLvZEQvnmRqr5AYJx6wQseg==;
+ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-82tq.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-82tq.prod.antispam.mailspamprotection.com; s=arckey; t=1792097932;
+	bh=6OUfLzW9wfBwQKxAXpi8H2Zq/KzD8jI7uHfoBJrNXNg=;
+	h=Cc:To:Message-ID:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	  Subject:Date:From:DKIM-Signature:DKIM-Signature;
+	b=gR4j8qHGq//SPQOQNCv2tXIFrCgn/aSTg9lPoqWik6W5VlKkYiTYGBY4vg+ZD6aNr6niTjOqWI
+	  IhqUqYPjzuZ0NsMqtFcbI3jCiwHGoHlSm60gT+jvLbo6zmsJMy9kHmB9KVdhmx0ftV8OMyBB/o
+	  9X0EyQMovb3MXAV7EsIh1ZtrMq9i+CMMI1xET6rM1yRvKCCwBzCIlx3CrT0SwPKjwsvwAc8iaP
+	  JdiJUvlXk8dTxzAatVfWzifjYmtG9V38ZyMS6FJO3THcPzA/1PV104fmykVDVUr/jNxXinzJmI
+	  0DsOXKmljHSU4VKlkysE06AO9zUZA/BWruhzFD+M9DqqTQ==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+	:Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
+	:Date:From:Reply-To:List-Unsubscribe;
+	bh=zSMumyfUE0E7MfOmZyFW3uxb6Rj3SWT4AYuU0GdQLmI=; b=Wf4SGUBV0PzT/Jlv+T9CsoeMsV
+	wPhLUyKm7hTVzrqCXKW0r9Fu+RN/ALm2zqSL8a7uXJ7lZ4+eXaOoVXX6dnxynoVI3e+wcHFJZl5T+
+	Gd7i8IrXjBGaQDtTx4CcSwQ2k17A6+4b8NxSqyKNdZNgjsVrgsTT6C82ktvIIuFM7T7I=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
+	by instance-europe-west4-82tq.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <francesco@valla.it>)
+	id 1xHSXK-00000005xms-0HuE
+	for openembedded-core@lists.openembedded.org;
+	Thu, 15 Oct 2026 20:58:50 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+	s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
+	list-subscribe:list-post:list-owner:list-archive;
+	bh=zSMumyfUE0E7MfOmZyFW3uxb6Rj3SWT4AYuU0GdQLmI=; b=qXv4Tj0k7fQI1RYxgZZIVSM7iX
+	6KgeVq6d1XJU+QZ6bMhQnZSgERXSbGoQ4LQea0liHjxOb0TvsEUtHSowBfmIC1uCx8X5dFgrhS5Jy
+	8p/I1EHewrSEQXUV2E++rrll8i36bzp5FK9EFZtfhZTIGNmXNTkgcHaj9fDL1t8C+P8s=;
+Received: from [82.89.62.246] (port=64902 helo=[192.168.178.158])
+	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <francesco@valla.it>)
+	id 1xHSXF-00000000GlX-1A0W;
+	Thu, 15 Oct 2026 20:58:45 +0000
+From: Francesco Valla <francesco@valla.it>
+Date: Thu, 15 Oct 2026 22:58:26 +0200
+Subject: [PATCH] spdx_common: fix source inclusion with externalsrc
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261015-spdx_externalsrc-v1-1-553edd1570f2@valla.it>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrA0kadHaq4gUTUadIqnMqATEu
+ zfq8i3+30GQCQXe2Q6MGwn9QoLJM3BjGwZU5JPBalsYbZ5KZh8/GBfk0E7CTpmXtw9b9rqqNKR
+ sZuwpXsu6uS1r90W3nB84jj+QpfW2dAAAAA==
+X-Change-ID: 20261014-spdx_externalsrc-18d2327f0990
+To: openembedded-core@lists.openembedded.org
+Cc: Francesco Valla <francesco@valla.it>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3156; i=francesco@valla.it;
+ h=from:subject:message-id; bh=6OUfLzW9wfBwQKxAXpi8H2Zq/KzD8jI7uHfoBJrNXNg=;
+ b=owGbwMvMwCX2aH1OUIzHTgbG02pJDFkX7ao32CYZb/5WMF9weSfjXuGd19ra4jxUX3kvdxOMv
+ bhu2uyKjlIWBjEuBlkxRZaQdTfu7Zlr/i1tA+MjmDmsTCBDGLg4BWAivCYMf0UKXon96+qfFnZF
+ e8LC+uwakf3Gz4/+idFS2ZPxJmlLSjMjw6X/Vd451ha3/u9J3MV9TO7dSgdOa7PH7gfU4hoefpV
+ ewQwA
+X-Developer-Key: i=francesco@valla.it; a=openpgp;
+ fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: 6cf7c33048e5862ae2a3d6cfb0745ae5
+X-AntiAbuse: ID - 6cf7c33048e5862ae2a3d6cfb0745ae5
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1xHSXK-00000005xms-0HuE-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-82tq.prod.antispam.mailspamprotection.com;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 20:10:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247895
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 20:58:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247896
 
-On Thu, 2026-10-08 at 01:40 -0700, Hetvi Thakar -X (hthakar - E
-INFOCHIPS PRIVATE LIMITED at Cisco) wrote:
-> On Tue, Sep 22, 2026 at 01:23 AM, Paul Barker wrote:
->=20
-> >=20
-> > On Mon, 2026-09-21 at 15:56 +0530, Vijay Anusuri wrote:
-> >=20
-> > > Hi Yoann, Paul,
-> > >=20
-> > > I checked with the rsync upstream maintainers regarding the security =
-patch
-> > >=20
-> > > branches and the possibility of an archive/tarball.
-> > >=20
-> > > They confirmed that v3.4.1-sec-patches3 and v3.2.7-sec-patches3 are
-> > > official rsync security-maintenance branches. They have now also
-> > > published:
-> > >=20
-> > > - v3.4.1-sec-patches4
-> > > - v3.2.7-sec-patches4
-> > >=20
-> > > These branches contain the security and compatibility fixes applicabl=
-e to
-> > > the respective older release lines after *-sec-patches3. Both branche=
-s
-> > > have
-> > > been tested against the refreshed stable testsuite.
-> > >=20
-> > > Regarding the archive/tarball, the maintainer clarified that they do =
-not
-> > > plan to provide release tarballs for these security branches. The bra=
-nches
-> > >=20
-> > > are intended to be used as reviewable Git sources from which downstre=
-am
-> > > maintainers can cherry-pick commits or construct their own patch seri=
-es.
-> > >=20
-> > > Based on this, can we switch the rsync recipe to Git and use the
-> > > v3.4.1-sec-patches4 & v3.2.7-sec-patches4 branches for Wrynose/Scarth=
-gap?
-> > >=20
-> > > This would allow us to consume the upstream security and compatibilit=
-y
-> > > fixes directly from the maintained security branch instead of carryin=
-g the
-> > >=20
-> > > large 34KLOC patch series.
-> > >=20
-> > >=20
-> > > The discussion with the rsync maintainers is here:
-> > > https://github.com/RsyncProject/rsync/discussions/1095
-> >=20
-> > Hi Vijay,
-> >=20
-> > Thanks for checking with upstream. It seems a bit of a strange way of
-> > doing things to me - I am surprised these aren't further releases in th=
-e
-> > 3.4.x and 3.2.x series. Or at least they could be 3.4.1.x and 3.2.7.x
-> > releases. But if this is the way upstream want to handle things then
-> > that's their call.
-> >=20
-> > We do need to discuss how this fits in with our policies on LTS
-> > maintenance. We will get back to you soon.
-> >=20
-> > Best regards,
-> >=20
-> > --
-> > Paul Barker
->=20
-> Hi Paul, Yoann,
-> Could you please share if there are any updates on this?
+The source inclusion logic activated by SPDX_INCLUDE_SOURCES creates a
+dedicated source directory and fills it either:
 
-Apologies for the delays due to conference travel.
+ - calling do_unpack and do_patch into that directory, or
+ - copying sources from the work-shared directory for recipes that use
+   one.
 
-Debian have decided to upgrade to rsync 3.5.0 on their stable release
-series, with additional regression fixes backported from 3.5.1. There is
-an explanation in the Debian rsync NEWS file [1].
+This mechanism however does not work properly when coupled with the
+externalsrc class, which deletes the do_unpack and do_patch tasks as
+part of its logic; one notable use case is the devtool development flow.
+In this case, the following issues are observed:
 
-Based on this, Yoann and I think Yocto Project should do similar. This
-will need discussion with the TSC, probably next week. I'll follow up
-after that.
+  - the tools required by the removed tasks (e.g.: quilt for do_patch)
+    are not included in the recipe sysroot, leading to a failure when
+    the task is forcibly executed as part of the spdx source collection;
+  - for a recipe inheriting kernel.bbclass, the directory hosting the
+    external source is deleted (because is moved to spdx_workdir and
+    then wiped) and the kernel-source symlink pointing to it is
+    replaced with an empty directory.
 
-[1]: https://salsa.debian.org/debian/rsync/-/blob/debian/trixie/debian/rsyn=
-c.NEWS
+As a solution, treat the external source directory case just like the
+work-shared case, copying the source code from the externalsrc location
+to the SPDX dedicated directory instead of re-unpacking it there.
 
-Thanks,
+It should be noted that if an in-tree build is performed while using
+externalsrc (i.e., if EXTERNALSRC_BUILD is equal or under EXTERNALSRC),
+build artifacts will be treated as source files and added to the
+generated SPDX files.
 
---=20
-Paul Barker
+Signed-off-by: Francesco Valla <francesco@valla.it>
+---
+ meta/lib/oe/spdx_common.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index ad2bc0ffda31..07bf9650e21e 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -42,6 +42,10 @@ def is_work_shared_spdx(d):
+     return "/work-shared/" in d.getVar("S")
+ 
+ 
++def is_external_src_spdx(d):
++    return bb.data.inherits_class("externalsrc", d) and bool(d.getVar("EXTERNALSRC"))
++
++
+ def load_spdx_license_data(d):
+     with open(d.getVar("SPDX_LICENSES"), "r") as f:
+         data = json.load(f)
+@@ -174,8 +178,9 @@ def get_patched_src(d):
+     """
+     spdx_workdir = d.getVar("SPDXWORK")
+ 
+-    # Do not unpack the sources again for the recipe using work-shared
+-    if not is_work_shared_spdx(d):
++    # Do not unpack the sources again for the recipe using work-shared or an
++    # external source directory
++    if not is_work_shared_spdx(d) and not is_external_src_spdx(d):
+         localdata = d.createCopy()
+ 
+         # Change the UNPACKDIR to make do_unpack do_patch run in another dir.
+@@ -196,7 +201,7 @@ def get_patched_src(d):
+             if not os.path.exists(kernel_dst_path):
+                 shutil.move(kernel_src_path, kernel_dst_path)
+ 
+-    # Copy source from work-shared to spdx_workdir
++    # Copy source from work-shared or external source directory to spdx_workdir
+     else:
+         share_src = d.getVar("S")
+ 
+
+---
+base-commit: 7803450fd5ecc1bb714abadfbe3ec340e930139a
+change-id: 20261014-spdx_externalsrc-18d2327f0990
+
+Best regards,
+--  
+Francesco Valla <francesco@valla.it>
 
 
