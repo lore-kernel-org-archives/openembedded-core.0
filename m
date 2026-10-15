@@ -1,189 +1,172 @@
-Return-Path: <francesco@valla.it>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BEDCC6B38
-	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 20:58:59 +0000 (UTC)
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.10])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7819.1792097932440928956
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B895FCCA466
+	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 21:05:09 +0000 (UTC)
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8000.1792098305861407390
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 13:58:53 -0700
+ Thu, 15 Oct 2026 14:05:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=Wf4SGUBV;
- dkim=pass header.i=@valla.it header.s=default header.b=qXv4Tj0k;
- spf=pass (domain: valla.it, ip: 185.56.87.10, mailfrom: francesco@valla.it)
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-82tq.prod.antispam.mailspamprotection.com; s=arckey; t=1792097932;
-	 b=Ye2YsS9flVMbJM+iLYGLD5OTpeHxpRXUAruoIAJhjiHgSZKn5nTDUlJxO+qiFXz8Aah/VFWIh/
-	  bwXFv0K+I4h2CP/+o7RW/I+hNvgt0ILXvZpiAVf47iymkx4ZeIbdZMT2NFu+Ot7rM34ysZ2WCg
-	  v4aR6zf4wtGikGpZBOVbNnpGNijWx7sARuu8NfOKJaA9+ykmExSBL4VD5Fvz2fdf5r/8v83OgT
-	  Do/OFiUy6xT3SOnvnMSLUHu8RNckunxsmtiY6PzcdwuXstqXcDFvI8OgeG5ibp00AVVzRn4aFO
-	  8acClwMxGwLvPzUl259tDTszLvZEQvnmRqr5AYJx6wQseg==;
-ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-82tq.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-82tq.prod.antispam.mailspamprotection.com; s=arckey; t=1792097932;
-	bh=6OUfLzW9wfBwQKxAXpi8H2Zq/KzD8jI7uHfoBJrNXNg=;
-	h=Cc:To:Message-ID:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	  Subject:Date:From:DKIM-Signature:DKIM-Signature;
-	b=gR4j8qHGq//SPQOQNCv2tXIFrCgn/aSTg9lPoqWik6W5VlKkYiTYGBY4vg+ZD6aNr6niTjOqWI
-	  IhqUqYPjzuZ0NsMqtFcbI3jCiwHGoHlSm60gT+jvLbo6zmsJMy9kHmB9KVdhmx0ftV8OMyBB/o
-	  9X0EyQMovb3MXAV7EsIh1ZtrMq9i+CMMI1xET6rM1yRvKCCwBzCIlx3CrT0SwPKjwsvwAc8iaP
-	  JdiJUvlXk8dTxzAatVfWzifjYmtG9V38ZyMS6FJO3THcPzA/1PV104fmykVDVUr/jNxXinzJmI
-	  0DsOXKmljHSU4VKlkysE06AO9zUZA/BWruhzFD+M9DqqTQ==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
-	:Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject
-	:Date:From:Reply-To:List-Unsubscribe;
-	bh=zSMumyfUE0E7MfOmZyFW3uxb6Rj3SWT4AYuU0GdQLmI=; b=Wf4SGUBV0PzT/Jlv+T9CsoeMsV
-	wPhLUyKm7hTVzrqCXKW0r9Fu+RN/ALm2zqSL8a7uXJ7lZ4+eXaOoVXX6dnxynoVI3e+wcHFJZl5T+
-	Gd7i8IrXjBGaQDtTx4CcSwQ2k17A6+4b8NxSqyKNdZNgjsVrgsTT6C82ktvIIuFM7T7I=;
-Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
-	by instance-europe-west4-82tq.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <francesco@valla.it>)
-	id 1xHSXK-00000005xms-0HuE
-	for openembedded-core@lists.openembedded.org;
-	Thu, 15 Oct 2026 20:58:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
-	s=default; h=Cc:To:Subject:Date:From:list-help:list-unsubscribe:
-	list-subscribe:list-post:list-owner:list-archive;
-	bh=zSMumyfUE0E7MfOmZyFW3uxb6Rj3SWT4AYuU0GdQLmI=; b=qXv4Tj0k7fQI1RYxgZZIVSM7iX
-	6KgeVq6d1XJU+QZ6bMhQnZSgERXSbGoQ4LQea0liHjxOb0TvsEUtHSowBfmIC1uCx8X5dFgrhS5Jy
-	8p/I1EHewrSEQXUV2E++rrll8i36bzp5FK9EFZtfhZTIGNmXNTkgcHaj9fDL1t8C+P8s=;
-Received: from [82.89.62.246] (port=64902 helo=[192.168.178.158])
-	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <francesco@valla.it>)
-	id 1xHSXF-00000000GlX-1A0W;
-	Thu, 15 Oct 2026 20:58:45 +0000
-From: Francesco Valla <francesco@valla.it>
-Date: Thu, 15 Oct 2026 22:58:26 +0200
-Subject: [PATCH] spdx_common: fix source inclusion with externalsrc
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-spdx_externalsrc-v1-1-553edd1570f2@valla.it>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrA0kadHaq4gUTUadIqnMqATEu
- zfq8i3+30GQCQXe2Q6MGwn9QoLJM3BjGwZU5JPBalsYbZ5KZh8/GBfk0E7CTpmXtw9b9rqqNKR
- sZuwpXsu6uS1r90W3nB84jj+QpfW2dAAAAA==
-X-Change-ID: 20261014-spdx_externalsrc-18d2327f0990
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=dv8a4VK1;
+ spf=pass (domain: gmail.com, ip: 74.125.82.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-354ba08cfd1so9575796eec.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 14:05:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792098305; x=1792703105; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1qiZg8eX+ycO6+Ox7jKhtcWmZ8VZ9sH00ipM8dCoD94=;
+        b=dv8a4VK15MVT0nZNI998nH8rkk6mIiKstsBKcJlDNADLXnw2/evcO79pgUPn4rY4Z1
+         rPoIWeIwZiAbYiuYCP9pXFpoacwcHWGYY4aFAYJTCTyGGJBnhVkqvtkowqeo2BPSiUW1
+         dz2p0O/pRI01bg4FbN3TFilqayIh3t63bv5z2NdgD25hnz68V59hJA9ukEcI4tOWTPIU
+         H9lUZi3HVmetyHJWpyqXo66bCLfcmCnZMa6u2s+6e4jL6NjFAQVUwsWBAtZ01E+eP2Vb
+         v6EXebjmWPECUhUv51n/mhWyqsvfE9OOagDhaic1fmYig+EPwic2znHeUxDfrOiMAEKI
+         0ERA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792098305; x=1792703105;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1qiZg8eX+ycO6+Ox7jKhtcWmZ8VZ9sH00ipM8dCoD94=;
+        b=fDkCPryCK6yviQ0imsiKHZ8Fs5hCmU8dIfR5vtIdi21ZMPHSGO/cdkkO5NV/3wvU+8
+         ZJPChSzC9LGA5YjXiaqkjkU5ORdvB0JzaAt1wa3+kDoH2N4AXhZaB3IJ6dUQ57CZkGRi
+         9MtPlZQEgzhJY3C+NU8tTChJoZqmrCGroP4k4UeKGMfm7KwiEa3CKhF8fEO5Eu9jSwYL
+         g62W8pWgwCY4OpewWKrqjieE7rthmb/1bip9Z+AIB7xLPjnrW55Zn/TFQVgMjIbAP3HL
+         nNOMA3dzCfnhOKQXp2fjI76uzutv4iTvHqxNyqg1+KN/wWyEBmcFXJ6XtBsHYkxhrRgI
+         ZTZA==
+X-Gm-Message-State: AFq9FYLa/m1N9VFXPndTuHfKmocR/7o8zeRr4hY9nL3fR6pg6kdXqNXU
+	muCTNJImT5+MsLgFFW1XlBNr953gEH9SVdHd+4WzoYhdx3QWS8xDh1BFtucQkeiD1LM=
+X-Gm-Gg: AYBFou1Q+OEDNTyz2aqtzhsr/FB9rHlNdB9O6FvauATALBj2xuaaY+quU4li5HUluLA
+	jTyVbKk2vo4tJJnqz6ITP892SwDzyG0gm3jQ0JEA1mVmFRsoFUbgCXg8I4rDwFW669+u36/eyXW
+	q5Q06GbxbcyFd63ATlZ5WG6+yniiuBvbXHGrbo8hWSxPHee9/K6b49/I81RpJ3qvDCMxWXoM17F
+	Hrrc/bv0//Cx0p2ykqrNM2C/ciraknmQM/Q6cvTDNQtdJiJBUyIiv5EgWPoF/sufMvsBK8BCbDl
+	jkl9VSTgFBrazb2Jiq6fR4wezHUDf2oXr8glBbogtmahcyCkTEpemp/TDP9DjXnWZ7USsIN1Oq7
+	lUH0zmLed7P9WvKDSKhRv0S3O50cwgpyGbspJGo72/uAyk/8WG19qmtz+qed35G3FdPEu/BE9k2
+	Xb1jjL4qlSLeZcM2Rv76uHaShp0jHHfATt7eJ1AqrH4ArKisjwV6H2wuVmRbWzJ9MYfG9znJFM0
+	xWaC9IKCDmC9vp5JROLiaWTGBfkpjyE7jMDNtCH4OImWaJk6MEe226eq89uyIyg1sNkGuPJaaSj
+	dqmpUhv+oywhS6VtWT0hL6DEkXEI2rN7IXU9JDMlGVqKye+KImg9OvJMmQx7Xu+wtqy6Ro4DlKm
+	pxUVyIZ4QN7MihFupcyQNE49pNefb6f+OM+ZMZMQkWYI6/SPNpPYLa3fyIvEnk/pakoOWJ7B1Ul
+	h3q88YDeUnkbFvj2BZXK0dLwXI0wBB6wSBnFXHHVVcuc1uWA==
+X-Received: by 2002:a05:7300:d084:b0:35d:8c3a:38a8 with SMTP id 5a478bee46e88-35d8c3a3c06mr8888051eec.39.1792098304685;
+        Thu, 15 Oct 2026 14:05:04 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36081bafa7asm528036eec.14.2026.10.15.14.05.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 14:05:04 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Francesco Valla <francesco@valla.it>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3156; i=francesco@valla.it;
- h=from:subject:message-id; bh=6OUfLzW9wfBwQKxAXpi8H2Zq/KzD8jI7uHfoBJrNXNg=;
- b=owGbwMvMwCX2aH1OUIzHTgbG02pJDFkX7ao32CYZb/5WMF9weSfjXuGd19ra4jxUX3kvdxOMv
- bhu2uyKjlIWBjEuBlkxRZaQdTfu7Zlr/i1tA+MjmDmsTCBDGLg4BWAivCYMf0UKXon96+qfFnZF
- e8LC+uwakf3Gz4/+idFS2ZPxJmlLSjMjw6X/Vd451ha3/u9J3MV9TO7dSgdOa7PH7gfU4hoefpV
- ewQwA
-X-Developer-Key: i=francesco@valla.it; a=openpgp;
- fpr=CC70CBC9AA13257C6CCED8669601767CA07CA0EA
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - esm19.siteground.biz
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - valla.it
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-SGantispam-id: 6cf7c33048e5862ae2a3d6cfb0745ae5
-X-AntiAbuse: ID - 6cf7c33048e5862ae2a3d6cfb0745ae5
-AntiSpam-DLS: false
-AntiSpam-DLSP: 
-AntiSpam-DLSRS: 
-AntiSpam-TS: 1.0
-CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1xHSXK-00000005xms-0HuE-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-82tq.prod.antispam.mailspamprotection.com;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] opensbi: Fix build with clang 23
+Date: Thu, 15 Oct 2026 14:05:00 -0700
+Message-ID: <20261015210500.2749924-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 20:58:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247896
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 21:05:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247897
 
-The source inclusion logic activated by SPDX_INCLUDE_SOURCES creates a
-dedicated source directory and fills it either:
+Clang 23 adds -Wunused-but-set-global, enabled by -Wall, which
+flags file-static globals in the sifive and cadence UART drivers
+that are written but never read. opensbi builds with -Werror, so
+the compile fails. Add a patch, submitted upstream, removing the dead
+variables.
 
- - calling do_unpack and do_patch into that directory, or
- - copying sources from the work-shared directory for recipes that use
-   one.
-
-This mechanism however does not work properly when coupled with the
-externalsrc class, which deletes the do_unpack and do_patch tasks as
-part of its logic; one notable use case is the devtool development flow.
-In this case, the following issues are observed:
-
-  - the tools required by the removed tasks (e.g.: quilt for do_patch)
-    are not included in the recipe sysroot, leading to a failure when
-    the task is forcibly executed as part of the spdx source collection;
-  - for a recipe inheriting kernel.bbclass, the directory hosting the
-    external source is deleted (because is moved to spdx_workdir and
-    then wiped) and the kernel-source symlink pointing to it is
-    replaced with an empty directory.
-
-As a solution, treat the external source directory case just like the
-work-shared case, copying the source code from the externalsrc location
-to the SPDX dedicated directory instead of re-unpacking it there.
-
-It should be noted that if an in-tree build is performed while using
-externalsrc (i.e., if EXTERNALSRC_BUILD is equal or under EXTERNALSRC),
-build artifacts will be treated as source files and added to the
-generated SPDX files.
-
-Signed-off-by: Francesco Valla <francesco@valla.it>
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- meta/lib/oe/spdx_common.py | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ ...-Remove-unused-baudrate-frequency-gl.patch | 67 +++++++++++++++++++
+ meta/recipes-bsp/opensbi/opensbi_1.9.bb       |  1 +
+ 2 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-bsp/opensbi/files/0002-lib-utils-serial-Remove-unused-baudrate-frequency-gl.patch
 
-diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
-index ad2bc0ffda31..07bf9650e21e 100644
---- a/meta/lib/oe/spdx_common.py
-+++ b/meta/lib/oe/spdx_common.py
-@@ -42,6 +42,10 @@ def is_work_shared_spdx(d):
-     return "/work-shared/" in d.getVar("S")
- 
- 
-+def is_external_src_spdx(d):
-+    return bb.data.inherits_class("externalsrc", d) and bool(d.getVar("EXTERNALSRC"))
+diff --git a/meta/recipes-bsp/opensbi/files/0002-lib-utils-serial-Remove-unused-baudrate-frequency-gl.patch b/meta/recipes-bsp/opensbi/files/0002-lib-utils-serial-Remove-unused-baudrate-frequency-gl.patch
+new file mode 100644
+index 0000000000..b62c7c5b57
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/files/0002-lib-utils-serial-Remove-unused-baudrate-frequency-gl.patch
+@@ -0,0 +1,67 @@
++From b2b51e3de12703caad6fbb624d711d411ac0aae4 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 15 Oct 2026 13:26:30 -0700
++Subject: [PATCH] lib: utils/serial: Remove unused baudrate/frequency globals
 +
++The sifive-uart and cadence-uart drivers store the input clock
++frequency and baudrate into file-static globals during init, but
++never read them back; the divisor is computed directly from the
++function arguments. Clang 23 adds -Wunused-but-set-global, which is
++enabled by -Wall, so the build fails with -Werror:
 +
- def load_spdx_license_data(d):
-     with open(d.getVar("SPDX_LICENSES"), "r") as f:
-         data = json.load(f)
-@@ -174,8 +178,9 @@ def get_patched_src(d):
-     """
-     spdx_workdir = d.getVar("SPDXWORK")
++  sifive-uart.c:34:12: error: variable 'uart_in_freq' set but not used [-Werror,-Wunused-but-set-global]
++  sifive-uart.c:35:12: error: variable 'uart_baudrate' set but not used [-Werror,-Wunused-but-set-global]
++
++Drop the dead variables.
++
++Upstream-Status: Submitted [https://lore.kernel.org/opensbi/20261015203610.835320-1-khem.raj@oss.qualcomm.com/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/utils/serial/cadence-uart.c | 4 ----
++ lib/utils/serial/sifive-uart.c  | 4 ----
++ 2 files changed, 8 deletions(-)
++
++diff --git a/lib/utils/serial/cadence-uart.c b/lib/utils/serial/cadence-uart.c
++index 30fbb95..80dc429 100644
++--- a/lib/utils/serial/cadence-uart.c
+++++ b/lib/utils/serial/cadence-uart.c
++@@ -39,8 +39,6 @@
++ /* clang-format on */
++ 
++ static volatile void *uart_base;
++-static u32 uart_in_freq;
++-static u32 uart_baudrate;
++ 
++ /*
++  * Find minimum divisor divides in_freq to max_target_hz;
++@@ -95,8 +93,6 @@ static struct sbi_console_device cadence_console = {
++ int cadence_uart_init(unsigned long base, u32 in_freq, u32 baudrate)
++ {
++ 	uart_base     = (volatile void *)base;
++-	uart_in_freq  = in_freq;
++-	uart_baudrate = baudrate;
++ 
++ 	/* Disable interrupts */
++ 	set_reg(UART_REG_IDR, 0xFFFFFFFF);
++diff --git a/lib/utils/serial/sifive-uart.c b/lib/utils/serial/sifive-uart.c
++index 5563713..235976e 100644
++--- a/lib/utils/serial/sifive-uart.c
+++++ b/lib/utils/serial/sifive-uart.c
++@@ -31,8 +31,6 @@
++ /* clang-format on */
++ 
++ static volatile char *uart_base;
++-static u32 uart_in_freq;
++-static u32 uart_baudrate;
++ 
++ /**
++  * Find minimum divisor divides in_freq to max_target_hz;
++@@ -94,8 +92,6 @@ static struct sbi_console_device sifive_console = {
++ int sifive_uart_init(unsigned long base, u32 in_freq, u32 baudrate)
++ {
++ 	uart_base     = (volatile char *)base;
++-	uart_in_freq  = in_freq;
++-	uart_baudrate = baudrate;
++ 
++ 	/* Configure baudrate */
++ 	if (in_freq && baudrate)
+diff --git a/meta/recipes-bsp/opensbi/opensbi_1.9.bb b/meta/recipes-bsp/opensbi/opensbi_1.9.bb
+index 954753d97e..96167f7c73 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_1.9.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_1.9.bb
+@@ -12,6 +12,7 @@ SRCREV = "cbf9f6734dd85a982c63e3cb5db7ffe09da839ca"
+ SRC_URI = " \
+             git://github.com/riscv/opensbi.git;branch=master;protocol=https;tag=v${PV} \
+             file://0001-Makefile-don-t-grep-when-setting-CC_SUPPORT_ZICSR_ZI.patch \
++            file://0002-lib-utils-serial-Remove-unused-baudrate-frequency-gl.patch \
+             "
  
--    # Do not unpack the sources again for the recipe using work-shared
--    if not is_work_shared_spdx(d):
-+    # Do not unpack the sources again for the recipe using work-shared or an
-+    # external source directory
-+    if not is_work_shared_spdx(d) and not is_external_src_spdx(d):
-         localdata = d.createCopy()
- 
-         # Change the UNPACKDIR to make do_unpack do_patch run in another dir.
-@@ -196,7 +201,7 @@ def get_patched_src(d):
-             if not os.path.exists(kernel_dst_path):
-                 shutil.move(kernel_src_path, kernel_dst_path)
- 
--    # Copy source from work-shared to spdx_workdir
-+    # Copy source from work-shared or external source directory to spdx_workdir
-     else:
-         share_src = d.getVar("S")
- 
-
----
-base-commit: 7803450fd5ecc1bb714abadfbe3ec340e930139a
-change-id: 20261014-spdx_externalsrc-18d2327f0990
-
-Best regards,
---  
-Francesco Valla <francesco@valla.it>
-
+ TARGET_DBGSRC_DIR = "/share/opensbi/*/generic/firmware/"
 
