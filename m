@@ -1,121 +1,65 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2406FCC6B38
-	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 18:53:54 +0000 (UTC)
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5031.1792090427647813444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07504CCA464
+	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 19:07:14 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5364.1792091224302995763
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 11:53:48 -0700
+ Thu, 15 Oct 2026 12:07:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=19Jw66CN;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 920D0C62206;
-	Thu, 15 Oct 2026 18:54:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EDA096075C;
-	Thu, 15 Oct 2026 18:53:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CEBEB10328B42;
-	Thu, 15 Oct 2026 20:53:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792090420; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=wkG0F6Gm90UjvNqzSk0jqoavylng28KULMbXkftL8w8=;
-	b=19Jw66CN91JR6y9CKoTp++02KwzvvMxxljKxLt1iN5QgWpmZUiq0x8hfUJFeagEIsFVPXo
-	cK8roUmbQC9HztX66npILMn1S2RMIr4EjjEVa7Ys4ru5pc++KfSbz7PuyDDFRDKoDLtR15
-	XNW1ltreQSJXCjV98BZrtZ+WGa1esnjcTrFyRd8irxdsAdArAK9T+GafFNUjHk+sI5nEZY
-	TRdIxpsdJJcAy5cn6RkmY5opvAEY8LW6JuaNr3WkNY8lcB34j5DLB9WGEaaPOozPK6NwcJ
-	OKQmhxvpBbvqSPqiXKeAgRKLp8GzAL1pzTGWgbO0JujPVNonLmTsipauOB/FcQ==
-Message-ID: <84b5b50f-c507-4e35-8090-2a13b79fd4e3@bootlin.com>
-Date: Thu, 15 Oct 2026 20:53:37 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 RESEND] classes/archiver: fix tarball content in
- "original" mode
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=P1wfyKl6;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202610151907002f8044e475000207f2-vvvyec@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202610151907002f8044e475000207f2
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 15 Oct 2026 21:07:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=lBXjmn+65nQ4Wqx/eDWpI9p5ZiHJ034o0ypFlXF428o=;
+ b=P1wfyKl6RllfBQ6qMNTVtyNsicZjLkNLRuwpStQ5MWcasXkec3aGvYfKc3BoDH1kCvifBO
+ ULwrms1g9gKPJwUv9gwu7pL227RwtclrEWx3cAbuabG1pk9RuYSihUj+foO2ykVOObZwxy3M
+ CEuveiy5vN6MbGS5x09Rps396gnpu6B/D6MOltkIvmzjKpo5RJJjPzhBdG5N5UDtc53YtoD2
+ UUWT/a0eVuyn9vRunUTSQHrQ08Xh3eWs0NY4U9V2C7/3PuKBWVKngLUO7Mtl6aqhAQz/7ewl
+ S9Oo4+/0r3YDR6DYdf06I/sg9AD1IJYDnmqtBFb5jUkeZBFaW2BMQkQA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com, paul@pbarker.dev, yoann.congal@smile.fr,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20260918092711.471982-1-joaomarcos.costa@bootlin.com>
-Content-Language: en-US, fr
-From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <20260918092711.471982-1-joaomarcos.costa@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] systemd: add iproute2-devlink runtime dependency to udev
+Date: Thu, 15 Oct 2026 21:06:49 +0200
+Message-ID: <20261015190649.3380415-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 18:53:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247892
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 19:07:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247893
 
-Hello,
+From: Peter Marko <peter.marko@siemens.com>
 
-On 9/18/26 11:27 AM, Jo=C3=A3o Marcos Costa wrote:
-> When ARCHIVER_MODE[src] is set to "original", a tarball is generated wi=
-th
-> the unpacked sources of a given recipe. Prior to it, a tmpdir
-> (i.e. from tempfile.mkdtemp()) is created and the sources are unpacked =
-inside:
->=20
-> (...)/vim/9.2.0340/archiver-work/tmp8pu2nsck
-> `-- vim-9.2.0340
->      |-- READMEdir
->      |-- ci
->      |-- lang
->=20
-> This tmpdir, however, ends up being shipped in the deployed tarball:
->=20
-> $ tar -tf vim-9.2.0340-r0.tar.xz
-> (...)
-> tmp8pu2nsck/vim-9.2.0340/ci/config.mk.clang-12.sed
-> tmp8pu2nsck/vim-9.2.0340/LICENSE
-> tmp8pu2nsck/vim-9.2.0340/.git-blame-ignore-revs
-> (...)
->=20
-> This can be avoided by pointing to the subdir where the sources are
-> unpacked, rather than to tmpdir, when calling create_tarball().
->=20
-> The subdir's name can be inferred from 'BP', so we will use
-> 'tmp8pu2nsck/vim-9.2.0340/.' instead of 'tmp8pu2nsck/.' as input.
->=20
-> e.g. and in the result:
->=20
-> ./
-> ./vim-9.2.0304/
-> ./vim-9.2.0304/SECURITY.md
-> ./vim-9.2.0304/.codecov.yml
-> (...)
->=20
-> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-> ---
->   meta/classes/archiver.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbcl=
-ass
-> index b274c53e79..c824718a1d 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -230,7 +230,7 @@ python do_ar_original() {
->                       else:
->                           bb.fatal("Cannot determine archive names for =
-original source because 'name=3D' URL parameter '%s' is used twice. Make =
-it unique in: %s %s" % (tarball_suffix[name], url))
->               tarball_suffix[name] =3D url
-> -            create_tarball(d, tmpdir + '/.', name, ar_outdir)
-> +            create_tarball(d, os.path.join(tmpdir, d.getVar('BP'), '.'=
-), name, ar_outdir)
->  =20
->       # Emit patch series files for 'original'
->       bb.note('Writing patch series files...')
+Service file ${nonarch_libdir}/udev/rules.d/81-net-bridge.rules executes
+/usr/sbin/devlink which causes errors seen in journal on systems which
+don't install this package explicitly.
 
-Gentle ping: would there be any updates on this one? Thanks!
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-core/systemd/systemd_262.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
---=20
-Best regards,
-Jo=C3=A3o Marcos Costa
-
+diff --git a/meta/recipes-core/systemd/systemd_262.bb b/meta/recipes-core/systemd/systemd_262.bb
+index d613f01c58..46ef655420 100644
+--- a/meta/recipes-core/systemd/systemd_262.bb
++++ b/meta/recipes-core/systemd/systemd_262.bb
+@@ -772,6 +772,7 @@ FILES:libsystemd-shared = "${libdir}/systemd/libsystemd-shared*.so"
+ 
+ RPROVIDES:udev = "hotplug"
+ 
++RDEPENDS:udev += "iproute2-devlink"
+ RDEPENDS:udev-bash-completion += "bash-completion"
+ RDEPENDS:udev-hwdb += "udev"
+ 
 
