@@ -1,118 +1,99 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0583FCC6B34
-	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 12:27:59 +0000 (UTC)
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38886.1792067270417353052
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50513CC6B33
+	for <webhook@archiver.kernel.org>; Thu, 15 Oct 2026 13:08:49 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.39772.1792069727297281472
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 05:27:50 -0700
+ Thu, 15 Oct 2026 06:08:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dOPT/E7Y;
- spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: hthakar@cisco.com)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=EQ2MfZnK;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48dee593f18so322271f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 06:08:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1050; q=dns/txt;
-  s=iport01; t=1792067270; x=1793276870;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=i6you6xmsYvDCmeF7IixSBZITT5jL9lesMJv3/Q6Xyo=;
-  b=dOPT/E7YGjNffQ5+fU3eOnbarLHGOEA2UzaJ0DEC/o72f1AW+MPNWnUy
-   hsFGPxwx8pV27VdHXbIohDvCIc6TK/uBW42J9C/I2JlLD2sh1HVyw0fI8
-   sVyjUlRSiRfvaWGjKL4uCLHuq6AoLmq18NoomNHghIQnVNlUQK+Kis+py
-   0g3X4zyFR5PQ4BFsHAktZlQNmAcbHJ129+Lp3vHaRUTBDALqXbZeb95xs
-   z8lYGb6ZYm+CpdstJcdUxd/eYaCZTZvTJUn1M0UllQ/RhA1iGC2FtIPMJ
-   L3w9JForJofJZSpUR5u3xZuPJ39va0ez5d7mE74sEgHABv6lrl9Dcv9lO
-   g==;
-X-CSE-ConnectionGUID: GenWiuM6QlefUO+sqB5y1A==
-X-CSE-MsgGUID: byEi1QzERdefDkv0MOT6CQ==
-X-IPAS-Result: =?us-ascii?q?A0BFAgBfxtBq/4v/Ja1aglmCV3VhQkmWTZ4cgX4PAQEBD?=
- =?us-ascii?q?z0UBAEBhQUCjhQCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4Thk8NkBMCAQMyARgBLRAgMSsrGYMCAYJ0AgERBrtggiyBAYMpAT8CQ1DbM?=
- =?us-ascii?q?gELFAEFgTOFQIgjdoR8JxsbgXKEfoEFgVwBAYIthXgEgiKBDJcKSIEeA1ksA?=
- =?us-ascii?q?VUTDQoLBwWBaAM1EioVbjIdgSM+F4EHGwYFgR2BIIIWIxk2eoEJXoErKWABE?=
- =?us-ascii?q?BeBCYIHAoJUggACAUlBDgdFUwklQxJHJiIIEgkBExowC4EbODwJKEEXDHMMH?=
- =?us-ascii?q?QVyCAINCQ0YDUgRLDcVGQQ+bgeRfB6CZYEOLII9o0OCIaEPCiiDdowilToaM?=
- =?us-ascii?q?6pvmQiOCpZPhGmBaDyBKB8LB3AVSAGCWQlKGQ+OOYNrgX/MWyQ1AgE6AQEHA?=
- =?us-ascii?q?gcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:iNDg26oFdETIbwfp+WzixhoJEJleBmJOZBIvgKrLsJaIsI4StFCzt
- garIBnUP/uKMTGjL9ojPNiy8x9XvMTXzIcxHFBs/yxnQi8a9uPIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOWn9T8jhfngqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgDNNwJcaDpOtfvb8U435ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0sl6B15P6
- NlGETQAYC2kxPmv6u+qE8A506zPLOGzVG8ekmtrwTecCbMtRorOBv2Qo9RZxzw3wMtJGJ4yZ
- eJANmEpN0uGOUASfA5MWfrSn8/w7pX7Wz1EqFuWrLAf6GnIxws327/oWDbQUoHRGJUPwBrG+
- Qoq+UzzEzwbbeWN5ACJ/3yAhfGXuATHBqkrQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
- FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2YbLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWja1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:fp/wu6H6Lov/UJ1BpLqEMMeALOsnbusQ8zAXPo5KJiC9Ffbo8P
- xG88576faZslsssTQb6LK90cq7MBfhHOBOgbX5VI3KNGKNhILrFvAG0WKI+VPd8kPFmtK1/J
- 0QFZSWcOeAbmRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaEp2JK2xCe32m+oocfng/OaYE
-X-Talos-CUID: 9a23:W0X9Q2BubbktMbP6EwZq8nEVB+V7S3nQwkr3YFShIzt4EZTAHA==
-X-Talos-MUID: =?us-ascii?q?9a23=3AzJeiMA8mie9y6mKtE+9KHOSQf815zqX3MVIgq5k?=
- =?us-ascii?q?LteWHK3RVHAvDpw3iFw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,159,1787011200"; 
-   d="scan'208";a="535826467"
-Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
-  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Oct 2026 12:27:28 +0000
-Received: from sjc-ads-4178.cisco.com (sjc-ads-4178.cisco.com [171.70.54.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id C33BE18000375;
-	Thu, 15 Oct 2026 12:27:28 +0000 (GMT)
-Received: by sjc-ads-4178.cisco.com (Postfix, from userid 1887505)
-	id 70493CC1292; Thu, 15 Oct 2026 05:27:28 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][scarthgap][PATCH v3 3/5] apr-util: Mark CVE-2026-34191 not applicable
-Date: Thu, 15 Oct 2026 05:27:19 -0700
-Message-Id: <20261015122721.2278428-3-hthakar@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261015122721.2278428-1-hthakar@cisco.com>
-References: <20261015122721.2278428-1-hthakar@cisco.com>
+        d=gmail.com; s=20251104; t=1792069725; x=1792674525; darn=lists.openembedded.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Sc3rjSBoXwAXUdFpLYTbNhDerW4RjY9ZO/FLZxqtbxM=;
+        b=EQ2MfZnKZ2pHTjdJQAv5iECCmlw3O2y5fZBPNqOZO1ixcBhFRsNFmtUYD+iL3Yx0vQ
+         dtmbbYHPxl5f7hWh3KO2sdwDqtzmzHBBUnkJWsgSmB9DW8NSoCPs5WqeIDGtDsKDarQR
+         A9+icK/snAzRT/PTEQ7AnNag3/emPDxOCdKGShf3m7XoyWgM0SLri/57EvEaHvqq/7X2
+         LYpA+l7RViyKja5FnJP1eBWVUUDTjRgxCW26WCiTDOq/7nMAp9IiHMameMWFnb5oRSUb
+         vSG0iqilR/L7z4mXRiEX8k4srNIU14KERrpWKK3v4cdpkHZD+1xvmHD+eeonx02AcDmm
+         p4Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792069725; x=1792674525;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Sc3rjSBoXwAXUdFpLYTbNhDerW4RjY9ZO/FLZxqtbxM=;
+        b=BdIxuK8k8OI53KJUmt5tNXOp10xJKsounigtJhg+JT6n90uWVivXVSd+vyb2/EDjlX
+         tzTFZxYAjYG8BadTUpx5fOcZWkAGAu2tpIEn4g7B5mC6L+zkP4oto2FikQdXe01wyYPq
+         qgH6WeLBUtImXtpkGWlAeMoD8vCCbiEj5ymiJ2LPCQ8MTv4TNVwc+/tBA3Olfv5Vok2o
+         v6EapDQb6h0HhEYFLtT9CeZWdo+u3KND223/bToNv/Bg+KfEHrdGdIuT6U0FD86pAj7+
+         RSbiAq4rf5mtpck0OuRANKsr2K8uAU+F3w9hypiF7S/Espae9DS2nR8MK4UvoK0AJh8+
+         XggA==
+X-Gm-Message-State: AFq9FYI/O1IAhBCKOyFuho/NlEdGvovOpmavVeXlMrpN6Y6JBswfKNrj
+	gdSAN2WW0MRVH15SjhJSJjRKLdrC97Y1N+x63WYd73JTc4kX1E1tLZasE7Wlog==
+X-Gm-Gg: AYBFou2YYo1gXGSdC8OvX/tPCNiU4VPbv6KtB63hbyHhikdCqxJW8YhlwCQrD5A1XHK
+	JfxOhslz2MG1pFyOaXDb0mWbBuzcyxL8sYIQO9seAGDRQNFd195XscSR/qCAQcdXvdO3X4APvuE
+	bAJ+MbNBlcxcEVC7er453RjhgiiZYF0SBXrIS6ftJQW165IRZ9Hx7aXBWBAbhDmL4uAdAlhuvTJ
+	iVnN/99HItR6ZtDgGgpjEmhNrpgCzOGNY/mISohTVkCr9jwP1suB80fpx1VVd/iA1lun2o0A/4F
+	9aKL1GXZ12pdLpGQ+thEii0mtRdlC0WHRSZHl36s7I+Xm6aeLoGkyzwwQoEWlMvQgcxoSA5Ywpf
+	OnZxGXrRGrpRkVLqrXC/LjBrAuuymwXW8n8Va9dChNlAMKrEG2uqzk9MJF+IfxazALpFBsr4zj8
+	db4wPVNNMItaVPtRtoI7jnlNLj0kHrq2BXf6pXcO3yH0I0gQn2OAWyrY5XOGWNeF6SCWks8HR09
+	yjN1cwR60v8JddoHsII+U2sivRXnu6WLttBVi3KgsG12x3fdw==
+X-Received: by 2002:a05:6000:2407:b0:48b:9d2:1a6a with SMTP id ffacd0b85a97d-48ddf883a1bmr18917280f8f.1.1792069725236;
+        Thu, 15 Oct 2026 06:08:45 -0700 (PDT)
+Received: from [192.168.5.15] (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ac36f9sm17782453f8f.36.2026.10.15.06.08.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 06:08:44 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [PATCH 0/2] eudev: upgrade 3.2.14 -> 3.2.15
+Date: Thu, 15 Oct 2026 14:08:42 +0100
+Message-Id: <20261015-eudev-3-2-15-v1-0-407ba1a93edb@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-4178.cisco.com [171.70.54.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.54.199, sjc-ads-4178.cisco.com
-X-Outbound-Node: rcdn-l-core-02.cisco.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFrQ0GoC/yXMTQ5AMBBA4avIrE3Sjt+4ilhUDcYCaRGJuLti+
+ S3eu8CzE/ZQRRc4PsTLMgfoOAI7mnlglC4YSFGulc6Q944PTJDwRapyQ4UpbUEQktVxL+e3q5v
+ ffm8nttv7gPt+AFYBWANwAAAA
+X-Change-ID: 20261015-eudev-3-2-15-e406a27a8c72
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+X-Mailer: b4 0.16.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 12:27:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247881
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 13:08:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247882
 
-From: Hetvi Thakar <hthakar@cisco.com>
+eudev 3.2.15 adds a render group for DRM render nodes, so we add that to
+base-passwd first, then upgrade eudev.
 
-CVE-2026-34191 affects only the apr_dbd_oracle provider [1].
-The apr-util recipe does not enable --with-oracle, so configure keeps
-apu_have_oracle=0 [2]. Hence mark the CVE not applicable to this build.
-
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-34191
-[2] https://github.com/apache/apr-util/blob/1.6.3/build/dbd.m4
-
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-support/apr/apr-util_1.6.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Alex Kiernan (2):
+      base-passwd: add the render group for eudev-3.2.15
+      eudev: upgrade 3.2.14 -> 3.2.15
 
-diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
-index c721d35f61..4d5d4b8fe0 100644
---- a/meta/recipes-support/apr/apr-util_1.6.3.bb
-+++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
-@@ -104,3 +104,5 @@ do_install_ptest() {
- 
- # Add CVE_PRODUCT to match the NVD CPE product name
- CVE_PRODUCT = "apache:apr-util apache:portable_runtime_utility"
-+
-+CVE_STATUS[CVE-2026-34191] = "not-applicable-config: apr_dbd_oracle is not built because --with-oracle is not enabled"
--- 
-2.35.6
+ .../0001-base-passwd-add-the-render-group.patch    |  29 +++++
+ meta/recipes-core/base-passwd/base-passwd_3.6.8.bb |  16 +++
+ ....c-sync-dev_urandom-implementation-to-sys.patch | 138 ---------------------
+ meta/recipes-core/udev/eudev/netifnames.patch      |  17 ---
+ .../udev/{eudev_3.2.14.bb => eudev_3.2.15.bb}      |   4 +-
+ 5 files changed, 46 insertions(+), 158 deletions(-)
+---
+base-commit: 6b2dcfdbe16055edc88f72dabf07e33f8163d8eb
+change-id: 20261015-eudev-3-2-15-e406a27a8c72
+
+Best regards,
+--  
+Alex Kiernan <alex.kiernan@gmail.com>
 
 
