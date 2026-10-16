@@ -2,76 +2,76 @@ Return-Path: <yurade@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C82CCA490
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 06:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 863A0CCA462
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 06:19:55 +0000 (UTC)
 Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.15906.1792131584148701298
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Oct 2026 23:19:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dbvJzrah;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=djkLEyJa;
  spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8103; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=14932; q=dns/txt;
   s=iport01; t=1792131585; x=1793341185;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=+XtBit+9e0Mdqd+kNyYqhSC3p61UjvTbhAodGNE2/RQ=;
-  b=dbvJzrahv/mhdd+LKHInA2uCnR1g+KZ1qKu6VAESEInBqKtbW0Sxo/EC
-   cGOZC73XDE8g5dNo6PbmGmU/z40heqmoZh/SFwO1JIW+17YLmD1zFplTw
-   96kaksZnmjOmkQx4qcA0dz0ENBZBRYOapD9UXtGOiyAvTWRcM2PCZOfT/
-   cSWmdBS1sF8eCID3FqI7lUfXqUY+4w6sIlM2+ot5nhywenT0Fd9yrdlcx
-   ethmf9s6EHDdKKZ9TmTiUDEnN5q+cyYwEfuEQEKqM5UCAuJGK0p6QKmbj
-   UFtemzXVolSS6T6LEn8v4higezZQxXfhpBk4qcDJiZl01y3f2ql8WY0qM
-   w==;
-X-CSE-ConnectionGUID: t3rL+DwdS8aAFigLTJlKiA==
-X-CSE-MsgGUID: ho4wr8rPSP+GOuNWIi2nug==
-X-IPAS-Result: =?us-ascii?q?A0BLAgBfwdFq/5L/Ja1aHgE8DA4LgVmCV3VgQ0kDlCaCI?=
- =?us-ascii?q?QOeHBSBag8BAQEPRA0EAQGEP0YCjhUCJjQJDgECBAMCAwEBAQEBAQEBAQEBA?=
- =?us-ascii?q?QoBAQUBAQECAQcFgQ4Thk8NkBIBAgEDJwsBGAE9HAMBAi8rIwgZgwIBgjoDN?=
- =?us-ascii?q?wMRRrwtgXkzgQGDKQE/AkNQ2EsQb4FoAQsUAYE4hUCII10YAYR8JxuBSUSBF?=
- =?us-ascii?q?YNpgQWBXAICGIENIIZeBIINgQ8SgVqBA4QLkDlIgR4DWSwBVRMNCgsHBYFoA?=
- =?us-ascii?q?zUSKhVuMh2BIz4XgQcbBgWBHYEgghYjGTZ6gQlegSspYRAXgQmCBwKCVIIAA?=
- =?us-ascii?q?gFJQQ4HRVMJJUMSRyYiCBIJARMaMAuBGzg8CShBFwxzDB0FcggCDQkHKRgNS?=
- =?us-ascii?q?BEsNxUZBD5uB5IUHoFyJjsLBwE8Hx8TARAbgXgFAQ0mCgICEZMRA5I9oQ+EK?=
- =?us-ascii?q?IwilToaM4VbpRQLmH2OCpYCTYRpgWg8gUMPBzMaCBsVO4JnCUoZD16NW4Nrh?=
- =?us-ascii?q?RNRyHYnMgIGAzIBAQcCBw4DC4FokAACJgeBTwEB?=
-IronPort-Data: A9a23:PCqFHag0dreoz6CHFGcNogY8X161NhEKZh0ujC45NGQN5FlHY01je
- htvWT2DOq3fMGv3e4p2YIyw8BkDu5CGy4NmTQFs/iA0RC9jpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNs/vd8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUEofxTQk1R+
- cdIIRkjbx+nu8Cy47OSH7wEasQLdKEHPasFsX1miDWcBvE8TNWbEuPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgl/5JEWxI9EglHubidRpF+9rqss6G+Vxwt0uFToGIeOJIDaGJgJxi50o
- ErG+DjmGEEADOenihWi71STp+6Vmz70Ddd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBVCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u7Nxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:QIMTT6h0gxbJT5O50Dxk5rrqFHBQXvYji2hC6mlwRA09TyX+rb
- HLoB1173HJYVoqNU3I3OrwW5VoIkmskKKdn7NxAV7KZmCP0wGVxcNZnOnfKlbbdBEWmNQw6U
- 4ZSchDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhBQpcUAUdAY0++/YTzrdHFLeA==
-X-Talos-CUID: 9a23:JWO8emHglyEiybTTqmJ7r1QwWew6fkaNxV7+IkCcNURta7y8HAo=
-X-Talos-MUID: =?us-ascii?q?9a23=3AcDhX7w3VLi4UEEU8zXkCB21+tzUj46PyF1pdi60?=
- =?us-ascii?q?9g4qrEjFWBBac1jKqTdpy?=
+  bh=V5816T6aW3rfX++7+pcj7i3htQmF+dPCapLJZRwk4vs=;
+  b=djkLEyJazoMKDmGJYSYeAEXOZyN7+tQdEJeDGI+cUJNaevAlyybRFf2p
+   4id9uDZe5iWnRntj11M7w05b78WaIYOGQOFYOrGpH8dB/sapmwrB3Av6q
+   X3K23gzrCSmceRf9XwPpXZCn9nbtx/29lemzMKCyucD6VcQIDAgePyO67
+   ZwtBZDmb9v7sXNRCH89+oWvuaizmYpvGLIKhtHVKE2f9ypzNK5xq2z6WF
+   3NBpElFq9/0VtineWlYfx3zuWabXNnx00R9SOR7DU26m6FA4hgK4lYJSD
+   a781iiDnsdiBJ+DYv6x2sfdVi0OwpL+L5VCZSdxEZiyclEQ9uarXRYniU
+   g==;
+X-CSE-ConnectionGUID: rRRRiPhfTYqJ6GqVVeefxA==
+X-CSE-MsgGUID: CYXagMlxSWaM8/mUwS+uAQ==
+X-IPAS-Result: =?us-ascii?q?A0BLAgBfwdFq/5T/Ja1aHgE8DA4LgVmCV3VgQ0kDlCaCI?=
+ =?us-ascii?q?QOeHIF+DwEBAQ9EDQQBAYQ/RgKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
+ =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECLysjCBmDAgGCOgM3A?=
+ =?us-ascii?q?xG8c4F5M4EBgykBPwICQAFQ2EsQb4FoAQsUAYE4hUCII10YAUSCVYFjJxuBS?=
+ =?us-ascii?q?USBFYNpgQWBMioCAhiBcoYZBIMcEoFagQOOSoV6SIEeA1ksAVUTDQoLBwWBa?=
+ =?us-ascii?q?AM1EioVbjIdgSM+F4EHGwYFgR2BIIIWIxk2eoEJXoErKWEQF4EJggcCglSCA?=
+ =?us-ascii?q?AIBSUEOB0VTCSVDEkcmIggSCQETGjALgRs4PAkoQRcMcwwdBXIIAg0JBykYD?=
+ =?us-ascii?q?UgRLDcVGQQ+bgeSFB6CGAgzEj0kLQErBB5ZCj4lEBw0MpJnAgGSPaEPhCiMI?=
+ =?us-ascii?q?pU6GjOFW6UUC5h9jgqWT4RpgWg8gVkzGggbFTuCZwlKGQ+OKw4Lg2CFE1HId?=
+ =?us-ascii?q?icyAgYDMgEBBwIHDgMLgWiQAi2BTwEB?=
+IronPort-Data: A9a23:QDlGlaru0b4pFYPtKefXR+8kEx5eBmJPZBIvgKrLsJaIsI4StFCzt
+ garIBnQO//YYmqkfNwnYN+xpk4GupCGy4JmTwtlrXo3FykapePIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOWn9T8jhfngqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgDNNwJcaDpOtfvb8U035ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0vxNO1tPz
+ fwWFAEUTE6sntyIzb+1WsA506zPLOGzVG8ekmtrwTecCbMtRorOBvyTo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0uGOUASfA5LWPrSn8/w7pX7WyxFsluZqII84nPYy0p6172F3N/9J4fUGZUIwx3Bz
+ o7A10/IMhgVEdiP8gWM1yLrg9LQpmDmcbtHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBF2cHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn288lte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:xoGgQaOsqXrO+sBcTu2jsMiBIKoaSvp037BN7TEUdfU7SKKlfq
+ yV8cjzkCWE6wr5O0tQ/OxoRpPgfZq0z/cciuMs1PWZLWvbUQCTQ72Kg7GP/9SZIU3D398Y87
+ t8eK5jD9C1J117gcHmpDScKb8bsb66GGTCv5am85+rJjsaDZ1d0w==
+X-Talos-CUID: =?us-ascii?q?9a23=3ABbJXaGm257e4VpbCzkSB3G0j4zjXOWfn9k3RG0+?=
+ =?us-ascii?q?2NVdwauO6UGGu9a5qg+M7zg=3D=3D?=
+X-Talos-MUID: 9a23:KPna4ggmBNfpbclPZai57MMpH/ZY6quLDFA2rpwj646BCDNLeCq0tWHi
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,161,1787011200"; 
-   d="scan'208";a="536485540"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 06:19:24 +0000
+   d="scan'208";a="536485531"
+Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 06:19:23 +0000
 Received: from sjc-ads-7310.cisco.com (sjc-ads-7310.cisco.com [10.30.220.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id EE69318000202
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 3269418000140
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 06:19:23 +0000 (GMT)
 Received: by sjc-ads-7310.cisco.com (Postfix, from userid 1889728)
-	id 34EEDCC12A6; Thu, 15 Oct 2026 23:19:23 -0700 (PDT)
+	id CD1ECCC12A8; Thu, 15 Oct 2026 23:19:22 -0700 (PDT)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH 18/27] python3-git: fix CVE-2026-76217
-Date: Thu, 15 Oct 2026 23:19:13 -0700
-Message-Id: <20261016061922.843414-19-yurade@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 02/27] python3-git: Fix CVE-2026-67323
+Date: Thu, 15 Oct 2026 23:18:57 -0700
+Message-Id: <20261016061922.843414-3-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261016061922.843414-1-yurade@cisco.com>
 References: <20261016061922.843414-1-yurade@cisco.com>
@@ -79,214 +79,387 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-7310.cisco.com [10.30.220.95];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 10.30.220.95, sjc-ads-7310.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+X-Outbound-Node: rcdn-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 06:19:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247993
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 06:19:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247995
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/f2550b65bf60ca087190981e2c7b6865e201f40c
-[2] https://www.cve.org/CVERecord?id=CVE-2026-76217
+[1] https://github.com/gitpython-developers/GitPython/commit/701ce32fe5ba8cb622c0e0342a376a6beb47d738
+[2] https://www.cve.org/CVERecord?id=CVE-2026-67323
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
- .../python/python3-git/CVE-2026-76217.patch   | 173 ++++++++++++++++++
+ .../python/python3-git/CVE-2026-67323.patch   | 346 ++++++++++++++++++
  .../python/python3-git_3.1.42.bb              |   1 +
- 2 files changed, 174 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
+ 2 files changed, 347 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
 new file mode 100644
-index 0000000000..22331a51c2
+index 0000000000..1d1140b65a
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
-@@ -0,0 +1,173 @@
-+From 77915268777d0928ea156f00c95fa77c6f8294bb Mon Sep 17 00:00:00 2001
-+From: Byron <sebastian.thiel@icloud.com>
-+Date: Tue, 4 Aug 2026 03:18:54 +0000
-+Subject: [PATCH 26/38] Guard pathspec file inputs in high-level commands
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
+@@ -0,0 +1,346 @@
++From be9e81b3ded21bb7e20d9d679cf3409002a7bc79 Mon Sep 17 00:00:00 2001
++From: "GPT 5.6" <codex@openai.com>
++Date: Sun, 12 Jul 2026 15:06:42 +0200
++Subject: [PATCH 11/38] fix: Guard unsafe git command options
++ (GHSA-956x-8gvw-wg5v)
 +
-+<!-- agent -->
-+GHSA-hh9p-6wh2-4mfc reports that high-level rm and checkout wrappers
-+forwarded pathspec file options without GitPython's unsafe-option policy.
-+A regression showed that both commands surfaced multi-line pathspec data in
-+Git errors, while reset consumed the same caller-selected file without a
-+validation error. The audit also found that reset's positional commit could
-+carry the option before its argument separator.
++Reject command options that can execute arbitrary helpers or write files when passed through archive, revision traversal, blame, clone, fetch, pull, push, and ls-remote APIs. Validate positional option tokens and transformed keyword options consistently, including Git-supported long-option abbreviations, attached short-option values, and falsey stringifiable remotes. Preserve explicit allow_unsafe_options and allow_unsafe_protocols escape hatches.
 +
-+Define one shared unsafe pathspec-file option list and apply it to
-+IndexFile.remove, Head.checkout, and HEAD.reset before invoking Git. Check
-+reset's positional commit as well as keyword options, retain the standard
-+allow_unsafe_options escape hatch for trusted callers, and cover abbreviated
-+long-option spellings.
++Add regression coverage for each guarded API, option spelling and abbreviation forms, inert keyword values, mixed positional and keyword candidates, tuple blame options, stringifiable remotes, and unsafe commands that must not create marker files.
 +
-+An audit against Git cf5497b14c5a24f10c13f7e0ee85cb95af13ea6a
-+(v2.55.0.windows.3-16-gcf5497b14c) found pathspec-file support in add,
-+checkout/restore, commit, reset, rm, and stash. GitPython has no arbitrary
-+high-level option forwarding to the other commands, and git mv does not
-+support this option.
-+
-+Validated with focused rejection and opt-in tests, 214 affected-module
-+regressions, Ruff, basedpyright, and git diff --check.
-+
-+CVE: CVE-2026-76217
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/f2550b65bf60ca087190981e2c7b6865e201f40c]
++CVE: CVE-2026-67323
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/701ce32fe5ba8cb622c0e0342a376a6beb47d738]
 +
 +Backport Changes:
-+- Omit upstream regression test changes because the current PyPI 
-+  source archive does not include its test suite.
++- Omit upstream regression test changes because the current 
++  PyPI source archive does not include its test suite.
++- Port the guards into the 3.1.42 method signatures where 
++  the upstream API had since changed.
 +
-+Assisted-by: GPT 5.6
-+Co-authored-by: GPT 5.6 <codex@openai.com>
-+(cherry picked from commit f2550b65bf60ca087190981e2c7b6865e201f40c)
++Reviewed-by: Sebastian Thiel <sebastian.thiel@icloud.com>
++(cherry picked from commit 701ce32fe5ba8cb622c0e0342a376a6beb47d738)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/cmd.py        |    6 ++++++
-+ git/index/base.py |   10 ++++++++++
-+ git/refs/head.py  |   27 ++++++++++++++++++++++++++-
-+ 3 files changed, 42 insertions(+), 1 deletion(-)
++ git/cmd.py            |   22 +++++++++++-
++ git/objects/commit.py |   12 ++++++
++ git/remote.py         |   15 ++++++--
++ git/repo/base.py      |   93 +++++++++++++++++++++++++++++++++++++++++++------
++ 4 files changed, 126 insertions(+), 16 deletions(-)
 +
 +diff --git a/git/cmd.py b/git/cmd.py
-+index b1aef9d3..398c68ff 100644
++index 8e8cd0c5..81ea0b3c 100644
 +--- a/git/cmd.py
 ++++ b/git/cmd.py
-+@@ -333,2 +333,8 @@
-++    unsafe_git_pathspec_from_file_options = [
-++        # Reads pathspecs from a caller-controlled file. Some commands include an
-++        # unmatched pathspec in their error output, which can disclose the file.
-++        "--pathspec-from-file",
++@@ -316,6 +316,11 @@ class Git(LazyMixin):
++ 
++     re_unsafe_protocol = re.compile(r"(.+)::.+")
++ 
+++    unsafe_git_ls_remote_options = [
+++        # This option allows arbitrary command execution in git-ls-remote.
+++        "--upload-pack",
 ++    ]
 ++
 +     def __getstate__(self) -> Dict[str, Any]:
 +         return slots_to_dict(self, exclude=self._excluded_)
-+diff --git a/git/index/base.py b/git/index/base.py
-+index 2e11f38b..a92ba82b 100644
-+--- a/git/index/base.py
-++++ b/git/index/base.py
-+@@ -986,6 +986,7 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
-+         self,
-+         items: Sequence[Union[PathLike, Blob, BaseIndexEntry, "Submodule"]],
-+         working_tree: bool = False,
++ 
++@@ -853,6 +858,21 @@ class Git(LazyMixin):
++         else:
++             super()._set_cache_(attr)
++         # END handle version info
+++    def ls_remote(
+++        self,
+++        *args: Any,
+++        allow_unsafe_options: bool = False,
+++        **kwargs: Any,
+++    ) -> Union[str, bytes, Tuple[int, Union[str, bytes], str], "Git.AutoInterrupt"]:
+++        """List references in a remote repository.
+++
+++        :param allow_unsafe_options:
+++            Allow unsafe options, like ``--upload-pack``.
+++        """
+++        if not allow_unsafe_options:
+++            candidate_options = self._option_candidates(args, kwargs)
+++            Git.check_unsafe_options(options=candidate_options, unsafe_options=self.unsafe_git_ls_remote_options)
+++        return self._call_process("ls_remote", *args, **kwargs)
++ 
++     @property
++     def working_dir(self) -> Union[None, PathLike]:
++@@ -1295,7 +1315,7 @@ class Git(LazyMixin):
++         return args
++ 
++     @classmethod
++-    def _unpack_args(cls, arg_list: Sequence[str]) -> List[str]:
+++    def _unpack_args(cls, arg_list: Sequence[Any]) -> List[str]:
++         outlist = []
++         if isinstance(arg_list, (list, tuple)):
++             for arg in arg_list:
++diff --git a/git/objects/commit.py b/git/objects/commit.py
++index caec1b6c..ae60d286 100644
++--- a/git/objects/commit.py
+++++ b/git/objects/commit.py
++@@ -76,6 +76,12 @@ class Commit(base.Object, TraversableIterableObj, Diffable, Serializable):
++     default_encoding = "UTF-8"
++ 
++     # object configuration
+++    # Options to :manpage:`git-rev-list(1)` that can overwrite files.
+++    unsafe_git_rev_options = [
+++        "--output",
+++        "-o",
+++    ]
+++
++     type: Literal["commit"] = "commit"
++     __slots__ = (
++         "tree",
++@@ -269,6 +275,7 @@ class Commit(base.Object, TraversableIterableObj, Diffable, Serializable):
++         repo: "Repo",
++         rev: Union[str, "Commit", "SymbolicReference"],  # type: ignore
++         paths: Union[PathLike, Sequence[PathLike]] = "",
 ++        allow_unsafe_options: bool = False,
 +         **kwargs: Any,
-+     ) -> List[str]:
-+         """Remove the given items from the index and optionally from
-+@@ -1014,6 +1015,10 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
-+             removing the respective file. This may fail if there are uncommitted changes
-+             in it.
++     ) -> Iterator["Commit"]:
++         """Find all commits matching the given criteria.
++@@ -294,6 +301,11 @@ class Commit(base.Object, TraversableIterableObj, Diffable, Serializable):
++             raise ValueError("--pretty cannot be used as parsing expects single sha's only")
++         # END handle pretty
 + 
-++        :param allow_unsafe_options:
-++            Allow unsafe options such as ``--pathspec-from-file`` to be passed to
-++            :manpage:`git-rm(1)`.
+++        if not allow_unsafe_options:
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([rev], kwargs), unsafe_options=cls.unsafe_git_rev_options
+++            )
 ++
++         # Use -- in all cases, to prevent possibility of ambiguous arguments.
++         # See https://github.com/gitpython-developers/GitPython/issues/264.
++ 
++diff --git a/git/remote.py b/git/remote.py
++index 3ccac59d..25e076f3 100644
++--- a/git/remote.py
+++++ b/git/remote.py
++@@ -1005,7 +1005,10 @@ class Remote(LazyMixin, IterableObj):
++                     Git.check_unsafe_protocols(ref)
++ 
++         if not allow_unsafe_options:
++-            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_fetch_options)
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([], kwargs),
+++                unsafe_options=self.unsafe_git_fetch_options,
+++            )
++ 
++         proc = self.repo.git.fetch(
++             "--", self, *args, as_process=True, with_stdout=False, universal_newlines=True, v=verbose, **kwargs
++@@ -1046,7 +1049,10 @@ class Remote(LazyMixin, IterableObj):
++                 Git.check_unsafe_protocols(ref)
++ 
++         if not allow_unsafe_options:
++-            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_pull_options)
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([], kwargs),
+++                unsafe_options=self.unsafe_git_pull_options,
+++            )
++ 
++         proc = self.repo.git.pull(
++             "--", self, refspec, with_stdout=False, as_process=True, universal_newlines=True, v=True, **kwargs
++@@ -1111,7 +1117,10 @@ class Remote(LazyMixin, IterableObj):
++                 Git.check_unsafe_protocols(ref)
++ 
++         if not allow_unsafe_options:
++-            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_push_options)
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([], kwargs),
+++                unsafe_options=self.unsafe_git_push_options,
+++            )
++ 
++         proc = self.repo.git.push(
++             "--",
++diff --git a/git/repo/base.py b/git/repo/base.py
++index 92ace3a0..5b255997 100644
++--- a/git/repo/base.py
+++++ b/git/repo/base.py
++@@ -152,6 +152,20 @@ class Repo:
++     https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---configltkeygtltvaluegt
++     """
++ 
+++    unsafe_git_archive_options = [
+++        # Allows arbitrary command execution through the remote git-upload-archive command.
+++        "--exec",
+++        # Writes output to a caller-controlled filesystem path.
+++        "--output",
+++        "-o",
+++    ]
+++
+++    unsafe_git_revision_options = [
+++        # This option allows output to be written to arbitrary files before revision parsing.
+++        "--output",
+++        "-o",
+++    ]
+++
++     # Invariants
++     config_level: ConfigLevels_Tup = ("system", "user", "global", "repository")
++     """Represents the configuration level of a configuration file."""
++@@ -690,6 +704,7 @@ class Repo:
++         self,
++         rev: Union[str, Commit, "SymbolicReference", None] = None,
++         paths: Union[PathLike, Sequence[PathLike]] = "",
+++        allow_unsafe_options: bool = False,
++         **kwargs: Any,
++     ) -> Iterator[Commit]:
++         """A list of Commit objects representing the history of a given ref/commit.
++@@ -705,7 +720,11 @@ class Repo:
 +         :param kwargs:
-+             Additional keyword arguments to be passed to git-rm, such
-+             as 'r' to allow recursive removal of
-+@@ -1024,6 +1029,11 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
-+             This is interesting to know in case you have provided a directory or
-+             globs. Paths are relative to the repository.
++             Arguments to be passed to git-rev-list - common ones are max_count and skip.
++ 
++-        :note: To receive only commits between two named revisions, use the
+++        :param allow_unsafe_options:
+++            Allow unsafe options in the revision argument, like ``--output``.
+++
+++        :note:
+++            To receive only commits between two named revisions, use the
++             ``"revA...revB"`` revision specifier.
++ 
++         :return: ``git.Commit[]``
++@@ -713,7 +732,18 @@ class Repo:
++         if rev is None:
++             rev = self.head.commit
++ 
++-        return Commit.iter_items(self, rev, paths, **kwargs)
+++        if not allow_unsafe_options:
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([rev], kwargs), unsafe_options=self.unsafe_git_revision_options
+++            )
+++
+++        return Commit.iter_items(
+++            self,
+++            rev,
+++            paths,
+++            allow_unsafe_options=allow_unsafe_options,
+++            **kwargs,
+++        )
++ 
++     def merge_base(self, *rev: TBD, **kwargs: Any) -> List[Union[Commit_ish, None]]:
++         """Find the closest common ancestor for the given revision (Commits, Tags, References, etc.).
++@@ -957,7 +987,9 @@ class Repo:
++         # reveal_type(self.head.reference)  # => Reference
++         return self.head.reference
++ 
++-    def blame_incremental(self, rev: str | HEAD, file: str, **kwargs: Any) -> Iterator["BlameEntry"]:
+++    def blame_incremental(
+++        self, rev: str | HEAD | None, file: str, allow_unsafe_options: bool = False, **kwargs: Any
+++    ) -> Iterator["BlameEntry"]:
++         """Iterator for blame information for the given file at the given revision.
++ 
++         Unlike :meth:`blame`, this does not return the actual file's contents, only a
++@@ -965,13 +997,21 @@ class Repo:
++ 
++         :param rev: Revision specifier, see git-rev-parse for viable options.
++ 
++-        :return: Lazy iterator of :class:`BlameEntry` tuples, where the commit indicates
++-            the commit to blame for the line, and range indicates a span of line numbers
++-            in the resulting file.
+++        :param allow_unsafe_options:
+++            Allow unsafe options in revision argument, like ``--output``.
+++
+++        :return:
+++            Lazy iterator of :class:`BlameEntry` tuples, where the commit indicates the
+++            commit to blame for the line, and range indicates a span of line numbers in
+++            the resulting file.
++ 
++         If you combine all line number ranges outputted by this command, you should get
++         a continuous range spanning all line numbers in the file.
 +         """
 ++        if not allow_unsafe_options:
 ++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=Git.unsafe_git_pathspec_from_file_options,
+++                options=Git._option_candidates([rev], kwargs), unsafe_options=self.unsafe_git_revision_options
 ++            )
-+         args = []
-+         if not working_tree:
-+             args.append("--cached")
-+diff --git a/git/refs/head.py b/git/refs/head.py
-+index ebc71eb9..5900d3c6 100644
-+--- a/git/refs/head.py
-++++ b/git/refs/head.py
-+@@ -17,6 +17,7 @@ from .reference import Reference
 + 
-+ from typing import Any, Sequence, Union, TYPE_CHECKING
-+ 
-++from git.cmd import Git
-+ from git.types import PathLike, Commit_ish
-+ 
-+ if TYPE_CHECKING:
-+@@ -63,6 +64,7 @@ class HEAD(SymbolicReference):
-+         index: bool = True,
-+         working_tree: bool = False,
-+         paths: Union[PathLike, Sequence[PathLike], None] = None,
++         data: bytes = self.git.blame(rev, "--", file, p=True, incremental=True, stdout_as_string=False, **kwargs)
++         commits: Dict[bytes, Commit] = {}
++@@ -1048,13 +1088,17 @@ class Repo:
++         rev: Union[str, HEAD],
++         file: str,
++         incremental: bool = False,
++-        rev_opts: Optional[List[str]] = None,
+++        rev_opts: Optional[Sequence[str]] = None,
 ++        allow_unsafe_options: bool = False,
 +         **kwargs: Any,
-+     ) -> "HEAD":
-+         """Reset our HEAD to the given commit optionally synchronizing
-+@@ -86,11 +88,20 @@ class HEAD(SymbolicReference):
-+             Single path or list of paths relative to the git root directory
-+             that are to be reset. This allows to partially reset individual files.
++     ) -> List[List[Commit | List[str | bytes] | None]] | Iterator[BlameEntry] | None:
++         """The blame information for the given file at the given revision.
++ 
++         :param rev: Revision specifier, see git-rev-parse for viable options.
 + 
 ++        :param allow_unsafe_options:
-++            Allow unsafe options such as ``--pathspec-from-file`` to be passed to
-++            :manpage:`git-reset(1)`.
+++            Allow unsafe options in revision argument, like ``--output``.
 ++
-+         :param kwargs:
-+             Additional arguments passed to git-reset.
++         :return:
++             list: [git.Commit, list: [<line>]]
++ 
++@@ -1063,9 +1107,14 @@ class Repo:
++             of appearance.
++         """
++         if incremental:
++-            return self.blame_incremental(rev, file, **kwargs)
++-        rev_opts = rev_opts or []
++-        data: bytes = self.git.blame(rev, *rev_opts, "--", file, p=True, stdout_as_string=False, **kwargs)
+++            return self.blame_incremental(rev, file, allow_unsafe_options=allow_unsafe_options, **kwargs)
+++        rev_opts_list = list(rev_opts or [])
+++        if not allow_unsafe_options:
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([rev, rev_opts_list], kwargs),
+++                unsafe_options=self.unsafe_git_revision_options,
+++            )
+++        data: bytes = self.git.blame(rev, *rev_opts_list, "--", file, p=True, stdout_as_string=False, **kwargs)
++         commits: Dict[str, Commit] = {}
++         blames: List[List[Commit | List[str | bytes] | None]] = []
++ 
++@@ -1270,7 +1319,10 @@ class Repo:
++         if not allow_unsafe_protocols:
++             Git.check_unsafe_protocols(str(url))
++         if not allow_unsafe_options:
++-            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=cls.unsafe_git_clone_options)
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([], kwargs),
+++                unsafe_options=cls.unsafe_git_clone_options,
+++            )
++         if not allow_unsafe_options and multi:
++             Git.check_unsafe_options(options=multi, unsafe_options=cls.unsafe_git_clone_options)
++ 
++@@ -1419,6 +1471,8 @@ class Repo:
++         ostream: Union[TextIO, BinaryIO],
++         treeish: Optional[str] = None,
++         prefix: Optional[str] = None,
+++        allow_unsafe_options: bool = False,
+++        allow_unsafe_protocols: bool = False,
++         **kwargs: Any,
++     ) -> Repo:
++         """Archive the tree at the given revision.
++@@ -1436,7 +1490,14 @@ class Repo:
++             * You may specify the special **path** keyword, which may either be a repository-relative
++               path to a directory or file to place into the archive, or a list or tuple of multiple paths.
++ 
++-        :raise GitCommandError: If something went wrong.
+++        :param allow_unsafe_options:
+++            Allow unsafe options, like ``--exec`` or ``--output``.
+++
+++        :param allow_unsafe_protocols:
+++            Allow unsafe protocols to be used in ``remote``, like ``ext``.
+++
+++        :raise git.exc.GitCommandError:
+++            If something went wrong.
 + 
 +         :return: self
 +         """
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([commit], kwargs),
-++                unsafe_options=Git.unsafe_git_pathspec_from_file_options,
-++            )
-+         mode: Union[str, None]
-+         mode = "--soft"
-+         if index:
-+@@ -230,7 +241,12 @@ class Head(Reference):
-+         self.path = "%s/%s" % (self._common_path_default, new_path)
-+         return self
-+ 
-+-    def checkout(self, force: bool = False, **kwargs: Any) -> Union["HEAD", "Head"]:
-++    def checkout(
-++        self,
-++        force: bool = False,
-++        allow_unsafe_options: bool = False,
-++        **kwargs: Any,
-++    ) -> Union["HEAD", "Head"]:
-+         """Check out this head by setting the HEAD to this reference, by updating the
-+         index to reflect the tree we point to and by updating the working tree to
-+         reflect the latest index.
-+@@ -242,6 +258,10 @@ class Head(Reference):
-+             If False, :class:`~git.exc.GitCommandError` will be raised in that
-+             situation.
-+ 
-++        :param allow_unsafe_options:
-++            Allow unsafe options such as ``--pathspec-from-file`` to be passed to
-++            :manpage:`git-checkout(1)`.
-++
-+         :param kwargs:
-+             Additional keyword arguments to be passed to git checkout, e.g.
-+             ``b="new_branch"`` to create a new branch at the given spot.
-+@@ -257,6 +277,11 @@ class Head(Reference):
-+             will leave the HEAD detached which is allowed and possible, but remains
-+             a special state that some tools might not be able to handle.
-+         """
++@@ -1444,6 +1505,14 @@ class Repo:
++             treeish = self.head.commit
++         if prefix and "prefix" not in kwargs:
++             kwargs["prefix"] = prefix
+++        remote = kwargs.get("remote")
+++        if not allow_unsafe_protocols and remote is not None:
+++            Git.check_unsafe_protocols(str(remote))
 ++        if not allow_unsafe_options:
 ++            Git.check_unsafe_options(
 ++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=Git.unsafe_git_pathspec_from_file_options,
+++                unsafe_options=self.unsafe_git_archive_options,
 ++            )
-+         kwargs["f"] = force
-+         if kwargs["f"] is False:
-+             kwargs.pop("f")
++         kwargs["output_stream"] = ostream
++         path = kwargs.pop("path", [])
++         path = cast(Union[PathLike, List[PathLike], Tuple[PathLike, ...]], path)
 +-- 
 +2.35.6
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.42.bb b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-index 883bd418b1..d634239cdb 100644
+index 1ba34dbf52..f3d2c9de80 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.42.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-@@ -39,6 +39,7 @@ SRC_URI += "            file://CVE-2026-42284.patch \
-             file://CVE-2026-76220.patch \
-             file://CVE-2026-76219.patch \
-             file://CVE-2026-76218.patch \
-+            file://CVE-2026-76217.patch \
+@@ -22,6 +22,7 @@ SRC_URI += "            file://CVE-2026-42284.patch \
+             file://CVE-2026-42215_p1.patch \
+             file://CVE-2026-42215_p2.patch \
+             file://CVE-2026-67326.patch \
++            file://CVE-2026-67323.patch \
             "
  SRC_URI[sha256sum] = "2d99869e0fef71a73cbd242528105af1d6c1b108c60dfabd994bf292f76c3ceb"
  
