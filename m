@@ -1,358 +1,212 @@
-Return-Path: <yurade@cisco.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D02CC6B2D
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 05:10:36 +0000 (UTC)
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15000.1792127435689611563
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9989CC6B2D
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 05:34:06 +0000 (UTC)
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15213.1792128838475105018
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 22:10:36 -0700
+ Thu, 15 Oct 2026 22:33:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=h4WcLu6M;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: yurade@cisco.com)
+ dkim=pass header.i=@mvista.com header.s=google header.b=WJjveHF6;
+ spf=pass (domain: mvista.com, ip: 74.125.82.171, mailfrom: vanusuri@mvista.com)
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-35d7fa491deso669390eec.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 22:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=9939; q=dns/txt;
-  s=iport01; t=1792127435; x=1793337035;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Zn3WKjtvxKldF3GBMnaCIlSoSQNH1SA8VzZrVXw7Q4A=;
-  b=h4WcLu6Mdz5ymyThybF6prYFVDTqQDVxDsohml7bUkZti6h3gTi66W0J
-   Mqv+R718dj+qBTAwoBTEetSfqlhLlsiIYqXD1os62Wz4fML/PQrCErg6N
-   mdDO9AF118CpIgo4E0aVFSFU+/hJrYqsFpNDC8yOeWW3Toa/lC5GyJSMd
-   7p9D6RhfpsC+uEqaruBehpRsEOZDMfqowND8+9sZJ6gsKFOB8ggzGlWsa
-   bME9OV4j5v4ezFZyDZ7fEw+zjpuDjLFHRzg1mhax90D+C/3K7JXfmyfNm
-   36DJBU1Yyc03KRvkXV6OKAERngJhqchOoHhiGnFmaoXOXQIY/20HaGFTU
-   w==;
-X-CSE-ConnectionGUID: +vgylntWSOiB/SYYCoweUQ==
-X-CSE-MsgGUID: G6xRw2G3SzOOAnaRcJjYoQ==
-X-IPAS-Result: =?us-ascii?q?A0BbAgDnsNFq/5D/Ja1aglmCV3VgQ0mEV49SgiGLaJI3F?=
- =?us-ascii?q?IFqDwEBAQ9EDQQBAZMcAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDZASASkPARgBWQMBAgMCJgIiCyMYCYMCAYI6AzcDEbxjeoEyg?=
- =?us-ascii?q?QGDKQE/AkNQ2EsNCGqBaAELFAGBCi6FQIJ/IAGFA10YAUSEOCcbgUlEgRWDa?=
- =?us-ascii?q?YEFgRpCAQMYgQkbAQGDe4JqBIMcEoFaHjKUd0iBAhwDWSwBVRMNCgsHBYFoA?=
- =?us-ascii?q?zUSKhVuMh2BIz4XL1gbBgWBHYEgghYjGTZ6gQlegSspYRAXgQmCBwKCVIIAA?=
- =?us-ascii?q?gFJQQ4HRVMJJUMSRyYiCBIJARMaMAuBGzg8CShBFwxzDB0FcggCDQkHKRgNS?=
- =?us-ascii?q?BEsNxUZBD0BbgeSFB6CXgcUZxMBKxcYKS1APhwNIpMTAgEHkBWCIaAecYQoj?=
- =?us-ascii?q?CKPPoV8GjOqbwuYfY4KhAmSRoRpgWg8gUcLBzMaCBsVgyIJShkPji4LC4Vfg?=
- =?us-ascii?q?xTJRycyAgEBBzMBBwIHAgwDgXORfgEB?=
-IronPort-Data: A9a23:eKfnF61ljpVyFdlxQfbD5YRwkn2cJEfYwER7XKvMYLTBsI5bp2MGy
- TBOW2/QbPjbMTHyeYt/Otu+8x4E7MfQzYQwGlNo3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yEzmE4Ej9atANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- rsen+WFYAX7gmYtbDpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGT185LIke5tlMJmBks
- scpGRsKcR2+vrfjqF67YrEEasULNsLnOsYb/3pn1zycValgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUicC/FMEg9/5JYWjfqyj3XyWzZZs1mS46Ew5gA/ySQsi+WwYYKKKoziqcN9sRiIn
- H2c0D/CEDY9HdqW8zGn8EOrv7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MvECSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:64zyaK/kbGlSbMb8YCZuk+DuI+orL9Y04lQ7vn2ZLiYlF/Bw9v
- re/sjzuiWbtN98YhwdcLO7Scq9qA3nlKKdiLN5VdzJYOCMggSVxe9ZgbcKuweBJwTOsshAyK
- xnb69yTPf0DVR8kILGxTPQKadF/DFCm5rY49s3CBxWPGZXV50=
-X-Talos-CUID: =?us-ascii?q?9a23=3AeTb2sWqHZscqC5Yn9M6lJhPmUYM7fWzZymvvGGi?=
- =?us-ascii?q?5IyFSeYy+TkCdxZoxxg=3D=3D?=
-X-Talos-MUID: =?us-ascii?q?9a23=3AzM8bjQwC89wDx/0wkKVfmapfCQWaqIvwGHoSy7p?=
- =?us-ascii?q?dgNujEgV2Mg2WrjaGRbZyfw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,161,1787011200"; 
-   d="scan'208";a="535590788"
-Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 05:10:34 +0000
-Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id 8B46518000231
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:10:34 +0000 (GMT)
-Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 31B89CC1611; Thu, 15 Oct 2026 22:10:34 -0700 (PDT)
-From: Yogita Urade <yurade@cisco.com>
+        d=mvista.com; s=google; t=1792128838; x=1792733638; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EWLazEIJtdUWn7fjIycwbCQ3+QWkFhxm4MmiqcjV0yw=;
+        b=WJjveHF6WjpnrGxkNfTTIwosyU7uZcnOfZ5faUaMYU132UTcbJO6Fbmuk7UOTtNIT9
+         aijiy6JV2ji7xotDMJwBstFKDoQw0PgyjW0UfuEZGp7s4WfqoM1T102qSIW8jiaEGPwG
+         WJ/8JAO0Miy26PXzgFejeNUNJAje/C5RazbvY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792128838; x=1792733638;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EWLazEIJtdUWn7fjIycwbCQ3+QWkFhxm4MmiqcjV0yw=;
+        b=blMt9e5lhEg+N7QSsbug0IrNo9wsXSLUkzICthcA7QWd3uTV2xUh74oftgnUR9XmN+
+         ydJWl31y0YtvZvDfdKpea/0sB58J7kqF7vDefy5tqoPPLN8yvMqLu32Qh+qdvQS7rhfH
+         rht4B5YzOpfyD+5cXk/Jee0npv1Ws9t2lTDDXQuo65oCx3We+KQdJCyV5jfq0r7hV4jl
+         0YSIZccSUkT0uLfDmm+PyZai0qbQtTiEuLiv0heiRr8Yba4C9V0NZ18BNeEEe1KEDEnx
+         ZJU38/lkOg4sShFo57Lkp+PrTcDPgq7+El55J11YIzcKPFp3dhkR6v1upaNQoMUpruVR
+         EXfA==
+X-Gm-Message-State: AFq9FYIuLOLHN24P5sbiQTV/2YhW1xJzaB8YbUefG0tYi3VTxoCJUbpa
+	me8tt+sKOKJZ0NokMbjoF3pvlVIY2gEJ56SpnybOaL+AITkIg4iEEX8KlinvnjO4nxAT1NGjgsY
+	KiVfmT8I=
+X-Gm-Gg: AYBFou0SR0NoYOkmeAz7uBLxroq3aGbt1vT+7xCeL0Yuhp5rYGAG8QrBNu0XXK3n6pG
+	8pe09DDomzN944CfYmd81FHQTe/wo2H/9NdoD0oVhrjVQNNB9DBxbxuOLoXTli3GfUErLySqhrS
+	Pqhr3VJlnmU0L+eus0wjZuDxNsk6mkPyeK7ZPWoI9A6Wo+piz0+IknRE8SugfJsSTvWofjuzk+m
+	Yd3F1n7FGgYr3yYxfXYMVLE66g559JpDoIQHMV7uAc/CA5HHEd/mjxOm6wr63ZL5oNRcGVyOr7u
+	FzIrt/DAhUOItRCC3JFXacfjl6ADaxy2FBLPSgVn7o/eQ13zZmDcNSFbIjrRWpy7O2uo+rki+pO
+	paQq0u/nPfdP7wTIFYLy+Y/Wyw+fIGuZMO/098lV3FjMIR+INqg9iL5Py7RgEDOYFtX/O8mASJT
+	r6GjBJNR2eibV40NYCgrH5gvit54RF7LQK8wu8mLUI0d9IWmO8ZttLK6OuHvDLVUQFaFW8CK2Q7
+	80j8Y2BrGw=
+X-Received: by 2002:a05:693c:8359:b0:35a:dbe8:ccb5 with SMTP id 5a478bee46e88-3602bc2bcabmr2558466eec.13.1792128836468;
+        Thu, 15 Oct 2026 22:33:56 -0700 (PDT)
+Received: from MVIN00352.mvista.com ([106.200.31.188])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3608219f838sm3199525eec.19.2026.10.15.22.33.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 22:33:55 -0700 (PDT)
+From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][master][PATCH] bison: Fix CVE-2026-56390
-Date: Thu, 15 Oct 2026 22:10:33 -0700
-Message-Id: <20261016051033.174566-1-yurade@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][wrynose][patch] python3-git: Fix CVE-2026-67326
+Date: Fri, 16 Oct 2026 11:03:44 +0530
+Message-ID: <20261016053344.103696-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:10:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247925
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:34:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247926
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+This patch applies the upstream fix as referenced in [2], using the
+commit shown in [1].
 
-[1] https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56390
+[1] https://github.com/gitpython-developers/GitPython/commit/54538428f79b0c91ba52cda5229856a6edf7ac06
+[2] https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-mv93-w799-cj2w
+[3] https://bugzilla.suse.com/show_bug.cgi?id=CVE-2026-67326
 
-Signed-off-by: Yogita Urade <yurade@cisco.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../bison/bison/CVE-2026-56390.patch          | 236 ++++++++++++++++++
- meta/recipes-devtools/bison/bison_3.8.2.bb    |   1 +
- 2 files changed, 237 insertions(+)
- create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+ .../python/python3-git/CVE-2026-67326.patch   | 109 ++++++++++++++++++
+ .../python/python3-git_3.1.43.bb              |   1 +
+ 2 files changed, 110 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67326.patch
 
-diff --git a/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch b/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-67326.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-67326.patch
 new file mode 100644
-index 0000000000..a63f3952e3
+index 0000000000..24d65e2448
 --- /dev/null
-+++ b/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
-@@ -0,0 +1,236 @@
-+From 8d101c19d4d9aaedf83a448c925513742d4efcf0 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Thu, 23 Apr 2026 12:41:25 -0700
-+Subject: [PATCH] bison: tighten up output file names
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-67326.patch
+@@ -0,0 +1,109 @@
++From 54538428f79b0c91ba52cda5229856a6edf7ac06 Mon Sep 17 00:00:00 2001
++From: "GPT 5.5" <codex@openai.com>
++Date: Tue, 5 May 2026 21:34:42 +0800
++Subject: [PATCH] Validate config key section names before writing
 +
-+Problem reported by Michał Majchrowicz.
-+* src/parse-gram.y: Do not allow '/' in %header and %output directives.
++GitConfigParser already rejected CR, LF, and NUL in config values before
++writing, but section and option names could still reach configparser. Because
++GitPython writes section headers itself, a newline-bearing section name could
++split the output into additional headers.
 +
-+CVE: CVE-2026-56390
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0]
++Reject CR, LF, and NUL in section and option names on write paths that create
++or set config keys: add_section(), set(), set_value(), add_value(), and
++rename_section() destinations. This matches Git config key validation behavior;
++Git source commit 94f057755b7941b321fd11fec1b2e3ca5313a4e0 reports invalid keys
++containing newlines from config.c, and local git 2.50.1 rejects newline-bearing
++config keys.
++
++Add a regression test covering unsafe section and option names while preserving
++safe writes.
++
++Co-authored-by: Sebastian Thiel <sebastian.thiel@icloud.com>
 +
 +Backport Changes:
-+- Adapted generated src/parse-gram.c to the Bison 3.8.2 source tree.
-+- omitted upstream generator-version/copyright metadata and
-+  src/parse-gram.h-only metadata changes while retaining the
-+  security-relevant parser changes.
++- Omitted test/test_config.py because the PyPI 3.1.43 source used
++  by the recipe does not ship the upstream test tree.
 +
-+(cherry picked from commit 8d101c19d4d9aaedf83a448c925513742d4efcf0)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/54538428f79b0c91ba52cda5229856a6edf7ac06]
++CVE: CVE-2026-67326
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ THANKS           |  1 +
-+ doc/bison.texi   |  2 ++
-+ src/parse-gram.y | 31 ++++++++++++++++++++++-----
-+ src/parse-gram.c | 56 ++++++++++++++++++++++++++++++++----------------
-+ 4 files changed, 67 insertions(+), 23 deletions(-)
++ git/config.py | 17 ++++++++++++++++-
++ 1 file changed, 16 insertions(+), 1 deletion(-)
 +
-+diff --git a/THANKS b/THANKS
-+index be743a23..0e481561 100644
-+--- a/THANKS
-++++ b/THANKS
-+@@ -128,6 +128,7 @@ Michael Catanzaro         mcatanzaro@gnome.org
-+ Michael Felt              mamfelt@gmail.com
-+ Michael Hayes             m.hayes@elec.canterbury.ac.nz
-+ Michael Raskin            7c6f434c@mail.ru
-++Michał Majchrowicz        mmajchrowicz@afine.com
-+ Michel d'Hooge            michel.dhooge@gmail.com
-+ Michiel De Wilde          mdewilde.agilent@gmail.com
-+ Mickael Labau             labau_m@epita.fr
-+diff --git a/doc/bison.texi b/doc/bison.texi
-+index a559649c..44a4e159 100644
-+--- a/doc/bison.texi
-++++ b/doc/bison.texi
-+@@ -5973,6 +5973,7 @@ Introduced in Bison 3.8.
++diff --git a/git/config.py b/git/config.py
++index 1595d51..236de3a 100644
++--- a/git/config.py
+++++ b/git/config.py
++@@ -72,6 +72,9 @@ CONDITIONAL_INCLUDE_REGEXP = re.compile(r"(?<=includeIf )\"(gitdir|gitdir/i|onbr
++ See: https://git-scm.com/docs/git-config#_conditional_includes
++ """
 + 
-+ @deffn {Directive} %header @var{header-file}
-+ Same as above, but save in the file @file{@var{header-file}}.
-++The @var{header-file} name should not contain slashes.
-+ @end deffn
-+ 
-+ @deffn {Directive} %language "@var{language}"
-+@@ -6026,6 +6027,7 @@ file, treating it as an independent source file in its own right.
-+ 
-+ @deffn {Directive} %output "@var{file}"
-+ Generate the parser implementation in @file{@var{file}}.
-++The @var{file} name should not contain slashes.
-+ @end deffn
-+ 
-+ @deffn {Directive} %pure-parser
-+diff --git a/src/parse-gram.y b/src/parse-gram.y
-+index 15180cb5..114c5c44 100644
-+--- a/src/parse-gram.y
-++++ b/src/parse-gram.y
-+@@ -95,8 +95,11 @@
-+      string from the scanner (should be CODE). */
-+   static char const *translate_code_braceless (char *code, location loc);
-+ 
-++  /* Is FILE a valid output file name?  */
-++  static bool valid_output_file_name (char const *file);
+++UNSAFE_CONFIG_CHARS_RE = re.compile(r"[\r\n\x00]")
+++"""Characters that cannot be safely written in config names or values."""
 ++
-+   /* Handle a %header directive.  */
-+-  static void handle_header (char const *value);
-++  static void handle_header (location const *loc, char const *value);
 + 
-+   /* Handle a %error-verbose directive.  */
-+   static void handle_error_verbose (location const *loc, char const *directive);
-+@@ -337,7 +340,7 @@ prologue_declaration:
-+       muscle_percent_define_insert ($2, @$, $3.kind, $3.chars,
-+                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
-+     }
-+-| "%header" string.opt             { handle_header ($2); }
-++| "%header" string.opt             { handle_header (&@2, $2); }
-+ | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
-+ | "%expect" INT_LITERAL            { expected_sr_conflicts = $2; }
-+ | "%expect-rr" INT_LITERAL         { expected_rr_conflicts = $2; }
-+@@ -356,7 +359,15 @@ prologue_declaration:
-+ | "%name-prefix" STRING         { handle_name_prefix (&@$, $1, $2); }
-+ | "%no-lines"                   { no_lines_flag = true; }
-+ | "%nondeterministic-parser"    { nondeterministic_parser = true; }
-+-| "%output" STRING              { spec_outfile = unquote ($2); gram_scanner_last_string_free (); }
-++| "%output" STRING
-++    {
-++      char *file = unquote ($2);
-++      if (valid_output_file_name (file))
-++        spec_outfile = file;
-++      else
-++        complain (&@2, complaint, _("invalid %%output file name ignored"));
-++      gram_scanner_last_string_free ();
-++    }
-+ | "%param" { current_param = $1; } params { current_param = param_none; }
-+ | "%pure-parser"                { handle_pure_parser (&@$, $1); }
-+ | "%require" STRING             { handle_require (&@2, $2); }
-+@@ -952,14 +963,24 @@ add_param (param_type type, char *decl, location loc)
-+ }
++ class MetaParserBuilder(abc.ABCMeta):  # noqa: B024
++     """Utility class wrapping base-class methods into decorators that assure read-only
++@@ -759,6 +762,7 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
 + 
++     def add_section(self, section: str) -> None:
++         """Assures added options will stay in order."""
+++        self._assure_config_name_safe(section, "section")
++         return super().add_section(section)
 + 
-++static bool
-++valid_output_file_name (char const *file)
-++{
-++  return !strchr (file, '/');
-++}
++     @property
++@@ -865,10 +869,14 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++ 
++     def _value_to_string_safe(self, value: Union[str, bytes, int, float, bool]) -> str:
++         value_str = self._value_to_string(value)
++-        if re.search(r"[\r\n\x00]", value_str):
+++        if UNSAFE_CONFIG_CHARS_RE.search(value_str):
++             raise ValueError("Git config values must not contain CR, LF, or NUL")
++         return value_str
++ 
+++    def _assure_config_name_safe(self, name: "cp._SectionName", label: str) -> None:
+++        if isinstance(name, str) and UNSAFE_CONFIG_CHARS_RE.search(name):
+++            raise ValueError("Git config %s names must not contain CR, LF, or NUL" % label)
 ++
-++
-+ static void
-+-handle_header (char const *value)
-++handle_header (location const *loc, char const *value)
-+ {
-+   header_flag = true;
-+   if (value)
-+     {
-+       char *file = unquote (value);
-+-      spec_header_file = xstrdup (file);
-++      if (valid_output_file_name (file))
-++        spec_header_file = xstrdup (file);
-++      else
-++        complain (loc, complaint, _("invalid %%header file name ignored"));
-+       gram_scanner_last_string_free ();
-+       unquote_free (file);
-+     }
-+diff --git a/src/parse-gram.c b/src/parse-gram.c
-+index 3c1d8229..7f6deb33 100644
-+--- a/src/parse-gram.c
-++++ b/src/parse-gram.c
-+@@ -276,8 +276,11 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
-+      string from the scanner (should be CODE). */
-+   static char const *translate_code_braceless (char *code, location loc);
++     @needs_values
++     @set_dirty_and_flush_changes
++     def set(
++@@ -877,6 +885,8 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++         option: str,
++         value: Union[str, bytes, int, float, bool, None] = None,
++     ) -> None:
+++        self._assure_config_name_safe(section, "section")
+++        self._assure_config_name_safe(option, "option")
++         if value is not None:
++             value = self._value_to_string_safe(value)
++         return super().set(section, option, value)
++@@ -901,6 +911,8 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++         :return:
++             This instance
++         """
+++        self._assure_config_name_safe(section, "section")
+++        self._assure_config_name_safe(option, "option")
++         value_str = self._value_to_string_safe(value)
++         if not self.has_section(section):
++             self.add_section(section)
++@@ -929,6 +941,8 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++         :return:
++             This instance
++         """
+++        self._assure_config_name_safe(section, "section")
+++        self._assure_config_name_safe(option, "option")
++         value_str = self._value_to_string_safe(value)
++         if not self.has_section(section):
++             self.add_section(section)
++@@ -949,6 +963,7 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++         """
++         if not self.has_section(section):
++             raise ValueError("Source section '%s' doesn't exist" % section)
+++        self._assure_config_name_safe(new_name, "section")
++         if self.has_section(new_name):
++             raise ValueError("Destination section '%s' already exists" % new_name)
 + 
-++  /* Is FILE a valid output file name?  */
-++  static bool valid_output_file_name (char const *file);
-++
-+   /* Handle a %header directive.  */
-+-  static void handle_header (char const *value);
-++  static void handle_header (location const *loc, char const *value);
-+ 
-+   /* Handle a %error-verbose directive.  */
-+   static void handle_error_verbose (location const *loc, char const *directive);
-+@@ -663,19 +666,19 @@ union yyalloc
-+ /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-+ static const yytype_int16 yyrline[] =
-+ {
-+-       0,   310,   310,   319,   320,   324,   325,   331,   335,   340,
-+-     341,   342,   343,   344,   345,   350,   355,   356,   357,   358,
-+-     359,   360,   360,   361,   362,   363,   364,   365,   366,   367,
-+-     368,   372,   373,   382,   383,   387,   398,   402,   406,   414,
-+-     424,   425,   435,   436,   442,   455,   455,   460,   460,   465,
-+-     465,   470,   480,   481,   482,   483,   488,   489,   493,   494,
-+-     499,   500,   504,   505,   509,   510,   511,   524,   533,   537,
-+-     541,   549,   550,   554,   567,   568,   573,   574,   575,   593,
-+-     597,   601,   609,   611,   616,   623,   633,   637,   641,   649,
-+-     655,   668,   669,   675,   676,   677,   684,   684,   692,   693,
-+-     694,   699,   702,   704,   706,   708,   710,   712,   714,   716,
-+-     718,   723,   724,   733,   757,   758,   759,   760,   772,   774,
-+-     798,   803,   804,   809,   817,   818
-++       0,   314,   314,   323,   324,   328,   329,   335,   339,   344,
-++     345,   346,   347,   348,   349,   354,   359,   360,   361,   362,
-++     363,   372,   372,   373,   374,   375,   376,   377,   378,   379,
-++     380,   384,   385,   394,   395,   399,   410,   414,   418,   426,
-++     436,   437,   447,   448,   454,   467,   467,   472,   472,   477,
-++     477,   482,   492,   493,   494,   495,   500,   501,   505,   506,
-++     511,   512,   516,   517,   521,   522,   523,   536,   545,   549,
-++     553,   561,   562,   566,   579,   580,   585,   586,   587,   605,
-++     609,   613,   621,   623,   628,   635,   645,   649,   653,   661,
-++     667,   680,   681,   687,   688,   689,   696,   696,   704,   705,
-++     706,   711,   714,   716,   718,   720,   722,   724,   726,   728,
-++     730,   735,   736,   745,   769,   770,   771,   772,   784,   786,
-++     810,   815,   816,   821,   829,   830
-+ };
-+ #endif
-+ 
-+@@ -2217,7 +2220,7 @@ yyreduce:
-+ 
-+   case 9: /* prologue_declaration: "%header" string.opt  */
-+ #line 340 "src/parse-gram.y"
-+-                                   { handle_header ((yyvsp[0].yykind_75)); }
-++                                   { handle_header (&(yylsp[0]), (yyvsp[0].yykind_75)); }
-+ #line 2222 "src/parse-gram.c"
-+     break;
-+ 
-+@@ -2289,7 +2292,14 @@ yyreduce:
-+ 
-+   case 20: /* prologue_declaration: "%output" "string"  */
-+ #line 359 "src/parse-gram.y"
-+-                                { spec_outfile = unquote ((yyvsp[0].STRING)); gram_scanner_last_string_free (); }
-++    {
-++      char *file = unquote ((yyvsp[0].STRING));
-++      if (valid_output_file_name (file))
-++        spec_outfile = file;
-++      else
-++        complain (&(yylsp[0]), complaint, _("invalid %%output file name ignored"));
-++      gram_scanner_last_string_free ();
-++    }
-+ #line 2294 "src/parse-gram.c"
-+     break;
-+ 
-+@@ -3290,14 +3300,24 @@ add_param (param_type type, char *decl, location loc)
-+ }
-+ 
-+ 
-++static bool
-++valid_output_file_name (char const *file)
-++{
-++  return !strchr (file, '/');
-++}
-++
-++
-+ static void
-+-handle_header (char const *value)
-++handle_header (location const *loc, char const *value)
-+ {
-+   header_flag = true;
-+   if (value)
-+     {
-+       char *file = unquote (value);
-+-      spec_header_file = xstrdup (file);
-++      if (valid_output_file_name (file))
-++        spec_header_file = xstrdup (file);
-++      else
-++        complain (loc, complaint, _("invalid %%header file name ignored"));
-+       gram_scanner_last_string_free ();
-+       unquote_free (file);
-+     }
 +-- 
-+2.44.4
++2.43.0
 +
-diff --git a/meta/recipes-devtools/bison/bison_3.8.2.bb b/meta/recipes-devtools/bison/bison_3.8.2.bb
-index 03d3cffe2a..339a9d1336 100644
---- a/meta/recipes-devtools/bison/bison_3.8.2.bb
-+++ b/meta/recipes-devtools/bison/bison_3.8.2.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://autoconf-2.73.patch \
-            file://add-with-bisonlocaledir.patch \
-            file://CVE-2026-56389.patch \
-+           file://CVE-2026-56390.patch \
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
+index ebb5e4b442..474206d4ed 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
+@@ -21,6 +21,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
+            file://CVE-2026-44243_p2.patch \
+            file://CVE-2026-44244_p1.patch \
+            file://CVE-2026-44244_p2.patch \
++           file://CVE-2026-67326.patch \
             "
- SRC_URI[sha256sum] = "9bba0214ccf7f1079c5d59210045227bcf619519840ebfa80cd3849cff5a5bf2"
+ SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
 -- 
-2.51.0
+2.43.0
 
 
