@@ -1,407 +1,260 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <benhur.tessele@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6563CCA462
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 12:16:51 +0000 (UTC)
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20162.1792153006016975440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA8BCCA464
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 12:45:31 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.66])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20875.1792154727758351191
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 05:16:46 -0700
+ Fri, 16 Oct 2026 05:45:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=pJ251sfq;
- spf=pass (domain: gmail.com, ip: 74.125.224.50, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6768403e9bbso5618519d50.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:16:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792153005; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QDXWShCNdgb0hP+HTzyEgbHb7j5BLKRx5ZEEIaIdtQLn/c720+izHN5cD79nwksjtX
-         teaU6L27h7P2SnRXeMbUpcRQuKGkduibRhdt4eVGK+Frn4Uc4TeVsurhVfQcnAc1ubGs
-         5LPW8/Sj7xs6F619XUzcx5lvWz0FCv1HDuq/bUlERfKqCKvCsl2fijMrah1kJXV8SGuU
-         utcbaUF+ViC2xgb3lThbqT7MYOtdT6JexCZ9FzoKTvG2KnnrrGYf51pPzgeY04vw0Ctc
-         8Q3kid09WOX6GKpB+eQ8ORBm4xp00MigQrpNsTMrewBC9lVUd45QYykEqH2hILrWXfp7
-         2dgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QbxnOKGXxuTpEAF4BK8UtSmCPaGYTyMgLm+d2Em84IA=;
-        fh=TGF7TVa5Eshw5M6K2XLmjdIMKFhrsPaliuC+tv7wzuY=;
-        b=bJJWdfNZUsENJcPRdjFFCFtG3LisAAIIIvc9rMmLRCOkR9bdQsLHnalG8x8EXM7FgH
-         Lp6Zw1nJ4UVBcYKU/wF45BnU32JMvcDkVfd2a6TKLY1vPJaZRX6WJI1CaQZrpLAgPev4
-         LPx8vOaCe0iQ9kn1C893yBQFy1aSskWLBz6lOOBzsl/qIf/ZNMY8csR7fKAyA5l9Lt7+
-         fJT1+gmhgdjkHjpt1G4OVCQBsSmlYlJa0yuxCSY3vd6jaXnm3h3YTfaPMqCnmjo1RI4j
-         WeCqOeGy58FcmWVUd5KKarJB0FGzBZ7bsV2gdjcnZN19mcusjcTZHppvdfmSRwhRx32C
-         MldA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792153005; x=1792757805; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QbxnOKGXxuTpEAF4BK8UtSmCPaGYTyMgLm+d2Em84IA=;
-        b=pJ251sfqF3ZagMDl/xYuwULSk34EKWiOwLchFOzAuHyHFs8lG4dn2759EYg7Z6O2FJ
-         14nNYeZoYhnqOz/d+iVN88rPztLUfb/Uzpr2J9Zxc22vyR/aQhzHI+7xHmE2zwoC34Nj
-         h5MVBaMveqaLaAByB7yCb7TZjaqMQ5lWZD6AYZhmI4/TWRkgPxutIP/i0X4Lisldtoju
-         R4kmdJSxESb2DvByllZnOpeQ5IG58B+MlYo5t+xMgmNHlLw6QIn8tyfBmGxIQ8m3CEK8
-         k9WobJUZdYmikpdzblrgyFav2bnKl6wCEw/EuElDXjjkKVlSdrI0cuALE9N2F0uwb4Tz
-         T8jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792153005; x=1792757805;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QbxnOKGXxuTpEAF4BK8UtSmCPaGYTyMgLm+d2Em84IA=;
-        b=B56XhHn4EF+/MJ6BptamkYE1OJJUG6vr3OwL/7q32xCQDUPlxUvymsxBQSywCpCA8v
-         MEfbO3/IaAT32YwBtw+FZklW6HT8NMDhB0a8R/HT56OVKJn/M3h+nAV3Y9MDtF5qQjgB
-         X0xwR5Jq6Vah13dLZp9WlVQ6fgkb/5W9UJeN8PEeKqPNlN64MLDf8wxMox25KJzx3UUq
-         1XSzBuXjS2EpxSaJd+LhN6DruryacQJ5wEQZUqnIB1mbvW4rLkbgIWj4d7Hj1Emos1mU
-         UeMTjSmaFlpFmytQr0EdO5SSj+opE12CLH3REc+tfdkOaskCesS3RAXlJs0pHyGfa2Qc
-         dn5A==
-X-Gm-Message-State: AFq9FYJtqEXQfcpg4nvb4M1arkZ65YqkoaSpkj7JLY4TPXgCkSxJQNjr
-	Le4wRLktMzRairMRnAyDTlykq0Dauq36XC99+eaZmRWf6HzmCV/daFTeiUY3X5KjkcvP+HYrE56
-	wIbrOOyrJ0OocLrcRFPd3vb3PcY0pIHzaTA==
-X-Gm-Gg: AYBFou2CjorGyPClwsa0CNjAhDpJmCeme7Hv00QIlufgPElcQEF/qm2+ovePcarr9aD
-	Mx2Hx3wzfhjXB57HR1H0q7Zfp5JVbCD/15FIrjs9MTLMh0ydx9PwaA692Th90fYhjwWB3y7cJ5f
-	JBPKK/3RaQ38kbmJIeXU1xXqSrD9jAryterqhiVU12ugVmnodP7veQkpAlzaVJhrquG2Vb6Ig8Z
-	EgCm98MQFudlav+Ge1Tt/HYKspSY2ZdrNl0a8RjUz8UhiBkqT9is38ObgTYu5o8Diktj2RQoL47
-	AzqNt7sKbyidIVdV5VxqGWw96ItiKsTa2IGm8nf6V7qz416ka/96m0qGL05cx2p9T2i4lEWWeCr
-	KaeiMBf+5
-X-Received: by 2002:a05:690e:12cf:b0:677:c92e:eee4 with SMTP id
- 956f58d0204a3-67936ac0905mr8630401d50.86.1792153004656; Fri, 16 Oct 2026
- 05:16:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20261015-eudev-3-2-15-v1-0-407ba1a93edb@gmail.com>
- <20261015-eudev-3-2-15-v1-2-407ba1a93edb@gmail.com> <DM6454M8AZXW.22GK84O103WXZ@bootlin.com>
-In-Reply-To: <DM6454M8AZXW.22GK84O103WXZ@bootlin.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 16 Oct 2026 13:16:33 +0100
-X-Gm-Features: AclHuK9FGI9tL7NqnQePN6qpZf5OQkIIvDe9zpr51tfcai1D7BnIgqcy4VgccRE
-Message-ID: <CAO5Uq5QxyG6CgRk=SmtJHR8j6anUgdE3TkBy84tjo7kXfm95Vw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] eudev: upgrade 3.2.14 -> 3.2.15
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=lF59zNLR;
+ spf=pass (domain: est.tech, ip: 52.101.72.66, mailfrom: benhur.tessele@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VGQJLCWVbRV9lRb4I6/3ylZjtkpxEuklgyOEHddCQh9EJsn92kJrh5XkVw8OH0N8CPJASfi5mYYiviiXgHCRBFnxu4ix/1cwLVW6iX35QGEdFG9iPjJix6kppwWW2A/Jc8uuKz7k/+pW4rJqLkCG/53t7JwAh00Hapx89AckYNv9oohwpvR3CEEZFsgJCJIxS0DtFj3htILoTsO5DCokyx6aaRPpSjo2q2W7OJwvtOgUt6CLApTQz26qqNtYWV0bK8dgwg8GFtZEWw8wpwivx5TMZ/mj7iE/mJNo33y8wDqVrO1C8BAerkuws8+urmtiwEFvcs48y5Q7unCQba52Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7n7FbKkwBiCm6T4KBUWh0G+goMsZKH6epcl2MfgJ2m0=;
+ b=GHqFMIhxbOGlkfpvVhKGljl836ljBhF8cNslcHcS8TKJfea/vebVkPaERxBwCjH6kICHVDh0xitNpXmQRRbMIdv/8+Z4hzu46bAqqpkgQaBOgmZlkIZVs//vTnymaV+Ia1fWIJNyXGAIf7k26Aha97pfz0HlNvxwyQuyiB05tCCSgdPZYKBPl+Qx3ZIHfm4KR1T7uu4Rk52jGK7Z3Fy6rlhFb2enonbtLe6S2uoDNBY9FyKjMkc9TsOk9NHGPHAmXT7Zu75INLe75Mcxl589FXm01qUKJFPyZndJwRPCpXABptU7l+y9LETNjTuPWDbi0aEKCEAipFA6msa8wOo2Ug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7n7FbKkwBiCm6T4KBUWh0G+goMsZKH6epcl2MfgJ2m0=;
+ b=lF59zNLRT/e4D8hQlNGGt2ggGk1RW5X20DNmLoPRM6Lmby3hfoHZXhFOhOWfg7GTlSnEXgGlCSogtOXw3QMe7694fDP++HaSIXqJElGZiijL3AJh+YVujwbnQ4bnugl+WxnX6hNZEXR8vhDMZNtKk1BA/gyWsLN0AwfI1MNDfRum5e1WnDY3OUbUgfQEiMNxyaAlRtHqKM64KDuPq5fyw1E75+xW+yHn44VxVtmxEihomXsHBOwVg5KOSKE62xtD59TWWY+cxfDKDefcuKkT1CzkzMf92fid/QDAmmXz6DYynwy3NKN9czLE0ni3kONJIf2aXqrrGGv/d2zXA25dNg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from PAWP189MB2572.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:35a::16)
+ by AM7PPFD652E8E05.EURP189.PROD.OUTLOOK.COM (2603:10a6:20f:fff1::6a9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
+ 2026 12:45:22 +0000
+Received: from PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5da2:7509:7be5:d74f]) by PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5da2:7509:7be5:d74f%6]) with mapi id 15.21.0522.012; Fri, 16 Oct 2026
+ 12:45:22 +0000
+From: Benhur Tessele <benhur.tessele@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: Khem Raj <raj.khem@gmail.com>,
+	Benhur Tessele <benhur.tessele@est.tech>
+Subject: [scarthgap][PATCH] go: fix CVE-2026-56862
+Date: Fri, 16 Oct 2026 14:45:07 +0200
+Message-ID: <20261016124507.350030-1-benhur.tessele@est.tech>
+X-Mailer: git-send-email 2.56.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DB9PR02CA0003.eurprd02.prod.outlook.com
+ (2603:10a6:10:1d9::8) To PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:35a::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAWP189MB2572:EE_|AM7PPFD652E8E05:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d1e1a97-17d1-4b47-3dfb-08df2b8357f2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|56012099006|11063799006|261009221727099003|261009223027099003|261009223327099003|261009221227099003|261009220027099003|260925022911599003|10067099003|18002099003|6133799003|13003099007|260925021911599003|260925021311599003;
+X-Microsoft-Antispam-Message-Info: 
+	X3P4w9UWj3xazpt4k6y8MHtpliP2X2J4KDwbvtjZajqy5bqMcMtasE6nJsPrxzjzN8goBveFZqRGOhf0jj2ChUtMfoFs1kRX3ltuooS8NwWWgXo/tz7WtPrPhY9ihkvkBdaCgWTFbVFtzioLcT6pwj9APxU9H5D/IEultjHk4PsrvIK1nU9ozbjHvIbTaUGXDrdAgo5Oul8NdEM6LQGv+CFE6mc9Dux5Nk5sOUaOJd7H0waJ2w6onfPryivAEesCYieti7duwuZQxPvc83DABCI/GgmoAirdhc8orc4OeKoY/sL8vcKsPZOl0qDDd0aSUwfkd605sdNznQR6vG2iZiQDVpHKkEpqJRg48DGU5CsPzNM5EabH6R9jFAennJaYfdQFZEF+6KGcn0fk0nggPDKyNzw4tI/ST4g+K8Ng8gD0uAVVO3AFgK00D41TSMRiao+mAsyTZcB5/v6is6Agvb8AAELZrC/mXJvA52YvOFYINhixIhZYxjCzpThNJcg187bQAXXrNDllD6IXLUiw55Rmh7I7hqSWg214rWoq/22qjXgjkvgs+H6mo0p0c8Xg4+C9SuHJ6g5r44OBSUy5SS+5xk/9K8QB+i+QdGZfk8K0EWJ6RJU8/RxbJ7KUKiZR
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWP189MB2572.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(56012099006)(11063799006)(261009221727099003)(261009223027099003)(261009223327099003)(261009221227099003)(261009220027099003)(260925022911599003)(10067099003)(18002099003)(6133799003)(13003099007)(260925021911599003)(260925021311599003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?tDnvSZulekgR1Am7sXft1jbo2BITLAk2k+y9Gk+YgNV/zYKPwoV6zF6fWHkd?=
+ =?us-ascii?Q?lQbrbuzRDtI1jfs8PjhTunE5No3lVFmUisRC88NwtOorAGxoeXA95lyUzKqA?=
+ =?us-ascii?Q?PUdbdDQHeknBGEtLg43ZfGyYTH9u0ciN13r++m1082cTQURO/p6fh2K9WoEB?=
+ =?us-ascii?Q?OYhRIk+aRI6k5CGZ0Clidd1EvDgQ2X+fkMQx66gw8BIAHV+jqys6gdkyW6+h?=
+ =?us-ascii?Q?xh+fYuhHt0VKdJKGwP+2cqKF+18oMlkYlUOtkzIIKtcFvXML48A63DL1O9QT?=
+ =?us-ascii?Q?1Y699Z6S9CGDz648aCIjQuSMn1qVCpIwRGBXfAbO/ZMWt7/Z5IZDgRYCvCIg?=
+ =?us-ascii?Q?48AAovJ/NNViTynWiYmx6K/F8HAhP60xwG1ch87Ci9voAubNbClrKRt0Ri07?=
+ =?us-ascii?Q?eYildHTIYKAsLK9mBEXj1sJj+DFJ8nQxYfG55rIJtstO0ViPIubdu3arVPzN?=
+ =?us-ascii?Q?M5foAaghVzkoAiWUa+sdNV8ZKMX4zeDCFV4dykF7Qy9DEPiuoaCCsGZQZWF1?=
+ =?us-ascii?Q?0EL3/gJ8e1khONRFkqEwdowCrYFc3A8R2N1EwaFEm+WSS3fH91dwk/No9OZQ?=
+ =?us-ascii?Q?RRFcA/aULwteN4fA7ct8yYhArvKqq4ktVkTK1Ey2NO+7AkhJeu2Ot1h6zykM?=
+ =?us-ascii?Q?l2Vx0NwLEQJ3YHeG46nVrR2ZYuYn1cD0sQzoHhKOf8RjiPs2z6Wv5p6fzqoB?=
+ =?us-ascii?Q?zf+vlitwTsbe9Jq/jRMloiEEL342Bz7ctrjod63T0kSWKUQ3ihx8udZ9Kw9f?=
+ =?us-ascii?Q?xoMgx9Ng1YkQjgGWZUM2UmZFb5yCpcyMTDY2CkGgU64sAQiXC/F652Xv+SFc?=
+ =?us-ascii?Q?dTFwsuX1a+J0+qXCm4w38wx0lFdwWfxb0Yjon0PYsLSnru6pWkvaos3NXXxW?=
+ =?us-ascii?Q?8v5W7nPX1E0V4jZXFYPBX6gF0uzYyexZgjf0/ZT68up8oF7IHwcfP5m7O2v9?=
+ =?us-ascii?Q?IhmOBBT8ssB9lVGxkKmCQIpOTiyZKaTeqZvXAqmkAtIODwtaoTYJtsQtljeY?=
+ =?us-ascii?Q?yu05YiCICsAW8tGMsml0iMUMCkSDzAS/WWthRG8enWKwLtjB9MExP2qAOwKr?=
+ =?us-ascii?Q?qGlm2XgPnMhQE4Hdpk6J7olSLcd0IljuBEpLU2X2X32kHzFcLL2oEzbtmbnJ?=
+ =?us-ascii?Q?TWxwHR9VO7o90OwAgZhpCxF9t6p7y7xrgc2ddofhasVHLc/WEwz86JTqIFtl?=
+ =?us-ascii?Q?j8eZflzSNX9kxKbPfx+nZT9qNe+MOt/m52T/g+qVRQfDcdLWByV0L9+1ek42?=
+ =?us-ascii?Q?5szeVsaKd43Yjtfh1fA8/ETPdLt3crPcVlImLkMzkG6sXCiOOYCx5J1s5tgs?=
+ =?us-ascii?Q?h7iDFo9rTz6YYT67nJU4Nqh/zmFe5LAx1034pDjiMEFtulws9vysh+AnpAct?=
+ =?us-ascii?Q?Fja2SqX2Al7r49LWOPgJc4W8mJktv170StKO6moAicxt5srUADYqMCowZMgs?=
+ =?us-ascii?Q?gMsE0GSd/qZbS3TLgq4Jy/gr8DDs3h4/9QAXjVYDhUKW6H8iAvmiLChuJbSP?=
+ =?us-ascii?Q?IpPzt+ELGOUXVQx0ODoOYosk93xWwEl54vEjDXSRw7qaGVhNykUSEJbdG4xv?=
+ =?us-ascii?Q?MFmzLs8Eb6c+KgFUUYZkeMBbh2jAZxBSzKHAU2I0QMQXiQYGwsS4C+6zjSes?=
+ =?us-ascii?Q?Ulv5OXso4ne1Cnl725nh4ToXElw1x7hO8k2lRw3eCRm8D/oagWecu7lg+f5L?=
+ =?us-ascii?Q?n0vMgGdMvOCnmB9tAWTavdCELvqpDtagUroS8t8GhIgvGqICX+r2Vdge+f8M?=
+ =?us-ascii?Q?svpg+wVjWA=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d1e1a97-17d1-4b47-3dfb-08df2b8357f2
+X-MS-Exchange-CrossTenant-AuthSource: PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 12:45:22.6947
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +w8E8MYCTWO8S0HYADtPPRg4QEfgZIjfPgx0d0dv/SbdDBE40N+jqpORDbnDCEqVuR1/7weOiTg1uNfARB65ig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PPFD652E8E05
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 12:16:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248016
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 12:45:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248017
 
-On Fri, Oct 16, 2026 at 9:18=E2=80=AFAM Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
->
-> On Thu Oct 15, 2026 at 3:08 PM CEST, Alex Kiernan via lists.openembedded.=
-org wrote:
-> > Drop backported commits.
-> >
-> > Changes:
-> >
-> ...
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
->
-> Hi Alex,
->
-> Thanks for the upgrade. But it looks like we can see runtime failures,
-> at lease on x86 qemu:
->
-> -----------------------
-> Central error: [    1.369029] udevd[144]: segfault at 7f9e4cea81c0 ip 000=
-07f9e4d5f5643 sp 00007ffcea775058 error 4 in libc.so[3a643,7f9e4d5cd000+6e0=
-00] likely on CPU 0 (core 0, socket 0)
-> ***********************
-> [    1.324424] VFS: Pivoted into new rootfs
-> [    1.325948] Freeing unused kernel image (initmem) memory: 3804K
-> [    1.327763] Write protecting the kernel read-only data: 30720k
-> [    1.329535] input: QEMU QEMU USB Tablet as /devices/pci0000:00/0000:00=
-:1d.7/usb1/1-1/1-1:1.0/0003:0627:0001.0001/input/input1
-> [    1.332703] hid-generic 0003:0627:0001.0001: input: USB HID v0.01 Mous=
-e [QEMU QEMU USB Tablet] on usb-0000:00:1d.7-1/input0
-> [    1.332741] Freeing unused kernel image (text/rodata gap) memory: 732K
-> [    1.337474] Freeing unused kernel image (rodata/data gap) memory: 1588=
-K
-> [    1.339154] Run /sbin/init as init process
-> [    1.340184]   with arguments:
-> [    1.340185]     /sbin/init
-> [    1.340186]   with environment:
-> [    1.340186]     HOME=3D/
-> [    1.340187]     TERM=3Dlinux
-> [    1.356209] udevd[143]: starting version 3.2.15
-> [    1.360803] udevd[144]: starting eudev-3.2.15
-> [    1.369029] udevd[144]: segfault at 7f9e4cea81c0 ip 00007f9e4d5f5643 s=
-p 00007ffcea775058 error 4 in libc.so[3a643,7f9e4d5cd000+6e000] likely on C=
-PU 0 (core 0, socket 0)
-> [    1.373539] Code: ca 74 e4 e9 69 ff ff ff 0f 1f 80 00 00 00 00 48 89 f=
-8 c3 0f 1f 40 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 0f b6 17 <=
-0f> b6 0e 31 c0 38 ca 74 25 eb 32 0f 1f 80 00 00 00 00 66 66 2e 0f
-> [    1.446848] usb 1-2: new high-speed USB device number 3 using ehci-pci
-> [    1.579181] input: QEMU QEMU USB Keyboard as /devices/pci0000:00/0000:=
-00:1d.7/usb1/1-2/1-2:1.0/0003:0627:0001.0002/input/input2
-> [    1.633000] hid-generic 0003:0627:0001.0002: input: USB HID v1.11 Keyb=
-oard [QEMU QEMU USB Keyboard] on usb-0000:00:1d.7-2/input0
-> [  121.483345] EXT4-fs (vda): re-mounted 7b4506d6-59d8-4ca9-87c3-880a5a0d=
-cf6c.
->
-> This did happen a few times in a row on rebuild:
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1371
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1372
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1373
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1379
->
-> Can you have a look at the issue?
->
+A malicious TLS 1.3 peer could keep sending KeyUpdate messages after
+the handshake completed, forcing the other side to perform key
+derivation indefinitely, because handshake records were always treated
+as state-advancing.
 
-Segfaults on musl... will go dig.
+Backport the upstream fix [1]. The bogo_config.json hunk is dropped
+since the BoGo test harness does not exist in Go 1.22, and the new test
+is adapted to use testConfig.
 
-> Also, about the commit message: we try to embedded a bit of the
-> changelog on upgrades, but this one is definitely too long. There is no
-> hard constraint, but a good excerpt is probably between 5 and 30 lines.
-> Can you trim it down a bit?
->
+[1] https://github.com/golang/go/commit/27420571845abc6a97e19e21542a3213a74=
+f67f4
 
-I kinda wondered... given it's a 3 year dump of new commits, I suspect
-a "go read the commit log" is probably more useful.
+Signed-off-by: Benhur Tessele <benhur.tessele@est.tech>
+---
+ meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
+ .../go/go/CVE-2026-56862.patch                | 98 +++++++++++++++++++
+ 2 files changed, 99 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-56862.patch
 
-> Thanks,
-> Mathieu
->
-> >  ....c-sync-dev_urandom-implementation-to-sys.patch | 138 -------------=
---------
-> >  meta/recipes-core/udev/eudev/netifnames.patch      |  17 ---
-> >  .../udev/{eudev_3.2.14.bb =3D> eudev_3.2.15.bb}      |   4 +-
-> >  3 files changed, 1 insertion(+), 158 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_u=
-random-implementation-to-sys.patch b/meta/recipes-core/udev/eudev/0001-rand=
-om-util.c-sync-dev_urandom-implementation-to-sys.patch
-> > deleted file mode 100644
-> > index 668aa731aca1..000000000000
-> > --- a/meta/recipes-core/udev/eudev/0001-random-util.c-sync-dev_urandom-=
-implementation-to-sys.patch
-> > +++ /dev/null
-> > @@ -1,138 +0,0 @@
-> > -From 95c871b7b912f39539777ac222ef7f8798bb0225 Mon Sep 17 00:00:00 2001
-> > -From: Masahisa Kojima <kojima.masahisa@socionext.com>
-> > -Date: Thu, 25 Apr 2024 17:23:10 +0900
-> > -Subject: [PATCH] random-util.c: sync dev_urandom implementation to
-> > - systemd-udev
-> > -
-> > -Current dev_urandom() assumes that reading /dev/urandom
-> > -will never block regardless if the random pool is fully
-> > -initialized or not.
-> > -This assumption is no longer applicable since linux kerrnel
-> > -enforces the /dev/urandom entropy initialization from
-> > -v5.18-rc2 with the commit:
-> > -48bff1053c17 ("random: opportunistically initialize on /dev/urandom re=
-ads").
-> > -
-> > -With this, when we use the linux v5.18-rc2 or later,
-> > -dev_urandom() will block if enough random pool is not supplied.
-> > -It causes the boot delay, typically 1024msec(4msec * 256 =3D 1024msec)
-> > -delay to fill the 256 bits entropy for the case CONFIG_HZ=3D250.
-> > -
-> > -To prevent this boot delay, this commit syncs dev_urandom()
-> > -implementation to the systemd-udev.
-> > -The systemd-udev implementation of reading /dev/urandom is as follows.
-> > - - Try to get random with calling getrandom(GRND_INSECURE)
-> > - - If kernel does not support GRND_INSECURE, fallback to GRND_NONBLOCK
-> > - - If enough entropy is not supplied, fallback to reading /dev/urandom=
-,
-> > -   this will block when the kernel version is v5.18-rc2 or later
-> > -
-> > -With this modification, dev_urandom() tries not to block
-> > -as much as possible.
-> > -
-> > -This modification still keeps the backword compatibility,
-> > -dev_random() will never block if the commit(48bff1053c17) is not
-> > -applied to the linux kernel, the behavior is same as before
-> > -in this case.
-> > -
-> > -Upstream-Status: Backport [a49a3aaa460add6ae7ea208b4cac630e56fe1180]
-> > -Signed-off-by: Masahisa Kojima <kojima.masahisa@socionext.com>
-> > ----
-> > - src/shared/missing.h     |  4 +++
-> > - src/shared/random-util.c | 70 ++++++++++++++++++---------------------=
--
-> > - 2 files changed, 35 insertions(+), 39 deletions(-)
-> > -
-> > -diff --git a/src/shared/missing.h b/src/shared/missing.h
-> > -index 1967840cdbf3..1caec0f9207c 100644
-> > ---- a/src/shared/missing.h
-> > -+++ b/src/shared/missing.h
-> > -@@ -79,6 +79,10 @@ static inline int getrandom(void *buffer, size_t co=
-unt, unsigned flags) {
-> > - #define GRND_RANDOM 0x0002
-> > - #endif
-> > -
-> > -+#ifndef GRND_INSECURE
-> > -+#define GRND_INSECURE 0x0004
-> > -+#endif
-> > -+
-> > - #ifndef BTRFS_IOCTL_MAGIC
-> > - #define BTRFS_IOCTL_MAGIC 0x94
-> > - #endif
-> > -diff --git a/src/shared/random-util.c b/src/shared/random-util.c
-> > -index 01a28c8ef4e9..852b00e4ce2b 100644
-> > ---- a/src/shared/random-util.c
-> > -+++ b/src/shared/random-util.c
-> > -@@ -31,45 +31,37 @@
-> > - #include "util.h"
-> > -
-> > - int dev_urandom(void *p, size_t n) {
-> > --        static int have_syscall =3D -1;
-> > --
-> > --        _cleanup_close_ int fd =3D -1;
-> > --        int r;
-> > --
-> > --        /* Gathers some randomness from the kernel. This call will
-> > --         * never block, and will always return some data from the
-> > --         * kernel, regardless if the random pool is fully initialized
-> > --         * or not. It thus makes no guarantee for the quality of the
-> > --         * returned entropy, but is good enough for or usual usecases
-> > --         * of seeding the hash functions for hashtable */
-> > --
-> > --        /* Use the getrandom() syscall unless we know we don't have
-> > --         * it, or when the requested size is too large for it. */
-> > --        if (have_syscall !=3D 0 || (size_t) (int) n !=3D n) {
-> > --                r =3D getrandom(p, n, GRND_NONBLOCK);
-> > --                if (r =3D=3D (int) n) {
-> > --                        have_syscall =3D true;
-> > --                        return 0;
-> > --                }
-> > --
-> > --                if (r < 0) {
-> > --                        if (errno =3D=3D ENOSYS)
-> > --                                /* we lack the syscall, continue with
-> > --                                 * reading from /dev/urandom */
-> > --                                have_syscall =3D false;
-> > --                        else if (errno =3D=3D EAGAIN)
-> > --                                /* not enough entropy for now. Let's
-> > --                                 * remember to use the syscall the
-> > --                                 * next time, again, but also read
-> > --                                 * from /dev/urandom for now, which
-> > --                                 * doesn't care about the current
-> > --                                 * amount of entropy.  */
-> > --                                have_syscall =3D true;
-> > --                        else
-> > --                                return -errno;
-> > --                } else
-> > --                        /* too short read? */
-> > --                        return -ENODATA;
-> > -+        static bool have_getrandom =3D true, have_grndinsecure =3D tr=
-ue;
-> > -+        _cleanup_close_ int fd =3D -EBADF;
-> > -+
-> > -+        if (n =3D=3D 0)
-> > -+                return 0;
-> > -+
-> > -+        for (;;) {
-> > -+                ssize_t l;
-> > -+
-> > -+                if (!have_getrandom)
-> > -+                        break;
-> > -+
-> > -+                l =3D getrandom(p, n, have_grndinsecure ? GRND_INSECU=
-RE : GRND_NONBLOCK);
-> > -+                if (l > 0) {
-> > -+                        if ((size_t) l =3D=3D n)
-> > -+                                return 0; /* Done reading, success. *=
-/
-> > -+                        p =3D (uint8_t *) p + l;
-> > -+                        n -=3D l;
-> > -+                        continue; /* Interrupted by a signal; keep go=
-ing. */
-> > -+                } else if (l =3D=3D 0)
-> > -+                        break; /* Weird, so fallback to /dev/urandom.=
- */
-> > -+                else if (errno =3D=3D ENOSYS) {
-> > -+                        have_getrandom =3D false;
-> > -+                        break; /* No syscall, so fallback to /dev/ura=
-ndom. */
-> > -+                } else if (errno =3D=3D EINVAL && have_grndinsecure) =
-{
-> > -+                        have_grndinsecure =3D false;
-> > -+                        continue; /* No GRND_INSECURE; fallback to GR=
-ND_NONBLOCK. */
-> > -+                } else if (errno =3D=3D EAGAIN && !have_grndinsecure)
-> > -+                        break; /* Will block, but no GRND_INSECURE, s=
-o fallback to /dev/urandom. */
-> > -+
-> > -+                break; /* Unexpected, so just give up and fallback to=
- /dev/urandom. */
-> > -         }
-> > -
-> > -         fd =3D open("/dev/urandom", O_RDONLY|O_CLOEXEC|O_NOCTTY);
-> > diff --git a/meta/recipes-core/udev/eudev/netifnames.patch b/meta/recip=
-es-core/udev/eudev/netifnames.patch
-> > deleted file mode 100644
-> > index 4f8e54d12d4a..000000000000
-> > --- a/meta/recipes-core/udev/eudev/netifnames.patch
-> > +++ /dev/null
-> > @@ -1,17 +0,0 @@
-> > -eudev: consider ID_NET_NAME_MAC as an interface name
-> > -
-> > -eudev might not create names based on slot or path.
-> > -
-> > -Upstream-Status: Backport [github.com/eudev-project/eudev/pull/274]
-> > -
-> > -Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> > -
-> > ---- a/rules/80-net-name-slot.rules
-> > -+++ b/rules/80-net-name-slot.rules
-> > -@@ -10,5 +10,6 @@ ENV{net.ifnames}=3D=3D"0", GOTO=3D"net_name_sl
-> > - NAME=3D=3D"", ENV{ID_NET_NAME_ONBOARD}!=3D"", NAME=3D"$env{ID_NET_NAM=
-E_ONBOARD}"
-> > - NAME=3D=3D"", ENV{ID_NET_NAME_SLOT}!=3D"", NAME=3D"$env{ID_NET_NAME_S=
-LOT}"
-> > - NAME=3D=3D"", ENV{ID_NET_NAME_PATH}!=3D"", NAME=3D"$env{ID_NET_NAME_P=
-ATH}"
-> > -+NAME=3D=3D"", ENV{ID_NET_NAME_MAC}!=3D"", NAME=3D"$env{ID_NET_NAME_MA=
-C}"
-> > -
-> > - LABEL=3D"net_name_slot_end"
-> > diff --git a/meta/recipes-core/udev/eudev_3.2.14.bb b/meta/recipes-core=
-/udev/eudev_3.2.15.bb
-> > similarity index 93%
-> > rename from meta/recipes-core/udev/eudev_3.2.14.bb
-> > rename to meta/recipes-core/udev/eudev_3.2.15.bb
-> > index 3e4972694ac0..2ff2370bcb5e 100644
-> > --- a/meta/recipes-core/udev/eudev_3.2.14.bb
-> > +++ b/meta/recipes-core/udev/eudev_3.2.15.bb
-> > @@ -10,13 +10,11 @@ DEPENDS =3D "gperf-native"
-> >  PROVIDES =3D "udev"
-> >
-> >  SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-> > -           file://netifnames.patch \
-> >             file://init \
-> >             file://local.rules \
-> > -           file://0001-random-util.c-sync-dev_urandom-implementation-t=
-o-sys.patch \
-> >             "
-> >
-> > -SRC_URI[sha256sum] =3D "8da4319102f24abbf7fff5ce9c416af848df163b29590e=
-666d334cc1927f006f"
-> > +SRC_URI[sha256sum] =3D "eb69809fc0d1187f2463ab2149c53aa9f42a78e59f14eb=
-ea68eae6cb6b4fc1c3"
-> >
-> >  GITHUB_BASE_URI =3D "https://github.com/eudev-project/eudev/releases"
-> >
->
->
->
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-
-
---=20
-Alex Kiernan
+diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtool=
+s/go/go-1.22.12.inc
+index c8fb9ef450..cec3bbbb4e 100644
+--- a/meta/recipes-devtools/go/go-1.22.12.inc
++++ b/meta/recipes-devtools/go/go-1.22.12.inc
+@@ -63,6 +63,7 @@ SRC_URI +=3D "\
+     file://CVE-2026-32288.patch \
+     file://CVE-2026-27145.patch \
+     file://CVE-2026-39823.patch \
++    file://CVE-2026-56862.patch \
+ "
+ SRC_URI[main.sha256sum] =3D "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9c=
+f4d9ca02db986e17d71"
+=20
+diff --git a/meta/recipes-devtools/go/go/CVE-2026-56862.patch b/meta/recipe=
+s-devtools/go/go/CVE-2026-56862.patch
+new file mode 100644
+index 0000000000..5fca5be4ce
+--- /dev/null
++++ b/meta/recipes-devtools/go/go/CVE-2026-56862.patch
+@@ -0,0 +1,98 @@
++From 616c582eae27699513109445d5c177b42c3bb9fc Mon Sep 17 00:00:00 2001
++From: "Nicholas S. Husin" <nsh@golang.org>
++Date: Wed, 22 Jul 2026 12:27:12 -0400
++Subject: [PATCH] crypto/tls: do not count handshake messages as
++ state-advancing post-handshake
++
++Previously, we always counted handshake messages, such as KeyUpdate, as
++state-advancing, regardless of whether a handshake has been completed or
++not. As a result, a malicious client can keep sending KeyUpdate messages
++to force the server to keep performing key derivation operations
++indefinitely.
++
++Fix the issue by making it so that handshake messages are regarded
++as state-advancing only prior to handshake completion.
++
++Thank you to Qi Deng of Aurascape.ai for reporting this issue.
++
++Fixes #79866
++Fixes #80528
++Fixes CVE-2026-56862
++
++Change-Id: I37d27fd5f16227a9dde5f29bb5ae6c436a6a6964
++Reviewed-on: https://go-review.googlesource.com/c/go/+/804261
++Reviewed-by: Roland Shoemaker <roland@golang.org>
++Reviewed-by: Neal Patel <nealpatel@google.com>
++LUCI-TryBot-Result: golang-scoped@luci-project-accounts.iam.gserviceaccoun=
+t.com <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++Reviewed-by: Neal Patel <neal@golang.org>
++
++CVE: CVE-2026-56862
++Upstream-Status: Backport [https://github.com/golang/go/commit/27420571845=
+abc6a97e19e21542a3213a74f67f4]
++
++Backport notes for go1.22.12:
++- Dropped the src/crypto/tls/bogo_config.json hunk; the BoGo test
++  harness and its config do not exist in Go 1.22.
++- Test uses testConfig instead of testConfigClient/testConfigServer,
++  which were introduced after Go 1.22.
++
++Signed-off-by: Benhur Tessele <benhur.tessele@est.tech>
++---
++ src/crypto/tls/conn.go      |  2 +-
++ src/crypto/tls/conn_test.go | 34 ++++++++++++++++++++++++++++++++++
++ 2 files changed, 35 insertions(+), 1 deletion(-)
++
++diff --git a/src/crypto/tls/conn.go b/src/crypto/tls/conn.go
++index 770d456f18..376b2dcd1e 100644
++--- a/src/crypto/tls/conn.go
+++++ b/src/crypto/tls/conn.go
++@@ -699,7 +699,7 @@ func (c *Conn) readRecordOrCCS(expectChangeCipherSpec =
+bool) error {
++ 		return c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
++ 	}
++=20
++-	if typ !=3D recordTypeAlert && typ !=3D recordTypeChangeCipherSpec && le=
+n(data) > 0 {
+++	if (typ =3D=3D recordTypeApplicationData || (typ =3D=3D recordTypeHandsh=
+ake && !handshakeComplete)) && len(data) > 0 {
++ 		// This is a state-advancing message: reset the retry count.
++ 		c.retryCount =3D 0
++ 	}
++diff --git a/src/crypto/tls/conn_test.go b/src/crypto/tls/conn_test.go
++index 5e090a017d..303012ccc5 100644
++--- a/src/crypto/tls/conn_test.go
+++++ b/src/crypto/tls/conn_test.go
++@@ -317,3 +317,37 @@ func TestRecordBadVersionTLS13(t *testing.T) {
++ 		t.Fatalf("unexpected error: got %q, want %q", err, expectedErr)
++ 	}
++ }
+++
+++// TestKeyUpdateSpamPostHandshakeTLS13 tests that TLS 1.3 KeyUpdate messa=
+ges do
+++// not count as a state-advancing message after a handshake has been comp=
+leted.
+++func TestKeyUpdateSpamPostHandshakeTLS13(t *testing.T) {
+++	client, server :=3D localPipe(t)
+++	defer server.Close()
+++	defer client.Close()
+++
+++	go func() {
+++		c :=3D Client(client, testConfig.Clone())
+++		if err :=3D c.Handshake(); err !=3D nil {
+++			t.Error(err)
+++			return
+++		}
+++		ku, err :=3D (&keyUpdateMsg{}).marshal()
+++		if err !=3D nil {
+++			t.Error(err)
+++			return
+++		}
+++		cs :=3D cipherSuiteTLS13ByID(c.cipherSuite)
+++		for i :=3D 0; i <=3D maxUselessRecords; i++ {
+++			c.writeRecordLocked(recordTypeHandshake, ku)
+++			c.setWriteTrafficSecret(cs, QUICEncryptionLevelInitial, cs.nextTraffic=
+Secret(c.out.trafficSecret))
+++		}
+++	}()
+++	s :=3D Server(server, testConfig.Clone())
+++	if err :=3D s.Handshake(); err !=3D nil {
+++		t.Fatal(err)
+++	}
+++	expectedErr :=3D "tls: too many non-advancing records"
+++	if _, err :=3D s.Read(make([]byte, 1)); err =3D=3D nil || err.Error() !=
+=3D expectedErr {
+++		t.Fatalf("unexpected error: got %v, want %q", err, expectedErr)
+++	}
+++}
 
