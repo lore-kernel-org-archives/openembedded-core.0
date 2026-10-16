@@ -2,65 +2,65 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D80CECCF2CA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3BDCCF2C6
 	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 22:10:54 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4278.1792184095690669149
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4399.1792184155417043981
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 13:54:56 -0700
+ Fri, 16 Oct 2026 13:55:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=bOdtXySh;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: oo.hehir@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5be4fea434bso311676e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 13:54:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=nTf3j7Ch;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: oo.hehir@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b1aa2848d2so405920a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 13:55:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792184093; x=1792788893; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1792184153; x=1792788953; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EZs+df9WjLnPfAu38kah++G8g0/TprFbxx3NOhghDNo=;
-        b=bOdtXyShRRCmTwFlkvH+kOAN4FDRBB2fNcsymc/MlFJ2Tk6UjYK/kHf19Ad1HQtDFg
-         XiTOJpn2T+8CXyGc+kjhX2zhgCJp+2RoNfvtcj2aRMXu7Z6P7GfFkvbZH3fb456Q/LvY
-         HzlL7qAbSXz+YVzPOSmicsmp01Jxe0FVpPiq/L0CQhRghLOcmXF7L77LqADpJR6oC1lL
-         Sh4GmoFDUiWA0m7VXpZWszcm6pCkqjfSI70ELXOlUJwUb//CYsxOBZhtLC8KmuRLtv2A
-         XNJO5NsTFCqs97ldBV0o3Z5oTYQgn7Nr1b67uNmv5mTRSrzRs0CCcQuCLKbFPAFdU4A8
-         HJvQ==
+        bh=FFDSI5MWwc1WiEvgx1yW8wnz9bkGttMHMHTyDy6i7mU=;
+        b=nTf3j7ChDqinhZb5WZidlxyCpFdJxteM8be5yNAgiWbBgRxqs03tgDgBzz/ggm+UUs
+         HmuYStPcREJxumKKRE3CoLPlax8Al8U1vFSzXvqDPI/tjems2OFnej1FaUL3Al3/JxMI
+         o12GU57iQolu9q8K1UMSbFcgq1NNPtHp/Nqm/e4M67UU1RFfz4OgcgLCCliuClkXJM8B
+         m48K/AYggaI9w5eqO9UVCqKwtrjatxIHUTT+Y6bNR2OswajjiJqwI3yWkO5kaUoAm/7g
+         5vTw+l3ZJIgEXLUSKdbQFJoyBGaaO9caaXobY0XIxnZ31s4j/2eY16NukGHr5kIHgXy8
+         HxJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792184093; x=1792788893;
+        d=1e100.net; s=20260707; t=1792184153; x=1792788953;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EZs+df9WjLnPfAu38kah++G8g0/TprFbxx3NOhghDNo=;
-        b=eiPNDpcFfJYy5ZwaHZViGS/iN756/t/WKQxh0ppdrTKXST5ZLmU2CHD9NIfzct6jve
-         D/wSx4BW2O6zbVyPDnQOV7155oCIJBhIM8SigUq2/H9zPjMRi/l7GE9hnsJGujpStbfb
-         S/BnOCW3M6BWqJ9VCut+M6/O0KdDaEtiAe75RQfXKIloJzVvWa9/ubL+FhIIZWKwLBL4
-         Z4fpPDHvwnnNfUPHRF1/fpEi1PZ/hRDkLQGMF6DZNYR0e2qYRQCyFHPJzI+48YSeighO
-         Iob5UArpP3BM58xtLvYcfswJORbVcPKwfkazEft+VsfhpeAtbmyusullL+Z7QYZwhPnH
-         01Tg==
-X-Gm-Message-State: AFq9FYLZyv0u6iq191ypcqNohJGQkBQiUXkCVf19t06TixsalBd2MNOw
-	EE97Ly1LRKTR2gIxes4+MUnNuur6PD4dnc8y2o1rle7FPhV4i7wxuPa/orLLOg==
-X-Gm-Gg: AYBFou17pq+G/mkWBavzJeeOJMSTz/G5TYnKu/w+NSXb+84lpT7QvHOdG41hvhWoH2V
-	nz4oXeiZ6YgAn9jTCXT9+zhXrNGJpiYHWgcjbbGwzs1bwgWrMkTK90Biq4yF5auHiFz38Y/aOJJ
-	sGtQRQeJ69e6Qf01ZEMnz/2ufwdfaBTZJUJdSQzy5fc53UlEOv3yZ1uK4MQd0U2P7agl1QwHFxI
-	nGz9vTK3Q0ZVzUDjImpx0Lr8zMkyvnKT9FUviVRS4tSkw2ilSqme4omvG/37BHunDsIPAYhvskt
-	ZL1Kl45aIxEO/aHN/LrTd1O7gSr0hVAHAM4cTErz5NuMnpEShNE8pCbRS7n7iZ72qmmylv0v4kL
-	jOUG0ExN0XL+exRdhjsceurPHms/KByD0R2LyyempO6Sv9QiFIFjcTdpuGCfurkfOnW158ilnXI
-	itLgd7rNKQ+MB7/8Jwqm3A1bKqfvJ04Go/hbjWpE6DQhjVWMbRsLvYoEmfabpZgD1z0LW8Q84Qm
-	sA=
-X-Received: by 2002:a05:600c:1d04:b0:4a1:7f96:9b42 with SMTP id 5b1f17b1804b1-4a1d76121a2mr21520675e9.15.1792183655465;
-        Fri, 16 Oct 2026 13:47:35 -0700 (PDT)
+        bh=FFDSI5MWwc1WiEvgx1yW8wnz9bkGttMHMHTyDy6i7mU=;
+        b=ygu8YjDAL1r5LXkiLLtVt9l2cPaDhVzNjH5OIuSL9icXMC4jBSEx75riKJqPLwDKt9
+         jQylLwjcfpLAoUX3aXzJXmxTl7yoayfEbtzh8tm43OhRa0ppK+GgNlTbRTtt8+X4lvOS
+         WNwox1m2vsPfbLWH2cMpI9Hw6oAk+/ADUdpEtmrzj5dXWfsCHN5V8fgpxNJpBXaaQlrT
+         G7nls0MtDvv+0S4CQ6DQg4Ku1zh2u2Y4LhICXDD6+bV1HVOQ54RLAtDfjnl8dpebikQW
+         BT9I0susaLaRRip9CqIUxWis8LsAtZOTNACRklxOVs9mbAfaMF1ZaITx03Ax7rYXc9uQ
+         1iYg==
+X-Gm-Message-State: AFq9FYI1oGuSKRX9gzzSfzWmWigO/QJoPs1rUPCRX75pB7EwTz6SL2x7
+	3Cs37jL0N61Tlv1D4dQ9OjhEC4OkdydpB+sdNUIi2q9PJcordqfMVgBIWqVuOQ==
+X-Gm-Gg: AYBFou0qnjSr7ivRAEeNJH+m36T2kqyZtqC8XLH8f33+rnkDxljEFCqxNRes5HFmCCK
+	4OqdhtwjqBT5l9VrP2A1cDXfvNJ+7oV3hb24P/VJwjIcAg/uAARD68klSqUyyJ4ZF+zV0LLFzyx
+	dv5CZGzz2fWsNnd6cU2z87Dapnv2awbsDvnq0HVyzvCQfnLCISrl2o+0fBPiCyg5xF9HLv1pAD9
+	DxvlLdi5PvTchxrBuKia2qHfKibDiez9XYGPJe3xv535Bjsm6UJ46H+wQiCFDaUGtDfN4vXRwTS
+	DTFbs2x0d2BotXDy1ZpaWRCO9zAHtg32smAfLlswYZdd5XJhLMbVSjCtUcu5v7NgvYu4UR/gf4K
+	/hZYFpTrOYEwdPMECCGl9z1Oyn0tkn4SngeL3m/C6Cb6RaD29+gVFX9aXnQ4v/MtDz8iWz4Rwoh
+	zGH3SQJIqhoD98fwJmACFUMg9+eRDRbHDCrM8/o4eZXOSSAQtDU6TWWzY3zvCbWp269dF6v2jUq
+	l8=
+X-Received: by 2002:a05:600c:8706:b0:4a1:946c:953f with SMTP id 5b1f17b1804b1-4a1d7601873mr18880805e9.20.1792183656499;
+        Fri, 16 Oct 2026 13:47:36 -0700 (PDT)
 Received: from hp-z640.fritz.box ([51.37.221.246])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d3e2e602sm51205765e9.5.2026.10.16.13.47.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d3e2e602sm51205765e9.5.2026.10.16.13.47.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 13:47:34 -0700 (PDT)
+        Fri, 16 Oct 2026 13:47:35 -0700 (PDT)
 From: OOHehir <oo.hehir@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: raj.khem@gmail.com,
 	tgamblin@baylibre.com,
 	OOHehir <oo.hehir@gmail.com>
-Subject: [PATCH 1/7] strace: skip qual_fault-syscall.test on riscv64
-Date: Fri, 16 Oct 2026 21:45:30 +0100
-Message-ID: <20261016204547.2328847-2-oo.hehir@gmail.com>
+Subject: [PATCH 2/7] ptest-packagelists.inc: re-enable strace for riscv64
+Date: Fri, 16 Oct 2026 21:45:31 +0100
+Message-ID: <20261016204547.2328847-3-oo.hehir@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261016204547.2328847-1-oo.hehir@gmail.com>
 References: <20261016204547.2328847-1-oo.hehir@gmail.com>
@@ -70,57 +70,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 22:10:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248046
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248049
 
-On qemuriscv64, the strace ptest goes 283 s without output while
-qual_fault-syscall.test finishes. That is 63% of the 450 s ptest-runner
-limit, leaving little margin on a loaded autobuilder, so skip it there
-before strace is re-enabled for riscv64.
-
-The longest gaps between outputs in core-image-ptest-strace on
-qemuriscv64 (make -j4, every output line timestamped), with the test
-that ended each:
-
-- qual_fault-syscall.test (283 s)
-- filtering_syscall-syntax.test (139 s)
-- trace_creds.gen.test (90 s)
-- strace--tips-full.test (65 s)
-
-The rest are under 50 s.
-
-strace is not machine-specific, so the skip is keyed on riscv64, as the
-gnutls skips in cc848c403a are. It therefore also applies to riscv64
-hardware, where the test passes (VisionFive 2).
+strace was parked with the other failing riscv64 ptests in 22736c5281 &
+passes now. core-image-ptest-strace on qemuriscv64, with the previous
+commit: 1081 pass, 0 fail, in 24 min. On a VisionFive 2 (JH7110): 1212
+pass, 0 fail.
 
 Signed-off-by: OOHehir <oo.hehir@gmail.com>
 ---
- meta/recipes-devtools/strace/strace_7.2.bb | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/strace/strace_7.2.bb b/meta/recipes-devtools/strace/strace_7.2.bb
-index 451ffa6f88..2d6dcb8c75 100644
---- a/meta/recipes-devtools/strace/strace_7.2.bb
-+++ b/meta/recipes-devtools/strace/strace_7.2.bb
-@@ -57,6 +57,19 @@ do_install_ptest() {
- 	    -i ${D}/${PTEST_PATH}/${TESTDIR}/Makefile
- }
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 2bd11b1706..5e99b59d4a 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -167,8 +167,8 @@ PTESTS_PROBLEMS:append:riscv32 = " lttng-tools strace"
+ PTESTS_SLOW:append:libc-musl = " libc-test"
  
-+# Tests that go too long without output under QEMU for the qemuriscv64 ptest
-+# runs. strace is not machine-specific, so this also skips them on riscv64
-+# hardware.
-+STRACE_PTEST_SKIP ?= ""
-+STRACE_PTEST_SKIP:riscv64 = "qual_fault-syscall"
-+
-+do_install_ptest:append() {
-+	for t in ${STRACE_PTEST_SKIP}; do
-+		sed -i -e '1a . "${srcdir=.}/init.sh"\nskip_ "Too slow under QEMU on riscv64"' \
-+		    ${D}${PTEST_PATH}/${TESTDIR}/$t.test
-+	done
-+}
-+
- RDEPENDS:${PN}-ptest += "make coreutils grep gawk sed locale-base-en-us"
+ # These tests don't yet pass for riscv64
+-PTESTS_SLOW:remove:riscv64 = "tcl tcl8 python3-cffi strace lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
+-PTESTS_PROBLEMS:append:riscv64 = " tcl tcl8 python3-cffi strace lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
++PTESTS_SLOW:remove:riscv64 = "tcl tcl8 python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
++PTESTS_PROBLEMS:append:riscv64 = " tcl tcl8 python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
  
- BBCLASSEXTEND = "native"
+ # These tests don't yet pass for musl qemuarm64
+ PTESTS_SLOW:remove:libc-musl:qemuarm64 = "strace perl gnutls glib-2.0"
 -- 
 2.43.0
 
