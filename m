@@ -2,62 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADD24CCF2C1
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 22:24:56 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5939.1792189486559843888
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05FF0CCA490
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 22:24:57 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6032.1792189490247582580
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 15:24:46 -0700
+ Fri, 16 Oct 2026 15:24:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=TLmYlxS2;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-487049569b6so189603f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 15:24:46 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=s5BIA70N;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a1cef0439aso4330215e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 15:24:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792189485; x=1792794285; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1792189488; x=1792794288; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=DV/dXIQ2ig5IZMxUi3Z7aFRhqGJvl5nQ8iu5CVilAWI=;
-        b=TLmYlxS2u6++8BywbaARlguKclzlDYAY/EjdGTgAQstoZ/QSJwEzgMcVYBJjm9wNF4
-         MuxfjHuE0UGjd9rC4l87uu2lkVqPl2/3ykXLojbJkMlaXvJOl1VfKhu13ucO1Bkg6lsY
-         BpCZGMFsDVwZtdsp/zW7txQTsp2TyeO8F7Jrc=
+        bh=r/3AN8XFMbB0Ow70zZiURM8u3wGZlLNQWU2Am4dFnUU=;
+        b=s5BIA70N+9SR5I2ZYbeK92xDs581H2Xb1h7vxwJaArP7vRzQeRBWfNCTkDEQ7+yWlD
+         HjGQDmr8H/tNmggJtuP6uwYpELZBL29H2vw3xnRo4IJn5ljOqYbbuBKAvhfSwAxNYTbJ
+         Rs6lJYCC+jGHAEVcUL8gv+IChVWHQSPAy0n7U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792189485; x=1792794285;
+        d=1e100.net; s=20260707; t=1792189488; x=1792794288;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=DV/dXIQ2ig5IZMxUi3Z7aFRhqGJvl5nQ8iu5CVilAWI=;
-        b=jAsD020RmbukMnT41pOjQdaOlTRdbTfvrlQ+9jWTe/fhNyFUnkXUGGkatYmgV6wPad
-         HvwEKqSqZuEAe+Ns/Ny3qoU3OFffSglKb85s0FXnBbR+6+ElTWUgp8dnQuRIr78xU+fT
-         j5gV7U/1di8O7yvxiywNCWb1ChXQAfESPp40bE8oSTihaxmPirNqMsG7oCxXUfya2HQD
-         f112/xGs7A2VJFNrQXOPVJy7v194OEaYzCGj8F88HwQ83cm2vsfQ+cx873Finqdq0CVo
-         TmCHoq5EcsageH08IQ4HXX0UuVIHw5qDbOC0uODzkXBWn1YcoJQRl9tloPqmYPg2sDy2
-         ytdw==
-X-Gm-Message-State: AFq9FYLhPhWVKV4G8FfO4OoMjc0rHCIuqQ++ekf+W6be8F5I0sCDzYxS
-	nDGKJnLcUnx28R7UVcmdOmMksHEV+wEuYz38S+dTj+lT35Yge4k9v4VEf48Q4qGRtJPlfqCt/O0
-	ie9y0sEg=
-X-Gm-Gg: AYBFou1P2JxMWAE/zf477aMIlirPutEu+DMjb/1fZeZUb5zrZraZ7HqPhgbdfQ7z3Xp
-	OhKofWiFSxcuNfeuj7bGhj4Oe2aPwITAssbjq1GHsY45hmV80pwlka6ndR6E0HLSKqx+AYo3OV4
-	v8i9yPrBk6TBxV8Jc9AG02aNT31DmFnXACbf72ZIGHfNNi4/qChapRn9BjYMQO5WkjngmqCa5O4
-	wAMHI7vYqzCv5ltTNuWe1NnjYOnjLCVD86x1K2xWLyrLpA3uETKB44AyO+/epEokHD9TFdI5AvH
-	+ynJkM/R5KwenNsdNaA7jUzcrxJb/QC9GrVo8hsUUBSl69XlTpWRnFYFEfa0nhEFjmux4e9DeOJ
-	pE28lGnFV+xsy1WXo4UT8ziCdUBhqpTLvnfnY2SsWcCOa360gd3SMFBhfTwgUXUYzYh6AeciLbN
-	32saVQqe1pDD7uwZkUz8rkKjx0V+4KcJkfDrtH4pCD2ujQUAdkBZ/1skD/BUZSp1NUEcXCludXU
-	Q6qHqaUoJYiv3TEhaFH9eN/Vo0ZHKbfyvkVao2OHJ6t0KrzzOt2Ii7e9z1lCghClTlr0IdCwe0o
-	/CRlUKGK
-X-Received: by 2002:a5d:4e05:0:b0:48d:f855:d1e0 with SMTP id ffacd0b85a97d-48e07fc2061mr1333862f8f.57.1792189484572;
-        Fri, 16 Oct 2026 15:24:44 -0700 (PDT)
+        bh=r/3AN8XFMbB0Ow70zZiURM8u3wGZlLNQWU2Am4dFnUU=;
+        b=LaUXm1iDNL1QFU5ibNARditg1IWqQtue4LJgvADDA+ppSc8ZxPEj2JQ3xk8nV+VCcE
+         crMcLld2wzGQe+gabKP8fTQTrv38lozO7G3XuqA3vaCGZ4suCOzvRqrSSlY4QGe7T5d/
+         gCKfOYLzZpnO4WCQztI5ztfnwSDCK7SNn48pnQ9U2KETlHXsiDyWirv0+hT2kzqJPUvt
+         w6qjWe9ZP+9NP71WkVuKnzqpAieYYZe2x38Gl3H4b9NF6RF4YibKJiLX9FPhggLy4FXY
+         1K37I8PShiVFchXc8mAfiIF0dAvSSEfJOOL+IKDmRxL5oTpqjH5H7BN5cs2Nvhkazq4x
+         xqpA==
+X-Gm-Message-State: AFq9FYJjinFb+M+2n416dXwTicWqe5zc2w4814tb8UPM1oapojYU/R6c
+	ttuctTprspL6+VJN7QU0RKROuvxWQ4YnWCGYnoYOUsNXijynwGDgUWahatwL11OlQ5TYYg2CXfk
+	4mrZ1aR0=
+X-Gm-Gg: AYBFou0jkS4qG/8JkrXSrVDy5v3QTZQkItw9QULHTq+eiPcjsIafJ5rbQvF8+a9tSbT
+	zGRxueds2/9EB2gWxzVXlQL7PMVIZrzsmB1MAx0+RTcNu9kt6xY2pkNOLVEj6W4gHVIGqcOS3YV
+	tcdxhBQRtCRbK/K2lDaEAMVwCUDqEFIykAbDqAFvx3Th5JHT0Rf4RKm/i+1shuP225lmZX0knGm
+	ixxf9apbrSRvxgsFc4yC/861Kbe2LFNnMZTx6ogzzvlG1qOU6fywNpDWrBMQBYcPJdMKe/CJDwp
+	zdJATO4MQ+2TJMBf36FMGJKYki1Y9kMqr9xpL6XktLtCtljwIddQmnFwTQnOwT2B8m9aiDJ5QdK
+	2PzutWdc/8kkji8tw42e1gnRd4NCK4AEaCxkPvhrpSmu2TxSRAFsyXP39dCXSuChIzIgHehDnvt
+	xCv49XvOq8hQzBoLhPcRcvYU9c9nXSb2SreiGTgNHtYwtEQOQRDyQw1WqO14+LAjZ76uZSf+XAJ
+	yPwYIj7Zra2c8J08nyOWrAAMBgMtYI/BqvktKQUx4mKatvKvY+oLCZph6qkcrPK0tlfByCMHg==
+X-Received: by 2002:a05:600c:6992:b0:4a1:d7c3:d3d with SMTP id 5b1f17b1804b1-4a1d7c30dd2mr22304735e9.10.1792189488401;
+        Fri, 16 Oct 2026 15:24:48 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd503862sm7639515f8f.46.2026.10.16.15.24.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd503862sm7639515f8f.46.2026.10.16.15.24.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 15:24:44 -0700 (PDT)
+        Fri, 16 Oct 2026 15:24:48 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 08/17] glibc: stable 2.44 branch updates to 34106fee69
-Date: Sat, 17 Oct 2026 00:24:10 +0200
-Message-ID: <1237ff69778e8fcbb8fb5482bc74ef802cff7168.1792189264.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 14/17] nasm: fix CVE-2026-6067
+Date: Sat, 17 Oct 2026 00:24:16 +0200
+Message-ID: <6bd2d92ffa9b40c8ac97412fca893bd9b685c3d6.1792189264.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792189264.git.yoann.congal@smile.fr>
 References: <cover.1792189264.git.yoann.congal@smile.fr>
@@ -66,99 +65,84 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 22:24:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248058
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 22:24:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248064
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Kris Gavvala <kris.gavvala@windriver.com>
 
-Update SRCREV to pull the latest fixes from the upstream
-release/2.44/master branch, including fixes for the following CVEs:
+When using obj output format, specifying more than 256 segments in
+the GROUP directive of the .asm file causes a heap-buffer-overflow.
 
-CVE-2026-18374 CVE-2026-8674 CVE-2026-86805 CVE-2026-89092
-CVE-2026-95818 CVE-2026-97399
+This patch applies the upstream fix given by the commit in [1]
+to address the issue in [2].
 
-Also mark following CVEs are fixed as they have been included in
-previous hash already:
+[1] https://github.com/netwide-assembler/nasm/commit/8890d723d0aa9ed1a790e2ce1c55eee8dfa0cf94
+[2] https://github.com/netwide-assembler/nasm/issues/203
+[3] https://nvd.nist.gov/vuln/detail/cve-2026-6067
 
-cb61572ea3 iconvdata: EUC_JISX0213 decoding lacks pending character reset (CVE-2026-80489)
-6f9b2bfa50 iconvdata: SHIFT_JISX0213 decoding lacks pending character reset (CVE-2026-77117)
-[CVE-2026-19499] e88b9f0e5c stdio-common: Convert vfprintf and related functions to buffers
-
-Commits between the old SRCREV (5c479454d1) and the new SRCREV (34106fee69):
-
-34106fee69 powerpc: Fix one byte overread in strncasecmp (bug 34683, CVE-2026-97399)
-07dc0a64a3 realloc: Fix mmap non-mremap reallocation case [BZ #34697]
-c90398e005 CVE-2026-89092: nscd: replace alloca with malloc in aicache, hstcache
-67dd5150c6 LoongArch: Add standard search paths for 32-bit
-2ee4e25c97 LoongArch: Support pointer guard on LoongArch32
-6dea23eeac LoongArch: Fix intermittent nptl/tst-cancel32 failure
-13fd9fe7df Revert "posix: Add POSIX aliases to some spawn functions" (BZ 34437)
-1848099f06 stdlib: Don't call clearenv from __libc_setenv_freemem
-[CVE-2026-86805,CVE-2026-95818] 6b48c0b29c elf: Open the normalized $ORIGIN rpath in AT_SECURE programs (BZ 34360)
-1f50262410 resolv: Fix assertion failure on search list truncation [BZ 31026, CVE-2026-8674]
-e01330dcec fcntl: drop nonnull attribute for openat, openat2's path argument [BZ #34313]
-e58294a5a7 io: drop nonnull attribute for fchmodat, faccessat, fchownat's path argument [BZ #34313]
-d7179269b7 Revert "io: drop nonnull attribute for fchmodat, faccessat, fchownat's path argument [BZ #34313]"
-d19791b12a x86-64: Link tst-shstk-legacy-1{f,g} with -Wl,--no-as-needed
-b14c4b0bc9 io: drop nonnull attribute for fchmodat, faccessat, fchownat's path argument [BZ #34313]
-b84047b5b7 elf: Do not load cache extensions from an old-format ld.so.cache [BZ #34600]
-b4f51887c4 nptl: Skip pretty-printer tests without python3 [BZ #34507]
-30950ce64d libio: Add test for fopen with an empty ", ccs=" value [BZ #34574]
-0b4e41fc51 libio: Fix CVE-2026-18374 heap buffer overflow in ccs= handling
-
-Testing Results:
-+--------------+--------+--------+------+
-| Result       | Before | After  | Diff |
-+--------------+--------+--------+------+
-| PASS         | 6029   | 6031   | +2   |
-| FAIL         | 76     | 74     | -2   |
-| XFAIL        | 16     | 16     |  0   |
-| UNSUPPORTED  | 587    | 589    | +2   |
-+--------------+--------+--------+------+
-
-Changes in testcases:                            Before   After
-elf/tst-dl-cache-old-format                       ---     UNSUPPORTED
-elf/tst-origin-secure                             ---     UNSUPPORTED
-malloc/tst-malloc-tcache-leak-malloc-largetcache  FAIL    PASS
-malloc/tst-malloc-too-large-malloc-check          FAIL    PASS
-malloc/tst-mallocfork3-malloc-largetcache         FAIL    PASS
-posix/tst-regcomp-truncated                       PASS    FAIL
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: b3534113dd2dc47d3f45e66ba59f19d30f16f18b)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+(cherry picked from commit 1a81d85a8a23fc1a5c8396c8a7cb5cb59e97a9b2)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- meta/recipes-core/glibc/glibc_2.44.bb     | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ .../nasm/nasm/CVE-2026-6067.patch             | 36 +++++++++++++++++++
+ meta/recipes-devtools/nasm/nasm_3.02.bb       |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2026-6067.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index b9a45392772..2fb355a29bd 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.44/master"
- PV = "2.44+git"
--SRCREV_glibc ?= "5c479454d1232f71c78fa21584e90a2f57883407"
-+SRCREV_glibc ?= "34106fee698c83eb0af71d4d0381e66b399be746"
- SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
+diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2026-6067.patch b/meta/recipes-devtools/nasm/nasm/CVE-2026-6067.patch
+new file mode 100644
+index 00000000000..e43aafc7ee2
+--- /dev/null
++++ b/meta/recipes-devtools/nasm/nasm/CVE-2026-6067.patch
+@@ -0,0 +1,36 @@
++From cc006a1d57bebb6ea49db488539a1613014c062f Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickclifton@github.com>
++Date: Mon, 29 Jun 2026 13:53:14 -0700
++Subject: [PATCH] outobj: fix buffer overflow when too many segments in a group
++
++The number of entries in a group was hard-coded, but not enforced.
++
++CVE: CVE-2026-6067
++Upstream-Status: Backport [https://github.com/netwide-assembler/nasm/commit/8890d723d0aa9ed1a790e2ce1c55eee8dfa0cf94]
++
++Reported-by: <BreakingBad6@github.com>
++Fixes: https://github.com/netwide-assembler/nasm/issues/203
++Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
++Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
++---
++ output/outobj.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/output/outobj.c b/output/outobj.c
++index 685c5933e..9d8bf83c5 100644
++--- a/output/outobj.c
+++++ b/output/outobj.c
++@@ -1736,6 +1736,10 @@ obj_directive(enum directive directive, char *value)
++                      */
++                     continue;
++                 }
+++		if (grp->nentries >= GROUP_MAX) {
+++                    nasm_nonfatal("too many segments in a group");
+++                    return DIRR_ERROR;
+++                }
++                 for (seg = seghead; seg; seg = seg->next)
++                     if (!strcmp(seg->name, p))
++                         break;
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/nasm/nasm_3.02.bb b/meta/recipes-devtools/nasm/nasm_3.02.bb
+index a7d598cf629..2d2778fd88f 100644
+--- a/meta/recipes-devtools/nasm/nasm_3.02.bb
++++ b/meta/recipes-devtools/nasm/nasm_3.02.bb
+@@ -10,6 +10,7 @@ DEPENDS = "zlib"
+ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
+            file://0001-stdlib-Add-strlcat.patch \
+            file://0002-Add-debug-prefix-map-option.patch \
++           file://CVE-2026-6067.patch \
+            "
  
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
-diff --git a/meta/recipes-core/glibc/glibc_2.44.bb b/meta/recipes-core/glibc/glibc_2.44.bb
-index d547f595abf..886a15f1572 100644
---- a/meta/recipes-core/glibc/glibc_2.44.bb
-+++ b/meta/recipes-core/glibc/glibc_2.44.bb
-@@ -22,7 +22,8 @@ CVE_STATUS[CVE-2025-0577] = "not-applicable-platform: specific to RHEL patches"
- # when upgrading, clear CVE list but keep the variables
- CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
- CVE_STATUS_STABLE_BACKPORTS = "\
--    CVE-2026-5435 CVE-2026-19542 \
-+    CVE-2026-5435 CVE-2026-19542 CVE-2026-18374 CVE-2026-19499 CVE-2026-77117 CVE-2026-80489 \
-+    CVE-2026-8674 CVE-2026-86805 CVE-2026-89092 CVE-2026-95818 CVE-2026-97399 \
- "
- CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
- 
+ SRC_URI[sha256sum] = "ce7ed93281615379e4a9d4e76503c64a79c1d5ca696dbe148f16cf0b93e239af"
 
