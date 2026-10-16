@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E38CCA491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6ED8CCA48F
 	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 06:03:21 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15485.1792130595611782866
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15486.1792130595870644090
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 23:03:18 -0700
+ Thu, 15 Oct 2026 23:03:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=goWAKUr1;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0zwfb65i;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a1434ec360-26012375-e474-42ea-876f-1adefcb40e62-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=iLZ8CTh+;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4mkI+Okk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1434eb87a-b2380b98-2afc-489a-9f33-45c045180815-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1792130597;
+	t=1792130595;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xYnjV7VXTPUW/9EhtBoIgUNKo5YAFEG2TeWx9+sRpXc=;
-	b=goWAKUr1KIdYCBpxbkvaHKPHldeGP2Vjh/e3L/m+6l7aj5CGwTTvpkEHVr80eiIA
-	iMQbENUOaddbqcpC0amvyBsvsrphFVovRUUz8dJBBseaHPtUawiwnSOk9SIrhHWlv6T
-	k315FfudkgHZAPuWJlNA/iimAh6nHYqlKAoT+JJ8=
+	bh=aX5RBvsf83X/DEBTw/cfgHdBSSgQWaHnU2lOGszj4RM=;
+	b=iLZ8CTh+8IO6+Kfk49P4pHUUinx2ZrmJ8jQJDtxEY9v5rD2UkSt9gwzIgmbI/8CS
+	Y0JFQ71y1fSTXC4FfTWywEIpgmDKmvLkhUQAzRpy2L3SPcemiu23N/4QfFaTaKjP3Np
+	zwG9rXgXhHyw2y5jJvw1aUABqrmnJyhBddFxsS9Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792130597;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792130595;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xYnjV7VXTPUW/9EhtBoIgUNKo5YAFEG2TeWx9+sRpXc=;
-	b=0zwfb65igvxSq/+maebsa4rIkVrRLsvdc2AQYv2Ws64wbC944Nmahgx2khFMLla7
-	j3+5YvEHlxIgT+kPtYXtc5kaGS5IqSeK9WMLPNxoBKhKSoMqDzZGaLwOO5wCOIld9t2
-	RXHphC1VsLfScEmJoPwZ6fx657XhgVVSMWKWj1JU=
-Content-Type: multipart/mixed; boundary="===============2696443235796566881=="
+	bh=aX5RBvsf83X/DEBTw/cfgHdBSSgQWaHnU2lOGszj4RM=;
+	b=4mkI+Okk5k2MoVOVyAqO/n12jecce0W5I1IDx5uhb6Sj8FvdZZFTcHopMEpsX0X7
+	wiyMSagFiXXVj4cVO+4PGaWMIFkcI9BAsCSuLxK4HcwlYhlif1Ei2YlwzHDia8wCoY1
+	53SDm91ihr75YGuSwqM/pq07evvtAeljoZXba+tI=
+Content-Type: multipart/mixed; boundary="===============7036847680163241105=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.170.0 SUCCEEDED
-Message-ID: <010101a1434ec360-26012375-e474-42ea-876f-1adefcb40e62-000000@us-west-2.amazonses.com>
-Date: Fri, 16 Oct 2026 06:03:17 +0000
+Subject: [AUH] rust-source-1.99.0: upgrading to 1.99.1 FAILED
+Message-ID: <010101a1434eb87a-b2380b98-2afc-489a-9f33-45c045180815-000000@us-west-2.amazonses.com>
+Date: Fri, 16 Oct 2026 06:03:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.16-54.240.27.191
+X-SES-Outgoing: 2026.10.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 06:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247962
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247961
 
---===============2696443235796566881==
+--===============7036847680163241105==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,128 +51,100 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.170.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *rust-source-1.99.0* to *1.99.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.169.0-6.170.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  finish -f rust-source-1.99.0 /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1993 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 959 .bb files complete (958 cached, 1 parsed). 1994 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+
+ERROR: Unable to parse /srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 149, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/conf/layer.conf not found
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 170, in wrapped
+    return func(fn, *args)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include, baseconfig=True)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 123, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 149, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/conf/layer.conf not found
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 352, in <module>
+    ret = main()
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 338, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 2220, in finish
+    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
+                                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1906, in _update_recipe
+    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+                                ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1728, in _update_recipe_patch
+    appendfile, destpath = oe.recipeutils.bbappend_recipe(
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+                    rd, appendlayerdir, files,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                    redirect_output=dry_run_outdir,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    params=params)
+                    ^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 721, in bbappend_recipe
+    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
+                         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 630, in get_bbappend_path
+    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 182, in wrapped
+    raise bb.BBHandledException()
+bb.BBHandledException
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From c54ed8fe1e2392f6fdbb0c5fe82f7e04c86f3abc Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 16 Oct 2026 05:41:00 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.169.0 -> 6.170.0
-
----
- ...hon3-hypothesis_6.169.0.bb => python3-hypothesis_6.170.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.169.0.bb => python3-hypothesis_6.170.0.bb} (91%)
-
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.169.0.bb b/meta/recipes-devtools/python/python3-hypothesis_6.170.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.169.0.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.170.0.bb
-index 0e7d97705c..5b2788760a 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.169.0.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.170.0.bb
-@@ -16,7 +16,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
- 
--SRC_URI[sha256sum] = "b65749d7f7a2fddfb106bb57c9902db4ab25ce8724c821f4af50cc58891a6b7b"
-+SRC_URI[sha256sum] = "8a130d8a84819798d0bc217ac53b12ebe1f08c97ac35fae8e4ec97348d633427"
- 
- RDEPENDS:${PN} += " \
-     python3-attrs \
--- 
-2.47.1
-
-
---===============2696443235796566881==
+--===============7036847680163241105==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="rust-source-1.99.0-changelog.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.169.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.170.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.169.0.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.170.0.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.169.0.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.170.0.dist-info
+Version 1.99.1 (2026-10-15)
+===========================
 
---===============2696443235796566881==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+<a id="1.99.1"></a>
 
-packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.169.0.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.29.3 crate://crates.io/pyo3-build-config/0.29.3 crate://crates.io/pyo3-ffi/0.29.3 crate://crates.io/pyo3-macros/0.29.3 crate://crates.io/pyo3-macros-backend/0.29.3 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 cra
- te://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.170.0.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.29.3 crate://crates.io/pyo3-build-config/0.29.3 crate://crates.io/pyo3-ffi/0.29.3 crate://crates.io/pyo3-macros/0.29.3 crate://crates.io/pyo3-macros-backend/0.29.3 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/target-lexicon/0
- .13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.169.0 [default] to 6.170.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.169.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.170.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.169.0.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.170.0.dist-info
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.169.0" to "6.170.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 4566319 to 4620294 (+1%)
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.169.0.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.170.0.dist-info
+- [Enable `static_position_independent_executables` on all gnu targets]( )
+- In Cargo, incremental compilation is now disabled by default when running in
+  CI. CI is detected via the `CI` environment variable. [#17220]( )
+- [The Rust Reference no longer recommends using a single pattern to match a
+  union alongside another value, such as in a manually-written tagged union]( ).
+  This was because it was found that such code would, in some circumstances,
+  result in the compiler reading the contents of the union before checking if
+  the rest of the scrutinee matches the rest of the pattern. This can cause
+  undefined behavior in code similar to what the reference previously
+  recommended.
+- [Add support for unbounded left/right shift operations]( )
+- [`<[[T; N]]>::as_flattened_mut`](https://doc.rust-
+  lang.org/stable/std/primitive.slice.html#method.as_flattened_mut)
 
---===============2696443235796566881==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.169.0-6.170.0.patch"
-
-RnJvbSBjNTRlZDhmZTFlMjM5MmY2ZmRiYjBjNWZlODJmN2UwNGM4NmYzYWJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTYgT2N0IDIwMjYgMDU6NDE6MDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNjkuMCAtPiA2LjE3MC4wCgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjE2OS4wLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE3MC4wLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjE2OS4wLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE3MC4wLmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTY5LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjE3MC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY5LjAuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTcwLjAu
-YmIKaW5kZXggMGU3ZDk3NzA1Yy4uNWIyNzg4NzYwYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNjkuMC5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE3MC4wLmJiCkBA
-IC0xNiw3ICsxNiw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiNjU3NDlkN2Y3YTJmZGRmYjEwNmJiNTdj
-OTkwMmRiNGFiMjVjZTg3MjRjODIxZjRhZjUwY2M1ODg5MWE2YjdiIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjhhMTMwZDhhODQ4MTk3OThkMGJjMjE3YWM1M2IxMmViZTFmMDhjOTdhYzM1ZmFlOGU0
-ZWM5NzM0OGQ2MzM0MjciCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40Ny4xCgo=
-
---===============2696443235796566881==--
+--===============7036847680163241105==--
 
