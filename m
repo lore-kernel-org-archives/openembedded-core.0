@@ -1,199 +1,161 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A9BCC6B38
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 13:50:32 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.59])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22242.1792158625236640731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38981CCA46C
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 14:21:33 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14239.1792122013460026446
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 06:50:25 -0700
+ Thu, 15 Oct 2026 20:40:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=gbFz5Gfq;
- spf=pass (domain: est.tech, ip: 52.101.83.59, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VTN2jGlUmqxewCNlvfDjLctahrzR7IF/D1Ji3lModXxeSXDgXltzV1TNBIMzDcwMUjmiGmaKXA7ju2tWyEcNPZSQwCyMTZvx1lKR4L5kvgQ65GRQGmr/weXonjagv8nA2iwHcJttA5NKyyJN6ShmCfqpflBNqZ2lqTn4FNYs9GFw7gBADo72AsDR+LAPOHOhyJmGudXpEBJn0h2EOVpU3uf4HPuVMhRtnMnIyU9fxlTap3TcPZjaJAgYfO4Dk2NTwVOOfE9Wu87DHnW1a+A/Gx4vVYlTq1OYYHgFpvB141HJEsfVvo8842UAbCdzxUkYdZ1dPZ06jDmC5O56t607UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PEs1EAQB44DnMgEHauxqCwM/y+cdmCmZpscSXc5n1G8=;
- b=iCM2P0n0wUYoB81feUxpa4KWvKMGqyM/YHs8VhAvkuwo4C55I579fTQchqqTZGKxbrIszfG7PzgDYedlJRulUfm4mafNyA/zB733hoAP/B2r1wtgneycZ+vNDX/T/mccDUh7PDLgOzHPcbtg/6/v47znjV2kjNcw+iydXq/tGUiWjIFPZcEOvF+UeDRFwBxG5mYMOtdZVFh1SypJwxa5597p9K4wFZuwSwRFzZ0OT9u7CW8T4+RIbT2HlBBGJb4mQApl+l0egO/+M1I04o/TUFAqAVnBIMm76BBPzxVIDNFcy7TDtPmc8VfvpAAYX8ZnTwpv2H1mZHhlZI1Vn5OvyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PEs1EAQB44DnMgEHauxqCwM/y+cdmCmZpscSXc5n1G8=;
- b=gbFz5GfqY2YXVo+Wl7EdROJQPaaaTddpBL9831cxH0v5Kx9OsnXCQph2hNkRg6WMn7OKe+pzzXQdzDUzblcl7MumLYq2zfP/PangKbbTGstvD1oDMW7Fs159KwMiP7L2Zfl+1mXBjOVkYiaMbFTpJot7yvbQTOnykf4GKONcXeOSz9Dymfzs5FFXuopff8KCHFc5N3BfQ+ABJODF5J/xWpuk159+DJrW0em4OAVTd31w025FkD7LSeYE5Fr39ikXkR5d7EULrEjDD+d1ZfZeFv9eKtE0y6/8HLq9a8C+dTEk/3Z0xBEnanNVNJfadqM9DAxuasA9WgpZxb+1JEKD4g==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from VI0P189MB3116.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2cd::21)
- by VI6PPF8447A40C5.EURP189.PROD.OUTLOOK.COM (2603:10a6:808:1::19d) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
- 2026 13:50:18 +0000
-Received: from VI0P189MB3116.EURP189.PROD.OUTLOOK.COM
- ([fe80::2d33:bb97:b0f8:8167]) by VI0P189MB3116.EURP189.PROD.OUTLOOK.COM
- ([fe80::2d33:bb97:b0f8:8167%3]) with mapi id 15.21.0522.012; Fri, 16 Oct 2026
- 13:50:18 +0000
-Message-ID: <96469d21-db1e-47c2-a1f6-29d04a811ad3@est.tech>
-Date: Fri, 16 Oct 2026 15:50:16 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] python3-flit-core: upgrade 3.12.0 -> 4.1.0
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org
-References: <20261014153344.81727-1-jaipaul.cheernam@est.tech>
- <DM565EXJJ70B.2BI1H9TQXH6R5@bootlin.com>
-Content-Language: en-US
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-In-Reply-To: <DM565EXJJ70B.2BI1H9TQXH6R5@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO0P265CA0005.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:355::10) To VI0P189MB3116.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:800:2cd::21)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=pFU7f7F1;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: wenwfu@qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69FKW9nn3462792;
+	Fri, 16 Oct 2026 03:17:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=PU48WrUdZUAvJUmiJcDjJYWIlSily2rcQfk
+	ebrIfyS0=; b=pFU7f7F1L1ci/A/xHw9lVjwVTb8+jyulDyPqd937qm5cSRqO/gT
+	WvOHINnBo5mZ0JyfRHiEj+fpZxU1Z9O08GMsoqu3SAX3ePeiE6YV65w1eNH4nmuw
+	K78gao4KALlXqIpQUmllnHmziixEBb8Xj/qz5KujRje/FKBJDVcJdmAbhT13Htjk
+	1288wUuXq940qF67xhRBPgS7SnHdwFrw41nDr0ncOxsdOXU31Cuhe+q/g+q9OkzV
+	XsJlPyaCvkEssr16JB1Z2FrTy/1zTqc+qO1bFpJI8pOeDdq0lbC2Yf8/T31tfXcH
+	DFEWOeD/5BC24VGEy5bc9RROuBbfBDQkmHA==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hayu6awsq-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 16 Oct 2026 03:17:40 +0000 (GMT)
+Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69G3Hc5S2743148;
+	Fri, 16 Oct 2026 03:17:38 GMT
+Received: from perf-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 69G3HbdT2743139
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 16 Oct 2026 03:17:38 +0000 (GMT)
+Received: by perf-sh02-lnx.ap.qualcomm.com (Postfix, from userid 3975139)
+	id CC936AC5; Fri, 16 Oct 2026 11:17:36 +0800 (CST)
+From: Wenwen Fu <wenwfu@qti.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wenwen Fu <wenwfu@qti.qualcomm.com>,
+        Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH wrynose 2/7] initramfs-framework: support LABEL with root-only udev trigger
+Date: Fri, 16 Oct 2026 11:17:35 +0800
+Message-ID: <20261016031735.694414-1-wenwfu@qti.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI0P189MB3116:EE_|VI6PPF8447A40C5:EE_
-X-MS-Office365-Filtering-Correlation-Id: d32b2814-4a32-42b9-4734-08df2b8c69b9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|22082099003|10067099003|18002099003|3023799007|4143699003|261009223027099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	E6vI6aVrZJM9fx1vVXYy0EHyum9WHF8LgQSuI88jsmje2m39KYgJV2IZGGR5FkL53k6BkfsFK4auj/DdfPO4ogFBCnLMiFK5hP7yGYhrFftfQfzsajjH6SmCulaQHvnavVlbIZ5G5uAPx6PEQtEAdYHmYZh1TZFt1qvT4z72x48pApCV3ad0gQtqKtI0dIlKoexFoJThEfXXDfGNTf1+afyzCJ6gSQOoKsGJzr+2S95pgWTOUOVWBnaUEIwrNBEW+Q2fuPqEmJ63LYfNfEfj04c9BPyls4dwQStthT2IG/UtcvO1+OY39lxVOXml5PO/UcWT7hUAacJmqFWocWi9S3JASfco7Wa69XrGT+qfsLjymunrmuK74nH0Q67cDhhIKUYZ3XZ8gowcPFHgCz0/hLwXxMCRyVOj7AhVYsOFf3ws28+4Be0gn3X1fRXPLLmEhlR0QSJ25/k03cfSK65lfywONArjaVWF8ImhMR5L7u4kYUJWLt/u71CwXVyXCzp97NzbC5Q5Q9oKLOOo7pizQhPTsTz3UQY5Grn2V2Vfx5r1SqbOOTRq6uXowIXT6e8JoW2/eStwLWBZnfsigD4hlZ6kqkN2Li/bZeIb8fIJlF0=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0P189MB3116.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(22082099003)(10067099003)(18002099003)(3023799007)(4143699003)(261009223027099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?S05ybVpudDZrdVYzWUx2bDdTT0V2MWNvZURHU3FtSlVla21RdG5xclJlY2NG?=
- =?utf-8?B?Tm4wWG94WmRUOUZQaVltNk8xKys5L2ptTTVBL1AyenpRYlVMdk1sRERaY0NF?=
- =?utf-8?B?cEVwUFZnNUFESXpJSktid1BLU2RvVWxuYjMzWGtxNWpDT3l2a1hsdEdXaW1o?=
- =?utf-8?B?RXdmaitXVm5va3hpN0tlVkhpcGRqNnhmanRROENzNUhhWHJ2djR6Z1Ewdnpn?=
- =?utf-8?B?d1VMY2dyWE0zZUdzeUNVZ1VCNkF6NStFQVJibnF0TVh1UHY4alVxY1pzR0xS?=
- =?utf-8?B?WGxFTEp3TjlnWHM5MStmVlkxdk9VeU1OcjJpQ2M1Y2JTcVVZbHYzTk9EK2U4?=
- =?utf-8?B?d3JEKzgwdjErUUxHby83ZWsyWTVIMHNsdWxtQnpqUGt4UFZudkErd3J6L3A2?=
- =?utf-8?B?TG82SDdPaERDVXVBQVJQM0JmdllDd3pYTmJUSGRCbVhDMGF1NnAxMURLUEF4?=
- =?utf-8?B?RkFsMTl1R3NCNDNXMlRjSHR1ak50MFU2bGpsV0JnZzYxZXA3bEJUY3R3MVV6?=
- =?utf-8?B?aEhDSTY2WGdZS2daZXp0SG9xNkFmV2ErT3hBZUliaytIQUQ4eHhKZTUrK3U5?=
- =?utf-8?B?VklUKzBtR2tWdit5d0tOSmdZakR2NVlGcjViOGtsSnptalZmb20wc29RM29q?=
- =?utf-8?B?Z0t5L1dUbzJMK3NqT3hERG1FNndlVG1nN3BUUHk4UXliMVJTYy8zOG5EQmUr?=
- =?utf-8?B?MVFxem44UlNKNHJGVWluWW51UXlYMnFxbHFxK2F4bUNtcmNPVVRCV05JU1R2?=
- =?utf-8?B?OWNGbEhYSVBIV2NJbWkrb0RHOXUwZkxsbnpEWDdPdzFmZXp5ZnpyZG11akJq?=
- =?utf-8?B?ZmlHL2hEYmtvc0crTnBjTElET2ovRXVsTEFMdDhUbjFPY2xZemEzc1g3WENx?=
- =?utf-8?B?TFJlWHhYanlUMDlGWmMvSVoxUzhhY3Vkc3hHTkIxQjJ5MXRsbFRGUXZkZ21D?=
- =?utf-8?B?dXI5dy83aUNrMDNkRmg0RGp5UnZ6QVZWRk9uMWV6YXhKVXBuaUdpOXV1N2Q0?=
- =?utf-8?B?TXR5dHpKRjA3NUcrRUVqS2ViUExlaysyQjZNT0thL1hhVEhwZC94SEdGRjZv?=
- =?utf-8?B?L1hqSEpiK0YyTGlBc1djbjRPOVV0VzUyeVJ2ak1PZEZ1cmNTZXIyV0cyZ1Yv?=
- =?utf-8?B?dXNKMUFtMTVMd29mTWRQRkZQcTZUY3BZdVhyY3kzb1UvSG5FOXJuM1NMU0Fp?=
- =?utf-8?B?a0FWWG00a2R0Z21vVUdWMVhmWFhqK05SZkV6N015M1AzV1RXVmFRTUNGMnFF?=
- =?utf-8?B?TE9wSlhGRlBMekNXS1dlT1JkU3I1cDJMSGxrL283UkNYUkdjQnpGSkRGS0ti?=
- =?utf-8?B?ZURneStEQWphQVZLZGF4WlQzRmIrb3k4YS9YeXVtZnZ3dUFkL2QrUVdVc3BI?=
- =?utf-8?B?aHhkYVhkUGZiVU0wcnFuQVZvSnpXR0R0LzJPbHBaNVFUR3FmRys4bDY5Skk1?=
- =?utf-8?B?U2dPZDR4QUd1RnI0UC9QOUsrL1N2K1ZTQ2xlL3JUQTA3bGdVZ0V5RGw4QW9R?=
- =?utf-8?B?dDNndHkyVDVmMU13TXF4S2hFRlQ1TVdtd3djMUpqeWRUT1liMVhyT0F0ejla?=
- =?utf-8?B?eGM0V0FaOHZFUGhSM3FLYU9GVEt5b0w4UlhrSEFwY21VWTlkUk9OZ2h1OFQy?=
- =?utf-8?B?SElyaGw2bG5MT1o5SmIvcXNkNXY3bHJwdEV6andaR3hCeTE0QnFQc0JjaHFH?=
- =?utf-8?B?cEs5ZGxuc21hN08xaHdCTm5YT05Fa0p5dHJXZ0Y4c085RmdUakpXMWtqQ3Uy?=
- =?utf-8?B?ZlZDdWJSdU8xdzZ6WG54NWZ3TEMxc2U3eEcxZ3FnZWt3V2ZHVkRNd3BNRCtl?=
- =?utf-8?B?Yy8rM0l2UVFQdWx4MGF3RzJxNTlYS0plTi9lZWd6MG1aL2xGR2c0dkNqdUZC?=
- =?utf-8?B?YlVhdVp1Mis2SUFTVWJaTUlSTlF3YWpZckc2bDZuUk9XZFlIMU9ZOXM4bE91?=
- =?utf-8?B?UDFGRHlqZWVadzJsbHdTNHZISmw5bDc3NE5GVjUvZ2diOURVQkZrcFBnYW16?=
- =?utf-8?B?MG50VUNnZ2VSeDU1VXkzZnZXRTZSUlc5WEZRQmtEMjJBQklzY0xmR25sdDRM?=
- =?utf-8?B?QXVqcDBCM0FBbEJxbUpoRWl3c3RMNXNXWmc4S3plRGkyYWlScXk3cmJJeHJ1?=
- =?utf-8?B?L2VsMlh6czhjVVo1WlhZTkQwd00wVlE5dUFwKzJDb1RWQTRhQ1lpTHlwYXdx?=
- =?utf-8?B?WVR4dTVkb0E4NmFMczkxR0k1REQrSmZONWlqTFhCazh0OWNCejRsbitBWm5n?=
- =?utf-8?B?U3ZLUkIvRnAxblI3dk9WZWNKNDdoWDFZRGtXZHVPV0h3M0FINDhJWTZabDN2?=
- =?utf-8?B?eWN3OXRUVmRyUDRkemVDc2k4SVRMdGphUjNrbzNZU2VTR2dqNGt6Zz09?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: d32b2814-4a32-42b9-4734-08df2b8c69b9
-X-MS-Exchange-CrossTenant-AuthSource: VI0P189MB3116.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 13:50:18.0077
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ztAdW+VVoYzf3M0rvvVAfLFc4HFwuawLkjkE3NiBBgl7AiLGxspMAjPpjeI9cMI6o2kpE7gtQSGj0mx8MgS+tWM4Mhnw5EndhZ5ELZbU8U4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI6PPF8447A40C5
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-ORIG-GUID: wnn861afaq0RuJh85xioTMNxCW3FPFdw
+X-Authority-Analysis: v=2.4 cv=ff04WEQF c=1 sm=1 tr=0 ts=6ad19755 cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8
+ a=i1QJoHD1dn0bM1Lglh4A:9 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+X-Proofpoint-GUID: wnn861afaq0RuJh85xioTMNxCW3FPFdw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAxMiBTYWx0ZWRfX4Kl9MPqqDISx
+ KEkpdna46/GkZdy+Wgplu7NWo1Veaq3FJE44qKZDtRGggYEjZIMHmJLlV8lcpHabLYU2rv1j+cc
+ R86Lqo2038E5Kh6iKtbSJaGS66YDBUmOkUVpaf8t2EsSwmSPeSjq5i6+rEu+WwQjgremLx3ynyX
+ SbswHW7pIJXeWwvZ2rNlbIHfvSyqbf45N+6HFL5cgVbmysj5tbzquDR5BPjQgntSD8E+LWyqQ4y
+ 6eteyheyhjlQB7I6/22RkyfAsMurgTi+PTDV+VMgKCGPN98c4YdCkwnUu9mPAjSXbHS8WIrLfP1
+ 9c3EGPrWfgtwqEVaLj/6T+JY8fhZinaV8F702IiLOXx1vvs4EVQ+YlAVoS8O2dNe9Ztf2xFWdvo
+ 33QRbx6ovBiC06naVQgWH8bC9ACvBjGbsx8VLcx2rq2V7qSGaREw8L+Q9ojfsqtBFbGT0CxvI/t
+ uKyTY/PJaDIZIIfJ+IQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAxMiBTYWx0ZWRfX3W2jloOW3PrT
+ HhepWQ295+0DBOhUrH56C9gc6fbIpI6BdeH4ExQfuA7hswT6e0c1YaOIdJrxB+Y5HPGMY7VwRoC
+ AcFA2HXBueakMMGHF//JDRcwkuX7Jg0=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0 spamscore=0
+ phishscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610160012
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 13:50:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248027
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 14:21:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248028
 
+Filesystem labels are not available in kernel uevents. Add
+util-linux-findfs to initramfs-module-udev and use findfs to resolve
+root=LABEL= to a device. Read the kernel-provided PARTUUID from sysfs
+and trigger only that partition, falling back to a full trigger if the
+label cannot be resolved safely. Keeping findfs out of the BusyBox
+defconfig avoids increasing BusyBox for unrelated users.
 
-On 2026-10-15 07:39, Mathieu Dubois-Briand wrote:
-> ERROR: python3-typing-extensions-native-4.16.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-linux/python3-typing-extensions-native/4.16.0/temp/run.do_compile.73236' failed with exit code 1
-> ...
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | * Getting build dependencies for wheel...
-> |
-> | ERROR Unmet dependencies (checked against /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-linux/python3-typing-extensions-native/4.16.0/recipe-sysroot-native/usr/bin/nativepython3):
-> | 	flit_core<4,>=3.11
-> | 		wanted: <4,>=3.11
-> | 		found: 4.1.0
->
-> ERROR: python3-pip-native-26.2.1-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-linux/python3-pip-native/26.2.1/temp/run.do_compile.83903' failed with exit code 1
-> ...
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | * Getting build dependencies for wheel...
-> |
-> | ERROR Unmet dependencies (checked against /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-linux/python3-pip-native/26.2.1/recipe-sysroot-native/usr/bin/nativepython3):
-> | 	flit-core<4,>=3.11
-> | 		wanted: <4,>=3.11
-> | 		found: 4.1.0
->
-> ERROR: python3-docutils-native-0.23-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-linux/python3-docutils-native/0.23/temp/run.do_compile.2356' failed with exit code 1
-> ...
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | * Getting build dependencies for wheel...
-> |
-> | ERROR Unmet dependencies (checked against /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-linux/python3-docutils-native/0.23/recipe-sysroot-native/usr/bin/nativepython3):
-> | 	flit_core<4,>=3.11
-> | 		wanted: <4,>=3.11
-> | 		found: 4.1.0
->
-> ERROR: python3-jinja2-native-3.1.6-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-linux/python3-jinja2-native/3.1.6/temp/run.do_compile.22559' failed with exit code 1
-> ...
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | * Getting build dependencies for wheel...
-> |
-> | ERROR Unmet dependencies (checked against /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/x86_64-linux/python3-jinja2-native/3.1.6/recipe-sysroot-native/usr/bin/nativepython3):
-> | 	flit_core<4
-> | 		wanted: <4
-> | 		found: 4.1.0
->
-> ERROR: python3-unittest-automake-output-0.4-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.4/temp/run.do_compile.3224' failed with exit code 1
-> ...
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | * Getting build dependencies for wheel...
-> |
-> | ERROR Unmet dependencies (checked against /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/core2-64-poky-linux/python3-unittest-automake-output/0.4/recipe-sysroot-native/usr/bin/nativepython3):
-> | 	flit_core<4,>=3.2
-> | 		wanted: <4,>=3.2
-> | 		found: 4.1.0
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4853
->
-> Can you have a look at the issue?
+Exclude the util-linux dependency from signature propagation because
+this allarch recipe only invokes findfs at runtime.
 
-Hi Mathieu,
+Tested with bitbake -p, the core-image-minimal-initramfs dependency
+graph, and the sstatetests.SStateHashSameSigs2.test_sstate_allarch_samesigs
+selftest.
 
-I will keep this upgrade on hold as newer version of dependent packages 
-are not available which can support python3-flit-core 4.1.0.
+AI-Generated: OpenAI Codex
+Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit fda394c2b91b3c66545f75dc13f7e8649e3cdb6d)
+---
+ meta/conf/layer.conf                                 |  1 +
+ .../initrdscripts/initramfs-framework/udev           | 12 ++++++++++++
+ .../initrdscripts/initramfs-framework_1.0.bb         |  2 +-
+ 3 files changed, 14 insertions(+), 1 deletion(-)
 
-I will check again in next weeks .
-
-Thanks !!
-
-Regards,
-
-Jaipaul
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index b097c34c7b..dabdf55c25 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -61,6 +61,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
+   initramfs-framework->eudev \
+   initramfs-framework->systemd \
++  initramfs-framework->util-linux \
+   initramfs-module-install-efi->dosfstools \
+   initramfs-module-install-efi->e2fsprogs \
+   initramfs-module-install-efi->parted \
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+index 8f67e78a7c..85c5ba1178 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+@@ -43,6 +43,18 @@ udev_trigger_root_device() {
+ 		PARTUUID=?*)
+ 			root_match="PARTUUID=${bootparam_root#PARTUUID=}"
+ 			;;
++		LABEL=?*)
++			# The kernel does not export the filesystem LABEL in the
++			# uevent, so resolve it to a device node with findfs and
++			# match on that device's kernel-provided PARTUUID.
++			root_label="${bootparam_root#LABEL=}"
++			root_dev=$(findfs "LABEL=$root_label" 2>/dev/null) || return 1
++			[ -n "$root_dev" ] || return 1
++			root_partuuid=$(sed -n 's/^PARTUUID=//p' \
++				"/sys/class/block/${root_dev#/dev/}/uevent" 2>/dev/null)
++			[ -n "$root_partuuid" ] || return 1
++			root_match="PARTUUID=$root_partuuid"
++			;;
+ 		*)
+ 			return 1
+ 			;;
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 2ec03bc34c..936cd0c995 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -88,7 +88,7 @@ RDEPENDS:initramfs-module-mdev = "${PN}-base busybox-mdev"
+ FILES:initramfs-module-mdev = "/init.d/01-mdev"
+ 
+ SUMMARY:initramfs-module-udev = "initramfs support for udev"
+-RDEPENDS:initramfs-module-udev = "${PN}-base udev"
++RDEPENDS:initramfs-module-udev = "${PN}-base udev util-linux-findfs"
+ FILES:initramfs-module-udev = "/init.d/01-udev"
+ 
+ SUMMARY:initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
+-- 
+2.43.0
 
 
