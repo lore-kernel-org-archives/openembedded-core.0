@@ -2,75 +2,74 @@ Return-Path: <yurade@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71FDDCCF2CE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1648BCCF2CA
 	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 05:41:19 +0000 (UTC)
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15556.1792129268499960934
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15273.1792129268347065025
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 22:41:08 -0700
+ Thu, 15 Oct 2026 22:41:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=JjpWh0nP;
- spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=SYlHLfK8;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6488; q=dns/txt;
-  s=iport01; t=1792129268; x=1793338868;
+  d=cisco.com; i=@cisco.com; l=7720; q=dns/txt;
+  s=iport01; t=1792129269; x=1793338869;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=6w9LIhIKN6ajhKp2RJMxV8G6boiIIaoxRIYARXifgGY=;
-  b=JjpWh0nPsmXmOkhvYONh74WcxYRtxzpaVAHCavgoc13a2dFLhH1Liisi
-   PZFndL1QEXc+r4IQ5yxt4JSdMxPz1GasQ4+3AiLIEQUIdTVwUi/eLXriv
-   75voiZyYzLp/3apfyEP/I6S1DmSirWeXOKv3Iy7ne3OfErbGKmXTQNJe7
-   Mayygn7lnhDAX9zgB89GDNM+mqjbZd7/Prs1ww+bBiZGY4i79R7y1RpWC
-   f9/74wZQZTNKDj2aAsDafaSWIET4B2Eyg1pPec+2eNPDBNrqX8mrgqFFV
-   JkJLdAmoYQjxBVLLHD5Tobplf0fEgoNxPDqU0d5GQQe75/oIBSII/evW9
+  bh=CJknh03RFU5NgooZnGCtQT2mQMEwqaNGRPgyDrvNUic=;
+  b=SYlHLfK8uEJF/CHP7wxQFlT8zSBa0R6ZeXVOSwEiOQ/fDK4J1ghCJYKN
+   u8DaHL9Xcg+nokVO+Cqioz7CiHz4AhFFvfittA2ubgZc16WKozooleM+r
+   bSQMC7O0QAnLMvH2YZ1rJPDr4EqdiaFSQsEeC6fN9BbwsZ03RnqlmZX8P
+   ELmet8KeFOzoXGqKVNAQnAqJTvY2NVUmfth+xzr+SHCoLf28YrBze7TKt
+   bJyQBiTIt7m8tkMXXB/Wfxk0xkScPUvy/exAH+kOvaGzY6WvwSUeAwW19
+   meTdMgwZXNWYihZQp+Vy4TOwpkfjTw+YZiQ4VSlLTsNfGUiQOaxyV4xIb
    g==;
-X-CSE-ConnectionGUID: ynchupdAR+yoTvKatomY9g==
-X-CSE-MsgGUID: U/3AWODLQxa7rnMk9ejwpw==
-X-IPAS-Result: =?us-ascii?q?A0BLAgCRt9Fq/4z/Ja1aHgE8DA4LgVmCV3VgQ0kDlCaCI?=
- =?us-ascii?q?QOeHIF+DwEBAQ9EDQQBAYQ/RgKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
- =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECLysjCBmDAgGCOgM3A?=
- =?us-ascii?q?xG8d4F5M4EBgykBPwJDUNhLEG+BaAELFAGBOIVAiCNdGAFEhDgnG4FJRIEVg?=
- =?us-ascii?q?2mBBYFcAQGIJQSDHBKBWoEDjkqFekiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yH?=
+X-CSE-ConnectionGUID: fMbq92KdSl2FSZ6IvppuAQ==
+X-CSE-MsgGUID: idEzQhGXQ8Wu10DgGs8SvQ==
+X-IPAS-Result: =?us-ascii?q?A0BJAgCGuNFq/5H/Ja1aglmCV3VgQ0mUKYIhA54cFIFqD?=
+ =?us-ascii?q?wEBAQ9EDQQBAYQ/RgKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
+ =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECFhkrIwgZgwIBgjoDNwMRvHiBe?=
+ =?us-ascii?q?TOBAYMpAT8CQ1DYSxBvgWgBCxQBgTiFQIgjXRgBRIJVgWMnG4FJRIEVg2mBB?=
+ =?us-ascii?q?YFcAQGBGS5YhgYEgxwSgVqBA0qTekiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yH?=
  =?us-ascii?q?YEjPheBBxsGBYEdgSCCFiMZNnqBCV6BKylhEBeBCYIHAoJUggACAUlBDgdFU?=
  =?us-ascii?q?wklQxJHJiIIEgkBExowC4EbODwJKEEXDHMMHQVyCAINCQcpGA1IESw3FRkEP?=
- =?us-ascii?q?m4HkhQeghgIMxIBLBBRAQohghSmDZ9RgT6EKIwilToaM6pvC5h9jgqVOoEVh?=
- =?us-ascii?q?GmBaDyBRwsHMxoIGxU7gmcJShkPjjmDa4F/g2XIdicyAgYDMgEBBwIHDgMLg?=
- =?us-ascii?q?WiQAi2BTwEB?=
-IronPort-Data: A9a23:CwIcaqyTXiYNgY+ros56t+dgxyrEfRIJ4+MujC+fZmUNrF6WrkVSz
- jQeDTyCP6qIMDOmc9tzPY+x8UgF6pODmtI3TgFlqVhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 4yaT/H3Ygf/hWcsazxMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJFAwNo0F4upeOyJf8
- sAGCzkRaRWy1u3jldpXSsE07igiBNPgMIVavjRryivUSK59B5vCWK7No9Rf2V/chOgXQq2YP
- JVfM2cyKk2cO3WjOX9PYH46tPa1nHDzfhVTqUmeouw85G27IAlZjeOzaoCKJYLTLSlTtnvf/
- Uv52EjdOwETa8aZ7DnU/3CznvCayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu13fDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:mlEA5K6FKHrXyahjIgPXwOTXdLJyesId70hD6qkXc20wTiX2ra
- 6TdZgguCMczQxhO03I+urwXZVoP0m8yXcd2+B4Vt2ftUvdyQmVxepZgrcKrQeNJ8SHzI5g/J
- YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
-X-Talos-CUID: =?us-ascii?q?9a23=3AhyVC8WvrdrSebBjGLF/fbXx96Is0dHbd0W/cCnX?=
- =?us-ascii?q?7GGFVVp6cVViVyfJrxp8=3D?=
-X-Talos-MUID: 9a23:r7rDMQgukIwkpRxXqWGYQsMpCYAzypuJJGQ0gZxZoc+hNn19OSiFk2Hi
+ =?us-ascii?q?m4HkhQegXImOwsHATxRASsEgRQIgS4skmeSQKEPhCiMIpU6GjOEBIFXiz2HA?=
+ =?us-ascii?q?5JUC5h9jgqWT4RpgWg8gUcLBzMaCBsVO4JnCUoZD445g2uBf4NlyHYnMgIJM?=
+ =?us-ascii?q?gEBBwIHDgMLgWiQACyBUgEB?=
+IronPort-Data: A9a23:9HCSIqi9rHv3hVONzCnQpJhTX161NxEKZh0ujC45NGQN5FlHY01je
+ htvWWqHbv7bNzH1fIsgPNm29EIP6MeBz9NhQQZurH1hQ3ljpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNs/vd8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUW3+xuUDtt+
+ cccch42XE6imfqu3ZuCH7wEasQLdKEHPasFsX1miDWcBvE8TNWbE+PB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZgp/5JEWxI9EglHubidRpF+9rqss6G+Vxwt0uFToGIeOJIXaH5QJzy50o
+ ErH80nrOxE1BOXP9ifcql6jqfSfpj3CDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBUCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
+IronPort-HdrOrdr: A9a23:Vhu1RqjCVFjFQ+cjM6wOsP24FHBQXvYji2hC6mlwRA09TyX+rb
+ HLoB1173HJYVoqNU3I3OrwW5VoIkmskKKdn7NxAV7KZmCP0wGVxcNZnOnfKlbbdBEWmNQw6U
+ 4ZSchDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhBQpcUAUdAY0++/YTzrdHFLeA==
+X-Talos-CUID: 9a23:QG87fGM0vk6Y9u5DVgxt7R9OOcwedifz90WOAlGgEXtAcejA
+X-Talos-MUID: 9a23:q/BZsArsuFB3mnUsvIYezzBuGdVR44ueMRAyjMxel8arLnxLJQ7I2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,161,1787011200"; 
-   d="scan'208";a="536227761"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 05:41:07 +0000
+   d="scan'208";a="536182949"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 05:41:08 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 8E3D8180001EB
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:41:07 +0000 (GMT)
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 4E6FE180001C5
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:41:08 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 37A9ECBF204; Thu, 15 Oct 2026 22:41:07 -0700 (PDT)
+	id 7BE94CBEF7A; Thu, 15 Oct 2026 22:41:07 -0700 (PDT)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 04/27] python3-git: fix CVE-2026-67324
-Date: Thu, 15 Oct 2026 22:40:43 -0700
-Message-Id: <20261016054106.210444-5-yurade@cisco.com>
+Subject: [OE-core][wrynose][PATCH 16/27] python3-git: fix CVE-2026-76219
+Date: Thu, 15 Oct 2026 22:40:55 -0700
+Message-Id: <20261016054106.210444-17-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261016054106.210444-1-yurade@cisco.com>
 References: <20261016054106.210444-1-yurade@cisco.com>
@@ -78,142 +77,196 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:41:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247933
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247939
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/56806080c1348749b07daa4a2024ce47b3cad285
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-67324
+[1] https://github.com/gitpython-developers/GitPython/commit/9b5dcaf85da5946dbf69dcd53f9edba08f760b32
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-76219
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
- .../python/python3-git/CVE-2026-67324.patch   | 101 ++++++++++++++++++
+ .../python/python3-git/CVE-2026-76219.patch   | 155 ++++++++++++++++++
  .../python/python3-git_3.1.43.bb              |   1 +
- 2 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
+ 2 files changed, 156 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76219.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-76219.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-76219.patch
 new file mode 100644
-index 0000000000..6f32bcce4f
+index 0000000000..3c3f3d2930
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
-@@ -0,0 +1,101 @@
-+From b09720b6f8311edac108392bd834e74918836c4f Mon Sep 17 00:00:00 2001
-+From: "GPT 5.6" <codex@openai.com>
-+Date: Sun, 12 Jul 2026 14:12:16 +0200
-+Subject: [PATCH] fix: reject joined unsafe short options
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-76219.patch
+@@ -0,0 +1,155 @@
++From dbf247f0779367b555b55d54941ead00e999eee6 Mon Sep 17 00:00:00 2001
++From: Byron <sebastian.thiel@icloud.com>
++Date: Sun, 2 Aug 2026 09:06:40 +0000
++Subject: [PATCH] Guard read-tree index output paths
 +
-+GitPython blocks options such as --upload-pack/-u and --config/-c
-+because they can execute arbitrary commands unless unsafe options are
-+explicitly allowed. Git also accepts a short option with its value
-+joined to the same token, including after clusterable flags. Forms
-+such as -uVALUE, -fuVALUE, -cVALUE, and -vcVALUE could therefore
-+bypass an exact-token check.
++<!-- agent -->
++GHSA-4gmw-gg2m-w46p reports that caller-controlled treeish arguments could
++be parsed by git read-tree as --index-output and select an arbitrary output
++path. A regression test showed that from_tree reached Git instead of raising
++UnsafeOptionError; the same unchecked path was reachable through reset and
++both merge_tree treeish positions.
 +
-+Parse single-dash option tokens sufficiently to recognize blocked
-+short options while preserving safe attached values such as
-+-oupstream. Also distinguish clone multi-option values from bare
-+kwargs so positional values are not treated as long-option
-+abbreviations.
++Add the project-standard unsafe-option guard and explicit opt-out to
++from_tree, merge_tree, and reset. Check positional and keyword candidates so
++abbreviations and alternate forwarding forms are covered before read-tree
++runs.
 +
-+This completes the option-validation hardening for
-+GHSA-2f96-g7mh-g2hx.
++A broader audit found only two read-tree sinks in the codebase; both are now
++guarded, and reset delegates to the guarded from_tree path. The only remaining
++index-output use is GitPython's controlled temporary index. Git cf5497b14
++confirms read-tree parses this path-taking option before tree arguments.
++Focused index tests and Ruff checks pass.
 +
-+CVE: CVE-2026-67324
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/56806080c1348749b07daa4a2024ce47b3cad285]
++CVE: CVE-2026-76219
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/9b5dcaf85da5946dbf69dcd53f9edba08f760b32]
 +
 +Backport Changes:
-+- Omitted test/test_clone.py, test/test_git.py, test/test_remote.py 
-+  because the current PyPI source archive does not include the test 
-+  suite and the python3-git recipe does not run it.
++- Omitted test/test_index.py because the current PyPI source archive 
++  does not include the test suite and the python3-git recipe does not 
++  run it.
 +
-+Reviewed-by: Sebastian Thiel <sebastian.thiel@icloud.com>
-+(cherry picked from commit 56806080c1348749b07daa4a2024ce47b3cad285)
++Assisted-by: GPT 5.6
++Co-authored-by: GPT 5.6 <codex@openai.com>
++(cherry picked from commit 9b5dcaf85da5946dbf69dcd53f9edba08f760b32)
++Signed-off-by: Yogita Urade <yurade@cisco.com>
++(cherry picked from commit f46d9d3d6f21073d312ca8ef4523bdbf43655c0f)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/cmd.py | 40 ++++++++++++++++++++++++++++++++++++----
-+ 1 file changed, 36 insertions(+), 4 deletions(-)
++ git/index/base.py | 40 +++++++++++++++++++++++++++++++++++++---
++ 1 file changed, 37 insertions(+), 3 deletions(-)
 +
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 523029fc..75495dc1 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -733,10 +733,23 @@ class Git(metaclass=_GitMeta):
++diff --git a/git/index/base.py b/git/index/base.py
++index 90d4c16f..a2955ec3 100644
++--- a/git/index/base.py
+++++ b/git/index/base.py
++@@ -131,6 +131,7 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++     """
++ 
++     unsafe_git_checkout_index_options = ["--prefix"]
+++    unsafe_git_read_tree_options = ["--index-output"]
++ 
++     __slots__ = ("repo", "version", "entries", "_extension_data", "_file_path")
++ 
++@@ -256,7 +257,12 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++ 
++     @post_clear_cache
++     @default_index
++-    def merge_tree(self, rhs: Treeish, base: Union[None, Treeish] = None) -> "IndexFile":
+++    def merge_tree(
+++        self,
+++        rhs: Treeish,
+++        base: Union[None, Treeish] = None,
+++        allow_unsafe_options: bool = False,
+++    ) -> "IndexFile":
++         """Merge the given `rhs` treeish into the current index, possibly taking
++         a common base treeish into account.
++ 
++@@ -270,6 +276,9 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++             Optional treeish reference pointing to the common base of `rhs` and this
++             index which equals lhs.
++ 
+++        :param allow_unsafe_options:
+++            Allow options that may write to arbitrary paths.
+++
++         :return:
++             self (containing the merge and possibly unmerged entries in case of
++             conflicts)
++@@ -280,6 +289,12 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++             yourself, you have to commit the changed index (or make a valid tree from
++             it) and retry with a three-way :meth:`index.from_tree <from_tree>` call.
++         """
+++        if not allow_unsafe_options:
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([base, rhs]),
+++                unsafe_options=self.unsafe_git_read_tree_options,
+++            )
+++
++         # -i : ignore working tree status
++         # --aggressive : handle more merge cases
++         # -m : do an actual merge
++@@ -324,7 +339,13 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++         return inst
 + 
 +     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-+-        """Check for unsafe options.
-+-
-+-        Some options that are passed to ``git <command>`` can be used to execute
-+-        arbitrary commands. These are blocked by default.
-++        """Raise :class:`~git.exc.UnsafeOptionError` for blocked option spellings.
++-    def from_tree(cls, repo: "Repo", *treeish: Treeish, **kwargs: Any) -> "IndexFile":
+++    def from_tree(
+++        cls,
+++        repo: "Repo",
+++        *treeish: Treeish,
+++        allow_unsafe_options: bool = False,
+++        **kwargs: Any,
+++    ) -> "IndexFile":
++         R"""Merge the given treeish revisions into a new index which is returned.
++         The original index will remain unaltered.
++ 
++@@ -348,6 +369,9 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++         :param kwargs:
++             Additional arguments passed to :manpage:`git-read-tree(1)`.
++ 
+++        :param allow_unsafe_options:
+++            Allow options that may write to arbitrary paths.
 ++
-++        In addition to exact matches, this rejects abbreviated long options accepted
-++        by Git (for example, ``--upl`` for ``--upload-pack``) and unsafe short options
-++        whose values are joined to the same token, including after clusterable flags
-++        (for example, ``-uVALUE`` and ``-fuVALUE``).
++         :return:
++             New :class:`IndexFile` instance. It will point to a temporary index location
++             which does not exist anymore. If you intend to write such a merged Index,
++@@ -365,6 +389,12 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++         if len(treeish) == 0 or len(treeish) > 3:
++             raise ValueError("Please specify between 1 and 3 treeish, got %i" % len(treeish))
++ 
+++        if not allow_unsafe_options:
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates(treeish, kwargs),
+++                unsafe_options=cls.unsafe_git_read_tree_options,
+++            )
 ++
-++        A list containing only bare names is treated as normalized keyword arguments,
-++        so multi-character names such as ``upload_p`` are checked as long-option
-++        abbreviations. If any item starts with ``-``, the list is treated as tokenized
-++        command-line input: bare items can be option values and are not checked as
-++        abbreviations. Thus ``["--origin", "upload"]`` is allowed. Single-dash options
-++        use short-option parsing rather than broad prefix matching, preserving safe
-++        attached values such as ``-oupstream`` and ``-bcurrent``.
++         arg_list: List[Union[Treeish, str]] = []
++         # Ignore that the working tree and index possibly are out of date.
++         if len(treeish) > 1:
++@@ -1398,6 +1428,7 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++         working_tree: bool = False,
++         paths: Union[None, Iterable[PathLike]] = None,
++         head: bool = False,
+++        allow_unsafe_options: bool = False,
++         **kwargs: Any,
++     ) -> "IndexFile":
++         """Reset the index to reflect the tree at the given commit. This will not adjust
++@@ -1429,6 +1460,9 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++             The paths need to exist at the commit, otherwise an exception will be
++             raised.
++ 
+++        :param allow_unsafe_options:
+++            Allow options that may write to arbitrary paths.
 ++
-++        Some options passed to ``git <command>`` can execute arbitrary commands and
-++        are therefore blocked by default unless the caller explicitly allows them.
++         :param kwargs:
++             Additional keyword arguments passed to :manpage:`git-reset(1)`.
++ 
++@@ -1445,7 +1479,7 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
 +         """
-+         # Options can be of the form `foo`, `--foo`, `--foo bar`, or `--foo=bar`.
-+         # Git accepts any unambiguous prefix of a long option, so an abbreviated
-+@@ -746,6 +759,15 @@ class Git(metaclass=_GitMeta):
-+         # can be abbreviations; single-character short options remain exact-match
-+         # only.
-+         canonical_unsafe_options = {cls._canonicalize_option_name(option): option for option in unsafe_options}
-++        unsafe_short_options = {
-++            canonical: option
-++            for canonical, option in canonical_unsafe_options.items()
-++            if option.startswith("-") and not option.startswith("--") and len(canonical) == 1
-++        }
-++        # These value-less Git flags can be clustered before another short option
-++        # (for example, ``-fuVALUE``). Stop at any other character because it may
-++        # begin an attached value, as ``o`` does in the safe option ``-oupstream``.
-++        clusterable_short_options = frozenset("46flnqsv")
-+         options_are_kwargs = all(not option.startswith("-") for option in options)
-+         for option in options:
-+             candidate = cls._canonicalize_option_name(option)
-+@@ -754,6 +776,16 @@ class Git(metaclass=_GitMeta):
-+             unsafe_option = canonical_unsafe_options.get(candidate)
-+             if unsafe_option is not None:
-+                 raise UnsafeOptionError(f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it.")
-++            option_token = option.split("=", 1)[0].split(None, 1)[0]
-++            if option_token.startswith("-") and not option_token.startswith("--"):
-++                for option_char in option_token[1:]:
-++                    unsafe_option = unsafe_short_options.get(option_char)
-++                    if unsafe_option is not None:
-++                        raise UnsafeOptionError(
-++                            f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-++                        )
-++                    if option_char not in clusterable_short_options:
-++                        break
-+             if not (option.startswith("--") or (options_are_kwargs and len(candidate) > 1)):
-+                 continue
-+             for canonical, unsafe_option in canonical_unsafe_options.items():
++         # What we actually want to do is to merge the tree into our existing index,
++         # which is what git-read-tree does.
++-        new_inst = type(self).from_tree(self.repo, commit)
+++        new_inst = type(self).from_tree(self.repo, commit, allow_unsafe_options=allow_unsafe_options)
++         if not paths:
++             self.entries = new_inst.entries
++         else:
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index 76a21c670f..ca2efce37e 100644
+index aece60339a..6532a8d8fe 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -25,6 +25,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-67323.patch \
-            file://CVE-2026-67325_p1.patch \
-            file://CVE-2026-67325_p2.patch \
-+           file://CVE-2026-67324.patch \
+@@ -37,6 +37,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
+            file://CVE-2026-73619.patch \
+            file://CVE-2026-76221.patch \
+            file://CVE-2026-76220.patch \
++           file://CVE-2026-76219.patch \
             "
  SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
