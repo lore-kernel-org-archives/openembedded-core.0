@@ -1,147 +1,106 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DADA1CCA490
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 22:03:43 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5681.1792188216319980297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E00ECCF2C1
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 22:10:54 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4294.1792184153155551242
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 15:03:37 -0700
+ Fri, 16 Oct 2026 13:55:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=ZiZg4wUA;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20261016220334316770443400020793-dsmpho@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20261016220334316770443400020793
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 17 Oct 2026 00:03:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=3CaDwxp1TYVIoS4H8dR7BOQSyC+XdcV/hMa+F+xiHbM=;
- b=ZiZg4wUAUNPySeUzvUF4ahKnOz3dvjAiyXiruFK21fzpCLlL/iN9h4Pg/fN9ncWgdTh4fb
- fwdvIdlhwDyB14tIpLLz+0ONKayRz7vQGsEwzraoa3ftfYLCDb+MJgfyE9wvrbiRSK3jmzyq
- 3Hgi+x1DGSH6gp0awbx1T9x+9gGKCTa3g9P1FzeSgGkLL4E7E8BvC3GSeHaDdz/fyWnSosb+
- 6/PZKL4qiBTuklzfCXjLVrz6Hzq5gq98R+CRugPMqsBfs1AQel/1UrUR9gUBihdQW+ZVAyru
- pmixXpLILCvMYy3w9EsUGtV1QsgjGkQduPwlMLgttcVCNb11a+3IpzUw==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Fhx/T5A1;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: oo.hehir@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5bb7c6980f1so294664e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 13:55:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792184151; x=1792788951; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LL/5KO+A0v7ws7LJif5O2SK1+kZjEbYMlMBguWDN2NY=;
+        b=Fhx/T5A1F2M7Ri6HjRe7RxuwFVv9I4BdpZU6XsYifqufyaxUtSKkp0ir3NdZI2crUo
+         XK2stRaKxROq7s8PX42QSNVXJY1f60s2O/lkNUJK2h0AhgB3hK8WRnWr1CFF10EfFiOy
+         AVpfubFjNi3MwhXXcf+a5Gk/L4qsIqe/LmQKWGrnuUg3zj6mF2Q0nh8ZNl/CCdQezMMC
+         ITj80k2VVenX4A3LtV80QPtLoRuGmHlemLftaLrGH0rO7leP//WEmP82/oW9BJUc3v7i
+         zPJgGylNVA1ux2Odwdk7IeTVQ0HoQtvwq34GFsK4CHzyXFSWDJQpWbZVPZQkdYYIGf8R
+         qsDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792184151; x=1792788951;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LL/5KO+A0v7ws7LJif5O2SK1+kZjEbYMlMBguWDN2NY=;
+        b=nmVaSMlYVlewx2zzQAtWj3oCr1DXuQQGRVaJ18k5xQR+k73nWsyXNgJ6PCQFnKFZHV
+         gaaSYpFXPephprCHG/e3VYcAatklQSe4nYQxTUIQEfI04fJfM9o/O7LTo0UUZRct9rtZ
+         9E1As3hA+NjUZEjZUeY6Pt837Q/59iixhPCiejkEJ/YvZfjF6v2MnHVOH4i7z/Pqqe2b
+         SOorNsr3XP0f43sOvtNkTq2ASWSHSupw4lsII9xKrZ6Nz2w+S7cacJWGSKPm1YNSjVAo
+         javT9Ux8XdTgNQJNe3GfsWdYylZFk617k/9wOAaNjpdIKIhaG/jVHbRFMm+BY3iflnud
+         rHRQ==
+X-Gm-Message-State: AFq9FYJK57M9J2aUclgtK17meM5g+0P82fdl8bguomg940skiY4wyXMX
+	+JeQkDX7/NVQ7KC9i7dKgmRhtFZwip8ymmksKKo2ekvgcQfN/GiaNui/2JsdoA==
+X-Gm-Gg: AYBFou25bdOMZQF+Yh2GreTZMXBT9xnn3tm2X/Vp4CNUgGi62tQE/ubHNfaUhEHvFgo
+	bvKOFFVhXgJLhs9QG6kVsL0N2z8QP/fE+q47W6gX0ikXwIikjzGkc4jjXVJHlIY2hYgXGBBQxn1
+	5mUftrQPim3O960rlXEj8ali+6zxPOtJrvARS7ZA6/WgIAfGlI4SyyoDNNc5RB8qM8rEvKGB1rP
+	GHjnbVUYJSlzaq/CnrLDVVHzScajAxavZ2tUSXiGu/8cA5wmX/elln0x7TeYyIh90BUo8LsEFsg
+	uZsXTxXGwn5hVYYXvn0PsJUZA6NwH0PMa/BqGkK+Rz2eoE6c0sjZIg6vQOw5JMRvuIyOP9SjgWK
+	BSwQbIF/MXo+5vPsRZ6s0jMqXwAx/zjo3JgKzz/hRqxc/k+npWHTXpuPo2vjcYSPiFqV5bvGwBd
+	aX+3GLtpvBeakrZRiD5uL0TQEdiXi0cOnfM/ANhQdA5Mq8534hjfZ2sS/FZ1HD/weqc0s7GGn8F
+	9A=
+X-Received: by 2002:a05:600d:4444:20b0:4a1:b027:99dc with SMTP id 5b1f17b1804b1-4a1d760098dmr15570695e9.18.1792183662423;
+        Fri, 16 Oct 2026 13:47:42 -0700 (PDT)
+Received: from hp-z640.fritz.box ([51.37.221.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d3e2e602sm51205765e9.5.2026.10.16.13.47.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 13:47:41 -0700 (PDT)
+From: OOHehir <oo.hehir@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH] libpcre2: update to latest release branch hash 50b3c0d7ce
-Date: Sat, 17 Oct 2026 00:02:49 +0200
-Message-ID: <20261016220249.3564587-1-peter.marko@siemens.com>
+Cc: raj.khem@gmail.com,
+	tgamblin@baylibre.com,
+	OOHehir <oo.hehir@gmail.com>
+Subject: [PATCH 6/7] ptest-packagelists.inc: re-enable tcl8 for riscv64
+Date: Fri, 16 Oct 2026 21:45:35 +0100
+Message-ID: <20261016204547.2328847-7-oo.hehir@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261016204547.2328847-1-oo.hehir@gmail.com>
+References: <20261016204547.2328847-1-oo.hehir@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 22:03:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248041
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 22:10:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248048
 
-From: Peter Marko <peter.marko@siemens.com>
+The previous commit skips binary-40.3, its only failure on riscv64.
+core-image-ptest-tcl8 on qemuriscv64: 152 pass, 0 fail, 607 s. On a
+VisionFive 2 (JH7110), binary-40.3 was the only failure.
 
-Handles CVE-2026-103111, CVE-2026-86145, CVE-2026-89158, CVE-2026-89160,
-CVE-2026-89157, CVE-2026-89156 and CVE-2026-89161.
+tcl stays parked: under TCG, unicodeNormalize.test prints nothing for more
+than 450 s & ptest-runner kills it. The binary-40.3 skip still helps tcl on
+hardware.
 
-The project committed to have 5 year security support for each release
-on a dedicated release branch.
-Switch from release tarball to git fetcher to use this feature.
-
-Git log with all changes and manually created CVE annotations:
-$ git log --oneline pcre2-10.43..50b3c0d7ceaf23578d04e644c02781c322ef6cb0
-50b3c0d7 Backport of pcre2-10.49-Fix-large-stack-allocation.patch [CVE-2026-103111]
-b7d3ffd4 Backport of pcre2-10.48-Fix-DFA-workspace-overflows.patch [CVE-2026-86145]
-9c11f0dc Backport of pcre2-10.48-Fix-compiler-integer-overflows.patch [CVE-2026-89158]
-2866e543 Backport of pcre2-10.48-Fix-invalid-UTF-backwards-scans.patch [CVE-2026-89160]
-714e1062 Backport of pcre2-10.48-Fix-allocation-byte-sizing.patch [CVE-2026-89157]
-91759151 Backport of pcre2-10.48-Check-JIT-mode-before-validation.patch [CVE-2026-89156]
-87f50503 Backport of pcre2-10.48-Fix-JIT-match-context-reuse.patch [CVE-2026-89161]
-ed0e58f5 Backport of pcre2-10.48-Fix-JIT-STR_END.patch
-dc733f56 Backport of pcre2-10.44-Fix-incorrect-compiling.patch
-7f3e5400 Backport of pcre2-10.44-Fix-locking-region.patch
-
-Diff of release tarball and git repository is:
-Only in pcre2-10.43/: aclocal.m4
-Only in pcre2-10.43/: ar-lib
-Only in libpcre2-10.43+git/: autogen.sh
-Only in libpcre2-10.43+git/: .bazelrc
-Only in libpcre2-10.43+git/: BUILD.bazel
-Only in libpcre2-10.43+git/: build.zig
-Only in pcre2-10.43/: compile
-Only in pcre2-10.43/: config.guess
-Only in pcre2-10.43/: config.sub
-Only in pcre2-10.43/: configure
-Only in pcre2-10.43/: depcomp
-Only in libpcre2-10.43+git/: .git
-Only in libpcre2-10.43+git/: .github
-Only in libpcre2-10.43+git/: .gitignore
-Only in libpcre2-10.43+git/: index.md
-Only in pcre2-10.43/: INSTALL
-Only in pcre2-10.43/: install-sh
-Only in pcre2-10.43/: ltmain.sh
-Only in pcre2-10.43/m4: libtool.m4
-Only in pcre2-10.43/m4: lt~obsolete.m4
-Only in pcre2-10.43/m4: ltoptions.m4
-Only in pcre2-10.43/m4: ltsugar.m4
-Only in pcre2-10.43/m4: ltversion.m4
-Only in libpcre2-10.43+git/: maint
-Only in pcre2-10.43/: Makefile.in
-Only in pcre2-10.43/: missing
-Only in libpcre2-10.43+git/: MODULE.bazel
-Only in libpcre2-10.43+git/: pcre2_fuzzer_16.dict
-Only in libpcre2-10.43+git/: pcre2_fuzzer_16.options
-Only in libpcre2-10.43+git/: pcre2_fuzzer_32.dict
-Only in libpcre2-10.43+git/: pcre2_fuzzer_32.options
-Only in libpcre2-10.43+git/: pcre2_fuzzer.dict
-Only in libpcre2-10.43+git/: pcre2_fuzzer.options
-Only in libpcre2-10.43+git/: README.md
-Only in pcre2-10.43/: test-driver
-Only in libpcre2-10.43+git/: WORKSPACE.bazel
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: OOHehir <oo.hehir@gmail.com>
 ---
- .../recipes-support/libpcre/libpcre2_10.43.bb | 20 +++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.43.bb b/meta/recipes-support/libpcre/libpcre2_10.43.bb
-index f744df88fad..743b0ec04e5 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.43.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.43.bb
-@@ -10,23 +10,27 @@ SECTION = "devel"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=321a5eb46acae6b6c1ff2c7a866d836a"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 97c6e35050..1b76023621 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -164,8 +164,8 @@ PTESTS_PROBLEMS:append:riscv32 = " lttng-tools strace"
+ PTESTS_SLOW:append:libc-musl = " libc-test"
  
--SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
--
--GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
--UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
--
--SRC_URI[sha256sum] = "e2a53984ff0b07dfdb5ae4486bbb9b21cca8e7df2434096cc9bf1b728c350bcb"
-+BASE_VER = "${@d.getVar('PV').split('+')[0]}"
-+SRC_URI = "git://github.com/PCRE2Project/pcre2;protocol=https;branch=release/pcre2-${BASE_VER}"
-+SRCREV = "50b3c0d7ceaf23578d04e644c02781c322ef6cb0"
-+PV .= "+git"
+ # These tests don't yet pass for riscv64
+-PTESTS_SLOW:remove:riscv64 = "tcl tcl8 python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
+-PTESTS_PROBLEMS:append:riscv64 = " tcl tcl8 python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
++PTESTS_SLOW:remove:riscv64 = "tcl python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
++PTESTS_PROBLEMS:append:riscv64 = " tcl python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
  
- CVE_PRODUCT = "pcre2"
- 
--S = "${WORKDIR}/pcre2-${PV}"
-+CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
-+CVE_STATUS_STABLE_BACKPORTS = "CVE-2026-103111 CVE-2026-86145 CVE-2026-89158 CVE-2026-89160 \
-+    CVE-2026-89157 CVE-2026-89156 CVE-2026-89161 \
-+"
-+CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
-+
-+S = "${WORKDIR}/git"
- 
- PROVIDES += "pcre2"
- DEPENDS += "bzip2 zlib"
- 
- BINCONFIG = "${bindir}/pcre2-config"
- 
--inherit autotools binconfig-disabled github-releases
-+inherit autotools binconfig-disabled
- 
- EXTRA_OECONF = "\
-     --enable-newline-is-lf \
+ # These tests don't yet pass for musl qemuarm64
+ PTESTS_SLOW:remove:libc-musl:qemuarm64 = "strace perl gnutls glib-2.0"
+-- 
+2.43.0
+
 
