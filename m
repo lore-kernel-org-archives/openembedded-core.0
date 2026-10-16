@@ -1,107 +1,121 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68454CC6B2D
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 03:41:34 +0000 (UTC)
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6665.1792095041540743804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0B64CC6B38
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 03:52:44 +0000 (UTC)
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14168.1792122761166508507
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 13:10:41 -0700
+ Thu, 15 Oct 2026 20:52:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=kq0S2Jxn;
- spf=pass (domain: baylibre.com, ip: 209.85.222.170, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-93e635220b9so398762685a.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2026 13:10:41 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=W6nmGNvR;
+ spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1792095040; x=1792699840; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8N51SpO0fXhmWZ8/TDheRTC0lZOYPRVtd3/HO5Q8/NM=;
-        b=kq0S2Jxn1Tx5CSOkh2b7VN5YCJWgD9L4F+KgJvu8j2+iccgqmE0bn8pMptdt2FO+bO
-         jEOehRSo9zkfg1QI/RI2axQbyQn654THpThlEh2D8Cbu8IzCbhXS8o1Cq/V9Jmos5dx8
-         Jb8pAT08iEx1TxIl5aDGhznHW1ImSWej0/izlJnz4P3TjnJhYa2kI3c6SNMtKr8hcmly
-         rNjG4TjVoom2gHKz/k2+7cXfBgk9QcOVw77Auz0i/CDJ1kusJ872i5Et1D9/Tj2XwcsV
-         ic0Yn+ZWztzC37KEg8whFsDKsKyUF9RxZryGH6PmDoGDArML+8e9VQWGt0m+BPcLsoom
-         FBsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792095040; x=1792699840;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8N51SpO0fXhmWZ8/TDheRTC0lZOYPRVtd3/HO5Q8/NM=;
-        b=zYNXLs6SYFSwR7P9Rkm0n1eZgQpxeF22JH9nLZH4im6UOKI6VA2nmwUkwc1sTFmsYc
-         C97SP0zMW37fQNBOQjUXMY8qcqFXZ0T3wd5FBpDNOqkJvEOENKtHzqh0hE3znKYaXTJI
-         brPDL3/qrK6sB5J7qjPt0mVPcJOXFQGEfIXmOf+TAht1BspCVINUNz8Z/R2FSsahzMpH
-         Acvo2IrI2BCH8qKPm8yONnIZTu1owjtpCeJmdqEBxjF6mYs8IcHEWky1cTOQqCusE9Mb
-         I86Z3zIl6k2TWWyQ8M/6qaOaZZiGZvHTegs1moAPayO+7qnVJ6LIzQjEEAD9JiKySMjf
-         e33w==
-X-Gm-Message-State: AFq9FYK/7jSGSLmsGy6ka8ct8UPbYmZ+ZCqU43DBcLuVbVSxj5bTU36d
-	cBMi4p4ZcGHqz4FGlkS6pKdscUeQFJPUTH0//SdmCJIFQts6UMH3+CXvVaQVE1IBqWONjHrRoIp
-	0QED7
-X-Gm-Gg: AYBFou3Xb68uqT2OmwDwA7z22yaZrDzYDdfWwEATr/A4FejHf8dU4kBOzL7BTc0yu0M
-	5XebufnJWN01ksDgXkC7OzkoDkTrbPCqjPwXmoRxwEzoZZZPoZhCi322q962FfPc9bpF5aAbSvE
-	Qovh2MFDhtHpIZOx/8PXGeWPu94QNSy2AeZx9G6xDsu5sWv0WgfDhJyAqjS1ju6Nvdb+vZzhnyD
-	Bvyj6VxXc6HUHzpmOmNrnGJlfnL9zMK3goq2gm+MUqxWQnjDk8UqxQK8vDy5fHNsnaUQecRMYQG
-	j0Dh4S6AXlw/lDMVbfGZqyEEXcedr0p670pF+0bcAiYIoBoajRZZhP3gfOGIM45g5HLNZa62KdF
-	DrHA0TLs57kOYr3yr/2G0RKS8kqq0vvW8sRCYDb6PgXzz0v+y2nX5d0uvDDmULeSq/2PbjL2asL
-	yI9+pndQKq3WCw/JwbsSRMFcLaQEq1aFwx3x4YNpbYSNxnjelhXLxe/ys1CdgJJvSVRZGX4wtsR
-	myqdXSkkkNPBHW4Gmm8PL9TWuiv/S5GiIZ6ZI5XdqYz/xvn6bujbU+J
-X-Received: by 2002:a05:620a:1a17:b0:93d:92a9:1a5e with SMTP id af79cd13be357-93ebd2608c7mr3301906585a.37.1792095040392;
-        Thu, 15 Oct 2026 13:10:40 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f1a16c21esm21092085a.16.2026.10.15.13.10.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 13:10:34 -0700 (PDT)
-From: "Trevor Gamblin" <tgamblin@baylibre.com>
+  d=cisco.com; i=@cisco.com; l=1568; q=dns/txt;
+  s=iport01; t=1792122761; x=1793332361;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=s/n7MbEMvx15yfnL2ms416WNVbeFO/gnm3FE7MQ2LRE=;
+  b=W6nmGNvRJjgAyKGKe75hxQHyxQjC6mCuWhi2nmIvzu8nvBjx7H+ggIGQ
+   gowDFisOzXzJHBunFwT20jijY6UUZpd0vxwXaCkzmbnpj3zuzAo/2bUzx
+   EWfVCFSz/oPQpK497ud/+t9GMAiHBKlVmFoZPhW+69zyobFBkfoUVx/Bh
+   t4oCn5XTgv1gtIqTmNFRd25R1x83oDagfmRzvCFZSOkwQT9h6Z5oG4491
+   idD6USoyH8Z5Y1hqHcXQdTCG9dqo3oS38v5VLZODYMJ/kM63joZX3iDDD
+   O0lCy2EXKzS+3OLEPDjXq1N4SeA6nvTVNqrfjJYkKKQAtRa2QXPFYlpEC
+   g==;
+X-CSE-ConnectionGUID: e63MKMgyR1mDbpluKtNf0Q==
+X-CSE-MsgGUID: cS8vreOuSTKzYT+gAcw/uQ==
+X-IPAS-Result: =?us-ascii?q?A0CUAwAtn9Fq/4v/Ja1ahTB1YENJA5ZHA6AaDwEBAQ89F?=
+ =?us-ascii?q?AQBAYUFAo4VAiY4EwECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFgQ4Th?=
+ =?us-ascii?q?k8NkBMCAQMyARgBLRAgMSsrGYMCAYJ0AxG8coIsgQGDKQE/AkNQ2zIBCxQBB?=
+ =?us-ascii?q?YEzhUCII3UBhHwnGxuBcoR+gQWEC4V4BIIiehKBeJUpSIEeA1ksAVUTDQoLB?=
+ =?us-ascii?q?wWBaAM1EioVbjIdgSM+F4EHGwYFgR2BIIIWIxk2eoEJXoErKWABEBeBCYIHA?=
+ =?us-ascii?q?oJUggACAUlBDgdFUwklQxJHJiIIEgkBExowC4EbODwJKEEXDHMMHQVyCAINC?=
+ =?us-ascii?q?QcpGA1IESw3FRkEPm4HkhQegmVaNCwEHIFlJwUMpWShDwoog3aMIpU6GjOqb?=
+ =?us-ascii?q?wuYfY4Klk+EaYF/JYFZcBWDIglKGQ+OOYNrzlonMg4vAQEHAgcOAwuBaJF+A?=
+ =?us-ascii?q?QE?=
+IronPort-Data: A9a23:EqT6nKjWcZ4j7hvHKdYqv93IX161NhEKZh0ujC45NGQN5FlHY01je
+ htvXz+GOPiLY2P2edx+Oduwp0sCsMLcnd83GgQ6/3hhRX5jpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNs/vd8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUVpL1SIkRB5
+ MZBLRwHdhSepP6QzuqCH7wEasQLdKEHPasFsX1miDWcBvE8TNWbGePB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWYQZ/5JEWxI9EglH/bz1Rq1uPjaE2+GPUigd21dABNfKIIYLTFJUPwB7wS
+ mTu9F+pHAsXE8Gk9RmXw07vicbEgmTmYddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cFHhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Fxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:5oSZR69XN78NWKSjMbxuk+AAI+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
+ 5ISdkZNDSJNykYse/KpC+lDt0n3N6LtIqshevY0jNRaDsCUdAY0++8YTzraXGfg2J9dOIEKK
+ Y=
+X-Talos-CUID: =?us-ascii?q?9a23=3A22v8eWksaeIBe/jOZpJLAPVZ/VTXOXCDl1LzBkC?=
+ =?us-ascii?q?pMz9sZLeNTUKz5IVqy/M7zg=3D=3D?=
+X-Talos-MUID: 9a23:0xRazQXS1fheTdzq/DTX1C94OeB12JiNGnEx0povsNbDKBUlbg==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,161,1787011200"; 
+   d="scan'208";a="536198260"
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 03:52:37 +0000
+Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id A67BB180000F5;
+	Fri, 16 Oct 2026 03:52:37 +0000 (GMT)
+Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
+	id 08CBFCBEF98; Thu, 15 Oct 2026 20:52:37 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-	mark.hatle@kernel.crashing.org
-Subject: [OE-core][PATCH 2/2] tune-riscv.inc: add 'riscv64gcv' tune
-Date: Thu, 15 Oct 2026 16:10:18 -0400
-Message-ID: <20261015201018.2103620-2-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261015201018.2103620-1-tgamblin@baylibre.com>
-References: <20261015201018.2103620-1-tgamblin@baylibre.com>
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core][wrynose][PATCH 07/10] openssh: Ignore CVE-2026-106589
+Date: Thu, 15 Oct 2026 20:52:33 -0700
+Message-Id: <20261016035236.442896-8-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20261016035236.442896-1-hthakar@cisco.com>
+References: <20261016035236.442896-1-hthakar@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 03:41:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247911
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 03:52:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247921
 
-Add a new RISC-V tune option which adds the 'v' (vector) extension,
-compared to the default.
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Analysis:
+- This issue concerns platforms lacking file descriptor passing and
+  unprivileged PTY allocation, notably QNX 6 and SCO OpenServer 5.
+- Wrynose builds OpenSSH for Linux, where the affected platform-specific
+  configuration is not selected.
+
+Reference:
+https://ubuntu.com/security/CVE-2026-106589
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
- meta/conf/machine/include/riscv/tune-riscv.inc | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/openssh/openssh_10.3p1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
-index 8a14971d5f..ed71dc06ba 100644
---- a/meta/conf/machine/include/riscv/tune-riscv.inc
-+++ b/meta/conf/machine/include/riscv/tune-riscv.inc
-@@ -2,12 +2,15 @@ require conf/machine/include/riscv/arch-riscv.inc
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
+index 6799e10b99..cd8b7169a8 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.3p1.bb
+@@ -57,6 +57,7 @@ CVE_STATUS[CVE-2026-3497] = "not-applicable-platform: Only affects GSSAPI Key Ex
+ CVE_STATUS[CVE-2026-55653] = "not-applicable-platform: Only applies to RHEL FIPS patches."
+ CVE_STATUS[CVE-2026-59998] = "${@bb.utils.contains('PACKAGECONFIG', 'kerberos', 'unpatched', 'not-applicable-config: GSSAPI/Kerberos support is disabled in the default OpenSSH configuration', d)}"
+ CVE_STATUS[CVE-2026-106588] = "not-applicable-platform: Requires the macOS 27 or later SDK and Darwin sandbox; Wrynose builds OpenSSH for Linux."
++CVE_STATUS[CVE-2026-106589] = "not-applicable-platform: Requires platforms without file descriptor passing and unprivileged PTY allocation, such as QNX 6 or SCO OpenServer 5; Wrynose targets Linux."
  
- DEFAULTTUNE ?= "riscv64gc"
- 
--AVAILTUNES += "riscv64gc riscv32gc riscv64 riscv32 riscv64nc riscv64nf riscv32nf"
-+AVAILTUNES += "riscv64gcv riscv64gc riscv32gc riscv64 riscv32 riscv64nc riscv64nf riscv32nf"
- 
- # Default
- TUNE_FEATURES:tune-riscv64gc := "${@oe.tune.riscv_isa_to_tune("rv64gc")}"
- PACKAGE_EXTRA_ARCHS:tune-riscv64gc = "${TUNE_RISCV_PKGARCH}"
- 
-+TUNE_FEATURES:tune-riscv64gcv := "${@oe.tune.riscv_isa_to_tune("rv64gcv")}"
-+PACKAGE_EXTRA_ARCHS:tune-riscv64gcv = "${TUNE_RISCV_PKGARCH}"
-+
- TUNE_FEATURES:tune-riscv32gc := "${@oe.tune.riscv_isa_to_tune("rv32gc")}"
- PACKAGE_EXTRA_ARCHS:tune-riscv32gc = "${TUNE_RISCV_PKGARCH}"
+ PAM_SRC_URI = "file://sshd"
  
 -- 
-2.56.0
+2.35.6
 
 
