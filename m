@@ -1,225 +1,277 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C9CCCA462
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 13:40:12 +0000 (UTC)
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21963.1792158006157738903
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4450FCC6B38
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 13:40:32 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21970.1792158027179807712
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 06:40:06 -0700
+ Fri, 16 Oct 2026 06:40:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=N4ikvh+q;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=a/CsoqLR;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.145, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5A4391D00150
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 09:40:05 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Fri, 16 Oct 2026 09:40:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1792158004;
-	 x=1792244404; bh=Se5UtrYm5Rs4yfO+p+RjF/8bYZrsI0vqjiUyXpPSzzs=; b=
-	N4ikvh+q1K+MbERIrb9vd8buHX2yfrYn7EjA9XGUKZz/yAzqQoAtsU9EXMC31jxQ
-	GwvNOZjXxpBGe/kerF5fEv7gUPM4y/D1HWr1GlBiTF5X6HUgT0hj3+Xem9owQ4aA
-	sfb/9uY/zLDWCCjcmdhl5Zrkrtbcc5La3C80DArKZgzMcK7xw6lnswBBbBZiqN+I
-	LQwln0dOACbTjVAcJN3OF13IPSF+5ckOsjiYNX3OhW3pnTHoFpi+1vxaViUd39WT
-	SF+f8Dk2sy5M+lIwIX8MPLTHhks+QNh8hkm35Rd8+QVHIBys3AFIcprScuIWH6hD
-	3Eemf+8bth73Pj4j95ur9g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792158004; x=
-	1792244404; bh=Se5UtrYm5Rs4yfO+p+RjF/8bYZrsI0vqjiUyXpPSzzs=; b=a
-	/CsoqLRGfU9EAZsdUDnY3uUGVTrLGCR0lZqC5B7+zng0y1Y5b/bWGm3ez7NoRXdg
-	mQ28JwHgIq9Rkt5+yr+t9G4EApQDrQIa8sxjp/HYVxToWJcznhg+8sh8A6xQhWvu
-	uJx7IRpTRAB0rH1sxR6FwXW0t4dSrJegcTFA9sOiDsCjvjjHYx0vc28Uq/e1y0i7
-	1W5rksrRoKFNonoKApbmfviRXg09HLTT8E2LnlfFdttiTmh9RwDnXyIRgiqGGhuZ
-	TgSBq/FIcX659s2EgZfjJkNvs4UAIVdVty5jJWguVtRJHEKQjDQS+g5L/7rRjBZ9
-	lZoxqFXdZ7sfVXkjgOUng==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792158004; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm3:rsa-sha256:TfXiDo+S76mcEzCWnICLSYju1uHeNhWQB32gH7h4Pmuxu6K
-	z1CoY5GjXW5ZS6uzm48DT1eFUZmm/hBtkDjZUo6FIvxt8xutBpuyd36AKmiu2mwh
-	3mV2TUWo8dHpJYOtdtHy7JIzy8zYiJvKKQDMQ0FQytKars29xwFJuEpgfuE9gbOq
-	mOppyiLOYvDWG772mKXzHRSse9VRV6xGtcgJdQxR8TZPzCAxVsYSvnSZj2hmUqZ6
-	7h5Rm4+EVp64ub+Dusl7T4nRengI+5eoCku8146PiaJsILVck1PYJcvxwW0uwUcU
-	qE4lDHV14kY04RV4tYJ8cCsPz2wIzoKaNtp0OVg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:EdLwVr7XwGezvxDm8DWXRZHycdx0Wl3JRJPKlNl2FE0=:nra4miG0sto0X6y7aeQMM2xpfZlx6b4BOh46sOFbhck=;
-X-ME-Sender: <xms:NCnSan-O21RWdFi9s034akU_qzdv46ym0v5dzpn8PCae_DgijrcWQg>
-    <xme:NCnSaqmswv2owtYTjrPFi5xSnEDzXywZ-q895KOpPWTDU5Wg6sAA0ii1Jh449utFq
-    hbgyknFLF0t-uA0rKuBA-hQCy1475NB9kKT_DcdCOaQ22L7Xb1xNTM>
-X-ME-Received: <xmr:NCnSatXs4U-N_eATfOOtzxz8j7VUzeciEbtEqV4Z2kDMvS6-gXbrKkWGjFhg2WFgtFN2t_j3iRUjzn08OCOvpxJMjQd0IGJnLyOR>
-X-ME-Proxy-Cause: dmFkZTFETPz1ZitGudAR3jpSYBb3A95EQWYE+KGatOtGjf+y5TWHRdzNgdPTmGI+o/H7yG
-    yMb0Y6SdW9GuYx7yyPqRI4zDfOo81Ue5uDrqdotQzMwPxKvuFCZZq0tZzC30ZdU/6AOFmG
-    oYIE/kKUDvwfI0PrWtutLvy2mwgoUOV5OFezB5eAk4u4gSCBYmpSsKp/74D5zWDGJxgQHV
-    fyH7pfApXNu5kTLC2l+qHkI2VU4rFEWhjdQq/xzAJ4VFlx25ROwvbUm8hH/aGauk5dczls
-    Wgq+Q7s7dok4SAknhNkH+9h/XxMvsjnY8J5SC6bV0pe3/Mnao0QK2ChstczefsIwDgVASx
-    j0c7U577C7IrhSvFKtmQm52khqmUGhT8RE66aJMkUn3lzfD68zAuHcIFVZAFCkBWBtEWfg
-    1tiwf4/FXigR9zTDfcEoiI6eFRhZSNbb52lb44J3bkpd9er7m1dKiQnuhKt+eJy3bXsjr5
-    Un4XHxOFUKVquMAGI/ekDxGVr4O/ITinb9hXgXZyeo5Zb/baD+Tj3JmA5jk7FLYDeq0zoP
-    xrrbJrEaJf7SbWtegIryeM6E8/1gp/wnUOCHT2ziGF+4GKvgjur6oIc+AgPbbIty3Rehse
-    sL3/ITrZbp0U7+ZcEaCnhe9o/PeTywGDF+Sj7I6GHZ6ABnSY1sEpZomjExZg
-X-ME-Proxy: <xmx:NCnSavFe9o39RiudzptKzj8T5QbTc403ctTTSdeqylPfP50hOoqijw>
-    <xmx:NCnSapevdIR-bscPJgje9yvthOye5RAvrBYTZOyAzl8vI2TzKL-Fww>
-    <xmx:NCnSagLHoBDRdMIj1LwJ0G-3OcbOFRLUbnzH53ns9WRHX1C1f8T4_A>
-    <xmx:NCnSauHPUQ8bBC758S__-gG9Y2HkoBlsH93hXomt7jrgqlMhB7zNMA>
-    <xmx:NCnSas_eNfSrmhzroVsGInK3ivT7Aiah61zeGcLdbGSmvIfpIodx3Gw3>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 16 Oct 2026 09:40:03 -0400 (EDT)
-Message-ID: <8de4149b86177076217c3f815f2f93b6bb731277.camel@pbarker.dev>
-Subject: Re: [OE-core] [PATCH v2 RESEND] classes/archiver: fix tarball
- content in "original" mode
-From: Paul Barker <paul@pbarker.dev>
-To: Joao Marcos Costa <joaomarcos.costa@bootlin.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com, yoann.congal@smile.fr, Richard Purdie
-	 <richard.purdie@linuxfoundation.org>
-Date: Fri, 16 Oct 2026 14:40:00 +0100
-In-Reply-To: <0c085fe9-05c8-42c3-a2e3-295b5bdc6e99@bootlin.com>
-References: <20260918092711.471982-1-joaomarcos.costa@bootlin.com>
-	 <84b5b50f-c507-4e35-8090-2a13b79fd4e3@bootlin.com>
-	 <b398788ff33f7042add03b695235d157ab2bb3b3.camel@pbarker.dev>
-	 <0c085fe9-05c8-42c3-a2e3-295b5bdc6e99@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=mZuSWusT;
+ spf=pass (domain: est.tech, ip: 52.101.69.56, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XhoiAsTorTbVBtgNu2InwgLW7Pv5A5YotSSPXFO/RyZ7/R5sm2tiqzIYqPukclN9axJIuNAHOUSee8zdWtglnR1jBT+209KfVBLh5YxA6H698kHnZgYoD3rZr8orcXU+IuLqCj/Ls/f7XXxIpmPy+k6n2mxH336VYva4op8cF+ZBBNIccIOrysJu8bxYLIET78yI6eOG8/6QlpWB++846BO2fsjTZjs71kZahITS3efkIESP0hYCqCf0yTty3UtnfyZYVRvyyW0/+SnDlhIoWSxbGXmtpGUfp9s+mkBi10LfPotzBq5RejVLC7dLqZgtKIMz9Qdu+BbEFWxm5/E5Hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zKdRNCWSThPcjTwR1aWvGstmaFMGiTpAj/j4P7AyCMk=;
+ b=omEGfH9za1MNsCPLCPHFCQaXiJ/01RGBBRC6f4zLK8hbdnW1BAF0OYrbruuGvoLN5woPC9Ek8EkkdhSmVQDOWtPoqM7UapgaL9oxbETK/dt/krFQ7+rnj/WrFHhcNmOYGlWC/SuoWtRG4AGYvVlFjYJw/g/budzcpORhA8iSTAo587N74ejG8ugb43TyY85n0GZcv16yPM+fDvWFfJgaonruj5yUenmId6a170Ut8G+q5sAOcXZgwhROEuzB+b/uiArtWA1fJn/wSdJwF7y1Bqltg7UFQy/cMu8hZxozXnFxgbBgMVBoce+VRmMjHopGnRkBgiMZCqVeWF4wg0Pg1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zKdRNCWSThPcjTwR1aWvGstmaFMGiTpAj/j4P7AyCMk=;
+ b=mZuSWusTXBngi4bZ9rG0C3RkzpujELjWuHa098t7T/0e0U2kuBB6e92BUxKD6bQAnME4IC0vFfnATBCTs0gYc3QOJKhja81Yoi0RVgQsTwePc/3+bAHFVqZpq3wTJ4dedivd68Y7wCOVo1ZIkhitsY7hO35IU4bJkY8paW3US5totPp8BfqOV1XawRpQqL2twMQ+iQCgz0on2m8L1v11NK2QqjTambH1eIyP8DfwhxL5BWpnYv8y6gQHUPwE88qs84Ij+5Fx+FXLG6CB93k4F86+3I8PjbFzUrXimZqBLYINRGDh7b5UKfApq8mMicDEBF4IhLaVHDMeL18LAHL2Pw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from VI0P189MB3116.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2cd::21)
+ by AS1P189MB1837.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:4ad::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.15; Fri, 16 Oct
+ 2026 13:40:22 +0000
+Received: from VI0P189MB3116.EURP189.PROD.OUTLOOK.COM
+ ([fe80::2d33:bb97:b0f8:8167]) by VI0P189MB3116.EURP189.PROD.OUTLOOK.COM
+ ([fe80::2d33:bb97:b0f8:8167%3]) with mapi id 15.21.0522.012; Fri, 16 Oct 2026
+ 13:40:21 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [wrynose][PATCH] curl: fix CVE-2026-80230
+Date: Fri, 16 Oct 2026 15:40:19 +0200
+Message-ID: <20261016134019.52968-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+Content-Type: text/plain
+X-ClientProxiedBy: DB8PR06CA0039.eurprd06.prod.outlook.com
+ (2603:10a6:10:120::13) To VI0P189MB3116.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:800:2cd::21)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI0P189MB3116:EE_|AS1P189MB1837:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3086b38c-1291-4529-078a-08df2b8b0658
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|18002099003|260925021911599003|260925021311599003|260925022911599003|10067099003|12006099003|13003099007|56012099006|261009223027099003|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	Pi3gel2dceG6lphRpII5qbnA1g/NC+xPQp2dxsGP+74ivZp+2ktAKRGhlAm381Skt1mxyeRUcMV4Fy+SOcGtj53T49TR1xoVOVw7EzZkHAjA94PYfTHG6txYz5BDdhwXZZED3kVZSb9We21dyD30aLq/YZGUecitWRqod2XJyQCx1LXn6ojaRzmMBu0skDTqKWASMr6F0w8aJnSDh0GtIu7fBMEeBGdOIU8LdQVqPhhgzlBRrz5q0iU/gTVunTUDB5EoW8UkEaoD4ln7ipmhDFQsBOuiTYdBlCUqagf0/dy/RVfu4ctpPSq7XVBaSwVqBYBSzH4351QRIPHvFECn657onvqpSrcqYKiF4B4Oh/rqHCtkaPcyh/8PrCRKHbh16+Kjz+cY1tknC/++pTpOGqtp84zKYchbjUStRh8hr9KQAG8/CmOqVyggRPaTa2Z34H6LKLpgqAB7QMfckDEIkmlxJnErIktcBmPTuvj8yBJ/4GoZVRPhYJZMAl+g6efB3HmlvxzT2BwZ+AzTuq0njt9+w2BeRldMX3Tz+oSsgiERqxxQuau8a0B6VhrKjoOECzwb6717AjgacwGY6I4WTvRxX/BOgG4lbxEhM/d+/z2v38tLpf+EbYkYeHPuNbtI
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0P189MB3116.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(18002099003)(260925021911599003)(260925021311599003)(260925022911599003)(10067099003)(12006099003)(13003099007)(56012099006)(261009223027099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?S0kPleOk9OeYXl8v+YmCZSyYQD0/zm3ORy3iJ+KjP3hcvvNZhMJGsVpzReBQ?=
+ =?us-ascii?Q?V23en7K4NQXxPZ2gGt0Djul2GrvmtHFL6JGq60bG5J4LienPDLKhkyDNnBt5?=
+ =?us-ascii?Q?kyl0VIA/kX4OD7hnuW1pHWAFsTEbtz92NUrUpPLqMgBfns066zvkIvdMKK72?=
+ =?us-ascii?Q?+J1G1MHVwoRuJh5PmZxZmwseVUNUNkoupJrtHhdjFjvIIiirW7n/U0wpTMnv?=
+ =?us-ascii?Q?k2dRiEYzc7RLOhhSuzSrTU3JTTbUwYsT+b5U7IqRtZjJ4ED/DVZ3p69p6pJZ?=
+ =?us-ascii?Q?X/tb9Or3W5ziHUj3HqmWNBChuauKfNK3w79g4cc/IeKZpZqgp940S4ml/Wu0?=
+ =?us-ascii?Q?Bmd+apfxS9Vrq5yCK8YDwsx+BCcM1hH2iQybVdw7wMHr8X7WRbAhWPwagOcO?=
+ =?us-ascii?Q?/aFiLEd57k4t5/7jvua1V1g4B7PJofsy68Y6GoDFlBj7Kv+ZIfyJrOfMXIUg?=
+ =?us-ascii?Q?EZMNi4hn4QvZqBeeKk2gYvST5sw5Z53Y39zjogRvXSw9j2vUo2PzDJD6Z6P9?=
+ =?us-ascii?Q?0oUfdEZBG9Z1+m40dzLk/FYcnXgPQMeIyg8aEvhI2tqAG7j8KZu16TWpUIvR?=
+ =?us-ascii?Q?ImYNz+myDLfbzkKAV/DJFJjv35WL30Ih62YJyCXdbvK1xfVZHYdgMn52WZfC?=
+ =?us-ascii?Q?DF5cv9A/Byh+i766M8khvlnJv+ccEDLXqMt+hHx8tEiX8Rjg/WA6RG8LvMdC?=
+ =?us-ascii?Q?xlqc6cF/ZucGaYj5si1XhYM3fJivC+6TJfUEKZwT227uIv5HVdf7AkGtNIcy?=
+ =?us-ascii?Q?P2DDUHao9VvfDngRdA7lK9dvZyNs15nqyDbEnzZUEY6LaUYaA1ZQ+iXb44mD?=
+ =?us-ascii?Q?/dHr990uow+cNwqiPKSYqSqu7OHRp3mvqkdQzS2vrkxjqeIeoRUApZshl0Tv?=
+ =?us-ascii?Q?GB3Orr9+8gvG7M8SMJtdQVBUnWLGYPaU9J9lHeszUwrAyAvRe4h961ut0Wre?=
+ =?us-ascii?Q?s61IETZw+AInmNtaO/NCXulXwNgLvS/qcQhbN0NeM7UT5tggO9VW6UK7OZsq?=
+ =?us-ascii?Q?rccW1JFTsWzTXOp50sU20tQhGzPQxojCVF4o6/piXVUfi/FLNFLsvDWsMkPQ?=
+ =?us-ascii?Q?WAMDxXsWU8kEuh8GtjLpPXujaZ8g6E03sJOA6aCXeT23fC/qa68vx3UrZnZS?=
+ =?us-ascii?Q?ImsdH2e4J6F0TMUD7r6szp+fVp6r3bvd+nRAr/jkmnx4QQdteyf2oiQmg5QF?=
+ =?us-ascii?Q?ZWgOMLtQOFjRUF76PmpH6VwAiRMUmGBcHWAaqI/kExBbvxvxpcVhGHDOkhqU?=
+ =?us-ascii?Q?7BRLcvyYJqqLH5um9f9cygxMSJiHbddSGbpyjQ/wnZnajYlo6TSiuuj4K22Q?=
+ =?us-ascii?Q?rBzWkPrJsT541koaCIWz2DOMnf2H3Kw1LDlTk8U+s8r1uRt8RYkk2VMXqQax?=
+ =?us-ascii?Q?uOoEOawT4l3QT2b3AYHVLzgOvTeJ4NWFMsKrhwLxfbrUifypTGUXAaMpBAqv?=
+ =?us-ascii?Q?OMb22HvfSCi0SSHJEat01N3F1Rv2r927sZQClPxCUvtuMXpojjMBvA9n0JsB?=
+ =?us-ascii?Q?zQAY8Pdbx89UEz9fnAUA0NbrywJ4aMdrkK5NZcddBoXSV/5xax7UdNaLhJkC?=
+ =?us-ascii?Q?YR070oIbHjG3ncAUUlFhgwpyNr1afWCM8pBgAzV81DD6uG1rsa92Kg0fq7v2?=
+ =?us-ascii?Q?l1ZLSyTAW8toiPJOtMJojLnB976x0WymW+FghB7PNU4LUl9IMZQwMleic5yB?=
+ =?us-ascii?Q?QImzZCQCryYYQOqwMRBsvgvSPkiKNvgMPfFfeJlnpdE5Dseb5A4FL/wCcHq7?=
+ =?us-ascii?Q?I0Q1S9MEAg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3086b38c-1291-4529-078a-08df2b8b0658
+X-MS-Exchange-CrossTenant-AuthSource: VI0P189MB3116.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 13:40:21.8881
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RZ4CHaCiAEH5aV6CqSYRCffezB6xQiaX6ve6F+40X8x7LwldLPlJBJy80/eoC+pjgCB7VF/f9ISAT33+Jr3iY90El/MC2Qw3prER2DtYCIg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1P189MB1837
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 13:40:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248024
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 13:40:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248025
 
-On Fri, 2026-10-16 at 10:08 +0200, Joao Marcos Costa wrote:
-> Hello, Paul
->=20
-> Thanks for your reply.
->=20
-> On 10/15/26 10:04 PM, Paul Barker wrote:
-> > On Thu, 2026-10-15 at 20:53 +0200, Joao Marcos Costa wrote:
-> > > Hello,
-> > >=20
-> > > On 9/18/26 11:27 AM, Jo=C3=A3o Marcos Costa wrote:
-> > > > When ARCHIVER_MODE[src] is set to "original", a tarball is generate=
-d with
-> > > > the unpacked sources of a given recipe. Prior to it, a tmpdir
-> > > > (i.e. from tempfile.mkdtemp()) is created and the sources are unpac=
-ked inside:
-> > > >=20
-> > > > (...)/vim/9.2.0340/archiver-work/tmp8pu2nsck
-> > > > `-- vim-9.2.0340
-> > > >       |-- READMEdir
-> > > >       |-- ci
-> > > >       |-- lang
-> > > >=20
-> > > > This tmpdir, however, ends up being shipped in the deployed tarball=
-:
-> > > >=20
-> > > > $ tar -tf vim-9.2.0340-r0.tar.xz
-> > > > (...)
-> > > > tmp8pu2nsck/vim-9.2.0340/ci/config.mk.clang-12.sed
-> > > > tmp8pu2nsck/vim-9.2.0340/LICENSE
-> > > > tmp8pu2nsck/vim-9.2.0340/.git-blame-ignore-revs
-> > > > (...)
-> > > >=20
-> > > > This can be avoided by pointing to the subdir where the sources are
-> > > > unpacked, rather than to tmpdir, when calling create_tarball().
-> > > >=20
-> > > > The subdir's name can be inferred from 'BP', so we will use
-> > > > 'tmp8pu2nsck/vim-9.2.0340/.' instead of 'tmp8pu2nsck/.' as input.
-> > > >=20
-> > > > e.g. and in the result:
-> > > >=20
-> > > > ./
-> > > > ./vim-9.2.0304/
-> > > > ./vim-9.2.0304/SECURITY.md
-> > > > ./vim-9.2.0304/.codecov.yml
-> > > > (...)
-> > > >=20
-> > > > Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com=
->
-> > > > ---
-> > > >    meta/classes/archiver.bbclass | 2 +-
-> > > >    1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.=
-bbclass
-> > > > index b274c53e79..c824718a1d 100644
-> > > > --- a/meta/classes/archiver.bbclass
-> > > > +++ b/meta/classes/archiver.bbclass
-> > > > @@ -230,7 +230,7 @@ python do_ar_original() {
-> > > >                        else:
-> > > >                            bb.fatal("Cannot determine archive names=
- for original source because 'name=3D' URL parameter '%s' is used twice. Ma=
-ke it unique in: %s %s" % (tarball_suffix[name], url))
-> > > >                tarball_suffix[name] =3D url
-> > > > -            create_tarball(d, tmpdir + '/.', name, ar_outdir)
-> > > > +            create_tarball(d, os.path.join(tmpdir, d.getVar('BP'),=
- '.'), name, ar_outdir)
-> > > >   =20
-> > > >        # Emit patch series files for 'original'
-> > > >        bb.note('Writing patch series files...')
-> > >=20
-> > > Gentle ping: would there be any updates on this one? Thanks!
-> >=20
-> > Hi Jo=C3=A3o,
-> >=20
-> > In my reply to the v1 patch [1], I asked why we're creating a tmpdir
-> > under ${ARCHIVER_WORKDIR}, why not just unpack the source directly unde=
-r
-> > the archiver workdir?
-> >=20
-> > The archiver already works in an `archiver-work` subdirectory, so there
-> > isn't any risk of the unpacked sources clashing with ${S} used by other
-> > recipe tasks. We may be able to change the code so it doesn't use an
-> > additional directory layer.
-> >=20
-> > [1]: https://lore.kernel.org/all/6fc3dd417116cb61641a293fd9a4256774e708=
-b4.camel@pbarker.dev/
-> >=20
-> > Best regards,
->=20
-> There could be something off with my mailer, Idk, but I replied to your=
+Backport the upstream fix [1] as mentioned in [2]
+
+[1] https://github.com/curl/curl/commit/5267ed859d545534d0c21
+[2] https://curl.se/docs/CVE-2026-80230.html
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+Note: SRC_URI indentation is corrected by devtool
+
+ .../curl/curl/CVE-2026-80230.patch            | 68 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      | 62 ++++++++---------
+ 2 files changed, 99 insertions(+), 31 deletions(-)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80230.patch
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-80230.patch b/meta/rec=
+ipes-support/curl/curl/CVE-2026-80230.patch
+new file mode 100644
+index 0000000000..5a6bb35986
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-80230.patch
+@@ -0,0 +1,68 @@
++From 7d34e6397166b10600c2ced93f95641d5e7c1575 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 24 Aug 2026 23:37:49 +0200
++Subject: [PATCH] openssl: no server cert is only okay if also not pinned
++
++Reported-by: Stanislav Fort
++Closes #22660
++
++CVE: CVE-2026-80230
++Upstream-Status: Backport [https://github.com/curl/curl/commit/5267ed859d5=
+45534d0c21675a2b70af5a3b6e3ef]
++
++Note: CURL_EASY_STR() macro does not exist in 8.19.0, so the pinned()
++accesses data->set.str[] directly instead.
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ lib/vtls/openssl.c | 26 +++++++++++++++-----------
++ 1 file changed, 15 insertions(+), 11 deletions(-)
++
++diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
++index 1cf357c..cb6fcc4 100644
++--- a/lib/vtls/openssl.c
+++++ b/lib/vtls/openssl.c
++@@ -4607,21 +4607,24 @@ out:
++   return result;
++ }
++=20
++-static CURLcode ossl_check_pinned_key(struct Curl_cfilter *cf,
++-                                      struct Curl_easy *data,
++-                                      X509 *server_cert)
+++static const char *pinned(struct Curl_cfilter *cf,
+++                          struct Curl_easy *data)
++ {
++-  const char *ptr;
++-  CURLcode result =3D CURLE_OK;
++-
++   (void)cf;
+++  return
++ #ifndef CURL_DISABLE_PROXY
++-  ptr =3D Curl_ssl_cf_is_proxy(cf) ?
+++    Curl_ssl_cf_is_proxy(cf) ?
++     data->set.str[STRING_SSL_PINNEDPUBLICKEY_PROXY] :
++-    data->set.str[STRING_SSL_PINNEDPUBLICKEY];
++-#else
++-  ptr =3D data->set.str[STRING_SSL_PINNEDPUBLICKEY];
++ #endif
+++    data->set.str[STRING_SSL_PINNEDPUBLICKEY];
+++}
+++
+++static CURLcode ossl_check_pinned_key(struct Curl_cfilter *cf,
+++                                      struct Curl_easy *data,
+++                                      X509 *server_cert)
+++{
+++  CURLcode result =3D CURLE_OK;
+++  const char *ptr =3D pinned(cf, data);
++   if(ptr) {
++     result =3D ossl_pkp_pin_peer_pubkey(data, server_cert, ptr);
++     if(result)
++@@ -4803,7 +4806,8 @@ CURLcode Curl_ossl_check_peer_cert(struct Curl_cfilt=
+er *cf,
++   server_cert =3D SSL_get1_peer_certificate(octx->ssl);
++   if(!server_cert) {
++     /* no verification at all, this maybe acceptable */
++-    if(!(conn_config->verifypeer || conn_config->verifyhost))
+++    if(!(conn_config->verifypeer || conn_config->verifyhost) &&
+++       !pinned(cf, data))
++       goto out;
++=20
++     failf(data, "SSL: could not get peer certificate");
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-suppor=
+t/curl/curl_8.19.0.bb
+index 0573e08ea4..c2697d6dd8 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -9,37 +9,37 @@ SECTION =3D "console/network"
+ LICENSE =3D "curl"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0515352b285b9c3f66464b135c9c0fd=
+c"
 =20
-> comment(s) back then:
->=20
-> "I do believe that tmpdir was created to handle the case where multiple=
+-SRC_URI =3D " \
+-    https://curl.se/download/${BP}.tar.xz \
+-    file://run-ptest \
+-    file://disable-tests \
+-    file://no-test-timeout.patch \
+-    file://CVE-2026-6276.patch \
+-    file://CVE-2026-5773.patch \
+-    file://mbedtls.patch \
+-    file://CVE-2026-5545.patch \
+-    file://CVE-2026-6253.patch \
+-    file://CVE-2026-6429-dependent.patch \
+-    file://CVE-2026-6429.patch \
+-    file://CVE-2026-7168.patch \
+-    file://CVE-2026-4873.patch \
+-    file://CVE-2026-8286.patch \
+-    file://CVE-2026-8927.patch \
+-    file://CVE-2026-8932-dependent.patch \
+-    file://CVE-2026-8932.patch \
+-    file://CVE-2026-11352.patch \
+-    file://CVE-2026-11586.patch \
+-    file://CVE-2026-7009.patch \
+-    file://CVE-2026-8925.patch \
+-    file://CVE-2026-9080.patch \
+-    file://CVE-2026-9545-01.patch \
+-    file://CVE-2026-9545-02.patch \
+-    file://CVE-2026-9079.patch \
+-    file://CVE-2026-13608.patch \
+-    file://CVE-2026-80229.patch \
+-    file://CVE-2026-9546-01.patch \
+-    file://CVE-2026-9546-02.patch \
+-"
++SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
++           file://run-ptest \
++           file://disable-tests \
++           file://no-test-timeout.patch \
++           file://CVE-2026-6276.patch \
++           file://CVE-2026-5773.patch \
++           file://mbedtls.patch \
++           file://CVE-2026-5545.patch \
++           file://CVE-2026-6253.patch \
++           file://CVE-2026-6429-dependent.patch \
++           file://CVE-2026-6429.patch \
++           file://CVE-2026-7168.patch \
++           file://CVE-2026-4873.patch \
++           file://CVE-2026-8286.patch \
++           file://CVE-2026-8927.patch \
++           file://CVE-2026-8932-dependent.patch \
++           file://CVE-2026-8932.patch \
++           file://CVE-2026-11352.patch \
++           file://CVE-2026-11586.patch \
++           file://CVE-2026-7009.patch \
++           file://CVE-2026-8925.patch \
++           file://CVE-2026-9080.patch \
++           file://CVE-2026-9545-01.patch \
++           file://CVE-2026-9545-02.patch \
++           file://CVE-2026-9079.patch \
++           file://CVE-2026-13608.patch \
++           file://CVE-2026-80229.patch \
++           file://CVE-2026-9546-01.patch \
++           file://CVE-2026-9546-02.patch \
++           file://CVE-2026-80230.patch \
++           "
 =20
-> source controlled URLs are used in SRC_URI. If I fake a second git for=
-=20
-> Vim, the result will be a couple of tmpdirs, then 2 separate tarballs,=
-=20
-> each ending with the suffix defined in SRCREV_FORMAT."
->=20
-> So I believe the tmpdir is needed, and the cleaner way to handle this is=
-=20
-> to change the call site in do_ar_original() as you suggested, thus my=20
-> v2. What do you think?
-
-Hi Jo=C3=A3o,
-
-This does explain the tmpdir a little more. In which case v2 is probably
-good, I'll see if we can move this forward in the next patch review call.
-
-Thanks,
-
---=20
-Paul Barker
-
+ SRC_URI:append:class-nativesdk =3D " \
+     file://environment.d-curl.sh \
 
