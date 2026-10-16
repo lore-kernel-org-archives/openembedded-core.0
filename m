@@ -1,95 +1,115 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF17CC6B38
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 15:55:44 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.291.1792166142625199299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F4EDCCA46C
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 22:03:34 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5608.1792188208155376418
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 08:55:42 -0700
+ Fri, 16 Oct 2026 15:03:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=z1pw+rYj;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so963505e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 08:55:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792166141; x=1792770941; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=e0orYXaVpO3SDhXlVT4PYP4qTfQzQzOU4yZJlhBGS8A=;
-        b=z1pw+rYjGICHRN9fBPT2nMKRFbKqbE7A3gckyQyYJ5fJcdpVzngQrJmRya0rtxdkm3
-         bMoIHMEYvYwzsZwYRvHWgI4bui6cn+lwfG5cRI1ZptHOeB9lde6bxKnWzIpvhuyEIgvI
-         4eFDCSFdkDwL1uorkEmxaVJiOed8LvttD37vg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792166141; x=1792770941;
-        h=in-reply-to:references:from:subject:to:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=e0orYXaVpO3SDhXlVT4PYP4qTfQzQzOU4yZJlhBGS8A=;
-        b=1ChvzmQ7rw8HHc/RbZ85Z6buuv52UwAGjMMY2iV5Ehrtlnae16a4NNtQ0xMXPaNSAA
-         aRWLjJmAABb85pB/rPdvyx1X8yF2oJE6EGm5YTj7TibriSC+W2ztZ5pArpCgRyfSsbCe
-         JSoaNA6CG1TJ3uE0Xk92FkRGUFG8JriH1IYmsRF8mgVCaf8sjGTIk+B4mJNUfLxiQnkz
-         eHR+yuRzklZowGdmTAKu/yVgwoZ+cEF5nXDVpJlDkmKCyq/MlDb4ZfheTMLtXqRlSlOM
-         oeQiG0E4BgMWQk28AeJg3DcMnND9k908FycBYGGRQ8e1jzjmYOvxEPvlnYv0zQa/Dgjv
-         kw9w==
-X-Gm-Message-State: AFq9FYIBuX7QIfg3UqHoBoaWwC8SvifHWjjT19AwveDeK1f3L6Ju31/s
-	ylMjlwtG1pJJJDiMmta+wl0RR9QC2VPfE2AJv0ZTIH7+CLoVsJ+7SJPZWSFtwMCceIA=
-X-Gm-Gg: AYBFou0hu4Idbv3wxUYZ/KkhLQrgiVd+DXW8DSHwTkwCeV7y9qILvkikyp8Fm8wpY4i
-	IgagDKj5s7RQoChIeibT+1f29WQtakshCmGRoxFOBf/c6cekJQuJLJOYwg72Fnv/6RDq15YIu6G
-	2WoRI5fKlcTLJT9PDtGOlhexkTXTc7Ud5cQPVGZL0ZJLrf5rvxh0L0x5Gn1CEfP6BtJFdV/d2Cm
-	TRjAxtb8DD+FAUwHf5sS7NZb6BPbklBe8JMJRC+k4MWCOXeUkSfZe5MMjbgNENY5akR66K9L3Sx
-	d8yvXjkam9xJtP7599z5UbCvn/mNtuZ4IYbZeAex1C/M60ajKOxR9SaoLC/jtIqMEZrFbHWLVsv
-	kIjcj3hUr7VZ9tKlW4D1MOHPUaC0TDe2CWVotjNcLqN02QeNuSkRRz52I2RYuNI7olWysZf41XK
-	KVtBXmNWLLBPaJgrJMNIy/R4YM0LJOqkjybsDyyLLAsMybXmA6KwbGuM3apH/qWUU9Qe2a96EDw
-	zQ4NOJtcI/aV6+wsRM//3/4PSxnOvRVqvj4B6x4xeuvsUiB7nJ/1T0uf/HM4A==
-X-Received: by 2002:a05:600c:1389:b0:4a1:d2e5:aa35 with SMTP id 5b1f17b1804b1-4a1d76057d6mr4769235e9.19.1792166140693;
-        Fri, 16 Oct 2026 08:55:40 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1cca26dc8sm44799525e9.3.2026.10.16.08.55.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 08:55:40 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 Oct 2026 17:55:40 +0200
-Message-Id: <DM6DVIU6PCS7.5796QI5VSNGG@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-To: "Vijay Anusuri" <vanusuri@mvista.com>
-Subject: Re: [OE-core][wrynose][patch] python3-git: Fix CVE-2026-67326
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20261016053344.103696-1-vanusuri@mvista.com>
- <DM62KASB5RK9.HMFQ0TUDPVCD@smile.fr>
- <CANQUz18joQXzbyvYMpGeEvuq5s04rJcnUM_k06+jC0tOJon+Bw@mail.gmail.com>
-In-Reply-To: <CANQUz18joQXzbyvYMpGeEvuq5s04rJcnUM_k06+jC0tOJon+Bw@mail.gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=K4nsqUTJ;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202610162203248f1963c86f0002070f-pehoz1@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202610162203248f1963c86f0002070f
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 17 Oct 2026 00:03:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=qKQYEm/YK7H81TfIfaqeneQC5fS0MrkpCzOmZ5QCzWY=;
+ b=K4nsqUTJrE7FMK19CGDBo9QZcRRK14EmSV+qmHMQsAv5cxzN/eL3am5h/eTc9Kr/xv3iEc
+ e9QAodDPSOEUpCRPs1G4mSCoxNr9GkoCTvwEtsR50wzMLQ0G8ojsOlGkE43wrihhNYcBi9BN
+ 9WrQZEq92LaVhmZTSun68ZuT6MI8bnFhf4wKHdzBQvw7I5aMudCTQL/WRK3hS0efdsGG/CVq
+ OnkU4HhEHnZYI6ZdUXSEho9JFWhb8hg4L0FDuI7/lIhzpf2gr6eFT02qX6tAx5LTGJ5sCidG
+ S21n1Lns0z9kF+2MFt/NpAJ3Q/KZ3u+luuDhG7CyufldSXHhEyPCCTCw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [wrynose][PATCH] libpcre2: update to latest release branch hash c084f99ae0
+Date: Sat, 17 Oct 2026 00:02:53 +0200
+Message-ID: <20261016220253.3564610-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 15:55:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248039
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 22:03:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248040
 
-On Fri Oct 16, 2026 at 1:48 PM CEST, Vijay Anusuri wrote:
-> Hi Yoann,
->
-> I reviewed the fix for CVE-2026-67326 and confirmed that it is identical =
-to
-> the fix in the larger patch series.
->
-> I haven't reviewed the remaining patches in the series.
->
-> You can ignore my patch.
+From: Peter Marko <peter.marko@siemens.com>
 
-Thanks Vijay!
+Handles CVE-2026-103111, CVE-2026-86145, CVE-2026-89158, CVE-2026-89160,
+CVE-2026-89157, CVE-2026-89156, CVE-2026-89161, and CVE-2026-89162.
 
->
->
-> Thanks & Regards,
-> Vijay
---=20
-Yoann Congal
-Smile ECS
+The project committed to have 5 year security support for each release
+on a dedicated release branch.
+Switch from release tarball to git fetcher to use this feature.
 
+gitsm is used to fetch sljit subnmodule. It is not used by default but
+can be enabled in downstream layers via configuration option.
+
+Git log with all changes and manually created CVE annotations:
+$ git log --oneline pcre2-10.47..c084f99ae0af664e86819fd1839a13c56dc0918c
+c084f99a Backport of pcre2-10.49-Fix-large-stack-allocation.patch [CVE-2026-103111]
+cb7193ac Backport of pcre2-10.48-Fix-DFA-workspace-overflows.patch [CVE-2026-86145]
+586e2ea0 Backport of pcre2-10.48-Fix-compiler-integer-overflows.patch [CVE-2026-89158]
+2c7492a0 Backport of pcre2-10.48-Fix-invalid-UTF-backwards-scans.patch [CVE-2026-89160]
+1d6cc92c Backport of pcre2-10.48-Keep-escape-error-offset-in-pattern.patch
+75ca1974 Backport of pcre2-10.48-Fix-allocation-byte-sizing.patch [CVE-2026-89157]
+5528f329 Backport of pcre2-10.48-Check-JIT-mode-before-validation.patch [CVE-2026-89156]
+69aa0df5 Backport of pcre2-10.48-Fix-JIT-match-context-reuse.patch [CVE-2026-89161]
+1e058b41 Backport of pcre2-10.48-Fix-JIT-STR_END.patch
+120f76cb Backport of pcre2-10.48-Fix-scan-prefix-repeat-reset.patch
+e4d6d427 Backport of pcre2-10.48-Fix-repeated-substitute-escapes.patch
+0ac26ee9 Backport of pcre2-10.48-Fix-character-list-generator.patch
+dcfab032 Backport of pcre2-10.48-Write-serialization-padding.patch [CVE-2026-89162]
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ meta/recipes-support/libpcre/libpcre2_10.47.bb | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+index 70079e0b65..5bdb647f52 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+@@ -12,25 +12,27 @@ LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0 \
+                     file://deps/sljit/LICENSE;md5=97268427d235c41c0be238ce8e5fda17 \
+                     "
+ 
+-SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
++BASE_VER = "${@d.getVar('PV').split('+')[0]}"
++SRC_URI = "gitsm://github.com/PCRE2Project/pcre2;protocol=https;branch=release/pcre2-${BASE_VER} \
+            file://run-ptest \
+ "
+-
+-GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+-UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
+-
+-SRC_URI[sha256sum] = "47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7"
++SRCREV = "c084f99ae0af664e86819fd1839a13c56dc0918c"
++PV .= "+git"
+ 
+ CVE_PRODUCT = "pcre2"
+ 
+-S = "${UNPACKDIR}/pcre2-${PV}"
++CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
++CVE_STATUS_STABLE_BACKPORTS = "CVE-2026-103111 CVE-2026-86145 CVE-2026-89158 CVE-2026-89160 \
++    CVE-2026-89157 CVE-2026-89156 CVE-2026-89161 CVE-2026-89162 \
++"
++CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
+ 
+ PROVIDES += "pcre2"
+ DEPENDS += "bzip2 zlib"
+ 
+ BINCONFIG = "${bindir}/pcre2-config"
+ 
+-inherit autotools binconfig-disabled github-releases ptest
++inherit autotools binconfig-disabled ptest
+ 
+ EXTRA_OECONF = "\
+     --enable-newline-is-lf \
 
