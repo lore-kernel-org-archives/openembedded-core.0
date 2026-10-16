@@ -2,50 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F6ACCF2CB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 564C7CCF2CC
 	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 22:24:57 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5942.1792189488922913963
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6030.1792189488449371247
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 15:24:49 -0700
+ Fri, 16 Oct 2026 15:24:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Hga6mrci;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48afbd2c386so140599f8f.3
+ dkim=pass header.i=@smile.fr header.s=google header.b=pQIMZxCG;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48c4d870d54so177331f8f.2
         for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 15:24:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1792189487; x=1792794287; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=JUq74mhUXwkjAyCIII5NPPS6JvYZmwowB7rTL/aHSbc=;
-        b=Hga6mrciRnlppSflIA98Suv2GMPNPPrV2tCWz0tMfTLAWg0O+KTSZu3PcIdsngdqL9
-         QhVBN/8NZqWMQQHYliW5Cz1RVzrw8pCUE+dKytF58Dc4p2B2WKajN05W50VVKZ+2GC2p
-         XwucxtFWPTTe2vvXEk4VaJOxcOVAQX6X8cdPI=
+        bh=hx4sINt/VY8QL0gtTwv7ckjw4kldrs2/4EduF98VmLk=;
+        b=pQIMZxCGp1qxtOsexcYAYjpXcCmD7NVgyzebZykJyjK+RSFWHaVKFO61xFw6n4Y+ot
+         bxLCx+gnqXa3ZGvFYf/+XGuT48TpWlZMZz9ENuddybWxm/oDTMoGBnDVEcdbR8dnK+EV
+         IDzFWD3f2+kf9GanOdZEbD4r50PjMCs82TmT8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1792189487; x=1792794287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=JUq74mhUXwkjAyCIII5NPPS6JvYZmwowB7rTL/aHSbc=;
-        b=T84FZ416J3+or3I4gBC+0oGr69/R14ChZHMh58VWcevrKCnmBSLAl4WEB1BLKDiZRY
-         fJ+3D9vTw4N+UE02IPBeuHMypCXgcHgk6ewAfFCRqA+DGKoS7+k2GFexeNOZkxHQ4wjb
-         Tg7faUaccKDnO5rJmuZ81xGdBZFUVOIF27pll6oSBMvbsvbFIsyjyLHM4+bdzXBmF5X4
-         8AUWVBYunPSv6qzsMrJGuaRoNCc71T4ttXSyPGsFTE+x+61PV8Vd4WfLcsBDGtP4aoi3
-         Ee3xpnKrlb+jnvjfMIc1x9ltMh4ujUtXN7lE0zkGpxEm290a0ovCFVxowe5WrOzNNjVp
-         /tVA==
-X-Gm-Message-State: AFq9FYIXysd6jp4U8Tl8jOip35g906ZS1aA8+eCwbW4c/lpohBelMnDd
-	UfeBZkygTcuG2ZXF7iYbNNsuaseSp8bovoNHxzR1SluL2afUFBqj4eIfSq/n8JFCfmcVFkwhLfT
-	O6WyI/So=
-X-Gm-Gg: AYBFou2xk3OqEyRohm2xGZDZErDLt+ekL/Jf3Zhcy8lFecNDD+RwOZwy0I8CZFTsfNH
-	XS4WXko1l93p7ZKFK6TVjtuRrmG5J2DGpwc5P91SgJOw97dLy/JWgQh4abxK4I8sBFy71TGm2n7
-	LdsDvvRbsBEUJwdITXb8ZqeVpdCgXjHx14XjYYBfVckaFvDVFgwrgYnwFcpSLI8DBj6V2UyWC71
-	HFCPiNuqS+exAlCaq98bYjGKum/zime1WWIFtjjpzmHpEDlG0fqulPwTCVfwv7C8B1GGj/GtOb8
-	tZmBBi9eUOXf9cJJ8hCHj6JmHRrbtiX2VOnXnmmWZPFjJeF2wi3he8CY0tgqGT1MdPcC0o2hIDu
-	7kzVmKQIFZA2cfFUKkwJZytj7A1S8kRR6LQgLfLqtGe1iXVA/LIXbGXmO4hVbS5dF4Cf11WLqBx
-	6XfMgqX9uhGjNsFzP0WrsirQG/pHEdqk9CT4EXOAMLj/ZIGbkmJwTk3yb+31KQhZHOa+LMIntAt
-	Tw+gCOC2ZoQXiPieqqmp1WzGRB5jKt2qrIYKzutXueUNyNSCO8+X9PQoJuvQc83130/V6kTGQ==
-X-Received: by 2002:a5d:56c4:0:b0:487:27f6:a4e9 with SMTP id ffacd0b85a97d-48e07fb9465mr1261400f8f.57.1792189486966;
+        bh=hx4sINt/VY8QL0gtTwv7ckjw4kldrs2/4EduF98VmLk=;
+        b=XbMNWeDHYryhVpVl8m+3WcS2TGziE7VDg9p7zIRgqokWchUArDR6pbCIVQpZ6RKK4S
+         Yi6cyfGCw5G9hMnih64FggjlMK9qo2a3aMkBHig4atiMDlWNU/N3hp9Twt4ooUE7IYPq
+         Xgmos631Jhkzz1ZyVjRDceylr+CHJGKbX8TzbA0z9ZKQJ5epqijK77tdg9SVZ+Ht9EhW
+         IspGQYQPpHOgf9lPWdLWsFuQX7+jUCPn9n46I8CIOho95L1yLz4Ppytehsg3YDEjnvKr
+         3qw6GLMicreeS/tvRXqZuO2mgr5jzgShVuMl7UqPLoYLoh+1WJRDoEyXuos4b+EQS8ss
+         jESA==
+X-Gm-Message-State: AFq9FYJY8R5z2gzPngyEk06zVeOpdbAEpYSkL3ppTpj5TBbZ2qewVvsI
+	uyWkR4TKZmEQUl8H7xsL5DYjl2TkMxjUe/LDHPDFzvM71d7nlmi35OaKN7B/fFIoF7lKecvz5gl
+	832KfACQ=
+X-Gm-Gg: AYBFou1JMZw4TAwGRnuF+uPnyqVyeuSnWMWOiNWRz8MbFWh5wZ4FR0CHARSqMq6JemR
+	3IoHGXdWeJu2chGXSRqvlXc56xIkmppiYIz/YMTTdmxi7JkhIL0pkyyPbzyzFlcSZeoCuTWXzTa
+	+ia7jgsLqC4PqX2m7pHZje6TCiysgIyzAHJ8KHA2ZKFO6hu/G0b1LLoZ1I/jlWWDhTBicok6Sd/
+	fj4wbU19nlTTz2/dx+9TJiLRI3OaZf+fMiejqjDNO+AQIbprF3gPTAS1fE2i0y6tT/ZRkxprhwM
+	CWjPWnCtwY/NePyZKhZ/Ygb7PZ1P78Qsv2pnOmHH13wkUCO+o4oTIZn/KpvXV6uukcd4YGX2qqx
+	s6M3HwjKkDkEkmdNl57EDeDLAiScR+COJpwitHu4iDEtQVCfRoEnSJI65BmBCrPB6y0XyiJbFD5
+	GXkzQ+c/Z5fiy3O8BVAELz87kzqWP2D+4EB8KTZqoPjXBaKBz57r82qGMW4xp7zx12TFZAmJJ/W
+	OMF/LQ1LjfnPBnR7RWuC5+SHz4VAI/zr7SzV1tB8DW91l/3jpq5ZH4+O8ONNhl+EDhZ9Za5M0K3
+	K+7th4uk
+X-Received: by 2002:a05:6000:46da:b0:48d:f3d2:38e0 with SMTP id ffacd0b85a97d-48e07bbe5efmr1352905f8f.15.1792189486437;
         Fri, 16 Oct 2026 15:24:46 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd503862sm7639515f8f.46.2026.10.16.15.24.46
@@ -54,9 +55,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Fri, 16 Oct 2026 15:24:46 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 11/17] kea: Upgrade 3.2.0 -> 3.2.1
-Date: Sat, 17 Oct 2026 00:24:13 +0200
-Message-ID: <0bae05a15b0425ab1201729e6fb9316a6380dd2d.1792189264.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 10/17] go: upgrade 1.27.1 -> 1.27.2
+Date: Sat, 17 Oct 2026 00:24:12 +0200
+Message-ID: <6d8e62502a672c381c8196b942b19b82ee9ced57.1792189264.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792189264.git.yoann.congal@smile.fr>
 References: <cover.1792189264.git.yoann.congal@smile.fr>
@@ -66,255 +67,280 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 22:24:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248061
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248060
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Peter Marko <peter.marko@siemens.com>
 
-ReleaseNotes: https://gitlab.isc.org/isc-projects/kea/-/wikis/Release-Notes/release-notes-3.2.1
+Upgrade to latest 1.27.x release [1]:
 
-The following summarizes the changes since the previous release:
+$ git --no-pager log --oneline go1.27.1..go1.27.2
+022c863611 (tag: go1.27.2) [release-branch.go1.27] go1.27.2
+cbb0fb8b51 [release-branch.go1.27] net/http: apply header limits to Trailer headers too
+12acaf3086 [release-branch.go1.27] net/http/internal/http2: prevent crash due to HPACK encoder race
+31dc9e2449 [release-branch.go1.27] net/http/internal/http2: avoid 2x refund on stream close with buffered data
+1d58cdaa10 [release-branch.go1.27] net/http/internal/http2: avoid excessive work on initial window changes
+ababc3cd87 [release-branch.go1.27] net/http: limit the size of range headers parsed in ServeContent
+9636ab0f17 [release-branch.go1.27] os: correct Root junction handling on Windows (avoid mkdir escape)
+e92229e24a [release-branch.go1.27] net/http: avoid server reuse of connection after CONNECT
+76875df0f3 [release-branch.go1.27] net/http, net/http/httputil: avoid post-CONNECT pool corruption
+7c79b50a74 [release-branch.go1.27] net/textproto: enforce MIME memory limit on first line
+f022e61963 [release-branch.go1.27] crypto/tls: validate ECH outer extension references
+68fa7699a2 [release-branch.go1.27] cmd/go: always verify toolchain downloads with sumdb
+1e4f1fec6f [release-branch.go1.27] cmd/go: bundle go.sum h1 hashes for golang.org/fips140
+6e2cfab0a1 [release-branch.go1.27] html/template: recognize `yield` as regexp preceder keyword
+b26d150e69 [release-branch.go1.27] html/template: reset JS context for template expressions
+bd9992d1d1 [release-branch.go1.27] cmd/link: pass -no_fixup_chains to C linker when building plugin on macOS
+ce0ff94df1 [release-branch.go1.27] cmd/cover: preserve statement counts when splitting coverage blocks
+87b06e2c18 [release-branch.go1.27] runtime: create Windows threads on the system stack
+9c26a3af46 [release-branch.go1.27] cmd/internal/obj/ppc64: fix async preempt safepoint bug
+b73c143090 [release-branch.go1.27] cmd/compile: use a 32-bit type for rewritten rotate amounts
+8ada93d797 [release-branch.go1.27] encoding/json: fix UnsupportedValueError.Value regression
+d995fb820d [release-branch.go1.27] net/http: populate Request.TLS from HTTP/2 connection state
+322f1785b0 [release-branch.go1.27] encoding/json/v2: avoid setting with errors parsing float
+bc516c2b36 [release-branch.go1.27] cmd/go: include VetxOnly in the vet action ID
+4e4eec75bd [release-branch.go1.27] os: preserve completion notification modes for NewFile handles
+359bec41ae [release-branch.go1.27] cmd/compile: support unified V5 export data (method indices)
+bd8f7a67b7 [release-branch.go1.27] cmd: vendor changes for "go fix"
+fa3bd01f47 [release-branch.go1.27] cmd/compile: call racefuncexit before a tail call
+aee72efe29 [release-branch.go1.27] testing: escape framing markers only in test2json mode
+620e2e0a1a [release-branch.go1.27] runtime: keep the working directory for non-bundled ios/arm64 binaries
+d16d95ce1d [release-branch.go1.27] compress/flate: do not emit the preset dictionary into the output
+e89d44fee0 [release-branch.go1.27] os: handle unsupported OBJ_DONT_REPARSE on older Windows
+c407a15ec8 [release-branch.go1.27] cmd/compile: don't stack-allocate a slice whose element interior escapes
+ff5898f7aa [release-branch.go1.27] internal/runtime/syscall/linux: sync EpollEvent with the kernel header
+072779d815 [release-branch.go1.27] net/http/internal/http2: delete malformed framing-related headers
+2e4b38eeb8 [release-branch.go1.27] net/http: discard trailer when draining a response body
+8cd5a090e0 [release-branch.go1.27] net/http: return nil from Body.Close after a failed Read
+db5314201a [release-branch.go1.27] net/http: read Response before signaling eofc in readLoop
+aa6fc252ed [release-branch.go1.27] net/http: fix HTTP/1 deadlock on concurrent response body Read and Close
+1cfd8f0112 [release-branch.go1.27] encoding/json: avoid calling MarshalText on named string map keys
+f8a45f672b [release-branch.go1.27] cmd/compile: fix large riscv64 move/zero
+072330d2ed [release-branch.go1.27] cmd/compile: correctly mark interface calls as used for tail call wrappers
+1e44a4c9d9 [release-branch.go1.27] runtime: don't add the itabs of a plugin twice
+2ee6421c51 [release-branch.go1.27] runtime: netpoll: fix 32-bit little-endian eventfd type confusion
+33c04bd7da [release-branch.go1.27] runtime: disable mutex profile during async preemption on windows
+113a7a0a0f [release-branch.go1.27] crypto/mlkem: fix FIPS 130-3 CAST
 
-```
-2511.	[bug]		tmark
-	Related name change requests (NCRs), are now
-	sent by kea-dhcp4 and kea-dhcp6 in a single
-	message to kea-dhcp-ddns.  This ensures that
-	kea-dhcp-ddns processes them in the order they
-	were received.
-	(Gitlab #4806, #3005)
+Fixes CVE-2026-97032, CVE-2026-78659, CVE-2026-97031, CVE-2026-94444,
+      CVE-2026-94447, CVE-2026-94448, CVE-2026-97030, CVE-2026-94440,
+      CVE-2026-56866, CVE-2026-94439, CVE-2026-78669, CVE-2026-78660,
+      CVE-2026-56857, CVE-2026-78667 and CVE-2026-78663.
 
-2510.	[bug]		tmark
-	Modified kea-dhcp-ddns to avoid starting a
-	transaction for a request if there is already
-	a transaction for the request's FQDN or ip address.
-	Prior to this it used the DHCID to guard against
-	concurrent work.
-	(Gitlab #4805,#4585)
+Release information: [2]
 
-2509.	[func]		tmark
-	Modified kea-dhcp4 and kea-dhcp6 to avoid
-	scheduling unnecessary DDNS entry removals
-	when renewing leases.
-	(Gitlab #4804, #4794)
+[1] https://github.com/golang/go/compare/go1.27.1...go1.27.2
+[2] https://groups.google.com/g/golang-announce/c/U2fTuyDJznI
 
-2508.	[bug]		fdupont
-	Made lexical analyzers more robust with null characters
-	in input, e.g. in server or agent configuration files.
-	(Gitlab #4795,#4739)
-
-2507.	[build]		fdupont
-	Added OpenSSL 4.0.x support.
-	(Gitlab #4756, #4673)
-
-2506.	[bug]		tmark
-	Improved handling of special characters
-	in values written to memfile lease database.
-	(Gitlab #4787, #4393)
-
-2505.	[bug]		razvan, fdupont
-	Fixed bugs related to out of bound container access which can
-	cause Kea to crash if -D_GLIBCXX_ASSERTIONS flag is used at
-	compilation time. This affected perfdhcp, host_cache hook
-	library, kea-dhcp4, kea-dhcp6, kea-dhcp-ddns and kea-netconf.
-	Thank you to Joseph Bisch (joseph.bisch@gmail.com) for reporting
-	this issue.
-	(Gitlab #4783,#4741,#4708)
-
-2504.	[bug]		fdupont
-	Made parsing of DHCPv6 relayed messages stricter:
-	now truncated RELAY-FORW and RELAY-REPLY headers
-	cause the whole message to be dropped. Thank you to
-	Qifan Zhang from Palo Alto Networks for reporting
-	the issue.
-	(Gitlab #4752,#4560,#4735)
-
-2503.	[bug]		fdupont
-	Set the broadcast flag in DHCPNAK responses to relayed
-	DHCPREQUEST queries as required by RFC 2131 4.3.2.
-	Thank you to Florian Krieger from Frauscher Sensor Technology
-	Group GmbH for reporting the issue.
-	(Gitlab #4751,#4424)
-
-2502.	[bug]		razvan,tmark
-	Corrected MLM_MYSQL_FETCH_FAILURE to 1 so MySQL
-	selectQuery and host lookups detect mysql_stmt_fetch
-	errors instead of silently ignoring them.
-	(Gitlab #4754,#4658)
-
-2501.	[bug]		fdupont,tmark
-	Fixed an issue in debug-level logging of dropped packets
-	that could cause the server to crash under heavy load.
-	Applies to both kea-dhcp4 and kea-dhcp6.
-	(Gitlab #4750,#4755,#4719,#4748)
-
-2500.	[bug]		fdupont,tmark
-	Removed spurious DHCP_RECEIVE4_UNKNOWN and
-	DHCP_RECEIVE6_UNKNOWN warnings sent for instance
-	when a command is received. This bug was introduced
-	in 3.2.0 release.
-	(Gitlab #4749, #4674)
-
-2499.	[build]		razvan
-	The library version numbers have been bumped up for the Kea 3.2.1
-	stable release.
-	(Gitlab #4811)
-
-2498.	[bug]		tmark
-	Improved handling of special characters
-	in values written to memfile lease database.
-	(Gitlab #4787,#4393)
-
- - Drop 0001-Add-const-qualifiers-to-OpenSSL-X509-pointers.patch as change is part of release
- - Refresh the existing patches
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ac5263766fac6ee9715589a23ab6f5a45428b656)
+(cherry picked from commit 9908e0891f364a598365b86a9dd48b1ef1606e47)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...-qualifiers-to-OpenSSL-X509-pointers.patch | 49 -------------------
- ...se-a-runtime-safe-interpreter-string.patch |  8 +--
- .../0001-mk_cfgrpt.sh-strip-prefixes.patch    |  2 +-
- ...er_unittest_support.cc-do-not-write-.patch |  2 +-
- .../kea/files/fix-multilib-conflict.patch     |  2 +-
- .../kea/{kea_3.2.0.bb => kea_3.2.1.bb}        |  3 +-
- 6 files changed, 8 insertions(+), 58 deletions(-)
- delete mode 100644 meta/recipes-connectivity/kea/files/0001-Add-const-qualifiers-to-OpenSSL-X509-pointers.patch
- rename meta/recipes-connectivity/kea/{kea_3.2.0.bb => kea_3.2.1.bb} (96%)
+ meta/recipes-devtools/go/{go-1.27.1.inc => go-1.27.2.inc} | 2 +-
+ ...binary-native_1.27.1.bb => go-binary-native_1.27.2.bb} | 6 +++---
+ ...oss-canadian_1.27.1.bb => go-cross-canadian_1.27.2.bb} | 0
+ .../go/{go-cross_1.27.1.bb => go-cross_1.27.2.bb}         | 0
+ .../go/{go-crosssdk_1.27.1.bb => go-crosssdk_1.27.2.bb}   | 0
+ .../go/{go-runtime_1.27.1.bb => go-runtime_1.27.2.bb}     | 0
+ ...go-make-content-based-hash-generation-less-pedan.patch | 8 ++++----
+ .../go/go/0003-ld-add-soname-to-shareable-objects.patch   | 6 +++---
+ .../go/0006-cmd-go-make-GOROOT-precious-by-default.patch  | 2 +-
+ ....go-filter-out-build-specific-paths-from-linker-.patch | 4 ++--
+ ...rnal-cgrouptest-skip-when-cpu.max-is-not-availab.patch | 6 +++---
+ meta/recipes-devtools/go/{go_1.27.1.bb => go_1.27.2.bb}   | 0
+ 12 files changed, 17 insertions(+), 17 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.27.1.inc => go-1.27.2.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.27.1.bb => go-binary-native_1.27.2.bb} (80%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.27.1.bb => go-cross-canadian_1.27.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.27.1.bb => go-cross_1.27.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.27.1.bb => go-crosssdk_1.27.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.27.1.bb => go-runtime_1.27.2.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.27.1.bb => go_1.27.2.bb} (100%)
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-Add-const-qualifiers-to-OpenSSL-X509-pointers.patch b/meta/recipes-connectivity/kea/files/0001-Add-const-qualifiers-to-OpenSSL-X509-pointers.patch
-deleted file mode 100644
-index 987890f4ff1..00000000000
---- a/meta/recipes-connectivity/kea/files/0001-Add-const-qualifiers-to-OpenSSL-X509-pointers.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From 82d28b1be73bbc00e73e59d0c59c51a1e76519a5 Mon Sep 17 00:00:00 2001
--From: Simo Sorce <simo@redhat.com>
--Date: Mon, 27 Apr 2026 17:49:56 -0400
--Subject: [PATCH] Add const qualifiers to OpenSSL X509 pointers
--
--Added const qualifiers to the X509_NAME and X509_NAME_ENTRY pointers when
--retrieving subject and issuer names from TLS certificates. This ensures const-
--correctness and maintains compatibility with newer OpenSSL versions, which
--return const pointers from these getter functions.
--
--Signed-off-by: Simo Sorce <simo@redhat.com>
--
--Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/issues/4673]
--Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-----
-- src/lib/asiolink/openssl_tls.h | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/src/lib/asiolink/openssl_tls.h b/src/lib/asiolink/openssl_tls.h
--index 57c3323..52a969b 100644
----- a/src/lib/asiolink/openssl_tls.h
--+++ b/src/lib/asiolink/openssl_tls.h
--@@ -175,9 +175,9 @@ public:
--         if (!cert) {
--             return ("");
--         }
---        ::X509_NAME *name = ::X509_get_subject_name(cert);
--+        const ::X509_NAME *name = ::X509_get_subject_name(cert);
--         int loc = ::X509_NAME_get_index_by_NID(name, NID_commonName, -1);
---        ::X509_NAME_ENTRY* ne = ::X509_NAME_get_entry(name, loc);
--+        const ::X509_NAME_ENTRY* ne = ::X509_NAME_get_entry(name, loc);
--         if (!ne) {
--             ::X509_free(cert);
--             return ("");
--@@ -209,9 +209,9 @@ public:
--         if (!cert) {
--             return ("");
--         }
---        ::X509_NAME *name = ::X509_get_issuer_name(cert);
--+        const ::X509_NAME *name = ::X509_get_issuer_name(cert);
--         int loc = ::X509_NAME_get_index_by_NID(name, NID_commonName, -1);
---        ::X509_NAME_ENTRY* ne = ::X509_NAME_get_entry(name, loc);
--+        const ::X509_NAME_ENTRY* ne = ::X509_NAME_get_entry(name, loc);
--         if (!ne) {
--             ::X509_free(cert);
--             return ("");
---- 
--2.53.0
--
-diff --git a/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch b/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
-index 20a68e5e564..e3ab78525b4 100644
---- a/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-meson-use-a-runtime-safe-interpreter-string.patch
-@@ -1,4 +1,4 @@
--From 312f5b7e8286c306502bed348fe5da765c20f98d Mon Sep 17 00:00:00 2001
-+From 8f832387e2e31683dca5df092c464ad655a417d2 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 28 Aug 2025 17:02:49 -0700
- Subject: [PATCH] meson: use a runtime-safe interpreter string
-@@ -44,10 +44,10 @@ index 5fc5ee9..6485ce2 100644
-  if PDFLATEX.found()
-      doc_conf.set('HAVE_PDFLATEX', 'yes')
- diff --git a/meson.build b/meson.build
--index f3ef0ea..11a41cf 100644
-+index 4e9ce4b..3cd8987 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -648,9 +648,13 @@ link_args = []
-+@@ -655,9 +655,13 @@ link_args = []
-  # Also, Meson might use it by default, but might not use it on all systems, so lots of variables...
-  # EXECUTABLE_RPATH = f'$ORIGIN/../@LIBDIR@'
-  # HOOK_RPATH = '$ORIGIN/../..'
-@@ -62,7 +62,7 @@ index f3ef0ea..11a41cf 100644
+diff --git a/meta/recipes-devtools/go/go-1.27.1.inc b/meta/recipes-devtools/go/go-1.27.2.inc
+similarity index 91%
+rename from meta/recipes-devtools/go/go-1.27.1.inc
+rename to meta/recipes-devtools/go/go-1.27.2.inc
+index d7ba03b1bdd..86598ad22f7 100644
+--- a/meta/recipes-devtools/go/go-1.27.1.inc
++++ b/meta/recipes-devtools/go/go-1.27.2.inc
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+     file://0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch \
+ "
+-SRC_URI[main.sha256sum] = "4e408abae126d916b6164627193f2c54f0e3ca1312d693b86db45f862ab238b1"
++SRC_URI[main.sha256sum] = "03495da2ba64894d40f5c4992e49454fa78b50690604ff92b6afff5081b76e62"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.27.1.bb b/meta/recipes-devtools/go/go-binary-native_1.27.2.bb
+similarity index 80%
+rename from meta/recipes-devtools/go/go-binary-native_1.27.1.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.27.2.bb
+index f909581e499..19482f79c4b 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.27.1.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.27.2.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445"
+-SRC_URI[go_linux_arm64.sha256sum] = "3450b45a3f9ee8568792736a5c5e70a1f2e9b36c35a8f74958c03e51d7d92bec"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "ad1ff83c24f783c2d4a025852b928a05c199e8742a14a5482d88de0293d2bd0d"
++SRC_URI[go_linux_amd64.sha256sum] = "ecbadb99091a3f46e31f5f934b068b1864eafa7995211b39eaddf76996045fe5"
++SRC_URI[go_linux_arm64.sha256sum] = "94f3e30b8e374bc285e7dadc11e0865726b9bc6e85b841ccceaabc0214c6b7c8"
++SRC_URI[go_linux_ppc64le.sha256sum] = "059d5f01b1607a724ea5ae87c5589041a51c577a6f3f20099e49d00f31c803fa"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.27.1.bb b/meta/recipes-devtools/go/go-cross-canadian_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.27.1.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.27.2.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.27.1.bb b/meta/recipes-devtools/go/go-cross_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.27.1.bb
+rename to meta/recipes-devtools/go/go-cross_1.27.2.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.27.1.bb b/meta/recipes-devtools/go/go-crosssdk_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.27.1.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.27.2.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.27.1.bb b/meta/recipes-devtools/go/go-runtime_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.27.1.bb
+rename to meta/recipes-devtools/go/go-runtime_1.27.2.bb
+diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+index 6372b7805b7..92e2a1bc8bc 100644
+--- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
++++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+@@ -108,7 +108,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	}
   
-  # Add rpaths for NETCONF dependencies.
-  if NETCONF_DEP.found()
--@@ -769,7 +773,13 @@ report_conf_data.set('CXX_ARGS', ' '.join(compile_args))
-+@@ -776,7 +780,13 @@ report_conf_data.set('CXX_ARGS', ' '.join(compile_args))
-  report_conf_data.set('LD_ID', cpp.get_linker_id())
-  link_args += get_option('cpp_link_args')
-  report_conf_data.set('LD_ARGS', ' '.join(link_args))
-diff --git a/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch b/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
-index beee04e1593..38703edba91 100644
---- a/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-mk_cfgrpt.sh-strip-prefixes.patch
-@@ -1,4 +1,4 @@
--From 97599e59234b8d79748eb7b1cdd451c91e94152f Mon Sep 17 00:00:00 2001
-+From 9389b17972f09a6629d5a5fe5d869df6614c3109 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 28 Aug 2025 17:31:39 -0700
- Subject: [PATCH] mk_cfgrpt.sh: strip prefixes
-diff --git a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-index 22a26f345dd..2a0db44e61b 100644
---- a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-@@ -1,4 +1,4 @@
--From 39281b6199b1307b6b70f3163a70ab9ce4f445d0 Mon Sep 17 00:00:00 2001
-+From 98e5871081dec4953d7f92992a8167feb4fe8fa1 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 10 Nov 2020 15:57:03 +0000
- Subject: [PATCH] src/lib/log/logger_unittest_support.cc: do not write build
-diff --git a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-index c1ac4854254..e78e7792626 100644
---- a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-+++ b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-@@ -1,4 +1,4 @@
--From 5180d1866b99125d3353f76151e84644a5791e3d Mon Sep 17 00:00:00 2001
-+From 414842987006bf8f1b6e447901360c230966a908 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Tue, 14 Oct 2025 01:37:35 +0000
- Subject: [PATCH] There are conflict of config files between kea and lib32-kea:
-diff --git a/meta/recipes-connectivity/kea/kea_3.2.0.bb b/meta/recipes-connectivity/kea/kea_3.2.1.bb
-similarity index 96%
-rename from meta/recipes-connectivity/kea/kea_3.2.0.bb
-rename to meta/recipes-connectivity/kea/kea_3.2.1.bb
-index 38b24eed1f0..3e98e334335 100644
---- a/meta/recipes-connectivity/kea/kea_3.2.0.bb
-+++ b/meta/recipes-connectivity/kea/kea_3.2.1.bb
-@@ -19,9 +19,8 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.xz \
-            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
-            file://0001-meson-use-a-runtime-safe-interpreter-string.patch \
-            file://0001-mk_cfgrpt.sh-strip-prefixes.patch \
--           file://0001-Add-const-qualifiers-to-OpenSSL-X509-pointers.patch \
-            "
--SRC_URI[sha256sum] = "14bf695d37b65b9b1bf550fea5d0adaf9806c50e5419ef2a176a4b8e9aade3df"
-+SRC_URI[sha256sum] = "3478220be62b3aa361a2c7f97d5d2989b934f7864e82d4bd17056e1e208b9735"
+  	// Configuration specific to compiler toolchain.
+-@@ -2838,8 +2840,25 @@ func envList(key, def string) []string {
++@@ -2839,8 +2841,25 @@ func envList(key, def string) []string {
+  	return args
+  }
+  
+@@ -135,7 +135,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
+  		return
+  	}
+-@@ -2855,6 +2874,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
++@@ -2856,6 +2875,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
+  	if ldflags, err = buildFlags("LDFLAGS", DefaultCFlags, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
+  		return
+  	}
+@@ -149,7 +149,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  
+  	return
+  }
+-@@ -2943,7 +2969,7 @@ func (b *Builder) runCgo(ctx context.Context, a *Action) error {
++@@ -2944,7 +2970,7 @@ func (b *Builder) runCgo(ctx context.Context, a *Action) error {
+  	cgoExe := base.Tool("cgo")
+  	cgofiles = mkAbsFiles(p.Dir, cgofiles)
+  
+@@ -158,7 +158,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	if err != nil {
+  		return err
+  	}
+-@@ -3501,7 +3527,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
++@@ -3502,7 +3528,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
+  	p := a.Package
+  	sh := b.Shell(a)
+  
+diff --git a/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch b/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
+index 59ae99c44d3..2e46e22161e 100644
+--- a/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
++++ b/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
+@@ -22,7 +22,7 @@ diff --git a/src/cmd/link/internal/ld/lib.go b/src/cmd/link/internal/ld/lib.go
+ index 9cbc12919f1d..0f33521777d1 100644
+ --- a/src/cmd/link/internal/ld/lib.go
+ +++ b/src/cmd/link/internal/ld/lib.go
+-@@ -1672,6 +1672,7 @@ func (ctxt *Link) hostlink() {
++@@ -1680,6 +1680,7 @@ func (ctxt *Link) hostlink() {
+  				argv = append(argv, "-Wl,-z,relro")
+  			}
+  			argv = append(argv, "-shared")
+@@ -30,7 +30,7 @@ index 9cbc12919f1d..0f33521777d1 100644
+  			if ctxt.HeadType == objabi.Hwindows {
+  				argv = addASLRargs(argv, *flagAslr)
+  			} else {
+-@@ -1687,6 +1688,7 @@ func (ctxt *Link) hostlink() {
++@@ -1695,6 +1696,7 @@ func (ctxt *Link) hostlink() {
+  			argv = append(argv, "-Wl,-z,relro")
+  		}
+  		argv = append(argv, "-shared")
+@@ -38,7 +38,7 @@ index 9cbc12919f1d..0f33521777d1 100644
+  	case BuildModePlugin:
+  		if ctxt.HeadType == objabi.Hdarwin {
+  			argv = append(argv, "-dynamiclib")
+-@@ -1695,6 +1697,7 @@ func (ctxt *Link) hostlink() {
++@@ -1703,6 +1705,7 @@ func (ctxt *Link) hostlink() {
+  				argv = append(argv, "-Wl,-z,relro")
+  			}
+  			argv = append(argv, "-shared")
+diff --git a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+index 74fd1faa697..77b4bedd017 100644
+--- a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
++++ b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+@@ -94,7 +94,7 @@ index 617b7ece73f0..46c0712c5bd0 100644
+  	if err := sh.Mkdir(buildAction.Objdir); err != nil {
+  		return nil, err
+  	}
+-@@ -1922,6 +1939,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
++@@ -1923,6 +1940,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
+  		return err
+  	}
+  
+diff --git a/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch b/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
+index 0cc770a006a..e6a5ce587eb 100644
+--- a/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
++++ b/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
+@@ -18,7 +18,7 @@ diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
+ index 46c0712c5bd0..e7c0459ee4c0 100644
+ --- a/src/cmd/go/internal/work/exec.go
+ +++ b/src/cmd/go/internal/work/exec.go
+-@@ -1597,6 +1597,29 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
++@@ -1598,6 +1598,29 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
+  	return h.Sum()
+  }
+  
+@@ -48,7 +48,7 @@ index 46c0712c5bd0..e7c0459ee4c0 100644
+  // printLinkerConfig prints the linker config into the hash h,
+  // as part of the computation of a linker-related action ID.
+  func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
+-@@ -1607,7 +1630,7 @@ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
++@@ -1608,7 +1631,7 @@ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
+  	case "gc":
+  		fmt.Fprintf(h, "link %s %q %s\n", b.toolID("link"), forcedLdflags, ldBuildmode)
+  		if p != nil {
+diff --git a/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch b/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
+index f13cf78f7a7..cf6283b2bf4 100644
+--- a/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
++++ b/meta/recipes-devtools/go/go/0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch
+@@ -21,13 +21,13 @@ Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+  1 file changed, 6 insertions(+)
  
- inherit meson pkgconfig systemd update-rc.d upstream-version-is-even python3-dir
- 
+ diff --git a/src/internal/cgrouptest/cgrouptest_linux.go b/src/internal/cgrouptest/cgrouptest_linux.go
+-index ad9599c..a4b9b52 100644
++index ad9599c9..a4b9b52d 100644
+ --- a/src/internal/cgrouptest/cgrouptest_linux.go
+ +++ b/src/internal/cgrouptest/cgrouptest_linux.go
+ @@ -82,6 +82,12 @@ func InCgroupV2(t *testing.T, fn func(*CgroupV2)) {
+  		}
+  	}()
+-
++ 
+ +	// cpu.max only exists when the kernel supports CPU bandwidth control
+ +	// (CONFIG_CFS_BANDWIDTH), even if the cpu controller is enabled.
+ +	if _, err := os.Stat(filepath.Join(path, "cpu.max")); err != nil {
+@@ -36,4 +36,4 @@ index ad9599c..a4b9b52 100644
+ +
+  	migrateTo(t, path)
+  	defer migrateTo(t, orig)
+-
++ 
+diff --git a/meta/recipes-devtools/go/go_1.27.1.bb b/meta/recipes-devtools/go/go_1.27.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.27.1.bb
+rename to meta/recipes-devtools/go/go_1.27.2.bb
 
