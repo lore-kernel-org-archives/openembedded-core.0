@@ -2,74 +2,76 @@ Return-Path: <yurade@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82341CC6B2D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 656C5CCF2CC
 	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 05:41:19 +0000 (UTC)
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15273.1792129268347065025
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15276.1792129269007115955
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 22:41:08 -0700
+ Thu, 15 Oct 2026 22:41:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=GD2GFt63;
- spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=gZvETD6p;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6153; q=dns/txt;
-  s=iport01; t=1792129268; x=1793338868;
+  d=cisco.com; i=@cisco.com; l=6995; q=dns/txt;
+  s=iport01; t=1792129269; x=1793338869;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=4k19olTJcyRnonSYzVnLFtr5ouMJ99mHhb0Vh1rOLtI=;
-  b=GD2GFt63HS3FXKB+Nl5BRrgnMyF3PaABBZSeyw2IVbcNBEuXMT927w1+
-   OCm+p66U+9/4TmIgh7yg9GpdeYjGJDNGjpmJN4IU9hsQbd/odvtbf5X0Z
-   pr3yxmGcq5mQvVUBBrk3Ravav/GxDWoHZJx9ml3966ohAgfSSdipGmPJs
-   WccmQjTzXrpNsZNeZW6BtZ0FN4iD2cCrbwK7ZEqWrsLpa6vrlm1qHUrHK
-   vYfjHlIUhE51Q1Lcy8XZtfm9hcyw/jHkweWpoyk734V/F52LSlqOgBtZQ
-   IoGCpK06H6JgrrNlaW4T1mCRZCFI/8Cz3penjCQywF9NvZaG1ZKd+kgJT
-   A==;
-X-CSE-ConnectionGUID: NmwOc+0dSOyh1jglQ3Eujg==
-X-CSE-MsgGUID: PsOXc3b+S1i0WEsIvIR4Zg==
-X-IPAS-Result: =?us-ascii?q?A0BIAgCGuNFq/4//Ja1aglmCV3VgQ0mUKYIhA54cgX4PA?=
+  bh=oMeAbSmsGV+yileMUlLuRUD1DkWsWc+DcWoZsAN+MYY=;
+  b=gZvETD6pZayI0d5IESYpB4Z2Rh5zYVwbc3ujiX1VGY9Vhy/RWpP0gtv2
+   oj++fsNP27vMTzWgd238E1m8I/94KhVYtCw7/l/4fi1hIMVgOqYIPremX
+   bVrDa0ec9fVh2kG0k2MNqjFxkzJZXnquQ/UQZpwH7xan3+DxtRimFXO+n
+   cT613r7Ptxt19RN4J6vJG/S0ohTMKiAPyQMhacfympcGNp7qUEoohU/52
+   1l+1H4hGEMD1tFl9CU6GWmbXZ/3fIjuSvr9gWQnZb1bWCl5jXAG2u/Qv2
+   Gim1lgRrKmZGc5Gw/N9WrwM4RL5vWaB3rMmC5dQJ0642ULnoIcL88M6Zy
+   w==;
+X-CSE-ConnectionGUID: hXmzN0rWRKG/P411Q3OArA==
+X-CSE-MsgGUID: 6ZyCUlS5Tr26OopRQfImaw==
+X-IPAS-Result: =?us-ascii?q?A0BIAgCGuNFq/5D/Ja1aglmCV3VgQ0mUKYIhA54cgX4PA?=
  =?us-ascii?q?QEBD0QNBAEBhD9GAo4VAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBA?=
  =?us-ascii?q?gEHBYEOE4ZPDZASAQIBAycLARgBPRwDAQIvKyMIGYMCAYI6AzcDEbx4gXkzg?=
- =?us-ascii?q?QGDKQE/AkNQ2EsQb4FoAQsUAYE4hUCII10YAYR8JxuBSUSBFYNpgQWBXAEBi?=
- =?us-ascii?q?CUEgg2BDxKBWpVHSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+F4EHGwYFg?=
- =?us-ascii?q?R2BIIIWIxk2eoEJXoErKWEQF4EJggcCglSCAAIBSUEOB0VTCSVDEkcmIggSC?=
- =?us-ascii?q?QETGjALgRs4PAkoQRcMcwwdBXIIAg0JBykYDUgRLDcVGQQ+bgeSFB6BciYtD?=
- =?us-ascii?q?hIBPFEBEBuCMkiTIpIFgTWfWoQojCKVOhozhASBV5JAklQLmH2OCpZPhGmBa?=
- =?us-ascii?q?DyBRwsHMxoIGxWDIglKGQ+OOYNrgX+DZch2JzICCTIBAQcCBw4DC4FokX4BA?=
- =?us-ascii?q?Q?=
-IronPort-Data: A9a23:Nz+bXqBi5O/rdhVW/37iw5YqxClBgxIJ4kV8jS/XYbTApDJxg2MAz
- TdLX2mDa/+DZzahLtl0aIXi8BkF78CGyoI3OVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCCCM/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
- fuo+5eBYQf8hWYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE5fBxK0p1ZYEj3fd3WGNB8
- cVDBS0PYUXW7w626OrTpuhEnM8vKozveYgYoHwllW+fBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGY0BPjDS0Un1lM/GY8kleulrnL+aDZf7lmSoMLb5kCOl1IogOK8bIq9ltqifd5yrk3Dr
- CH9pmWhPTwBFcK+82a3/Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aetRIaHt4VGOog5UTVlOzf4h2SAS4PSTsphMEaifLajAcCj
- jeh9+4FzxQ22FFJYRpxLoupkA4=
-IronPort-HdrOrdr: A9a23:X9cJ86Mt8MjiasBcTu2jsMiBIKoaSvp037BN7TEUdfU7SKKlfq
- yV8cjzkCWE6wr5O0tQ/OxoRpPgfZq0z/cciuMs1PWZLWvbUQCTQ72Kg7GP/9SZIU3D398Y87
- t8eK5jD9C1J117gcHmpDScKb8bsb66GGTCv5am85+rJjsaDZ1d0w==
-X-Talos-CUID: 9a23:/SpTQGOIFGIxP+5Dfix400VXQsweVWzdlXXfJ3bjJHtrR+jA
-X-Talos-MUID: 9a23:UR1PbwrvrTLSjI7ZcRIezwl5E/djuK7tMxkMyaoroOiaFBYsCTjI2Q==
+ =?us-ascii?q?QGDKQE/AkNQ2EsQb4FoAQsUAYE4hUCII10YAYMZgWMnG4FJRIEVg2mBBYFcA?=
+ =?us-ascii?q?QGIJQSDHBKBWoEDhzaNDkiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBB?=
+ =?us-ascii?q?xsGBYEdgSCCFiMZNnqBCV6BKylhEBeBCYIHAoJUggACAUlBDgdFUwklQxJHJ?=
+ =?us-ascii?q?iIIEgkBExowC4EbODwJKEEXDHMMHQVyCAINCQcpGA1IESw3FRkEPm4HkhQeg?=
+ =?us-ascii?q?XImTTEMPhMBK4JQJwOSaJI/oQ+EKIwilToaM4QEgVeSQJJUC5h9jgqWT4Rpg?=
+ =?us-ascii?q?Wg8gUcLBzMaCBsVO4JnCUoZD445g2uBf4NlyHYnMgIJMgEBBwIHDgMLgWiQA?=
+ =?us-ascii?q?i2BTwEB?=
+IronPort-Data: A9a23:0JdFF6yGHb6lryqJnWt6t+dgxyrEfRIJ4+MujC+fZmUNrF6WrkVVn
+ TMcCGrSbPzbYzP9etpya4/g/RkBsJ+GyN9nSlNq+1hgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWcsazxMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEEGOJ8+ovxIO0Jhs
+ sREcWk0NTeqncvjldpXSsE07igiBNPgMIVavjRryivUSK55B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cP3WjOX9PYH46tPa1nHDzfhVTqUmeouw85G27IAlZjeOzaICJK43RLSlTthiqt
+ 0n7+1+kPgtAavuY0QC8/FOpj/CayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1nfDWkfRTkHY9sj3CMreQEXO
+ payt4uBLVRSXHe9ExpxKp/8QeuOBBUo
+IronPort-HdrOrdr: A9a23:NS5fv6xklcNaJHHDCeQQKrPwAL1zdoMgy1knxilNoHtuA6ilfq
+ +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: =?us-ascii?q?9a23=3Ag6KbI2pTDxb1zjoOr43AqtrmUcAVd2/7lG3vGWy?=
+ =?us-ascii?q?XTl41EeSsEni54ooxxg=3D=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AvmMVJA+hI0XbpTwG/OgNhhGQf5la8o+TDHtQrY9?=
+ =?us-ascii?q?c5e6DLRZJNRaYhSviFw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,161,1787011200"; 
-   d="scan'208";a="536182948"
-Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
-  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 05:41:08 +0000
+   d="scan'208";a="536024993"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 05:41:08 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 0182D1800024C
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:41:08 +0000 (GMT)
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id EE647180003C5
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:41:07 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 6808BCBEF6D; Thu, 15 Oct 2026 22:41:07 -0700 (PDT)
+	id 54FA5CBEFBF; Thu, 15 Oct 2026 22:41:07 -0700 (PDT)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 12/27] python3-git: fix CVE-2026-73620
-Date: Thu, 15 Oct 2026 22:40:51 -0700
-Message-Id: <20261016054106.210444-13-yurade@cisco.com>
+Subject: [OE-core][wrynose][PATCH 09/27] python3-git: fix CVE-2026-73624
+Date: Thu, 15 Oct 2026 22:40:48 -0700
+Message-Id: <20261016054106.210444-10-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261016054106.210444-1-yurade@cisco.com>
 References: <20261016054106.210444-1-yurade@cisco.com>
@@ -77,171 +79,180 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-06.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:41:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247934
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247941
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/3af0c2516c5e18c829da30338614688f6b69b49c
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73620
+[1] https://github.com/gitpython-developers/GitPython/commit/1d51b891d7f236044a6aa17498ec682b63dad6e6
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73624
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
- .../python/python3-git/CVE-2026-73620.patch   | 130 ++++++++++++++++++
+ .../python/python3-git/CVE-2026-73624.patch   | 139 ++++++++++++++++++
  .../python/python3-git_3.1.43.bb              |   1 +
- 2 files changed, 131 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
+ 2 files changed, 140 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73624.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-73624.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-73624.patch
 new file mode 100644
-index 0000000000..816180c2d7
+index 0000000000..48e7bc8d8b
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
-@@ -0,0 +1,130 @@
-+From cc80ea13457773907fa7843e274dca8dc7d196a5 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-73624.patch
+@@ -0,0 +1,139 @@
++From 285d6227b9132ed6bab3cc28665e87b2285757ae Mon Sep 17 00:00:00 2001
 +From: "GPT 5.6" <codex@openai.com>
-+Date: Sun, 26 Jul 2026 05:54:27 +0200
-+Subject: [PATCH] Block unsafe checkout-index and tag file options
++Date: Wed, 22 Jul 2026 04:46:13 +0200
++Subject: [PATCH] fix: guard diff output options
 +
-+GHSA-3f7w-8rr8-f37f reports that caller-controlled options forwarded by
-+IndexFile.checkout() and TagReference.create() can make Git write to or read
-+from arbitrary filesystem paths.
++<!-- agent -->
 +
-+Add regression coverage proving the unsafe options are rejected by default while
-+preserving the explicit allow_unsafe_options escape hatch. Reuse GitPython's
-+existing option candidate normalization and unsafe-option guard at both public
-+API boundaries.
++Reject unsafe diff options before revision parsing or Git invocation so
++callers cannot write command output to arbitrary filesystem paths.
 +
-+Git baseline: a23bace963d508bd96983cc637131392d3face18.
-+Documentation/git-checkout-index.adoc defines --prefix as prepending an output
-+path, and Documentation/git-tag.adoc defines -F/--file as reading a tag message
-+from a file.
++Cover commit and index diffs, including option-like revisions, and
++preserve an explicit allow_unsafe_options escape hatch.
 +
-+CVE: CVE-2026-73620
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/3af0c2516c5e18c829da30338614688f6b69b49c]
++References GHSA-fjr4-x663-mwxc.
++Validated against Git baseline a23bace9.
++
++CVE: CVE-2026-73624
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/1d51b891d7f236044a6aa17498ec682b63dad6e6]
 +
 +Backport Changes:
-+- Omitted test/test_index.py, test/test_refs.py because the current PyPI 
-+  source archive does not include the test suite and the python3-git 
-+  recipe does not run it.
++- Omitted test/test_diff.py because the current PyPI source archive 
++  does not include the test suite and the python3-git recipe does 
++  not run it.
 +
 +Co-authored-by: Sebastian Thiel <sebastian.thiel@icloud.com>
-+(cherry picked from commit 3af0c2516c5e18c829da30338614688f6b69b49c)
++(cherry picked from commit 1d51b891d7f236044a6aa17498ec682b63dad6e6)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/index/base.py | 12 ++++++++++++
-+ git/refs/tag.py   | 13 +++++++++++++
-+ 2 files changed, 25 insertions(+)
++ git/diff.py       | 14 ++++++++++++--
++ git/index/base.py | 18 ++++++++++++++++--
++ 2 files changed, 28 insertions(+), 4 deletions(-)
 +
++diff --git a/git/diff.py b/git/diff.py
++index f89b12d9..9a1f107b 100644
++--- a/git/diff.py
+++++ b/git/diff.py
++@@ -9,7 +9,7 @@ import enum
++ import re
++ import warnings
++ 
++-from git.cmd import handle_process_output
+++from git.cmd import Git, handle_process_output
++ from git.compat import defenc
++ from git.objects.blob import Blob
++ from git.objects.util import mode_str_to_int
++@@ -34,7 +34,6 @@ from git.types import Literal, PathLike
++ if TYPE_CHECKING:
++     from subprocess import Popen
++ 
++-    from git.cmd import Git
++     from git.objects.base import IndexObject
++     from git.objects.commit import Commit
++     from git.objects.tree import Tree
++@@ -186,6 +185,7 @@ class Diffable:
++         other: Union[DiffConstants, "Tree", "Commit", str, None] = INDEX,
++         paths: Union[PathLike, List[PathLike], Tuple[PathLike, ...], None] = None,
++         create_patch: bool = False,
+++        allow_unsafe_options: bool = False,
++         **kwargs: Any,
++     ) -> "DiffIndex":
++         """Create diffs between two items being trees, trees and index or an index and
++@@ -215,6 +215,10 @@ class Diffable:
++             applied makes the self to other. Patches are somewhat costly as blobs have
++             to be read and diffed.
++ 
+++        :param allow_unsafe_options:
+++            If ``True``, allow options such as ``--output`` that can write to arbitrary
+++            filesystem paths.
+++
++         :param kwargs:
++             Additional arguments passed to :manpage:`git-diff(1)`, such as ``R=True`` to
++             swap both sides of the diff.
++@@ -227,6 +231,12 @@ class Diffable:
++             an instance of :class:`~git.objects.tree.Tree` or
++             :class:`~git.objects.commit.Commit`, or a git command error will occur.
++         """
+++        if not allow_unsafe_options:
+++            Git.check_unsafe_options(
+++                options=Git._option_candidates([other], kwargs),
+++                unsafe_options=self.repo.unsafe_git_revision_options,
+++            )
+++
++         args: List[Union[PathLike, Diffable]] = []
++         args.append("--abbrev=40")  # We need full shas.
++         args.append("--full-index")  # Get full index paths, not only filenames.
 +diff --git a/git/index/base.py b/git/index/base.py
-+index dfe7e0dc..90d4c16f 100644
++index b8161ea5..dfe7e0dc 100644
 +--- a/git/index/base.py
 ++++ b/git/index/base.py
-+@@ -130,6 +130,8 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
-+     index directly before operating on it using the git command.
-+     """
++@@ -23,6 +23,7 @@ from gitdb.base import IStream
++ from gitdb.db import MemoryDB
 + 
-++    unsafe_git_checkout_index_options = ["--prefix"]
-++
-+     __slots__ = ("repo", "version", "entries", "_extension_data", "_file_path")
-+ 
-+     _VERSION = 2
-+@@ -1199,6 +1201,7 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
-+         paths: Union[None, Iterable[PathLike]] = None,
-+         force: bool = False,
-+         fprogress: Callable = lambda *args: None,
-++        allow_unsafe_options: bool = False,
-+         **kwargs: Any,
-+     ) -> Union[None, Iterator[PathLike], Sequence[PathLike]]:
-+         """Check out the given paths or all files from the version known to the index
-+@@ -1225,6 +1228,9 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
-+             no explicit paths are given. Otherwise progress information will be send
-+             prior and after a file has been checked out.
-+ 
-++        :param allow_unsafe_options:
-++            Allow unsafe options, such as ``--prefix``.
-++
-+         :param kwargs:
-+             Additional arguments to be passed to :manpage:`git-checkout-index(1)`.
-+ 
-+@@ -1248,6 +1254,12 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
-+             i.e. if you want :manpage:`git-checkout(1)`-like behaviour, use
-+             ``head.checkout`` instead of ``index.checkout``.
-+         """
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=self.unsafe_git_checkout_index_options,
-++            )
-++
-+         args = ["--index"]
-+         if force:
-+             args.append("--force")
-+diff --git a/git/refs/tag.py b/git/refs/tag.py
-+index 1e38663a..487eaa14 100644
-+--- a/git/refs/tag.py
-++++ b/git/refs/tag.py
-+@@ -16,6 +16,7 @@ from .reference import Reference
-+ 
-+ from typing import Any, TYPE_CHECKING, Type, Union
-+ 
++ from git.compat import defenc, force_bytes
 ++from git.cmd import Git
-+ from git.types import AnyGitObject, PathLike
-+ 
-+ if TYPE_CHECKING:
-+@@ -42,6 +43,8 @@ class TagReference(Reference):
-+ 
-+     __slots__ = ()
-+ 
-++    unsafe_git_tag_options = ["--file", "-F"]
-++
-+     _common_default = "tags"
-+     _common_path_default = Reference._common_path_default + "/" + _common_default
-+ 
-+@@ -92,6 +95,7 @@ class TagReference(Reference):
-+         reference: Union[str, "SymbolicReference"] = "HEAD",
-+         logmsg: Union[str, None] = None,
-+         force: bool = False,
++ import git.diff as git_diff
++ from git.exc import CheckoutError, GitCommandError, GitError, InvalidGitRepositoryError
++ from git.objects import Blob, Commit, Object, Submodule, Tree
++@@ -1477,6 +1478,7 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++         ] = git_diff.INDEX,
++         paths: Union[PathLike, List[PathLike], Tuple[PathLike, ...], None] = None,
++         create_patch: bool = False,
 ++        allow_unsafe_options: bool = False,
 +         **kwargs: Any,
-+     ) -> "TagReference":
-+         """Create a new tag reference.
-+@@ -121,12 +125,21 @@ class TagReference(Reference):
-+         :param force:
-+             If ``True``, force creation of a tag even though that tag already exists.
-+ 
-++        :param allow_unsafe_options:
-++            Allow unsafe options, such as ``--file``.
-++
-+         :param kwargs:
-+             Additional keyword arguments to be passed to :manpage:`git-tag(1)`.
-+ 
-+         :return:
-+             A new :class:`TagReference`.
++     ) -> git_diff.DiffIndex:
++         """Diff this index against the working copy or a :class:`~git.objects.tree.Tree`
++@@ -1489,6 +1491,12 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++             Will only work with indices that represent the default git index as they
++             have not been initialized with a stream.
 +         """
 ++        if not allow_unsafe_options:
 ++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=cls.unsafe_git_tag_options,
+++                options=Git._option_candidates([other], kwargs),
+++                unsafe_options=self.repo.unsafe_git_revision_options,
 ++            )
 ++
-+         if "ref" in kwargs and kwargs["ref"]:
-+             reference = kwargs["ref"]
++         # Only run if we are the default repository index.
++         if self._file_path != self._index_path():
++             raise AssertionError("Cannot call %r on indices that do not represent the default git index" % self.diff())
++@@ -1507,7 +1515,13 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++             # Invert the existing R flag.
++             cur_val = kwargs.get("R", False)
++             kwargs["R"] = not cur_val
++-            return other.diff(self.INDEX, paths, create_patch, **kwargs)
+++            return other.diff(
+++                self.INDEX,
+++                paths,
+++                create_patch,
+++                allow_unsafe_options=allow_unsafe_options,
+++                **kwargs,
+++            )
++         # END diff against other item handling
 + 
++         # If other is not None here, something is wrong.
++@@ -1515,4 +1529,4 @@ class IndexFile(LazyMixin, git_diff.Diffable, Serializable):
++             raise ValueError("other must be None, Diffable.INDEX, a Tree or Commit, was %r" % other)
++ 
++         # Diff against working copy - can be handled by superclass natively.
++-        return super().diff(other, paths, create_patch, **kwargs)
+++        return super().diff(other, paths, create_patch, allow_unsafe_options=allow_unsafe_options, **kwargs)
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index f712a0e699..d47ce73d72 100644
+index d996d4f9f5..847bdfeab2 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -33,6 +33,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-73624.patch \
-            file://CVE-2026-73622.patch \
-            file://CVE-2026-73621.patch \
-+           file://CVE-2026-73620.patch \
+@@ -30,6 +30,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
+            file://CVE-2026-69097.patch \
+            file://CVE-2026-73625.patch \
+            file://CVE-2026-73623.patch \
++           file://CVE-2026-73624.patch \
             "
  SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
