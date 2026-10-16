@@ -2,76 +2,76 @@ Return-Path: <yurade@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9FBFCCF2CA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB5CCCF2CC
 	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 06:19:34 +0000 (UTC)
 Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15614.1792131565447869150
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15611.1792131564294051812
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 23:19:25 -0700
+ Thu, 15 Oct 2026 23:19:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=U0/h6jk2;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ZoFy4xi5;
  spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=10927; q=dns/txt;
-  s=iport01; t=1792131565; x=1793341165;
+  d=cisco.com; i=@cisco.com; l=6405; q=dns/txt;
+  s=iport01; t=1792131564; x=1793341164;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=/EMs+dqU/a7vzaXvx+ghWY3EFFrORw/NlTsWuC1UbJ8=;
-  b=U0/h6jk2BISLtQd4XDen56MkKu/IHrBAEg+pozVKHJ+KKK8turFcPrvg
-   HTj1e6BrDnwAq7JpyAHiV3/q4+tl+Q0BMI3g3tUoTMFd5TQpqdhkpFKAl
-   V3HXKaWqi4YpCovg1nRyVNzkxPSS2FWFLVSdhm1TTpzZvcgG++aNfzmzf
-   xpMFK3ukdht5JYFeMB+P9iWD6VGSedahU5wcDVPWTBT9X6a4uPrCO49ww
-   rL1NH1yqGhT5GRjHcmoYuq0fOEiD1MY72n8qLzo0+/SojSVF46FizwuKh
-   G+78ArczqgxPXbJ1MeGRGxsDg3QC7CSpyLuECYaFtkrINe03YQCISzyPp
-   A==;
-X-CSE-ConnectionGUID: 6e+muBu0RYi26V34w9BrRg==
-X-CSE-MsgGUID: Ab+SqDnASmSfxzhQIykWaw==
-X-IPAS-Result: =?us-ascii?q?A0BJAgDpwNFq/5T/Ja1aH4I6gld1YENJlCmCIQOeHIF+D?=
- =?us-ascii?q?wEBAQ9EDQQBAYQ/RgKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECLysjCBmDAgGCOgM3AxG8doF5M?=
- =?us-ascii?q?4EBgykBPwJDUNhLEG+BaAELFAGBOIVAiCNdGAFEglWBYycbgUlEgRWDaYEFg?=
- =?us-ascii?q?VwBAYEnhn4EgxwSgVp+aIZTjQ5IgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BI?=
- =?us-ascii?q?z4XgQcbBgWBHYEgghYjGTZ6gQlegSspYRAXgQmCBwKCVIIAAgFJQQ4HRVMJJ?=
- =?us-ascii?q?UMSRyYiCBIJARMaMAuBGzg8CShBFwxzDB0FcggCDQkHKRgNSBEsNxUZBD5uB?=
- =?us-ascii?q?5IUHoIYTVgcBxMBByQXP4EnUxYUkAuCXAEBkB2CIaEPhCiMIpU6GjOEBIFXk?=
- =?us-ascii?q?kCSVAuYfY4KlTM0aIRpgWg8gUcLBzMaCBsVgyIJShkPjjmDa4F/glGBFMh2J?=
- =?us-ascii?q?zICCTIBAQcCBw4DC4FokAACJgeBTwEB?=
-IronPort-Data: A9a23:oQHOKa54xlYJFyUbgkQwNgxRtG/GchMFZxGqfqrLsTDasY5as4F+v
- jYWD2zQaKyMNGagf9wgPdi/pEoPvJPRn9JgSwduq3w0Zn8b8sCt6fZ1gavT04J+CuWZESqLO
+  bh=zSBgtQiFWRg2SgH/ya3FElF+kJrlmWtrZa887SNkCiY=;
+  b=ZoFy4xi5r7nzisvInAMgNwptvHsXn55ys/SOiy2AqiCqycd+kRTNeK5o
+   UWNlRBInk6yf16Vigow8OXaO0LtkpXQ38v8s/OFUz+C6Bsc5JT4rYVeCp
+   FwC891kF41HFTfZ9LS93R/sqBAW/jqyJot8iKlsrIkPFOfe57HEQVE/cW
+   MgA0pvATyw9dg63D0npjIiD2D62KXCEpnDIRxd45TcErMtentY2nmFMr2
+   KCGhtCOZOgPq8E7DW+VDuBMS2eOCwJ5xjXxeBIH54PjufzJV8cE8MOhtm
+   PCbjuinfKVPp3Py7MmZLgx3LDnR584aRyJqBmk+q5voeT2oHA6OM2F+hD
+   g==;
+X-CSE-ConnectionGUID: uI0PVcpURYajZ6eXb8M02w==
+X-CSE-MsgGUID: nM1rxIj7Sj+K+ZcptH3S9A==
+X-IPAS-Result: =?us-ascii?q?A0BLAgDpwNFq/4r/Ja1aHgE8DA4LgVmCV3VgQ0kDlCaCI?=
+ =?us-ascii?q?QOeHIF+DwEBAQ9EDQQBAYQ/RgKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
+ =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECLysjCBmDAgGCOgM3A?=
+ =?us-ascii?q?xG8doF5M4EBgykBPwJDUNhLEG+BaAELFAGBOIVAiCNdGAFEhDgnG4FJRIEVg?=
+ =?us-ascii?q?2mBBYFcAgIYiAsEgxwSgVqBA45KhXpIgR4DWSwBVRMNCgsHBYFoAzUSKhVuM?=
+ =?us-ascii?q?h2BIz4XgQcbBgWBHYEgghYjGTZ6gQlegSspYRAXgQmCBwKCVIIAAgFJQQ4HR?=
+ =?us-ascii?q?VMJJUMSRyYiCBIJARMaMAuBGzg8CShBFwxzDB0FcggCDQkHKRgNSBEsNxUZB?=
+ =?us-ascii?q?D5uB5IUHoIYCDMSASwQUQEKIYIUpg2fUYE+hCiMIpU6GjOqbwuYfY4KlTqBF?=
+ =?us-ascii?q?YRpgWg8gVkzGggbFTuCZwlKGQ+OOYNrhRNRyHYnMgIGAzIBAQcCBw4DC4Fok?=
+ =?us-ascii?q?AItgU8BAQ?=
+IronPort-Data: A9a23:H0xozq5YvPUHx62Oecg4nAxRtG/GchMFZxGqfqrLsTDasY5as4F+v
+ mpLUWnTPf/cYGXze4t1b4y/px4O65HUydBnQARv/3szZn8b8sCt6fZ1gavT04J+CuWZESqLO
  u1HMoGowPgcFyGa+1H1dOex9RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
  5Wo/KUzBHf/g2QqazpNtfrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
  +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eY4Bb//tdHDl0x
- P1Cdg5WMg/SrfiMz+fuIgVsrpxLwMjDJogTvDRkiDreF/tjGMmFSKTR7tge1zA17ixMNa+BP
- IxCNnw1MUmGOkEfUrsUIMpWcOOAl2TlejFVgFmUvqEwpWPUyWSd1ZCwaoCNI4PTGZQ9ckCwj
- 2iFxH3VBDghMeeR2SiFy1O9hdDGgnauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
- lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPAXy4PTyVKb5ots8peqSEW6
- 2JlVujBXVRH2IB5g1rGnltIhVte4RQoEFI=
-IronPort-HdrOrdr: A9a23:uH2m9Kru0AHp3RxufxqaaBcaV5oHeYIsimQD101hICG9Ffbo8/
- xG88506faZslsssTQb6LO90cq7MBbhHOBOgLX5VI3KNGKNhILrFvAB0WKI+VLd8kPFmtK1rZ
- 0BT4FOTPvtEFN9kcH2pCO8E9om3Z271ZrAv5a485+oJjsaEp2JKGxCe2CmLnE=
-X-Talos-CUID: =?us-ascii?q?9a23=3A9AMZJWsExB8aF5otTMRz4Ede6It7fz7Y0V3Ne3W?=
- =?us-ascii?q?JCDw3dubJVg664plrxp8=3D?=
-X-Talos-MUID: 9a23:1Hgk/wQLWvSRKtODRXTFjnJZLetuyp+rM04dg5U/mtiHCiVvbmI=
+ jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eIKxAwth8GVx0x
+ PUaGm4AXhrTorrs3+fuIgVsrpxLwMjDJogTvDRkiDreF/tjGcmFSKTR7tge1zA17ixMNa+BP
+ IxCNnw1MUmGOkYfUrsUIMpWcOOAl2TlejFVgFmUvqEwpWPUyWSd1ZCwaoCNI4PTHpo9ckCwo
+ Eef5XTYAE4hNp+8igiO6m6M3dSetHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBXy4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rAnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:ciot8KwSbwZhKZxSN0vuKrPwAL1zdoMgy1knxilNoHtuA6ilfq
+ +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: =?us-ascii?q?9a23=3AIl6diGnybs+vT0IsiLpDj9aJqALXOWD8lE/uKFe?=
+ =?us-ascii?q?FM1dgSo/LRG+aqIY8ydU7zg=3D=3D?=
+X-Talos-MUID: 9a23:+EFmYwuu1jYThmvnh82nghQ7LtdJ4fuVCgMu0qcNo9WkbhchEmLI
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,161,1787011200"; 
-   d="scan'208";a="522017149"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 06:19:24 +0000
+   d="scan'208";a="522017137"
+Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 06:19:23 +0000
 Received: from sjc-ads-7310.cisco.com (sjc-ads-7310.cisco.com [10.30.220.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id F18C118000140
+	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 3C6D21800028F
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 06:19:23 +0000 (GMT)
 Received: by sjc-ads-7310.cisco.com (Postfix, from userid 1889728)
-	id 3AB75CBEFAA; Thu, 15 Oct 2026 23:19:23 -0700 (PDT)
+	id D762ACC124A; Thu, 15 Oct 2026 23:19:22 -0700 (PDT)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH 19/27] python3-git: fix CVE-2026-76222
-Date: Thu, 15 Oct 2026 23:19:14 -0700
-Message-Id: <20261016061922.843414-20-yurade@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 04/27] python3-git: fix CVE-2026-67324
+Date: Thu, 15 Oct 2026 23:18:59 -0700
+Message-Id: <20261016061922.843414-5-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261016061922.843414-1-yurade@cisco.com>
 References: <20261016061922.843414-1-yurade@cisco.com>
@@ -79,269 +79,143 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-7310.cisco.com [10.30.220.95];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 10.30.220.95, sjc-ads-7310.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+X-Outbound-Node: rcdn-l-core-01.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 06:19:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247988
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247969
 
-This patch applies the upstream fix as referenced in [4],
-using the commit shown in [1], regression fix in [2] and
-follow-up fix in [3].
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/e4b8e7d026ca6abb4cf604f8e77093432ce23c06
-[2] https://github.com/gitpython-developers/GitPython/commit/b324c831cbc02c82b99c18113b622d03539d23cd
-[3] https://github.com/gitpython-developers/GitPython/commit/4299c990e1ca21896f9485277caf7bb0ae5b404c
-[4] https://nvd.nist.gov/vuln/detail/CVE-2026-76222
+[1] https://github.com/gitpython-developers/GitPython/commit/56806080c1348749b07daa4a2024ce47b3cad285
+[2] https://www.cve.org/CVERecord?id=CVE-2026-67324
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
- .../CVE-2026-76222-regression.patch           |  35 +++++
- .../python3-git/CVE-2026-76222_p1.patch       | 123 ++++++++++++++++++
- .../python3-git/CVE-2026-76222_p2.patch       |  49 +++++++
- .../python/python3-git_3.1.42.bb              |   3 +
- 4 files changed, 210 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222-regression.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222_p2.patch
+ .../python/python3-git/CVE-2026-67324.patch   | 102 ++++++++++++++++++
+ .../python/python3-git_3.1.42.bb              |   1 +
+ 2 files changed, 103 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-76222-regression.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-76222-regression.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
 new file mode 100644
-index 0000000000..725403d1bb
+index 0000000000..a780464905
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-76222-regression.patch
-@@ -0,0 +1,35 @@
-+From a82b22c137622eb76112d5ec04e86b246e57eab3 Mon Sep 17 00:00:00 2001
-+From: Byron <sebastian.thiel@icloud.com>
-+Date: Tue, 4 Aug 2026 11:07:02 +0200
-+Subject: [PATCH] Initialize submodule repository before handled failures
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
+@@ -0,0 +1,102 @@
++From a5742dea36a84dece8a01526cdef0714aecac070 Mon Sep 17 00:00:00 2001
++From: "GPT 5.6" <codex@openai.com>
++Date: Sun, 12 Jul 2026 14:12:16 +0200
++Subject: [PATCH 12/38] fix: reject joined unsafe short options
 +
-+Direct recursive updates with keep_going could swallow an invalid-name
-+validation error and then access mrepo before assignment. Initialize
-+mrepo before validation so recursion is safely skipped.
++GitPython blocks options such as --upload-pack/-u and --config/-c
++because they can execute arbitrary commands unless unsafe options are
++explicitly allowed. Git also accepts a short option with its value
++joined to the same token, including after clusterable flags. Forms
++such as -uVALUE, -fuVALUE, -cVALUE, and -vcVALUE could therefore
++bypass an exact-token check.
 +
-+CVE: CVE-2026-76222
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/b324c831cbc02c82b99c18113b622d03539d23cd]
++Parse single-dash option tokens sufficiently to recognize blocked
++short options while preserving safe attached values such as
++-oupstream. Also distinguish clone multi-option values from bare
++kwargs so positional values are not treated as long-option
++abbreviations.
++
++This completes the option-validation hardening for
++GHSA-2f96-g7mh-g2hx.
++
++CVE: CVE-2026-67324
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/56806080c1348749b07daa4a2024ce47b3cad285]
 +
 +Backport Changes:
-+- Omitted `test/test_submodule.py` because the PyPI source archive omits
-+  tests, which are outside this recipe's test surface.
-+- Omitted `.basedpyright/baseline.json` because it is development-only
-+  static-analysis metadata absent from the source archive.
++- Omit upstream regression test changes because the current 
++  PyPI source archive does not include its test suite.
 +
-+Assisted-by: GPT 5.6
-+Co-authored-by: GPT 5.6 <codex@openai.com>
-+(cherry picked from commit b324c831cbc02c82b99c18113b622d03539d23cd)
++Reviewed-by: Sebastian Thiel <sebastian.thiel@icloud.com>
++(cherry picked from commit 56806080c1348749b07daa4a2024ce47b3cad285)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/objects/submodule/base.py | 4 +---
-+ 1 file changed, 1 insertion(+), 3 deletions(-)
++ git/cmd.py |   40 ++++++++++++++++++++++++++++++++++++----
++ 1 file changed, 36 insertions(+), 4 deletions(-)
 +
-+diff --git a/git/objects/submodule/base.py b/git/objects/submodule/base.py
-+index ec0a534f..45fc4551 100644
-+--- a/git/objects/submodule/base.py
-++++ b/git/objects/submodule/base.py
-+@@ -640,3 +640 @@ class Submodule(IndexObject, TraversableIterableObj):
-+-        # To keep things plausible in dry-run mode.
-+-        if dry_run:
-+-            mrepo = None
-++        mrepo = None
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-76222_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-76222_p1.patch
-new file mode 100644
-index 0000000000..77e47a8497
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-76222_p1.patch
-@@ -0,0 +1,123 @@
-+From 190b90a1932cb548b0b95f5c2751377012c37d42 Mon Sep 17 00:00:00 2001
-+From: Byron <sebastian.thiel@icloud.com>
-+Date: Sat, 1 Aug 2026 04:47:40 +0200
-+Subject: [PATCH 27/38] Validate submodule names before filesystem operations
-+
-+<!-- agent -->
-+Submodule names read from .gitmodules can influence the separate Git directory
-+path. Reject empty names, absolute or drive-qualified names, and parent
-+components with either path separator.
-+
-+Validate before constructing module paths and before opening or mutating
-+existing checkouts, so a repository initialized by an older vulnerable version
-+cannot bypass the guard. Validate programmatic add and rename inputs before
-+making changes as well.
-+
-+Advisory: GHSA-hmq2-w58f-27jc
-+
-+
-+CVE: CVE-2026-76222
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/e4b8e7d026ca6abb4cf604f8e77093432ce23c06]
-+
-+Backport Changes:
-+- Omit upstream regression test changes because the Scarthgap PyPI source archive does not include its test suite.
-+
-+Assisted-by: GPT 5.6
-+Co-authored-by: GPT 5.6 <codex@openai.com>
-+(cherry picked from commit e4b8e7d026ca6abb4cf604f8e77093432ce23c06)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
-+
-+---
-+ git/objects/submodule/base.py |   23 ++++++++++++++++++++++-
-+ 1 file changed, 22 insertions(+), 1 deletion(-)
-+
-+diff --git a/git/objects/submodule/base.py b/git/objects/submodule/base.py
-+index 4fe2ff3f..84d6bcdc 100644
-+--- a/git/objects/submodule/base.py
-++++ b/git/objects/submodule/base.py
-+@@ -4,6 +4,7 @@
-+ import gc
-+ from io import BytesIO
-+ import logging
-++import ntpath
-+ import os
-+ import os.path as osp
-+ import stat
-+@@ -267,10 +268,21 @@ class Submodule(IndexObject, TraversableIterableObj):
-+         parser.set_submodule(self)
-+         return SectionConstraint(parser, sm_section(self.name))
++diff --git a/git/cmd.py b/git/cmd.py
++index 81ea0b3c..1903bb01 100644
++--- a/git/cmd.py
+++++ b/git/cmd.py
++@@ -562,10 +562,23 @@ class Git(LazyMixin):
 + 
-++    @classmethod
-++    def _validated_name(cls, name: str) -> str:
-++        if (
-++            not name
-++            or name.startswith(("/", "\\"))
-++            or ntpath.splitdrive(name)[0]
-++            or ".." in name.replace("\\", "/").split("/")
-++        ):
-++            raise ValueError("Invalid submodule name %r" % name)
-++        return name
-++
 +     @classmethod
-+     def _module_abspath(cls, parent_repo: "Repo", path: PathLike, name: str) -> PathLike:
-+         if cls._need_gitfile_submodules(parent_repo.git):
-+-            return osp.join(parent_repo.git_dir, "modules", name)
-++            return osp.join(parent_repo.git_dir, "modules", cls._validated_name(name))
-+         if parent_repo.working_tree_dir:
-+             return osp.join(parent_repo.working_tree_dir, path)
-+         raise NotADirectoryError()
-+@@ -430,6 +442,7 @@ class Submodule(IndexObject, TraversableIterableObj):
-+             raise InvalidGitRepositoryError("Cannot add submodules to bare repositories")
-+         # END handle bare repos
-+ 
-++        cls._validated_name(name)
-+         path = cls._to_relative_path(repo, path)
-+ 
-+         # Ensure we never put backslashes into the URL, as some operating systems
-+@@ -629,6 +642,8 @@ class Submodule(IndexObject, TraversableIterableObj):
-+         # END init mrepo
-+ 
-+         try:
-++            self._validated_name(self.name)
++     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
++-        """Check for unsafe options.
++-
++-        Some options that are passed to `git <command>` can be used to execute
++-        arbitrary commands, this are blocked by default.
+++        """Raise :class:`~git.exc.UnsafeOptionError` for blocked option spellings.
 ++
-+             # ENSURE REPO IS PRESENT AND UP-TO-DATE
-+             #######################################
-+             try:
-+@@ -880,6 +895,7 @@ class Submodule(IndexObject, TraversableIterableObj):
-+             raise ValueError("You must specify to move at least the module or the configuration of the submodule")
-+         # END handle input
-+ 
-++        self._validated_name(self.name)
-+         module_checkout_path = self._to_relative_path(self.repo, module_path)
-+ 
-+         # VERIFY DESTINATION
-+@@ -1002,6 +1018,7 @@ class Submodule(IndexObject, TraversableIterableObj):
-+             raise ValueError("Need to specify to delete at least the module, or the configuration")
-+         # END handle parameters
-+ 
-++        self._validated_name(self.name)
-+         # Recursively remove children of this submodule.
-+         nc = 0
-+         for csm in self.children():
-+@@ -1211,6 +1228,9 @@ class Submodule(IndexObject, TraversableIterableObj):
-+         if self.name == new_name:
-+             return self
-+ 
-++        self._validated_name(self.name)
-++        self._validated_name(new_name)
+++        In addition to exact matches, this rejects abbreviated long options accepted
+++        by Git (for example, ``--upl`` for ``--upload-pack``) and unsafe short options
+++        whose values are joined to the same token, including after clusterable flags
+++        (for example, ``-uVALUE`` and ``-fuVALUE``).
 ++
-+         # .git/config
-+         with self.repo.config_writer() as pw:
-+             # As we ourselves didn't write anything about submodules into the parent .git/config,
-+@@ -1254,6 +1274,7 @@ class Submodule(IndexObject, TraversableIterableObj):
-+         :raise InvalidGitRepositoryError: If a repository was not available. This could
-+             also mean that it was not yet initialized.
+++        A list containing only bare names is treated as normalized keyword arguments,
+++        so multi-character names such as ``upload_p`` are checked as long-option
+++        abbreviations. If any item starts with ``-``, the list is treated as tokenized
+++        command-line input: bare items can be option values and are not checked as
+++        abbreviations. Thus ``["--origin", "upload"]`` is allowed. Single-dash options
+++        use short-option parsing rather than broad prefix matching, preserving safe
+++        attached values such as ``-oupstream`` and ``-bcurrent``.
+++
+++        Some options passed to ``git <command>`` can execute arbitrary commands and
+++        are therefore blocked by default unless the caller explicitly allows them.
 +         """
-++        self._validated_name(self.name)
-+         module_checkout_abspath = self.abspath
-+         try:
-+             repo = git.Repo(module_checkout_abspath)
++         # Options can be of the form `foo`, `--foo`, `--foo bar`, or `--foo=bar`.
++         # Git accepts any unambiguous prefix of a long option, so an abbreviated
++@@ -575,6 +588,15 @@ class Git(LazyMixin):
++         # can be abbreviations; single-character short options remain exact-match
++         # only.
++         canonical_unsafe_options = {cls._canonicalize_option_name(option): option for option in unsafe_options}
+++        unsafe_short_options = {
+++            canonical: option
+++            for canonical, option in canonical_unsafe_options.items()
+++            if option.startswith("-") and not option.startswith("--") and len(canonical) == 1
+++        }
+++        # These value-less Git flags can be clustered before another short option
+++        # (for example, ``-fuVALUE``). Stop at any other character because it may
+++        # begin an attached value, as ``o`` does in the safe option ``-oupstream``.
+++        clusterable_short_options = frozenset("46flnqsv")
++         options_are_kwargs = all(not option.startswith("-") for option in options)
++         for option in options:
++             candidate = cls._canonicalize_option_name(option)
++@@ -583,6 +605,16 @@ class Git(LazyMixin):
++             unsafe_option = canonical_unsafe_options.get(candidate)
++             if unsafe_option is not None:
++                 raise UnsafeOptionError(f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it.")
+++            option_token = option.split("=", 1)[0].split(None, 1)[0]
+++            if option_token.startswith("-") and not option_token.startswith("--"):
+++                for option_char in option_token[1:]:
+++                    unsafe_option = unsafe_short_options.get(option_char)
+++                    if unsafe_option is not None:
+++                        raise UnsafeOptionError(
+++                            f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
+++                        )
+++                    if option_char not in clusterable_short_options:
+++                        break
++             if not (option.startswith("--") or (options_are_kwargs and len(candidate) > 1)):
++                 continue
++             for canonical, unsafe_option in canonical_unsafe_options.items():
 +-- 
 +2.35.6
-+(cherry picked from commit e4b8e7d026ca6abb4cf604f8e77093432ce23c06)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-76222_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-76222_p2.patch
-new file mode 100644
-index 0000000000..5f549b0e35
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-76222_p2.patch
-@@ -0,0 +1,49 @@
-+From df2835724f8f92bc0a9efed691e14c8bdf58a6dc Mon Sep 17 00:00:00 2001
-+From: Byron <sebastian.thiel@icloud.com>
-+Date: Tue, 4 Aug 2026 10:08:41 +0200
-+Subject: [PATCH 28/38] Validate submodule names on every module path branch
-+
-+<!-- agent -->
-+_module_abspath only validated names when Git used separate gitfile
-+submodule directories, so legacy Git behavior could accept the same invalid
-+name. Validate before selecting the Git-version-dependent path branch and
-+cover the legacy branch explicitly.
-+
-+Git baseline: submodule.c at 883a47ef6496c96a5d6132ed8c87fcd44ebf8d1a
-+validates submodule paths before filesystem operations.
-+
-+
-+CVE: CVE-2026-76222
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/4299c990e1ca21896f9485277caf7bb0ae5b404c]
-+
-+Backport Changes:
-+- Omit upstream regression test changes because the Scarthgap PyPI source archive does not include its test suite.
-+
-+Assisted-by: GPT 5.6
-+Co-authored-by: GPT 5.6 <codex@openai.com>
-+(cherry picked from commit 4299c990e1ca21896f9485277caf7bb0ae5b404c)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
-+
-+---
-+ git/objects/submodule/base.py |    3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/git/objects/submodule/base.py b/git/objects/submodule/base.py
-+index 84d6bcdc..09a784e1 100644
-+--- a/git/objects/submodule/base.py
-++++ b/git/objects/submodule/base.py
-+@@ -281,8 +281,9 @@ class Submodule(IndexObject, TraversableIterableObj):
-+ 
-+     @classmethod
-+     def _module_abspath(cls, parent_repo: "Repo", path: PathLike, name: str) -> PathLike:
-++        name = cls._validated_name(name)
-+         if cls._need_gitfile_submodules(parent_repo.git):
-+-            return osp.join(parent_repo.git_dir, "modules", cls._validated_name(name))
-++            return osp.join(parent_repo.git_dir, "modules", name)
-+         if parent_repo.working_tree_dir:
-+             return osp.join(parent_repo.working_tree_dir, path)
-+         raise NotADirectoryError()
-+-- 
-+2.35.6
-+(cherry picked from commit 4299c990e1ca21896f9485277caf7bb0ae5b404c)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.42.bb b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-index d634239cdb..4375809d3a 100644
+index a36a0faa29..788cc4c173 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.42.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-@@ -40,6 +40,9 @@ SRC_URI += "            file://CVE-2026-42284.patch \
-             file://CVE-2026-76219.patch \
-             file://CVE-2026-76218.patch \
-             file://CVE-2026-76217.patch \
-+            file://CVE-2026-76222_p1.patch \
-+            file://CVE-2026-76222-regression.patch \
-+            file://CVE-2026-76222_p2.patch \
+@@ -25,6 +25,7 @@ SRC_URI += "            file://CVE-2026-42284.patch \
+             file://CVE-2026-67323.patch \
+             file://CVE-2026-67325_p1.patch \
+             file://CVE-2026-67325_p2.patch \
++            file://CVE-2026-67324.patch \
             "
  SRC_URI[sha256sum] = "2d99869e0fef71a73cbd242528105af1d6c1b108c60dfabd994bf292f76c3ceb"
  
