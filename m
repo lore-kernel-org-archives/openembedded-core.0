@@ -2,50 +2,50 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E28A0CCF2C6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E12CCF2C4
 	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 22:24:56 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5944.1792189489803324023
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6031.1792189489301001904
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2026 15:24:50 -0700
+ Fri, 16 Oct 2026 15:24:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ji9sR7J6;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a018792ab3so2989745e9.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=epqBHHvb;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-487049569b6so189617f8f.1
         for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 15:24:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792189488; x=1792794288; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1792189487; x=1792794287; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=64khh2UhqjnLEQqcWQLOHR2HCOZJ+aHqR/Qv/HiO/Uc=;
-        b=ji9sR7J6Gb7Ut1KpQXvAOIKSIuIl7/nq92Urvwu7e4BvMKvFobPHfi/Wgz7gOiWBlI
-         gB3WsB6iMEKAJ6aH1kCsX6BaubRon4byjpTR7QsVy3MEz8p9zu9M04hJnd2EPfkIpyeT
-         5Fgauzj7Xk6XcK/3Zl04lr11ZZOsoNjIjypCY=
+        bh=Wup385dwxVDkfrVucYszYawy23niYe5oEAXYxmi5vQs=;
+        b=epqBHHvbK5h2UkyOvoPfeSxyGZFLQS+f7ul2ux7yN4cF58cVKg2gLtvgwDqVhUAgPQ
+         mITKc4VOLcsIf/RyYPo1+Eckyz09lImCSACgnTPtlO2xg4/XyOvjeM2YNy/NzOwytOXW
+         35ed1POhHcWqB49IKF7vIrs7fojsi7WfiCjbk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792189488; x=1792794288;
+        d=1e100.net; s=20260707; t=1792189487; x=1792794287;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=64khh2UhqjnLEQqcWQLOHR2HCOZJ+aHqR/Qv/HiO/Uc=;
-        b=RyoGh0ODtQQTSI6jlgk8sVvCJA6Ii8WC2mo/PwSU+sfjOknY/b82AfuWZ1HoHg8nrt
-         HgZATMCbRcxOd0jABwv2crTtxL1WdZ1F0o6Ze0ce1wkz1V9sLmHIhT7Lb12N6qozV3mJ
-         WZ8x3wk6n8Ra2CtaElRAQKsbEeM40x3CYrRDU5FLwws9xJXZlHW9AbeEtwMLX5eY/9Ur
-         fEPHoLmAY+TIDsIrya8akP/CnZbEpzo08E8gw1eEMYwyUVabxIiAiocM0NzFMOlQh5QB
-         WOA8CiRPjIPjLPdX9PDZdHCJfOTqrnssu9JiHWEW4QmRxmsQ6ch1HXGwrICCBsk+tqE0
-         cxBw==
-X-Gm-Message-State: AFq9FYJwdoRL9vU2ljZhvqFb/cWVYWzF/OCX69TdjcJ83iXB2VEP/FtZ
-	GvzIafmGUhotVkPccyIQCu92G27OVO6hko5meVZ/mXBSZbabaD/dL6HsCBtRZs3q8bRh3sD7wRK
-	VX7lG0w0=
-X-Gm-Gg: AYBFou3zCyfkvTsgzCSGjnTSEo+g7B5AKFX9OJ7PL0tPDXm7Z58nSu8FuTDI2TNGfIl
-	i3w2/FFHUINo5YdCK0erY0NNHmFNq5CCp9RFxFEvbLxogaS2DVR1MMPwb+7Fi3v4f5Qt1A37iwt
-	7qGSc5MRsfj1vVVAsNCUnk5kpwqsiH22hYVOW6VrKkHFeHgVJjkClPU1maQ2z1LZzhSWZOM7Rk5
-	YdrORNJKUQKm6/qfHkdPTSwL8eMOTCtRa60Kd/iu15YOx5VKa+v1u85JrJo9jV3RkFykO0SxBkW
-	ddSURHyVwPf3c+Rqc2DisL4QE6Ur03gFsnyavyU48Ug6FRYtVWUAi8lI3cWFNwfODNEhv4tVEJi
-	Cprfm1TWQ/8j1nULBOq2RvpnmpTFJOgHQDp6z4bcFRYBn6Ggd8WtUEXmXoG5Wuq+nnmcOl9o5eh
-	Ot4HtEyoQ96gUjWzgw5rFyZU7/TuTMnRc0vgO4KDpqQMCHjOutwtQhuZM1A+U6bs3ubQQCnA+Ku
-	u4kp0jgmd1J3rNtC5B5e8oEqMPGckm8CIGRKYtKwlZ576XXVs1voOLRXjlCVZiogA58WGzQWg==
-X-Received: by 2002:a05:600c:840c:b0:4a1:7e1f:21bc with SMTP id 5b1f17b1804b1-4a1d760d292mr23575705e9.29.1792189487965;
+        bh=Wup385dwxVDkfrVucYszYawy23niYe5oEAXYxmi5vQs=;
+        b=GJMYY5j0zCRZ3+RPd3T2HoM4bK8NEOb53/TthPsCqBF26Ygsw5+/t5WLm0qDjACXLz
+         yI2zWf6xGtXefSbF3MhHXJbeeSqxOErFd8GKX5x+Uqs1q96d2l1oYUem3W8gn3jW1GGQ
+         XScbsNmvw8QKycwChPCsipT/SvbBUYCv/S5/VcqgwR2FV9UnMfzXU/BYcWfKBH8YBhH8
+         mB2vg1jWfPfmlyeuaCOdMFUBloAOfVFXIU8o5gjJR58L8ch1P2EOlDmGjA0wRynllH92
+         yvnmre9RK/lw5qQrFri6vk6eTBmj8JhaiedBMcQlcWODWZA1BJu0+3JiqgRBG6p3tZqO
+         Mf8g==
+X-Gm-Message-State: AFq9FYJUHIxqBaJulNDZuDizC/9zjH2ocZlCSuN/JMJGDgwBHfg/G6Lb
+	RvyW9iClF7bQ5GuwExyHMwJkEqfguSvn9OFKgT3h5anuqaxg+CXqnTpHAO14elo8BlFLYkrXarn
+	BNsSDPz8=
+X-Gm-Gg: AYBFou2LqwXitbIkxeD+cz8Y5K2u8yt2wgvR4JUzozQKj9ehOHtD9pYkRomz2KD2MDo
+	fjYSkTXsuUFWnks56LQSpKZ6w70gFsHKGVniKVpDOhd84trI8xyQdgfqx+OVMFahKyuyIccZm/P
+	12fNTyQMykHhayYn4+Mk+37JkKxOc2J7Va9S5ya37ovbZk18DZVM+EkltXPUL8wXC8oCrHCZVQT
+	ckNRUnMS5fFoZ2ZaJ9OEiodupE2qQPeTaYzC7hkoy9nSWHcp7V7X+r4YZX2mTI/fS5++aq8NEzq
+	ID+tf1QrGvfqAFANVbNhyXAtBgImLsWRW4WoUyNtju4sIX4Yla5R7xE96ahZzDLECp9TnEl2tWL
+	lvdkZDIPDqX8AcLluIACa5Dz8wn4OUEa6dl1prD+Bmk65vG97j9jw3a3B675eHIE2kqq0mWMOPc
+	pVul0BLCcD2A5dzOBeOKoTgl8XboEclGYcg4V14mkJFg0jfGkVEg/eRBp1JSWy4RfJ+MCSO6Sb9
+	Bqc2MJ4JxMYCRas/gAqiMDjU5pqQMDucOhd8zKbwDB0CRgxUzLMoaTKm3qB3/Na61lWrdyZuQ==
+X-Received: by 2002:a05:6000:46dc:b0:48d:ee59:3a30 with SMTP id ffacd0b85a97d-48e07f9d2damr1258264f8f.22.1792189487511;
         Fri, 16 Oct 2026 15:24:47 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd503862sm7639515f8f.46.2026.10.16.15.24.47
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Fri, 16 Oct 2026 15:24:47 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 13/17] tcl: skip timing-sensitive clock tests
-Date: Sat, 17 Oct 2026 00:24:15 +0200
-Message-ID: <aaa2097fd2dbb9702c7a78538e0587ddf1329176.1792189264.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 12/17] lib/oe/recipeutils: honor stable_upgrade for UPSTREAM_CHECK_COMMITS recipes
+Date: Sat, 17 Oct 2026 00:24:14 +0200
+Message-ID: <f5444604972b8b5a351418d6caf5baf2423fb92b.1792189264.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792189264.git.yoann.congal@smile.fr>
 References: <cover.1792189264.git.yoann.congal@smile.fr>
@@ -66,48 +66,60 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 22:24:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248063
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248062
 
-From: Ross Burton <ross.burton@arm.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-The clock-33.* tests check with millisecond-accuracy and as such are
-unstable under load, so skip them all.
+Found running AUH --stable on wrynose: recipes with
+UPSTREAM_CHECK_COMMITS set (gnu-config, gn, piglit, etc.) always
+reported "-new-commits-available" regardless of stable_upgrade, since
+that check ran before stable_upgrade was ever consulted.
 
-[ YOCTO #16324 ]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+AI-Generated: kiro:claude-sonnet-5
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5e73a6ed434591fa644c567f8f59e2f442022e66)
+(cherry picked from commit 439d13ce380c099fe6804c14930039da95dcbc3b)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/tcltk/tcl/run-ptest   | 2 ++
- meta/recipes-devtools/tcltk8/tcl8/run-ptest | 2 ++
- 2 files changed, 4 insertions(+)
+ meta/lib/oe/recipeutils.py | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest b/meta/recipes-devtools/tcltk/tcl/run-ptest
-index c01a7a1da28..18e03716e30 100644
---- a/meta/recipes-devtools/tcltk/tcl/run-ptest
-+++ b/meta/recipes-devtools/tcltk/tcl/run-ptest
-@@ -14,6 +14,8 @@ SKIP="$SKIP async-\* event-\*"
- # This test behaves differently when using a system tzdata, skip until fixed upstream
- # https://core.tcl-lang.org/tcl/tktview/51aa53616067cb63900b17ca1d71f07b094ffa1a
- SKIP="$SKIP clock-59.2\*"
-+# These tests check millisecond timing and are unreliable under load
-+SKIP="$SKIP clock-33.\*"
- # 14882
- SKIP="$SKIP cmdMZ-6.6"
- # 15081
-diff --git a/meta/recipes-devtools/tcltk8/tcl8/run-ptest b/meta/recipes-devtools/tcltk8/tcl8/run-ptest
-index f4d0e90c0f0..40666ef851a 100644
---- a/meta/recipes-devtools/tcltk8/tcl8/run-ptest
-+++ b/meta/recipes-devtools/tcltk8/tcl8/run-ptest
-@@ -14,6 +14,8 @@ SKIP="$SKIP async-\* event-\*"
- # This test behaves differently when using a system tzdata, skip until fixed upstream
- # https://core.tcl-lang.org/tcl/tktview/51aa53616067cb63900b17ca1d71f07b094ffa1a
- SKIP="$SKIP clock-59.2\*"
-+# These tests check millisecond timing and are unreliable under load
-+SKIP="$SKIP clock-33.\*"
- # 14882
- SKIP="$SKIP cmdMZ-6.6"
- # 15081
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index 99e7bc7acf4..522537e0d96 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -1069,16 +1069,23 @@ def get_recipe_upstream_version(rd, stable_upgrade=False):
+     else:
+         ud = bb.fetch.FetchData(src_uri, rd)
+         if rd.getVar("UPSTREAM_CHECK_COMMITS") == "1":
+-            bb.fetch.get_srcrev(rd)
+-            upversion = None
+-            revision = None
+-            try:
+-                revision = ud.method.latest_revision(ud, rd, ud.name)
++            if stable_upgrade:
++                # UPSTREAM_CHECK_COMMITS recipes only track git HEAD, not a
++                # version number, so there's no way to filter for a "stable"
++                # release; treat as no update available.
+                 upversion = pv
+-                if revision != ud.revision:
+-                    upversion = upversion + "-new-commits-available"
+-            except bb.fetch.FetchError as e:
+-                bb.warn("Unable to obtain latest revision: {}".format(e))
++                revision = None
++            else:
++                bb.fetch.get_srcrev(rd)
++                upversion = None
++                revision = None
++                try:
++                    revision = ud.method.latest_revision(ud, rd, ud.name)
++                    upversion = pv
++                    if revision != ud.revision:
++                        upversion = upversion + "-new-commits-available"
++                except bb.fetch.FetchError as e:
++                    bb.warn("Unable to obtain latest revision: {}".format(e))
+         else:
+             if stable_upgrade:
+                 stable_release_regex = rd.getVar("UPSTREAM_STABLE_RELEASE_REGEX")
 
