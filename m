@@ -2,132 +2,106 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18150CC6B38
-	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 14:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 233ACCCF2C2
+	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 14:22:13 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14464.1792123131764680153
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14488.1792123214787856294
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 20:58:51 -0700
+ Thu, 15 Oct 2026 21:00:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=ig1tiGTs;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=bLJJiYLF;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: wenwfu@qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69G1C3cn1890584;
-	Fri, 16 Oct 2026 03:18:29 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69G1mUB83202281
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 03:17:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=kbiEkiGrILliDyx99sQVF1xDsRx+mwg5v9G
-	uyDpR4es=; b=ig1tiGTsMZmeI/KnETnIF+hIHUokkRj6H2P9Ev6hKTFjVgA+UFp
-	xZC5V7ex/3/hSAJQLIMbDIXry2nyEw7T6l/FfO0pqXcrRlYozPZKefiTm4Dd1AC3
-	1UE7vivfGqlV67skkQYKXkElmXCMTLKtCKoW/1hWu0vCzO4D0TPUt+nXPTbIZ5S7
-	sy9CPyhCtRPOD80X9sFyXKknwstI2LphFbLDuFRks05Cu2fX3fY14IUGmffJu/G+
-	t9+/t2Xjl7+EfBW0Pf5Z1bgFgYedBjzWr+SYv7c39Kuzpy19Yeti5uZE7sN7jTxi
-	Q1gGoOKCVMa6qfJ3mOlbreNWX7NUGNH99+Q==
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hba260bhq-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 16 Oct 2026 03:18:28 +0000 (GMT)
-Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69G3Hc5T2743148;
-	Fri, 16 Oct 2026 03:18:27 GMT
+	:subject:to; s=qcppdkim1; bh=jzyvBTloEvb4zt+BFCjpVoYc/F2Fpu+Gbga
+	cqxFhaVk=; b=bLJJiYLFMdVpdVuha3ISRpULg5NuvUqxSoXHiJKZlj+gWB8yLhk
+	o+8mqddMfXJGrrqZikYQzASS1f+5OvxvCz8CdT3/xllieO/zv9Dva78y1Vrcs6q4
+	/fHz9sgj0UnWZh4ZKzRd1HPT4mEQFdgHE7Qg3AkUfB5VBrI9X5oNeou2eG0b9eLG
+	PaAJ/zWCSQmBomGLJ+ceZA20xhRkNgWpUNlcINLCoQidpP0nTwzxl91KOqBz+Wio
+	lUAmsMEjpKwQr6N3Tl7UXxWoFzY3r0+E/eFhshFlBEWDA91L2qTLin2uPnqx66od
+	5wfbx2DcE2WOh0lKxZPynPWpc/bvzU8MIoQ==
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hb3r39tcd-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 03:17:02 +0000 (GMT)
+Received: from pps.filterd (aptaippmta01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69G3H0832743189;
+	Fri, 16 Oct 2026 03:17:00 GMT
 Received: from perf-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 69G3IQwf2743967
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 69G3H0MC2743179
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 16 Oct 2026 03:18:26 +0000 (GMT)
+	Fri, 16 Oct 2026 03:17:00 +0000 (GMT)
 Received: by perf-sh02-lnx.ap.qualcomm.com (Postfix, from userid 3975139)
-	id BC2DAAC8; Fri, 16 Oct 2026 11:18:25 +0800 (CST)
+	id 3D3CFAC5; Fri, 16 Oct 2026 11:16:59 +0800 (CST)
 From: Wenwen Fu <wenwfu@qti.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wenwen Fu <wenwfu@qti.qualcomm.com>,
-        Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH wrynose 5/7] initramfs-framework: allow opting out of efivarfs mount
-Date: Fri, 16 Oct 2026 11:18:24 +0800
-Message-ID: <20261016031824.706656-1-wenwfu@qti.qualcomm.com>
+Cc: Wenwen Fu <wenwfu@qti.qualcomm.com>
+Subject: [PATCH wrynose 0/7] initramfs: backport startup optimizations
+Date: Fri, 16 Oct 2026 11:16:57 +0800
+Message-ID: <20261016031657.690337-1-wenwfu@qti.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 X-Proofpoint-Reinject: loops=2 maxloops=12
 X-QCInternal: smtphost
 X-QCInternal: smtphost
-X-Authority-Analysis: v=2.4 cv=bsHZl0ai c=1 sm=1 tr=0 ts=6ad19784 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAxMiBTYWx0ZWRfXy/9SEhC0pIIn
+ ovN1eXnslRwzYo08wYkYwPRpZTj0Zm2YLfhTbtRwXdKrM/evEwS3kPUiVY5N0d9u9UZGQop8xCL
+ 2/jEXUXR08zsUwP5nsfnA42SzghOzJVPbOGk4yRteus+itRDC1mz/9t14NpgCZ1TchyaMbHS1d6
+ itfU8icWYK9bHWhiRoB7Ud6sguhIlRF8x/rpdNEs1JbCh5SUPX9IbYqejikKdM9Ozk3276mW3tt
+ Kkr6eLsYvB0q9c1tPc6VTrKhh2Q1kbI3SUOaSm9yYah9nnWarLT1aZ0CW4aWmFR6guHi6qGwqoF
+ YDETkqKz/MYQnvNsj2qlsJushX663nn8ltItIjngmoR2dJyc7JCturFqfNLZAcfvWMBYDMMyT1U
+ 9mn6jfCPB2lGpt1JEjyLa5b0+zNB5ymBjuJSJYhDRj8kIRWNiqdjDu2tfP3BIPdyRmlK1J8t8he
+ WVkqlnguJQzTxr1GfgA==
+X-Proofpoint-GUID: ZeQ0d-rkSD6E2ImFBS3YC_ZUDnlAITUK
+X-Proofpoint-ORIG-GUID: ZeQ0d-rkSD6E2ImFBS3YC_ZUDnlAITUK
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAxMiBTYWx0ZWRfXw1OszusgYuzj
+ tmK7yqKdxz2u14tgO23eYE3ycF3hM8gU0LTZsv7H6FTNjKyZ09JDSIxnOWkESL8DI5PMfjnPA9R
+ m+3RRB7s4xk5K9EP0RAbffqOF2g9iYg=
+X-Authority-Analysis: v=2.4 cv=INGXmQvG c=1 sm=1 tr=0 ts=6ad1972e cx=c_pps
  a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
  a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8 a=ag1SF4gXAAAA:8
- a=aNJ5eksCtXL9qKsYOLUA:9 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAxMiBTYWx0ZWRfX0XnfBQaaMmb9
- w3Ot4xOaqkXHAIMa9GnPfjg4pBAxgYOP6Ioy5sHHw2/FlQhDaOVnPO7JLx7EAh/7XASRL3wGKx/
- lgb1fbR8+nwyBGbzUq/eWL59lA4gV5U/94HEC8UejSA9529LZ5sTa+EJzc3tNR/fq6VZJggmi6W
- e41N1ro5W5yxZI48TKH18HWu3VHBIfweqXkeHGShwFSGwrsuOFM02fG060BWLAYlRvoJFgA6BOA
- IfUSCgY67+m8oI69MPryM3cWUiBhlDKQ+F2/zRpZTGCCUhgiawPSS4BmZnGQGnohpEItaxeAmT/
- qyQVYDwU4oaVioYE0kGEcwvriD5oCOMQFumu3UHZVQKVNI391iBUGOl36vtEbLsmOWxmZ+J1nOr
- LxH7jROqNWyii/9pUTgZ974QG3F7uwGEkXJZ4YP5PdBR/lFP6m5UIntIwrkQlGqG850Ns+QeoLE
- bMvb3w1KAPoa59yhdgA==
-X-Proofpoint-ORIG-GUID: C9GJri0uEcfZNlPnTUJ-AFIwrHWd6qyR
-X-Proofpoint-GUID: C9GJri0uEcfZNlPnTUJ-AFIwrHWd6qyR
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAxMiBTYWx0ZWRfX9D3BQykSePeP
- mzNW+sxmFdns1EEVg2fWfaS2vO9/F/Q5BIcknjhJ0mLAF+iTCA9giNkLmKRTkMBXlNTtUVffhJP
- avr0bJdKZrZlK60yrmVz0eTthDYQ5UE=
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=MA1YaH5GDOQqEit49M4A:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 lowpriorityscore=0 bulkscore=0 malwarescore=0 impostorscore=0
- suspectscore=0 phishscore=0 spamscore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 clxscore=1015 spamscore=0 adultscore=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 bulkscore=0 phishscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610160012
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 14:22:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248032
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 14:22:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248034
 
-The initramfs mounts efivarfs before parsing the kernel command line.
-This was added so EFI metadata is available to early consumers such
-as mdadm when assembling Intel VROC RAID root devices.
+Backport the initramfs startup optimizations already merged on master.
 
-On systems where the real root filesystem mounts efivarfs later, the
-early mount is redundant and adds work to the initramfs critical path.
-Allow these systems to opt out with initramfs.efivarfs=0.
+The first three patches add an opt-in root-only udev coldplug path,
+including LABEL support. Full coldplug remains the default. The remaining
+patches remove short-lived commands from initramfs critical paths and
+allow platforms that do not need early EFI variables to skip the
+efivarfs mount.
 
-Parse the command line before deciding whether to mount efivarfs.
-Keep the existing mount behavior by default for initramfs users that
-need EFI variables before switch_root.
+Wenwen Fu (7):
+  initramfs-framework: add opt-in root-only udev trigger
+  initramfs-framework: support LABEL with root-only udev trigger
+  busybox: enable findfs for initramfs LABEL support
+  initramfs-framework: avoid external commands in rootfs resolution
+  initramfs-framework: allow opting out of efivarfs mount
+  initramfs-framework: avoid processes when parsing cmdline
+  initramfs-framework: avoid external commands in module loop
 
-Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9147744020f9b948f656a116ac03a9656e5a254b)
----
- .../initrdscripts/initramfs-framework/init             | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ meta/recipes-core/busybox/busybox/defconfig   |  2 +-
+ .../initrdscripts/initramfs-framework/init    | 37 +++++++++++-----
+ .../initrdscripts/initramfs-framework/rootfs  | 37 +++++++++-------
+ .../initrdscripts/initramfs-framework/udev    | 44 ++++++++++++++++++-
+ 4 files changed, 91 insertions(+), 29 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
-index 67590ad765..e3bf97bba9 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/init
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
-@@ -87,10 +87,6 @@ mount -t sysfs sysfs /sys
- mount -t tmpfs tmpfs /run
- mkdir -p /run/lock
- 
--if [ -d $EFI_DIR ];then
--	mount -t efivarfs none /sys/firmware/efi/efivars
--fi
--
- # populate bootparam environment
- for p in `cat /proc/cmdline`; do
- 	if [ -n "$quoted" ]; then
-@@ -130,6 +126,12 @@ for p in `cat /proc/cmdline`; do
- 	fi
- done
- 
-+# Keep efivarfs available in the initramfs by default.  Systems which
-+# provide it from the real root filesystem can opt out of the early mount.
-+if [ "${bootparam_initramfs_efivarfs:-1}" != "0" ] && [ -d "$EFI_DIR" ]; then
-+	mount -t efivarfs none /sys/firmware/efi/efivars
-+fi
-+
- # use /dev with devtmpfs
- if grep -q devtmpfs /proc/filesystems; then
- 	mkdir -p /dev
 -- 
 2.43.0
 
