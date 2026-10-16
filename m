@@ -2,76 +2,76 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC402CCA464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B04E0CC6B38
 	for <webhook@archiver.kernel.org>; Fri, 16 Oct 2026 05:40:06 +0000 (UTC)
-Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15264.1792129204414289573
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15262.1792129203678193388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2026 22:40:04 -0700
+ Thu, 15 Oct 2026 22:40:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=LycInuAB;
- spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=OBZgNjQN;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8027; q=dns/txt;
-  s=iport01; t=1792129204; x=1793338804;
+  d=cisco.com; i=@cisco.com; l=4673; q=dns/txt;
+  s=iport01; t=1792129203; x=1793338803;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=AfI2hrQD6zDC8BtWmSeY3f3lnFYX4FLHAuyUB/TSPu8=;
-  b=LycInuABarb3VZUF5Qk9Cy3MG/Egjg6CHBk86k06eHt16ZXsOxKc8xbe
-   5pVR2FAGtXdxl872vItEI5xo37ghXXJIlcDFFWWYdHoBC5rIYZMsQ/pMO
-   8ZSNY6pG9Quhty5KLliqWzZkUu1m15B9JBCt14xaBnQbf7iHGdYmJc9Ou
-   WXeoIBIB652v5uxLNOx1nD5TnP+BWZWaDDjXditbmJL9gd7PpQGaqXa/q
-   Wj7gBcMDGcouh9ZJUR2Ax4KE1NIU1D5601g8qNvIiWLkyzRTE3SfRTj5P
-   PRSyzruqCAT8A+0FmLoUYhEs92DMqQaTBskPdPcCrDDd1PzeS36+V8ivy
-   g==;
-X-CSE-ConnectionGUID: 3+tUNNdGQb2IM18BKeLLlw==
-X-CSE-MsgGUID: kZrqHaJwRraOsJ7KH2zngQ==
-X-IPAS-Result: =?us-ascii?q?A0BeAgCRt9Fq/4r/Ja1aHgEBCxIMggULgld1YENJlkoDg?=
- =?us-ascii?q?ROKUpI3gX4PAQEBD0QNBAEBhD9GAo4VAiY0CQ4BAgQDAgMBAQEBAQEBAQEBA?=
- =?us-ascii?q?QEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBAzIBGAEtEBwDAQIvIAsdAQUIGQkRg?=
- =?us-ascii?q?mgBgjoDNwMRvHeCLIEBgykBPwJDUNhLDYJaAQsUAYE4hUCCf4UkXRgBhHwnG?=
- =?us-ascii?q?xuBcoEVgnN2gQWBGkIBAYglBIIigQyBWh6IG40OSIEeA1ksAVUTDQoLBwWBa?=
- =?us-ascii?q?AM1EioVbjIdgSM+F4EHGwYFgR2BIIIWIxk2eoEJXoErKWABEBeBCYIHAoJUg?=
- =?us-ascii?q?gACAUlBDgdFUwklQxJHJiIIEgkBExowC4EbODwJKEEXDHMMHQVyCAINCQcpG?=
- =?us-ascii?q?A1IESw3FRkEPm4HkhQeghhNMUoTASoBIDBBgRsiKZMlj2SCIYE1nmlxCiiDd?=
- =?us-ascii?q?owijz6FfBozhVulFAuYfY4KhAmRSX2EaYFoPIFHCwdwFYMiCUoZD445g2uBf?=
- =?us-ascii?q?4MUUch2JzICCTIBAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:k/i7zaOpw5HgUxPvrR30lsFynXyQoLVcMsEvi/4bfWQNrUoh1mYOx
- mseDD3UbqyKMDfyfN9xaIi2pxlX6JbVmoQ3S3M5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+  bh=QJPaV49fR3Cjg21mmOvD0B5dPT9yah+ffkIa44BPHHc=;
+  b=OBZgNjQN24cDlUxn/2u4+urPJWL+lX++S6EE/2SBtm63JfsIDfWgs81W
+   4UE/ednGiZdKJdPFs/Y51pnSO1utnSqGsg1qXADT/Wf3jEC6Sa1iYcWDc
+   Oo1hHrbwclp6XZN2pnKFa2+XezbQwTJERe0tlDO3OkJ1ZRdAbauYOH0Jr
+   ER7YMRV1dGRNeSiZWIFbLAw05ZluIktpuVO86R3He8sAcYYUQIresR5p/
+   NrkbfMEL8LZJf12oFaRWmnPd2744pfG6cSmLSU9Tx+KwF2/7EegMRwxHd
+   BM3xX2To14JTICnnEuZvSryj5iTb90zQOOfQYn3UzYnynlQsWQ5bRJNBQ
+   A==;
+X-CSE-ConnectionGUID: NSQqFFnvQUGIUmmbfHGfDw==
+X-CSE-MsgGUID: N5Dc/Hg6QgGJfbRLDUuSwg==
+X-IPAS-Result: =?us-ascii?q?A0BJAgAeuNFq/5T/Ja1aglmCV3VgQ0mWSgOeHIF+DwEBA?=
+ =?us-ascii?q?Q9EDQQBAYQ/RgKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGTw2QEgECAQMyARgBLRAcAwECGRYrIwgZCRGCaAGCdAMRvHiCLIEBg?=
+ =?us-ascii?q?ykBOQEFAkNQ2zIBCxQBgTiFQIgjXRgBhHwnGxuBcoEVgTuCLoEFgVwBAYIwh?=
+ =?us-ascii?q?XUEgiKBDIFaHogbhxOFe0iBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBB?=
+ =?us-ascii?q?xsGBYEdgSCCFiMZNnqBCV6BKylgARAXgQmCBwKCVIIAAgFJQQ4HRVMJJUMSR?=
+ =?us-ascii?q?yYiCBIJARMaMAuBGzg8CShBFwxzDB0FcggCDQkHKRgNSBEsNxUZBD5uB5IUH?=
+ =?us-ascii?q?oJkAQF6EwETFwEggQAjaQcKCwYpkmqSQKEPCiiDdowilToaM4VbpRQLmH2OC?=
+ =?us-ascii?q?pZPhGmBaDyBRwsHcBWDIglKGQ+OKw4Lg2CBf4MUUYE1x0EnMgIJMgEBBwIHD?=
+ =?us-ascii?q?gMLgWiQAiQJgU8BAQ?=
+IronPort-Data: A9a23:xLPD26Ncb8wo5b7vrR30lsFynXyQoLVcMsEvi/4bfWQNrUohhjFTn
+ GcXXDjTMvmMNmT8fopxPoiyoEpX6p7dmoIxSHM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
  ykmQoCeap1yFjmD9k/F3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WVzlV
  e/a+ZWFZgb9gmAsawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
  9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
- I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj664tEHwQG4E3w+wtIEQXp
- dY7JRQpag/W0opawJrjIgVtrt4oIM+uOMYUvWttiGmAS/0nWpvEBa7N4Le03h9p2ZsIRqmYP
- ZdEL2M0PHwsYDUXUrsTIJ49keOhh2j2WzZZs1mS46Ew5gA/ySQsi+a3aoWJIIziqcN9nXSCv
- 0LP3XvDGBg9L/7A6hrf4HSjv7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MukCSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXJIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:XfPfwK4vKT7J53uEXwPXwOrXdLJyesId70hD6qm+c3Nom6uj5q
- eTdZsgtCMc5Ax9ZJhko6HjBEDiewK5yXcK2+ks1N6ZNWGM0ldAbrsSiLcKqAePJ8SRzIJgPN
- 9bAstDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhFQpcUAUdAZ0++/YTzra3FLeA==
-X-Talos-CUID: =?us-ascii?q?9a23=3A4V9hjGkiKEg1IRmLn++ZROMrQqfXOSae0Er2BUO?=
- =?us-ascii?q?XMGwzaZjMGXWz9YdAl9U7zg=3D=3D?=
-X-Talos-MUID: 9a23:t1KVfAgiLxX3lA7JNfvzVcMpN/Vy+oSnKl83i5whoOvbFgwqKTGStWHi
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj69NVNVgYE4sGw9tYIFxL8
+ PYWCB8DQg/W0opawJrjIgVtrt4oIM+uOMYUvWttiGiAS/0nWpvEBa7N4Le03h9p2ZsIRqmYP
+ ZdEL2MzPHwsYDUXUrsTIJ49keOhh2j2WzZZs1mS46Ew5gA/ySQsi+WwYYqMJo3iqcN9uBu0r
+ SXm8DrADT44Otal7Ra470mzibqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
+ AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++NukCSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:yZuksa1tZeui105ZyLGRIgqjBJAkLtp133Aq2lEZdPWaSKOlfq
+ eV7ZMmPHDP6Qr5NEtMpTnEAtjjfZq+z+8Q3WBuB9eftWDd0QPCRr2Kr7GSpgEIcBeRygcy78
+ tdmtBFeb7NJGk/q9rm6w+lFNtl6tyG/Ke0wdr69R5WPGdXg2UK1XYANu5deXcGPTV7OQ==
+X-Talos-CUID: 9a23:hBy1gWAm7Wr3s7P6Ew9czVc6NMY7S0Dy7UrVJkW2KUlnZKLAHA==
+X-Talos-MUID: =?us-ascii?q?9a23=3A59HCVA9DMr9TabxOd6z11Q+Qf+E1z6/pKE9TqJo?=
+ =?us-ascii?q?pmceODwhcBiqmkzviFw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,161,1787011200"; 
-   d="scan'208";a="536227428"
-Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
-  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 05:40:03 +0000
+   d="scan'208";a="535598149"
+Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 16 Oct 2026 05:40:02 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 9EE9C18000283;
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 9FC09180002E8;
 	Fri, 16 Oct 2026 05:40:01 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 48053CBF203; Thu, 15 Oct 2026 22:40:01 -0700 (PDT)
+	id 4365FCBF202; Thu, 15 Oct 2026 22:40:01 -0700 (PDT)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 3/3] python3: fix CVE-2026-87910
-Date: Thu, 15 Oct 2026 22:39:44 -0700
-Message-Id: <20261016053944.3835603-4-dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 2/3] python3: fix CVE-2025-15367
+Date: Thu, 15 Oct 2026 22:39:43 -0700
+Message-Id: <20261016053944.3835603-3-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261016053944.3835603-1-dkelaiya@cisco.com>
 References: <20261016053944.3835603-1-dkelaiya@cisco.com>
@@ -79,207 +79,122 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-01.cisco.com
+X-Outbound-Node: rcdn-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2026 05:40:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247929
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247927
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-This patch applies the upstream fix shown in [1]. The Windows test
-correction is applied from [2]. The advisory identifying the fix is
-referenced in [3].
+This patch applies the upstream fix shown in [1].
+The advisory identifying the fix is referenced in [2].
 
-[1] https://github.com/python/cpython/commit/fb2f0bbc3b35264f09cc2cb2934b7987527a6bc2
-[2] https://github.com/python/cpython/commit/d9565e54b1fc6d63c5be9afd58114499128fa57b
-[3] https://nvd.nist.gov/vuln/detail/cve-2026-87910
+CPython kept this change on main and deferred maintenance-branch
+backports [3] because passwords containing control characters
+such as tab or backspace could previously work. Wrynose takes the
+compatibility change to prevent user-controlled POP3 arguments from
+injecting extra commands. The new validation rejects C0 and DEL bytes
+before sending a command.
+
+Clients with affected stored credentials must replace those credentials
+with ones free of control characters and handle the new ValueError with
+a clear credential error. They must not silently strip password
+characters or retry by bypassing the check.
+
+[1] https://github.com/python/cpython/commit/b234a2b67539f787e191d2ef19a7cbdce32874e7
+[2] https://nvd.nist.gov/vuln/detail/cve-2025-15367
+[3] https://github.com/python/cpython/pull/143924
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../python/python3/CVE-2026-87910_p1.patch    | 98 +++++++++++++++++++
- .../python/python3/CVE-2026-87910_p2.patch    | 55 +++++++++++
- .../recipes-devtools/python/python3_3.14.8.bb |  2 +
- 3 files changed, 155 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-87910_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-87910_p2.patch
+ .../python/python3/CVE-2025-15367.patch       | 66 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.14.8.bb |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2025-15367.patch
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2026-87910_p1.patch b/meta/recipes-devtools/python/python3/CVE-2026-87910_p1.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2025-15367.patch b/meta/recipes-devtools/python/python3/CVE-2025-15367.patch
 new file mode 100644
-index 0000000000..9786e82619
+index 0000000000..21f2dfa7ed
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2026-87910_p1.patch
-@@ -0,0 +1,98 @@
-+From 19b8b2011fd1743841510e44b8e9e87f3a3f4ba0 Mon Sep 17 00:00:00 2001
-+From: Petr Viktorin <encukou@gmail.com>
-+Date: Fri, 11 Sep 2026 14:19:35 +0200
-+Subject: [PATCH] gh-157265: tarfile: Honor None result of filter for link
-+ fallbacks (GH-157266)
++++ b/meta/recipes-devtools/python/python3/CVE-2025-15367.patch
+@@ -0,0 +1,66 @@
++From cf799923a7a039d52432629c45ae7c603cc0b2d6 Mon Sep 17 00:00:00 2001
++From: Seth Michael Larson <seth@python.org>
++Date: Tue, 20 Jan 2026 14:46:32 -0600
++Subject: [PATCH] gh-143923: Reject control characters in POP3 commands
 +
-+Co-authored-by: Stan Ulbrych <stan@python.org>
++CVE: CVE-2025-15367
++Upstream-Status: Backport [https://github.com/python/cpython/commit/b234a2b67539f787e191d2ef19a7cbdce32874e7]
 +
-+CVE: CVE-2026-87910
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/fb2f0bbc3b35264f09cc2cb2934b7987527a6bc2]
-+
-+(cherry picked from commit fb2f0bbc3b35264f09cc2cb2934b7987527a6bc2)
++(cherry picked from commit b234a2b67539f787e191d2ef19a7cbdce32874e7)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ Lib/tarfile.py                                |  4 ++-
-+ Lib/test/test_tarfile.py                      | 31 +++++++++++++++++--
-+ ...-09-10-13-38-11.gh-issue-157265.-vYuMp.rst |  3 ++
-+ 3 files changed, 34 insertions(+), 4 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2026-09-10-13-38-11.gh-issue-157265.-vYuMp.rst
++ Lib/poplib.py                                             | 2 ++
++ Lib/test/test_poplib.py                                   | 8 ++++++++
++ .../2026-01-16-11-43-47.gh-issue-143923.DuytMe.rst        | 1 +
++ 3 files changed, 11 insertions(+)
++ create mode 100644 Misc/NEWS.d/next/Security/2026-01-16-11-43-47.gh-issue-143923.DuytMe.rst
 +
-+diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-+index b7b4af15b1..89e1e9b218 100644
-+--- a/Lib/tarfile.py
-++++ b/Lib/tarfile.py
-+@@ -2818,9 +2818,11 @@ class TarFile(object):
-+                     "makelink_with_filter: if filter_function is not None, "
-+                     + "extraction_root must also not be None")
-+             try:
-+-                filter_function(
-++                filtered = filter_function(
-+                     unfiltered.replace(name=tarinfo.name, deep=False),
-+                     extraction_root)
-++                if filtered is None:
-++                    return
-+                 filtered = filter_function(unfiltered, extraction_root)
-+             except _FILTER_ERRORS as cause:
-+                 raise LinkFallbackError(tarinfo, unfiltered.name) from cause
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index ab13ab34fc..c09592075b 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -4395,9 +4395,15 @@ class TestExtractionFilters(unittest.TestCase):
-+         for filter in 'tar', 'fully_trusted':
-+             with self.subTest(filter), self.check_context(arc.open(), filter):
-+                 if not os_helper.can_symlink():
-+-                    self.expect_file("a/t/dummy")
-+-                    self.expect_file("b/")
-+-                    self.expect_file("c/")
-++                    if filter == 'tar':
-++                        self.expect_exception(
-++                            tarfile.LinkFallbackError,
-++                            "link 'boom' would be extracted as a copy of "
-++                            + "'c/escape', which was rejected")
-++                    else:
-++                        self.expect_file("a/t/dummy")
-++                        self.expect_file("b/")
-++                        self.expect_file("c/")
-+                 else:
-+                     self.expect_file("a/t/dummy")
-+                     self.expect_file("b/")
-+@@ -4576,6 +4582,25 @@ class TestExtractionFilters(unittest.TestCase):
-+             if os_helper.can_chmod():
-+                 self.assertFalse(path.stat().st_mode & stat.S_IWUSR)
++diff --git a/Lib/poplib.py b/Lib/poplib.py
++index 4469bff..b97274c 100644
++--- a/Lib/poplib.py
+++++ b/Lib/poplib.py
++@@ -122,6 +122,8 @@ class POP3:
++     def _putcmd(self, line):
++         if self._debugging: print('*cmd*', repr(line))
++         line = bytes(line, self.encoding)
+++        if re.search(b'[\x00-\x1F\x7F]', line):
+++            raise ValueError('Control characters not allowed in commands')
++         self._putline(line)
 + 
-++    @symlink_test
-++    def test_extract_filters_target_none(self):
-++        # Test that when extract() falls back to extracting (rather than
-++        # linking) a hardlink target, the member is skipped if the filter
-++        # returns None.
-++        with ArchiveMaker() as arc:
-++            arc.add('a/b/s', symlink_to='../escape')
-++            arc.add('q', hardlink_to='a/b/s')
-++        def filter_unsafe_members(member, path):
-++            try:
-++                return tarfile.data_filter(member, path)
-++            except tarfile.FilterError as error:
-++                return None
-++        with self.check_context(arc.open(), filter_unsafe_members):
-++            if os_helper.can_symlink():
-++                self.expect_file('a/b/s', symlink_to='../escape')
-++            else:
-++                self.expect_file('a/b/')  # symlink is not extracted
++ 
++diff --git a/Lib/test/test_poplib.py b/Lib/test/test_poplib.py
++index ef2da97..18ca7cb 100644
++--- a/Lib/test/test_poplib.py
+++++ b/Lib/test/test_poplib.py
++@@ -17,6 +17,7 @@ from test.support import socket_helper
++ from test.support import threading_helper
++ from test.support import asynchat
++ from test.support import asyncore
+++from test.support import control_characters_c0
++ 
++ 
++ test_support.requires_working_socket(module=True)
++@@ -395,6 +396,13 @@ class TestPOP3Class(TestCase):
++         self.assertIsNone(self.client.sock)
++         self.assertIsNone(self.client.file)
++ 
+++    def test_control_characters(self):
+++        for c0 in control_characters_c0():
+++            with self.assertRaises(ValueError):
+++                self.client.user(f'user{c0}')
+++            with self.assertRaises(ValueError):
+++                self.client.pass_(f'{c0}pass')
 ++
-+     def test_link_fallback_normalizes(self):
-+         # Make sure hardlink fallbacks work for non-normalized paths for all
-+         # filters
-+diff --git a/Misc/NEWS.d/next/Security/2026-09-10-13-38-11.gh-issue-157265.-vYuMp.rst b/Misc/NEWS.d/next/Security/2026-09-10-13-38-11.gh-issue-157265.-vYuMp.rst
++     @requires_ssl
++     def test_stls_capa(self):
++         capa = self.client.capa()
++diff --git a/Misc/NEWS.d/next/Security/2026-01-16-11-43-47.gh-issue-143923.DuytMe.rst b/Misc/NEWS.d/next/Security/2026-01-16-11-43-47.gh-issue-143923.DuytMe.rst
 +new file mode 100644
-+index 0000000000..ba27e47f73
++index 0000000..3cde4df
 +--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2026-09-10-13-38-11.gh-issue-157265.-vYuMp.rst
-+@@ -0,0 +1,3 @@
-++In :mod:`tarfile`, when extracting a link falls back to extracting a member
-++of the archive, skip the member when the filter function returns None when
-++called with the extracted member's name replaced with the link's.
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-devtools/python/python3/CVE-2026-87910_p2.patch b/meta/recipes-devtools/python/python3/CVE-2026-87910_p2.patch
-new file mode 100644
-index 0000000000..fc97378719
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2026-87910_p2.patch
-@@ -0,0 +1,55 @@
-+From 8dd3fcd26e7effd2de3b3ec7709d80632b6acfc7 Mon Sep 17 00:00:00 2001
-+From: Petr Viktorin <encukou@gmail.com>
-+Date: Fri, 11 Sep 2026 19:54:41 +0200
-+Subject: [PATCH] gh-157265: Adjust test for Windows (GH-157334)
-+
-+gh-157266: Adjust test for Windows
-+
-+On Windows (no symlinks, no hardlinks), the behaviour is
-+the same as without the fix in GH-157266:
-+- a/t/dummy is extracted
-+- b/ is extracted
-+- c/ is *not* created (the target, a/t, is not in the archive)
-+- c/escape: c/ is created; escape is skipped (target,
-+   c/../../link_here, is not in archive)
-+- c is not recreated as a directory
-+- boom is not created (target is c/escape, which falls back to
-+  ..\..\link_here, which does not exist in archive)
-+
-+CVE: CVE-2026-87910
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/d9565e54b1fc6d63c5be9afd58114499128fa57b]
-+
-+(cherry picked from commit d9565e54b1fc6d63c5be9afd58114499128fa57b)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ Lib/test/test_tarfile.py | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index c09592075b..7e072d9090 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -4395,15 +4395,15 @@ class TestExtractionFilters(unittest.TestCase):
-+         for filter in 'tar', 'fully_trusted':
-+             with self.subTest(filter), self.check_context(arc.open(), filter):
-+                 if not os_helper.can_symlink():
-+-                    if filter == 'tar':
-++                    if filter == 'fully_trusted' or sys.platform == "win32":
-++                        self.expect_file("a/t/dummy")
-++                        self.expect_file("b/")
-++                        self.expect_file("c/")
-++                    else:
-+                         self.expect_exception(
-+                             tarfile.LinkFallbackError,
-+                             "link 'boom' would be extracted as a copy of "
-+                             + "'c/escape', which was rejected")
-+-                    else:
-+-                        self.expect_file("a/t/dummy")
-+-                        self.expect_file("b/")
-+-                        self.expect_file("c/")
-+                 else:
-+                     self.expect_file("a/t/dummy")
-+                     self.expect_file("b/")
+++++ b/Misc/NEWS.d/next/Security/2026-01-16-11-43-47.gh-issue-143923.DuytMe.rst
++@@ -0,0 +1 @@
+++Reject control characters in POP3 commands.
 +-- 
 +2.35.6
 +
 diff --git a/meta/recipes-devtools/python/python3_3.14.8.bb b/meta/recipes-devtools/python/python3_3.14.8.bb
-index 6aa5514246..2bf2806ee8 100644
+index f10d6a5f4d..6aa5514246 100644
 --- a/meta/recipes-devtools/python/python3_3.14.8.bb
 +++ b/meta/recipes-devtools/python/python3_3.14.8.bb
-@@ -36,6 +36,8 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+@@ -35,6 +35,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Skip-flaky-test_default_timeout-tests.patch \
             file://0001-test_only_active_thread-skip-problematic-test.patch \
             file://0001-prefer-valid-entrypoints.patch \
-            file://CVE-2025-15367.patch \
-+           file://CVE-2026-87910_p1.patch \
-+           file://CVE-2026-87910_p2.patch \
++           file://CVE-2025-15367.patch \
             "
  SRC_URI:append:class-native = " \
             file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
