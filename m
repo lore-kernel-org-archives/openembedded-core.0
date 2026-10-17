@@ -2,101 +2,103 @@ Return-Path: <oo.hehir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7E7CCF2C7
-	for <webhook@archiver.kernel.org>; Sat, 17 Oct 2026 11:22:01 +0000 (UTC)
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4499.1792236114415452078
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E62F1CCF2C9
+	for <webhook@archiver.kernel.org>; Sat, 17 Oct 2026 11:24:11 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4507.1792236249771541879
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Oct 2026 04:21:54 -0700
+ Sat, 17 Oct 2026 04:24:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=GuFuwpgF;
- spf=pass (domain: gmail.com, ip: 74.125.82.180, mailfrom: oo.hehir@gmail.com)
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35cd4e8bdbdso1694381eec.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 04:21:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792236114; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oFqFy5/0RsYb+WOBKf91pZyewy010gq7+KyX9B2yZvvlC4NJbo6Q6V0E1Wt02LHU4s
-         JxstzC3HSJvdLRAKgul6ruYJBp0ZhN9yDY3CJh9gcXpDPnoZQ5O5ELOM+9leJRrFL0aT
-         z8Zi+HcKjmU/JK2hdkJ0CmERABGmpyl59nZz9HelCPAezp2/oPpl8Df2a/Lkuw6diPqw
-         D3AzsA8mn/lys4+JkWivkyLTU/N88EmNXZqpra5JrYjYEPskDYUrmPsj8G29xdxNvFtD
-         Jt14Ys30k2jah24SD8SJNWRxcX5RXrsHakXdTwvtG23XUFUJPRZpsflkmerAQLbkLC7N
-         kxpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HG46eGCWp5ier2CAzyx/idgCcq77AjfpUfRN+gDOSIE=;
-        fh=F6XsNXGmOxCfiaMpimjXxzfvvDgbpxFeVSM1n8QzN3M=;
-        b=sBnNaYlfRlB0zw8igGnRo3OZFzYM7dYj8mDrPn1Gg9RsleInwqq3p9lugyaX0hezs/
-         hOiN3D0sCnyJSTBbQvHGey6lhEx1wmiqXy3iUGcVPnGpOEg+h9DvQJgdrvpO69YRrQqp
-         LSRy5WAyuC5X+b45Pz4WgqmouMropH1nehEmhCiBihpzSwVx3vdlwuP4DTKazKPm5ou3
-         rhPL1BLOr1tPWK4KG4Gb3Ex7ij6Ad9LamUrmEyJyzJaBfry65raZ4Huhv8Yu8FdiVRFv
-         DGZNFXx/M3Fh2xEPLM3imNv+X8isy4RjxSbSQz8GuhQyqDF4gjsUTDvoLbUUrTbQ0zDE
-         HuVg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=dgfuJDN9;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: oo.hehir@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so394541f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 04:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792236114; x=1792840914; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HG46eGCWp5ier2CAzyx/idgCcq77AjfpUfRN+gDOSIE=;
-        b=GuFuwpgFOtkeHgGuCj5L5LThrNFQT6XU04V5OsDsfoHnRBiV2v1JIRV9ptgPygUn5A
-         cvJwJnjYsZ9NPNR7bv89kETNOwZcg3VY+DZJGTNfgh2XlC7alzlI2kEB7ShIOciXkSNY
-         8Elq7Im2C/KcZjzTWEpGLKcW/uHSKDOvrU6I04SU86gnJ52VFmOVESmYhqZnnguFkt0G
-         sW62slwI5+jZLTdcYIJsbrDHRdv9rgPnGBR4ohIdhbLGWN8BAKbmX44onRAXRUzfttQJ
-         g5YRdC+nBqdLmoFwYNQ3qw6PHin6n6bx0OTV52Inu9xBI5ELHh09T9e6WJAdmSk7yKMr
-         LuPw==
+        d=gmail.com; s=20251104; t=1792236248; x=1792841048; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wNqe7cx90CBt92s+MnE1dlFKsOt1Z6z/k5F2sETynw0=;
+        b=dgfuJDN9xnD7U3Oqd8xqsx+IgEFDas7F37xvrmmtJ28KBZ6ZNrjU7lMevqUHc+kWUM
+         lSZI8aN516XFJclGbwPtsfS93Hd0qOhhJ1kxjpycw/Vh8pVgFg4cvexpKJJonR6e+G4K
+         OIvDooyX0n2VKsiRVhRXsYi0uR3++v0VcpumtDwH6JATmoXlHet4IDBoNZNlkWxus55A
+         I50WArzTdMIgn5fB8ICnpa6MZoFpB6oOWxqDgcMPg4E2gB3RubdptItiYaPEDyrPqzWA
+         6OKyQojOKJO53PVB1Q5ltJM9Zo+A81rnoN4elJQfwI7DS//pSLRD8bSKVkDqzBc0StyD
+         bU8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792236114; x=1792840914;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=HG46eGCWp5ier2CAzyx/idgCcq77AjfpUfRN+gDOSIE=;
-        b=AHB/J4FlPsWchlDMgY1i/PcVuUnRV+UAqRXajY+U9JZAPcYQ3cEtziGKfgMTaef9cT
-         cDR9RI3chBU+M0MZmT/mfq+b/TpPyK/CmuXSuKACK1ZH7upbitfByGM/QxONMcu97CoY
-         Cu3OoxpuutHtPZOLp3SlnJlUvTDMPH4bscr+0SbAX8wwy/rb/DkaBKtQqMAakgux9Ci6
-         uhuPLASVNg4RxdyaK3z2C9QFB2TPSXqy2sMZqYx6Vf9az1HnKG3Y8iwRr8Wi1/8NK00R
-         7cg/l9Mq6GKLx2se9Hh0bF3oVRRPn7Gs9pxgwkxbRis4V3+N97ho9s805SCsyq4rcgRk
-         gK8w==
-X-Gm-Message-State: AFq9FYIVY8OLt0sJ3BgrgBMg/u0JMEjZwBIbJUZGzSoYnpH5awIRkh/N
-	Xsv9xZK0c9h+ubrQqGk40Ls8njf+9lBqaZcuS+0yeaqsYp80HMSe3CuGJ2D0tA8MwVyyJk50/V7
-	cGGQyfUSZHF0Vp/QML14syOpll72cOLymxT2j
-X-Gm-Gg: AYBFou0Jey9v1xx8d98q89b9lP4M7jy/pCdtXMctIuj8+MYC4jlNz3L23H9446wIW8m
-	S04Celb3kYaawF3n7L9KhqxlGz2wVNx1vHRFk2lH9ouyDv9b+jQt2MXS3hrsgBP+WP31XJJjFYs
-	Xiy17f1fkwEI39Vq8u9uX7SUDeuYnvk/sn7tLgAAvedLV9dEiyIkWRoTzi7N3+NTiPDFjYgi1CL
-	e82i13baA+faSj3SPt98iUdEIsm35DdipZgNiO9Mgm27lV1uwUqjeuTPfeVb0ApG5FtojKere1l
-	ahVDP5kBYcfdeNnVz+rz5GpAmcLCEGDbnrfKPRMLiEUmCctNfiyNisLV
-X-Received: by 2002:a05:7301:1884:b0:35a:4ad6:d215 with SMTP id
- 5a478bee46e88-361a2343db8mr3377789eec.22.1792236113473; Sat, 17 Oct 2026
- 04:21:53 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792236248; x=1792841048;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wNqe7cx90CBt92s+MnE1dlFKsOt1Z6z/k5F2sETynw0=;
+        b=AWOB4kgFSF138kLDkxvSYCWXsPFfcACpJ0b6nzDJEj9t0yDs8ShfdrQBG2kayoQRqz
+         xAsCyYaTRNYuIb0F+UvdQD14n+GpizD4C58t4arGLCgsQdCsA5UGxf1IeP8yUU6T6PSK
+         Gze7cHU6sVI7CTsIZXiQX+6zfQO8t3pIPLhjBOBCavjEQS1lJRuK3Xiu1LLQ2D2A3DHL
+         KStgtNvnWKUDZdXHwBBH69lB56R9bHJyT5CTYQ3pvii25zb6zr3NieunZ8tzjKZ+IAuR
+         /sKlJQ6y3NHtzj8AaS3bkJYeGFlx04ULahZ/R9VcBGINQU5TYI3S2RMMRsfoDFQZ3wFZ
+         g89w==
+X-Gm-Message-State: AFq9FYLkBCDBUcUeXXLqKYdncVSEqU3CJe1e78Jkko10yRE3k2O5UlCe
+	u77bCc0WX3B223GWhMf/Ba8GJhzB99pDSAmRK7uGjiBGv8TGtMHHtIqpcPtWi1Vx
+X-Gm-Gg: AYBFou3jBf3euR74f942R/TfmL3+B9XfQieYyyH1+nBD2LRcVyHLe7pAJcChoaEplbQ
+	4ODWqW9g0icqxsxPxdE6YMoh2VUVPpLiHqoD3JRdnqUox+cxSXnte+NW/l6TVA35fZMSOiyqO+l
+	riUrYjTiCkFKcuL0XFZoq7uF4zTGXP2/tvDKYCDWiTYCLwoqUC4OCNtuxwAKCVoBQsiQdWsVwrQ
+	8EE5dSEDeAAox+bmx2S6eStSQCWbf4in1Pg8BWasLefnC3RYkEl9/Aij1wMYEITc84favfhqvap
+	YYvYq0TfZhWYdnlQq81TBLXaWShK2hhyUNOKcfHLbPLLFi0r5JpkYIRwcwpYhg/DfABXYLg9mHx
+	wYei/K2Ul95wY4YOa1JmkBt5VMjp0LBEUz8pqtFy0789QXstH51VmW9UCvAbpfrnotegQshcmS9
+	aoNK1ZLG9Y9al0yiduhYDtJA39X/UhIrZVh6hN0x0UKXHpcXy/ygE6cNI7dQJ5jiAnwAITxoz8v
+	bVp
+X-Received: by 2002:a05:6000:2611:b0:48d:ef93:67a0 with SMTP id ffacd0b85a97d-48e07fa8300mr4766004f8f.50.1792236248016;
+        Sat, 17 Oct 2026 04:24:08 -0700 (PDT)
+Received: from hp-z640.fritz.box ([109.77.135.214])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471877sm9140287f8f.1.2026.10.17.04.24.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2026 04:24:07 -0700 (PDT)
+From: OOHehir <oo.hehir@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com,
+	tgamblin@baylibre.com,
+	mathieu.dubois-briand@bootlin.com,
+	OOHehir <oo.hehir@gmail.com>
+Subject: [PATCH v2 3/8] ptest-packagelists.inc: re-enable python3 for riscv64
+Date: Sat, 17 Oct 2026 12:23:52 +0100
+Message-ID: <20261017112358.77434-4-oo.hehir@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261017112358.77434-1-oo.hehir@gmail.com>
+References: <20261016204547.2328847-1-oo.hehir@gmail.com>
+ <20261017112358.77434-1-oo.hehir@gmail.com>
 MIME-Version: 1.0
-References: <20261016204547.2328847-1-oo.hehir@gmail.com> <20261016204547.2328847-6-oo.hehir@gmail.com>
- <DM71K03PYNLU.ACDXXJ36A9BF@bootlin.com>
-In-Reply-To: <DM71K03PYNLU.ACDXXJ36A9BF@bootlin.com>
-From: "Owen O'Hehir" <oo.hehir@gmail.com>
-Date: Sat, 17 Oct 2026 12:21:17 +0100
-X-Gm-Features: AclHuK_IVplszq6oCc9F-bxRfJwcCNwjbJkCEaaoxV1mIs1_q6Dia8qETrVwWNI
-Message-ID: <CALp3LZ5B5qVVA38jS998KYQdB11RDomLW86rwGb4fYq0irpX2w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/7] tcl, tcl8: skip binary-40.3 on RISC-V
-To: openembedded-core@lists.openembedded.org, 
-	mathieu.dubois-briand@bootlin.com
-Cc: Khem Raj <raj.khem@gmail.com>, Trevor Gamblin <tgamblin@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 11:22:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248078
+ <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 11:24:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248082
 
-Hello Mathieu,
+python3 was parked in adc448b19e because it hung on qemuriscv64, still
+running after 42000 s. It no longer hangs. core-image-ptest-python3 on
+qemuriscv64, in two runs: 44546 & 44548 pass, 0 fail, 71 min each. On a
+VisionFive 2 (JH7110): 44698 pass, 0 fail.
 
-Thanks for this. It looks like it was in the musl build during
-do_install_ptest:append:libc-musl. I've modified the tcl recipes' sed
-so it only matches at the start of the line. I ran some tests locally
-& was able to recreate the issue. My v2 patches now build & install a
-valid run-ptest on musl & glibc. I will send v2 of the series shortly.
+Signed-off-by: OOHehir <oo.hehir@gmail.com>
+---
+ meta/conf/distro/include/ptest-packagelists.inc | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Regards,
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 5e99b59d4a..97c6e35050 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -159,9 +159,6 @@ PTESTS_SLOW = "\
+     zstd \
+ "
+ 
+-# python3 ptests hang on qemuriscv64
+-PTESTS_SLOW:remove:riscv64 = "python3"
+-PTESTS_PROBLEMS:append:riscv64 = " python3"
+ PTESTS_SLOW:remove:riscv32 = "lttng-tools strace "
+ PTESTS_PROBLEMS:append:riscv32 = " lttng-tools strace"
+ PTESTS_SLOW:append:libc-musl = " libc-test"
+-- 
+2.43.0
 
-Owen
 
