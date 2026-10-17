@@ -1,107 +1,93 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79225CCF2C4
-	for <webhook@archiver.kernel.org>; Sat, 17 Oct 2026 16:02:04 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8833.1792252915171002099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80954CCF2C1
+	for <webhook@archiver.kernel.org>; Sat, 17 Oct 2026 17:06:02 +0000 (UTC)
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.449.1792256752594033783
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Oct 2026 09:01:55 -0700
+ Sat, 17 Oct 2026 10:05:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=VAv4x0HO;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48c4649b35bso619652f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 09:01:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=QM0azkNC;
+ spf=pass (domain: gmail.com, ip: 74.125.82.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-3535a54bed9so1185835eec.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 10:05:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792252913; x=1792857713; darn=lists.openembedded.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZIazYfoCc0OKc9h2dcDtJ/3zw2ZV5JzBEFD4JftLi4o=;
-        b=VAv4x0HOsu2lLf1whhWb07TrjoW4BcZCX0GrxEI5UIk17hbqbJHmLItbnBQy2385I7
-         wqTbwB00jEGMlgFJFtqREgSUSMU1Nh4wdJw/x38o2DBNsa4HWCjraQjxKhag0tqlQ3J9
-         mk/Q3gYJd2RKfNetI1Jhl4LysC4166ZRQk7E77ksPu8qaJCikA5lOAL3FyMWYXremJ6f
-         QwcpG1PsvpQPmHxkIr4gNRIJKrIAfSyIOdNUmmejQvzH4nyYk9W1N7YWGNpk4aX122wh
-         a0PVPmUeA8PkeJUcDvh3tc2coEPTK7/qhnNvsxuo6WYy5bonhsCCS5m2ykOoWaJC/hLh
-         fG9g==
+        d=gmail.com; s=20251104; t=1792256752; x=1792861552; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZnUYvktl6dmVgrBeVV7x+bpYUEQeqwHpr84FKN8UG6E=;
+        b=QM0azkNCdYWFV2jfNGkA9feYqWdZ7ja/noBDcbHiTJ/LPkB5tcLL3ksavWyPKZWVSA
+         4fIR7BOSHaPRmJbZ2U/CwCuiAJvZlR4uRJa3v3mO72cpuf6Z1xkR/q8LYAR0UxJCv94y
+         mBamkkanw5iWU5HlMroOVDituzjZUKk/XiWPFJd1Kb1R1BxcUVzVRRsFJFI3aQCyjZY+
+         rHy+V59Nhg1CiSqp10pl8zMmdz8o34iyoWI2KFU5oLiJev11QdmkOyfvPuEsga/6YCo1
+         U7Pn8rojNFXK9QkPorHSkic7rFUZoEGN9uvId9KdxJWXsNbNg7Ur4/2yT5ByNV/W9oVQ
+         5VBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792252913; x=1792857713;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZIazYfoCc0OKc9h2dcDtJ/3zw2ZV5JzBEFD4JftLi4o=;
-        b=Zxn8yUSDyE58ZnvRj8jCV4oM6T71SHSJ+krPpNTMqmv4OdHMOv/zPVB2cnoUd1geBu
-         O4nVk4i0fXBUej6EMdswBp36Z4tPduuTDiBCmPtih/r6RW8bmJaF9HZq8cVJITBgicKn
-         a66VvksSHhyzrl9GjaovvZRbZRgPO3IeO5mj/0c+RdMFUMD4ZrFaEyWIFpT1BKXHhQ+t
-         snQkVDEsH/0p/gX5tvBteCxMpoqTah24kU0Mjjkw44vLkq7zeRr8WG3whR/AwtF6Vhxx
-         14fpieIyZbv8YRW3npf/JTNpTGTAUjpdWjz1t75720/Dq6tXXFX4UeEY7RPJfQYD9+km
-         wJQg==
-X-Gm-Message-State: AFq9FYKix25JriYi7mUefvLF6JRDw1cXtmtLg3HKb2L6LZVZh+pA8On1
-	sEOBhFSzPaWOUITWB/m72Tg0/eleG/tWvQ5in2PALUdG6bqx1gZlmdvOCVsJwg==
-X-Gm-Gg: AYBFou2BU8zV6P+bzTAPTLK5cMfVz2Qcshp9Zg70nG+Q8R7vlPC55OGC0I/7g6EynIp
-	j33Nubu8/sUkSpa2Xm/coyBoW+13hQD5xh8JXM3J2sOzHtYh6EvsT60fY/vG78THpyraPwdMKKO
-	wmv9naeNnzXubdPo8edg1OTn8R8PX0dtNUBt1tjfaSg3mEm59GBpQ6nDwmZPzDJFGMF4G1X0kPn
-	XAAIvUAFd1nKlERpQ8Ls93J1Ak5ZFifgzMgW5nw7omb5udykkQaYFAPjEl2xq80qhuE9Zl2PDAO
-	K7jvwuMOBp13Y03H4SuedO7Xdp+cFplBMX2wxDb27E7ZOvsJ6rJvGCxXuIsTZsv3X02pPh6pFqb
-	k9ZTQH/J/KqhUotWOHCMSFc80/eYXG6vWWv1MhsfUCZdN2PKoDhatbb26YqcwVoGypupG0XXerp
-	AkLCOHzbDeQ21hVIGeDsCtV1bIwS2jldoUxd/HDD1OfXqIZ6TzA/22TzGebTA9rp6h348g40LZc
-	8hvXY+nl5MgLrGswybNbAq577QSvckzAbVcXNZixdjG5GoFeoQKj4YOwT2X
-X-Received: by 2002:a05:6000:260f:b0:48d:f14a:9176 with SMTP id ffacd0b85a97d-48e07bc1033mr5435087f8f.22.1792252913081;
-        Sat, 17 Oct 2026 09:01:53 -0700 (PDT)
-Received: from [192.168.5.15] (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4ee183sm11773542f8f.29.2026.10.17.09.01.50
+        d=1e100.net; s=20260707; t=1792256752; x=1792861552;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZnUYvktl6dmVgrBeVV7x+bpYUEQeqwHpr84FKN8UG6E=;
+        b=EOspcsrENW43mumunNJfhEPQUgReohmDQs8y2EgIU9tOCMjssP5U9pxMiLdsEmIDfQ
+         62hAOwu2cUA7vGfwIKoWmIMsptchGRcLRaDBOW+4CfuniOE7dn0AUnJbEMrt/5DPFLsr
+         tdH+VJEhnG4esFw0e4z4nkpaJvLSdOAOh3/iuHqTfPrlzoV1OgdoggtIMOdULAQz3Jhm
+         du/gSHeq1uxk4U/XTB2NwJSHXOne3hMYgalXl1IyIZCPVH9pNs7z6IK9rHw9G7aNXUBd
+         U+gE8guBWapQS/11NGIpn0vYPIJbVSCW3XDyfvjkzMXPxi451jUpPGQuKgRZbuDaAI1t
+         huxg==
+X-Gm-Message-State: AFq9FYLYMnjW9n8p3nfDV+CMl8a4gwkAKo9WkHRiOxsoZMOwAzyB5E1z
+	ItEUx8GzzExgmOfXj65UHru8yCHBH5N9ksxqATWWsG0kiWfll+kQgAC6limV3VO+kxA=
+X-Gm-Gg: AYBFou3tfEBnZIO+IHJ3iDhss3SfXhpesHoBSXyxl5N64dnjpSd9I503Zc/nl+WY9OZ
+	4QVxMxnjP72ZiLC2+fq4kk1HQGxV4xGnA8t4oqOye2kmlR1Fi0IOXLjU8Wi4vS4jx/3vN87Yds7
+	wDPRGUmiNCbnVMs2hJPQpPDL9S9OFmVXFszEKBiNDUGaTQTFjMsQkNXkDuOGUWrfvxW2RXv+/vM
+	nfD1Rs2Y+zCZ49gfXAa8R8y+WQwWQ94bRQnZMuD71BiVEqymta1/UV6l+8j8Ga2b1S01Rc6oUgq
+	D1hOQ0II6CZ6+pu5x28Vz+maP1xzaFdB8UH8chTUp/l9Uf6e+By2NNAowy284o2ape55OoyFsAh
+	T+S47GcJoSNhbuan+ZDgNmqUwPl+J9BZEar6xYNoUDheXADOdN+OO2BEHS6ET5K1QaB9COoXgql
+	Qw14dbypL9s4gG4IOc96FsSgDRUn56fn5Ln7AhS/qZ+eI3KOjL0ITgeNjmfl3AKq/e0K1jZXfvn
+	F6+L0Z1+sKzklYPYV9FUc6QAWBb0grtF1i0VOkf3Hmj0MOBRAqgus7fW1CNspVyMg61+ulpRFZo
+	C2xy30jk9GbSyYCbegPtCI3XBUoBTurp7JWl4TgO+9OC9B+eKuebLqzUcn0dUNJ0CqdBVOyqDU8
+	8sEBL/4YmfiVMywnzH9sxlIrKSYYfWHxgeTYBXgwTVj2OwP1cFmbSdq8jTi7d5TeSwu+8t3jPfj
+	ehFTg0kSWg2nqQTpfDlOlygbDzYMWmWuEpsmPx9wzdgHcDQw==
+X-Received: by 2002:a05:7300:de41:b0:35f:71bf:131a with SMTP id 5a478bee46e88-361a234f0b4mr4152594eec.28.1792256751568;
+        Sat, 17 Oct 2026 10:05:51 -0700 (PDT)
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3608258aa66sm21649697eec.20.2026.10.17.10.05.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 09:01:51 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [PATCH v2 0/2] eudev: upgrade 3.2.14 -> 3.2.15
-Date: Sat, 17 Oct 2026 17:01:48 +0100
-Message-Id: <20261017-eudev-3-2-15-v2-0-489cff4613f3@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOyb02oC/3WNQQ6CMBBFr0Jm7Zi2IFVW3sOwKO0IYwRMC42Gc
- Hcprl2+5P33FwjkmQJU2QKeIgcehw3UIQPbmaElZLcxKKFKKeQJaXYUMUeFCQpRGqXN2WoF2+T
- l6c7vPXerfxzm5kF2So1kdBym0X/2vyiT9ycdJQoshG6MNJecXHNte8PPox17qNd1/QK3ij5tu
- gAAAA==
-X-Change-ID: 20261015-eudev-3-2-15-e406a27a8c72
+        Sat, 17 Oct 2026 10:05:50 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-X-Mailer: b4 0.16.0
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] packagegroup-core-tools-testapps: Ignore gst-examples for rv32
+Date: Sat, 17 Oct 2026 10:05:47 -0700
+Message-ID: <20261017170547.2302543-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 16:02:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248089
+ <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 17:06:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248092
 
-eudev 3.2.15 adds a render group for DRM render nodes, so we add that to
-base-passwd first, then upgrade eudev.
+Not buildable yet
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
-Changes in v2:
-- add a fix, submitted upstream, for a use-after-free new in 3.2.15
-- eudev: link the upstream release notes instead of the shortlog
-- Link to v1: https://patch.msgid.link/20261015-eudev-3-2-15-v1-0-407ba1a93edb@gmail.com
+ .../packagegroups/packagegroup-core-tools-testapps.bb            | 1 +
+ 1 file changed, 1 insertion(+)
 
----
-Alex Kiernan (2):
-      base-passwd: add the render group for eudev-3.2.15
-      eudev: upgrade 3.2.14 -> 3.2.15
-
- .../0001-base-passwd-add-the-render-group.patch    |  29 +++++
- meta/recipes-core/base-passwd/base-passwd_3.6.8.bb |  16 +++
- ....c-sync-dev_urandom-implementation-to-sys.patch | 138 ---------------------
- ...01-udevd-keep-a-copy-of-the-event-devnode.patch | 101 +++++++++++++++
- meta/recipes-core/udev/eudev/netifnames.patch      |  17 ---
- .../udev/{eudev_3.2.14.bb => eudev_3.2.15.bb}      |   5 +-
- 6 files changed, 148 insertions(+), 158 deletions(-)
----
-base-commit: 7803450fd5ecc1bb714abadfbe3ec340e930139a
-change-id: 20261015-eudev-3-2-15-e406a27a8c72
-
-Best regards,
---  
-Alex Kiernan <alex.kiernan@gmail.com>
-
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+index c47010f05c..a572d78acf 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+@@ -31,6 +31,7 @@ GOTOOLS:riscv32 ?= ""
+ 
+ GSTEXAMPLES ?= "gst-examples"
+ GSTEXAMPLES:riscv64 = ""
++GSTEXAMPLES:riscv32 = ""
+ 
+ X11GLTOOLS = "\
+     mesa-demos \
 
