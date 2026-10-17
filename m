@@ -2,53 +2,53 @@ Return-Path: <otavio@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7F78CCF2CC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A23BCCF2C7
 	for <webhook@archiver.kernel.org>; Sat, 17 Oct 2026 22:57:15 +0000 (UTC)
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5694.1792277832032697179
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5692.1792277826374603539
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Oct 2026 15:57:12 -0700
+ Sat, 17 Oct 2026 15:57:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 74.125.82.178, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-3535a54bed9so1363057eec.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 15:57:12 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 74.125.82.175, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-30b6dad2382so2838611eec.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 15:57:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792277831; x=1792882631;
+        d=1e100.net; s=20260707; t=1792277826; x=1792882626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IFWPpAAsFryqghOfW0JeQybS53CAOfLkdWcv3hWnL4s=;
-        b=vnfETEb5/8NCdtFLtM9qpi8fso8HqH8c3EAuGregSN1XQnC9M3tAYeZW3rSu75ihLb
-         6cac2GIiuWmnlO9VaYFMvnzeaBNlgfKmazmFiDAkjNtsx+bG3Eqn3LtHxGlR01faXs6t
-         269Rt0iwba1ED+kcJLlmcUAvd8Ad9dJFzUMiHvdU6dVQHhRRQD+Qq2h6sPNfYQlhYoqo
-         KMZOwThpzgb3fnrqfkE2liFs7UOjDfkRN1GZp3xiVck4NcMxsvZ1DzhBW3STotLUx9eS
-         KQhnL5lCdZ3pPc8P54zGDMEejgDBf7BBWNF5XhRNXPyUQQgyAq2xhfTZllSCIJ+chBjZ
-         WbdA==
-X-Gm-Message-State: AFq9FYJpLXy1W8A0DYKNtHiJIZFoe/FaBTJQG16BiwezAW1cPXNQqFSf
-	jcg7mhBmZW/pXQQtB+Bhfq/tPifpONlmEsmn2JxTn4Y6czxea1bH8zYuhottlG2C
-X-Gm-Gg: AYBFou33lVUHeyN0JPmz5eY16k+BsKv0vOcqm2qMtubG+X7h1hMT1XJwMOc03bzJ2nG
-	Y0D371j2OhA0G4DC2BR53a36+g8RrnCrYcQUHPfmZQXuximchSEknn6ikCaStl5D8gxZtiJSKXZ
-	EhpIbU7ZFfZMjkxHADzLTHPqmUwCOyCsSp4c7RgRGzNA2AEMDKb1u7v8drhb+DKhqZjPOaUtgtl
-	F9wFRFur87QGFCnPhoVoMHUDCMOs8vv9Nb9GZIBascoURQL9DWkukN89e3r4Fc10kQFHt1zM96N
-	WXpD6SI+SchAaWdXDaSMj1CmZWq1FyWuyta6mpdm5j4NgZRt5G4UxDetX6UIGDjCKApXkYxKJUr
-	+mm9q5BfqIjfKxL+tQu9A2aHz2ZGf/KldZ0nwN5xgCTZpCoVxcCGs2Wd3zuI9uCEEwFQhzk7a3v
-	za0B7qtZzGT4zxEtusj1EcmURCM8ismDgzVDAOW9CdPeoC1O6xoYt75WcNOol+Ui9FDxtBw+zb9
-	X4vCTZiHGMFhqbQexZQ59JcGyC/mJHaYHk+bZqHtXB6nrsmDAmPkiY8n6mq2P9C0IgQ7hFhc4nP
-	iRcS8jdI5ciUeaQvDJu49C1L5EoYXkjrHiiD32NfmVX3LL4FHCXiY+Zza655r/k8P5qQ7J3ScyM
-	X
-X-Received: by 2002:a05:7301:fc09:b0:34b:5ab2:e200 with SMTP id 5a478bee46e88-361a1860934mr4916204eec.14.1792277831397;
-        Sat, 17 Oct 2026 15:57:11 -0700 (PDT)
+        bh=5enOFX9A5/SUMjHCoqypP1fihy+KGdCQPpQgu0yd0Zg=;
+        b=JJx5nUK5zKousON9MMIdWafVrou7QK5yZhxfxpeSOb5y93WKxlBkfUo0PI2a8KODvg
+         LFLP7r8arwlIRJLdpWcMpWcqZ/VIs7jjec/mOsLqj3qc+UWROogYEEnJ9YxA3jlPRDEH
+         UREPMOf2Cc6HJWlB5Skgv/d9Xh/3SL3wi11/6S7kv4xBKXwFMoCqsSxw3nZWfCOkXbOX
+         Xyl6j/EM1mD0LO5fqx4SbhRL9iTQ5IGYwJ/2oxh8Xkakf0cLOPxp3//bC6+7l5+r9qGi
+         bwG84GzVAwZIfyEHeKLEp2nTMRTF+oKUkZmae+H2ULcOX2XzCvizcT0zsnRBsqREZdjK
+         bdew==
+X-Gm-Message-State: AFq9FYLW3p5o2DpUxsK5gm4TSe3KXJdIGtj078B68SK4qhxIcQsJPnOq
+	oBw/EbfrcA1pDYYdrYI28D34FZ/fn0fFmyfc59OrnmBL3QHhPjrT89g7v0Lovg/W
+X-Gm-Gg: AYBFou2ayQ/6R4F1NmlkJaHcqyf6uee4iQ8nUT3ZJXbnNOwzcRZqdRgBvOchgFlmsPm
+	XPhAZBIt+yhoXZrwOpE3+Bfmwqlf5rEHsX82CvwtDbwqvWlT+u1OZJwALGW7VXNbmjIvrxy9JXu
+	LFZrS+vl9bDrbN/Z4/KtWWtntmxuXNOtAhJ1VuMhIQlXEKW1N20Jy+DdytepodyHFMg9AxZX2h/
+	0Huz/Jho5GzxtaJzPoiEB62AiFGrIOFAttHX4VjIFSiYe2ufRAJ1gTop9+4UqC37Q/mzfE2Ia/A
+	5o9v86L6d05yOHds+utRbNj8FFaz4IOrJ1QosmwuEPZAiNtvHEAJhXEcFt26mmQz4j8rzB369AX
+	pGi1vTDwskioRGBhpbJK79djgOYcTum5CSUgTw6ybz3zXkN7WvFLWrfHL1uyFgAJsmEXnQVK1pD
+	whuVRNtLTS0zYtiSmHHNCk0xKlHg667rhly4se5AEwyWBCdQ699rZr3jgLdnYCC+lIyX4uyngXt
+	Ql7Nc2xXeTEOP0gmIUDUEEhhnrKe5C8QDcoJIZLRUfBvOW2f77qwF0/jr5rdLyAWfXV1tonSUok
+	ZGY1tCFJ42GJixfyPdTFmFc7+A272IwmPGjds7rmvjAEO6gvL7gS2VBY44obKiNqUzfRtsCxSmW
+	AHhTrF2OIanI=
+X-Received: by 2002:a05:693c:8946:10b0:35f:8c5d:5928 with SMTP id 5a478bee46e88-361a1f567a5mr4795662eec.30.1792277825619;
+        Sat, 17 Oct 2026 15:57:05 -0700 (PDT)
 Received: from localhost ([201.89.183.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3608297f4f7sm19325035eec.23.2026.10.17.15.57.10
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-360813b6ca5sm18045645eec.9.2026.10.17.15.57.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 15:57:10 -0700 (PDT)
+        Sat, 17 Oct 2026 15:57:05 -0700 (PDT)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	Luciano Dittgen <luciano.dittgen@ossystems.com.br>
-Subject: [PATCH 3/3] checklayer: Reuse signatures of an identical successful world dump
-Date: Sat, 17 Oct 2026 19:56:56 -0300
-Message-ID: <20261017225656.680168-4-otavio@ossystems.com.br>
+Subject: [PATCH 1/3] yocto-check-layer: Add --run-tests to select the tests to run
+Date: Sat, 17 Oct 2026 19:56:54 -0300
+Message-ID: <20261017225656.680168-2-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261017225656.680168-1-otavio@ossystems.com.br>
 References: <20261017225656.680168-1-otavio@ossystems.com.br>
@@ -58,68 +58,63 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2026 22:57:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248100
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248098
 
-test_signatures and test_world dump the same world signatures, with and
-without -k, and so do test_machine_signatures and test_machine_world for
-each machine; when the dump succeeds, the second only repeats a world
-parse. Keep the signatures of each successful dump, keyed by the layers in
-bblayers.conf, MACHINE and extra variables, and return them when the
-same dump is asked for again. A failed dump is not kept, so the world
-tests still run it and report the failure.
+The common and distro tests ignore --machines, so a BSP layer checked in
+several runs, one per group of machines, repeats them in each. Add
+--run-tests, taking <module>[.<class>[.<name>]] as oe-test does, so the
+common tests can run once and only the BSP ones in the others. A name
+matching no test is an error rather than a run that checked nothing.
 
-Tested on meta-freescale with two machines: 5 world dumps instead of 8,
-same results; a recipe breaking world on one machine still fails
-test_machine_world for that machine only.
+Tested on meta-freescale with "--run-tests common distro" and
+"--run-tests bsp --machines imx8mm-ddr4-evk imx8mn-ddr4-evk".
 
 Suggested-by: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
 AI-Generated: Uses Claude Code (Claude Opus 5.5)
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- scripts/lib/checklayer/__init__.py | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ scripts/yocto-check-layer | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index aa19a8e2ae..8838a7df48 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -287,9 +287,18 @@ def check_command(error_msg, cmd, cwd=None):
-         raise RuntimeError(msg)
-     return output
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index 8c8b4dbcad..e747451366 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -32,14 +32,14 @@ CASES_PATHS = [os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                 'lib', 'checklayer', 'cases')]
+ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
  
-+# The world signatures of each dump that succeeded: the tests ask for the
-+# same dump with and without -k, which only differ when it fails
-+signatures_cache = {}
-+
- def get_signatures(builddir, failsafe=False, machine=None, extravars=None):
-     import re
+-def test_layer(td, layer, test_software_layer_signatures):
++def test_layer(td, layer, test_software_layer_signatures, run_tests):
+     from checklayer.context import CheckLayerTestContext
+     logger.info("Starting to analyze: %s" % layer['name'])
+     logger.info('Distro: %s' % td['bbvars']["DISTRO"])
+     logger.info("----------------------------------------------------------------------")
  
-+    with open(os.path.join(builddir, 'conf', 'bblayers.conf')) as f:
-+        key = (f.read(), machine, extravars)
-+    if key in signatures_cache:
-+        return signatures_cache[key]
-+
-     # some recipes needs to be excluded like meta-world-pkgdata
-     # because a layer can add recipes to a world build so signature
-     # will be change
-@@ -320,7 +329,7 @@ def get_signatures(builddir, failsafe=False, machine=None, extravars=None):
-             # in a world build lack some dependencies. There is a
-             # separate test_machine_world_build which exposes the
-             # failure.
--            pass
-+            key = None
-         else:
-             raise
+     tc = CheckLayerTestContext(td=td, logger=logger, layer=layer, test_software_layer_signatures=test_software_layer_signatures)
+-    tc.loadTests(CASES_PATHS)
++    tc.loadTests(CASES_PATHS, modules=run_tests, modules_required=run_tests)
+     return tc.runTests()
  
-@@ -362,6 +371,8 @@ def get_signatures(builddir, failsafe=False, machine=None, extravars=None):
-     if not sigs:
-         raise RuntimeError('Can\'t load signatures from %s' % sigs_file)
+ def dump_layer_debug(layer):
+@@ -70,6 +70,8 @@ def main():
+                        help='check that software layers do not change signatures (on by default)')
+     group.add_argument('--without-software-layer-signature-check', action='store_false', dest='test_software_layer_signatures',
+                        help='disable signature checking for software layers')
++    parser.add_argument('--run-tests', nargs='+', metavar='TEST', default=[],
++            help='Tests to run, as <module>[.<class>[.<name>]] (default: all)')
+     parser.add_argument('-n', '--no-auto', help='Disable auto layer discovery',
+             action='store_true')
+     parser.add_argument('-d', '--debug', help='Enable debug output',
+@@ -228,7 +230,7 @@ def main():
+             layers_tested = layers_tested + 1
+             continue
  
-+    if key:
-+        signatures_cache[key] = (sigs, tune2tasks)
-     return (sigs, tune2tasks)
- 
- def get_depgraph(targets=['world'], failsafe=False):
+-        result = test_layer(td, layer, args.test_software_layer_signatures)
++        result = test_layer(td, layer, args.test_software_layer_signatures, args.run_tests)
+         results[layer['name']] = result
+         results_status[layer['name']] = 'PASS' if results[layer['name']].wasSuccessful() else 'FAIL'
+         layers_tested = layers_tested + 1
 -- 
 2.54.0
 
