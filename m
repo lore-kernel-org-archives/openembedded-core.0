@@ -2,96 +2,99 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFC3CCF2C9
-	for <webhook@archiver.kernel.org>; Sun, 18 Oct 2026 22:36:54 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.23093.1792363012067111585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A21CCA490
+	for <webhook@archiver.kernel.org>; Sun, 18 Oct 2026 22:37:04 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23200.1792363020883182897
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2026 15:36:52 -0700
+ Sun, 18 Oct 2026 15:37:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=aYPpuNiR;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2e9cf928dc9so3386875ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2026 15:36:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=DX+sc8Pj;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e987b4a710so11256595ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2026 15:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792363011; x=1792967811; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZEDObkTXZcz5vRkArTf+ZE0JALS1AI3xFz4fvVmBSzE=;
-        b=aYPpuNiR0qkj92ay3lkW24FhFWIFk/oYBBeRgKwYOdmzyZ8bsNql8BLMMwyTAEgppn
-         TArSPbE3sj1/yLHF9hDTfVpdOgXLIi3NCUrXYH+IdSr6E99Oc5gLLmy+zJ7Opiqv2VAV
-         X8N+KoMHkyGSTfLgQwR4ZyB7hEcuNKMv7YNQR95OIP3aocYmiOhlqbRm+nAQsyF/xyOk
-         8Ng0yy0syEHBfXRHvQ7fCsASU95gcHSOI1kbY9JZlVIPejZnHdfmDC2ZNWJpyavReC+h
-         fZ/y0zAAs37iX/tvne7pj75sG6CamTjG2ZIWtCGQuRv4Nl334Ix4Owa1fg+6lLMGBGo7
-         EpUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792363011; x=1792967811;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792363020; x=1792967820; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZEDObkTXZcz5vRkArTf+ZE0JALS1AI3xFz4fvVmBSzE=;
-        b=knB+qKWtS1YJMQiXyStso3JSW9nQq6It9ZQcghZTiTdZYv9nZHt17yDy8+AdFeqpBe
-         Jnwl8QnyH82yfge35+Flp3nTieCCl/BtbwtS4EuwP+pVq3imbczKjqvTzZazHop/hGPw
-         N3c286Q0KqHdS3upTNlyu1TIHvuJXLm7p/HlmeksQ7VPj5Ruy+s9YoiYL/ycjG3+A8NI
-         hMJY7qoxB0J7jysDY9+7QDdEu+ZtgWhpPQse/fGg7UUose5R/imBkr8XRuEjfUdQc/ko
-         Mq/DzeHoAJqJFuQKt7iT2oIJ9ywDR5lRFXZFqrRIP/7T5o2uoXHGAUopXASBmNsct/O8
-         TOrg==
-X-Gm-Message-State: AFq9FYKKs4rrA1LqREQerXrmQk8Qpktb4rLdpq7JOQyljIyfVEaBNNkV
-	wZ279hLodU+rXsnp8wVE/uiGj9d+JYoqu2nMDD4MuD0BM3CALsOezeV97CVeEg==
-X-Gm-Gg: AYBFou1M2fJDIAZ+UkF0irqMIdwNqcWwxrCs4/Vj546ApBtCnsF7RrCnn4MuhJ7ejOA
-	1XhlRNEkDlCw3na6BcmEEE4SxDPaLsX4R7Qoi0VG7wXDXbbjUfx8IOjhabHi1bEp7xEyTlzHu7A
-	U9Bh2qt1uFHcv6Eq8q3dxRDpLuzSgpnLDKi3St44AiJmlm6EmNWTLUXpibrUfI9Qu2IL3MC0dlC
-	JBt0LQOrv7pyCgL+x1oqTISIxh0NOh+wxFTbMSjgiYUMfPv58nx5r/y69ptwybfbMNCEDPDUZ0X
-	jh3A7leG3GBuGMn5E3S8IWCa4vvyp55vfBUnou0QcaykPKMS5tlIqCX4hJQt7m4qjOil8buNSNA
-	Ys1YjmUE0uozomDPQb64KuLwFWZp/chyQ2VU0kbYzsbT4DhDcD81AZ5NYg8ecCWKXwvYgTlUmb1
-	i7wUxbgL2ZovirlJXos3xBBRXuNb7ehDL1fFeH2ytdnJ12ogyEuHV5/l6oWTuv5PHUZDXNOsFqO
-	ZUMl8mGqAH+4htjrIXm80/gQvM4RGPUud+7dZ8=
-X-Received: by 2002:a17:90a:c885:b0:3ab:b764:8256 with SMTP id 98e67ed59e1d1-3acef13517cmr3459525a91.17.1792363011109;
-        Sun, 18 Oct 2026 15:36:51 -0700 (PDT)
+        bh=XA4Yvp5dnacGYIL5ySdjfBfiVSd9RvQ/yptcAoqJ8ys=;
+        b=DX+sc8PjNdM9x3JPA7hL7MfMruxl9ZH3hppv/hqo8OUNDK7mP6u3iJIsTRYckmtFor
+         zgEnQ26d+uK67nHcX8nE6j5T+6FOJNndCZIG+cueKQcE1/pDgrnGxB575XB9CFUKmbxR
+         QT3kQCm6Sd74rLGRsBGnUVTu7iX3Wm+jEQuZX7OmlVJMnSNh1+OS23fSMdBOdW971uyg
+         vuRMCxRj4zHkD65fE8BQMHqIlYHngdXhHDXfUKa9wMiR0izwqsQr1nV0O5bjbmU7EQ2V
+         hcUXt+Ntkq1vou3oByEvVJ3q0rxRYb4IEL6w5OKlCSXoExETq/LPxPKkd1ff4/buz0qe
+         L94w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792363020; x=1792967820;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XA4Yvp5dnacGYIL5ySdjfBfiVSd9RvQ/yptcAoqJ8ys=;
+        b=p/WMXlpU1TFXSxzZFpacy67KdA3VDk1Ns2wgdOoMKS7yp15RztX8bVXDCWNEiZiuo5
+         2FZlMOPgzUZmR74SSJweI2zI5i2td8rlAFhPPU72lCEQ5eiY/AF3gYv+jvXntLejnzrT
+         yZJe/HSHAoq7xqIQX+ILbd3YSk+1NjGYhrUs7+51QYxdVGX3qqSuVYUw432H+Z3nogNg
+         3CWSUig5wtMoBgqtdcmwc9OhP6Nxu07mq+PP3x/ANPuQXvHTCKgfxa+sJrrCQaGZwmzA
+         kLSNUozsHpqrzSqdcx0OqFpURZU0qrt+sIimgBGExtFwzxo41owflu1AFmtk4WRQZ6n6
+         Wh7A==
+X-Gm-Message-State: AFq9FYLxIVBKVXIfEQD33GL3qVSAz741Nt06RPtCu9giF2e8tFzgAdxc
+	C89f4g6usoKsAfzCbalmWoDv8IMKsXW+AJ2cQLIGJiu4k4D1p/iplFhvD6yEhg==
+X-Gm-Gg: AYBFou1Viu/RMkOsQ2rky5yAGeMBk2uVk7o0m9jI/3Le7nfCrulhPm+8RVXb9uVEECX
+	J8Fwo6MTuK9mIhy6LQeJxXntgkZUet+23la+wmQMR940uVYYjqs0l5atsxFsypnuPW26jbdyPMD
+	OSK5Lqw7b1UwH19JUJHI+sh65v97ayaAUvrWdMFWeMZA4fkrkP5VHkRo75fi+mKj+9RRbTet49z
+	wM01pfMg2mwBcXMUzyyUqgam7wF8TyknRcgI8oAvoWTjekh8gxSprsEXVDLOizJwxCY5q4dDVw8
+	nD8l0VzcvMouvjnTOhTD3C+sJ2Hyxas4xEZZmz4ZcuVI/nbWtq4Dy4sBoDrMxyK8hA8BU/p41zc
+	e+ohC1YoBEtPCd7ny/TVDYiu5MwaAdC8XGkFSq9VuzPH2PgNs9cXWvh5FWy0hGSekhdoh4HrJg7
+	oNXjHM3Cc2TQCciR5t/wTujbIptl+bsU4tegh/d84js2G4K797WABwbWUKcxXXavyb7uyOaYdh+
+	8X98iWKfC+N5YwIKNOPwOboP3cMP3Ka9D+jcbCbMro0MEBfjA==
+X-Received: by 2002:a17:90b:48c5:b0:3ac:9ed8:f301 with SMTP id 98e67ed59e1d1-3acef4e131cmr3647685a91.30.1792363020189;
+        Sun, 18 Oct 2026 15:37:00 -0700 (PDT)
 Received: from NVAPF55DW0D-IPD.brunswick.com ([203.211.105.219])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac940055f5sm17875989a91.0.2026.10.18.15.36.49
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac940055f5sm17875989a91.0.2026.10.18.15.36.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 15:36:50 -0700 (PDT)
+        Sun, 18 Oct 2026 15:36:59 -0700 (PDT)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][PATCH 1/5] sqlite3: upgrade 3.54.0 -> 3.54.1
-Date: Mon, 19 Oct 2026 11:36:39 +1300
-Message-ID: <20261018223644.291257-1-ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 5/5] librepo: upgrade 1.21.1 -> 1.21.2
+Date: Mon, 19 Oct 2026 11:36:43 +1300
+Message-ID: <20261018223644.291257-5-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261018223644.291257-1-ankur.tyagi85@gmail.com>
+References: <20261018223644.291257-1-ankur.tyagi85@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2026 22:36:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248110
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2026 22:37:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248114
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
 Changelog:
-https://www.sqlite.org/releaselog/3_54_1.html
+https://github.com/rpm-software-management/librepo/releases/tag/1.21.2
 
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../sqlite/{sqlite3_3.54.0.bb => sqlite3_3.54.1.bb}             | 2 +-
+ .../librepo/{librepo_1.21.1.bb => librepo_1.21.2.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.54.0.bb => sqlite3_3.54.1.bb} (97%)
+ rename meta/recipes-devtools/librepo/{librepo_1.21.1.bb => librepo_1.21.2.bb} (94%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.54.0.bb b/meta/recipes-support/sqlite/sqlite3_3.54.1.bb
-similarity index 97%
-rename from meta/recipes-support/sqlite/sqlite3_3.54.0.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.54.1.bb
-index 96c9d76558..681b8e1e20 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.54.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.54.1.bb
-@@ -22,7 +22,7 @@ B = "${WORKDIR}/build"
- SRC_URI = "http://www.sqlite.org/2026/sqlite-autoconf-${SQLITE_PV}.tar.gz"
- SRC_URI += "file://0001-Add-option-to-disable-zlib.patch"
+diff --git a/meta/recipes-devtools/librepo/librepo_1.21.1.bb b/meta/recipes-devtools/librepo/librepo_1.21.2.bb
+similarity index 94%
+rename from meta/recipes-devtools/librepo/librepo_1.21.1.bb
+rename to meta/recipes-devtools/librepo/librepo_1.21.2.bb
+index 9cefbfd48e..ab60e76b6e 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.21.1.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.21.2.bb
+@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;pr
+            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
+            "
  
--SRC_URI[sha256sum] = "134ec0802dda5795816e25d25872d20b312cb3973438c49b30bc40b7705ea9ed"
-+SRC_URI[sha256sum] = "926ef8d3eab93fbf6e06011901273eec076b25594a4e1cdadd50c987f4f6d64e"
+-SRCREV = "86ed082e25bbd1901d21d75924297c7697b33307"
++SRCREV = "f892f216a8f7934f32846712f56a27f997b300a3"
  
- UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
- UPSTREAM_CHECK_REGEX = "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
+ DEPENDS = "curl glib-2.0 openssl attr gpgme libxml2"
+ 
 
