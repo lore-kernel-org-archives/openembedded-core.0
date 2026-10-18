@@ -1,190 +1,275 @@
-Return-Path: <roy@0xbadcaffe.dev>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B6DCCA490
-	for <webhook@archiver.kernel.org>; Sun, 18 Oct 2026 19:53:52 +0000 (UTC)
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20549.1792353223968400549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D067CCF2C4
+	for <webhook@archiver.kernel.org>; Sun, 18 Oct 2026 22:03:03 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.22466.1792360976273378252
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2026 12:53:44 -0700
+ Sun, 18 Oct 2026 15:02:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@0xbadcaffe.dev header.s=fm3 header.b=NQw0RXUC;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=pUFn7Mmm;
- spf=pass (domain: 0xbadcaffe.dev, ip: 103.168.172.149, mailfrom: roy@0xbadcaffe.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id E27D7EC0070
-	for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2026 15:53:42 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sun, 18 Oct 2026 15:53:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=0xbadcaffe.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm3; t=1792353222; x=1792439622; bh=q231cGnBmu
-	vHKavpCTKWbBS+REXmSA7gOJrR1l87uEI=; b=NQw0RXUC/p4obqoWc1FbkJQu7O
-	B/uFQyEtdH7EuMu5+j6RCvXKlL8JjJxVMB1XDcMJxB0pvwzI6bmOUvH1JjD+GWDy
-	XRDOU9qVcNqnx/Kubi0PxIZIJkP8qEtw+D11pQcALRksBLynYp7uX7F/PD/o9kKv
-	9YcUBpLUdLzlqm8gXQlRW6gSrtipKcpV6SEYQjs5fHQ4I9ZJsCLipbqP90nJfhKE
-	Kg3zdtmAy9gvqssFfDQMQ+RYHkE+koCgiGCvP8Jwb83LJxBm8LI8UxVHl5geOuwM
-	+I5QxP+sJlUjIMgPmVfxep/nWWPlRuh/WT+IdmRcjqQ43NhdN6e519CmlRpA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1792353222; x=1792439622; bh=q231cGnBmuvHKavpCTKWbBS+REXmSA7gOJr
-	R1l87uEI=; b=pUFn7MmmQH8elwWUj66bOCrTcY5WjZvFQzHQ5jRbiczamPBCJjq
-	Y8S1kQSo/yhCBpDWZbGMpeB0wemgfoe+sbAy9vxuZKrqe2fBN3Q1VZZ/qcmglgAs
-	I1Mhya7g9upZJU3Ryyu5uKhMPTaSAI7xa/xqAcyFjwHnfsJYCPyspf5aEPbjjajx
-	ro2w9DED4KasP5SqZZ/Ltw9SkWJx1qE1ZzXiljTqI6wlrjPZbFDvbRUXnFeZKAGe
-	4J7/2qzhMSAWSW6BgiKE6t4U+h5zfQHnz/4HNOEAS/my2O6pVgSBbcxvOWWY3h5O
-	PZAvyna+VRBTlV3mKR3JJSw9uN3f1NphbFA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=sign d=0xbadcaffe.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792353222; d=0xbadcaffe.dev;
-	mf=PHJveUAweGJhZGNhZmZlLmRldj4=;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm3:rsa-sha256:WqiBPcLvqpHkomFA9I+TpIceXgVqAmYenIU1IpM0Enfprdd
-	g5YvDMbtvA6UW5Q2NwbXFfXhqrLNgbiDjS8K6/9AabLwmvIuUxGZ7EQYV9u0zWtE
-	vobtf8OZSDVuRqYQG7R9j4IIGfmV6i+lCRHPLKEw/rLQuHw3bAy5yh554QFNA3z6
-	OX9Bcn1TvevmKtRuwsKD0u7yLCCAVvmXQBBgxLvQ2o2Jg3BHFz0ZiR5H11vzU+U4
-	ZYCxHF2A2duxKDhj8eUm1ylIx8VjUvd9LzCTiFF8YwY/u58p5SFu82LOF7MY6Y4F
-	OtSHd30hIN509hJmupmGet+ArATwkS6u3GtB8WA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=mi-m=1; hc=9;
-	hn=cc,content-transfer-encoding,date,feedback-id,from,
-	message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:ePP28pWIPRcPFITvIGDUujLWXmKRDaKZRAxxCxD2IwI=:83pfcv9d5mf/uSBVk1YsyPfE7DIb/+TEVDUK69XCA0Y=;
-X-ME-Sender: <xms:xiPValZ7djq5T9a1lbGtiJcuEWFDY0LCRzeN-HZOMNfHpXQDNg32qw>
-    <xme:xiPVaiZnHXesce0bKEjbl_HkExH3a7MJlt1sGuirIMhhqBYwLh8bb7rfXm5NoT98F
-    E3beACJKuzxUoUtotnOW7nVVsfRiHM2KXJJD5YwCAlrbaRU7js2UdQlSA>
-X-ME-Received: <xmr:xiPValkFgmHWw_5zQS9j6JZ_hexNW2IsN8Tlt45ZFF6mNeNbIz9JFfHYFHpEw3-l5EftytZaGhX3IlpdGmOY3ZyFlys>
-X-ME-Proxy-Cause: dmFkZTGWNytIrSmImVRx/SbK5UHqwO+NFSYpqYPgCBhXg97HF75OLuJrBnCXyt55CmgcbV
-    2s9pT9VEoq7tkvzHVeojwSpkBSM/xduWf9IS05Tnz4WdYXZEshO0qpY9+EmNHifltXqpZn
-    4axR/qVe55fS/NmR+36TRuslja+TPDEGZ45dNvH+vm7FnW/Z5OXA/IDVqU+McelqAJyyLe
-    94fQBa4ZSCoLQx3k7vjOfXp/+0PiA5Kvs++BeIulvnq2n63VzEAA2P2JIZwacK8V+OZanS
-    AzFK82lof4CeIjfPMwnFj/vv9uZodtO3Zt+/EwhqCixRSrweQ36SLdoaXKHBwjfhxkq/sW
-    s8hUihbhYIH8XQ8pU+NZy6NcWvKWTjW5F2XQHMD24YTxxtWX8qrXiMHC6FHHvhaUuIcpDo
-    ptGwRbTD+UQcTRqNcyqXL+516c9FlTToSCL5KDMguUya6WshsOdxlMMPIGYNt5bE0NnYfZ
-    fvdfSymMEQu/xQQWNpmomX+y2yZRt8pfwIMObpdSscMy+/vD7JuNH6TqBY73v2XzBMokhq
-    E1r+Hj0E4S5vplnN7E0vNEPikxWHPf6KmwT9q7sgdrLMJTco2NveOgNtRvoJFf7eUBgnE7
-    j8iRkX3n7SCJiB9q3Nu/kA1/uN1SFGlNF27HMuQTyCuYDsYp+qvX50SVfxAw
-X-ME-Proxy: <xmx:xiPVauyFEJllcFka3_MedAw54Z2WDD5PENumVG_ua9xjDvaCUuvohg>
-    <xmx:xiPVajOLsQs9HQ4WsQEfzWKx2vo2V5wyBl5ALEGWHm3DOINQYDQ8gA>
-    <xmx:xiPVaiQCRKjWF7vsUOuOiNxR-ZBrGYCn34vttlRr6km8vBaSXZJkJg>
-    <xmx:xiPVahb0pctnEDCutsCNwLQokaVY1WiOPtKQU1gK44d1G-_Tf7hELg>
-    <xmx:xiPVav9opABU7sMYHkq9Eb0BTw44L4O55lFEAUzbA5Eh8kNWc972xorm>
-Feedback-ID: iec764b53:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 18 Oct 2026 15:53:41 -0400 (EDT)
-From: roy@0xbadcaffe.dev
-To: openembedded-core@lists.openembedded.org
-Cc: Roy Cohen <roy@0xbadcaffe.dev>
-Subject: [PATCH] oe.patch: fix Git note identity in commitIgnored
-Date: Sun, 18 Oct 2026 22:53:34 +0300
-Message-ID: <20261018195334.3822636-1-roy@0xbadcaffe.dev>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@smile.fr header.s=google header.b=SN1ks4l+;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48de6a62a4cso1186609f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2026 15:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1792360974; x=1792965774; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=g0ip9heKpcn/AuHZWZbjFnM4ekz1+zqZxd5rBU4mbDQ=;
+        b=SN1ks4l+VLvcpJrjCgUUTYGWPKI5+l/G7IkIh0XKbx+POY5OUeaVzJBUpECJXI5RmG
+         +b+pG5QBDzdXQFueie3+xTYvRfDbuQSXQBa6G/6itu61pVdoSaAVLqQkHM26xJqRbAw7
+         9HPKIWWP8Q1Ch+qut1c+RSiUTV+QLKxyXhJGQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792360974; x=1792965774;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=g0ip9heKpcn/AuHZWZbjFnM4ekz1+zqZxd5rBU4mbDQ=;
+        b=x24vSUZEZtVqkheSgTgw1UAaZnhEc0Rx6Tt0JnBgtkWms7pTdmZK1IuYvGuP3y7rO1
+         SxSS5sUZ4VR6Z1YMSDAHIvFrD46ggVK2Ay0lXPcDR41/kP6LQp28IaKRAMNxJ5+RGRPT
+         3UO7l0eS6MsQdbYAiXXjFaWqbDErUhNTY/iwDncxdc4aP39SXwBTjbnMP+i6UVf74U/0
+         96gt9m7x+u4ykace+Dd0M3nnm1Q2xXb8YegepDyIB1s/aAuhOdISwpJvKzznyjuNtTwF
+         xSGjGG/0u4nExnMYKN9ZtnE3XSblSRt0O92lNmGU4NWrmkaDWrd/a/nteC9PwrKd55NZ
+         fG3Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxg6skz3WhUMO/co8w2HS1fvffSgpkHbsYvODRw40WrbK3XlDpmc8aQEXg2IYVN5VZraYA4TkVNVDNbxd42bxO9zQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYLZyC4sCzLiua4p+/zalBz1aWmyQdCmTW/tZxm9nfCAEMi3GVt8
+	GJSkhCGe4+EUECrV+TQgEJKI+JmtFwFJlV3kIo9SF3mNqovoPtLM0XWmy8bH+lpIOKM=
+X-Gm-Gg: AYBFou3h6u1dZOJ7nWhN0nk7VJmyqs5V52nXnm6l3QxUiXBZ5U7aTZOmFPau/Wq6zbR
+	hxcE1YOR2irB9aNjVstESpYrDuFpzHZJZztdknSeyaAXcjChjmHMKUMFGPxgDTikah0nweqCj5r
+	BQuoqrtaUiZKQRxcJ+2Jp/zWh6mWObE71a/5dBhQ9XEdHvXT6KGyZ/Bio7OO5TeRei8tp6GX+5q
+	W+TnVNn6F05iSDCe7SChfPZLfRYdpDkhMDZZUycx9QEvzXaEAECTglbBfxUVvZtZmpvBTpnOWCh
+	sx+TcCs0hlXZld/tcCKTTXxTEWS/v1hWB48tIhzUSg+1svTfYke9bivas+z1s+G9GgTUiKCV3Ly
+	GgTDaspau00b2ByucvC2uz9Ey3d9Udx7NjxkOCbGdrp9GpQ1i7eMd/f8x9TClyc55YLG56+rYwO
+	zRypMvFy3F/+An11XjvIGizoVqbMktAq0H0NqGFrJeX0hNLkdnbN0u/IGyrxEfUrmJ1Vnjdea/L
+	2R+WjvWRQ/y/RYOnMTh0QsVCYCUyvsIrTc1sxqXv5OUWZGXSOcrHA0Y9vuyHRcYUzBpYaxF
+X-Received: by 2002:a5d:5f47:0:b0:48e:bf0:35c with SMTP id ffacd0b85a97d-48e0bf00821mr9212131f8f.13.1792360974161;
+        Sun, 18 Oct 2026 15:02:54 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4c5957sm18707027f8f.9.2026.10.18.15.02.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Oct 2026 15:02:53 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Oct 2026 00:02:55 +0200
+Message-Id: <DM8AXT43G3ZB.BY4ZLM8UIUQP@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH] curl: fix CVE-2026-80230
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261016134019.52968-1-jaipaul.cheernam@est.tech>
+ <2398061.1792329514407910312@lists.openembedded.org>
+In-Reply-To: <2398061.1792329514407910312@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2026 19:53:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248108
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2026 22:03:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248109
 
-From: Roy Cohen <roy@0xbadcaffe.dev>
+On Sun Oct 18, 2026 at 3:18 PM CEST, Darsh Kelaiya -X (dkelaiya - E INFOCHI=
+PS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> Hi Yoann, Jaipaul,
+>
+> I=E2=80=99m preparing a six-patch curl CVE fix series for Wrynose. One of=
+ the
+> patches addresses CVE-2026-80230 using the same upstream fix and curl
+> 8.19.0 adaptation as Jaipaul=E2=80=99s submission here. The other five pa=
+tches
+> address additional CVEs.
+>
+> Would you prefer that I submit the complete series with the overlap
+> noted in the cover letter, or omit the CVE-2026-80230 patch and submit
+> the remaining five based on Jaipaul=E2=80=99s change?
 
-GitApplyTree.commitIgnored() passes the Git user name and email
-as positional arguments to addNote(), incorrectly assigning them
-to value and commituser.
+Hello,
 
-Pass these as keyword arguments to ensure Git notes can be created
-without relying on global Git configuration.
+Send it on top of Jaipaul's please. No need to resend the CVE-2026-80230
+patch.
 
-Add a regression test verifying the note content and Git identity.
+Thanks!
 
-Fixes [YOCTO #15989]
+>
+> Thanks,
+> Darsh
+>
+> On Fri, Oct 16, 2026 at 07:10 PM, Jaipaul Cheernam wrote:
+>
+>>=20
+>> Backport the upstream fix [1] as mentioned in [2]
+>>=20
+>> [1] https://github.com/curl/curl/commit/5267ed859d545534d0c21
+>> [2] https://curl.se/docs/CVE-2026-80230.html
+>>=20
+>> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+>> ---
+>> Note: SRC_URI indentation is corrected by devtool
+>>=20
+>> .../curl/curl/CVE-2026-80230.patch | 68 +++++++++++++++++++
+>> meta/recipes-support/curl/curl_8.19.0.bb | 62 ++++++++---------
+>> 2 files changed, 99 insertions(+), 31 deletions(-)
+>> create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80230.patch
+>>=20
+>> diff --git a/meta/recipes-support/curl/curl/CVE-2026-80230.patch
+>> b/meta/recipes-support/curl/curl/CVE-2026-80230.patch
+>> new file mode 100644
+>> index 0000000000..5a6bb35986
+>> --- /dev/null
+>> +++ b/meta/recipes-support/curl/curl/CVE-2026-80230.patch
+>> @@ -0,0 +1,68 @@
+>> +From 7d34e6397166b10600c2ced93f95641d5e7c1575 Mon Sep 17 00:00:00 2001
+>> +From: Daniel Stenberg <daniel@haxx.se>
+>> +Date: Mon, 24 Aug 2026 23:37:49 +0200
+>> +Subject: [PATCH] openssl: no server cert is only okay if also not pinne=
+d
+>> +
+>> +Reported-by: Stanislav Fort
+>> +Closes #22660
+>> +
+>> +CVE: CVE-2026-80230
+>> +Upstream-Status: Backport [ https://github.com/curl/curl/commit/5267ed8=
+59d545534d0c21675a2b70af5a3b6e3ef
+>> ]
+>> +
+>> +Note: CURL_EASY_STR() macro does not exist in 8.19.0, so the pinned()
+>> +accesses data->set.str[] directly instead.
+>> +
+>> +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+>> +---
+>> + lib/vtls/openssl.c | 26 +++++++++++++++-----------
+>> + 1 file changed, 15 insertions(+), 11 deletions(-)
+>> +
+>> +diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
+>> +index 1cf357c..cb6fcc4 100644
+>> +--- a/lib/vtls/openssl.c
+>> ++++ b/lib/vtls/openssl.c
+>> +@@ -4607,21 +4607,24 @@ out:
+>> + return result;
+>> + }
+>> +
+>> +-static CURLcode ossl_check_pinned_key(struct Curl_cfilter *cf,
+>> +- struct Curl_easy *data,
+>> +- X509 *server_cert)
+>> ++static const char *pinned(struct Curl_cfilter *cf,
+>> ++ struct Curl_easy *data)
+>> + {
+>> +- const char *ptr;
+>> +- CURLcode result =3D CURLE_OK;
+>> +-
+>> + (void)cf;
+>> ++ return
+>> + #ifndef CURL_DISABLE_PROXY
+>> +- ptr =3D Curl_ssl_cf_is_proxy(cf) ?
+>> ++ Curl_ssl_cf_is_proxy(cf) ?
+>> + data->set.str[STRING_SSL_PINNEDPUBLICKEY_PROXY] :
+>> +- data->set.str[STRING_SSL_PINNEDPUBLICKEY];
+>> +-#else
+>> +- ptr =3D data->set.str[STRING_SSL_PINNEDPUBLICKEY];
+>> + #endif
+>> ++ data->set.str[STRING_SSL_PINNEDPUBLICKEY];
+>> ++}
+>> ++
+>> ++static CURLcode ossl_check_pinned_key(struct Curl_cfilter *cf,
+>> ++ struct Curl_easy *data,
+>> ++ X509 *server_cert)
+>> ++{
+>> ++ CURLcode result =3D CURLE_OK;
+>> ++ const char *ptr =3D pinned(cf, data);
+>> + if(ptr) {
+>> + result =3D ossl_pkp_pin_peer_pubkey(data, server_cert, ptr);
+>> + if(result)
+>> +@@ -4803,7 +4806,8 @@ CURLcode Curl_ossl_check_peer_cert(struct
+>> Curl_cfilter *cf,
+>> + server_cert =3D SSL_get1_peer_certificate(octx->ssl);
+>> + if(!server_cert) {
+>> + /* no verification at all, this maybe acceptable */
+>> +- if(!(conn_config->verifypeer || conn_config->verifyhost))
+>> ++ if(!(conn_config->verifypeer || conn_config->verifyhost) &&
+>> ++ !pinned(cf, data))
+>> + goto out;
+>> +
+>> + failf(data, "SSL: could not get peer certificate");
+>> diff --git a/meta/recipes-support/curl/curl_8.19.0.bb
+>> b/meta/recipes-support/curl/curl_8.19.0.bb
+>> index 0573e08ea4..c2697d6dd8 100644
+>> --- a/meta/recipes-support/curl/curl_8.19.0.bb
+>> +++ b/meta/recipes-support/curl/curl_8.19.0.bb
+>> @@ -9,37 +9,37 @@ SECTION =3D "console/network"
+>> LICENSE =3D "curl"
+>> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0515352b285b9c3f66464b135c9c0=
+fdc"
+>>=20
+>> -SRC_URI =3D " \
+>> - https://curl.se/download/ ${BP}.tar.xz \
+>> - file://run-ptest \
+>> - file://disable-tests \
+>> - file://no-test-timeout.patch \
+>> - file://CVE-2026-6276.patch \
+>> - file://CVE-2026-5773.patch \
+>> - file://mbedtls.patch \
+>> - file://CVE-2026-5545.patch \
+>> - file://CVE-2026-6253.patch \
+>> - file://CVE-2026-6429-dependent.patch \
+>> - file://CVE-2026-6429.patch \
+>> - file://CVE-2026-7168.patch \
+>> - file://CVE-2026-4873.patch \
+>> - file://CVE-2026-8286.patch \
+>> - file://CVE-2026-8927.patch \
+>> - file://CVE-2026-8932-dependent.patch \
+>> - file://CVE-2026-8932.patch \
+>> - file://CVE-2026-11352.patch \
+>> - file://CVE-2026-11586.patch \
+>> - file://CVE-2026-7009.patch \
+>> - file://CVE-2026-8925.patch \
+>> - file://CVE-2026-9080.patch \
+>> - file://CVE-2026-9545-01.patch \
+>> - file://CVE-2026-9545-02.patch \
+>> - file://CVE-2026-9079.patch \
+>> - file://CVE-2026-13608.patch \
+>> - file://CVE-2026-80229.patch \
+>> - file://CVE-2026-9546-01.patch \
+>> - file://CVE-2026-9546-02.patch \
+>> -"
+>> +SRC_URI =3D " https://curl.se/download/ ${BP}.tar.xz \
+>> + file://run-ptest \
+>> + file://disable-tests \
+>> + file://no-test-timeout.patch \
+>> + file://CVE-2026-6276.patch \
+>> + file://CVE-2026-5773.patch \
+>> + file://mbedtls.patch \
+>> + file://CVE-2026-5545.patch \
+>> + file://CVE-2026-6253.patch \
+>> + file://CVE-2026-6429-dependent.patch \
+>> + file://CVE-2026-6429.patch \
+>> + file://CVE-2026-7168.patch \
+>> + file://CVE-2026-4873.patch \
+>> + file://CVE-2026-8286.patch \
+>> + file://CVE-2026-8927.patch \
+>> + file://CVE-2026-8932-dependent.patch \
+>> + file://CVE-2026-8932.patch \
+>> + file://CVE-2026-11352.patch \
+>> + file://CVE-2026-11586.patch \
+>> + file://CVE-2026-7009.patch \
+>> + file://CVE-2026-8925.patch \
+>> + file://CVE-2026-9080.patch \
+>> + file://CVE-2026-9545-01.patch \
+>> + file://CVE-2026-9545-02.patch \
+>> + file://CVE-2026-9079.patch \
+>> + file://CVE-2026-13608.patch \
+>> + file://CVE-2026-80229.patch \
+>> + file://CVE-2026-9546-01.patch \
+>> + file://CVE-2026-9546-02.patch \
+>> + file://CVE-2026-80230.patch \
+>> + "
+>>=20
+>> SRC_URI:append:class-nativesdk =3D " \
+>> file://environment.d-curl.sh \
 
-Signed-off-by: Roy Cohen <roy@0xbadcaffe.dev>
----
- meta/lib/oe/patch.py                        |  2 +-
- meta/lib/oeqa/selftest/cases/oelib/patch.py | 46 +++++++++++++++++++++
- 2 files changed, 47 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 2277e8835d..f8fc63ac00 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -520,7 +520,7 @@ class GitApplyTree(PatchTree):
-         GitApplyTree.gitCommandUserOptions(cmd, d=d)
-         cmd += ["commit", "-m", subject, "--no-verify", "--no-gpg-sign"]
-         runcmd(cmd, dir)
--        GitApplyTree.addNote(dir, "HEAD", GitApplyTree.ignore_commit, d.getVar('PATCH_GIT_USER_NAME'), d.getVar('PATCH_GIT_USER_EMAIL'))
-+        GitApplyTree.addNote(dir, "HEAD", GitApplyTree.ignore_commit, commituser=d.getVar('PATCH_GIT_USER_NAME'), commitemail=d.getVar('PATCH_GIT_USER_EMAIL'))
- 
-     @staticmethod
-     def extractPatches(tree, startcommits, outdir, paths=None):
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/patch.py b/meta/lib/oeqa/selftest/cases/oelib/patch.py
-index 8492549764..1b7d17813e 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/patch.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/patch.py
-@@ -10,6 +10,7 @@ import subprocess
- import sys
- import tempfile
- from unittest.case import TestCase
-+from unittest.mock import patch
- 
- import oe.patch
- 
-@@ -280,3 +281,48 @@ class TestGitApplyTree(TestCase):
-                 "2021-01-01T12:34:56Z",
-             ))
-             self.assert_note_and_extract(repo, patchname, "+plain diff change")
-+
-+    def test_commit_ignored_uses_explicit_identity(self):
-+        with tempfile.TemporaryDirectory(prefix="oe-gitapply-note-") as tmpdir:
-+            repo = self.make_repo(tmpdir, "source")
-+
-+            self.git(repo, "config", "--local", "--unset", "user.name")
-+            self.git(repo, "config", "--local", "--unset", "user.email")
-+
-+            with open(os.path.join(repo, "file.txt"), "a") as f:
-+                f.write("generated change\n")
-+
-+            env = {
-+                "PATH": os.environ.get("PATH", os.defpath),
-+                "HOME": tmpdir,
-+                "GIT_CONFIG_GLOBAL": os.devnull,
-+                "GIT_CONFIG_NOSYSTEM": "1",
-+            }
-+
-+            with patch.dict(os.environ, env, clear=True):
-+                oe.patch.GitApplyTree.commitIgnored(
-+                    "Add generated changes",
-+                    dir=repo,
-+                    files=["file.txt"],
-+                    d=PatchTestDataStore(tmpdir),
-+                )
-+
-+                note = oe.patch.runcmd([
-+                    "git", "notes", "--ref",
-+                    oe.patch.GitApplyTree.notes_ref,
-+                    "show", "HEAD",
-+                ], repo)
-+
-+                identity = oe.patch.runcmd([
-+                    "git", "log", "-1",
-+                    "--format=%an%n%ae%n%cn%n%ce",
-+                    oe.patch.GitApplyTree.notes_ref,
-+                ], repo).splitlines()
-+
-+            self.assertEqual(note.strip(), oe.patch.GitApplyTree.ignore_commit)
-+            self.assertEqual(identity, [
-+                "OE Test",
-+                "oe-test@example.com",
-+                "OE Test",
-+                "oe-test@example.com",
-+            ])
+--=20
+Yoann Congal
+Smile ECS
+
 
