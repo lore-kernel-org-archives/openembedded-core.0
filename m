@@ -2,74 +2,75 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EAFDCCF2DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A09F6CCF2E3
 	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 06:43:33 +0000 (UTC)
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28813.1792392205794689588
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28814.1792392206059043169
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2026 23:43:27 -0700
+ Sun, 18 Oct 2026 23:43:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=N0Mkpg9a;
- spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VV30YKyl;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6557; q=dns/txt;
-  s=iport01; t=1792392207; x=1793601807;
+  d=cisco.com; i=@cisco.com; l=3163; q=dns/txt;
+  s=iport01; t=1792392206; x=1793601806;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+RRrR0R3b70wKGNoBZ3NsqrUSI48gLYYobqeyO8Blsk=;
-  b=N0Mkpg9aNeP+qC1d0ZBRqtamPjfigWFT2j2qxxcAWPEAdHY02Jv7g4Q0
-   Zv9MXd+GgyS4r8N7cSfVxa6nQzufb6RPy3Vws2WvlbiTyG0TbSG2W9L8c
-   3ZgwbeIKoYc/Kn4k11jYDlNnd3qg9gaIrOP3SeFOBiUXhGXCfWyyA913X
-   ciI13CQoRsvlPy1cCoFT8zuh+hCKEFJGoYPBmWWZz7tnSfCLnrUWFkZ9o
-   tBp0wxlV2wJdlxB1zYEhFxV8YW4kIhBfCsSL7An10OM38y05JO1vJAsm7
-   nP/cDz9JKWFAVAJZc3AyrfbYOcvxEaEZTzav9IUOq1abllwe49ovwN1im
-   w==;
-X-CSE-ConnectionGUID: ofCgf3FqQ76HmvWGkDRKGQ==
-X-CSE-MsgGUID: TykQ/MLnQ1CZUlu8DRYZ4g==
+  bh=B2XFghZ/d7zWU8L9Iuccc9vF2Rg+kD2nXiVzDRyzPvo=;
+  b=VV30YKyllG52TzBo/dBnpSzK2wWzCDSr4qoWutOzJ/blvBqrsYU8DwT4
+   Gh3yUeEbqFXmx3o0UiR1rXbZ04ab+D0udU4IwQu/BYhCDenuwFxSxRx+4
+   T23VPbRp5Pa34XalHrePLI917/5DhAEYteKFBCf1mB9D799GmR5o4vRB8
+   rGVw5fPs+d5DgbKgxfvYuVIVgHRE1tiHJWhwk9DUeKqPSa7B4IUmG2q1o
+   6q2JDiQpCawIJ/kNSnMJzzWUfZcRx+zs1gDuzWGVqpuNFtWSZutYcJ6rI
+   053griBkTZkP9TKBwD0p7vi3cXNIQ+LtxqOmaD5p1mWfpPjdG1GV8lYPi
+   Q==;
+X-CSE-ConnectionGUID: AEARg5QHRHOaOsH+FQvviw==
+X-CSE-MsgGUID: VlSkR1FUT42gK04Fg/g2yg==
 X-IPAS-Result: =?us-ascii?q?A0BIAgBsu9Vq/5T/Ja1aglmCV3VgQ0mWSgOeHIF+DwEBA?=
  =?us-ascii?q?Q9EDQQBAYUFAo4VAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDZASAQIBAycLARgBLRAcAwECLysjCBAJgwIBgnQDEQa9HRs3gXkzg?=
- =?us-ascii?q?QGDKQE/AgJAAVDbMgELFAGBOIVAiCNdGAGEfCcbG4FyhH6BBYFcAgGIJASCI?=
- =?us-ascii?q?noSgVoegUiTd0iBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdg?=
- =?us-ascii?q?SCCFiMZNnqBCV6BKylgARAXgQmCBwKCVIIAAgFJQQ4HRVMJJUMSRyYiCBIJA?=
- =?us-ascii?q?RMaMAuBGzg8CShBFwxzDB0FcggCDQkHTRgNSBEsNxUZBD5uB5IqHoJeBQJhL?=
- =?us-ascii?q?QEpAoILMpMnB5I3oQ8KKIN2jCKVOhozqm8LmH2OCpVoaIRpgWg8gVlwFYMiC?=
- =?us-ascii?q?RY0GQ+OLgsLg2CGQMgaJzICCTIBAQcCBw4DC4FokAAqgVQBAQ?=
-IronPort-Data: A9a23:zDVd2ao+H8dnBCW7SDxCnpoYhXJeBmJJZBIvgKrLsJaIsI4StFCzt
- garIBnQO/eJZjHyfot+Pdjl/U4DvcPRmIQ3SFc9ryg8FC0W9OPIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOWn9T8jhfngqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgDNNwJcaDpOtfvb8UI35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0uF5Km5Ar
- tIBEW9TThWduM217IiYZdA506zPLOGzVG8ekmtrwTecCbMtRorOBvyTo9RZxzw3wMtJGJ4yZ
- eJANmEpN0uGOUASfA5LWPrSn8/w7pX7WzFbpVacpLs+y2PS1wd2lrPqNbI5f/TXHpoNxx7C/
- D2uE2LRPgAZDZu67Ty8q1meu+vSzQ/BabBOG+jtnhJtqBjJroAJMzURTVa9rPyzh0KyVt4aI
- EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymXwabSpgLcDW8eQ3sYMZottdQ9Qnoh0
- Vrhc87VOAGDeYa9ERq1nop4ZxvoUcTJBQfuvRM5cDY=
-IronPort-HdrOrdr: A9a23:z/E/L67JhcTwgHmdlAPXwOrXdLJyesId70hD6qm+c3Nom6uj5q
- eTdZsgtCMc5Ax9ZJhko6HjBEDiewK5yXcK2+ks1N6ZNWGM0ldAbrsSiLcKqAePJ8SRzIJgPN
- 9bAstDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhFQpcUAUdAZ0++/YTzra3FLeA==
-X-Talos-CUID: 9a23:Jt8dVmMhkhmdXu5DXydM+0BPNNkcLSP9yWnvDEyUM0VGcejA
-X-Talos-MUID: 9a23:G7A5fwtQsVPxp7ZzP82nuCBhDYBNx6KXUWs/rJEb6+W+BB4sNGLI
+ =?us-ascii?q?YEOE4ZPDZASAQIBAycLARgBLRAcAwECLysjCBmDAgGCdAMRBr0dGzeBeTOBA?=
+ =?us-ascii?q?YMpAT8CAkABUNsyAQsUAYE4hUCII10YAYR8JxsbgXKEfoEFgVwCAYgkBIIie?=
+ =?us-ascii?q?hKBWh6VP0iBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdgSCCF?=
+ =?us-ascii?q?iMZNnqBCV6BKylgARAXgQmCBwKCVIIAAgFJQQ4HRVMJJUMSRyYiCBIJARMaM?=
+ =?us-ascii?q?AuBGzg8CShBFwxzDB0FcggCDQkHTRgNSBEsNxUZBD5uB5IqHoJkAWEtASkCg?=
+ =?us-ascii?q?j2TJpI/oQ8KKIN2jCKVOhozqm8LmH2OCpZQhGmBaDyBWXAVgyIJFjQZD445g?=
+ =?us-ascii?q?2uGQMgaJzICCTIBAQcCBw4DC4FokX4BAQ?=
+IronPort-Data: A9a23:ZTpqk6i9Mo/rfIULGYf/yUsNX161MREKZh0ujC45NGQN5FlHY01je
+ htvDDjQP6nYM2SmLtxxO4Ti/BsBuZ6AmoUwTgE+/iw2FShjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNs/vS8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUx189NDjx31
+ cY4DzkqdTDAqduo3rOkH7wEasQLdKEHPasFsX1miDWcBvE8TNWaGuPB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZgd/5JEWxI9EglHzcDBcoVOErII84nPYy0p6172F3N/9J4fVHJUFzx7Gz
+ o7A11r9ORIgbfKi9Wbf/VH02sHA2iyhSY1HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBF2cHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn2891te5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:8MXHF6rKOvB4xfdaXvtI/x4aV5oJeYIsimQD101hICG9vPb2qy
+ nIpoV96faaslcssR0b9OxofZPwI080lqQFhbX5Q43DYOCOggLBR+tfBMnZsljd8kbFmNK1u5
+ 0NT0EHMqySMXFKyeDn/QK/D9EshPOD8KyumKPi6k0Fd3ANV0mlhD0Jcjpy1SZNNXB7OaY=
+X-Talos-CUID: =?us-ascii?q?9a23=3AoXEtDGmvyb56CHUE2TFooULTEq7XOVTw5U3ffna?=
+ =?us-ascii?q?YM0ZOQZqOaRy+wb16ktU7zg=3D=3D?=
+X-Talos-MUID: 9a23:BGvdVAhygUCR6MkqsnAfS8MpCsNT4J73Jn0xzc8JmJHYGyM3NG2Mg2Hi
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,167,1787011200"; 
-   d="scan'208";a="537010227"
+   d="scan'208";a="537188906"
 Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Oct 2026 06:43:25 +0000
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Oct 2026 06:43:25 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id D959D18000163;
-	Mon, 19 Oct 2026 06:43:24 +0000 (GMT)
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 17B3A180002EA;
+	Mon, 19 Oct 2026 06:43:25 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 6BCFACBF202; Sun, 18 Oct 2026 23:43:24 -0700 (PDT)
+	id 9CE90CBF204; Sun, 18 Oct 2026 23:43:24 -0700 (PDT)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 2/5] curl: fix CVE-2026-11564
-Date: Sun, 18 Oct 2026 23:43:17 -0700
-Message-Id: <20261019064320.3978613-3-dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 4/5] curl: fix CVE-2026-82208
+Date: Sun, 18 Oct 2026 23:43:19 -0700
+Message-Id: <20261019064320.3978613-5-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261019064320.3978613-1-dkelaiya@cisco.com>
 References: <20261019064320.3978613-1-dkelaiya@cisco.com>
@@ -82,173 +83,90 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 06:43:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248137
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248133
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
 
-Restore the upstream native CA and proxy-origin comments while
-retaining the curl 8.19.0 option-completion API.
-
-[1] https://github.com/curl/curl/commit/d69bfad3fa3daf5e72331f6870667607828d5891
-[2] https://curl.se/docs/CVE-2026-11564.html
+[1] https://github.com/curl/curl/commit/ed0338befd1d865a8ea1fbaa90013a096dedd07a
+[2] https://curl.se/docs/CVE-2026-82208.html
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../curl/curl/CVE-2026-11564.patch            | 132 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
- 2 files changed, 133 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11564.patch
+ .../curl/curl/CVE-2026-82208.patch            | 52 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-82208.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-11564.patch b/meta/recipes-support/curl/curl/CVE-2026-11564.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-82208.patch b/meta/recipes-support/curl/curl/CVE-2026-82208.patch
 new file mode 100644
-index 0000000000..539236228c
+index 0000000000..2c733de210
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-11564.patch
-@@ -0,0 +1,132 @@
-+From d69bfad3fa3daf5e72331f6870667607828d5891 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2026-82208.patch
+@@ -0,0 +1,52 @@
++From ed0338befd1d865a8ea1fbaa90013a096dedd07a Mon Sep 17 00:00:00 2001
 +From: Stefan Eissing <stefan@eissing.org>
-+Date: Mon, 8 Jun 2026 10:11:30 +0200
-+Subject: [PATCH] ssl native_ca_store: always reinit
++Date: Wed, 26 Aug 2026 13:46:13 +0200
++Subject: [PATCH] wolfssl: do not run Curl_wssl_setup_x509_store() twice
 +
-+Add bit `native_ca_store_opt` to keep the setting of
-+CURLOPT_(PROXY_)SSL_OPTIONS and use that to calculate every easy
-+transfer if a native CA store shall be used or not.
++The flag preventing a rerun was not set when a cached_store
++was used.
 +
-+This avoids `native_ca_store` getting stuck on TRUE after being set
-+once.
++CURL_UNCONST an ech string for my old wolfssl version
 +
-+Closes #21902
++Closes #22689
 +
-+CVE: CVE-2026-11564
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/d69bfad3fa3daf5e72331f6870667607828d5891]
++CVE: CVE-2026-82208
++Upstream-Status: Backport [https://github.com/curl/curl/commit/ed0338befd1d865a8ea1fbaa90013a096dedd07a]
 +
 +Backport Changes:
-+- Applied the option-completion helper to lib/vtls/vtls.c because curl
-+  8.19.0 does not have lib/vtls/vtls_config.c.
-+- Retained the curl 8.19.0 auto-client-certificate behavior because the
-+  later initial-origin tracking API is not available.
++- Omitted the unrelated CURL_UNCONST ECH compatibility change because
++  curl 8.19.0 uses a mutable ECH configuration string and a different
++  code path.
 +
-+(cherry picked from commit d69bfad3fa3daf5e72331f6870667607828d5891)
++(cherry picked from commit ed0338befd1d865a8ea1fbaa90013a096dedd07a)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ lib/doh.c       |  3 ++-
-+ lib/setopt.c    | 20 ++------------------
-+ lib/vtls/vtls.c | 21 +++++++++++++++++++++
-+ 3 files changed, 25 insertions(+), 19 deletions(-)
++ lib/vtls/wolfssl.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/lib/doh.c b/lib/doh.c
-+index 4488d42..80da94b 100644
-+--- a/lib/doh.c
-++++ b/lib/doh.c
-+@@ -397,7 +397,8 @@ static CURLcode doh_probe_run(struct Curl_easy *data,
-+   }
++diff --git a/lib/vtls/wolfssl.c b/lib/vtls/wolfssl.c
++index 74bd247..fdf33a8 100644
++--- a/lib/vtls/wolfssl.c
+++++ b/lib/vtls/wolfssl.c
++@@ -597,9 +597,6 @@ static CURLcode wssl_populate_x509_store(struct Curl_cfilter *cf,
++   bool imported_native_ca = FALSE;
++   bool imported_ca_info_blob = FALSE;
 + 
-+   (void)curl_easy_setopt(doh, CURLOPT_SSL_OPTIONS,
-+-                         (long)data->set.ssl.primary.ssl_options);
-++                         ((long)data->set.ssl.primary.ssl_options &
-++                           ~CURLSSLOPT_AUTO_CLIENT_CERT));
-+ 
-+   doh->state.internal = TRUE;
-+   doh->master_mid = data->mid; /* master transfer of this one */
-+diff --git a/lib/setopt.c b/lib/setopt.c
-+index 7e6960c..3603912 100644
-+--- a/lib/setopt.c
-++++ b/lib/setopt.c
-+@@ -407,22 +407,6 @@ static CURLcode setopt_RTSP_REQUEST(struct Curl_easy *data, long arg)
-+ }
-+ #endif /* !CURL_DISABLE_RTSP */
-+ 
-+-#ifdef USE_SSL
-+-static void set_ssl_options(struct ssl_config_data *ssl,
-+-                            struct ssl_primary_config *config,
-+-                            long arg)
-+-{
-+-  config->ssl_options = (unsigned char)(arg & 0xff);
-+-  ssl->enable_beast = !!(arg & CURLSSLOPT_ALLOW_BEAST);
-+-  ssl->no_revoke = !!(arg & CURLSSLOPT_NO_REVOKE);
-+-  ssl->no_partialchain = !!(arg & CURLSSLOPT_NO_PARTIALCHAIN);
-+-  ssl->revoke_best_effort = !!(arg & CURLSSLOPT_REVOKE_BEST_EFFORT);
-+-  ssl->native_ca_store = !!(arg & CURLSSLOPT_NATIVE_CA);
-+-  ssl->auto_client_cert = !!(arg & CURLSSLOPT_AUTO_CLIENT_CERT);
-+-  ssl->earlydata = !!(arg & CURLSSLOPT_EARLYDATA);
-+-}
-+-#endif
++-  /* We do not want to do this again, no matter the outcome */
++-  wssl->x509_store_setup = TRUE;
 +-
-+ static CURLcode setopt_long_bool(struct Curl_easy *data, CURLoption option,
-+                                  long arg)
-+ {
-+@@ -1002,11 +986,11 @@ static CURLcode setopt_long_ssl(struct Curl_easy *data, CURLoption option,
-+       s->use_ssl = (unsigned char)arg;
-+     break;
-+   case CURLOPT_SSL_OPTIONS:
-+-    set_ssl_options(&s->ssl, &s->ssl.primary, arg);
-++    s->ssl.primary.ssl_options = (unsigned char)(arg & 0xff);
-+     break;
-+ #ifndef CURL_DISABLE_PROXY
-+   case CURLOPT_PROXY_SSL_OPTIONS:
-+-    set_ssl_options(&s->proxy_ssl, &s->proxy_ssl.primary, arg);
-++    s->proxy_ssl.primary.ssl_options = (unsigned char)(arg & 0xff);
-+     break;
-+ #endif
-+   case CURLOPT_SSL_ENABLE_NPN:
-+diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-+index 6dcc67d..35cb4f0 100644
-+--- a/lib/vtls/vtls.c
-++++ b/lib/vtls/vtls.c
-+@@ -306,6 +306,22 @@ static void free_primary_ssl_config(struct ssl_primary_config *sslc)
-+ #endif
-+ }
++ #ifndef NO_FILESYSTEM
++   /* load native CA certificates */
++   if(ssl_config->native_ca_store) {
++@@ -802,6 +799,9 @@ CURLcode Curl_wssl_setup_x509_store(struct Curl_cfilter *cf,
++   WOLFSSL_X509_STORE *cached_store;
++   bool cache_criteria_met;
 + 
-++static void ssl_easy_config_compl_options(struct ssl_config_data *sslc)
-++{
-++  uint8_t options = sslc->primary.ssl_options;
-++  /* If set via CURLOPT_(PROXY_)SSL_OPTIONS, we definitely use it.
-++   * If not, we switch it on for supported backends if no custom
-++   * ca settings exist. */
-++  sslc->native_ca_store = !!(options & CURLSSLOPT_NATIVE_CA);
-++  sslc->enable_beast = !!(options & CURLSSLOPT_ALLOW_BEAST);
-++  sslc->no_partialchain = !!(options & CURLSSLOPT_NO_PARTIALCHAIN);
-++  sslc->no_revoke = !!(options & CURLSSLOPT_NO_REVOKE);
-++  sslc->revoke_best_effort = !!(options & CURLSSLOPT_REVOKE_BEST_EFFORT);
-++  sslc->earlydata = !!(options & CURLSSLOPT_EARLYDATA);
+++  /* We do not want to do this again, no matter the outcome */
+++  wssl->x509_store_setup = TRUE;
 ++
-++  sslc->auto_client_cert = !!(options & CURLSSLOPT_AUTO_CLIENT_CERT);
-++}
-++
-+ CURLcode Curl_ssl_easy_config_complete(struct Curl_easy *data)
-+ {
-+   struct ssl_config_data *sslc = &data->set.ssl;
-+@@ -314,6 +330,8 @@ CURLcode Curl_ssl_easy_config_complete(struct Curl_easy *data)
-+   CURLcode result;
-+ #endif
-+ 
-++  ssl_easy_config_compl_options(sslc);
-++
-+   if(Curl_ssl_backend() != CURLSSLBACKEND_SCHANNEL) {
-+ #if defined(USE_APPLE_SECTRUST) || defined(CURL_CA_NATIVE)
-+     if(!sslc->custom_capath && !sslc->custom_cafile && !sslc->custom_cablob)
-+@@ -360,6 +378,9 @@ CURLcode Curl_ssl_easy_config_complete(struct Curl_easy *data)
-+ 
-+ #ifndef CURL_DISABLE_PROXY
-+   sslc = &data->set.proxy_ssl;
-++  /* no initial origin for proxy, it is not changed for redirects */
-++  ssl_easy_config_compl_options(sslc);
-++
-+   if(Curl_ssl_backend() != CURLSSLBACKEND_SCHANNEL) {
-+ #if defined(USE_APPLE_SECTRUST) || defined(CURL_CA_NATIVE)
-+     if(!sslc->custom_capath && !sslc->custom_cafile && !sslc->custom_cablob)
++   /* Consider the X509 store cacheable if it comes exclusively from a CAfile,
++      or no source is provided and we are falling back to wolfSSL's built-in
++      default. */
++-- 
++2.35.6
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index af76f5d53b..322304f47d 100644
+index 33954465f7..0418bec61c 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -41,6 +41,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-8926-dependent.patch \
-            file://CVE-2026-8926_p1.patch \
-            file://CVE-2026-8926_p2.patch \
-+           file://CVE-2026-11564.patch \
+@@ -44,6 +44,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-11564.patch \
+            file://CVE-2026-80255-dependent.patch \
+            file://CVE-2026-80255.patch \
++           file://CVE-2026-82208.patch \
             file://CVE-2026-80230.patch \
             "
  
