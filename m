@@ -1,232 +1,112 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <jinwang.li@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38EACCCF2D3
-	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 08:22:34 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29998.1792398147354943013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72F29CCF2DB
+	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 08:24:04 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29870.1792398237415158310
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2026 01:22:27 -0700
+ Mon, 19 Oct 2026 01:23:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=OkBzz8wI;
- spf=pass (domain: est.tech, ip: 40.107.130.33, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S1xhq1QACLYStK+vqboROKdGoMTCc29cDKFAAHFrctkSi9UBCM2x57/fI+dFgKUt8R0ahqNgvKq4pcbD6aNKRE8ghq8e9P57oHvqsUZZ06NUYufF4L5c9L08+tI6Rj1e8EhWiG2eypsHQ8clkHQzqaEyopXuwThH/8nALe7t3bQyPDgmIV2qauZbWxAKnUIYXgY/zm4GxFcU8ddZ1nwqHNLZn73ZBLK7aWQczRcIsgdZWm5ry1lswg8mtr/z4cI2dHx4I7i+heqQ9NUfI3wH0xO/T2ODucxM2hR8gu8h9/mCLHgytcyDPR1/lf1EBOyC6y0FurximvXgWjgHHDDwXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=47at9tG28tQk6I4gF/lerSKy4bONAzMcyLmtjNsrYSw=;
- b=FtHJvercwNTtQX7HH+9yjsyHMD+uhZ8sTan2VJft0VjakmvyrbR8ttx0WbYqJgL2iTFfGIso21At5zr9Fwds97/M1wtuJvR1ioCnhWX1tcPVVEWojN/T4CRWRZpdLb4Ivt+2GADcjggPvCwihQzLQNUf22pqTLY/PRWaBiMIwmoL35zudJkj0319Dx/0KzvQIiUReScSWeXwqTrjMS/9IJDyrigHHVMgat+WK8xDonCMdiJkt6cJ7iG14X2MxWOREwg8rll8Phi19J6h+Yg9xGMEAwjjxzWIiAY6Ce0HJIB39hCEoqvhYOX9E7gka5+N2W5fwfWgf3jftTZMUm+utg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=47at9tG28tQk6I4gF/lerSKy4bONAzMcyLmtjNsrYSw=;
- b=OkBzz8wIP38d45RVqoEIQiBz3TOeH8n6pa65tazDVicoXHvNbjORTd4Pm+EC5FGQYpqGK4a7BihwVNZcBCW4nqCJhsauqOEePFP7ps4gcGI0hwaWzsYrOEXNwptqJ3NsAeefKiN2gkgfq4/rKdO4QjwFgFFwftAnaL7yzB2fIr/mYhoVORx0znzPyrYR6hx1/mL+BwTKrjZmIAnG/MYbnLOELicuWC8pQMuO7olTM6324ChHTJIpzfWYbQJkb+slJ5ISJIi/fMWHSWjZscrOvrn7E1UnBHTDxXDHWMdH/sinl8dScnnB8uxZpLZHx8aFufPddwGAyq9MJYZWa066jA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by GVXP189MB2659.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:1b6::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
- 2026 08:22:20 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
- 08:22:20 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=QHdqnthC;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: jinwli@qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69J4j2S81553034
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 08:23:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=znTYYTSj0cMhDeiql9edR17oS5+PO+nvUtF
+	1IRIx5yA=; b=QHdqnthCRz7H/xPoChlRO0biy8K5TQth71XdQdSjl5jlGoUsiPZ
+	+32XJ1+95j7+68nByxqO8joxhpD8KsvSB7MtI7NUS4XtjjBIx0m72gRMeLovzwy5
+	Uh//2G8FrGIal8KqEuimqv+YDmv8U9AZL1fi2LWj0664enIg+aCM4qzxpWngq8t8
+	WomOgknSbcJcbDXJC8ZF+iQiTUe0mhNcRT4V4l5wjhdE9l3C9kuXnCdhvtCl4/YA
+	AOq39aHcObCU1q+g0gFQM1v3C5bg9wtKyF6T8LTNyElnHnQRjlWzuQYBe+KVvyKd
+	BT1Aep0ASiJI0eCp73ch3ouGkPsFq+2k3CA==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hd5ur1sbx-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 08:23:55 +0000 (GMT)
+Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69J8NrIU4111157
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 08:23:53 GMT
+Received: from bt-iot-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 69J8NrQR4111140
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 19 Oct 2026 08:23:53 +0000 (GMT)
+Received: by bt-iot-sh02-lnx.ap.qualcomm.com (Postfix, from userid 4467392)
+	id 83AFB23AD2; Mon, 19 Oct 2026 16:23:52 +0800 (CST)
+From: Jinwang Li <jinwang.li@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v2] patch: add ptest support
-Date: Mon, 19 Oct 2026 10:22:16 +0200
-Message-ID: <20261019082216.45173-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261012104207.22429-1-pratik.farkase@est.tech>
-References: <20261012104207.22429-1-pratik.farkase@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: PA7P264CA0260.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:375::15) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
+Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
+        wei.deng@oss.qualcomm.com, shuai.zhang@oss.qualcomm.com,
+        mengshi.wu@oss.qualcomm.com, jinwang.li@oss.qualcomm.com,
+        xiuzhuo.shang@oss.qualcomm.com
+Subject: [wrynose][PATCH 0/5] bluez5: fix AVDTP and OBEX issues
+Date: Mon, 19 Oct 2026 16:23:41 +0800
+Message-Id: <20261019082346.3287363-1-jinwang.li@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|GVXP189MB2659:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7442f85-4f0d-41c9-d53b-08df2dba1812
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|56012099006|260925022911599003|260925021311599003|260925021911599003|11063799006|261009223027099003|10067099003|22082099003|18002099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	fEjwz5gNAuKwFia0mTT+G8rN2x4VHOSmXdF/k8F04kRaYz4EIjzuHlI+Y1863keESZPUnYs3hHGaA5cBWXX1TjBjyjdMlweMqWTwGKGo5QqGKYteVkBj8KWOBkM+qJndOCjSBnC3c816pKbBM7y6eZM1AuBKcRuozmIw4YiFrD6XotGePsxyrgaKhPoURtHA3j7gq8gGTZ6By/ZO23dmNQaNiYojekJK2G2CYjKp1rFHA1D8/hvWBIJM4CRHYnr1+Pqm7Xnktatk6F/ozmO8r7swjnTQSXEU0AUGgkQ2yjfJVloIXNiK3/nhukgU4CKV5cCxBruE8Vm5Ss7lqX/lCTjMkG2cG7Vao+PCc5F8WqDr0klSJySVvWg7/6gFed4z0u/TU2vcBHN/wndkSP7t3ZS+60MTqq0qczNXgdyDOSIYIu0bqVFIB2SWG3UsiGnXzvkB8jeSEma6FjVudNgPwi2jjmOw/RZgsxnXAY5dkNVCAO3yFjoG97FlbqUuITLZraToB22W6FgYvhUUCfPbGY41gRhOkkwEI0p6Peufwwohy+/+p2wNDl6j6vLmYynxF56NLRPpJJ1Dp2CwF4S7mHAABxkqnwGvylZK7qC8Fa6xtstvAeFK34KDBHhim2ZDoCghW+moOUskTtS6dyLh6b+CJcGWHVb9N/fYrtjWqZ0=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(56012099006)(260925022911599003)(260925021311599003)(260925021911599003)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?i3RdE2wml9kr2UGjhqDE5zpOhZAhpOSHBLhE0yi0O+fRJpCSUY+LJ+A0Mdoi?=
- =?us-ascii?Q?KUAO9EKrlcvzw8+ukW+zMyNnFr5hWLbuahOfZmFnF1TFG8eggAZ1JYV1Mmmd?=
- =?us-ascii?Q?rUnVZs8WzG8zAPPR0qkFfwg9dinmv/CyLEm7OaG9EXPjqBuxoNydc+Sym4ke?=
- =?us-ascii?Q?ay37wVu/WsyDrzaFry98w7B3u0ajE537RT5+nnmim87ODcwCClvRP14vLuH7?=
- =?us-ascii?Q?kY4GfKoOhZPzf5eCEuLSOJyHk288gA+ohLhEJeaC+hUcI7Clo2vt+g6RNYi/?=
- =?us-ascii?Q?vynheqUjhmXxNZSHPR0gj6xquuWq6dZqbG5tpZS65EnJASvzix8aLOnI3F/u?=
- =?us-ascii?Q?CsbnFdl+D5ohSLgWG6kT88FQ2rddXv0u5irPE5ZkkU+XxxXGT75GLXJLA2+g?=
- =?us-ascii?Q?cFk5Jgp+NCjEeM8vWFh/c4CTbvEzLalzY/4Q5V+T5nL5Vsp88M/6s2bFlWc7?=
- =?us-ascii?Q?2rW9TdqXzWplwgRHlLRI/KvQnupA/eVqFzNnEbBAu+x1OJY6JL3nf4eTtG4Y?=
- =?us-ascii?Q?8A0C3rb0OxOYwH3xy8o3R7+uXQBJqhxuTtf4nz/To9FPbBtRIJ7J0jnffjoA?=
- =?us-ascii?Q?KPjJcASu6UOFwJe41erMWS7UhggGtFTWA+QOts065RCvgO55nkR59xibYhlI?=
- =?us-ascii?Q?ObafwWG2XVN9EtQA/rqjVXUkiLPmf3qJeIPVqZo84irigm9WrLCnIUiq9ib+?=
- =?us-ascii?Q?58RKQsxo9cxBNSZ5x4QubpOqHRZJ9NvvPaeZoZSVctwWBUD5StwS4rLdprxd?=
- =?us-ascii?Q?6/8SiaEAuCvDmjZXnC8iRU98vKjSeKImALtqVOWy0i6OybYbpN8hhiTPg03j?=
- =?us-ascii?Q?jqsR8BN8ZyZQ8j5FBBDoHLBDAB/4rsNFVUhY/VdlDJpm4w9NXzpKmVpE/fXj?=
- =?us-ascii?Q?DEfFM0OLLBiKKJrYtaoIldTu9+Bcn6talkGT9u8hUMofhf9ZfZVbTtdRKOaX?=
- =?us-ascii?Q?TBZRZwTUALcCMmT7N4JqtbMbH8gMQdjQNpKArkt60WzgmZO4RgqCL51lKb6l?=
- =?us-ascii?Q?VhD2f85qJ4TABwmGq7AfQzZLPm4sXtIhrMvcbOPA4QtLP/yzS3dvw2JctSnq?=
- =?us-ascii?Q?Yo2dv84wh1ghHCEMUOg3ANiAXFkxcXQBs8lZtl/sn8w91j0vGmffyh0IIlAn?=
- =?us-ascii?Q?wJwBcMy6sAzlceEgoU7kvWbrHT9HXlHNHab/O2ex8wjfNVzmMQ8JlijzVqfS?=
- =?us-ascii?Q?5FrcUiHwwPCLO5m/CGdModwi7s9t8kOr2dLFYwPiaEOypTDUU7nIRS31rxix?=
- =?us-ascii?Q?3RGVkvs8ubUGsdCE/pWXoBE87J+Ya3bCAvz4C4lSkCRipBAx15njfpn2/e/f?=
- =?us-ascii?Q?xt7+On5f4Q06AFyQHWERzYbH8OlxX9Rk/Y4RK/NXLnGYERILsU40vTx55qPm?=
- =?us-ascii?Q?qGmNrQznDlE/GsqEbrxEYlTFJcYc6VCXghVMP1yKmDw0oGVz13/uAblAnMD9?=
- =?us-ascii?Q?+bzngRBtGVQfoAkHy9ihLPX0Hhkqo7ejIQzMrPvqWPRvQpXgWo+gqHYy9pYw?=
- =?us-ascii?Q?5NbczI5kRcfxwTq22ST+3pkKDGENIUn517R2tynD7sDdZfpmbdGsf0NsSHQ7?=
- =?us-ascii?Q?0/xNtjJ7RZvEVqwb8BSjnxGemKsOdNIdXXZBsFSuOSa8uILFWZjoZo4wbYHy?=
- =?us-ascii?Q?jGnF/67i7iB930CmDa2fUTpvW0DLPDez0m0CIpvoIoRslN3CVo6QMtb+TMSZ?=
- =?us-ascii?Q?6vUIvS6BDghXG8VEN1RVF/i22pM+ZJBcf356LaXO2QSZPvnYywNin7vFUc7i?=
- =?us-ascii?Q?ZgAI8w3pVg=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7442f85-4f0d-41c9-d53b-08df2dba1812
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 08:22:20.2020
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DZQK9kgeaOXjXyWfREl6Z0Xb2ebDgbmn+6uyM3kbXBCXEdf/H0QYYiQPdzoO2fRr+/Kz1fN3zM4dSNAzM83u9g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB2659
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE5MDAzMyBTYWx0ZWRfX1UU/p6BpBA0l
+ p47gb4joads6uAr/co68UXMcThXhWloC7kRgW8tlOtH0hbtf1ML8/EIuy8wWZUm4XMr4xSxC0IR
+ LyHTEGBvFJptVXA+9Dm64JEw4Icd9vU=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE5MDAzMyBTYWx0ZWRfXzq1ZJ1pItORE
+ WDqyMhFqb5yYdnDahV+F4zkMFI2jpgnez55xm4IBAAU4sgjkPEJYCTQ1NR3LYzCm+8o5bMZByZP
+ O6TBlahQVbDVFeOjp0WtzesfPNX9vLmy+JebpGggcXPauBTbatbZ1AqO4fOwRiXB11iK0eU8CZW
+ se0wZnzUU0j/B4j0B61t+JcBmVNRWyd+0dEpLjO4E79aMHT6G9GQCzHhEtVJavb/uZQ1qgnystQ
+ tbxoHF/haW+OxCYhRxUz1I2d2AFv9G9GdrvgAqtI7PKnuPBNN4WfnR4hXmjuXUUWTLJ97LSszgn
+ XnwAkBLhGcI8fNWZxbaUg/nC1vOUuR9A6Wtbr+zGaCGYmKYLwURCi0xdSnvuUIWen17GLhgeMSZ
+ dcchPlvMBu+zDfAt+hr0TeVDXd/zfnIPT+Cz2QCmYzFP0tgAHqs0iloJRl2XbJGuuuYf6tldmFz
+ pC13sfUW39LK6i02Fdg==
+X-Proofpoint-ORIG-GUID: gzNsWfyC365fQk3K04EOVkZmsNhNF88T
+X-Proofpoint-GUID: gzNsWfyC365fQk3K04EOVkZmsNhNF88T
+X-Authority-Analysis: v=2.4 cv=CP6/zhrD c=1 sm=1 tr=0 ts=6ad5d39c cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=rJkE3RaqiGZ5pbrm-msn:22 a=F3p2maQHJGSzcnfQ2u8A:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-19_02,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610190033
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 08:22:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248141
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 08:24:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248142
 
-Install GNU patch's shell-based test suite and run it under ptest
-against the installed binary. The run-ptest script maps the automake
-test protocol (exit 0 =3D pass, 77 =3D skip) to ptest-runner results and
-handles the dash-o-append and context-format expected failures.
+This series backports five BlueZ fixes: three AVDTP error-handling
+fixes, an OBEX gobex ABORT response ordering fix, and an obexd PBAP
+u128_to_string bug fix.
 
-Tested on qemux86-64 with ptest-runner: 47 pass, 2 skip, 0 fail.
+Jinwang Li (5):
+  bluez5: Fix error handling for AVDTP_OPEN cmd
+  bluez5: Fix GET_CONFIGURATION cmd
+  bluez5: Return correct error when SEP is inuse
+  bluez5: Fix ABORT response being discarded
+  bluez5: Fix u128_to_string skipping data[4]
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  5 ++
+ ...0001-avdtp-Fix-GET_CONFIGURATION-cmd.patch | 37 ++++++++++++++
+ ...ix-error-handling-for-AVDTP_OPEN-cmd.patch | 49 +++++++++++++++++++
+ ...turn-correct-error-when-SEP-is-inuse.patch | 33 +++++++++++++
+ ...x-Fix-ABORT-response-being-discarded.patch | 44 +++++++++++++++++
+ ...p-Fix-u128_to_string-skipping-data-4.patch | 33 +++++++++++++
+ 6 files changed, 201 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avdtp-Fix-GET_CONFIGURATION-cmd.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avdtp-Fix-error-handling-for-AVDTP_OPEN-cmd.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avdtp-Return-correct-error-when-SEP-is-inuse.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-gobex-Fix-ABORT-response-being-discarded.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
 
-Notes:
-    Changes in v2:
-    - run-ptest: don't redirect test output to a log file so failures are
-      visible in automated environments (Ross Burton).
-
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-devtools/patch/patch.inc         | 16 +++++++-
- meta/recipes-devtools/patch/patch/run-ptest   | 40 +++++++++++++++++++
- 3 files changed, 56 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-devtools/patch/patch/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 992d3666b9..518962cbaa 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -69,6 +69,7 @@ PTESTS_FAST =3D "\
-     nettle \
-     npth \
-     opkg \
-+    patch \
-     popt \
-     procps \
-     psmisc \
-diff --git a/meta/recipes-devtools/patch/patch.inc b/meta/recipes-devtools/=
-patch/patch.inc
-index ecbb070ec4..4b90ece07c 100644
---- a/meta/recipes-devtools/patch/patch.inc
-+++ b/meta/recipes-devtools/patch/patch.inc
-@@ -8,11 +8,25 @@ HOMEPAGE =3D "http://savannah.gnu.org/projects/patch/"
- SRC_URI =3D "${GNU_MIRROR}/patch/patch-${PV}.tar.gz \
-  	   file://CVE-2026-56289.patch \
-  	   file://CVE-2026-56288.patch \
-+ 	   file://run-ptest \
-    	   "
-=20
- S =3D "${UNPACKDIR}/patch-${PV}"
-=20
--inherit autotools update-alternatives
-+inherit autotools update-alternatives ptest
-=20
- ALTERNATIVE:${PN} =3D "patch"
- ALTERNATIVE_PRIORITY =3D "100"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    install -m 0644 ${S}/tests/test-lib.sh ${D}${PTEST_PATH}/tests/
-+    for t in $(cd ${S}/tests && ls); do
-+        if [ -f ${S}/tests/$t ] && [ "$t" !=3D "test-lib.sh" ] && \
-+           [ "$t" !=3D "Makefile.am" ] && [ "$t" !=3D "Makefile.in" ]; the=
-n
-+            install -m 0755 ${S}/tests/$t ${D}${PTEST_PATH}/tests/$t
-+        fi
-+    done
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "diffutils sed coreutils"
-diff --git a/meta/recipes-devtools/patch/patch/run-ptest b/meta/recipes-dev=
-tools/patch/patch/run-ptest
-new file mode 100755
-index 0000000000..46cccd4f96
---- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/run-ptest
-@@ -0,0 +1,40 @@
-+#!/bin/sh
-+
-+cd "$(dirname "$0")/tests" || exit 1
-+
-+PATCH=3D"$(command -v patch)"
-+srcdir=3D"."
-+abs_top_builddir=3D"$(cd .. && pwd)"
-+export PATCH srcdir abs_top_builddir
-+
-+XFAIL_TESTS=3D"dash-o-append context-format"
-+
-+is_xfail() {
-+    for x in $XFAIL_TESTS; do
-+        [ "$1" =3D "$x" ] && return 0
-+    done
-+    return 1
-+}
-+
-+for t in *; do
-+    [ -f "$t" ] || continue
-+    [ "$t" =3D "test-lib.sh" ] && continue
-+
-+    sh "$t"
-+    rc=3D$?
-+
-+    if is_xfail "$t"; then
-+        if [ "$rc" -eq 0 ]; then
-+            echo "FAIL: $t (unexpected pass)"
-+        else
-+            echo "PASS: $t (expected failure)"
-+        fi
-+        continue
-+    fi
-+
-+    case "$rc" in
-+        0)  echo "PASS: $t" ;;
-+        77) echo "SKIP: $t" ;;
-+        *)  echo "FAIL: $t" ;;
-+    esac
-+done
---=20
-2.43.0
+-- 
+2.34.1
 
 
