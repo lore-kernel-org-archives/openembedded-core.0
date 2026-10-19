@@ -1,99 +1,107 @@
-Return-Path: <l.stach@pengutronix.de>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3806CCF2DB
-	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 09:23:49 +0000 (UTC)
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30485.1792401820858935724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03249CCF2DA
+	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 09:33:20 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30610.1792402391191984921
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2026 02:23:41 -0700
+ Mon, 19 Oct 2026 02:33:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@pengutronix.de header.s=20260414 header.b=BMvNDRvx;
- spf=pass (domain: pengutronix.de, ip: 185.203.200.13, mailfrom: l.stach@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
-	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id CC4452004FF;
-	Mon, 19 Oct 2026 11:23:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1792401816;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ABXHGpkOZhxk5bVhfEwAHXyDxrc8RIvUwDvfc6J38yM=;
-	b=BMvNDRvxXJaqZaunhbegb0Wl7hR9CwJNAIL3adJgFN3AwxqwZYHCmLg9VP5P5iuMqXExL6
-	CGobyDSMr4B3spSM9oC0Ufz2p51yn4MScrUSc3DsaBQrkye0QjgdtLbYVj/Ja/8ohU/TW3
-	GhwdoUA9R6KIyB+P8ChyRh9UxFFLPCfADCrLhgmT2YeqD+FFYSeY2sJg55o8v+wgo4+WhL
-	nXQPzhzX4hbAeEIF2Z1CUF/umu6abGjFuVRgt9AtI4bR2uluZ3qlbVbvsvYbkAJFArDYry
-	ku+4crnBEt5mMoNZ4ksK6Ac2QkGUWtKkaFstKTANtsbpZJSQPQvbndEYwpjONw==
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1792401816; a=rsa-sha256;
-	cv=none;
-	b=G/gbfyiYwvMwH3oYynSvVU3JgYy5AkQCyNZ+CFO71J1H6nYUuGaPJay0+yPRKHerSmJPkh
-	V8WZXTmnaTl159kbR5yiW6qiDbFSoao2jYd/XICxIee2rqHljfyKHuREeQlud50+CxiR01
-	yHAEVf3xmN+JOovZbY/axL/6mROGPVqdJsrgj/LJy/FqVW+D84tyI8KqQHz9JSjYz4dgZn
-	J6wtvgswM1B5/k0yP3umT86q+Nd30wuYOSGlNCLPmgM3cbQ5N5VnWOD4Ko1AeAZfUd/mu9
-	eRvOpdnTn6Btsvpfa0FN+Wi4igxQIQLQ78O9IqMLB2ER70/72FbPSbzeRim0JA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=relay-from-drehscheibe.grey.stw.pengutronix.de smtp.mailfrom=l.stach@pengutronix.de
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1792401816;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ABXHGpkOZhxk5bVhfEwAHXyDxrc8RIvUwDvfc6J38yM=;
-	b=ZDkoUGa2hns6MCUZMp+wOsXwvRaSuasRnVS9p0JMtqeAEC8WQBZDOizpF/GXWygjOAmIGs
-	dfH0Du4zqxwnpno4/C3/ySMJUGOU9WGddDa5ZwQQQeTsWjCMqZCDzy6OSrJj+ZLmUrXYjU
-	b7ulk6hsCylCPDE0YGbibA91zVhXdq/5hSzFC49cG40cLpqMg4L5AcrH2GgzS3U9XWtsh8
-	2DDmuvjyD5uaq30Q05dSaTS0KBPQTVIFbodotoF6EgN9GsZKZdyfCFx4k8GH2mx0JbILJ+
-	vvFE81Jhz+zdGqKvCTuedcdDNUxrt0zk2L4uWuq8YaolNq/x2YYRkMbSzG0B4g==
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1xIjai-000Cc9-2J;
-	Mon, 19 Oct 2026 11:23:36 +0200
-From: Lucas Stach <l.stach@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de
-Subject: [wrynose][PATCH] barebox: inherit upstream-stable-release-point
-Date: Mon, 19 Oct 2026 11:23:36 +0200
-Message-ID: <20261019092336.1342944-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=gjr8KpPf;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id DCCD24E41284
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 09:33:08 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A7C2460582;
+	Mon, 19 Oct 2026 09:33:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D8CD61032865C;
+	Mon, 19 Oct 2026 11:33:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1792402388; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=QC4SScVwnYra6LrzKHhj96F73nae24rro1jZABr0TbI=;
+	b=gjr8KpPfP1tEBitkQ0ZSu5itDtX5c/Ba7LUJ4hpoEUutR4a9fEZQoNVlCQCdNBuJhcqFAh
+	bYqsZ+HCZIc+LmpIqaA8rjhOt2IAbGVnlqWLKb9YejAZLkoNNUosRXV/HrzmIuaLvE4hoJ
+	0thEmYzpWRKESyi2NjFu/a4p/fC2YneGJaIcG9SY7pEgmfZaidGdWrZE6KhyOQ57CWE+Um
+	vDHNKnM41ficDZe8GI/fOOwIVeM2e4eBJAYC8WDS7T1h4p3rOqqZD9ZWZdE/ut0TbKw2yQ
+	1UEv/4VJ0N4LfE+HwPeGFXFp+5z8lC4Ee3VbGMb1P+EDyXoQiQByo2wtlDyqpg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Oct 2026 11:33:06 +0200
+Message-Id: <DM8PM8R9JB17.AIVWGLEQNLCE@bootlin.com>
+Subject: Re: [OE-core][PATCH 4/5] libarchive: upgrade 3.8.9 -> 3.8.10
+Cc: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <ankur.tyagi85@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261018223644.291257-1-ankur.tyagi85@gmail.com>
+ <20261018223644.291257-4-ankur.tyagi85@gmail.com>
+In-Reply-To: <20261018223644.291257-4-ankur.tyagi85@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 09:23:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248152
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 09:33:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248153
 
-Barebox uses a vYYYY.MM.stable versioning scheme, with the stable
-releases only carrying bug and security fixes. Thus we can use
-the upstream-stable-release-point class to mark those releases as
-suitable for inclusion in the oe-core stable series.
+On Mon Oct 19, 2026 at 12:36 AM CEST, Ankur Tyagi via lists.openembedded.or=
+g wrote:
+> From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+>
+> Dropped patches are merged in the upstream version.
+>
+> Changelog:
+> https://github.com/libarchive/libarchive/releases/tag/v3.8.10
+>
+> PTEST pass:root@qemux86-64:~# ptest-runner libarchive
+> START: ptest-runner
+> 2026-10-18T22:03
+> BEGIN: /usr/lib/libarchive/ptest
+> ...
+> ...
+> END: /usr/lib/libarchive/ptest
+> 2026-10-18T22:07
+> STOP: ptest-runner
+> TOTAL: 1 FAIL: 0
+>
+> Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+> ---
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-Same patch that has already been applied to master.
----
- meta/recipes-bsp/barebox/barebox.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Ankur,
 
-diff --git a/meta/recipes-bsp/barebox/barebox.bb b/meta/recipes-bsp/bareb=
-ox/barebox.bb
-index a48d97941cc0..583fde5d187e 100644
---- a/meta/recipes-bsp/barebox/barebox.bb
-+++ b/meta/recipes-bsp/barebox/barebox.bb
-@@ -6,5 +6,5 @@ Linux kernel driver API for making driver porting easier,=
- \
- and a subset of the POSIX C library for writing more command-line utilit=
-ies."
-=20
- require barebox-common.inc
--inherit barebox
-+inherit barebox upstream-stable-release-point
-=20
+Thanks for the upgrade.
+
+Jaipaul already sent an upgrade patch for it, and both your patches do
+suffer from the same failed ptests:
+
+Failed ptests:
+{'python3-libarchive-c': ['tests/test_entry.py:test_check_archiveentry_usin=
+g_python_testtar',
+                          'tests/test_entry.py:test_check_archiveentry_with=
+_unicode_and_binary_entries_zip2']}
+
+Failed ptests:
+{'libarchive': ['libarchive_test']}
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/4771
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/1404
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1392
+
+Maybe you want to coordinate so only one of you looks at these failures?
+
+Jaipaul thread, for reference: https://lore.kernel.org/openembedded-core/20=
+261016092025.19560-1-jaipaul.cheernam@est.tech/
+
+Thanks,
+Mathieu
+
 --=20
-2.47.3
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
