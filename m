@@ -1,179 +1,269 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F601CCF2D3
-	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 11:25:42 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32077.1792409133630081108
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 738A8CCF2E4
+	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 12:19:12 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33106.1792412348479556627
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2026 04:25:33 -0700
+ Mon, 19 Oct 2026 05:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=k/90IKPr;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a1e3098ee2so13117645e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 04:25:33 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=btkCQKhZ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso1177187f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 05:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792409132; x=1793013932; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iXYiSmtcX3fTpv8voodIhQD8KlUngesNiwVbEFaPmjE=;
-        b=k/90IKPrb2EK5KVLfmXEle+CsA1ayNrZb2l6O46K6bRRJcDVjdJrXwSSTPHuthu4eG
-         yvSfzCh4+zWi+vHX0YgY5cypettsgTTFmFBYnGNbO/bCMTWO0JAUlOyrD0wwwl/Z6iUn
-         xw1lu6+r6di5mcqgET1nr3gMwADGZBw4NtdFXFZLidaxVYwyDmnF39MZ+pMCXeVC/Rin
-         bU00DGjV3x6wzGyovCmiR30ykGKIeaZlPeSFaFaxviH9Bnar1qQdAgLTeMbdG1j49LOh
-         yre65S6WJtC8utloUmICwHKIb7vKbx0fdgG0FiUuQoesLpu6MptR3ebwBhjGTOv5+vSD
-         BiXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792409132; x=1793013932;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1792412347; x=1793017147; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=iXYiSmtcX3fTpv8voodIhQD8KlUngesNiwVbEFaPmjE=;
-        b=SdU+9gHFPz9iJyZMtner8GFQXzKAYFADH5KFdj4TIZ7tDjLWZ1B8jZEhIxU/1wBCqF
-         oDpW/4KIqWC5Pjf5iIr4A+0U8K/9OgrG7mG/cVQMKTWrXj6ZoKnTfXSD4BcewvFmYZ5N
-         eVKVeoNMC5/KCHEYhm4P4WoA+MVjg6We0tgId93qlYBE5NkEYffDyO87StAe7GSb0FWi
-         VkQ2anBOHbE3DMzMRlHk+gtO5vkTB4v+ERFIrlmiLCm1lEKWAdj2xGCl5blsPq/aXgNO
-         2G8lI8sFlaQTp+D7GiCVKC/IKT3vDyXcniwVvFyaf9R4P7/IolmYIxO36hL7S4OIFEvo
-         eIAA==
-X-Gm-Message-State: AFq9FYLbBVt1TY+wUdyc4+r1fA6RvoCEtzbHoBkcuFnJO8UjG1qKmaWc
-	maLhYIUgq6j9yr+j1HZNAjTtpmHsGr/eLeuHKaPzC1wD0J6FvRvh7LeGtslRCA==
-X-Gm-Gg: AYBFou12u+GVOHNgxOveZSnffizMt09lGcvCjlm/KWXwTg6dx13//BMhrfYKAxvoGJm
-	rr8X6vvy981sg2L3q8e/KB5Dv3VxRDuzwGqPNCZGsdnRO30XIxzFEsDZ4a0T4EAZQ8AvS0Vt3e5
-	+ENX7f/dZAQ1tAXwXXsf+/qwtyXVDmhJWTvpyDT++bHMxW7Xjb/nK/DjlOfBOGMOUYk87wxHhk7
-	VsA6QttC2kjyXofZ1GnjnIDAQZKdk/m0WbuCOBGGVuwKDlo8kPHqkPLGO9arUe902qR6GxBpEjk
-	sVh6Z9VV5T8HPbqvhPvuzUKU6qvwruT7Ka1Iw5ZpygAhNzpLI8C4Hvh5RXb+e+pXOxhUxY0Wfem
-	3y/R/0nARitONUvyYqNbC1x//bXukgTBSZLgTgYr0sBDlsvqurdPlsHUFCBsVKVEQwt9Q7cO6WA
-	sLxjxNwCq1oPakafU7vnNIqq5JuzrEFbofZdVF5mLaCJJW2u9KvLXXaCVhz5XpZ/x2jZ+Caf0wV
-	3ZVWV9/SKJJrXxqOOGTqrzBI9pq+isROaWh5mxafuX+1IhB617suNA=
-X-Received: by 2002:a05:600c:4f42:b0:4a1:ddca:8b66 with SMTP id 5b1f17b1804b1-4a1ddca9066mr155256585e9.31.1792409131378;
-        Mon, 19 Oct 2026 04:25:31 -0700 (PDT)
-Received: from localhost ([109.238.212.54])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd47104csm25175733f8f.8.2026.10.19.04.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 04:25:30 -0700 (PDT)
-From: martin.jansa@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: ross.burton@arm.com,
-	mark.yang@lge.com,
-	Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH] clang: use Release instead of MinSizeRel
-Date: Mon, 19 Oct 2026 13:25:17 +0200
-Message-ID: <20261019112517.1676091-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.56.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        bh=TxE0tIBB9sknZOK1of/Lk3AHIQYB3RnmDTs1e83TNw4=;
+        b=btkCQKhZcKlSvF8qWs5qZxfqmPwZKo1SqErJNafUxPYlKeHiN8SFjQQa5Jd0DWWAsy
+         ymayoyhhdxo3VBAeqNr+UiYDIbzLsWerh/pdOGqSG8y1OPO6H0wUUXxkeQmDgO20jv7J
+         x6uzEdoOnvgGCYvqTKZ0lI6ueJqa82QAc6eY0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792412347; x=1793017147;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TxE0tIBB9sknZOK1of/Lk3AHIQYB3RnmDTs1e83TNw4=;
+        b=J7XhQZ/QesoZChvjqJAcsaLqK2MzB7eLy7wayJxZiqUug/r57vsRLKMcn0VDcWMAom
+         VhkmaUENoosBbACHO5Z901pY5jibTnPCGVRKMyRfMKrPbsmUPU6hqungrRTqPBUYh1kj
+         LvKhgKELf/xmL57lp4cN/i7d4KHgfu0B31SYmmU3+FuSjQVV+qdQOUpKLwUFhaE47cKw
+         utfU256kAZaPxYTfYcLfw4wQLJWOFRCVusnnqZTptSwNRtsIxAaUk4hzR9lVS4PIjhQy
+         6pTA9eaas4fVq23427NZqXZnHjb5KUbOrSoI8JvS7dOhLySm2EESek8HZeG9RJJ/rPi+
+         zl2A==
+X-Forwarded-Encrypted: i=1; AKwUvBymN9gd+Wqf4OX7amfyZDTXSNQvwuwJcZPwzBctJpyXEqnND410y3224NLRvcNaMYFwKTr+OhjEjVVQxWVIjvFL8Q==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYK2+uSlu6ZidGh+cIp+b7UwBs6w6Mr6yYCTbYd/8KtHCh8udKWH
+	HCx3n3PWW/fWdemsXI0aN6Sqyn4yPOJNxSepSZT6EmBmumrRRUGoldAHjXHhKEBqAxA=
+X-Gm-Gg: AYBFou1e7/eazsm+rymQJvq8yuh3X/HQtBbkPKqSL/tbsApseihZ5d9vxlBlq4p3zJD
+	zxqqvV0ZVrJWpABZ7tWQoC9VP+mQYHDlhmLj5KLGLzkLg4PUdV4JE5N+k2U1c6T1a/vY8d5YfQR
+	rfKmOBFhHgw/YBsPvA4WxmJMEe4xEFdRyvJrBurjweZaQDNPR58YB1rhHQBf+QAqhYyakBc9DQ2
+	Aca9Y5w7pdrIavSpnvQxZviiqNRkUlnWM37wu7ohhMOe5RhjQsoF8KbsQUPTvvMBj/ifZOkZpSQ
+	PqTedbY67xTr8IuG8ECHuQ/GZspmhoSL4UXxMWeF5pqHkoxKeohXD4oVFbRrw/XG7Z1dqjfCV2F
+	xp5JItP5Vwjuha46j3YlkGAjB9MbiUl/V3AT0w4DdjMeiF4xh0ENJMtdCFtSSZEUk9O1cm/kK8B
+	E2Ga9Jo+mdtu9J5I3CAuO2z3ylaC4tDug2WoDQWMxYj/Lby5MjqEAPb+xaoE4Rd5T8kUksEoT/b
+	3plMZVbWj7QWjyQhy6qSrWsDMINeWpBuHjn8WE5uj/gY/z9OvUg9Od5kPgWqw==
+X-Received: by 2002:a05:6000:4b07:b0:48d:f9a4:bd68 with SMTP id ffacd0b85a97d-48e07bbe7c3mr14137522f8f.27.1792412346188;
+        Mon, 19 Oct 2026 05:19:06 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f576asm24597842f8f.32.2026.10.19.05.19.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2026 05:19:05 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Oct 2026 14:19:05 +0200
+Message-Id: <DM8T5C1XSOS8.32SN8QTXAO48H@smile.fr>
+To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [scarthgap][PATCHv3] vim: Fix for CVE-2026-73076
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20261019084027.640800-1-hprajapati@mvista.com>
+In-Reply-To: <20261019084027.640800-1-hprajapati@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 11:25:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248158
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 12:19:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248159
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On Mon Oct 19, 2026 at 10:40 AM CEST, Hitendra Prajapati via lists.openembe=
+dded.org wrote:
+> Pick the patch from [1], also referenced in the NVD report [2].
+>
+> [1] https://github.com/vim/vim/commit/581a2f3ac9c6f96a26324f6b2c8c11415fd=
+0d452
+> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-73076
+>
+> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+> ---
+>  .../vim/files/CVE-2026-73076.patch            | 141 ++++++++++++++++++
+>  meta/recipes-support/vim/vim.inc              |   1 +
+>  2 files changed, 142 insertions(+)
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-73076.patch
+>
+> diff --git a/meta/recipes-support/vim/files/CVE-2026-73076.patch b/meta/r=
+ecipes-support/vim/files/CVE-2026-73076.patch
+> new file mode 100644
+> index 0000000000..04c8e07d9d
+> --- /dev/null
+> +++ b/meta/recipes-support/vim/files/CVE-2026-73076.patch
+> @@ -0,0 +1,141 @@
+> +From 581a2f3ac9c6f96a26324f6b2c8c11415fd0d452 Mon Sep 17 00:00:00 2001
+> +From: Christian Brabandt <cb@256bit.org>
+> +Date: Fri, 24 Jul 2026 17:43:51 +0200
+> +Subject: [PATCH] patch 9.2.0847: [security]: vimball: code execution via
+> + .VimballRecord file
+> +
+> +Problem:  [security]: vimball: code execution via .VimballRecord file
+> +          (tdjackey)
+> +Solution: Forbid arbitrary commands, fix broken directory deletion code,
+> +          refactor code
+> +
+> +Github Security Advisory:
+> +https://github.com/vim/vim/security/advisories/GHSA-r22p-fhw4-84p2
+> +Signed-off-by: Christian Brabandt <cb@256bit.org>
+> +
+> +Backport Changes:
+> +Modify runtime/autoload/vimball.vim file as per vim source code v9.1.168=
+3 which is
+> +little different from vim v9.2.
+> +Omitted src/testdir/test_plugin_vimball.vim because the current vim sour=
+ce
+> +archive does not include it.
 
-It was changed in:
-https://git.openembedded.org/openembedded-core/commit/?id=ea9b33f7c12f773830ec860ae817a3ed1368612b
-to save the disk space, but the build time impact is significant.
+Hello,
 
-Both llvm and clang recipes are now using MinSizeRel, but the build time
-impact is significant mostly from clang recipes and also the disk space
-is affected more by llvm, than clang. So change the default only for
-clang recipe. In theory we could use Release only for clang-native and
-leave MinSizeRel for target clang (assuming that most people don't do
-many demanding builds on target, but that won't be true for something
-like build appliance built with OE).
+I'm sorry but this first phrase does not provide any new information... :/
 
-chromium-x11.do_compile time with 64 thread AMD Threadripper 3970x
-increased by 80% from 6930s to 12300s, measured in wrynose release.
+For example, here is what the diff between your patch and upstreams
+looks like (this is the interdiff[0] output) :
+| --- a/runtime/autoload/vimball.vim
+| +++ b/runtime/autoload/vimball.vim
+| @@ -0,0 +0,0 @@
+|--" Date:			Jun 29, 2026
+|-+" Date:			Jul 23, 2026
+|-@@ -0,0 +0,0 @@
+|--if v:version < 704
+|-+if v:version < 900
+|-- echo "***warning*** this version of vimball needs vim 7.4"
+|-+ echo "***warning*** this version of vimball needs vim 9.0"
+|-@@ -0,0 +0,0 @@
+|-+   elseif fname =3D~? '\%(^\|/\)\.VimballRecord$'
+|++   if fname =3D~? '\%(^\|/\)\.VimballRecord$'
+| +     echomsg "(Vimball) Forbidding .VimballRecord filename, aborting..."
+| +     exe "tabn ".curtabnr
+| +     bw! Vimball
+| +     call s:ChgDir(curdir)
+| +     return
+|++   endif
+| @@ -0,0 +0,0 @@
+|--      call s:RecordInVar(home,"rmdir('".dirname."')")
+|-+      call s:RecordDirInVar(dirname)
+|+-	  call s:RecordInVar(home,"rmdir('".dirname."')")
+|++	  call s:RecordDirInVar(dirname)
+| @@ -0,0 +0,0 @@
+|--    call s:RecordInVar(home,"call delete('".escape(fnamepath, '"''|')."'=
+)")
+|-+    call s:RecordInVar(fnamepath)
+|+-	call s:RecordInVar(home,"call delete('".fnamepath."')")
+|++	call s:RecordInVar(fnamepath)
+| @@ -0,0 +0,0 @@
+|--    sil! keepalt keepjumps exe exestring
+|-+    let nr_files=3D 0
+|+-	sil! keepalt keepjumps exe exestring
+|++	let nr_files=3D 0
+| +    for line in split(exestring, '|')
+| +      if line !~ '^call delete(''[^'']\{-}''\(,"d"\)\?)$'
+| +        echomsg "ignoring .VimballRecord entry: " line
+|@@ -33,58 +26,42 @@
+| +        let nr_files+=3D 1
+| +      endif
+| +    endfor
+|--    let exestring=3D strlen(substitute(exestring,'call delete(.\{-})|\=
+=3D',"D","g"))
+|--    echomsg "removed ".exestring." files"
+|-+    echomsg "removed ".nr_files." files"
+|+-	let exestring=3D strlen(substitute(exestring,'call delete(.\{-})|\=3D',=
+"D","g"))
+|+-"	call Decho("exestring<".exestring.">")
+|+-	echomsg "removed ".exestring." files"
+|++	 echomsg "removed ".nr_files." files"
+| @@ -0,0 +0,0 @@
+| -" s:RecordInVar: record a un-vimball command in the .VimballRecord file =
+{{{2
+| -fun! s:RecordInVar(home,cmd)
+|-+" s:RecordInVar: record a un-vimball file deletion in the .VimballRecord=
+ file {{{2
+|-+fun! s:RecordInVar(file)
+|+-"  call Dfunc("RecordInVar(home<".a:home."> cmd<".a:cmd.">)")
+|+-  if a:cmd =3D~ '^rmdir'
+|+-"   if !exists("s:recorddir")
+|+-"    let s:recorddir=3D substitute(a:cmd,'^rmdir',"call s:Rmdir",'')
+|+-"   else
+|+-"    let s:recorddir=3D s:recorddir."|".substitute(a:cmd,'^rmdir',"call =
+s:Rmdir",'')
+|+-"   endif
+|+-  elseif !exists("s:recordfile")
+| -   let s:recordfile=3D a:cmd
+| -  else
+| -   let s:recordfile=3D s:recordfile."|".a:cmd
+|++" s:RecordInVar: record a un-vimball file deletion in the .VimballRecord=
+ file {{{2
+|++fun! s:RecordInVar(file)
+|++  if !exists("s:recordfile")
+| +    let s:recordfile=3D[]
+|-+  endif
+|+-"  call Dret("RecordInVar : s:recordfile<".(exists("s:recordfile")? s:re=
+cordfile : "")."> s:recorddir<".(exists("s:recorddir")? s:recorddir : "")."=
+>")
+| +  call add(s:recordfile, $'call delete({string(a:file)})')
+|-+endfun
+|-+
+| +" s:RecordDirInVar: record a un-vimball dir deletion in the .VimballReco=
+rd file {{{2
+| +fun! s:RecordDirInVar(dir)
+| +  if !exists("s:recorddir")
+| +    let s:recorddir =3D []
+|++   endif
+| +  call add(s:recorddir, $'call delete({string(a:dir)},"d")')
+|++ endfun
+|++
+| @@ -0,0 +0,0 @@
+|--    let cmd=3D cmd.s:recordfile."|".s:recorddir
+|-+    let cmd=3D cmd.join(s:recordfile, '|')."|".join(s:recorddir, '|')
+|--    let cmd=3D cmd.s:recorddir
+|-+    let cmd=3D cmd.join(s:recorddir, '|')
+|--    let cmd=3D cmd.s:recordfile
+|-+    let cmd=3D cmd.join(s:recordfile, '|')
+|-diff --git a/src/testdir/test_plugin_vimball.vim b/src/testdir/test_plugi=
+n_vimball.vim
+|---- a/src/testdir/test_plugin_vimball.vim
+|-+++ b/src/testdir/test_plugin_vimball.vim
+|-@@ -0,0 +0,0 @@
+|--  call assert_match('^Xtest.vmb: rmdir.*call delete(', record[0])
+|-+  call assert_match('^Xtest.vmb: call delete(''.\{-}'')|call delete(''.\=
+{-}'',"d")$', record[0])
+|-@@ -0,0 +0,0 @@
+|-+
+|-+func Test_vimball_VimballRecord_filenames()
+|-+  call s:Mkvimball()
+|-+  call delete('XVimball', 'rf')
+|-+  sp Xtest.vmb
+|-+  4s#.*\ze\t#.VimballRecord#
+|-+  so %
+|-+  call feedkeys("\<cr>", "it")
+|-+
+|-+  let mess =3D execute(':mess')->split('\n')[-1]
+|-+  call assert_match('(Vimball) Forbidding .VimballRecord filename.* abor=
+ting\.\.\.', mess)
+|-+  call assert_false(filereadable('.VimballRecord'))
+|-+  call s:teardown()
+|-+endfunc
+|-diff --git a/src/version.c b/src/version.c
+|---- a/src/version.c
+|-+++ b/src/version.c
+|-@@ -0,0 +0,0 @@
+|-+/**/
+|-+    847,
+|+-   	let cmd=3D cmd.s:recordfile."|".s:recorddir
+|++        let cmd=3D cmd.join(s:recordfile, '|')."|".join(s:recorddir, '|'=
+)
+|+-   	let cmd=3D cmd.s:recorddir
+|++        let cmd=3D cmd.join(s:recorddir, '|')
+|+-   	let cmd=3D cmd.s:recordfile
+|++        let cmd=3D cmd.join(s:recordfile, '|')
 
-With current master chromium-x11.do_compile time is also around 80%
-slower compared to both using Release or 66.6% slower compared to
-clang using Release:
+All those hunks above can't be explained by just "Modify
+runtime/autoload/vimball.vim file as per vim source code v9.1.1683 which
+is little different from vim v9.2."
 
-MinSizeRel in both clang and llvm:
-20.09user 2.56system 3:05:09elapsed 0%CPU (0avgtext+0avgdata 58500maxresident)k
+Regards,
 
-MinSizeRel in llvm, Release in clang:
-18.82user 2.61system 1:51:40elapsed 0%CPU (0avgtext+0avgdata 58776maxresident)k
+[0]: https://github.com/twaugh/patchutils#core-tools
+--=20
+Yoann Congal
+Smile ECS
 
-Release in both clang and llvm:
-18.83user 2.59system 1:45:32elapsed 0%CPU (0avgtext+0avgdata 59424maxresident)k
-
-sstate-cache size after building core-image-sato with
-PREFERRED_TOOLCHAIN_TARGET = "clang"
-and target clang included as well as chromium-x11 in the image:
-
-increased by less than 2% (137MB):
-8988    sstate-cache-MinSizeRel-both
-9125    sstate-cache-Release-both
-
-populate_sysroot:
-llvm:         14M: 175M -> 189M
-llvm-native:  29M:  98M -> 127M
-clang:         4M:  82M ->  86M
-clang-native: 30M: 102M -> 132M
-
-llvm package: 26M: 314M -> 340M
-llvm ipk:     27M: 353M -> 380M
-
-clang package: 3M:  89M ->  92M
-clang ipk:     4M: 100M -> 104M
-
-ipk package sizes:
-7.0M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-bin_23.1.3-r0.3_x86-64-v3.ipk
-87M     tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-dbg_23.1.3-r0.3_x86-64-v3.ipk
-6.5M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-dev_23.1.3-r0.3_x86-64-v3.ipk
-66M     tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-src_23.1.3-r0.3_x86-64-v3.ipk
-153M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-staticdev_23.1.3-r0.3_x86-64-v3.ipk
-35M     tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm_23.1.3-r0.3_x86-64-v3.ipk
-
-8.3M    tmp-Release/deploy/ipk/x86-64-v3/llvm-bin_23.1.3-r0.2_x86-64-v3.ipk
-98M     tmp-Release/deploy/ipk/x86-64-v3/llvm-dbg_23.1.3-r0.2_x86-64-v3.ipk
-6.5M    tmp-Release/deploy/ipk/x86-64-v3/llvm-dev_23.1.3-r0.2_x86-64-v3.ipk
-66M     tmp-Release/deploy/ipk/x86-64-v3/llvm-src_23.1.3-r0.2_x86-64-v3.ipk
-164M    tmp-Release/deploy/ipk/x86-64-v3/llvm-staticdev_23.1.3-r0.2_x86-64-v3.ipk
-41M     tmp-Release/deploy/ipk/x86-64-v3/llvm_23.1.3-r0.2_x86-64-v3.ipk
-
-8.8M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-dbg_23.1.3-r0.3_x86-64-v3.ipk
-4.3M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-dev_23.1.3-r0.3_x86-64-v3.ipk
-20K     tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-doc_23.1.3-r0.3_x86-64-v3.ipk
-48K     tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-format_23.1.3-r0.3_x86-64-v3.ipk
-40K     tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-libclang-python_23.1.3-r0.3_x86-64-v3.ipk
-48M     tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-staticdev_23.1.3-r0.3_x86-64-v3.ipk
-2.9M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-tidy_23.1.3-r0.3_x86-64-v3.ipk
-1.3M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-tools_23.1.3-r0.3_x86-64-v3.ipk
-6.1M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang_23.1.3-r0.3_x86-64-v3.ipk
-18M     tmp-MinSizeRel/deploy/ipk/x86-64-v3/libclang-cpp23.1_23.1.3-r0.3_x86-64-v3.ipk
-11M     tmp-MinSizeRel/deploy/ipk/x86-64-v3/libclang23.1_23.1.3-r0.3_x86-64-v3.ipk
-
-7.8M    tmp-Release/deploy/ipk/x86-64-v3/clang-dbg_23.1.3-r0.4_x86-64-v3.ipk
-4.3M    tmp-Release/deploy/ipk/x86-64-v3/clang-dev_23.1.3-r0.4_x86-64-v3.ipk
-20K     tmp-Release/deploy/ipk/x86-64-v3/clang-doc_23.1.3-r0.4_x86-64-v3.ipk
-52K     tmp-Release/deploy/ipk/x86-64-v3/clang-format_23.1.3-r0.4_x86-64-v3.ipk
-40K     tmp-Release/deploy/ipk/x86-64-v3/clang-libclang-python_23.1.3-r0.4_x86-64-v3.ipk
-47M     tmp-Release/deploy/ipk/x86-64-v3/clang-staticdev_23.1.3-r0.4_x86-64-v3.ipk
-3.3M    tmp-Release/deploy/ipk/x86-64-v3/clang-tidy_23.1.3-r0.4_x86-64-v3.ipk
-1.4M    tmp-Release/deploy/ipk/x86-64-v3/clang-tools_23.1.3-r0.4_x86-64-v3.ipk
-6.8M    tmp-Release/deploy/ipk/x86-64-v3/clang_23.1.3-r0.4_x86-64-v3.ipk
-21M     tmp-Release/deploy/ipk/x86-64-v3/libclang-cpp23.1_23.1.3-r0.4_x86-64-v3.ipk
-13M     tmp-Release/deploy/ipk/x86-64-v3/libclang23.1_23.1.3-r0.4_x86-64-v3.ipk
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
- meta/recipes-devtools/clang/clang_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-index 3b93f0d02c..90076f9d6d 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -60,7 +60,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DFFI_INCLUDE_DIR=$(pkg-config --variable=includedir libffi) \
-                   -DLLVM_BUILD_EXTERNAL_COMPILER_RT=ON \
-                   -DCMAKE_SYSTEM_NAME=Linux \
--                  -DCMAKE_BUILD_TYPE=MinSizeRel \
-+                  -DCMAKE_BUILD_TYPE=Release \
-                   -DLLVM_VERSION_SUFFIX='${VER_SUFFIX}' \
-                   -DLLVM_CMAKE_DIR=${STAGING_LIBDIR}/cmake/llvm \
-                   -DLLVM_NATIVE_TOOL_DIR=${STAGING_BINDIR_NATIVE} \
 
