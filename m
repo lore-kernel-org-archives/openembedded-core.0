@@ -2,75 +2,76 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94275CCF2DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71171CCF2DE
 	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 06:43:33 +0000 (UTC)
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28717.1792392206312397773
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28816.1792392206147735939
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Oct 2026 23:43:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Wfp1Hmvs;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Jpk7Y3B5;
+ spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=10761; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=14619; q=dns/txt;
   s=iport01; t=1792392206; x=1793601806;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mNQqTgUv0Xx2v2WIjZpj6MU404jI0q2N3JduvmObGqc=;
-  b=Wfp1HmvsG+lWpsaFisrk0qBQaBkKzbkvu+LoFA/rV2NHRf8L80ZSJOW3
-   IckUaGiNJTvbHGJnPxcuKv9tj9u/YZL/LZOnsIQ2QAvKDBiu6nxmU0sCE
-   STa2zX/5fyLkir5Q9yZqtR5dOyYfaSB8+qbAh20NSbZ7wuspjX8C5Tb/6
-   5wlYC0Hey/nZcMD36rRQubWPy0uGacm8DgQTMN7+oE9fg8Ht8Z5qWPTiQ
-   ZMm5zFKQaBGurGZXhxplEWhXRMLesIyPtgJ6ApN4432mEvbbJv8bEyhFp
-   VvUwT73aXVEG77cpX/rDrtvDCw1luOZIg+aPmbb0GvkC9YhO1IGDiQZTj
-   w==;
-X-CSE-ConnectionGUID: k5zghNf9QiykzsIz5QzCZQ==
-X-CSE-MsgGUID: Y2lBS/YNST+sV/YY/xmhZQ==
-X-IPAS-Result: =?us-ascii?q?A0BIAgDzutVq/5D/Ja1aglmCV3VgQ0mWSgOeHIF+DwEBA?=
- =?us-ascii?q?Q9EDQQBAYUFAo4VAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDZASAQIBAycLARgBLRAcAwECLysjCBmDAgGCdAMRBr0YGzeBeTOBA?=
- =?us-ascii?q?YMpAT8CAkABUNsyAQsUAYE4hUCII10YAYR8JxsbgXKBFYNpgQWBXAIBiCQEg?=
- =?us-ascii?q?iKBDIFaHmWUWkiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdg?=
- =?us-ascii?q?SCCFiMZNnqBCV6BKylgARAXgQmCBwKCVIIAAgFJQQ4HRVMJJUMSRyYiCBIJA?=
- =?us-ascii?q?RMaMAuBGzg8CShBFwxzDB0FcggCDQkHTRgNSBEsNxUZBD5uB5IqHoIWGzICY?=
- =?us-ascii?q?QkREwEpAgRPgQdgAyEIkn2SP6EPCiiDdowilToaM4QElBeSVAuYfYIBWIsxl?=
- =?us-ascii?q?TY9XYRpgWg8gVlwFTuCZwkWNBkPji4LC4NghkDIGCcyAgkyAQEHAgcOAwuBa?=
- =?us-ascii?q?JAAKoFUAQE?=
-IronPort-Data: A9a23:c9sswaJlKpAWg7TpFE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS1WEFm
- jZOUG2PMvyMZGTzKt8nbIjj9k9UvpfdnIRjQQEd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+  bh=ACQYK4zeVzLzm2byaH+KIFKZxrprckKDdSGRIxisDT0=;
+  b=Jpk7Y3B56JAclGsviwNOrqb/mYZkUmW34IfixiNM00WJwKvZrJ4Gsz2d
+   EKCn41ikg3RoCkEiJ0JoZliiN5qkFJ2AKmAx4QWaC0J/Yv4WPqm+HO48V
+   oLa90nJ5HByx7CG54gpygyPcoUnTJ9iv6Z9QErX32oCnautVlM2/rV84K
+   Ov9+6iCPXDynlBSWA9eNycbOD5iqYE3Ty2fsH6/QMukbY2Cn3e4BvdulO
+   DwA/c6WxWu1PnUE8cWkWGHA8QrPm7wCfJGrrSL5R71SuQRf8xliI+BTsz
+   eexOSlSGNGD3l2Dj2Tp2oKgYPnI+pWJKqs/AY4tsvNHiTZimU1ZRy7oVf
+   A==;
+X-CSE-ConnectionGUID: 2/CBc88dQtiO+L4BxsxQ/w==
+X-CSE-MsgGUID: j/bbgx5aSI6hzyo8kDb/OA==
+X-IPAS-Result: =?us-ascii?q?A0BKAgBsu9Vq/5T/Ja1aHgEBCxIMggULgld1YENJlkoDk?=
+ =?us-ascii?q?UqMUhSBag8BAQEPRA0EAQGFBQKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
+ =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgECAQMyARgBLRAcAwECFwEBFisdAQUIGYMCA?=
+ =?us-ascii?q?YJ0AxEGvR0bN4IsgQGDKQE/AgJAAVDbMgELFAGBOIVAiCNdGAGEfCcbG4Fyg?=
+ =?us-ascii?q?RWBO4IugQWBMioCAYEmIAFgAgaFdQSCInoSgVoYBmWHNocnhX1IgR4DWSwBV?=
+ =?us-ascii?q?RMNCgsHBYFoAzUSKhVuMh2BIz4XgQcbBgWBHYEgghYjGTZ6gQlegSspYAEQF?=
+ =?us-ascii?q?4EJggcCglSCAAIBSUEOB0VTCSVDEkcmIggSCQETGjALgRs4PAkoQRcMcwwdB?=
+ =?us-ascii?q?XIIAg0JB00YDUgRLDcVGQQ+bgeSKh6CXgcBWAgtAQciAQGBBX0GNQsBAQQYk?=
+ =?us-ascii?q?nSQJ4IhgTWfWgoog3aMIo4Nhy0aM4VbpRSZCIs3glOVNDQLDk+EaYFoPIFZc?=
+ =?us-ascii?q?BU7gmcJFjQZD44uCwuBeIFohAeCOcgaJzICCTIBAQcCBw4DC4FokAACJAKBV?=
+ =?us-ascii?q?gEB?=
+IronPort-Data: A9a23:oSUvIKKfNyrkXXU/FE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS0WYGn
+ 2EZCjyBPPffNzD2KYwlYI7l8h8A6pDQyINnHQsd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
  63yUvGZcoZpCCea+Uf1WlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
  T/Oi5eHYgH8g2clajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
  vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1tUVM5PasWq992EGJc7
- t0KdQkfRSK60rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBUrAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MEiojx5nYj/7DLoyn+qsj3juehVTqUmeouw85G27IAlZjeOybIWFJY3VLSlTtnfCo
- kj9uFXfOS1ZL+LY+AvC4nestNaayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1nfDWkfRTkHY9sj3CMreQEXO
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN00S2ocNt1I9t9rAEYN0
+ aAyOCsdV1ec0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSAVLAtQIvIROPB4towMDUY358VW62BI
+ ZBENHw2MESojx5nYj/7DLoyn+qsj3juehVTqUmeouw85G27IAlZjeOyb4KKIIXaLSlTtkTfr
+ GjJ7znwOTBENM6OzmqG3njrocaayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRul/fDWkfRTkHY9sj3CMreQEXO
  payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:3AF5m6pWPROKflDRTKJs6+kaV5oJeYIsimQD101hICG9vPb2qy
- nIpoV96faaslcssR0b9OxofZPwI080lqQFhbX5Q43DYOCOggLBR+tfBMnZsljd8kbFmNK1u5
- 0NT0EHMqySMXFKyeDn/QK/D9EshPOD8KyumKPi6k0Fd3ANV0mlhD0Jcjpy1SZNNXB7OaY=
-X-Talos-CUID: 9a23:TzMyz28LjpeEFDpcsTWVv01JCM8lVHOM9XbBIF2jKHQ0ca++e2bFrQ==
-X-Talos-MUID: 9a23:euh5jgWjdaCpHxPq/A62gBtZc/ZO2JjtE35KoKRBq8yEBxUlbg==
+IronPort-HdrOrdr: A9a23:tQ7Im65AkE0/mabPcAPXwOrXdLJyesId70hD6qm+c3Nom6uj5q
+ eTdZsgtCMc5Ax9ZJhko6HjBEDiewK5yXcK2+ks1N6ZNWGM0ldAbrsSiLcKqAePJ8SRzIJgPN
+ 9bAstDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhFQpcUAUdAZ0++/YTzra3FLeA==
+X-Talos-CUID: 9a23:2YfnOmM8Ftr2su5DAm5M3kVESswcbnz6j1OMCV+jGV8uV+jA
+X-Talos-MUID: 9a23:dPz75wQSVMj8TSgjRXTuwztoO9c16p+PVkAfgJJWuOWOcgtZbmI=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,167,1787011200"; 
-   d="scan'208";a="537478797"
-Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Oct 2026 06:43:25 +0000
+   d="scan'208";a="537707218"
+Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Oct 2026 06:43:25 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id 4B48C18000200;
-	Mon, 19 Oct 2026 06:43:25 +0000 (GMT)
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id D59471800014B;
+	Mon, 19 Oct 2026 06:43:24 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id BD5EDCBF21E; Sun, 18 Oct 2026 23:43:24 -0700 (PDT)
+	id 5E0CACBF201; Sun, 18 Oct 2026 23:43:24 -0700 (PDT)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 5/5] curl: fix CVE-2026-80231
-Date: Sun, 18 Oct 2026 23:43:20 -0700
-Message-Id: <20261019064320.3978613-6-dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 1/5] curl: fix CVE-2026-8926
+Date: Sun, 18 Oct 2026 23:43:16 -0700
+Message-Id: <20261019064320.3978613-2-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261019064320.3978613-1-dkelaiya@cisco.com>
 References: <20261019064320.3978613-1-dkelaiya@cisco.com>
@@ -78,261 +79,397 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-07.cisco.com
+X-Outbound-Node: rcdn-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 06:43:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248136
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248135
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Apply the native CA connection-reuse fix [1] after CVE-2026-11564.
-Store the effective native CA setting in the primary SSL configuration
-and include it in connection matching and cloning. Update each affected
-TLS backend to read the connection setting using the curl 8.19.0 layout.
-The upstream advisory is referenced in [2].
+Backport the upstream fix [1] for [2] to curl 8.19.0.
 
-[1] https://github.com/curl/curl/commit/7be1e70cb6bcd83e130ecfe8cb91b6a7dcdeff42
-[2] https://curl.se/docs/CVE-2026-80231.html
+Include entry-selection changes and extended test 685 from [4].
+Keep password-only entries valid for a user supplied in the URL,
+while rejecting passwords tied to a different login. Reset login
+matching state when changing entries.
+
+Include upstream follow-up [3] to cover URL users absent from the
+netrc file, with regression test 1646.
+
+[1] https://github.com/curl/curl/commit/4ae1d7cc2643e4773a136395f12bc02fc6867854
+[2] https://curl.se/docs/CVE-2026-8926.html
+[3] https://github.com/curl/curl/commit/7ca5f939c8403db7ede21e2ccb805a65d3329ef8
+[4] https://github.com/curl/curl/commit/a327a5bdedfad6b486bca4e0a1a4fdac9ab298ca
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../curl/curl/CVE-2026-80231.patch            | 212 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
- 2 files changed, 213 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80231.patch
+ .../curl/curl/CVE-2026-8926-dependent.patch   | 140 ++++++++++++++++++
+ .../curl/curl/CVE-2026-8926_p1.patch          | 100 +++++++++++++
+ .../curl/curl/CVE-2026-8926_p2.patch          |  84 +++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   3 +
+ 4 files changed, 327 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8926-dependent.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8926_p1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8926_p2.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-80231.patch b/meta/recipes-support/curl/curl/CVE-2026-80231.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-8926-dependent.patch b/meta/recipes-support/curl/curl/CVE-2026-8926-dependent.patch
 new file mode 100644
-index 0000000000..dd58c6c544
+index 0000000000..1c46d08e27
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-80231.patch
-@@ -0,0 +1,212 @@
-+From 7be1e70cb6bcd83e130ecfe8cb91b6a7dcdeff42 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2026-8926-dependent.patch
+@@ -0,0 +1,140 @@
++From a327a5bdedfad6b486bca4e0a1a4fdac9ab298ca Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 25 Aug 2026 13:47:11 +0200
-+Subject: [PATCH] vtls: move 'native_ca_store' ssl_config_data =>
-+ ssl_primary_config
++Date: Mon, 9 Mar 2026 08:38:14 +0100
++Subject: [PATCH] netrc: refactor into smaller sub functions
 +
-+And include it as key for connection reuse matching.
++Fixes #20950 - test 685 is extended for this
++Closes #20932
 +
-+Reported-by: Stanislav Fort
-+
-+Closes #22668
-+
-+CVE: CVE-2026-80231
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/7be1e70cb6bcd83e130ecfe8cb91b6a7dcdeff42]
++CVE: CVE-2026-8926
++Upstream-Status: Backport [https://github.com/curl/curl/commit/a327a5bdedfad6b486bca4e0a1a4fdac9ab298ca]
 +
 +Backport Changes:
-+- Moved the SSL config structures to lib/urldata.h and matching,
-+  cloning and option completion to lib/vtls/vtls.c. Curl 8.19.0
-+  does not provide lib/vtls/vtls_config.[ch].
-+- Omitted the ossl_apply_session() hunk because curl 8.19.0 has no
-+  corresponding session-verification path.
-+- Retained the older GnuTLS verification layout and helper names.
++- Kept the curl 8.19.0 parser and login/password API instead of
++  extracting netrc_state, token, state, and finalization helpers.
++- Applied the password-presence check, generic-entry selection and
++  entry-state resets in the existing parser, without the helper moves.
++- Omitted netrc_finalize's password-return comment because the CVE
++  fix must reject entries with an explicitly mismatched login.
 +
-+(cherry picked from commit 7be1e70cb6bcd83e130ecfe8cb91b6a7dcdeff42)
++(cherry picked from commit a327a5bdedfad6b486bca4e0a1a4fdac9ab298ca)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ lib/urldata.h      | 2 +-
-+ lib/vtls/gtls.c    | 6 +++---
-+ lib/vtls/openssl.c | 7 +++----
-+ lib/vtls/rustls.c  | 2 +-
-+ lib/vtls/vtls.c    | 8 +++++---
-+ lib/vtls/wolfssl.c | 5 ++---
-+ 6 files changed, 15 insertions(+), 15 deletions(-)
++ docs/cmdline-opts/netrc.md         | 12 ++++++++++--
++ docs/libcurl/opts/CURLOPT_NETRC.md |  5 +++++
++ lib/netrc.c                        | 17 ++++++++++++++---
++ tests/data/test685                 |  4 +++-
++ 4 files changed, 32 insertions(+), 6 deletions(-)
 +
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index dce181d..0bc9ade 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -249,6 +249,7 @@ struct ssl_primary_config {
-+   BIT(verifypeer);       /* set TRUE if this is desired */
-+   BIT(verifyhost);       /* set TRUE if CN/SAN must match hostname */
-+   BIT(verifystatus);     /* set TRUE if certificate status must be checked */
-++  BIT(native_ca_store); /* use the native CA store of operating system */
-+   BIT(cache_session);    /* cache session or not */
-+ };
++diff --git a/docs/cmdline-opts/netrc.md b/docs/cmdline-opts/netrc.md
++index 72b5ff9..03a7ed6 100644
++--- a/docs/cmdline-opts/netrc.md
+++++ b/docs/cmdline-opts/netrc.md
++@@ -35,10 +35,18 @@ On Windows two filenames in the home directory are checked: *.netrc* and
++ *_netrc*, preferring the former. Older versions on Windows checked for
++ *_netrc* only.
 + 
-+@@ -264,7 +265,6 @@ struct ssl_config_data {
-+   BIT(no_partialchain); /* do not accept partial certificate chains */
-+   BIT(revoke_best_effort); /* ignore SSL revocation offline/missing revocation
-+                               list errors */
-+-  BIT(native_ca_store); /* use the native CA store of operating system */
-+   BIT(auto_client_cert);   /* automatically locate and use a client
-+                               certificate for authentication (Schannel) */
-+   BIT(custom_cafile); /* application has set custom CA file */
-+diff --git a/lib/vtls/gtls.c b/lib/vtls/gtls.c
-+index bfeb948..f19940a 100644
-+--- a/lib/vtls/gtls.c
-++++ b/lib/vtls/gtls.c
-+@@ -451,7 +451,7 @@ static CURLcode gtls_populate_creds(struct Curl_cfilter *cf,
-+   }
++-A quick and simple example of how to setup a *.netrc* to allow curl to FTP to
++-the machine host.example.com with username 'myself' and password 'secret'
+++A quick and simple example of how to setup a *.netrc* to allow curl to access
+++the machine host.example.com with username `myself` and password `secret`
++ could look similar to:
 + 
-+   infof(data, "SSL Trust Anchors:");
-+-  if(ssl_config->native_ca_store) {
-++  if(config->native_ca_store) {
-+ #ifdef USE_APPLE_SECTRUST
-+     infof(data, "  Native: Apple SecTrust");
-+     creds_are_empty = FALSE;
-+@@ -655,7 +655,7 @@ CURLcode Curl_gtls_client_trust_setup(struct Curl_cfilter *cf,
-+     !conn_config->CApath &&
-+     !conn_config->ca_info_blob &&
-+     !ssl_config->primary.CRLfile &&
-+-    !ssl_config->native_ca_store &&
-++    !conn_config->native_ca_store &&
-+     !conn_config->clientcert; /* GnuTLS adds client cert to its credentials! */
++     machine host.example.com
++     login myself
++     password secret
+++
+++curl also supports the `default` keyword. This is the same as machine name
+++except that default matches any name. There can be only one `default` token,
+++and it must be after all machine tokens.
+++
+++When providing a username in the URL and a *.netrc* file, curl looks for the
+++password for that specific user for the given host if such an entry appears in
+++the file before a "generic" `machine` entry without `login` specified.
++diff --git a/docs/libcurl/opts/CURLOPT_NETRC.md b/docs/libcurl/opts/CURLOPT_NETRC.md
++index 65d87cf..1e3dbb1 100644
++--- a/docs/libcurl/opts/CURLOPT_NETRC.md
+++++ b/docs/libcurl/opts/CURLOPT_NETRC.md
++@@ -50,6 +50,11 @@ and similar things are not supported).
++ The netrc file provides credentials for a hostname independent of which
++ protocol and port number that are used.
 + 
-+   if(cache_criteria_met)
-+@@ -1659,7 +1659,7 @@ CURLcode Curl_gtls_verifyserver(struct Curl_cfilter *cf,
-+       infof(data, "  SSL certificate verified by GnuTLS");
+++When providing a username in the URL and a *.netrc* file, libcurl looks for
+++and uses the password for that specific user for the given host if such an
+++entry appears in the file before a "generic" `machine` entry without `login`
+++specified.
+++
++ libcurl does not verify that the file has the correct properties set (as the
++ standard Unix ftp client does). It should only be readable by user.
 + 
-+ #ifdef USE_APPLE_SECTRUST
-+-    if(!verified && ssl_config->native_ca_store) {
-++    if(!verified && config->native_ca_store) {
-+       result = glts_apple_verify(cf, data, peer, &chain, &verified);
-+       if(result && (result != CURLE_PEER_FAILED_VERIFICATION))
-+         goto out; /* unexpected error */
-+diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
-+index 1cf357c..e162114 100644
-+--- a/lib/vtls/openssl.c
-++++ b/lib/vtls/openssl.c
-+@@ -3034,7 +3034,6 @@ static CURLcode ossl_load_trust_anchors(struct Curl_cfilter *cf,
-+                                         X509_STORE *store)
-+ {
-+   struct ssl_primary_config *conn_config = Curl_ssl_cf_get_primary_config(cf);
-+-  struct ssl_config_data *ssl_config = Curl_ssl_cf_get_config(cf, data);
-+   CURLcode result = CURLE_OK;
-+   const char * const ssl_cafile =
-+     /* CURLOPT_CAINFO_BLOB overrides CURLOPT_CAINFO */
-+@@ -3043,7 +3042,7 @@ static CURLcode ossl_load_trust_anchors(struct Curl_cfilter *cf,
-+   bool have_native_check = FALSE;
++diff --git a/lib/netrc.c b/lib/netrc.c
++index 1073cc5..5eb0c84 100644
++--- a/lib/netrc.c
+++++ b/lib/netrc.c
++@@ -289,8 +289,7 @@ static NETRCcode parsenetrc(struct store_netrc *store,
++             retcode = NETRC_OUT_OF_MEMORY; /* allocation failed */
++             goto out;
++           }
++-          if(!specific_login || our_login)
++-            found |= FOUND_PASSWORD;
+++          found |= FOUND_PASSWORD;
++           keyword = NONE;
++         }
++         else if(curl_strequal("login", tok))
++@@ -299,13 +298,22 @@ static NETRCcode parsenetrc(struct store_netrc *store,
++           keyword = PASSWORD;
++         else if(curl_strequal("machine", tok)) {
++           /* a new machine here */
++-          if(found & FOUND_PASSWORD) {
+++          if(found & FOUND_PASSWORD &&
+++             /* a password was provided for this host */
+++
+++             ((!specific_login || our_login) ||
+++              /* either there was no specific login to search for, or this
+++                 is the specific one we wanted */
+++              (specific_login && !(found & FOUND_LOGIN)))) {
+++            /* or we look for a specific login, but that was not specified */
+++
++             done = TRUE;
++             break;
++           }
++           state = HOSTFOUND;
++           keyword = NONE;
++           found = 0;
+++          our_login = FALSE;
++           Curl_safefree(password);
++           if(!specific_login)
++             Curl_safefree(login);
++@@ -313,6 +321,9 @@ static NETRCcode parsenetrc(struct store_netrc *store,
++         else if(curl_strequal("default", tok)) {
++           state = HOSTVALID;
++           retcode = NETRC_OK; /* we did find our host */
+++          keyword = NONE;
+++          found = 0;
+++          our_login = FALSE;
++           Curl_safefree(password);
++           if(!specific_login)
++             Curl_safefree(login);
++diff --git a/tests/data/test685 b/tests/data/test685
++index a069ff8..5346cd1 100644
++--- a/tests/data/test685
+++++ b/tests/data/test685
++@@ -26,13 +26,15 @@ Connection: close
++ http
++ </server>
++ <name>
++-netrc with no login - provided user
+++netrc with no login - but provided user in URL
++ </name>
++ <command>
++ --netrc-optional --netrc-file %LOGDIR/netrc%TESTNUMBER http://user@%HOSTIP:%HTTPPORT/
++ </command>
++ <file name="%LOGDIR/netrc%TESTNUMBER" >
+++machine %HOSTIP password firstthis login unknown
++ machine %HOSTIP password 5up3r53cr37
+++machine %HOSTIP password d1ff3r3nt login anotherone
++ </file>
++ </client>
 + 
-+   octx->store_is_empty = TRUE;
-+-  if(ssl_config->native_ca_store) {
-++  if(conn_config->native_ca_store) {
-+ #ifdef USE_WIN32_CRYPTO
-+     bool added = FALSE;
-+     result = ossl_windows_load_anchors(cf, data, store, &added);
-+@@ -3352,7 +3351,7 @@ CURLcode Curl_ssl_setup_x509_store(struct Curl_cfilter *cf,
-+     !conn_config->CApath &&
-+     !conn_config->ca_info_blob &&
-+     !ssl_config->primary.CRLfile &&
-+-    !ssl_config->native_ca_store;
-++    !conn_config->native_ca_store;
++-- 
++2.35.6
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-8926_p1.patch b/meta/recipes-support/curl/curl/CVE-2026-8926_p1.patch
+new file mode 100644
+index 0000000000..8402429fce
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-8926_p1.patch
+@@ -0,0 +1,100 @@
++From 4ae1d7cc2643e4773a136395f12bc02fc6867854 Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Fri, 15 May 2026 11:45:49 +0200
++Subject: [PATCH] netrc: scanner refactor
++
++Refactor the netrc scanner. Add test case for checking that the last
++matched machine with unmatched login does not return the password as
++success (unit1304).
++
++Closes #21624
++
++CVE: CVE-2026-8926
++Upstream-Status: Backport [https://github.com/curl/curl/commit/4ae1d7cc2643e4773a136395f12bc02fc6867854]
++
++Backport Changes:
++- Kept the curl 8.19.0 tokenizer and login/password API in netrc.c;
++  omitted the Curl_creds API changes in netrc.h and url.c.
++- Replaced the scanner refactor with a NETRC_NO_MATCH guard for an
++  unmatched requested login, keeping generic password-only entries.
++- Corrected test 685's regression in the initial backport: a missing
++  login keyword must not reject a password-only entry for a URL user.
++- Preserved the old blank-password behavior for a matching login.
++- Adapted unit1304 to the curl 8.19.0 login/password API and retained
++  the upstream regression scenario for the last unmatched login.
++
++(cherry picked from commit 4ae1d7cc2643e4773a136395f12bc02fc6867854)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ lib/netrc.c           |  3 +++
++ tests/unit/unit1304.c | 20 +++++++++++++++++---
++ 2 files changed, 20 insertions(+), 3 deletions(-)
++
++diff --git a/lib/netrc.c b/lib/netrc.c
++index 5eb0c84..425a535 100644
++--- a/lib/netrc.c
+++++ b/lib/netrc.c
++@@ -349,6 +349,9 @@ static NETRCcode parsenetrc(struct store_netrc *store,
 + 
-+   ERR_set_mark();
++ out:
++   curlx_dyn_free(&token);
+++  if(!retcode && specific_login && !our_login &&
+++     ((found & FOUND_LOGIN) || !password))
+++    retcode = NETRC_NO_MATCH;
++   if(!retcode) {
++     if(!password && our_login) {
++       /* success without a password, set a blank one */
++diff --git a/tests/unit/unit1304.c b/tests/unit/unit1304.c
++index 231ddd4..cff99f1 100644
++--- a/tests/unit/unit1304.c
+++++ b/tests/unit/unit1304.c
++@@ -59,7 +59,7 @@ static CURLcode test_unit1304(const char *arg)
++   login = curlx_strdup("me");
++   Curl_netrc_init(&store);
++   result = Curl_parsenetrc(&store, "example.com", &login, &password, arg);
++-  fail_unless(result == 0, "Host should have been found");
+++  fail_unless(result == 1, "Login should not have been found");
++   abort_unless(password == NULL, "password is not NULL!");
++   Curl_netrc_cleanup(&store);
++   curlx_free(login);
++@@ -82,7 +82,7 @@ static CURLcode test_unit1304(const char *arg)
++   login = curlx_strdup("admi"); /* spellchecker:disable-line */
++   Curl_netrc_init(&store);
++   result = Curl_parsenetrc(&store, "example.com", &login, &password, arg);
++-  fail_unless(result == 0, "Host should have been found");
+++  fail_unless(result == 1, "Login should not have been found");
++   abort_unless(password == NULL, "password is not NULL!");
++   Curl_netrc_cleanup(&store);
++   curlx_free(login);
++@@ -94,7 +94,7 @@ static CURLcode test_unit1304(const char *arg)
++   login = curlx_strdup("adminn");
++   Curl_netrc_init(&store);
++   result = Curl_parsenetrc(&store, "example.com", &login, &password, arg);
++-  fail_unless(result == 0, "Host should have been found");
+++  fail_unless(result == 1, "Login should not have been found");
++   abort_unless(password == NULL, "password is not NULL!");
++   Curl_netrc_cleanup(&store);
++   curlx_free(login);
++@@ -166,6 +166,20 @@ static CURLcode test_unit1304(const char *arg)
++   fail_unless(strncmp(login, "none", 4) == 0, "login should be 'none'");
++   Curl_netrc_cleanup(&store);
 + 
-+@@ -4834,7 +4833,7 @@ CURLcode Curl_ossl_check_peer_cert(struct Curl_cfilter *cf,
-+     infof(data, "SSL certificate verified via OpenSSL.");
+++  /*
+++   * Test for the last host where we do not want to see the password
+++   * if the login does not match.
+++   */
+++  curlx_free(password);
+++  password = NULL;
+++  curlx_free(login);
+++  login = curlx_strdup("hilarious");
+++  Curl_netrc_init(&store);
+++  result = Curl_parsenetrc(&store, "curl.example.com", &login, &password, arg);
+++  fail_unless(result == 1, "Login should not have been found");
+++  abort_unless(password == NULL, "password is not NULL!");
+++  Curl_netrc_cleanup(&store);
+++
++   UNITTEST_END(t1304_stop(&password, &login))
++ }
 + 
-+ #ifdef USE_APPLE_SECTRUST
-+-  if(!verified && conn_config->verifypeer && ssl_config->native_ca_store) {
-++  if(!verified && conn_config->verifypeer && conn_config->native_ca_store) {
-+     /* we verify using Apple SecTrust *unless* OpenSSL already verified.
-+      * This may happen if the application intercepted the OpenSSL callback
-+      * and installed its own. */
-+diff --git a/lib/vtls/rustls.c b/lib/vtls/rustls.c
-+index 564b10a..8961943 100644
-+--- a/lib/vtls/rustls.c
-++++ b/lib/vtls/rustls.c
-+@@ -1035,7 +1035,7 @@ static CURLcode cr_init_backend(struct Curl_cfilter *cf,
-+     rustls_client_config_builder_dangerous_set_certificate_verifier(
-+       config_builder, cr_verify_none);
-+   }
-+-  else if(ssl_config->native_ca_store) {
-++  else if(conn_config->native_ca_store) {
-+     result = init_config_builder_platform_verifier(data, config_builder);
-+     if(result != CURLE_OK) {
-+       rustls_client_config_builder_free(config_builder);
-+diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
-+index 35cb4f0..a3ed81b 100644
-+--- a/lib/vtls/vtls.c
-++++ b/lib/vtls/vtls.c
-+@@ -198,6 +198,7 @@ static bool match_ssl_primary_config(struct Curl_easy *data,
-+   if((c1->version == c2->version) &&
-+      (c1->version_max == c2->version_max) &&
-+      (c1->ssl_options == c2->ssl_options) &&
-++     (c1->native_ca_store == c2->native_ca_store) &&
-+      (c1->verifypeer == c2->verifypeer) &&
-+      (c1->verifyhost == c2->verifyhost) &&
-+      (c1->verifystatus == c2->verifystatus) &&
-+@@ -251,6 +252,7 @@ static bool clone_ssl_primary_config(struct ssl_primary_config *source,
-+   dest->verifypeer = source->verifypeer;
-+   dest->verifyhost = source->verifyhost;
-+   dest->verifystatus = source->verifystatus;
-++  dest->native_ca_store = source->native_ca_store;
-+   dest->cache_session = source->cache_session;
-+   dest->ssl_options = source->ssl_options;
-+ 
-+@@ -312,7 +314,7 @@ static void ssl_easy_config_compl_options(struct ssl_config_data *sslc)
-+   /* If set via CURLOPT_(PROXY_)SSL_OPTIONS, we definitely use it.
-+    * If not, we switch it on for supported backends if no custom
-+    * ca settings exist. */
-+-  sslc->native_ca_store = !!(options & CURLSSLOPT_NATIVE_CA);
-++  sslc->primary.native_ca_store = !!(options & CURLSSLOPT_NATIVE_CA);
-+   sslc->enable_beast = !!(options & CURLSSLOPT_ALLOW_BEAST);
-+   sslc->no_partialchain = !!(options & CURLSSLOPT_NO_PARTIALCHAIN);
-+   sslc->no_revoke = !!(options & CURLSSLOPT_NO_REVOKE);
-+@@ -335,7 +337,7 @@ CURLcode Curl_ssl_easy_config_complete(struct Curl_easy *data)
-+   if(Curl_ssl_backend() != CURLSSLBACKEND_SCHANNEL) {
-+ #if defined(USE_APPLE_SECTRUST) || defined(CURL_CA_NATIVE)
-+     if(!sslc->custom_capath && !sslc->custom_cafile && !sslc->custom_cablob)
-+-      sslc->native_ca_store = TRUE;
-++      sslc->primary.native_ca_store = TRUE;
-+ #endif
-+ #ifdef CURL_CA_PATH
-+     if(!sslc->custom_capath && !set->str[STRING_SSL_CAPATH]) {
-+@@ -384,7 +386,7 @@ CURLcode Curl_ssl_easy_config_complete(struct Curl_easy *data)
-+   if(Curl_ssl_backend() != CURLSSLBACKEND_SCHANNEL) {
-+ #if defined(USE_APPLE_SECTRUST) || defined(CURL_CA_NATIVE)
-+     if(!sslc->custom_capath && !sslc->custom_cafile && !sslc->custom_cablob)
-+-      sslc->native_ca_store = TRUE;
-++      sslc->primary.native_ca_store = TRUE;
-+ #endif
-+ #ifdef CURL_CA_PATH
-+     if(!sslc->custom_capath && !set->str[STRING_SSL_CAPATH_PROXY]) {
-+diff --git a/lib/vtls/wolfssl.c b/lib/vtls/wolfssl.c
-+index fdf33a8..c901ebf 100644
-+--- a/lib/vtls/wolfssl.c
-++++ b/lib/vtls/wolfssl.c
-+@@ -593,13 +593,12 @@ static CURLcode wssl_populate_x509_store(struct Curl_cfilter *cf,
-+     /* CURLOPT_CAINFO_BLOB overrides CURLOPT_CAINFO */
-+     (ca_info_blob ? NULL : conn_config->CAfile);
-+   const char * const ssl_capath = conn_config->CApath;
-+-  struct ssl_config_data *ssl_config = Curl_ssl_cf_get_config(cf, data);
-+   bool imported_native_ca = FALSE;
-+   bool imported_ca_info_blob = FALSE;
-+ 
-+ #ifndef NO_FILESYSTEM
-+   /* load native CA certificates */
-+-  if(ssl_config->native_ca_store) {
-++  if(conn_config->native_ca_store) {
-+ #ifdef WOLFSSL_SYS_CA_CERTS
-+     if(wolfSSL_CTX_load_system_CA_certs(wssl->ssl_ctx) != WOLFSSL_SUCCESS) {
-+       infof(data, "error importing native CA store, continuing anyway");
-+@@ -810,7 +809,7 @@ CURLcode Curl_wssl_setup_x509_store(struct Curl_cfilter *cf,
-+     !conn_config->CApath &&
-+     !conn_config->ca_info_blob &&
-+     !ssl_config->primary.CRLfile &&
-+-    !ssl_config->native_ca_store;
-++    !conn_config->native_ca_store;
-+ 
-+   cached_store = cache_criteria_met ? wssl_get_cached_x509_store(cf, data)
-+                                     : NULL;
++-- 
++2.35.6
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-8926_p2.patch b/meta/recipes-support/curl/curl/CVE-2026-8926_p2.patch
+new file mode 100644
+index 0000000000..b511e03fc4
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-8926_p2.patch
+@@ -0,0 +1,84 @@
++From 7ca5f939c8403db7ede21e2ccb805a65d3329ef8 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Sat, 16 May 2026 00:54:13 +0200
++Subject: [PATCH] test1646: netrc parsing without user match but user in URL
++
++Follow-up to 4ae1d7cc2643e
++
++CVE: CVE-2026-8926
++Upstream-Status: Backport [https://github.com/curl/curl/commit/7ca5f939c8403db7ede21e2ccb805a65d3329ef8]
++
++Backport Changes:
++- Registered test 1646 in the older curl 8.19.0 test-list row.
++
++(cherry picked from commit 7ca5f939c8403db7ede21e2ccb805a65d3329ef8)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ tests/data/Makefile.am |  2 +-
++ tests/data/test1646    | 45 +++++++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 46 insertions(+), 1 deletion(-)
++
++diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
++index 13e47a3..ea700cd 100644
++--- a/tests/data/Makefile.am
+++++ b/tests/data/Makefile.am
++@@ -218,7 +218,7 @@ test1620 test1621 test1622 test1623 test1624 \
++ \
++ test1630 test1631 test1632 test1633 test1634 test1635 test1636 test1637 \
++ \
++-test1640 test1641 test1642 test1643 test1647 test1648 test1649 \
+++test1640 test1641 test1642 test1643 test1646 test1647 test1648 test1649 \
++ \
++ test1650 test1651 test1652 test1653 test1654 test1655 test1656 test1657 \
++ test1658 \
++diff --git a/tests/data/test1646 b/tests/data/test1646
++new file mode 100644
++index 0000000..3df03be
++--- /dev/null
+++++ b/tests/data/test1646
++@@ -0,0 +1,45 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++netrc
+++</keywords>
+++</info>
+++
+++<reply>
+++<data>
+++HTTP/1.1 200 OK
+++Content-Length: 6
+++
+++12345
+++</data>
+++</reply>
+++
+++# Client-side
+++<client>
+++<server>
+++http
+++</server>
+++<name>
+++netrc parsing without user match but user in URL
+++</name>
+++<command>
+++--netrc --netrc-file %LOGDIR/netrc%TESTNUMBER http://alice@example.com:%HTTPPORT/%TESTNUMBER --resolve example.com:%HTTPPORT:%HOSTIP
+++</command>
+++<file name="%LOGDIR/netrc%TESTNUMBER" >
+++machine example.com login bob password sekret
+++</file>
+++</client>
+++
+++# Verify data after the test has been "shot"
+++<verify>
+++<protocol crlf="headers">
+++GET /%TESTNUMBER HTTP/1.1
+++Host: example.com:%HTTPPORT
+++Authorization: Basic %b64[alice:]b64%
+++User-Agent: curl/%VERSION
+++Accept: */*
+++
+++</protocol>
+++</verify>
+++</testcase>
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 0418bec61c..208595d950 100644
+index c2697d6dd8..af76f5d53b 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -46,6 +46,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-80255.patch \
-            file://CVE-2026-82208.patch \
+@@ -38,6 +38,9 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-80229.patch \
+            file://CVE-2026-9546-01.patch \
+            file://CVE-2026-9546-02.patch \
++           file://CVE-2026-8926-dependent.patch \
++           file://CVE-2026-8926_p1.patch \
++           file://CVE-2026-8926_p2.patch \
             file://CVE-2026-80230.patch \
-+           file://CVE-2026-80231.patch \
             "
  
- SRC_URI:append:class-nativesdk = " \
 -- 
 2.35.6
 
