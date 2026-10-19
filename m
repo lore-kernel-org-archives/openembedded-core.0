@@ -1,223 +1,98 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BFFBCCF2E3
-	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 12:30:02 +0000 (UTC)
-Received: from mailrelay-egress16.pub.mailoutpod3-cph3.one.com (mailrelay-egress16.pub.mailoutpod3-cph3.one.com [46.30.212.3])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32827.1792411787753550622
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ABB4CCF2D6
+	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 12:39:53 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33489.1792413592396357745
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2026 05:09:48 -0700
+ Mon, 19 Oct 2026 05:39:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@embetrix.com header.s=rsa1 header.b=kmBTW0BA;
- dkim=pass header.i=@embetrix.com header.s=ed1 header.b=hbodzoko;
- spf=none, err=permanent DNS error (domain: embetrix.com, ip: 46.30.212.3, mailfrom: ayoub.zaki@embetrix.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1792411785; x=1793016585;
-	d=embetrix.com; s=rsa1;
-	h=content-transfer-encoding:content-type:in-reply-to:from:references:cc:to:
-	 subject:mime-version:date:message-id:from;
-	bh=7domJ/KVnit8QFHq1K7d8kQKPhwhxi6R/HLLpL9l3Jo=;
-	b=kmBTW0BAP0iO+hmyUyvYlDzQp13zAdUEkI4X7Q9Ue18Mj16BjVKGAQFc7dRfEm4A6Vl7SQJd6gSe3
-	 yWfDZzmXu78z/4YkL1bd5HRwzjXrhp0uXYrn5xLRBGBgybAId/0J2Z+boXmlwwurHzkeohEAFYbiPj
-	 q4LklMzkcLdwJVwLHNOBL0ycOiuBTkl6vkUEaVlyUvn9l56t00BhBbB05ZJMmedLJXQYNIciKxYnX5
-	 OeHUsMaQpODyn/mKPyR6ytIa/o7kcGuWwM1O7jddFiPrCUTjoMRJWHzDw6Td/c/6XxiOUXOkuhJ+rN
-	 hUMNq7omvMU6tNXtgrcIjtFlKuCLKFQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1792411785; x=1793016585;
-	d=embetrix.com; s=ed1;
-	h=content-transfer-encoding:content-type:in-reply-to:from:references:cc:to:
-	 subject:mime-version:date:message-id:from;
-	bh=7domJ/KVnit8QFHq1K7d8kQKPhwhxi6R/HLLpL9l3Jo=;
-	b=hbodzokoLLSMmhzAloLEUOwOiiEEV2M+S5oE+F7ee8ztHjodClZTcY5bsXSvHCZfHoN2dB7IILtKR
-	 7e+Z4KvDw==
-X-HalOne-ID: f7e33640-cbb5-11f1-8278-7d3e33f7de26
-Received: from [IPV6:2a02:3102:8c10:1ae0:8ef1:f8eb:f1e:99b9] (dynamic-2a02-3102-8c10-1ae0-8ef1-f8eb-0f1e-99b9.310.pool.telefonica.de [2a02:3102:8c10:1ae0:8ef1:f8eb:f1e:99b9])
-	by mailrelay1.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id f7e33640-cbb5-11f1-8278-7d3e33f7de26;
-	Mon, 19 Oct 2026 12:09:44 +0000 (UTC)
-Message-ID: <2054b497-3add-46b9-8dcc-051fae96262c@embetrix.com>
-Date: Mon, 19 Oct 2026 14:09:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [wrynose][PATCH] minicom: fix baud rate setting with glibc 2.42 and newer
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-References: <20261017111813.53186-1-ayoub.zaki@embetrix.com>
- <DM8M06OIXDWR.1KFR0FLAQLZC2@smile.fr>
- <2cc2f09f-9f7b-4014-bb02-1d1eff6d9647@embetrix.com>
- <CAMSfU+6JRV-m2c8zNRCD48N_-TUm7uQsk87XFrC++Ue1e_HFaA@mail.gmail.com>
-From: "Ayoub Zaki" <ayoub.zaki@embetrix.com>
-In-Reply-To: <CAMSfU+6JRV-m2c8zNRCD48N_-TUm7uQsk87XFrC++Ue1e_HFaA@mail.gmail.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@smile.fr header.s=google header.b=fKyaGcf7;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a0e1b0681bso14484975e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 05:39:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1792413591; x=1793018391; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bssEG70ZIjdGhV1nJkiOccAtAAgc0vnA1fl/htrVnEs=;
+        b=fKyaGcf73Oc4YvGYdRTuBsYjlAGgNp456QqOHWJXFe78xu01WFZfxMcmKOAOCEF+4Q
+         a/moQys3mkqHGLYHINcovaCLvUI42/MeyRtHXUppNYg4G1zElSnr8w94PU2KqlN4VXVf
+         AI6EYcZwVBUTUF0lG0+xex8ToR5Ik9eWjFMNs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792413591; x=1793018391;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bssEG70ZIjdGhV1nJkiOccAtAAgc0vnA1fl/htrVnEs=;
+        b=hD3gmcwVB7faFs570/XlJL6+VmV9LfKwgbJi609Uo5IxzOg0R3UIhu4shafAdyrvhV
+         1RX+f7zdBraH/BmIJECpTYNj+cpP2GdDt5Inw59XeqdUlFDnI2CWjQrzqrhFTGXdH5f6
+         92tNi6MKggiI1WyRm1TQwZ7rgcJBaba0s+TSGKggMITxiEwOEbrFxgIiePPNP40LDQjX
+         vNhmUIMfu3MQBILUzd0/+grjztSatgx/fTSVW5k6KrA5ehq6bqbtSGP8TYlPtrq43mtS
+         cepO1YPysyCsZyglsnxRitw/23PLGGFZKUPntFkdGOJzD7avdHigy5cHffudRyYgl1km
+         5/dw==
+X-Forwarded-Encrypted: i=1; AKwUvBwOd0X8xd7u9/QpfWDaYYhSuog4DGD1RtG1D4JYUhF4uVTMWiWcutoGqTwToMg9gAKygVe5LOiac2AcxCEnHfpUiw==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYJBEPQDyCc9vDQOARQgPujusjycJDgQsrDvg1t8vz4ixc8exTIP
+	9l/sjFQyADCHYTA9E27iEut+/w5uRBPz0+hLNs+M+IcqexgPERGbVld8GxivQml25U8=
+X-Gm-Gg: AYBFou3gOzapdi/D/72mpMXEaNglhnK+jjqo9C3Akj9Q6PEmf9RlSz9Y26e2wHyt9/v
+	ychALcGfNn+b0e8Lc69vFZRs+8UqcY+FLM2cVIa9EwNaXxNobCe9F2M9A5hz0GnbvC2DFeMy4hX
+	JuA7EeNj6ZfHZ01QCYt+3SZN+b/HV9I9ZSSlOAZEewEsIeamLNiQvDFzE9IUKW4JHQeY9iVZyFO
+	++IJHYVJbk7kdds93QlhuWbRimVbIuDs3ctr7LARHMJN9lLDAS9tpli9c9pPnFB0ucU/DgY3+wr
+	22q2ikqTs0aEdhNGmiMMufeeYJHHc1rQSn1b+5Tz3Niry2gE90wZlt3BahmFClm5DjVwkbDQeo0
+	iCCRSG9rybHHmErtqCLzreAZkWEmeIb6WB2hBk/mSM5SUEiO5x4cboojLEpsygheLvoyJuIAaMI
+	by+EavRSA0VWp4ggsYgIqESQQqlPOgJTXOrgIC4KifcVt+Kb4pVxToUJWf5jD3tlFwdM7sW/INn
+	GHHZCW63YYg00a1R8f2wETgIbhdl0CexND9YNTUGLdLheZzvQaZ27CX9qFIA7bdJ44NDuBe
+X-Received: by 2002:a05:600c:8519:b0:4a1:722a:d2a3 with SMTP id 5b1f17b1804b1-4a1d760d830mr203462395e9.23.1792413589466;
+        Mon, 19 Oct 2026 05:39:49 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd50ae5esm25357024f8f.51.2026.10.19.05.39.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2026 05:39:49 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Oct 2026 14:39:48 +0200
+Message-Id: <DM8TL789XUC2.14YZSGS40TQTN@smile.fr>
+To: <Roopa.Kalmath@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH v4] u-boot: fix CVE-2026-29009
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20261013095833.780884-1-Roopa.Kalmath@windriver.com>
+ <20261013114106.2090607-1-Roopa.Kalmath@windriver.com>
+In-Reply-To: <20261013114106.2090607-1-Roopa.Kalmath@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 12:30:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248163
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 12:39:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248164
 
-Hi Yoann,
+On Tue Oct 13, 2026 at 1:41 PM CEST, Roopa via lists.openembedded.org Kalma=
+th wrote:
+> Backport commit[1] which fixes this vulnerability as mentioned NVD
+> report in [2].
+>
+> [1] https://git.u-boot-project.org/u-boot/u-boot/-/commit/d6694018eaddefa=
+c6aae974f9cec72fd6e58f1bc
+> [2] https://nvd.nist.gov/vuln/detail/cve-2026-29009
+>
+> Signed-off-by: Roopa Kalmath <Roopa.Kalmath@windriver.com>
+> ---
+>  .../u-boot/files/CVE-2026-29009.patch         | 53 +++++++++++++++++++
+>  meta/recipes-bsp/u-boot/u-boot_2026.01.bb     |  4 +-
+>  2 files changed, 56 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2026-29009.patch
 
-On 10/19/26 10:16, Yoann Congal wrote:
-> 
-> 
-> Le lun. 19 oct. 2026 à 10:04, Ayoub Zaki <ayoub.zaki@embetrix.com 
-> <mailto:ayoub.zaki@embetrix.com>> a écrit :
-> 
->     Hi Yoann,
-> 
-> 
->     On 10/19/26 08:43, Yoann Congal wrote:
->      > On Sat Oct 17, 2026 at 1:18 PM CEST, Ayoub Zaki via
->     lists.openembedded.org <http://lists.openembedded.org> wrote:
->      >> Backport the upstream baud rate fix to minicom 2.10 in wrynose.
->      >>
->      >> glibc 2.42 added support for arbitrary termios baud rates on
->     Linux and
->      >> changed the Bxxx speed constants from bitmasks to integer baud
->     rates.
->      >> The macros combine these values directly with c_cflag, resulting in
->      >> incorrect baud rates and garbled UART output. Use the libc functions
->      >> instead.
->      >>
->      >> Signed-off-by: Ayoub Zaki <ayoub.zaki@embetrix.com
->     <mailto:ayoub.zaki@embetrix.com>>
->      >> ---
->      >>   ...ove-cfset-i-o-speed-macros-for-glibc.patch | 41 +++++++++++
->     ++++++++
->      >>   meta/recipes-extended/minicom/minicom_2.10.bb <http://
->     minicom_2.10.bb> |  4 +-
->      >>   2 files changed, 44 insertions(+), 1 deletion(-)
->      >>   create mode 100644 meta/recipes-extended/minicom/files/0001-
->     src-sysdep.h-remove-cfset-i-o-speed-macros-for-glibc.patch
->      >
->      > Hello,
->      >
->      > I think this patch is breaking tests:
->      > * oe-selftest-armhost ubuntu2404-vk-arm1 wrynose completed at
->     2026-10-19 03:27:48+00:00
->      > https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/
->     builds/5117 <https://autobuilder.yoctoproject.org/valkyrie/#/
->     builders/23/builds/5117>
->      > * oe-selftest-debian ubuntu2604-vk-3 wrynose completed at
->     2026-10-19 01:47:03+00:00
->      > https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/
->     builds/5086 <https://autobuilder.yoctoproject.org/valkyrie/#/
->     builders/35/builds/5086>
->      > * oe-selftest-fedora opensuse156-vk-1 wrynose completed at
->     2026-10-19 01:47:59+00:00
->      > https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/
->     builds/4898 <https://autobuilder.yoctoproject.org/valkyrie/#/
->     builders/48/builds/4898>
->      >
->      > | 2026-10-18 23:09:29,596 - oe-selftest - INFO -
->     devtool.DevtoolUpdateTests.test_devtool_update_recipe
->     (subunit.RemotedTestCase)
->      > | 2026-10-18 23:09:29,597 - oe-selftest - INFO -  ... FAIL
->      > |
->      > | Stderr:
->      > | 2026-10-18 23:00:35,915 - oe-selftest - INFO - Adding: "include
->     selftest.inc" in /srv/pokybuild/yocto-worker/oe-selftest-debian/
->     build/build-st-1224754/conf/local.conf
->      > | 2026-10-18 23:00:35,915 - oe-selftest - INFO - Adding: "include
->     bblayers.inc" in bblayers.conf
->      > | 2026-10-18 23:09:29,599 - oe-selftest - INFO - 0: 6/66 96/678
->     (58.37s) (0 failed)
->     (devtool.DevtoolUpdateTests.test_devtool_update_recipe)
->      > | 2026-10-18 23:09:29,599 - oe-selftest - INFO -
->     testtools.testresult.real._StringException: Traceback (most recent
->     call last):
->      > |   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/
->     layers/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py",
->     line 1215, in test_devtool_update_recipe
->      > |     result = runCmd('git add minicom',
->     cwd=os.path.dirname(recipefile))
->      > |   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/
->     layers/openembedded-core/meta/lib/oeqa/utils/commands.py", line 214,
->     in runCmd
->      > |     raise AssertionError("Command '%s' returned non-zero exit
->     status %d:\n%s" % (command, result.status, exc_output))
->      > | AssertionError: Command 'git add minicom' returned non-zero
->     exit status 128:
->      > | fatal: pathspec 'minicom' did not match any files
->      > |
->      > | 2026-10-18 23:09:37,115 - oe-selftest - INFO -
->     devtool.DevtoolUpdateTests.test_devtool_update_recipe_append
->     (subunit.RemotedTestCase)
->      > | 2026-10-18 23:09:37,115 - oe-selftest - INFO -  ... FAIL
->      > |
->      > | Stderr:
->      > | 2026-10-18 23:00:35,915 - oe-selftest - INFO - Adding: "include
->     selftest.inc" in /srv/pokybuild/yocto-worker/oe-selftest-debian/
->     build/build-st-1224754/conf/local.conf
->      > | 2026-10-18 23:00:35,915 - oe-selftest - INFO - Adding: "include
->     bblayers.inc" in bblayers.conf
->      > | 2026-10-18 23:09:37,116 - oe-selftest - INFO - 0: 7/66 97/678
->     (7.52s) (2 failed)
->     (devtool.DevtoolUpdateTests.test_devtool_update_recipe_append)
->      > | 2026-10-18 23:09:37,116 - oe-selftest - INFO -
->     testtools.testresult.real._StringException: Traceback (most recent
->     call last):
->      > |   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/
->     layers/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py",
->     line 1305, in test_devtool_update_recipe_append
->      > |     self._check_repo_status(os.path.dirname(recipefile), [])
->      > |     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->      > |   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/
->     layers/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py",
->     line 138, in _check_repo_status
->      > |     self.fail('Unexpected modified file in line: %s' % line)
->      > |     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->      > |   File "/usr/lib/python3.14/unittest/case.py", line 750, in fail
->      > |     raise self.failureException(msg)
->      > | AssertionError: Unexpected modified file in line: ?? meta/
->     recipes-extended/minicom/files/0001-Change-the-README.patch
->      >
->      >
->      > Can you look into this please?
-> 
-> 
-> 
->     Thanks for reporting this:
->     The patch exposes a hardcoded minicom/ directory assumption in the
->     devtool selftests:
->     https://github.com/openembedded/openembedded-core/blob/master/meta/lib/
->     oeqa/selftest/cases/devtool.py#L1360 <https://github.com/
->     openembedded/openembedded-core/blob/master/meta/lib/oeqa/selftest/
->     cases/devtool.py#L1360>.
-> 
->     devtool puts generated patches in the existing files/ directory but the
->     tests stage and clean up minicom/ causing both failures.
-> 
->     Could we fix those selftest assumptions separately?
-> 
-> 
-> Yes, the test must be updated to match the modified recipe. Can you send 
-> a v2 as a series, with the test fix included?
-> 
+Thanks!
 
-The same directory assumptions affect several other devtool selftests. 
-I’ll send separate fixes for master and wrynose to address this more 
-generally.
+It's good now. You should see this patch in the next review cycle/merge.
 
-Once the selftest fix is applied to wrynose, the original minicom patch 
-can be applied unchanged.
-
-Thanks,
-
-
-Mit freundlichen Grüßen / Kind regards
-
--- 
-Ayoub Zaki
-Embedded Systems Consultant
-
-Vaihinger Straße 2/1
-D-71634 Ludwigsburg
-
-Mobile   : +4917662901545
-Email    : ayoub.zaki@embetrix.com
-Homepage : https://embetrix.com
-VAT No.  : DE313902634
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
 
