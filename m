@@ -1,161 +1,147 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D053CCF2D6
-	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 12:22:42 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33169.1792412556106654915
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7637ACCF2E3
+	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 12:25:52 +0000 (UTC)
+Received: from PNZPR01CU001.outbound.protection.outlook.com (PNZPR01CU001.outbound.protection.outlook.com [40.107.51.2])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.31962.1792408556773799438
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2026 05:22:36 -0700
+ Mon, 19 Oct 2026 04:15:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=rFra4kM7;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a1dede3c2cso22001085e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 05:22:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792412554; x=1793017354; darn=lists.openembedded.org;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0STZ59m88aj1L2uAiDMSH9jwkxapK9T48xgte1Y6P/E=;
-        b=rFra4kM74w+aSPKc//yzL6e2lKmrTiM7lAWL/Pl3ArdjehQI143ePa8SYndmtcWymg
-         aMVQp/Hwxv22B/PBZaDGUS+uV6LNOTROSK91/vHowBib0NNO67KpxrFFCUn08+pq6HYe
-         SZNnlAjxFPktC9pa7TGqDVuw5tUePayJqOyjs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792412554; x=1793017354;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0STZ59m88aj1L2uAiDMSH9jwkxapK9T48xgte1Y6P/E=;
-        b=yu1FiniFjbNX7VvkFSEfqRimbWbzXtYBO3GqlPHXOe207kQF0AB7KpX2D7LxZ3aVRI
-         WNyJ354H/sM9KgAoaD0sMWNYkNeXBgNxtsyTHDZcPT+l14+A7En/LVILOdkDaPioOJOH
-         VLexvdVpO5KUUVETO3+S1WLkc91QK/QG2USbI6l+tDQYcsHJWOXDLghExDoLcudZSqtP
-         XhwXiz4pPgSj6SBtpTChhPB51Du+lpVnn2wWQwZvYxzpepVpbHY8p7fRP9sbGGDq8f9D
-         aPk5nznEb2/OFMY3XyrR6VGndOkS/Wz7SrIK0jmlwcQeoke+x2ZXhqSf9UaHZ7AFPaaf
-         8DhA==
-X-Gm-Message-State: AFq9FYJyaiiHA4sa+9KqSntOVqvgPpZ7UKD/m93mD293e0Lqpeig6WYm
-	CQ7eOyIJwPbY+XkqZjgxF04gUNO0fL4QtXhf2z7eTlcuHWx7TdsT8Vu/7X7fChHXzHQX9jvL7j9
-	VaiclDaM=
-X-Gm-Gg: AYBFou0WvP8wm42DgdttPVhpMmEqru6yhkkOc0o5/k4RijjJOF3uaxpYJsYrHe5pmff
-	Hm1Dyjr0yILgaIhPHPG5xqbOnB67S2COA1HnqiHk8GU2gYqqSCCqltTxzrlbmIPSNPDiAmqVQO/
-	Z/Jikxj+GKTduVI+DK/6thtyrYhIvRWaq7Bh1G8EtzCzgmT6JC6sedtEAGWYnwtrUBwCCjET5ke
-	lh0v45voNEXPKgVhgA1c7sCOx+DWDnEpNurKRGXj4hB5nJHq+Bqwv/n+XgFe6ZOG22H58Mjy/Xe
-	b9TVuhYOShxoGT2BMQSSi0kRbmzpII3s9WKuK949ZBaQ1L2AKADXb7a44Li3hvSGVQfqQluREV5
-	HvSG3aQ1iY/G1tbMoM3jgJMTlyRCP4K3DVZmm89wA18y/LcAMxmPlU7k2LrM2RuoXn7WQX6qg1V
-	QNgKT0njVoizAg1gloWz1L8U+2DKuY7cF4P3Le1ztxsqfLBFxFFOdsakpdXfDuCxxfMFeokmYA7
-	jnfSh4jXgukGBKxIYLwttBumeleT0+uL3d+AQg28hbs53IpiihkNfJckW0OiQ==
-X-Received: by 2002:a05:600c:820e:b0:4a0:174:579e with SMTP id 5b1f17b1804b1-4a1d761637amr144862885e9.28.1792412554139;
-        Mon, 19 Oct 2026 05:22:34 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f5177sm22500976f8f.30.2026.10.19.05.22.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 05:22:33 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=EySYoVxN;
+ spf=pass (domain: bmwtechworks.in, ip: 40.107.51.2, mailfrom: upstream_ip-dr@bmwtechworks.in)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RrgIhTalueTGhaKmFNzJOaL34Va1VkEo3QE0AeaBZZkYVvo3y0IMESnteQDnijmhalSw9sCrAkLUNZh2hmH0LybfzwuuSaw9HSyUNmqZBJ1kVLx1Tg3qt9bCNkcTgTxTQ9k0bjsFSeBh1oi+qcmfn1hVOF0YaZnx7cG2xGZMjEv86iIc2kJEUSiq69lX9xIX0anbhy8turPtphpjtz9cucZ+bK+LgdiP+ptEpL0d9YTGyRVMWjA9aFO9gymuVC7vTKgOvA3T/hZjObObdyQQ1j9KyFmn+85Q1V1MHBM4lYopbwUr3O1AeT3Idjym08mBfVJclBv0GxP/pNhVJluQ8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GV94vxRyxMEDyWiHrt9LoVq059dNENN4Qt2rl+wwTWg=;
+ b=Vk5lRr+lTurnl3zCc4qQ6T9BL4mgu6e1qLyq1z+E77B9OHIbbysYfnMRcbMCXW295fs8TilTjaeyTAB/OWGSbrefPV2zgA0nTjRsobB5WJqHlfpi418qn2qLOn1H7nZswVHpOEFaB0RjT7LQb3gr2JsiL+nWKyl4asP3f0VtFY8qDXZ+MfdLIrbaTzQK6iPJV/YPeJD9821iBFsBoRBx4/xjb1/ACOCRNJ/76ed4MUc4YXdirmp/ZIb88hoQfFjiS6G2CGIqbafmoq1lDAmKD66xYKdaXg9c1cKvxmmhoAgq3jtMcSzY7k143RLo/Vyd+dpxXzhHYRuhtagWOPCgkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
+ header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GV94vxRyxMEDyWiHrt9LoVq059dNENN4Qt2rl+wwTWg=;
+ b=EySYoVxNjiKC8D5E1RQIGF5wUnhMNN0wGokIaYmRMebaL/8rNEWAfg7z32Tq8prCvhACElC2Hclf4KsWKtZph44GXEhmrD+Gw+iQemzUQop9usln45HNR/zCDhCKtkmwNhaH3XlWUfk8+VMSFTRggzg/4sckYbT84XYKRG5Q9nC2UvERWmN5/uHQNuqyqTC66RftKB2hoRd3OsAi63I9bor7FsTpj/CleJN+3f58bNgFp51KaRFZ0n/Tl5xbisNmpC+snIiAPknZeGugAN2Xvsc0wmWfiaMQrf6orG/X04i6MthmYJ98vyclSyjnQlOcYaAJbRsbPUibDbbLA0blUA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
+Received: from PN3P287MB0942.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:174::11)
+ by MAUP287MB4508.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1a4::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
+ 2026 11:00:39 +0000
+Received: from PN3P287MB0942.INDP287.PROD.OUTLOOK.COM
+ ([fe80::eeb1:7dda:69f9:40b9]) by PN3P287MB0942.INDP287.PROD.OUTLOOK.COM
+ ([fe80::eeb1:7dda:69f9:40b9%3]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
+ 11:00:39 +0000
+From: Divyanshu Rathore <UpStream_IP-DR@bmwtechworks.in>
+To: openembedded-core@lists.openembedded.org
+CC: Divyanshu Rathore <divyanshu.rathore@bmwtechworks.in>
+Subject: [OE-core][wrynose][PATCH] boost: add lzma and zstd PACKAGECONFIG options
+Date: Mon, 19 Oct 2026 16:30:29 +0530
+Message-ID: <20261019110029.142510-1-UpStream_IP-DR@bmwtechworks.in>
+X-Mailer: git-send-email 2.43.0
+X-ClientProxiedBy: PN5PR01CA0045.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:264::13) To PN3P287MB0942.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:174::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3P287MB0942:EE_|MAUP287MB4508:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9642bb13-eabe-4f51-4f1b-08df2dd035ec
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|23010399003|38350700014|56012099006|11063799006|261009223027099003|10067099003|18002099003|55112099003;
+X-Microsoft-Antispam-Message-Info: 
+	W1WDiHwwDJlo28r6tMgIKBFQ1+O/12TiBYo4wOoO9655lVI+CLKI/3AZaTorWJtUAjEe0iKv9hbVYHF5Xipqhyow9UhBSWIK1gH0Mi5TJ9DX55bHJkGfQcJ1QSRdqlngmCKa/wmQSAVs9ZxoWMvGdlJkfheeWacWjk/Y6MHcmFW36rA3CPtVRXeWgnsip2CNnyD1qwSBSr8cyEF024dcce/jCAIHBWXOiQGyu1dvhtaJV9lv8mhld7NPJrezN5+7dUaZasEEB2VK+rruFEsHg4htOkDX+SVe4w258Xlv1FBY+HSl5Y9esQHvKV1zMZ78bZhrMqzZF4p3ND3dsy4Y13bdHl/njH3GEk/P0S0VO1icPwUUSYYDp5MggS59ZlZzFIaJJjm77ZrUvZzN5wTXR38U1xo5etZGoRGkY+qrziW7o1OgeLY4YADkXknEfjZT9gixphyxL8XqkKcSolz0VOVMHh8NOYOcjt7bT4yB7EgnNPzfH1hOG4H811iyEubKed8nVMXkCDrm+VsKDmgcc+CMX1rsqnIbsxLhgsDwgbpszzM1CrUUgIgNwmTlc8eQFYah8QC6wWhUnj1/YEMih6fWYg4AIuKdNsggNBR224ajSVBvkvWD7xGxagU9m+Rw2nQfp/afUe344QSCkXl7qG51Mmpy6M/VFsR+4wEQGUmASkNiyr2sFT4Jk4nE1eVDXgyLDobahNYaTXPI4PLEv4g43heT+8QPKxBNu1hTevM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB0942.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(23010399003)(38350700014)(56012099006)(11063799006)(261009223027099003)(10067099003)(18002099003)(55112099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?wUpMqxzDT8HjnNfllQbs9oFVgqYjSzV8xPCvS9YlvL+lkHRi0aH47n8sLJRZ?=
+ =?us-ascii?Q?ekKmxRlo8A1i8ifqTHzsZZ4S1xgKJr0mdQc5Cku/sPDoeg2hm2kZwkBC3eJH?=
+ =?us-ascii?Q?jDFhgCjUE+upWb9XVvedwXYELDmVSTBLq5i9IHfMzGV/WVyTJYXKQZwLAp52?=
+ =?us-ascii?Q?ZpRM/TadSFXCbyslEQ022J3LfGiDNlRcrR2GqCxoLuDH0XhdRkcZejG79gxW?=
+ =?us-ascii?Q?K864vjps0hw99fwK+2JrfdCZ4SOMc7+ln7UA1lrX2wXM8vmRqRdjZAMoqdvE?=
+ =?us-ascii?Q?BjBoe2iBM+tHkAHEbp6YthR5Odyq5BTQSxJbwVo7VoQmiaIwjrbDVHPW5Btc?=
+ =?us-ascii?Q?zNFQvldYXX7lgjUqP5lOkFmMdhzfTxEAM2kKdhXzlZXJeK2Gne1I4CJoyGab?=
+ =?us-ascii?Q?O3b3m01S4iSDPyqMtVM26eibQ5WMp51HXyJIKHP+XCkjSyOlajJ+q++x/owM?=
+ =?us-ascii?Q?CLrQ8XMUEbInZk13hORwNRTGGSRxtNbQz8iTXnP2ilavQ85wmvvAg0mOMitb?=
+ =?us-ascii?Q?nJ+yWSkRV0LO1X9R6eJme4QyXC/6+CfETri7xR8NFNa/yEBUAkxW4ce+1aP8?=
+ =?us-ascii?Q?28l2bd2KH+1Pere6GkOy/Cb7xrxzknXlGxwUQTQzLcQ2EkpPZOxqx2+pUd86?=
+ =?us-ascii?Q?nPWtEHcKplHVmQ9XjsIFxk53IKbUG7Fr1uTGpoJe/o3fxXRSxhoLMZID9ryF?=
+ =?us-ascii?Q?R0VlEC7vbmQm9W6/hLMYfJXzBQ608vDrq/MsfzujG8hF1yui/fgy4g22UrBW?=
+ =?us-ascii?Q?kAOoSoCn1nN+4dF1RlMZSMz1KN3h1m7x8kXsZY0yONsZPkzAgq7xm+Ibz002?=
+ =?us-ascii?Q?59JsnwrQRkV90b05V/JmZLalcLODggzR+N8X1Ia5bH5jruipZ7oDrbn5oEWq?=
+ =?us-ascii?Q?RbEqmOTTmfC34c5OTchz14WW/gCLwmn05bvWfp6LA5DzvYzultwkTXUVb5tM?=
+ =?us-ascii?Q?KJei9GKhnY/ARXiQ4cAaFMVimeE21ToqJvUVhi6nhYY/otA3L4v12SMl6427?=
+ =?us-ascii?Q?+DGwOD0Lor/heYTYclNSPA26ZJ9CCBgiTGzt7ctXbYD6R9kHm+5nr4Es2nE7?=
+ =?us-ascii?Q?/M5DsUL4+0QGpyJAWQqKb4V96q6XQS8RcfGHIv2OZuxfy+jC/sax06Piufw2?=
+ =?us-ascii?Q?RIOGuctm4AF2dT7au+ieJqoLJaoCajrUHmAfCp2vGXeLnJRmRN/yigWoJd7f?=
+ =?us-ascii?Q?vqfZ1h6TcvPj4GPMieqPWkUY3KAhUqIEvRdB0ESmEBoUSjvWFubUzXKy0LWt?=
+ =?us-ascii?Q?atG8MVKGHUriAYOPBTR6HXmiF61ZbcJxovURXe1CPHMYY6VMyspxynkkKgcm?=
+ =?us-ascii?Q?LgK/RsZbfma/bwokKrK2mlNg4HjUusmzdXlZXz4nDyM0CJ+9g9ohUzcPMGNw?=
+ =?us-ascii?Q?uUtJ5LUAyyIMZAp9eLKoUy8XaH+mJr1H4mjmtLtUQGgoM4BfLNGEewjRiglw?=
+ =?us-ascii?Q?CHzv7QXfplYi5uuNcpMmDcXWRVmgFRAfbkI/p2dzrGOQSP8wqNyXDpy8vm3c?=
+ =?us-ascii?Q?NSHHqnZvNF9lWXULVhEaw7sXE2OV8SXmV74uhPkPSCtEHvCkwvgMWrpZWd8G?=
+ =?us-ascii?Q?axe0JOubBb5pxBP63yktGD46lURB0kfojxlmsr3/ad0X9w43Y0nd4ULykKgu?=
+ =?us-ascii?Q?Sgu1vmUQ58D4JUWHBnSFRdb7ia0kaDCquSH2jj5FnaXnHJRI7iWlWLZf3kkr?=
+ =?us-ascii?Q?/LP1QUoukDadnweiYfstKS8QEX3dX7NuuDAM5jqnBIoOFzVgPNxFJ1qkiRZs?=
+ =?us-ascii?Q?FAhJ97Amjdf+NzgAQ+Wmdjtdo1YvsVg=3D?=
+X-OriginatorOrg: bmwtechworks.in
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9642bb13-eabe-4f51-4f1b-08df2dd035ec
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB0942.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 11:00:39.1949
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +B7w6getfoPMqPWn5qjpqfOxPXRsP4Sp+gTsibUpwsUKC+FS2+v/1qoQR58/H6Z8ui2z9GFme8Xg6a4SRscUYbhVunBRFOjB4FxppiThbcc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB4508
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 Oct 2026 14:22:33 +0200
-Message-Id: <DM8T7ZKV7U1M.1U1MVCGG316S3@smile.fr>
-To: "Ayoub Zaki" <ayoub.zaki@embetrix.com>
-Subject: Re: [OE-core] [wrynose][PATCH] minicom: fix baud rate setting with
- glibc 2.42 and newer
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261017111813.53186-1-ayoub.zaki@embetrix.com>
- <DM8M06OIXDWR.1KFR0FLAQLZC2@smile.fr>
- <2cc2f09f-9f7b-4014-bb02-1d1eff6d9647@embetrix.com>
- <CAMSfU+6JRV-m2c8zNRCD48N_-TUm7uQsk87XFrC++Ue1e_HFaA@mail.gmail.com>
- <2054b497-3add-46b9-8dcc-051fae96262c@embetrix.com>
-In-Reply-To: <2054b497-3add-46b9-8dcc-051fae96262c@embetrix.com>
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 12:22:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248160
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 12:25:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248161
 
-On Mon Oct 19, 2026 at 2:09 PM CEST, Ayoub Zaki wrote:
-> Hi Yoann,
-> On 10/19/26 10:16, Yoann Congal wrote:
->> Le=C2=A0lun. 19 oct. 2026 =C3=A0=C2=A010:04, Ayoub Zaki <ayoub.zaki@embe=
-trix.com=20
->> <mailto:ayoub.zaki@embetrix.com>> a =C3=A9crit=C2=A0:
->>=20
->>     Hi Yoann,
->>     On 10/19/26 08:43, Yoann Congal wrote:
->>      > On Sat Oct 17, 2026 at 1:18 PM CEST, Ayoub Zaki via
->>     lists.openembedded.org <http://lists.openembedded.org> wrote:
->>      >> Backport the upstream baud rate fix to minicom 2.10 in wrynose.
->>      >>
->>      >> glibc 2.42 added support for arbitrary termios baud rates on
->>     Linux and
->>      >> changed the Bxxx speed constants from bitmasks to integer baud
->>     rates.
->>      >> The macros combine these values directly with c_cflag, resulting=
- in
->>      >> incorrect baud rates and garbled UART output. Use the libc funct=
-ions
->>      >> instead.
->>      >>
->>      >> Signed-off-by: Ayoub Zaki <ayoub.zaki@embetrix.com
->>     <mailto:ayoub.zaki@embetrix.com>>
->>      >> ---
->>      >>=C2=A0 =C2=A0...ove-cfset-i-o-speed-macros-for-glibc.patch | 41 +=
-++++++++++
->>     ++++++++
->>      >>=C2=A0 =C2=A0meta/recipes-extended/minicom/minicom_2.10.bb <http:=
-//
->>     minicom_2.10.bb> |=C2=A0 4 +-
->>      >>=C2=A0 =C2=A02 files changed, 44 insertions(+), 1 deletion(-)
->>      >>=C2=A0 =C2=A0create mode 100644 meta/recipes-extended/minicom/fil=
-es/0001-
->>     src-sysdep.h-remove-cfset-i-o-speed-macros-for-glibc.patch
->>      >
->>      > Hello,
->>      >
->>      > I think this patch is breaking tests:
->>      > [...]
->>      >
->>      >
->>      > Can you look into this please?
->>=20
->>     Thanks for reporting this:
->>     The patch exposes a hardcoded minicom/ directory assumption in the
->>     devtool selftests:
->>     https://github.com/openembedded/openembedded-core/blob/master/meta/l=
-ib/
->>     oeqa/selftest/cases/devtool.py#L1360 <https://github.com/
->>     openembedded/openembedded-core/blob/master/meta/lib/oeqa/selftest/
->>     cases/devtool.py#L1360>.
->>=20
->>     devtool puts generated patches in the existing files/ directory but =
-the
->>     tests stage and clean up minicom/ causing both failures.
->>=20
->>     Could we fix those selftest assumptions separately?
->>=20
->>=20
->> Yes, the test must be updated to match the modified recipe. Can you send=
+From: Divyanshu Rathore <divyanshu.rathore@bmwtechworks.in>
+
+Add optional LZMA and Zstandard support to Boost.Iostreams for
+applications to read and write .xz and .zst compressed data.
+Keeping them optional lets distributions enable interoperability with those=
+ widely used
+compression formats without adding the dependencies to all Boost builds.
+
+Add optional PACKAGECONFIG entries for xz and zstd so Boost.Iostreams
+can be built with support for LZMA and Zstandard compressed streams.
+
+Signed-off-by: Divyanshu Rathore <divyanshu.rathore@bmwtechworks.in>
+---
+ meta/recipes-support/boost/boost.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/bo=
+ost/boost.inc
+index 64a57ddfb2..711cae1685 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -55,6 +55,8 @@ PACKAGECONFIG[locale] =3D ",,icu"
+ PACKAGECONFIG[graph_parallel] =3D ",,,boost-mpi mpich"
+ PACKAGECONFIG[mpi] =3D ",,mpich"
+ PACKAGECONFIG[python] =3D ",,python3"
++PACKAGECONFIG[lzma] =3D ",,xz"
++PACKAGECONFIG[zstd] =3D ",,zstd"
 =20
->> a v2 as a series, with the test fix included?
->>=20
->
-> The same directory assumptions affect several other devtool selftests.=20
-> I=E2=80=99ll send separate fixes for master and wrynose to address this m=
-ore=20
-> generally.
->
-> Once the selftest fix is applied to wrynose, the original minicom patch=
-=20
-> can be applied unchanged.
-
-Sounds good!
-Please ping this patch when all that happened.
-
-Thanks!
+ inherit python3-dir
+ PYTHON_ROOT =3D "${STAGING_DIR_HOST}/${prefix}"
 --=20
-Yoann Congal
-Smile ECS
+2.43.0
 
 
