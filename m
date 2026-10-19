@@ -2,204 +2,324 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4549CCF2DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 916AECCF2DA
 	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 06:03:00 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28523.1792389776604905144
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.28425.1792389773177531645
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2026 23:02:56 -0700
+ Sun, 18 Oct 2026 23:02:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MRwJxgwQ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=wQtMFvM1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a152c180ce-4a3fd236-4e15-4270-8ffb-30f3e4ff55be-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HnXGm6Mj;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2VPv5Pt4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a152c173ff-113a27bc-1819-48f1-98ed-1f797ea87266-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1792389775;
+	t=1792389772;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=M69zrmcwwbqLev/mFIy7IIOAbkLbY/sJ6m3+i6ULWaQ=;
-	b=MRwJxgwQuUOmsOfR4WZpCnMxxQ0/uMAXc4PlyZCink5b+QKMcuWezl72BcVwj1FA
-	083neGkjhEW2q87BUMqtzWL6cVdZSCn8x8GEkHgrPTHMVdYnadzO2+1ddef6RMB+/as
-	Uu/bw6wZsVyUK8emi11B/8qL9XN4XN1SRVaN4h04=
+	bh=0jxx1jgZzYbEb1ARrxlYHP+ea1BLvwbYUPP8GqCwmrc=;
+	b=HnXGm6MjyB/4B6FMrGhXcPaAztNwwV/dABR0kUCq+nXlD0BmQJlzbkW+0r+9i/uL
+	EdOnolUWtNOYzhfD6z7pojan92Y2Q7XgVWVtyNYAccqBQhtEb9OkncvAhBzBvsD0wA5
+	GaZzqXmWfTnd6y159qpc/aS5OhhqqU6E9f8OSjDA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792389775;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792389772;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=M69zrmcwwbqLev/mFIy7IIOAbkLbY/sJ6m3+i6ULWaQ=;
-	b=wQtMFvM14socW1JNY/ozHadKDImq5zXeV5m2MI1bRuQu+/1ARNdAjvhiOpahklZ+
-	dHzLDTJd0y8BQ5PHLMEWVaGsBz1UDM+3Q+9rtvNFIFq8KL4RSUw+N0FncKX8+vATa4X
-	KGYhy3IPdtpP5J5mwNZPAoVJ8+BtXKT/e1PWYXJI=
-Content-Type: multipart/mixed; boundary="===============5825651811152037890=="
+	bh=0jxx1jgZzYbEb1ARrxlYHP+ea1BLvwbYUPP8GqCwmrc=;
+	b=2VPv5Pt4+0fmBQjsMVYxeGghM63J7BbDKkVsNkVX9eowgRI6v/wWaT+QymoK3pXK
+	/UCq8rLW1Z1vqDE3x5joGp/2ELPOpdkPUMJw7/n6ak2y+kAi4aVqEH5Vq5niwE9wqBv
+	o8e9vynfIaJ6Fr951PgbftTfjOvEm/lg9DIdrSqY=
+Content-Type: multipart/mixed; boundary="===============6950239766003535627=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Sumanth Gavini <sumanth.gavini@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-jsonpointer: upgrading to 3.3 SUCCEEDED
-Message-ID: <010101a152c180ce-4a3fd236-4e15-4270-8ffb-30f3e4ff55be-000000@us-west-2.amazonses.com>
-Date: Mon, 19 Oct 2026 06:02:55 +0000
+Subject: [AUH] ccache: upgrading to 4.14.2 SUCCEEDED
+Message-ID: <010101a152c173ff-113a27bc-1819-48f1-98ed-1f797ea87266-000000@us-west-2.amazonses.com>
+Date: Mon, 19 Oct 2026 06:02:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.19-54.240.27.23
+X-SES-Outgoing: 2026.10.19-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 06:03:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248125
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248121
 
---===============5825651811152037890==
-Content-Type: text/plain; charset="us-ascii"
+--===============6950239766003535627==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpjY2FjaGUqIHRvICo0LjE0LjIqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAg
+LSBhcHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWNjYWNoZS11cGdyYWRlLTQuMTQuMS00LjE0
+LjIucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBhbmQg
+c3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFuIGlt
+YWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2ljIHNh
+bml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQgY29t
+bWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBwcm9w
+cmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUgcmVj
+aXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwgUkVD
+SVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0CmF1
+dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNlIHJl
+dmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1aWxk
+L3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0cHM6
+Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRvbWF0
+ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0tID44
+IC0tCkZyb20gZDAzZDZkYzU3ODcwNjRlNjUxOTE5MWIzZDJiZTQ4ZjQwOTNjMDgxZCBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2plY3Qu
+b3JnPgpEYXRlOiBNb24sIDE5IE9jdCAyMDI2IDA1OjEwOjU5ICswMDAwClN1YmplY3Q6IFtQQVRD
+SF0gY2NhY2hlOiB1cGdyYWRlIDQuMTQuMSAtPiA0LjE0LjIKTUlNRS1WZXJzaW9uOiAxLjAKQ29u
+dGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5j
+b2Rpbmc6IDhiaXQKCj09IENjYWNoZSA0LjE0LjIKUmVsZWFzZSBkYXRlOiAyMDI2LTEwLTE4Cj09
+PSBDb21wYXRpYmlsaXR5IGNoYW5nZXMKT24gV2luZG93cywgY2NhY2hlIG5vdyByZXF1aXJlcyBX
+aW5kb3dzIDggb3IgbGF0ZXIuCj09PSBCdWcgZml4ZXMKCi0gRml4ZWQgZmFsc2UgaW5vZGUgY2Fj
+aGUgaGl0cyBvbiBXaW5kb3dzIGJ5IHVzaW5nIGZ1bGwgMTI4LWJpdCBmaWxlIElEcyB3aGVuCiAg
+YXZhaWxhYmxlLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IFRob21hcyBGZXJyYW5kXV8j
+CgotIEZpeGVkIGNhY2hpbmcgb2YgcHJlY29tcGlsZWQgaGVhZGVycyB3aXRoIGNsYW5nLWNsLCBp
+Y3gtY2wgYW5kIGljeCBhZnRlciBNU1ZDCiAgdXBkYXRlcyBieSBoYXNoaW5nIHRoZSBjb21waWxl
+cidzIHRhcmdldCB0cmlwbGUuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9zZWYgxaBp
+bcOhbmVrXV8jCgotIEZpeGVkIGhhbmRsaW5nIG9mIG5vbmV4aXN0ZW50IG9yIG5vbi1kaXJlY3Rv
+cnkgYC1mcHJlYnVpbHQtbW9kdWxlLXBhdGhgCiAgYXJndW1lbnRzIG9uIFdpbmRvd3Mgd2l0aCBW
+aXN1YWwgU3R1ZGlvIDIwMjYuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgR3JlZ29yIEph
+c255XV8jCgotIEZpeGVkIHByZXNlcnZhdGlvbiBvZiBpbmhlcml0ZWQgc2lnbmFsIGhhbmRsaW5n
+LCBpbmNsdWRpbmcgYFNJR1BJUEVgLCBpbgogIGNvbXBpbGVyIHByb2Nlc3Nlcy4gKwogIFtzbWFs
+bF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCi0gRml4ZWQgYSBzeW1saW5rIHJh
+Y2Ugd2hlbiBjcmVhdGluZyB0aGUgZmFsbGJhY2sgc3RvcmFnZSBoZWxwZXIgSVBDIGRpcmVjdG9y
+eQogIGluIGAvdG1wYC4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxd
+XyMKCi0gRml4ZWQgbG9nZ2luZyBvZiBjcmVkZW50aWFscyB3aGVuIHVzaW5nIGAtLXN0b3Atc3Rv
+cmFnZS1oZWxwZXJzYC4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxd
+XyMKCi0gRml4ZWQgc3B1cmlvdXMgZXJyb3JzIHdoZW4gYSBzdG9yYWdlIGhlbHBlciBjbG9zZXMg
+aXRzIGNvbm5lY3Rpb24gYmVmb3JlCiAgcmVzcG9uZGluZyB0byBhIHN0b3AgcmVxdWVzdC4gKwog
+IFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCi0gRml4ZWQgdW5kZWZp
+bmVkIGJlaGF2aW9yIHdoZW4gaGFuZGxpbmcgZW1wdHkgYnl0ZSBidWZmZXJzLiArCiAgW3NtYWxs
+XSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBNU1ZDIGRlYnVnIGl0
+ZXJhdG9yIGFzc2VydGlvbnMgd2hlbiBoYW5kbGluZyBlbXB0eSBieXRlIGJ1ZmZlcnMuICsKICBb
+c21hbGxdI19bY29udHJpYnV0ZWQgYnkgVGhvbWFzIEZlcnJhbmRdXyMKCj09PSBCdWlsZCBpbXBy
+b3ZlbWVudHMKCi0gVXBncmFkZWQgQkxBS0UzIHRvIDEuOC43LCBmaXhpbmcgYnVpbGQgcHJvYmxl
+bXMgb24gQ3lnd2luLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1f
+IwoKLSBBZGRlZCBhIG1pc3NpbmcgYHVuaXN0ZC5oYCBpbmNsdWRlIGZvciBgZ2V0ZXVpZGAuICsK
+ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgo9PT0gVGVzdCBpbXBy
+b3ZlbWVudHMKCi0gTWFkZSBpbnRlZ3JhdGlvbiB0ZXN0cyBjb25zaXN0ZW50bHkgdXNlIG9iamVj
+dCBmaWxlIGNvbXBhcmlzb25zIHRoYXQgaWdub3JlCiAgaXJyZWxldmFudCBkaWZmZXJlbmNlcywg
+cmVxdWlyaW5nIGBldS1lbGZjbXBgIGZvciBhbGwgY29tcGlsZXJzIG9uIExpbnV4LiArCiAgW3Nt
+YWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEdyZWdvciBKYXNueSBhbmQgSm9lbCBSb3NkYWhsXV8jCgot
+IEZpeGVkIGNyZWF0aW9uIG9mIHRoZSBpbnB1dCBmaWxlIGZvciB0aGUgYC5pbmNiaW5gIGFzc2Vt
+YmxlciB0ZXN0LiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEFkcmlhbiBCdW5rXV8jCgot
+IEZpeGVkIGEgdGVtcG9yYXJ5IGZpbGUgbGVhayB3aGVuIHJ1bm5pbmcgdW5pdCB0ZXN0cyB1bmRl
+ciBXaW5lLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBN
+YWRlIGludGVncmF0aW9uIHRlc3RzIGZhaWwgaWYgdGhleSBlbWl0IHVuZXhwZWN0ZWQgb3V0cHV0
+IG9uIHN0YW5kYXJkCiAgZXJyb3IuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBS
+b3NkYWhsXV8jCi0tLQogLi4uL3tjY2FjaGVfNC4xNC4xLmJiID0+IGNjYWNoZV80LjE0LjIuYmJ9
+ICAgIHwgMjYgKysrKysrKysrKysrKysrKystLQogMSBmaWxlIGNoYW5nZWQsIDI0IGluc2VydGlv
+bnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNo
+ZS97Y2NhY2hlXzQuMTQuMS5iYiA9PiBjY2FjaGVfNC4xNC4yLmJifSAoNTclKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMS5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMi5iYgpzaW1pbGFyaXR5IGluZGV4
+IDU3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjE0
+LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQu
+Mi5iYgppbmRleCA0ZGQ4ZGEyMTJjLi5iNjE5NmIyMGJiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjE0LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xNC4yLmJiCkBAIC0xLDMgKzEsMjUgQEAKKyMgRklYTUU6
+IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9v
+bCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRo
+ZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNF
+TlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUg
+Y29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdM
+aWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5n
+ZXM6CisjCisjIC0tLSBMSUNFTlNFLmFkb2MKKyMgKysrIExJQ0VOU0UuYWRvYworIyBAQCAtNTAs
+NyArNTAsNyBAQAorIyAgCisjICA9PT0gc3JjL3RoaXJkX3BhcnR5L2JsYWtlMy9ibGFrZTMvKgor
+IyAgCisjIC1UaGlzIGlzIGEgc3Vic2V0IG9mIGh0dHBzOi8vZ2l0aHViLmNvbS9CTEFLRTMtdGVh
+bS9CTEFLRTNbQkxBS0UzXSAxLjguMiB3aXRoIHRoZQorIyArVGhpcyBpcyBhIHN1YnNldCBvZiBo
+dHRwczovL2dpdGh1Yi5jb20vQkxBS0UzLXRlYW0vQkxBS0UzW0JMQUtFM10gMS44Ljcgd2l0aCB0
+aGUKKyMgIGZvbGxvd2luZyBsaWNlbnNlOgorIyAgCisjICAtLS0tCisjIAorIworCiBTVU1NQVJZ
+ID0gImEgZmFzdCBDL0MrKyBjb21waWxlciBjYWNoZSIKIERFU0NSSVBUSU9OID0gImNjYWNoZSBp
+cyBhIGNvbXBpbGVyIGNhY2hlLiBJdCBzcGVlZHMgdXAgcmVjb21waWxhdGlvbiBcCiBieSBjYWNo
+aW5nIHRoZSByZXN1bHQgb2YgcHJldmlvdXMgY29tcGlsYXRpb25zIGFuZCBkZXRlY3Rpbmcgd2hl
+biB0aGUgXApAQCAtNyw3ICsyOSw3IEBAIEhPTUVQQUdFID0gImh0dHA6Ly9jY2FjaGUuc2FtYmEu
+b3JnIgogU0VDVElPTiA9ICJkZXZlbCIKIAogTElDRU5TRSA9ICJCU0wtMS4wIEFORCBHUEwtMy4w
+LW9yLWxhdGVyIEFORCBJU0MgQU5EIE1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJ
+Q0VOU0UuYWRvYzttZDU9ZTg5ZjI2ZTlmOTdkMTQwNjgwNDc4NzFiZGIyYjMxMTggXAorTElDX0ZJ
+TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5hZG9jO21kNT1lNGEwZGIzOTBjM2VlYjc0MmIz
+OThhYzAxMGE3MDkxMyBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9zcmMvdGhpcmRfcGFy
+dHkvY3BwLWh0dHBsaWIvaHR0cGxpYi5oO2VuZGxpbmU9NjttZDU9NjYzYWNhNmY4NGU3ZDY3YWRl
+MjI4YWFkMzJhZmMwZWEgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vc3JjL3RoaXJkX3Bh
+cnR5L3dpbjMyLWNvbXBhdC93aW4zMi9ta3RlbXAuYztlbmRsaW5lPTE3O21kNT1kMjg3ZTljMWYx
+Y2QyYmIyYmQxNjQ0OTBlMWNmNDQ5YSBcCiAgICAgICAgICAgICAgICAgICAgICIKQEAgLTE2LDcg
+KzM4LDcgQEAgREVQRU5EUyA9ICJ6c3RkIGZtdCB4eGhhc2giCiAKIFNSQ19VUkkgPSAiJHtHSVRI
+VUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS8ke0JQfS50YXIuZ3oiCiAKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICJkZmQyYjllNDQ2YjJjZjY4ZTgzZTIxYjI1MzE3ZDhmODY4ZGU2ZjFiMjQ2Yzdl
+OTllMDRkMDdmNGUxYjBiOTdlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM1OTIxZjgwYTkzZDY0
+NTNhODc0NTI1ZjJlNGJkOTcyNjRjNDZkZGMzNDlkODdhYWNjMTAzMmNkZTRkZDI5MjQiCiAKIGlu
+aGVyaXQgY21ha2UgZ2l0aHViLXJlbGVhc2VzCiAKLS0gCjIuNDcuMQoK
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-jsonpointer* to *3.3* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-python3-jsonpointer-upgrade-3.1.1-3.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From c9ec1cc948962eef2138ce6cfd2ea376c86b4097 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 19 Oct 2026 05:38:26 +0000
-Subject: [PATCH] python3-jsonpointer: upgrade 3.1.1 -> 3.3
-
----
- ...{python3-jsonpointer_3.1.1.bb => python3-jsonpointer_3.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jsonpointer_3.1.1.bb => python3-jsonpointer_3.3.bb} (85%)
-
-diff --git a/meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb b/meta/recipes-devtools/python/python3-jsonpointer_3.3.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb
-rename to meta/recipes-devtools/python/python3-jsonpointer_3.3.bb
-index ddc8e256a4..51c7377e12 100644
---- a/meta/recipes-devtools/python/python3-jsonpointer_3.1.1.bb
-+++ b/meta/recipes-devtools/python/python3-jsonpointer_3.3.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=32b15c843b7a329130f4e266a281ebb3"
- 
- inherit pypi ptest setuptools3
- 
--SRC_URI[sha256sum] = "0b801c7db33a904024f6004d526dcc53bbb8a4a0f4e32bfd10beadf60adf1900"
-+SRC_URI[sha256sum] = "2d851da328132043289a03df1dbb1577b901ad9cd22911f515d17875fbc1773a"
- 
- SRC_URI += " \
- 	file://run-ptest \
--- 
-2.47.1
-
-
---===============5825651811152037890==
-Content-Type: text/plain; charset="us-ascii"
+--===============6950239766003535627==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ccache-upgrade-4.14.1-4.14.2.patch"
 
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGSIZE changed from 12837 to 25874 (+102%)
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGSIZE changed from 29602 to 33350 (+13%)
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info -> /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-jsonpointer (sysroot):
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/licenses/AUTHORS was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/top_level.txt was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses/AUTHORS was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/top_level.txt was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/WHEEL was removed
+RnJvbSBkMDNkNmRjNTc4NzA2NGU2NTE5MTkxYjNkMmJlNDhmNDA5M2MwODFkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTkgT2N0IDIwMjYgMDU6MTA6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+Y2FjaGU6IHVwZ3JhZGUgNC4xNC4xIC0+IDQuMTQuMgpNSU1FLVZlcnNpb246IDEuMApDb250ZW50
+LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVudC1UcmFuc2Zlci1FbmNvZGlu
+ZzogOGJpdAoKPT0gQ2NhY2hlIDQuMTQuMgpSZWxlYXNlIGRhdGU6IDIwMjYtMTAtMTgKPT09IENv
+bXBhdGliaWxpdHkgY2hhbmdlcwpPbiBXaW5kb3dzLCBjY2FjaGUgbm93IHJlcXVpcmVzIFdpbmRv
+d3MgOCBvciBsYXRlci4KPT09IEJ1ZyBmaXhlcwoKLSBGaXhlZCBmYWxzZSBpbm9kZSBjYWNoZSBo
+aXRzIG9uIFdpbmRvd3MgYnkgdXNpbmcgZnVsbCAxMjgtYml0IGZpbGUgSURzIHdoZW4KICBhdmFp
+bGFibGUuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgVGhvbWFzIEZlcnJhbmRdXyMKCi0g
+Rml4ZWQgY2FjaGluZyBvZiBwcmVjb21waWxlZCBoZWFkZXJzIHdpdGggY2xhbmctY2wsIGljeC1j
+bCBhbmQgaWN4IGFmdGVyIE1TVkMKICB1cGRhdGVzIGJ5IGhhc2hpbmcgdGhlIGNvbXBpbGVyJ3Mg
+dGFyZ2V0IHRyaXBsZS4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb3NlZiDFoGltw6Fu
+ZWtdXyMKCi0gRml4ZWQgaGFuZGxpbmcgb2Ygbm9uZXhpc3RlbnQgb3Igbm9uLWRpcmVjdG9yeSBg
+LWZwcmVidWlsdC1tb2R1bGUtcGF0aGAKICBhcmd1bWVudHMgb24gV2luZG93cyB3aXRoIFZpc3Vh
+bCBTdHVkaW8gMjAyNi4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBHcmVnb3IgSmFzbnld
+XyMKCi0gRml4ZWQgcHJlc2VydmF0aW9uIG9mIGluaGVyaXRlZCBzaWduYWwgaGFuZGxpbmcsIGlu
+Y2x1ZGluZyBgU0lHUElQRWAsIGluCiAgY29tcGlsZXIgcHJvY2Vzc2VzLiArCiAgW3NtYWxsXSNf
+W2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBhIHN5bWxpbmsgcmFjZSB3
+aGVuIGNyZWF0aW5nIHRoZSBmYWxsYmFjayBzdG9yYWdlIGhlbHBlciBJUEMgZGlyZWN0b3J5CiAg
+aW4gYC90bXBgLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoK
+LSBGaXhlZCBsb2dnaW5nIG9mIGNyZWRlbnRpYWxzIHdoZW4gdXNpbmcgYC0tc3RvcC1zdG9yYWdl
+LWhlbHBlcnNgLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoK
+LSBGaXhlZCBzcHVyaW91cyBlcnJvcnMgd2hlbiBhIHN0b3JhZ2UgaGVscGVyIGNsb3NlcyBpdHMg
+Y29ubmVjdGlvbiBiZWZvcmUKICByZXNwb25kaW5nIHRvIGEgc3RvcCByZXF1ZXN0LiArCiAgW3Nt
+YWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCB1bmRlZmluZWQg
+YmVoYXZpb3Igd2hlbiBoYW5kbGluZyBlbXB0eSBieXRlIGJ1ZmZlcnMuICsKICBbc21hbGxdI19b
+Y29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIEZpeGVkIE1TVkMgZGVidWcgaXRlcmF0
+b3IgYXNzZXJ0aW9ucyB3aGVuIGhhbmRsaW5nIGVtcHR5IGJ5dGUgYnVmZmVycy4gKwogIFtzbWFs
+bF0jX1tjb250cmlidXRlZCBieSBUaG9tYXMgRmVycmFuZF1fIwoKPT09IEJ1aWxkIGltcHJvdmVt
+ZW50cwoKLSBVcGdyYWRlZCBCTEFLRTMgdG8gMS44LjcsIGZpeGluZyBidWlsZCBwcm9ibGVtcyBv
+biBDeWd3aW4uICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgot
+IEFkZGVkIGEgbWlzc2luZyBgdW5pc3RkLmhgIGluY2x1ZGUgZm9yIGBnZXRldWlkYC4gKwogIFtz
+bWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCj09PSBUZXN0IGltcHJvdmVt
+ZW50cwoKLSBNYWRlIGludGVncmF0aW9uIHRlc3RzIGNvbnNpc3RlbnRseSB1c2Ugb2JqZWN0IGZp
+bGUgY29tcGFyaXNvbnMgdGhhdCBpZ25vcmUKICBpcnJlbGV2YW50IGRpZmZlcmVuY2VzLCByZXF1
+aXJpbmcgYGV1LWVsZmNtcGAgZm9yIGFsbCBjb21waWxlcnMgb24gTGludXguICsKICBbc21hbGxd
+I19bY29udHJpYnV0ZWQgYnkgR3JlZ29yIEphc255IGFuZCBKb2VsIFJvc2RhaGxdXyMKCi0gRml4
+ZWQgY3JlYXRpb24gb2YgdGhlIGlucHV0IGZpbGUgZm9yIHRoZSBgLmluY2JpbmAgYXNzZW1ibGVy
+IHRlc3QuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgQWRyaWFuIEJ1bmtdXyMKCi0gRml4
+ZWQgYSB0ZW1wb3JhcnkgZmlsZSBsZWFrIHdoZW4gcnVubmluZyB1bml0IHRlc3RzIHVuZGVyIFdp
+bmUuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIE1hZGUg
+aW50ZWdyYXRpb24gdGVzdHMgZmFpbCBpZiB0aGV5IGVtaXQgdW5leHBlY3RlZCBvdXRwdXQgb24g
+c3RhbmRhcmQKICBlcnJvci4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2Rh
+aGxdXyMKLS0tCiAuLi4ve2NjYWNoZV80LjE0LjEuYmIgPT4gY2NhY2hlXzQuMTQuMi5iYn0gICAg
+fCAyNiArKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL3tj
+Y2FjaGVfNC4xNC4xLmJiID0+IGNjYWNoZV80LjE0LjIuYmJ9ICg1NyUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xNC4xLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xNC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggNTcl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMS5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xNC4yLmJi
+CmluZGV4IDRkZDhkYTIxMmMuLmI2MTk2YjIwYmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvY2NhY2hlL2NjYWNoZV80LjE0LjIuYmIKQEAgLTEsMyArMSwyNSBAQAorIyBGSVhNRTogdGhl
+IExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVw
+Z3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9s
+ZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0Ug
+dmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21t
+aXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vu
+c2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoK
+KyMKKyMgLS0tIExJQ0VOU0UuYWRvYworIyArKysgTElDRU5TRS5hZG9jCisjIEBAIC01MCw3ICs1
+MCw3IEBACisjICAKKyMgID09PSBzcmMvdGhpcmRfcGFydHkvYmxha2UzL2JsYWtlMy8qCisjICAK
+KyMgLVRoaXMgaXMgYSBzdWJzZXQgb2YgaHR0cHM6Ly9naXRodWIuY29tL0JMQUtFMy10ZWFtL0JM
+QUtFM1tCTEFLRTNdIDEuOC4yIHdpdGggdGhlCisjICtUaGlzIGlzIGEgc3Vic2V0IG9mIGh0dHBz
+Oi8vZ2l0aHViLmNvbS9CTEFLRTMtdGVhbS9CTEFLRTNbQkxBS0UzXSAxLjguNyB3aXRoIHRoZQor
+IyAgZm9sbG93aW5nIGxpY2Vuc2U6CisjICAKKyMgIC0tLS0KKyMgCisjCisKIFNVTU1BUlkgPSAi
+YSBmYXN0IEMvQysrIGNvbXBpbGVyIGNhY2hlIgogREVTQ1JJUFRJT04gPSAiY2NhY2hlIGlzIGEg
+Y29tcGlsZXIgY2FjaGUuIEl0IHNwZWVkcyB1cCByZWNvbXBpbGF0aW9uIFwKIGJ5IGNhY2hpbmcg
+dGhlIHJlc3VsdCBvZiBwcmV2aW91cyBjb21waWxhdGlvbnMgYW5kIGRldGVjdGluZyB3aGVuIHRo
+ZSBcCkBAIC03LDcgKzI5LDcgQEAgSE9NRVBBR0UgPSAiaHR0cDovL2NjYWNoZS5zYW1iYS5vcmci
+CiBTRUNUSU9OID0gImRldmVsIgogCiBMSUNFTlNFID0gIkJTTC0xLjAgQU5EIEdQTC0zLjAtb3It
+bGF0ZXIgQU5EIElTQyBBTkQgTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5T
+RS5hZG9jO21kNT1lODlmMjZlOWY5N2QxNDA2ODA0Nzg3MWJkYjJiMzExOCBcCitMSUNfRklMRVNf
+Q0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLmFkb2M7bWQ1PWU0YTBkYjM5MGMzZWViNzQyYjM5OGFj
+MDEwYTcwOTEzIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3NyYy90aGlyZF9wYXJ0eS9j
+cHAtaHR0cGxpYi9odHRwbGliLmg7ZW5kbGluZT02O21kNT02NjNhY2E2Zjg0ZTdkNjdhZGUyMjhh
+YWQzMmFmYzBlYSBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9zcmMvdGhpcmRfcGFydHkv
+d2luMzItY29tcGF0L3dpbjMyL21rdGVtcC5jO2VuZGxpbmU9MTc7bWQ1PWQyODdlOWMxZjFjZDJi
+YjJiZDE2NDQ5MGUxY2Y0NDlhIFwKICAgICAgICAgICAgICAgICAgICAgIgpAQCAtMTYsNyArMzgs
+NyBAQCBERVBFTkRTID0gInpzdGQgZm10IHh4aGFzaCIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9C
+QVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9LyR7QlB9LnRhci5neiIKIAotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gImRmZDJiOWU0NDZiMmNmNjhlODNlMjFiMjUzMTdkOGY4NjhkZTZmMWIyNDZjN2U5OWUw
+NGQwN2Y0ZTFiMGI5N2UiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzU5MjFmODBhOTNkNjQ1M2E4
+NzQ1MjVmMmU0YmQ5NzI2NGM0NmRkYzM0OWQ4N2FhY2MxMDMyY2RlNGRkMjkyNCIKIAogaW5oZXJp
+dCBjbWFrZSBnaXRodWItcmVsZWFzZXMKIAotLSAKMi40Ny4xCgo=
 
---===============5825651811152037890==
+--===============6950239766003535627==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="ccache-changelog.txt"
+
+PT0gQ2NhY2hlIDQuMTQuMgpSZWxlYXNlIGRhdGU6IDIwMjYtMTAtMTgKPT09IENvbXBhdGliaWxp
+dHkgY2hhbmdlcwpPbiBXaW5kb3dzLCBjY2FjaGUgbm93IHJlcXVpcmVzIFdpbmRvd3MgOCBvciBs
+YXRlci4KPT09IEJ1ZyBmaXhlcwoKLSBGaXhlZCBmYWxzZSBpbm9kZSBjYWNoZSBoaXRzIG9uIFdp
+bmRvd3MgYnkgdXNpbmcgZnVsbCAxMjgtYml0IGZpbGUgSURzIHdoZW4KICBhdmFpbGFibGUuICsK
+ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgVGhvbWFzIEZlcnJhbmRdXyMKCi0gRml4ZWQgY2Fj
+aGluZyBvZiBwcmVjb21waWxlZCBoZWFkZXJzIHdpdGggY2xhbmctY2wsIGljeC1jbCBhbmQgaWN4
+IGFmdGVyIE1TVkMKICB1cGRhdGVzIGJ5IGhhc2hpbmcgdGhlIGNvbXBpbGVyJ3MgdGFyZ2V0IHRy
+aXBsZS4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb3NlZiDFoGltw6FuZWtdXyMKCi0g
+Rml4ZWQgaGFuZGxpbmcgb2Ygbm9uZXhpc3RlbnQgb3Igbm9uLWRpcmVjdG9yeSBgLWZwcmVidWls
+dC1tb2R1bGUtcGF0aGAKICBhcmd1bWVudHMgb24gV2luZG93cyB3aXRoIFZpc3VhbCBTdHVkaW8g
+MjAyNi4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBHcmVnb3IgSmFzbnldXyMKCi0gRml4
+ZWQgcHJlc2VydmF0aW9uIG9mIGluaGVyaXRlZCBzaWduYWwgaGFuZGxpbmcsIGluY2x1ZGluZyBg
+U0lHUElQRWAsIGluCiAgY29tcGlsZXIgcHJvY2Vzc2VzLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1
+dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBhIHN5bWxpbmsgcmFjZSB3aGVuIGNyZWF0
+aW5nIHRoZSBmYWxsYmFjayBzdG9yYWdlIGhlbHBlciBJUEMgZGlyZWN0b3J5CiAgaW4gYC90bXBg
+LiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBs
+b2dnaW5nIG9mIGNyZWRlbnRpYWxzIHdoZW4gdXNpbmcgYC0tc3RvcC1zdG9yYWdlLWhlbHBlcnNg
+LiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBz
+cHVyaW91cyBlcnJvcnMgd2hlbiBhIHN0b3JhZ2UgaGVscGVyIGNsb3NlcyBpdHMgY29ubmVjdGlv
+biBiZWZvcmUKICByZXNwb25kaW5nIHRvIGEgc3RvcCByZXF1ZXN0LiArCiAgW3NtYWxsXSNfW2Nv
+bnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCB1bmRlZmluZWQgYmVoYXZpb3Ig
+d2hlbiBoYW5kbGluZyBlbXB0eSBieXRlIGJ1ZmZlcnMuICsKICBbc21hbGxdI19bY29udHJpYnV0
+ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIEZpeGVkIE1TVkMgZGVidWcgaXRlcmF0b3IgYXNzZXJ0
+aW9ucyB3aGVuIGhhbmRsaW5nIGVtcHR5IGJ5dGUgYnVmZmVycy4gKwogIFtzbWFsbF0jX1tjb250
+cmlidXRlZCBieSBUaG9tYXMgRmVycmFuZF1fIwoKPT09IEJ1aWxkIGltcHJvdmVtZW50cwoKLSBV
+cGdyYWRlZCBCTEFLRTMgdG8gMS44LjcsIGZpeGluZyBidWlsZCBwcm9ibGVtcyBvbiBDeWd3aW4u
+ICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIEFkZGVkIGEg
+bWlzc2luZyBgdW5pc3RkLmhgIGluY2x1ZGUgZm9yIGBnZXRldWlkYC4gKwogIFtzbWFsbF0jX1tj
+b250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCj09PSBUZXN0IGltcHJvdmVtZW50cwoKLSBN
+YWRlIGludGVncmF0aW9uIHRlc3RzIGNvbnNpc3RlbnRseSB1c2Ugb2JqZWN0IGZpbGUgY29tcGFy
+aXNvbnMgdGhhdCBpZ25vcmUKICBpcnJlbGV2YW50IGRpZmZlcmVuY2VzLCByZXF1aXJpbmcgYGV1
+LWVsZmNtcGAgZm9yIGFsbCBjb21waWxlcnMgb24gTGludXguICsKICBbc21hbGxdI19bY29udHJp
+YnV0ZWQgYnkgR3JlZ29yIEphc255IGFuZCBKb2VsIFJvc2RhaGxdXyMKCi0gRml4ZWQgY3JlYXRp
+b24gb2YgdGhlIGlucHV0IGZpbGUgZm9yIHRoZSBgLmluY2JpbmAgYXNzZW1ibGVyIHRlc3QuICsK
+ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgQWRyaWFuIEJ1bmtdXyMKCi0gRml4ZWQgYSB0ZW1w
+b3JhcnkgZmlsZSBsZWFrIHdoZW4gcnVubmluZyB1bml0IHRlc3RzIHVuZGVyIFdpbmUuICsKICBb
+c21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIE1hZGUgaW50ZWdyYXRp
+b24gdGVzdHMgZmFpbCBpZiB0aGV5IGVtaXQgdW5leHBlY3RlZCBvdXRwdXQgb24gc3RhbmRhcmQK
+ICBlcnJvci4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMK
+
+--===============6950239766003535627==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-jsonpointer: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-3.1.1.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-3.3.tar.gz file://run-ptest"
-packages/x86-64-v3-poky-linux/python3-jsonpointer: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGSIZE changed from 12837 to 25874 (+102%)
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info -> /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PV changed from "3.1.1" to "3.3"
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGV changed from 3.1.1 [default] to 3.3 [default]
-packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGSIZE changed from 29602 to 33350 (+13%)
-Changes to packages/x86-64-v3-poky-linux/python3-jsonpointer (sysroot):
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/licenses/AUTHORS was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/top_level.txt was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.3.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses/AUTHORS was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/top_level.txt was removed
-  /usr/lib/python3.14/site-packages/jsonpointer-3.1.1.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PV changed from "4.14.1" to "4.14.2"
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 42233264 to 42214616 (-0%)
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-dev: PV changed from "4.14.1" to "4.14.2"
+packages/x86-64-v3-poky-linux/ccache/ccache-dev: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-doc: PV changed from "4.14.1" to "4.14.2"
+packages/x86-64-v3-poky-linux/ccache/ccache-doc: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-locale: PV changed from "4.14.1" to "4.14.2"
+packages/x86-64-v3-poky-linux/ccache/ccache-locale: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PV changed from "4.14.1" to "4.14.2"
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGSIZE changed from 1876310 to 1880976 (+0%)
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-src: FILELIST: directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/compiler -> /usr/src/debug/ccache/4.14.2/src/ccache/compiler, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/storage -> /usr/src/debug/ccache/4.14.2/src/ccache/storage, directory renamed /usr/src/debug/ccache/4.14.1/src/third_party/tl-expected/tl -> /usr/src/debug/ccache/4.14.2/src/third_party/tl-expected/tl, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache -> /usr/src/debug/ccache/4.14.2/src/ccache, directory renamed /usr/src/debug/ccache/4.14.1/src/third_party/cpp-httplib -> /usr/src/debug/ccache/4.14.2/src/third_party/cpp-httplib, directory renamed /usr/src/debug/ccache/4.14.1/src/third_party/cxxurl/cxxurl -> /usr/src/debug/ccache/4.14.2/src/third_party/cxxurl/cxxurl, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/storage/remote -> /usr/src/debug/ccache/4.14.2/src/ccache/storage/remote, directory renamed /usr/src/debug/ccache/4.14.1/sr
+ c/ccache/util -> /usr/src/debug/ccache/4.14.2/src/ccache/util, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/core -> /usr/src/debug/ccache/4.14.2/src/ccache/core, directory renamed /usr/src/debug/ccache/4.14.1/src/third_party/blake3/blake3 -> /usr/src/debug/ccache/4.14.2/src/third_party/blake3/blake3, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/storage/local -> /usr/src/debug/ccache/4.14.2/src/ccache/storage/local
+packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PV changed from "4.14.1" to "4.14.2"
+packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache: PV changed from "4.14.1" to "4.14.2"
+packages/x86-64-v3-poky-linux/ccache/ccache: PKGSIZE changed from 2120232 to 2124328 (+0%)
+packages/x86-64-v3-poky-linux/ccache/ccache: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
+packages/x86-64-v3-poky-linux/ccache: PV changed from "4.14.1" to "4.14.2"
+packages/x86-64-v3-poky-linux/ccache: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
+packages/x86-64-v3-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.14.1/ccache-4.14.1.tar.gz" to "https://github.com/ccache/ccache/releases//download/v4.14.2/ccache-4.14.2.tar.gz"
 
---===============5825651811152037890==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-jsonpointer-upgrade-3.1.1-3.3.patch"
-
-RnJvbSBjOWVjMWNjOTQ4OTYyZWVmMjEzOGNlNmNmZDJlYTM3NmM4NmI0MDk3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTkgT2N0IDIwMjYgMDU6Mzg6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWpzb25wb2ludGVyOiB1cGdyYWRlIDMuMS4xIC0+IDMuMwoKLS0tCiAuLi57cHl0aG9u
-My1qc29ucG9pbnRlcl8zLjEuMS5iYiA9PiBweXRob24zLWpzb25wb2ludGVyXzMuMy5iYn0gfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWpzb25wb2ludGVyXzMuMS4x
-LmJiID0+IHB5dGhvbjMtanNvbnBvaW50ZXJfMy4zLmJifSAoODUlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29ucG9pbnRlcl8zLjEuMS5iYiBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29ucG9pbnRlcl8zLjMuYmIK
-c2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWpzb25wb2ludGVyXzMuMS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtanNvbnBvaW50ZXJfMy4zLmJiCmluZGV4IGRkYzhlMjU2
-YTQuLjUxYzczNzdlMTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1qc29ucG9pbnRlcl8zLjEuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtanNvbnBvaW50ZXJfMy4zLmJiCkBAIC01LDcgKzUsNyBAQCBMSUNfRklM
-RVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9MzJiMTVjODQzYjdhMzI5MTMwZjRl
-MjY2YTI4MWViYjMiCiAKIGluaGVyaXQgcHlwaSBwdGVzdCBzZXR1cHRvb2xzMwogCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiMGI4MDFjN2RiMzNhOTA0MDI0ZjYwMDRkNTI2ZGNjNTNiYmI4YTRhMGY0
-ZTMyYmZkMTBiZWFkZjYwYWRmMTkwMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyZDg1MWRhMzI4
-MTMyMDQzMjg5YTAzZGYxZGJiMTU3N2I5MDFhZDljZDIyOTExZjUxNWQxNzg3NWZiYzE3NzNhIgog
-CiBTUkNfVVJJICs9ICIgXAogCWZpbGU6Ly9ydW4tcHRlc3QgXAotLSAKMi40Ny4xCgo=
-
---===============5825651811152037890==--
+--===============6950239766003535627==--
 
