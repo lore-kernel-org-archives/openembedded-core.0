@@ -2,76 +2,76 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71171CCF2DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3592CCF2E0
 	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 06:43:33 +0000 (UTC)
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28816.1792392206147735939
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28815.1792392206077915467
  for <openembedded-core@lists.openembedded.org>;
  Sun, 18 Oct 2026 23:43:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Jpk7Y3B5;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=NyFOyyI7;
+ spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=14619; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=10014; q=dns/txt;
   s=iport01; t=1792392206; x=1793601806;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ACQYK4zeVzLzm2byaH+KIFKZxrprckKDdSGRIxisDT0=;
-  b=Jpk7Y3B56JAclGsviwNOrqb/mYZkUmW34IfixiNM00WJwKvZrJ4Gsz2d
-   EKCn41ikg3RoCkEiJ0JoZliiN5qkFJ2AKmAx4QWaC0J/Yv4WPqm+HO48V
-   oLa90nJ5HByx7CG54gpygyPcoUnTJ9iv6Z9QErX32oCnautVlM2/rV84K
-   Ov9+6iCPXDynlBSWA9eNycbOD5iqYE3Ty2fsH6/QMukbY2Cn3e4BvdulO
-   DwA/c6WxWu1PnUE8cWkWGHA8QrPm7wCfJGrrSL5R71SuQRf8xliI+BTsz
-   eexOSlSGNGD3l2Dj2Tp2oKgYPnI+pWJKqs/AY4tsvNHiTZimU1ZRy7oVf
+  bh=yJx6o7wNE3RXqvNQ3zoewYC5vAvDOtREMXQ8KUG7hOg=;
+  b=NyFOyyI7va1yGBqH1brJ9oyjKNRhoHajYefB5DQColX5GvBGllILTDez
+   kqIGQK27yXyz1fDOp+0vvJt8XfmPyrYGkxqJ+5pUlR3+HkBWBQa2AdueU
+   zoifyUz6DSi7duB0Oxfl3maNexQlmg31WxeBGukigATwKLTJzhSMqgffH
+   fSU0LK/A0Pvs94k+YZUYLJ+IaKW4C6k1k2esxXd2B1i11ncryXKSKbHlw
+   OK6sHothy0HlEMxbvQ+J9LHCr8A+s6mc/Yd5i/BN51aTeSppbTXAGtWQG
+   Hb4Xz+DGcv7daHsGQye+BDApX1+nsu3ENaHKqVgCTZ4p7eWTrXdA+I+K9
    A==;
-X-CSE-ConnectionGUID: 2/CBc88dQtiO+L4BxsxQ/w==
-X-CSE-MsgGUID: j/bbgx5aSI6hzyo8kDb/OA==
-X-IPAS-Result: =?us-ascii?q?A0BKAgBsu9Vq/5T/Ja1aHgEBCxIMggULgld1YENJlkoDk?=
- =?us-ascii?q?UqMUhSBag8BAQEPRA0EAQGFBQKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
- =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgECAQMyARgBLRAcAwECFwEBFisdAQUIGYMCA?=
- =?us-ascii?q?YJ0AxEGvR0bN4IsgQGDKQE/AgJAAVDbMgELFAGBOIVAiCNdGAGEfCcbG4Fyg?=
- =?us-ascii?q?RWBO4IugQWBMioCAYEmIAFgAgaFdQSCInoSgVoYBmWHNocnhX1IgR4DWSwBV?=
- =?us-ascii?q?RMNCgsHBYFoAzUSKhVuMh2BIz4XgQcbBgWBHYEgghYjGTZ6gQlegSspYAEQF?=
- =?us-ascii?q?4EJggcCglSCAAIBSUEOB0VTCSVDEkcmIggSCQETGjALgRs4PAkoQRcMcwwdB?=
- =?us-ascii?q?XIIAg0JB00YDUgRLDcVGQQ+bgeSKh6CXgcBWAgtAQciAQGBBX0GNQsBAQQYk?=
- =?us-ascii?q?nSQJ4IhgTWfWgoog3aMIo4Nhy0aM4VbpRSZCIs3glOVNDQLDk+EaYFoPIFZc?=
- =?us-ascii?q?BU7gmcJFjQZD44uCwuBeIFohAeCOcgaJzICCTIBAQcCBw4DC4FokAACJAKBV?=
- =?us-ascii?q?gEB?=
-IronPort-Data: A9a23:oSUvIKKfNyrkXXU/FE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS0WYGn
- 2EZCjyBPPffNzD2KYwlYI7l8h8A6pDQyINnHQsd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZpCCea+Uf1WlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
- T/Oi5eHYgH8g2clajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN00S2ocNt1I9t9rAEYN0
- aAyOCsdV1ec0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSAVLAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MESojx5nYj/7DLoyn+qsj3juehVTqUmeouw85G27IAlZjeOyb4KKIIXaLSlTtkTfr
- GjJ7znwOTBENM6OzmqG3njrocaayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRul/fDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:tQ7Im65AkE0/mabPcAPXwOrXdLJyesId70hD6qm+c3Nom6uj5q
+X-CSE-ConnectionGUID: dxIu3cLHQ1efBGcICHNEMA==
+X-CSE-MsgGUID: nA8zVMs4Qy6CY/f577A4tg==
+X-IPAS-Result: =?us-ascii?q?A0BHAgBsu9Vq/5T/Ja1aHgEBCxIMggULgld1YENJlkoDn?=
+ =?us-ascii?q?hyBfg8BAQEPRA0EAQGFBQKOFQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBB?=
+ =?us-ascii?q?QEBAQIBBwWBDhOGTw2QEgECAQMnCwEYAS0QHAMBAi8rIwgZgwIBgnQDEQa9H?=
+ =?us-ascii?q?Rs3gXkzgQGDKQE/AgJAAVDbMgELFAGBOIVAiCNdGAGEfCcbG4FyglCCLoEFg?=
+ =?us-ascii?q?VwCAYFHhl0EgiJ6EoFaHmWUWkiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjP?=
+ =?us-ascii?q?heBBxsGBYEdgSCCFiMZNnqBCV6BKylgARAXgQmCBwKCVIIAAgFJQQ4HRVMJJ?=
+ =?us-ascii?q?UMSRyYiCBIJARMaMAuBGzg8CShBFwxzDB0FcggCDQkHTRgNSBEsNxUZBD5uB?=
+ =?us-ascii?q?5IqHoJlAWAtASkBAReBawIEHxYLFgijG4IhoQ8KKIN2jCKVOhozhASBV5JAk?=
+ =?us-ascii?q?lQLmH2OCpVoG02EaYFoPIFZcBU7gmcJFjQZD44rDguBeIFohkDIGicyAgkyA?=
+ =?us-ascii?q?QEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:1fzE3aiW6Fs+sfgXM6RTHAKIX161MREKZh0ujC45NGQN5FlHY01je
+ htvCz2Fb/ffa2L9L98nbd/l90hVuMTSzd4xHQZlqH1nRiljpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNs/vS8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUU6sdqWmpq1
+ cVBJT4nQRuirMKQ7ZeSH7wEasQLdKEHPasFsX1miDWcBvE8TNWaGuPB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZgd/5JEWxI9EglHzcDBcoVOErII84nPYy0p6172F3N/9J4bQFJQNwhrAz
+ o7A12LQUgMkEcfD8Cvb2UPriLKQwgqnRI1HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBF2cHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:Q+Ko9a6gRPnx0BHFxAPXwOrXdLJyesId70hD6qm+c3Nom6uj5q
  eTdZsgtCMc5Ax9ZJhko6HjBEDiewK5yXcK2+ks1N6ZNWGM0ldAbrsSiLcKqAePJ8SRzIJgPN
  9bAstDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhFQpcUAUdAZ0++/YTzra3FLeA==
-X-Talos-CUID: 9a23:2YfnOmM8Ftr2su5DAm5M3kVESswcbnz6j1OMCV+jGV8uV+jA
-X-Talos-MUID: 9a23:dPz75wQSVMj8TSgjRXTuwztoO9c16p+PVkAfgJJWuOWOcgtZbmI=
+X-Talos-CUID: =?us-ascii?q?9a23=3ADYGlzWkHHzOek+rSnD7UNKcATxvXOXHN7WqLKGu?=
+ =?us-ascii?q?YMD9kRpe6Qn672IVJtuM7zg=3D=3D?=
+X-Talos-MUID: 9a23:qg9AVQgFMbZ4DH9mKCgazcMpMu448ZqLExw0gMstio6KaHMvEmuBg2Hi
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,167,1787011200"; 
-   d="scan'208";a="537707218"
+   d="scan'208";a="522990440"
 Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Oct 2026 06:43:25 +0000
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Oct 2026 06:43:25 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id D59471800014B;
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id E951A180002E7;
 	Mon, 19 Oct 2026 06:43:24 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 5E0CACBF201; Sun, 18 Oct 2026 23:43:24 -0700 (PDT)
+	id 8A1FACBF203; Sun, 18 Oct 2026 23:43:24 -0700 (PDT)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 1/5] curl: fix CVE-2026-8926
-Date: Sun, 18 Oct 2026 23:43:16 -0700
-Message-Id: <20261019064320.3978613-2-dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 3/5] curl: fix CVE-2026-80255
+Date: Sun, 18 Oct 2026 23:43:18 -0700
+Message-Id: <20261019064320.3978613-4-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261019064320.3978613-1-dkelaiya@cisco.com>
 References: <20261019064320.3978613-1-dkelaiya@cisco.com>
@@ -84,347 +84,137 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 06:43:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248135
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248134
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Backport the upstream fix [1] for [2] to curl 8.19.0.
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-Include entry-selection changes and extended test 685 from [4].
-Keep password-only entries valid for a user supplied in the URL,
-while rejecting passwords tied to a different login. Reset login
-matching state when changing entries.
+Apply prerequisite [3] to reject TABs in cookie attribute values.
+Retain test 1685 alongside the main fix and test 2885. Keep the
+8.19.0 invalid_octets() adaptation that prevents test 1105 regressions.
 
-Include upstream follow-up [3] to cover URL users absent from the
-netrc file, with regression test 1646.
-
-[1] https://github.com/curl/curl/commit/4ae1d7cc2643e4773a136395f12bc02fc6867854
-[2] https://curl.se/docs/CVE-2026-8926.html
-[3] https://github.com/curl/curl/commit/7ca5f939c8403db7ede21e2ccb805a65d3329ef8
-[4] https://github.com/curl/curl/commit/a327a5bdedfad6b486bca4e0a1a4fdac9ab298ca
+[1] https://github.com/curl/curl/commit/4f6aa41a0145e930e766775dbe860883d350aa0a
+[2] https://curl.se/docs/CVE-2026-80255.html
+[3] https://github.com/curl/curl/commit/8e8bdd36048c146fe843d8948a912fbd398d1c5d
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../curl/curl/CVE-2026-8926-dependent.patch   | 140 ++++++++++++++++++
- .../curl/curl/CVE-2026-8926_p1.patch          | 100 +++++++++++++
- .../curl/curl/CVE-2026-8926_p2.patch          |  84 +++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   3 +
- 4 files changed, 327 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8926-dependent.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8926_p1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8926_p2.patch
+ .../curl/curl/CVE-2026-80255-dependent.patch  | 139 ++++++++++++++++++
+ .../curl/curl/CVE-2026-80255.patch            | 125 ++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   2 +
+ 3 files changed, 266 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80255-dependent.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80255.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-8926-dependent.patch b/meta/recipes-support/curl/curl/CVE-2026-8926-dependent.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-80255-dependent.patch b/meta/recipes-support/curl/curl/CVE-2026-80255-dependent.patch
 new file mode 100644
-index 0000000000..1c46d08e27
+index 0000000000..ca7737e5dd
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-8926-dependent.patch
-@@ -0,0 +1,140 @@
-+From a327a5bdedfad6b486bca4e0a1a4fdac9ab298ca Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2026-80255-dependent.patch
+@@ -0,0 +1,139 @@
++From 8e8bdd36048c146fe843d8948a912fbd398d1c5d Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 9 Mar 2026 08:38:14 +0100
-+Subject: [PATCH] netrc: refactor into smaller sub functions
++Date: Wed, 1 Apr 2026 08:09:47 +0200
++Subject: [PATCH] cookie: fix rejection when tabs in value
 +
-+Fixes #20950 - test 685 is extended for this
-+Closes #20932
++A previous refactor changed the TAB check so that the octet could be
++accepted in the 'path', which would cause an invalid line in the saved
++cookie file so not possible to read the cookie back. Not terrible
++because the path cannot contain a raw tab anyway so it would never match
++anyway.
 +
-+CVE: CVE-2026-8926
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/a327a5bdedfad6b486bca4e0a1a4fdac9ab298ca]
++Add test 1685 to verify
 +
-+Backport Changes:
-+- Kept the curl 8.19.0 parser and login/password API instead of
-+  extracting netrc_state, token, state, and finalization helpers.
-+- Applied the password-presence check, generic-entry selection and
-+  entry-state resets in the existing parser, without the helper moves.
-+- Omitted netrc_finalize's password-return comment because the CVE
-+  fix must reject entries with an explicitly mismatched login.
++Reported-by: Izan on hackerone
 +
-+(cherry picked from commit a327a5bdedfad6b486bca4e0a1a4fdac9ab298ca)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ docs/cmdline-opts/netrc.md         | 12 ++++++++++--
-+ docs/libcurl/opts/CURLOPT_NETRC.md |  5 +++++
-+ lib/netrc.c                        | 17 ++++++++++++++---
-+ tests/data/test685                 |  4 +++-
-+ 4 files changed, 32 insertions(+), 6 deletions(-)
++Closes #21185
 +
-+diff --git a/docs/cmdline-opts/netrc.md b/docs/cmdline-opts/netrc.md
-+index 72b5ff9..03a7ed6 100644
-+--- a/docs/cmdline-opts/netrc.md
-++++ b/docs/cmdline-opts/netrc.md
-+@@ -35,10 +35,18 @@ On Windows two filenames in the home directory are checked: *.netrc* and
-+ *_netrc*, preferring the former. Older versions on Windows checked for
-+ *_netrc* only.
-+ 
-+-A quick and simple example of how to setup a *.netrc* to allow curl to FTP to
-+-the machine host.example.com with username 'myself' and password 'secret'
-++A quick and simple example of how to setup a *.netrc* to allow curl to access
-++the machine host.example.com with username `myself` and password `secret`
-+ could look similar to:
-+ 
-+     machine host.example.com
-+     login myself
-+     password secret
-++
-++curl also supports the `default` keyword. This is the same as machine name
-++except that default matches any name. There can be only one `default` token,
-++and it must be after all machine tokens.
-++
-++When providing a username in the URL and a *.netrc* file, curl looks for the
-++password for that specific user for the given host if such an entry appears in
-++the file before a "generic" `machine` entry without `login` specified.
-+diff --git a/docs/libcurl/opts/CURLOPT_NETRC.md b/docs/libcurl/opts/CURLOPT_NETRC.md
-+index 65d87cf..1e3dbb1 100644
-+--- a/docs/libcurl/opts/CURLOPT_NETRC.md
-++++ b/docs/libcurl/opts/CURLOPT_NETRC.md
-+@@ -50,6 +50,11 @@ and similar things are not supported).
-+ The netrc file provides credentials for a hostname independent of which
-+ protocol and port number that are used.
-+ 
-++When providing a username in the URL and a *.netrc* file, libcurl looks for
-++and uses the password for that specific user for the given host if such an
-++entry appears in the file before a "generic" `machine` entry without `login`
-++specified.
-++
-+ libcurl does not verify that the file has the correct properties set (as the
-+ standard Unix ftp client does). It should only be readable by user.
-+ 
-+diff --git a/lib/netrc.c b/lib/netrc.c
-+index 1073cc5..5eb0c84 100644
-+--- a/lib/netrc.c
-++++ b/lib/netrc.c
-+@@ -289,8 +289,7 @@ static NETRCcode parsenetrc(struct store_netrc *store,
-+             retcode = NETRC_OUT_OF_MEMORY; /* allocation failed */
-+             goto out;
-+           }
-+-          if(!specific_login || our_login)
-+-            found |= FOUND_PASSWORD;
-++          found |= FOUND_PASSWORD;
-+           keyword = NONE;
-+         }
-+         else if(curl_strequal("login", tok))
-+@@ -299,13 +298,22 @@ static NETRCcode parsenetrc(struct store_netrc *store,
-+           keyword = PASSWORD;
-+         else if(curl_strequal("machine", tok)) {
-+           /* a new machine here */
-+-          if(found & FOUND_PASSWORD) {
-++          if(found & FOUND_PASSWORD &&
-++             /* a password was provided for this host */
-++
-++             ((!specific_login || our_login) ||
-++              /* either there was no specific login to search for, or this
-++                 is the specific one we wanted */
-++              (specific_login && !(found & FOUND_LOGIN)))) {
-++            /* or we look for a specific login, but that was not specified */
-++
-+             done = TRUE;
-+             break;
-+           }
-+           state = HOSTFOUND;
-+           keyword = NONE;
-+           found = 0;
-++          our_login = FALSE;
-+           Curl_safefree(password);
-+           if(!specific_login)
-+             Curl_safefree(login);
-+@@ -313,6 +321,9 @@ static NETRCcode parsenetrc(struct store_netrc *store,
-+         else if(curl_strequal("default", tok)) {
-+           state = HOSTVALID;
-+           retcode = NETRC_OK; /* we did find our host */
-++          keyword = NONE;
-++          found = 0;
-++          our_login = FALSE;
-+           Curl_safefree(password);
-+           if(!specific_login)
-+             Curl_safefree(login);
-+diff --git a/tests/data/test685 b/tests/data/test685
-+index a069ff8..5346cd1 100644
-+--- a/tests/data/test685
-++++ b/tests/data/test685
-+@@ -26,13 +26,15 @@ Connection: close
-+ http
-+ </server>
-+ <name>
-+-netrc with no login - provided user
-++netrc with no login - but provided user in URL
-+ </name>
-+ <command>
-+ --netrc-optional --netrc-file %LOGDIR/netrc%TESTNUMBER http://user@%HOSTIP:%HTTPPORT/
-+ </command>
-+ <file name="%LOGDIR/netrc%TESTNUMBER" >
-++machine %HOSTIP password firstthis login unknown
-+ machine %HOSTIP password 5up3r53cr37
-++machine %HOSTIP password d1ff3r3nt login anotherone
-+ </file>
-+ </client>
-+ 
-+-- 
-+2.35.6
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-8926_p1.patch b/meta/recipes-support/curl/curl/CVE-2026-8926_p1.patch
-new file mode 100644
-index 0000000000..8402429fce
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-8926_p1.patch
-@@ -0,0 +1,100 @@
-+From 4ae1d7cc2643e4773a136395f12bc02fc6867854 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Fri, 15 May 2026 11:45:49 +0200
-+Subject: [PATCH] netrc: scanner refactor
-+
-+Refactor the netrc scanner. Add test case for checking that the last
-+matched machine with unmatched login does not return the password as
-+success (unit1304).
-+
-+Closes #21624
-+
-+CVE: CVE-2026-8926
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/4ae1d7cc2643e4773a136395f12bc02fc6867854]
++CVE: CVE-2026-80255
++Upstream-Status: Backport [https://github.com/curl/curl/commit/8e8bdd36048c146fe843d8948a912fbd398d1c5d]
 +
 +Backport Changes:
-+- Kept the curl 8.19.0 tokenizer and login/password API in netrc.c;
-+  omitted the Curl_creds API changes in netrc.h and url.c.
-+- Replaced the scanner refactor with a NETRC_NO_MATCH guard for an
-+  unmatched requested login, keeping generic password-only entries.
-+- Corrected test 685's regression in the initial backport: a missing
-+  login keyword must not reject a password-only entry for a URL user.
-+- Preserved the old blank-password behavior for a matching login.
-+- Adapted unit1304 to the curl 8.19.0 login/password API and retained
-+  the upstream regression scenario for the last unmatched login.
++- Registered test 1685 in the older curl 8.19.0 test-list row.
 +
-+(cherry picked from commit 4ae1d7cc2643e4773a136395f12bc02fc6867854)
++(cherry picked from commit 8e8bdd36048c146fe843d8948a912fbd398d1c5d)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ lib/netrc.c           |  3 +++
-+ tests/unit/unit1304.c | 20 +++++++++++++++++---
-+ 2 files changed, 20 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/netrc.c b/lib/netrc.c
-+index 5eb0c84..425a535 100644
-+--- a/lib/netrc.c
-++++ b/lib/netrc.c
-+@@ -349,6 +349,9 @@ static NETRCcode parsenetrc(struct store_netrc *store,
-+ 
-+ out:
-+   curlx_dyn_free(&token);
-++  if(!retcode && specific_login && !our_login &&
-++     ((found & FOUND_LOGIN) || !password))
-++    retcode = NETRC_NO_MATCH;
-+   if(!retcode) {
-+     if(!password && our_login) {
-+       /* success without a password, set a blank one */
-+diff --git a/tests/unit/unit1304.c b/tests/unit/unit1304.c
-+index 231ddd4..cff99f1 100644
-+--- a/tests/unit/unit1304.c
-++++ b/tests/unit/unit1304.c
-+@@ -59,7 +59,7 @@ static CURLcode test_unit1304(const char *arg)
-+   login = curlx_strdup("me");
-+   Curl_netrc_init(&store);
-+   result = Curl_parsenetrc(&store, "example.com", &login, &password, arg);
-+-  fail_unless(result == 0, "Host should have been found");
-++  fail_unless(result == 1, "Login should not have been found");
-+   abort_unless(password == NULL, "password is not NULL!");
-+   Curl_netrc_cleanup(&store);
-+   curlx_free(login);
-+@@ -82,7 +82,7 @@ static CURLcode test_unit1304(const char *arg)
-+   login = curlx_strdup("admi"); /* spellchecker:disable-line */
-+   Curl_netrc_init(&store);
-+   result = Curl_parsenetrc(&store, "example.com", &login, &password, arg);
-+-  fail_unless(result == 0, "Host should have been found");
-++  fail_unless(result == 1, "Login should not have been found");
-+   abort_unless(password == NULL, "password is not NULL!");
-+   Curl_netrc_cleanup(&store);
-+   curlx_free(login);
-+@@ -94,7 +94,7 @@ static CURLcode test_unit1304(const char *arg)
-+   login = curlx_strdup("adminn");
-+   Curl_netrc_init(&store);
-+   result = Curl_parsenetrc(&store, "example.com", &login, &password, arg);
-+-  fail_unless(result == 0, "Host should have been found");
-++  fail_unless(result == 1, "Login should not have been found");
-+   abort_unless(password == NULL, "password is not NULL!");
-+   Curl_netrc_cleanup(&store);
-+   curlx_free(login);
-+@@ -166,6 +166,20 @@ static CURLcode test_unit1304(const char *arg)
-+   fail_unless(strncmp(login, "none", 4) == 0, "login should be 'none'");
-+   Curl_netrc_cleanup(&store);
-+ 
-++  /*
-++   * Test for the last host where we do not want to see the password
-++   * if the login does not match.
-++   */
-++  curlx_free(password);
-++  password = NULL;
-++  curlx_free(login);
-++  login = curlx_strdup("hilarious");
-++  Curl_netrc_init(&store);
-++  result = Curl_parsenetrc(&store, "curl.example.com", &login, &password, arg);
-++  fail_unless(result == 1, "Login should not have been found");
-++  abort_unless(password == NULL, "password is not NULL!");
-++  Curl_netrc_cleanup(&store);
-++
-+   UNITTEST_END(t1304_stop(&password, &login))
-+ }
-+ 
-+-- 
-+2.35.6
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-8926_p2.patch b/meta/recipes-support/curl/curl/CVE-2026-8926_p2.patch
-new file mode 100644
-index 0000000000..b511e03fc4
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-8926_p2.patch
-@@ -0,0 +1,84 @@
-+From 7ca5f939c8403db7ede21e2ccb805a65d3329ef8 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sat, 16 May 2026 00:54:13 +0200
-+Subject: [PATCH] test1646: netrc parsing without user match but user in URL
-+
-+Follow-up to 4ae1d7cc2643e
-+
-+CVE: CVE-2026-8926
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/7ca5f939c8403db7ede21e2ccb805a65d3329ef8]
-+
-+Backport Changes:
-+- Registered test 1646 in the older curl 8.19.0 test-list row.
-+
-+(cherry picked from commit 7ca5f939c8403db7ede21e2ccb805a65d3329ef8)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
++ lib/cookie.c           | 14 ++++++-------
 + tests/data/Makefile.am |  2 +-
-+ tests/data/test1646    | 45 +++++++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 46 insertions(+), 1 deletion(-)
++ tests/data/test1685    | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 65 insertions(+), 8 deletions(-)
 +
++diff --git a/lib/cookie.c b/lib/cookie.c
++index 4d53cc4..cd95130 100644
++--- a/lib/cookie.c
+++++ b/lib/cookie.c
++@@ -461,6 +461,13 @@ parse_cookie_header(struct Curl_easy *data,
++         sep = TRUE; /* a '=' was used */
++         if(!curlx_str_cspn(&ptr, &val, ";\r\n"))
++           curlx_str_trimblanks(&val);
+++
+++        /* Reject cookies with a TAB inside the value */
+++        if(curlx_strlen(&val) &&
+++           memchr(curlx_str(&val), '\t', curlx_strlen(&val))) {
+++          infof(data, "cookie contains TAB, dropping");
+++          return CURLE_OK;
+++        }
++       }
++       else
++         curlx_str_init(&val);
++@@ -489,13 +496,6 @@ parse_cookie_header(struct Curl_easy *data,
++           return CURLE_OK;
++         }
++ 
++-        /* Reject cookies with a TAB inside the value */
++-        if(curlx_strlen(&val) &&
++-           memchr(curlx_str(&val), '\t', curlx_strlen(&val))) {
++-          infof(data, "cookie contains TAB, dropping");
++-          return CURLE_OK;
++-        }
++-
++         /* Check if we have a reserved prefix set. */
++         if(!strncmp("__Secure-", curlx_str(&name), 9))
++           co->prefix_secure = TRUE;
 +diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index 13e47a3..ea700cd 100644
++index ea700cd..5bb4f7e 100644
 +--- a/tests/data/Makefile.am
 ++++ b/tests/data/Makefile.am
-+@@ -218,7 +218,7 @@ test1620 test1621 test1622 test1623 test1624 \
++@@ -226,7 +226,7 @@ test1660 test1661 test1662 test1663 test1664 test1665 \
 + \
-+ test1630 test1631 test1632 test1633 test1634 test1635 test1636 test1637 \
++ test1670 test1671 \
 + \
-+-test1640 test1641 test1642 test1643 test1647 test1648 test1649 \
-++test1640 test1641 test1642 test1643 test1646 test1647 test1648 test1649 \
++-test1680 test1681 test1682 test1683 \
+++test1680 test1681 test1682 test1683 test1685 \
 + \
-+ test1650 test1651 test1652 test1653 test1654 test1655 test1656 test1657 \
-+ test1658 \
-+diff --git a/tests/data/test1646 b/tests/data/test1646
++ test1700 test1701 test1702 test1703 test1704 test1705 test1706 test1707 \
++ test1708 test1709 test1710 test1711 test1712 \
++diff --git a/tests/data/test1685 b/tests/data/test1685
 +new file mode 100644
-+index 0000000..3df03be
++index 0000000..b98dc20
 +--- /dev/null
-++++ b/tests/data/test1646
-+@@ -0,0 +1,45 @@
+++++ b/tests/data/test1685
++@@ -0,0 +1,57 @@
 ++<?xml version="1.0" encoding="US-ASCII"?>
 ++<testcase>
 ++<info>
 ++<keywords>
-++netrc
+++HTTP
+++cookies
 ++</keywords>
 ++</info>
 ++
+++# Server-side
 ++<reply>
-++<data>
-++HTTP/1.1 200 OK
-++Content-Length: 6
+++<data crlf="headers">
+++HTTP/1.0 200 OK swsclose
+++Date: Tue, 09 Nov 2010 14:49:00 GMT
+++Content-Type: text/html
+++Set-Cookie: name=content; path=/we%TABwant
+++Set-Cookie: accept=this; path=/only/this
 ++
-++12345
+++boo
 ++</data>
 ++</reply>
 ++
@@ -434,39 +224,176 @@ index 0000000000..b511e03fc4
 ++http
 ++</server>
 ++<name>
-++netrc parsing without user match but user in URL
+++HTTP, reject cookie with tab in path
 ++</name>
 ++<command>
-++--netrc --netrc-file %LOGDIR/netrc%TESTNUMBER http://alice@example.com:%HTTPPORT/%TESTNUMBER --resolve example.com:%HTTPPORT:%HOSTIP
+++http://%HOSTIP:%HTTPPORT/ -c %LOGDIR/jar%TESTNUMBER.txt
 ++</command>
-++<file name="%LOGDIR/netrc%TESTNUMBER" >
-++machine example.com login bob password sekret
-++</file>
+++
+++<features>
+++cookies
+++</features>
 ++</client>
 ++
 ++# Verify data after the test has been "shot"
 ++<verify>
 ++<protocol crlf="headers">
-++GET /%TESTNUMBER HTTP/1.1
-++Host: example.com:%HTTPPORT
-++Authorization: Basic %b64[alice:]b64%
+++GET / HTTP/1.1
+++Host: %HOSTIP:%HTTPPORT
 ++User-Agent: curl/%VERSION
 ++Accept: */*
 ++
 ++</protocol>
+++<file name="%LOGDIR/jar%TESTNUMBER.txt" mode="text">
+++# Netscape HTTP Cookie File
+++# https://curl.se/docs/http-cookies.html
+++# This file was generated by libcurl! Edit at your own risk.
+++
+++127.0.0.1%TABFALSE%TAB/only/this%TABFALSE%TAB0%TABaccept%TABthis
+++</file>
 ++</verify>
 ++</testcase>
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-80255.patch b/meta/recipes-support/curl/curl/CVE-2026-80255.patch
+new file mode 100644
+index 0000000000..50af08fc3c
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-80255.patch
+@@ -0,0 +1,125 @@
++From 4f6aa41a0145e930e766775dbe860883d350aa0a Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 27 Aug 2026 08:33:30 +0200
++Subject: [PATCH] cookie: improve TAB handling
++
++For entries with a leading tab. Verified in test 2885.
++
++Reported-by: Stanislav Fort
++Closes #22699
++
++CVE: CVE-2026-80255
++Upstream-Status: Backport [https://github.com/curl/curl/commit/4f6aa41a0145e930e766775dbe860883d350aa0a]
++
++Backport Changes:
++- Made invalid_octets() reject TAB as required by the curl 8.19.0
++  parser; without this adaptation, upstream test 1105 regresses.
++- Registered test 2885 in the older test-list layout.
++
++(cherry picked from commit 4f6aa41a0145e930e766775dbe860883d350aa0a)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ lib/cookie.c           |  6 ++---
++ tests/data/Makefile.am |  2 +-
++ tests/data/test2885    | 52 ++++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 56 insertions(+), 4 deletions(-)
++ create mode 100644 tests/data/test2885
++
++diff --git a/lib/cookie.c b/lib/cookie.c
++index 4d53cc4..c3adf1d 100644
++--- a/lib/cookie.c
+++++ b/lib/cookie.c
++@@ -354,9 +354,9 @@ static bool bad_domain(const char *domain, size_t len)
++ static bool invalid_octets(const char *ptr, size_t len)
++ {
++   const unsigned char *p = (const unsigned char *)ptr;
++-  /* Reject all bytes \x01 - \x1f (*except* \x09, TAB) + \x7f */
+++  /* Reject all bytes \x01 - \x1f + \x7f */
++   while(len && *p) {
++-    if(((*p != 9) && (*p < 0x20)) || (*p == 0x7f))
+++    if((*p < 0x20) || (*p == 0x7f))
++       return TRUE;
++     p++;
++     len--;
++@@ -453,7 +453,7 @@ parse_cookie_header(struct Curl_easy *data,
++     struct Curl_str val;
++ 
++     /* we have a <name>=<value> pair or a stand-alone word here */
++-    if(!curlx_str_cspn(&ptr, &name, ";\t\r\n=")) {
+++    if(!curlx_str_cspn(&ptr, &name, ";\r\n=")) {
++       bool sep = FALSE;
++       curlx_str_trimblanks(&name);
++ 
++diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
++index 13e47a3..18e7730 100644
++--- a/tests/data/Makefile.am
+++++ b/tests/data/Makefile.am
++@@ -272,7 +272,7 @@ test2600 test2601 test2602 test2603 test2604 test2605 \
++ test2700 test2701 test2702 test2703 test2704 test2705 test2706 test2707 \
++ test2708 test2709 test2710 test2711 test2712 test2713 test2714 test2715 \
++ test2716 test2717 test2718 test2719 test2720 test2721 test2722 test2723 \
++-\
+++test2885 \
++ test3000 test3001 test3002 test3003 test3004 test3005 test3006 test3007 \
++ test3008 test3009 test3010 test3011 test3012 test3013 test3014 test3015 \
++ test3016 test3017 test3018 test3019 test3020 test3021 test3022 test3023 \
++diff --git a/tests/data/test2885 b/tests/data/test2885
++new file mode 100644
++index 0000000..456224f
++--- /dev/null
+++++ b/tests/data/test2885
++@@ -0,0 +1,52 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++cookies
+++</keywords>
+++</info>
+++
+++<reply>
+++<data crlf="headers">
+++HTTP/1.1 200 OK
+++Content-Length: 0
+++Set-Cookie: thisis=SECRET;%TABSecure
+++Set-Cookie: also=notab; Secure
+++
+++</data>
+++</reply>
+++
+++<client>
+++<features>
+++cookies
+++</features>
+++<server>
+++https
+++</server>
+++<name>
+++Cookies with TAB before 'secure'
+++</name>
+++<command>
+++https://cookie.example:%HTTPSPORT/%TESTNUMBER -c %LOGDIR/cookies.txt --resolve cookie.example:%HTTPSPORT:%HOSTIP --insecure
+++</command>
+++</client>
+++
+++<verify>
+++<protocol crlf="headers">
+++GET /%TESTNUMBER HTTP/1.1
+++Host: cookie.example:%HTTPSPORT
+++User-Agent: curl/%VERSION
+++Accept: */*
+++
+++</protocol>
+++<file name="%LOGDIR/cookies.txt" mode="text">
+++# Netscape HTTP Cookie File
+++# https://curl.se/docs/http-cookies.html
+++# This file was generated by libcurl! Edit at your own risk.
+++
+++cookie.example%TABFALSE%TAB/%TABTRUE%TAB0%TABalso%TABnotab
+++cookie.example%TABFALSE%TAB/%TABTRUE%TAB0%TABthisis%TABSECRET
+++</file>
+++</verify>
+++</testcase>
++-- 
++2.35.6
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index c2697d6dd8..af76f5d53b 100644
+index 322304f47d..33954465f7 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -38,6 +38,9 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-80229.patch \
-            file://CVE-2026-9546-01.patch \
-            file://CVE-2026-9546-02.patch \
-+           file://CVE-2026-8926-dependent.patch \
-+           file://CVE-2026-8926_p1.patch \
-+           file://CVE-2026-8926_p2.patch \
+@@ -42,6 +42,8 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-8926_p1.patch \
+            file://CVE-2026-8926_p2.patch \
+            file://CVE-2026-11564.patch \
++           file://CVE-2026-80255-dependent.patch \
++           file://CVE-2026-80255.patch \
             file://CVE-2026-80230.patch \
             "
  
