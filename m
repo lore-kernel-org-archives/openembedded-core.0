@@ -1,100 +1,259 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C35D7CCF2DE
-	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 13:21:24 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34260.1792416082479048028
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C36CCCF2E3
+	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 13:42:55 +0000 (UTC)
+Received: from mailrelay-egress16.pub.mailoutpod3-cph3.one.com (mailrelay-egress16.pub.mailoutpod3-cph3.one.com [46.30.212.3])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33773.1792414671303990551
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2026 06:21:22 -0700
+ Mon, 19 Oct 2026 05:57:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YeDtiyuh;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a180fbeef5so16290185e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 06:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792416081; x=1793020881; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=l9/M5DZQQaC6L5UznBOM+ODTGi+5qozYjx+oajeLj70=;
-        b=YeDtiyuhiVcVwAGkMeF3bw+iRMem0RReS1W3IwwZtz9Zl9k2GpfP9djePDfMHoOq3N
-         svMwwRuI8sLBv2/bEzb4RHwOz5o4s5C88tXb+RLfjteBdYgLmnTs0tV6YdY0MFtw/NbQ
-         v/9Q7mFla4EaS5v1Pp96D6cCzgnvhju8Klnwc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792416081; x=1793020881;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=l9/M5DZQQaC6L5UznBOM+ODTGi+5qozYjx+oajeLj70=;
-        b=PryCFDVJNgRAsNI+Qil/cNTFOcXZY0nEq2AX453tDfxtgwhjFXl5W92dkFy2FZSKYe
-         +vSX1ZqWzGycfIkO5SAcUBp9e5NoEwxTZ95Dqm8osbLx1pcQxRL3w/Q7Al8/q2q5Zz6S
-         lSwdm+RceTcOgR+SwUMFggy7xFsIto30oPAnOnyDleJ82d39alsWUBnQ7RuWsGfganIJ
-         iWRkL6vv9gK8PgixtR6usFeYqu+Kmde6hUsL6vDWLAK/p/z2c5fjI99eTrsvC2lFKNF2
-         6PRuLYd5xV0OprSEaaG6Pu4EwZYkbWvSWsAwthWrH7arM2a4RzAH2P8ETWWgsRlTtGPr
-         W+FA==
-X-Forwarded-Encrypted: i=1; AKwUvBw/lQvpNkyo1/WQrj6CEf5tKTBRVQweGRVW/5hKp7TaqQ8E4AR54LCB8cXBXW9+J3kN2BVHEq49O8BKzGClw9OhZg==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYI8Sm7IJu1jU6oxOtTKeeM4WtFqaHC8fbEYGQNnNAzXtaXg5HsC
-	UP6QHU2gQXCA/eSuZp1c5oCqpXITx6NNF9uieJOrufnaSyc8ADMj9xNdUMMVNa0AEjQ=
-X-Gm-Gg: AYBFou0pmulUlnFGwRCDDE2l3sjR+B/n5f47QmBAfuE9uSGrZ0SBeX3QsJH7MZ1U+n3
-	JqdNE0hDXi5Nm+6lC86ytma63MRwf+hTsjhY+FY1ZVskOfKHf7yJRlIc9+SCmHNE//IwAbberCi
-	BFpVBZpOQ8tr0ZKZZ4YhgY9ap6qNFa13YcX8nS/bnR0Bwg1srHw4n24gjyX6Xy8zuXeAkfaWXyr
-	biSlNvjboy693BWeVctdKsi+0Rxqe4y9vYGMsuYy0egnYweqp1P5PmAleZne4UIK/OxanndVW1h
-	LV9IOV7n980N1hWMBslgbVIxydRrEMTj7QGx7OzT3OGBCJWeaqG/F+hNNw5K/plHJDIXyhcOC6t
-	x6ZhAzcukReq+jfGVOAQ10xNfHT8hiUPOFN3qyIfkuLYVbzZ4FRXsGfqc45h4qXeBgrY9TPzwi9
-	cKPT6GtuSrzypBphlfhqMdEUFf8gKBs0iVEmYNIOzJSkPj+AkSWMoaBfqV6aaFEpIBuxKUj7oLL
-	ZNYuYVfa0IDsqjIJxsCmo7C5rLCg3Tffbp39x7jXjUOcas6N+3hQlsBLNMxMHwhfu8gmuCz
-X-Received: by 2002:a05:600c:4f82:b0:4a1:df50:5758 with SMTP id 5b1f17b1804b1-4a1df505962mr131535805e9.1.1792416080433;
-        Mon, 19 Oct 2026 06:21:20 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd9b303csm358727105e9.8.2026.10.19.06.21.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 06:21:20 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 Oct 2026 15:21:19 +0200
-Message-Id: <DM8UGZKR7J6J.1VNILIXTWOKFX@smile.fr>
-Subject: Re: [OE-core] [master][blacksail][PATCH] stress-ng: Inherit
- pkgconfig
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.kjellerstedt@axis.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261019125142.3407486-1-pkj@axis.com>
-In-Reply-To: <20261019125142.3407486-1-pkj@axis.com>
+ dkim=pass header.i=@embetrix.com header.s=rsa1 header.b=J8J8EB+c;
+ dkim=pass header.i=@embetrix.com header.s=ed1 header.b=l60X6mkU;
+ spf=none, err=permanent DNS error (domain: embetrix.com, ip: 46.30.212.3, mailfrom: ayoub.zaki@embetrix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1792414668; x=1793019468;
+	d=embetrix.com; s=rsa1;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=EGI0oFsAqxHJtz7xAPzAAQuPDSCVTqnR7OuolrTx4fQ=;
+	b=J8J8EB+clSEjcQLUFn0FFodQy8y0IsHrwhUWY/6JQ1d18/O/CHCGpBF+Ajb9iGhBNxjzeZVoOCRFu
+	 EaJAk+71OAXuwYEVHSZWuB5kF6Mvmo5T6LRgR1epHxwG0a7EELgvDYghE+4Y2WDlGvnVXtYESQrqt1
+	 iWAcXoLQ2ZHzU4AqJCZYNauxKIfpfb2e4G36y6dtA2Oif5WvHdSymRH2UhJxkIo+8A2dgId54mmBz8
+	 vGBe+F2Xg4A08H5Zq4flj8NEd654vAahD9PjYTAAADr+bUJ633A68VBj5x1tz4aJcnXCYWfXK+CpXR
+	 UrNsqe8ELAi/9XwWoCxBbC5WvwA7WpA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1792414668; x=1793019468;
+	d=embetrix.com; s=ed1;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=EGI0oFsAqxHJtz7xAPzAAQuPDSCVTqnR7OuolrTx4fQ=;
+	b=l60X6mkUq1Cm6u0pRJtEBhwMsHMOSTtal4/uwojRxKcMaKehmEvFE2SYwwdqnC+GhQ5J9Q5Qg98Ki
+	 I5SIn98Dg==
+X-HalOne-ID: aeb5e8de-cbbc-11f1-ac71-1b46ed53ce32
+Received: from xps-13.fritz.box (dynamic-2a02-3102-8c10-1ae0-8ef1-f8eb-0f1e-99b9.310.pool.telefonica.de [2a02:3102:8c10:1ae0:8ef1:f8eb:f1e:99b9])
+	by mailrelay4.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
+	id aeb5e8de-cbbc-11f1-ac71-1b46ed53ce32;
+	Mon, 19 Oct 2026 12:57:48 +0000 (UTC)
+From: "Ayoub Zaki" <ayoub.zaki@embetrix.com>
+To: openembedded-core@lists.openembedded.org
+Cc: yoann.congal@smile.fr,
+	Ayoub Zaki <ayoub.zaki@embetrix.com>
+Subject: [PATCH] oeqa/selftest/devtool: handle existing patch directories in recipe tests
+Date: Mon, 19 Oct 2026 14:57:42 +0200
+Message-ID: <20261019125742.491867-1-ayoub.zaki@embetrix.com>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 13:21:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248167
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 13:42:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248168
 
-On Mon Oct 19, 2026 at 2:51 PM CEST, Peter Kjellerstedt via lists.openembed=
-ded.org wrote:
-> The use of pkg-config was introduced in version 0.21.04.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/recipes-extended/stress-ng/stress-ng_0.22.01.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.22.01.bb b/meta/=
-recipes-extended/stress-ng/stress-ng_0.22.01.bb
-> index 548edf292b..adf9331cd7 100644
-> --- a/meta/recipes-extended/stress-ng/stress-ng_0.22.01.bb
-> +++ b/meta/recipes-extended/stress-ng/stress-ng_0.22.01.bb
+Recipe update and finish tests assume generated patches live in a
+directory named after the recipe. Existing files/ or versioned directories
+can instead cause staging failures and leave generated files for later
+tests. Cleanup can also delete tracked patches that should be preserved.
 
-Hello,
+Share recipe-directory cleanup that resets the index, removes untracked
+files and restores tracked files. Stage recipe changes and check generated
+patch filenames without assuming a subdirectory, including the
+--initial-rev cases. Keep paths that describe known fixture contents.
 
-master and blacksail have diverged, blacksail is still on
-stress-ng 0.22.00.
+Validated with devtool.DevtoolUpdateTests.test_devtool_update_recipe and
+isolated staging and cleanup checks on both target branches.
 
-I'll ignore [blacksail] for this one.
+AI-Generated: Uses OpenAI Codex
+Signed-off-by: Ayoub Zaki <ayoub.zaki@embetrix.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py | 65 +++++++++++++------------
+ 1 file changed, 35 insertions(+), 30 deletions(-)
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 265f2147a4..adbd737bce 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -143,6 +143,13 @@ class DevtoolTestCase(OESelftestTestCase):
+         if expected_status:
+             self.fail('Missing file changes: %s' % expected_status)
+ 
++    def _add_recipe_cleanup(self, recipefile):
++        """Restore a recipe directory in the test checkout, including its index."""
++        cleanup_cmd = ('cd %s && git reset HEAD -- . && git clean -fd -- . '
++                       '&& git checkout -- .' % shlex.quote(os.path.dirname(recipefile)))
++        self.add_command_to_tearDown(cleanup_cmd)
++        return cleanup_cmd
++
+     def _test_recipe_contents(self, recipefile, checkvars, checkinherits):
+         with open(recipefile, 'r') as f:
+             invar = None
+@@ -1354,11 +1361,10 @@ class DevtoolUpdateTests(DevtoolBase):
+         result = runCmd('echo "A new file" > devtool-new-file', cwd=tempdir)
+         result = runCmd('git add devtool-new-file', cwd=tempdir)
+         result = runCmd('git commit -m "Add a new file"', cwd=tempdir)
+-        cleanup_cmd = 'cd %s; rm %s/*.patch; git add %s; git checkout %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile))
+-        self.add_command_to_tearDown(cleanup_cmd)
++        cleanup_cmd = self._add_recipe_cleanup(recipefile)
+         result = runCmd('devtool update-recipe %s' % testrecipe)
+-        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
+-        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
++        result = runCmd('git add .', cwd=os.path.dirname(recipefile))
++        expected_status = [('M ', '.*/%s$' % os.path.basename(recipefile)),
+                            ('A ', '.*/0001-Change-the-README.patch$'),
+                            ('A ', '.*/0002-Add-a-new-file.patch$')]
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+@@ -1370,8 +1376,8 @@ class DevtoolUpdateTests(DevtoolBase):
+         result = runCmd('git rev-parse devtool-base', cwd=tempdir)
+         initial_rev = result.output.strip()
+         result = runCmd('devtool update-recipe --initial-rev %s %s' % (initial_rev, testrecipe))
+-        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
+-        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
++        result = runCmd('git add .', cwd=os.path.dirname(recipefile))
++        expected_status = [('M ', '.*/%s$' % os.path.basename(recipefile)),
+                            ('A ', '.*/0001-Change-the-README.patch$'),
+                            ('A ', '.*/0002-Add-a-new-file.patch$')]
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+@@ -1380,8 +1386,8 @@ class DevtoolUpdateTests(DevtoolBase):
+         result = runCmd('git rev-parse HEAD~1', cwd=tempdir)
+         midpoint_rev = result.output.strip()
+         result = runCmd('devtool update-recipe --initial-rev %s %s' % (midpoint_rev, testrecipe))
+-        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
+-        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
++        result = runCmd('git add .', cwd=os.path.dirname(recipefile))
++        expected_status = [('M ', '.*/%s$' % os.path.basename(recipefile)),
+                            ('A ', '.*/0001-Add-a-new-file.patch$')]
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+         result = runCmd(cleanup_cmd)
+@@ -1416,7 +1422,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         result = runCmd('echo "A new file" > devtool-new-file', cwd=tempdir)
+         result = runCmd('git add devtool-new-file', cwd=tempdir)
+         result = runCmd('git commit -m "Add a new file"', cwd=tempdir)
+-        self.add_command_to_tearDown('cd %s; rm -rf %s; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
++        cleanup_cmd = self._add_recipe_cleanup(recipefile)
+         result = runCmd('devtool update-recipe -m srcrev %s' % testrecipe)
+         expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile))] + \
+                           [(' D', '.*/%s$' % patch) for patch in patches]
+@@ -1430,14 +1436,12 @@ class DevtoolUpdateTests(DevtoolBase):
+         removelines = ['SRCREV = ".*"'] + srcurilines
+         self._check_diff(result.output, addlines, removelines)
+         # Now try with auto mode
+-        runCmd('cd %s; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, os.path.basename(recipefile)))
++        runCmd(cleanup_cmd)
+         result = runCmd('devtool update-recipe %s' % testrecipe)
+-        result = runCmd('git rev-parse --show-toplevel', cwd=os.path.dirname(recipefile))
+-        topleveldir = result.output.strip()
+-        relpatchpath = os.path.join(os.path.relpath(os.path.dirname(recipefile), topleveldir), testrecipe)
+-        expected_status = [(' M', os.path.relpath(recipefile, topleveldir)),
+-                           ('??', '%s/0001-Change-the-Makefile.patch' % relpatchpath),
+-                           ('??', '%s/0002-Add-a-new-file.patch' % relpatchpath)]
++        result = runCmd('git add .', cwd=os.path.dirname(recipefile))
++        expected_status = [('M ', '.*/%s$' % os.path.basename(recipefile)),
++                           ('A ', '.*/0001-Change-the-Makefile.patch$'),
++                           ('A ', '.*/0002-Add-a-new-file.patch$')]
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+ 
+     def test_devtool_update_recipe_gitsm(self):
+@@ -1500,7 +1504,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         # Add a commit
+         result = runCmd('echo "Additional line" >> README', cwd=tempsrcdir)
+         result = runCmd('git commit -a -m "Add our custom version"', cwd=tempsrcdir)
+-        self.add_command_to_tearDown('cd %s; rm -f %s/*.patch; git checkout .' % (os.path.dirname(recipefile), testrecipe))
++        self._add_recipe_cleanup(recipefile)
+         # Create a temporary layer and add it to bblayers.conf
+         self._create_temp_layer(templayerdir, True, 'selftestupdaterecipe')
+         # Create the bbappend
+@@ -1574,7 +1578,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         # Add a commit
+         result = runCmd('echo "# Additional line" >> Makefile.am', cwd=tempsrcdir)
+         result = runCmd('git commit -a -m "Change the Makefile"', cwd=tempsrcdir)
+-        self.add_command_to_tearDown('cd %s; rm -f %s/*.patch; git checkout .' % (os.path.dirname(recipefile), testrecipe))
++        self._add_recipe_cleanup(recipefile)
+         # Create a temporary layer
+         os.makedirs(os.path.join(templayerdir, 'conf'))
+         with open(os.path.join(templayerdir, 'conf', 'layer.conf'), 'w') as f:
+@@ -1700,7 +1704,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+         # (don't bother with cleaning the recipe on teardown, we won't be building it)
+         result = runCmd('devtool modify %s' % testrecipe)
+-        self.add_command_to_tearDown('cd %s; rm %s/*; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
++        self._add_recipe_cleanup(recipefile)
+         result = runCmd('devtool finish --force-patch-refresh %s meta-selftest' % testrecipe)
+         # Check recipe got changed as expected
+         with open(newpatchfile, 'r') as f:
+@@ -1727,7 +1731,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+         # (don't bother with cleaning the recipe on teardown, we won't be building it)
+         result = runCmd('devtool modify %s' % testrecipe)
+-        self.add_command_to_tearDown('cd %s; rm %s/*; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
++        self._add_recipe_cleanup(recipefile)
+         result = runCmd('devtool finish --force-patch-refresh %s meta-selftest' % testrecipe)
+         # Check recipe got changed as expected
+         with open(newpatchfile, 'r') as f:
+@@ -1754,7 +1758,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         result = runCmd('devtool modify %s' % testrecipe)
+         # Modify one file
+         runCmd('echo "Another line" >> file2', cwd=os.path.join(self.workspacedir, 'sources', testrecipe))
+-        self.add_command_to_tearDown('cd %s; rm %s/*; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
++        self._add_recipe_cleanup(recipefile)
+         result = runCmd('devtool update-recipe %s' % testrecipe)
+         expected_status = [(' M', '.*/%s/file2$' % testrecipe)]
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+@@ -1777,7 +1781,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         srctree = os.path.join(self.workspacedir, 'sources', testrecipe)
+         runCmd('echo "Another line" >> README', cwd=srctree)
+         runCmd('git commit -a --amend --no-edit --no-verify', cwd=srctree)
+-        self.add_command_to_tearDown('cd %s; rm %s/*; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
++        self._add_recipe_cleanup(recipefile)
+         result = runCmd('devtool update-recipe %s' % testrecipe)
+         expected_status = [(' M', '.*/%s/readme.patch.gz$' % testrecipe)]
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+@@ -1807,7 +1811,7 @@ class DevtoolUpdateTests(DevtoolBase):
+             contents = f.read().rstrip()
+         self.assertEqual(contents, 'Modified version', 'File has apparently not been overwritten as it should have been')
+         # Test devtool update-recipe without modifying any files
+-        self.add_command_to_tearDown('cd %s; rm %s/*; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
++        self._add_recipe_cleanup(recipefile)
+         result = runCmd('devtool update-recipe %s' % testrecipe)
+         expected_status = []
+         self._check_repo_status(os.path.dirname(recipefile), expected_status)
+@@ -1843,12 +1847,13 @@ class DevtoolUpdateTests(DevtoolBase):
+         # Now try updating original recipe
+         recipefile = bb_vars['FILE']
+         recipedir = os.path.dirname(recipefile)
+-        self.add_command_to_tearDown('cd %s; rm -f %s/*.patch; git checkout .' % (recipedir, testrecipe))
++        cleanup_cmd = self._add_recipe_cleanup(recipefile)
+         result = runCmd('devtool update-recipe %s' % testrecipe)
+-        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
+-                           ('??', '.*/%s/%s/$' % (testrecipe, testrecipe))]
+-        self._check_repo_status(os.path.dirname(recipefile), expected_status)
+-        result = runCmd('git diff %s' % os.path.basename(recipefile), cwd=os.path.dirname(recipefile))
++        result = runCmd('git add .', cwd=recipedir)
++        expected_status = [('M ', '.*/%s$' % os.path.basename(recipefile)),
++                           ('A ', '.*/0001-Add-a-comment.patch$')]
++        self._check_repo_status(recipedir, expected_status)
++        result = runCmd('git diff --cached %s' % os.path.basename(recipefile), cwd=recipedir)
+         removelines = ['SRC_URI = "git://.*"']
+         addlines = [
+             'SRC_URI = "git://.* \\\\',
+@@ -1857,7 +1862,7 @@ class DevtoolUpdateTests(DevtoolBase):
+         ]
+         self._check_diff(result.output, addlines, removelines)
+         # Put things back so we can run devtool finish on a different layer
+-        runCmd('cd %s; rm -f %s/*.patch; git checkout .' % (recipedir, testrecipe))
++        runCmd(cleanup_cmd)
+         # Run devtool finish
+         res = re.search('recipes-.*', recipedir)
+         self.assertTrue(res, 'Unable to find recipe subdirectory')
+@@ -2850,7 +2855,7 @@ class DevtoolUpgradeTests(DevtoolBase):
+         self.track_for_cleanup(tempdir)
+         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+         result = runCmd('devtool modify %s %s' % (recipe, tempdir))
+-        self.add_command_to_tearDown('cd %s; rm %s/*; git checkout %s %s' % (recipedir, recipe, recipe, os.path.basename(recipefile)))
++        self._add_recipe_cleanup(recipefile)
+         self.assertExists(os.path.join(tempdir, 'CMakeLists.txt'), 'Extracted source could not be found')
+         # Make a change to one of the existing commits
+         result = runCmd('echo "# A comment " >> CMakeLists.txt', cwd=tempdir)
+-- 
+2.53.0
 
 
