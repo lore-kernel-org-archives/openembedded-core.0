@@ -2,324 +2,222 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 916AECCF2DA
-	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 06:03:00 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28425.1792389773177531645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9E7CCF2E3
+	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 06:03:02 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28525.1792389776854618629
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2026 23:02:53 -0700
+ Sun, 18 Oct 2026 23:02:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HnXGm6Mj;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2VPv5Pt4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a152c173ff-113a27bc-1819-48f1-98ed-1f797ea87266-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=qCQrXUGi;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jhA4Q4RQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a152c182e3-68896e45-bef0-4d6c-8c82-7032eb0ccadf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1792389772;
+	t=1792389776;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=0jxx1jgZzYbEb1ARrxlYHP+ea1BLvwbYUPP8GqCwmrc=;
-	b=HnXGm6MjyB/4B6FMrGhXcPaAztNwwV/dABR0kUCq+nXlD0BmQJlzbkW+0r+9i/uL
-	EdOnolUWtNOYzhfD6z7pojan92Y2Q7XgVWVtyNYAccqBQhtEb9OkncvAhBzBvsD0wA5
-	GaZzqXmWfTnd6y159qpc/aS5OhhqqU6E9f8OSjDA=
+	bh=w3DLBAzx/fWoMpmrD2WnpVucuUc751oA2OoIRmMuJPo=;
+	b=qCQrXUGiFVz40Rt8Wyu+Aj5keozBTgK4hIcLMjlMOmrGY64nI8ncMiC9lKmKNB13
+	u4aovWHFCEWH8FLIK46My37oPMQRHRFsW/2XWolo7nVefOpkaOibN+/ubJUP9udzm2C
+	AACT0JBb3b/10Oz7vZ8pO3F/UgdTy0C9wCYGxrFI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792389772;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792389776;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=0jxx1jgZzYbEb1ARrxlYHP+ea1BLvwbYUPP8GqCwmrc=;
-	b=2VPv5Pt4+0fmBQjsMVYxeGghM63J7BbDKkVsNkVX9eowgRI6v/wWaT+QymoK3pXK
-	/UCq8rLW1Z1vqDE3x5joGp/2ELPOpdkPUMJw7/n6ak2y+kAi4aVqEH5Vq5niwE9wqBv
-	o8e9vynfIaJ6Fr951PgbftTfjOvEm/lg9DIdrSqY=
-Content-Type: multipart/mixed; boundary="===============6950239766003535627=="
+	bh=w3DLBAzx/fWoMpmrD2WnpVucuUc751oA2OoIRmMuJPo=;
+	b=jhA4Q4RQlVVc8k12tqhMrZsaAbwEoeBXCUdCrhi4p8i2uxRQL9o/CGSg94E5VYIe
+	VAS7FjIJRXAStYfABTOJqoTZEZJeaIETU4MD541EmCYrsMhzl5ZAQzBSJ/wwgDOH6ik
+	fmr9VJv/fiTZT+UdV8w3bqG84x1KW8E/XILmGhQE=
+Content-Type: multipart/mixed; boundary="===============6692635372512901660=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Sumanth Gavini <sumanth.gavini@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ccache: upgrading to 4.14.2 SUCCEEDED
-Message-ID: <010101a152c173ff-113a27bc-1819-48f1-98ed-1f797ea87266-000000@us-west-2.amazonses.com>
-Date: Mon, 19 Oct 2026 06:02:52 +0000
+Subject: [AUH] less: upgrading to 710 SUCCEEDED
+Message-ID: <010101a152c182e3-68896e45-bef0-4d6c-8c82-7032eb0ccadf-000000@us-west-2.amazonses.com>
+Date: Mon, 19 Oct 2026 06:02:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.19-54.240.27.193
+X-SES-Outgoing: 2026.10.19-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 06:03:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248121
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 06:03:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248126
 
---===============6950239766003535627==
-Content-Type: text/plain; charset="utf-8"
+--===============6692635372512901660==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpjY2FjaGUqIHRvICo0LjE0LjIqIGhhcyBTdWNjZWVkZWQuCgpOZXh0IHN0ZXBzOgogICAg
-LSBhcHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWNjYWNoZS11cGdyYWRlLTQuMTQuMS00LjE0
-LjIucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBhbmQg
-c3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFuIGlt
-YWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2ljIHNh
-bml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQgY29t
-bWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBwcm9w
-cmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUgcmVj
-aXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwgUkVD
-SVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0CmF1
-dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNlIHJl
-dmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1aWxk
-L3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0cHM6
-Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRvbWF0
-ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0tID44
-IC0tCkZyb20gZDAzZDZkYzU3ODcwNjRlNjUxOTE5MWIzZDJiZTQ4ZjQwOTNjMDgxZCBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2plY3Qu
-b3JnPgpEYXRlOiBNb24sIDE5IE9jdCAyMDI2IDA1OjEwOjU5ICswMDAwClN1YmplY3Q6IFtQQVRD
-SF0gY2NhY2hlOiB1cGdyYWRlIDQuMTQuMSAtPiA0LjE0LjIKTUlNRS1WZXJzaW9uOiAxLjAKQ29u
-dGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5j
-b2Rpbmc6IDhiaXQKCj09IENjYWNoZSA0LjE0LjIKUmVsZWFzZSBkYXRlOiAyMDI2LTEwLTE4Cj09
-PSBDb21wYXRpYmlsaXR5IGNoYW5nZXMKT24gV2luZG93cywgY2NhY2hlIG5vdyByZXF1aXJlcyBX
-aW5kb3dzIDggb3IgbGF0ZXIuCj09PSBCdWcgZml4ZXMKCi0gRml4ZWQgZmFsc2UgaW5vZGUgY2Fj
-aGUgaGl0cyBvbiBXaW5kb3dzIGJ5IHVzaW5nIGZ1bGwgMTI4LWJpdCBmaWxlIElEcyB3aGVuCiAg
-YXZhaWxhYmxlLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IFRob21hcyBGZXJyYW5kXV8j
-CgotIEZpeGVkIGNhY2hpbmcgb2YgcHJlY29tcGlsZWQgaGVhZGVycyB3aXRoIGNsYW5nLWNsLCBp
-Y3gtY2wgYW5kIGljeCBhZnRlciBNU1ZDCiAgdXBkYXRlcyBieSBoYXNoaW5nIHRoZSBjb21waWxl
-cidzIHRhcmdldCB0cmlwbGUuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9zZWYgxaBp
-bcOhbmVrXV8jCgotIEZpeGVkIGhhbmRsaW5nIG9mIG5vbmV4aXN0ZW50IG9yIG5vbi1kaXJlY3Rv
-cnkgYC1mcHJlYnVpbHQtbW9kdWxlLXBhdGhgCiAgYXJndW1lbnRzIG9uIFdpbmRvd3Mgd2l0aCBW
-aXN1YWwgU3R1ZGlvIDIwMjYuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgR3JlZ29yIEph
-c255XV8jCgotIEZpeGVkIHByZXNlcnZhdGlvbiBvZiBpbmhlcml0ZWQgc2lnbmFsIGhhbmRsaW5n
-LCBpbmNsdWRpbmcgYFNJR1BJUEVgLCBpbgogIGNvbXBpbGVyIHByb2Nlc3Nlcy4gKwogIFtzbWFs
-bF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCi0gRml4ZWQgYSBzeW1saW5rIHJh
-Y2Ugd2hlbiBjcmVhdGluZyB0aGUgZmFsbGJhY2sgc3RvcmFnZSBoZWxwZXIgSVBDIGRpcmVjdG9y
-eQogIGluIGAvdG1wYC4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxd
-XyMKCi0gRml4ZWQgbG9nZ2luZyBvZiBjcmVkZW50aWFscyB3aGVuIHVzaW5nIGAtLXN0b3Atc3Rv
-cmFnZS1oZWxwZXJzYC4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxd
-XyMKCi0gRml4ZWQgc3B1cmlvdXMgZXJyb3JzIHdoZW4gYSBzdG9yYWdlIGhlbHBlciBjbG9zZXMg
-aXRzIGNvbm5lY3Rpb24gYmVmb3JlCiAgcmVzcG9uZGluZyB0byBhIHN0b3AgcmVxdWVzdC4gKwog
-IFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCi0gRml4ZWQgdW5kZWZp
-bmVkIGJlaGF2aW9yIHdoZW4gaGFuZGxpbmcgZW1wdHkgYnl0ZSBidWZmZXJzLiArCiAgW3NtYWxs
-XSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBNU1ZDIGRlYnVnIGl0
-ZXJhdG9yIGFzc2VydGlvbnMgd2hlbiBoYW5kbGluZyBlbXB0eSBieXRlIGJ1ZmZlcnMuICsKICBb
-c21hbGxdI19bY29udHJpYnV0ZWQgYnkgVGhvbWFzIEZlcnJhbmRdXyMKCj09PSBCdWlsZCBpbXBy
-b3ZlbWVudHMKCi0gVXBncmFkZWQgQkxBS0UzIHRvIDEuOC43LCBmaXhpbmcgYnVpbGQgcHJvYmxl
-bXMgb24gQ3lnd2luLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1f
-IwoKLSBBZGRlZCBhIG1pc3NpbmcgYHVuaXN0ZC5oYCBpbmNsdWRlIGZvciBgZ2V0ZXVpZGAuICsK
-ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgo9PT0gVGVzdCBpbXBy
-b3ZlbWVudHMKCi0gTWFkZSBpbnRlZ3JhdGlvbiB0ZXN0cyBjb25zaXN0ZW50bHkgdXNlIG9iamVj
-dCBmaWxlIGNvbXBhcmlzb25zIHRoYXQgaWdub3JlCiAgaXJyZWxldmFudCBkaWZmZXJlbmNlcywg
-cmVxdWlyaW5nIGBldS1lbGZjbXBgIGZvciBhbGwgY29tcGlsZXJzIG9uIExpbnV4LiArCiAgW3Nt
-YWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEdyZWdvciBKYXNueSBhbmQgSm9lbCBSb3NkYWhsXV8jCgot
-IEZpeGVkIGNyZWF0aW9uIG9mIHRoZSBpbnB1dCBmaWxlIGZvciB0aGUgYC5pbmNiaW5gIGFzc2Vt
-YmxlciB0ZXN0LiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEFkcmlhbiBCdW5rXV8jCgot
-IEZpeGVkIGEgdGVtcG9yYXJ5IGZpbGUgbGVhayB3aGVuIHJ1bm5pbmcgdW5pdCB0ZXN0cyB1bmRl
-ciBXaW5lLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBN
-YWRlIGludGVncmF0aW9uIHRlc3RzIGZhaWwgaWYgdGhleSBlbWl0IHVuZXhwZWN0ZWQgb3V0cHV0
-IG9uIHN0YW5kYXJkCiAgZXJyb3IuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBS
-b3NkYWhsXV8jCi0tLQogLi4uL3tjY2FjaGVfNC4xNC4xLmJiID0+IGNjYWNoZV80LjE0LjIuYmJ9
-ICAgIHwgMjYgKysrKysrKysrKysrKysrKystLQogMSBmaWxlIGNoYW5nZWQsIDI0IGluc2VydGlv
-bnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNo
-ZS97Y2NhY2hlXzQuMTQuMS5iYiA9PiBjY2FjaGVfNC4xNC4yLmJifSAoNTclKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMS5iYiBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMi5iYgpzaW1pbGFyaXR5IGluZGV4
-IDU3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjE0
-LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQu
-Mi5iYgppbmRleCA0ZGQ4ZGEyMTJjLi5iNjE5NmIyMGJiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjE0LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xNC4yLmJiCkBAIC0xLDMgKzEsMjUgQEAKKyMgRklYTUU6
-IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9v
-bCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRo
-ZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNF
-TlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUg
-Y29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdM
-aWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5n
-ZXM6CisjCisjIC0tLSBMSUNFTlNFLmFkb2MKKyMgKysrIExJQ0VOU0UuYWRvYworIyBAQCAtNTAs
-NyArNTAsNyBAQAorIyAgCisjICA9PT0gc3JjL3RoaXJkX3BhcnR5L2JsYWtlMy9ibGFrZTMvKgor
-IyAgCisjIC1UaGlzIGlzIGEgc3Vic2V0IG9mIGh0dHBzOi8vZ2l0aHViLmNvbS9CTEFLRTMtdGVh
-bS9CTEFLRTNbQkxBS0UzXSAxLjguMiB3aXRoIHRoZQorIyArVGhpcyBpcyBhIHN1YnNldCBvZiBo
-dHRwczovL2dpdGh1Yi5jb20vQkxBS0UzLXRlYW0vQkxBS0UzW0JMQUtFM10gMS44Ljcgd2l0aCB0
-aGUKKyMgIGZvbGxvd2luZyBsaWNlbnNlOgorIyAgCisjICAtLS0tCisjIAorIworCiBTVU1NQVJZ
-ID0gImEgZmFzdCBDL0MrKyBjb21waWxlciBjYWNoZSIKIERFU0NSSVBUSU9OID0gImNjYWNoZSBp
-cyBhIGNvbXBpbGVyIGNhY2hlLiBJdCBzcGVlZHMgdXAgcmVjb21waWxhdGlvbiBcCiBieSBjYWNo
-aW5nIHRoZSByZXN1bHQgb2YgcHJldmlvdXMgY29tcGlsYXRpb25zIGFuZCBkZXRlY3Rpbmcgd2hl
-biB0aGUgXApAQCAtNyw3ICsyOSw3IEBAIEhPTUVQQUdFID0gImh0dHA6Ly9jY2FjaGUuc2FtYmEu
-b3JnIgogU0VDVElPTiA9ICJkZXZlbCIKIAogTElDRU5TRSA9ICJCU0wtMS4wIEFORCBHUEwtMy4w
-LW9yLWxhdGVyIEFORCBJU0MgQU5EIE1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJ
-Q0VOU0UuYWRvYzttZDU9ZTg5ZjI2ZTlmOTdkMTQwNjgwNDc4NzFiZGIyYjMxMTggXAorTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5hZG9jO21kNT1lNGEwZGIzOTBjM2VlYjc0MmIz
-OThhYzAxMGE3MDkxMyBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9zcmMvdGhpcmRfcGFy
-dHkvY3BwLWh0dHBsaWIvaHR0cGxpYi5oO2VuZGxpbmU9NjttZDU9NjYzYWNhNmY4NGU3ZDY3YWRl
-MjI4YWFkMzJhZmMwZWEgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vc3JjL3RoaXJkX3Bh
-cnR5L3dpbjMyLWNvbXBhdC93aW4zMi9ta3RlbXAuYztlbmRsaW5lPTE3O21kNT1kMjg3ZTljMWYx
-Y2QyYmIyYmQxNjQ0OTBlMWNmNDQ5YSBcCiAgICAgICAgICAgICAgICAgICAgICIKQEAgLTE2LDcg
-KzM4LDcgQEAgREVQRU5EUyA9ICJ6c3RkIGZtdCB4eGhhc2giCiAKIFNSQ19VUkkgPSAiJHtHSVRI
-VUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS8ke0JQfS50YXIuZ3oiCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICJkZmQyYjllNDQ2YjJjZjY4ZTgzZTIxYjI1MzE3ZDhmODY4ZGU2ZjFiMjQ2Yzdl
-OTllMDRkMDdmNGUxYjBiOTdlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM1OTIxZjgwYTkzZDY0
-NTNhODc0NTI1ZjJlNGJkOTcyNjRjNDZkZGMzNDlkODdhYWNjMTAzMmNkZTRkZDI5MjQiCiAKIGlu
-aGVyaXQgY21ha2UgZ2l0aHViLXJlbGVhc2VzCiAKLS0gCjIuNDcuMQoK
+Hello,
 
---===============6950239766003535627==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *less* to *710* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-less-upgrade-704-710.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 3dbebea02d6f1b7ef8a15578d2b370f20567dcaf Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 19 Oct 2026 05:48:03 +0000
+Subject: [PATCH] less: upgrade 704 -> 710
+
+======================================================================
+Major changes between "less" versions 704 and 710
+---
+ meta/recipes-extended/less/{less_704.bb => less_710.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/less/{less_704.bb => less_710.bb} (94%)
+
+diff --git a/meta/recipes-extended/less/less_704.bb b/meta/recipes-extended/less/less_710.bb
+similarity index 94%
+rename from meta/recipes-extended/less/less_704.bb
+rename to meta/recipes-extended/less/less_710.bb
+index dc841a9ae6..f3f5ebd6a1 100644
+--- a/meta/recipes-extended/less/less_704.bb
++++ b/meta/recipes-extended/less/less_710.bb
+@@ -29,7 +29,7 @@ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[sha256sum] = "20a0b0a2bb2525fa53c7eee9beb854b4c9cf172eabb209af7020743547bfe9fb"
++SRC_URI[sha256sum] = "d1008fb78dcae1323ddab664bcb352a61f022b1b131bd8018548e021d975ec7a"
+ 
+ UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
+ 
+-- 
+2.47.1
+
+
+--===============6692635372512901660==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-ccache-upgrade-4.14.1-4.14.2.patch"
+Content-Disposition: attachment; filename="0001-less-upgrade-704-710.patch"
 
-RnJvbSBkMDNkNmRjNTc4NzA2NGU2NTE5MTkxYjNkMmJlNDhmNDA5M2MwODFkIE1vbiBTZXAgMTcg
+RnJvbSAzZGJlYmVhMDJkNmYxYjdlZjhhMTU1NzhkMmIzNzBmMjA1NjdkY2FmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTkgT2N0IDIwMjYgMDU6MTA6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-Y2FjaGU6IHVwZ3JhZGUgNC4xNC4xIC0+IDQuMTQuMgpNSU1FLVZlcnNpb246IDEuMApDb250ZW50
-LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVudC1UcmFuc2Zlci1FbmNvZGlu
-ZzogOGJpdAoKPT0gQ2NhY2hlIDQuMTQuMgpSZWxlYXNlIGRhdGU6IDIwMjYtMTAtMTgKPT09IENv
-bXBhdGliaWxpdHkgY2hhbmdlcwpPbiBXaW5kb3dzLCBjY2FjaGUgbm93IHJlcXVpcmVzIFdpbmRv
-d3MgOCBvciBsYXRlci4KPT09IEJ1ZyBmaXhlcwoKLSBGaXhlZCBmYWxzZSBpbm9kZSBjYWNoZSBo
-aXRzIG9uIFdpbmRvd3MgYnkgdXNpbmcgZnVsbCAxMjgtYml0IGZpbGUgSURzIHdoZW4KICBhdmFp
-bGFibGUuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgVGhvbWFzIEZlcnJhbmRdXyMKCi0g
-Rml4ZWQgY2FjaGluZyBvZiBwcmVjb21waWxlZCBoZWFkZXJzIHdpdGggY2xhbmctY2wsIGljeC1j
-bCBhbmQgaWN4IGFmdGVyIE1TVkMKICB1cGRhdGVzIGJ5IGhhc2hpbmcgdGhlIGNvbXBpbGVyJ3Mg
-dGFyZ2V0IHRyaXBsZS4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb3NlZiDFoGltw6Fu
-ZWtdXyMKCi0gRml4ZWQgaGFuZGxpbmcgb2Ygbm9uZXhpc3RlbnQgb3Igbm9uLWRpcmVjdG9yeSBg
-LWZwcmVidWlsdC1tb2R1bGUtcGF0aGAKICBhcmd1bWVudHMgb24gV2luZG93cyB3aXRoIFZpc3Vh
-bCBTdHVkaW8gMjAyNi4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBHcmVnb3IgSmFzbnld
-XyMKCi0gRml4ZWQgcHJlc2VydmF0aW9uIG9mIGluaGVyaXRlZCBzaWduYWwgaGFuZGxpbmcsIGlu
-Y2x1ZGluZyBgU0lHUElQRWAsIGluCiAgY29tcGlsZXIgcHJvY2Vzc2VzLiArCiAgW3NtYWxsXSNf
-W2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBhIHN5bWxpbmsgcmFjZSB3
-aGVuIGNyZWF0aW5nIHRoZSBmYWxsYmFjayBzdG9yYWdlIGhlbHBlciBJUEMgZGlyZWN0b3J5CiAg
-aW4gYC90bXBgLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoK
-LSBGaXhlZCBsb2dnaW5nIG9mIGNyZWRlbnRpYWxzIHdoZW4gdXNpbmcgYC0tc3RvcC1zdG9yYWdl
-LWhlbHBlcnNgLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoK
-LSBGaXhlZCBzcHVyaW91cyBlcnJvcnMgd2hlbiBhIHN0b3JhZ2UgaGVscGVyIGNsb3NlcyBpdHMg
-Y29ubmVjdGlvbiBiZWZvcmUKICByZXNwb25kaW5nIHRvIGEgc3RvcCByZXF1ZXN0LiArCiAgW3Nt
-YWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCB1bmRlZmluZWQg
-YmVoYXZpb3Igd2hlbiBoYW5kbGluZyBlbXB0eSBieXRlIGJ1ZmZlcnMuICsKICBbc21hbGxdI19b
-Y29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIEZpeGVkIE1TVkMgZGVidWcgaXRlcmF0
-b3IgYXNzZXJ0aW9ucyB3aGVuIGhhbmRsaW5nIGVtcHR5IGJ5dGUgYnVmZmVycy4gKwogIFtzbWFs
-bF0jX1tjb250cmlidXRlZCBieSBUaG9tYXMgRmVycmFuZF1fIwoKPT09IEJ1aWxkIGltcHJvdmVt
-ZW50cwoKLSBVcGdyYWRlZCBCTEFLRTMgdG8gMS44LjcsIGZpeGluZyBidWlsZCBwcm9ibGVtcyBv
-biBDeWd3aW4uICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgot
-IEFkZGVkIGEgbWlzc2luZyBgdW5pc3RkLmhgIGluY2x1ZGUgZm9yIGBnZXRldWlkYC4gKwogIFtz
-bWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCj09PSBUZXN0IGltcHJvdmVt
-ZW50cwoKLSBNYWRlIGludGVncmF0aW9uIHRlc3RzIGNvbnNpc3RlbnRseSB1c2Ugb2JqZWN0IGZp
-bGUgY29tcGFyaXNvbnMgdGhhdCBpZ25vcmUKICBpcnJlbGV2YW50IGRpZmZlcmVuY2VzLCByZXF1
-aXJpbmcgYGV1LWVsZmNtcGAgZm9yIGFsbCBjb21waWxlcnMgb24gTGludXguICsKICBbc21hbGxd
-I19bY29udHJpYnV0ZWQgYnkgR3JlZ29yIEphc255IGFuZCBKb2VsIFJvc2RhaGxdXyMKCi0gRml4
-ZWQgY3JlYXRpb24gb2YgdGhlIGlucHV0IGZpbGUgZm9yIHRoZSBgLmluY2JpbmAgYXNzZW1ibGVy
-IHRlc3QuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgQWRyaWFuIEJ1bmtdXyMKCi0gRml4
-ZWQgYSB0ZW1wb3JhcnkgZmlsZSBsZWFrIHdoZW4gcnVubmluZyB1bml0IHRlc3RzIHVuZGVyIFdp
-bmUuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIE1hZGUg
-aW50ZWdyYXRpb24gdGVzdHMgZmFpbCBpZiB0aGV5IGVtaXQgdW5leHBlY3RlZCBvdXRwdXQgb24g
-c3RhbmRhcmQKICBlcnJvci4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2Rh
-aGxdXyMKLS0tCiAuLi4ve2NjYWNoZV80LjE0LjEuYmIgPT4gY2NhY2hlXzQuMTQuMi5iYn0gICAg
-fCAyNiArKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygr
-KSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL3tj
-Y2FjaGVfNC4xNC4xLmJiID0+IGNjYWNoZV80LjE0LjIuYmJ9ICg1NyUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xNC4xLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xNC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggNTcl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMS5i
-YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC4xNC4yLmJi
-CmluZGV4IDRkZDhkYTIxMmMuLmI2MTk2YjIwYmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvY2NhY2hlL2NjYWNoZV80LjE0LjIuYmIKQEAgLTEsMyArMSwyNSBAQAorIyBGSVhNRTogdGhl
-IExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVw
-Z3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9s
-ZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0Ug
-dmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21t
-aXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vu
-c2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoK
-KyMKKyMgLS0tIExJQ0VOU0UuYWRvYworIyArKysgTElDRU5TRS5hZG9jCisjIEBAIC01MCw3ICs1
-MCw3IEBACisjICAKKyMgID09PSBzcmMvdGhpcmRfcGFydHkvYmxha2UzL2JsYWtlMy8qCisjICAK
-KyMgLVRoaXMgaXMgYSBzdWJzZXQgb2YgaHR0cHM6Ly9naXRodWIuY29tL0JMQUtFMy10ZWFtL0JM
-QUtFM1tCTEFLRTNdIDEuOC4yIHdpdGggdGhlCisjICtUaGlzIGlzIGEgc3Vic2V0IG9mIGh0dHBz
-Oi8vZ2l0aHViLmNvbS9CTEFLRTMtdGVhbS9CTEFLRTNbQkxBS0UzXSAxLjguNyB3aXRoIHRoZQor
-IyAgZm9sbG93aW5nIGxpY2Vuc2U6CisjICAKKyMgIC0tLS0KKyMgCisjCisKIFNVTU1BUlkgPSAi
-YSBmYXN0IEMvQysrIGNvbXBpbGVyIGNhY2hlIgogREVTQ1JJUFRJT04gPSAiY2NhY2hlIGlzIGEg
-Y29tcGlsZXIgY2FjaGUuIEl0IHNwZWVkcyB1cCByZWNvbXBpbGF0aW9uIFwKIGJ5IGNhY2hpbmcg
-dGhlIHJlc3VsdCBvZiBwcmV2aW91cyBjb21waWxhdGlvbnMgYW5kIGRldGVjdGluZyB3aGVuIHRo
-ZSBcCkBAIC03LDcgKzI5LDcgQEAgSE9NRVBBR0UgPSAiaHR0cDovL2NjYWNoZS5zYW1iYS5vcmci
-CiBTRUNUSU9OID0gImRldmVsIgogCiBMSUNFTlNFID0gIkJTTC0xLjAgQU5EIEdQTC0zLjAtb3It
-bGF0ZXIgQU5EIElTQyBBTkQgTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5T
-RS5hZG9jO21kNT1lODlmMjZlOWY5N2QxNDA2ODA0Nzg3MWJkYjJiMzExOCBcCitMSUNfRklMRVNf
-Q0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLmFkb2M7bWQ1PWU0YTBkYjM5MGMzZWViNzQyYjM5OGFj
-MDEwYTcwOTEzIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3NyYy90aGlyZF9wYXJ0eS9j
-cHAtaHR0cGxpYi9odHRwbGliLmg7ZW5kbGluZT02O21kNT02NjNhY2E2Zjg0ZTdkNjdhZGUyMjhh
-YWQzMmFmYzBlYSBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9zcmMvdGhpcmRfcGFydHkv
-d2luMzItY29tcGF0L3dpbjMyL21rdGVtcC5jO2VuZGxpbmU9MTc7bWQ1PWQyODdlOWMxZjFjZDJi
-YjJiZDE2NDQ5MGUxY2Y0NDlhIFwKICAgICAgICAgICAgICAgICAgICAgIgpAQCAtMTYsNyArMzgs
-NyBAQCBERVBFTkRTID0gInpzdGQgZm10IHh4aGFzaCIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9C
-QVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9LyR7QlB9LnRhci5neiIKIAotU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImRmZDJiOWU0NDZiMmNmNjhlODNlMjFiMjUzMTdkOGY4NjhkZTZmMWIyNDZjN2U5OWUw
-NGQwN2Y0ZTFiMGI5N2UiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzU5MjFmODBhOTNkNjQ1M2E4
-NzQ1MjVmMmU0YmQ5NzI2NGM0NmRkYzM0OWQ4N2FhY2MxMDMyY2RlNGRkMjkyNCIKIAogaW5oZXJp
-dCBjbWFrZSBnaXRodWItcmVsZWFzZXMKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IE1vbiwgMTkgT2N0IDIwMjYgMDU6NDg6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+ZXNzOiB1cGdyYWRlIDcwNCAtPiA3MTAKCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KTWFqb3IgY2hhbmdlcyBiZXR3
+ZWVuICJsZXNzIiB2ZXJzaW9ucyA3MDQgYW5kIDcxMAotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9sZXNzL3tsZXNzXzcwNC5iYiA9PiBsZXNzXzcxMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvbGVzcy97bGVzc183MDQuYmIgPT4gbGVzc183MTAuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xlc3MvbGVzc183MDQuYmIgYi9tZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQvbGVzcy9sZXNzXzcxMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGVzcy9sZXNzXzcwNC5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL2xlc3MvbGVzc183MTAuYmIKaW5kZXggZGM4NDFhOWFlNi4uZjNmNWVi
+ZDZhMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xlc3MvbGVzc183MDQuYmIK
+KysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xlc3MvbGVzc183MTAuYmIKQEAgLTI5LDcgKzI5
+LDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vd3d3LmdyZWVud29vZHNvZnR3YXJlLmNvbS8ke0JQTn0v
+JHtCUE59LSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAg
+ICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyMGEwYjBhMmJiMjUyNWZhNTNjN2Vl
+ZTliZWI4NTRiNGM5Y2YxNzJlYWJiMjA5YWY3MDIwNzQzNTQ3YmZlOWZiIgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImQxMDA4ZmI3OGRjYWUxMzIzZGRhYjY2NGJjYjM1MmE2MWYwMjJiMWIxMzFiZDgw
+MTg1NDhlMDIxZDk3NWVjN2EiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwOi8vd3d3Lmdy
+ZWVud29vZHNvZnR3YXJlLmNvbS9sZXNzL2Rvd25sb2FkLmh0bWwiCiAKLS0gCjIuNDcuMQoK
 
---===============6950239766003535627==
-Content-Type: text/plain; charset="utf-8"
+--===============6692635372512901660==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="ccache-changelog.txt"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-PT0gQ2NhY2hlIDQuMTQuMgpSZWxlYXNlIGRhdGU6IDIwMjYtMTAtMTgKPT09IENvbXBhdGliaWxp
-dHkgY2hhbmdlcwpPbiBXaW5kb3dzLCBjY2FjaGUgbm93IHJlcXVpcmVzIFdpbmRvd3MgOCBvciBs
-YXRlci4KPT09IEJ1ZyBmaXhlcwoKLSBGaXhlZCBmYWxzZSBpbm9kZSBjYWNoZSBoaXRzIG9uIFdp
-bmRvd3MgYnkgdXNpbmcgZnVsbCAxMjgtYml0IGZpbGUgSURzIHdoZW4KICBhdmFpbGFibGUuICsK
-ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgVGhvbWFzIEZlcnJhbmRdXyMKCi0gRml4ZWQgY2Fj
-aGluZyBvZiBwcmVjb21waWxlZCBoZWFkZXJzIHdpdGggY2xhbmctY2wsIGljeC1jbCBhbmQgaWN4
-IGFmdGVyIE1TVkMKICB1cGRhdGVzIGJ5IGhhc2hpbmcgdGhlIGNvbXBpbGVyJ3MgdGFyZ2V0IHRy
-aXBsZS4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb3NlZiDFoGltw6FuZWtdXyMKCi0g
-Rml4ZWQgaGFuZGxpbmcgb2Ygbm9uZXhpc3RlbnQgb3Igbm9uLWRpcmVjdG9yeSBgLWZwcmVidWls
-dC1tb2R1bGUtcGF0aGAKICBhcmd1bWVudHMgb24gV2luZG93cyB3aXRoIFZpc3VhbCBTdHVkaW8g
-MjAyNi4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBHcmVnb3IgSmFzbnldXyMKCi0gRml4
-ZWQgcHJlc2VydmF0aW9uIG9mIGluaGVyaXRlZCBzaWduYWwgaGFuZGxpbmcsIGluY2x1ZGluZyBg
-U0lHUElQRWAsIGluCiAgY29tcGlsZXIgcHJvY2Vzc2VzLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1
-dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBhIHN5bWxpbmsgcmFjZSB3aGVuIGNyZWF0
-aW5nIHRoZSBmYWxsYmFjayBzdG9yYWdlIGhlbHBlciBJUEMgZGlyZWN0b3J5CiAgaW4gYC90bXBg
-LiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBs
-b2dnaW5nIG9mIGNyZWRlbnRpYWxzIHdoZW4gdXNpbmcgYC0tc3RvcC1zdG9yYWdlLWhlbHBlcnNg
-LiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCBz
-cHVyaW91cyBlcnJvcnMgd2hlbiBhIHN0b3JhZ2UgaGVscGVyIGNsb3NlcyBpdHMgY29ubmVjdGlv
-biBiZWZvcmUKICByZXNwb25kaW5nIHRvIGEgc3RvcCByZXF1ZXN0LiArCiAgW3NtYWxsXSNfW2Nv
-bnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKLSBGaXhlZCB1bmRlZmluZWQgYmVoYXZpb3Ig
-d2hlbiBoYW5kbGluZyBlbXB0eSBieXRlIGJ1ZmZlcnMuICsKICBbc21hbGxdI19bY29udHJpYnV0
-ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIEZpeGVkIE1TVkMgZGVidWcgaXRlcmF0b3IgYXNzZXJ0
-aW9ucyB3aGVuIGhhbmRsaW5nIGVtcHR5IGJ5dGUgYnVmZmVycy4gKwogIFtzbWFsbF0jX1tjb250
-cmlidXRlZCBieSBUaG9tYXMgRmVycmFuZF1fIwoKPT09IEJ1aWxkIGltcHJvdmVtZW50cwoKLSBV
-cGdyYWRlZCBCTEFLRTMgdG8gMS44LjcsIGZpeGluZyBidWlsZCBwcm9ibGVtcyBvbiBDeWd3aW4u
-ICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIEFkZGVkIGEg
-bWlzc2luZyBgdW5pc3RkLmhgIGluY2x1ZGUgZm9yIGBnZXRldWlkYC4gKwogIFtzbWFsbF0jX1tj
-b250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCj09PSBUZXN0IGltcHJvdmVtZW50cwoKLSBN
-YWRlIGludGVncmF0aW9uIHRlc3RzIGNvbnNpc3RlbnRseSB1c2Ugb2JqZWN0IGZpbGUgY29tcGFy
-aXNvbnMgdGhhdCBpZ25vcmUKICBpcnJlbGV2YW50IGRpZmZlcmVuY2VzLCByZXF1aXJpbmcgYGV1
-LWVsZmNtcGAgZm9yIGFsbCBjb21waWxlcnMgb24gTGludXguICsKICBbc21hbGxdI19bY29udHJp
-YnV0ZWQgYnkgR3JlZ29yIEphc255IGFuZCBKb2VsIFJvc2RhaGxdXyMKCi0gRml4ZWQgY3JlYXRp
-b24gb2YgdGhlIGlucHV0IGZpbGUgZm9yIHRoZSBgLmluY2JpbmAgYXNzZW1ibGVyIHRlc3QuICsK
-ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgQWRyaWFuIEJ1bmtdXyMKCi0gRml4ZWQgYSB0ZW1w
-b3JhcnkgZmlsZSBsZWFrIHdoZW4gcnVubmluZyB1bml0IHRlc3RzIHVuZGVyIFdpbmUuICsKICBb
-c21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgotIE1hZGUgaW50ZWdyYXRp
-b24gdGVzdHMgZmFpbCBpZiB0aGV5IGVtaXQgdW5leHBlY3RlZCBvdXRwdXQgb24gc3RhbmRhcmQK
-ICBlcnJvci4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMK
+packages/x86-64-v3-poky-linux/less/less-dev: RRECOMMENDS: removed "update-alternatives-opkg-dev"
+packages/x86-64-v3-poky-linux/less/less-doc: FILELIST: removed "/usr/share/man/man1/lesskey.1", added "/usr/share/man/man5/lesskey.5"
+packages/x86-64-v3-poky-linux/less/less-ptest: FILELIST: added "/usr/lib/less/ptest/lt/osc8-hilite.lt"
+packages/x86-64-v3-poky-linux/less/less: FILELIST: removed "/usr/bin/lesskey /usr/libexec/lessecho /usr/bin/less.less", added "/usr/libexec/lessecho_t /usr/bin/less_t"
+packages/x86-64-v3-poky-linux/less/less: RDEPENDS: removed all items "update-alternatives-opkg"
+packages/x86-64-v3-poky-linux/less/less: pkg_postinst cleared:
+  @@ -1,3 +0,0 @@
+  -#!/bin/sh
+  -set -e
+  -	update-alternatives --install /usr/bin/less less /usr/bin/less.less 100
+  --
+packages/x86-64-v3-poky-linux/less/less: pkg_prerm cleared:
+  @@ -1,3 +0,0 @@
+  -#!/bin/sh
+  -set -e
+  -	update-alternatives --remove  less /usr/bin/less.less
+  --
 
---===============6950239766003535627==
+--===============6692635372512901660==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="less-changelog.txt"
+
+======================================================================
+Major changes between "less" versions 704 and 710
+
+--===============6692635372512901660==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PV changed from "4.14.1" to "4.14.2"
-packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 42233264 to 42214616 (-0%)
-packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-dev: PV changed from "4.14.1" to "4.14.2"
-packages/x86-64-v3-poky-linux/ccache/ccache-dev: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-doc: PV changed from "4.14.1" to "4.14.2"
-packages/x86-64-v3-poky-linux/ccache/ccache-doc: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-locale: PV changed from "4.14.1" to "4.14.2"
-packages/x86-64-v3-poky-linux/ccache/ccache-locale: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-src: PV changed from "4.14.1" to "4.14.2"
-packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGSIZE changed from 1876310 to 1880976 (+0%)
-packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-src: FILELIST: directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/compiler -> /usr/src/debug/ccache/4.14.2/src/ccache/compiler, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/storage -> /usr/src/debug/ccache/4.14.2/src/ccache/storage, directory renamed /usr/src/debug/ccache/4.14.1/src/third_party/tl-expected/tl -> /usr/src/debug/ccache/4.14.2/src/third_party/tl-expected/tl, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache -> /usr/src/debug/ccache/4.14.2/src/ccache, directory renamed /usr/src/debug/ccache/4.14.1/src/third_party/cpp-httplib -> /usr/src/debug/ccache/4.14.2/src/third_party/cpp-httplib, directory renamed /usr/src/debug/ccache/4.14.1/src/third_party/cxxurl/cxxurl -> /usr/src/debug/ccache/4.14.2/src/third_party/cxxurl/cxxurl, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/storage/remote -> /usr/src/debug/ccache/4.14.2/src/ccache/storage/remote, directory renamed /usr/src/debug/ccache/4.14.1/sr
- c/ccache/util -> /usr/src/debug/ccache/4.14.2/src/ccache/util, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/core -> /usr/src/debug/ccache/4.14.2/src/ccache/core, directory renamed /usr/src/debug/ccache/4.14.1/src/third_party/blake3/blake3 -> /usr/src/debug/ccache/4.14.2/src/third_party/blake3/blake3, directory renamed /usr/src/debug/ccache/4.14.1/src/ccache/storage/local -> /usr/src/debug/ccache/4.14.2/src/ccache/storage/local
-packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PV changed from "4.14.1" to "4.14.2"
-packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache: PV changed from "4.14.1" to "4.14.2"
-packages/x86-64-v3-poky-linux/ccache/ccache: PKGSIZE changed from 2120232 to 2124328 (+0%)
-packages/x86-64-v3-poky-linux/ccache/ccache: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
-packages/x86-64-v3-poky-linux/ccache: PV changed from "4.14.1" to "4.14.2"
-packages/x86-64-v3-poky-linux/ccache: PKGV changed from 4.14.1 [default] to 4.14.2 [default]
-packages/x86-64-v3-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.14.1/ccache-4.14.1.tar.gz" to "https://github.com/ccache/ccache/releases//download/v4.14.2/ccache-4.14.2.tar.gz"
+packages/x86-64-v3-poky-linux/less: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less: SRC_URI changed from "http://www.greenwoodsoftware.com/less/less-704.tar.gz file://run-ptest" to "http://www.greenwoodsoftware.com/less/less-710.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/less: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less-dbg: FILELIST: removed "/usr/bin/.debug/lesskey /usr/bin/.debug/less.less /usr/libexec/.debug/lessecho", added "/usr/libexec/.debug/lessecho_t /usr/bin/.debug/less_t"
+packages/x86-64-v3-poky-linux/less/less-dbg: PKGSIZE changed from 982408 to 1024616 (+4%)
+packages/x86-64-v3-poky-linux/less/less-dbg: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less/less-dbg: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less-dev: RRECOMMENDS: removed "update-alternatives-opkg-dev"
+packages/x86-64-v3-poky-linux/less/less-dev: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less/less-dev: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less-doc: FILELIST: removed "/usr/share/man/man1/lesskey.1", added "/usr/share/man/man5/lesskey.5"
+packages/x86-64-v3-poky-linux/less/less-doc: PKGSIZE changed from 131257 to 135750 (+3%)
+packages/x86-64-v3-poky-linux/less/less-doc: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less/less-doc: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less-locale: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less/less-locale: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less-ptest: FILELIST: added "/usr/lib/less/ptest/lt/osc8-hilite.lt"
+packages/x86-64-v3-poky-linux/less/less-ptest: PKGSIZE changed from 11603240 to 11927302 (+3%)
+packages/x86-64-v3-poky-linux/less/less-ptest: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less/less-ptest: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less-src: FILELIST: directory renamed /usr/src/debug/less/704/lesstest -> /usr/src/debug/less/710/lesstest, removed "/usr/src/debug/less/704/jump.c /usr/src/debug/less/704/evar.c /usr/src/debug/less/704/lessecho.c /usr/src/debug/less/704/ttyin.c /usr/src/debug/less/704/edit.c /usr/src/debug/less/704/cvt.c /usr/src/debug/less/704/ch.c /usr/src/debug/less/704/line.c /usr/src/debug/less/704/lesskey.h /usr/src/debug/less/704/funcs.h /usr/src/debug/less/704/search.c /usr/src/debug/less/704/input.c /usr/src/debug/less/704/lesskey.c /usr/src/debug/less/704/filename.c /usr/src/debug/less/704/forwback.c /usr/src/debug/less/704/linenum.c /usr/src/debug/less/704/lsystem.c /usr/src/debug/less/704/less.h /usr/src/debug/less/704/os.c /usr/src/debug/less/704/help.c /usr/src/debug/less/704/position.c /usr/src/debug/less/704/decode.c /usr/src/debug/less/704/option.h /usr/src/debug/less/704/option.c /usr/src/debug/less/704/ifile.c /usr/src/debug/less/704/screen.c /us
+ r/src/debug/less/704/mark.c /usr/src/debug/less/704/xbuf.h /usr/src/debug/less/704/main.c /usr/src/debug/less/704/opttbl.c /usr/src/debug/less/704/xbuf.c /usr/src/debug/less/704/brac.c /usr/src/debug/less/704/charset.c /usr/src/debug/less/704/command.c /usr/src/debug/less/704/lang.h /usr/src/debug/less/704/tags.c /usr/src/debug/less/704/version.c /usr/src/debug/less/704/lesskey_parse.c /usr/src/debug/less/704/pattern.c /usr/src/debug/less/704/signal.c /usr/src/debug/less/704/prompt.c /usr/src/debug/less/704/cmdbuf.c /usr/src/debug/less/704/output.c /usr/src/debug/less/704/optfunc.c", added "/usr/src/debug/less/710/jump.c /usr/src/debug/less/710/evar.c /usr/src/debug/less/710/lessecho.c /usr/src/debug/less/710/ttyin.c /usr/src/debug/less/710/edit.c /usr/src/debug/less/710/cvt.c /usr/src/debug/less/710/ch.c /usr/src/debug/less/710/line.c /usr/src/debug/less/710/lesskey.h /usr/src/debug/less/710/funcs.h /usr/src/debug/less/710/search.c /usr/src/debug/less/710/input.c /usr/src/debug/les
+ s/710/linenum.c /usr/src/debug/less/710/filename.c /usr/src/debug/less/710/forwback.c /usr/src/debug/less/710/lsystem.c /usr/src/debug/less/710/less.h /usr/src/debug/less/710/os.c /usr/src/debug/less/710/help.c /usr/src/debug/less/710/position.c /usr/src/debug/less/710/decode.c /usr/src/debug/less/710/option.h /usr/src/debug/less/710/option.c /usr/src/debug/less/710/ifile.c /usr/src/debug/less/710/screen.c /usr/src/debug/less/710/mark.c /usr/src/debug/less/710/xbuf.h /usr/src/debug/less/710/main.c /usr/src/debug/less/710/opttbl.c /usr/src/debug/less/710/xbuf.c /usr/src/debug/less/710/brac.c /usr/src/debug/less/710/charset.c /usr/src/debug/less/710/command.c /usr/src/debug/less/710/lang.h /usr/src/debug/less/710/tags.c /usr/src/debug/less/710/version.c /usr/src/debug/less/710/lesskey_parse.c /usr/src/debug/less/710/pattern.c /usr/src/debug/less/710/signal.c /usr/src/debug/less/710/prompt.c /usr/src/debug/less/710/cmdbuf.c /usr/src/debug/less/710/output.c /usr/src/debug/less/710/lmsg.
+ h /usr/src/debug/less/710/optfunc.c /usr/src/debug/less/710/lmsg.c"
+packages/x86-64-v3-poky-linux/less/less-src: PKGSIZE changed from 940404 to 955595 (+2%)
+packages/x86-64-v3-poky-linux/less/less-src: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less/less-src: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less-staticdev: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less/less-staticdev: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less: RDEPENDS: removed all items "update-alternatives-opkg"
+packages/x86-64-v3-poky-linux/less/less: FILELIST: removed "/usr/bin/less.less /usr/libexec/lessecho /usr/bin/lesskey", added "/usr/bin/less_t /usr/libexec/lessecho_t"
+packages/x86-64-v3-poky-linux/less/less: PKGSIZE changed from 317987 to 328211 (+3%)
+packages/x86-64-v3-poky-linux/less/less: PV changed from "704" to "710"
+packages/x86-64-v3-poky-linux/less/less: PKGV changed from 704 [default] to 710 [default]
+packages/x86-64-v3-poky-linux/less/less: pkg_postinst cleared:
+  @@ -1,3 +0,0 @@
+  -#!/bin/sh
+  -set -e
+  -	update-alternatives --install /usr/bin/less less /usr/bin/less.less 100
+  --
+packages/x86-64-v3-poky-linux/less/less: pkg_prerm cleared:
+  @@ -1,3 +0,0 @@
+  -#!/bin/sh
+  -set -e
+  -	update-alternatives --remove  less /usr/bin/less.less
+  --
 
---===============6950239766003535627==--
+--===============6692635372512901660==--
 
