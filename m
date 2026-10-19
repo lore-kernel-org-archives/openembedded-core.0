@@ -1,443 +1,145 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1A6CCF2D6
-	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 10:50:22 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31732.1792407013137952766
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C5AFCCF2D6
+	for <webhook@archiver.kernel.org>; Mon, 19 Oct 2026 11:09:52 +0000 (UTC)
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32023.1792408181798811084
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2026 03:50:13 -0700
+ Mon, 19 Oct 2026 04:09:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=WVmHqGsI;
- spf=pass (domain: est.tech, ip: 52.101.70.52, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lkg0m4/2ZfgInSpPAYclx63BXD7N6rUPeWIwlQY+RoJ8mQcJnigROuWGSeQxQskuqS+fsnpgKSa6p9/kgF96ppOBXwV/D0w7ILdAOYW34mBVS6L0U/bVdlxUDoCZUvsEKYO97gP5DZTXGllb9Z+Mv4hJBCrfpspUMZM5GuTH3UBXLHsQE1D9MXHTMnaDmWUErrxTmDMN4pdLXYVjlv94E7Rk1PWWxm101bIlPdxoQSwthTK2IIV8v1SvFqgxphrth9M/5DjlqmvlryLMUt6Fh1JREDyLJ65xmRWPYmpMmUsXDNzyImRW/dcOp8MqYH7fnVorIKWLe3GobZ83Ue8pZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uzvEzxrJi9vbrRfOybmde1yHBjQwfkcI8/rMPLLnqwA=;
- b=mdpgwyHvO5rb9S/VP8Xy4jZW6hKOzh/NhEnn+/l2h9BBeyFW+UBL7bTQljVf1EJwTug7RKm5sFNONqMv/yUMZOZ4RuLqLDSeR4YBwFkV2aWXwVQHXXavtKJ3+t67vVsQ70/rA1kNfm0GGphoGf7bjMkWZWbvGGCfnkRegy7zCc3Mg+TvcM5GC+X42NY0aexzKRFru6VIGwZbkd1FPowI8SD3i6mTpUoHRCzNyLOg3gtwfWfexPVPYUHdpPRhBgTkV8VcAuoMZH3LSA2GGx4J9H+DRYzR2TGO2uuG6weJ4zktqi4VWEkrCVLffrJeEKlAih3D3XkwuH8i6YGNP+ndPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uzvEzxrJi9vbrRfOybmde1yHBjQwfkcI8/rMPLLnqwA=;
- b=WVmHqGsIFyzLIFIoOqjZlXDf0iINo+gXRRU7/wAa8COAmHe4TG1dL3Z6Dphd/sInv2IpM2U/pj2seBj90uNq5gOuSHGRO6dWnkOBCyahj4FvhnzyRLKcFgatozr5tG0Yky5xkul160zFbg1Xe43ZqBAcdnRXV2bZyd3qBuaQ4W+BE/HZ5Iitbo8o0LyswvJYNnzlwTTYtoYdIOLxxuShD22udTSjk9HRtAabsR5vdWrOMQiK3eMD7nNzjvmJF1aCB+kbrq6hVGXoQPqaxkSfdqkV7BHeZBC5teb8Bf+mgjodnjYdBfrxnKoWcvvHESxDizQccp6BMrCuWIhTogxYaw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by FRZP189MB2760.EURP189.PROD.OUTLOOK.COM (2603:10a6:d10:13d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
- 2026 10:50:05 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
- 10:50:04 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [wrynose][PATCH] python3-urllib3: Fix CVE-2026-97689
-Date: Mon, 19 Oct 2026 12:50:02 +0200
-Message-ID: <20261019105002.3471-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=jlsyCTJQ;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=Jhe6gpjH;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.156, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 07DF37A00BA
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 07:09:41 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Mon, 19 Oct 2026 07:09:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1792408180;
+	 x=1792494580; bh=RRO1o3DP/DScR0DlcCPAVVIgRo1MDpnbkqvJ2V0AQLA=; b=
+	jlsyCTJQAsVB5B4seyGHiYEm03kXU5mzF+bLxSXuweIN/j7h2WBKSkiTaI+hJgdM
+	BYDyF5GOT7L3MJ6jy1DvdmN22Lm9oPSKXi3uMUDILFmPtaNePRAu7AYNDebuhE6D
+	l4/LAqSJt5qEVRFZwCpnNfi0k63eKpi0qr4BxFiugPwJmR5YouoSYGmfQin06uj5
+	mH2dnl122Ahw4Jhd1uec9evtxy+wSDVYEASoICLN4Ci+RP5f1GAGVweZzEkfgJrN
+	2y3E+OCv2FOCQz7ywEv1jADKidakWV1U3fw6kM44z2Nc/sjNd8n8ppgBj/Fw3Mev
+	8j16lpWSByZS7Z9MUZQ/wg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792408180; x=
+	1792494580; bh=RRO1o3DP/DScR0DlcCPAVVIgRo1MDpnbkqvJ2V0AQLA=; b=J
+	he6gpjHqV76YsUety2bBclQMoDRDPlb7RdgyIq056uRYVLTPAseV04QZNwpfhArm
+	DvtCgP2EpjnjnnNZGUD3tBfYX61kLMTUk1MhoCcll4A0TGVq0YBUG4SDcPsHNdd7
+	+v9BaJCjHWjRQbiTMqyCEyO14vxBUE3hvyCxwVFYn2x+uCbb8nWmytXq2hnbphen
+	ITimHmMKRRq/XnP22RPgvkmBsdANvamXzZOpDuqr4LckYo9jz8IDFF4b0UyIx6d7
+	9bi8Dxr/NM3H2vpPVvxkE5uHb8dVi1mKr5T/UPea/JoTVXazr6ZP4ev6ARpTo6A+
+	tYfJcwm3CRJFpp5UUomwA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792408180; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm1:rsa-sha256:uHE/jOkJcRYC18rdZ7o0EHAVYrHYCdPLIKkmmONnijovka5
+	gvIYj8RPMBDDeOPJS0/COiSNH6XMB4rTNat34C6+LYK71fVcec+TCCKQgryOemNm
+	Uza3TNyyJ7UrN0kWnXYXlKjQ0TcUQI1Ej+lbax+x7TAmEVn7Jq1ZnpvQd5r3wM30
+	9zE75DwCvMFY7HwGjbXynyYwZsMAf60UUubiWfWxdUH2XTBliegqJFMAevfllvN0
+	vFuqs3QhW6/GfzW0n/JYf7bSCLXz3r2YD0cvnl5pswTOE6VOu5IXpKx06XpkCA/T
+	dDf1fuenzi/9hlAS5Xy3tXkoHbyefF04X7q9KAg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:8pRO93ejCab6STcOwvAAS+OJHX9OwgxQ+7LFr395VJA=:RRO1o3DP/DScR0DlcCPAVVIgRo1MDpnbkqvJ2V0AQLA=;
+X-ME-Sender: <xms:dPrVaozsEOzqT_dFc--KiART2T4fCVffX1nmTK3xIdNIsLAAZ2Oa3A>
+    <xme:dPrVajRA-ZPQx9zqb_PKxbPa0OSzvPoGMTszBVcJCqbSHE_rskFu9Kmt3fRbP0cC7
+    4dFnXE1XVrVpQli5yOzQPRWkIgyhrY39GoOXNzvLZ5FpzD_2UVzfnRQ>
+X-ME-Received: <xmr:dPrVavUbqaadqbK54iXGDV7DFufYwRFU_WrMaRFkoMu7IcRgT1_HtXtoEAjKxam30dYukoh_jKp57Xc6wMq6lKHkdVc8rdCUaF0i>
+X-ME-Proxy-Cause: dmFkZTEMAmKwE6xBKld3ZJUaT8AUEVIUMSgUG2IqXX7cbwAqIf2GOawupQX2oYQd9Mf1Eg
+    rtFqn1u/rNkAXboeq7X4ks5fR58jv9LkAar4wLKW4JHtHEFNFQy82fPWlU93OGC3mnPQrE
+    9TV+NaBzcq96bLmBSNg7vM4N4qoAR3WxsFb5VoY4J+yhYf+Yp3SJXw5LKNtqtLNVaoXENz
+    jHU9axBryfTKlYH/hZr8UljydHhSH78qrJRhMKpRE1crioYUD3Zo1Oe9pZQh6AcXwTtrzi
+    wuPcHqrHJ83FAYq34l217Vrqug6aUfzz/1pBWekhoj6tYAwX3EtiXmGADKg4lbqLxVxacc
+    i1KbYoSrK2uR7LvLLSbO4ti0VGdF1Hk2o37VlBJVXYygTwLx7+GLOtCKaA80UUyQj4Qhd0
+    o9T3LLtDE8hGlFJrmx1cSNd7AKET5mGViVBTl6R1GsvDuMNX3Ys+a+9aYJaH/wanY+2SW8
+    idSVb8rOwnJYUxSYrNVuol//rdp2SVYjfKCJUVoNI4UlY+ywJTyB3FO7j3/j4JwsJ6NNQU
+    8pu1A+IYkfRBPxkWzU7mdZLij75YPLKaK3gvh6xGxzSDdTbqpIYl2BxrdFUa9ANyGuImB3
+    DdrCcT3MQOSLC3p1fAHfBvovtpNW3zJOdYSSCohcfPKvnN6IvxIOvBL0bmVA
+X-ME-Proxy: <xmx:dPrValYTG_rU-k82AqlFrL6XnK_CcvSTKNxy6PbnoHBFF_6hJl02Xg>
+    <xmx:dPrVal21b-X0PrW13E-3oNq2KY3AH0cQ5Quy6Ioq8eX1xkeO5FCKaA>
+    <xmx:dPrVangU1DN52e3WTfuvSJj1X33-7BBBe4J_HcwcFriXcKo5r1gWDA>
+    <xmx:dPrVapaaOxKeMcGR3LHuC8vN2HKl_9cyB9-HKpxI2cJVcE36wmcFGA>
+    <xmx:dPrVaivhx8L3DPummcr3GKFyIpcT0YFBx4eLh9vTQg5qi7Kp8PY16i2I>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Oct 2026 07:09:39 -0400 (EDT)
+Message-ID: <92b3723f22c7eaef6c21cedbde230c4eb3f3ee38.camel@pbarker.dev>
+Subject: Re: [OE-core][scarthgap][PATCH 1/2] go: Fix CVE-2026-33814
+From: Paul Barker <paul@pbarker.dev>
+To: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	 <hthakar@cisco.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "xe-linux-external (Internal Group)" <xe-linux-external@cisco.com>, 
+ Yoann Congal <yoann.congal@smile.fr>
+Date: Mon, 19 Oct 2026 12:09:38 +0100
+In-Reply-To: <PH7PR11MB85988110C1425A7BD276918FAD982@PH7PR11MB8598.namprd11.prod.outlook.com>
+References: <20260831061447.180612-1-hthakar@cisco.com>
+	 <7ceb1874bae6aae6c4bb27b948a38c1015960739.camel@pbarker.dev>
+	 <PH7PR11MB85988110C1425A7BD276918FAD982@PH7PR11MB8598.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0220.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a6::9) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|FRZP189MB2760:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2507f657-f0ea-490d-3760-08df2dcebbc5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|366016|23010399003|1800799024|261009221227099003|260925021911599003|260925021311599003|260925022911599003|261009223027099003|10067099003|56012099006|3023799007|6133799003|18002099003|13003099007|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	FJOiQxwpno4ZjwX3ygysHaqUbpcdIrkXU+0SPGpTmVkr1FikuwbJPmTI6M5e/WAPINAiCspomWecLlJkf9gwjRl+kBqKWfH08waUIYL0qAGajJ3mIA1ZS5jQQTJfnqOy+XEtaRR+DWqTVUyYVsYQ2SftBQmVCOHfWlXc8GhVlWEo9VZO2BmFcx52pxxg2ZZvPir/9skSfHdT/6QnLb3UsBfGIr3UHNcnRNQrD7G+oHv8SEhmHScNAvMH74JmENXOprvF+CinprYOmv8sMSAW0yoDSizlPATaTxEz3qg/5Uq9QihANIsVSa8tiMAhI8aTnXsUJ9Q4pRb1BhqgFYZDgmottD6sbIoUHXnE0zGau+Ye2hchWUX5Q7gH1oSoWlalnuG3ydfed4BO04d3L2vF3vVs5Mc5gRltsSG8zTw/TOhTjA+iwzVhyNXSDa+Qdqe9Zdfb4rVf71r/YxB9TijO5DA7i+xHjhC7bAwISmVHgHrKM3/o54yI8TpdZDyY9nEXcJpuDMH6GnzBk/vfced2R7emjA7sKkiiyXMX81WmPAp0hD7F2wDM/IzyChIAxjkOZnkuH+k0jb4k+sjNAruEmhLDoGOFkkfG84Zznjajq5vzDsQSyd4Q3Sfb+VPYkE5gs3tVYxSQWA6OFpj3GhvjF9b4UDoMh04c86p4k+lDGPk=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(1800799024)(261009221227099003)(260925021911599003)(260925021311599003)(260925022911599003)(261009223027099003)(10067099003)(56012099006)(3023799007)(6133799003)(18002099003)(13003099007)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?y+S2Iij69yAfMZR2DaIrPqub2P4EFWJXbj/ysI1G5t4fx7uoncdTCXnvUfx4?=
- =?us-ascii?Q?egyb05o2FTBhnCypRAb99Xok/vMYUv1BTgzO/ciixzOVtY4dkI50d4AMdRHC?=
- =?us-ascii?Q?Fzu5q0jhfrTPgLsizdTAT8uDDqwLBo4x3fQoiafFQ1ZDG2OBAnGkrN+dicpn?=
- =?us-ascii?Q?y6u+KIKKO5EwtapccGiUXiCiuFvXgM7JVQJ704GyoC7UXUaHBNCn8HllxRCj?=
- =?us-ascii?Q?QqdYgrg5sUTeidquNrv44DTDMgTl/bQ0J8UBvQnxoUwmzUczUN5CGTUFWAjW?=
- =?us-ascii?Q?3+w92FqABcguSJnki/ikOAsM4CHsSo0gOMPj8Xt+P7rYBsdi13wGRo5WqNaF?=
- =?us-ascii?Q?ReIuA4UzEHVaogGdttOVpoYDjSXDuUk8DelaD1JMkqxDTFSJUa0ZTQvW61UT?=
- =?us-ascii?Q?rLr2I2R97g5S+3sClc6zQ51oMHCBchIgBKGU+jh6gLmdsxnuWSePee6K5R0P?=
- =?us-ascii?Q?eEUKeLLEatJPG6rXBvus2gHCdD7m3zdtpszOvqdWtrCWZoBpKHadDKW5bssl?=
- =?us-ascii?Q?WaUxMGX89e0nEaMWJ0/f9vaQRNnEWl90DMKSRyHU3U03oWL6wti7m6KphSNx?=
- =?us-ascii?Q?0YfXeww+fyvii+35TbEMD0EVMM8/BKh6wNKOZMwG8LZNGWzwbismrwX4WRrS?=
- =?us-ascii?Q?0bW5rvIHvhMB/GK1tUfCdEN/n8EkUx4JfdR9vCmARD+D2PmStkdcV8g5vuox?=
- =?us-ascii?Q?luTmtxmMlHLl70psQMeh6JTLS3GD9IsT+GxZEzXQQQzgX3qWfLIE3jxwAFnh?=
- =?us-ascii?Q?Sjb+j46rTK4ieA9769FeX4axaO0BPfuA++vlhjA0zvQM+OCuMZgNCYuXUcaP?=
- =?us-ascii?Q?b2u8ucHuhESJ7tGU5p5U5w4AcuUSCtYdHa4oCWjCAMUM3Nv470X2mLEAvaKM?=
- =?us-ascii?Q?84moXcHG2ImVGmLcoaAjGg2j5qcR9Fh+BNTf0pGrA+yU9jh9zXvErOHxqD5E?=
- =?us-ascii?Q?IM7dF16HMF/g5Rwv0OvaDOESSWZi50v1MfcK4HKWcILHMKRIPacHL2jQBk0T?=
- =?us-ascii?Q?WngLylfioFLV7zirfKKWfbYac//Cm4M4hOIcbZU7ikLsP5qdf0vJoYlt3iVs?=
- =?us-ascii?Q?GkrnqrwhMYvYeq4CQzpxvUXPjDHBJq70UYmZL31R44YXgVQ32fQeCFQZR49q?=
- =?us-ascii?Q?OFFWk9dCTCAYD6/ldG4FW4YYNXIWJTCMDm2VsmhnlONUnHbsgC39Oau04hZt?=
- =?us-ascii?Q?8Kyeao5jlAFVihc0miJ7GkTqJPid317uC5WUT7lrp924LZlhnrjhgfeuLfBu?=
- =?us-ascii?Q?nz0mNDeEL2h3yxzCfJR5LXC/3QnZ+KXJMHN6G+MNDXwquBV2UMsKdgc/+p8p?=
- =?us-ascii?Q?InQHtVCl3nxm9Qhad7jp+KKvlN1vAZMQboVHy5VMNZ+xLuJNhjAEkgrn0qzc?=
- =?us-ascii?Q?xEwTSO+dm0KFtvyXGRkjkrqKi/E1lUa2vNhlwOaxf7lHBbPN9EEzuSfZusvD?=
- =?us-ascii?Q?1/l8UXT6INQqnEbexC6dMXx9tjIg4l+e9wb391ZsZzss4S3w5bSWuArvSr6v?=
- =?us-ascii?Q?5IE2459LXLOnlHmzXO0aRwj0k7Ijf9W42wNneokuv3uDIJP3ww5mQ+sPpApA?=
- =?us-ascii?Q?0rpD1lPiOOc+S5rJhOjrikcd48dQZO6MZYu8+81KPEXpAsV2YCI3FYg+qHar?=
- =?us-ascii?Q?xv+ONmvL3tP8kekGXyUid0M5mHeu7pOipUyT9/bKE+ubwa1eGjAYOfI3Ib7Y?=
- =?us-ascii?Q?SLjZiRAst+LaspsOtkk4V4zFtNxjwYPg7pyJkOKmKsGu8jSXQzPqIuPFJcNq?=
- =?us-ascii?Q?Q50CRxEb8g=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2507f657-f0ea-490d-3760-08df2dcebbc5
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 10:50:04.8361
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fADL0YikanHNX9YcVlH0I4RGliFF2658v20d2va5LJ3H4H57b74LSg0PiRqWdj5jA1K9UBOe2xEYHk72gjTfMUzZObOLh9/Iz0YrKzjldfM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZP189MB2760
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 10:50:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248156
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 11:09:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248157
 
-Backport the upstream fix [1] as mentioned in [2]
+On Mon, 2026-10-19 at 09:52 +0000, Hetvi Thakar -X (hthakar - E
+INFOCHIPS PRIVATE LIMITED at Cisco) wrote:
+> Hi Paul, Yoann,
+>=20
+> Thanks for the review.
+>=20
+> The go.mod, go.sum, and vendor/modules.txt changes are not required for t=
+his Go 1.22 backport, as the upstream Go 1.25 commit updates the entire x/n=
+et dependency to revision a9171bc8 [1].
+>=20
+> For Go 1.22, the required security fix is applied directly to src/net/htt=
+p/h2_bundle.go [2]. The fix addresses the infinite CONTINUATION frame loop =
+described in the CVE.
+>=20
+> Updating only the dependency metadata without updating the complete vendo=
+red x/net source would be inconsistent. Since this is a focused security ba=
+ckport, the dependency update is not needed.
+>=20
+> The additional validation-related change in the upstream commit is not ap=
+plicable to Go 1.22, as the corresponding code is not present in this versi=
+on [2].
+>=20
+> References:
+> [1] https://go.googlesource.com/net/+/a9171bc8c6f19c50efad8880f96e361359e=
+d5307%5E%21/
+> [2] https://github.com/golang/go/blob/go1.22.12/src/net/http/h2_bundle.go
 
-[1] https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb=
-0b1b090f5ed
-[2] https://nvd.nist.gov/vuln/detail/cve-2026-97689
+Hi Hetvi,
 
-Testing:
-  - test_response.py::test_chunk_size_line_too_long - passed
-  - test_response.py::test_chunk_trailer_line_length (6 cases) - passed
-  - test_socketlevel.py::test_chunked_size_line_too_long_does_not_buffer - =
-passed
-  - Full test_response.py: 161 passed, 45 skipped (no regressions)
+If you've checked this and you're confident that the go.mod/go.sum
+changes are not needed then this patch can go ahead.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- .../python3-urllib3/CVE-2026-97689.patch      | 251 ++++++++++++++++++
- .../python/python3-urllib3_2.6.3.bb           |   6 +-
- 2 files changed, 254 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-9=
-7689.patch
+Best regards,
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.pa=
-tch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch
-new file mode 100644
-index 0000000000..6e5e870c36
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch
-@@ -0,0 +1,251 @@
-+From e62cca8f9e4211fa005b238237509a1c669550ba Mon Sep 17 00:00:00 2001
-+From: Quentin Pradet <quentin.pradet@gmail.com>
-+Date: Tue, 15 Sep 2026 22:33:41 +0400
-+Subject: [PATCH] Merge commit from fork
-+
-+* Bound chunk-size line reads to prevent memory exhaustion DoS
-+
-+The streaming chunked path (HTTPResponse.stream() / read_chunked()) read
-+each chunk-size line with an unbounded readline(), unlike the plain read()
-+path which delegates to http.client's _MAXLINE-capped reader. A malicious
-+server could advertise Transfer-Encoding: chunked and then send a very lon=
-g
-+run of bytes with no newline, forcing the client to buffer the entire run
-+before the chunk size could be rejected.
-+
-+This caps the chunk-size line (and the trailing CRLF line) at _MAXLINE,
-+raising ProtocolError when exceeded, matching the behaviour read() already
-+had. Only the size line is bounded; chunk bodies still go through the size=
-d
-+_safe_read(), so legitimate large chunks are unaffected.
-+
-+Verified with a local malicious server streaming a 200 MiB unterminated
-+size line: stream() previously grew RSS by ~530 MB, now stays at ~1 MB and
-+fails fast, matching read(). A 5 MiB chunk body still streams correctly.
-+
-+* Fix a black formatting issue
-+
-+* Test chunked response trailer length limits
-+
-+* Fix number in the changelog entry
-+
-+---------
-+
-+Co-authored-by: Illia Volochii <illia.volochii@gmail.com>
-+
-+CVE: CVE-2026-97689
-+Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/cd770=
-b059b543be29298ea5c52afb0b1b090f5ed]
-+
-+Note:
-+ - changeLog change is not backported
-+ - Adjusted commit change as per 2.6.3 version
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ src/urllib3/response.py                   | 20 +++++-
-+ test/test_response.py                     | 82 ++++++++++++++++++++++-
-+ test/with_dummyserver/test_socketlevel.py | 34 ++++++++++
-+ 3 files changed, 132 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
-+index ff6d1f4..58f4587 100644
-+--- a/src/urllib3/response.py
-++++ b/src/urllib3/response.py
-+@@ -50,6 +50,13 @@ if typing.TYPE_CHECKING:
-+=20
-+ log =3D logging.getLogger(__name__)
-+=20
-++# Maximum length of a chunk-size line (and the trailing CRLF line) when r=
-eading a
-++# chunked-transfer-encoded response. Matches ``http.client._MAXLINE`` so =
-urllib3's
-++# streaming path bounds these reads exactly like the stdlib ``.read()`` p=
-ath does,
-++# preventing a malicious server from forcing unbounded buffering (memory =
-exhaustion)
-++# via an unterminated chunk-size line.
-++_MAX_CHUNK_LINE_LENGTH =3D 2**16
-++
-+=20
-+ class ContentDecoder:
-+     def decompress(self, data: bytes, max_length: int =3D -1) -> bytes:
-+@@ -1330,7 +1337,12 @@ class HTTPResponse(BaseHTTPResponse):
-+         # we'll try to read it from socket.
-+         if self.chunk_left is not None:
-+             return None
-+-        line =3D self._fp.fp.readline()  # type: ignore[union-attr]
-++        line =3D self._fp.fp.readline(_MAX_CHUNK_LINE_LENGTH + 1)  # type=
-: ignore[union-attr]
-++        if len(line) > _MAX_CHUNK_LINE_LENGTH:
-++            self.close()
-++            raise ProtocolError(
-++                "Response chunk size line exceeded maximum allowed length=
-"
-++            ) from None
-+         line =3D line.split(b";", 1)[0]
-+         try:
-+             self.chunk_left =3D int(line, 16)
-+@@ -1438,7 +1450,11 @@ class HTTPResponse(BaseHTTPResponse):
-+=20
-+             # Chunk content ends with \r\n: discard it.
-+             while self._fp is not None:
-+-                line =3D self._fp.fp.readline()
-++                line =3D self._fp.fp.readline(_MAX_CHUNK_LINE_LENGTH + 1)
-++                if len(line) > _MAX_CHUNK_LINE_LENGTH:
-++                    raise ProtocolError(
-++                        "Response chunk trailer line exceeded maximum all=
-owed length"
-++                    )
-+                 if not line:
-+                     # Some sites may not end with '\r\n'.
-+                     break
-+diff --git a/test/test_response.py b/test/test_response.py
-+index f55809f..b54a006 100644
-+--- a/test/test_response.py
-++++ b/test/test_response.py
-+@@ -27,6 +27,7 @@ from urllib3.exceptions import (
-+     SSLError,
-+ )
-+ from urllib3.response import (  # type: ignore[attr-defined]
-++    _MAX_CHUNK_LINE_LENGTH,
-+     BaseHTTPResponse,
-+     BytesQueueBuffer,
-+     HTTPResponse,
-+@@ -1682,6 +1683,63 @@ class TestResponse:
-+         assert isinstance(orig_ex, InvalidChunkLength)
-+         assert orig_ex.length =3D=3D fp.BAD_LENGTH_LINE.encode()
-+=20
-++    def test_chunk_size_line_too_long(self) -> None:
-++        # A malicious server can send a chunk-size line with no newline. =
-urllib3's
-++        # streaming path must reject it with a bounded read rather than b=
-uffering
-++        # the whole line (memory exhaustion). See GHSA / CVE for chunked =
-DoS.
-++        stream =3D [b"foooo"]
-++        fp =3D MockChunkedEncodingLongChunkSizeLine(stream)
-++        r =3D httplib.HTTPResponse(MockSock)  # type: ignore[arg-type]
-++        r.fp =3D fp  # type: ignore[assignment]
-++        r.chunked =3D True
-++        r.chunk_left =3D None
-++        resp =3D HTTPResponse(
-++            r, preload_content=3DFalse, headers=3D{"transfer-encoding": "=
-chunked"}
-++        )
-++        with pytest.raises(ProtocolError) as ctx:
-++            next(resp.read_chunked())
-++
-++        assert "chunk size line exceeded maximum allowed length" in str(c=
-tx.value)
-++
-++    @pytest.mark.parametrize(
-++        "trailer_length",
-++        [
-++            _MAX_CHUNK_LINE_LENGTH - 1,
-++            _MAX_CHUNK_LINE_LENGTH,
-++            _MAX_CHUNK_LINE_LENGTH + 1,
-++        ],
-++    )
-++    @pytest.mark.parametrize("line_ending", [b"\r\n", b""])
-++    def test_chunk_trailer_line_length(
-++        self, trailer_length: int, line_ending: bytes
-++    ) -> None:
-++        # The line limit includes its CRLF, but not the final blank line.
-++        trailer =3D b"X:" + b"x" * (trailer_length - 2 - len(line_ending)=
-) + line_ending
-++        fp =3D BytesIO(b"3\r\nfoo\r\n0\r\n" + trailer + (b"\r\n" if line_=
-ending else b""))
-++        r =3D httplib.HTTPResponse(MockSock, method=3D"GET")  # type: ign=
-ore[arg-type]
-++        r.fp =3D fp  # type: ignore[assignment]
-++        resp =3D HTTPResponse(
-++            r,
-++            preload_content=3DFalse,
-++            headers=3D{"transfer-encoding": "chunked"},
-++            original_response=3Dr,
-++        )
-++        chunks =3D resp.read_chunked()
-++        assert next(chunks) =3D=3D b"foo"
-++
-++        if trailer_length > _MAX_CHUNK_LINE_LENGTH:
-++            with pytest.raises(
-++                ProtocolError,
-++                match=3D"Response chunk trailer line exceeded maximum all=
-owed length",
-++            ):
-++                next(chunks)
-++        else:
-++            assert list(chunks) =3D=3D []
-++
-++        assert fp.closed
-++        assert r.isclosed()
-++        assert resp.closed
-++
-+     def test_truncated_before_chunk(self) -> None:
-+         stream =3D [b"foooo", b"bbbbaaaaar"]
-+         fp =3D MockChunkedNoChunks(stream)
-+@@ -1941,8 +1999,20 @@ class MockChunkedEncodingResponse:
-+                 self.cur_chunk =3D self.cur_chunk[amt:]
-+             return chunk_part
-+=20
-+-    def readline(self) -> bytes:
-+-        return self.pop_current_chunk(till_crlf=3DTrue)
-++    def readline(self, amt: int =3D -1) -> bytes:
-++        # Emulate a real file object's readline(size): return bytes up to=
- and
-++        # including the first newline, or at most ``amt`` bytes when ``am=
-t >=3D 0``,
-++        # whichever comes first.
-++        if len(self.cur_chunk) <=3D 0:
-++            self.cur_chunk =3D self._pop_new_chunk()
-++        line =3D self.cur_chunk
-++        newline_index =3D line.find(b"\n")
-++        if newline_index !=3D -1:
-++            line =3D line[: newline_index + 1]
-++        if 0 <=3D amt < len(line):
-++            line =3D line[:amt]
-++        self.cur_chunk =3D self.cur_chunk[len(line) :]
-++        return line
-+=20
-+     def read(self, amt: int =3D -1) -> bytes:
-+         return self.pop_current_chunk(amt)
-+@@ -1970,6 +2040,14 @@ class MockChunkedInvalidChunkLength(MockChunkedEnco=
-dingResponse):
-+         return f"{self.BAD_LENGTH_LINE}{chunk.decode()}\r\n".encode()
-+=20
-+=20
-++class MockChunkedEncodingLongChunkSizeLine(MockChunkedEncodingResponse):
-++    def _encode_chunk(self, chunk: bytes) -> bytes:
-++        # A chunk-size line far longer than _MAX_CHUNK_LINE_LENGTH with n=
-o
-++        # newline, simulating a malicious server that never terminates th=
-e
-++        # size line (memory-exhaustion attack).
-++        return b"f" * (2**16 + 1024)
-++
-++
-+ class MockChunkedEncodingWithoutCRLFOnEnd(MockChunkedEncodingResponse):
-+     def _encode_chunk(self, chunk: bytes) -> bytes:
-+         return "{:X}\r\n{}{}".format(
-+diff --git a/test/with_dummyserver/test_socketlevel.py b/test/with_dummyse=
-rver/test_socketlevel.py
-+index 016484d..d603b8a 100644
-+--- a/test/with_dummyserver/test_socketlevel.py
-++++ b/test/with_dummyserver/test_socketlevel.py
-+@@ -2289,6 +2289,40 @@ class TestStream(SocketDummyServerTestCase):
-+=20
-+             done_event.set()
-+=20
-++    def test_chunked_size_line_too_long_does_not_buffer(self) -> None:
-++        # A malicious server can advertise chunked encoding and then send=
- an
-++        # unterminated chunk-size line (no newline). The streaming path m=
-ust
-++        # reject it with a bounded read instead of buffering the whole ru=
-n,
-++        # which would exhaust memory.
-++        done_event =3D Event()
-++        # Well above the 65536-byte cap, but small enough for a fast test=
-.
-++        run_length =3D 512 * 1024
-++
-++        def socket_handler(listener: socket.socket) -> None:
-++            sock =3D listener.accept()[0]
-++
-++            buf =3D b""
-++            while not buf.endswith(b"\r\n\r\n"):
-++                buf +=3D sock.recv(65536)
-++
-++            sock.sendall(b"HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\=
-r\n\r\n")
-++            # A chunk-size line that never terminates with a newline.
-++            with contextlib.suppress(OSError):
-++                sock.sendall(b"f" * run_length)
-++
-++            done_event.wait(5)
-++            sock.close()
-++
-++        self._start_server(socket_handler)
-++
-++        with HTTPConnectionPool(self.host, self.port, retries=3DFalse) as=
- pool:
-++            r =3D pool.request("GET", "/", timeout=3DLONG_TIMEOUT, preloa=
-d_content=3DFalse)
-++            with pytest.raises(ProtocolError) as ctx:
-++                next(r.stream(65536))
-++            assert "chunk size line exceeded maximum allowed length" in s=
-tr(ctx.value)
-++
-++            done_event.set()
-++
-+     def test_large_compressed_stream(self) -> None:
-+         done_event =3D Event()
-+         expected_total_length =3D 296085
-diff --git a/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb b/meta/r=
-ecipes-devtools/python/python3-urllib3_2.6.3.bb
-index 5976c5c3b4..537a68cdab 100644
---- a/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb
-@@ -3,9 +3,9 @@ HOMEPAGE =3D "https://github.com/urllib3/urllib3"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D52d273a3054ced561275d4d1526=
-0ecda"
-=20
--SRC_URI +=3D " \
--    file://CVE-2026-44431.patch \
--"
-+SRC_URI +=3D "file://CVE-2026-44431.patch \
-+            file://CVE-2026-97689.patch \
-+           "
- SRC_URI[sha256sum] =3D "1b62b6884944a57dbe321509ab94fd4d3b307075e0c2eae991=
-ac71ee15ad38ed"
-=20
- inherit pypi python_hatchling
+--=20
+Paul Barker
+
 
