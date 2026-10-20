@@ -1,104 +1,116 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.179.1792511571864566095
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4761.1792538574453116961
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 08:52:52 -0700
+ Tue, 20 Oct 2026 16:22:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=GuuY6D6I;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: oo.hehir@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49d05d51553so23896565e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 08:52:51 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=sPpdWoiy;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a16af2a232so623505e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 16:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792511570; x=1793116370; darn=lists.openembedded.org;
+        d=smile-fr.20251104.gappssmtp.com; s=20251104; t=1792538572; x=1793143372; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UmZz5SCrObHv4I3j1sTfHCU3tDP2oedzEQ71/XrgEIQ=;
-        b=GuuY6D6I99+721DH0c+ZydMfX0ubT9KN07dD/5XWm9ZrvQ/XExC2ECiGltUr3hF+6d
-         M39Mkr5DTJ6tWyQG8iXRIZnJyN1xAqDVQk0b3WsW7+wA6YcR01NjZCfev7c/TL3//pgq
-         M+IKAzJsp0ISe4Vgz5AhoykAjfsewBU3y/U8EC5JlnQPQEtPIpMhgboKooawhEoNUglz
-         QZ9JKWX+FFfKj57AM3YUY0VdlnG9XuWndowRYckR1fFeFlvac4HSFpgQqZVxnMlI3fFu
-         N6CiInW3u0Bk9EBtqBYnl+GV4SEFoiV2MoNYxShDolZgUAkiOkAJ+UbHTgH6WE0zMuDe
-         7dOg==
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=35gcTE7SF3CSIusWkdcrVmGatku2cCZ3zyW64XHW84k=;
+        b=sPpdWoiynaEDgCfhr+46Mkhn07ntvPFNs8Rcp7AJtsKsTlUkRwSAlT4EQrGQv74SWM
+         mR0/Wfv1+tYxBen/8Nu6M7G+bDxsCC7LDyeR3e6BZgrJbXiwEGQAvxitbpCiZFSUYN4G
+         DJ6trUBkhSMfRDbHRZkW7dWefdYvWJs4qh86bXJsfPbHLISeLNjdHPcV6V2fIooo7/EQ
+         UXcKqDhugO95R/LLtnKWK1fP4Jqpc61unXCNAfQiuinQRbXWgq/Bx6d73E4/QySpD4ca
+         ChN+Y7rRHdErIOp1y3MXtrpVD39o8coRUJPVFPOGTtKgpQZ2o0qHFQcTJoKdCSvVJi33
+         OlwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792511570; x=1793116370;
+        d=1e100.net; s=20260707; t=1792538572; x=1793143372;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UmZz5SCrObHv4I3j1sTfHCU3tDP2oedzEQ71/XrgEIQ=;
-        b=nW0FGs6awy5hvSBqa1KZhYb9ED1iEtanZmQQrAoUNrJup6vURnQz0abZphk+bRNuvE
-         chG3OpaxWnzGwV63cWbBuJv/2kA12gWTlx60r+S8Lq7wZoWqnj+70TLTA8/hkRoAzxzr
-         hqEbw4TqDxZYKQlqlTex9T5n0+2vprVEhoZt3o/mSp5CgpCGjB3vbitpbmYEcrNHtY4O
-         73X2KbJsg0biJd7ARS4htVPAxOL7Hq2UsKnaii/fP5qaOBm4ATyQqXs7rHXXQmY1Alpc
-         y7Jo6X3xD1mnxGcrGnZKouSu4xJE9gHrSg2nGIMcCXsKh8miXeT1rtk3kYb9XbaVq+Me
-         f+nw==
-X-Gm-Message-State: AFq9FYLHI9i1hOzt+BI9sCqGRmGeYIFLbQvfAtQy04O39BXTzLxXiOTL
-	zMYuOiQepc0lvhupFHaLdlGm6yNVduWkFiJKRIsDj02JISUmIAgX4nWj6qUxOX0mCddE7Q==
-X-Gm-Gg: AYBFou05FKatf0PBkr1fOE8ZMKHwjcq2ySVRYvsDLG6QIrslSUzAU2007W1HrJQU2pC
-	01kUY/GgRV1hbR+xeBALgFUq8uZkyZOC2kNuSmnIDDg8gutXHisG7BOMIEanw41nrR7mLzegHCE
-	tG53HYragl93csO8UHfEfH+R7FkF4JRLo01c41f6LZedn6k87q5wUMXMHcEeZCukqhyWmD52W7J
-	aUQLyLWCUOF+mIVa1355DMc0tyQ1bRjnqvL4bCJlSYwDDsm1q3NE2HeuMKKc/zR/NWgul3xWDV4
-	XHxHFexLPlUZ18sNYxjrvmkOn3+IYMQnLj0J00LwaBYBP4FnSHpe6Y93PksiQEWl9Ex34rJFsk+
-	6VEwGOmGuIynT0LFdHOQWZuOOwQRrO9pJ/kIYier0Qw5oTzirQzc1lVKQLWye/L+yIfGdmISmQZ
-	Q2MU3LWIStrCrsf36HhF1KcB3R+OtfNj8dvTOrPSEUnULkGRKE+y1tq+9+swEk+HcC0UQJzU6Cg
-	hRPHrM13ZhFr+KXKd40nwVCNn31wLqMVA==
-X-Received: by 2002:a05:600c:19d2:b0:4a1:d10c:7170 with SMTP id 5b1f17b1804b1-4a1d76262e1mr236721405e9.31.1792511569854;
-        Tue, 20 Oct 2026 08:52:49 -0700 (PDT)
-Return-Path: <oo.hehir@gmail.com>
-Received: from hp-z640.fritz.box ([51.37.195.29])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1ce33ad3fsm307375725e9.5.2026.10.20.08.52.47
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=35gcTE7SF3CSIusWkdcrVmGatku2cCZ3zyW64XHW84k=;
+        b=zYXtgyH10jEdjgr8eUffK0c7X8RHfR095PhFa/GwB5dKAilTPObhizegdWGOByci0P
+         pUR1zpTzDB6uvF6UVy2sLXVkMdQEsPHvQ2/H5pEGFZM1dl4ERwdpPcjqZLCXJqi8NXiq
+         7c9ep0T+SLwACXJ0MZhM3FvYFQvMGp7gHW0fHiPkgUGlFvPTpmPJ7RfzCUXRWUcO5uqU
+         V4+NXaHFGBeKiRCUdEN8isGRDZYtfYKqQKchJsCo3HAdiKFMgMXWbvlibEFEhgVIIiCp
+         5OCnpdyWMbaUIFmp6fNt5clbGbzaMYCBsQDvQ/qPd+cObJVnmEQx9J6Jg2CohkPuGk20
+         bNMg==
+X-Gm-Message-State: AFq9FYJmolwkjfRwiEVxrkUjf24hAaqcURQTFJYjYLfDpWfZ1CbG7S++
+	8FKZd0jBGwPCXe5VkV5WwaxyRzKQjdLLlvNA19xybZQ2wZpWPeRXkbpQRhlGfOu1ZFEmgtoHLis
+	fP7rUJt0=
+X-Gm-Gg: AYBFou25pYN0ShY+ye9hFt/5zV5Xfc5J7/hf+P7ZvCooJ26V5a/6Z6Q4YBIst2y8oyw
+	i+K6mBQ/OluCk547G4+X84dQs2wfnEAQshI8P4j3BewBR2QuPD6vRcaV0V1HbVDfWfoq0uIuP9f
+	Bo60DOng/03ltwqREstsgmXkC0R8oXSN6lhXcMMPhyLcET9YG8xKXz0NCzOGIWWT2F98/3MjcdK
+	+KI823x2RbdJyn924yZGDYENtaxTT2gahpz9UUFriEl+Z5pECJ20CtdygUx+RFgsDTsyA3Am2Cj
+	ec2hZaHZc0AgUEy0Ykb/Ph90yn5xVTXa0kpgrNRNfr6BueKmACuYxe8Er7H4gzbYf2fV6rZu6mX
+	Pfky3X2Xn2VrOcElmieKcnka2n7QrUFmml0kejw6M9BxGGrHlLGJWTuV/h1v5zQIzZAugmBWlIF
+	ztmO+YLVWGs+uuk40zrFp83okqWQwW9rYSzbQ1eo2BcgEotriOHOvpPS8VC6UvKdQKiWdIs6oQT
+	iCGzVx5g1E0ocU4JnbHaWrcCIjUlb2UZjDgxgYKGJi/I1g3UsIqk/vwGS6ntxpm7UIZUecqFbqb
+	CdiyGkcYuC1U5BN+TQcCeOXJ8c2PB9uMOb9gXOxJqHUmmIX+hc7uVRs=
+X-Received: by 2002:a05:600c:34c4:b0:49f:ce78:3562 with SMTP id 5b1f17b1804b1-4a1fdd37971mr3595885e9.19.1792538572356;
+        Tue, 20 Oct 2026 16:22:52 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2583523asm1436615f8f.37.2026.10.20.16.22.51
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 08:52:49 -0700 (PDT)
-From: OOHehir <oo.hehir@gmail.com>
-X-Google-Original-From: OOHehir <40183643+OOHehir@users.noreply.github.com>
+        Tue, 20 Oct 2026 16:22:52 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-	tgamblin@baylibre.com,
-	mathieu.dubois-briand@bootlin.com,
-	ross.burton@arm.com,
-	OOHehir <oo.hehir@gmail.com>
-Subject: [PATCH v3 3/3] ptest-packagelists.inc: re-enable tcl8 for riscv64
-Date: Tue, 20 Oct 2026 16:52:38 +0100
-Message-ID: <20261020155238.1923076-4-40183643+OOHehir@users.noreply.github.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261016204547.2328847-1-oo.hehir@gmail.com>
-References: <20261016204547.2328847-1-oo.hehir@gmail.com>
+Subject: [OE-core][wrynose 01/25] libpng: upgrade 1.6.58 -> 1.6.59
+Date: Wed, 21 Oct 2026 01:22:11 +0200
+Message-ID: <91a342f8bf17605554ace45870ea72425100203b.1792537664.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1792537664.git.yoann.congal@smile.fr>
+References: <cover.1792537664.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 23:08:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248318
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 23:22:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248319
 Content-Type: text/plain; charset="utf-8"
 
-From: OOHehir <oo.hehir@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-The previous commit skips binary-40.3, its only failure on riscv64.
-core-image-ptest-tcl8 on qemuriscv64: 152 pass, 0 fail, 607 s. On a
-VisionFive 2 (JH7110), binary-40.3 was the only failure.
+Release notes [1]:
 
-tcl stays parked: under TCG, unicodeNormalize.test prints nothing for more
-than 450 s & ptest-runner kills it. The binary-40.3 skip still helps tcl on
-hardware.
+Version 1.6.59 [September 28, 2026]
+  Fixed CVE-2026-46675 (medium severity):
+    Use-after-free of zlib input in `png_read_end` after incomplete zTXt, iTXt
+    or iCCP decompression.
+    (Reported independently by Ze Sheng and
+    <JasonHonKL@users.noreply.github.com>.)
+  Fixed a regression introduced in version 1.6.47 that caused libpng to reject
+    hIST chunks in their correct position, after PLTE.
+    (Contributed by Yuki Sekiguchi.)
+  Prevented a double free of `png_struct` members after an allocation failure.
+    (Contributed by Anthony Hurtado.)
+  Applied fixes and updates to the CMake build.
+  Adopted the REUSE Specification for licensing the CI files.
 
-Signed-off-by: OOHehir <oo.hehir@gmail.com>
+Note: cmake is not used in Yocto build of libpng.
+
+[1] https://github.com/pnggroup/libpng/blob/v1.6.59/CHANGES#L6388
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 907c6fa2d0c4f8a8f765cde004c55fb2dd2c402d)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../libpng/{libpng_1.6.58.bb => libpng_1.6.59.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.58.bb => libpng_1.6.59.bb} (97%)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 97c6e35050..1b76023621 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -164,8 +164,8 @@ PTESTS_PROBLEMS:append:riscv32 = " lttng-tools strace"
- PTESTS_SLOW:append:libc-musl = " libc-test"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.58.bb b/meta/recipes-multimedia/libpng/libpng_1.6.59.bb
+similarity index 97%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.58.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.59.bb
+index 6e4e5e9f387..21f3a8ff3b6 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.58.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.59.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz \
+            file://run-ptest \
+ "
  
- # These tests don't yet pass for riscv64
--PTESTS_SLOW:remove:riscv64 = "tcl tcl8 python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
--PTESTS_PROBLEMS:append:riscv64 = " tcl tcl8 python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
-+PTESTS_SLOW:remove:riscv64 = "tcl python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
-+PTESTS_PROBLEMS:append:riscv64 = " tcl python3-cffi lttng-tools python3-numpy perl glib-2.0 zstd libpcap"
+-SRC_URI[sha256sum] = "28eb403f51f0f7405249132cecfe82ea5c0ef97f1b32c5a65828814ae0d34775"
++SRC_URI[sha256sum] = "d80dd2a38a37f803cb9b6ac7b14bd6e74ddc3b654780a8380bdf93523fdb4389"
  
- # These tests don't yet pass for musl qemuarm64
- PTESTS_SLOW:remove:libc-musl:qemuarm64 = "strace perl gnutls glib-2.0"
--- 
-2.43.0
-
+ MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/"
+ 
