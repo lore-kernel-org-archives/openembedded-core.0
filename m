@@ -1,273 +1,174 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10137.1792460559257972682
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10272.1792461972050595520
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2026 18:42:39 -0700
+ Mon, 19 Oct 2026 19:06:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=kfanOVu2;
- spf=pass (domain: gmail.com, ip: 74.125.224.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-6798eb0d190so2021016d50.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 18:42:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792460558; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=PKeoDU+/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8ab38a051aaso23110457b3.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2026 19:06:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792461971; cv=none;
         d=google.com; s=arc-20260327;
-        b=ql99oQtA01XUnmrluyjFI3VzAE/6x5xfbJVTS3H/uHqDWVcYZt5sKAnnSQOzf/uiS8
-         V+jA6KIuDWT1xcL7EPB55RbwEZFvs1liBsqOhfXgKrR8JxsODeC04I6Jm5Ti564Hsnek
-         L1c/uVoM2JE/Kair2ZtgkuuJHRIjgXhnpp2ZgpTe0KxJfMPuWSjrq2b+5wDtRP0trusO
-         lm6K1uQdCI77RcHOdhcTGkCjuaslMD0rD4FP1pLuPvRTGXWoSvQnjQKCXaS00kMW+0NO
-         GUB+EHzxAQ9GpHabOKMjKk3ILx8EF9vtTE9RTtzLbyLEKOHYH3Uzl9OELDwpH+1Tqp3I
-         HreA==
+        b=MED9rr2ZORZjjIC3ErLlR+MhqUBMm0UL9EtkT0Sq7MWbBIk7aABdgS5Qs9/4/BYW/O
+         FvyCOeSrlESuF41XoYOW6xvbxfNLSvk0JYI+flrAPMxMfQpNMkGEZFmz3E5h8ZWa+8Vd
+         7/7779bY7AEbslO2nflu7EPtcEjMDxeIdq4SpvHqfJiJIwYzUZFIKYy5f7CZyRVegGU9
+         bK/FCaAJckOk63V69mdqPdiAIBFRg/XePHmNKY2j3zbhABPgyCkJsVmABXSSyAKfr6gs
+         ZSyI74x3u8b2gX6RHaRyKInc2E9IyVZ0ws19Qvp2IDnu5GqwecVycFCLiclNqU3AHl9q
+         98Jw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=fSOtZrWFAfwA1UGTYMIfO5uQbYh8UT/m9YNPRpr1bns=;
-        fh=qogVUck8YBqbWIsVXO7Zd4f2y0reKM2i6C2O67MrmhU=;
-        b=SpMdfxhGSMWaT+Yu/MRUGcNyG3aCvMvjNTeu1NAecGcAZG46YFDvOQth1xvzf64IO8
-         sw7bAn48BAyHe2uEZlZvurTBiL1gobxRMqfR4Sn8KTrdSPEWhMFo9/GO7n6klHMyzFUd
-         Xd53L01yTO2Ej9fWfX4djJjqJRRDd7OxLpCu8x13XnKfK2dPHb+42IGgxlIrGK2PiPPC
-         UxCyy/u6MrLLWq7378N24qG7mHIk4TDRYodFDSOzc5mNxnOXemo0wjFFyxpBb+kbAjN8
-         IKmZm2gV5WaPINyTNyrhp227WEZN7GBh6pzUjYETwAuDgMgCgE+9Oyy9G4SLfrsg129H
-         qcrg==;
+        bh=rsen4/Ve/sGLnbOxCzyL+k+TgQ1qEEPj/jqX1g6+Vcc=;
+        fh=Ab5QchtAs08eZNSFiBl6MfJNprT6k/vVQ8w3IX57Q1U=;
+        b=lQE9nmalzuvzHKbnf+VXVA2vfgvcJE7qGCun/qeNZxZmfcNk0n48ym4OxHEZ1cMiMC
+         cqZcTm/DYcck711f0Mwo0Z/OmesSwpDgNyJ1h4brch/kuWZG+qUxeVJzLTL7JJ015/Ul
+         kJ2JKvkvNwwtLR64C1cdBsaPjhqoQ54GD4TrwubYNWNJHUt+LrY6ubHuZ8mRO4pD33cV
+         GnOA7XXnk8QVyTqjVulkAIFDLoFjSI578ahSM8SLP/6kfthhd4DjBZfI1eJDHswRMVKz
+         nWivBBvs//ZthQVPD2h5h7PYaaOjrsyLYXFkuN7dgWk30jn/4nVdaIlyeNTF/LVlH7YW
+         Czzw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792460558; x=1793065358; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1792461971; x=1793066771; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fSOtZrWFAfwA1UGTYMIfO5uQbYh8UT/m9YNPRpr1bns=;
-        b=kfanOVu2oWhqMR+miwUBXb1jTYgwOvk5AhLdPGDeUzF1jrJIQLg2ywyAqgg3LGn7G8
-         Y2BMrdQsUcdwlpfI7km9cJLwc503fgGS5pUuoqf5c7m28Ft1JHvkEy0fFVxVvvnu4wos
-         IR1sWwfTdogGkpRyUTgYXiTwjqs3zbfNJvZlivNZQ1b/adj086QiT/AcuCbSt0lbP6gJ
-         RkSiOC+W53DC0WDJRPsAGgbnOSgqjTE+6CufDMw5iPGBnR1XxwPriIyPcuisNMjCZr9g
-         xwg3UKbHMyCh4vIDBQMxt03p6LLXaVTfjaP03JhD15Apzs+AcszCBQ00qf9qaH/XKXa/
-         kJLA==
+        bh=rsen4/Ve/sGLnbOxCzyL+k+TgQ1qEEPj/jqX1g6+Vcc=;
+        b=PKeoDU+/F6mi/ltprbpHtqlBN84T7mGTA+53DDproaQdyu37FW6OeCeCZ/4SEjvPM+
+         LnHf35uWoTVUgiqqiaALtP2fGshY4T/FBHE0R/jBdlPY8ADTnhavkeQQmkV9ZXIO4LyP
+         p4bwFIzIn9tRr8qqHd6aNcqmprrerldXPppDOIOHDWr2CKzN+xwXcs0BSMd2hHTwHzeT
+         nx81HjCo8ECc5B1gkSGzsOau8hvm26mv3855RWxf6Kqo73rcS/y8OvrB4XO/BtFBCBX0
+         W8cPmOBGyJGzHlCJrC4IdlaEaFjHb3svLgNgc+trPaUyWhNHyIo/KuwF0JJq4d1NjWPq
+         TfYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792460558; x=1793065358;
+        d=1e100.net; s=20260707; t=1792461971; x=1793066771;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=fSOtZrWFAfwA1UGTYMIfO5uQbYh8UT/m9YNPRpr1bns=;
-        b=jofDGoUZOsiyhVMvnXPG8cArOS/ctGHHUltZ83G9Cxn/0x5CW//U3pxW3f5Yr21nFN
-         SWujuAo6K575iEDRMfK+dJ0vouRyhf+7gtA1ubluBr2hu4Sz9Nj2QfcyQzuYnxhh8eiU
-         IB2kJjNTWNdGTuDwcr/nTWpJ5xzHSh7pzme/53n4FDAfFgx+pbKEymdsGlrrTsN75Tbw
-         z7kVSb8cxGCb7BbfQaVBFob0uwXoOqV9+NJdcEjVQ/t9KlqBijc2ZipP5zdHf+WLwHjl
-         lHt9iV+aG0bcRn6R6XX9s47SCTcUs9Vm8ELSW3Dzy1m6gxcpvsBU18mAYK0FdWQH300T
-         XHUQ==
-X-Gm-Message-State: AFq9FYKLw3R1/bK64ceoFFBdQ+n7u8yrT+rbUtK6ZWncpewpAGj0RO7t
-	ryk17EdcHmAUVqexFM5fp9a8bmDHLjYjJpnvDKGHQ/ETy8WzpLv8go9rSzbN2u/nFVYsGL01vX+
-	1IEEe5RcXpf6krY8ZlwVS7LQoh5jd1Ys=
-X-Gm-Gg: AYBFou2f7eh7UZFkXWjCzw4UU1mRyTl7NaMppsCdubAzB7PAAfqAeeRvh5NMV6zetXy
-	FbXv1nfS04JjcLSSPSSVPFPbe3rXk1bQ3LPCyu41mxegA7oi7eb6kEHqmd7NDbZxa0hL3LXdjee
-	Xup45y4Bpokk/wDa4zZxFbgFOtLBMPubQ0ua5ITpmmAIpbNpjN4y/JNfQjCOAyhBm8GBhfultG6
-	Jh3TdST+TLhN2ilAdfnbnZo+1o0NHCer76Ct63MgkFJJUd5QHfbKk59SKnbIDIStvFuZTc4pV1j
-	IKZHYi60rar8Fgrqk7GpMeJCfH6wFvqzFwkHnwouLb9V3spdlkwMdRY8aHvGkBXSTcwI3i41Gdj
-	L3gnRcsN7CrPTF24P7p1AoyuiYVcgPe7XrbTQlWuOrVDxd3QWf94r9MzGdAoUzfNS9q9RN2zo6o
-	E84kw9d3cv6Z+q0vC1AOny1i9D/Iprvp9XAdo0IGwxx/r8EW1czezDFTgSnlrQ2IUZVg6jBXT3p
-	SXUfRLUFOUWCZ0/omYVBpOZgZ2GW2vQbg0EoixcQ/Rr1oXaFawwzQGITDJ5d19HGWQ93gywVBPN
-	K6B1vkamcPd4FbbqO5iSylayEaEqLaMVD4KhSOUHXkH0NtAmrQ==
-X-Received: by 2002:a05:690c:6d93:b0:8ab:4a67:71b9 with SMTP id
- 00721157ae682-8b0f21719f9mr37325207b3.29.1792460558178; Mon, 19 Oct 2026
- 18:42:38 -0700 (PDT)
+        bh=rsen4/Ve/sGLnbOxCzyL+k+TgQ1qEEPj/jqX1g6+Vcc=;
+        b=x4QaX6hheDeKuuKVMlNexZOOXbL/y/eHueyS2DFHSxHiXvaQg/YLBMppqFiL3Up+jM
+         6tr+Vr/6UngLQNgWhx2lnGkU5pbAhYOqijmOXw1FsBBFBRyKrHvkuM7sAVtyeOeHjNCr
+         zawnfyoJTfrhMg3HWosc9v2VT3URebP6lv5M1yPxFBrKay9ZyOm/MCk5bqvfoDBmmChr
+         d5APfmGHcGxHUjMec11L7pa4fISE915J0JtFDO//JBVRoh6QD1fpl0K34nNpb3JB4f2Z
+         2AG90fL9q84rLiZyz+uJdYRWImTlc0XGzh33aAY3CBRaCoUolzGpFat/2uIgTsGADjvO
+         vVaA==
+X-Gm-Message-State: AFq9FYKPRHNXR+Jbya40OVhCCVUXKFuZLJTCv6X+kaThz0S5TqMhQLHQ
+	WwHpSBhFP2W6owPVhfn5c7Nrbq7Pwg7/s5j8pbfbMrJkyP8Mxgh8KbPBgP/gCnzL4BCeCbc4TCN
+	rUYp4UoyNh3HzdlgXsLUrpVwoUoqFc7s=
+X-Gm-Gg: AYBFou0HtXQJLU3wQ3sMcLnHBBKY2OWGpyC+g9tKTz6FHDs/d86coLjCAC0tVJav8Q8
+	pxM+YwDSzeHJRG6CTLgDyVrDGWytpVy6ViMGLU2DzZG0DkC6wKHaGZOFq8jTA1fdsrrmvZUbS+f
+	kz4klWIQz5GbAXP0NjHIic1jJ/RgeRGggSN72K4B89zR2Rd1sLkF3mOYpU0RzUn0LGsnyQ1QNJU
+	mjOSZ5cxR0hEh0gKr3b9kyjF3IJbBUxHvpQJ8txTropHXhsAGWQEG3IqHc828+aLV8oZrIWEpIl
+	72Io5UEdxw/TCSoQKdgpaoIWoIykSdkXLpkagvwVYomfOiDi5ppWuuqN0WbkiyRB8Bmh15SMw0E
+	rkSaU/nNil9m9iPO5GF0wA7dNGrpcxuhaVyqbim8PQQ0igiEnuHxJdAKBIO8f8W7EbCzml10gd8
+	UKFqiWbeQD0ckunkCXSI/mHnAQyD+2V9/vISnPMvOJmtELkwEdT9ZmCYRB008PfR8Nqlqx7pXBJ
+	r3n0vCdi1JZuBXz0m0Kb6V5Oq0fTgePom0cGKMYwYXRiqS9xNDp//ymgwRB//HJ5DYgLGPutX6y
+	VohDT0fasSRBlvu9l+lKZjenxGt3V/8130fG1Ij2R2eDY2X9wg==
+X-Received: by 2002:a05:690c:6f83:b0:8b0:c5fe:db0f with SMTP id
+ 00721157ae682-8b0f21ae895mr31817117b3.23.1792461971133; Mon, 19 Oct 2026
+ 19:06:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20261019112517.1676091-1-martin.jansa@gmail.com>
-In-Reply-To: <20261019112517.1676091-1-martin.jansa@gmail.com>
+References: <20261019145837.2487873-1-ross.burton@arm.com> <20261019145837.2487873-5-ross.burton@arm.com>
+In-Reply-To: <20261019145837.2487873-5-ross.burton@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 19 Oct 2026 18:42:11 -0700
-X-Gm-Features: AclHuK-LH3Qu13xj5belssQO8PsRGdFiDSbN8vy9aM4h9U8MLKhVasi7Iz9FH-w
-Message-ID: <CAMKF1spvKRgTtCqFwmcvRYQZgTLBt0XAcx7Dce2cznx9iAP6QQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] clang: use Release instead of MinSizeRel
-To: martin.jansa@gmail.com
-Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com, 
-	mark.yang@lge.com
-Content-Type: multipart/alternative; boundary="000000000000d81d03065e3bbed8"
+Date: Mon, 19 Oct 2026 19:05:43 -0700
+X-Gm-Features: AclHuK-jgUfOg5hM4xR9sLDMTcmZYMBL6uZRrE7dvBGVtQxpttykYZtEr1Hdd7w
+Message-ID: <CAMKF1sqsb4DZKk49wj7+z34PWA67huhLAz7R-1btDWhz4+Wbvg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/6] lib/oe/package: use elfutils instead of
+ objdump to extract SONAME etc
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000101f66065e3c13d6"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 01:42:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248210
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 02:06:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248211
 
---000000000000d81d03065e3bbed8
+--000000000000101f66065e3c13d6
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 19, 2026 at 4:25=E2=80=AFAM Martin Jansa via lists.openembedded=
-.org
-<martin.jansa=3Dgmail.com@lists.openembedded.org> wrote:
+This is a neat change. How closely does elfutils follow standards compared
+to binutils I wonder, so we know to be aware when new stuff gets added to
+ELF files
 
-> From: Martin Jansa <martin.jansa@gmail.com>
->
-> It was changed in:
->
-> https://git.openembedded.org/openembedded-core/commit/?id=3Dea9b33f7c12f7=
-73830ec860ae817a3ed1368612b
-> to save the disk space, but the build time impact is significant.
->
-> Both llvm and clang recipes are now using MinSizeRel, but the build time
-> impact is significant mostly from clang recipes and also the disk space
-> is affected more by llvm, than clang. So change the default only for
-> clang recipe. In theory we could use Release only for clang-native and
-> leave MinSizeRel for target clang (assuming that most people don't do
-> many demanding builds on target, but that won't be true for something
-> like build appliance built with OE).
->
-> chromium-x11.do_compile time with 64 thread AMD Threadripper 3970x
-> increased by 80% from 6930s to 12300s, measured in wrynose release.
->
-> With current master chromium-x11.do_compile time is also around 80%
-> slower compared to both using Release or 66.6% slower compared to
-> clang using Release:
->
-> MinSizeRel in both clang and llvm:
-> 20.09user 2.56system 3:05:09elapsed 0%CPU (0avgtext+0avgdata
-> 58500maxresident)k
->
-> MinSizeRel in llvm, Release in clang:
-> 18.82user 2.61system 1:51:40elapsed 0%CPU (0avgtext+0avgdata
-> 58776maxresident)k
->
-> Release in both clang and llvm:
-> 18.83user 2.59system 1:45:32elapsed 0%CPU (0avgtext+0avgdata
-> 59424maxresident)k
->
-> sstate-cache size after building core-image-sato with
-> PREFERRED_TOOLCHAIN_TARGET =3D "clang"
-> and target clang included as well as chromium-x11 in the image:
->
-> increased by less than 2% (137MB):
-> 8988    sstate-cache-MinSizeRel-both
-> 9125    sstate-cache-Release-both
->
-> populate_sysroot:
-> llvm:         14M: 175M -> 189M
-> llvm-native:  29M:  98M -> 127M
-> clang:         4M:  82M ->  86M
-> clang-native: 30M: 102M -> 132M
->
-> llvm package: 26M: 314M -> 340M
-> llvm ipk:     27M: 353M -> 380M
->
-> clang package: 3M:  89M ->  92M
-> clang ipk:     4M: 100M -> 104M
->
-> ipk package sizes:
-> 7.0M
-> tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-bin_23.1.3-r0.3_x86-64-v3.ipk
-> 87M
->  tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-dbg_23.1.3-r0.3_x86-64-v3.ipk
-> 6.5M
-> tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-dev_23.1.3-r0.3_x86-64-v3.ipk
-> 66M
->  tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-src_23.1.3-r0.3_x86-64-v3.ipk
-> 153M
-> tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-staticdev_23.1.3-r0.3_x86-64-v3.=
-ipk
-> 35M     tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm_23.1.3-r0.3_x86-64-v3.ip=
-k
->
-> 8.3M    tmp-Release/deploy/ipk/x86-64-v3/llvm-bin_23.1.3-r0.2_x86-64-v3.i=
-pk
-> 98M     tmp-Release/deploy/ipk/x86-64-v3/llvm-dbg_23.1.3-r0.2_x86-64-v3.i=
-pk
-> 6.5M    tmp-Release/deploy/ipk/x86-64-v3/llvm-dev_23.1.3-r0.2_x86-64-v3.i=
-pk
-> 66M     tmp-Release/deploy/ipk/x86-64-v3/llvm-src_23.1.3-r0.2_x86-64-v3.i=
-pk
-> 164M
-> tmp-Release/deploy/ipk/x86-64-v3/llvm-staticdev_23.1.3-r0.2_x86-64-v3.ipk
-> 41M     tmp-Release/deploy/ipk/x86-64-v3/llvm_23.1.3-r0.2_x86-64-v3.ipk
->
-> 8.8M
-> tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-dbg_23.1.3-r0.3_x86-64-v3.ipk
-> 4.3M
-> tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-dev_23.1.3-r0.3_x86-64-v3.ipk
-> 20K
->  tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-doc_23.1.3-r0.3_x86-64-v3.ipk
-> 48K
->  tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-format_23.1.3-r0.3_x86-64-v3.i=
-pk
-> 40K
->  tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-libclang-python_23.1.3-r0.3_x8=
-6-64-v3.ipk
-> 48M
->  tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-staticdev_23.1.3-r0.3_x86-64-v=
-3.ipk
-> 2.9M
-> tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-tidy_23.1.3-r0.3_x86-64-v3.ipk
-> 1.3M
-> tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-tools_23.1.3-r0.3_x86-64-v3.ipk
-> 6.1M    tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang_23.1.3-r0.3_x86-64-v3.i=
-pk
-> 18M
->  tmp-MinSizeRel/deploy/ipk/x86-64-v3/libclang-cpp23.1_23.1.3-r0.3_x86-64-=
-v3.ipk
-> 11M
->  tmp-MinSizeRel/deploy/ipk/x86-64-v3/libclang23.1_23.1.3-r0.3_x86-64-v3.i=
-pk
->
-> 7.8M
-> tmp-Release/deploy/ipk/x86-64-v3/clang-dbg_23.1.3-r0.4_x86-64-v3.ipk
-> 4.3M
-> tmp-Release/deploy/ipk/x86-64-v3/clang-dev_23.1.3-r0.4_x86-64-v3.ipk
-> 20K
->  tmp-Release/deploy/ipk/x86-64-v3/clang-doc_23.1.3-r0.4_x86-64-v3.ipk
-> 52K
->  tmp-Release/deploy/ipk/x86-64-v3/clang-format_23.1.3-r0.4_x86-64-v3.ipk
-> 40K
->  tmp-Release/deploy/ipk/x86-64-v3/clang-libclang-python_23.1.3-r0.4_x86-6=
-4-v3.ipk
-> 47M
->  tmp-Release/deploy/ipk/x86-64-v3/clang-staticdev_23.1.3-r0.4_x86-64-v3.i=
-pk
-> 3.3M
-> tmp-Release/deploy/ipk/x86-64-v3/clang-tidy_23.1.3-r0.4_x86-64-v3.ipk
-> 1.4M
-> tmp-Release/deploy/ipk/x86-64-v3/clang-tools_23.1.3-r0.4_x86-64-v3.ipk
-> 6.8M    tmp-Release/deploy/ipk/x86-64-v3/clang_23.1.3-r0.4_x86-64-v3.ipk
-> 21M
->  tmp-Release/deploy/ipk/x86-64-v3/libclang-cpp23.1_23.1.3-r0.4_x86-64-v3.=
-ipk
-> 13M
->  tmp-Release/deploy/ipk/x86-64-v3/libclang23.1_23.1.3-r0.4_x86-64-v3.ipk
->
->
-I expected some impact on clang's performance and the changes were
-targeted more at clang as
-embedded library for other packages like mesa but this meant that clang as
-a static compiler would
-take the hit and its evident from numbers you published, so distos and
-recipes with TOOLCHAIN =3D "clang"
- are most impacted. I also wonder if we use different opt levels for clang
-and llvm then are we
-going into new combination thats least tested in clang/llvm community but
-leaving that concern aside
-I think this change is good, I would have asked to make it a packageconfig
-but since there are packages
-like chromium which enforce clang, we will not benefit as much
+On Mon, Oct 19, 2026 at 7:58=E2=80=AFAM Ross Burton via lists.openembedded.=
+org
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> Currently the process_shlibs() function uses OBJDUMP (typically, objdump
+> from binutils) to extract the NEEDED/SONAME/RPATH values from the ELF.
+>
+> However, there is no explicit dependency on binutils in do_package,
+> instead it comes into the sysroot via the default toolchain dependencies
+> in do_configure, so a recipe that does INHIBIT_DEFAULT_DEPS and also
+> packages an executable file will try and then fail to run objdump.
+>
+> Currently this error is silently ignored, which is acceptable if the
+> executable is a script, but if the recipe contains ELFs without ever
+> depending on binutils (precompiled, or a different toolchain) then the
+> shlibs code won't actually run correctly.
+>
+> do_package() already depends on elfutils-native for eu-srcfiles, so
+> switch the code to use eu-readelf instead.
+>
+> Also use subprocess.run() with a command list instead of a string to
+> os.popen().  The os.popen() code didn't have any error handling meaning
+> it silently ignored both "objdump not found" and "file is not ELF", we
+> can assume that eu-readelf exists but we still need to absorb errors
+> from not passing a valid ELF.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  meta/recipes-devtools/clang/clang_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/lib/oe/package.py | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/clang/clang_git.bb
-> b/meta/recipes-devtools/clang/clang_git.bb
-> index 3b93f0d02c..90076f9d6d 100644
-> --- a/meta/recipes-devtools/clang/clang_git.bb
-> +++ b/meta/recipes-devtools/clang/clang_git.bb
-> @@ -60,7 +60,7 @@ EXTRA_OECMAKE +=3D "-DLLVM_ENABLE_ASSERTIONS=3DOFF \
->                    -DFFI_INCLUDE_DIR=3D$(pkg-config --variable=3Dincluded=
-ir
-> libffi) \
->                    -DLLVM_BUILD_EXTERNAL_COMPILER_RT=3DON \
->                    -DCMAKE_SYSTEM_NAME=3DLinux \
-> -                  -DCMAKE_BUILD_TYPE=3DMinSizeRel \
-> +                  -DCMAKE_BUILD_TYPE=3DRelease \
->                    -DLLVM_VERSION_SUFFIX=3D'${VER_SUFFIX}' \
->                    -DLLVM_CMAKE_DIR=3D${STAGING_LIBDIR}/cmake/llvm \
->                    -DLLVM_NATIVE_TOOL_DIR=3D${STAGING_BINDIR_NATIVE} \
+> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+> index 8ecb2555f3a..e706e359cc3 100644
+> --- a/meta/lib/oe/package.py
+> +++ b/meta/lib/oe/package.py
+> @@ -1654,23 +1654,24 @@ def process_shlibs(pkgfiles, d):
+>          needed =3D set()
+>          sonames =3D set()
+>          ldir =3D os.path.dirname(file).replace(pkgdest + "/" + pkg, '')
+> -        cmd =3D d.getVar('OBJDUMP') + " -p " + shlex.quote(file) + "
+> 2>/dev/null"
+> -        fd =3D os.popen(cmd)
+> -        lines =3D fd.readlines()
+> -        fd.close()
+>          rpath =3D tuple()
+> +        cmd =3D ["eu-readelf", "--dynamic", file]
+> +        # Don't check for errors as we may be passed non-ELF
+> +        ret =3D subprocess.run(cmd, capture_output=3DTrue, text=3DTrue)
+> +
+> +        lines =3D ret.stdout.splitlines()
+>          for l in lines:
+> -            m =3D re.match(r"\s+RPATH\s+([^\s]*)", l)
+> +            m =3D re.match(r"\s+RPATH\s+.+\[(.+)\]", l)
+>              if m:
+>                  rpaths =3D m.group(1).replace("$ORIGIN", ldir).split(":"=
+)
+>                  rpath =3D tuple(map(os.path.normpath, rpaths))
+>          for l in lines:
+> -            m =3D re.match(r"\s+NEEDED\s+([^\s]*)", l)
+> +            m =3D re.match(r"\s+NEEDED\s+.+\[(.+)\]", l)
+>              if m:
+>                  dep =3D m.group(1)
+>                  if dep not in needed:
+>                      needed.add((dep, file, rpath))
+> -            m =3D re.match(r"\s+SONAME\s+([^\s]*)", l)
+> +            m =3D re.match(r"\s+SONAME\s+.+\[(.+)\]", l)
+>              if m:
+>                  this_soname =3D m.group(1)
+>                  prov =3D (this_soname, ldir, pkgver)
+> --
+> 2.43.0
+>
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#248158):
-> https://lists.openembedded.org/g/openembedded-core/message/248158
-> Mute This Topic: https://lists.openembedded.org/mt/121829223/1997914
+> View/Reply Online (#248187):
+> https://lists.openembedded.org/g/openembedded-core/message/248187
+> Mute This Topic: https://lists.openembedded.org/mt/121833072/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > raj.khem@gmail.com]
@@ -275,205 +176,116 @@ ir
 >
 >
 
---000000000000d81d03065e3bbed8
+--000000000000101f66065e3c13d6
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 19,=
- 2026 at 4:25=E2=80=AFAM Martin Jansa via <a href=3D"http://lists.openembed=
-ded.org">lists.openembedded.org</a> &lt;martin.jansa=3D<a href=3D"mailto:gm=
-ail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Marti=
-n Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">mar=
-tin.jansa@gmail.com</a>&gt;<br>
+<div dir=3D"ltr">This is a neat change. How closely does elfutils follow st=
+andards compared to binutils=C2=A0I wonder, so we know to be aware when new=
+ stuff gets added to ELF files=C2=A0</div><br><div class=3D"gmail_quote gma=
+il_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 19, 2=
+026 at 7:58=E2=80=AFAM Ross Burton via <a href=3D"http://lists.openembedded=
+.org">lists.openembedded.org</a> &lt;ross.burton=3D<a href=3D"mailto:arm.co=
+m@lists.openembedded.org">arm.com@lists.openembedded.org</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">Currently the proce=
+ss_shlibs() function uses OBJDUMP (typically, objdump<br>
+from binutils) to extract the NEEDED/SONAME/RPATH values from the ELF.<br>
 <br>
-It was changed in:<br>
-<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3Dea9b=
-33f7c12f773830ec860ae817a3ed1368612b" rel=3D"noreferrer" target=3D"_blank">=
-https://git.openembedded.org/openembedded-core/commit/?id=3Dea9b33f7c12f773=
-830ec860ae817a3ed1368612b</a><br>
-to save the disk space, but the build time impact is significant.<br>
-<br>
-Both llvm and clang recipes are now using MinSizeRel, but the build time<br=
+However, there is no explicit dependency on binutils in do_package,<br>
+instead it comes into the sysroot via the default toolchain dependencies<br=
 >
-impact is significant mostly from clang recipes and also the disk space<br>
-is affected more by llvm, than clang. So change the default only for<br>
-clang recipe. In theory we could use Release only for clang-native and<br>
-leave MinSizeRel for target clang (assuming that most people don&#39;t do<b=
-r>
-many demanding builds on target, but that won&#39;t be true for something<b=
-r>
-like build appliance built with OE).<br>
+in do_configure, so a recipe that does INHIBIT_DEFAULT_DEPS and also<br>
+packages an executable file will try and then fail to run objdump.<br>
 <br>
-chromium-x11.do_compile time with 64 thread AMD Threadripper 3970x<br>
-increased by 80% from 6930s to 12300s, measured in wrynose release.<br>
+Currently this error is silently ignored, which is acceptable if the<br>
+executable is a script, but if the recipe contains ELFs without ever<br>
+depending on binutils (precompiled, or a different toolchain) then the<br>
+shlibs code won&#39;t actually run correctly.<br>
 <br>
-With current master chromium-x11.do_compile time is also around 80%<br>
-slower compared to both using Release or 66.6% slower compared to<br>
-clang using Release:<br>
+do_package() already depends on elfutils-native for eu-srcfiles, so<br>
+switch the code to use eu-readelf instead.<br>
 <br>
-MinSizeRel in both clang and llvm:<br>
-20.09user 2.56system 3:05:09elapsed 0%CPU (0avgtext+0avgdata 58500maxreside=
-nt)k<br>
+Also use subprocess.run() with a command list instead of a string to<br>
+os.popen().=C2=A0 The os.popen() code didn&#39;t have any error handling me=
+aning<br>
+it silently ignored both &quot;objdump not found&quot; and &quot;file is no=
+t ELF&quot;, we<br>
+can assume that eu-readelf exists but we still need to absorb errors<br>
+from not passing a valid ELF.<br>
 <br>
-MinSizeRel in llvm, Release in clang:<br>
-18.82user 2.61system 1:51:40elapsed 0%CPU (0avgtext+0avgdata 58776maxreside=
-nt)k<br>
-<br>
-Release in both clang and llvm:<br>
-18.83user 2.59system 1:45:32elapsed 0%CPU (0avgtext+0avgdata 59424maxreside=
-nt)k<br>
-<br>
-sstate-cache size after building core-image-sato with<br>
-PREFERRED_TOOLCHAIN_TARGET =3D &quot;clang&quot;<br>
-and target clang included as well as chromium-x11 in the image:<br>
-<br>
-increased by less than 2% (137MB):<br>
-8988=C2=A0 =C2=A0 sstate-cache-MinSizeRel-both<br>
-9125=C2=A0 =C2=A0 sstate-cache-Release-both<br>
-<br>
-populate_sysroot:<br>
-llvm:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A014M: 175M -&gt; 189M<br>
-llvm-native:=C2=A0 29M:=C2=A0 98M -&gt; 127M<br>
-clang:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A04M:=C2=A0 82M -&gt;=C2=A0 86M<br>
-clang-native: 30M: 102M -&gt; 132M<br>
-<br>
-llvm package: 26M: 314M -&gt; 340M<br>
-llvm ipk:=C2=A0 =C2=A0 =C2=A027M: 353M -&gt; 380M<br>
-<br>
-clang package: 3M:=C2=A0 89M -&gt;=C2=A0 92M<br>
-clang ipk:=C2=A0 =C2=A0 =C2=A04M: 100M -&gt; 104M<br>
-<br>
-ipk package sizes:<br>
-7.0M=C2=A0 =C2=A0 tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-bin_23.1.3-r0.3_=
-x86-64-v3.ipk<br>
-87M=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-dbg_23.1.3-=
-r0.3_x86-64-v3.ipk<br>
-6.5M=C2=A0 =C2=A0 tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-dev_23.1.3-r0.3_=
-x86-64-v3.ipk<br>
-66M=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-src_23.1.3-=
-r0.3_x86-64-v3.ipk<br>
-153M=C2=A0 =C2=A0 tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm-staticdev_23.1.3=
--r0.3_x86-64-v3.ipk<br>
-35M=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/llvm_23.1.3-r0.3=
-_x86-64-v3.ipk<br>
-<br>
-8.3M=C2=A0 =C2=A0 tmp-Release/deploy/ipk/x86-64-v3/llvm-bin_23.1.3-r0.2_x86=
--64-v3.ipk<br>
-98M=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/llvm-dbg_23.1.3-r0.=
-2_x86-64-v3.ipk<br>
-6.5M=C2=A0 =C2=A0 tmp-Release/deploy/ipk/x86-64-v3/llvm-dev_23.1.3-r0.2_x86=
--64-v3.ipk<br>
-66M=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/llvm-src_23.1.3-r0.=
-2_x86-64-v3.ipk<br>
-164M=C2=A0 =C2=A0 tmp-Release/deploy/ipk/x86-64-v3/llvm-staticdev_23.1.3-r0=
-.2_x86-64-v3.ipk<br>
-41M=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/llvm_23.1.3-r0.2_x8=
-6-64-v3.ipk<br>
-<br>
-8.8M=C2=A0 =C2=A0 tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-dbg_23.1.3-r0.3=
-_x86-64-v3.ipk<br>
-4.3M=C2=A0 =C2=A0 tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-dev_23.1.3-r0.3=
-_x86-64-v3.ipk<br>
-20K=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-doc_23.1.3=
--r0.3_x86-64-v3.ipk<br>
-48K=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-format_23.=
-1.3-r0.3_x86-64-v3.ipk<br>
-40K=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-libclang-p=
-ython_23.1.3-r0.3_x86-64-v3.ipk<br>
-48M=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-staticdev_=
-23.1.3-r0.3_x86-64-v3.ipk<br>
-2.9M=C2=A0 =C2=A0 tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-tidy_23.1.3-r0.=
-3_x86-64-v3.ipk<br>
-1.3M=C2=A0 =C2=A0 tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang-tools_23.1.3-r0=
-.3_x86-64-v3.ipk<br>
-6.1M=C2=A0 =C2=A0 tmp-MinSizeRel/deploy/ipk/x86-64-v3/clang_23.1.3-r0.3_x86=
--64-v3.ipk<br>
-18M=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/libclang-cpp23.1=
-_23.1.3-r0.3_x86-64-v3.ipk<br>
-11M=C2=A0 =C2=A0 =C2=A0tmp-MinSizeRel/deploy/ipk/x86-64-v3/libclang23.1_23.=
-1.3-r0.3_x86-64-v3.ipk<br>
-<br>
-7.8M=C2=A0 =C2=A0 tmp-Release/deploy/ipk/x86-64-v3/clang-dbg_23.1.3-r0.4_x8=
-6-64-v3.ipk<br>
-4.3M=C2=A0 =C2=A0 tmp-Release/deploy/ipk/x86-64-v3/clang-dev_23.1.3-r0.4_x8=
-6-64-v3.ipk<br>
-20K=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/clang-doc_23.1.3-r0=
-.4_x86-64-v3.ipk<br>
-52K=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/clang-format_23.1.3=
--r0.4_x86-64-v3.ipk<br>
-40K=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/clang-libclang-pyth=
-on_23.1.3-r0.4_x86-64-v3.ipk<br>
-47M=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/clang-staticdev_23.=
-1.3-r0.4_x86-64-v3.ipk<br>
-3.3M=C2=A0 =C2=A0 tmp-Release/deploy/ipk/x86-64-v3/clang-tidy_23.1.3-r0.4_x=
-86-64-v3.ipk<br>
-1.4M=C2=A0 =C2=A0 tmp-Release/deploy/ipk/x86-64-v3/clang-tools_23.1.3-r0.4_=
-x86-64-v3.ipk<br>
-6.8M=C2=A0 =C2=A0 tmp-Release/deploy/ipk/x86-64-v3/clang_23.1.3-r0.4_x86-64=
--v3.ipk<br>
-21M=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/libclang-cpp23.1_23=
-.1.3-r0.4_x86-64-v3.ipk<br>
-13M=C2=A0 =C2=A0 =C2=A0tmp-Release/deploy/ipk/x86-64-v3/libclang23.1_23.1.3=
--r0.4_x86-64-v3.ipk<br>
-<br></blockquote><div><br></div><div>I expected some impact on clang&#39;s =
-performance and the changes were targeted=C2=A0more at clang as</div><div>e=
-mbedded library for other packages like mesa but this meant that clang as a=
- static=C2=A0compiler would</div><div>take the hit and its=C2=A0evident fro=
-m numbers you published, so distos and recipes with TOOLCHAIN =3D &quot;cla=
-ng&quot;</div><div>=C2=A0are most impacted. I also wonder if we use differe=
-nt opt levels for clang and llvm then are we</div><div>going into new combi=
-nation thats least tested in clang/llvm community but leaving that concern =
-aside</div><div>I think this change is good, I would have asked to make it =
-a packageconfig but since there are packages</div><div>like chromium which =
-enforce clang, we will not benefit as much</div><div><br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" t=
-arget=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-devtools/clang/<a href=3D"http://clang_git.bb" rel=3D"no=
-referrer" target=3D"_blank">clang_git.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0meta/lib/oe/package.py | 15 ++++++++-------<br>
+=C2=A01 file changed, 8 insertions(+), 7 deletions(-)<br>
 <br>
-diff --git a/meta/recipes-devtools/clang/<a href=3D"http://clang_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">clang_git.bb</a> b/meta/recipes-devtools=
-/clang/<a href=3D"http://clang_git.bb" rel=3D"noreferrer" target=3D"_blank"=
->clang_git.bb</a><br>
-index 3b93f0d02c..90076f9d6d 100644<br>
---- a/meta/recipes-devtools/clang/<a href=3D"http://clang_git.bb" rel=3D"no=
-referrer" target=3D"_blank">clang_git.bb</a><br>
-+++ b/meta/recipes-devtools/clang/<a href=3D"http://clang_git.bb" rel=3D"no=
-referrer" target=3D"_blank">clang_git.bb</a><br>
-@@ -60,7 +60,7 @@ EXTRA_OECMAKE +=3D &quot;-DLLVM_ENABLE_ASSERTIONS=3DOFF \=
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py<br>
+index 8ecb2555f3a..e706e359cc3 100644<br>
+--- a/meta/lib/oe/package.py<br>
++++ b/meta/lib/oe/package.py<br>
+@@ -1654,23 +1654,24 @@ def process_shlibs(pkgfiles, d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0needed =3D set()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sonames =3D set()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ldir =3D os.path.dirname(file).replace(pk=
+gdest + &quot;/&quot; + pkg, &#39;&#39;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D d.getVar(&#39;OBJDUMP&#39;) + &quot; -=
+p &quot; + shlex.quote(file) + &quot; 2&gt;/dev/null&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D os.popen(cmd)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 lines =3D fd.readlines()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd.close()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rpath =3D tuple()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D [&quot;eu-readelf&quot;, &quot;--dynam=
+ic&quot;, file]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Don&#39;t check for errors as we may be pass=
+ed non-ELF<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D subprocess.run(cmd, capture_output=3DT=
+rue, text=3DTrue)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lines =3D ret.stdout.splitlines()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for l in lines:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D re.match(r&quot;\s+RPATH\s=
++([^\s]*)&quot;, l)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D re.match(r&quot;\s+RPATH\s=
++.+\[(.+)\]&quot;, l)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if m:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rpaths =3D m.=
+group(1).replace(&quot;$ORIGIN&quot;, ldir).split(&quot;:&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rpath =3D tup=
+le(map(os.path.normpath, rpaths))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for l in lines:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D re.match(r&quot;\s+NEEDED\=
+s+([^\s]*)&quot;, l)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D re.match(r&quot;\s+NEEDED\=
+s+.+\[(.+)\]&quot;, l)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if m:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dep =3D m.gro=
+up(1)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if dep not in=
+ needed:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0needed.add((dep, file, rpath))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D re.match(r&quot;\s+SONAME\=
+s+([^\s]*)&quot;, l)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D re.match(r&quot;\s+SONAME\=
+s+.+\[(.+)\]&quot;, l)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if m:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0this_soname =
+=3D m.group(1)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prov =3D (thi=
+s_soname, ldir, pkgver)<br>
+-- <br>
+2.43.0<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DFFI_=
-INCLUDE_DIR=3D$(pkg-config --variable=3Dincludedir libffi) \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DLLVM=
-_BUILD_EXTERNAL_COMPILER_RT=3DON \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DCMAK=
-E_SYSTEM_NAME=3DLinux \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DCMAKE_BUI=
-LD_TYPE=3DMinSizeRel \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DCMAKE_BUI=
-LD_TYPE=3DRelease \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DLLVM=
-_VERSION_SUFFIX=3D&#39;${VER_SUFFIX}&#39; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DLLVM=
-_CMAKE_DIR=3D${STAGING_LIBDIR}/cmake/llvm \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DLLVM=
-_NATIVE_TOOL_DIR=3D${STAGING_BINDIR_NATIVE} \<br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#248158): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/248158" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/248158</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121829223/199=
+View/Reply Online (#248187): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/248187" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/248187</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121833072/199=
 7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/121829223/1997914</a><br>
+t/121833072/1997914</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -483,6 +295,6 @@ g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
 =3D"_blank">raj.khem@gmail.com</a>]<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
-</blockquote></div></div>
+</blockquote></div>
 
---000000000000d81d03065e3bbed8--
+--000000000000101f66065e3c13d6--
