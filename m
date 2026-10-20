@@ -1,131 +1,289 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10523.1792510399560628347
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10684.1792510811393093740
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 08:33:19 -0700
+ Tue, 20 Oct 2026 08:40:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=V3nYikra;
- spf=pass (domain: est.tech, ip: 52.101.84.45, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ss2fsnsqn0PF1YjTJCauEatzDZALsI+mF+h6zuQZlamUKyyySTq65Hi2ZR9RpYfpWtomJOImJYS5jLxvllL50QYdbPP89zCSJeKTVwr8MrDf8HyOzZxbH4F4N1/z1vcMYPh71r49DksB4DJ0prMddG0iwq+zipdO0gf+wmITi/qOo5bBPft27YssqeAo5YdIsP1FJgETadnri5V6qW9BrO/70+kiaP8Q8NV7kQoX5Ybe8+iX8GXKB/dRE6afE5dNCEEqEcLTyF8OqNm7NpaCKZsF2B9uCe6oHyA2i6AVVk7lRhl7BolL+/DQLd2DrPNyeUu/4L4EgwdxDiQ2VKpX3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kz8dI0woA0AmBE7A3nO1XVt6yLHSihLrml6ZTxBnq8E=;
- b=VTfmYWNxp65sqUNRf3YnTnD8r+Y8LG8DJILArL5EV73i81EHOcft4/p/cpmELrbWt3v9WVHJ70ywjV4coo5zlXiw8KXDESwl6CGKiBDK4N6omMwME4ZP83/k48Zil2VzoOHbxxcIol/Vas1EV4HFSlIGRRBYumEu/3Zhcv/pKhzrOWzcL61vs76MLb7pK6+JMvYeYQxsOtAQW7x3dUDYYwEE7BDuAk25cjq5vEyMddrk7PIYGUdsMlZwfUIGyhLv/aVMJbwJS9Q63kNWy6yVCgW18+fCg2rJEqCV8Ex5C53jvcFuF6ORqAKuXxQkK1S71hngh/HcgswVVDFIvxvXdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kz8dI0woA0AmBE7A3nO1XVt6yLHSihLrml6ZTxBnq8E=;
- b=V3nYikraWdL7DvnpQLOlz+sNBUVKkccTFz2K156eHx6/aKLCioRj1Ul25xH6j8SCWZIj3+1zlke+Ru161qphDCjWHSQ7HfJBtAHBelx0xGtizWD6jfbsiZ2/+BuJuZBdWXPIVRqPq5Wtz2TH6nsvhxESOVPeVL3I/vmzo78jyiB/tfSUsS7jz0alnysWe7HRge42OvXl4zTnzIeex0XRTOf2vuygZYh5nJFPNRxLzOS51/iXtSG5Ptlh+d7hIs5LxaQMhZ9dXeoHzIDzjhd32MCP4jIKTQ9jsXJV6Hgn/96Jbk7qPOm4l3EFWeMuJ1KwI2nuozBJ070v0TVzfPqMfA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by PA1P189MB3650.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:502::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Tue, 20 Oct
- 2026 15:33:15 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0522.017; Tue, 20 Oct 2026
- 15:33:15 +0000
-Message-ID: <5d063647-f13a-48cc-afff-a2ef9688e281@est.tech>
-Date: Tue, 20 Oct 2026 17:33:14 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/7] elfutils: upgrade 0.196 -> 0.197
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org
-References: <20261020092931.4330-1-jaipaul.cheernam@est.tech>
- <20261020092931.4330-2-jaipaul.cheernam@est.tech>
- <DM9Q75SEZA82.3LDAH4WKTQUCF@bootlin.com>
-Content-Language: en-US
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-In-Reply-To: <DM9Q75SEZA82.3LDAH4WKTQUCF@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0044.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::13) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=AtuuRL3T;
+ spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8ac4806e210so23086477b3.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 08:40:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792510810; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I8lW8TaogTFvwcW1dHoY5QSGtX9GSisGnSPWzEP80+Lcy6LgQhpn3T8uvFzw0rMYMY
+         3OhiNSvQ5xamfKUaSb0jNUpyHhb5I/ZBvWesJ5rYXOia71Zyp/WpCnt+iv+A8jE7IVXx
+         pSZWSwjyaY/pkz6Am0oDHy210LUKR4qNL1BSBT0sY5wlFYN9yavX8CiDqNK5Sxw77VO2
+         DPN8TemIiOhFsTw3DfNjWsKUb2Nsj2OBEaTqGNwMyKJs19YSVogryy4e5mkOd0N7f6A1
+         t4ANKGTJD2Cx0SHYPN0VdWcRfQeki6G9ueMScHoRTJICHUE99z4qhIJasJUDie3IS49x
+         9zsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=XwgQEVfsJs5zwi+wH1C6KuYS1X+GUnDDv9HC2As0j3k=;
+        fh=D53iXobqCUJPE169wyPSmZF3DvfOHYm7FbZQF58V1Dc=;
+        b=B42ZyYAkgiLknr2cRbXVDXcVOzNpkbNCjydsOfiZ+gx4Tz+lB7ZKdpjAGnOSmMeiMD
+         dfQk9q10VUHqjEsPqW116AKoVjUrys6G9ozf0BbQx7o9WHqANUTktu8LTJmIh0mLVrjA
+         ndVQXfmWhK/ALqdKh0hzKtryGt+ch4pjwagYcTMTA2KDK9VGzNhx03VoQVc80Hwdpxds
+         244RX//Jgzy9ot2V6oeL8V1zII91hB9ZKIeWdrh5H7+Ce+JJZldXf0nHDwOt55YVgt6J
+         7kwBwF5jBpljeVRUuiqhH4lgsKerLuj32LDNaFGVbdR5buGKd/vlQjwIfXlFtCiVgwjx
+         OElA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792510810; x=1793115610; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XwgQEVfsJs5zwi+wH1C6KuYS1X+GUnDDv9HC2As0j3k=;
+        b=AtuuRL3TYz1D4j0eTZvjTrcb/zA6ACrqileXUiZOwArgcd7iQ2yNZI2m6vIG1OYqWi
+         Xtw8n5jWxRVgZvylAEUBVyK2a2Jr8eOlYOmEmvOpeIHOE4/oyaqRtElBvPPC/F4cfIKy
+         XG5X6xnyQ5rt8XcLrvennUCOYileKRuNlQo+WfgDVYThZBmUIfytBFB3BcmjeZ9ue2sV
+         gT8mP3h/M8UNz7IDK10HJMZ5bd2qv0y74CBVcLzXDNd6nTEkvle4K4oQCjLJNRrCWfb+
+         BPV2pnEfXGaXG6oORUQO5e/qGO1uPZR+uM11ggmrsZnoPPu45nThxpVtaRI/KClLmD0M
+         bcmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792510810; x=1793115610;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=XwgQEVfsJs5zwi+wH1C6KuYS1X+GUnDDv9HC2As0j3k=;
+        b=k+5AzJI7D6u32YrflTHARgFMOgGhn6RsCN6aYSuG1cvPme/tOQ3In8YhOKKZgbTEZ6
+         EYMEjBjHXnd62bzinqkWOjNKMhHfmQb81x8VjcCj3/mVFacPhG4g1Z3YLB9LMmcv9ucQ
+         T8vI6EkGsRfWuMdc+MDOLuQ51Senaib7c8AT/M252u5/jQoX5rVOMC4uQlpw89vrV0qm
+         DZc2tzzga9pylhMdVluUVjrFkf0TfopK/DnX5gFaV4BLzQ3qnJHpARZSf+hRNSTmp6zI
+         gMSNKhAWhGY/lgExqsmdWw5TsQ5+27JeTND1LArX8GQiGbteHBirqUiVr4kyw6gN8iwx
+         if6w==
+X-Gm-Message-State: AFq9FYJgMi4BhGNJd3tvb4r6VPYMz8rllqeDJK7McyMCD2SWaUsweCSv
+	Tyn/E/K7lPWcNU5oRC5rnasGeQctjiU+cxStcIMTLLhdwyfFAnjO5KX/sdnfCeKz4rKzJQW9vLj
+	63Ku7ox84up6CusAKxMIceHNMyt883KE=
+X-Gm-Gg: AYBFou3SVf2EPHECQUYqIogdebeIWoxhGjIp/fdiJ18OqK7qFH+4FZH/L9UDCwJP2Kz
+	u3QX6zJsHE4Oiw8cDHTS54dz1Cv+4jlsQj793DWwm45pYvSm6SBHeLg0yIdOT7ZNeKyk/9r25MI
+	EE+KIfOccYzOCuAW49JrFNihJFs9tSNne1aPbwGni5GZov6k54zS7uS5MvfDwdgYeQJ9ElcGNi9
+	c3n8fvbuYwveRue1f5/9nZ89pt6Bmdz58pzKeJTY9vu2tNtlq+U6fKULMABmsEsUzeqLNfm46Pu
+	qiRwu0u5p4mEApvqVp36D2QNWWAdXX8Ji8VTBZtVH65Ij6xjgGxpODLulOZONnXl7W8kmwyVF9k
+	XKoxcdasJR2tt2bZvf3hvZVKXFlqfiU5bitaVjJuXyNSuvKjgt1GpD4dSTdFTL9Gw/5kCKBX5Cf
+	/v/VyE8gveGVDk1uu3/gQnjswreXDkUVgAByYNnQKKrErhVC/xJAEnKZ6mV0eTePp01J6QpwGwx
+	IptSB0vqT8Q+9SJIPTHZ0KttQ2R1rAo+fqWPEljQtfEbduqhL3gJ54xXMNKtalIoz1JBYtYUW++
+	Uux1C0JhmHxsFNu1aGJ0vGwQfTEza5+Hmlk2Dfs=
+X-Received: by 2002:a05:690c:4:b0:8b0:e238:2719 with SMTP id
+ 00721157ae682-8b0f2173795mr44611157b3.31.1792510810154; Tue, 20 Oct 2026
+ 08:40:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PA1P189MB3650:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec874e49-bccb-4826-d9a3-08df2ebf756a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|4143699003|11063799006|56012099006|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: pGJOBocAuUxEMyI/OM3oibwPo35cc5327yXDgaMqK9awBlP7s8lZvMmJmLUFc9mOrIweJ802ii+gquzqt1R9V8FrzM1irWUW5GI6l3XkfoFweJLYXMt+pzF1860Ui159frnc0pidK6gAf2OYmlmAL84LhPTRb8Gdws3Z1BTHK0mIpCzGgSr2NOgAdTx1W0jDjib6SRVbnLK3hKCdWPLfE+t0UjKaq5lAs0QTchOzhBqR5SvzHbbHkGs/GPtf16sdfsv+5UAteoVn90CvGhbukKRi5zplWtE/UiSlq473OV1GkOq7hoEgi+ycjc0Mm8B5XJG8C5SCbKdFdVlYHeJENu9R8txhN7gAoOv0P8iiHLcfnLiIkwn2+iWQUmJtnFtWFw70lK9eQ5d6f4Pqm07c4WMwCOMKTGYcoGLr+FAej0VQxMnbIlJK1QHwmtEQxWSdKVQlf/SnxJAS0J2nqs159asy3nuSia1WlLAcMgSg1mPNyamHsFOtjm24GuLrPCwfqPTtkdTMNUTb4t1ve/JjUcpIMoT1hZBpZCI1TGSLJZTyYjY+H/bbU5dvWrXPeNt343fXbkMEBG9uBE3ky3DfPbOpEBQrGfmwWhraFOFm6Wk2JFpbSB2NZZIt+Z377XGttodt3X7xX0X2vZxoV76eKCC9JxxIVa18hNAGC83Q2Fw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(4143699003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Nmc4YzJFTGtSUnUrKzd5eFQ0OTYwSkNjVEtoUnpMMTRiL0tyTW8wM0pHNlJ2?=
- =?utf-8?B?MXZ4ZUx3NGRIbUpNbDNvOStCUUZwcDlxL0ZBL2p3eXZoTkRWZzdTY0l4K2Vx?=
- =?utf-8?B?WUNrc2ErditheWVMcGMyVmxGaWJiakd1cHQ4U0VGdGJZKy9SYUZRWFJzblRx?=
- =?utf-8?B?am5rT2hhRG9DVktaZDVUcms3T3hPMC9CRW9XUUFOV1lrK1VPbDFscklVNnRk?=
- =?utf-8?B?enh3eno4aW5JeU9sLzI3SUhsREt2elJMQnI1b1lqRFpxc3NQdkRiSldZd210?=
- =?utf-8?B?UVVXQXA1Vk1td2hTMG42dGR4UmNGTGphV055NnVFaEF0dFlIaDRLTDJXczRD?=
- =?utf-8?B?b05IYWMyVDd3cXVnelFUN0RmYjZPOUdDbGNlUU1ITTM2d1Vvd0IrQ1NRWmh5?=
- =?utf-8?B?Z1BEVW9KcWgxVFFmYlpiRXdvS3Zldkw3UmxSUTNPM2h1SjRNU00xL2NaenpM?=
- =?utf-8?B?dWM5RGhFRHgxOVJSb1FWM2hGUnN6cUFaSkNqTHZrSTNKTURVZEE1bVZIN25u?=
- =?utf-8?B?WjIxd2xwaXdWTklWNzRrNEM1S0NTUGcvWlluM0dqN0tuZXc4QjBqOWl1bURk?=
- =?utf-8?B?UlEyeFN6cjJ0K2RTVGdqWkljeC9LaDFqMVZCQUN4aHpCdlVKcUU4cm9Eb3dC?=
- =?utf-8?B?RS9FNDN1WVMyei9keDBQaGNQS29RUEFhd1ZTOThROXl6blZ4K2FVRFlLNTN2?=
- =?utf-8?B?MnZ0QmFqaUxUN2hZTWlPRmRVYnhmdlJoVjY5YTlCVmxIYnFqaTBoL0ttS29W?=
- =?utf-8?B?V2gzcEp4L3BSb0xWcGIwbzJJUlVjWEdmNUtMS1BNSzBjSVNoMnlCRytTOUl4?=
- =?utf-8?B?MnpoL3cvT3ZGbG5USTVHK2x2K3g3K0tjWWc1TVlzOHl0eFVaZlVVRFlIQS83?=
- =?utf-8?B?VERBaFRkeGtSeHdhR2dQZDJLODJmNk55WjF6M0xpYWFBdEg5emFOZ0w2aUxD?=
- =?utf-8?B?WkRlWnkxY0lNTWlDaCtsYVc1SEs4cXNwaGhzbjZWZTB0QkpqamYxdmxnZXZP?=
- =?utf-8?B?eG9nMXVOdFJzU1BjOE9MR09ORkovc1NJR0s2T2piWkNqZDlKNUM4M3psdWU3?=
- =?utf-8?B?UEtGVzZnZVNyRU5TSCtlVmVsQXhIdUIwSittYzdXUk9RKzNURGRVWnNXQ05C?=
- =?utf-8?B?QnV1ZVBGSklmL1BVYVl4NC96WmJwMEhSZWhPU3h4Rm5QUTh4SXdValYwdW9I?=
- =?utf-8?B?UE15aDlTTGNKS1FMaUV3eDZydVo3RUlhWjBmaWN3b05VY1RrOGo4eVlYOVdS?=
- =?utf-8?B?RVA1MHliNkJaTkEyTE5hNlJocS96aE1nVFNqNUEzN0FhaHl2RllxMTE5emFh?=
- =?utf-8?B?VVdDaGZWVVZOMW43WVBhZEczQVovVnIyRU5IK3JQRS9jRFVFZ2l2eC9OcFF6?=
- =?utf-8?B?Y3NkL09PUnBvcVZWMUNTU3lFb05idU1ucVFmOHR3RXl4ZFVOd1Z5YlVWYkxx?=
- =?utf-8?B?aC8wakUvbEtWWmJDdnNYTXZTbUdUb1doVktJTTBBNTVYZzR4QzdnVXJGQ09x?=
- =?utf-8?B?MXlpeUpMbGRXNXgzKzdWQ0FPSzg5UUlvYlNjRW5MUEF2QmtvUmNlR1N5eEdp?=
- =?utf-8?B?VVh1YWk5R09OR3hzakdvdW1xNUZ6K09ONy9CbXRtWWJGVG0xdTFGSFJmUGdi?=
- =?utf-8?B?QzU0WWsyTXFodUhWcGV0THFIQldEQ09JOS9hZ2ZMbmVBVFQ4S1JUR0o4REpt?=
- =?utf-8?B?SVpGcXlzTUNFYmVYNm9wQ1VMNkdwK3JhNk5IdFFyLzVjZ0lzbkNNR0VRRyth?=
- =?utf-8?B?TUN2NDhuUWJ2WXdOcUhJNVhsRm95a2dRc0xDWlRxZU4vTW9uSktOUk5QV2hB?=
- =?utf-8?B?OWJ5N3Bsblk3SXE0SzdCS0IyOHMzR0hYUVVMV0NOdnRyVnFJNm5hcmpWckJn?=
- =?utf-8?B?RlVXUXFyVUo5Y2Z2eGlYbVVMY253Rlg2blB1bmw4eHd0dDlGS3hnVFdPaDJY?=
- =?utf-8?B?M0IxQXg1dU1kaEdqL29aRU5keHdKaWxoSFIxZ2EzYzVDWWxwR0RCT25zQjJ4?=
- =?utf-8?B?Z0VhQmo5UmVUQnkyTzNCNTA3Z2lSdDFPSzloRmRKK0tJdmRhNzNoU3pJRWR1?=
- =?utf-8?B?cWcvRjJ5VGFraEpRbDFRMjVLdmw0cHp0RmZmeDMza0VyYUg5dVNCVWpSd0Nn?=
- =?utf-8?B?cWlnMjkvRzB2RUxKYlFkVUlhQWxlZ3l5dkJPeUwrWHhnSjB3Vkora3lkc1Na?=
- =?utf-8?B?VFVRV0NEUkwveE5OeDhWakhKQmcvVlVZckJIMjI0NGY2dFVIYjhXZ3piTk11?=
- =?utf-8?B?d0xib2Rlcmpxc29WcmFEUFFGaE8wL1VFTVlvc2xaL0syN01VdW56bXRsckYy?=
- =?utf-8?B?MmxQSk81L05oMXljMW9SbEF0OHFmK2VBR250OTFjazNpSHlYUGRRUT09?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec874e49-bccb-4826-d9a3-08df2ebf756a
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 15:33:15.4502
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xqe0ANxTd7UCeJmsJgX4pUS0aEu/jkC3crOV3jybiy9hGqMijBm+RSqx/j7ZGPLZkDbLbENy6zXuH5/KuzRdq/7NQ/ErJ00p2SGQma0x8/c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P189MB3650
+References: <20261008090135.1485765-1-vanusuri@mvista.com> <2200835.1792497913489677566@lists.openembedded.org>
+In-Reply-To: <2200835.1792497913489677566@lists.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 20 Oct 2026 08:39:44 -0700
+X-Gm-Features: AclHuK9lex1QBigQNujH4F0bRzRd2yCCXVcNqavgVGHA8QNdLeGWCqrG_YjsxKI
+Message-ID: <CAMKF1srPKNJzj=-yz2hU-KoqnfeznWtWe0w0j7DfY2cjvcaieg@mail.gmail.com>
+Subject: Re: [OE-core] [patch] python3: upgrade 3.14.7 -> 3.14.8
+To: dkelaiya@cisco.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000001869b8065e47727b"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 15:33:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248303
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 15:40:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248304
+
+--0000000000001869b8065e47727b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 20, 2026 at 5:05=E2=80=AFAM Darsh Kelaiya -X (dkelaiya - E INFO=
+CHIPS
+PRIVATE LIMITED at Cisco) via lists.openembedded.org <dkelaiya=3D
+cisco.com@lists.openembedded.org> wrote:
+
+> Hello Vijay, Ross,
+>
+> I reviewed the 3.14.8 upgrade. The downloaded source tarball=E2=80=99s SH=
+A-256
+> matches the recipe, and the retained source patches apply without fuzz.
+>
+> Following Ross=E2=80=99s upstream report [1], I inspected libedit=E2=80=
+=99s history append
+> path. append_history() opens the file with fopen(filename, "a"), and
+> history_save_fp() writes the _HiStOrY_V2_ header whenever ftell() returns
+> zero.
+>
+> If the append stream initially reports offset zero on musl, this would
+> cause another header to be appended to an existing history file. That is
+> consistent with the reported result where the header appears as a history
+> entry after truncation.
+>
+> This suggests a history handling issue that needs investigation before
+> deciding whether a test skip is appropriate. Could you check whether
+> explicitly positioning the append stream at EOF before saving resolves th=
+e
+> failure, and share the result in the upstream issue?
+>
+> This analysis is based on source inspection. I have not independently
+> reproduced the musl failure.
+>
+> [1] https://github.com/python/cpython/issues/159424
+>
+
+I wonder why you did not look into the fix
+
+https://github.com/python/cpython/pull/157165
+
+which is also posted in the above
+bug report. Does this fix the issue ?
 
 
-On 2026-10-20 16:13, Mathieu Dubois-Briand wrote:
-> The log in there is really verbose. I hope you can extract some useful
-> data from these few thousand lines of ptest log.
+>
+>
+> Thanks,
+> Darsh
+>
+> On Thu, Oct 8, 2026 at 02:31 PM, Vijay Anusuri wrote:
+>
+> Release information:
+> * https://www.python.org/downloads/release/python-3148/
+> * Python 3.14.8 is an expedited security release and the eighth
+> maintenance release of 3.14, containing around 354 bugfixes, build
+> improvements and documentation changes from 142 contributors since 3.14.7=
+.
+>
+> Handles CVE-2026-19445 CVE-2026-19553 CVE-2026-19672 CVE-2026-15310
+> CVE-2026-15806 CVE-2026-17084
+>
+> Changelog:
+> https://docs.python.org/3/whatsnew/changelog.html#python-3-14-8-final
+>
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> ---
+> .../python/{python3_3.14.7.bb =3D> python3_3.14.8.bb} | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+> rename meta/recipes-devtools/python/{python3_3.14.7.bb =3D>
+> python3_3.14.8.bb} (99%)
+>
+> diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb
+> b/meta/recipes-devtools/python/python3_3.14.8.bb
+> similarity index 99%
+> rename from meta/recipes-devtools/python/python3_3.14.7.bb
+> rename to meta/recipes-devtools/python/python3_3.14.8.bb
+> index f917edebd8..4663ee85cd 100644
+> --- a/meta/recipes-devtools/python/python3_3.14.7.bb
+> +++ b/meta/recipes-devtools/python/python3_3.14.8.bb
+> @@ -30,7 +30,7 @@ SRC_URI:append:class-native =3D " \
+> file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+> "
+>
+> -SRC_URI[sha256sum] =3D
+> "3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81"
+> +SRC_URI[sha256sum] =3D
+> "c2215904f02b175596dc49351585104f4bc20341e1c47378b26a2c274360ce73"
+>
+> # exclude pre-releases for both python 2.x and 3.x
+> UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#248274):
+> https://lists.openembedded.org/g/openembedded-core/message/248274
+> Mute This Topic: https://lists.openembedded.org/mt/121652032/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-Hi Mathieu,
+--0000000000001869b8065e47727b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Able to identify the problem and verified locally and sent v2.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 20,=
+ 2026 at 5:05=E2=80=AFAM Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE L=
+IMITED at Cisco) via <a href=3D"http://lists.openembedded.org">lists.openem=
+bedded.org</a> &lt;dkelaiya=3D<a href=3D"mailto:cisco.com@lists.openembedde=
+d.org">cisco.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><div>Hello Vijay, Ross,<br><br>I rev=
+iewed the 3.14.8 upgrade. The downloaded source tarball=E2=80=99s SHA-256 m=
+atches the recipe, and the retained source patches apply without fuzz.<br><=
+br>Following Ross=E2=80=99s upstream report [1], I inspected libedit=E2=80=
+=99s history append path. append_history() opens the file with fopen(filena=
+me, &quot;a&quot;), and history_save_fp() writes the _HiStOrY_V2_ header wh=
+enever ftell() returns zero.<br><br>If the append stream initially reports =
+offset zero on musl, this would cause another header to be appended to an e=
+xisting history file. That is consistent with the reported result where the=
+ header appears as a history entry after truncation.<br><br>This suggests a=
+ history handling issue that needs investigation before deciding whether a =
+test skip is appropriate. Could you check whether explicitly positioning th=
+e append stream at EOF before saving resolves the failure, and share the re=
+sult in the upstream issue?</div>
+<div>=C2=A0</div>
+<div>This analysis is based on source inspection. I have not independently =
+reproduced the musl failure.</div>
+<div><br>[1] <a href=3D"https://github.com/python/cpython/issues/159424" re=
+l=3D"noopener" target=3D"_blank">https://github.com/python/cpython/issues/1=
+59424</a></div></blockquote><div><br></div><div>I wonder why you did not lo=
+ok into the fix=C2=A0</div><div><br></div><div><a href=3D"https://github.co=
+m/python/cpython/pull/157165">https://github.com/python/cpython/pull/157165=
+</a>=C2=A0</div><div><br></div><div>which is also posted in the above</div>=
+<div>bug report. Does this fix the issue ?</div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex"><div><br><br>Thanks,<br>Darsh</div>
+<div>=C2=A0</div>
+<div>On Thu, Oct 8, 2026 at 02:31 PM, Vijay Anusuri wrote:</div>
+<div>
+<blockquote>Release information:<br>* <a href=3D"https://www.python.org/dow=
+nloads/release/python-3148/" rel=3D"noopener" target=3D"_blank">https://www=
+.python.org/downloads/release/python-3148/</a><br>* Python 3.14.8 is an exp=
+edited security release and the eighth maintenance release of 3.14, contain=
+ing around 354 bugfixes, build improvements and documentation changes from =
+142 contributors since 3.14.7.<br><br>Handles CVE-2026-19445 CVE-2026-19553=
+ CVE-2026-19672 CVE-2026-15310<br>CVE-2026-15806 CVE-2026-17084<br><br>Chan=
+gelog: <a href=3D"https://docs.python.org/3/whatsnew/changelog.html#python-=
+3-14-8-final" rel=3D"noopener" target=3D"_blank">https://docs.python.org/3/=
+whatsnew/changelog.html#python-3-14-8-final</a><br><br>Signed-off-by: Vijay=
+ Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=3D"_blank">vanus=
+uri@mvista.com</a>&gt;<br>---<br>.../python/{<a href=3D"http://python3_3.14=
+.7.bb" target=3D"_blank">python3_3.14.7.bb</a> =3D&gt; <a href=3D"http://py=
+thon3_3.14.8.bb" target=3D"_blank">python3_3.14.8.bb</a>} | 2 +-<br>1 file =
+changed, 1 insertion(+), 1 deletion(-)<br>rename meta/recipes-devtools/pyth=
+on/{<a href=3D"http://python3_3.14.7.bb" target=3D"_blank">python3_3.14.7.b=
+b</a> =3D&gt; <a href=3D"http://python3_3.14.8.bb" target=3D"_blank">python=
+3_3.14.8.bb</a>} (99%)<br><br>diff --git a/meta/recipes-devtools/python/<a =
+href=3D"http://python3_3.14.7.bb" target=3D"_blank">python3_3.14.7.bb</a> b=
+/meta/recipes-devtools/python/<a href=3D"http://python3_3.14.8.bb" target=
+=3D"_blank">python3_3.14.8.bb</a><br>similarity index 99%<br>rename from me=
+ta/recipes-devtools/python/<a href=3D"http://python3_3.14.7.bb" target=3D"_=
+blank">python3_3.14.7.bb</a><br>rename to meta/recipes-devtools/python/<a h=
+ref=3D"http://python3_3.14.8.bb" target=3D"_blank">python3_3.14.8.bb</a><br=
+>index f917edebd8..4663ee85cd 100644<br>--- a/meta/recipes-devtools/python/=
+<a href=3D"http://python3_3.14.7.bb" target=3D"_blank">python3_3.14.7.bb</a=
+><br>+++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.14.8.bb=
+" target=3D"_blank">python3_3.14.8.bb</a><br>@@ -30,7 +30,7 @@ SRC_URI:appe=
+nd:class-native =3D &quot; \<br>file://0001-Lib-sysconfig.py-use-prefix-val=
+ue-from-build-configu.patch \<br>&quot;<br><br>-SRC_URI[sha256sum] =3D &quo=
+t;3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81&quot;<br=
+>+SRC_URI[sha256sum] =3D &quot;c2215904f02b175596dc49351585104f4bc20341e1c4=
+7378b26a2c274360ce73&quot;<br><br># exclude pre-releases for both python 2.=
+x and 3.x<br>UPSTREAM_CHECK_REGEX =3D &quot;[Pp]ython-(?P&lt;pver&gt;\d+(\.=
+\d+)+).tar&quot;<br>-- <br>2.43.0</blockquote>
+</div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#248274): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/248274" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/248274</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121652032/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/121652032/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-Actually recipe is expecting two test cases to fail but those are 
-passing now after upgrade and dropped that change.
-
-
-Regards,
-
-Jaipaul
-
+--0000000000001869b8065e47727b--
