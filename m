@@ -1,49 +1,50 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4769.1792538581742692207
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4738.1792538582100912059
  for <openembedded-core@lists.openembedded.org>;
  Tue, 20 Oct 2026 16:23:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=EzhTSK7l;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-487049569b6so59723f8f.1
+ dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=NZ0cHtRI;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a1e34ecb02so690415e9.2
         for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 16:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile-fr.20251104.gappssmtp.com; s=20251104; t=1792538580; x=1793143380; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=YTNMfOvAFZf+EyCru/OsgvG726OeP1ZVXtatr+BAV/4=;
-        b=EzhTSK7lidORq5sByKFt7DPfgd1LeHfYr3+w2MEBixAMx3wYUmFD6NOMZClZDsbgzB
-         yLQbRAOapmt3dsjcI/3e1pccSdOgiRHX3G1F9c1olFPG38QKd3yPr4CdBfLkeFkRbayv
-         p69ufADhT1H5QOF9KVc0t9WMvWq6ZgiPT24ftGpjC93Mecn/I6ly0shxhSQEPCAKt4SH
-         rH/8PHMMP+yEUZJMpbhV27r5GvCbqr27klh3MnpaEYgwrHFvwyrGk7BXZckzje3iFOjy
-         VUtWK9n4DdEGKKt+olAWeG7GwQFHh3zlWEYZovnEeTx6gFT0JD/+yLZYdzPFnWLwrDsm
-         FzRw==
+        bh=WZD5hx3ySZOizCvlESRUe29eoGnRf/XzXkqfKW1d0zA=;
+        b=NZ0cHtRIyIhrUpC21eRsriHzQuIuAEo9KpdzEmrACI5IM8rdpumTKC9s8FQGpwZzmV
+         +Gn2MOgF7m7ldjFPhjEMIIEU1o9yXC93yasINf/xftXjEBNQA4Q6WgvBxn2y8nk77O1j
+         lgaMHCuv2ESclGR5fy7SP9vAGAKL/ms+g7HAkK5J7XM/cpZ1KtfmmKVRQyEIdp6TrN64
+         qzttNy28d1DECori15stFtWJD4tglOWSKMOuaXPZW1JOLpUNYN72m9v4paBXwWnYCIQh
+         ZFAaLd7ihUMXffbjKvdMxGaTMwxtPTY+1iEY9IIQHFmvEOIK+IdnUCTgrv7OrJVaqXQv
+         n5kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1792538580; x=1793143380;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=YTNMfOvAFZf+EyCru/OsgvG726OeP1ZVXtatr+BAV/4=;
-        b=m6aRXcbqdWzodXBPTW7j9i937ipwv02G+MTkvErewP2XjhsyTmAC+2g1GW7fps7SUr
-         pB59T0h8fLZS6Kd/UXECH5j9ZGRFsyo/g6RXGIRwmvUfZ7uKkRbwUpYOkCHZ6+hsZhtY
-         Dal5ZCC6l8iFd27w1nAsDUhdMqPE+tEI2xyHbhdGkna02o6JV8Wr0M/uo/tUWI33EI1c
-         jGK21yxJStaXXBkyP5yIBl6DtabGy9c4pQuxLXrRhBj9AMCGXgnG2WgvPmDJ1gj/L0fN
-         uVOesbZJt1ZQjWzgNsZiQDAavib/eo33ekgkk1VMzDxKxwwvm5nR/aI2m9UvRoPhiDrY
-         TvEA==
-X-Gm-Message-State: AFq9FYIhiJuRkphErl+oxQtYFPbPQ/VKAS1ymUtpTptzpdKDvTp4O4OY
-	TihNjTYPUQWCSKnA5BsiOeQ9oe19Dgpi13RzwLBA5pnkZbfBBosIyiKLClwwTt+Gz4vITJZ8VRk
-	9/5V/kC8=
-X-Gm-Gg: AYBFou20zF/vYua4O8/6YzBbsea1s6PaNuYfRuLPEE7A4v0/qfnfbCw+aOI4RwdiGin
-	RcIYLoHO4GuQAisLb+yqwY4+cLRJFhwfX7HB4rKhMsGzqbEIwJZCMZwrKRt0CvZzKvCXu/QmdHP
-	iYShSgcszQ2SXMOLmg3vQlThavA2irwmo/y1vb6aNd89OLZbDWFxZVgqwQJfWNM8xf/GZe2CvS4
-	pkir54pxhzS9rQQ+ENcAs+992YQf7PGM1hVSfy+K27jz6B5a5G6+99HfHOcCgsbCWocNEA/6k3L
-	wREWBd6wDqAluAgmVKhrPo7Zjj4V2KC7FSYfJ2hifZA5XIbn2ELHgycBMTnlhWdyeHjXa5Vdxaf
-	I7+x4D0ZQCSiGcZ5qvSCKRctBchh2cv1UQpJXo2I1MrVaopqFRIiwmLLK5dNuAI2Dk/rlbtwnjT
-	zFf0Z65MiLzfIMz8KauHE/p3tV6WFgEU3HJEWFXQDjkFAgxBBllK3hQtmMaswU7vlHPtgGxhxIJ
-	t9mr6+qoZiJ8w093/kr1Z5npFQsanl09YomOjzSZjZ3Y4S086FPAY8zVj5XdfFVP1Gv5MAofA==
-X-Received: by 2002:a5d:4573:0:b0:48d:ef7a:e59f with SMTP id ffacd0b85a97d-48e264ab28amr288024f8f.17.1792538579825;
-        Tue, 20 Oct 2026 16:22:59 -0700 (PDT)
+        bh=WZD5hx3ySZOizCvlESRUe29eoGnRf/XzXkqfKW1d0zA=;
+        b=gbhETSv2RrxEhi+MnvbgLisBQ7W2LbVuthGM293Mp0LGqHmJ8MShJfFVSBxgdsFpYK
+         9HqiujkdZDGsw0W6HZugSTQZBopnziH3dJf6taNum3CCtwEichjKc934UowKmFzzWSi0
+         KcHAEhJF0jq6qzzuu/Oqcc85jO3IBwck3PFJTscv0qy1S4G+QVhIyme4zdzBtQnZYOmy
+         KleN9en4I4ia41/89KtxpvCMsoyByBMwbZpz2cmSa5BjfjfgHvvkiwrgPYcw9mt7Emmp
+         pyX/DVbUlK777je/bnLz56tsz01GsOBpqcV9bVjs6NWQr/oDvqYzKq0WQTvDbeUO3/94
+         1sIQ==
+X-Gm-Message-State: AFq9FYKxLU/V2+5tTRg0v1CRlp301rfbGnE5xPq4kPx1jeXV9JshvpQw
+	VjaK3rIlXuQU4/lrHvkcgcGIktivVgQgwHxGPUCqzL1S0iWffahOOOLYXei6QJ8+t5a6aUL7ocf
+	rah6CwXE=
+X-Gm-Gg: AYBFou2+inzNrF+pJ55nnBbU+VwGLey8+71qMwvLyIsSZhtilOPunB+XRkuGu0ge70f
+	kPzPWy5gPtMUyrBmoyPLRBczF8hz6n0oDzdbi5L3rF+aRT/IVjtFM8Gkn0JIsZBvwaodo9blsyu
+	5WgNuUFOVqYBYiPASmc/FDd+1RC//Qq9N2dj+AWiIKjqv+/kM+iynT0CM+UlqWOigFBLFcrHnO7
+	VkGLS1wqwJ5Pz78wfoXykyRtdERy4dlFIkowzxJ4NvZB2GYnTFavmQjTShak9qIKCKBHogvX4Wv
+	Hjc45UcPSNQz4sPJBvLEMdVm3n1o4b/R+2mov3eAtfaMUcKHRFTyLCzr6HkR9kc8rGbETXU8z8a
+	H8rpr8FUkNj2X6YTpztfzwCMiX69+VzqRtPqpRBVQofLRdPue0E76ed6irGBSAY3kJG3HsWX2PQ
+	q728OoUkg1IvCMokAxGoAqsavgV9S0BbcRu6FSMEezxhrCyv0/qBIC3hbqH0/yuCKNnp9Y0gMyJ
+	x4FtklY7U7HyAq3P3x5Dbh1NHA9hyKpuXq8vClpv8cFH6W+Kk2x69pBKT/gUCp5r7Wqj+AbScaS
+	aoRhwlXy2sAY81p+wpJyO7A59SDF/LeJnGO3v0b9E7DB2HpfQ7ycCexs
+X-Received: by 2002:a05:600c:8506:b0:4a1:d957:733e with SMTP id 5b1f17b1804b1-4a1fdd4b4d9mr3509735e9.26.1792538580285;
+        Tue, 20 Oct 2026 16:23:00 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2583523asm1436615f8f.37.2026.10.20.16.22.59
@@ -52,9 +53,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Tue, 20 Oct 2026 16:22:59 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 14/25] curl: fix CVE-2026-80230
-Date: Wed, 21 Oct 2026 01:22:24 +0200
-Message-ID: <ae119e5dfcfe29b4e014f63b01b3ebc37d299392.1792537664.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 15/25] libpcre2: update to latest release branch hash c084f99ae0
+Date: Wed, 21 Oct 2026 01:22:25 +0200
+Message-ID: <d13c54dea0bc62cd9bbf36634b9f5e0139da506a.1792537664.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792537664.git.yoann.congal@smile.fr>
 References: <cover.1792537664.git.yoann.congal@smile.fr>
@@ -62,168 +63,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 23:23:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248333
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248334
 Content-Type: text/plain; charset="utf-8"
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport the upstream fix [1] as mentioned in [2]
+Handles CVE-2026-103111, CVE-2026-86145, CVE-2026-89158, CVE-2026-89160,
+CVE-2026-89157, CVE-2026-89156, CVE-2026-89161, and CVE-2026-89162.
 
-[1] https://github.com/curl/curl/commit/5267ed859d545534d0c21
-[2] https://curl.se/docs/CVE-2026-80230.html
+The project committed to have 5 year security support for each release
+on a dedicated release branch.
+Switch from release tarball to git fetcher to use this feature.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+gitsm is used to fetch sljit subnmodule. It is not used by default but
+can be enabled in downstream layers via configuration option.
+
+Git log with all changes and manually created CVE annotations:
+$ git log --oneline pcre2-10.47..c084f99ae0af664e86819fd1839a13c56dc0918c
+c084f99a Backport of pcre2-10.49-Fix-large-stack-allocation.patch [CVE-2026-103111]
+cb7193ac Backport of pcre2-10.48-Fix-DFA-workspace-overflows.patch [CVE-2026-86145]
+586e2ea0 Backport of pcre2-10.48-Fix-compiler-integer-overflows.patch [CVE-2026-89158]
+2c7492a0 Backport of pcre2-10.48-Fix-invalid-UTF-backwards-scans.patch [CVE-2026-89160]
+1d6cc92c Backport of pcre2-10.48-Keep-escape-error-offset-in-pattern.patch
+75ca1974 Backport of pcre2-10.48-Fix-allocation-byte-sizing.patch [CVE-2026-89157]
+5528f329 Backport of pcre2-10.48-Check-JIT-mode-before-validation.patch [CVE-2026-89156]
+69aa0df5 Backport of pcre2-10.48-Fix-JIT-match-context-reuse.patch [CVE-2026-89161]
+1e058b41 Backport of pcre2-10.48-Fix-JIT-STR_END.patch
+120f76cb Backport of pcre2-10.48-Fix-scan-prefix-repeat-reset.patch
+e4d6d427 Backport of pcre2-10.48-Fix-repeated-substitute-escapes.patch
+0ac26ee9 Backport of pcre2-10.48-Fix-character-list-generator.patch
+dcfab032 Backport of pcre2-10.48-Write-serialization-padding.patch [CVE-2026-89162]
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-80230.patch            | 68 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      | 62 ++++++++---------
- 2 files changed, 99 insertions(+), 31 deletions(-)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80230.patch
+ meta/recipes-support/libpcre/libpcre2_10.47.bb | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-80230.patch b/meta/recipes-support/curl/curl/CVE-2026-80230.patch
-new file mode 100644
-index 00000000000..5a6bb359861
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-80230.patch
-@@ -0,0 +1,68 @@
-+From 7d34e6397166b10600c2ced93f95641d5e7c1575 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 24 Aug 2026 23:37:49 +0200
-+Subject: [PATCH] openssl: no server cert is only okay if also not pinned
-+
-+Reported-by: Stanislav Fort
-+Closes #22660
-+
-+CVE: CVE-2026-80230
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/5267ed859d545534d0c21675a2b70af5a3b6e3ef]
-+
-+Note: CURL_EASY_STR() macro does not exist in 8.19.0, so the pinned()
-+accesses data->set.str[] directly instead.
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ lib/vtls/openssl.c | 26 +++++++++++++++-----------
-+ 1 file changed, 15 insertions(+), 11 deletions(-)
-+
-+diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
-+index 1cf357c..cb6fcc4 100644
-+--- a/lib/vtls/openssl.c
-++++ b/lib/vtls/openssl.c
-+@@ -4607,21 +4607,24 @@ out:
-+   return result;
-+ }
-+ 
-+-static CURLcode ossl_check_pinned_key(struct Curl_cfilter *cf,
-+-                                      struct Curl_easy *data,
-+-                                      X509 *server_cert)
-++static const char *pinned(struct Curl_cfilter *cf,
-++                          struct Curl_easy *data)
-+ {
-+-  const char *ptr;
-+-  CURLcode result = CURLE_OK;
-+-
-+   (void)cf;
-++  return
-+ #ifndef CURL_DISABLE_PROXY
-+-  ptr = Curl_ssl_cf_is_proxy(cf) ?
-++    Curl_ssl_cf_is_proxy(cf) ?
-+     data->set.str[STRING_SSL_PINNEDPUBLICKEY_PROXY] :
-+-    data->set.str[STRING_SSL_PINNEDPUBLICKEY];
-+-#else
-+-  ptr = data->set.str[STRING_SSL_PINNEDPUBLICKEY];
-+ #endif
-++    data->set.str[STRING_SSL_PINNEDPUBLICKEY];
-++}
-++
-++static CURLcode ossl_check_pinned_key(struct Curl_cfilter *cf,
-++                                      struct Curl_easy *data,
-++                                      X509 *server_cert)
-++{
-++  CURLcode result = CURLE_OK;
-++  const char *ptr = pinned(cf, data);
-+   if(ptr) {
-+     result = ossl_pkp_pin_peer_pubkey(data, server_cert, ptr);
-+     if(result)
-+@@ -4803,7 +4806,8 @@ CURLcode Curl_ossl_check_peer_cert(struct Curl_cfilter *cf,
-+   server_cert = SSL_get1_peer_certificate(octx->ssl);
-+   if(!server_cert) {
-+     /* no verification at all, this maybe acceptable */
-+-    if(!(conn_config->verifypeer || conn_config->verifyhost))
-++    if(!(conn_config->verifypeer || conn_config->verifyhost) &&
-++       !pinned(cf, data))
-+       goto out;
-+ 
-+     failf(data, "SSL: could not get peer certificate");
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 0573e08ea4a..c2697d6dd8c 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -9,37 +9,37 @@ SECTION = "console/network"
- LICENSE = "curl"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0515352b285b9c3f66464b135c9c0fdc"
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+index 70079e0b65b..5bdb647f52e 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.47.bb
+@@ -12,25 +12,27 @@ LIC_FILES_CHKSUM = "file://LICENCE.md;md5=6720bf3bcff57543b915c2b22e526df0 \
+                     file://deps/sljit/LICENSE;md5=97268427d235c41c0be238ce8e5fda17 \
+                     "
  
--SRC_URI = " \
--    https://curl.se/download/${BP}.tar.xz \
--    file://run-ptest \
--    file://disable-tests \
--    file://no-test-timeout.patch \
--    file://CVE-2026-6276.patch \
--    file://CVE-2026-5773.patch \
--    file://mbedtls.patch \
--    file://CVE-2026-5545.patch \
--    file://CVE-2026-6253.patch \
--    file://CVE-2026-6429-dependent.patch \
--    file://CVE-2026-6429.patch \
--    file://CVE-2026-7168.patch \
--    file://CVE-2026-4873.patch \
--    file://CVE-2026-8286.patch \
--    file://CVE-2026-8927.patch \
--    file://CVE-2026-8932-dependent.patch \
--    file://CVE-2026-8932.patch \
--    file://CVE-2026-11352.patch \
--    file://CVE-2026-11586.patch \
--    file://CVE-2026-7009.patch \
--    file://CVE-2026-8925.patch \
--    file://CVE-2026-9080.patch \
--    file://CVE-2026-9545-01.patch \
--    file://CVE-2026-9545-02.patch \
--    file://CVE-2026-9079.patch \
--    file://CVE-2026-13608.patch \
--    file://CVE-2026-80229.patch \
--    file://CVE-2026-9546-01.patch \
--    file://CVE-2026-9546-02.patch \
--"
-+SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-+           file://run-ptest \
-+           file://disable-tests \
-+           file://no-test-timeout.patch \
-+           file://CVE-2026-6276.patch \
-+           file://CVE-2026-5773.patch \
-+           file://mbedtls.patch \
-+           file://CVE-2026-5545.patch \
-+           file://CVE-2026-6253.patch \
-+           file://CVE-2026-6429-dependent.patch \
-+           file://CVE-2026-6429.patch \
-+           file://CVE-2026-7168.patch \
-+           file://CVE-2026-4873.patch \
-+           file://CVE-2026-8286.patch \
-+           file://CVE-2026-8927.patch \
-+           file://CVE-2026-8932-dependent.patch \
-+           file://CVE-2026-8932.patch \
-+           file://CVE-2026-11352.patch \
-+           file://CVE-2026-11586.patch \
-+           file://CVE-2026-7009.patch \
-+           file://CVE-2026-8925.patch \
-+           file://CVE-2026-9080.patch \
-+           file://CVE-2026-9545-01.patch \
-+           file://CVE-2026-9545-02.patch \
-+           file://CVE-2026-9079.patch \
-+           file://CVE-2026-13608.patch \
-+           file://CVE-2026-80229.patch \
-+           file://CVE-2026-9546-01.patch \
-+           file://CVE-2026-9546-02.patch \
-+           file://CVE-2026-80230.patch \
-+           "
+-SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
++BASE_VER = "${@d.getVar('PV').split('+')[0]}"
++SRC_URI = "gitsm://github.com/PCRE2Project/pcre2;protocol=https;branch=release/pcre2-${BASE_VER} \
+            file://run-ptest \
+ "
+-
+-GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
+-UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
+-
+-SRC_URI[sha256sum] = "47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7"
++SRCREV = "c084f99ae0af664e86819fd1839a13c56dc0918c"
++PV .= "+git"
  
- SRC_URI:append:class-nativesdk = " \
-     file://environment.d-curl.sh \
+ CVE_PRODUCT = "pcre2"
+ 
+-S = "${UNPACKDIR}/pcre2-${PV}"
++CVE_STATUS_GROUPS += "CVE_STATUS_STABLE_BACKPORTS"
++CVE_STATUS_STABLE_BACKPORTS = "CVE-2026-103111 CVE-2026-86145 CVE-2026-89158 CVE-2026-89160 \
++    CVE-2026-89157 CVE-2026-89156 CVE-2026-89161 CVE-2026-89162 \
++"
++CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
+ 
+ PROVIDES += "pcre2"
+ DEPENDS += "bzip2 zlib"
+ 
+ BINCONFIG = "${bindir}/pcre2-config"
+ 
+-inherit autotools binconfig-disabled github-releases ptest
++inherit autotools binconfig-disabled ptest
+ 
+ EXTRA_OECONF = "\
+     --enable-newline-is-lf \
