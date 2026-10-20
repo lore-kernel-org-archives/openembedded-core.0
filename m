@@ -1,50 +1,51 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4766.1792538578004965234
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4765.1792538577413047787
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 16:22:58 -0700
+ Tue, 20 Oct 2026 16:22:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=wtkOp5tQ;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a19cba5c14so830055e9.3
+ dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=ut3h1GFw;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a180fbeef5so667225e9.1
         for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 16:22:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20251104.gappssmtp.com; s=20251104; t=1792538576; x=1793143376; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TUyMZ3BcIu4yyboe/ZjkC6js6wQrv8uhCTe4FIuD51U=;
-        b=wtkOp5tQ+50lpt2T+Xek6rxDPodOWBe1UvLhfM63wTLJ/WJEJyME3Tw9gIdK6YUnvY
-         Ya3a4Zj5LKZ6lGEirSi0Vq5/TK4y2TcpbeP++i85Dr8Gk935ynlgYXXgaydX26+Kqw5K
-         lpuPIXJU7G3KPFGCXOC/hKUxThSuQffEc4wCG/yXgQbOd7FLTvYysllghFz8ONBvmtG1
-         fRg18nUOFQJ431to/GxdTxfWUJuT4LkN3D/kaumrIizWQPNSygVkBGfKU3LUXUtPGhUQ
-         iz6CKu6LtiDFN23PlLL88Uwk5WPcYGON8jkwWbWBxzaTHCbAOidkIM8ABwS2u76FcOaN
-         JRrQ==
+        d=smile-fr.20251104.gappssmtp.com; s=20251104; t=1792538575; x=1793143375; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=y4oKVVORVt0IlZBUsroZsd+SseiUWFv5sj8mPT1SmJ8=;
+        b=ut3h1GFw1BBXmWUImG8twt0F5epDpY9GZ9Ob5NjJrCWDkMznF6jVJBSZc/pry0qpX+
+         IEBlSGl39tZkFoCV2FngibgrSe+RmUessCpDlG6WeWS8cRA2sBqUSo5O+1dbG0oen65t
+         v6b2H++106WEu7WhTCizd8i9TlF5Xjy2zttzHPsI8ctFck1bR32LyXobTRmYiEat5OAE
+         rwYkZ5tZCmfkcALla2UcI10DLduPgqpNH+NZZKEmCj0FVx+V5V6TLsCD9TFEvxvm/glK
+         zFkY/9wY5QjYceqmhEQFHb3RZGkIOFKQX+9A/J1jaUc+/uUTcuZ34iE+0VzTggdw0fYr
+         z/Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792538576; x=1793143376;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TUyMZ3BcIu4yyboe/ZjkC6js6wQrv8uhCTe4FIuD51U=;
-        b=Uh/idwTtzNrW8/rS713OLFw00tbKw9FCc2yDx8LU4gD01baJv+NAAQFtddltID8ZfD
-         MlOOEPbBe8bHv+tYCmNtGxI5XtfMZ4mIKmm5IWv7TomCD5ddtKylx7VvuBV8wcbpTK0w
-         9NRCXRAL/nLU11H400EF5ZnNKP5TvQBECULgcnJ2r4ZXgS0Bv48KWhcuXo8IwYOmu56n
-         3JrFL2bnlwwtn+UWkhjSir/YGBMNNYBKDo/CvBqU/dOz0ZB1zjtNULi4YlQ4LxjKAYdw
-         IVC5O97Q7I0gzyXzarr6vbnMK2remrK9JHJGeEizStOfuI3ejWVw71fqeI/s1Hez2gcQ
-         uWpA==
-X-Gm-Message-State: AFq9FYKuH4obK74jueK3mbXcg7VKiVrl/654snPs3NO0WP/gEq409kYs
-	f905eCW56t5ucHpZJCDhfaFy1uAeNFGdceFeL3ezERxJg4gf8DLKU5w3mdmS27rUKTzf7FJxJP9
-	y/1InhPk=
-X-Gm-Gg: AYBFou1DahG/tbgmIVinOku1+emGddLZnLbO72s+aJKDRfAn/oNYaxkSmPx/XiEJOI/
-	b1odeGnCe0m6LLBHrKDDuludye+/93Myvs4udPdBGmjZUTqqY7+Hck1La7fau85Bh0Y9QwcNuKx
-	tF4dzfqEOxuv+zG2l4WV3xvHZDXwmb+gbUEQcnbMl71PFp2QToAJID18TWqTnf/4giLY6av/io5
-	5bpLoiE9bl8qaveMJD6Z/Z5GkeENwZu/fVIqBtS/GFy8RRP4rSxiwUN0YsuDCq3SATTHFJ8zyuT
-	pYDaSY97DAb9iZjAKBdACwSky4gcIAeWtgj5/N0zQ6PjoOxbnoOaJXxogwIZqKSQov7wToPmb2G
-	K9hTaC6o+Un+TdgrQrA7eZMFhbXE5M0pKamvfgyFSQdgcRWKBXzKVyRWm8Jse5dUjNYRZICXHyI
-	fUKlgxkqpDyJUR5Z/ar+Y1bQR0JxfHde4hozUAFgG3S0ESEB31hyVgnzjFMOKdsoL93mHO4NEtn
-	IQwyq3qfEuzMDlszkRuWvph96+c7taAoRvgH6N0ujQ3qbUsrVTamdyqQNmrbyWW3Ww5b4Mjow==
-X-Received: by 2002:a05:600c:3b82:b0:4a0:108:3b48 with SMTP id 5b1f17b1804b1-4a1fdaf7464mr4500645e9.7.1792538576109;
-        Tue, 20 Oct 2026 16:22:56 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792538575; x=1793143375;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=y4oKVVORVt0IlZBUsroZsd+SseiUWFv5sj8mPT1SmJ8=;
+        b=cfZ4WmeBytQUy96mPDSHoGDe6djK1bNEluJY8B1nzlV12EquNdQum4W1nZRwNo03ze
+         EqUkh8SAIOfNb8qLmEbMP1biKq+JKqdVfL+m2x2JoB8PPkLp61Wcc6qlQvm/UaO97okS
+         KHZ7Ug0qCvItCeq+lKnNvw3ng7uonY4+pWo0SDQCbEfz3xS6yXUWlHW9yC+pgnFp7R6Q
+         zM3sYpWtiHI1LRe21T+anKdrNXMs9yjVM0voPJjN2sLequeBhVyDDdDaUeEb2E1mjyCR
+         uUhzzBWxX6xyna3rGU1E9/yjgKEVi9Fo6j32ffLyYZaby0+CzjaguuA8hr0D5ylXVGYa
+         Dieg==
+X-Gm-Message-State: AFq9FYLsHZXkrlsfxo4Iq7svWgUzbAIEHHu+/YLPkZ3YJtivA1D0GCd5
+	iaC3KYb1P/p20Xob9tCelAPCiEXjtkDpDcB8jVgRelk8agLXLQemMM56/ux9yAkphKCwZGilVc2
+	VYeUjIJg=
+X-Gm-Gg: AYBFou0M/+fjo/+PbC1ygkq8daaIYXD6sOe36NG1KaC2qpqYQmgIxYG1rXwIe6s8nfO
+	rhNk5fV600wwEJoElpA/xbAzK6pUEf7ZJq0tKSCjW9f8mPZKWR/6/Rh8Zkr68XFBHZ9ExFsxu8Z
+	OpLoJY+107c0Qaixcr8AqQ0+O78nzhuCF1QiGKsdTjbrrCDxZT4NUbfa/dDD0AnxoS3WlgHL1vy
+	7qwhDPPVe0a5V9OCA3wf65CoVy4jbrMjJyW9WTtP/8uE9m0HH/YBZBXcxtp4AGZ6XWPVYIObYoe
+	MSlGIiWydFiCQY2KwgarsVbrGq+cZB7dSihpmpZZoNfwEnpO0OjFoRKMrkhDC1WbGINm/IBkxBh
+	noGlXcYAjWB/Rh5S7QRXxZLoE249Jolm8QWGhbyGY9QVZ1Zy2rGCytZBaL3dkMoSUPZE2iQs6eu
+	2tMMuYYjz/hW3PE6VoxhOQmxFblnS/HHtD+UkS2aodgMsU3dMi/ZGkvhS4AIENoSsxcgzYECRqS
+	f+sOzgVICXh3qkdMqT1Ny72ioKVrCAzaeunz1iZRp0nopP1StfBMs+DMJ1TvkD5q3JovDaUSqyo
+	l4Wkizg3b7/tYq1YP3fbk3ZWiHTO4oIajJ8DZUTfZBL1aG2uysBeBtnQaSE8pPuoKZZRuyKys2b
+	N
+X-Received: by 2002:a05:600c:b86:b0:4a0:1fb9:2f51 with SMTP id 5b1f17b1804b1-4a1fdd2fa6cmr3723605e9.14.1792538575522;
+        Tue, 20 Oct 2026 16:22:55 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2583523asm1436615f8f.37.2026.10.20.16.22.55
@@ -53,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Tue, 20 Oct 2026 16:22:55 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 08/25] gcc: Fix for CVE-2026-102010
-Date: Wed, 21 Oct 2026 01:22:18 +0200
-Message-ID: <a98523e3c9a18cb9087ae850c5ae548365d9244d.1792537664.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 07/25] tzdata/tzcode-native: upgrade 2026d -> 2026e
+Date: Wed, 21 Oct 2026 01:22:17 +0200
+Message-ID: <8bc3f14380f03e1c5dbbe6db5c4d001220067d22.1792537664.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792537664.git.yoann.congal@smile.fr>
 References: <cover.1792537664.git.yoann.congal@smile.fr>
@@ -63,121 +64,42 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 23:23:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248327
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248326
 Content-Type: text/plain; charset="utf-8"
 
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-PR 127656 use-after-free in libstdc++ pbds binary heap erase_if
+Changelog:
+https://www.iana.org/time-zones/releases/2026e
 
-After reallocating the storage the m_a_entries pointer is left dangling
-and the new storage is leaked. Update m_a_entries after reallocation
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2026-102010
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=127656
-https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6
-
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit afc275bd17dea41c2ea6a5c73c697052c2df4e38)
+(cherry picked from commit 35a0a18640e92bd98eca22ec9150be11daca1df7)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: deindented the commit message]
 ---
- meta/recipes-devtools/gcc/gcc-15.3.inc        |  1 +
- .../gcc/gcc/0029-CVE-2026-102010.patch        | 73 +++++++++++++++++++
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0029-CVE-2026-102010.patch
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-15.3.inc b/meta/recipes-devtools/gcc/gcc-15.3.inc
-index 2f743510850..ed719197bc3 100644
---- a/meta/recipes-devtools/gcc/gcc-15.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-15.3.inc
-@@ -75,6 +75,7 @@ SRC_URI = "${BASEURI} \
-            file://0028-fix-gcc-libitm-false-postives-02.patch \
- 	    file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-            file://0001-mapper-localhost-might-not-be-known.patch \
-+	   file://0029-CVE-2026-102010.patch \
- "
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 6a65f2deb22..eb439701997 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- UNPACKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/sources"
-diff --git a/meta/recipes-devtools/gcc/gcc/0029-CVE-2026-102010.patch b/meta/recipes-devtools/gcc/gcc/0029-CVE-2026-102010.patch
-new file mode 100644
-index 00000000000..5eed94ab5a3
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0029-CVE-2026-102010.patch
-@@ -0,0 +1,73 @@
-+From 29e51a820d76c766ae417fcba912714337b0eb17 Mon Sep 17 00:00:00 2001
-+From: Jonathan Wakely <jwakely@redhat.com>
-+Date: Fri, 25 Sep 2026 18:14:34 +0100
-+Subject: libstdc++: Fix use-after-free in pbds binary heap (CVE-2026-102010)
-+ [PR127656]
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+After reallocating the storage the m_a_entries pointer is left dangling
-+and the new storage is leaked.
-+
-+libstdc++-v3/ChangeLog:
-+
-+	PR libstdc++/127656
-+	* include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp
-+	(erase_if): Update m_a_entries after reallocation.
-+	* testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc:
-+	New test.
-+
-+CVE: CVE-2026-102010
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6]
-+
-+Reviewed-by: Tomasz Kamiński <tkaminsk@redhat.com>
-+Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-+(cherry picked from commit aaa8351f4d2e636f9680a1f0a8ebc2f0a60611e6)
-+---
-+ .../ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp   |  1 +
-+ .../ext/pb_ds/regression/priority_queues_erase_if.cc  | 19 +++++++++++++++++++
-+ 2 files changed, 20 insertions(+)
-+ create mode 100644 libstdc++-v3/testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc
-+
-+diff --git a/libstdc++-v3/include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp b/libstdc++-v3/include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp
-+index 752688bb8e94..1eec3c9fb334 100644
-+--- a/libstdc++-v3/include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp
-++++ b/libstdc++-v3/include/ext/pb_ds/detail/binary_heap_/erase_fn_imps.hpp
-+@@ -121,6 +121,7 @@ erase_if(Pred pred)
-+       entry_pointer new_entries = s_entry_allocator.allocate(new_size);
-+       std::copy(m_a_entries, m_a_entries + left, new_entries);
-+       s_entry_allocator.deallocate(m_a_entries, m_actual_size);
-++      m_a_entries = new_entries;
-+       m_actual_size = new_size;
-+       resize_policy::notify_arbitrary(m_actual_size);
-+     }
-+diff --git a/libstdc++-v3/testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc b/libstdc++-v3/testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc
-+new file mode 100644
-+index 000000000000..30b8452eff96
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/ext/pb_ds/regression/priority_queues_erase_if.cc
-+@@ -0,0 +1,19 @@
-++// { dg-do run }
-++
-++// CVE-2026-201020 use-after-free in binary heap erase_if
-++
-++#include <ext/pb_ds/priority_queue.hpp>
-++
-++bool is_odd(int v) { return v & 1; }
-++
-++int main()
-++{
-++  using __gnu_pbds::priority_queue;
-++  using __gnu_pbds::binary_heap_tag;
-++  priority_queue<int, std::less<int>, binary_heap_tag> q;
-++  q.push(1);
-++  q.push(2);
-++  q.push(3);
-++  q.erase_if(&is_odd);
-++  q.clear();
-++}
-+-- 
-+cgit 
-+
+-PV = "2026d"
++PV = "2026e"
+ 
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -14,5 +14,5 @@ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ S = "${UNPACKDIR}/tz"
+ 
+-SRC_URI[tzcode.sha256sum] = "2f5c9f7fe29e6b8cb863583667884b8ce17b0a485355a054b591c6bdfcd81791"
+-SRC_URI[tzdata.sha256sum] = "0cb2aa8e333c3dc049badc42a0c61f21987b8cd44e107fa900bad764aacc7767"
++SRC_URI[tzcode.sha256sum] = "cc3d27ca2a0d8399504551b920970d80af83bfb9c216e8082a15491921935d54"
++SRC_URI[tzdata.sha256sum] = "b26882805f26aac59d5b222978e6580484b834ccdc98be89df2f05a6dc53a652"
