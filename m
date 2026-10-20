@@ -1,103 +1,134 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6669.1792500751336087021
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6670.1792500754836944368
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 05:52:31 -0700
+ Tue, 20 Oct 2026 05:52:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=V8Fl3VkA;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: vgharaee@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1e34ecb02so16670095e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 05:52:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=kTe8p25n;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: vgharaee@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48e1d0e5dafso478340f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 05:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792500749; x=1793105549; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZlkSMnzcD5OdZcGiDPte5c2AcxNmfZP9WAVGp8aZGOI=;
-        b=V8Fl3VkABdLmwFM4Ysi8np9d9l+n1EZJEyWKAORcnGqFeN0kNEOuHqoB9oxWrv9Xg1
-         SkjoShkjIH6GIWuctDfxwX4Z88pU6qFimimEOqp56uB3qLnJqqkCv8Y6EKSb74v/HISd
-         5XLBjaTlVNMlgZ2hX8U+4e39bhMPpIIytTZGjKmt/5i/eQUn2QX65BC3/fdTFEiUieA4
-         urcOeKHUnV0xxt1RG6XdDvyIlNbkW8oAkWaOTSLWyNljBmSu8QdwOSpyufXkdKYo5rrV
-         B5TYML7FRx+vwj/YpBWqhyFFJczxcwzuCvFSnG3rVni5/iq47Aw8nkLr2AgYtWx0rKhM
-         uQkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792500749; x=1793105549;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20251104; t=1792500753; x=1793105553; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ZlkSMnzcD5OdZcGiDPte5c2AcxNmfZP9WAVGp8aZGOI=;
-        b=inxEWEuMv6rsTPe5EKUsXWWS0ZxIHbeBbbbaQ7JjCAhC55U+1tAFXf0Qa32ou2Fo0H
-         tn/RJdhMAi/1Yle/CzwDcthICmTZS9hx66aaq6Csg4ELCg9IM5pj2Ac0p+SaPtntmjjm
-         J2AWCkN/eEQixl68EGGqfVOYB9ukSXrBuaoWZ06cBefJgcpS5219ka8js4RS/qFsoqu+
-         aKz0dQYt+0SEFWCb4Y56Hq/t3mCfyk1JnMhJLtOeFrahyjjsNCSGTc4h1nYjz1ZzmVUQ
-         cz09rNFXfJAjA6cj0WaJk3er775W5kVm0hU22mL60jWdEy7QXgu+etGNbuXTWMbnoOT3
-         ApOA==
-X-Gm-Message-State: AFq9FYJrLeop1P1FGyNhxmTQ8GrmE67bYLWha+3OyEGn6F/yqZnr4Zls
-	0r0TvRn+PlAuUWiD/TxlPkn5L7BNrsxJ/ap8KCG44oegOlKmQVnHJgC77vIhDw==
-X-Gm-Gg: AYBFou2DmpCqQ16jpGF4sEq78v2YJNRJfUA7BIJ8M+y8R2H8XjRbn+VkzoaTzC/LauQ
-	bD1Y6H0tlVLFmeryWqoEoDgHdYRm3BI5IAA34SjR41RL0oFV1lNyb45QzyhJZk8J8/9MOW4E3hf
-	mTKDy+71drpUAMUwi3maNA+AIKirn+mLNLad5HaQqRzn4pQe+0VcO+evSdUk2898/G4ZMa+AC2y
-	xNTxFEv57FFYnLM+ETZONvvBwentSAn0R49Gv3bIxNcrBQDBUzaF5UesmUtOcUGCZiV/GgUx1aG
-	HM32uvSlZhWA13AF6iiVihlXhiNPS0BKEIy/4MM4r8wdH3Goo18nxoHb5Giat0Uk7kIUXwJCeGf
-	B9pd0avuKfnfC4BtKIRyaUy8J3yEO+ll4LWYtQdJCDnt67R9WSHKVJcV/ao9gEYDpuN2w0Gs8ow
-	NdZU/6PsqelH7osi/1uiPzvVjq4/aVaL+go/WAA8dRgLfjQqLCeKO9jVJD+sT9bEWhZpHhUYvvV
-	ulCNzgzG4C7KCfWOE2Gx2DKj1U3dZjol+9vAVJBsRgcKffO/Q0=
-X-Received: by 2002:a05:600c:8b6d:b0:4a1:e6a9:4086 with SMTP id 5b1f17b1804b1-4a1e6a9438bmr125871355e9.0.1792500749189;
-        Tue, 20 Oct 2026 05:52:29 -0700 (PDT)
+        bh=0DMyeWQj4RNOUtPgy6jPZh7Vpm+V/DXd81JWMP/CxDM=;
+        b=kTe8p25nsULKurhTv/Wx1I+Gcm138aCGUgnm7vHosFFMkAbHuPExJICgFM27Yz41UL
+         WpxC+HXclUueaCL2oJ/f98yUqQWQW0Qof+r9TcEBGUPVzsc/wYOk4KlYnLNPuYOsS/Ps
+         EhDpIuaJtGSz4jKcoB/GdYJh06zsmLeldSR2BxaZTYAhICL5y/uJI2wjAiGZdf3sAWUd
+         N28n6d2KF1HhqrEWUZoIVj4Xzo3b2jdIT43Vj18pCAQC5g7o0cX5GQ3Oadh2H5qCiKLA
+         luzKMICHtSuH7FXL+z2ebTKXlyfFxrU5F9mCkYpLw5KsBT2lPYWQaWoldUaKubE2pFgK
+         iLDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792500753; x=1793105553;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=0DMyeWQj4RNOUtPgy6jPZh7Vpm+V/DXd81JWMP/CxDM=;
+        b=plarti6Xh6uxmOqKk1d9ZkpHmSYKz4hJBYrbIf8VAyZYaz5P8Arvv+MuVeJpBKUvZc
+         DWR34aBrzpBKjNFaU8ydZI4VziDYgogwMRhFfJkVci15XFfoVsSkfZvoRaZSOoa2QEPR
+         bfEcChx3FWLAHsvGiDtTYB57a/9NBgOlSTKsVj0oE7EeNfAhGqdkqPwmss9HEakOuXcm
+         /nESInXi72YJfOz6djpO97HA5ETzQLKOnARWntdRmvgPeLdmrsObK4Lqh0oNQXi46hgt
+         7Ek6epD3URqi6iVFNxEgPzVZDAJ/48PXOrKgfjIBEbZvnLbMFlR9UJorbFnt4u8ji2j6
+         g2bQ==
+X-Gm-Message-State: AFq9FYIt1Y5EC8WvCYBCG1wZU1WdkNLxywJUdHdhp/mHQ8ascPZnHpzD
+	bzM58XLHPgTg6mOKNhM14b6rkiS8lZemVsKErDN6VXXyeWft8IbgJWDk3jr/Gg==
+X-Gm-Gg: AYBFou0xoffbIDDATELixdse/WPCVsCOfVa5FzJvHop4c8xEx1D0IGlV2cPmTsbonMp
+	LQK6mpTtXa/P/LafAG6Oq2sksBMnzjE6h49/kfW/0mxeSn3jC05gRPvVppRLubB+eSX9C2wQKnk
+	4iyKNy16hgiaczXMUTJ8aOsHXRtN/vh5n71DNqNhdkCVp2Lay+eXfau5mUFZSxP91PBjW7GWCo5
+	IF+1mjcBsR9jdarMmzF7FxK59GkgB4d49AE4TcLd8GK50ku2iyqhDNJXdSYG47xt5BynzCpB3MC
+	Z5YPxwzVpCvPuNSf6fFmqCroiYwz+0JwecHt+RUZon80kvbZYtIH1ZnPKgcnqR6387N5xdUMceG
+	5r6RO42MPsmGVmg7Vk6arFCzXU+BOxvlwGEPfSZJTdVGL4xK53cyr3e+a4J4xrBWxFoytRd/b6f
+	5pVxxp57jm9GPBM5OfuNU9F1tEcm3ZcXk147GxbBd1FtJkpdJ0BczFQyxVtxsrLzCG7kQy7YiEm
+	9YShYukV/ZdkWiskjQE20OHJynf4sE5PCNwM2Pu
+X-Received: by 2002:a5d:5e86:0:b0:48e:adc:b97d with SMTP id ffacd0b85a97d-48e1e7a7a2emr4638120f8f.8.1792500752832;
+        Tue, 20 Oct 2026 05:52:32 -0700 (PDT)
 Return-Path: <vgharaee@gmail.com>
 Received: from vahid-mr.t-mobile.de ([88.128.94.31])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d80fdbbsm6335698f8f.17.2026.10.20.05.52.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d80fdbbsm6335698f8f.17.2026.10.20.05.52.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 05:52:28 -0700 (PDT)
+        Tue, 20 Oct 2026 05:52:32 -0700 (PDT)
 From: "Vahid Gharaee" <vgharaee@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/4] Add support for multiple kernels in FIT images
-Date: Tue, 20 Oct 2026 14:52:29 +0200
-Message-ID: <20261020125233.69997-1-vgharaee@gmail.com>
+Subject: [PATCH 1/4] oe.fitimage: Support multiple kernel nodes and configuration selection
+Date: Tue, 20 Oct 2026 14:52:30 +0200
+Message-ID: <20261020125233.69997-2-vgharaee@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261020125233.69997-1-vgharaee@gmail.com>
+References: <20261020125233.69997-1-vgharaee@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 13:03:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248279
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 13:03:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248280
 Content-Type: text/plain; charset="utf-8"
 
-From: Vahid Gharaee <vgharaee@gmail.com>
+From: Vahid Gharaee <v.gharaee@reinhausen.com>
 
-This patch series extends the FIT image generation support in OE-Core
-to allow multiple kernel images to be included in a single FIT image.
+Signed-off-by: Vahid Gharaee <vgharaee@gmail.com>
+---
+ meta/lib/oe/fitimage.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-Currently, FIT image generation supports a single kernel. This change
-allows additional kernels to be specified through BitBake metadata,
-including kernels built in separate multiconfig configurations.
-
-The changes include:
-- Support for multiple kernel nodes in oe.fitimage.
-- Metadata variables for additional kernel images and configurations.
-- Cross-multiconfig dependencies for kernel deployment.
-- Selection of the kernel associated with each FIT configuration.
-
-The implementation preserves the existing single-kernel behavior.
-
-Testing:
-- Built a FIT image containing linux-yocto and linux-yocto-rt for qemuarm64.
-- Booted both kernel configurations using U-Boot and QEMU.
-- Tested with oe-selftest -r fitimage.FitImagePyTests.
-
-Vahid Gharaee (4):
-  oe.fitimage: Support multiple kernel nodes and configuration selection
-  oe.fitimage: add new config interface variables for multi-kernel
-    image, to fitimage config file
-  oe.selftest: adding tests for multi kernel/config fitimage.
-    AI-Generated: Uses GitHub copilot (Claude Opus 5.5)
-  oe.fitimage: Add custom configurations and harden multi-kernel
-    handling
-
- meta/classes-recipe/kernel-fit-image.bbclass | 129 +++++++++++++--
- meta/conf/image-fitimage.conf                |  55 +++++++
- meta/lib/oe/fitimage.py                      |  84 ++++++++--
- meta/lib/oeqa/selftest/cases/fitimage.py     | 156 ++++++++++++++++++-
- 4 files changed, 397 insertions(+), 27 deletions(-)
-
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index 484e5c5ee0..91ccc31d46 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -193,6 +193,7 @@ class ItsNodeRootKernel(ItsNode):
+         self._dtbs = []
+         self._dtb_alias = []
+         self._kernel = None
++        self._kernels = {}
+         self._ramdisk = None
+         self._bootscr = None
+         self._setup = None
+@@ -268,8 +269,8 @@ class ItsNodeRootKernel(ItsNode):
+     def fitimage_emit_section_kernel(self, kernel_id, kernel_path, compression,
+         load, entrypoint, mkimage_kernel_type, entrysymbol=None):
+         """Emit the fitImage ITS kernel section"""
+-        if self._kernel:
+-            bb.fatal("Kernel section already exists in the ITS file.")
++        if kernel_id in self._kernels:
++            bb.fatal("Kernel section '%s' already exists in the ITS file." % kernel_id)
+         if entrysymbol:
+             result = subprocess.run([self._host_prefix + "nm", "vmlinux"], capture_output=True, text=True)
+             for line in result.stdout.splitlines():
+@@ -294,7 +295,10 @@ class ItsNodeRootKernel(ItsNode):
+             compression,
+             opt_props,
+         )
+-        self._kernel = kernel_node
++        self._kernels[kernel_id] = kernel_node
++
++        if self._kernel is None:
++            self._kernel = kernel_node
+ 
+     def fitimage_emit_section_dtb(self, dtb_id, dtb_path, dtb_loadaddress=None,
+                                   dtbo_loadaddress=None, add_compatible=False):
+@@ -425,7 +429,7 @@ class ItsNodeRootKernel(ItsNode):
+ 
+         self._loadables.append(loadable_node)
+ 
+-    def _fitimage_emit_one_section_config(self, conf_node_name, dtb=None):
++    def _fitimage_emit_one_section_config(self, conf_node_name, dtb=None, kernel=None):
+         """Emit the fitImage ITS configuration section"""
+         opt_props = {}
+         conf_desc = []
+@@ -436,9 +440,11 @@ class ItsNodeRootKernel(ItsNode):
+         if dtb and os.path.splitext(dtb.name)[1] == ".dtbo":
+             include_kernel = 0
+ 
+-        if self._kernel and include_kernel:
++        selected_kernel = kernel if kernel is not None else self._kernel
++
++        if selected_kernel and include_kernel:
+             conf_desc.append("Linux kernel")
+-            opt_props["kernel"] = self._kernel.name
++            opt_props["kernel"] = selected_kernel.name
+             if self._sign_enable:
+                 sign_entries.append("kernel")
+ 
 -- 
 2.55.0
 
