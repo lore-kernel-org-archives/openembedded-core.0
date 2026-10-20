@@ -1,151 +1,108 @@
-Subject: Re: [patch] python3: upgrade 3.14.7 -> 3.14.8
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5938.1792498360617633008
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 20 Oct 2026 05:12:41 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JoaXfAX6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1e3098ee2so26454745e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 05:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1792498358; x=1793103158; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XS1twkfL47GhPm0siqJLApQaAsd4fcUgl5Zfs3x85cA=;
+        b=JoaXfAX679UqJh7KWyVQfFGe1fE3EEjHSIGlNeSEBK6VCQIUjePdgXRYTTowWle7jW
+         xD4ts7a26tA2OPq6H0GXaEWeEyEInLCN68404u38lk8ov8Fki2Bu5+1qP+5Otr39UPBG
+         moEZHOkvKjlNCVgihwgHn2IMwnTQcveiy8w78=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792498358; x=1793103158;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=XS1twkfL47GhPm0siqJLApQaAsd4fcUgl5Zfs3x85cA=;
+        b=qSNYIIKd+SJwITr8+J1K4k1QVQR4b8aBbPBxN8OS9B9l+lmpfSijcCVBLiWoxM+wp6
+         OOgc0S425+UmWBA3mzV4NIggxbkUf4XYJLb70DRrcRjMI+5ViK4Dr9V+/TmYhsyZh6GD
+         7pPuTbdc7cJ/hRqx9vX5tlX6FAGNVHcRhdnaWHrJH+Ut5VnHpm6z7PMpUJvzencdr+o3
+         nPOFSbi1u9ZNu4yaxvCzH0fOLekOtpZvaBHHGCbviSL3/Nl2oRhvaFNvrSjGKujpk4M6
+         +QkYfaqTjbtqIMpM/wv4pW0OfeFyusH1a1Y0JO2QZgopA/Wm6Ra4g5Ts1JlddqGolFrv
+         dLog==
+X-Gm-Message-State: AFq9FYLyp/Ombz/CuaNEMLEDXRQnsgUCgd4ct4Jm3C1w3Mlzi+OrB7EQ
+	4yU80ticR+iddgQ2DsMnJ1BZtT3+gr9yZcvgrR8C6NT9mINZJaBRs5FnptO1Qp9nKGHHbAhfdoF
+	MPj6gjoU=
+X-Gm-Gg: AYBFou0pFy1xgTIsFyl35FrdYOTmHIztX5TexjyrzUgJ3kAhArORjzTRipUpillarLz
+	u477bzuBPCqCwI6WslIK4EsExigE6Bdngg7Hsg+UkS0Q7Giq+NL1rOnooSYokklPp1Yil9dd7tY
+	NdeT8YaktuSXnmIJEbGPTPOCh7/VAlWAAiyQ6gR0skmWQTj4LB+FbaRv4+p45zIlCaYKgROMrqn
+	UbHhsG2H/+NPbhbxOEggrX0rWZ/8TXWbJyLFWi5X3ueYJk9tJgfEcnm2617JjvR3jqCmu+Q2rUu
+	2apIEnKmbzQCU/JAoY9weWLLS+I1jDkb4JcFzIx00Mw/U1JOBwKLaOTgTItnx3/q4/7hBwtqx5m
+	blNBBOsHT2gmvK7+32ugN2Jh6ZajTJnIT9lCpXpzleubPsxbVtpX+LJ72aUL7PZP8wbOyk1IyQr
+	CXdIZw76MnLA6zexPASYO8LWHBpqXGbFExEkB2sdJMbEtE9QzPPE1mJyqTqn7XRYC/UYzSsY9I2
+	ppFWt1pI68/qbvjcoQb6ZWi2KcjH2fFFlviBA==
+X-Received: by 2002:a05:600c:4ec7:b0:4a1:d537:1c8d with SMTP id 5b1f17b1804b1-4a1d760410dmr238585105e9.19.1792498358192;
+        Tue, 20 Oct 2026 05:12:38 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:afe4:94a7:60b4:8f6e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d8315a3sm5222229f8f.56.2026.10.20.05.12.36
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 05:12:37 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.83)
-X-Originating-Platform: Windows Edge 155
-User-Agent: GROUPS.IO Web Poster
+Subject: [PATCH] python3: Fix build arch reproducibility issues
+Date: Tue, 20 Oct 2026 13:12:35 +0100
+Message-ID: <20261020121236.1426862-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-Date: Tue, 20 Oct 2026 05:05:13 -0700
-References: <20261008090135.1485765-1-vanusuri@mvista.com>
-In-Reply-To: <20261008090135.1485765-1-vanusuri@mvista.com>
-Message-ID: <2200835.1792497913489677566@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="dNrzJJZBDlu5BeMAZ5eK"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 12:05:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248274
-
---dNrzJJZBDlu5BeMAZ5eK
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 12:12:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248275
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hello Vijay, Ross,
+The build arch leaks into some of the installed python files. This tweaks/adds
+some sed expressions to resolve those references for the target and improves
+reproducibility between architectures.
 
-I reviewed the 3.14.8 upgrade. The downloaded source tarball=E2=80=99s SHA-=
-256 matches the recipe, and the retained source patches apply without fuzz.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/python/python3_3.14.7.bb | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Following Ross=E2=80=99s upstream report [1], I inspected libedit=E2=80=99s=
- history append path. append_history() opens the file with fopen(filename, =
-"a"), and history_save_fp() writes the _HiStOrY_V2_ header whenever ftell()=
- returns zero.
-
-If the append stream initially reports offset zero on musl, this would caus=
-e another header to be appended to an existing history file. That is consis=
-tent with the reported result where the header appears as a history entry a=
-fter truncation.
-
-This suggests a history handling issue that needs investigation before deci=
-ding whether a test skip is appropriate. Could you check whether explicitly=
- positioning the append stream at EOF before saving resolves the failure, a=
-nd share the result in the upstream issue?
-
-This analysis is based on source inspection. I have not independently repro=
-duced the musl failure.
-
-[1] https://github.com/python/cpython/issues/159424
-
-Thanks,
-Darsh
-
-On Thu, Oct 8, 2026 at 02:31 PM, Vijay Anusuri wrote:
-
->=20
-> Release information:
-> * https://www.python.org/downloads/release/python-3148/
-> * Python 3.14.8 is an expedited security release and the eighth
-> maintenance release of 3.14, containing around 354 bugfixes, build
-> improvements and documentation changes from 142 contributors since 3.14.7=
-.
->=20
->=20
-> Handles CVE-2026-19445 CVE-2026-19553 CVE-2026-19672 CVE-2026-15310
-> CVE-2026-15806 CVE-2026-17084
->=20
-> Changelog: https://docs.python.org/3/whatsnew/changelog.html#python-3-14-=
-8-final
->=20
->=20
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
-> .../python/{python3_3.14.7.bb =3D> python3_3.14.8.bb} | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
-> rename meta/recipes-devtools/python/{python3_3.14.7.bb =3D>
-> python3_3.14.8.bb} (99%)
->=20
-> diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb
-> b/meta/recipes-devtools/python/python3_3.14.8.bb
-> similarity index 99%
-> rename from meta/recipes-devtools/python/python3_3.14.7.bb
-> rename to meta/recipes-devtools/python/python3_3.14.8.bb
-> index f917edebd8..4663ee85cd 100644
-> --- a/meta/recipes-devtools/python/python3_3.14.7.bb
-> +++ b/meta/recipes-devtools/python/python3_3.14.8.bb
-> @@ -30,7 +30,7 @@ SRC_URI:append:class-native =3D " \
-> file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-> "
->=20
-> -SRC_URI[sha256sum] =3D
-> "3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81"
-> +SRC_URI[sha256sum] =3D
-> "c2215904f02b175596dc49351585104f4bc20341e1c47378b26a2c274360ce73"
->=20
-> # exclude pre-releases for both python 2.x and 3.x
-> UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-> --
-> 2.43.0
-
---dNrzJJZBDlu5BeMAZ5eK
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hello Vijay, Ross,<br /><br />I reviewed the 3.14.8 upgrade. The downl=
-oaded source tarball&rsquo;s SHA-256 matches the recipe, and the retained s=
-ource patches apply without fuzz.<br /><br />Following Ross&rsquo;s upstrea=
-m report [1], I inspected libedit&rsquo;s history append path. append_histo=
-ry() opens the file with fopen(filename, "a"), and history_save_fp() writes=
- the _HiStOrY_V2_ header whenever ftell() returns zero.<br /><br />If the a=
-ppend stream initially reports offset zero on musl, this would cause anothe=
-r header to be appended to an existing history file. That is consistent wit=
-h the reported result where the header appears as a history entry after tru=
-ncation.<br /><br />This suggests a history handling issue that needs inves=
-tigation before deciding whether a test skip is appropriate. Could you chec=
-k whether explicitly positioning the append stream at EOF before saving res=
-olves the failure, and share the result in the upstream issue?</div>
-<div>&nbsp;</div>
-<div>This analysis is based on source inspection. I have not independently =
-reproduced the musl failure.</div>
-<div><br />[1] <a href=3D"https://github.com/python/cpython/issues/159424" =
-target=3D"_blank" rel=3D"noopener">https://github.com/python/cpython/issues=
-/159424</a><br /><br />Thanks,<br />Darsh</div>
-<div>&nbsp;</div>
-<div>On Thu, Oct 8, 2026 at 02:31 PM, Vijay Anusuri wrote:</div>
-<div>
-<blockquote>Release information:<br />* <a href=3D"https://www.python.org/d=
-ownloads/release/python-3148/" target=3D"_blank" rel=3D"noopener">https://w=
-ww.python.org/downloads/release/python-3148/</a><br />* Python 3.14.8 is an=
- expedited security release and the eighth maintenance release of 3.14, con=
-taining around 354 bugfixes, build improvements and documentation changes f=
-rom 142 contributors since 3.14.7.<br /><br />Handles CVE-2026-19445 CVE-20=
-26-19553 CVE-2026-19672 CVE-2026-15310<br />CVE-2026-15806 CVE-2026-17084<b=
-r /><br />Changelog: <a href=3D"https://docs.python.org/3/whatsnew/changelo=
-g.html#python-3-14-8-final" target=3D"_blank" rel=3D"noopener">https://docs=
-.python.org/3/whatsnew/changelog.html#python-3-14-8-final</a><br /><br />Si=
-gned-off-by: Vijay Anusuri &lt;vanusuri@mvista.com&gt;<br />---<br />.../py=
-thon/{python3_3.14.7.bb =3D&gt; python3_3.14.8.bb} | 2 +-<br />1 file chang=
-ed, 1 insertion(+), 1 deletion(-)<br />rename meta/recipes-devtools/python/=
-{python3_3.14.7.bb =3D&gt; python3_3.14.8.bb} (99%)<br /><br />diff --git a=
-/meta/recipes-devtools/python/python3_3.14.7.bb b/meta/recipes-devtools/pyt=
-hon/python3_3.14.8.bb<br />similarity index 99%<br />rename from meta/recip=
-es-devtools/python/python3_3.14.7.bb<br />rename to meta/recipes-devtools/p=
-ython/python3_3.14.8.bb<br />index f917edebd8..4663ee85cd 100644<br />--- a=
-/meta/recipes-devtools/python/python3_3.14.7.bb<br />+++ b/meta/recipes-dev=
-tools/python/python3_3.14.8.bb<br />@@ -30,7 +30,7 @@ SRC_URI:append:class-=
-native =3D " \<br />file://0001-Lib-sysconfig.py-use-prefix-value-from-buil=
-d-configu.patch \<br />"<br /><br />-SRC_URI[sha256sum] =3D "3b48dac8fb59f6=
-2eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81"<br />+SRC_URI[sha256sum=
-] =3D "c2215904f02b175596dc49351585104f4bc20341e1c47378b26a2c274360ce73"<br=
- /><br /># exclude pre-releases for both python 2.x and 3.x<br />UPSTREAM_C=
-HECK_REGEX =3D "[Pp]ython-(?P&lt;pver&gt;\d+(\.\d+)+).tar"<br />-- <br />2.=
-43.0</blockquote>
-</div>
-
---dNrzJJZBDlu5BeMAZ5eK--
+diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb b/meta/recipes-devtools/python/python3_3.14.7.bb
+index f917edebd86..93c2db55c10 100644
+--- a/meta/recipes-devtools/python/python3_3.14.7.bb
++++ b/meta/recipes-devtools/python/python3_3.14.7.bb
+@@ -227,6 +227,9 @@ do_install:append() {
+                 -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING_INCDIR}'\,,g" \
+                 -e "s,^ 'INCLUDEPY'.*, 'INCLUDEPY': '${STAGING_INCDIR}/python${PYTHON_MAJMIN}'\,,g" \
+                 -e "s,^ 'CONFINCLUDEPY'.*, 'CONFINCLUDEPY': '${STAGING_INCDIR}/python${PYTHON_MAJMIN}'\,,g" \
++                -e "s,^ 'BUILD_GNU_TYPE'.*, 'BUILD_GNU_TYPE': '${HOST_SYS}'\,,g" \
++                -e "s,--build=${BUILD_ARCH},--build=${HOST_ARCH},g" \
++                -e "s,build_alias=${BUILD_ARCH},build_alias=${HOST_ARCH},g" \
+                 -e "s,${B},/build/path/unavailable/,g" \
+                 $sysconfigfile
+         cp $sysconfigfile ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
+@@ -402,6 +405,9 @@ py_package_preprocess () {
+                 -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
+                 -e 's:${RECIPE_SYSROOT}::g' \
+                 -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
++                -e 's:BUILD_GNU_TYPE\(.*\)=\(.*\)[a-z\-]*:BUILD_GNU_TYPE\1=\2${HOST_SYS}:g' \
++                -e 's:build_alias=${BUILD_ARCH}:build_alias=${HOST_ARCH}:g' \
++                -e 's:--build=${BUILD_ARCH}:--build=${HOST_ARCH}:g' \
+                 ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile \
+                 ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py \
+                 ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
+@@ -435,8 +441,13 @@ py_package_preprocess () {
+                 -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
+                 -e 's:${RECIPE_SYSROOT}::g' \
+                 -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
++                -e 's:build_alias=${BUILD_ARCH}:build_alias=${HOST_ARCH}:g' \
++                -e 's:--build=${BUILD_ARCH}:--build=${HOST_ARCH}:g' \
+                 -e 's|"userbase": ".*"|"userbase": ""|g' \
+ 		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfig_vars*.json
++
++	# Fix extensions in build-details.json
++	sed -i -e 's:${BUILD_ARCH}-${BUILD_OS}:${HOST_ARCH}-${HOST_OS}:g' ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/build-details.json
+ }
+ 
+ # We want bytecode precompiled .py files (.pyc's) by default
