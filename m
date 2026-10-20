@@ -1,142 +1,105 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3443.1792487910263359628
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3477.1792488097651620615
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 02:18:31 -0700
+ Tue, 20 Oct 2026 02:21:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=XZJQ04br;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: bastien.curutchet@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 36B90C62200;
-	Tue, 20 Oct 2026 09:19:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A3CD360393;
-	Tue, 20 Oct 2026 09:18:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CEC48103289A8;
-	Tue, 20 Oct 2026 11:18:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792487907; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=DPsyLPbdrIwIb+vdaRvNncKF7h/ooo2Ex1sewTCGoAU=;
-	b=XZJQ04br7utSknNdqop/2ppoiT/hMkS+xiZPomRjQ3SHJrWLz5r93KZyteK4sGxQuO0zwi
-	0oGC+Q8ML/8kUaL7FM6S4kmnPG0TZ0Tx/ANP14Pq4BDKjPYdRYM7mm0vPnZZXjPxMSKjzy
-	uC+2k1cw8/iQLpC3lgWrnMjF/NFh8L+sp68lslGfaX5xM18PWcpZLXFWkEfz4br33BbXh4
-	QA/orlsQf62h6BUFfSseiiu+PFenz/fADlyiDH9mNBrnKorSEi6w2WUIpvozMEqtm3Mvej
-	Vi8x1iBdH8kjOl0snBhd/xB6WXz/jIGwB3NZ102H/VYj6iEKnD3lS80CAFyVCg==
-From: Bastien Curutchet <bastien.curutchet@bootlin.com>
-To: openembedded-core@lists.openembedded.org,
-	yoann.congal@smile.fr
-Cc: jeremie.dautheribes@bootlin.com,
-	Sergio Prado <sergio.prado@e-labworks.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Bastien Curutchet <bastien.curutchet@bootlin.com>
-Subject: [wrynose][PATCH] kernel-fit-image: reference the boot script as "script"
-Date: Tue, 20 Oct 2026 11:18:14 +0200
-Message-ID: <20261020091814.62136-1-bastien.curutchet@bootlin.com>
-X-Mailer: git-send-email 2.56.0
-MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@smile.fr header.s=google header.b=vZhKgFmB;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a1efc90e7cso2842605e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 02:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1792488096; x=1793092896; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nMi0BM+U6QQRpbmY4v7LTAFZMGcbYeGSE5BqxWE8QxE=;
+        b=vZhKgFmBAkukHRhAHaSMEa195sXNNVxainclhnT9tHAlHS7A3ZSSoQg1PkHa4hIC/8
+         CvaPY9IgWay9nw6+aAnm1JHAEqbPwq9mQ4zLDDXXRQdVwbN9xW3JweEGteBzjJGYKXDg
+         mWtAHnTZKvjsLoDjA9wxk2FHvug2K6Cyr3Zqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792488096; x=1793092896;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nMi0BM+U6QQRpbmY4v7LTAFZMGcbYeGSE5BqxWE8QxE=;
+        b=rlS3t9elDscUrVxVFdx+4zQZbgBAngC3w/djvAV3YZVpGXOkO5E1oq5gE2dN+D1XEM
+         YK24nfOPNeCH/ygUk9Ue20wOC/X+a/i+z5TaT1K1wzU0FklLJXq76cvitonjefApqPiO
+         ns1fKCPZSM4++JyAiaSYKFzU7gLRhnIdYurl56qI5wAX3xxv2PEjQNRx7NKuMlpHuXsg
+         BHdasMPtwA9A6nZbGeGH1PhUFk/el5jGChv54tC77Vw1BPn57arfpLOVCe7zEdwTcU1e
+         mr6zIhQ/ygu8IwMw3xU+LRVjogzln4VAAAQDSRJnWAWCiFAQmPmhJpNoE7lK92izhHmn
+         cUzg==
+X-Forwarded-Encrypted: i=1; AKwUvBwzuoHYwrp0pebXwr/OOAGbhKVzLlAKrkTM6s759XvhU0sh5Dpui0YuMMhBQmvbLrN4ih43bkF02LEYUVcouZnqsQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYJ+P83aX0kOde4DH8jqyx1lUA/VTASRFgPD9W08K0RIEmNJA3MG
+	BN2hhbQL95P8ZXCrhkZsgdMI7GDrGyagXlRdZUTa2eEY6soEX0j01GMeDBnSU0CVbgB++LHnI6k
+	Zv4UfjUo=
+X-Gm-Gg: AYBFou07G7n11LdQ7V8DGo3V7b9/b/Y2o6Po0bgIUgTt2WPX9vZ2mGivXPXudVje1Cn
+	A2NPeloCEocLr5Gp7ndkvJkOnfHWdYLGhfQJYvlZliA6znypa6V1D4ROyUgJd2u6FHFDRp0k6no
+	KL5Ltxc79A6aa92CPASKwmMJDXQe0IvafThJqq+GLMpYc/3zDLjEnvCy+FPNz+O4p+LPqCNUxMO
+	Vas8pZhNjrn1Im9fQ7Vnk/Yr5NsSKfoW4Hcdds3ufTdZxzTUqY+yWBfJMzOFaKZOMxQePeKr+e9
+	2YH8NFc6tF3dfHSmKy+z7nmr06w3qebJFHJJu21jkzLdqZEtyq9+9LUwT4D5+QKULku21JHeey1
+	cjXcEZBJ6W48nO3bP0hq7XfnmpmkFEyoI2h3KuvYSCQg3GB6hQbQ3lICkI3UQ6TSq0sKRgDxpcq
+	rW71SBAYj4knRUDCm8fIjL8d9lqT2MjXrPV2dgdT+I4vKQ0mVnm6sVz7UGj5xxlyJWTs9ug7KUL
+	byy/s2By/zfQnlXynNXHe4eh9UTtGpMN7BmodwXcO8RWuBoiSqHJa4B4O8=
+X-Received: by 2002:a05:600c:8b2b:b0:49e:63cc:6324 with SMTP id 5b1f17b1804b1-4a1f4c80374mr39384165e9.6.1792488095386;
+        Tue, 20 Oct 2026 02:21:35 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2d41c8asm58213865e9.8.2026.10.20.02.21.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Oct 2026 02:21:35 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 20 Oct 2026 11:21:32 +0200
+Message-Id: <DM9JZXVWJ4V4.3EQ568QELLLBR@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH 2/7] glib-2.0-initial,glib-2.0:
+ upgrade 2.88.2 -> 2.88.4
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <daniel.turull@ericsson.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261020082611.3115623-1-daniel.turull@ericsson.com>
+ <20261020082611.3115623-3-daniel.turull@ericsson.com>
+In-Reply-To: <20261020082611.3115623-3-daniel.turull@ericsson.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 09:18:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248255
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 09:21:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248256
 
-From: Sergio Prado <sergio.prado@e-labworks.com>
+On Tue Oct 20, 2026 at 10:26 AM CEST, Daniel Turull via lists.openembedded.=
+org wrote:
+> From: Daniel Turull <daniel.turull@ericsson.com>
+>
+> Changes in 2.88.3-2.88.4 (per NEWS):
+> - CVE-2026-15588: GDBusServer pre-authentication DoS via unbounded
+>   SASL line buffering
+> - Security hardening backport: overflow/bounds checks in
+>   GSocketAddress, Unicode normalization, GResource, GVariant,
+>   logging, and GMarkup error paths
+> - Fix miscompilation with GCC 17 caused by G_GNUC_CONST on
+>   get_type() functions
+> - Fix handling of long filenames when moving files to trash
+>
+> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+> ---
+>  .../{glib-2.0-initial_2.88.2.bb =3D> glib-2.0-initial_2.88.4.bb}  | 0
+>  .../glib-2.0/{glib-2.0_2.88.2.bb =3D> glib-2.0_2.88.4.bb}         | 0
+>  meta/recipes-core/glib-2.0/glib.inc                             | 2 +-
+>  3 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.88.2.bb =3D> glib-=
+2.0-initial_2.88.4.bb} (100%)
+>  rename meta/recipes-core/glib-2.0/{glib-2.0_2.88.2.bb =3D> glib-2.0_2.88=
+.4.bb} (100%)
 
-The boot script added to a fitImage through FIT_UBOOT_ENV is referenced
-from the configuration nodes with a "bootscr" property. U-Boot does not
-know that name. It looks the boot script up through the "script"
-property, defined as FIT_SCRIPT_PROP in include/image.h and used by
-image_locate_script() in boot/image-board.c. The same name is used in
-the example image tree source in the documentation of the source
-command in [1]:
+Hello,
 
-    configurations {
-        default =3D "conf-2";
-        conf-1 { script =3D "script-1"; };
-        conf-2 { script =3D "script-2"; };
-    };
+I already reviewed Peter's upgrade to .3.
+Can you rebase on top of it[0]? Only this single patch, I took the others
+of the series into my review branch.
 
-As a result the boot script cannot be reached through a configuration:
+[0]: https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable=
+/wrynose-review
 
-    source <addr>#<conf>   fails with "Could not find script in <conf>"
-
-    source <addr>          falls back to the image named by the "default"
-                           property of the /images node, which is not
-                           generated either, and fails with "No FIT
-                           subimage unit name"
-
-    source <addr>:<image>  works, as the name of the image node is not
-                           affected, but addresses the script directly
-                           and therefore cannot tie it to a configuration=
-,
-                           which is a problem when one wants to boot
-                           exclusively from a signed configuration as
-                           part of a verified boot chain.
-
-To fix it, rename the property to "script". The entries of "sign-images"
-are property names of the configuration node, so rename that entry as wel=
-l
-to keep the boot script covered by the configuration signature, and updat=
-e
-the expected value in the fitimage selftest to match.
-
-Verified on an i.MX95 board with U-Boot 2025.04 booting a fitImage built
-with FIT_UBOOT_ENV. Before the change, 'source <addr>#conf-<dtb>' stopped
-at "Could not find script in conf-<dtb>". With the change, the
-configuration form runs the script and boots.
-
-[1] https://docs.u-boot.org/en/latest/usage/cmd/source.html#fit-image
-
-Signed-off-by: Sergio Prado <sergio.prado@e-labworks.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6bb0775e6ca56eb50119e9ad618dc5b865252f72)
-Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
----
-Hi all,
-
-I hadn't subscribed to the oe-core ML, that's why I resend it, sorry.
-
-Best regards,
-Bastien
----
- meta/lib/oe/fitimage.py                  | 4 ++--
- meta/lib/oeqa/selftest/cases/fitimage.py | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
-index a1040181a2..2304119902 100644
---- a/meta/lib/oe/fitimage.py
-+++ b/meta/lib/oe/fitimage.py
-@@ -453,9 +453,9 @@ class ItsNodeRootKernel(ItsNode):
-=20
-         if self._bootscr:
-             conf_desc.append("u-boot script")
--            opt_props["bootscr"] =3D self._bootscr.name
-+            opt_props["script"] =3D self._bootscr.name
-             if self._sign_enable:
--                sign_entries.append("bootscr")
-+                sign_entries.append("script")
-=20
-         if self._setup:
-             conf_desc.append("setup")
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/sel=
-ftest/cases/fitimage.py
-index 84e21346ab..822b8c22c7 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -697,7 +697,7 @@ class KernelFitImageBase(FitImageTestCase):
-         if bb_vars['INITRAMFS_IMAGE'] and bb_vars['INITRAMFS_IMAGE_BUNDL=
-E'] !=3D "1":
-             sign_images +=3D ', "ramdisk"'
-         if bb_vars['FIT_UBOOT_ENV']:
--            sign_images +=3D ', "bootscr"'
-+            sign_images +=3D ', "script"'
-         req_sigvalues_config =3D {
-             'algo': '"%s,%s"' % (bb_vars['FIT_HASH_ALG'], bb_vars['FIT_S=
-IGN_ALG']),
-             'key-name-hint': '"%s"' % bb_vars['UBOOT_SIGN_KEYNAME'],
+Thanks,
 --=20
-2.56.0
+Yoann Congal
+Smile ECS
 
