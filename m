@@ -1,59 +1,59 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2332.1792483069349058934
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2334.1792483083948494641
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 00:57:49 -0700
+ Tue, 20 Oct 2026 00:58:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=lYMPNMXY;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1e3098ee2so23426475e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 00:57:49 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Wioujm/q;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48df4f540ebso1611102f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 00:58:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792483067; x=1793087867; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1792483082; x=1793087882; darn=lists.openembedded.org;
         h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=0ZsQk2zx/WBgnfWBglgqHzJ++jMGd7v+EmFqaTKpwoo=;
-        b=lYMPNMXYafc4sFAIydk3rjnCXJkJKVcgONWIlRaPcFufMd5ykW16GIoG3ZW0UhBIvb
-         pOR0cURzry1nzkcD7hvsnRQTqQSuSKzwlq+ttI5lWyyFfpQ2t2gpDGGdquNOVEcaRcza
-         Tsk0iNVhURjFxa5AFhjWpi1+hN+JycHz3JwAA=
+        bh=jEfjnA4lXSFTTapIMxAaEUMv27KN2Hogp1T94fckXbk=;
+        b=Wioujm/q7gQYfks/ng/t6fdrB2e+y30mxzpODkJsaLcYjrgC9lhiSTXd/dssfRVoEA
+         dRsfzn2GKjUkaJb4Af3+saLeMaExNzLew/r5O2vgo9HYtOQ/vOUSBuTYwSj4Fs6KP6D8
+         nNNIeXAGovPjXGMJ38uKXWMNseJC8n5LuWzGY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792483067; x=1793087867;
+        d=1e100.net; s=20260707; t=1792483082; x=1793087882;
         h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0ZsQk2zx/WBgnfWBglgqHzJ++jMGd7v+EmFqaTKpwoo=;
-        b=QP7JSv5pZ1NilSgnn7365o3o5u3XBdxHbDBEtCFvvX9N1HZOLrs1BkLK1lJ2/+hjVi
-         uyLFioGBuXp95OZh0w66oZoPCQAxsFKUVxVT0NWLuKQ2TiaLKQOOXveeh/s4z1N7it/4
-         rPSns0LQyz5hkQbw40hZLq5ICZXfGnTIjuP7qroXStGG1MGz3D2SI502U+eqDdTGOSch
-         FTlh+SkBctCRiKZqy0LHMmOs0WdpBOOvbQqfSGwPljCqRsGJm9m/hNkNYqSQyBb6+xbZ
-         TzCkZIB4L4AMbF/yp1zURtCFqEOJCmnBIbeyMsUMskG1HCdWrWEziz29HzeBJYp3C1hV
-         yA3w==
-X-Forwarded-Encrypted: i=1; AKwUvBw/jRwL3Ysov8CcR2l2UdjnvlDZit3+JWSwjiE3QWUtZTZCuHJOodqwotdD5OSzqfZ/A7BTGypwPpEzqt7MQMsEhg==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYLOEoX2ZJNHmcyMJJSDWRXJeWerVKeUafBPbLj77h69VuvrLAry
-	uCvRwjBQfCJmtz4Y8LUL/GMIuPacr9XD23K1TH6L9S87097Ut8+QPqpjgyeHY5YZx60=
-X-Gm-Gg: AYBFou1jsR8Mo8lqAbfIGZMqQtl3LmmPaRxIqT03CsxWYn939I0LFtWi9Iuubj6X3/W
-	0NfV5KpCz1dSOrYnmb1fNKoIWmVUFDaaWik7t88wlYFi1vGJHZ1vwI5fN2a92I/yVci+fKFzU0H
-	H+XoAixmjUXsAu0waztMUkrHYnWCmqajM9xLFhT7ZPN24XfPl2a3MDife8ixSB2RXquJmuE6ozN
-	tTWN/Om2XTDga5WM+EGozmUEVIIn2Jg13G2u55ZNw3Qls8W9O1SrOhaYVDjmluS7Ui7iYnZZ2PA
-	RW3Fp641CxPFAFMdEV4dbLrdjCW44d2dOHeikheFDrNjytnAKH82txMERtcxiQsOPGiv6H4zTvr
-	ioqnY6oTVQdbxTs2Vyasb5cQTwJyU5/2BNox37sBHzzJIxTHRUTW/4hyG1RlGHunC8XE5hxzlb3
-	KtnOGnyIJOH92BOhHAQU1pukgzaMv8r5pd6nHrgh+1RWDw8jOF6pMBTxCvNl1245IiiU13eBUlG
-	Mw9S7SwBafGx6QRlxV/YFdOLQHXMAXP5acQquX4JqKO1nv5CyeTHFmsAWvu54JzpR3XR0o=
-X-Received: by 2002:a05:600c:c16a:b0:4a1:acab:234c with SMTP id 5b1f17b1804b1-4a1d75f23a1mr208757725e9.10.1792483067416;
-        Tue, 20 Oct 2026 00:57:47 -0700 (PDT)
+        bh=jEfjnA4lXSFTTapIMxAaEUMv27KN2Hogp1T94fckXbk=;
+        b=eyaVtaeB4xzg4gx+vVWMyT6qBNEuyIT/DSwDti6/0AwLEz6WkhPWIC/5MKl60fWxNV
+         nCKYZXTGOSnAE6kP4K65ynP4TKkgI5DDzFkeD2FqYJJkf6CwYdTU6meFJ2wiLLY9LfhT
+         C2t2TLnAXPjJ4884fcRnIfuGXrhADjW8kaVmx+0kpJ7zeC9qrXAXkC+SmlMJStnLrGVY
+         DD5QF54SxLjJUm8cnKflb51EE/hV/3W5BDmwkZ7vvU2/9mmlQtLfzmDzezZuSGeMwUdJ
+         ZiSIpK7NRjFy+HZ4kqGz+LhV6HjYf1QxJ1G2fKEtdronP5GNZTddkTaJ2EhC1v9cLMui
+         YTsQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxdtOAPHd4PFGrUrkXQNBbh0FNVir4pF2Qq0wiYRgnmMSjHJlpiKozN4QjxTH01ghlfbeRwD8PINeBYTFGIHPS+ZQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYLQuo5AgBVCPn7lU8Y9oHA3sPPuQMwm6VYuNBc09mPY+TFPpmz0
+	fhlKndyPTJBszpyjJvC02TZ/YI3L3hEO0bbebR0ZHjA3pcyckMEqtmQNIaldbjKd8yk=
+X-Gm-Gg: AYBFou10N29azQ8RGq0W6+GA40krqroJQrR/j6vkfpxDbfnCqlosTyBMJ88hGo39Wo/
+	i5MzWwXleF/oJ8U0z7B8hCcpb8g2XrwcOpPiGvHQbNmca1X9fNfFRBLmvA4FFNvMM+usfdEBGIP
+	7zQXUCFgTTPO0Yfzx4b7+UYifg/j/vxYayGsght+2WySD8JgSajQwWnJTSFIyoRcGbI7M+lZaLD
+	5Ztp1mp7XXaZop+x3lx7Akx3Ete3E2g9TUTwrfQnokCOlqZEkmOqc2ey4lfDEsDr96+P2beGuV2
+	QeJSVToIb21BaM6zswpERyzh4spiQBljWNENL5YLgUyOQ8WmLlWef85GwXHgxRxEA5Yyno2BIhI
+	BAVxQ48tk6tdJDXXZxemvlDaa6oRMgLA12OxiT6E1oBJlqil6k5oDVa94gNaxUgoR36ERCfdsOk
+	2FaDtgAUon1A/k8rQAudOso1TRWZYbeQ7ni11FeU+nQnxkkxDw6CmAIaLEsolK6NGKqmfoHInm1
+	3oj1AHgrM4P5+kSk3xYS48tbtbHsdUzuSZ2erd+GoOewWI4y3Dg/bXS6EYE
+X-Received: by 2002:a05:6000:240d:b0:48e:e28:ada8 with SMTP id ffacd0b85a97d-48e0e28ae03mr16893196f8f.52.1792483082056;
+        Tue, 20 Oct 2026 00:58:02 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from localhost (2a02-8440-a50d-9979-1d13-70a0-c696-7744.rev.sfr.net. [2a02:8440:a50d:9979:1d13:70a0:c696:7744])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1dc952d63sm334535445e9.2.2026.10.20.00.57.46
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d8185ddsm4224445f8f.29.2026.10.20.00.58.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Oct 2026 00:57:47 -0700 (PDT)
+        Tue, 20 Oct 2026 00:58:01 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 20 Oct 2026 09:57:46 +0200
-Message-Id: <DM9I7SSWHOKE.TOUEIMFGVMET@smile.fr>
-Subject: Re: [OE-core] [wrynose][PATCH 4/5] bluez5: Fix ABORT response being
- discarded
+Date: Tue, 20 Oct 2026 09:58:01 +0200
+Message-Id: <DM9I7ZIVXXOH.17QJPV8LCW8QO@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH 5/5] bluez5: Fix u128_to_string
+ skipping data[4]
 From: "Yoann Congal" <yoann.congal@smile.fr>
 Cc: <cheng.jiang@oss.qualcomm.com>, <quic_chezhou@quicinc.com>,
  <wei.deng@oss.qualcomm.com>, <shuai.zhang@oss.qualcomm.com>,
@@ -62,72 +62,63 @@ To: <jinwang.li@oss.qualcomm.com>,
  <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
 References: <20261019082346.3287363-1-jinwang.li@oss.qualcomm.com>
- <20261019082346.3287363-5-jinwang.li@oss.qualcomm.com>
-In-Reply-To: <20261019082346.3287363-5-jinwang.li@oss.qualcomm.com>
+ <20261019082346.3287363-6-jinwang.li@oss.qualcomm.com>
+In-Reply-To: <20261019082346.3287363-6-jinwang.li@oss.qualcomm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 07:57:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248243
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 07:58:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248244
 
 On Mon Oct 19, 2026 at 10:23 AM CEST, Jinwang Li via lists.openembedded.org=
  wrote:
-> Send the ABORT response after transfer_complete(), since it clears
-> the pending tx queue and was discarding the response first.
+> data[3] was used twice, skipping data[4] in the output string.
 >
 > Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
 > ---
 >  meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
->  ...x-Fix-ABORT-response-being-discarded.patch | 44 +++++++++++++++++++
->  2 files changed, 45 insertions(+)
->  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-gobex-Fi=
-x-ABORT-response-being-discarded.patch
+>  ...p-Fix-u128_to_string-skipping-data-4.patch | 33 +++++++++++++++++++
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pb=
+ap-Fix-u128_to_string-skipping-data-4.patch
 >
 > diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
 onnectivity/bluez5/bluez5.inc
-> index de9835e5a7..db650acdd0 100644
+> index db650acdd0..75d76cf96d 100644
 > --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 > +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -79,6 +79,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-=
+> @@ -80,6 +80,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-=
 ${PV}.tar.xz \
->             file://0001-avdtp-Fix-error-handling-for-AVDTP_OPEN-cmd.patch=
- \
 >             file://0001-avdtp-Fix-GET_CONFIGURATION-cmd.patch \
 >             file://0001-avdtp-Return-correct-error-when-SEP-is-inuse.patc=
 h \
-> +           file://0001-gobex-Fix-ABORT-response-being-discarded.patch \
+>             file://0001-gobex-Fix-ABORT-response-being-discarded.patch \
+> +           file://0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.pat=
+ch \
 >             "
 >  S =3D "${UNPACKDIR}/bluez-${PV}"
 > =20
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-gobex-Fix-ABORT=
--response-being-discarded.patch b/meta/recipes-connectivity/bluez5/bluez5/0=
-001-gobex-Fix-ABORT-response-being-discarded.patch
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-=
+u128_to_string-skipping-data-4.patch b/meta/recipes-connectivity/bluez5/blu=
+ez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
 > new file mode 100644
-> index 0000000000..5c0d7414ee
+> index 0000000000..338bc228c1
 > --- /dev/null
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-gobex-Fix-ABORT-respon=
-se-being-discarded.patch
-> @@ -0,0 +1,44 @@
-> +From 38a88cc433e0bc3cccb6dab126e484fc06ccd8bb Mon Sep 17 00:00:00 2001
+> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to=
+_string-skipping-data-4.patch
+> @@ -0,0 +1,33 @@
+> +From 198f4e0785644cea2b2154b383fc4ad354707947 Mon Sep 17 00:00:00 2001
 > +From: Jinwang Li <jinwang.li@oss.qualcomm.com>
-> +Date: Thu, 27 Aug 2026 16:36:51 +0800
-> +Subject: [PATCH] gobex: Fix ABORT response being discarded
+> +Date: Wed, 23 Sep 2026 11:29:57 +0800
+> +Subject: [PATCH] obexd/pbap: Fix u128_to_string skipping data[4]
 > +
-> +g_obex_drop_tx_queue() in transfer_complete() clears any pending tx,
-> +so the ABORT success response should be enqueued after transfer_complete=
-().
+> +u128_to_string uses data[3] twice causing data[4] to be skipped and
+> +DatabaseIdentifier, PrimaryCounter and SecondaryCounter properties to
+> +be printed with wrong values.
 > +
-> +Fixes the following PTS test cases:
-> +- OPP/SR/OPH/BV-27-I
-> +- FTP/SR/OTR/BV-02-C
-> +- PBAP/PSE/PDF/BV-06-I
-> +- PBAP/PSE/PBF/BV-03-I
-> +
-> +Fixes: 7a35c12a6ceb ("gobex: Fix segfault caused by interrupted transfer=
-")
-> +Upstream-Status: Backport [https://github.com/bluez/bluez/commit/d094be1=
-0ff0cc9d48714d35557e0fd297f36f907]
-> +Assisted-by: Claude:claude-sonnet-5
+> +Fixes: 5ee26d43c65c ("obexd/client: Add DatabaseIdentifier property")
+> +Upstream-Status: Backport [https://github.com/bluez/bluez/commit/8b4a417=
+6063831476bc9244d20f43b552e4b5554]
+> +Assisted-by: opencode:claude-sonnet-5
 > +Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
-
 Hello,
 
 Is that commit included in master and blacksail? If not, can you send
