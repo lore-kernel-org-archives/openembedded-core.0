@@ -1,49 +1,49 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4736.1792538580419794117
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4737.1792538581201252840
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 16:23:00 -0700
+ Tue, 20 Oct 2026 16:23:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=mw3bsb8m;
- spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48afbd2c386so60275f8f.3
+ dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=AHB89UUf;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48df0fa43c5so82730f8f.0
         for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 16:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20251104.gappssmtp.com; s=20251104; t=1792538578; x=1793143378; darn=lists.openembedded.org;
+        d=smile-fr.20251104.gappssmtp.com; s=20251104; t=1792538579; x=1793143379; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=mCBX6lDrj8FySr75U3MGSU57POz83EoRjB4RgNlyXck=;
-        b=mw3bsb8mUHsEdiOJe0dp44YKVAiWFCYzbTCwgEVKZwouCMgYg7Vp7wq9xNq8ohcU2q
-         fLWNmxZgodFkfCMWRJLUFIajIkGYCnslnKg9QctdJ3+C8cMFFkOlz+1P8oHIOPu5HpUn
-         dL9gDdG7NfIKIMEgK0tJk0FPeXVtbnfESFSFXXBoMVZE4Rj56BGVan9R715vnWdOK0Sh
-         UvV1B9+UYEzVVBhdO3lxHD2xydokDd45KaJYXHB+2yMSD3w1h3pt+3Xu4O0eEsZKOloA
-         P2KfmOyQSZb/NJEn4qFKDPUqp05PFffWjpK8dyMO/O/+Eta0aA8rSmWF/jhGH5bVX8gx
-         fi8g==
+        bh=oOfJDU/L67aE8812wEIY5aynw6bwn58L9cGnM5UNG7Y=;
+        b=AHB89UUfIVuJZxnH/TCKWVmNO0EjJJ5RNIt8/+pKMArkURrW/zvCm5vvQKTrre7bPD
+         U3V46KetFX8R/8jyhwFW4yDZoN986YlPuWVzyloRrr1YButdZWg9V9PUqP8QsHDn1B3d
+         RAz5yNr5NIO5TNMl/QCRW9Sm6lky1QdRq1kg4ca82jwNZxl/YIWA0UwIS05WbVBrORRX
+         3dR+RcgfwtP9fHq8aJO8KGo85G0zmKzMcOKyc1Dp/OUR50F1XJtXGYRzEArqL2okC3lh
+         riyjicA+vFF9SZNd7gHMkF5CJmF+Kw3H9kLnmlv16LQ4F+FECGoWJgCMyvVKgclBdJlR
+         np4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792538578; x=1793143378;
+        d=1e100.net; s=20260707; t=1792538579; x=1793143379;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=mCBX6lDrj8FySr75U3MGSU57POz83EoRjB4RgNlyXck=;
-        b=vNtDbdmGiyo51t+uS6qVLSwiFAehZOxO0Yns9Dvof7AmnX1OjHHkHdnmnN4LZubcl1
-         HhEKlMtrfi6oLeGoK2Rqm0/AbUHlIUf8WxzTAfccRzH8Ov1anX8AzdqWecdbHOzvgdkf
-         eerxoo512Jxzu8Zu2GM+QCAIyPuaXSeXhmJLiqLTnJLSnogB/nbeqfDUxj0SCLidhAfI
-         TZ6+vXQqq1msTnUXNYFFoz7hbYDUt8i24vwBknDq1xXkp32viKKms8E/w6CYhb1OqEHz
-         bGMlozk+bLFMjFA5HIVjg24DXQNYvluOXtcRWdvt4Vldb3SsxvF+KBNrMnGZnSOtw09B
-         wYbw==
-X-Gm-Message-State: AFq9FYISFLdVCzTTyAUWO92TU64h8dVeA/PvbWpS2MiXt3V5RoQYbHS5
-	kaUjOvV4z4cc6ym7L8DJI73BbSAfcVMk7TbPm2C+PrcOwctUZME8rUkU4fc9UmjOcfGAROR30Bo
-	t+8GjNOM=
-X-Gm-Gg: AYBFou398zrAp8iXrkfJ3fTtWn0AfpqHxUt1aVOD9IA+xfdFNrXY+oNPT+ViTShM0me
-	seMtpiKwz9OICu4BMG1kSO+CLAne/Kl4Om9Sb3H59DV/ttqOCskgCLvEe/9mL21oGgp3NXVXWpn
-	LC0TYsxUcODy7QrCuvR0UPoApX9Uxu+axnRzUEgZ3W/sR8ZaFvI1uYVTKLC3EseyT4MUdqqV1Gs
-	EoQV5wZE3s12JHTEDbWZJxaapnvnCksWOqEetHiVLPHD+nsT2KkHmxIeCUWmLxhqu/QxV1c/aKl
-	pK/vgSEPfYIhE4/RVmanID6Po6ixkrIlGqtpRoJFsKyivDu+yIh5Pf309H0PuYqRP5pp1SCZgJb
-	lzb3HRpEpBRPcGttexxn5yJtFNbfY98APk3I20bggHqi6tyGEBB+z0zMEbCLnYTQ5F9bUUZCu8t
-	6x/IY9D6wPpU61zpeomAlrM2ExI5A3HEPPXenN5E4eeHOO/sookgyX+LAIo6HJygClMVVG+95Gh
-	qs8U0IbHmGrvlBq79YgQMuItRptcJs2BLzi87N/qGFu1sHTO+j66oQLEoiy5Li2OE8PyFwQrw==
-X-Received: by 2002:a05:6000:1a8a:b0:48d:dc6f:219a with SMTP id ffacd0b85a97d-48e264ad992mr363349f8f.27.1792538578443;
-        Tue, 20 Oct 2026 16:22:58 -0700 (PDT)
+        bh=oOfJDU/L67aE8812wEIY5aynw6bwn58L9cGnM5UNG7Y=;
+        b=Nyb8SRmoM9P+GU63Y/gHIl8ArBaqtd2KLTG/hgLXtyzVKVWOl6mYLyb4BtmhY8FjQM
+         wdAXmMp4vvD6fWzwUE3yFgQVkk/OPlBV2L6VTMp8dpFiVlGQxU2313ehHOwNlW1crtiK
+         IUVXiXUtapDfBJciBbv7hYq4hSjb2mG1md5L1cDxAcuO1b++1faulYwHGWpUUdUwsOw9
+         B4CfWSBFEYO8pqnYNo1/3+u7qTOO/5HIXkzk/Dk4vOCX7EhaEnvGZ8sSIW8pCS+ZJM7T
+         qNsfPWmQ//FcOg9KUV2Vbl2tzbQeExLWE5TWBcIWz1/bTEp+0nvZTmrSyslczyjVDItV
+         hggw==
+X-Gm-Message-State: AFq9FYJT+MUdRQvYSIsYGanGONwbRH3Hf5oQX3m/v17ZQnVCE+dSA6/H
+	O+zOyFdQ7oCNPP9vFJ9O5B+4kDbezijLwkhQhlvH41I4RQKQ+vNt8v5mHQMUUy8+UqD3SgJUBgQ
+	nUvuTvfg=
+X-Gm-Gg: AYBFou0QOh2hrGAr7ysh0wTRGtvGLB2uwFhLXrcQbqo/9YYUxTzYu04PeIKNziXXlxm
+	uZ9tCGXL0HZYeXvPcvmFh4vhPuF7nKbcgtkPdo6KvQjofHVoR1bzor6sZBpU8sY6yJOXRkIu3vw
+	3d2ac6woKfoaMVTz8cQ8nHnku+dXs7ONsVmzyKFdvpipAj5WdBWXM+EI6jdIxBKmViZqV5S04Id
+	DoxRVBNXG1xyyhAfvzuTNyTsIu3RPodZ1iqKc6SXbsKM7VKrWnVxp93d53HGFFqtb0JPS0LGoZo
+	UvUy1iwy67nSLfz1xzQpRf0sK3y2Yi5WUOuV0544VWeIibAlAYLf2rQDPshwQ5+yI+QU/o71XeT
+	D9ht4mRGwPOQ7OJB0iQzJxG1HdTA6oR8tVAyaFyfp68wYf9KBs6q9gH4lFoh0iMC6NxE9XxhDYg
+	h/C18n/cqZTFW9hzQj9bfjj/l34q4UxnDtpQ4+pzfW8LWO6JVdLYKuA0CDqjjdK6ecbKNGku6QP
+	dqlBjYbzO4o3M9owDjOY/f9qjhY6xsBzR2a5sAZvPTquhXfmmzbb7r/394A2tiqW6QzPmeejg==
+X-Received: by 2002:a05:6000:25c6:b0:48d:f1b3:7e67 with SMTP id ffacd0b85a97d-48e1e7cc1ffmr8285686f8f.18.1792538579045;
+        Tue, 20 Oct 2026 16:22:59 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2583523asm1436615f8f.37.2026.10.20.16.22.58
@@ -52,9 +52,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Tue, 20 Oct 2026 16:22:58 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 12/25] nasm: fix CVE-2026-6068
-Date: Wed, 21 Oct 2026 01:22:22 +0200
-Message-ID: <72e1f3638c4f03634de6d288802f78fef16f097e.1792537664.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 13/25] python3-cryptography: fix CVE-2026-69247
+Date: Wed, 21 Oct 2026 01:22:23 +0200
+Message-ID: <f95c20f42050fd0659c83bea9f870d14bedb0827.1792537664.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792537664.git.yoann.congal@smile.fr>
 References: <cover.1792537664.git.yoann.congal@smile.fr>
@@ -62,296 +62,480 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 23:23:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248331
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248332
 Content-Type: text/plain; charset="utf-8"
 
-From: Kris Gavvala <kris.gavvala@windriver.com>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-- CVE-2026-6068-1.patch applies the upstream fix in [2],
-  addressing the issue in [1].
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-- CVE-2026-6068-2.patch applies [3],
-  adding helper functions used in [2].
+A direct backport is used because the fixed 50.0.0
+release also contains backward-incompatible API changes
+and new features, which are unsuitable for a stable
+Wrynose update.
 
-- CVE-2026-6068-3.patch applies [4],
-  which prevents the compilation warning:
-  assignment discards 'const' qualifier
+[1] https://github.com/pyca/cryptography/commit/53fccd93413a8d7f07d6d8999681f27b75cffa3f
+[2] https://github.com/pyca/cryptography/security/advisories/GHSA-g6cj-pr64-35w5
 
-[1] https://github.com/netwide-assembler/nasm/issues/222
-[2] https://github.com/netwide-assembler/nasm/commit/7bc82e7daf4cceb6a8af7ad2876485c9b4b01a56
-[3] https://github.com/netwide-assembler/nasm/commit/44245e4684be1fac6c2fb7ac67dce8a55a574956
-[4] https://github.com/netwide-assembler/nasm/commit/7b4e77dae29156a283d31fe707939ce21bf3eb3e
-
-Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../nasm/nasm/CVE-2026-6068-1.patch           | 98 +++++++++++++++++++
- .../nasm/nasm/CVE-2026-6068-2.patch           | 80 +++++++++++++++
- .../nasm/nasm/CVE-2026-6068-3.patch           | 51 ++++++++++
- meta/recipes-devtools/nasm/nasm_3.01.bb       |  3 +
- 4 files changed, 232 insertions(+)
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2026-6068-1.patch
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2026-6068-2.patch
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2026-6068-3.patch
+ .../python/python3-cryptography.bb            |   1 +
+ .../python3-cryptography/CVE-2026-69247.patch | 435 ++++++++++++++++++
+ 2 files changed, 436 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-69247.patch
 
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-1.patch b/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-1.patch
-new file mode 100644
-index 00000000000..44f691610a7
---- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-1.patch
-@@ -0,0 +1,98 @@
-+From e3a3fb40d21edb638f8191465574aaaaaacb336d Mon Sep 17 00:00:00 2001
-+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
-+Date: Fri, 26 Jun 2026 17:27:47 -0700
-+Subject: [PATCH 2/3] asm/nasm.c: fix use-after-free for -M* options in -@
-+ files
-+
-+-M* options in response files would hold on to a pointer to the new
-+value, but in response files that is not a persistent buffer. Make
-+sure to make a copy instead.
-+
-+This uses the new nasm_str[dup]to() helpers.
-+
-+(Note that calling nasm_free() on a NULL pointer is guaranteed safe.)
-+
-+CVE: CVE-2026-6068
-+Upstream-Status: Backport [https://github.com/netwide-assembler/nasm/commit/7bc82e7daf4cceb6a8af7ad2876485c9b4b01a56]
-+
-+Reported-by: <BreakingBad6@github.com>
-+Fixes: https://github.com/netwide-assembler/nasm/issues/222
-+Fixes: CVE-2026-6068
-+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-+Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
-+---
-+ asm/nasm.c | 20 ++++++++++++--------
-+ 1 file changed, 12 insertions(+), 8 deletions(-)
-+
-+diff --git a/asm/nasm.c b/asm/nasm.c
-+index 49fa00eb7..98bde83cb 100644
-+--- a/asm/nasm.c
-++++ b/asm/nasm.c
-+@@ -121,8 +121,8 @@ static unsigned int operating_mode;
-+ /* Dependency flags */
-+ static bool depend_emit_phony = false;
-+ static bool depend_missing_ok = false;
-+-static const char *depend_target = NULL;
-+-static const char *depend_file = NULL;
-++static char *depend_target = NULL;
-++static char *depend_file = NULL;
-+ struct strlist *depend_list;
-+ 
-+ static bool want_usage;
-+@@ -709,6 +709,8 @@ int main(int argc, char **argv)
-+     stdscan_cleanup();
-+     src_free();
-+     strlist_free(&include_path);
-++    nasm_free(depend_file);
-++    nasm_free(depend_target);
-+ 
-+     return terminate_after_phase;
-+ }
-+@@ -750,7 +752,8 @@ static void copy_filename(const char **dst, const char *src, const char *what)
-+ }
-+ 
-+ /*
-+- * Convert a string to a POSIX make-safe form
-++ * Convert a string to a POSIX make-safe form; returns a newly allocated
-++ * string.
-+  */
-+ static char *quote_for_pmake(const char *str)
-+ {
-+@@ -830,7 +833,8 @@ static char *quote_for_pmake(const char *str)
-+ }
-+ 
-+ /*
-+- * Convert a string to a Watcom make-safe form
-++ * Convert a string to a Watcom make-safe form; returns a newly allocated
-++ * string.
-+  */
-+ static char *quote_for_wmake(const char *str)
-+ {
-+@@ -1188,20 +1192,20 @@ static bool process_arg(char *p, char *q, int pass)
-+                 case 'D':
-+                     operating_mode |= OP_DEPEND;
-+                     if (q && (q[0] != '-' || q[1] == '\0')) {
-+-                        depend_file = q;
-++                        nasm_strdupto(&depend_file, q);
-+                         advance = true;
-+                     }
-+                     break;
-+                 case 'F':
-+-                    depend_file = q;
-++                    nasm_strdupto(&depend_file, q);
-+                     advance = true;
-+                     break;
-+                 case 'T':
-+-                    depend_target = q;
-++                    nasm_strdupto(&depend_target, q);
-+                     advance = true;
-+                     break;
-+                 case 'Q':
-+-                    depend_target = quote_for_make(q);
-++                    nasm_strto(&depend_target, quote_for_make(q));
-+                     advance = true;
-+                     break;
-+                 case 'W':
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-2.patch b/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-2.patch
-new file mode 100644
-index 00000000000..4b2334776aa
---- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-2.patch
-@@ -0,0 +1,80 @@
-+From 4dfcfe9b333230788be7328e8fe943bda1610011 Mon Sep 17 00:00:00 2001
-+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
-+Date: Fri, 26 Jun 2026 17:25:23 -0700
-+Subject: [PATCH 1/3] Add nasm_strdupto() and nasm_strto(), to replace a string
-+ variable
-+
-+It is common enough that one wants to set a string pointer to a newly
-+allocated string, freeing the old one if it is not NULL.
-+
-+Add specific helper functions for this.
-+
-+CVE: CVE-2026-6068
-+Upstream-Status: Backport [https://github.com/netwide-assembler/nasm/commit/44245e4684be1fac6c2fb7ac67dce8a55a574956]
-+
-+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-+Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
-+---
-+ include/nasmlib.h | 23 +++++++++++++++++++++++
-+ nasmlib/alloc.c   | 11 +++++++++++
-+ 2 files changed, 34 insertions(+)
-+
-+diff --git a/include/nasmlib.h b/include/nasmlib.h
-+index ed4222b11..fae86d3cd 100644
-+--- a/include/nasmlib.h
-++++ b/include/nasmlib.h
-+@@ -102,6 +102,29 @@ char * safe_alloc nasm_strndup(const char *, size_t);
-+ char * safe_alloc nasm_strcat(const char *one, const char *two);
-+ char * safe_alloc end_with_null nasm_strcatn(const char *one, ...);
-+ 
-++/*
-++ * Replace a string in a string pointer variable with a nasm_strdup()
-++ * copy of the argument on the right, freeing the contents of the
-++ * previous contents of the variable if non-NULL.
-++ *
-++ * If *str is NULL, simply return the old value of *ptrp.
-++ */
-++char *nasm_strdupto(char **ptrp, const char *str);
-++
-++/*
-++ * Similar, but the new pointer must already have been heap allocated
-++ * by the creating function.
-++ */
-++static inline char *nasm_strto(char **ptrp, char *str)
-++{
-++    char *ptr = *ptrp;
-++    if (!str)
-++        return ptr;
-++    if (ptr)
-++        nasm_free(ptr);
-++    return *ptrp = str;
-++}
-++
-+ /*
-+  * nasm_[v]asprintf() are variants of the semi-standard [v]asprintf()
-+  * functions, except that we return the pointer instead of a count.
-+diff --git a/nasmlib/alloc.c b/nasmlib/alloc.c
-+index b77d48217..fa3e9e996 100644
-+--- a/nasmlib/alloc.c
-++++ b/nasmlib/alloc.c
-+@@ -101,6 +101,17 @@ char *nasm_strndup(const char *s, size_t len)
-+     return memcpy(p, s, len);
-+ }
-+ 
-++char *nasm_strdupto(char **ptrp, const char *str)
-++{
-++    char *ptr = *ptrp;
-++    if (str) {
-++        if (ptr)
-++            nasm_free(ptr);
-++        *ptrp = ptr = nasm_strdup(str);
-++    }
-++    return ptr;
-++}
-++
-+ char *nasm_strcat(const char *one, const char *two)
-+ {
-+     char *rslt;
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-3.patch b/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-3.patch
-new file mode 100644
-index 00000000000..b25a6de5832
---- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2026-6068-3.patch
-@@ -0,0 +1,51 @@
-+From db6cbdf6244ddb729b7c6331f62f42334bc00550 Mon Sep 17 00:00:00 2001
-+From: Kris Gavvala <kris.gavvala@windriver.com>
-+Date: Wed, 23 Sep 2026 00:57:12 -0500
-+Subject: [PATCH] Drop const return type of filename_set_extension()
-+
-+filename_set_extension() always returns a newly allocated string
-+buffer, drop the "const" from the return type.
-+
-+CVE: CVE-2026-6068
-+Upstream-Status: Backport [https://github.com/netwide-assembler/nasm/commit/7b4e77dae2]
-+
-+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-+Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
-+---
-+ include/nasmlib.h  | 5 +++--
-+ nasmlib/filename.c | 2 +-
-+ 2 files changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/include/nasmlib.h b/include/nasmlib.h
-+index 494d7842e..2771c5951 100644
-+--- a/include/nasmlib.h
-++++ b/include/nasmlib.h
-+@@ -366,9 +366,10 @@ struct debug_prefix_list {
-+ extern struct debug_prefix_list *debug_prefixes;
-+ 
-+ /*
-+- * Add/replace or remove an extension to the end of a filename
-++ * Add/replace or remove an extension to the end of a filename;
-++ * returns a newly allocated buffer with the modified filename.
-+  */
-+-const char *filename_set_extension(const char *inname, const char *extension);
-++char *filename_set_extension(const char *inname, const char *extension);
-+ char *filename_debug_remap(char *dest, char const *inname, size_t len);
-+ 
-+ /*
-+diff --git a/nasmlib/filename.c b/nasmlib/filename.c
-+index 0e27f69e2..85c42a21c 100644
-+--- a/nasmlib/filename.c
-++++ b/nasmlib/filename.c
-+@@ -16,7 +16,7 @@ struct debug_prefix_list *debug_prefixes = NULL;
-+  * field at the very end of the filename.  Returns a newly allocated
-+  * string buffer.
-+  */
-+-const char *filename_set_extension(const char *inname, const char *extension)
-++char *filename_set_extension(const char *inname, const char *extension)
-+ {
-+     const char *q = inname;
-+     char *p;
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/nasm/nasm_3.01.bb b/meta/recipes-devtools/nasm/nasm_3.01.bb
-index e8079732d43..186ae57ce4c 100644
---- a/meta/recipes-devtools/nasm/nasm_3.01.bb
-+++ b/meta/recipes-devtools/nasm/nasm_3.01.bb
-@@ -10,6 +10,9 @@ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
-            file://0002-Add-debug-prefix-map-option.patch \
-            file://0001-compiler.h-Backport-C23-support.patch \
-            file://CVE-2026-6067.patch \
-+           file://CVE-2026-6068-1.patch \
-+           file://CVE-2026-6068-2.patch \
-+           file://CVE-2026-6068-3.patch \
+diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
+index f3cb755ed5b..a94b79ed4ce 100644
+--- a/meta/recipes-devtools/python/python3-cryptography.bb
++++ b/meta/recipes-devtools/python/python3-cryptography.bb
+@@ -19,6 +19,7 @@ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+             file://CVE-2026-69249.patch \
+             file://check-memfree.py \
+             file://run-ptest \
++            file://CVE-2026-69247.patch \
             "
  
- SRC_URI[sha256sum] = "7a7b1ff3b0eef3247862f2fbe4ca605ccef770545d7af7979eba84a9d045c0b1"
+ require ${BPN}-crates.inc
+diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69247.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69247.patch
+new file mode 100644
+index 00000000000..85b47faac5c
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69247.patch
+@@ -0,0 +1,435 @@
++From 53fccd93413a8d7f07d6d8999681f27b75cffa3f Mon Sep 17 00:00:00 2001
++From: Alex Gaynor <alex.gaynor@gmail.com>
++Date: Fri, 31 Jul 2026 09:24:53 -0400
++Subject: [PATCH] Don't leak how PKCS#7 encryptedKey decryption failed (#15369)
++
++* Don't leak how PKCS#7 encryptedKey decryption failed
++
++pkcs7_decrypt_der and its PEM and S/MIME variants reported invalid RSA
++PKCS#1 v1.5 padding, a recovered key of the wrong length, and a wrong
++key as three distinct errors, and the middle one disclosed the exact
++recovered length. That is a Bleichenbacher oracle for any caller that
++decrypts untrusted messages. The wrong-length case also returned before
++the AES-CBC pass, so the same distinction was observable by timing,
++proportional to a content size the attacker chooses.
++
++Substitute a random key of the expected length on failure, per RFC 3218,
++and continue down an identical path so that every outcome looks alike.
++
++EnvelopedData still authenticates nothing, so revealing whether
++decryption succeeded remains a CBC padding oracle regardless. That is a
++property of PKCS#7 rather than of this implementation, and is now
++documented instead.
++
++Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
++
++* Cover the non-ValueError path out of encryptedKey decryption
++
++Only a ValueError from unwrapping the key is attacker controlled and so
++deliberately silenced. A private key implemented outside of this library
++can fail in other ways, and those still reach the caller -- but nothing
++exercised that arm, leaving it uncovered.
++
++Add a DummyRSAPrivateKey double whose decrypt() raises a TypeError, and
++tests for each of its methods.
++
++Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
++
++* fix?
++
++* error message
++
++---------
++
++Co-authored-by: Claude Opus 5 <noreply@anthropic.com>
++
++CVE: CVE-2026-69247
++Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/53fccd93413a8d7f07d6d8999681f27b75cffa3f]
++
++Backport Changes:
++- Dropped the CHANGELOG.rst update because it targets the 50.0.0 release.
++- Adapted DummyRSAPrivateKey to the 46.0.7 RSA abstract API, which lacks
++  NoDigestInfo and __deepcopy__.
++- Added only the RSA tests from tests/test_doubles.py because the older
++  source does not contain the unrelated Ed25519 test double.
++
++(cherry picked from commit 53fccd93413a8d7f07d6d8999681f27b75cffa3f)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ .../primitives/asymmetric/serialization.rst   | 21 +++++
++ docs/spelling_wordlist.txt                    |  1 +
++ src/rust/src/pkcs7.rs                         | 81 +++++++++++--------
++ tests/doubles.py                              | 46 ++++++++++-
++ tests/hazmat/primitives/test_pkcs7.py         | 62 ++++++++++++++
++ tests/test_doubles.py                         | 53 ++++++++++++
++ 6 files changed, 229 insertions(+), 35 deletions(-)
++ create mode 100644 tests/test_doubles.py
++
++diff --git a/docs/hazmat/primitives/asymmetric/serialization.rst b/docs/hazmat/primitives/asymmetric/serialization.rst
++index fb49c7d14..8364131da 100644
++--- a/docs/hazmat/primitives/asymmetric/serialization.rst
+++++ b/docs/hazmat/primitives/asymmetric/serialization.rst
++@@ -1436,6 +1436,15 @@ contain certificates, CRLs, and much more. PKCS7 files commonly have a ``p7b``,
++     Deserialize and decrypt a DER-encoded PKCS7 message. PKCS7 (or S/MIME) has multiple versions,
++     but this supports a subset of :rfc:`5751`, also known as S/MIME Version 3.2.
++ 
+++    .. warning::
+++
+++        ``EnvelopedData`` does not authenticate its content. An application
+++        that decrypts attacker-supplied messages and reveals whether
+++        decryption succeeded -- through an error, a status code, or timing --
+++        gives the attacker a CBC padding oracle sufficient to recover the
+++        plaintext. This is a property of PKCS#7 and cannot be fixed here,
+++        so avoid decrypting untrusted ``EnvelopedData``.
+++
++     :param data: The data, encoded in DER format.
++     :type data: bytes
++ 
++@@ -1491,6 +1500,12 @@ contain certificates, CRLs, and much more. PKCS7 files commonly have a ``p7b``,
++     Deserialize and decrypt a PEM-encoded PKCS7E message. PKCS7 (or S/MIME) has multiple versions,
++     but this supports a subset of :rfc:`5751`, also known as S/MIME Version 3.2.
++ 
+++    .. warning::
+++
+++        The padding oracle described in
+++        :func:`~cryptography.hazmat.primitives.serialization.pkcs7.pkcs7_decrypt_der`
+++        applies equally here.
+++
++     :param data: The data, encoded in PEM format.
++     :type data: bytes
++ 
++@@ -1548,6 +1563,12 @@ contain certificates, CRLs, and much more. PKCS7 files commonly have a ``p7b``,
++     Deserialize and decrypt a S/MIME-encoded PKCS7 message. PKCS7 (or S/MIME) has multiple versions,
++     but this supports a subset of :rfc:`5751`, also known as S/MIME Version 3.2.
++ 
+++    .. warning::
+++
+++        The padding oracle described in
+++        :func:`~cryptography.hazmat.primitives.serialization.pkcs7.pkcs7_decrypt_der`
+++        applies equally here.
+++
++     :param data: The data. It should be in S/MIME format, meaning MIME with content type
++         ``application/pkcs7-mime`` or ``application/x-pkcs7-mime``.
++     :type data: bytes
++diff --git a/docs/spelling_wordlist.txt b/docs/spelling_wordlist.txt
++index 831369fe9..956325782 100644
++--- a/docs/spelling_wordlist.txt
+++++ b/docs/spelling_wordlist.txt
++@@ -151,6 +151,7 @@ Ubuntu
++ unencrypted
++ unicode
++ unpadded
+++untrusted
++ unpadding
++ validator
++ Ventura
++diff --git a/src/rust/src/pkcs7.rs b/src/rust/src/pkcs7.rs
++index 3fb5abf15..dd64c3aff 100644
++--- a/src/rust/src/pkcs7.rs
+++++ b/src/rust/src/pkcs7.rs
++@@ -266,27 +266,6 @@ fn decrypt_der<'p>(
++                 }
++             };
++ 
++-            // Raise error when the key encryption algorithm is not RSA
++-            let key = match recipient_info.key_encryption_algorithm.oid() {
++-                &oid::RSA_OID => {
++-                    let padding = types::PKCS1V15.get(py)?.call0()?;
++-                    private_key
++-                        .call_method1(
++-                            pyo3::intern!(py, "decrypt"),
++-                            (recipient_info.encrypted_key, &padding),
++-                        )?
++-                        .extract::<pyo3::pybacked::PyBackedBytes>()?
++-                }
++-                _ => {
++-                    return Err(CryptographyError::from(
++-                        exceptions::UnsupportedAlgorithm::new_err((
++-                            "Only RSA with PKCS #1 v1.5 padding is currently supported for key decryption.",
++-                            exceptions::Reasons::UNSUPPORTED_SERIALIZATION,
++-                        )),
++-                    ));
++-                }
++-            };
++-
++             // The function can decrypt content encrypted with AES-128-CBC, which the S/MIME v3.2
++             // RFC specifies as MUST support, and AES-256-CBC, which is specified as SHOULD+
++             // support. More info: https://datatracker.ietf.org/doc/html/rfc5751#section-2.7
++@@ -294,19 +273,9 @@ fn decrypt_der<'p>(
++             let algorithm_identifier = enveloped_data
++                 .encrypted_content_info
++                 .content_encryption_algorithm;
++-            let (algorithm, mode) = match algorithm_identifier.params {
++-                AlgorithmParameters::Aes128Cbc(iv) => (
++-                    types::AES128.get(py)?.call1((key,))?,
++-                    types::CBC
++-                        .get(py)?
++-                        .call1((pyo3::types::PyBytes::new(py, &iv),))?,
++-                ),
++-                AlgorithmParameters::Aes256Cbc(iv) => (
++-                    types::AES256.get(py)?.call1((key,))?,
++-                    types::CBC
++-                        .get(py)?
++-                        .call1((pyo3::types::PyBytes::new(py, &iv),))?,
++-                ),
+++            let (algorithm_type, key_size, iv) = match algorithm_identifier.params {
+++                AlgorithmParameters::Aes128Cbc(iv) => (&types::AES128, 16, iv),
+++                AlgorithmParameters::Aes256Cbc(iv) => (&types::AES256, 32, iv),
++                 _ => {
++                     return Err(CryptographyError::from(
++                         exceptions::UnsupportedAlgorithm::new_err((
++@@ -317,6 +286,50 @@ fn decrypt_der<'p>(
++                 }
++             };
++ 
+++            // Raise error when the key encryption algorithm is not RSA
+++            if recipient_info.key_encryption_algorithm.oid() != &oid::RSA_OID {
+++                return Err(CryptographyError::from(
+++                    exceptions::UnsupportedAlgorithm::new_err((
+++                        "Only RSA with PKCS #1 v1.5 padding is currently supported for key decryption.",
+++                        exceptions::Reasons::UNSUPPORTED_SERIALIZATION,
+++                    )),
+++                ));
+++            }
+++
+++            // Unwrap the content encryption key. RFC 3218 requires that a
+++            // failure to recover a usable key is not distinguishable from
+++            // recovering a key that simply isn't the right one -- otherwise
+++            // this becomes a Bleichenbacher oracle for anything that decrypts
+++            // attacker-supplied data. We substitute a random key of the
+++            // expected size, so that every failure surfaces as the same
+++            // content decryption error.
+++            let padding = types::PKCS1V15.get(py)?.call0()?;
+++            let random_key = crate::backend::rand::get_rand_bytes(py, key_size)?;
+++            let key = match private_key.call_method1(
+++                pyo3::intern!(py, "decrypt"),
+++                (recipient_info.encrypted_key, &padding),
+++            ) {
+++                Ok(key) => {
+++                    let key = key.extract::<pyo3::Bound<'_, pyo3::types::PyBytes>>()?;
+++                    if key.as_bytes().len() == key_size {
+++                        key
+++                    } else {
+++                        random_key
+++                    }
+++                }
+++                // A ValueError here is entirely attacker controlled (invalid
+++                // padding, or an encrypted key of the wrong length) and must
+++                // stay silent. Any other exception reflects a caller mistake
+++                // rather than the contents of the message.
+++                Err(e) if e.is_instance_of::<pyo3::exceptions::PyValueError>(py) => random_key,
+++                Err(e) => return Err(e.into()),
+++            };
+++
+++            let algorithm = algorithm_type.get(py)?.call1((key,))?;
+++            let mode = types::CBC
+++                .get(py)?
+++                .call1((pyo3::types::PyBytes::new(py, &iv),))?;
+++
++             // Decrypt the content using the key and proper algorithm
++             let encrypted_content = match enveloped_data.encrypted_content_info.encrypted_content {
++                 Some(content) => content,
++diff --git a/tests/doubles.py b/tests/doubles.py
++index cf2c96a3e..25f1b4c59 100644
++--- a/tests/doubles.py
+++++ b/tests/doubles.py
++@@ -2,9 +2,11 @@
++ # 2.0, and the BSD License. See the LICENSE file in the root of this repository
++ # for complete details.
++ 
+++from __future__ import annotations
++ 
++ from cryptography.hazmat.primitives import hashes, serialization
++-from cryptography.hazmat.primitives.asymmetric import padding
+++from cryptography.hazmat.primitives.asymmetric import padding, rsa
+++from cryptography.hazmat.primitives.asymmetric import utils as asym_utils
++ from cryptography.hazmat.primitives.ciphers import (
++     BlockCipherAlgorithm,
++     CipherAlgorithm,
++@@ -53,3 +55,45 @@ class DummyKeySerializationEncryption(
++ 
++ class DummyAsymmetricPadding(padding.AsymmetricPadding):
++     name = "dummy-padding"
+++
+++
+++class DummyRSAPrivateKey(rsa.RSAPrivateKey):
+++    """
+++    A fake RSAPrivateKey whose decrypt() raises a non-ValueError. Used for
+++    testing that a failure originating outside of this library is not
+++    mistaken for an attacker controlled decryption failure.
+++    """
+++
+++    def decrypt(
+++        self, ciphertext: bytes, padding: padding.AsymmetricPadding
+++    ) -> bytes:
+++        raise TypeError("TypeError for testing")
+++
+++    @property
+++    def key_size(self) -> int:
+++        raise NotImplementedError
+++
+++    def public_key(self) -> rsa.RSAPublicKey:
+++        raise NotImplementedError
+++
+++    def sign(
+++        self,
+++        data: bytes,
+++        padding: padding.AsymmetricPadding,
+++        algorithm: asym_utils.Prehashed | hashes.HashAlgorithm,
+++    ) -> bytes:
+++        raise NotImplementedError
+++
+++    def private_numbers(self) -> rsa.RSAPrivateNumbers:
+++        raise NotImplementedError
+++
+++    def private_bytes(
+++        self,
+++        encoding: serialization.Encoding,
+++        format: serialization.PrivateFormat,
+++        encryption_algorithm: serialization.KeySerializationEncryption,
+++    ) -> bytes:
+++        raise NotImplementedError
+++
+++    def __copy__(self) -> rsa.RSAPrivateKey:
+++        raise NotImplementedError
++diff --git a/tests/hazmat/primitives/test_pkcs7.py b/tests/hazmat/primitives/test_pkcs7.py
++index 1496a23e1..87f2bec1a 100644
++--- a/tests/hazmat/primitives/test_pkcs7.py
+++++ b/tests/hazmat/primitives/test_pkcs7.py
++@@ -18,6 +18,7 @@ from cryptography.hazmat.primitives import hashes, serialization
++ from cryptography.hazmat.primitives.asymmetric import ed25519, padding, rsa
++ from cryptography.hazmat.primitives.ciphers import algorithms
++ from cryptography.hazmat.primitives.serialization import pkcs7
+++from tests.doubles import DummyRSAPrivateKey
++ from tests.x509.test_x509 import _generate_ca_and_leaf
++ 
++ from ...hazmat.primitives.fixtures_rsa import (
++@@ -1406,6 +1407,67 @@ class TestPKCS7Decrypt:
++                 email_message.as_bytes(), certificate, private_key, []
++             )
++ 
+++    def test_decrypt_encrypted_key_is_not_an_oracle(
+++        self, data, certificate, private_key
+++    ):
+++        # An attacker who replaces the encryptedKey must not be able to tell
+++        # the RSA decryption outcomes apart. Recovering an unusable key, or
+++        # failing to recover one at all, has to look exactly like recovering
+++        # a key of the right length that simply isn't the right key. See
+++        # RFC 3218 and Bleichenbacher's '98 attack.
+++        enveloped = (
+++            pkcs7.PKCS7EnvelopeBuilder()
+++            .set_data(data)
+++            .add_recipient(certificate)
+++        )
+++        der = enveloped.encrypt(serialization.Encoding.DER, [])
+++
+++        public_key = certificate.public_key()
+++        assert isinstance(public_key, rsa.RSAPublicKey)
+++
+++        # The encryptedKey is the only OCTET STRING in the structure as long
+++        # as the RSA modulus, so it can be located by its DER header.
+++        key_bytes = public_key.key_size // 8
+++        marker = b"\x04\x82" + key_bytes.to_bytes(2, "big")
+++        assert der.count(marker) == 1
+++        offset = der.index(marker) + len(marker)
+++
+++        for encrypted_key in [
+++            # Invalid PKCS#1 v1.5 padding.
+++            b"\x00" * key_bytes,
+++            # Valid padding concealing a key of the wrong length.
+++            public_key.encrypt(b"A" * 15, padding.PKCS1v15()),
+++            public_key.encrypt(b"A" * 17, padding.PKCS1v15()),
+++            public_key.encrypt(b"A" * 32, padding.PKCS1v15()),
+++            # Valid padding concealing a correctly sized but wrong key.
+++            public_key.encrypt(b"A" * 16, padding.PKCS1v15()),
+++        ]:
+++            tampered = der[:offset] + encrypted_key + der[offset + key_bytes :]
+++            try:
+++                pkcs7.pkcs7_decrypt_der(tampered, certificate, private_key, [])
+++            except ValueError as exc:
+++                # Decrypting under a substituted random key leaves plausible
+++                # PKCS#7 padding roughly one time in 256, in which case the
+++                # caller gets garbage instead of an error. That is equally
+++                # uninformative, so it is an acceptable outcome here.
+++                assert str(exc) == "Invalid padding bytes."
+++
+++    def test_decrypt_key_error_is_not_swallowed(self, data, certificate):
+++        # Only a ValueError from unwrapping the key is attacker controlled and
+++        # therefore silenced. A private key implemented outside this library
+++        # can fail in other ways, and those must still reach the caller.
+++        enveloped = (
+++            pkcs7.PKCS7EnvelopeBuilder()
+++            .set_data(data)
+++            .add_recipient(certificate)
+++            .encrypt(serialization.Encoding.DER, [])
+++        )
+++
+++        with pytest.raises(TypeError, match="TypeError for testing"):
+++            pkcs7.pkcs7_decrypt_der(
+++                enveloped, certificate, DummyRSAPrivateKey(), []
+++            )
+++
++ 
++ @pytest.mark.supported(
++     only_if=lambda backend: backend.pkcs7_supported(),
++diff --git a/tests/test_doubles.py b/tests/test_doubles.py
++new file mode 100644
++index 000000000..f52bd3bbf
++--- /dev/null
+++++ b/tests/test_doubles.py
++@@ -0,0 +1,53 @@
+++# This file is dual licensed under the terms of the Apache License, Version
+++# 2.0, and the BSD License. See the LICENSE file in the root of this repository
+++# for complete details.
+++
+++import copy
+++
+++import pytest
+++
+++from cryptography.hazmat.primitives import hashes, serialization
+++from cryptography.hazmat.primitives.asymmetric import padding
+++
+++from .doubles import DummyRSAPrivateKey
+++
+++
+++class TestDummyRSAPrivateKey:
+++    def test_decrypt(self):
+++        key = DummyRSAPrivateKey()
+++        with pytest.raises(TypeError):
+++            key.decrypt(b"ciphertext", padding.PKCS1v15())
+++
+++    def test_key_size_not_implemented(self):
+++        key = DummyRSAPrivateKey()
+++        with pytest.raises(NotImplementedError):
+++            key.key_size
+++
+++    def test_public_key_not_implemented(self):
+++        key = DummyRSAPrivateKey()
+++        with pytest.raises(NotImplementedError):
+++            key.public_key()
+++
+++    def test_sign_not_implemented(self):
+++        key = DummyRSAPrivateKey()
+++        with pytest.raises(NotImplementedError):
+++            key.sign(b"data", padding.PKCS1v15(), hashes.SHA256())
+++
+++    def test_private_numbers_not_implemented(self):
+++        key = DummyRSAPrivateKey()
+++        with pytest.raises(NotImplementedError):
+++            key.private_numbers()
+++
+++    def test_private_bytes_not_implemented(self):
+++        key = DummyRSAPrivateKey()
+++        with pytest.raises(NotImplementedError):
+++            key.private_bytes(
+++                serialization.Encoding.PEM,
+++                serialization.PrivateFormat.PKCS8,
+++                serialization.NoEncryption(),
+++            )
+++
+++    def test_copy_not_implemented(self):
+++        key = DummyRSAPrivateKey()
+++        with pytest.raises(NotImplementedError):
+++            copy.copy(key)
++-- 
++2.35.6
