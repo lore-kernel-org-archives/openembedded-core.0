@@ -1,50 +1,49 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4762.1792538575560379128
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4763.1792538576206233866
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 16:22:55 -0700
+ Tue, 20 Oct 2026 16:22:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=YNJ58Ctl;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a171b677d2so468765e9.0
+ dkim=pass header.i=@smile-fr.20251104.gappssmtp.com header.s=20251104 header.b=jiOyggQY;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48c4649b35bso99447f8f.3
         for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 16:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile-fr.20251104.gappssmtp.com; s=20251104; t=1792538574; x=1793143374; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=9ji2/fNo3Y6Uf0I0b3XUE6Ztzvc+6SMqmJGILOTb/zs=;
-        b=YNJ58Ctlcx4vMjwdg5Us9NfwZ+inTQs0wOolNNV4oMZdieIz42Hcw6kuMQ2CE/al81
-         5jGwf+OUo/+oW8LZNZzOx5mQdqipMqEeBoKxOQOBDh2YQyRlnpa0JcjPAWrgfJC3TUhg
-         SGnhKHogiZ29QM5zvS20u8Vib6/z37FrydxKKhtTNZku+T13NtOTOd9cpG6kCOPhCrw9
-         7ClwNlUgoTGBghcCCEVyA0nRrFEG8E/pZ9/vgQDf/kFxe4di/I09BzQYaIE8DoOrdBkV
-         K7A/rAxhcAzd00Uae/lLwNkrUjdJBH3ucBW1OaAzyB43BGuEBFI0DLxQVrRWp3AIRrbm
-         34oA==
+        bh=6V0xn0Wp8ZTPk82YtEnJCeLZNuboaF2a1CCN5mxH1U0=;
+        b=jiOyggQY7vYPYW8gXkV527WrPDB1XxiI+3JltbtyhlsCK9m2qzbDqi+xwUPU91fxHo
+         85zVvB7UcG+8FmecIVVwFJzQgd6ncvfjz5UNhDlw23vl2CKityoYaDQFqMTx6n7st8px
+         BpGSm2iZcLwkI1ZXUnDJDn4kEEukGLCeWhfRMfwrtHh1gUdumFhyvmcQewjH1NihmGXc
+         xSsN2+pLNoxdb2XP/A1/oQid16f56n4fCytnb1fJqK9ij/qepavFghrzjTGSHUbGkMCQ
+         i7swbiDpYxfnjli/vJMWLJy4XZbiMprlKpmECLQLPjDLPR8U3k0c6qdfd7bPByDBl1uj
+         w4Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1792538574; x=1793143374;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=9ji2/fNo3Y6Uf0I0b3XUE6Ztzvc+6SMqmJGILOTb/zs=;
-        b=C3l8tSBmaSWovbuRoVfpq7iQaR0J0qoKP8Vqe6HuXi9I8U+LtZCu/sTIqmtu3mj0BR
-         4TGGQheU5LZdfhZyXgpVPZdplBU2gKjlxs36ARCmylITD9MaoKzT/FB20Wo+oIlIRp4c
-         rvtfp1rIPUH+MZmBc93+hrIcrIPltMdkckAPO7v9NOvk+6ePiNlzOpLoFaWzPBLLVTqt
-         w3aR6E11bin9ibaBnCpiZEXf62usHCma+XGAuyT3yaWPU/P0L1D/ZHaoIySxeXHC7iSJ
-         YFPS3+8zyrkqY0nnZMb8cFUBVEUVxqTPREhr7L92X3URfAQ35XNKEfRgdHM3mfMrtVWa
-         n7bA==
-X-Gm-Message-State: AFq9FYLUBaF/RU8EMMybH6thA78ndEZSEvNNUR8huGtQSjrHD/6HvXpZ
-	0Q6t9+JdcTZe4JQ1fPWxhMpId5H0zxutM9GxzXEYCZqsvWO1DSNIib5gK3J1lTPvkNvtdhH+yHC
-	hzT0RsRw=
-X-Gm-Gg: AYBFou1xQfnMy6kx+ZBNJbnTVN0U/Ko5i8ecHThC2AEswMiaA/uMftwCP7SHDSoLap/
-	tv5riArhum2jRyu3YpidqUCSIwPQjnx/eTaK+azDsCY5gB347/nSWmm+9TCk/qokE3s73icVz7R
-	VnFIJA+bNTXjlQlVWOdJmfdTmXYkANaKKXl4nDfTB+9jbhvJRzbaixVOw2TPAStyKzl/quWVXbI
-	6fNRvj8FjdQSwRInVARXRVTLhLipwaP/qZ+/nfvewjMf8vFpO80Pi967D17Tv/ide2CkjgMvWzB
-	OP1IhFpyBka9vz+b9McbDheKrluTIZKgAvTNDhE+E+aYefCB1i1D1HzLS4F8MMAElcglEnJQy+f
-	rbCpqyyAASVbJEssC8cfVBcuQ7LSNl4eheraNGRy/YiiaqGUorsoL1XOL44wFXh7zivtGftEhlN
-	TVXj10BZyQpdBdbz1uVZ7UsyqaKoyIivYQrCNZy+k9tsYhUV8AWmW0Vuu31mNU7tmDCIYkO50k7
-	i3NIzcdyJen7x8EyAF7zdhWt/6OU1j+HNu7AJ5G8DORSkP2ajo5BMpDs5Fm49MhPa9aVINQ2iS9
-	+976b6GsKSCz93o3LPxaTvCPvs6lwnCxKoF6muofuoStv/2WFpCSMKTB
-X-Received: by 2002:a05:600c:630e:b0:4a1:dfaf:f43e with SMTP id 5b1f17b1804b1-4a1fd8a7d87mr4948815e9.1.1792538573712;
-        Tue, 20 Oct 2026 16:22:53 -0700 (PDT)
+        bh=6V0xn0Wp8ZTPk82YtEnJCeLZNuboaF2a1CCN5mxH1U0=;
+        b=OzI1xI2XyJ8aSxdD+OE41lTv8esnUwFrg5p0DLq7rEUt876VDteXylFGoEBgZSdp6n
+         8JuusZ3OktPitZSffuH0Hu4YGkkfhMI1BNmHpawf2CgG5M6979c7xxvTHDbmLEhemSzb
+         DS48c+QYTueDQDAINa2NmXwkmUynXw2Mcagq2BRqwpAzmOYlvt8b7jm2ZmUqvrK5IUg6
+         oH80Ub0E2dppdTVkFGIE0dfe8OPbCNPhj5xAl4OZJtGacOZkWIgGFoNETA865f7H5ZBv
+         s/Ocz/9DFz2VnQlZronuAIQjA+rpkx1LGt2h4aHmyic0lQa1my7mF1NZI4CKiwkWpG+x
+         JWSw==
+X-Gm-Message-State: AFq9FYK70Jf17F40cEAkiiUOs863WC5XY+LdDRpFDQYdXbKyEp/6ZFLE
+	y2zNOnIKKVZednP3pskQSdkmGojcNhUVV2xA6ztilxMJ/AdteEIOIWUpULrbx+IaaWM5N3XQyqT
+	zIxt2jMI=
+X-Gm-Gg: AYBFou3QzmIxFZHUi6RHkZcnoySKHdgEFFsfMIY8Kdg3mQPfEDDwU3a/sfLGoKQIwAD
+	s87mbuyeF97Y1B31Cmc8QlAV09kgHzlvn8SecV8YbO1ZGQVO7PqXsfeok5bvd+N5BGWE+ThrbzG
+	FMrczKcusafnnv3NNzoLMY6IADtN85NDkmitDsFGSF4Kv1Ys6gu25HJpTK/K4qfpwVuKynASK7W
+	ZNPXYlX9gpobEP+RKgWVyfN9wOf/x5tDVtbiSMUIxRco5seGImABzVHO0Ix62qVxSWRDvvit1tX
+	BnLj0FsQg0G2GELvI7bS3puJW5aTLkS5x60eJJVx+ryqhEKJSauUdYNI/kXnwv97eLDFlXmJsb2
+	exF2kOSdjmsX95ZG1qDwSlGdhmBpYCZfe86OjRdtp2C8a5d9fHotrwNc7k/JIqV2HWgIeqjEISi
+	dR7Ng7QC23KuQrgDElMvTZ2eJtPe4sh5UbULGomVJNnybW+SZkL9ZgkKMHpaeNzCII9mCqZBrqn
+	mnJ9RIIbWAZ8zlLbnMuChSVBY5IAQhcaSLeDNAYoWQMjwHnCaUjkP4jT0StBlTPIkCrAW4alg==
+X-Received: by 2002:a05:6000:2003:b0:48d:ff71:dd97 with SMTP id ffacd0b85a97d-48e26427986mr416567f8f.7.1792538574079;
+        Tue, 20 Oct 2026 16:22:54 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2583523asm1436615f8f.37.2026.10.20.16.22.53
@@ -53,9 +52,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Tue, 20 Oct 2026 16:22:53 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 03/25] popt: patch CVE-2026-18743
-Date: Wed, 21 Oct 2026 01:22:13 +0200
-Message-ID: <4ced139b3e3fce64cec9bf50474ae7eb5a86ccce.1792537664.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 04/25] popt: patch CVE-2026-18739
+Date: Wed, 21 Oct 2026 01:22:14 +0200
+Message-ID: <abaa5f37f2c14f14392735a978b2a3e672747551.1792537664.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1792537664.git.yoann.congal@smile.fr>
 References: <cover.1792537664.git.yoann.congal@smile.fr>
@@ -63,136 +62,144 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 23:22:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248321
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248322
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patch referencing this CVE.
+Convert change in cmake file to autotools/makefile.
+Install the new test in recipe.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6a47df77d4dda066f6c3651480546a79fd445ae6)
+(cherry picked from commit c211972ad21e1801abc7dd15951093316c5528f4)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: backport translated cmake to automake
+     (the project migrated in between) ]
 ---
- .../popt/popt/CVE-2026-18743.patch            | 97 +++++++++++++++++++
- meta/recipes-support/popt/popt_1.19.bb        |  1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18743.patch
+ .../popt/popt/CVE-2026-18739.patch            | 92 +++++++++++++++++++
+ meta/recipes-support/popt/popt_1.19.bb        |  3 +-
+ 2 files changed, 94 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18739.patch
 
-diff --git a/meta/recipes-support/popt/popt/CVE-2026-18743.patch b/meta/recipes-support/popt/popt/CVE-2026-18743.patch
+diff --git a/meta/recipes-support/popt/popt/CVE-2026-18739.patch b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
 new file mode 100644
-index 00000000000..d57a39b4705
+index 00000000000..0a1e8f35907
 --- /dev/null
-+++ b/meta/recipes-support/popt/popt/CVE-2026-18743.patch
-@@ -0,0 +1,97 @@
-+From ea2092edba8d6c1a9acd60d9fd7a587c624d6ffe Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Tue, 11 Aug 2026 11:45:44 +0300
-+Subject: [PATCH] Fix CVE-2026-18743: buffer overflow(s) in
-+ poptConfigFileToString()
++++ b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
+@@ -0,0 +1,92 @@
++From 14c42b415ba0c11640f7d4ee80920452d0287058 Mon Sep 17 00:00:00 2001
++From: Yao Zhang <294772273@qq.com>
++Date: Wed, 5 Aug 2026 14:52:10 +0800
++Subject: [PATCH] Fix CVE-2026-18739: off-by-one error in poptStuffArgs()
 +
-+Fix the reallocation logic thinko, repeated twice in the function:
-+if we need to reallocate, the current maximum value is not interesting
-+in any way. Just allocate double the required size instead.
++The poptStuffArgs function only checks whether (con->os - con->optionStack)
++is equal to POPT_OPTION_DEPTH (10) before incrementing con->os, and does
++not increment the value by 1 to perform boundary pre-checking, as
++handleAlias does.
 +
-+The reproducer test is obviously closely tied to the initial buffer
-+size of 480 and wouldn't work with other sizes, but with the current
-+default this reliably crashes popt under ASAN prior to this fix.
-+Also , the reproducer only exercises the first of these flaws.
++Add a new test program as a reproducer for this case.
 +
-+Fixes: CVE-2026-18743
++Co-authored-by: Panu Matilainen <pmatilai@redhat.com>
++
++Fixes: CVE-2026-18739
 +
 +CVE: CVE-2026-18743
-+Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/ea2092edba8d6c1a9acd60d9fd7a587c624d6ffe]
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/14c42b415ba0c11640f7d4ee80920452d0287058]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/poptparse.c            | 10 ++++------
-+ tests/test3-data/05.answer |  5 +++++
-+ tests/test3-data/05.input  |  2 ++
-+ tests/testit.sh            |  1 +
-+ 4 files changed, 12 insertions(+), 6 deletions(-)
-+ create mode 100644 tests/test3-data/05.answer
-+ create mode 100644 tests/test3-data/05.input
++ src/popt.c        |  2 +-
++ tests/Makefile.am |  5 ++++-
++ tests/testit.sh   |  2 ++
++ tests/tstuff.c    | 17 +++++++++++++++++
++ 4 files changed, 24 insertions(+), 2 deletions(-)
++ create mode 100644 tests/tstuff.c
 +
-+diff --git a/src/poptparse.c b/src/poptparse.c
-+index f405081..c2a5435 100644
-+--- a/src/poptparse.c
-++++ b/src/poptparse.c
-+@@ -139,7 +139,6 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
-+     char * p;
-+     char * q;
-+     char * x;
-+-    size_t t;
-+     size_t argvlen = 0;
-+     size_t maxlinelen = sizeof(line);
-+     size_t linelen;
-+@@ -186,9 +185,9 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
-+ 	if (*q == '\0') {
-+ 	    /* single command line option (ie, no name=val, just name) */
-+ 	    q[-1] = '\0';		/* kill off newline from fgets() call */
-+-	    argvlen += (t = (size_t)(q - p)) + (sizeof(" --")-1);
-++	    argvlen += ((size_t)(q - p)) + (sizeof(" --")-1);
-+ 	    if (argvlen >= maxargvlen) {
-+-		maxargvlen = (t > maxargvlen) ? t*2 : maxargvlen*2;
-++		maxargvlen = argvlen * 2;
-+ 		argstr_tmp = realloc(argstr, maxargvlen);
-+ 		if (argstr_tmp == NULL) {
-+ 		    free(argstr);
-+@@ -218,10 +217,9 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
-+ 	    *x = '\0';	/* null out last char if space (including fgets() NL) */
++diff --git a/src/popt.c b/src/popt.c
++index 9ea3dfe..458aadc 100644
++--- a/src/popt.c
+++++ b/src/popt.c
++@@ -1668,7 +1668,7 @@ int poptStuffArgs(poptContext con, const char ** argv)
++     int argc;
++     int rc;
 + 
-+ 	/* rest of line accept */
-+-	t = (size_t)(x - p);
-+-	argvlen += t + (sizeof("' --='")-1);
-++	argvlen += ((size_t)(x - p) + sizeof("' --='")-1);
-+ 	if (argvlen >= maxargvlen) {
-+-	    maxargvlen = (t > maxargvlen) ? t*2 : maxargvlen*2;
-++	    maxargvlen = argvlen * 2;
-+ 	    argstr_tmp = realloc(argstr, maxargvlen);
-+ 	    if (argstr_tmp == NULL) {
-+ 		free(argstr);
-+diff --git a/tests/test3-data/05.answer b/tests/test3-data/05.answer
-+new file mode 100644
-+index 0000000..37b7fb8
-+--- /dev/null
-++++ b/tests/test3-data/05.answer
-+@@ -0,0 +1,5 @@
-++single string: ' --aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-++popt array: size=2
-++'--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-++'--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-++
-+diff --git a/tests/test3-data/05.input b/tests/test3-data/05.input
-+new file mode 100644
-+index 0000000..2508292
-+--- /dev/null
-++++ b/tests/test3-data/05.input
-+@@ -0,0 +1,2 @@
-++aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-++bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
++-    if ((con->os - con->optionStack) == POPT_OPTION_DEPTH)
+++    if ((con->os - con->optionStack + 1) == POPT_OPTION_DEPTH)
++ 	return POPT_ERROR_OPTSTOODEEP;
++ 
++     for (argc = 0; argv[argc]; argc++)
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index c410389..99fbf64 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -11,7 +11,10 @@ EXTRA_DIST = testit.sh \
++ 
++ AM_CPPFLAGS = -I. -I$(top_srcdir)/src
++ 
++-noinst_PROGRAMS = test1 test2 tdict test3
+++noinst_PROGRAMS = test1 test2 tdict test3 tstuff
+++tstuff_SOURCES = tstuff.c
+++tstuff_LDFLAGS =
+++tstuff_LDADD = $(top_builddir)/src/libpopt.la
++ test1_SOURCES = test1.c
++ test1_LDFLAGS = 
++ test1_LDADD = $(top_builddir)/src/libpopt.la
 +diff --git a/tests/testit.sh b/tests/testit.sh
-+index 26724d6..4078f51 100755
++index 4078f51..d26be3a 100755
 +--- a/tests/testit.sh
 ++++ b/tests/testit.sh
-+@@ -179,6 +179,7 @@ fi
-+ run_diff test3 "test3 - 1" test3-data/01.input test3-data/01.answer
-+ run_diff test3 "test3 - 2" test3-data/02.input test3-data/02.answer
-+ run_diff test3 "test3 - 3" test3-data/03.input test3-data/03.answer
-++run_diff test3 "test3 - 5" test3-data/05.input test3-data/05.answer
++@@ -172,6 +172,8 @@ run test1 "test1 - 61" "" -x=f1
 + 
-+ echo ""
-+ echo "Passed."
++ run test1 "test1 - 62" "arg1: 0 arg2: (none) aInt: 1" --randint=-1
++ 
+++run tstuff "tstuff - 1" "-13"
+++
++ if ! [ -e test3-data ]; then
++   # create symlink for running during 'make distcheck'
++   ln -s "${srcdir}/test3-data" test3-data
++diff --git a/tests/tstuff.c b/tests/tstuff.c
++new file mode 100644
++index 0000000..b820c7b
++--- /dev/null
+++++ b/tests/tstuff.c
++@@ -0,0 +1,17 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++int main(int argc, char *argv[])
+++{
+++    poptContext ctx = poptGetContext(argv[0], argc, (const char **)argv, NULL, 0);
+++    int rc = 0;
+++    for (int i = 0; i < 100; ++i) {
+++	const char *ea[] = { "a", NULL };
+++	if ((rc = poptStuffArgs(ctx, ea)))
+++	    break;
+++    }
+++    printf("%d\n", rc);
+++
+++    poptFreeContext(ctx);
+++    return rc;
+++}
 diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
-index 525bf553b10..3e9137c156a 100644
+index 3e9137c156a..10c4b4b0af7 100644
 --- a/meta/recipes-support/popt/popt_1.19.bb
 +++ b/meta/recipes-support/popt/popt_1.19.bb
-@@ -10,6 +10,7 @@ DEPENDS = "virtual/libiconv"
- 
+@@ -11,6 +11,7 @@ DEPENDS = "virtual/libiconv"
  SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
             file://run-ptest \
-+           file://CVE-2026-18743.patch \
+            file://CVE-2026-18743.patch \
++           file://CVE-2026-18739.patch \
             "
  SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
  
+@@ -23,7 +24,7 @@ do_compile_ptest() {
+ }
+ 
+ do_install_ptest() {
+-    for f in test1 test2 tdict test3 testit.sh test-poptrc; do
++    for f in test1 test2 tdict test3 tstuff testit.sh test-poptrc; do
+         ${B}/libtool --mode=install install ${B}/tests/$f ${D}/${PTEST_PATH}
+     done
+ }
