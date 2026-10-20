@@ -1,41 +1,41 @@
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1945.1792480406099102129
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1924.1792480403045049834
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 00:13:26 -0700
+ Tue, 20 Oct 2026 00:13:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=P6MtwQIq;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QkFn/Gog;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a158286707-cc3b17eb-80e5-4116-8998-b352eb03362c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VCGI2Sul;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lwik1miC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a158285a5e-9eed743f-1a3e-4427-b4c6-5acbbb2c8fe7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1792480405;
+	t=1792480402;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Z/SJcl4+WwhkeMqmVZZG0BwNsPlO6vndGSNl1dowpCA=;
-	b=P6MtwQIqFOn+gYUNdPCLTP95fqaZZUUouEutQn9oZAGcxNP5MmBb1ut6byGqB5/F
-	OQMmC4yekl3kWR2qosEOuy3l92t3yiDlg6iz+b116qqSw91gBcTJtMvUgWR8GH60EOQ
-	JAY7b60pzUU5KdcjZhTT9gPwrtdExC0v0DP66kjA=
+	bh=XwBnbFIDKPW6Pt4BcewHYz8aLwAa9b35fohccNEDzKY=;
+	b=VCGI2Sul4a0a9NAptTSvXvQ6uBfgvVrCqj60DfWYHprx4RoBrz5oldMdB6srkkmA
+	x9RwA2lOsfJTwzKr8ViTDW+Mojc95m3TZcx9AlL3zyw69bexjobtAl671nP9YtMOMUT
+	DKJYH2stkqhKfzFUACA/hx1/cnWg8MNvIjsKm+0Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792480405;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792480402;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Z/SJcl4+WwhkeMqmVZZG0BwNsPlO6vndGSNl1dowpCA=;
-	b=QkFn/Gog9lkPBnhV0AwrnduDJaTGiIMw0XmvfYWkl56BAbNWht+62K2MsO1HCAdU
-	kIEgV70lURK5Wtjm9FQk8gNFxkC4ixigB0nH/NzRuTKd2wfyK145GjGX7659bKfWN2c
-	iTESKikH7KeMU23rnEycqhIfM6NETzyehyXI+h+M=
-Content-Type: multipart/mixed; boundary="===============6390279535667899009=="
+	bh=XwBnbFIDKPW6Pt4BcewHYz8aLwAa9b35fohccNEDzKY=;
+	b=lwik1miC+ftpnBdaPILqyfIQwJuq38gJKCiFulks5FbYcAjczv+RVTT5zzRlLvym
+	jwrKI7f5v4tYI5p2WWA6JT2JW9uE1zXNbkSZZ5ZX/Fvs9a9r59c9B1QACHtODSqezmp
+	eQX5xIKAy6xkDFDiLqQYauMNS41F3zYu5Is57/eg=
+Content-Type: multipart/mixed; boundary="===============4954612966856518762=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 7.2 SUCCEEDED
-Message-ID: <010101a158286707-cc3b17eb-80e5-4116-8998-b352eb03362c-000000@us-west-2.amazonses.com>
-Date: Tue, 20 Oct 2026 07:13:25 +0000
+Subject: [AUH] weston: upgrading to 16.0.1 SUCCEEDED
+Message-ID: <010101a158285a5e-9eed743f-1a3e-4427-b4c6-5acbbb2c8fe7-000000@us-west-2.amazonses.com>
+Date: Tue, 20 Oct 2026 07:13:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.20-54.240.27.23
+X-SES-Outgoing: 2026.10.20-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 07:13:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248231
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 07:13:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248225
 
---===============6390279535667899009==
+--===============4954612966856518762==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ethtool* to *7.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *weston* to *16.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-7.1-7.2.patch
+    - apply the patch: git am 0001-weston-upgrade-16.0.0-16.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,151 +64,182 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 50a5e38ddc18ac785a3be59e65fc1dc41e1921b8 Mon Sep 17 00:00:00 2001
+From 16e39ae217b1f88de49cb2818445a1bd94407cff Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 20 Oct 2026 07:04:42 +0000
-Subject: [PATCH] ethtool: upgrade 7.1 -> 7.2
+Date: Tue, 20 Oct 2026 05:40:25 +0000
+Subject: [PATCH] weston: upgrade 16.0.0 -> 16.0.1
 
-Version 7.2 - Oct 19, 2026
 ---
- .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
- .../ethtool/{ethtool_7.1.bb => ethtool_7.2.bb}              | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_7.1.bb => ethtool_7.2.bb} (94%)
+ .../weston/Allow-libdisplay-info-0.4.0.patch  | 28 -------------------
+ .../{weston_16.0.0.bb => weston_16.0.1.bb}    |  3 +-
+ 2 files changed, 1 insertion(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/Allow-libdisplay-info-0.4.0.patch
+ rename meta/recipes-graphics/wayland/{weston_16.0.0.bb => weston_16.0.1.bb} (97%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index aafc9ea715..e244850f06 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From 7fbdc5cec5c5f2b89fd183543c3d35b5f7cc5530 Mon Sep 17 00:00:00 2001
-+From ed7f83a6be18b659899fb3d60a04b91bf5abae77 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 71b998e..79eff82 100644
-+index 0289eb7..30261ee 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -3,7 +3,7 @@ AC_INIT(ethtool, 7.1, netdev@vger.kernel.org)
-+@@ -3,7 +3,7 @@ AC_INIT(ethtool, 7.2, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_MACRO_DIR([m4])
-  AC_CONFIG_SRCDIR([ethtool.c])
-diff --git a/meta/recipes-extended/ethtool/ethtool_7.1.bb b/meta/recipes-extended/ethtool/ethtool_7.2.bb
-similarity index 94%
-rename from meta/recipes-extended/ethtool/ethtool_7.1.bb
-rename to meta/recipes-extended/ethtool/ethtool_7.2.bb
-index a24b64863d..0ae1ebff37 100644
---- a/meta/recipes-extended/ethtool/ethtool_7.1.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_7.2.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
+diff --git a/meta/recipes-graphics/wayland/weston/Allow-libdisplay-info-0.4.0.patch b/meta/recipes-graphics/wayland/weston/Allow-libdisplay-info-0.4.0.patch
+deleted file mode 100644
+index 07f37b277f..0000000000
+--- a/meta/recipes-graphics/wayland/weston/Allow-libdisplay-info-0.4.0.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 54cd5c3354c618815addd7e1d82fc66247099136 Mon Sep 17 00:00:00 2001
+-From: Tom Pollard <tom.pollard@codethink.co.uk>
+-Date: Tue, 28 Jul 2026 10:51:27 +0100
+-Subject: [PATCH] Allow libdisplay-info 0.4.0
+-
+-Upstream-Status: Backport [https://gitlab.freedesktop.org/wayland/weston/-/commit/54cd5c3354c618815addd7e1d82fc66247099136]
+-
+-Signed-off-by: Tom Pollard <tom.pollard@codethink.co.uk>
+----
+- meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index 03f4d3201f..4814a81592 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -180,7 +180,7 @@ endif
+- 
+- dep_libdisplay_info = dependency(
+- 	'libdisplay-info',
+--	version: ['>= 0.2.0', '< 0.4.0'],
+-+	version: ['>= 0.2.0', '< 0.5.0'],
+- 	fallback: ['display-info', 'di_dep'],
+- 	default_options: [
+- 		'werror=false',
+--- 
+-GitLab
+-
+diff --git a/meta/recipes-graphics/wayland/weston_16.0.0.bb b/meta/recipes-graphics/wayland/weston_16.0.1.bb
+similarity index 97%
+rename from meta/recipes-graphics/wayland/weston_16.0.0.bb
+rename to meta/recipes-graphics/wayland/weston_16.0.1.bb
+index 8e5d79aec3..9b21722f41 100644
+--- a/meta/recipes-graphics/wayland/weston_16.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_16.0.1.bb
+@@ -11,10 +11,9 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
+            file://weston.desktop \
+            file://xwayland.weston-start \
+            file://systemd-notify.weston-start \
+-           file://Allow-libdisplay-info-0.4.0.patch \
             "
  
--SRC_URI[sha256sum] = "21cc520ae5d881f01b0dcd6d26de4d52a64b24840bc2150daf778a235442e61d"
-+SRC_URI[sha256sum] = "b2f2f1e94c3b6e35715d969185a0208d411586d88f49ccbad740063e51720f94"
+-SRC_URI[sha256sum] = "dfb32e2bccabda957b94a8d0ec6075acd18c71c87ebc543ee3e618d294ca0f7f"
++SRC_URI[sha256sum] = "54f889d236d73f497e7929f355ad87f03c2bbcde945bb29fbbae2a4b3050e467"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
- 
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/weston/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
 -- 
 2.47.1
 
 
---===============6390279535667899009==
+--===============4954612966856518762==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/ethtool/ethtool-bash-completion: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool-bash-completion: PKGSIZE changed from 25264 to 25714 (+2%)
-packages/x86-64-v3-poky-linux/ethtool/ethtool-dbg: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool-dbg: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 8725816 to 8741912 (+0%)
-packages/x86-64-v3-poky-linux/ethtool/ethtool-dev: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool-dev: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool-doc: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool-doc: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 60597 to 61566 (+2%)
-packages/x86-64-v3-poky-linux/ethtool/ethtool-locale: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool-locale: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool-ptest: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool-ptest: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 2475716 to 2484292 (+0%)
-packages/x86-64-v3-poky-linux/ethtool/ethtool-src: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool-src: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool-src: FILELIST: directory renamed /usr/src/debug/ethtool/7.1/uapi/linux -> /usr/src/debug/ethtool/7.2/uapi/linux, directory renamed /usr/src/debug/ethtool/7.1/netlink -> /usr/src/debug/ethtool/7.2/netlink, directory renamed /usr/src/debug/ethtool/7.1 -> /usr/src/debug/ethtool/7.2, directory renamed /usr/src/debug/ethtool/7.1/uapi/linux/hdlc -> /usr/src/debug/ethtool/7.2/uapi/linux/hdlc
-packages/x86-64-v3-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 2447118 to 2461734 (+1%)
-packages/x86-64-v3-poky-linux/ethtool/ethtool-staticdev: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool/ethtool: PKGV changed from 7.1 [default] to 7.2 [default]
-packages/x86-64-v3-poky-linux/ethtool/ethtool: PKGSIZE changed from 1036521 to 1040617 (+0%)
-packages/x86-64-v3-poky-linux/ethtool: PV changed from "7.1" to "7.2"
-packages/x86-64-v3-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-7.1.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-7.2.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
-packages/x86-64-v3-poky-linux/ethtool: PKGV changed from 7.1 [default] to 7.2 [default]
+packages/x86-64-v3-poky-linux/weston: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/weston/-/releases/16.0.0/downloads/weston-16.0.0.tar.xz file://weston.png file://weston.desktop file://xwayland.weston-start file://systemd-notify.weston-start file://Allow-libdisplay-info-0.4.0.patch" to "https://gitlab.freedesktop.org/wayland/weston/-/releases/16.0.1/downloads/weston-16.0.1.tar.xz file://weston.png file://weston.desktop file://xwayland.weston-start file://systemd-notify.weston-start"
+packages/x86-64-v3-poky-linux/weston/libweston-16: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/libweston-16: FILELIST: removed "/usr/lib/libweston-16.so.0.0.0", added "/usr/lib/libweston-16.so.0.0.1"
+packages/x86-64-v3-poky-linux/weston/libweston-16: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+Changes to packages/x86-64-v3-poky-linux/weston (sysroot):
+  /usr/lib/libweston-16.so.0 changed symlink target from libweston-16.so.0.0.0 to libweston-16.so.0.0.1
+  /usr/lib/libweston-16.so.0.0.0 moved to /usr/lib/libweston-16.so.0.0.1
+packages/x86-64-v3-poky-linux/weston/weston-dbg: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-dbg: PKGSIZE changed from 21572736 to 21579176 (+0%)
+packages/x86-64-v3-poky-linux/weston/weston-dbg: FILELIST: removed "/usr/lib/.debug/libweston-16.so.0.0.0", added "/usr/lib/.debug/libweston-16.so.0.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-dbg: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston/weston-dev: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-dev: PKGSIZE changed from 198117 to 198642 (+0%)
+packages/x86-64-v3-poky-linux/weston/weston-dev: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston/weston-doc: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-doc: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston/weston-examples: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-examples: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston/weston-locale: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-locale: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston/weston-src: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-src: PKGSIZE changed from 6425744 to 6430066 (+0%)
+packages/x86-64-v3-poky-linux/weston/weston-src: FILELIST: directory renamed /usr/src/debug/weston/16.0.0/clients -> /usr/src/debug/weston/16.0.1/clients, directory renamed /usr/src/debug/weston/16.0.0/libweston/backend-drm -> /usr/src/debug/weston/16.0.1/libweston/backend-drm, directory renamed /usr/src/debug/weston/16.0.0/tests/harness -> /usr/src/debug/weston/16.0.1/tests/harness, directory renamed /usr/src/debug/weston/16.0.0/xwayland -> /usr/src/debug/weston/16.0.1/xwayland, directory renamed /usr/src/debug/weston/16.0.0/libweston/perfetto -> /usr/src/debug/weston/16.0.1/libweston/perfetto, directory renamed /usr/src/debug/weston/16.0.0/libweston/backend-wayland -> /usr/src/debug/weston/16.0.1/libweston/backend-wayland, directory renamed /usr/src/debug/weston/16.0.0/desktop-shell -> /usr/src/debug/weston/16.0.1/desktop-shell, directory renamed /usr/src/debug/weston/16.0.0/libweston/renderer-gl -> /usr/src/debug/weston/16.0.1/libweston/renderer-gl, directory renamed /usr/src/debu
+ g/weston/16.0.0/libweston/backend-x11 -> /usr/src/debug/weston/16.0.1/libweston/backend-x11, directory renamed /usr/src/debug/weston/16.0.0/libweston/renderer-vulkan -> /usr/src/debug/weston/16.0.1/libweston/renderer-vulkan, directory renamed /usr/src/debug/weston/16.0.0/ivi-shell -> /usr/src/debug/weston/16.0.1/ivi-shell, directory renamed /usr/src/debug/weston/16.0.0/libweston/shell-utils -> /usr/src/debug/weston/16.0.1/libweston/shell-utils, directory renamed /usr/src/debug/weston/16.0.0/protocol -> /usr/src/debug/weston/16.0.1/protocol, directory renamed /usr/src/debug/weston/16.0.0/libweston -> /usr/src/debug/weston/16.0.1/libweston, directory renamed /usr/src/debug/weston/16.0.0/shared -> /usr/src/debug/weston/16.0.1/shared, directory renamed /usr/src/debug/weston/16.0.0/frontend -> /usr/src/debug/weston/16.0.1/frontend, directory renamed /usr/src/debug/weston/16.0.0/include/libweston -> /usr/src/debug/weston/16.0.1/include/libweston, directory renamed /usr/src/debug/weston/16
+ .0.0/libweston/desktop -> /usr/src/debug/weston/16.0.1/libweston/desktop, directory renamed /usr/src/debug/weston/16.0.0/kiosk-shell -> /usr/src/debug/weston/16.0.1/kiosk-shell
+packages/x86-64-v3-poky-linux/weston/weston-src: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston/weston-staticdev: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-staticdev: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston/weston-xwayland: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston-xwayland: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
+packages/x86-64-v3-poky-linux/weston/weston: PV changed from "16.0.0" to "16.0.1"
+packages/x86-64-v3-poky-linux/weston/weston: PKGV changed from 16.0.0 [default] to 16.0.1 [default]
 
---===============6390279535667899009==
+--===============4954612966856518762==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ethtool-upgrade-7.1-7.2.patch"
+Content-Disposition: attachment;
+ filename="0001-weston-upgrade-16.0.0-16.0.1.patch"
 
-RnJvbSA1MGE1ZTM4ZGRjMThhYzc4NWEzYmU1OWU2NWZjMWRjNDFlMTkyMWI4IE1vbiBTZXAgMTcg
+RnJvbSAxNmUzOWFlMjE3YjFmODhkZTQ5Y2IyODE4NDQ1YTFiZDk0NDA3Y2ZmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMjAgT2N0IDIwMjYgMDc6MDQ6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-dGh0b29sOiB1cGdyYWRlIDcuMSAtPiA3LjIKClZlcnNpb24gNy4yIC0gT2N0IDE5LCAyMDI2Ci0t
-LQogLi4uL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCAgICAgICAg
-ICAgICAgfCA2ICsrKy0tLQogLi4uL2V0aHRvb2wve2V0aHRvb2xfNy4xLmJiID0+IGV0aHRvb2xf
-Ny4yLmJifSAgICAgICAgICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9u
-cygrKSwgNCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9v
-bC97ZXRodG9vbF83LjEuYmIgPT4gZXRodG9vbF83LjIuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0
-cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFy
-YWxsZWxfdGVzdHMucGF0Y2gKaW5kZXggYWFmYzllYTcxNS4uZTI0NDg1MGYwNiAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90
-ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sL2F2
-b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3ZmJkYzVjZWM1
-YzVmMmI4OWZkMTgzNTQzYzNkMzViNWY3Y2M1NTMwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSBlZDdmODNhNmJlMThiNjU5ODk5ZmIzZDYwYTA0YjkxYmY1YWJhZTc3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogVHVkb3IgRmxvcmVhIDx0dWRvci5mbG9yZWFAZW5lYS5jb20+
-CiBEYXRlOiBXZWQsIDI4IE1heSAyMDE0IDE4OjU5OjU0ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hd
-IGV0aHRvb2w6IHVzZSBzZXJpYWwtdGVzdHMgY29uZmlnIG5lZWRlZCBieSBwdGVzdC4KQEAgLTE0
-LDEwICsxNCwxMCBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUKICAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2NvbmZp
-Z3VyZS5hYyBiL2NvbmZpZ3VyZS5hYwotaW5kZXggNzFiOTk4ZS4uNzllZmY4MiAxMDA2NDQKK2lu
-ZGV4IDAyODllYjcuLjMwMjYxZWUgMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2Nv
-bmZpZ3VyZS5hYwotQEAgLTMsNyArMyw3IEBAIEFDX0lOSVQoZXRodG9vbCwgNy4xLCBuZXRkZXZA
-dmdlci5rZXJuZWwub3JnKQorQEAgLTMsNyArMyw3IEBAIEFDX0lOSVQoZXRodG9vbCwgNy4yLCBu
-ZXRkZXZAdmdlci5rZXJuZWwub3JnKQogIEFDX1BSRVJFUSgyLjUyKQogIEFDX0NPTkZJR19NQUNS
-T19ESVIoW200XSkKICBBQ19DT05GSUdfU1JDRElSKFtldGh0b29sLmNdKQpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF83LjEuYmIgYi9tZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzcuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzcuMS5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF83LjIuYmIKaW5k
-ZXggYTI0YjY0ODYzZC4uMGFlMWViZmYzNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL2V0aHRvb2wvZXRodG9vbF83LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0
-aHRvb2wvZXRodG9vbF83LjIuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSSA9ICIke0tFUk5F
-TE9SR19NSVJST1J9L3NvZnR3YXJlL25ldHdvcmsvZXRodG9vbC9ldGh0b29sLSR7UFZ9LnRhci5n
-eiBcCiAgICAgICAgICAgIGZpbGU6Ly9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCBcCiAgICAg
-ICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjIxY2M1MjBhZTVkODgxZjAxYjBkY2Q2
-ZDI2ZGU0ZDUyYTY0YjI0ODQwYmMyMTUwZGFmNzc4YTIzNTQ0MmU2MWQiCitTUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiYjJmMmYxZTk0YzNiNmUzNTcxNWQ5NjkxODVhMDIwOGQ0MTE1ODZkODhmNDljY2Jh
-ZDc0MDA2M2U1MTcyMGY5NCIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vd3d3Lmtl
-cm5lbC5vcmcvcHViL3NvZnR3YXJlL25ldHdvcmsvZXRodG9vbC8iCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFR1ZSwgMjAgT2N0IDIwMjYgMDU6NDA6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
+ZXN0b246IHVwZ3JhZGUgMTYuMC4wIC0+IDE2LjAuMQoKLS0tCiAuLi4vd2VzdG9uL0FsbG93LWxp
+YmRpc3BsYXktaW5mby0wLjQuMC5wYXRjaCAgfCAyOCAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4v
+e3dlc3Rvbl8xNi4wLjAuYmIgPT4gd2VzdG9uXzE2LjAuMS5iYn0gICAgfCAgMyArLQogMiBmaWxl
+cyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMzAgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAx
+MDA2NDQgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2VzdG9uL0FsbG93LWxpYmRpc3Bs
+YXktaW5mby0wLjQuMC5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5k
+L3t3ZXN0b25fMTYuMC4wLmJiID0+IHdlc3Rvbl8xNi4wLjEuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2VzdG9uL0FsbG93LWxpYmRpc3BsYXkt
+aW5mby0wLjQuMC5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dlc3Rvbi9B
+bGxvdy1saWJkaXNwbGF5LWluZm8tMC40LjAucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0
+CmluZGV4IDA3ZjM3YjI3N2YuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3dheWxhbmQvd2VzdG9uL0FsbG93LWxpYmRpc3BsYXktaW5mby0wLjQuMC5wYXRjaAorKysgL2Rl
+di9udWxsCkBAIC0xLDI4ICswLDAgQEAKLUZyb20gNTRjZDVjMzM1NGM2MTg4MTVhZGRkN2UxZDgy
+ZmM2NjI0NzA5OTEzNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IFRvbSBQb2xsYXJk
+IDx0b20ucG9sbGFyZEBjb2RldGhpbmsuY28udWs+Ci1EYXRlOiBUdWUsIDI4IEp1bCAyMDI2IDEw
+OjUxOjI3ICswMTAwCi1TdWJqZWN0OiBbUEFUQ0hdIEFsbG93IGxpYmRpc3BsYXktaW5mbyAwLjQu
+MAotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGxhYi5mcmVlZGVza3Rv
+cC5vcmcvd2F5bGFuZC93ZXN0b24vLS9jb21taXQvNTRjZDVjMzM1NGM2MTg4MTVhZGRkN2UxZDgy
+ZmM2NjI0NzA5OTEzNl0KLQotU2lnbmVkLW9mZi1ieTogVG9tIFBvbGxhcmQgPHRvbS5wb2xsYXJk
+QGNvZGV0aGluay5jby51az4KLS0tLQotIG1lc29uLmJ1aWxkIHwgMiArLQotIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvbWVzb24u
+YnVpbGQgYi9tZXNvbi5idWlsZAotaW5kZXggMDNmNGQzMjAxZi4uNDgxNGE4MTU5MiAxMDA2NDQK
+LS0tLSBhL21lc29uLmJ1aWxkCi0rKysgYi9tZXNvbi5idWlsZAotQEAgLTE4MCw3ICsxODAsNyBA
+QCBlbmRpZgotIAotIGRlcF9saWJkaXNwbGF5X2luZm8gPSBkZXBlbmRlbmN5KAotIAknbGliZGlz
+cGxheS1pbmZvJywKLS0JdmVyc2lvbjogWyc+PSAwLjIuMCcsICc8IDAuNC4wJ10sCi0rCXZlcnNp
+b246IFsnPj0gMC4yLjAnLCAnPCAwLjUuMCddLAotIAlmYWxsYmFjazogWydkaXNwbGF5LWluZm8n
+LCAnZGlfZGVwJ10sCi0gCWRlZmF1bHRfb3B0aW9uczogWwotIAkJJ3dlcnJvcj1mYWxzZScsCi0t
+LSAKLUdpdExhYgotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93
+ZXN0b25fMTYuMC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2VzdG9uXzE2
+LjAuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3Mvd2F5bGFuZC93ZXN0b25fMTYuMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3Mvd2F5bGFuZC93ZXN0b25fMTYuMC4xLmJiCmluZGV4IDhlNWQ3OWFlYzMuLjliMjE3MjJm
+NDEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dlc3Rvbl8xNi4w
+LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2VzdG9uXzE2LjAuMS5i
+YgpAQCAtMTEsMTAgKzExLDkgQEAgU1JDX1VSSSA9ICJodHRwczovL2dpdGxhYi5mcmVlZGVza3Rv
+cC5vcmcvd2F5bGFuZC93ZXN0b24vLS9yZWxlYXNlcy8ke1BWfS9kb3dubG8KICAgICAgICAgICAg
+ZmlsZTovL3dlc3Rvbi5kZXNrdG9wIFwKICAgICAgICAgICAgZmlsZTovL3h3YXlsYW5kLndlc3Rv
+bi1zdGFydCBcCiAgICAgICAgICAgIGZpbGU6Ly9zeXN0ZW1kLW5vdGlmeS53ZXN0b24tc3RhcnQg
+XAotICAgICAgICAgICBmaWxlOi8vQWxsb3ctbGliZGlzcGxheS1pbmZvLTAuNC4wLnBhdGNoIFwK
+ICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGZiMzJlMmJjY2FiZGE5NTdi
+OTRhOGQwZWM2MDc1YWNkMThjNzFjODdlYmM1NDNlZTNlNjE4ZDI5NGNhMGY3ZiIKK1NSQ19VUklb
+c2hhMjU2c3VtXSA9ICI1NGY4ODlkMjM2ZDczZjQ5N2U3OTI5ZjM1NWFkODdmMDNjMmJiY2RlOTQ1
+YmIyOWZiYmFlMmE0YjMwNTBlNDY3IgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9n
+aXRsYWIuZnJlZWRlc2t0b3Aub3JnL3dheWxhbmQvd2VzdG9uLy0vdGFncyIKIFVQU1RSRUFNX0NI
+RUNLX1JFR0VYID0gInJlbGVhc2VzLyg/UDxwdmVyPlxkK1wuXGQrXC4oPyE5XGQrKVxkKykiCi0t
+IAoyLjQ3LjEKCg==
 
---===============6390279535667899009==
+--===============4954612966856518762==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="ethtool-changelog.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Version 7.2 - Oct 19, 2026
+packages/x86-64-v3-poky-linux/weston/libweston-16: FILELIST: removed "/usr/lib/libweston-16.so.0.0.0", added "/usr/lib/libweston-16.so.0.0.1"
+Changes to packages/x86-64-v3-poky-linux/weston (sysroot):
+  /usr/lib/libweston-16.so.0 changed symlink target from libweston-16.so.0.0.0 to libweston-16.so.0.0.1
+  /usr/lib/libweston-16.so.0.0.0 moved to /usr/lib/libweston-16.so.0.0.1
 
---===============6390279535667899009==--
+--===============4954612966856518762==--
