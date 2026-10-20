@@ -1,164 +1,217 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4606.1792492664178416099
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.2])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5068.1792494995139609637
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 03:37:44 -0700
+ Tue, 20 Oct 2026 04:16:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wia0WW3b;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48df4f540ebso1711930f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 03:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1792492662; x=1793097462; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vYgRj9DziP7YRmsbdxrQtmBg87eGpHSqL7jb0Hrh4eM=;
-        b=wia0WW3b8gcsqJ3bRoYMoDtE5QvEpMiMSNxb9FEo/mtFROHe7GsUEBuLqnE61x+PAe
-         Bd3ZluLu5lnR5innwLm2FrUuBf4bNJpzhOsWccumcopMCI4xBqusZDnIKOZdivAHfSx6
-         ZPdSnD07zrZOss5web3l8Kl+mOIUr9vfEbXiU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792492662; x=1793097462;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vYgRj9DziP7YRmsbdxrQtmBg87eGpHSqL7jb0Hrh4eM=;
-        b=eYtzVRMjMXtGT03H451jN+hm72phCdnki6Io6xmYKb8tOsiOPD4GuGDWvXjy+PJcFQ
-         SGVxVOnKIeubP3qd7GaNS1DGe8TQZe7eKHY9JXOW2K+e3j0s5GgDcDizwccyPYz+4rbL
-         5JRjPE78epBqhKmbwuVYmPLQSmGsucJqQwP33lO8hPRqqD3Um2SchMrwhfTTWS3A7OJ7
-         RQQ1owXb11uCyzAQi47qz+vdZW2WUSOzVlteeVTbUA9VWxbxiwb4iFxZlh44uDkkrnkC
-         JE+J9gFb3iNJ+DNUdaTbaIR3HhakSYT86F2uOXcfLSajKFfywYyiMCV0rEDhAfhTCRoq
-         H2UQ==
-X-Forwarded-Encrypted: i=1; AKwUvBytbFFCLZFyULfoMX1DovaFhzqizvezbadUElFucR97ezNNDPNspB2kLe9ntLw5qDty+/O+y1zXZsIhPJVuhd7Y9w==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYIzdJoSk9x+ewBUywHrXpkV+E+vlvMpTm8muSUGtHTb0FfKT9jO
-	XJo2bNsjvsQsrdc8o3/X+0RViDdAbmogRHufCmBAkOv37779EG5a62TxDJ2ccaKFU4Y=
-X-Gm-Gg: AYBFou2OAU06ShOv+OddZ5aSg8EcYtNnidCd8g72IKkHLAs/C8t4Rm4+JAm8DhFgHhY
-	qm/4bfsOKrKtLD7KE8oNZCKbws+ikAcc8QptCAph6ZNA+mWcRT1JtFjVRSXWu529CF5ZJibIUQc
-	X3iVmFjQqZ9exfGg8JdofoB739e0uqrq66LEzPna29x5yhsDCmU6cVk93nTv3zkK8aRacmbuMH0
-	SegfBrX6PU/jDVFhF3QlYAS3AEco5QgYYe705nuvmjyN2rTdqETff53Hz1LFG+gRSvL2DF6iKAL
-	HalHaQ45CYX38iqkdljB5uIpjLsgH8pjjmUFXWloVt6ZFMqSG+Y3nXeN2bazyGIagjs1ILwxdYI
-	Ecvi+lSerplC7GfXoTVphcugb1xzXl0apa4Tb/xObXSL5Wy1X7KD3GVr3HM7WvfH4Z9nf3X7tce
-	0F0+l14lMx2kMfcHiGMOX4cJIPKlhqxRlAogfvi4WHk6T/1ytf5hVwh66s2/yyl6mi7LnSz95+d
-	LeWZ+50KVaxcVlGXriIKKoHyYvkCZ/mijnrSyt5XWlZLBSrLWBV0K0ZpacoReprCVN/Gw==
-X-Received: by 2002:a05:6000:468d:b0:48d:f39b:83de with SMTP id ffacd0b85a97d-48e07b92058mr15616989f8f.3.1792492662077;
-        Tue, 20 Oct 2026 03:37:42 -0700 (PDT)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d8214e1sm5189797f8f.37.2026.10.20.03.37.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Oct 2026 03:37:41 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=VkzQPxcK;
+ spf=pass (domain: ericsson.com, ip: 52.101.66.2, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r3by30NC1uZGLXmQiDww+QgphJSleJabcmycnoBInCK4lXS8TvahTggx753W5iKbfua4UrnL0w4GjGmG93g2IdngORzd/ealFElodNk4mCvZBCyeHZfZx+T/eiQsgMrxBOk5rnHQeA7sZ8652iTnTaGGs4IxsaJptdMznnYgeUH78HRKMKOPipw/UGEeCkOZDOXVYvaJIjiBOuPTQbuiqTyCu+yUTXFzHf+G1REmIXLU45ZmplFjV6TV16bAHn1F/KtcGrSrkUDjJKqY+UyLp2OHlPGKutMo27DvyYELzyPFcn97F8TFEAnervt9+X8wcEszGdolypEGvv9jFSww0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4GK5US2ssnsDlsxauUfgFHHPTi6o7AxpKGuHo2bCr4U=;
+ b=sHjLehR3U7tukfjtV7bGdYk3Vhw4jzv0XoJvMcCivz11jFdBT+QkhogRqJMaIkJpJ6duHoqwOa+iT2QBLo3R1S5GOe0kLE+vHSNbDGMVN1e9wWMlUlHjq1UGe04VNCXQ0jyvuElqDBQpE2IiAXgiDbDDxgwf8yI1ZOWJPSSNP8QLSneCoP4P4YO9j1PASW8TJW99AoX//cQyx+/K6h0zPD62h/r/px3oXl3pvAEIT4WPN8BAl1axWNckPSH2Ht1DSdQXyDD3d6EM/WD084c42xc/0Iy5gmkNivcq9xByTCbk9E/NV7BROkuxtREwjHWnnPtUiDHRFSK39E9r9k85eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=ericsson.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4GK5US2ssnsDlsxauUfgFHHPTi6o7AxpKGuHo2bCr4U=;
+ b=VkzQPxcK3Pk9xQzrGFhe7E0fqAQLtvvQSOpU0E2Blt43XEere1trR85IjgjTI/Hbl7yUpjpTkGXA5weOfzV32x/ABZhA02DQjGhtNsUCCQVpN9aLuHznEKV6nAjykZKsfTgq2txMN4K5DJGE+1/og2NUsDCtTPn+VuOkeYFWWHIttQaTG/cNXwgS8/zYbEX+FRFTHjvxy240HwXkYabeN3aXaVGdOMrHgX+QWRLV56bVKyhaz0fNCaM67TOg+5E2PyX7PR+5AVz+ExFGr1jUSHi/CbJ3RBSZASaSVn/20MXt8L14DgPNYdyPpGQ3mYfQstITEHkeOl9QAzzKa4stCA==
+Received: from AM7PR02CA0028.eurprd02.prod.outlook.com (2603:10a6:20b:100::38)
+ by AM9PR07MB7793.eurprd07.prod.outlook.com (2603:10a6:20b:309::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Tue, 20 Oct
+ 2026 11:16:29 +0000
+Received: from AM1PEPF000C1AD8.eurprd02.prod.outlook.com
+ (2603:10a6:20b:100:cafe::94) by AM7PR02CA0028.outlook.office365.com
+ (2603:10a6:20b:100::38) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.20 via Frontend Transport; Tue,
+ 20 Oct 2026 11:16:29 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 192.176.1.74) smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ AM1PEPF000C1AD8.mail.protection.outlook.com (10.167.242.103) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.546.15 via Frontend Transport; Tue, 20 Oct 2026 11:16:28 +0000
+Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.67) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Tue, 20 Oct 2026 13:16:26 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 79DCB4020B54;
+	Tue, 20 Oct 2026 13:16:25 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 4DD45700CF34; Tue, 20 Oct 2026 13:16:25 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <yoann.congal@smile.fr>, Daniel Turull <daniel.turull@ericsson.com>
+Subject: [wrynose][PATCH] glib-2.0: upgrade 2.88.3 -> 2.88.4
+Date: Tue, 20 Oct 2026 13:16:20 +0200
+Message-ID: <20261020111620.3186263-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.55.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 20 Oct 2026 12:37:41 +0200
-Message-Id: <DM9LM8QRRKOE.3C49LIEPEZUK1@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH 0/27] python3-git: Security fixes
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <yurade@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261016054106.210444-1-yurade@cisco.com>
-In-Reply-To: <20261016054106.210444-1-yurade@cisco.com>
+Return-Path: edaturu@ericsson.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM1PEPF000C1AD8:EE_|AM9PR07MB7793:EE_
+X-MS-Office365-Filtering-Correlation-Id: 251851c5-71e0-4255-ecb8-08df2e9b9622
+X-SMTP-Server: smtp-central.internal.ericsson.com
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|1800799024|82310400026|36860700016|56012099006|260925021311599003|260925022911599003|260925021911599003|5023799004|11063799006|261009223027099003|261009221227099003|10067099003|18002099003|6133799003|13003099007|3023799007;
+X-Microsoft-Antispam-Message-Info: ScEHwon0azoyNpL0MmTNYApueTcjQG3Qq/NxkrRdF938tBNBcyVMPCyypnvrlRs9/xlu1l7ysB547llIVPZjpZvD8O1KXz4JvNYLYr32AOm83WTQqwjenA6yibEcd389gjLEVD5HJKDz4oW23lEIbfFyMyJhDSMMcfKfUUD4xgXOjvQxyw84vduGbNLtyaBvztELyN0V1E1+EfWczrBUyNnZ2zRwjWsL2s71z2g2I2FVV4tDpXuwWPeHP82keATwS++iIebYZdy80uNf7Pfi6+aM/uFuxO75G74Yo6bi8fc5fuv1XLayh2Kt7dqT0ie67F3ZfBkW0Q6uAII/cHg7NiS71skKYw0NSe4FhXPV31n7QpRpBGgkRbi+/1PsJuFQmSy4mkwmDu0/PWgi2Y4fzTm4i0d8CtUT8e3DXu2h45XTrMgh1sQYsXJDxmETAzYtemwQoIkGPTogYhV4vCuEj3DuQPG63Mz7VHwC8Fugk1kZVfdrpoVxA6SqSgVz9kGZmPujqym1CnDttVC8FgP+IPQGoxr0VCmQjgk3j2uqUiLjWzciMbLgeGbbQ6Cdl4+uT7HO9HMMOW744lYWG2Gfbt6+HCLWnkm2GhI6KjsZtTqrBOdFfsBEOOlNrQbGgDViZK2CH3POaYtdM8YvePmNov0M9uxyrwprfwBxvbvUB/UNFSc9JIq4fgi8pngjM2Ek+XA0DUOktZYR9loqJQWiuA==
+X-Forefront-Antispam-Report: CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(82310400026)(36860700016)(56012099006)(260925021311599003)(260925022911599003)(260925021911599003)(5023799004)(11063799006)(261009223027099003)(261009221227099003)(10067099003)(18002099003)(6133799003)(13003099007)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: eVVRI5sHi/e0qkUGDwzAAdJWOll/+iXyL/U8ajyAw+k0ITkoTz8Q8HcFnE+KhDQWCdIiPQOc1BsfOa9QKG7Z86v5yu7/auW8M0L774b7DZm4R9SErG06bKapKqOhix/s95XadFO1bxM4KCYSOVlp8PaqdIdMoEbMGzRTR6z4LPRfZp4c+CKxq2lzqdFzkfQc4CIGZZc8RsV3TF32hI86HEw5twZzNn+34FKzO5zplK8CPOZ8bXUGh+/L1xbjZBk9zKQsc10zUyjrlCLQebu302V9jHXHAJCbM+9/d50PVcMJQ5orfcJxJaBuF//Pd/r74WqTorHO9LXHDEoCS6jMhcjM3B6vKCiLQVdXAPBBGbPdslMZp+befTlrhdslN5CzHPm0JKVl6mUQ9JBJ3iYMYReqH5CFtpi+VgN9cpuy2xfr2/EUEAsXCEG8nMd0o7No
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 11:16:28.2860
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 251851c5-71e0-4255-ecb8-08df2e9b9622
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM1PEPF000C1AD8.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR07MB7793
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 10:37:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248271
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 20 Oct 2026 11:16:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248272
+Content-Type: text/plain; charset="utf-8"
 
-On Fri Oct 16, 2026 at 7:40 AM CEST, Yogita Urade -X (yurade - E INFOCHIPS =
-PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> Backport 27 GitPython security fixes covering 28 CVEs to the python3-git
-> 3.1.43 recipe on wrynose. The series adds the fixes as patches and update=
-s
-> the recipe to apply them.
->
-> CVE-2026-78678 and CVE-2026-78679 are addressed together. The CVE-2026-76=
-222
-> fix includes a regression correction and follow-up patch, and the CVE-202=
-6-87819
-> fix is carried in two patches. The patches retain upstream references.
->
-> Yogita Urade (27):
->   python3-git: fix CVE-2026-67326
->   python3-git: fix CVE-2026-67323
->   python3-git: fix CVE-2026-67325
->   python3-git: fix CVE-2026-67324
->   python3-git: fix CVE-2026-67322
->   python3-git: fix CVE-2026-69097
->   python3-git: fix CVE-2026-73625
->   python3-git: fix CVE-2026-73623
->   python3-git: fix CVE-2026-73624
->   python3-git: fix CVE-2026-73622
->   python3-git: fix CVE-2026-73621
->   python3-git: fix CVE-2026-73620
->   python3-git: fix CVE-2026-73619
->   python3-git: fix CVE-2026-76221
->   python3-git: fix CVE-2026-76220
->   python3-git: fix CVE-2026-76219
->   python3-git: fix CVE-2026-76218
->   python3-git: fix CVE-2026-76217
->   python3-git: fix CVE-2026-76222
->   python3-git: fix CVE-2026-78678 CVE-2026-78679
->   python3-git: fix CVE-2026-78677
->   python3-git: fix CVE-2026-78676
->   python3-git: fix CVE-2026-78675
->   python3-git: fix CVE-2026-87817
->   python3-git: fix CVE-2026-87818
->   python3-git: Fix CVE-2026-87819
->   python3-git: fix CVE-2026-100689
->
->  .../python/python3-git/CVE-2026-100689.patch       |  90 +++++
->  .../python/python3-git/CVE-2026-67322.patch        | 167 +++++++++
->  .../python/python3-git/CVE-2026-67323.patch        | 356 +++++++++++++++=
-++++
->  .../python/python3-git/CVE-2026-67324.patch        | 101 ++++++
->  .../python/python3-git/CVE-2026-67325_p1.patch     |  49 +++
->  .../python/python3-git/CVE-2026-67325_p2.patch     |  50 +++
->  .../python/python3-git/CVE-2026-67326.patch        | 108 ++++++
->  .../python/python3-git/CVE-2026-69097.patch        |  48 +++
->  .../python/python3-git/CVE-2026-73619.patch        |  58 +++
->  .../python/python3-git/CVE-2026-73620.patch        | 130 +++++++
->  .../python/python3-git/CVE-2026-73621.patch        |  72 ++++
->  .../python/python3-git/CVE-2026-73622.patch        |  60 ++++
->  .../python/python3-git/CVE-2026-73623.patch        |  53 +++
->  .../python/python3-git/CVE-2026-73624.patch        | 139 ++++++++
->  .../python/python3-git/CVE-2026-73625.patch        |  59 +++
->  .../python/python3-git/CVE-2026-76217.patch        | 179 ++++++++++
->  .../python/python3-git/CVE-2026-76218.patch        |  94 +++++
->  .../python/python3-git/CVE-2026-76219.patch        | 155 ++++++++
->  .../python/python3-git/CVE-2026-76220.patch        |  67 ++++
->  .../python/python3-git/CVE-2026-76221.patch        |  44 +++
->  .../python3-git/CVE-2026-76222-regression.patch    |  39 ++
->  .../python/python3-git/CVE-2026-76222_p1.patch     | 120 +++++++
->  .../python/python3-git/CVE-2026-76222_p2.patch     |  47 +++
->  .../python/python3-git/CVE-2026-78675.patch        |  47 +++
->  .../python/python3-git/CVE-2026-78676.patch        |  54 +++
->  .../python/python3-git/CVE-2026-78677.patch        |  86 +++++
->  .../CVE-2026-78678_CVE-2026-78679.patch            | 181 ++++++++++
->  .../python/python3-git/CVE-2026-87817.patch        | 394 +++++++++++++++=
-++++++
->  .../python/python3-git/CVE-2026-87818.patch        |  55 +++
->  .../python/python3-git/CVE-2026-87819_p1.patch     |  77 ++++
->  .../python/python3-git/CVE-2026-87819_p2.patch     | 139 ++++++++
->  meta/recipes-devtools/python/python3-git_3.1.43.bb |  31 ++
->  32 files changed, 3349 insertions(+)
->
-> --
-> 2.35.6
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Hello,
+Changelog: https://gitlab.gnome.org/GNOME/glib/-/blob/2.88.4/NEWS
 
-I only review the 6 firsts patches and I already found basic issues:
-* Unneeded changes from upstream
-* Removed metadata
-* Wrong CVE references
+Source: NEWS
 
-I'll stop my review here and hold the series until you review it
-yourself under those comments.
+Overview of changes in GLib 2.88.4, 2026-10-08
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Same goes for the scarthgap one.
+* Bugs fixed:
+  - #4011 gio/tests/services: Installed service file contains build path af=
+ter
+    !5259 (Jaipaul Cheernam)
+  - #4020 'TLS callback not invoked' error on msys2-clang64 CI job (Luca Ba=
+cci)
+  - !5262 Backport !5261 "gio/tests/services: Fix installed service file
+    containing build path" to glib-2-88
+  - !5273 Backport !5266 "docs: Fix gio gi-docgen docs_url" to glib-2-88
+  - !5285 Backport !5283 "gconstructor: Reference _tls_used also on GCC, CL=
+ang"
+    to glib-2-88
+  - !5323 Backport !5311 "fix: handle long filenames in trash by truncating=
+ from
+    front" to glib-2-88
+  - !5379 Update Norwegian Nynorsk translation
+  - !5394 Backport various security fixes to glib-2-88
 
-This is a really long series, I have to ask a higher standard than usual
-in order to not spent all my time reviewing it.
+Drop 0001-gio-tests-services-Fix-installed-service-file-using-.patch
+(local backport of #4011/!5262) as the fix is now included upstream.
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+Assisted-by: kiro:claude-sonnet-5
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+---
+ ...es-Fix-installed-service-file-using-.patch | 35 -------------------
+ ...l_2.88.3.bb =3D> glib-2.0-initial_2.88.4.bb} |  0
+ ...{glib-2.0_2.88.3.bb =3D> glib-2.0_2.88.4.bb} |  0
+ meta/recipes-core/glib-2.0/glib.inc           |  3 +-
+ 4 files changed, 1 insertion(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-2.0/files/0001-gio-tests-service=
+s-Fix-installed-service-file-using-.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.88.3.bb =3D> glib-2.=
+0-initial_2.88.4.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.88.3.bb =3D> glib-2.0_2.88.4=
+.bb} (100%)
 
+diff --git a/meta/recipes-core/glib-2.0/files/0001-gio-tests-services-Fix-i=
+nstalled-service-file-using-.patch b/meta/recipes-core/glib-2.0/files/0001-=
+gio-tests-services-Fix-installed-service-file-using-.patch
+deleted file mode 100644
+index 755e51cdd3..0000000000
+--- a/meta/recipes-core/glib-2.0/files/0001-gio-tests-services-Fix-installe=
+d-service-file-using-.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From ed5956d0000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+-Date: Thu, 30 Jul 2026 11:28:36 +0000
+-Subject: [PATCH] gio/tests/services: Fix installed service file containing
+- build path
+-
+-The refactoring in !5259 changed the installed service file's
+-configure_file() to use the build output as input instead of the
+-original .in template. Since @installed_tests_dir@ is already
+-substituted in the build output, the installed version gets the
+-build directory path instead of the install prefix.
+-
+-Use the .in template directly as input for the installed version.
+-
+-Closes #4011
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/ed=
+5956d]
+-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+----
+- gio/tests/services/meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/gio/tests/services/meson.build b/gio/tests/services/meson.bui=
+ld
+-index 1111111..2222222 100644
+---- a/gio/tests/services/meson.build
+-+++ b/gio/tests/services/meson.build
+-@@ -18,7 +18,7 @@ foreach service_file_name : dbus_service_files
+-     # Build a second copy of the service file for the installed
+-     # version of the tests.
+-     installed_service_file =3D configure_file(
+--      input: service_file,
+-+      input: service_file_name + '.in',
+-       output: service_file_name + '.to-install',
+-       configuration: installed_cdata,
+-     )
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb b/meta/r=
+ecipes-core/glib-2.0/glib-2.0-initial_2.88.4.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.3.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0-initial_2.88.4.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb b/meta/recipes-c=
+ore/glib-2.0/glib-2.0_2.88.4.bb
+similarity index 100%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.88.4.bb
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2=
+.0/glib.inc
+index 50cdeff158..7e7725f9bd 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -237,13 +237,12 @@ SRC_URI +=3D "\
+            file://skip-timeout.patch \
+            file://CVE-2026-58016-1.patch \
+            file://CVE-2026-58016-2.patch \
+-           file://0001-gio-tests-services-Fix-installed-service-file-using=
+-.patch \
+            "
+ SRC_URI:append:class-native =3D " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidf=
+d-features-on-native-g.patch \
+                               "
+=20
+-SRC_URI[archive.sha256sum] =3D "ab24d24e698dfa1e408b7bcdb508f4aafc906185a8=
+b8ce72fdf79bbbdc9b383b"
++SRC_URI[archive.sha256sum] =3D "25fd169f3b2f91fe2391ad297883ce0fcf30c69fc7=
+89ffd1c9672d1332b1c5a8"
+=20
+ # Find any meson cross files in FILESPATH that are relevant for the curren=
+t
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
