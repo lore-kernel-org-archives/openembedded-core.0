@@ -1,267 +1,451 @@
-Received: from mx0b-006e0602.pphosted.com (mx0b-006e0602.pphosted.com [148.163.140.78])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4722.1792559393868082324
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5100.1792561338322379889
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 22:09:54 -0700
+ Tue, 20 Oct 2026 22:42:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@jp.honda header.s=PoD-DKIM-Selector header.b=ntXWK3jz;
- dkim=pass header.i=@jp.honda header.s=selector1 header.b=JD7jVE93;
- spf=pass (domain: jp.honda, ip: 148.163.140.78, mailfrom: kazuyoshi_akiyama@jp.honda)
-Received: from pps.filterd (m0469179.ppops.net [127.0.0.1])
-	by mx0b-006e0602.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69L2Eoa33290601;
-	Wed, 21 Oct 2026 05:09:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jp.honda; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PoD-DKIM-Selector; bh=Kf47fNVD+qWYpvjztFD7XqvOO1MjPNLExqRU/RBXBq
-	M=; b=ntXWK3jzeGMLzOISCPTPYl9djCDUZqRiSlAinRgpKZA6zxU9TGeh/FX8R2
-	iosT1PQGp4JyM/8StT7ZWbiuhsP++7sYC9gUzRxEb1jYBlyj1pRYypoaeSJuHeoK
-	WAG3U3vRdICrBMozTH3Jqp/rw6dr1AOGjawIeW+wyQTFFuwI6TSIbOHSRmZirUOq
-	XG5cpWhFeoYTrlko58b//mMXyGZVneE6xwfzZ/8fwtE3NkPJN9ach6Q0xGCJi7QB
-	uT+erWCtxN+kmbdEL18b/0j4AUmAM5YDUsSnVxUnuda7KC2Ce+UXmcg5jSvd67AV
-	jcaXdqmAN0lPjeKfX3VvIwLI7+SA==
-Received: from os0p286cu010.outbound.protection.outlook.com (mail-japanwestazon11011039.outbound.protection.outlook.com [40.107.74.39])
-	by mx0b-006e0602.pphosted.com (PPS) with ESMTPS id 4he4x52aw5-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 21 Oct 2026 05:09:41 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ubgPqCFBZO49CcbQCszuIvlBLXAB5AFKDYPcWrm7bL8qkQ8rmNa9BBR92DqIZzXR52YkZ6Zn7nKUQxr5KRR8m20pWChgN9CN6pwfm4SGRv9mFHSfzx/f1oKcwJ0I+2qumGW0IUl8lX0DuqiED1CSia0SBBBmDIf9+27gs1WTQQJ7lV3Foc6355fWW6xmPPDNOzFAzwUtpMsv/7WjcUcsKqLgx34f991yI1OWGHq08MtgIvPFsGrvd0mkFv+mNaR0u3HXO+JvUjAEDWMqpowgFC43Ga6V2Dfq4k7UkXamL5SY6v2HUjLwvvIX3ardfM/BvOrVWzj1uATKdQlzDVIRNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kf47fNVD+qWYpvjztFD7XqvOO1MjPNLExqRU/RBXBqM=;
- b=t89EpaBM27CrV7JJd+x++gH9jPu2M1aF34UaDHJ/gA4abLs8hXPzJKClKlf2FkxxVYG+AUDC4FE34pMKoBIv5icY5GAjptj6gQN5SezSkwydwkQh2jPRgp7PPU5Zvvwe6erEiTFbPqwQIvPl1Rn3QR6Gt50pOPSv7DmrG05AjLFVL+KeR/+IqApDoSYm1nbrPI6Fg+Xj9StH0Xf+kdqRYrP0lkvtzII352NdStkhb49oraaE7c1GcgPfZFsNn22LNa9g1c1g9Xd859WM3ZocNe15Pd7u4WSeAUNXySRnvRpsT3Pvn8G6v98xMKyunHwYl6gRSMjS1AIEwh9MrnvzfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=jp.honda; dmarc=pass action=none header.from=jp.honda;
- dkim=pass header.d=jp.honda; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jp.honda; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kf47fNVD+qWYpvjztFD7XqvOO1MjPNLExqRU/RBXBqM=;
- b=JD7jVE930w9XE0rlzrXcO8xSeSzC7irmok1UA9qMKcmhMFCLmutBzQW+dFWqRNrmDNGOmU8BPw4/ar9fSMakcggfRHnDhwfqA02pT05Coq0s/12MZWBbH7uj9JU+pCU2OsLFfuaaWoPjPdNtPKzAbsP51rj5ZdCW8wtPHknD4CPv23mT8x2Lk9L+b0TF6E/1Q3UQe30C3FQkr3eAgcmtuilDUNoKyxK+gMC7QpKRRQDJL4yZDcwNCOoWD5K/zzSwfkd/YohAut/Mkyzs5EbaCywcCjWkhomyc/plC2WchM7pEUflBnnxokzZIm64AUMKyGa0ETVZ//x0JizVXw6EJg==
-Received: from TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM (2603:1096:405:108::13)
- by TYWP301MB0550.JPNP301.PROD.OUTLOOK.COM (2603:1096:400:447::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
- 2026 05:09:36 +0000
-Received: from TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM
- ([fe80::c99f:2932:2161:d608]) by TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM
- ([fe80::c99f:2932:2161:d608%5]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
- 05:09:36 +0000
-From: =?utf-8?B?S0FaVVlPU0hJIEFLSVlBTUEgKOeni+WxsSDlkozmhbYp?=
-	<kazuyoshi_akiyama@jp.honda>
-To: "yoann.congal@smile.fr" <yoann.congal@smile.fr>,
-        Benjamin Robin
-	<benjamin.robin@bootlin.com>,
-        "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Mathieu Dubois-Briand
-	<mathieu.dubois-briand@bootlin.com>,
-        Joshua Watt <JPEWhacker@gmail.com>,
-        Daniel Turull <daniel.turull@ericsson.com>
-Subject: RE: [OE-core] [PATCH wrynose 0/4] spdx: fix the compiled-sources
- filter
-Thread-Topic: [OE-core] [PATCH wrynose 0/4] spdx: fix the compiled-sources
- filter
-Thread-Index: AQHdRlx6LUwGc91iVUmijr+tpLilcLbgo60AgAMeO4CAAAesIIADjvyAgB9wLYCAAN3L4A==
-Date: Wed, 21 Oct 2026 05:09:36 +0000
-Message-ID: <TYYP301MB1158CD0148A79E2B59165355EB662@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM>
-References: <20260917-backport-wrynose-v1-0-bb7d640c2719@jp.honda>
- <DLP4XNN74N6I.1RINHBSPGZQL3@smile.fr> <P6U4ukI2TxueJYGtH8T_Xw@bootlin.com>
- <TYYP301MB11583CEAF49F1D6ABB33F54EEB8D2@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM>
- <DLSRMLU0EYKQ.3KSUL5VCXXX11@smile.fr> <DM9S9QJC41I5.HBYN1E0X32YB@smile.fr>
-In-Reply-To: <DM9S9QJC41I5.HBYN1E0X32YB@smile.fr>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-rorf: true
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=jp.honda;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYYP301MB1158:EE_|TYWP301MB0550:EE_
-x-ms-office365-filtering-correlation-id: f058b9f2-0fb6-4bf6-a898-08df2f318091
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|18002099003|22082099003|3023799007|38070700021|11063799006|4143699003|261009223027099003|5023799004|10067099003|56012099006;
-x-microsoft-antispam-message-info: Bthgk4zPM2nd8Y3ApTczAWX06716bHsaAVreiqejvsEAZHUGrCfeVfICZePhcHVbZhsL34WLND4emMLDjpx6fjyjLXKCsZ72r2FlY+O1inCox/5ITwtu7Cyrqgo7U444+en9EtwhoLpEUxFsUuOSfplIvm+1PESv4FlwZMxVrJRo7QqC0tIN19ZHoW0b79QBvpMf7eQX6CHUAWZIH+VquBHBIYdXzPKFgFpYdTXptvxpqFQxfN4bDL63h4mZucvLCOhhMYO7biuPv2mLa0FMWK5TPTdVU4QSV9o3JSeq6amnbRkRTL1xO4TvV4CWM7gGkt4lj+NQ6Gl21bK7+dX6IcnMHfDFsO9GTTBd+7DxpiTW5k/UBohxbTd8f8iPUjZ5syNUr7dSJ4fvoLZRsDECYgMGf4j4MXEqsFMMRc2iwLCpdLldL2FpwRrPhDeXHNHYT+/eUgAzGrGOp4HRN4CVamMO5vszZEkZaUgetp2cYzxtTostLq7iSvsKHmUTsBeXqEd5J5r//3GJM5olMbp+KCcnSbU+9+Re5Hqi/+gZ5AdN4wKIKJSJc87VpWZD6+Ad/tqBj+S16IdzJKm/klsfV28j9RwD4ZPboHKBdBo+mB7bvjy6SSeTioCyfHVE3zxT6hf0RYi27PupVgBsL2Fqa5mNQ5sM8CrKIJHtmB2ygSDj0gqyq791yTlZU4TIgoafbGqYhEEmqdDyH20ANrXyVbekstfKSwYbwl29qp//Oh0=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(18002099003)(22082099003)(3023799007)(38070700021)(11063799006)(4143699003)(261009223027099003)(5023799004)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U3A3Qi8vcVZwU1pnaENTWkR5QXpyQm5DQXFuYlh4L3AxUnZrTEp5MlByRkFh?=
- =?utf-8?B?aUJWdlFtRWNXRUJIZnNtakZoZE94SFlDOGtSVEtPNTdMNjlRMVY0QkxTRDM0?=
- =?utf-8?B?YWVHeDkyckVqbGVJVXNUUEpUVTFSZStvb3ZYZEhYZTdudVFDc0JZQW1pSGpN?=
- =?utf-8?B?dDY5SUNLb1RxdER1Q0F0TThWWDE4WW9BaDNyV3BuQUtHUUplVVFXTEZrcWty?=
- =?utf-8?B?akR3N2lHYkptaGs4dktVYmwyZVRudGlvMXRKbEJwdG9QTUFtaTlzZUJEMHha?=
- =?utf-8?B?ak81T1c3ZkpoaUVQUndXTnNWenVNOEhMaXNTQUFFSEkycFVHRmVobEgyZVVs?=
- =?utf-8?B?K0lrUm13V1BsYTdIZUFrNnZjZmlUemZPbElQVVFYdWlUTHVsdnMyQmFEeVJz?=
- =?utf-8?B?ZWE0SkZ0VFA1TlVYTFhGUTUrSTJyL09uMzEvUzlySS9qL0ViRW9XaE9tRS9T?=
- =?utf-8?B?SEJhNlhhUWJxYUJwbVppQTVVOExJQ3dobmdvcWY0R0dTOUpwbXlpbHpzR0NN?=
- =?utf-8?B?dWhjb3RXRmV4UTdWeURaUWQzTFdDaEp1U2JOcC9ZbFc3QkJWL3p5cnBWRWR5?=
- =?utf-8?B?RU16SXd1azBzTjVMWGUvVmJzRmx3dnZzZ25XVlRMdSsyWnBETlVtcUN2ZnpE?=
- =?utf-8?B?Ty96Zi8yNjBIb3pDWUJ0bEpwcTV2eDdZaS9kYVlzV1lzdks1MVBtNlBJUEcv?=
- =?utf-8?B?N1dTSjRFZXptb3p1ejY4VjE2RTJ4eU9CdDZuc1FEazNpYXlPSW9kTWZnalNR?=
- =?utf-8?B?dzNPV1RzOStMN0YyR0NVcHloREFjeW54VHpqaGNuNW1KazRNZmZNY01EVHl1?=
- =?utf-8?B?cGpMcXFHNkNUMFdaQWRiWC9sNTVLejlBbUpsaGFES1JTeGZlTUs1MlN0UHU4?=
- =?utf-8?B?Tml3NzltVTZFTitUL3J6UGVkUitGd1RMV0ZBSW9pZEVHaERDYkRONjh0dW5h?=
- =?utf-8?B?bHdlV0d6UHVDN1JwdzBtTlU4dlZrL1ZMQkFLMVpHVHcxSXJSK2VGdzZRTHVX?=
- =?utf-8?B?d0JrOE1QTTg3YUhmRHpCa3cyYlFTL3JSYWg3b0IwcWJQNmQ2VldkYmFRSlRX?=
- =?utf-8?B?dXpNKzh6eTJ0M0Y3b0lUekpkUVhOcTFvUUFmRW5FVmFHc1JTQ3hTV0JYdkFV?=
- =?utf-8?B?dkFRam5PQ21MdnRzYTBlRHFiSEZPVUJpN3RhQXltbFlHSkUwZTJUVkd4RXBG?=
- =?utf-8?B?Z1Y2K09ZMldFNnB5UWh6VnBodmNkRTVZV2NlUzdkdTFSN3ZCT2pjY0xzNW5v?=
- =?utf-8?B?MVV0b2VLNU5RUzMyeHR6a0E2OFZSZ1M0elFkVjRqd3AyMmlzNW9SUDkvVHRq?=
- =?utf-8?B?MkxZZExmdVpmQkVqMGYxdmdKNmdhMDhGU1BxcWZzSmo5akp3UDlwK290Tjlk?=
- =?utf-8?B?dnVLcXZoc1JCTzNEVlU2MW1WdmpYdFhmZXM0dEYrb0piN044YUJpMUllanJ1?=
- =?utf-8?B?S0I5aFJJa2ZOb28xYnVjN0lNelZaVXNFM0x1QVV1Y2pPaWE0UTlwTERXWUx0?=
- =?utf-8?B?NjJtMFFYOStDcDVONEpuakRNSXRVem9rNUEwc2V6WFBYVlJjb0dPK2VQTFVv?=
- =?utf-8?B?c0RqNVZNWTZkd24zNVhnZjZmUnRKeTVDeXNNY3VNbjE0K0pyZWJLd0VTcHRB?=
- =?utf-8?B?UWFQL3ZGRW83YlVFaXY2ejQ4eWs1REVZNzIyZEI2bzZMVzNERGVva1A2aHlQ?=
- =?utf-8?B?MGF2eG42bTdFMksxT1dKS0NPUzlHczB2OGs2QnFqK3VQZ3JBdGZxSjR4b0ww?=
- =?utf-8?B?amxrbUhkVlpzcjFKTUNQU1hBeUQweThsS3RzMXYzL0M1blVuQk5zYk1Edk1r?=
- =?utf-8?B?OGozMnh0eTdlWmtHeDVnOWgwcGZwNFZFbVhPSElLcUFhL0JSZmhiWWVxL0JW?=
- =?utf-8?B?cEhWbFdid2pjSzJ1N0ExUU1mTnloNHpCci9qbnR1WHNvWVczYTZMbWhJdFd4?=
- =?utf-8?B?TmZEc2tmOHp5elZBZDI1MkJ5TExBSnlLU1E5SHpHNkR4bzRtOHZXUUdnVzl0?=
- =?utf-8?B?SU1qZFVkRjFmRnNIZ2RhMzRaeUNpZmJHdHkyRkpDYjZVaThXVFdPR3Uydmhv?=
- =?utf-8?B?RHNrbU1zTU41UXV3ZVk0d0V6UGlGV2tJemowVTBpSTBxSC96c2RLK0prNStK?=
- =?utf-8?B?MzhqSTNjOVZTdzQ5alREb0tYWHZXWmY0dnV1VUpROTNuUHZ6a3lLT2JuYVFL?=
- =?utf-8?B?RVAzUmJ2bUZsOEc5VjdXVDVrb1ZHUnJHaFVRaVBUUk0rV0pLZ1JXa0UyempD?=
- =?utf-8?B?akYzdWVOUE95YmJEUmZDTkxSWGlWOU1RT1F1TzdFNzZrbHpiWUdmcU8rczBn?=
- =?utf-8?B?V1JnL0tsWmd6eWZZdlM2Sk96WXdJdGx1dnJQanJyaklJNkVPbWdrdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=DClOo+oD;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69L2F5nL336955
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:42:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=08LJx72HlTKbJzRErUpYR3
+	FN3p1j2I4ZLZTw7h0bAc4=; b=DClOo+oDNC+Ng+V6yvntx8DpGpdsqX9iFfQyqL
+	oiMk8ogNo1weQ3ZUGArbfDWPvr3WsLV5V4NqSbcQECmlzy84Vi+CwqMajGJTdIdt
+	/qsB2KXiGc/KZdnWgIjcOFHKLXKstRDCA9X/SXWDODdAIinVTKBm8gOt/tBCCSqI
+	xg53OD4Kh/xJ+OMOv06NIQV/484LBV39Hg5d6vPVPBFUKU2ZX3Ob8aeIhDe/3gzD
+	LMm/Hx1ZsYY2j7UeD/PtWkkQzTVAgdsYDdIXAXkQIUd+6wXg6GBp97fumT7BW8O6
+	Y8xWS5N9Ssfzc5pFzvxNWJy0BqNooTJ67ibKSm8deA1+Tmsg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hedabj6v3-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:42:17 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA04.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTPS id 69L5gHnd4069659
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:42:17 GMT
+Received: from hyd-e160-a01-2-03.qualcomm.com (10.80.81.91) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.53; Tue, 20 Oct 2026 22:42:12 -0700
+From: Vivek Puar <vpuar@qti.qualcomm.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Vivek Puar <vpuar@qti.qualcomm.com>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH] linux-firmware: upgrade 20260916 -> 20261019
+Date: Wed, 21 Oct 2026 11:11:58 +0530
+Message-ID: <20261021054158.2623376-1-vpuar@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: rPD9lKabKBkDdeLi/4pB0V3xXVsMQFb1oKh5njyyi3hOTSGPrG+y61ucWNRc99rO1Gi0TNqkG+irFXJ2DsZuVtMylZN8QT2n6YOi6iduVapC91+unVG0aBlFRL7e+lcNH3dNBqJzgC5x2ts/tS+JVD8pmXxHVPB7UoDE7ROOtntt7VBxAL0OLl3CQ0/Nz571O03V5BGVNiPCXq8WmXnc8OtPufJsmm3atuviuNfNENMnMiwbBaOliIUhJZI78/57kfqZmBWnkGIRs+TFt/afPms9PqhDawp1hfirzC6Rv17U//lo/MJ+pMF5cFjbVNrBFaQepJHTun8/zAoaBrmG+A==
-X-OriginatorOrg: jp.honda
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f058b9f2-0fb6-4bf6-a898-08df2f318091
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 05:09:36.5392
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: cc138ffb-9c4d-433b-b211-d4549ae62e8b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C/YRht7I9UzNPWsnzrH90uSyv7tvX9uI+w/NrEQRgmPllFVnHyAx0E+9knEl5kn7LXZIIcT+Cxcv4RD5CW93d0MAan0qHxfBojg70bOSthE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWP301MB0550
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.81.91]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAyMiBTYWx0ZWRfX4JhcXiCAhGLp
+ AnXZStYhSwmPcb1Y+PQVMTjO+cvw9Y7obPM2UanU+NnUlPt3JJVvzXdd/lViyd8r2TLp+51Wvpu
+ qVMJoVTZ1BBRGUMiesZEsmevdxnV5W0=
+X-Proofpoint-ORIG-GUID: wuF64SW6yHCwdFpSMXEdeUIvPvemGbdQ
+X-Proofpoint-GUID: wuF64SW6yHCwdFpSMXEdeUIvPvemGbdQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAyMiBTYWx0ZWRfX2IIyKrVRg/GB
+ 3njQA4opgoitMdm+6uO037GEFok0H1904sBpoXthZTzQUjsxGsiU/oVlQmL+xe5jmB05JR+njP+
+ gnUdK0nl3vl5+/houL9uvCmllRHTO6PTNd9PsL7MfdGC8qDZRPi9ujoHbtkykC02aE1hIKYcy4R
+ md5Mk2Z7G+u+txMnhh7xi6HSBOA8yVG7e7p3MvLKo+sZrq70//ujAAQZ6kxCKJU+GXUzL8u48B8
+ Fn/ybXF3Ujr3T5I2fp7gNTGn+avL3f+cUWvHgGD96c4iymTMQyc+0rT3B03QRfv7EtZ3VhXc02g
+ lZs585UQkoMnBDRE0HhrSlSCIMmAzMZFClT0+tyxINzOeao6s8HgCwkszKmPLkCtt3HwMfFt53F
+ UXkKLl/cFeGGvWgJiUgFzo9RjumbhqXfRUmgLHaw1Zic7tS/B6cgwEJoJi9nMBSsfvNr/buk4qk
+ 74FVNToBd6mRcpJJWiA==
+X-Authority-Analysis: v=2.4 cv=NLpAaE6g c=1 sm=1 tr=0 ts=6ad850b9 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=KqM8su6xhIYA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=p0WdMEafAAAA:8
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=6Yq5tBWijua1UeUfxeYA:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-21_01,2026-10-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 malwarescore=0 clxscore=1011
+ impostorscore=0 phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610210022
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:10:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248349
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:42:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248350
+Content-Type: text/plain; charset="utf-8"
 
-SGVsbG8sDQoNClRoYW5rIHlvdSBmb3IgbG9va2luZyBpbnRvIHRoaXMgc2VyaWVzLg0KDQpJIGJl
-bGlldmUgbm8gY2hhbmdlcyB0byB0aGUgc2VyaWVzIGFyZSBuZWVkZWQgZXZlbiBpZiBpbXByb3Zl
-X2tlcm5lbF9jdmVfcmVwb3J0LnB5IG5lZWRzIHRvIGJlIGZpeGVkLg0KU3VjaCBhIGZpeCBjYW4g
-YmUgZG9uZSBpbiBhbm90aGVyIHNlcmllcy4NClRoZSBzZXJpZXMgaXMgaW5kZXBlbmRlbnQgb2Yg
-dGhlIHNjcmlwdC4NCg0KTG9va2luZyBmb3J3YXJkIHRvIHRoZSBuZXh0IGN5Y2xlLg0KDQotLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4g
-T24gQmVoYWxmIE9mIFlvYW5uIENvbmdhbCB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU2Vu
-dDogV2VkbmVzZGF5LCBPY3RvYmVyIDIxLCAyMDI2IDEyOjUwIEFNDQpUbzogWW9hbm4gQ29uZ2Fs
-IDx5b2Fubi5jb25nYWxAc21pbGUuZnI+OyBLQVpVWU9TSEkgQUtJWUFNQSAo56eL5bGxIOWSjOaF
-tikgPGthenV5b3NoaV9ha2l5YW1hQGpwLmhvbmRhPjsgQmVuamFtaW4gUm9iaW4gPGJlbmphbWlu
-LnJvYmluQGJvb3RsaW4uY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZw0KQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
-b3JnPjsgTWF0aGlldSBEdWJvaXMtQnJpYW5kIDxtYXRoaWV1LmR1Ym9pcy1icmlhbmRAYm9vdGxp
-bi5jb20+OyBKb3NodWEgV2F0dCA8SlBFV2hhY2tlckBnbWFpbC5jb20+OyBEYW5pZWwgVHVydWxs
-IDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BB
-VENIIHdyeW5vc2UgMC80XSBzcGR4OiBmaXggdGhlIGNvbXBpbGVkLXNvdXJjZXMgZmlsdGVyDQoN
-Ck9uIFdlZCBTZXAgMzAsIDIwMjYgYXQgNTo0NCBQTSBDRVNULCBZb2FubiBDb25nYWwgd3JvdGU6
-DQo+IEhlbGxvLA0KPg0KPiBASm9zaHVhIChhbmQgb3RoZXIgU1BEWC9TQk9NIGludGVyZXN0ZWQg
-cGFydGllcyk6DQo+IEFzIG91ciAiU1BEWC9TQk9NIGd1eSIsIEkgd291bGQgbG92ZSB0byBoYXZl
-IHlvdXIgaW5wdXQgb24gdGhpcyB0aHJlYWQuDQo+IEZZSSwgV2UgKFBhdWwgb3IgSSkgcGxhbiB0
-byByYWlzZSB0aGlzIGF0IHRoZSBuZXh0IHRlY2ggY2FsbC4NCg0KSSBkaWQuIFRoZSBjb25zZW5z
-dXMgKFJQLCBKb3NodWEpIHdhcyB0aGUgInNvdXJjZXMvIiBwcmVmaXggaXMgYSBkaXZlcmdlbmNl
-IGZyb20gdXN1YWwgZGVzaWduIHdoZXJlIHNvdXJjZSBwYXRocyBkbyBub3QgaGF2ZSB0aGlzIHBy
-ZWZpeC4gU28sIGluIHRoaXMgd2F5LCB0aGlzIHNlcmllcyBzaG91bGQgYmUgY29uc2lkZXJlZCBh
-IGJ1ZyBmaXguDQoNCk5vIG9uZSBpbiB0aGUgY2FsbCBvcHBvc2VkIHRoaXMgcGF0aCBjaGFuZ2Uu
-DQoNCkRhbmllbCBub3RlZCB0aGF0IHRoZSBzY3JpcHQgZmlsdGVyaW5nIGtlcm5lbCBDVkVzIGJh
-c2VkIG9uIGNvbXBpbGVkIHNvdXJjZXMgbWF5IG5lZWQgYW4gdXBkYXRlOg0Kc2NyaXB0cy9jb250
-cmliL2ltcHJvdmVfa2VybmVsX2N2ZV9yZXBvcnQucHkNCg0KPT4gSSB3aWxsIHJlY29uc2lkZXIg
-dGhpcyBzZXJpZXMgZm9yIHRoZSBuZXh0IHdyeW5vc2UgY3ljbGUgKEluIDItMyB3ZWVrcykuDQoN
-Cj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4+IEZyb206IEJlbmphbWluIFJvYmlu
-IDxiZW5qYW1pbi5yb2JpbkBib290bGluLmNvbT4NCj4+PiBTZW50OiBNb25kYXksIFNlcHRlbWJl
-ciAyOCwgMjAyNiA1OjU3IFBNDQo+Pj4gVG86IEtBWlVZT1NISSBBS0lZQU1BICjnp4vlsbEg5ZKM
-5oW2KSA8a2F6dXlvc2hpX2FraXlhbWFAanAuaG9uZGE+OyANCj4+PiBvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBZb2FubiBDb25nYWwgDQo+Pj4gPHlvYW5uLmNvbmdh
-bEBzbWlsZS5mcj4NCj4+PiBDYzogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4
-Zm91bmRhdGlvbi5vcmc+OyBNYXRoaWV1IA0KPj4+IER1Ym9pcy1CcmlhbmQgPG1hdGhpZXUuZHVi
-b2lzLWJyaWFuZEBib290bGluLmNvbT4NCj4+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
-SCB3cnlub3NlIDAvNF0gc3BkeDogZml4IHRoZSANCj4+PiBjb21waWxlZC1zb3VyY2VzIGZpbHRl
-cg0KPj4+DQo+Pj4gT24gU2F0dXJkYXksIFNlcHRlbWJlciAyNiwgMjAyNiBhdCAxMToxOeKAr0FN
-LCBZb2FubiBDb25nYWwgd3JvdGU6DQo+Pj4+IE9uIFRodSBTZXAgMTcsIDIwMjYgYXQgNjoyNCBB
-TSBDRVNULCBLQVpVWU9TSEkgQUtJWUFNQSB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90
-ZToNCj4+Pj4gPiBTUERYX0lOQ0xVREVfQ09NUElMRURfU09VUkNFUyBpcyBtZWFudCB0byBmaWx0
-ZXIgYWxsIHNvdXJjZSBmaWxlcyANCj4+Pj4gPiBkb3duIHRvIG9ubHkgdGhlIG9uZXMgdGhhdCB3
-ZXJlIGNvbXBpbGVkIGJlZm9yZSBhZGRpbmcgdGhlbSB0byANCj4+Pj4gPiB0aGUgU0JPTSwgYnV0
-IG9uIHdyeW5vc2UgaXQgZG9lc24ndCB3b3JrLg0KPj4+PiA+IGFkZF9wYWNrYWdlX2ZpbGVzKCkg
-aXMgd2hhdCBwaWNrcyB3aGljaCBmaWxlcyBnbyBpbnRvIHRoZSBTQk9NLg0KPj4+PiA+IEl0IHdh
-bGtzICR7U1BEWFdPUkt9IGl0c2VsZiB0byBnZXQgZmlsZSBwYXRocywgdGhlbiBrZWVwcyBvbmx5
-IA0KPj4+PiA+IHRoZSBvbmVzIHRoYXQgbWF0Y2ggdGhlIGxpc3Qgb2YgY29tcGlsZWQgc291cmNl
-cyByZXR1cm5lZCBieSANCj4+Pj4gPiBnZXRfY29tcGlsZWRfc291cmNlcygpLg0KPj4+PiA+IGdl
-dF9jb21waWxlZF9zb3VyY2VzKCkganVzdCByZXR1cm5zIHdoYXQgc2F2ZV9kZWJ1Z3NvdXJjZXNf
-aW5mbygpIA0KPj4+PiA+IHN0b3JlZCwgYW5kIHRoYXQgZGF0YSB1c2VzIHBhdGhzIHJvb3RlZCBh
-dCAke1RBUkdFVF9EQkdTUkNfRElSfSANCj4+Pj4gPiAoPSAvdXNyL3NyYy9kZWJ1Zy8ke1BOfS8k
-e1BWfSksIG5vdCB0aGUgJHtTUERYV09SS30tcm9vdGVkIHBhdGhzDQo+Pj4+ID4gYWRkX3BhY2th
-Z2VfZmlsZXMoKSBjb21wYXJlcyBhZ2FpbnN0Lg0KPj4+PiA+IFNvIHRoZSBsaXN0IGdldF9jb21w
-aWxlZF9zb3VyY2VzKCkgcmV0dXJucyBuZXZlciBtYXRjaGVzIHdoYXQNCj4+Pj4gPiBhZGRfcGFj
-a2FnZV9maWxlcygpIGlzIGNvbXBhcmluZywgYW5kIGFsbW9zdCBldmVyeSBmaWxlIGVuZHMgdXAg
-DQo+Pj4+ID4gbWFya2VkIGFzIG5vdCBjb21waWxlZC4NCj4+Pj4gPiBUaGlzIGhhcHBlbnMgZm9y
-IGV2ZXJ5IHJlY2lwZSBleGNlcHQgdGhlIGtlcm5lbCwgd2hpY2ggaGFzIGl0cyANCj4+Pj4gPiBv
-d24gc3BlY2lhbC1jYXNlZCBwYXRoLg0KPj4+PiA+DQo+Pj4+ID4gVGhpcyBpc24ndCBqdXN0IGEg
-bWF0dGVyIG9mIHRoZSBTQk9NIG1pc3NpbmcgdGhlIHJpZ2h0IGZpbGVzLg0KPj4+PiA+IHNib20t
-Y3ZlLWNoZWNrIHVzZXMgdGhlIHNhbWUgbWF0Y2ggcmVzdWx0IHRvIGRlY2lkZSB3aGV0aGVyIGEg
-DQo+Pj4+ID4gdnVsbmVyYWJsZSBmaWxlIHdhcyBhY3R1YWxseSBidWlsdCwgZm9yIGl0cyB2dWxu
-ZXJhYmlsaXR5IHRyaWFnZS4NCj4+Pj4gPiBJZiB0aGUgbWF0Y2ggY291bnQgaXMgYWx3YXlzIHpl
-cm8sIHRoYXQgdHJpYWdlIGRvZXNuJ3Qgd29yayBlaXRoZXIuDQo+Pj4+ID4gT24geW9jdG8tNi4w
-LjIgd2UgY29uZmlybWVkIHRoZSBtaXNqdWRnbWVudCBhZmZlY3RzIGNwaW8gYW5kIHBlcmwuDQo+
-Pj4+ID4NCj4+Pj4gPiBtYXN0ZXIgYWxyZWFkeSBoYXMgdGhpcyBmaXhlZCwNCj4+Pj4gPiBhbmQg
-dGhpcyBiYWNrcG9ydCBicmluZ3MgdGhhdCBmaXggdG8gd3J5bm9zZS4NCj4+Pj4gPiBiNTY3YzJm
-MGQ5IGlzIHRoZSBjb21taXQgdGhhdCBmaXhlcyBpdC4NCj4+Pj4gPiBFdmVyeXRoaW5nIGVsc2Ug
-aW4gdGhlIHNlcmllcyBpcyBhIHByZXJlcXVpc2l0ZSBmb3IgdGhhdCBwYXRjaC4NCj4+Pj4gPiBC
-YWNrcG9ydGluZyBiNTY3YzJmMGQ5IGFsb25nIHdpdGggaXRzIHByZXJlcXVpc2l0ZXMgYnJpbmdz
-IA0KPj4+PiA+IHdyeW5vc2UncyBiZWhhdmlvciBpbiBsaW5lIHdpdGggbWFzdGVyLg0KPj4+PiA+
-IFdpdGggdGhpcywgY29tcGlsZWQgc291cmNlcyBnZXQgY291bnRlZCBjb3JyZWN0bHksIGFuZCAN
-Cj4+Pj4gPiBzYm9tLWN2ZS1jaGVjaydzIHRyaWFnZSB3b3JrcyBjb3JyZWN0bHkgdG9vLg0KPj4+
-PiA+DQo+Pj4+ID4gT24gd3J5bm9zZSAoZ2VuZXJpY3g4Ni02NCwgY29yZS1pbWFnZS1mdWxsLWNt
-ZGxpbmUpLCB0aGUgbWF0Y2ggDQo+Pj4+ID4gcmF0ZSBnb2VzIGZyb20gZWZmZWN0aXZlbHkgemVy
-byB0byA5My45JS4NCj4+Pj4gPg0KPj4+PiA+IE9uZSB0aGluZyBjaGFuZ2VzLg0KPj4+PiA+IFdo
-YXQgdGhlIFNCT00gcmVjb3JkcyBhcyBhIHNvdXJjZSBmaWxlIG5hbWUgY2hhbmdlcyB0b28uDQo+
-Pj4+ID4gYWE0NGEwZjBlYiByZS11bnBhY2tzIHVuZGVyIFVOUEFDS0RJUiBpbnN0ZWFkIG9mIFdP
-UktESVIsIHNvIGEgDQo+Pj4+ID4gcmVjb3JkZWQgc291cmNlIGZpbGUgbmFtZSBjaGFuZ2VzIChl
-LmcuIHNvdXJjZXMvYWNsLTIuMy4yLy4uLg0KPj4+PiA+IGJlY29tZXMgYWNsLTIuMy4yLy4uLiku
-DQo+Pj4+ID4gVGhpcyBpcyBhIGNoYW5nZSB0byBTQk9NIG1ldGFkYXRhIG9ubHkuDQo+Pj4+ID4g
-VGhlIGFjdHVhbCBidWlsZCBvdXRwdXQgaXMgdW5hZmZlY3RlZC4NCj4+Pj4gPiBBbnlvbmUgZGlm
-ZmluZyBTQk9NcyBhY3Jvc3MgTFRTIHBvaW50IHJlbGVhc2VzIHdpbGwgc2VlIGl0Lg0KPj4+PiAN
-Cj4+Pj4gSGVsbG8sDQo+Pj4+IA0KPj4+PiBUaGFua3MgZm9yIHRoZSBzZXJpZXMsIHRoaXMgc291
-bmRzIGxpa2UgYSB3b3J0aHkgZml4Lg0KPj4+PiBCdXQsIHRoaXMgU0JPTSBjaGFuZ2UgaXMgYSBi
-aXQgbW9yZSBpbnRydXNpdmUgdGhhbiBJJ20gY29uZm9ydGFibGUgDQo+Pj4+IHdpdGguLi4gVGhp
-cyB3aWxsIGNyZWF0ZSBhIGxvdCBvZiBub2lzZSBmb3IgdXNlcnMgdGhhdCBwcmVjaXNlbHkgDQo+
-Pj4+IHRyYWNrIHRoZWlyIFNCT01zLg0KPj4+DQo+Pj4gSGVsbG8gWW9hbm4sDQo+Pj4NCj4+Pj4g
-Q2FuIHdlIGRvIHRoZSBmaXggd2l0aG91dCB0aGlzIGNoYW5nZT8NCj4+Pg0KPj4+IFRlY2huaWNh
-bGx5LCB3ZSBjb3VsZCBkbyBpdC4gQnV0IGl0IHdvdWxkbid0IGJlIGV4YWN0bHkgdGhlIHNhbWUg
-c2VyaWVzLCB3aGljaCBJIGRvbid0IHJlYWxseSBsaWtlLCBhbmQgdGhlIGNvZGUgd2lsbCBkaXZl
-cmdlLg0KPj4+IEZvciBpbmZvcm1hdGlvbiBJIGNvdWxkIGRldmVsb3AgYSBzb2x1dGlvbiBhZnRl
-ciBFTENFIGNhcGFibGUgb2YgZ2VuZXJhdGluZyBhIHNpbWlsYXIgU0JPTSBpZiBLYXp1eW9zaGkg
-ZG9lc24ndCBmZWVsIGNvbWZvcnRhYmxlIGRvaW5nIGl0Lg0KPj4+IC0tDQo+Pj4gQmVuamFtaW4g
-Um9iaW4sIEJvb3RsaW4NCj4+PiBFbWJlZGRlZCBMaW51eCBhbmQgS2VybmVsIGVuZ2luZWVyaW5n
-DQo+DQo+IE9uIE1vbiBTZXAgMjgsIDIwMjYgYXQgMTE6MzkgQU0gQ0VTVCwgS0FaVVlPU0hJIEFL
-SVlBTUEgKOeni+WxsSDlkozmhbYpIHdyb3RlOg0KPj4gVGhhbmsgeW91IGZvciB5b3VyIGNvbW1l
-bnRzLCBZb2FubiBhbmQgQmVuamFtaW4uDQo+Pg0KPj4gSSBhZ3JlZSB3aXRoIEJlbmphbWluLg0K
-Pj4gVGhpcyBzZXJpZXMgZG9lcyBpbnRyb2R1Y2UgYSB2aXNpYmxlIGNoYW5nZSB0aGF0IHRoZSBz
-b3VyY2UgcGF0aCBpbiANCj4+IFNQRFggd2lsbCBiZSBjaGFuZ2VkIGZyb20gYHNvdXJjZXMvWFhY
-L1lZWS5jYCB0byBgWFhYL1lZWS5jYC4NCj4+IEhvd2V2ZXIsIHRoZSBkZXNpZ24gY2hhbmdlIG9m
-IHRoZSBwYXRjaCAwMDAyIGlzIHJlYXNvbmFibGUsIGFuZCBJIA0KPj4gYmVsaWV2ZSBpdCBpcyBi
-ZXR0ZXIgdG8gYXZvaWQgY29kZSBkaXZlcmdlbmNlIHdoZW5ldmVyIHBvc3NpYmxlLg0KPj4gVGhl
-IGltcGFjdCBvZiB0aGlzIGNoYW5nZSBpcyB2ZXJ5IHNtYWxsLg0KPiBEbyB5b3UgaGF2ZSBhbnl0
-aGluZyB0byBzdXBwb3J0IHRoaXMgYWZmaXJtYXRpb24/DQo+IEkgY2FuIGltYWdpbmUgdXNlcnMg
-aGF2aW5nIHF1aXRlIHN0cmljdCBwcm9jZXNzZXMgYXJvdW5kIFNCT01zIHRoYXQgDQo+IGNvdWxk
-IGJlIGRpc3J1cHRlZCBieSBhIGNoYW5nZSBsaWtlIHRoaXMgKGUuZy4gZGlmZidpbmcgU0JPTXMg
-YWNyb3NzIA0KPiB2ZXJzaW9ucykuDQo+DQo+PiBJIGNvdWxkIHdyaXRlIGEgcGF0Y2ggdG8gcHJl
-c2VydmUgdGhlIGBzb3VyY2VzL2AgcHJlZml4LCBidXQgZXZlbiANCj4+IHRoZW4sIHdyeW5vc2Ug
-dXNlcnMgd291bGQgc3RpbGwgbmVlZCB0byBhZGFwdCB0byB0aGlzIGNoYW5nZSBpbiB0aGUgDQo+
-PiBuZXh0IExUUyByZWxlYXNlLg0KPj4gRnVydGhlcm1vcmUsIGlmIEkgd3JpdGUgc3VjaCBhIHBh
-dGNoLCB0aGUgcGF0aCBjaGFuZ2Ugd291bGQgb2NjdXIgDQo+PiBzaWxlbnRseSBpbiB0aGUgbmV4
-dCBMVFMgcmVsZWFzZSwgd2l0aG91dCBzdWZmaWNpZW50IGNvbnRleHQgdG8gDQo+PiBkb2N1bWVu
-dCBpdCBwcm9wZXJseSBpbiB0aGUgcmVsZWFzZSBub3Rlcy4NCj4gQnJlYWtpbmcgY2hhbmdlcyBs
-aWtlIHRoaXMgd2hlbiBjaGFuZ2luZyByZWxlYXNlIGlzIGV4cGVjdGVkIGFuZCBub3QgYSANCj4g
-cHJvYmxlbSBhdCBhbGwuDQo+DQo+IFJlZ2FyZHMsDQotLQ0KWW9hbm4gQ29uZ2FsDQpTbWlsZSBF
-Q1MNCg0K
+Upgrade the firmware package to latest release. Add PCIe3 PHY
+firmware for snps-pcie3, add AIC8800D80 BT and Wi-Fi firmware,
+add IW416 firmware, add ISH firmware files for Intel Nova Lake-H/S
+platforms, add firmware for Architecture 14.8 Arm Mali GPU, add
+board_elm.bin for RTL8852CU, also add several new Qualcomm firmware
+packages.
+
+Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ ...-WiFi-firmware-from-the-ath10k-subdi.patch | 28 -------
+ ...20260916.bb => linux-firmware_20261019.bb} | 75 ++++++++++++++++---
+ 2 files changed, 65 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260916.bb => linux-firmware_20261019.bb} (98%)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
+deleted file mode 100644
+index 010121da6b..0000000000
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 837ae0e5beccc2f1e974afba56c22c3cf981fc4e Mon Sep 17 00:00:00 2001
+-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+-Date: Fri, 18 Sep 2026 17:52:15 +0300
+-Subject: [PATCH] qcom/shikra: link WiFi firmware from the ath10k subdir
+-
+-On Qualcomm Shikra platform the WiFi firmware is loaded by the tqftpserv
+-from the same location as the rest of the DSP firmware. Add symlink,
+-pointing from the expected location to the actual WiFi firmware file.
+-
+-Fixes: f64d7db7d264 ("ath10k: WCN3990: hw1.0: add shikra firmware files")
+-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+-Upstream-Status: Backport [https://gitlab.com/kernel-firmware/linux-firmware/-/commit/837ae0e5beccc2f1e974afba56c22c3cf981fc4e]
+----
+- WHENCE | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/WHENCE b/WHENCE
+-index a712978b..053640a0 100644
+---- a/WHENCE
+-+++ b/WHENCE
+-@@ -3825,6 +3825,7 @@ Version: WLAN.HL.2.0-01387-QCAHLSWMTPLZ-1
+- File: ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp
+- File: ath10k/WCN3990/hw1.0/shikra/firmware-5.bin
+- File: ath10k/WCN3990/hw1.0/shikra/wlanmdsp.mbn
+-+Link: qcom/shikra/wlanmdsp.mbn -> ../../ath10k/WCN3990/hw1.0/shikra/wlanmdsp.mbn
+- Version: WLAN.HL.3.3.7.c5-00093.2-QCAHLSWMTPL-1
+- File: ath10k/WCN3990/hw1.0/shikra/notice.txt_wlanmdsp
+- 
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20261019.bb
+similarity index 98%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20261019.bb
+index d549c3d2d5..6fe22d9a38 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20261019.bb
+@@ -23,6 +23,7 @@ LICENSE = "\
+     AND LicenseRef-Firmware-advansys \
+     AND LicenseRef-Firmware-aeonsemi \
+     AND LicenseRef-Firmware-agere \
++    AND LicenseRef-Firmware-aic \
+     AND LicenseRef-Firmware-airoha \
+     AND LicenseRef-Firmware-alacritech \
+     AND LicenseRef-Firmware-amdgpu \
+@@ -155,6 +156,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48ead
+                     file://LICENSES/LICENCE.advansys;md5=bca735476602a7bcb187c7f8bf4a31d5 \
+                     file://LICENSES/LICENSE.aeonsemi;md5=521c00bae0077c90d6ffb9ccf66905ae \
+                     file://LICENSES/LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
++                    file://LICENSES/LICENSE.aic;md5=6c7daaf69662d4c8c0ba954700b3a6e1 \
+                     file://LICENSES/LICENSE.airoha;md5=fa3dedb960e2673aea51aa509f7b537d \
+                     file://LICENSES/LICENCE.alacritech;md5=75dabc07cc2fb59d929baa6bd6aae48a \
+                     file://LICENSES/LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
+@@ -277,7 +279,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48ead
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "376a71c7f18efcb6e6688a73c2a548c7"
++WHENCE_CHKSUM  = "d1b892bc13f2bc5148ce27c732ec8339"
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -286,6 +288,7 @@ NO_GENERIC_LICENSE[Firmware-adsp-sst] = "LICENSES/LICENCE.adsp_sst"
+ NO_GENERIC_LICENSE[Firmware-advansys] = "LICENSES/LICENCE.advansys"
+ NO_GENERIC_LICENSE[Firmware-aeonsemi] = "LICENSES/LICENSE.aeonsemi"
+ NO_GENERIC_LICENSE[Firmware-agere] = "LICENSES/LICENCE.agere"
++NO_GENERIC_LICENSE[Firmware-aic] = "LICENSES/LICENSE.aic"
+ NO_GENERIC_LICENSE[Firmware-airoha] = "LICENSES/LICENSE.airoha"
+ NO_GENERIC_LICENSE[Firmware-alacritech] = "LICENSES/LICENCE.alacritech"
+ NO_GENERIC_LICENSE[Firmware-amdgpu] = "LICENSES/LICENSE.amdgpu"
+@@ -409,7 +412,6 @@ PE = "1"
+ 
+ SRC_URI = "\
+   ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
+-  file://0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch \
+ "
+ 
+ BBCLASSEXTEND = "devupstream:target"
+@@ -417,7 +419,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ 
+-SRC_URI[sha256sum] = "f80dcb757a623deda62200c08e0e1a88c76fb6b54964f31b35fa74da1c90ccc5"
++SRC_URI[sha256sum] = "a10d1ab5baf2c74ba92e8c7cf313e691696c26bddfa6df00db795e48d70cd4ca"
+ 
+ inherit allarch
+ 
+@@ -523,7 +525,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-moxa-license ${PN}-moxa \
+              ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 \
+              ${PN}-sd8887 ${PN}-sd8897 ${PN}-sd8997 ${PN}-usb8997 \
+-             ${PN}-cf8381 ${PN}-cf8385 ${PN}-gspi8682 ${PN}-gspi8686 ${PN}-gspi8688 ${PN}-sd8385 ${PN}-sd8682 \
++             ${PN}-cf8381 ${PN}-cf8385 ${PN}-gspi8682 ${PN}-gspi8686 ${PN}-gspi8688 ${PN}-sd416 ${PN}-sd8385 ${PN}-sd8682 \
+              ${PN}-usb8388 ${PN}-usb8682 ${PN}-sd8977 ${PN}-usb8766 ${PN}-usb8797 ${PN}-usb8801 ${PN}-usb8897 ${PN}-rvu-cptpf \
+              ${PN}-mwl8k ${PN}-mwlwifi\
+              ${PN}-ti-connectivity-license ${PN}-wl1251-license ${PN}-wlcommon ${PN}-wl1251 ${PN}-wl12xx ${PN}-wl18xx ${PN}-cc33xx \
+@@ -612,6 +614,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-ath12k-qcc2072 \
+              ${PN}-ath12k-qcn9274 \
+              ${PN}-ath12k-wcn7850 \
++             ${PN}-aic-aic8800d80 ${PN}-aic-license \
+              ${PN}-qca \
+              ${PN}-qca-qca2066 \
+              ${PN}-qca-qca61x4-serial \
+@@ -658,7 +661,9 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-bnx2x \
+              ${PN}-liquidio \
+              ${PN}-linaro-license \
+-             ${PN}-mali-csffw-arch108 ${PN}-mali-csffw-arch1010 ${PN}-mali-csffw-arch1012 ${PN}-mali-csffw-arch118 ${PN}-mali-csffw-arch128 ${PN}-mali-csffw-arch138 ${PN}-mali-csffw-license \
++             ${PN}-mali-csffw-arch108 ${PN}-mali-csffw-arch1010 ${PN}-mali-csffw-arch1012 \
++             ${PN}-mali-csffw-arch118 ${PN}-mali-csffw-arch128 ${PN}-mali-csffw-arch138 \
++             ${PN}-mali-csffw-arch148 ${PN}-mali-csffw-license \
+              ${PN}-mellanox \
+              ${PN}-mm8108 \
+              ${PN}-nvidia-license \
+@@ -694,14 +699,15 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-adreno-a702 ${PN}-qcom-adreno-a730 ${PN}-qcom-adreno-a740 \
+              ${PN}-qcom-adreno-g705 ${PN}-qcom-adreno-g709 ${PN}-qcom-adreno-g715  ${PN}-qcom-adreno-g717 \
+              ${PN}-qcom-adreno-g800 ${PN}-qcom-adreno-g801 ${PN}-qcom-adreno-g802 \
++             ${PN}-qcom-adreno-g811 ${PN}-qcom-adreno-g814 \
+              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
+              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
+-             ${PN}-qcom-eliza-adreno ${PN}-qcom-eliza-compute \
++             ${PN}-qcom-eliza-adreno ${PN}-qcom-eliza-audio ${PN}-qcom-eliza-compute \
+              ${PN}-qcom-glymur-adreno ${PN}-qcom-glymur-audio ${PN}-qcom-glymur-compute \
+-             ${PN}-qcom-hawi-audio \
++             ${PN}-qcom-hawi-adreno ${PN}-qcom-hawi-audio ${PN}-qcom-hawi-compute \
+              ${PN}-qcom-kaanapali-adreno ${PN}-qcom-kaanapali-audio \
+              ${PN}-qcom-kaanapali-compute ${PN}-qcom-kaanapali-soccp \
+-             ${PN}-qcom-maili-audio \
++             ${PN}-qcom-maili-adreno ${PN}-qcom-maili-audio \
+              ${PN}-qcom-nord-audio ${PN}-qcom-nord-compute ${PN}-qcom-nord-qupv3fw \
+              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
+              ${PN}-qcom-qcm6490-adreno ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute \
+@@ -754,7 +760,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-x1e80100-qupv3fw \
+              ${PN}-qcom-x1p42100-adreno \
+              ${PN}-qla2xxx ${PN}-qla2xxx-license \
+-             ${PN}-rockchip-license ${PN}-rockchip-dptx \
++             ${PN}-rockchip-license ${PN}-rockchip-dptx ${PN}-rockchip-pcie \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+              ${PN}-lt7911exc ${PN}-lt8713sx ${PN}-lt9611c ${PN}-lt9611uxc ${PN}-lontium-license \
+              ${PN}-wfx-license ${PN}-wfx \
+@@ -763,7 +769,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-xc5000-license ${PN}-xc5000 \
+              ${PN}-xc5000c-license ${PN}-xc5000c \
+              ${PN}-typhoon-license ${PN}-typhoon \
+-             ${PN}-intel-license ${PN}-ish-lnlm \
++             ${PN}-intel-license ${PN}-ish-lnlm ${PN}-ish-nvlh ${PN}-ish-nvls \
+              ${PN}-dell-license ${PN}-ish-lnlm-39ceeaf8 ${PN}-ish-ptl-39ceeaf8 \
+              ${PN}-hp-license ${PN}-ish-lnlm-12128606 ${PN}-ish-ptl-12128606 \
+              ${PN}-lenovo-license ${PN}-ish-lnlm-53c4ffad ${PN}-ish-ptl-53c4ffad \
+@@ -938,6 +944,10 @@ LICENSE:${PN}-ath12k-ipq5424 = "LicenseRef-Firmware-qualcommAthos-ath10k"
+ LICENSE:${PN}-ath12k-qcc2072 = "LicenseRef-Firmware-qualcommAthos-ath10k"
+ LICENSE:${PN}-ath12k-qcn9274 = "LicenseRef-Firmware-qualcommAthos-ath10k"
+ LICENSE:${PN}-ath12k-wcn7850 = "LicenseRef-Firmware-qualcommAthos-ath10k"
++
++LICENSE:${PN}-aic-license = "LicenseRef-Firmware-aic"
++LICENSE:${PN}-aic-aic8800d80 = "LicenseRef-Firmware-aic"
++
+ LICENSE:${PN}-qca-qca2066 = "LicenseRef-Firmware-qualcommAthos-ath10k"
+ LICENSE:${PN}-qca-qca61x4-serial = "LicenseRef-Firmware-qualcommAthos-ath10k"
+ LICENSE:${PN}-qca-qca61x4-usb = "LicenseRef-Firmware-qualcommAthos-ath10k"
+@@ -988,6 +998,9 @@ FILES:${PN}-ath12k-wcn7850 = "${firmwaredir}/ath12k/WCN7850"
+ # -ath12k is a virtual package that depends upon all ath12k packages.
+ ALLOW_EMPTY:${PN}-ath12k = "1"
+ 
++FILES:${PN}-aic-license = "${firmwaredir}/LICENSE.aic"
++FILES:${PN}-aic-aic8800d80 = "${firmwaredir}/aic/aic8800d80/*"
++
+ FILES:${PN}-qca-qca2066 = " \
+   ${firmwaredir}/qca/hpbtfw21.tlv* \
+   ${firmwaredir}/qca/hpnv21.bin* \
+@@ -1124,6 +1137,9 @@ RDEPENDS:${PN}-ath12k-ipq5424 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath12k-qcc2072 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath12k-qcn9274 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-ath12k-wcn7850 += "${PN}-ath10k-license"
++
++RDEPENDS:${PN}-aic-aic8800d80 += "${PN}-aic-license"
++
+ RDEPENDS:${PN}-qca += "${PN}-ath10k-license ${PN}-qcom-license"
+ RDEPENDS:${PN}-qca-qca2066 += "${PN}-ath10k-license"
+ RDEPENDS:${PN}-qca-qca61x4-serial += "${PN}-ath10k-license"
+@@ -1377,6 +1393,10 @@ LICENSE:${PN}-mali-csffw-arch138 = "LicenseRef-Firmware-mali-csffw"
+ FILES:${PN}-mali-csffw-arch138 = "${firmwaredir}/arm/mali/arch13.8/mali_csffw.bin*"
+ RDEPENDS:${PN}-mali-csffw-arch138 += "${PN}-mali-csffw-license"
+ 
++LICENSE:${PN}-mali-csffw-arch148 = "LicenseRef-Firmware-mali-csffw"
++FILES:${PN}-mali-csffw-arch148 = "${firmwaredir}/arm/mali/arch14.8/mali_csffw.bin*"
++RDEPENDS:${PN}-mali-csffw-arch148 += "${PN}-mali-csffw-license"
++
+ # For marvell
+ LICENSE:${PN}-pcie8897 = "LicenseRef-Firmware-Marvell"
+ LICENSE:${PN}-pcie8997 = "LicenseRef-Firmware-Marvell"
+@@ -1394,6 +1414,7 @@ LICENSE:${PN}-cf8385 = "LicenseRef-Firmware-Marvell"
+ LICENSE:${PN}-gspi8682 = "LicenseRef-Firmware-Marvell"
+ LICENSE:${PN}-gspi8686 = "LicenseRef-Firmware-Marvell"
+ LICENSE:${PN}-gspi8688 = "LicenseRef-Firmware-Marvell"
++LICENSE:${PN}-sd416 = "LicenseRef-Firmware-Marvell"
+ LICENSE:${PN}-sd8385 = "LicenseRef-Firmware-Marvell"
+ LICENSE:${PN}-sd8682 = "LicenseRef-Firmware-Marvell"
+ LICENSE:${PN}-usb8388 = "LicenseRef-Firmware-Marvell"
+@@ -1456,6 +1477,7 @@ FILES:${PN}-cf8385 = "${firmwaredir}/libertas/cf8385*"
+ FILES:${PN}-gspi8682 = "${firmwaredir}/libertas/gspi8682*"
+ FILES:${PN}-gspi8686 = "${firmwaredir}/libertas/gspi8686*"
+ FILES:${PN}-gspi8688 = "${firmwaredir}/libertas/gspi8688*"
++FILES:${PN}-sd416 = "${firmwaredir}/mrvl/sdiouartiw416*"
+ FILES:${PN}-sd8385 = "${firmwaredir}/libertas/sd8385*"
+ FILES:${PN}-sd8682 = "${firmwaredir}/libertas/sd8682*"
+ FILES:${PN}-usb8388 = "${firmwaredir}/libertas/usb8388*"
+@@ -1483,6 +1505,7 @@ RDEPENDS:${PN}-cf8385 += "${PN}-marvell-license"
+ RDEPENDS:${PN}-gspi8682 += "${PN}-marvell-license"
+ RDEPENDS:${PN}-gspi8686 += "${PN}-marvell-license"
+ RDEPENDS:${PN}-gspi8688 += "${PN}-marvell-license"
++RDEPENDS:${PN}-sd416 += "${PN}-marvell-license"
+ RDEPENDS:${PN}-sd8385 += "${PN}-marvell-license"
+ RDEPENDS:${PN}-sd8682 += "${PN}-marvell-license"
+ RDEPENDS:${PN}-usb8388 += "${PN}-marvell-license"
+@@ -1730,6 +1753,7 @@ FILES:${PN}-rtl8851 = " \
+ "
+ FILES:${PN}-rtl8852 = " \
+     ${firmwaredir}/rtl_bt/rtl8852* \
++    ${firmwaredir}/rtw89/board_elm.bin* \
+     ${firmwaredir}/rtw89/rtw8852* \
+ "
+ FILES:${PN}-rtl8922 = " \
+@@ -2404,21 +2428,27 @@ LICENSE:${PN}-qcom-adreno-g717 = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-g800 = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-g801 = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-adreno-g802 = "LicenseRef-Firmware-qcom"
++LICENSE:${PN}-qcom-adreno-g811 = "LicenseRef-Firmware-qcom"
++LICENSE:${PN}-qcom-adreno-g814 = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8016-modem = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8016-wifi = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8096-audio = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8096-adreno = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-apq8096-modem = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-eliza-adreno = "LicenseRef-Firmware-qcom"
++LICENSE:${PN}-qcom-eliza-audio = "LicenseRef-Firmware-qcom-2"
+ LICENSE:${PN}-qcom-eliza-compute = "LicenseRef-Firmware-qcom-2"
+ LICENSE:${PN}-qcom-glymur-adreno = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-glymur-audio = "LicenseRef-Firmware-qcom-2 AND LicenseRef-Firmware-linaro"
+ LICENSE:${PN}-qcom-glymur-compute = "LicenseRef-Firmware-qcom-2"
++LICENSE:${PN}-qcom-hawi-adreno = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-hawi-audio = "LicenseRef-Firmware-qcom-2"
++LICENSE:${PN}-qcom-hawi-compute = "LicenseRef-Firmware-qcom-2"
+ LICENSE:${PN}-qcom-kaanapali-adreno = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-kaanapali-audio = "LicenseRef-Firmware-qcom-2 AND LicenseRef-Firmware-linaro"
+ LICENSE:${PN}-qcom-kaanapali-compute = "LicenseRef-Firmware-qcom-2"
+ LICENSE:${PN}-qcom-kaanapali-soccp = "LicenseRef-Firmware-qcom-2"
++LICENSE:${PN}-qcom-maili-adreno = "LicenseRef-Firmware-qcom"
+ LICENSE:${PN}-qcom-maili-audio = "LicenseRef-Firmware-qcom-2"
+ LICENSE:${PN}-qcom-nord-audio = "LicenseRef-Firmware-qcom-2"
+ LICENSE:${PN}-qcom-nord-compute = "LicenseRef-Firmware-qcom-2"
+@@ -2553,12 +2583,15 @@ FILES:${PN}-qcom-adreno-g717 = "${firmwaredir}/qcom/gen71700_*.*"
+ FILES:${PN}-qcom-adreno-g800 = "${firmwaredir}/qcom/gen80000_*.*"
+ FILES:${PN}-qcom-adreno-g801 = "${firmwaredir}/qcom/gen80100_*.*"
+ FILES:${PN}-qcom-adreno-g802 = "${firmwaredir}/qcom/gen80200_*.*"
++FILES:${PN}-qcom-adreno-g811 = "${firmwaredir}/qcom/gen81100_*.*"
++FILES:${PN}-qcom-adreno-g814 = "${firmwaredir}/qcom/gen81400_*.*"
+ FILES:${PN}-qcom-apq8016-modem = "${firmwaredir}/qcom/apq8016/mba.mbn* ${firmwaredir}/qcom/apq8016/modem.mbn*"
+ FILES:${PN}-qcom-apq8016-wifi = "${firmwaredir}/qcom/apq8016/wcnss.mbn* ${firmwaredir}/qcom/apq8016/WCNSS*"
+ FILES:${PN}-qcom-apq8096-adreno = "${firmwaredir}/qcom/apq8096/a530_zap.mbn* ${firmwaredir}/qcom/a530_zap.mdt*"
+ FILES:${PN}-qcom-apq8096-audio = "${firmwaredir}/qcom/apq8096/adsp*.*"
+ FILES:${PN}-qcom-apq8096-modem = "${firmwaredir}/qcom/apq8096/mba.mbn* ${firmwaredir}/qcom/apq8096/modem*.* ${firmwaredir}/qcom/apq8096/wlanmdsp.mbn*"
+ FILES:${PN}-qcom-eliza-adreno = "${firmwaredir}/qcom/eliza/gen71700_zap.mbn*"
++FILES:${PN}-qcom-eliza-audio = "${firmwaredir}/qcom/eliza/adsp*.*"
+ FILES:${PN}-qcom-eliza-compute = "${firmwaredir}/qcom/eliza/cdsp*.*"
+ FILES:${PN}-qcom-glymur-adreno = "${firmwaredir}/qcom/glymur/gen80100_zap.mbn*"
+ FILES:${PN}-qcom-glymur-audio = " \
+@@ -2566,7 +2599,9 @@ FILES:${PN}-qcom-glymur-audio = " \
+     ${firmwaredir}/qcom/glymur/GLYMUR-CRD-tplg.bin* \
+ "
+ FILES:${PN}-qcom-glymur-compute = "${firmwaredir}/qcom/glymur/cdsp*.*"
++FILES:${PN}-qcom-hawi-adreno = "${firmwaredir}/qcom/hawi/gen81100_zap.mbn*"
+ FILES:${PN}-qcom-hawi-audio = "${firmwaredir}/qcom/hawi/adsp*.*"
++FILES:${PN}-qcom-hawi-compute = "${firmwaredir}/qcom/hawi/cdsp*.*"
+ FILES:${PN}-qcom-kaanapali-adreno = "${firmwaredir}/qcom/kaanapali/gen80200_zap.mbn*"
+ FILES:${PN}-qcom-kaanapali-audio = " \
+     ${firmwaredir}/qcom/kaanapali/adsp*.* \
+@@ -2574,6 +2609,7 @@ FILES:${PN}-qcom-kaanapali-audio = " \
+ "
+ FILES:${PN}-qcom-kaanapali-compute = "${firmwaredir}/qcom/kaanapali/cdsp*.*"
+ FILES:${PN}-qcom-kaanapali-soccp = "${firmwaredir}/qcom/kaanapali/soccp*.*"
++FILES:${PN}-qcom-maili-adreno = "${firmwaredir}/qcom/maili/gen81400_zap.mbn*"
+ FILES:${PN}-qcom-maili-audio = "${firmwaredir}/qcom/maili/adsp*.*"
+ FILES:${PN}-qcom-nord-audio = "${firmwaredir}/qcom/nord/adsp*.*"
+ FILES:${PN}-qcom-nord-compute = "${firmwaredir}/qcom/nord/cdsp*.*"
+@@ -2761,21 +2797,27 @@ RDEPENDS:${PN}-qcom-adreno-g717 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-g800 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-g801 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-adreno-g802 = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-adreno-g811 = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-adreno-g814 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8016-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8016-wifi = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8096-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-eliza-adreno = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-eliza-audio = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-eliza-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-glymur-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-glymur-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-glymur-compute = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-hawi-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-hawi-audio = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-hawi-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-kaanapali-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-kaanapali-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-kaanapali-compute = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-kaanapali-soccp = "${PN}-qcom-2-license"
++RDEPENDS:${PN}-qcom-maili-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-maili-audio = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-nord-audio = "${PN}-qcom-2-license"
+ RDEPENDS:${PN}-qcom-nord-compute = "${PN}-qcom-2-license"
+@@ -2902,6 +2944,10 @@ FILES:${PN}-rockchip-license = "${firmwaredir}/LICENCE.rockchip"
+ FILES:${PN}-rockchip-dptx = "${firmwaredir}/rockchip/dptx.bin*"
+ RDEPENDS:${PN}-rockchip-dptx = "${PN}-rockchip-license"
+ 
++LICENSE:${PN}-rockchip-pcie = "LicenseRef-Firmware-rockchip"
++FILES:${PN}-rockchip-pcie = "${firmwaredir}/rockchip/pcie3-t22-c8g2-1.6.3-202a-p7.fw*"
++RDEPENDS:${PN}-rockchip-pcie = "${PN}-rockchip-license"
++
+ # For Amlogic VDEC
+ LICENSE:${PN}-amlogic-vdec = "LicenseRef-Firmware-amlogic-vdec"
+ FILES:${PN}-amlogic-vdec-license = "${firmwaredir}/LICENSE.amlogic_vdec"
+@@ -2923,6 +2969,14 @@ LICENSE:${PN}-ish-lnlm = "LicenseRef-Firmware-intel"
+ FILES:${PN}-ish-lnlm = "${firmwaredir}/intel/ish/ish_lnlm.bin*"
+ RDEPENDS:${PN}-ish-lnlm = "${PN}-intel-license"
+ 
++LICENSE:${PN}-ish-nvlh = "LicenseRef-Firmware-intel"
++FILES:${PN}-ish-nvlh = "${firmwaredir}/intel/ish/ish_nvlh.bin*"
++RDEPENDS:${PN}-ish-nvlh = "${PN}-intel-license"
++
++LICENSE:${PN}-ish-nvls = "LicenseRef-Firmware-intel"
++FILES:${PN}-ish-nvls = "${firmwaredir}/intel/ish/ish_nvls.bin*"
++RDEPENDS:${PN}-ish-nvls = "${PN}-intel-license"
++
+ # For Dell ish - Intel Integrated Sensor Hub
+ LICENSE:${PN}-dell-license = "LicenseRef-Firmware-dell"
+ FILES:${PN}-dell-license = "${firmwaredir}/LICENSE.dell"
+@@ -3631,6 +3685,7 @@ LICENSE:${PN} = "\
+     LicenseRef-Firmware-Abilis \
+     AND LicenseRef-Firmware-aeonsemi \
+     AND LicenseRef-Firmware-agere \
++    AND LicenseRef-Firmware-aic \
+     AND LicenseRef-Firmware-airoha \
+     AND LicenseRef-Firmware-alacritech \
+     AND LicenseRef-Firmware-amdgpu \
+-- 
+2.34.1
+
