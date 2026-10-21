@@ -1,524 +1,267 @@
-Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4531.1792557926382925265
+Received: from mx0b-006e0602.pphosted.com (mx0b-006e0602.pphosted.com [148.163.140.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4722.1792559393868082324
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 21:45:26 -0700
+ Tue, 20 Oct 2026 22:09:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=FBxi59Vl;
- spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: yurade@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=15355; q=dns/txt;
-  s=iport01; t=1792557926; x=1793767526;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   mime-version;
-  bh=LOAqAmTA8zrKt0gKmBpzohknMANR4mOijBqWJb/NQ6Q=;
-  b=FBxi59VlKmfUzAISmJgyrDwhMhJCnUu6tQYZ7rK1JUQ2rXu9U83Y5Bs+
-   Yo1r8CGVAbNm7SYzcE9U1OCkceykQ17CI13DJKzUqqbCYChrs+5o6+KWo
-   s/7FxXoVYpKI+b9kafl9v+651y7GgILWgmncBBsZL0+2rStfXG0WOBrII
-   l44d+1QSzTYiWrHW41SObL6NrboN6Zt1J7g/XotBCxfhiqDVM+8smw4Vh
-   QAuuVUb4dCA4LpfKd+5dIcwEQPsZ0eaaMAs0zjb8FHjdFzgGPHTpibJ7t
-   y0GyyUt3Put9Na1SGs98AcCWZ8ShzvHtSKMX5WLTjLJfTVAfnrU4ktmhA
-   Q==;
-X-CSE-ConnectionGUID: YJCig/JoS9CIUsxqCC8ytQ==
-X-CSE-MsgGUID: /Lpndn3STmy8ifh8js+8mA==
-X-IPAS-Result: =?us-ascii?q?A0CDBABLQthq/5QQJK1agS6BK4E9ATBTgQkCgRESSYgjA?=
- =?us-ascii?q?4UrhlmCIQOeHBSBag8BAQENAi4BCBoEAQGFBQKOFQImNAkOAQIEAwIDAQEBA?=
- =?us-ascii?q?QEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGTw2QEgEBAQEDAUoBGyICAQgRBAEBA?=
- =?us-ascii?q?R0RJwodCAIEARIIgnuCHRZBAwECqkUCih14gTSBAYMpAd0SFYE4hUCDAxsBA?=
- =?us-ascii?q?QUmSWyCXYEjGYR8JxsbgXKBV4JpPoJhBAGBNA8chBOCMASCInoSG4JCCpNhU?=
- =?us-ascii?q?nIiAyYzLAFVExcLBwWBJRAzAyAKLy0CFA0iDxoFLR1wDCcSDx0XER5YGwYFE?=
- =?us-ascii?q?iAqQUMyK4EZIxk2a4EJXYErKWECH0YtFYICAoJRgSNdAgFJQQ4HRVMJJT4FE?=
- =?us-ascii?q?kcmIggSCQETGi4LgRo4PAkoQRUMXAsMGgUbTQgCCwIJB4EBGm09NwYPGQMEg?=
- =?us-ascii?q?TUFkHIHW4IVcoEPBx4oLYFEGTKTG49Bo3cKKIN2inyBJo0+iDIXhVulFJkII?=
- =?us-ascii?q?6NHI4ULAgQCBAUCEAEBBoFoPIFZcBWDIglKGQ+XN8gceQIBOgEBBwIHDgMLg?=
- =?us-ascii?q?WiQAIF+AQE?=
-IronPort-PHdr: A9a23:8gI1bxUgNUrFWv9lFuspxOTBG+fV8K3PAWYlg6HPw5pHdqClupP6M
- 1OavLNmjUTCWsPQ7PcXw+bVsqW1QWUb+t7Bq3ENdpVQSgUIwdsbhQ0uAcOJSAX7IffmYjZ8H
- ZFqX15+9Hb9Ok9QcPs=
-IronPort-Data: A9a23:qkoO+6t1fPybhv/qmLePA5AXiufnVAhfMUV32f8akzHdYApBsoF/q
- tZmKT2BP6mOM2P2KdwlPN/i9x4DvpGDyoI2Gwtp+yA0QX4WgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrb/656yYsjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZzdJ5xYuajhKsvrZ8Es21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwy8RcAG4J1
- /sjeRssUwuTnsmdkKOnc7w57igjBJGD0II3s3Vky3TdSP0hW52GGvyM7t5D1zB2jcdLdRrcT
- 5NGMnw0MlKZPVsWZgd/5JEWxI9EglHubidRpF+9rqss6G+Vxwt0uFToGIqKJoPXGZgMwS50o
- EqB23z/DhdBD+Ca2GqE/HL8hPSMzSbSDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q+7AfIzu/f5ByUQzFdCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ22JW9QnOG/bDSpjS3URX550dbDcPYZWPpO+Xenbw=
-IronPort-HdrOrdr: A9a23:ygikQq2jrYIeeZDuO94hCAqjBbtxeYIsimQD101hICG9Lfbo9P
- xGzc566farslcssSkb6K+90cm7LU80hqQFn7X5XI3SEDUO11HYV72KgbGSpwEIXheOitK1tp
- 0QPJSWaueAd2SS5PySiGLXYrRQpeVvsprY+Ns2pE0dKz2CHpsQlzuRfTzra3GeKjM2YqYRJd
- 633OYCjTymfngcc8S8AVc4f8Wrnbf2vaOjSyQrQzo85iezrR7A0tPHOind8gYVUjtJz7tnym
- 7Yjgz/6JyktvGw2jXc22XQ45k+oqqu9jJEPqOxo/lQDg+pphejZYxnVbHHlisyuvuT5FEjl8
- SJiws8PuxogkmhPl2dkF/I4U3NwTwu43jtxRuzmn34u/H0Qzo8Fo5omZ9ZSB3E8EAt1esMk5
- 6jnljp9aa/Pymw2BgV1OK4EC2CUXDE50bKpNRjykC3l7FuMYO547ZvpH+9W61wbR4SoLpXYN
- WGSvuspcp+QBe9c23TuHVpzZiHW3Q+GQrDf2050/bliAS/WBtCvhYlLAt1pAZbyHowJqM0lN
- jsI+BmkqpDQdQRar84DOAdQdGvAmiIWh7UNnmOSG6XX53vFki94qIf2o9FrN2CadgN1t8/iZ
- 7BWFRXuSo7fF/vE9SH2NlO/grWSGuwUDzxwoUGjqIJ94HUVf7uK2mOWVoum8yvr7EWBdDaQe
- +6PNZTD+X4JWXjFI5V10n1WoVUK3MZTMoJ0+xLEW6ms4bOMMnnp+bbePHcKP7kFislQHr2Bj
- 8ZUD36NKx7nzaWs7/D8W/ssl/WCzjCFMhLYdrnFsAouf0wCrE=
-X-Talos-CUID: =?us-ascii?q?9a23=3AD15Sy2qmYeka5hL19feuraPmUfEHWXzSi1XXGB6?=
- =?us-ascii?q?TKFtyWKS+Yg+B5Joxxg=3D=3D?=
-X-Talos-MUID: 9a23:uke5LAbhyVyFfeBT8Bv0gj1kb/xU5rX+CU4NwZcd+JmBHHkl
-X-IronPort-Anti-Spam-Filtered: true
-Received: from alln-l-core-11.cisco.com ([173.36.16.148])
-  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Oct 2026 04:45:25 +0000
-Received: from alln-opgw-1.cisco.com (alln-opgw-1.cisco.com [173.37.147.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-11.cisco.com (Postfix) with ESMTPS id 3F72A180003B8
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 04:45:25 +0000 (GMT)
-X-CSE-ConnectionGUID: LSag1ewZS4e/HetE4AZIng==
-X-CSE-MsgGUID: DdMqTts+RHqJDibQnhR6ow==
-Authentication-Results: alln-opgw-1.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.27,169,1787011200"; 
-   d="scan'208,217";a="90102820"
-Received: from mail-westus2azon11010070.outbound.protection.outlook.com (HELO CO1PR03CU002.outbound.protection.outlook.com) ([52.101.46.70])
-  by alln-opgw-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Oct 2026 04:45:24 +0000
+ dkim=pass header.i=@jp.honda header.s=PoD-DKIM-Selector header.b=ntXWK3jz;
+ dkim=pass header.i=@jp.honda header.s=selector1 header.b=JD7jVE93;
+ spf=pass (domain: jp.honda, ip: 148.163.140.78, mailfrom: kazuyoshi_akiyama@jp.honda)
+Received: from pps.filterd (m0469179.ppops.net [127.0.0.1])
+	by mx0b-006e0602.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69L2Eoa33290601;
+	Wed, 21 Oct 2026 05:09:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jp.honda; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PoD-DKIM-Selector; bh=Kf47fNVD+qWYpvjztFD7XqvOO1MjPNLExqRU/RBXBq
+	M=; b=ntXWK3jzeGMLzOISCPTPYl9djCDUZqRiSlAinRgpKZA6zxU9TGeh/FX8R2
+	iosT1PQGp4JyM/8StT7ZWbiuhsP++7sYC9gUzRxEb1jYBlyj1pRYypoaeSJuHeoK
+	WAG3U3vRdICrBMozTH3Jqp/rw6dr1AOGjawIeW+wyQTFFuwI6TSIbOHSRmZirUOq
+	XG5cpWhFeoYTrlko58b//mMXyGZVneE6xwfzZ/8fwtE3NkPJN9ach6Q0xGCJi7QB
+	uT+erWCtxN+kmbdEL18b/0j4AUmAM5YDUsSnVxUnuda7KC2Ce+UXmcg5jSvd67AV
+	jcaXdqmAN0lPjeKfX3VvIwLI7+SA==
+Received: from os0p286cu010.outbound.protection.outlook.com (mail-japanwestazon11011039.outbound.protection.outlook.com [40.107.74.39])
+	by mx0b-006e0602.pphosted.com (PPS) with ESMTPS id 4he4x52aw5-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 21 Oct 2026 05:09:41 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZXhvzbgY4RMNWOeBvqfsRdWqrbT7ye3+SoOmn7FXtqfjiCm3bRHRIwgJegUU/tuVnNVKKtq1UpNY1jNI2+LOgJcLG1RVvuHuS2XwqRwiy5oPWDxMML9G+J53YyFqJSXSaSDHBy01l8OdBMU5oZ8zTOi1gfERGtU5Q3XgNv1kYCse88ks/nqxmCThec1gH4EjFtzus9TodcFoqXrK/f8pXSB9IpyRpkLVDTPaRjM2yk0PLVz2E5LlgA8KEQMMCwTBOJvDjJnkJNIKO85jcoe1HBhZSHZ6/anRPRcmExInNFKivIs8jTE6qKC94Hsl7oKYiduqMnKq+ToMh1t9dM129A==
+ b=ubgPqCFBZO49CcbQCszuIvlBLXAB5AFKDYPcWrm7bL8qkQ8rmNa9BBR92DqIZzXR52YkZ6Zn7nKUQxr5KRR8m20pWChgN9CN6pwfm4SGRv9mFHSfzx/f1oKcwJ0I+2qumGW0IUl8lX0DuqiED1CSia0SBBBmDIf9+27gs1WTQQJ7lV3Foc6355fWW6xmPPDNOzFAzwUtpMsv/7WjcUcsKqLgx34f991yI1OWGHq08MtgIvPFsGrvd0mkFv+mNaR0u3HXO+JvUjAEDWMqpowgFC43Ga6V2Dfq4k7UkXamL5SY6v2HUjLwvvIX3ardfM/BvOrVWzj1uATKdQlzDVIRNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LOAqAmTA8zrKt0gKmBpzohknMANR4mOijBqWJb/NQ6Q=;
- b=bQZujxjtYl+k5v8cjc49F9kRP+SY5baBa7pkyQpRBgaXO8FP0RW7v/AOPhpHqzVsL2JxrgY4UTc65Kij0lsud/F236dsAE8kpo2OgSdOe0u3K1XgHw2W0FGZ5moytq4ooOF3qRtNAwo2LKKHhszS+eIQpF+pAYFW6IItIUAlXvBAZ36DmvjIeTHVyA2Am3qt5uBYEFMCBdMEhEZSBfGMQDjQhohco2wTxXDdFOYyPjqP4iyPCKwrv4p8ZhSZXYm2sMvh7E4dsiscAOeyH7WCjThhcISQMloWKKLh/j1xJGx1sbiwzU9ine64Hd2KxJIaZ77hJDtTI+6xkg1kYFVOgw==
+ bh=Kf47fNVD+qWYpvjztFD7XqvOO1MjPNLExqRU/RBXBqM=;
+ b=t89EpaBM27CrV7JJd+x++gH9jPu2M1aF34UaDHJ/gA4abLs8hXPzJKClKlf2FkxxVYG+AUDC4FE34pMKoBIv5icY5GAjptj6gQN5SezSkwydwkQh2jPRgp7PPU5Zvvwe6erEiTFbPqwQIvPl1Rn3QR6Gt50pOPSv7DmrG05AjLFVL+KeR/+IqApDoSYm1nbrPI6Fg+Xj9StH0Xf+kdqRYrP0lkvtzII352NdStkhb49oraaE7c1GcgPfZFsNn22LNa9g1c1g9Xd859WM3ZocNe15Pd7u4WSeAUNXySRnvRpsT3Pvn8G6v98xMKyunHwYl6gRSMjS1AIEwh9MrnvzfQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from MW3PR11MB4585.namprd11.prod.outlook.com (2603:10b6:303:52::17)
- by PH8PR11MB9723.namprd11.prod.outlook.com (2603:10b6:510:3a2::19) with
+ smtp.mailfrom=jp.honda; dmarc=pass action=none header.from=jp.honda;
+ dkim=pass header.d=jp.honda; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jp.honda; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kf47fNVD+qWYpvjztFD7XqvOO1MjPNLExqRU/RBXBqM=;
+ b=JD7jVE930w9XE0rlzrXcO8xSeSzC7irmok1UA9qMKcmhMFCLmutBzQW+dFWqRNrmDNGOmU8BPw4/ar9fSMakcggfRHnDhwfqA02pT05Coq0s/12MZWBbH7uj9JU+pCU2OsLFfuaaWoPjPdNtPKzAbsP51rj5ZdCW8wtPHknD4CPv23mT8x2Lk9L+b0TF6E/1Q3UQe30C3FQkr3eAgcmtuilDUNoKyxK+gMC7QpKRRQDJL4yZDcwNCOoWD5K/zzSwfkd/YohAut/Mkyzs5EbaCywcCjWkhomyc/plC2WchM7pEUflBnnxokzZIm64AUMKyGa0ETVZ//x0JizVXw6EJg==
+Received: from TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM (2603:1096:405:108::13)
+ by TYWP301MB0550.JPNP301.PROD.OUTLOOK.COM (2603:1096:400:447::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
- 2026 04:45:23 +0000
-Received: from MW3PR11MB4585.namprd11.prod.outlook.com
- ([fe80::f24d:4165:33b5:d7dc]) by MW3PR11MB4585.namprd11.prod.outlook.com
- ([fe80::f24d:4165:33b5:d7dc%5]) with mapi id 15.21.0522.017; Wed, 21 Oct 2026
- 04:45:23 +0000
-From: "Yogita Urade -X (yurade - E INFOCHIPS PRIVATE LIMITED at Cisco)"
-	<yurade@cisco.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
-	<yoann.congal@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH 0/27] python3-git: Security fixes
-Thread-Topic: [OE-core][wrynose][PATCH 0/27] python3-git: Security fixes
-Thread-Index: AQHdYH8QK6Hp6adOTkSC68/j9XIvxLcHbAju
-Date: Wed, 21 Oct 2026 04:45:23 +0000
-Message-ID: <MW3PR11MB4585BBE477EEEB911CBF0F5DDE662@MW3PR11MB4585.namprd11.prod.outlook.com>
-References: <20261016054106.210444-1-yurade@cisco.com>
- <DM9LM8QRRKOE.3C49LIEPEZUK1@smile.fr>
-In-Reply-To: <DM9LM8QRRKOE.3C49LIEPEZUK1@smile.fr>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
+ 2026 05:09:36 +0000
+Received: from TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM
+ ([fe80::c99f:2932:2161:d608]) by TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM
+ ([fe80::c99f:2932:2161:d608%5]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
+ 05:09:36 +0000
+From: =?utf-8?B?S0FaVVlPU0hJIEFLSVlBTUEgKOeni+WxsSDlkozmhbYp?=
+	<kazuyoshi_akiyama@jp.honda>
+To: "yoann.congal@smile.fr" <yoann.congal@smile.fr>,
+        Benjamin Robin
+	<benjamin.robin@bootlin.com>,
+        "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Mathieu Dubois-Briand
+	<mathieu.dubois-briand@bootlin.com>,
+        Joshua Watt <JPEWhacker@gmail.com>,
+        Daniel Turull <daniel.turull@ericsson.com>
+Subject: RE: [OE-core] [PATCH wrynose 0/4] spdx: fix the compiled-sources
+ filter
+Thread-Topic: [OE-core] [PATCH wrynose 0/4] spdx: fix the compiled-sources
+ filter
+Thread-Index: AQHdRlx6LUwGc91iVUmijr+tpLilcLbgo60AgAMeO4CAAAesIIADjvyAgB9wLYCAAN3L4A==
+Date: Wed, 21 Oct 2026 05:09:36 +0000
+Message-ID: <TYYP301MB1158CD0148A79E2B59165355EB662@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM>
+References: <20260917-backport-wrynose-v1-0-bb7d640c2719@jp.honda>
+ <DLP4XNN74N6I.1RINHBSPGZQL3@smile.fr> <P6U4ukI2TxueJYGtH8T_Xw@bootlin.com>
+ <TYYP301MB11583CEAF49F1D6ABB33F54EEB8D2@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM>
+ <DLSRMLU0EYKQ.3KSUL5VCXXX11@smile.fr> <DM9S9QJC41I5.HBYN1E0X32YB@smile.fr>
+In-Reply-To: <DM9S9QJC41I5.HBYN1E0X32YB@smile.fr>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: 
+x-dg-rorf: true
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=jp.honda;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW3PR11MB4585:EE_|PH8PR11MB9723:EE_
-x-ms-office365-filtering-correlation-id: ae30b249-f3d6-4ec2-afc4-08df2f2e1e41
+x-ms-traffictypediagnostic: TYYP301MB1158:EE_|TYWP301MB0550:EE_
+x-ms-office365-filtering-correlation-id: f058b9f2-0fb6-4bf6-a898-08df2f318091
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|38070700021|56012099006|4143699003|11063799006|261009223027099003|10067099003|22082099003|18002099003|6133799003|8096899003;
-x-microsoft-antispam-message-info: oRacdpSHnjA59KbFvfivhWFT1/G/uFlDGe+EePJ9o9DTXOVtBiCbt8RNC+Ak2PSSvP0bPW3CNNaE99JjXXxT+y11palVoPc8+/PdgjM0FissLL9BmXvw2TORZ907eeRvt56z1IGkfuJgZNXHjFZaQ0TKHgV95HTVfCrqYJ+nB8K3SHRI3XrfSwC44kN2FZ/W2ngiyODTTK8ep8uT9e153dehCYZ2oGNMTiyZcB1tOdGfPZRyxTxw+UN29OwxvCP6KyVKNDHfghBtIMDmLJqA2Kp/mt18tpYY7i++U+cm8kopRj2/DGyywBFR2D4sF5QK5nwDl1MExLi/olnMx8ACahIPP/aVFtEgiiiQy8E14kRbL/y96XwYQ3z8LWhv/QP35AhW+xLeiEz89JV9Zl4C9ghmzQ6qNKIDMuDfZ1Ud2RAn/elsQLkxd5tsivHtBp/IC6Q+ipVwWriQuzLWX4NC5hXXhK+F+1O5QNW6fgKA3Ze+9T9rV7t84vCzrT9PBD74jhlTmP+6ZHpFDjbvCtn6v4WZBqfPgrVX9IjniZkeL1iVdTmzNujil6HudHNbf/WqXTVj7RZTvSJyRuOCVMLKo40nFBT+XN/VN8kTJ0yAXGDqdiiGAVUtwz9YhiVPlBNMjtZcZi6QYQjQIWHHq5zDO990F6EcBkXQU3E9XXgUY92ZAQxq0t6Zjk5w/d66r0tKxHo1tISJnCNy46qL8tsrQG0UrRQs+bIwOCtWmD90BPs=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR11MB4585.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(38070700021)(56012099006)(4143699003)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003)(6133799003)(8096899003);DIR:OUT;SFP:1101;
+x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|18002099003|22082099003|3023799007|38070700021|11063799006|4143699003|261009223027099003|5023799004|10067099003|56012099006;
+x-microsoft-antispam-message-info: Bthgk4zPM2nd8Y3ApTczAWX06716bHsaAVreiqejvsEAZHUGrCfeVfICZePhcHVbZhsL34WLND4emMLDjpx6fjyjLXKCsZ72r2FlY+O1inCox/5ITwtu7Cyrqgo7U444+en9EtwhoLpEUxFsUuOSfplIvm+1PESv4FlwZMxVrJRo7QqC0tIN19ZHoW0b79QBvpMf7eQX6CHUAWZIH+VquBHBIYdXzPKFgFpYdTXptvxpqFQxfN4bDL63h4mZucvLCOhhMYO7biuPv2mLa0FMWK5TPTdVU4QSV9o3JSeq6amnbRkRTL1xO4TvV4CWM7gGkt4lj+NQ6Gl21bK7+dX6IcnMHfDFsO9GTTBd+7DxpiTW5k/UBohxbTd8f8iPUjZ5syNUr7dSJ4fvoLZRsDECYgMGf4j4MXEqsFMMRc2iwLCpdLldL2FpwRrPhDeXHNHYT+/eUgAzGrGOp4HRN4CVamMO5vszZEkZaUgetp2cYzxtTostLq7iSvsKHmUTsBeXqEd5J5r//3GJM5olMbp+KCcnSbU+9+Re5Hqi/+gZ5AdN4wKIKJSJc87VpWZD6+Ad/tqBj+S16IdzJKm/klsfV28j9RwD4ZPboHKBdBo+mB7bvjy6SSeTioCyfHVE3zxT6hf0RYi27PupVgBsL2Fqa5mNQ5sM8CrKIJHtmB2ygSDj0gqyq791yTlZU4TIgoafbGqYhEEmqdDyH20ANrXyVbekstfKSwYbwl29qp//Oh0=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(18002099003)(22082099003)(3023799007)(38070700021)(11063799006)(4143699003)(261009223027099003)(5023799004)(10067099003)(56012099006);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WxEWXmkwBC430t0jH1qJQESteiGDO0keYK3dmtHjcF4Vh+N03RAgLwzND76w?=
- =?us-ascii?Q?FXiZlOdbtAg4xhpPQ1TNzrR1LKqnxhN1wZoPCBYcaxw0gzidzmNtREEO/lUK?=
- =?us-ascii?Q?nOd9JDT7RDEoKwOtjd5hRuea6cSk4szFd3X0VcIXO0bjI2B601GCqAPR/Mey?=
- =?us-ascii?Q?105yd7ea8TMcL1ICt4aKyzANJ2z8V5sV07jFGndWoU9eE0Off2jTr3hJjG75?=
- =?us-ascii?Q?s0ox/VM1x/wfztnp3y5XFbSIXaq8k8rS1d9K6X1Oc72hMA5zBFsBI/xkrLUL?=
- =?us-ascii?Q?zXytMSkYtfReexRGO7Mgf9pv9b7P8/5o8y2va1wMJ3+q6QLKdD/spFIee4sh?=
- =?us-ascii?Q?gBF6j8DiUjptui7Owzp92GIP25aGJPil8ogVRsWyJBh6FcCfj9GXa8LbBg0G?=
- =?us-ascii?Q?l3fipwDcz6pTFghIxFyttEjqXDUUKiRTroCfwYNP3H5Asvu+y1niEiyJFPka?=
- =?us-ascii?Q?3WygSxf26C022n3J45egRjcMy01CwWjtwNnk7DzMupqnx8b1a2+uJXd2oeic?=
- =?us-ascii?Q?aWuGgueNLBeKWmlOLlNq1mXGOp0i62u1j250Lc0yyLi/O3a2QfQNMRUX3zyf?=
- =?us-ascii?Q?WDLru2uO2aTS5W4XqKsGbCAso1gO0rpL0gLh8YNYw2WvIc6B+7S2bilzPWMZ?=
- =?us-ascii?Q?N+ZKYxik18uCQLkjNlLfmSnX1k8yok1vKx/aYAJ/CSJaXm+RpR94f85bZpFm?=
- =?us-ascii?Q?RJ4Ju1cd7YzZ/SinNufzD+XMzIUFZYt5Ku9/trwQizqmp+8H+tH4t2w4lqxR?=
- =?us-ascii?Q?otcj+Gnv0wxB4gqPdXNMALAAOQl3TpW5/8Uc1Prd8pmFAVkx9HLb+BQMpey5?=
- =?us-ascii?Q?K+6zpk2C7ajjECsXbSGcAvV3I4v1GT498QB51E5QOhUIT391WMbjYEjO+3Dj?=
- =?us-ascii?Q?+wbFIr0FZbywdYxG7r4n/Tfni0VDp2Z0xwqtHYheTbe/rg3rBjsKIvsPMwm4?=
- =?us-ascii?Q?TrP7CEyH5bhckg96G/HUHENfDRUJBcQpRRl2IKbgEta4vs5iwbE/VgcuQWIx?=
- =?us-ascii?Q?z57j8Fowi4NM1ISsOMGRdHHLwuZsm9PsElHSnPVFX+diAUPFIPc/vrAghGbV?=
- =?us-ascii?Q?Km+lQsVhY2RTW64Txcev3FesUHAIUvvnp/E/UADF4zAkjq4hauSGIBbVbxog?=
- =?us-ascii?Q?OhrVf5POFfjB7ZdZvvjQTtyr0ZN8VoGK/pFWLenLmqqbnDzFAttUnF01EYRw?=
- =?us-ascii?Q?YETdnVvJnK3vOD/5wUqjIxHJhEcYsfDR9zp77K5MWwUvKMDE51sCpCOhE+Vd?=
- =?us-ascii?Q?fTfam8UMqgigCZDjoNMJG2AljuxRa/nYcsyx1yfmLASUVZJFQdtXJcvHVOeX?=
- =?us-ascii?Q?p3NummcSqblvecev8AVEd1VkzuHm/jcB1z6uzfUIjKDGnbE5ykiTlupKlxSZ?=
- =?us-ascii?Q?5WMQj7cYnGPdJDlCQa8NTXYvly9ZkruQIwhQhi6fhh2gPTODp2ENzT12lx24?=
- =?us-ascii?Q?+uQpufSdlH2nrU/FJyfNhLjiBWEfEezXwqv5D/8d5pB9IMAMykc6d6m/hcH5?=
- =?us-ascii?Q?8T1GxX0oyJAEwjVJK8ZVvA6PpEznulSqvecwnhPSbAzpjLZzUNLGBqLp9GnH?=
- =?us-ascii?Q?JO7g4ZlLtiIZ/tp6oZt/lxE8BB6wiPLBF3XtGM/gi/Jbq5emYcH/16xMk43R?=
- =?us-ascii?Q?S7IZ386yKM1Gsu+SzM4eeqfyGRqcKpxOwYes3qGSooYTm+lnG6Ygve3ISyWC?=
- =?us-ascii?Q?NtWBHuMlbguKuEulSTe+60TfPi3qeR3IZt/8woVIKF/v6n0b?=
-Content-Type: multipart/alternative;
-	boundary="_000_MW3PR11MB4585BBE477EEEB911CBF0F5DDE662MW3PR11MB4585namp_"
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U3A3Qi8vcVZwU1pnaENTWkR5QXpyQm5DQXFuYlh4L3AxUnZrTEp5MlByRkFh?=
+ =?utf-8?B?aUJWdlFtRWNXRUJIZnNtakZoZE94SFlDOGtSVEtPNTdMNjlRMVY0QkxTRDM0?=
+ =?utf-8?B?YWVHeDkyckVqbGVJVXNUUEpUVTFSZStvb3ZYZEhYZTdudVFDc0JZQW1pSGpN?=
+ =?utf-8?B?dDY5SUNLb1RxdER1Q0F0TThWWDE4WW9BaDNyV3BuQUtHUUplVVFXTEZrcWty?=
+ =?utf-8?B?akR3N2lHYkptaGs4dktVYmwyZVRudGlvMXRKbEJwdG9QTUFtaTlzZUJEMHha?=
+ =?utf-8?B?ak81T1c3ZkpoaUVQUndXTnNWenVNOEhMaXNTQUFFSEkycFVHRmVobEgyZVVs?=
+ =?utf-8?B?K0lrUm13V1BsYTdIZUFrNnZjZmlUemZPbElQVVFYdWlUTHVsdnMyQmFEeVJz?=
+ =?utf-8?B?ZWE0SkZ0VFA1TlVYTFhGUTUrSTJyL09uMzEvUzlySS9qL0ViRW9XaE9tRS9T?=
+ =?utf-8?B?SEJhNlhhUWJxYUJwbVppQTVVOExJQ3dobmdvcWY0R0dTOUpwbXlpbHpzR0NN?=
+ =?utf-8?B?dWhjb3RXRmV4UTdWeURaUWQzTFdDaEp1U2JOcC9ZbFc3QkJWL3p5cnBWRWR5?=
+ =?utf-8?B?RU16SXd1azBzTjVMWGUvVmJzRmx3dnZzZ25XVlRMdSsyWnBETlVtcUN2ZnpE?=
+ =?utf-8?B?Ty96Zi8yNjBIb3pDWUJ0bEpwcTV2eDdZaS9kYVlzV1lzdks1MVBtNlBJUEcv?=
+ =?utf-8?B?N1dTSjRFZXptb3p1ejY4VjE2RTJ4eU9CdDZuc1FEazNpYXlPSW9kTWZnalNR?=
+ =?utf-8?B?dzNPV1RzOStMN0YyR0NVcHloREFjeW54VHpqaGNuNW1KazRNZmZNY01EVHl1?=
+ =?utf-8?B?cGpMcXFHNkNUMFdaQWRiWC9sNTVLejlBbUpsaGFES1JTeGZlTUs1MlN0UHU4?=
+ =?utf-8?B?Tml3NzltVTZFTitUL3J6UGVkUitGd1RMV0ZBSW9pZEVHaERDYkRONjh0dW5h?=
+ =?utf-8?B?bHdlV0d6UHVDN1JwdzBtTlU4dlZrL1ZMQkFLMVpHVHcxSXJSK2VGdzZRTHVX?=
+ =?utf-8?B?d0JrOE1QTTg3YUhmRHpCa3cyYlFTL3JSYWg3b0IwcWJQNmQ2VldkYmFRSlRX?=
+ =?utf-8?B?dXpNKzh6eTJ0M0Y3b0lUekpkUVhOcTFvUUFmRW5FVmFHc1JTQ3hTV0JYdkFV?=
+ =?utf-8?B?dkFRam5PQ21MdnRzYTBlRHFiSEZPVUJpN3RhQXltbFlHSkUwZTJUVkd4RXBG?=
+ =?utf-8?B?Z1Y2K09ZMldFNnB5UWh6VnBodmNkRTVZV2NlUzdkdTFSN3ZCT2pjY0xzNW5v?=
+ =?utf-8?B?MVV0b2VLNU5RUzMyeHR6a0E2OFZSZ1M0elFkVjRqd3AyMmlzNW9SUDkvVHRq?=
+ =?utf-8?B?MkxZZExmdVpmQkVqMGYxdmdKNmdhMDhGU1BxcWZzSmo5akp3UDlwK290Tjlk?=
+ =?utf-8?B?dnVLcXZoc1JCTzNEVlU2MW1WdmpYdFhmZXM0dEYrb0piN044YUJpMUllanJ1?=
+ =?utf-8?B?S0I5aFJJa2ZOb28xYnVjN0lNelZaVXNFM0x1QVV1Y2pPaWE0UTlwTERXWUx0?=
+ =?utf-8?B?NjJtMFFYOStDcDVONEpuakRNSXRVem9rNUEwc2V6WFBYVlJjb0dPK2VQTFVv?=
+ =?utf-8?B?c0RqNVZNWTZkd24zNVhnZjZmUnRKeTVDeXNNY3VNbjE0K0pyZWJLd0VTcHRB?=
+ =?utf-8?B?UWFQL3ZGRW83YlVFaXY2ejQ4eWs1REVZNzIyZEI2bzZMVzNERGVva1A2aHlQ?=
+ =?utf-8?B?MGF2eG42bTdFMksxT1dKS0NPUzlHczB2OGs2QnFqK3VQZ3JBdGZxSjR4b0ww?=
+ =?utf-8?B?amxrbUhkVlpzcjFKTUNQU1hBeUQweThsS3RzMXYzL0M1blVuQk5zYk1Edk1r?=
+ =?utf-8?B?OGozMnh0eTdlWmtHeDVnOWgwcGZwNFZFbVhPSElLcUFhL0JSZmhiWWVxL0JW?=
+ =?utf-8?B?cEhWbFdid2pjSzJ1N0ExUU1mTnloNHpCci9qbnR1WHNvWVczYTZMbWhJdFd4?=
+ =?utf-8?B?TmZEc2tmOHp5elZBZDI1MkJ5TExBSnlLU1E5SHpHNkR4bzRtOHZXUUdnVzl0?=
+ =?utf-8?B?SU1qZFVkRjFmRnNIZ2RhMzRaeUNpZmJHdHkyRkpDYjZVaThXVFdPR3Uydmhv?=
+ =?utf-8?B?RHNrbU1zTU41UXV3ZVk0d0V6UGlGV2tJemowVTBpSTBxSC96c2RLK0prNStK?=
+ =?utf-8?B?MzhqSTNjOVZTdzQ5alREb0tYWHZXWmY0dnV1VUpROTNuUHZ6a3lLT2JuYVFL?=
+ =?utf-8?B?RVAzUmJ2bUZsOEc5VjdXVDVrb1ZHUnJHaFVRaVBUUk0rV0pLZ1JXa0UyempD?=
+ =?utf-8?B?akYzdWVOUE95YmJEUmZDTkxSWGlWOU1RT1F1TzdFNzZrbHpiWUdmcU8rczBn?=
+ =?utf-8?B?V1JnL0tsWmd6eWZZdlM2Sk96WXdJdGx1dnJQanJyaklJNkVPbWdrdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: lV481FbhtpKwDFrrN23NIau7yFxMfmOC53NLCqH4qpeosQtNA0r5UCXmD82HEsKugkkORPC4Hdz+o2uf5IzsfyYvwXWH4j5xmmibf1HU6qBsrbL09OqlVwl4xmsd/zpXk1ApdhE5MLeVQ2I5mHLf3RALe3fc6OkIzEe/hmffQrVT7yurnTgzEUOTzrPHOnlJtueJYAPX1LBFSUefEcx4s28B0SzwToKwpyE017/DBPy9jH3Z3VXiwa03MsxWMcn5ku66vTPcHwvB+XRj5fdKX1uePtkMAJaYCn7QRN4N6vMbRlsWJuz+RVtk3znwAkH7lQbKHWQ4gAI+AN/b9X1q5g==
-X-OriginatorOrg: cisco.com
+X-Exchange-RoutingPolicyChecked: rPD9lKabKBkDdeLi/4pB0V3xXVsMQFb1oKh5njyyi3hOTSGPrG+y61ucWNRc99rO1Gi0TNqkG+irFXJ2DsZuVtMylZN8QT2n6YOi6iduVapC91+unVG0aBlFRL7e+lcNH3dNBqJzgC5x2ts/tS+JVD8pmXxHVPB7UoDE7ROOtntt7VBxAL0OLl3CQ0/Nz571O03V5BGVNiPCXq8WmXnc8OtPufJsmm3atuviuNfNENMnMiwbBaOliIUhJZI78/57kfqZmBWnkGIRs+TFt/afPms9PqhDawp1hfirzC6Rv17U//lo/MJ+pMF5cFjbVNrBFaQepJHTun8/zAoaBrmG+A==
+X-OriginatorOrg: jp.honda
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4585.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae30b249-f3d6-4ec2-afc4-08df2f2e1e41
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 04:45:23.2057
+X-MS-Exchange-CrossTenant-AuthSource: TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f058b9f2-0fb6-4bf6-a898-08df2f318091
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 05:09:36.5392
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-id: cc138ffb-9c4d-433b-b211-d4549ae62e8b
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pu2z4WvjhbpTeah+yhXLKgxwKBRBuBKCj0qqtzH5vpxQpJMiNM4+SUeo3E0yL60BF54uXDV8Heeh0RDikCLTOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB9723
-X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-1.cisco.com [173.37.147.229];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 173.37.147.229, alln-opgw-1.cisco.com
-X-Outbound-Node: alln-l-core-11.cisco.com
+X-MS-Exchange-CrossTenant-userprincipalname: C/YRht7I9UzNPWsnzrH90uSyv7tvX9uI+w/NrEQRgmPllFVnHyAx0E+9knEl5kn7LXZIIcT+Cxcv4RD5CW93d0MAan0qHxfBojg70bOSthE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWP301MB0550
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-21_01,2026-10-19_02,2025-10-01_01
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 04:45:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248348
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:10:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248349
 
---_000_MW3PR11MB4585BBE477EEEB911CBF0F5DDE662MW3PR11MB4585namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Yoann,
-
-Thanks for the review and for pointing out these issues.
-
-I'll review the entire series again, address the concerns regarding the ups=
-tream changes, metadata removals, and CVE references, and resend an updated=
- version once everything has been verified.
-
-Sorry for the extra review round.
-
-Regards,
-Yogita
-
-________________________________
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
-congal=3Dsmile.fr@lists.openembedded.org>
-Sent: 20 October 2026 16:07
-To: Yogita Urade -X (yurade - E INFOCHIPS PRIVATE LIMITED at Cisco) <yurade=
-@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-core@li=
-sts.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH 0/27] python3-git: Security fixes
-
-On Fri Oct 16, 2026 at 7:40 AM CEST, Yogita Urade -X (yurade - E INFOCHIPS =
-PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> Backport 27 GitPython security fixes covering 28 CVEs to the python3-git
-> 3.1.43 recipe on wrynose. The series adds the fixes as patches and update=
-s
-> the recipe to apply them.
->
-> CVE-2026-78678 and CVE-2026-78679 are addressed together. The CVE-2026-76=
-222
-> fix includes a regression correction and follow-up patch, and the CVE-202=
-6-87819
-> fix is carried in two patches. The patches retain upstream references.
->
-> Yogita Urade (27):
->   python3-git: fix CVE-2026-67326
->   python3-git: fix CVE-2026-67323
->   python3-git: fix CVE-2026-67325
->   python3-git: fix CVE-2026-67324
->   python3-git: fix CVE-2026-67322
->   python3-git: fix CVE-2026-69097
->   python3-git: fix CVE-2026-73625
->   python3-git: fix CVE-2026-73623
->   python3-git: fix CVE-2026-73624
->   python3-git: fix CVE-2026-73622
->   python3-git: fix CVE-2026-73621
->   python3-git: fix CVE-2026-73620
->   python3-git: fix CVE-2026-73619
->   python3-git: fix CVE-2026-76221
->   python3-git: fix CVE-2026-76220
->   python3-git: fix CVE-2026-76219
->   python3-git: fix CVE-2026-76218
->   python3-git: fix CVE-2026-76217
->   python3-git: fix CVE-2026-76222
->   python3-git: fix CVE-2026-78678 CVE-2026-78679
->   python3-git: fix CVE-2026-78677
->   python3-git: fix CVE-2026-78676
->   python3-git: fix CVE-2026-78675
->   python3-git: fix CVE-2026-87817
->   python3-git: fix CVE-2026-87818
->   python3-git: Fix CVE-2026-87819
->   python3-git: fix CVE-2026-100689
->
->  .../python/python3-git/CVE-2026-100689.patch       |  90 +++++
->  .../python/python3-git/CVE-2026-67322.patch        | 167 +++++++++
->  .../python/python3-git/CVE-2026-67323.patch        | 356 +++++++++++++++=
-++++
->  .../python/python3-git/CVE-2026-67324.patch        | 101 ++++++
->  .../python/python3-git/CVE-2026-67325_p1.patch     |  49 +++
->  .../python/python3-git/CVE-2026-67325_p2.patch     |  50 +++
->  .../python/python3-git/CVE-2026-67326.patch        | 108 ++++++
->  .../python/python3-git/CVE-2026-69097.patch        |  48 +++
->  .../python/python3-git/CVE-2026-73619.patch        |  58 +++
->  .../python/python3-git/CVE-2026-73620.patch        | 130 +++++++
->  .../python/python3-git/CVE-2026-73621.patch        |  72 ++++
->  .../python/python3-git/CVE-2026-73622.patch        |  60 ++++
->  .../python/python3-git/CVE-2026-73623.patch        |  53 +++
->  .../python/python3-git/CVE-2026-73624.patch        | 139 ++++++++
->  .../python/python3-git/CVE-2026-73625.patch        |  59 +++
->  .../python/python3-git/CVE-2026-76217.patch        | 179 ++++++++++
->  .../python/python3-git/CVE-2026-76218.patch        |  94 +++++
->  .../python/python3-git/CVE-2026-76219.patch        | 155 ++++++++
->  .../python/python3-git/CVE-2026-76220.patch        |  67 ++++
->  .../python/python3-git/CVE-2026-76221.patch        |  44 +++
->  .../python3-git/CVE-2026-76222-regression.patch    |  39 ++
->  .../python/python3-git/CVE-2026-76222_p1.patch     | 120 +++++++
->  .../python/python3-git/CVE-2026-76222_p2.patch     |  47 +++
->  .../python/python3-git/CVE-2026-78675.patch        |  47 +++
->  .../python/python3-git/CVE-2026-78676.patch        |  54 +++
->  .../python/python3-git/CVE-2026-78677.patch        |  86 +++++
->  .../CVE-2026-78678_CVE-2026-78679.patch            | 181 ++++++++++
->  .../python/python3-git/CVE-2026-87817.patch        | 394 +++++++++++++++=
-++++++
->  .../python/python3-git/CVE-2026-87818.patch        |  55 +++
->  .../python/python3-git/CVE-2026-87819_p1.patch     |  77 ++++
->  .../python/python3-git/CVE-2026-87819_p2.patch     | 139 ++++++++
->  meta/recipes-devtools/python/python3-git_3.1.43.bb |  31 ++
->  32 files changed, 3349 insertions(+)
->
-> --
-> 2.35.6
-
-Hello,
-
-I only review the 6 firsts patches and I already found basic issues:
-* Unneeded changes from upstream
-* Removed metadata
-* Wrong CVE references
-
-I'll stop my review here and hold the series until you review it
-yourself under those comments.
-
-Same goes for the scarthgap one.
-
-This is a really long series, I have to ask a higher standard than usual
-in order to not spent all my time reviewing it.
-
-Regards,
---
-Yoann Congal
-Smile ECS
-
-
---_000_MW3PR11MB4585BBE477EEEB911CBF0F5DDE662MW3PR11MB4585namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Hi Yoann,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; font-family: Apto=
-s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
- font-size: 11pt; color: rgb(0, 0, 0);">
-Thanks for the review and for pointing out these issues.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-I'll review the entire series again, address the concerns regarding the ups=
-tream changes, metadata removals, and CVE references, and resend an updated=
- version once everything has been verified.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Sorry for the extra review round.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Regards,</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-Yogita</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
-alf of Yoann Congal via lists.openembedded.org &lt;yoann.congal=3Dsmile.fr@=
-lists.openembedded.org&gt;<br>
-<b>Sent:</b> 20 October 2026 16:07<br>
-<b>To:</b> Yogita Urade -X (yurade - E INFOCHIPS PRIVATE LIMITED at Cisco) =
-&lt;yurade@cisco.com&gt;; openembedded-core@lists.openembedded.org &lt;open=
-embedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core][wrynose][PATCH 0/27] python3-git: Security fi=
-xes</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">On Fri Oct 16, 2026 at 7:40 AM CEST, Yogita Urade =
--X (yurade - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.o=
-rg wrote:<br>
-&gt; Backport 27 GitPython security fixes covering 28 CVEs to the python3-g=
-it<br>
-&gt; 3.1.43 recipe on wrynose. The series adds the fixes as patches and upd=
-ates<br>
-&gt; the recipe to apply them.<br>
-&gt;<br>
-&gt; CVE-2026-78678 and CVE-2026-78679 are addressed together. The CVE-2026=
--76222<br>
-&gt; fix includes a regression correction and follow-up patch, and the CVE-=
-2026-87819<br>
-&gt; fix is carried in two patches. The patches retain upstream references.=
-<br>
-&gt;<br>
-&gt; Yogita Urade (27):<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-67326<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-67323<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-67325<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-67324<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-67322<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-69097<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-73625<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-73623<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-73624<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-73622<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-73621<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-73620<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-73619<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-76221<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-76220<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-76219<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-76218<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-76217<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-76222<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-78678 CVE-2026-78679<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-78677<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-78676<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-78675<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-87817<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-87818<br>
-&gt;&nbsp;&nbsp; python3-git: Fix CVE-2026-87819<br>
-&gt;&nbsp;&nbsp; python3-git: fix CVE-2026-100689<br>
-&gt;<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-100689.patch&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; |&nbsp; 90 +++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-67322.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 167 +++++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-67323.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 356 +++++++++++++++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-67324.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 101 ++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-67325_p1.patch&nbsp;&nbsp;&nbsp;=
-&nbsp; |&nbsp; 49 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-67325_p2.patch&nbsp;&nbsp;&nbsp;=
-&nbsp; |&nbsp; 50 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-67326.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 108 ++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-69097.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 48 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-73619.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 58 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-73620.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 130 +++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-73621.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 72 ++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-73622.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 60 ++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-73623.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 53 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-73624.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 139 ++++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-73625.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 59 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-76217.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 179 ++++++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-76218.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 94 +++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-76219.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 155 ++++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-76220.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 67 ++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-76221.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 44 +++<br>
-&gt;&nbsp; .../python3-git/CVE-2026-76222-regression.patch&nbsp;&nbsp;&nbsp=
-; |&nbsp; 39 ++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-76222_p1.patch&nbsp;&nbsp;&nbsp;=
-&nbsp; | 120 +++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-76222_p2.patch&nbsp;&nbsp;&nbsp;=
-&nbsp; |&nbsp; 47 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-78675.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 47 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-78676.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 54 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-78677.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 86 +++++<br>
-&gt;&nbsp; .../CVE-2026-78678_CVE-2026-78679.patch&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 181 ++++++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-87817.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 394 +++++++++++++++++++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-87818.patch&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 55 +++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-87819_p1.patch&nbsp;&nbsp;&nbsp;=
-&nbsp; |&nbsp; 77 ++++<br>
-&gt;&nbsp; .../python/python3-git/CVE-2026-87819_p2.patch&nbsp;&nbsp;&nbsp;=
-&nbsp; | 139 ++++++++<br>
-&gt;&nbsp; meta/recipes-devtools/python/python3-git_3.1.43.bb |&nbsp; 31 ++=
-<br>
-&gt;&nbsp; 32 files changed, 3349 insertions(+)<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.35.6<br>
-<br>
-Hello,<br>
-<br>
-I only review the 6 firsts patches and I already found basic issues:<br>
-* Unneeded changes from upstream<br>
-* Removed metadata<br>
-* Wrong CVE references<br>
-<br>
-I'll stop my review here and hold the series until you review it<br>
-yourself under those comments.<br>
-<br>
-Same goes for the scarthgap one.<br>
-<br>
-This is a really long series, I have to ask a higher standard than usual<br=
->
-in order to not spent all my time reviewing it.<br>
-<br>
-Regards,<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_MW3PR11MB4585BBE477EEEB911CBF0F5DDE662MW3PR11MB4585namp_--
+SGVsbG8sDQoNClRoYW5rIHlvdSBmb3IgbG9va2luZyBpbnRvIHRoaXMgc2VyaWVzLg0KDQpJIGJl
+bGlldmUgbm8gY2hhbmdlcyB0byB0aGUgc2VyaWVzIGFyZSBuZWVkZWQgZXZlbiBpZiBpbXByb3Zl
+X2tlcm5lbF9jdmVfcmVwb3J0LnB5IG5lZWRzIHRvIGJlIGZpeGVkLg0KU3VjaCBhIGZpeCBjYW4g
+YmUgZG9uZSBpbiBhbm90aGVyIHNlcmllcy4NClRoZSBzZXJpZXMgaXMgaW5kZXBlbmRlbnQgb2Yg
+dGhlIHNjcmlwdC4NCg0KTG9va2luZyBmb3J3YXJkIHRvIHRoZSBuZXh0IGN5Y2xlLg0KDQotLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4g
+T24gQmVoYWxmIE9mIFlvYW5uIENvbmdhbCB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU2Vu
+dDogV2VkbmVzZGF5LCBPY3RvYmVyIDIxLCAyMDI2IDEyOjUwIEFNDQpUbzogWW9hbm4gQ29uZ2Fs
+IDx5b2Fubi5jb25nYWxAc21pbGUuZnI+OyBLQVpVWU9TSEkgQUtJWUFNQSAo56eL5bGxIOWSjOaF
+tikgPGthenV5b3NoaV9ha2l5YW1hQGpwLmhvbmRhPjsgQmVuamFtaW4gUm9iaW4gPGJlbmphbWlu
+LnJvYmluQGJvb3RsaW4uY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZw0KQ2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
+b3JnPjsgTWF0aGlldSBEdWJvaXMtQnJpYW5kIDxtYXRoaWV1LmR1Ym9pcy1icmlhbmRAYm9vdGxp
+bi5jb20+OyBKb3NodWEgV2F0dCA8SlBFV2hhY2tlckBnbWFpbC5jb20+OyBEYW5pZWwgVHVydWxs
+IDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BB
+VENIIHdyeW5vc2UgMC80XSBzcGR4OiBmaXggdGhlIGNvbXBpbGVkLXNvdXJjZXMgZmlsdGVyDQoN
+Ck9uIFdlZCBTZXAgMzAsIDIwMjYgYXQgNTo0NCBQTSBDRVNULCBZb2FubiBDb25nYWwgd3JvdGU6
+DQo+IEhlbGxvLA0KPg0KPiBASm9zaHVhIChhbmQgb3RoZXIgU1BEWC9TQk9NIGludGVyZXN0ZWQg
+cGFydGllcyk6DQo+IEFzIG91ciAiU1BEWC9TQk9NIGd1eSIsIEkgd291bGQgbG92ZSB0byBoYXZl
+IHlvdXIgaW5wdXQgb24gdGhpcyB0aHJlYWQuDQo+IEZZSSwgV2UgKFBhdWwgb3IgSSkgcGxhbiB0
+byByYWlzZSB0aGlzIGF0IHRoZSBuZXh0IHRlY2ggY2FsbC4NCg0KSSBkaWQuIFRoZSBjb25zZW5z
+dXMgKFJQLCBKb3NodWEpIHdhcyB0aGUgInNvdXJjZXMvIiBwcmVmaXggaXMgYSBkaXZlcmdlbmNl
+IGZyb20gdXN1YWwgZGVzaWduIHdoZXJlIHNvdXJjZSBwYXRocyBkbyBub3QgaGF2ZSB0aGlzIHBy
+ZWZpeC4gU28sIGluIHRoaXMgd2F5LCB0aGlzIHNlcmllcyBzaG91bGQgYmUgY29uc2lkZXJlZCBh
+IGJ1ZyBmaXguDQoNCk5vIG9uZSBpbiB0aGUgY2FsbCBvcHBvc2VkIHRoaXMgcGF0aCBjaGFuZ2Uu
+DQoNCkRhbmllbCBub3RlZCB0aGF0IHRoZSBzY3JpcHQgZmlsdGVyaW5nIGtlcm5lbCBDVkVzIGJh
+c2VkIG9uIGNvbXBpbGVkIHNvdXJjZXMgbWF5IG5lZWQgYW4gdXBkYXRlOg0Kc2NyaXB0cy9jb250
+cmliL2ltcHJvdmVfa2VybmVsX2N2ZV9yZXBvcnQucHkNCg0KPT4gSSB3aWxsIHJlY29uc2lkZXIg
+dGhpcyBzZXJpZXMgZm9yIHRoZSBuZXh0IHdyeW5vc2UgY3ljbGUgKEluIDItMyB3ZWVrcykuDQoN
+Cj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4+IEZyb206IEJlbmphbWluIFJvYmlu
+IDxiZW5qYW1pbi5yb2JpbkBib290bGluLmNvbT4NCj4+PiBTZW50OiBNb25kYXksIFNlcHRlbWJl
+ciAyOCwgMjAyNiA1OjU3IFBNDQo+Pj4gVG86IEtBWlVZT1NISSBBS0lZQU1BICjnp4vlsbEg5ZKM
+5oW2KSA8a2F6dXlvc2hpX2FraXlhbWFAanAuaG9uZGE+OyANCj4+PiBvcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBZb2FubiBDb25nYWwgDQo+Pj4gPHlvYW5uLmNvbmdh
+bEBzbWlsZS5mcj4NCj4+PiBDYzogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4
+Zm91bmRhdGlvbi5vcmc+OyBNYXRoaWV1IA0KPj4+IER1Ym9pcy1CcmlhbmQgPG1hdGhpZXUuZHVi
+b2lzLWJyaWFuZEBib290bGluLmNvbT4NCj4+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
+SCB3cnlub3NlIDAvNF0gc3BkeDogZml4IHRoZSANCj4+PiBjb21waWxlZC1zb3VyY2VzIGZpbHRl
+cg0KPj4+DQo+Pj4gT24gU2F0dXJkYXksIFNlcHRlbWJlciAyNiwgMjAyNiBhdCAxMToxOeKAr0FN
+LCBZb2FubiBDb25nYWwgd3JvdGU6DQo+Pj4+IE9uIFRodSBTZXAgMTcsIDIwMjYgYXQgNjoyNCBB
+TSBDRVNULCBLQVpVWU9TSEkgQUtJWUFNQSB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90
+ZToNCj4+Pj4gPiBTUERYX0lOQ0xVREVfQ09NUElMRURfU09VUkNFUyBpcyBtZWFudCB0byBmaWx0
+ZXIgYWxsIHNvdXJjZSBmaWxlcyANCj4+Pj4gPiBkb3duIHRvIG9ubHkgdGhlIG9uZXMgdGhhdCB3
+ZXJlIGNvbXBpbGVkIGJlZm9yZSBhZGRpbmcgdGhlbSB0byANCj4+Pj4gPiB0aGUgU0JPTSwgYnV0
+IG9uIHdyeW5vc2UgaXQgZG9lc24ndCB3b3JrLg0KPj4+PiA+IGFkZF9wYWNrYWdlX2ZpbGVzKCkg
+aXMgd2hhdCBwaWNrcyB3aGljaCBmaWxlcyBnbyBpbnRvIHRoZSBTQk9NLg0KPj4+PiA+IEl0IHdh
+bGtzICR7U1BEWFdPUkt9IGl0c2VsZiB0byBnZXQgZmlsZSBwYXRocywgdGhlbiBrZWVwcyBvbmx5
+IA0KPj4+PiA+IHRoZSBvbmVzIHRoYXQgbWF0Y2ggdGhlIGxpc3Qgb2YgY29tcGlsZWQgc291cmNl
+cyByZXR1cm5lZCBieSANCj4+Pj4gPiBnZXRfY29tcGlsZWRfc291cmNlcygpLg0KPj4+PiA+IGdl
+dF9jb21waWxlZF9zb3VyY2VzKCkganVzdCByZXR1cm5zIHdoYXQgc2F2ZV9kZWJ1Z3NvdXJjZXNf
+aW5mbygpIA0KPj4+PiA+IHN0b3JlZCwgYW5kIHRoYXQgZGF0YSB1c2VzIHBhdGhzIHJvb3RlZCBh
+dCAke1RBUkdFVF9EQkdTUkNfRElSfSANCj4+Pj4gPiAoPSAvdXNyL3NyYy9kZWJ1Zy8ke1BOfS8k
+e1BWfSksIG5vdCB0aGUgJHtTUERYV09SS30tcm9vdGVkIHBhdGhzDQo+Pj4+ID4gYWRkX3BhY2th
+Z2VfZmlsZXMoKSBjb21wYXJlcyBhZ2FpbnN0Lg0KPj4+PiA+IFNvIHRoZSBsaXN0IGdldF9jb21w
+aWxlZF9zb3VyY2VzKCkgcmV0dXJucyBuZXZlciBtYXRjaGVzIHdoYXQNCj4+Pj4gPiBhZGRfcGFj
+a2FnZV9maWxlcygpIGlzIGNvbXBhcmluZywgYW5kIGFsbW9zdCBldmVyeSBmaWxlIGVuZHMgdXAg
+DQo+Pj4+ID4gbWFya2VkIGFzIG5vdCBjb21waWxlZC4NCj4+Pj4gPiBUaGlzIGhhcHBlbnMgZm9y
+IGV2ZXJ5IHJlY2lwZSBleGNlcHQgdGhlIGtlcm5lbCwgd2hpY2ggaGFzIGl0cyANCj4+Pj4gPiBv
+d24gc3BlY2lhbC1jYXNlZCBwYXRoLg0KPj4+PiA+DQo+Pj4+ID4gVGhpcyBpc24ndCBqdXN0IGEg
+bWF0dGVyIG9mIHRoZSBTQk9NIG1pc3NpbmcgdGhlIHJpZ2h0IGZpbGVzLg0KPj4+PiA+IHNib20t
+Y3ZlLWNoZWNrIHVzZXMgdGhlIHNhbWUgbWF0Y2ggcmVzdWx0IHRvIGRlY2lkZSB3aGV0aGVyIGEg
+DQo+Pj4+ID4gdnVsbmVyYWJsZSBmaWxlIHdhcyBhY3R1YWxseSBidWlsdCwgZm9yIGl0cyB2dWxu
+ZXJhYmlsaXR5IHRyaWFnZS4NCj4+Pj4gPiBJZiB0aGUgbWF0Y2ggY291bnQgaXMgYWx3YXlzIHpl
+cm8sIHRoYXQgdHJpYWdlIGRvZXNuJ3Qgd29yayBlaXRoZXIuDQo+Pj4+ID4gT24geW9jdG8tNi4w
+LjIgd2UgY29uZmlybWVkIHRoZSBtaXNqdWRnbWVudCBhZmZlY3RzIGNwaW8gYW5kIHBlcmwuDQo+
+Pj4+ID4NCj4+Pj4gPiBtYXN0ZXIgYWxyZWFkeSBoYXMgdGhpcyBmaXhlZCwNCj4+Pj4gPiBhbmQg
+dGhpcyBiYWNrcG9ydCBicmluZ3MgdGhhdCBmaXggdG8gd3J5bm9zZS4NCj4+Pj4gPiBiNTY3YzJm
+MGQ5IGlzIHRoZSBjb21taXQgdGhhdCBmaXhlcyBpdC4NCj4+Pj4gPiBFdmVyeXRoaW5nIGVsc2Ug
+aW4gdGhlIHNlcmllcyBpcyBhIHByZXJlcXVpc2l0ZSBmb3IgdGhhdCBwYXRjaC4NCj4+Pj4gPiBC
+YWNrcG9ydGluZyBiNTY3YzJmMGQ5IGFsb25nIHdpdGggaXRzIHByZXJlcXVpc2l0ZXMgYnJpbmdz
+IA0KPj4+PiA+IHdyeW5vc2UncyBiZWhhdmlvciBpbiBsaW5lIHdpdGggbWFzdGVyLg0KPj4+PiA+
+IFdpdGggdGhpcywgY29tcGlsZWQgc291cmNlcyBnZXQgY291bnRlZCBjb3JyZWN0bHksIGFuZCAN
+Cj4+Pj4gPiBzYm9tLWN2ZS1jaGVjaydzIHRyaWFnZSB3b3JrcyBjb3JyZWN0bHkgdG9vLg0KPj4+
+PiA+DQo+Pj4+ID4gT24gd3J5bm9zZSAoZ2VuZXJpY3g4Ni02NCwgY29yZS1pbWFnZS1mdWxsLWNt
+ZGxpbmUpLCB0aGUgbWF0Y2ggDQo+Pj4+ID4gcmF0ZSBnb2VzIGZyb20gZWZmZWN0aXZlbHkgemVy
+byB0byA5My45JS4NCj4+Pj4gPg0KPj4+PiA+IE9uZSB0aGluZyBjaGFuZ2VzLg0KPj4+PiA+IFdo
+YXQgdGhlIFNCT00gcmVjb3JkcyBhcyBhIHNvdXJjZSBmaWxlIG5hbWUgY2hhbmdlcyB0b28uDQo+
+Pj4+ID4gYWE0NGEwZjBlYiByZS11bnBhY2tzIHVuZGVyIFVOUEFDS0RJUiBpbnN0ZWFkIG9mIFdP
+UktESVIsIHNvIGEgDQo+Pj4+ID4gcmVjb3JkZWQgc291cmNlIGZpbGUgbmFtZSBjaGFuZ2VzIChl
+LmcuIHNvdXJjZXMvYWNsLTIuMy4yLy4uLg0KPj4+PiA+IGJlY29tZXMgYWNsLTIuMy4yLy4uLiku
+DQo+Pj4+ID4gVGhpcyBpcyBhIGNoYW5nZSB0byBTQk9NIG1ldGFkYXRhIG9ubHkuDQo+Pj4+ID4g
+VGhlIGFjdHVhbCBidWlsZCBvdXRwdXQgaXMgdW5hZmZlY3RlZC4NCj4+Pj4gPiBBbnlvbmUgZGlm
+ZmluZyBTQk9NcyBhY3Jvc3MgTFRTIHBvaW50IHJlbGVhc2VzIHdpbGwgc2VlIGl0Lg0KPj4+PiAN
+Cj4+Pj4gSGVsbG8sDQo+Pj4+IA0KPj4+PiBUaGFua3MgZm9yIHRoZSBzZXJpZXMsIHRoaXMgc291
+bmRzIGxpa2UgYSB3b3J0aHkgZml4Lg0KPj4+PiBCdXQsIHRoaXMgU0JPTSBjaGFuZ2UgaXMgYSBi
+aXQgbW9yZSBpbnRydXNpdmUgdGhhbiBJJ20gY29uZm9ydGFibGUgDQo+Pj4+IHdpdGguLi4gVGhp
+cyB3aWxsIGNyZWF0ZSBhIGxvdCBvZiBub2lzZSBmb3IgdXNlcnMgdGhhdCBwcmVjaXNlbHkgDQo+
+Pj4+IHRyYWNrIHRoZWlyIFNCT01zLg0KPj4+DQo+Pj4gSGVsbG8gWW9hbm4sDQo+Pj4NCj4+Pj4g
+Q2FuIHdlIGRvIHRoZSBmaXggd2l0aG91dCB0aGlzIGNoYW5nZT8NCj4+Pg0KPj4+IFRlY2huaWNh
+bGx5LCB3ZSBjb3VsZCBkbyBpdC4gQnV0IGl0IHdvdWxkbid0IGJlIGV4YWN0bHkgdGhlIHNhbWUg
+c2VyaWVzLCB3aGljaCBJIGRvbid0IHJlYWxseSBsaWtlLCBhbmQgdGhlIGNvZGUgd2lsbCBkaXZl
+cmdlLg0KPj4+IEZvciBpbmZvcm1hdGlvbiBJIGNvdWxkIGRldmVsb3AgYSBzb2x1dGlvbiBhZnRl
+ciBFTENFIGNhcGFibGUgb2YgZ2VuZXJhdGluZyBhIHNpbWlsYXIgU0JPTSBpZiBLYXp1eW9zaGkg
+ZG9lc24ndCBmZWVsIGNvbWZvcnRhYmxlIGRvaW5nIGl0Lg0KPj4+IC0tDQo+Pj4gQmVuamFtaW4g
+Um9iaW4sIEJvb3RsaW4NCj4+PiBFbWJlZGRlZCBMaW51eCBhbmQgS2VybmVsIGVuZ2luZWVyaW5n
+DQo+DQo+IE9uIE1vbiBTZXAgMjgsIDIwMjYgYXQgMTE6MzkgQU0gQ0VTVCwgS0FaVVlPU0hJIEFL
+SVlBTUEgKOeni+WxsSDlkozmhbYpIHdyb3RlOg0KPj4gVGhhbmsgeW91IGZvciB5b3VyIGNvbW1l
+bnRzLCBZb2FubiBhbmQgQmVuamFtaW4uDQo+Pg0KPj4gSSBhZ3JlZSB3aXRoIEJlbmphbWluLg0K
+Pj4gVGhpcyBzZXJpZXMgZG9lcyBpbnRyb2R1Y2UgYSB2aXNpYmxlIGNoYW5nZSB0aGF0IHRoZSBz
+b3VyY2UgcGF0aCBpbiANCj4+IFNQRFggd2lsbCBiZSBjaGFuZ2VkIGZyb20gYHNvdXJjZXMvWFhY
+L1lZWS5jYCB0byBgWFhYL1lZWS5jYC4NCj4+IEhvd2V2ZXIsIHRoZSBkZXNpZ24gY2hhbmdlIG9m
+IHRoZSBwYXRjaCAwMDAyIGlzIHJlYXNvbmFibGUsIGFuZCBJIA0KPj4gYmVsaWV2ZSBpdCBpcyBi
+ZXR0ZXIgdG8gYXZvaWQgY29kZSBkaXZlcmdlbmNlIHdoZW5ldmVyIHBvc3NpYmxlLg0KPj4gVGhl
+IGltcGFjdCBvZiB0aGlzIGNoYW5nZSBpcyB2ZXJ5IHNtYWxsLg0KPiBEbyB5b3UgaGF2ZSBhbnl0
+aGluZyB0byBzdXBwb3J0IHRoaXMgYWZmaXJtYXRpb24/DQo+IEkgY2FuIGltYWdpbmUgdXNlcnMg
+aGF2aW5nIHF1aXRlIHN0cmljdCBwcm9jZXNzZXMgYXJvdW5kIFNCT01zIHRoYXQgDQo+IGNvdWxk
+IGJlIGRpc3J1cHRlZCBieSBhIGNoYW5nZSBsaWtlIHRoaXMgKGUuZy4gZGlmZidpbmcgU0JPTXMg
+YWNyb3NzIA0KPiB2ZXJzaW9ucykuDQo+DQo+PiBJIGNvdWxkIHdyaXRlIGEgcGF0Y2ggdG8gcHJl
+c2VydmUgdGhlIGBzb3VyY2VzL2AgcHJlZml4LCBidXQgZXZlbiANCj4+IHRoZW4sIHdyeW5vc2Ug
+dXNlcnMgd291bGQgc3RpbGwgbmVlZCB0byBhZGFwdCB0byB0aGlzIGNoYW5nZSBpbiB0aGUgDQo+
+PiBuZXh0IExUUyByZWxlYXNlLg0KPj4gRnVydGhlcm1vcmUsIGlmIEkgd3JpdGUgc3VjaCBhIHBh
+dGNoLCB0aGUgcGF0aCBjaGFuZ2Ugd291bGQgb2NjdXIgDQo+PiBzaWxlbnRseSBpbiB0aGUgbmV4
+dCBMVFMgcmVsZWFzZSwgd2l0aG91dCBzdWZmaWNpZW50IGNvbnRleHQgdG8gDQo+PiBkb2N1bWVu
+dCBpdCBwcm9wZXJseSBpbiB0aGUgcmVsZWFzZSBub3Rlcy4NCj4gQnJlYWtpbmcgY2hhbmdlcyBs
+aWtlIHRoaXMgd2hlbiBjaGFuZ2luZyByZWxlYXNlIGlzIGV4cGVjdGVkIGFuZCBub3QgYSANCj4g
+cHJvYmxlbSBhdCBhbGwuDQo+DQo+IFJlZ2FyZHMsDQotLQ0KWW9hbm4gQ29uZ2FsDQpTbWlsZSBF
+Q1MNCg0K
