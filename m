@@ -1,184 +1,438 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7163.1792572672901628357
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7209.1792573191508364151
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2026 01:51:13 -0700
+ Wed, 21 Oct 2026 01:59:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=I/15fGGa;
- spf=pass (domain: axis.com, ip: 52.101.70.49, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cyKelMNN6DxNub+nzHUaGY5gM9cdwJNqMW/FJHe3xcpKGoEWDKsbUhJeico/R2IhgW4Uam03PDTBOGjF0vo4wFAOFeii9K/WjDb0Vrq13M+6f+VUZPfRF4h+3moiHgkSxuQJZDdE6UJpqoZFan8Hy69avDfq5WVHx3uxF/EP2lHETl4xu+Adl9HwoLvMezKWTUDQv0S2yU+yaURIOxs2I4ZUFS2m1X9g6fhYb7Vq1ZkZLWFVxcYHXFlWN0TVo//FGbRAbzdnb/V9+ELZ2RBhue3+30Xxef7bm9lcNY1lr2qFtWM+e2IaZK5GIzgLh4LsUGq5vFDeV8e2ytRkloyCGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ph1ilEKlfx04iSkk3GB/LhgHIQPYqHOZr0idgc5IoMg=;
- b=gA87LUMuMEwvG/mRfUmx+eWu7o8hid7DJJgwxG97Z4L72bbYjngVZNoMFhpQ3UNAURcIK/Ius9l0QOBrjmD2QllshFO3KjuF88QxfR8wJnZ20viYuRH4t0oAii26CCBCUbfL+bVG3DEN5bpgxifqSYkX0XnTiZuDP0/RakgOiRRX6PqRqGcBASrPsWOnO+iAQZATQWtqkf6eBkGH46n9u98/+u4RdI0ztO2zwqB9As/+wN9sR2VQcSuhrIle7v+lVsjh0Rn5YWg5ObY87KqDW7kwv4Wn1AJZ/1qqYb4user47/sOSPNtBXNgHkmJJYR7PCWkeuRe4OrEQeim2uHiWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ph1ilEKlfx04iSkk3GB/LhgHIQPYqHOZr0idgc5IoMg=;
- b=I/15fGGaKG1/TU2vZGGtNIA7N88qD0k5aAfXITJXbx+M3u3lzCYOgibEavY4boI1JgoHulwZtTsJj3+RtvyE5YgnXTWa0uQFCD/z5ptJX4z/U6fVP0jVWRStCBoHsdeFlFkH+3HnVG8jrBir4XIGd5VTFAN46MOvLQc2OzG5Oh4=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by DU0PR02MB8015.eurprd02.prod.outlook.com (2603:10a6:10:352::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
- 2026 08:51:02 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd%6]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
- 08:50:58 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] ca-certificates: Disable compromised CA
- certificates
-Thread-Topic: [OE-core] [PATCH] ca-certificates: Disable compromised CA
- certificates
-Thread-Index: AQHdYSnlEPYQLNTuVkKr/YdegKX4u7cHrvpA
-Date: Wed, 21 Oct 2026 08:50:58 +0000
-Message-ID: <DB5PR02MB10213E52B6D3A99BB7A0CF37CEF662@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20261021-ca-certs-v1-1-b12c7c3bf7c2@pbarker.dev>
-In-Reply-To: <20261021-ca-certs-v1-1-b12c7c3bf7c2@pbarker.dev>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DU0PR02MB8015:EE_
-x-ms-office365-filtering-correlation-id: 51a3fda6-bd70-4229-c58c-08df2f506d46
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|6133799003|18002099003|22082099003|10067099003|13003099007|11063799006|261009223027099003|56012099006|38070700021;
-x-microsoft-antispam-message-info: kSPDCsGJt2sq0YAoOaiVoVwfPWmRj7Rdv5CZYxkcNR+J7vpsrxMQ+3vH/vO2cgPDWCZreZxT9RgtBxo7KtACAjDoOhJ+UPl4q1dI4nGy+3y9U64862z7j0cRUUKZprMAA+QE+YVfWOHkof3iTGVhldlfLNaDpQdAfvLafk6cppsOx7piYt0nLA6j+l+kvOgn9MMNsTWIENLfcAUsmtrqdVuVqFN2Ah3fTYX8kKws3ClgDuNdLiZR19OYOiXy4bGpO0jb9rwaKZzl4rTCILaED8gRCKiRF33nosxL3AiafKRKftiz7KE2DqyV0pacuOXKk2EU8lmovUvwTGlpMSRht/hUvH5DSuNxUnPefcb6sBRPPVz8UrwYHwzRoPIWoLgYqiRljkXK1/pq6vEHX//SMM1aP4ddFh8k+BLRcJs3VWTkUxp3t53ciuEVYpuiB3bNQ4H1FghrfxSZ8U/uZ01BSINolqpdiBF1nvD6SGa+Ds7ksQdm9yuKGyJ4GobUTkk84e/ox4bJa35R+/SHT2SX5ZaDrkmQnRC1By0ba2lSJsp/3BB7MbyeNVe1ySJh6oswqh/lIKHjFzTSL3f/1DI8l6zMr3L31dJvRyuAoUt8IlesHzZtHMbKvkk31vyEBqo1KZE/5hEmbBt5Kn/MClqh6BXBJd9iwPXV7sfAmaQBE20=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(6133799003)(18002099003)(22082099003)(10067099003)(13003099007)(11063799006)(261009223027099003)(56012099006)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VWhsRmlhbXh3RjZucUZTOStrK1JNczdmT1p0L1lwcHBFOFhJVFd1QmFkY0tH?=
- =?utf-8?B?NVNQLzhyQWV6TkhIeDRIT1Z4V0ZnTzhoRVhmc2FvcE56aVM4dlU2bTZSNzRB?=
- =?utf-8?B?TU5iYTVTQUlXdVlMUlY1OFdSR2RLRU1iNkc1QlVmNEVTMFp5MHNMVnZlWGVU?=
- =?utf-8?B?aUlQNHVTTzBNdXJyUWlqTmhXMHpWbEpCUEhQUFpMbTgrRDQzTW43TmJsbWpS?=
- =?utf-8?B?Z0x6Mm1TZkVvZldFZHcyQ1UwcWFiYllnajBZSzd0QlRFRUV3TVVPZEpEY1pV?=
- =?utf-8?B?S0lSeDMwb1JaTTkvZnNHRDRmRGZoZ0xGSTR5Y0Y1U3YwNTl6bzhkNUJhMHZo?=
- =?utf-8?B?d2RUL2tZc1VadzRRTnZIVStBWXhEMHQ4RkxvOWxpNUVQSFBKeS9DSXYzRUZ0?=
- =?utf-8?B?Ri9IYi8yRlR5aWxLOEZWdXRwUVNZS0dWeHNUaUUxb1VYRGNQNVpsTUNzSllr?=
- =?utf-8?B?NnNpbXIwOFh6Ty9XTzhQcHdWdk5JR1ljcXpUbG9nTnNabkxQdmUzYnkvZDYz?=
- =?utf-8?B?ellUWkRiZ3NyMGhzV0hab0h3Y1Q4blhrd3VldS91UVpSSlVEZWFZM0srcUxv?=
- =?utf-8?B?WmNmZjlPdU9hMk1xNjU5Ynl2b3N2ZzBtVzNMS0U0cVdPTVlZNE16N1JtbmNi?=
- =?utf-8?B?Y2orU3VueUd2dlpHUDJHaFlPUzJWSEhaZDRXM0ZHUjVPNmxTdnhUalByMmV3?=
- =?utf-8?B?Z1BhWjk1VmlUaWxIdVhDYk9VQWsvQzA5NUJYWGRxOVRlV1lQUWFyRS9vKy9S?=
- =?utf-8?B?VTM2REtLMnpyazdsbUFwRkNpMFdTeERkM1NmT1RocXFtZjhhK09PUHUzS2gv?=
- =?utf-8?B?OUViV0k0Y3J4cmtqbGxtTkl2R3Y1N0FvNU1PMUFhMGpnUkFMY1ZLRk5Jbjky?=
- =?utf-8?B?Nkgxdlp5RWk2eDBVdzN4bkxxMmxaak5BMWpQb2tUbzEreWJiR1RxYzFjUTRP?=
- =?utf-8?B?akFZRjVRMFdMRDVaN0w2RWU4Ky9EMW0zL21lYTI5a3FVaHoyVHFhWjlmYjQr?=
- =?utf-8?B?WHZVUlV2Y2lrbU1kOVZub242ZzUwdm9JSEFZOEllVXNmUmk3eHhjQVJFbHZ6?=
- =?utf-8?B?S3RteUhwTklvSE5YdzZXSEx2WGpscHZ2L3hEcXhNcUxMNGNNTzFNTkxSMlBY?=
- =?utf-8?B?YlZGZC9PbVVqc1hXcUZobktCYTVObnRUeDJJK0hMY0doS0JNc0VBSXoybG81?=
- =?utf-8?B?NWF5dldCRmx4djhPTFF5MTQwd2ZZK01kZXl0cFFnU2Q4alZGdm5IMVl5SUx2?=
- =?utf-8?B?SGhDWmliWCtWZkFwMHU0K0hMT1p1L1h3OTZvTUh3YUFIL0dhRUQya1ZqcGFF?=
- =?utf-8?B?SlI3cjIzZ1h5dVJLYWttUk95QWsrUy9sampaZm5VTXBabGFnTldWa2dFTWZE?=
- =?utf-8?B?ZDBqdlpzZlk1eWN1bFU1d3R1aFR0K2FtWno4QVRNLzE1dE1pS2hSS2ZpM0Uy?=
- =?utf-8?B?YTRHUXJhVTVPRTYydWVKNTNORzdVSUFZNXZkRUJEaXlFbzYrZ2ZYei91Y3U5?=
- =?utf-8?B?NHJubUtxa3kyb3I0SHJiUkFHQm8rUndoRW93cVlwRGVSb2MwR3lCK2k1RlVt?=
- =?utf-8?B?dlorZkVQamwwdmpobTNaMHpqVVcwNVdpODZNK0lqOUFjU2kySVNOSjZpaVI3?=
- =?utf-8?B?MmtRY3VxdjB5NktQR01BOFludEtrNjRuZndXYTlyTm9HWEVTVElteWdRVGdK?=
- =?utf-8?B?OEY0VkhkT0hIa2hUcUR3RWNJT1d2UTlaMHZvZ2drVEVGU3BPQ2pON0w5N05K?=
- =?utf-8?B?Z2JHancxUGxVdTJCTGtibWczVnZCckk5RGpGVzFzRGVZeHpOOGRoNEl6T3BO?=
- =?utf-8?B?bE01T0hxM1hMQy9BM1RZYWhrdkhSVDRFVFRlV2hpSDc3OEhNR2VCTEJGNHkv?=
- =?utf-8?B?T0RZTHlnWUxQd2FTcU8zTDBiM3c3Rk9DZThzSnNHcUYxMUp6eUFZT2RUR1o0?=
- =?utf-8?B?Ky8vOWliV284OTU2UzJzdlE3aUkvZjF2NG5oZnAzeE1LcGQ4WkpUcXpVbzhR?=
- =?utf-8?B?SjVZcDBnYThMTUpzaWhpVEpBVmtWMUl0SkR1N2tLdG1NS05FL3dkcnJ0S3NR?=
- =?utf-8?B?dFBBNmFZTzdnTFdicis5QmlnSU5LbkEzSWlxUWRWNWlxdURuK29nVU1MMGF1?=
- =?utf-8?B?ajlCSUtWeFNUNlFtQWVVZlp5dUdJWjR5L1NaSGZlKzF1R3dsWjQyL2lHYzRz?=
- =?utf-8?B?R0NMdXlxdUtsamx5Y2Q1YnhFV0FiOGprS3c2TGlBSFhnNldKa1RFcmtzRDlD?=
- =?utf-8?Q?yHie54kwMe9C80yNkZhGtpsSFWRZX+bytmTtmoitEk=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=E5j1pD3K;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=fE5duqwx;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: jose.quaresma@oss.qualcomm.com)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69L5jA623711584
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 08:59:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=N6Nxu0awK4m549vjaNSpWLag
+	7+A65ZB0eqFudlD9NPg=; b=E5j1pD3KcfGvHtJnftkn1dONLlH+GqvbOklJm/7y
+	r4HmaHuAILssF59pfw9GnchC6DJp/jq61Ei9cgP98d+6/ZYAIxGDVUp2v9t4tfWc
+	sLdH2rj/EA2StVGJEGcMqaqXN4E7nj/I9Av02VVDAs6PxVEK7Z8v+ShBmmuH8isG
+	ctt1Frb/pOsVd4nuTbUG1E8yVWP3hCn25SMdM6t8HfwX4aVreBS/DWan2LSYDfFb
+	3rCklf1feg90Hly9/hYa82gZs+XiU+jpjIVNyWeYkCLBZ4uCRD6kV1EvrMII7ZcP
+	6ot82zl2b96I96xpWulWpbl7GgII2/NhnG0bzKw2Mz3wvQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hed9v367r-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 08:59:49 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-9308eafb465so159521585a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 01:59:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792573189; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FILtR5KoCBVemlW2jV0LrmQOk0h8OKM2vAIHOKB9XrBGy95lU2JEMLDA9719Df64Kw
+         5kSiW0lbtR63EKeoZZYr8uYZIuGBF1SkXgUwRP+vjpz8nx9XG2LAF2jKzVj07nLMZkI3
+         ZOidUIleagctM6pnUpYOiWzRqjWM9rWU2ui1SJPpdX+aD+uxvEtHZ9hk7TRBJfOV/Af8
+         RN+iCpMr9vYvADDpoOcWcaPVIf2xPbFpVfzoMtZEz35M0i0HFo8c2+t1C7UoxVZN6MbN
+         u17AEBLiT+9R+2Iiy8W3zjMFZ1p50BG9kmny0ne40jWv/+p7N+dmirr755z5yk9YXver
+         BlEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=N6Nxu0awK4m549vjaNSpWLag7+A65ZB0eqFudlD9NPg=;
+        fh=pTInZ4NOA183XGSB6U2PUvDAAJLH7lrlNQARXe3Cbr4=;
+        b=DJrKjj4+iXRhSpgJ9JieEfReisibTYkMsNL4p3gAiG2zVRHzSFhIdD3HDaGvH55KgA
+         uITWjjxRjmWqVBcyvCgDafOwYU1IObog5oAy9rvvaUgu4T2pDD5Sv95QRhnd/aRnYJ+E
+         Lulr9GusMHt8pIIZL/2LnBKayX0Fw1cFlKV49sx0CJx7i86/u1fiUnDdaD353nSsACh+
+         1V4r/J+8ZzY71ETkzutBRZ16FPmVYnTKe9UnYHX5Li8szKv3ZZ4bCm7mv4T+kbPuZxjU
+         rxUrbloI0ffQJDwJ2/UdP60zO7Xi9UJ/Jp6Meu4trc2m0MinxTbe5Lsvl3B1jnKaLACE
+         tbMQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792573189; x=1793177989; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=N6Nxu0awK4m549vjaNSpWLag7+A65ZB0eqFudlD9NPg=;
+        b=fE5duqwxtRMBKfM5sBXSsoZCEkSZy5fCd92ihwa/pOwXeLE4EGZt00vLlOUgciZUQ/
+         WxxRh0XoEhB5z0mu9gHwvIv76JE+5DNqxMDJmM6LCXxWE2yzdxdBo0Ic6l7RdEwP79Y+
+         gHepOJNeJNa76lXM3HCVGKE9UzKXDVlh/eh69WKgIiTbYwMY3h+OOTlcTYFpuFPyWX2f
+         AFccvfr5EDBNQlCf076g66n81dS8Qc3GZ+PmvErT403vqQ+bbDzna8v/IK6shE8eJDC4
+         KybUomHlo2q294DL7i2ySl3s05ez03dVGInSSdclR2nzgHbbp6tFiS+F7+BhKGVkTyft
+         j0tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792573189; x=1793177989;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=N6Nxu0awK4m549vjaNSpWLag7+A65ZB0eqFudlD9NPg=;
+        b=NonEq960Th6g6k4CQ+veUU27Xv5tcLMY3vLwQMoXMg68ZbS1Gmv8071m1odCuWntyv
+         WN2GXiUFr5U11Sb0vcm3ULLNM1MMU93TPrkgo8ZL/yQCpnIisrYsujPilkzFNQoswWYL
+         An8Y4avoaF5jHRRppSkdKcHYW73TGSa1d2EX/01hRQq08ysV/KsD0FWANkL2oK0PvdLT
+         Piq0VsgiGF79LtSjd29lE5FBrLefE1G8Kmrt4ft/EYMVO54KhUeU2xTmhUqi5gk0/9Jn
+         xBV+pCRSoiinw4TnsM7vUvJG8zaHZx8akPN7UQ1buqvm47tal8TTF0Gjh/6hWnjBpOys
+         cVjg==
+X-Forwarded-Encrypted: i=1; AKwUvBwDBfbYAn0UWufPZlzJftQT/Mg3pfq0YE5egv1seJNvviJ5pczHvgzNaN6RUDNyHmSBfSc16St6B9UhqV1vyDHd0g==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYI3Y1y6Fxlxl2VBkh8ny1+hTLtNo9Vmz2rMVAFQh+owXNIJBGP/
+	yEj/VCzL9pUOpDssKBy5uLymK6aqq3GHBaNpDpWKYFloJCS2MEs2s2mpRNr6kknm07C983yeYeZ
+	UMDfToUeDxHeTZei+3vrUHRNEVhHC4zBuoEndmn4n08TN1VdqdP+F4qarbk0/QJMBXEJMpDDr/U
+	og1KoxuYXvy6ICAC3+JN44gJmN5Z6A3m5vfZAxHXsCBKW0Qr7qAiq7otCnQA==
+X-Gm-Gg: AYBFou3Yln8gO8AFvRsd+WrDiX1xhZC01H1vrCsu36SxBAYCgOodsQ+tMiHtIgl0Cpp
+	Q9/CY03CIOnd6g172Nw4lsvVZPp+IIIFUzFry8bvVFfu2m+RJZjbc/ZcQlw3ii/hg0sjrs16Esb
+	FrreJXkrQSD00koOzuN/RwFWDi6j5dwgWuZ+GL+S4NBzTI7fesYWz/3q8krVI=
+X-Received: by 2002:a05:620a:84c9:b0:93e:d7f0:497a with SMTP id af79cd13be357-93f57f1ecffmr282039085a.16.1792573188888;
+        Wed, 21 Oct 2026 01:59:48 -0700 (PDT)
+X-Received: by 2002:a05:620a:84c9:b0:93e:d7f0:497a with SMTP id
+ af79cd13be357-93f57f1ecffmr282036385a.16.1792573188308; Wed, 21 Oct 2026
+ 01:59:48 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51a3fda6-bd70-4229-c58c-08df2f506d46
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 08:50:58.6978
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YVQluRLWsRs0xdCRu4jvBV7WAnbOHAR1BZH1JDQy0Xr3XVTvSXQUDhskMPs8ztEW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB8015
+References: <20261021-ca-certs-v1-1-b12c7c3bf7c2@pbarker.dev> <DB5PR02MB10213E52B6D3A99BB7A0CF37CEF662@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB10213E52B6D3A99BB7A0CF37CEF662@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+Date: Wed, 21 Oct 2026 09:59:37 +0100
+X-Gm-Features: AclHuK_ibDMKO52-vRyiq6sZ-sVNuhgOQLVd2JKgA8rGmJAYYYV34GEpo78gt5c
+Message-ID: <CADWMC-YZyOhhhkri6fWD5Rc6gS8amsO-LAj2zdNxX29wx+62Fw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ca-certificates: Disable compromised CA certificates
+To: peter.kjellerstedt@axis.com
+Cc: Paul Barker <paul@pbarker.dev>,
+        "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000001f93be065e55f853"
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAzNSBTYWx0ZWRfX8ETrb5+3bxt+
+ guofRKO+syQFeOOEjnSWeLQr+OWo1xkHJgYXdAqTXGGKyBv89hGoxPJs6kwIXZd/oMQIm3i9Sbi
+ djCvVuY2HYlEGdpra8Ryl2F8QNcCnNk=
+X-Proofpoint-ORIG-GUID: uAWdWGQtEkn7ObKn7ijQneHvnDS9LHT9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAzNSBTYWx0ZWRfX2q/uFwLAbbqX
+ c6yepnMslXifwQF0h3IwtoO+BISKP3Z5cbr/ezZfUKr+akUj0hkXVanvU/K2Fi71BpLBmAH3Y5g
+ cSE1Mfz7nV0IhCaS911g56qZy4BaRJkpZbUN7xigvXa8AsZkh5fAXxO82CtxZgWzX312bTcjZBp
+ 48YmhKWqpv/84fKzaPLw/Or7Yjx2NRhH0E6WF5pNdE/5F4/LqFC6w6idVZ4NwmskPgBu5fDafXX
+ Lf1lbK8YbEB60JExckMuG3aRqSZ69kq1e8Qya3gZyOqVIcLF4Gy4x1bXzCsAr7/lU/bTH+bKB1J
+ hKP/Ro0u7DSVrT+svn9H5wx06debT53ZViuw5pXC8Xl8mtKbWFWXjg+4OzJWeKn2aa/ST8BIu8W
+ j2ZjcJ2Vo0NpNvn0fb8LigWHGbavxu8usWBRRO5+r0fTGEMgdMA0vgr/4e4zmbhSFyb8NnqWfyT
+ 7qu5wqFy8Xc2DubUn9A==
+X-Authority-Analysis: v=2.4 cv=I6zw19gg c=1 sm=1 tr=0 ts=6ad87f05 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=-VINok9lAAAA:8 a=xNf9USuDAAAA:8 a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8
+ a=nCp6ePDHGM70vd_j_uQA:9 a=QEXdDO2ut3YA:10 a=utMW0t27AAAA:8
+ a=AzXGCbznKDFZbcgObKkA:9 a=y49ZSkKj_xq4V9cY:21 a=lqcHg5cX4UMA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=u5lqgLRgOhU_413jC3zP:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=og0ZNMpbOFHgjJQd6y5y:22
+X-Proofpoint-GUID: uAWdWGQtEkn7ObKn7ijQneHvnDS9LHT9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-21_02,2026-10-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210035
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 08:51:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248375
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 08:59:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248376
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiBPbiBCZWhhbGYgT2YgUGF1bCBCYXJrZXINCj4gU2VudDogZGVuIDIxIG9rdG9iZXIg
-MjAyNiAwOTowMA0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zw0KPiBDYzogUGF1bCBCYXJrZXIgPHBhdWxAcGJhcmtlci5kZXY+DQo+IFN1YmplY3Q6IFtPRS1j
-b3JlXSBbUEFUQ0hdIGNhLWNlcnRpZmljYXRlczogRGlzYWJsZSBjb21wcm9taXNlZCBDQSBjZXJ0
-aWZpY2F0ZXMNCj4gDQo+IEJhY2twb3J0ZWQgYSBwYXRjaCB0byBhZGRyZXNzIHRoZSBlTXVkaHJh
-IEludGVybWVkaWF0ZSBDQSBDb21wcm9taXNlDQo+IGRpc2Nsb3NlZCBhdCBodHRwczovL2VtdWRo
-cmEud2UtaGF2ZS1hLXByb2JsZW0uY29tLiBBcyB0aGlzIGlzIGENCj4gY2VydGlmaWNhdGUgYXV0
-aG9yaXR5IGNvbXByb21pc2UgcmF0aGVyIHRoYW4gYSBzb2Z0d2FyZSBmbGF3IGl0IGRvZXNuJ3QN
-Cj4gaGF2ZSBhIENWRSBudW1iZXIsIGJ1dCB0aGlzIHNob3VsZCBiZSB0cmVhdGVkIGxpa2UgYSBD
-VkUgZml4Lg0KPiANCj4gVGhpcyBpcyBhIGJhY2twb3J0IHJhdGhlciB0aGFuIGEgdmVyc2lvbiBi
-dW1wIGFzIERlYmlhbiBkaWQgYQ0KPiAibm9uLW1haW50YWluZXIgdXBsb2FkIiAyMDI2MDgxNitu
-bXUxIGluc3RlYWQgb2YgYSB0eXBpY2FsIG5ldyB2ZXJzaW9uDQo+IHJlbGVhc2UuDQo+IA0KPiBT
-aWduZWQtb2ZmLWJ5OiBQYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj4NCj4gLS0tDQo+ICAu
-Li5tU2lnbi1FQ0MtUm9vdC1DQS1HMy1hbmQtQ29tb2RvLUFBQS1TZXJ2aS5wYXRjaCB8IDM1ICsr
-KysrKysrKysrKysrKysrKysrKysNCj4gIC4uLi9jYS1jZXJ0aWZpY2F0ZXMvY2EtY2VydGlmaWNh
-dGVzXzIwMjYwODE2LmJiICAgIHwgIDEgKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAzNiBpbnNlcnRp
-b25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlm
-aWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAxLUJsYWNrbGlzdC1lbVNpZ24tRUNDLVJvb3QtQ0Et
-RzMtYW5kLUNvbW9kby1BQUEtU2VydmkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jYS1j
-ZXJ0aWZpY2F0ZXMvY2EtY2VydGlmaWNhdGVzLzAwMDEtQmxhY2tsaXN0LWVtU2lnbi1FQ0MtUm9v
-dC1DQS1HMy1hbmQtQ29tb2RvLUFBQS1TZXJ2aS5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0
-NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjlhMDI1ODkxOWFhNg0KPiAtLS0gL2Rldi9udWxsDQo+
-ICsrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZpY2F0
-ZXMvMDAwMS1CbGFja2xpc3QtZW1TaWduLUVDQy1Sb290LUNBLUczLWFuZC1Db21vZG8tQUFBLVNl
-cnZpLnBhdGNoDQo+IEBAIC0wLDAgKzEsMzUgQEANCj4gK0Zyb20gZDVlMDhmNjNiMWNhNjc0NmE1
-MWU2MmNkYTRkZjU0ODNjMGQzZTJlYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zyb206
-IFBhdWwgQmFya2VyIDxwYXVsQHBiYXJrZXIuZGV2Pg0KPiArRGF0ZTogV2VkLCAyMSBPY3QgMjAy
-NiAwNzoxNjoyMyArMDEwMA0KPiArU3ViamVjdDogW1BBVENIXSBCbGFja2xpc3QgImVtU2lnbiBF
-Q0MgUm9vdCBDQSAtIEczIiBhbmQgIkNvbW9kbyBBQUEgU2VydmljZXMNCj4gKyByb290Ig0KPiAr
-DQo+ICtbUEI6IEJhY2twb3J0ZWQgdG8gYWRkcmVzcyB0aGUgZU11ZGhyYSBJbnRlcm1lZGlhdGUg
-Q0EgQ29tcHJvbWlzZQ0KPiArICAgICBkaXNjbG9zZWQgYXQgaHR0cHM6Ly9lbXVkaHJhLndlLWhh
-dmUtYS1wcm9ibGVtLmNvbS4gQXMgdGhpcyBpcyBhDQo+ICsgICAgIGNlcnRpZmljYXRlIGF1dGhv
-cml0eSBjb21wcm9taXNlIHJhdGhlciB0aGFuIGEgc29mdHdhcmUgZmxhdyBpdA0KPiArICAgICBk
-b2Vzbid0IGhhdmUgYSBDVkUgbnVtYmVyLCBidXQgdGhpcyBzaG91bGQgYmUgdHJlYXRlZCBsaWtl
-IGEgQ1ZFDQo+ICsgICAgIGZpeC5dDQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQg
-W2h0dHBzOi8vc2Fsc2EuZGViaWFuLm9yZy9kZWJpYW4vY2EtY2VydGlmaWNhdGVzLy0vY29tbWl0
-LzRhMDIwM2U1Y2U0Y2UxYTA2NGI5NzM4N2Y1MmNhNmEwMGM5NzE4NWNdDQo+ICtTaWduZWQtb2Zm
-LWJ5OiBQYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj4NCj4gKy0tLQ0KPiArIG1vemlsbGEv
-YmxhY2tsaXN0LnR4dCB8IDUgKysrKysNCj4gKyAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25z
-KCspDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9tb3ppbGxhL2JsYWNrbGlzdC50eHQgYi9tb3ppbGxh
-L2JsYWNrbGlzdC50eHQNCj4gK2luZGV4IGQ4NGNlYjkxOTkwNi4uYmEzNjM1ZjdhZjg3IDEwMDY0
-NA0KPiArLS0tIGEvbW96aWxsYS9ibGFja2xpc3QudHh0DQo+ICsrKysgYi9tb3ppbGxhL2JsYWNr
-bGlzdC50eHQNCj4gK0BAIC0zLDQgKzMsOSBAQA0KPiArICMgQmxhY2tsaXN0IGV4cGxpY2l0bHkg
-ZGlzdHJ1c3RlZCBjZXJ0aWZpY2F0ZXMgdG8gZXhwbGljaXRseSBpZ25vcmUgdGhlbSBhbmQgcHJl
-dmVudCBidWlsZCBlcnJvcnMNCj4gKyAiRXhwbGljaXRseSBEaXN0cnVzdCBEaWdpTm90YXIgUm9v
-dCBDQSINCj4gKw0KPiArKyMgQmxhY2tsaXN0ICJlbVNpZ24gRUNDIFJvb3QgQ0EgLSBHMyIgKGNm
-LiAjMTE1MTQxMykNCj4gKysiZW1TaWduIEVDQyBSb290IENBIC0gRzMiDQo+ICsrIyBCbGFja2xp
-c3QgIkNvbW9kbyBBQUEgU2VydmljZXMgcm9vdCIgKGNmLiAjMTE1MTQxMykNCj4gKysiQ29tb2Rv
-IEFBQSBTZXJ2aWNlcyByb290Ig0KPiArKw0KPiArICMgRXhwaXJlZCBDQXMNCj4gKy0tDQo+ICsy
-LjQzLjANCj4gKw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlm
-aWNhdGVzL2NhLWNlcnRpZmljYXRlc18yMDI2MDgxNi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZpY2F0ZXNfMjAyNjA4MTYuYmINCj4gaW5kZXggYzk3
-MDJkNTQ1YTFjLi5iZTFmZmVhZTRmNTQgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZpY2F0ZXNfMjAyNjA4MTYuYmINCj4gKysrIGIv
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlc18yMDI2
-MDgxNi5iYg0KPiBAQCAtMTksNiArMTksNyBAQCBTUkNfVVJJID0gIiR7REVCSUFOX01JUlJPUn0v
-bWFpbi9jL2NhLWNlcnRpZmljYXRlcy8ke0JQTn1fJHtQVn0udGFyLnh6IFwNCj4gICAgICAgICAg
-ICAgZmlsZTovLzAwMDEtdXBkYXRlLWNhLWNlcnRpZmljYXRlcy1kb24tdC11c2UtRGViaWFuaXNt
-cy1pbi1ydW4tcC5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAzLXVwZGF0ZS1jYS1j
-ZXJ0aWZpY2F0ZXMtdXNlLXJlbGF0aXZlLXN5bWxpbmtzLWZyb20tRVQucGF0Y2ggXA0KPiAgICAg
-ICAgICAgICBmaWxlOi8vMDAwMS1SZXZlcnQtbW96aWxsYS1jZXJ0ZGF0YTJwZW0ucHktcHJpbnQt
-YS13YXJuaW5nLWZvci1lLnBhdGNoIFwNCj4gKyAgICAgICAgICAgZmlsZTovLzAwMDEtQmxhY2ts
-aXN0LWVtU2lnbi1FQ0MtUm9vdC1DQS1HMy1hbmQtQ29tb2RvLUFBQS1TZXJ2aS5wYXRjaCBcDQo+
-ICAgICAgICAgICAgICINCj4gIFMgPSAiJHtVTlBBQ0tESVJ9L2NhLWNlcnRpZmljYXRlcyINCj4g
-IGluaGVyaXQgYWxsYXJjaA0KPiANCj4gLS0tDQo+IGJhc2UtY29tbWl0OiA5NGZkNDkxMjEwYjUy
-NjlmNzI0MmRmNTlkYjE1NDEzNzllMjU3NTRmDQo+IGNoYW5nZS1pZDogMjAyNjEwMjEtY2EtY2Vy
-dHMtZGZmOWYwYWNlNzAxDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IC0tDQo+IFBhdWwgQmFya2Vy
-DQoNClRoZXJlIGlzIGEgcmVsYXRlZCBDVkUsIENWRS0yMDI2LTExMTk0MywgZm9yIGdvbGFuZy4N
-Cg0KLy9QZXRlcg0KDQo=
+--0000000000001f93be065e55f853
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Oct 21, 2026 at 9:56=E2=80=AFAM Peter Kjellerstedt via
+lists.openembedded.org <peter.kjellerstedt=3Daxis.com@lists.openembedded.or=
+g>
+wrote:
+
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> On Behalf Of Paul Barker
+> > Sent: den 21 oktober 2026 09:00
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Paul Barker <paul@pbarker.dev>
+> > Subject: [OE-core] [PATCH] ca-certificates: Disable compromised CA
+> certificates
+> >
+> > Backported a patch to address the eMudhra Intermediate CA Compromise
+> > disclosed at https://emudhra.we-have-a-problem.com. As this is a
+> > certificate authority compromise rather than a software flaw it doesn't
+> > have a CVE number, but this should be treated like a CVE fix.
+> >
+> > This is a backport rather than a version bump as Debian did a
+> > "non-maintainer upload" 20260816+nmu1 instead of a typical new version
+> > release.
+> >
+> > Signed-off-by: Paul Barker <paul@pbarker.dev>
+> > ---
+> >  ...mSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch | 35
+> ++++++++++++++++++++++
+> >  .../ca-certificates/ca-certificates_20260816.bb    |  1 +
+> >  2 files changed, 36 insertions(+)
+> >
+> > diff --git
+> a/meta/recipes-support/ca-certificates/ca-certificates/0001-Blacklist-emS=
+ign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch
+> b/meta/recipes-support/ca-certificates/ca-certificates/0001-Blacklist-emS=
+ign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch
+> > new file mode 100644
+> > index 000000000000..9a0258919aa6
+> > --- /dev/null
+> > +++
+> b/meta/recipes-support/ca-certificates/ca-certificates/0001-Blacklist-emS=
+ign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch
+> > @@ -0,0 +1,35 @@
+> > +From d5e08f63b1ca6746a51e62cda4df5483c0d3e2ec Mon Sep 17 00:00:00 2001
+> > +From: Paul Barker <paul@pbarker.dev>
+> > +Date: Wed, 21 Oct 2026 07:16:23 +0100
+> > +Subject: [PATCH] Blacklist "emSign ECC Root CA - G3" and "Comodo AAA
+> Services
+> > + root"
+> > +
+> > +[PB: Backported to address the eMudhra Intermediate CA Compromise
+> > +     disclosed at https://emudhra.we-have-a-problem.com. As this is a
+> > +     certificate authority compromise rather than a software flaw it
+> > +     doesn't have a CVE number, but this should be treated like a CVE
+> > +     fix.]
+> > +
+> > +Upstream-Status: Backport [
+> https://salsa.debian.org/debian/ca-certificates/-/commit/4a0203e5ce4ce1a0=
+64b97387f52ca6a00c97185c
+> ]
+> > +Signed-off-by: Paul Barker <paul@pbarker.dev>
+> > +---
+> > + mozilla/blacklist.txt | 5 +++++
+> > + 1 file changed, 5 insertions(+)
+> > +
+> > +diff --git a/mozilla/blacklist.txt b/mozilla/blacklist.txt
+> > +index d84ceb919906..ba3635f7af87 100644
+> > +--- a/mozilla/blacklist.txt
+> > ++++ b/mozilla/blacklist.txt
+> > +@@ -3,4 +3,9 @@
+> > + # Blacklist explicitly distrusted certificates to explicitly ignore
+> them and prevent build errors
+> > + "Explicitly Distrust DigiNotar Root CA"
+> > +
+> > ++# Blacklist "emSign ECC Root CA - G3" (cf. #1151413)
+> > ++"emSign ECC Root CA - G3"
+> > ++# Blacklist "Comodo AAA Services root" (cf. #1151413)
+> > ++"Comodo AAA Services root"
+> > ++
+> > + # Expired CAs
+> > +--
+> > +2.43.0
+> > +
+> > diff --git a/meta/recipes-support/ca-certificates/
+> ca-certificates_20260816.bb b/meta/recipes-support/ca-certificates/
+> ca-certificates_20260816.bb
+> > index c9702d545a1c..be1ffeae4f54 100644
+> > --- a/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
+> > +++ b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
+> > @@ -19,6 +19,7 @@ SRC_URI =3D
+> "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
+> >
+>  file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
+> >
+>  file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
+> >
+>  file://0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch \
+> > +
+>  file://0001-Blacklist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch \
+> >             "
+> >  S =3D "${UNPACKDIR}/ca-certificates"
+> >  inherit allarch
+> >
+> > ---
+> > base-commit: 94fd491210b5269f7242df59db1541379e25754f
+> > change-id: 20261021-ca-certs-dff9f0ace701
+> >
+> > Best regards,
+> > --
+> > Paul Barker
+>
+> There is a related CVE, CVE-2026-111943, for golang.
+>
+
+Peter Marko already sent it yesterday
+https://lists.openembedded.org/g/openembedded-core/message/248308
+
+Jose
+
+
+>
+> //Peter
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#248375):
+> https://lists.openembedded.org/g/openembedded-core/message/248375
+> Mute This Topic: https://lists.openembedded.org/mt/121863200/10043485
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> jose.quaresma@oss.qualcomm.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000001f93be065e55f853
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div><br></div></div><div class=3D"gmail_=
+quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, =
+Oct 21, 2026 at 9:56=E2=80=AFAM Peter Kjellerstedt via <a href=3D"http://li=
+sts.openembedded.org">lists.openembedded.org</a> &lt;peter.kjellerstedt=3D<=
+a href=3D"mailto:axis.com@lists.openembedded.org">axis.com@lists.openembedd=
+ed.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
+ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
+ded-core@lists.openembedded.org</a>&gt; On Behalf Of Paul Barker<br>
+&gt; Sent: den 21 oktober 2026 09:00<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Cc: Paul Barker &lt;<a href=3D"mailto:paul@pbarker.dev" target=3D"_bla=
+nk">paul@pbarker.dev</a>&gt;<br>
+&gt; Subject: [OE-core] [PATCH] ca-certificates: Disable compromised CA cer=
+tificates<br>
+&gt; <br>
+&gt; Backported a patch to address the eMudhra Intermediate CA Compromise<b=
+r>
+&gt; disclosed at <a href=3D"https://emudhra.we-have-a-problem.com" rel=3D"=
+noreferrer" target=3D"_blank">https://emudhra.we-have-a-problem.com</a>. As=
+ this is a<br>
+&gt; certificate authority compromise rather than a software flaw it doesn&=
+#39;t<br>
+&gt; have a CVE number, but this should be treated like a CVE fix.<br>
+&gt; <br>
+&gt; This is a backport rather than a version bump as Debian did a<br>
+&gt; &quot;non-maintainer upload&quot; 20260816+nmu1 instead of a typical n=
+ew version<br>
+&gt; release.<br>
+&gt; <br>
+&gt; Signed-off-by: Paul Barker &lt;<a href=3D"mailto:paul@pbarker.dev" tar=
+get=3D"_blank">paul@pbarker.dev</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 ...mSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch | 35 ++++++++=
+++++++++++++++<br>
+&gt;=C2=A0 .../ca-certificates/<a href=3D"http://ca-certificates_20260816.b=
+b" rel=3D"noreferrer" target=3D"_blank">ca-certificates_20260816.bb</a>=C2=
+=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 2 files changed, 36 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001=
+-Blacklist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch b/meta/recipes-=
+support/ca-certificates/ca-certificates/0001-Blacklist-emSign-ECC-Root-CA-G=
+3-and-Comodo-AAA-Servi.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 000000000000..9a0258919aa6<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-support/ca-certificates/ca-certificates/0001-Blackl=
+ist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch<br>
+&gt; @@ -0,0 +1,35 @@<br>
+&gt; +From d5e08f63b1ca6746a51e62cda4df5483c0d3e2ec Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Paul Barker &lt;<a href=3D"mailto:paul@pbarker.dev" target=3D"_=
+blank">paul@pbarker.dev</a>&gt;<br>
+&gt; +Date: Wed, 21 Oct 2026 07:16:23 +0100<br>
+&gt; +Subject: [PATCH] Blacklist &quot;emSign ECC Root CA - G3&quot; and &q=
+uot;Comodo AAA Services<br>
+&gt; + root&quot;<br>
+&gt; +<br>
+&gt; +[PB: Backported to address the eMudhra Intermediate CA Compromise<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0disclosed at <a href=3D"https://emudhra.we-have-a=
+-problem.com" rel=3D"noreferrer" target=3D"_blank">https://emudhra.we-have-=
+a-problem.com</a>. As this is a<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0certificate authority compromise rather than a so=
+ftware flaw it<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0doesn&#39;t have a CVE number, but this should be=
+ treated like a CVE<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0fix.]<br>
+&gt; +<br>
+&gt; +Upstream-Status: Backport [<a href=3D"https://salsa.debian.org/debian=
+/ca-certificates/-/commit/4a0203e5ce4ce1a064b97387f52ca6a00c97185c" rel=3D"=
+noreferrer" target=3D"_blank">https://salsa.debian.org/debian/ca-certificat=
+es/-/commit/4a0203e5ce4ce1a064b97387f52ca6a00c97185c</a>]<br>
+&gt; +Signed-off-by: Paul Barker &lt;<a href=3D"mailto:paul@pbarker.dev" ta=
+rget=3D"_blank">paul@pbarker.dev</a>&gt;<br>
+&gt; +---<br>
+&gt; + mozilla/blacklist.txt | 5 +++++<br>
+&gt; + 1 file changed, 5 insertions(+)<br>
+&gt; +<br>
+&gt; +diff --git a/mozilla/blacklist.txt b/mozilla/blacklist.txt<br>
+&gt; +index d84ceb919906..ba3635f7af87 100644<br>
+&gt; +--- a/mozilla/blacklist.txt<br>
+&gt; ++++ b/mozilla/blacklist.txt<br>
+&gt; +@@ -3,4 +3,9 @@<br>
+&gt; + # Blacklist explicitly distrusted certificates to explicitly ignore =
+them and prevent build errors<br>
+&gt; + &quot;Explicitly Distrust DigiNotar Root CA&quot;<br>
+&gt; +<br>
+&gt; ++# Blacklist &quot;emSign ECC Root CA - G3&quot; (cf. #1151413)<br>
+&gt; ++&quot;emSign ECC Root CA - G3&quot;<br>
+&gt; ++# Blacklist &quot;Comodo AAA Services root&quot; (cf. #1151413)<br>
+&gt; ++&quot;Comodo AAA Services root&quot;<br>
+&gt; ++<br>
+&gt; + # Expired CAs<br>
+&gt; +--<br>
+&gt; +2.43.0<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-support/ca-certificates/<a href=3D"http://ca=
+-certificates_20260816.bb" rel=3D"noreferrer" target=3D"_blank">ca-certific=
+ates_20260816.bb</a> b/meta/recipes-support/ca-certificates/<a href=3D"http=
+://ca-certificates_20260816.bb" rel=3D"noreferrer" target=3D"_blank">ca-cer=
+tificates_20260816.bb</a><br>
+&gt; index c9702d545a1c..be1ffeae4f54 100644<br>
+&gt; --- a/meta/recipes-support/ca-certificates/<a href=3D"http://ca-certif=
+icates_20260816.bb" rel=3D"noreferrer" target=3D"_blank">ca-certificates_20=
+260816.bb</a><br>
+&gt; +++ b/meta/recipes-support/ca-certificates/<a href=3D"http://ca-certif=
+icates_20260816.bb" rel=3D"noreferrer" target=3D"_blank">ca-certificates_20=
+260816.bb</a><br>
+&gt; @@ -19,6 +19,7 @@ SRC_URI =3D &quot;${DEBIAN_MIRROR}/main/c/ca-certifi=
+cates/${BPN}_${PV}.tar.xz \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-update-ca-c=
+ertificates-don-t-use-Debianisms-in-run-p.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-update-ca-c=
+ertificates-use-relative-symlinks-from-ET.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Revert-mozi=
+lla-certdata2pem.py-print-a-warning-for-e.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Blacklist-emSign=
+-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;=C2=A0 S =3D &quot;${UNPACKDIR}/ca-certificates&quot;<br>
+&gt;=C2=A0 inherit allarch<br>
+&gt; <br>
+&gt; ---<br>
+&gt; base-commit: 94fd491210b5269f7242df59db1541379e25754f<br>
+&gt; change-id: 20261021-ca-certs-dff9f0ace701<br>
+&gt; <br>
+&gt; Best regards,<br>
+&gt; --<br>
+&gt; Paul Barker<br>
+<br>
+There is a related CVE, CVE-2026-111943, for golang.<br></blockquote><div><=
+br></div><div>Peter Marko already sent it yesterday<br><a href=3D"https://l=
+ists.openembedded.org/g/openembedded-core/message/248308">https://lists.ope=
+nembedded.org/g/openembedded-core/message/248308</a></div><div><br></div><d=
+iv>Jose</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+<br>
+//Peter<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#248375): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/248375" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/248375</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121863200/100=
+43485" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+mt/121863200/10043485</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:jose.quaresma@oss.qualcomm=
+.com" target=3D"_blank">jose.quaresma@oss.qualcomm.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000001f93be065e55f853--
