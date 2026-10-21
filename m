@@ -1,451 +1,125 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5100.1792561338322379889
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5421.1792563743807809985
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Oct 2026 22:42:18 -0700
+ Tue, 20 Oct 2026 23:22:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=DClOo+oD;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69L2F5nL336955
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:42:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=08LJx72HlTKbJzRErUpYR3
-	FN3p1j2I4ZLZTw7h0bAc4=; b=DClOo+oDNC+Ng+V6yvntx8DpGpdsqX9iFfQyqL
-	oiMk8ogNo1weQ3ZUGArbfDWPvr3WsLV5V4NqSbcQECmlzy84Vi+CwqMajGJTdIdt
-	/qsB2KXiGc/KZdnWgIjcOFHKLXKstRDCA9X/SXWDODdAIinVTKBm8gOt/tBCCSqI
-	xg53OD4Kh/xJ+OMOv06NIQV/484LBV39Hg5d6vPVPBFUKU2ZX3Ob8aeIhDe/3gzD
-	LMm/Hx1ZsYY2j7UeD/PtWkkQzTVAgdsYDdIXAXkQIUd+6wXg6GBp97fumT7BW8O6
-	Y8xWS5N9Ssfzc5pFzvxNWJy0BqNooTJ67ibKSm8deA1+Tmsg==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hedabj6v3-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:42:17 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTPS id 69L5gHnd4069659
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:42:17 GMT
-Received: from hyd-e160-a01-2-03.qualcomm.com (10.80.81.91) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.53; Tue, 20 Oct 2026 22:42:12 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH] linux-firmware: upgrade 20260916 -> 20261019
-Date: Wed, 21 Oct 2026 11:11:58 +0530
-Message-ID: <20261021054158.2623376-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KQP++1fS;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=t8uVkpoW;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a15d200884-a0e76945-39bb-4a90-afc3-6e286f9f5813-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1792563743;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=qIEmnqiabuKroxbEv4KNlAwV8gJ8NFlaDlIEAWYfdak=;
+	b=KQP++1fSQDpkDsKicbxf6ZWK27lvjMieRUwv+UgZ5sLElxedLSydOy/qyghhQ+Fv
+	lCE+ATtvA3K7fMRzbXzOyg/CvwSTtEQfFrVqPk5/hbwSPiYfMvxZyjC8TKA2UYTlqUU
+	f+R82ASZuQEb4YIQKrrjCmULdd0u3KhLqbtUHpAs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792563743;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=qIEmnqiabuKroxbEv4KNlAwV8gJ8NFlaDlIEAWYfdak=;
+	b=t8uVkpoWXXMDAZHGaOYepFbSKUi3ay2i6lGbVobkrlbyYpNR8rTWh1DTNdFIi+Jp
+	Qnf57xmBSQAQ9Y48HuC99QhNgqCxC5x73P9dKKmhKfkDIH5TgZZ6TQAREFIxaHoqKGP
+	Ge4kNszlv9myKqYzi1EF/FE5+jag4z2q2o3Z2ViA=
+Content-Type: multipart/mixed; boundary="===============8033243682428908208=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.81.91]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAyMiBTYWx0ZWRfX4JhcXiCAhGLp
- AnXZStYhSwmPcb1Y+PQVMTjO+cvw9Y7obPM2UanU+NnUlPt3JJVvzXdd/lViyd8r2TLp+51Wvpu
- qVMJoVTZ1BBRGUMiesZEsmevdxnV5W0=
-X-Proofpoint-ORIG-GUID: wuF64SW6yHCwdFpSMXEdeUIvPvemGbdQ
-X-Proofpoint-GUID: wuF64SW6yHCwdFpSMXEdeUIvPvemGbdQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAyMiBTYWx0ZWRfX2IIyKrVRg/GB
- 3njQA4opgoitMdm+6uO037GEFok0H1904sBpoXthZTzQUjsxGsiU/oVlQmL+xe5jmB05JR+njP+
- gnUdK0nl3vl5+/houL9uvCmllRHTO6PTNd9PsL7MfdGC8qDZRPi9ujoHbtkykC02aE1hIKYcy4R
- md5Mk2Z7G+u+txMnhh7xi6HSBOA8yVG7e7p3MvLKo+sZrq70//ujAAQZ6kxCKJU+GXUzL8u48B8
- Fn/ybXF3Ujr3T5I2fp7gNTGn+avL3f+cUWvHgGD96c4iymTMQyc+0rT3B03QRfv7EtZ3VhXc02g
- lZs585UQkoMnBDRE0HhrSlSCIMmAzMZFClT0+tyxINzOeao6s8HgCwkszKmPLkCtt3HwMfFt53F
- UXkKLl/cFeGGvWgJiUgFzo9RjumbhqXfRUmgLHaw1Zic7tS/B6cgwEJoJi9nMBSsfvNr/buk4qk
- 74FVNToBd6mRcpJJWiA==
-X-Authority-Analysis: v=2.4 cv=NLpAaE6g c=1 sm=1 tr=0 ts=6ad850b9 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=KqM8su6xhIYA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=p0WdMEafAAAA:8
- a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=6Yq5tBWijua1UeUfxeYA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-21_01,2026-10-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 malwarescore=0 clxscore=1011
- impostorscore=0 phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610210022
+From: auh@yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] llvm-project-source-23.1.3: upgrading to 23.1.4 FAILED
+Message-ID: <010101a15d200884-a0e76945-39bb-4a90-afc3-6e286f9f5813-000000@us-west-2.amazonses.com>
+Date: Wed, 21 Oct 2026 06:22:22 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.10.21-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:42:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248350
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 06:22:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248351
 
-Upgrade the firmware package to latest release. Add PCIe3 PHY
-firmware for snps-pcie3, add AIC8800D80 BT and Wi-Fi firmware,
-add IW416 firmware, add ISH firmware files for Intel Nova Lake-H/S
-platforms, add firmware for Architecture 14.8 Arm Mali GPU, add
-board_elm.bin for RTL8852CU, also add several new Qualcomm firmware
-packages.
+--===============8033243682428908208==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- ...-WiFi-firmware-from-the-ath10k-subdi.patch | 28 -------
- ...20260916.bb => linux-firmware_20261019.bb} | 75 ++++++++++++++++---
- 2 files changed, 65 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260916.bb => linux-firmware_20261019.bb} (98%)
+Hello,
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
-deleted file mode 100644
-index 010121da6b..0000000000
---- a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 837ae0e5beccc2f1e974afba56c22c3cf981fc4e Mon Sep 17 00:00:00 2001
--From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
--Date: Fri, 18 Sep 2026 17:52:15 +0300
--Subject: [PATCH] qcom/shikra: link WiFi firmware from the ath10k subdir
--
--On Qualcomm Shikra platform the WiFi firmware is loaded by the tqftpserv
--from the same location as the rest of the DSP firmware. Add symlink,
--pointing from the expected location to the actual WiFi firmware file.
--
--Fixes: f64d7db7d264 ("ath10k: WCN3990: hw1.0: add shikra firmware files")
--Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
--Upstream-Status: Backport [https://gitlab.com/kernel-firmware/linux-firmware/-/commit/837ae0e5beccc2f1e974afba56c22c3cf981fc4e]
-----
-- WHENCE | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/WHENCE b/WHENCE
--index a712978b..053640a0 100644
----- a/WHENCE
--+++ b/WHENCE
--@@ -3825,6 +3825,7 @@ Version: WLAN.HL.2.0-01387-QCAHLSWMTPLZ-1
-- File: ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp
-- File: ath10k/WCN3990/hw1.0/shikra/firmware-5.bin
-- File: ath10k/WCN3990/hw1.0/shikra/wlanmdsp.mbn
--+Link: qcom/shikra/wlanmdsp.mbn -> ../../ath10k/WCN3990/hw1.0/shikra/wlanmdsp.mbn
-- Version: WLAN.HL.3.3.7.c5-00093.2-QCAHLSWMTPL-1
-- File: ath10k/WCN3990/hw1.0/shikra/notice.txt_wlanmdsp
-- 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20261019.bb
-similarity index 98%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20261019.bb
-index d549c3d2d5..6fe22d9a38 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20261019.bb
-@@ -23,6 +23,7 @@ LICENSE = "\
-     AND LicenseRef-Firmware-advansys \
-     AND LicenseRef-Firmware-aeonsemi \
-     AND LicenseRef-Firmware-agere \
-+    AND LicenseRef-Firmware-aic \
-     AND LicenseRef-Firmware-airoha \
-     AND LicenseRef-Firmware-alacritech \
-     AND LicenseRef-Firmware-amdgpu \
-@@ -155,6 +156,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48ead
-                     file://LICENSES/LICENCE.advansys;md5=bca735476602a7bcb187c7f8bf4a31d5 \
-                     file://LICENSES/LICENSE.aeonsemi;md5=521c00bae0077c90d6ffb9ccf66905ae \
-                     file://LICENSES/LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-+                    file://LICENSES/LICENSE.aic;md5=6c7daaf69662d4c8c0ba954700b3a6e1 \
-                     file://LICENSES/LICENSE.airoha;md5=fa3dedb960e2673aea51aa509f7b537d \
-                     file://LICENSES/LICENCE.alacritech;md5=75dabc07cc2fb59d929baa6bd6aae48a \
-                     file://LICENSES/LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
-@@ -277,7 +279,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48ead
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "376a71c7f18efcb6e6688a73c2a548c7"
-+WHENCE_CHKSUM  = "d1b892bc13f2bc5148ce27c732ec8339"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -286,6 +288,7 @@ NO_GENERIC_LICENSE[Firmware-adsp-sst] = "LICENSES/LICENCE.adsp_sst"
- NO_GENERIC_LICENSE[Firmware-advansys] = "LICENSES/LICENCE.advansys"
- NO_GENERIC_LICENSE[Firmware-aeonsemi] = "LICENSES/LICENSE.aeonsemi"
- NO_GENERIC_LICENSE[Firmware-agere] = "LICENSES/LICENCE.agere"
-+NO_GENERIC_LICENSE[Firmware-aic] = "LICENSES/LICENSE.aic"
- NO_GENERIC_LICENSE[Firmware-airoha] = "LICENSES/LICENSE.airoha"
- NO_GENERIC_LICENSE[Firmware-alacritech] = "LICENSES/LICENCE.alacritech"
- NO_GENERIC_LICENSE[Firmware-amdgpu] = "LICENSES/LICENSE.amdgpu"
-@@ -409,7 +412,6 @@ PE = "1"
- 
- SRC_URI = "\
-   ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
--  file://0001-qcom-shikra-link-WiFi-firmware-from-the-ath10k-subdi.patch \
- "
- 
- BBCLASSEXTEND = "devupstream:target"
-@@ -417,7 +419,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "f80dcb757a623deda62200c08e0e1a88c76fb6b54964f31b35fa74da1c90ccc5"
-+SRC_URI[sha256sum] = "a10d1ab5baf2c74ba92e8c7cf313e691696c26bddfa6df00db795e48d70cd4ca"
- 
- inherit allarch
- 
-@@ -523,7 +525,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-moxa-license ${PN}-moxa \
-              ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 \
-              ${PN}-sd8887 ${PN}-sd8897 ${PN}-sd8997 ${PN}-usb8997 \
--             ${PN}-cf8381 ${PN}-cf8385 ${PN}-gspi8682 ${PN}-gspi8686 ${PN}-gspi8688 ${PN}-sd8385 ${PN}-sd8682 \
-+             ${PN}-cf8381 ${PN}-cf8385 ${PN}-gspi8682 ${PN}-gspi8686 ${PN}-gspi8688 ${PN}-sd416 ${PN}-sd8385 ${PN}-sd8682 \
-              ${PN}-usb8388 ${PN}-usb8682 ${PN}-sd8977 ${PN}-usb8766 ${PN}-usb8797 ${PN}-usb8801 ${PN}-usb8897 ${PN}-rvu-cptpf \
-              ${PN}-mwl8k ${PN}-mwlwifi\
-              ${PN}-ti-connectivity-license ${PN}-wl1251-license ${PN}-wlcommon ${PN}-wl1251 ${PN}-wl12xx ${PN}-wl18xx ${PN}-cc33xx \
-@@ -612,6 +614,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-ath12k-qcc2072 \
-              ${PN}-ath12k-qcn9274 \
-              ${PN}-ath12k-wcn7850 \
-+             ${PN}-aic-aic8800d80 ${PN}-aic-license \
-              ${PN}-qca \
-              ${PN}-qca-qca2066 \
-              ${PN}-qca-qca61x4-serial \
-@@ -658,7 +661,9 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-bnx2x \
-              ${PN}-liquidio \
-              ${PN}-linaro-license \
--             ${PN}-mali-csffw-arch108 ${PN}-mali-csffw-arch1010 ${PN}-mali-csffw-arch1012 ${PN}-mali-csffw-arch118 ${PN}-mali-csffw-arch128 ${PN}-mali-csffw-arch138 ${PN}-mali-csffw-license \
-+             ${PN}-mali-csffw-arch108 ${PN}-mali-csffw-arch1010 ${PN}-mali-csffw-arch1012 \
-+             ${PN}-mali-csffw-arch118 ${PN}-mali-csffw-arch128 ${PN}-mali-csffw-arch138 \
-+             ${PN}-mali-csffw-arch148 ${PN}-mali-csffw-license \
-              ${PN}-mellanox \
-              ${PN}-mm8108 \
-              ${PN}-nvidia-license \
-@@ -694,14 +699,15 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-adreno-a702 ${PN}-qcom-adreno-a730 ${PN}-qcom-adreno-a740 \
-              ${PN}-qcom-adreno-g705 ${PN}-qcom-adreno-g709 ${PN}-qcom-adreno-g715  ${PN}-qcom-adreno-g717 \
-              ${PN}-qcom-adreno-g800 ${PN}-qcom-adreno-g801 ${PN}-qcom-adreno-g802 \
-+             ${PN}-qcom-adreno-g811 ${PN}-qcom-adreno-g814 \
-              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
-              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
--             ${PN}-qcom-eliza-adreno ${PN}-qcom-eliza-compute \
-+             ${PN}-qcom-eliza-adreno ${PN}-qcom-eliza-audio ${PN}-qcom-eliza-compute \
-              ${PN}-qcom-glymur-adreno ${PN}-qcom-glymur-audio ${PN}-qcom-glymur-compute \
--             ${PN}-qcom-hawi-audio \
-+             ${PN}-qcom-hawi-adreno ${PN}-qcom-hawi-audio ${PN}-qcom-hawi-compute \
-              ${PN}-qcom-kaanapali-adreno ${PN}-qcom-kaanapali-audio \
-              ${PN}-qcom-kaanapali-compute ${PN}-qcom-kaanapali-soccp \
--             ${PN}-qcom-maili-audio \
-+             ${PN}-qcom-maili-adreno ${PN}-qcom-maili-audio \
-              ${PN}-qcom-nord-audio ${PN}-qcom-nord-compute ${PN}-qcom-nord-qupv3fw \
-              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
-              ${PN}-qcom-qcm6490-adreno ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute \
-@@ -754,7 +760,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-x1e80100-qupv3fw \
-              ${PN}-qcom-x1p42100-adreno \
-              ${PN}-qla2xxx ${PN}-qla2xxx-license \
--             ${PN}-rockchip-license ${PN}-rockchip-dptx \
-+             ${PN}-rockchip-license ${PN}-rockchip-dptx ${PN}-rockchip-pcie \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
-              ${PN}-lt7911exc ${PN}-lt8713sx ${PN}-lt9611c ${PN}-lt9611uxc ${PN}-lontium-license \
-              ${PN}-wfx-license ${PN}-wfx \
-@@ -763,7 +769,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-xc5000-license ${PN}-xc5000 \
-              ${PN}-xc5000c-license ${PN}-xc5000c \
-              ${PN}-typhoon-license ${PN}-typhoon \
--             ${PN}-intel-license ${PN}-ish-lnlm \
-+             ${PN}-intel-license ${PN}-ish-lnlm ${PN}-ish-nvlh ${PN}-ish-nvls \
-              ${PN}-dell-license ${PN}-ish-lnlm-39ceeaf8 ${PN}-ish-ptl-39ceeaf8 \
-              ${PN}-hp-license ${PN}-ish-lnlm-12128606 ${PN}-ish-ptl-12128606 \
-              ${PN}-lenovo-license ${PN}-ish-lnlm-53c4ffad ${PN}-ish-ptl-53c4ffad \
-@@ -938,6 +944,10 @@ LICENSE:${PN}-ath12k-ipq5424 = "LicenseRef-Firmware-qualcommAthos-ath10k"
- LICENSE:${PN}-ath12k-qcc2072 = "LicenseRef-Firmware-qualcommAthos-ath10k"
- LICENSE:${PN}-ath12k-qcn9274 = "LicenseRef-Firmware-qualcommAthos-ath10k"
- LICENSE:${PN}-ath12k-wcn7850 = "LicenseRef-Firmware-qualcommAthos-ath10k"
-+
-+LICENSE:${PN}-aic-license = "LicenseRef-Firmware-aic"
-+LICENSE:${PN}-aic-aic8800d80 = "LicenseRef-Firmware-aic"
-+
- LICENSE:${PN}-qca-qca2066 = "LicenseRef-Firmware-qualcommAthos-ath10k"
- LICENSE:${PN}-qca-qca61x4-serial = "LicenseRef-Firmware-qualcommAthos-ath10k"
- LICENSE:${PN}-qca-qca61x4-usb = "LicenseRef-Firmware-qualcommAthos-ath10k"
-@@ -988,6 +998,9 @@ FILES:${PN}-ath12k-wcn7850 = "${firmwaredir}/ath12k/WCN7850"
- # -ath12k is a virtual package that depends upon all ath12k packages.
- ALLOW_EMPTY:${PN}-ath12k = "1"
- 
-+FILES:${PN}-aic-license = "${firmwaredir}/LICENSE.aic"
-+FILES:${PN}-aic-aic8800d80 = "${firmwaredir}/aic/aic8800d80/*"
-+
- FILES:${PN}-qca-qca2066 = " \
-   ${firmwaredir}/qca/hpbtfw21.tlv* \
-   ${firmwaredir}/qca/hpnv21.bin* \
-@@ -1124,6 +1137,9 @@ RDEPENDS:${PN}-ath12k-ipq5424 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k-qcc2072 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k-qcn9274 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-ath12k-wcn7850 += "${PN}-ath10k-license"
-+
-+RDEPENDS:${PN}-aic-aic8800d80 += "${PN}-aic-license"
-+
- RDEPENDS:${PN}-qca += "${PN}-ath10k-license ${PN}-qcom-license"
- RDEPENDS:${PN}-qca-qca2066 += "${PN}-ath10k-license"
- RDEPENDS:${PN}-qca-qca61x4-serial += "${PN}-ath10k-license"
-@@ -1377,6 +1393,10 @@ LICENSE:${PN}-mali-csffw-arch138 = "LicenseRef-Firmware-mali-csffw"
- FILES:${PN}-mali-csffw-arch138 = "${firmwaredir}/arm/mali/arch13.8/mali_csffw.bin*"
- RDEPENDS:${PN}-mali-csffw-arch138 += "${PN}-mali-csffw-license"
- 
-+LICENSE:${PN}-mali-csffw-arch148 = "LicenseRef-Firmware-mali-csffw"
-+FILES:${PN}-mali-csffw-arch148 = "${firmwaredir}/arm/mali/arch14.8/mali_csffw.bin*"
-+RDEPENDS:${PN}-mali-csffw-arch148 += "${PN}-mali-csffw-license"
-+
- # For marvell
- LICENSE:${PN}-pcie8897 = "LicenseRef-Firmware-Marvell"
- LICENSE:${PN}-pcie8997 = "LicenseRef-Firmware-Marvell"
-@@ -1394,6 +1414,7 @@ LICENSE:${PN}-cf8385 = "LicenseRef-Firmware-Marvell"
- LICENSE:${PN}-gspi8682 = "LicenseRef-Firmware-Marvell"
- LICENSE:${PN}-gspi8686 = "LicenseRef-Firmware-Marvell"
- LICENSE:${PN}-gspi8688 = "LicenseRef-Firmware-Marvell"
-+LICENSE:${PN}-sd416 = "LicenseRef-Firmware-Marvell"
- LICENSE:${PN}-sd8385 = "LicenseRef-Firmware-Marvell"
- LICENSE:${PN}-sd8682 = "LicenseRef-Firmware-Marvell"
- LICENSE:${PN}-usb8388 = "LicenseRef-Firmware-Marvell"
-@@ -1456,6 +1477,7 @@ FILES:${PN}-cf8385 = "${firmwaredir}/libertas/cf8385*"
- FILES:${PN}-gspi8682 = "${firmwaredir}/libertas/gspi8682*"
- FILES:${PN}-gspi8686 = "${firmwaredir}/libertas/gspi8686*"
- FILES:${PN}-gspi8688 = "${firmwaredir}/libertas/gspi8688*"
-+FILES:${PN}-sd416 = "${firmwaredir}/mrvl/sdiouartiw416*"
- FILES:${PN}-sd8385 = "${firmwaredir}/libertas/sd8385*"
- FILES:${PN}-sd8682 = "${firmwaredir}/libertas/sd8682*"
- FILES:${PN}-usb8388 = "${firmwaredir}/libertas/usb8388*"
-@@ -1483,6 +1505,7 @@ RDEPENDS:${PN}-cf8385 += "${PN}-marvell-license"
- RDEPENDS:${PN}-gspi8682 += "${PN}-marvell-license"
- RDEPENDS:${PN}-gspi8686 += "${PN}-marvell-license"
- RDEPENDS:${PN}-gspi8688 += "${PN}-marvell-license"
-+RDEPENDS:${PN}-sd416 += "${PN}-marvell-license"
- RDEPENDS:${PN}-sd8385 += "${PN}-marvell-license"
- RDEPENDS:${PN}-sd8682 += "${PN}-marvell-license"
- RDEPENDS:${PN}-usb8388 += "${PN}-marvell-license"
-@@ -1730,6 +1753,7 @@ FILES:${PN}-rtl8851 = " \
- "
- FILES:${PN}-rtl8852 = " \
-     ${firmwaredir}/rtl_bt/rtl8852* \
-+    ${firmwaredir}/rtw89/board_elm.bin* \
-     ${firmwaredir}/rtw89/rtw8852* \
- "
- FILES:${PN}-rtl8922 = " \
-@@ -2404,21 +2428,27 @@ LICENSE:${PN}-qcom-adreno-g717 = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-g800 = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-g801 = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-adreno-g802 = "LicenseRef-Firmware-qcom"
-+LICENSE:${PN}-qcom-adreno-g811 = "LicenseRef-Firmware-qcom"
-+LICENSE:${PN}-qcom-adreno-g814 = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-apq8016-modem = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-apq8016-wifi = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-audio = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-modem = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-eliza-adreno = "LicenseRef-Firmware-qcom"
-+LICENSE:${PN}-qcom-eliza-audio = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-eliza-compute = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-glymur-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-glymur-audio = "LicenseRef-Firmware-qcom-2 AND LicenseRef-Firmware-linaro"
- LICENSE:${PN}-qcom-glymur-compute = "LicenseRef-Firmware-qcom-2"
-+LICENSE:${PN}-qcom-hawi-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-hawi-audio = "LicenseRef-Firmware-qcom-2"
-+LICENSE:${PN}-qcom-hawi-compute = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-kaanapali-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-kaanapali-audio = "LicenseRef-Firmware-qcom-2 AND LicenseRef-Firmware-linaro"
- LICENSE:${PN}-qcom-kaanapali-compute = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-kaanapali-soccp = "LicenseRef-Firmware-qcom-2"
-+LICENSE:${PN}-qcom-maili-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-maili-audio = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-nord-audio = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-nord-compute = "LicenseRef-Firmware-qcom-2"
-@@ -2553,12 +2583,15 @@ FILES:${PN}-qcom-adreno-g717 = "${firmwaredir}/qcom/gen71700_*.*"
- FILES:${PN}-qcom-adreno-g800 = "${firmwaredir}/qcom/gen80000_*.*"
- FILES:${PN}-qcom-adreno-g801 = "${firmwaredir}/qcom/gen80100_*.*"
- FILES:${PN}-qcom-adreno-g802 = "${firmwaredir}/qcom/gen80200_*.*"
-+FILES:${PN}-qcom-adreno-g811 = "${firmwaredir}/qcom/gen81100_*.*"
-+FILES:${PN}-qcom-adreno-g814 = "${firmwaredir}/qcom/gen81400_*.*"
- FILES:${PN}-qcom-apq8016-modem = "${firmwaredir}/qcom/apq8016/mba.mbn* ${firmwaredir}/qcom/apq8016/modem.mbn*"
- FILES:${PN}-qcom-apq8016-wifi = "${firmwaredir}/qcom/apq8016/wcnss.mbn* ${firmwaredir}/qcom/apq8016/WCNSS*"
- FILES:${PN}-qcom-apq8096-adreno = "${firmwaredir}/qcom/apq8096/a530_zap.mbn* ${firmwaredir}/qcom/a530_zap.mdt*"
- FILES:${PN}-qcom-apq8096-audio = "${firmwaredir}/qcom/apq8096/adsp*.*"
- FILES:${PN}-qcom-apq8096-modem = "${firmwaredir}/qcom/apq8096/mba.mbn* ${firmwaredir}/qcom/apq8096/modem*.* ${firmwaredir}/qcom/apq8096/wlanmdsp.mbn*"
- FILES:${PN}-qcom-eliza-adreno = "${firmwaredir}/qcom/eliza/gen71700_zap.mbn*"
-+FILES:${PN}-qcom-eliza-audio = "${firmwaredir}/qcom/eliza/adsp*.*"
- FILES:${PN}-qcom-eliza-compute = "${firmwaredir}/qcom/eliza/cdsp*.*"
- FILES:${PN}-qcom-glymur-adreno = "${firmwaredir}/qcom/glymur/gen80100_zap.mbn*"
- FILES:${PN}-qcom-glymur-audio = " \
-@@ -2566,7 +2599,9 @@ FILES:${PN}-qcom-glymur-audio = " \
-     ${firmwaredir}/qcom/glymur/GLYMUR-CRD-tplg.bin* \
- "
- FILES:${PN}-qcom-glymur-compute = "${firmwaredir}/qcom/glymur/cdsp*.*"
-+FILES:${PN}-qcom-hawi-adreno = "${firmwaredir}/qcom/hawi/gen81100_zap.mbn*"
- FILES:${PN}-qcom-hawi-audio = "${firmwaredir}/qcom/hawi/adsp*.*"
-+FILES:${PN}-qcom-hawi-compute = "${firmwaredir}/qcom/hawi/cdsp*.*"
- FILES:${PN}-qcom-kaanapali-adreno = "${firmwaredir}/qcom/kaanapali/gen80200_zap.mbn*"
- FILES:${PN}-qcom-kaanapali-audio = " \
-     ${firmwaredir}/qcom/kaanapali/adsp*.* \
-@@ -2574,6 +2609,7 @@ FILES:${PN}-qcom-kaanapali-audio = " \
- "
- FILES:${PN}-qcom-kaanapali-compute = "${firmwaredir}/qcom/kaanapali/cdsp*.*"
- FILES:${PN}-qcom-kaanapali-soccp = "${firmwaredir}/qcom/kaanapali/soccp*.*"
-+FILES:${PN}-qcom-maili-adreno = "${firmwaredir}/qcom/maili/gen81400_zap.mbn*"
- FILES:${PN}-qcom-maili-audio = "${firmwaredir}/qcom/maili/adsp*.*"
- FILES:${PN}-qcom-nord-audio = "${firmwaredir}/qcom/nord/adsp*.*"
- FILES:${PN}-qcom-nord-compute = "${firmwaredir}/qcom/nord/cdsp*.*"
-@@ -2761,21 +2797,27 @@ RDEPENDS:${PN}-qcom-adreno-g717 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-g800 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-g801 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-adreno-g802 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-adreno-g811 = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-adreno-g814 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8016-modem = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8016-wifi = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8096-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-eliza-adreno = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-eliza-audio = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-eliza-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-glymur-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-glymur-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-glymur-compute = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-hawi-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-hawi-audio = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-hawi-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-kaanapali-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-kaanapali-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-kaanapali-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-kaanapali-soccp = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-maili-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-maili-audio = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-nord-audio = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-nord-compute = "${PN}-qcom-2-license"
-@@ -2902,6 +2944,10 @@ FILES:${PN}-rockchip-license = "${firmwaredir}/LICENCE.rockchip"
- FILES:${PN}-rockchip-dptx = "${firmwaredir}/rockchip/dptx.bin*"
- RDEPENDS:${PN}-rockchip-dptx = "${PN}-rockchip-license"
- 
-+LICENSE:${PN}-rockchip-pcie = "LicenseRef-Firmware-rockchip"
-+FILES:${PN}-rockchip-pcie = "${firmwaredir}/rockchip/pcie3-t22-c8g2-1.6.3-202a-p7.fw*"
-+RDEPENDS:${PN}-rockchip-pcie = "${PN}-rockchip-license"
-+
- # For Amlogic VDEC
- LICENSE:${PN}-amlogic-vdec = "LicenseRef-Firmware-amlogic-vdec"
- FILES:${PN}-amlogic-vdec-license = "${firmwaredir}/LICENSE.amlogic_vdec"
-@@ -2923,6 +2969,14 @@ LICENSE:${PN}-ish-lnlm = "LicenseRef-Firmware-intel"
- FILES:${PN}-ish-lnlm = "${firmwaredir}/intel/ish/ish_lnlm.bin*"
- RDEPENDS:${PN}-ish-lnlm = "${PN}-intel-license"
- 
-+LICENSE:${PN}-ish-nvlh = "LicenseRef-Firmware-intel"
-+FILES:${PN}-ish-nvlh = "${firmwaredir}/intel/ish/ish_nvlh.bin*"
-+RDEPENDS:${PN}-ish-nvlh = "${PN}-intel-license"
-+
-+LICENSE:${PN}-ish-nvls = "LicenseRef-Firmware-intel"
-+FILES:${PN}-ish-nvls = "${firmwaredir}/intel/ish/ish_nvls.bin*"
-+RDEPENDS:${PN}-ish-nvls = "${PN}-intel-license"
-+
- # For Dell ish - Intel Integrated Sensor Hub
- LICENSE:${PN}-dell-license = "LicenseRef-Firmware-dell"
- FILES:${PN}-dell-license = "${firmwaredir}/LICENSE.dell"
-@@ -3631,6 +3685,7 @@ LICENSE:${PN} = "\
-     LicenseRef-Firmware-Abilis \
-     AND LicenseRef-Firmware-aeonsemi \
-     AND LicenseRef-Firmware-agere \
-+    AND LicenseRef-Firmware-aic \
-     AND LicenseRef-Firmware-airoha \
-     AND LicenseRef-Firmware-alacritech \
-     AND LicenseRef-Firmware-amdgpu \
--- 
-2.34.1
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *llvm-project-source-23.1.3* to *23.1.4* has Failed (devtool error).
 
+Detailed error information:
+
+The following devtool command failed:  finish -f llvm-project-source-23.1.3 /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1993 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 959 .bb files complete (957 cached, 2 parsed). 1994 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+
+ERROR: Unable to parse /srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 149, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/conf/layer.conf not found
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 170, in wrapped
+    return func(fn, *args)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include, baseconfig=True)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 123, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 149, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/conf/layer.conf not found
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 352, in <module>
+    ret = main()
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 338, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 2220, in finish
+    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
+                                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1906, in _update_recipe
+    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+                                ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1728, in _update_recipe_patch
+    appendfile, destpath = oe.recipeutils.bbappend_recipe(
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+                    rd, appendlayerdir, files,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                    redirect_output=dry_run_outdir,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    params=params)
+                    ^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 721, in bbappend_recipe
+    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
+                         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 630, in get_bbappend_path
+    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 182, in wrapped
+    raise bb.BBHandledException()
+bb.BBHandledException
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============8033243682428908208==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="llvm-project-source-23.1.3-changelog.txt"
+
+### Changes to the Windows installer
+
+--===============8033243682428908208==--
