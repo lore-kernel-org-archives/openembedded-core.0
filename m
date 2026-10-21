@@ -1,121 +1,155 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9824.1792584327820941507
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.32])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9834.1792584376533341928
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2026 05:05:27 -0700
+ Wed, 21 Oct 2026 05:06:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=c4PJMeNI;
- spf=pass (domain: snapchat.com, ip: 74.125.82.169, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-354ba08cfd1so1082152eec.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 05:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1792584327; x=1793189127; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TLCfc0h+dXc1C1E7oT2BaRDxA0o097pZyJax2KdAG6Q=;
-        b=c4PJMeNICVCZ9FKfzFATgY4U0Pjh91rEXueaaG7TstrQe3n4DTN2bNMHJB3L2nl3BZ
-         UyZhcZaHKu+yytz2WdD6aBjj1FjI3ELIVB4jq4MW2iIZPJjD8Y3yyNWemf7xAHknEa6K
-         nCOEWM5nc0yv3wNhJrmC5/MujgJYA3NXddXIs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792584327; x=1793189127;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TLCfc0h+dXc1C1E7oT2BaRDxA0o097pZyJax2KdAG6Q=;
-        b=spAdV6sEyyTci0xIzWunj+SH+YOZYE3c8yrjeP+z5wfVVsEn3wJj9XoX5xn/pbCHKA
-         wl7DeEuRkxu5d9Elr56ceSG1fvXPMV8imzV4GCyBQ1AD/qF3HDguGt9Uey7knwuZKGLv
-         S7gOUJeNCpT0hCvaQjbyPu2NIY7QuMBw5dNy6UrCnn8Mj8hgaopze82biMW0/0NVgCJf
-         raaQwse4uvztEnY3z+5Ax0qG9ufNv65mw4AFydDpDAPRc0O57t6JoRpHUIw7bK1T+XuK
-         YC8jfqQoRmVjKVByq4Z933m8fmP0B2BErKFmLdImiIptLIZvltb0LWLXk+vQjwWc1WoH
-         bw3g==
-X-Gm-Message-State: AFq9FYJXFY7Ocs2j4bBmNnpFtwK9NontTJuBZmUrnp+Gm5ZSxdhtYnvi
-	eKP0hH2+KZ5WrUhy8KgVSPv4xfCfOjkx8bYVQ75UqYgQCS4fGpOviI/ol/tOSd5zyO9570/KPaB
-	u5bZUrkQ=
-X-Gm-Gg: AYBFou370jynvJkTTRWI9Frkr5WfWvVXr+odI7P4xWqvdljkAWkE+Hos7CTE9Lq2JtT
-	+O0LDO88ChX0CbRIqDoXRuT2fTj74cuFT8gmo9UK/NDUKw1sVGxCT8O4Vjqz83JJv5RMLjePFUA
-	pA67gr6543+kibckvTSXyLtx/c7URB9sf6UjlZXHXlJxKCbldU3SOxfWTJb+DmxC3vGLEXpZCsm
-	YLJWi/el2/xhOtAhFwmq57uf5R2jVOpdYkKXqT4y12qxrGiaAOJiT0/eZKOLMonJ/MDjzD4ay37
-	kuOysiVnQlNhRgW74Zi02HpnQjZua8WHDjAphksfwlooadjqUShfoCUqY6rzmnkpBjPV7Pf6RmZ
-	ttc52PAobcMPh/k88/PJzdt0Bd4ss6D2i9n6kEVMxambj+/fAUvYPkx/nMpiK3h4m0lrXHjyrFo
-	Q/4HhPkksvTeds9ZPoRMFHGvBD5XC3ZkMeeYpiU3GeM7oqPIY9rnm6csO4igHx4WI8KAtfwHf6m
-	dJpWX7wlm1CcO+w/5BijCbnQYNRBOZj6V/t1PrZsmeZtdn5yW62S4bIs0GeLP5NdlZswXdEO0/3
-	4hCGbijYC9mrtOZDEpwMmk7hWqZL/PwXLU0he5NWTv6p
-X-Received: by 2002:a05:7301:4e88:b0:361:306f:c32a with SMTP id 5a478bee46e88-3674c92ff0bmr4067948eec.11.1792584326872;
-        Wed, 21 Oct 2026 05:05:26 -0700 (PDT)
-Return-Path: <ecordonnier@snapchat.com>
-Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-367405ed2absm8195254eec.5.2026.10.21.05.05.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 05:05:26 -0700 (PDT)
-From: ecordonnier@snap.com
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HweCXHuR;
+ spf=pass (domain: est.tech, ip: 52.101.83.32, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Fbyav1N3i6r1GCu95cRbbvhDZkSsB5jI/6rGNpdNAcAFHfnpcVcJocuu0+iy5T9ofsuEUNH5VaDTDRJhopJUyqbFDmqB8tnpRNaNHMGZICvGDpCFimoiTB40H2/vJv8Kl3XFBgPUCt1uNinS6Z66iMBVU3m6hGDBr0WL3aeAyk+ZQ3jQX2d6zNYKV3uIozT+JH9P/FCmC2ZOlyTKJIwnjScVWdGVt4tVzb8X9h6zsLKJ4jVxeBvC5soDSrb/bmKIqALeFEsWKGQmjboYKafU1S02AQ6a6Bms0zMKGrRKz7jV9HLh2CF6dz3aRNu9cXVb/a0W5ITTD2UY3XVzYprMsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7KZGX+YvEq5phNcuapN/LBZ3hYOpzwFFzUlvXLb0Nvw=;
+ b=AMOW2jVF1iCziFBfZsUS9j3rDxD5KH9ksI1IJiRp7EcxoVBUxBd2/xA2Wqy3Zf8XxCH9bN5IP4RHr127jolutgSmxa1i7nRFr6bfQPXfqGw4tIqcte8ovVSPpiMGwY/L1uAiVKJ1K1Qpayp3OeGo1QV2EqMPJrtYJxf9a418tKZfaFsanpQfwlinzN1Ka1heqRK7XJ+6n27MzTUrk1onekUDal1FVGGlaZMTvTjtKbs9R9Jg6ya6uBsna1ECxcQZKLWe/EQ0tZDuI4uGSlUbITLq6GJo2Fchlkhyjzyfyh7bpUzWykgEgERsJPhMKX+RwUrA6L+cEscaIzdr9d+HKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7KZGX+YvEq5phNcuapN/LBZ3hYOpzwFFzUlvXLb0Nvw=;
+ b=HweCXHuR6tzloyJhcTKptaZn9uL6Yid3MOwiiV7XOfpAycgFPQfHM8YYwmMG2dAvV4h/E9H59RaO92dyJJu4bA/9auS4gLUCGGEQN5A8fIhjC/UewdIlNyBPIrvXCbIcF/8sFwcnvREIb97iMk4qIpldHGPVCbrBDDFWVPYEnwu76Y01ZQHGevY6m1FpgCJW3SNu3LDck8NRGVU2YZjSA20L2x4a9MG95r3WYVtSO4AESTNS3qeDCbIt753JMBtKqJXhYxTOMcM1zX0fNQWMWfsJVxzZz6jNdjUOITTLbALjkWzmlhgilD2pPBfKOywkJ4OVsGH2Qx8VcRoLYvAamw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by DU4P189MB3449.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:5f0::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
+ 2026 12:06:11 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0522.017; Wed, 21 Oct 2026
+ 12:06:11 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH] image, populate_sdk_base: warn on ';' in *_COMMAND function lists
-Date: Wed, 21 Oct 2026 14:05:21 +0200
-Message-ID: <20261021120521.1453558-1-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [PATCH] classes/archiver: handle original sources unpacked outside ${BP}
+Date: Wed, 21 Oct 2026 14:06:09 +0200
+Message-ID: <20261021120609.14844-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: DUZP191CA0015.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:4f9::14) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU4P189MB3449:EE_
+X-MS-Office365-Filtering-Correlation-Id: 548e6aa0-a152-4c29-9435-08df2f6bb25d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|11063799006|56012099006|261009223027099003|10067099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: 3+F4YD4a7gBDCXUe3KSZiXpGiu6PIfzofCYEyZWONEZDjI8x5sSYI4iw6asAsY4C4jbjXq1uRnAOEJefkMt6IKZbE4VJqp6M/5ByjWB4mTjSMv9dedncf89AD69SLkWH9PkIJ4yC+odQ5jnAVRmiOTtZ+AE1P6mBMQmv1p/84efpTvjrck5ETLwFu5RfhoyRbI0JRx8yPjhLh2++SZR7rApTe9FHKMncFGPS8vtG5pFFhuRVx/PAtlIRLYzPE1UKwprzhTxNyQ3KxGrjnPv91eGo6kPQ5yypO4PKewNUyGq/4MXc3yq7a2lVTdowcWgTfS7WUdz4QK8Yk8D8FJPbSrKe1OOSx8yIX9IBnJOO/NiXsDS+i+/FWgcgq+QqxeARk5TPi5x7qiH5tDxGoKyFk2rGy70tOCOStRyIlS+luIwK5hjCz9gTh3E3Art6YjDHK9rhU1EKYU8X/Ih6UvgiaFlOWQx9mPARp8L8GDEyESxU4k05tCMBhSsv9LzLcXZ74qEoN5qfHIrWjKgmcYiN34qBLXWqD8PN4e3XYgRLfQgoB3Yu/My/NwOn6oJnt1OiRQj0559t7UcUWyXl+V3BF+/ys/hy683TQXVCJsSjWvxIX07vkTUK2CIQ/xu9MvlxtHDOkGOKE0Lxe3JMznoA7Nek3lqccoBPnE5SMP2kVWU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(11063799006)(56012099006)(261009223027099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AwPGFBuT1PE1IZ3O9VyXuIzjfsu8HlctQo0O69LH9lzLQMmeuya8pWL/uk3w?=
+ =?us-ascii?Q?zZzxRQE/mkJMqKVtoIL40rHf+/FKhbPn9NNAv8Npm7OAldNJNA2uK1db6A/T?=
+ =?us-ascii?Q?z9ASjFxz2r2F0fU1hUveCD60HhVh/wsn3jkgUffGi9KvyL7Dzx1QZzhx3J1g?=
+ =?us-ascii?Q?0OlZl1ndb3Cttu298UP0H+81Q7qSp3WLMhNGZfRBPmqjQj1ASkhRTYmnRidW?=
+ =?us-ascii?Q?W8Qc8lZ1gBL/bKyYCzWlqZLRiJ3k4tkwok9jdmfbm+TX4A73t7soOG2qAFEA?=
+ =?us-ascii?Q?35dxQbx/+zsitvOg8aLhS9EDUxgZ12AeMiPDGTAWIGpnn+ZMoPQyJBhOdTQG?=
+ =?us-ascii?Q?VO11NTvKEhD2/gc55visjIsX46verZcm/SaolMSSmT7QSrc7vPLtDkip/Ok6?=
+ =?us-ascii?Q?u2rou2YFjbgsrFVN/km1Xe4ptRKBYpq2ONjFpbpt1u4UE2bQtU3fpXMiOy3y?=
+ =?us-ascii?Q?ht9MdmqbqFJQvNJZubTeXdnyDzDrYsrVlnclJ/8kwnpLUOgnpgtxNHZLXGvu?=
+ =?us-ascii?Q?pfOOAzhJ/ZjdERZg4G4DniuCm+sxn3g9hC8MJdzp1zG4tkocGeIHpyWVSG6r?=
+ =?us-ascii?Q?gWoI98wvbafLldvwk4O1pwWQG7kffOeVitm2VAksz0qAscfBSOGIgfVYDGZ0?=
+ =?us-ascii?Q?0CIXi5xUv1NuVPQCO95J7pmmRU7wCDMaC3k8L4zPQHQdIvxTWqZR7rZAsTX9?=
+ =?us-ascii?Q?Pyv5LyFu6EmTduFYbANkFfvfwOdPpJ/Hp5QJ+WdcM5jECXJ/aw4bXX4mo96x?=
+ =?us-ascii?Q?Xa8aRf7PDvpQo35yNLa8e26zsOm/BV/Ryay2SW7WHfGuoRoGjIzYuIf9bgWP?=
+ =?us-ascii?Q?GrZoHYZSOVhGq4cVb9Cl9EmODXOXA1P9Ww8j6RVwGnq9fzqqZuVqIvWxwYLk?=
+ =?us-ascii?Q?rRfDfR/Z6ZMW/whj337nK/Z1kt9TiuxOpzeXVTLljQsUQw+8RbtEJrkEwyR3?=
+ =?us-ascii?Q?pRDRAhA1JoRskVEzzhoUptOduv4Vqt2dXpMwPHG1bY1B7l03zo+fwBzvf3lL?=
+ =?us-ascii?Q?gM6LratjzL3KQJVvqEftd/OAYx6vD6NtMosGCBGCrJ2VzP1Ww+sZN6u9cv5U?=
+ =?us-ascii?Q?WrkYydy/xwFOLdPbJdXMwsGbrcNDJDxLI5LhtZI61x4YUqaPuSkvl/o57cs5?=
+ =?us-ascii?Q?f6oOOSEHRQyqWvbnDFyvfipp+aRGkG8RhvpjBpLatv4i7EUm3tuGrHUxYqwD?=
+ =?us-ascii?Q?epi2HCc67OqQfYM7D1eC8tSRm7GR9LxYf4hWn2oqgtk2YOEk6XqUwt2FHXlx?=
+ =?us-ascii?Q?vShyUwMeWGRUdnGucWNbik41RxuqrBXwfgqUgWn9Y8b0CVt+6jD1Y8cnnDbh?=
+ =?us-ascii?Q?43F+22iZ1KDx8htsM+gGqahvC53sBvSRpx7cJd2ZDT2AyUMyJUvGFpS6pJ2Q?=
+ =?us-ascii?Q?Lpq8rimkgdjxbus95MpfVA+iFMhK1epkRthYXZlSv72OvEMry+8SQQA6Vw3r?=
+ =?us-ascii?Q?FXdTrG4hcEpYvbtNPyux5wvtub40CBM5/zqWCsWUYRRSNvL/i9XeMA0wSuPW?=
+ =?us-ascii?Q?LJylfoagxR1QyVcsYs6ZHU8Xu3qaDRcoEwCmsKEwe2d6N+vxo0qJVQDopotN?=
+ =?us-ascii?Q?jbUAeTFZPrmf2TbYCv/iXN5h3nwqT9BAXn5nPc+hFKGoG+y/AjK0xxn0xCy8?=
+ =?us-ascii?Q?GjwKVgMzYH4fiI98KOoeoeW/zRJHXp4V+X2C2VsBU6zrtjpTUx83A+BL6TsN?=
+ =?us-ascii?Q?BxyylcCYiWc6ufo8VY+Om2mLINqHSHfvgRJ5Yyv71xgnsH5Fn0Y1iO+gDOPw?=
+ =?us-ascii?Q?gHeQKF8zew=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 548e6aa0-a152-4c29-9435-08df2f6bb25d
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 12:06:11.1900
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FfaVGqxqE/lTFTnqeUVgHOfcuMvYeL+5G5N2UaPwn/MyQSaWXPIJdx2B56wZw4ed4EURz9HVoCfrYfSHH+/AHzsXzMkaaoyZe/Rf8UmiseY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4P189MB3449
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 12:05:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248393
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 12:06:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248394
 Content-Type: text/plain; charset="utf-8"
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+With ARCHIVER_MODE[src] =3D "original", do_ar_original fails if the
+source unpacks into a directory other than ${BP}.
 
-Since c3365dfd9ddd ("classes: Drop ';' delimiter from ROOTFS/IMAGE*COMMAND
-variables") these variables are space separated function lists, used as
-vardeps of themselves. A stray ';' is still tolerated when the list is
-executed, but at parse time "func;" names no variable, so the function is
-not part of the do_rootfs/do_image/do_populate_sdk signature and a stale
-rootfs or SDK can be reused from sstate.
+Commit c73dbd0fa8a3 changed do_ar_original to archive tmpdir/${BP}
+instead of tmpdir, preventing the temporary directory created by
+mkdtemp (e.g. tmp8pu2nsck/) from appearing as the top-level directory
+in the tarball.
 
-Warn when a variable from rootfs_command_variables() or
-sdk_command_variables() contains ';'. Tested by adding "foo;" entries and
-checking the warning, and that stock core-image-minimal parses without it.
+However, this assumes the source always unpacks into ${BP}. Git
+sources using 'subpath' can unpack into a differently named directory,
+such as tmpdir/tools, causing tar to fail because tmpdir/${BP} does
+not exist.
 
-AI-Generated: Uses Claude Code (claude-sonnet-5-5)
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+Use the directory created during unpacking when it contains a single
+top-level directory, falling back to tmpdir otherwise. This preserves
+the existing behavior for release tarballs while supporting sources
+unpacked outside ${BP}.
+
+Reproduced with sdbus-c++-tools from meta-oe:
+
+    INHERIT +=3D "archiver"
+    ARCHIVER_MODE[src] =3D "original"
+
+    bitbake-layers add-layer <path>/meta-openembedded/meta-oe
+    bitbake sdbus-c++-tools -c do_ar_original -f
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- meta/classes-recipe/image.bbclass             | 7 ++++++-
- meta/classes-recipe/populate_sdk_base.bbclass | 7 ++++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ meta/classes/archiver.bbclass | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
-index 460e5ab39f..1e3c784ec9 100644
---- a/meta/classes-recipe/image.bbclass
-+++ b/meta/classes-recipe/image.bbclass
-@@ -127,7 +127,12 @@ def rootfs_command_variables(d):
- python () {
-     variables = rootfs_command_variables(d)
-     for var in variables:
--        d.setVarFlag(var, 'vardeps', d.getVar(var))
-+        value = d.getVar(var)
-+        if value and ';' in value:
-+            bb.warn("%s contains ';' but is a space separated list of functions, "
-+                    "remove the ';' delimiters or the functions will not be part "
-+                    "of the task signature: %s" % (var, value.strip()))
-+        d.setVarFlag(var, 'vardeps', value)
- }
- 
- def rootfs_variables(d):
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 2c6dd1828c..0d67ab6ac6 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -423,7 +423,12 @@ do_populate_sdk[vardeps] += "${@sdk_variables(d)}"
- python () {
-     variables = sdk_command_variables(d)
-     for var in variables:
--        d.setVarFlag(var, 'vardeps', d.getVar(var))
-+        value = d.getVar(var)
-+        if value and ';' in value:
-+            bb.warn("%s contains ';' but is a space separated list of functions, "
-+                    "remove the ';' delimiters or the functions will not be part "
-+                    "of the task signature: %s" % (var, value.strip()))
-+        d.setVarFlag(var, 'vardeps', value)
- }
- 
- do_populate_sdk[file-checksums] += "${TOOLCHAIN_SHAR_REL_TMPL}:True \
--- 
-2.43.0
-
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index c824718a1dd..29e0af648e6 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -230,7 +230,14 @@ python do_ar_original() {
+                     else:
+                         bb.fatal("Cannot determine archive names for origi=
+nal source because 'name=3D' URL parameter '%s' is used twice. Make it uniq=
+ue in: %s %s" % (tarball_suffix[name], url))
+             tarball_suffix[name] =3D url
+-            create_tarball(d, os.path.join(tmpdir, d.getVar('BP'), '.'), n=
+ame, ar_outdir)
++            # unpacked source may not be ${BP}, e.g. git with subpath.
++            # Use the single top-level directory when present, otherwise t=
+mpdir.
++            entries =3D os.listdir(tmpdir)
++            if len(entries) =3D=3D 1 and os.path.isdir(os.path.join(tmpdir=
+, entries[0])):
++                srcsubdir =3D os.path.join(tmpdir, entries[0], '.')
++            else:
++                srcsubdir =3D os.path.join(tmpdir, '.')
++            create_tarball(d, srcsubdir, name, ar_outdir)
+=20
+     # Emit patch series files for 'original'
+     bb.note('Writing patch series files...')
