@@ -1,155 +1,181 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.32])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9834.1792584376533341928
+Received: from mx-relay26-hz1-if1.hornetsecurity.com (mx-relay26-hz1-if1.hornetsecurity.com [94.100.128.36])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10246.1792586259538836119
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2026 05:06:17 -0700
+ Wed, 21 Oct 2026 05:37:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HweCXHuR;
- spf=pass (domain: est.tech, ip: 52.101.83.32, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=m6HqahvC;
+ spf=permerror, err=parse error for token &{10 18 spf.hornetsecurity.com}: limit exceeded (domain: witekio.com, ip: 94.100.128.36, mailfrom: tgaige@witekio.com)
+ARC-Authentication-Results: i=2; mx-gate26-hz1.hornetsecurity.com 1; spf=pass
+ reason=mailfrom (ip=52.101.72.117, headerfrom=witekio.com)
+ smtp.mailfrom=witekio.com
+ smtp.helo=am0pr02cu008.outbound.protection.outlook.com; dkim=pass
+ header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
+ header.from=witekio.com orig.disposition=pass
+ARC-Message-Signature: a=rsa-sha256;
+ bh=vv0rVhzCaS3GXsWVvd1GaxIm7foeCpnr6FNmpXla9ZE=; c=relaxed/relaxed;
+ d=hornetsecurity.com; h=from:to:date:subject:mime-version; i=2; s=hse1;
+ t=1792586257;
+ b=jsW3qOgLoeTcTE4lBOejjDCmDFYgm3GH0qSjRN7zVmHxYcUxZ86+PQL3vjtolZTmTiGWLR+9
+ L2/AJyR/FqC9C94rzIZF2BNR4Byl6jID1lzM6sqwKjNWiGOHJ8q+zjn5327L2BdwV5xo2EHvDkw
+ qiDTaqcWfd6nh/5AnAqS5e7w+JORC680/lcW/znlpUDPvMuIDf8QodeoyoQIi0plEQLdWriwlTi
+ UYO4EYL9Ddop4jHN/OWwNRv6rJqng8R3aDwVo05AhUL9MSv2kYyBflTaGZBnjruFdASNIb+VUQ9
+ DeGZlHuVd4A7UpQWRbXnLdl0b028b4VfLim+Yp9htwFQg==
+ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
+ t=1792586257;
+ b=EiAc8ljwCTMyB4/sN/T39m/ID0nrSUnmG84oGbQMdNYlx0qS7l/bZXrhhu2b+aitJOQLCAfz
+ DALY8Sg0p3EGT68VfAtViWHq3lKRBnLfUYBxp7CuNjZR/bQ27U3KxPtKq7gmbdZU3js2XGz2kvK
+ BkAPR1NFjCAmDO4NxyVzZ3RHjckNLF3AOBWzxsXyE6jHIjjwH7N5LO5XLRJLhG8CTM/UXyyBf8R
+ V01iW1WaciaP5QBYYWB2DMLiy7BPHkNX7wEGlpInd45o5zpZHQE1f8+KwmEcgBzrk7b54qYE/zK
+ Ipezsl5bMmDuDVS/XdF4hQTckY8T83Zyvnx/4SBDl1TuQ==
+Return-Path: <tgaige@witekio.com>
+Received: from mail-westeuropeazon11023117.outbound.protection.outlook.com ([52.101.72.117]) by mx-gate26-hz1;
+ Wed, 21 Oct 2026 14:37:36 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fbyav1N3i6r1GCu95cRbbvhDZkSsB5jI/6rGNpdNAcAFHfnpcVcJocuu0+iy5T9ofsuEUNH5VaDTDRJhopJUyqbFDmqB8tnpRNaNHMGZICvGDpCFimoiTB40H2/vJv8Kl3XFBgPUCt1uNinS6Z66iMBVU3m6hGDBr0WL3aeAyk+ZQ3jQX2d6zNYKV3uIozT+JH9P/FCmC2ZOlyTKJIwnjScVWdGVt4tVzb8X9h6zsLKJ4jVxeBvC5soDSrb/bmKIqALeFEsWKGQmjboYKafU1S02AQ6a6Bms0zMKGrRKz7jV9HLh2CF6dz3aRNu9cXVb/a0W5ITTD2UY3XVzYprMsA==
+ b=EUgMf9PVlR6av/G+eBwFS9/zAbFQ2xORPliT9/pgGsCz4P3L4RuKB7u8UU3mVYJdoX4OKjvzw7/BVIfDoBnZHDdpy9SjgYnOnY0psO6tpTdKFrQRZvmYq7Lm9qByJX9XHfScOdL8JatO1Hv6S4YIU1tBVgUL9SiFvzelsp2UyQSJ8bhgbAZIxye1iMEpFBt3bdnMGHWgFukevDvUKlWli7s1pSgS+2w+JB5TVJ5eWPYiLL9phokrS3//pz1CtlrHp1ooLPFlUbK3g5ufOyYMHAOxFUDaKwTWXjZMFgwXQ22NyFy9e9JFmHR1fnB8OGAQZzFxsjtZDSFfDImAEJFlGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7KZGX+YvEq5phNcuapN/LBZ3hYOpzwFFzUlvXLb0Nvw=;
- b=AMOW2jVF1iCziFBfZsUS9j3rDxD5KH9ksI1IJiRp7EcxoVBUxBd2/xA2Wqy3Zf8XxCH9bN5IP4RHr127jolutgSmxa1i7nRFr6bfQPXfqGw4tIqcte8ovVSPpiMGwY/L1uAiVKJ1K1Qpayp3OeGo1QV2EqMPJrtYJxf9a418tKZfaFsanpQfwlinzN1Ka1heqRK7XJ+6n27MzTUrk1onekUDal1FVGGlaZMTvTjtKbs9R9Jg6ya6uBsna1ECxcQZKLWe/EQ0tZDuI4uGSlUbITLq6GJo2Fchlkhyjzyfyh7bpUzWykgEgERsJPhMKX+RwUrA6L+cEscaIzdr9d+HKw==
+ bh=vv0rVhzCaS3GXsWVvd1GaxIm7foeCpnr6FNmpXla9ZE=;
+ b=FKLCasZjnce0NNH+bBuFCRKxjLvAPBKZQHV34m7gCfU1mdZI6hAJedveL0sfsc8wtuJ8epNg+gClxZKiQTUn7EHHklf3VnXGahUdHhl2fX0JqzME309bmPE266Oe2DYfZXF9bCrzw5F9O0yZV0DvQnAFfZqBv57C7Y/Od7XRMoJcP4wcktRZKFyQqPAnIp+9DMfXDyFSkhWmtTITtBr4HXphRvAMukuJq5dy7lMtJPLj6+II4wIkW6WPZtCEcCrhxaql39vr1Jx5YsF/+YZgd5EYg7y+k91pO2uD3UC8hLRgi8AAu7gXUhLZOG/uJnAa3cwAPODUmCwWrdu0qzaDIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
+ dkim=pass header.d=witekio.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7KZGX+YvEq5phNcuapN/LBZ3hYOpzwFFzUlvXLb0Nvw=;
- b=HweCXHuR6tzloyJhcTKptaZn9uL6Yid3MOwiiV7XOfpAycgFPQfHM8YYwmMG2dAvV4h/E9H59RaO92dyJJu4bA/9auS4gLUCGGEQN5A8fIhjC/UewdIlNyBPIrvXCbIcF/8sFwcnvREIb97iMk4qIpldHGPVCbrBDDFWVPYEnwu76Y01ZQHGevY6m1FpgCJW3SNu3LDck8NRGVU2YZjSA20L2x4a9MG95r3WYVtSO4AESTNS3qeDCbIt753JMBtKqJXhYxTOMcM1zX0fNQWMWfsJVxzZz6jNdjUOITTLbALjkWzmlhgilD2pPBfKOywkJ4OVsGH2Qx8VcRoLYvAamw==
+ bh=vv0rVhzCaS3GXsWVvd1GaxIm7foeCpnr6FNmpXla9ZE=;
+ b=m6HqahvCQTa7001NcqPv/GwMEHHrfODgLmgXzYgbdn8ELEQ6a5eKaEH+VSj5rHSk23aQKk7Qfhb70V++pfa4vUjW9ZPeeOsNMYYtFnd4eK16JOMafLWpqfPCdnjpKUto7kg4/67PMlir3R+rU6Hi0RCdy35CAi9OXDgbFoCKZmxPAK64PJcifBMcwWjAgEFw83yDJXbKgRVz/2AqM91LIDC1LUDXNlqEpOTEY6GVVVyWGY+8tv6skhsHwNzd8tey1q0usfyHuk0hVEvMB2xMJkr7bOdOFTKIKGf6CVaIKhzQOY9Pfgmsk/1ZyxktHIQ4uRajmKFgcbnYvaAEOAYlww==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by DU4P189MB3449.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:5f0::10) with
+ header.d=none;dmarc=none action=none header.from=witekio.com;
+Received: from AS4P192MB1862.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:51d::6)
+ by AM8P192MB0898.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:1e2::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
- 2026 12:06:11 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0522.017; Wed, 21 Oct 2026
- 12:06:11 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Wed, 21 Oct
+ 2026 12:37:30 +0000
+Received: from AS4P192MB1862.EURP192.PROD.OUTLOOK.COM
+ ([fe80::81a:852d:56c0:eb58]) by AS4P192MB1862.EURP192.PROD.OUTLOOK.COM
+ ([fe80::81a:852d:56c0:eb58%6]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
+ 12:37:30 +0000
+From: tgaige.opensource@witekio.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] classes/archiver: handle original sources unpacked outside ${BP}
-Date: Wed, 21 Oct 2026 14:06:09 +0200
-Message-ID: <20261021120609.14844-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DUZP191CA0015.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:10:4f9::14) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
+Cc: hsimeliere.opensource@witekio.com,
+	Theo GAIGE <tgaige.opensource@witekio.com>,
+	Louis Rannou <louis.rannou@non.se.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: [scarthgap][PATCH 1/2] python3-pyelftools: add python3-logging to RDEPENDS
+Date: Wed, 21 Oct 2026 14:37:21 +0200
+Message-ID: <20261021123722.2713530-1-tgaige.opensource@witekio.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ZR0P278CA0080.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:22::13) To AS4P192MB1862.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:51d::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU4P189MB3449:EE_
-X-MS-Office365-Filtering-Correlation-Id: 548e6aa0-a152-4c29-9435-08df2f6bb25d
+X-MS-TrafficTypeDiagnostic: AS4P192MB1862:EE_|AM8P192MB0898:EE_
+X-MS-Office365-Filtering-Correlation-Id: 588a1c7c-c7b4-464b-ca22-08df2f701297
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|11063799006|56012099006|261009223027099003|10067099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info: 3+F4YD4a7gBDCXUe3KSZiXpGiu6PIfzofCYEyZWONEZDjI8x5sSYI4iw6asAsY4C4jbjXq1uRnAOEJefkMt6IKZbE4VJqp6M/5ByjWB4mTjSMv9dedncf89AD69SLkWH9PkIJ4yC+odQ5jnAVRmiOTtZ+AE1P6mBMQmv1p/84efpTvjrck5ETLwFu5RfhoyRbI0JRx8yPjhLh2++SZR7rApTe9FHKMncFGPS8vtG5pFFhuRVx/PAtlIRLYzPE1UKwprzhTxNyQ3KxGrjnPv91eGo6kPQ5yypO4PKewNUyGq/4MXc3yq7a2lVTdowcWgTfS7WUdz4QK8Yk8D8FJPbSrKe1OOSx8yIX9IBnJOO/NiXsDS+i+/FWgcgq+QqxeARk5TPi5x7qiH5tDxGoKyFk2rGy70tOCOStRyIlS+luIwK5hjCz9gTh3E3Art6YjDHK9rhU1EKYU8X/Ih6UvgiaFlOWQx9mPARp8L8GDEyESxU4k05tCMBhSsv9LzLcXZ74qEoN5qfHIrWjKgmcYiN34qBLXWqD8PN4e3XYgRLfQgoB3Yu/My/NwOn6oJnt1OiRQj0559t7UcUWyXl+V3BF+/ys/hy683TQXVCJsSjWvxIX07vkTUK2CIQ/xu9MvlxtHDOkGOKE0Lxe3JMznoA7Nek3lqccoBPnE5SMP2kVWU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(11063799006)(56012099006)(261009223027099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|52116014|23010399003|1800799024|366016|38350700014|261009223027099003|10067099003|56012099006|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: qljGYauopRF698L8MKEDk/jWxqpqIVUFlO1d2icN6SrS0C+zbvEtEeLIeezV3zPThJGwOahg8S0fpqRQ/8TPBzvLWkVe4102Hf0m7nVBtbhMLWzHygLpL+N5UT3qnBactcYD7rtmXcxqUr5JGQNA7Ps6bfZ7KL5RHwMAUW36dRCUIuULHg5zu6zJj0yt5xQJbbCU05JXqxVKhKuXYVZDyK589xgHh07TsYN7x0RTfdU+UwJe8wjX3iRjifGcKYP0E63Db/9caaZWBp73j+AyU/MbHLRe14cdxeJhzmpLUZLEmovfwaxKKGV54E3OgcnLn3eEjoe6ZzH4sI1/IIqkJdfV9SJOy1cUOYBguXKvPhPNVgIg14OsXzeGHGcWrh7kLuH7dTxToUbB7yx1mhe6hqjJIHScN9JGWjb3hxYcf5q3X7/QIlFhWJWrk6dJFdom9wBn1+/k1w4HWiM7Tcxq+60H1gHV1QF2xBHGwJTX+hoHDrczl1pLg/bBn20UnfqZAac+pZMV58cXM9b6ZB2txg8F4EgJTlLIaV1dxcBYKt/YCJLKcVwT3o88IgAKA1NOQuxGlV9fuvi4djO9znXql1z11PJqd7GpU4vpBZbWY4wiNcO2KhCfOFn67hREwE9TH1b3YuHTvl23zWrq6moqPPMfa577MuR4ldbtYpNPWFJEQixmx10eV1o0ylB9992+Q9DYnqit3WwST4ZaHZhqCla5yy5++sST0IpVL6zbKZA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4P192MB1862.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(23010399003)(1800799024)(366016)(38350700014)(261009223027099003)(10067099003)(56012099006)(18002099003)(6133799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AwPGFBuT1PE1IZ3O9VyXuIzjfsu8HlctQo0O69LH9lzLQMmeuya8pWL/uk3w?=
- =?us-ascii?Q?zZzxRQE/mkJMqKVtoIL40rHf+/FKhbPn9NNAv8Npm7OAldNJNA2uK1db6A/T?=
- =?us-ascii?Q?z9ASjFxz2r2F0fU1hUveCD60HhVh/wsn3jkgUffGi9KvyL7Dzx1QZzhx3J1g?=
- =?us-ascii?Q?0OlZl1ndb3Cttu298UP0H+81Q7qSp3WLMhNGZfRBPmqjQj1ASkhRTYmnRidW?=
- =?us-ascii?Q?W8Qc8lZ1gBL/bKyYCzWlqZLRiJ3k4tkwok9jdmfbm+TX4A73t7soOG2qAFEA?=
- =?us-ascii?Q?35dxQbx/+zsitvOg8aLhS9EDUxgZ12AeMiPDGTAWIGpnn+ZMoPQyJBhOdTQG?=
- =?us-ascii?Q?VO11NTvKEhD2/gc55visjIsX46verZcm/SaolMSSmT7QSrc7vPLtDkip/Ok6?=
- =?us-ascii?Q?u2rou2YFjbgsrFVN/km1Xe4ptRKBYpq2ONjFpbpt1u4UE2bQtU3fpXMiOy3y?=
- =?us-ascii?Q?ht9MdmqbqFJQvNJZubTeXdnyDzDrYsrVlnclJ/8kwnpLUOgnpgtxNHZLXGvu?=
- =?us-ascii?Q?pfOOAzhJ/ZjdERZg4G4DniuCm+sxn3g9hC8MJdzp1zG4tkocGeIHpyWVSG6r?=
- =?us-ascii?Q?gWoI98wvbafLldvwk4O1pwWQG7kffOeVitm2VAksz0qAscfBSOGIgfVYDGZ0?=
- =?us-ascii?Q?0CIXi5xUv1NuVPQCO95J7pmmRU7wCDMaC3k8L4zPQHQdIvxTWqZR7rZAsTX9?=
- =?us-ascii?Q?Pyv5LyFu6EmTduFYbANkFfvfwOdPpJ/Hp5QJ+WdcM5jECXJ/aw4bXX4mo96x?=
- =?us-ascii?Q?Xa8aRf7PDvpQo35yNLa8e26zsOm/BV/Ryay2SW7WHfGuoRoGjIzYuIf9bgWP?=
- =?us-ascii?Q?GrZoHYZSOVhGq4cVb9Cl9EmODXOXA1P9Ww8j6RVwGnq9fzqqZuVqIvWxwYLk?=
- =?us-ascii?Q?rRfDfR/Z6ZMW/whj337nK/Z1kt9TiuxOpzeXVTLljQsUQw+8RbtEJrkEwyR3?=
- =?us-ascii?Q?pRDRAhA1JoRskVEzzhoUptOduv4Vqt2dXpMwPHG1bY1B7l03zo+fwBzvf3lL?=
- =?us-ascii?Q?gM6LratjzL3KQJVvqEftd/OAYx6vD6NtMosGCBGCrJ2VzP1Ww+sZN6u9cv5U?=
- =?us-ascii?Q?WrkYydy/xwFOLdPbJdXMwsGbrcNDJDxLI5LhtZI61x4YUqaPuSkvl/o57cs5?=
- =?us-ascii?Q?f6oOOSEHRQyqWvbnDFyvfipp+aRGkG8RhvpjBpLatv4i7EUm3tuGrHUxYqwD?=
- =?us-ascii?Q?epi2HCc67OqQfYM7D1eC8tSRm7GR9LxYf4hWn2oqgtk2YOEk6XqUwt2FHXlx?=
- =?us-ascii?Q?vShyUwMeWGRUdnGucWNbik41RxuqrBXwfgqUgWn9Y8b0CVt+6jD1Y8cnnDbh?=
- =?us-ascii?Q?43F+22iZ1KDx8htsM+gGqahvC53sBvSRpx7cJd2ZDT2AyUMyJUvGFpS6pJ2Q?=
- =?us-ascii?Q?Lpq8rimkgdjxbus95MpfVA+iFMhK1epkRthYXZlSv72OvEMry+8SQQA6Vw3r?=
- =?us-ascii?Q?FXdTrG4hcEpYvbtNPyux5wvtub40CBM5/zqWCsWUYRRSNvL/i9XeMA0wSuPW?=
- =?us-ascii?Q?LJylfoagxR1QyVcsYs6ZHU8Xu3qaDRcoEwCmsKEwe2d6N+vxo0qJVQDopotN?=
- =?us-ascii?Q?jbUAeTFZPrmf2TbYCv/iXN5h3nwqT9BAXn5nPc+hFKGoG+y/AjK0xxn0xCy8?=
- =?us-ascii?Q?GjwKVgMzYH4fiI98KOoeoeW/zRJHXp4V+X2C2VsBU6zrtjpTUx83A+BL6TsN?=
- =?us-ascii?Q?BxyylcCYiWc6ufo8VY+Om2mLINqHSHfvgRJ5Yyv71xgnsH5Fn0Y1iO+gDOPw?=
- =?us-ascii?Q?gHeQKF8zew=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 548e6aa0-a152-4c29-9435-08df2f6bb25d
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mjtzvojKloRH7lcO58wbEefJhk41CTICYdnzRDERaTSwNanACaJwsrDWFfUF?=
+ =?us-ascii?Q?ookIgpGeVw7Nre91o8eQ6E8kfGC/wIfov3+XgWxmOo3GCz9746k0VlYfiL93?=
+ =?us-ascii?Q?xEO6z0LS0OsXFVwo7E75d8Gq/+vKIyVEezxYLR4v434jln7jwpjs5QJGxvv/?=
+ =?us-ascii?Q?fkFtJeGveEP/LAnIc87tU5rnz01T6BCd9Gqi8XwW4SEgJDyTnjGa9xwlDFdh?=
+ =?us-ascii?Q?qu7bHsOJG+1kyX16YlVm0q4Mzlb+fhdeqIeZN11AHBMJPvfQe8Bp4qq1WX1P?=
+ =?us-ascii?Q?q0e5T+ZEd9CkFwS980BK4otPOOEh/IJZBjkE8wFTBuwvJAQtQ7R2lz20Fvfg?=
+ =?us-ascii?Q?MXtMf71+h9qKmw1lnPI4q2AlzWhhA7+t3ZgvtkEfLlOQq5IK78AEuJR35kci?=
+ =?us-ascii?Q?YIFPTWuWWS7nFqh0WipL0boSCnVmx+KoptM5i/AveODeSgrfU60cyRhSmZzK?=
+ =?us-ascii?Q?a0Ixv6ZsUFgfTLTke/wyoNYYR2JeKXwojMU8mjqhSa0Tk/0+HjAJHna5YV2M?=
+ =?us-ascii?Q?IVRb6OzPXyARMq0A/3ESTe0Kdr+MMr4XBM7fl8i8OIFT/AH1RjVPuQOlVtXv?=
+ =?us-ascii?Q?UfcxM/c8KkeLa409jo0C5kXcx9OYKtnV13GU9vol0g93nlL+fAMo2Lm3nI2y?=
+ =?us-ascii?Q?wJ5BWfQgtFLa2rEY9RAKjJHxsfz5iOFmx/FIWx+MyMA/7RjirYFommpcZ6IT?=
+ =?us-ascii?Q?Q2NU3mawPrjmq0uiYCaYy9r9mYhPxvvR8eDbGwFmBtuiNQcT979LDjhY1Qfz?=
+ =?us-ascii?Q?G2wpJHt59ciNd1ywKP5P2qQg5WXai014YZz6g4SyyhCXcHmyzmIet0GIPAu2?=
+ =?us-ascii?Q?I9HDOpitlM1geKpft+X+5beH3pgCDQY51pGPt44jfGnX8Zzl1dZr70t4ajQa?=
+ =?us-ascii?Q?Rdq009TTAlHlOxbVHRnyIQOHF6Xv0vnsXNCCk8nt7lQFmgQjFsWrYcXqNBZM?=
+ =?us-ascii?Q?KCAOD/IP0TTzR4gB+89YxIeOyKgOt1svOuHTX1Bv74ZjWcLasQi7gUbH7ucA?=
+ =?us-ascii?Q?u1w2g0YcZMBlghFPs/MVt9HId2HEiE8LcIoEpVMeZvpd9/6ZYm4MlCkeXkbs?=
+ =?us-ascii?Q?ebbHVhgu0ikHDoOvoYlLMEHy+/AdK1YxgjykOJHrI5RwzokX/henFDFDOory?=
+ =?us-ascii?Q?28u8JjfYOoGSiXxTG2jI0QzJJvJmrMJHo3IVJiC6ooO6M4YeJfQntT2tmJu+?=
+ =?us-ascii?Q?fU/aHPkv9WtuEs3qzv0dpBpOY3BJWQRSSm/mGbY7eyEF+E9Kg/ZROzPiwKMX?=
+ =?us-ascii?Q?Jn+5WTdR4DwSrZf9tF/jC1K33Y56JD8BpCPKQQNMVkvlW0Y90lPVC1bW49fX?=
+ =?us-ascii?Q?UQxA+YOzmhelrPYrKUKAOtn7DIjsMJLmxbi0my0SqKjyurKKKN80Z/FyHdL6?=
+ =?us-ascii?Q?eH30sy0jtdh6HIBx2YlABjpZDg4KjTRxu8cy0shs6MXEedrxlu+HqvImnA+K?=
+ =?us-ascii?Q?Jbp6F6OpSX/1uXEld//cbmIFYwAGRQGr/UTro74uETC8nOr/F5oxavvYzCdw?=
+ =?us-ascii?Q?56nlblHEf4A39bGJ4Pz7U7jf876qHFwbWppiv/9/k4xDBKASDJxyUfYYBQ9A?=
+ =?us-ascii?Q?6Iqk6hbp67DKUpWZytmNvoahbU1sBt7gn6l4ZmngHPyGjNaXdOrsJO95P6P/?=
+ =?us-ascii?Q?zheqYLaZo9GnNHx3OdqiL6s4Gq39plLuq+1hfFGfhayqWpykecz/PGQkgQYb?=
+ =?us-ascii?Q?5Vn5zAjiqHzOajKXiSxWiblYMDJ6yR8fzNjLNd2Ci2/jZWrs9RDGB+n2SH2i?=
+ =?us-ascii?Q?03xr5lAXwA=3D=3D?=
+X-Exchange-RoutingPolicyChecked: KWzzawsibooM6e2CqObUNQpzseJWPzLsOP8FsBfb2nVPLYeUkQQ2fnT7YYZNxzeEz5Wa4KJk9OdAZjCl4BVVpkQhhZ9M0TN7sw8wg625CXnj72l6Iz4iguH2lmY+UftwwIkdxcjHTqP3k2YhJyWpM786x4VrlLWezQMxayZ02m1vWH3n+TnqA8CUt41amvVC3z2MgtsA84IiRRP5FGdipwayrCeSC19xi70k/no1aI2A5SJdHEjLMw9me6mh0r7N0XcWlchvSQtuWckdOUhmIsy3nJRXH19oIOgWI+4enjSubTMEzsz4X9WkZOW+imVExfx+eBfaFGAecalFslNxkw==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: G09w8OOrg75u7q0mO4ga1zofp6iLyDkN1UvSeLY/Qgdh1n8QS0s+QnS5B23LXlZ+Nkgwgz4shBwCA6eL/RHsQwrZxDwA9uK07tuRqdmYamerVadIZ5sr8xeSZqXIteumHOvmfg1abIuu1qL7IxUMlWDsfqwl03kGFZ5yQ9usl5VsUXLuK1O5kPySyEWciAuxW61k+aB8l0m9zLocMELyiYazppy6S0S5lnnlOrj9dAiZc1jc8ZML7O5Sdz5OrKRLyLc35bbTMp6t+M9TQHv5O4rTQMhdAGxiHRTpoEM/LxJ9dBCHZXko6wJflG1LE5j/W4ju0vknM8jVWE+jDd/MLGN5wpNBrkMQTMnSDlzM/QKlaSEkOiovhjO7v/nmGXnbfqFUmAAz1SszGuFvSP48KA8Be01oT0Lcc2toxxik8dRBhrcSULbkTp7GYpS2ztsGIM3VBC3U7aOQkjuSibURYYNYAXZLyhZDJlyxHBUlNq3WWTonBls9O463P1X8dZ2Q6BOxrBHRQBvfhVr5N9o52mJX3aZ/D+beNWoZ2WIyGGVsJR7gVmvmjTGa++T3huB/QI94X041lzWuWKSki+xSalFReSdCfCaFnTr+MDd2My8t5I4+ME2IP1QkUPQGg3kp
+X-OriginatorOrg: witekio.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 588a1c7c-c7b4-464b-ca22-08df2f701297
+X-MS-Exchange-CrossTenant-AuthSource: AS4P192MB1862.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 12:06:11.1900
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 12:37:30.6037
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FfaVGqxqE/lTFTnqeUVgHOfcuMvYeL+5G5N2UaPwn/MyQSaWXPIJdx2B56wZw4ed4EURz9HVoCfrYfSHH+/AHzsXzMkaaoyZe/Rf8UmiseY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4P189MB3449
+X-MS-Exchange-CrossTenant-UserPrincipalName: MdF4/BEK2kstXRXNcVyBHhzCeGAO/budMG78PfpKK/D9ZsN3RW1gGpJ+ijryDi5NnkCNLgQPVZAR2DUGbIXu1w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P192MB0898
+X-cloud-security-sender: tgaige@witekio.com
+X-cloud-security-recipient: openembedded-core@lists.openembedded.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for: tgaige.opensource@witekio.com
+X-cloud-security-Mailarchivtype: outbound
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate26-hz1 with 4j8phW666Rz2yMDb
+X-cloud-security-connect: mail-westeuropeazon11023117.outbound.protection.outlook.com[52.101.72.117], TLS=1, IP=52.101.72.117
+X-cloud-security-Digest: 9d43923a72b689b8e1b622af168e3384
+X-cloud-security: scantime:1.466
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 12:06:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248394
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 12:37:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248395
 Content-Type: text/plain; charset="utf-8"
 
-With ARCHIVER_MODE[src] =3D "original", do_ar_original fails if the
-source unpacks into a directory other than ${BP}.
+From: Theo GAIGE <tgaige.opensource@witekio.com>
 
-Commit c73dbd0fa8a3 changed do_ar_original to archive tmpdir/${BP}
-instead of tmpdir, preventing the temporary directory created by
-mkdtemp (e.g. tmp8pu2nsck/) from appearing as the top-level directory
-in the tarball.
+python3-logging is needed as a runtime dependency of python3-pyelftools
+else the readelf.py script run into the following error :
 
-However, this assumes the source always unpacks into ${BP}. Git
-sources using 'subpath' can unpack into a differently named directory,
-such as tmpdir/tools, causing tar to fail because tmpdir/${BP} does
-not exist.
+```
+Traceback (most recent call last):
+  File "/usr/bin/readelf.py", line 31, in <module>
+    from elftools.elf.elffile import ELFFile
+  File "/usr/lib/python3.12/site-packages/elftools/elf/elffile.py", line 29, in <module>
+    from ..dwarf.dwarfinfo import DWARFInfo, DebugSectionDescriptor, DwarfConfig
+  File "/usr/lib/python3.12/site-packages/elftools/dwarf/dwarfinfo.py", line 17, in <module>
+    from .structs import DWARFStructs
+  File "/usr/lib/python3.12/site-packages/elftools/dwarf/structs.py", line 10, in <module>
+    from logging.config import valid_ident
+ModuleNotFoundError: No module named 'logging'
+```
 
-Use the directory created during unpacking when it contains a single
-top-level directory, falling back to tmpdir otherwise. This preserves
-the existing behavior for release tarballs while supporting sources
-unpacked outside ${BP}.
-
-Reproduced with sdbus-c++-tools from meta-oe:
-
-    INHERIT +=3D "archiver"
-    ARCHIVER_MODE[src] =3D "original"
-
-    bitbake-layers add-layer <path>/meta-openembedded/meta-oe
-    bitbake sdbus-c++-tools -c do_ar_original -f
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Theo GAIGE <tgaige.opensource@witekio.com>
+Reviewed-by: Louis Rannou <louis.rannou@non.se.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit 9b956f6b5a345bd3022a9e64fa70a0365bfac502)
+Signed-off-by: Theo Gaige (Schneider Electric) <tgaige.opensource@witekio.com>
 ---
- meta/classes/archiver.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3-pyelftools_0.30.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index c824718a1dd..29e0af648e6 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -230,7 +230,14 @@ python do_ar_original() {
-                     else:
-                         bb.fatal("Cannot determine archive names for origi=
-nal source because 'name=3D' URL parameter '%s' is used twice. Make it uniq=
-ue in: %s %s" % (tarball_suffix[name], url))
-             tarball_suffix[name] =3D url
--            create_tarball(d, os.path.join(tmpdir, d.getVar('BP'), '.'), n=
-ame, ar_outdir)
-+            # unpacked source may not be ${BP}, e.g. git with subpath.
-+            # Use the single top-level directory when present, otherwise t=
-mpdir.
-+            entries =3D os.listdir(tmpdir)
-+            if len(entries) =3D=3D 1 and os.path.isdir(os.path.join(tmpdir=
-, entries[0])):
-+                srcsubdir =3D os.path.join(tmpdir, entries[0], '.')
-+            else:
-+                srcsubdir =3D os.path.join(tmpdir, '.')
-+            create_tarball(d, srcsubdir, name, ar_outdir)
-=20
-     # Emit patch series files for 'original'
-     bb.note('Writing patch series files...')
+diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.30.bb b/meta/recipes-devtools/python/python3-pyelftools_0.30.bb
+index 837edb7165..b799f5acf8 100644
+--- a/meta/recipes-devtools/python/python3-pyelftools_0.30.bb
++++ b/meta/recipes-devtools/python/python3-pyelftools_0.30.bb
+@@ -12,4 +12,4 @@ inherit pypi setuptools3
+ 
+ BBCLASSEXTEND = "native"
+ 
+-RDEPENDS:${PN} += "python3-debugger python3-pprint"
++RDEPENDS:${PN} += "python3-debugger python3-pprint python3-logging"
+-- 
+2.43.0
+
