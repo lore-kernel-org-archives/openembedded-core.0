@@ -1,105 +1,86 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5931.1792607393480623439
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6335.1792608382630935823
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2026 11:29:53 -0700
+ Wed, 21 Oct 2026 11:46:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Nhu3L5Ir;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48af4d4e61fso694116f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 11:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792607391; x=1793212191; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vNsYbnaN265+nFD9PXDidXGJwO3r3dRzjlTaSob9Tsg=;
-        b=Nhu3L5IrzNxLCby7yD3adYJdAwMAUzWh231wvlMetzo3hKpVhCBXxWiylEjKbkL+3O
-         /i0LiUo3Wpb8Lkm4Cip1smo1OJlIQXME33jeZYrqpS/7/rn9gSTvVsjtcnmau+s5jnNf
-         L/+pWacqGsvNYz9R3eeG6QNK6VPIy9Bi3Wh9SpyS2JrGwhM6X3nio+yJ2OZ3zRJ4VuQg
-         RRNehWVtHsJwJdn283SZheguPTg3KcgPJdXcuyuXi7k0RaSZuqVedVDTBt9VbjUMXiGN
-         uOpSApKpixGzKHRPerv5oObbURMEY2fn6qlfiwkxAmqNZI50dcTRDEfYu7nGmSVJhUeD
-         XLvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792607391; x=1793212191;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=vNsYbnaN265+nFD9PXDidXGJwO3r3dRzjlTaSob9Tsg=;
-        b=f2pMdZkxqqdRxw5rbZ7kMQfVBKsQjgjT4aFtqgPtH6CQcEFbUpY3bA23HOUEFxo+20
-         rM7q4CrJAHsENbqpP/yz12RhE2EH5QrlDw7V28VqEMu9qt6g5LJ94hqWGp4n3Z0gagVB
-         Z4To74/lZWmC3kfvzEqgq1pUpT8FHVPu3Ijns3MHk/bfiu4sGU+XprDyZNrprIFUsIz3
-         rMlbCfUQlevF7+Wt7lWqnaDJZe3aYCMx0AVewA2PG5arHWiJ4qmPheAHfNj8nIBH5fWH
-         H7Apl8r9UK31YFSRCizwOrBJNXXOiXZa1f9R/k8xcH+xSeFRVAkOglVqAWbiTwIXSRXZ
-         4bpA==
-X-Gm-Message-State: AFq9FYIgKK3UmMFgRA7CD+B41vx7ZwEOGSQfYrWwvofGTy/0zjvqx74i
-	qYfpyWoqvvK5M3ghSDkKq1QHZrpqoyyNasS+NKnXd9dIoZb+4b3KTyX9jm7hV2pP
-X-Gm-Gg: AYBFou2Y1Iey92nfGCN3sn7zT/GXkFS41nQ4BgiFOJ3z20LmFOoxDU0YQ6/HLvjFj8h
-	58vLj4FQbmoWJdJ1pkPOJcLqfsO7G7dyy5fKYH4ANaBFGFsQ1srnrjwmgF2Hft5wvpfgT7nkkfr
-	PhbSGxPV5bIX7e81//z7SOOGSLkuiYtVxr02pz9O9O6pyrAsNwM5rmVBJKvi+wpRGhfsL6AoUzN
-	LBTLZWvOH6UGhmBXy2mH63/GQJ+GWUU3wPJhQ6hQfO2ItAqqzU9uMmzCOVfHE0/zCVD6PcDYeV3
-	PwhNGrDOxUpIQ1WdJNK2iH873n57JPXpsKDpAXqdvCKbaGjGeVChLcku221h+Lq0xCYOyQVpWDm
-	mAddOCdflhRHbOm2C9y8jcrScTZ1JTQ3O9EEncmVG2FpGUcrDxuCCuUZYmIngVEwUxKco/xP+m0
-	sl3mrErmeMKo8xd7akbHRqTVDSmHQlM87rnXpuK05rxuaiEpCEgKsv3rzk5EjuDAg1hZXQuftxL
-	6NnGq1IE0O8jDLmvEV4K0btS41QxEELAqkgaP9qG8KNqqFXfO99t43U9g==
-X-Received: by 2002:a05:6000:2c05:b0:48e:2406:57d0 with SMTP id ffacd0b85a97d-48e2649d9d0mr5540147f8f.19.1792607391275;
-        Wed, 21 Oct 2026 11:29:51 -0700 (PDT)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([2a01:4b00:d036:ae00:57e2:b323:d4:c643])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48e2581eed3sm7729658f8f.12.2026.10.21.11.29.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 11:29:50 -0700 (PDT)
-From: luca.boccassi@gmail.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] dlopen-deps.inc: also parse executables
-Date: Wed, 21 Oct 2026 19:29:31 +0100
-Message-ID: <20261021182944.1820061-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.47.3
+ dkim=pass header.i=@pengutronix.de header.s=20260414 header.b=KbtxJdaX;
+ spf=pass (domain: pengutronix.de, ip: 185.203.200.13, mailfrom: m.felsch@pengutronix.de)
+Received: from dude06.red.stw.pengutronix.de (dude06.red.stw.pengutronix.de [IPv6:2a0a:edc0:0:1101:1d::5c])
+	(Authenticated sender: relay-from-dude06.red.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 227BE2018A0;
+	Wed, 21 Oct 2026 20:46:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1792608380;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0hOW4OkJnanix5o9+GRM5cfbOhD0r11mqmiGAQUGniQ=;
+	b=KbtxJdaXdYCf+fZz+fgzTsEgi4zACTvMPKHBtYFDTkSTLlM3iTWDJ1TlXCVIIWl4ZMi8uS
+	anc5K/QbputTrrbTaC2gwdxfRtEfMj/tSPzoxN/hLW6ddswKnaD2kHSWBNqaCvUwYxPYHu
+	1WdHaVH0ZAS3hgP2LykA4drgzHl1pgoy1U3X22DLj099VQDUlqvMHav8jbOK4mRLCIlZGf
+	MVxiUYilt/sP1wAGfi43Jd/nHWgooY/WwamOAfK3uUDl37ZZuoe+Z3tqq82jIMBu1i5ytJ
+	52LtSYhEK8RzFGiDZ8V66rV671rmAK+LeUtYA9lzEZUFmFmtzYv28Y4AAxRrQg==
+ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1792608380; a=rsa-sha256;
+	cv=none;
+	b=GhlJozmx7ykyI09YCD8A8EB+AmpGfrw9Iwv4MyY7zjto3rAiwv1NCAhlEbCbvBZ1FAdbhU
+	oq9j7PoVHo24msUImwAhSQnuxMQkhml3lGUwKU8bJhxILFdHqSX76CIeZXERDMuY+WH1N6
+	RJS4tJ8SwHu32uYHk6jxQLA9M35VFJ230Yuikbc+m9nR5smVvTe2jDtZwVXltHbj6A94oU
+	YWVwPDa3p8ObLnzz3n4KAi8BH9bm4h/aTPUQL96gpvgipUCZHAuNPb36WmU1KBRdVfwEdv
+	wo/aJdwsBdb4zYqJx1/uXBFiskFd1K6VL5x/WGTA2T0//FNVrVL6pPYzN7N9eg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=relay-from-dude06.red.stw.pengutronix.de smtp.mailfrom=m.felsch@pengutronix.de
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1792608380;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0hOW4OkJnanix5o9+GRM5cfbOhD0r11mqmiGAQUGniQ=;
+	b=GZkXnh0zCbIWkJIv1J+liGHsq+/Wfu1a0D7JttcO2Q2X5QH2ZXVsQv+1Y5LegleuAoZtX/
+	/Wm/tWdyN0u6pkkjS/FbdoLDK+XZb5WPkLE58XSqCiWcxepN0EBzo21qm6k8njDB0ugeVC
+	dUXyUwpQGynKTpROaPfHGcagQhQm70z+XeZW9FOLHw85EKbGM05QMvtSg9zkmWvn7FwqMm
+	hvd6kHLWlqQS2kQCKcwu1w7m7f7mJqHDmf+lNJwVoDZUANyAlrvTakRSdNuPXjyFo1u8YU
+	lmKDboAD+ptnQB61CDMekKPUSTLadYgUDF8h75q8xJo6Z7VRUbK99OePkrzCTA==
+Received: from dude06.red.stw.pengutronix.de (localhost [IPv6:::1])
+	by dude06.red.stw.pengutronix.de (Postfix) with ESMTP id 0A0CB6407C8;
+	Wed, 21 Oct 2026 20:46:20 +0200 (CEST)
+From: Marco Felsch <m.felsch@pengutronix.de>
+Subject: [PATCH 0/2] Add support for multi Cargo.lock files
+Date: Wed, 21 Oct 2026 20:46:15 +0200
+Message-Id: <20261021-mfe-multi-cargo-lock-files-v1-0-d3510d4ad963@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 18:30:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248404
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHcI2WoC/yXMQQrCMBAF0KuUWTvQCVaoVxEXMf7U0bSRTCtC6
+ d2Nunybt5KhKIyOzUoFLzXNU4XsGgo3Pw1gvVaTa91BWic8RvC4pFk5+DJkTjk8OGqC8V5i7+G
+ ddH1HNXgWRH3/8tP5b1sud4T5O9K2fQCcMgIOfgAAAA==
+X-Change-ID: 20261021-mfe-multi-cargo-lock-files-41f9aea21595
+To: openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de, Marco Felsch <m.felsch@pengutronix.de>
+X-Mailer: b4 0.14.2
+List-Id: <openembedded-core.lists.openembedded.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 18:46:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248405
 
-From: Luca Boccassi <luca.boccassi@gmail.com>
+Hi,
 
-The dlopen note is not just applied to shared libraries, but to ELF executables
-too. This is especially the case in systemd v262, where binaries now each have
-the precise list of dlopen dependencies they require.
-For example, systemd-repart requires libblkid, which is not pulled in otherwise.
+this small series adds the support to reference multiple Cargo.lock
+files which is handy once a recipe want to rebuild the std-crate for
+minimized special purpose builds.
 
-Signed-off-by: Luca Boccassi <luca.boccassi@gmail.com>
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- meta/recipes-core/systemd/dlopen-deps.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Marco Felsch (2):
+      classes/cargo-update-recipe-crates: fix unreachable Cargo.lock check
+      classes/cargo-update-recipe-crates: support multiple Cargo.lock search directories
 
-diff --git a/meta/recipes-core/systemd/dlopen-deps.inc b/meta/recipes-core/systemd/dlopen-deps.inc
-index 2d43f2dcb8..37074a9682 100644
---- a/meta/recipes-core/systemd/dlopen-deps.inc
-+++ b/meta/recipes-core/systemd/dlopen-deps.inc
-@@ -3,7 +3,7 @@ PACKAGEFUNCS =+ "package_generate_dlopen_deps"
- python package_generate_dlopen_deps() {
-     # https://systemd.io/ELF_DLOPEN_METADATA/
- 
--    import struct, json
-+    import os, struct, json
- 
-     def extract_segment(filename, segment):
-         """
-@@ -57,11 +57,11 @@ python package_generate_dlopen_deps() {
-             continue
- 
-         for f in files:
--            # Skip symlinks, just look for real libraries
-+            # Skip symlinks, inspect executables and shared libraries.
-             if cpath.islink(f):
-                 continue
- 
--            if ".so." in f or f.endswith(".so"):
-+            if os.access(f, os.X_OK) or ".so." in f or f.endswith(".so"):
-                 try:
-                     elf = oe.qa.ELFFile(f)
-                     elf.open()
+ .../cargo-update-recipe-crates.bbclass             | 57 ++++++++++++++--------
+ 1 file changed, 37 insertions(+), 20 deletions(-)
+---
+base-commit: 99c96202a2c9aea84f5ceb267a8c63c0cff58b1e
+change-id: 20261021-mfe-multi-cargo-lock-files-41f9aea21595
+
+Best regards,
 -- 
-2.47.3
+Marco Felsch <m.felsch@pengutronix.de>
 
