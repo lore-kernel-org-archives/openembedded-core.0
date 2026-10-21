@@ -1,93 +1,184 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6915.1792571464092047537
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7163.1792572672901628357
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2026 01:31:04 -0700
+ Wed, 21 Oct 2026 01:51:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=pB6nZ1E0;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0oNIHAer;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a15d95d595-46d592c0-3a2c-4886-9f33-72762b6de31a-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1792571463; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=2eNkXgHd4JHVzGxqabFlw99huNBlHv/5mp87Y0dfl7o=;
-	b=pB6nZ1E01mwn2+gDW52kkACf1UGU0MNb15s+AWMr9vPDdtT940B9rbIWNj9M4M8f
-	k3Z06mmsK90OUlSS7bHIBekqbJhvtS0iZajBEq+FRCcGYNCjnCGHzm5Xq/D81YdCIdQ
-	UjkfdTG9L/LRIj13+PDPG0NaEgVhV21Zut8pnf1A=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792571463;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=2eNkXgHd4JHVzGxqabFlw99huNBlHv/5mp87Y0dfl7o=;
-	b=0oNIHAerQGUZEGP0ajfl3npIyXNzxqaljayIc+j8gX+MklsNeaHVZz9N0KqMHbkB
-	Flhj029Dm4OqKinx6yX9c0HIQzH90OtKiBSB+wQ1EpxbdXsRlYKv4k9h2jD7yVe+v6f
-	xzSAa8tjXjxLoql7bNTVHSmN+wy/zr+tCOUKNCg0=
-From: patchtest@automation.yoctoproject.org
-To: Einar Gunnarsson <tolvupostur@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-multimedia][PATCH] pipewire: Remove duplicate avahi from
- PACKAGECONFIG
-In-Reply-To: <RGrU.1792570928474513034.9LmG@lists.openembedded.org>
-References: <RGrU.1792570928474513034.9LmG@lists.openembedded.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a15d95d595-46d592c0-3a2c-4886-9f33-72762b6de31a-000000@us-west-2.amazonses.com>
-Date: Wed, 21 Oct 2026 08:31:03 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.21-54.240.27.31
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=I/15fGGa;
+ spf=pass (domain: axis.com, ip: 52.101.70.49, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cyKelMNN6DxNub+nzHUaGY5gM9cdwJNqMW/FJHe3xcpKGoEWDKsbUhJeico/R2IhgW4Uam03PDTBOGjF0vo4wFAOFeii9K/WjDb0Vrq13M+6f+VUZPfRF4h+3moiHgkSxuQJZDdE6UJpqoZFan8Hy69avDfq5WVHx3uxF/EP2lHETl4xu+Adl9HwoLvMezKWTUDQv0S2yU+yaURIOxs2I4ZUFS2m1X9g6fhYb7Vq1ZkZLWFVxcYHXFlWN0TVo//FGbRAbzdnb/V9+ELZ2RBhue3+30Xxef7bm9lcNY1lr2qFtWM+e2IaZK5GIzgLh4LsUGq5vFDeV8e2ytRkloyCGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ph1ilEKlfx04iSkk3GB/LhgHIQPYqHOZr0idgc5IoMg=;
+ b=gA87LUMuMEwvG/mRfUmx+eWu7o8hid7DJJgwxG97Z4L72bbYjngVZNoMFhpQ3UNAURcIK/Ius9l0QOBrjmD2QllshFO3KjuF88QxfR8wJnZ20viYuRH4t0oAii26CCBCUbfL+bVG3DEN5bpgxifqSYkX0XnTiZuDP0/RakgOiRRX6PqRqGcBASrPsWOnO+iAQZATQWtqkf6eBkGH46n9u98/+u4RdI0ztO2zwqB9As/+wN9sR2VQcSuhrIle7v+lVsjh0Rn5YWg5ObY87KqDW7kwv4Wn1AJZ/1qqYb4user47/sOSPNtBXNgHkmJJYR7PCWkeuRe4OrEQeim2uHiWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ph1ilEKlfx04iSkk3GB/LhgHIQPYqHOZr0idgc5IoMg=;
+ b=I/15fGGaKG1/TU2vZGGtNIA7N88qD0k5aAfXITJXbx+M3u3lzCYOgibEavY4boI1JgoHulwZtTsJj3+RtvyE5YgnXTWa0uQFCD/z5ptJX4z/U6fVP0jVWRStCBoHsdeFlFkH+3HnVG8jrBir4XIGd5VTFAN46MOvLQc2OzG5Oh4=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by DU0PR02MB8015.eurprd02.prod.outlook.com (2603:10a6:10:352::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Wed, 21 Oct
+ 2026 08:51:02 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%6]) with mapi id 15.21.0546.012; Wed, 21 Oct 2026
+ 08:50:58 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] ca-certificates: Disable compromised CA
+ certificates
+Thread-Topic: [OE-core] [PATCH] ca-certificates: Disable compromised CA
+ certificates
+Thread-Index: AQHdYSnlEPYQLNTuVkKr/YdegKX4u7cHrvpA
+Date: Wed, 21 Oct 2026 08:50:58 +0000
+Message-ID: <DB5PR02MB10213E52B6D3A99BB7A0CF37CEF662@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20261021-ca-certs-v1-1-b12c7c3bf7c2@pbarker.dev>
+In-Reply-To: <20261021-ca-certs-v1-1-b12c7c3bf7c2@pbarker.dev>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DU0PR02MB8015:EE_
+x-ms-office365-filtering-correlation-id: 51a3fda6-bd70-4229-c58c-08df2f506d46
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|6133799003|18002099003|22082099003|10067099003|13003099007|11063799006|261009223027099003|56012099006|38070700021;
+x-microsoft-antispam-message-info: kSPDCsGJt2sq0YAoOaiVoVwfPWmRj7Rdv5CZYxkcNR+J7vpsrxMQ+3vH/vO2cgPDWCZreZxT9RgtBxo7KtACAjDoOhJ+UPl4q1dI4nGy+3y9U64862z7j0cRUUKZprMAA+QE+YVfWOHkof3iTGVhldlfLNaDpQdAfvLafk6cppsOx7piYt0nLA6j+l+kvOgn9MMNsTWIENLfcAUsmtrqdVuVqFN2Ah3fTYX8kKws3ClgDuNdLiZR19OYOiXy4bGpO0jb9rwaKZzl4rTCILaED8gRCKiRF33nosxL3AiafKRKftiz7KE2DqyV0pacuOXKk2EU8lmovUvwTGlpMSRht/hUvH5DSuNxUnPefcb6sBRPPVz8UrwYHwzRoPIWoLgYqiRljkXK1/pq6vEHX//SMM1aP4ddFh8k+BLRcJs3VWTkUxp3t53ciuEVYpuiB3bNQ4H1FghrfxSZ8U/uZ01BSINolqpdiBF1nvD6SGa+Ds7ksQdm9yuKGyJ4GobUTkk84e/ox4bJa35R+/SHT2SX5ZaDrkmQnRC1By0ba2lSJsp/3BB7MbyeNVe1ySJh6oswqh/lIKHjFzTSL3f/1DI8l6zMr3L31dJvRyuAoUt8IlesHzZtHMbKvkk31vyEBqo1KZE/5hEmbBt5Kn/MClqh6BXBJd9iwPXV7sfAmaQBE20=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(6133799003)(18002099003)(22082099003)(10067099003)(13003099007)(11063799006)(261009223027099003)(56012099006)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VWhsRmlhbXh3RjZucUZTOStrK1JNczdmT1p0L1lwcHBFOFhJVFd1QmFkY0tH?=
+ =?utf-8?B?NVNQLzhyQWV6TkhIeDRIT1Z4V0ZnTzhoRVhmc2FvcE56aVM4dlU2bTZSNzRB?=
+ =?utf-8?B?TU5iYTVTQUlXdVlMUlY1OFdSR2RLRU1iNkc1QlVmNEVTMFp5MHNMVnZlWGVU?=
+ =?utf-8?B?aUlQNHVTTzBNdXJyUWlqTmhXMHpWbEpCUEhQUFpMbTgrRDQzTW43TmJsbWpS?=
+ =?utf-8?B?Z0x6Mm1TZkVvZldFZHcyQ1UwcWFiYllnajBZSzd0QlRFRUV3TVVPZEpEY1pV?=
+ =?utf-8?B?S0lSeDMwb1JaTTkvZnNHRDRmRGZoZ0xGSTR5Y0Y1U3YwNTl6bzhkNUJhMHZo?=
+ =?utf-8?B?d2RUL2tZc1VadzRRTnZIVStBWXhEMHQ4RkxvOWxpNUVQSFBKeS9DSXYzRUZ0?=
+ =?utf-8?B?Ri9IYi8yRlR5aWxLOEZWdXRwUVNZS0dWeHNUaUUxb1VYRGNQNVpsTUNzSllr?=
+ =?utf-8?B?NnNpbXIwOFh6Ty9XTzhQcHdWdk5JR1ljcXpUbG9nTnNabkxQdmUzYnkvZDYz?=
+ =?utf-8?B?ellUWkRiZ3NyMGhzV0hab0h3Y1Q4blhrd3VldS91UVpSSlVEZWFZM0srcUxv?=
+ =?utf-8?B?WmNmZjlPdU9hMk1xNjU5Ynl2b3N2ZzBtVzNMS0U0cVdPTVlZNE16N1JtbmNi?=
+ =?utf-8?B?Y2orU3VueUd2dlpHUDJHaFlPUzJWSEhaZDRXM0ZHUjVPNmxTdnhUalByMmV3?=
+ =?utf-8?B?Z1BhWjk1VmlUaWxIdVhDYk9VQWsvQzA5NUJYWGRxOVRlV1lQUWFyRS9vKy9S?=
+ =?utf-8?B?VTM2REtLMnpyazdsbUFwRkNpMFdTeERkM1NmT1RocXFtZjhhK09PUHUzS2gv?=
+ =?utf-8?B?OUViV0k0Y3J4cmtqbGxtTkl2R3Y1N0FvNU1PMUFhMGpnUkFMY1ZLRk5Jbjky?=
+ =?utf-8?B?Nkgxdlp5RWk2eDBVdzN4bkxxMmxaak5BMWpQb2tUbzEreWJiR1RxYzFjUTRP?=
+ =?utf-8?B?akFZRjVRMFdMRDVaN0w2RWU4Ky9EMW0zL21lYTI5a3FVaHoyVHFhWjlmYjQr?=
+ =?utf-8?B?WHZVUlV2Y2lrbU1kOVZub242ZzUwdm9JSEFZOEllVXNmUmk3eHhjQVJFbHZ6?=
+ =?utf-8?B?S3RteUhwTklvSE5YdzZXSEx2WGpscHZ2L3hEcXhNcUxMNGNNTzFNTkxSMlBY?=
+ =?utf-8?B?YlZGZC9PbVVqc1hXcUZobktCYTVObnRUeDJJK0hMY0doS0JNc0VBSXoybG81?=
+ =?utf-8?B?NWF5dldCRmx4djhPTFF5MTQwd2ZZK01kZXl0cFFnU2Q4alZGdm5IMVl5SUx2?=
+ =?utf-8?B?SGhDWmliWCtWZkFwMHU0K0hMT1p1L1h3OTZvTUh3YUFIL0dhRUQya1ZqcGFF?=
+ =?utf-8?B?SlI3cjIzZ1h5dVJLYWttUk95QWsrUy9sampaZm5VTXBabGFnTldWa2dFTWZE?=
+ =?utf-8?B?ZDBqdlpzZlk1eWN1bFU1d3R1aFR0K2FtWno4QVRNLzE1dE1pS2hSS2ZpM0Uy?=
+ =?utf-8?B?YTRHUXJhVTVPRTYydWVKNTNORzdVSUFZNXZkRUJEaXlFbzYrZ2ZYei91Y3U5?=
+ =?utf-8?B?NHJubUtxa3kyb3I0SHJiUkFHQm8rUndoRW93cVlwRGVSb2MwR3lCK2k1RlVt?=
+ =?utf-8?B?dlorZkVQamwwdmpobTNaMHpqVVcwNVdpODZNK0lqOUFjU2kySVNOSjZpaVI3?=
+ =?utf-8?B?MmtRY3VxdjB5NktQR01BOFludEtrNjRuZndXYTlyTm9HWEVTVElteWdRVGdK?=
+ =?utf-8?B?OEY0VkhkT0hIa2hUcUR3RWNJT1d2UTlaMHZvZ2drVEVGU3BPQ2pON0w5N05K?=
+ =?utf-8?B?Z2JHancxUGxVdTJCTGtibWczVnZCckk5RGpGVzFzRGVZeHpOOGRoNEl6T3BO?=
+ =?utf-8?B?bE01T0hxM1hMQy9BM1RZYWhrdkhSVDRFVFRlV2hpSDc3OEhNR2VCTEJGNHkv?=
+ =?utf-8?B?T0RZTHlnWUxQd2FTcU8zTDBiM3c3Rk9DZThzSnNHcUYxMUp6eUFZT2RUR1o0?=
+ =?utf-8?B?Ky8vOWliV284OTU2UzJzdlE3aUkvZjF2NG5oZnAzeE1LcGQ4WkpUcXpVbzhR?=
+ =?utf-8?B?SjVZcDBnYThMTUpzaWhpVEpBVmtWMUl0SkR1N2tLdG1NS05FL3dkcnJ0S3NR?=
+ =?utf-8?B?dFBBNmFZTzdnTFdicis5QmlnSU5LbkEzSWlxUWRWNWlxdURuK29nVU1MMGF1?=
+ =?utf-8?B?ajlCSUtWeFNUNlFtQWVVZlp5dUdJWjR5L1NaSGZlKzF1R3dsWjQyL2lHYzRz?=
+ =?utf-8?B?R0NMdXlxdUtsamx5Y2Q1YnhFV0FiOGprS3c2TGlBSFhnNldKa1RFcmtzRDlD?=
+ =?utf-8?Q?yHie54kwMe9C80yNkZhGtpsSFWRZX+bytmTtmoitEk=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51a3fda6-bd70-4229-c58c-08df2f506d46
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 08:50:58.6978
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YVQluRLWsRs0xdCRu4jvBV7WAnbOHAR1BZH1JDQy0Xr3XVTvSXQUDhskMPs8ztEW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB8015
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 08:31:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248374
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2026 08:51:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248375
 
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/meta-multimedia-pipewire-Remove-duplicate-avahi-from-PACKAGECONFIG.patch
-
-FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: Parse error Hunk diff line expected: ${@bb.utils.contains('DISTRO_ FEATURES', 'systemd', 'systemd
-SKIP: test Signed-off-by presence: Parse error Hunk diff line expected: ${@bb.utils.contains('DISTRO_ FEATURES', 'systemd', 'systemd
-SKIP: test Upstream-Status presence: Parse error Hunk diff line expected: ${@bb.utils.contains('DISTRO_ FEATURES', 'systemd', 'systemd
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnPiBPbiBCZWhhbGYgT2YgUGF1bCBCYXJrZXINCj4gU2VudDogZGVuIDIxIG9rdG9iZXIg
+MjAyNiAwOTowMA0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zw0KPiBDYzogUGF1bCBCYXJrZXIgPHBhdWxAcGJhcmtlci5kZXY+DQo+IFN1YmplY3Q6IFtPRS1j
+b3JlXSBbUEFUQ0hdIGNhLWNlcnRpZmljYXRlczogRGlzYWJsZSBjb21wcm9taXNlZCBDQSBjZXJ0
+aWZpY2F0ZXMNCj4gDQo+IEJhY2twb3J0ZWQgYSBwYXRjaCB0byBhZGRyZXNzIHRoZSBlTXVkaHJh
+IEludGVybWVkaWF0ZSBDQSBDb21wcm9taXNlDQo+IGRpc2Nsb3NlZCBhdCBodHRwczovL2VtdWRo
+cmEud2UtaGF2ZS1hLXByb2JsZW0uY29tLiBBcyB0aGlzIGlzIGENCj4gY2VydGlmaWNhdGUgYXV0
+aG9yaXR5IGNvbXByb21pc2UgcmF0aGVyIHRoYW4gYSBzb2Z0d2FyZSBmbGF3IGl0IGRvZXNuJ3QN
+Cj4gaGF2ZSBhIENWRSBudW1iZXIsIGJ1dCB0aGlzIHNob3VsZCBiZSB0cmVhdGVkIGxpa2UgYSBD
+VkUgZml4Lg0KPiANCj4gVGhpcyBpcyBhIGJhY2twb3J0IHJhdGhlciB0aGFuIGEgdmVyc2lvbiBi
+dW1wIGFzIERlYmlhbiBkaWQgYQ0KPiAibm9uLW1haW50YWluZXIgdXBsb2FkIiAyMDI2MDgxNitu
+bXUxIGluc3RlYWQgb2YgYSB0eXBpY2FsIG5ldyB2ZXJzaW9uDQo+IHJlbGVhc2UuDQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBQYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj4NCj4gLS0tDQo+ICAu
+Li5tU2lnbi1FQ0MtUm9vdC1DQS1HMy1hbmQtQ29tb2RvLUFBQS1TZXJ2aS5wYXRjaCB8IDM1ICsr
+KysrKysrKysrKysrKysrKysrKysNCj4gIC4uLi9jYS1jZXJ0aWZpY2F0ZXMvY2EtY2VydGlmaWNh
+dGVzXzIwMjYwODE2LmJiICAgIHwgIDEgKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAzNiBpbnNlcnRp
+b25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlm
+aWNhdGVzL2NhLWNlcnRpZmljYXRlcy8wMDAxLUJsYWNrbGlzdC1lbVNpZ24tRUNDLVJvb3QtQ0Et
+RzMtYW5kLUNvbW9kby1BQUEtU2VydmkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9jYS1j
+ZXJ0aWZpY2F0ZXMvY2EtY2VydGlmaWNhdGVzLzAwMDEtQmxhY2tsaXN0LWVtU2lnbi1FQ0MtUm9v
+dC1DQS1HMy1hbmQtQ29tb2RvLUFBQS1TZXJ2aS5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0
+NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjlhMDI1ODkxOWFhNg0KPiAtLS0gL2Rldi9udWxsDQo+
+ICsrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZpY2F0
+ZXMvMDAwMS1CbGFja2xpc3QtZW1TaWduLUVDQy1Sb290LUNBLUczLWFuZC1Db21vZG8tQUFBLVNl
+cnZpLnBhdGNoDQo+IEBAIC0wLDAgKzEsMzUgQEANCj4gK0Zyb20gZDVlMDhmNjNiMWNhNjc0NmE1
+MWU2MmNkYTRkZjU0ODNjMGQzZTJlYyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zyb206
+IFBhdWwgQmFya2VyIDxwYXVsQHBiYXJrZXIuZGV2Pg0KPiArRGF0ZTogV2VkLCAyMSBPY3QgMjAy
+NiAwNzoxNjoyMyArMDEwMA0KPiArU3ViamVjdDogW1BBVENIXSBCbGFja2xpc3QgImVtU2lnbiBF
+Q0MgUm9vdCBDQSAtIEczIiBhbmQgIkNvbW9kbyBBQUEgU2VydmljZXMNCj4gKyByb290Ig0KPiAr
+DQo+ICtbUEI6IEJhY2twb3J0ZWQgdG8gYWRkcmVzcyB0aGUgZU11ZGhyYSBJbnRlcm1lZGlhdGUg
+Q0EgQ29tcHJvbWlzZQ0KPiArICAgICBkaXNjbG9zZWQgYXQgaHR0cHM6Ly9lbXVkaHJhLndlLWhh
+dmUtYS1wcm9ibGVtLmNvbS4gQXMgdGhpcyBpcyBhDQo+ICsgICAgIGNlcnRpZmljYXRlIGF1dGhv
+cml0eSBjb21wcm9taXNlIHJhdGhlciB0aGFuIGEgc29mdHdhcmUgZmxhdyBpdA0KPiArICAgICBk
+b2Vzbid0IGhhdmUgYSBDVkUgbnVtYmVyLCBidXQgdGhpcyBzaG91bGQgYmUgdHJlYXRlZCBsaWtl
+IGEgQ1ZFDQo+ICsgICAgIGZpeC5dDQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQg
+W2h0dHBzOi8vc2Fsc2EuZGViaWFuLm9yZy9kZWJpYW4vY2EtY2VydGlmaWNhdGVzLy0vY29tbWl0
+LzRhMDIwM2U1Y2U0Y2UxYTA2NGI5NzM4N2Y1MmNhNmEwMGM5NzE4NWNdDQo+ICtTaWduZWQtb2Zm
+LWJ5OiBQYXVsIEJhcmtlciA8cGF1bEBwYmFya2VyLmRldj4NCj4gKy0tLQ0KPiArIG1vemlsbGEv
+YmxhY2tsaXN0LnR4dCB8IDUgKysrKysNCj4gKyAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25z
+KCspDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9tb3ppbGxhL2JsYWNrbGlzdC50eHQgYi9tb3ppbGxh
+L2JsYWNrbGlzdC50eHQNCj4gK2luZGV4IGQ4NGNlYjkxOTkwNi4uYmEzNjM1ZjdhZjg3IDEwMDY0
+NA0KPiArLS0tIGEvbW96aWxsYS9ibGFja2xpc3QudHh0DQo+ICsrKysgYi9tb3ppbGxhL2JsYWNr
+bGlzdC50eHQNCj4gK0BAIC0zLDQgKzMsOSBAQA0KPiArICMgQmxhY2tsaXN0IGV4cGxpY2l0bHkg
+ZGlzdHJ1c3RlZCBjZXJ0aWZpY2F0ZXMgdG8gZXhwbGljaXRseSBpZ25vcmUgdGhlbSBhbmQgcHJl
+dmVudCBidWlsZCBlcnJvcnMNCj4gKyAiRXhwbGljaXRseSBEaXN0cnVzdCBEaWdpTm90YXIgUm9v
+dCBDQSINCj4gKw0KPiArKyMgQmxhY2tsaXN0ICJlbVNpZ24gRUNDIFJvb3QgQ0EgLSBHMyIgKGNm
+LiAjMTE1MTQxMykNCj4gKysiZW1TaWduIEVDQyBSb290IENBIC0gRzMiDQo+ICsrIyBCbGFja2xp
+c3QgIkNvbW9kbyBBQUEgU2VydmljZXMgcm9vdCIgKGNmLiAjMTE1MTQxMykNCj4gKysiQ29tb2Rv
+IEFBQSBTZXJ2aWNlcyByb290Ig0KPiArKw0KPiArICMgRXhwaXJlZCBDQXMNCj4gKy0tDQo+ICsy
+LjQzLjANCj4gKw0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlm
+aWNhdGVzL2NhLWNlcnRpZmljYXRlc18yMDI2MDgxNi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZpY2F0ZXNfMjAyNjA4MTYuYmINCj4gaW5kZXggYzk3
+MDJkNTQ1YTFjLi5iZTFmZmVhZTRmNTQgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L2NhLWNlcnRpZmljYXRlcy9jYS1jZXJ0aWZpY2F0ZXNfMjAyNjA4MTYuYmINCj4gKysrIGIv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvY2EtY2VydGlmaWNhdGVzL2NhLWNlcnRpZmljYXRlc18yMDI2
+MDgxNi5iYg0KPiBAQCAtMTksNiArMTksNyBAQCBTUkNfVVJJID0gIiR7REVCSUFOX01JUlJPUn0v
+bWFpbi9jL2NhLWNlcnRpZmljYXRlcy8ke0JQTn1fJHtQVn0udGFyLnh6IFwNCj4gICAgICAgICAg
+ICAgZmlsZTovLzAwMDEtdXBkYXRlLWNhLWNlcnRpZmljYXRlcy1kb24tdC11c2UtRGViaWFuaXNt
+cy1pbi1ydW4tcC5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAzLXVwZGF0ZS1jYS1j
+ZXJ0aWZpY2F0ZXMtdXNlLXJlbGF0aXZlLXN5bWxpbmtzLWZyb20tRVQucGF0Y2ggXA0KPiAgICAg
+ICAgICAgICBmaWxlOi8vMDAwMS1SZXZlcnQtbW96aWxsYS1jZXJ0ZGF0YTJwZW0ucHktcHJpbnQt
+YS13YXJuaW5nLWZvci1lLnBhdGNoIFwNCj4gKyAgICAgICAgICAgZmlsZTovLzAwMDEtQmxhY2ts
+aXN0LWVtU2lnbi1FQ0MtUm9vdC1DQS1HMy1hbmQtQ29tb2RvLUFBQS1TZXJ2aS5wYXRjaCBcDQo+
+ICAgICAgICAgICAgICINCj4gIFMgPSAiJHtVTlBBQ0tESVJ9L2NhLWNlcnRpZmljYXRlcyINCj4g
+IGluaGVyaXQgYWxsYXJjaA0KPiANCj4gLS0tDQo+IGJhc2UtY29tbWl0OiA5NGZkNDkxMjEwYjUy
+NjlmNzI0MmRmNTlkYjE1NDEzNzllMjU3NTRmDQo+IGNoYW5nZS1pZDogMjAyNjEwMjEtY2EtY2Vy
+dHMtZGZmOWYwYWNlNzAxDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IC0tDQo+IFBhdWwgQmFya2Vy
+DQoNClRoZXJlIGlzIGEgcmVsYXRlZCBDVkUsIENWRS0yMDI2LTExMTk0MywgZm9yIGdvbGFuZy4N
+Cg0KLy9QZXRlcg0KDQo=
