@@ -1,172 +1,218 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6009.1792694181554311518
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (SN4PR2101CU001.outbound.protection.outlook.com [40.93.195.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1663.1792707121883573511
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 11:36:21 -0700
+ Thu, 22 Oct 2026 15:12:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=nuBS50Xd;
- spf=pass (domain: konsulko.com, ip: 209.85.128.46, mailfrom: leon.anavi@konsulko.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49d05d51553so890945e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 11:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1792694180; x=1793298980; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=806G2IsOAB9WAN/g8d5Fc7MdhGmu3sTMTzlTVXwS7P8=;
-        b=nuBS50XdHAAeVyWHgaWMyI3qZKS0dGRNS73nmiTWxNyCBGL8aT3q7Dcz2CugjwHwCl
-         mRYY8YbcFWbdDP/iD7N0I0tEwLMDBvaFkI+bCThmCLD1zBwVtZtIv58eyR4AeGmGsFNU
-         v0fgmlblHiMNDTzjOliDxjQlK/Q9AzZ3RJ6E0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792694180; x=1793298980;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=806G2IsOAB9WAN/g8d5Fc7MdhGmu3sTMTzlTVXwS7P8=;
-        b=rxVFfJIkEnZV+u6q7nRFgMcgkHCg3OKl/SHUFLGWXHnI8y0+M2/+GkqAW/McZmoncS
-         V1ohk5W1Rsj0WTaA6Q0+uibzxxrhx75j0bL8Ww0lVfzGL15NxxcYEOxCJ3FlRgEthmYI
-         69/vQOeJyeLnh7mdaNJ2ed7CB4rZZ59Ny3V1Yyqsl/DeDB66aC2WsuoShBtiu5RMZ69F
-         XSPo3aiWfRqias9q7UXhgWT/E6pbv0hxt5IfHx/0zxnSGvjYPiwQ4ZDvx1FA+leVwcsM
-         t45KftRAlh7Nucs8Pmj2OljTB+2SwdkHgH/C1NSPuqS3hWrJggG8RZCelZQJHyItg/tK
-         +/9w==
-X-Gm-Message-State: AFq9FYL7k7Dnjw9eVhD9gECoB0gkbgQ/7cG/Cc3NeTXFHcK+afdrG3dg
-	P1ZuNxV+6ST2tKP6zblup63N3xzaqzQl3JijEdihoXL4bwIXbgZ0MVK6vEx03vxBpIUCG3Pqn5r
-	Seke8
-X-Gm-Gg: AYBFou0K1F03xM52EMcQZP22M0OCCCv6TpUOB8ylXeXqJ52hav7SiE/8yv8EEiiheSX
-	QdVT1i3msG0p88SnYveBHpBDNF4hgNKlQSn1V3ueafuS9b9gcekYvbcUSsUpC2wrxg4Q4T4zqaH
-	MUNxV7cFIUnrC9Uow66wQoFompPulANkWQNtQxyhm8NVoHLBHxWu8Beeuj9Npw8O8ZZLALXMCIm
-	hPnuRwu+5Ra1oW8IOAM1bmoaeWz9sgM0DRLnWWDQURdQbZvxAXp/iskzEXZghujwUAkFRAjcqw8
-	ujd3K+aPzHiuoec11vEeb0vUVHvsb0BO3uR2/QXk16Sp9bozAs4NSAUCL8twRsBjIo9efoC3PEL
-	plfTCeAFM6XG0p41oD+ai797Mk7dD4d91oNFrqb2DutwGLhf6ZY8vO9DOsVW51rYPUJ/4n2OCeS
-	OSLVhfMRg8n6lRUJOygQ32IQaxwFO1o7/4gscT8P2uzRV3S8tu20PWB6tnwIHXliMNl0NMt/zuM
-	B7qE5Ke5qeIkgNUA9BP5JfrHSEOrgTuO0td0ruiPo5KNOctooM+pkOwKENCpu31qG77DJoSA9RT
-	ICTyOzBYQUCjBTax2ZqjOapR/bKe8ZRLrHF6th4g0h1t64P0PfOLq/24+fNqJzm1E64riQwxHJ0
-	+Jxku
-X-Received: by 2002:a05:600c:3ba0:b0:4a1:7d9b:d4ae with SMTP id 5b1f17b1804b1-4a1fdb078ebmr149288105e9.5.1792694179717;
-        Thu, 22 Oct 2026 11:36:19 -0700 (PDT)
-Return-Path: <leon.anavi@konsulko.com>
-Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a21047b524sm15303475e9.14.2026.10.22.11.36.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 11:36:19 -0700 (PDT)
-From: Leon Anavi <leon.anavi@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Leon Anavi <leon.anavi@konsulko.com>
-Subject: [PATCH 3/3] recipetool: Drop PYPI_PACKAGE if it matches BPN
-Date: Thu, 22 Oct 2026 21:36:08 +0300
-Message-ID: <20261022183608.3500655-3-leon.anavi@konsulko.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261022183608.3500655-1-leon.anavi@konsulko.com>
-References: <20261022183608.3500655-1-leon.anavi@konsulko.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=1mn5kajq;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.93.195.43, mailfrom: mark.hatle@amd.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GPvR8jzLqMY8qH/x9fSicsycUiEqO/02GP4kb6rui0CK08x3Ahll11X9EjDP+/9ocsluP35ux28e0wGwnwDWnFszTBiapzjfiRTCM4fwrq+vqgwSkdODSKkUTLeHwBqkl4bbDi3ckPrVHqrVD3g3kr6Hj4zqW8jXK2393eXLH5gW6idw/GMe0u2XU+10DwGbUFRngMHOp65k81KCOurJrT02PqgosZSvckK2pos5wluQidlP8kGGiT6fw0r3B/KUKBRpTVmraMDO14ZnUPE6oeHCAA3WdYYoVSvLujGJsbRX3HeqTEt0Yx1t3yS8JrGzvJJqKdo8pg8YlhkduhNxHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ER5cl5eHWD3MSW/cIbl42vWCcRLemiutvqzfuUAEuwE=;
+ b=wXSLNbzLWExDmGWjRLZdouNiMZn5ddAaQrQfW4Xczkq9TYTeIcpIHgi0VOCWdl4QTuHWs3j7gFSQmy4u9Je0NqKUOSYieli9z86vBnmxgxuUlXIop3tlFVNOjvg9rKVynLH2XRzzmlO8yf6HSuVii07W+iOhAme9jaA32cyoRebhQblmOQi/dhpgfx2zcAN/wPNoYJwm7UDER6kK1WShIPIZ4o5tDhmKx6yrYS312EdpPaZxw8hqr2rt2mABZgQBgtBSHcT1rvxRpSCQBV03neTJaBIeOqeyc/Xfi2ie+1hir+JMA9Y9py66ZliYc6XdNtEF2z0LXS3DGkMQyy94LA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ER5cl5eHWD3MSW/cIbl42vWCcRLemiutvqzfuUAEuwE=;
+ b=1mn5kajq3HIbf5zDRfw0Uh62tJVUwMHLSebTnLs9WCyqeHdnpkkGmHwCqUhA2aAbmhqyfyTlcrjvrgq1L0wirPRCGVGEmcM4ksCYuAIAXeIhrfwqem33JxBrukkOHQifLxk19jTMiX4TOqg2wLmNHk8/wYfdyotNRyJdrma54eU=
+Received: from PH0PR07CA0026.namprd07.prod.outlook.com (2603:10b6:510:5::31)
+ by SJ2PR12MB8781.namprd12.prod.outlook.com (2603:10b6:a03:4d0::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
+ 2026 22:11:53 +0000
+Received: from PH3PEPF00059617.namprd05.prod.outlook.com
+ (2603:10b6:510:5:cafe::10) by PH0PR07CA0026.outlook.office365.com
+ (2603:10b6:510:5::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.17 via Frontend Transport; Thu,
+ 22 Oct 2026 22:11:53 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ PH3PEPF00059617.mail.protection.outlook.com (10.167.243.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.546.15 via Frontend Transport; Thu, 22 Oct 2026 22:11:53 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Thu, 22 Oct
+ 2026 17:11:52 -0500
+Received: from xcolc230100.xilinx.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
+ Transport; Thu, 22 Oct 2026 17:11:52 -0500
+From: Mark Hatle <mark.hatle@amd.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] vex.bbclass: Add support for SDKs
+Date: Thu, 22 Oct 2026 16:11:52 -0600
+Message-ID: <20261022221152.1056037-1-mark.hatle@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Return-Path: mark.hatle@amd.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH3PEPF00059617:EE_|SJ2PR12MB8781:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7adfd55d-c173-4286-5846-08df30897a75
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|82310400026|23010399003|36860700016|1800799024|376014|6133799003|10067099003|18002099003|261021121427099003|3023799007|261022115727099003|11063799006|261009223027099003|261022105027099003|56012099006|261022075727099003;
+X-Microsoft-Antispam-Message-Info: WEvk1gVwopeswwK2goz71/GWX3Tbs8UKyA1QpXzm+0vu7w+SBhUuNxaNksFYf1eRirwQWchM3CGh9wpjDG57TOuVo7eIrkNh2R76sp2VQXJ47AXl7vd5WDuLjxdASblazAIY4snmXFT7X4xwMY3xCaX+8l6gTFCXL3Ge48nKZZwnq0goCKo29CPVrz08shg2oKNJlFD2nocz+U+269rLLHKbLravlnmkcKRhzTvuHZGPtbOYegFuuOBE99KY029r5V4UvDa9IhvpZKKCajz0azzoeF8mOclwikq4k187RPofjs8lccjUIm52IQLrwX8bqSqd+fGPR2LMIPCgMM2D3yl6zXfhBkGa+hFOj7V2G2hkwgGGHkiH+oA7gketPw22+v6g497vu1elSZ8HJ9WteniRzbnUvsKenWV88jBBRIMuTwTTRsTYD9hYWKTmWBoNG0iMQBoNVwauRt/iu0k1BW8IonNLVph5L9Xvx2W12Ii3ZRDizfJ+JugNnp2EEqFqqH1AVdKTIsgLHfrSKaZ9lEFG27Qmj/4boeRbSMlVvH0SH8CN/V5raIfpaHM0pC+sJl7jCDTxjLZvqFgmWG22RGAQUIEKKlOzuspNMf3frGXdqGQ+baCcTi1okaJNSqLx+WG+EYPAi8Lf+jim2QtMZONOfGgCNjwfUejSECc7dwOegjcAaRz3jhEPvPL0JudAKgoOBGMCWrVry//JPVRm3Q==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(36860700016)(1800799024)(376014)(6133799003)(10067099003)(18002099003)(261021121427099003)(3023799007)(261022115727099003)(11063799006)(261009223027099003)(261022105027099003)(56012099006)(261022075727099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: uzIoXWX5X4lUqGQbzugEtrNwf4S8baHNdFIpKiW0U4ghoxIcRXVOEdl+d8Ggliqjw/laeTrYwGqcnM0qFT62JGc4ZO1tAe8TTn7wn2k8HcfXPkTAGkuzdvBTWWRkwDHr1TfJ2r4eW7haUCr0ElNhIrOzTOyztFKxOIpfUmCQEhDYkxtF3RDFEAjwfdzU3VO/VhckOLYUZ5qZ6CXA2FcMQSwn0L9/N1Z5ihLs1saWRRclplKLALYmgXZXOBnD/Ontw6qdv908k6Z4bdyusL/8H3eZU6FDKRXlTTXwZXVWFEOuhcBFLYpbikW7h1mpCnMLVK+azK//tE0l/ZdJBRog0wBcqvd0f3vOXnEa4QQokM7B70k+U50rdkEHeqKjtvDlTdfCASeBasLBFNr9/6YwuyvaQPXPcrKU3sxAp88j1RDGPcYBtVFZ1s/6UsDhbqik
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 22:11:53.2474
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7adfd55d-c173-4286-5846-08df30897a75
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: PH3PEPF00059617.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8781
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 18:36:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248454
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 22:12:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248455
 Content-Type: text/plain; charset="utf-8"
 
-PYPI_PACKAGE was always added to recipes created for PyPI sources
-because the recipe name is not known yet when the source URL is
-processed. Since PYPI_PACKAGE is now the normalised package name
-and pypi.bbclass derives it from BPN by default, it is redundant in
-the common case.
+The existing implementation only worked for image recipes. Enable SDK
+generation for both target and nativesdk manifests. This is based
+on the existing implementation, using inspiration from the buildhistory
+class on how to connect into the SDK generation.
 
-Once the recipe name has been determined, drop PYPI_PACKAGE if it
-matches the default value from pypi.bbclass.
+The code is handled by generating two vex json files, one for target
+and one for nativesdk (host) items.  As a final step, the two files
+are merged together into a single vex.json file which is deployed
+alongside the SDK, and related spdx.json file.
 
-Before:
-
-devtool add python3-tibs https://pypi.org/project/tibs
-grep ^PYPI_PACKAGE python3-tibs_2.0.2.bb
-PYPI_PACKAGE = "tibs"
-
-After:
-
-devtool add python3-tibs https://pypi.org/project/tibs
-grep ^PYPI_PACKAGE python3-tibs_2.0.2.bb
-
-However, it still sets PYPI_PACKAGE and PYPI_PACKAGE_SDIST where
-needed, for example in a recipe for python-magic:
-
-devtool add python3-magic https://pypi.org/project/python-magic/
-grep ^PYPI_PACKAGE python3-magic_0.4.27.bb
-PYPI_PACKAGE = "python-magic"
-PYPI_PACKAGE_SDIST = "python-magic"
-
-AI-Generated: Uses Claude Code
-Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+Signed-off-by: Mark Hatle <mark.hatle@amd.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py       |  3 +++
- scripts/lib/recipetool/create.py                 | 14 ++++++++++++++
- scripts/lib/recipetool/create_buildsys_python.py |  3 ++-
- 3 files changed, 19 insertions(+), 1 deletion(-)
+ meta/classes/vex.bbclass | 92 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index ca05e54593..54b7cb3a65 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -597,6 +597,7 @@ class RecipetoolCreateTests(RecipetoolBase):
-         checkvars['LICENSE'] = 'BSD-3-Clause'
-         checkvars['LIC_FILES_CHKSUM'] = 'file://LICENSE;md5=702b1ef12cf66832a88f24c8f2ee9c19'
-         checkvars['SRC_URI[sha256sum]'] = 'c225b674c83fa923be93d235330ce0300373d02885cef23238813b0d5668304a'
-+        checkvars['PYPI_PACKAGE'] = None
-         checkvars['PYPI_PACKAGE_SDIST'] = None
-         inherits = ['python_setuptools_build_meta', 'pypi']
- 
-@@ -621,6 +622,7 @@ class RecipetoolCreateTests(RecipetoolBase):
-         checkvars['LICENSE'] = 'GPL-3.0-only'
-         checkvars['LIC_FILES_CHKSUM'] = 'file://LICENSE;md5=1ebbd3e34237af26da5dc08a4e440464'
-         checkvars['SRC_URI[sha256sum]'] = '81f7c0c5559becc8049470d86046b36e96113637bcbe4753ecef06977c00245d'
-+        checkvars['PYPI_PACKAGE'] = None
-         checkvars['PYPI_PACKAGE_SDIST'] = None
-         inherits = ['python_setuptools_build_meta', 'pypi']
- 
-@@ -644,6 +646,7 @@ class RecipetoolCreateTests(RecipetoolBase):
-         checkvars['LICENSE'] = 'BSD-2-Clause'
-         checkvars['LIC_FILES_CHKSUM'] = 'file://LICENSE.txt;md5=b11cf936853a71258d4b57bb1849a3f9'
-         checkvars['SRC_URI[sha256sum]'] = 'ab9c8f1080391e231812d20abf2657a69ee35574563b1014414f953964a95fa3'
-+        checkvars['PYPI_PACKAGE'] = None
-         checkvars['PYPI_PACKAGE_SDIST'] = None
-         inherits = ['python_setuptools_build_meta', 'pypi']
- 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index bf533a45cf..3baf19c7c2 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -795,6 +795,20 @@ def create_recipe(args):
-         if name_pv and not realpv:
-             realpv = name_pv
- 
-+    # PYPI_PACKAGE is not needed if it matches the default derived from BPN (see pypi.bbclass)
-+    if pn and 'pypi' in classes and extravalues.get('PYPI_PACKAGE'):
-+        bpn = pn
-+        if bpn.endswith('-native'):
-+            bpn = bpn[:-len('-native')]
-+        if bpn.startswith('nativesdk-'):
-+            bpn = bpn[len('nativesdk-'):]
-+        for prefix in ('python-', 'python3-'):
-+            if bpn.startswith(prefix):
-+                bpn = bpn[len(prefix):]
-+                break
-+        if re.sub(r"[-_.]+", "-", bpn).lower() == extravalues['PYPI_PACKAGE']:
-+            del extravalues['PYPI_PACKAGE']
+diff --git a/meta/classes/vex.bbclass b/meta/classes/vex.bbclass
+index b3c2aca762..b4f78a5d49 100644
+--- a/meta/classes/vex.bbclass
++++ b/meta/classes/vex.bbclass
+@@ -34,6 +34,7 @@ CVE_CHECK_SUMMARY_INDEX_PATH =3D "${CVE_CHECK_SUMMARY_DIR=
+}/cve-summary-index.txt"
+ CVE_CHECK_DIR ??=3D "${DEPLOY_DIR}/cve"
+ CVE_CHECK_RECIPE_FILE_JSON ?=3D "${CVE_CHECK_DIR}/${PN}_cve.json"
+ CVE_CHECK_MANIFEST_JSON ?=3D "${IMGDEPLOYDIR}/${IMAGE_NAME}.vex.json"
++CVE_CHECK_SDK_MANIFEST_JSON ?=3D "${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.=
+vex.json"
+=20
+ # Skip CVE Check for packages (PN)
+ CVE_CHECK_SKIP_RECIPE ?=3D ""
+@@ -298,3 +299,94 @@ def cve_write_data_json(d, cve_data, cve_status):
+         f.write(write_string)
+     with open(index_path, "a+") as f:
+         f.write("%s\n" % fragment_path)
 +
-     handle_license_vars(srctree_use, lines_before, handled, extravalues, tinfoil.config_data)
- 
-     if not outfile:
-diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-index 4fc96db7e8..d53a6205bf 100644
---- a/scripts/lib/recipetool/create_buildsys_python.py
-+++ b/scripts/lib/recipetool/create_buildsys_python.py
-@@ -180,7 +180,8 @@ class PythonRecipeHandler(RecipeHandler):
-             if required_version and version != required_version:
-                 raise Exception("Version specified using --version/-V (%s) and version specified in the url (%s) do not match" % (required_version, version))
-             # PYPI_PACKAGE is optional if BPN looks like "python-<pypi_package>" or "python3-<pypi_package>" (see pypi.bbclass)
--            # but at this point we cannot know because because user can specify the output name of the recipe on the command line
-+            # but at this point we cannot know because the user can specify the output name of the recipe on the command line,
-+            # so it is set here and dropped later in create_recipe() once the recipe name is known
-             pypi_package = self.pypi_normalise(pypi_package)
-             extravalues["PYPI_PACKAGE"] = pypi_package
-             # Some sdists don't use normalised names, so check and set PYPI_PACKAGE_SDIST if needed
--- 
-2.47.3
++def vex_write_sdk_manifest(d, target_type):
++    """
++    Create VEX/CVE manifest when building an sdk
++    """
++
++    import json
++    from oe.sdk import sdk_list_installed_packages
++    from oe.cve_check import cve_check_merge_jsons
++
++    # Create a list of relevant recipies
++    recipies =3D set()
++
++    if target_type =3D=3D "target":
++        pkgdata_dir =3D d.getVar('PKGDATA_DIR')
++    else:
++        pkgdata_dir =3D d.getVar('PKGDATA_DIR_SDK')
++
++    for pkg in list(sdk_list_installed_packages(d, target_type =3D=3D "tar=
+get")):
++        pkg_info =3D os.path.join(pkgdata_dir,
++                                'runtime-reverse', pkg)
++        pkg_data =3D oe.packagedata.read_pkgdatafile(pkg_info)
++        recipies.add(pkg_data["PN"])
++
++    build_dir =3D d.getVar("B")
++    json_name =3D d.getVar("TOOLCHAIN_OUTPUTNAME") + '-' + target_type + "=
+.vex.json"
++
++    sdk_name =3D os.path.join(build_dir, json_name)
++
++    bb.note("Writing sdk %s VEX manifest: %s" % (target_type, sdk_name))
++
++    json_data =3D {"version":"1", "package": []}
++    text_data =3D ""
++
++    save_pn =3D d.getVar("PN")
++
++    for pkg in recipies:
++        # To be able to use the CVE_CHECK_RECIPE_FILE_JSON variable we hav=
+e to evaluate
++        # it with the different PN names set each time.
++        d.setVar("PN", pkg)
++        pkgfilepath =3D d.getVar("CVE_CHECK_RECIPE_FILE_JSON")
++        if os.path.exists(pkgfilepath):
++            with open(pkgfilepath) as j:
++                data =3D json.load(j)
++                cve_check_merge_jsons(json_data, data)
++        else:
++            bb.warn("Missing cve file for %s" % pkg)
++
++    d.setVar("PN", save_pn)
++
++    with open(sdk_name, "w") as f:
++        json.dump(json_data, f, indent=3D2)
++
++python vex_write_sdk_manifest_host () {
++    vex_write_sdk_manifest(d, "host")
++}
++
++python vex_write_sdk_manifest_target () {
++    vex_write_sdk_manifest(d, "target")
++}
++
++POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk =3D " vex_write_sd=
+k_manifest_host"
++POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk =3D " vex_write_=
+sdk_manifest_target"
++
++# Merge the target and host vex files for a single SDK file
++python sdk_create_vex() {
++    import json
++
++    build_dir =3D d.getVar("B")
++    target_vex_name =3D d.getVar("TOOLCHAIN_OUTPUTNAME") + '-target' + ".v=
+ex.json"
++    host_vex_name =3D d.getVar("TOOLCHAIN_OUTPUTNAME") + '-host' + ".vex.j=
+son"
++
++    target_vex_fname =3D os.path.join(build_dir, target_vex_name)
++    host_vex_fname =3D os.path.join(build_dir, host_vex_name)
++
++    json_data =3D {"version":"1", "package": []}
++
++    # Merge the files together
++    for json_file in [ target_vex_fname, host_vex_fname ]:
++        with open(json_file) as j:
++            data =3D json.load(j)
++            json_data["package"].extend(data["package"])
++
++    manifest_name =3D d.getVar("CVE_CHECK_SDK_MANIFEST_JSON")
++    bb.plain("SDK VEX JSON report stored in: %s" % manifest_name)
++
++    with open(manifest_name, "w") as f:
++        json.dump(json_data, f, indent=3D2)
++}
++
++do_populate_sdk[postfuncs] +=3D "sdk_create_vex"
+--=20
+2.34.1
 
