@@ -1,28 +1,28 @@
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2244.1792709308167137794
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2246.1792709321364008109
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 15:48:28 -0700
+ Thu, 22 Oct 2026 15:48:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=SEoiFRnz;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2026102222482636347efa4500020712-zhun8x@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026102222482636347efa4500020712
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=NpyQY9w5;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20261022224839e68114feb80002078d-wrodky@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20261022224839e68114feb80002078d
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 23 Oct 2026 00:48:26 +0200
+        Fri, 23 Oct 2026 00:48:39 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=qG3YgKQDNqUuLSSCNHrVVqn4HOPYEguwsHSMIk3sFwU=;
- b=SEoiFRnzNa+qGzNown1omUmI6aoSq+UChs6gDi5WxAPMF3XVw7j3BMQoBf6nrJrGgmzYNw
- 1I2rgxXdCpTg10BIBQQ2vAZWy94mf2spIUapDGop6JgkOgicMnvbKv8baG7IK5YuEJCirqjA
- HO6jYxny1RU+HWXEeKO2lKBFUB3wKtHWi7HK0bVOAJJea7+Ns/m+NPHgg6PapvXNtxsCV+Kl
- aPOdAyLkbFJdHGeTGbQBMrCoKMNAUf/OOth0kIVPEReIMsby5TL0YXqaKfwzBFAU1YLWFcsA
- vWBarco/amAu4KS829f5qqhntIRhROpMZMDgiz56cRNNa4I9ASnQFybQ==;
+ bh=Zj94oDb/Xbp77YFOSyH1Mg27M8Qp6BCFSDLzqJonbKA=;
+ b=NpyQY9w5e59C07w66a0cFfk30nROACtbGnt68uJoK2cYynCTu9rzuBTuGmXCivMnh717Go
+ xywB7b2cjDORLKrzP06pglzGoBkWGgpLhojTzMfaQtQKouvGl777wNpOlgGbjOWJqmtbaCiw
+ Y7CZGOT2x1SQ8sdCxIxrCf8jl4488TWfCdNy/J6+SCXtaBnz12RJravbz9AhD1ECN251+/Kz
+ X+scnXGFWkB65dkjd/4M3Pzq/0IzDNE2hqAF+fOiFtJEmu+naABLbm2OGC8P6/9L0VWJM99j
+ mb3FtsoiILR3iCzolmOcCnJrCiGrC2DxbiLPoxOw/DqLcu1mTRhF0WQg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH 09/15] glibc: add tests for CVE-2026-77117 and CVE-2026-80489.
-Date: Fri, 23 Oct 2026 00:47:02 +0200
-Message-ID: <20261022224711.3783258-9-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH 11/15] glibc: patch CVE-2026-8674
+Date: Fri, 23 Oct 2026 00:47:04 +0200
+Message-ID: <20261022224711.3783258-11-peter.marko@siemens.com>
 In-Reply-To: <20261022224711.3783258-1-peter.marko@siemens.com>
 References: <20261022224711.3783258-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -30,209 +30,155 @@ Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 22:48:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248465
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 22:48:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248466
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick commit referencing bug IDs from patches for these CVEs from 3.41
-branch (oldest release still receiving security updates).
+Pick patch referencing this CVE from 3.41 branch (oldest release
+still receiving security updates).
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../0039-CVE-2026-77117-CVE-2026-80489.patch  | 172 ++++++++++++++++++
+ .../glibc/glibc/0042-CVE-2026-8674.patch      | 118 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
- 2 files changed, 173 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0039-CVE-2026-77117-CVE-2026-80489.patch
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0039-CVE-2026-77117-CVE-2026-80489.patch b/meta/recipes-core/glibc/glibc/0039-CVE-2026-77117-CVE-2026-80489.patch
+diff --git a/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch b/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
 new file mode 100644
-index 00000000000..7e9141bd9f7
+index 00000000000..bbdeafd5f38
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0039-CVE-2026-77117-CVE-2026-80489.patch
-@@ -0,0 +1,172 @@
-+From 3d141c23899d90559741b5fe74db97ccf0ef5c29 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 28 Aug 2026 10:26:07 +0200
-+Subject: [PATCH] iconvdata: Test case for bug 34556, bug 34568
++++ b/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
+@@ -0,0 +1,118 @@
++From c97fdd483232a831829aaff458a212307f1bf4bc Mon Sep 17 00:00:00 2001
++From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
++Date: Mon, 14 Sep 2026 17:08:03 -0300
++Subject: [PATCH] resolv: Fix assertion failure on search list truncation [BZ
++ 31026, CVE-2026-8674]
 +
-+Assisted-by: LLM
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+(cherry picked from commit 35efcffa97553df071bc37ab31fd7dc2c634e7da)
++update_from_conf copies the search list into the 256-byte
++resp->defdname and truncates it when an entry does not fit, then
++asserts that resolv_conf_matches accepts the result.
 +
-+CVE: CVE-2026-77117
-+CVE: CVE-2026-80489
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=3d141c23899d90559741b5fe74db97ccf0ef5c29]
++The truncation check there compared the accumulated size against
++sizeof (resp->dnsrch) (the pointer array) instead of resp->defdname,
++and the empty-list case did not account for a first entry that does
++not fit at all.  A long search domain in resolv.conf or LOCALDOMAIN
++thus aborts any process using the resolver.
++
++Check whether the entry fits in the remaining defdname space, matching
++alloc_buffer_copy_string, and also accept an empty resp->dnsrch when
++the first entry is too long.  Add tests covering both cases through
++the search and domain directives.
++
++Checked on x86_64-linux-gnu and i686-linux-gnu.
++Reviewed-by: Florian Weimer <fweimer@redhat.com>
++
++(cherry picked from commit 506ea57086bfb9ce3daff1c14246a1cb532aba0a)
++(cherry picked from commit c0c8a45dee30c8089822d859575a3ad4324b15ff)
++
++CVE: CVE-2026-8674
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=c97fdd483232a831829aaff458a212307f1bf4bc]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ iconvdata/Makefile                |   5 +-
-+ iconvdata/tst-jisx0213-progress.c | 124 ++++++++++++++++++++++++++++++
-+ 2 files changed, 128 insertions(+), 1 deletion(-)
-+ create mode 100644 iconvdata/tst-jisx0213-progress.c
++ resolv/resolv_conf.c                  | 19 +++++++++------
++ resolv/tst-resolv-res_init-skeleton.c | 35 +++++++++++++++++++++++++++
++ 2 files changed, 47 insertions(+), 7 deletions(-)
 +
-+diff --git a/iconvdata/Makefile b/iconvdata/Makefile
-+index cc689f63e9..36f48749d2 100644
-+--- a/iconvdata/Makefile
-++++ b/iconvdata/Makefile
-+@@ -76,7 +76,8 @@ tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
-+ 	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
-+ 	bug-iconv10 bug-iconv11 bug-iconv12 tst-iconv-big5-hkscs-to-2ucs4 \
-+ 	bug-iconv13 bug-iconv14 bug-iconv15 \
-+-	tst-iconv-iso-2022-cn-ext tst-bug33980
-++	tst-iconv-iso-2022-cn-ext tst-bug33980 \
-++	tst-jisx0213-progress
-+ ifeq ($(have-thread-library),yes)
-+ tests += bug-iconv3
-+ endif
-+@@ -335,6 +336,8 @@ $(objpfx)tst-iconv-iso-2022-cn-ext.out: $(addprefix $(objpfx), $(gconv-modules))
-+ 					$(addprefix $(objpfx),$(modules.so))
-+ $(objpfx)tst-bug33980.out: $(addprefix $(objpfx), $(gconv-modules)) \
-+ 			   $(addprefix $(objpfx),$(modules.so))
-++$(objpfx)tst-jisx0213-progress.out: \
-++  $(addprefix $(objpfx), $(gconv-modules)) $(addprefix $(objpfx),$(modules.so))
++diff --git a/resolv/resolv_conf.c b/resolv/resolv_conf.c
++index dcf92ee90e..0418267044 100644
++--- a/resolv/resolv_conf.c
+++++ b/resolv/resolv_conf.c
++@@ -281,8 +281,12 @@ resolv_conf_matches (const struct __res_state *resp,
++   {
++     if (resp->dnsrch[0] == NULL)
++       {
++-        /* Empty search list.  No default domain name.  */
++-        return conf->search_list_size == 0 && resp->defdname[0] == '\0';
+++        /* Empty search list, or the first entry does not fit in
+++           resp->defdname.  No default domain name.  */
+++        return resp->defdname[0] == '\0'
+++          && (conf->search_list_size == 0
+++              || (strlen (conf->search_list[0]) + 1
+++                  > sizeof (resp->defdname)));
++       }
 + 
-+ $(objpfx)iconv-test.out: run-iconv-test.sh \
-+ 			 $(addprefix $(objpfx), $(gconv-modules)) \
-+diff --git a/iconvdata/tst-jisx0213-progress.c b/iconvdata/tst-jisx0213-progress.c
-+new file mode 100644
-+index 0000000000..7b2073be1f
-+--- /dev/null
-++++ b/iconvdata/tst-jisx0213-progress.c
-+@@ -0,0 +1,124 @@
-++/* Test JISX0213 combining character conversion progress (bug 34556, bug 34568).
-++   Copyright (C) 2026 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++/* Certain JISX0213 byte sequences map to a combining sequence, for
-++   example U+304B (HIRAGANA LETTER KA) followed by U+309A (COMBINING
-++   SEMI-VOICED SOUND MARK).  When converting to internal encoding
-++   (actually UTF-32) with a small output buffer, the first code point
-++   is emitted and the second is queued in the converter state.  This
-++   test verifies that the queued code point is consumed exactly once
-++   on retry, so that the conversion makes progress and terminates.  */
-++
-++#include <errno.h>
-++#include <iconv.h>
-++#include <stdio.h>
-++#include <string.h>
-++
-++#include <support/check.h>
-++#include <support/support.h>
-++
-++static void
-++test_one (const char *charset, const char *input, size_t outbufsize)
-++{
-++  printf ("info: %s: testing output buffer size %zu\n", charset, outbufsize);
-++
-++  /* Expected UTF-32 output.  */
-++  static const wchar_t expected[] = { 0x304b, 0x309a, 'A' };
-++
-++  /* Use WCHAR_T encoding to avoid the BOM.  */
-++  iconv_t cd = iconv_open ("WCHAR_T", charset);
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++
-++  char result[64];
-++  size_t result_len = 0;
-++
-++  char *inptr = (char *) input;
-++  size_t inleft = strlen (input);
-++
-++  char outbuf[64];
-++
-++  int iterations = 0;
-++  while (inleft > 0)
-++    {
-++      char *outptr = outbuf;
-++      size_t outleft = outbufsize;
-++      size_t inleft_before = inleft;
-++
-++      size_t ret = iconv (cd, &inptr, &inleft, &outptr, &outleft);
-++      size_t produced = outptr - outbuf;
-++
-++      TEST_VERIFY_EXIT (result_len + produced <= sizeof (result));
-++      memcpy (result + result_len, outbuf, produced);
-++      result_len += produced;
-++
-++      if (ret == (size_t) -1 && errno == E2BIG)
-++	{
-++	  if (produced == 0 && inleft == inleft_before)
-++	    {
-++	      /* Output buffer too small for a single code point.  */
-++	      TEST_VERIFY_EXIT (outbufsize < 4);
-++	      break;
-++	    }
-++	  /* Bound iterations to detect non-progress bugs.  */
-++	  if (++iterations < 10)
-++	    continue;
-++	  else
-++	    {
-++	      FAIL ("%s: no progress", charset);
-++	      goto out;
-++	    }
-++	}
-++      if (ret == (size_t) -1)
-++	FAIL_EXIT1 ("outbufsize %zu: iconv: %m", outbufsize);
-++      break;
-++    }
-++
-++  /* Flush pending converter state.  */
-++  {
-++    char *outptr = outbuf;
-++    size_t outleft = outbufsize;
-++    size_t ret = iconv (cd, NULL, NULL, &outptr, &outleft);
-++    TEST_VERIFY (ret == 0);
-++    size_t produced = outptr - outbuf;
-++    memcpy (result + result_len, outbuf, produced);
-++    result_len += produced;
-++  }
-++
-++  if (outbufsize >= 4)
-++    {
-++      TEST_COMPARE (inleft, 0);
-++      TEST_COMPARE_BLOB (result, result_len,
-++			 expected, sizeof (expected));
-++    }
-++
-++ out:
-++  TEST_VERIFY_EXIT (iconv_close (cd) == 0);
-++}
-++
-++static int
-++do_test (void)
-++{
-++  for (size_t outbufsize = 1; outbufsize <= 16; outbufsize++)
-++    {
-++      test_one ("EUC-JISX0213", "\244\367A", outbufsize);
-++      test_one ("SHIFT_JISX0213", "\202\365A", outbufsize);
-++    }
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
++     if (resp->dnsrch[0] != resp->defdname)
++@@ -309,11 +313,12 @@ resolv_conf_matches (const struct __res_state *resp,
++           }
++         else
++           {
++-            /* resp->dnsrch is truncated if the number of elements
++-               exceeds MAXDNSRCH, or if the combined storage space for
++-               the search list exceeds what can be stored in
++-               resp->defdname.  */
++-            if (i == MAXDNSRCH || search_list_size > sizeof (resp->dnsrch))
+++            /* resp->dnsrch is truncated if the number of elements exceeds
+++               MAXDNSRCH, or if conf->search_list[i] does not fit in the
+++               remaining space of resp->defdname.  */
+++            if (i == MAXDNSRCH
+++                || (search_list_size + strlen (conf->search_list[i]) + 1
+++                    > sizeof (resp->defdname)))
++               break;
++             /* Otherwise, a mismatch indicates a match failure.  */
++             return false;
++diff --git a/resolv/tst-resolv-res_init-skeleton.c b/resolv/tst-resolv-res_init-skeleton.c
++index 3ccbe71db9..4e9c57f3cb 100644
++--- a/resolv/tst-resolv-res_init-skeleton.c
+++++ b/resolv/tst-resolv-res_init-skeleton.c
++@@ -713,6 +713,41 @@ struct test_case test_cases[] =
++      "nameserver 192.0.2.1\n"
++      "; nameserver[0]: [192.0.2.1]:53\n"
++     },
+++/* Search list entries which do not fit in the legacy 256-byte
+++   resp->defdname buffer (bug 31026).  LONG244 is 244 characters long,
+++   so it does not fit after "example.com\0" (12 bytes).  LONG256 is 256
+++   characters long, so it does not fit even as the first entry.  */
+++#define LBL63 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+++#define LONG244 LBL63 "." LBL63 "." LBL63 "." \
+++  "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+++#define LONG256 LBL63 "." LBL63 "." LBL63 "." LBL63 "a"
+++    {.name = "search list truncated at long entry after short entry",
+++     .conf = "nameserver 192.0.2.1\n"
+++     "search example.com " LONG244 "\n",
+++     .expected = "search example.com\n"
+++     "; search[0]: example.com\n"
+++     "; search[1]: " LONG244 "\n"
+++     "nameserver 192.0.2.1\n"
+++     "; nameserver[0]: [192.0.2.1]:53\n"
+++    },
+++    {.name = "search list truncated at long first entry",
+++     .conf = "nameserver 192.0.2.1\n"
+++     "search " LONG256 " example.com\n",
+++     .expected = "; search[0]: " LONG256 "\n"
+++     "; search[1]: example.com\n"
+++     "nameserver 192.0.2.1\n"
+++     "; nameserver[0]: [192.0.2.1]:53\n"
+++    },
+++    {.name = "long first entry from the domain directive",
+++     .conf = "nameserver 192.0.2.1\n"
+++     "domain " LONG256 "\n",
+++     .expected = "; search[0]: " LONG256 "\n"
+++     "nameserver 192.0.2.1\n"
+++     "; nameserver[0]: [192.0.2.1]:53\n"
+++    },
+++#undef LONG256
+++#undef LONG244
+++#undef LBL63
++     {.name = "trust-ad flag",
++      .conf = "options trust-ad\n"
++      "nameserver 192.0.2.1\n",
 diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
-index bd0b4f06190..144ce36ccc2 100644
+index 3e95792b359..3b27328c21a 100644
 --- a/meta/recipes-core/glibc/glibc_2.39.bb
 +++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -71,6 +71,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0036-CVE-2026-19499.patch \
-            file://0037-CVE-2026-77117.patch \
-            file://0038-CVE-2026-80489.patch \
-+           file://0039-CVE-2026-77117-CVE-2026-80489.patch \
+@@ -74,6 +74,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0039-CVE-2026-77117-CVE-2026-80489.patch \
+            file://0040-CVE-2026-18374-01.patch \
+            file://0041-CVE-2026-18374-02.patch \
++           file://0042-CVE-2026-8674.patch \
  "
  S = "${WORKDIR}/git"
  B = "${WORKDIR}/build-${TARGET_SYS}"
