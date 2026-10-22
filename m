@@ -1,145 +1,160 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19722.1792664578592803182
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20238.1792666218980227653
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 03:22:58 -0700
+ Thu, 22 Oct 2026 03:50:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=QTjD2yxX;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-91ba702cceaso21017226d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 03:22:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792664577; cv=none;
-        d=google.com; s=arc-20260327;
-        b=P9sSJx7/qkh022ufbgsx2D3w3odZfVtPEodE4ojRzYHL7pHkUhBtHS2vm/8YSjae/Y
-         UjRjNPc2TfkeUwo2vpC38O191e+ZE1NvxcblXjEyk3VpFUlkCxYG5O/rO3D1dRfvj3//
-         9WWJ1g14V1Kz/uL6vnceH4+2a9e0jjG0uoF9NItUx4BDC555R2nFrn3h3n5DxwpTOKe9
-         DzeZUYCn20VrnGxbmgcYdTgptNHAPm/HzGhxQOpJe7P0ldBsJ1oE+v3acBX6K0dz5vwI
-         KyCLrusOXnL0gpkOf7JT19t3arF675PRN33eEn+jNycoySH2S7S9CgkuD6SoJoJY4HSD
-         dQGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=rwYo6pugjYzzwkm883iPFJCoV9FWf6+nlCqejkNscQ4=;
-        fh=9ThXHYL0rVHl//NEHpfUmYvFzWJ0hGicdHP121LlQTA=;
-        b=llEYCJ5NNmk3eSq8/y1U3j9tY41hdDf4EMrWtf/0YxeNa6NFYN2jNc6DFfV8Q6oob7
-         KZf/RGvsHNs7MD+XT267csv3ATdtoSZKJdD5IfFbUu5UnbcHC6/HJ+CxJPwajbpsX4dE
-         Te7bW+wx0hHuNb4QXaRXMEOupbaHkCY78yQOw7l01BzdNZn40bIxAc8vIfqR2NoxKo2P
-         AcMMz1LBNCTg5BktGM0F8s9FlypxN0Xy3oJV9efhiVGTOv/hKqhiwKh9YUybubTV+0Lb
-         XZA6+bIy+4uBkA+INXkrWNREu/AHPYptordI86omXhk5l3K/jGqf5GeQce+GmdmiSrNd
-         c7Sw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792664577; x=1793269377; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rwYo6pugjYzzwkm883iPFJCoV9FWf6+nlCqejkNscQ4=;
-        b=QTjD2yxXz9iynY4MS47CBb6Yd0i4TIdLyPkemVXNOzG7i975WV/vTOOEOzZ+R7Q/rE
-         mtvsFkvvQ5mvtYOjYR7TQePjCF4MHnUIYHO2LXqhecgTkHmPHyDpnI7pDzV8HXPlJmAt
-         dPQT/7eeGF+4j4ibp67SXBcDfrl9LslPQO3JMmkR/0Qs/EBwqD+XxKCr3Pla65pxfNA4
-         /IXCm8jh1cbL54vQM/H9DuICHrBdnjcRACFMCmf6rjdM6vwgPNgSSekwI4J6NhdNOohV
-         WdJqk1ofE1Zrw7PpYwj8HN2rJntDB2oBUNSarzwBo450YlIfX+qUX8GMdHFcNOjMjmPl
-         2/sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792664577; x=1793269377;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=rwYo6pugjYzzwkm883iPFJCoV9FWf6+nlCqejkNscQ4=;
-        b=nkVgRDCbQD7+kYWE6n0NxJ27kEErGsv9WBJLYwDJeLGBsGS8YgnhrtmsJFB7kHj5NC
-         iNsMPTFO2Dmta/BcEiFtcXIsdb16HfFa6GETXmv8giDUL/1oVubAgQVpFni9pa1iBWqf
-         r6JX5V+8T5WKzqp9tyFpUmZOSksgbF/BmhylxsUao/dxOWcdKorVf0atCX3KY2ScG96G
-         CI0yRrrxrcKykAXYyMTB+NiBYkdOOTUWSsD3OOjx/x5XX3p3mCl1mB/qoh5JjptBbl2M
-         OoMnzYyNm06quXosUjZ8SWhfSrtp/mJ26VjeYDCKJ4B02x68Uk+mw8Ozih3Rr+f4x+qs
-         iuaw==
-X-Gm-Message-State: AFq9FYLQxF8pUafEiX9Fd6580+AcyNFVyyI32/PPusIKNpGIm2Fn5SUI
-	GkP6+bfEn2OGgQMhgiRXY3rkvNMO60M8jKYCSSR2KkRsy3JvN67aGGYpr1q3WNHomQUdkT3+vQw
-	DRq+YY4rryWo21APkM7h6wl/mZwT2yuQ=
-X-Gm-Gg: AYBFou1OHRvI/5ik2KAU6EsZEaFP6mVQD4sGyn2j6Fd1wCu49k8r45o9xw2JHpgkQFg
-	fKJkGomKKdFs7K4uscxXq7O13fjMxfBHNRW8zysOqrXVoXdyRLlPbNAqwyJwMFVw1r8LulZJZDL
-	qjv4MPnt3UhOrpeDhlnC7g30NtDLDRDLApGJuvxBVbqw75B5qoha4cSS66Yv5F/aB4zdaVbLQB8
-	qnmI8MSFmtSsohLDOFtWl9Td1PTX+RwNyJHzexBz53bvsoBcR+F8LhSWKH/q6IAEykglYXDvz1S
-	EnSojX+xOvck2AEnhMDbSfeNcLDGnL1ukditKSkWIWBdJ4hAdYvxlyHueR77spCTAHv7/tutkUN
-	me77/pv0r50wOw34VN/Va3nitTUWuPG1ecrZljSFKWCuEuYkTnOQs5cAngbuOVCZcx0h2G34=
-X-Received: by 2002:ad4:5746:0:b0:917:a253:4f8f with SMTP id
- 6a1803df08f44-91c12ef04camr83140336d6.40.1792664577512; Thu, 22 Oct 2026
- 03:22:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20261019111629.144576-1-UpStream_IP-DR@bmwtechworks.in>
-In-Reply-To: <20261019111629.144576-1-UpStream_IP-DR@bmwtechworks.in>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 22 Oct 2026 12:22:46 +0200
-X-Gm-Features: AclHuK9OR4coPywcywX8JCCMnPj01TB_qlc58w-whP48oiTAc0QomCwbHs_u7Mo
-Message-ID: <CANNYZj9+_napBc7-1e7irmgM6Dh17vgyf9Wjg6ScG+9Bttdrfg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] boost: add lzma and zstd PACKAGECONFIG options
-To: UpStream_IP-DR@bmwtechworks.in
-Cc: openembedded-core@lists.openembedded.org, 
-	Divyanshu Rathore <divyanshu.rathore@bmwtechworks.in>
-Content-Type: multipart/alternative; boundary="0000000000005818e3065e6b3f15"
-List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 10:23:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248438
-
---0000000000005818e3065e6b3f15
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, 19 Oct 2026 at 14:25, Divyanshu Rathore via lists.openembedded.org
-<UpStream_IP-DR=bmwtechworks.in@lists.openembedded.org> wrote:
-
-> --- a/meta/recipes-support/boost/boost.inc
-> +++ b/meta/recipes-support/boost/boost.inc
-> @@ -56,6 +56,8 @@ PACKAGECONFIG[graph_parallel] = ",,,boost-mpi mpich"
->  PACKAGECONFIG[mpi] = ",,mpich"
->  PACKAGECONFIG[numpy] = ",,python3-numpy"
->  PACKAGECONFIG[python] = ",,python3"
-> +PACKAGECONFIG[lzma] = ",,xz"
-> +PACKAGECONFIG[zstd] = ",,zstd"
->
-
-How do these new options work though? Other PACKAGECONFIG options are
-handled elsewhere in the boost recipe with custom code.
-
-Are the newly ones relying on boost quietly detecting the compressors in
-sysroot and then enabling them in its own build? This is unreliable: these
-components can be placed in sysroot by transitive dependencies, and then
-they will be enabled by boost even when they're not enabled in the build
-configuration. You need to make it deterministic by figuring out what
-upstream does, and enforcing both enable and disable from the recipe, e.g.
-via build options or writing out a build config file.
-
-Alex
-
---0000000000005818e3065e6b3f15
-Content-Type: text/html; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=20sd00Lq;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D99C2C58472;
+	Thu, 22 Oct 2026 10:51:15 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6FCD260360;
+	Thu, 22 Oct 2026 10:50:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AD8D510328E3D;
+	Thu, 22 Oct 2026 12:50:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1792666215; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=SCVzjq7AiVdidgsvGsdF6lZWZU9RT5aqHQ5NJabarT4=;
+	b=20sd00LqmBN6JspvKc9NX+60q8p8+EJMFhhLdFer2ZNjpexcWlkWpkIboINewoDLi83IjQ
+	fr0+JsO+S4j1E71C81rLrmaf5GUjfhV6IxoqjT6k4Y+scNt2pZM58xXS9jl7S05IRt3XZK
+	amWD6R2eNHHWq8+CXEKxGVdRF28NqMCaQ3OWnfbgoNaF0sIQWecfLe8QAwOObpEVRIlRmN
+	cZsAkWqVq9lXjdaqU5M5zCLLB/nzT/WGHoDV4bBs8lZTfnyalDBFCh8TG6HcQ2WyEDttvQ
+	ljZorE9fVNrBgO+XH2+S/5pKLKJ+ygp75jh3sIIq+H3H2SDjwcPr2u6PW0usTw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 22 Oct 2026 12:50:14 +0200
+Message-Id: <DMBB4XP04OIS.1XC5GWKFMTVFV@bootlin.com>
+To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Subject: Fwd: [OE-core] [PATCH] image, populate_sdk_base: warn on ';' in
+ *_COMMAND function lists
+Cc: "openembedded-core" <openembedded-core@lists.openembedded.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+X-Last-TLS-Session-Version: TLSv1.3
+List-Id: <openembedded-core.lists.openembedded.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 10:50:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248439
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 19 Oct 2026 at 14:25, Divyanshu R=
-athore via <a href=3D"http://lists.openembedded.org">lists.openembedded.org=
-</a> &lt;UpStream_IP-DR=3D<a href=3D"mailto:bmwtechworks.in@lists.openembed=
-ded.org">bmwtechworks.in@lists.openembedded.org</a>&gt; wrote:</div><div cl=
-ass=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">--- a/meta/recipes-support/boost/boost.inc<br>
-+++ b/meta/recipes-support/boost/boost.inc<br>
-@@ -56,6 +56,8 @@ PACKAGECONFIG[graph_parallel] =3D &quot;,,,boost-mpi mpic=
-h&quot;<br>
-=C2=A0PACKAGECONFIG[mpi] =3D &quot;,,mpich&quot;<br>
-=C2=A0PACKAGECONFIG[numpy] =3D &quot;,,python3-numpy&quot;<br>
-=C2=A0PACKAGECONFIG[python] =3D &quot;,,python3&quot;<br>
-+PACKAGECONFIG[lzma] =3D &quot;,,xz&quot;<br>
-+PACKAGECONFIG[zstd] =3D &quot;,,zstd&quot;<br></blockquote></div><div clas=
-s=3D"gmail_quote gmail_quote_container"><br></div><div class=3D"gmail_quote=
- gmail_quote_container">How do these new options work though? Other PACKAGE=
-CONFIG options are handled elsewhere in the boost recipe with custom code.=
-=C2=A0</div><div class=3D"gmail_quote gmail_quote_container"><br></div><div=
- class=3D"gmail_quote gmail_quote_container">Are the newly ones relying on =
-boost quietly detecting the compressors in sysroot and then enabling them i=
-n its own build? This is unreliable: these components can be placed in sysr=
-oot by transitive dependencies, and then they will be enabled by boost even=
- when they&#39;re not enabled in the build configuration. You need to make =
-it deterministic by figuring out what upstream does, and enforcing both ena=
-ble and disable from the recipe, e.g. via build options or writing out a bu=
-ild config file.</div><div class=3D"gmail_quote gmail_quote_container"><br>=
-</div><div class=3D"gmail_quote gmail_quote_container">Alex</div></div>
+Hi Bruce,
 
---0000000000005818e3065e6b3f15--
+I just wanted to let you know, this patch will add warnings on meta-virt
+once merged:
+
+Parsing recipes...WARNING: /srv/pokybuild/yocto-worker/meta-virt/build/meta=
+-virtualization/recipes-containers/images/app-container-curl.bb: ROOTFS_POS=
+TPROCESS_COMMAND contains ';' but is a space separated list of functions, r=
+emove the ';' delimiters or the functions will not be part of the task sign=
+ature: set_user_group rootfs_fixup_var_volatile ;  zap_empty_root_password =
+     rootfs_update_timestamp   write_image_test_data  set_systemd_default_t=
+arget systemd_sysusers_check systemd_handle_machine_id empty_var_volatile  =
+tidy_shadowutils_files add_empty_root_password_note rootfs_reproducible
+WARNING: /srv/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/re=
+cipes-containers/images/app-container-mosquitto.bb: ROOTFS_POSTPROCESS_COMM=
+AND contains ';' but is a space separated list of functions, remove the ';'=
+ delimiters or the functions will not be part of the task signature: set_us=
+er_group rootfs_fixup_var_volatile ;  zap_empty_root_password      rootfs_u=
+pdate_timestamp   write_image_test_data  set_systemd_default_target systemd=
+_sysusers_check systemd_handle_machine_id empty_var_volatile  tidy_shadowut=
+ils_files add_empty_root_password_note rootfs_reproducible
+WARNING: /srv/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/re=
+cipes-containers/images/app-container-python.bb: ROOTFS_POSTPROCESS_COMMAND=
+ contains ';' but is a space separated list of functions, remove the ';' de=
+limiters or the functions will not be part of the task signature: set_user_=
+group rootfs_fixup_var_volatile ;  zap_empty_root_password      rootfs_upda=
+te_timestamp   write_image_test_data  set_systemd_default_target systemd_sy=
+susers_check systemd_handle_machine_id empty_var_volatile  tidy_shadowutils=
+_files add_empty_root_password_note rootfs_reproducible
+WARNING: /srv/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/re=
+cipes-containers/images/app-container-valkey.bb: ROOTFS_POSTPROCESS_COMMAND=
+ contains ';' but is a space separated list of functions, remove the ';' de=
+limiters or the functions will not be part of the task signature: set_user_=
+group rootfs_fixup_var_volatile ;  zap_empty_root_password      rootfs_upda=
+te_timestamp   write_image_test_data  set_systemd_default_target systemd_sy=
+susers_check systemd_handle_machine_id empty_var_volatile  tidy_shadowutils=
+_files add_empty_root_password_note rootfs_reproducible  rootfs_install_ent=
+rypoint_sh ;
+...
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/4690
+
+Thanks,
+Mathieu
+
+Forwarded message from Etienne Cordonnier via lists.openembedded.org on Wed=
+ Oct 21, 2026 at 2:05 PM:
+From: Etienne Cordonnier <ecordonnier@snap.com>
+
+Since c3365dfd9ddd ("classes: Drop ';' delimiter from ROOTFS/IMAGE*COMMAND
+variables") these variables are space separated function lists, used as
+vardeps of themselves. A stray ';' is still tolerated when the list is
+executed, but at parse time "func;" names no variable, so the function is
+not part of the do_rootfs/do_image/do_populate_sdk signature and a stale
+rootfs or SDK can be reused from sstate.
+
+Warn when a variable from rootfs_command_variables() or
+sdk_command_variables() contains ';'. Tested by adding "foo;" entries and
+checking the warning, and that stock core-image-minimal parses without it.
+
+AI-Generated: Uses Claude Code (claude-sonnet-5-5)
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ meta/classes-recipe/image.bbclass             | 7 ++++++-
+ meta/classes-recipe/populate_sdk_base.bbclass | 7 ++++++-
+ 2 files changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.=
+bbclass
+index 460e5ab39f..1e3c784ec9 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -127,7 +127,12 @@ def rootfs_command_variables(d):
+ python () {
+     variables =3D rootfs_command_variables(d)
+     for var in variables:
+-        d.setVarFlag(var, 'vardeps', d.getVar(var))
++        value =3D d.getVar(var)
++        if value and ';' in value:
++            bb.warn("%s contains ';' but is a space separated list of func=
+tions, "
++                    "remove the ';' delimiters or the functions will not b=
+e part "
++                    "of the task signature: %s" % (var, value.strip()))
++        d.setVarFlag(var, 'vardeps', value)
+ }
+=20
+ def rootfs_variables(d):
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-r=
+ecipe/populate_sdk_base.bbclass
+index 2c6dd1828c..0d67ab6ac6 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -423,7 +423,12 @@ do_populate_sdk[vardeps] +=3D "${@sdk_variables(d)}"
+ python () {
+     variables =3D sdk_command_variables(d)
+     for var in variables:
+-        d.setVarFlag(var, 'vardeps', d.getVar(var))
++        value =3D d.getVar(var)
++        if value and ';' in value:
++            bb.warn("%s contains ';' but is a space separated list of func=
+tions, "
++                    "remove the ';' delimiters or the functions will not b=
+e part "
++                    "of the task signature: %s" % (var, value.strip()))
++        d.setVarFlag(var, 'vardeps', value)
+ }
+=20
+ do_populate_sdk[file-checksums] +=3D "${TOOLCHAIN_SHAR_REL_TMPL}:True \
+--=20
+2.43.0
+
+
+
+
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
