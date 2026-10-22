@@ -1,403 +1,145 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19670.1792664543516077464
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19722.1792664578592803182
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 03:22:23 -0700
+ Thu, 22 Oct 2026 03:22:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=SULwtsbB;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 907F21595
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 03:22:19 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 658A03F7B4
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 03:22:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792664542; bh=wfL/nEeti7dGbTA2dLt9KRUmCXyuo5JlnN980nCBwQU=;
-	h=From:To:Subject:Date:From;
-	b=SULwtsbB8QOwQh4c5nnZ3D3xDcIWwmDwpvCFs3hsmDnlAna75MjBdjF0PMylJxXdS
-	 ksylwrGb13M5U5d60PRgCdP5nEtalmuVJd6cYD+YvvLHrV1yr9Sc36GD2M2z0IMBx9
-	 GUOKSfXTKLUOSelVpSaNWm50LkDkwmbo+L1k7sqU=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: upgrade 3.14.7 -> 3.14.9
-Date: Thu, 22 Oct 2026 11:22:17 +0100
-Message-ID: <20261022102217.2857809-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=QTjD2yxX;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-91ba702cceaso21017226d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 03:22:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792664577; cv=none;
+        d=google.com; s=arc-20260327;
+        b=P9sSJx7/qkh022ufbgsx2D3w3odZfVtPEodE4ojRzYHL7pHkUhBtHS2vm/8YSjae/Y
+         UjRjNPc2TfkeUwo2vpC38O191e+ZE1NvxcblXjEyk3VpFUlkCxYG5O/rO3D1dRfvj3//
+         9WWJ1g14V1Kz/uL6vnceH4+2a9e0jjG0uoF9NItUx4BDC555R2nFrn3h3n5DxwpTOKe9
+         DzeZUYCn20VrnGxbmgcYdTgptNHAPm/HzGhxQOpJe7P0ldBsJ1oE+v3acBX6K0dz5vwI
+         KyCLrusOXnL0gpkOf7JT19t3arF675PRN33eEn+jNycoySH2S7S9CgkuD6SoJoJY4HSD
+         dQGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=rwYo6pugjYzzwkm883iPFJCoV9FWf6+nlCqejkNscQ4=;
+        fh=9ThXHYL0rVHl//NEHpfUmYvFzWJ0hGicdHP121LlQTA=;
+        b=llEYCJ5NNmk3eSq8/y1U3j9tY41hdDf4EMrWtf/0YxeNa6NFYN2jNc6DFfV8Q6oob7
+         KZf/RGvsHNs7MD+XT267csv3ATdtoSZKJdD5IfFbUu5UnbcHC6/HJ+CxJPwajbpsX4dE
+         Te7bW+wx0hHuNb4QXaRXMEOupbaHkCY78yQOw7l01BzdNZn40bIxAc8vIfqR2NoxKo2P
+         AcMMz1LBNCTg5BktGM0F8s9FlypxN0Xy3oJV9efhiVGTOv/hKqhiwKh9YUybubTV+0Lb
+         XZA6+bIy+4uBkA+INXkrWNREu/AHPYptordI86omXhk5l3K/jGqf5GeQce+GmdmiSrNd
+         c7Sw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792664577; x=1793269377; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rwYo6pugjYzzwkm883iPFJCoV9FWf6+nlCqejkNscQ4=;
+        b=QTjD2yxXz9iynY4MS47CBb6Yd0i4TIdLyPkemVXNOzG7i975WV/vTOOEOzZ+R7Q/rE
+         mtvsFkvvQ5mvtYOjYR7TQePjCF4MHnUIYHO2LXqhecgTkHmPHyDpnI7pDzV8HXPlJmAt
+         dPQT/7eeGF+4j4ibp67SXBcDfrl9LslPQO3JMmkR/0Qs/EBwqD+XxKCr3Pla65pxfNA4
+         /IXCm8jh1cbL54vQM/H9DuICHrBdnjcRACFMCmf6rjdM6vwgPNgSSekwI4J6NhdNOohV
+         WdJqk1ofE1Zrw7PpYwj8HN2rJntDB2oBUNSarzwBo450YlIfX+qUX8GMdHFcNOjMjmPl
+         2/sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792664577; x=1793269377;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=rwYo6pugjYzzwkm883iPFJCoV9FWf6+nlCqejkNscQ4=;
+        b=nkVgRDCbQD7+kYWE6n0NxJ27kEErGsv9WBJLYwDJeLGBsGS8YgnhrtmsJFB7kHj5NC
+         iNsMPTFO2Dmta/BcEiFtcXIsdb16HfFa6GETXmv8giDUL/1oVubAgQVpFni9pa1iBWqf
+         r6JX5V+8T5WKzqp9tyFpUmZOSksgbF/BmhylxsUao/dxOWcdKorVf0atCX3KY2ScG96G
+         CI0yRrrxrcKykAXYyMTB+NiBYkdOOTUWSsD3OOjx/x5XX3p3mCl1mB/qoh5JjptBbl2M
+         OoMnzYyNm06quXosUjZ8SWhfSrtp/mJ26VjeYDCKJ4B02x68Uk+mw8Ozih3Rr+f4x+qs
+         iuaw==
+X-Gm-Message-State: AFq9FYLQxF8pUafEiX9Fd6580+AcyNFVyyI32/PPusIKNpGIm2Fn5SUI
+	GkP6+bfEn2OGgQMhgiRXY3rkvNMO60M8jKYCSSR2KkRsy3JvN67aGGYpr1q3WNHomQUdkT3+vQw
+	DRq+YY4rryWo21APkM7h6wl/mZwT2yuQ=
+X-Gm-Gg: AYBFou1OHRvI/5ik2KAU6EsZEaFP6mVQD4sGyn2j6Fd1wCu49k8r45o9xw2JHpgkQFg
+	fKJkGomKKdFs7K4uscxXq7O13fjMxfBHNRW8zysOqrXVoXdyRLlPbNAqwyJwMFVw1r8LulZJZDL
+	qjv4MPnt3UhOrpeDhlnC7g30NtDLDRDLApGJuvxBVbqw75B5qoha4cSS66Yv5F/aB4zdaVbLQB8
+	qnmI8MSFmtSsohLDOFtWl9Td1PTX+RwNyJHzexBz53bvsoBcR+F8LhSWKH/q6IAEykglYXDvz1S
+	EnSojX+xOvck2AEnhMDbSfeNcLDGnL1ukditKSkWIWBdJ4hAdYvxlyHueR77spCTAHv7/tutkUN
+	me77/pv0r50wOw34VN/Va3nitTUWuPG1ecrZljSFKWCuEuYkTnOQs5cAngbuOVCZcx0h2G34=
+X-Received: by 2002:ad4:5746:0:b0:917:a253:4f8f with SMTP id
+ 6a1803df08f44-91c12ef04camr83140336d6.40.1792664577512; Thu, 22 Oct 2026
+ 03:22:57 -0700 (PDT)
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+References: <20261019111629.144576-1-UpStream_IP-DR@bmwtechworks.in>
+In-Reply-To: <20261019111629.144576-1-UpStream_IP-DR@bmwtechworks.in>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 22 Oct 2026 12:22:46 +0200
+X-Gm-Features: AclHuK9OR4coPywcywX8JCCMnPj01TB_qlc58w-whP48oiTAc0QomCwbHs_u7Mo
+Message-ID: <CANNYZj9+_napBc7-1e7irmgM6Dh17vgyf9Wjg6ScG+9Bttdrfg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] boost: add lzma and zstd PACKAGECONFIG options
+To: UpStream_IP-DR@bmwtechworks.in
+Cc: openembedded-core@lists.openembedded.org, 
+	Divyanshu Rathore <divyanshu.rathore@bmwtechworks.in>
+Content-Type: multipart/alternative; boundary="0000000000005818e3065e6b3f15"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 10:22:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248437
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 10:23:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248438
 
-The release notes are long[1] but the highlight is upgrading the bundled
-pip wheel to 26.2.2, as pip bundles certifi which needed upgrading due
-to the eMudhra intermediate CA compromise.
+--0000000000005818e3065e6b3f15
+Content-Type: text/plain; charset="UTF-8"
 
-[1] https://docs.python.org/release/3.14.9/whatsnew/changelog.html
-[2] https://emudhra.we-have-a-problem.com
+On Mon, 19 Oct 2026 at 14:25, Divyanshu Rathore via lists.openembedded.org
+<UpStream_IP-DR=bmwtechworks.in@lists.openembedded.org> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...shebang-overflow-on-python-config.py.patch |  2 +-
- ...-use-prefix-value-from-build-configu.patch |  2 +-
- ...-qemu-wrapper-when-gathering-profile.patch |  2 +-
- ...146207-Add-support-for-OpenSSL-4.0.0.patch | 29 +++++++++----------
- ...Update-_ssl._SSLSocket-for-OpenSSL-4.patch | 18 ++++++------
- ...utdown-test-in-test_ssl.test_got_eof.patch |  2 +-
- .../python/python3/makerace.patch             |  2 +-
- .../{python3_3.14.7.bb =3D> python3_3.14.9.bb}  |  2 +-
- 8 files changed, 28 insertions(+), 31 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.14.7.bb =3D> python3_3.14=
-.9.bb} (99%)
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -56,6 +56,8 @@ PACKAGECONFIG[graph_parallel] = ",,,boost-mpi mpich"
+>  PACKAGECONFIG[mpi] = ",,mpich"
+>  PACKAGECONFIG[numpy] = ",,python3-numpy"
+>  PACKAGECONFIG[python] = ",,python3"
+> +PACKAGECONFIG[lzma] = ",,xz"
+> +PACKAGECONFIG[zstd] = ",,zstd"
+>
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-over=
-flow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/000=
-1-Avoid-shebang-overflow-on-python-config.py.patch
-index 7a605383647..7cacaf0ff37 100644
---- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on=
--python-config.py.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on=
--python-config.py.patch
-@@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index e946018..345ed29 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2835,6 +2835,8 @@ python-config: $(srcdir)/Misc/python-config.in Mis=
-c/python-config.sh
-+@@ -2839,6 +2839,8 @@ python-config: $(srcdir)/Misc/python-config.in Mis=
-c/python-config.sh
-  	@ # Substitution happens here, as the completely-expanded BINDIR
-  	@ # is not available in configure
-  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >py=
-thon-config.py
-diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-u=
-se-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/p=
-ython3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
-index 60391e726bd..580d38a4031 100644
---- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-pref=
-ix-value-from-build-configu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-pref=
-ix-value-from-build-configu.patch
-@@ -21,7 +21,7 @@ diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/=
-__init__.py
- index 0a8bcc0..a2341f2 100644
- --- a/Lib/sysconfig/__init__.py
- +++ b/Lib/sysconfig/__init__.py
--@@ -538,12 +538,12 @@ def _init_config_vars():
-+@@ -539,12 +539,12 @@ def _init_config_vars():
-      _CONFIG_VARS['py_version'] =3D _PY_VERSION
-      _CONFIG_VARS['py_version_short'] =3D _PY_VERSION_SHORT
-      _CONFIG_VARS['py_version_nodot'] =3D _PY_VERSION_SHORT_NO_DOT
-diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-q=
-emu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/p=
-ython3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-index c7f14cad1e0..4e41b04a3bb 100644
---- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wra=
-pper-when-gathering-profile.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wra=
-pper-when-gathering-profile.patch
-@@ -18,7 +18,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index 526d500..a7e536d 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -861,8 +861,7 @@ profile-run-stamp:
-+@@ -863,8 +863,7 @@ profile-run-stamp:
-  	# enabled.
-  	$(MAKE) profile-gen-stamp
-  	# Next, run the profile task to generate the profile information.
-diff --git a/meta/recipes-devtools/python/python3/0001-gh-146207-Add-supp=
-ort-for-OpenSSL-4.0.0.patch b/meta/recipes-devtools/python/python3/0001-g=
-h-146207-Add-support-for-OpenSSL-4.0.0.patch
-index bef60443585..8bb4a4c9057 100644
---- a/meta/recipes-devtools/python/python3/0001-gh-146207-Add-support-for=
--OpenSSL-4.0.0.patch
-+++ b/meta/recipes-devtools/python/python3/0001-gh-146207-Add-support-for=
--OpenSSL-4.0.0.patch
-@@ -32,7 +32,7 @@ diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.p=
-y
- index dc795c6bd8a..61355927296 100644
- --- a/Lib/test/test_ssl.py
- +++ b/Lib/test/test_ssl.py
--@@ -395,7 +395,7 @@ def test_constants(self):
-+@@ -424,7 +424,7 @@ class BasicSocketTests(unittest.TestCase):
-          ssl.OP_NO_COMPRESSION
-          self.assertEqual(ssl.HAS_SNI, True)
-          self.assertEqual(ssl.HAS_ECDH, True)
-@@ -41,7 +41,7 @@ index dc795c6bd8a..61355927296 100644
-          self.assertEqual(ssl.HAS_TLSv1_3, True)
-          ssl.OP_NO_SSLv2
-          ssl.OP_NO_SSLv3
--@@ -586,11 +586,11 @@ def test_openssl_version(self):
-+@@ -615,11 +615,11 @@ class BasicSocketTests(unittest.TestCase):
-          # Some sanity checks follow
-          # >=3D 1.1.1
-          self.assertGreaterEqual(n, 0x10101000)
-@@ -56,7 +56,7 @@ index dc795c6bd8a..61355927296 100644
-          self.assertGreaterEqual(minor, 0)
-          self.assertLess(minor, 256)
-          self.assertGreaterEqual(fix, 0)
--@@ -656,12 +656,14 @@ def test_openssl111_deprecations(self):
-+@@ -685,12 +685,14 @@ class BasicSocketTests(unittest.TestCase):
-              ssl.OP_NO_TLSv1_2,
-              ssl.OP_NO_TLSv1_3
-          ]
-@@ -77,7 +77,7 @@ index dc795c6bd8a..61355927296 100644
-          versions =3D [
-              ssl.TLSVersion.SSLv3,
-              ssl.TLSVersion.TLSv1,
--@@ -1205,6 +1207,7 @@ def test_min_max_version(self):
-+@@ -1184,6 +1186,7 @@ class ContextTests(unittest.TestCase):
-                  ssl.TLSVersion.TLSv1,
-                  ssl.TLSVersion.TLSv1_1,
-                  ssl.TLSVersion.TLSv1_2,
-@@ -85,7 +85,7 @@ index dc795c6bd8a..61355927296 100644
-                  ssl.TLSVersion.SSLv3,
-              }
-          )
--@@ -1218,7 +1221,7 @@ def test_min_max_version(self):
-+@@ -1197,7 +1200,7 @@ class ContextTests(unittest.TestCase):
-          with self.assertRaises(ValueError):
-              ctx.minimum_version =3D 42
- =20
-@@ -94,7 +94,7 @@ index dc795c6bd8a..61355927296 100644
-              ctx =3D ssl.SSLContext(ssl.PROTOCOL_TLSv1_1)
- =20
-              self.assertIn(
--@@ -1675,23 +1678,24 @@ def test__create_stdlib_context(self):
-+@@ -1749,23 +1752,24 @@ class ContextTests(unittest.TestCase):
-          self.assertFalse(ctx.check_hostname)
-          self._assert_context_options(ctx)
- =20
-@@ -130,7 +130,7 @@ index dc795c6bd8a..61355927296 100644
- =20
-          ctx =3D ssl._create_stdlib_context(purpose=3Dssl.Purpose.CLIENT=
-_AUTH)
-          self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLS_SERVER)
--@@ -3654,10 +3658,10 @@ def test_protocol_tlsv1_2(self):
-+@@ -3863,10 +3867,10 @@ class ThreadedTests(unittest.TestCase):
-                             client_options=3Dssl.OP_NO_TLSv1_2)
- =20
-          try_protocol_combo(ssl.PROTOCOL_TLS, ssl.PROTOCOL_TLSv1_2, 'TLS=
-v1.2')
-@@ -147,7 +147,7 @@ diff --git a/Modules/_ssl.c b/Modules/_ssl.c
- index b45295b4c0c..6f75af86113 100644
- --- a/Modules/_ssl.c
- +++ b/Modules/_ssl.c
--@@ -164,6 +164,17 @@ static void _PySSLFixErrno(void) {
-+@@ -135,6 +135,17 @@ static void _PySSLFixErrno(void) {
-  #error Unsupported OpenSSL version
-  #endif
- =20
-@@ -165,7 +165,7 @@ index b45295b4c0c..6f75af86113 100644
-  /* OpenSSL API 1.1.0+ does not include version methods */
-  #ifndef OPENSSL_NO_SSL3_METHOD
-  extern const SSL_METHOD *SSLv3_method(void);
--@@ -1151,7 +1162,7 @@ _asn1obj2py(_sslmodulestate *state, const ASN1_OBJ=
-ECT *name, int no_name)
-+@@ -1134,7 +1145,7 @@ _asn1obj2py(_sslmodulestate *state, const ASN1_OBJ=
-ECT *name, int no_name)
- =20
-  static PyObject *
-  _create_tuple_for_attribute(_sslmodulestate *state,
-@@ -174,7 +174,7 @@ index b45295b4c0c..6f75af86113 100644
-  {
-      Py_ssize_t buflen;
-      PyObject *pyattr;
--@@ -1180,16 +1191,16 @@ _create_tuple_for_attribute(_sslmodulestate *sta=
-te,
-+@@ -1163,16 +1174,16 @@ _create_tuple_for_attribute(_sslmodulestate *sta=
-te,
-  }
- =20
-  static PyObject *
-@@ -195,7 +195,7 @@ index b45295b4c0c..6f75af86113 100644
-      int index_counter;
-      int rdn_level =3D -1;
-      int retcode;
--@@ -6967,9 +6978,15 @@ sslmodule_init_constants(PyObject *m)
-+@@ -6530,9 +6541,15 @@ sslmodule_init_constants(PyObject *m)
-      ADD_INT_CONST("PROTOCOL_TLS", PY_SSL_VERSION_TLS);
-      ADD_INT_CONST("PROTOCOL_TLS_CLIENT", PY_SSL_VERSION_TLS_CLIENT);
-      ADD_INT_CONST("PROTOCOL_TLS_SERVER", PY_SSL_VERSION_TLS_SERVER);
-@@ -229,7 +229,7 @@ diff --git a/Tools/ssl/multissltests.py b/Tools/ssl/m=
-ultissltests.py
- index 3b4507c6771..48207e5330f 100755
- --- a/Tools/ssl/multissltests.py
- +++ b/Tools/ssl/multissltests.py
--@@ -429,9 +429,11 @@ def _post_install(self):
-+@@ -422,9 +422,11 @@ class BuildOpenSSL(AbstractBuilder):
-      def _post_install(self):
-          if self.version.startswith("3."):
-              self._post_install_3xx()
-@@ -242,7 +242,7 @@ index 3b4507c6771..48207e5330f 100755
-              config_args +=3D ("enable-fips",)
-          super()._build_src(config_args)
- =20
--@@ -447,6 +449,9 @@ def _post_install_3xx(self):
-+@@ -440,6 +442,9 @@ class BuildOpenSSL(AbstractBuilder):
-              lib64 =3D self.lib_dir + "64"
-              os.symlink(lib64, self.lib_dir)
- =20
-@@ -252,6 +252,3 @@ index 3b4507c6771..48207e5330f 100755
-      @property
-      def short_version(self):
-          """Short version for OpenSSL download URL"""
----=20
--2.25.1
--
-diff --git a/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_=
-ssl._SSLSocket-for-OpenSSL-4.patch b/meta/recipes-devtools/python/python3=
-/0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch
-index 587f141dd4c..1005fcf3ec4 100644
---- a/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ssl._SS=
-LSocket-for-OpenSSL-4.patch
-+++ b/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ssl._SS=
-LSocket-for-OpenSSL-4.patch
-@@ -28,7 +28,7 @@ diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.p=
-y
- index 965dbc36f096499..03d9e3f9e5e96b5 100644
- --- a/Lib/test/test_ssl.py
- +++ b/Lib/test/test_ssl.py
--@@ -2711,6 +2711,36 @@ def close(self):
-+@@ -2994,6 +2994,36 @@ class ThreadedEchoServer(threading.Thread):
-      def stop(self):
-          self.active =3D False
- =20
-@@ -65,7 +65,7 @@ index 965dbc36f096499..03d9e3f9e5e96b5 100644
-  class AsyncoreEchoServer(threading.Thread):
- =20
-      # this one's based on asyncore.dispatcher
--@@ -4747,6 +4777,58 @@ def background(sock):
-+@@ -5035,6 +5065,58 @@ class ThreadedTests(unittest.TestCase):
-                      if cm.exc_value is not None:
-                          raise cm.exc_value
- =20
-@@ -141,7 +141,7 @@ diff --git a/Modules/_ssl.c b/Modules/_ssl.c
- index 1603d0ffd559559..376df32b7cb4bd6 100644
- --- a/Modules/_ssl.c
- +++ b/Modules/_ssl.c
--@@ -352,6 +352,16 @@ typedef struct {
-+@@ -351,6 +351,16 @@ typedef struct {
-       * and shutdown methods check for chained exceptions.
-       */
-      PyObject *exc;
-@@ -158,7 +158,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
-  } PySSLSocket;
- =20
-  #define PySSLSocket_CAST(op)    ((PySSLSocket *)(op))
--@@ -499,6 +509,10 @@ fill_and_set_sslerror(_sslmodulestate *state,
-+@@ -498,6 +508,10 @@ fill_and_set_sslerror(_sslmodulestate *state,
-      PyObject *init_value, *msg, *key;
-      PyUnicodeWriter *writer =3D NULL;
- =20
-@@ -169,7 +169,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
-      if (errcode !=3D 0) {
-          int lib, reason;
- =20
--@@ -654,6 +668,18 @@ PySSL_ChainExceptions(PySSLSocket *sslsock) {
-+@@ -653,6 +667,18 @@ PySSL_ChainExceptions(PySSLSocket *sslsock) {
-      return -1;
-  }
- =20
-@@ -188,7 +188,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
-  static PyObject *
-  PySSL_SetError(PySSLSocket *sslsock, const char *filename, int lineno)
-  {
--@@ -901,6 +927,7 @@ newPySSLSocket(PySSLContext *sslctx, PySocketSockObj=
-ect *sock,
-+@@ -900,6 +926,7 @@ newPySSLSocket(PySSLContext *sslctx, PySocketSockObj=
-ect *sock,
-      self->server_hostname =3D NULL;
-      self->err =3D err;
-      self->exc =3D NULL;
-@@ -196,7 +196,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
- =20
-      /* Make sure the SSL error state is initialized */
-      ERR_clear_error();
--@@ -1041,6 +1068,11 @@ _ssl__SSLSocket_do_handshake_impl(PySSLSocket *se=
-lf)
-+@@ -1040,6 +1067,11 @@ _ssl__SSLSocket_do_handshake_impl(PySSLSocket *se=
-lf)
-          BIO_set_nbio(SSL_get_wbio(self->ssl), nonblocking);
-      }
- =20
-@@ -208,7 +208,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
-      timeout =3D GET_SOCKET_TIMEOUT(sock);
-      has_timeout =3D (timeout > 0);
-      if (has_timeout) {
--@@ -2504,6 +2536,11 @@ _ssl__SSLSocket_write_impl(PySSLSocket *self, Py_=
-buffer *b)
-+@@ -2505,6 +2537,11 @@ _ssl__SSLSocket_write_impl(PySSLSocket *self, Py_=
-buffer *b)
-          BIO_set_nbio(SSL_get_wbio(self->ssl), nonblocking);
-      }
- =20
-@@ -220,7 +220,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
-      timeout =3D GET_SOCKET_TIMEOUT(sock);
-      has_timeout =3D (timeout > 0);
-      if (has_timeout) {
--@@ -2644,6 +2681,11 @@ _ssl__SSLSocket_read_impl(PySSLSocket *self, Py_s=
-size_t len,
-+@@ -2645,6 +2682,11 @@ _ssl__SSLSocket_read_impl(PySSLSocket *self, Py_s=
-size_t len,
-          Py_INCREF(sock);
-      }
- =20
-diff --git a/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-s=
-hutdown-test-in-test_ssl.test_got_eof.patch b/meta/recipes-devtools/pytho=
-n/python3/0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.pa=
-tch
-index af067f549c4..c42b336798c 100644
---- a/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shutdown=
--test-in-test_ssl.test_got_eof.patch
-+++ b/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shutdown=
--test-in-test_ssl.test_got_eof.patch
-@@ -24,7 +24,7 @@ diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.p=
-y
- index 03d9e3f9e5e96b5..6445f122b4272be 100644
- --- a/Lib/test/test_ssl.py
- +++ b/Lib/test/test_ssl.py
--@@ -4820,14 +4820,6 @@ def test_got_eof(self):
-+@@ -5108,14 +5108,6 @@ class ThreadedTests(unittest.TestCase):
-                  sslsock.do_handshake()
- =20
-              self.assertEqual(sslsock.pending(), 0)
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/r=
-ecipes-devtools/python/python3/makerace.patch
-index 248a521118c..b589dfb3460 100644
---- a/meta/recipes-devtools/python/python3/makerace.patch
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index a7e536d..e946018 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2741,7 +2741,7 @@ COMPILEALL_OPTS=3D-j0
-+@@ -2745,7 +2745,7 @@ COMPILEALL_OPTS=3D-j0
-  TEST_MODULES=3D@TEST_MODULES@
- =20
-  .PHONY: libinstall
-diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb b/meta/recipe=
-s-devtools/python/python3_3.14.9.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.14.7.bb
-rename to meta/recipes-devtools/python/python3_3.14.9.bb
-index f917edebd86..e6fa2bd111e 100644
---- a/meta/recipes-devtools/python/python3_3.14.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.9.bb
-@@ -30,7 +30,7 @@ SRC_URI:append:class-native =3D " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-conf=
-igu.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e=
-252c11a66be27f81"
-+SRC_URI[sha256sum] =3D "e02d9ac21cebda6e46435369744a92c65cc7cd8669697694=
-122cf97ffacd1e53"
-=20
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX =3D "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
---=20
-2.43.0
+How do these new options work though? Other PACKAGECONFIG options are
+handled elsewhere in the boost recipe with custom code.
 
+Are the newly ones relying on boost quietly detecting the compressors in
+sysroot and then enabling them in its own build? This is unreliable: these
+components can be placed in sysroot by transitive dependencies, and then
+they will be enabled by boost even when they're not enabled in the build
+configuration. You need to make it deterministic by figuring out what
+upstream does, and enforcing both enable and disable from the recipe, e.g.
+via build options or writing out a build config file.
+
+Alex
+
+--0000000000005818e3065e6b3f15
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 19 Oct 2026 at 14:25, Divyanshu R=
+athore via <a href=3D"http://lists.openembedded.org">lists.openembedded.org=
+</a> &lt;UpStream_IP-DR=3D<a href=3D"mailto:bmwtechworks.in@lists.openembed=
+ded.org">bmwtechworks.in@lists.openembedded.org</a>&gt; wrote:</div><div cl=
+ass=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">--- a/meta/recipes-support/boost/boost.inc<br>
++++ b/meta/recipes-support/boost/boost.inc<br>
+@@ -56,6 +56,8 @@ PACKAGECONFIG[graph_parallel] =3D &quot;,,,boost-mpi mpic=
+h&quot;<br>
+=C2=A0PACKAGECONFIG[mpi] =3D &quot;,,mpich&quot;<br>
+=C2=A0PACKAGECONFIG[numpy] =3D &quot;,,python3-numpy&quot;<br>
+=C2=A0PACKAGECONFIG[python] =3D &quot;,,python3&quot;<br>
++PACKAGECONFIG[lzma] =3D &quot;,,xz&quot;<br>
++PACKAGECONFIG[zstd] =3D &quot;,,zstd&quot;<br></blockquote></div><div clas=
+s=3D"gmail_quote gmail_quote_container"><br></div><div class=3D"gmail_quote=
+ gmail_quote_container">How do these new options work though? Other PACKAGE=
+CONFIG options are handled elsewhere in the boost recipe with custom code.=
+=C2=A0</div><div class=3D"gmail_quote gmail_quote_container"><br></div><div=
+ class=3D"gmail_quote gmail_quote_container">Are the newly ones relying on =
+boost quietly detecting the compressors in sysroot and then enabling them i=
+n its own build? This is unreliable: these components can be placed in sysr=
+oot by transitive dependencies, and then they will be enabled by boost even=
+ when they&#39;re not enabled in the build configuration. You need to make =
+it deterministic by figuring out what upstream does, and enforcing both ena=
+ble and disable from the recipe, e.g. via build options or writing out a bu=
+ild config file.</div><div class=3D"gmail_quote gmail_quote_container"><br>=
+</div><div class=3D"gmail_quote gmail_quote_container">Alex</div></div>
+
+--0000000000005818e3065e6b3f15--
