@@ -1,114 +1,192 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.69])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.528.1792680262007574354
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.958.1792681338213123674
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 07:44:22 -0700
+ Thu, 22 Oct 2026 08:02:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=UOYvJ0Qk;
- spf=pass (domain: ericsson.com, ip: 52.101.70.69, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zDNwTD1TGOl4LVaZTRtZoD3i8tQrOwOxuy3T/hGMjZ+Wo1JlDaWFR1NvDgqJUxPSkJlMqXS8gM1xrHwwAk3mzFltb3HTGPd6kETEy5QoebnSK5CLDDsnGau5YKo6YJb/5fIT/S7TsIrAYcB9Sc3TnxvOt0FWJkYR8LLkCmKZoVJPEDLv8o4btf2Qg8dth+XqzfDEoc75JqM6N1d68DDzb7ug7dofcJX8IiF6iWKxagDUKbPrXoqbS5LV1K0A+ysJi2kX1FTU39pv+O2MlPcEdE9j5uQ+tOBVSe/ypWZISNcjVXFVcESeXTC3I9Uwnh7pcTqvstnYJmo6WKZNJQUGJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jJ/6wjwuX5grNvYr97FNSucC0lD2+/TaYclhJQOC36c=;
- b=NBbqbJE3THvZmaSbusOQH6GqKF0WErfuE8yZkE79Eh/Iah3afAoGXObfdSqbWb/bmS8qDBbm9SK7hZ/RZpQ2aKPqgbNl3JvVsyoWfHwoIAU6eZM5McNngqxfO6odzK2Op8kdwCmEfdwmSTRbuxwzmUX74/Oi5ea571KYCVdIT/EIBoRdM/P+/IJfs8+e1WD1SgEcA27kD8D/gITvY50TZrFe91Fofyf95wZecp5RspmvLYSUcGZgfFSaYSsWm0r2AKlJ/E0/e1zsDTNBMeCZVufa9AMTepnEruCnluqhG98uMJBHThI48SDxsHHosY6/W+p9ewpEEaXSvyr8al1jaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jJ/6wjwuX5grNvYr97FNSucC0lD2+/TaYclhJQOC36c=;
- b=UOYvJ0Qk7JgB+MHZABzvaowwoaNKi249Cy2+BM57D5RHiBSzaHF1z1JWtH02mhP4CmwFtWmdXluLqM3HVTws1clTsaSLcHMrn8jtsr25//aWg01QUlZ0eo+PFUmY3+2Z38t3Gud2PTeGDgFc9BaeIyl7/3Ca1aRClpwAdM/SZFhcILlH4vgTysJSPh6by6BvQpq7Itb+PezIokO3TgNYCgRkcDhTdL1pQwjSPDU5WfyWa7565BkB/hT0lqUM2gLlKqimVNcHcL0Sf+TaI2zoitaC1EZv98EIvyttc15F+P2vIhnbw4UvnXDoIwJESrrJArHcOquwWTuVb0S6IBMG6w==
-Received: from AS4P195CA0023.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:5d6::14)
- by MI3PR07MB863091.eurprd07.prod.outlook.com (2603:10a6:290:97::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
- 2026 14:44:17 +0000
-Received: from AMS1EPF00000097.eurprd02.prod.outlook.com
- (2603:10a6:20b:5d6:cafe::6b) by AS4P195CA0023.outlook.office365.com
- (2603:10a6:20b:5d6::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.16 via Frontend Transport; Thu,
- 22 Oct 2026 14:44:16 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 192.176.1.74) smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AMS1EPF00000097.mail.protection.outlook.com (10.167.242.68) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.546.15 via Frontend Transport; Thu, 22 Oct 2026 14:44:16 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.64) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 22 Oct 2026 16:44:15 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 2AF0F95805;
-	Thu, 22 Oct 2026 16:44:15 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id F01D370722D0; Thu, 22 Oct 2026 16:44:14 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <alex.kanavin@gmail.com>, Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH 0/2] devtool: add annotations if the changelog is not well format
-Date: Thu, 22 Oct 2026 16:44:11 +0200
-Message-ID: <20261022144413.1690870-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.55.0
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Nrxf2AaM;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=dK1ddspt;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69MEFF8i3210481
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 15:02:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	b/cybMB9KDHc3qF24O9nykJY4HxCrzVAW6jNtGtGXzM=; b=Nrxf2AaMbPKZwc+I
+	MJlWh758CYcERr2L94CGzUiNVObqn6dVeRnYl0fcBoCIKGOfC55P1FMlLLl/tu2d
+	uWWmD+zq1DDHtuIm/8xhOZl2qV4IQCAYqk43yM+dNOI6R5jNdZGN/JBX7/sg8FgL
+	HAQQlC6e7/AJ72/VrjORWwtN9bPh9UaU121MstJ572EZYavYUz9H3R/EpPB86D91
+	N4g/xiQ1xD9tkh05qEvPrr+9uL4V4mxRR53+brnjXmLzd97AjlAO3CRcxkTpPCcR
+	cqyEY51/B+MY2FdWdbjqPtVVxjcZLMtmbnfd8fckwTqpJIqQjD1NwKq2vti+D7J2
+	5hquJQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hf93am5bq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 15:02:17 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3aaf955db5fso2918502a91.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 08:02:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792681337; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jh5qO2X2empPZ802B5VVFcY1NPEdLg8e8OmdrkqfhucEIlGPyLjk28M7CE85WNvjPd
+         YCZe6LQjeqrtnYfyKZmQxY/gIkrmxsJIQnTWp/8edE7V1KpBzeBfKkMSDV8putYMzFns
+         t56gEcCG71kJwJ7HdIAs/PEvG2S+cUs1sqkPFAENP31R/QD3qDNYAh0Ekdbj2AbKZYoh
+         rRfKfDc0hBjlrN488xhu9nGpktL098ypM1ItQp5xcWGwGjbPZ9AcRipXEylP4F3YDr2A
+         pT1BQMV44/q3fhqpqKjSJKSL6kh1kpdmDSEfDVtuXca5wk+pMdUDedy94AV3V9VsONve
+         P5tg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=b/cybMB9KDHc3qF24O9nykJY4HxCrzVAW6jNtGtGXzM=;
+        fh=AZl8ROU/xaGJN13eaY2g6S1Wy3HeRWOzGsUL1utIaTA=;
+        b=BWq2lEuu0IUIHX6CkYEB2JxOZeBGVATtsN5gAlzJglAn+VFM9H2boFAAKEOpz8Dckp
+         DQnwWXRCcfsOYrmimsIZPYdLK05/b25D1dBYE1txxTHCsURluIxBpYh2wf2YXoSBZXd1
+         GYYU8Cc4Agy8xVgo5IrzsKuIF5R9Ej/jeq40sEhYl88Gq68fL+xw1oyNx6pWixc6vcqt
+         PypN9NfRE/fybinYbwJKop0c/ebVbo7MkFNrSFjQ8wIORN2ngXus8Iw1wStYvPuJdTwy
+         dThFJEalPli2k67mDycbusJSe07f4kXUsWyRKt+/tXjEm2RbE/q1ule1OPoh9SbuI5u6
+         Kp3Q==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792681337; x=1793286137; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=b/cybMB9KDHc3qF24O9nykJY4HxCrzVAW6jNtGtGXzM=;
+        b=dK1ddspt+TwWgqsPIV0Tlu3X/EK11Eee+rUs2m8rA+FNbBF9BGdFwonKE7g/AH1s6Y
+         aKY4I+z3p6yG4ah1yGhNIVJaQZZfIvLSntbiH4uRQnGPdAyELkoSM+3yzqiRsUx9/urf
+         HS8H4moy6qweqtg6j9ksz1Mx7UVoC7I3b80xQW89orpHukt3Hx9fyk3C5viPDpqewyJY
+         Ujhd+0J1l+FgMYRv0K/pFmtEDfPz3ErwNDv6YSAWu2qJ2m7yWv58jBA7PvAu8GyoXqTi
+         8tm/6F1+Fkbf53PcT5hizXhPQIx6Dq1ra6Ps/57PSe5P+2ARpngeZzqw29bebEYS+q0d
+         Re9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792681337; x=1793286137;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b/cybMB9KDHc3qF24O9nykJY4HxCrzVAW6jNtGtGXzM=;
+        b=KDoTbVQS2E8VNohf35OFtb+NNan/C+hSYpFluDKDa2yGrRpz7xFrmzpYOg/VWhzMkl
+         jm55wz+dUuGU9ZfOJ2tdDwomX6R7Eva9RiHC3idGzRarmJv+WUsqshByPqwufhUjzkhd
+         lEHQ94JUP0Lr5lMD0VccoBnS6NQGeXQqP2KsnkXd37MbRhtdvdjk2d54zziDkSY2zgTu
+         HV7+WyOQ45R90NV/ruCzHqPqcu71VsTnNxNfq8SUwDPQbz09qpYMuCdnflimvn6KG8O7
+         xtcRFxoq2qOw47xAIDpfL43mjVJWEqbYlUIFsw+6fYqcealaSQh5qqJn2gGq1oRAjKbj
+         s9MQ==
+X-Gm-Message-State: AFq9FYLBbOsvbUBxKd8rC6cXxC1mJKN32y67jtG4YF5/v1uMpwVRYGbm
+	J0DJHChBBZQkS0Y/zpp61j7DWaw001srfwhFNCda85DFAjAKnOZgjfyWlrFSjJdIoW2jc71okOW
+	tmqJglJQCz9SGGKG/frm50vxPoQjLsSic13SP9Yk0TpUM79p0LVecHT9K6WbB16ockHFXzgrBYw
+	nGN/zOkSPEGTgiyoPidDVcaDxUCKNzTgdRmHgsRUot89Ww2cnKZAM4iZdTdQ==
+X-Gm-Gg: AYBFou2P8lrX6KuKxq/h64eRRxIN1yD3cyhQEeTS9cX/9WrA7UG58rXiwnwQMStWz1I
+	dtZeOIKkd11/iYxjM17zkfUMmvr1J24uSA0uzik04KGZq/EJCRRgXGOXF9dgKsHVOmY/YF/8CiQ
+	Frt1R9FNdLIQhMRO3H3qm6SDbMKgw7Y5XRI3civsygh/YuGp3FIZLZ4AhoSn0=
+X-Received: by 2002:a17:90a:d883:b0:3ac:3588:b548 with SMTP id 98e67ed59e1d1-3ad86f1bd4emr4473562a91.13.1792681336246;
+        Thu, 22 Oct 2026 08:02:16 -0700 (PDT)
+X-Received: by 2002:a17:90a:d883:b0:3ac:3588:b548 with SMTP id
+ 98e67ed59e1d1-3ad86f1bd4emr4473519a91.13.1792681335560; Thu, 22 Oct 2026
+ 08:02:15 -0700 (PDT)
 MIME-Version: 1.0
+References: <20261022021932.1842395-1-ricardo.salveti@oss.qualcomm.com> <CADWMC-YVt0-0pkDh1eHFW8GKRwDaLaoC0tygqckez_GLci_3dA@mail.gmail.com>
+In-Reply-To: <CADWMC-YVt0-0pkDh1eHFW8GKRwDaLaoC0tygqckez_GLci_3dA@mail.gmail.com>
+From: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+Date: Thu, 22 Oct 2026 12:01:38 -0300
+X-Gm-Features: AclHuK8eHH6g1LF8t9JepxMp4W-F9zI_4V8hjOdjb-o3dpH6uNfKvaIxP130gu4
+Message-ID: <CAA_5yov138EMzSMP6Ox=w_6M-=wTOqTwwGxd3zeZRB3V=ROoAQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sstatesig: write locked-sigs.inc atomically
+To: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Return-Path: edaturu@ericsson.com
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF00000097:EE_|MI3PR07MB863091:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47f27f4e-2c24-45e5-761f-08df304af24b
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|82310400026|1800799024|23010399003|36860700016|376014|10067099003|18002099003|261021121427099003|3023799007|261021123027099003|261009220027099003|261009223327099003|11063799006|261009221727099003|261009223027099003|261009221227099003|56012099006;
-X-Microsoft-Antispam-Message-Info: 3a/q0OLnXDbm8zVsqg8epl1UCpVSzzhWqbfj2V/byLOStyvUEkFXVGEk3dr6nTkuchT38KBitYoL2lCw2sjKKibolRkZK4hqu/qnFGCAKr4iF/wnOgJr0X0YioyF0oV5sFylMYN6pU3gn4G7sZfWt4NreVdPBVwW2ff1YmhyB8bmdcl60rygKH2LPx8x7Vd/lTKmeqNzYphxlXwDLN12R3emArk4h6K/seLjpsuIFgJUFDDpOeGo78UhVGoaZ0XEg5By5WjwfynyMCSkDvsr31x2LjN/XnwlQfsiis3G4pfvHMVNsr8Q0d7kAAU7gfVHQikLIKZV/j+ayc9NJEq9GjTZQaEGkOWJpE4EUU1EIO5AB3HEJDl5enzzoocjoaI1N7IgTK49E5pKGN7dkM1sOqfg/sQGLn7CV0L2llIyIXveVfljXjxLz6WUqxbfeO31Cn7WMZKuTIJyTcuBUdLuExHxmuIyRj2mvdAK/sNlRkggTPrE7PrY6txNcNZXnTtJ1V7qoi7M3wOOQyFTo3gft2fDaEeGjvyXawyK5KNB31u8CeQ2UkLyT5phlGPs0XD42kzFsHVO9BhS7qkAky3UVcYybTxJnqHqtoOcCfgwemd0dDawaHZQgfwaE1T/3t4VIc4C/LCoSnQ7TqR5fmOqXksXWmkqjkZAB40QdHzNDbYm7JqGIWFHyQ/Yx/BXJBwHiGIWfNZK8iI7Re3sz+JHgw==
-X-Forefront-Antispam-Report: CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(23010399003)(36860700016)(376014)(10067099003)(18002099003)(261021121427099003)(3023799007)(261021123027099003)(261009220027099003)(261009223327099003)(11063799006)(261009221727099003)(261009223027099003)(261009221227099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: O4zvVLs4yXqUa+ppJ7GSzZXxCdmQJPbXtbn7qTRarmAcEVJkaE6wBTfQrtodnRwqzoSn8YIYb/kOMzZvvnjLfcJl5TvAIIoesbiMZdTgJbpY+z4Wm2o9OOmPVeG1PkTT8YFQlFVNg+2FBbVrZ47u0BnVzUcAsITzxNjKc/EhZIwfHSIivEQGymNudTF5MQ3kGUDprOhUD7GOgJHJ+uHYSblftgSz5/sDGIypRQgHBBihPRc3ulSVCn9nAghantHdEuMQT5rUGQPN+t0Sc/XN4bbE7dxOAXYnT1XRQltK+6oIFusyONfJmMT2snNv8HOpyQfGO3ZOFN5cSja1JkCgv8bxtbszRNtdLBkV8cJXV3Zyryetm2L5/KiEGYMF4pMbKUWJUiob5biIYG3yZrHlYcARSZb/BGr3EmtVMA1yFqQB5OjOClbCx2GrQ2ZFo5hi
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 14:44:16.0035
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47f27f4e-2c24-45e5-761f-08df304af24b
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS1EPF00000097.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI3PR07MB863091
+X-Proofpoint-GUID: ExWkwIbJfZ7K9doGQ17moTI6nuxmfvo3
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDA1OSBTYWx0ZWRfX9lKhh8EHwQLX
+ xJ6AWqI3NPzg4w5Fa0UFudPTE4/FBBSMpCPbcmN+InhyIeoMeGaGr64/gbTv12G5peLTaD5aDRN
+ JmO+XsO6XLn6H/NCBeYlDg/XX88a58c=
+X-Proofpoint-ORIG-GUID: ExWkwIbJfZ7K9doGQ17moTI6nuxmfvo3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDA1OSBTYWx0ZWRfX8OEID0om+xnt
+ Ig1SMNKvrUb89LuYXMsvWgSeTAnyqRa9o1ihyXd9b1kAs9+16LWveJ9bo9dEcczV5WWxONMloS+
+ ujja/0wfZUD0TZaHUMDs/PDHvuJXPQmtzxPQ1591+1EB5DszKa7raLL2e6jXgvwQ8BdZaiL2jST
+ xULG1SqcGUTKL5Dt3mBbI8oC9YPZPoXrOakF92a5D8jPN0E7PCmZ0zJtYiK6+kdXIGEbaObvEIG
+ dAyoSEZZFKcY751FSKChJJeJhCPKrBBLL0JvbbXddQ8Icwq0DiZ1bqLURYecr5oWIrhgbjF4GUN
+ IyXKl8wZgU0/KriuaXGEklj6qp81855jwg//3EnScauVdwPCVuENFw0inpeB+QMwRmm6vSOj6kC
+ EPxZy0S64s8ppWMK2CBBynezLzirPa9Iq3bU2blau1+I0PA++RRPHrKcnNAyGYv5+uKoO2jhwDx
+ /rixZ9UYYaFzqhCUFdA==
+X-Authority-Analysis: v=2.4 cv=dOszC+Zb c=1 sm=1 tr=0 ts=6ada2579 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8 a=Q4-j1AaZAAAA:8
+ a=g6JpQOm-opLx_UVjasUA:9 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-22_05,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 spamscore=0 adultscore=0 phishscore=0 bulkscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610220059
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 14:44:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248446
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 15:02:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248449
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+On Thu, Oct 22, 2026 at 5:55=E2=80=AFAM Jose Quaresma
+<jose.quaresma@oss.qualcomm.com> wrote:
+> On Thu, Oct 22, 2026 at 3:19=E2=80=AFAM Ricardo Salveti via lists.openemb=
+edded.org <ricardo.salveti=3Doss.qualcomm.com@lists.openembedded.org> wrote=
+:
+>>
+>> dump_lockedsigs() writes the sigfile in place, so if bitbake fails or is
+>> killed partway through, for example on a full disk, a truncated
+>> locked-sigs.inc is left behind. yocto-check-layer's test_signatures and
+>> test_machine_signatures run bitbake with -k and ignore its exit status
+>> when the file exists, so they would compare a partial set of signatures
+>> without noticing.
+>>
+>> Write to locked-sigs.inc.new and rename it into place once complete, as
+>> epochfile_write() in oe/reproducible.py does, so a failed dump leaves no
+>> sigfile behind.
+>>
+>> Tested by making dump_lockedsigs() fail with ENOSPC halfway through on
+>> meta-qcom data: yocto-check-layer previously accepted the partial file,
+>> now it reports the error. Complete output is byte-identical and a
+>> meta-qcom yocto-check-layer run gives the same results as before.
+>>
+>> AI-Generated: Uses Claude Code (Claude Opus 5.5)
+>> Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+>> ---
+>>  meta/lib/oe/sstatesig.py | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+>> index 9928f3af49..e5a6eb45b9 100644
+>> --- a/meta/lib/oe/sstatesig.py
+>> +++ b/meta/lib/oe/sstatesig.py
+>> @@ -259,7 +259,8 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+>>              if taskhash !=3D unihash:
+>>                  unihashmap[tid] =3D "    " + self.lockedpnmap[fn] + ":"=
+ + task + ":" + taskhash + ":" + unihash
+>>
+>> -        with open(sigfile, "w") as f:
+>> +        tmpfile =3D sigfile + ".new"
+>> +        with open(tmpfile, "w") as f:
+>>              l =3D sorted(types)
+>>              for t in l:
+>>                  f.write('SIGGEN_LOCKEDSIGS_%s =3D "\\\n' % t)
+>> @@ -277,6 +278,7 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+>>              for tid in sortedtid:
+>>                  f.write(unihashmap[tid] + " \\\n")
+>>              f.write('    "\n')
+>> +        os.rename(tmpfile, sigfile)
+>
+>
+> If the locked-sigs.inc already exists, we'll get an error. How do we guar=
+antee that it doesn't exist?
+> Before open truncates the file if it already exists.
 
-Some components are difficult to extract the changelog and create
-badly formatted changelogs by devtool.
+On linux os.rename() is rename(2), which replaces the destination, so
+that won't be an issue.
 
-This series is a follow up on the first attempt in AUH and
-yocto-autobuilder-helper. We can remove components once the changelogs
-get better for them.
+But I can send a v2 to replace it with os.replace() (so it could work
+the same way on windows, for example) for clarity.
 
-https://lists.yoctoproject.org/g/yocto-patches/topic/121846157?msg=3D5121#m=
-sg5121
+Thanks,
 
-A companion patch will be sent to AUH that reads the new parameter.
-
-Daniel
-
-Daniel Turull (2):
-  devtool: upgrade: flag badly formed changelogs in metadata
-  maintainers.inc: add RECIPE_UPGRADE_CHANGELOG_SKIP
-
- meta/conf/distro/include/maintainers.inc | 29 ++++++++++++++++++++++++
- meta/lib/oeqa/selftest/cases/devtool.py  |  7 ++++--
- scripts/lib/devtool/upgrade.py           | 10 ++++++--
- 3 files changed, 42 insertions(+), 4 deletions(-)
-
+Ricardo
