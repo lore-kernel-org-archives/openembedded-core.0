@@ -1,28 +1,28 @@
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2229.1792709266423383138
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2341.1792709272809997498
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 15:47:46 -0700
+ Thu, 22 Oct 2026 15:47:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Vf/21nZh;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202610222247440a9d00422200020711-iocyjm@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202610222247440a9d00422200020711
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=YI01CBhM;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202610222247519a0061002d0002079f-jtospt@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202610222247519a0061002d0002079f
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 23 Oct 2026 00:47:44 +0200
+        Fri, 23 Oct 2026 00:47:51 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=GwkuNlz1kJKM3qJbZ7njLodKxfS4R302/eddshDdz24=;
- b=Vf/21nZhL0UF5nGfhdkMqvUxnOQ4l2Zpqs6SKWSnc3lVisowiOiik9c3fdssP8UajNz3/v
- pMsBgZvXri6d8OdAEBVC4xKGnNUOmXIisa613n6z1kEjN0AyTi3BYgRST7uFH5rjz+oIDhBU
- vkfCILv+aeh7BRzOdGjDZw7SdmoeR5HURPNt6w6DSLS6AtTAKarTKhJx3LjDtsr64N/Vwc3y
- o8L2RKCy/6umlec37I2sywg3LOn2NzLTrlTIZhzKNqrl5QfO3KZxgMcNtVsVmJKRoWsJ7U0/
- wia94qVgAxE+dxBgrzao9ljqExXJ+wSRIfzfKmbGvTM+9YswUfCbkwjA==;
+ bh=XhS9K4sELQxi6W/LdZi7rm8L61Fy+SMZ9XdnhazA8VM=;
+ b=YI01CBhMUH2otR+PU5T5mPF0GLtCYLT8MRtlspmmYAe5zEsu1B7coEjxmLJlkV5cIunRxf
+ fJOvQgFf0dton8f22cdkSvrskLcIBfEbKSZL+NrpNjh3AQkjqpZMx4GXmZUHNCosFcN2rG9A
+ rSQe4aegvlFQ7G4C/mKPJVII/OCAQc7nzglMcvex0f3mqfr6LvnDI3M8GS7Y+hLoNPt0ZII/
+ wZrANSoso0BLpC/x0udSxDKPuVq6WYVKdLI6eyH8YxOb7ooYIlvZQl1Zor0r9rojx1SQ6ImM
+ 6yLG5yTk4Tdc2mESsh7rmauAdZfoVpqJDS07croMaN2/4E1ANn4twk3w==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH 03/15] glibc: patch CVE-2026-6791
-Date: Fri, 23 Oct 2026 00:46:56 +0200
-Message-ID: <20261022224711.3783258-3-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH 04/15] glibc: patch CVE-2026-6368
+Date: Fri, 23 Oct 2026 00:46:57 +0200
+Message-ID: <20261022224711.3783258-4-peter.marko@siemens.com>
 In-Reply-To: <20261022224711.3783258-1-peter.marko@siemens.com>
 References: <20261022224711.3783258-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -30,8 +30,8 @@ Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 22:47:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248459
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 22:48:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248460
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -41,75 +41,78 @@ still receiving security updates).
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../glibc/glibc/0033-CVE-2026-6791.patch      | 364 ++++++++++++++++++
+ .../glibc/glibc/0034-CVE-2026-6368.patch      | 577 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
- 2 files changed, 365 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch
+ 2 files changed, 578 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0034-CVE-2026-6368.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch b/meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch
+diff --git a/meta/recipes-core/glibc/glibc/0034-CVE-2026-6368.patch b/meta/recipes-core/glibc/glibc/0034-CVE-2026-6368.patch
 new file mode 100644
-index 00000000000..83294df46e8
+index 00000000000..8ce9ce682f5
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch
-@@ -0,0 +1,364 @@
-+From 965b580070b8184b0dd390800d9194291a600e67 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/0034-CVE-2026-6368.patch
+@@ -0,0 +1,577 @@
++From dfc8ef388ef7856f318ade7dec501f92ce54f9e3 Mon Sep 17 00:00:00 2001
 +From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+Date: Tue, 14 Apr 2026 10:50:37 -0300
-+Subject: [PATCH] posix: Fix stack overflow in wordexp tilde expansion (BZ
-+ 34091, CVE-2026-6791)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++Date: Mon, 13 Apr 2026 16:33:30 -0300
++Subject: [PATCH] posix: Fix wordexp WRDE_APPEND to preserve state on
++ non-NOSPACE errors (BZ 34090, CVE-2026-6368)
 +
-+The parse_tilde function previously used strndupa to allocate memory
-+for the parsed username on the stack, and since the input is
-+user-defined, this can lead to a stack overflow.
++The previous implementation saved a copy of the wordexp_t struct at
++entry and blindly restored it on error via (*pwordexp = old_word).
++This is incorrect when WRDE_APPEND is set because w_addword may have
++called realloc on we_wordv during partial processing before the error
++was detected.  If realloc relocated the buffer, the saved we_wordv
++pointer is dangling; restoring it causes a use-after-free in the
++caller (e.g. via wordfree), and the relocated buffer is leaked.
 +
-+This patch fixes the issue by replacing strndupa with scratch_buffer,
-+by reusing the buffer used in the __getpwnam_r call.
++Fix this by duplicating the we_wordv pointer array at entry when
++WRDE_APPEND is set, so that all subsequent realloc calls inside
++w_addword operate on the copy.
 +
-+The new “tst-wordexp-tilde.c” test is a test-container to avoid using
-+system-defined NSS modules.
++This change also fixes a POSIX conformance issue: if the WRDE_APPEND
++flag is specified, pwordexp->we_wordc and pwordexp->we_wordv shall
++not be modified.
++
++Also fix two pre-existing error return paths in the '"' and '\'' cases
++that returned directly from w_addword failures instead of going through
++do_error, which would leak the saved array (and previously would also
++skip the word cleanup).
 +
 +Checked on x86_64-linux-gnu and i686-linux-gnu.
 +
-+(cherry picked from commit 07c24f35392b727e6100d33edfdf811a6c68c218)
++Reviewed-by: DJ Delorie <dj@redhat.com>
++(cherry picked from commit e2cefe16c37a617df9f11407cb00a272a6098823)
 +
-+CVE: CVE-2026-6791
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=965b580070b8184b0dd390800d9194291a600e67]
++CVE: CVE-2026-6368
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;dfc8ef388ef7856f318ade7dec501f92ce54f9e3]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ posix/Makefile                                |   1 +
-+ posix/tst-wordexp-tilde.c                     | 244 ++++++++++++++++++
-+ posix/tst-wordexp-tilde.root/etc/group        |   1 +
-+ .../tst-wordexp-tilde.root/etc/nsswitch.conf  |   3 +
-+ posix/tst-wordexp-tilde.root/etc/passwd       |   1 +
-+ posix/wordexp.c                               |  24 +-
-+ 6 files changed, 268 insertions(+), 6 deletions(-)
-+ create mode 100644 posix/tst-wordexp-tilde.c
-+ create mode 100644 posix/tst-wordexp-tilde.root/etc/group
-+ create mode 100644 posix/tst-wordexp-tilde.root/etc/nsswitch.conf
-+ create mode 100644 posix/tst-wordexp-tilde.root/etc/passwd
++ posix/Makefile             |   1 +
++ posix/tst-wordexp-append.c | 393 +++++++++++++++++++++++++++++++++++++
++ posix/wordexp.c            |  69 ++++++-
++ 3 files changed, 454 insertions(+), 9 deletions(-)
++ create mode 100644 posix/tst-wordexp-append.c
 +
 +diff --git a/posix/Makefile b/posix/Makefile
-+index 9360bc7ff8..c2c05b3973 100644
++index c2c05b3973..5358a3f8c1 100644
 +--- a/posix/Makefile
 ++++ b/posix/Makefile
-+@@ -354,6 +354,7 @@ tests-internal := \
-+ tests-container := \
-+   bug-ga2 \
-+   tst-vfork3 \
-++  tst-wordexp-tilde \
-+   # tests-container
-+ 
-+ tests-time64 := \
-+diff --git a/posix/tst-wordexp-tilde.c b/posix/tst-wordexp-tilde.c
++@@ -325,6 +325,7 @@ tests := \
++   tst-wait3 \
++   tst-wait4 \
++   tst-waitid \
+++  tst-wordexp-append \
++   tst-wordexp-nocmd \
++   tst-wordexp-reuse \
++   tstgetopt \
++diff --git a/posix/tst-wordexp-append.c b/posix/tst-wordexp-append.c
 +new file mode 100644
-+index 0000000000..1661603681
++index 0000000000..87f388f0a7
 +--- /dev/null
-++++ b/posix/tst-wordexp-tilde.c
-+@@ -0,0 +1,244 @@
-++/* Test wordexp tilde expansion with large usernames (BZ 34091).
+++++ b/posix/tst-wordexp-append.c
++@@ -0,0 +1,393 @@
+++/* Test for wordexp with WRDE_APPEND flag.
 ++   Copyright (C) 2026 Free Software Foundation, Inc.
 ++   This file is part of the GNU C Library.
 ++
@@ -127,304 +130,514 @@ index 00000000000..83294df46e8
 ++   License along with the GNU C Library; if not, see
 ++   <https://www.gnu.org/licenses/>.  */
 ++
-++#include <pwd.h>
-++#include <stdio.h>
-++#include <string.h>
 ++#include <wordexp.h>
+++#include <string.h>
+++#include <stdio.h>
 ++#include <stdlib.h>
-++#include <sys/resource.h>
+++#include <malloc.h>
 ++
 ++#include <support/check.h>
 ++#include <support/support.h>
-++#include <support/xunistd.h>
-++#include <support/namespace.h>
 ++
-++typedef void (*func_callback_t)(void);
+++static unsigned int relocating_reallocs;
 ++
-++static void
-++subprocess_small_stack (void *closure)
+++/* w_addword grows we_wordv with realloc, make every call guaranteed to
+++   relocate the block.  This makes BZ 34090 regression more deterministic.  */
+++void *
+++realloc (void *ptr, size_t size)
 ++{
-++  struct rlimit rl;
-++  TEST_COMPARE (getrlimit (RLIMIT_STACK, &rl), 0);
-++  rl.rlim_cur = 512 * 1024;
-++  TEST_COMPARE (setrlimit (RLIMIT_STACK, &rl), 0);
-++
-++  func_callback_t func_test = closure;
-++  func_test ();
-++}
-++
-++/* Build a string "~<padding>/tail" where <padding> is LEN bytes of the
-++   character CH.  The caller must free the result.  */
-++static char *
-++make_tilde_input (char ch, size_t len, const char *tail)
-++{
-++  /* ~  +  len  +  /  +  tail  +  \0 */
-++  size_t taillen = tail != NULL ? strlen (tail) : 0;
-++  size_t total = 1 + len + 1 + taillen + 1;
-++  char *buf = xmalloc (total);
-++  buf[0] = '~';
-++  memset (buf + 1, ch, len);
-++  buf[1 + len] = '/';
-++  if (tail != NULL)
-++    memcpy (buf + 1 + len + 1, tail, taillen);
-++  buf[total - 1] = '\0';
-++  return buf;
-++}
-++
-++/* Test 1: A very long username must not crash.  The username will not match
-++   any real user, so wordexp returns ~<long>/rest.  */
-++static void
-++test_long_username (void)
-++{
-++  printf ("info: test_long_username_no_crash\n");
-++
-++  static const char REST[] = "rest";
-++
-++  /* 1 MiB username — well beyond any reasonable stack frame.  */
-++  const size_t long_len = 1024 * 1024;
-++  char *input = make_tilde_input ('A', long_len, REST);
-++
-++  wordexp_t we = { 0 };
-++  int ret = wordexp (input, &we, 0);
-++  /* The (non-existent) username is invalid, so wordexp falls back to
-++     literal output: ~AAA…/rest.  */
-++  TEST_COMPARE (ret, 0);
-++  TEST_COMPARE (we.we_wordc, 1);
-++
-++  /* Verify prefix: '~' followed by long_len 'A's.  */
-++  const char *result = we.we_wordv[0];
-++  TEST_COMPARE (result[0], '~');
-++  TEST_COMPARE (strlen (result),
-++	        1 /* ~ */ + long_len + sizeof (REST));
-++  for (size_t j = 1; j <= long_len; j++)
-++    if (result[j] != 'A')
-++      {
-++	printf ("  mismatch at position %zu: expected 'A', got '%c'\n",
-++		j, result[j]);
-++	support_record_failure ();
-++	break;
-++      }
-++  /* Verify the tail after the username.  */
-++  TEST_COMPARE_STRING (result + 1 + long_len, "/rest");
-++
-++  wordfree (&we);
-++  free (input);
-++}
-++
-++/* Test 2: A username that just exceeds the default scratch_buffer inline
-++   size (1024 bytes) exercises the scratch_buffer_set_array_size growth path
-++   without being excessively large.  */
-++static void
-++test_scratch_buffer_growth (void)
-++{
-++  printf ("info: test_scratch_buffer_growth\n");
-++
-++  const size_t len = 2048;
-++  char *input = make_tilde_input ('x', len, NULL);
-++
-++  wordexp_t we = { 0 };
-++  int ret = wordexp (input, &we, 0);
-++  TEST_COMPARE (ret, 0);
-++  TEST_COMPARE (we.we_wordc, 1);
-++
-++  /* ~xxx…/ — the trailing slash makes a separate empty component, but
-++     wordexp merges it into the single token ~xxx…/.  */
-++  const char *result = we.we_wordv[0];
-++  TEST_COMPARE (result[0], '~');
-++  for (size_t j = 1; j <= len; j++)
-++    if (result[j] != 'x')
-++      {
-++	printf ("  mismatch at position %zu\n", j);
-++	support_record_failure ();
-++	break;
-++      }
-++  TEST_COMPARE (result[1 + len], '/');
-++
-++  wordfree (&we);
-++  free (input);
-++}
-++
-++/* Test 3: ~root still resolves to the correct home directory through the
-++   __getpwnam_r path.  */
-++static void
-++test_known_user (void)
-++{
-++  printf ("info: test_known_user\n");
-++
-++  /* Look up root's home directory for comparison.  */
-++  struct passwd *pw = getpwnam ("root");
-++  if (pw == NULL || pw->pw_dir == NULL)
+++  if (ptr == NULL)
+++    return malloc (size);
+++  if (size == 0)
 ++    {
-++      printf ("  SKIP: cannot look up root\n");
-++      return;
+++      free (ptr);
+++      return NULL;
 ++    }
 ++
-++  char *expected = xasprintf ("%s/file", pw->pw_dir);
+++  void *new = malloc (size);
+++  if (new == NULL)
+++    return NULL;
 ++
-++  wordexp_t we = { 0 };
-++  TEST_COMPARE (wordexp ("~root/file", &we, 0), 0);
-++  TEST_COMPARE (we.we_wordc, 1);
-++  TEST_COMPARE_STRING (we.we_wordv[0], expected);
-++
-++  wordfree (&we);
-++  free (expected);
+++  /* Copy only what is valid in the old block to avoid reading past it.  */
+++  size_t old = malloc_usable_size (ptr);
+++  memcpy (new, ptr, old < size ? old : size);
+++  /* Clobber the old block so that a stale we_wordv pointer restored on the
+++     error path reads garbage instead of the old contents, which might
+++     otherwise survive intact and mask the bug.  */
+++  memset (ptr, 0x5a, old);
+++  free (ptr);
+++  relocating_reallocs++;
+++  return new;
 ++}
 ++
-++/* Test 4: Bare tilde expands to $HOME.  */
+++/* Verify that all words in we match the expected NULL-terminated
+++   array.  */
 ++static void
-++test_bare_tilde (void)
+++check_words (const wordexp_t *we, const char *const *expected)
 ++{
-++  printf ("info: test_bare_tilde\n");
-++
-++  const char *home = getenv ("HOME");
-++  if (home == NULL)
+++  size_t i;
+++  for (i = 0; expected[i] != NULL; i++)
 ++    {
-++      printf ("  SKIP: HOME is not set\n");
-++      return;
+++      TEST_VERIFY (i < we->we_wordc);
+++      TEST_COMPARE_STRING (we->we_wordv[we->we_offs + i], expected[i]);
 ++    }
+++  TEST_COMPARE (we->we_wordc, i);
+++}
 ++
+++#define CHECK_WORDS(we, ...) \
+++  do {								\
+++    const char *const expected_[] = { __VA_ARGS__, NULL };	\
+++    check_words (we, expected_);				\
+++  } while (0)
+++
+++/* Test 1: WRDE_APPEND + WRDE_BADCHAR preserves we_wordc.  */
+++static void
+++test_append_badchar_preserves_count (void)
+++{
+++  printf ("info: test_append_badchar_preserves_count\n");
 ++  wordexp_t we = { 0 };
-++  TEST_COMPARE (wordexp ("~", &we, 0), 0);
-++  TEST_COMPARE (we.we_wordc, 1);
-++  TEST_COMPARE_STRING (we.we_wordv[0], home);
+++
+++  TEST_COMPARE (wordexp ("one two three", &we, 0), 0);
+++  TEST_COMPARE (we.we_wordc, 3);
+++
+++  size_t saved_count = we.we_wordc;
+++
+++  /* ')' triggers WRDE_BADCHAR and  "extra" would be a new word if the
+++     expansion succeeded, exercising the w_addword path before the error
+++     is detected.  */
+++  TEST_COMPARE (wordexp ("extra )", &we, WRDE_APPEND), WRDE_BADCHAR);
+++  TEST_COMPARE (we.we_wordc, saved_count);
 ++
 ++  wordfree (&we);
 ++}
 ++
-++/* Test 5: Short non-existent username falls back to literal ~username output,
-++   exercising the invalid-login-name path.  */
+++/* Test 2: WRDE_APPEND + WRDE_BADCHAR preserves the we_wordv pointer even
+++   when internal realloc would move the buffer.  */
 ++static void
-++test_unknown_user (void)
+++test_append_badchar_preserves_pointer (void)
 ++{
-++  printf ("info: test_unknown_user\n");
-++
-++  /* Pick a username that is extremely unlikely to exist.  */
+++  printf ("info: test_append_badchar_preserves_pointer\n");
 ++  wordexp_t we = { 0 };
-++  TEST_COMPARE (wordexp ("~no_such_user_xyzzy42", &we, 0), 0);
-++  TEST_COMPARE (we.we_wordc, 1);
-++  TEST_COMPARE_STRING (we.we_wordv[0], "~no_such_user_xyzzy42");
+++
+++  /* Use many words so that the initial we_wordv allocation is
+++     non-trivial and a later realloc is more likely to move it.  */
+++  TEST_COMPARE (wordexp ("a b c d e f g h", &we, 0), 0);
+++  TEST_COMPARE (we.we_wordc, 8);
+++
+++  char **saved_wordv = we.we_wordv;
+++  size_t saved_count = we.we_wordc;
+++  unsigned int saved_reallocs = relocating_reallocs;
+++
+++  /* The interposed realloc guarantees the internal we_wordv buffer moves
+++     during parsing, so the pointer-stability check below is meaningful.  */
+++  TEST_COMPARE (wordexp ("append )", &we, WRDE_APPEND), WRDE_BADCHAR);
+++  /* Verify that a relocating realloc actually happened during the failed
+++     call, otherwise the pointer-stability check is vacuous.  */
+++  TEST_VERIFY (relocating_reallocs > saved_reallocs);
+++  TEST_COMPARE (we.we_wordc, saved_count);
+++  TEST_VERIFY (we.we_wordv == saved_wordv);
 ++
 ++  wordfree (&we);
 ++}
 ++
-++/* Test 6: Tilde with username and WRDE_APPEND — exercises parse_tilde's
-++   interaction with the WRDE_APPEND word list.  */
+++/* Test 3: After a failed WRDE_APPEND the original words are still accessible
+++   and correct.  */
 ++static void
-++test_tilde_with_append (void)
+++test_append_badchar_words_intact (void)
 ++{
-++  printf ("info: test_tilde_with_append\n");
-++
-++  const char *home = getenv ("HOME");
-++  if (home == NULL)
-++    {
-++      printf ("  SKIP: HOME is not set\n");
-++      return;
-++    }
-++
+++  printf ("info: test_append_badchar_words_intact\n");
 ++  wordexp_t we = { 0 };
-++  TEST_COMPARE (wordexp ("first", &we, 0), 0);
 ++
-++  TEST_COMPARE (wordexp ("~/path", &we, WRDE_APPEND), 0);
+++  TEST_COMPARE (wordexp ("alpha beta gamma", &we, 0), 0);
+++  CHECK_WORDS (&we, "alpha", "beta", "gamma");
+++
+++  TEST_COMPARE (wordexp ("delta )", &we, WRDE_APPEND), WRDE_BADCHAR);
+++
+++  /* Words must still be intact.  */
+++  CHECK_WORDS (&we, "alpha", "beta", "gamma");
+++  /* The NULL terminator must still be present.  */
+++  TEST_VERIFY (we.we_wordv[we.we_offs + we.we_wordc] == NULL);
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 4: Successful WRDE_APPEND still works (regression test).  */
+++static void
+++test_append_success (void)
+++{
+++  printf ("info: test_append_success\n");
+++  wordexp_t we = { 0 };
+++
+++  TEST_COMPARE (wordexp ("hello", &we, 0), 0);
+++  TEST_COMPARE (we.we_wordc, 1);
+++
+++  char **saved_wordv = we.we_wordv;
+++
+++  TEST_COMPARE (wordexp ("world", &we, WRDE_APPEND), 0);
 ++  TEST_COMPARE (we.we_wordc, 2);
-++  TEST_COMPARE_STRING (we.we_wordv[0], "first");
-++
-++  char *expected = xasprintf ("%s/path", home);
-++  TEST_COMPARE_STRING (we.we_wordv[1], expected);
+++  /* A successful append works on a fresh copy of the array, so the
+++     caller-visible pointer must have changed.  */
+++  TEST_VERIFY (we.we_wordv != saved_wordv);
+++  CHECK_WORDS (&we, "hello", "world");
 ++
 ++  wordfree (&we);
-++  free (expected);
+++}
+++
+++/* Test 5: Successful append after a failed append — the implementation must
+++   recover and allow further use of the wordexp_t.  */
+++static void
+++test_append_success_after_failure (void)
+++{
+++  printf ("info: test_append_success_after_failure\n");
+++  wordexp_t we = { 0 };
+++
+++  TEST_COMPARE (wordexp ("first", &we, 0), 0);
+++  CHECK_WORDS (&we, "first");
+++
+++  TEST_COMPARE (wordexp ("bad |", &we, WRDE_APPEND), WRDE_BADCHAR);
+++
+++  /* State must be exactly as before the failed call.  */
+++  CHECK_WORDS (&we, "first");
+++
+++  /* A subsequent successful append must work.  */
+++  TEST_COMPARE (wordexp ("second third", &we, WRDE_APPEND), 0);
+++  CHECK_WORDS (&we, "first", "second", "third");
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 6: Multiple consecutive failed appends do not corrupt state.  */
+++static void
+++test_append_multiple_failures (void)
+++{
+++  printf ("info: test_append_multiple_failures\n");
+++  wordexp_t we = { 0 };
+++
+++  TEST_COMPARE (wordexp ("keep this", &we, 0), 0);
+++  CHECK_WORDS (&we, "keep", "this");
+++
+++  size_t saved_count = we.we_wordc;
+++  char **saved_wordv = we.we_wordv;
+++
+++  /* Each of these bad characters must leave the state unchanged.  */
+++  TEST_COMPARE (wordexp ("x )", &we, WRDE_APPEND), WRDE_BADCHAR);
+++  TEST_COMPARE (wordexp ("x |", &we, WRDE_APPEND), WRDE_BADCHAR);
+++  TEST_COMPARE (wordexp ("x ;", &we, WRDE_APPEND), WRDE_BADCHAR);
+++  TEST_COMPARE (wordexp ("x &", &we, WRDE_APPEND), WRDE_BADCHAR);
+++  TEST_COMPARE (wordexp ("x <", &we, WRDE_APPEND), WRDE_BADCHAR);
+++  TEST_COMPARE (wordexp ("x >", &we, WRDE_APPEND), WRDE_BADCHAR);
+++
+++  TEST_COMPARE (we.we_wordc, saved_count);
+++  TEST_VERIFY (we.we_wordv == saved_wordv);
+++  CHECK_WORDS (&we, "keep", "this");
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 7: WRDE_APPEND with WRDE_SYNTAX error (unterminated quote) also
+++   preserves state.  */
+++static void
+++test_append_syntax_error (void)
+++{
+++  printf ("info: test_append_syntax_error\n");
+++  wordexp_t we = { 0 };
+++
+++  TEST_COMPARE (wordexp ("original", &we, 0), 0);
+++  CHECK_WORDS (&we, "original");
+++
+++  char **saved_wordv = we.we_wordv;
+++  size_t saved_count = we.we_wordc;
+++
+++  /* Unterminated double quote triggers WRDE_SYNTAX.  */
+++  TEST_COMPARE (wordexp ("\"unterminated", &we, WRDE_APPEND), WRDE_SYNTAX);
+++
+++  TEST_COMPARE (we.we_wordc, saved_count);
+++  TEST_VERIFY (we.we_wordv == saved_wordv);
+++  CHECK_WORDS (&we, "original");
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 8: Error without WRDE_APPEND still works (regression test for the
+++   non-APPEND code path in do_error).  */
+++static void
+++test_no_append_error (void)
+++{
+++  printf ("info: test_no_append_error\n");
+++  wordexp_t we = { 0 };
+++
+++  /* Simple failure without WRDE_APPEND.  */
+++  TEST_COMPARE (wordexp ("bad |", &we, 0), WRDE_BADCHAR);
+++
+++  /* After failure without WRDE_APPEND the struct should be safe to
+++     reuse — start fresh.  */
+++  TEST_COMPARE (wordexp ("ok", &we, 0), 0);
+++  CHECK_WORDS (&we, "ok");
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 9: WRDE_BADCHAR on the very first character (no partial words added
+++   before the error).  */
+++static void
+++test_append_badchar_immediate (void)
+++{
+++  printf ("info: test_append_badchar_immediate\n");
+++  wordexp_t we = { 0 };
+++
+++  TEST_COMPARE (wordexp ("hello world", &we, 0), 0);
+++  CHECK_WORDS (&we, "hello", "world");
+++
+++  char **saved_wordv = we.we_wordv;
+++  size_t saved_count = we.we_wordc;
+++
+++  /* The bad character is the very first byte — no w_addword call happens
+++     before the error.  */
+++  TEST_COMPARE (wordexp ("|", &we, WRDE_APPEND), WRDE_BADCHAR);
+++  TEST_COMPARE (we.we_wordc, saved_count);
+++  TEST_VERIFY (we.we_wordv == saved_wordv);
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 10: WRDE_APPEND into an empty wordexp_t (initial call uses WRDE_APPEND
+++   with a zeroed struct — unusual but allowed).  */
+++static void
+++test_append_into_empty (void)
+++{
+++  printf ("info: test_append_into_empty\n");
+++  wordexp_t we = { 0 };
+++
+++  /* First call with WRDE_APPEND on a zeroed struct.  The implementation
+++     must handle we_wordv == NULL gracefully.  */
+++  TEST_COMPARE (wordexp ("solo", &we, WRDE_APPEND), 0);
+++  TEST_COMPARE (we.we_wordc, 1);
+++  CHECK_WORDS (&we, "solo");
+++
+++  wordfree (&we);
+++}
+++
+++/* Verify that the leading we_offs slots are all NULL.  */
+++static void
+++check_offs_null (const wordexp_t *we)
+++{
+++  for (size_t i = 0; i < we->we_offs; i++)
+++    TEST_VERIFY (we->we_wordv[i] == NULL);
+++}
+++
+++/* Test 11: successful WRDE_APPEND with WRDE_DOOFFS and a non-zero we_offs.
+++   The leading offset slots must stay NULL and words must land at
+++   we_wordv[we_offs + i] across both the initial and the appended call.  */
+++static void
+++test_dooffs_append_success (void)
+++{
+++  printf ("info: test_dooffs_append_success\n");
+++  wordexp_t we = { 0 };
+++  we.we_offs = 2;
+++
+++  TEST_COMPARE (wordexp ("one two", &we, WRDE_DOOFFS), 0);
+++  TEST_COMPARE (we.we_offs, 2);
+++  check_offs_null (&we);
+++  CHECK_WORDS (&we, "one", "two");
+++
+++  TEST_COMPARE (wordexp ("three", &we, WRDE_APPEND | WRDE_DOOFFS), 0);
+++  TEST_COMPARE (we.we_offs, 2);
+++  check_offs_null (&we);
+++  CHECK_WORDS (&we, "one", "two", "three");
+++  /* The NULL terminator must sit right after the last word.  */
+++  TEST_VERIFY (we.we_wordv[we.we_offs + we.we_wordc] == NULL);
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 12: failed WRDE_APPEND with WRDE_DOOFFS preserves we_wordc, the
+++   we_wordv pointer, the words and the leading NULL offset slots.  This
+++   exercises the we_offs arithmetic in the array duplication and in the
+++   error-path cleanup (we_wordv[we_offs + --we_wordc]).  */
+++static void
+++test_dooffs_append_error_preserves_state (void)
+++{
+++  printf ("info: test_dooffs_append_error_preserves_state\n");
+++  wordexp_t we = { 0 };
+++  we.we_offs = 3;
+++
+++  TEST_COMPARE (wordexp ("alpha beta", &we, WRDE_DOOFFS), 0);
+++  check_offs_null (&we);
+++  CHECK_WORDS (&we, "alpha", "beta");
+++
+++  char **saved_wordv = we.we_wordv;
+++  size_t saved_count = we.we_wordc;
+++  unsigned int saved_reallocs = relocating_reallocs;
+++
+++  /* "gamma" is a partial word added via w_addword (forcing a relocating
+++     realloc of we_wordv) before ')' triggers WRDE_BADCHAR.  */
+++  TEST_COMPARE (wordexp ("gamma )", &we, WRDE_APPEND | WRDE_DOOFFS),
+++		WRDE_BADCHAR);
+++  TEST_VERIFY (relocating_reallocs > saved_reallocs);
+++
+++  TEST_COMPARE (we.we_offs, 3);
+++  TEST_COMPARE (we.we_wordc, saved_count);
+++  TEST_VERIFY (we.we_wordv == saved_wordv);
+++  check_offs_null (&we);
+++  CHECK_WORDS (&we, "alpha", "beta");
+++  TEST_VERIFY (we.we_wordv[we.we_offs + we.we_wordc] == NULL);
+++
+++  wordfree (&we);
 ++}
 ++
 ++static int
 ++do_test (void)
 ++{
-++  test_known_user ();
-++  test_bare_tilde ();
-++  test_unknown_user ();
-++  test_tilde_with_append ();
-++
-++  support_isolate_in_subprocess (subprocess_small_stack,
-++				 test_long_username);
-++
-++  support_isolate_in_subprocess (subprocess_small_stack,
-++				 test_scratch_buffer_growth);
+++  test_append_badchar_preserves_count ();
+++  test_append_badchar_preserves_pointer ();
+++  test_append_badchar_words_intact ();
+++  test_append_success ();
+++  test_append_success_after_failure ();
+++  test_append_multiple_failures ();
+++  test_append_syntax_error ();
+++  test_no_append_error ();
+++  test_append_badchar_immediate ();
+++  test_append_into_empty ();
+++  test_dooffs_append_success ();
+++  test_dooffs_append_error_preserves_state ();
 ++
 ++  return 0;
 ++}
 ++
 ++#include <support/test-driver.c>
-+diff --git a/posix/tst-wordexp-tilde.root/etc/group b/posix/tst-wordexp-tilde.root/etc/group
-+new file mode 100644
-+index 0000000000..1dbf9013ee
-+--- /dev/null
-++++ b/posix/tst-wordexp-tilde.root/etc/group
-+@@ -0,0 +1 @@
-++root:x:0:
-+diff --git a/posix/tst-wordexp-tilde.root/etc/nsswitch.conf b/posix/tst-wordexp-tilde.root/etc/nsswitch.conf
-+new file mode 100644
-+index 0000000000..098a8d5938
-+--- /dev/null
-++++ b/posix/tst-wordexp-tilde.root/etc/nsswitch.conf
-+@@ -0,0 +1,3 @@
-++passwd: files
-++group:  files
-++shadow: files
-+diff --git a/posix/tst-wordexp-tilde.root/etc/passwd b/posix/tst-wordexp-tilde.root/etc/passwd
-+new file mode 100644
-+index 0000000000..eb85a552ad
-+--- /dev/null
-++++ b/posix/tst-wordexp-tilde.root/etc/passwd
-+@@ -0,0 +1 @@
-++root:x:0:0:root:/root:/bin/sh
 +diff --git a/posix/wordexp.c b/posix/wordexp.c
-+index 9df4bb7424..731d1650e9 100644
++index 731d1650e9..50b0d7a256 100644
 +--- a/posix/wordexp.c
 ++++ b/posix/wordexp.c
-+@@ -335,17 +335,29 @@ parse_tilde (char **word, size_t *word_length, size_t *max_length,
-+   else
++@@ -35,6 +35,7 @@
++ #include <scratch_buffer.h>
++ #include <_itoa.h>
++ #include <assert.h>
+++#include <intprops.h>
++ 
++ /*
++  * This is a recursive-descent-style word expansion routine.
++@@ -2224,6 +2225,12 @@ wordexp (const char *words, wordexp_t *pwordexp, int flags)
++   char ifs_white[4];
++   wordexp_t old_word = *pwordexp;
++ 
+++  /* When WRDE_APPEND is set we work on a copy of the we_wordv array so that
+++     the caller's original pointer is never invalidated by realloc inside
+++     w_addword.  The saved_wordv keeps the original; on success we free it,
+++     on non-NOSPACE error we free the working copy and restore the original.  */
+++  char **saved_wordv = NULL;
+++
++   if (flags & WRDE_REUSE)
 +     {
-+       /* Look up user name in database to get home directory */
-+-      char *user = strndupa (&words[1 + *offset], i - (1 + *offset));
-+-      struct passwd pwd, *tpwd;
-+-      int result;
-++      size_t userlen = i - (1 + *offset);
-++      /* tmpbuf contains both the user and the __getpwnam_r working area.  */
-+       struct scratch_buffer tmpbuf;
-+       scratch_buffer_init (&tmpbuf);
-++      if (!scratch_buffer_set_array_size (&tmpbuf, userlen + 1, 1))
++       /* Minimal implementation of WRDE_REUSE for now */
++@@ -2258,6 +2265,23 @@ wordexp (const char *words, wordexp_t *pwordexp, int flags)
++ 	  pwordexp->we_offs = 0;
++ 	}
++     }
+++  else if (pwordexp->we_wordv != NULL)
+++    {
+++      /* WRDE_APPEND with an existing word list: duplicate the array so that
+++	 realloc during parsing does not invalidate the caller's pointer.  The
+++	 strings themselves are shared.  */
+++      size_t num_p;
+++      char **dup;
+++      if (INT_ADD_WRAPV (pwordexp->we_offs, pwordexp->we_wordc, &num_p)
+++	  || INT_ADD_WRAPV (num_p, 1, &num_p))
 ++	return WRDE_NOSPACE;
-++      char *user = tmpbuf.data;
-++      memcpy (user, &words[1 + *offset], userlen);
-++      user[userlen] = '\0';
+++      dup = __libc_reallocarray (NULL, num_p, sizeof *dup);
+++      if (dup == NULL)
+++	return WRDE_NOSPACE;
+++      memcpy (dup, pwordexp->we_wordv, num_p * sizeof *dup);
+++      saved_wordv = pwordexp->we_wordv;
+++      pwordexp->we_wordv = dup;
+++    }
 + 
-+-      while ((result = __getpwnam_r (user, &pwd, tmpbuf.data, tmpbuf.length,
-++      struct passwd pwd, *tpwd;
-++      int result;
-++      while ((result = __getpwnam_r (user,
-++				     &pwd,
-++				     tmpbuf.data + userlen + 1,
-++				     tmpbuf.length - userlen - 1,
-+ 				     &tpwd)) != 0
-+ 	     && errno == ERANGE)
-+-	if (!scratch_buffer_grow (&tmpbuf))
-+-	  return WRDE_NOSPACE;
-++	{
-++	  if (!scratch_buffer_grow_preserve (&tmpbuf))
-++	    return WRDE_NOSPACE;
-++	  user = tmpbuf.data;
-++	}
++   /* Find out what the field separators are.
++    * There are two types: whitespace and non-whitespace.
++@@ -2338,7 +2362,7 @@ wordexp (const char *words, wordexp_t *pwordexp, int flags)
++ 	    error = w_addword (pwordexp, NULL);
 + 
-+       if (result == 0 && tpwd != NULL && pwd.pw_dir)
-+ 	*word = w_addstr (*word, word_length, max_length, pwd.pw_dir);
++ 	    if (error)
++-	      return error;
+++	      goto do_error;
++ 	  }
++ 
++ 	break;
++@@ -2356,7 +2380,7 @@ wordexp (const char *words, wordexp_t *pwordexp, int flags)
++ 	    error = w_addword (pwordexp, NULL);
++ 
++ 	    if (error)
++-	      return error;
+++	      goto do_error;
++ 	  }
++ 
++ 	break;
++@@ -2422,10 +2446,18 @@ wordexp (const char *words, wordexp_t *pwordexp, int flags)
++ 
++   /* There was a word separator at the end */
++   if (word == NULL) /* i.e. w_newword */
++-    return 0;
+++    {
+++      free (saved_wordv);
+++      return 0;
+++    }
++ 
++-  /* There was no field separator at the end */
++-  return w_addword (pwordexp, word);
+++  /* There was no field separator at the end.  The only possible error
+++     from w_addword is WRDE_NOSPACE.  */
+++  error = w_addword (pwordexp, word);
+++  if (error != 0)
+++    goto do_error;
+++  free (saved_wordv);
+++  return 0;
++ 
++ do_error:
++   /* Error:
++@@ -2436,11 +2468,30 @@ do_error:
++   free (word);
++ 
++   if (error == WRDE_NOSPACE)
++-    return WRDE_NOSPACE;
+++    {
+++      /* we_wordc and we_wordv are updated to reflect any words that were
+++	 successfully expanded.  The old array is obsolete.  */
+++      free (saved_wordv);
+++      return WRDE_NOSPACE;
+++    }
++ 
++-  if ((flags & WRDE_APPEND) == 0)
++-    wordfree (pwordexp);
+++  if (flags & WRDE_APPEND)
+++    {
+++      /* POSIX 2024 states that for in other error cases, if the WRDE_APPEND
+++	 flag was specified, we_wordc and we_wordv shall not be modified.
+++
+++	 Free strings appended during this call, discard the working copy of
+++	 we_wordv, and restore the caller's original pointer.  */
+++      while (pwordexp->we_wordc > old_word.we_wordc)
+++	free (pwordexp->we_wordv[pwordexp->we_offs + --pwordexp->we_wordc]);
+++      free (pwordexp->we_wordv);
+++      pwordexp->we_wordv = saved_wordv;
+++    }
+++  else
+++    {
+++      wordfree (pwordexp);
+++      *pwordexp = old_word;
+++    }
++ 
++-  *pwordexp = old_word;
++   return error;
++ }
 diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
-index e62d941fdde..26aa6fb275e 100644
+index 26aa6fb275e..b7f6278c95a 100644
 --- a/meta/recipes-core/glibc/glibc_2.39.bb
 +++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -65,6 +65,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0030-CVE-2026-6238-0006.patch \
+@@ -66,6 +66,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0031-CVE-2026-5928.patch \
             file://0032-CVE-2026-5450.patch \
-+           file://0033-CVE-2026-6791.patch \
+            file://0033-CVE-2026-6791.patch \
++           file://0034-CVE-2026-6368.patch \
  "
  S = "${WORKDIR}/git"
  B = "${WORKDIR}/build-${TARGET_SYS}"
