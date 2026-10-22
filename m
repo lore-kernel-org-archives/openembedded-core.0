@@ -1,160 +1,93 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20238.1792666218980227653
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20635.1792668407166233504
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 03:50:20 -0700
+ Thu, 22 Oct 2026 04:26:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=20sd00Lq;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id D99C2C58472;
-	Thu, 22 Oct 2026 10:51:15 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6FCD260360;
-	Thu, 22 Oct 2026 10:50:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AD8D510328E3D;
-	Thu, 22 Oct 2026 12:50:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792666215; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=SCVzjq7AiVdidgsvGsdF6lZWZU9RT5aqHQ5NJabarT4=;
-	b=20sd00LqmBN6JspvKc9NX+60q8p8+EJMFhhLdFer2ZNjpexcWlkWpkIboINewoDLi83IjQ
-	fr0+JsO+S4j1E71C81rLrmaf5GUjfhV6IxoqjT6k4Y+scNt2pZM58xXS9jl7S05IRt3XZK
-	amWD6R2eNHHWq8+CXEKxGVdRF28NqMCaQ3OWnfbgoNaF0sIQWecfLe8QAwOObpEVRIlRmN
-	cZsAkWqVq9lXjdaqU5M5zCLLB/nzT/WGHoDV4bBs8lZTfnyalDBFCh8TG6HcQ2WyEDttvQ
-	ljZorE9fVNrBgO+XH2+S/5pKLKJ+ygp75jh3sIIq+H3H2SDjwcPr2u6PW0usTw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 22 Oct 2026 12:50:14 +0200
-Message-Id: <DMBB4XP04OIS.1XC5GWKFMTVFV@bootlin.com>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Subject: Fwd: [OE-core] [PATCH] image, populate_sdk_base: warn on ';' in
- *_COMMAND function lists
-Cc: "openembedded-core" <openembedded-core@lists.openembedded.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KZzk2hpe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a1dede3c2cso22170855e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 04:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1792668405; x=1793273205; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=d5z0cQOa5DargJooLSw/otRQ1XkSfEfWGdPGwCmWK64=;
+        b=KZzk2hpeXIbXkc4hz3myH80Z6GHmxmFfF5MFollxdDTyRFUWoA3L1wv942nXJaNdOM
+         0dNBnZf0emm5ujfcjpo5gb6eHSO+DLBWLUf+XG18cah9+TjM09+wP87mCraxibVNqWXz
+         lQfLd03ooUKbeIUD8Oq1lIo5Gwl/zxu8Rtpt0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792668405; x=1793273205;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=d5z0cQOa5DargJooLSw/otRQ1XkSfEfWGdPGwCmWK64=;
+        b=Oiv4ma7AeKTH4im07jzGURf6ro5qSpCeOg3PP9vRa+gmBN7O9QUNvVifLrjBA9lPWz
+         BBTYlMeFA2odZNzHO5UWStKF2bLFs1splemLYwoDdTG4RgLzfC1bRbbDwY8tmQKwmEKw
+         rKVNx/Pw7DzrIY/nNwrlxsmpkHQ4kkrLFRYCGz3ru75bYTNFI4kVkSBnVv34D0+oL1BO
+         Zj3yuMrpCtoSw2NIyw+zOEZgupkQKDjGVDnxZ5WzXr0P/nvpQ/dnisV6bHr1Y9Uzjnl4
+         pdrKTRBJMEp75QcDy4CTCSZ6z8N/Y4Vv39tNFSD4tM71sYkR1T+k9FxnRTZDqBZysIVU
+         oieg==
+X-Gm-Message-State: AFq9FYJfUknpub/cL7tJP0edcPwputh5X31ohkxOABrpz7xkWqovtOVS
+	Rxas23sowhZ8EKjcN+gxAkXXBy/W0gndMrlA18A7h+54TxlEpN7RR1Gz4vJG+6FnMQUaKZ2U3o3
+	643ohE8g=
+X-Gm-Gg: AYBFou3bS2wbcFiR1az3AeJ5Yiui5NtXvZlWant5SUBJB7rQ+LZgr1LTxVXNNMno/Ns
+	Y3s7WtROTcIrlLsAMQemcumvN6Q5Js6Y9veVxj2CnJPk7Z/+Je4rNoZ7jvVzo3oNauDiQ1UxDTB
+	XaGFHygXTnEYvW5Db9l0Uteyrn8lFxrYI7rNjeput1BuZUi2RKMHNt4q7U+XLVNiHinOQRn1Ssk
+	kEo7eLM7yks206mB36mW70QONIk2Eh4HrgRFAHwseIU97wT2NAF1RKdOHCjlU2Q3QPzvB+eTAtZ
+	O/lXiOLlW0kcFJxGbDIVs5Pa/R+sO+eD59yODLcNqF+7b8waYWkzatUnuzFqwtE4i6IMGeQlqt3
+	hPRY8AGu1jyP4d7AwIKDV48UPv5Sl6EjIVNts9pPS1am0HAs1zALjZpS36XRpI53vgPqcxaMqqN
+	2Tpr/ymbK+b1WNBgz1P1tHtc/xs8ZiIPBibT7zT2JLoCwA+0UBZFvStgRvm7ESAS3GlaMVlySMn
+	QXEBHUb6OwJX1GYlZJYK8OF9xaV+Seymh3bexjvSMSbMm3RS2+Ep7GHQWNKM5nNUpT2oFSX0VUX
+	eHnu350V
+X-Received: by 2002:a05:600c:524a:b0:4a2:994:5750 with SMTP id 5b1f17b1804b1-4a209945818mr22642415e9.32.1792668404925;
+        Thu, 22 Oct 2026 04:26:44 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b8c1:c201:8aca:1e39])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a203a0e64esm63874605e9.3.2026.10.22.04.26.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2026 04:26:43 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] populate_sdk_ext: Fix locale error handling in SDK
+Date: Thu, 22 Oct 2026 12:26:41 +0100
+Message-ID: <20261022112642.3481476-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.55.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 10:50:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248439
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 11:26:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248440
+Content-Type: text/plain; charset="utf-8"
 
-Hi Bruce,
+During automated testing we occasionally we see the error:
 
-I just wanted to let you know, this patch will add warnings on meta-virt
-once merged:
+"ERROR: the installer requires the en_US.UTF-8 locale to be installed (but not selected), please install it first"
 
-Parsing recipes...WARNING: /srv/pokybuild/yocto-worker/meta-virt/build/meta=
--virtualization/recipes-containers/images/app-container-curl.bb: ROOTFS_POS=
-TPROCESS_COMMAND contains ';' but is a space separated list of functions, r=
-emove the ';' delimiters or the functions will not be part of the task sign=
-ature: set_user_group rootfs_fixup_var_volatile ;  zap_empty_root_password =
-     rootfs_update_timestamp   write_image_test_data  set_systemd_default_t=
-arget systemd_sysusers_check systemd_handle_machine_id empty_var_volatile  =
-tidy_shadowutils_files add_empty_root_password_note rootfs_reproducible
-WARNING: /srv/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/re=
-cipes-containers/images/app-container-mosquitto.bb: ROOTFS_POSTPROCESS_COMM=
-AND contains ';' but is a space separated list of functions, remove the ';'=
- delimiters or the functions will not be part of the task signature: set_us=
-er_group rootfs_fixup_var_volatile ;  zap_empty_root_password      rootfs_u=
-pdate_timestamp   write_image_test_data  set_systemd_default_target systemd=
-_sysusers_check systemd_handle_machine_id empty_var_volatile  tidy_shadowut=
-ils_files add_empty_root_password_note rootfs_reproducible
-WARNING: /srv/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/re=
-cipes-containers/images/app-container-python.bb: ROOTFS_POSTPROCESS_COMMAND=
- contains ';' but is a space separated list of functions, remove the ';' de=
-limiters or the functions will not be part of the task signature: set_user_=
-group rootfs_fixup_var_volatile ;  zap_empty_root_password      rootfs_upda=
-te_timestamp   write_image_test_data  set_systemd_default_target systemd_sy=
-susers_check systemd_handle_machine_id empty_var_volatile  tidy_shadowutils=
-_files add_empty_root_password_note rootfs_reproducible
-WARNING: /srv/pokybuild/yocto-worker/meta-virt/build/meta-virtualization/re=
-cipes-containers/images/app-container-valkey.bb: ROOTFS_POSTPROCESS_COMMAND=
- contains ';' but is a space separated list of functions, remove the ';' de=
-limiters or the functions will not be part of the task signature: set_user_=
-group rootfs_fixup_var_volatile ;  zap_empty_root_password      rootfs_upda=
-te_timestamp   write_image_test_data  set_systemd_default_target systemd_sy=
-susers_check systemd_handle_machine_id empty_var_volatile  tidy_shadowutils=
-_files add_empty_root_password_note rootfs_reproducible  rootfs_install_ent=
-rypoint_sh ;
-...
+This is puzzling as the locale *is* installed. The use of -q with grep in
+a pipeline is potentially problematic as grep can exit early and cause a
+pipefail/SIGPIPE.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/4690
+Tweak the code to avoid it and a few other issues (add quoting, handle the
+"." correctly, match a whole line).
 
-Thanks,
-Mathieu
+[YOCTO #16198]
 
-Forwarded message from Etienne Cordonnier via lists.openembedded.org on Wed=
- Oct 21, 2026 at 2:05 PM:
-From: Etienne Cordonnier <ecordonnier@snap.com>
-
-Since c3365dfd9ddd ("classes: Drop ';' delimiter from ROOTFS/IMAGE*COMMAND
-variables") these variables are space separated function lists, used as
-vardeps of themselves. A stray ';' is still tolerated when the list is
-executed, but at parse time "func;" names no variable, so the function is
-not part of the do_rootfs/do_image/do_populate_sdk signature and a stale
-rootfs or SDK can be reused from sstate.
-
-Warn when a variable from rootfs_command_variables() or
-sdk_command_variables() contains ';'. Tested by adding "foo;" entries and
-checking the warning, and that stock core-image-minimal parses without it.
-
-AI-Generated: Uses Claude Code (claude-sonnet-5-5)
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/image.bbclass             | 7 ++++++-
- meta/classes-recipe/populate_sdk_base.bbclass | 7 ++++++-
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ meta/classes-recipe/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.=
-bbclass
-index 460e5ab39f..1e3c784ec9 100644
---- a/meta/classes-recipe/image.bbclass
-+++ b/meta/classes-recipe/image.bbclass
-@@ -127,7 +127,12 @@ def rootfs_command_variables(d):
- python () {
-     variables =3D rootfs_command_variables(d)
-     for var in variables:
--        d.setVarFlag(var, 'vardeps', d.getVar(var))
-+        value =3D d.getVar(var)
-+        if value and ';' in value:
-+            bb.warn("%s contains ';' but is a space separated list of func=
-tions, "
-+                    "remove the ';' delimiters or the functions will not b=
-e part "
-+                    "of the task signature: %s" % (var, value.strip()))
-+        d.setVarFlag(var, 'vardeps', value)
- }
-=20
- def rootfs_variables(d):
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-r=
-ecipe/populate_sdk_base.bbclass
-index 2c6dd1828c..0d67ab6ac6 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -423,7 +423,12 @@ do_populate_sdk[vardeps] +=3D "${@sdk_variables(d)}"
- python () {
-     variables =3D sdk_command_variables(d)
-     for var in variables:
--        d.setVarFlag(var, 'vardeps', d.getVar(var))
-+        value =3D d.getVar(var)
-+        if value and ';' in value:
-+            bb.warn("%s contains ';' but is a space separated list of func=
-tions, "
-+                    "remove the ';' delimiters or the functions will not b=
-e part "
-+                    "of the task signature: %s" % (var, value.strip()))
-+        d.setVarFlag(var, 'vardeps', value)
- }
-=20
- do_populate_sdk[file-checksums] +=3D "${TOOLCHAIN_SHAR_REL_TMPL}:True \
---=20
-2.43.0
-
-
-
-
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+index a1188da9697..00b41ec0cbf 100644
+--- a/meta/classes-recipe/populate_sdk_ext.bbclass
++++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+@@ -678,7 +678,7 @@ sdk_ext_preinst() {
+ 	fi
+         # Check setting of LC_ALL set above
+ 	canonicalised_locale=`echo $LC_ALL | sed 's/UTF-8/utf8/'`
+-	if ! locale -a | grep -q $canonicalised_locale ; then
++	if ! locale -a | grep -Fx "$canonicalised_locale" > /dev/null ; then
+ 		echo "ERROR: the installer requires the $LC_ALL locale to be installed (but not selected), please install it first"
+ 		exit 1
+ 	fi
