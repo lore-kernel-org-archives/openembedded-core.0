@@ -1,28 +1,28 @@
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2338.1792709259340280506
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2229.1792709266423383138
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 15:47:40 -0700
+ Thu, 22 Oct 2026 15:47:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=b/AJuhIT;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-20261022224737225e6f53b600020763-97bqdr@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20261022224737225e6f53b600020763
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Vf/21nZh;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202610222247440a9d00422200020711-iocyjm@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202610222247440a9d00422200020711
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 23 Oct 2026 00:47:37 +0200
+        Fri, 23 Oct 2026 00:47:44 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=ZtkW/W1EUm/BjBLKLV68Dn5CxIY3oILpZA3wWmbUjSo=;
- b=b/AJuhITieJrpSZRUmOs3rsGhIr5yqxg3MrZhvl9c2eQGH9sZcr/tvmMeHPtIuZjWuEkLc
- 28hejqbdDpinzo2ziGNs+dqwwJEOCdBFTmogVw7mERO7B80oXHibtIgwYXfLH6l8vUrCM5tT
- zfHrcqjAN/13bUGm5I2R2b92AIcZZFEz3FsxXLpP+wqY7reHkTnfaLZClKkxPJjq+xUzXauC
- geej0kjS0W2WBWZMDdNJIFkpRGicbVrGY01g9UCINrcd9vn6Ooj2dYef5uxoIanLx15+aCqp
- W6T+zK62ENeSsjIf4oqjD9njGv/8EYNwF4Za/8XX6H2Nk+PUrcphpWeg==;
+ bh=GwkuNlz1kJKM3qJbZ7njLodKxfS4R302/eddshDdz24=;
+ b=Vf/21nZhL0UF5nGfhdkMqvUxnOQ4l2Zpqs6SKWSnc3lVisowiOiik9c3fdssP8UajNz3/v
+ pMsBgZvXri6d8OdAEBVC4xKGnNUOmXIisa613n6z1kEjN0AyTi3BYgRST7uFH5rjz+oIDhBU
+ vkfCILv+aeh7BRzOdGjDZw7SdmoeR5HURPNt6w6DSLS6AtTAKarTKhJx3LjDtsr64N/Vwc3y
+ o8L2RKCy/6umlec37I2sywg3LOn2NzLTrlTIZhzKNqrl5QfO3KZxgMcNtVsVmJKRoWsJ7U0/
+ wia94qVgAxE+dxBgrzao9ljqExXJ+wSRIfzfKmbGvTM+9YswUfCbkwjA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH 02/15] glibc: patch CVE-2026-5450
-Date: Fri, 23 Oct 2026 00:46:55 +0200
-Message-ID: <20261022224711.3783258-2-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH 03/15] glibc: patch CVE-2026-6791
+Date: Fri, 23 Oct 2026 00:46:56 +0200
+Message-ID: <20261022224711.3783258-3-peter.marko@siemens.com>
 In-Reply-To: <20261022224711.3783258-1-peter.marko@siemens.com>
 References: <20261022224711.3783258-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -30,87 +30,87 @@ Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 22:47:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248458
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 22:47:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248459
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch [1] which is [2] backported to 3.41 (oldest release still
-receiving security updates) which is mentioned in [3].
-
-[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=1a74f82eedaf0987eda1f522121e6a48fac502e7
-[2] https://sourceware.org/git/?p=glibc.git;a=commit;h=839898777226a3ed88c0859f25ffe712519b4ead
-[3] https://security-tracker.debian.org/tracker/CVE-2026-5450
+Pick patch referencing this CVE from 3.41 branch (oldest release
+still receiving security updates).
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../glibc/glibc/0032-CVE-2026-5450.patch      | 133 ++++++++++++++++++
+ .../glibc/glibc/0033-CVE-2026-6791.patch      | 364 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
- 2 files changed, 134 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0032-CVE-2026-5450.patch
+ 2 files changed, 365 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0032-CVE-2026-5450.patch b/meta/recipes-core/glibc/glibc/0032-CVE-2026-5450.patch
+diff --git a/meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch b/meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch
 new file mode 100644
-index 00000000000..631b63f4654
+index 00000000000..83294df46e8
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0032-CVE-2026-5450.patch
-@@ -0,0 +1,133 @@
-+From 1a74f82eedaf0987eda1f522121e6a48fac502e7 Mon Sep 17 00:00:00 2001
-+From: Rocket Ma <marocketbd@gmail.com>
-+Date: Fri, 17 Apr 2026 23:48:41 -0700
-+Subject: [PATCH] stdio-common: Fix buffer overflow in scanf %mc [BZ #34008]
++++ b/meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch
+@@ -0,0 +1,364 @@
++From 965b580070b8184b0dd390800d9194291a600e67 Mon Sep 17 00:00:00 2001
++From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
++Date: Tue, 14 Apr 2026 10:50:37 -0300
++Subject: [PATCH] posix: Fix stack overflow in wordexp tilde expansion (BZ
++ 34091, CVE-2026-6791)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+* stdio-common/vfscanf-internal.c: When enlarging allocated buffer with
-+format %mc or %mC, glibc allocates one byte less, leading to
-+user-controlled one byte overflow. This commit fixes BZ #34008, or
-+CVE-2026-5450.
++The parse_tilde function previously used strndupa to allocate memory
++for the parsed username on the stack, and since the input is
++user-defined, this can lead to a stack overflow.
 +
-+Reviewed-by: Carlos O'Donell <carlos@redhat.com>
-+Signed-off-by: Rocket Ma <marocketbd@gmail.com>
-+Reviewed-by: H.J. Lu <hjl.tools@gmail.com>
-+(cherry picked from commit 839898777226a3ed88c0859f25ffe712519b4ead)
++This patch fixes the issue by replacing strndupa with scratch_buffer,
++by reusing the buffer used in the __getpwnam_r call.
 +
-+CVE: CVE-2026-5450
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=1a74f82eedaf0987eda1f522121e6a48fac502e7]
++The new “tst-wordexp-tilde.c” test is a test-container to avoid using
++system-defined NSS modules.
++
++Checked on x86_64-linux-gnu and i686-linux-gnu.
++
++(cherry picked from commit 07c24f35392b727e6100d33edfdf811a6c68c218)
++
++CVE: CVE-2026-6791
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=965b580070b8184b0dd390800d9194291a600e67]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ stdio-common/Makefile              |  4 +++
-+ stdio-common/tst-vfscanf-bz34008.c | 48 ++++++++++++++++++++++++++++++
-+ stdio-common/vfscanf-internal.c    |  7 ++---
-+ 3 files changed, 55 insertions(+), 4 deletions(-)
-+ create mode 100644 stdio-common/tst-vfscanf-bz34008.c
++ posix/Makefile                                |   1 +
++ posix/tst-wordexp-tilde.c                     | 244 ++++++++++++++++++
++ posix/tst-wordexp-tilde.root/etc/group        |   1 +
++ .../tst-wordexp-tilde.root/etc/nsswitch.conf  |   3 +
++ posix/tst-wordexp-tilde.root/etc/passwd       |   1 +
++ posix/wordexp.c                               |  24 +-
++ 6 files changed, 268 insertions(+), 6 deletions(-)
++ create mode 100644 posix/tst-wordexp-tilde.c
++ create mode 100644 posix/tst-wordexp-tilde.root/etc/group
++ create mode 100644 posix/tst-wordexp-tilde.root/etc/nsswitch.conf
++ create mode 100644 posix/tst-wordexp-tilde.root/etc/passwd
 +
-+diff --git a/stdio-common/Makefile b/stdio-common/Makefile
-+index ac098dcd8a..72c18e5dc1 100644
-+--- a/stdio-common/Makefile
-++++ b/stdio-common/Makefile
-+@@ -266,6 +266,7 @@ tests := \
-+   tst-vfprintf-width-i18n \
-+   tst-vfprintf-width-prec \
-+   tst-vfprintf-width-prec-alloc \
-++  tst-vfscanf-bz34008 \
-+   tst-wc-printf \
-+   tstdiomisc \
-+   tstgetln \
-+@@ -401,6 +402,9 @@ tst-printf-bz18872-ENV = MALLOC_TRACE=$(objpfx)tst-printf-bz18872.mtrace \
-+ tst-vfprintf-width-prec-ENV = \
-+   MALLOC_TRACE=$(objpfx)tst-vfprintf-width-prec.mtrace \
-+   LD_PRELOAD=$(common-objpfx)/malloc/libc_malloc_debug.so
-++tst-vfscanf-bz34008-ENV = \
-++  MALLOC_CHECK_=3 \
-++  LD_PRELOAD=$(common-objpfx)/malloc/libc_malloc_debug.so
-+ tst-printf-bz25691-ENV = \
-+   MALLOC_TRACE=$(objpfx)tst-printf-bz25691.mtrace \
-+   LD_PRELOAD=$(common-objpfx)/malloc/libc_malloc_debug.so
-+diff --git a/stdio-common/tst-vfscanf-bz34008.c b/stdio-common/tst-vfscanf-bz34008.c
++diff --git a/posix/Makefile b/posix/Makefile
++index 9360bc7ff8..c2c05b3973 100644
++--- a/posix/Makefile
+++++ b/posix/Makefile
++@@ -354,6 +354,7 @@ tests-internal := \
++ tests-container := \
++   bug-ga2 \
++   tst-vfork3 \
+++  tst-wordexp-tilde \
++   # tests-container
++ 
++ tests-time64 := \
++diff --git a/posix/tst-wordexp-tilde.c b/posix/tst-wordexp-tilde.c
 +new file mode 100644
-+index 0000000000..48371c8a3d
++index 0000000000..1661603681
 +--- /dev/null
-++++ b/stdio-common/tst-vfscanf-bz34008.c
-+@@ -0,0 +1,48 @@
-++/* Regression test for vfscanf %Nmc out-of-bound write (BZ #34008)
-++   Copyright (C) 2026 The GNU Toolchain Authors.
+++++ b/posix/tst-wordexp-tilde.c
++@@ -0,0 +1,244 @@
+++/* Test wordexp tilde expansion with large usernames (BZ 34091).
+++   Copyright (C) 2026 Free Software Foundation, Inc.
 ++   This file is part of the GNU C Library.
 ++
 ++   The GNU C Library is free software; you can redistribute it and/or
@@ -127,77 +127,304 @@ index 00000000000..631b63f4654
 ++   License along with the GNU C Library; if not, see
 ++   <https://www.gnu.org/licenses/>.  */
 ++
-++#include "malloc/mcheck.h"
-++#include <stddef.h>
+++#include <pwd.h>
 ++#include <stdio.h>
 ++#include <string.h>
-++#include <wchar.h>
+++#include <wordexp.h>
 ++#include <stdlib.h>
-++#include <malloc.h>
-++#include <support/check.h>
+++#include <sys/resource.h>
 ++
-++#define WIDTH 0x410
-++#define SCANFSTR "%1040mc"
+++#include <support/check.h>
+++#include <support/support.h>
+++#include <support/xunistd.h>
+++#include <support/namespace.h>
+++
+++typedef void (*func_callback_t)(void);
+++
+++static void
+++subprocess_small_stack (void *closure)
+++{
+++  struct rlimit rl;
+++  TEST_COMPARE (getrlimit (RLIMIT_STACK, &rl), 0);
+++  rl.rlim_cur = 512 * 1024;
+++  TEST_COMPARE (setrlimit (RLIMIT_STACK, &rl), 0);
+++
+++  func_callback_t func_test = closure;
+++  func_test ();
+++}
+++
+++/* Build a string "~<padding>/tail" where <padding> is LEN bytes of the
+++   character CH.  The caller must free the result.  */
+++static char *
+++make_tilde_input (char ch, size_t len, const char *tail)
+++{
+++  /* ~  +  len  +  /  +  tail  +  \0 */
+++  size_t taillen = tail != NULL ? strlen (tail) : 0;
+++  size_t total = 1 + len + 1 + taillen + 1;
+++  char *buf = xmalloc (total);
+++  buf[0] = '~';
+++  memset (buf + 1, ch, len);
+++  buf[1 + len] = '/';
+++  if (tail != NULL)
+++    memcpy (buf + 1 + len + 1, tail, taillen);
+++  buf[total - 1] = '\0';
+++  return buf;
+++}
+++
+++/* Test 1: A very long username must not crash.  The username will not match
+++   any real user, so wordexp returns ~<long>/rest.  */
+++static void
+++test_long_username (void)
+++{
+++  printf ("info: test_long_username_no_crash\n");
+++
+++  static const char REST[] = "rest";
+++
+++  /* 1 MiB username — well beyond any reasonable stack frame.  */
+++  const size_t long_len = 1024 * 1024;
+++  char *input = make_tilde_input ('A', long_len, REST);
+++
+++  wordexp_t we = { 0 };
+++  int ret = wordexp (input, &we, 0);
+++  /* The (non-existent) username is invalid, so wordexp falls back to
+++     literal output: ~AAA…/rest.  */
+++  TEST_COMPARE (ret, 0);
+++  TEST_COMPARE (we.we_wordc, 1);
+++
+++  /* Verify prefix: '~' followed by long_len 'A's.  */
+++  const char *result = we.we_wordv[0];
+++  TEST_COMPARE (result[0], '~');
+++  TEST_COMPARE (strlen (result),
+++	        1 /* ~ */ + long_len + sizeof (REST));
+++  for (size_t j = 1; j <= long_len; j++)
+++    if (result[j] != 'A')
+++      {
+++	printf ("  mismatch at position %zu: expected 'A', got '%c'\n",
+++		j, result[j]);
+++	support_record_failure ();
+++	break;
+++      }
+++  /* Verify the tail after the username.  */
+++  TEST_COMPARE_STRING (result + 1 + long_len, "/rest");
+++
+++  wordfree (&we);
+++  free (input);
+++}
+++
+++/* Test 2: A username that just exceeds the default scratch_buffer inline
+++   size (1024 bytes) exercises the scratch_buffer_set_array_size growth path
+++   without being excessively large.  */
+++static void
+++test_scratch_buffer_growth (void)
+++{
+++  printf ("info: test_scratch_buffer_growth\n");
+++
+++  const size_t len = 2048;
+++  char *input = make_tilde_input ('x', len, NULL);
+++
+++  wordexp_t we = { 0 };
+++  int ret = wordexp (input, &we, 0);
+++  TEST_COMPARE (ret, 0);
+++  TEST_COMPARE (we.we_wordc, 1);
+++
+++  /* ~xxx…/ — the trailing slash makes a separate empty component, but
+++     wordexp merges it into the single token ~xxx…/.  */
+++  const char *result = we.we_wordv[0];
+++  TEST_COMPARE (result[0], '~');
+++  for (size_t j = 1; j <= len; j++)
+++    if (result[j] != 'x')
+++      {
+++	printf ("  mismatch at position %zu\n", j);
+++	support_record_failure ();
+++	break;
+++      }
+++  TEST_COMPARE (result[1 + len], '/');
+++
+++  wordfree (&we);
+++  free (input);
+++}
+++
+++/* Test 3: ~root still resolves to the correct home directory through the
+++   __getpwnam_r path.  */
+++static void
+++test_known_user (void)
+++{
+++  printf ("info: test_known_user\n");
+++
+++  /* Look up root's home directory for comparison.  */
+++  struct passwd *pw = getpwnam ("root");
+++  if (pw == NULL || pw->pw_dir == NULL)
+++    {
+++      printf ("  SKIP: cannot look up root\n");
+++      return;
+++    }
+++
+++  char *expected = xasprintf ("%s/file", pw->pw_dir);
+++
+++  wordexp_t we = { 0 };
+++  TEST_COMPARE (wordexp ("~root/file", &we, 0), 0);
+++  TEST_COMPARE (we.we_wordc, 1);
+++  TEST_COMPARE_STRING (we.we_wordv[0], expected);
+++
+++  wordfree (&we);
+++  free (expected);
+++}
+++
+++/* Test 4: Bare tilde expands to $HOME.  */
+++static void
+++test_bare_tilde (void)
+++{
+++  printf ("info: test_bare_tilde\n");
+++
+++  const char *home = getenv ("HOME");
+++  if (home == NULL)
+++    {
+++      printf ("  SKIP: HOME is not set\n");
+++      return;
+++    }
+++
+++  wordexp_t we = { 0 };
+++  TEST_COMPARE (wordexp ("~", &we, 0), 0);
+++  TEST_COMPARE (we.we_wordc, 1);
+++  TEST_COMPARE_STRING (we.we_wordv[0], home);
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 5: Short non-existent username falls back to literal ~username output,
+++   exercising the invalid-login-name path.  */
+++static void
+++test_unknown_user (void)
+++{
+++  printf ("info: test_unknown_user\n");
+++
+++  /* Pick a username that is extremely unlikely to exist.  */
+++  wordexp_t we = { 0 };
+++  TEST_COMPARE (wordexp ("~no_such_user_xyzzy42", &we, 0), 0);
+++  TEST_COMPARE (we.we_wordc, 1);
+++  TEST_COMPARE_STRING (we.we_wordv[0], "~no_such_user_xyzzy42");
+++
+++  wordfree (&we);
+++}
+++
+++/* Test 6: Tilde with username and WRDE_APPEND — exercises parse_tilde's
+++   interaction with the WRDE_APPEND word list.  */
+++static void
+++test_tilde_with_append (void)
+++{
+++  printf ("info: test_tilde_with_append\n");
+++
+++  const char *home = getenv ("HOME");
+++  if (home == NULL)
+++    {
+++      printf ("  SKIP: HOME is not set\n");
+++      return;
+++    }
+++
+++  wordexp_t we = { 0 };
+++  TEST_COMPARE (wordexp ("first", &we, 0), 0);
+++
+++  TEST_COMPARE (wordexp ("~/path", &we, WRDE_APPEND), 0);
+++  TEST_COMPARE (we.we_wordc, 2);
+++  TEST_COMPARE_STRING (we.we_wordv[0], "first");
+++
+++  char *expected = xasprintf ("%s/path", home);
+++  TEST_COMPARE_STRING (we.we_wordv[1], expected);
+++
+++  wordfree (&we);
+++  free (expected);
+++}
+++
 ++static int
 ++do_test (void)
 ++{
-++  mcheck_pedantic (NULL);
-++  char *input = malloc (WIDTH + 1);
-++  TEST_VERIFY (input != NULL);
-++  memset (input, 'A', WIDTH);
-++  input[WIDTH] = '\0';
+++  test_known_user ();
+++  test_bare_tilde ();
+++  test_unknown_user ();
+++  test_tilde_with_append ();
 ++
-++  char *buf = NULL;
-++  TEST_VERIFY (sscanf (input, SCANFSTR, &buf) != -1);
-++  TEST_VERIFY (buf != NULL);
+++  support_isolate_in_subprocess (subprocess_small_stack,
+++				 test_long_username);
 ++
-++  free (buf);
-++  free (input);
+++  support_isolate_in_subprocess (subprocess_small_stack,
+++				 test_scratch_buffer_growth);
+++
 ++  return 0;
 ++}
 ++
 ++#include <support/test-driver.c>
-+diff --git a/stdio-common/vfscanf-internal.c b/stdio-common/vfscanf-internal.c
-+index 1ba034d961..fabb0ec874 100644
-+--- a/stdio-common/vfscanf-internal.c
-++++ b/stdio-common/vfscanf-internal.c
-+@@ -853,8 +853,7 @@ __vfscanf_internal (FILE *s, const char *format, va_list argptr,
-+ 			{
-+ 			  /* Enlarge the buffer.  */
-+ 			  size_t newsize
-+-			    = strsize
-+-			      + (strsize >= width ? width - 1 : strsize);
-++			    = strsize + (strsize >= width ? width : strsize);
++diff --git a/posix/tst-wordexp-tilde.root/etc/group b/posix/tst-wordexp-tilde.root/etc/group
++new file mode 100644
++index 0000000000..1dbf9013ee
++--- /dev/null
+++++ b/posix/tst-wordexp-tilde.root/etc/group
++@@ -0,0 +1 @@
+++root:x:0:
++diff --git a/posix/tst-wordexp-tilde.root/etc/nsswitch.conf b/posix/tst-wordexp-tilde.root/etc/nsswitch.conf
++new file mode 100644
++index 0000000000..098a8d5938
++--- /dev/null
+++++ b/posix/tst-wordexp-tilde.root/etc/nsswitch.conf
++@@ -0,0 +1,3 @@
+++passwd: files
+++group:  files
+++shadow: files
++diff --git a/posix/tst-wordexp-tilde.root/etc/passwd b/posix/tst-wordexp-tilde.root/etc/passwd
++new file mode 100644
++index 0000000000..eb85a552ad
++--- /dev/null
+++++ b/posix/tst-wordexp-tilde.root/etc/passwd
++@@ -0,0 +1 @@
+++root:x:0:0:root:/root:/bin/sh
++diff --git a/posix/wordexp.c b/posix/wordexp.c
++index 9df4bb7424..731d1650e9 100644
++--- a/posix/wordexp.c
+++++ b/posix/wordexp.c
++@@ -335,17 +335,29 @@ parse_tilde (char **word, size_t *word_length, size_t *max_length,
++   else
++     {
++       /* Look up user name in database to get home directory */
++-      char *user = strndupa (&words[1 + *offset], i - (1 + *offset));
++-      struct passwd pwd, *tpwd;
++-      int result;
+++      size_t userlen = i - (1 + *offset);
+++      /* tmpbuf contains both the user and the __getpwnam_r working area.  */
++       struct scratch_buffer tmpbuf;
++       scratch_buffer_init (&tmpbuf);
+++      if (!scratch_buffer_set_array_size (&tmpbuf, userlen + 1, 1))
+++	return WRDE_NOSPACE;
+++      char *user = tmpbuf.data;
+++      memcpy (user, &words[1 + *offset], userlen);
+++      user[userlen] = '\0';
 + 
-+ 			  str = (char *) realloc (*strptr, newsize);
-+ 			  if (str == NULL)
-+@@ -925,7 +924,7 @@ __vfscanf_internal (FILE *s, const char *format, va_list argptr,
-+ 		      && wstr == (wchar_t *) *strptr + strsize)
-+ 		    {
-+ 		      size_t newsize
-+-			= strsize + (strsize > width ? width - 1 : strsize);
-++			= strsize + (strsize >= width ? width : strsize);
-+ 		      /* Enlarge the buffer.  */
-+ 		      wstr = (wchar_t *) realloc (*strptr,
-+ 						  newsize * sizeof (wchar_t));
-+@@ -980,7 +979,7 @@ __vfscanf_internal (FILE *s, const char *format, va_list argptr,
-+ 		    && wstr == (wchar_t *) *strptr + strsize)
-+ 		  {
-+ 		    size_t newsize
-+-		      = strsize + (strsize > width ? width - 1 : strsize);
-++		      = strsize + (strsize >= width ? width : strsize);
-+ 		    /* Enlarge the buffer.  */
-+ 		    wstr = (wchar_t *) realloc (*strptr,
-+ 						newsize * sizeof (wchar_t));
++-      while ((result = __getpwnam_r (user, &pwd, tmpbuf.data, tmpbuf.length,
+++      struct passwd pwd, *tpwd;
+++      int result;
+++      while ((result = __getpwnam_r (user,
+++				     &pwd,
+++				     tmpbuf.data + userlen + 1,
+++				     tmpbuf.length - userlen - 1,
++ 				     &tpwd)) != 0
++ 	     && errno == ERANGE)
++-	if (!scratch_buffer_grow (&tmpbuf))
++-	  return WRDE_NOSPACE;
+++	{
+++	  if (!scratch_buffer_grow_preserve (&tmpbuf))
+++	    return WRDE_NOSPACE;
+++	  user = tmpbuf.data;
+++	}
++ 
++       if (result == 0 && tpwd != NULL && pwd.pw_dir)
++ 	*word = w_addstr (*word, word_length, max_length, pwd.pw_dir);
 diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
-index 0a4f7ac3bd6..e62d941fdde 100644
+index e62d941fdde..26aa6fb275e 100644
 --- a/meta/recipes-core/glibc/glibc_2.39.bb
 +++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -64,6 +64,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0029-CVE-2026-6238-0005.patch \
+@@ -65,6 +65,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0030-CVE-2026-6238-0006.patch \
             file://0031-CVE-2026-5928.patch \
-+           file://0032-CVE-2026-5450.patch \
+            file://0032-CVE-2026-5450.patch \
++           file://0033-CVE-2026-6791.patch \
  "
  S = "${WORKDIR}/git"
  B = "${WORKDIR}/build-${TARGET_SYS}"
