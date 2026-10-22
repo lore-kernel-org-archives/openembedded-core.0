@@ -1,216 +1,214 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.39])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21959.1792672517284513235
+Received: from lgeamrelo13.lge.com (lgeamrelo13.lge.com [156.147.23.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21980.1792673298605622140
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 05:35:17 -0700
+ Thu, 22 Oct 2026 05:48:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=leo1FNM9;
- spf=pass (domain: est.tech, ip: 52.101.84.39, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ne6UJmPMuO4yCYkHI+M+7Rn7JPGKhyzdpxCM5mK9erecg6eZduoBtVDYOum4F9YVupTLzqLPoMUsVY/Tyi19LKL6dreSuGn4SJUBKi3lPxgE0Wy6TW18Nv/ZkV+6p6TpDpMEi3TMRO1nxDSmDgEB+TrB0sZgYD2DWkx8G+MEOthKBi7t8IVJcvmn7YK29L9oY2xst5b3fzZkrWLrShQ5eSZNLt5lGew8FT6Hffk8+dEkFKKWdIEkgfQBr1fN+RoPzS7WcthPhZaviltzqJhtrTBQxZjJnrbZ16YwyRkptsSsFb1tK+JjV5x5MNHJeRwxJu7L7mDkL+lCTZsIL9SdnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4KpiasgYZYyKRbS82jeweg7qZfx3tyiBo9k6rjn7OXE=;
- b=I4isz7oltzCjkLw1iAlSspKMQFqfqEITtk78V0ZRLXL2wEiKs1vDCfQ+YgbAQRJqYBhB+c2J1jM9G3pTFcR6+HNthzun4cjwihgDO4aCk8Qkf3ASvBTQnQ06l8g9B5CM3pUHbJA2DuoFtXjGvp3fxnSE4aFs9LqD+KQZcrEJ2mGQl6nZDXh6AQQ/8KxBJYsEdyS3FMz7fPtrrRJcNA9QPJ4JSrk4AU7lfzyrrl78R8LmlWDpqiw5lVPaH+KBNhVnUejncRDzOxQuo2ePyzwtescejaCuDrZbIw8WfTGrA4413IwktKnVbbucFqdKh6ua6FaP2LpsXqt0YxPEYd3WAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4KpiasgYZYyKRbS82jeweg7qZfx3tyiBo9k6rjn7OXE=;
- b=leo1FNM9Vs5tOuV7hrPnf2YjlpquykYBIKep+VNzhYO2eAVGuPkzxYfeNPX8gTsQv1wU/8+yYjaTYHCCCN9UWgg/NUHlCrAgWHmDqXjsfesUJU8av5nFpJmJiT3H54ezzwetxIuUnkiLP6TJOMUiFkp7o197MGCN5ItOKHSr4eoCE/7o2N1IrXqlqLzt6y+RjcmADYAqQdlILPEMybw183k9JTXGNvn9XAvOC3BNQjaBIuuwf215AvbuO3+BiMY8VZiM4IgnNhWb3xlYubEgMWWhRqeD4P+f5pVNVGzTL575GK9MhXza4BevwmucXNPqAEDSj+0ru0rj5XIp7RxvmQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by AM0P189MB0820.EURP189.PROD.OUTLOOK.COM (2603:10a6:208:19d::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
- 2026 12:35:12 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0522.017; Thu, 22 Oct 2026
- 12:35:12 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: mark.yang@lge.com)
+Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
+	by 156.147.23.53 with ESMTP; 22 Oct 2026 21:48:16 +0900
+X-Original-SENDERIP: 156.147.1.121
+X-Original-MAILFROM: mark.yang@lge.com
+Received: from unknown (HELO markyang..) (10.159.40.114)
+	by 156.147.1.121 with ESMTP; 22 Oct 2026 21:48:16 +0900
+X-Original-SENDERIP: 10.159.40.114
+X-Original-MAILFROM: mark.yang@lge.com
+From: mark.yang@lge.com
 To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH] liburcu: add ptest support
-Date: Thu, 22 Oct 2026 14:35:09 +0200
-Message-ID: <20261022123509.14923-1-pratik.farkase@est.tech>
+Cc: "mark.yang" <mark.yang@lge.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] musl: build the fallback search path from base_libdir
+Date: Thu, 22 Oct 2026 21:48:15 +0900
+Message-ID: <20261022124815.1618494-1-mark.yang@lge.com>
 X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P302CA0041.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:317::19) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
-Return-Path: pratik.farkase@est.tech
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|AM0P189MB0820:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c400c6f-3618-4dc3-44c4-08df3038eabe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|6133799003|18002099003|10067099003|12006099003|261021121427099003|3023799007|13003099007|261021123027099003|260925022911599003|260925021311599003|260925021911599003|261009223027099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: jK/W1cHK3yvJLXF9B0FTG4YzVbSCl/CEY84L2RcxwC8034Sb3aJWHAp3GrjmNnIL6fB99rrKci880V6YM8RgNCl6MmeQzl0MRvmpZTTF2Yzms1P8ltLFxowzdx9Fttd48XEL8QbiHDWdseTH4H5ZMAIJTFcrosfCQMVCbvlECXuQs+uVNqul7JF/LdzKR9fIwAPX/Ag5qGc31Te+S1dao9orMvB1eCrGlqDSwY+BGswA4gbzO7ou+OyuAO5iRbbzPtqhPZ/BGnewWvFH9Hm+Ttr64PM/GlpUrDTVIoUuJpdWOgLYvGzHr8jpkNhvde8sjks6VOhcDGP8E7+Q6zvW0U2tL9c+GRg34WjuJRYwKZkQ+8DB7cHoKF4wwAqTSFT6aSvTdL6CBI7jNpyt/EFSk0mM67Zw40T+aQDldScY71VpAxKbCAp7cWoBJ0uXBGJWVM7lbMmSs3KIfPFm3XInxUywus+MiG7z8YNJ0667h53PkPsn+uw6ozhSrb3vLisL5TDgIPy3fK6PFEg4yYL1DUDlh/QJwPB8qALDxJ7unRiq85/82uzhMrFd4Ni5BiGP1tLqFTaWwbWjn2htb2bSlv8jIghKaKEzc9Pxk3KyMww=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(6133799003)(18002099003)(10067099003)(12006099003)(261021121427099003)(3023799007)(13003099007)(261021123027099003)(260925022911599003)(260925021311599003)(260925021911599003)(261009223027099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?x6FwtYptatvyibThr77/sz7OxWiZO5cGwaL7jLGpPakiXGiNKZz1MHepSbze?=
- =?us-ascii?Q?gemP7MvieAHWtrwY1tveet9jy5aVXwews5+qFvMGQX5MUPqbtVktpdb98h/c?=
- =?us-ascii?Q?xTxH/UQixkCuFwpEJ3Le1yJ77F+80FlOBohr6kZhbupDtgBLCqGaAd9uS2q7?=
- =?us-ascii?Q?w7IJPIShMrx+gUcjBZoqCo5S7hn2joHmskP1EFr2DaWiMmuXAbAEE9OM+zxs?=
- =?us-ascii?Q?6DUeg6pl48iCFTV3Enb80rP8SFVQYsWqFg3paJ4Uwj+q1EN+UmlZ2/iR7siA?=
- =?us-ascii?Q?SglOLtq/zzbP7sKtG9s2bgeQnKmRF1tVMvVCty7u/FWoOh3VhXI4L3frrA//?=
- =?us-ascii?Q?LvtzqCmxZHpqkmsX//BHnrSCR8b0dmRt7IPoqc8LoZVcGUPVogCpzTT5xkSg?=
- =?us-ascii?Q?4WCEccGDg1rkMYzx+pv6cy3jvC7Ud0TzQqbzXhHpx852mciyy/Ytj9P2PAvn?=
- =?us-ascii?Q?GLlpjQRb5mQ2eZJxZ2y62VEt5kYuxOTaWiZ6g0/O5F3v28WRxGG/OKWLvc/N?=
- =?us-ascii?Q?nKFmVGWYlOGR8rfA/oJlEGvW+ZiezB/XO5/7PxaOfBN+4sqZWB+krVp1786h?=
- =?us-ascii?Q?xLYEMT3h1PxeHuKQmGxAXq692WLi9Xga3m+L7eY1RKv9bM8vBQAOgrkWvt3H?=
- =?us-ascii?Q?e0BQrWWbsIFkewDbhzWPVSAJEUZD2bo/ECLbufvc16tVN8DkuVfeFVd2f2dJ?=
- =?us-ascii?Q?F4u6xjr7hXaRGjQW/KBFBqBI25ecPocncjZAiZ+24m+HyuTp40gLvIEAwtoe?=
- =?us-ascii?Q?+cWTFyRzSkBiX5fv/2PmAFiakVS1/MoLD38UUblhc1xJXEzz9aoIIxD+fMO9?=
- =?us-ascii?Q?ZS30sldfhN3IhkK1H8PHe24JMRUHMPB8Pm0WvYa3p0fQsRF5dR/H/Ki+jzXw?=
- =?us-ascii?Q?XQLI/rbQvslB+UJ3qiV9I2DMrfOVwzhpscH/HnJwM7jZngkLRL9ACvBdwGvS?=
- =?us-ascii?Q?0q5ybFwMEUS8PQKrktYLxQXTPOORAOplnPY+teY9y/gu0/u+FxfSDegHy8Z1?=
- =?us-ascii?Q?qhaT6qRfjKMtL0o62g7bbI7TrimHE2Hvj9h0eSVQUIE6tSuynuuv/PYKEZlX?=
- =?us-ascii?Q?8UBwTl8/bDG2fonWqjFDuN3c2cU3mMaWnfuz2/rdtLDOtElfHydbqRrTHLWW?=
- =?us-ascii?Q?KNmJzjylH1laH3W8G8fzgNUUJwAqjZfSZoE8ShwyB1iSOUR+Oc9wZTYij0vZ?=
- =?us-ascii?Q?YNE4YgTJcTcoeCWjs/3REC3fQ7qYaJCaTIOCEwdMKLwoXYZnQfYAnBv3NV6a?=
- =?us-ascii?Q?KrYvEPI2PHIalgFdzgMAP/qffEZoInko6pNWqxU/SIILN28ZxLS0jmE78ySj?=
- =?us-ascii?Q?8vZKIyGJaBvNXpaJAOv2alEsaJW0sSjVGkG/vvOqRl+F6x1ZHNs06V5rX8zk?=
- =?us-ascii?Q?wkuWltw4dvF00/7zehQ40zb2Y1/ViXA1/9W9btuWtx00xTqaEbx1/EGgWr4W?=
- =?us-ascii?Q?LeWrttYzpDU2PHo7KDg1S3dGIWgsXppEii0bHayMWRSF4nQ2RwfQ9/aeYFxN?=
- =?us-ascii?Q?3Pmjo8ZYEaijRpSWEJTq5aUUaRwFvggvcbtNXyTt+6KnVx+WXfRVS5WbKdOx?=
- =?us-ascii?Q?dCowAYb5ahBaoR3/57WCgSw3r+lZeo/d3HsO2T2S4PuuD1FUH86Grzy4CuQX?=
- =?us-ascii?Q?i6j3i3FaSlSgrq6Ja2jK42HvPBazyV1PiORb6BVvVeppYAAsTzljz1Qo1cr/?=
- =?us-ascii?Q?LnhujiMMHTlVoAcxEIzAY/Q/TXUMazvitgdLHtGdD+r3wbdF1TNY/TQv1ON3?=
- =?us-ascii?Q?/omn9GtF2Q=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c400c6f-3618-4dc3-44c4-08df3038eabe
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 12:35:12.5453
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bKKOXWipyu2tE2o1Hq2u5ivr7pwyilsVWI+/y36pW6R/oe4crJMTnTYCMZQdQ9y54Z9xeXbLz6KIck9AbnmTWA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0P189MB0820
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 12:35:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248443
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 12:48:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248444
 Content-Type: text/plain; charset="utf-8"
 
-Build liburcu's upstream unit test suite and run it under ptest. The
-test programs and their shell-script wrappers are enumerated from the
-Makefile via makefile-getvar and installed with libtool so the real
-binaries are resolved from .libs.
+From: "mark.yang" <mark.yang@lge.com>
 
-Tested on qemuriscv64 with ptest-runner: 24 tests, all pass.
+Build the fallback search path of patch 0002 from base_libdir instead
+of syslibdir.
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+We are working towards musl with multilib. There a 64-bit program can
+load the lib32 copy of a library and fail with "Exec format error".
+
+ld-musl-$ARCH.path is the musl counterpart of ld.so.conf. When the file
+does not exist, the dynamic linker uses a fallback search path built
+into musl. Upstream musl hardcodes /lib:/usr/local/lib:/usr/lib.
+
+With usrmerge musl looks for the file in /usr/etc for programs built by
+gcc, while the recipe installs it in /etc. The dynamic linker then uses
+the fallback search path.
+
+2da79f021b ("musl: Create default library search path based on
+configuration") added patch 0002 to build it from syslibdir:libdir.
+syslibdir was base_libdir then, so both parts followed the variant.
+
+bfa1ea82bb ("musl: Add support for multilib") moved syslibdir to /lib,
+later nonarch_base_libdir, so every variant puts its dynamic linker
+there. The fallback search path moved with it.
+
+With usrmerge a 64-bit multilib build therefore searches /usr/lib
+first, where the lib32 libraries are.
+
+Patch 0002 now takes base_libdir as a separate baselibdir make
+variable. The dynamic linker stays in syslibdir.
+
+The fallback search path then lists the same directories as the .path
+file. glibc builds its default search path the same way, from slibdir
+and libdir, and OE sets slibdir to base_libdir.
+
+  64-bit fallback search path with usrmerge
+  before    /usr/lib:/usr/lib64
+  after     /usr/lib64:/usr/lib64
+
+Non-multilib builds do not change, as base_libdir equals syslibdir
+there.
+
+Suggested-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: mark.yang <mark.yang@lge.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../recipes-support/liburcu/liburcu/run-ptest | 17 ++++++++++
- .../recipes-support/liburcu/liburcu_0.15.7.bb | 32 +++++++++++++++++--
- 3 files changed, 48 insertions(+), 2 deletions(-)
- create mode 100755 meta/recipes-support/liburcu/liburcu/run-ptest
+v2:
+- Drop the v1 change to the dynamic linker. Take the fallback search
+  path in patch 0002 from base_libdir instead, as Khem suggested.
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index a77cf7f5be..74591a34f2 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -51,6 +51,7 @@ PTESTS_FAST =3D "\
-     libtimedate-perl \
-     libtoml11 \
-     libtry-tiny-perl \
-+    liburcu \
-     libusb1 \
-     libxml-namespacesupport-perl \
-     libxml-parser-perl \
-diff --git a/meta/recipes-support/liburcu/liburcu/run-ptest b/meta/recipes-=
-support/liburcu/liburcu/run-ptest
-new file mode 100755
-index 0000000000..5f8fb4fcfe
---- /dev/null
-+++ b/meta/recipes-support/liburcu/liburcu/run-ptest
-@@ -0,0 +1,17 @@
-+#!/bin/sh
+v1: https://patchwork.yoctoproject.org/project/oe-core/patch/20261022025520.234942-2-mark.yang@lge.com/
+
+The .path file with usrmerge:
+
+musl derives the location of the file from the PT_INTERP string, not
+from where the dynamic linker is installed.
+
+With usrmerge gcc writes /usr/lib/ld-musl-$ARCH.so.1 into PT_INTERP,
+so musl opens /usr/etc/ld-musl-$ARCH.path. Edits to
+/etc/ld-musl-$ARCH.path have no effect.
+
+With this patch the fallback search path is right, so programs run
+when musl does not find the file.
+
+I asked on the musl list whether the dynamic linker could read the file
+from a configured sysconfdir [1]. Szabolcs Nagy replied that /usr/lib
+in PT_INTERP is an unusual setup and suggested a symlink from /usr/etc
+to /etc instead [2]. I withdrew the musl patch.
+
+I checked two musl distros with a merged /usr, Void and Gentoo. Both
+keep /lib/ld-musl-$ARCH.so.1 in PT_INTERP, while the dynamic linker
+itself lives in /usr/lib. musl therefore reads /etc/ld-musl-$ARCH.path
+there.
+
+OE cannot simply do the same. Only the image rootfs and the SDK get the
+merged /usr symlinks, so the recipe sysroot has no /lib and qemu-user
+fails to start a target binary at build time:
+
+  qemu-aarch64: Could not open '/lib/ld-musl-aarch64.so.1': No such file or directory
+
+[YOCTO #14977] hit the same error on arm when gcc still wrote /lib
+there.
+
+If the .path file should take effect, a /usr/etc symlink in the musl
+recipe looks like the better option. I can send it as a follow-up.
+
+[1] https://www.openwall.com/lists/musl/2026/10/22/1
+[2] https://www.openwall.com/lists/musl/2026/10/22/2
+
+ ...ir-and-libdir-as-default-pathes-to-l.patch | 35 +++++++++++++------
+ meta/recipes-core/musl/musl_git.bb            |  4 +++
+ 2 files changed, 28 insertions(+), 11 deletions(-)
+
+diff --git a/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch b/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
+index 04630b32ee..1eb236b315 100644
+--- a/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
++++ b/meta/recipes-core/musl/musl/0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch
+@@ -1,4 +1,4 @@
+-From e27de983ef70257ca1fd7f5096eea41613612ecf Mon Sep 17 00:00:00 2001
++From 4c5bc7ad461e4a0ddb81511d3f6e1f25d369436d Mon Sep 17 00:00:00 2001
+ From: Serhey Popovych <serhe.popovych@gmail.com>
+ Date: Tue, 11 Dec 2018 05:44:20 -0500
+ Subject: [PATCH 2/2] ldso: Use syslibdir and libdir as default pathes to
+@@ -10,45 +10,58 @@ libraries /lib:/usr/local/lib:/usr/lib.
+ However this path isn't relevant in case when library is put in dirs
+ like lib64 or libx32.
+ 
+-Adjust CFLAGS_ALL to pass syslibdir as SYSLIBDIR and libdir as LIBDIR
++Adjust CFLAGS_ALL to pass baselibdir as BASELIBDIR and libdir as LIBDIR
+ preprocessor macroses to construct default ldso library search path
+ in ldso/dynlink.c::SYS_PATH_DFLT.
+ 
++baselibdir defaults to syslibdir. OE sets it to base_libdir, because
++syslibdir is where the dynamic linker goes, and multilib can put the
++libraries in another directory.
 +
-+PTEST_PATH=3D$(dirname "$0")
-+cd "$PTEST_PATH/tests/unit" || exit 1
+ Upstream-Status: Pending
+ Signed-off-by: Serhey Popovych <serhe.popovych@gmail.com>
++Signed-off-by: mark.yang <mark.yang@lge.com>
+ ---
+- Makefile       | 3 ++-
++ Makefile       | 4 +++-
+  ldso/dynlink.c | 4 +++-
+- 2 files changed, 5 insertions(+), 2 deletions(-)
++ 2 files changed, 6 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Makefile b/Makefile
+-index 466d9afd..d2f458fa 100644
++index f10f0d6c..27c08fe0 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -47,7 +47,8 @@ CFLAGS_AUTO = -Os -pipe
++@@ -16,6 +16,7 @@ prefix = /usr/local/musl
++ includedir = $(prefix)/include
++ libdir = $(prefix)/lib
++ syslibdir = /lib
+++baselibdir = $(syslibdir)
++ 
++ MALLOC_DIR = mallocng
++ SRC_DIRS = $(addprefix $(srcdir)/,src/* src/malloc/$(MALLOC_DIR) crt ldso $(COMPAT_SRC_DIRS))
++@@ -47,7 +48,8 @@ CFLAGS_AUTO = -Os -pipe
+  CFLAGS_C99FSE = -std=c99 -ffreestanding -nostdinc 
+  
+  CFLAGS_ALL = $(CFLAGS_C99FSE)
+ -CFLAGS_ALL += -D_XOPEN_SOURCE=700 -I$(srcdir)/arch/$(ARCH) -I$(srcdir)/arch/generic -Iobj/src/internal -I$(srcdir)/src/include -I$(srcdir)/src/internal -Iobj/include -I$(srcdir)/include
+-+CFLAGS_ALL += -D_XOPEN_SOURCE=700 -DSYSLIBDIR='"$(syslibdir)"' -DLIBDIR='"$(libdir)"'
+++CFLAGS_ALL += -D_XOPEN_SOURCE=700 -DBASELIBDIR='"$(baselibdir)"' -DLIBDIR='"$(libdir)"'
+ +CFLAGS_ALL += -I$(srcdir)/arch/$(ARCH) -I$(srcdir)/arch/generic -Iobj/src/internal -I$(srcdir)/src/include -I$(srcdir)/src/internal -Iobj/include -I$(srcdir)/include
+  CFLAGS_ALL += $(CPPFLAGS) $(CFLAGS_AUTO) $(CFLAGS)
+  
+  LDFLAGS_ALL = $(LDFLAGS_AUTO) $(LDFLAGS)
+ diff --git a/ldso/dynlink.c b/ldso/dynlink.c
+-index 324aa859..7d3ab44c 100644
++index 10471b23..e2f1e01d 100644
+ --- a/ldso/dynlink.c
+ +++ b/ldso/dynlink.c
+-@@ -35,6 +35,8 @@ static size_t ldso_page_size;
++@@ -37,6 +37,8 @@ static size_t ldso_page_size;
+  #define realloc __libc_realloc
+  #define free __libc_free
+  
+-+#define SYS_PATH_DFLT SYSLIBDIR ":" LIBDIR
+++#define SYS_PATH_DFLT BASELIBDIR ":" LIBDIR
+ +
+  static void error_impl(const char *, ...);
+  static void error_noop(const char *, ...);
+  static void (*error)(const char *, ...) = error_noop;
+-@@ -1159,7 +1161,7 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
++@@ -1161,7 +1163,7 @@ static struct dso *load_library(const char *name, struct dso *needed_by)
+  					sys_path = "";
+  				}
+  			}
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 212bda1f29..c81178c15a 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -49,6 +49,10 @@ CONFIGUREOPTS = " \
+     --syslibdir=${nonarch_base_libdir} \
+ "
+ 
++# The fallback search path of patch 0002 follows base_libdir, as the .path
++# file does. --syslibdir only says where the dynamic linker goes.
++EXTRA_OEMAKE += "baselibdir=${base_libdir}"
 +
-+export URCU_TESTS_SRCDIR=3D"$PTEST_PATH/tests"
-+export URCU_TESTS_BUILDDIR=3D"$PTEST_PATH/tests"
-+export URCU_TESTS_OS_TYPE=3D"linux"
-+
-+for test in $(find . -maxdepth 1 -type f -executable -name "test_*" | sort=
-); do
-+    testname=3D$(basename "$test")
-+    if ./"$test"; then
-+        echo "PASS: $testname"
-+    else
-+        echo "FAIL: $testname"
-+    fi
-+done
-diff --git a/meta/recipes-support/liburcu/liburcu_0.15.7.bb b/meta/recipes-=
-support/liburcu/liburcu_0.15.7.bb
-index 0aa51903be..18cf6a2e46 100644
---- a/meta/recipes-support/liburcu/liburcu_0.15.7.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.15.7.bb
-@@ -11,15 +11,43 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.md;md5=3Dc2a92498b=
-6e88e276f986877995425b8 \
-                     file://include/urcu/uatomic/x86.h;beginline=3D1;endlin=
-e=3D6;md5=3D358d69272ba7b5f85e29e342430d440c \
-                     "
-=20
--SRC_URI =3D "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
-+SRC_URI =3D "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
-+           file://run-ptest \
-+           "
-=20
- SRC_URI[sha256sum] =3D "2556b83adc0f9b3ac8024e613e17d014d04c4c49110604ce55=
-fcb14eae32edd3"
-=20
- S =3D "${UNPACKDIR}/userspace-rcu-${PV}"
--inherit autotools multilib_header
-+inherit autotools multilib_header ptest
-=20
- CPPFLAGS:append:riscv64  =3D " -pthread -D_REENTRANT"
-=20
-+RDEPENDS:${PN}-ptest +=3D "bash"
-+
- do_install:append() {
-     oe_multilib_header urcu/config.h
+ do_configure() {
+ 	${S}/configure ${CONFIGUREOPTS}
  }
-+
-+do_compile_ptest() {
-+    oe_runmake -C ${B}/tests/unit check TESTS=3D
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests/unit
-+
-+    # Compiled test programs (libtool resolves the real binary from .libs)=
-.
-+    for p in $(makefile-getvar ${B}/tests/unit/Makefile noinst_PROGRAMS); =
-do
-+        ${B}/libtool --mode=3Dinstall install -m 0755 ${B}/tests/unit/$p \
-+            ${D}${PTEST_PATH}/tests/unit/
-+    done
-+
-+    # Shell-script test wrappers shipped in the source tree (names come fr=
-om
-+    # the configured build Makefile; the files live in ${S}).
-+    for s in $(makefile-getvar ${B}/tests/unit/Makefile dist_noinst_SCRIPT=
-S); do
-+        install -m 0755 ${S}/tests/unit/$s ${D}${PTEST_PATH}/tests/unit/
-+    done
-+
-+    install -d ${D}${PTEST_PATH}/tests/utils
-+    install -m 0644 ${S}/tests/utils/tap.sh ${D}${PTEST_PATH}/tests/utils/
-+    install -m 0644 ${S}/tests/utils/utils.sh ${D}${PTEST_PATH}/tests/util=
-s/
-+}
---=20
-2.43.0
-
