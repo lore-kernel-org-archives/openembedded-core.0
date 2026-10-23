@@ -1,35 +1,35 @@
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17045.1792789205332405938
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17040.1792789215952388506
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Oct 2026 14:00:06 -0700
+ Fri, 23 Oct 2026 14:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=JOS9nAsc;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202610232100016c5dad8f640002079b-r_2ykr@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202610232100016c5dad8f640002079b
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=FxTFnlqf;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-20261023210014653332d57a000207cf-natbyv@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20261023210014653332d57a000207cf
         for <openembedded-core@lists.openembedded.org>;
-        Fri, 23 Oct 2026 23:00:02 +0200
+        Fri, 23 Oct 2026 23:00:14 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=G/IGv74nGck4Y8PM9/yQ43Igx2+ZJWzLgJzMkXgSVDM=;
- b=JOS9nAscefl2R9rltKmqi0liFJ1bOYdTze9zMjJR3LGsSX3Gff12iq6JPyr1rLtAeDYszk
- Zgu9FCNG/c5d0YpqzjoZqVG9muKjvgLc+Jt3+161dYjTHWnV5NiHxxobgpAyP2her5M6Vkur
- PrK677hegQrJzaZiBC25eWF8dn0q+1BYxmePNF5Qea/5C0P9o8DLc3orioo27RJnLxR83+w9
- dhj8YNw3UU4K1M5brKYkDcPDEpUIm+A7ZhE0GqBoJfeedUt5QGxPPMWV2veaywEG8M+tINNn
- pAKv0j1Si+mea8a6rGxHGrLvOqCJCVbAajl9OtR6ABkD6wEW/MQ6PB6g==;
+ bh=4tKmOcllJLn04S7T96PyPsPTGDaYlq/c7Q9XQf6YqVU=;
+ b=FxTFnlqfiPuh0cJttF9Nb6eFdZhasybpz4vjjFirOsRcMT5efVn2LIngflJNiEQN2OYUmU
+ dVo35ktIPkVFx4cdkk8cjIlV+BTC9SprZdzePnfNLtukreSFGrF7/1/2E5LlWaGJQrqN8mPc
+ vwZiv1JjqenHw28mhQsV5JWapN896Fzab2rMtpD10+6BAJULoyukhldvFzAPtf9fHeNzAqIG
+ rvJk5Yljg+rbruGXg8K6CLL8YYf/rTr+uqjiilsYLIkw4C1wpqIyvsxZRjSC0PBLK9RLSivv
+ 0L7H624HyjwvrOT9OO/XVPF1ws/4Lf2IkjQvaW7mwhOk5+Uu9k7BSNqg==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] glib-2.0: patch CVE-2026-16118
-Date: Fri, 23 Oct 2026 22:59:32 +0200
-Message-ID: <20261023205932.903606-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] glib-2.0: patch CVE-2026-16118
+Date: Fri, 23 Oct 2026 22:59:27 +0200
+Message-ID: <20261023205927.903573-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 21:00:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248567
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 21:00:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248568
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -38,16 +38,16 @@ Pick patch referencing this CVE.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../glib-2.0/files/CVE-2026-16118.patch       | 48 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib.inc           |  1 +
+ .../glib-2.0/glib-2.0/CVE-2026-16118.patch    | 48 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |  1 +
  2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/files/CVE-2026-16118.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-16118.patch
 
-diff --git a/meta/recipes-core/glib-2.0/files/CVE-2026-16118.patch b/meta/recipes-core/glib-2.0/files/CVE-2026-16118.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-16118.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-16118.patch
 new file mode 100644
-index 0000000000..72a387079e
+index 00000000000..72a387079e0
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/files/CVE-2026-16118.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-16118.patch
 @@ -0,0 +1,48 @@
 +From ca75aff83af9875ea2ad2bfbe48a85dfd99c2ce5 Mon Sep 17 00:00:00 2001
 +From: Kashyap Ekbote <kashyap.ekbote@gmail.com>
@@ -97,14 +97,14 @@ index 0000000000..72a387079e
 + 
 + 		}
 + 	    }
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 7e7725f9bd..aec875a3df 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -237,6 +237,7 @@ SRC_URI += "\
-            file://skip-timeout.patch \
-            file://CVE-2026-58016-1.patch \
-            file://CVE-2026-58016-2.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+index 70b0b74e881..9f4d7993dba 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+@@ -58,6 +58,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2026-58015_p2.patch \
+            file://CVE-2026-58015_p3.patch \
+            file://CVE-2026-58015_p4.patch \
 +           file://CVE-2026-16118.patch \
             "
  SRC_URI:append:class-native = " file://relocate-modules.patch \
