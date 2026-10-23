@@ -1,92 +1,183 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8314.1792765704205806356
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8642.1792766405670012547
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Oct 2026 07:28:24 -0700
+ Fri, 23 Oct 2026 07:40:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=PSGsO9Jr;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D7C11C00
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 07:28:20 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 478CB3F673
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 07:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1792765703; bh=9qiUnHVUGGsrnQWuyuMVegV6JwYRszfAuhJlBrZLjsM=;
-	h=From:To:Subject:Date:From;
-	b=PSGsO9Jr0J3MkCc7jLLwhCJ1ZtoF9bxu3BeqDCYfcI8VhOkuUtaKZfleIsghSF0mu
-	 khpYKRM5WtdsTFzEwsjb4QJ23Xl4Cr6EXgupKCIlPy+jdpN3fuPbNgWwipB7QHJ4YG
-	 WcjPQNqH+q8CslHkDVIyOf0vVSQcWXEsmPZzKEmc=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3: skip test.test_readline.TestHistoryManipulation on musl
-Date: Fri, 23 Oct 2026 15:28:19 +0100
-Message-ID: <20261023142819.2173443-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Y5t9IF8f;
+ spf=pass (domain: gmail.com, ip: 74.125.224.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-679a2b540f3so930899d50.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 07:40:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792766405; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Je/aLZLKrvvsm0w81HWGMJo1kmg9dTJCBpnXadG2POCRoc/eL7gfdZs7jyIzGlBNed
+         bw4cD8yDt4o3Lxiu8uCQtFC08tjj49qYQ0+BePsjgXGUwtS2yGatYfErudCXdOTQvgYj
+         /oUR7OVRvMdhagA6DxPDOzutGz+sOpvUSso4NC136rLKk49V/NVLXgD+YyhmJpfhFBaE
+         r6hwHweszvz7ck+vvTZWi+s+jIXr73e7DAxs1GRCDziVE/39VL5lpYoan84BKyOfEp/J
+         kV4AP9HgnBEVtAiCJF3fXGs214PTwmG8n3hhIKKWvxI0vofAEoJz6eVj9AzGE8kU48Y3
+         Q56Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=AHlYnlF/rAop0eEf7AnPrYHaoA/CGurAPDHY95/ayuY=;
+        fh=Oyp0vZkthY33qxuTu49euvFnXWw2uEogdk3yUFh22TY=;
+        b=FtuhtBnisrdsc0eK4qGBJKi7QuHwfnyTZYlqN4GOL75XJRJtUmsBfvDRiTu/hSMZsl
+         R639cyL7nQmp3IkQN6H9IUQGTwgqg8bnDPqz5QrCx3o+l6YgcWKLFIvxvxr/WEcAePVp
+         Kj/IbfILNcESX+vuJBdjJXM122hCwWjYbdBYk8MYhBzD0y+cVx/M1oadZtcWdtij85oC
+         ejHJDmIkR34nHjUuavUN8W+3xwFU9Cfiwf5X23FQ6Vn+J6kvPKx2In5Nkfat3jREQpXz
+         GkWxz/RU4QirGgpuXUxsCW/Cu477+VJdcbqOLKy4g7NVpdS4BV+VTdi0l5Hj02BTkb6w
+         d+zw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792766405; x=1793371205; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AHlYnlF/rAop0eEf7AnPrYHaoA/CGurAPDHY95/ayuY=;
+        b=Y5t9IF8f/VJDwSDK2/cgMx0hs1cCrGwk/htSxoSJtYQnLr1kWswfwHCOLs5mulsx5r
+         qWpT2wxM5TNNWxUs1P5IWHPKUS1DzzKSrNsDr4yHDpb90bD5FTHRzVr4Wj6ckmpmwQgP
+         xtWCMd6kg+4TBeS/eJ+Na7WiFzAbk8xshx/h4SF2hsMBU28GaHvirMu6QZ2ecVly56Hk
+         mExNurc03fNuvN7kNEdthmzwlI00aoPk64DYKLrn4amizGMSLD+4rXTX/SuE/DSaWoQJ
+         1CgraUhooH6NfQIUKE+NFpJRj0+3BFO3uLYs+dxdaFlnmKH9bW4ATTbaPm0Spkadf16g
+         9/lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792766405; x=1793371205;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=AHlYnlF/rAop0eEf7AnPrYHaoA/CGurAPDHY95/ayuY=;
+        b=Km3Zz1J/ARAXEgTS3VLkXCs0t98k5zs4G1UpJOhyqFVK6f338DWsD5RrmOyNVKaV/S
+         PdG6RUGseer8WRyQUBSYF5ifQGpzsfEaH1tPVW1LEgz7vNx8jBcYxwrgwzdvt3+tfpcT
+         7FEuYVywxD/UfNjWpdc7VlOXy9Xj6kx4RfVJ1cL1aK2HLGI4QuHCxKNVWcapWlCqzDMg
+         IH5+nd8AqrOCGU9+RJugIcrvAzXzkz/N6CE5v68ODVjcZoCoSo+4dD2cY4fC/mbXxAm5
+         j/hIzUM5cEOhmAVUpoMeJHJGDQCaqUVvt4fsuOJAHuQ8pXTrgHG/9SC1VRoDJRadl/Lh
+         zeKg==
+X-Gm-Message-State: AFq9FYLw4JZQDoXO2UZalPOzqSBD1vZn9s3YKq/+7wAP+irXAL+X8ONA
+	g6vTgc65Ztk+KWoiWm00sYWypDoytQa0W7RIo3Sj1VVHfLG8BGNfibSy0JaA+fvQXztFmayJwKn
+	t5a18lq7svjqliDa4z6PZGQ9UjyM/a74=
+X-Gm-Gg: AYBFou2/CVcxjMkp0wWzgWZQF7oR3be0LqWV6WSgOgc4yqGQ6/w99F2onZd2+8qyki+
+	BV+rMmhrOgyEKKS6ot0Mq6X6OYV5dhIQ1ZbYAHT8EmC6kIW3D9y5UsOwiGevRYgcjKbyfZxRx/3
+	VtUUZU89rTS2AUf7Qhjf+vRdtIr2t2ktYLkVasdIB1Hmylx0o55K1FKF1ZGsNbcNB89WjqcAzMq
+	4nr0qjvHJN2iZIOnSrBmANZRfrQSjTphavwirrdN/qUrYimmycllfJuTnXw6PEmfA2RpEi9ulvQ
+	DQSNeZDGyyCCNuhGxuhWs/wTChhuvRtk/9BgfYNd0XNEYDgTR0xkth438qhBfszaB3ySv1HqU8i
+	O90lMfQoGbAwZ5Z3uS1m8DylFLdQemXp7FRvlXhSbny2lID4XX0EAoMTsxOoKw/CfOwH0ejV6Ml
+	e3stoQP2hxR084wttp89mmzVI2uH2cyU1DmwClQceYyVnXAf/cCVykTVFuMoA78OsH94vhYIAaZ
+	SE+My8LzQIolATvJl+Ya9yg0fOmksA4ylWMfRoNMXMvTwC8D+IFUZ6XOXXsU04shzr/lcVoMdxy
+	ir8DainfxVs6UDf8rx0tiU94sjMb5VC+geFqND89RYbcVC+zb5A20W3OuqbLgl8lBvCrQnOUzwE
+	ClARgQcKj+yfVWPEceY5l
+X-Received: by 2002:a05:690c:6e83:b0:8ab:3918:33c9 with SMTP id
+ 00721157ae682-8b157df3d77mr16107817b3.96.1792766404591; Fri, 23 Oct 2026
+ 07:40:04 -0700 (PDT)
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+References: <20261023042749.1756636-1-khem.raj@oss.qualcomm.com>
+ <20261023042749.1756636-2-khem.raj@oss.qualcomm.com> <DMC7J563H5Y0.3G5XOPFZQCKZO@bootlin.com>
+In-Reply-To: <DMC7J563H5Y0.3G5XOPFZQCKZO@bootlin.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 23 Oct 2026 07:39:38 -0700
+X-Gm-Features: AclHuK9_uaGyssYV2DuvkRrlY0oh_KrREGksmgIzv7SItpN9vZwd9J0OxCnUSmE
+Message-ID: <CAMKF1soxDW9yBOpD5JeGj_H5pJLZF6N3FebxHjiT1myXwoPaYA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] python3-uv-build: Update rustix to 1.1.5
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Khem Raj <khem.raj@oss.qualcomm.com>
+Content-Type: multipart/alternative; boundary="000000000000b6051c065e82f41b"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 14:28:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248555
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 14:40:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248556
 
-Fixes to the editline integration have sadly introduced regressions on
-musl:
+--000000000000b6051c065e82f41b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-FAIL: test_append_limited_history (test.test_readline.TestHistoryManipula=
-tion.test_append_limited_history)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/usr/lib/python3.14/test/test_readline.py", line 208, in test_app=
-end_limited_history
-    self.assertEqual(readline.get_history_item(1), "second line")
-    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: '_HiStOrY_V2_' !=3D 'second line'
-- _HiStOrY_V2_
-+ second line
+On Fri, Oct 23, 2026 at 5:13=E2=80=AFAM Mathieu Dubois-Briand <
+mathieu.dubois-briand@bootlin.com> wrote:
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-FAIL: test_write_read_append (test.test_readline.TestHistoryManipulation.=
-test_write_read_append)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/usr/lib/python3.14/test/test_readline.py", line 101, in test_wri=
-te_read_append
-    self.assertEqual(readline.get_current_history_length(), 3)
-    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: 4 !=3D 3
+> On Fri Oct 23, 2026 at 6:27 AM CEST, Khem Raj via lists.openembedded.org
+> wrote:
+> > rustix 1.1.4 glob-imports the STATX_* constants from linux-raw-sys for
+> > non-glibc Linux targets, but libc also defines them for musl with its
+> > musl 1.2 layouts, which are used on riscv32, so the build fails:
+> >
+> >   error[E0659]: `STATX_MODE` is ambiguous
+> >
+> > rustix 1.1.5 imports them explicitly. Add a patch that updates it in
+> > Cargo.lock and regenerate python3-uv-build-crates.inc.
+> >
+> > Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+> > ---
+>
+> Hi Khem,
+>
+> Thanks for the backport.
+>
+> We have another patch on the list upgrading python3-uv-build to version
+> 0.13.5. Looking at the git log, this version contains the rusix update,
+> so we can probably skip this patch.
+>
 
-A ticket has been filed upstream so skip the tests for now.
+I think so.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-devtools/python/python3_3.14.9.bb | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3_3.14.9.bb b/meta/recipe=
-s-devtools/python/python3_3.14.9.bb
-index 7cee04a0a19..683edea1d83 100644
---- a/meta/recipes-devtools/python/python3_3.14.9.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.9.bb
-@@ -368,6 +368,11 @@ SKIPPED_TESTS:append:libc-musl =3D " \
-     --ignore test.test_multiprocessing_fork.test_processes.WithProcesses=
-TestProcess.test_interrupt \
- "
-=20
-+# https://github.com/python/cpython/issues/159424
-+SKIPPED_TESTS:append:libc-musl =3D " \
-+    --ignore test.test_readline.TestHistoryManipulation.test_append_limi=
-ted_history \
-+    --ignore test.test_readline.TestHistoryManipulation.test_write_read_=
-append \
-+"
-=20
- do_install_ptest:append () {
-     sed -i -e "s|SKIPPED_TESTS=3D|SKIPPED_TESTS=3D\"${SKIPPED_TESTS}\"|"=
- ${D}${PTEST_PATH}/run-ptest
---=20
-2.43.0
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
 
+--000000000000b6051c065e82f41b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 23,=
+ 2026 at 5:13=E2=80=AFAM Mathieu Dubois-Briand &lt;<a href=3D"mailto:mathie=
+u.dubois-briand@bootlin.com">mathieu.dubois-briand@bootlin.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri Oct 23=
+, 2026 at 6:27 AM CEST, Khem Raj via <a href=3D"http://lists.openembedded.o=
+rg" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<=
+br>
+&gt; rustix 1.1.4 glob-imports the STATX_* constants from linux-raw-sys for=
+<br>
+&gt; non-glibc Linux targets, but libc also defines them for musl with its<=
+br>
+&gt; musl 1.2 layouts, which are used on riscv32, so the build fails:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0error[E0659]: `STATX_MODE` is ambiguous<br>
+&gt;<br>
+&gt; rustix 1.1.5 imports them explicitly. Add a patch that updates it in<b=
+r>
+&gt; Cargo.lock and regenerate python3-uv-build-crates.inc.<br>
+&gt;<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:khem.raj@oss.qualcomm.co=
+m" target=3D"_blank">khem.raj@oss.qualcomm.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Khem,<br>
+<br>
+Thanks for the backport.<br>
+<br>
+We have another patch on the list upgrading python3-uv-build to version<br>
+0.13.5. Looking at the git log, this version contains the rusix update,<br>
+so we can probably skip this patch.<br></blockquote><div><br></div><div>I t=
+hink so.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+</blockquote></div></div>
+
+--000000000000b6051c065e82f41b--
