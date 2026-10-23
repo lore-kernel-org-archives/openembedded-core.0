@@ -1,270 +1,500 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.355.1792729673843685056
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1097.1792734602243502856
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 21:27:53 -0700
+ Thu, 22 Oct 2026 22:50:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=MMLTGfzx;
- spf=pass (domain: gmail.com, ip: 74.125.82.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1846bc43c28so559423c88.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2026 21:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792729673; x=1793334473; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dSpCVpFhaleISG7nO83sXg+xj7L3Q4NRd//i1GYuXzA=;
-        b=MMLTGfzxHWxbwzHLEF84NvsNBdBGU2smiYGneTmW6mtunQ753N8XVzYo3ogK9WO/E+
-         o7tiVRROsxuCXLh6JtktwL6qCrejo2KMaiAO8cHn2RLI7f9HMKSC+JNIpW7zUTRpK9Se
-         5LmuCxyTQu2j+18FCLhFGeYa0Pcq72qSs4ALn0N0px4gjqQYNzAl6sUblMQdFyiVpUjc
-         4M/7/pEKq8iVSQUKnl6kGz+UG4RkT+WgOkoVWnJe7RnDTWPbi4W8+FJB8BIiMb7we6cq
-         Vtr5lqbd4yd5R7FWuejavpyirmuNn4sYr9l507QKSaV+t5zXHhz/32ce7oVBhnY6tMz/
-         wduQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792729673; x=1793334473;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dSpCVpFhaleISG7nO83sXg+xj7L3Q4NRd//i1GYuXzA=;
-        b=dTxfxeKznIq1n+6a5AzrbiShfoxoSqNLkV9wdZ+5V++4MKlPEyBQRZZFSluAaKc+Wx
-         v/qs7YqwrVSqdu27ZA1GSHEfDGJohgBF/EsgWLAgFemmFfrCv9SXeCZW/tP7RP68G/V4
-         w0+QYtaLgAHGa+GtmjupcL/DoBUMS8yj6kpJmJ0IcptrQ3t22re8of8iTPullxN6pnaA
-         VtvA2MgddmWbgUahEFpwvg9Sr+LJExQNiD60M/WUgWSbabnKpxC7/hE/Y9JmiCYh8wJP
-         U40QbIE1uAWJ8AzPcbT7uIF3bsoJi27d7B5VPgPXPCxSky8MgCzPOFMDim6kFpuiFo++
-         yOVw==
-X-Gm-Message-State: AFq9FYKCeEkz95pSUiJzhPUq9awWNemvZdbj+CJAB0E8RGV8/LjkO/RB
-	3T1vzorRtXCnLCAsSrngaIRsRqKI9EmZTBpXr0FyEXK7AIa3B9Pg8FU/UYGNhM+AxbA=
-X-Gm-Gg: AYBFou2scaocKjURGOc7KSwVF8Ogid8PUkq2Hh6v5GMDowuWxUhV6PelOnL2u9UdzPM
-	ZN1HAJDRdqiTeYwLeVNuYrayKNfnpkBFMME1+qqr/zr4kOvXNaoqfYqvV54VI1KpC4g1d9Qjb78
-	Pfb2Yijm+TkQKRBq9TirH3aYf7SiFCJTaHVo8TIrpC78iwLBtezovWWwCT5kSa62j3mL7DlBWFh
-	wT0694th7UT7nkcARcOUDTNnNglZNtPjv/M7vwGKvBQtI7xQyYnRbF0Z8BDKn51U1Ht7h+HTBJT
-	9a2Xgp5a3lyOaDbz67NhSLebdNsZzC6M99LmubBl1LmXzSuo8/kh56X3dposFkfKVv1Ys6vz3Ac
-	WRGJRFJH3q2t6ZaVlL/A0rDUnVkqoQBEuG94i4ibtFJzmrMoHVIXu+YLuNViwr3c2hCYhGXdFDr
-	+MAksglyonXfzb+fj7PEUJCD1ifUbspYR6jS1yPVNUT7NZIHGRmVeusFekJjbllw9XOz6WbC7AZ
-	kNkhvX6+MyhnST+yXK5EBFWFcQgq6SMcm4P4oaBBZa2iEUpPsefCShv31wOggEne9eWDndje3Sm
-	5csUCwTwnOrqYQjZmZSg84YwWYK1OypTWWXIC612tUQamTs0IBh4xj/MU8NtMMZ2vH9dj7OGOni
-	TFUVzNxw18lGbzzxz6FcvmoOpzDy3cf6caUnUMDkN1luA9bzZfsaBky+PqCtqxkipEPDVX8ZYh9
-	F1T3QsIngFYSUrhSuT6mM20qnFwgiXDlp4Za3+/G5KZpYTg+xEmN2QAnUwG+tkVH1HTzYWj8L64
-	PNdLWqKRiTlNHdzdi+mA2vTHs7+Rt0=
-X-Received: by 2002:a05:7022:3f01:b0:14c:c947:6afb with SMTP id a92af1059eb24-195c4d61986mr1749291c88.15.1792729672822;
-        Thu, 22 Oct 2026 21:27:52 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-195eca18b99sm2597400c88.20.2026.10.22.21.27.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 21:27:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH 1/2] python3-maturin: Update rustix to 1.1.5
-Date: Thu, 22 Oct 2026 21:27:48 -0700
-Message-ID: <20261023042749.1756636-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CVrBrVxw;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=28DeVGJA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a1674f1f93-0d5cda31-0932-4c02-af42-e3be635acc5a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1792734601;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=u5Yh8Z+v8ifpc93mhUXM+oiOLofbcrvf37e4YHTYvpw=;
+	b=CVrBrVxw2aY/M8Tmh6pLSqDMvg2Q+0BgWIQjOyJLWR4GAWHUYe0JoC0Oqeq+ijbu
+	hq8zg1zWHaLEc1fu+NvNCxB9gRXaUtzVdzTjsI/p1RBAbei2r9/DuT5WYXLoZV66KP8
+	nczqcR81NhJjdCHErifSXtpJW2Wnasda6G7C82m8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792734601;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=u5Yh8Z+v8ifpc93mhUXM+oiOLofbcrvf37e4YHTYvpw=;
+	b=28DeVGJAlvzcNbzDMZoj5zYbDR6/aw31lLs1alJjeAa4U2uB2Jk+jbWPVh2c1yHI
+	ZdZlx/YaI9a69sUseGyHB6Okrk2RGc58KFPEebJAsrRdmSGJYtD6TyxMZZ/h3GOGsA6
+	6MSyB40dnHOr03gx/zDiWXflvoRjZnr18rDrIyOU=
+Content-Type: multipart/mixed; boundary="===============4853050553193502359=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] usbutils: upgrading to 020 SUCCEEDED
+Message-ID: <010101a1674f1f93-0d5cda31-0932-4c02-af42-e3be635acc5a-000000@us-west-2.amazonses.com>
+Date: Fri, 23 Oct 2026 05:50:01 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.10.23-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 04:27:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248473
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 05:50:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248476
 
-rustix 1.1.4 glob-imports the STATX_* constants from linux-raw-sys for
-non-glibc Linux targets, but libc also defines them for musl with its
-musl 1.2 layouts, which are used on riscv32, so the build fails:
+--===============4853050553193502359==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-  error[E0659]: `STATX_MODE` is ambiguous
+Hello,
 
-rustix 1.1.5 imports them explicitly. Add a patch that updates it in
-Cargo.lock and regenerate python3-maturin-crates.inc.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *usbutils* to *020* has Succeeded.
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Next steps:
+    - apply the patch: git am 0001-usbutils-upgrade-019-020.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 81393e622d2c194d5f293eb21f887f2072b87839 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 23 Oct 2026 05:15:29 +0000
+Subject: [PATCH] usbutils: upgrade 019 -> 020
+
+# Copyright (c) 2018-2026 Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+usbutils 020
+============
+
+Armin Wolf (1):
+      lsusb: Add support for FWStatus Capability decoding
+
+Greg Kroah-Hartman (124):
+      justfile: add 'make' target
+      usb-spec.h: fix up spelling mistake for "Tone Enable" entry
+      tests: vendor brat 0.10.1 as the test runner
+      tests: compare built lsusb against the installed copy
+      tests: lsusb -h: compare built against installed
+      tests: lsusb -t: compare built against installed
+      tests: lsusb -s: compare built against installed
+      tests: lsusb -d: compare built against installed
+      tests: lsusb -D: compare built against installed
+      tests: usb-devices: compare built against installed
+      tests: lsusb.py: compare built against installed
+      tests: lsusb.py -h: compare built against installed
+      tests: lsusb.py -i: compare built against installed
+      tests: lsusb.py -I: compare built against installed
+      tests: lsusb.py -u: compare built against installed
+      tests: lsusb.py -U: compare built against installed
+      tests: lsusb.py -c: compare built against installed
+      tests: lsusb.py -C: compare built against installed
+      tests: lsusb.py -e: compare built against installed
+      tests: lsusb.py -w: compare built against installed
+      tests: lsusb.py -f: compare built against installed
+      justfile: add 'test' target
+      desc-dump: fix operator precedence bug in bit-to-byte conversion
+      usbmisc: fix NULL dereference on getcwd() failure in get_absolute_path()
+      usbmisc: check malloc() return in get_dev_string_ascii()
+      usbmisc: check malloc() return in usb_string_to_native()
+      usbmisc: fix unbounded recursion and strncpy issues in
+      readlink_recursive()
+      names: replace sprintf() with snprintf() for modalias formatting
+      lsusb-t: replace sprintf() with snprintf() in lanes_to_str()
+      desc-dump: fix NULL pointer dereference for unknown audio terminal types
+      desc-dump: fix integer underflow in get_array_entry_count()
+      names: fix missing null termination in get_vendor_product_with_fallback()
+      sysfs: fix buffer handling in read_sysfs_prop()
+      sysfs: check initial snprintf() return value in get_sysfs_name()
+      lsusb: fix out-of-bounds array access in dump_encryption_type()
+      lsusb: fix out-of-bounds reads in video EXTENSION_UNIT descriptor parsing
+      lsusb: fix unaligned memory access in dump_printer_device()
+      lsusb: fix out-of-bounds read in video HEADER descriptor parsing
+      lsusb: fix out-of-bounds read in HID report descriptor parsing
+      lsusb: replace sprintf() with snprintf() in get_guid()
+      lsusb: fix out-of-bounds read in MIDI streaming endpoint descriptor
+      lsusb: fix out-of-bounds read in STILL_IMAGE_FRAME descriptor parsing
+      lsusb-t: fix buffer handling in read_sysfs_file_string()
+      lsusb: fix wrong variable in FORMAT_TYPE_II descriptor length calculation
+      lsusb: fix out-of-bounds reads in video INPUT_HEADER and OUTPUT_HEADER
+      lsusb: fix out-of-bounds reads in video PROCESSING_UNIT descriptor
+      lsusb: fix out-of-bounds reads in video terminal and selector descriptors
+      lsusb: fix undefined behavior in convert_le_u32() signed shift
+      lsusb: fix OOB reads in UAC1 audio FORMAT_TYPE descriptor parsing
+      lsusb: fix out-of-bounds read in SuperSpeedPlus capability descriptor
+      lsusb: fix OOB reads in audio FORMAT_SPECIFIC descriptor parsing
+      lsusb: fix out-of-bounds reads in IPP printer descriptor parsing
+      lsusb: add missing length checks in dump_wire_adapter and
+      dump_rc_interface
+      lsusb: add missing length checks in dump_security and dump_encryption_type
+      lsusb: fix OOB read in dump_dfu_interface on short descriptors
+      lsusb: add missing length check in dump_association()
+      lsusb: fix out-of-bounds reads in dump_hid_device() on short descriptors
+      lsusb: fix OOB reads in UAC2 FORMAT_TYPE descriptor parsing
+      lsusb: fix OOB reads in MIDI HEADER and MIDI_IN_JACK descriptor parsing
+      lsusb: fix OOB read in dump_videocontrol_interrupt_endpoint()
+      lsusb: fix OOB reads in video streaming format descriptors
+      lsusb: fix OOB reads in video FRAME descriptor parsing
+      lsusb: fix remaining OOB read in MIDI_OUT_JACK initial fields
+      lsusb: fix remaining OOB reads in video descriptor warn-and-continue paths
+      lsusb: fix OOB reads in video INPUT_HEADER and OUTPUT_HEADER data loops
+      lsusb: fix OOB read in STILL_IMAGE_FRAME compression pattern loop
+      lsusb: fix OOB read in FORMAT_MPEG2TS descriptor on short descriptors
+      lsusb: zero hub descriptor buffer to prevent reading uninitialized data
+      lsusb: fix OOB read in FORMAT_STREAM_BASED descriptor parsing
+      lsusb: fix unsigned integer underflow in dump_bytes calls for short
+      descriptors
+      lsusb: fix wrong byte printed for CCID bClassEnvelope
+      lsusb: bounds-check MIDI ELEMENT bNrInpu
+
+[Changelog truncated as it exceeds 5000 characters;
+the full changelog can be found in an attachment to the AUH email]
 ---
- .../python/python3-maturin-crates.inc         |   4 +-
- ...01-Cargo.lock-Update-rustix-to-1.1.5.patch | 144 ++++++++++++++++++
- .../python/python3-maturin_1.15.0.bb          |   2 +
- 3 files changed, 148 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-maturin/0001-Cargo.lock-Update-rustix-to-1.1.5.patch
+ meta/recipes-bsp/usbutils/{usbutils_019.bb => usbutils_020.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/usbutils/{usbutils_019.bb => usbutils_020.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-maturin-crates.inc b/meta/recipes-devtools/python/python3-maturin-crates.inc
-index 0674a34bca..68507ad754 100644
---- a/meta/recipes-devtools/python/python3-maturin-crates.inc
-+++ b/meta/recipes-devtools/python/python3-maturin-crates.inc
-@@ -268,7 +268,7 @@ SRC_URI += " \
-     crate://crates.io/rustc-hash/2.1.2 \
-     crate://crates.io/rustc_version/0.4.1 \
-     crate://crates.io/rustflags/0.1.7 \
--    crate://crates.io/rustix/1.1.4 \
-+    crate://crates.io/rustix/1.1.5 \
-     crate://crates.io/rustls/0.23.38 \
-     crate://crates.io/rustls-native-certs/0.8.3 \
-     crate://crates.io/rustls-pki-types/1.14.0 \
-@@ -742,7 +742,7 @@ SRC_URI[rstest_macros-0.26.1.sha256sum] = "9c845311f0ff7951c5506121a9ad75aec44d0
- SRC_URI[rustc-hash-2.1.2.sha256sum] = "94300abf3f1ae2e2b8ffb7b58043de3d399c73fa6f4b73826402a5c457614dbe"
- SRC_URI[rustc_version-0.4.1.sha256sum] = "cfcb3a22ef46e85b45de6ee7e79d063319ebb6594faafcf1c225ea92ab6e9b92"
- SRC_URI[rustflags-0.1.7.sha256sum] = "a39e0e9135d7a7208ee80aa4e3e4b88f0f5ad7be92153ed70686c38a03db2e63"
--SRC_URI[rustix-1.1.4.sha256sum] = "b6fe4565b9518b83ef4f91bb47ce29620ca828bd32cb7e408f0062e9930ba190"
-+SRC_URI[rustix-1.1.5.sha256sum] = "891efababe418670775f199f0d233d84843c227a0949a883ce15b37c78d6629d"
- SRC_URI[rustls-0.23.38.sha256sum] = "69f9466fb2c14ea04357e91413efb882e2a6d4a406e625449bc0a5d360d53a21"
- SRC_URI[rustls-native-certs-0.8.3.sha256sum] = "612460d5f7bea540c490b2b6395d8e34a953e52b491accd6c86c8164c5932a63"
- SRC_URI[rustls-pki-types-1.14.0.sha256sum] = "be040f8b0a225e40375822a563fa9524378b9d63112f53e19ffff34df5d33fdd"
-diff --git a/meta/recipes-devtools/python/python3-maturin/0001-Cargo.lock-Update-rustix-to-1.1.5.patch b/meta/recipes-devtools/python/python3-maturin/0001-Cargo.lock-Update-rustix-to-1.1.5.patch
-new file mode 100644
-index 0000000000..675cc0c7bb
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-maturin/0001-Cargo.lock-Update-rustix-to-1.1.5.patch
-@@ -0,0 +1,144 @@
-+From: Khem Raj <khem.raj@oss.qualcomm.com>
-+Date: Thu, 22 Oct 2026 17:00:00 -0700
-+Subject: [PATCH] Cargo.lock: Update rustix to 1.1.5
-+
-+rustix 1.1.4 glob-imports the STATX_* constants from linux-raw-sys for
-+non-glibc Linux targets, assuming libc does not define them. libc
-+defines them for musl with its musl 1.2 layouts, which libc 0.2.190
-+enables by default on riscv32 and earlier versions with the
-+libc_unstable_musl_v1_2_3 cfg, so the names become ambiguous:
-+
-+  error[E0659]: `STATX_MODE` is ambiguous
-+    --> rustix-1.1.4/src/fs/statx.rs:78:25
-+
-+rustix 1.1.5 imports them explicitly instead [1]. Update it with
-+'cargo update -p rustix'.
-+
-+[1] https://github.com/bytecodealliance/rustix/pull/1676
-+
-+Upstream-Status: Submitted [https://github.com/PyO3/maturin/pull/3344]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-+---
-+ Cargo.lock | 28 ++++++++++++++--------------
-+ 1 file changed, 14 insertions(+), 14 deletions(-)
-+
-+--- a/Cargo.lock
-++++ b/Cargo.lock
-+@@ -59,7 +59,7 @@ version = "1.1.5"
-+ source = "registry+https://github.com/rust-lang/crates.io-index"
-+ checksum = "40c48f72fd53cd289104fc64099abca73db4166ad86ea0b4341abe65af83dadc"
-+ dependencies = [
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.60.2",
-+ ]
-+ 
-+ [[package]]
-+@@ -70,7 +70,7 @@ checksum = "291e6a250ff86cd4a820112fb8898808a366d8f9f58ce16d1f538353ad55747d"
-+ dependencies = [
-+  "anstyle",
-+  "once_cell_polyfill",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.60.2",
-+ ]
-+ 
-+ [[package]]
-+@@ -879,7 +879,7 @@ dependencies = [
-+  "libc",
-+  "option-ext",
-+  "redox_users",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.59.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -967,7 +967,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
-+ checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
-+ dependencies = [
-+  "libc",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.52.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -1478,7 +1478,7 @@ checksum = "3640c1c38b8e4e43584d8df18be5fc6b0aa314ce6ebf51b53313d4306cca8e46"
-+ dependencies = [
-+  "hermit-abi",
-+  "libc",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.52.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -1961,7 +1961,7 @@ version = "0.50.3"
-+ source = "registry+https://github.com/rust-lang/crates.io-index"
-+ checksum = "7957b9740744892f114936ab4a57b3f487491bbeafaf8083688b16841a4240e5"
-+ dependencies = [
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.59.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -2079,7 +2079,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
-+ checksum = "7d8fae84b431384b68627d0f9b3b1245fcf9f46f6c0e3dc902e9dce64edd1967"
-+ dependencies = [
-+  "libc",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.45.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -2629,15 +2629,15 @@ checksum = "a39e0e9135d7a7208ee80aa4e3e4b88f0f5ad7be92153ed70686c38a03db2e63"
-+ 
-+ [[package]]
-+ name = "rustix"
-+-version = "1.1.4"
-++version = "1.1.5"
-+ source = "registry+https://github.com/rust-lang/crates.io-index"
-+-checksum = "b6fe4565b9518b83ef4f91bb47ce29620ca828bd32cb7e408f0062e9930ba190"
-++checksum = "891efababe418670775f199f0d233d84843c227a0949a883ce15b37c78d6629d"
-+ dependencies = [
-+  "bitflags",
-+  "errno",
-+  "libc",
-+  "linux-raw-sys",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.52.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -2694,7 +2694,7 @@ dependencies = [
-+  "security-framework 3.7.0",
-+  "security-framework-sys",
-+  "webpki-root-certs",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.52.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -3185,7 +3185,7 @@ dependencies = [
-+  "getrandom 0.4.2",
-+  "once_cell",
-+  "rustix",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.52.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -3204,7 +3204,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
-+ checksum = "230a1b821ccbd75b185820a1f1ff7b14d21da1e442e22c0863ea5f08771a8874"
-+ dependencies = [
-+  "rustix",
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.59.0",
-+ ]
-+ 
-+ [[package]]
-+@@ -3921,7 +3921,7 @@ version = "0.1.11"
-+ source = "registry+https://github.com/rust-lang/crates.io-index"
-+ checksum = "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
-+ dependencies = [
-+- "windows-sys 0.61.2",
-++ "windows-sys 0.52.0",
-+ ]
-+ 
-+ [[package]]
-diff --git a/meta/recipes-devtools/python/python3-maturin_1.15.0.bb b/meta/recipes-devtools/python/python3-maturin_1.15.0.bb
-index 8ab27b6676..a29e29bda9 100644
---- a/meta/recipes-devtools/python/python3-maturin_1.15.0.bb
-+++ b/meta/recipes-devtools/python/python3-maturin_1.15.0.bb
-@@ -5,6 +5,8 @@ LICENSE = "Apache-2.0 OR MIT"
- LIC_FILES_CHKSUM = "file://license-apache;md5=1836efb2eb779966696f473ee8540542 \
-                     file://license-mit;md5=85fd3b67069cff784d98ebfc7d5c0797"
+diff --git a/meta/recipes-bsp/usbutils/usbutils_019.bb b/meta/recipes-bsp/usbutils/usbutils_020.bb
+similarity index 94%
+rename from meta/recipes-bsp/usbutils/usbutils_019.bb
+rename to meta/recipes-bsp/usbutils/usbutils_020.bb
+index 164445ac4e..7ec808d5a2 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_019.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_020.bb
+@@ -15,7 +15,7 @@ DEPENDS = "libusb1 virtual/libiconv udev"
  
-+SRC_URI += "file://0001-Cargo.lock-Update-rustix-to-1.1.5.patch"
-+
- SRC_URI[sha256sum] = "94b26cc8e8aba61a5f2099715fe640e18c5f678e9a500408b38761263954228a"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+           "
+-SRC_URI[sha256sum] = "347c52b65a6aeb22cfe3af8382192004f99725850e1dc5f705336e54cf6d59fc"
++SRC_URI[sha256sum] = "fed292b2a3dce83464ce9e96e7eaf301f58b3bf0104872b6a75edac14c907ff2"
  
- S = "${UNPACKDIR}/maturin-${PV}"
+ inherit meson pkgconfig update-alternatives
+ 
+-- 
+2.47.1
+
+
+--===============4853050553193502359==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/usbutils: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-019.tar.gz" to "https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-020.tar.gz"
+packages/x86-64-v3-poky-linux/usbutils: PKGV changed from 019 [default] to 020 [default]
+packages/x86-64-v3-poky-linux/usbutils/usbutils-dbg: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils/usbutils-dbg: PKGSIZE changed from 452640 to 449440 (-1%)
+packages/x86-64-v3-poky-linux/usbutils/usbutils-dbg: PKGV changed from 019 [default] to 020 [default]
+packages/x86-64-v3-poky-linux/usbutils/usbutils-dev: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils/usbutils-dev: PKGV changed from 019 [default] to 020 [default]
+packages/x86-64-v3-poky-linux/usbutils/usbutils-doc: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils/usbutils-doc: PKGV changed from 019 [default] to 020 [default]
+packages/x86-64-v3-poky-linux/usbutils/usbutils-locale: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils/usbutils-locale: PKGV changed from 019 [default] to 020 [default]
+packages/x86-64-v3-poky-linux/usbutils/usbutils-python: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils/usbutils-python: PKGSIZE changed from 14534 to 14594 (+0%)
+packages/x86-64-v3-poky-linux/usbutils/usbutils-python: PKGV changed from 019 [default] to 020 [default]
+packages/x86-64-v3-poky-linux/usbutils/usbutils-src: FILELIST: directory renamed /usr/src/debug/usbutils/019/usbhid-dump -> /usr/src/debug/usbutils/020/usbhid-dump, directory renamed /usr/src/debug/usbutils/019 -> /usr/src/debug/usbutils/020, directory renamed /usr/src/debug/usbutils/019/ccan/list -> /usr/src/debug/usbutils/020/ccan/list
+packages/x86-64-v3-poky-linux/usbutils/usbutils-src: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils/usbutils-src: PKGSIZE changed from 373749 to 381530 (+2%)
+packages/x86-64-v3-poky-linux/usbutils/usbutils-src: PKGV changed from 019 [default] to 020 [default]
+packages/x86-64-v3-poky-linux/usbutils/usbutils-staticdev: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils/usbutils-staticdev: PKGV changed from 019 [default] to 020 [default]
+packages/x86-64-v3-poky-linux/usbutils/usbutils: PV changed from "019" to "020"
+packages/x86-64-v3-poky-linux/usbutils/usbutils: PKGSIZE changed from 283787 to 287917 (+1%)
+packages/x86-64-v3-poky-linux/usbutils/usbutils: PKGV changed from 019 [default] to 020 [default]
+
+--===============4853050553193502359==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-usbutils-upgrade-019-020.patch"
+
+RnJvbSA4MTM5M2U2MjJkMmMxOTRkNWYyOTNlYjIxZjg4N2YyMDcyYjg3ODM5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMjMgT2N0IDIwMjYgMDU6MTU6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSB1
+c2J1dGlsczogdXBncmFkZSAwMTkgLT4gMDIwCgojIENvcHlyaWdodCAoYykgMjAxOC0yMDI2IEdy
+ZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+CnVzYnV0aWxzIDAy
+MAo9PT09PT09PT09PT0KCkFybWluIFdvbGYgKDEpOgogICAgICBsc3VzYjogQWRkIHN1cHBvcnQg
+Zm9yIEZXU3RhdHVzIENhcGFiaWxpdHkgZGVjb2RpbmcKCkdyZWcgS3JvYWgtSGFydG1hbiAoMTI0
+KToKICAgICAganVzdGZpbGU6IGFkZCAnbWFrZScgdGFyZ2V0CiAgICAgIHVzYi1zcGVjLmg6IGZp
+eCB1cCBzcGVsbGluZyBtaXN0YWtlIGZvciAiVG9uZSBFbmFibGUiIGVudHJ5CiAgICAgIHRlc3Rz
+OiB2ZW5kb3IgYnJhdCAwLjEwLjEgYXMgdGhlIHRlc3QgcnVubmVyCiAgICAgIHRlc3RzOiBjb21w
+YXJlIGJ1aWx0IGxzdXNiIGFnYWluc3QgdGhlIGluc3RhbGxlZCBjb3B5CiAgICAgIHRlc3RzOiBs
+c3VzYiAtaDogY29tcGFyZSBidWlsdCBhZ2FpbnN0IGluc3RhbGxlZAogICAgICB0ZXN0czogbHN1
+c2IgLXQ6IGNvbXBhcmUgYnVpbHQgYWdhaW5zdCBpbnN0YWxsZWQKICAgICAgdGVzdHM6IGxzdXNi
+IC1zOiBjb21wYXJlIGJ1aWx0IGFnYWluc3QgaW5zdGFsbGVkCiAgICAgIHRlc3RzOiBsc3VzYiAt
+ZDogY29tcGFyZSBidWlsdCBhZ2FpbnN0IGluc3RhbGxlZAogICAgICB0ZXN0czogbHN1c2IgLUQ6
+IGNvbXBhcmUgYnVpbHQgYWdhaW5zdCBpbnN0YWxsZWQKICAgICAgdGVzdHM6IHVzYi1kZXZpY2Vz
+OiBjb21wYXJlIGJ1aWx0IGFnYWluc3QgaW5zdGFsbGVkCiAgICAgIHRlc3RzOiBsc3VzYi5weTog
+Y29tcGFyZSBidWlsdCBhZ2FpbnN0IGluc3RhbGxlZAogICAgICB0ZXN0czogbHN1c2IucHkgLWg6
+IGNvbXBhcmUgYnVpbHQgYWdhaW5zdCBpbnN0YWxsZWQKICAgICAgdGVzdHM6IGxzdXNiLnB5IC1p
+OiBjb21wYXJlIGJ1aWx0IGFnYWluc3QgaW5zdGFsbGVkCiAgICAgIHRlc3RzOiBsc3VzYi5weSAt
+STogY29tcGFyZSBidWlsdCBhZ2FpbnN0IGluc3RhbGxlZAogICAgICB0ZXN0czogbHN1c2IucHkg
+LXU6IGNvbXBhcmUgYnVpbHQgYWdhaW5zdCBpbnN0YWxsZWQKICAgICAgdGVzdHM6IGxzdXNiLnB5
+IC1VOiBjb21wYXJlIGJ1aWx0IGFnYWluc3QgaW5zdGFsbGVkCiAgICAgIHRlc3RzOiBsc3VzYi5w
+eSAtYzogY29tcGFyZSBidWlsdCBhZ2FpbnN0IGluc3RhbGxlZAogICAgICB0ZXN0czogbHN1c2Iu
+cHkgLUM6IGNvbXBhcmUgYnVpbHQgYWdhaW5zdCBpbnN0YWxsZWQKICAgICAgdGVzdHM6IGxzdXNi
+LnB5IC1lOiBjb21wYXJlIGJ1aWx0IGFnYWluc3QgaW5zdGFsbGVkCiAgICAgIHRlc3RzOiBsc3Vz
+Yi5weSAtdzogY29tcGFyZSBidWlsdCBhZ2FpbnN0IGluc3RhbGxlZAogICAgICB0ZXN0czogbHN1
+c2IucHkgLWY6IGNvbXBhcmUgYnVpbHQgYWdhaW5zdCBpbnN0YWxsZWQKICAgICAganVzdGZpbGU6
+IGFkZCAndGVzdCcgdGFyZ2V0CiAgICAgIGRlc2MtZHVtcDogZml4IG9wZXJhdG9yIHByZWNlZGVu
+Y2UgYnVnIGluIGJpdC10by1ieXRlIGNvbnZlcnNpb24KICAgICAgdXNibWlzYzogZml4IE5VTEwg
+ZGVyZWZlcmVuY2Ugb24gZ2V0Y3dkKCkgZmFpbHVyZSBpbiBnZXRfYWJzb2x1dGVfcGF0aCgpCiAg
+ICAgIHVzYm1pc2M6IGNoZWNrIG1hbGxvYygpIHJldHVybiBpbiBnZXRfZGV2X3N0cmluZ19hc2Np
+aSgpCiAgICAgIHVzYm1pc2M6IGNoZWNrIG1hbGxvYygpIHJldHVybiBpbiB1c2Jfc3RyaW5nX3Rv
+X25hdGl2ZSgpCiAgICAgIHVzYm1pc2M6IGZpeCB1bmJvdW5kZWQgcmVjdXJzaW9uIGFuZCBzdHJu
+Y3B5IGlzc3VlcyBpbgogICAgICByZWFkbGlua19yZWN1cnNpdmUoKQogICAgICBuYW1lczogcmVw
+bGFjZSBzcHJpbnRmKCkgd2l0aCBzbnByaW50ZigpIGZvciBtb2RhbGlhcyBmb3JtYXR0aW5nCiAg
+ICAgIGxzdXNiLXQ6IHJlcGxhY2Ugc3ByaW50ZigpIHdpdGggc25wcmludGYoKSBpbiBsYW5lc190
+b19zdHIoKQogICAgICBkZXNjLWR1bXA6IGZpeCBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgZm9y
+IHVua25vd24gYXVkaW8gdGVybWluYWwgdHlwZXMKICAgICAgZGVzYy1kdW1wOiBmaXggaW50ZWdl
+ciB1bmRlcmZsb3cgaW4gZ2V0X2FycmF5X2VudHJ5X2NvdW50KCkKICAgICAgbmFtZXM6IGZpeCBt
+aXNzaW5nIG51bGwgdGVybWluYXRpb24gaW4gZ2V0X3ZlbmRvcl9wcm9kdWN0X3dpdGhfZmFsbGJh
+Y2soKQogICAgICBzeXNmczogZml4IGJ1ZmZlciBoYW5kbGluZyBpbiByZWFkX3N5c2ZzX3Byb3Ao
+KQogICAgICBzeXNmczogY2hlY2sgaW5pdGlhbCBzbnByaW50ZigpIHJldHVybiB2YWx1ZSBpbiBn
+ZXRfc3lzZnNfbmFtZSgpCiAgICAgIGxzdXNiOiBmaXggb3V0LW9mLWJvdW5kcyBhcnJheSBhY2Nl
+c3MgaW4gZHVtcF9lbmNyeXB0aW9uX3R5cGUoKQogICAgICBsc3VzYjogZml4IG91dC1vZi1ib3Vu
+ZHMgcmVhZHMgaW4gdmlkZW8gRVhURU5TSU9OX1VOSVQgZGVzY3JpcHRvciBwYXJzaW5nCiAgICAg
+IGxzdXNiOiBmaXggdW5hbGlnbmVkIG1lbW9yeSBhY2Nlc3MgaW4gZHVtcF9wcmludGVyX2Rldmlj
+ZSgpCiAgICAgIGxzdXNiOiBmaXggb3V0LW9mLWJvdW5kcyByZWFkIGluIHZpZGVvIEhFQURFUiBk
+ZXNjcmlwdG9yIHBhcnNpbmcKICAgICAgbHN1c2I6IGZpeCBvdXQtb2YtYm91bmRzIHJlYWQgaW4g
+SElEIHJlcG9ydCBkZXNjcmlwdG9yIHBhcnNpbmcKICAgICAgbHN1c2I6IHJlcGxhY2Ugc3ByaW50
+ZigpIHdpdGggc25wcmludGYoKSBpbiBnZXRfZ3VpZCgpCiAgICAgIGxzdXNiOiBmaXggb3V0LW9m
+LWJvdW5kcyByZWFkIGluIE1JREkgc3RyZWFtaW5nIGVuZHBvaW50IGRlc2NyaXB0b3IKICAgICAg
+bHN1c2I6IGZpeCBvdXQtb2YtYm91bmRzIHJlYWQgaW4gU1RJTExfSU1BR0VfRlJBTUUgZGVzY3Jp
+cHRvciBwYXJzaW5nCiAgICAgIGxzdXNiLXQ6IGZpeCBidWZmZXIgaGFuZGxpbmcgaW4gcmVhZF9z
+eXNmc19maWxlX3N0cmluZygpCiAgICAgIGxzdXNiOiBmaXggd3JvbmcgdmFyaWFibGUgaW4gRk9S
+TUFUX1RZUEVfSUkgZGVzY3JpcHRvciBsZW5ndGggY2FsY3VsYXRpb24KICAgICAgbHN1c2I6IGZp
+eCBvdXQtb2YtYm91bmRzIHJlYWRzIGluIHZpZGVvIElOUFVUX0hFQURFUiBhbmQgT1VUUFVUX0hF
+QURFUgogICAgICBsc3VzYjogZml4IG91dC1vZi1ib3VuZHMgcmVhZHMgaW4gdmlkZW8gUFJPQ0VT
+U0lOR19VTklUIGRlc2NyaXB0b3IKICAgICAgbHN1c2I6IGZpeCBvdXQtb2YtYm91bmRzIHJlYWRz
+IGluIHZpZGVvIHRlcm1pbmFsIGFuZCBzZWxlY3RvciBkZXNjcmlwdG9ycwogICAgICBsc3VzYjog
+Zml4IHVuZGVmaW5lZCBiZWhhdmlvciBpbiBjb252ZXJ0X2xlX3UzMigpIHNpZ25lZCBzaGlmdAog
+ICAgICBsc3VzYjogZml4IE9PQiByZWFkcyBpbiBVQUMxIGF1ZGlvIEZPUk1BVF9UWVBFIGRlc2Ny
+aXB0b3IgcGFyc2luZwogICAgICBsc3VzYjogZml4IG91dC1vZi1ib3VuZHMgcmVhZCBpbiBTdXBl
+clNwZWVkUGx1cyBjYXBhYmlsaXR5IGRlc2NyaXB0b3IKICAgICAgbHN1c2I6IGZpeCBPT0IgcmVh
+ZHMgaW4gYXVkaW8gRk9STUFUX1NQRUNJRklDIGRlc2NyaXB0b3IgcGFyc2luZwogICAgICBsc3Vz
+YjogZml4IG91dC1vZi1ib3VuZHMgcmVhZHMgaW4gSVBQIHByaW50ZXIgZGVzY3JpcHRvciBwYXJz
+aW5nCiAgICAgIGxzdXNiOiBhZGQgbWlzc2luZyBsZW5ndGggY2hlY2tzIGluIGR1bXBfd2lyZV9h
+ZGFwdGVyIGFuZAogICAgICBkdW1wX3JjX2ludGVyZmFjZQogICAgICBsc3VzYjogYWRkIG1pc3Np
+bmcgbGVuZ3RoIGNoZWNrcyBpbiBkdW1wX3NlY3VyaXR5IGFuZCBkdW1wX2VuY3J5cHRpb25fdHlw
+ZQogICAgICBsc3VzYjogZml4IE9PQiByZWFkIGluIGR1bXBfZGZ1X2ludGVyZmFjZSBvbiBzaG9y
+dCBkZXNjcmlwdG9ycwogICAgICBsc3VzYjogYWRkIG1pc3NpbmcgbGVuZ3RoIGNoZWNrIGluIGR1
+bXBfYXNzb2NpYXRpb24oKQogICAgICBsc3VzYjogZml4IG91dC1vZi1ib3VuZHMgcmVhZHMgaW4g
+ZHVtcF9oaWRfZGV2aWNlKCkgb24gc2hvcnQgZGVzY3JpcHRvcnMKICAgICAgbHN1c2I6IGZpeCBP
+T0IgcmVhZHMgaW4gVUFDMiBGT1JNQVRfVFlQRSBkZXNjcmlwdG9yIHBhcnNpbmcKICAgICAgbHN1
+c2I6IGZpeCBPT0IgcmVhZHMgaW4gTUlESSBIRUFERVIgYW5kIE1JRElfSU5fSkFDSyBkZXNjcmlw
+dG9yIHBhcnNpbmcKICAgICAgbHN1c2I6IGZpeCBPT0IgcmVhZCBpbiBkdW1wX3ZpZGVvY29udHJv
+bF9pbnRlcnJ1cHRfZW5kcG9pbnQoKQogICAgICBsc3VzYjogZml4IE9PQiByZWFkcyBpbiB2aWRl
+byBzdHJlYW1pbmcgZm9ybWF0IGRlc2NyaXB0b3JzCiAgICAgIGxzdXNiOiBmaXggT09CIHJlYWRz
+IGluIHZpZGVvIEZSQU1FIGRlc2NyaXB0b3IgcGFyc2luZwogICAgICBsc3VzYjogZml4IHJlbWFp
+bmluZyBPT0IgcmVhZCBpbiBNSURJX09VVF9KQUNLIGluaXRpYWwgZmllbGRzCiAgICAgIGxzdXNi
+OiBmaXggcmVtYWluaW5nIE9PQiByZWFkcyBpbiB2aWRlbyBkZXNjcmlwdG9yIHdhcm4tYW5kLWNv
+bnRpbnVlIHBhdGhzCiAgICAgIGxzdXNiOiBmaXggT09CIHJlYWRzIGluIHZpZGVvIElOUFVUX0hF
+QURFUiBhbmQgT1VUUFVUX0hFQURFUiBkYXRhIGxvb3BzCiAgICAgIGxzdXNiOiBmaXggT09CIHJl
+YWQgaW4gU1RJTExfSU1BR0VfRlJBTUUgY29tcHJlc3Npb24gcGF0dGVybiBsb29wCiAgICAgIGxz
+dXNiOiBmaXggT09CIHJlYWQgaW4gRk9STUFUX01QRUcyVFMgZGVzY3JpcHRvciBvbiBzaG9ydCBk
+ZXNjcmlwdG9ycwogICAgICBsc3VzYjogemVybyBodWIgZGVzY3JpcHRvciBidWZmZXIgdG8gcHJl
+dmVudCByZWFkaW5nIHVuaW5pdGlhbGl6ZWQgZGF0YQogICAgICBsc3VzYjogZml4IE9PQiByZWFk
+IGluIEZPUk1BVF9TVFJFQU1fQkFTRUQgZGVzY3JpcHRvciBwYXJzaW5nCiAgICAgIGxzdXNiOiBm
+aXggdW5zaWduZWQgaW50ZWdlciB1bmRlcmZsb3cgaW4gZHVtcF9ieXRlcyBjYWxscyBmb3Igc2hv
+cnQKICAgICAgZGVzY3JpcHRvcnMKICAgICAgbHN1c2I6IGZpeCB3cm9uZyBieXRlIHByaW50ZWQg
+Zm9yIENDSUQgYkNsYXNzRW52ZWxvcGUKICAgICAgbHN1c2I6IGJvdW5kcy1jaGVjayBNSURJIEVM
+RU1FTlQgYk5ySW5wdQoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVkcyA1MDAwIGNo
+YXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4gYXR0YWNobWVu
+dCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIG1ldGEvcmVjaXBlcy1ic3AvdXNidXRpbHMve3VzYnV0
+aWxzXzAxOS5iYiA9PiB1c2J1dGlsc18wMjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWJzcC91c2J1
+dGlscy97dXNidXRpbHNfMDE5LmJiID0+IHVzYnV0aWxzXzAyMC5iYn0gKDk0JSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtYnNwL3VzYnV0aWxzL3VzYnV0aWxzXzAxOS5iYiBiL21ldGEvcmVj
+aXBlcy1ic3AvdXNidXRpbHMvdXNidXRpbHNfMDIwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ic3AvdXNidXRpbHMvdXNidXRpbHNfMDE5LmJiCnJlbmFt
+ZSB0byBtZXRhL3JlY2lwZXMtYnNwL3VzYnV0aWxzL3VzYnV0aWxzXzAyMC5iYgppbmRleCAxNjQ0
+NDVhYzRlLi43ZWM4MDhkNWEyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtYnNwL3VzYnV0aWxz
+L3VzYnV0aWxzXzAxOS5iYgorKysgYi9tZXRhL3JlY2lwZXMtYnNwL3VzYnV0aWxzL3VzYnV0aWxz
+XzAyMC5iYgpAQCAtMTUsNyArMTUsNyBAQCBERVBFTkRTID0gImxpYnVzYjEgdmlydHVhbC9saWJp
+Y29udiB1ZGV2IgogCiBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vbGludXgvdXRpbHMv
+dXNiL3VzYnV0aWxzL3VzYnV0aWxzLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIgotU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjM0N2M1MmI2NWE2YWViMjJjZmUzYWY4MzgyMTkyMDA0Zjk5NzI1ODUw
+ZTFkYzVmNzA1MzM2ZTU0Y2Y2ZDU5ZmMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmVkMjkyYjJh
+M2RjZTgzNDY0Y2U5ZTk2ZTdlYWYzMDFmNThiM2JmMDEwNDg3MmI2YTc1ZWRhYzE0YzkwN2ZmMiIK
+IAogaW5oZXJpdCBtZXNvbiBwa2djb25maWcgdXBkYXRlLWFsdGVybmF0aXZlcwogCi0tIAoyLjQ3
+LjEKCg==
+
+--===============4853050553193502359==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="usbutils-changelog.txt"
+
+# Copyright (c) 2018-2026 Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+usbutils 020
+============
+
+Armin Wolf (1):
+      lsusb: Add support for FWStatus Capability decoding
+
+Greg Kroah-Hartman (124):
+      justfile: add 'make' target
+      usb-spec.h: fix up spelling mistake for "Tone Enable" entry
+      tests: vendor brat 0.10.1 as the test runner
+      tests: compare built lsusb against the installed copy
+      tests: lsusb -h: compare built against installed
+      tests: lsusb -t: compare built against installed
+      tests: lsusb -s: compare built against installed
+      tests: lsusb -d: compare built against installed
+      tests: lsusb -D: compare built against installed
+      tests: usb-devices: compare built against installed
+      tests: lsusb.py: compare built against installed
+      tests: lsusb.py -h: compare built against installed
+      tests: lsusb.py -i: compare built against installed
+      tests: lsusb.py -I: compare built against installed
+      tests: lsusb.py -u: compare built against installed
+      tests: lsusb.py -U: compare built against installed
+      tests: lsusb.py -c: compare built against installed
+      tests: lsusb.py -C: compare built against installed
+      tests: lsusb.py -e: compare built against installed
+      tests: lsusb.py -w: compare built against installed
+      tests: lsusb.py -f: compare built against installed
+      justfile: add 'test' target
+      desc-dump: fix operator precedence bug in bit-to-byte conversion
+      usbmisc: fix NULL dereference on getcwd() failure in get_absolute_path()
+      usbmisc: check malloc() return in get_dev_string_ascii()
+      usbmisc: check malloc() return in usb_string_to_native()
+      usbmisc: fix unbounded recursion and strncpy issues in
+      readlink_recursive()
+      names: replace sprintf() with snprintf() for modalias formatting
+      lsusb-t: replace sprintf() with snprintf() in lanes_to_str()
+      desc-dump: fix NULL pointer dereference for unknown audio terminal types
+      desc-dump: fix integer underflow in get_array_entry_count()
+      names: fix missing null termination in get_vendor_product_with_fallback()
+      sysfs: fix buffer handling in read_sysfs_prop()
+      sysfs: check initial snprintf() return value in get_sysfs_name()
+      lsusb: fix out-of-bounds array access in dump_encryption_type()
+      lsusb: fix out-of-bounds reads in video EXTENSION_UNIT descriptor parsing
+      lsusb: fix unaligned memory access in dump_printer_device()
+      lsusb: fix out-of-bounds read in video HEADER descriptor parsing
+      lsusb: fix out-of-bounds read in HID report descriptor parsing
+      lsusb: replace sprintf() with snprintf() in get_guid()
+      lsusb: fix out-of-bounds read in MIDI streaming endpoint descriptor
+      lsusb: fix out-of-bounds read in STILL_IMAGE_FRAME descriptor parsing
+      lsusb-t: fix buffer handling in read_sysfs_file_string()
+      lsusb: fix wrong variable in FORMAT_TYPE_II descriptor length calculation
+      lsusb: fix out-of-bounds reads in video INPUT_HEADER and OUTPUT_HEADER
+      lsusb: fix out-of-bounds reads in video PROCESSING_UNIT descriptor
+      lsusb: fix out-of-bounds reads in video terminal and selector descriptors
+      lsusb: fix undefined behavior in convert_le_u32() signed shift
+      lsusb: fix OOB reads in UAC1 audio FORMAT_TYPE descriptor parsing
+      lsusb: fix out-of-bounds read in SuperSpeedPlus capability descriptor
+      lsusb: fix OOB reads in audio FORMAT_SPECIFIC descriptor parsing
+      lsusb: fix out-of-bounds reads in IPP printer descriptor parsing
+      lsusb: add missing length checks in dump_wire_adapter and
+      dump_rc_interface
+      lsusb: add missing length checks in dump_security and dump_encryption_type
+      lsusb: fix OOB read in dump_dfu_interface on short descriptors
+      lsusb: add missing length check in dump_association()
+      lsusb: fix out-of-bounds reads in dump_hid_device() on short descriptors
+      lsusb: fix OOB reads in UAC2 FORMAT_TYPE descriptor parsing
+      lsusb: fix OOB reads in MIDI HEADER and MIDI_IN_JACK descriptor parsing
+      lsusb: fix OOB read in dump_videocontrol_interrupt_endpoint()
+      lsusb: fix OOB reads in video streaming format descriptors
+      lsusb: fix OOB reads in video FRAME descriptor parsing
+      lsusb: fix remaining OOB read in MIDI_OUT_JACK initial fields
+      lsusb: fix remaining OOB reads in video descriptor warn-and-continue paths
+      lsusb: fix OOB reads in video INPUT_HEADER and OUTPUT_HEADER data loops
+      lsusb: fix OOB read in STILL_IMAGE_FRAME compression pattern loop
+      lsusb: fix OOB read in FORMAT_MPEG2TS descriptor on short descriptors
+      lsusb: zero hub descriptor buffer to prevent reading uninitialized data
+      lsusb: fix OOB read in FORMAT_STREAM_BASED descriptor parsing
+      lsusb: fix unsigned integer underflow in dump_bytes calls for short
+      descriptors
+      lsusb: fix wrong byte printed for CCID bClassEnvelope
+      lsusb: bounds-check MIDI ELEMENT bNrInputPins/bElCapsSize against bLength
+      lsusb: bounds-check UVC INPUT_TERMINAL bControlSize against bLength
+      lsusb.py: strip control characters from device-supplied sysfs strings
+      usbreset: refuse ambiguous selectors that match more than one device
+      usbmisc, usb-devices: strip control characters from device-supplied
+      strings
+      lsusb: don't loop forever in find_otg() on a zero-bLength sub-descriptor
+      desc-defs: fix off-by-one in UAC1 wFormatTag string lookup
+      lsusb: bounds-check the BOS device-capability walk
+      usbhid-dump: skip interfaces with bInterfaceNumber 0xff
+      usb-devices: use printf instead of echo for device-supplied strings
+      usb-devices: fix default case in class_decode()
+      lsusb: strip control characters from the WebUSB landing-page URL
+      lsusb: bound the report-fetch loop in dump_hid_device() too
+      lsusb: bounds-check MIDI OUT_JACK bNrInputPins against bLength
+      lsusb: bounds-check IPP printer capability walk against bLength
+      desc-dump: bound get_value_from_field() against descriptor length
+      sysfs: strip control characters from device-supplied string attributes
+      lsusb, usbmisc, usbhid-dump: zero-init buffers passed to libusb control
+      transfers
+      lsusb: migrate the MIDIStreaming parsers onto the desc-dump table engine
+      desc-dump: don't exit() on a device-supplied size_field value
+      lsusb: return on short bLength in the class-specific descriptor
+      dispatchers
+      lsusb: check FORMAT_TYPE bLength before reading bFormatType
+      lsusb: avoid undefined behaviour when assembling u32s from descriptor
+      bytes
+      lsusb: bound the extra[] dispatch loops by remaining size
+      lsusb: fix wHubDelay decoding in the USB3 hub descriptor dump
+      usbhid-dump: bound the HID-descriptor-extra walk by entry end, not start
+      lsusb: fix two -D path-resolution edge cases in usbmisc.c
+      lsusb: don't pass NULL into %s for unknown HID report/usage tags
+      tests: brat: fix some spelling issues
+      usbutils.spdx: update with new files added
+      lsusb: add expected length message for video descriptor endpoint
+      meson.build: turn off -Wno-unused-function
+      lsusb: fix up parsing for older uvc devices
+      tests: usbhid-dump: compare built against installed
+      tests: usbhid-dump -h: compare built against installed
+      tests: usbhid-dump -s: compare built against installed
+      tests: usbhid-dump -d: compare built against installed
+      tests: usbhid-dump -i: compare built against installed
+      tests: usbhid-dump -e: compare built against installed
+      tests: add lsusb argument-combination brat tests
+      tests: add lsusb.py argument-combination brat tests
+      tests: add lsusb -h/-V interaction test
+      tests: add lsusb -t precedence test (-s/-d/-D ignored under -t)
+      tests: add lsusb -D precedence test (-s/-d ignored under -D)
+      tests: add lsusb -V precedence test
+      tests: add lsusb -h precedence test
+      tests: add lsusb repeated -s/-d/-D test
+      tests: add lsusb -d :pid product-only filter test
+      tests: add lsusb -D error-path tests
+      tests: add lsusb -P/-p vestigial-option test
+      tests: add lsusb -- end-of-options test
+      test/lsusb-vv.brat: send errors to /dev/null
+      lsusb-t: fall back to the sysfs vendor/product strings
+
+Jefferson Kline (1):
+      usbreset: return failure when device reset fails
+
+John Whittington (1):
+      lsusb.c: fix typo dwMaxiumumClock
+
+MingHao Chen (1):
+      lsusb.py: fix parse_usb_ids
+
+MoJl4yH (1):
+      lsusb: fix shift UB and truncated-item reads in HID report dump
+
+dependabot[bot] (8):
+      ci: bump github/codeql-action in the all-actions group
+      ci: bump the all-actions group with 5 updates
+      ci: bump the all-actions group across 1 directory with 4 updates
+      ci: bump github/codeql-action in the all-actions group
+      ci: bump the all-actions group with 2 updates
+      ci: bump the all-actions group with 5 updates
+      ci: bump the all-actions group with 5 updates
+      ci: bump the all-actions group across 1 directory with 3 updates
+
+--===============4853050553193502359==--
