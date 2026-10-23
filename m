@@ -1,47 +1,47 @@
 Received: from mailrelay-b-egress6.pub.mailoutpod2-cph3.one.com (mailrelay-b-egress6.pub.mailoutpod2-cph3.one.com [193.202.110.165])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5014.1792755379759986766
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5034.1792755380288508566
  for <openembedded-core@lists.openembedded.org>;
  Fri, 23 Oct 2026 04:36:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@embetrix.com header.s=rsa1 header.b=jCFDkEou;
- dkim=pass header.i=@embetrix.com header.s=ed1 header.b=ZJJl6HI2;
+ dkim=pass header.i=@embetrix.com header.s=rsa1 header.b=bANO6meu;
+ dkim=pass header.i=@embetrix.com header.s=ed1 header.b=CqeBdnaO;
  spf=none, err=permanent DNS error (domain: embetrix.com, ip: 193.202.110.165, mailfrom: ayoub.zaki@embetrix.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1792755377; x=1793360177;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1792755378; x=1793360178;
 	d=embetrix.com; s=rsa1;
 	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
 	 from;
-	bh=Nng6OVHYmfcCvjRmbCig/mro+BsBkbWg45iQi/0c4M4=;
-	b=jCFDkEoua0af/YhBA+DSzyPGTsUC+Ixq2tVzdmOFPd+xIJDGFBrCXPb6Iz3rIzHRvH7NIn2xL4Hfx
-	 sOZDiE9UaMfKOwwRCtMV5OB/N9jc2COv44hGEVSuqDLNhW9Vh5ZqyhqPeitBGKEtaCsd2kwA08cjU4
-	 ci8eSU7+ciwgpyeoqgRLUjU5fM+3OBcpeCkTjNTIWwpaDDXnfo6+Bh0t4YHYJOYxPn29HTw49qwM9N
-	 mt9LBlyM59/DJa1j3Bu6kV/qBXwzOTIrxwg7EptpM4dAl6cnGrVfZd/9oZbXbArRQ666CcZHq7rq5J
-	 ooXScYXpK1rXMICDh0V74exjwJwjXnw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1792755377; x=1793360177;
+	bh=big5HHWA9XV1AsjZrJTJ24HYMJ9+TiCQFjyEnGWBMWc=;
+	b=bANO6meuHrpQ7KnA+aMWp0+M1dkvrLnJAN9Tm4NdYsz59vRN7LQrniQl56lPwm5VOKt8DGSzrFJrX
+	 5ESlzq5TVie6EXfAuCtHVEB158drMGkrfm5lZITxMs8rg4NppFv/5CcN502vXVsSVLTJUNq3ITWcE8
+	 n7344yzHTC91Xg+xhb1Bqe1noceHwJCBmjnq8lhmFBvouguxqxHwehnI0N1eeTSC7ADLhZqwIvOnoY
+	 qKTQuwCQFAf37b2AQltv9e/HBzLtFQKK7nc4q2jQycQgl+LDHacCwfo3rD0/HFfQdGKybirVdkfTXO
+	 7xEnWhgEc0QLxpSC+egUAzUFqHABTSw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1792755378; x=1793360178;
 	d=embetrix.com; s=ed1;
 	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
 	 from;
-	bh=Nng6OVHYmfcCvjRmbCig/mro+BsBkbWg45iQi/0c4M4=;
-	b=ZJJl6HI2FTChWOJbAvPpx7LMNvZQXNnZCAD1LzEQDKCPljXtcCiGXCvEiHb08wtRxkyGsAbvZM0zq
-	 5NcNMizDw==
-X-HalOne-ID: f3e2078d-ced5-11f1-9414-adacc84a9bfa
+	bh=big5HHWA9XV1AsjZrJTJ24HYMJ9+TiCQFjyEnGWBMWc=;
+	b=CqeBdnaOtU7SDGQi7npP44MLnL7pHJ9oP6Ui6WDJA4H8eaHHSdd3NnVVIMOHERZic+9ysuJYNBoPy
+	 NqiadSTBg==
+X-HalOne-ID: f533b16a-ced5-11f1-9414-adacc84a9bfa
 Received: from xps-13.fritz.box (dynamic-2a02-3102-8c10-1ae0-7233-a9ee-ebe1-8fdc.310.pool.telefonica.de [2a02:3102:8c10:1ae0:7233:a9ee:ebe1:8fdc])
 	by mailrelay2.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
-	id f3e2078d-ced5-11f1-9414-adacc84a9bfa;
-	Fri, 23 Oct 2026 11:36:16 +0000 (UTC)
+	id f533b16a-ced5-11f1-9414-adacc84a9bfa;
+	Fri, 23 Oct 2026 11:36:18 +0000 (UTC)
 From: "Ayoub Zaki" <ayoub.zaki@embetrix.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Ayoub Zaki <ayoub.zaki@embetrix.com>
-Subject: [blacksail][PATCH] ca-certificates: Disable compromised CA certificates
-Date: Fri, 23 Oct 2026 13:36:12 +0200
-Message-ID: <20261023113614.178667-1-ayoub.zaki@embetrix.com>
+Subject: [scarthgap][PATCH] ca-certificates: Disable compromised CA certificates
+Date: Fri, 23 Oct 2026 13:36:14 +0200
+Message-ID: <20261023113614.178667-3-ayoub.zaki@embetrix.com>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 13:40:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248552
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248553
 Content-Type: text/plain; charset="utf-8"
 
 From: Paul Barker <paul@pbarker.dev>
@@ -108,7 +108,7 @@ index 0000000000..9a0258919a
 +2.43.0
 +
 diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
-index c9702d545a..be1ffeae4f 100644
+index 33ca9291f4..6291fab0a1 100644
 --- a/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
 +++ b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
 @@ -19,6 +19,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
@@ -117,10 +117,10 @@ index c9702d545a..be1ffeae4f 100644
             file://0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch \
 +           file://0001-Blacklist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch \
             "
- S = "${UNPACKDIR}/ca-certificates"
+ S = "${WORKDIR}/ca-certificates"
  inherit allarch
 
-base-commit: a4461e117c1c501b7021d20c1380e4187fcda4c1
+base-commit: c9b000059a37241c5b97426f0aadc012b13bd20f
 -- 
 2.53.0
 
