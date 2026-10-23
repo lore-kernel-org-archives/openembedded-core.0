@@ -1,91 +1,126 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5976.1792759214229631146
+Received: from mailrelay-b-egress6.pub.mailoutpod2-cph3.one.com (mailrelay-b-egress6.pub.mailoutpod2-cph3.one.com [193.202.110.165])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5014.1792755379759986766
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Oct 2026 05:40:14 -0700
+ Fri, 23 Oct 2026 04:36:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=fhEdTkyo;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a20a37703bso6322485e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 05:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792759212; x=1793364012; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IW72HW0liUABHPUkAPkpLZ5J7aQXTzFm50GZ3hm4x0E=;
-        b=fhEdTkyoTVxCDF+V2DUZXNjdu6g8RjQLThI9OrEFM1t40Wr24bk8kRVw/hjCNKfic0
-         p5YYi8FymtsC5Gmpi/+hI89YDBdhDEN+p/QAVPAOrDxOB2yyrQlOD+LNLfAA2eckxdgF
-         QnfEkFLDMe4lU1K254bcfl1ATddVWuo83tF4JkrHGAhUXBL9k8IthoB5o2ME1T65IvKG
-         AXA5e768lS259hGvaWzV3bftAA165IzVyAUQ8nUYvwC1Ozxsms7OUG4IFGf9DC5DTnH5
-         dJsIERO7oAudpHIkC+97RkurDXjjI+DUrcl5VPB7Ur3oSjYVXX81DhgmXSqTrExn9L/i
-         +4uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792759212; x=1793364012;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=IW72HW0liUABHPUkAPkpLZ5J7aQXTzFm50GZ3hm4x0E=;
-        b=u2+TVYz5KQ3+R048TL67iSVfSeNjiGA06VBqnN274A6/STcu+DSSZ+qAiOO/qGRWdM
-         M4ZQzfv2Dm9xBr0vdfRVctYVzDDJazX+GgWHRW9HEChG1pMeSlE4WHiZRzxAd3qehY3i
-         dJsI28ROwH7hfidxTnfqJWMr5P1H12AB8Nt8LWwkHe9b+Qgi4ivNQ+sTKwLF7RUjw4IH
-         b2o4avNNxwMA/rgkkLwlU8ZkCTIgi8KrJlK7UB3H1iOP8eYU7+sGqleTbOSJcxKWLdev
-         OYJPkgowwzX0fx4JqvIiWfSwjH7veyKUpmoYvgh/lqbwRmM10Huopky6NjAE5lHvyCge
-         Y1NQ==
-X-Gm-Message-State: AFq9FYIauhrAkygbEHaMu1QLVxMPYFWsSQ6LIBhdcvr5r7yn8jSulbLX
-	bVr+084vpdRvOpEUI5oR2qSwu4pRq6zwFSBr7xxeKDowyBb6xBsmv1hbotNn/krR
-X-Gm-Gg: AYBFou3f02ji4lUx4QK5PYRRcWyu3ud53Kn/iOH+GWTmOtFb+bfe3N8FQCETnPmZRsC
-	VUaKPo/ZauHPmzWnROT0+0llA50vLViZNcIn550lgUI3w2WnRhVJcQ7upQLs2/3SGO+/RirzGVW
-	EGHij2fOWs28c/aRC6saljs+Cf4nGlsyaGbUXuwu6IIGDpAztpKVsnJE8LeC8m54vmggIH5WSfU
-	7jjuQK5GXqCY6GNTsvpfVq0PcgEHf8xXmc9Q2mXXgJYOdKXiJo8+W1tIn4p9bgxOVqDL8C9s42N
-	alru056EqvI4vQJ5R/McJfb73p0KZGL5Zumww0JHnI8qxNYH+ghqjDm9LSfRqMzBnRykHK91oFO
-	7aIICZUcE9psKw1EjirJfcM4NmSOCREzIHdbuX6qeDdYGPyP4XHByqnu+ShSoDStZxxjo8FVBAP
-	HM+pdDzPKpxAEtstWRreVR2joRIxy9U5tztSO2ptU6XZWZI0d3UyWVjGLXDxAEN8qKMWjIE01bM
-	f1CoG+4G7E1ARu9EbUh0mENcx+L/rKXIHFh7rMHv0hoRuU64gEonSVzwORF
-X-Received: by 2002:a05:600c:34c5:b0:4a2:148b:c88c with SMTP id 5b1f17b1804b1-4a2148bced7mr27742145e9.8.1792759212099;
-        Fri, 23 Oct 2026 05:40:12 -0700 (PDT)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([2a01:4b00:d036:ae00:f611:57de:f069:23be])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a2b062a277sm1558675e9.7.2026.10.23.05.40.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 05:40:10 -0700 (PDT)
-From: luca.boccassi@gmail.com
+ dkim=pass header.i=@embetrix.com header.s=rsa1 header.b=jCFDkEou;
+ dkim=pass header.i=@embetrix.com header.s=ed1 header.b=ZJJl6HI2;
+ spf=none, err=permanent DNS error (domain: embetrix.com, ip: 193.202.110.165, mailfrom: ayoub.zaki@embetrix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1792755377; x=1793360177;
+	d=embetrix.com; s=rsa1;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=Nng6OVHYmfcCvjRmbCig/mro+BsBkbWg45iQi/0c4M4=;
+	b=jCFDkEoua0af/YhBA+DSzyPGTsUC+Ixq2tVzdmOFPd+xIJDGFBrCXPb6Iz3rIzHRvH7NIn2xL4Hfx
+	 sOZDiE9UaMfKOwwRCtMV5OB/N9jc2COv44hGEVSuqDLNhW9Vh5ZqyhqPeitBGKEtaCsd2kwA08cjU4
+	 ci8eSU7+ciwgpyeoqgRLUjU5fM+3OBcpeCkTjNTIWwpaDDXnfo6+Bh0t4YHYJOYxPn29HTw49qwM9N
+	 mt9LBlyM59/DJa1j3Bu6kV/qBXwzOTIrxwg7EptpM4dAl6cnGrVfZd/9oZbXbArRQ666CcZHq7rq5J
+	 ooXScYXpK1rXMICDh0V74exjwJwjXnw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1792755377; x=1793360177;
+	d=embetrix.com; s=ed1;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=Nng6OVHYmfcCvjRmbCig/mro+BsBkbWg45iQi/0c4M4=;
+	b=ZJJl6HI2FTChWOJbAvPpx7LMNvZQXNnZCAD1LzEQDKCPljXtcCiGXCvEiHb08wtRxkyGsAbvZM0zq
+	 5NcNMizDw==
+X-HalOne-ID: f3e2078d-ced5-11f1-9414-adacc84a9bfa
+Received: from xps-13.fritz.box (dynamic-2a02-3102-8c10-1ae0-7233-a9ee-ebe1-8fdc.310.pool.telefonica.de [2a02:3102:8c10:1ae0:7233:a9ee:ebe1:8fdc])
+	by mailrelay2.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+	id f3e2078d-ced5-11f1-9414-adacc84a9bfa;
+	Fri, 23 Oct 2026 11:36:16 +0000 (UTC)
+From: "Ayoub Zaki" <ayoub.zaki@embetrix.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemd: create the clock group for udev
-Date: Fri, 23 Oct 2026 13:40:04 +0100
-Message-ID: <20261023124009.2538616-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.47.3
+Cc: Paul Barker <paul@pbarker.dev>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Ayoub Zaki <ayoub.zaki@embetrix.com>
+Subject: [blacksail][PATCH] ca-certificates: Disable compromised CA certificates
+Date: Fri, 23 Oct 2026 13:36:12 +0200
+Message-ID: <20261023113614.178667-1-ayoub.zaki@embetrix.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 12:40:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248551
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 13:40:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248552
 Content-Type: text/plain; charset="utf-8"
 
-From: Luca Boccassi <luca.boccassi@gmail.com>
+From: Paul Barker <paul@pbarker.dev>
 
-Since systemd v258 the default udev rules assign RTC and PTP devices
-to the "clock" group. Create it alongside "render" to avoid errors like:
-"Failed to resolve group 'clock', ignoring: Unknown group".
+Backported a patch to address the eMudhra Intermediate CA Compromise
+disclosed at https://emudhra.we-have-a-problem.com. As this is a
+certificate authority compromise rather than a software flaw it doesn't
+have a CVE number, but this should be treated like a CVE fix.
 
-Signed-off-by: Luca Boccassi <luca.boccassi@gmail.com>
+This is a backport rather than a version bump as Debian did a
+"non-maintainer upload" 20260816+nmu1 instead of a typical new version
+release.
+
+(cherry picked from commit c5098a7074996258e448bc6cf3d4fb1a708f7a42)
+
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ayoub Zaki <ayoub.zaki@embetrix.com>
 ---
- meta/recipes-core/systemd/systemd_262.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ ...-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch | 35 +++++++++++++++++++
+ .../ca-certificates_20260816.bb               |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-Blacklist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch
 
-diff --git a/meta/recipes-core/systemd/systemd_262.bb b/meta/recipes-core/systemd/systemd_262.bb
-index d70053182f..71a90a0903 100644
---- a/meta/recipes-core/systemd/systemd_262.bb
-+++ b/meta/recipes-core/systemd/systemd_262.bb
-@@ -449,7 +449,8 @@ USERADD_PACKAGES = "${PN} \
- "
- GROUPADD_PARAM:${PN} = "-r systemd-journal;"
- GROUPADD_PARAM:${PN} += "-r empower;"
--GROUPADD_PARAM:udev = "-r render"
-+GROUPADD_PARAM:udev = "-r render;"
-+GROUPADD_PARAM:udev += "-r clock;"
- GROUPADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', '-r systemd-hostname;', '', d)}"
- USERADD_PARAM:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /sbin/nologin systemd-coredump;', '', d)}"
- USERADD_PARAM:${PN}-networkd = "--system -d / -M --shell /sbin/nologin systemd-network"
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-Blacklist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch b/meta/recipes-support/ca-certificates/ca-certificates/0001-Blacklist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch
+new file mode 100644
+index 0000000000..9a0258919a
+--- /dev/null
++++ b/meta/recipes-support/ca-certificates/ca-certificates/0001-Blacklist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch
+@@ -0,0 +1,35 @@
++From d5e08f63b1ca6746a51e62cda4df5483c0d3e2ec Mon Sep 17 00:00:00 2001
++From: Paul Barker <paul@pbarker.dev>
++Date: Wed, 21 Oct 2026 07:16:23 +0100
++Subject: [PATCH] Blacklist "emSign ECC Root CA - G3" and "Comodo AAA Services
++ root"
++
++[PB: Backported to address the eMudhra Intermediate CA Compromise
++     disclosed at https://emudhra.we-have-a-problem.com. As this is a
++     certificate authority compromise rather than a software flaw it
++     doesn't have a CVE number, but this should be treated like a CVE
++     fix.]
++
++Upstream-Status: Backport [https://salsa.debian.org/debian/ca-certificates/-/commit/4a0203e5ce4ce1a064b97387f52ca6a00c97185c]
++Signed-off-by: Paul Barker <paul@pbarker.dev>
++---
++ mozilla/blacklist.txt | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/mozilla/blacklist.txt b/mozilla/blacklist.txt
++index d84ceb919906..ba3635f7af87 100644
++--- a/mozilla/blacklist.txt
+++++ b/mozilla/blacklist.txt
++@@ -3,4 +3,9 @@
++ # Blacklist explicitly distrusted certificates to explicitly ignore them and prevent build errors
++ "Explicitly Distrust DigiNotar Root CA"
++ 
+++# Blacklist "emSign ECC Root CA - G3" (cf. #1151413)
+++"emSign ECC Root CA - G3"
+++# Blacklist "Comodo AAA Services root" (cf. #1151413)
+++"Comodo AAA Services root"
+++
++ # Expired CAs
++-- 
++2.43.0
++
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
+index c9702d545a..be1ffeae4f 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
+@@ -19,6 +19,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
+            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
+            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
+            file://0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch \
++           file://0001-Blacklist-emSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch \
+            "
+ S = "${UNPACKDIR}/ca-certificates"
+ inherit allarch
+
+base-commit: a4461e117c1c501b7021d20c1380e4187fcda4c1
 -- 
-2.47.3
+2.53.0
 
