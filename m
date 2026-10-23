@@ -1,157 +1,166 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4436.1792752615266435777
+Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4429.1792752610980663819
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Oct 2026 03:50:15 -0700
+ Fri, 23 Oct 2026 03:50:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=WgstOe/5;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=BOAwW2dO;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 9D9701400185
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 06:50:14 -0400 (EDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=IjS0RlZE;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=odemUtwf;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.138, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id 0538913807F4
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 06:50:10 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 23 Oct 2026 06:50:14 -0400
+  by phl-compute-02.internal (MEProxy); Fri, 23 Oct 2026 06:50:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1792752614;
-	 x=1792839014; bh=WqeLfn1pw2iEeh7+5LYRUkejlYSPFkV5mjzhrV/ceEw=; b=
-	WgstOe/5tHBq1BkH6qkEG+tZDzSzVgx4HIYaKeAUemYABmXJpK3v5bPt7KfKY0KA
-	nRjNAJ5wQ6XBpc9SwcqD/ksX/AbFuo3rbC3v3GdPJZvoL9uZg1P0PB662ZvoODGc
-	Zd2JHEFgSFepyHfclZEJWH1Qp8n2yrPVIYWq+/TzRfBP04Y5MAGUnXjNlC1iMzdT
-	yTQf/XndLGcCaW8TCR6DpFunK7SyVvTcQ3s9tNxvqH85uErIUPLSb56mcj8ZvSmk
-	EC37sbcVsUBBu1pcN8dBDlE9kivhFjLUTWLh2G7CoSpv9LFoqQIaDcW3vRZ0YGf9
-	G05pxIFqdHOd81DaJNVOmw==
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm1; t=1792752610; x=1792759810; bh=UKjqcCnBjp
+	fLfr24YjEaKeDxGRJQFUQ0ssbuZVZ8OrM=; b=IjS0RlZEgakY61wMt5wbm12DZx
+	oEJ5Cusg/yAs5BTWZA5byv8OJIWx9L7zPM22n+3hzhHFuK+HqP+ZZNyTstO65RUm
+	rqHcVeT1a8WuRYHAbJ4O5SrMbnXX34CjkVkUbFNjtHQwfikdX00ErYBsqQODdO9o
+	Uk+C5WSDBGczgMz2f0QVEpJBCW2Kly+lYRD0Heh0FUramctjdag+D/dCw6eC74FK
+	gZjS1fRow78UPNMMruqPj56xQD8rdIjR5YL32NX6PGOqi5wLBFiWk4savavXdFI0
+	yvK4GwGudWIRWIJlepHO1LmYiFYCrzSM2B0E8zX540dS4LFxyW9uOM0mbLtQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1792752614; x=1792839014; bh=W
-	qeLfn1pw2iEeh7+5LYRUkejlYSPFkV5mjzhrV/ceEw=; b=BOAwW2dOy6qBlk0+6
-	m2PkVyr0zAbr13di496f8dpflxsPQn6SDCJdSYR9v6l39LqCGKX9dawdQxL2wp6d
-	OovqasHsFTvK1jzkoG99pQ5YcyUx3U5FuRt3vgZ+/IGrXMmH6iX2TrgJiiMX7YcK
-	62xznn6UjQ4SICoSSVHH4yFgZLtA2aEeOP5fYzoJrzOT4zEoNK4opCibCTAu2NnU
-	Ptgkn4YqhLEM+xiv+CpEhF6VwteMjjqmUyYgxBQthI57trrrYMpW8LlEtf4p5j0t
-	pYDTDjazT2RqaWSY7D3LN7DmjDCaNvM9PX8/zARIsa6fOe89F7UxJvz2/waXk74f
-	4d/1Q==
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1792752610; x=1792759810; bh=UKjqcCnBjpfLfr24YjEaKeDxGRJQFUQ0ssb
+	uZVZ8OrM=; b=odemUtwfxfNAP+QVkUQe1pnxtDv98sxYrFcWaFoZfLs25246qF9
+	l6dbTdD8EcrwF5iPz2ryTeU5+sZyeyy+VmQYsOZLliR/kiGQc5P0LWBWcun6vFKP
+	KxzP14Z+x/pAYb2HIKEMCPerYK6K1TvaDXsXqqo1TlidKEis71FG5ctVfrNU1M4N
+	WmRwXtPotdny7fTk0ZhXpGmK60DO4p/9gYgYjzoWvRA4dvYneyAqQYv++oLKpw0S
+	sX6s33sTBgjdPPDP/0tIf8PWWjGMKLY2idonBzhY1rX3F9SxEMM2LuGrHpl7Rmv+
+	Ud5gJswKnIu5ZVkUNkWb9Rc1ABhvLphz/Hg==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
 	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
 	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792752614; d=pbarker.dev;
+DKIM2-Signature: i=1; m=1; t=1792752610; d=pbarker.dev;
 	mf=PHBhdWxAcGJhcmtlci5kZXY+;
 	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm1:rsa-sha256:aQTseOsmJaPKSDKBj3ZYRFWGIjmaQKmMnVOwVDsLpR5tWyy
-	hCEWHuiUVsqDl8iuba5aqypsLlQj6p4LftwBUraz82eNIB/B2aoI4AUt94mrdMFa
-	rXPCFX0WRWuLEtHjaIglc2hgpJJVfnbo+rkSa5C7usEM+z5mX4PEoGmX/BJ7UuvZ
-	sK6FSWQ2rNpdSFFX0HEpdR2xnb9gMCZJJAPZGjDA3HK8gaQqIhYBQmoVJLOAV/2r
-	nK4yLdHkaCS2UrDFqg4mvuchL/13mL3e456roolyO9h6bAl4ubfa9OX69POBqyz+
-	itvGCP/MnobYE4KR314f1lGDK+GHmdEwe16T81g==;
+	s=fm1:rsa-sha256:FLNu7JbsII6KD4N6kyT2ojwkk1Jah9hdrGeY9BQrrxAZVn6
+	mLqOGVzoIceGTGoSbL/MWyOBXkjRL1zWcuhZNCzRXCvyCjEFrgNDSusCsB5T3hwf
+	uCq86xSsngoxx49Jik8l2WzpJmCypzC5h65ftSeaIx+fBK2emx1Sq6jEYn9H6eZ4
+	E1r6FAWo7L/OezSxtrbT3dQhJAvwk5n7nlWs3f5UC1z8HnVyg4vmO82BV8FTxr1s
+	mueP+tS4QWqPmja6ADVsfcahPx5mjfeoyCr2U4wG88yIVLCvyenyQfN8x5I2Xo0X
+	eMw1YiLGQQQ/9yB9E/OSgKGP2q7ER7MeXtGTr/Q==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
 	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=11;
+	action=mi-m=1; hc=9;
 	hn=content-transfer-encoding,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:GBgejr96mcgi6VCVq/n2YGFwle+8dwPP7reY8Ind79A=:B9jLivHGOu79Yx9b8uzrz6l35oiAV8wzuOTS4yQgBC8=;
-X-ME-Sender: <xms:5jvbauLDqNAFiODhSIjW8gIaUWTsmEZmgv-qF8sq2-mglYygBbFTWw>
-    <xme:5jvbatGH0K7pgaU3nmi9o0ilm0bLSsIr-WKDvJTKOp2UtlXZC9_wWzE3qxchtfkMC
-    wmoCoTIoqXRxVKNmDR2DT1P9KcNU-xYkKO1mWjvth4EuEh961ByF9Tv>
-X-ME-Received: <xmr:5jvbakUFnreb4MmBwtfIq4iP5j1CswpcaKWYdvuiFBUg3MnFGYOO1DSJcqyuVhEDJQaxHXZfcsThP4BY5a7MZWCgPbDQ-0g>
-X-ME-Proxy-Cause: dmFkZTGyOagm9BfzPb+YtFk66N3nGLsZpb/VPM8XjyvCI6H5ALoAzhuChEVFVvDnkE/SF/
-    JqM9HdccU5QGXh85+PcHSXfPlinR50XvCANansdfjHdI2y4yWT98LB5sYItFtv/YCkRC+D
-    gCz49oXUOiIA3GSaVy8hQyIFhJVj70/v42lZYRXkC6yDHyO8Mxh8BPFCEOUQWBw2ymS8E7
-    RnCBWgaoCjRMBc+ufLfygswQfPbZu8I30UCpB32sT/SGJkXdSH8ooLc1ooYQLEosEVguDB
-    nl2tS57Hfyetr9KYXK2lnhEOBFdFfv/pn1dtrEglp90LQOD/J+D0fLXSLeer7z4rPcHWI6
-    iDTaSybuYB2Rf4i3g+rU3sPHYpqqhkjx6qO6iiXIP9T/njNGykzCviVctPlc5ue0CwvU80
-    4llqTPBtkoBYSp9jFXn5ZE+xuP2E3S5J7E2283D/jxpVmXF537UlNZVJcVopPix94KFsWC
-    1aTIwF8LHbFecSNj5b6KlOXk3HuN4XYMV+jGye3awzxir1rgLQX0o2FWToPAkSsw6YhAYn
-    twqXpywsge5jlm+ipl3jICEsZfHfUvWMpm8V1KvEVgV+7Zs2d8L6DMaPzVlsphD0TF5JaJ
-    J3NAQAHMwjzVQSPyNDuy+94XggJMX/5zNWsy9pqu+wAGk3A9RRN5DMcP9WBA
-X-ME-Proxy: <xmx:5jvbaoi9FUFTvljEmZnKmk4yWjZxgcSGNgfIwadgDI4GdhdLFbisYw>
-    <xmx:5jvbalTYDonvKZe4Z5brfUsIxk4BQ95oN-ISEFQlDKeaG2WXV2nahg>
-    <xmx:5jvbarGAyLjz7BSc8LxSVqhhJyhnXprzwqgz-AMsrgftRpMcqamGIw>
-    <xmx:5jvbatnaKAHG96Ux2Q2iYXIV_jwijaLWuDKdapY1IupcpKuhrQTQTg>
-    <xmx:5jvbasQP5LmkLGQbZ39CGe3Iu2Sm1E7q_gofUpYOb8kqa-sZAvEcI_bz>
+	message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:oqb7rvtG7RAfOtfCfl1SW7/YYb0I/50TUmqacz5T40Y=:5wB1C+7SXvDTWan+ncoLd2NJ1TbPE0KXHsUxsRot04s=;
+X-ME-Sender: <xms:4Tvbao0lrQpcd9hE3p7NcSmmPMG6LeuivtxiQH2MZMaqH8GdFBEPLg>
+    <xme:4TvbaqC_EaZClEJ-0oZLss5qpKm3FcAj0_hfBSEGKQ4K6o3HjAT-xWOtipdOXdFWw
+    0c7Tx-aDLN_cODPkk2X1y2kqdmgSLRt6k9IaoXQOk5NvVzCgYMkFzsQ>
+X-ME-Received: <xmr:4TvbamjCWotyOspHikGC2dDnu5uww7fskkWfP4xNBC-o_fX-gf5rDEAHwLw5qiFu2hzB46SNhfEmI5RENzCzUXfQplaY89g>
+X-ME-Proxy-Cause: dmFkZTGjzTRuChon4SfDV8EJ4k18FeJdmKh9YcIqnkUXVswgWK/MN9Mt4JUqMyneYWzVk7
+    k+e3xfiZgKtpsvLqKuT7D9vQjYI5ULvd7UkWMpYva+1t0V/SJZvAoViIRDalZ3VNVZo1uN
+    635szMkugHzZf1PBBmQstF58uK0pmgJCK8tYx0lGAE5aKC7vQc2859J2gjUR6dAuRdnaxG
+    o6VRMnvEgUEgDz/l+yk38a6HcM8Pi/A9NULvdMHlxwkU4Z9pUakaTBdUL23JzNGNInOyj5
+    oSImF5xRFq2fdm54YwG4wVbOf8DchingC/y1/Q+44vjmRQfokHAhuKuW7vCwJAFzZwyYSi
+    5cBti79Pv/wrFZwxoUGsQ17h5D0REGdbCDUVZBGtRF3y5CgGm2RFREltLUVdWHaVWFB5q4
+    GbKfE5hNNGwWd+kt2S8FPFAmTPceglfb0AJfIUu21uTP16zo4/ognpY2ogiYqWJdFVgoLR
+    Aej58uArki649IbVDd+b3JNjvIWF7dPBG8ggrDXJ2I3KfIV/Crolg21VmMU/JZCdoKmmtE
+    PlY2JjqINleOILN6PtbltGdpB1fn+GE2YtdXjj2dnkkI5IbKv3Ld24p025N94mG0c3c4Jm
+    SKuh8uivsd8GbAQ3IE/fdJDnJPj1mtrRu/gKT5M6FGl++QuK4D+s50LeAR/w
+X-ME-Proxy: <xmx:4Tvbam-3o7D4Oyz3Bc9bQx2uc09aKOdOKTHiKpv6E1T99LwHk5TinA>
+    <xmx:4Tvbaq_J-0nriv61HREASkk9HYWt5F49KkWbP8RETKqOkUTcpIYD-w>
+    <xmx:4TvbanAGZyi6tgTwglPBvf27MQhTCQ3T88tmQv9TeUms4Pz80wU8Ew>
+    <xmx:4Tvbaixn5eFFzOm5WhmzogTUByVfl6Z_q9FME3tbnptl15H8RmgT7A>
+    <xmx:4jvbal64-JWfZ5CHVkOnaVCebl2bt7sNPr7hiVRDuAyEb0AOUwsdeGxe>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA for
  <openembedded-core@lists.openembedded.org>; Fri,
- 23 Oct 2026 06:50:14 -0400 (EDT)
+ 23 Oct 2026 06:50:09 -0400 (EDT)
 From: Paul Barker <paul@pbarker.dev>
-Date: Fri, 23 Oct 2026 11:50:10 +0100
-Subject: [PATCH scarthgap 09/19] python3-certifi: upgrade 2025.4.26 ->
- 2025.6.15
+Subject: [PATCH scarthgap 00/19] Disable compromised CA certificates
+Date: Fri, 23 Oct 2026 11:50:01 +0100
+Message-Id: <20261023-certs-scarthgap-v1-0-0ba436174193@pbarker.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-certs-scarthgap-v1-9-0ba436174193@pbarker.dev>
-References: <20261023-certs-scarthgap-v1-0-0ba436174193@pbarker.dev>
-In-Reply-To: <20261023-certs-scarthgap-v1-0-0ba436174193@pbarker.dev>
+X-B4-Tracking: v=1; b=H4sIANk722oC/z2MQQrCMBBFr1L+2kCTaBZeRVwk49iOi1pmYimU3
+ t2o4PLx/3sbjFXYcO42KC9i8pwa+EMHGvM0sJNbY4Q+JN+H6Ii1mjPKWschz45O8RhLTD5RQLN
+ m5bus3+IF/xuuv8le5cFUP0Xs+xvd+CalfgAAAA==
+X-Change-ID: 20261023-certs-scarthgap-c5343b3616c2
 To: openembedded-core@lists.openembedded.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openssh-sha256; t=1792752608; l=2142;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1792752606; l=2507;
  i=paul@pbarker.dev; s=id_piv_33200296; h=from:subject:message-id;
- bh=6zlLbhjuAjrOWzeTlBr6bYWmJTAgIGH+YuQw46+jLCs=;
+ bh=5wB1C+7SXvDTWan+ncoLd2NJ1TbPE0KXHsUxsRot04s=;
  b=U1NIU0lHAAAAAQAAAGgAAAATZWNkc2Etc2hhMi1uaXN0cDI1NgAAAAhuaXN0cDI1NgAAAEEEQ
  dOfZ4fCf9WdA7cHWnYqW4P6zifYTwJ18a3l28hvdGt3M0CTKu/FWpwoh+x5E487TvYA9iW0goTM
- GGtdemFzVgAAAAZwYXRhdHQAAAAAAAAABnNoYTUxMgAAAGMAAAATZWNkc2Etc2hhMi1uaXN0cDI
- 1NgAAAEgAAAAgE1cT5/zGFgPZwqy3SEXkyRCiHU7d8ZYQcG9Ee3l4p8UAAAAgQjBUel6I5lmuBl
- LxkqhDBr4eiTVzIXs7IHJZmV7ticA=
+ GGtdemFzVgAAAAZwYXRhdHQAAAAAAAAABnNoYTUxMgAAAGQAAAATZWNkc2Etc2hhMi1uaXN0cDI
+ 1NgAAAEkAAAAhAIAZRIhVzPpju0Au4vyvMDExarwuttnzJBCrcIN4qgVHAAAAIBnwLd7C6cs1by
+ LddytG1dTCw0aByAzxNuYWFNs9YTGL
 X-Developer-Key: i=paul@pbarker.dev; a=openssh;
  fpr=SHA256:IlqExt9TPtGqXrqYg/YPMlsWlOGC6AVubz/PwuYw6KY
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 10:50:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248526
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248517
 
-From: Tim Orling <tim.orling@konsulko.com>
+These changes update ca-certificates & python3-certifi for scarthgap to
+handle the fallout of the recent Emudhra CA certificate compromise.
 
-* Switch to PEP-517 backend with inherit python_setuptools_build_meta
+These patches have already passed testing on the autobuilder, they will
+be merged to scarthgap outside of the usual stable review process once
+they have landed in blacksail & wrynose.
 
-Commit log highlights:
-* Declare setuptools as the build backend in pyproject.toml (#350)
-* remove code that's no longer required that 3.7 is our minimum (#351)
+As a consequence, the build backend for python3-certifi is changed to
+python_setuptools_build_meta and support for Python 3.6 (EOL since
+2021-12-23) is dropped. Both of these are considered acceptable. See
+commit "python3-certifi: upgrade 2025.4.26 -> 2025.6.15" for details.
 
-Comparing changes from 2025.4.26 -> 2025.6.15:
-https://github.com/certifi/python-certifi/compare/2025.04.26...2025.06.15
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fa38fa24ad26f8bf68fd139b5e8496144987326b)
-
-This is a slightly larger change for the stable branch, but I consider
-it safe. Python 3.6 has been EOL since 2021-12-23, long before the
-initial Scarthgap release, so making the minimum Python version 3.7 is
-ok. The other significant change here is the build system, but that
-should not affect users of certifi. Then we have the usual GitHub
-Actions workflow changes (irrelevant) and cacert.pem changes (which we
-actually want).
+Branch: https://git.openembedded.org/openembedded-core-contrib/log/?h=pbarker/certs-scarthgap
+AB Build: https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4976
 
 Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- .../{python3-certifi_2025.4.26.bb => python3-certifi_2025.6.15.bb}    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Alexander Kanavin (1):
+      python3-certifi: upgrade 2025.8.3 -> 2025.11.12
 
-diff --git a/meta/recipes-devtools/python/python3-certifi_2025.4.26.bb b/meta/recipes-devtools/python/python3-certifi_2025.6.15.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-certifi_2025.4.26.bb
-rename to meta/recipes-devtools/python/python3-certifi_2025.6.15.bb
-index bedc3d253c3a..c8484425dcfb 100644
---- a/meta/recipes-devtools/python/python3-certifi_2025.4.26.bb
-+++ b/meta/recipes-devtools/python/python3-certifi_2025.6.15.bb
-@@ -7,11 +7,11 @@ HOMEPAGE = "http://certifi.io/"
- LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=11618cb6a975948679286b1211bd573c"
- 
--SRC_URI[sha256sum] = "0a816057ea3cdefcef70270d2c515e4506bbc954f417fa5ade2021213bb8f0c6"
-+SRC_URI[sha256sum] = "d747aa5a8b9bbbb1bb8c22bb13e22bd1f18e9796defa16bab421f7f7a317323b"
- 
- CVE_PRODUCT = "certifi:certifi"
- 
--inherit pypi setuptools3
-+inherit pypi python_setuptools_build_meta
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+Leon Anavi (1):
+      python3-certifi: Upgrade 2026.1.4 -> 2026.2.25
 
--- 
-2.43.0
+Paul Barker (2):
+      ca-certificates: Disable compromised CA certificates
+      Revert "python3-certifi: Fix CVE-2024-39689"
+
+Richard Purdie (2):
+      python3-certifi: upgrade 2024.12.14 -> 2025.1.31
+      python3-certifi: upgrade 2026.2.25 -> 2026.4.22
+
+Ross Burton (1):
+      python3-certifi: upgrade 2026.7.22 -> 2026.10.19
+
+Tim Orling (6):
+      python3-certifi: upgrade 2024.2.2 -> 2024.6.2
+      python3-certifi: upgrade 2025.4.26 -> 2025.6.15
+      python3-certifi: upgrade 2025.7.9 -> 2025.8.3
+      python3-certifi: upgrade 2026.4.22 -> 2026.5.20
+      python3-certifi: upgrade 2026.5.20 -> 2026.6.17
+      python3-certifi: upgrade 2026.6.17 -> 2026.7.22
+
+Wang Mingyu (6):
+      python3-certifi: upgrade 2024.6.2 -> 2024.7.4
+      python3-certifi: upgrade 2024.7.4 -> 2024.8.30
+      python3-certifi: upgrade 2024.8.30 -> 2024.12.14
+      python3-certifi: upgrade 2025.1.31 -> 2025.4.26
+      python3-certifi: upgrade 2025.6.15 -> 2025.7.9
+      python3-certifi: upgrade 2025.11.12 -> 2026.1.4
+
+ .../python/python3-certifi/CVE-2024-39689.patch    | 69 ----------------------
+ ...i_2024.2.2.bb => python3-certifi_2026.10.19.bb} |  7 +--
+ ...mSign-ECC-Root-CA-G3-and-Comodo-AAA-Servi.patch | 35 +++++++++++
+ .../ca-certificates/ca-certificates_20260816.bb    |  1 +
+ 4 files changed, 38 insertions(+), 74 deletions(-)
+---
+base-commit: e95fc48cd797a013178c71d374810e2c08917d0f
+change-id: 20261023-certs-scarthgap-c5343b3616c2
+
+Best regards,
+--  
+Paul Barker
 
