@@ -1,140 +1,135 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4475.1792752613788003508
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4548.1792753046303803143
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Oct 2026 03:50:13 -0700
+ Fri, 23 Oct 2026 03:57:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=dg0OVpwc;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=Qw13xxA2;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 282711400163
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 06:50:13 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 23 Oct 2026 06:50:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1792752613;
-	 x=1792839013; bh=ZKAN2iQIbrEDEI5haHgRwdrtpCQ02XJVQKflz8HJH7M=; b=
-	dg0OVpwc/1DcfjmnU/v8kNldtgXJt0rUK8XQae3WmDqnqwwMgY/CfuGHVDq2KSQ2
-	SpPsmzgEBgzpp37cJZ+eW4k8ckpu/3nqWnWi07F4u/TfXC2Hm9cx2d5a6wq4MeC2
-	8dkkNEsQenfm+btSB2KVKWGOjRqLH9tV9iTUo/KnVmjFkxqjOnVFmWXnWf/XRe5v
-	CNXK5ZjctMFqAz6pepc+xWnE2vmmZnmWdtpJAdrLM+TLM2IIF3WkAR86z3Bj/B92
-	rUq73A121WIyrovX6OLGjMusCtioIZsenNuUerLgvN/JwsLwyLyNFV8yGEuZOsbV
-	k4Pk788nXiQAbe+i6dUCWA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1792752613; x=1792839013; bh=Z
-	KAN2iQIbrEDEI5haHgRwdrtpCQ02XJVQKflz8HJH7M=; b=Qw13xxA2JOD/31OQ2
-	9VomdOyy1BrSRN9pb4FfDAA+CxOzreVBQkpnSAqLk8JLDWHLrQOLlimLw7myk7m2
-	YK3ClUSFxncLCGBVm9nrzJOR+JyEBC+IBS626/hBl5mU1brxf8aXDbRKFUMvV4+o
-	jVs7916Ujgdy5tNviH2owO1RBqmgIoUe7bw6Rx+kHPWd6bF2zOWQxyZrjAD2mC7i
-	Wz8v5nlQm8sKsFYJLh7qzPmlrUMiK51wDNPsY3N1R1d1iRIsMrfxBfP9NSfunDzT
-	DM2Pcm/I7lGm8JVoCmdONfS8k+YWUzs7svdWAkkyoSVftGlmoK0zR1SlNytahs01
-	Kr1ZQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792752613; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm1:rsa-sha256:i3n7VxUTR8FzwSRyCph5ZUZ9LscqqWfWhDGeo9qCK3ubdmB
-	mDjKn/7506NOf+1QpLGalD66ennqqHHx5J57BkneoK3ppxQp1R5bQJT3YCVZV+bG
-	1C1ONLLG68/9Yuno/96t9ze+MOoL4Imelw8sX0LE4OYqjE/IVQPhgaXZQ7z+YJdl
-	dWbgx5I06IU0k7581d4UlKz8qmxNBr6oIoA+AN5zxVeitFE4d5AEZmD1y+AVZAj/
-	+zlWllb+vLrNC4Z7uRHNmpisWIGMGFWPkXbH0bQPQtNieuw0Bgv3HHg86eTv8KDg
-	2hEjGptQGNjzReWSUxMfBBWAhoyefpKWxf6JGXw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=11;
-	hn=content-transfer-encoding,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:oSApb/0JH3FBhKlDIRBuITha2wsT0Wx/5UT+jX9c6P4=:YhtT76E2qziOio2TrvJWmDqRmAulqxUkYtDtPy44QAo=;
-X-ME-Sender: <xms:5TvbakIq9T7WkoWHhFR2ov0_0QxYVaRVBW1Urm1Qr8VapHqRjjZxrg>
-    <xme:5TvbarFe0umsEG8oIVJppr7R5K7gKj6GjPLXfmtlA1oswcWy-kX8-7dQviNula5PR
-    7IbuKK9_uUfR1Kz8apIL3uYuk3r7iIc0I0TBCDKiiSk3kbRCtyI3A>
-X-ME-Received: <xmr:5TvbaqXC89SobZR0dv6UK6aOq0p0iHtAKSNNVkfpH8YEY-LsWi1E7mUFvDV7pdqA_N7k_BJgVIXV2bRjNqQQwTy7YJEYP6A>
-X-ME-Proxy-Cause: dmFkZTGyOagm9BfzPb+YtFk66N3nGLsZpb/VPM8XjyvCI6H5ALoAzhuChEVFVvDnkE/SF/
-    JqM9HdccU5QGXh85+PcHSXfPlinR50XvCANansdfjHdI2y4yWT98LB5sYItFtv/YCkRC+D
-    gCz49oXUOiIA3GSaVy8hQyIFhJVj70/v42lZYRXkC6yDHyO8Mxh8BPFCEOUQWBw2ymS8E7
-    RnCBWgaoCjRMBc+ufLfygswQfPbZu8I30UCpB32sT/SGJkXdSH8ooLc1ooYQLEosEVguDB
-    nl2tS57Hfyetr9KYXK2lnhEOBFdFfv/pn1dtrEglp90LQOD/J+D0fLXSLeer7z4rPcHWjS
-    jI5oXyvGYx/7zxwunj9V4aI0VwLSJc6ggRO1Xnv2gs2QNXNCSl8Nal6FGe8KAi3wc+5qXb
-    l0Kmb2w8OZArDZgKrOzgGDs6sqQnepx53uGC88NBsXYWWvpxmgtIAmZ4N1pBMESdSAb6px
-    fvn7a3qX/FiPumyuMAf4nB9iZ2yJNIoIGvrib5CUNqwakK0L9/3G1zhzA4YzyyDDhPmWfF
-    t8wSpFPZwCL5+dpMIhwI5rgSAP2A0o/qnFGBT+PDR1anwKRb+U3FFNTr8iCppgdhw5h2UD
-    qWwmcM8WHBmeiupsDWfzyejF1RQt0thcfWa1pe8EIcT+lkSB2cQFZ3acDeEA
-X-ME-Proxy: <xmx:5TvbamifO5tp9un_LVOVgm_Op1H95NIydIxqTKvlkOa3bbtRMWto6A>
-    <xmx:5TvbarREn261ynnjJwlh8U6nriAdq1e7GvsE2jA1aDgITAwsOu_R3A>
-    <xmx:5TvbapHlJGGCpORObKMQr4LIyRFKay-MVpTiAz7aUk-MMxJy7JcGaQ>
-    <xmx:5TvbajkOofHdms7-SCbbuXT1hERXoKJMLH04jjGlrLlCze8sA-ycYw>
-    <xmx:5Tvban6RlLCArHbjucJGbOtpmutL0BOVxZWowCmWHg3RDUedYrReBAnL>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA for
- <openembedded-core@lists.openembedded.org>; Fri,
- 23 Oct 2026 06:50:12 -0400 (EDT)
-From: Paul Barker <paul@pbarker.dev>
-Date: Fri, 23 Oct 2026 11:50:07 +0100
-Subject: [PATCH scarthgap 06/19] python3-certifi: upgrade 2024.8.30 ->
- 2024.12.14
+ dkim=pass header.i=@9elements.com header.s=google header.b=Uade6LyD;
+ spf=pass (domain: 9elements.com, ip: 209.85.208.182, mailfrom: tan.siewert@9elements.com)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3ab01c46697so5189591fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 03:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1792753044; x=1793357844; darn=lists.openembedded.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=jjO6mahbCyccZi8v3JlLmbCM8Ctrto6A4luSQFmCoEE=;
+        b=Uade6LyDL3N1HQM6Z5GZzRoW9lby0htYDBW8k2zHtK1A80xytvYilDFYLP8R6NypiC
+         bFFyAayiQ+y+eXrtsI4L4tN6HZnZFugXfOyrLt0ABhm5WskKzpaDPK2CFJaiPgOOndTx
+         vN3Um5rLDAtpWO4noLPDOAMmjDT+ykPWZLK6piuEDwdQGUAwfVqLR1+UO3x2bnhYU1tl
+         3c0lvpBxSN7cqTBTzRNlRFcnJQU6CcrJfeRtD6/IL4TmJ4Xbb4xnl8jtF8C1gbtGoq6A
+         /CetH3GAHmTgYFcasP6Qgg8Y/fscpZ10ocN+VNEl7prr7yrkHGa6N+uL5EFPaYrHvnLw
+         sh0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792753044; x=1793357844;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jjO6mahbCyccZi8v3JlLmbCM8Ctrto6A4luSQFmCoEE=;
+        b=W5QKRDq/+j5WnA8Sl7keq86JSiu+mV0dI339Cb70uQ5h1QeZ4RYUjYMJcDFEBMKHo9
+         SKtTAEqeNCDw/zCfLBz9UTB1WAh6iibQsD0IYzZZCzrFtcJCMnguvWd37IAVxX7T72Sz
+         xG65YGoKIIW0SnNplJbyX7LDYf/DrtZp/MSpfJaWoGIGCs+C/ERAIVoBfXpTYsYwd2Na
+         DGwPtytOcazEAXMVP3dtFeJ6OM6ha3iWxD9FntIjwl2FTxE7jTMoLUH9NjXZc3SVzcFi
+         pyMoQHPLFQP7HpTLISHDohIoYZ9Ik7BjX1Anx0CSp/rHiXuGVUtejsc9CO0y706All6u
+         QMWg==
+X-Gm-Message-State: AFq9FYIwC+MkAE1eMIAyMaUTpf1aP1s7bQjVYJjtqM66tt16aLrkIS+x
+	acliimfd5r3ccJkK/isKBlH5JObqLb8eRe0RNIKoCa7kxV+4bBbABPD/Y27mf2qHWDfqpttx5Yb
+	LAJSMxr4=
+X-Gm-Gg: AYBFou0Zct7Jehl7Y+jCLEMWjvKi8DvzvyGpYv+Tc1FJJlPRCewGPQd76il+WC7ykYZ
+	QbIZha17oPIUi3nqRWvn2l9tDkue2/4UyC8WbF+B12IVj1WpGhvcBGMvbMcBy1kYeYaRLEnWG+j
+	/Wt+bhMUMi4RCJLLPQ6/M/1pN81CkkpR7ntY+NvRtx3nTGa+KCovDGbg3jYBAKgG0nJ4z1VlwXW
+	xbZURtEpo3+25co06mKsKwUE8WLomftaMtC0JlxVUfoLFfK0uqoa2MPz4uv5NigpYWmM4ORGDeO
+	rOQx83JKR6renG9sUgzqE3v1O/MkZQNt4RIzsIUcqKgdZHRJy2Fng5Lw52Xf7zk1qBgm4xlA8Rb
+	HteA57c/oi5Ve6kaFj/lsopy2wlL5DLB1d4WfDXex9GhhnmfwYaNZ64HaMQZsvh7EEWm00uV21J
+	IDZmbXUStaw1ckZlm2lWUUvzNr9l5BVf4O1ZQ5EcWE/ZfWR44Ar8PnMQXYecRAyDX3f3kKp0be0
+	N05bOHOE/pi7sDll3OZtTFG0sfhhV2W9P5EGFFpD8rY0nuO/Rom6neHLGiQfoKPoWymPhMMsg==
+X-Received: by 2002:a5d:64c3:0:b0:48e:3bc4:a367 with SMTP id ffacd0b85a97d-48e3bc4a3c4mr871822f8f.33.1792752726938;
+        Fri, 23 Oct 2026 03:52:06 -0700 (PDT)
+Return-Path: <tan.siewert@9elements.com>
+Received: from white-mocha.local ([2a01:599:841:69c3:a3ce:18eb:5996:fa43])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e37eded3fsm4268891f8f.7.2026.10.23.03.52.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 03:52:06 -0700 (PDT)
+From: Tan Siewert <tan.siewert@9elements.com>
+Subject: [PATCH 0/4] systemd: add packageconfigs for storage optimisation
+Date: Fri, 23 Oct 2026 12:51:52 +0200
+Message-Id: <20261023-systemd-optimisations-v1-0-0cce103e54df@9elements.com>
 MIME-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMOw6DMBBF0a2gqWPJdkEwW4lSOPgBg8RHHoOCE
+ HuPCeUp7j1IEBlCdXFQxMbC85RhHgU1vZ86KA7ZZLUtjbZGyS4JY1Dzknhk8SkHooKHc8EZVPp
+ JuV0iWv7+v6/3bVk/A5p0zeg8f/MRH/15AAAA
+X-Change-ID: 20261021-systemd-optimisations-dae99d91e807
+To: openembedded-core@lists.openembedded.org
+Cc: Sai Sireesha T <saisireesha.t@windriver.com>, 
+ Patrick Williams <patrick@stwcx.xyz>, 
+ Tan Siewert <tan.siewert@9elements.com>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792752717; l=2413;
+ i=tan.siewert@9elements.com; s=20260527; h=from:subject:message-id;
+ bh=wXkR55koLG8GNdavemCjgV2LyAZbmFAwKc6MtWQ3tRM=;
+ b=m0KdVPc7vxWwqsj2RGh6x1Bp/7C4Tnm4SH/2QvhkSka8fc63NW8zLkzzApzC1SyB/iSc6Nu1i
+ TIoAwRKT62HAsdXWrPNQP913SCA1388i/PmSkeLINtlIO65lP76hKWa
+X-Developer-Key: i=tan.siewert@9elements.com; a=ed25519;
+ pk=ORQd/zQf+LsAvJGXP1CjQwVO6t6iEOGq/eGUsmRVTG4=
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-certs-scarthgap-v1-6-0ba436174193@pbarker.dev>
-References: <20261023-certs-scarthgap-v1-0-0ba436174193@pbarker.dev>
-In-Reply-To: <20261023-certs-scarthgap-v1-0-0ba436174193@pbarker.dev>
-To: openembedded-core@lists.openembedded.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openssh-sha256; t=1792752608; l=1493;
- i=paul@pbarker.dev; s=id_piv_33200296; h=from:subject:message-id;
- bh=N0/jGV0NijMjAicO1LAb2WW0zzDhPy372tbFh2JRAZo=;
- b=U1NIU0lHAAAAAQAAAGgAAAATZWNkc2Etc2hhMi1uaXN0cDI1NgAAAAhuaXN0cDI1NgAAAEEEQ
- dOfZ4fCf9WdA7cHWnYqW4P6zifYTwJ18a3l28hvdGt3M0CTKu/FWpwoh+x5E487TvYA9iW0goTM
- GGtdemFzVgAAAAZwYXRhdHQAAAAAAAAABnNoYTUxMgAAAGMAAAATZWNkc2Etc2hhMi1uaXN0cDI
- 1NgAAAEgAAAAgcUdnw2kzN2X9pQC9NklnOk2+uYiylK0ZVR3PkEoYTm0AAAAgKaRJllCrY+9RuK
- 1ND5W4/w4UjSwCJT/PHYoNFhPB/Ow=
-X-Developer-Key: i=paul@pbarker.dev; a=openssh;
- fpr=SHA256:IlqExt9TPtGqXrqYg/YPMlsWlOGC6AVubz/PwuYw6KY
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 10:50:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248523
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 10:59:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248537
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+While investigating the storage usage in OpenBMC I noticed that several
+features are enabled by default because their meson options default to
+true or because they use .allowed() instead of .enabled() for the
+validation. This pollutes the storage which is expensive on some
+platforms (there are platforms that only have ~20 MiB for rofs).
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bc24b0e7b647a655a0e34d446aa867e8b6a445e4)
+This series adds packageconfigs for the features ukify, sysinstall, hwdb
+and fdisk.
 
-This changes GitHub Actions workflows, cacert.pem and adds a classifier
-which is safe to do on the stable branch. See
-  https://github.com/certifi/python-certifi/compare/2024.08.30...2024.12.14
+ukify was enabled by default but only works on EFI systems. On non-EFI
+builds it will be disabled by default, but enabled by default when the
+efi DISTRO_FEATURE is set.
 
-Signed-off-by: Paul Barker <paul@pbarker.dev>
+sysinstall is a neat feature that makes installation guidance easier,
+but for a lot of embedded systems it is just a waste of storage. It's
+not enabled by default as it has runtime dependencies on systemd-repart
+which weren't checked before. Enabling it by default would mean we'd
+have to enable OpenSSL and repart which does not seem viable to me.
+
+For hwdb, it might be useful for systems that see PCI/USB/HID devices or
+for some laptops, but who needs ThinkPad keymaps on an ARM1176 SoC?
+
+fdisk is recommended by libsystemd-shared, and disabling it drops
+util-linux-libfdisk. This is only required for sysupdate, repart and
+homed.
+
+With all the changes I was able to free a significant amount of storage
+again (the hwdb alone was ~9 MiB uncompressed).
+
+I've tested my changes with qemux86-64 by building systemd with the
+default configuration and with fdisk off, hwdb off, sysinstall on (with
+and without repart), ukify on, and with the efi DISTRO_FEATURE (with and
+without ukify), then checked the resulting packages, shipped binaries
+and RRECOMMENDS.
+Enabling repart or homed without fdisk fails at parse time as expected.
+
+The testimage with default and hwdb-off + usbutils configuration booted
+and passed the default tests.
+
+Signed-off-by: Tan Siewert <tan.siewert@9elements.com>
 ---
- .../{python3-certifi_2024.8.30.bb => python3-certifi_2024.12.14.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Tan Siewert (4):
+      systemd: add ukify packageconfig
+      systemd: add sysinstall packageconfig
+      systemd: add hwdb packageconfig
+      systemd: add fdisk packageconfig
 
-diff --git a/meta/recipes-devtools/python/python3-certifi_2024.8.30.bb b/meta/recipes-devtools/python/python3-certifi_2024.12.14.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-certifi_2024.8.30.bb
-rename to meta/recipes-devtools/python/python3-certifi_2024.12.14.bb
-index eddd05282df9..cb2cc969aec7 100644
---- a/meta/recipes-devtools/python/python3-certifi_2024.8.30.bb
-+++ b/meta/recipes-devtools/python/python3-certifi_2024.12.14.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://certifi.io/"
- LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=11618cb6a975948679286b1211bd573c"
- 
--SRC_URI[sha256sum] = "bec941d2aa8195e248a60b31ff9f0558284cf01a52591ceda73ea9afffd69fd9"
-+SRC_URI[sha256sum] = "b650d30f370c2b724812bee08008be0c4163b163ddaec3f2546c1caf65f191db"
- 
- CVE_PRODUCT = "certifi:certifi"
- 
+ meta/recipes-core/systemd/systemd_262.bb | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
+---
+base-commit: ae5cafacec8e99c5a27fa5b3b378eefc595910ef
+change-id: 20261021-systemd-optimisations-dae99d91e807
 
--- 
-2.43.0
+Best regards,
+--  
+Tan Siewert <tan.siewert@9elements.com>
 
