@@ -1,135 +1,116 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4548.1792753046303803143
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4528.1792753059953035231
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Oct 2026 03:57:26 -0700
+ Fri, 23 Oct 2026 03:57:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@9elements.com header.s=google header.b=Uade6LyD;
- spf=pass (domain: 9elements.com, ip: 209.85.208.182, mailfrom: tan.siewert@9elements.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3ab01c46697so5189591fa.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 03:57:26 -0700 (PDT)
+ dkim=pass header.i=@9elements.com header.s=google header.b=G5Fm9EMj;
+ spf=pass (domain: 9elements.com, ip: 209.85.167.46, mailfrom: tan.siewert@9elements.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5bc18f54abbso640372e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 03:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1792753044; x=1793357844; darn=lists.openembedded.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=jjO6mahbCyccZi8v3JlLmbCM8Ctrto6A4luSQFmCoEE=;
-        b=Uade6LyDL3N1HQM6Z5GZzRoW9lby0htYDBW8k2zHtK1A80xytvYilDFYLP8R6NypiC
-         bFFyAayiQ+y+eXrtsI4L4tN6HZnZFugXfOyrLt0ABhm5WskKzpaDPK2CFJaiPgOOndTx
-         vN3Um5rLDAtpWO4noLPDOAMmjDT+ykPWZLK6piuEDwdQGUAwfVqLR1+UO3x2bnhYU1tl
-         3c0lvpBxSN7cqTBTzRNlRFcnJQU6CcrJfeRtD6/IL4TmJ4Xbb4xnl8jtF8C1gbtGoq6A
-         /CetH3GAHmTgYFcasP6Qgg8Y/fscpZ10ocN+VNEl7prr7yrkHGa6N+uL5EFPaYrHvnLw
-         sh0Q==
+        d=9elements.com; s=google; t=1792753058; x=1793357858; darn=lists.openembedded.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LbMR20+5krRb7mSmuHgXvqTdbf+997mDChVYSkJmrZA=;
+        b=G5Fm9EMjzBy8eKaCUtPiZ0FqxeZghe3rGzmxrGLNK08s3HAluRgv2U3TanyakeMP16
+         aEPvVb013MfQhmzhf5mbpeTFAJwBfM3QIxJpO7YuQ5pUIMLxtxvZgmukAZOMPTOqmVDs
+         EAGuqqA1ADoN9nWK3aaFH8Jkp6HYgbRNkHpXQf0Sp8ggSoXXKM4icLNbdsF13Lx/7cHp
+         dPwszXxN82aS8mI9O8dq0S7G1LcgJHCfwoFB07q0mpMTKIgnW1LGXSydmIElllkT4ufF
+         m/T/jNNHxpAOY2Df4SzDq0PMCO6vq3c1uElctTc6vGO7/Yvj2gNNlVriIIW3YL9t7fu2
+         vEtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792753044; x=1793357844;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=jjO6mahbCyccZi8v3JlLmbCM8Ctrto6A4luSQFmCoEE=;
-        b=W5QKRDq/+j5WnA8Sl7keq86JSiu+mV0dI339Cb70uQ5h1QeZ4RYUjYMJcDFEBMKHo9
-         SKtTAEqeNCDw/zCfLBz9UTB1WAh6iibQsD0IYzZZCzrFtcJCMnguvWd37IAVxX7T72Sz
-         xG65YGoKIIW0SnNplJbyX7LDYf/DrtZp/MSpfJaWoGIGCs+C/ERAIVoBfXpTYsYwd2Na
-         DGwPtytOcazEAXMVP3dtFeJ6OM6ha3iWxD9FntIjwl2FTxE7jTMoLUH9NjXZc3SVzcFi
-         pyMoQHPLFQP7HpTLISHDohIoYZ9Ik7BjX1Anx0CSp/rHiXuGVUtejsc9CO0y706All6u
-         QMWg==
-X-Gm-Message-State: AFq9FYIwC+MkAE1eMIAyMaUTpf1aP1s7bQjVYJjtqM66tt16aLrkIS+x
-	acliimfd5r3ccJkK/isKBlH5JObqLb8eRe0RNIKoCa7kxV+4bBbABPD/Y27mf2qHWDfqpttx5Yb
-	LAJSMxr4=
-X-Gm-Gg: AYBFou0Zct7Jehl7Y+jCLEMWjvKi8DvzvyGpYv+Tc1FJJlPRCewGPQd76il+WC7ykYZ
-	QbIZha17oPIUi3nqRWvn2l9tDkue2/4UyC8WbF+B12IVj1WpGhvcBGMvbMcBy1kYeYaRLEnWG+j
-	/Wt+bhMUMi4RCJLLPQ6/M/1pN81CkkpR7ntY+NvRtx3nTGa+KCovDGbg3jYBAKgG0nJ4z1VlwXW
-	xbZURtEpo3+25co06mKsKwUE8WLomftaMtC0JlxVUfoLFfK0uqoa2MPz4uv5NigpYWmM4ORGDeO
-	rOQx83JKR6renG9sUgzqE3v1O/MkZQNt4RIzsIUcqKgdZHRJy2Fng5Lw52Xf7zk1qBgm4xlA8Rb
-	HteA57c/oi5Ve6kaFj/lsopy2wlL5DLB1d4WfDXex9GhhnmfwYaNZ64HaMQZsvh7EEWm00uV21J
-	IDZmbXUStaw1ckZlm2lWUUvzNr9l5BVf4O1ZQ5EcWE/ZfWR44Ar8PnMQXYecRAyDX3f3kKp0be0
-	N05bOHOE/pi7sDll3OZtTFG0sfhhV2W9P5EGFFpD8rY0nuO/Rom6neHLGiQfoKPoWymPhMMsg==
-X-Received: by 2002:a5d:64c3:0:b0:48e:3bc4:a367 with SMTP id ffacd0b85a97d-48e3bc4a3c4mr871822f8f.33.1792752726938;
-        Fri, 23 Oct 2026 03:52:06 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792753058; x=1793357858;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LbMR20+5krRb7mSmuHgXvqTdbf+997mDChVYSkJmrZA=;
+        b=sPtT5A3+X8441oJOhnUEETRq2ws3gwYPjOFqzmQusoOq6XM5HMA/8VZEsj9z3XjPj/
+         oZcbNmt4aQPBN1AMEiP9RdH0UJFVp/cZ4eMWl0j3ZDFGBMdnp2EMDwFcGb/YE4uZA2jm
+         95HEjMedcfcI0n/ti1CIQSxEIQz56EFrt8SVsox6ou0a0fghC30dWYLTI6IuTNlhVRPM
+         lcEkt/CzaVmgPfUg3NK8ofIyMNyPTfyzuO6D6rW5CtMGCP42x8PRe/qx2/F8BofNDcsZ
+         OW9KDUQwVm4nztFbDXT9LSwOLB0UwZHSsxBYBY3ph7UMmNp8y25J5THUkTqhUr/OgqtX
+         YqXQ==
+X-Gm-Message-State: AFq9FYI6xhXYPZkdECLI1SPeVMgIEBQYoDDeHv1bxd+WPLMF/N9THFvQ
+	+x3VkLBzDKAMq4KWyqhb3HPvNxhQp31bOmsnJw3buwEZ9x5oASBsXaWNufvEdLQrwL8S/sSPdLo
+	q6N8Ttfg=
+X-Gm-Gg: AYBFou0voNEnq1OkAektV8RdpwnH607an7FyW0YQnv3nYug1CRE69UMYbM7NPQi7K0C
+	WSRdyCgP01I6ZBryMjgkU/Py/f+cSscnxxjfeSsBEAS/MwG2a5NUfg2MEA+xJsKjPIPuOSAk5rb
+	FL5ZdCWVQKGR/kPBa//bUjYXVVXU9yCxas/BRrnBe6QsR2AB71rFR1iJOreR7aM2Kkjadbgqi+k
+	f8oHyjDWfj+z5OjTGbT/SUhZnONa/V6n0gaoQIP9yXIVKubqdP/bf/cqTBmRUDTfaFoD3dHC9Cw
+	mTl2oOjXjE7DGsLsTxF4cDodPZ+SriVaDmsPPgR3fXtu2VgsZJwvLVPqMDbV1fOK0mBgIFLvZre
+	rfAxpaqk5ZVZcqYi6uMhP2K2i5kd9u9k49Ajty6sBx+3ZPKNZxf+Si0MxRPDttOmyI1eyQo9MqE
+	Zp0Qlxt41QG+RCgwSFsp/m5uUGZZIZY7/OnQCHHUOflVQGQLXS8f5o6IRQxl4uTNOVcSAM2Pd3S
+	a4eUZBV+E8lmqNMuX0duVRc7LCSpRRlMAta7Gby7uaDheM9vEsEJbxczR7uUKiZ7FJevZDzFA==
+X-Received: by 2002:a05:6000:400f:b0:48e:3678:5112 with SMTP id ffacd0b85a97d-48e38593c26mr3195425f8f.21.1792752728662;
+        Fri, 23 Oct 2026 03:52:08 -0700 (PDT)
 Return-Path: <tan.siewert@9elements.com>
 Received: from white-mocha.local ([2a01:599:841:69c3:a3ce:18eb:5996:fa43])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e37eded3fsm4268891f8f.7.2026.10.23.03.52.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e37eded3fsm4268891f8f.7.2026.10.23.03.52.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 03:52:06 -0700 (PDT)
+        Fri, 23 Oct 2026 03:52:08 -0700 (PDT)
 From: Tan Siewert <tan.siewert@9elements.com>
-Subject: [PATCH 0/4] systemd: add packageconfigs for storage optimisation
-Date: Fri, 23 Oct 2026 12:51:52 +0200
-Message-Id: <20261023-systemd-optimisations-v1-0-0cce103e54df@9elements.com>
+Date: Fri, 23 Oct 2026 12:51:54 +0200
+Subject: [PATCH 2/4] systemd: add sysinstall packageconfig
 MIME-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMOw6DMBBF0a2gqWPJdkEwW4lSOPgBg8RHHoOCE
- HuPCeUp7j1IEBlCdXFQxMbC85RhHgU1vZ86KA7ZZLUtjbZGyS4JY1Dzknhk8SkHooKHc8EZVPp
- JuV0iWv7+v6/3bVk/A5p0zeg8f/MRH/15AAAA
-X-Change-ID: 20261021-systemd-optimisations-dae99d91e807
+Message-Id: <20261023-systemd-optimisations-v1-2-0cce103e54df@9elements.com>
+References: <20261023-systemd-optimisations-v1-0-0cce103e54df@9elements.com>
+In-Reply-To: <20261023-systemd-optimisations-v1-0-0cce103e54df@9elements.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Sai Sireesha T <saisireesha.t@windriver.com>, 
  Patrick Williams <patrick@stwcx.xyz>, 
  Tan Siewert <tan.siewert@9elements.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792752717; l=2413;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792752717; l=1952;
  i=tan.siewert@9elements.com; s=20260527; h=from:subject:message-id;
- bh=wXkR55koLG8GNdavemCjgV2LyAZbmFAwKc6MtWQ3tRM=;
- b=m0KdVPc7vxWwqsj2RGh6x1Bp/7C4Tnm4SH/2QvhkSka8fc63NW8zLkzzApzC1SyB/iSc6Nu1i
- TIoAwRKT62HAsdXWrPNQP913SCA1388i/PmSkeLINtlIO65lP76hKWa
+ bh=lLHMqhgvR4DDYQKpbYv4IJBhsQ21GQiAEgbaYY0qPnU=;
+ b=a/b/o7eQ2/nVn0c65is5nTuTgFs+gQeUpP+9DrX+HzjFu3mtOcxFJXREBVCPu+0CJ/YOjLo1N
+ U8GXwSdcqR9Bfypwq3mPHYArfHSLCb3emCUk1Y/bmNnT8z0XaW0LFZH
 X-Developer-Key: i=tan.siewert@9elements.com; a=ed25519;
  pk=ORQd/zQf+LsAvJGXP1CjQwVO6t6iEOGq/eGUsmRVTG4=
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 10:59:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248537
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 10:59:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248538
 
-While investigating the storage usage in OpenBMC I noticed that several
-features are enabled by default because their meson options default to
-true or because they use .allowed() instead of .enabled() for the
-validation. This pollutes the storage which is expensive on some
-platforms (there are platforms that only have ~20 MiB for rofs).
+sysinstall is a system installer tool and is unnecessary on some
+embedded systems. It calls systemd-repart at runtime, but repart is not
+enabled by default, so the shipped tool could not work in the default
+configuration anyway.
 
-This series adds packageconfigs for the features ukify, sysinstall, hwdb
-and fdisk.
-
-ukify was enabled by default but only works on EFI systems. On non-EFI
-builds it will be disabled by default, but enabled by default when the
-efi DISTRO_FEATURE is set.
-
-sysinstall is a neat feature that makes installation guidance easier,
-but for a lot of embedded systems it is just a waste of storage. It's
-not enabled by default as it has runtime dependencies on systemd-repart
-which weren't checked before. Enabling it by default would mean we'd
-have to enable OpenSSL and repart which does not seem viable to me.
-
-For hwdb, it might be useful for systems that see PCI/USB/HID devices or
-for some laptops, but who needs ThinkPad keymaps on an ARM1176 SoC?
-
-fdisk is recommended by libsystemd-shared, and disabling it drops
-util-linux-libfdisk. This is only required for sysupdate, repart and
-homed.
-
-With all the changes I was able to free a significant amount of storage
-again (the hwdb alone was ~9 MiB uncompressed).
-
-I've tested my changes with qemux86-64 by building systemd with the
-default configuration and with fdisk off, hwdb off, sysinstall on (with
-and without repart), ukify on, and with the efi DISTRO_FEATURE (with and
-without ukify), then checked the resulting packages, shipped binaries
-and RRECOMMENDS.
-Enabling repart or homed without fdisk fails at parse time as expected.
-
-The testimage with default and hwdb-off + usbutils configuration booted
-and passed the default tests.
+Add a packageconfig option, disabled by default, and warn when it is
+enabled without repart.
 
 Signed-off-by: Tan Siewert <tan.siewert@9elements.com>
 ---
-Tan Siewert (4):
-      systemd: add ukify packageconfig
-      systemd: add sysinstall packageconfig
-      systemd: add hwdb packageconfig
-      systemd: add fdisk packageconfig
+ meta/recipes-core/systemd/systemd_262.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- meta/recipes-core/systemd/systemd_262.bb | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
----
-base-commit: ae5cafacec8e99c5a27fa5b3b378eefc595910ef
-change-id: 20261021-systemd-optimisations-dae99d91e807
+diff --git a/meta/recipes-core/systemd/systemd_262.bb b/meta/recipes-core/systemd/systemd_262.bb
+index 24797e2e08..60d8ed00d5 100644
+--- a/meta/recipes-core/systemd/systemd_262.bb
++++ b/meta/recipes-core/systemd/systemd_262.bb
+@@ -188,6 +188,7 @@ PACKAGECONFIG[seccomp] = "-Dseccomp=enabled,-Dseccomp=disabled,libseccomp"
+ PACKAGECONFIG[selinux] = "-Dselinux=enabled,-Dselinux=disabled,libselinux,initscripts-sushell"
+ PACKAGECONFIG[smack] = "-Dsmack=true,-Dsmack=false"
+ PACKAGECONFIG[sysext] = "-Dsysext=true, -Dsysext=false"
++PACKAGECONFIG[sysinstall] = "-Dsysinstall=true,-Dsysinstall=false"
+ PACKAGECONFIG[sysusers] = "-Dsysusers=true,-Dsysusers=false"
+ # When enabled use reproducible build timestamp if set as time epoch,
+ # or build time if not. When disabled, time epoch is unset.
+@@ -871,6 +872,9 @@ python __anonymous() {
+ 
+     if bb.utils.contains('PACKAGECONFIG', 'homed', True, False, d) and not bb.utils.contains('PACKAGECONFIG', 'userdb openssl cryptsetup', True, False, d):
+         bb.error("PACKAGECONFIG[homed] requires PACKAGECONFIG[userdb], PACKAGECONFIG[openssl] and PACKAGECONFIG[cryptsetup]")
++
++    if bb.utils.contains('PACKAGECONFIG', 'sysinstall', True, False, d) and not bb.utils.contains('PACKAGECONFIG', 'repart', True, False, d):
++        bb.warn("PACKAGECONFIG[sysinstall] may call commands from PACKAGECONFIG[repart]. Consider adding it")
+ }
+ 
+ ALTERNATIVE:${PN} = "halt reboot shutdown poweroff \
 
-Best regards,
---  
-Tan Siewert <tan.siewert@9elements.com>
+-- 
+2.53.0
 
