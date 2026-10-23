@@ -1,1509 +1,6779 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1103.1792734606541525435
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1467.1792737249784678623
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2026 22:50:06 -0700
+ Thu, 22 Oct 2026 23:34:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=S4TInfYM;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qNnYDKGd;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1674f2fc0-7fd53689-cb2a-4a6e-aeab-b5e03c78b75c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1792734605;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UIitsz6AdJ9EamN/9TzqFZ52bFyfbAmCTMEmMCnkg4Q=;
-	b=S4TInfYMABhDHpQaOLL/ELqO8HeiQKyKQOasItxiX1t5ZVWa6SZbH5f+luPNZutA
-	jtqb4EXDzekVuricdR2wbZ33PYnHM4akZfHdfVml3yjzU0SZp3fN7BpUvkd+sknophB
-	/lknzus+Bi6BWduEnaq94HiItYPPUlcD3QUUzF4s=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792734605;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UIitsz6AdJ9EamN/9TzqFZ52bFyfbAmCTMEmMCnkg4Q=;
-	b=qNnYDKGdb1frAp7yygFoTfk77rMfVHND/4SV7qzhsSfm9H+f7cxD0h/V2Gui87RS
-	rAs3IH27VQZJRcUqkt5gwDwoV2jRDWY+1JlroJ+aCpDEmGdepl5WCU7C+JTc8NH7nrT
-	uj/aHgSR+uyOI7LPzhgsNtL7qjYx5eUsQ5wtYvxE=
-Content-Type: multipart/mixed; boundary="===============5422994388723865832=="
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=UTAlfzki;
+ spf=pass (domain: est.tech, ip: 40.107.130.43, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W4tM2jYJaF5imWZsTtkVCOFv2JRoYqhb3gff6ol5o+ZVTwmVcwT5mnu2HM7TzSGXAmIBsMV4H6k/o/NU0FUjYaB1W5E7bosv++c/ZAhYVqSpQfFN62DxgHVISopjrV3B3kl1PYR+2kU7ZYaxr2g6C9xAW4KMSSm8VXE0mccFO71sgDNMQC8IX57j4NDUwGpqEh+3i84rQ1AuG2QX/YdV4DHQulhQcDTeMs0HbUDwWS2l2JOW+tfM+EsPG8+RXNGG4z/eW1gctPMe7Z/0fcTrsShdMcMPnNDdYkHsdWoXtyYlhc9Yw5WrpzVF7CZNb7i7cCHSPBUZWRZ78UbvuBRtsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9x/CRipETM0xAMJH9HZ7JmgQCovEVLYX2CYUXJP+1qc=;
+ b=PrADOduMiCcZ39XmU4WZg0C8UkWkGQgE36402o/kmoYKrcy4VJ5469aKoWttwglma4wBcA/VYrD8Gt+i7UV+jHFCWn3OsdahbUML1Jn/sv251bZdQ4VgYvk8+2S9wfR1mTZo+8nVrHukZsrHmd5uu0j/pauIpE6I0SxZclhYX8+Jufw0hOTV/6LHGNEAuoZcxbgkPPNF1V8YaysNUS5OEUhhzmSGWBXPzYC+w9YlecGrwtOTfU2otZqrIrb2sP8GN/W+W9h/JDpoU7q0nYJb7Zvswhbr8/sB1zmFmZijwGjydCGmiposYkRqorJ0rklaDT717GI5qM4kz0gOlEQG7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9x/CRipETM0xAMJH9HZ7JmgQCovEVLYX2CYUXJP+1qc=;
+ b=UTAlfzkirUoOqcjU8ODS5i6EzeJ7Dqn7yTpUjqX4zbGuGCO1uRQPVOOSzihHugBqH4rRIvo7WWGeDaX1QmMzHG23vYWQXjKFBbjuMPAgVk0yMHYH5yXQg6jNB7iOnssUe5WeZthcjL0x7WyxSsAu14aM/gDsHBdzmC3RPjJnzg4JvdjAbrSAS7Ph7qh8/rpuGR6nUUQObxgBkek0WRgZY4ZAIwxXA8NfWwXIZCWIpHDYXrOnzjVf7KW8a26Pn7rm5OxMmGRDYqPe+KVr2nlCv3VBK+5+ObmLUUv4QKEfivtuqBo0iRvAYR+g4SwHZBcV5sfDfKyygTjwCR3NyfHFVw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by DU0P189MB2225.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3e0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.19; Fri, 23 Oct
+ 2026 06:34:03 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0546.012; Fri, 23 Oct 2026
+ 06:34:02 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] lrzsz: upgrade 0.12.20 -> 0.13.1
+Date: Fri, 23 Oct 2026 08:34:00 +0200
+Message-ID: <20261023063400.39959-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20261021123806.18975-1-jaipaul.cheernam@est.tech>
+References: <20261021123806.18975-1-jaipaul.cheernam@est.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: LO4P265CA0289.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:38f::12) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Kris Gavvala <kris.gavvala@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] strace: upgrading to 7.3 SUCCEEDED
-Message-ID: <010101a1674f2fc0-7fd53689-cb2a-4a6e-aeab-b5e03c78b75c-000000@us-west-2.amazonses.com>
-Date: Fri, 23 Oct 2026 05:50:05 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.23-54.240.27.31
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU0P189MB2225:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9bdf535-0d4e-4f9a-d2ef-08df30cfa0b5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|6133799003|3023799007|10063799003|29003799003|18002099003|22082099003|12006099003|25016099003|13003099007|5023799004|11063799006|261009223027099003|261021123027099003|261022115727099003|261022113327099003|261021135927099003|261021121427099003|261022075727099003|261021133027099003|10067099003|261021130227099003|261022105027099003|56012099006|260925021911599003|260925021311599003|260925022911599003;
+X-Microsoft-Antispam-Message-Info: 0AHFPqXFuu0zP7keJHxhK5H8Nbs/Pg7o6Hwd34pPJtvJVMX/Jlfnb4TIfndO2PdbfLfG0/Q2U8dIfsUyGODchA376qCldpVqo9kWFs483rDMAXAh011ftKEOu+mWvZOCY4X0Ds5bg/OcEdUPT9PvVGYSRJBhlgFXwnziD98Ljs9QBPJXy2SNn3txvSpeyLtU9pqC3Be9Mk+85nWX/nASG3q/XiFvZ9/MUU/suwH2lJiPCPQKy9Wg8MThljJ2UvOVEr0IZvjxssfeq0QC9RyF0qhPtmom8Vmm0LZFvN8kR+CkcdKUaFWwQ5D2ZnvVHlvDBnKBq5F3uAFqLS7iW4L8cvBHz7ZDFG6NDWWCzncUI731jmFcjbt4Du+HdMYcXVyY9xvezo81JnGYxKwOI4PjF0k/nkddd9ifCNYSF/5R/PnFhhxU35sfjELj9kjgDjKFcQP+PbBJUR+ir+CVkoboCw4/hu6NnYg93RdV/YBIpwp5rUOjqJzAzATxcLDpQ8R+dtazk9f990irM9Fu2LFK1otYWFr7TMvncIqmUQIdZAJ/r4HI5M/NSrtc0yFpvP3zVhppXdXKMiTuHdF0D3WZ3NyD0AaEIIjEsC/R8qqPEYA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(6133799003)(3023799007)(10063799003)(29003799003)(18002099003)(22082099003)(12006099003)(25016099003)(13003099007)(5023799004)(11063799006)(261009223027099003)(261021123027099003)(261022115727099003)(261022113327099003)(261021135927099003)(261021121427099003)(261022075727099003)(261021133027099003)(10067099003)(261021130227099003)(261022105027099003)(56012099006)(260925021911599003)(260925021311599003)(260925022911599003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?U0PQ6ui94mqc20pBgXb5CgQ1VDXIxhxL99sYaJe8U5L2wnFFfr4dUVah5Mm8?=
+ =?us-ascii?Q?J+h2gZteQ4Nawc8Hevni2gdQBJgmPMzyxQHVrZ47JrKL05DfUHN+eLzsDBIE?=
+ =?us-ascii?Q?lnncMhEw2PQzq3jBPI3rmTG6KObA9lHO2WfuAkgs/2gYLSLbT4Hq2QCcE/fa?=
+ =?us-ascii?Q?qoVV3NhxFAc5Uzf/794pxWGQfpif+rKV51zHVr6g09Kb4PQhGA7zk767crVX?=
+ =?us-ascii?Q?rTvBC8G1Z6clAGy2iMa26Q7dhJmp7CmPtdidEwohy4g6NgZSpm5sbWY+PsJt?=
+ =?us-ascii?Q?DgIF5gQEzFdCsVuPluH0cwfKsBPB+/iLtsTLaPiekkfWU5hP46/TQ/V0OQ4k?=
+ =?us-ascii?Q?CmNxIMxM9OBosSTNxsVPIa/QNUsj7LCIidDC6KCWBdbBmHteW4vCx7fmTC7u?=
+ =?us-ascii?Q?mI0I7229CKfH9v+yOcYbWODLcYpMY8tsv3oZjeWGczvG47B7zZNMLx9896L2?=
+ =?us-ascii?Q?adaRMy5DxGRd2yK1cIqJhnecdIizad/ZYS1IkyPd83NKwBnBK6NqboWNkmh1?=
+ =?us-ascii?Q?2f3mGt2HY5aATIVFcjDF5ZOAAyZnD7WmwM/8+6TUP9n9+quKU/fuyQaNtMEP?=
+ =?us-ascii?Q?JK3Hyjaj9MbnXsUiYh0Qr/NenV5CsKACHYG9n4s87lf8J00wFA8ubEf7EJ39?=
+ =?us-ascii?Q?UHJjeYKAQF9PhEqAW3+fP4fLNPo9niyZHQ6QEOzsFRngFtnlo6/gs0uN5W5U?=
+ =?us-ascii?Q?2Ujr+aAC0FWqe9voM5/wThMlEpENspxa+8U4+qmJw6slCC8RiL6qZojUvkD2?=
+ =?us-ascii?Q?Z4TpRSIAs5qpLZApDOZ9vWWXNzjxA3yVoWtzKgIZTOyRvr/hWHCgkZLOEB50?=
+ =?us-ascii?Q?VubIDgf+o8e7Qi0TSPzkaVva1zjoa052cLZ/MeuSAvV2nm+C8dcSF48E63QW?=
+ =?us-ascii?Q?XtyyJ9xjFUrG4zZrdxYm3CLdm00S3K9ZUPzTJ254PswGI8KfX0WRdmscTSD/?=
+ =?us-ascii?Q?ymJ5fPwQ5pxruhg6D70tr8zNWIhNUxMM5EQU/W3jH7WStH8Xr5VvCGuK7LFV?=
+ =?us-ascii?Q?BddUPYJsIT7+e0AaIRrKSvxJepzcnCucrFs5xAAUeYELZjF1JhpiwknDqTTO?=
+ =?us-ascii?Q?p73YD5NMvoZ0c6U9RaRQgcXWxc6AFexOQRS9dDZRrF9it4opvUlpmLBlASi9?=
+ =?us-ascii?Q?3aQz/4KeJisgcKtL9WONPkyWsfZHl8zbuYxZn0Hk133D575v8jqfCWCuUR58?=
+ =?us-ascii?Q?Npo794bTHDhNEq/pILfKbWczLVKJdMndYThEp/AhYnzac5/F7HY+tRGa9sg3?=
+ =?us-ascii?Q?XrmlXlw5m/69iaZyv0KvyQ0B0nZOexOZX0lo7I9RYIVIRNCp0eOldxjZTPjb?=
+ =?us-ascii?Q?P8NQyZN197oXDjSbGccWDimnJdmQbMFIxW9iJwhLc6EwKmgueMYPIn7T8b1V?=
+ =?us-ascii?Q?j8W7l1aXHqUC8mLyKob3HlGCEHLybxQ6xRARqdq83EWlrRj5KWsMnYCtXHbo?=
+ =?us-ascii?Q?xjFQuBUNW95qLqxANUKPe+XeTsuy9tIUkZOmAXOmcIPjq6mDPvQm5K46te3h?=
+ =?us-ascii?Q?E1YRQIgh6Hf/JlJYpCFGsxtKH17Kyn5ndyh9/tBoJt6v+FyhGOE1Dk9W0POH?=
+ =?us-ascii?Q?V+F/+lr5FwFPcn0q1tqJBnhk7RlOjYMPWj53ICHznjpQPgW9gFO8R/+69/MT?=
+ =?us-ascii?Q?tWXDiz1bedb+F5ADz7yZBjoqYtgXAMIzUgaMgR70ym0ttjDxrGfAVaMcTRv7?=
+ =?us-ascii?Q?vrJ6CNOGyPqYyQDLCahKcMACHE/NzDSWTDkXOwCZ9kxLidGj3w4AhHqnZi9X?=
+ =?us-ascii?Q?GKhvlruQmg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9bdf535-0d4e-4f9a-d2ef-08df30cfa0b5
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2026 06:34:02.6286
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J9juX7EZmYMV8xIm0ekx71J6Asy8+qEya2AyEl5b1Ha//BrY6rrlZQ18B9zlNZMPK08FijsERjfa4IjyvZTTfWlORYtYJ5Iiff5W6nswKW8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2225
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 05:50:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248483
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2026 06:34:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248484
 
---===============5422994388723865832==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+ChangeLog: https://github.com/UweOhse/lrzsz/blob/release_0.13.1/ChangeLog
 
-Hello,
+Version 0.13.1 - October 2026, Uwe Ohse
+In this release one recently implemented feature (ESC8 - high bit escaping)=
+ was removed
+after Stephen Hurd (of zmtx-zmrx) informed me about its incompatibility.
+A list of known incompatibilities between the 0.12 and the 0.13 series exis=
+ts.
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *strace* to *7.3* has Succeeded.
+NEWS: https://www.ohse.de/uwe/software/lrzsz/NEWS-0.13.0.html
 
-Next steps:
-    - apply the patch: git am 0001-strace-upgrade-7.2-7.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Upstream resumed activity and released 0.13.1, the first release in
+decades. It incorporates equivalents of most of the fixes carried
+locally, so the existing patch stack is dropped:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+- Drop autotools-update/autotools/makefile/lrzsz-check-locale.h patches
+  Upstream reworked the autotools/gettext setup (external gettext,
+  configure.ac, intl/ and ansi2knr removed).
+- Drop cve-2018-10195.patch
+  zsdata() integer overflow is fixed upstream.
+- Drop include/0001-Fix-build-with-GCC-15/K&R-to-ANSI patches
+  Targeted the lib/ tree and K&R prototypes that no longer exist;
+  src/lsyslog.c already carries the added includes.
+- Drop 0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
+  No static archive is built any more, so no host 'ar' is invoked.
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+Also drop the -Wno-error=3Dincompatible-pointer-types workaround as the
+src/tcp.c it covered was removed upstream.
 
-Regards,
-The Upgrade Helper
+Add 0001-Fix-build-with-32-bit-targets-under-Werror.patch
+Submitted upstream as https://github.com/UweOhse/lrzsz/pull/2.
 
--- >8 --
-From 064e6744ab06836ab4095af82ede35dbda186891 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 23 Oct 2026 05:41:11 +0000
-Subject: [PATCH] strace: upgrade 7.2 -> 7.3
+Tested on qemux86-64 and qemux86 (core2-32): both build under
+-Werror -std=3Dc23 and pass package QA, and upstream 'make vcheck' passes
+the zmodem/ymodem/xmodem transfer and traversal/restricted-mode tests.
 
-Prepare for 7.3 release.
-
-Update copyright headers.
-Headers updated automatically using maint/update_copyright_years.sh
-script.
-
-Fix preprocessor indentation.
-Indent the C preprocessor directives to reflect their nesting
-using the following script:
-
-$ cppi -l $(git grep -El '^[[:space:]]*#[[:space:]]*(if|ifdef|ifndef|elif|else|e
-ndif|define|pragma)[[:space:]]' src tests |grep -Ev '\.(in|md|sh|test)$') |while
-read f; do
-cppi < "$f" > "$f".cppi; mv "$f".cppi "$f"
-done
-
-time: decode auxiliary clock IDs.
-Linux kernel commit 9094c72c3d81 ("time: Introduce auxiliary
-POSIX clocks") reserves CLOCK_AUX through CLOCK_AUX_LAST for
-auxiliary clocks.  Decode those IDs in all xlat modes.
-
-Keep the helpers that include <linux/time.h> in separate
-translation units to avoid conflicts with libc time definitions.
-
-Assisted-by: OpenCode:gpt-6-sol
-
-bundled: add linux/time.h from Linux v7.3.
-Auxiliary clock IDs were introduced by Linux kernel commit
-9094c72c3d81 ("time: Introduce auxiliary POSIX clocks").  Bundle
-the UAPI header so CLOCK_AUX and its range are available when the
-host kernel headers predate this change.
-
-time: always decode dynamic clock IDs.
-The dynamic clock decoder is conditional on CLOCKID_TO_FD, which is
-not defined by the UAPI headers, glibc, or musl.  Supply local
-definitions so these IDs are decoded on those systems.  Define
-CPUCLOCK_CLOCK_MASK separately for systems that provide CLOCKID_TO_FD
-but not this mask.
-
-Show the numeric ID alongside its symbolic interpretation because
-the dynamic-clock macros are non-standard.  Mask off the per-thread
-bit when looking up CPU clock names, and avoid nested comments in
-verbose output.  Print the numeric CPU-clock type when unknown.
-
-Suggested-by: Dmitry V. Levin <ldv@strace.io>
-Link: #discussion_r3830577708
-Assisted-by: OpenCode:gpt-6-sol
-
-tests: add dedicated clock ID decoding tests.
-Existing clock syscall tests do not cover every xlat style.  Add a
-focused clock_getres test in abbreviated, raw, and verbose modes so
-later clock ID decoder changes can be checked without duplicating
-the syscall tests.
-
-Keep <linux/time.h> in a separate test compilation unit to avoid
-conflicts with libc time definitions in the test program.
-
-Assisted-by: OpenCode:gpt-6-sol
-
-time: fix compilation of CLOCKID_TO_FD branch.
-Without braces around the FD_TO_CLOCKID branch, its else has no
-matching if, so the decoder cannot compile when CLOCKID_TO_FD
-is defined.  Apparently, this code has never been enabled.
-
-tests: check zero-nstype setns for user namespaces.
-A successful setns(fd, 0) with a user-namespace descriptor must
-report the new user namespace ID under --namespace=new.  Check this
-both with ordinary procfs and with procfs mounted from an ancestor
-PID namespace.
-
-The earlier explicit-nstype test shares the child-created namespace
-and descriptor-passing setup.  Since joining a user namespace cannot
-be undone by joining its ancestor, run the zero-nstype call in its
-own executable instead of following the explicit call.
-
-Assisted-by: OpenCode:gpt-6-sol
-
-setns: decode namespace transitions with zero nstype.
-When nstype is zero, setns derives the namespace type from its fd.
-Read the fd target through the procfs-aware helper, validate its
-type, and report the resulting namespace ID.  Existing PID and time
-namespace handling also applies to this case.
-
-Assisted-by: Antigravity:Gemini-3.5-Flash (commit log)
-Assisted-by: OpenCode:gpt-6-sol
-
-unshare: report PID and time namespaces for future children.
-unshare(CLONE_NEWPID) and unshare(CLONE_NEWTIME) change the
-namespaces for future children, not those of the caller.  Reading
-/proc/<pid>/ns/pid or time after either syscall reports an old ID.
-Read pid_for_children and time_for_children instead.
-
-The pid_for_children link can be empty until the first child enters
-the new PID namespace.  Omit that ID when unavailable rather than
-print an empty field or the caller's old namespace.  Update the
-unshare test to check the child namespace links and their formatting,
-including separate PID and time namespace calls when supported.
-
-Assisted-by: OpenCode:gpt-6-sol
-
-setns: report PID and time namespaces for future children.
-A successful setns into a PID or time namespace changes the
-namespace for future children, not the caller's current namespace.
-Read pid_for_children or time_for_children after the syscall so the
-return annotation reports the new namespace ID.  Test each namespace
-independently so unavailable cases skip rather than silently pass.
-
-Assisted-by: OpenCode:gpt-6-sol
-
-strace: translate procfs PIDs in attach failure diagnostics.
-On an EPERM attach, proc_pid_tracer looked up /proc/<pid>/status
-using the strace-visible target PID.  An inherited procfs mount
-may use an ancestor PID namespace, hiding the real TracerPid or
-reporting an unrelated process.  Resolve the target via get_proc_pid.
-
-The TracerPid value is itself in the procfs PID namespace.  Recover
-its strace-visible PID from NSpid, validating it by translating back
-to the same procfs PID
-
-[Changelog truncated as it exceeds 5000 characters;
-the full changelog can be found in an attachment to the AUH email]
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...gnore-pwritev-pwrite64-tests-on-musl.patch | 62 +++++++++++++++++++
- ...toconf-macro-to-detect-largefile-sup.patch |  4 +-
- ...kport-ax_prog_cc_for_build.m4-macros.patch |  2 +-
- ...001-strace-fix-reproducibilty-issues.patch | 12 ++--
- ...002-tests-Replace-off64_t-with-off_t.patch |  2 +-
- .../strace/strace/Makefile-ptest.patch        |  6 +-
- .../strace/strace/ptest-spacesave.patch       |  6 +-
- .../strace/strace/skip-load.patch             |  2 +-
- .../strace/strace/update-gawk-paths.patch     |  2 +-
- .../strace/{strace_7.2.bb => strace_7.3.bb}   |  2 +-
- 10 files changed, 81 insertions(+), 19 deletions(-)
- create mode 100644 meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
- rename meta/recipes-devtools/strace/{strace_7.2.bb => strace_7.3.bb} (97%)
+Changes Since v1:
+ - Add a patch for 32 bit targets
 
-diff --git a/meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch b/meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
+ .../0001-Fix-build-with-GCC-15.patch          |  186 -
+ ...mpilation-using-autoconf-detected-AR.patch |   36 -
+ ...R-function-definitions-to-ANSI-C-pro.patch |   64 -
+ .../lrzsz-0.12.20/autotools-update.patch      | 5749 -----------------
+ .../lrzsz/lrzsz-0.12.20/autotools.patch       |   39 -
+ .../lrzsz/lrzsz-0.12.20/cve-2018-10195.patch  |   28 -
+ .../lrzsz/lrzsz-0.12.20/include.patch         |   25 -
+ .../lrzsz-0.12.20/lrzsz-check-locale.h.patch  |   32 -
+ .../lrzsz/lrzsz-0.12.20/makefile.patch        |   22 -
+ ...ild-with-32-bit-targets-under-Werror.patch |  121 +
+ .../{lrzsz_0.12.20.bb =3D> lrzsz_0.13.1.bb}     |   18 +-
+ 11 files changed, 123 insertions(+), 6197 deletions(-)
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-build-wit=
+h-GCC-15.patch
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-com=
+pilation-using-autoconf-detected-AR.patch
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-lrzsz-convert=
+-K-R-function-definitions-to-ANSI-C-pro.patch
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.p=
+atch
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools.patch
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/cve-2018-10195.pat=
+ch
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz-check-locale=
+.h.patch
+ delete mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/makefile.patch
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz/0001-Fix-build-with-32-bit=
+-targets-under-Werror.patch
+ rename meta/recipes-bsp/lrzsz/{lrzsz_0.12.20.bb =3D> lrzsz_0.13.1.bb} (55%=
+)
+
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-build-with-GCC-1=
+5.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-build-with-GCC-15.p=
+atch
+deleted file mode 100644
+index e5e9125eea7..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-build-with-GCC-15.patch
++++ /dev/null
+@@ -1,186 +0,0 @@
+-From 3739faa41f60841d5277344b17ddc69e78ed8996 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 22 Mar 2025 22:58:33 -0700
+-Subject: [PATCH] Fix build with GCC 15
+-
+-This is collection of changes needed to get compiling with gcc-15
+-which switched to use C23 as default std.
+-
+-Upstream-Status: Submitted [https://github.com/UweOhse/lrzsz/pull/8]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- lib/error.c        | 2 +-
+- lib/getopt.h       | 2 +-
+- lib/long-options.c | 4 ++--
+- lib/long-options.h | 2 +-
+- lib/xstrtol.c      | 2 --
+- src/lrz.c          | 8 +-------
+- src/lsz.c          | 8 +-------
+- src/tcp.c          | 2 +-
+- src/zglobal.h      | 2 +-
+- src/zreadline.c    | 2 +-
+- 10 files changed, 10 insertions(+), 24 deletions(-)
+-
+-diff --git a/lib/error.c b/lib/error.c
+-index 8f679c7..4632c9c 100644
+---- a/lib/error.c
+-+++ b/lib/error.c
+-@@ -73,7 +73,7 @@ extern char *program_name;
+-=20
+- # if HAVE_STRERROR
+- #  ifndef strerror		/* On some systems, strerror is a macro */
+--char *strerror ();
+-+char *strerror (int);
+- #  endif
+- # else
+- static char *
+-diff --git a/lib/getopt.h b/lib/getopt.h
+-index 4ac33b7..46971cb 100644
+---- a/lib/getopt.h
+-+++ b/lib/getopt.h
+-@@ -101,7 +101,7 @@ struct option
+-    errors, only prototype getopt for the GNU C library.  */
+- extern int getopt (int argc, char *const *argv, const char *shortopts);
+- #else /* not __GNU_LIBRARY__ */
+--extern int getopt ();
+-+extern int getopt (int, char * const [], const char *);
+- #endif /* __GNU_LIBRARY__ */
+- extern int getopt_long (int argc, char *const *argv, const char *shortopt=
+s,
+- 		        const struct option *longopts, int *longind);
+-diff --git a/lib/long-options.c b/lib/long-options.c
+-index 9ee8f66..2c8d267 100644
+---- a/lib/long-options.c
+-+++ b/lib/long-options.c
+-@@ -40,7 +40,7 @@ parse_long_options (argc, argv,version, usage)
+-      int argc;
+-      char **argv;
+-      void (*version)();
+--     void (*usage)();
+-+     void (*usage)(int);
+- {
+-   int c;
+-   int saved_opterr;
+-@@ -61,7 +61,7 @@ parse_long_options (argc, argv,version, usage)
+- 	  (*usage) (0);
+-=20
+- 	case 'v':
+--	  (*version) (0);
+-+	  (*version) ();
+- 	  /* printf ("%s (%s) %s\n", command_name, package, version_string); */
+- 	  exit (0);
+-=20
+-diff --git a/lib/long-options.h b/lib/long-options.h
+-index 14459cd..3fb8fa6 100644
+---- a/lib/long-options.h
+-+++ b/lib/long-options.h
+-@@ -6,5 +6,5 @@
+- #endif
+-=20
+- void parse_long_options __P ((int _argc, char **_argv,=20
+--							  void (*_version) (void),=20
+-+							  void (*_version) (),=20
+- 							  void (*_usage) (int)));
+-diff --git a/lib/xstrtol.c b/lib/xstrtol.c
+-index 8755cf4..0ab337d 100644
+---- a/lib/xstrtol.c
+-+++ b/lib/xstrtol.c
+-@@ -65,8 +65,6 @@ extern int errno;
+- 	}								\
+-       while (0)
+-=20
+--__unsigned long int __strtol ();
+--
+- /* FIXME: comment.  */
+-=20
+- strtol_error
+-diff --git a/src/lrz.c b/src/lrz.c
+-index b3cf1d5..ae3c62d 100644
+---- a/src/lrz.c
+-+++ b/src/lrz.c
+-@@ -41,12 +41,6 @@
+- #include "xstrtoul.h"
+- #include "error.h"
+-=20
+--#ifndef STRICT_PROTOTYPES
+--extern time_t time();
+--extern char *strerror();
+--extern char *strstr();
+--#endif
+--
+- #ifndef HAVE_ERRNO_DECLARATION
+- extern int errno;
+- #endif
+-@@ -191,7 +185,7 @@ int enable_syslog=3DFALSE;
+-=20
+-=20
+- /* called by signal interrupt or terminate to clean things up */
+--RETSIGTYPE
+-+void
+- bibi(int n)
+- {
+- 	if (zmodem_requested)
+-diff --git a/src/lsz.c b/src/lsz.c
+-index e9e4660..69f4fb8 100644
+---- a/src/lsz.c
+-+++ b/src/lsz.c
+-@@ -50,12 +50,6 @@ void *mm_addr=3DNULL;
+- #include "xstrtoul.h"
+- #include "error.h"
+-=20
+--#ifndef STRICT_PROTOTYPES
+--extern time_t time();
+--extern char *strerror();
+--extern char *strstr();
+--#endif
+--
+- #ifndef HAVE_ERRNO_DECLARATION
+- extern int errno;
+- #endif
+-@@ -218,7 +212,7 @@ static int zrqinits_sent=3D0;
+- static int play_with_sigint=3D0;
+-=20
+- /* called by signal interrupt or terminate to clean things up */
+--RETSIGTYPE
+-+void
+- bibi (int n)
+- {
+- 	canit(STDOUT_FILENO);
+-diff --git a/src/tcp.c b/src/tcp.c
+-index 137f94c..a885d5b 100644
+---- a/src/tcp.c
+-+++ b/src/tcp.c
+-@@ -38,7 +38,7 @@
+- #include <stdlib.h>
+- #include "error.h"
+-=20
+--static RETSIGTYPE
+-+static void
+- tcp_alarm_handler(int dummy LRZSZ_ATTRIB_UNUSED)
+- {
+-     /* doesn't need to do anything */
+-diff --git a/src/zglobal.h b/src/zglobal.h
+-index 573b461..55bd58f 100644
+---- a/src/zglobal.h
+-+++ b/src/zglobal.h
+-@@ -357,7 +357,7 @@ extern int no_timeout;
+- extern int Zctlesc;    /* Encode control characters */
+- extern int under_rsh;
+-=20
+--RETSIGTYPE bibi __P ((int n));
+-+void bibi __P ((int n));
+-=20
+- #define sendline(c) putchar((c) & 0377)
+- #define xsendline(c) putchar(c)
+-diff --git a/src/zreadline.c b/src/zreadline.c
+-index aeda95c..c8f8263 100644
+---- a/src/zreadline.c
+-+++ b/src/zreadline.c
+-@@ -43,7 +43,7 @@ static char *readline_buffer;
+- int readline_left=3D0;
+- char *readline_ptr;
+-=20
+--static RETSIGTYPE
+-+static void
+- zreadline_alarm_handler(int dummy LRZSZ_ATTRIB_UNUSED)
+- {
+- 	/* doesn't need to do anything */
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilatio=
+n-using-autoconf-detected-AR.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0=
+001-Fix-cross-compilation-using-autoconf-detected-AR.patch
+deleted file mode 100644
+index c8f0e2c4fe4..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using=
+-autoconf-detected-AR.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From ecdcf0df6c28c65ca6d1e5638726e13e373c76c5 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 11 Nov 2020 22:58:55 -0800
+-Subject: [PATCH] Fix cross compilation using autoconf detected AR
+-
+-currently its using 'ar' program from build host, which is not expected,
+-we need to respect AR passed in environment
+-
+-Upstream-Status: Inappropriate [upstream hasn't been active since 1998]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure.in | 7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+-diff --git a/configure.in b/configure.in
+-index 4ddbe8b..b7c3c31 100644
+---- a/configure.in
+-+++ b/configure.in
+-@@ -84,6 +84,13 @@ AC_ARG_ENABLE(syslog,
+- 	  ])
+-=20
+- dnl Checks for programs.
+-+m4_ifndef([AC_PROG_AR],[dnl
+-+  AN_MAKEVAR([AR], [AC_PROG_AR])
+-+  AN_PROGRAM([ar], [AC_PROG_AR])
+-+  AC_DEFUN([AC_PROG_AR],
+-+  [AC_CHECK_TOOL(AR, ar, :)])
+-+])
+-+AC_PROG_AR
+- AC_PROG_CC
+- AC_PROG_GCC_TRADITIONAL
+- dnl AC_PROG_INSTALL  included in AM_INIT_AUTOMAKE
+---=20
+-2.29.2
+-
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-lrzsz-convert-K-R-fu=
+nction-definitions-to-ANSI-C-pro.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.=
+20/0001-lrzsz-convert-K-R-function-definitions-to-ANSI-C-pro.patch
+deleted file mode 100644
+index afffc00bbd6..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-lrzsz-convert-K-R-function-=
+definitions-to-ANSI-C-pro.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From bec790ecc4618b67604668601f84fa896476572c Mon Sep 17 00:00:00 2001
+-From: Khem Raj <khem.raj@oss.qualcomm.com>
+-Date: Wed, 1 Apr 2026 13:53:42 -0700
+-Subject: [PATCH] lrzsz: convert K&R function definitions to ANSI C prototy=
+pes
+-
+-clang-22 with -std=3Dgnu23 fails to build lrzsz because lib/long-options.c=
+ and
+-lib/xstrtol.c still use old K&R-style function definitions, which
+-newer toolchains reject.
+-
+-Rewrite parse_long_options() and __xstrtol() using standard prototype
+-syntax so the sources compile cleanly with modern compilers.
+-
+-Upstream-Status: Submitted [https://github.com/UweOhse/lrzsz/pull/10]
+-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+----
+- lib/long-options.c | 11 ++++++-----
+- lib/xstrtol.c      | 12 ++++++------
+- 2 files changed, 12 insertions(+), 11 deletions(-)
+-
+-diff --git a/lib/long-options.c b/lib/long-options.c
+-index 2c8d267..71d0e65 100644
+---- a/lib/long-options.c
+-+++ b/lib/long-options.c
+-@@ -36,11 +36,12 @@ static struct option const long_options[] =3D
+- /* Process long options --help and --version, but only if argc =3D=3D 2.
+-    Be careful not to gobble up `--'.  */
+- void
+--parse_long_options (argc, argv,version, usage)
+--     int argc;
+--     char **argv;
+--     void (*version)();
+--     void (*usage)(int);
+-+parse_long_options (
+-+     int argc,
+-+     char **argv,
+-+     void (*version)(),
+-+     void (*usage)(int)
+-+)
+- {
+-   int c;
+-   int saved_opterr;
+-diff --git a/lib/xstrtol.c b/lib/xstrtol.c
+-index 0ab337d..a34e23b 100644
+---- a/lib/xstrtol.c
+-+++ b/lib/xstrtol.c
+-@@ -68,12 +68,12 @@ extern int errno;
+- /* FIXME: comment.  */
+-=20
+- strtol_error
+--__xstrtol (s, ptr, base, val, valid_suffixes)
+--     const char *s;
+--     char **ptr;
+--     int base;
+--     __unsigned long int *val;
+--     const char *valid_suffixes;
+-+__xstrtol (
+-+     const char *s,
+-+     char **ptr,
+-+     int base,
+-+     __unsigned long int *val,
+-+     const char *valid_suffixes)
+- {
+-   char *t_ptr;
+-   char **p;
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch b/=
+meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch
+deleted file mode 100644
+index ebd4a880818..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools-update.patch
++++ /dev/null
+@@ -1,5749 +0,0 @@
+-Update autotools infrastructure (including gettext) to modern versions.
+-
+-Upstream-Status: Inappropriate [upstream hasn't been active since 1998]
+-Signed-off-by: Phil Blundell <pb@pbcl.net>
+-
+-diff -uprN clean/lrzsz-0.12.20/configure.in lrzsz-0.12.20/configure.in
+---- clean/lrzsz-0.12.20/configure.in	1998-12-30 07:50:07.000000000 +0000
+-+++ lrzsz-0.12.20/configure.in	2019-11-25 16:22:37.000000000 +0000
+-@@ -92,7 +92,6 @@ AC_PROG_RANLIB
+- AC_ISC_POSIX
+- AC_AIX
+- AC_MINIX
+--AM_C_PROTOTYPES
+- AC_C_CONST
+- AC_C_INLINE
+-=20
+-@@ -253,18 +252,13 @@ ihave$lookup_facility
+- fi
+-=20
+-=20
+--AC_SUBST(CFLAGS)
+--AC_SUBST(LDFLAGS)
+- AC_SUBST(LIBS)
+-=20
+--AM_GNU_GETTEXT
+-+AM_GNU_GETTEXT([external])
+-=20
+--AC_DEFINE_UNQUOTED(LOCALEDIR,"$prefix/$DATADIRNAME")
+--AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
+--
+--AC_OUTPUT([Makefile intl/Makefile lib/Makefile testsuite/Makefile \
+-+AC_OUTPUT([Makefile lib/Makefile testsuite/Makefile \
+- man/Makefile po/Makefile.in src/Makefile debian/rules Specfile systype \
+- src/lrzszbug],
+--[sed -e "/POTFILES =3D/r po/POTFILES" po/Makefile.in > po/Makefile;=20
+-+[
+- chmod +x debian/rules;
+- test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h])
+-diff -uprN clean/lrzsz-0.12.20/intl/bindtextdom.c lrzsz-0.12.20/intl/bindt=
+extdom.c
+---- clean/lrzsz-0.12.20/intl/bindtextdom.c	1998-04-26 14:22:36.000000000 +=
+0100
+-+++ lrzsz-0.12.20/intl/bindtextdom.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,199 +0,0 @@
+--/* Implementation of the bindtextdomain(3) function
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#if defined STDC_HEADERS || defined _LIBC
+--# include <stdlib.h>
+--#else
+--# ifdef HAVE_MALLOC_H
+--#  include <malloc.h>
+--# else
+--void free ();
+--# endif
+--#endif
+--
+--#if defined HAVE_STRING_H || defined _LIBC
+--# include <string.h>
+--#else
+--# include <strings.h>
+--# ifndef memcpy
+--#  define memcpy(Dst, Src, Num) bcopy (Src, Dst, Num)
+--# endif
+--#endif
+--
+--#ifdef _LIBC
+--# include <libintl.h>
+--#else
+--# include "libgettext.h"
+--#endif
+--#include "gettext.h"
+--#include "gettextP.h"
+--
+--/* @@ end of prolog @@ */
+--
+--/* Contains the default location of the message catalogs.  */
+--extern const char _nl_default_dirname[];
+--
+--/* List with bindings of specific domains.  */
+--extern struct binding *_nl_domain_bindings;
+--
+--
+--/* Names for the libintl functions are a problem.  They must not clash
+--   with existing names and they should follow ANSI C.  But this source
+--   code is also used in GNU C Library where the names have a __
+--   prefix.  So we have to make a difference here.  */
+--#ifdef _LIBC
+--# define BINDTEXTDOMAIN __bindtextdomain
+--# define strdup(str) __strdup (str)
+--#else
+--# define BINDTEXTDOMAIN bindtextdomain__
+--#endif
+--
+--/* Specify that the DOMAINNAME message catalog will be found
+--   in DIRNAME rather than in the system locale data base.  */
+--char *
+--BINDTEXTDOMAIN (domainname, dirname)
+--     const char *domainname;
+--     const char *dirname;
+--{
+--  struct binding *binding;
+--
+--  /* Some sanity checks.  */
+--  if (domainname =3D=3D NULL || domainname[0] =3D=3D '\0')
+--    return NULL;
+--
+--  for (binding =3D _nl_domain_bindings; binding !=3D NULL; binding =3D bi=
+nding->next)
+--    {
+--      int compare =3D strcmp (domainname, binding->domainname);
+--      if (compare =3D=3D 0)
+--	/* We found it!  */
+--	break;
+--      if (compare < 0)
+--	{
+--	  /* It is not in the list.  */
+--	  binding =3D NULL;
+--	  break;
+--	}
+--    }
+--
+--  if (dirname =3D=3D NULL)
+--    /* The current binding has be to returned.  */
+--    return binding =3D=3D NULL ? (char *) _nl_default_dirname : binding->=
+dirname;
+--
+--  if (binding !=3D NULL)
+--    {
+--      /* The domain is already bound.  If the new value and the old
+--	 one are equal we simply do nothing.  Otherwise replace the
+--	 old binding.  */
+--      if (strcmp (dirname, binding->dirname) !=3D 0)
+--	{
+--	  char *new_dirname;
+--
+--	  if (strcmp (dirname, _nl_default_dirname) =3D=3D 0)
+--	    new_dirname =3D (char *) _nl_default_dirname;
+--	  else
+--	    {
+--#if defined _LIBC || defined HAVE_STRDUP
+--	      new_dirname =3D strdup (dirname);
+--	      if (new_dirname =3D=3D NULL)
+--		return NULL;
+--#else
+--	      size_t len =3D strlen (dirname) + 1;
+--	      new_dirname =3D (char *) malloc (len);
+--	      if (new_dirname =3D=3D NULL)
+--		return NULL;
+--
+--	      memcpy (new_dirname, dirname, len);
+--#endif
+--	    }
+--
+--	  if (binding->dirname !=3D _nl_default_dirname)
+--	    free (binding->dirname);
+--
+--	  binding->dirname =3D new_dirname;
+--	}
+--    }
+--  else
+--    {
+--      /* We have to create a new binding.  */
+--      size_t len;
+--      struct binding *new_binding =3D
+--	(struct binding *) malloc (sizeof (*new_binding));
+--
+--      if (new_binding =3D=3D NULL)
+--	return NULL;
+--
+--#if defined _LIBC || defined HAVE_STRDUP
+--      new_binding->domainname =3D strdup (domainname);
+--      if (new_binding->domainname =3D=3D NULL)
+--	return NULL;
+--#else
+--      len =3D strlen (domainname) + 1;
+--      new_binding->domainname =3D (char *) malloc (len);
+--      if (new_binding->domainname =3D=3D NULL)
+--	return NULL;
+--      memcpy (new_binding->domainname, domainname, len);
+--#endif
+--
+--      if (strcmp (dirname, _nl_default_dirname) =3D=3D 0)
+--	new_binding->dirname =3D (char *) _nl_default_dirname;
+--      else
+--	{
+--#if defined _LIBC || defined HAVE_STRDUP
+--	  new_binding->dirname =3D strdup (dirname);
+--	  if (new_binding->dirname =3D=3D NULL)
+--	    return NULL;
+--#else
+--	  len =3D strlen (dirname) + 1;
+--	  new_binding->dirname =3D (char *) malloc (len);
+--	  if (new_binding->dirname =3D=3D NULL)
+--	    return NULL;
+--	  memcpy (new_binding->dirname, dirname, len);
+--#endif
+--	}
+--
+--      /* Now enqueue it.  */
+--      if (_nl_domain_bindings =3D=3D NULL
+--	  || strcmp (domainname, _nl_domain_bindings->domainname) < 0)
+--	{
+--	  new_binding->next =3D _nl_domain_bindings;
+--	  _nl_domain_bindings =3D new_binding;
+--	}
+--      else
+--	{
+--	  binding =3D _nl_domain_bindings;
+--	  while (binding->next !=3D NULL
+--		 && strcmp (domainname, binding->next->domainname) > 0)
+--	    binding =3D binding->next;
+--
+--	  new_binding->next =3D binding->next;
+--	  binding->next =3D new_binding;
+--	}
+--
+--      binding =3D new_binding;
+--    }
+--
+--  return binding->dirname;
+--}
+--
+--#ifdef _LIBC
+--/* Alias for function name in GNU C Library.  */
+--weak_alias (__bindtextdomain, bindtextdomain);
+--#endif
+-diff -uprN clean/lrzsz-0.12.20/intl/cat-compat.c lrzsz-0.12.20/intl/cat-co=
+mpat.c
+---- clean/lrzsz-0.12.20/intl/cat-compat.c	1998-04-26 14:22:37.000000000 +0=
+100
+-+++ lrzsz-0.12.20/intl/cat-compat.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,262 +0,0 @@
+--/* Compatibility code for gettext-using-catgets interface.
+--   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#include <stdio.h>
+--
+--#ifdef STDC_HEADERS
+--# include <stdlib.h>
+--# include <string.h>
+--#else
+--char *getenv ();
+--# ifdef HAVE_MALLOC_H
+--#  include <malloc.h>
+--# endif
+--#endif
+--
+--#ifdef HAVE_NL_TYPES_H
+--# include <nl_types.h>
+--#endif
+--
+--#include "libgettext.h"
+--
+--/* @@ end of prolog @@ */
+--
+--/* XPG3 defines the result of `setlocale (category, NULL)' as:
+--   ``Directs `setlocale()' to query `category' and return the current
+--     setting of `local'.''
+--   However it does not specify the exact format.  And even worse: POSIX
+--   defines this not at all.  So we can use this feature only on selected
+--   system (e.g. those using GNU C Library).  */
+--#ifdef _LIBC
+--# define HAVE_LOCALE_NULL
+--#endif
+--
+--/* The catalog descriptor.  */
+--static nl_catd catalog =3D (nl_catd) -1;
+--
+--/* Name of the default catalog.  */
+--static const char default_catalog_name[] =3D "messages";
+--
+--/* Name of currently used catalog.  */
+--static const char *catalog_name =3D default_catalog_name;
+--
+--/* Get ID for given string.  If not found return -1.  */
+--static int msg_to_cat_id PARAMS ((const char *msg));
+--
+--/* Substitution for systems lacking this function in their C library.  */
+--#if !_LIBC && !HAVE_STPCPY
+--static char *stpcpy PARAMS ((char *dest, const char *src));
+--#endif
+--
+--
+--/* Set currently used domain/catalog.  */
+--char *
+--textdomain (domainname)
+--     const char *domainname;
+--{
+--  nl_catd new_catalog;
+--  char *new_name;
+--  size_t new_name_len;
+--  char *lang;
+--
+--#if defined HAVE_SETLOCALE && defined HAVE_LC_MESSAGES \
+--    && defined HAVE_LOCALE_NULL
+--  lang =3D setlocale (LC_MESSAGES, NULL);
+--#else
+--  lang =3D getenv ("LC_ALL");
+--  if (lang =3D=3D NULL || lang[0] =3D=3D '\0')
+--    {
+--      lang =3D getenv ("LC_MESSAGES");
+--      if (lang =3D=3D NULL || lang[0] =3D=3D '\0')
+--	lang =3D getenv ("LANG");
+--    }
+--#endif
+--  if (lang =3D=3D NULL || lang[0] =3D=3D '\0')
+--    lang =3D "C";
+--
+--  /* See whether name of currently used domain is asked.  */
+--  if (domainname =3D=3D NULL)
+--    return (char *) catalog_name;
+--
+--  if (domainname[0] =3D=3D '\0')
+--    domainname =3D default_catalog_name;
+--
+--  /* Compute length of added path element.  */
+--  new_name_len =3D sizeof (LOCALEDIR) - 1 + 1 + strlen (lang)
+--		 + sizeof ("/LC_MESSAGES/") - 1 + sizeof (PACKAGE) - 1
+--		 + sizeof (".cat");
+--
+--  new_name =3D (char *) malloc (new_name_len);
+--  if (new_name =3D=3D NULL)
+--    return NULL;
+--
+--  strcpy (new_name, PACKAGE);
+--  new_catalog =3D catopen (new_name, 0);
+--
+--  if (new_catalog =3D=3D (nl_catd) -1)
+--    {
+--      /* NLSPATH search didn't work, try absolute path */
+--      sprintf (new_name, "%s/%s/LC_MESSAGES/%s.cat", LOCALEDIR, lang,
+--	       PACKAGE);
+--      new_catalog =3D catopen (new_name, 0);
+--
+--      if (new_catalog =3D=3D (nl_catd) -1)
+--	{
+--	  free (new_name);
+--	  return (char *) catalog_name;
+--	}
+--    }
+--
+--  /* Close old catalog.  */
+--  if (catalog !=3D (nl_catd) -1)
+--    catclose (catalog);
+--  if (catalog_name !=3D default_catalog_name)
+--    free ((char *) catalog_name);
+--
+--  catalog =3D new_catalog;
+--  catalog_name =3D new_name;
+--
+--  return (char *) catalog_name;
+--}
+--
+--char *
+--bindtextdomain (domainname, dirname)
+--     const char *domainname;
+--     const char *dirname;
+--{
+--#if HAVE_SETENV || HAVE_PUTENV
+--  char *old_val, *new_val, *cp;
+--  size_t new_val_len;
+--
+--  /* This does not make much sense here but to be compatible do it.  */
+--  if (domainname =3D=3D NULL)
+--    return NULL;
+--
+--  /* Compute length of added path element.  If we use setenv we don't nee=
+d
+--     the first byts for NLSPATH=3D, but why complicate the code for this
+--     peanuts.  */
+--  new_val_len =3D sizeof ("NLSPATH=3D") - 1 + strlen (dirname)
+--		+ sizeof ("/%L/LC_MESSAGES/%N.cat");
+--
+--  old_val =3D getenv ("NLSPATH");
+--  if (old_val =3D=3D NULL || old_val[0] =3D=3D '\0')
+--    {
+--      old_val =3D NULL;
+--      new_val_len +=3D 1 + sizeof (LOCALEDIR) - 1
+--	             + sizeof ("/%L/LC_MESSAGES/%N.cat");
+--    }
+--  else
+--    new_val_len +=3D strlen (old_val);
+--
+--  new_val =3D (char *) malloc (new_val_len);
+--  if (new_val =3D=3D NULL)
+--    return NULL;
+--
+--# if HAVE_SETENV
+--  cp =3D new_val;
+--# else
+--  cp =3D stpcpy (new_val, "NLSPATH=3D");
+--# endif
+--
+--  cp =3D stpcpy (cp, dirname);
+--  cp =3D stpcpy (cp, "/%L/LC_MESSAGES/%N.cat:");
+--
+--  if (old_val =3D=3D NULL)
+--    {
+--# if __STDC__
+--      stpcpy (cp, LOCALEDIR "/%L/LC_MESSAGES/%N.cat");
+--# else
+--
+--      cp =3D stpcpy (cp, LOCALEDIR);
+--      stpcpy (cp, "/%L/LC_MESSAGES/%N.cat");
+--# endif
+--    }
+--  else
+--    stpcpy (cp, old_val);
+--
+--# if HAVE_SETENV
+--  setenv ("NLSPATH", new_val, 1);
+--  free (new_val);
+--# else
+--  putenv (new_val);
+--  /* Do *not* free the environment entry we just entered.  It is used
+--     from now on.   */
+--# endif
+--
+--#endif
+--
+--  return (char *) domainname;
+--}
+--
+--#undef gettext
+--char *
+--gettext (msg)
+--     const char *msg;
+--{
+--  int msgid;
+--
+--  if (msg =3D=3D NULL || catalog =3D=3D (nl_catd) -1)
+--    return (char *) msg;
+--
+--  /* Get the message from the catalog.  We always use set number 1.
+--     The message ID is computed by the function `msg_to_cat_id'
+--     which works on the table generated by `po-to-tbl'.  */
+--  msgid =3D msg_to_cat_id (msg);
+--  if (msgid =3D=3D -1)
+--    return (char *) msg;
+--
+--  return catgets (catalog, 1, msgid, (char *) msg);
+--}
+--
+--/* Look through the table `_msg_tbl' which has `_msg_tbl_length' entries
+--   for the one equal to msg.  If it is found return the ID.  In case when
+--   the string is not found return -1.  */
+--static int
+--msg_to_cat_id (msg)
+--     const char *msg;
+--{
+--  int cnt;
+--
+--  for (cnt =3D 0; cnt < _msg_tbl_length; ++cnt)
+--    if (strcmp (msg, _msg_tbl[cnt]._msg) =3D=3D 0)
+--      return _msg_tbl[cnt]._msg_number;
+--
+--  return -1;
+--}
+--
+--
+--/* @@ begin of epilog @@ */
+--
+--/* We don't want libintl.a to depend on any other library.  So we
+--   avoid the non-standard function stpcpy.  In GNU C Library this
+--   function is available, though.  Also allow the symbol HAVE_STPCPY
+--   to be defined.  */
+--#if !_LIBC && !HAVE_STPCPY
+--static char *
+--stpcpy (dest, src)
+--     char *dest;
+--     const char *src;
+--{
+--  while ((*dest++ =3D *src++) !=3D '\0')
+--    /* Do nothing. */ ;
+--  return dest - 1;
+--}
+--#endif
+-diff -uprN clean/lrzsz-0.12.20/intl/ChangeLog lrzsz-0.12.20/intl/ChangeLog
+---- clean/lrzsz-0.12.20/intl/ChangeLog	1998-04-26 14:22:35.000000000 +0100
+-+++ lrzsz-0.12.20/intl/ChangeLog	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,1022 +0,0 @@
+--1997-09-06 02:10  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* intlh.inst.in: Reformat copyright.
+--
+--1997-08-19 15:22  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* dcgettext.c (DCGETTEXT): Remove wrong comment.
+--
+--1997-08-16 00:13  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* Makefile.in (install-data): Don't change directory to install.
+--
+--1997-08-01 14:30  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* cat-compat.c: Fix copyright.
+--
+--	* localealias.c: Don't define strchr unless !HAVE_STRCHR.
+--
+--	* loadmsgcat.c: Update copyright.  Fix typos.
+--
+--	* l10nflist.c: Don't define strchr unless !HAVE_STRCHR.
+--	(_nl_make_l10nflist): Handle sponsor and revision correctly.
+--
+--	* gettext.c: Update copyright.
+--	* gettext.h: Likewise.
+--	* hash-string.h: Likewise.
+--
+--	* finddomain.c: Remoave dead code.  Define strchr only if
+--	!HAVE_STRCHR.
+--
+--	* explodename.c: Include <sys/types.h>.
+--
+--	* explodename.c: Reformat copyright text.
+--	(_nl_explode_name): Fix typo.
+--
+--	* dcgettext.c: Define and use __set_errno.
+--	(guess_category_value): Don't use setlocale if HAVE_LC_MESSAGES is
+--	not defined.
+--
+--	* bindtextdom.c: Pretty printing.
+--
+--1997-05-01 02:25  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* dcgettext.c (guess_category_value): Don't depend on
+--	HAVE_LC_MESSAGES.  We don't need the macro here.
+--	Patch by Bruno Haible <haible@ilog.fr>.
+--
+--	* cat-compat.c (textdomain): DoN't refer to HAVE_SETLOCALE_NULL
+--	macro.  Instead use HAVE_LOCALE_NULL and define it when using
+--	glibc, as in dcgettext.c.
+--	Patch by Bruno Haible <haible@ilog.fr>.
+--
+--	* Makefile.in (CPPFLAGS): New variable.  Reported by Franc,ois
+--	Pinard.
+--
+--Mon Mar 10 06:51:17 1997  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* Makefile.in: Implement handling of libtool.
+--
+--	* gettextP.h: Change data structures for use of generic lowlevel
+--	i18n file handling.
+--
+--Wed Dec  4 20:21:18 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* textdomain.c: Put parentheses around arguments of memcpy macro
+--	definition.
+--	* localealias.c: Likewise.
+--	* l10nflist.c: Likewise.
+--	* finddomain.c: Likewise.
+--	* bindtextdom.c: Likewise.
+--	Reported by Thomas Esken.
+--
+--Mon Nov 25 22:57:51 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* textdomain.c: Move definition of `memcpy` macro to right
+--	position.
+--
+--Fri Nov 22 04:01:58 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* finddomain.c [!HAVE_STRING_H && !_LIBC]: Define memcpy using
+-- 	bcopy if not already defined.  Reported by Thomas Esken.
+--	* bindtextdom.c: Likewise.
+--	* l10nflist.c: Likewise.
+--	* localealias.c: Likewise.
+--	* textdomain.c: Likewise.
+--
+--Tue Oct 29 11:10:27 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* Makefile.in (libdir): Change to use exec_prefix instead of
+-- 	prefix.  Reported by Knut-H=EF=BF=BDvardAksnes <etokna@eto.ericsson.se>=
+.
+--
+--Sat Aug 31 03:07:09 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* l10nflist.c (_nl_normalize_codeset): We convert to lower case,
+--	so don't prepend uppercase `ISO' for only numeric arg.
+--
+--Fri Jul 19 00:15:46 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* l10nflist.c: Move inclusion of argz.h, ctype.h, stdlib.h after
+--	definition of _GNU_SOURCE.  Patch by Roland McGrath.
+--
+--	* Makefile.in (uninstall): Fix another bug with `for' loop and
+--	empty arguments.  Patch by Jim Meyering.  Correct name os
+--	uninstalled files: no intl- prefix anymore.
+--
+--	* Makefile.in (install-data): Again work around shells which
+--	cannot handle mpty for list.  Reported by Jim Meyering.
+--
+--Sat Jul 13 18:11:35 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* Makefile.in (install): Split goal.  Now depend on install-exec
+--        and install-data.
+--	(install-exec, install-data): New goals.  Created from former
+--	install goal.
+--	Reported by Karl Berry.
+--
+--Sat Jun 22 04:58:14 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* Makefile.in (MKINSTALLDIRS): New variable.  Path to
+--        mkinstalldirs script.
+--	(install): use MKINSTALLDIRS variable or if the script is not present
+--	try to find it in the $top_scrdir).
+--
+--Wed Jun 19 02:56:56 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* l10nflist.c: Linux libc *partly* includes the argz_* functions.
+--	Grr.  Work around by renaming the static version and use macros
+--	for renaming.
+--
+--Tue Jun 18 20:11:17 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* l10nflist.c: Correct presence test macros of __argz_* functions.
+--
+--	* l10nflist.c: Include <argz.h> based on test of it instead when
+--	__argz_* functions are available.
+--	Reported by Andreas Schwab.
+--
+--Thu Jun 13 15:17:44 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* explodename.c, l10nflist.c: Define NULL for dumb systems.
+--
+--Tue Jun 11 17:05:13 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* intlh.inst.in, libgettext.h (dcgettext): Rename local variable
+--	result to __result to prevent name clash.
+--
+--	* l10nflist.c, localealias.c, dcgettext.c: Define _GNU_SOURCE to
+--        get prototype for stpcpy and strcasecmp.
+--
+--	* intlh.inst.in, libgettext.h: Move declaration of
+--	`_nl_msg_cat_cntr' outside __extension__ block to prevent warning
+--	from gcc's -Wnested-extern option.
+--
+--Fri Jun  7 01:58:00 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* Makefile.in (install): Remove comment.
+--
+--Thu Jun  6 17:28:17 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* Makefile.in (install): Work around for another Buglix stupidity.
+--	Always use an `else' close for `if's.  Reported by Nelson Beebe.
+--
+--	* Makefile.in (intlh.inst): Correct typo in phony rule.
+--	Reported by Nelson Beebe.
+--
+--Thu Jun  6 01:49:52 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* dcgettext.c (read_alias_file): Rename variable alloca_list to
+--	block_list as the macro calls assume.
+--	Patch by Eric Backus.
+--
+--	* localealias.c [!HAVE_ALLOCA]: Define alloca as macro using
+--        malloc.
+--	(read_alias_file): Rename varriabe alloca_list to block_list as the
+--	macro calls assume.
+--	Patch by Eric Backus.
+--
+--	* l10nflist.c: Correct conditional for <argz.h> inclusion.
+--	Reported by Roland McGrath.
+--
+--	* Makefile.in (all): Depend on all-@USE_INCLUDED_LIBINTL@, not
+--        all-@USE_NLS@.
+--
+--	* Makefile.in (install): intlh.inst comes from local dir, not
+--        $(srcdir).
+--
+--	* Makefile.in (intlh.inst): Special handling of this goal.  If
+--	used in gettext, this is really a rul to construct this file.  If
+--	used in any other package it is defined as a .PHONY rule with
+--	empty body.
+--
+--	* finddomain.c: Extract locale file information handling into
+--	l10nfile.c.  Rename local stpcpy__ function to stpcpy.
+--
+--	* dcgettext.c (stpcpy): Add local definition.
+--
+--	* l10nflist.c: Solve some portability problems.  Patches partly by
+--	Thomas Esken.  Add local definition of stpcpy.
+--
+--Tue Jun  4 02:47:49 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* intlh.inst.in: Don't depend including <locale.h> on
+--	HAVE_LOCALE_H.  Instead configure must rewrite this fiile
+--	depending on the result of the configure run.
+--
+--	* Makefile.in (install): libintl.inst is now called intlh.inst.
+--	Add rules for updating intlh.inst from intlh.inst.in.
+--
+--	* libintl.inst: Renamed to intlh.inst.in.
+--
+--	* localealias.c, dcgettext.c [__GNUC__]: Define HAVE_ALLOCA to 1
+--        because gcc has __buitlin_alloca.
+--	Reported by Roland McGrath.
+--
+--Mon Jun  3 00:32:16 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* Makefile.in (installcheck): New goal to fulfill needs of
+--        automake's distcheck.
+--
+--	* Makefile.in (install): Reorder commands so that VERSION is
+--        found.
+--
+--	* Makefile.in (gettextsrcdir): Now use subdirectory intl/ in
+--        @datadir@/gettext.
+--	(COMSRCS): Add l10nfile.c.
+--	(OBJECTS): Add l10nfile.o.
+--	(DISTFILES): Rename to DISTFILE.normal.  Remove $(DISTFILES.common).
+--	(DISTFILE.gettext): Remove $(DISTFILES.common).
+--	(all-gettext): Remove goal.
+--	(install): If $(PACKAGE) =3D gettext install, otherwose do nothing.  No
+--	package but gettext itself should install libintl.h + headers.
+--	(dist): Extend goal to work for gettext, too.
+--	(dist-gettext): Remove goal.
+--
+--	* dcgettext.c [!HAVE_ALLOCA]: Define macro alloca by using malloc.
+--
+--Sun Jun  2 17:33:06 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* loadmsgcat.c (_nl_load_domain): Parameter is now comes from
+--        find_l10nfile.
+--
+--Sat Jun  1 02:23:03 1996  Ulrich Drepper  <drepper@cygnus.com>
+--
+--	* l10nflist.c (__argz_next): Add definition.
+--
+--	* dcgettext.c [!HAVE_ALLOCA]: Add code for handling missing alloca
+--	code.  Use new l10nfile handling.
+--
+--	* localealias.c [!HAVE_ALLOCA]: Add code for handling missing
+--        alloca code.
+--
+--	* l10nflist.c: Initial revision.
+--
+--Tue Apr  2 18:51:18 1996  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (all-gettext): New goal.  Same as all-yes.
+--
+--Thu Mar 28 23:01:22 1996  Karl Eichwalder  <ke@ke.central.de>
+--
+--	* Makefile.in (gettextsrcdir): Define using @datadir@.
+--
+--Tue Mar 26 12:39:14 1996  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c: Include <ctype.h>.  Reported by Roland McGrath.
+--
+--Sat Mar 23 02:00:35 1996  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c (stpcpy): Rename to stpcpy__ to prevent clashing
+--        with external declaration.
+--
+--Sat Mar  2 00:47:09 1996  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (all-no): Rename from all_no.
+--
+--Sat Feb 17 00:25:59 1996  Ulrich Drepper  <drepper@myware>
+--
+--	* gettextP.h [loaded_domain]: Array `successor' must now contain up
+--        to 63 elements (because of codeset name normalization).
+--
+--	* finddomain.c: Implement codeset name normalization.
+--
+--Thu Feb 15 04:39:09 1996  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (all): Define to `all-@USE_NLS@'.
+--	(all-yes, all_no): New goals.  `all-no' is noop, `all-yes'
+--	is former all.
+--
+--Mon Jan 15 21:46:01 1996  Howard Gayle  <howard@hal.com>
+--
+--	* localealias.c (alias_compare): Increment string pointers in loop
+--        of strcasecmp replacement.
+--
+--Fri Dec 29 21:16:34 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (install-src): Who commented this goal out ? :-)
+--
+--Fri Dec 29 15:08:16 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* dcgettext.c (DCGETTEXT): Save `errno'.  Failing system calls
+--	should not effect it because a missing catalog is no error.
+--	Reported by Harald K<o:>nig <koenig@tat.physik.uni-tuebingen.de>.
+--
+--Tue Dec 19 22:09:13 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (Makefile): Explicitly use $(SHELL) for running
+--        shell scripts.
+--
+--Fri Dec 15 17:34:59 1995  Andreas Schwab  <schwab@issan.informatik.uni-do=
+rtmund.de>
+--
+--	* Makefile.in (install-src): Only install library and header when
+--	we use the own implementation.  Don't do it when using the
+--	system's gettext or catgets functions.
+--
+--	* dcgettext.c (find_msg): Must not swap domain->hash_size here.
+--
+--Sat Dec  9 16:24:37 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* localealias.c, libintl.inst, libgettext.h, hash-string.h,
+--	gettextP.h, finddomain.c, dcgettext.c, cat-compat.c:
+--	Use PARAMS instead of __P.  Suggested by Roland McGrath.
+--
+--Tue Dec  5 11:39:14 1995  Larry Schwimmer  <rosebud@cyclone.stanford.edu>
+--
+--	* libgettext.h: Use `#if !defined (_LIBINTL_H)' instead of `#if
+--	!_LIBINTL_H' because Solaris defines _LIBINTL_H as empty.
+--
+--Mon Dec  4 15:42:07 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (install-src):
+--	Install libintl.inst instead of libintl.h.install.
+--
+--Sat Dec  2 22:51:38 1995  Marcus Daniels  <marcus@sysc.pdx.edu>
+--
+--	* cat-compat.c (textdomain):
+--	Reverse order in which files are tried you load.  First
+--	try local file, when this failed absolute path.
+--
+--Wed Nov 29 02:03:53 1995  Nelson H. F. Beebe  <beebe@math.utah.edu>
+--
+--	* cat-compat.c (bindtextdomain): Add missing { }.
+--
+--Sun Nov 26 18:21:41 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* libintl.inst: Add missing __P definition.  Reported by Nelson Beebe.
+--
+--	* Makefile.in:
+--	Add dummy `all' and `dvi' goals.  Reported by Tom Tromey.
+--
+--Sat Nov 25 16:12:01 1995  Franc,ois Pinard  <pinard@iro.umontreal.ca>
+--
+--	* hash-string.h: Capitalize arguments of macros.
+--
+--Sat Nov 25 12:01:36 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (DISTFILES): Prevent files names longer than 13
+--	characters.  libintl.h.glibc->libintl.glibc,
+--	libintl.h.install->libintl.inst.  Reported by Joshua R. Poulson.
+--
+--Sat Nov 25 11:31:12 1995  Eric Backus  <ericb@lsid.hp.com>
+--
+--	* dcgettext.c: Fix bug in preprocessor conditionals.
+--
+--Sat Nov 25 02:35:27 1995  Nelson H. F. Beebe  <beebe@math.utah.edu>
+--
+--	* libgettext.h: Solaris cc does not understand
+--	 #if !SYMBOL1 && !SYMBOL2.  Sad	but true.
+--
+--Thu Nov 23 16:22:14 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* hash-string.h (hash_string):
+--	Fix for machine with >32 bit `unsigned long's.
+--
+--	* dcgettext.c (DCGETTEXT):
+--	Fix horrible bug in loop for alternative translation.
+--
+--Thu Nov 23 01:45:29 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* po2tbl.sed.in, linux-msg.sed, xopen-msg.sed:
+--	Some further simplifications in message number generation.
+--
+--Mon Nov 20 21:08:43 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* libintl.h.glibc: Use __const instead of const in prototypes.
+--
+--	* Makefile.in (install-src):
+--	Install libintl.h.install instead of libintl.h.  This
+--	is a stripped-down version.  Suggested by Peter Miller.
+--
+--	* libintl.h.install, libintl.h.glibc: Initial revision.
+--
+--	* localealias.c (_nl_expand_alias, read_alias_file):
+--	Protect prototypes in type casts by __P.
+--
+--Tue Nov 14 16:43:58 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* hash-string.h: Correct prototype for hash_string.
+--
+--Sun Nov 12 12:42:30 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* hash-string.h (hash_string): Add prototype.
+--
+--	* gettextP.h: Fix copyright.
+--	(SWAP): Add prototype.
+--
+--Wed Nov  8 22:56:33 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* localealias.c (read_alias_file): Forgot sizeof.
+--	Avoid calling *printf function.  This introduces a big overhead.
+--	Patch by Roland McGrath.
+--
+--Tue Nov  7 14:21:08 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c, cat-compat.c: Wrong indentation in #if for stpcpy.
+--
+--	* finddomain.c (stpcpy):
+--	Define substitution function local.  The macro was to flaky.
+--
+--	* cat-compat.c: Fix typo.
+--
+--	* xopen-msg.sed, linux-msg.sed:
+--	While bringing message number to right place only accept digits.
+--
+--	* linux-msg.sed, xopen-msg.sed: Now that the counter does not have
+--	leading 0s we don't need to remove them.  Reported by Marcus
+--	Daniels.
+--
+--	* Makefile.in (../po/cat-id-tbl.o): Use $(top_srdir) in
+--	dependency.  Reported by Marcus Daniels.
+--
+--	* cat-compat.c: (stpcpy) [!_LIBC && !HAVE_STPCPY]: Define replacement.
+--	Generally cleanup using #if instead of #ifndef.
+--
+--	* Makefile.in: Correct typos in comment.  By Franc,ois Pinard.
+--
+--Mon Nov  6 00:27:02 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (install-src): Don't install libintl.h and libintl.a
+--	if we use an available gettext implementation.
+--
+--Sun Nov  5 22:02:08 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* libgettext.h: Fix typo: HAVE_CATGETTS -> HAVE_CATGETS.  Reported
+--	by Franc,ois Pinard.
+--
+--	* libgettext.h: Use #if instead of #ifdef/#ifndef.
+--
+--	* finddomain.c:
+--	Comments describing what has to be done should start with FIXME.
+--
+--Sun Nov  5 19:38:01 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (DISTFILES): Split.  Use DISTFILES with normal meaning.
+--	DISTFILES.common names the files common to both dist goals.
+--	DISTFILES.gettext are the files only distributed in GNU gettext.
+--
+--Sun Nov  5 17:32:54 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* dcgettext.c (DCGETTEXT): Correct searching in derived locales.
+--	This was necessary since a change in _nl_find_msg several weeks
+--	ago.  I really don't know this is still not fixed.
+--
+--Sun Nov  5 12:43:12 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* loadmsgcat.c (_nl_load_domain): Test for FILENAME =3D=3D NULL.  This
+--	might mark a special condition.
+--
+--	* finddomain.c (make_entry_rec): Don't make illegal entry as decided.
+--
+--	* Makefile.in (dist): Suppress error message when ln failed.
+--	Get files from $(srcdir) explicitly.
+--
+--	* libgettext.h (gettext_const): Rename to gettext_noop.
+--
+--Fri Nov  3 07:36:50 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c (make_entry_rec):
+--	Protect against wrong locale names by testing mask.
+--
+--	* libgettext.h (gettext_const): Add macro definition.
+--	Capitalize macro arguments.
+--
+--Thu Nov  2 23:15:51 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c (_nl_find_domain):
+--	Test for pointer !=3D NULL before accessing value.
+--	Reported by Tom Tromey.
+--
+--	* gettext.c (NULL):
+--	Define as (void*)0 instad of 0.  Reported by Franc,ois Pinard.
+--
+--Mon Oct 30 21:28:52 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* po2tbl.sed.in: Serious typo bug fixed by Jim Meyering.
+--
+--Sat Oct 28 23:20:47 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* libgettext.h: Disable dcgettext optimization for Solaris 2.3.
+--
+--	* localealias.c (alias_compare):
+--	Peter Miller reported that tolower in some systems is
+--	even dumber than I thought.  Protect call by `isupper'.
+--
+--Fri Oct 27 22:22:51 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (libdir, includedir): New variables.
+--	(install-src): Install libintl.a and libintl.h in correct dirs.
+--
+--Fri Oct 27 22:07:29 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (SOURCES): Fix typo: intrl.compat.c -> intl-compat.c.
+--
+--	* po2tbl.sed.in: Patch for buggy SEDs by Christian von Roques.
+--
+--	* localealias.c:
+--	Fix typo and superflous test.  Reported by Christian von Roques.
+--
+--Fri Oct  6 11:52:05 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c (_nl_find_domain):
+--	Correct some remainder from the pre-CEN syntax.  Now
+--	we don't have a constant number of successors anymore.
+--
+--Wed Sep 27 21:41:13 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (DISTFILES): Add libintl.h.glibc.
+--
+--	* Makefile.in (dist-libc): Add goal for packing sources for glibc.
+--	(COMSRCS, COMHDRS): Splitted to separate sources shared with glibc.
+--
+--	* loadmsgcat.c: Forget to continue #if line.
+--
+--	* localealias.c:
+--	[_LIBC]: Rename strcasecmp to __strcasecmp to keep ANSI C name
+--	space clean.
+--
+--	* dcgettext.c, finddomain.c: Better comment to last change.
+--
+--	* loadmsgcat.c:
+--	[_LIBC]: Rename fstat, open, close, read, mmap, and munmap to
+--	__fstat, __open, __close, __read, __mmap, and __munmap resp
+--	to keep ANSI C name space clean.
+--
+--	* finddomain.c:
+--	[_LIBC]: Rename stpcpy to __stpcpy to keep ANSI C name space clean.
+--
+--	* dcgettext.c:
+--	[_LIBC]: Rename getced and stpcpy to __getcwd and __stpcpy resp to
+--	keep ANSI C name space clean.
+--
+--	* libgettext.h:
+--	Include sys/types.h for those old SysV systems out there.
+--	Reported by Francesco Potorti`.
+--
+--	* loadmsgcat.c (use_mmap): Define if compiled for glibc.
+--
+--	* bindtextdom.c: Include all those standard headers
+--	unconditionally if _LIBC is defined.
+--
+--	* finddomain.c: Fix 2 times defiend -> defined.
+--
+--	* textdomain.c: Include libintl.h instead of libgettext.h when
+--	compiling for glibc.  Include all those standard headers
+--	unconditionally if _LIBC is defined.
+--
+--	* localealias.c, loadmsgcat.c: Prepare to be compiled in glibc.
+--
+--	* gettext.c:
+--	Include libintl.h instead of libgettext.h when compiling for glibc.
+--	Get NULL from stddef.h if we compile for glibc.
+--
+--	* finddomain.c: Include libintl.h instead of libgettext.h when
+--	compiling for glibc.  Include all those standard headers
+--	unconditionally if _LIBC is defined.
+--
+--	* dcgettext.c: Include all those standard headers unconditionally
+--	if _LIBC is defined.
+--
+--	* dgettext.c: If compiled in glibc include libintl.h instead of
+--	libgettext.h.
+--	(locale.h): Don't rely on HAVE_LOCALE_H when compiling for glibc.
+--
+--	* dcgettext.c: If compiled in glibc include libintl.h instead of
+--	libgettext.h.
+--	(getcwd): Don't rely on HAVE_GETCWD when compiling for glibc.
+--
+--	* bindtextdom.c:
+--	If compiled in glibc include libintl.h instead of libgettext.h.
+--
+--Mon Sep 25 22:23:06 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* localealias.c (_nl_expand_alias): Don't call bsearch if NMAP <=3D 0.
+--	Reported by Marcus Daniels.
+--
+--	* cat-compat.c (bindtextdomain):
+--	String used in putenv must not be recycled.
+--	Reported by Marcus Daniels.
+--
+--	* libgettext.h (__USE_GNU_GETTEXT):
+--	Additional symbol to signal that we use GNU gettext
+--	library.
+--
+--	* cat-compat.c (bindtextdomain):
+--	Fix bug with the strange stpcpy replacement.
+--	Reported by Nelson Beebe.
+--
+--Sat Sep 23 08:23:51 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* cat-compat.c: Include <string.h> for stpcpy prototype.
+--
+--	* localealias.c (read_alias_file):
+--	While expand strdup code temporary variable `cp' hided
+--	higher level variable with same name.  Rename to `tp'.
+--
+--	* textdomain.c (textdomain):
+--	Avoid warning by using temporary variable in strdup code.
+--
+--	* finddomain.c (_nl_find_domain): Remove unused variable `application'.
+--
+--Thu Sep 21 15:51:44 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* localealias.c (alias_compare):
+--	Use strcasecmp() only if available.  Else use
+--	implementation in place.
+--
+--	* intl-compat.c:
+--	Wrapper functions now call *__ functions instead of __*.
+--
+--	* libgettext.h: Declare prototypes for *__ functions instead for __*.
+--
+--	* cat-compat.c, loadmsgcat.c:
+--	Don't use xmalloc, xstrdup, and stpcpy.  These functions are not part
+--	of the standard libc and so prevent libintl.a from being used
+--	standalone.
+--
+--	* bindtextdom.c:
+--	Don't use xmalloc, xstrdup, and stpcpy.  These functions are not part
+--	of the standard libc and so prevent libintl.a from being used
+--	standalone.
+--	Rename to bindtextdomain__ if not used in GNU C Library.
+--
+--	* dgettext.c:
+--	Rename function to dgettext__ if not used in GNU C Library.
+--
+--	* gettext.c:
+--	Don't use xmalloc, xstrdup, and stpcpy.  These functions are not part
+--	of the standard libc and so prevent libintl.a from being used
+--	standalone.
+--	Functions now called gettext__ if not used in GNU C Library.
+--
+--	* dcgettext.c, localealias.c, textdomain.c, finddomain.c:
+--	Don't use xmalloc, xstrdup, and stpcpy.  These functions are not part
+--	of the standard libc and so prevent libintl.a from being used
+--	standalone.
+--
+--Sun Sep 17 23:14:49 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c: Correct some bugs in handling of CEN standard
+-- 	locale definitions.
+--
+--Thu Sep  7 01:49:28 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c: Implement CEN syntax.
+--
+--	* gettextP.h (loaded_domain): Extend number of successors to 31.
+--
+--Sat Aug 19 19:25:29 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (aliaspath): Remove path to X11 locale dir.
+--
+--	* Makefile.in: Make install-src depend on install.  This helps
+-- 	gettext to install the sources and other packages can use the
+-- 	install goal.
+--
+--Sat Aug 19 15:19:33 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (uninstall): Remove stuff installed by install-src.
+--
+--Tue Aug 15 13:13:53 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* VERSION.in: Initial revision.
+--
+--	* Makefile.in (DISTFILES):
+--	Add VERSION file.  This is not necessary for gettext, but
+--	for other packages using this library.
+--
+--Tue Aug 15 06:16:44 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* gettextP.h (_nl_find_domain):
+--	New prototype after changing search strategy.
+--
+--	* finddomain.c (_nl_find_domain):
+--	We now try only to find a specified catalog.  Fall back to other
+--	catalogs listed in the locale list is now done in __dcgettext.
+--
+--	* dcgettext.c (__dcgettext):
+--	Now we provide message fall back even to different languages.
+--	I.e. if a message is not available in one language all the other
+-- 	in the locale list a tried.  Formerly fall back was only possible
+-- 	within one language.  Implemented by moving one loop from
+-- 	_nl_find_domain to here.
+--
+--Mon Aug 14 23:45:50 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (gettextsrcdir):
+--	Directory where source of GNU gettext library are made
+--	available.
+--	(INSTALL, INSTALL_DATA): Programs used for installing sources.
+--	(gettext-src): New.  Rule to install GNU gettext sources for use in
+--	gettextize shell script.
+--
+--Sun Aug 13 14:40:48 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* loadmsgcat.c (_nl_load_domain):
+--	Use mmap for loading only when munmap function is
+--	also available.
+--
+--	* Makefile.in (install): Depend on `all' goal.
+--
+--Wed Aug  9 11:04:33 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* localealias.c (read_alias_file):
+--	Do not overwrite '\n' when terminating alias value string.
+--
+--	* localealias.c (read_alias_file):
+--	Handle long lines.  Ignore the rest not fitting in
+--	the buffer after the initial `fgets' call.
+--
+--Wed Aug  9 00:54:29 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* gettextP.h (_nl_load_domain):
+--	Add prototype, replacing prototype for _nl_load_msg_cat.
+--
+--	* finddomain.c (_nl_find_domain):
+--	Remove unneeded variable filename and filename_len.
+--	(expand_alias): Remove prototype because functions does not
+-- 	exist anymore.
+--
+--	* localealias.c (read_alias_file):
+--	Change type of fname_len parameter to int.
+--	(xmalloc): Add prototype.
+--
+--	* loadmsgcat.c: Better prototypes for xmalloc.
+--
+--Tue Aug  8 22:30:39 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c (_nl_find_domain):
+--	Allow alias name to be constructed from the four components.
+--
+--	* Makefile.in (aliaspath): New variable.  Set to preliminary value.
+--	(SOURCES): Add localealias.c.
+--	(OBJECTS): Add localealias.o.
+--
+--	* gettextP.h: Add prototype for _nl_expand_alias.
+--
+--	* finddomain.c: Aliasing handled in intl/localealias.c.
+--
+--	* localealias.c: Aliasing for locale names.
+--
+--	* bindtextdom.c: Better prototypes for xmalloc and xstrdup.
+--
+--Mon Aug  7 23:47:42 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (DISTFILES): gettext.perl is now found in misc/.
+--
+--	* cat-compat.c (bindtextdomain):
+--	Correct implementation.  dirname parameter was not used.
+--	Reported by Marcus Daniels.
+--
+--	* gettextP.h (loaded_domain):
+--	New fields `successor' and `decided' for oo, lazy
+--	message handling implementation.
+--
+--	* dcgettext.c:
+--	Adopt for oo, lazy message handliing.
+--  	Now we can inherit translations from less specific locales.
+--	(find_msg): New function.
+--
+--	* loadmsgcat.c, finddomain.c:
+--	Complete rewrite.  Implement oo, lazy message handling :-).
+--  	We now have an additional environment variable `LANGUAGE' with
+-- 	a higher priority than LC_ALL for the LC_MESSAGE locale.
+--  	Here we can set a colon separated list of specifications each
+-- 	of the form `language[_territory[.codeset]][@modifier]'.
+--
+--Sat Aug  5 09:55:42 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c (unistd.h):
+--	Include to get _PC_PATH_MAX defined on system having it.
+--
+--Fri Aug  4 22:42:00 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* finddomain.c (stpcpy): Include prototype.
+--
+--	* Makefile.in (dist): Remove `copying instead' message.
+--
+--Wed Aug  2 18:52:03 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (ID, TAGS): Do not use $^.
+--
+--Tue Aug  1 20:07:11 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (TAGS, ID): Use $^ as command argument.
+--	(TAGS): Give etags -o option t write to current directory,
+-- 	not $(srcdir).
+--	(ID): Use $(srcdir) instead os $(top_srcdir)/src.
+--	(distclean): Remove ID.
+--
+--Sun Jul 30 11:51:46 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (gnulocaledir):
+--	New variable, always using share/ for data directory.
+--	(DEFS): Add GNULOCALEDIR, used in finddomain.c.
+--
+--	* finddomain.c (_nl_default_dirname):
+--	Set to GNULOCALEDIR, because it always has to point
+--	to the directory where GNU gettext Library writes it to.
+--
+--	* intl-compat.c (textdomain, bindtextdomain):
+--	Undefine macros before function definition.
+--
+--Sat Jul 22 01:10:02 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* libgettext.h (_LIBINTL_H):
+--	Protect definition in case where this file is included as
+--	libgettext.h on Solaris machines.  Add comment about this.
+--
+--Wed Jul 19 02:36:42 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* intl-compat.c (textdomain): Correct typo.
+--
+--Wed Jul 19 01:51:35 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* dcgettext.c (dcgettext): Function now called __dcgettext.
+--
+--	* dgettext.c (dgettext): Now called __dgettext and calls
+-- 	__dcgettext.
+--
+--	* gettext.c (gettext):
+--	Function now called __gettext and calls __dgettext.
+--
+--	* textdomain.c (textdomain): Function now called __textdomain.
+--
+--	* bindtextdom.c (bindtextdomain): Function now called
+-- 	__bindtextdomain.
+--
+--	* intl-compat.c: Initial revision.
+--
+--	* Makefile.in (SOURCES): Add intl-compat.c.
+--	(OBJECTS): We always compile the GNU gettext library functions.
+--  	OBJECTS contains all objects but cat-compat.o, ../po/cat-if-tbl.o,
+-- 	and intl-compat.o.
+--  	(GETTOBJS): Contains now only intl-compat.o.
+--
+--	* libgettext.h:
+--	Re-include protection matches dualistic character of libgettext.h.
+--	For all functions in GNU gettext library define __ counter part.
+--
+--	* finddomain.c (strchr): Define as index if not found in C library.
+--	(_nl_find_domain): For relative paths paste / in between.
+--
+--Tue Jul 18 16:37:45 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* loadmsgcat.c, finddomain.c: Add inclusion of sys/types.h.
+--
+--	* xopen-msg.sed: Fix bug with `msgstr ""' lines.
+--	A little bit better comments.
+--
+--Tue Jul 18 01:18:27 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in:
+--	po-mode.el, makelinks, combine-sh are now found in ../misc.
+--
+--	* po-mode.el, makelinks, combine-sh, elisp-comp:
+--	Moved to ../misc/.
+--
+--	* libgettext.h, gettextP.h, gettext.h: Uniform test for __STDC__.
+--
+--Sun Jul 16 22:33:02 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (INSTALL, INSTALL_DATA): New variables.
+--	(install-data, uninstall): Install/uninstall .elc file.
+--
+--	* po-mode.el (Installation comment):
+--	Add .pox as possible extension of .po files.
+--
+--Sun Jul 16 13:23:27 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* elisp-comp: Complete new version by Franc,ois: This does not
+-- 	fail when not compiling in the source directory.
+--
+--Sun Jul 16 00:12:17 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (../po/cat-id-tbl.o):
+--	Use $(MAKE) instead of make for recursive make.
+--
+--	* Makefile.in (.el.elc): Use $(SHELL) instead of /bin/sh.
+--	(install-exec): Add missing dummy goal.
+--	(install-data, uninstall): @ in multi-line shell command at
+-- 	beginning, not in front of echo.  Reported by Eric Backus.
+--
+--Sat Jul 15 00:21:28 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (DISTFILES):
+--	Rename libgettext.perl to gettext.perl to fit in 14 chars
+--	file systems.
+--
+--	* gettext.perl:
+-- 	Rename to gettext.perl to fit in 14 chars file systems.
+--
+--Thu Jul 13 23:17:20 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* cat-compat.c: If !STDC_HEADERS try to include malloc.h.
+--
+--Thu Jul 13 20:55:02 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* po2tbl.sed.in: Pretty printing.
+--
+--	* linux-msg.sed, xopen-msg.sed:
+--	Correct bugs with handling substitute flags in branches.
+--
+--	* hash-string.h (hash_string):
+--	Old K&R compilers don't under stand `unsigned char'.
+--
+--	* gettext.h (nls_uint32):
+--	Some old K&R compilers (eg HP) don't understand `unsigned int'.
+--
+--	* cat-compat.c (msg_to_cat_id): De-ANSI-fy prototypes.
+--
+--Thu Jul 13 01:34:33 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (ELCFILES): New variable.
+--	(DISTFILES): Add elisp-comp.
+--	Add implicit rule for .el -> .elc compilation.
+--	(install-data): install $ELCFILES
+--	(clean): renamed po-to-tbl and po-to-msg to po2tbl and po2msg resp.
+--
+--	* elisp-comp: Initial revision
+--
+--Wed Jul 12 16:14:52 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in:
+--	cat-id-tbl.c is now found in po/.  This enables us to use an identical
+--	intl/ directory in all packages.
+--
+--	* dcgettext.c (dcgettext): hashing does not work for table size <=3D 2.
+--
+--	* textdomain.c: fix typo (#if def -> #if defined)
+--
+--Tue Jul 11 18:44:43 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in (stamp-cat-id): use top_srcdir to address source files
+--	(DISTFILES,distclean): move tupdate.perl to src/
+--
+--	* po-to-tbl.sed.in:
+--	add additional jump to clear change flag to recognize multiline strings
+--
+--Tue Jul 11 01:32:50 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* textdomain.c: Protect inclusion of stdlib.h and string.h.
+--
+--	* loadmsgcat.c: Protect inclusion of stdlib.h.
+--
+--	* libgettext.h: Protect inclusion of locale.h.
+--	Allow use in C++ programs.
+--	Define NULL is not happened already.
+--
+--	* Makefile.in (DISTFILES): ship po-to-tbl.sed.in instead of
+--	po-to-tbl.sed.
+--	(distclean): remove po-to-tbl.sed and tupdate.perl.
+--
+--	* tupdate.perl.in: Substitute Perl path even in exec line.
+--	Don't include entries without translation from old .po file.
+--
+--Tue Jul  4 00:41:51 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* tupdate.perl.in: use "Updated: " in msgid "".
+--
+--	* cat-compat.c: Fix typo (LOCALDIR -> LOCALEDIR).
+-- 	Define getenv if !__STDC__.
+--
+--	* bindtextdom.c: Protect stdlib.h and string.h inclusion.
+-- 	Define free if !__STDC__.
+--
+--	* finddomain.c: Change DEF_MSG_DOM_DIR to LOCALEDIR.
+-- 	Define free if !__STDC__.
+--
+--	* cat-compat.c: Change DEF_MSG_DOM_DIR to LOCALEDIR.
+--
+--Mon Jul  3 23:56:30 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* Makefile.in: Use LOCALEDIR instead of DEF_MSG_DOM_DIR.
+--	Remove unneeded $(srcdir) from Makefile.in dependency.
+--
+--	* makelinks: Add copyright and short description.
+--
+--	* po-mode.el: Last version for 0.7.
+--
+--	* tupdate.perl.in: Fix die message.
+--
+--	* dcgettext.c: Protect include of string.h.
+--
+--	* gettext.c: Protect include of stdlib.h and further tries to get NULL.
+--
+--	* finddomain.c: Some corrections in includes.
+--
+--	* Makefile.in (INCLUDES): Prune list correct path to Makefile.in.
+--
+--	* po-to-tbl.sed: Adopt for new .po file format.
+--
+--	* linux-msg.sed, xopen-msg.sed: Adopt for new .po file format.
+--
+--Sun Jul  2 23:55:03 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* tupdate.perl.in: Complete rewrite for new .po file format.
+--
+--Sun Jul  2 02:06:50 1995  Ulrich Drepper  <drepper@myware>
+--
+--	* First official release.  This directory contains all the code
+--	needed to internationalize own packages.  It provides functions
+--	which allow to use the X/Open catgets function with an interface
+--	like the Uniforum gettext function.  For system which does not
+--	have neither of those a complete implementation is provided.
+-diff -uprN clean/lrzsz-0.12.20/intl/dcgettext.c lrzsz-0.12.20/intl/dcgette=
+xt.c
+---- clean/lrzsz-0.12.20/intl/dcgettext.c	1998-04-26 14:22:36.000000000 +01=
+00
+-+++ lrzsz-0.12.20/intl/dcgettext.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,593 +0,0 @@
+--/* Implementation of the dcgettext(3) function
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#include <sys/types.h>
+--
+--#ifdef __GNUC__
+--# define alloca __builtin_alloca
+--# define HAVE_ALLOCA 1
+--#else
+--# if defined HAVE_ALLOCA_H || defined _LIBC
+--#  include <alloca.h>
+--# else
+--#  ifdef _AIX
+-- #pragma alloca
+--#  else
+--#   ifndef alloca
+--char *alloca ();
+--#   endif
+--#  endif
+--# endif
+--#endif
+--
+--#include <errno.h>
+--#ifndef errno
+--extern int errno;
+--#endif
+--#ifndef __set_errno
+--# define __set_errno(val) errno =3D (val)
+--#endif
+--
+--#if defined STDC_HEADERS || defined _LIBC
+--# include <stdlib.h>
+--#else
+--char *getenv ();
+--# ifdef HAVE_MALLOC_H
+--#  include <malloc.h>
+--# else
+--void free ();
+--# endif
+--#endif
+--
+--#if defined HAVE_STRING_H || defined _LIBC
+--# ifndef _GNU_SOURCE
+--#  define _GNU_SOURCE	1
+--# endif
+--# include <string.h>
+--#else
+--# include <strings.h>
+--#endif
+--#if !HAVE_STRCHR && !defined _LIBC
+--# ifndef strchr
+--#  define strchr index
+--# endif
+--#endif
+--
+--#if defined HAVE_UNISTD_H || defined _LIBC
+--# include <unistd.h>
+--#endif
+--
+--#include "gettext.h"
+--#include "gettextP.h"
+--#ifdef _LIBC
+--# include <libintl.h>
+--#else
+--# include "libgettext.h"
+--#endif
+--#include "hash-string.h"
+--
+--/* @@ end of prolog @@ */
+--
+--#ifdef _LIBC
+--/* Rename the non ANSI C functions.  This is required by the standard
+--   because some ANSI C functions will require linking with this object
+--   file and the name space must not be polluted.  */
+--# define getcwd __getcwd
+--# define stpcpy __stpcpy
+--#else
+--# if !defined HAVE_GETCWD
+--char *getwd ();
+--#  define getcwd(buf, max) getwd (buf)
+--# else
+--char *getcwd ();
+--# endif
+--# ifndef HAVE_STPCPY
+--static char *stpcpy PARAMS ((char *dest, const char *src));
+--# endif
+--#endif
+--
+--/* Amount to increase buffer size by in each try.  */
+--#define PATH_INCR 32
+--
+--/* The following is from pathmax.h.  */
+--/* Non-POSIX BSD systems might have gcc's limits.h, which doesn't define
+--   PATH_MAX but might cause redefinition warnings when sys/param.h is
+--   later included (as on MORE/BSD 4.3).  */
+--#if defined(_POSIX_VERSION) || (defined(HAVE_LIMITS_H) && !defined(__GNUC=
+__))
+--# include <limits.h>
+--#endif
+--
+--#ifndef _POSIX_PATH_MAX
+--# define _POSIX_PATH_MAX 255
+--#endif
+--
+--#if !defined(PATH_MAX) && defined(_PC_PATH_MAX)
+--# define PATH_MAX (pathconf ("/", _PC_PATH_MAX) < 1 ? 1024 : pathconf ("/=
+", _PC_PATH_MAX))
+--#endif
+--
+--/* Don't include sys/param.h if it already has been.  */
+--#if defined(HAVE_SYS_PARAM_H) && !defined(PATH_MAX) && !defined(MAXPATHLE=
+N)
+--# include <sys/param.h>
+--#endif
+--
+--#if !defined(PATH_MAX) && defined(MAXPATHLEN)
+--# define PATH_MAX MAXPATHLEN
+--#endif
+--
+--#ifndef PATH_MAX
+--# define PATH_MAX _POSIX_PATH_MAX
+--#endif
+--
+--/* XPG3 defines the result of `setlocale (category, NULL)' as:
+--   ``Directs `setlocale()' to query `category' and return the current
+--     setting of `local'.''
+--   However it does not specify the exact format.  And even worse: POSIX
+--   defines this not at all.  So we can use this feature only on selected
+--   system (e.g. those using GNU C Library).  */
+--#ifdef _LIBC
+--# define HAVE_LOCALE_NULL
+--#endif
+--
+--/* Name of the default domain used for gettext(3) prior any call to
+--   textdomain(3).  The default value for this is "messages".  */
+--const char _nl_default_default_domain[] =3D "messages";
+--
+--/* Value used as the default domain for gettext(3).  */
+--const char *_nl_current_default_domain =3D _nl_default_default_domain;
+--
+--/* Contains the default location of the message catalogs.  */
+--const char _nl_default_dirname[] =3D GNULOCALEDIR;
+--
+--/* List with bindings of specific domains created by bindtextdomain()
+--   calls.  */
+--struct binding *_nl_domain_bindings;
+--
+--/* Prototypes for local functions.  */
+--static char *find_msg PARAMS ((struct loaded_l10nfile *domain_file,
+--			       const char *msgid));
+--static const char *category_to_name PARAMS ((int category));
+--static const char *guess_category_value PARAMS ((int category,
+--						 const char *categoryname));
+--
+--
+--/* For those loosing systems which don't have `alloca' we have to add
+--   some additional code emulating it.  */
+--#ifdef HAVE_ALLOCA
+--/* Nothing has to be done.  */
+--# define ADD_BLOCK(list, address) /* nothing */
+--# define FREE_BLOCKS(list) /* nothing */
+--#else
+--struct block_list
+--{
+--  void *address;
+--  struct block_list *next;
+--};
+--# define ADD_BLOCK(list, addr)						      \
+--  do {									      \
+--    struct block_list *newp =3D (struct block_list *) malloc (sizeof (*ne=
+wp));  \
+--    /* If we cannot get a free block we cannot add the new element to	   =
+   \
+--       the list.  */							      \
+--    if (newp !=3D NULL) {							      \
+--      newp->address =3D (addr);						      \
+--      newp->next =3D (list);						      \
+--      (list) =3D newp;							      \
+--    }									      \
+--  } while (0)
+--# define FREE_BLOCKS(list)						      \
+--  do {									      \
+--    while (list !=3D NULL) {						      \
+--      struct block_list *old =3D list;					      \
+--      list =3D list->next;						      \
+--      free (old);							      \
+--    }									      \
+--  } while (0)
+--# undef alloca
+--# define alloca(size) (malloc (size))
+--#endif	/* have alloca */
+--
+--
+--/* Names for the libintl functions are a problem.  They must not clash
+--   with existing names and they should follow ANSI C.  But this source
+--   code is also used in GNU C Library where the names have a __
+--   prefix.  So we have to make a difference here.  */
+--#ifdef _LIBC
+--# define DCGETTEXT __dcgettext
+--#else
+--# define DCGETTEXT dcgettext__
+--#endif
+--
+--/* Look up MSGID in the DOMAINNAME message catalog for the current CATEGO=
+RY
+--   locale.  */
+--char *
+--DCGETTEXT (domainname, msgid, category)
+--     const char *domainname;
+--     const char *msgid;
+--     int category;
+--{
+--#ifndef HAVE_ALLOCA
+--  struct block_list *block_list =3D NULL;
+--#endif
+--  struct loaded_l10nfile *domain;
+--  struct binding *binding;
+--  const char *categoryname;
+--  const char *categoryvalue;
+--  char *dirname, *xdomainname;
+--  char *single_locale;
+--  char *retval;
+--  int saved_errno =3D errno;
+--
+--  /* If no real MSGID is given return NULL.  */
+--  if (msgid =3D=3D NULL)
+--    return NULL;
+--
+--  /* If DOMAINNAME is NULL, we are interested in the default domain.  If
+--     CATEGORY is not LC_MESSAGES this might not make much sense but the
+--     defintion left this undefined.  */
+--  if (domainname =3D=3D NULL)
+--    domainname =3D _nl_current_default_domain;
+--
+--  /* First find matching binding.  */
+--  for (binding =3D _nl_domain_bindings; binding !=3D NULL; binding =3D bi=
+nding->next)
+--    {
+--      int compare =3D strcmp (domainname, binding->domainname);
+--      if (compare =3D=3D 0)
+--	/* We found it!  */
+--	break;
+--      if (compare < 0)
+--	{
+--	  /* It is not in the list.  */
+--	  binding =3D NULL;
+--	  break;
+--	}
+--    }
+--
+--  if (binding =3D=3D NULL)
+--    dirname =3D (char *) _nl_default_dirname;
+--  else if (binding->dirname[0] =3D=3D '/')
+--    dirname =3D binding->dirname;
+--  else
+--    {
+--      /* We have a relative path.  Make it absolute now.  */
+--      size_t dirname_len =3D strlen (binding->dirname) + 1;
+--      size_t path_max;
+--      char *ret;
+--
+--      path_max =3D (unsigned) PATH_MAX;
+--      path_max +=3D 2;		/* The getcwd docs say to do this.  */
+--
+--      dirname =3D (char *) alloca (path_max + dirname_len);
+--      ADD_BLOCK (block_list, dirname);
+--
+--      __set_errno (0);
+--      while ((ret =3D getcwd (dirname, path_max)) =3D=3D NULL && errno =
+=3D=3D ERANGE)
+--	{
+--	  path_max +=3D PATH_INCR;
+--	  dirname =3D (char *) alloca (path_max + dirname_len);
+--	  ADD_BLOCK (block_list, dirname);
+--	  __set_errno (0);
+--	}
+--
+--      if (ret =3D=3D NULL)
+--	{
+--	  /* We cannot get the current working directory.  Don't signal an
+--	     error but simply return the default string.  */
+--	  FREE_BLOCKS (block_list);
+--	  __set_errno (saved_errno);
+--	  return (char *) msgid;
+--	}
+--
+--      stpcpy (stpcpy (strchr (dirname, '\0'), "/"), binding->dirname);
+--    }
+--
+--  /* Now determine the symbolic name of CATEGORY and its value.  */
+--  categoryname =3D category_to_name (category);
+--  categoryvalue =3D guess_category_value (category, categoryname);
+--
+--  xdomainname =3D (char *) alloca (strlen (categoryname)
+--				 + strlen (domainname) + 5);
+--  ADD_BLOCK (block_list, xdomainname);
+--
+--  stpcpy (stpcpy (stpcpy (stpcpy (xdomainname, categoryname), "/"),
+--		  domainname),
+--	  ".mo");
+--
+--  /* Creating working area.  */
+--  single_locale =3D (char *) alloca (strlen (categoryvalue) + 1);
+--  ADD_BLOCK (block_list, single_locale);
+--
+--
+--  /* Search for the given string.  This is a loop because we perhaps
+--     got an ordered list of languages to consider for th translation.  */
+--  while (1)
+--    {
+--      /* Make CATEGORYVALUE point to the next element of the list.  */
+--      while (categoryvalue[0] !=3D '\0' && categoryvalue[0] =3D=3D ':')
+--	++categoryvalue;
+--      if (categoryvalue[0] =3D=3D '\0')
+--	{
+--	  /* The whole contents of CATEGORYVALUE has been searched but
+--	     no valid entry has been found.  We solve this situation
+--	     by implicitly appending a "C" entry, i.e. no translation
+--	     will take place.  */
+--	  single_locale[0] =3D 'C';
+--	  single_locale[1] =3D '\0';
+--	}
+--      else
+--	{
+--	  char *cp =3D single_locale;
+--	  while (categoryvalue[0] !=3D '\0' && categoryvalue[0] !=3D ':')
+--	    *cp++ =3D *categoryvalue++;
+--	  *cp =3D '\0';
+--	}
+--
+--      /* If the current locale value is C (or POSIX) we don't load a
+--	 domain.  Return the MSGID.  */
+--      if (strcmp (single_locale, "C") =3D=3D 0
+--	  || strcmp (single_locale, "POSIX") =3D=3D 0)
+--	{
+--	  FREE_BLOCKS (block_list);
+--	  __set_errno (saved_errno);
+--	  return (char *) msgid;
+--	}
+--
+--
+--      /* Find structure describing the message catalog matching the
+--	 DOMAINNAME and CATEGORY.  */
+--      domain =3D _nl_find_domain (dirname, single_locale, xdomainname);
+--
+--      if (domain !=3D NULL)
+--	{
+--	  retval =3D find_msg (domain, msgid);
+--
+--	  if (retval =3D=3D NULL)
+--	    {
+--	      int cnt;
+--
+--	      for (cnt =3D 0; domain->successor[cnt] !=3D NULL; ++cnt)
+--		{
+--		  retval =3D find_msg (domain->successor[cnt], msgid);
+--
+--		  if (retval !=3D NULL)
+--		    break;
+--		}
+--	    }
+--
+--	  if (retval !=3D NULL)
+--	    {
+--	      FREE_BLOCKS (block_list);
+--	      __set_errno (saved_errno);
+--	      return retval;
+--	    }
+--	}
+--    }
+--  /* NOTREACHED */
+--}
+--
+--#ifdef _LIBC
+--/* Alias for function name in GNU C Library.  */
+--weak_alias (__dcgettext, dcgettext);
+--#endif
+--
+--
+--static char *
+--find_msg (domain_file, msgid)
+--     struct loaded_l10nfile *domain_file;
+--     const char *msgid;
+--{
+--  size_t top, act, bottom;
+--  struct loaded_domain *domain;
+--
+--  if (domain_file->decided =3D=3D 0)
+--    _nl_load_domain (domain_file);
+--
+--  if (domain_file->data =3D=3D NULL)
+--    return NULL;
+--
+--  domain =3D (struct loaded_domain *) domain_file->data;
+--
+--  /* Locate the MSGID and its translation.  */
+--  if (domain->hash_size > 2 && domain->hash_tab !=3D NULL)
+--    {
+--      /* Use the hashing table.  */
+--      nls_uint32 len =3D strlen (msgid);
+--      nls_uint32 hash_val =3D hash_string (msgid);
+--      nls_uint32 idx =3D hash_val % domain->hash_size;
+--      nls_uint32 incr =3D 1 + (hash_val % (domain->hash_size - 2));
+--      nls_uint32 nstr =3D W (domain->must_swap, domain->hash_tab[idx]);
+--
+--      if (nstr =3D=3D 0)
+--	/* Hash table entry is empty.  */
+--	return NULL;
+--
+--      if (W (domain->must_swap, domain->orig_tab[nstr - 1].length) =3D=3D=
+ len
+--	  && strcmp (msgid,
+--		     domain->data + W (domain->must_swap,
+--				       domain->orig_tab[nstr - 1].offset)) =3D=3D 0)
+--	return (char *) domain->data + W (domain->must_swap,
+--					  domain->trans_tab[nstr - 1].offset);
+--
+--      while (1)
+--	{
+--	  if (idx >=3D domain->hash_size - incr)
+--	    idx -=3D domain->hash_size - incr;
+--	  else
+--	    idx +=3D incr;
+--
+--	  nstr =3D W (domain->must_swap, domain->hash_tab[idx]);
+--	  if (nstr =3D=3D 0)
+--	    /* Hash table entry is empty.  */
+--	    return NULL;
+--
+--	  if (W (domain->must_swap, domain->orig_tab[nstr - 1].length) =3D=3D le=
+n
+--	      && strcmp (msgid,
+--			 domain->data + W (domain->must_swap,
+--					   domain->orig_tab[nstr - 1].offset))
+--	         =3D=3D 0)
+--	    return (char *) domain->data
+--	      + W (domain->must_swap, domain->trans_tab[nstr - 1].offset);
+--	}
+--      /* NOTREACHED */
+--    }
+--
+--  /* Now we try the default method:  binary search in the sorted
+--     array of messages.  */
+--  bottom =3D 0;
+--  top =3D domain->nstrings;
+--  while (bottom < top)
+--    {
+--      int cmp_val;
+--
+--      act =3D (bottom + top) / 2;
+--      cmp_val =3D strcmp (msgid, domain->data
+--			       + W (domain->must_swap,
+--				    domain->orig_tab[act].offset));
+--      if (cmp_val < 0)
+--	top =3D act;
+--      else if (cmp_val > 0)
+--	bottom =3D act + 1;
+--      else
+--	break;
+--    }
+--
+--  /* If an translation is found return this.  */
+--  return bottom >=3D top ? NULL : (char *) domain->data
+--                                + W (domain->must_swap,
+--				     domain->trans_tab[act].offset);
+--}
+--
+--
+--/* Return string representation of locale CATEGORY.  */
+--static const char *
+--category_to_name (category)
+--     int category;
+--{
+--  const char *retval;
+--
+--  switch (category)
+--  {
+--#ifdef LC_COLLATE
+--  case LC_COLLATE:
+--    retval =3D "LC_COLLATE";
+--    break;
+--#endif
+--#ifdef LC_CTYPE
+--  case LC_CTYPE:
+--    retval =3D "LC_CTYPE";
+--    break;
+--#endif
+--#ifdef LC_MONETARY
+--  case LC_MONETARY:
+--    retval =3D "LC_MONETARY";
+--    break;
+--#endif
+--#ifdef LC_NUMERIC
+--  case LC_NUMERIC:
+--    retval =3D "LC_NUMERIC";
+--    break;
+--#endif
+--#ifdef LC_TIME
+--  case LC_TIME:
+--    retval =3D "LC_TIME";
+--    break;
+--#endif
+--#ifdef LC_MESSAGES
+--  case LC_MESSAGES:
+--    retval =3D "LC_MESSAGES";
+--    break;
+--#endif
+--#ifdef LC_RESPONSE
+--  case LC_RESPONSE:
+--    retval =3D "LC_RESPONSE";
+--    break;
+--#endif
+--#ifdef LC_ALL
+--  case LC_ALL:
+--    /* This might not make sense but is perhaps better than any other
+--       value.  */
+--    retval =3D "LC_ALL";
+--    break;
+--#endif
+--  default:
+--    /* If you have a better idea for a default value let me know.  */
+--    retval =3D "LC_XXX";
+--  }
+--
+--  return retval;
+--}
+--
+--/* Guess value of current locale from value of the environment variables.=
+  */
+--static const char *
+--guess_category_value (category, categoryname)
+--     int category;
+--     const char *categoryname;
+--{
+--  const char *retval;
+--
+--  /* The highest priority value is the `LANGUAGE' environment
+--     variable.  This is a GNU extension.  */
+--  retval =3D getenv ("LANGUAGE");
+--  if (retval !=3D NULL && retval[0] !=3D '\0')
+--    return retval;
+--
+--  /* `LANGUAGE' is not set.  So we have to proceed with the POSIX
+--     methods of looking to `LC_ALL', `LC_xxx', and `LANG'.  On some
+--     systems this can be done by the `setlocale' function itself.  */
+--#if defined HAVE_SETLOCALE && defined HAVE_LC_MESSAGES && defined HAVE_LO=
+CALE_NULL
+--  return setlocale (category, NULL);
+--#else
+--  /* Setting of LC_ALL overwrites all other.  */
+--  retval =3D getenv ("LC_ALL");
+--  if (retval !=3D NULL && retval[0] !=3D '\0')
+--    return retval;
+--
+--  /* Next comes the name of the desired category.  */
+--  retval =3D getenv (categoryname);
+--  if (retval !=3D NULL && retval[0] !=3D '\0')
+--    return retval;
+--
+--  /* Last possibility is the LANG environment variable.  */
+--  retval =3D getenv ("LANG");
+--  if (retval !=3D NULL && retval[0] !=3D '\0')
+--    return retval;
+--
+--  /* We use C as the default domain.  POSIX says this is implementation
+--     defined.  */
+--  return "C";
+--#endif
+--}
+--
+--/* @@ begin of epilog @@ */
+--
+--/* We don't want libintl.a to depend on any other library.  So we
+--   avoid the non-standard function stpcpy.  In GNU C Library this
+--   function is available, though.  Also allow the symbol HAVE_STPCPY
+--   to be defined.  */
+--#if !_LIBC && !HAVE_STPCPY
+--static char *
+--stpcpy (dest, src)
+--     char *dest;
+--     const char *src;
+--{
+--  while ((*dest++ =3D *src++) !=3D '\0')
+--    /* Do nothing. */ ;
+--  return dest - 1;
+--}
+--#endif
+-diff -uprN clean/lrzsz-0.12.20/intl/dgettext.c lrzsz-0.12.20/intl/dgettext=
+.c
+---- clean/lrzsz-0.12.20/intl/dgettext.c	1998-04-26 14:20:52.000000000 +010=
+0
+-+++ lrzsz-0.12.20/intl/dgettext.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,59 +0,0 @@
+--/* dgettext.c -- implementation of the dgettext(3) function
+--   Copyright (C) 1995 Software Foundation, Inc.
+--
+--This program is free software; you can redistribute it and/or modify
+--it under the terms of the GNU General Public License as published by
+--the Free Software Foundation; either version 2, or (at your option)
+--any later version.
+--
+--This program is distributed in the hope that it will be useful,
+--but WITHOUT ANY WARRANTY; without even the implied warranty of
+--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--GNU General Public License for more details.
+--
+--You should have received a copy of the GNU General Public License
+--along with this program; if not, write to the Free Software
+--Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA=
+.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#if defined HAVE_LOCALE_H || defined _LIBC
+--# include <locale.h>
+--#endif
+--
+--#ifdef _LIBC
+--# include <libintl.h>
+--#else
+--# include "libgettext.h"
+--#endif
+--
+--/* @@ end of prolog @@ */
+--
+--/* Names for the libintl functions are a problem.  They must not clash
+--   with existing names and they should follow ANSI C.  But this source
+--   code is also used in GNU C Library where the names have a __
+--   prefix.  So we have to make a difference here.  */
+--#ifdef _LIBC
+--# define DGETTEXT __dgettext
+--# define DCGETTEXT __dcgettext
+--#else
+--# define DGETTEXT dgettext__
+--# define DCGETTEXT dcgettext__
+--#endif
+--
+--/* Look up MSGID in the DOMAINNAME message catalog of the current
+--   LC_MESSAGES locale.  */
+--char *
+--DGETTEXT (domainname, msgid)
+--     const char *domainname;
+--     const char *msgid;
+--{
+--  return DCGETTEXT (domainname, msgid, LC_MESSAGES);
+--}
+--
+--#ifdef _LIBC
+--/* Alias for function name in GNU C Library.  */
+--weak_alias (__dgettext, dgettext);
+--#endif
+-diff -uprN clean/lrzsz-0.12.20/intl/explodename.c lrzsz-0.12.20/intl/explo=
+dename.c
+---- clean/lrzsz-0.12.20/intl/explodename.c	1998-04-26 14:22:37.000000000 +=
+0100
+-+++ lrzsz-0.12.20/intl/explodename.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,181 +0,0 @@
+--/* Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--   Contributed by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#include <stdlib.h>
+--#include <string.h>
+--#include <sys/types.h>
+--
+--#include "loadinfo.h"
+--
+--/* On some strange systems still no definition of NULL is found.  Sigh!  =
+*/
+--#ifndef NULL
+--# if defined __STDC__ && __STDC__
+--#  define NULL ((void *) 0)
+--# else
+--#  define NULL 0
+--# endif
+--#endif
+--
+--/* @@ end of prolog @@ */
+--
+--int
+--_nl_explode_name (name, language, modifier, territory, codeset,
+--		  normalized_codeset, special, sponsor, revision)
+--     char *name;
+--     const char **language;
+--     const char **modifier;
+--     const char **territory;
+--     const char **codeset;
+--     const char **normalized_codeset;
+--     const char **special;
+--     const char **sponsor;
+--     const char **revision;
+--{
+--  enum { undecided, xpg, cen } syntax;
+--  char *cp;
+--  int mask;
+--
+--  *modifier =3D NULL;
+--  *territory =3D NULL;
+--  *codeset =3D NULL;
+--  *normalized_codeset =3D NULL;
+--  *special =3D NULL;
+--  *sponsor =3D NULL;
+--  *revision =3D NULL;
+--
+--  /* Now we determine the single parts of the locale name.  First
+--     look for the language.  Termination symbols are `_' and `@' if
+--     we use XPG4 style, and `_', `+', and `,' if we use CEN syntax.  */
+--  mask =3D 0;
+--  syntax =3D undecided;
+--  *language =3D cp =3D name;
+--  while (cp[0] !=3D '\0' && cp[0] !=3D '_' && cp[0] !=3D '@'
+--	 && cp[0] !=3D '+' && cp[0] !=3D ',')
+--    ++cp;
+--
+--  if (*language =3D=3D cp)
+--    /* This does not make sense: language has to be specified.  Use
+--       this entry as it is without exploding.  Perhaps it is an alias.  *=
+/
+--    cp =3D strchr (*language, '\0');
+--  else if (cp[0] =3D=3D '_')
+--    {
+--      /* Next is the territory.  */
+--      cp[0] =3D '\0';
+--      *territory =3D ++cp;
+--
+--      while (cp[0] !=3D '\0' && cp[0] !=3D '.' && cp[0] !=3D '@'
+--	     && cp[0] !=3D '+' && cp[0] !=3D ',' && cp[0] !=3D '_')
+--	++cp;
+--
+--      mask |=3D TERRITORY;
+--
+--      if (cp[0] =3D=3D '.')
+--	{
+--	  /* Next is the codeset.  */
+--	  syntax =3D xpg;
+--	  cp[0] =3D '\0';
+--	  *codeset =3D ++cp;
+--
+--	  while (cp[0] !=3D '\0' && cp[0] !=3D '@')
+--	    ++cp;
+--
+--	  mask |=3D XPG_CODESET;
+--
+--	  if (*codeset !=3D cp && (*codeset)[0] !=3D '\0')
+--	    {
+--	      *normalized_codeset =3D _nl_normalize_codeset (*codeset,
+--							   cp - *codeset);
+--	      if (strcmp (*codeset, *normalized_codeset) =3D=3D 0)
+--		free ((char *) *normalized_codeset);
+--	      else
+--		mask |=3D XPG_NORM_CODESET;
+--	    }
+--	}
+--    }
+--
+--  if (cp[0] =3D=3D '@' || (syntax !=3D xpg && cp[0] =3D=3D '+'))
+--    {
+--      /* Next is the modifier.  */
+--      syntax =3D cp[0] =3D=3D '@' ? xpg : cen;
+--      cp[0] =3D '\0';
+--      *modifier =3D ++cp;
+--
+--      while (syntax =3D=3D cen && cp[0] !=3D '\0' && cp[0] !=3D '+'
+--	     && cp[0] !=3D ',' && cp[0] !=3D '_')
+--	++cp;
+--
+--      mask |=3D XPG_MODIFIER | CEN_AUDIENCE;
+--    }
+--
+--  if (syntax !=3D xpg && (cp[0] =3D=3D '+' || cp[0] =3D=3D ',' || cp[0] =
+=3D=3D '_'))
+--    {
+--      syntax =3D cen;
+--
+--      if (cp[0] =3D=3D '+')
+--	{
+-- 	  /* Next is special application (CEN syntax).  */
+--	  cp[0] =3D '\0';
+--	  *special =3D ++cp;
+--
+--	  while (cp[0] !=3D '\0' && cp[0] !=3D ',' && cp[0] !=3D '_')
+--	    ++cp;
+--
+--	  mask |=3D CEN_SPECIAL;
+--	}
+--
+--      if (cp[0] =3D=3D ',')
+--	{
+-- 	  /* Next is sponsor (CEN syntax).  */
+--	  cp[0] =3D '\0';
+--	  *sponsor =3D ++cp;
+--
+--	  while (cp[0] !=3D '\0' && cp[0] !=3D '_')
+--	    ++cp;
+--
+--	  mask |=3D CEN_SPONSOR;
+--	}
+--
+--      if (cp[0] =3D=3D '_')
+--	{
+-- 	  /* Next is revision (CEN syntax).  */
+--	  cp[0] =3D '\0';
+--	  *revision =3D ++cp;
+--
+--	  mask |=3D CEN_REVISION;
+--	}
+--    }
+--
+--  /* For CEN syntax values it might be important to have the
+--     separator character in the file name, not for XPG syntax.  */
+--  if (syntax =3D=3D xpg)
+--    {
+--      if (*territory !=3D NULL && (*territory)[0] =3D=3D '\0')
+--	mask &=3D ~TERRITORY;
+--
+--      if (*codeset !=3D NULL && (*codeset)[0] =3D=3D '\0')
+--	mask &=3D ~XPG_CODESET;
+--
+--      if (*modifier !=3D NULL && (*modifier)[0] =3D=3D '\0')
+--	mask &=3D ~XPG_MODIFIER;
+--    }
+--
+--  return mask;
+--}
+-diff -uprN clean/lrzsz-0.12.20/intl/finddomain.c lrzsz-0.12.20/intl/finddo=
+main.c
+---- clean/lrzsz-0.12.20/intl/finddomain.c	1998-04-26 14:22:36.000000000 +0=
+100
+-+++ lrzsz-0.12.20/intl/finddomain.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,189 +0,0 @@
+--/* Handle list of needed message catalogs
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--   Written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#include <ctype.h>
+--#include <errno.h>
+--#include <stdio.h>
+--#include <sys/types.h>
+--
+--#if defined STDC_HEADERS || defined _LIBC
+--# include <stdlib.h>
+--#else
+--# ifdef HAVE_MALLOC_H
+--#  include <malloc.h>
+--# else
+--void free ();
+--# endif
+--#endif
+--
+--#if defined HAVE_STRING_H || defined _LIBC
+--# include <string.h>
+--#else
+--# include <strings.h>
+--# ifndef memcpy
+--#  define memcpy(Dst, Src, Num) bcopy (Src, Dst, Num)
+--# endif
+--#endif
+--#if !HAVE_STRCHR && !defined _LIBC
+--# ifndef strchr
+--#  define strchr index
+--# endif
+--#endif
+--
+--#if defined HAVE_UNISTD_H || defined _LIBC
+--# include <unistd.h>
+--#endif
+--
+--#include "gettext.h"
+--#include "gettextP.h"
+--#ifdef _LIBC
+--# include <libintl.h>
+--#else
+--# include "libgettext.h"
+--#endif
+--
+--/* @@ end of prolog @@ */
+--/* List of already loaded domains.  */
+--static struct loaded_l10nfile *_nl_loaded_domains;
+--
+--
+--/* Return a data structure describing the message catalog described by
+--   the DOMAINNAME and CATEGORY parameters with respect to the currently
+--   established bindings.  */
+--struct loaded_l10nfile *
+--_nl_find_domain (dirname, locale, domainname)
+--     const char *dirname;
+--     char *locale;
+--     const char *domainname;
+--{
+--  struct loaded_l10nfile *retval;
+--  const char *language;
+--  const char *modifier;
+--  const char *territory;
+--  const char *codeset;
+--  const char *normalized_codeset;
+--  const char *special;
+--  const char *sponsor;
+--  const char *revision;
+--  const char *alias_value;
+--  int mask;
+--
+--  /* LOCALE can consist of up to four recognized parts for the XPG syntax=
+:
+--
+--		language[_territory[.codeset]][@modifier]
+--
+--     and six parts for the CEN syntax:
+--
+--	language[_territory][+audience][+special][,[sponsor][_revision]]
+--
+--     Beside the first all of them are allowed to be missing.  If the
+--     full specified locale is not found, the less specific one are
+--     looked for.  The various part will be stripped of according to
+--     the following order:
+--		(1) revision
+--		(2) sponsor
+--		(3) special
+--		(4) codeset
+--		(5) normalized codeset
+--		(6) territory
+--		(7) audience/modifier
+--   */
+--
+--  /* If we have already tested for this locale entry there has to
+--     be one data set in the list of loaded domains.  */
+--  retval =3D _nl_make_l10nflist (&_nl_loaded_domains, dirname,
+--			       strlen (dirname) + 1, 0, locale, NULL, NULL,
+--			       NULL, NULL, NULL, NULL, NULL, domainname, 0);
+--  if (retval !=3D NULL)
+--    {
+--      /* We know something about this locale.  */
+--      int cnt;
+--
+--      if (retval->decided =3D=3D 0)
+--	_nl_load_domain (retval);
+--
+--      if (retval->data !=3D NULL)
+--	return retval;
+--
+--      for (cnt =3D 0; retval->successor[cnt] !=3D NULL; ++cnt)
+--	{
+--	  if (retval->successor[cnt]->decided =3D=3D 0)
+--	    _nl_load_domain (retval->successor[cnt]);
+--
+--	  if (retval->successor[cnt]->data !=3D NULL)
+--	    break;
+--	}
+--      return cnt >=3D 0 ? retval : NULL;
+--      /* NOTREACHED */
+--    }
+--
+--  /* See whether the locale value is an alias.  If yes its value
+--     *overwrites* the alias name.  No test for the original value is
+--     done.  */
+--  alias_value =3D _nl_expand_alias (locale);
+--  if (alias_value !=3D NULL)
+--    {
+--      size_t len =3D strlen (alias_value) + 1;
+--      locale =3D (char *) malloc (len);
+--      if (locale =3D=3D NULL)
+--	return NULL;
+--
+--      memcpy (locale, alias_value, len);
+--    }
+--
+--  /* Now we determine the single parts of the locale name.  First
+--     look for the language.  Termination symbols are `_' and `@' if
+--     we use XPG4 style, and `_', `+', and `,' if we use CEN syntax.  */
+--  mask =3D _nl_explode_name (locale, &language, &modifier, &territory,
+--			   &codeset, &normalized_codeset, &special,
+--			   &sponsor, &revision);
+--
+--  /* Create all possible locale entries which might be interested in
+--     generalization.  */
+--  retval =3D _nl_make_l10nflist (&_nl_loaded_domains, dirname,
+--			       strlen (dirname) + 1, mask, language, territory,
+--			       codeset, normalized_codeset, modifier, special,
+--			       sponsor, revision, domainname, 1);
+--  if (retval =3D=3D NULL)
+--    /* This means we are out of core.  */
+--    return NULL;
+--
+--  if (retval->decided =3D=3D 0)
+--    _nl_load_domain (retval);
+--  if (retval->data =3D=3D NULL)
+--    {
+--      int cnt;
+--      for (cnt =3D 0; retval->successor[cnt] !=3D NULL; ++cnt)
+--	{
+--	  if (retval->successor[cnt]->decided =3D=3D 0)
+--	    _nl_load_domain (retval->successor[cnt]);
+--	  if (retval->successor[cnt]->data !=3D NULL)
+--	    break;
+--	}
+--    }
+--
+--  /* The room for an alias was dynamically allocated.  Free it now.  */
+--  if (alias_value !=3D NULL)
+--    free (locale);
+--
+--  return retval;
+--}
+-diff -uprN clean/lrzsz-0.12.20/intl/gettext.c lrzsz-0.12.20/intl/gettext.c
+---- clean/lrzsz-0.12.20/intl/gettext.c	1998-04-26 14:22:36.000000000 +0100
+-+++ lrzsz-0.12.20/intl/gettext.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,70 +0,0 @@
+--/* Implementation of gettext(3) function
+--   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#ifdef _LIBC
+--# define __need_NULL
+--# include <stddef.h>
+--#else
+--# ifdef STDC_HEADERS
+--#  include <stdlib.h>		/* Just for NULL.  */
+--# else
+--#  ifdef HAVE_STRING_H
+--#   include <string.h>
+--#  else
+--#   define NULL ((void *) 0)
+--#  endif
+--# endif
+--#endif
+--
+--#ifdef _LIBC
+--# include <libintl.h>
+--#else
+--# include "libgettext.h"
+--#endif
+--
+--/* @@ end of prolog @@ */
+--
+--/* Names for the libintl functions are a problem.  They must not clash
+--   with existing names and they should follow ANSI C.  But this source
+--   code is also used in GNU C Library where the names have a __
+--   prefix.  So we have to make a difference here.  */
+--#ifdef _LIBC
+--# define GETTEXT __gettext
+--# define DGETTEXT __dgettext
+--#else
+--# define GETTEXT gettext__
+--# define DGETTEXT dgettext__
+--#endif
+--
+--/* Look up MSGID in the current default message catalog for the current
+--   LC_MESSAGES locale.  If not found, returns MSGID itself (the default
+--   text).  */
+--char *
+--GETTEXT (msgid)
+--     const char *msgid;
+--{
+--  return DGETTEXT (NULL, msgid);
+--}
+--
+--#ifdef _LIBC
+--/* Alias for function name in GNU C Library.  */
+--weak_alias (__gettext, gettext);
+--#endif
+-diff -uprN clean/lrzsz-0.12.20/intl/gettext.h lrzsz-0.12.20/intl/gettext.h
+---- clean/lrzsz-0.12.20/intl/gettext.h	1998-04-26 14:22:35.000000000 +0100
+-+++ lrzsz-0.12.20/intl/gettext.h	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,105 +0,0 @@
+--/* Internal header for GNU gettext internationalization functions
+--   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU Library General Public
+--   License along with the GNU C Library; see the file COPYING.LIB.  If no=
+t,
+--   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 3=
+30,
+--   Boston, MA 02111-1307, USA.  */
+--
+--#ifndef _GETTEXT_H
+--#define _GETTEXT_H 1
+--
+--#include <stdio.h>
+--
+--#if HAVE_LIMITS_H || _LIBC
+--# include <limits.h>
+--#endif
+--
+--/* @@ end of prolog @@ */
+--
+--/* The magic number of the GNU message catalog format.  */
+--#define _MAGIC 0x950412de
+--#define _MAGIC_SWAPPED 0xde120495
+--
+--/* Revision number of the currently used .mo (binary) file format.  */
+--#define MO_REVISION_NUMBER 0
+--
+--/* The following contortions are an attempt to use the C preprocessor
+--   to determine an unsigned integral type that is 32 bits wide.  An
+--   alternative approach is to use autoconf's AC_CHECK_SIZEOF macro, but
+--   doing that would require that the configure script compile and *run*
+--   the resulting executable.  Locally running cross-compiled executables
+--   is usually not possible.  */
+--
+--#if __STDC__
+--# define UINT_MAX_32_BITS 4294967295U
+--#else
+--# define UINT_MAX_32_BITS 0xFFFFFFFF
+--#endif
+--
+--/* If UINT_MAX isn't defined, assume it's a 32-bit type.
+--   This should be valid for all systems GNU cares about because
+--   that doesn't include 16-bit systems, and only modern systems
+--   (that certainly have <limits.h>) have 64+-bit integral types.  */
+--
+--#ifndef UINT_MAX
+--# define UINT_MAX UINT_MAX_32_BITS
+--#endif
+--
+--#if UINT_MAX =3D=3D UINT_MAX_32_BITS
+--typedef unsigned nls_uint32;
+--#else
+--# if USHRT_MAX =3D=3D UINT_MAX_32_BITS
+--typedef unsigned short nls_uint32;
+--# else
+--#  if ULONG_MAX =3D=3D UINT_MAX_32_BITS
+--typedef unsigned long nls_uint32;
+--#  else
+--  /* The following line is intended to throw an error.  Using #error is
+--     not portable enough.  */
+--  "Cannot determine unsigned 32-bit data type."
+--#  endif
+--# endif
+--#endif
+--
+--
+--/* Header for binary .mo file format.  */
+--struct mo_file_header
+--{
+--  /* The magic number.  */
+--  nls_uint32 magic;
+--  /* The revision number of the file format.  */
+--  nls_uint32 revision;
+--  /* The number of strings pairs.  */
+--  nls_uint32 nstrings;
+--  /* Offset of table with start offsets of original strings.  */
+--  nls_uint32 orig_tab_offset;
+--  /* Offset of table with start offsets of translation strings.  */
+--  nls_uint32 trans_tab_offset;
+--  /* Size of hashing table.  */
+--  nls_uint32 hash_tab_size;
+--  /* Offset of first hashing entry.  */
+--  nls_uint32 hash_tab_offset;
+--};
+--
+--struct string_desc
+--{
+--  /* Length of addressed string.  */
+--  nls_uint32 length;
+--  /* Offset of string in file.  */
+--  nls_uint32 offset;
+--};
+--
+--/* @@ begin of epilog @@ */
+--
+--#endif	/* gettext.h  */
+-diff -uprN clean/lrzsz-0.12.20/intl/gettextP.h lrzsz-0.12.20/intl/gettextP=
+.h
+---- clean/lrzsz-0.12.20/intl/gettextP.h	1998-04-26 14:22:35.000000000 +010=
+0
+-+++ lrzsz-0.12.20/intl/gettextP.h	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,73 +0,0 @@
+--/* Header describing internals of gettext library
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifndef _GETTEXTP_H
+--#define _GETTEXTP_H
+--
+--#include "loadinfo.h"
+--
+--/* @@ end of prolog @@ */
+--
+--#ifndef PARAMS
+--# if __STDC__
+--#  define PARAMS(args) args
+--# else
+--#  define PARAMS(args) ()
+--# endif
+--#endif
+--
+--#ifndef W
+--# define W(flag, data) ((flag) ? SWAP (data) : (data))
+--#endif
+--
+--
+--static nls_uint32 SWAP PARAMS ((nls_uint32 i));
+--
+--static inline nls_uint32
+--SWAP (i)
+--     nls_uint32 i;
+--{
+--  return (i << 24) | ((i & 0xff00) << 8) | ((i >> 8) & 0xff00) | (i >> 24=
+);
+--}
+--
+--
+--struct loaded_domain
+--{
+--  const char *data;
+--  int must_swap;
+--  nls_uint32 nstrings;
+--  struct string_desc *orig_tab;
+--  struct string_desc *trans_tab;
+--  nls_uint32 hash_size;
+--  nls_uint32 *hash_tab;
+--};
+--
+--struct binding
+--{
+--  struct binding *next;
+--  char *domainname;
+--  char *dirname;
+--};
+--
+--struct loaded_l10nfile *_nl_find_domain PARAMS ((const char *__dirname,
+--						 char *__locale,
+--						 const char *__domainname));
+--void _nl_load_domain PARAMS ((struct loaded_l10nfile *__domain));
+--
+--/* @@ begin of epilog @@ */
+--
+--#endif /* gettextP.h  */
+-diff -uprN clean/lrzsz-0.12.20/intl/hash-string.h lrzsz-0.12.20/intl/hash-=
+string.h
+---- clean/lrzsz-0.12.20/intl/hash-string.h	1998-04-26 14:22:36.000000000 +=
+0100
+-+++ lrzsz-0.12.20/intl/hash-string.h	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,63 +0,0 @@
+--/* Implements a string hashing function.
+--   Copyright (C) 1995, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU Library General Public
+--   License along with the GNU C Library; see the file COPYING.LIB.  If no=
+t,
+--   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 3=
+30,
+--   Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_VALUES_H
+--# include <values.h>
+--#endif
+--
+--/* @@ end of prolog @@ */
+--
+--#ifndef PARAMS
+--# if __STDC__
+--#  define PARAMS(Args) Args
+--# else
+--#  define PARAMS(Args) ()
+--# endif
+--#endif
+--
+--/* We assume to have `unsigned long int' value with at least 32 bits.  */
+--#define HASHWORDBITS 32
+--
+--
+--/* Defines the so called `hashpjw' function by P.J. Weinberger
+--   [see Aho/Sethi/Ullman, COMPILERS: Principles, Techniques and Tools,
+--   1986, 1987 Bell Telephone Laboratories, Inc.]  */
+--static unsigned long hash_string PARAMS ((const char *__str_param));
+--
+--static inline unsigned long
+--hash_string (str_param)
+--     const char *str_param;
+--{
+--  unsigned long int hval, g;
+--  const char *str =3D str_param;
+--
+--  /* Compute the hash value for the given string.  */
+--  hval =3D 0;
+--  while (*str !=3D '\0')
+--    {
+--      hval <<=3D 4;
+--      hval +=3D (unsigned long) *str++;
+--      g =3D hval & ((unsigned long) 0xf << (HASHWORDBITS - 4));
+--      if (g !=3D 0)
+--	{
+--	  hval ^=3D g >> (HASHWORDBITS - 8);
+--	  hval ^=3D g;
+--	}
+--    }
+--  return hval;
+--}
+-diff -uprN clean/lrzsz-0.12.20/intl/intl-compat.c lrzsz-0.12.20/intl/intl-=
+compat.c
+---- clean/lrzsz-0.12.20/intl/intl-compat.c	1998-04-26 14:20:52.000000000 +=
+0100
+-+++ lrzsz-0.12.20/intl/intl-compat.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,76 +0,0 @@
+--/* intl-compat.c - Stub functions to call gettext functions from GNU gett=
+ext
+--   Library.
+--   Copyright (C) 1995 Software Foundation, Inc.
+--
+--This program is free software; you can redistribute it and/or modify
+--it under the terms of the GNU General Public License as published by
+--the Free Software Foundation; either version 2, or (at your option)
+--any later version.
+--
+--This program is distributed in the hope that it will be useful,
+--but WITHOUT ANY WARRANTY; without even the implied warranty of
+--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--GNU General Public License for more details.
+--
+--You should have received a copy of the GNU General Public License
+--along with this program; if not, write to the Free Software
+--Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA=
+.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#include "libgettext.h"
+--
+--/* @@ end of prolog @@ */
+--
+--
+--#undef gettext
+--#undef dgettext
+--#undef dcgettext
+--#undef textdomain
+--#undef bindtextdomain
+--
+--
+--char *
+--bindtextdomain (domainname, dirname)
+--     const char *domainname;
+--     const char *dirname;
+--{
+--  return bindtextdomain__ (domainname, dirname);
+--}
+--
+--
+--char *
+--dcgettext (domainname, msgid, category)
+--     const char *domainname;
+--     const char *msgid;
+--     int category;
+--{
+--  return dcgettext__ (domainname, msgid, category);
+--}
+--
+--
+--char *
+--dgettext (domainname, msgid)
+--     const char *domainname;
+--     const char *msgid;
+--{
+--  return dgettext__ (domainname, msgid);
+--}
+--
+--
+--char *
+--gettext (msgid)
+--     const char *msgid;
+--{
+--  return gettext__ (msgid);
+--}
+--
+--
+--char *
+--textdomain (domainname)
+--     const char *domainname;
+--{
+--  return textdomain__ (domainname);
+--}
+-diff -uprN clean/lrzsz-0.12.20/intl/l10nflist.c lrzsz-0.12.20/intl/l10nfli=
+st.c
+---- clean/lrzsz-0.12.20/intl/l10nflist.c	1998-04-26 14:22:37.000000000 +01=
+00
+-+++ lrzsz-0.12.20/intl/l10nflist.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,409 +0,0 @@
+--/* Handle list of needed message catalogs
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--   Written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--
+--#if defined HAVE_STRING_H || defined _LIBC
+--# ifndef _GNU_SOURCE
+--#  define _GNU_SOURCE	1
+--# endif
+--# include <string.h>
+--#else
+--# include <strings.h>
+--# ifndef memcpy
+--#  define memcpy(Dst, Src, Num) bcopy (Src, Dst, Num)
+--# endif
+--#endif
+--#if !HAVE_STRCHR && !defined _LIBC
+--# ifndef strchr
+--#  define strchr index
+--# endif
+--#endif
+--
+--#if defined _LIBC || defined HAVE_ARGZ_H
+--# include <argz.h>
+--#endif
+--#include <ctype.h>
+--#include <sys/types.h>
+--
+--#if defined STDC_HEADERS || defined _LIBC
+--# include <stdlib.h>
+--#endif
+--
+--#include "loadinfo.h"
+--
+--/* On some strange systems still no definition of NULL is found.  Sigh!  =
+*/
+--#ifndef NULL
+--# if defined __STDC__ && __STDC__
+--#  define NULL ((void *) 0)
+--# else
+--#  define NULL 0
+--# endif
+--#endif
+--
+--/* @@ end of prolog @@ */
+--
+--#ifdef _LIBC
+--/* Rename the non ANSI C functions.  This is required by the standard
+--   because some ANSI C functions will require linking with this object
+--   file and the name space must not be polluted.  */
+--# define stpcpy(dest, src) __stpcpy(dest, src)
+--#else
+--# ifndef HAVE_STPCPY
+--static char *stpcpy PARAMS ((char *dest, const char *src));
+--# endif
+--#endif
+--
+--/* Define function which are usually not available.  */
+--
+--#if !defined _LIBC && !defined HAVE___ARGZ_COUNT
+--/* Returns the number of strings in ARGZ.  */
+--static size_t argz_count__ PARAMS ((const char *argz, size_t len));
+--
+--static size_t
+--argz_count__ (argz, len)
+--     const char *argz;
+--     size_t len;
+--{
+--  size_t count =3D 0;
+--  while (len > 0)
+--    {
+--      size_t part_len =3D strlen (argz);
+--      argz +=3D part_len + 1;
+--      len -=3D part_len + 1;
+--      count++;
+--    }
+--  return count;
+--}
+--# undef __argz_count
+--# define __argz_count(argz, len) argz_count__ (argz, len)
+--#endif	/* !_LIBC && !HAVE___ARGZ_COUNT */
+--
+--#if !defined _LIBC && !defined HAVE___ARGZ_STRINGIFY
+--/* Make '\0' separated arg vector ARGZ printable by converting all the '\=
+0's
+--   except the last into the character SEP.  */
+--static void argz_stringify__ PARAMS ((char *argz, size_t len, int sep));
+--
+--static void
+--argz_stringify__ (argz, len, sep)
+--     char *argz;
+--     size_t len;
+--     int sep;
+--{
+--  while (len > 0)
+--    {
+--      size_t part_len =3D strlen (argz);
+--      argz +=3D part_len;
+--      len -=3D part_len + 1;
+--      if (len > 0)
+--	*argz++ =3D sep;
+--    }
+--}
+--# undef __argz_stringify
+--# define __argz_stringify(argz, len, sep) argz_stringify__ (argz, len, se=
+p)
+--#endif	/* !_LIBC && !HAVE___ARGZ_STRINGIFY */
+--
+--#if !defined _LIBC && !defined HAVE___ARGZ_NEXT
+--static char *argz_next__ PARAMS ((char *argz, size_t argz_len,
+--				  const char *entry));
+--
+--static char *
+--argz_next__ (argz, argz_len, entry)
+--     char *argz;
+--     size_t argz_len;
+--     const char *entry;
+--{
+--  if (entry)
+--    {
+--      if (entry < argz + argz_len)
+--        entry =3D strchr (entry, '\0') + 1;
+--
+--      return entry >=3D argz + argz_len ? NULL : (char *) entry;
+--    }
+--  else
+--    if (argz_len > 0)
+--      return argz;
+--    else
+--      return 0;
+--}
+--# undef __argz_next
+--# define __argz_next(argz, len, entry) argz_next__ (argz, len, entry)
+--#endif	/* !_LIBC && !HAVE___ARGZ_NEXT */
+--
+--
+--/* Return number of bits set in X.  */
+--static int pop PARAMS ((int x));
+--
+--static inline int
+--pop (x)
+--     int x;
+--{
+--  /* We assume that no more than 16 bits are used.  */
+--  x =3D ((x & ~0x5555) >> 1) + (x & 0x5555);
+--  x =3D ((x & ~0x3333) >> 2) + (x & 0x3333);
+--  x =3D ((x >> 4) + x) & 0x0f0f;
+--  x =3D ((x >> 8) + x) & 0xff;
+--
+--  return x;
+--}
+--
+--=0C
+--struct loaded_l10nfile *
+--_nl_make_l10nflist (l10nfile_list, dirlist, dirlist_len, mask, language,
+--		    territory, codeset, normalized_codeset, modifier, special,
+--		    sponsor, revision, filename, do_allocate)
+--     struct loaded_l10nfile **l10nfile_list;
+--     const char *dirlist;
+--     size_t dirlist_len;
+--     int mask;
+--     const char *language;
+--     const char *territory;
+--     const char *codeset;
+--     const char *normalized_codeset;
+--     const char *modifier;
+--     const char *special;
+--     const char *sponsor;
+--     const char *revision;
+--     const char *filename;
+--     int do_allocate;
+--{
+--  char *abs_filename;
+--  struct loaded_l10nfile *last =3D NULL;
+--  struct loaded_l10nfile *retval;
+--  char *cp;
+--  size_t entries;
+--  int cnt;
+--
+--  /* Allocate room for the full file name.  */
+--  abs_filename =3D (char *) malloc (dirlist_len
+--				  + strlen (language)
+--				  + ((mask & TERRITORY) !=3D 0
+--				     ? strlen (territory) + 1 : 0)
+--				  + ((mask & XPG_CODESET) !=3D 0
+--				     ? strlen (codeset) + 1 : 0)
+--				  + ((mask & XPG_NORM_CODESET) !=3D 0
+--				     ? strlen (normalized_codeset) + 1 : 0)
+--				  + (((mask & XPG_MODIFIER) !=3D 0
+--				      || (mask & CEN_AUDIENCE) !=3D 0)
+--				     ? strlen (modifier) + 1 : 0)
+--				  + ((mask & CEN_SPECIAL) !=3D 0
+--				     ? strlen (special) + 1 : 0)
+--				  + (((mask & CEN_SPONSOR) !=3D 0
+--				      || (mask & CEN_REVISION) !=3D 0)
+--				     ? (1 + ((mask & CEN_SPONSOR) !=3D 0
+--					     ? strlen (sponsor) + 1 : 0)
+--					+ ((mask & CEN_REVISION) !=3D 0
+--					   ? strlen (revision) + 1 : 0)) : 0)
+--				  + 1 + strlen (filename) + 1);
+--
+--  if (abs_filename =3D=3D NULL)
+--    return NULL;
+--
+--  retval =3D NULL;
+--  last =3D NULL;
+--
+--  /* Construct file name.  */
+--  memcpy (abs_filename, dirlist, dirlist_len);
+--  __argz_stringify (abs_filename, dirlist_len, ':');
+--  cp =3D abs_filename + (dirlist_len - 1);
+--  *cp++ =3D '/';
+--  cp =3D stpcpy (cp, language);
+--
+--  if ((mask & TERRITORY) !=3D 0)
+--    {
+--      *cp++ =3D '_';
+--      cp =3D stpcpy (cp, territory);
+--    }
+--  if ((mask & XPG_CODESET) !=3D 0)
+--    {
+--      *cp++ =3D '.';
+--      cp =3D stpcpy (cp, codeset);
+--    }
+--  if ((mask & XPG_NORM_CODESET) !=3D 0)
+--    {
+--      *cp++ =3D '.';
+--      cp =3D stpcpy (cp, normalized_codeset);
+--    }
+--  if ((mask & (XPG_MODIFIER | CEN_AUDIENCE)) !=3D 0)
+--    {
+--      /* This component can be part of both syntaces but has different
+--	 leading characters.  For CEN we use `+', else `@'.  */
+--      *cp++ =3D (mask & CEN_AUDIENCE) !=3D 0 ? '+' : '@';
+--      cp =3D stpcpy (cp, modifier);
+--    }
+--  if ((mask & CEN_SPECIAL) !=3D 0)
+--    {
+--      *cp++ =3D '+';
+--      cp =3D stpcpy (cp, special);
+--    }
+--  if ((mask & (CEN_SPONSOR | CEN_REVISION)) !=3D 0)
+--    {
+--      *cp++ =3D ',';
+--      if ((mask & CEN_SPONSOR) !=3D 0)
+--	cp =3D stpcpy (cp, sponsor);
+--      if ((mask & CEN_REVISION) !=3D 0)
+--	{
+--	  *cp++ =3D '_';
+--	  cp =3D stpcpy (cp, revision);
+--	}
+--    }
+--
+--  *cp++ =3D '/';
+--  stpcpy (cp, filename);
+--
+--  /* Look in list of already loaded domains whether it is already
+--     available.  */
+--  last =3D NULL;
+--  for (retval =3D *l10nfile_list; retval !=3D NULL; retval =3D retval->ne=
+xt)
+--    if (retval->filename !=3D NULL)
+--      {
+--	int compare =3D strcmp (retval->filename, abs_filename);
+--	if (compare =3D=3D 0)
+--	  /* We found it!  */
+--	  break;
+--	if (compare < 0)
+--	  {
+--	    /* It's not in the list.  */
+--	    retval =3D NULL;
+--	    break;
+--	  }
+--
+--	last =3D retval;
+--      }
+--
+--  if (retval !=3D NULL || do_allocate =3D=3D 0)
+--    {
+--      free (abs_filename);
+--      return retval;
+--    }
+--
+--  retval =3D (struct loaded_l10nfile *)
+--    malloc (sizeof (*retval) + (__argz_count (dirlist, dirlist_len)
+--				* (1 << pop (mask))
+--				* sizeof (struct loaded_l10nfile *)));
+--  if (retval =3D=3D NULL)
+--    return NULL;
+--
+--  retval->filename =3D abs_filename;
+--  retval->decided =3D (__argz_count (dirlist, dirlist_len) !=3D 1
+--		     || ((mask & XPG_CODESET) !=3D 0
+--			 && (mask & XPG_NORM_CODESET) !=3D 0));
+--  retval->data =3D NULL;
+--
+--  if (last =3D=3D NULL)
+--    {
+--      retval->next =3D *l10nfile_list;
+--      *l10nfile_list =3D retval;
+--    }
+--  else
+--    {
+--      retval->next =3D last->next;
+--      last->next =3D retval;
+--    }
+--
+--  entries =3D 0;
+--  /* If the DIRLIST is a real list the RETVAL entry corresponds not to
+--     a real file.  So we have to use the DIRLIST separation mechanism
+--     of the inner loop.  */
+--  cnt =3D __argz_count (dirlist, dirlist_len) =3D=3D 1 ? mask - 1 : mask;
+--  for (; cnt >=3D 0; --cnt)
+--    if ((cnt & ~mask) =3D=3D 0
+--	&& ((cnt & CEN_SPECIFIC) =3D=3D 0 || (cnt & XPG_SPECIFIC) =3D=3D 0)
+--	&& ((cnt & XPG_CODESET) =3D=3D 0 || (cnt & XPG_NORM_CODESET) =3D=3D 0))
+--      {
+--	/* Iterate over all elements of the DIRLIST.  */
+--	char *dir =3D NULL;
+--
+--	while ((dir =3D __argz_next ((char *) dirlist, dirlist_len, dir))
+--	       !=3D NULL)
+--	  retval->successor[entries++]
+--	    =3D _nl_make_l10nflist (l10nfile_list, dir, strlen (dir) + 1, cnt,
+--				  language, territory, codeset,
+--				  normalized_codeset, modifier, special,
+--				  sponsor, revision, filename, 1);
+--      }
+--  retval->successor[entries] =3D NULL;
+--
+--  return retval;
+--}
+--=0C
+--/* Normalize codeset name.  There is no standard for the codeset
+--   names.  Normalization allows the user to use any of the common
+--   names.  */
+--const char *
+--_nl_normalize_codeset (codeset, name_len)
+--     const char *codeset;
+--     size_t name_len;
+--{
+--  int len =3D 0;
+--  int only_digit =3D 1;
+--  char *retval;
+--  char *wp;
+--  size_t cnt;
+--
+--  for (cnt =3D 0; cnt < name_len; ++cnt)
+--    if (isalnum (codeset[cnt]))
+--      {
+--	++len;
+--
+--	if (isalpha (codeset[cnt]))
+--	  only_digit =3D 0;
+--      }
+--
+--  retval =3D (char *) malloc ((only_digit ? 3 : 0) + len + 1);
+--
+--  if (retval !=3D NULL)
+--    {
+--      if (only_digit)
+--	wp =3D stpcpy (retval, "iso");
+--      else
+--	wp =3D retval;
+--
+--      for (cnt =3D 0; cnt < name_len; ++cnt)
+--	if (isalpha (codeset[cnt]))
+--	  *wp++ =3D tolower (codeset[cnt]);
+--	else if (isdigit (codeset[cnt]))
+--	  *wp++ =3D codeset[cnt];
+--
+--      *wp =3D '\0';
+--    }
+--
+--  return (const char *) retval;
+--}
+--
+--
+--/* @@ begin of epilog @@ */
+--
+--/* We don't want libintl.a to depend on any other library.  So we
+--   avoid the non-standard function stpcpy.  In GNU C Library this
+--   function is available, though.  Also allow the symbol HAVE_STPCPY
+--   to be defined.  */
+--#if !_LIBC && !HAVE_STPCPY
+--static char *
+--stpcpy (dest, src)
+--     char *dest;
+--     const char *src;
+--{
+--  while ((*dest++ =3D *src++) !=3D '\0')
+--    /* Do nothing. */ ;
+--  return dest - 1;
+--}
+--#endif
+-diff -uprN clean/lrzsz-0.12.20/intl/libgettext.h lrzsz-0.12.20/intl/libget=
+text.h
+---- clean/lrzsz-0.12.20/intl/libgettext.h	1998-04-26 14:22:36.000000000 +0=
+100
+-+++ lrzsz-0.12.20/intl/libgettext.h	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,182 +0,0 @@
+--/* Message catalogs for internationalization.
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--/* Because on some systems (e.g. Solaris) we sometimes have to include
+--   the systems libintl.h as well as this file we have more complex
+--   include protection above.  But the systems header might perhaps also
+--   define _LIBINTL_H and therefore we have to protect the definition here=
+.  */
+--
+--#if !defined (_LIBINTL_H) || !defined (_LIBGETTEXT_H)
+--#if !defined (_LIBINTL_H)
+--# define _LIBINTL_H	1
+--#endif
+--#define _LIBGETTEXT_H	1
+--
+--/* We define an additional symbol to signal that we use the GNU
+--   implementation of gettext.  */
+--#define __USE_GNU_GETTEXT 1
+--
+--#include <sys/types.h>
+--
+--#if HAVE_LOCALE_H
+--# include <locale.h>
+--#endif
+--
+--
+--#ifdef __cplusplus
+--extern "C" {
+--#endif
+--
+--/* @@ end of prolog @@ */
+--
+--#ifndef PARAMS
+--# if __STDC__
+--#  define PARAMS(args) args
+--# else
+--#  define PARAMS(args) ()
+--# endif
+--#endif
+--
+--#ifndef NULL
+--# if !defined __cplusplus || defined __GNUC__
+--#  define NULL ((void *) 0)
+--# else
+--#  define NULL (0)
+--# endif
+--#endif
+--
+--#if !HAVE_LC_MESSAGES
+--/* This value determines the behaviour of the gettext() and dgettext()
+--   function.  But some system does not have this defined.  Define it
+--   to a default value.  */
+--# define LC_MESSAGES (-1)
+--#endif
+--
+--
+--/* Declarations for gettext-using-catgets interface.  Derived from
+--   Jim Meyering's libintl.h.  */
+--struct _msg_ent
+--{
+--  const char *_msg;
+--  int _msg_number;
+--};
+--
+--
+--#if HAVE_CATGETS
+--/* These two variables are defined in the automatically by po-to-tbl.sed
+--   generated file `cat-id-tbl.c'.  */
+--extern const struct _msg_ent _msg_tbl[];
+--extern int _msg_tbl_length;
+--#endif
+--
+--
+--/* For automatical extraction of messages sometimes no real
+--   translation is needed.  Instead the string itself is the result.  */
+--#define gettext_noop(Str) (Str)
+--
+--/* Look up MSGID in the current default message catalog for the current
+--   LC_MESSAGES locale.  If not found, returns MSGID itself (the default
+--   text).  */
+--extern char *gettext PARAMS ((const char *__msgid));
+--extern char *gettext__ PARAMS ((const char *__msgid));
+--
+--/* Look up MSGID in the DOMAINNAME message catalog for the current
+--   LC_MESSAGES locale.  */
+--extern char *dgettext PARAMS ((const char *__domainname, const char *__ms=
+gid));
+--extern char *dgettext__ PARAMS ((const char *__domainname,
+--				 const char *__msgid));
+--
+--/* Look up MSGID in the DOMAINNAME message catalog for the current CATEGO=
+RY
+--   locale.  */
+--extern char *dcgettext PARAMS ((const char *__domainname, const char *__m=
+sgid,
+--				int __category));
+--extern char *dcgettext__ PARAMS ((const char *__domainname,
+--				  const char *__msgid, int __category));
+--
+--
+--/* Set the current default message catalog to DOMAINNAME.
+--   If DOMAINNAME is null, return the current default.
+--   If DOMAINNAME is "", reset to the default of "messages".  */
+--extern char *textdomain PARAMS ((const char *__domainname));
+--extern char *textdomain__ PARAMS ((const char *__domainname));
+--
+--/* Specify that the DOMAINNAME message catalog will be found
+--   in DIRNAME rather than in the system locale data base.  */
+--extern char *bindtextdomain PARAMS ((const char *__domainname,
+--				  const char *__dirname));
+--extern char *bindtextdomain__ PARAMS ((const char *__domainname,
+--				    const char *__dirname));
+--
+--#if ENABLE_NLS
+--
+--/* Solaris 2.3 has the gettext function but dcgettext is missing.
+--   So we omit this optimization for Solaris 2.3.  BTW, Solaris 2.4
+--   has dcgettext.  */
+--# if !HAVE_CATGETS && (!HAVE_GETTEXT || HAVE_DCGETTEXT)
+--
+--#  define gettext(Msgid)						      \
+--     dgettext (NULL, Msgid)
+--
+--#  define dgettext(Domainname, Msgid)					      \
+--     dcgettext (Domainname, Msgid, LC_MESSAGES)
+--
+--#  if defined __GNUC__ && __GNUC__ =3D=3D 2 && __GNUC_MINOR__ >=3D 7
+--/* This global variable is defined in loadmsgcat.c.  We need a sign,
+--   whether a new catalog was loaded, which can be associated with all
+--   translations.  */
+--extern int _nl_msg_cat_cntr;
+--
+--#   define dcgettext(Domainname, Msgid, Category)			      \
+--  (__extension__							      \
+--   ({									      \
+--     char *__result;							      \
+--     if (__builtin_constant_p (Msgid))					      \
+--       {								      \
+--	 static char *__translation__;					      \
+--	 static int __catalog_counter__;				      \
+--	 if (! __translation__ || __catalog_counter__ !=3D _nl_msg_cat_cntr)    =
+\
+--	   {								      \
+--	     __translation__ =3D						      \
+--	       dcgettext__ (Domainname, Msgid, Category);		      \
+--	     __catalog_counter__ =3D _nl_msg_cat_cntr;			      \
+--	   }								      \
+--	 __result =3D __translation__;					      \
+--       }								      \
+--     else								      \
+--       __result =3D dcgettext__ (Domainname, Msgid, Category);		      \
+--     __result;								      \
+--    }))
+--#  endif
+--# endif
+--
+--#else
+--
+--# define gettext(Msgid) (Msgid)
+--# define dgettext(Domainname, Msgid) (Msgid)
+--# define dcgettext(Domainname, Msgid, Category) (Msgid)
+--# define textdomain(Domainname) while (0) /* nothing */
+--# define bindtextdomain(Domainname, Dirname) while (0) /* nothing */
+--
+--#endif
+--
+--/* @@ begin of epilog @@ */
+--
+--#ifdef __cplusplus
+--}
+--#endif
+--
+--#endif
+-diff -uprN clean/lrzsz-0.12.20/intl/linux-msg.sed lrzsz-0.12.20/intl/linux=
+-msg.sed
+---- clean/lrzsz-0.12.20/intl/linux-msg.sed	1998-04-26 14:20:52.000000000 +=
+0100
+-+++ lrzsz-0.12.20/intl/linux-msg.sed	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,100 +0,0 @@
+--# po2msg.sed - Convert Uniforum style .po file to Linux style .msg file
+--# Copyright (C) 1995 Free Software Foundation, Inc.
+--# Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+--#
+--# This program is free software; you can redistribute it and/or modify
+--# it under the terms of the GNU General Public License as published by
+--# the Free Software Foundation; either version 2, or (at your option)
+--# any later version.
+--#
+--# This program is distributed in the hope that it will be useful,
+--# but WITHOUT ANY WARRANTY; without even the implied warranty of
+--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--# GNU General Public License for more details.
+--#
+--# You should have received a copy of the GNU General Public License
+--# along with this program; if not, write to the Free Software
+--# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, U=
+SA.
+--#
+--#
+--# The first directive in the .msg should be the definition of the
+--# message set number.  We use always set number 1.
+--#
+--1 {
+--  i\
+--$set 1 # Automatically created by po2msg.sed
+--  h
+--  s/.*/0/
+--  x
+--}
+--#
+--# Mitch's old catalog format does not allow comments.
+--#
+--# We copy the original message as a comment into the .msg file.
+--#
+--/^msgid/ {
+--  s/msgid[ 	]*"//
+--#
+--# This does not work now with the new format.
+--# /"$/! {
+--#   s/\\$//
+--#   s/$/ ... (more lines following)"/
+--# }
+--  x
+--# The following nice solution is by
+--# Bruno <Haible@ma2s2.mathematik.uni-karlsruhe.de>
+--  td
+--# Increment a decimal number in pattern space.
+--# First hide trailing `9' digits.
+--  :d
+--  s/9\(_*\)$/_\1/
+--  td
+--# Assure at least one digit is available.
+--  s/^\(_*\)$/0\1/
+--# Increment the last digit.
+--  s/8\(_*\)$/9\1/
+--  s/7\(_*\)$/8\1/
+--  s/6\(_*\)$/7\1/
+--  s/5\(_*\)$/6\1/
+--  s/4\(_*\)$/5\1/
+--  s/3\(_*\)$/4\1/
+--  s/2\(_*\)$/3\1/
+--  s/1\(_*\)$/2\1/
+--  s/0\(_*\)$/1\1/
+--# Convert the hidden `9' digits to `0's.
+--  s/_/0/g
+--  x
+--  G
+--  s/\(.*\)"\n\([0-9]*\)/$ #\2 Original Message:(\1)/p
+--}
+--#
+--# The .msg file contains, other then the .po file, only the translations
+--# but each given a unique ID.  Starting from 1 and incrementing by 1 for
+--# each message we assign them to the messages.
+--# It is important that the .po file used to generate the cat-id-tbl.c fil=
+e
+--# (with po-to-tbl) is the same as the one used here.  (At least the order
+--# of declarations must not be changed.)
+--#
+--/^msgstr/ {
+--  s/msgstr[ 	]*"\(.*\)"/# \1/
+--# Clear substitution flag.
+--  tb
+--# Append the next line.
+--  :b
+--  N
+--# Look whether second part is continuation line.
+--  s/\(.*\n\)"\(.*\)"/\1\2/
+--# Yes, then branch.
+--  ta
+--  P
+--  D
+--# Note that D includes a jump to the start!!
+--# We found a continuation line.  But before printing insert '\'.
+--  :a
+--  s/\(.*\)\(\n.*\)/\1\\\2/
+--  P
+--# We cannot use D here.
+--  s/.*\n\(.*\)/\1/
+--  tb
+--}
+--d
+-diff -uprN clean/lrzsz-0.12.20/intl/loadinfo.h lrzsz-0.12.20/intl/loadinfo=
+.h
+---- clean/lrzsz-0.12.20/intl/loadinfo.h	1998-04-26 14:20:52.000000000 +010=
+0
+-+++ lrzsz-0.12.20/intl/loadinfo.h	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,58 +0,0 @@
+--#ifndef PARAMS
+--# if __STDC__
+--#  define PARAMS(args) args
+--# else
+--#  define PARAMS(args) ()
+--# endif
+--#endif
+--
+--/* Encoding of locale name parts.  */
+--#define CEN_REVISION		1
+--#define CEN_SPONSOR		2
+--#define CEN_SPECIAL		4
+--#define XPG_NORM_CODESET	8
+--#define XPG_CODESET		16
+--#define TERRITORY		32
+--#define CEN_AUDIENCE		64
+--#define XPG_MODIFIER		128
+--
+--#define CEN_SPECIFIC	(CEN_REVISION|CEN_SPONSOR|CEN_SPECIAL|CEN_AUDIENCE)
+--#define XPG_SPECIFIC	(XPG_CODESET|XPG_NORM_CODESET|XPG_MODIFIER)
+--
+--
+--struct loaded_l10nfile
+--{
+--  const char *filename;
+--  int decided;
+--
+--  const void *data;
+--
+--  struct loaded_l10nfile *next;
+--  struct loaded_l10nfile *successor[1];
+--};
+--
+--
+--extern const char *_nl_normalize_codeset PARAMS ((const char *codeset,
+--						  size_t name_len));
+--
+--extern struct loaded_l10nfile *
+--_nl_make_l10nflist PARAMS ((struct loaded_l10nfile **l10nfile_list,
+--			    const char *dirlist, size_t dirlist_len, int mask,
+--			    const char *language, const char *territory,
+--			    const char *codeset,
+--			    const char *normalized_codeset,
+--			    const char *modifier, const char *special,
+--			    const char *sponsor, const char *revision,
+--			    const char *filename, int do_allocate));
+--
+--
+--extern const char *_nl_expand_alias PARAMS ((const char *name));
+--
+--extern int _nl_explode_name PARAMS ((char *name, const char **language,
+--				     const char **modifier,
+--				     const char **territory,
+--				     const char **codeset,
+--				     const char **normalized_codeset,
+--				     const char **special,
+--				     const char **sponsor,
+--				     const char **revision));
+-diff -uprN clean/lrzsz-0.12.20/intl/loadmsgcat.c lrzsz-0.12.20/intl/loadms=
+gcat.c
+---- clean/lrzsz-0.12.20/intl/loadmsgcat.c	1998-04-26 14:22:37.000000000 +0=
+100
+-+++ lrzsz-0.12.20/intl/loadmsgcat.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,199 +0,0 @@
+--/* Load needed message catalogs
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#include <fcntl.h>
+--#include <sys/types.h>
+--#include <sys/stat.h>
+--
+--#if defined STDC_HEADERS || defined _LIBC
+--# include <stdlib.h>
+--#endif
+--
+--#if defined HAVE_UNISTD_H || defined _LIBC
+--# include <unistd.h>
+--#endif
+--
+--#if (defined HAVE_MMAP && defined HAVE_MUNMAP) || defined _LIBC
+--# include <sys/mman.h>
+--#endif
+--
+--#include "gettext.h"
+--#include "gettextP.h"
+--
+--/* @@ end of prolog @@ */
+--
+--#ifdef _LIBC
+--/* Rename the non ISO C functions.  This is required by the standard
+--   because some ISO C functions will require linking with this object
+--   file and the name space must not be polluted.  */
+--# define fstat  __fstat
+--# define open   __open
+--# define close  __close
+--# define read   __read
+--# define mmap   __mmap
+--# define munmap __munmap
+--#endif
+--
+--/* We need a sign, whether a new catalog was loaded, which can be associa=
+ted
+--   with all translations.  This is important if the translations are
+--   cached by one of GCC's features.  */
+--int _nl_msg_cat_cntr =3D 0;
+--
+--
+--/* Load the message catalogs specified by FILENAME.  If it is no valid
+--   message catalog do nothing.  */
+--void
+--_nl_load_domain (domain_file)
+--     struct loaded_l10nfile *domain_file;
+--{
+--  int fd;
+--  struct stat st;
+--  struct mo_file_header *data =3D (struct mo_file_header *) -1;
+--#if (defined HAVE_MMAP && defined HAVE_MUNMAP && !defined DISALLOW_MMAP) =
+\
+--    || defined _LIBC
+--  int use_mmap =3D 0;
+--#endif
+--  struct loaded_domain *domain;
+--
+--  domain_file->decided =3D 1;
+--  domain_file->data =3D NULL;
+--
+--  /* If the record does not represent a valid locale the FILENAME
+--     might be NULL.  This can happen when according to the given
+--     specification the locale file name is different for XPG and CEN
+--     syntax.  */
+--  if (domain_file->filename =3D=3D NULL)
+--    return;
+--
+--  /* Try to open the addressed file.  */
+--  fd =3D open (domain_file->filename, O_RDONLY);
+--  if (fd =3D=3D -1)
+--    return;
+--
+--  /* We must know about the size of the file.  */
+--  if (fstat (fd, &st) !=3D 0
+--      && st.st_size < (off_t) sizeof (struct mo_file_header))
+--    {
+--      /* Something went wrong.  */
+--      close (fd);
+--      return;
+--    }
+--
+--#if (defined HAVE_MMAP && defined HAVE_MUNMAP && !defined DISALLOW_MMAP) =
+\
+--    || defined _LIBC
+--  /* Now we are ready to load the file.  If mmap() is available we try
+--     this first.  If not available or it failed we try to load it.  */
+--  data =3D (struct mo_file_header *) mmap (NULL, st.st_size, PROT_READ,
+--					 MAP_PRIVATE, fd, 0);
+--
+--  if (data !=3D (struct mo_file_header *) -1)
+--    {
+--      /* mmap() call was successful.  */
+--      close (fd);
+--      use_mmap =3D 1;
+--    }
+--#endif
+--
+--  /* If the data is not yet available (i.e. mmap'ed) we try to load
+--     it manually.  */
+--  if (data =3D=3D (struct mo_file_header *) -1)
+--    {
+--      off_t to_read;
+--      char *read_ptr;
+--
+--      data =3D (struct mo_file_header *) malloc (st.st_size);
+--      if (data =3D=3D NULL)
+--	return;
+--
+--      to_read =3D st.st_size;
+--      read_ptr =3D (char *) data;
+--      do
+--	{
+--	  long int nb =3D (long int) read (fd, read_ptr, to_read);
+--	  if (nb =3D=3D -1)
+--	    {
+--	      close (fd);
+--	      return;
+--	    }
+--
+--	  read_ptr +=3D nb;
+--	  to_read -=3D nb;
+--	}
+--      while (to_read > 0);
+--
+--      close (fd);
+--    }
+--
+--  /* Using the magic number we can test whether it really is a message
+--     catalog file.  */
+--  if (data->magic !=3D _MAGIC && data->magic !=3D _MAGIC_SWAPPED)
+--    {
+--      /* The magic number is wrong: not a message catalog file.  */
+--#if (defined HAVE_MMAP && defined HAVE_MUNMAP && !defined DISALLOW_MMAP) =
+\
+--    || defined _LIBC
+--      if (use_mmap)
+--	munmap ((caddr_t) data, st.st_size);
+--      else
+--#endif
+--	free (data);
+--      return;
+--    }
+--
+--  domain_file->data
+--    =3D (struct loaded_domain *) malloc (sizeof (struct loaded_domain));
+--  if (domain_file->data =3D=3D NULL)
+--    return;
+--
+--  domain =3D (struct loaded_domain *) domain_file->data;
+--  domain->data =3D (char *) data;
+--  domain->must_swap =3D data->magic !=3D _MAGIC;
+--
+--  /* Fill in the information about the available tables.  */
+--  switch (W (domain->must_swap, data->revision))
+--    {
+--    case 0:
+--      domain->nstrings =3D W (domain->must_swap, data->nstrings);
+--      domain->orig_tab =3D (struct string_desc *)
+--	((char *) data + W (domain->must_swap, data->orig_tab_offset));
+--      domain->trans_tab =3D (struct string_desc *)
+--	((char *) data + W (domain->must_swap, data->trans_tab_offset));
+--      domain->hash_size =3D W (domain->must_swap, data->hash_tab_size);
+--      domain->hash_tab =3D (nls_uint32 *)
+--	((char *) data + W (domain->must_swap, data->hash_tab_offset));
+--      break;
+--    default:
+--      /* This is an illegal revision.  */
+--#if (defined HAVE_MMAP && defined HAVE_MUNMAP && !defined DISALLOW_MMAP) =
+\
+--    || defined _LIBC
+--      if (use_mmap)
+--	munmap ((caddr_t) data, st.st_size);
+--      else
+--#endif
+--	free (data);
+--      free (domain);
+--      domain_file->data =3D NULL;
+--      return;
+--    }
+--
+--  /* Show that one domain is changed.  This might make some cached
+--     translations invalid.  */
+--  ++_nl_msg_cat_cntr;
+--}
+-diff -uprN clean/lrzsz-0.12.20/intl/localealias.c lrzsz-0.12.20/intl/local=
+ealias.c
+---- clean/lrzsz-0.12.20/intl/localealias.c	1998-04-26 14:22:37.000000000 +=
+0100
+-+++ lrzsz-0.12.20/intl/localealias.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,378 +0,0 @@
+--/* Handle aliases for locale names
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--   Written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#include <ctype.h>
+--#include <stdio.h>
+--#include <sys/types.h>
+--
+--#ifdef __GNUC__
+--# define alloca __builtin_alloca
+--# define HAVE_ALLOCA 1
+--#else
+--# if defined HAVE_ALLOCA_H || defined _LIBC
+--#  include <alloca.h>
+--# else
+--#  ifdef _AIX
+-- #pragma alloca
+--#  else
+--#   ifndef alloca
+--char *alloca ();
+--#   endif
+--#  endif
+--# endif
+--#endif
+--
+--#if defined STDC_HEADERS || defined _LIBC
+--# include <stdlib.h>
+--#else
+--char *getenv ();
+--# ifdef HAVE_MALLOC_H
+--#  include <malloc.h>
+--# else
+--void free ();
+--# endif
+--#endif
+--
+--#if defined HAVE_STRING_H || defined _LIBC
+--# ifndef _GNU_SOURCE
+--#  define _GNU_SOURCE	1
+--# endif
+--# include <string.h>
+--#else
+--# include <strings.h>
+--# ifndef memcpy
+--#  define memcpy(Dst, Src, Num) bcopy (Src, Dst, Num)
+--# endif
+--#endif
+--#if !HAVE_STRCHR && !defined _LIBC
+--# ifndef strchr
+--#  define strchr index
+--# endif
+--#endif
+--
+--#include "gettext.h"
+--#include "gettextP.h"
+--
+--/* @@ end of prolog @@ */
+--
+--#ifdef _LIBC
+--/* Rename the non ANSI C functions.  This is required by the standard
+--   because some ANSI C functions will require linking with this object
+--   file and the name space must not be polluted.  */
+--# define strcasecmp __strcasecmp
+--#endif
+--
+--
+--/* For those loosing systems which don't have `alloca' we have to add
+--   some additional code emulating it.  */
+--#ifdef HAVE_ALLOCA
+--/* Nothing has to be done.  */
+--# define ADD_BLOCK(list, address) /* nothing */
+--# define FREE_BLOCKS(list) /* nothing */
+--#else
+--struct block_list
+--{
+--  void *address;
+--  struct block_list *next;
+--};
+--# define ADD_BLOCK(list, addr)						      \
+--  do {									      \
+--    struct block_list *newp =3D (struct block_list *) malloc (sizeof (*ne=
+wp));  \
+--    /* If we cannot get a free block we cannot add the new element to	   =
+   \
+--       the list.  */							      \
+--    if (newp !=3D NULL) {							      \
+--      newp->address =3D (addr);						      \
+--      newp->next =3D (list);						      \
+--      (list) =3D newp;							      \
+--    }									      \
+--  } while (0)
+--# define FREE_BLOCKS(list)						      \
+--  do {									      \
+--    while (list !=3D NULL) {						      \
+--      struct block_list *old =3D list;					      \
+--      list =3D list->next;						      \
+--      free (old);							      \
+--    }									      \
+--  } while (0)
+--# undef alloca
+--# define alloca(size) (malloc (size))
+--#endif	/* have alloca */
+--
+--
+--struct alias_map
+--{
+--  const char *alias;
+--  const char *value;
+--};
+--
+--
+--static struct alias_map *map;
+--static size_t nmap =3D 0;
+--static size_t maxmap =3D 0;
+--
+--
+--/* Prototypes for local functions.  */
+--static size_t read_alias_file PARAMS ((const char *fname, int fname_len))=
+;
+--static void extend_alias_table PARAMS ((void));
+--static int alias_compare PARAMS ((const struct alias_map *map1,
+--				  const struct alias_map *map2));
+--
+--
+--const char *
+--_nl_expand_alias (name)
+--    const char *name;
+--{
+--  static const char *locale_alias_path =3D LOCALE_ALIAS_PATH;
+--  struct alias_map *retval;
+--  size_t added;
+--
+--  do
+--    {
+--      struct alias_map item;
+--
+--      item.alias =3D name;
+--
+--      if (nmap > 0)
+--	retval =3D (struct alias_map *) bsearch (&item, map, nmap,
+--					       sizeof (struct alias_map),
+--					       (int (*) PARAMS ((const void *,
+--								 const void *))
+--						) alias_compare);
+--      else
+--	retval =3D NULL;
+--
+--      /* We really found an alias.  Return the value.  */
+--      if (retval !=3D NULL)
+--	return retval->value;
+--
+--      /* Perhaps we can find another alias file.  */
+--      added =3D 0;
+--      while (added =3D=3D 0 && locale_alias_path[0] !=3D '\0')
+--	{
+--	  const char *start;
+--
+--	  while (locale_alias_path[0] =3D=3D ':')
+--	    ++locale_alias_path;
+--	  start =3D locale_alias_path;
+--
+--	  while (locale_alias_path[0] !=3D '\0' && locale_alias_path[0] !=3D ':'=
+)
+--	    ++locale_alias_path;
+--
+--	  if (start < locale_alias_path)
+--	    added =3D read_alias_file (start, locale_alias_path - start);
+--	}
+--    }
+--  while (added !=3D 0);
+--
+--  return NULL;
+--}
+--
+--
+--static size_t
+--read_alias_file (fname, fname_len)
+--     const char *fname;
+--     int fname_len;
+--{
+--#ifndef HAVE_ALLOCA
+--  struct block_list *block_list =3D NULL;
+--#endif
+--  FILE *fp;
+--  char *full_fname;
+--  size_t added;
+--  static const char aliasfile[] =3D "/locale.alias";
+--
+--  full_fname =3D (char *) alloca (fname_len + sizeof aliasfile);
+--  ADD_BLOCK (block_list, full_fname);
+--  memcpy (full_fname, fname, fname_len);
+--  memcpy (&full_fname[fname_len], aliasfile, sizeof aliasfile);
+--
+--  fp =3D fopen (full_fname, "r");
+--  if (fp =3D=3D NULL)
+--    {
+--      FREE_BLOCKS (block_list);
+--      return 0;
+--    }
+--
+--  added =3D 0;
+--  while (!feof (fp))
+--    {
+--      /* It is a reasonable approach to use a fix buffer here because
+--	 a) we are only interested in the first two fields
+--	 b) these fields must be usable as file names and so must not
+--	    be that long
+--       */
+--      char buf[BUFSIZ];
+--      char *alias;
+--      char *value;
+--      char *cp;
+--
+--      if (fgets (buf, BUFSIZ, fp) =3D=3D NULL)
+--	/* EOF reached.  */
+--	break;
+--
+--      cp =3D buf;
+--      /* Ignore leading white space.  */
+--      while (isspace (cp[0]))
+--	++cp;
+--
+--      /* A leading '#' signals a comment line.  */
+--      if (cp[0] !=3D '\0' && cp[0] !=3D '#')
+--	{
+--	  alias =3D cp++;
+--	  while (cp[0] !=3D '\0' && !isspace (cp[0]))
+--	    ++cp;
+--	  /* Terminate alias name.  */
+--	  if (cp[0] !=3D '\0')
+--	    *cp++ =3D '\0';
+--
+--	  /* Now look for the beginning of the value.  */
+--	  while (isspace (cp[0]))
+--	    ++cp;
+--
+--	  if (cp[0] !=3D '\0')
+--	    {
+--	      char *tp;
+--	      size_t len;
+--
+--	      value =3D cp++;
+--	      while (cp[0] !=3D '\0' && !isspace (cp[0]))
+--		++cp;
+--	      /* Terminate value.  */
+--	      if (cp[0] =3D=3D '\n')
+--		{
+--		  /* This has to be done to make the following test
+--		     for the end of line possible.  We are looking for
+--		     the terminating '\n' which do not overwrite here.  */
+--		  *cp++ =3D '\0';
+--		  *cp =3D '\n';
+--		}
+--	      else if (cp[0] !=3D '\0')
+--		*cp++ =3D '\0';
+--
+--	      if (nmap >=3D maxmap)
+--		extend_alias_table ();
+--
+--	      /* We cannot depend on strdup available in the libc.  Sigh!  */
+--	      len =3D strlen (alias) + 1;
+--	      tp =3D (char *) malloc (len);
+--	      if (tp =3D=3D NULL)
+--		{
+--		  FREE_BLOCKS (block_list);
+--		  return added;
+--		}
+--	      memcpy (tp, alias, len);
+--	      map[nmap].alias =3D tp;
+--
+--	      len =3D strlen (value) + 1;
+--	      tp =3D (char *) malloc (len);
+--	      if (tp =3D=3D NULL)
+--		{
+--		  FREE_BLOCKS (block_list);
+--		  return added;
+--		}
+--	      memcpy (tp, value, len);
+--	      map[nmap].value =3D tp;
+--
+--	      ++nmap;
+--	      ++added;
+--	    }
+--	}
+--
+--      /* Possibly not the whole line fits into the buffer.  Ignore
+--	 the rest of the line.  */
+--      while (strchr (cp, '\n') =3D=3D NULL)
+--	{
+--	  cp =3D buf;
+--	  if (fgets (buf, BUFSIZ, fp) =3D=3D NULL)
+--	    /* Make sure the inner loop will be left.  The outer loop
+--	       will exit at the `feof' test.  */
+--	    *cp =3D '\n';
+--	}
+--    }
+--
+--  /* Should we test for ferror()?  I think we have to silently ignore
+--     errors.  --drepper  */
+--  fclose (fp);
+--
+--  if (added > 0)
+--    qsort (map, nmap, sizeof (struct alias_map),
+--	   (int (*) PARAMS ((const void *, const void *))) alias_compare);
+--
+--  FREE_BLOCKS (block_list);
+--  return added;
+--}
+--
+--
+--static void
+--extend_alias_table ()
+--{
+--  size_t new_size;
+--  struct alias_map *new_map;
+--
+--  new_size =3D maxmap =3D=3D 0 ? 100 : 2 * maxmap;
+--  new_map =3D (struct alias_map *) malloc (new_size
+--					 * sizeof (struct alias_map));
+--  if (new_map =3D=3D NULL)
+--    /* Simply don't extend: we don't have any more core.  */
+--    return;
+--
+--  memcpy (new_map, map, nmap * sizeof (struct alias_map));
+--
+--  if (maxmap !=3D 0)
+--    free (map);
+--
+--  map =3D new_map;
+--  maxmap =3D new_size;
+--}
+--
+--
+--static int
+--alias_compare (map1, map2)
+--     const struct alias_map *map1;
+--     const struct alias_map *map2;
+--{
+--#if defined _LIBC || defined HAVE_STRCASECMP
+--  return strcasecmp (map1->alias, map2->alias);
+--#else
+--  const unsigned char *p1 =3D (const unsigned char *) map1->alias;
+--  const unsigned char *p2 =3D (const unsigned char *) map2->alias;
+--  unsigned char c1, c2;
+--
+--  if (p1 =3D=3D p2)
+--    return 0;
+--
+--  do
+--    {
+--      /* I know this seems to be odd but the tolower() function in
+--	 some systems libc cannot handle nonalpha characters.  */
+--      c1 =3D isupper (*p1) ? tolower (*p1) : *p1;
+--      c2 =3D isupper (*p2) ? tolower (*p2) : *p2;
+--      if (c1 =3D=3D '\0')
+--	break;
+--      ++p1;
+--      ++p2;
+--    }
+--  while (c1 =3D=3D c2);
+--
+--  return c1 - c2;
+--#endif
+--}
+-diff -uprN clean/lrzsz-0.12.20/intl/Makefile.in lrzsz-0.12.20/intl/Makefil=
+e.in
+---- clean/lrzsz-0.12.20/intl/Makefile.in	1998-04-26 14:22:35.000000000 +01=
+00
+-+++ lrzsz-0.12.20/intl/Makefile.in	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,214 +0,0 @@
+--# Makefile for directory with message catalog handling in GNU NLS Utiliti=
+es.
+--# Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--#
+--# This program is free software; you can redistribute it and/or modify
+--# it under the terms of the GNU General Public License as published by
+--# the Free Software Foundation; either version 2, or (at your option)
+--# any later version.
+--#
+--# This program is distributed in the hope that it will be useful,
+--# but WITHOUT ANY WARRANTY; without even the implied warranty of
+--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--# GNU General Public License for more details.
+--#
+--# You should have received a copy of the GNU General Public License
+--# along with this program; if not, write to the Free Software
+--# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, U=
+SA.
+--
+--PACKAGE =3D @PACKAGE@
+--VERSION =3D @VERSION@
+--
+--SHELL =3D /bin/sh
+--
+--srcdir =3D @srcdir@
+--top_srcdir =3D @top_srcdir@
+--top_builddir =3D ..
+--VPATH =3D @srcdir@
+--
+--prefix =3D @prefix@
+--exec_prefix =3D @exec_prefix@
+--transform =3D @program_transform_name@
+--libdir =3D $(exec_prefix)/lib
+--includedir =3D $(prefix)/include
+--datadir =3D $(prefix)/@DATADIRNAME@
+--localedir =3D $(datadir)/locale
+--gnulocaledir =3D $(prefix)/share/locale
+--gettextsrcdir =3D @datadir@/gettext/intl
+--aliaspath =3D $(localedir):.
+--subdir =3D intl
+--
+--INSTALL =3D @INSTALL@
+--INSTALL_DATA =3D @INSTALL_DATA@
+--MKINSTALLDIRS =3D @MKINSTALLDIRS@
+--
+--l =3D @l@
+--
+--AR =3D ar
+--CC =3D @CC@
+--LIBTOOL =3D @LIBTOOL@
+--RANLIB =3D @RANLIB@
+--
+--DEFS =3D -DLOCALEDIR=3D\"$(localedir)\" -DGNULOCALEDIR=3D\"$(gnulocaledir=
+)\" \
+---DLOCALE_ALIAS_PATH=3D\"$(aliaspath)\" @DEFS@
+--CPPFLAGS =3D @CPPFLAGS@
+--CFLAGS =3D @CFLAGS@
+--LDFLAGS =3D @LDFLAGS@
+--
+--COMPILE =3D $(CC) -c $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS) $(XCFLAGS)
+--
+--HEADERS =3D $(COMHDRS) libgettext.h loadinfo.h
+--COMHDRS =3D gettext.h gettextP.h hash-string.h
+--SOURCES =3D $(COMSRCS) intl-compat.c cat-compat.c
+--COMSRCS =3D bindtextdom.c dcgettext.c dgettext.c gettext.c \
+--finddomain.c loadmsgcat.c localealias.c textdomain.c l10nflist.c \
+--explodename.c
+--OBJECTS =3D @INTLOBJS@ bindtextdom.$lo dcgettext.$lo dgettext.$lo gettext=
+.$lo \
+--finddomain.$lo loadmsgcat.$lo localealias.$lo textdomain.$lo l10nflist.$l=
+o \
+--explodename.$lo
+--CATOBJS =3D cat-compat.$lo ../po/cat-id-tbl.$lo
+--GETTOBJS =3D intl-compat.$lo
+--DISTFILES.common =3D ChangeLog Makefile.in linux-msg.sed po2tbl.sed.in \
+--xopen-msg.sed $(HEADERS) $(SOURCES)
+--DISTFILES.normal =3D VERSION
+--DISTFILES.gettext =3D libintl.glibc intlh.inst.in
+--
+--.SUFFIXES:
+--.SUFFIXES: .c .o .lo
+--.c.o:
+--	$(COMPILE) $<
+--.c.lo:
+--	$(LIBTOOL) --mode=3Dcompile $(COMPILE) $<
+--
+--INCLUDES =3D -I.. -I. -I$(top_srcdir)/intl -I$(top_srcdir)/lib
+--
+--all: all-@USE_INCLUDED_LIBINTL@
+--
+--all-yes: libintl.$la intlh.inst
+--all-no:
+--
+--libintl.a: $(OBJECTS)
+--	rm -f $@
+--	$(AR) cru $@ $(OBJECTS)
+--	$(RANLIB) $@
+--
+--libintl.la: $(OBJECTS)
+--	$(LIBTOOL) --mode=3Dlink $(CC) $(LDFLAGS) -o $@ $(OBJECTS) \
+--		   -version-info 1:0 -rpath $(libdir)
+--
+--../po/cat-id-tbl.$lo: ../po/cat-id-tbl.c $(top_srcdir)/po/$(PACKAGE).pot
+--	cd ../po && $(MAKE) cat-id-tbl.$lo
+--
+--check: all
+--
+--# This installation goal is only used in GNU gettext.  Packages which
+--# only use the library should use install instead.
+--
+--# We must not install the libintl.h/libintl.a files if we are on a
+--# system which has the gettext() function in its C library or in a
+--# separate library or use the catgets interface.  A special case is
+--# where configure found a previously installed GNU gettext library.
+--# If you want to use the one which comes with this version of the
+--# package, you have to use `configure --with-included-gettext'.
+--install: install-exec install-data
+--install-exec: all
+--	if test "$(PACKAGE)" =3D "gettext" \
+--	   && test '@INTLOBJS@' =3D '$(GETTOBJS)'; then \
+--	  if test -r $(MKINSTALLDIRS); then \
+--	    $(MKINSTALLDIRS) $(libdir) $(includedir); \
+--	  else \
+--	    $(top_srcdir)/mkinstalldirs $(libdir) $(includedir); \
+--	  fi; \
+--	  $(INSTALL_DATA) intlh.inst $(includedir)/libintl.h; \
+--	  $(INSTALL_DATA) libintl.a $(libdir)/libintl.a; \
+--	else \
+--	  : ; \
+--	fi
+--install-data: all
+--	if test "$(PACKAGE)" =3D "gettext"; then \
+--	  if test -r $(MKINSTALLDIRS); then \
+--	    $(MKINSTALLDIRS) $(gettextsrcdir); \
+--	  else \
+--	    $(top_srcdir)/mkinstalldirs $(gettextsrcdir); \
+--	  fi; \
+--	  $(INSTALL_DATA) VERSION $(gettextsrcdir)/VERSION; \
+--	  dists=3D"$(DISTFILES.common)"; \
+--	  for file in $$dists; do \
+--	    $(INSTALL_DATA) $(srcdir)/$$file $(gettextsrcdir)/$$file; \
+--	  done; \
+--	else \
+--	  : ; \
+--	fi
+--
+--# Define this as empty until I found a useful application.
+--installcheck:
+--
+--uninstall:
+--	dists=3D"$(DISTFILES.common)"; \
+--	for file in $$dists; do \
+--	  rm -f $(gettextsrcdir)/$$file; \
+--	done
+--
+--info dvi:
+--
+--$(OBJECTS): ../config.h libgettext.h
+--bindtextdom.$lo finddomain.$lo loadmsgcat.$lo: gettextP.h gettext.h loadi=
+nfo.h
+--dcgettext.$lo: gettextP.h gettext.h hash-string.h loadinfo.h
+--
+--tags: TAGS
+--
+--TAGS: $(HEADERS) $(SOURCES)
+--	here=3D`pwd`; cd $(srcdir) && etags -o $$here/TAGS $(HEADERS) $(SOURCES)
+--
+--id: ID
+--
+--ID: $(HEADERS) $(SOURCES)
+--	here=3D`pwd`; cd $(srcdir) && mkid -f$$here/ID $(HEADERS) $(SOURCES)
+--
+--
+--mostlyclean:
+--	rm -f *.a *.o *.lo core core.*
+--
+--clean: mostlyclean
+--
+--distclean: clean
+--	rm -f Makefile ID TAGS po2msg.sed po2tbl.sed libintl.h
+--
+--maintainer-clean: distclean
+--	@echo "This command is intended for maintainers to use;"
+--	@echo "it deletes files that may require special tools to rebuild."
+--
+--
+--# GNU gettext needs not contain the file `VERSION' but contains some
+--# other files which should not be distributed in other packages.
+--distdir =3D ../$(PACKAGE)-$(VERSION)/$(subdir)
+--dist distdir: Makefile $(DISTFILES)
+--	if test "$(PACKAGE)" =3D gettext; then \
+--	  additional=3D"$(DISTFILES.gettext)"; \
+--	else \
+--	  additional=3D"$(DISTFILES.normal)"; \
+--	fi; \
+--	for file in $(DISTFILES.common) $$additional; do \
+--	  ln $(srcdir)/$$file $(distdir) 2> /dev/null \
+--	    || cp -p $(srcdir)/$$file $(distdir); \
+--	done
+--
+--dist-libc:
+--	tar zcvf intl-glibc.tar.gz $(COMSRCS) $(COMHDRS) libintl.h.glibc
+--
+--Makefile: Makefile.in ../config.status
+--	cd .. \
+--	  && CONFIG_FILES=3D$(subdir)/$@ CONFIG_HEADERS=3D $(SHELL) ./config.sta=
+tus
+--
+--# The dependency for intlh.inst is different in gettext and all other
+--# packages.  Because we cannot you GNU make features we have to solve
+--# the problem while rewriting Makefile.in.
+--@GT_YES@intlh.inst: intlh.inst.in ../config.status
+--@GT_YES@	cd .. \
+--@GT_YES@	&& CONFIG_FILES=3D$(subdir)/$@ CONFIG_HEADERS=3D \
+--@GT_YES@	  $(SHELL) ./config.status
+--@GT_NO@.PHONY: intlh.inst
+--@GT_NO@intlh.inst:
+--
+--# Tell versions [3.59,3.63) of GNU make not to export all variables.
+--# Otherwise a system limit (for SysV at least) may be exceeded.
+--.NOEXPORT:
+-diff -uprN clean/lrzsz-0.12.20/intl/po2tbl.sed.in lrzsz-0.12.20/intl/po2tb=
+l.sed.in
+---- clean/lrzsz-0.12.20/intl/po2tbl.sed.in	1998-04-26 14:20:52.000000000 +=
+0100
+-+++ lrzsz-0.12.20/intl/po2tbl.sed.in	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,102 +0,0 @@
+--# po2tbl.sed - Convert Uniforum style .po file to lookup table for catget=
+s
+--# Copyright (C) 1995 Free Software Foundation, Inc.
+--# Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+--#
+--# This program is free software; you can redistribute it and/or modify
+--# it under the terms of the GNU General Public License as published by
+--# the Free Software Foundation; either version 2, or (at your option)
+--# any later version.
+--#
+--# This program is distributed in the hope that it will be useful,
+--# but WITHOUT ANY WARRANTY; without even the implied warranty of
+--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--# GNU General Public License for more details.
+--#
+--# You should have received a copy of the GNU General Public License
+--# along with this program; if not, write to the Free Software
+--# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, U=
+SA.
+--#
+--1 {
+--  i\
+--/* Automatically generated by po2tbl.sed from @PACKAGE NAME@.pot.  */\
+--\
+--#if HAVE_CONFIG_H\
+--# include <config.h>\
+--#endif\
+--\
+--#include "libgettext.h"\
+--\
+--const struct _msg_ent _msg_tbl[] =3D {
+--  h
+--  s/.*/0/
+--  x
+--}
+--#
+--# Write msgid entries in C array form.
+--#
+--/^msgid/ {
+--  s/msgid[ 	]*\(".*"\)/  {\1/
+--  tb
+--# Append the next line
+--  :b
+--  N
+--# Look whether second part is continuation line.
+--  s/\(.*\)"\(\n\)"\(.*"\)/\1\2\3/
+--# Yes, then branch.
+--  ta
+--# Because we assume that the input file correctly formed the line
+--# just read cannot be again be a msgid line.  So it's safe to ignore
+--# it.
+--  s/\(.*\)\n.*/\1/
+--  bc
+--# We found a continuation line.  But before printing insert '\'.
+--  :a
+--  s/\(.*\)\(\n.*\)/\1\\\2/
+--  P
+--# We cannot use D here.
+--  s/.*\n\(.*\)/\1/
+--# Some buggy seds do not clear the `successful substitution since last ``=
+t'''
+--# flag on `N', so we do a `t' here to clear it.
+--  tb
+--# Not reached
+--  :c
+--  x
+--# The following nice solution is by
+--# Bruno <Haible@ma2s2.mathematik.uni-karlsruhe.de>
+--  td
+--# Increment a decimal number in pattern space.
+--# First hide trailing `9' digits.
+--  :d
+--  s/9\(_*\)$/_\1/
+--  td
+--# Assure at least one digit is available.
+--  s/^\(_*\)$/0\1/
+--# Increment the last digit.
+--  s/8\(_*\)$/9\1/
+--  s/7\(_*\)$/8\1/
+--  s/6\(_*\)$/7\1/
+--  s/5\(_*\)$/6\1/
+--  s/4\(_*\)$/5\1/
+--  s/3\(_*\)$/4\1/
+--  s/2\(_*\)$/3\1/
+--  s/1\(_*\)$/2\1/
+--  s/0\(_*\)$/1\1/
+--# Convert the hidden `9' digits to `0's.
+--  s/_/0/g
+--  x
+--  G
+--  s/\(.*\)\n\([0-9]*\)/\1, \2},/
+--  s/\(.*\)"$/\1/
+--  p
+--}
+--#
+--# Last line.
+--#
+--$ {
+--  i\
+--};\
+--
+--  g
+--  s/0*\(.*\)/int _msg_tbl_length =3D \1;/p
+--}
+--d
+-diff -uprN clean/lrzsz-0.12.20/intl/textdomain.c lrzsz-0.12.20/intl/textdo=
+main.c
+---- clean/lrzsz-0.12.20/intl/textdomain.c	1998-04-26 14:22:37.000000000 +0=
+100
+-+++ lrzsz-0.12.20/intl/textdomain.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,106 +0,0 @@
+--/* Implementation of the textdomain(3) function
+--   Copyright (C) 1995, 1996, 1997 Free Software Foundation, Inc.
+--   Written by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+--
+--   This program is free software; you can redistribute it and/or modify
+--   it under the terms of the GNU General Public License as published by
+--   the Free Software Foundation; either version 2, or (at your option)
+--   any later version.
+--
+--   This program is distributed in the hope that it will be useful,
+--   but WITHOUT ANY WARRANTY; without even the implied warranty of
+--   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--   GNU General Public License for more details.
+--
+--   You should have received a copy of the GNU General Public License
+--   along with this program; if not, write to the Free Software Foundation=
+,
+--   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+--
+--#ifdef HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#if defined STDC_HEADERS || defined _LIBC
+--# include <stdlib.h>
+--#endif
+--
+--#if defined STDC_HEADERS || defined HAVE_STRING_H || defined _LIBC
+--# include <string.h>
+--#else
+--# include <strings.h>
+--# ifndef memcpy
+--#  define memcpy(Dst, Src, Num) bcopy (Src, Dst, Num)
+--# endif
+--#endif
+--
+--#ifdef _LIBC
+--# include <libintl.h>
+--#else
+--# include "libgettext.h"
+--#endif
+--
+--/* @@ end of prolog @@ */
+--
+--/* Name of the default text domain.  */
+--extern const char _nl_default_default_domain[];
+--
+--/* Default text domain in which entries for gettext(3) are to be found.  =
+*/
+--extern const char *_nl_current_default_domain;
+--
+--
+--/* Names for the libintl functions are a problem.  They must not clash
+--   with existing names and they should follow ANSI C.  But this source
+--   code is also used in GNU C Library where the names have a __
+--   prefix.  So we have to make a difference here.  */
+--#ifdef _LIBC
+--# define TEXTDOMAIN __textdomain
+--# define strdup(str) __strdup (str)
+--#else
+--# define TEXTDOMAIN textdomain__
+--#endif
+--
+--/* Set the current default message catalog to DOMAINNAME.
+--   If DOMAINNAME is null, return the current default.
+--   If DOMAINNAME is "", reset to the default of "messages".  */
+--char *
+--TEXTDOMAIN (domainname)
+--     const char *domainname;
+--{
+--  char *old;
+--
+--  /* A NULL pointer requests the current setting.  */
+--  if (domainname =3D=3D NULL)
+--    return (char *) _nl_current_default_domain;
+--
+--  old =3D (char *) _nl_current_default_domain;
+--
+--  /* If domain name is the null string set to default domain "messages". =
+ */
+--  if (domainname[0] =3D=3D '\0'
+--      || strcmp (domainname, _nl_default_default_domain) =3D=3D 0)
+--    _nl_current_default_domain =3D _nl_default_default_domain;
+--  else
+--    {
+--      /* If the following malloc fails `_nl_current_default_domain'
+--	 will be NULL.  This value will be returned and so signals we
+--	 are out of core.  */
+--#if defined _LIBC || defined HAVE_STRDUP
+--      _nl_current_default_domain =3D strdup (domainname);
+--#else
+--      size_t len =3D strlen (domainname) + 1;
+--      char *cp =3D (char *) malloc (len);
+--      if (cp !=3D NULL)
+--	memcpy (cp, domainname, len);
+--      _nl_current_default_domain =3D cp;
+--#endif
+--    }
+--
+--  if (old !=3D _nl_default_default_domain)
+--    free (old);
+--
+--  return (char *) _nl_current_default_domain;
+--}
+--
+--#ifdef _LIBC
+--/* Alias for function name in GNU C Library.  */
+--weak_alias (__textdomain, textdomain);
+--#endif
+-diff -uprN clean/lrzsz-0.12.20/intl/VERSION lrzsz-0.12.20/intl/VERSION
+---- clean/lrzsz-0.12.20/intl/VERSION	1998-04-26 14:22:37.000000000 +0100
+-+++ lrzsz-0.12.20/intl/VERSION	1970-01-01 01:00:00.000000000 +0100
+-@@ -1 +0,0 @@
+--GNU gettext library from gettext-0.10.32
+-diff -uprN clean/lrzsz-0.12.20/intl/xopen-msg.sed lrzsz-0.12.20/intl/xopen=
+-msg.sed
+---- clean/lrzsz-0.12.20/intl/xopen-msg.sed	1998-04-26 14:20:52.000000000 +=
+0100
+-+++ lrzsz-0.12.20/intl/xopen-msg.sed	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,104 +0,0 @@
+--# po2msg.sed - Convert Uniforum style .po file to X/Open style .msg file
+--# Copyright (C) 1995 Free Software Foundation, Inc.
+--# Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
+--#
+--# This program is free software; you can redistribute it and/or modify
+--# it under the terms of the GNU General Public License as published by
+--# the Free Software Foundation; either version 2, or (at your option)
+--# any later version.
+--#
+--# This program is distributed in the hope that it will be useful,
+--# but WITHOUT ANY WARRANTY; without even the implied warranty of
+--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+--# GNU General Public License for more details.
+--#
+--# You should have received a copy of the GNU General Public License
+--# along with this program; if not, write to the Free Software
+--# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, U=
+SA.
+--#
+--#
+--# The first directive in the .msg should be the definition of the
+--# message set number.  We use always set number 1.
+--#
+--1 {
+--  i\
+--$set 1 # Automatically created by po2msg.sed
+--  h
+--  s/.*/0/
+--  x
+--}
+--#
+--# We copy all comments into the .msg file.  Perhaps they can help.
+--#
+--/^#/ s/^#[ 	]*/$ /p
+--#
+--# We copy the original message as a comment into the .msg file.
+--#
+--/^msgid/ {
+--# Does not work now
+--#  /"$/! {
+--#    s/\\$//
+--#    s/$/ ... (more lines following)"/
+--#  }
+--  s/^msgid[ 	]*"\(.*\)"$/$ Original Message: \1/
+--  p
+--}
+--#
+--# The .msg file contains, other then the .po file, only the translations
+--# but each given a unique ID.  Starting from 1 and incrementing by 1 for
+--# each message we assign them to the messages.
+--# It is important that the .po file used to generate the cat-id-tbl.c fil=
+e
+--# (with po-to-tbl) is the same as the one used here.  (At least the order
+--# of declarations must not be changed.)
+--#
+--/^msgstr/ {
+--  s/msgstr[ 	]*"\(.*\)"/\1/
+--  x
+--# The following nice solution is by
+--# Bruno <Haible@ma2s2.mathematik.uni-karlsruhe.de>
+--  td
+--# Increment a decimal number in pattern space.
+--# First hide trailing `9' digits.
+--  :d
+--  s/9\(_*\)$/_\1/
+--  td
+--# Assure at least one digit is available.
+--  s/^\(_*\)$/0\1/
+--# Increment the last digit.
+--  s/8\(_*\)$/9\1/
+--  s/7\(_*\)$/8\1/
+--  s/6\(_*\)$/7\1/
+--  s/5\(_*\)$/6\1/
+--  s/4\(_*\)$/5\1/
+--  s/3\(_*\)$/4\1/
+--  s/2\(_*\)$/3\1/
+--  s/1\(_*\)$/2\1/
+--  s/0\(_*\)$/1\1/
+--# Convert the hidden `9' digits to `0's.
+--  s/_/0/g
+--  x
+--# Bring the line in the format `<number> <message>'
+--  G
+--  s/^[^\n]*$/& /
+--  s/\(.*\)\n\([0-9]*\)/\2 \1/
+--# Clear flag from last substitution.
+--  tb
+--# Append the next line.
+--  :b
+--  N
+--# Look whether second part is a continuation line.
+--  s/\(.*\n\)"\(.*\)"/\1\2/
+--# Yes, then branch.
+--  ta
+--  P
+--  D
+--# Note that `D' includes a jump to the start!!
+--# We found a continuation line.  But before printing insert '\'.
+--  :a
+--  s/\(.*\)\(\n.*\)/\1\\\2/
+--  P
+--# We cannot use the sed command `D' here
+--  s/.*\n\(.*\)/\1/
+--  tb
+--}
+--d
+-diff -uprN clean/lrzsz-0.12.20/lib/Makefile.am lrzsz-0.12.20/lib/Makefile.=
+am
+---- clean/lrzsz-0.12.20/lib/Makefile.am	1998-12-27 16:25:26.000000000 +000=
+0
+-+++ lrzsz-0.12.20/lib/Makefile.am	2019-11-25 16:22:34.000000000 +0000
+-@@ -1,6 +1,4 @@
+- noinst_LIBRARIES=3Dlibzmodem.a
+--CFLAGS=3D@CFLAGS@
+--AUTOMAKE_OPTIONS=3Dansi2knr
+-=20
+- EXTRA_DIST =3D alloca.c ansi2knr.1 ansi2knr.c \
+- 	getopt.c getopt1.c mkdir.c mktime.c \
+-diff -uprN clean/lrzsz-0.12.20/Makefile.am lrzsz-0.12.20/Makefile.am
+---- clean/lrzsz-0.12.20/Makefile.am	1998-12-30 11:19:40.000000000 +0000
+-+++ lrzsz-0.12.20/Makefile.am	2019-11-26 11:47:29.000000000 +0000
+-@@ -1,5 +1,5 @@
+--SUBDIRS =3D lib intl src po man testsuite
+--EXTRA_DIST =3D check.lrzsz COMPATABILITY README.cvs README.isdn4linux \
+-+SUBDIRS =3D lib src po man testsuite
+-+EXTRA_DIST =3D config.rpath m4/ChangeLog  check.lrzsz COMPATABILITY READM=
+E.cvs README.isdn4linux \
+- 	README.gettext rpmrc buildrpm systype.in fastcheck.sh README.tests \
+- 	beos-runpiped.c fastcheck.beos
+- noinst_SCRIPTS=3Dsystype
+-@@ -7,7 +7,6 @@ PR=3D@PACKAGE@-@VERSION@
+- CLEAN_FILES=3Dfastcheck.done
+-=20
+- dist-hook:
+--	mkdir $(distdir)/debian
+- 	cp -fa $(srcdir)/debian/changelog  $(distdir)/debian/
+- 	cp -fa $(srcdir)/debian/control  $(distdir)/debian/
+- 	cp -fa $(srcdir)/debian/copyright  $(distdir)/debian/
+-@@ -83,3 +82,5 @@ cvs-dist:
+- rpm: $(PR).tar.gz Specfile
+- 	$(srcdir)/buildrpm $(srcdir)
+-=20
+-+
+-+ACLOCAL_AMFLAGS =3D -I m4
+-diff -uprN clean/lrzsz-0.12.20/po/cat-id-tbl.c lrzsz-0.12.20/po/cat-id-tbl=
+.c
+---- clean/lrzsz-0.12.20/po/cat-id-tbl.c	1998-12-29 09:24:24.000000000 +000=
+0
+-+++ lrzsz-0.12.20/po/cat-id-tbl.c	1970-01-01 01:00:00.000000000 +0100
+-@@ -1,234 +0,0 @@
+--/* Automatically generated by po2tbl.sed from lrzsz.pot.  */
+--
+--#if HAVE_CONFIG_H
+--# include <config.h>
+--#endif
+--
+--#include "libgettext.h"
+--
+--const struct _msg_ent _msg_tbl[] =3D {
+--  {"", 1},
+--  {"io_mode(,2) in rbsb.c not implemented\n", 2},
+--  {"caught signal %d; exiting", 3},
+--  {"command tries", 4},
+--  {"packetlength", 5},
+--  {"packetlength out of range 24..%ld", 6},
+--  {"framelength", 7},
+--  {"framelength out of range 32..%ld", 8},
+--  {"min_bps", 9},
+--  {"min_bps must be >=3D 0", 10},
+--  {"min_bps_time", 11},
+--  {"min_bps_time must be > 1", 12},
+--  {"hour to large (0..23)", 13},
+--  {"unparsable stop time\n", 14},
+--  {"minute to large (0..59)", 15},
+--  {"stop time to small", 16},
+--  {"stop-at", 17},
+--  {"timeout", 18},
+--  {"timeout out of range 10..1000", 19},
+--  {"security violation: can't do that under restricted shell\n", 20},
+--  {"window size", 21},
+--  {"cannot turnoff syslog", 22},
+--  {"startup delay", 23},
+--  {"out of memory", 24},
+--  {"this program was never intended to be used setuid\n", 25},
+--  {"need at least one file to send", 26},
+--  {"Can't send command in restricted mode\n", 27},
+--  {"hostname too long\n", 28},
+--  {"illegal server address\n", 29},
+--  {"can read only one file from stdin", 30},
+--  {"Transfer incomplete\n", 31},
+--  {"Transfer complete\n", 32},
+--  {"send_pseudo %s: cannot open tmpfile %s: %s", 33},
+--  {"send_pseudo %s: cannot lstat tmpfile %s: %s", 34},
+--  {"send_pseudo %s: avoiding symlink trap", 35},
+--  {"send_pseudo %s: cannot write to tmpfile %s: %s", 36},
+--  {"send_pseudo %s: failed", 37},
+--  {"send_pseudo %s: ok", 38},
+--  {"tcp protocol init failed\n", 39},
+--  {"Answering TIMESYNC at %s", 40},
+--  {"timezone", 41},
+--  {"timezone unknown", 42},
+--  {"Can't open any requested files.", 43},
+--  {"security violation: not allowed to upload from %s", 44},
+--  {"cannot open %s", 45},
+--  {"is not a file: %s", 46},
+--  {"%s/%s: error occured", 47},
+--  {"skipped: %s", 48},
+--  {"%s/%s: skipped", 49},
+--  {"Bytes Sent:%7ld   BPS:%-8ld                        \n", 50},
+--  {"Sending %s, %ld blocks: ", 51},
+--  {"Give your local XMODEM receive command now.", 52},
+--  {"Sending: %s\n", 53},
+--  {"Timeout on pathname", 54},
+--  {"Receiver Cancelled", 55},
+--  {"No ACK on EOT", 56},
+--  {"Xmodem sectors/kbytes sent: %3d/%2dk", 57},
+--  {"Ymodem sectors/kbytes sent: %3d/%2dk", 58},
+--  {"Cancelled", 59},
+--  {"Timeout on sector ACK", 60},
+--  {"NAK on sector", 61},
+--  {"Got burst for sector ACK", 62},
+--  {"Got %02x for sector ACK", 63},
+--  {"Retry Count Exceeded", 64},
+--  {"Try `%s --help' for more information.\n", 65},
+--  {"%s version %s\n", 66},
+--  {"Usage: %s [options] file ...\n", 67},
+--  {"   or: %s [options] -{c|i} COMMAND\n", 68},
+--  {"Send file(s) with ZMODEM/YMODEM/XMODEM protocol\n", 69},
+--  {"\
+--    (X) =3D option applies to XMODEM only\n\
+--    (Y) =3D option applies to YMODEM only\n\
+--    (Z) =3D option applies to ZMODEM only\n", 70},
+--  {"\
+--  -+, --append                append to existing destination file (Z)\n\
+--  -2, --twostop               use 2 stop bits\n\
+--  -4, --try-4k                go up to 4K blocksize\n\
+--      --start-4k              start with 4K blocksize (doesn't try 8)\n\
+--  -8, --try-8k                go up to 8K blocksize\n\
+--      --start-8k              start with 8K blocksize\n\
+--  -a, --ascii                 ASCII transfer (change CR/LF to LF)\n\
+--  -b, --binary                binary transfer\n\
+--  -B, --bufsize N             buffer N bytes (N=3D=3Dauto: buffer whole f=
+ile)\n\
+--  -c, --command COMMAND       execute remote command COMMAND (Z)\n\
+--  -C, --command-tries N       try N times to execute a command (Z)\n\
+--  -d, --dot-to-slash          change '.' to '/' in pathnames (Y/Z)\n\
+--      --delay-startup N       sleep N seconds before doing anything\n\
+--  -e, --escape                escape all control characters (Z)\n\
+--  -E, --rename                force receiver to rename files it already h=
+as\n\
+--  -f, --full-path             send full pathname (Y/Z)\n\
+--  -i, --immediate-command CMD send remote CMD, return immediately (Z)\n\
+--  -h, --help                  print this usage message\n\
+--  -k, --1k                    send 1024 byte packets (X)\n\
+--  -L, --packetlen N           limit subpacket length to N bytes (Z)\n\
+--  -l, --framelen N            limit frame length to N bytes (l>=3DL) (Z)\=
+n\
+--  -m, --min-bps N             stop transmission if BPS below N\n\
+--  -M, --min-bps-time N          for at least N seconds (default: 120)\n",=
+ 71},
+--  {"\
+--  -n, --newer                 send file if source newer (Z)\n\
+--  -N, --newer-or-longer       send file if source newer or longer (Z)\n\
+--  -o, --16-bit-crc            use 16 bit CRC instead of 32 bit CRC (Z)\n\
+--  -O, --disable-timeouts      disable timeout code, wait forever\n\
+--  -p, --protect               protect existing destination file (Z)\n\
+--  -r, --resume                resume interrupted file transfer (Z)\n\
+--  -R, --restricted            restricted, more secure mode\n\
+--  -q, --quiet                 quiet (no progress reports)\n\
+--  -s, --stop-at {HH:MM|+N}    stop transmission at HH:MM or in N seconds\=
+n\
+--      --tcp                   build a TCP connection to transmit files\n\
+--      --tcp-server            open socket, wait for connection\n\
+--  -u, --unlink                unlink file after transmission\n\
+--  -U, --unrestrict            turn off restricted mode (if allowed to)\n\
+--  -v, --verbose               be verbose, provide debugging information\n=
+\
+--  -w, --windowsize N          Window is N bytes (Z)\n\
+--  -X, --xmodem                use XMODEM protocol\n\
+--  -y, --overwrite             overwrite existing files\n\
+--  -Y, --overwrite-or-skip     overwrite existing files, else skip\n\
+--      --ymodem                use YMODEM protocol\n\
+--  -Z, --zmodem                use ZMODEM protocol\n\
+--\n\
+--short options use the same arguments as the long ones\n", 72},
+--  {"got ZRQINIT", 73},
+--  {"got ZCAN", 74},
+--  {"blklen now %d\n", 75},
+--  {"zsendfdata: bps rate %ld below min %ld", 76},
+--  {"zsendfdata: reached stop time", 77},
+--  {"Bytes Sent:%7ld/%7ld   BPS:%-8ld ETA %02d:%02d  ", 78},
+--  {"calc_blklen: reduced to %d due to error\n", 79},
+--  {"calc_blklen: returned old value %d due to low bpe diff\n", 80},
+--  {"calc_blklen: old %ld, new %ld, d %ld\n", 81},
+--  {"calc_blklen: calc total_bytes=3D%ld, bpe=3D%ld, ec=3D%ld\n", 82},
+--  {"calc_blklen: blklen %d, ok %ld, failed %ld -> %lu\n", 83},
+--  {"calc_blklen: returned %d as best\n", 84},
+--  {"\
+--\n\
+--countem: Total %d %ld\n", 85},
+--  {"Bad escape sequence %x", 86},
+--  {"Sender Canceled", 87},
+--  {"TIMEOUT", 88},
+--  {"Bad data subpacket", 89},
+--  {"Data subpacket too long", 90},
+--  {"Garbage count exceeded", 91},
+--  {"Got %s", 92},
+--  {"Retry %d: ", 93},
+--  {"don't have settimeofday, will not set time\n", 94},
+--  {"not running as root (this is good!), can not set time\n", 95},
+--  {"bytes_per_error", 96},
+--  {"bytes-per-error should be >100", 97},
+--  {"O_SYNC not supported by the kernel", 98},
+--  {"garbage on commandline", 99},
+--  {"Usage: %s [options] [filename.if.xmodem]\n", 100},
+--  {"Receive files with ZMODEM/YMODEM/XMODEM protocol\n", 101},
+--  {"\
+--  -+, --append                append to existing files\n\
+--  -a, --ascii                 ASCII transfer (change CR/LF to LF)\n\
+--  -b, --binary                binary transfer\n\
+--  -B, --bufsize N             buffer N bytes (N=3D=3Dauto: buffer whole f=
+ile)\n\
+--  -c, --with-crc              Use 16 bit CRC (X)\n\
+--  -C, --allow-remote-commands allow execution of remote commands (Z)\n\
+--  -D, --null                  write all received data to /dev/null\n\
+--      --delay-startup N       sleep N seconds before doing anything\n\
+--  -e, --escape                Escape control characters (Z)\n\
+--  -E, --rename                rename any files already existing\n\
+--      --errors N              generate CRC error every N bytes (debugging=
+)\n\
+--  -h, --help                  Help, print this usage message\n\
+--  -m, --min-bps N             stop transmission if BPS below N\n\
+--  -M, --min-bps-time N          for at least N seconds (default: 120)\n\
+--  -O, --disable-timeouts      disable timeout code, wait forever for data=
+\n\
+--      --o-sync                open output file(s) in synchronous write mo=
+de\n\
+--  -p, --protect               protect existing files\n\
+--  -q, --quiet                 quiet, no progress reports\n\
+--  -r, --resume                try to resume interrupted file transfer (Z)=
+\n\
+--  -R, --restricted            restricted, more secure mode\n\
+--  -s, --stop-at {HH:MM|+N}    stop transmission at HH:MM or in N seconds\=
+n\
+--  -S, --timesync              request remote time (twice: set local time)=
+\n\
+--      --syslog[=3Doff]          turn syslog on or off, if possible\n\
+--  -t, --timeout N             set timeout to N tenths of a second\n\
+--  -u, --keep-uppercase        keep upper case filenames\n\
+--  -U, --unrestrict            disable restricted mode (if allowed to)\n\
+--  -v, --verbose               be verbose, provide debugging information\n=
+\
+--  -w, --windowsize N          Window is N bytes (Z)\n\
+--  -X  --xmodem                use XMODEM protocol\n\
+--  -y, --overwrite             Yes, clobber existing file if any\n\
+--      --ymodem                use YMODEM protocol\n\
+--  -Z, --zmodem                use ZMODEM protocol\n\
+--\n\
+--short options use the same arguments as the long ones\n", 102},
+--  {"%s waiting to receive.", 103},
+--  {"\rBytes received: %7ld/%7ld   BPS:%-6ld                \r\n", 104},
+--  {"%s: ready to receive %s", 105},
+--  {"\rBytes received: %7ld   BPS:%-6ld                \r\n", 106},
+--  {"\
+--\r\n\
+--%s: %s removed.\r\n", 107},
+--  {"Pathname fetch returned EOT", 108},
+--  {"Received dup Sector", 109},
+--  {"Sync Error", 110},
+--  {"CRC", 111},
+--  {"Checksum", 112},
+--  {"Sector number garbled", 113},
+--  {"Sender Cancelled", 114},
+--  {"Got 0%o sector header", 115},
+--  {"file name ends with a /, skipped: %s\n", 116},
+--  {"zmanag=3D%d, Lzmanag=3D%d\n", 117},
+--  {"zconv=3D%d\n", 118},
+--  {"file exists, skipped: %s\n", 119},
+--  {"TIMESYNC: here %ld, remote %ld, diff %ld seconds\n", 120},
+--  {"TIMESYNC: cannot set time: %s\n", 121},
+--  {"cannot tmpfile() for tcp protocol synchronization", 122},
+--  {"Topipe", 123},
+--  {"Receiving: %s\n", 124},
+--  {"Blocks received: %d", 125},
+--  {"%s: %s exists\n", 126},
+--  {"%s:\tSecurity Violation", 127},
+--  {"remote command execution requested", 128},
+--  {"not executed", 129},
+--  {"got ZRINIT", 130},
+--  {"Skipped", 131},
+--  {"rzfile: bps rate %ld below min %ld", 132},
+--  {"rzfile: reached stop time", 133},
+--  {"\rBytes received: %7ld/%7ld   BPS:%-6ld ETA %02d:%02d  ", 134},
+--  {"fgets for tcp protocol synchronization failed: ", 135},
+--  {"file close error", 136},
+--};
+--
+--int _msg_tbl_length =3D 136;
+-Binary files clean/lrzsz-0.12.20/po/de.gmo and lrzsz-0.12.20/po/de.gmo dif=
+fer
+-diff -uprN clean/lrzsz-0.12.20/po/de.po lrzsz-0.12.20/po/de.po
+---- clean/lrzsz-0.12.20/po/de.po	1998-12-30 16:31:46.000000000 +0000
+-+++ lrzsz-0.12.20/po/de.po	2019-11-26 11:42:07.000000000 +0000
+-@@ -6,10 +6,12 @@
+- msgid ""
+- msgstr ""
+- "Project-Id-Version: PACKAGE VERSION\n"
+--"POT-Creation-Date: 1998-12-30 08:49+0100\n"
+-+"Report-Msgid-Bugs-To: \n"
+-+"POT-Creation-Date: 2019-11-26 11:39+0000\n"
+- "PO-Revision-Date: 1997-06-01 19:00+0200\n"
+- "Last-Translator: FULL NAME <uwe@ohse.de>\n"
+- "Language-Team: none. try <uwe@ohse.de>\n"
+-+"Language: de\n"
+- "MIME-Version: 1.0\n"
+- "Content-Type: text/plain; charset=3Diso-8859-1\n"
+- "Content-Transfer-Encoding: 8bit\n"
+-@@ -18,7 +20,7 @@ msgstr ""
+- msgid "io_mode(,2) in rbsb.c not implemented\n"
+- msgstr "io_mode(2) in rbsb.c nicht implementiert\n"
+-=20
+--#: src/lrz.c:201 src/lsz.c:230
+-+#: src/lsz.c:230 src/lrz.c:201
+- #, c-format
+- msgid "caught signal %d; exiting"
+- msgstr "erhielt Signal %d; Programmabbruch"
+-@@ -45,7 +47,7 @@ msgstr "Framel=EF=BF=BDnge"
+- msgid "framelength out of range 32..%ld"
+- msgstr "Argument der Option l au=EF=BF=BDerhalb des Bereichs 32..%ld"
+-=20
+--#: src/lrz.c:323 src/lsz.c:450
+-+#: src/lsz.c:450 src/lrz.c:323
+- msgid "min_bps"
+- msgstr "minimale BPS-Rate"
+-=20
+-@@ -53,65 +55,65 @@ msgstr "minimale BPS-Rate"
+- msgid "min_bps must be >=3D 0"
+- msgstr "minimale BPS-Rate mu=EF=BF=BD >=3D 0 sein"
+-=20
+--#: src/lrz.c:329 src/lsz.c:458
+-+#: src/lsz.c:458 src/lrz.c:329
+- msgid "min_bps_time"
+- msgstr ""
+-=20
+--#: src/lrz.c:331 src/lsz.c:460
+-+#: src/lsz.c:460 src/lrz.c:331
+- msgid "min_bps_time must be > 1"
+- msgstr "Zeitfenster f=EF=BF=BDr minimale BPS-Rate mu=EF=BF=BD > 1 Sekunde=
+ sein"
+-=20
+--#: src/lrz.c:347 src/lsz.c:484
+-+#: src/lsz.c:484 src/lrz.c:347
+- msgid "hour to large (0..23)"
+- msgstr "Stunde zu gross (0..23)"
+-=20
+--#: src/lrz.c:349 src/lsz.c:486
+-+#: src/lsz.c:486 src/lrz.c:349
+- msgid "unparsable stop time\n"
+- msgstr "unparsbare Endzeit\n"
+-=20
+--#: src/lrz.c:353 src/lsz.c:490
+-+#: src/lsz.c:490 src/lrz.c:353
+- msgid "minute to large (0..59)"
+- msgstr "Minute zu gro=EF=BF=BD (0..59)"
+-=20
+--#: src/lrz.c:363 src/lrz.c:370 src/lsz.c:500 src/lsz.c:507
+-+#: src/lsz.c:500 src/lsz.c:507 src/lrz.c:363 src/lrz.c:370
+- msgid "stop time to small"
+- msgstr "Stopzeit zu kurz"
+-=20
+--#: src/lrz.c:368 src/lsz.c:505
+-+#: src/lsz.c:505 src/lrz.c:368
+- msgid "stop-at"
+- msgstr ""
+-=20
+--#: src/lrz.c:399 src/lsz.c:516
+-+#: src/lsz.c:516 src/lrz.c:399
+- msgid "timeout"
+- msgstr "Timeout"
+-=20
+--#: src/lrz.c:401 src/lsz.c:518
+-+#: src/lsz.c:518 src/lrz.c:401
+- msgid "timeout out of range 10..1000"
+- msgstr "Argument der Option t au=EF=BF=BDerhalb des Bereichs 10..1000"
+-=20
+--#: src/lrz.c:417 src/lsz.c:526
+-+#: src/lsz.c:526 src/lrz.c:417
+- msgid "security violation: can't do that under restricted shell\n"
+- msgstr "Sicherheitsversto=EF=BF=BD: Ausf=EF=BF=BDhrung unter eingeschr=EF=
+=BF=BDnkter Shell verboten\n"
+-=20
+--#: src/lrz.c:407 src/lsz.c:533
+-+#: src/lsz.c:533 src/lrz.c:407
+- msgid "window size"
+- msgstr "Fenstergr=EF=BF=BD=EF=BF=BDe"
+-=20
+--#: src/lrz.c:432 src/lrz.c:439 src/lsz.c:556 src/lsz.c:563
+-+#: src/lsz.c:556 src/lsz.c:563 src/lrz.c:432 src/lrz.c:439
+- msgid "cannot turnoff syslog"
+- msgstr "kann syslogging nicht abschalten"
+-=20
+--#: src/lrz.c:454 src/lsz.c:571
+-+#: src/lsz.c:571 src/lrz.c:454
+- msgid "startup delay"
+- msgstr "Startverz=EF=BF=BDgerung"
+-=20
+-+#: src/lsz.c:583 src/lsz.c:692 src/lsz.c:831 src/lsz.c:1080 src/zreadline=
+.c:127
+- #: src/lrz.c:470 src/lrz.c:755 src/lrz.c:1117 src/lrz.c:1243 src/lrz.c:13=
+00
+--#: src/lrz.c:1317 src/lrz.c:1332 src/lrz.c:1431 src/lsz.c:583 src/lsz.c:6=
+92
+--#: src/lsz.c:831 src/lsz.c:1080 src/zreadline.c:127
+-+#: src/lrz.c:1317 src/lrz.c:1332 src/lrz.c:1431
+- msgid "out of memory"
+- msgstr "Kein Speicher mehr frei"
+-=20
+--#: src/lrz.c:480 src/lsz.c:595
+-+#: src/lsz.c:595 src/lrz.c:480
+- msgid "this program was never intended to be used setuid\n"
+- msgstr "dieses Programm darf nicht setuid laufen\n"
+-=20
+-@@ -120,14 +122,15 @@ msgid "need at least one file to send"
+- msgstr "es mu=EF=BF=BD mindestens ein Name einer zu sendenden Datei angeg=
+eben werden"
+-=20
+- #: src/lsz.c:628
+-+#, c-format
+- msgid "Can't send command in restricted mode\n"
+- msgstr "Im eingeschr=EF=BF=BDnkten Modus ist das Senden von Kommandos ver=
+boten\n"
+-=20
+--#: src/lrz.c:524 src/lsz.c:655
+-+#: src/lsz.c:655 src/lrz.c:524
+- msgid "hostname too long\n"
+- msgstr "Hostname zu lang\n"
+-=20
+--#: src/lrz.c:539 src/lsz.c:670
+-+#: src/lsz.c:670 src/lrz.c:539
+- msgid "illegal server address\n"
+- msgstr "Illegale Serveraddresse\n"
+-=20
+-@@ -135,11 +138,11 @@ msgstr "Illegale Serveraddresse\n"
+- msgid "can read only one file from stdin"
+- msgstr "kann nur eine Datei von der Standardeingabe lesen"
+-=20
+--#: src/lrz.c:571 src/lsz.c:806
+-+#: src/lsz.c:806 src/lrz.c:571
+- msgid "Transfer incomplete\n"
+- msgstr "=EF=BF=BDbertragung nicht abgeschlossen\n"
+-=20
+--#: src/lrz.c:573 src/lsz.c:808
+-+#: src/lsz.c:808 src/lrz.c:573
+- msgid "Transfer complete\n"
+- msgstr "=EF=BF=BDbertragung abgeschlossen\n"
+-=20
+-@@ -197,9 +200,9 @@ msgstr "Kann keine der angeforderten Dat
+- #: src/lsz.c:1028
+- #, c-format
+- msgid "security violation: not allowed to upload from %s"
+--msgstr "Sicherheitsversto=EF=BF=BD: Ausf=EF=BF=BDhrung unter eingeschr=EF=
+=BF=BDnkter Shell verboten"
+-+msgstr "Sicherheitsversto=EF=BF=BD: Ausf=EF=BF=BDhrung unter %s verboten"
+-=20
+--#: src/lrz.c:1392 src/lsz.c:1046
+-+#: src/lsz.c:1046 src/lrz.c:1392
+- #, c-format
+- msgid "cannot open %s"
+- msgstr "kann %s nicht =EF=BF=BDffnen"
+-@@ -290,12 +293,12 @@ msgstr "Erhielt %02x als Sektorbest=EF=BF=BDtigu
+- msgid "Retry Count Exceeded"
+- msgstr "Maximale Wiederholungsanzahl =EF=BF=BDberschritten"
+-=20
+--#: src/lrz.c:593 src/lsz.c:1521
+-+#: src/lsz.c:1521 src/lrz.c:593
+- #, c-format
+- msgid "Try `%s --help' for more information.\n"
+- msgstr "`%s --help' gibt weitere Informationen.\n"
+-=20
+--#: src/lrz.c:598 src/lsz.c:1526
+-+#: src/lsz.c:1526 src/lrz.c:598
+- #, c-format
+- msgid "%s version %s\n"
+- msgstr "%s Version %s\n"
+-@@ -315,7 +318,7 @@ msgid "Send file(s) with ZMODEM/YMODEM/X
+- msgstr "Dateien mit ZMODEM/YMODEM/XMODEM =EF=BF=BDbertragen\n"
+-=20
+- # src/lrz.c:475 src/lsz.c:1330 xx
+--#: src/lrz.c:604 src/lsz.c:1534
+-+#: src/lsz.c:1534 src/lrz.c:604
+- msgid ""
+- "    (X) =3D option applies to XMODEM only\n"
+- "    (Y) =3D option applies to YMODEM only\n"
+-@@ -431,7 +434,7 @@ msgstr ""
+- msgid "got ZRQINIT"
+- msgstr "erhielt ZRQINIT"
+-=20
+--#: src/lrz.c:1074 src/lrz.c:1787 src/lsz.c:1792
+-+#: src/lsz.c:1792 src/lrz.c:1074 src/lrz.c:1787
+- msgid "got ZCAN"
+- msgstr "erhielt ZCAN"
+-=20
+-@@ -472,7 +475,7 @@ msgstr "calc_blklen: alt %ld, neu %ld, D
+- #: src/lsz.c:2272
+- #, c-format
+- msgid "calc_blklen: calc total_bytes=3D%ld, bpe=3D%ld, ec=3D%ld\n"
+--msgstr "calc_blklen: kalkuliere gesamt_bytes=3D%ld, bpe=3D%le, ec=3D%ld\n=
+"
+-+msgstr "calc_blklen: kalkuliere gesamt_bytes=3D%ld, bpe=3D%ld, ec=3D%ld\n=
+"
+-=20
+- #: src/lsz.c:2283
+- #, c-format
+-@@ -493,6 +496,10 @@ msgstr ""
+- "\n"
+- "countem: Gesamt %d %ld\n"
+-=20
+-+#: src/zm.c:91
+-+msgid "Bad CRC"
+-+msgstr ""
+-+
+- #: src/zm.c:244
+- #, c-format
+- msgid "Bad escape sequence %x"
+-@@ -502,7 +509,7 @@ msgstr "Falsche Escapesequenz %x"
+- msgid "Sender Canceled"
+- msgstr "Sender brach ab"
+-=20
+--#: src/lrz.c:997 src/zm.c:585 src/zm.c:644
+-+#: src/zm.c:585 src/zm.c:644 src/lrz.c:997
+- msgid "TIMEOUT"
+- msgstr "TIMEOUT"
+-=20
+-@@ -772,13 +779,11 @@ msgstr "Erhielt unerwartetes ZRINIT"
+- msgid "Skipped"
+- msgstr "=EF=BF=BDbersprungen"
+-=20
+--#. too bad
+- #: src/lrz.c:2064
+- #, c-format
+- msgid "rzfile: bps rate %ld below min %ld"
+- msgstr "rzfile: BPS-Rate %ld unter Minimum %ld"
+-=20
+--#. too bad
+- #: src/lrz.c:2079
+- msgid "rzfile: reached stop time"
+- msgstr "rzfile: Abbruchzeit erreicht"
+-diff -uprN clean/lrzsz-0.12.20/po/lrzsz.pot lrzsz-0.12.20/po/lrzsz.pot
+---- clean/lrzsz-0.12.20/po/lrzsz.pot	1998-12-30 07:50:00.000000000 +0000
+-+++ lrzsz-0.12.20/po/lrzsz.pot	2019-11-26 11:39:12.000000000 +0000
+-@@ -1,24 +1,27 @@
+- # SOME DESCRIPTIVE TITLE.
+- # Copyright (C) YEAR Free Software Foundation, Inc.
+-+# This file is distributed under the same license as the lrzsz package.
+- # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+- #
+- #, fuzzy
+- msgid ""
+- msgstr ""
+--"Project-Id-Version: PACKAGE VERSION\n"
+--"POT-Creation-Date: 1998-12-30 08:49+0100\n"
+-+"Project-Id-Version: lrzsz 0.12.20\n"
+-+"Report-Msgid-Bugs-To: \n"
+-+"POT-Creation-Date: 2019-11-26 11:39+0000\n"
+- "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+- "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+- "Language-Team: LANGUAGE <LL@li.org>\n"
+-+"Language: \n"
+- "MIME-Version: 1.0\n"
+- "Content-Type: text/plain; charset=3DCHARSET\n"
+--"Content-Transfer-Encoding: ENCODING\n"
+-+"Content-Transfer-Encoding: 8bit\n"
+-=20
+- #: src/lsz.c:228
+- msgid "io_mode(,2) in rbsb.c not implemented\n"
+- msgstr ""
+-=20
+--#: src/lrz.c:201 src/lsz.c:230
+-+#: src/lsz.c:230 src/lrz.c:201
+- #, c-format
+- msgid "caught signal %d; exiting"
+- msgstr ""
+-@@ -45,7 +48,7 @@ msgstr ""
+- msgid "framelength out of range 32..%ld"
+- msgstr ""
+-=20
+--#: src/lrz.c:323 src/lsz.c:450
+-+#: src/lsz.c:450 src/lrz.c:323
+- msgid "min_bps"
+- msgstr ""
+-=20
+-@@ -53,65 +56,65 @@ msgstr ""
+- msgid "min_bps must be >=3D 0"
+- msgstr ""
+-=20
+--#: src/lrz.c:329 src/lsz.c:458
+-+#: src/lsz.c:458 src/lrz.c:329
+- msgid "min_bps_time"
+- msgstr ""
+-=20
+--#: src/lrz.c:331 src/lsz.c:460
+-+#: src/lsz.c:460 src/lrz.c:331
+- msgid "min_bps_time must be > 1"
+- msgstr ""
+-=20
+--#: src/lrz.c:347 src/lsz.c:484
+-+#: src/lsz.c:484 src/lrz.c:347
+- msgid "hour to large (0..23)"
+- msgstr ""
+-=20
+--#: src/lrz.c:349 src/lsz.c:486
+-+#: src/lsz.c:486 src/lrz.c:349
+- msgid "unparsable stop time\n"
+- msgstr ""
+-=20
+--#: src/lrz.c:353 src/lsz.c:490
+-+#: src/lsz.c:490 src/lrz.c:353
+- msgid "minute to large (0..59)"
+- msgstr ""
+-=20
+--#: src/lrz.c:363 src/lrz.c:370 src/lsz.c:500 src/lsz.c:507
+-+#: src/lsz.c:500 src/lsz.c:507 src/lrz.c:363 src/lrz.c:370
+- msgid "stop time to small"
+- msgstr ""
+-=20
+--#: src/lrz.c:368 src/lsz.c:505
+-+#: src/lsz.c:505 src/lrz.c:368
+- msgid "stop-at"
+- msgstr ""
+-=20
+--#: src/lrz.c:399 src/lsz.c:516
+-+#: src/lsz.c:516 src/lrz.c:399
+- msgid "timeout"
+- msgstr ""
+-=20
+--#: src/lrz.c:401 src/lsz.c:518
+-+#: src/lsz.c:518 src/lrz.c:401
+- msgid "timeout out of range 10..1000"
+- msgstr ""
+-=20
+--#: src/lrz.c:417 src/lsz.c:526
+-+#: src/lsz.c:526 src/lrz.c:417
+- msgid "security violation: can't do that under restricted shell\n"
+- msgstr ""
+-=20
+--#: src/lrz.c:407 src/lsz.c:533
+-+#: src/lsz.c:533 src/lrz.c:407
+- msgid "window size"
+- msgstr ""
+-=20
+--#: src/lrz.c:432 src/lrz.c:439 src/lsz.c:556 src/lsz.c:563
+-+#: src/lsz.c:556 src/lsz.c:563 src/lrz.c:432 src/lrz.c:439
+- msgid "cannot turnoff syslog"
+- msgstr ""
+-=20
+--#: src/lrz.c:454 src/lsz.c:571
+-+#: src/lsz.c:571 src/lrz.c:454
+- msgid "startup delay"
+- msgstr ""
+-=20
+-+#: src/lsz.c:583 src/lsz.c:692 src/lsz.c:831 src/lsz.c:1080 src/zreadline=
+.c:127
+- #: src/lrz.c:470 src/lrz.c:755 src/lrz.c:1117 src/lrz.c:1243 src/lrz.c:13=
+00
+--#: src/lrz.c:1317 src/lrz.c:1332 src/lrz.c:1431 src/lsz.c:583 src/lsz.c:6=
+92
+--#: src/lsz.c:831 src/lsz.c:1080 src/zreadline.c:127
+-+#: src/lrz.c:1317 src/lrz.c:1332 src/lrz.c:1431
+- msgid "out of memory"
+- msgstr ""
+-=20
+--#: src/lrz.c:480 src/lsz.c:595
+-+#: src/lsz.c:595 src/lrz.c:480
+- msgid "this program was never intended to be used setuid\n"
+- msgstr ""
+-=20
+-@@ -120,14 +123,15 @@ msgid "need at least one file to send"
+- msgstr ""
+-=20
+- #: src/lsz.c:628
+-+#, c-format
+- msgid "Can't send command in restricted mode\n"
+- msgstr ""
+-=20
+--#: src/lrz.c:524 src/lsz.c:655
+-+#: src/lsz.c:655 src/lrz.c:524
+- msgid "hostname too long\n"
+- msgstr ""
+-=20
+--#: src/lrz.c:539 src/lsz.c:670
+-+#: src/lsz.c:670 src/lrz.c:539
+- msgid "illegal server address\n"
+- msgstr ""
+-=20
+-@@ -135,11 +139,11 @@ msgstr ""
+- msgid "can read only one file from stdin"
+- msgstr ""
+-=20
+--#: src/lrz.c:571 src/lsz.c:806
+-+#: src/lsz.c:806 src/lrz.c:571
+- msgid "Transfer incomplete\n"
+- msgstr ""
+-=20
+--#: src/lrz.c:573 src/lsz.c:808
+-+#: src/lsz.c:808 src/lrz.c:573
+- msgid "Transfer complete\n"
+- msgstr ""
+-=20
+-@@ -199,7 +203,7 @@ msgstr ""
+- msgid "security violation: not allowed to upload from %s"
+- msgstr ""
+-=20
+--#: src/lrz.c:1392 src/lsz.c:1046
+-+#: src/lsz.c:1046 src/lrz.c:1392
+- #, c-format
+- msgid "cannot open %s"
+- msgstr ""
+-@@ -290,12 +294,12 @@ msgstr ""
+- msgid "Retry Count Exceeded"
+- msgstr ""
+-=20
+--#: src/lrz.c:593 src/lsz.c:1521
+-+#: src/lsz.c:1521 src/lrz.c:593
+- #, c-format
+- msgid "Try `%s --help' for more information.\n"
+- msgstr ""
+-=20
+--#: src/lrz.c:598 src/lsz.c:1526
+-+#: src/lsz.c:1526 src/lrz.c:598
+- #, c-format
+- msgid "%s version %s\n"
+- msgstr ""
+-@@ -314,7 +318,7 @@ msgstr ""
+- msgid "Send file(s) with ZMODEM/YMODEM/XMODEM protocol\n"
+- msgstr ""
+-=20
+--#: src/lrz.c:604 src/lsz.c:1534
+-+#: src/lsz.c:1534 src/lrz.c:604
+- msgid ""
+- "    (X) =3D option applies to XMODEM only\n"
+- "    (Y) =3D option applies to YMODEM only\n"
+-@@ -378,7 +382,7 @@ msgstr ""
+- msgid "got ZRQINIT"
+- msgstr ""
+-=20
+--#: src/lrz.c:1074 src/lrz.c:1787 src/lsz.c:1792
+-+#: src/lsz.c:1792 src/lrz.c:1074 src/lrz.c:1787
+- msgid "got ZCAN"
+- msgstr ""
+-=20
+-@@ -438,6 +442,10 @@ msgid ""
+- "countem: Total %d %ld\n"
+- msgstr ""
+-=20
+-+#: src/zm.c:91
+-+msgid "Bad CRC"
+-+msgstr ""
+-+
+- #: src/zm.c:244
+- #, c-format
+- msgid "Bad escape sequence %x"
+-@@ -447,7 +455,7 @@ msgstr ""
+- msgid "Sender Canceled"
+- msgstr ""
+-=20
+--#: src/lrz.c:997 src/zm.c:585 src/zm.c:644
+-+#: src/zm.c:585 src/zm.c:644 src/lrz.c:997
+- msgid "TIMEOUT"
+- msgstr ""
+-=20
+-@@ -678,13 +686,11 @@ msgstr ""
+- msgid "Skipped"
+- msgstr ""
+-=20
+--#. too bad
+- #: src/lrz.c:2064
+- #, c-format
+- msgid "rzfile: bps rate %ld below min %ld"
+- msgstr ""
+-=20
+--#. too bad
+- #: src/lrz.c:2079
+- msgid "rzfile: reached stop time"
+- msgstr ""
+-diff -uprN clean/lrzsz-0.12.20/po/Makevars lrzsz-0.12.20/po/Makevars
+---- clean/lrzsz-0.12.20/po/Makevars	1970-01-01 01:00:00.000000000 +0100
+-+++ lrzsz-0.12.20/po/Makevars	2019-11-25 18:09:52.000000000 +0000
+-@@ -0,0 +1,78 @@
+-+# Makefile variables for PO directory in any package using GNU gettext.
+-+
+-+# Usually the message domain is the same as the package name.
+-+DOMAIN =3D $(PACKAGE)
+-+
+-+# These two variables depend on the location of this directory.
+-+subdir =3D po
+-+top_builddir =3D ..
+-+
+-+# These options get passed to xgettext.
+-+XGETTEXT_OPTIONS =3D --keyword=3D_ --keyword=3DN_
+-+
+-+# This is the copyright holder that gets inserted into the header of the
+-+# $(DOMAIN).pot file.  Set this to the copyright holder of the surroundin=
+g
+-+# package.  (Note that the msgstr strings, extracted from the package's
+-+# sources, belong to the copyright holder of the package.)  Translators a=
+re
+-+# expected to transfer the copyright for their translations to this perso=
+n
+-+# or entity, or to disclaim their copyright.  The empty string stands for
+-+# the public domain; in this case the translators are expected to disclai=
+m
+-+# their copyright.
+-+COPYRIGHT_HOLDER =3D Free Software Foundation, Inc.
+-+
+-+# This tells whether or not to prepend "GNU " prefix to the package
+-+# name that gets inserted into the header of the $(DOMAIN).pot file.
+-+# Possible values are "yes", "no", or empty.  If it is empty, try to
+-+# detect it automatically by scanning the files in $(top_srcdir) for
+-+# "GNU packagename" string.
+-+PACKAGE_GNU =3D
+-+
+-+# This is the email address or URL to which the translators shall report
+-+# bugs in the untranslated strings:
+-+# - Strings which are not entire sentences, see the maintainer guidelines
+-+#   in the GNU gettext documentation, section 'Preparing Strings'.
+-+# - Strings which use unclear terms or require additional context to be
+-+#   understood.
+-+# - Strings which make invalid assumptions about notation of date, time o=
+r
+-+#   money.
+-+# - Pluralisation problems.
+-+# - Incorrect English spelling.
+-+# - Incorrect formatting.
+-+# It can be your email address, or a mailing list address where translato=
+rs
+-+# can write to without being subscribed, or the URL of a web page through
+-+# which the translators can contact you.
+-+MSGID_BUGS_ADDRESS =3D
+-+
+-+# This is the list of locale categories, beyond LC_MESSAGES, for which th=
+e
+-+# message catalogs shall be used.  It is usually empty.
+-+EXTRA_LOCALE_CATEGORIES =3D
+-+
+-+# This tells whether the $(DOMAIN).pot file contains messages with an 'ms=
+gctxt'
+-+# context.  Possible values are "yes" and "no".  Set this to yes if the
+-+# package uses functions taking also a message context, like pgettext(), =
+or
+-+# if in $(XGETTEXT_OPTIONS) you define keywords with a context argument.
+-+USE_MSGCTXT =3D no
+-+
+-+# These options get passed to msgmerge.
+-+# Useful options are in particular:
+-+#   --previous            to keep previous msgids of translated messages,
+-+#   --quiet               to reduce the verbosity.
+-+MSGMERGE_OPTIONS =3D
+-+
+-+# These options get passed to msginit.
+-+# If you want to disable line wrapping when writing PO files, add
+-+# --no-wrap to MSGMERGE_OPTIONS, XGETTEXT_OPTIONS, and
+-+# MSGINIT_OPTIONS.
+-+MSGINIT_OPTIONS =3D
+-+
+-+# This tells whether or not to regenerate a PO file when $(DOMAIN).pot
+-+# has changed.  Possible values are "yes" and "no".  Set this to no if
+-+# the POT file is checked in the repository and the version control
+-+# program ignores timestamps.
+-+PO_DEPENDS_ON_POT =3D yes
+-+
+-+# This tells whether or not to forcibly update $(DOMAIN).pot and
+-+# regenerate PO files on "make dist".  Possible values are "yes" and
+-+# "no".  Set this to no if the POT file and PO files are maintained
+-+# externally.
+-+DIST_DEPENDS_ON_UPDATE_PO =3D yes
+-diff -uprN clean/lrzsz-0.12.20/po/stamp-cat-id lrzsz-0.12.20/po/stamp-cat-=
+id
+---- clean/lrzsz-0.12.20/po/stamp-cat-id	1998-12-30 07:50:01.000000000 +000=
+0
+-+++ lrzsz-0.12.20/po/stamp-cat-id	1970-01-01 01:00:00.000000000 +0100
+-@@ -1 +0,0 @@
+--timestamp
+-diff -uprN clean/lrzsz-0.12.20/po/stamp-po lrzsz-0.12.20/po/stamp-po
+---- clean/lrzsz-0.12.20/po/stamp-po	1970-01-01 01:00:00.000000000 +0100
+-+++ lrzsz-0.12.20/po/stamp-po	2019-11-26 11:42:09.000000000 +0000
+-@@ -0,0 +1 @@
+-+timestamp
+-diff -uprN clean/lrzsz-0.12.20/src/Makefile.am lrzsz-0.12.20/src/Makefile.=
+am
+---- clean/lrzsz-0.12.20/src/Makefile.am	1998-12-28 08:38:47.000000000 +000=
+0
+-+++ lrzsz-0.12.20/src/Makefile.am	2019-11-25 16:22:49.000000000 +0000
+-@@ -2,13 +2,11 @@ bin_PROGRAMS=3Dlrz lsz
+- lrz_SOURCES=3Dlrz.c timing.c zperr.c zreadline.c crctab.c rbsb.c zm.c pro=
+tname.c tcp.c lsyslog.c canit.c
+- lsz_SOURCES=3Dlsz.c timing.c zperr.c zreadline.c crctab.c rbsb.c zm.c pro=
+tname.c tcp.c lsyslog.c canit.c
+- noinst_HEADERS =3D timing.h zglobal.h zmodem.h
+--datadir =3D $(prefix)/@DATADIRNAME@
+-+datadir =3D $(prefix)/share
+- localedir =3D $(datadir)/locale
+--CFLAGS=3D@CFLAGS@
+- DISTCLEAN_FILES=3Dlrzszbug
+-=20
+--LDADD =3D ../lib/libzmodem.a @INTLLIBS@
+--AUTOMAKE_OPTIONS=3Dansi2knr
+-+LDADD =3D ../lib/libzmodem.a @LIBINTL@
+- EXTRA_DIST =3D ansi2knr.1 ansi2knr.c lrzszbug.in
+- INCLUDES =3D -I.. -I$(srcdir) -I$(top_srcdir)/src -I../intl -I$(top_srcdi=
+r)/lib
+- #DEFS =3D -DLOCALEDIR=3D\"$(localedir)\" -DOS=3D\"@host_os@\" -DCPU=3D\"@=
+host_cpu@\"
+-diff -uprN clean/lrzsz-0.12.20/src/zglobal.h lrzsz-0.12.20/src/zglobal.h
+---- clean/lrzsz-0.12.20/src/zglobal.h	1998-12-29 12:34:59.000000000 +0000
+-+++ lrzsz-0.12.20/src/zglobal.h	2019-11-25 16:32:42.000000000 +0000
+-@@ -180,9 +180,6 @@ struct termios;
+- #if HAVE_LOCALE_H
+- # include <locale.h>
+- #endif
+--#if !HAVE_SETLOCALE
+--# define setlocale(Category, Locale) /* empty */
+--#endif
+-=20
+- #if ENABLE_NLS
+- # include <libintl.h>
+-diff -uprN clean/lrzsz-0.12.20/stamp-h.in lrzsz-0.12.20/stamp-h.in
+---- clean/lrzsz-0.12.20/stamp-h.in	1998-12-30 07:51:07.000000000 +0000
+-+++ lrzsz-0.12.20/stamp-h.in	1970-01-01 01:00:00.000000000 +0100
+-@@ -1 +0,0 @@
+--timestamp
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools.patch b/meta/re=
+cipes-bsp/lrzsz/lrzsz-0.12.20/autotools.patch
+deleted file mode 100644
+index 394519855e1..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/autotools.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+---- lrzsz-0.12.20/acinclude.m4~autotools	1998-12-27 17:08:59.000000000 -05=
+00
+-+++ lrzsz-0.12.20/acinclude.m4	2004-05-09 22:26:19.000000000 -0400
+-@@ -1,12 +1,11 @@
+- dnl AC_REPLACE_GNU_GETOPT
+--AC_DEFUN(AC_REPLACE_GNU_GETOPT,
+--[AC_CHECK_FUNC(getopt_long, , [LIBOBJS=3D"$LIBOBJS getopt1.o getopt.o"])
+--AC_SUBST(LIBOBJS)dnl
+--])
+-+AC_DEFUN([AC_REPLACE_GNU_GETOPT],
+-+[AC_CHECK_FUNC(getopt_long, , [AC_LIBOBJ([getopt1])
+-+AC_LIBOBJ([getopt])dnl])])
+-=20
+- dnl
+- dnl taken from taylor uucp
+--AC_DEFUN(LRZSZ_ERRNO_DECL,[
+-+AC_DEFUN([LRZSZ_ERRNO_DECL],[
+- AC_MSG_CHECKING(for errno declaration)
+- AC_CACHE_VAL(lrzsz_cv_decl_errno,
+- [AC_TRY_COMPILE([#include <errno.h>], [int i =3D errno; errno =3D 1;],
+-@@ -23,7 +21,7 @@
+- ])
+-=20
+- dnl LRZSZ_TYPE_SPEED_T
+--AC_DEFUN(LRZSZ_TYPE_SPEED_T,[
+-+AC_DEFUN([LRZSZ_TYPE_SPEED_T],[
+- AC_REQUIRE([AC_HEADER_STDC])dnl
+- AC_REQUIRE([LRZSZ_HEADERS_TERM_IO])dnl
+- AC_MSG_CHECKING(for speed_t)
+-@@ -61,7 +59,7 @@
+- fi
+- ])
+-=20
+--AC_DEFUN(lrzsz_HEADER_SYS_SELECT,
+-+AC_DEFUN([lrzsz_HEADER_SYS_SELECT],
+- [AC_CACHE_CHECK([whether sys/time.h and sys/select.h may both be included=
+],
+-   lrzsz_cv_header_sys_select,
+- [AC_TRY_COMPILE([#include <sys/types.h>
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/cve-2018-10195.patch b/me=
+ta/recipes-bsp/lrzsz/lrzsz-0.12.20/cve-2018-10195.patch
+deleted file mode 100644
+index dea298634f0..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/cve-2018-10195.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-Integer overflow in src/zm.c:zsdata() causes crash in sz and can leak info=
+rmation to receiver.
+-
+-Patch taken from Fedora.
+-
+-CVE: CVE-2018-10195
+-Upstream-Status: Inappropriate (dead upstream)
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff -urN lrzsz-0.12.20/src/zm.c lrzsz-0.12.20.new/src/zm.c
+---- lrzsz-0.12.20/src/zm.c	Tue Dec 29 09:48:38 1998
+-+++ lrzsz-0.12.20.new/src/zm.c	Tue Oct  8 12:46:58 2002
+-@@ -431,10 +431,12 @@
+- 	VPRINTF(3,("zsdata: %lu %s", (unsigned long) length,=20
+- 		Zendnames[(frameend-ZCRCE)&3]));
+- 	crc =3D 0;
+--	do {
+--		zsendline(*buf); crc =3D updcrc((0377 & *buf), crc);
+--		buf++;
+--	} while (--length>0);
+-+
+-+	for( ; length; length--) {
+-+	  zsendline(*buf); crc =3D updcrc((0377 & *buf), crc);
+-+	  buf++;
+-+	}
+-+
+- 	xsendline(ZDLE); xsendline(frameend);
+- 	crc =3D updcrc(frameend, crc);
+-=20
+\ No newline at end of file
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch b/meta/reci=
+pes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+deleted file mode 100644
+index 5fcb3aa92b5..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-Implicit declaration compile warning fixes from Debian
+-
+-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+-Upstream-Status: Inappropriate [upstream is dead]
+-
+---- lrzsz-0.12.21.orig/lib/long-options.c
+-+++ lrzsz-0.12.21/lib/long-options.c
+-@@ -22,6 +22,7 @@
+- #endif
+-=20
+- #include <stdio.h>
+-+#include <stdlib.h>
+- #include <getopt.h>
+- #include "long-options.h"
+-=20
+---- lrzsz-0.12.21.orig/src/lsyslog.c
+-+++ lrzsz-0.12.21/src/lsyslog.c
+-@@ -22,6 +22,7 @@
+- #ifdef ENABLE_SYSLOG
+- #include "zglobal.h"
+- #include <pwd.h>
+-+#include <stdio.h>
+- #include <stdlib.h>
+- #include <string.h>
+- #endif
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz-check-locale.h.patc=
+h b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz-check-locale.h.patch
+deleted file mode 100644
+index 9e46dfa070f..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz-check-locale.h.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 28b473c3c96682a820e292cc1be006e19aee11bc Mon Sep 17 00:00:00 2001
+-From: Jackie Huang <jackie.huang@windriver.com>
+-Date: Fri, 24 May 2013 01:07:24 -0400
+-Subject: [PATCH] lrzsz check locale.h
+-
+-fix the build failure when using -O0 in a debug build:
+-lrz.c:284:13: error: 'LC_ALL' undeclared (first use in this function)
+-
+-Upstream-Status: Submitted [uwe@ohse.de]
+-
+-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+----
+- configure.in |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.in b/configure.in
+-index 6e2064c..c10460c 100644
+---- a/configure.in
+-+++ b/configure.in
+-@@ -130,7 +130,7 @@ AC_CHECK_HEADERS(fcntl.h limits.h sys/ioctl.h sys/time=
+.h unistd.h sys/times.h)
+- LRZSZ_HEADERS_TERM_IO
+- AC_CHECK_HEADERS(termios.h sys/termios.h termio.h sys/termio.h sgtty.h)
+- AC_CHECK_HEADERS(sys/mman.h utime.h syslog.h sys/syslog.h sys/param.h)
+--AC_CHECK_HEADERS(sys/select.h strings.h arpa/inet.h)
+-+AC_CHECK_HEADERS(sys/select.h strings.h locale.h arpa/inet.h)
+-=20
+- dnl Checks for typedefs, structures, and compiler characteristics.
+- AC_TYPE_SIZE_T
+---=20
+-1.7.9.5
+-
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/makefile.patch b/meta/rec=
+ipes-bsp/lrzsz/lrzsz-0.12.20/makefile.patch
+deleted file mode 100644
+index ace592c8f26..00000000000
+--- a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/makefile.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-diff -ruN lrzsz-0.12.20_org/src/Makefile.in lrzsz-0.12.20_patch/src/Makefi=
+le.in
+---- lrzsz-0.12.20_org/src/Makefile.in	1998-12-30 17:31:46.000000000 +0100
+-+++ lrzsz-0.12.20_patch/src/Makefile.in	2004-04-29 13:57:33.434909656 +020=
+0
+-@@ -372,13 +372,13 @@
+- 	rm -f $(DESTDIR)/$(bindir)/`echo lsb | sed -e '$(transform)'`
+- 	ln $(DESTDIR)/$(bindir)/`echo lsz |sed -e '$(transform)'` \
+- 		$(DESTDIR)/$(bindir)/`echo lsb |sed -e '$(transform)'`=20
+--	rm -f $(bindir)/`echo lsx | sed -e '$(transform)'`
+-+	rm -f $(DESTDIR)/$(bindir)/`echo lsx | sed -e '$(transform)'`
+- 	ln $(DESTDIR)/$(bindir)/`echo lsz |sed -e '$(transform)'` \
+- 		$(DESTDIR)/$(bindir)/`echo lsx |sed -e '$(transform)'`=20
+--	rm -f $(bindir)/`echo lrb | sed -e '$(transform)'`
+-+	rm -f $(DESTDIR)/$(bindir)/`echo lrb | sed -e '$(transform)'`
+- 	ln $(DESTDIR)/$(bindir)/`echo lrz |sed -e '$(transform)'` \
+- 		$(DESTDIR)/$(bindir)/`echo lrb |sed -e '$(transform)'`=20
+--	rm -f $(bindir)/`echo lrx | sed -e '$(transform)'`
+-+	rm -f $(DESTDIR)/$(bindir)/`echo lrx | sed -e '$(transform)'`
+- 	ln $(DESTDIR)/$(bindir)/`echo lrz |sed -e '$(transform)'` \
+- 		$(DESTDIR)/$(bindir)/`echo lrx |sed -e '$(transform)'`=20
+- #	rm -f $(bindir)/`echo lrzszbug | sed -e '$(transform)'`
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz/0001-Fix-build-with-32-bit-target=
+s-under-Werror.patch b/meta/recipes-bsp/lrzsz/lrzsz/0001-Fix-build-with-32-=
+bit-targets-under-Werror.patch
 new file mode 100644
-index 0000000000..760a257f4b
+index 00000000000..afc401f0174
 --- /dev/null
-+++ b/meta/recipes-devtools/strace/files/0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
-@@ -0,0 +1,62 @@
-+From 079bc39924ff9cba5d325decec7545e35e9507a0 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 18 Aug 2025 22:18:58 -0700
-+Subject: [PATCH] Ignore pwritev/pwrite64 tests on musl
++++ b/meta/recipes-bsp/lrzsz/lrzsz/0001-Fix-build-with-32-bit-targets-under=
+-Werror.patch
+@@ -0,0 +1,121 @@
++From de8ea6f3990511cc9478ad25dcb60413126a5a15 Mon Sep 17 00:00:00 2001
++From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++Date: Thu, 22 Oct 2026 13:30:00 +0000
++Subject: [PATCH] Fix build on 32-bit (ILP32) targets with -Werror
 +
-+musl uses wrappers for pwritev and pwrite64 using
-+pwritev2 syscall [1], however the test exepcts that the
-+program will call pwritev and pwrite64 ( glibc behavior )
++The default -Werror build fails on 32-bit targets in a few spots that
++assume LP64 sizes:
 +
-+This can be fixed if the function calls are changed to
-+use syscall() API directly, but that needs change upstream [2]
++- src/zm.c (zsda32), src/zreadline.c, src/lsz.c: size_t values are
++  printed with "%lu", which mismatches on ILP32 where size_t is
++  unsigned int [-Werror=3Dformat=3D]. Use "%zu", as the rest of the code
++  (stats.c, lrz.c, lsz.c) already does.
 +
-+Issue is reported upstream [3]
++- src/linesimulator.c: the xorshift64 RNG kept its state in unsigned
++  long, so the 64-bit seed constant 0x9E3779B97F4A7C15 was truncated on
++  ILP32 [-Werror=3Doverflow]. Use uint64_t for the state and the
++  error_state rng/seed fields.
 +
-+[1] https://git.musl-libc.org/cgit/musl/commit/src?id=5370070fded61b569196764673a4fc8440aac79e
-+[2] https://github.com/strace/strace/pull/347
-+[3] https://github.com/strace/strace/issues/349
++- src/zm.c: zsendline() is "static inline" but can exceed the inliner's
++  size limit at -O2, which fails with -Werror=3Dinline. Mark it
++  LRZSZ_ALWAYS_INLINE like the other hot helpers (noxrd7, zdlread,
++  zgeth1) to keep it inlined and silence the error.
 +
-+Upstream-Status: Inappropriate [Musl Specific]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Builds cleanly for x86, x86-64, arm, aarch64, mips, mips64, riscv64 and
++powerpc.
++
++Upstream-Status: Submitted [https://github.com/UweOhse/lrzsz/pull/2]
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++
 +---
-+ tests/pread64-pwrite64.gen.test | 3 +++
-+ tests/preadv-pwritev.gen.test   | 3 +++
-+ tests/pwritev.gen.test          | 3 +++
-+ 3 files changed, 9 insertions(+)
++ src/linesimulator.c | 11 ++++++-----
++ src/lsz.c           |  2 +-
++ src/zm.c            |  4 ++--
++ src/zreadline.c     |  2 +-
++ 4 files changed, 10 insertions(+), 9 deletions(-)
 +
-+diff --git a/tests/pread64-pwrite64.gen.test b/tests/pread64-pwrite64.gen.test
-+index b53e069..0a1e6e6 100755
-+--- a/tests/pread64-pwrite64.gen.test
-++++ b/tests/pread64-pwrite64.gen.test
-+@@ -1,4 +1,7 @@
-+ #!/bin/sh -efu
-+ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (pread64-pwrite64 -a21 -eread=0 -ewrite=1 -e trace=pread64,pwrite64 -P pread64-pwrite64-tmpfile -P /dev/zero -P /dev/null); do not edit.
-+ . "${srcdir=.}/init.sh"
-++
-++skip_ "Test not ported to musl, musl generates pwritev2"
-++
-+ run_strace_match_diff -a21 -eread=0 -ewrite=1 -e trace=pread64,pwrite64 -P pread64-pwrite64-tmpfile -P /dev/zero -P /dev/null
-+diff --git a/tests/preadv-pwritev.gen.test b/tests/preadv-pwritev.gen.test
-+index 5ed8297..b83f129 100755
-+--- a/tests/preadv-pwritev.gen.test
-++++ b/tests/preadv-pwritev.gen.test
-+@@ -1,4 +1,7 @@
-+ #!/bin/sh -efu
-+ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (preadv-pwritev -a19 -eread=0 -ewrite=1 -e trace=preadv,pwritev); do not edit.
-+ . "${srcdir=.}/init.sh"
-++
-++skip_ "Test not ported to musl, musl generates pwritev2"
-++
-+ run_strace_match_diff -a19 -eread=0 -ewrite=1 -e trace=preadv,pwritev
-+diff --git a/tests/pwritev.gen.test b/tests/pwritev.gen.test
-+index e54fd15..4999816 100755
-+--- a/tests/pwritev.gen.test
-++++ b/tests/pwritev.gen.test
-+@@ -1,4 +1,7 @@
-+ #!/bin/sh -efu
-+ # Generated by ./tests/gen_tests.sh from ./tests/gen_tests.in (pwritev -a22 -s7); do not edit.
-+ . "${srcdir=.}/init.sh"
-++
-++skip_ "Test not ported to musl, musl generates pwritev2"
-++
-+ run_strace_match_diff -a22 -s7
-diff --git a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
-index 25f32d1734..ebcd316e9f 100644
---- a/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
-+++ b/meta/recipes-devtools/strace/strace/0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch
-@@ -1,4 +1,4 @@
--From 334b66af1329bc6970c9ff9ee668af6cc2133b8f Mon Sep 17 00:00:00 2001
-+From dff502ff4ae95a310ea10eeda0aaf5626de3890b Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 15 Dec 2022 15:54:27 -0800
- Subject: [PATCH] configure: Use autoconf macro to detect largefile support
-@@ -13,7 +13,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 2 insertions(+)
- 
- diff --git a/configure.ac b/configure.ac
--index 956bb85..0812725 100644
-+index 9bec14b..57406f5 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -43,6 +43,8 @@ AC_PROG_INSTALL
-diff --git a/meta/recipes-devtools/strace/strace/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch b/meta/recipes-devtools/strace/strace/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-index 60e5141197..478bb7b9d9 100644
---- a/meta/recipes-devtools/strace/strace/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-+++ b/meta/recipes-devtools/strace/strace/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-@@ -1,4 +1,4 @@
--From b402cfcdfb782ab3a8b264b23536a4de5f709746 Mon Sep 17 00:00:00 2001
-+From de4d51c010e12a8c843dd3e241e392cd8cbcc6ca Mon Sep 17 00:00:00 2001
- From: Khem Raj <khem.raj@oss.qualcomm.com>
- Date: Fri, 10 Apr 2026 23:39:47 +0000
- Subject: [PATCH] m4: Backport ax_prog_cc_for_build.m4 macros
-diff --git a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
-index 4907b16a1c..8a8b18d698 100644
---- a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
-+++ b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
-@@ -1,4 +1,4 @@
--From 5905b406c5325442f2001339937ad22b2d068b15 Mon Sep 17 00:00:00 2001
-+From a99f2283ed13b03185b67ddda507aed3aa0f595e Mon Sep 17 00:00:00 2001
- From: Jeremy Puhlman <jpuhlman@mvista.com>
- Date: Wed, 11 Mar 2020 19:56:55 +0000
- Subject: [PATCH] strace: fix reproducibilty issues
-@@ -13,19 +13,19 @@ Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/tests/gen_tests.sh b/tests/gen_tests.sh
--index 3c6228a..43b94ea 100755
-+index d71e1c1..c191673 100755
- --- a/tests/gen_tests.sh
- +++ b/tests/gen_tests.sh
--@@ -46,7 +46,7 @@ while read -r name arg0 args; do {
-+@@ -52,7 +52,7 @@ while read -r name arg0 args; do {
-  
-  	hdr="\
-  #!/bin/sh -efu
- -# Generated by $0 from $input ($name $arg0 $args); do not edit."
- +# Generated by $(basename $0) from $input ($name $arg0 $args); do not edit."
-  
-- 	case "$arg0" in
-- 		+*)
--@@ -102,7 +102,7 @@ while read -r name arg0 args; do {
-+ 	# A generated test may be sourced while another build regenerates it.
-+ 	# Replace the file atomically so the reader keeps its original contents.
-+@@ -112,7 +112,7 @@ while read -r name arg0 args; do {
-  
-  if [ -n "$names" ]; then
-  	{
-diff --git a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
-index e784268855..88a81519bf 100644
---- a/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
-+++ b/meta/recipes-devtools/strace/strace/0002-tests-Replace-off64_t-with-off_t.patch
-@@ -1,4 +1,4 @@
--From bcca8619f749ba78a4ce78d39c603e2606175175 Mon Sep 17 00:00:00 2001
-+From 85eb02371ea47e79f912fa03dbe03c849c093b36 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 15 Dec 2022 15:56:13 -0800
- Subject: [PATCH] tests: Replace off64_t with off_t
-diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-index 1e3c8ee2aa..0352a82234 100644
---- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-+++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-@@ -1,4 +1,4 @@
--From 2749699b77b4fcce7e6e960f246259b05f3dafcc Mon Sep 17 00:00:00 2001
-+From f7ad423f864c5f882c7e220f564a21e9421ac73b Mon Sep 17 00:00:00 2001
- From: Gabriel Barbu <gabriel.barbu@enea.com>
- Date: Thu, 25 Jul 2013 15:28:33 +0200
- Subject: [PATCH] strace: Add ptest
-@@ -13,7 +13,7 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-  1 file changed, 20 insertions(+)
- 
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 84a9638..23fd218 100644
-+index 12b63b2..1ddf782 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
- @@ -18,6 +18,7 @@ SIZEOF_LONG = @SIZEOF_LONG@
-@@ -24,7 +24,7 @@ index 84a9638..23fd218 100644
-  AM_CFLAGS = $(WARN_CFLAGS) $(TEST_WARN_CFLAGS)
-  bundled_CPPFLAGS =
-  if USE_BUNDLED_HEADERS
--@@ -968,3 +969,22 @@ check-valgrind-local: $(check_LIBRARIES) $(check_PROGRAMS)
-+@@ -982,3 +983,22 @@ check-valgrind-local: $(check_LIBRARIES) $(check_PROGRAMS)
-  CLEANFILES = ksysent.h
-  
-  include ../src/scno.am
-diff --git a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
-index 00f404c003..3f6289d3a1 100644
---- a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
-+++ b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
-@@ -1,4 +1,4 @@
--From ae538d4dcb0ea7265d72671b7dd3537ca1356437 Mon Sep 17 00:00:00 2001
-+From 0bcea4d97bdbfba5920ceb56215a911c9d529dc6 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Wed, 29 May 2019 00:10:32 +0100
- Subject: [PATCH] strace: Tweak ptest disk space management
-@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate [specific to OE image space issues]
-  1 file changed, 1 insertion(+)
- 
- diff --git a/tests/gen_tests.sh b/tests/gen_tests.sh
--index f22ad08..3c6228a 100755
-+index 2a7fada..d71e1c1 100755
- --- a/tests/gen_tests.sh
- +++ b/tests/gen_tests.sh
--@@ -84,6 +84,7 @@ while read -r name arg0 args; do {
-+@@ -93,6 +93,7 @@ while read -r name arg0 args; do {
-  		$hdr
-  		. "\${srcdir=.}/init.sh"
-  		run_strace_match_diff $arg0 $args
-diff --git a/meta/recipes-devtools/strace/strace/skip-load.patch b/meta/recipes-devtools/strace/strace/skip-load.patch
-index 610dd94fe9..cab890f148 100644
---- a/meta/recipes-devtools/strace/strace/skip-load.patch
-+++ b/meta/recipes-devtools/strace/strace/skip-load.patch
-@@ -1,4 +1,4 @@
--From 2653515537b66a4b1286be107e9ef406c55040b4 Mon Sep 17 00:00:00 2001
-+From 5c9048988e5000fb0f175afde05a23be2ef0fa15 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Sat, 30 Aug 2025 00:47:03 +0200
- Subject: [PATCH] strace: skip a number of load-sensitive tests
-diff --git a/meta/recipes-devtools/strace/strace/update-gawk-paths.patch b/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
-index 8895b0ff9e..764f0af116 100644
---- a/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
-+++ b/meta/recipes-devtools/strace/strace/update-gawk-paths.patch
-@@ -1,4 +1,4 @@
--From be1b3d74ca4ffb3c8d3e38fdb96f23d5920f8ef1 Mon Sep 17 00:00:00 2001
-+From 3c4da31783f127d18cf1b64ca33ac46a512da2cb Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Mon, 18 Jan 2016 11:01:00 -0800
- Subject: [PATCH] update gawk paths, /bin/gawk -> /usr/bin/gawk
-diff --git a/meta/recipes-devtools/strace/strace_7.2.bb b/meta/recipes-devtools/strace/strace_7.3.bb
-similarity index 97%
-rename from meta/recipes-devtools/strace/strace_7.2.bb
-rename to meta/recipes-devtools/strace/strace_7.3.bb
-index 3f7aaab3e6..a28a90e398 100644
---- a/meta/recipes-devtools/strace/strace_7.2.bb
-+++ b/meta/recipes-devtools/strace/strace_7.3.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
- SRC_URI:append:libc-musl = "\
-            file://0001-Ignore-pwritev-pwrite64-tests-on-musl.patch \
++diff --git a/src/linesimulator.c b/src/linesimulator.c
++index aec7c59..7707c6a 100644
++--- a/src/linesimulator.c
+++++ b/src/linesimulator.c
++@@ -15,6 +15,7 @@
++=20
++ #include <stdio.h>
++ #include <stdlib.h>
+++#include <stdint.h>
++ #include <string.h>
++ #include <unistd.h>
++ #include <errno.h>
++@@ -118,10 +119,10 @@ parse_ranges(const char *s, struct range_list *rl)
++ /* RNG: xorshift64                                                    */
++ /* ------------------------------------------------------------------ */
++=20
++-static unsigned long
++-xorshift64(unsigned long *state)
+++static uint64_t
+++xorshift64(uint64_t *state)
++ {
++-    unsigned long x =3D *state;
+++    uint64_t x =3D *state;
++     if (x =3D=3D 0)
++         x =3D 0x9E3779B97F4A7C15UL;
++     x ^=3D x << 13;
++@@ -313,8 +314,8 @@ enum err_type {
++ };
++=20
++ struct error_state {
++-    unsigned long rng;
++-    unsigned long seed;
+++    uint64_t rng;
+++    uint64_t seed;
++     int flip_bits;      /* max bits to flip per event (0=3Ddisabled) */
++     int drop_bytes;     /* max bytes to drop per event (0=3Ddisabled) */
++     int garble_bytes;   /* max bytes to garble per event (0=3Ddisabled) *=
+/
++diff --git a/src/lsz.c b/src/lsz.c
++index 18766a6..f571385 100644
++--- a/src/lsz.c
+++++ b/src/lsz.c
++@@ -1426,7 +1426,7 @@ getzrxinit(void)
++ 				blklen =3D Rxbuflen;
++ 			if (blkopt && blklen > blkopt)
++ 				blklen =3D blkopt;
++-			DPRINTF(DEBUG_WINDOWHANDLING, "Rxbuflen=3D%u blklen=3D%lu\n", Rxbuflen=
+, blklen);
+++			DPRINTF(DEBUG_WINDOWHANDLING, "Rxbuflen=3D%u blklen=3D%zu\n", Rxbuflen=
+, blklen);
++ 			DPRINTF(DEBUG_WINDOWHANDLING, "Txwindow =3D %u Txwspac =3D %u\n", Txwi=
+ndow, Txwspac);
++ 			Rxtimeout=3Dold_timeout;
++                         if (debugmode & DEBUG_WINDOWHANDLING) {
++diff --git a/src/zm.c b/src/zm.c
++index 9aa3298..9207095 100644
++--- a/src/zm.c
+++++ b/src/zm.c
++@@ -257,7 +257,7 @@ zdlread2(int c)
++  * Send character c with ZMODEM escape sequence encoding.
++  *  Escape XON, XOFF. Escape CR following @ (Telenet net escape)
++  */
++-static inline void=20
+++static inline LRZSZ_ALWAYS_INLINE void=20
++ zsendline(int c)
++ {
++=20
++@@ -476,7 +476,7 @@ zsda32(const char *buf, size_t length, int frameend)
++ 	int c;
++ 	unsigned long crc;
++ 	int i;
++-	DPRINTF(DEBUG_PROTOCOL, "zsdat32: %lu %s", length, Zendnames[(frameend-Z=
+CRCE)&3]);
+++	DPRINTF(DEBUG_PROTOCOL, "zsdat32: %zu %s", length, Zendnames[(frameend-Z=
+CRCE)&3]);
++=20
++ 	crc =3D 0xFFFFFFFFL;
++         stats_msg_valid(length);
++diff --git a/src/zreadline.c b/src/zreadline.c
++index 8ed3c8f..20bf6ff 100644
++--- a/src/zreadline.c
+++++ b/src/zreadline.c
++@@ -53,7 +53,7 @@ readline_internal(unsigned int timeout)
++ 	struct timeval *tvp;
++ 	int rc;
++=20
++-	DPRINTF(DEBUG_READLINE, "Calling read: timeout=3D%u/10s  readnum=3D%lu "=
+,
+++	DPRINTF(DEBUG_READLINE, "Calling read: timeout=3D%u/10s  readnum=3D%zu "=
+,
++ 	  timeout, readline_readnum);
++=20
++ 	if (no_timeout) {
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrz=
+sz/lrzsz_0.13.1.bb
+similarity index 55%
+rename from meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+rename to meta/recipes-bsp/lrzsz/lrzsz_0.13.1.bb
+index 042cf7fbaca..521cedf789b 100644
+--- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
++++ b/meta/recipes-bsp/lrzsz/lrzsz_0.13.1.bb
+@@ -12,17 +12,9 @@ SECTION =3D "console/network"
+ DEPENDS =3D ""
+=20
+ SRC_URI =3D "https://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
+-           file://autotools-update.patch \
+-           file://autotools.patch \
+-           file://makefile.patch \
+-           file://lrzsz-check-locale.h.patch \
+-           file://cve-2018-10195.patch \
+-           file://include.patch \
+-           file://0001-Fix-cross-compilation-using-autoconf-detected-AR.pa=
+tch \
+-           file://0001-Fix-build-with-GCC-15.patch \
+-           file://0001-lrzsz-convert-K-R-function-definitions-to-ANSI-C-pr=
+o.patch \
++           file://0001-Fix-build-with-32-bit-targets-under-Werror.patch \
             "
--SRC_URI[sha256sum] = "4bde6246926890dcee824f6e6ac42a06752f47d77e5097d86e3c0d6d4b709fe5"
-+SRC_URI[sha256sum] = "529634c40910895a9a1f3c5c1e65da2ca9ed72fb158dfc4bcc89efdf05e39b72"
- 
- inherit autotools github-releases ptest
- 
--- 
-2.47.1
-
-
---===============5422994388723865832==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/strace: SRC_URI changed from "https://github.com/strace/strace/releases//download/v7.2/strace-7.2.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch" to "https://github.com/strace/strace/releases//download/v7.3/strace-7.3.tar.xz file://update-gawk-paths.patch file://Makefile-ptest.patch file://run-ptest file://ptest-spacesave.patch file://0001-strace-fix-reproducibilty-issues.patch file://skip-load.patch file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch file://0002-tests-Replace-off64_t-with-off_t.patch file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch"
-packages/x86-64-v3-poky-linux/strace: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace: PKGV changed from 7.2 [default] to 7.3 [default]
-packages/x86-64-v3-poky-linux/strace/strace-dbg: PKGSIZE changed from 75942008 to 77898216 (+3%)
-packages/x86-64-v3-poky-linux/strace/strace-dbg: FILELIST: removed "/usr/lib/strace/ptest/tests/.debug/setns-report-ns-id", added "/usr/lib/strace/ptest/tests/.debug/bpf-obj_get_info_by_fd-link /usr/lib/strace/ptest/tests/.debug/nlattr_ifaddrmsg-Xverbose /usr/lib/strace/ptest/tests/.debug/ioctl_tun /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-user-explicit /usr/lib/strace/ptest/tests/.debug/printclockname-Xabbrev /usr/lib/strace/ptest/tests/.debug/printclockname-Xverbose /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-cgroup /usr/lib/strace/ptest/tests/.debug/ioctl_tun-v /usr/lib/strace/ptest/tests/.debug/nlattr_ifaddrmsg-Xraw /usr/lib/strace/ptest/tests/.debug/ioctl_tun-y /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-uts /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-mnt /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-net /usr/lib/strace/ptest/tests/.debug/nlattr_ifaddrmsg-Xabbrev /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-ipc /usr/lib/
- strace/ptest/tests/.debug/fchroot-y /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-pid /usr/lib/strace/ptest/tests/.debug/ioctl_tun-success /usr/lib/strace/ptest/tests/.debug/fchroot /usr/lib/strace/ptest/tests/.debug/ioctl_tun-v-success /usr/lib/strace/ptest/tests/.debug/ioctl_tun-y-success /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-time /usr/lib/strace/ptest/tests/.debug/setns-report-ns-id-user /usr/lib/strace/ptest/tests/.debug/printclockname-Xraw"
-packages/x86-64-v3-poky-linux/strace/strace-dbg: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace/strace-dbg: PKGV changed from 7.2 [default] to 7.3 [default]
-packages/x86-64-v3-poky-linux/strace/strace-dev: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace/strace-dev: PKGV changed from 7.2 [default] to 7.3 [default]
-packages/x86-64-v3-poky-linux/strace/strace-doc: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace/strace-doc: PKGV changed from 7.2 [default] to 7.3 [default]
-packages/x86-64-v3-poky-linux/strace/strace-locale: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace/strace-locale: PKGV changed from 7.2 [default] to 7.3 [default]
-packages/x86-64-v3-poky-linux/strace/strace-ptest: PKGSIZE changed from 35703883 to 36546667 (+2%)
-packages/x86-64-v3-poky-linux/strace/strace-ptest: FILELIST: removed "/usr/lib/strace/ptest/tests/setns-report-ns-id /usr/lib/strace/ptest/tests/setns-report-ns-id.gen.test", added "/usr/lib/strace/ptest/tests/printclockname-Xabbrev /usr/lib/strace/ptest/tests/attach-p-eperm-tracer-outside-pidns.test /usr/lib/strace/ptest/tests/setns-report-ns-id-net /usr/lib/strace/ptest/tests/fchroot.gen.test /usr/lib/strace/ptest/tests/fchroot-y.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-v.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-y.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-time.gen.test /usr/lib/strace/ptest/tests/procfs-pidns.sh /usr/lib/strace/ptest/tests/setns-report-ns-id-user /usr/lib/strace/ptest/tests/ioctl_tun.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-user.gen.test /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xraw.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-pid--pidns.gen.test /usr/lib/strace/ptest/tests/printclockname-Xraw /usr/lib/strace/
- ptest/tests/setns-report-ns-id-cgroup /usr/lib/strace/ptest/tests/setns-report-ns-id-mnt /usr/lib/strace/ptest/tests/setns-report-ns-id-user-explicit /usr/lib/strace/ptest/tests/strace--decode-pids-comm--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-net--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-uts--pidns.gen.test /usr/lib/strace/ptest/tests/printclockname.c /usr/lib/strace/ptest/tests/setns-report-ns-id.c /usr/lib/strace/ptest/tests/printclockname-Xverbose.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-time--pidns.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-v-success.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-y-success.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-user-explicit--pidns.gen.test /usr/lib/strace/ptest/tests/ioctl_tun /usr/lib/strace/ptest/tests/attach-p-eperm-already-traced--pidns.test /usr/lib/strace/ptest/tests/ioctl_tun-success /usr/lib/strace/ptest/tests/printclockname-Xverbose /usr/lib/strace/ptest/te
- sts/setns-report-ns-id-cgroup.gen.test /usr/lib/strace/ptest/tests/bpf-obj_get_info_by_fd-link.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-success.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-children.c /usr/lib/strace/ptest/tests/fchroot-y /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xverbose /usr/lib/strace/ptest/tests/setns-report-ns-id-user-common.c /usr/lib/strace/ptest/tests/setns-report-ns-id-user--pidns.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-y /usr/lib/strace/ptest/tests/ioctl_tun-v /usr/lib/strace/ptest/tests/setns-report-ns-id-time /usr/lib/strace/ptest/tests/fchroot /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xverbose.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-ipc--pidns.gen.test /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xabbrev.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-net.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-ipc.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-pid.gen.test /usr/lib/strace/pte
- st/tests/setns-report-ns-id-common.h /usr/lib/strace/ptest/tests/bpf-obj_get_info_by_fd-link /usr/lib/strace/ptest/tests/printclockname-Xraw.gen.test /usr/lib/strace/ptest/tests/unshare-report-ns-id--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-ipc /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xraw /usr/lib/strace/ptest/tests/setns-report-ns-id-uts /usr/lib/strace/ptest/tests/setns-report-ns-id-pid /usr/lib/strace/ptest/tests/setns-report-ns-id-mnt.gen.test /usr/lib/strace/ptest/tests/printclockname-Xabbrev.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-v-success /usr/lib/strace/ptest/tests/ioctl_tun-y-success /usr/lib/strace/ptest/tests/setns-report-ns-id-user-explicit.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-mnt--pidns.gen.test /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xabbrev /usr/lib/strace/ptest/tests/setns-report-ns-id-cgroup--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-uts.gen.test"
-packages/x86-64-v3-poky-linux/strace/strace-ptest: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace/strace-ptest: PKGV changed from 7.2 [default] to 7.3 [default]
-packages/x86-64-v3-poky-linux/strace/strace-src: PKGSIZE changed from 12042112 to 12531015 (+4%)
-packages/x86-64-v3-poky-linux/strace/strace-src: FILELIST: directory renamed /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/netfilter/ipset -> /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/netfilter/ipset, directory renamed /usr/src/debug/strace/7.2/src/gen -> /usr/src/debug/strace/7.3/src/gen, directory renamed /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/netfilter -> /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/netfilter, directory renamed /usr/src/debug/strace/7.2/src/linux/i386 -> /usr/src/debug/strace/7.3/src/linux/i386, directory renamed /usr/src/debug/strace/7.2/src/linux/generic -> /usr/src/debug/strace/7.3/src/linux/generic, directory renamed /usr/src/debug/strace/7.2/bundled/linux/include/uapi/rdma -> /usr/src/debug/strace/7.3/bundled/linux/include/uapi/rdma, directory renamed /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/sched -> /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/sched, directory ren
- amed /usr/src/debug/strace/7.2/src/linux/x86_64 -> /usr/src/debug/strace/7.3/src/linux/x86_64, directory renamed /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/io_uring -> /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/io_uring, directory renamed /usr/src/debug/strace/7.2/bundled/linux/include/uapi/mtd -> /usr/src/debug/strace/7.3/bundled/linux/include/uapi/mtd, removed "/usr/src/debug/strace/7.2/src/xlat/bpf_commands.h /usr/src/debug/strace/7.2/src/xlat/dcb_commands.h /usr/src/debug/strace/7.2/tests/select-trace-fd-7-9.c /usr/src/debug/strace/7.2/tests/nfnetlink_ulog.c /usr/src/debug/strace/7.2/src/xlat/perf_hw_cache_id.h /usr/src/debug/strace/7.2/tests/ioctl_v4l2-v-Xabbrev.c /usr/src/debug/strace/7.2/tests/statfs.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_af_spec_mctp_attrs.h /usr/src/debug/strace/7.2/src/native_printer_decls.h /usr/src/debug/strace/7.2/src/xstring.h /usr/src/debug/strace/7.2/src/xlat/resource_flags.h /usr/src/debug/strace/7.2/tests/mou
- nt-Xraw.c /usr/src/debug/strace/7.2/src/xlat/fan_event_flags.h /usr/src/debug/strace/7.2/tests/ipc.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/btrfs_tree.h /usr/src/debug/strace/7.2/tests/umask.c /usr/src/debug/strace/7.2/tests/aio.c /usr/src/debug/strace/7.2/tests/timer_xettime.c /usr/src/debug/strace/7.2/src/xlat/epollevents.h /usr/src/debug/strace/7.2/tests/ioctl_epoll-Xraw.c /usr/src/debug/strace/7.2/tests/inotify_init1.c /usr/src/debug/strace/7.2/src/access.c /usr/src/debug/strace/7.2/tests/pidfd_open.c /usr/src/debug/strace/7.2/tests/ptrace_syscall_info-Xabbrev.c /usr/src/debug/strace/7.2/tests/linkat.c /usr/src/debug/strace/7.2/tests/move_pages-Xverbose.c /usr/src/debug/strace/7.2/tests/getsockname--secontext.c /usr/src/debug/strace/7.2/src/chdir.c /usr/src/debug/strace/7.2/src/xlat/evdev_snd.h /usr/src/debug/strace/7.2/tests/fchdir.c /usr/src/debug/strace/7.2/tests/old_mmap-Xverbose.c /usr/src/debug/strace/7.2/tests/unix-pair-sendto-recvfrom.c /usr/src/debug
- /strace/7.2/tests/execveat--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/fanotify_mark--secontext.c /usr/src/debug/strace/7.2/src/xlat/pr_sched_core_cmds.h /usr/src/debug/strace/7.2/tests/printsignal-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_kd-success-Xraw.c /usr/src/debug/strace/7.2/tests/status-none.c /usr/src/debug/strace/7.2/tests/newfstatat.c /usr/src/debug/strace/7.2/tests/sockopt-sol_socket-Xverbose.c /usr/src/debug/strace/7.2/tests/rseq.c /usr/src/debug/strace/7.2/src/xlat/nl_route_types.h /usr/src/debug/strace/7.2/tests/chmod--secontext.c /usr/src/debug/strace/7.2/tests/recvfrom-MSG_TRUNC.c /usr/src/debug/strace/7.2/tests/prctl-set-ptracer-success-Xraw.c /usr/src/debug/strace/7.2/tests/execveat--secontext_full.c /usr/src/debug/strace/7.2/tests/epoll_pwait2-y.c /usr/src/debug/strace/7.2/src/ipc_msg.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ipmra_msg_types.h /usr/src/debug/strace/7.2/tests/prctl-riscv-v-ctrl-success-Xverbose.c /usr/src/debug/strace/7.2/sr
- c/strauss.h /usr/src/debug/strace/7.2/tests/futex_wake-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/nf_hook_msg_types.h /usr/src/debug/strace/7.2/src/xlat/ptp_pin_funcs.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/fiemap.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/if_xdp.h /usr/src/debug/strace/7.2/src/strauss.c /usr/src/debug/strace/7.2/src/xlat/uring_fixed_fd_flags.h /usr/src/debug/strace/7.2/src/xlat/sock_bluetooth_options.h /usr/src/debug/strace/7.2/tests/strace--syscall-limit.c /usr/src/debug/strace/7.2/tests/semtimedop-common.c /usr/src/debug/strace/7.2/tests/prctl-set-ptracer-success-Xverbose--pidns-translation.c /usr/src/debug/strace/7.2/tests/old_mmap-Xabbrev.c /usr/src/debug/strace/7.2/tests/segv_accerr.c /usr/src/debug/strace/7.2/tests/segv_pkuerr.c /usr/src/debug/strace/7.2/tests/uio.c /usr/src/debug/strace/7.2/tests/ioctl_fs_x-Xabbrev.c /usr/src/debug/strace/7.2/src/xgetdents.c /usr/src/debug/strace/7.2/tests/tampering-notes.c /usr/src/d
- ebug/strace/7.2/tests/_newselect-P.c /usr/src/debug/strace/7.2/tests/maybe_switch_current_tcp--quiet-thread-execve.c /usr/src/debug/strace/7.2/src/desc.c /usr/src/debug/strace/7.2/src/xgetdents.h /usr/src/debug/strace/7.2/tests/bpf.c /usr/src/debug/strace/7.2/src/random_ioctl.c /usr/src/debug/strace/7.2/tests/nlattr_ifinfomsg.c /usr/src/debug/strace/7.2/tests/rt_tgsigqueueinfo.c /usr/src/debug/strace/7.2/src/xlat/bsg_flags.h /usr/src/debug/strace/7.2/src/xlat/efd_flags.h /usr/src/debug/strace/7.2/src/xlat/fs_xflags.h /usr/src/debug/strace/7.2/src/xlat/lsm_flags.h /usr/src/debug/strace/7.2/src/xlat/mdb_flags.h /usr/src/debug/strace/7.2/src/xlat/msg_flags.h /usr/src/debug/strace/7.2/src/xlat/pollflags.h /usr/src/debug/strace/7.2/src/xlat/ifstats_attrs.h /usr/src/debug/strace/7.2/src/xlat/sfd_flags.h /usr/src/debug/strace/7.2/src/xlat/shm_flags.h /usr/src/debug/strace/7.2/tests/fadvise64.c /usr/src/debug/strace/7.2/src/ipc_shm.c /usr/src/debug/strace/7.2/tests/copy_file_range.c /usr/sr
- c/debug/strace/7.2/src/xlat/rtnl_tca_act_flags.h /usr/src/debug/strace/7.2/tests/shmxt.c /usr/src/debug/strace/7.2/tests/execveat--secontext_mismatch.c /usr/src/debug/strace/7.2/src/xlat/uring_accept_flags.h /usr/src/debug/strace/7.2/tests/faccessat--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/getresgid.c /usr/src/debug/strace/7.2/tests/getresuid.c /usr/src/debug/strace/7.2/tests/net-yy-inet6.c /usr/src/debug/strace/7.2/src/print_statfs.c /usr/src/debug/strace/7.2/tests/file_setattr-Xraw.c /usr/src/debug/strace/7.2/tests/print_user_desc.c /usr/src/debug/strace/7.2/tests/ugetrlimit.c /usr/src/debug/strace/7.2/src/xlat/perf_hw_cache_op_result_id.h /usr/src/debug/strace/7.2/tests/prctl-sched-core-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/falloc_flags.h /usr/src/debug/strace/7.2/src/xlat/fs_ioc_flags.h /usr/src/debug/strace/7.2/tests/open--secontext.c /usr/src/debug/strace/7.2/tests/sockopt-sol_socket-Xraw.c /usr/src/debug/strace/7.2/tests/dup-trace-fds-0-P.c /usr/sr
- c/debug/strace/7.2/tests/ioctl_seccomp-y-success--pidns-translation-Xraw.c /usr/src/debug/strace/7.2/src/string_to_uint.c /usr/src/debug/strace/7.2/src/xlat/btrfs_qgroup_status_flags.h /usr/src/debug/strace/7.2/tests/strace--syscall-limit-c.c /usr/src/debug/strace/7.2/src/syslog.c /usr/src/debug/strace/7.2/src/string_to_uint.h /usr/src/debug/strace/7.2/tests/printstrn-umoven.c /usr/src/debug/strace/7.2/tests/netlink_route.c /usr/src/debug/strace/7.2/tests/sol_tipc-group_join-success.c /usr/src/debug/strace/7.2/src/xlat/fsconfig_cmds.h /usr/src/debug/strace/7.2/tests/eventfd--decode-fd-eventfd.c /usr/src/debug/strace/7.2/src/xlat/fdflags.h /usr/src/debug/strace/7.2/tests/nlattr_nlmsgerr.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_vfinfo_list_attrs.h /usr/src/debug/strace/7.2/src/xlat/udmabuf_flags.h /usr/src/debug/strace/7.2/tests/statmount.c /usr/src/debug/strace/7.2/tests/file_getattr.c /usr/src/debug/strace/7.2/tests/file_setattr.c /usr/src/debug/strace/7.2/tests/tkill.c /usr/s
- rc/debug/strace/7.2/src/rt_sigreturn.c /usr/src/debug/strace/7.2/tests/ioctl_kvm_run-v.c /usr/src/debug/strace/7.2/src/xlat/term_line_discs.h /usr/src/debug/strace/7.2/src/statx.h /usr/src/debug/strace/7.2/src/listmount.c /usr/src/debug/strace/7.2/src/statx.c /usr/src/debug/strace/7.2/tests/pidfd_getfd-y.c /usr/src/debug/strace/7.2/tests/file_setattr-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/btrfs_csum_types.h /usr/src/debug/strace/7.2/src/statfs.h /usr/src/debug/strace/7.2/src/xlat/fdb_notify_flags.h /usr/src/debug/strace/7.2/src/statfs.c /usr/src/debug/strace/7.2/tests/erestartsys.c /usr/src/debug/strace/7.2/src/xlat/x86_xfeature_bits.h /usr/src/debug/strace/7.2/src/xlat/uring_nop_flags.h /usr/src/debug/strace/7.2/src/xlat/kd_key_fn_keys.h /usr/src/debug/strace/7.2/tests/openat2-v-y.c /usr/src/debug/strace/7.2/tests/restart_syscall.c /usr/src/debug/strace/7.2/tests/attach-f-p.c /usr/src/debug/strace/7.2/tests/printsignal-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_gpio-v-Xa
- bbrev.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-v-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/v4l2_control_flags.h /usr/src/debug/strace/7.2/tests/file_handle--secontext.c /usr/src/debug/strace/7.2/src/xlat/v4l2_tuner_types.h /usr/src/debug/strace/7.2/tests/tgkill.c /usr/src/debug/strace/7.2/tests/remap_file_pages-Xabbrev.c /usr/src/debug/strace/7.2/tests/xstatfsx.c /usr/src/debug/strace/7.2/src/xlat/lbmd_pi_csum_types.h /usr/src/debug/strace/7.2/tests/prctl-set-ptracer-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/epoll_pwait.c /usr/src/debug/strace/7.2/tests/printxval-Xabbrev.c /usr/src/debug/strace/7.2/src/udmabuf.c /usr/src/debug/strace/7.2/tests/clone3-Xraw.c /usr/src/debug/strace/7.2/tests/faccessat2.c /usr/src/debug/strace/7.2/tests/keyctl-Xverbose.c /usr/src/debug/strace/7.2/tests/personality-Xverbose.c /usr/src/debug/strace/7.2/tests/clock_t_str.c /usr/src/debug/strace/7.2/tests/listxattrat-yy.c /usr/src/debug/strace/7.2/src/xlat/genl_seg6_cmd.h /usr/src/debug/strac
- e/7.2/tests/mbind-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/term_cflags_csize.h /usr/src/debug/strace/7.2/src/xlat/route_nexthop_flags.h /usr/src/debug/strace/7.2/tests/nfnetlink_cthelper.c /usr/src/debug/strace/7.2/tests/ioctl_kd-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/scm_credentials.c /usr/src/debug/strace/7.2/tests/stack-fcall-attach.c /usr/src/debug/strace/7.2/tests/xmalloc_for_tests.c /usr/src/debug/strace/7.2/tests/net-packet_mreq.c /usr/src/debug/strace/7.2/tests/status-none-f.c /usr/src/debug/strace/7.2/tests/umode_t.c /usr/src/debug/strace/7.2/tests/umount2.c /usr/src/debug/strace/7.2/src/xattr.c /usr/src/debug/strace/7.2/tests/seccomp_get_notif_sizes.c /usr/src/debug/strace/7.2/src/xlat/smc_diag_extended_flags.h /usr/src/debug/strace/7.2/tests/setgroups.c /usr/src/debug/strace/7.2/tests/sol_tipc-importance-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/libmmsg.c /usr/src/debug/strace/7.2/tests/arch_prctl-success-Xraw.c /usr/src/debug/strace/7.2/src/fs_0x1
- 5_ioctl.c /usr/src/debug/strace/7.2/src/fs_0x94_ioctl.c /usr/src/debug/strace/7.2/tests/prctl-no-args-success-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/packet_diag_show.h /usr/src/debug/strace/7.2/src/upoke.c /usr/src/debug/strace/7.2/src/close_range.c /usr/src/debug/strace/7.2/src/aio.c /usr/src/debug/strace/7.2/tests/faccessat.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/thermal.h /usr/src/debug/strace/7.2/tests/prctl-tagged-addr-Xverbose.c /usr/src/debug/strace/7.2/tests/strace-no-x.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/ptp_clock.h /usr/src/debug/strace/7.2/src/fetch_indirect_syscall_args.c /usr/src/debug/strace/7.2/src/xlat/rtnl_nha_res_bucket_attrs.h /usr/src/debug/strace/7.2/tests/prctl-set_vma.c /usr/src/debug/strace/7.2/src/fs_x_ioctl.c /usr/src/debug/strace/7.2/tests/openat2-v-y-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/nl_xfrm_types.h /usr/src/debug/strace/7.2/tests/printxval.c /usr/src/debug/strace/7.2/src/xlat/v4l2_control_qu
- ery_flags.h /usr/src/debug/strace/7.2/tests/prctl-sched-core-success--pidns-translation-Xverbose.c /usr/src/debug/strace/7.2/src/print_kernel_sigset.c /usr/src/debug/strace/7.2/src/userfaultfd.c /usr/src/debug/strace/7.2/tests/prctl-securebits.c /usr/src/debug/strace/7.2/tests/execve--secontext_full.c /usr/src/debug/strace/7.2/tests/ioctl_gpio-success-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-success-Xraw.c /usr/src/debug/strace/7.2/tests/memfd_secret-success-y.c /usr/src/debug/strace/7.2/src/xlat/bpf_query_flags.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_protinfo-Xverbose.c /usr/src/debug/strace/7.2/src/execve.c /usr/src/debug/strace/7.2/src/xlat/uffd_zeropage_flags.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_vfinfo-Xraw.c /usr/src/debug/strace/7.2/src/xlat/tee_ioctl_param_attr_types.h /usr/src/debug/strace/7.2/src/xlat/netlink_ack_flags.h /usr/src/debug/strace/7.2/src/xlat/netlink_get_flags.h /usr/src/debug/strace/7.2/src/xlat/netlink_new_flags.h /usr/src/debug/strace
- /7.2/src/xlat/icmp_filter_flags.h /usr/src/debug/strace/7.2/src/xlat/module_init_flags.h /usr/src/debug/strace/7.2/src/xlat/pr_fp_mode.h /usr/src/debug/strace/7.2/tests/nfnetlink_ipset.c /usr/src/debug/strace/7.2/tests/nfnetlink_queue.c /usr/src/debug/strace/7.2/tests/status.c /usr/src/debug/strace/7.2/tests/strace--strings-in-hex-none.c /usr/src/debug/strace/7.2/tests/ioctl_inotify.c /usr/src/debug/strace/7.2/tests/ioctl_lirc.c /usr/src/debug/strace/7.2/tests/listxattrat-y.c /usr/src/debug/strace/7.2/src/xlat/snmp_ip_stats.h /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_vf_stats_attrs.h /usr/src/debug/strace/7.2/src/xlat/nf_nft_compat_msg_types.h /usr/src/debug/strace/7.2/tests/status-all.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-success-v-Xverbose.c /usr/src/debug/strace/7.2/src/seccomp_ioctl.c /usr/src/debug/strace/7.2/src/xlat/evdev_ff_types.h /usr/src/debug/strace/7.2/tests/fchmod.c /usr/src/debug/strace/7.2/src/xlat/tee_ioctl_shm_flags.h /usr/src/debug/strace/7.2/src/xlat/u
- ring_query_ops.h /usr/src/debug/strace/7.2/tests/setrlimit-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/multicast_router_types.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_proto_down_reason.c /usr/src/debug/strace/7.2/src/fetch_struct_stat.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp-y-success--pidns-translation-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/pr_riscv_v_inherit.h /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_bridge_flags.h /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_bridge_modes.h /usr/src/debug/strace/7.2/tests/ioctl_v4l2-v-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/snmp_icmp6_stats.h /usr/src/debug/strace/7.2/tests/sched_xetaffinity.c /usr/src/debug/strace/7.2/src/xlat/v4l2_framesize_types.h /usr/src/debug/strace/7.2/tests/chdir.c /usr/src/debug/strace/7.2/tests/ptrace-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/tee_ioctl_impl_ids.h /usr/src/debug/strace/7.2/src/kernel_v4l2_types.h /usr/src/debug/strace/7.2/tests/clone_parent-q.c /usr/src/debug/strace/7.2/t
- ests/stat.c /usr/src/debug/strace/7.2/src/xlat/f_seals.h /usr/src/debug/strace/7.2/src/xlat/scmvals.h /usr/src/debug/strace/7.2/src/xlat/ethernet_protocols.h /usr/src/debug/strace/7.2/tests/preadv-pwritev.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-Xverbose.c /usr/src/debug/strace/7.2/src/utime.c /usr/src/debug/strace/7.2/tests/dev--decode-fds-dev.c /usr/src/debug/strace/7.2/tests/ioctl_pidfd_get_info-success.c /usr/src/debug/strace/7.2/src/xlat/uring_socket_ops.h /usr/src/debug/strace/7.2/tests/mmap.c /usr/src/debug/strace/7.2/src/xlat/tls_info_configs.h /usr/src/debug/strace/7.2/tests/strace--strings-in-hex-all.c /usr/src/debug/strace/7.2/tests/file_setattr-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/bpf_rval.h /usr/src/debug/strace/7.2/src/xlat/sock_kcm_options.h /usr/src/debug/strace/7.2/src/xlat/adjtimex_status.h /usr/src/debug/strace/7.2/tests/clone-flags.c /usr/src/debug/strace/7.2/tests/clock_adjtime64.c /usr/src/debug/strace/7.2/tests/netlink_audit--pidns-translation.c 
- /usr/src/debug/strace/7.2/src/xlat/rtc_params.h /usr/src/debug/strace/7.2/tests/landlock_create_ruleset-success-y.c /usr/src/debug/strace/7.2/src/pidfd_open.c /usr/src/debug/strace/7.2/src/xlat/ubi_volume_types.h /usr/src/debug/strace/7.2/src/xlat/v4l2_frameinterval_types.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/keyctl.h /usr/src/debug/strace/7.2/tests/net-packet_mreq-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap-Xverbose.c /usr/src/debug/strace/7.2/tests/nfnetlink_ctnetlink.c /usr/src/debug/strace/7.2/src/xlat/bootflags2.h /usr/src/debug/strace/7.2/tests/netlink_inet_diag.c /usr/src/debug/strace/7.2/tests/printflags.c /usr/src/debug/strace/7.2/src/xlat/loop_crypt_type_options.h /usr/src/debug/strace/7.2/tests/ioctl_winsize.c /usr/src/debug/strace/7.2/src/xlat/netlink_delete_flags.h /usr/src/debug/strace/7.2/tests/netlink_xfrm.c /usr/src/debug/strace/7.2/src/xlat/sigprof_codes.h /usr/src/debug/strace/7.2/src/xlat/v4l2_buf_flags.h /usr/src/debug/strace/7
- .2/src/xlat/v4l2_buf_types.h /usr/src/debug/strace/7.2/src/xlat/hdio_busstates.h /usr/src/debug/strace/7.2/src/kernel_timespec.h /usr/src/debug/strace/7.2/src/xlat/rxrpc_services.h /usr/src/debug/strace/7.2/tests/migrate_pages--pidns-translation.c /usr/src/debug/strace/7.2/tests/prlimit64.c /usr/src/debug/strace/7.2/src/xlat/fs_shutdown_flags.h /usr/src/debug/strace/7.2/tests/openat2-v.c /usr/src/debug/strace/7.2/tests/netlink_audit.c /usr/src/debug/strace/7.2/src/xlat/genl_devlink_cmd.h /usr/src/debug/strace/7.2/tests/pipe2.c /usr/src/debug/strace/7.2/tests/ioctl_sock_gifconf.c /usr/src/debug/strace/7.2/tests/msg_name.c /usr/src/debug/strace/7.2/tests/futex_requeue-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_vf_info_attrs.h /usr/src/debug/strace/7.2/src/netlink_nlctrl.c /usr/src/debug/strace/7.2/src/xlat/ptrace_peeksiginfo_flags.h /usr/src/debug/strace/7.2/tests/unlink.c /usr/src/debug/strace/7.2/tests/memfd_secret-success.c /usr/src/debug/strace/7.2/src/fetch_struct_mms
- ghdr.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/devlink.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/if_link.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/netlink.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/vm_sockets.h /usr/src/debug/strace/7.2/src/fetch_struct_keyctl_kdf_params.c /usr/src/debug/strace/7.2/src/xlat/epollctls.h /usr/src/debug/strace/7.2/tests/ioctl_sg_io_v3.c /usr/src/debug/strace/7.2/src/xlat/ieee802154_pan_ids.h /usr/src/debug/strace/7.2/tests/setgroups32.c /usr/src/debug/strace/7.2/src/macros.h /usr/src/debug/strace/7.2/src/getcpu.c /usr/src/debug/strace/7.2/tests/lstat64.c /usr/src/debug/strace/7.2/src/xlat/btrfs_defrag_flags.h /usr/src/debug/strace/7.2/tests/truncate64.c /usr/src/debug/strace/7.2/tests/nlattr_ifstats.c /usr/src/debug/strace/7.2/tests/stack-fcall-mangled-3.c /usr/src/debug/strace/7.2/src/fetch_struct_xfs_quotastat.c /usr/src/debug/strace/7.2/src/sys_func.h /usr/src/debug/strace/7.
- 2/tests/kexec_file_load.c /usr/src/debug/strace/7.2/tests/sysctl.c /usr/src/debug/strace/7.2/tests/readv.c /usr/src/debug/strace/7.2/tests/cachestat.c /usr/src/debug/strace/7.2/tests/nlattr_cachereport-Xverbose.c /usr/src/debug/strace/7.2/src/move_mount.c /usr/src/debug/strace/7.2/src/xlat/tun_device_types.h /usr/src/debug/strace/7.2/tests/scm_rights.c /usr/src/debug/strace/7.2/src/xlat/evdev_abs.h /usr/src/debug/strace/7.2/tests/attach-f-p-cmd.c /usr/src/debug/strace/7.2/tests/fsopen.c /usr/src/debug/strace/7.2/tests/move_pages-Xabbrev.c /usr/src/debug/strace/7.2/tests/fadvise64_64.c /usr/src/debug/strace/7.2/tests/clone3-success-Xraw.c /usr/src/debug/strace/7.2/src/sockaddr.c /usr/src/debug/strace/7.2/tests/readlink.c /usr/src/debug/strace/7.2/src/xlat/sockopt_txrehash_vals.h /usr/src/debug/strace/7.2/tests/recvfrom.c /usr/src/debug/strace/7.2/tests/renameat.c /usr/src/debug/strace/7.2/tests/nfnetlink_cttimeout.c /usr/src/debug/strace/7.2/tests/ioctl_fs_x-Xraw.c /usr/src/debug/str
- ace/7.2/tests/fcntl--pidns-translation.c /usr/src/debug/strace/7.2/tests/futex_wait-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-set-ptracer-success-Xraw--pidns-translation.c /usr/src/debug/strace/7.2/tests/ioctl_ubi.c /usr/src/debug/strace/7.2/src/xlat/statx_masks.h /usr/src/debug/strace/7.2/src/xlat/inet_diag_ulp_info_mptcp_attrs.h /usr/src/debug/strace/7.2/tests/bpf-obj_get_info_by_fd-prog-v.c /usr/src/debug/strace/7.2/tests/ioctl_nsfs-ns_get_pid.c /usr/src/debug/strace/7.2/tests/io_uring_register-success.c /usr/src/debug/strace/7.2/tests/net-packet_mreq-Xraw.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_xdp_attrs.h /usr/src/debug/strace/7.2/src/xlat/uring_sqe_flags.h /usr/src/debug/strace/7.2/tests/ioprio.c /usr/src/debug/strace/7.2/tests/prctl-sched-core-success--pidns-translation-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/kd_key_brl_keys.h /usr/src/debug/strace/7.2/src/xlat/kd_key_cur_keys.h /usr/src/debug/strace/7.2/src/xlat/kd_key_pad_keys.h /usr/src/debug/strace/7.2/src/
- netlink_route.c /usr/src/debug/strace/7.2/tests/clone_ptrace--quiet-exit.c /usr/src/debug/strace/7.2/tests/getcwd.c /usr/src/debug/strace/7.2/src/netlink_route.h /usr/src/debug/strace/7.2/tests/dev-yy.c /usr/src/debug/strace/7.2/tests/rename.c /usr/src/debug/strace/7.2/src/xlat/nl_sock_diag_types.h /usr/src/debug/strace/7.2/tests/ioctl_kvm_run.c /usr/src/debug/strace/7.2/src/xlat/pr_sched_core_pidtypes.h /usr/src/debug/strace/7.2/tests/delete_module.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/genetlink.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/rtnetlink.h /usr/src/debug/strace/7.2/src/kernel_timex.h /usr/src/debug/strace/7.2/src/xlat/btrfs_key_types.h /usr/src/debug/strace/7.2/tests/acct.c /usr/src/debug/strace/7.2/tests/sol_tipc-importance-Xraw.c /usr/src/debug/strace/7.2/src/xlat/statmount_mnt_propagation.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/perf_event.h /usr/src/debug/strace/7.2/tests/ioctl_ptp-success-Xraw.c /usr/src/de
- bug/strace/7.2/tests/status-unfinished.c /usr/src/debug/strace/7.2/src/xlat/pr_riscv_icache_flush_scopes.h /usr/src/debug/strace/7.2/tests/prctl-riscv-v-ctrl-Xraw.c /usr/src/debug/strace/7.2/src/print_time.c /usr/src/debug/strace/7.2/tests/int_0x80.c /usr/src/debug/strace/7.2/src/xlat/counter_ioctl_event_types.h /usr/src/debug/strace/7.2/src/print_ifindex.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_pidfd_namespace.c /usr/src/debug/strace/7.2/tests/pidfd_getfd-yy.c /usr/src/debug/strace/7.2/tests/poll.c /usr/src/debug/strace/7.2/tests/prctl-tagged-addr-success.c /usr/src/debug/strace/7.2/tests/test_nlattr.h /usr/src/debug/strace/7.2/tests/ioctl_epoll-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/ptrace-y.c /usr/src/debug/strace/7.2/src/xlat/ipc_private.h /usr/src/debug/strace/7.2/tests/unblock_reset_raise.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-v.c /usr/src/debug/strace/7.2/tests/ptrace_set_syscall_info-Xraw.c /usr/src/debug/s
- trace/7.2/tests/attach-p-cmd-cmd.c /usr/src/debug/strace/7.2/src/xlat/nf_osf_msg_types.h /usr/src/debug/strace/7.2/tests/ioctl_pidfd_get_info-success-Xraw.c /usr/src/debug/strace/7.2/src/xlat/perf_ioctl_flags.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/pkt_sched.h /usr/src/debug/strace/7.2/src/xlat/pidfd_coredump_mask.h /usr/src/debug/strace/7.2/tests/ioctl_fs_x-success-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/mdb_states.h /usr/src/debug/strace/7.2/src/xlat/smc_states.h /usr/src/debug/strace/7.2/src/xlat/tcp_states.h /usr/src/debug/strace/7.2/src/xlat/genl_ctrl_attr_op.h /usr/src/debug/strace/7.2/src/xlat/inet_devconf_indices.h /usr/src/debug/strace/7.2/tests/net--decode-fds-dev-netlink.c /usr/src/debug/strace/7.2/tests/mseal.c /usr/src/debug/strace/7.2/src/xlat/bpf_stats_type.h /usr/src/debug/strace/7.2/src/xlat/v4l2_control_ids.h /usr/src/debug/strace/7.2/tests/ioctl_block--pidns-translation.c /usr/src/debug/strace/7.2/tests/ioctl_v4l2.c /usr/src/debug/strace
- /7.2/src/xlat/rtnl_mdba_router_attrs.h /usr/src/debug/strace/7.2/src/list.h /usr/src/debug/strace/7.2/src/xlat/sock_tls_options.h /usr/src/debug/strace/7.2/src/xlat/lsm_ids.h /usr/src/debug/strace/7.2/tests/lsm_list_modules.c /usr/src/debug/strace/7.2/src/xlat/ieee802154_addr_types.h /usr/src/debug/strace/7.2/src/xlat/inet_diag_bytecodes.h /usr/src/debug/strace/7.2/tests/umovestr_cached_adjacent.c /usr/src/debug/strace/7.2/src/xlat/rtc_features.h /usr/src/debug/strace/7.2/tests/file_getattr-yy.c /usr/src/debug/strace/7.2/tests/file_setattr-yy.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap-success-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp--pidns-translation.c /usr/src/debug/strace/7.2/tests/epoll_wait.c /usr/src/debug/strace/7.2/src/iovec.h /usr/src/debug/strace/7.2/src/xlat/perf_branch_sample_type.h /usr/src/debug/strace/7.2/src/print_syscall_number.c /usr/src/debug/strace/7.2/src/xlat/inet6_if_flags.h /usr/src/debug/strace/7.2/tests/fchmodat2--secontext.c /usr/src/de
- bug/strace/7.2/src/xlat/execveat_flags.h /usr/src/debug/strace/7.2/src/xlat/bpf_map_flags.h /usr/src/debug/strace/7.2/src/xlat/bpf_map_types.h /usr/src/debug/strace/7.2/src/xlat/sigtrap_codes.h /usr/src/debug/strace/7.2/tests/brk.c /usr/src/debug/strace/7.2/src/xlat/sock_shutdown_flags.h /usr/src/debug/strace/7.2/tests/kernel_old_timex.h /usr/src/debug/strace/7.2/tests/io_uring_register.c /usr/src/debug/strace/7.2/src/xlat/uring_mem_region_reg_flags.h /usr/src/debug/strace/7.2/tests/strace--syscall-limit-path.c /usr/src/debug/strace/7.2/src/xlat/netlink_sk_meminfo_indices.h /usr/src/debug/strace/7.2/src/xlat/genl_ctrl_attr_op_flags.h /usr/src/debug/strace/7.2/tests/prctl-pac-enabled-keys-success.c /usr/src/debug/strace/7.2/src/xlat/pr_pac_enabled_keys.h /usr/src/debug/strace/7.2/tests/openat2-v-y-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/btrfs_balance_flags.h /usr/src/debug/strace/7.2/tests/get_sigset_size.c /usr/src/debug/strace/7.2/tests/attach-p-cmd.h /usr/src/debug/strace/7.
- 2/tests/sched_xetparam--pidns-translation.c /usr/src/debug/strace/7.2/src/file_attr.c /usr/src/debug/strace/7.2/src/xlat/rtnl_netconf_attrs.h /usr/src/debug/strace/7.2/src/xlat/rtnl_nexthop_attrs.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_protinfo-Xraw.c /usr/src/debug/strace/7.2/tests/getegid32.c /usr/src/debug/strace/7.2/tests/geteuid32.c /usr/src/debug/strace/7.2/tests/userfaultfd.c /usr/src/debug/strace/7.2/tests/execve-v.c /usr/src/debug/strace/7.2/tests/execveat.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/nfc.h /usr/src/debug/strace/7.2/src/xlat/af_packet_types.h /usr/src/debug/strace/7.2/tests/seccomp-strict.c /usr/src/debug/strace/7.2/src/fchownat.c /usr/src/debug/strace/7.2/tests/prctl-tagged-addr-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/evdev_switch.h /usr/src/debug/strace/7.2/src/xlat/sigprocmaskcmds.h /usr/src/debug/strace/7.2/tests/ioctl_evdev-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_gpio-v-Xraw.c /usr/src/debug/strace/7.2/tests/io
- ctl_hdio-v-Xraw.c /usr/src/debug/strace/7.2/tests/netlink_protocol.c /usr/src/debug/strace/7.2/tests/openat2.c /usr/src/debug/strace/7.2/src/get_personality.c /usr/src/debug/strace/7.2/tests/nlattr_smc_diag_msg.c /usr/src/debug/strace/7.2/src/xlat/sigact_flags.h /usr/src/debug/strace/7.2/src/xlat/umount_flags.h /usr/src/debug/strace/7.2/src/xlat/dirent_types.h /usr/src/debug/strace/7.2/src/xlat/evdev_relative_axes.h /usr/src/debug/strace/7.2/src/get_personality.h /usr/src/debug/strace/7.2/tests/clone_parent-qq.c /usr/src/debug/strace/7.2/tests/pidfd_open--decode-fd-pidfd.c /usr/src/debug/strace/7.2/src/oldstat.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/io_uring.h /usr/src/debug/strace/7.2/tests/fstat.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap-success-v-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_ptp-Xabbrev.c /usr/src/debug/strace/7.2/tests/stat64.c /usr/src/debug/strace/7.2/tests/readlinkat.c /usr/src/debug/strace/7.2/src/renameat.c /usr/src/debug/strace/
- 7.2/src/xlat/audit_arch.h /usr/src/debug/strace/7.2/tests/pselect6-common.c /usr/src/debug/strace/7.2/tests/fchmod-y.c /usr/src/debug/strace/7.2/tests/fchmodat.c /usr/src/debug/strace/7.2/src/xlat/genl_ctrl_attr.h /usr/src/debug/strace/7.2/tests/fchown32.c /usr/src/debug/strace/7.2/tests/fchownat.c /usr/src/debug/strace/7.2/tests/umovestr_cached.c /usr/src/debug/strace/7.2/tests/sigaltstack.c /usr/src/debug/strace/7.2/tests/ppoll.c /usr/src/debug/strace/7.2/tests/test_printpath.c /usr/src/debug/strace/7.2/tests/prctl-riscv-icache-flush-ctx-Xverbose.c /usr/src/debug/strace/7.2/tests/trie_for_tests.c /usr/src/debug/strace/7.2/tests/modify_ldt.c /usr/src/debug/strace/7.2/src/xlat/nl_audit_types.h /usr/src/debug/strace/7.2/src/xlat/tee_ioctl_optee_caps.h /usr/src/debug/strace/7.2/tests/ioctl_gpio-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-Xraw.c /usr/src/debug/strace/7.2/tests/fcntl64--pidns-translation.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/if_addr.h /usr/s
- rc/debug/strace/7.2/tests/strace-p1-Y-p.c /usr/src/debug/strace/7.2/tests/getsid.c /usr/src/debug/strace/7.2/tests/remap_file_pages.c /usr/src/debug/strace/7.2/tests/pidfd_send_signal--pidns-translation.c /usr/src/debug/strace/7.2/tests/mq.c /usr/src/debug/strace/7.2/src/xlat/kd_key_fn_key_vals.h /usr/src/debug/strace/7.2/tests/net-yy-netlink.c /usr/src/debug/strace/7.2/tests/map_shadow_stack-Xabbrev.c /usr/src/debug/strace/7.2/src/ioctl.c /usr/src/debug/strace/7.2/src/prctl.c /usr/src/debug/strace/7.2/tests/ipc_msg-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/uffd_api_flags.h /usr/src/debug/strace/7.2/tests/ipc_sem-Xabbrev.c /usr/src/debug/strace/7.2/tests/ipc_shm-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/gpio_event_flags.h /usr/src/debug/strace/7.2/tests/landlock_restrict_self.c /usr/src/debug/strace/7.2/tests/libsocketcall.c /usr/src/debug/strace/7.2/tests/memfd_create.c /usr/src/debug/strace/7.2/tests/test_ucopy.c /usr/src/debug/strace/7.2/tests/arch_prctl.c /usr/src/debug/st
- race/7.2/tests/fallocate.c /usr/src/debug/strace/7.2/tests/test_ucopy.h /usr/src/debug/strace/7.2/src/xlat/term_oflags_nldly.h /usr/src/debug/strace/7.2/tests/linkat--secontext.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-v-Xraw.c /usr/src/debug/strace/7.2/src/xlat/mtd_file_mode_options.h /usr/src/debug/strace/7.2/src/xlat/pr_mce_kill.h /usr/src/debug/strace/7.2/tests/ioctl_fiemap-success.c /usr/src/debug/strace/7.2/tests/quotactl-success.c /usr/src/debug/strace/7.2/tests/ioctl_nsfs-ns_get_pid--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/memfd_secret_flags.h /usr/src/debug/strace/7.2/tests/adjtimex.c /usr/src/debug/strace/7.2/src/fsmount.c /usr/src/debug/strace/7.2/tests/mount.c /usr/src/debug/strace/7.2/src/xlat/tcflsh_options.h /usr/src/debug/strace/7.2/tests/sockaddr_xlat-Xraw.c /usr/src/debug/strace/7.2/tests/file_handle--secontext_full_mismatch.c /usr/src/debug/strace/7.2/src/xlat/routing_table_ids.h /usr/src/debug/strace/7.2/src/print_timespec.h /usr/src/debug/stra
- ce/7.2/tests/rt_sigaction.c /usr/src/debug/strace/7.2/tests/dup2-yy.c /usr/src/debug/strace/7.2/tests/dup3-yy.c /usr/src/debug/strace/7.2/src/term.c /usr/src/debug/strace/7.2/src/xlat/bt_protocols.h /usr/src/debug/strace/7.2/src/xlat/btrfs_balance_state.h /usr/src/debug/strace/7.2/tests/semop.c /usr/src/debug/strace/7.2/src/xlat/in6_addr_gen_mode.h /usr/src/debug/strace/7.2/tests/fill_memory.c /usr/src/debug/strace/7.2/src/xlat/hci_channels.h /usr/src/debug/strace/7.2/tests/nlattr_fib_rule_hdr.c /usr/src/debug/strace/7.2/tests/prctl-sched-core-Xraw.c /usr/src/debug/strace/7.2/tests/ptrace_set_syscall_info.c /usr/src/debug/strace/7.2/tests/poke-sendfile.c /usr/src/debug/strace/7.2/src/xlat/bpf_op_alu.h /usr/src/debug/strace/7.2/tests/futex2_flags.h /usr/src/debug/strace/7.2/src/xlat/evdev_keycode.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_brport.c /usr/src/debug/strace/7.2/tests/stack-fcall-1.c /usr/src/debug/strace/7.2/tests/aio_pgetevents.c /usr/src/debug/strace/7.2/tests/get_me
- mpolicy.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp-y-success--pidns-translation-Xverbose.c /usr/src/debug/strace/7.2/tests/rt_sigqueueinfo.c /usr/src/debug/strace/7.2/tests/epoll_pwait2.c /usr/src/debug/strace/7.2/tests/nlattr_tc_stats.c /usr/src/debug/strace/7.2/tests/prctl-ppc-dexcr-Xraw.c /usr/src/debug/strace/7.2/tests/ip_protocol-Xabbrev.c /usr/src/debug/strace/7.2/tests/netlink_sock_diag.c /usr/src/debug/strace/7.2/src/epoll_ioctl.c /usr/src/debug/strace/7.2/tests/detach-vfork.c /usr/src/debug/strace/7.2/tests/file_getattr-P.c /usr/src/debug/strace/7.2/tests/file_setattr-P.c /usr/src/debug/strace/7.2/src/xlat/landlock_create_ruleset_flags.h /usr/src/debug/strace/7.2/tests/sockaddr_xlat-Xraw-y.c /usr/src/debug/strace/7.2/src/swapon.c /usr/src/debug/strace/7.2/tests/tracer_ppid_pgid_sid.c /usr/src/debug/strace/7.2/tests/io_uring_register-success-Xverbose.c /usr/src/debug/strace/7.2/tests/dup-P.c /usr/src/debug/strace/7.2/tests/quotactl_fd-P.c /usr/src/debug/strace/7.2/tests
- /execve--secontext.c /usr/src/debug/strace/7.2/src/xlat/evdev_ff_status.h /usr/src/debug/strace/7.2/src/kd_ioctl.c /usr/src/debug/strace/7.2/src/xlat/uring_op_flags.h /usr/src/debug/strace/7.2/tests/zeroargc.c /usr/src/debug/strace/7.2/src/clone.c /usr/src/debug/strace/7.2/tests/ioctl_watchdog-success-v.c /usr/src/debug/strace/7.2/src/bpf_attr.h /usr/src/debug/strace/7.2/tests/sched_getscheduler-success.c /usr/src/debug/strace/7.2/src/xlat/inet_diag_extended_flags.h /usr/src/debug/strace/7.2/tests/ip_local_port_range-success-Xraw.c /usr/src/debug/strace/7.2/src/xlat/listmount_flags.h /usr/src/debug/strace/7.2/src/xlat/statmount_flags.h /usr/src/debug/strace/7.2/tests/oldselect.c /usr/src/debug/strace/7.2/src/xlat/timerfdflags.h /usr/src/debug/strace/7.2/tests/ioctl_rtc.c /usr/src/debug/strace/7.2/src/xlat/ifstats_offload_attrs.h /usr/src/debug/strace/7.2/src/xlat/uring_iowq_acct.h /usr/src/debug/strace/7.2/tests/set_mempolicy-Xabbrev.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_por
- t.c /usr/src/debug/strace/7.2/src/xlat/rtnl_neightbl_attrs.h /usr/src/debug/strace/7.2/tests/perf_event_open_nonverbose.c /usr/src/debug/strace/7.2/src/xlat/aio_cmds.h /usr/src/debug/strace/7.2/tests/getxattrat-y.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_brport-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/listmount_mnt_id.h /usr/src/debug/strace/7.2/src/xlat/ioprio_who.h /usr/src/debug/strace/7.2/tests/faccessat-y--secontext.c /usr/src/debug/strace/7.2/tests/epoll_create.c /usr/src/debug/strace/7.2/src/xlat/genl_ethtool_msg_recv.h /usr/src/debug/strace/7.2/src/xlat/genl_ethtool_msg_send.h /usr/src/debug/strace/7.2/tests/bpf-success.c /usr/src/debug/strace/7.2/src/xlat/fcntlcmds.h /usr/src/debug/strace/7.2/src/xlat/flockcmds.h /usr/src/debug/strace/7.2/src/xlat/lockfcmds.h /usr/src/debug/strace/7.2/src/xlat/quotacmds.h /usr/src/debug/strace/7.2/tests/tail_alloc.c /usr/src/debug/strace/7.2/tests/pidfd_getfd.c /usr/src/debug/strace/7.2/src/xlat/uring_register_opcodes.h /usr/src/de
- bug/strace/7.2/src/xlat/sock_ipx_options.h /usr/src/debug/strace/7.2/tests/ioctl_gpio-success-v-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/term_oflags_vtdly.h /usr/src/debug/strace/7.2/tests/ioctl_hdio-success-v-Xabbrev.c /usr/src/debug/strace/7.2/tests/ip_local_port_range-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/sock_rxrpc_options.h /usr/src/debug/strace/7.2/tests/ioctl_epoll-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-pac-enabled-keys.c /usr/src/debug/strace/7.2/src/xlat/mtd_nandecc_options.h /usr/src/debug/strace/7.2/tests/clone3.c /usr/src/debug/strace/7.2/tests/clone3-report-ns-id.c /usr/src/debug/strace/7.2/tests/process_vm_readv.c /usr/src/debug/strace/7.2/src/xlat/btrfs_space_info_flags.h /usr/src/debug/strace/7.2/src/xlat/gpio_v2_line_flags.h /usr/src/debug/strace/7.2/src/xlat/clocknames.h /usr/src/debug/strace/7.2/tests/removexattrat.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/bsg.h /usr/src/debug/strace/7.2/tests/perf_event_open_unabbre
- v.c /usr/src/debug/strace/7.2/tests/reboot.c /usr/src/debug/strace/7.2/tests/gettid.c /usr/src/debug/strace/7.2/src/listen.c /usr/src/debug/strace/7.2/src/fsconfig.c /usr/src/debug/strace/7.2/tests/group_req.c /usr/src/debug/strace/7.2/src/iopl.c /usr/src/debug/strace/7.2/src/xlat/quota_formats.h /usr/src/debug/strace/7.2/src/xlat/rtnl_neigh_fdb_ext_attrs.h /usr/src/debug/strace/7.2/tests/pidns-cache.c /usr/src/debug/strace/7.2/tests/prctl-sched-core-success-Xverbose.c /usr/src/debug/strace/7.2/tests/fsconfig-P.c /usr/src/debug/strace/7.2/tests/syslog.c /usr/src/debug/strace/7.2/src/truncate.c /usr/src/debug/strace/7.2/tests/prctl-tagged-addr-success-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/nf_acct_msg_types.h /usr/src/debug/strace/7.2/tests/ioctl_fs_x-success.c /usr/src/debug/strace/7.2/src/netlink_netlink_diag.c /usr/src/debug/strace/7.2/tests/nlattr_crypto_user_alg.c /usr/src/debug/strace/7.2/tests/statmount-success.c /usr/src/debug/strace/7.2/src/xlat/sock_tcp_options.h /us
- r/src/debug/strace/7.2/tests/linkat--secontext_mismatch.c /usr/src/debug/strace/7.2/src/xlat/btrfs_balance_ctl_cmds.h /usr/src/debug/strace/7.2/src/xlat/landlock_scope_flags.h /usr/src/debug/strace/7.2/src/syscall.c /usr/src/debug/strace/7.2/tests/sol_tipc-group_join-success-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/kexec_arch_values.h /usr/src/debug/strace/7.2/src/fsopen.c /usr/src/debug/strace/7.2/src/syscall.h /usr/src/debug/strace/7.2/tests/open.c /usr/src/debug/strace/7.2/tests/ptrace_syscall_info-Xraw.c /usr/src/debug/strace/7.2/tests/dup3.c /usr/src/debug/strace/7.2/src/xlat/neighbor_cache_entry_ext_flags.h /usr/src/debug/strace/7.2/tests/sched_rr_get_interval.c /usr/src/debug/strace/7.2/tests/fcntl64.c /usr/src/debug/strace/7.2/tests/scm_pidfd-success.c /usr/src/debug/strace/7.2/src/xlat/pr_riscv_v_states.h /usr/src/debug/strace/7.2/tests/mmap64-Xraw.c /usr/src/debug/strace/7.2/src/print_sigevent.c /usr/src/debug/strace/7.2/tests/strace-xx.c /usr/src/debug/strace/7.2/bun
- dled/linux/include/uapi/linux/if_addrlabel.h /usr/src/debug/strace/7.2/tests/ioctl_fs_0x15.c /usr/src/debug/strace/7.2/src/xlat/nl_netfilter_subsys_ids.h /usr/src/debug/strace/7.2/tests/stack-fcall.c /usr/src/debug/strace/7.2/tests/strace--decode-pids-comm.c /usr/src/debug/strace/7.2/tests/stack-fcall.h /usr/src/debug/strace/7.2/src/xlat/at_flags.h /usr/src/debug/strace/7.2/src/xlat/dm_flags.h /usr/src/debug/strace/7.2/src/xlat/iffflags.h /usr/src/debug/strace/7.2/src/xlat/bpf_src.h /usr/src/debug/strace/7.2/src/xlat/open_tree_flags.h /usr/src/debug/strace/7.2/src/membarrier.c /usr/src/debug/strace/7.2/src/number_set.c /usr/src/debug/strace/7.2/tests/semtimedop-syscall.c /usr/src/debug/strace/7.2/src/number_set.h /usr/src/debug/strace/7.2/src/xlat/sock_llc_options.h /usr/src/debug/strace/7.2/src/xlat/schedulers.h /usr/src/debug/strace/7.2/src/xlat/futex2_flags.h /usr/src/debug/strace/7.2/src/xlat/futex2_sizes.h /usr/src/debug/strace/7.2/tests/nlattr_ifaddrmsg.c /usr/src/debug/strace
- /7.2/tests/umovestr.c /usr/src/debug/strace/7.2/tests/fchmod-y--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/clone3-success.c /usr/src/debug/strace/7.2/src/xlat/tcp_ao_keyf_flags.h /usr/src/debug/strace/7.2/src/xlat/sched_getattr_flags.h /usr/src/debug/strace/7.2/tests/ioctl_fs_x-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/fchmodat--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/pipe.c /usr/src/debug/strace/7.2/tests/fchownat--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/getdents.c /usr/src/debug/strace/7.2/src/xlat/ubi_volume_props.h /usr/src/debug/strace/7.2/tests/getgid32.c /usr/src/debug/strace/7.2/tests/getgroups32.c /usr/src/debug/strace/7.2/tests/getuid32.c /usr/src/debug/strace/7.2/tests/utimensat.c /usr/src/debug/strace/7.2/src/fallocate.c /usr/src/debug/strace/7.2/src/xlat/uffd_continue_mode_flags.h /usr/src/debug/strace/7.2/src/nbd_ioctl.c /usr/src/debug/strace/7.2/tests/faccessat-y--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/execve--
- secontext_mismatch.c /usr/src/debug/strace/7.2/tests/nlattr_rtgenmsg.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp-y-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/btrfs_logical_ino_args_flags.h /usr/src/debug/strace/7.2/tests/mmsg.c /usr/src/debug/strace/7.2/tests/prctl-sched-core--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/ebpf_class.h /usr/src/debug/strace/7.2/tests/ioctl_ptp-Xverbose.c /usr/src/debug/strace/7.2/tests/sock_filter-v-Xabbrev.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/seg6_genl.h /usr/src/debug/strace/7.2/src/xlat/personality_types.h /usr/src/debug/strace/7.2/src/basic_filters.c /usr/src/debug/strace/7.2/src/xlat/v4l2_fields.h /usr/src/debug/strace/7.2/src/xlat/ebpf_regs.h /usr/src/debug/strace/7.2/tests/rt_sigtimedwait.c /usr/src/debug/strace/7.2/src/cachestat.c /usr/src/debug/strace/7.2/tests/chown32.c /usr/src/debug/strace/7.2/src/utimes.c /usr/src/debug/strace/7.2/tests/ioctl_pidfd_get_info-success-Xverbose.c /usr/src/debug/
- strace/7.2/tests/nlattr_netconfmsg.c /usr/src/debug/strace/7.2/tests/removexattrat-P.c /usr/src/debug/strace/7.2/src/watchdog_ioctl.c /usr/src/debug/strace/7.2/src/cachestat.h /usr/src/debug/strace/7.2/tests/getresugid.c /usr/src/debug/strace/7.2/tests/removexattrat-y.c /usr/src/debug/strace/7.2/tests/ioctl_gpio-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-set-ptracer-success--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/rtnl_rta_metrics_attrs.h /usr/src/debug/strace/7.2/tests/inotify_init.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_info_attrs.h /usr/src/debug/strace/7.2/src/xlat/cap_version.h /usr/src/debug/strace/7.2/tests/semtimedop.c /usr/src/debug/strace/7.2/tests/sol_tipc-importance-success-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/btrfs_scrub_flags.h /usr/src/debug/strace/7.2/src/xlat/uring_setup_flags.h /usr/src/debug/strace/7.2/tests/kernel_version-Xraw.c /usr/src/debug/strace/7.2/tests/fchown.c /usr
- /src/debug/strace/7.2/tests/wait4.c /usr/src/debug/strace/7.2/tests/dup2-y.c /usr/src/debug/strace/7.2/tests/ioctl_tiocm.c /usr/src/debug/strace/7.2/src/xlat/statx_attrs.h /usr/src/debug/strace/7.2/tests/prctl-no-args-success-Xraw.c /usr/src/debug/strace/7.2/src/xlat/btrfs_qgroup_ctl_cmds.h /usr/src/debug/strace/7.2/tests/riscv_flush_icache.c /usr/src/debug/strace/7.2/src/xlat/unix_diag_show.h /usr/src/debug/strace/7.2/src/fetch_struct_flock.c /usr/src/debug/strace/7.2/src/fetch_struct_iovec.c /usr/src/debug/strace/7.2/tests/net-icmp_filter.c /usr/src/debug/strace/7.2/tests/ioctl_block.c /usr/src/debug/strace/7.2/tests/nlattr_unix_diag_msg.c /usr/src/debug/strace/7.2/src/xlat/rtnl_link_attrs.h /usr/src/debug/strace/7.2/src/xlat/xattrat_flags.h /usr/src/debug/strace/7.2/src/xlat/sock_ip_options.h /usr/src/debug/strace/7.2/src/file_handle.c /usr/src/debug/strace/7.2/src/readahead.c /usr/src/debug/strace/7.2/tests/add_key.c /usr/src/debug/strace/7.2/tests/strace--strings-in-hex-non-asc
- ii.c /usr/src/debug/strace/7.2/src/xlat/ebpf_mode.h /usr/src/debug/strace/7.2/src/print_fields.h /usr/src/debug/strace/7.2/src/xlat/tcp_state_flags.h /usr/src/debug/strace/7.2/tests/ftruncate.c /usr/src/debug/strace/7.2/tests/setfsgid32.c /usr/src/debug/strace/7.2/tests/setfsuid32.c /usr/src/debug/strace/7.2/tests/setregid32.c /usr/src/debug/strace/7.2/tests/setreuid32.c /usr/src/debug/strace/7.2/src/print_fields.c /usr/src/debug/strace/7.2/src/xlat/inet_diag_bpf_storages_attrs.h /usr/src/debug/strace/7.2/src/xlat/ptrace_cmds.h /usr/src/debug/strace/7.2/tests/sockopt-sol_socket.c /usr/src/debug/strace/7.2/tests/faccessat--secontext.c /usr/src/debug/strace/7.2/tests/fanotify_mark-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/btrfs_fs_info_flags.h /usr/src/debug/strace/7.2/src/mount_setattr.c /usr/src/debug/strace/7.2/tests/nfnetlink_ctnetlink_exp.c /usr/src/debug/strace/7.2/tests/ipc_msg-Xraw.c /usr/src/debug/strace/7.2/tests/ipc_sem-Xraw.c /usr/src/debug/strace/7.2/tests/ipc_shm-Xraw
- .c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_af_spec_bridge_vlan_tunnel_info_attrs.h /usr/src/debug/strace/7.2/tests/xet_robust_list--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/clone3_flags.h /usr/src/debug/strace/7.2/src/socketcall.c /usr/src/debug/strace/7.2/src/xlat/mtd_otp_options.h /usr/src/debug/strace/7.2/tests/fcntl.c /usr/src/debug/strace/7.2/tests/pidfd_open-y.c /usr/src/debug/strace/7.2/src/xlat/inotify_init_flags.h /usr/src/debug/strace/7.2/tests/ioctl_kd-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/kvm_cap.h /usr/src/debug/strace/7.2/tests/so_peerpidfd.c /usr/src/debug/strace/7.2/src/xlat/lsm_attrs.h /usr/src/debug/strace/7.2/tests/kcmp-y--pidns-translation.c /usr/src/debug/strace/7.2/tests/oldstat.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/fib_rules.h /usr/src/debug/strace/7.2/tests/mmap64-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/unshare_flags.h /usr/src/debug/strace/7.2/src/xlat/kd_kbd_modes.h /usr/src/debug/strace/7.2/src/xlat/kd_
- kbd_types.h /usr/src/debug/strace/7.2/src/xlat/kd_led_flags.h /usr/src/debug/strace/7.2/src/xlat/waitid_types.h /usr/src/debug/strace/7.2/tests/ioctl_termios.c /usr/src/debug/strace/7.2/src/xlat/cap.h /usr/src/debug/strace/7.2/tests/seccomp-filter-v.c /usr/src/debug/strace/7.2/src/xlat/pr_tsc.h /usr/src/debug/strace/7.2/tests/nfnetlink_nftables.c /usr/src/debug/strace/7.2/tests/setrlimit.c /usr/src/debug/strace/7.2/tests/io_uring_setup.c /usr/src/debug/strace/7.2/src/xlat/mmap_prot.h /usr/src/debug/strace/7.2/tests/secontext.h /usr/src/debug/strace/7.2/src/xlat/sg_io_dxfer_direction.h /usr/src/debug/strace/7.2/tests/printsignal.c /usr/src/debug/strace/7.2/tests/sockopt-sol_socket-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ip6mra_msg_types.h /usr/src/debug/strace/7.2/tests/net-yy-unix.c /usr/src/debug/strace/7.2/tests/netlink_nlctrl.c /usr/src/debug/strace/7.2/tests/nlattr.c /usr/src/debug/strace/7.2/tests/umovestr-illptr.c /usr/src/debug/strace/7.2/tests/rt_sigqueueinfo--pidn
- s-translation.c /usr/src/debug/strace/7.2/tests/prctl-seccomp-strict.c /usr/src/debug/strace/7.2/tests/faccessat-y.c /usr/src/debug/strace/7.2/tests/ioctl_v4l2-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/term_cflags.h /usr/src/debug/strace/7.2/src/xlat/uring_napi_ops.h /usr/src/debug/strace/7.2/src/xlat/routing_protocols.h /usr/src/debug/strace/7.2/src/eventfd.c /usr/src/debug/strace/7.2/tests/getxattrat-P.c /usr/src/debug/strace/7.2/tests/prctl-ppc-dexcr-success-Xraw.c /usr/src/debug/strace/7.2/src/xlat/mlockall_flags.h /usr/src/debug/strace/7.2/tests/finit_module.c /usr/src/debug/strace/7.2/tests/pidfd_open--decode-fd-none.c /usr/src/debug/strace/7.2/tests/tgkill--pidns-translation.c /usr/src/debug/strace/7.2/tests/nlattr_tcamsg-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/pr_mce_kill_policy.h /usr/src/debug/strace/7.2/tests/landlock_create_ruleset-success.c /usr/src/debug/strace/7.2/src/xlat/uffd_api_features.h /usr/src/debug/strace/7.2/src/sg_io_v3.c /usr/src/debug/strace/7.2/
- tests/fchmodat2.c /usr/src/debug/strace/7.2/src/netlink_sock_diag.h /usr/src/debug/strace/7.2/tests/tkill--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/v4l2_std_ids.h /usr/src/debug/strace/7.2/tests/unshare-report-ns-id.c /usr/src/debug/strace/7.2/src/xlat/btrfs_dev_stats_values.h /usr/src/debug/strace/7.2/tests/openat--secontext.c /usr/src/debug/strace/7.2/src/netlink_sock_diag.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_info_data_tun_attrs.h /usr/src/debug/strace/7.2/tests/s390_sthyi.c /usr/src/debug/strace/7.2/src/sync_file_range.c /usr/src/debug/strace/7.2/tests/move_mount-P.c /usr/src/debug/strace/7.2/tests/clone_ptrace.c /usr/src/debug/strace/7.2/tests/arch_prctl-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/getrandom_flags.h /usr/src/debug/strace/7.2/src/xlat/name_to_handle_at_flags.h /usr/src/debug/strace/7.2/tests/ioctl_evdev-success-v.c /usr/src/debug/strace/7.2/tests/xet_robust_list.c /usr/src/debug/strace/7.2/src/futex2.c /usr/src/debug/strace/7.2/src
- /xlat/uring_register_rsrc_flags.h /usr/src/debug/strace/7.2/src/xlat/btrfs_send_flags.h /usr/src/debug/strace/7.2/tests/prctl-sme-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-dumpable.c /usr/src/debug/strace/7.2/tests/prctl-sve-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-tid_address.c /usr/src/debug/strace/7.2/src/xlat/pr_sme_vl_flags.h /usr/src/debug/strace/7.2/src/xlat/pr_sve_vl_flags.h /usr/src/debug/strace/7.2/tests/clock_adjtime.c /usr/src/debug/strace/7.2/tests/ioctl_fs_x.c /usr/src/debug/strace/7.2/src/netlink_generic.h /usr/src/debug/strace/7.2/src/netlink_generic.c /usr/src/debug/strace/7.2/tests/prctl-ppc-dexcr-Xabbrev.c /usr/src/debug/strace/7.2/tests/sockaddr_xlat.c /usr/src/debug/strace/7.2/src/xlat/bpf_map_update_elem_flags.h /usr/src/debug/strace/7.2/src/xlat/secbits.h /usr/src/debug/strace/7.2/src/print_instruction_pointer.c /usr/src/debug/strace/7.2/tests/strace--strings-in-hex-non-ascii-chars.c /usr/src/debug/strace/7.2/tests/nlattr_netlink_diag_msg.c /usr
- /src/debug/strace/7.2/src/xlat/v4l2_device_capabilities_flags.h /usr/src/debug/strace/7.2/tests/subdir.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_af_spec_inet_attrs.h /usr/src/debug/strace/7.2/src/xlat/nf_ipset_msg_types.h /usr/src/debug/strace/7.2/tests/ioctl_evdev-v-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/btrfs_dev_replace_results.h /usr/src/debug/strace/7.2/src/xlat/lwtunnel_encap_types.h /usr/src/debug/strace/7.2/src/mq.c /usr/src/debug/strace/7.2/src/dm.c /usr/src/debug/strace/7.2/src/io.c /usr/src/debug/strace/7.2/src/xlat/pr_sud_cmds.h /usr/src/debug/strace/7.2/tests/file_handle--secontext_full.c /usr/src/debug/strace/7.2/tests/times-Xraw.c /usr/src/debug/strace/7.2/src/kernel_timeval.h /usr/src/debug/strace/7.2/src/xlat/prctl_options.h /usr/src/debug/strace/7.2/src/xlat/wait4_options.h /usr/src/debug/strace/7.2/tests/fchmod--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/ptrace-y-Xraw.c /usr/src/debug/strace/7.2/tests/strace--syscall-limit-status-summary
- .c /usr/src/debug/strace/7.2/tests/overflowuid.c /usr/src/debug/strace/7.2/src/ucopy.c /usr/src/debug/strace/7.2/tests/xattr-strings.c /usr/src/debug/strace/7.2/src/perf_ioctl.c /usr/src/debug/strace/7.2/src/link.c /usr/src/debug/strace/7.2/tests/setns.c /usr/src/debug/strace/7.2/tests/recv-MSG_TRUNC.c /usr/src/debug/strace/7.2/src/xlat/uring_enter_flags.h /usr/src/debug/strace/7.2/tests/ioctl_fs_f-Xverbose.c /usr/src/debug/strace/7.2/src/rtnl_tc.c /usr/src/debug/strace/7.2/src/xlat/seccomp_filter_flags.h /usr/src/debug/strace/7.2/tests/ioctl_kvm_run_common.c /usr/src/debug/strace/7.2/src/xlat/getsock_options.h /usr/src/debug/strace/7.2/src/xlat/if_dqblk_valid.h /usr/src/debug/strace/7.2/src/xlat/setsock_options.h /usr/src/debug/strace/7.2/src/xlat/keyctl_commands.h /usr/src/debug/strace/7.2/tests/net-tpacket_req.c /usr/src/debug/strace/7.2/src/sigaltstack.c /usr/src/debug/strace/7.2/src/xlat/pr_spec_cmds.h /usr/src/debug/strace/7.2/src/xlat/bpf_file_flags.h /usr/src/debug/strace/7.
- 2/src/xlat/bsg_protocol.h /usr/src/debug/strace/7.2/tests/ioctl_v4l2-v.c /usr/src/debug/strace/7.2/tests/clone3-Xabbrev.c /usr/src/debug/strace/7.2/tests/openat2-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_info_data_bridge_attrs.h /usr/src/debug/strace/7.2/tests/sockopt-timestamp.c /usr/src/debug/strace/7.2/src/xlat/keyctl_move_flags.h /usr/src/debug/strace/7.2/tests/signalfd4.c /usr/src/debug/strace/7.2/tests/openat--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/prctl-riscv-v-ctrl-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/sock_udp_options.h /usr/src/debug/strace/7.2/tests/bpf-success-v.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_vfinfo-Xverbose.c /usr/src/debug/strace/7.2/tests/perf_event_open.c /usr/src/debug/strace/7.2/tests/pkey_free.c /usr/src/debug/strace/7.2/tests/ppoll-e-trace-fds-23.c /usr/src/debug/strace/7.2/tests/ioctl_epoll-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/tee_ioctl_origins.h /usr/src/debug/strace/7.2/tests/list_sigaction_signum.c /usr
- /src/debug/strace/7.2/tests/select-trace-fd-7.c /usr/src/debug/strace/7.2/src/rtnl_addrlabel.c /usr/src/debug/strace/7.2/tests/select.c /usr/src/debug/strace/7.2/tests/ptrace.c /usr/src/debug/strace/7.2/tests/prctl-pdeathsig.c /usr/src/debug/strace/7.2/tests/ioprio--pidns-translation.c /usr/src/debug/strace/7.2/tests/kexec_load.c /usr/src/debug/strace/7.2/src/rtnl_netconf.c /usr/src/debug/strace/7.2/src/xlat/bootflags1.h /usr/src/debug/strace/7.2/src/xlat/get_mempolicy_flags.h /usr/src/debug/strace/7.2/src/xlat/btrfs_features_compat_ro.h /usr/src/debug/strace/7.2/tests/xchownx.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/netconf.h /usr/src/debug/strace/7.2/src/affinity.c /usr/src/debug/strace/7.2/tests/faccessat-P.c /usr/src/debug/strace/7.2/src/xlat/sock_irda_options.h /usr/src/debug/strace/7.2/src/kernel_dirent.h /usr/src/debug/strace/7.2/src/xlat/sigaltstack_flags.h /usr/src/debug/strace/7.2/src/xlat/landlock_ruleset_access_net.h /usr/src/debug/strace/7.2/tests/io
- ctl_v4l2-success.c /usr/src/debug/strace/7.2/src/xlat/bpf_link_create_kprobe_multi_flags.h /usr/src/debug/strace/7.2/src/xlat/bpf_link_create_uprobe_multi_flags.h /usr/src/debug/strace/7.2/src/xlat/kd_key_ascii_keys.h /usr/src/debug/strace/7.2/src/xlat/kd_key_shift_keys.h /usr/src/debug/strace/7.2/src/xlat/kd_key_slock_keys.h /usr/src/debug/strace/7.2/tests/quotactl-Xraw.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/gen_stats.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/taskstats.h /usr/src/debug/strace/7.2/src/netlink_unix_diag.c /usr/src/debug/strace/7.2/tests/ioctl_v4l2-Xraw.c /usr/src/debug/strace/7.2/tests/net-packet_mreq-Xabbrev.c /usr/src/debug/strace/7.2/tests/nfnetlink_acct.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/v4l2-controls.h /usr/src/debug/strace/7.2/tests/times.c /usr/src/debug/strace/7.2/tests/stack-fcall-3.c /usr/src/debug/strace/7.2/tests/hexquote_strndup.c /usr/src/debug/strace/7.2/tests/epoll_pwait2-P.c /usr/src/
- debug/strace/7.2/tests/fchmod-y--secontext_full.c /usr/src/debug/strace/7.2/tests/fchmodat--secontext_full.c /usr/src/debug/strace/7.2/src/fs_f_ioctl.c /usr/src/debug/strace/7.2/tests/fchownat--secontext_full.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_brport-Xraw.c /usr/src/debug/strace/7.2/tests/llseek.c /usr/src/debug/strace/7.2/src/syscall_name.c /usr/src/debug/strace/7.2/tests/ptrace_syscall_info-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/bpf_class.h /usr/src/debug/strace/7.2/tests/chmod--secontext_mismatch.c /usr/src/debug/strace/7.2/src/xlat/xfs_dqblk_flags.h /usr/src/debug/strace/7.2/tests/prctl-pac-enabled-keys-Xabbrev.c /usr/src/debug/strace/7.2/src/netlink_kobject_uevent.h /usr/src/debug/strace/7.2/tests/fork-f.c /usr/src/debug/strace/7.2/tests/getrandom.c /usr/src/debug/strace/7.2/src/netlink_kobject_uevent.c /usr/src/debug/strace/7.2/tests/mmap-Xraw.c /usr/src/debug/strace/7.2/src/xlat/ip_type_of_services.h /usr/src/debug/strace/7.2/src/rtnl_addr.c /usr/src/debug/s
- trace/7.2/src/rtnl_link.c /usr/src/debug/strace/7.2/src/rtnl_nsid.c /usr/src/debug/strace/7.2/src/rtnl_rule.c /usr/src/debug/strace/7.2/tests/ioctl_sg_io_v4.c /usr/src/debug/strace/7.2/src/xlat/perf_hw_id.h /usr/src/debug/strace/7.2/tests/sigprocmask.c /usr/src/debug/strace/7.2/tests/set_sigign.c /usr/src/debug/strace/7.2/tests/swap.c /usr/src/debug/strace/7.2/src/xlat/cap_mask0.h /usr/src/debug/strace/7.2/tests/inotify_init1-y.c /usr/src/debug/strace/7.2/src/xlat/landlock_rule_types.h /usr/src/debug/strace/7.2/src/bpf_fprog.h /usr/src/debug/strace/7.2/src/xlat/adjtimex_state.h /usr/src/debug/strace/7.2/tests/signalfd4-yy.c /usr/src/debug/strace/7.2/tests/time_enjoyment.h /usr/src/debug/strace/7.2/src/xlat/archvals.h /usr/src/debug/strace/7.2/src/xlat/rtnl_tc_action_attrs.h /usr/src/debug/strace/7.2/src/xlat/nf_ulog_msg_types.h /usr/src/debug/strace/7.2/tests/prctl-sched-core-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-tagged-addr-Xraw.c /usr/src/debug/strace/7.2/src/xlat/rtnl_
- nsid_attrs.h /usr/src/debug/strace/7.2/src/color.c /usr/src/debug/strace/7.2/src/mknod.c /usr/src/debug/strace/7.2/src/color.h /usr/src/debug/strace/7.2/tests/getpeername.c /usr/src/debug/strace/7.2/tests/getsockname.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_xdp.c /usr/src/debug/strace/7.2/tests/pipe_maxfd.c /usr/src/debug/strace/7.2/tests/set_mempolicy.c /usr/src/debug/strace/7.2/src/ustat.c /usr/src/debug/strace/7.2/tests/test_printstrn.c /usr/src/debug/strace/7.2/tests/waitid-Y.c /usr/src/debug/strace/7.2/tests/waitid-v.c /usr/src/debug/strace/7.2/src/xlat/nl_netfilter_msg_types.h /usr/src/debug/strace/7.2/src/xlat/evdev_prop.h /usr/src/debug/strace/7.2/src/xlat/move_mount_flags.h /usr/src/debug/strace/7.2/src/xlat/ipccalls.h /usr/src/debug/strace/7.2/src/xlat/pkey_access.h /usr/src/debug/strace/7.2/tests/ioctl_gpio-v-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-v-Xverbose.c /usr/src/debug/strace/7.2/tests/qual_inject-retval.c /usr/src/debug/strace/7.2/tests/qual_inj
- ect-signal.c /usr/src/debug/strace/7.2/tests/rt_sigprocmask.c /usr/src/debug/strace/7.2/tests/file_handle--secontext_mismatch.c /usr/src/debug/strace/7.2/src/ptrace.h /usr/src/debug/strace/7.2/tests/qual_fault.c /usr/src/debug/strace/7.2/src/ptrace.c /usr/src/debug/strace/7.2/src/strace.c /usr/src/debug/strace/7.2/tests/cachestat-success.c /usr/src/debug/strace/7.2/tests/removexattrat-yy.c /usr/src/debug/strace/7.2/src/xlat/nf_queue_msg_types.h /usr/src/debug/strace/7.2/tests/pkey_mprotect.c /usr/src/debug/strace/7.2/src/xlat/vsock_cids.h /usr/src/debug/strace/7.2/tests/fcntl-common.c /usr/src/debug/strace/7.2/tests/execve--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/landlock_restrict_self-y.c /usr/src/debug/strace/7.2/src/dirent_types.c /usr/src/debug/strace/7.2/src/xlat/nl_crypto_types.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_vfinfo.c /usr/src/debug/strace/7.2/src/rtnl_nh.c /usr/src/debug/strace/7.2/src/xlat/key_spec.h /usr/src/debug/strace/7.2/tests/printsignal
- -Xraw.c /usr/src/debug/strace/7.2/tests/open--secontext_full.c /usr/src/debug/strace/7.2/tests/xattr.c /usr/src/debug/strace/7.2/tests/sched_xetscheduler--pidns-translation-Xverbose.c /usr/src/debug/strace/7.2/tests/setresgid32.c /usr/src/debug/strace/7.2/src/xlat/lirc_features.h /usr/src/debug/strace/7.2/src/xlat/x86_xfeatures.h /usr/src/debug/strace/7.2/tests/ioctl_rtc-success.c /usr/src/debug/strace/7.2/tests/setresuid32.c /usr/src/debug/strace/7.2/src/netlink.c /usr/src/debug/strace/7.2/src/netlink.h /usr/src/debug/strace/7.2/src/xlat/termios_cc.h /usr/src/debug/strace/7.2/tests/ioctl_gpio-v.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-v.c /usr/src/debug/strace/7.2/tests/kill_child.c /usr/src/debug/strace/7.2/src/xlat/rtnl_route_attrs.h /usr/src/debug/strace/7.2/tests/xgetdents.c /usr/src/debug/strace/7.2/tests/redirect-fds.c /usr/src/debug/strace/7.2/src/xlat/open_resolve_flags.h /usr/src/debug/strace/7.2/src/hdio.c /usr/src/debug/strace/7.2/src/times.c /usr/src/debug/strace/7.
- 2/tests/quotactl-v.c /usr/src/debug/strace/7.2/src/xlat/mtd_mode_options.h /usr/src/debug/strace/7.2/tests/ioprio-Xabbrev.c /usr/src/debug/strace/7.2/tests/mmsg_name.c /usr/src/debug/strace/7.2/tests/sol_tipc-group_join-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_v4l2-success-v.c /usr/src/debug/strace/7.2/tests/pidfd_open--decode-fd-path.c /usr/src/debug/strace/7.2/tests/prctl-ppc-dexcr-success-Xverbose.c /usr/src/debug/strace/7.2/src/msghdr.h /usr/src/debug/strace/7.2/tests/sockaddr_xlat-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_brport_attrs.h /usr/src/debug/strace/7.2/src/msghdr.c /usr/src/debug/strace/7.2/tests/kill--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/syslog_action_type.h /usr/src/debug/strace/7.2/tests/getpgrp--pidns-translation.c /usr/src/debug/strace/7.2/src/socketutils.c /usr/src/debug/strace/7.2/tests/cachestat-fd.c /usr/src/debug/strace/7.2/src/pidns.c /usr/src/debug/strace/7.2/src/xlat/mctl_sync.h /usr/src/debug/strace/7.2/bundled/linux/i
- nclude/uapi/linux/smc_diag.h /usr/src/debug/strace/7.2/tests/keyctl-Xabbrev.c /usr/src/debug/strace/7.2/tests/nlattr_inet_diag_msg.c /usr/src/debug/strace/7.2/tests/mount_setattr.c /usr/src/debug/strace/7.2/tests/prctl-pac-enabled-keys-success-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap-success-v.c /usr/src/debug/strace/7.2/tests/printstrn-umoven-undumpable.c /usr/src/debug/strace/7.2/src/fetch_struct_statfs.c /usr/src/debug/strace/7.2/src/xlat/nl_selinux_types.h /usr/src/debug/strace/7.2/tests/sxetmask.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_br_mcast_querier_attrs.h /usr/src/debug/strace/7.2/src/xlat/sg_io_info.h /usr/src/debug/strace/7.2/tests/access--secontext.c /usr/src/debug/strace/7.2/src/xlat/genl_thermal_cmd.h /usr/src/debug/strace/7.2/src/xlat/tcxonc_options.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/fs.h /usr/src/debug/strace/7.2/src/xlat/evdev_misc.h /usr/src/debug/strace/7.2/tests/file_getattr-success-Xabbrev.c /usr/src/debug/strace/7.2/s
- rc/xlat/seccomp_ioctl_resp_flags.h /usr/src/debug/strace/7.2/src/xlat/uring_zcrx_ctrl_ops.h /usr/src/debug/strace/7.2/tests/getuid.c /usr/src/debug/strace/7.2/tests/xutimes.c /usr/src/debug/strace/7.2/tests/nlattr_mdba_mdb_entry.c /usr/src/debug/strace/7.2/tests/mount-Xabbrev.c /usr/src/debug/strace/7.2/tests/dup2-e-fd-0.c /usr/src/debug/strace/7.2/tests/count_unknown.c /usr/src/debug/strace/7.2/src/xlat/socketcalls.h /usr/src/debug/strace/7.2/tests/openat--secontext_full_mismatch.c /usr/src/debug/strace/7.2/src/xlat/pr_ppc_dexcr_ctrl_flags.h /usr/src/debug/strace/7.2/src/xlat/watchdog_ioctl_setoptions.h /usr/src/debug/strace/7.2/tests/nlattr_cachereport-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-spec-inject.c /usr/src/debug/strace/7.2/src/xlat/inet6_devconf_indices.h /usr/src/debug/strace/7.2/src/xlat/shm_resource_flags.h /usr/src/debug/strace/7.2/src/xlat/bpf_test_run_flags.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/landlock.h /usr/src/debug/strace/7.2/src/xlat
- /mpol_mode_flags.h /usr/src/debug/strace/7.2/src/xlat/open_mode_flags.h /usr/src/debug/strace/7.2/tests/dev-pty-yy.c /usr/src/debug/strace/7.2/tests/mmap-Xverbose.c /usr/src/debug/strace/7.2/tests/futex_wake-Xverbose.c /usr/src/debug/strace/7.2/tests/timerfd_xettime.c /usr/src/debug/strace/7.2/src/lirc_ioctl.c /usr/src/debug/strace/7.2/tests/utimes.c /usr/src/debug/strace/7.2/tests/fanotify_mark-Xverbose.c /usr/src/debug/strace/7.2/tests/sendfile64.c /usr/src/debug/strace/7.2/src/xlat/term_oflags_bsdly.h /usr/src/debug/strace/7.2/src/kill_save_errno.h /usr/src/debug/strace/7.2/src/xlat/close_range_flags.h /usr/src/debug/strace/7.2/tests/setxattrat-y.c /usr/src/debug/strace/7.2/tests/siginfo.c /usr/src/debug/strace/7.2/tests/dup-y.c /usr/src/debug/strace/7.2/tests/fadvise.h /usr/src/debug/strace/7.2/src/xlat/kexec_file_load_flags.h /usr/src/debug/strace/7.2/tests/net-sockaddr.c /usr/src/debug/strace/7.2/tests/arch_prctl-Xabbrev.c /usr/src/debug/strace/7.2/tests/filter-unavailable.c /
- usr/src/debug/strace/7.2/tests/fstat64-Xabbrev.c /usr/src/debug/strace/7.2/src/listns.c /usr/src/debug/strace/7.2/tests/lchown32.c /usr/src/debug/strace/7.2/src/xlat/nf_ctnetlink_exp_msg_types.h /usr/src/debug/strace/7.2/src/xlat/loop_flags_options.h /usr/src/debug/strace/7.2/src/xlat/v4l2_tuner_capabilities.h /usr/src/debug/strace/7.2/tests/kernel_version-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/nlmsgerr_attrs.h /usr/src/debug/strace/7.2/src/xlat/nt_descriptor_types.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/openat2.h /usr/src/debug/strace/7.2/tests/status-detached-threads.c /usr/src/debug/strace/7.2/tests/threads-execve-q.c /usr/src/debug/strace/7.2/src/xlat/vsock_ports.h /usr/src/debug/strace/7.2/tests/prctl-sched-core--pidns-translation-Xraw.c /usr/src/debug/strace/7.2/tests/nlattr_nhmsg-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp.c /usr/src/debug/strace/7.2/tests/ioperm.c /usr/src/debug/strace/7.2/src/chmod.c /usr/src/debug/strace/7.2/tests/get
- pid--pidns-translation.c /usr/src/debug/strace/7.2/tests/getsid--pidns-translation.c /usr/src/debug/strace/7.2/tests/gettid--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/pidfd_open_flags.h /usr/src/debug/strace/7.2/src/xlat/rtnl_tca_stats_attrs.h /usr/src/debug/strace/7.2/tests/so_peercred-Xabbrev.c /usr/src/debug/strace/7.2/tests/printstr.c /usr/src/debug/strace/7.2/src/xlat/hw_breakpoint_len.h /usr/src/debug/strace/7.2/tests/bpf-v.c /usr/src/debug/strace/7.2/tests/prctl-no-args.c /usr/src/debug/strace/7.2/tests/poll-P.c /usr/src/debug/strace/7.2/src/xlat/fsmagic.h /usr/src/debug/strace/7.2/tests/getdents64-v.c /usr/src/debug/strace/7.2/tests/read-write.c /usr/src/debug/strace/7.2/src/memfd_create.c /usr/src/debug/strace/7.2/tests/sched_yield.c /usr/src/debug/strace/7.2/src/xlat/socketlayers.h /usr/src/debug/strace/7.2/tests/mmsg_name-v.c /usr/src/debug/strace/7.2/src/fstatfs64.c /usr/src/debug/strace/7.2/tests/map_shadow_stack-Xverbose.c /usr/src/debug/strace/7.2/tests/p
- rocess_vm_writev--pidns-translation.c /usr/src/debug/strace/7.2/tests/ioctl.c /usr/src/debug/strace/7.2/tests/prctl-tsc.c /usr/src/debug/strace/7.2/tests/net--decode-fds-none-netlink.c /usr/src/debug/strace/7.2/src/xlat/kvm_exit_io.h /usr/src/debug/strace/7.2/src/xlat/mctp_addrs.h /usr/src/debug/strace/7.2/src/xlat/inet_diag_req_attrs.h /usr/src/debug/strace/7.2/tests/ioctl_fiemap-success-v-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/kd_key_types.h /usr/src/debug/strace/7.2/tests/setgid.c /usr/src/debug/strace/7.2/tests/dev--decode-fds-socket.c /usr/src/debug/strace/7.2/tests/env-i.c /usr/src/debug/strace/7.2/tests/netlink_generic.c /usr/src/debug/strace/7.2/src/fadvise.c /usr/src/debug/strace/7.2/src/xlat/seccomp_ret_action.h /usr/src/debug/strace/7.2/src/xlat/rename_flags.h /usr/src/debug/strace/7.2/src/xlat/sigfpe_codes.h /usr/src/debug/strace/7.2/src/xlat/splice_flags.h /usr/src/debug/strace/7.2/src/xlat/whence_codes.h /usr/src/debug/strace/7.2/tests/nlattr_cachereport.c /usr/s
- rc/debug/strace/7.2/bundled/linux/include/uapi/linux/ioam6_genl.h /usr/src/debug/strace/7.2/tests/init_module.c /usr/src/debug/strace/7.2/tests/semop-common.c /usr/src/debug/strace/7.2/src/xlat/futexops.h /usr/src/debug/strace/7.2/tests/xettimeofday.c /usr/src/debug/strace/7.2/tests/status-failed.c /usr/src/debug/strace/7.2/tests/chmod--secontext_full.c /usr/src/debug/strace/7.2/tests/prctl-set-ptracer-success-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_counter.c /usr/src/debug/strace/7.2/src/xlat/bluetooth_l2_cid.h /usr/src/debug/strace/7.2/src/pidfd_getfd.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_br_boolopts.h /usr/src/debug/strace/7.2/tests/setrlimit-Xraw.c /usr/src/debug/strace/7.2/tests/dup2-e-fd-0-P.c /usr/src/debug/strace/7.2/tests/setxattrat.c /usr/src/debug/strace/7.2/tests/nfnetlink_nft_compat.c /usr/src/debug/strace/7.2/tests/unlinkat.c /usr/src/debug/strace/7.2/tests/ioctl_fs_0x15-Xabbrev.c /usr/src/debug/strace/7.2/tests/umoven-illptr.c /usr/src/debug/strace/7
- .2/src/xlat/evdev_ev.h /usr/src/debug/strace/7.2/tests/prctl-pac-reset-keys.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/videodev2.h /usr/src/debug/strace/7.2/src/xlat/fspick_flags.h /usr/src/debug/strace/7.2/src/gpio_ioctl.c /usr/src/debug/strace/7.2/tests/ioctl_dm.c /usr/src/debug/strace/7.2/tests/ioctl_kd.c /usr/src/debug/strace/7.2/src/xlat/kcmp_types.h /usr/src/debug/strace/7.2/src/xlat/quotatypes.h /usr/src/debug/strace/7.2/src/xlat/sock_netlink_options.h /usr/src/debug/strace/7.2/tests/ioctl_tee.c /usr/src/debug/strace/7.2/src/sendfile.c /usr/src/debug/strace/7.2/tests/futex_wake-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_perf.c /usr/src/debug/strace/7.2/tests/ip_local_port_range.c /usr/src/debug/strace/7.2/tests/ioctl_nsfs.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/blkpg.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/btrfs.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/dcbnl.h /usr/src/debug/strace/7.2/tests/ioc
- tl_kd-success-s1024-Xverbose.c /usr/src/debug/strace/7.2/src/kernel_types.h /usr/src/debug/strace/7.2/tests/ioctl_gpio-success.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-success.c /usr/src/debug/strace/7.2/tests/fstat64-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_pidfd_get_info.c /usr/src/debug/strace/7.2/tests/scm_pidfd.c /usr/src/debug/strace/7.2/tests/fanotify_mark--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/fork--pidns-translation.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/ethtool_netlink_generated.h /usr/src/debug/strace/7.2/tests/count-f.c /usr/src/debug/strace/7.2/src/xlat/addrfams.h /usr/src/debug/strace/7.2/src/secontext.h /usr/src/debug/strace/7.2/tests/sock_filter-v-Xraw.c /usr/src/debug/strace/7.2/tests/sockaddr_xlat-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/v4l2_capture_modes.h /usr/src/debug/strace/7.2/src/xlat/btrfs_cont_reading_from_srcdev_mode.h /usr/src/debug/strace/7.2/tests/faccessat2-y.c /usr/src/debug/strace/7.2/src/open.c /usr
- /src/debug/strace/7.2/src/xlat/rtnl_neigh_attrs.h /usr/src/debug/strace/7.2/tests/pidfd_open--pidns-translation.c /usr/src/debug/strace/7.2/tests/ioctl_epoll.c /usr/src/debug/strace/7.2/src/xlat/smc_diag_attrs.h /usr/src/debug/strace/7.2/tests/printxval-Xraw.c /usr/src/debug/strace/7.2/src/xlat/btrfs_compress_types.h /usr/src/debug/strace/7.2/tests/oldselect-P.c /usr/src/debug/strace/7.2/tests/msg_control-v.c /usr/src/debug/strace/7.2/src/xlat/pr_ppc_dexcr_aspects.h /usr/src/debug/strace/7.2/tests/prctl-no-args-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/clone_parent--quiet-exit.c /usr/src/debug/strace/7.2/tests/prctl-sme-success.c /usr/src/debug/strace/7.2/tests/fchmod--secontext.c /usr/src/debug/strace/7.2/tests/prctl-sve-success.c /usr/src/debug/strace/7.2/tests/landlock_create_ruleset-y.c /usr/src/debug/strace/7.2/tests/ioctl_fs_0x15-Xverbose.c /usr/src/debug/strace/7.2/tests/set_sigblock.c /usr/src/debug/strace/7.2/tests/skip_unavailable.c /usr/src/debug/strace/7.2/tests/
- ioctl_epoll-success-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/pidfd_send_signal_flags.h /usr/src/debug/strace/7.2/tests/prctl-riscv-v-ctrl-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/v4l2_control_types.h /usr/src/debug/strace/7.2/tests/prctl-ppc-dexcr-Xverbose.c /usr/src/debug/strace/7.2/src/stat64.c /usr/src/debug/strace/7.2/tests/is_linux_mips_n64.c /usr/src/debug/strace/7.2/tests/prctl-sched-core-success--pidns-translation.c /usr/src/debug/strace/7.2/tests/close_range.c /usr/src/debug/strace/7.2/tests/ptrace_set_syscall_info-Xabbrev.c /usr/src/debug/strace/7.2/tests/select-P.c /usr/src/debug/strace/7.2/src/xlat/ptp_extts_flags.h /usr/src/debug/strace/7.2/tests/net-sockaddr--pidns-translation.c /usr/src/debug/strace/7.2/tests/process_mrelease.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/mptcp_pm.h /usr/src/debug/strace/7.2/src/xlat/rtnl_tc_attrs.h /usr/src/debug/strace/7.2/tests/sendfile.c /usr/src/debug/strace/7.2/tests/setfsgid.c /usr/src/debug/strace/7.2/t
- ests/setfsuid.c /usr/src/debug/strace/7.2/tests/setgid32.c /usr/src/debug/strace/7.2/src/xlat/netlink_flags.h /usr/src/debug/strace/7.2/src/xlat/netlink_types.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/dqblk_xfs.h /usr/src/debug/strace/7.2/src/xlat/ifstats_attr_flags.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_af_inet6.h /usr/src/debug/strace/7.2/tests/rt_sigpending.c /usr/src/debug/strace/7.2/tests/print_quoted_string.c /usr/src/debug/strace/7.2/src/xlat/af_tipc_flags.h /usr/src/debug/strace/7.2/src/xlat/af_tipc_scope.h /usr/src/debug/strace/7.2/src/xlat/af_tipc_types.h /usr/src/debug/strace/7.2/tests/sol_tipc-importance-Xabbrev.c /usr/src/debug/strace/7.2/tests/quotactl-xfs-v.c /usr/src/debug/strace/7.2/src/dup.c /usr/src/debug/strace/7.2/src/ptp.c /usr/src/debug/strace/7.2/tests/prctl-syscall-user-dispatch.c /usr/src/debug/strace/7.2/src/xlat/v4l2_control_classes.h /usr/src/debug/strace/7.2/src/perf_event_struct.h /usr/src/debug/strace/7.2/tests/ftruncate64.c 
- /usr/src/debug/strace/7.2/tests/mbind-Xabbrev.c /usr/src/debug/strace/7.2/src/epoll.c /usr/src/debug/strace/7.2/tests/fchmodat2--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/execveat--secontext.c /usr/src/debug/strace/7.2/src/inotify_ioctl.c /usr/src/debug/strace/7.2/src/xlat/tee_ioctl_login_types.h /usr/src/debug/strace/7.2/tests/ipc_msgbuf.c /usr/src/debug/strace/7.2/src/xlat/inet_diag_ulp_info_attrs.h /usr/src/debug/strace/7.2/tests/set_ptracer_any.c /usr/src/debug/strace/7.2/src/xlat/v4l2_tuner_rxsubchanses.h /usr/src/debug/strace/7.2/src/umask.c /usr/src/debug/strace/7.2/src/xlat/term_oflags_ffdly.h /usr/src/debug/strace/7.2/tests/arch_prctl-Xraw.c /usr/src/debug/strace/7.2/tests/getsockname--secontext_mismatch.c /usr/src/debug/strace/7.2/src/xlat/nl_attr_type.h /usr/src/debug/strace/7.2/src/keyctl_kdf_params.h /usr/src/debug/strace/7.2/src/xlat/inotify_flags.h /usr/src/debug/strace/7.2/src/xlat/gpio_line_flags.h /usr/src/debug/strace/7.2/src/xlat/bpf_miscop.h /usr
- /src/debug/strace/7.2/src/xlat/usagewho.h /usr/src/debug/strace/7.2/tests/signal_receive.c /usr/src/debug/strace/7.2/tests/prctl-sme-success-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-sve-success-Xverbose.c /usr/src/debug/strace/7.2/tests/clock_adjtime-common.c /usr/src/debug/strace/7.2/tests/rt_sigsuspend.c /usr/src/debug/strace/7.2/src/xlat/genl_mptcp_pm_cmd.h /usr/src/debug/strace/7.2/src/xlat/kvm_cpuid_flags.h /usr/src/debug/strace/7.2/src/xlat/lirc_modes.h /usr/src/debug/strace/7.2/src/xlat/mpol_modes.h /usr/src/debug/strace/7.2/src/xlat/v4l2_input_types.h /usr/src/debug/strace/7.2/tests/prctl-tagged-addr-Xabbrev.c /usr/src/debug/strace/7.2/tests/sigaction.c /usr/src/debug/strace/7.2/tests/sched_xetattr.c /usr/src/debug/strace/7.2/tests/sigreturn.c /usr/src/debug/strace/7.2/src/xlat/btrfs_dev_stats_flags.h /usr/src/debug/strace/7.2/tests/prctl-sched-core.c /usr/src/debug/strace/7.2/src/print_mq_attr.c /usr/src/debug/strace/7.2/src/xlat/netfilter_versions.h /usr/src/debug/
- strace/7.2/tests/ioctl_dm-v.c /usr/src/debug/strace/7.2/src/bpf.c /usr/src/debug/strace/7.2/tests/s390_guarded_storage-v.c /usr/src/debug/strace/7.2/src/xlat/genl_ctrl_attr_policy.h /usr/src/debug/strace/7.2/src/xlat/genl_taskstats_cmd.h /usr/src/debug/strace/7.2/tests/so_peercred-Xraw.c /usr/src/debug/strace/7.2/tests/pidns.h /usr/src/debug/strace/7.2/tests/clone3-Xverbose.c /usr/src/debug/strace/7.2/src/mtd.c /usr/src/debug/strace/7.2/src/uid.c /usr/src/debug/strace/7.2/tests/move_pages-Xraw.c /usr/src/debug/strace/7.2/tests/pidns.c /usr/src/debug/strace/7.2/tests/wait4-v.c /usr/src/debug/strace/7.2/tests/waitpid.c /usr/src/debug/strace/7.2/src/xlat/v4l2_vbi_flags.h /usr/src/debug/strace/7.2/src/xlat/at_statx_sync_types.h /usr/src/debug/strace/7.2/tests/sol_tipc-group_join-Xverbose.c /usr/src/debug/strace/7.2/tests/openat2-Xraw.c /usr/src/debug/strace/7.2/src/xlat/term_iflags.h /usr/src/debug/strace/7.2/tests/ifindex.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/if_
- bridge.h /usr/src/debug/strace/7.2/src/print_timespec64.c /usr/src/debug/strace/7.2/tests/prctl-tagged-addr-success-Xraw.c /usr/src/debug/strace/7.2/tests/move_pages--pidns-translation.c /usr/src/debug/strace/7.2/src/signal.c /usr/src/debug/strace/7.2/src/v4l2.c /usr/src/debug/strace/7.2/src/xlat/sock_rds_options.h /usr/src/debug/strace/7.2/src/xlat/fsmount_attr_flags.h /usr/src/debug/strace/7.2/tests/personality-Xraw.c /usr/src/debug/strace/7.2/src/xlat/genl_ioam6_cmd.h /usr/src/debug/strace/7.2/src/xlat/genl_netdev_cmd.h /usr/src/debug/strace/7.2/src/xlat/sock_type_flags.h /usr/src/debug/strace/7.2/tests/faccessat-y--secontext_full.c /usr/src/debug/strace/7.2/src/dyxlat.c /usr/src/debug/strace/7.2/tests/ip_local_port_range-Xabbrev.c /usr/src/debug/strace/7.2/tests/ip_protocol-Xraw.c /usr/src/debug/strace/7.2/tests/signal2name.c /usr/src/debug/strace/7.2/tests/quotactl-xfs-success.c /usr/src/debug/strace/7.2/src/io_uring.c /usr/src/debug/strace/7.2/tests/file_getattr-success-Xverbo
- se.c /usr/src/debug/strace/7.2/tests/ip_local_port_range-success-Xverbose.c /usr/src/debug/strace/7.2/src/inotify.c /usr/src/debug/strace/7.2/src/xlat/ptrace_syscall_info_op.h /usr/src/debug/strace/7.2/src/xlat/sigpoll_codes.h /usr/src/debug/strace/7.2/tests/prctl-arg2-intptr.c /usr/src/debug/strace/7.2/src/xlat/bpf_file_mode_flags.h /usr/src/debug/strace/7.2/src/xlat/uring_setup_features.h /usr/src/debug/strace/7.2/tests/sock_filter-v.c /usr/src/debug/strace/7.2/tests/xetpriority--pidns-translation.c /usr/src/debug/strace/7.2/tests/ioctl_loop-v.c /usr/src/debug/strace/7.2/src/xlat/v4l2_format_description_flags.h /usr/src/debug/strace/7.2/tests/setfsugid.c /usr/src/debug/strace/7.2/tests/setresgid.c /usr/src/debug/strace/7.2/tests/status-successful-threads.c /usr/src/debug/strace/7.2/src/ipc_sem.c /usr/src/debug/strace/7.2/tests/setresuid.c /usr/src/debug/strace/7.2/tests/pread64-pwrite64.c /usr/src/debug/strace/7.2/tests/ioctl_kd-success-s1024-Xabbrev.c /usr/src/debug/strace/7.2/te
- sts/mmap64.c /usr/src/debug/strace/7.2/tests/preadv2-pwritev2.c /usr/src/debug/strace/7.2/tests/prctl-pac-enabled-keys-success-Xabbrev.c /usr/src/debug/strace/7.2/src/pathtrace.c /usr/src/debug/strace/7.2/src/xlat/netlink_states.h /usr/src/debug/strace/7.2/src/xlat/futexwakecmps.h /usr/src/debug/strace/7.2/tests/clone_ptrace-qq.c /usr/src/debug/strace/7.2/src/sigreturn.c /usr/src/debug/strace/7.2/tests/file_handle.c /usr/src/debug/strace/7.2/src/xlat/bpf_link_create_netfilter_flags.h /usr/src/debug/strace/7.2/tests/netlink_selinux.c /usr/src/debug/strace/7.2/tests/sched_xetscheduler--pidns-translation-Xraw.c /usr/src/debug/strace/7.2/tests/timer_create.c /usr/src/debug/strace/7.2/src/bpf_filter.c /usr/src/debug/strace/7.2/tests/ioctl_fs_f-Xraw.c /usr/src/debug/strace/7.2/src/bpf_filter.h /usr/src/debug/strace/7.2/tests/ioctl_sock.c /usr/src/debug/strace/7.2/src/xlat/shutdown_modes.h /usr/src/debug/strace/7.2/tests/strace--syscall-limit-status.c /usr/src/debug/strace/7.2/tests/setugi
- d.c /usr/src/debug/strace/7.2/src/xlat/perf_attr_size.h /usr/src/debug/strace/7.2/src/xlat/bluetooth_l2_psm.h /usr/src/debug/strace/7.2/src/perf.c /usr/src/debug/strace/7.2/tests/mknod.c /usr/src/debug/strace/7.2/tests/maybe_switch_current_tcp.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/if_bonding.h /usr/src/debug/strace/7.2/src/filter_qualify.c /usr/src/debug/strace/7.2/src/xlat/tls_info_ciphers.h /usr/src/debug/strace/7.2/src/xlat/ptrace_setoptions_flags.h /usr/src/debug/strace/7.2/tests/ioctl_rtc-v.c /usr/src/debug/strace/7.2/src/print_utils.h /usr/src/debug/strace/7.2/tests/nlattr_br_port_msg.c /usr/src/debug/strace/7.2/tests/fchmod--secontext_full.c /usr/src/debug/strace/7.2/src/xlat/sock_caif_options.h /usr/src/debug/strace/7.2/tests/k_sockopt.h /usr/src/debug/strace/7.2/tests/tee.c /usr/src/debug/strace/7.2/tests/mq_sendrecv-write.c /usr/src/debug/strace/7.2/tests/k_sockopt.c /usr/src/debug/strace/7.2/src/xlat/ubi_data_types.h /usr/src/debug/strace/7.2/tests/
- pidfd_open--decode-fd-socket.c /usr/src/debug/strace/7.2/tests/s390_guarded_storage.c /usr/src/debug/strace/7.2/src/xlat/uring_async_cancel_flags.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_xdp-y.c /usr/src/debug/strace/7.2/tests/nlattr_mdba_router_port.c /usr/src/debug/strace/7.2/tests/prctl-no-args-Xabbrev.c /usr/src/debug/strace/7.2/src/dirent64.c /usr/src/debug/strace/7.2/tests/hexdump_strdup.c /usr/src/debug/strace/7.2/tests/old_mmap-v-none.c /usr/src/debug/strace/7.2/tests/remap_file_pages-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/sock_vsock_options.h /usr/src/debug/strace/7.2/tests/ioctl_fs_f.c /usr/src/debug/strace/7.2/tests/prctl-seccomp-filter-v.c /usr/src/debug/strace/7.2/tests/prctl-unalign.c /usr/src/debug/strace/7.2/tests/prctl-set-ptracer-success-Xabbrev--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/counter_ioctl_component_types.h /usr/src/debug/strace/7.2/tests/flock.c /usr/src/debug/strace/7.2/src/xlat/pr_spec_get_store_bypass_flags.h /usr/src/debug/
- strace/7.2/src/xlat/pr_spec_set_store_bypass_flags.h /usr/src/debug/strace/7.2/tests/nfnetlink_osf.c /usr/src/debug/strace/7.2/tests/sync_file_range.c /usr/src/debug/strace/7.2/src/printrusage.c /usr/src/debug/strace/7.2/tests/seccomp_get_notif_sizes-success.c /usr/src/debug/strace/7.2/tests/ptrace-Xraw.c /usr/src/debug/strace/7.2/src/mmap_cache.h /usr/src/debug/strace/7.2/tests/ioctl_kd-Xverbose.c /usr/src/debug/strace/7.2/tests/xetpriority.c /usr/src/debug/strace/7.2/src/xlat/gpio_v2_line_attr_ids.h /usr/src/debug/strace/7.2/src/xlat/sock_can_raw_options.h /usr/src/debug/strace/7.2/src/xlat/bsg_subprotocol.h /usr/src/debug/strace/7.2/src/mmap_cache.c /usr/src/debug/strace/7.2/tests/inet-cmsg.c /usr/src/debug/strace/7.2/src/xlat/inet_diag_bpf_storage_attrs.h /usr/src/debug/strace/7.2/tests/ioctl_pidfd_get_info-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/membarrier_flags.h /usr/src/debug/strace/7.2/tests/sockopt-sol_socket-success.c /usr/src/debug/strace/7.2/tests/map_shado
- w_stack-Xraw.c /usr/src/debug/strace/7.2/tests/init_delete_module.h /usr/src/debug/strace/7.2/src/kcmp.c /usr/src/debug/strace/7.2/src/xlat/syslog_console_levels.h /usr/src/debug/strace/7.2/src/evdev_mpers.c /usr/src/debug/strace/7.2/tests/prctl-tagged-addr.c /usr/src/debug/strace/7.2/tests/fstat-Xraw.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/inet_diag.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/sock_diag.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/unix_diag.h /usr/src/debug/strace/7.2/src/xlat/ifstats_xstats_bridge_mcast_indices.h /usr/src/debug/strace/7.2/tests/io_uring_register-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/pr_pac_keys.h /usr/src/debug/strace/7.2/tests/seccomp-filter.c /usr/src/debug/strace/7.2/src/xlat/perf_sw_ids.h /usr/src/debug/strace/7.2/tests/ppoll-P.c /usr/src/debug/strace/7.2/tests/ppoll-v.c /usr/src/debug/strace/7.2/tests/prctl-sme-success-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-sve-success-Xraw.c /
- usr/src/debug/strace/7.2/tests/nlattr_ifla.h /usr/src/debug/strace/7.2/tests/sockopt-sol_socket-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/prctl-securebits-success-Xraw.c /usr/src/debug/strace/7.2/src/getcwd.c /usr/src/debug/strace/7.2/tests/quotactl-xfs.c /usr/src/debug/strace/7.2/src/xlat/perf_hw_cache_op_id.h /usr/src/debug/strace/7.2/tests/pkey_alloc.c /usr/src/debug/strace/7.2/tests/xet_thread_area_x86.c /usr/src/debug/strace/7.2/src/fanotify.c /usr/src/debug/strace/7.2/tests/ioctl_gpio-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-Xabbrev.c /usr/src/debug/strace/7.2/tests/prctl-riscv-v-ctrl-success-Xraw.c /usr/src/debug/strace/7.2/tests/sleep-timing.c /usr/src/debug/strace/7.2/src/xlat/sigev_value.h /usr/src/debug/strace/7.2/src/xlat/clockflags.h /usr/src/debug/strace/7.2/src/xlat/epollflags.h /usr/src/debug/strace/7.2/src/xlat/mmap_flags.h /usr/src/debug/strace/7.2/src/xlat/rseq_flags.h /usr/src/debug/strace/7.2/src/xlat/swap_flags.h /usr/src/debug/strace/7.2/sr
- c/xlat/uffd_flags.h /usr/src/debug/strace/7.2/src/xlat/xattrflags.h /usr/src/debug/strace/7.2/tests/sched_xetscheduler--pidns-translation-Xabbrev.c /usr/src/debug/strace/7.2/tests/ppoll-e-trace-fds-not-9-42-P.c /usr/src/debug/strace/7.2/tests/s390_runtime_instr.c /usr/src/debug/strace/7.2/src/xlat/lbmd_pi_cap_flags.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/cryptouser.h /usr/src/debug/strace/7.2/tests/ioctl_seccomp-y-success--pidns-translation.c /usr/src/debug/strace/7.2/tests/print_ppid_tracerpid.c /usr/src/debug/strace/7.2/tests/futex_wait.c /usr/src/debug/strace/7.2/src/xlat/madvise_hppa_generic_cmds.h /usr/src/debug/strace/7.2/src/xlat/rtnl_rule_attrs.h /usr/src/debug/strace/7.2/tests/ioctl_epoll-success-Xraw.c /usr/src/debug/strace/7.2/tests/threads-execve-qq.c /usr/src/debug/strace/7.2/src/xlat/seccomp_ops.h /usr/src/debug/strace/7.2/tests/ioctl_ptp-Xraw.c /usr/src/debug/strace/7.2/src/sysent.h /usr/src/debug/strace/7.2/src/uname.c /usr/src/debug/strace/7.2/s
- rc/xlat/kd_key_tables.h /usr/src/debug/strace/7.2/src/loop.c /usr/src/debug/strace/7.2/src/xlat/key_perms.h /usr/src/debug/strace/7.2/tests/prctl-fp-mode.c /usr/src/debug/strace/7.2/tests/preadv.c /usr/src/debug/strace/7.2/tests/madvise-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/fib_rule_actions.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/udmabuf.h /usr/src/debug/strace/7.2/src/xlat/rtnl_tca_root_attrs.h /usr/src/debug/strace/7.2/src/xlat/rtnl_tca_stab_attrs.h /usr/src/debug/strace/7.2/src/rtnl_tc_action.c /usr/src/debug/strace/7.2/tests/stack-fcall-0.c /usr/src/debug/strace/7.2/src/xlat/ip_cmsg_types.h /usr/src/debug/strace/7.2/src/xlat/ipc_msg_flags.h /usr/src/debug/strace/7.2/src/xlat/inet_diag_ulp_info_tls_attrs.h /usr/src/debug/strace/7.2/tests/ioctl_mtd-success.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap-Xabbrev.c /usr/src/debug/strace/7.2/tests/memfd_create-Xverbose.c /usr/src/debug/strace/7.2/tests/strace-p-Y-p2.c /usr/src/debug/strace/7.2/tests/futex_r
- equeue.c /usr/src/debug/strace/7.2/src/xlat/rtnl_addrlabel_attrs.h /usr/src/debug/strace/7.2/src/xlat/kd_font_flags.h /usr/src/debug/strace/7.2/src/xlat/fsmount_flags.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/mroute6.h /usr/src/debug/strace/7.2/tests/ioctl_evdev-success-Xraw.c /usr/src/debug/strace/7.2/src/personality.c /usr/src/debug/strace/7.2/tests/netlink_crypto.c /usr/src/debug/strace/7.2/src/xlat/kvm_exit_reason.h /usr/src/debug/strace/7.2/tests/prctl-riscv-v-ctrl-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-success-Xverbose.c /usr/src/debug/strace/7.2/tests/mlock.c /usr/src/debug/strace/7.2/tests/block_reset_run.c /usr/src/debug/strace/7.2/tests/ioctl_fs_0x15-Xraw.c /usr/src/debug/strace/7.2/src/statfs64.c /usr/src/debug/strace/7.2/tests/ioctl_v4l2-v-Xraw.c /usr/src/debug/strace/7.2/tests/mlock2.c /usr/src/debug/strace/7.2/tests/prctl-sme-Xabbrev.c /usr/src/debug/strace/7.2/test
- s/prctl-sve-Xabbrev.c /usr/src/debug/strace/7.2/tests/prctl-cap-ambient.c /usr/src/debug/strace/7.2/src/xlat/bpf_prog_flags.h /usr/src/debug/strace/7.2/src/xlat/bpf_prog_types.h /usr/src/debug/strace/7.2/src/xlat/ifstats_xstats_bridge_attrs.h /usr/src/debug/strace/7.2/src/xlat/perf_type_id.h /usr/src/debug/strace/7.2/src/getrandom.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/blktrace_api.h /usr/src/debug/strace/7.2/tests/fstat-Xabbrev.c /usr/src/debug/strace/7.2/tests/net-tpacket_stats.c /usr/src/debug/strace/7.2/src/xlat/bpf_attach_flags.h /usr/src/debug/strace/7.2/src/xlat/can_protocols.h /usr/src/debug/strace/7.2/src/xlat/kcm_protocols.h /usr/src/debug/strace/7.2/src/xlat/nfc_protocols.h /usr/src/debug/strace/7.2/src/xlat/smc_protocols.h /usr/src/debug/strace/7.2/tests/rt_tgsigqueueinfo--pidns-translation.c /usr/src/debug/strace/7.2/tests/ioctl_fs_0x15-success-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-pac-enabled-keys-Xraw.c /usr/src/debug/strace/7.2/src/xl
- at/rtnl_br_stp_mode.h /usr/src/debug/strace/7.2/tests/setns-report-ns-id.c /usr/src/debug/strace/7.2/tests/open--secontext_mismatch.c /usr/src/debug/strace/7.2/src/xlat/statmount_mask.h /usr/src/debug/strace/7.2/src/xlat/ifaddrflags.h /usr/src/debug/strace/7.2/src/xlat/faccessat_flags.h /usr/src/debug/strace/7.2/src/xlat/evdev_leds.h /usr/src/debug/strace/7.2/src/print_timeval.c /usr/src/debug/strace/7.2/tests/printpath-umovestr.c /usr/src/debug/strace/7.2/src/xlat/rtnl_dcb_attrs.h /usr/src/debug/strace/7.2/tests/ustat.c /usr/src/debug/strace/7.2/src/kexec.c /usr/src/debug/strace/7.2/tests/sock_filter-v-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/rtc_backup_switch_modes.h /usr/src/debug/strace/7.2/tests/getrusage.c /usr/src/debug/strace/7.2/src/xlat/pr_tagged_addr_mte_tcf.h /usr/src/debug/strace/7.2/src/netlink_packet_diag.c /usr/src/debug/strace/7.2/tests/prctl_marker.c /usr/src/debug/strace/7.2/tests/ioctl_uffdio.c /usr/src/debug/strace/7.2/src/xlat/af_tipc_importance.h /usr/src
- /debug/strace/7.2/src/xlat/rtnl_addr_attrs.h /usr/src/debug/strace/7.2/src/xlat/kd_key_dead_keys.h /usr/src/debug/strace/7.2/src/xlat/kd_key_lock_keys.h /usr/src/debug/strace/7.2/src/xlat/kd_key_spec_keys.h /usr/src/debug/strace/7.2/tests/sched_xetscheduler-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-riscv-icache-flush-ctx-Xabbrev.c /usr/src/debug/strace/7.2/tests/sigpending.c /usr/src/debug/strace/7.2/src/xlat/uring_recvsend_flags.h /usr/src/debug/strace/7.2/src/xlat/genl_ctrl_attr_mcast_grp.h /usr/src/debug/strace/7.2/tests/chroot.c /usr/src/debug/strace/7.2/tests/netlink_netfilter.c /usr/src/debug/strace/7.2/src/xlat/bpf_op_jmp.h /usr/src/debug/strace/7.2/src/xlat/fsopen_flags.h /usr/src/debug/strace/7.2/tests/execveat-v.c /usr/src/debug/strace/7.2/src/xlat/rtnl_family.h /usr/src/debug/strace/7.2/tests/strace--syscall-limit-status-c.c /usr/src/debug/strace/7.2/src/xlat/seccomp_ioctl_notif_flags.h /usr/src/debug/strace/7.2/tests/dup2-e-fd-0-9.c /usr/src/debug/strace/7.2/tests/pok
- e.c /usr/src/debug/strace/7.2/tests/bpf-success-long-y.c /usr/src/debug/strace/7.2/src/regset.c /usr/src/debug/strace/7.2/tests/chmod.c /usr/src/debug/strace/7.2/src/alarm.c /usr/src/debug/strace/7.2/src/poke.h /usr/src/debug/strace/7.2/src/pidfd_ioctl.c /usr/src/debug/strace/7.2/src/poke.c /usr/src/debug/strace/7.2/src/print_timespec32.c /usr/src/debug/strace/7.2/src/xlat/ifstats_af_spec_mpls_attrs.h /usr/src/debug/strace/7.2/src/xlat/mount_setattr_flags.h /usr/src/debug/strace/7.2/src/ioprio.c /usr/src/debug/strace/7.2/src/xlat/mptcp_subflow_flags.h /usr/src/debug/strace/7.2/tests/check_sigblock.c /usr/src/debug/strace/7.2/src/trie.c /usr/src/debug/strace/7.2/tests/getxattrat-yy.c /usr/src/debug/strace/7.2/src/trie.h /usr/src/debug/strace/7.2/src/xlat/crypto_nl_attrs.h /usr/src/debug/strace/7.2/tests/filter_seccomp-perf.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap-success-Xraw.c /usr/src/debug/strace/7.2/src/xlat/sock_pnp_options.h /usr/src/debug/strace/7.2/src/sysinfo.c /usr/sr
- c/debug/strace/7.2/tests/nlattr_ifla_brport-Xabbrev.c /usr/src/debug/strace/7.2/tests/fanotify_mark-Xraw.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_linkinfo.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_protinfo.c /usr/src/debug/strace/7.2/tests/times-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/fan_classes.h /usr/src/debug/strace/7.2/tests/ioctl_v4l2-success-Xraw.c /usr/src/debug/strace/7.2/tests/mq_sendrecv.c /usr/src/debug/strace/7.2/tests/sol_tipc-group_join-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/sol_tipc-importance.c /usr/src/debug/strace/7.2/src/kernel_rusage.h /usr/src/debug/strace/7.2/tests/dup2.c /usr/src/debug/strace/7.2/tests/status-successful.c /usr/src/debug/strace/7.2/src/xlat/v4l2_tuner_audmodes.h /usr/src/debug/strace/7.2/src/xlat/inet_diag_attrs.h /usr/src/debug/strace/7.2/src/xlat/unix_diag_attrs.h /usr/src/debug/strace/7.2/tests/mbind-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_perf-success.c /usr/src/debug/strace/7.2/tests/getgid.c /usr/src/debug/s
- trace/7.2/tests/lseek.c /usr/src/debug/strace/7.2/tests/pc.c /usr/src/debug/strace/7.2/src/netlink_inet_diag.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_af_spec.c /usr/src/debug/strace/7.2/src/xlat/open_access_modes.h /usr/src/debug/strace/7.2/tests/nlattr_ifla_vfinfo-Xabbrev.c /usr/src/debug/strace/7.2/tests/nlattr_tca_stab.c /usr/src/debug/strace/7.2/tests/chown.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-Xraw.c /usr/src/debug/strace/7.2/src/sysctl.c /usr/src/debug/strace/7.2/src/nsfs.c /usr/src/debug/strace/7.2/tests/ipc_msg-Xverbose.c /usr/src/debug/strace/7.2/tests/ipc_sem-Xverbose.c /usr/src/debug/strace/7.2/tests/ipc_shm-Xverbose.c /usr/src/debug/strace/7.2/tests/kernel_version.c /usr/src/debug/strace/7.2/tests/process_madvise-y.c /usr/src/debug/strace/7.2/src/rtnl_neigh.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/counter.h /usr/src/debug/strace/7.2/src/defs.h /usr/src/debug/strace/7.2/src/rtnl_route.c /usr/src/debug/strace/7.2/src/rtnl_stats.c /usr/src/d
- ebug/strace/7.2/tests/prctl-set-ptracer-success.c /usr/src/debug/strace/7.2/tests/so_peercred-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/advise.h /usr/src/debug/strace/7.2/tests/delay.c /usr/src/debug/strace/7.2/tests/futex_wait-Xabbrev.c /usr/src/debug/strace/7.2/tests/status-successful-long.c /usr/src/debug/strace/7.2/src/ptrace_syscall_info.h /usr/src/debug/strace/7.2/tests/ioctl_fs_0x15-success.c /usr/src/debug/strace/7.2/tests/sol_tipc-group_join.c /usr/src/debug/strace/7.2/src/netlink_selinux.c /usr/src/debug/strace/7.2/src/ptrace_syscall_info.c /usr/src/debug/strace/7.2/src/xlat/nbd_ioctl_flags.h /usr/src/debug/strace/7.2/tests/ioctl_random.c /usr/src/debug/strace/7.2/src/xlat/uring_files_update_fds.h /usr/src/debug/strace/7.2/src/xlat/setns_types.h /usr/src/debug/strace/7.2/tests/msg_control.c /usr/src/debug/strace/7.2/tests/process_vm_writev.c /usr/src/debug/strace/7.2/tests/setregid.c /usr/src/debug/strace/7.2/tests/setreuid.c /usr/src/debug/strace/7.2/tests/setuid32.c 
- /usr/src/debug/strace/7.2/src/xlat/v4l2_sliced_flags.h /usr/src/debug/strace/7.2/src/xlat/kd_font_ops.h /usr/src/debug/strace/7.2/src/xlat/sg_scsi_reset.h /usr/src/debug/strace/7.2/tests/file_xetattr-common.c /usr/src/debug/strace/7.2/tests/trie_test.c /usr/src/debug/strace/7.2/src/rtnl_cachereport.c /usr/src/debug/strace/7.2/src/xlat/bpf_map_lookup_elem_flags.h /usr/src/debug/strace/7.2/tests/ipc_msgbuf-Xverbose.c /usr/src/debug/strace/7.2/tests/semop-indirect.c /usr/src/debug/strace/7.2/src/xlat/uring_msg_ring_flags.h /usr/src/debug/strace/7.2/tests/sprintrc.c /usr/src/debug/strace/7.2/src/xlat/uring_rw_attr_flags.h /usr/src/debug/strace/7.2/tests/sethostname.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp-y-success.c /usr/src/debug/strace/7.2/tests/eventfd-yy.c /usr/src/debug/strace/7.2/tests/fchmod-y--secontext_full_mismatch.c /usr/src/debug/strace/7.2/src/xlat/nf_cthelper_msg_types.h /usr/src/debug/strace/7.2/tests/fchmodat--secontext_full_mismatch.c /usr/src/debug/strace/7.2/s
- rc/xlat/bootflags3.h /usr/src/debug/strace/7.2/tests/fchownat--secontext_full_mismatch.c /usr/src/debug/strace/7.2/src/kd_mpers_ioctl.c /usr/src/debug/strace/7.2/tests/waitid.c /usr/src/debug/strace/7.2/src/xlat/pidfd_info_mask.h /usr/src/debug/strace/7.2/src/print_dev_t.c /usr/src/debug/strace/7.2/tests/listmount-success.c /usr/src/debug/strace/7.2/tests/sched_get_priority_mxx.c /usr/src/debug/strace/7.2/tests/faccessat--secontext_full.c /usr/src/debug/strace/7.2/tests/open_tree_attr-P.c /usr/src/debug/strace/7.2/tests/looping_threads.c /usr/src/debug/strace/7.2/tests/pselect6.c /usr/src/debug/strace/7.2/tests/clone3-success-Xverbose.c /usr/src/debug/strace/7.2/tests/setdomainname.c /usr/src/debug/strace/7.2/tests/strace--always-show-pid.c /usr/src/debug/strace/7.2/src/hostname.c /usr/src/debug/strace/7.2/src/xlat/ioprio_class.h /usr/src/debug/strace/7.2/src/xmalloc.h /usr/src/debug/strace/7.2/tests/migrate_pages.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/lsm.h /u
- sr/src/debug/strace/7.2/src/xlat/v4l2_control_id_bases.h /usr/src/debug/strace/7.2/src/xmalloc.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/tls.h /usr/src/debug/strace/7.2/src/printsiginfo.c /usr/src/debug/strace/7.2/tests/select-trace-fd-7-P.c /usr/src/debug/strace/7.2/tests/ioctl_fs_0x15-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp-y-success-Xverbose.c /usr/src/debug/strace/7.2/src/printsiginfo.h /usr/src/debug/strace/7.2/tests/link.c /usr/src/debug/strace/7.2/tests/lsm_list_modules-success.c /usr/src/debug/strace/7.2/tests/rt_sigreturn.c /usr/src/debug/strace/7.2/src/xlat/xdp_flags.h /usr/src/debug/strace/7.2/src/xlat/rwf_flags.h /usr/src/debug/strace/7.2/tests/ioctl_epoll-success.c /usr/src/debug/strace/7.2/src/xlat/routing_scopes.h /usr/src/debug/strace/7.2/src/xlat/mount_attr_attr.h /usr/src/debug/strace/7.2/src/xlat/pr_mdwe_flags.h /usr/src/debug/strace/7.2/tests/futex_requeue-Xverbose.c /usr/src/debug/strace/7.2/src/fetch_struct_msghdr.c /u
- sr/src/debug/strace/7.2/tests/move_pages.c /usr/src/debug/strace/7.2/tests/ioctl_loop-nv.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_vf_link_states.h /usr/src/debug/strace/7.2/src/fspick.c /usr/src/debug/strace/7.2/tests/mmap-Xabbrev.c /usr/src/debug/strace/7.2/tests/fsconfig.c /usr/src/debug/strace/7.2/tests/fspick-P.c /usr/src/debug/strace/7.2/tests/getdents64.c /usr/src/debug/strace/7.2/tests/symlinkat.c /usr/src/debug/strace/7.2/tests/dup-yy.c /usr/src/debug/strace/7.2/tests/fchmodat2--secontext_mismatch.c /usr/src/debug/strace/7.2/src/xlat/notifyflags.h /usr/src/debug/strace/7.2/tests/ioctl_v4l2-success-v-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/aio_iocb_flags.h /usr/src/debug/strace/7.2/tests/dirfd.c /usr/src/debug/strace/7.2/tests/nlattr_ifla_protinfo-Xabbrev.c /usr/src/debug/strace/7.2/tests/ip_protocol.c /usr/src/debug/strace/7.2/tests/process_mrelease-y.c /usr/src/debug/strace/7.2/tests/prctl-sme-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/prctl-sve-success-X
- abbrev.c /usr/src/debug/strace/7.2/tests/fflush.c /usr/src/debug/strace/7.2/src/sock.c /usr/src/debug/strace/7.2/src/retval.h /usr/src/debug/strace/7.2/tests/renameat2.c /usr/src/debug/strace/7.2/tests/filter_seccomp-flag.c /usr/src/debug/strace/7.2/src/retval.c /usr/src/debug/strace/7.2/tests/prctl-riscv-icache-flush-ctx.c /usr/src/debug/strace/7.2/src/xlat/sock_sctp_options.h /usr/src/debug/strace/7.2/tests/ioctl_fiemap-success-v-Xraw.c /usr/src/debug/strace/7.2/src/xlat/hdio_ide_nice.h /usr/src/debug/strace/7.2/tests/ptrace-y-Xabbrev.c /usr/src/debug/strace/7.2/tests/memfd_create-Xabbrev.c /usr/src/debug/strace/7.2/tests/syslog-success.c /usr/src/debug/strace/7.2/tests/creat.c /usr/src/debug/strace/7.2/tests/prctl-ppc-dexcr.c /usr/src/debug/strace/7.2/src/get_robust_list.c /usr/src/debug/strace/7.2/src/xlat/sock_raw_options.h /usr/src/debug/strace/7.2/src/xlat/rtnl_tca_act_hw_stats.h /usr/src/debug/strace/7.2/tests/recvmmsg-timeout.c /usr/src/debug/strace/7.2/tests/mlockall.c /us
- r/src/debug/strace/7.2/tests/run_expect_termsig.c /usr/src/debug/strace/7.2/tests/xetitimer.c /usr/src/debug/strace/7.2/src/xlat/v4l2_sdr_fmts.h /usr/src/debug/strace/7.2/tests/answer.c /usr/src/debug/strace/7.2/tests/ioctl_evdev.c /usr/src/debug/strace/7.2/tests/ioctl_v4l2-success-Xverbose.c /usr/src/debug/strace/7.2/tests/get_process_reaper.c /usr/src/debug/strace/7.2/src/xlat/pr_tagged_addr_enable.h /usr/src/debug/strace/7.2/tests/net-accept-connect.c /usr/src/debug/strace/7.2/tests/so_error.c /usr/src/debug/strace/7.2/tests/prctl-sme.c /usr/src/debug/strace/7.2/tests/prctl-sve.c /usr/src/debug/strace/7.2/tests/sockname.c /usr/src/debug/strace/7.2/src/xlat/btrfs_dev_replace_state.h /usr/src/debug/strace/7.2/src/xlat/sock_nfcllcp_options.h /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_xdp_attached_mode.h /usr/src/debug/strace/7.2/tests/open--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/unshare.c /usr/src/debug/strace/7.2/src/count.c /usr/src/debug/strace/7.2/src/mount.
- c /usr/src/debug/strace/7.2/src/xlat/rtnl_mdba_mdb_attrs.h /usr/src/debug/strace/7.2/src/xlat/memfd_create_flags.h /usr/src/debug/strace/7.2/src/xlat/v4l2_pix_fmts.h /usr/src/debug/strace/7.2/tests/ioctl_v4l2-success-v-Xabbrev.c /usr/src/debug/strace/7.2/tests/pselect6_time64.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/netlink_diag.h /usr/src/debug/strace/7.2/tests/access.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-success-Xabbrev.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/mqueue.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/mroute.h /usr/src/debug/strace/7.2/src/uid16.c /usr/src/debug/strace/7.2/tests/ptrace-Xabbrev.c /usr/src/debug/strace/7.2/tests/inject-nf.c /usr/src/debug/strace/7.2/src/xlat/packet_mreq_type.h /usr/src/debug/strace/7.2/src/xlat/move_pages_flags.h /usr/src/debug/strace/7.2/src/xlat/uring_napi_tracking_strategies.h /usr/src/debug/strace/7.2/tests/ioctl_watchdog.c /usr/src/debug/strace/7.2/tests/prctl-no-args-Xve
- rbose.c /usr/src/debug/strace/7.2/tests/ioctl_ptp-success-Xverbose.c /usr/src/debug/strace/7.2/tests/getgroups.c /usr/src/debug/strace/7.2/tests/s390_sthyi-v.c /usr/src/debug/strace/7.2/src/filter_seccomp.c /usr/src/debug/strace/7.2/tests/nlattr_nhmsg-Xverbose.c /usr/src/debug/strace/7.2/src/filter_seccomp.h /usr/src/debug/strace/7.2/src/xlat/siginfo_codes.h /usr/src/debug/strace/7.2/tests/printpath-umovestr-peekdata.c /usr/src/debug/strace/7.2/src/xlat/v4l2_buf_flags_ts_type.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/fcntl.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/futex.h /usr/src/debug/strace/7.2/tests/truncate.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/input.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/mount.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/types.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/xattr.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/pidfd.h /u
- sr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/quota.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/sched.h /usr/src/debug/strace/7.2/src/xlat/bpf_task_fd_type.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/if_alg.h /usr/src/debug/strace/7.2/tests/ioctl_ptp-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp-y-success-Xraw.c /usr/src/debug/strace/7.2/tests/move_mount.c /usr/src/debug/strace/7.2/src/xlat/term_oflags_crdly.h /usr/src/debug/strace/7.2/tests/nsyscalls.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-success-v-Xraw.c /usr/src/debug/strace/7.2/tests/listxattrat-P.c /usr/src/debug/strace/7.2/tests/btrfs.c /usr/src/debug/strace/7.2/src/xlat/term_cmds_overlapping.h /usr/src/debug/strace/7.2/src/poll.c /usr/src/debug/strace/7.2/src/xlat/compat_ptrace_cmds.h /usr/src/debug/strace/7.2/tests/nsyscalls.h /usr/src/debug/strace/7.2/tests/prctl-capbset.c /usr/src/debug/strace/7.2/src/xlat/rseq_cs_flags.h /usr/src/debug/strace/7.2/tests/
- nlattr_tcamsg.c /usr/src/debug/strace/7.2/src/xlat/f_owner_types.h /usr/src/debug/strace/7.2/tests/print_maxfd.c /usr/src/debug/strace/7.2/src/xlat/uffd_register_ioctl_flags.h /usr/src/debug/strace/7.2/tests/io_uring_register-success-Xraw.c /usr/src/debug/strace/7.2/src/fstatfs.c /usr/src/debug/strace/7.2/tests/times-fail.c /usr/src/debug/strace/7.2/tests/ip_local_port_range-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/ifstats_xstats_bond_3ad_attrs.h /usr/src/debug/strace/7.2/tests/net-tpacket_stats-success.c /usr/src/debug/strace/7.2/tests/remap_file_pages-Xraw.c /usr/src/debug/strace/7.2/tests/madvise.c /usr/src/debug/strace/7.2/src/xlat/ieee802154_addrs.h /usr/src/debug/strace/7.2/tests/linkat--secontext_full_mismatch.c /usr/src/debug/strace/7.2/src/xlat/key_reqkeys.h /usr/src/debug/strace/7.2/tests/readdir.c /usr/src/debug/strace/7.2/tests/recvmsg.c /usr/src/debug/strace/7.2/tests/vfork-f.c /usr/src/debug/strace/7.2/tests/s390_pci_mmio_read_write.c /usr/src/debug/strace/7.2/tes
- ts/rmdir.c /usr/src/debug/strace/7.2/src/xlat/adjtimex_modes.h /usr/src/debug/strace/7.2/src/xlat/v4l2_meta_fmts.h /usr/src/debug/strace/7.2/tests/sched_xetattr--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/uring_zcrx_event_types.h /usr/src/debug/strace/7.2/tests/execve.c /usr/src/debug/strace/7.2/tests/nlattr_packet_diag_msg.c /usr/src/debug/strace/7.2/tests/block_reset_raise_run.c /usr/src/debug/strace/7.2/tests/access--secontext_full.c /usr/src/debug/strace/7.2/tests/membarrier.c /usr/src/debug/strace/7.2/src/xlat/nl_policy_type_attr.h /usr/src/debug/strace/7.2/tests/status-none-threads.c /usr/src/debug/strace/7.2/tests/openat2-y.c /usr/src/debug/strace/7.2/tests/arch_prctl-success-Xverbose.c /usr/src/debug/strace/7.2/tests/mmap64-Xverbose.c /usr/src/debug/strace/7.2/tests/sync_file_range2.c /usr/src/debug/strace/7.2/src/xlat/sa_handler_values.h /usr/src/debug/strace/7.2/src/futex.c /usr/src/debug/strace/7.2/src/xlat/rwh_write_life_hints.h /usr/src/debug/strace/7.2/test
- s/ioctl_v4l2-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/nlattr_tcamsg-Xraw.c /usr/src/debug/strace/7.2/tests/setxattrat-yy.c /usr/src/debug/strace/7.2/src/xlat/keyctl_pkey_ops.h /usr/src/debug/strace/7.2/src/xlat/rtnl_nexthop_grp_types.h /usr/src/debug/strace/7.2/tests/landlock_add_rule.c /usr/src/debug/strace/7.2/src/xlat/af_packet_versions.h /usr/src/debug/strace/7.2/tests/old_mmap-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_counter-Xverbose.c /usr/src/debug/strace/7.2/src/seccomp.c /usr/src/debug/strace/7.2/src/xlat/phonet_protocols.h /usr/src/debug/strace/7.2/src/xlat/kexec_load_flags.h /usr/src/debug/strace/7.2/src/xlat/netlink_diag_attrs.h /usr/src/debug/strace/7.2/tests/setresugid.c /usr/src/debug/strace/7.2/src/xlat/pr_riscv_icache_flush_ctxes.h /usr/src/debug/strace/7.2/src/xlat/if_dqinfo_valid.h /usr/src/debug/strace/7.2/src/xlat/mbind_flags.h /usr/src/debug/strace/7.2/src/xlat/mlock_flags.h /usr/src/debug/strace/7.2/src/xlat/modem_flags.h /usr/src/debug/strace/7.2
- /src/xlat/mount_flags.h /usr/src/debug/strace/7.2/src/xlat/sched_flags.h /usr/src/debug/strace/7.2/src/xlat/semop_flags.h /usr/src/debug/strace/7.2/src/xlat/sg_io_flags.h /usr/src/debug/strace/7.2/src/xlat/vsock_flags.h /usr/src/debug/strace/7.2/src/xlat/clone_flags.h /usr/src/debug/strace/7.2/tests/ioctl_ptp.c /usr/src/debug/strace/7.2/src/xlat/alg_sockaddr_flags.h /usr/src/debug/strace/7.2/src/xlat/xdp_sockaddr_flags.h /usr/src/debug/strace/7.2/src/exit.c /usr/src/debug/strace/7.2/src/wait.c /usr/src/debug/strace/7.2/src/capability.c /usr/src/debug/strace/7.2/src/xlat/pr_set_mm.h /usr/src/debug/strace/7.2/tests/status-successful-status.c /usr/src/debug/strace/7.2/tests/strace-k-z.c /usr/src/debug/strace/7.2/tests/ioctl_kvm_run_auxstr_vcpu_more.c /usr/src/debug/strace/7.2/tests/setuid.c /usr/src/debug/strace/7.2/tests/link-P.c /usr/src/debug/strace/7.2/tests/tests.h /usr/src/debug/strace/7.2/tests/time.c /usr/src/debug/strace/7.2/tests/inotify_init-y.c /usr/src/debug/strace/7.2/tes
- ts/at_fdcwd-pathmax.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/tcp.h /usr/src/debug/strace/7.2/src/xlat/blkpg_ops.h /usr/src/debug/strace/7.2/src/xlat/uring_ops.h /usr/src/debug/strace/7.2/src/xlat/mctp_nets.h /usr/src/debug/strace/7.2/tests/nanosleep.c /usr/src/debug/strace/7.2/src/xlat/uring_clone_buffers_flags.h /usr/src/debug/strace/7.2/src/block.c /usr/src/debug/strace/7.2/src/flock.c /usr/src/debug/strace/7.2/src/xlat/v4l2_streaming_capabilities.h /usr/src/debug/strace/7.2/tests/so_peercred.c /usr/src/debug/strace/7.2/tests/quotactl-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-sched-core--pidns-translation-Xabbrev.c /usr/src/debug/strace/7.2/tests/access--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/ipc_msgbuf-Xabbrev.c /usr/src/debug/strace/7.2/tests/prctl-riscv-v-ctrl-success.c /usr/src/debug/strace/7.2/src/xlat/uring_restriction_opcodes.h /usr/src/debug/strace/7.2/src/pkeys.c /usr/src/debug/strace/7.2/src/xlat/keyctl_caps0.h /usr/src/debug/stra
- ce/7.2/src/xlat/keyctl_caps1.h /usr/src/debug/strace/7.2/src/xlat/msgctl_flags.h /usr/src/debug/strace/7.2/src/xlat/rtc_vl_flags.h /usr/src/debug/strace/7.2/src/getpid.c /usr/src/debug/strace/7.2/src/xlat/semctl_flags.h /usr/src/debug/strace/7.2/src/xlat/shmctl_flags.h /usr/src/debug/strace/7.2/src/xlat/sigill_codes.h /usr/src/debug/strace/7.2/tests/pidfd_open-yy.c /usr/src/debug/strace/7.2/tests/quotactl_fd-y.c /usr/src/debug/strace/7.2/tests/iopl.c /usr/src/debug/strace/7.2/tests/attach-p-cmd-p.c /usr/src/debug/strace/7.2/tests/prctl-no-args-Xraw.c /usr/src/debug/strace/7.2/src/xlat/personality_flags.h /usr/src/debug/strace/7.2/tests/ioctl_mtd.c /usr/src/debug/strace/7.2/tests/ioctl_nbd.c /usr/src/debug/strace/7.2/tests/readahead.c /usr/src/debug/strace/7.2/src/xlat/fib_rule_flags.h /usr/src/debug/strace/7.2/tests/quotactl.h /usr/src/debug/strace/7.2/tests/pidfd_open--decode-fd-all.c /usr/src/debug/strace/7.2/src/xlat/kvm_mem_flags.h /usr/src/debug/strace/7.2/src/xlat/getsock_ip_o
- ptions.h /usr/src/debug/strace/7.2/src/xlat/rtnl_ipmra_creport_attr.h /usr/src/debug/strace/7.2/src/xlat/setsock_ip_options.h /usr/src/debug/strace/7.2/tests/fsmount.c /usr/src/debug/strace/7.2/tests/fstat64.c /usr/src/debug/strace/7.2/tests/fstatfs.c /usr/src/debug/strace/7.2/tests/fsync-y.c /usr/src/debug/strace/7.2/tests/quotactl.c /usr/src/debug/strace/7.2/tests/ioctl_kd-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-securebits-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/v4l2_buf_flags_ts_src.h /usr/src/debug/strace/7.2/tests/dup-trace-fds-0.c /usr/src/debug/strace/7.2/src/quota.c /usr/src/debug/strace/7.2/src/xlat/uffd_register_mode_flags.h /usr/src/debug/strace/7.2/src/rtnl_mdb.c /usr/src/debug/strace/7.2/tests/ioctl_termios-v.c /usr/src/debug/strace/7.2/tests/qual_inject-error-signal.c /usr/src/debug/strace/7.2/tests/mkdir.c /usr/src/debug/strace/7.2/src/xlat/mount_attr_propagation.h /usr/src/debug/strace/7.2/tests/accept4.c /usr/src/debug/strace/7.2/tests/listmount.c 
- /usr/src/debug/strace/7.2/tests/stack-fcall-2.c /usr/src/debug/strace/7.2/src/xlat/kd_keymap_flags.h /usr/src/debug/strace/7.2/tests/clock_xettime64.c /usr/src/debug/strace/7.2/tests/utime.c /usr/src/debug/strace/7.2/src/xlat/kd_default_led_flags.h /usr/src/debug/strace/7.2/tests/getsockname--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/strace--syscall-limit-summary.c /usr/src/debug/strace/7.2/src/reboot.c /usr/src/debug/strace/7.2/src/print_struct_stat.c /usr/src/debug/strace/7.2/tests/oldselect-efault.c /usr/src/debug/strace/7.2/tests/request_key.c /usr/src/debug/strace/7.2/src/readlink.c /usr/src/debug/strace/7.2/tests/bpf-obj_get_info_by_fd-prog.c /usr/src/debug/strace/7.2/src/xlat/nfc_saps.h /usr/src/debug/strace/7.2/src/lookup_dcookie.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_br_boolopt_flags.h /usr/src/debug/strace/7.2/src/xlat/cap_mask1.h /usr/src/debug/strace/7.2/tests/print_fields.c /usr/src/debug/strace/7.2/src/xlat/uffd_poison_mode_flags.h /usr/src/debu
- g/strace/7.2/tests/nlattr_rtmsg.c /usr/src/debug/strace/7.2/src/stage_output.c /usr/src/debug/strace/7.2/src/xlat/sock_packet_options.h /usr/src/debug/strace/7.2/tests/fanotify_mark--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/ioctl_gpio-success-v-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-success-v-Xverbose.c /usr/src/debug/strace/7.2/tests/munlockall.c /usr/src/debug/strace/7.2/tests/clone3-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/packet_diag_info_flags.h /usr/src/debug/strace/7.2/src/xlat/uring_register_opcode_flags.h /usr/src/debug/strace/7.2/tests/ptrace_syscall_info.c /usr/src/debug/strace/7.2/src/netlink_smc_diag.c /usr/src/debug/strace/7.2/src/xlat/term_oflags.h /usr/src/debug/strace/7.2/tests/futex_waitv.c /usr/src/debug/strace/7.2/tests/orphaned_process_group.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_events.h /usr/src/debug/strace/7.2/tests/ioctl_kd-success.c /usr/src/debug/strace/7.2/src/xlat/sock_iucv_options.h /usr/src/debug/str
- ace/7.2/tests/net--decode-fds-all-netlink.c /usr/src/debug/strace/7.2/tests/ioctl_gpio-success-v-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-success-v-Xraw.c /usr/src/debug/strace/7.2/tests/count_unknown_many.c /usr/src/debug/strace/7.2/tests/sched_xetscheduler--pidns-translation.c /usr/src/debug/strace/7.2/tests/process_vm_readv_writev.c /usr/src/debug/strace/7.2/tests/sockopt-sol_netlink.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/qrtr.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/rseq.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/stat.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/mctp.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/tipc.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/gpio.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/kcmp.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/loop.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/mpls.h /u
- sr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/nsfs.h /usr/src/debug/strace/7.2/src/xlat/packet_diag_attrs.h /usr/src/debug/strace/7.2/src/sg_io_v4.c /usr/src/debug/strace/7.2/src/xlat/evdev_mtslots.h /usr/src/debug/strace/7.2/src/xlat/btrfs_features_incompat.h /usr/src/debug/strace/7.2/src/ldt.c /usr/src/debug/strace/7.2/src/net.c /usr/src/debug/strace/7.2/tests/getegid.c /usr/src/debug/strace/7.2/tests/geteuid.c /usr/src/debug/strace/7.2/tests/getpgrp.c /usr/src/debug/strace/7.2/tests/getppid.c /usr/src/debug/strace/7.2/tests/getxgid.c /usr/src/debug/strace/7.2/tests/getxpid.c /usr/src/debug/strace/7.2/tests/getxuid.c /usr/src/debug/strace/7.2/tests/kill.c /usr/src/debug/strace/7.2/tests/ioctl_kd-success-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/pr_cap_ambient.h /usr/src/debug/strace/7.2/tests/prctl-pac-enabled-keys-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/v4l2_memories.h /usr/src/debug/strace/7.2/tests/kcmp-y.c /usr/src/debug/strace/7.2/tests/nlattr_ifstats-Xab
- brev.c /usr/src/debug/strace/7.2/src/xlat/resources.h /usr/src/debug/strace/7.2/src/xlat/ns_type.h /usr/src/debug/strace/7.2/tests/open_tree-P.c /usr/src/debug/strace/7.2/tests/nlattr_nhmsg.c /usr/src/debug/strace/7.2/src/xlat/ubi_volume_flags.h /usr/src/debug/strace/7.2/tests/nlattr_tcmsg.c /usr/src/debug/strace/7.2/src/sen.h /usr/src/debug/strace/7.2/tests/fstat-Xverbose.c /usr/src/debug/strace/7.2/tests/setrlimit-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/v4l2_input_capabilities_flags.h /usr/src/debug/strace/7.2/tests/sched_xetaffinity--pidns-translation.c /usr/src/debug/strace/7.2/tests/utimensat-Xabbrev.c /usr/src/debug/strace/7.2/src/print_mac.c /usr/src/debug/strace/7.2/src/printmode.c /usr/src/debug/strace/7.2/tests/inotify.c /usr/src/debug/strace/7.2/src/rt_sigframe.c /usr/src/debug/strace/7.2/tests/mkdirat.c /usr/src/debug/strace/7.2/tests/mknodat.c /usr/src/debug/strace/7.2/tests/mmsg-silent.c /usr/src/debug/strace/7.2/tests/fchmodat2--secontext_full.c /usr/src/debug/st
- race/7.2/tests/threads-execve-qqq.c /usr/src/debug/strace/7.2/src/xlat/arp_hardware_types.h /usr/src/debug/strace/7.2/tests/fanotify_init.c /usr/src/debug/strace/7.2/src/ioperm.c /usr/src/debug/strace/7.2/src/xlat/perf_event_sample_format.h /usr/src/debug/strace/7.2/tests/vhangup.c /usr/src/debug/strace/7.2/src/statmount.c /usr/src/debug/strace/7.2/tests/pause.c /usr/src/debug/strace/7.2/tests/fdatasync.c /usr/src/debug/strace/7.2/src/util.c /usr/src/debug/strace/7.2/tests/nlattr_ndmsg.c /usr/src/debug/strace/7.2/tests/sigsuspend.c /usr/src/debug/strace/7.2/tests/io_uring_register-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/prctl-name.c /usr/src/debug/strace/7.2/tests/print_time.c /usr/src/debug/strace/7.2/tests/statfs64.c /usr/src/debug/strace/7.2/tests/strace-n.c /usr/src/debug/strace/7.2/tests/printstrn-umoven-peekdata.c /usr/src/debug/strace/7.2/tests/strace-x.c /usr/src/debug/strace/7.2/src/xlat/mq_attr_flags.h /usr/src/debug/strace/7.2/src/xlat/openat2_flags.h /usr/src/d
- ebug/strace/7.2/src/xlat/qipcrtr_nodes.h /usr/src/debug/strace/7.2/src/xlat/qipcrtr_ports.h /usr/src/debug/strace/7.2/tests/clone_parent.c /usr/src/debug/strace/7.2/tests/symlink-P.c /usr/src/debug/strace/7.2/tests/error_msg.c /usr/src/debug/strace/7.2/tests/landlock_create_ruleset.c /usr/src/debug/strace/7.2/tests/seccomp_get_action_avail.c /usr/src/debug/strace/7.2/tests/umount.c /usr/src/debug/strace/7.2/src/print_kernel_version.c /usr/src/debug/strace/7.2/src/xlat/ebpf_op_jmp.h /usr/src/debug/strace/7.2/src/xlat/sock_ax25_options.h /usr/src/debug/strace/7.2/src/xlat/tls_info_versions.h /usr/src/debug/strace/7.2/tests/ioctl_udmabuf.c /usr/src/debug/strace/7.2/tests/access--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/sockopt-sol_socket-success-Xraw.c /usr/src/debug/strace/7.2/tests/epoll_create1.c /usr/src/debug/strace/7.2/src/xlat/sigchld_codes.h /usr/src/debug/strace/7.2/src/xlat/rtnl_mdba_router_pattr_attrs.h /usr/src/debug/strace/7.2/src/xlat/sock_ipv6_options.h 
- /usr/src/debug/strace/7.2/tests/signal_receive--pidns-translation.c /usr/src/debug/strace/7.2/tests/process_madvise.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/nexthop.h /usr/src/debug/strace/7.2/tests/nlattr_dcbmsg.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_ext_filter_flags.h /usr/src/debug/strace/7.2/tests/listns.c /usr/src/debug/strace/7.2/tests/pwritev.c /usr/src/debug/strace/7.2/tests/ksysent.c /usr/src/debug/strace/7.2/tests/ioctl_counter-Xabbrev.c /usr/src/debug/strace/7.2/tests/futex_requeue-Xraw.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/dm-ioctl.h /usr/src/debug/strace/7.2/src/netlink_crypto.c /usr/src/debug/strace/7.2/src/mmsghdr.c /usr/src/debug/strace/7.2/src/xlat/netlink_socket_flags.h /usr/src/debug/strace/7.2/tests/tprintf.c /usr/src/debug/strace/7.2/tests/openat--secontext_full.c /usr/src/debug/strace/7.2/src/xlat/if_dqinfo_flags.h /usr/src/debug/strace/7.2/tests/errno2name.c /usr/src/debug/strace/7.2/tests/sol_tipc-importance-
- success.c /usr/src/debug/strace/7.2/tests/dup2-P.c /usr/src/debug/strace/7.2/src/xlat/ebpf_size.h /usr/src/debug/strace/7.2/src/xlat/btrfs_qgroup_limit_flags.h /usr/src/debug/strace/7.2/src/xlat/sock_xdp_options.h /usr/src/debug/strace/7.2/tests/fanotify_mark.c /usr/src/debug/strace/7.2/src/btrfs.c /usr/src/debug/strace/7.2/src/xlat/shadow_stack_flags.h /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_vf_vlan_list_attrs.h /usr/src/debug/strace/7.2/src/xlat/rtnl_ip6mra_creport_attr.h /usr/src/debug/strace/7.2/src/xlat/ptrace_events.h /usr/src/debug/strace/7.2/tests/epoll_ctl.c /usr/src/debug/strace/7.2/src/xlat/nfc_sockaddr_protocols.h /usr/src/debug/strace/7.2/tests/dev--decode-fds-none.c /usr/src/debug/strace/7.2/tests/ptrace-y-Xverbose.c /usr/src/debug/strace/7.2/tests/sleep.c /usr/src/debug/strace/7.2/tests/ipc_msgbuf-Xraw.c /usr/src/debug/strace/7.2/src/sched.c /usr/src/debug/strace/7.2/src/copy_file_range.c /usr/src/debug/strace/7.2/tests/bpf-obj_get_info_by_fd.c /usr/src/debug/str
- ace/7.2/tests/ioctl-v.c /usr/src/debug/strace/7.2/tests/ip_local_port_range-Xraw.c /usr/src/debug/strace/7.2/tests/dup-trace-fds-0-9.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-v-Xabbrev.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/tcp_metrics.h /usr/src/debug/strace/7.2/src/xlat/ptp_perout_flags.h /usr/src/debug/strace/7.2/src/printers.h /usr/src/debug/strace/7.2/tests/ioctl_fs_f-Xabbrev.c /usr/src/debug/strace/7.2/tests/eventfd.c /usr/src/debug/strace/7.2/src/error_prints.c /usr/src/debug/strace/7.2/src/xlat/btrfs_qgroup_inherit_flags.h /usr/src/debug/strace/7.2/src/xlat/futexbitset.h /usr/src/debug/strace/7.2/src/xlat/rtnl_mdb_attrs.h /usr/src/debug/strace/7.2/tests/caps-abbrev.c /usr/src/debug/strace/7.2/src/error_prints.h /usr/src/debug/strace/7.2/tests/prctl-pac-enabled-keys-success-Xverbose.c /usr/src/debug/strace/7.2/src/bjm.c /usr/src/debug/strace/7.2/src/kvm.c /usr/src/debug/strace/7.2/src/lsm.c /usr/src/debug/strace/7.2/src/mem.c /usr/src/debug/strace/7.
- 2/tests/semtimedop_time64.c /usr/src/debug/strace/7.2/tests/dup2-e-fd-not-9.c /usr/src/debug/strace/7.2/tests/memfd_secret.c /usr/src/debug/strace/7.2/src/xlat/v4l2_colorspaces.h /usr/src/debug/strace/7.2/tests/fstatat64.c /usr/src/debug/strace/7.2/tests/fstatfs64.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_af_spec_bridge_attrs.h /usr/src/debug/strace/7.2/src/ubi.c /usr/src/debug/strace/7.2/tests/umovestr3.c /usr/src/debug/strace/7.2/src/xlat/futexwakeops.h /usr/src/debug/strace/7.2/tests/net-y-unix.c /usr/src/debug/strace/7.2/tests/linkat--secontext_full.c /usr/src/debug/strace/7.2/src/xlat/baud_options.h /usr/src/debug/strace/7.2/src/process_vm.c /usr/src/debug/strace/7.2/src/xlat/sock_options.h /usr/src/debug/strace/7.2/src/xlat/sock_alg_options.h /usr/src/debug/strace/7.2/tests/fchmod--secontext_mismatch.c /usr/src/debug/strace/7.2/tests/utimensat-Xverbose.c /usr/src/debug/strace/7.2/tests/faccessat-yy.c /usr/src/debug/strace/7.2/src/print_msgbuf.c /usr/src/debug/strace/7.2/t
- ests/statx.c /usr/src/debug/strace/7.2/tests/ioctl_loop.c /usr/src/debug/strace/7.2/tests/semtimedop-ipc.c /usr/src/debug/strace/7.2/src/xlat/sync_file_range_flags.h /usr/src/debug/strace/7.2/tests/create_tmpfile.c /usr/src/debug/strace/7.2/tests/ioctl_kvm_run_auxstr_vcpu.c /usr/src/debug/strace/7.2/tests/so_peercred--pidns-translation.c /usr/src/debug/strace/7.2/tests/ip_local_port_range-success.c /usr/src/debug/strace/7.2/tests/process_madvise-yy.c /usr/src/debug/strace/7.2/src/xlat/perf_event_read_format.h /usr/src/debug/strace/7.2/tests/kernel_version-Xverbose.c /usr/src/debug/strace/7.2/tests/net-yy-inet.c /usr/src/debug/strace/7.2/src/xlat/netlink_diag_show.h /usr/src/debug/strace/7.2/tests/threads-execve--quiet-thread-execve.c /usr/src/debug/strace/7.2/src/xlat/membarrier_cmds.h /usr/src/debug/strace/7.2/tests/signal.c /usr/src/debug/strace/7.2/tests/fchmod-y--secontext.c /usr/src/debug/strace/7.2/tests/fchmodat--secontext.c /usr/src/debug/strace/7.2/tests/fchownat--secontext
- .c /usr/src/debug/strace/7.2/tests/fstat64-Xverbose.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/seccomp.h /usr/src/debug/strace/7.2/tests/uname.c /usr/src/debug/strace/7.2/tests/status-unfinished-threads.c /usr/src/debug/strace/7.2/src/xlat/nf_ctnetlink_msg_types.h /usr/src/debug/strace/7.2/tests/getdents-v.c /usr/src/debug/strace/7.2/tests/getxattrat.c /usr/src/debug/strace/7.2/tests/xetpgid--pidns-translation.c /usr/src/debug/strace/7.2/tests/stack-fcall-mangled-0.c /usr/src/debug/strace/7.2/tests/getrlimit.c /usr/src/debug/strace/7.2/tests/prctl-sched-core-success-Xraw.c /usr/src/debug/strace/7.2/src/xlat/genl_nl80211_cmd.h /usr/src/debug/strace/7.2/src/xlat/pr_set_vma.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/netdev.h /usr/src/debug/strace/7.2/src/shutdown.c /usr/src/debug/strace/7.2/src/xlat/bdaddr_types.h /usr/src/debug/strace/7.2/src/xlat/itimer_which.h /usr/src/debug/strace/7.2/src/xlat/kd_modes.h /usr/src/debug/strace/7.2/tests/personalit
- y-Xabbrev.c /usr/src/debug/strace/7.2/tests/stack-fcall-mangled-2.c /usr/src/debug/strace/7.2/tests/keyctl-Xraw.c /usr/src/debug/strace/7.2/tests/netlink_netlink_diag.c /usr/src/debug/strace/7.2/tests/strace-Y-0123456789.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/socket.h /usr/src/debug/strace/7.2/src/fetch_struct_stat64.c /usr/src/debug/strace/7.2/tests/socketcall.c /usr/src/debug/strace/7.2/src/scsi.c /usr/src/debug/strace/7.2/tests/ioprio-Xverbose.c /usr/src/debug/strace/7.2/src/rtnl_dcb.c /usr/src/debug/strace/7.2/tests/ip_mreq.c /usr/src/debug/strace/7.2/tests/ipc_msg.c /usr/src/debug/strace/7.2/tests/ipc_sem.c /usr/src/debug/strace/7.2/tests/ipc_shm.c /usr/src/debug/strace/7.2/src/xlat/btrfs_features_compat.h /usr/src/debug/strace/7.2/src/xlat/smc_decl_codes.h /usr/src/debug/strace/7.2/tests/sol_tipc-group_join-success-Xraw.c /usr/src/debug/strace/7.2/src/xlat/sigsegv_codes.h /usr/src/debug/strace/7.2/tests/nlattr_cachereport-Xabbrev.c /usr/src/debug/strace/7
- .2/src/xlat/rtnl_ifla_proto_down_reason_attrs.h /usr/src/debug/strace/7.2/tests/file_getattr-y.c /usr/src/debug/strace/7.2/tests/file_setattr-y.c /usr/src/debug/strace/7.2/src/xlat/seccomp_ioctl_addfd_flags.h /usr/src/debug/strace/7.2/tests/localtime.c /usr/src/debug/strace/7.2/tests/lock_file.c /usr/src/debug/strace/7.2/src/xlat/nf_cttimeout_msg_types.h /usr/src/debug/strace/7.2/src/stat.c /usr/src/debug/strace/7.2/src/xlat.c /usr/src/debug/strace/7.2/src/stat.h /usr/src/debug/strace/7.2/src/xlat.h /usr/src/debug/strace/7.2/src/xlat/neighbor_cache_entry_states.h /usr/src/debug/strace/7.2/src/fetch_bpf_fprog.c /usr/src/debug/strace/7.2/tests/ioctl_nsfs-ns_mnt_get.c /usr/src/debug/strace/7.2/src/umount.c /usr/src/debug/strace/7.2/tests/nlattr_nhmsg-Xraw.c /usr/src/debug/strace/7.2/tests/times-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/ioctl_dirs.h /usr/src/debug/strace/7.2/tests/quotactl-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/hw_breakpoint_type.h /usr/src/debug/strace/7.2/sr
- c/mpers_type.h /usr/src/debug/strace/7.2/tests/nlattr_ifaddrlblmsg.c /usr/src/debug/strace/7.2/tests/getpid.c /usr/src/debug/strace/7.2/tests/prctl-securebits-success-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_fiemap.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp-success.c /usr/src/debug/strace/7.2/src/map_shadow_stack.c /usr/src/debug/strace/7.2/tests/getcpu.c /usr/src/debug/strace/7.2/src/resource.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/asm/fcntl.h /usr/src/debug/strace/7.2/tests/xselect.c /usr/src/debug/strace/7.2/tests/ioprio-Xraw.c /usr/src/debug/strace/7.2/tests/printxval-Xverbose.c /usr/src/debug/strace/7.2/tests/file_getattr-success-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-sched-core-success.c /usr/src/debug/strace/7.2/src/xlat/pr_dumpable.h /usr/src/debug/strace/7.2/src/delay.c /usr/src/debug/strace/7.2/tests/ioctl_kd-success-s1024-Xraw.c /usr/src/debug/strace/7.2/tests/openat2-Xverbose.c /usr/src/debug/strace/7.2/src/delay.h /usr/src/debug/strace/
- 7.2/src/xlat/v4l2_input_status_flags.h /usr/src/debug/strace/7.2/tests/futex_wake.c /usr/src/debug/strace/7.2/tests/caps.c /usr/src/debug/strace/7.2/tests/vmsplice.c /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_port_attrs.h /usr/src/debug/strace/7.2/tests/xgetrlimit.c /usr/src/debug/strace/7.2/src/xlat/kd_meta_vals.h /usr/src/debug/strace/7.2/tests/fanotify_mark--secontext_full.c /usr/src/debug/strace/7.2/src/xlat/fan_init_flags.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/neighbour.h /usr/src/debug/strace/7.2/src/print_sg_req_info.c /usr/src/debug/strace/7.2/tests/ioctl_ubi-success.c /usr/src/debug/strace/7.2/src/numa.c /usr/src/debug/strace/7.2/tests/set_mempolicy_home_node.c /usr/src/debug/strace/7.2/src/keyctl.c /usr/src/debug/strace/7.2/tests/sockaddr_xlat-Xabbrev-y.c /usr/src/debug/strace/7.2/tests/accept.c /usr/src/debug/strace/7.2/src/time.c /usr/src/debug/strace/7.2/src/xlat/rtnl_nha_res_group_attrs.h /usr/src/debug/strace/7.2/tests/inode_of_sockfd.c /usr/sr
- c/debug/strace/7.2/tests/prlimit64-success--pidns-translation.c /usr/src/debug/strace/7.2/src/xlat/xfs_quota_flags.h /usr/src/debug/strace/7.2/tests/so_linger.c /usr/src/debug/strace/7.2/tests/prctl-riscv-v-ctrl.c /usr/src/debug/strace/7.2/src/xlat/ifstats_xstats_bond_attrs.h /usr/src/debug/strace/7.2/src/xlat/ifstats_xstats_type_attrs.h /usr/src/debug/strace/7.2/src/xlat/perf_event_open_flags.h /usr/src/debug/strace/7.2/src/xlat/pr_unalign_flags.h /usr/src/debug/strace/7.2/tests/setxattrat-P.c /usr/src/debug/strace/7.2/tests/prctl-riscv-icache-flush-ctx-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-securebits-success.c /usr/src/debug/strace/7.2/tests/sol_tipc-importance-success-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-sched-core-success--pidns-translation-Xraw.c /usr/src/debug/strace/7.2/src/xlat/file_attr_flags.h /usr/src/debug/strace/7.2/src/xlat/rtnl_neightbl_parms_attrs.h /usr/src/debug/strace/7.2/tests/openat2-v-y-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-mdwe.c /usr/src
- /debug/strace/7.2/tests/prlimit64--pidns-translation.c /usr/src/debug/strace/7.2/tests/printpath-umovestr-undumpable.c /usr/src/debug/strace/7.2/src/xlat/fan_mark_flags.h /usr/src/debug/strace/7.2/tests/kernel_old_timespec.h /usr/src/debug/strace/7.2/tests/count_unknown_mixed.c /usr/src/debug/strace/7.2/tests/quotactl-xfs-success-v.c /usr/src/debug/strace/7.2/tests/sol_tipc-importance-Xverbose.c /usr/src/debug/strace/7.2/tests/lsm_get_self_attr.c /usr/src/debug/strace/7.2/tests/lsm_set_self_attr.c /usr/src/debug/strace/7.2/src/set_tid_address.c /usr/src/debug/strace/7.2/src/fcntl.c /usr/src/debug/strace/7.2/tests/strace--strings-in-hex.c /usr/src/debug/strace/7.2/tests/sockopt-sol_socket-success-Xverbose.c /usr/src/debug/strace/7.2/tests/listxattrat.c /usr/src/debug/strace/7.2/tests/mount-Xverbose.c /usr/src/debug/strace/7.2/src/exitkill.c /usr/src/debug/strace/7.2/tests/alarm.c /usr/src/debug/strace/7.2/tests/stack-fcall-mangled-1.c /usr/src/debug/strace/7.2/tests/ioctl_seccomp-y.c
-  /usr/src/debug/strace/7.2/src/xlat/nl_bridge_vlan_flags.h /usr/src/debug/strace/7.2/src/exitkill.h /usr/src/debug/strace/7.2/tests/splice.c /usr/src/debug/strace/7.2/src/xlat/routing_flags.h /usr/src/debug/strace/7.2/src/print_group_req.c /usr/src/debug/strace/7.2/src/xlat/routing_types.h /usr/src/debug/strace/7.2/tests/lsm_get_self_attr-success.c /usr/src/debug/strace/7.2/tests/utimensat-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-success-v-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/getsock_ipv6_options.h /usr/src/debug/strace/7.2/src/xlat/setsock_ipv6_options.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/nl80211.h /usr/src/debug/strace/7.2/src/evdev.c /usr/src/debug/strace/7.2/src/ipc.c /usr/src/debug/strace/7.2/src/rtc.c /usr/src/debug/strace/7.2/src/xlat/mtd_flags_options.h /usr/src/debug/strace/7.2/tests/listns-success.c /usr/src/debug/strace/7.2/src/xlat/rtnl_tca_root_flags.h /usr/src/debug/strace/7.2/tests/xstatx.c /usr/src/debug/strace/7.2/src/lseek.
- c /usr/src/debug/strace/7.2/tests/ioctl_gpio-success-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-success-Xverbose.c /usr/src/debug/strace/7.2/tests/openat.c /usr/src/debug/strace/7.2/tests/io_uring_register-Xraw.c /usr/src/debug/strace/7.2/tests/ioctl_gpio.c /usr/src/debug/strace/7.2/tests/ioctl_hdio.c /usr/src/debug/strace/7.2/src/xlat/priorities.h /usr/src/debug/strace/7.2/tests/prlimit64-success.c /usr/src/debug/strace/7.2/tests/file_getattr-success.c /usr/src/debug/strace/7.2/tests/cachestat-P.c /usr/src/debug/strace/7.2/tests/mbind.c /usr/src/debug/strace/7.2/tests/memfd_create-Xraw.c /usr/src/debug/strace/7.2/src/signalfd.c /usr/src/debug/strace/7.2/tests/prctl-ppc-dexcr-success-Xabbrev.c /usr/src/debug/strace/7.2/src/xlat/smc_link_group_roles.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/userfaultfd.h /usr/src/debug/strace/7.2/tests/threads-execve.c /usr/src/debug/strace/7.2/tests/ioctl_gpio-success-v.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-succe
- ss-v.c /usr/src/debug/strace/7.2/tests/clone_ptrace--quiet-attach.c /usr/src/debug/strace/7.2/tests/mount_setattr-P.c /usr/src/debug/strace/7.2/tests/clock_nanosleep.c /usr/src/debug/strace/7.2/tests/net--decode-fds-socket-netlink.c /usr/src/debug/strace/7.2/tests/nlattr_ifstats-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/btrfs_snap_flags_v2.h /usr/src/debug/strace/7.2/tests/ioctl_watchdog-success.c /usr/src/debug/strace/7.2/tests/ptrace_set_syscall_info-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_fs_x-Xverbose.c /usr/src/debug/strace/7.2/tests/nlattr_inet_diag_req_v2.c /usr/src/debug/strace/7.2/src/netlink_netfilter.c /usr/src/debug/strace/7.2/tests/getsockname--secontext_full.c /usr/src/debug/strace/7.2/src/print_timeval64.c /usr/src/debug/strace/7.2/src/xlat/sock_dccp_options.h /usr/src/debug/strace/7.2/tests/clone_ptrace-q.c /usr/src/debug/strace/7.2/tests/oldselect-efault-P.c /usr/src/debug/strace/7.2/src/xlat/uffd_writeprotect_mode_flags.h /usr/src/debug/strace/7.2/src/
- xlat/fiemap_extent_flags.h /usr/src/debug/strace/7.2/tests/qual_signal.c /usr/src/debug/strace/7.2/tests/set_mempolicy-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/smc_diag_mode.h /usr/src/debug/strace/7.2/tests/sched_xetparam.c /usr/src/debug/strace/7.2/src/xlat/neighbor_cache_entry_flags.h /usr/src/debug/strace/7.2/src/xlat/bpf_size.h /usr/src/debug/strace/7.2/src/xlat/bpf_attach_type.h /usr/src/debug/strace/7.2/tests/dup-trace-fds-not-9.c /usr/src/debug/strace/7.2/tests/prctl-no-args-success.c /usr/src/debug/strace/7.2/src/xlat/listns_user_ns_id.h /usr/src/debug/strace/7.2/src/memfd_secret.c /usr/src/debug/strace/7.2/tests/dev--decode-fds-all.c /usr/src/debug/strace/7.2/tests/nsyscalls-d.c /usr/src/debug/strace/7.2/src/xlat/access_modes.h /usr/src/debug/strace/7.2/src/xlat/sigbus_codes.h /usr/src/debug/strace/7.2/src/xlat/sigsys_codes.h /usr/src/debug/strace/7.2/src/xlat/statfs_flags.h /usr/src/debug/strace/7.2/src/xlat/term_lflags.h /usr/src/debug/strace/7.2/src/xlat/watchdog_i
- octl_flags.h /usr/src/debug/strace/7.2/tests/futex.c /usr/src/debug/strace/7.2/src/counter_ioctl.c /usr/src/debug/strace/7.2/tests/tcp_ao.c /usr/src/debug/strace/7.2/tests/shutdown.c /usr/src/debug/strace/7.2/tests/nlattr_ifstats-Xraw.c /usr/src/debug/strace/7.2/tests/map_shadow_stack.c /usr/src/debug/strace/7.2/tests/faccessat2-yy.c /usr/src/debug/strace/7.2/tests/quotactl-success-v.c /usr/src/debug/strace/7.2/src/xlat/uffd_copy_flags.h /usr/src/debug/strace/7.2/tests/ioctl_ptp-success.c /usr/src/debug/strace/7.2/src/tee.c /usr/src/debug/strace/7.2/tests/futex_wait-Xverbose.c /usr/src/debug/strace/7.2/tests/ioctl_fs_x-success-Xraw.c /usr/src/debug/strace/7.2/tests/netlink_unix_diag.c /usr/src/debug/strace/7.2/src/xlat/bpf_mode.h /usr/src/debug/strace/7.2/tests/dup3-y.c /usr/src/debug/strace/7.2/tests/keyctl.c /usr/src/debug/strace/7.2/tests/lookup_dcookie.c /usr/src/debug/strace/7.2/tests/dup3-P.c /usr/src/debug/strace/7.2/tests/open_tree_attr.c /usr/src/debug/strace/7.2/tests/get_
- page_size.c /usr/src/debug/strace/7.2/tests/ip_protocol-Xverbose.c /usr/src/debug/strace/7.2/tests/sync.c /usr/src/debug/strace/7.2/src/ipc_msgctl.c /usr/src/debug/strace/7.2/src/ipc_semctl.c /usr/src/debug/strace/7.2/src/ipc_shmctl.c /usr/src/debug/strace/7.2/src/xlat/statmount_sb_flags.h /usr/src/debug/strace/7.2/src/xlat/delete_module_flags.h /usr/src/debug/strace/7.2/tests/clock_xettime-common.c /usr/src/debug/strace/7.2/tests/rseq_slice_yield.c /usr/src/debug/strace/7.2/tests/pidfd_send_signal.c /usr/src/debug/strace/7.2/tests/xetpgid.c /usr/src/debug/strace/7.2/tests/old_mmap.c /usr/src/debug/strace/7.2/tests/oldfstat.c /usr/src/debug/strace/7.2/src/xlat/skf_ad.h /usr/src/debug/strace/7.2/tests/oldlstat.c /usr/src/debug/strace/7.2/src/dirent.c /usr/src/debug/strace/7.2/tests/futimesat.c /usr/src/debug/strace/7.2/tests/ioctl_v4l2-success-v-Xraw.c /usr/src/debug/strace/7.2/src/print_timex.h /usr/src/debug/strace/7.2/src/print_timex.c /usr/src/debug/strace/7.2/src/xlat/sock_tipc_
- options.h /usr/src/debug/strace/7.2/src/xlat/hdio_drive_cmds.h /usr/src/debug/strace/7.2/tests/ioctl_lirc-success.c /usr/src/debug/strace/7.2/tests/ioctl_fs_0x15-success-Xraw.c /usr/src/debug/strace/7.2/src/xlat/genl_tcp_metrics_cmd.h /usr/src/debug/strace/7.2/tests/lchown.c /usr/src/debug/strace/7.2/tests/fsync.c /usr/src/debug/strace/7.2/tests/kern_features.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/packet_diag.h /usr/src/debug/strace/7.2/src/xlat/mtd_type_options.h /usr/src/debug/strace/7.2/tests/kcmp.c /usr/src/debug/strace/7.2/tests/sched_xetscheduler-Xabbrev.c /usr/src/debug/strace/7.2/tests/sched_xetscheduler.c /usr/src/debug/strace/7.2/src/xlat/uring_zcrx_area_flags.h /usr/src/debug/strace/7.2/src/xlat/fchmodat_flags.h /usr/src/debug/strace/7.2/tests/mq_sendrecv-read.c /usr/src/debug/strace/7.2/src/bpf_sock_filter.c /usr/src/debug/strace/7.2/tests/symlink.c /usr/src/debug/strace/7.2/tests/sysinfo.c /usr/src/debug/strace/7.2/src/xlat/gpio_handle_flags.h /usr
- /src/debug/strace/7.2/tests/dup.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/eventpoll.h /usr/src/debug/strace/7.2/src/xlat/genl_ctrl_cmd.h /usr/src/debug/strace/7.2/tests/madvise-Xverbose.c /usr/src/debug/strace/7.2/tests/prctl-ppc-dexcr-success.c /usr/src/debug/strace/7.2/tests/faccessat2-P.c /usr/src/debug/strace/7.2/src/rtnl_neightbl.c /usr/src/debug/strace/7.2/src/xlat/seccomp_mode.h /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/cgroupstats.h /usr/src/debug/strace/7.2/src/rseq.c /usr/src/debug/strace/7.2/tests/faccessat--secontext_full_mismatch.c /usr/src/debug/strace/7.2/tests/fspick.c /usr/src/debug/strace/7.2/src/xlat/counter_ioctl_scopes.h /usr/src/debug/strace/7.2/tests/ioctl_gpio-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/ioctl_hdio-success-Xabbrev.c /usr/src/debug/strace/7.2/tests/prctl-sched-core--pidns-translation-Xverbose.c /usr/src/debug/strace/7.2/tests/setreugid.c /usr/src/debug/strace/7.2/src/xlat/landlock_add_rule_flags.h /usr/
- src/debug/strace/7.2/src/xlat/rtnl_ifla_vf_port_attrs.h /usr/src/debug/strace/7.2/src/xlat/netlink_protocols.h /usr/src/debug/strace/7.2/tests/nlattr_tcamsg-Xverbose.c /usr/src/debug/strace/7.2/tests/ppoll-e-trace-fds-23-42.c /usr/src/debug/strace/7.2/tests/prctl-sme-Xraw.c /usr/src/debug/strace/7.2/tests/prctl-sve-Xraw.c /usr/src/debug/strace/7.2/src/xlat/term_oflags_tabdly.h /usr/src/debug/strace/7.2/tests/osf_utimes.c /usr/src/debug/strace/7.2/src/mmap_notify.c /usr/src/debug/strace/7.2/tests/clock_xettime.c /usr/src/debug/strace/7.2/src/mmap_notify.h /usr/src/debug/strace/7.2/src/xlat/btrfs_balance_args.h /usr/src/debug/strace/7.2/src/trace_event.h /usr/src/debug/strace/7.2/tests/status-failed-long.c /usr/src/debug/strace/7.2/src/xlat/ebpf_op_alu.h /usr/src/debug/strace/7.2/src/xlat/btrfs_dev_replace_cmds.h /usr/src/debug/strace/7.2/src/xlat/evdev_autorepeat.h /usr/src/debug/strace/7.2/src/xlat/uring_zcrx_reg_flags.h /usr/src/debug/strace/7.2/tests/sockaddr_xlat-Xverbose-y.c /us
- r/src/debug/strace/7.2/tests/check_sigign.c /usr/src/debug/strace/7.2/tests/create_nl_socket.c /usr/src/debug/strace/7.2/tests/pidfd_open-P.c /usr/src/debug/strace/7.2/tests/ioctl_scsi.c /usr/src/debug/strace/7.2/tests/ioctl_counter-Xraw.c /usr/src/debug/strace/7.2/tests/netlink_kobject_uevent.c /usr/src/debug/strace/7.2/tests/sched_xetscheduler-Xverbose.c /usr/src/debug/strace/7.2/tests/nlattr_inet_diag_req_compat.c /usr/src/debug/strace/7.2/tests/chmod--secontext_full_mismatch.c /usr/src/debug/strace/7.2/src/xlat/btrfs_tree_objectids.h /usr/src/debug/strace/7.2/src/xlat/ax25_protocols.h /usr/src/debug/strace/7.2/src/xlat/caif_protocols.h /usr/src/debug/strace/7.2/src/xlat/inet_protocols.h /usr/src/debug/strace/7.2/src/xlat/irda_protocols.h /usr/src/debug/strace/7.2/src/xlat/isdn_protocols.h /usr/src/debug/strace/7.2/src/xlat/modetypes.h /usr/src/debug/strace/7.2/src/xlat/socktypes.h /usr/src/debug/strace/7.2/tests/open_tree.c /usr/src/debug/strace/7.2/tests/process_vm_readv--pidns
- -translation.c /usr/src/debug/strace/7.2/tests/prctl-sched-core-Xabbrev.c /usr/src/debug/strace/7.2/tests/arch_prctl-success.c /usr/src/debug/strace/7.2/tests/bpf-obj_get_info_by_fd-v.c /usr/src/debug/strace/7.2/tests/umovestr2.c /usr/src/debug/strace/7.2/tests/unix-pair-send-recv.c /usr/src/debug/strace/7.2/tests/lstat.c /usr/src/debug/strace/7.2/tests/madvise-Xraw.c /usr/src/debug/strace/7.2/tests/_newselect.c /usr/src/debug/strace/7.2/src/negated_errno.h /usr/src/debug/strace/7.2/src/xlat/fiemap_flags.h /usr/src/debug/strace/7.2/src/xlat/mremap_flags.h /usr/src/debug/strace/7.2/src/xlat/tee_ioctl_gen_caps.h /usr/src/debug/strace/7.2/src/xlat/rtnl_mdba_mdb_entry_attrs.h /usr/src/debug/strace/7.2/src/xlat/rtnl_mdba_mdb_eattr_attrs.h /usr/src/debug/strace/7.2/tests/stack-fcall-mangled.c /usr/src/debug/strace/7.2/tests/net--decode-fds-path-netlink.c /usr/src/debug/strace/7.2/tests/sol_tipc-group_join-Xabbrev.c /usr/src/debug/strace/7.2/tests/personality.c /usr/src/debug/strace/7.2/te
- sts/old_mmap-P.c /usr/src/debug/strace/7.2/bundled/linux/include/uapi/linux/tee.h /usr/src/debug/strace/7.2/tests/getresgid32.c /usr/src/debug/strace/7.2/tests/getresuid32.c /usr/src/debug/strace/7.2/src/xlat/sock_pppol2tp_options.h /usr/src/debug/strace/7.2/src/nlattr.c /usr/src/debug/strace/7.2/tests/io_uring_enter.c /usr/src/debug/strace/7.2/src/nlattr.h /usr/src/debug/strace/7.2/src/xlat/rtnl_ifla_af_spec_inet6_attrs.h /usr/src/debug/strace/7.2/tests/ioctl_v4l2-Xabbrev.c /usr/src/debug/strace/7.2/src/nice.c /usr/src/debug/strace/7.2/src/landlock.c /usr/src/debug/strace/7.2/tests/faccessat-y--secontext_full_mismatch.c /usr/src/debug/strace/7.2/src/xlat/numa_node.h /usr/src/debug/strace/7.2/tests/arch_prctl-Xverbose.c /usr/src/debug/strace/7.2/tests/quotactl_fd.c /usr/src/debug/strace/7.2/tests/mincore.c /usr/src/debug/strace/7.2/src/sigevent.h /usr/src/debug/strace/7.2/tests/ioctl_kd-success-s1024.c /usr/src/debug/strace/7.2/tests/set_mempolicy-Xraw.c /usr/src/debug/strace/7.2/sr
- c/filter.h /usr/src/debug/strace/7.2/src/xlat/nf_tables_msg_types.h /usr/src/debug/strace/7.2/src/xlat/madvise_cmds.h /usr/src/debug/strace/7.2/src/bind.c /usr/src/debug/strace/7.2/tests/setpgrp-exec.c /usr/src/debug/strace/7.2/tests/prctl-mce-kill.c /usr/src/debug/strace/7.2/tests/dev--decode-fds-path.c /usr/src/debug/strace/7.2/src/bpf_seccomp_filter.c /usr/src/debug/strace/7.2/tests/io_uring_register-Xverbose.c /usr/src/debug/strace/7.2/src/xlat/landlock_ruleset_access_fs.h /usr/src/debug/strace/7.2/tests/nlattr_ndtmsg.c /usr/src/debug/strace/7.2/tests/landlock_add_rule-y.c /usr/src/debug/strace/7.2/tests/ioctl_evdev-success.c /usr/src/debug/strace/7.2/tests/status-failed-status.c", added "/usr/src/debug/strace/7.3/src/xlat/pr_ppc_dexcr_aspects.h /usr/src/debug/strace/7.3/tests/threads-execve-qq.c /usr/src/debug/strace/7.3/src/xlat/tun_ifr_flags.h /usr/src/debug/strace/7.3/tests/file_getattr-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/pkey_access.h /usr/src/debug/strace
- /7.3/tests/sigaltstack.c /usr/src/debug/strace/7.3/src/xlat/btrfs_features_compat_ro.h /usr/src/debug/strace/7.3/src/xlat/fib_rule_flags.h /usr/src/debug/strace/7.3/tests/ioctl_v4l2-v-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/genl_devlink_cmd.h /usr/src/debug/strace/7.3/src/pidfd_open.c /usr/src/debug/strace/7.3/tests/zeroargc.c /usr/src/debug/strace/7.3/tests/bpf-success-v.c /usr/src/debug/strace/7.3/src/xlat/aio_iocb_flags.h /usr/src/debug/strace/7.3/src/xlat/quota_formats.h /usr/src/debug/strace/7.3/src/xlat/bpf_src.h /usr/src/debug/strace/7.3/src/xlat/nf_queue_msg_types.h /usr/src/debug/strace/7.3/tests/ioctl_hdio-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-Xverbose.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_xdp-y.c /usr/src/debug/strace/7.3/tests/xchownx.c /usr/src/debug/strace/7.3/src/xlat/rtnl_br_stp_mode.h /usr/src/debug/strace/7.3/tests/so_linger.c /usr/src/debug/strace/7.3/tests/sock_filter-v-Xverbose.c /usr/src/debug/strace/7.3/src/print_instruction_point
- er.c /usr/src/debug/strace/7.3/tests/xetitimer.c /usr/src/debug/strace/7.3/src/clone.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/dqblk_xfs.h /usr/src/debug/strace/7.3/src/xlat/v4l2_capture_modes.h /usr/src/debug/strace/7.3/tests/old_mmap-P.c /usr/src/debug/strace/7.3/tests/readlink.c /usr/src/debug/strace/7.3/tests/recvfrom.c /usr/src/debug/strace/7.3/tests/renameat.c /usr/src/debug/strace/7.3/tests/personality-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/bpf_perf_event_type.h /usr/src/debug/strace/7.3/tests/ioctl_epoll-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_block.c /usr/src/debug/strace/7.3/src/bpf_fprog.h /usr/src/debug/strace/7.3/tests/kexec_file_load.c /usr/src/debug/strace/7.3/src/xlat/getrandom_flags.h /usr/src/debug/strace/7.3/src/move_mount.c /usr/src/debug/strace/7.3/src/xlat/rtc_backup_switch_modes.h /usr/src/debug/strace/7.3/tests/dev--decode-fds-all.c /usr/src/debug/strace/7.3/src/evdev_mpers.c /usr/src/debug/strace/7.3/tests/nlattr_cachereport-
- Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/mtd_flags_options.h /usr/src/debug/strace/7.3/tests/sol_tipc-importance.c /usr/src/debug/strace/7.3/tests/chmod--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/prctl-sme-Xraw.c /usr/src/debug/strace/7.3/src/xlat/uffd_register_mode_flags.h /usr/src/debug/strace/7.3/tests/attach-p-cmd.h /usr/src/debug/strace/7.3/tests/prctl-riscv-v-ctrl-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-sve-Xraw.c /usr/src/debug/strace/7.3/tests/setgroups32.c /usr/src/debug/strace/7.3/tests/vhangup.c /usr/src/debug/strace/7.3/tests/readahead.c /usr/src/debug/strace/7.3/src/xlat/uring_iowq_acct.h /usr/src/debug/strace/7.3/tests/removexattrat-P.c /usr/src/debug/strace/7.3/tests/removexattrat-y.c /usr/src/debug/strace/7.3/tests/net--decode-fds-all-netlink.c /usr/src/debug/strace/7.3/src/ubi.c /usr/src/debug/strace/7.3/tests/move_mount-P.c /usr/src/debug/strace/7.3/tests/tkill.c /usr/src/debug/strace/7.3/src/xlat/ubi_volume_types.h /usr/src/debu
- g/strace/7.3/src/xlat/nf_ctnetlink_exp_msg_types.h /usr/src/debug/strace/7.3/tests/mount_setattr-P.c /usr/src/debug/strace/7.3/tests/xstatx.c /usr/src/debug/strace/7.3/src/bpf_sock_filter.c /usr/src/debug/strace/7.3/tests/pidns.h /usr/src/debug/strace/7.3/src/fanotify.c /usr/src/debug/strace/7.3/src/xlat/fiemap_flags.h /usr/src/debug/strace/7.3/src/xlat/mremap_flags.h /usr/src/debug/strace/7.3/src/bjm.c /usr/src/debug/strace/7.3/src/kvm.c /usr/src/debug/strace/7.3/src/lsm.c /usr/src/debug/strace/7.3/src/mem.c /usr/src/debug/strace/7.3/src/xlat/nha_op_flags.h /usr/src/debug/strace/7.3/tests/block_reset_run.c /usr/src/debug/strace/7.3/tests/fsync.c /usr/src/debug/strace/7.3/tests/ioctl_fiemap-Xverbose.c /usr/src/debug/strace/7.3/tests/kernel_version-Xabbrev.c /usr/src/debug/strace/7.3/tests/pidns.c /usr/src/debug/strace/7.3/tests/prctl-tagged-addr-success-Xraw.c /usr/src/debug/strace/7.3/tests/status-successful-status.c /usr/src/debug/strace/7.3/src/iopl.c /usr/src/debug/strace/7.3/te
- sts/setns-report-ns-id-uts.c /usr/src/debug/strace/7.3/src/ipc_msg.c /usr/src/debug/strace/7.3/tests/map_shadow_stack.c /usr/src/debug/strace/7.3/src/netlink_kobject_uevent.c /usr/src/debug/strace/7.3/tests/printstrn-umoven-undumpable.c /usr/src/debug/strace/7.3/src/netlink_kobject_uevent.h /usr/src/debug/strace/7.3/src/xlat/inotify_flags.h /usr/src/debug/strace/7.3/tests/netlink_netfilter.c /usr/src/debug/strace/7.3/src/xlat/inet_diag_req_attrs.h /usr/src/debug/strace/7.3/src/xlat/nt_descriptor_types.h /usr/src/debug/strace/7.3/tests/lookup_dcookie.c /usr/src/debug/strace/7.3/tests/ioctl_ptp-success-Xverbose.c /usr/src/debug/strace/7.3/tests/futex_requeue-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_counter-Xverbose.c /usr/src/debug/strace/7.3/tests/lchown.c /usr/src/debug/strace/7.3/src/fstatfs64.c /usr/src/debug/strace/7.3/tests/bpf-obj_get_info_by_fd-v.c /usr/src/debug/strace/7.3/src/renameat.c /usr/src/debug/strace/7.3/tests/linkat--secontext_full.c /usr/src/debug/strace/7.3/sr
- c/xlat/evdev_mtslots.h /usr/src/debug/strace/7.3/tests/ioctl_fs_x.c /usr/src/debug/strace/7.3/src/statmount.c /usr/src/debug/strace/7.3/tests/lsm_list_modules-success.c /usr/src/debug/strace/7.3/src/xlat/term_line_discs.h /usr/src/debug/strace/7.3/tests/process_vm_writev--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/crypto_nl_attrs.h /usr/src/debug/strace/7.3/tests/bpf-success.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/videodev2.h /usr/src/debug/strace/7.3/tests/riscv_flush_icache.c /usr/src/debug/strace/7.3/src/xlat/nf_ctnetlink_msg_types.h /usr/src/debug/strace/7.3/src/xlat/ioctl_dirs.h /usr/src/debug/strace/7.3/tests/print_user_desc.c /usr/src/debug/strace/7.3/tests/semtimedop-ipc.c /usr/src/debug/strace/7.3/tests/ioctl_tun.c /usr/src/debug/strace/7.3/src/xlat/rtnl_tca_root_flags.h /usr/src/debug/strace/7.3/tests/set_mempolicy-Xverbose.c /usr/src/debug/strace/7.3/tests/io_uring_setup.c /usr/src/debug/strace/7.3/src/xlat/shadow_stack_flags.h /usr/src/de
- bug/strace/7.3/tests/move_mount.c /usr/src/debug/strace/7.3/src/xlat/hw_breakpoint_type.h /usr/src/debug/strace/7.3/src/xlat/btrfs_space_info_flags.h /usr/src/debug/strace/7.3/src/xlat/madvise_hppa_generic_cmds.h /usr/src/debug/strace/7.3/tests/ioctl_epoll-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/kvm_mem_flags.h /usr/src/debug/strace/7.3/tests/clone3.c /usr/src/debug/strace/7.3/src/epoll_ioctl.c /usr/src/debug/strace/7.3/src/tee.c /usr/src/debug/strace/7.3/tests/process_vm_readv_writev.c /usr/src/debug/strace/7.3/tests/mount-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/counter_ioctl_event_types.h /usr/src/debug/strace/7.3/src/xlat/netfilter_versions.h /usr/src/debug/strace/7.3/tests/sched_xetscheduler--pidns-translation-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/usagewho.h /usr/src/debug/strace/7.3/src/xlat/rtc_features.h /usr/src/debug/strace/7.3/tests/remap_file_pages-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y-success.c /usr/src/debug/strace/7.3/src/xla
- t/adjtimex_state.h /usr/src/debug/strace/7.3/tests/sched_xetscheduler-Xraw.c /usr/src/debug/strace/7.3/src/xlat/memfd_create_flags.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/bpf.h /usr/src/debug/strace/7.3/tests/strace--syscall-limit-status-c.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/nl80211.h /usr/src/debug/strace/7.3/tests/chmod--secontext_full.c /usr/src/debug/strace/7.3/tests/chmod--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/net--decode-fds-path-netlink.c /usr/src/debug/strace/7.3/tests/personality-Xraw.c /usr/src/debug/strace/7.3/src/xlat/ebpf_class.h /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y-success--pidns-translation-Xabbrev.c /usr/src/debug/strace/7.3/tests/oldselect.c /usr/src/debug/strace/7.3/tests/fork--pidns-translation.c /usr/src/debug/strace/7.3/tests/ptrace-y.c /usr/src/debug/strace/7.3/src/listmount.c /usr/src/debug/strace/7.3/src/xlat/netlink_delete_flags.h /usr/src/debug/strace/7.3/tests/open_tree.c /usr/src/debu
- g/strace/7.3/tests/is_linux_mips_n64.c /usr/src/debug/strace/7.3/tests/futex_waitv.c /usr/src/debug/strace/7.3/src/xlat/kvm_exit_io.h /usr/src/debug/strace/7.3/tests/membarrier.c /usr/src/debug/strace/7.3/tests/sockaddr_xlat-Xraw.c /usr/src/debug/strace/7.3/tests/netlink_route.c /usr/src/debug/strace/7.3/src/desc.c /usr/src/debug/strace/7.3/tests/ioctl_kd-success.c /usr/src/debug/strace/7.3/tests/ioctl_kd-success-s1024-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-riscv-v-ctrl.c /usr/src/debug/strace/7.3/src/xlat/close_range_flags.h /usr/src/debug/strace/7.3/src/xlat/v4l2_fields.h /usr/src/debug/strace/7.3/src/xlat/evdev_misc.h /usr/src/debug/strace/7.3/tests/ioctl_v4l2-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/rtnl_addrlabel_attrs.h /usr/src/debug/strace/7.3/tests/sol_tipc-group_join-success.c /usr/src/debug/strace/7.3/tests/fstat64-Xraw.c /usr/src/debug/strace/7.3/src/memfd_create.c /usr/src/debug/strace/7.3/src/print_kernel_version.c /usr/src/debug/strace/7.3/tests/
- status-failed-status.c /usr/src/debug/strace/7.3/tests/prctl-pac-enabled-keys-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/nlattr_tcamsg-Xverbose.c /usr/src/debug/strace/7.3/tests/clone3-success.c /usr/src/debug/strace/7.3/tests/prctl-sched-core.c /usr/src/debug/strace/7.3/src/xlat/if_dqblk_valid.h /usr/src/debug/strace/7.3/src/kill_save_errno.h /usr/src/debug/strace/7.3/tests/process_mrelease-y.c /usr/src/debug/strace/7.3/src/loop.c /usr/src/debug/strace/7.3/src/error_prints.c /usr/src/debug/strace/7.3/tests/memfd_create.c /usr/src/debug/strace/7.3/tests/sched_rr_get_interval.c /usr/src/debug/strace/7.3/src/xlat/pr_riscv_icache_flush_scopes.h /usr/src/debug/strace/7.3/src/error_prints.h /usr/src/debug/strace/7.3/src/xstring.h /usr/src/debug/strace/7.3/tests/fanotify_init.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/cgroupstats.h /usr/src/debug/strace/7.3/tests/clone3-success-Xraw.c /usr/src/debug/strace/7.3/tests/prctl-set-ptracer-success-Xraw.c /usr/src/debug/
- strace/7.3/tests/s390_pci_mmio_read_write.c /usr/src/debug/strace/7.3/tests/dup2-y.c /usr/src/debug/strace/7.3/src/xlat/sock_netlink_options.h /usr/src/debug/strace/7.3/tests/dup-yy.c /usr/src/debug/strace/7.3/tests/timerfd_xettime.c /usr/src/debug/strace/7.3/tests/faccessat2-yy.c /usr/src/debug/strace/7.3/tests/faccessat-y--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/ip_local_port_range-Xverbose.c /usr/src/debug/strace/7.3/src/fetch_struct_flock.c /usr/src/debug/strace/7.3/src/fetch_struct_iovec.c /usr/src/debug/strace/7.3/tests/stack-fcall-attach.c /usr/src/debug/strace/7.3/tests/strace--strings-in-hex-non-ascii-chars.c /usr/src/debug/strace/7.3/tests/kexec_load.c /usr/src/debug/strace/7.3/tests/mbind-Xverbose.c /usr/src/debug/strace/7.3/tests/ioprio.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_linkinfo.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_protinfo.c /usr/src/debug/strace/7.3/tests/sockopt-sol_socket-success-Xraw.c /usr/src/debug/strace/7.3/tests/seccomp-fi
- lter-v.c /usr/src/debug/strace/7.3/tests/futex_wake-Xabbrev.c /usr/src/debug/strace/7.3/tests/file_getattr-success.c /usr/src/debug/strace/7.3/tests/netlink_inet_diag.c /usr/src/debug/strace/7.3/tests/fflush.c /usr/src/debug/strace/7.3/src/xlat/uffd_move_mode_flags.h /usr/src/debug/strace/7.3/src/process_vm.c /usr/src/debug/strace/7.3/src/xlat/uring_msg_ring_flags.h /usr/src/debug/strace/7.3/tests/prctl-sme-success-Xverbose.c /usr/src/debug/strace/7.3/tests/prctl-sve-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/uring_zcrx_area_flags.h /usr/src/debug/strace/7.3/tests/strace-Y-0123456789.c /usr/src/debug/strace/7.3/src/xlat/landlock_create_ruleset_flags.h /usr/src/debug/strace/7.3/tests/access.c /usr/src/debug/strace/7.3/src/xlat/personality_flags.h /usr/src/debug/strace/7.3/src/xlat/personality_types.h /usr/src/debug/strace/7.3/tests/caps-abbrev.c /usr/src/debug/strace/7.3/src/xlat/mctp_nets.h /usr/src/debug/strace/7.3/tests/fcntl.c /usr/src/debug/strace/7.3/tests/quotactl-X
- verbose.c /usr/src/debug/strace/7.3/src/xlat/btrfs_balance_state.h /usr/src/debug/strace/7.3/tests/fchmod.c /usr/src/debug/strace/7.3/src/xlat/ubi_volume_props.h /usr/src/debug/strace/7.3/src/xlat/hdio_busstates.h /usr/src/debug/strace/7.3/src/xlat/perf_attr_size.h /usr/src/debug/strace/7.3/src/xlat/v4l2_buf_flags.h /usr/src/debug/strace/7.3/src/xlat/v4l2_buf_types.h /usr/src/debug/strace/7.3/src/xlat/sigaltstack_flags.h /usr/src/debug/strace/7.3/tests/fchroot-y.c /usr/src/debug/strace/7.3/tests/ptrace_syscall_info-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/nf_ulog_msg_types.h /usr/src/debug/strace/7.3/tests/io_uring_register-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_kd-Xverbose.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/uffd_writeprotect_mode_flags.h /usr/src/debug/strace/7.3/src/xlat/nf_cthelper_msg_types.h /usr/src/debug/strace/7.3/src/xlat/sigprocmaskcmds.h /usr/src/debug/strace/7.3/src/xlat/ifstats_attrs.h /usr/s
- rc/debug/strace/7.3/tests/scm_rights.c /usr/src/debug/strace/7.3/tests/ip_local_port_range-success-Xverbose.c /usr/src/debug/strace/7.3/tests/io_uring_register-success-Xraw.c /usr/src/debug/strace/7.3/tests/nlattr_rtmsg.c /usr/src/debug/strace/7.3/src/filter_seccomp.h /usr/src/debug/strace/7.3/src/xlat/modetypes.h /usr/src/debug/strace/7.3/src/xlat/socktypes.h /usr/src/debug/strace/7.3/src/xlat/route_nexthop_flags.h /usr/src/debug/strace/7.3/tests/net-yy-unix.c /usr/src/debug/strace/7.3/src/filter_seccomp.c /usr/src/debug/strace/7.3/tests/statmount-success.c /usr/src/debug/strace/7.3/tests/clone_ptrace--quiet-attach.c /usr/src/debug/strace/7.3/tests/ioctl_gpio.c /usr/src/debug/strace/7.3/tests/ioctl_hdio.c /usr/src/debug/strace/7.3/tests/unblock_reset_raise.c /usr/src/debug/strace/7.3/src/xlat/smc_diag_extended_flags.h /usr/src/debug/strace/7.3/tests/openat2-Xverbose.c /usr/src/debug/strace/7.3/src/fetch_bpf_fprog.c /usr/src/debug/strace/7.3/tests/mseal.c /usr/src/debug/strace/7.3/s
- rc/fsmount.c /usr/src/debug/strace/7.3/tests/mount.c /usr/src/debug/strace/7.3/src/xlat/inet_diag_bpf_storage_attrs.h /usr/src/debug/strace/7.3/tests/prctl-sched-core--pidns-translation-Xraw.c /usr/src/debug/strace/7.3/tests/prctl-pac-enabled-keys-success-Xverbose.c /usr/src/debug/strace/7.3/tests/ppoll-e-trace-fds-not-9-42-P.c /usr/src/debug/strace/7.3/tests/dev-pty-yy.c /usr/src/debug/strace/7.3/src/xlat/bpf_query_flags.h /usr/src/debug/strace/7.3/src/xlat/resources.h /usr/src/debug/strace/7.3/src/xlat/btrfs_balance_args.h /usr/src/debug/strace/7.3/tests/epoll_ctl.c /usr/src/debug/strace/7.3/src/keyctl.c /usr/src/debug/strace/7.3/src/xlat/pr_pac_enabled_keys.h /usr/src/debug/strace/7.3/tests/preadv-pwritev.c /usr/src/debug/strace/7.3/src/xlat/key_perms.h /usr/src/debug/strace/7.3/tests/env-i.c /usr/src/debug/strace/7.3/src/xlat/listmount_mnt_id.h /usr/src/debug/strace/7.3/tests/status-successful-long.c /usr/src/debug/strace/7.3/tests/ioctl_mtd.c /usr/src/debug/strace/7.3/src/xlat/
- ifa_lifetimes.h /usr/src/debug/strace/7.3/tests/ioctl_nbd.c /usr/src/debug/strace/7.3/src/xlat/ptrace_events.h /usr/src/debug/strace/7.3/tests/nlattr_dcbmsg.c /usr/src/debug/strace/7.3/tests/prctl-no-args-success.c /usr/src/debug/strace/7.3/tests/ioctl_perf-success.c /usr/src/debug/strace/7.3/src/mpers_type.h /usr/src/debug/strace/7.3/tests/sched_xetparam.c /usr/src/debug/strace/7.3/tests/inotify_init-y.c /usr/src/debug/strace/7.3/tests/prctl-capbset.c /usr/src/debug/strace/7.3/src/xlat/ip_cmsg_types.h /usr/src/debug/strace/7.3/src/xlat/ipc_msg_flags.h /usr/src/debug/strace/7.3/tests/ioctl_lirc.c /usr/src/debug/strace/7.3/tests/prctl-pac-enabled-keys-success-Xraw.c /usr/src/debug/strace/7.3/src/netlink_generic.c /usr/src/debug/strace/7.3/src/udmabuf.c /usr/src/debug/strace/7.3/tests/prctl-fp-mode.c /usr/src/debug/strace/7.3/tests/kill_child.c /usr/src/debug/strace/7.3/src/netlink_generic.h /usr/src/debug/strace/7.3/src/xlat/ifstats_xstats_bond_3ad_attrs.h /usr/src/debug/strace/7.3/t
- ests/ioctl_epoll-Xverbose.c /usr/src/debug/strace/7.3/tests/prctl-set-ptracer-success-Xverbose--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/ifstats_xstats_bridge_mcast_indices.h /usr/src/debug/strace/7.3/tests/tee.c /usr/src/debug/strace/7.3/src/xlat/kexec_file_load_flags.h /usr/src/debug/strace/7.3/tests/netlink_crypto.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/eventpoll.h /usr/src/debug/strace/7.3/src/fs_0x15_ioctl.c /usr/src/debug/strace/7.3/src/fs_0x94_ioctl.c /usr/src/debug/strace/7.3/src/xlat/module_init_flags.h /usr/src/debug/strace/7.3/tests/listxattrat-y.c /usr/src/debug/strace/7.3/tests/hexdump_strdup.c /usr/src/debug/strace/7.3/tests/prctl-pac-reset-keys.c /usr/src/debug/strace/7.3/tests/rt_sigaction.c /usr/src/debug/strace/7.3/src/auxiliary_clock.c /usr/src/debug/strace/7.3/src/copy_file_range.c /usr/src/debug/strace/7.3/tests/fstat-Xraw.c /usr/src/debug/strace/7.3/src/auxiliary_clock.h /usr/src/debug/strace/7.3/src/xlat/membarrier_flags.h /u
- sr/src/debug/strace/7.3/tests/ioctl_fs_0x15-Xabbrev.c /usr/src/debug/strace/7.3/src/getpid.c /usr/src/debug/strace/7.3/src/pathtrace.c /usr/src/debug/strace/7.3/tests/skip_unavailable.c /usr/src/debug/strace/7.3/src/epoll.c /usr/src/debug/strace/7.3/src/xlat/perf_hw_id.h /usr/src/debug/strace/7.3/tests/execveat--secontext_full.c /usr/src/debug/strace/7.3/tests/printxval-Xabbrev.c /usr/src/debug/strace/7.3/tests/strace-k-z.c /usr/src/debug/strace/7.3/tests/futex.c /usr/src/debug/strace/7.3/src/xlat/rwf_flags.h /usr/src/debug/strace/7.3/src/xlat/sfd_flags.h /usr/src/debug/strace/7.3/src/xlat/mmap_prot.h /usr/src/debug/strace/7.3/src/xlat/tls_info_configs.h /usr/src/debug/strace/7.3/tests/so_peercred-Xverbose.c /usr/src/debug/strace/7.3/tests/prctl-no-args-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/sock_type_flags.h /usr/src/debug/strace/7.3/tests/keyctl-Xraw.c /usr/src/debug/strace/7.3/tests/signal2name.c /usr/src/debug/strace/7.3/src/xlat/uffd_continue_mode_flags.h /usr/sr
- c/debug/strace/7.3/src/xlat/getsock_options.h /usr/src/debug/strace/7.3/src/xlat/setsock_options.h /usr/src/debug/strace/7.3/tests/s390_sthyi-v.c /usr/src/debug/strace/7.3/src/xlat/pr_ppc_dexcr_ctrl_flags.h /usr/src/debug/strace/7.3/src/print_sg_req_info.c /usr/src/debug/strace/7.3/tests/sol_tipc-importance-success.c /usr/src/debug/strace/7.3/tests/create_tmpfile.c /usr/src/debug/strace/7.3/src/xlat/lwtunnel_encap_types.h /usr/src/debug/strace/7.3/src/watchdog_ioctl.c /usr/src/debug/strace/7.3/src/print_timeval.c /usr/src/debug/strace/7.3/src/xlat/netlink_states.h /usr/src/debug/strace/7.3/tests/ioctl_counter.c /usr/src/debug/strace/7.3/tests/unix-pair-sendto-recvfrom.c /usr/src/debug/strace/7.3/tests/map_shadow_stack-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/v4l2_frameinterval_types.h /usr/src/debug/strace/7.3/tests/nlattr_ifla_xdp.c /usr/src/debug/strace/7.3/tests/times-fail.c /usr/src/debug/strace/7.3/src/xlat/vsock_cids.h /usr/src/debug/strace/7.3/src/uname.c /usr/src/debug/
- strace/7.3/tests/ioctl_fiemap-success-v-Xabbrev.c /usr/src/debug/strace/7.3/tests/arch_prctl-success.c /usr/src/debug/strace/7.3/tests/removexattrat.c /usr/src/debug/strace/7.3/tests/ioctl_watchdog-success.c /usr/src/debug/strace/7.3/src/xlat/sock_sctp_options.h /usr/src/debug/strace/7.3/src/keyctl_kdf_params.h /usr/src/debug/strace/7.3/tests/erestartsys.c /usr/src/debug/strace/7.3/src/xlat/tcxonc_options.h /usr/src/debug/strace/7.3/tests/nfnetlink_ctnetlink_exp.c /usr/src/debug/strace/7.3/tests/sockopt-sol_socket-Xraw.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_protinfo-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_macvlan_macaddr_modes.h /usr/src/debug/strace/7.3/src/xlat/ptrace_syscall_info_op.h /usr/src/debug/strace/7.3/src/xlat/pr_tagged_addr_enable.h /usr/src/debug/strace/7.3/tests/ioctl_tun-success.c /usr/src/debug/strace/7.3/tests/check_sigblock.c /usr/src/debug/strace/7.3/src/xlat/sg_io_dxfer_direction.h /usr/src/debug/strace/7.3/src/xlat/pidfd_coredump_mask.h /
- usr/src/debug/strace/7.3/src/xlat/btrfs_dev_replace_results.h /usr/src/debug/strace/7.3/src/xlat/sock_tls_options.h /usr/src/debug/strace/7.3/src/xlat/kexec_load_flags.h /usr/src/debug/strace/7.3/src/xlat/fib_rule_actions.h /usr/src/debug/strace/7.3/src/xlat/smc_diag_attrs.h /usr/src/debug/strace/7.3/src/print_fields.c /usr/src/debug/strace/7.3/tests/sol_tipc-group_join-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_epoll-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/numa_node.h /usr/src/debug/strace/7.3/src/print_fields.h /usr/src/debug/strace/7.3/src/xlat/uring_fixed_fd_flags.h /usr/src/debug/strace/7.3/src/xlat/perf_sw_ids.h /usr/src/debug/strace/7.3/src/xlat/uring_napi_tracking_strategies.h /usr/src/debug/strace/7.3/tests/lstat64.c /usr/src/debug/strace/7.3/tests/openat--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/uname.c /usr/src/debug/strace/7.3/tests/mq_sendrecv-read.c /usr/src/debug/strace/7.3/tests/printflags.c /usr/src/debug/strace/7.3/src/retval.c /usr
- /src/debug/strace/7.3/src/retval.h /usr/src/debug/strace/7.3/src/xlat/tls_info_versions.h /usr/src/debug/strace/7.3/src/xlat/fsmount_attr_flags.h /usr/src/debug/strace/7.3/tests/move_pages-Xraw.c /usr/src/debug/strace/7.3/tests/readlinkat.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-v.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-v.c /usr/src/debug/strace/7.3/src/xlat/sigchld_codes.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ip6mra_creport_attr.h /usr/src/debug/strace/7.3/tests/setns-report-ns-id-pid.c /usr/src/debug/strace/7.3/tests/select.c /usr/src/debug/strace/7.3/tests/file_getattr-success-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/sa_handler_values.h /usr/src/debug/strace/7.3/tests/status-unfinished-threads.c /usr/src/debug/strace/7.3/src/xlat/kd_keymap_flags.h /usr/src/debug/strace/7.3/tests/cachestat-success.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_af_inet6.h /usr/src/debug/strace/7.3/src/exit.c /usr/src/debug/strace/7.3/src/uid16.c /usr/src/debug/strace/7.3/src/wait.c /
- usr/src/debug/strace/7.3/src/get_robust_list.c /usr/src/debug/strace/7.3/tests/prlimit64.c /usr/src/debug/strace/7.3/tests/attach-p-cmd-cmd.c /usr/src/debug/strace/7.3/src/xlat/clocknames.h /usr/src/debug/strace/7.3/tests/strace--syscall-limit-c.c /usr/src/debug/strace/7.3/src/xlat/kvm_cpuid_flags.h /usr/src/debug/strace/7.3/src/rtnl_addrlabel.c /usr/src/debug/strace/7.3/src/xlat/v4l2_control_ids.h /usr/src/debug/strace/7.3/tests/dup2-e-fd-0-9.c /usr/src/debug/strace/7.3/src/xlat/ubi_data_types.h /usr/src/debug/strace/7.3/src/xlat/evdev_autorepeat.h /usr/src/debug/strace/7.3/tests/creat.c /usr/src/debug/strace/7.3/tests/sched_xetscheduler-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_nsfs-ns_get_pid--pidns-translation.c /usr/src/debug/strace/7.3/tests/process_vm_readv.c /usr/src/debug/strace/7.3/src/xlat/inet_diag_ulp_info_attrs.h /usr/src/debug/strace/7.3/tests/ioctl_fs_x-success-Xabbrev.c /usr/src/debug/strace/7.3/src/fchroot.c /usr/src/debug/strace/7.3/src/xlat/uffd_rwprotect_
- mode_flags.h /usr/src/debug/strace/7.3/src/xlat/bsg_subprotocol.h /usr/src/debug/strace/7.3/src/xlat/btrfs_features_incompat.h /usr/src/debug/strace/7.3/tests/execve--secontext_full_mismatch.c /usr/src/debug/strace/7.3/src/xlat/genl_tcp_metrics_cmd.h /usr/src/debug/strace/7.3/tests/oldselect-P.c /usr/src/debug/strace/7.3/tests/select-trace-fd-7-P.c /usr/src/debug/strace/7.3/tests/setfsugid.c /usr/src/debug/strace/7.3/tests/setresgid.c /usr/src/debug/strace/7.3/tests/old_mmap.c /usr/src/debug/strace/7.3/tests/fanotify_mark--secontext.c /usr/src/debug/strace/7.3/tests/oldfstat.c /usr/src/debug/strace/7.3/tests/oldlstat.c /usr/src/debug/strace/7.3/tests/setresuid.c /usr/src/debug/strace/7.3/tests/setreugid.c /usr/src/debug/strace/7.3/src/xlat/nl_bridge_vlan_flags.h /usr/src/debug/strace/7.3/src/xlat/rtnl_mdb_attrs.h /usr/src/debug/strace/7.3/tests/prctl-no-args.c /usr/src/debug/strace/7.3/tests/wait4.c /usr/src/debug/strace/7.3/tests/chdir.c /usr/src/debug/strace/7.3/tests/quotactl-Xra
- w.c /usr/src/debug/strace/7.3/src/nlattr.h /usr/src/debug/strace/7.3/tests/utimensat-Xabbrev.c /usr/src/debug/strace/7.3/src/nlattr.c /usr/src/debug/strace/7.3/tests/get_process_reaper.c /usr/src/debug/strace/7.3/src/xlat/uring_mem_region_reg_flags.h /usr/src/debug/strace/7.3/src/xlat/gpio_event_flags.h /usr/src/debug/strace/7.3/src/xlat/rtc_params.h /usr/src/debug/strace/7.3/src/xlat/v4l2_buf_flags_ts_src.h /usr/src/debug/strace/7.3/src/rtnl_dcb.c /usr/src/debug/strace/7.3/src/oldstat.c /usr/src/debug/strace/7.3/src/fetch_struct_keyctl_kdf_params.c /usr/src/debug/strace/7.3/tests/nlattr_ifaddrlblmsg.c /usr/src/debug/strace/7.3/tests/getdents64.c /usr/src/debug/strace/7.3/tests/ptrace-y-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/sock_irda_options.h /usr/src/debug/strace/7.3/src/dyxlat.c /usr/src/debug/strace/7.3/src/ipc_sem.c /usr/src/debug/strace/7.3/src/delay.c /usr/src/debug/strace/7.3/tests/ioctl_termios-v.c /usr/src/debug/strace/7.3/src/xlat/fs_shutdown_flags.h /usr/src/debug
- /strace/7.3/src/delay.h /usr/src/debug/strace/7.3/tests/listmount-success.c /usr/src/debug/strace/7.3/tests/memfd_create-Xraw.c /usr/src/debug/strace/7.3/src/netlink_packet_diag.c /usr/src/debug/strace/7.3/tests/ioctl_counter-Xraw.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/devlink.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/if_link.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/netlink.h /usr/src/debug/strace/7.3/src/poll.c /usr/src/debug/strace/7.3/tests/libsocketcall.c /usr/src/debug/strace/7.3/src/xlat/mount_setattr_flags.h /usr/src/debug/strace/7.3/src/sock.c /usr/src/debug/strace/7.3/src/xlat/mptcp_subflow_flags.h /usr/src/debug/strace/7.3/tests/getegid32.c /usr/src/debug/strace/7.3/tests/geteuid32.c /usr/src/debug/strace/7.3/tests/net-packet_mreq-Xverbose.c /usr/src/debug/strace/7.3/tests/recvmmsg-timeout.c /usr/src/debug/strace/7.3/tests/xetpgid.c /usr/src/debug/strace/7.3/src/print_msgbuf.c /usr/src/debug/strace/7.3/tests/lcho
- wn32.c /usr/src/debug/strace/7.3/src/xlat/btrfs_dev_stats_values.h /usr/src/debug/strace/7.3/src/xlat/genl_ctrl_attr.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/asm/posix_types.h /usr/src/debug/strace/7.3/tests/setpgrp-exec.c /usr/src/debug/strace/7.3/src/xlat/ioprio_class.h /usr/src/debug/strace/7.3/src/xlat/at_statx_sync_types.h /usr/src/debug/strace/7.3/src/xlat/adjtimex_status.h /usr/src/debug/strace/7.3/tests/prctl-sched-core-success-Xabbrev.c /usr/src/debug/strace/7.3/src/netlink_sock_diag.h /usr/src/debug/strace/7.3/tests/fspick.c /usr/src/debug/strace/7.3/src/xlat/packet_diag_info_flags.h /usr/src/debug/strace/7.3/src/netlink_sock_diag.c /usr/src/debug/strace/7.3/src/xlat/evdev_switch.h /usr/src/debug/strace/7.3/tests/printsignal-Xraw.c /usr/src/debug/strace/7.3/src/xlat/seccomp_ioctl_notif_flags.h /usr/src/debug/strace/7.3/src/xlat/nfc_saps.h /usr/src/debug/strace/7.3/tests/ip_local_port_range-Xraw.c /usr/src/debug/strace/7.3/src/xlat/rtnl_nsid_attrs.h /usr/src/d
- ebug/strace/7.3/src/xlat/sock_tipc_options.h /usr/src/debug/strace/7.3/tests/nlattr_ifaddrmsg-Xverbose.c /usr/src/debug/strace/7.3/tests/fchmodat2--secontext.c /usr/src/debug/strace/7.3/tests/msg_control.c /usr/src/debug/strace/7.3/tests/oldselect-efault-P.c /usr/src/debug/strace/7.3/tests/ptrace-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/v4l2_sdr_fmts.h /usr/src/debug/strace/7.3/tests/ioctl_random.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-Xabbrev.c /usr/src/debug/strace/7.3/tests/eventfd-yy.c /usr/src/debug/strace/7.3/tests/close_range.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_br_boolopt_flags.h /usr/src/debug/strace/7.3/tests/ioctl_ptp-Xabbrev.c /usr/src/debug/strace/7.3/tests/qual_inject-retval.c /usr/src/debug/strace/7.3/tests/qual_inject-signal.c /usr/src/debug/strace/7.3/tests/nfnetlink_nftables.c /usr/src/debug/strace/7.3/tests/printxval.c /usr/src/debug/strace/7.3/tests/shmxt.c /usr/src/debug/strace/7.3/src/ucopy.c /usr/src/debug/strace/7.3/tests/btrfs.c /usr
- /src/debug/strace/7.3/src/btrfs.c /usr/src/debug/strace/7.3/src/ptrace.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/nfc.h /usr/src/debug/strace/7.3/src/ptrace.c /usr/src/debug/strace/7.3/src/strace.c /usr/src/debug/strace/7.3/tests/mmsg.c /usr/src/debug/strace/7.3/tests/old_mmap-v-none.c /usr/src/debug/strace/7.3/src/hdio.c /usr/src/debug/strace/7.3/tests/prctl-riscv-v-ctrl-Xraw.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_macvlan_flags.h /usr/src/debug/strace/7.3/src/xlat/nf_hook_msg_types.h /usr/src/debug/strace/7.3/src/xlat/siginfo_codes.h /usr/src/debug/strace/7.3/tests/ioctl_kd-Xabbrev.c /usr/src/debug/strace/7.3/tests/kernel_old_timex.h /usr/src/debug/strace/7.3/tests/net-sockaddr.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/if_tun.h /usr/src/debug/strace/7.3/tests/brk.c /usr/src/debug/strace/7.3/src/print_timex.h /usr/src/debug/strace/7.3/src/mknod.c /usr/src/debug/strace/7.3/tests/prctl-riscv-v-ctrl-success-Xraw.c /usr/src/debug/strace/7.3/s
- rc/print_timex.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_af_spec.c /usr/src/debug/strace/7.3/tests/mlock.c /usr/src/debug/strace/7.3/tests/fchmod-y.c /usr/src/debug/strace/7.3/tests/count_unknown_many.c /usr/src/debug/strace/7.3/tests/fchmodat.c /usr/src/debug/strace/7.3/tests/fchown32.c /usr/src/debug/strace/7.3/tests/fchownat.c /usr/src/debug/strace/7.3/tests/prctl-unalign.c /usr/src/debug/strace/7.3/tests/seccomp-strict.c /usr/src/debug/strace/7.3/tests/ioctl_pidfd_get_info-success.c /usr/src/debug/strace/7.3/tests/test_printpath.c /usr/src/debug/strace/7.3/src/xlat/kcmp_types.h /usr/src/debug/strace/7.3/src/xlat/quotatypes.h /usr/src/debug/strace/7.3/tests/ioprio-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/uring_rw_attr_flags.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/if_bridge.h /usr/src/debug/strace/7.3/src/xlat/term_cmds_overlapping.h /usr/src/debug/strace/7.3/tests/pkey_free.c /usr/src/debug/strace/7.3/tests/ip_mreq.c /usr/src/debug/strace/7.3/tests/i
- pc_msg.c /usr/src/debug/strace/7.3/tests/ipc_sem.c /usr/src/debug/strace/7.3/tests/ipc_shm.c /usr/src/debug/strace/7.3/tests/qual_inject-error-signal.c /usr/src/debug/strace/7.3/tests/access--secontext_mismatch.c /usr/src/debug/strace/7.3/src/xlat/ax25_protocols.h /usr/src/debug/strace/7.3/src/xlat/caif_protocols.h /usr/src/debug/strace/7.3/src/xlat/inet_protocols.h /usr/src/debug/strace/7.3/src/xlat/irda_protocols.h /usr/src/debug/strace/7.3/src/xlat/isdn_protocols.h /usr/src/debug/strace/7.3/tests/dup-trace-fds-0-P.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-success-v-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-success-v-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/bt_protocols.h /usr/src/debug/strace/7.3/src/xlat/timerfdflags.h /usr/src/debug/strace/7.3/tests/print_ppid_tracerpid.c /usr/src/debug/strace/7.3/src/xlat/mtd_otp_options.h /usr/src/debug/strace/7.3/src/xlat/smc_protocols.h /usr/src/debug/strace/7.3/src/xlat/can_protocols.h /usr/src/debug/strace/7.3/src/xlat/i
- fa_protocols.h /usr/src/debug/strace/7.3/src/xlat/rtnl_tc_action_attrs.h /usr/src/debug/strace/7.3/src/xlat/kcm_protocols.h /usr/src/debug/strace/7.3/src/xlat/nfc_protocols.h /usr/src/debug/strace/7.3/tests/ioctl_fs_f-Xraw.c /usr/src/debug/strace/7.3/src/xlat/netlink_socket_flags.h /usr/src/debug/strace/7.3/src/fetch_struct_stat64.c /usr/src/debug/strace/7.3/tests/ipc_msgbuf-Xraw.c /usr/src/debug/strace/7.3/tests/prctl-set_vma.c /usr/src/debug/strace/7.3/src/xlat/statmount_mask.h /usr/src/debug/strace/7.3/tests/openat2-v-y-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2-v-Xraw.c /usr/src/debug/strace/7.3/src/xlat/bootflags2.h /usr/src/debug/strace/7.3/tests/futex_requeue-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-syscall-user-dispatch.c /usr/src/debug/strace/7.3/src/xlat/unix_diag_show.h /usr/src/debug/strace/7.3/tests/faccessat2-P.c /usr/src/debug/strace/7.3/tests/threads-execve-q.c /usr/src/debug/strace/7.3/src/xlat/perf_hw_cache_id.h /usr/src/debug/strace/7.3/bundled/linux
- /include/uapi/linux/thermal.h /usr/src/debug/strace/7.3/tests/getxattrat.c /usr/src/debug/strace/7.3/tests/ipc_sem-Xverbose.c /usr/src/debug/strace/7.3/tests/ipc_shm-Xverbose.c /usr/src/debug/strace/7.3/tests/copy_file_range.c /usr/src/debug/strace/7.3/tests/getxuid.c /usr/src/debug/strace/7.3/tests/ioctl_inotify.c /usr/src/debug/strace/7.3/tests/ipc_msg-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-v-Xverbose.c /usr/src/debug/strace/7.3/tests/getegid.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/netdev.h /usr/src/debug/strace/7.3/tests/geteuid.c /usr/src/debug/strace/7.3/tests/getpgrp.c /usr/src/debug/strace/7.3/tests/getppid.c /usr/src/debug/strace/7.3/tests/getxgid.c /usr/src/debug/strace/7.3/tests/ioctl_fs_x-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-v-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/pr_spec_cmds.h /usr/src/debug/strace/7.3/src/xlat/uring_register_opcode_flags.h /usr/src/debug/strace/7.3/tests/ioctl_rtc-v.c /usr/src/debug/strace/7.3
- /tests/readv.c /usr/src/debug/strace/7.3/src/xlat/pr_sud_cmds.h /usr/src/debug/strace/7.3/tests/faccessat--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/prctl-ppc-dexcr-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-success.c /usr/src/debug/strace/7.3/tests/status-successful-threads.c /usr/src/debug/strace/7.3/src/xlat/evdev_snd.h /usr/src/debug/strace/7.3/src/xlat/ptrace_peeksiginfo_flags.h /usr/src/debug/strace/7.3/tests/clone_ptrace--quiet-exit.c /usr/src/debug/strace/7.3/tests/umovestr2.c /usr/src/debug/strace/7.3/tests/fstat-Xverbose.c /usr/src/debug/strace/7.3/tests/nlattr_ifaddrmsg-Xabbrev.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/socket.h /usr/src/debug/strace/7.3/src/xlat/perf_type_id.h /usr/src/debug/strace/7.3/src/iovec.h /usr/src/debug/strace/7.3/src/xlat/sg_io_info.h /usr/src/debug/strace/7.3/tests/dup2-P.c /usr/src/debug/strace/7.3/src/print_timespec.h /usr/src/debug/strace/7.3/src/xlat/bpf_test_run_flags.h /usr/src/debug/stra
- ce/7.3/src/xlat/shm_resource_flags.h /usr/src/debug/strace/7.3/src/nbd_ioctl.c /usr/src/debug/strace/7.3/src/xlat/nfc_sockaddr_protocols.h /usr/src/debug/strace/7.3/tests/prctl-tid_address.c /usr/src/debug/strace/7.3/tests/seccomp_get_notif_sizes-success.c /usr/src/debug/strace/7.3/tests/prctl-mce-kill.c /usr/src/debug/strace/7.3/src/xlat/ifstats_attr_flags.h /usr/src/debug/strace/7.3/src/nice.c /usr/src/debug/strace/7.3/tests/access--secontext.c /usr/src/debug/strace/7.3/tests/dup2-e-fd-0.c /usr/src/debug/strace/7.3/tests/ioctl_fiemap-success-Xverbose.c /usr/src/debug/strace/7.3/tests/clock_ids_for_tests.h /usr/src/debug/strace/7.3/tests/syslog-success.c /usr/src/debug/strace/7.3/tests/clock_ids_for_tests.c /usr/src/debug/strace/7.3/src/xlat/open_resolve_flags.h /usr/src/debug/strace/7.3/tests/nlattr_nhmsg-Xraw.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/lsm.h /usr/src/debug/strace/7.3/src/statfs64.c /usr/src/debug/strace/7.3/tests/prctl-pac-enabled-keys-success.c 
- /usr/src/debug/strace/7.3/tests/ioctl_ptp.c /usr/src/debug/strace/7.3/src/xlat/rtnl_mdba_router_pattr_attrs.h /usr/src/debug/strace/7.3/src/xlat/kd_key_dead_keys.h /usr/src/debug/strace/7.3/src/xlat/kd_key_lock_keys.h /usr/src/debug/strace/7.3/src/xlat/bpf_file_mode_flags.h /usr/src/debug/strace/7.3/src/xlat/kd_key_spec_keys.h /usr/src/debug/strace/7.3/src/xlat/uring_restriction_opcodes.h /usr/src/debug/strace/7.3/tests/prctl-no-args-success-Xraw.c /usr/src/debug/strace/7.3/tests/setns-report-ns-id.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-Xverbose.c /usr/src/debug/strace/7.3/tests/net-yy-inet6.c /usr/src/debug/strace/7.3/tests/ioctl_sg_io_v3.c /usr/src/debug/strace/7.3/tests/sethostname.c /usr/src/debug/strace/7.3/tests/finit_module.c /usr/src/debug/strace/7.3/tests/tgkill--pidns-translation.c /usr/src/debug/strace/7.3/src/ptrace_syscall_info.h /usr/src/debug/strace/7.3/src/regset.c /usr/src/debug/strace/7.3/src/xlat/clone3_flags.h /usr/src/debug/strace/7.3/src/ptrace_syscall_i
- nfo.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y-success--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/rtnl_route_attrs.h /usr/src/debug/strace/7.3/tests/tampering-notes.c /usr/src/debug/strace/7.3/tests/utimensat.c /usr/src/debug/strace/7.3/tests/init_module.c /usr/src/debug/strace/7.3/tests/pidfd_open--decode-fd-none.c /usr/src/debug/strace/7.3/src/xlat/v4l2_colorspaces.h /usr/src/debug/strace/7.3/src/xlat/cap_version.h /usr/src/debug/strace/7.3/tests/nlattr_tcamsg.c /usr/src/debug/strace/7.3/src/xlat/kd_key_brl_keys.h /usr/src/debug/strace/7.3/src/xlat/kd_key_cur_keys.h /usr/src/debug/strace/7.3/src/xlat/kd_key_pad_keys.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/btrfs_tree.h /usr/src/debug/strace/7.3/tests/nlattr_ndmsg.c /usr/src/debug/strace/7.3/src/xlat/inet6_devconf_indices.h /usr/src/debug/strace/7.3/tests/ioctl_nsfs-ns_mnt_get.c /usr/src/debug/strace/7.3/src/negated_errno.h /usr/src/debug/strace/7.3/tests/pidfd_open--decode-fd-all.c /usr/src/
- debug/strace/7.3/src/xlat/listns_user_ns_id.h /usr/src/debug/strace/7.3/tests/get_sigset_size.c /usr/src/debug/strace/7.3/tests/getsockname--secontext_full_mismatch.c /usr/src/debug/strace/7.3/src/fetch_struct_xfs_quotastat.c /usr/src/debug/strace/7.3/tests/open--secontext_full_mismatch.c /usr/src/debug/strace/7.3/src/xlat/pr_pac_keys.h /usr/src/debug/strace/7.3/tests/pidns-cache.c /usr/src/debug/strace/7.3/src/sendfile.c /usr/src/debug/strace/7.3/tests/kcmp.c /usr/src/debug/strace/7.3/src/xlat/resource_flags.h /usr/src/debug/strace/7.3/src/xlat/uring_async_cancel_flags.h /usr/src/debug/strace/7.3/src/memfd_secret.c /usr/src/debug/strace/7.3/tests/sol_tipc-importance-Xverbose.c /usr/src/debug/strace/7.3/tests/getresgid.c /usr/src/debug/strace/7.3/tests/getresuid.c /usr/src/debug/strace/7.3/src/xlat/kd_font_ops.h /usr/src/debug/strace/7.3/tests/ipc_msgbuf-Xverbose.c /usr/src/debug/strace/7.3/tests/stack-fcall-0.c /usr/src/debug/strace/7.3/src/xlat/faccessat_flags.h /usr/src/debug/str
- ace/7.3/tests/kernel_version-Xverbose.c /usr/src/debug/strace/7.3/tests/status-none-f.c /usr/src/debug/strace/7.3/tests/net-packet_mreq-Xraw.c /usr/src/debug/strace/7.3/tests/stack-fcall-2.c /usr/src/debug/strace/7.3/tests/chmod--secontext.c /usr/src/debug/strace/7.3/tests/nlattr.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/hw_breakpoint_len.h /usr/src/debug/strace/7.3/src/rtnl_mdb.c /usr/src/debug/strace/7.3/src/xlat/inet_diag_bpf_storages_attrs.h /usr/src/debug/strace/7.3/src/trie.c /usr/src/debug/strace/7.3/src/trie.h /usr/src/debug/strace/7.3/tests/ioctl_epoll-success-Xabbrev.c /usr/src/debug/strace/7.3/src/kernel_types.h /usr/src/debug/strace/7.3/tests/file_getattr.c /usr/src/debug/strace/7.3/tests/file_setattr.c /usr/src/debug/strace/7.3/src/xlat/syslog_action_type.h /usr/src/debug/strace/7.3/src/scsi.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_af_spec_inet_attrs.h /usr/src/debug/strace/7.3/tests/ioctl_v4l2-success
- -v-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_fs_x-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/getsock_ip_options.h /usr/src/debug/strace/7.3/src/xlat/setsock_ip_options.h /usr/src/debug/strace/7.3/tests/ioctl_fs_f.c /usr/src/debug/strace/7.3/tests/print_quoted_string.c /usr/src/debug/strace/7.3/tests/move_pages-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/inet_diag_attrs.h /usr/src/debug/strace/7.3/src/xlat/unix_diag_attrs.h /usr/src/debug/strace/7.3/src/xlat/sockopt_txrehash_vals.h /usr/src/debug/strace/7.3/src/xlat/cap.h /usr/src/debug/strace/7.3/tests/ifindex.c /usr/src/debug/strace/7.3/tests/symlinkat.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_brport-Xverbose.c /usr/src/debug/strace/7.3/tests/set_ptracer_any.c /usr/src/debug/strace/7.3/src/rtnl_nh.c /usr/src/debug/strace/7.3/tests/openat--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/read-write.c /usr/src/debug/strace/7.3/tests/utimes.c /usr/src/debug/strace/7.3/tests/memfd_secret.c /usr/src/debug/strace/
- 7.3/src/sched.c /usr/src/debug/strace/7.3/src/xlat/compat_ptrace_cmds.h /usr/src/debug/strace/7.3/tests/nlattr_ifla_protinfo-Xabbrev.c /usr/src/debug/strace/7.3/tests/strace-p1-Y-p.c /usr/src/debug/strace/7.3/tests/sxetmask.c /usr/src/debug/strace/7.3/src/xlat/mtd_mode_options.h /usr/src/debug/strace/7.3/tests/ioctl_fs_x-Xraw.c /usr/src/debug/strace/7.3/src/xlat/evdev_ev.h /usr/src/debug/strace/7.3/src/utimes.c /usr/src/debug/strace/7.3/src/xlat/nl_crypto_types.h /usr/src/debug/strace/7.3/tests/ioctl_tiocm.c /usr/src/debug/strace/7.3/src/xlat/smc_decl_codes.h /usr/src/debug/strace/7.3/tests/netlink_selinux.c /usr/src/debug/strace/7.3/src/pidns.c /usr/src/debug/strace/7.3/tests/pidfd_open.c /usr/src/debug/strace/7.3/tests/execve-v.c /usr/src/debug/strace/7.3/tests/execveat.c /usr/src/debug/strace/7.3/src/fetch_struct_statfs.c /usr/src/debug/strace/7.3/src/xlat/uring_sqe_flags.h /usr/src/debug/strace/7.3/tests/memfd_secret-success.c /usr/src/debug/strace/7.3/src/kernel_rusage.h /usr/s
- rc/debug/strace/7.3/tests/chown32.c /usr/src/debug/strace/7.3/src/aio.c /usr/src/debug/strace/7.3/src/cachestat.c /usr/src/debug/strace/7.3/src/xlat/term_lflags.h /usr/src/debug/strace/7.3/src/cachestat.h /usr/src/debug/strace/7.3/tests/ioctl_epoll-success.c /usr/src/debug/strace/7.3/tests/file_getattr-y.c /usr/src/debug/strace/7.3/tests/file_setattr-y.c /usr/src/debug/strace/7.3/src/xlat/rwh_write_life_hints.h /usr/src/debug/strace/7.3/tests/inotify_init1.c /usr/src/debug/strace/7.3/tests/syslog.c /usr/src/debug/strace/7.3/src/sigaltstack.c /usr/src/debug/strace/7.3/src/ioctl.c /usr/src/debug/strace/7.3/src/prctl.c /usr/src/debug/strace/7.3/tests/sol_tipc-group_join-success-Xverbose.c /usr/src/debug/strace/7.3/tests/truncate64.c /usr/src/debug/strace/7.3/src/ipc.c /usr/src/debug/strace/7.3/src/rtc.c /usr/src/debug/strace/7.3/src/strauss.c /usr/src/debug/strace/7.3/tests/orphaned_process_group.c /usr/src/debug/strace/7.3/tests/localtime.c /usr/src/debug/strace/7.3/tests/lock_file.c 
- /usr/src/debug/strace/7.3/src/strauss.h /usr/src/debug/strace/7.3/src/lseek.c /usr/src/debug/strace/7.3/src/xlat/btrfs_key_types.h /usr/src/debug/strace/7.3/src/fs_x_ioctl.c /usr/src/debug/strace/7.3/src/xlat/ptrace_cmds.h /usr/src/debug/strace/7.3/tests/ustat.c /usr/src/debug/strace/7.3/src/xlat/bpf_attach_flags.h /usr/src/debug/strace/7.3/tests/ioctl_watchdog.c /usr/src/debug/strace/7.3/src/xlat/nf_ipset_msg_types.h /usr/src/debug/strace/7.3/tests/landlock_add_rule.c /usr/src/debug/strace/7.3/src/xlat/btrfs_qgroup_status_flags.h /usr/src/debug/strace/7.3/tests/prctl-securebits-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/file_getattr-yy.c /usr/src/debug/strace/7.3/src/xlat/arp_hardware_types.h /usr/src/debug/strace/7.3/tests/file_setattr-yy.c /usr/src/debug/strace/7.3/src/mtd.c /usr/src/debug/strace/7.3/src/uid.c /usr/src/debug/strace/7.3/src/xlat/rtnl_neightbl_parms_attrs.h /usr/src/debug/strace/7.3/tests/listns-success.c /usr/src/debug/strace/7.3/src/fspick.c /usr/src/debug
- /strace/7.3/src/xlat/genl_netdev_cmd.h /usr/src/debug/strace/7.3/tests/pwritev.c /usr/src/debug/strace/7.3/tests/listxattrat.c /usr/src/debug/strace/7.3/src/bpf.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/input.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/types.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/pidfd.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/quota.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/sched.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/mount.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/fcntl.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/blkpg.h /usr/src/debug/strace/7.3/src/xlat/btrfs_logical_ino_args_flags.h /usr/src/debug/strace/7.3/src/xlat/rtnl_rta_metrics_attrs.h /usr/src/debug/strace/7.3/tests/dup2-e-fd-0-P.c /usr/src/debug/strace/7.3/tests/net--decode-fds-socket-netlink.c /usr/src/debug/strace/7.3/tests/umovestr-illptr.c /usr/src/
- debug/strace/7.3/src/xlat/genl_mptcp_pm_cmd.h /usr/src/debug/strace/7.3/tests/list_sigaction_signum.c /usr/src/debug/strace/7.3/tests/sockopt-sol_socket-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/bpf_op_alu.h /usr/src/debug/strace/7.3/tests/sockopt-sol_socket-success-Xabbrev.c /usr/src/debug/strace/7.3/src/rt_sigreturn.c /usr/src/debug/strace/7.3/tests/sched_xetscheduler--pidns-translation-Xraw.c /usr/src/debug/strace/7.3/tests/umovestr_cached.c /usr/src/debug/strace/7.3/tests/fanotify_mark.c /usr/src/debug/strace/7.3/src/xlat/uffd_register_ioctl_flags.h /usr/src/debug/strace/7.3/tests/set_mempolicy-Xabbrev.c /usr/src/debug/strace/7.3/tests/getsockname--secontext.c /usr/src/debug/strace/7.3/tests/sigsuspend.c /usr/src/debug/strace/7.3/tests/delete_module.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/seg6_genl.h /usr/src/debug/strace/7.3/src/xlat/neighbor_cache_entry_ext_flags.h /usr/src/debug/strace/7.3/tests/signal_receive--pidns-translation.c /usr/src/debug/strac
- e/7.3/tests/tcp_ao.c /usr/src/debug/strace/7.3/tests/rt_sigpending.c /usr/src/debug/strace/7.3/src/xlat/open_access_modes.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_info_data_macvlan_attrs.h /usr/src/debug/strace/7.3/src/xlat/bpf_stats_type.h /usr/src/debug/strace/7.3/src/sysent.h /usr/src/debug/strace/7.3/src/rtnl_tc_action.c /usr/src/debug/strace/7.3/tests/arch_prctl-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/advise.h /usr/src/debug/strace/7.3/tests/prctl-ppc-dexcr-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/keyctl_move_flags.h /usr/src/debug/strace/7.3/tests/vfork-f.c /usr/src/debug/strace/7.3/src/xlat/sock_dccp_options.h /usr/src/debug/strace/7.3/tests/netlink_netlink_diag.c /usr/src/debug/strace/7.3/tests/ioctl_loop-v.c /usr/src/debug/strace/7.3/tests/filter-unavailable.c /usr/src/debug/strace/7.3/tests/prctl-tagged-addr-success-Xverbose.c /usr/src/debug/strace/7.3/tests/nlattr_tcamsg-Xraw.c /usr/src/debug/strace/7.3/src/xlat/counter_ioctl_scopes.h /usr
- /src/debug/strace/7.3/src/xlat/rtnl_neigh_fdb_ext_attrs.h /usr/src/debug/strace/7.3/src/xlat/btrfs_defrag_flags.h /usr/src/debug/strace/7.3/tests/ioctl_kvm_run_auxstr_vcpu_more.c /usr/src/debug/strace/7.3/tests/prctl-pac-enabled-keys-Xabbrev.c /usr/src/debug/strace/7.3/tests/fcntl--pidns-translation.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/perf_event.h /usr/src/debug/strace/7.3/tests/oldselect-efault.c /usr/src/debug/strace/7.3/src/xlat/mount_attr_attr.h /usr/src/debug/strace/7.3/src/xlat/lbmd_pi_csum_types.h /usr/src/debug/strace/7.3/tests/ioctl_kd-Xraw.c /usr/src/debug/strace/7.3/tests/ksysent.c /usr/src/debug/strace/7.3/tests/sync_file_range.c /usr/src/debug/strace/7.3/tests/nlattr_tc_stats.c /usr/src/debug/strace/7.3/tests/pidfd_open--decode-fd-socket.c /usr/src/debug/strace/7.3/tests/sched_yield.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/tls.h /usr/src/debug/strace/7.3/src/xlat/neighbor_cache_entry_flags.h /usr/src/debug/strace/7.3/tests/st
- atus-none-threads.c /usr/src/debug/strace/7.3/tests/move_pages-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/btrfs_qgroup_inherit_flags.h /usr/src/debug/strace/7.3/tests/unlink.c /usr/src/debug/strace/7.3/tests/nlattr_cachereport-Xraw.c /usr/src/debug/strace/7.3/tests/nlattr_inet_diag_req_v2.c /usr/src/debug/strace/7.3/tests/semtimedop-syscall.c /usr/src/debug/strace/7.3/src/xlat/rtnl_nha_res_group_attrs.h /usr/src/debug/strace/7.3/tests/sockaddr_xlat.c /usr/src/debug/strace/7.3/src/xlat/pr_dumpable.h /usr/src/debug/strace/7.3/tests/ip_local_port_range-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/pr_riscv_v_inherit.h /usr/src/debug/strace/7.3/src/xlat/watchdog_ioctl_setoptions.h /usr/src/debug/strace/7.3/tests/arch_prctl.c /usr/src/debug/strace/7.3/src/xlat/ebpf_size.h /usr/src/debug/strace/7.3/src/xlat/genl_ioam6_cmd.h /usr/src/debug/strace/7.3/tests/nfnetlink_ctnetlink.c /usr/src/debug/strace/7.3/tests/rseq_slice_yield.c /usr/src/debug/strace/7.3/src/xlat/genl_taskstats_cmd.h 
- /usr/src/debug/strace/7.3/tests/print_maxfd.c /usr/src/debug/strace/7.3/tests/threads-execve.c /usr/src/debug/strace/7.3/tests/ioprio--pidns-translation.c /usr/src/debug/strace/7.3/tests/sockopt-sol_socket-success.c /usr/src/debug/strace/7.3/tests/bpf-obj_get_info_by_fd-prog-v.c /usr/src/debug/strace/7.3/tests/mmsg-silent.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-success--pidns-translation.c /usr/src/debug/strace/7.3/tests/nlattr_tcmsg.c /usr/src/debug/strace/7.3/tests/poll-P.c /usr/src/debug/strace/7.3/src/xlat/term_oflags_crdly.h /usr/src/debug/strace/7.3/tests/ioctl_v4l2-success-v.c /usr/src/debug/strace/7.3/src/xlat/sock_alg_options.h /usr/src/debug/strace/7.3/tests/ptrace_set_syscall_info-Xraw.c /usr/src/debug/strace/7.3/src/listen.c /usr/src/debug/strace/7.3/src/perf_ioctl.c /usr/src/debug/strace/7.3/src/xlat/epollevents.h /usr/src/debug/strace/7.3/tests/chmod.c /usr/src/debug/strace/7.3/src/xlat/genl_ctrl_attr_mcast_grp.h /usr/src/debug/strace/7.3/src/xlat/inet_devco
- nf_indices.h /usr/src/debug/strace/7.3/tests/fstat64-Xabbrev.c /usr/src/debug/strace/7.3/src/kd_ioctl.c /usr/src/debug/strace/7.3/src/xlat/pidfd_info_mask.h /usr/src/debug/strace/7.3/tests/ioctl_ubi-success.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-success-v-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-success-v-Xraw.c /usr/src/debug/strace/7.3/src/xlat/fdb_notify_flags.h /usr/src/debug/strace/7.3/tests/rt_tgsigqueueinfo.c /usr/src/debug/strace/7.3/tests/arch_prctl-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/pr_tsc.h /usr/src/debug/strace/7.3/tests/looping_threads.c /usr/src/debug/strace/7.3/tests/clock_nanosleep.c /usr/src/debug/strace/7.3/src/xlat/landlock_restrict_self_flags.h /usr/src/debug/strace/7.3/src/ipc_shm.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-v-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/bpf_link_type.h /usr/src/debug/strace/7.3/src/xlat/ptp_pin_funcs.h /usr/src/debug/strace/7.3/tests/f
- truncate64.c /usr/src/debug/strace/7.3/tests/kernel_old_timespec.h /usr/src/debug/strace/7.3/src/xlat/fsopen_flags.h /usr/src/debug/strace/7.3/tests/ioctl_fs_0x15-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/statmount_mnt_propagation.h /usr/src/debug/strace/7.3/tests/clone_parent.c /usr/src/debug/strace/7.3/src/xlat/ns_type.h /usr/src/debug/strace/7.3/tests/prctl-spec-inject.c /usr/src/debug/strace/7.3/tests/clone3-report-ns-id.c /usr/src/debug/strace/7.3/src/xlat/af_packet_versions.h /usr/src/debug/strace/7.3/tests/faccessat-y--secontext_full.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/tee_ioctl_impl_ids.h /usr/src/debug/strace/7.3/tests/ptrace-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_tun-v.c /usr/src/debug/strace/7.3/tests/fchmod-y--secontext_full.c /usr/src/debug/strace/7.3/src/xlat/uring_accept_flags.h /usr/src/debug/strace/7.3/tests/fchmodat--secontext_full.c /usr/src/debug/strace/7.3/tests/fchownat--secontext_full.c /usr/src/
- debug/strace/7.3/tests/ioctl_ptp-success-Xraw.c /usr/src/debug/strace/7.3/tests/remap_file_pages-Xabbrev.c /usr/src/debug/strace/7.3/tests/init_delete_module.h /usr/src/debug/strace/7.3/tests/quotactl-xfs-success.c /usr/src/debug/strace/7.3/tests/ioctl_ptp-success.c /usr/src/debug/strace/7.3/tests/getpeername.c /usr/src/debug/strace/7.3/tests/getsockname.c /usr/src/debug/strace/7.3/src/xlat/kd_key_fn_key_vals.h /usr/src/debug/strace/7.3/tests/nlattr_crypto_user_alg.c /usr/src/debug/strace/7.3/src/perf_event_struct.h /usr/src/debug/strace/7.3/src/file_handle.c /usr/src/debug/strace/7.3/src/xlat/packet_diag_attrs.h /usr/src/debug/strace/7.3/src/xlat/btrfs_send_flags.h /usr/src/debug/strace/7.3/src/xlat/snmp_icmp6_stats.h /usr/src/debug/strace/7.3/tests/bpf-v.c /usr/src/debug/strace/7.3/src/xlat/rtnl_nha_group_stats_entry_attrs.h /usr/src/debug/strace/7.3/tests/test_printstrn.c /usr/src/debug/strace/7.3/tests/count_unknown_mixed.c /usr/src/debug/strace/7.3/tests/ioctl_tee.c /usr/src/de
- bug/strace/7.3/tests/subdir.c /usr/src/debug/strace/7.3/tests/landlock_restrict_self.c /usr/src/debug/strace/7.3/tests/perf_event_open_nonverbose.c /usr/src/debug/strace/7.3/tests/map_shadow_stack-Xraw.c /usr/src/debug/strace/7.3/tests/mmsg_name.c /usr/src/debug/strace/7.3/tests/utimensat-Xraw.c /usr/src/debug/strace/7.3/tests/fchown.c /usr/src/debug/strace/7.3/tests/prctl-sme-Xverbose.c /usr/src/debug/strace/7.3/tests/prctl-sve-Xverbose.c /usr/src/debug/strace/7.3/tests/tprintf.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/landlock.h /usr/src/debug/strace/7.3/tests/ftruncate.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-Xraw.c /usr/src/debug/strace/7.3/src/v4l2.c /usr/src/debug/strace/7.3/tests/mbind.c /usr/src/debug/strace/7.3/tests/accept4.c /usr/src/debug/strace/7.3/tests/maybe_switch_current_tcp.c /usr/src/debug/strace/7.3/src/xlat/ip_type_of_services.h /usr/src/debug/strace/7.3/tests/sched_xetscheduler.c /usr/src/
- debug/strace/7.3/bundled/linux/include/uapi/linux/neighbour.h /usr/src/debug/strace/7.3/tests/ioctl_pidfd_get_info.c /usr/src/debug/strace/7.3/src/xlat/bpf_rval.h /usr/src/debug/strace/7.3/src/xlat/rtnl_rule_attrs.h /usr/src/debug/strace/7.3/src/xlat/tcp_state_flags.h /usr/src/debug/strace/7.3/tests/swap.c /usr/src/debug/strace/7.3/tests/prctl-pdeathsig.c /usr/src/debug/strace/7.3/tests/sched_xetscheduler--pidns-translation.c /usr/src/debug/strace/7.3/tests/fsmount.c /usr/src/debug/strace/7.3/tests/fstat64.c /usr/src/debug/strace/7.3/tests/fstatfs.c /usr/src/debug/strace/7.3/tests/fsync-y.c /usr/src/debug/strace/7.3/tests/setgid32.c /usr/src/debug/strace/7.3/tests/setregid.c /usr/src/debug/strace/7.3/tests/setreuid.c /usr/src/debug/strace/7.3/tests/setuid32.c /usr/src/debug/strace/7.3/tests/select-P.c /usr/src/debug/strace/7.3/tests/sendfile.c /usr/src/debug/strace/7.3/tests/_newselect-P.c /usr/src/debug/strace/7.3/tests/setfsgid.c /usr/src/debug/strace/7.3/tests/setfsuid.c /usr/src
- /debug/strace/7.3/tests/pread64-pwrite64.c /usr/src/debug/strace/7.3/tests/preadv2-pwritev2.c /usr/src/debug/strace/7.3/tests/getcwd.c /usr/src/debug/strace/7.3/src/fetch_indirect_syscall_args.c /usr/src/debug/strace/7.3/tests/ioctl_fs_x-success.c /usr/src/debug/strace/7.3/tests/landlock_add_rule-y.c /usr/src/debug/strace/7.3/src/xlat/nf_nft_compat_msg_types.h /usr/src/debug/strace/7.3/tests/inject-nf.c /usr/src/debug/strace/7.3/tests/file_getattr-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/nl_selinux_types.h /usr/src/debug/strace/7.3/tests/nlattr_cachereport-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/f_owner_types.h /usr/src/debug/strace/7.3/tests/nlattr_netconfmsg.c /usr/src/debug/strace/7.3/src/statfs.c /usr/src/debug/strace/7.3/tests/quotactl-xfs-success-v.c /usr/src/debug/strace/7.3/tests/ioctl_kd-success-s1024-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_lirc-success.c /usr/src/debug/strace/7.3/src/statfs.h /usr/src/debug/strace/7.3/tests/ioctl_fiemap-success-v-Xr
- aw.c /usr/src/debug/strace/7.3/src/sigreturn.c /usr/src/debug/strace/7.3/src/resource.c /usr/src/debug/strace/7.3/tests/getdents.c /usr/src/debug/strace/7.3/tests/getgid32.c /usr/src/debug/strace/7.3/tests/getuid32.c /usr/src/debug/strace/7.3/tests/ioctl_kd-success-s1024-Xraw.c /usr/src/debug/strace/7.3/src/xlat/uffd_poison_mode_flags.h /usr/src/debug/strace/7.3/src/xlat/inet_diag_ulp_info_mptcp_attrs.h /usr/src/debug/strace/7.3/src/xlat/cap_mask1.h /usr/src/debug/strace/7.3/tests/ioctl_fiemap-success-v-Xverbose.c /usr/src/debug/strace/7.3/tests/create_nl_socket.c /usr/src/debug/strace/7.3/src/alarm.c /usr/src/debug/strace/7.3/src/xlat/bpf_prog_flags.h /usr/src/debug/strace/7.3/src/xlat/bpf_prog_types.h /usr/src/debug/strace/7.3/tests/setns-report-ns-id-ipc.c /usr/src/debug/strace/7.3/src/xlat/bpf_link_create_netfilter_flags.h /usr/src/debug/strace/7.3/tests/prctl-riscv-v-ctrl-Xverbose.c /usr/src/debug/strace/7.3/tests/removexattrat-yy.c /usr/src/debug/strace/7.3/src/xlat/icmp_filte
- r_flags.h /usr/src/debug/strace/7.3/tests/nlattr_tca_stab.c /usr/src/debug/strace/7.3/tests/net-tpacket_stats-success.c /usr/src/debug/strace/7.3/tests/mbind-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-success--pidns-translation-Xabbrev.c /usr/src/debug/strace/7.3/tests/rename.c /usr/src/debug/strace/7.3/src/netlink_inet_diag.c /usr/src/debug/strace/7.3/src/xlat/sock_udp_options.h /usr/src/debug/strace/7.3/tests/nlattr_ifstats.c /usr/src/debug/strace/7.3/tests/nlattr_ifstats-Xraw.c /usr/src/debug/strace/7.3/tests/dev--decode-fds-socket.c /usr/src/debug/strace/7.3/tests/sol_tipc-importance-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_block--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_af_spec_inet6_attrs.h /usr/src/debug/strace/7.3/tests/ioctl_rtc.c /usr/src/debug/strace/7.3/tests/sockaddr_xlat-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/lirc_features.h /usr/src/debug/strace/7.3/src/xlat/x86_xfeatures.h /usr/src/debug/strace/7.3/src/xla
- t/rtnl_dcb_attrs.h /usr/src/debug/strace/7.3/tests/migrate_pages--pidns-translation.c /usr/src/debug/strace/7.3/tests/nlattr_nhmsg-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/madvise_cmds.h /usr/src/debug/strace/7.3/tests/ptrace_set_syscall_info-Xabbrev.c /usr/src/debug/strace/7.3/tests/openat2-v-y-Xverbose.c /usr/src/debug/strace/7.3/src/get_personality.c /usr/src/debug/strace/7.3/tests/printclockname-Xraw.c /usr/src/debug/strace/7.3/src/get_personality.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/blktrace_api.h /usr/src/debug/strace/7.3/tests/fallocate.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_vfinfo-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-v-Xraw.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ipmra_msg_types.h /usr/src/debug/strace/7.3/src/xlat/sigpoll_codes.h /usr/src/debug/strace/7.3/tests/ioctl_hdio-v-Xraw.c /usr/src/debug/strace/7.3/tests/net-y-unix.c /usr/src/debug/strace/7.3/src/xlat/sock_rds_options.h /usr/src/debug/strace/7.3/src/trace_event.
- h /usr/src/debug/strace/7.3/src/xlat/v4l2_input_types.h /usr/src/debug/strace/7.3/tests/net-packet_mreq.c /usr/src/debug/strace/7.3/src/xlat/sock_shutdown_flags.h /usr/src/debug/strace/7.3/src/xlat/bsg_protocol.h /usr/src/debug/strace/7.3/src/umount.c /usr/src/debug/strace/7.3/tests/futimesat.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/udmabuf.h /usr/src/debug/strace/7.3/tests/ioctl_v4l2-success-v-Xabbrev.c /usr/src/debug/strace/7.3/tests/dup2.c /usr/src/debug/strace/7.3/src/xlat/nl_netfilter_subsys_ids.h /usr/src/debug/strace/7.3/tests/clone_parent-qq.c /usr/src/debug/strace/7.3/tests/status.c /usr/src/debug/strace/7.3/tests/ipc_msg-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/xfs_quota_flags.h /usr/src/debug/strace/7.3/tests/ipc_sem-Xabbrev.c /usr/src/debug/strace/7.3/tests/ipc_shm-Xabbrev.c /usr/src/debug/strace/7.3/tests/nfnetlink_nft_compat.c /usr/src/debug/strace/7.3/src/xlat/mpol_mode_flags.h /usr/src/debug/strace/7.3/src/xlat/open_mode_flags.h /usr/src/debug
- /strace/7.3/tests/stack-fcall.c /usr/src/debug/strace/7.3/tests/nlattr_unix_diag_msg.c /usr/src/debug/strace/7.3/tests/sched_xetattr.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/mroute6.h /usr/src/debug/strace/7.3/src/xlat/unshare_flags.h /usr/src/debug/strace/7.3/src/upoke.c /usr/src/debug/strace/7.3/tests/prctl-no-args-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ipmra_creport_attr.h /usr/src/debug/strace/7.3/tests/stack-fcall.h /usr/src/debug/strace/7.3/src/xlat/kexec_arch_values.h /usr/src/debug/strace/7.3/src/xlat/sock_nfcllcp_options.h /usr/src/debug/strace/7.3/src/xlat/seccomp_ioctl_addfd_flags.h /usr/src/debug/strace/7.3/src/fchownat.c /usr/src/debug/strace/7.3/src/xlat/rtnl_nha_group_stats_attrs.h /usr/src/debug/strace/7.3/src/mount_setattr.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-success-v-Xabbrev.c /usr/src/debug/strace/7.3/tests/pselect6-common.c /usr/src/debug/strace/7.3/src/xlat/futex2_flags.h /usr/src/debug/strace/7.3/src/xlat/epollctls.h /us
- r/src/debug/strace/7.3/src/xlat/futex2_sizes.h /usr/src/debug/strace/7.3/tests/keyctl-Xabbrev.c /usr/src/debug/strace/7.3/src/stage_output.c /usr/src/debug/strace/7.3/src/xlat/mlockall_flags.h /usr/src/debug/strace/7.3/src/print_statfs.c /usr/src/debug/strace/7.3/tests/pipe2.c /usr/src/debug/strace/7.3/tests/nlattr_ifla.h /usr/src/debug/strace/7.3/tests/tracer_ppid_pgid_sid.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2-success-Xraw.c /usr/src/debug/strace/7.3/tests/landlock_create_ruleset-y.c /usr/src/debug/strace/7.3/tests/faccessat2.c /usr/src/debug/strace/7.3/tests/prctl-pac-enabled-keys-Xverbose.c /usr/src/debug/strace/7.3/tests/preadv.c /usr/src/debug/strace/7.3/src/native_printer_decls.h /usr/src/debug/strace/7.3/tests/pidfd_open-y.c /usr/src/debug/strace/7.3/tests/pipe_maxfd.c /usr/src/debug/strace/7.3/tests/prctl-riscv-v-ctrl-success.c /usr/src/debug/strace/7.3/src/xlat/file_attr_flags.h /usr/src/debug/strace/7.3/tests/mlock2.c /usr/src/debug/strace/7.3/tests/xgetdents.c /usr
- /src/debug/strace/7.3/tests/ioctl_epoll.c /usr/src/debug/strace/7.3/tests/adjtimex.c /usr/src/debug/strace/7.3/tests/ioctl_fs_0x15-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/rseq_flags.h /usr/src/debug/strace/7.3/src/xlat/xattrflags.h /usr/src/debug/strace/7.3/tests/msg_name.c /usr/src/debug/strace/7.3/tests/sol_tipc-group_join-Xraw.c /usr/src/debug/strace/7.3/src/xlat/swap_flags.h /usr/src/debug/strace/7.3/src/xlat/uffd_flags.h /usr/src/debug/strace/7.3/src/xlat/clockflags.h /usr/src/debug/strace/7.3/src/xlat/epollflags.h /usr/src/debug/strace/7.3/src/xlat/mmap_flags.h /usr/src/debug/strace/7.3/src/xlat/futexwakecmps.h /usr/src/debug/strace/7.3/tests/mount-Xabbrev.c /usr/src/debug/strace/7.3/tests/printclockname.c /usr/src/debug/strace/7.3/src/xlat/ebpf_mode.h /usr/src/debug/strace/7.3/src/dup.c /usr/src/debug/strace/7.3/src/ptp.c /usr/src/debug/strace/7.3/tests/mq_sendrecv.c /usr/src/debug/strace/7.3/tests/ioctl_pidfd_namespace.c /usr/src/debug/strace/7.3/tests/nlattr_ifsta
- ts-Xverbose.c /usr/src/debug/strace/7.3/tests/nlattr_mdba_router_port.c /usr/src/debug/strace/7.3/src/xlat/fsmount_flags.h /usr/src/debug/strace/7.3/src/xlat/kd_font_flags.h /usr/src/debug/strace/7.3/src/xlat/btrfs_qgroup_limit_flags.h /usr/src/debug/strace/7.3/tests/ioctl_fs_f-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_ptp-Xraw.c /usr/src/debug/strace/7.3/tests/prctl-sched-core--pidns-translation-Xverbose.c /usr/src/debug/strace/7.3/tests/mmap64.c /usr/src/debug/strace/7.3/tests/redirect-fds.c /usr/src/debug/strace/7.3/tests/file_setattr-Xraw.c /usr/src/debug/strace/7.3/src/block.c /usr/src/debug/strace/7.3/src/flock.c /usr/src/debug/strace/7.3/tests/uio.c /usr/src/debug/strace/7.3/tests/hexquote_strndup.c /usr/src/debug/strace/7.3/src/xlat/gpio_v2_line_flags.h /usr/src/debug/strace/7.3/src/xlat/bpf_task_fd_type.h /usr/src/debug/strace/7.3/src/xlat/netlink_sk_meminfo_indices.h /usr/src/debug/strace/7.3/tests/rmdir.c /usr/src/debug/strace/7.3/src/xlat/kd_modes.h /usr/src/debug
- /strace/7.3/src/rtnl_netconf.c /usr/src/debug/strace/7.3/tests/faccessat-y--secontext_mismatch.c /usr/src/debug/strace/7.3/src/rtnl_neigh.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/nexthop.h /usr/src/debug/strace/7.3/src/rtnl_route.c /usr/src/debug/strace/7.3/src/rtnl_stats.c /usr/src/debug/strace/7.3/src/xlat/bpf_class.h /usr/src/debug/strace/7.3/tests/statfs.c /usr/src/debug/strace/7.3/tests/trie_test.c /usr/src/debug/strace/7.3/tests/mmap.c /usr/src/debug/strace/7.3/tests/net-yy-netlink.c /usr/src/debug/strace/7.3/tests/quotactl-xfs-v.c /usr/src/debug/strace/7.3/src/xlat/fdflags.h /usr/src/debug/strace/7.3/tests/ioctl_loop-nv.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/io_uring.h /usr/src/debug/strace/7.3/tests/aio_pgetevents.c /usr/src/debug/strace/7.3/src/lirc_ioctl.c /usr/src/debug/strace/7.3/tests/flock.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/bsg.h /usr/src/debug/strace/7.3/tests/dup-y.c /usr/src/debug/strace/7.3/src/xla
- t/routing_table_ids.h /usr/src/debug/strace/7.3/tests/ppoll-e-trace-fds-23.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-v-Xverbose.c /usr/src/debug/strace/7.3/src/fetch_struct_stat.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-v.c /usr/src/debug/strace/7.3/src/xlat/fan_init_flags.h /usr/src/debug/strace/7.3/tests/so_peercred-Xabbrev.c /usr/src/debug/strace/7.3/tests/unix-pair-send-recv.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_port.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/seccomp.h /usr/src/debug/strace/7.3/tests/file_handle.c /usr/src/debug/strace/7.3/src/xlat/loop_flags_options.h /usr/src/debug/strace/7.3/tests/nlattr_smc_diag_msg.c /usr/src/debug/strace/7.3/tests/sock_filter-v-Xraw.c /usr/src/debug/strace/7.3/tests/faccessat-yy.c /usr/src/debug/strace/7.3/tests/xetpriority--pidns-translation.c /usr/src/debug/strace/7.3/src/landlock.c /usr/src/debug/strace/7.3/src/shutdown.c /usr/src/debug/strace/7.3/src/print_time.c /usr/src/debug/strace/7.3/tests/block_r
- eset_raise_run.c /usr/src/debug/strace/7.3/tests/int_0x80.c /usr/src/debug/strace/7.3/tests/listns.c /usr/src/debug/strace/7.3/tests/printxval-Xraw.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-success--pidns-translation-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/seccomp_filter_flags.h /usr/src/debug/strace/7.3/src/readlink.c /usr/src/debug/strace/7.3/src/xlat/rtnl_tca_root_attrs.h /usr/src/debug/strace/7.3/src/xlat/rtnl_tca_stab_attrs.h /usr/src/debug/strace/7.3/tests/file_handle--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/setgroups.c /usr/src/debug/strace/7.3/tests/getresgid32.c /usr/src/debug/strace/7.3/tests/getresuid32.c /usr/src/debug/strace/7.3/tests/printsignal-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/sock_ipx_options.h /usr/src/debug/strace/7.3/src/xlat/in6_addr_gen_mode.h /usr/src/debug/strace/7.3/src/xattr.c /usr/src/debug/strace/7.3/src/xlat/watchdog_ioctl_flags.h /usr/src/debug/strace/7.3/src/ipc_semctl.c /usr/src/debug/strace/7.3/src/ipc_shmctl.c
-  /usr/src/debug/strace/7.3/src/ipc_msgctl.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/keyctl.h /usr/src/debug/strace/7.3/src/xlat/blkpg_ops.h /usr/src/debug/strace/7.3/src/xlat/uring_ops.h /usr/src/debug/strace/7.3/tests/ioctl_dm-v.c /usr/src/debug/strace/7.3/tests/mount_setattr.c /usr/src/debug/strace/7.3/src/xlat/uffd_zeropage_flags.h /usr/src/debug/strace/7.3/tests/siginfo.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_vf_port_attrs.h /usr/src/debug/strace/7.3/tests/chroot.c /usr/src/debug/strace/7.3/tests/xet_robust_list.c /usr/src/debug/strace/7.3/tests/memfd_create-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/inet_diag_ulp_info_tls_attrs.h /usr/src/debug/strace/7.3/src/xlat/nf_tables_msg_types.h /usr/src/debug/strace/7.3/src/xlat/rtc_vl_flags.h /usr/src/debug/strace/7.3/src/xlat/semctl_flags.h /usr/src/debug/strace/7.3/src/xlat/shmctl_flags.h /usr/src/debug/strace/7.3/src/xlat/sigill_codes.h /usr/src/debug/strace/7.3/src/xlat/keyctl_caps0.h /usr/src/debug/stra
- ce/7.3/src/xlat/keyctl_caps1.h /usr/src/debug/strace/7.3/src/xlat/msgctl_flags.h /usr/src/debug/strace/7.3/src/xlat/nl_audit_types.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/counter.h /usr/src/debug/strace/7.3/src/xlat/inet6_if_flags.h /usr/src/debug/strace/7.3/tests/listxattrat-yy.c /usr/src/debug/strace/7.3/tests/check_sigign.c /usr/src/debug/strace/7.3/tests/mmap-Xraw.c /usr/src/debug/strace/7.3/tests/prctl-set-ptracer-success-Xraw--pidns-translation.c /usr/src/debug/strace/7.3/tests/setxattrat-P.c /usr/src/debug/strace/7.3/src/xlat/pidfd_send_signal_flags.h /usr/src/debug/strace/7.3/tests/fanotify_mark--secontext_full.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/userfaultfd.h /usr/src/debug/strace/7.3/tests/old_mmap-Xverbose.c /usr/src/debug/strace/7.3/src/mmsghdr.c /usr/src/debug/strace/7.3/tests/listxattrat-P.c /usr/src/debug/strace/7.3/src/xlat/evdev_keycode.h /usr/src/debug/strace/7.3/src/xlat/evdev_leds.h /usr/src/debug/strace/7.3/tests/ope
- nat2-Xabbrev.c /usr/src/debug/strace/7.3/src/msghdr.c /usr/src/debug/strace/7.3/src/msghdr.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_events.h /usr/src/debug/strace/7.3/src/xlat/open_tree_flags.h /usr/src/debug/strace/7.3/src/xlat/bluetooth_l2_psm.h /usr/src/debug/strace/7.3/src/xlat/btrfs_dev_replace_cmds.h /usr/src/debug/strace/7.3/tests/arch_prctl-Xabbrev.c /usr/src/debug/strace/7.3/src/personality.c /usr/src/debug/strace/7.3/src/sockaddr.c /usr/src/debug/strace/7.3/tests/ioctl_fs_0x15-success-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/smc_states.h /usr/src/debug/strace/7.3/src/xlat/tcp_states.h /usr/src/debug/strace/7.3/src/xlat/mdb_states.h /usr/src/debug/strace/7.3/src/xlat/bpf_op_jmp.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_info_data_tun_attrs.h /usr/src/debug/strace/7.3/src/kernel_v4l2_types.h /usr/src/debug/strace/7.3/tests/mknod.c /usr/src/debug/strace/7.3/src/print_dev_t.c /usr/src/debug/strace/7.3/src/xlat/uring_files_update_fds.h /usr/src/debug/strace/7.3/te
- sts/clock_adjtime-common.c /usr/src/debug/strace/7.3/src/term.c /usr/src/debug/strace/7.3/tests/move_pages.c /usr/src/debug/strace/7.3/src/xlat/tun_offload_features.h /usr/src/debug/strace/7.3/src/xlat/bpf_mode.h /usr/src/debug/strace/7.3/tests/getcpu.c /usr/src/debug/strace/7.3/tests/ioctl_fiemap-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/term_oflags_vtdly.h /usr/src/debug/strace/7.3/src/futex.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/fiemap.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/if_xdp.h /usr/src/debug/strace/7.3/src/xlat/fan_mark_flags.h /usr/src/debug/strace/7.3/tests/bpf-obj_get_info_by_fd-link.c /usr/src/debug/strace/7.3/tests/dup3-y.c /usr/src/debug/strace/7.3/tests/prctl-no-args-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/genl_ethtool_msg_recv.h /usr/src/debug/strace/7.3/src/xlat/genl_ethtool_msg_send.h /usr/src/debug/strace/7.3/src/xlat/ifstats_offload_attrs.h /usr/src/debug/strace/7.3/tests/landlock_create_ruleset-success.c
-  /usr/src/debug/strace/7.3/tests/sync.c /usr/src/debug/strace/7.3/src/xlat/bpf_map_update_elem_flags.h /usr/src/debug/strace/7.3/tests/prctl-riscv-v-ctrl-success-Xverbose.c /usr/src/debug/strace/7.3/tests/scm_pidfd.c /usr/src/debug/strace/7.3/src/xlat/inet_diag_extended_flags.h /usr/src/debug/strace/7.3/tests/perf_event_open.c /usr/src/debug/strace/7.3/src/xlat/uring_zcrx_reg_flags.h /usr/src/debug/strace/7.3/tests/epoll_pwait2.c /usr/src/debug/strace/7.3/tests/ip_protocol.c /usr/src/debug/strace/7.3/tests/so_peerpidfd.c /usr/src/debug/strace/7.3/tests/process_vm_writev.c /usr/src/debug/strace/7.3/tests/prctl-set-ptracer-success--pidns-translation.c /usr/src/debug/strace/7.3/tests/run_expect_termsig.c /usr/src/debug/strace/7.3/tests/pidfd_open--decode-fd-pidfd.c /usr/src/debug/strace/7.3/tests/clone3-Xabbrev.c /usr/src/debug/strace/7.3/tests/umovestr.c /usr/src/debug/strace/7.3/tests/printstr.c /usr/src/debug/strace/7.3/tests/prctl-sme-success-Xraw.c /usr/src/debug/strace/7.3/tests/
- ppoll.c /usr/src/debug/strace/7.3/tests/prctl-sve-success-Xraw.c /usr/src/debug/strace/7.3/tests/epoll_create1.c /usr/src/debug/strace/7.3/tests/sockopt-sol_socket-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/bpf_file_flags.h /usr/src/debug/strace/7.3/tests/fork-f.c /usr/src/debug/strace/7.3/src/sysctl.c /usr/src/debug/strace/7.3/src/xlat/lirc_modes.h /usr/src/debug/strace/7.3/src/xlat/mpol_modes.h /usr/src/debug/strace/7.3/tests/quotactl_fd.c /usr/src/debug/strace/7.3/tests/stat64.c /usr/src/debug/strace/7.3/tests/delay.c /usr/src/debug/strace/7.3/tests/ioctl_fs_x-Xverbose.c /usr/src/debug/strace/7.3/tests/timer_xettime.c /usr/src/debug/strace/7.3/tests/lsm_list_modules.c /usr/src/debug/strace/7.3/tests/mq_sendrecv-write.c /usr/src/debug/strace/7.3/tests/fanotify_mark-Xabbrev.c /usr/src/debug/strace/7.3/tests/nlattr_inet_diag_req_compat.c /usr/src/debug/strace/7.3/src/futex2.c /usr/src/debug/strace/7.3/tests/clone3-success-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/btrfs
- _dev_stats_flags.h /usr/src/debug/strace/7.3/tests/mbind-Xraw.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_af_spec_mctp_attrs.h /usr/src/debug/strace/7.3/tests/s390_runtime_instr.c /usr/src/debug/strace/7.3/tests/request_key.c /usr/src/debug/strace/7.3/tests/attach-f-p.c /usr/src/debug/strace/7.3/src/xlat/sigev_value.h /usr/src/debug/strace/7.3/tests/nanosleep.c /usr/src/debug/strace/7.3/tests/strace-xx.c /usr/src/debug/strace/7.3/tests/symlink-P.c /usr/src/debug/strace/7.3/tests/ioctl_fiemap-success-v.c /usr/src/debug/strace/7.3/src/xlat/term_cflags.h /usr/src/debug/strace/7.3/tests/prctl-riscv-icache-flush-ctx-Xraw.c /usr/src/debug/strace/7.3/tests/umovestr3.c /usr/src/debug/strace/7.3/tests/xselect.c /usr/src/debug/strace/7.3/tests/futex_wait-Xraw.c /usr/src/debug/strace/7.3/src/netlink_smc_diag.c /usr/src/debug/strace/7.3/src/perf.c /usr/src/debug/strace/7.3/tests/kcmp-y--pidns-translation.c /usr/src/debug/strace/7.3/tests/statmount.c /usr/src/debug/strace/7.3/tests/ppoll-e-tr
- ace-fds-23-42.c /usr/src/debug/strace/7.3/tests/sockopt-sol_netlink.c /usr/src/debug/strace/7.3/tests/fanotify_mark-Xraw.c /usr/src/debug/strace/7.3/src/xlat/bpf_commands.h /usr/src/debug/strace/7.3/src/xlat/dcb_commands.h /usr/src/debug/strace/7.3/tests/prctl-tagged-addr-success-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_xdp_attached_mode.h /usr/src/debug/strace/7.3/tests/strace--syscall-limit-summary.c /usr/src/debug/strace/7.3/src/xlat/rtnl_tca_stats_attrs.h /usr/src/debug/strace/7.3/tests/pipe.c /usr/src/debug/strace/7.3/tests/status-failed-long.c /usr/src/debug/strace/7.3/tests/socketcall.c /usr/src/debug/strace/7.3/src/xlat/sigsegv_codes.h /usr/src/debug/strace/7.3/tests/cachestat-fd.c /usr/src/debug/strace/7.3/src/xlat/seccomp_ret_action.h /usr/src/debug/strace/7.3/tests/answer.c /usr/src/debug/strace/7.3/tests/getrlimit.c /usr/src/debug/strace/7.3/tests/readdir.c /usr/src/debug/strace/7.3/tests/recvmsg.c /usr/src/debug/strace/7.3/tests/set_sigblock.c /usr/src/deb
- ug/strace/7.3/tests/futex2_flags.h /usr/src/debug/strace/7.3/tests/prctl-ppc-dexcr-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/pr_spec_get_store_bypass_flags.h /usr/src/debug/strace/7.3/src/netlink_nlctrl.c /usr/src/debug/strace/7.3/src/xlat/pr_spec_set_store_bypass_flags.h /usr/src/debug/strace/7.3/tests/memfd_create-Xverbose.c /usr/src/debug/strace/7.3/tests/select-trace-fd-7-9.c /usr/src/debug/strace/7.3/tests/strace--strings-in-hex-all.c /usr/src/debug/strace/7.3/src/xlat/kd_key_types.h /usr/src/debug/strace/7.3/tests/ptrace-y-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_pidfd_get_info-success-Xverbose.c /usr/src/debug/strace/7.3/tests/netlink_unix_diag.c /usr/src/debug/strace/7.3/tests/k_sockopt.c /usr/src/debug/strace/7.3/tests/k_sockopt.h /usr/src/debug/strace/7.3/tests/old_mmap-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/nl_sock_diag_types.h /usr/src/debug/strace/7.3/src/xlat/key_spec.h /usr/src/debug/strace/7.3/tests/net-sockaddr--pidns-translation.c /usr/src/debug/s
- trace/7.3/src/defs.h /usr/src/debug/strace/7.3/src/umask.c /usr/src/debug/strace/7.3/src/nsfs.c /usr/src/debug/strace/7.3/src/xlat/nl_attr_type.h /usr/src/debug/strace/7.3/tests/nlattr_br_port_msg.c /usr/src/debug/strace/7.3/tests/trie_for_tests.c /usr/src/debug/strace/7.3/src/close_range.c /usr/src/debug/strace/7.3/tests/userfaultfd.c /usr/src/debug/strace/7.3/tests/epoll_pwait2-y.c /usr/src/debug/strace/7.3/tests/fanotify_mark-Xverbose.c /usr/src/debug/strace/7.3/tests/io_uring_enter.c /usr/src/debug/strace/7.3/tests/prctl-pac-enabled-keys-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2-success-v-Xverbose.c /usr/src/debug/strace/7.3/tests/io_uring_register-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/qual_fault.c /usr/src/debug/strace/7.3/src/xlat/addrfams.h /usr/src/debug/strace/7.3/src/xlat/ieee802154_pan_ids.h /usr/src/debug/strace/7.3/src/xlat/ebpf_op_jmp.h /usr/src/debug/strace/7.3/src/count.c /usr/src/debug/strace/7.3/src/mount.c /usr/src/debug/strace/7.3/src/xlat/fsc
- onfig_cmds.h /usr/src/debug/strace/7.3/src/xlat/secbits.h /usr/src/debug/strace/7.3/src/xlat/listmount_flags.h /usr/src/debug/strace/7.3/src/xlat/statmount_flags.h /usr/src/debug/strace/7.3/src/print_kernel_sigset.c /usr/src/debug/strace/7.3/src/xlat/uring_op_flags.h /usr/src/debug/strace/7.3/tests/rt_sigreturn.c /usr/src/debug/strace/7.3/tests/linkat--secontext_full_mismatch.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_brport_attrs.h /usr/src/debug/strace/7.3/tests/setxattrat.c /usr/src/debug/strace/7.3/src/xlat/pr_mce_kill.h /usr/src/debug/strace/7.3/src/readahead.c /usr/src/debug/strace/7.3/tests/add_key.c /usr/src/debug/strace/7.3/tests/remap_file_pages-Xverbose.c /usr/src/debug/strace/7.3/tests/strace--syscall-limit-status-summary.c /usr/src/debug/strace/7.3/tests/ioctl_fs_0x15-Xraw.c /usr/src/debug/strace/7.3/src/xlat/fspick_flags.h /usr/src/debug/strace/7.3/tests/faccessat.c /usr/src/debug/strace/7.3/tests/madvise.c /usr/src/debug/strace/7.3/tests/ioctl_pidfd_get_info-succe
- ss-Xraw.c /usr/src/debug/strace/7.3/src/print_mac.c /usr/src/debug/strace/7.3/src/printmode.c /usr/src/debug/strace/7.3/tests/inotify.c /usr/src/debug/strace/7.3/tests/get_mempolicy.c /usr/src/debug/strace/7.3/tests/nfnetlink_osf.c /usr/src/debug/strace/7.3/tests/restart_syscall.c /usr/src/debug/strace/7.3/tests/fchmodat2--secontext_full.c /usr/src/debug/strace/7.3/src/xlat/delete_module_flags.h /usr/src/debug/strace/7.3/tests/tail_alloc.c /usr/src/debug/strace/7.3/src/pkeys.c /usr/src/debug/strace/7.3/tests/ioctl_watchdog-success-v.c /usr/src/debug/strace/7.3/src/xlat/getsock_ipv6_options.h /usr/src/debug/strace/7.3/src/xlat/setsock_ipv6_options.h /usr/src/debug/strace/7.3/tests/sprintrc.c /usr/src/debug/strace/7.3/src/swapon.c /usr/src/debug/strace/7.3/tests/clone_parent-q.c /usr/src/debug/strace/7.3/tests/inode_of_sockfd.c /usr/src/debug/strace/7.3/tests/net-tpacket_stats.c /usr/src/debug/strace/7.3/tests/prctl-securebits.c /usr/src/debug/strace/7.3/tests/printclockname-Xverbose.
- c /usr/src/debug/strace/7.3/src/xlat/v4l2_pix_fmts.h /usr/src/debug/strace/7.3/src/xlat/sock_vsock_options.h /usr/src/debug/strace/7.3/src/xlat/btrfs_compress_types.h /usr/src/debug/strace/7.3/src/xlat/sock_ax25_options.h /usr/src/debug/strace/7.3/src/xlat/v4l2_tuner_capabilities.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_vf_info_attrs.h /usr/src/debug/strace/7.3/src/netlink_crypto.c /usr/src/debug/strace/7.3/src/truncate.c /usr/src/debug/strace/7.3/tests/dev--decode-fds-none.c /usr/src/debug/strace/7.3/tests/clock_adjtime64.c /usr/src/debug/strace/7.3/src/xlat/hdio_ide_nice.h /usr/src/debug/strace/7.3/src/xlat/tee_ioctl_gen_caps.h /usr/src/debug/strace/7.3/src/xlat/bpf_attach_type.h /usr/src/debug/strace/7.3/tests/ioctl_counter-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/tee_ioctl_optee_caps.h /usr/src/debug/strace/7.3/tests/fchmodat2.c /usr/src/debug/strace/7.3/tests/personality-Xverbose.c /usr/src/debug/strace/7.3/tests/ip_local_port_range-Xabbrev.c /usr/src/debug/strace/7.3
- /src/xlat/perf_hw_cache_op_result_id.h /usr/src/debug/strace/7.3/src/xlat/seccomp_ops.h /usr/src/debug/strace/7.3/src/xlat/kd_default_led_flags.h /usr/src/debug/strace/7.3/tests/ioctl_fs_f-Xabbrev.c /usr/src/debug/strace/7.3/tests/printpath-umovestr-undumpable.c /usr/src/debug/strace/7.3/tests/sockopt-timestamp.c /usr/src/debug/strace/7.3/src/xlat/genl_seg6_cmd.h /usr/src/debug/strace/7.3/src/xlat/memfd_secret_flags.h /usr/src/debug/strace/7.3/tests/prctl-sme-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-sve-Xabbrev.c /usr/src/debug/strace/7.3/src/userfaultfd.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_vfinfo_list_attrs.h /usr/src/debug/strace/7.3/src/print_sigevent.c /usr/src/debug/strace/7.3/src/xlat/term_oflags_ffdly.h /usr/src/debug/strace/7.3/src/xlat/pr_mdwe_flags.h /usr/src/debug/strace/7.3/tests/prctl-mdwe.c /usr/src/debug/strace/7.3/src/stat64.c /usr/src/debug/strace/7.3/src/netlink.h /usr/src/debug/strace/7.3/tests/nlattr_ifla_brport.c /usr/src/debug/strace/7.3/src/ne
- tlink.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_proto_down_reason_attrs.h /usr/src/debug/strace/7.3/tests/times-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/rtnl_neigh_attrs.h /usr/src/debug/strace/7.3/tests/net-icmp_filter.c /usr/src/debug/strace/7.3/src/bpf_attr.h /usr/src/debug/strace/7.3/tests/faccessat-P.c /usr/src/debug/strace/7.3/src/sys_func.h /usr/src/debug/strace/7.3/tests/ioctl_loop.c /usr/src/debug/strace/7.3/src/exitkill.h /usr/src/debug/strace/7.3/tests/nlattr_ifstats-Xabbrev.c /usr/src/debug/strace/7.3/src/exitkill.c /usr/src/debug/strace/7.3/src/getrandom.c /usr/src/debug/strace/7.3/tests/inotify_init1-y.c /usr/src/debug/strace/7.3/src/xlat/tcflsh_options.h /usr/src/debug/strace/7.3/src/xlat/priorities.h /usr/src/debug/strace/7.3/src/xlat/rtnl_addr_attrs.h /usr/src/debug/strace/7.3/tests/getpgrp--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/sock_raw_options.h /usr/src/debug/strace/7.3/src/sen.h /usr/src/debug/strace/7.3/tests/fchmod--secontext_mismatc
- h.c /usr/src/debug/strace/7.3/tests/linkat--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/fadvise64_64.c /usr/src/debug/strace/7.3/tests/prctl-sme.c /usr/src/debug/strace/7.3/tests/ioctl_kvm_run_common.c /usr/src/debug/strace/7.3/tests/ioctl-v.c /usr/src/debug/strace/7.3/tests/prctl-sve.c /usr/src/debug/strace/7.3/tests/sol_tipc-importance-Xraw.c /usr/src/debug/strace/7.3/tests/madvise-Xabbrev.c /usr/src/debug/strace/7.3/tests/strace--strings-in-hex-non-ascii.c /usr/src/debug/strace/7.3/tests/link.c /usr/src/debug/strace/7.3/tests/semop-common.c /usr/src/debug/strace/7.3/src/xlat/uring_register_opcodes.h /usr/src/debug/strace/7.3/tests/semtimedop.c /usr/src/debug/strace/7.3/tests/openat2-v.c /usr/src/debug/strace/7.3/src/print_timespec32.c /usr/src/debug/strace/7.3/tests/epoll_pwait2-P.c /usr/src/debug/strace/7.3/tests/nlattr_netlink_diag_msg.c /usr/src/debug/strace/7.3/tests/ptrace_set_syscall_info-Xverbose.c /usr/src/debug/strace/7.3/tests/utime.c /usr/src/debug/strace/7.3/
- tests/getdents-v.c /usr/src/debug/strace/7.3/src/tun_ioctl.c /usr/src/debug/strace/7.3/src/xlat/v4l2_format_description_flags.h /usr/src/debug/strace/7.3/tests/strace--syscall-limit.c /usr/src/debug/strace/7.3/tests/fadvise64.c /usr/src/debug/strace/7.3/src/xlat/sock_caif_options.h /usr/src/debug/strace/7.3/tests/time.c /usr/src/debug/strace/7.3/tests/net-yy-inet.c /usr/src/debug/strace/7.3/src/xlat/ioprio_who.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/gen_stats.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/taskstats.h /usr/src/debug/strace/7.3/src/xlat/uring_nop_flags.h /usr/src/debug/strace/7.3/src/print_mq_attr.c /usr/src/debug/strace/7.3/tests/kcmp-y.c /usr/src/debug/strace/7.3/tests/times.c /usr/src/debug/strace/7.3/src/sg_io_v3.c /usr/src/debug/strace/7.3/tests/threads-execve--quiet-thread-execve.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/ptp_clock.h /usr/src/debug/strace/7.3/src/xlat/btrfs_qgroup_ctl_cmds.h /usr/src/debug/str
- ace/7.3/tests/clock_xettime-common.c /usr/src/debug/strace/7.3/tests/poke.c /usr/src/debug/strace/7.3/tests/prctl-sme-success.c /usr/src/debug/strace/7.3/tests/prctl-sve-success.c /usr/src/debug/strace/7.3/tests/ptrace_syscall_info-Xverbose.c /usr/src/debug/strace/7.3/tests/recv-MSG_TRUNC.c /usr/src/debug/strace/7.3/src/number_set.h /usr/src/debug/strace/7.3/src/membarrier.c /usr/src/debug/strace/7.3/src/number_set.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_af_spec_bridge_vlan_tunnel_info_attrs.h /usr/src/debug/strace/7.3/tests/rt_sigprocmask.c /usr/src/debug/strace/7.3/src/link.c /usr/src/debug/strace/7.3/src/print_struct_stat.c /usr/src/debug/strace/7.3/tests/ip_protocol-Xraw.c /usr/src/debug/strace/7.3/tests/setugid.c /usr/src/debug/strace/7.3/src/sync_file_range.c /usr/src/debug/strace/7.3/src/xlat/ptp_extts_flags.h /usr/src/debug/strace/7.3/src/xlat/bluetooth_l2_cid.h /usr/src/debug/strace/7.3/tests/arch_prctl-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/strace-p-Y-p2.
- c /usr/src/debug/strace/7.3/src/xlat/af_tipc_importance.h /usr/src/debug/strace/7.3/tests/ioctl_fiemap-Xraw.c /usr/src/debug/strace/7.3/src/printrusage.c /usr/src/debug/strace/7.3/src/xlat/sock_iucv_options.h /usr/src/debug/strace/7.3/tests/s390_guarded_storage.c /usr/src/debug/strace/7.3/tests/futex_requeue.c /usr/src/debug/strace/7.3/src/fsopen.c /usr/src/debug/strace/7.3/tests/open.c /usr/src/debug/strace/7.3/src/xlat/ifaddrflags.h /usr/src/debug/strace/7.3/src/xlat/keyctl_commands.h /usr/src/debug/strace/7.3/src/bpf_filter.c /usr/src/debug/strace/7.3/src/netlink_route.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_br_boolopts.h /usr/src/debug/strace/7.3/src/xlat/gpio_line_flags.h /usr/src/debug/strace/7.3/src/bpf_filter.h /usr/src/debug/strace/7.3/src/netlink_route.c /usr/src/debug/strace/7.3/src/xlat/prctl_options.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/openat2.h /usr/src/debug/strace/7.3/src/xlat/rtnl_tc_attrs.h /usr/src/debug/strace/7.3/src/xlat/wait4_opt
- ions.h /usr/src/debug/strace/7.3/src/dirent64.c /usr/src/debug/strace/7.3/tests/fchmod--secontext_full_mismatch.c /usr/src/debug/strace/7.3/src/xlat/nl_policy_type_attr.h /usr/src/debug/strace/7.3/tests/signal.c /usr/src/debug/strace/7.3/tests/netlink_audit--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/af_packet_types.h /usr/src/debug/strace/7.3/tests/openat2-v-y-Xabbrev.c /usr/src/debug/strace/7.3/tests/fcntl64--pidns-translation.c /usr/src/debug/strace/7.3/tests/msg_control-v.c /usr/src/debug/strace/7.3/tests/pidfd_getfd-yy.c /usr/src/debug/strace/7.3/tests/kill.c /usr/src/debug/strace/7.3/tests/cachestat-P.c /usr/src/debug/strace/7.3/tests/listmount.c /usr/src/debug/strace/7.3/src/xlat/termios_cc.h /usr/src/debug/strace/7.3/tests/nfnetlink_cthelper.c /usr/src/debug/strace/7.3/tests/quotactl_fd-y.c /usr/src/debug/strace/7.3/tests/file_getattr-P.c /usr/src/debug/strace/7.3/tests/file_setattr-P.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/tcp.h /usr/src/deb
- ug/strace/7.3/tests/faccessat--secontext_full.c /usr/src/debug/strace/7.3/src/xlat/xfs_dqblk_flags.h /usr/src/debug/strace/7.3/tests/fstat-Xabbrev.c /usr/src/debug/strace/7.3/src/open.c /usr/src/debug/strace/7.3/src/xlat/ubi_volume_flags.h /usr/src/debug/strace/7.3/tests/ioctl_evdev.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-success-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/execveat_flags.h /usr/src/debug/strace/7.3/src/filter.h /usr/src/debug/strace/7.3/tests/epoll_wait.c /usr/src/debug/strace/7.3/tests/times-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/landlock_scope_flags.h /usr/src/debug/strace/7.3/tests/tests.h /usr/src/debug/strace/7.3/tests/printclockname-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/ieee802154_addrs.h /usr/src/debug/strace/7.3/src/xlat/inet_diag_bytecodes.h /usr/src/debug/strace/7.3/tests/ptrace-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/term_iflags.h /usr/src/debug/strace/7.3/tests/get_page
- _size.c /usr/src/debug/strace/7.3/tests/prctl-tagged-addr-Xabbrev.c /usr/src/debug/strace/7.3/tests/dev--decode-fds-dev.c /usr/src/debug/strace/7.3/tests/overflowuid.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/fsmagic.h /usr/src/debug/strace/7.3/tests/ioctl_fs_0x15-success-Xverbose.c /usr/src/debug/strace/7.3/tests/clone_parent--quiet-exit.c /usr/src/debug/strace/7.3/tests/faccessat2-y.c /usr/src/debug/strace/7.3/tests/ioctl.c /usr/src/debug/strace/7.3/src/xlat/landlock_ruleset_access_fs.h /usr/src/debug/strace/7.3/tests/ioctl_evdev-v-Xraw.c /usr/src/debug/strace/7.3/tests/setuid.c /usr/src/debug/strace/7.3/tests/faccessat-y--secontext.c /usr/src/debug/strace/7.3/tests/landlock_restrict_self-y.c /usr/src/debug/strace/7.3/tests/set_sigign.c /usr/src/debug/strace/7.3/tests/xattr.c /usr/src/debug/strace/7.3/src/syscall.c /usr/src/debug/strace/7.3/src/xlat/syslog_console_levels.h /usr/src/debug/strace/7.3/src/xlat/mtd_type_options.
- h /usr/src/debug/strace/7.3/src/xlat/v4l2_control_id_bases.h /usr/src/debug/strace/7.3/tests/status-detached-threads.c /usr/src/debug/strace/7.3/src/syscall.h /usr/src/debug/strace/7.3/tests/xetpgid--pidns-translation.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/vm_sockets.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/stat.h /usr/src/debug/strace/7.3/tests/ioctl_sock.c /usr/src/debug/strace/7.3/tests/waitid-Y.c /usr/src/debug/strace/7.3/tests/waitid-v.c /usr/src/debug/strace/7.3/src/xlat/rtnl_family.h /usr/src/debug/strace/7.3/tests/ugetrlimit.c /usr/src/debug/strace/7.3/src/sigevent.h /usr/src/debug/strace/7.3/src/xlat/packet_mreq_type.h /usr/src/debug/strace/7.3/tests/getgroups.c /usr/src/debug/strace/7.3/tests/fdatasync.c /usr/src/debug/strace/7.3/src/xlat/sock_ipv6_options.h /usr/src/debug/strace/7.3/src/xlat/uring_napi_ops.h /usr/src/debug/strace/7.3/tests/prctl-riscv-icache-flush-ctx-Xabbrev.c /usr/src/debug/strace/7.3/tests/munlockall.c /usr/src
- /debug/strace/7.3/src/xlat/sock_ip_options.h /usr/src/debug/strace/7.3/tests/ip_protocol-Xverbose.c /usr/src/debug/strace/7.3/src/print_syscall_number.c /usr/src/debug/strace/7.3/tests/memfd_secret-success-y.c /usr/src/debug/strace/7.3/tests/recvfrom-MSG_TRUNC.c /usr/src/debug/strace/7.3/tests/sockaddr_xlat-Xraw-y.c /usr/src/debug/strace/7.3/tests/ioctl_kvm_run.c /usr/src/debug/strace/7.3/src/xlat/rtnl_mdba_router_attrs.h /usr/src/debug/strace/7.3/tests/printsignal-Xabbrev.c /usr/src/debug/strace/7.3/src/color.h /usr/src/debug/strace/7.3/tests/clone3-Xverbose.c /usr/src/debug/strace/7.3/tests/seccomp_get_action_avail.c /usr/src/debug/strace/7.3/src/color.c /usr/src/debug/strace/7.3/src/list.h /usr/src/debug/strace/7.3/tests/fchdir.c /usr/src/debug/strace/7.3/tests/ptrace-y-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/v4l2_event_subscription_flags.h /usr/src/debug/strace/7.3/src/xlat/rseq_cs_flags.h /usr/src/debug/strace/7.3/tests/prctl_marker.c /usr/src/debug/strace/7.3/src/xlat/fa
- n_classes.h /usr/src/debug/strace/7.3/tests/pc.c /usr/src/debug/strace/7.3/tests/process_madvise-yy.c /usr/src/debug/strace/7.3/tests/fcntl-common.c /usr/src/debug/strace/7.3/src/xlat/perf_ioctl_flags.h /usr/src/debug/strace/7.3/tests/ioctl_v4l2-Xraw.c /usr/src/debug/strace/7.3/src/xlat/futexbitset.h /usr/src/debug/strace/7.3/tests/sigprocmask.c /usr/src/debug/strace/7.3/src/kernel_dirent.h /usr/src/debug/strace/7.3/src/xlat/kd_key_fn_keys.h /usr/src/debug/strace/7.3/src/listns.c /usr/src/debug/strace/7.3/src/rtnl_neightbl.c /usr/src/debug/strace/7.3/src/xlat/smc_diag_mode.h /usr/src/debug/strace/7.3/tests/newfstatat.c /usr/src/debug/strace/7.3/tests/setns-report-ns-id-common.h /usr/src/debug/strace/7.3/src/xlat/membarrier_cmds.h /usr/src/debug/strace/7.3/src/xlat/ifstats_xstats_bridge_attrs.h /usr/src/debug/strace/7.3/src/xlat/genl_ctrl_attr_op.h /usr/src/debug/strace/7.3/tests/openat2-Xraw.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/netconf.h /usr/src/debug/strace
- /7.3/src/xlat/sock_rxrpc_options.h /usr/src/debug/strace/7.3/tests/ioctl_ptp-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_bridge_flags.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_bridge_modes.h /usr/src/debug/strace/7.3/src/xlat/perf_event_open_flags.h /usr/src/debug/strace/7.3/src/rt_sigframe.c /usr/src/debug/strace/7.3/src/xlat/ifstats_af_spec_mpls_attrs.h /usr/src/debug/strace/7.3/tests/prctl-set-ptracer-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/qual_signal.c /usr/src/debug/strace/7.3/src/xlat/audit_arch.h /usr/src/debug/strace/7.3/tests/linkat.c /usr/src/debug/strace/7.3/tests/netlink_generic.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2-success.c /usr/src/debug/strace/7.3/tests/open--secontext_full.c /usr/src/debug/strace/7.3/tests/file_setattr-Xabbrev.c /usr/src/debug/strace/7.3/tests/fchmod--secontext.c /usr/src/debug/strace/7.3/src/capability.c /usr/src/debug/strace/7.3/tests/ioctl_kd-success-s1024.c /usr/src/debug/strace/7.3/tests/nlattr_fib_rule_hdr.c 
- /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/packet_diag.h /usr/src/debug/strace/7.3/tests/ioctl_udmabuf.c /usr/src/debug/strace/7.3/tests/attach-f-p-cmd.c /usr/src/debug/strace/7.3/tests/open_tree_attr-P.c /usr/src/debug/strace/7.3/tests/sol_tipc-group_join-Xabbrev.c /usr/src/debug/strace/7.3/src/access.c /usr/src/debug/strace/7.3/tests/status-none.c /usr/src/debug/strace/7.3/tests/migrate_pages.c /usr/src/debug/strace/7.3/src/xlat/pr_set_vma.h /usr/src/debug/strace/7.3/tests/futex_wait.c /usr/src/debug/strace/7.3/src/printers.h /usr/src/debug/strace/7.3/src/inotify_ioctl.c /usr/src/debug/strace/7.3/src/xlat/bootflags3.h /usr/src/debug/strace/7.3/src/xlat/btrfs_features_compat.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_info_attrs.h /usr/src/debug/strace/7.3/src/xlat/pr_set_mm.h /usr/src/debug/strace/7.3/tests/quotactl-success-v.c /usr/src/debug/strace/7.3/src/xlat/ebpf_regs.h /usr/src/debug/strace/7.3/tests/ioctl_ubi.c /usr/src/debug/strace/7.3/tests/nsyscalls.h /
- usr/src/debug/strace/7.3/src/xlat/v4l2_buf_flags_ts_type.h /usr/src/debug/strace/7.3/tests/nsyscalls.c /usr/src/debug/strace/7.3/tests/setfsgid32.c /usr/src/debug/strace/7.3/tests/setfsuid32.c /usr/src/debug/strace/7.3/tests/ioctl_fiemap-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/setregid32.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-success-v-Xraw.c /usr/src/debug/strace/7.3/tests/setreuid32.c /usr/src/debug/strace/7.3/tests/ioctl_kvm_run-v.c /usr/src/debug/strace/7.3/tests/sockaddr_xlat-Xverbose-y.c /usr/src/debug/strace/7.3/tests/ioctl_kd-success-Xraw.c /usr/src/debug/strace/7.3/tests/getrusage.c /usr/src/debug/strace/7.3/src/xlat/genl_ctrl_attr_policy.h /usr/src/debug/strace/7.3/tests/lstat.c /usr/src/debug/strace/7.3/tests/filter_seccomp-perf.c /usr/src/debug/strace/7.3/src/signal.c /usr/src/debug/strace/7.3/src/xlat/btrfs_snap_flags_v2.h /usr/src/debug/strace/7.3/src/xlat/perf_event_read_format.h /usr/src/debug/strace/7.3/tests/stack-fcall-1.c /usr/src/debug/strace/7.
- 3/src/ldt.c /usr/src/debug/strace/7.3/src/net.c /usr/src/debug/strace/7.3/src/xlat/nl_xfrm_types.h /usr/src/debug/strace/7.3/tests/stack-fcall-3.c /usr/src/debug/strace/7.3/tests/statfs64.c /usr/src/debug/strace/7.3/tests/strace--syscall-limit-status.c /usr/src/debug/strace/7.3/tests/strace-n.c /usr/src/debug/strace/7.3/src/xlat/v4l2_framesize_types.h /usr/src/debug/strace/7.3/src/fadvise.c /usr/src/debug/strace/7.3/src/xlat/btrfs_tree_objectids.h /usr/src/debug/strace/7.3/src/syscall_name.c /usr/src/debug/strace/7.3/tests/strace-x.c /usr/src/debug/strace/7.3/tests/nlattr_ifinfomsg.c /usr/src/debug/strace/7.3/tests/ioctl_kvm_run_auxstr_vcpu.c /usr/src/debug/strace/7.3/tests/set_mempolicy.c /usr/src/debug/strace/7.3/tests/pidfd_getfd-y.c /usr/src/debug/strace/7.3/tests/prctl-securebits-success.c /usr/src/debug/strace/7.3/tests/stack-fcall-mangled-3.c /usr/src/debug/strace/7.3/src/xlat/bpf_map_flags.h /usr/src/debug/strace/7.3/src/xlat/bpf_map_types.h /usr/src/debug/strace/7.3/src/xla
- t/sigtrap_codes.h /usr/src/debug/strace/7.3/tests/stack-fcall-mangled-1.c /usr/src/debug/strace/7.3/tests/perf_event_open_unabbrev.c /usr/src/debug/strace/7.3/src/xlat/bpf_map_lookup_elem_flags.h /usr/src/debug/strace/7.3/tests/nlattr_ifla_brport-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/lbmd_pi_cap_flags.h /usr/src/debug/strace/7.3/src/kcmp.c /usr/src/debug/strace/7.3/src/xlat/sg_scsi_reset.h /usr/src/debug/strace/7.3/tests/fstat.c /usr/src/debug/strace/7.3/tests/eventfd--decode-fd-eventfd.c /usr/src/debug/strace/7.3/tests/sol_tipc-importance-success-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/sock_packet_options.h /usr/src/debug/strace/7.3/tests/ioctl_fs_0x15-success.c /usr/src/debug/strace/7.3/src/printsiginfo.c /usr/src/debug/strace/7.3/src/printsiginfo.h /usr/src/debug/strace/7.3/tests/scm_credentials.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_xdp_attrs.h /usr/src/debug/strace/7.3/src/eventfd.c /usr/src/debug/strace/7.3/tests/madvise-Xverbose.c /usr/src/debug/strace/7.
- 3/tests/sol_tipc-importance-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/bootflags1.h /usr/src/debug/strace/7.3/src/xlat/uring_clone_buffers_flags.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/fs.h /usr/src/debug/strace/7.3/src/xlat/ieee802154_addr_types.h /usr/src/debug/strace/7.3/src/xlat/pr_fp_mode.h /usr/src/debug/strace/7.3/src/xlat/sock_pppol2tp_options.h /usr/src/debug/strace/7.3/tests/sigaction.c /usr/src/debug/strace/7.3/tests/sigreturn.c /usr/src/debug/strace/7.3/tests/getpid--pidns-translation.c /usr/src/debug/strace/7.3/tests/getsid--pidns-translation.c /usr/src/debug/strace/7.3/tests/gettid--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/evdev_prop.h /usr/src/debug/strace/7.3/src/xlat/futexwakeops.h /usr/src/debug/strace/7.3/tests/getpid.c /usr/src/debug/strace/7.3/src/xgetdents.h /usr/src/debug/strace/7.3/src/xlat/mctp_addrs.h /usr/src/debug/strace/7.3/src/xlat/ebpf_op_alu.h /usr/src/debug/strace/7.3/src/xlat/fan_event_flags.h /usr/src/debug/stra
- ce/7.3/src/xgetdents.c /usr/src/debug/strace/7.3/src/xlat/rt_del_reason.h /usr/src/debug/strace/7.3/src/socketutils.c /usr/src/debug/strace/7.3/tests/nlattr_nhmsg.c /usr/src/debug/strace/7.3/tests/xutimes.c /usr/src/debug/strace/7.3/src/quota.c /usr/src/debug/strace/7.3/src/xlat/rtnl_neightbl_attrs.h /usr/src/debug/strace/7.3/tests/_newselect.c /usr/src/debug/strace/7.3/tests/lsm_get_self_attr.c /usr/src/debug/strace/7.3/src/syslog.c /usr/src/debug/strace/7.3/tests/lsm_set_self_attr.c /usr/src/debug/strace/7.3/tests/so_error.c /usr/src/debug/strace/7.3/tests/sockname.c /usr/src/debug/strace/7.3/src/xlat/rtnl_nha_res_bucket_attrs.h /usr/src/debug/strace/7.3/tests/fadvise.h /usr/src/debug/strace/7.3/tests/process_vm_readv--pidns-translation.c /usr/src/debug/strace/7.3/tests/ioctl_winsize.c /usr/src/debug/strace/7.3/tests/iopl.c /usr/src/debug/strace/7.3/tests/prctl-sched-core--pidns-translation-Xabbrev.c /usr/src/debug/strace/7.3/tests/setns-report-ns-id-mnt.c /usr/src/debug/strace/7.
- 3/src/xlat/genl_thermal_cmd.h /usr/src/debug/strace/7.3/tests/ioctl_kd-success-Xverbose.c /usr/src/debug/strace/7.3/tests/select-trace-fd-7.c /usr/src/debug/strace/7.3/tests/sockaddr_xlat-Xabbrev-y.c /usr/src/debug/strace/7.3/tests/sockaddr_xlat-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_fs_x-success-Xraw.c /usr/src/debug/strace/7.3/tests/set_mempolicy_home_node.c /usr/src/debug/strace/7.3/tests/rt_tgsigqueueinfo--pidns-translation.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-success-v.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-success-v.c /usr/src/debug/strace/7.3/tests/ioctl_sg_io_v4.c /usr/src/debug/strace/7.3/tests/nsyscalls-d.c /usr/src/debug/strace/7.3/tests/io_uring_register-success.c /usr/src/debug/strace/7.3/src/xlat/ptrace_setoptions_flags.h /usr/src/debug/strace/7.3/tests/ioctl_uffdio.c /usr/src/debug/strace/7.3/tests/rt_sigtimedwait.c /usr/src/debug/strace/7.3/tests/prctl-ppc-dexcr.c /usr/src/debug/strace/7.3/src/xlat/alg_sockaddr_flags.h /usr/src/debug/strace/7.3
- /src/xlat/socketcalls.h /usr/src/debug/strace/7.3/src/xlat/xdp_sockaddr_flags.h /usr/src/debug/strace/7.3/tests/netlink_audit.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y.c /usr/src/debug/strace/7.3/src/ioprio.c /usr/src/debug/strace/7.3/tests/count_unknown.c /usr/src/debug/strace/7.3/tests/unlinkat.c /usr/src/debug/strace/7.3/tests/pselect6.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-set-ptracer-success.c /usr/src/debug/strace/7.3/tests/xgetrlimit.c /usr/src/debug/strace/7.3/tests/dev-yy.c /usr/src/debug/strace/7.3/tests/pidfd_open-yy.c /usr/src/debug/strace/7.3/tests/signalfd4-yy.c /usr/src/debug/strace/7.3/tests/test_ucopy.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/mptcp_pm.h /usr/src/debug/strace/7.3/tests/landlock_create_ruleset-success-y.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_brport-Xraw.c /usr/src/debug/strace/7.3/tests/test_ucopy.h /usr/src/debug/strace/7.3/src/xlat/pr_riscv_icache_flush_ctxes.h /
- usr/src/debug/strace/7.3/src/xlat/routing_flags.h /usr/src/debug/strace/7.3/src/xlat/routing_types.h /usr/src/debug/strace/7.3/src/sg_io_v4.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/libmmsg.c /usr/src/debug/strace/7.3/src/xlat/phonet_protocols.h /usr/src/debug/strace/7.3/src/xlat/fchmodat_flags.h /usr/src/debug/strace/7.3/tests/file_handle--secontext.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_protinfo-Xraw.c /usr/src/debug/strace/7.3/src/xlat/term_oflags_nldly.h /usr/src/debug/strace/7.3/src/xlat/fiemap_extent_flags.h /usr/src/debug/strace/7.3/tests/ioctl_perf.c /usr/src/debug/strace/7.3/tests/ioctl_termios.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp.c /usr/src/debug/strace/7.3/src/print_group_req.c /usr/src/debug/strace/7.3/tests/ppoll-P.c /usr/src/debug/strace/7.3/tests/fsconfig.c /usr/src/debug/strace/7.3/tests/fspick-P.c /usr/src/debug/strace/7.3/tests/nlattr_packet_diag_msg.c /usr/src/debug/strace/7.3/tests/ppoll-
- v.c /usr/src/debug/strace/7.3/src/xlat/term_oflags_bsdly.h /usr/src/debug/strace/7.3/src/xlat/statx_masks.h /usr/src/debug/strace/7.3/tests/sol_tipc-group_join.c /usr/src/debug/strace/7.3/tests/quotactl-xfs.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/asm/fcntl.h /usr/src/debug/strace/7.3/src/xlat/btrfs_balance_flags.h /usr/src/debug/strace/7.3/src/basic_filters.c /usr/src/debug/strace/7.3/src/xlat/v4l2_control_flags.h /usr/src/debug/strace/7.3/src/mmap_notify.h /usr/src/debug/strace/7.3/src/xlat/rtnl_mdba_mdb_attrs.h /usr/src/debug/strace/7.3/tests/dup-trace-fds-0-9.c /usr/src/debug/strace/7.3/tests/prctl-ppc-dexcr-success-Xabbrev.c /usr/src/debug/strace/7.3/src/mmap_notify.c /usr/src/debug/strace/7.3/src/xlat/pr_unalign_flags.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_af_spec_bridge_attrs.h /usr/src/debug/strace/7.3/src/xlat/genl_nl80211_cmd.h /usr/src/debug/strace/7.3/tests/ptrace_syscall_info.c /usr/src/debug/strace/7.3/src/xlat/sock_bluetooth_options.h /usr/src/de
- bug/strace/7.3/tests/execveat-v.c /usr/src/debug/strace/7.3/src/bpf_seccomp_filter.c /usr/src/debug/strace/7.3/tests/prctl-no-args-Xraw.c /usr/src/debug/strace/7.3/tests/umode_t.c /usr/src/debug/strace/7.3/tests/umount2.c /usr/src/debug/strace/7.3/tests/truncate.c /usr/src/debug/strace/7.3/tests/sol_tipc-group_join-success-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_fiemap-Xabbrev.c /usr/src/debug/strace/7.3/tests/io_uring_register-Xverbose.c /usr/src/debug/strace/7.3/src/io_uring.c /usr/src/debug/strace/7.3/src/xlat/uffd_copy_flags.h /usr/src/debug/strace/7.3/src/xlat/sock_can_raw_options.h /usr/src/debug/strace/7.3/tests/prctl-cap-ambient.c /usr/src/debug/strace/7.3/tests/quotactl-success.c /usr/src/debug/strace/7.3/src/netlink_selinux.c /usr/src/debug/strace/7.3/tests/linkat--secontext.c /usr/src/debug/strace/7.3/tests/status-all.c /usr/src/debug/strace/7.3/src/xlat/v4l2_input_status_flags.h /usr/src/debug/strace/7.3/tests/renameat2.c /usr/src/debug/strace/7.3/tests/execve--seco
- ntext.c /usr/src/debug/strace/7.3/tests/nfnetlink_cttimeout.c /usr/src/debug/strace/7.3/src/dm.c /usr/src/debug/strace/7.3/src/io.c /usr/src/debug/strace/7.3/src/mq.c /usr/src/debug/strace/7.3/src/hostname.c /usr/src/debug/strace/7.3/tests/status-failed.c /usr/src/debug/strace/7.3/src/print_timespec64.c /usr/src/debug/strace/7.3/src/xlat/bpf_link_create_kprobe_multi_flags.h /usr/src/debug/strace/7.3/src/xlat/bpf_link_create_uprobe_multi_flags.h /usr/src/debug/strace/7.3/src/xlat/term_oflags.h /usr/src/debug/strace/7.3/tests/gettid.c /usr/src/debug/strace/7.3/src/numa.c /usr/src/debug/strace/7.3/tests/landlock_create_ruleset.c /usr/src/debug/strace/7.3/src/ioperm.c /usr/src/debug/strace/7.3/src/lookup_dcookie.c /usr/src/debug/strace/7.3/src/xlat/netlink_diag_show.h /usr/src/debug/strace/7.3/tests/timer_create.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-success--pidns-translation-Xraw.c /usr/src/debug/strace/7.3/src/fs_f_ioctl.c /usr/src/debug/strace/7.3/src/getcpu.c /usr/src/d
- ebug/strace/7.3/src/xlat/term_oflags_tabdly.h /usr/src/debug/strace/7.3/tests/modify_ldt.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/fib_rules.h /usr/src/debug/strace/7.3/src/xlat/rtnl_tca_act_flags.h /usr/src/debug/strace/7.3/tests/ioctl_gpio-v-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-v-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/uffd_api_features.h /usr/src/debug/strace/7.3/tests/cachestat.c /usr/src/debug/strace/7.3/src/xlat/gpio_handle_flags.h /usr/src/debug/strace/7.3/tests/setrlimit-Xabbrev.c /usr/src/debug/strace/7.3/tests/mkdir.c /usr/src/debug/strace/7.3/src/fcntl.c /usr/src/debug/strace/7.3/src/xlat/nl_route_types.h /usr/src/debug/strace/7.3/tests/faccessat--secontext.c /usr/src/debug/strace/7.3/tests/prctl-ppc-dexcr-Xverbose.c /usr/src/debug/strace/7.3/tests/utimensat-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/v4l2_std_ids.h /usr/src/debug/strace/7.3/src/statx.h /usr/src/debug/strace/7.3/tests/execveat--secontext_mismatch.c /usr/src/debug/
- strace/7.3/tests/tgkill.c /usr/src/debug/strace/7.3/tests/nlattr_ifaddrmsg-Xraw.c /usr/src/debug/strace/7.3/src/xlat/mq_attr_flags.h /usr/src/debug/strace/7.3/src/xlat/openat2_flags.h /usr/src/debug/strace/7.3/src/xlat/qipcrtr_nodes.h /usr/src/debug/strace/7.3/src/xlat/qipcrtr_ports.h /usr/src/debug/strace/7.3/src/statx.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/ioam6_genl.h /usr/src/debug/strace/7.3/tests/prctl-ppc-dexcr-success.c /usr/src/debug/strace/7.3/tests/acct.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_ext_filter_flags.h /usr/src/debug/strace/7.3/tests/sched_xetaffinity--pidns-translation.c /usr/src/debug/strace/7.3/tests/ipc_msgbuf.c /usr/src/debug/strace/7.3/src/inotify.c /usr/src/debug/strace/7.3/tests/setns-report-ns-id-user-common.c /usr/src/debug/strace/7.3/src/xlat/neighbor_cache_entry_states.h /usr/src/debug/strace/7.3/tests/prctl-sme-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-sve-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/un
- share.c /usr/src/debug/strace/7.3/src/xlat/kd_key_tables.h /usr/src/debug/strace/7.3/tests/at_fdcwd-pathmax.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/mqueue.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/mroute.h /usr/src/debug/strace/7.3/src/set_tid_address.c /usr/src/debug/strace/7.3/tests/personality.c /usr/src/debug/strace/7.3/src/xlat/routing_scopes.h /usr/src/debug/strace/7.3/tests/errno2name.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/if_alg.h /usr/src/debug/strace/7.3/tests/openat--secontext.c /usr/src/debug/strace/7.3/tests/ptrace.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/ethtool_netlink_generated.h /usr/src/debug/strace/7.3/tests/fchmod--secontext_full.c /usr/src/debug/strace/7.3/tests/quotactl-Xabbrev.c /usr/src/debug/strace/7.3/tests/vmsplice.c /usr/src/debug/strace/7.3/src/xlat/sigprof_codes.h /usr/src/debug/strace/7.3/tests/xettimeofday.c /usr/src/debug/strace/7.3/tests/fstatat64.c /usr/src/debug/stra
- ce/7.3/tests/fstatfs64.c /usr/src/debug/strace/7.3/tests/osf_utimes.c /usr/src/debug/strace/7.3/tests/clone_ptrace-q.c /usr/src/debug/strace/7.3/src/xlat/v4l2_control_query_flags.h /usr/src/debug/strace/7.3/tests/netlink_kobject_uevent.c /usr/src/debug/strace/7.3/tests/sockopt-sol_socket-Xabbrev.c /usr/src/debug/strace/7.3/tests/futex_wait-Xverbose.c /usr/src/debug/strace/7.3/tests/lsm_get_self_attr-success.c /usr/src/debug/strace/7.3/src/xlat/multicast_router_types.h /usr/src/debug/strace/7.3/src/xlat/udmabuf_flags.h /usr/src/debug/strace/7.3/src/xlat/v4l2_memories.h /usr/src/debug/strace/7.3/tests/net--decode-fds-dev-netlink.c /usr/src/debug/strace/7.3/tests/execveat--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/bpf-obj_get_info_by_fd.c /usr/src/debug/strace/7.3/src/xlat/evdev_ff_status.h /usr/src/debug/strace/7.3/tests/getxattrat-yy.c /usr/src/debug/strace/7.3/tests/openat2.c /usr/src/debug/strace/7.3/tests/mmap64-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/statx_at
- trs.h /usr/src/debug/strace/7.3/src/reboot.c /usr/src/debug/strace/7.3/src/xlat/gpio_v2_line_attr_ids.h /usr/src/debug/strace/7.3/src/utime.c /usr/src/debug/strace/7.3/tests/sched_xetscheduler-Xabbrev.c /usr/src/debug/strace/7.3/tests/time_enjoyment.h /usr/src/debug/strace/7.3/src/xlat/uring_zcrx_event_types.h /usr/src/debug/strace/7.3/src/xlat/key_reqkeys.h /usr/src/debug/strace/7.3/tests/rt_sigqueueinfo.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y-success--pidns-translation-Xverbose.c /usr/src/debug/strace/7.3/tests/printpath-umovestr.c /usr/src/debug/strace/7.3/src/xlat/futexops.h /usr/src/debug/strace/7.3/tests/inet-cmsg.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ip6mra_msg_types.h /usr/src/debug/strace/7.3/src/xlat/uring_recvsend_flags.h /usr/src/debug/strace/7.3/tests/pause.c /usr/src/debug/strace/7.3/tests/scm_pidfd-success.c /usr/src/debug/strace/7.3/tests/prctl-riscv-icache-flush-ctx-Xverbose.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/if_addrlabel.h /u
- sr/src/debug/strace/7.3/src/execve.c /usr/src/debug/strace/7.3/tests/getxattrat-P.c /usr/src/debug/strace/7.3/tests/strace--strings-in-hex.c /usr/src/debug/strace/7.3/src/xlat/sock_kcm_options.h /usr/src/debug/strace/7.3/tests/fanotify_mark--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/dirfd.c /usr/src/debug/strace/7.3/tests/setns.c /usr/src/debug/strace/7.3/tests/detach-vfork.c /usr/src/debug/strace/7.3/tests/prlimit64--pidns-translation.c /usr/src/debug/strace/7.3/tests/pidfd_open--decode-fd-path.c /usr/src/debug/strace/7.3/tests/sock_filter-v-Xabbrev.c /usr/src/debug/strace/7.3/tests/chown.c /usr/src/debug/strace/7.3/tests/move_pages--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/mtd_nandecc_options.h /usr/src/debug/strace/7.3/tests/open--secontext.c /usr/src/debug/strace/7.3/tests/mincore.c /usr/src/debug/strace/7.3/tests/pidfd_open--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/cap_mask0.h /usr/src/debug/strace/7.3/src/xlat/inotify_init_flags.h /u
- sr/src/debug/strace/7.3/tests/futex_wake.c /usr/src/debug/strace/7.3/tests/rt_sigqueueinfo--pidns-translation.c /usr/src/debug/strace/7.3/tests/clone_ptrace-qq.c /usr/src/debug/strace/7.3/src/xlat/sock_pnp_options.h /usr/src/debug/strace/7.3/src/xlat/sync_file_range_flags.h /usr/src/debug/strace/7.3/tests/map_shadow_stack-Xabbrev.c /usr/src/debug/strace/7.3/tests/sched_getscheduler-success.c /usr/src/debug/strace/7.3/tests/nlattr_inet_diag_msg.c /usr/src/debug/strace/7.3/tests/openat.c /usr/src/debug/strace/7.3/tests/shutdown.c /usr/src/debug/strace/7.3/tests/ioperm.c /usr/src/debug/strace/7.3/tests/status-unfinished.c /usr/src/debug/strace/7.3/src/rtnl_tc.c /usr/src/debug/strace/7.3/src/xlat/keyctl_pkey_ops.h /usr/src/debug/strace/7.3/src/xlat/rtnl_nexthop_grp_types.h /usr/src/debug/strace/7.3/src/xlat/uffd_api_flags.h /usr/src/debug/strace/7.3/src/xlat/ipc_private.h /usr/src/debug/strace/7.3/tests/so_peercred.c /usr/src/debug/strace/7.3/src/xlat/ethernet_protocols.h /usr/src/debug
- /strace/7.3/src/xlat/xattrat_flags.h /usr/src/debug/strace/7.3/src/xlat/packet_diag_show.h /usr/src/debug/strace/7.3/tests/nlattr_ifla_proto_down_reason.c /usr/src/debug/strace/7.3/tests/sched_xetattr--pidns-translation.c /usr/src/debug/strace/7.3/src/gpio_ioctl.c /usr/src/debug/strace/7.3/tests/ioctl_dm.c /usr/src/debug/strace/7.3/tests/ioctl_kd.c /usr/src/debug/strace/7.3/tests/open--secontext_mismatch.c /usr/src/debug/strace/7.3/src/xlat/at_flags.h /usr/src/debug/strace/7.3/src/xlat/dm_flags.h /usr/src/debug/strace/7.3/src/xlat/iffflags.h /usr/src/debug/strace/7.3/tests/stack-fcall-mangled.c /usr/src/debug/strace/7.3/src/xlat/v4l2_tuner_rxsubchanses.h /usr/src/debug/strace/7.3/src/sysinfo.c /usr/src/debug/strace/7.3/src/xlat/nf_acct_msg_types.h /usr/src/debug/strace/7.3/tests/alarm.c /usr/src/debug/strace/7.3/tests/sock_filter-v.c /usr/src/debug/strace/7.3/src/xlat/uring_socket_ops.h /usr/src/debug/strace/7.3/tests/dup3.c /usr/src/debug/strace/7.3/src/mmap_cache.h /usr/src/debug/
- strace/7.3/tests/test_nlattr.h /usr/src/debug/strace/7.3/tests/pidfd_send_signal.c /usr/src/debug/strace/7.3/src/kd_mpers_ioctl.c /usr/src/debug/strace/7.3/src/mmap_cache.c /usr/src/debug/strace/7.3/tests/prctl-dumpable.c /usr/src/debug/strace/7.3/tests/xmalloc_for_tests.c /usr/src/debug/strace/7.3/src/xlat/if_dqinfo_flags.h /usr/src/debug/strace/7.3/tests/bpf-obj_get_info_by_fd-prog.c /usr/src/debug/strace/7.3/src/xlat/dirent_types.h /usr/src/debug/strace/7.3/src/xlat/sigact_flags.h /usr/src/debug/strace/7.3/src/xlat/umount_flags.h /usr/src/debug/strace/7.3/tests/process_madvise-y.c /usr/src/debug/strace/7.3/tests/sol_tipc-group_join-success-Xabbrev.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/cryptouser.h /usr/src/debug/strace/7.3/src/xlat/btrfs_balance_ctl_cmds.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/if_bonding.h /usr/src/debug/strace/7.3/src/xlat/pr_sched_core_pidtypes.h /usr/src/debug/strace/7.3/tests/dup2-yy.c /usr/src/debug/strace/7.3/test
- s/dup3-yy.c /usr/src/debug/strace/7.3/src/xlat/ptp_perout_flags.h /usr/src/debug/strace/7.3/tests/waitid.c /usr/src/debug/strace/7.3/src/xlat/mount_attr_propagation.h /usr/src/debug/strace/7.3/tests/ioctl_epoll-Xraw.c /usr/src/debug/strace/7.3/src/xlat/perf_branch_sample_type.h /usr/src/debug/strace/7.3/tests/ioctl_evdev-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/fsopen.c /usr/src/debug/strace/7.3/tests/seccomp-filter.c /usr/src/debug/strace/7.3/src/xlat/lsm_ids.h /usr/src/debug/strace/7.3/tests/clock_t_str.c /usr/src/debug/strace/7.3/tests/ipc.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_port_attrs.h /usr/src/debug/strace/7.3/src/stat.h /usr/src/debug/strace/7.3/src/xlat.h /usr/src/debug/strace/7.3/src/xlat/sched_getattr_flags.h /usr/src/debug/strace/7.3/src/stat.c /usr/src/debug/strace/7.3/src/xlat.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_vf_vlan_list_attrs.h /usr/src/debug/strace/7.3/tests/old_mmap-Xraw.c /usr/src/debug/strace/7.3/src/xlat/sock_xdp_options.h /usr/s
- rc/debug/strace/7.3/tests/setns-report-ns-id-time.c /usr/src/debug/strace/7.3/tests/setns-report-ns-id-user.c /usr/src/debug/strace/7.3/src/xlat/uring_setup_features.h /usr/src/debug/strace/7.3/src/xlat/vsock_ports.h /usr/src/debug/strace/7.3/tests/netlink_xfrm.c /usr/src/debug/strace/7.3/src/util.c /usr/src/debug/strace/7.3/src/xlat/evdev_abs.h /usr/src/debug/strace/7.3/tests/setrlimit-Xverbose.c /usr/src/debug/strace/7.3/tests/error_msg.c /usr/src/debug/strace/7.3/src/xlat/move_pages_flags.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/netlink_diag.h /usr/src/debug/strace/7.3/tests/prctl-tsc.c /usr/src/debug/strace/7.3/src/seccomp_ioctl.c /usr/src/debug/strace/7.3/src/xlat/mtd_file_mode_options.h /usr/src/debug/strace/7.3/src/xlat/fcntlcmds.h /usr/src/debug/strace/7.3/src/xlat/flockcmds.h /usr/src/debug/strace/7.3/src/kernel_timeval.h /usr/src/debug/strace/7.3/src/xlat/lockfcmds.h /usr/src/debug/strace/7.3/src/xlat/quotacmds.h /usr/src/debug/strace/7.3/tests/dup.c /u
- sr/src/debug/strace/7.3/tests/printstrn-umoven.c /usr/src/debug/strace/7.3/tests/open_tree_attr.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/if_addr.h /usr/src/debug/strace/7.3/src/dirent.c /usr/src/debug/strace/7.3/tests/setresgid32.c /usr/src/debug/strace/7.3/tests/setresuid32.c /usr/src/debug/strace/7.3/src/xlat/tun_device_types.h /usr/src/debug/strace/7.3/src/xlat/v4l2_event_types.h /usr/src/debug/strace/7.3/tests/signalfd4.c /usr/src/debug/strace/7.3/src/rtnl_cachereport.c /usr/src/debug/strace/7.3/tests/faccessat--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/rseq.c /usr/src/debug/strace/7.3/tests/umount.c /usr/src/debug/strace/7.3/src/fsconfig.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/sol_tipc-importance-success-Xraw.c /usr/src/debug/strace/7.3/src/xlat/bpf_size.h /usr/src/debug/strace/7.3/tests/io_uring_register.c /usr/src/debug/strace/7.3/tests/sched_xetparam--pidns-translation.c /usr/src/debug/stra
- ce/7.3/tests/prctl-securebits-success-Xverbose.c /usr/src/debug/strace/7.3/tests/prlimit64-success--pidns-translation.c /usr/src/debug/strace/7.3/tests/ioctl_rtc-success.c /usr/src/debug/strace/7.3/src/xlat/v4l2_streaming_capabilities.h /usr/src/debug/strace/7.3/tests/getdents64-v.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-success-Xraw.c /usr/src/debug/strace/7.3/tests/ioprio-Xabbrev.c /usr/src/debug/strace/7.3/tests/ptrace_syscall_info-Xraw.c /usr/src/debug/strace/7.3/tests/execve.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/tipc.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/gpio.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/kcmp.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/loop.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/mctp.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/mpls.h /usr/src/debug/strace/7.3/src/xlat/pr_mce_kill_policy.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/
- linux/nsfs.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/qrtr.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/rseq.h /usr/src/debug/strace/7.3/src/socketcall.c /usr/src/debug/strace/7.3/tests/ip_protocol-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2.c /usr/src/debug/strace/7.3/src/xlat/tls_info_ciphers.h /usr/src/debug/strace/7.3/tests/sockopt-sol_socket.c /usr/src/debug/strace/7.3/src/xlat/if_dqinfo_valid.h /usr/src/debug/strace/7.3/tests/printxval-Xverbose.c /usr/src/debug/strace/7.3/tests/group_req.c /usr/src/debug/strace/7.3/tests/printsignal.c /usr/src/debug/strace/7.3/tests/umask.c /usr/src/debug/strace/7.3/src/xlat/netlink_flags.h /usr/src/debug/strace/7.3/src/xlat/netlink_types.h /usr/src/debug/strace/7.3/src/signalfd.c /usr/src/debug/strace/7.3/tests/ioctl_nsfs-ns_get_pid.c /usr/src/debug/strace/7.3/tests/net-packet_mreq-Xabbrev.c /usr/src/debug/strace/7.3/tests/set_mempolicy-Xraw.c /usr/src/debug/strace/7.3/tests/clock_xettime.c /usr/src/
- debug/strace/7.3/src/file_attr.c /usr/src/debug/strace/7.3/tests/stat.c /usr/src/debug/strace/7.3/src/xlat/counter_ioctl_component_types.h /usr/src/debug/strace/7.3/tests/getgroups32.c /usr/src/debug/strace/7.3/tests/strace--syscall-limit-path.c /usr/src/debug/strace/7.3/src/xlat/shm_flags.h /usr/src/debug/strace/7.3/src/xlat/xdp_flags.h /usr/src/debug/strace/7.3/src/xlat/rtnl_link_attrs.h /usr/src/debug/strace/7.3/src/xlat/bsg_flags.h /usr/src/debug/strace/7.3/src/xlat/efd_flags.h /usr/src/debug/strace/7.3/src/xlat/fs_xflags.h /usr/src/debug/strace/7.3/src/xlat/lsm_flags.h /usr/src/debug/strace/7.3/src/xlat/mdb_flags.h /usr/src/debug/strace/7.3/src/xlat/msg_flags.h /usr/src/debug/strace/7.3/src/xlat/pollflags.h /usr/src/debug/strace/7.3/tests/bpf.c /usr/src/debug/strace/7.3/src/xlat/access_modes.h /usr/src/debug/strace/7.3/src/xlat/sigbus_codes.h /usr/src/debug/strace/7.3/src/xlat/sigsys_codes.h /usr/src/debug/strace/7.3/src/xlat/statfs_flags.h /usr/src/debug/strace/7.3/src/evdev.c
-  /usr/src/debug/strace/7.3/tests/mmap-Xabbrev.c /usr/src/debug/strace/7.3/tests/nlattr_nlmsgerr.c /usr/src/debug/strace/7.3/tests/prctl-seccomp-filter-v.c /usr/src/debug/strace/7.3/tests/sendfile64.c /usr/src/debug/strace/7.3/tests/fchmod-y--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/fchmodat--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/fchownat--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/file_setattr-Xverbose.c /usr/src/debug/strace/7.3/tests/semop.c /usr/src/debug/strace/7.3/src/fetch_struct_mmsghdr.c /usr/src/debug/strace/7.3/src/xlat/btrfs_fs_info_flags.h /usr/src/debug/strace/7.3/src/kernel_timespec.h /usr/src/debug/strace/7.3/src/xlat/setns_types.h /usr/src/debug/strace/7.3/src/xlat/v4l2_input_capabilities_flags.h /usr/src/debug/strace/7.3/tests/setresugid.c /usr/src/debug/strace/7.3/src/xlat/v4l2_device_capabilities_flags.h /usr/src/debug/strace/7.3/tests/maybe_switch_current_tcp--quiet-thread-execve.c /usr/src/debug/strace/7.3/src/
- xlat/landlock_ruleset_access_net.h /usr/src/debug/strace/7.3/tests/prctl-securebits-success-Xraw.c /usr/src/debug/strace/7.3/tests/setxattrat-y.c /usr/src/debug/strace/7.3/tests/ioprio-Xraw.c /usr/src/debug/strace/7.3/tests/ip_local_port_range-success.c /usr/src/debug/strace/7.3/tests/unshare-report-ns-id.c /usr/src/debug/strace/7.3/src/xlat/tee_ioctl_login_types.h /usr/src/debug/strace/7.3/tests/open_tree-P.c /usr/src/debug/strace/7.3/tests/sleep-timing.c /usr/src/debug/strace/7.3/tests/getgid.c /usr/src/debug/strace/7.3/src/chmod.c /usr/src/debug/strace/7.3/src/xlat/baud_options.h /usr/src/debug/strace/7.3/src/xlat/sock_options.h /usr/src/debug/strace/7.3/tests/nfnetlink_acct.c /usr/src/debug/strace/7.3/src/filter_qualify.c /usr/src/debug/strace/7.3/tests/umoven-illptr.c /usr/src/debug/strace/7.3/tests/semtimedop-common.c /usr/src/debug/strace/7.3/src/xlat/kvm_exit_reason.h /usr/src/debug/strace/7.3/tests/pselect6_time64.c /usr/src/debug/strace/7.3/tests/kernel_version.c /usr/src/
- debug/strace/7.3/src/xlat/tee_ioctl_param_attr_types.h /usr/src/debug/strace/7.3/tests/setgid.c /usr/src/debug/strace/7.3/src/xlat/af_tipc_flags.h /usr/src/debug/strace/7.3/src/rtnl_addr.c /usr/src/debug/strace/7.3/src/rtnl_link.c /usr/src/debug/strace/7.3/src/rtnl_nsid.c /usr/src/debug/strace/7.3/src/rtnl_rule.c /usr/src/debug/strace/7.3/src/seccomp.c /usr/src/debug/strace/7.3/src/xlat/af_tipc_scope.h /usr/src/debug/strace/7.3/src/xlat/af_tipc_types.h /usr/src/debug/strace/7.3/src/xlat/aio_cmds.h /usr/src/debug/strace/7.3/tests/futex_wake-Xraw.c /usr/src/debug/strace/7.3/tests/setns-report-ns-id-children.c /usr/src/debug/strace/7.3/tests/dup3-P.c /usr/src/debug/strace/7.3/tests/nlattr_nhmsg-Xabbrev.c /usr/src/debug/strace/7.3/tests/openat2-v-y.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/v4l2-controls.h /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y-success-Xverbose.c /usr/src/debug/strace/7.3/tests/kern_features.c /usr/src/debug/strace/7.3/tests/prctl-set-ptracer-
- success-Xabbrev--pidns-translation.c /usr/src/debug/strace/7.3/tests/net-tpacket_req.c /usr/src/debug/strace/7.3/src/xlat/rename_flags.h /usr/src/debug/strace/7.3/src/xlat/sigfpe_codes.h /usr/src/debug/strace/7.3/src/xlat/splice_flags.h /usr/src/debug/strace/7.3/src/xlat/whence_codes.h /usr/src/debug/strace/7.3/tests/pkey_mprotect.c /usr/src/debug/strace/7.3/src/print_utils.h /usr/src/debug/strace/7.3/src/xlat/pr_cap_ambient.h /usr/src/debug/strace/7.3/tests/epoll_create.c /usr/src/debug/strace/7.3/tests/setns-report-ns-id-user-explicit.c /usr/src/debug/strace/7.3/tests/fill_memory.c /usr/src/debug/strace/7.3/src/xlat/seccomp_ioctl_resp_flags.h /usr/src/debug/strace/7.3/src/xlat/routing_protocols.h /usr/src/debug/strace/7.3/tests/net--decode-fds-none-netlink.c /usr/src/debug/strace/7.3/src/xlat/bpf_miscop.h /usr/src/debug/strace/7.3/src/xlat/tee_ioctl_origins.h /usr/src/debug/strace/7.3/tests/file_xetattr-common.c /usr/src/debug/strace/7.3/tests/faccessat-y.c /usr/src/debug/strace/7
- .3/src/xlat/sock_tcp_options.h /usr/src/debug/strace/7.3/tests/s390_guarded_storage-v.c /usr/src/debug/strace/7.3/src/xlat/uring_zcrx_ctrl_ops.h /usr/src/debug/strace/7.3/src/xlat/nf_cttimeout_msg_types.h /usr/src/debug/strace/7.3/tests/nlattr_rtgenmsg.c /usr/src/debug/strace/7.3/tests/execve--secontext_full.c /usr/src/debug/strace/7.3/tests/times-Xraw.c /usr/src/debug/strace/7.3/src/string_to_uint.h /usr/src/debug/strace/7.3/src/random_ioctl.c /usr/src/debug/strace/7.3/src/xlat/btrfs_csum_types.h /usr/src/debug/strace/7.3/tests/nlattr_ifla_vfinfo-Xraw.c /usr/src/debug/strace/7.3/tests/clone_ptrace.c /usr/src/debug/strace/7.3/src/xlat/hci_channels.h /usr/src/debug/strace/7.3/tests/xattr-strings.c /usr/src/debug/strace/7.3/src/xlat/evdev_ff_types.h /usr/src/debug/strace/7.3/tests/prctl-tagged-addr-success.c /usr/src/debug/strace/7.3/src/string_to_uint.c /usr/src/debug/strace/7.3/src/xlat/pr_riscv_v_states.h /usr/src/debug/strace/7.3/tests/threads-execve-qqq.c /usr/src/debug/strace/7.
- 3/src/xlat/ipccalls.h /usr/src/debug/strace/7.3/tests/ioctl_tun-y.c /usr/src/debug/strace/7.3/src/xlat/term_cflags_csize.h /usr/src/debug/strace/7.3/tests/ioctl_evdev-success.c /usr/src/debug/strace/7.3/src/xlat/shutdown_modes.h /usr/src/debug/strace/7.3/src/xlat/pr_tagged_addr_mte_tcf.h /usr/src/debug/strace/7.3/tests/prctl-riscv-v-ctrl-Xabbrev.c /usr/src/debug/strace/7.3/src/ustat.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/btrfs.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/dcbnl.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/futex.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/xattr.h /usr/src/debug/strace/7.3/tests/attach-p-cmd-p.c /usr/src/debug/strace/7.3/tests/ip_local_port_range.c /usr/src/debug/strace/7.3/tests/eventfd.c /usr/src/debug/strace/7.3/tests/file_handle--secontext_full_mismatch.c /usr/src/debug/strace/7.3/src/xlat/landlock_rule_types.h /usr/src/debug/strace/7.3/tests/io_uring_register-success-Xverbose.c
-  /usr/src/debug/strace/7.3/src/xlat/schedulers.h /usr/src/debug/strace/7.3/tests/clone3-success-Xverbose.c /usr/src/debug/strace/7.3/tests/process_mrelease.c /usr/src/debug/strace/7.3/src/xlat/rtnl_mdba_mdb_eattr_attrs.h /usr/src/debug/strace/7.3/src/xlat/rtnl_mdba_mdb_entry_attrs.h /usr/src/debug/strace/7.3/src/xlat/uring_query_ops.h /usr/src/debug/strace/7.3/src/xlat/archvals.h /usr/src/debug/strace/7.3/tests/quotactl.h /usr/src/debug/strace/7.3/tests/ioctl_scsi.c /usr/src/debug/strace/7.3/tests/quotactl.c /usr/src/debug/strace/7.3/tests/segv_accerr.c /usr/src/debug/strace/7.3/tests/segv_pkuerr.c /usr/src/debug/strace/7.3/tests/getuid.c /usr/src/debug/strace/7.3/tests/fchroot.c /usr/src/debug/strace/7.3/tests/fcntl64.c /usr/src/debug/strace/7.3/tests/setdomainname.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_info_data_bridge_attrs.h /usr/src/debug/strace/7.3/tests/umovestr_cached_adjacent.c /usr/src/debug/strace/7.3/tests/semtimedop_time64.c /usr/src/debug/strace/7.3/src/xlat/ls
- m_attrs.h /usr/src/debug/strace/7.3/src/xlat/notifyflags.h /usr/src/debug/strace/7.3/src/map_shadow_stack.c /usr/src/debug/strace/7.3/src/xlat/nlmsgerr_attrs.h /usr/src/debug/strace/7.3/tests/ioctl_pidfd_get_info-success-Xabbrev.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/tcp_metrics.h /usr/src/debug/strace/7.3/tests/ioctl_nsfs.c /usr/src/debug/strace/7.3/tests/nlattr_ndtmsg.c /usr/src/debug/strace/7.3/tests/caps.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-Xraw.c /usr/src/debug/strace/7.3/tests/pidfd_send_signal--pidns-translation.c /usr/src/debug/strace/7.3/src/netlink_netfilter.c /usr/src/debug/strace/7.3/tests/xet_robust_list--pidns-translation.c /usr/src/debug/strace/7.3/src/kexec.c /usr/src/debug/strace/7.3/src/xlat/nf_osf_msg_types.h /usr/src/debug/strace/7.3/tests/kill--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/perf_event_sample_format.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_vf_link_states.h /usr/src/debug/strace/7.3/tests/ioctl_sock_gif
- conf.c /usr/src/debug/strace/7.3/tests/count-f.c /usr/src/debug/strace/7.3/tests/llseek.c /usr/src/debug/strace/7.3/tests/oldstat.c /usr/src/debug/strace/7.3/src/secontext.h /usr/src/debug/strace/7.3/tests/fstat64-Xverbose.c /usr/src/debug/strace/7.3/tests/fchmodat2--secontext_mismatch.c /usr/src/debug/strace/7.3/src/xlat/statmount_sb_flags.h /usr/src/debug/strace/7.3/src/xlat/v4l2_control_types.h /usr/src/debug/strace/7.3/tests/mlockall.c /usr/src/debug/strace/7.3/tests/sleep.c /usr/src/debug/strace/7.3/tests/arch_prctl-Xraw.c /usr/src/debug/strace/7.3/tests/sysctl.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/time_types.h /usr/src/debug/strace/7.3/src/xlat/netlink_ack_flags.h /usr/src/debug/strace/7.3/src/xlat/netlink_get_flags.h /usr/src/debug/strace/7.3/src/xlat/netlink_new_flags.h /usr/src/debug/strace/7.3/tests/mmsg_name-v.c /usr/src/debug/strace/7.3/src/affinity.c /usr/src/debug/strace/7.3/tests/file_handle--secontext_full.c /usr/src/debug/strace/7.3/tests/prct
- l-sched-core-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/nl_netfilter_msg_types.h /usr/src/debug/strace/7.3/src/counter_ioctl.c /usr/src/debug/strace/7.3/tests/setxattrat-yy.c /usr/src/debug/strace/7.3/tests/setns-report-ns-id-cgroup.c /usr/src/debug/strace/7.3/tests/access--secontext_full.c /usr/src/debug/strace/7.3/tests/fchmod-y--secontext_mismatch.c /usr/src/debug/strace/7.3/src/xlat/rxrpc_services.h /usr/src/debug/strace/7.3/tests/fchmodat--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/fchownat--secontext_mismatch.c /usr/src/debug/strace/7.3/src/xlat/btrfs_scrub_flags.h /usr/src/debug/strace/7.3/src/xlat/uring_setup_flags.h /usr/src/debug/strace/7.3/src/fetch_struct_msghdr.c /usr/src/debug/strace/7.3/src/kernel_timex.h /usr/src/debug/strace/7.3/tests/keyctl-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/v4l2_sliced_flags.h /usr/src/debug/strace/7.3/tests/openat--secontext_full.c /usr/src/debug/strace/7.3/tests/ioctl_fiemap.c /usr/src/debug/strace/7.3/src/xlat/f_seals.h 
- /usr/src/debug/strace/7.3/src/xlat/scmvals.h /usr/src/debug/strace/7.3/tests/ioctl_v4l2-v-Xabbrev.c /usr/src/debug/strace/7.3/tests/secontext.h /usr/src/debug/strace/7.3/tests/prctl-seccomp-strict.c /usr/src/debug/strace/7.3/src/xlat/bdaddr_types.h /usr/src/debug/strace/7.3/src/xlat/itimer_which.h /usr/src/debug/strace/7.3/src/xlat/tee_ioctl_shm_flags.h /usr/src/debug/strace/7.3/tests/setrlimit.c /usr/src/debug/strace/7.3/src/xlat/pr_sched_core_cmds.h /usr/src/debug/strace/7.3/tests/getrandom.c /usr/src/debug/strace/7.3/src/xlat/smc_link_group_roles.h /usr/src/debug/strace/7.3/tests/so_peercred-Xraw.c /usr/src/debug/strace/7.3/tests/execveat--secontext.c /usr/src/debug/strace/7.3/tests/ioctl_fiemap-success.c /usr/src/debug/strace/7.3/src/xlat/uring_register_rsrc_flags.h /usr/src/debug/strace/7.3/src/xlat/hdio_drive_cmds.h /usr/src/debug/strace/7.3/tests/inotify_init.c /usr/src/debug/strace/7.3/tests/getxpid.c /usr/src/debug/strace/7.3/src/xlat/name_to_handle_at_flags.h /usr/src/debu
- g/strace/7.3/src/xlat/mctl_sync.h /usr/src/debug/strace/7.3/src/xlat/tun_filter_flags.h /usr/src/debug/strace/7.3/tests/nlattr_ifaddrmsg.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/tee.h /usr/src/debug/strace/7.3/src/xlat/v4l2_control_classes.h /usr/src/debug/strace/7.3/src/xlat/snmp_ip_stats.h /usr/src/debug/strace/7.3/tests/futex_wait-Xabbrev.c /usr/src/debug/strace/7.3/tests/arch_prctl-Xverbose.c /usr/src/debug/strace/7.3/tests/nlattr_mdba_mdb_entry.c /usr/src/debug/strace/7.3/tests/ioctl_fs_0x15.c /usr/src/debug/strace/7.3/src/xlat/kvm_cap.h /usr/src/debug/strace/7.3/src/xlat/sock_llc_options.h /usr/src/debug/strace/7.3/tests/dup-P.c /usr/src/debug/strace/7.3/tests/accept.c /usr/src/debug/strace/7.3/src/xlat/rtnl_netconf_attrs.h /usr/src/debug/strace/7.3/src/macros.h /usr/src/debug/strace/7.3/src/xlat/rtnl_nexthop_attrs.h /usr/src/debug/strace/7.3/tests/getsockname--secontext_full.c /usr/src/debug/strace/7.3/tests/futex_requeue-Xverbose.c /usr/src/debug/strace/7
- .3/tests/poll.c /usr/src/debug/strace/7.3/tests/getsid.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp-success.c /usr/src/debug/strace/7.3/tests/nlattr_tcamsg-Xabbrev.c /usr/src/debug/strace/7.3/tests/prctl-ppc-dexcr-Xraw.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_vfinfo-Xabbrev.c /usr/src/debug/strace/7.3/tests/kernel_version-Xraw.c /usr/src/debug/strace/7.3/tests/printstrn-umoven-peekdata.c /usr/src/debug/strace/7.3/tests/tkill--pidns-translation.c /usr/src/debug/strace/7.3/src/xlat/rtnl_tca_act_hw_stats.h /usr/src/debug/strace/7.3/src/xlat/kd_key_ascii_keys.h /usr/src/debug/strace/7.3/src/xlat/kd_key_shift_keys.h /usr/src/debug/strace/7.3/src/xlat/kd_key_slock_keys.h /usr/src/debug/strace/7.3/tests/strace--always-show-pid.c /usr/src/debug/strace/7.3/tests/status-successful.c /usr/src/debug/strace/7.3/tests/prctl-no-args-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/strace--decode-pids-comm.c /usr/src/debug/strace/7.3/tests/ip_local_port_range-success-Xabbrev.c /usr/src/deb
- ug/strace/7.3/bundled/linux/include/uapi/linux/pkt_sched.h /usr/src/debug/strace/7.3/tests/getxattrat-y.c /usr/src/debug/strace/7.3/tests/ioctl_kd-success-Xabbrev.c /usr/src/debug/strace/7.3/tests/ptrace_set_syscall_info.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_br_mcast_querier_attrs.h /usr/src/debug/strace/7.3/src/xlat/kd_kbd_modes.h /usr/src/debug/strace/7.3/src/xlat/kd_kbd_types.h /usr/src/debug/strace/7.3/src/xlat/kd_led_flags.h /usr/src/debug/strace/7.3/src/xlat/waitid_types.h /usr/src/debug/strace/7.3/tests/net-accept-connect.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-success-v-Xverbose.c /usr/src/debug/strace/7.3/tests/dup2-e-fd-not-9.c /usr/src/debug/strace/7.3/src/xlat/evdev_relative_axes.h /usr/src/debug/strace/7.3/tests/epoll_pwait.c /usr/src/debug/strace/7.3/tests/remap_file_pages.c /usr/src/debug/strace/7.3/tests/semop-indirect.c /usr/src/debug/strace/7.3/tests/sync_file_range2.c /usr/src/debug/strace/7.3/tests/ioctl_ptp-success-Xabbrev.c /usr/src/debug/strace/
- 7.3/tests/quotactl-v.c /usr/src/debug/strace/7.3/src/dirent_types.c /usr/src/debug/strace/7.3/src/fallocate.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-success-v-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-success-v-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/skf_ad.h /usr/src/debug/strace/7.3/tests/execve--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/stack-fcall-mangled-2.c /usr/src/debug/strace/7.3/tests/prctl-sched-core--pidns-translation.c /usr/src/debug/strace/7.3/src/print_ifindex.c /usr/src/debug/strace/7.3/src/xlat/v4l2_tuner_audmodes.h /usr/src/debug/strace/7.3/tests/stack-fcall-mangled-0.c /usr/src/debug/strace/7.3/tests/clone3-Xraw.c /usr/src/debug/strace/7.3/tests/prlimit64-success.c /usr/src/debug/strace/7.3/tests/quotactl_fd-P.c /usr/src/debug/strace/7.3/tests/openat2-y.c /usr/src/debug/strace/7.3/tests/mq.c /usr/src/debug/strace/7.3/tests/netlink_protocol.c /usr/src/debug/strace/7.3/tests/mmap64-Xraw.c /usr/src/debug/strace/7.3/src/xlat/tcp_ao_key
- f_flags.h /usr/src/debug/strace/7.3/tests/poke-sendfile.c /usr/src/debug/strace/7.3/tests/xet_thread_area_x86.c /usr/src/debug/strace/7.3/tests/process_madvise.c /usr/src/debug/strace/7.3/tests/fchmodat2--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/strace-no-x.c /usr/src/debug/strace/7.3/tests/nlattr_cachereport.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp-y-success--pidns-translation-Xraw.c /usr/src/debug/strace/7.3/tests/filter_seccomp-flag.c /usr/src/debug/strace/7.3/src/bind.c /usr/src/debug/strace/7.3/src/chdir.c /usr/src/debug/strace/7.3/src/xlat/move_mount_flags.h /usr/src/debug/strace/7.3/tests/ioctl_gpio-success.c /usr/src/debug/strace/7.3/src/xlat/btrfs_cont_reading_from_srcdev_mode.h /usr/src/debug/strace/7.3/tests/ioctl_hdio-success.c /usr/src/debug/strace/7.3/tests/sigpending.c /usr/src/debug/strace/7.3/tests/fchmod-y--secontext.c /usr/src/debug/strace/7.3/tests/fchmodat--secontext.c /usr/src/debug/strace/7.3/tests/fchownat--secontext.c /usr/src/debug/s
- trace/7.3/tests/clone-flags.c /usr/src/debug/strace/7.3/src/times.c /usr/src/debug/strace/7.3/src/poke.c /usr/src/debug/strace/7.3/tests/sched_get_priority_mxx.c /usr/src/debug/strace/7.3/tests/clock_adjtime.c /usr/src/debug/strace/7.3/tests/io_uring_register-Xraw.c /usr/src/debug/strace/7.3/src/poke.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/rtnetlink.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/genetlink.h /usr/src/debug/strace/7.3/tests/ipc_msgbuf-Xabbrev.c /usr/src/debug/strace/7.3/tests/printpath-umovestr-peekdata.c /usr/src/debug/strace/7.3/tests/futex_wake-Xverbose.c /usr/src/debug/strace/7.3/tests/madvise-Xraw.c /usr/src/debug/strace/7.3/src/xlat/v4l2_tuner_types.h /usr/src/debug/strace/7.3/tests/s390_sthyi.c /usr/src/debug/strace/7.3/tests/sched_xetaffinity.c /usr/src/debug/strace/7.3/tests/prctl-arg2-intptr.c /usr/src/debug/strace/7.3/tests/nlattr_ifla_vfinfo.c /usr/src/debug/strace/7.3/src/pidfd_getfd.c /usr/src/debug/strace/7.3/src/xlat/
- landlock_add_rule_flags.h /usr/src/debug/strace/7.3/src/xlat/pr_sme_vl_flags.h /usr/src/debug/strace/7.3/src/xlat/pr_sve_vl_flags.h /usr/src/debug/strace/7.3/tests/nfnetlink_ipset.c /usr/src/debug/strace/7.3/tests/nfnetlink_queue.c /usr/src/debug/strace/7.3/tests/fsconfig-P.c /usr/src/debug/strace/7.3/src/rseq.c /usr/src/debug/strace/7.3/src/xlat/genl_ctrl_attr_op_flags.h /usr/src/debug/strace/7.3/src/xlat/vsock_flags.h /usr/src/debug/strace/7.3/src/xlat/clone_flags.h /usr/src/debug/strace/7.3/src/xlat/mbind_flags.h /usr/src/debug/strace/7.3/src/xlat/mlock_flags.h /usr/src/debug/strace/7.3/src/xlat/modem_flags.h /usr/src/debug/strace/7.3/src/xlat/mount_flags.h /usr/src/debug/strace/7.3/src/xlat/sched_flags.h /usr/src/debug/strace/7.3/src/xlat/semop_flags.h /usr/src/debug/strace/7.3/src/xlat/sg_io_flags.h /usr/src/debug/strace/7.3/src/xlat/btrfs_dev_replace_state.h /usr/src/debug/strace/7.3/src/xlat/adjtimex_modes.h /usr/src/debug/strace/7.3/src/xlat/seccomp_mode.h /usr/src/debug/str
- ace/7.3/src/xlat/v4l2_meta_fmts.h /usr/src/debug/strace/7.3/tests/signal_receive.c /usr/src/debug/strace/7.3/tests/statx.c /usr/src/debug/strace/7.3/src/xmalloc.h /usr/src/debug/strace/7.3/tests/link-P.c /usr/src/debug/strace/7.3/tests/dup-trace-fds-not-9.c /usr/src/debug/strace/7.3/src/xmalloc.c /usr/src/debug/strace/7.3/tests/prctl-tagged-addr-Xraw.c /usr/src/debug/strace/7.3/src/xlat/socketlayers.h /usr/src/debug/strace/7.3/tests/access--secontext_full_mismatch.c /usr/src/debug/strace/7.3/tests/prctl-riscv-icache-flush-ctx.c /usr/src/debug/strace/7.3/src/pidfd_ioctl.c /usr/src/debug/strace/7.3/tests/symlink.c /usr/src/debug/strace/7.3/tests/sysinfo.c /usr/src/debug/strace/7.3/tests/ioctl_mtd-success.c /usr/src/debug/strace/7.3/tests/pidfd_open-P.c /usr/src/debug/strace/7.3/tests/prctl-set-ptracer-success-Xverbose.c /usr/src/debug/strace/7.3/tests/xstatfsx.c /usr/src/debug/strace/7.3/src/fstatfs.c /usr/src/debug/strace/7.3/src/getcwd.c /usr/src/debug/strace/7.3/tests/pkey_alloc.c 
- /usr/src/debug/strace/7.3/src/xlat/nbd_ioctl_flags.h /usr/src/debug/strace/7.3/src/netlink_netlink_diag.c /usr/src/debug/strace/7.3/src/xlat/uring_enter_flags.h /usr/src/debug/strace/7.3/tests/mount-Xraw.c /usr/src/debug/strace/7.3/tests/prctl-tagged-addr-Xverbose.c /usr/src/debug/strace/7.3/src/time.c /usr/src/debug/strace/7.3/tests/keyctl.c /usr/src/debug/strace/7.3/src/xlat/falloc_flags.h /usr/src/debug/strace/7.3/src/xlat/fs_ioc_flags.h /usr/src/debug/strace/7.3/tests/aio.c /usr/src/debug/strace/7.3/tests/xetpriority.c /usr/src/debug/strace/7.3/tests/prctl-sched-core-Xraw.c /usr/src/debug/strace/7.3/tests/dup-trace-fds-0.c /usr/src/debug/strace/7.3/tests/getresugid.c /usr/src/debug/strace/7.3/src/xlat/x86_xfeature_bits.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/dm-ioctl.h /usr/src/debug/strace/7.3/tests/mmap64-Xverbose.c /usr/src/debug/strace/7.3/tests/dev--decode-fds-path.c /usr/src/debug/strace/7.3/tests/mkdirat.c /usr/src/debug/strace/7.3/tests/mknodat.c /us
- r/src/debug/strace/7.3/tests/getsockname--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/seccomp_get_notif_sizes.c /usr/src/debug/strace/7.3/tests/bpf-success-long-y.c /usr/src/debug/strace/7.3/tests/ioctl_evdev-Xabbrev.c /usr/src/debug/strace/7.3/src/xlat/get_mempolicy_flags.h /usr/src/debug/strace/7.3/tests/splice.c /usr/src/debug/strace/7.3/src/xlat/ifstats_xstats_bond_attrs.h /usr/src/debug/strace/7.3/src/xlat/ifstats_xstats_type_attrs.h /usr/src/debug/strace/7.3/src/xlat/genl_ctrl_cmd.h /usr/src/debug/strace/7.3/tests/setns-report-ns-id-net.c /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_macvlan_modes.h /usr/src/debug/strace/7.3/tests/ioctl_gpio-success-Xverbose.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/sock_diag.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/inet_diag.h /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/unix_diag.h /usr/src/debug/strace/7.3/tests/ioctl_hdio-success-Xverbose.c /usr/src/debug/strace/7.3/tests/ipc_msg
- -Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_v4l2-v.c /usr/src/debug/strace/7.3/tests/ipc_sem-Xraw.c /usr/src/debug/strace/7.3/tests/ipc_shm-Xraw.c /usr/src/debug/strace/7.3/src/xlat/cpuclocknames.h /usr/src/debug/strace/7.3/src/xlat/rtnl_ifla_vf_stats_attrs.h /usr/src/debug/strace/7.3/tests/netlink_sock_diag.c /usr/src/debug/strace/7.3/src/xlat/loop_crypt_type_options.h /usr/src/debug/strace/7.3/tests/fanotify_mark--secontext_mismatch.c /usr/src/debug/strace/7.3/tests/prctl-name.c /usr/src/debug/strace/7.3/tests/print_time.c /usr/src/debug/strace/7.3/tests/prctl-tagged-addr.c /usr/src/debug/strace/7.3/tests/lseek.c /usr/src/debug/strace/7.3/tests/netlink_nlctrl.c /usr/src/debug/strace/7.3/tests/rt_sigsuspend.c /usr/src/debug/strace/7.3/src/xlat/netlink_diag_attrs.h /usr/src/debug/strace/7.3/tests/so_peercred--pidns-translation.c /usr/src/debug/strace/7.3/tests/mmap-Xverbose.c /usr/src/debug/strace/7.3/src/xlat/perf_hw_cache_op_id.h /usr/src/debug/strace/7.3/src/print_timeval64.c /
- usr/src/debug/strace/7.3/src/xlat/v4l2_vbi_flags.h /usr/src/debug/strace/7.3/tests/print_fields.c /usr/src/debug/strace/7.3/tests/strace--strings-in-hex-none.c /usr/src/debug/strace/7.3/tests/pidfd_getfd.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-success-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-success-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_tun-v-success.c /usr/src/debug/strace/7.3/src/netlink_unix_diag.c /usr/src/debug/strace/7.3/tests/ioctl_tun-y-success.c /usr/src/debug/strace/7.3/tests/sched_xetscheduler--pidns-translation-Xverbose.c /usr/src/debug/strace/7.3/tests/ioctl_seccomp--pidns-translation.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/posix_types.h /usr/src/debug/strace/7.3/src/xlat/netlink_protocols.h /usr/src/debug/strace/7.3/tests/clock_xettime64.c /usr/src/debug/strace/7.3/tests/wait4-v.c /usr/src/debug/strace/7.3/tests/waitpid.c /usr/src/debug/strace/7.3/src/xlat/kd_meta_vals.h /usr/src/debug/strace/7.3/tests/ioctl_evdev-success-v.c /
- usr/src/debug/strace/7.3/src/xlat/pidfd_open_flags.h /usr/src/debug/strace/7.3/tests/setrlimit-Xraw.c /usr/src/debug/strace/7.3/tests/ioctl_gpio-Xabbrev.c /usr/src/debug/strace/7.3/tests/ioctl_hdio-Xabbrev.c /usr/src/debug/strace/7.3/tests/reboot.c /usr/src/debug/strace/7.3/tests/prctl-pac-enabled-keys.c /usr/src/debug/strace/7.3/bundled/linux/include/uapi/linux/smc_diag.h /usr/src/debug/strace/7.3/tests/nfnetlink_ulog.c"
-packages/x86-64-v3-poky-linux/strace/strace-src: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace/strace-src: PKGV changed from 7.2 [default] to 7.3 [default]
-packages/x86-64-v3-poky-linux/strace/strace-staticdev: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace/strace-staticdev: PKGV changed from 7.2 [default] to 7.3 [default]
-packages/x86-64-v3-poky-linux/strace/strace: PKGSIZE changed from 1982843 to 2015611 (+2%)
-packages/x86-64-v3-poky-linux/strace/strace: PV changed from "7.2" to "7.3"
-packages/x86-64-v3-poky-linux/strace/strace: PKGV changed from 7.2 [default] to 7.3 [default]
-
---===============5422994388723865832==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/strace/strace-ptest: FILELIST: removed "/usr/lib/strace/ptest/tests/setns-report-ns-id /usr/lib/strace/ptest/tests/setns-report-ns-id.gen.test", added "/usr/lib/strace/ptest/tests/setns-report-ns-id-user-explicit--pidns.gen.test /usr/lib/strace/ptest/tests/printclockname-Xverbose /usr/lib/strace/ptest/tests/setns-report-ns-id.c /usr/lib/strace/ptest/tests/setns-report-ns-id-children.c /usr/lib/strace/ptest/tests/setns-report-ns-id-user.gen.test /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xabbrev /usr/lib/strace/ptest/tests/setns-report-ns-id-uts /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xverbose.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-cgroup--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-net.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-success /usr/lib/strace/ptest/tests/bpf-obj_get_info_by_fd-link.gen.test /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xraw.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-ipc.g
- en.test /usr/lib/strace/ptest/tests/setns-report-ns-id-uts.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-ipc /usr/lib/strace/ptest/tests/setns-report-ns-id-user-explicit /usr/lib/strace/ptest/tests/printclockname.c /usr/lib/strace/ptest/tests/setns-report-ns-id-ipc--pidns.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-y /usr/lib/strace/ptest/tests/setns-report-ns-id-user /usr/lib/strace/ptest/tests/setns-report-ns-id-net /usr/lib/strace/ptest/tests/setns-report-ns-id-user-common.c /usr/lib/strace/ptest/tests/unshare-report-ns-id--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-mnt.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-uts--pidns.gen.test /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xabbrev.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-v /usr/lib/strace/ptest/tests/printclockname-Xraw.gen.test /usr/lib/strace/ptest/tests/printclockname-Xverbose.gen.test /usr/lib/strace/ptest/tests/procfs-pidns.sh /usr/lib/strace/ptest/tests/setns-report-ns-i
- d-pid /usr/lib/strace/ptest/tests/fchroot /usr/lib/strace/ptest/tests/ioctl_tun-success.gen.test /usr/lib/strace/ptest/tests/attach-p-eperm-already-traced--pidns.test /usr/lib/strace/ptest/tests/fchroot-y /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xverbose /usr/lib/strace/ptest/tests/ioctl_tun.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-user-explicit.gen.test /usr/lib/strace/ptest/tests/printclockname-Xabbrev.gen.test /usr/lib/strace/ptest/tests/fchroot.gen.test /usr/lib/strace/ptest/tests/printclockname-Xabbrev /usr/lib/strace/ptest/tests/ioctl_tun /usr/lib/strace/ptest/tests/ioctl_tun-v.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-y.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-net--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-mnt--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-time.gen.test /usr/lib/strace/ptest/tests/attach-p-eperm-tracer-outside-pidns.test /usr/lib/strace/ptest/tests/setns-report-ns-id-user--pidns.gen.te
- st /usr/lib/strace/ptest/tests/bpf-obj_get_info_by_fd-link /usr/lib/strace/ptest/tests/setns-report-ns-id-common.h /usr/lib/strace/ptest/tests/nlattr_ifaddrmsg-Xraw /usr/lib/strace/ptest/tests/strace--decode-pids-comm--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-mnt /usr/lib/strace/ptest/tests/setns-report-ns-id-time--pidns.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-time /usr/lib/strace/ptest/tests/ioctl_tun-v-success.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-y-success.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-cgroup.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-pid--pidns.gen.test /usr/lib/strace/ptest/tests/ioctl_tun-v-success /usr/lib/strace/ptest/tests/ioctl_tun-y-success /usr/lib/strace/ptest/tests/setns-report-ns-id-pid.gen.test /usr/lib/strace/ptest/tests/printclockname-Xraw /usr/lib/strace/ptest/tests/fchroot-y.gen.test /usr/lib/strace/ptest/tests/setns-report-ns-id-cgroup"
-
---===============5422994388723865832==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="strace-changelog.txt"
-
-UHJlcGFyZSBmb3IgNy4zIHJlbGVhc2UuCgpVcGRhdGUgY29weXJpZ2h0IGhlYWRlcnMuCkhlYWRl
-cnMgdXBkYXRlZCBhdXRvbWF0aWNhbGx5IHVzaW5nIG1haW50L3VwZGF0ZV9jb3B5cmlnaHRfeWVh
-cnMuc2gKc2NyaXB0LgoKRml4IHByZXByb2Nlc3NvciBpbmRlbnRhdGlvbi4KSW5kZW50IHRoZSBD
-IHByZXByb2Nlc3NvciBkaXJlY3RpdmVzIHRvIHJlZmxlY3QgdGhlaXIgbmVzdGluZwp1c2luZyB0
-aGUgZm9sbG93aW5nIHNjcmlwdDoKCiQgY3BwaSAtbCAkKGdpdCBncmVwIC1FbCAnXltbOnNwYWNl
-Ol1dKiNbWzpzcGFjZTpdXSooaWZ8aWZkZWZ8aWZuZGVmfGVsaWZ8ZWxzZXxlCm5kaWZ8ZGVmaW5l
-fHByYWdtYSlbWzpzcGFjZTpdXScgc3JjIHRlc3RzIHxncmVwIC1FdiAnXC4oaW58bWR8c2h8dGVz
-dCkkJykgfHdoaWxlCnJlYWQgZjsgZG8KY3BwaSA8ICIkZiIgPiAiJGYiLmNwcGk7IG12ICIkZiIu
-Y3BwaSAiJGYiCmRvbmUKCnRpbWU6IGRlY29kZSBhdXhpbGlhcnkgY2xvY2sgSURzLgpMaW51eCBr
-ZXJuZWwgY29tbWl0IDkwOTRjNzJjM2Q4MSAoInRpbWU6IEludHJvZHVjZSBhdXhpbGlhcnkKUE9T
-SVggY2xvY2tzIikgcmVzZXJ2ZXMgQ0xPQ0tfQVVYIHRocm91Z2ggQ0xPQ0tfQVVYX0xBU1QgZm9y
-CmF1eGlsaWFyeSBjbG9ja3MuICBEZWNvZGUgdGhvc2UgSURzIGluIGFsbCB4bGF0IG1vZGVzLgoK
-S2VlcCB0aGUgaGVscGVycyB0aGF0IGluY2x1ZGUgPGxpbnV4L3RpbWUuaD4gaW4gc2VwYXJhdGUK
-dHJhbnNsYXRpb24gdW5pdHMgdG8gYXZvaWQgY29uZmxpY3RzIHdpdGggbGliYyB0aW1lIGRlZmlu
-aXRpb25zLgoKQXNzaXN0ZWQtYnk6IE9wZW5Db2RlOmdwdC02LXNvbAoKYnVuZGxlZDogYWRkIGxp
-bnV4L3RpbWUuaCBmcm9tIExpbnV4IHY3LjMuCkF1eGlsaWFyeSBjbG9jayBJRHMgd2VyZSBpbnRy
-b2R1Y2VkIGJ5IExpbnV4IGtlcm5lbCBjb21taXQKOTA5NGM3MmMzZDgxICgidGltZTogSW50cm9k
-dWNlIGF1eGlsaWFyeSBQT1NJWCBjbG9ja3MiKS4gIEJ1bmRsZQp0aGUgVUFQSSBoZWFkZXIgc28g
-Q0xPQ0tfQVVYIGFuZCBpdHMgcmFuZ2UgYXJlIGF2YWlsYWJsZSB3aGVuIHRoZQpob3N0IGtlcm5l
-bCBoZWFkZXJzIHByZWRhdGUgdGhpcyBjaGFuZ2UuCgp0aW1lOiBhbHdheXMgZGVjb2RlIGR5bmFt
-aWMgY2xvY2sgSURzLgpUaGUgZHluYW1pYyBjbG9jayBkZWNvZGVyIGlzIGNvbmRpdGlvbmFsIG9u
-IENMT0NLSURfVE9fRkQsIHdoaWNoIGlzCm5vdCBkZWZpbmVkIGJ5IHRoZSBVQVBJIGhlYWRlcnMs
-IGdsaWJjLCBvciBtdXNsLiAgU3VwcGx5IGxvY2FsCmRlZmluaXRpb25zIHNvIHRoZXNlIElEcyBh
-cmUgZGVjb2RlZCBvbiB0aG9zZSBzeXN0ZW1zLiAgRGVmaW5lCkNQVUNMT0NLX0NMT0NLX01BU0sg
-c2VwYXJhdGVseSBmb3Igc3lzdGVtcyB0aGF0IHByb3ZpZGUgQ0xPQ0tJRF9UT19GRApidXQgbm90
-IHRoaXMgbWFzay4KClNob3cgdGhlIG51bWVyaWMgSUQgYWxvbmdzaWRlIGl0cyBzeW1ib2xpYyBp
-bnRlcnByZXRhdGlvbiBiZWNhdXNlCnRoZSBkeW5hbWljLWNsb2NrIG1hY3JvcyBhcmUgbm9uLXN0
-YW5kYXJkLiAgTWFzayBvZmYgdGhlIHBlci10aHJlYWQKYml0IHdoZW4gbG9va2luZyB1cCBDUFUg
-Y2xvY2sgbmFtZXMsIGFuZCBhdm9pZCBuZXN0ZWQgY29tbWVudHMgaW4KdmVyYm9zZSBvdXRwdXQu
-ICBQcmludCB0aGUgbnVtZXJpYyBDUFUtY2xvY2sgdHlwZSB3aGVuIHVua25vd24uCgpTdWdnZXN0
-ZWQtYnk6IERtaXRyeSBWLiBMZXZpbiA8bGR2QHN0cmFjZS5pbz4KTGluazogI2Rpc2N1c3Npb25f
-cjM4MzA1Nzc3MDgKQXNzaXN0ZWQtYnk6IE9wZW5Db2RlOmdwdC02LXNvbAoKdGVzdHM6IGFkZCBk
-ZWRpY2F0ZWQgY2xvY2sgSUQgZGVjb2RpbmcgdGVzdHMuCkV4aXN0aW5nIGNsb2NrIHN5c2NhbGwg
-dGVzdHMgZG8gbm90IGNvdmVyIGV2ZXJ5IHhsYXQgc3R5bGUuICBBZGQgYQpmb2N1c2VkIGNsb2Nr
-X2dldHJlcyB0ZXN0IGluIGFiYnJldmlhdGVkLCByYXcsIGFuZCB2ZXJib3NlIG1vZGVzIHNvCmxh
-dGVyIGNsb2NrIElEIGRlY29kZXIgY2hhbmdlcyBjYW4gYmUgY2hlY2tlZCB3aXRob3V0IGR1cGxp
-Y2F0aW5nCnRoZSBzeXNjYWxsIHRlc3RzLgoKS2VlcCA8bGludXgvdGltZS5oPiBpbiBhIHNlcGFy
-YXRlIHRlc3QgY29tcGlsYXRpb24gdW5pdCB0byBhdm9pZApjb25mbGljdHMgd2l0aCBsaWJjIHRp
-bWUgZGVmaW5pdGlvbnMgaW4gdGhlIHRlc3QgcHJvZ3JhbS4KCkFzc2lzdGVkLWJ5OiBPcGVuQ29k
-ZTpncHQtNi1zb2wKCnRpbWU6IGZpeCBjb21waWxhdGlvbiBvZiBDTE9DS0lEX1RPX0ZEIGJyYW5j
-aC4KV2l0aG91dCBicmFjZXMgYXJvdW5kIHRoZSBGRF9UT19DTE9DS0lEIGJyYW5jaCwgaXRzIGVs
-c2UgaGFzIG5vCm1hdGNoaW5nIGlmLCBzbyB0aGUgZGVjb2RlciBjYW5ub3QgY29tcGlsZSB3aGVu
-IENMT0NLSURfVE9fRkQKaXMgZGVmaW5lZC4gIEFwcGFyZW50bHksIHRoaXMgY29kZSBoYXMgbmV2
-ZXIgYmVlbiBlbmFibGVkLgoKdGVzdHM6IGNoZWNrIHplcm8tbnN0eXBlIHNldG5zIGZvciB1c2Vy
-IG5hbWVzcGFjZXMuCkEgc3VjY2Vzc2Z1bCBzZXRucyhmZCwgMCkgd2l0aCBhIHVzZXItbmFtZXNw
-YWNlIGRlc2NyaXB0b3IgbXVzdApyZXBvcnQgdGhlIG5ldyB1c2VyIG5hbWVzcGFjZSBJRCB1bmRl
-ciAtLW5hbWVzcGFjZT1uZXcuICBDaGVjayB0aGlzCmJvdGggd2l0aCBvcmRpbmFyeSBwcm9jZnMg
-YW5kIHdpdGggcHJvY2ZzIG1vdW50ZWQgZnJvbSBhbiBhbmNlc3RvcgpQSUQgbmFtZXNwYWNlLgoK
-VGhlIGVhcmxpZXIgZXhwbGljaXQtbnN0eXBlIHRlc3Qgc2hhcmVzIHRoZSBjaGlsZC1jcmVhdGVk
-IG5hbWVzcGFjZQphbmQgZGVzY3JpcHRvci1wYXNzaW5nIHNldHVwLiAgU2luY2Ugam9pbmluZyBh
-IHVzZXIgbmFtZXNwYWNlIGNhbm5vdApiZSB1bmRvbmUgYnkgam9pbmluZyBpdHMgYW5jZXN0b3Is
-IHJ1biB0aGUgemVyby1uc3R5cGUgY2FsbCBpbiBpdHMKb3duIGV4ZWN1dGFibGUgaW5zdGVhZCBv
-ZiBmb2xsb3dpbmcgdGhlIGV4cGxpY2l0IGNhbGwuCgpBc3Npc3RlZC1ieTogT3BlbkNvZGU6Z3B0
-LTYtc29sCgpzZXRuczogZGVjb2RlIG5hbWVzcGFjZSB0cmFuc2l0aW9ucyB3aXRoIHplcm8gbnN0
-eXBlLgpXaGVuIG5zdHlwZSBpcyB6ZXJvLCBzZXRucyBkZXJpdmVzIHRoZSBuYW1lc3BhY2UgdHlw
-ZSBmcm9tIGl0cyBmZC4KUmVhZCB0aGUgZmQgdGFyZ2V0IHRocm91Z2ggdGhlIHByb2Nmcy1hd2Fy
-ZSBoZWxwZXIsIHZhbGlkYXRlIGl0cwp0eXBlLCBhbmQgcmVwb3J0IHRoZSByZXN1bHRpbmcgbmFt
-ZXNwYWNlIElELiAgRXhpc3RpbmcgUElEIGFuZCB0aW1lCm5hbWVzcGFjZSBoYW5kbGluZyBhbHNv
-IGFwcGxpZXMgdG8gdGhpcyBjYXNlLgoKQXNzaXN0ZWQtYnk6IEFudGlncmF2aXR5OkdlbWluaS0z
-LjUtRmxhc2ggKGNvbW1pdCBsb2cpCkFzc2lzdGVkLWJ5OiBPcGVuQ29kZTpncHQtNi1zb2wKCnVu
-c2hhcmU6IHJlcG9ydCBQSUQgYW5kIHRpbWUgbmFtZXNwYWNlcyBmb3IgZnV0dXJlIGNoaWxkcmVu
-Lgp1bnNoYXJlKENMT05FX05FV1BJRCkgYW5kIHVuc2hhcmUoQ0xPTkVfTkVXVElNRSkgY2hhbmdl
-IHRoZQpuYW1lc3BhY2VzIGZvciBmdXR1cmUgY2hpbGRyZW4sIG5vdCB0aG9zZSBvZiB0aGUgY2Fs
-bGVyLiAgUmVhZGluZwovcHJvYy88cGlkPi9ucy9waWQgb3IgdGltZSBhZnRlciBlaXRoZXIgc3lz
-Y2FsbCByZXBvcnRzIGFuIG9sZCBJRC4KUmVhZCBwaWRfZm9yX2NoaWxkcmVuIGFuZCB0aW1lX2Zv
-cl9jaGlsZHJlbiBpbnN0ZWFkLgoKVGhlIHBpZF9mb3JfY2hpbGRyZW4gbGluayBjYW4gYmUgZW1w
-dHkgdW50aWwgdGhlIGZpcnN0IGNoaWxkIGVudGVycwp0aGUgbmV3IFBJRCBuYW1lc3BhY2UuICBP
-bWl0IHRoYXQgSUQgd2hlbiB1bmF2YWlsYWJsZSByYXRoZXIgdGhhbgpwcmludCBhbiBlbXB0eSBm
-aWVsZCBvciB0aGUgY2FsbGVyJ3Mgb2xkIG5hbWVzcGFjZS4gIFVwZGF0ZSB0aGUKdW5zaGFyZSB0
-ZXN0IHRvIGNoZWNrIHRoZSBjaGlsZCBuYW1lc3BhY2UgbGlua3MgYW5kIHRoZWlyIGZvcm1hdHRp
-bmcsCmluY2x1ZGluZyBzZXBhcmF0ZSBQSUQgYW5kIHRpbWUgbmFtZXNwYWNlIGNhbGxzIHdoZW4g
-c3VwcG9ydGVkLgoKQXNzaXN0ZWQtYnk6IE9wZW5Db2RlOmdwdC02LXNvbAoKc2V0bnM6IHJlcG9y
-dCBQSUQgYW5kIHRpbWUgbmFtZXNwYWNlcyBmb3IgZnV0dXJlIGNoaWxkcmVuLgpBIHN1Y2Nlc3Nm
-dWwgc2V0bnMgaW50byBhIFBJRCBvciB0aW1lIG5hbWVzcGFjZSBjaGFuZ2VzIHRoZQpuYW1lc3Bh
-Y2UgZm9yIGZ1dHVyZSBjaGlsZHJlbiwgbm90IHRoZSBjYWxsZXIncyBjdXJyZW50IG5hbWVzcGFj
-ZS4KUmVhZCBwaWRfZm9yX2NoaWxkcmVuIG9yIHRpbWVfZm9yX2NoaWxkcmVuIGFmdGVyIHRoZSBz
-eXNjYWxsIHNvIHRoZQpyZXR1cm4gYW5ub3RhdGlvbiByZXBvcnRzIHRoZSBuZXcgbmFtZXNwYWNl
-IElELiAgVGVzdCBlYWNoIG5hbWVzcGFjZQppbmRlcGVuZGVudGx5IHNvIHVuYXZhaWxhYmxlIGNh
-c2VzIHNraXAgcmF0aGVyIHRoYW4gc2lsZW50bHkgcGFzcy4KCkFzc2lzdGVkLWJ5OiBPcGVuQ29k
-ZTpncHQtNi1zb2wKCnN0cmFjZTogdHJhbnNsYXRlIHByb2NmcyBQSURzIGluIGF0dGFjaCBmYWls
-dXJlIGRpYWdub3N0aWNzLgpPbiBhbiBFUEVSTSBhdHRhY2gsIHByb2NfcGlkX3RyYWNlciBsb29r
-ZWQgdXAgL3Byb2MvPHBpZD4vc3RhdHVzCnVzaW5nIHRoZSBzdHJhY2UtdmlzaWJsZSB0YXJnZXQg
-UElELiAgQW4gaW5oZXJpdGVkIHByb2NmcyBtb3VudAptYXkgdXNlIGFuIGFuY2VzdG9yIFBJRCBu
-YW1lc3BhY2UsIGhpZGluZyB0aGUgcmVhbCBUcmFjZXJQaWQgb3IKcmVwb3J0aW5nIGFuIHVucmVs
-YXRlZCBwcm9jZXNzLiAgUmVzb2x2ZSB0aGUgdGFyZ2V0IHZpYSBnZXRfcHJvY19waWQuCgpUaGUg
-VHJhY2VyUGlkIHZhbHVlIGlzIGl0c2VsZiBpbiB0aGUgcHJvY2ZzIFBJRCBuYW1lc3BhY2UuICBS
-ZWNvdmVyCml0cyBzdHJhY2UtdmlzaWJsZSBQSUQgZnJvbSBOU3BpZCwgdmFsaWRhdGluZyBpdCBi
-eSB0cmFuc2xhdGluZyBiYWNrCnRvIHRoZSBzYW1lIHByb2NmcyBQSUQgc28gYSBzaWJsaW5nIG5h
-bWVzcGFjZSBjYW5ub3QgYmUgbWlzdGFrZW4gZm9yCm91cnMuICBMYWJlbCB0aGUgcHJvY2ZzIFBJ
-RCBleHBsaWNpdGx5IGlmIGl0IGNhbm5vdCBiZSB0cmFuc2xhdGVkLgoKVGVzdCBib3RoIG91dGNv
-bWVzLiAgUnVuIHRoZSBleGlzdGluZy10cmFjZXIgZml4dHVyZSBlbnRpcmVseSBpbnNpZGUKYSBu
-ZXN0ZWQgUElEIG5hbWVzcGFjZSB0byBjaGVjayBhIHZpc2libGUgdHJhY2VyIFBJRC4gIEluIGEg
-c2Vjb25kCmZpeHR1cmUsIGxldCBhbiBvdXRlciBzdHJhY2UgZm9sbG93IGEgdGFyZ2V0IGludG8g
-dGhhdCBuYW1lc3BhY2UgYW5kCmF0dGFjaCBmcm9tIHdpdGhpbiBpdC4gIFJlYWQgdGhlIG91dGVy
-IHRyYWNlciBQSUQgZnJvbSBwcm9jZnMgYW5kCmNoZWNrIHRoYXQgdGhlIGRpYWdub3N0aWMgaWRl
-bnRpZmllcyBpdCBhcyBhIHByb2NmcyBQSUQuCgpBc3Npc3RlZC1ieTogT3BlbkNvZGU6Z3B0LTYt
-c29sCgpwaWRuczogdHJhbnNsYXRlIFBJRCBiZWZvcmUgcmVhZGluZyBjb21tYW5kIG5hbWVzIGZy
-b20gcHJvY2ZzLgpXaXRoIHN0cmFjZSBpbiBhIFBJRCBuYW1lc3BhY2UgYnV0IC9wcm9jIG1vdW50
-ZWQgZnJvbSBhbiBhbmNlc3RvciwKdGhlIHN0cmFjZS12aXNpYmxlIFBJRCBpcyBub3QgYSBwcm9j
-ZnMgUElELiAgTG9va2luZyB1cCB0aGF0IG51bWJlcgppbiAvcHJvYy88cGlkPi9jb21tIGNhbiBl
-dmVuIHByaW50IHRoZSBuYW1lIG9mIGFuIHVucmVsYXRlZCBwcm9jZXNzLgpUcmFuc2xhdGUgaXQg
-d2l0aCBnZXRfcHJvY19waWQgYW5kIG9taXQgdGhlIG5hbWUgaWYgdHJhbnNsYXRpb24gZmFpbHMu
-CgpHZW5lcmF0ZSBhIHZhcmlhbnQgb2YgdGhlIGV4aXN0aW5nIC0tZGVjb2RlLXBpZHM9Y29tbSB0
-ZXN0IHVzaW5nIHRoZQpzaGFyZWQgaGVscGVyIGZvciBhbiBpbmhlcml0ZWQgcHJvY2ZzIG1vdW50
-LiAgU291cmNlIHRoZSBvcmlnaW5hbApnZW5lcmF0ZWQgdGVzdCB0byByZXRhaW4gaXRzIHN5c2Nh
-bGwgYW5kIHNpZ25hbCBvcHRpb25zOyBpdHMgZXhwZWN0ZWQKb3V0cHV0IGNoZWNrcyBuYW1lcyBv
-biBQSUQtdmFsdWVkIHJlc3VsdHMgYW5kIHN5c2NhbGwgYXJndW1lbnRzLgoKQXNzaXN0ZWQtYnk6
-IE9wZW5Db2RlOmdwdC02LXNvbAoKdW5zaGFyZTogdXNlIHByb2NmcyBQSUQgd2hlbiByZXBvcnRp
-bmcgbmFtZXNwYWNlIElEcy4KTGlrZSBzZXRucywgdGhlIHVuc2hhcmUgZGVjb2RlciByZWFkIC9w
-cm9jLzxwaWQ+L25zIHVzaW5nIHRoZSBQSUQKdmlzaWJsZSB0byBzdHJhY2UuICBXaGVuIC9wcm9j
-IGJlbG9uZ3MgdG8gYW4gYW5jZXN0b3IgUElEIG5hbWVzcGFjZSwKdGhhdCBQSUQgY2FuIGlkZW50
-aWZ5IGFub3RoZXIgcHJvY2VzcyBvciBubyBwcm9jZXNzIGF0IGFsbCwgc28gYQpzdWNjZXNzZnVs
-IHVuc2hhcmUgbG9zZXMgaXRzIG5hbWVzcGFjZSBJRCBhbm5vdGF0aW9uLiAgVHJhbnNsYXRlIHRo
-ZQpQSUQgd2l0aCBnZXRfcHJvY19waWQgYmVmb3JlIGNvbnN0cnVjdGluZyB0aGUgcHJvY2ZzIHBh
-dGguCgpHZW5lcmF0ZSBhIHZhcmlhbnQgb2YgdGhlIGV4aXN0aW5nIHVuc2hhcmUgbmFtZXNwYWNl
-LUlEIHRlc3QgdXNpbmcKdGhlIHNoYXJlZCBuZXN0ZWQtUElELW5hbWVzcGFjZSBoZWxwZXIuICBJ
-dCBydW5zIHN0cmFjZSB3aXRoIHRoZQppbmhlcml0ZWQgL3Byb2MgbW91bnQgYW5kIHNvdXJjZXMg
-dGhlIG9yaWdpbmFsIGdlbmVyYXRlZCB0ZXN0IHRvCmNvbXBhcmUgc3VjY2Vzc2Z1bCBhbm5vdGF0
-aW9ucyB3aXRoIElEcyByZWFkIGJ5IHRoZSB0cmFjZWUuCgpBc3Npc3RlZC1ieTogT3BlbkNvZGU6
-Z3B0LTYtc29sCgpzZXRuczogdXNlIHByb2NmcyBQSUQgd2hlbiByZXBvcnRpbmcgbmFtZXNwYWNl
-IElEcy4KVGhlIFBJRCBvZiBhIHRyYWNlZSBhcyBzZWVuIGJ5IHN0cmFjZSBtYXkgZGlmZmVyIGZy
-b20gaXRzIFBJRCBpbgp0aGUgbW91bnRlZCAvcHJvYywgZm9yIGV4YW1wbGUgd2hlbiBzdHJhY2Ug
-cnVucyBpbiBhIG5lc3RlZCBQSUQKbmFtZXNwYWNlIHdpdGggYW4gaW5oZXJpdGVkIHByb2NmcyBt
-b3VudC4gIFRoZSBzZXRucyBkZWNvZGVyIHVzZWQKdGhlIGZvcm1lciB0byByZWFkIC9wcm9jLzxw
-aWQ+L25zLCBvbWl0dGluZyB0aGUgbmFtZXNwYWNlIElEIG9yCnJlYWRpbmcgYW5vdGhlciBwcm9j
-ZXNzLiAgUmVzb2x2ZSBpdCB3aXRoIGdldF9wcm9jX3BpZCBmaXJzdC4KCkdlbmVyYXRlIHZhcmlh
-bnRzIG9mIGFsbCBzaXggc2V0bnMgbmFtZXNwYWNlIElEIHRlc3RzIHVzaW5nIGEgc2hhcmVkCmhl
-bHBlciB0aGF0IHJ1bnMgc3RyYWNlIGluIGEgbmVzdGVkIFBJRCBuYW1lc3BhY2Ugd2l0aCB0aGUg
-aW5oZXJpdGVkCi9wcm9jIG1vdW50LiAgSXQgc291cmNlcyBlYWNoIG9yaWdpbmFsIGdlbmVyYXRl
-ZCB0ZXN0LCByZXRhaW5pbmcgaXRzCnN0cmFjZSBvcHRpb25zIGFuZCBleHBlY3RlZCBuYW1lc3Bh
-Y2UgSUQuICBNYWtlIHRoZSBzb3VyY2VkIHNjcmlwdAphIHByZXJlcXVpc2l0ZSBvZiBlYWNoIHZh
-cmlhbnQsIGFuZCByZXBsYWNlIGdlbmVyYXRlZCBzY3JpcHRzCmF0b21pY2FsbHkgc28gY29uY3Vy
-cmVudCBidWlsZHMgY2Fubm90IHRydW5jYXRlIGEgc2NyaXB0IGJlaW5nIHJlYWQuCgpBc3Npc3Rl
-ZC1ieTogT3BlbkNvZGU6Z3B0LTYtc29sCgp0ZXN0czogY2hlY2sgZXhwbGljaXQgc2V0bnMgd2l0
-aCBhIHVzZXIgbmFtZXNwYWNlLgpBIHN1Y2Nlc3NmdWwgc2V0bnMoZmQsIENMT05FX05FV1VTRVIp
-IG11c3QgcmVwb3J0IHRoZSBuZXcgdXNlcgpuYW1lc3BhY2UgSUQuICBBIHNpbmdsZSBwcm9jZXNz
-IGNhbm5vdCBjcmVhdGUgbmVzdGVkIHVzZXIgbmFtZXNwYWNlcwphbmQgam9pbiBhbiBhbmNlc3Rv
-ciwgc28gaGF2ZSBhIGNoaWxkIGNyZWF0ZSB0aGUgdGFyZ2V0IG5hbWVzcGFjZSBhbmQKcGFzcyBp
-dHMgZGVzY3JpcHRvciB0byB0aGUgcGFyZW50IG92ZXIgYSBzb2NrZXQuCgpBc3Npc3RlZC1ieTog
-T3BlbkNvZGU6Z3B0LTYtc29sCgp0ZXN0czogY2hlY2sgZXhwbGljaXQgc2V0bnMgZm9yIG1vdW50
-LCBVVFMsIElQQywgYW5kIGNncm91cCBuYW1lc3BhY2VzLgpFeGVyY2lzZSBzdWNjZXNzZnVsIGV4
-cGxpY2l0LW5zdHlwZSBzZXRucyBjYWxscyBmb3IgbW91bnQsIFVUUywgSVBDLAphbmQgY2dyb3Vw
-IG5hbWVzcGFjZXMgdXNpbmcgdGhlIHNoYXJlZCB0ZXN0IHRlbXBsYXRlLiAgS2VlcCBlYWNoCnR5
-cGUgaW5kZXBlbmRlbnQgc28gYW4gdW5hdmFpbGFibGUgbmFtZXNwYWNlIHNraXBzIG9ubHkgaXRz
-IHRlc3QuCgpBc3Npc3RlZC1ieTogT3BlbkNvZGU6Z3B0LTYtc29sCgp0ZXN0czogcGFyYW1ldGVy
-aXplIHNldG5zIG5hbWVzcGFjZSBJRCB0ZXN0LgpNYWtlIHRoZSBuZXR3b3JrIG5hbWVzcGFjZSB0
-ZXN0IHJldXNhYmxlIGZvciBvdGhlciBuYW1lc3BhY2UgdHlwZXMKd2hpbGUgcHJlc2VydmluZyBp
-dHMgZXhpc3RpbmcgZXhwbGljaXQtbnN0eXBlIGNvdmVyYWdlLgoKQXNzaXN0ZWQtYnk6IE9wZW5D
-b2RlOmdwdC02LXNvbAoKdGVzdHM6IGZhY3RvciBvdXQgc2V0bnMgbmFtZXNwYWNlIElEIHRlc3Qg
-aGVscGVycy4KRXh0cmFjdCBuYW1lc3BhY2UgbGluayByZWFkaW5nLCBleHBlY3RlZCBvdXRwdXQs
-IGFuZCBuYW1lc3BhY2UtcGFpcgpzZXR1cCBmcm9tIHRoZSBuZXR3b3JrIHRlc3Qgc28gdGhlIFBJ
-RCwgdGltZSwgYW5kIG90aGVyIG5hbWVzcGFjZQp0ZXN0cyBjYW4gc2hhcmUgdGhlbS4gIFJlYWQg
-dGhlIHNhdmVkIG5hbWVzcGFjZSB0aHJvdWdoIGl0cyBmZCB0bwppZGVudGlmeSB0aGUgc2FtZSBu
-YW1lc3BhY2UgdGhhdCB3aWxsIGJlIHBhc3NlZCB0byBzZXRucy4KCkFzc2lzdGVkLWJ5OiBPcGVu
-Q29kZTpncHQtNi1zb2wKCnRlc3RzOiB1c2UgYSB1c2VyIG5hbWVzcGFjZSBmb3Igc2V0bnMgbmFt
-ZXNwYWNlIElEIGNoZWNrcy4KVGhlIHRlc3QgcHJldmlvdXNseSBuZWVkZWQgcHJpdmlsZWdlcyB0
-byBjcmVhdGUgYSBuZXR3b3JrIG5hbWVzcGFjZQphbmQgcmVqb2luIHRoZSBvbmUgc2F2ZWQgaW4g
-aXRzIGZkLiAgV2hlbiBwb3NzaWJsZSwgZW50ZXIgYSB1c2VyCm5hbWVzcGFjZSBhbmQgY3JlYXRl
-IGEgbmV0d29yayBuYW1lc3BhY2Ugb3duZWQgYnkgaXQgYmVmb3JlIG9wZW5pbmcKdGhlIGZkLiAg
-VGhpcyBhbGxvd3MgdGhlIHRlc3QgdG8gcnVuIHdpdGhvdXQgZ2xvYmFsIENBUF9TWVNfQURNSU4u
-CgpJZiBjcmVhdGluZyBhIHVzZXIgbmFtZXNwYWNlIGZhaWxzLCBjb250aW51ZSB3aXRoIHRoZSBj
-YWxsZXIncwpleGlzdGluZyBwcml2aWxlZ2VzLiAgVGhlIGFkZGl0aW9uYWwgbmV0d29yayBuYW1l
-c3BhY2UgY3JlYXRpb24gbWF5CnN0aWxsIGNhdXNlIHRoZSB0ZXN0IHRvIHNraXAgdW5kZXIgcmVz
-dHJpY3RpdmUgbGltaXRzIG9yIHBvbGljaWVzLgoKQXNzaXN0ZWQtYnk6IEFudGlncmF2aXR5Okdl
-bWluaS0zLjUtRmxhc2gKQXNzaXN0ZWQtYnk6IE9wZW5Db2RlOmdwdC02LXNvbAoKdGVzdHM6IGNv
-bnNpc3RlbnRseSB1c2UgQ0xPTkVfKiBjb25zdGFudHMgaW5zdGVhZCBvZiBudW1lcmljIHZhbHVl
-cy4KdGVzdHMvYXR0YWNoLXAtZXBlcm0tYWxyZWFkeS10cmFjZWQudGVzdDogc3luY2hyb25pemUg
-dXNpbmcgRklGT3MuCgpydG5sOiBkZWNvZGUgQUZfQlJJREdFIFJUTV9HRVRORUlHSCByZXF1ZXN0
-IGxheW91dHMuCkFGX0JSSURHRSBSVE1fR0VUTkVJR0ggc2luZ2xlLWVudHJ5IHJlcXVlc3RzIHVz
-ZSBuZG1zZywgYnV0IGR1bXBzCmNhbiBjYXJyeSBuZG1zZyBvciBpZmluZm9tc2cgZGVwZW5kaW5n
-IG9uIE5FVExJTktfR0VUX1NUUklDVF9DSEsuCkFuIGlmaV9jaGFuZ2UgdmFsdWUgY2FuIHJlc2Vt
-YmxlIGEgbmVpZ2hib3IgYXR0cmlidXRlIGhlYWRlciwgd2hpbGUKYSBtYWxmb3JtZWQgbmVpZ2hi
-b3IgYXR0cmlidXRlIGNhbiByZXNlbWJsZSBhbiBpZmluZm9tc2cgcmVxdWVzdC4KQ29tcGFyZSBi
-b3RoIGF0dHJpYnV0ZSBsYXlvdXRzIHdpdGhvdXQgdmFsaWRhdGluZyByZXF1ZXN0IGZpZWxkczoK
-cHJlZmVyIGxlZ2FjeSBpZiBib3RoIGZpdCBhbmQgcHJpbnQgcmF3IGRhdGEgaWYgbmVpdGhlciBm
-aXRzLiBLZWVwCnRoZSAxMi0gYW5kIDIwLWJ5dGUgbmRtc2cgY29tcGF0aWJpbGl0eSBmb3Jtcy4K
-CkFzc2lzdGVkLWJ5OiBDb2RleDpHUFQtNgpBc3Npc3RlZC1ieTogT3BlbkNvZGU6b3BlbmFpL2dw
-dC02LXNvbAoKVXBkYXRlIGlvY3RsIGVudHJpZXMgZnJvbSBsaW51eCB2Ny4zLgpkb2M6IGRvY3Vt
-ZW50IGJ1bmRsZWQgaGVhZGVyIHVwZGF0ZSBzY3JpcHQuCkFzc2lzdGVkLWJ5OiBPcGVuQ29kZTpv
-cGVuYWkvZ3B0LTYtc29sCmRvYzogY29ycmVjdCBkZXZlbG9wZXIgZG9jdW1lbnRhdGlvbiBhZ2Fp
-bnN0IGN1cnJlbnQgdHJlZS4KQXNzaXN0ZWQtYnk6IE9wZW5Db2RlOm9wZW5haS9ncHQtNi1zb2wK
-CnRlc3RzOiBpbnZva2UgcHdyaXRlNjQgYW5kIHB3cml0ZXYgc3lzY2FsbHMgZGlyZWN0bHkuCk11
-c2wgaW1wbGVtZW50cyBwd3JpdGUgYW5kIHB3cml0ZXYgdXNpbmcgcHdyaXRldjIsIHNvIHRoZSBk
-ZWNvZGVyIHRlc3RzCm1pc3MgdGhlIGV4cGVjdGVkIHB3cml0ZTY0IGFuZCBwd3JpdGV2IGNhbGxz
-LiAgSW52b2tlIHRoZSB0ZXN0ZWQgc3lzY2FsbHMKZGlyZWN0bHksIHByZXNlcnZpbmcgdGhlIGFy
-Z3VtZW50IGxheW91dCBmb3IgNjQtYml0IG9mZnNldHMuCgpGaXhlczoKQXNzaXN0ZWQtYnk6IENv
-ZGV4OkdQVC02CgpCcmluZyB2YXJpb3VzIGxpc3RzIGJhY2sgdG8gdGhlIHNvcnRlZCBvcmRlci4K
-CnJ0bmxfbGluazogZGVjb2RlIG1hY3ZsYW4gc291cmNlIE1BQyBhZGRyZXNzZXMuClRoZSBrZXJu
-ZWwgZW1pdHMgSUZMQV9NQUNWTEFOX01BQ0FERFJfREFUQSBhcyBhIGxpc3Qgb2YKSUZMQV9NQUNW
-TEFOX01BQ0FERFIgYXR0cmlidXRlcyB3aXRob3V0IHRoZSBOTEFfRl9ORVNURUQgZmxhZy4KCkFz
-c2lzdGVkLWJ5OiBPcGVuQ29kZTpncHQtNi1zb2wKcnRubF9saW5rOiBkZWNvZGUgSUZMQV9JTkZP
-X0RBVEEgZm9yIG1hY3ZsYW4gZGV2aWNlcy4KQXNzaXN0ZWQtYnk6IE9wZW5Db2RlOmdwdC02LXNv
-bAoKdjRsMjogZGVjb2RlIFZJRElPQ197VU4sfVNVQlNDUklCRV9FVkVOVCBpb2N0bCBjb21tYW5k
-cy4KRGVjb2RlIGV2ZW50IHR5cGVzLCBpbmNsdWRpbmcgcHJpdmF0ZSB0eXBlcyByZWxhdGl2ZQp0
-byBWNEwyX0VWRU5UX1BSSVZBVEVfU1RBUlQsIGFuZCBzdWJzY3JpcHRpb24gZmxhZ3MuClVuc3Vi
-c2NyaXB0aW9uIHVzZXMgb25seSB0aGUgZXZlbnQgdHlwZSBhbmQgSUQuCgp0ZXN0czogdXNlIHN0
-cnVjdCBzdHJpdmFsX2xvbmcgaW5zdGVhZCBvZiBvcGVuLWNvZGluZyBpdC4KQXNzaXN0ZWQtYnk6
-IE9wZW5Db2RlOm9wZW5haS9ncHQtNi1zb2wKdGVzdHMvdGVzdHMuaDogZGVmaW5lIHN0cnVjdCBz
-dHJpdmFsX2xvbmcuCkFzc2lzdGVkLWJ5OiBPcGVuQ29kZTpvcGVuYWkvZ3B0LTYtc29sCnRlc3Rz
-OiB1c2Ugc3RydWN0IHN0cnZhbDMyIGluc3RlYWQgb2Ygb3Blbi1jb2RpbmcgaXQuCkFzc2lzdGVk
-LWJ5OiBPcGVuQ29kZTpvcGVuYWkvZ3B0LTYtc29sCnRlc3RzOiB1c2Ugc3RydWN0IHN0cnZhbF9r
-bG9uZyBpbnN0ZWFkIG9mIG9wZW4tY29kaW5nIGl0LgpBc3Npc3RlZC1ieTogT3BlbkNvZGU6b3Bl
-bmFpL2dwdC02LXNvbAp0ZXN0cy9zb2xfdGlwYy1pbXBvcnRhbmNlOiB1c2Ugc3RydWN0IHN0cml2
-YWwzMiBpbnN0ZWFkIG9mIG9wZW4tY29kaW5nIGl0CkFzc2lzdGVkLWJ5OiBPcGVuQ29kZTpvcGVu
-YWkvZ3B0LTYtc29sCnRlc3RzL25sYXR0cl9maWJfcnVsZV9oZHI6IHVzZSBzdHJ1Y3Qgc3RydmFs
-OCBpbnN0ZWFkIG9mIG9wZW4tY29kaW5nIGl0LgpBc3Npc3RlZC1ieTogT3BlbkNvZGU6b3BlbmFp
-L2dwdC02LXNvbApDSTogYWRkIEdDQyAxNiBhbmQgQ2xhbmcgMjAtMjIgam9icy4KCkNJOiBhZGQg
-R0NDIDE1IGpvYnMgb24gVWJ1bnR1IDI2LjA0IEFSTS4KRXh0ZW5kIEdDQyAxNSBjb3ZlcmFnZSB0
-byBhYXJjaDY0IHdpdGggdGhlIHNhbWUgYnVpbGQgdmFyaWFudHMgdXNlZApmb3IgdGhlIGV4aXN0
-aW5nIEFSTSBjb21waWxlciBqb2JzLgoKQ0k6IG1vdmUgR0NDIDExLTE1IGFuZCBDbGFuZyAxNy0x
-OSBqb2JzIHRvIFVidW50dSAyNi4wNC4KQ0k6IG1vdmUgR0NDIDktMTEgam9icyB0byBVYnVudHUg
-MjQuMDQuCgppMzg2OiBkZWZpbmUgX19GUkFNRV9PRkZTRVRTIGJlZm9yZSAjaW5jbHVkZSA8bGlu
-dXgvcHRyYWNlLmg+ClN0YXJ0aW5nIHdpdGggTGludXgga2VybmVsIGNvbW1pdCB2Ny4zLXJjNn4y
-XjIsIGRlZmluaW5nIF9fRlJBTUVfT0ZGU0VUUwppcyByZXF1aXJlZCB0byBvYnRhaW4gZGVmaW5p
-dGlvbnMgb2YgcmVnaXN0ZXIgb2Zmc2V0IG1hY3Jvcy4KCnMzOTA6IGZpeCBvdXQtb2YtYm91bmRz
-IHJlYWQgaW4gU1RIWUkgdGFpbCBkZWNvZGluZy4KVGhlIFBSSU5UX1VOS05PV05fVEFJTCBtYWNy
-byBhc3N1bWVkIHRoYXQgdGhlIGRlY2xhcmVkIHNlY3Rpb24gc2l6ZQpuZXZlciBleGNlZWRlZCB0
-aGUgYmFja2luZyBhbGxvY2F0aW9uLiAgV2hlbiBkZWNvZGluZyB0aGUgdG9wLWxldmVsClNUSFlJ
-IGhlYWRlciByZXR1cm5lZCBieSB0aGUga2VybmVsLCBwcmludF9zdGh5aV9idWYgcGFzc2VkIGhk
-ci0+aW5maGRsbgooYSB1aW50MTZfdCB0aGF0IGNhbiByZWFjaCA2NTUzNSkgYXMgdGhlIHRhaWwg
-Ym91bmQsIGJ1dCB0aGUgYmFja2luZwpidWZmZXIgaXMgb25seSBQQUdFX1NJWkUgYnl0ZXMsIGNh
-dXNpbmcgYSBzdGFjayBidWZmZXIgb3Zlci1yZWFkIGluc2lkZQpzdHJhY2UuCgpSZXBsYWNlIHRo
-ZSBQUklOVF9VTktOT1dOX1RBSUxfRVggbWFjcm8gd2l0aCBhIHN0YXRpYwpwcmludF91bmtub3du
-X3RhaWwgZnVuY3Rpb24gdGhhdCB0YWtlcyBhbiBleHBsaWNpdCBhdmFpbGFibGVfc2l6ZQpwYXJh
-bWV0ZXIgYW5kIGNsYW1wcyBhbGwgbWVtb3J5IGFjY2VzcyB0byBNSU4oZGVjbGFyZWQsIGF2YWls
-YWJsZSkuCldoZW4gZGVjbGFyZWQgZXhjZWVkcyBhdmFpbGFibGUsIHRoZSBmdW5jdGlvbiBwcmlu
-dHMgIi4uLiIgdG8gaW5kaWNhdGUKdHJ1bmNhdGlvbi4KClJldGFpbiB0aGUgUFJJTlRfVU5LTk9X
-Tl9UQUlMIGNvbnZlbmllbmNlIG1hY3JvIGZvciBjYWxsIHNpdGVzIHRoYXQKdXNlIHNpemVvZigq
-aGRyKSBhcyB0aGUgZGVjb2RlZCBzaXplLgoKRm9yIHRoZSB0b3AtbGV2ZWwgaGVhZGVyLCBwYXNz
-IHNpemVvZihkYXRhKSBhcyB0aGUgYXZhaWxhYmxlIGJvdW5kLgpGb3IgdmFsaWRhdGVkIHNlY3Rp
-b24gcHJpbnRlcnMsIHBhc3MgdGhlIGFscmVhZHktY2hlY2tlZCBzZWN0aW9uIHNpemUuCgpSZXBv
-cnRlZC1ieTogQUlTTEUgaW4gcGFydG5lcnNoaXAgd2l0aCBSZWQgSGF0CkFzc2lzdGVkLWJ5OiBD
-bGF1ZGU6Y2xhdWRlLW9wdXMtNC02CgpuZXRsaW5rOiBsaW1pdCBuZXN0ZWQgTkxNU0dfRVJST1Ig
-ZGVjb2RpbmcuCkEgdHJhY2VlIGNhbiBjb25zdHJ1Y3QgZGVlcGx5IG5lc3RlZCBOTE1TR19FUlJP
-UiBtZXNzYWdlcyBhbmQgbWFrZSB0aGUKZGVjb2RlciByZWN1cnNlIHVudGlsIHN0cmFjZSBleGhh
-dXN0cyBpdHMgc3RhY2suICBTdG9wIGFmdGVyIGVpZ2h0Cm5lc3RlZCBlcnJvcnMsIHdoaWNoIGlz
-IHdlbGwgYmV5b25kIG5vcm1hbCBuZXRsaW5rIGVycm9yIHVzYWdlLCBhbmQKYWJicmV2aWF0ZSB0
-aGUgcmVtYWluaW5nIHBheWxvYWQuCgpSZXBvcnRlZC1ieTogQUlTTEUgaW4gcGFydG5lcnNoaXAg
-d2l0aCBSZWQgSGF0CkFzc2lzdGVkLWJ5OiBPcGVuQ29kZTpncHQtNS42LXNvbAoKYnVpbGQoZGVw
-cyk6IGJ1bXAgY29kZWNvdi9jb2RlY292LWFjdGlvbiBmcm9tIDcuMC4wIHRvIDcuMS4xLgpCdW1w
-cyBbY29kZWNvdi9jb2RlY292LWFjdGlvbl0oaHR0cHM6Ly9naXRodWIuY29tL2NvZGVjb3YvY29k
-ZWNvdi1hY3Rpb24pIGZyb20KNy4wLjAgdG8gNy4xLjEuCi0gW1JlbGVhc2Ugbm90ZXNdKGh0dHBz
-Oi8vZ2l0aHViLmNvbS9jb2RlY292L2NvZGVjb3YtYWN0aW9uL3JlbGVhc2VzKQotIFtDaGFuZ2Vs
-b2ddKGh0dHBzOi8vZ2l0aHViLmNvbS9jb2RlY292L2NvZGVjb3YtYWN0aW9uL2Jsb2IvbWFpbi9D
-SEFOR0VMT0cubWQpCi0gW0NvbW1pdHNdKGh0dHBzOi8vZ2l0aHViLmNvbS9jb2RlY292L2NvZGVj
-b3YtYWN0aW9uL2NvbXBhcmUvZmI4YjM1ODJjOGU0ZGVmNDk2CiAgOWM5N2NhYTJmMTk3MjBjYjMz
-YTcyZi4uLjMwM2EzMmQ3YTU5YjQ0MmZhOGQ0OGI2YTFjYzY4MjVjMDljODQ3YTUpCgotLS0KdXBk
-YXRlZC1kZXBlbmRlbmNpZXM6Ci0gZGVwZW5kZW5jeS1uYW1lOiBjb2RlY292L2NvZGVjb3YtYWN0
-aW9uCiAgZGVwZW5kZW5jeS12ZXJzaW9uOiA3LjEuMQogIGRlcGVuZGVuY3ktdHlwZTogZGlyZWN0
-OnByb2R1Y3Rpb24KICB1cGRhdGUtdHlwZTogdmVyc2lvbi11cGRhdGU6c2VtdmVyLW1pbm9yCi4u
-LgoKYnVpbGQoZGVwcyk6IGJ1bXAgcmVkaGF0LXBsdW1iZXJzLWluLWFjdGlvbi9kaWZmZXJlbnRp
-YWwtc2hlbGxjaGVjay4KQnVtcHMgW3JlZGhhdC1wbHVtYmVycy1pbi1hY3Rpb24vZGlmZmVyZW50
-aWFsLQpzaGVsbGNoZWNrXShodHRwczovL2dpdGh1Yi5jb20vcmVkaGF0LXBsdW1iZXJzLWluLWFj
-dGlvbi9kaWZmZXJlbnRpYWwtCnNoZWxsY2hlY2spIGZyb20gNS41LjYgdG8gNS41LjcuCi0gW1Jl
-bGVhc2Ugbm90ZXNdKGh0dHBzOi8vZ2l0aHViLmNvbS9yZWRoYXQtcGx1bWJlcnMtaW4tYWN0aW9u
-L2RpZmZlcmVudGlhbC0KICBzaGVsbGNoZWNrL3JlbGVhc2VzKQotIFtDaGFuZ2Vsb2ddKGh0dHBz
-Oi8vZ2l0aHViLmNvbS9yZWRoYXQtcGx1bWJlcnMtaW4tYWN0aW9uL2RpZmZlcmVudGlhbC0KICBz
-aGVsbGNoZWNrL2Jsb2IvbWFpbi9kb2NzL0NIQU5HRUxPRy5tZCkKLSBbQ29tbWl0c10oaHR0cHM6
-Ly9naXRodWIuY29tL3JlZGhhdC1wbHVtYmVycy1pbi1hY3Rpb24vZGlmZmVyZW50aWFsLXNoZWxs
-Y2hlY2sKICAvY29tcGFyZS9kOTY1ZTY2ZWMwYjNiMmY4MjFmNzVjOGVmZjliMTI0NDJkOWE3ZDFl
-Li4uZjUxYzdjMGQzMjc3N2QwMGRlNzc3MTMxZDIKICA1OTE4NjE3YTI0NjQxNSkKCi0tLQp1cGRh
-dGVkLWRlcGVuZGVuY2llczoKLSBkZXBlbmRlbmN5LW5hbWU6IHJlZGhhdC1wbHVtYmVycy1pbi1h
-Y3Rpb24vZGlmZmVyZW50aWFsLXNoZWxsY2hlY2sKICBkZXBlbmRlbmN5LXZlcnNpb246IDUuNS43
-CiAgZGVwZW5kZW5jeS10eXBlOiBkaXJlY3Q6cHJvZHVjdGlvbgogIHVwZGF0ZS10eXBlOiB2ZXJz
-aW9uLXVwZGF0ZTpzZW12ZXItcGF0Y2gKLi4uCgp1aWQ6IGRlY29kZSBnaWQgc3lzY2FsbHMgd2l0
-aCB0aGVpciBvd24gYXJndW1lbnQgbmFtZXMuCmdldHJlc2dpZCwgc2V0ZnNnaWQsIHNldGdpZCwg
-c2V0cmVnaWQsIGFuZCBzZXRyZXNnaWQgc2hhcmUgdGhlIGRlY29kZXJzCm9mIHRoZWlyIHVpZCBj
-b3VudGVycGFydHMsIHNvIC1OLy0tYXJnLW5hbWVzIGxhYmVscyB0aGVpciBhcmd1bWVudHMKcnVp
-ZCwgZXVpZCwgc3VpZCwgdWlkLCBhbmQgZnN1aWQuICBHaXZlIHRoZW0gZGVjb2RlcnMgb2YgdGhl
-aXIgb3duIHdpdGgKdGhlIGdpZCBhcmd1bWVudCBuYW1lcy4KCkZpeGVzOiB2Ni4xNn4yMyAic3Jj
-OiBhbm5vdGF0ZSBzeXNjYWxsIHBhcnNlcnMgdXNpbmcgdHByaW50c19hcmdfbmFtZSBhbmQKdHBy
-aW50c19hcmdfbmV4dF9uYW1lIgpBc3Npc3RlZC1ieTogQ2xhdWRlOmNsYXVkZS1mYWJsZS01LTEK
-CnRlc3RzOiBmaXggZXBvbGxfcHdhaXQyIHRlc3QgdG8gYWN0dWFsbHkgcnVuIHN0cmFjZS4KVGhl
-IGVwb2xsX3B3YWl0MiBlbnRyeSBpbiBnZW5fdGVzdHMuaW4gY29uc2lzdHMgb2YgdGhlIHJlZGly
-ZWN0aW9uCjk+Pi9kZXYvZnVsbCBhbG9uZS4gIGdlbl90ZXN0cy5zaCB0cmVhdHMgdGhlIGZpcnN0
-IGFyZ3VtZW50IHRoYXQgaXMKbmVpdGhlciBhbiBvcHRpb24gbm9yIGEgc2NyaXB0IHJlZmVyZW5j
-ZSBhcyBhIGNvbW1hbmQgdG8gcnVuLCBzbyB0aGUKZ2VuZXJhdGVkIHRlc3QgY29uc2lzdHMgb2Yg
-YSBiYXJlIHJlZGlyZWN0aW9uIHRoYXQgZG9lcyBub3RoaW5nIGFuZApleGl0cyBzdWNjZXNzZnVs
-bHkgd2l0aG91dCBldmVyIHJ1bm5pbmcgc3RyYWNlLgoKRml4ZXM6IHY2LjEzfjQyICJ0ZXN0cy9l
-cG9sbF9wd2FpdDI6IG1vdmUgb3BlbmluZyBvZiAvZGV2L2Z1bGwgdG8gZ2VuX3Rlc3RzIgpkb2M6
-IGRvY3VtZW50IGFyY2hpdGVjdHVyZS1kZXBlbmRlbnQgaW9jdGwgbnVtYmVycyBhbmQgc2l6ZS1v
-bmx5IE1QRVJTLgpBc3Npc3RlZC1ieTogQ2xhdWRlOmNsYXVkZS1vcHVzLTQtNgp0dW46IGltcGxl
-bWVudCBkZWNvZGluZyBvZiBUVU4vVEFQIGlvY3Rscy4KQXNzaXN0ZWQtYnk6IENsYXVkZTpjbGF1
-ZGUtb3B1cy00LTYKYnVuZGxlZDogYWRkIGxpbnV4L2luY2x1ZGUvdWFwaS9saW51eC9pZl90dW4u
-aC4KQXNzaXN0ZWQtYnk6IENsYXVkZTpjbGF1ZGUtb3B1cy00LTYKCmRlZnMuaDogZml4IGJ1aWxk
-IHdpdGggdUNsaWJjLgpDb21taXQgZWU1NDU5NTMxMjgwZiAoIm9wZW46IHJlZmFjdG9yIHNwcmlu
-dF9vcGVuX21vZGVzNjQgdG8gc3VwcG9ydAptdWx0aXBsZSB4bGF0IHRhYmxlcyIpIGFkZGVkIGEg
-cmVmZXJlbmNlIHRvIHZhX2xpc3QsIGJ1dCBkaWQgbm90IGFkZCB0aGUKcmVxdWlyZWQgaGVhZGVy
-LiBUaGlzIGJyZWFrcyBidWlsZCB3aXRoIHVDbGliYzoKCkluIGZpbGUgaW5jbHVkZWQgZnJvbSBi
-am0uYzoxMjoKZGVmcy5oOjEwNjA6NTM6IGVycm9yOiB1bmtub3duIHR5cGUgbmFtZSDigJh2YV9s
-aXN04oCZCiAxMDYwIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbnVtIHhs
-YXRfc3R5bGUsIHZhX2xpc3QgeGxhdHMpOwogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+CgpJbmNsdWRlIHN0ZGFyZy5oIHRv
-IGZpeCB0aGUgYnVpbGQuCmJ1bmRsZWQ6IGFkZCBsaW51eC9pbmNsdWRlL3VhcGkve2FzbS1nZW5l
-cmljLGxpbnV4fS9wb3NpeF90eXBlcy5oLgoKUmVzb2x2ZXM6CkZpeGVzOiB2Ny4yLTItZzgxYzgx
-MjI3ZiAiYnVuZGxlZDogYWRkIGxpbnV4L2luY2x1ZGUvdWFwaS9saW51eC90aW1lX3R5cGVzLmgi
-Cgppb191cmluZzogaW1wbGVtZW50IGRlY29kaW5nIG9mIFpDUlhfQ1RSTF9BRERfQVJFQSBjdHJs
-IG9wZXJhdGlvbi4KQXNzaXN0ZWQtYnk6IENsYXVkZTpjbGF1ZGUtb3B1cy00LTYKaW9fdXJpbmc6
-IHVzZSBQUklOVF9GSUVMRF9PQkpfVENCX1BUUiBtYWNyby4KQXNzaXN0ZWQtYnk6IENsYXVkZTpj
-bGF1ZGUtb3B1cy00LTYKbGFuZGxvY2s6IGltcGxlbWVudCBkZWNvZGluZyBvZiBsYW5kbG9ja19y
-ZXN0cmljdF9zZWxmIGZsYWdzLgpBc3Npc3RlZC1ieTogQ2xhdWRlOmNsYXVkZS1vcHVzLTQtNgp4
-bGF0OiB1cGRhdGUgTkw4MDIxMV9DTURfKiBjb25zdGFudHMuCkFzc2lzdGVkLWJ5OiBDbGF1ZGU6
-Y2xhdWRlLW9wdXMtNC02CgpicGY6IGltcGxlbWVudCBkZWNvZGluZyBvZiBicGZfbGlua19pbmZv
-LgpJbXBsZW1lbnQgZGVjb2Rpbmcgb2YgYnBmX2xpbmtfaW5mbyBmb3IgQlBGX09CSl9HRVRfSU5G
-T19CWV9GRCwKaW5jbHVkaW5nIGFsbCAxNSBsaW5rIHR5cGVzIChyYXdfdHJhY2Vwb2ludCwgdHJh
-Y2luZywgY2dyb3VwLCBpdGVyLApuZXRucywgeGRwLCBzdHJ1Y3Rfb3BzLCBuZXRmaWx0ZXIsIGtw
-cm9iZV9tdWx0aSwgdXByb2JlX211bHRpLAp0cmFjaW5nX211bHRpLCBwZXJmX2V2ZW50IHdpdGgg
-c3ViLXR5cGVzLCB0Y3gsIG5ldGtpdCwgc29ja21hcCkuCgpzdHJ1Y3QgYnBmX2xpbmtfaW5mbyB3
-YXMgaW50cm9kdWNlZCBieSBMaW51eCBjb21taXQKdjUuOC1yYzF+MTY1XjJ+MzQzXjJ+MTZeMn42
-OyB0aGUgbW9zdCByZWNlbnQgYWRkaXRpb24KKHRyYWNpbmdfbXVsdGkpIHdhcyBhZGRlZCBieSB2
-Ny4zLXJjMX4xMzReMn4xODdeMn4yLgoKQXNzaXN0ZWQtYnk6IENsYXVkZTpjbGF1ZGUtb3B1cy00
-LTYKCmJwZl9hdHRyOiBmaXggZ2VuZXJhdG9ycyB0byBwcm9kdWNlIGNvcnJlY3QgbmVzdGVkIG1l
-bWJlciBjaGVja3MuCkJvdGggZ2VuZXJhdG9ycyB0cmVhdGVkIGFsbCBmaWVsZHMgYXMgZmxhdCBt
-ZW1iZXJzIG9mIHRoZSB0b3AtbGV2ZWwKc3RydWN0LCBpZ25vcmluZyBuZXN0aW5nLiAgRm9yIHN0
-cnVjdHMgd2l0aCBuYW1lZCB1bmlvbiBtZW1iZXJzIChsaWtlCmJwZl9saW5rX2luZm9fc3RydWN0
-IGFuZCBCUEZfTElOS19DUkVBVEVfc3RydWN0KSwgdGhpcyBwcm9kdWNlZCB3cm9uZwptZW1iZXIg
-cGF0aHMgKGUuZy4gInRwX25hbWUiIGluc3RlYWQgb2YgInJhd190cmFjZXBvaW50LnRwX25hbWUi
-KSwKY2F1c2luZyBBQ19DSEVDS19NRU1CRVJTIHByb2JlcyBhbmQgc3RhdGljX2Fzc2VydCBjaGVj
-a3MgdG8gc2lsZW50bHkKZmFpbC4gIEZpZWxkcyB3aXRoIHRoZSBzYW1lIG5hbWUgaW4gZGlmZmVy
-ZW50IHVuaW9uIGJyYW5jaGVzIChlLmcuCiJjb29raWUiIGluIHJhd190cmFjZXBvaW50LCB0cmFj
-aW5nLCBrcHJvYmUpIGNvbGxhcHNlZCB0byBhIHNpbmdsZQplbnRyeSBhZnRlciBzb3J0IC11LgoK
-U2luY2UgPGxpbnV4L2JwZi5oPiBpcyBidW5kbGVkLCBhbGwgc3RydWN0IGFuZCB1bmlvbiBtZW1i
-ZXJzIGRlZmluZWQKaW4gaXQgYXJlIGFsd2F5cyBhdmFpbGFibGUsIHNvIHRoZXJlIGlzIG5vIG5l
-ZWQgdG8gY2hlY2sgZm9yIHRoZWlyCmV4aXN0ZW5jZS4gIFJlbW92ZSB0aGUgc3RfQlBGX0FUVFIg
-bWFjcm8gZnJvbSBjb25maWd1cmUgYWxvbmcgd2l0aAp0aGUgbTQvZ2VuX2JwZl9hdHRyX200LnNo
-IGdlbmVyYXRvciB0aGF0IHByb2R1Y2VkIGl0LiAgTWFrZSB0aGUKc3RhdGljX2Fzc2VydCBzaXpl
-IGFuZCBvZmZzZXQgY2hlY2tzIGluIGdlbl9icGZfYXR0cl9jaGVjay5zaAp1bmNvbmRpdGlvbmFs
-LgoKQXNzaXN0ZWQtYnk6IENsYXVkZTpjbGF1ZGUtb3B1cy00LTYKCmJwZl9hdHRyOiBhZGQgbWlz
-c2luZyAvKiBza2lwIGNoZWNrICovIGZvciBleHBlY3RlZF9yZXZpc2lvbi4KVGhlIGV4cGVjdGVk
-X3JldmlzaW9uIGZpZWxkcyBpbnNpZGUgdGhlIG5ldGtpdCBhbmQgY2dyb3VwIG1lbWJlcnMgb2YK
-QlBGX0xJTktfQ1JFQVRFX3N0cnVjdCBhcmUgbWlzc2luZyB0aGUgLyogc2tpcCBjaGVjayAqLyBh
-bm5vdGF0aW9uCnRoYXQgdGhlIHNhbWUgZmllbGQgaW4gdGhlIHRjeCBtZW1iZXIgaGFzLCBjYXVz
-aW5nIHRoZSBnZW5lcmF0b3JzCnRvIGVtaXQgaW5jb3JyZWN0IGNoZWNrcyBmb3IgdGhlc2UgYnJv
-a2VuIFVBUEkgbWVtYmVycy4KCkZpeGVzOiB2Ni4xOH4xNCAiYnBmOiBkZWNvZGUgc3RydWN0IG5l
-dGtpdCBvZiBCUEZfTElOS19DUkVBVEUgY29tbWFuZCIKRml4ZXM6IHY2LjE4fjEzICJicGY6IGRl
-Y29kZSBzdHJ1Y3QgY2dyb3VwIG9mIEJQRl9MSU5LX0NSRUFURSBjb21tYW5kIgpBc3Npc3RlZC1i
-eTogQ2xhdWRlOmNsYXVkZS1vcHVzLTQtNgoKYnVpbGQ6IGluY2x1ZGUgPGxpbnV4L2JwZi5oPiB1
-bmNvbmRpdGlvbmFsbHkuClNpbmNlIDxsaW51eC9icGYuaD4gaXMgYnVuZGxlZCwgdGhlcmUgaXMg
-bm8gbmVlZCB0byBjaGVjayBmb3IgaXRzCmV4aXN0ZW5jZS4KCmJ1bmRsZWQ6IGFkZCBsaW51eC9p
-bmNsdWRlL3VhcGkvbGludXgvYnBmeyxfY29tbW9ufS5oLgp1c2VyZmF1bHRmZDogaW1wbGVtZW50
-IGRlY29kaW5nIG9mIFVGRkRJT19TRVRfTU9ERSBpb2N0bC4KQXNzaXN0ZWQtYnk6IENsYXVkZTpj
-bGF1ZGUtb3B1cy00LTYKdXNlcmZhdWx0ZmQ6IGltcGxlbWVudCBkZWNvZGluZyBvZiBVRkZESU9f
-UldQUk9URUNUIGlvY3RsLgpBc3Npc3RlZC1ieTogQ2xhdWRlOmNsYXVkZS1vcHVzLTQtNgp4bGF0
-OiB1cGRhdGUgdXNlcmZhdWx0ZmQgY29uc3RhbnRzIGZvciBSV1Agc3VwcG9ydC4KQXNzaXN0ZWQt
-Ynk6IENsYXVkZTpjbGF1ZGUtb3B1cy00LTYKdXNlcmZhdWx0ZmQ6IGltcGxlbWVudCBkZWNvZGlu
-ZyBvZiBVRkZESU9fTU9WRSBpb2N0bC4KQXNzaXN0ZWQtYnk6IENsYXVkZTpjbGF1ZGUtb3B1cy00
-LTYKeGxhdDogYWRkIG1pc3NpbmcgVUZGRElPX0NPTlRJTlVFX01PREVfV1AgY29uc3RhbnQuCkFz
-c2lzdGVkLWJ5OiBDbGF1ZGU6Y2xhdWRlLW9wdXMtNC02CgpJbXBsZW1lbnQgZGVjb2Rpbmcgb2Yg
-ZmNocm9vdCBzeXNjYWxsLgpUaGlzIG5ldyBzeXNjYWxsIHdhcyBpbnRyb2R1Y2VkIGJ5IExpbnV4
-IGtlcm5lbCBjb21taXQKdjcuMy1yYzF+MjM2XjJeMn40LCBhbmQgaG9va2VkIHVwIGZvciBhbGwg
-YXJjaGl0ZWN0dXJlcyBieSBjb21taXQKdjcuMy1yYzF+MjM2XjJeMn4yLiAgSXRzIGZkIGFyZ3Vt
-ZW50IGFjY2VwdHMgdGhlIEZEX0ZBSUxGU19ST09UCnNlbnRpbmVsLCBhZGRlZCBieSBjb21taXQg
-djcuMy1yYzF+MjM2XjJeMn4zLgoKQXNzaXN0ZWQtYnk6IENsYXVkZTpjbGF1ZGUtc29ubmV0LTQt
-NQp4bGF0OiB1cGRhdGUgVjRMMl9NRVRBX0ZNVF8qIGNvbnN0YW50cy4KQXNzaXN0ZWQtYnk6IENs
-YXVkZTpjbGF1ZGUtc29ubmV0LTQtNQpydG5sX3JvdXRlOiBpbXBsZW1lbnQgZGVjb2Rpbmcgb2Yg
-UlRBX0RFTF9SRUFTT04gYXR0cmlidXRlLgpBc3Npc3RlZC1ieTogQ2xhdWRlOmNsYXVkZS1zb25u
-ZXQtNC01CnJ0bmxfbmg6IGltcGxlbWVudCBkZWNvZGluZyBvZiBOSEFfRFNUX1BPUlQgYXR0cmli
-dXRlLgpBc3Npc3RlZC1ieTogQ2xhdWRlOmNsYXVkZS1zb25uZXQtNC01CnJ0bmxfbmg6IGltcGxl
-bWVudCBkZWNvZGluZyBvZiBOSEFfSFdfU1RBVFNfKiBhdHRyaWJ1dGVzLgpBc3Npc3RlZC1ieTog
-Q2xhdWRlOmNsYXVkZS1zb25uZXQtNC01CnJ0bmxfbmg6IGltcGxlbWVudCBkZWNvZGluZyBvZiBO
-SEFfR1JPVVBfU1RBVFMgYXR0cmlidXRlLgpBc3Npc3RlZC1ieTogQ2xhdWRlOmNsYXVkZS1zb25u
-ZXQtNC01CnJ0bmxfbmg6IGltcGxlbWVudCBkZWNvZGluZyBvZiBOSEFfT1BfRkxBR1MgYXR0cmli
-dXRlLgpBc3Npc3RlZC1ieTogQ2xhdWRlOmNsYXVkZS1zb25uZXQtNC01CnNyYy94bGF0L3J0bmxf
-bmV4dGhvcF9hdHRycy5pbjogcmVtb3ZlIGZhbGxiYWNrIGRlZmluaXRpb25zLgpydG5sX2FkZHI6
-IGltcGxlbWVudCBJRkFfTUNfVVNFUlMgYXR0cmlidXRlIGRlY29kaW5nLgpBc3Npc3RlZC1ieTog
-Q2xhdWRlOmNsYXVkZS1zb25uZXQtNC01CgpydG5sX2FkZHI6IGFkZCBhIGNvbW1lbnQgYWJvdXQg
-QUZfUEhPTkVUIGFuZCBBRl9NQ1RQIGFkZHJlc3MgYXR0cmlidXRlcy4KQUZfUEhPTkVUIGFuZCBB
-Rl9NQ1RQIGltcGxlbWVudCBzdXBwb3J0IGZvciB0aGVzZSBhdHRyaWJ1dGVzLApidXQgY3VycmVu
-dCBkZWNvZGluZyBmb3JtYXQgaXMgc2VlbWluZ2x5IGdvb2QgZW5vdWdoIGFzIGl0IGlzOwphZGQg
-YSBjb21tZW50IHRoYXQgdGhpcywgaW4gZmFjdCwgaGFzIGJlZW4gdGFrZW4gaW50byBhY2NvdW50
-CmFscmVhZHkuCgpzcmMvcnRubF9hZGRyLmMgKGRlY29kZV9pZmFfYWRkcmVzcyk6IEFkZCBhIGNv
-bW1lbnQgYWJvdXQgSUZBXyoKYWRkcmVzcy1saWtlIGF0dHJpYnV0ZXMgaW4gQUZfUEhPTkVUIGFu
-ZCBBRl9NQ1RQLgoKcnRtbF9hZGRyOiBwcmludCBzZWNvbmQgdmFsdWVzIGZvciBjc3RhbXAvdHN0
-YW1wIGZpZWxkcyBvZiBzdHJ1Y3QgaWZhX2NhY2hlaW5mbwpjc3RhbXAgYW5kIHRzdGFtcCBmaWVs
-ZHMnIHNjYWxlIGlzIDEvMTAwdGggb2YgYSBzZWNvbmQsCmFuZCBpdCBpcyBub3Qgb2J2aW91cyBm
-cm9tIHRoZWlyIG5hbWVzLCBzbyBpdCBzZWVtcyBwcnVkZW50IHRvIHByb3ZpZGUKdGhlIGluZm9y
-bWF0aW9uIGFib3V0IHRoZSB2YWx1ZSBvZiB0aGVzZSBmaWVsZHMgaW4gc2Vjb25kcyBhcyBhIGNv
-bW1lbnQuCgpydG5sX2FkZHI6IHByaW50IHRoZSBJTkZJTklUWV9MSUZFX1RJTUUgaGludC4KVGhl
-IHZhbHVlIDB4ZmZmZmZmZmYgb2YgaWZhX3ByZWZlcmVkIGFuZCBpZmFfdmFsaWQgZmllbGRzIG9m
-IHN0cnVjdAppZmFfY2FjaGVpbmZvIGlzIHRyZWF0ZWQgYXMgaW5maW5pdGUgbGlmZXRpbWUgYnkg
-dGhlIGtlcm5lbCwKYW5kIGludGVybmFsbHkgaXQgZXZlbiBoYXMgdGhlIGFwcHJvcHJpYXRlIGNv
-bnN0YW50IGRlZmluZWQsCklORklOSVRZX0xJRkVfVElNRSAoaW4gaW5jbHVkZS9uZXQvYWRkcmNv
-bmYuaCk7ICB1bmZvcnR1bmF0ZWx5LAp0aGlzIGNvbnN0YW50IGlzIG5vdCBleHBvc2VkIHRvIFVB
-UEkgYW5kIGNhbm5vdCBiZSBmcmVlbHkgdXNlZDsKaG93ZXZlciwgaXQgY2FuIGJlIHByaW50ZWQg
-YXMgYSBjb21tZW50IHRvIHByb3ZpZGUgYSBoaW50CnRvIHRoZSB1c2VyIHRoYXQgdGhlIHJlbGV2
-YW50IGZpZWxkcyB2YWx1ZXMgYXJlIHRyZWF0ZWQgaW4gYSBzcGVjaWFsIHdheQooZXNwZWNpYWxs
-eSBjb25zaWRlcmluZyB0aGUgZmFjdCB0aGF0IHRoZXkgYXJlIG5vcm1hbGx5IHByaW50ZWQgaW4K
-ZGVjaW1hbCBhbmQgaXQgaXMgbm90IG9idmlvdXMgdGhhdCB0aGUgdmFsdWUgNDI5NDk2NzI5NSBt
-aWdodCBiZSB0cmVhdGVkCmRpZmZlcmVudGx5IGJ5IHRoZSBsb29rIG9mIGl0KS4KCnJ0bmxfYWRk
-cjogaW1wbGVtZW50IElGQV9QUk9UTyBhdHRyaWJ1dGUgZGVjb2RpbmcuCkludHJvZHVjZWQgYnkg
-TGludXggY29tbWl0IHY1LjE4LXJjMX4xMzZeMn4zMDguCgpydG5sX2FkZHI6IHVzZSBkZWNvZGVf
-bmxhX2ZsYWdzIGZvciBpbXBsZW1lbnRpbmcgZGVjb2RpbmdfaWZhX2ZsYWdzLgouLi5pbnN0ZWFk
-IG9mIG9wZW4tY29kaW5nIGl0LgoKdGVzdHM6IGV4dGVuZCBubGF0dHJfaWZhZGRybXNnIHRlc3Qu
-CkV4dGVuZCB0aGUgbmxhdHRyX2lmYWRkcm1zZyB0ZXN0IHRvIHByb3ZpZGUgY29tcHJlaGVuc2l2
-ZSBjb3ZlcmFnZSBvZgp0aGUgbmV0bGluayBpbnRlcmZhY2UgYWRkcmVzcyBtZXNzYWdlIGRlY29k
-ZXIgYWNyb3NzIGFsbCB4bGF0IHZlcmJvc2l0eQptb2RlcywgYWRkcmVzcyBmYW1pbGllcywgYW5k
-IGF0dHJpYnV0ZSB0eXBlcy4gIFRoaXMgZW5hYmxlcyB0aGUgdGVzdAp0byBjYXRjaCBmdXR1cmUg
-cmVncmVzc2lvbnMgaW4gdGhlIGRlY29kZXIgaW1wbGVtZW50YXRpb24uCgp0ZXN0czogYWRkIGNo
-ZWNrX3MzMl9ubGF0dHIgdG8gdGVzdF9ubGF0dHIuaC4KVG8gcHJvdmlkZSBhbiBhYmlsaXR5IHRv
-IGVhc2lseSBjaGVjayBzMzIgYXR0cmlidXRlcy4KCnRlc3RzOiBhZGQgVEVTVF9OTEFUVFJfT0JK
-UFRSX0VYXyB0byB0ZXN0X25sYXR0ci5oLgpUbyBoYXZlIGFiaWxpdHkgdG8gcGFzcyBwb2ludGVy
-cyB0byBvYmplY3RzIGluc3RlYWQgb2Ygb2JqZWN0cwp0aGVtc2VsdmVzLgoKdGVzdHM6IG1vdmUg
-QVJSX0lURU0gdG8gdGVzdHMuaC4KSXQgaXMgdXNlZCBpbiB0d28gdGVzdHMgYWxyZWFkeSwgYW5k
-IGlzIGdvaW5nIHRvIGJlIHVzZWQgaW4gYSB0aGlyZCBvbmUuCgp4bGF0OiB1cGRhdGUgKl9NQUdJ
-QyBmaWxlc3lzdGVtIGNvbnN0YW50cy4KQXNzaXN0ZWQtYnk6IENsYXVkZTpjbGF1ZGUtc29ubmV0
-LTQtNQp4bGF0OiB1cGRhdGUgS1ZNX0NBUF8qIGNvbnN0YW50cy4KQXNzaXN0ZWQtYnk6IENsYXVk
-ZTpjbGF1ZGUtc29ubmV0LTQtNQp4bGF0OiB1cGRhdGUgQVRBX0NNRF8qIGNvbnN0YW50cy4KQXNz
-aXN0ZWQtYnk6IENsYXVkZTpjbGF1ZGUtc29ubmV0LTQtNQpuZXQ6IGltcGxlbWVudCBkZWNvZGlu
-ZyBvZiBTT19SSUdIVFNfTk9UUlVOQyBzb2NrZXQgb3B0aW9uLgpBc3Npc3RlZC1ieTogQ2xhdWRl
-OmNsYXVkZS1zb25uZXQtNC01CgpidW5kbGVkOiB1cGRhdGUgbGludXggVUFQSSBoZWFkZXJzIHRv
-IHY3LjMtcmMxLgpIZWFkZXJzIHVwZGF0ZWQgYXV0b21hdGljYWxseSB1c2luZyB1cGRhdGUtYnVu
-ZGxlZC1oZWFkZXJzLnNoIHNjcmlwdC4KCkFzc3VtZSBsaW51eC90aW1lX3R5cGVzLmggcHJvdmlk
-ZXMgYWxsIG5lY2Vzc2FyeSB0eXBlcy4KU2luY2UgbGludXgvdGltZV90eXBlcy5oIGlzIGJ1bmRs
-ZWQsIHRoZXJlIGlzIG5vIG5lZWQgdG8gY2hlY2sKd2hldGhlciBpdCBwcm92aWRlcyB0aGUgdHlw
-ZXMgd2UgdXNlLgoKYnVuZGxlZDogYWRkIGxpbnV4L2luY2x1ZGUvdWFwaS9saW51eC90aW1lX3R5
-cGVzLmguCgpSZXNvbHZlczoKRml4ZXM6IHY3LjB+NDQgImJ1bmRsZWQ6IHVwZGF0ZSBsaW51eCBV
-QVBJIGhlYWRlcnMgdG8gdjcuMC1yYzMiCgpQb3N0LXJlbGVhc2UgYWRtaW5pc3RyaXZpYS4K
-
---===============5422994388723865832==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-strace-upgrade-7.2-7.3.patch"
-
-RnJvbSAwNjRlNjc0NGFiMDY4MzZhYjQwOTVhZjgyZWRlMzVkYmRhMTg2ODkxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMjMgT2N0IDIwMjYgMDU6NDE6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-dHJhY2U6IHVwZ3JhZGUgNy4yIC0+IDcuMwoKUHJlcGFyZSBmb3IgNy4zIHJlbGVhc2UuCgpVcGRh
-dGUgY29weXJpZ2h0IGhlYWRlcnMuCkhlYWRlcnMgdXBkYXRlZCBhdXRvbWF0aWNhbGx5IHVzaW5n
-IG1haW50L3VwZGF0ZV9jb3B5cmlnaHRfeWVhcnMuc2gKc2NyaXB0LgoKRml4IHByZXByb2Nlc3Nv
-ciBpbmRlbnRhdGlvbi4KSW5kZW50IHRoZSBDIHByZXByb2Nlc3NvciBkaXJlY3RpdmVzIHRvIHJl
-ZmxlY3QgdGhlaXIgbmVzdGluZwp1c2luZyB0aGUgZm9sbG93aW5nIHNjcmlwdDoKCiQgY3BwaSAt
-bCAkKGdpdCBncmVwIC1FbCAnXltbOnNwYWNlOl1dKiNbWzpzcGFjZTpdXSooaWZ8aWZkZWZ8aWZu
-ZGVmfGVsaWZ8ZWxzZXxlCm5kaWZ8ZGVmaW5lfHByYWdtYSlbWzpzcGFjZTpdXScgc3JjIHRlc3Rz
-IHxncmVwIC1FdiAnXC4oaW58bWR8c2h8dGVzdCkkJykgfHdoaWxlCnJlYWQgZjsgZG8KY3BwaSA8
-ICIkZiIgPiAiJGYiLmNwcGk7IG12ICIkZiIuY3BwaSAiJGYiCmRvbmUKCnRpbWU6IGRlY29kZSBh
-dXhpbGlhcnkgY2xvY2sgSURzLgpMaW51eCBrZXJuZWwgY29tbWl0IDkwOTRjNzJjM2Q4MSAoInRp
-bWU6IEludHJvZHVjZSBhdXhpbGlhcnkKUE9TSVggY2xvY2tzIikgcmVzZXJ2ZXMgQ0xPQ0tfQVVY
-IHRocm91Z2ggQ0xPQ0tfQVVYX0xBU1QgZm9yCmF1eGlsaWFyeSBjbG9ja3MuICBEZWNvZGUgdGhv
-c2UgSURzIGluIGFsbCB4bGF0IG1vZGVzLgoKS2VlcCB0aGUgaGVscGVycyB0aGF0IGluY2x1ZGUg
-PGxpbnV4L3RpbWUuaD4gaW4gc2VwYXJhdGUKdHJhbnNsYXRpb24gdW5pdHMgdG8gYXZvaWQgY29u
-ZmxpY3RzIHdpdGggbGliYyB0aW1lIGRlZmluaXRpb25zLgoKQXNzaXN0ZWQtYnk6IE9wZW5Db2Rl
-OmdwdC02LXNvbAoKYnVuZGxlZDogYWRkIGxpbnV4L3RpbWUuaCBmcm9tIExpbnV4IHY3LjMuCkF1
-eGlsaWFyeSBjbG9jayBJRHMgd2VyZSBpbnRyb2R1Y2VkIGJ5IExpbnV4IGtlcm5lbCBjb21taXQK
-OTA5NGM3MmMzZDgxICgidGltZTogSW50cm9kdWNlIGF1eGlsaWFyeSBQT1NJWCBjbG9ja3MiKS4g
-IEJ1bmRsZQp0aGUgVUFQSSBoZWFkZXIgc28gQ0xPQ0tfQVVYIGFuZCBpdHMgcmFuZ2UgYXJlIGF2
-YWlsYWJsZSB3aGVuIHRoZQpob3N0IGtlcm5lbCBoZWFkZXJzIHByZWRhdGUgdGhpcyBjaGFuZ2Uu
-Cgp0aW1lOiBhbHdheXMgZGVjb2RlIGR5bmFtaWMgY2xvY2sgSURzLgpUaGUgZHluYW1pYyBjbG9j
-ayBkZWNvZGVyIGlzIGNvbmRpdGlvbmFsIG9uIENMT0NLSURfVE9fRkQsIHdoaWNoIGlzCm5vdCBk
-ZWZpbmVkIGJ5IHRoZSBVQVBJIGhlYWRlcnMsIGdsaWJjLCBvciBtdXNsLiAgU3VwcGx5IGxvY2Fs
-CmRlZmluaXRpb25zIHNvIHRoZXNlIElEcyBhcmUgZGVjb2RlZCBvbiB0aG9zZSBzeXN0ZW1zLiAg
-RGVmaW5lCkNQVUNMT0NLX0NMT0NLX01BU0sgc2VwYXJhdGVseSBmb3Igc3lzdGVtcyB0aGF0IHBy
-b3ZpZGUgQ0xPQ0tJRF9UT19GRApidXQgbm90IHRoaXMgbWFzay4KClNob3cgdGhlIG51bWVyaWMg
-SUQgYWxvbmdzaWRlIGl0cyBzeW1ib2xpYyBpbnRlcnByZXRhdGlvbiBiZWNhdXNlCnRoZSBkeW5h
-bWljLWNsb2NrIG1hY3JvcyBhcmUgbm9uLXN0YW5kYXJkLiAgTWFzayBvZmYgdGhlIHBlci10aHJl
-YWQKYml0IHdoZW4gbG9va2luZyB1cCBDUFUgY2xvY2sgbmFtZXMsIGFuZCBhdm9pZCBuZXN0ZWQg
-Y29tbWVudHMgaW4KdmVyYm9zZSBvdXRwdXQuICBQcmludCB0aGUgbnVtZXJpYyBDUFUtY2xvY2sg
-dHlwZSB3aGVuIHVua25vd24uCgpTdWdnZXN0ZWQtYnk6IERtaXRyeSBWLiBMZXZpbiA8bGR2QHN0
-cmFjZS5pbz4KTGluazogI2Rpc2N1c3Npb25fcjM4MzA1Nzc3MDgKQXNzaXN0ZWQtYnk6IE9wZW5D
-b2RlOmdwdC02LXNvbAoKdGVzdHM6IGFkZCBkZWRpY2F0ZWQgY2xvY2sgSUQgZGVjb2RpbmcgdGVz
-dHMuCkV4aXN0aW5nIGNsb2NrIHN5c2NhbGwgdGVzdHMgZG8gbm90IGNvdmVyIGV2ZXJ5IHhsYXQg
-c3R5bGUuICBBZGQgYQpmb2N1c2VkIGNsb2NrX2dldHJlcyB0ZXN0IGluIGFiYnJldmlhdGVkLCBy
-YXcsIGFuZCB2ZXJib3NlIG1vZGVzIHNvCmxhdGVyIGNsb2NrIElEIGRlY29kZXIgY2hhbmdlcyBj
-YW4gYmUgY2hlY2tlZCB3aXRob3V0IGR1cGxpY2F0aW5nCnRoZSBzeXNjYWxsIHRlc3RzLgoKS2Vl
-cCA8bGludXgvdGltZS5oPiBpbiBhIHNlcGFyYXRlIHRlc3QgY29tcGlsYXRpb24gdW5pdCB0byBh
-dm9pZApjb25mbGljdHMgd2l0aCBsaWJjIHRpbWUgZGVmaW5pdGlvbnMgaW4gdGhlIHRlc3QgcHJv
-Z3JhbS4KCkFzc2lzdGVkLWJ5OiBPcGVuQ29kZTpncHQtNi1zb2wKCnRpbWU6IGZpeCBjb21waWxh
-dGlvbiBvZiBDTE9DS0lEX1RPX0ZEIGJyYW5jaC4KV2l0aG91dCBicmFjZXMgYXJvdW5kIHRoZSBG
-RF9UT19DTE9DS0lEIGJyYW5jaCwgaXRzIGVsc2UgaGFzIG5vCm1hdGNoaW5nIGlmLCBzbyB0aGUg
-ZGVjb2RlciBjYW5ub3QgY29tcGlsZSB3aGVuIENMT0NLSURfVE9fRkQKaXMgZGVmaW5lZC4gIEFw
-cGFyZW50bHksIHRoaXMgY29kZSBoYXMgbmV2ZXIgYmVlbiBlbmFibGVkLgoKdGVzdHM6IGNoZWNr
-IHplcm8tbnN0eXBlIHNldG5zIGZvciB1c2VyIG5hbWVzcGFjZXMuCkEgc3VjY2Vzc2Z1bCBzZXRu
-cyhmZCwgMCkgd2l0aCBhIHVzZXItbmFtZXNwYWNlIGRlc2NyaXB0b3IgbXVzdApyZXBvcnQgdGhl
-IG5ldyB1c2VyIG5hbWVzcGFjZSBJRCB1bmRlciAtLW5hbWVzcGFjZT1uZXcuICBDaGVjayB0aGlz
-CmJvdGggd2l0aCBvcmRpbmFyeSBwcm9jZnMgYW5kIHdpdGggcHJvY2ZzIG1vdW50ZWQgZnJvbSBh
-biBhbmNlc3RvcgpQSUQgbmFtZXNwYWNlLgoKVGhlIGVhcmxpZXIgZXhwbGljaXQtbnN0eXBlIHRl
-c3Qgc2hhcmVzIHRoZSBjaGlsZC1jcmVhdGVkIG5hbWVzcGFjZQphbmQgZGVzY3JpcHRvci1wYXNz
-aW5nIHNldHVwLiAgU2luY2Ugam9pbmluZyBhIHVzZXIgbmFtZXNwYWNlIGNhbm5vdApiZSB1bmRv
-bmUgYnkgam9pbmluZyBpdHMgYW5jZXN0b3IsIHJ1biB0aGUgemVyby1uc3R5cGUgY2FsbCBpbiBp
-dHMKb3duIGV4ZWN1dGFibGUgaW5zdGVhZCBvZiBmb2xsb3dpbmcgdGhlIGV4cGxpY2l0IGNhbGwu
-CgpBc3Npc3RlZC1ieTogT3BlbkNvZGU6Z3B0LTYtc29sCgpzZXRuczogZGVjb2RlIG5hbWVzcGFj
-ZSB0cmFuc2l0aW9ucyB3aXRoIHplcm8gbnN0eXBlLgpXaGVuIG5zdHlwZSBpcyB6ZXJvLCBzZXRu
-cyBkZXJpdmVzIHRoZSBuYW1lc3BhY2UgdHlwZSBmcm9tIGl0cyBmZC4KUmVhZCB0aGUgZmQgdGFy
-Z2V0IHRocm91Z2ggdGhlIHByb2Nmcy1hd2FyZSBoZWxwZXIsIHZhbGlkYXRlIGl0cwp0eXBlLCBh
-bmQgcmVwb3J0IHRoZSByZXN1bHRpbmcgbmFtZXNwYWNlIElELiAgRXhpc3RpbmcgUElEIGFuZCB0
-aW1lCm5hbWVzcGFjZSBoYW5kbGluZyBhbHNvIGFwcGxpZXMgdG8gdGhpcyBjYXNlLgoKQXNzaXN0
-ZWQtYnk6IEFudGlncmF2aXR5OkdlbWluaS0zLjUtRmxhc2ggKGNvbW1pdCBsb2cpCkFzc2lzdGVk
-LWJ5OiBPcGVuQ29kZTpncHQtNi1zb2wKCnVuc2hhcmU6IHJlcG9ydCBQSUQgYW5kIHRpbWUgbmFt
-ZXNwYWNlcyBmb3IgZnV0dXJlIGNoaWxkcmVuLgp1bnNoYXJlKENMT05FX05FV1BJRCkgYW5kIHVu
-c2hhcmUoQ0xPTkVfTkVXVElNRSkgY2hhbmdlIHRoZQpuYW1lc3BhY2VzIGZvciBmdXR1cmUgY2hp
-bGRyZW4sIG5vdCB0aG9zZSBvZiB0aGUgY2FsbGVyLiAgUmVhZGluZwovcHJvYy88cGlkPi9ucy9w
-aWQgb3IgdGltZSBhZnRlciBlaXRoZXIgc3lzY2FsbCByZXBvcnRzIGFuIG9sZCBJRC4KUmVhZCBw
-aWRfZm9yX2NoaWxkcmVuIGFuZCB0aW1lX2Zvcl9jaGlsZHJlbiBpbnN0ZWFkLgoKVGhlIHBpZF9m
-b3JfY2hpbGRyZW4gbGluayBjYW4gYmUgZW1wdHkgdW50aWwgdGhlIGZpcnN0IGNoaWxkIGVudGVy
-cwp0aGUgbmV3IFBJRCBuYW1lc3BhY2UuICBPbWl0IHRoYXQgSUQgd2hlbiB1bmF2YWlsYWJsZSBy
-YXRoZXIgdGhhbgpwcmludCBhbiBlbXB0eSBmaWVsZCBvciB0aGUgY2FsbGVyJ3Mgb2xkIG5hbWVz
-cGFjZS4gIFVwZGF0ZSB0aGUKdW5zaGFyZSB0ZXN0IHRvIGNoZWNrIHRoZSBjaGlsZCBuYW1lc3Bh
-Y2UgbGlua3MgYW5kIHRoZWlyIGZvcm1hdHRpbmcsCmluY2x1ZGluZyBzZXBhcmF0ZSBQSUQgYW5k
-IHRpbWUgbmFtZXNwYWNlIGNhbGxzIHdoZW4gc3VwcG9ydGVkLgoKQXNzaXN0ZWQtYnk6IE9wZW5D
-b2RlOmdwdC02LXNvbAoKc2V0bnM6IHJlcG9ydCBQSUQgYW5kIHRpbWUgbmFtZXNwYWNlcyBmb3Ig
-ZnV0dXJlIGNoaWxkcmVuLgpBIHN1Y2Nlc3NmdWwgc2V0bnMgaW50byBhIFBJRCBvciB0aW1lIG5h
-bWVzcGFjZSBjaGFuZ2VzIHRoZQpuYW1lc3BhY2UgZm9yIGZ1dHVyZSBjaGlsZHJlbiwgbm90IHRo
-ZSBjYWxsZXIncyBjdXJyZW50IG5hbWVzcGFjZS4KUmVhZCBwaWRfZm9yX2NoaWxkcmVuIG9yIHRp
-bWVfZm9yX2NoaWxkcmVuIGFmdGVyIHRoZSBzeXNjYWxsIHNvIHRoZQpyZXR1cm4gYW5ub3RhdGlv
-biByZXBvcnRzIHRoZSBuZXcgbmFtZXNwYWNlIElELiAgVGVzdCBlYWNoIG5hbWVzcGFjZQppbmRl
-cGVuZGVudGx5IHNvIHVuYXZhaWxhYmxlIGNhc2VzIHNraXAgcmF0aGVyIHRoYW4gc2lsZW50bHkg
-cGFzcy4KCkFzc2lzdGVkLWJ5OiBPcGVuQ29kZTpncHQtNi1zb2wKCnN0cmFjZTogdHJhbnNsYXRl
-IHByb2NmcyBQSURzIGluIGF0dGFjaCBmYWlsdXJlIGRpYWdub3N0aWNzLgpPbiBhbiBFUEVSTSBh
-dHRhY2gsIHByb2NfcGlkX3RyYWNlciBsb29rZWQgdXAgL3Byb2MvPHBpZD4vc3RhdHVzCnVzaW5n
-IHRoZSBzdHJhY2UtdmlzaWJsZSB0YXJnZXQgUElELiAgQW4gaW5oZXJpdGVkIHByb2NmcyBtb3Vu
-dAptYXkgdXNlIGFuIGFuY2VzdG9yIFBJRCBuYW1lc3BhY2UsIGhpZGluZyB0aGUgcmVhbCBUcmFj
-ZXJQaWQgb3IKcmVwb3J0aW5nIGFuIHVucmVsYXRlZCBwcm9jZXNzLiAgUmVzb2x2ZSB0aGUgdGFy
-Z2V0IHZpYSBnZXRfcHJvY19waWQuCgpUaGUgVHJhY2VyUGlkIHZhbHVlIGlzIGl0c2VsZiBpbiB0
-aGUgcHJvY2ZzIFBJRCBuYW1lc3BhY2UuICBSZWNvdmVyCml0cyBzdHJhY2UtdmlzaWJsZSBQSUQg
-ZnJvbSBOU3BpZCwgdmFsaWRhdGluZyBpdCBieSB0cmFuc2xhdGluZyBiYWNrCnRvIHRoZSBzYW1l
-IHByb2NmcyBQSUQKCltDaGFuZ2Vsb2cgdHJ1bmNhdGVkIGFzIGl0IGV4Y2VlZHMgNTAwMCBjaGFy
-YWN0ZXJzOwp0aGUgZnVsbCBjaGFuZ2Vsb2cgY2FuIGJlIGZvdW5kIGluIGFuIGF0dGFjaG1lbnQg
-dG8gdGhlIEFVSCBlbWFpbF0KLS0tCiAuLi5nbm9yZS1wd3JpdGV2LXB3cml0ZTY0LXRlc3RzLW9u
-LW11c2wucGF0Y2ggfCA2MiArKysrKysrKysrKysrKysrKysrCiAuLi50b2NvbmYtbWFjcm8tdG8t
-ZGV0ZWN0LWxhcmdlZmlsZS1zdXAucGF0Y2ggfCAgNCArLQogLi4ua3BvcnQtYXhfcHJvZ19jY19m
-b3JfYnVpbGQubTQtbWFjcm9zLnBhdGNoIHwgIDIgKy0KIC4uLjAwMS1zdHJhY2UtZml4LXJlcHJv
-ZHVjaWJpbHR5LWlzc3Vlcy5wYXRjaCB8IDEyICsrLS0KIC4uLjAwMi10ZXN0cy1SZXBsYWNlLW9m
-ZjY0X3Qtd2l0aC1vZmZfdC5wYXRjaCB8ICAyICstCiAuLi4vc3RyYWNlL3N0cmFjZS9NYWtlZmls
-ZS1wdGVzdC5wYXRjaCAgICAgICAgfCAgNiArLQogLi4uL3N0cmFjZS9zdHJhY2UvcHRlc3Qtc3Bh
-Y2VzYXZlLnBhdGNoICAgICAgIHwgIDYgKy0KIC4uLi9zdHJhY2Uvc3RyYWNlL3NraXAtbG9hZC5w
-YXRjaCAgICAgICAgICAgICB8ICAyICstCiAuLi4vc3RyYWNlL3N0cmFjZS91cGRhdGUtZ2F3ay1w
-YXRocy5wYXRjaCAgICAgfCAgMiArLQogLi4uL3N0cmFjZS97c3RyYWNlXzcuMi5iYiA9PiBzdHJh
-Y2VfNy4zLmJifSAgIHwgIDIgKy0KIDEwIGZpbGVzIGNoYW5nZWQsIDgxIGluc2VydGlvbnMoKyks
-IDE5IGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9zdHJhY2UvZmlsZXMvMDAwMS1JZ25vcmUtcHdyaXRldi1wd3JpdGU2NC10ZXN0cy1vbi1tdXNs
-LnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS97c3RyYWNlXzcuMi5i
-YiA9PiBzdHJhY2VfNy4zLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9zdHJhY2UvZmlsZXMvMDAwMS1JZ25vcmUtcHdyaXRldi1wd3JpdGU2NC10ZXN0cy1vbi1t
-dXNsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9maWxlcy8wMDAxLUlnbm9y
-ZS1wd3JpdGV2LXB3cml0ZTY0LXRlc3RzLW9uLW11c2wucGF0Y2gKbmV3IGZpbGUgbW9kZSAxMDA2
-NDQKaW5kZXggMDAwMDAwMDAwMC4uNzYwYTI1N2Y0YgotLS0gL2Rldi9udWxsCisrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9zdHJhY2UvZmlsZXMvMDAwMS1JZ25vcmUtcHdyaXRldi1wd3JpdGU2
-NC10ZXN0cy1vbi1tdXNsLnBhdGNoCkBAIC0wLDAgKzEsNjIgQEAKK0Zyb20gMDc5YmMzOTkyNGZm
-OWNiYTVkMzI1ZGVjZWM3NTQ1ZTM1ZTk1MDdhMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CitEYXRlOiBNb24sIDE4IEF1ZyAyMDI1
-IDIyOjE4OjU4IC0wNzAwCitTdWJqZWN0OiBbUEFUQ0hdIElnbm9yZSBwd3JpdGV2L3B3cml0ZTY0
-IHRlc3RzIG9uIG11c2wKKworbXVzbCB1c2VzIHdyYXBwZXJzIGZvciBwd3JpdGV2IGFuZCBwd3Jp
-dGU2NCB1c2luZworcHdyaXRldjIgc3lzY2FsbCBbMV0sIGhvd2V2ZXIgdGhlIHRlc3QgZXhlcGN0
-cyB0aGF0IHRoZQorcHJvZ3JhbSB3aWxsIGNhbGwgcHdyaXRldiBhbmQgcHdyaXRlNjQgKCBnbGli
-YyBiZWhhdmlvciApCisKK1RoaXMgY2FuIGJlIGZpeGVkIGlmIHRoZSBmdW5jdGlvbiBjYWxscyBh
-cmUgY2hhbmdlZCB0bwordXNlIHN5c2NhbGwoKSBBUEkgZGlyZWN0bHksIGJ1dCB0aGF0IG5lZWRz
-IGNoYW5nZSB1cHN0cmVhbSBbMl0KKworSXNzdWUgaXMgcmVwb3J0ZWQgdXBzdHJlYW0gWzNdCisK
-K1sxXSBodHRwczovL2dpdC5tdXNsLWxpYmMub3JnL2NnaXQvbXVzbC9jb21taXQvc3JjP2lkPTUz
-NzAwNzBmZGVkNjFiNTY5MTk2NzY0NjczYTRmYzg0NDBhYWM3OWUKK1syXSBodHRwczovL2dpdGh1
-Yi5jb20vc3RyYWNlL3N0cmFjZS9wdWxsLzM0NworWzNdIGh0dHBzOi8vZ2l0aHViLmNvbS9zdHJh
-Y2Uvc3RyYWNlL2lzc3Vlcy8zNDkKKworVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtN
-dXNsIFNwZWNpZmljXQorU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bT4KKy0tLQorIHRlc3RzL3ByZWFkNjQtcHdyaXRlNjQuZ2VuLnRlc3QgfCAzICsrKworIHRlc3Rz
-L3ByZWFkdi1wd3JpdGV2Lmdlbi50ZXN0ICAgfCAzICsrKworIHRlc3RzL3B3cml0ZXYuZ2VuLnRl
-c3QgICAgICAgICAgfCAzICsrKworIDMgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspCisK
-K2RpZmYgLS1naXQgYS90ZXN0cy9wcmVhZDY0LXB3cml0ZTY0Lmdlbi50ZXN0IGIvdGVzdHMvcHJl
-YWQ2NC1wd3JpdGU2NC5nZW4udGVzdAoraW5kZXggYjUzZTA2OS4uMGExZTZlNiAxMDA3NTUKKy0t
-LSBhL3Rlc3RzL3ByZWFkNjQtcHdyaXRlNjQuZ2VuLnRlc3QKKysrKyBiL3Rlc3RzL3ByZWFkNjQt
-cHdyaXRlNjQuZ2VuLnRlc3QKK0BAIC0xLDQgKzEsNyBAQAorICMhL2Jpbi9zaCAtZWZ1CisgIyBH
-ZW5lcmF0ZWQgYnkgLi90ZXN0cy9nZW5fdGVzdHMuc2ggZnJvbSAuL3Rlc3RzL2dlbl90ZXN0cy5p
-biAocHJlYWQ2NC1wd3JpdGU2NCAtYTIxIC1lcmVhZD0wIC1ld3JpdGU9MSAtZSB0cmFjZT1wcmVh
-ZDY0LHB3cml0ZTY0IC1QIHByZWFkNjQtcHdyaXRlNjQtdG1wZmlsZSAtUCAvZGV2L3plcm8gLVAg
-L2Rldi9udWxsKTsgZG8gbm90IGVkaXQuCisgLiAiJHtzcmNkaXI9Ln0vaW5pdC5zaCIKKysKKytz
-a2lwXyAiVGVzdCBub3QgcG9ydGVkIHRvIG11c2wsIG11c2wgZ2VuZXJhdGVzIHB3cml0ZXYyIgor
-KworIHJ1bl9zdHJhY2VfbWF0Y2hfZGlmZiAtYTIxIC1lcmVhZD0wIC1ld3JpdGU9MSAtZSB0cmFj
-ZT1wcmVhZDY0LHB3cml0ZTY0IC1QIHByZWFkNjQtcHdyaXRlNjQtdG1wZmlsZSAtUCAvZGV2L3pl
-cm8gLVAgL2Rldi9udWxsCitkaWZmIC0tZ2l0IGEvdGVzdHMvcHJlYWR2LXB3cml0ZXYuZ2VuLnRl
-c3QgYi90ZXN0cy9wcmVhZHYtcHdyaXRldi5nZW4udGVzdAoraW5kZXggNWVkODI5Ny4uYjgzZjEy
-OSAxMDA3NTUKKy0tLSBhL3Rlc3RzL3ByZWFkdi1wd3JpdGV2Lmdlbi50ZXN0CisrKysgYi90ZXN0
-cy9wcmVhZHYtcHdyaXRldi5nZW4udGVzdAorQEAgLTEsNCArMSw3IEBACisgIyEvYmluL3NoIC1l
-ZnUKKyAjIEdlbmVyYXRlZCBieSAuL3Rlc3RzL2dlbl90ZXN0cy5zaCBmcm9tIC4vdGVzdHMvZ2Vu
-X3Rlc3RzLmluIChwcmVhZHYtcHdyaXRldiAtYTE5IC1lcmVhZD0wIC1ld3JpdGU9MSAtZSB0cmFj
-ZT1wcmVhZHYscHdyaXRldik7IGRvIG5vdCBlZGl0LgorIC4gIiR7c3JjZGlyPS59L2luaXQuc2gi
-CisrCisrc2tpcF8gIlRlc3Qgbm90IHBvcnRlZCB0byBtdXNsLCBtdXNsIGdlbmVyYXRlcyBwd3Jp
-dGV2MiIKKysKKyBydW5fc3RyYWNlX21hdGNoX2RpZmYgLWExOSAtZXJlYWQ9MCAtZXdyaXRlPTEg
-LWUgdHJhY2U9cHJlYWR2LHB3cml0ZXYKK2RpZmYgLS1naXQgYS90ZXN0cy9wd3JpdGV2Lmdlbi50
-ZXN0IGIvdGVzdHMvcHdyaXRldi5nZW4udGVzdAoraW5kZXggZTU0ZmQxNS4uNDk5OTgxNiAxMDA3
-NTUKKy0tLSBhL3Rlc3RzL3B3cml0ZXYuZ2VuLnRlc3QKKysrKyBiL3Rlc3RzL3B3cml0ZXYuZ2Vu
-LnRlc3QKK0BAIC0xLDQgKzEsNyBAQAorICMhL2Jpbi9zaCAtZWZ1CisgIyBHZW5lcmF0ZWQgYnkg
-Li90ZXN0cy9nZW5fdGVzdHMuc2ggZnJvbSAuL3Rlc3RzL2dlbl90ZXN0cy5pbiAocHdyaXRldiAt
-YTIyIC1zNyk7IGRvIG5vdCBlZGl0LgorIC4gIiR7c3JjZGlyPS59L2luaXQuc2giCisrCisrc2tp
-cF8gIlRlc3Qgbm90IHBvcnRlZCB0byBtdXNsLCBtdXNsIGdlbmVyYXRlcyBwd3JpdGV2MiIKKysK
-KyBydW5fc3RyYWNlX21hdGNoX2RpZmYgLWEyMiAtczcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAwMDEtY29uZmlndXJlLVVzZS1hdXRvY29uZi1tYWNy
-by10by1kZXRlY3QtbGFyZ2VmaWxlLXN1cC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9z
-dHJhY2Uvc3RyYWNlLzAwMDEtY29uZmlndXJlLVVzZS1hdXRvY29uZi1tYWNyby10by1kZXRlY3Qt
-bGFyZ2VmaWxlLXN1cC5wYXRjaAppbmRleCAyNWYzMmQxNzM0Li5lYmNkMzE2ZTlmIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAxLWNvbmZpZ3VyZS1V
-c2UtYXV0b2NvbmYtbWFjcm8tdG8tZGV0ZWN0LWxhcmdlZmlsZS1zdXAucGF0Y2gKKysrIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMS1jb25maWd1cmUtVXNlLWF1dG9j
-b25mLW1hY3JvLXRvLWRldGVjdC1sYXJnZWZpbGUtc3VwLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
-RnJvbSAzMzRiNjZhZjEzMjliYzY5NzBjOWZmOWVlNjY4YWY2Y2MyMTMzYjhmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbSBkZmY1MDJmZjRhZTk1YTMxMGVhMTBlZWRhMGFhZjU2MjZkZTM4
-OTBiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdt
-YWlsLmNvbT4KIERhdGU6IFRodSwgMTUgRGVjIDIwMjIgMTU6NTQ6MjcgLTA4MDAKIFN1YmplY3Q6
-IFtQQVRDSF0gY29uZmlndXJlOiBVc2UgYXV0b2NvbmYgbWFjcm8gdG8gZGV0ZWN0IGxhcmdlZmls
-ZSBzdXBwb3J0CkBAIC0xMyw3ICsxMyw3IEBAIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWou
-a2hlbUBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQogCiBkaWZm
-IC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCA5NTZiYjg1Li4wODEy
-NzI1IDEwMDY0NAoraW5kZXggOWJlYzE0Yi4uNTc0MDZmNSAxMDA2NDQKIC0tLSBhL2NvbmZpZ3Vy
-ZS5hYwogKysrIGIvY29uZmlndXJlLmFjCiBAQCAtNDMsNiArNDMsOCBAQCBBQ19QUk9HX0lOU1RB
-TEwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAwMDEt
-bTQtQmFja3BvcnQtYXhfcHJvZ19jY19mb3JfYnVpbGQubTQtbWFjcm9zLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMS1tNC1CYWNrcG9ydC1heF9wcm9nX2Nj
-X2Zvcl9idWlsZC5tNC1tYWNyb3MucGF0Y2gKaW5kZXggNjBlNTE0MTE5Ny4uNDc4YmI3YjlkOSAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMS1tNC1C
-YWNrcG9ydC1heF9wcm9nX2NjX2Zvcl9idWlsZC5tNC1tYWNyb3MucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMS1tNC1CYWNrcG9ydC1heF9wcm9nX2Nj
-X2Zvcl9idWlsZC5tNC1tYWNyb3MucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGI0MDJjZmNk
-ZmI3ODJhYjNhOGIyNjRiMjM1MzZhNGRlNWY3MDk3NDYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CitGcm9tIGRlNGQ1MWMwMTBlMTJhOGM4NDNkZDNlMjQxZTM5MmNkOGNiY2M2Y2EgTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8a2hlbS5yYWpAb3NzLnF1YWxjb21tLmNv
-bT4KIERhdGU6IEZyaSwgMTAgQXByIDIwMjYgMjM6Mzk6NDcgKzAwMDAKIFN1YmplY3Q6IFtQQVRD
-SF0gbTQ6IEJhY2twb3J0IGF4X3Byb2dfY2NfZm9yX2J1aWxkLm00IG1hY3JvcwpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMS1zdHJhY2UtZml4LXJl
-cHJvZHVjaWJpbHR5LWlzc3Vlcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uv
-c3RyYWNlLzAwMDEtc3RyYWNlLWZpeC1yZXByb2R1Y2liaWx0eS1pc3N1ZXMucGF0Y2gKaW5kZXgg
-NDkwN2IxNmExYy4uOGE4YjE4ZDY5OCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3N0cmFjZS9zdHJhY2UvMDAwMS1zdHJhY2UtZml4LXJlcHJvZHVjaWJpbHR5LWlzc3Vlcy5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAxLXN0cmFjZS1m
-aXgtcmVwcm9kdWNpYmlsdHktaXNzdWVzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1OTA1
-YjQwNmM1MzI1NDQyZjIwMDEzMzk5MzdhZDIyYjJkMDY4YjE1IE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSBhOTlmMjI4M2VkMTNiMDMxODViNjdkZGRhNTA3YWVkM2FhMGY1OTVlIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSmVyZW15IFB1aGxtYW4gPGpwdWhsbWFuQG12aXN0
-YS5jb20+CiBEYXRlOiBXZWQsIDExIE1hciAyMDIwIDE5OjU2OjU1ICswMDAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIHN0cmFjZTogZml4IHJlcHJvZHVjaWJpbHR5IGlzc3VlcwpAQCAtMTMsMTkgKzEzLDE5
-IEBAIFNpZ25lZC1vZmYtYnk6IEplcmVteSBQdWhsbWFuIDxqcHVobG1hbkBtdmlzdGEuY29tPgog
-IDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYg
-LS1naXQgYS90ZXN0cy9nZW5fdGVzdHMuc2ggYi90ZXN0cy9nZW5fdGVzdHMuc2gKLWluZGV4IDNj
-NjIyOGEuLjQzYjk0ZWEgMTAwNzU1CitpbmRleCBkNzFlMWMxLi5jMTkxNjczIDEwMDc1NQogLS0t
-IGEvdGVzdHMvZ2VuX3Rlc3RzLnNoCiArKysgYi90ZXN0cy9nZW5fdGVzdHMuc2gKLUBAIC00Niw3
-ICs0Niw3IEBAIHdoaWxlIHJlYWQgLXIgbmFtZSBhcmcwIGFyZ3M7IGRvIHsKK0BAIC01Miw3ICs1
-Miw3IEBAIHdoaWxlIHJlYWQgLXIgbmFtZSBhcmcwIGFyZ3M7IGRvIHsKICAKICAJaGRyPSJcCiAg
-IyEvYmluL3NoIC1lZnUKIC0jIEdlbmVyYXRlZCBieSAkMCBmcm9tICRpbnB1dCAoJG5hbWUgJGFy
-ZzAgJGFyZ3MpOyBkbyBub3QgZWRpdC4iCiArIyBHZW5lcmF0ZWQgYnkgJChiYXNlbmFtZSAkMCkg
-ZnJvbSAkaW5wdXQgKCRuYW1lICRhcmcwICRhcmdzKTsgZG8gbm90IGVkaXQuIgogIAotIAljYXNl
-ICIkYXJnMCIgaW4KLSAJCSsqKQotQEAgLTEwMiw3ICsxMDIsNyBAQCB3aGlsZSByZWFkIC1yIG5h
-bWUgYXJnMCBhcmdzOyBkbyB7CisgCSMgQSBnZW5lcmF0ZWQgdGVzdCBtYXkgYmUgc291cmNlZCB3
-aGlsZSBhbm90aGVyIGJ1aWxkIHJlZ2VuZXJhdGVzIGl0LgorIAkjIFJlcGxhY2UgdGhlIGZpbGUg
-YXRvbWljYWxseSBzbyB0aGUgcmVhZGVyIGtlZXBzIGl0cyBvcmlnaW5hbCBjb250ZW50cy4KK0BA
-IC0xMTIsNyArMTEyLDcgQEAgd2hpbGUgcmVhZCAtciBuYW1lIGFyZzAgYXJnczsgZG8gewogIAog
-IGlmIFsgLW4gIiRuYW1lcyIgXTsgdGhlbgogIAl7CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8wMDAyLXRlc3RzLVJlcGxhY2Utb2ZmNjRfdC13aXRoLW9m
-Zl90LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvMDAwMi10ZXN0
-cy1SZXBsYWNlLW9mZjY0X3Qtd2l0aC1vZmZfdC5wYXRjaAppbmRleCBlNzg0MjY4ODU1Li44OGE4
-MTUxOWJmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS8w
-MDAyLXRlc3RzLVJlcGxhY2Utb2ZmNjRfdC13aXRoLW9mZl90LnBhdGNoCisrKyBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlLzAwMDItdGVzdHMtUmVwbGFjZS1vZmY2NF90LXdp
-dGgtb2ZmX3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGJjY2E4NjE5Zjc0OWJhNzhhNGNl
-NzhkMzljNjAzZTI2MDYxNzUxNzUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDg1ZWIw
-MjM3MWVhNDdlNzlmOTEyZmEwM2RiZTAzYzg0OWMwOTNiMzYgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCiBGcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogVGh1LCAxNSBE
-ZWMgMjAyMiAxNTo1NjoxMyAtMDgwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0czogUmVwbGFjZSBv
-ZmY2NF90IHdpdGggb2ZmX3QKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJh
-Y2Uvc3RyYWNlL01ha2VmaWxlLXB0ZXN0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0
-cmFjZS9zdHJhY2UvTWFrZWZpbGUtcHRlc3QucGF0Y2gKaW5kZXggMWUzYzhlZTJhYS4uMDM1MmE4
-MjIzNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2UvTWFr
-ZWZpbGUtcHRlc3QucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJh
-Y2UvTWFrZWZpbGUtcHRlc3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDI3NDk2OTliNzdi
-NGZjY2U3ZTZlOTYwZjI0NjI1OWIwNWYzZGFmY2MgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
-cm9tIGY3YWQ0MjNmODY0YzVmODgyYzdlMjIwZjU2NGEyMWU5NDIxYWM3M2IgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCiBGcm9tOiBHYWJyaWVsIEJhcmJ1IDxnYWJyaWVsLmJhcmJ1QGVuZWEuY29t
-PgogRGF0ZTogVGh1LCAyNSBKdWwgMjAxMyAxNToyODozMyArMDIwMAogU3ViamVjdDogW1BBVENI
-XSBzdHJhY2U6IEFkZCBwdGVzdApAQCAtMTMsNyArMTMsNyBAQCBTaWduZWQtb2ZmLWJ5OiBBbnVq
-IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAyMCBpbnNl
-cnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS90ZXN0cy9NYWtlZmlsZS5hbSBiL3Rlc3RzL01ha2Vm
-aWxlLmFtCi1pbmRleCA4NGE5NjM4Li4yM2ZkMjE4IDEwMDY0NAoraW5kZXggMTJiNjNiMi4uMWRk
-Zjc4MiAxMDA2NDQKIC0tLSBhL3Rlc3RzL01ha2VmaWxlLmFtCiArKysgYi90ZXN0cy9NYWtlZmls
-ZS5hbQogQEAgLTE4LDYgKzE4LDcgQEAgU0laRU9GX0xPTkcgPSBAU0laRU9GX0xPTkdACkBAIC0y
-NCw3ICsyNCw3IEBAIGluZGV4IDg0YTk2MzguLjIzZmQyMTggMTAwNjQ0CiAgQU1fQ0ZMQUdTID0g
-JChXQVJOX0NGTEFHUykgJChURVNUX1dBUk5fQ0ZMQUdTKQogIGJ1bmRsZWRfQ1BQRkxBR1MgPQog
-IGlmIFVTRV9CVU5ETEVEX0hFQURFUlMKLUBAIC05NjgsMyArOTY5LDIyIEBAIGNoZWNrLXZhbGdy
-aW5kLWxvY2FsOiAkKGNoZWNrX0xJQlJBUklFUykgJChjaGVja19QUk9HUkFNUykKK0BAIC05ODIs
-MyArOTgzLDIyIEBAIGNoZWNrLXZhbGdyaW5kLWxvY2FsOiAkKGNoZWNrX0xJQlJBUklFUykgJChj
-aGVja19QUk9HUkFNUykKICBDTEVBTkZJTEVTID0ga3N5c2VudC5oCiAgCiAgaW5jbHVkZSAuLi9z
-cmMvc2Nuby5hbQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJh
-Y2UvcHRlc3Qtc3BhY2VzYXZlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9z
-dHJhY2UvcHRlc3Qtc3BhY2VzYXZlLnBhdGNoCmluZGV4IDAwZjQwNGMwMDMuLjNmNjI4OWQzYTEg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlL3B0ZXN0LXNw
-YWNlc2F2ZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS9w
-dGVzdC1zcGFjZXNhdmUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGFlNTM4ZDRkY2IwZWE3
-MjY1ZDcyNjcxYjdkZDM1MzdjYTEzNTY0MzcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDBiY2VhNGQ5N2JkYmZiYTU5MjBjZWI1NjIxNWE5MTFjOWQ1MjlkYzYgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
-ZGF0aW9uLm9yZz4KIERhdGU6IFdlZCwgMjkgTWF5IDIwMTkgMDA6MTA6MzIgKzAxMDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gc3RyYWNlOiBUd2VhayBwdGVzdCBkaXNrIHNwYWNlIG1hbmFnZW1lbnQKQEAg
-LTE0LDEwICsxNCwxMCBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW3NwZWNpZmlj
-IHRvIE9FIGltYWdlIHNwYWNlIGlzc3Vlc10KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KykKIAogZGlmZiAtLWdpdCBhL3Rlc3RzL2dlbl90ZXN0cy5zaCBiL3Rlc3RzL2dlbl90ZXN0cy5z
-aAotaW5kZXggZjIyYWQwOC4uM2M2MjI4YSAxMDA3NTUKK2luZGV4IDJhN2ZhZGEuLmQ3MWUxYzEg
-MTAwNzU1CiAtLS0gYS90ZXN0cy9nZW5fdGVzdHMuc2gKICsrKyBiL3Rlc3RzL2dlbl90ZXN0cy5z
-aAotQEAgLTg0LDYgKzg0LDcgQEAgd2hpbGUgcmVhZCAtciBuYW1lIGFyZzAgYXJnczsgZG8gewor
-QEAgLTkzLDYgKzkzLDcgQEAgd2hpbGUgcmVhZCAtciBuYW1lIGFyZzAgYXJnczsgZG8gewogIAkJ
-JGhkcgogIAkJLiAiXCR7c3JjZGlyPS59L2luaXQuc2giCiAgCQlydW5fc3RyYWNlX21hdGNoX2Rp
-ZmYgJGFyZzAgJGFyZ3MKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uv
-c3RyYWNlL3NraXAtbG9hZC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3Ry
-YWNlL3NraXAtbG9hZC5wYXRjaAppbmRleCA2MTBkZDk0ZmU5Li5jYWI4OTBmMTQ4IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0cmFjZS9za2lwLWxvYWQucGF0Y2gK
-KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2Uvc2tpcC1sb2FkLnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSAyNjUzNTE1NTM3YjY2YTRiMTI4NmJlMTA3ZTllZjQwNmM1
-NTA0MGI0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1YzkwNDg5ODhlNTAwMGZiMGYx
-NzVhZmRlMDVhMjNiZTJlZjBmYTE1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9z
-cyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiBEYXRlOiBTYXQsIDMwIEF1ZyAyMDI1IDAw
-OjQ3OjAzICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIHN0cmFjZTogc2tpcCBhIG51bWJlciBvZiBs
-b2FkLXNlbnNpdGl2ZSB0ZXN0cwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0
-cmFjZS9zdHJhY2UvdXBkYXRlLWdhd2stcGF0aHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvc3RyYWNlL3N0cmFjZS91cGRhdGUtZ2F3ay1wYXRocy5wYXRjaAppbmRleCA4ODk1YjBmZjll
-Li43NjRmMGFmMTE2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3RyYWNlL3N0
-cmFjZS91cGRhdGUtZ2F3ay1wYXRocy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-c3RyYWNlL3N0cmFjZS91cGRhdGUtZ2F3ay1wYXRocy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
-b20gYmUxYjNkNzRjYTRmZmIzYzhkM2UzOGZkYjk2ZjIzZDU5MjBmOGVmMSBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKK0Zyb20gM2M0ZGEzMTc4M2YxMjdkMThjZjFiNjRjYTMzYWM0NmE1MTJkYTJj
-YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFuZHJlIE1jQ3VyZHkgPGFybWNjdXJk
-eUBnbWFpbC5jb20+CiBEYXRlOiBNb24sIDE4IEphbiAyMDE2IDExOjAxOjAwIC0wODAwCiBTdWJq
-ZWN0OiBbUEFUQ0hdIHVwZGF0ZSBnYXdrIHBhdGhzLCAvYmluL2dhd2sgLT4gL3Vzci9iaW4vZ2F3
-awpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNy4yLmJi
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNy4zLmJiCnNpbWlsYXJpdHkg
-aW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNl
-XzcuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N0cmFjZS9zdHJhY2VfNy4z
-LmJiCmluZGV4IDNmN2FhYWIzZTYuLmEyOGE5MGUzOTggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9zdHJhY2Uvc3RyYWNlXzcuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvc3RyYWNlL3N0cmFjZV83LjMuYmIKQEAgLTE5LDcgKzE5LDcgQEAgU1JDX1VSSSA9ICIke0dJ
-VEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9L3N0cmFjZS0ke1BWfS50YXIueHogXAogU1JD
-X1VSSTphcHBlbmQ6bGliYy1tdXNsID0gIlwKICAgICAgICAgICAgZmlsZTovLzAwMDEtSWdub3Jl
-LXB3cml0ZXYtcHdyaXRlNjQtdGVzdHMtb24tbXVzbC5wYXRjaCBcCiAgICAgICAgICAgICIKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICI0YmRlNjI0NjkyNjg5MGRjZWU4MjRmNmU2YWM0MmEwNjc1MmY0
-N2Q3N2U1MDk3ZDg2ZTNjMGQ2ZDRiNzA5ZmU1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjUyOTYz
-NGM0MDkxMDg5NWE5YTFmM2M1YzFlNjVkYTJjYTllZDcyZmIxNThkZmM0YmNjODllZmRmMDVlMzli
-NzIiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdpdGh1Yi1yZWxlYXNlcyBwdGVzdAogCi0tIAoyLjQ3
-LjEKCg==
-
---===============5422994388723865832==--
+-SRC_URI[sha256sum] =3D "c28b36b14bddb014d9e9c97c52459852f97bd405f89113f30b=
+ee45ed92728ff1"
++SRC_URI[sha256sum] =3D "112f91059fbd118e016d800c1a5c5a1702e965d8b9bfbda601=
+5e44e20bfb93c9"
+=20
+ UPSTREAM_CHECK_URI =3D "http://ohse.de/uwe/software/lrzsz.html"
+=20
+@@ -46,9 +38,3 @@ ALTERNATIVE_TARGET[rb] =3D "${bindir}/lrz"
+ ALTERNATIVE_TARGET[sz] =3D "${bindir}/lsz"
+ ALTERNATIVE_TARGET[sx] =3D "${bindir}/lsz"
+ ALTERNATIVE_TARGET[sb] =3D "${bindir}/lsz"
+-
+-# http://errors.yoctoproject.org/Errors/Details/766929/
+-# lrzsz-0.12.20/src/tcp.c:75:56: error: passing argument 3 of 'getsockname=
+' from incompatible pointer type [-Wincompatible-pointer-types]
+-# lrzsz-0.12.20/src/tcp.c:83:52: error: passing argument 3 of 'getsockname=
+' from incompatible pointer type [-Wincompatible-pointer-types]
+-# lrzsz-0.12.20/src/tcp.c:103:51: error: passing argument 3 of 'accept' fr=
+om incompatible pointer type [-Wincompatible-pointer-types]
+-CFLAGS +=3D "-Wno-error=3Dincompatible-pointer-types"
