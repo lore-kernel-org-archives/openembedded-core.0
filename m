@@ -1,40 +1,41 @@
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1829.1792822999099367564
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1830.1792822999115358177
  for <openembedded-core@lists.openembedded.org>;
  Fri, 23 Oct 2026 23:23:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YsmLEaoB;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=oTSmEm5A;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a16c93f4eb-45cfa4ec-6e28-408a-b9ad-859a9f28fd1b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XgO7VVYi;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2pJB2AsO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a16c93f3f0-67c65606-6bec-4e75-8eb8-825727fe2f88-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1792822998;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=C9849LNzS8j/Rv2K1tgHIloZ5L68RFOUrv0r4vxWFAg=;
-	b=YsmLEaoBapPNN6Qd9oS3O6TAKMFAQKt+lo1846tYakfACzIVUI6v5EYI/YLpgNzk
-	uu7lxtMku3633rifCiwQEqvvDneo+YWvleDbXCClTHNBFL5isu0mkgssmbaLM/uR2g8
-	xWvvADkz8UyMgNJSNfsMJOs3q0jRjXEH/PZY4TSM=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=+frxt/AtkTfDz+GssQNcOGJT6qQ/rLX2IW95FNPQH9U=;
+	b=XgO7VVYitWRsnQWcaXGw4LLCChv2F/LGOdThyDhvzOAvsbwzsxlFnfGcluO9HKko
+	gF9VyA7sYMe1WMFUAIcRmQ93wiqMiz5Q/BjhZQELicIyeRq7IaMriJNz8Wrej4ZUGPO
+	7raLoDpOIgA3a4MVzvIBX56W6kA0/6SKsN+wJGFw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792822998;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=C9849LNzS8j/Rv2K1tgHIloZ5L68RFOUrv0r4vxWFAg=;
-	b=oTSmEm5AcH2tZJKYDKkvy0RGICdhKMRl50UWIM3e2Q77f5EsyZ3wa1F2LMLMYdZ6
-	LJ5T025t5EnKKdBLVNB6U2AMF2wBgW+uV1y3EXeNe4s/IU1p7bXTcBMGJkct1ytl6sf
-	aRl/UO5hWKFFEYZllvuxqE30TqK7I14zszYkgEBg=
-Content-Type: multipart/mixed; boundary="===============2492766053098225246=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=+frxt/AtkTfDz+GssQNcOGJT6qQ/rLX2IW95FNPQH9U=;
+	b=2pJB2AsO3qKowWEXOMb0iuNsy87MfLx9dEMLO7hgf0c3ZdU9pfNUpoo5x6PAvhUC
+	8W5GLOH93DIhavAkTpA+IxB2yUJvcHpwvMOzRjOATYVgvSrSGeB5etpoPS+hTKgP8Et
+	GJTiNaniyGSgBHit2Y5XLcYuS6wDmgvNzhFA5dh8=
+Content-Type: multipart/mixed; boundary="===============0758335435283338759=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsolv: upgrading to 0.7.41 SUCCEEDED
-Message-ID: <010101a16c93f4eb-45cfa4ec-6e28-408a-b9ad-859a9f28fd1b-000000@us-west-2.amazonses.com>
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-certifi: upgrading to 2026.10.23 SUCCEEDED
+Message-ID: <010101a16c93f3f0-67c65606-6bec-4e75-8eb8-825727fe2f88-000000@us-west-2.amazonses.com>
 Date: Sat, 24 Oct 2026 06:23:18 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.24-54.240.27.45
+X-SES-Outgoing: 2026.10.24-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2026 06:23:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248576
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248577
 
---===============2492766053098225246==
+--===============0758335435283338759==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -42,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libsolv* to *0.7.41* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-certifi* to *2026.10.23* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsolv-upgrade-0.7.40-0.7.41.patch
+    - apply the patch: git am 0001-python3-certifi-upgrade-2026.10.19-2026.10.23.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -63,110 +64,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e3686598bea1574a63d37ab840aadd45c649e32a Mon Sep 17 00:00:00 2001
+From 9cf32c0798230fdc21ab7acf8f968b6707fe2379 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 24 Oct 2026 05:34:32 +0000
-Subject: [PATCH] libsolv: upgrade 0.7.40 -> 0.7.41
+Date: Sat, 24 Oct 2026 05:17:56 +0000
+Subject: [PATCH] python3-certifi: upgrade 2026.10.19 -> 2026.10.23
 
-Version 0.7.41
-- selected bug fixes:
 ---
- .../libsolv/{libsolv_0.7.40.bb => libsolv_0.7.41.bb}            | 2 +-
+ ...hon3-certifi_2026.10.19.bb => python3-certifi_2026.10.23.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libsolv/{libsolv_0.7.40.bb => libsolv_0.7.41.bb} (96%)
+ rename meta/recipes-devtools/python/{python3-certifi_2026.10.19.bb => python3-certifi_2026.10.23.bb} (88%)
 
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.40.bb b/meta/recipes-extended/libsolv/libsolv_0.7.41.bb
-similarity index 96%
-rename from meta/recipes-extended/libsolv/libsolv_0.7.40.bb
-rename to meta/recipes-extended/libsolv/libsolv_0.7.41.bb
-index 96b889d6cd..bc866725ec 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.40.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.41.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https;ta
-            file://run-ptest \
- "
+diff --git a/meta/recipes-devtools/python/python3-certifi_2026.10.19.bb b/meta/recipes-devtools/python/python3-certifi_2026.10.23.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-certifi_2026.10.19.bb
+rename to meta/recipes-devtools/python/python3-certifi_2026.10.23.bb
+index 02cdbe9a08..670b96b006 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2026.10.19.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2026.10.23.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://certifi.io/"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=11618cb6a975948679286b1211bd573c"
  
--SRCREV = "0e6eea45c9ffc7dd0756060f2b0f5527df02efa7"
-+SRCREV = "fa356d93545033a9962dfa99c4685e6299932922"
+-SRC_URI[sha256sum] = "035c1e85572b141bf1c3a3eff0e33a8eb74917522f2559075ff8d2fea780a1ae"
++SRC_URI[sha256sum] = "a9895e6e2758b371e0545e321a3a8fd1fcfd9829ada8824a936dfb16aaaf36cd"
  
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
  
 -- 
 2.47.1
 
 
---===============2492766053098225246==
+--===============0758335435283338759==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libsolv: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv: SRC_URI changed from "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https;tag=0.7.40 file://run-ptest" to "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https;tag=0.7.41 file://run-ptest"
-packages/x86-64-v3-poky-linux/libsolv: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv-dbg: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv-dbg: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv-dbg: PKGSIZE changed from 3173712 to 3183816 (+0%)
-packages/x86-64-v3-poky-linux/libsolv/libsolv-dev: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv-dev: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv-dev: PKGSIZE changed from 131728 to 132459 (+1%)
-packages/x86-64-v3-poky-linux/libsolv/libsolv-doc: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv-doc: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv-doc: PKGSIZE changed from 301899 to 304012 (+1%)
-packages/x86-64-v3-poky-linux/libsolv/libsolv-locale: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv-locale: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv-ptest: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv-ptest: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv-src: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv-src: FILELIST: directory renamed /usr/src/debug/libsolv/0.7.40/tools -> /usr/src/debug/libsolv/0.7.41/tools, directory renamed /usr/src/debug/libsolv/0.7.40/src -> /usr/src/debug/libsolv/0.7.41/src, directory renamed /usr/src/debug/libsolv/0.7.40/ext -> /usr/src/debug/libsolv/0.7.41/ext
-packages/x86-64-v3-poky-linux/libsolv/libsolv-src: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv-src: PKGSIZE changed from 1701111 to 1710477 (+1%)
-packages/x86-64-v3-poky-linux/libsolv/libsolv-staticdev: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv-staticdev: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv-staticdev: PKGSIZE changed from 4625082 to 4613946 (-0%)
-packages/x86-64-v3-poky-linux/libsolv/libsolv-tools: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv-tools: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolv: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolv: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
-packages/x86-64-v3-poky-linux/libsolv/libsolvext: PV changed from "0.7.40" to "0.7.41"
-packages/x86-64-v3-poky-linux/libsolv/libsolvext: PKGV changed from 0.7.40 [default] to 0.7.41 [default]
+packages/x86-64-v3-poky-linux/python3-certifi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2026.10.19.tar.gz" to "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2026.10.23.tar.gz"
+packages/x86-64-v3-poky-linux/python3-certifi: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dbg: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dbg: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dev: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dev: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-doc: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-doc: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-locale: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-locale: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-ptest: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-ptest: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-src: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-src: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-staticdev: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-staticdev: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PKGV changed from 2026.10.19 [default] to 2026.10.23 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PV changed from "2026.10.19" to "2026.10.23"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: FILELIST: directory renamed /usr/lib/python3.14/site-packages/certifi-2026.10.19.dist-info/licenses -> /usr/lib/python3.14/site-packages/certifi-2026.10.23.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/certifi-2026.10.19.dist-info -> /usr/lib/python3.14/site-packages/certifi-2026.10.23.dist-info
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PKGSIZE changed from 252522 to 249529 (-1%)
+Changes to packages/x86-64-v3-poky-linux/python3-certifi (sysroot):
+  /usr/lib/python3.14/site-packages/certifi-2026.10.19.dist-info moved to /usr/lib/python3.14/site-packages/certifi-2026.10.23.dist-info
 
---===============2492766053098225246==
+--===============0758335435283338759==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libsolv-upgrade-0.7.40-0.7.41.patch"
+ filename="0001-python3-certifi-upgrade-2026.10.19-2026.10.23.patch"
 
-RnJvbSBlMzY4NjU5OGJlYTE1NzRhNjNkMzdhYjg0MGFhZGQ0NWM2NDllMzJhIE1vbiBTZXAgMTcg
+RnJvbSA5Y2YzMmMwNzk4MjMwZmRjMjFhYjdhY2Y4Zjk2OGI2NzA3ZmUyMzc5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMjQgT2N0IDIwMjYgMDU6MzQ6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJzb2x2OiB1cGdyYWRlIDAuNy40MCAtPiAwLjcuNDEKClZlcnNpb24gMC43LjQxCi0gc2VsZWN0
-ZWQgYnVnIGZpeGVzOgotLS0KIC4uLi9saWJzb2x2L3tsaWJzb2x2XzAuNy40MC5iYiA9PiBsaWJz
-b2x2XzAuNy40MS5iYn0gICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJz
-b2x2L3tsaWJzb2x2XzAuNy40MC5iYiA9PiBsaWJzb2x2XzAuNy40MS5iYn0gKDk2JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlic29sdi9saWJzb2x2XzAuNy40MC5iYiBi
-L21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJzb2x2L2xpYnNvbHZfMC43LjQxLmJiCnNpbWlsYXJp
-dHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJzb2x2L2xp
-YnNvbHZfMC43LjQwLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlic29sdi9s
-aWJzb2x2XzAuNy40MS5iYgppbmRleCA5NmI4ODlkNmNkLi5iYzg2NjcyNWVjIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlic29sdi9saWJzb2x2XzAuNy40MC5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlic29sdi9saWJzb2x2XzAuNy40MS5iYgpAQCAtMTIsNyAr
-MTIsNyBAQCBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vb3BlblNVU0UvbGlic29sdi5naXQ7
-YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwczt0YQogICAgICAgICAgICBmaWxlOi8vcnVuLXB0
-ZXN0IFwKICIKIAotU1JDUkVWID0gIjBlNmVlYTQ1YzlmZmM3ZGQwNzU2MDYwZjJiMGY1NTI3ZGYw
-MmVmYTciCitTUkNSRVYgPSAiZmEzNTZkOTM1NDUwMzNhOTk2MmRmYTk5YzQ2ODVlNjI5OTkzMjky
-MiIKIAogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+XGQrKFwuXGQrKSsp
-IgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFNhdCwgMjQgT2N0IDIwMjYgMDU6MTc6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNlcnRpZmk6IHVwZ3JhZGUgMjAyNi4xMC4xOSAtPiAyMDI2LjEwLjIzCgotLS0KIC4u
+LmhvbjMtY2VydGlmaV8yMDI2LjEwLjE5LmJiID0+IHB5dGhvbjMtY2VydGlmaV8yMDI2LjEwLjIz
+LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY2VydGlmaV8y
+MDI2LjEwLjE5LmJiID0+IHB5dGhvbjMtY2VydGlmaV8yMDI2LjEwLjIzLmJifSAoODglKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIw
+MjYuMTAuMTkuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2VydGlm
+aV8yMDI2LjEwLjIzLmJiCnNpbWlsYXJpdHkgaW5kZXggODglCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjYuMTAuMTkuYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjYuMTAu
+MjMuYmIKaW5kZXggMDJjZGJlOWEwOC4uNjcwYjk2YjAwNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyNi4xMC4xOS5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2VydGlmaV8yMDI2LjEwLjIzLmJi
+CkBAIC03LDcgKzcsNyBAQCBIT01FUEFHRSA9ICJodHRwOi8vY2VydGlmaS5pby8iCiBMSUNFTlNF
+ID0gIklTQyIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTExNjE4Y2I2
+YTk3NTk0ODY3OTI4NmIxMjExYmQ1NzNjIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDM1YzFl
+ODU1NzJiMTQxYmYxYzNhM2VmZjBlMzNhOGViNzQ5MTc1MjJmMjU1OTA3NWZmOGQyZmVhNzgwYTFh
+ZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJhOTg5NWU2ZTI3NThiMzcxZTA1NDVlMzIxYTNhOGZk
+MWZjZmQ5ODI5YWRhODgyNGE5MzZkZmIxNmFhYWYzNmNkIgogCiBpbmhlcml0IHB5cGkgcHl0aG9u
+X3NldHVwdG9vbHNfYnVpbGRfbWV0YSBwdGVzdC1weXRob24tcHl0ZXN0CiAKLS0gCjIuNDcuMQoK
 
---===============2492766053098225246==
+--===============0758335435283338759==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libsolv-changelog.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Version 0.7.41
-- selected bug fixes:
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: FILELIST: directory renamed /usr/lib/python3.14/site-packages/certifi-2026.10.19.dist-info/licenses -> /usr/lib/python3.14/site-packages/certifi-2026.10.23.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/certifi-2026.10.19.dist-info -> /usr/lib/python3.14/site-packages/certifi-2026.10.23.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-certifi (sysroot):
+  /usr/lib/python3.14/site-packages/certifi-2026.10.19.dist-info moved to /usr/lib/python3.14/site-packages/certifi-2026.10.23.dist-info
 
---===============2492766053098225246==--
+--===============0758335435283338759==--
