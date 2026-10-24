@@ -1,40 +1,41 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1852.1792822995997329520
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1853.1792822996152264140
  for <openembedded-core@lists.openembedded.org>;
  Fri, 23 Oct 2026 23:23:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZKqAdMaZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Z4mi4uku;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a16c93e7f2-523c6fde-d2c1-4ed7-b8dd-30119833e29b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=nDf/ZxVI;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Pe193SJ4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a16c93e83a-459ef42e-1efa-448a-a836-b1a9a523b2b8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1792822995;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=FV0OaDkFj4e/Tm6oPjmOjSeuDn8SIbVo4GL0koL58Pw=;
-	b=ZKqAdMaZZYt9vCtRK/JpUyESPf+BgMTGC4R7Vhvw5lZZNI1yuyauVYkqeJJ7r2yA
-	ACVg6JTkBkKX+jX8b92URTanRiYadhtKgOwbWkGbHyEfX3OCrFoVCVCC1oFlWnnnaOV
-	/AS4Mat8CY4HREg+0fm7KV0OuGNsv0/s671l29UU=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=j5Mj7H9z3EENzsVlNEFLQtAEGUV03OmuhhY+9hfV2jg=;
+	b=nDf/ZxVIIEyxvUNqm2CUM7etussx3ZPxf3YSqjgFGcCqfUf2a8Kqi6lZ37O0tVeP
+	EeheLA8YC2i3OygxfFNdtWXXkDOpRhUgT6iU4aHFRTTNvnp1tyVh9OeGnNRcJzQtwOQ
+	7ywQBBHKX0FdXCibcGs4OUdVuH3gD+qZMS+vtKVQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792822995;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=FV0OaDkFj4e/Tm6oPjmOjSeuDn8SIbVo4GL0koL58Pw=;
-	b=Z4mi4ukucIt1atQd7ejHSnpA7cSAZCcVe2mNmA9L5uydJubevbTQK5KiiyX9jAMW
-	5Y/UNTVZY7rFvrKhhAJcSgu5RBRBEB2SrTkA80FSluk1UJ7B6WiD8LBERWnJvO2w6Pv
-	TtqgiCXUeBeFECrgHljZkWtGviQ1cUL5mdxf73yc=
-Content-Type: multipart/mixed; boundary="===============2179955665883918898=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=j5Mj7H9z3EENzsVlNEFLQtAEGUV03OmuhhY+9hfV2jg=;
+	b=Pe193SJ4HwKYKr2LiYxtDaO+EjMWzDDiPwsd0SE6tm0sCHFaduCul6e7diyf2q5C
+	OluoMDz1kqByOcBjVbB7u0rSxDG0XCWidF4wFyV8Yr4AkSLvkGu64kSLeCHGsH0GQlw
+	grrWn9GVGabCy751uQkXsiMVEtP/cnLnr+rDigWA=
+Content-Type: multipart/mixed; boundary="===============3656972813835418859=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] glib-networking: upgrading to 2.90.1 SUCCEEDED
-Message-ID: <010101a16c93e7f2-523c6fde-d2c1-4ed7-b8dd-30119833e29b-000000@us-west-2.amazonses.com>
-Date: Sat, 24 Oct 2026 06:23:14 +0000
+To: Wang Mingyu <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] btrfs-tools: upgrading to 7.3 SUCCEEDED
+Message-ID: <010101a16c93e83a-459ef42e-1efa-448a-a836-b1a9a523b2b8-000000@us-west-2.amazonses.com>
+Date: Sat, 24 Oct 2026 06:23:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.24-54.240.27.33
+X-SES-Outgoing: 2026.10.24-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2026 06:23:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248572
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248573
 
---===============2179955665883918898==
+--===============3656972813835418859==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -42,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *glib-networking* to *2.90.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *btrfs-tools* to *7.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-glib-networking-upgrade-2.90.0-2.90.1.patch
+    - apply the patch: git am 0001-btrfs-tools-upgrade-7.1-7.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -63,274 +64,178 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e360189c3286208bca0b98eb1ad91359109f3ba9 Mon Sep 17 00:00:00 2001
+From 5cd6d8bfd4c13b7c2813fe6bd1c9c8d6fdedefd6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 24 Oct 2026 05:09:33 +0000
-Subject: [PATCH] glib-networking: upgrade 2.90.0 -> 2.90.1
+Date: Sat, 24 Oct 2026 05:13:34 +0000
+Subject: [PATCH] btrfs-tools: upgrade 7.1 -> 7.3
 
-2.90.1 - October 23, 2026
-=========================
+btrfs-progs-7.3 (2026-10-23)
+----------------------------
+
+btrfs-progs-7.2 (skipped)
+-------------------------
 ---
- .../{glib-networking_2.90.0.bb => glib-networking_2.90.1.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/glib-networking/{glib-networking_2.90.0.bb => glib-networking_2.90.1.bb} (95%)
+ ...d-a-possibility-to-specify-where-python-modules-ar.patch | 6 +++---
+ .../btrfs-tools/{btrfs-tools_7.1.bb => btrfs-tools_7.3.bb}  | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_7.1.bb => btrfs-tools_7.3.bb} (98%)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.90.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.90.1.bb
-similarity index 95%
-rename from meta/recipes-core/glib-networking/glib-networking_2.90.0.bb
-rename to meta/recipes-core/glib-networking/glib-networking_2.90.1.bb
-index 1850712690..ca701cc89a 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.90.0.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.90.1.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- SECTION = "libs"
- DEPENDS = "glib-2.0-native glib-2.0"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index 7272c27c6c..b3b8584f5f 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+@@ -1,4 +1,4 @@
+-From 7edcee57078769b7752275e0e5f35aefbfefc9eb Mon Sep 17 00:00:00 2001
++From 0ebc4629faf538a756bb12eb2dd8dfc5afa30af6 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[archive.sha256sum] = "83a75e3d9c36b66ee86d3281c2fc997816101968a5126ba322b2acb9a74dd8c0"
-+SRC_URI[archive.sha256sum] = "ea95636590098355a05e3027579dba1a9a950b05e456b2488ea03d82e4b6c18a"
+ diff --git a/Makefile b/Makefile
+-index 96c11830..3f2585cb 100644
++index 78c23ad3..e912474a 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -997,7 +997,7 @@ endif
++@@ -994,7 +994,7 @@ endif
+  ifeq ($(PYTHON_BINDINGS),1)
+  install_python: libbtrfsutil_python
+  	$(Q)cd libbtrfsutil/python; \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.3.bb
+similarity index 98%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_7.3.bb
+index 1bc75a7de7..647b1bfa1f 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_7.3.bb
+@@ -17,7 +17,7 @@ DEPENDS = "util-linux zlib"
+ SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v${PV} \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "4ab0e80be9e3bb1db2e6038e6d4316d35fb7ba8b"
++SRCREV = "afdc3a65e33f4d42f768ad50dca20c32e5ee1496"
  
- # Upstream note that for the openssl backend, half the tests where this backend don't return
- # the expected error code or don't work as expected so default to gnutls
+ PACKAGECONFIG ??= " \
+     programs \
 -- 
 2.47.1
 
 
---===============2179955665883918898==
+--===============3656972813835418859==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-dbg: PKGSIZE changed from 976928 to 988864 (+1%)
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-dbg: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-dbg: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-dev: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-dev: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-doc: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-doc: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ab: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ab: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-an: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-an: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ar: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ar: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-as: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-as: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-be: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-be: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-bg: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-bg: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-bn-in: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-bn-in: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-bs: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-bs: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ca: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ca: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-cs: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-cs: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-da: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-da: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-de: PKGSIZE changed from 8844 to 8760 (-1%)
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-de: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-de: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-el: PKGSIZE changed from 11195 to 11339 (+1%)
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-el: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-el: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-en-ca: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-en-ca: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-en-gb: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-eo: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-eo: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-es: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-es: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-et: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-et: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-eu: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-eu: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-fa: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-fa: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-fi: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-fi: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-fr: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-fr: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-fur: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-fur: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-gd: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-gd: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-gl: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-gl: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-gu: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-gu: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-he: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-he: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-hi: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-hi: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-hr: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-hr: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-hu: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-hu: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-id: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-id: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-it: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-it: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ja: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ja: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ka: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ka: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-kab: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-kab: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-kk: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-kk: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-km: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-km: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-kn: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-kn: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ko: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ko: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-kw: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-kw: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-lo: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-lo: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-lt: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-lt: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-lv: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-lv: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ml: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ml: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-mr: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-mr: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ms: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ms: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-nb: PKGSIZE changed from 3456 to 8033 (+132%)
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-nb: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-nb: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ne: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ne: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-nl: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-nl: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-oc: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-oc: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-or: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-or: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pa: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pa: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pl: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pl: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pt-br: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pt: PKGSIZE changed from 8399 to 8521 (+1%)
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pt: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-pt: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ro: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ro: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ru: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ru: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sk: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sk: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sl: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sl: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sr+latin: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sr+latin: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sr: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sr: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sv: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-sv: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ta: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ta: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-te: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-te: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-tg: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-tg: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-th: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-th: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-tr: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-tr: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ug: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-ug: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-uk: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-uk: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-uz: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-uz: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-vi: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-vi: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-zh-cn: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-zh-hk: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-zh-hk: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-zh-tw: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-zh-tw: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-ptest: PKGSIZE changed from 358868 to 369024 (+3%)
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-ptest: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-ptest: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-ptest: FILELIST: added "/usr/libexec/installed-tests/glib-networking/files/ssl/server-with-invalid-purpose.conf /usr/libexec/installed-tests/glib-networking/files/server-with-invalid-purpose.pem"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-src: PKGSIZE changed from 737581 to 745973 (+1%)
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-src: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-src: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-src: FILELIST: directory renamed /usr/src/debug/glib-networking/2.90.0/tls/tests -> /usr/src/debug/glib-networking/2.90.1/tls/tests, directory renamed /usr/src/debug/glib-networking/2.90.0/proxy/tests -> /usr/src/debug/glib-networking/2.90.1/proxy/tests, directory renamed /usr/src/debug/glib-networking/2.90.0/tls/base -> /usr/src/debug/glib-networking/2.90.1/tls/base, directory renamed /usr/src/debug/glib-networking/2.90.0/tls/gnutls -> /usr/src/debug/glib-networking/2.90.1/tls/gnutls, directory renamed /usr/src/debug/glib-networking/2.90.0/proxy/environment -> /usr/src/debug/glib-networking/2.90.1/proxy/environment, directory renamed /usr/src/debug/glib-networking/2.90.0/tls/tests/pkcs11 -> /usr/src/debug/glib-networking/2.90.1/tls/tests/pkcs11
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-staticdev: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-staticdev: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking: PV changed from "2.90.0" to "2.90.1"
-packages/x86-64-v3-poky-linux/glib-networking: SRC_URI changed from "https://download.gnome.org/sources//glib-networking/2.90/glib-networking-2.90.0.tar.xz;name=archive file://run-ptest" to "https://download.gnome.org/sources//glib-networking/2.90/glib-networking-2.90.1.tar.xz;name=archive file://run-ptest"
-packages/x86-64-v3-poky-linux/glib-networking: PACKAGES: added "glib-networking-locale-nn"
-packages/x86-64-v3-poky-linux/glib-networking: PKGV changed from 2.90.0 [default] to 2.90.1 [default]
-packages/x86-64-v3-poky-linux/glib-networking: PV changed from "2.90.0" to "2.90.1"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGSIZE changed from 27918848 to 28015408 (+0%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PV changed from "7.1" to "7.3"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dbg: PKGV changed from 7.1 [default] to 7.3 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dev: PV changed from "7.1" to "7.3"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-dev: PKGV changed from 7.1 [default] to 7.3 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-doc: PV changed from "7.1" to "7.3"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-doc: PKGV changed from 7.1 [default] to 7.3 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-locale: PV changed from "7.1" to "7.3"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-locale: PKGV changed from 7.1 [default] to 7.3 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PKGSIZE changed from 4345531 to 4363468 (+0%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PV changed from "7.1" to "7.3"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: FILELIST: directory renamed /usr/src/debug/btrfs-tools/7.1/convert -> /usr/src/debug/btrfs-tools/7.3/convert, directory renamed /usr/src/debug/btrfs-tools/7.1 -> /usr/src/debug/btrfs-tools/7.3, directory renamed /usr/src/debug/btrfs-tools/7.1/mkfs -> /usr/src/debug/btrfs-tools/7.3/mkfs, directory renamed /usr/src/debug/btrfs-tools/7.1/kernel-shared/uapi -> /usr/src/debug/btrfs-tools/7.3/kernel-shared/uapi, directory renamed /usr/src/debug/btrfs-tools/7.1/tune -> /usr/src/debug/btrfs-tools/7.3/tune, directory renamed /usr/src/debug/btrfs-tools/7.1/crypto -> /usr/src/debug/btrfs-tools/7.3/crypto, directory renamed /usr/src/debug/btrfs-tools/7.1/check -> /usr/src/debug/btrfs-tools/7.3/check, directory renamed /usr/src/debug/btrfs-tools/7.1/libbtrfs -> /usr/src/debug/btrfs-tools/7.3/libbtrfs, directory renamed /usr/src/debug/btrfs-tools/7.1/image -> /usr/src/debug/btrfs-tools/7.3/image, directory renamed /usr/src/debug/btrfs-tool
+ s/7.1/cmds -> /usr/src/debug/btrfs-tools/7.3/cmds, directory renamed /usr/src/debug/btrfs-tools/7.1/kernel-lib -> /usr/src/debug/btrfs-tools/7.3/kernel-lib, directory renamed /usr/src/debug/btrfs-tools/7.1/kernel-shared -> /usr/src/debug/btrfs-tools/7.3/kernel-shared, directory renamed /usr/src/debug/btrfs-tools/7.1/include -> /usr/src/debug/btrfs-tools/7.3/include, directory renamed /usr/src/debug/btrfs-tools/7.1/libbtrfsutil -> /usr/src/debug/btrfs-tools/7.3/libbtrfsutil, removed "/usr/src/debug/btrfs-tools/7.1/common/cpu-utils.c /usr/src/debug/btrfs-tools/7.1/common/root-tree-utils.c /usr/src/debug/btrfs-tools/7.1/common/help.h /usr/src/debug/btrfs-tools/7.1/common/device-utils.h /usr/src/debug/btrfs-tools/7.1/common/device-scan.c /usr/src/debug/btrfs-tools/7.1/common/format-output.h /usr/src/debug/btrfs-tools/7.1/common/help.c /usr/src/debug/btrfs-tools/7.1/common/inject-error.c /usr/src/debug/btrfs-tools/7.1/common/cpu-utils.h /usr/src/debug/btrfs-tools/7.1/common/device-scan.h
+  /usr/src/debug/btrfs-tools/7.1/common/device-utils.c /usr/src/debug/btrfs-tools/7.1/common/format-output.c /usr/src/debug/btrfs-tools/7.1/common/root-tree-utils.h /usr/src/debug/btrfs-tools/7.1/common/array.h /usr/src/debug/btrfs-tools/7.1/common/open-utils.h /usr/src/debug/btrfs-tools/7.1/common/array.c /usr/src/debug/btrfs-tools/7.1/common/compat.c /usr/src/debug/btrfs-tools/7.1/common/open-utils.c /usr/src/debug/btrfs-tools/7.1/common/string-table.h /usr/src/debug/btrfs-tools/7.1/common/path-utils.h /usr/src/debug/btrfs-tools/7.1/common/rbtree-utils.c /usr/src/debug/btrfs-tools/7.1/common/tree-search.h /usr/src/debug/btrfs-tools/7.1/common/rbtree-utils.h /usr/src/debug/btrfs-tools/7.1/common/string-table.c /usr/src/debug/btrfs-tools/7.1/common/send-utils.h /usr/src/debug/btrfs-tools/7.1/common/filesystem-utils.c /usr/src/debug/btrfs-tools/7.1/common/clear-cache.c /usr/src/debug/btrfs-tools/7.1/common/send-utils.c /usr/src/debug/btrfs-tools/7.1/common/clear-cache.h /usr/src/debug
+ /btrfs-tools/7.1/common/filesystem-utils.h /usr/src/debug/btrfs-tools/7.1/common/send-stream.h /usr/src/debug/btrfs-tools/7.1/common/send-stream.c /usr/src/debug/btrfs-tools/7.1/common/fsfeatures.c /usr/src/debug/btrfs-tools/7.1/common/extent-tree-utils.h /usr/src/debug/btrfs-tools/7.1/common/utils.h /usr/src/debug/btrfs-tools/7.1/common/extent-cache.c /usr/src/debug/btrfs-tools/7.1/common/messages.h /usr/src/debug/btrfs-tools/7.1/common/sysfs-utils.c /usr/src/debug/btrfs-tools/7.1/common/extent-tree-utils.c /usr/src/debug/btrfs-tools/7.1/common/units.c /usr/src/debug/btrfs-tools/7.1/common/fsfeatures.h /usr/src/debug/btrfs-tools/7.1/common/units.h /usr/src/debug/btrfs-tools/7.1/common/extent-cache.h /usr/src/debug/btrfs-tools/7.1/common/messages.c /usr/src/debug/btrfs-tools/7.1/common/sysfs-utils.h /usr/src/debug/btrfs-tools/7.1/common/utils.c /usr/src/debug/btrfs-tools/7.1/common/parse-utils.c /usr/src/debug/btrfs-tools/7.1/common/string-utils.h /usr/src/debug/btrfs-tools/7.1/comm
+ on/parse-utils.h /usr/src/debug/btrfs-tools/7.1/common/string-utils.c /usr/src/debug/btrfs-tools/7.1/common/path-utils.c /usr/src/debug/btrfs-tools/7.1/common/task-utils.h /usr/src/debug/btrfs-tools/7.1/common/sort-utils.h /usr/src/debug/btrfs-tools/7.1/common/task-utils.c /usr/src/debug/btrfs-tools/7.1/common/sort-utils.c", added "/usr/src/debug/btrfs-tools/7.3/common/cpu-utils.c /usr/src/debug/btrfs-tools/7.3/common/root-tree-utils.c /usr/src/debug/btrfs-tools/7.3/common/help.h /usr/src/debug/btrfs-tools/7.3/common/device-utils.h /usr/src/debug/btrfs-tools/7.3/common/device-scan.c /usr/src/debug/btrfs-tools/7.3/common/format-output.h /usr/src/debug/btrfs-tools/7.3/common/help.c /usr/src/debug/btrfs-tools/7.3/common/inject-error.c /usr/src/debug/btrfs-tools/7.3/common/cpu-utils.h /usr/src/debug/btrfs-tools/7.3/common/device-scan.h /usr/src/debug/btrfs-tools/7.3/common/device-utils.c /usr/src/debug/btrfs-tools/7.3/common/format-output.c /usr/src/debug/btrfs-tools/7.3/common/root-tre
+ e-utils.h /usr/src/debug/btrfs-tools/7.3/common/array.h /usr/src/debug/btrfs-tools/7.3/common/open-utils.h /usr/src/debug/btrfs-tools/7.3/common/array.c /usr/src/debug/btrfs-tools/7.3/common/compat.c /usr/src/debug/btrfs-tools/7.3/common/open-utils.c /usr/src/debug/btrfs-tools/7.3/common/string-table.h /usr/src/debug/btrfs-tools/7.3/common/path-utils.h /usr/src/debug/btrfs-tools/7.3/common/rbtree-utils.c /usr/src/debug/btrfs-tools/7.3/common/tree-search.h /usr/src/debug/btrfs-tools/7.3/common/rbtree-utils.h /usr/src/debug/btrfs-tools/7.3/common/string-table.c /usr/src/debug/btrfs-tools/7.3/common/send-utils.h /usr/src/debug/btrfs-tools/7.3/common/filesystem-utils.c /usr/src/debug/btrfs-tools/7.3/common/clear-cache.c /usr/src/debug/btrfs-tools/7.3/common/send-utils.c /usr/src/debug/btrfs-tools/7.3/common/clear-cache.h /usr/src/debug/btrfs-tools/7.3/common/filesystem-utils.h /usr/src/debug/btrfs-tools/7.3/common/send-stream.h /usr/src/debug/btrfs-tools/7.3/common/reproducible.c /usr/s
+ rc/debug/btrfs-tools/7.3/common/send-stream.c /usr/src/debug/btrfs-tools/7.3/common/reproducible.h /usr/src/debug/btrfs-tools/7.3/common/fsfeatures.c /usr/src/debug/btrfs-tools/7.3/common/extent-tree-utils.h /usr/src/debug/btrfs-tools/7.3/common/utils.h /usr/src/debug/btrfs-tools/7.3/common/extent-cache.c /usr/src/debug/btrfs-tools/7.3/common/messages.h /usr/src/debug/btrfs-tools/7.3/common/sysfs-utils.c /usr/src/debug/btrfs-tools/7.3/common/extent-tree-utils.c /usr/src/debug/btrfs-tools/7.3/common/units.c /usr/src/debug/btrfs-tools/7.3/common/fsfeatures.h /usr/src/debug/btrfs-tools/7.3/common/units.h /usr/src/debug/btrfs-tools/7.3/common/extent-cache.h /usr/src/debug/btrfs-tools/7.3/common/messages.c /usr/src/debug/btrfs-tools/7.3/common/sysfs-utils.h /usr/src/debug/btrfs-tools/7.3/common/utils.c /usr/src/debug/btrfs-tools/7.3/common/parse-utils.c /usr/src/debug/btrfs-tools/7.3/common/string-utils.h /usr/src/debug/btrfs-tools/7.3/common/parse-utils.h /usr/src/debug/btrfs-tools/7.3/
+ common/string-utils.c /usr/src/debug/btrfs-tools/7.3/common/path-utils.c /usr/src/debug/btrfs-tools/7.3/common/task-utils.h /usr/src/debug/btrfs-tools/7.3/common/sort-utils.h /usr/src/debug/btrfs-tools/7.3/common/task-utils.c /usr/src/debug/btrfs-tools/7.3/common/sort-utils.c"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-src: PKGV changed from 7.1 [default] to 7.3 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-staticdev: PV changed from "7.1" to "7.3"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools-staticdev: PKGV changed from 7.1 [default] to 7.3 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PKGSIZE changed from 6111464 to 6148328 (+1%)
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PV changed from "7.1" to "7.3"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/btrfsutil-7.1-py3.14.egg-info -> /usr/lib/python3.14/site-packages/btrfsutil-7.3-py3.14.egg-info
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: PKGV changed from 7.1 [default] to 7.3 [default]
+packages/x86-64-v3-poky-linux/btrfs-tools: PV changed from "7.1" to "7.3"
+packages/x86-64-v3-poky-linux/btrfs-tools: SRC_URI changed from "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v7.1 file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch" to "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https;tag=v7.3 file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch"
+packages/x86-64-v3-poky-linux/btrfs-tools: PKGV changed from 7.1 [default] to 7.3 [default]
+Changes to packages/x86-64-v3-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.14/site-packages/btrfsutil-7.1-py3.14.egg-info moved to /usr/lib/python3.14/site-packages/btrfsutil-7.3-py3.14.egg-info
 
---===============2179955665883918898==
+--===============3656972813835418859==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="glib-networking-changelog.txt"
+Content-Disposition: attachment; filename="btrfs-tools-changelog.txt"
 
-2.90.1 - October 23, 2026
-=========================
+btrfs-progs-7.3 (2026-10-23)
+----------------------------
 
---===============2179955665883918898==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-glib-networking-upgrade-2.90.0-2.90.1.patch"
+btrfs-progs-7.2 (skipped)
+-------------------------
 
-RnJvbSBlMzYwMTg5YzMyODYyMDhiY2EwYjk4ZWIxYWQ5MTM1OTEwOWYzYmE5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMjQgT2N0IDIwMjYgMDU6MDk6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bGliLW5ldHdvcmtpbmc6IHVwZ3JhZGUgMi45MC4wIC0+IDIuOTAuMQoKMi45MC4xIC0gT2N0b2Jl
-ciAyMywgMjAyNgo9PT09PT09PT09PT09PT09PT09PT09PT09Ci0tLQogLi4uL3tnbGliLW5ldHdv
-cmtpbmdfMi45MC4wLmJiID0+IGdsaWItbmV0d29ya2luZ18yLjkwLjEuYmJ9ICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL3tnbGliLW5ldHdvcmtpbmdfMi45MC4wLmJi
-ID0+IGdsaWItbmV0d29ya2luZ18yLjkwLjEuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjkwLjAuYmIgYi9t
-ZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuOTAuMS5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9nbGli
-LW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuOTAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjkwLjEuYmIKaW5kZXgg
-MTg1MDcxMjY5MC4uY2E3MDFjYzg5YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
-Yi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjkwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjkwLjEuYmIKQEAgLTEzLDcg
-KzEzLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NGZiZDY1Mzgw
-Y2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMgXAogU0VDVElPTiA9ICJsaWJzIgogREVQRU5EUyA9ICJn
-bGliLTIuMC1uYXRpdmUgZ2xpYi0yLjAiCiAKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0g
-IjgzYTc1ZTNkOWMzNmI2NmVlODZkMzI4MWMyZmM5OTc4MTYxMDE5NjhhNTEyNmJhMzIyYjJhY2I5
-YTc0ZGQ4YzAiCitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJlYTk1NjM2NTkwMDk4MzU1
-YTA1ZTMwMjc1NzlkYmExYTlhOTUwYjA1ZTQ1NmIyNDg4ZWEwM2Q4MmU0YjZjMThhIgogCiAjIFVw
-c3RyZWFtIG5vdGUgdGhhdCBmb3IgdGhlIG9wZW5zc2wgYmFja2VuZCwgaGFsZiB0aGUgdGVzdHMg
-d2hlcmUgdGhpcyBiYWNrZW5kIGRvbid0IHJldHVybgogIyB0aGUgZXhwZWN0ZWQgZXJyb3IgY29k
-ZSBvciBkb24ndCB3b3JrIGFzIGV4cGVjdGVkIHNvIGRlZmF1bHQgdG8gZ251dGxzCi0tIAoyLjQ3
-LjEKCg==
-
---===============2179955665883918898==
+--===============3656972813835418859==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-locale-nb: PKGSIZE changed from 3456 to 8033 (+132%)
-packages/x86-64-v3-poky-linux/glib-networking/glib-networking-ptest: FILELIST: added "/usr/libexec/installed-tests/glib-networking/files/server-with-invalid-purpose.pem /usr/libexec/installed-tests/glib-networking/files/ssl/server-with-invalid-purpose.conf"
-packages/x86-64-v3-poky-linux/glib-networking: PACKAGES: added "glib-networking-locale-nn"
+packages/x86-64-v3-poky-linux/btrfs-tools/btrfs-tools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/btrfsutil-7.1-py3.14.egg-info -> /usr/lib/python3.14/site-packages/btrfsutil-7.3-py3.14.egg-info
+Changes to packages/x86-64-v3-poky-linux/btrfs-tools (sysroot):
+  /usr/lib/python3.14/site-packages/btrfsutil-7.1-py3.14.egg-info moved to /usr/lib/python3.14/site-packages/btrfsutil-7.3-py3.14.egg-info
 
---===============2179955665883918898==--
+--===============3656972813835418859==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-btrfs-tools-upgrade-7.1-7.3.patch"
+
+RnJvbSA1Y2Q2ZDhiZmQ0YzEzYjdjMjgxM2ZlNmJkMWM5YzhkNmZkZWRlZmQ2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMjQgT2N0IDIwMjYgMDU6MTM6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+dHJmcy10b29sczogdXBncmFkZSA3LjEgLT4gNy4zCgpidHJmcy1wcm9ncy03LjMgKDIwMjYtMTAt
+MjMpCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCmJ0cmZzLXByb2dzLTcuMiAoc2tpcHBl
+ZCkKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQotLS0KIC4uLmQtYS1wb3NzaWJpbGl0eS10by1z
+cGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIHwgNiArKystLS0KIC4uLi9idHJm
+cy10b29scy97YnRyZnMtdG9vbHNfNy4xLmJiID0+IGJ0cmZzLXRvb2xzXzcuMy5iYn0gIHwgMiAr
+LQogMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xzL3tidHJmcy10b29sc183LjEuYmIg
+PT4gYnRyZnMtdG9vbHNfNy4zLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRv
+LXNwZWNpZnktd2hlcmUtcHl0aG9uLW1vZHVsZXMtYXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHMvMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1z
+cGVjaWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoCmluZGV4IDcyNzJjMjdjNmMuLmIz
+Yjg1ODRmNWYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9i
+dHJmcy10b29scy8wMDAxLUFkZC1hLXBvc3NpYmlsaXR5LXRvLXNwZWNpZnktd2hlcmUtcHl0aG9u
+LW1vZHVsZXMtYXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2J0cmZzLXRvb2xz
+L2J0cmZzLXRvb2xzLzAwMDEtQWRkLWEtcG9zc2liaWxpdHktdG8tc3BlY2lmeS13aGVyZS1weXRo
+b24tbW9kdWxlcy1hci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gN2VkY2VlNTcwNzg3Njli
+Nzc1MjI3NWUwZTVmMzVhZWZiZmVmYzllYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
+MGViYzQ2MjlmYWY1MzhhNzU2YmIxMmViMmRkOGRmYzVhZmEzMGFmNiBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
+PgogRGF0ZTogV2VkLCAyMyBNYXkgMjAxOCAyMToyMDozNSArMDMwMAogU3ViamVjdDogW1BBVENI
+XSBBZGQgYSBwb3NzaWJpbGl0eSB0byBzcGVjaWZ5IHdoZXJlIHB5dGhvbiBtb2R1bGVzIGFyZQpA
+QCAtMTEsMTAgKzExLDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUgYi9NYWtlZmlsZQotaW5kZXggOTZj
+MTE4MzAuLjNmMjU4NWNiIDEwMDY0NAoraW5kZXggNzhjMjNhZDMuLmU5MTI0NzRhIDEwMDY0NAog
+LS0tIGEvTWFrZWZpbGUKICsrKyBiL01ha2VmaWxlCi1AQCAtOTk3LDcgKzk5Nyw3IEBAIGVuZGlm
+CitAQCAtOTk0LDcgKzk5NCw3IEBAIGVuZGlmCiAgaWZlcSAoJChQWVRIT05fQklORElOR1MpLDEp
+CiAgaW5zdGFsbF9weXRob246IGxpYmJ0cmZzdXRpbF9weXRob24KICAJJChRKWNkIGxpYmJ0cmZz
+dXRpbC9weXRob247IFwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10
+b29scy9idHJmcy10b29sc183LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYnRyZnMtdG9v
+bHMvYnRyZnMtdG9vbHNfNy4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc183LjEuYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9idHJmcy10b29scy9idHJmcy10b29sc183LjMuYmIK
+aW5kZXggMWJjNzVhN2RlNy4uNjQ3YjFiZmExZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2J0cmZzLXRvb2xzL2J0cmZzLXRvb2xzXzcuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvYnRyZnMtdG9vbHMvYnRyZnMtdG9vbHNfNy4zLmJiCkBAIC0xNyw3ICsxNyw3IEBA
+IERFUEVORFMgPSAidXRpbC1saW51eCB6bGliIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29t
+L2tkYXZlL2J0cmZzLXByb2dzLmdpdDticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzO3RhZz12
+JHtQVn0gXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1BZGQtYS1wb3NzaWJpbGl0eS10by1zcGVj
+aWZ5LXdoZXJlLXB5dGhvbi1tb2R1bGVzLWFyLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDUkVW
+ID0gIjRhYjBlODBiZTllM2JiMWRiMmU2MDM4ZTZkNDMxNmQzNWZiN2JhOGIiCitTUkNSRVYgPSAi
+YWZkYzNhNjVlMzNmNGQ0MmY3NjhhZDUwZGNhMjBjMzJlNWVlMTQ5NiIKIAogUEFDS0FHRUNPTkZJ
+RyA/Pz0gIiBcCiAgICAgcHJvZ3JhbXMgXAotLSAKMi40Ny4xCgo=
+
+--===============3656972813835418859==--
