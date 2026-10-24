@@ -1,265 +1,192 @@
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5432.1792845269757358613
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5399.1792845268377413950
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Oct 2026 05:34:30 -0700
+ Sat, 24 Oct 2026 05:34:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=mRztJ0Em;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=uA2kouGc;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 152714E412F4
-	for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2026 12:34:28 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B02EC4E412EE
+	for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2026 12:34:26 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DDF4360769
-	for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2026 12:34:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 16F3E1032902C;
-	Sat, 24 Oct 2026 14:34:27 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8675760769
+	for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2026 12:34:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 94F1810328FE8;
+	Sat, 24 Oct 2026 14:34:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792845267; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1792845266; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=r78lWdhJAz5HsqxAYh/iT68NzJTHmh9lrPp8l9Kr/EU=;
-	b=mRztJ0Em8GApQO1UZI04l4SDy+E8VwuBqEKVv862RrUolnK07qzBgFWHCkVImujkCQJHLg
-	TiHS2zNWLKWXsPGiPNjxwBmLowfHdl8jl8wuMypM+tV/frrf+hkiBL2iaCEGMmGlmyGAkd
-	knPjX7GIj6+jeLDhp1OxXJhirjNqQX8yAWYyyi2dwh7wJp0m8Iz50oM3KbtDX+7eTtopuP
-	sPEm2XWeTY+F8qY8KnF+hNv+tuRwBP/N1/J5eNYYRen5aYgv6QsC5bp4/H240U0DxO8Cm4
-	EkdPuCr8HNDD0mlpSsn5a3iWO+VXbFLtAKgVdfGGdlQ5at9qW0D+xwaeqXC64Q==
+	bh=ipD7sVxVuvh+H724kDaSG9T2yErirHh+FBXuwjTBxCI=;
+	b=uA2kouGcvoPKMyybUtutvDg2uA1uqxqYm2C+myNPohbINw5Cnl9x98YBwEKPPMJ+DeN6eI
+	XCLMB8W5bhMTKkMel68PaYGgSmq61JeUMN8nkHb33UrZkSeL/zdVaBX2jB4J9YDBRK8uKk
+	WN7pdXb/O5D4gPxAqqTE9fwjDvYzXYSXcw3qvw5wIzQ92RqMQV3IKW9rHz0C2IbnL/XqQT
+	q+5M5lbGPtk4NCYyh9V2noRXYrHhCFRjeQrNjLvikXRb/rh5EQM8Fn6vg2xBCZNmPIAuFn
+	QhFXdx7/RktkP76lXgFuNSfMwbp5p+r4LwM5pKxMULh6sO8OSjGF2AdYOy1+hQ==
 From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Sat, 24 Oct 2026 14:34:12 +0200
-Subject: [PATCH RFC 3/3] oeqa/sstatetests: Add tests for sstate log replay
+Date: Sat, 24 Oct 2026 14:34:10 +0200
+Subject: [PATCH RFC 1/3] sstate: Replay warnings and errors when restoring
+ from sstate
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261024-mathieu-debug-replay-v4-v1-3-fc591ec473a7@bootlin.com>
+Message-Id: <20261024-mathieu-debug-replay-v4-v1-1-fc591ec473a7@bootlin.com>
 References: <20261024-mathieu-debug-replay-v4-v1-0-fc591ec473a7@bootlin.com>
 In-Reply-To: <20261024-mathieu-debug-replay-v4-v1-0-fc591ec473a7@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792845263; l=10824;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792845263; l=5710;
  i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=euWNnig1TowA3AKWaCnqyogTEadyStkh7XmJGjUwouk=;
- b=t7cEsqiFJ2N3hGLr6/MGxtMU/Q2YuBMwZ2/C+a2a3lC5o8LF/M01s5yMxF67nSTdrnyL/JPLU
- gjim6/CDvZSCYgSEGMM3XNK3NUwpoST1ZDckLDrblI1SzCiEBTHl9wy
+ bh=euHvwC+Ij3a7eabKphfjdGJFmkNuRbL9qZcX9E1SIYQ=;
+ b=0yUfme2Y9YfApfWc7EhgJpcg2HroCn4dh+eZzVMprMndRUNbM4954tOzIpTTlqOdpTxecVqX9
+ cdC+sUaO/QdCo99cjvRksvF3xoWmcn553S71RK8UXg04WWNz+SIzaku
 X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
  pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2026 12:34:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248590
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248588
 
-Add a selftest suite covering the sstate log replay feature:
-
-- warnings saved by a task are replayed once, with their severity and odd
-  content (newlines, '@', non-ASCII) intact;
-- warnings of non-sstate tasks (do_compile) are replayed exactly once
-  even when several setscene tasks cover them;
-- error and erroronce messages are replayed at ERROR level and fail the
-  build;
-- paths in replayed messages refer to the build doing the replay, not the
-  one that populated the sstate cache.
-
-Two selftest recipes emit the messages, including a shell task
-(do_emit_shell_log) to cover bbwarn output.
+Save the messages logged by an sstate task into its sstate package
+(sstate-log.json, with build-specific paths replaced by @VAR@
+placeholders) and replay them when the package is restored from the
+sstate cache, substituting the paths of the build doing the replay.
+Errors are saved too, since bb.error() can be called without failing the
+task, so warnings which previously only appeared on the first build (e.g.
+QA messages) are now shown again on sstate reuse.
 
 AI-Generated: Uses opencode (DeepSeek V4 Flash)
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
- .../log-replay-error-test/log-replay-error-test.bb |  11 ++
- .../log-replay-test/log-replay-test.bb             |  29 +++++
- meta/lib/oeqa/selftest/cases/sstatetests.py        | 128 +++++++++++++++++++++
- 3 files changed, 168 insertions(+)
+ meta/classes-global/sstate.bbclass | 83 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 80 insertions(+), 3 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/log-replay-error-test/log-replay-error-test.bb b/meta-selftest/recipes-test/log-replay-error-test/log-replay-error-test.bb
-new file mode 100644
-index 000000000000..380bfd90abda
---- /dev/null
-+++ b/meta-selftest/recipes-test/log-replay-error-test/log-replay-error-test.bb
-@@ -0,0 +1,11 @@
-+SUMMARY = "Recipe emitting error-level logs, used to test sstate log replay severity"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+EXCLUDE_FROM_WORLD = "1"
-+
-+python do_populate_sysroot:append() {
-+    bb.error("log-replay-error-plain")
-+    bb.erroronce("log-replay-erroronce")
-+}
-diff --git a/meta-selftest/recipes-test/log-replay-test/log-replay-test.bb b/meta-selftest/recipes-test/log-replay-test/log-replay-test.bb
-new file mode 100644
-index 000000000000..4ee26977425d
---- /dev/null
-+++ b/meta-selftest/recipes-test/log-replay-test/log-replay-test.bb
-@@ -0,0 +1,29 @@
-+SUMMARY = "Recipe emitting log messages, used to test sstate log replay"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+EXCLUDE_FROM_WORLD = "1"
-+
-+python do_compile() {
-+    bb.warn("log-replay-compile-warn")
-+}
-+
-+python do_populate_sysroot:append() {
-+    bb.warn("log-replay-python-warn tmpdir=%s dl_dir=%s" % (d.getVar("TMPDIR"), d.getVar("DL_DIR")))
-+    bb.warnonce("log-replay-python-warnonce")
-+    bb.warn("log-replay-odd: line1\nline2 with @ sign and caf\u00e9")
-+}
-+
-+do_emit_shell_log() {
-+    bbwarn "log-replay-shell-warn"
-+}
-+do_emit_shell_log[sstate-inputdirs] = ""
-+do_emit_shell_log[sstate-outputdirs] = ""
-+addtask emit_shell_log after do_install before do_build
-+
-+SSTATETASKS += "do_emit_shell_log"
-+python do_emit_shell_log_setscene() {
-+    sstate_setscene(d)
-+}
-+addtask do_emit_shell_log_setscene
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 5da8caf1c399..cf74749b2541 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -244,6 +244,134 @@ class SStateTests(SStateBase):
-         result = runCmd('git add bar.txt; git commit -asm "add bar"', cwd=srcdir)
-         bitbake("dbus-wait-test -c unpack")
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
+index b2fa93650ab8..fe14022bc09f 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -101,6 +101,12 @@ SSTATEPREINSTFUNCS = ""
+ SSTATEPOSTUNPACKFUNCS = "sstate_hardcode_path_unpack"
+ EXTRA_STAGING_FIXMES ?= "HOSTTOOLS_DIR"
  
-+class SStateLogReplayTests(SStateBase):
-+    def assert_restored_from_setscene(self, output, task):
-+        """Assert task was restored from sstate and not run natively.
++# Build-specific paths substituted in replayed task log messages. Keep the
++# order longest-path-first: a shorter value is a prefix of the longer ones
++# (e.g. TOPDIR is a prefix of TMPDIR, HOME of both) and must be substituted
++# after them, or it would match inside their values.
++SSTATE_LOG_VARS ?= "TMPDIR DL_DIR SSTATE_DIR TOPDIR COREBASE HOME"
 +
-+        Bitbake prints a lifecycle line per task carrying its name: the
-+        setscene variant ends in _setscene, the plain task doesn't. So a
-+        replayed log shows 'task <task>_setscene: Started' and the plain
-+        '<task>: Started' line never appears.
-+        """
-+        self.assertIn("task %s_setscene: Started" % task, output, msg=output)
-+        self.assertNotIn("task %s: Started" % task, output, msg=output)
+ # Check whether sstate exists for tasks that support sstate and are in the
+ # locked signatures file.
+ SIGGEN_LOCKEDSIGS_SSTATE_EXISTS_CHECK ?= 'error'
+@@ -200,6 +206,54 @@ def sstate_state_fromvars(d, task = None):
+     ss['fixmedir'] = fixmedir
+     return ss
+ 
++def sstate_log_strip_paths(d, message):
++    import re
 +
-+    def test_sstate_log_replay(self):
-+        """
-+        Summary:    Messages logged while building a task must be replayed
-+                    when the task is restored from the sstate cache.
-+        Expected:   Warnings emitted by the initial build are shown again on
-+                    the rebuild, which is served from sstate.
-+        Product:    OE-Core
-+        """
-+        # Populate sstate, clean the local work/stamps, then rebuild so the
-+        # tasks are restored from the sstate cache.
-+        bitbake("log-replay-test")
-+        bitbake("log-replay-test -cclean")
-+        result = bitbake("log-replay-test")
++    # Replace paths in log messages by placeholders, so we are not leaking
++    # build paths and can show consistent paths on replay.
++    # Escape literal '@' first.
++    message = message.replace('@', r'\@')
++    for var in d.getVar('SSTATE_LOG_VARS').split():
++        value = (d.getVar(var) or '').rstrip('/')
++        if value:
++            message = re.sub(re.escape(value) + r'(?!\w)', '@%s@' % var,
++                             message)
 +
-+        self.assertRegex(result.output, r"log-replay-test.*do_.*_setscene",
-+                         msg="Task was not restored from sstate:\n%s" % result.output)
-+        # Messages saved at warning level (warn and warnonce) replay with the
-+        # WARNING severity.
-+        for marker in ("log-replay-python-warn tmpdir=",
-+                       "log-replay-python-warnonce", "log-replay-shell-warn"):
-+            lines = [l for l in result.output.splitlines() if marker in l]
-+            self.assertEqual(len(lines), 1, msg=result.output)
-+            self.assertIn("WARNING:", lines[0])
-+        # Messages with odd content (newline, '@', non-ASCII) must survive the
-+        # save to and replay from sstate-log.json unmodified.
-+        self.assertIn("log-replay-odd: line1\nline2 with @ sign and caf\u00e9", result.output)
-+        # The messages must be replayed from sstate, not re-emitted by a
-+        # native run of a covered task: do_populate_sysroot and
-+        # do_emit_shell_log were restored by their setscene variants and never
-+        # ran as plain tasks.
-+        for task in ("do_populate_sysroot", "do_emit_shell_log"):
-+            self.assert_restored_from_setscene(result.output, task)
++    return message
 +
-+    def test_sstate_log_replay_compile(self):
-+        """
-+        Summary:    Messages logged by non-sstate tasks (do_compile) must be
-+                    replayed when the recipe is restored from the sstate cache.
-+        Expected:   The do_compile warning is replayed exactly once, even if
-+                    several setscene tasks cover do_compile.
-+        Product:    OE-Core
-+        """
-+        bitbake("log-replay-test")
-+        bitbake("log-replay-test -cclean")
-+        result = bitbake("log-replay-test")
++def sstate_log_expand_paths(d, message):
++    # Add back paths into the replayed log messages
++    for var in d.getVar('SSTATE_LOG_VARS').split():
++        value = (d.getVar(var) or '').rstrip('/')
++        if value:
++            message = message.replace('@%s@' % var, value)
 +
-+        self.assertRegex(result.output, r"log-replay-test.*do_.*_setscene",
-+                         msg="Task was not restored from sstate:\n%s" % result.output)
-+        lines = [l for l in result.output.splitlines() if "log-replay-compile-warn" in l]
-+        self.assertEqual(len(lines), 1, msg=result.output)
-+        # do_compile is not an sstate task: one of the recipe's setscene tasks
-+        # covers it. It must not have run natively (no lifecycle line for the
-+        # plain task), so its warning can only have been replayed.
-+        self.assertNotIn("task do_compile: Started", result.output, msg=result.output)
++    message = message.replace(r'\@', '@')
 +
-+    def test_sstate_log_replay_error_severity(self):
-+        """
-+        Summary:    Messages logged at error level must be replayed as errors.
-+        Expected:   error and erroronce messages are replayed with the ERROR
-+                    severity and reported by the build.
-+        Product:    OE-Core
-+        """
-+        bitbake("log-replay-error-test", ignore_status=True)
-+        bitbake("log-replay-error-test -cclean")
-+        result = bitbake("log-replay-error-test", ignore_status=True)
++    return message
 +
-+        self.assertRegex(result.output, r"log-replay-error-test.*do_.*_setscene",
-+                         msg="Task was not restored from sstate:\n%s" % result.output)
-+        for marker in ("log-replay-error-plain", "log-replay-erroronce"):
-+            lines = [l for l in result.output.splitlines() if marker in l]
-+            self.assertEqual(len(lines), 1, msg=result.output)
-+            self.assertIn("ERROR:", lines[0])
-+        self.assertNotEqual(result.status, 0)
-+        # Errors were replayed from sstate by the setscene task, not printed
-+        # by a native run of do_populate_sysroot.
-+        self.assert_restored_from_setscene(result.output, "do_populate_sysroot")
++python sstate_save_task_log () {
++    import json
 +
-+    def test_sstate_log_replay_rewrites_paths(self):
-+        """
-+        Summary:    Paths in replayed messages must refer to the build that is
-+                    replaying them, not the one that populated the sstate cache.
-+        Expected:   A message saved under TMPDIR A is replayed showing TMPDIR B
-+                    when the task is restored under a different TMPDIR.
-+        Product:    OE-Core
-+        """
-+        target = "log-replay-test"
-+        tmpdir_a = os.path.join(self.topdir, "tmp-log-replay-a")
-+        tmpdir_b = os.path.join(self.topdir, "tmp-log-replay-b")
-+        dl_a = os.path.join(self.topdir, "dl-log-replay-a")
-+        dl_b = os.path.join(self.topdir, "dl-log-replay-b")
-+        sstate_dir = os.path.join(self.topdir, "sstate-log-replay")
-+        for path in (tmpdir_a, tmpdir_b, dl_a, dl_b, sstate_dir):
-+            self.track_for_cleanup(path)
++    # Save the messages logged by this task, so they can be replayed when the
++    # task is restored from sstate. The records are written by bitbake right
++    # after the task body, before the postfuncs.
++    mytask = d.getVar('BB_RUNTASK')
++    recordsfn = os.path.join(d.getVar('T'), 'logrecords.%s.json' % mytask)
++    if not os.path.exists(recordsfn):
++        return
++    with open(recordsfn) as f:
++        records = json.load(f)
 +
-+        # TMPDIR and DL_DIR are excluded from the task hashes
-+        # (BB_HASHEXCLUDE_COMMON), so a sstate cache populated under the "a"
-+        # paths can be reused under the "b" paths. Only do_populate_sysroot is
-+        # needed: it emits the messages and its setscene replays them.
-+        config = 'TMPDIR = "%s"\nDL_DIR = "%s"\nSSTATE_DIR = "%s"\n'
-+        self.write_config(config % (tmpdir_a, dl_a, sstate_dir))
-+        bitbake("%s -c populate_sysroot" % target)
++    tasks = {mytask: [{'levelno': levelno,
++                       'message': sstate_log_strip_paths(d, message)}
++                      for levelno, message in records]}
 +
-+        self.write_config(config % (tmpdir_b, dl_b, sstate_dir))
-+        result = bitbake("%s -c populate_sysroot" % target)
++    logfn = os.path.join(d.getVar('SSTATE_BUILDDIR'), "sstate-log.json")
++    with open(logfn, 'w') as f:
++        json.dump({'tasks': tasks}, f)
++}
 +
-+        self.assertRegex(result.output, r"log-replay-test.*do_.*_setscene",
-+                         msg="Task was not restored from sstate:\n%s" % result.output)
-+        warned = [l for l in result.output.splitlines() if "log-replay-python-warn tmpdir=" in l]
-+        self.assertEqual(len(warned), 1, msg=result.output)
-+        self.assertIn(tmpdir_b, warned[0])
-+        self.assertIn(dl_b, warned[0])
-+        self.assertNotIn(tmpdir_a, warned[0])
-+        self.assertNotIn(dl_a, warned[0])
-+        # The replayed message must be shown by the setscene task, not by a
-+        # native run: do_populate_sysroot never started as a plain task.
-+        self.assert_restored_from_setscene(result.output, "do_populate_sysroot")
+ def sstate_add(ss, source, dest, d):
+     if not source.endswith("/"):
+          source = source + "/"
+@@ -387,11 +441,12 @@ def sstate_installpkg(ss, d):
+         # All hooks should run in the SSTATE_INSTDIR
+         bb.build.exec_func(f, d, (sstateinst,))
+ 
+-    return sstate_installpkgdir(ss, d)
++    return sstate_installpkgdir(ss, d, replay=True)
+ 
+-def sstate_installpkgdir(ss, d):
++def sstate_installpkgdir(ss, d, replay=False):
+     import oe.path
+     import subprocess
++    import json
+ 
+     sstateinst = d.getVar("SSTATE_INSTDIR")
+     d.setVar('SSTATE_FIXMEDIR', ss['fixmedir'])
+@@ -402,6 +457,28 @@ def sstate_installpkgdir(ss, d):
+ 
+     sstate_install(ss, d)
+ 
++    if replay:
++        logfp = os.path.join(sstateinst, "sstate-log.json")
++        if os.path.exists(logfp):
++            with open(logfp, 'r') as logfile:
++                logdata = json.load(logfile)
++            records = logdata.get('tasks', {}).get(d.getVar('BB_RUNTASK').removesuffix('_setscene'), [])
++            for logentry in records:
++                levelno = logentry.get('levelno', 0)
++                if levelno < bb.msg.BBLogFormatter.WARNONCE or "message" not in logentry:
++                    continue
++                message = sstate_log_expand_paths(d, logentry['message'])
++                if levelno >= bb.msg.BBLogFormatter.ERROR:
++                    bb.error(message)
++                elif levelno == bb.msg.BBLogFormatter.ERRORONCE:
++                    bb.erroronce(message)
++                elif levelno == bb.msg.BBLogFormatter.WARNONCE:
++                    bb.warnonce(message)
++                else:
++                    bb.warn(message)
 +
- class SStateCreation(SStateBase):
-     def test_sstate_creation_distro_specific(self):
-         self.run_test_sstate_creation(['binutils-cross-'+ self.tune_arch, 'binutils-native'], hostdistro_specific=True)
++        bb.utils.remove(logfp)
++
+     return True
+ 
+ python sstate_hardcode_path_unpack () {
+@@ -686,7 +763,7 @@ def sstate_package(ss, d):
+     if d.getVar('SSTATE_SKIP_CREATION') == '1':
+         return
+ 
+-    sstate_create_package = ['sstate_report_unihash', 'sstate_create_and_sign_package']
++    sstate_create_package = ['sstate_report_unihash', 'sstate_save_task_log', 'sstate_create_and_sign_package']
+ 
+     for f in (d.getVar('SSTATECREATEFUNCS') or '').split() + \
+              sstate_create_package + \
 
 -- 
 2.47.3
