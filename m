@@ -1,206 +1,75 @@
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.27595.1792952682143348416
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29487.1792958995988334751
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Oct 2026 11:24:43 -0700
+ Sun, 25 Oct 2026 13:09:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=OYq5gBbB;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202610251824390e36e88b07000207a9-6diw_r@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202610251824390e36e88b07000207a9
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=p4YzyCai;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-2026102520095193bc58adac0002072d-bsdtf1@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 2026102520095193bc58adac0002072d
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 25 Oct 2026 19:24:39 +0100
+        Sun, 25 Oct 2026 21:09:52 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=vQVcmgjYxUEbY6/QPfm51RMw8b4UCoFe6Or/ajs/9qs=;
- b=OYq5gBbBHxUqfgPnBk1YS2OseKO4A5Y1biGBvBog96DdDZZWlOWpyYjGLkd+VJCNdHArfY
- lhxtckPqQSnh+7yMEqROoOgA7VManLY3BA161cRXpKsgK8zfT1o2Ezd3s0sUOZSODUCqrvNJ
- gWhgb11rgy/WpZZR2r0AMFyZpkNhx3T0WIYxrlPJCsdZLRzHCUdDfw65GZnwsnJmEKtlEDJP
- /DG1aOzzv8bHqgv3XjW/XOwKGx86fKE/cYmyNYRTGvnk6Ea3xmgxQAuYcnHK1CKxubjoq4Py
- C2dT5NXiXW7hwWwaarWKBqloYTJuXaLzq9TEI7efoR+0L6JsYFKFX5Nw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=asCLGx6grtAKNx1eRJG9VQLgtuJpeVCd1yGw7ComOsE=;
+ b=p4YzyCaiZhUOCY7x8DV8fW5PNiD4mrQKsZtrHbA28kpFMQSxgDLmczEUgevbvhkiBEsvF3
+ V4K+IfH+IUR0oJlHDTnJpyDYUiJVDaXsrNyke7geFX+/zp+wqfjNkp2U9YZfxzh1yrsXwNhF
+ yPWz30w5TwGKyXrx0t9dXDCyGVMkuKG1lt332/q9a7EqF3m333Wj6/lmeM8X7KDj5C0hO/ku
+ quz2t8x6rKWNtVWjbAuBZaK6w/ssWZ8gP7JisHNoO7RscV7ZmhF/ydijh2g5bF3R8z7BuIrl
+ SyUwOaGRszP9Z/eNLRpFzrrm9Xv4GvprkFyhaS/VyQECb9ZRf+plyF+g==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v5 1/6] uboot-sign: add the option to sign SPL FIT configurations
-Date: Sun, 25 Oct 2026 19:23:54 +0100
-Message-ID: <20261025182436.788918-2-adrian.freihofer@siemens.com>
-In-Reply-To: <20261025182436.788918-1-adrian.freihofer@siemens.com>
-References: <20261025182436.788918-1-adrian.freihofer@siemens.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 1/2] devtool: ide-sdk: honor XDG_DATA_HOME for the CMake kits
+Date: Sun, 25 Oct 2026 21:09:48 +0100
+Message-ID: <20261025200949.1757990-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 18:24:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248623
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 20:10:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248627
 Content-Type: text/plain; charset="utf-8"
 
-From: Marta Rybczynska <rybczynska@gmail.com>
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-The SPL FIT signing path was signing individual images, but not the configuration.
+CMake Tools reads its user kits from XDG_DATA_HOME/CMakeTools if
+XDG_DATA_HOME is set and only falls back to ~/.local/share/CMakeTools.
+The shared sysroot mode always wrote to the fallback location, so the
+kit was not found by CMake Tools if XDG_DATA_HOME is set. Use the same
+location as CMake Tools.
 
-Introduce signing of configuration with images under a separate option SPL_SIGN_CONF.
-For now it is disabled. Enabling this option implies changes in the DTB content.
-
-The old behaviour is possible with SPL_SIGN_INDIVIDUAL, but should be removed in
-a subsequent patch.
-
-Signed-off-by: Marta Rybczynska <rybczynska@gmail.com>
-Reviewed-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 86 ++++++++++++++++++++++++--
- 1 file changed, 82 insertions(+), 4 deletions(-)
+ scripts/lib/devtool/ide_plugins/ide_code.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index 5d9e48e103..9a79aeb366 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -33,6 +33,16 @@ UBOOT_FITIMAGE_ENABLE ?= "0"
- # Signature activation - this requires UBOOT_FITIMAGE_ENABLE = "1"
- SPL_SIGN_ENABLE ?= "0"
- 
-+# Sign the FIT configuration in the SPL signing flow. Configuration
-+# signatures bind the selected images and boot metadata together.
-+SPL_SIGN_CONF ?= "0"
-+
-+# Legacy compatibility knob for per-image signatures in the SPL FIT path.
-+# Individual image signatures do not protect the configuration metadata
-+# which selects and parameterizes the boot images.
-+# INSECURE, use at your own risk
-+SPL_SIGN_INDIVIDUAL ?= "1"
-+
- # Default value for deployment filenames.
- UBOOT_DTB_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.dtb"
- UBOOT_DTB_BINARY ?= "u-boot.dtb"
-@@ -350,7 +360,15 @@ uboot_fitimage_atf() {
-             entry = <${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_ENTRYPOINT}>;
-             compression = "none";
- EOF
--	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            hash-1 {
-+                algo = "${UBOOT_FIT_HASH_ALG}";
-+            };
-+EOF
-+	fi
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
- 		cat << EOF >> ${UBOOT_ITS}
-             signature {
-                 algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-@@ -377,7 +395,15 @@ uboot_fitimage_tee() {
-             entry = <${UBOOT_FIT_TEE_ENTRYPOINT}>;
-             compression = "none";
- EOF
--	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            hash-1 {
-+                algo = "${UBOOT_FIT_HASH_ALG}";
-+            };
-+EOF
-+	fi
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
- 		cat << EOF >> ${UBOOT_ITS}
-             signature {
-                 algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-@@ -418,7 +444,15 @@ uboot_fitimage_assemble() {
-             entry = <${UBOOT_FIT_UBOOT_ENTRYPOINT}>;
- EOF
- 
--	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            hash-1 {
-+                algo = "${UBOOT_FIT_HASH_ALG}";
-+            };
-+EOF
-+	fi
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
- 		cat << EOF >> ${UBOOT_ITS}
-             signature {
-                 algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-@@ -437,7 +471,15 @@ EOF
-             compression = "none";
- EOF
- 
--	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            hash-1 {
-+                algo = "${UBOOT_FIT_HASH_ALG}";
-+            };
-+EOF
-+	fi
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
- 		cat << EOF >> ${UBOOT_ITS}
-             signature {
-                 algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-@@ -470,10 +512,21 @@ EOF
- 		conf_loadables="${conf_loadables}${UBOOT_FIT_CONF_USER_LOADABLES}"
- 	fi
- 
-+	conf_sign_images=""
-+	conf_sign_images_sep=""
-+
- 	if [ -n "${UBOOT_FIT_CONF_FIRMWARE}" ] ; then
- 		conf_firmware="firmware = \"${UBOOT_FIT_CONF_FIRMWARE}\";"
-+		conf_sign_images="${conf_sign_images}${conf_sign_images_sep}\"firmware\""
-+		conf_sign_images_sep=", "
- 	fi
- 
-+	if [ -n "${conf_loadables}" ] ; then
-+		conf_sign_images="${conf_sign_images}${conf_sign_images_sep}\"loadables\""
-+		conf_sign_images_sep=", "
-+	fi
-+	conf_sign_images="${conf_sign_images}${conf_sign_images_sep}\"fdt\""
-+
- 	cat << EOF >> ${UBOOT_ITS}
-     };
- 
-@@ -484,6 +537,19 @@ EOF
-             ${conf_firmware}
-             loadables = ${conf_loadables};
-             fdt = "fdt";
-+EOF
-+
-+	if [ "${SPL_SIGN_ENABLE}" = "1" ] && [ "${SPL_SIGN_CONF}" = "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+            signature {
-+                algo = "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-+                key-name-hint = "${SPL_SIGN_KEYNAME}";
-+                sign-images = ${conf_sign_images};
-+            };
-+EOF
-+	fi
-+
-+	cat << EOF >> ${UBOOT_ITS}
-         };
-     };
- };
-@@ -498,6 +564,18 @@ EOF
- 		${UBOOT_FITIMAGE_BINARY}
- 
- 	if [ "${SPL_SIGN_ENABLE}" = "1" ] ; then
-+		if [ "${SPL_SIGN_CONF}" != "1" ] && [ "${SPL_SIGN_INDIVIDUAL}" != "1" ] ; then
-+			bbfatal "SPL_SIGN_ENABLE=1 requires SPL_SIGN_CONF=1 or SPL_SIGN_INDIVIDUAL=1"
-+		fi
-+
-+		if [ "${SPL_SIGN_CONF}" != "1" ] ; then
-+			bbwarn "SPL_SIGN_CONF is disabled. FIT configuration signing is recommended for SPL verified boot."
-+		fi
-+
-+		if [ "${SPL_SIGN_INDIVIDUAL}" = "1" ] ; then
-+			bbwarn "SPL_SIGN_INDIVIDUAL=1 is enabled for compatibility only. It is INSECURE. Individual image signatures do not replace configuration signing."
-+		fi
-+
- 		if [ -n "${SPL_DTB_BINARY}" ] ; then
- 			#
- 			# Sign the U-boot FIT image and add public key to SPL dtb.
+diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
+index 081dc08657..39356dcfb1 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_code.py
++++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+@@ -77,6 +77,7 @@ class IdeVSCode(IdeBase):
+     A workspace cannot be created because there is no recipe that defines how a workspace could
+     be set up.
+     - cmake: adds a cmake-kit to .local/share/CMakeTools/cmake-tools-kits.json
++             (below XDG_DATA_HOME instead of .local/share if it is set)
+              The cmake-kit uses the environment script and the tool-chain file
+              generated by meta-ide-support.
+     - meson: Meson needs manual workspace configuration.
+@@ -95,8 +96,10 @@ class IdeVSCode(IdeBase):
+         deploy_dir_image = shared_env.ide_support.deploy_dir_image
+         real_multimach_target_sys = shared_env.ide_support.real_multimach_target_sys
+         standalone_sysroot_native = shared_env.build_sysroots.standalone_sysroot_native
+-        vscode_ws_path = os.path.join(
+-            os.environ['HOME'], '.local', 'share', 'CMakeTools')
++        # CMake Tools stores its user data in XDG_DATA_HOME, if it is set
++        data_home = os.environ.get('XDG_DATA_HOME') or os.path.join(
++            os.environ['HOME'], '.local', 'share')
++        vscode_ws_path = os.path.join(data_home, 'CMakeTools')
+         cmake_kits_path = os.path.join(vscode_ws_path, 'cmake-tools-kits.json')
+         oecmake_generator = "Ninja"
+         env_script = os.path.join(
 -- 
 2.56.0
 
