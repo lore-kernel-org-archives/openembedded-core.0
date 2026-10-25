@@ -1,40 +1,41 @@
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18335.1792905490559892465
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18336.1792905490719280353
  for <openembedded-core@lists.openembedded.org>;
  Sat, 24 Oct 2026 22:18:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Zd1sziqa;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=LlMM80ds;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1717eac70-3c13bd49-ff3e-4c77-bee7-7bca09449bfc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=LEnBEI9b;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=vnN/lsL0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1717eacde-d04d8a7b-b6dd-443e-a673-4c47a6621afb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1792905489;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=ERfsd9rjzNt8HqFEUOEgzyPP3czr6a+Qh9QjkGhxpY8=;
-	b=Zd1sziqawdAOHNWaLaRKFLiAhVO4ZKTHY8wwYSNRq5Pr2x61l8RqxyFBxIP7mk+R
-	Yraqj4RUCHOz5sy2uga1IQFo2IsYi3cnqRagMNHBDw7V5tETo8Nwtld9iJJU4C7RHjd
-	mCB7cpYhz9nVS+oQ/B78ag2f/IC0Dw4DboKSpHOM=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=Eo9inxps/5Wsp1225F9CA//8ySBuy8Xl8F+e1ksRU9Y=;
+	b=LEnBEI9bGHF9t55LWaTeDaMvz6rE0wijrQvjn2QqCGvxyp1th24Y81YE00uE1CQe
+	5cTunK4ZCy5hjVWUqCapXUX9QeiscSO/Y2P+gxH6ZyIhAztxfQx4HGGJXenhBqaX24v
+	+o/hPG999KVHwBBNKE+F/0rwOLTQx2uOuOKiQzHA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1792905489;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=ERfsd9rjzNt8HqFEUOEgzyPP3czr6a+Qh9QjkGhxpY8=;
-	b=LlMM80dsiirmE6cN41fQ6l/zAouctweqzV2Ce7P8PjJ2ngffu7GGdKD4KSOPgl9P
-	43DZvW+uOfl2UlG9FrXarwjfFTGoOdk95bMwxKv9ZblICgwHB78bd+YsHON7/az/bbJ
-	Tb3ngaCBCEl7m9m9csbJ9r1UGDiKajSHVcuJr1Qg=
-Content-Type: multipart/mixed; boundary="===============6651186188060620361=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=Eo9inxps/5Wsp1225F9CA//8ySBuy8Xl8F+e1ksRU9Y=;
+	b=vnN/lsL0WaDnqwXvsDFKMwVxxDxinO8JvnC302ay5Guj/krtXmgmBX0vpv93NNbF
+	M4zWxCrC/70Vgie95+OOO1C+yn1+AuQvr12lDufWIKT3jXcY1HGTqwQSOLhb/ImNOS4
+	YpNDPVmnlUQM6Ig3dRcewdZ01OVTkefqRZY37cRQ=
+Content-Type: multipart/mixed; boundary="===============5125417821631309117=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libslirp: upgrading to 4.9.6 SUCCEEDED
-Message-ID: <010101a1717eac70-3c13bd49-ff3e-4c77-bee7-7bca09449bfc-000000@us-west-2.amazonses.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-jsonpointer: upgrading to 3.5 SUCCEEDED
+Message-ID: <010101a1717eacde-d04d8a7b-b6dd-443e-a673-4c47a6621afb-000000@us-west-2.amazonses.com>
 Date: Sun, 25 Oct 2026 05:18:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.25-54.240.27.30
+X-SES-Outgoing: 2026.10.25-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 05:18:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248598
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248599
 
---===============6651186188060620361==
+--===============5125417821631309117==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -42,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libslirp* to *4.9.6* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-jsonpointer* to *3.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libslirp-upgrade-4.9.5-4.9.6.patch
+    - apply the patch: git am 0001-python3-jsonpointer-upgrade-3.4-3.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -63,181 +64,105 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dbfb42c57dbfac4828bfc3c7410ec1684783bc28 Mon Sep 17 00:00:00 2001
+From 84a4c7c624ed9676d35c77c10b951853a889f958 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 25 Oct 2026 05:11:13 +0000
-Subject: [PATCH] libslirp: upgrade 4.9.5 -> 4.9.6
+Date: Sun, 25 Oct 2026 05:14:31 +0000
+Subject: [PATCH] python3-jsonpointer: upgrade 3.4 -> 3.5
 
-## [4.9.6] - 2026-10-25
-## Security
-
-  - Fix Buffer Underflow in `tftp_handle_rrq()` When Handling Empty Filename
-    #100
-  - Fix Echo Reply Length Desynchronization in `icmp_receive()` and
-    `icmp6_receive()` #105
-  - Reject martians
-  - tftp: check actual available room
-
-## Fixed
-
-  - Fix memory leak of tftp_server_name #99
-  - Fix Protocol Type Mismatch in `icmp6_receive()`: IPv4 `ICMP_UNREACH` Emitted
-    as ICMPv6 #101
-  - Fix Double Socket Descriptor Leak in `fork_exec()` on Argument Parsing
-    Failure #102
-  - Fix Socket Heap Memory & Buffer Leak in `slirp_state_load()` on
-    Deserialization or Validation Failure #103
-  - Avoid Non-Reentrant Static Variable in `tcp_emu()` #104
-  - pingtest: use SLIRP_CONFIG_VERSION_MAX
-  - icmp: preserve guest TTL and forward traceroute ICMP errors !166
-  - dns: proxy DNS queries sent to the virtual gateway address !163
-  - tftp: Drop TFTP_BLOCKSIZE_MAX
-
-  - Fix bounds-check in processing OEM commands (CVE-2026-95507)
-  - Fix bounds-check in dhcpv6 against MTU (CVE-2026-95508)
-[Unreleased]:
-https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.6...master
-[4.9.5]: https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.5...v4.9.6
 ---
- .../slirp/{libslirp_4.9.5.bb => libslirp_4.9.6.bb}              | 2 +-
+ .../{python3-jsonpointer_3.4.bb => python3-jsonpointer_3.5.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/slirp/{libslirp_4.9.5.bb => libslirp_4.9.6.bb} (92%)
+ rename meta/recipes-devtools/python/{python3-jsonpointer_3.4.bb => python3-jsonpointer_3.5.bb} (87%)
 
-diff --git a/meta/recipes-connectivity/slirp/libslirp_4.9.5.bb b/meta/recipes-connectivity/slirp/libslirp_4.9.6.bb
-similarity index 92%
-rename from meta/recipes-connectivity/slirp/libslirp_4.9.5.bb
-rename to meta/recipes-connectivity/slirp/libslirp_4.9.6.bb
-index d77121bf30..9d231f111d 100644
---- a/meta/recipes-connectivity/slirp/libslirp_4.9.5.bb
-+++ b/meta/recipes-connectivity/slirp/libslirp_4.9.6.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=f95a9bf4a7e411164fe843697ccda59e \
-                     file://LICENSE;md5=cfea6044642fd63b90ce9d79f5db64d9"
+diff --git a/meta/recipes-devtools/python/python3-jsonpointer_3.4.bb b/meta/recipes-devtools/python/python3-jsonpointer_3.5.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-jsonpointer_3.4.bb
+rename to meta/recipes-devtools/python/python3-jsonpointer_3.5.bb
+index 1fa8ce7551..dc39b0ea38 100644
+--- a/meta/recipes-devtools/python/python3-jsonpointer_3.4.bb
++++ b/meta/recipes-devtools/python/python3-jsonpointer_3.5.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=32b15c843b7a329130f4e266a281ebb3"
  
- SRC_URI = "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master;tag=v${PV}"
--SRCREV = "390848f47391f412451b2d259d8527fabb51e5e3"
-+SRCREV = "392af90207fc51dd9f9044ee9b1f963f3c851c2c"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+ inherit pypi ptest setuptools3
  
- DEPENDS = "glib-2.0"
+-SRC_URI[sha256sum] = "e57015ae65af3821c6a3976069860789cf326103f38b22b2178d41d021adad25"
++SRC_URI[sha256sum] = "81f28618a019cf1b011a6cf757439737972de1ccbeca2e1f86dfb4d661800792"
+ 
+ SRC_URI += " \
+ 	file://run-ptest \
 -- 
 2.47.1
 
 
---===============6651186188060620361==
+--===============5125417821631309117==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libslirp: PV changed from "4.9.5" to "4.9.6"
-packages/x86-64-v3-poky-linux/libslirp: SRC_URI changed from "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master;tag=v4.9.5" to "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master;tag=v4.9.6"
-packages/x86-64-v3-poky-linux/libslirp: PKGV changed from 4.9.5 [default] to 4.9.6 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PV changed from "4.9.5" to "4.9.6"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PKGV changed from 4.9.5 [default] to 4.9.6 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PKGSIZE changed from 598568 to 608568 (+2%)
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dev: PV changed from "4.9.5" to "4.9.6"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dev: PKGV changed from 4.9.5 [default] to 4.9.6 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-doc: PV changed from "4.9.5" to "4.9.6"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-doc: PKGV changed from 4.9.5 [default] to 4.9.6 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-locale: PV changed from "4.9.5" to "4.9.6"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-locale: PKGV changed from 4.9.5 [default] to 4.9.6 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PV changed from "4.9.5" to "4.9.6"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PKGV changed from 4.9.5 [default] to 4.9.6 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-src: FILELIST: directory renamed /usr/src/debug/libslirp/4.9.5/src -> /usr/src/debug/libslirp/4.9.6/src
-packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PKGSIZE changed from 590033 to 607086 (+3%)
-packages/x86-64-v3-poky-linux/libslirp/libslirp-staticdev: PV changed from "4.9.5" to "4.9.6"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-staticdev: PKGV changed from 4.9.5 [default] to 4.9.6 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp: PV changed from "4.9.5" to "4.9.6"
-packages/x86-64-v3-poky-linux/libslirp/libslirp: PKGV changed from 4.9.5 [default] to 4.9.6 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp: PKGSIZE changed from 152793 to 156889 (+3%)
+packages/x86-64-v3-poky-linux/python3-jsonpointer: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-3.4.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-3.5.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-jsonpointer: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer: PV changed from "3.4" to "3.5"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PV changed from "3.4" to "3.5"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PV changed from "3.4" to "3.5"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PV changed from "3.4" to "3.5"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PV changed from "3.4" to "3.5"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGSIZE changed from 32058 to 34753 (+8%)
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PV changed from "3.4" to "3.5"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PV changed from "3.4" to "3.5"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PV changed from "3.4" to "3.5"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/jsonpointer-3.5.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info -> /usr/lib/python3.14/site-packages/jsonpointer-3.5.dist-info
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGV changed from 3.4 [default] to 3.5 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGSIZE changed from 38215 to 38437 (+1%)
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PV changed from "3.4" to "3.5"
+Changes to packages/x86-64-v3-poky-linux/python3-jsonpointer (sysroot):
+  /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info moved to /usr/lib/python3.14/site-packages/jsonpointer-3.5.dist-info
 
---===============6651186188060620361==
+--===============5125417821631309117==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libslirp-upgrade-4.9.5-4.9.6.patch"
+ filename="0001-python3-jsonpointer-upgrade-3.4-3.5.patch"
 
-RnJvbSBkYmZiNDJjNTdkYmZhYzQ4MjhiZmMzYzc0MTBlYzE2ODQ3ODNiYzI4IE1vbiBTZXAgMTcg
+RnJvbSA4NGE0YzdjNjI0ZWQ5Njc2ZDM1Yzc3YzEwYjk1MTg1M2E4ODlmOTU4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMjUgT2N0IDIwMjYgMDU6MTE6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJzbGlycDogdXBncmFkZSA0LjkuNSAtPiA0LjkuNgoKIyMgWzQuOS42XSAtIDIwMjYtMTAtMjUK
-IyMgU2VjdXJpdHkKCiAgLSBGaXggQnVmZmVyIFVuZGVyZmxvdyBpbiBgdGZ0cF9oYW5kbGVfcnJx
-KClgIFdoZW4gSGFuZGxpbmcgRW1wdHkgRmlsZW5hbWUKICAgICMxMDAKICAtIEZpeCBFY2hvIFJl
-cGx5IExlbmd0aCBEZXN5bmNocm9uaXphdGlvbiBpbiBgaWNtcF9yZWNlaXZlKClgIGFuZAogICAg
-YGljbXA2X3JlY2VpdmUoKWAgIzEwNQogIC0gUmVqZWN0IG1hcnRpYW5zCiAgLSB0ZnRwOiBjaGVj
-ayBhY3R1YWwgYXZhaWxhYmxlIHJvb20KCiMjIEZpeGVkCgogIC0gRml4IG1lbW9yeSBsZWFrIG9m
-IHRmdHBfc2VydmVyX25hbWUgIzk5CiAgLSBGaXggUHJvdG9jb2wgVHlwZSBNaXNtYXRjaCBpbiBg
-aWNtcDZfcmVjZWl2ZSgpYDogSVB2NCBgSUNNUF9VTlJFQUNIYCBFbWl0dGVkCiAgICBhcyBJQ01Q
-djYgIzEwMQogIC0gRml4IERvdWJsZSBTb2NrZXQgRGVzY3JpcHRvciBMZWFrIGluIGBmb3JrX2V4
-ZWMoKWAgb24gQXJndW1lbnQgUGFyc2luZwogICAgRmFpbHVyZSAjMTAyCiAgLSBGaXggU29ja2V0
-IEhlYXAgTWVtb3J5ICYgQnVmZmVyIExlYWsgaW4gYHNsaXJwX3N0YXRlX2xvYWQoKWAgb24KICAg
-IERlc2VyaWFsaXphdGlvbiBvciBWYWxpZGF0aW9uIEZhaWx1cmUgIzEwMwogIC0gQXZvaWQgTm9u
-LVJlZW50cmFudCBTdGF0aWMgVmFyaWFibGUgaW4gYHRjcF9lbXUoKWAgIzEwNAogIC0gcGluZ3Rl
-c3Q6IHVzZSBTTElSUF9DT05GSUdfVkVSU0lPTl9NQVgKICAtIGljbXA6IHByZXNlcnZlIGd1ZXN0
-IFRUTCBhbmQgZm9yd2FyZCB0cmFjZXJvdXRlIElDTVAgZXJyb3JzICExNjYKICAtIGRuczogcHJv
-eHkgRE5TIHF1ZXJpZXMgc2VudCB0byB0aGUgdmlydHVhbCBnYXRld2F5IGFkZHJlc3MgITE2Mwog
-IC0gdGZ0cDogRHJvcCBURlRQX0JMT0NLU0laRV9NQVgKCiAgLSBGaXggYm91bmRzLWNoZWNrIGlu
-IHByb2Nlc3NpbmcgT0VNIGNvbW1hbmRzIChDVkUtMjAyNi05NTUwNykKICAtIEZpeCBib3VuZHMt
-Y2hlY2sgaW4gZGhjcHY2IGFnYWluc3QgTVRVIChDVkUtMjAyNi05NTUwOCkKW1VucmVsZWFzZWRd
-OgpodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvc2xpcnAvbGlic2xpcnAvY29tcGFyZS92
-NC45LjYuLi5tYXN0ZXIKWzQuOS41XTogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3Ns
-aXJwL2xpYnNsaXJwL2NvbXBhcmUvdjQuOS41Li4udjQuOS42Ci0tLQogLi4uL3NsaXJwL3tsaWJz
-bGlycF80LjkuNS5iYiA9PiBsaWJzbGlycF80LjkuNi5iYn0gICAgICAgICAgICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zbGlycC97bGlic2xpcnBfNC45LjUuYmIgPT4gbGlic2xp
-cnBfNC45LjYuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9zbGlycC9saWJzbGlycF80LjkuNS5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvc2xp
-cnAvbGlic2xpcnBfNC45LjYuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zbGlycC9saWJzbGlycF80LjkuNS5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zbGlycC9saWJzbGlycF80LjkuNi5iYgppbmRleCBk
-NzcxMjFiZjMwLi45ZDIzMWYxMTFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L3NsaXJwL2xpYnNsaXJwXzQuOS41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvc2xpcnAvbGlic2xpcnBfNC45LjYuYmIKQEAgLTYsNyArNiw3IEBAIExJQ19GSUxFU19DSEtT
-VU0gPSAiZmlsZTovL0NPUFlSSUdIVDttZDU9Zjk1YTliZjRhN2U0MTExNjRmZTg0MzY5N2NjZGE1
-OWUgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5TRTttZDU9Y2ZlYTYwNDQ2NDJm
-ZDYzYjkwY2U5ZDc5ZjVkYjY0ZDkiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNr
-dG9wLm9yZy9zbGlycC9saWJzbGlycC5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3Rlcjt0
-YWc9diR7UFZ9IgotU1JDUkVWID0gIjM5MDg0OGY0NzM5MWY0MTI0NTFiMmQyNTlkODUyN2ZhYmI1
-MWU1ZTMiCitTUkNSRVYgPSAiMzkyYWY5MDIwN2ZjNTFkZDlmOTA0NGVlOWIxZjk2M2YzYzg1MWMy
-YyIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gInYoP1A8cHZlcj5cZCsoXC5cZCspKyki
-CiAKIERFUEVORFMgPSAiZ2xpYi0yLjAiCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFN1biwgMjUgT2N0IDIwMjYgMDU6MTQ6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWpzb25wb2ludGVyOiB1cGdyYWRlIDMuNCAtPiAzLjUKCi0tLQogLi4uL3tweXRob24z
+LWpzb25wb2ludGVyXzMuNC5iYiA9PiBweXRob24zLWpzb25wb2ludGVyXzMuNS5iYn0gIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1qc29ucG9pbnRlcl8zLjQuYmIg
+PT4gcHl0aG9uMy1qc29ucG9pbnRlcl8zLjUuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25wb2ludGVyXzMuNC5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29ucG9pbnRlcl8zLjUuYmIKc2ltaWxh
+cml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLWpzb25wb2ludGVyXzMuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWpzb25wb2ludGVyXzMuNS5iYgppbmRleCAxZmE4Y2U3NTUxLi5kYzM5
+YjBlYTM4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+anNvbnBvaW50ZXJfMy40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1qc29ucG9pbnRlcl8zLjUuYmIKQEAgLTUsNyArNSw3IEBAIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT0zMmIxNWM4NDNiN2EzMjkxMzBmNGUyNjZhMjgxZWJi
+MyIKIAogaW5oZXJpdCBweXBpIHB0ZXN0IHNldHVwdG9vbHMzCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJlNTcwMTVhZTY1YWYzODIxYzZhMzk3NjA2OTg2MDc4OWNmMzI2MTAzZjM4YjIyYjIxNzhk
+NDFkMDIxYWRhZDI1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjgxZjI4NjE4YTAxOWNmMWIwMTFh
+NmNmNzU3NDM5NzM3OTcyZGUxY2NiZWNhMmUxZjg2ZGZiNGQ2NjE4MDA3OTIiCiAKIFNSQ19VUkkg
+Kz0gIiBcCiAJZmlsZTovL3J1bi1wdGVzdCBcCi0tIAoyLjQ3LjEKCg==
 
---===============6651186188060620361==
+--===============5125417821631309117==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libslirp-changelog.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-## [4.9.6] - 2026-10-25
-## Security
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/jsonpointer-3.5.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info -> /usr/lib/python3.14/site-packages/jsonpointer-3.5.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-jsonpointer (sysroot):
+  /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info moved to /usr/lib/python3.14/site-packages/jsonpointer-3.5.dist-info
 
-  - Fix Buffer Underflow in `tftp_handle_rrq()` When Handling Empty Filename
-    #100
-  - Fix Echo Reply Length Desynchronization in `icmp_receive()` and
-    `icmp6_receive()` #105
-  - Reject martians
-  - tftp: check actual available room
-
-## Fixed
-
-  - Fix memory leak of tftp_server_name #99
-  - Fix Protocol Type Mismatch in `icmp6_receive()`: IPv4 `ICMP_UNREACH` Emitted
-    as ICMPv6 #101
-  - Fix Double Socket Descriptor Leak in `fork_exec()` on Argument Parsing
-    Failure #102
-  - Fix Socket Heap Memory & Buffer Leak in `slirp_state_load()` on
-    Deserialization or Validation Failure #103
-  - Avoid Non-Reentrant Static Variable in `tcp_emu()` #104
-  - pingtest: use SLIRP_CONFIG_VERSION_MAX
-  - icmp: preserve guest TTL and forward traceroute ICMP errors !166
-  - dns: proxy DNS queries sent to the virtual gateway address !163
-  - tftp: Drop TFTP_BLOCKSIZE_MAX
-
-  - Fix bounds-check in processing OEM commands (CVE-2026-95507)
-  - Fix bounds-check in dhcpv6 against MTU (CVE-2026-95508)
-[Unreleased]:
-https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.6...master
-[4.9.5]: https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.5...v4.9.6
-
---===============6651186188060620361==--
+--===============5125417821631309117==--
