@@ -1,101 +1,87 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19204.1792911412041400906
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20825.1792923194657216308
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Oct 2026 23:56:52 -0700
+ Sun, 25 Oct 2026 03:13:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=cWqkeWCL;
- spf=pass (domain: gmail.com, ip: 74.125.82.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-35b2c599f43so38015eec.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2026 23:56:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792911411; x=1793516211; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6K33I8t2s2C10KCQUknptQ4bJhhCXeW77Et1NjFb+Lk=;
-        b=cWqkeWCL9/94dlBRiI3N6ySkqVyI7V8HeRO9Bnz0o47ifpHEHcf7qr3IZMU8BB1GoM
-         WH3SxAlbcN8N2uAUi5axEK3cVNh2j4/VfXEREnZvNZyEDUcwmCEE/9QJDFB9NgfxSCvb
-         N67MdTmq4zAMe4Ajox5BVQIzYvnG10JTWnHqOIFmN7uYxFuWWyZc6qAR9ek849xOpfN2
-         SmlDNDw9oGwNHMHbjnHg/VtMuQI8kA/th5A+tk3aYK2GGc7YvZdlpVUZmlKS4+z21FDJ
-         9DjNzJngQfm8UJG/IiJkfa8UwigZJ1wzQwiUfCHWveRSj4jQqOSmkGIjRKALsL7hcGMI
-         ZWAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792911411; x=1793516211;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6K33I8t2s2C10KCQUknptQ4bJhhCXeW77Et1NjFb+Lk=;
-        b=26id204CtF33X+LUe9+Cm6ONQjmwCavo0E+ZFrG/aPWcLmr8uQyHFDJta4/Xsx1ur0
-         NJyj3xOGuQRoUAD6Jd1BI/MM5au5VGf/HRxKmdobPztevOSCIOHxDdF07XJaepbqk4PA
-         mr50RNLg+zJ1Me7Yf7oF5QpQnxR2OGefsX28MuFzlqKacfJe5LW/ElkEcBECaJ1c7bm8
-         6lIjSj6rGjG2BLjFYnUXzayKP9Pae3IycKUAgqoTtpagaZ3DyYvp0CJ7vBlA+LAtjzat
-         q2riQa5grUddV4+1P9Vtxcbn2Q+X/DASEuNRY4B8b9ifdz7LHsyoH7VpwXTPzWbrd5D0
-         obkg==
-X-Gm-Message-State: AFq9FYLsVpDzNm+KwO95QCAuCF82EuKETTyZ8WOnS+pnhB5R3ga8DgPL
-	Zr0NSg/Rn4o+7c+Y+06l+D9SXdm31qZKftZe4Qa2CXuf7Kvv0mEG8+7zDIYMziyOR+E=
-X-Gm-Gg: AYBFou1j0x+wPYw6kjKLZTYjhfLu4hdj3Ct6HhdbqKeUADQN7dKW5bFkd7CQ0/FOjSl
-	HT3ay4c+zoQtIYmOmXbxzv7TUdx6ApjCCEXtddAjZpPKL405Q2FGnVofuf574kT/5ZLJGjgsKGl
-	pdwNtg06HsjYK08Y8Kq0P1J0z1CceIWvs/3MpV9B5MvojfRkJNsFdNEDcfidLyK6hLlbBVPQ9N1
-	cv9rzHrpAum8p+Wtt7xIQ7vmhVmgLtcaIn3h5CmJcCwaQoxgoIgOG5ZYRp3ISZPkVhAcTbn2g75
-	qvjeSXD7i1KAfR2ZKKY6V4Ol9em2Tux7Bb14GYuk1Zj7psjw5ngZhNXE2A3hGhxfzSjEN2YCAb4
-	NDJiJCLyXOFJVN4q3cSOcoX7hnjo8fB0SulLZexLcT25F9PyvwWFEOiVhWjbD2Sa5BDEh2qrzLl
-	u94/IPV3f4VYfVv145vvvI5H3ariipXetSzjAPFY+jAY58Y0oriXMmd4kFzTKMeWH087sg1jVRE
-	fhfyEI/Q5w70oTTXDm48ibGIcUUh9FsiY/Jf1H1d2ozJcmSmpgApdVS660j/33+LR5xC6mLqAlB
-	KtUlOeCQrFXEc6seFxn8OC44Nkbf/eUhveK0mHE3CcELterztJPNqBdYlznbHCTg2Cv9p4+wKEQ
-	SwkrwbmlXkc4CSH8J/OPEM//jjs57/Zx8X35dugQa7zwxOwna7NXV77l5rXQtogv3FdzXWrDuXj
-	11EhEoDq8hdL1kP2/qYXo0bdFZZwgdCXdrJ0l54HctRYy62oXMgZtjLbnqx14xObeMVFinubv1n
-	JOiR1wkx6K45S48N+vbSHdau+Rz39ioZYdXCGxYGNza7iZRDTtW
-X-Received: by 2002:a05:693c:65ca:b0:369:fd5f:c5b5 with SMTP id 5a478bee46e88-369fd5fca61mr205657eec.29.1792911411093;
-        Sat, 24 Oct 2026 23:56:51 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8db7b23sm18024191eec.19.2026.10.24.23.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 23:56:50 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=n7phPRz/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-202610251013114590f188bd0002071c-qbhk2i@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202610251013114590f188bd0002071c
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 25 Oct 2026 11:13:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=O0UVNLobRDmKbL5p0gXgAA2lQjPIDRUqmtnPiwi9h7w=;
+ b=n7phPRz/uBUiGjIG1Cs+A7BcDdvrQI5xnx7/oleDF3trgEtCiNItVxEsqeDekLUnXPn5Wj
+ G97DIlCl/NyuUp9yHFc40EVoK8VVcxSukLuGJ93M5/r4zdGye+wcjU/rW8+WehQKTNBq8ys0
+ TpIvW0QhbGrd6aXhLMRK7kMzu7LUmgtbLSBwXaWvDIVS48ew1sRAfCWaTEw13Msq+XDDFvUm
+ PJ89OL/DYjgvWu/xtq5duXQ7/ckC9D9RKE8aAEUQbywdq+I3zE3L/CsDjBcvdOB5/gL5anCj
+ gLJq2taOeirvvBTF4zkoWRUo8kr0HNAzF09Usvmvb0Ueuh14qmAsnn2Q==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] qemuriscv64: Enable the Vector extension in the kernel
-Date: Sat, 24 Oct 2026 23:56:45 -0700
-Message-ID: <20261025065645.1993425-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH] kernel-fit-image: add FIT_LOADABLE_* variables to do_compile vardeps
+Date: Sun, 25 Oct 2026 11:13:06 +0100
+Message-ID: <20261025101306.3845699-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 06:56:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248603
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 10:13:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248604
 Content-Type: text/plain; charset="utf-8"
 
-QB_CPU defaults to rva23s64, which mandates V, but linux-yocto only
-enables CONFIG_RISCV_ISA_V when TUNE_FEATURES contains 'v', and
-riscv-isa-clear.scc turns it off otherwise. With the default rv64gc
-tune the kernel therefore runs without V support and any userspace
-vector instruction raises SIGILL, even code that selects RVV at
-runtime.
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Append riscv-isa-v.scc to KERNEL_FEATURES_RISCV so it lands after
-riscv-isa-clear.scc. Userspace keeps the rv64gc tune and stays
-portable; the kernel detects V at boot, so this is harmless on CPUs
-without it.
+do_compile only reads the per-loadable flags of the FIT_LOADABLE_*
+variables with d.getVarFlag('FIT_LOADABLE_*', loadable), never their
+values. As the flag names are not literals, bitbake cannot track these
+accesses, so the flags are not part of the do_compile signature.
+Changing e.g. FIT_LOADABLE_LOADADDRESS[atf] did not trigger a rebuild
+and a stale FIT image was reused.
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+When FIT_LOADABLES is set, add the FIT_LOADABLE_* variables to
+do_compile[vardeps] in the loop that already processes them.
+Referencing a variable includes all its flags in the signature.
+
+While at it, fix the duplicated word in the comment.
+
+This is a fixup for commit 2535427d8de0
+"kernel-fit-image: support arbitrary loadables"
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/conf/machine/qemuriscv64.conf | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes-recipe/kernel-fit-image.bbclass | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/machine/qemuriscv64.conf b/meta/conf/machine/qemuriscv64.conf
-index a753af0576..0aacfa378f 100644
---- a/meta/conf/machine/qemuriscv64.conf
-+++ b/meta/conf/machine/qemuriscv64.conf
-@@ -6,6 +6,11 @@ require conf/machine/include/riscv/qemuriscv.inc
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index 7b2bcd4673..d6a41d4979 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -32,8 +32,12 @@ python () {
+     # Parse loadables config
+     loadables = d.getVar('FIT_LOADABLES')
+     if loadables:
+-        # Check that the loadables configuration variables are not set directly
+-        # directly, then assign them a synthetic value for testability purposes
++        # Check that the loadables configuration variables are not set
++        # directly, then assign them a synthetic value for testability purposes.
++        # do_compile only reads the flags of these variables, never their
++        # values, and as the flag names are not literals bitbake cannot track
++        # these accesses. Add the variables to the do_compile vardeps to get
++        # all their flags into the task signature.
+         for v in ['FIT_LOADABLE_ARCH', 'FIT_LOADABLE_COMPRESSION',
+                   'FIT_LOADABLE_DESCRIPTION', 'FIT_LOADABLE_ENTRYPOINT',
+                   'FIT_LOADABLE_FILENAME', 'FIT_LOADABLE_LOADADDRESS',
+@@ -43,6 +47,7 @@ python () {
  
- XVISOR_PLAT = "riscv/virt64"
+             synt_value = " ? ".join([ d.getVarFlag(v, loadable) or "" for loadable in loadables.split() ])
+             d.setVar(v, synt_value)
++            d.appendVarFlag('do_compile', 'vardeps', ' ' + v)
+ }
  
-+# The default QB_CPU (rva23s64) has the Vector extension, so enable it in the
-+# kernel even though the default tune is rv64gc, userspace can then use V at
-+# runtime. Appending here places it after riscv-isa-clear.scc, which disables V.
-+KERNEL_FEATURES_RISCV:append = " arch/riscv/tunes/riscv-isa-v.scc"
-+
- EXTRA_IMAGEDEPENDS += "u-boot"
- UBOOT_MACHINE = "qemu-riscv64_smode_defconfig"
- UBOOT_ELF = "u-boot"
+ do_configure[noexec] = "1"
+-- 
+2.56.0
+
