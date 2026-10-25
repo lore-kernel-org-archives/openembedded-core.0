@@ -1,84 +1,149 @@
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29234.1792958995994526621
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30294.1792962804641953461
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Oct 2026 13:09:57 -0700
+ Sun, 25 Oct 2026 14:13:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=XwRmliUQ;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20261025200953d50b7646f20002073e-hjoezz@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20261025200953d50b7646f20002073e
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=kRDWCCR7;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202610252113203d6d3c855f000207b3-oj79fj@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202610252113203d6d3c855f000207b3
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 25 Oct 2026 21:09:53 +0100
+        Sun, 25 Oct 2026 22:13:21 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=Jajqka2yXp1YQXighM46vYH5grUCyy8w4ps3dveglAg=;
- b=XwRmliUQVwuyzGYGlt3UdVLXB2kWjseccNiiaiC3jkh1EggEjYS+7i4mHkXFXAdWdANsGK
- aRi6JRBEuZANaIcnNkd84Tie2gr+so68Z3hS2brNJg/+0HayjhuBkwyDLhDilJXb75s3Z1hD
- VicQu4MZt4K7GGsxvRCJ3teB0CsQdtRajSs1U94ncz9SUrM6BYJq3gBNDdeUZo4QJFoXVdGf
- rebRiKs8veTiztj5Ix/Zn/zlE50XrVMS4NIg2JoUyVuU3Tdwh0UA8PJTAFkvjleOlNFflD/Z
- oGNv7Ti3GJir2JGkYWDcvxZVViAEKH+MJMWK4dcU5O9MGGWjaoCpdpFA==;
-From: AdrianF <adrian.freihofer@siemens.com>
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=qMaqlnJMlpMdnJ7jaBKEId1LNwDEs8PWCGBIPIG9kMw=;
+ b=kRDWCCR7wPaMrV/33IzJBqOjPPKZh5HxI1RI+lrsVcQoZd4GxUHZdbR+cFOkNgZu6wcgMa
+ Q0076sAPqSXXihNRy0UD2+npgLqhGT7VeJX2MtoQFW6k0mb9cFacFgQz37wTwhjFvzzV3mWg
+ c5au5G6mNQbgHHAXtlsOj4LGI7SrBUotv/ZqEi+2xFMsaX6J6LihoMvt01NbveKPEJH6HiyT
+ le94XPvHQ+n3N+OiqvMq1GZ43/nBK+t0MLKyE3UnwseL41KeZFFvMTgiuizr8bZZOsDYyEKg
+ /khL12niagxX17FxWwrisqelmsIKq8SkLG4qdBavGI9xizT5haC/YCfA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 2/2] oe-selftest: devtool: do not add ide-sdk test kits to the user's CMake kits
-Date: Sun, 25 Oct 2026 21:09:49 +0100
-Message-ID: <20261025200949.1757990-2-adrian.freihofer@siemens.com>
-In-Reply-To: <20261025200949.1757990-1-adrian.freihofer@siemens.com>
-References: <20261025200949.1757990-1-adrian.freihofer@siemens.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] python3: upgrade 3.12.15 -> 3.12.16
+Date: Sun, 25 Oct 2026 22:13:02 +0100
+Message-ID: <20261025211302.1904712-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 20:10:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248626
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 21:13:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248628
 Content-Type: text/plain; charset="utf-8"
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-The shared sysroot test of devtool ide-sdk adds a cmake-kit with the path
-of the temporary test build directory to ~/.local/share/CMakeTools. Every
-test run adds another stale kit, which is never removed again. Use a
-temporary XDG_DATA_HOME for the test, and verify that the kit is added
-there.
+This is a security release of Python 3.12
+Release information: [1]
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+This is an expedited security release to address the compromised eMudhra
+intermediate CA keys. These keys are now blocked by the ssl module as a
+last resort against their use.
+Normal uses of pip, including to upgrade pip itself, are now safe from
+attacks based on those compromised keys, even if pip hasn't been updated
+yet.
+
+Security content in this release
+* CVE-2026-115557 gh-160040: Distrust compromised eMudhra intermediate CA keys
+* CVE-2026-77214 CVE-2026-102633 gh-158876: Update bundled Expat to 2.9.0
+* CVE-2024-3220 gh-159428: Don't read mimetypes.knownfiles by default on Windows
+* CVE-2026-114583 gh-160097: Reject links replacing the destination in tarfile.tar_filter
+* gh-87720: Fix additional header refolding-quoting edge case
+* gh-157579: Fix race condition in the cleanup of tempfile.TemporaryDirectory
+* gh-160300: Reject cookies with a negative version in http.cookiejar
+
+[1] https://www.python.org/downloads/release/python-31216/
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ .../0001-Avoid-shebang-overflow-on-python-config.py.patch       | 2 +-
+ ...1-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch | 2 +-
+ ...1-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch | 2 +-
+ .../0001-test_ctypes.test_find-skip-without-tools-sdk.patch     | 2 +-
+ meta/recipes-devtools/python/python3/makerace.patch             | 2 +-
+ .../python/{python3_3.12.15.bb => python3_3.12.16.bb}           | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.12.15.bb => python3_3.12.16.bb} (99%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index b848623a6e..e95de98e80 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -4564,9 +4564,14 @@ class DevtoolIdeSdkSharedTests(DevtoolIdeSdkTests):
-         # Handle the workspace (which is not needed by this test case)
-         self._check_workspace()
+diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+index 6c8b1bf6cd9..3da1b60f3bd 100644
+--- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
++++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+@@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index 2d235d2..1ac2263 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2361,6 +2361,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++@@ -2366,6 +2366,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
+  	@ # Substitution happens here, as the completely-expanded BINDIR
+  	@ # is not available in configure
+  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
+diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+index 6066b26e38f..3cbde6c6cc5 100644
+--- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
++++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+@@ -13,7 +13,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index 083f4c7..dce36a5 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -663,8 +663,7 @@ profile-run-stamp:
++@@ -665,8 +665,7 @@ profile-run-stamp:
+  	# enabled.
+  	$(MAKE) profile-gen-stamp
+  	# Next, run the profile task to generate the profile information.
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+index 5fdf5f4514e..3f59d824054 100644
+--- a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
++++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
+@@ -16,7 +16,7 @@ diff --git a/Lib/tarfile.py b/Lib/tarfile.py
+ index 0a0f31e..4dfb67d 100755
+ --- a/Lib/tarfile.py
+ +++ b/Lib/tarfile.py
+-@@ -2721,7 +2721,8 @@ class TarFile(object):
++@@ -2735,7 +2735,8 @@ class TarFile(object):
+                      os.lchown(targetpath, u, g)
+                  else:
+                      os.chown(targetpath, u, g)
+diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+index 307e4bf3069..d820e37e601 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
+@@ -18,7 +18,7 @@ diff --git a/Lib/test/test_ctypes/test_find.py b/Lib/test/test_ctypes/test_find.
+ index a41e949..eb5fe19 100644
+ --- a/Lib/test/test_ctypes/test_find.py
+ +++ b/Lib/test/test_ctypes/test_find.py
+-@@ -113,10 +113,12 @@ class FindLibraryLinux(unittest.TestCase):
++@@ -133,10 +133,12 @@ class FindLibraryLinux(unittest.TestCase):
+                  # LD_LIBRARY_PATH)
+                  self.assertEqual(find_library(libname), 'lib%s.so' % libname)
+  
+diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
+index 4575a30bfcf..4fcf6468762 100644
+--- a/meta/recipes-devtools/python/python3/makerace.patch
++++ b/meta/recipes-devtools/python/python3/makerace.patch
+@@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index dce36a5..2d235d2 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2272,7 +2272,7 @@ COMPILEALL_OPTS=-j0
++@@ -2277,7 +2277,7 @@ COMPILEALL_OPTS=-j0
+  TEST_MODULES=@TEST_MODULES@
+  
+  .PHONY: libinstall
+diff --git a/meta/recipes-devtools/python/python3_3.12.15.bb b/meta/recipes-devtools/python/python3_3.12.16.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.12.15.bb
+rename to meta/recipes-devtools/python/python3_3.12.16.bb
+index 6c6289b0e69..9946bb075dd 100644
+--- a/meta/recipes-devtools/python/python3_3.12.15.bb
++++ b/meta/recipes-devtools/python/python3_3.12.16.bb
+@@ -42,7 +42,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
  
-+        # Do not add a cmake-kit to the kits of the user
-+        xdg_data_home = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(xdg_data_home)
-+        ide_env = dict(os.environ, XDG_DATA_HOME=xdg_data_home)
-+
-         result_init = runCmd(
-             'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code',
--            output_log=self._cmd_logger)
-+            output_log=self._cmd_logger, env=ide_env)
-         bb_vars = get_bb_vars(
-             ['REAL_MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_IMAGE', 'COREBASE'], "meta-ide-support")
-         environment_script = 'environment-setup-%s' % bb_vars['REAL_MULTIMACH_TARGET_SYS']
-@@ -4578,6 +4583,11 @@ class DevtoolIdeSdkSharedTests(DevtoolIdeSdkTests):
-         # Verify the cross environment script is available
-         self.assertExists(environment_script_path)
+-SRC_URI[sha256sum] = "c2c4321961fab0fb999d66e0cecf521c2ab3994c7992873ea99e306c1094fd5a"
++SRC_URI[sha256sum] = "b5796915dc45ff745cfb4e990a7e7c93d6f546328a102ce31448d69ebc37575c"
  
-+        # Verify the cmake-kit is added to the location where CMake Tools looks for it
-+        with open(os.path.join(xdg_data_home, 'CMakeTools', 'cmake-tools-kits.json')) as f:
-+            kits = json.load(f)
-+        self.assertEqual([kit['environmentSetupScript'] for kit in kits], [environment_script_path])
-+
-         def runCmdEnv(cmd, cwd, output_log=self._cmd_logger):
-             cmd = '/bin/sh -c ". %s > /dev/null && %s"' % (
-                 environment_script_path, cmd)
--- 
-2.56.0
-
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
