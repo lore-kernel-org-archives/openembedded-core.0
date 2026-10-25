@@ -1,287 +1,195 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25390.1792944228067776669
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25636.1792945843209366706
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Oct 2026 09:03:48 -0700
+ Sun, 25 Oct 2026 09:30:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=DQCWi/uc;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b09e07e149so17993897b3.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 09:03:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792944227; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ExaIOEQVNq/V63Do2RimE/Yw2v/n3rukQNKIZYgl8o7KzqYqneGqqn3UMXo/69nf4y
-         V6ZI/N0TtnsZG4s1BTD15DGuhzylg7W/WN+IYNmneVMJ03J/4hfupBDWnZ85zEOL/az2
-         ew8qgrgqLY7mBnHuFOcpgXWer2d5+dc8kkehIO8Fpj5FD8xRYaOP3NTbDfVBQrbGU2QD
-         v8x6ClslDMsiSZ5hwlojamyYjeAp/G6n3Fby3EAUHURNZfsLEx7jB+Aw3vhL40N8FYer
-         I1v5nO1DfeP0/Hmf9b+6Iw0gipL4VnuOF9BwUDGBdRYe88pKwV6FNxWbY2ZX3LNE18pv
-         LAKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Wk0cj+9DgYTYzI5Mez4uz3rT+0bgscxo+Vyz+SJg54A=;
-        fh=TtWEwYxAhL06BO0lrR+38mEnZFJSo94qJHK6mW5fsWE=;
-        b=mONDM8pESSowds/r5JZZw0yGEf9NTEQR9pcCiQDTpzX3o8O7TvFKxU2HMQbXF0jNWk
-         50xD4NXBE/uEpc39FmUvMx2k40UAVgx1Xlh0pOTEuGwXVPXj1vhslWn1GXh9lxt3jZf/
-         TypSfElrWoz5/3fKlCuv5vIqPVeRiZXdgMA9FFZs2HYQmChFivldb/v0Tv3tqTeg+trs
-         8AZVWlwJsTMCf0eLm60QiZC7AwOdsiYa8d6cm6KwQy5ALp43g1/KReqhu9XykcPCuh+1
-         1c9hp1U/5qT++MsIg12WLkeMAE2t7mfQjmZCZAbKmnnaQR5WDoDLDo1bQaJLnZYU7DWS
-         fQhw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=OrKE5xSA;
+ spf=pass (domain: gmail.com, ip: 74.125.82.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-14394530ec6so2889168c88.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 09:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792944227; x=1793549027; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Wk0cj+9DgYTYzI5Mez4uz3rT+0bgscxo+Vyz+SJg54A=;
-        b=DQCWi/uc69D0rxhn3RxfwtJEW1KTJIjQsJXKnhHsXe5IEyfGDCFtPHRSRmOe8QzmqQ
-         y8hI3fVFdJpKl5/6VdDYugzlUcgejnOLwA52nY3Ahc1SM6sQgcv/P7qg/A3FwurBULvy
-         L5H4bMe71ipOPJLX5iocLYc1h2CWXnHOWkO2XhguTxkLvCS5D5GfY8MrwCaDmQzWC63/
-         f87F8SYSBlEXyJk2WM9ZtjXqUksy4q4WDSa+6Ah4zF4BOK3QqebL9V7hYTKqpBNRPgW0
-         WO2caNCn3nD1K/33HAGjiAsJSyvzQtvXRAvM6tIo0DR69iT5uX3Tv9iCboDkdXTK2pRC
-         glRQ==
+        d=gmail.com; s=20251104; t=1792945843; x=1793550643; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LBMkmBvcip27SrGYLhbSpWOL3vyHWLoSnyt96XuF8zg=;
+        b=OrKE5xSAc2H8g9PBFiuUf2bS4HHUlwVzyeQFzjUEWxafF6OhgTP94gDeYjviWhhffX
+         u2VgwABwF/dvKlfejLXmKI1BkCdP8NxQn/re+llZy1yhvwJU06IoLuXymSBZvebjV7x/
+         nBJ10EEi0dr01pY/eOw/+EJ55Ig8SSPlqa8UEyn8hb7zUHjlxHr0lYXxvjIJF8igKoQv
+         Rr0bwQuHMlYDmsr/bY1ezo7unBFM7XXgSVbUR6SrYmW2ymw4BScPV4qff4bLr0gz5JTJ
+         qYKtkXbs5/Qy1i24Lw05Ftjt2TdQCyBum3u7Pk+MEfNbyOyAgnczABKEpnd3+Oae34G0
+         +zbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792944227; x=1793549027;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Wk0cj+9DgYTYzI5Mez4uz3rT+0bgscxo+Vyz+SJg54A=;
-        b=y2Ta0xenT5razBUnLn3oKTMI2/rD+hVbT7wuP4uUx85ai2f1vEHPfz15BpRa2cW5dY
-         5v68TKd+a7sZ4jDRdV27peW9Fh90f/4EhzA+C6/nk8Vmuol315MxbMCetdJI2HVWljnC
-         BpwCsXJ23h54UIjxPpE/2nQOd8NxqT/K7HA7yi11AoFJCFLtBZrSiJa9eUUcvjZb6ooR
-         fYS5KO/GynWPirpSVUQ+CcTRRm6L/qnENaHP+a9Nr0lYcBBfORE2TvOxgeORurv/TOIa
-         JQycCLc3zAC0O+c7jemgpGNQJsMY1ah64qr8AmAyIWDlODJApjNIQE2oqdShb1yLNjoU
-         LILQ==
-X-Gm-Message-State: AFq9FYIkLVfFA+LidWpnaCZXJJzw1FYundSI/Q7ljQLdFbXI2TSryu+J
-	pIRLj49rvuABbd/8bnthAC6Z3uxzYnujDIhshcZzOCe2qQdLY2e3hjBk/MM1PPaVVsqZIMhwHDz
-	F8ehsmqnBaPSwEkusgy0V1rx4azqwdsazVQ==
-X-Gm-Gg: AYBFou1A5ot9UruZAuX2iNynpnNLH4ZMc7JUpo9HzAp4i8E3CFsYItcCLpJz5tBTHMu
-	zDvq96vAFGv/uidCdNdTgO+bHaubQCbAgZU/qQcRvIm2qnJ7NdeDqs+fMK7YzxigsK51yF7/G2P
-	A/JMxYwAkPK9s7Zba1wVxyLiIyP+OwB7NGfnwyuRJzgbRY5tbyJcZTAXddhTrQOLMxC5t6jonr6
-	yWv1xTRsJHXa98LtaZAj3kVdgIQPiHCn8SfeiA4wNpLBaivDiVFgu7ssRlzagXEozf63CVyQe0Z
-	YrKMzwfnXS9Fcgg+i29JBTzrimmEAr0/6z1aUfFfqdOYxXRiOG2PtbGWf159wx0B3rQr+UoSP/0
-	IKIYdEaqeEbk9yme9OixmImFW5mY2GE6UZiPhF7F1tcdyBe9EC6DMLq0amiAZGobJI212BhZg47
-	g8alVT/bt0KoTO4P01jsfwTOP1pqa86Re5JVfOwNNnkxc1N/a7IBLAlwMaE64fY0YHYecL+eJsL
-	mcKkQ248+RAmkRB0Et2Z+5u75CeWrUKxXzJDlYlxrAtmieLU7m/Xx8lG7cDSObHkyJtNkJPEt0q
-	0W4LdswLjG3UK0dqjhktYcxSReJEIQqKyeJiQL503rC+5VgTXDdRL1s8lnNDj2RRd4G/dGfJbPo
-	P3J80Cji3Mq8svwpQn5+kqKrw5m5XNY7eAHDgRWE0acI=
-X-Received: by 2002:a05:690c:585:b0:8b0:9eab:b77c with SMTP id
- 00721157ae682-8b166bd8ca8mr29762237b3.55.1792944226967; Sun, 25 Oct 2026
- 09:03:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20261025065645.1993425-1-khem.raj@oss.qualcomm.com> <49205f5f-53b5-4874-aac6-4cbd908d5eab@kernel.crashing.org>
-In-Reply-To: <49205f5f-53b5-4874-aac6-4cbd908d5eab@kernel.crashing.org>
+        d=1e100.net; s=20260707; t=1792945843; x=1793550643;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LBMkmBvcip27SrGYLhbSpWOL3vyHWLoSnyt96XuF8zg=;
+        b=CRtogHaKTgeFgBIfPxlt3dTtuMPRpw3ELyPHWHKxECY8EOHbW6Xx+7vNSofBlt66hz
+         kjlrkrWp5/EX3YG7MqhGLjrrhIczmbp81AwFtxSTc1Mvzvo7yKTDLGh2Ncpq/hiMpgXU
+         1YWzRpvndxIHzSROZsa3Uxqm9T4/DVHSEHa1uRDYRHIrcBQ01ZjunuTeIzchvJ0xIqIU
+         UkBh1zcxf1sXiwvl25LUG5as0hV/bQfQQDKlDo4FKMOqRiXFce2cIRE5JW1tNe3FUnEW
+         Nij4oxP4ehhy58OkJwCLh7Du1b+0qQak99SQHnyo/PUL6BvthM2A6hX6VnbXgLr8umIk
+         gqbQ==
+X-Gm-Message-State: AFq9FYL1xhxwx8nMtJmOD9dD9k8epMgn3r1y/ZSzq9s+rETHrAF1AMtH
+	D0y/ypmXV1N7H7XAUyldcuzUOLmoYG+aABIavu6y300mLV8UYQlyDL65wARwv0yregI=
+X-Gm-Gg: AYBFou23F9y9zAx0u+6sobCAKh3wUYer0CVT1YQLeolsGCOA6pT2S2kuDRh49zvg4be
+	RNu3t7lcIPBX3c0/Dp51w8nNLgh5KSAkM8fNexSA+Nm4yz/VzWuWlWK/u7vW4e63ClOuyaxEr+t
+	rIyQpxyQ0PlKIoY3r8iZT6OmWOeNOiXm82LUcU2i0HQscHEDAfiYpWaL5WZh2EYeR4FPJ5wLiwH
+	X6OAnWyzZE6D25vQdzA1r7g5vzn8M1OG3hiVn2SPqSMv7HQRqUG5uZjDc96gMud3bwnvoqdbgcL
+	MVPn8qhSyTiiFznP+XsJqaB4PGFeBdy9BMpuojaIyy2rmg7Qm9XMBbIMShHpOLFJc2NLnJ3TR+a
+	BvEgHpPjnRu6YZ+NdGpOPEbOHkH0UhEfi9vpmOX5Vo+5Fo/ZiHqVb/ymUtSc/4TQRvZEbo1dSJG
+	p/UkoqVbBNn19hNdW34ZdoCPHvaI8EZEJq8e0j2vcG/CjZrxLq4izCiY0qbCIUMRFXyOV+x3lbO
+	+O1P2uVNa1qsR8sScnAwGBy1SU3pw1l+8qEO6Jb4VzhyuRJBcyc/tT8PI9tAMIVQs2zMimLo0Us
+	X/gOsYlslDmvkOv18Qk/JN8DkNv5wnffM+jgfalUbZ+T1WiOpjcwm2q8uwP4362lZHwfp5ZeTLQ
+	dd0sCY0JTiZiT5wLT2qAd8RxYQqNiD3gRWQaTi6r3KtVJ8ywIxdsHgEj9qTlLfldusZY0x1PJI1
+	HPRYOFKEQcXfh+7X7to+pvXCL2HRO5BnZpnkrN4P1eYT9kK0V6MrAbIy9X+7EporVL++GxQMYlR
+	r9DXwD9+3CK7jr4WdyVDC6t00JgumE=
+X-Received: by 2002:a05:701a:ca0d:b0:144:eb46:be0 with SMTP id a92af1059eb24-19934a952bbmr7725013c88.13.1792945842359;
+        Sun, 25 Oct 2026 09:30:42 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1989ff2eefbsm18042806c88.7.2026.10.25.09.30.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2026 09:30:41 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 25 Oct 2026 09:03:20 -0700
-X-Gm-Features: AclHuK9qo5wdl-je1_RrBDm2JsWuIwF_hhM9QWMHYGlkE0njKUii5aQwy4vfWVM
-Message-ID: <CAMKF1srsmxXYiZ0iax6FGA2TnUZPBPL704nzwHOvH8sFM8THjw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemuriscv64: Enable the Vector extension in the kernel
-To: mark.hatle@kernel.crashing.org
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c0234b065eac5b28"
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] mesa: Fix TLSDESC detection on RISC-V
+Date: Sun, 25 Oct 2026 09:30:36 -0700
+Message-ID: <20261025163036.3190745-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 16:03:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248609
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 16:30:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248610
+Content-Type: text/plain; charset="utf-8"
 
---000000000000c0234b065eac5b28
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+mesa's meson.build enables -mtls-dialect=desc when a probe program built
+with it runs. The probe's TLS access is in the executable itself, where
+the linker relaxes it (lld always rewrites TLSDESC to local-exec), so it
+passes even when the libc has no TLS descriptor support. glibc has none
+on RISC-V, so mesa built with clang/lld fails to load:
 
-On Sun, Oct 25, 2026 at 8:17=E2=80=AFAM Mark Hatle via lists.openembedded.o=
-rg
-<mark.hatle=3Dkernel.crashing.org@lists.openembedded.org> wrote:
+  libgallium-26.2.4.so: unexpected reloc type 0x0c
 
->
->
-> On 10/25/26 1:56 AM, Khem Raj via lists.openembedded.org wrote:
-> > QB_CPU defaults to rva23s64, which mandates V, but linux-yocto only
-> > enables CONFIG_RISCV_ISA_V when TUNE_FEATURES contains 'v', and
-> > riscv-isa-clear.scc turns it off otherwise. With the default rv64gc
-> > tune the kernel therefore runs without V support and any userspace
-> > vector instruction raises SIGILL, even code that selects RVV at
-> > runtime.
-> >
-> > Append riscv-isa-v.scc to KERNEL_FEATURES_RISCV so it lands after
-> > riscv-isa-clear.scc. Userspace keeps the rv64gc tune and stays
-> > portable; the kernel detects V at boot, so this is harmless on CPUs
-> > without it.
->
-> This doesn't make sense to me.  If we want a default configuration to
-> include
-> vector, then we need to select an ISA that includes vector extensions.
->
+This shows up e.g. when gstreamer1.0-plugins-base runs the GstGL
+introspection dumper under qemu. Add the patch submitted upstream, which
+moves the probe's TLS access into a shared library, so the dynamic
+loader has to process the TLSDESC relocation.
 
-Yes, at this point, we do not have many SBCs which is using rva23gv ISA
-except
-k3 maybe handful of others, so changing qemu defaults to use RVV by default
-will
-mean we are not covering the current widely used ISA as default but there
-are packages
-which need vectorization. So its enabling rvv in kernel but
-keeps the userspace ABI to still be rv64gc.
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+---
+ ...LSDESC-support-with-a-shared-library.patch | 89 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  1 +
+ 2 files changed, 90 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-meson-check-TLSDESC-support-with-a-shared-library.patch
 
-Bumping default tune for qemuriscv64 to use rv64gcv is straight forward
-however, it
-does mean coverage moves to rva23 and newer. I am fine with this as well.
- would be good for others to chime in.
-
-
->
-> Same with userspace, if anything is using vector instructions it should b=
-e
-> using
-> a vector based tune.
->
-> --Mark
->
-> > Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-> > ---
-> >   meta/conf/machine/qemuriscv64.conf | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> >
-> > diff --git a/meta/conf/machine/qemuriscv64.conf
-> b/meta/conf/machine/qemuriscv64.conf
-> > index a753af0576..0aacfa378f 100644
-> > --- a/meta/conf/machine/qemuriscv64.conf
-> > +++ b/meta/conf/machine/qemuriscv64.conf
-> > @@ -6,6 +6,11 @@ require conf/machine/include/riscv/qemuriscv.inc
-> >
-> >   XVISOR_PLAT =3D "riscv/virt64"
-> >
-> > +# The default QB_CPU (rva23s64) has the Vector extension, so enable it
-> in the
-> > +# kernel even though the default tune is rv64gc, userspace can then us=
-e
-> V at
-> > +# runtime. Appending here places it after riscv-isa-clear.scc, which
-> disables V.
-> > +KERNEL_FEATURES_RISCV:append =3D " arch/riscv/tunes/riscv-isa-v.scc"
-> > +
-> >   EXTRA_IMAGEDEPENDS +=3D "u-boot"
-> >   UBOOT_MACHINE =3D "qemu-riscv64_smode_defconfig"
-> >   UBOOT_ELF =3D "u-boot"
-> >
-> >
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#248607):
-> https://lists.openembedded.org/g/openembedded-core/message/248607
-> Mute This Topic: https://lists.openembedded.org/mt/121924427/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000c0234b065eac5b28
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Oct 25,=
- 2026 at 8:17=E2=80=AFAM Mark Hatle via <a href=3D"http://lists.openembedde=
-d.org">lists.openembedded.org</a> &lt;mark.hatle=3D<a href=3D"mailto:kernel=
-.crashing.org@lists.openembedded.org">kernel.crashing.org@lists.openembedde=
-d.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex"><br>
-<br>
-On 10/25/26 1:56 AM, Khem Raj via <a href=3D"http://lists.openembedded.org"=
- rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; QB_CPU defaults to rva23s64, which mandates V, but linux-yocto only<br=
->
-&gt; enables CONFIG_RISCV_ISA_V when TUNE_FEATURES contains &#39;v&#39;, an=
-d<br>
-&gt; riscv-isa-clear.scc turns it off otherwise. With the default rv64gc<br=
->
-&gt; tune the kernel therefore runs without V support and any userspace<br>
-&gt; vector instruction raises SIGILL, even code that selects RVV at<br>
-&gt; runtime.<br>
-&gt; <br>
-&gt; Append riscv-isa-v.scc to KERNEL_FEATURES_RISCV so it lands after<br>
-&gt; riscv-isa-clear.scc. Userspace keeps the rv64gc tune and stays<br>
-&gt; portable; the kernel detects V at boot, so this is harmless on CPUs<br=
->
-&gt; without it.<br>
-<br>
-This doesn&#39;t make sense to me.=C2=A0 If we want a default configuration=
- to include <br>
-vector, then we need to select an ISA that includes vector extensions.<br><=
-/blockquote><div><br></div><div>Yes, at this point, we do not have many SBC=
-s which is using rva23gv ISA except</div><div>k3 maybe handful of others, s=
-o changing qemu defaults to use RVV by default will</div><div>mean we are n=
-ot covering the current widely used ISA as default but there are packages</=
-div><div>which need vectorization. So its enabling=C2=A0rvv=C2=A0in kernel =
-but</div><div>keeps the userspace ABI to still be rv64gc.</div><div><br></d=
-iv><div>Bumping default tune for qemuriscv64 to use rv64gcv is straight for=
-ward however, it</div><div>does mean coverage moves to rva23 and newer. I a=
-m fine with this as well.=C2=A0</div><div><span style=3D"background-color:t=
-ransparent">=C2=A0would be good for others to chime in.=C2=A0</span></div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Same with userspace, if anything is using vector instructions it should be =
-using <br>
-a vector based tune.<br>
-<br>
---Mark<br>
-<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:khem.raj@oss.qualcomm.co=
-m" target=3D"_blank">khem.raj@oss.qualcomm.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meta/conf/machine/qemuriscv64.conf | 5 +++++<br>
-&gt;=C2=A0 =C2=A01 file changed, 5 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/conf/machine/qemuriscv64.conf b/meta/conf/machine/qe=
-muriscv64.conf<br>
-&gt; index a753af0576..0aacfa378f 100644<br>
-&gt; --- a/meta/conf/machine/qemuriscv64.conf<br>
-&gt; +++ b/meta/conf/machine/qemuriscv64.conf<br>
-&gt; @@ -6,6 +6,11 @@ require conf/machine/include/riscv/qemuriscv.inc<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0XVISOR_PLAT =3D &quot;riscv/virt64&quot;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +# The default QB_CPU (rva23s64) has the Vector extension, so enable i=
-t in the<br>
-&gt; +# kernel even though the default tune is rv64gc, userspace can then u=
-se V at<br>
-&gt; +# runtime. Appending here places it after riscv-isa-clear.scc, which =
-disables V.<br>
-&gt; +KERNEL_FEATURES_RISCV:append =3D &quot; arch/riscv/tunes/riscv-isa-v.=
-scc&quot;<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0EXTRA_IMAGEDEPENDS +=3D &quot;u-boot&quot;<br>
-&gt;=C2=A0 =C2=A0UBOOT_MACHINE =3D &quot;qemu-riscv64_smode_defconfig&quot;=
-<br>
-&gt;=C2=A0 =C2=A0UBOOT_ELF =3D &quot;u-boot&quot;<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#248607): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/248607" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/248607</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121924427/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/121924427/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000c0234b065eac5b28--
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-check-TLSDESC-support-with-a-shared-library.patch b/meta/recipes-graphics/mesa/files/0001-meson-check-TLSDESC-support-with-a-shared-library.patch
+new file mode 100644
+index 0000000000..397e9935d4
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-meson-check-TLSDESC-support-with-a-shared-library.patch
+@@ -0,0 +1,89 @@
++From f5bde7a5bda6bc10eafd132e0a8a8e7ce9a69779 Mon Sep 17 00:00:00 2001
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Sun, 25 Oct 2026 09:09:05 -0700
++Subject: [PATCH] meson: check TLSDESC support with a shared library
++
++The -mtls-dialect probe runs a program whose own TLS access is meant to
++exercise the dynamic loader. However, the linker relaxes TLS accesses
++in an executable, even when compiled with -fpic: lld always rewrites
++TLSDESC to local-exec there. The probe then passes on systems whose
++libc has no TLS descriptor support, e.g. glibc on RISC-V, and mesa is
++built with -mtls-dialect=desc. Loading libgallium then fails with:
++
++  libgallium-26.2.4.so: unexpected reloc type 0x0c
++
++Build the TLS access into a shared library instead and run a program
++linked against it, so the dynamic loader has to process the TLSDESC
++relocation.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/45593]
++
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
++---
++ build-support/conftest-tlsdesc.c | 23 +++++++++++++++++++++++
++ meson.build                      | 21 ++++++++++++++++++---
++ 2 files changed, 41 insertions(+), 3 deletions(-)
++ create mode 100644 build-support/conftest-tlsdesc.c
++
++diff --git a/build-support/conftest-tlsdesc.c b/build-support/conftest-tlsdesc.c
++new file mode 100644
++index 00000000000..2351f6fef10
++--- /dev/null
+++++ b/build-support/conftest-tlsdesc.c
++@@ -0,0 +1,23 @@
+++/*
+++ * Used by meson.build to check for TLS descriptor support.  Built once as a
+++ * shared library (CONFTEST_TLSDESC_LIB) and once as a program linked against
+++ * it, so that the dynamic loader has to process the library's TLSDESC
+++ * relocation.  A TLS access in the program itself would be relaxed by the
+++ * linker and could not show missing libc support.
+++ */
+++#ifdef CONFTEST_TLSDESC_LIB
+++/* Not static, so that the compiler cannot fold the access away. */
+++__thread int conftest_tlsdesc_var = 42;
+++
+++int conftest_tlsdesc(void)
+++{
+++   return conftest_tlsdesc_var;
+++}
+++#else
+++int conftest_tlsdesc(void);
+++
+++int main(void)
+++{
+++   return conftest_tlsdesc() != 42;
+++}
+++#endif
++diff --git a/meson.build b/meson.build
++index f725f833a52..75430283eb2 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -651,10 +651,25 @@ if not have_mtls_dialect
++     # The way to specify the TLSDESC dialect is architecture-specific.
++     # We probe both because there is not a fallback guaranteed to work for all
++     # future architectures.
+++    #
+++    # The TLS access has to live in a shared library: in an executable the
+++    # linker relaxes it, even with -fpic, so the test would pass without libc
+++    # support (e.g. glibc on RISC-V, which rejects R_RISCV_TLSDESC).
+++    conftest_tlsdesc = files('build-support/conftest-tlsdesc.c')
+++    conftest_tlsdesc_dir = join_paths(meson.project_build_root(), 'meson-private')
+++    conftest_tlsdesc_lib = join_paths(conftest_tlsdesc_dir, 'libconftest-tlsdesc.so')
++     foreach tlsdesc_arg : ['-mtls-dialect=gnu2', '-mtls-dialect=desc']
++-      # -fpic to force dynamic tls, otherwise TLS relaxation defeats check
++-      tlsdesc_test = cc.run('int __thread x; int main() { return x; }',
++-                            args: [tlsdesc_arg, '-fpic'],
+++      tlsdesc_lib = run_command(cc.cmd_array(), get_option('c_args'),
+++                                get_option('c_link_args'), tlsdesc_arg,
+++                                '-fpic', '-shared', '-DCONFTEST_TLSDESC_LIB',
+++                                '-o', conftest_tlsdesc_lib, conftest_tlsdesc,
+++                                check : false)
+++      if tlsdesc_lib.returncode() != 0
+++        continue
+++      endif
+++      tlsdesc_test = cc.run(conftest_tlsdesc,
+++                            args: [conftest_tlsdesc_lib,
+++                                   '-Wl,-rpath,' + conftest_tlsdesc_dir],
++                             name: tlsdesc_arg)
++       if tlsdesc_test.returncode() == 0 and (
++             # check for lld 13 bug: https://gitlab.freedesktop.org/mesa/mesa/-/issues/5665
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index da71a0bdb0..64f5de12b4 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -21,6 +21,7 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch \
+            file://0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch \
+            file://0001-gallivm-adapt-for-JITLink-in-LLVM-23.patch \
++           file://0001-meson-check-TLSDESC-support-with-a-shared-library.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "bce5f7fbebb934373b86c999a064d52fb5065878dc57f287f95346648ec832e9"
