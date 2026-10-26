@@ -1,542 +1,680 @@
 Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.1])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.40072.1793010714082523059
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 03:31:57 -0700
+ Mon, 26 Oct 2026 03:31:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=SCvnj5Hz;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=XMEDqzS/;
  spf=pass (domain: est.tech, ip: 52.101.65.1, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HU5jHezeMXecmDqW0Ni8iiTGZ3Kz6F/QDdlNWVIZaeQZtc7/bRKIbiA7TaIU+wsc0pRB2eV/QHXPyI9FC4UVrOqUqF7X3IyXffe5bSASXnP8v54c5iLbH+OsCmWgO7TWqNm8JnrEljjzyTlMeLZ/AcM9c707kAmHSIcZwkmJ8+BBlCfT4wVmxs505YYWUDM1w36hHQFPU7Olpf3JylXAd73HvVYSwLDCJPli27sO3iKEMez2ufTfKvwbh9/Wjqkf8lGb3BHmqwRcFO1GimrQNfFW95rxHGETS0gWLuHPDc2eA5sRp7uP1QesxmXZs5ZRJ1u4JKn05lyyiihlpr0Cvg==
+ b=DOYmz2qa4WLa8t3ECYAMw35z9n2eMP14fZfzbdKlHlX2bs/QmmrUPiuEQI82rmD1JsGQicgS/YjRIFpUU/zasORjul1WCitc0arOD0u4mZ7GIywOTfkGhowDTZhfbn/pCFcBc2+fRGF1hx5iaxn/5+UOZiRyGDnCRSzQ9FF0gq+ENT9MPRhWrfKrG1zxpl79wcvycHYtDlT1FO9BMavI/ya/gMU/FLX3HsN4IH9XdbAUGdDiRbG+2PvBRejc26e8g8jvTYKBEk5o2sJ6lyYBK7FSfwwlif2W3dNWY1KcmiKhen4VYVrXiEAhR0XK4NbkS5400000P2SwYAkpkFohWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=85uLoxsqdWO2r/X4IeFoIt2QFy/FNCH9ch0TGb7kOfc=;
- b=yh3MzYcKVKiwIuy7ubfzOYTh12bh1s6zIwmy8a8p9kwFS3tFQwejdJGWHCztTZRWiybvkkciw62hBXDnkDEfFUizPMe6i8cGb2C8IUQ5T8DEy+bTqV1v+ld8BF3FzFBF1N5GJgCgeZNkPOtgQu5v4sW6PTqUlSEHIkibdieWmV23BbrPKUBslUadKbO9Pe5pbM8sBXew97lfHQwJS5NO5/7d/3SU1YEpAczZvkvMPnL21gbNMYwyF8w44rDW4flS95NJ2zMqg+BgtrBol0CTRSGiJLXLdyC+6p4OnwXbzkz13oAcCjsH98D1wTpCQTSGbi2uC9PZqWtZjzkwVUC2sw==
+ bh=jwo+dO//WKxGDaylMozsZQlQA1gRZznoGSvT9dEyRzw=;
+ b=NSECB4f7VMCmzPTJp2FLoT3XzFmTDAlQqLksaDqBEJo2dPNJyZ6h8j8FD3Q7taLBwtjvg/iohywuIGn1DSnj3lQg32bJyf1I6TwfGhRxsNHKzA/Sxopb0FDAj3fMieFx+siXPPsPRXp0SeIyXkhtKoC1WPbw9OILst4pt4lEfY94bzS/9nF6vU5JgnwTtW8pFUq9mlJwT8quCwNBq2owv2oaiuZ/0R+AKaVn5W7gArGHmYIq48+rIGQLb6l0EsObDcjVoQbdtMHPfutmGYvGPCBX2Pwab7GWepUXTM25R3AxO3Cy3n76/Bussa3HIjWrV7bzvQEQ5TFK4LHGgyGIhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=85uLoxsqdWO2r/X4IeFoIt2QFy/FNCH9ch0TGb7kOfc=;
- b=SCvnj5HznU8Wmyrj7CqBITI27OIdK1o3HP5KQRkisKjoofj1ihG9vtFr2QxF6rBiq51j3eaO31L6Aqix0fLIbl3o7H0z+8NWRhIOmFAG/xKE5WNHwuT7SEkAjBFsI1ewJyGFhhRa4VbyklJD5NQjNkAxEFLvKn9hi1/7H4TuGK1VCVbH2/72Hf/EfA9KTOH6AoClJkOmjt3wULKXKQLuL+Wj4hnI/JLMXgyUGhYi6InY7ZBUywpf9If8eWUODTC287iBaWEQXMVRPZyDguj8MZkxiGVKjzZTQVjxdmCnLnB74rZUhY1jdG87Yn155nGOcr2Eb3WmmU3u3dnSQIc81Q==
+ bh=jwo+dO//WKxGDaylMozsZQlQA1gRZznoGSvT9dEyRzw=;
+ b=XMEDqzS/JWENyMOtdFSOJzTe5dvh+hgiyAmeEzeTbwRNlztlkIkF+pn8TtAmF3Wb/CjWKKU5IfLgyLO0euJTpUDPnXoCu7xaIBqNhjx5GEISoRe3QRxKpRcsZtl78MkrMhvDuoCH4SupDikfN7G9BaEiIkzuCuDrVGtgHy9bfYm20eV7o7Zyad44xvVVKs3OWZxAHzansbpu630EDhEEeN2MPJ8Rsch0fzLYlinaGeE4ZZTC3+YEafbMzZPiW3ldaR6MVMJp9sWKGW/7rspY3nuJhbEGYzGUbA6a8cMtCTUYqj6Pvjh5rqVXiiDADkSSO7qUbEdCMr2+gmyb+BXNfA==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by PA4P189MB1280.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:c9::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Mon, 26 Oct
- 2026 10:31:53 +0000
+ 2026 10:31:51 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0546.021; Mon, 26 Oct 2026
- 10:31:53 +0000
+ 10:31:51 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/12] librsvg: upgrade 2.63.3 -> 2.63.4
-Date: Mon, 26 Oct 2026 11:31:34 +0100
-Message-ID: <20261026103138.3137-8-jaipaul.cheernam@est.tech>
+Subject: [PATCH 07/12] valgrind: upgrade 3.27.1 -> 3.28.0
+Date: Mon, 26 Oct 2026 11:31:33 +0100
+Message-ID: <20261026103138.3137-7-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261026103138.3137-1-jaipaul.cheernam@est.tech>
 References: <20261026103138.3137-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO2P123CA0099.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:139::14) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO2P123CA0094.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:139::9) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PA4P189MB1280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43988d99-6ffe-48ce-c3ae-08df334c5a0c
+X-MS-Office365-Filtering-Correlation-Id: 53bf5fca-1102-4001-a7ea-08df334c591a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|261009221227099003|261009223027099003|261021130227099003|261021135927099003|261021133027099003|261022113327099003|261022115727099003|261022075727099003|261021121427099003|261021123027099003|261022105027099003|260925022911599003|260925021911599003|260925021311599003|10067099003|56012099006|6133799003|22082099003|18002099003|11063799006;
-X-Microsoft-Antispam-Message-Info: BEApJ5rmNvZKRNCOPfzVvDL2ulT6OzknIABK9F/R+PKPiMp9/Wmt31+i9Cb9wvAIQQul5tExCZ6txE6WE8qQHNTfvvmeuZG22MHq+E5wx+91Hb7++QOnZA7ohgNITa/VubnUC9qf1ygUFxnawYNCQZw1h0duh1DgB+IYmp/X87HVG8RqVqxaAiTCN9Y6YFvT4EgWwk1qO3Dn0WqvOCIMGD0vjxZFFYETtvao3eajIvgfUGJGpOTyNJRnutaOwnO0vLBRlwv6RIFKWakg1ls8pSBQQaxkR9OY0U5nLC0yUnpJQjPVSS4JZBz+xhv41hNUivgXrvvE924rbpdaqUTp4N/HXa4a7MfuXdLXKoyxZCCHU/BTpNE/51ilpDaZtJ0DjsL85VtGTn937dt9Kmq2jXFpig6rFFbGIEdbqIYckY+Q8cjB3pf+vo7avFA5oI84+ZFG1NywUAVBXeiTfnLkiTIl3n6sPgUs047cp7C98emM0Ipe+1BqhkAzrzFglWYczEkdjyjLG00tLzWHz7wtquzgT28CUUeSaZ5XiVjt0fUhidMKDSQANmGlZcuH5oekHn5jiRG1pLYBKxJuSqLRCJ78/mrAAkc6fyauB3vrExkp6Opzp0ijhuQdyuHhCWcDRQPdX0NI9J8IdqdYPbUL2TCKiFVtBRO2v1+HkA2gNlk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(261009221227099003)(261009223027099003)(261021130227099003)(261021135927099003)(261021133027099003)(261022113327099003)(261022115727099003)(261022075727099003)(261021121427099003)(261021123027099003)(261022105027099003)(260925022911599003)(260925021911599003)(260925021311599003)(10067099003)(56012099006)(6133799003)(22082099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|261009221727099003|261009223327099003|261009221227099003|261009223027099003|261009220027099003|261021130227099003|261021135927099003|261021133027099003|261022113327099003|261022115727099003|261022075727099003|261021121427099003|261021123027099003|261022105027099003|260925022911599003|260925021911599003|260925021311599003|10067099003|56012099006|3023799007|6133799003|12006099003|22082099003|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info: IxFDCx/AbYzoiyVOcFCEVE9DEteFo0bhAO6XHx4LslyEhaW26g28wE/0brEzOe06c4FVSnC4+8uz4jbANvW2fL7DMDCp06mEzS1Z05aDCccHlAFtCWb0jcbkQQsUySEnZzv8ExYgVnGv3LjMfZvVosDJQNKRC3Mi8CI+9tC5EDYqgjaqK9aZ/QdOx9WbR89hhpjuEhh49Z8NOMdPqJ60Rf8H0x/lGXZQi++Y1fdgp/anJYeIv2mSk/rpilvobymSfNqlQ4snieICs2fMsQG8FHk0tIR2ZCmCPiZtCK6dJ6fZdF0tUGqeGZbPgR3wqV6pTeZsz6JyVmcmuAEVWDUMfxrKck/YG6/LrKWr6TJK78grw0VgDY8XaLqQ1sULIkcf7DzI9FPwysSloXBLLrCE3qPpeCwWFV9k+TyuIESCF1KkjGMGW5B16Z/LlU/9pOzxAhEcpluAkN8J79/8idCxtL+AyjkRH58/z/Wo6pbISDGeaF5Y9iS41SitDbMjtry5K8kg8TnSSrOM7qdQ5xurC0Q/CzxVZTcoBWAjfhmQ1ZNcJQlM9oKrybYxzHvOD8lY51n/B0KXwcfP/3uO8m57YBN2knpzvDhCWjoVtPhWAg8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(261009221727099003)(261009223327099003)(261009221227099003)(261009223027099003)(261009220027099003)(261021130227099003)(261021135927099003)(261021133027099003)(261022113327099003)(261022115727099003)(261022075727099003)(261021121427099003)(261021123027099003)(261022105027099003)(260925022911599003)(260925021911599003)(260925021311599003)(10067099003)(56012099006)(3023799007)(6133799003)(12006099003)(22082099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Zn0OOgMQ/d1Lb4IHbn0X3mpb1MrpAZkR8L9O/N0pyxmUhvnCtypNjLKtl1NT?=
- =?us-ascii?Q?2WuHrWiEi/YCtT8HwbPfvZjdjiAtLtIVLaTon/B96ONzVLGPKf3V/CV46WjF?=
- =?us-ascii?Q?FcLpaVGnjvYZxz0KPLjLat/SqN/uYivGSSQ3brWyvKnC0hxoJCleXt40Jvds?=
- =?us-ascii?Q?gi78wrgcOq7HVlzu5DLAjdvTszQ7zCwf8WKb/n3yo7O9PAsvMkUe2jOwPBXt?=
- =?us-ascii?Q?ARNTWOgccbY/7w6GSKPNN6Q6T1h04IHCQrHKzH6EXCtjBNRSdqx1zdC0wT72?=
- =?us-ascii?Q?gadFiGbIZy3nPa/aUWGiGd/yyrw5bFnrd8B0+OLDjidaWMlDKI8+KyWWacyl?=
- =?us-ascii?Q?so0NmMJHmNHz4See59ltCXEUKZueWe1K+HyG9mBI0SNBFK+c1FTHzs/roRSd?=
- =?us-ascii?Q?P8nIwBCp6Zuphyvz5BIuzxCWW9LK3xW9qIo4sHxmzxBCWNshpyCc4rCcspgB?=
- =?us-ascii?Q?YuEnOUMjRtQBsr7Bm50dswh9QWgRe5tIqg250JWd8LU6RmC0KBsMP+Ng4W2H?=
- =?us-ascii?Q?/o9KPyNAfUcgRvee97TxM2Us9/QEuNEViueXzEjnR0KsZ3ed+F9V7JCuNRRW?=
- =?us-ascii?Q?CF1U2ZgcpsiPGfmQEp/GQwXQxt51g7fntzGmjb6vZy26v4K4SXuti151YyOz?=
- =?us-ascii?Q?rl03ce+kmoKKAANpCiOxLfXrdtLGiLB6k2VDwt7DVWm0fUWbwU3+SBj9fwut?=
- =?us-ascii?Q?fbevQItfwIX9c/QsfOcjVca5y/9XWOv5aMq5Y96AkemjgQlg2xHOgQT1ewq4?=
- =?us-ascii?Q?5FZMGgBOS+ubxeMJaeM2++A3LdUBU4/SqbpZeV7sXf9mZ8CdyoRodIr1ASL3?=
- =?us-ascii?Q?ryBuiie+LuULtJQRJ3yTpRclrPPu6Q0ewDknwpVcCws8vLcF58pyuol1rQQH?=
- =?us-ascii?Q?czMXDF/U3qKWz2MM6fiQ9LFfh9DlAWzpK/khf/30KTbXxmuy+qcS8WiG5IqG?=
- =?us-ascii?Q?NULH2U66x4sAwaG82cJzASFqu69AcMhfyEUK6bjV4Q3fhzaJKKF3S48KOCZx?=
- =?us-ascii?Q?7GW9CohHwD1roJIElBw44NuuYQQrgcMFUp+qF5Ka3qBy3mA5rCeg36xEAsDt?=
- =?us-ascii?Q?Jme0sXcw11W4kT8oUYa2Y/QpxDR/E8zvGGsfmVvV+O5fc8IhL93WKgzkzznj?=
- =?us-ascii?Q?4r3XWS+Rp8Mx+UxjKwaf2FLYWd/prRAvgwzeU9n1iscUvempqk4LNn1JL+TV?=
- =?us-ascii?Q?fhUdX6baLXEMdMcgg2Z43lqoJ6nZlXprh5DmK+/60vYUXxcw5iHrbTW2yKo1?=
- =?us-ascii?Q?2pL5u90h/258h5S8Oax1eZGis5Vs1wtj1S+uNBtnaDib2OhmbWv0jYiQ6WtF?=
- =?us-ascii?Q?/kGcGBexqtpaj6gHALkSVGhvdfFmqIFu989j06PuSh/HEOQ7+nFP4MaNDJiF?=
- =?us-ascii?Q?0QH3025JwhBjHcegFI8bmKbz/V2AklfsMyZ+X+qjh1HWL7glU5BCBsR0PjsV?=
- =?us-ascii?Q?pXwEdTXEL0ndYhjITQ/OXnNGSYT/MoNYQlClhuShMZSxGFLglGr42YSGWcsX?=
- =?us-ascii?Q?1DVzaLlVR469e2jNAcyzidUZRvKum+KzRAhwzpAsRAOLcpplCxm9xqtuhWUO?=
- =?us-ascii?Q?Js376oah0uahmg+2ZUzlNgJPu6ZQlh/6w8cqvZU8AqiKB0b3Vt7x7F2bz9Ag?=
- =?us-ascii?Q?uvjKa0Z2+6+x0xfEit5d/PZRBIh5sAZDjKD3vlehy3l0RnwRSZ8ocH7ZEUi7?=
- =?us-ascii?Q?Ie+wbEa7ZAKlpMGffEJ3s4NJd64JA3zVDJH46gzmHLWTAgz+vWbXP+JjFxE4?=
- =?us-ascii?Q?EVZWgtwj/g=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vmzc2O59uRg4xAlZAXVNRjFxE5sx44m5tUKQYKuHZpC+KUm/+isEsCSVzuDj?=
+ =?us-ascii?Q?OLPJ5iMdjRgx0A6wgCBa1XloyFZVu0LpX/6AlOP9yRVggx+u5lKXTvwoU38T?=
+ =?us-ascii?Q?EWWu4i1tuDxoDHB55zvQmRXMz4qAPdrcGMk28sakhoyGuveT4BHuzCZLXgm4?=
+ =?us-ascii?Q?FqypXCCBwcoO39yA6jHDj/WTRhIqj7UT1JFKroPOjBjrfQy0pYZv6QmSACFI?=
+ =?us-ascii?Q?6dYqj+Ebx7Agm1/E30nWjql9vFRNs0ofGJ+yKVl9H36mez8IMyQK8GLFrDbJ?=
+ =?us-ascii?Q?fS2GKOLSS2VQbXU0k75WAzsmy2QeJsOyJlzUbEzpozRjxqyG3/SRrGq/HN7n?=
+ =?us-ascii?Q?BAZskci8EHCTMCaxpgjBb/jK2ndJuL7SS59OXrHlN5o3uu0FSlnUAAagTvFh?=
+ =?us-ascii?Q?PbwtQvfjVUafBfz9iJTcmpfImxdMQH46DRtt7Kv2GtoUmHhuq43KXAX607KU?=
+ =?us-ascii?Q?+8MuXmXfrbeUsX2F87EvDEeLcaEZhb5KzriaWqAP5iJ2fBovFU1d9ab9vVYv?=
+ =?us-ascii?Q?Y3s8M+LybHl/kpEk9dyU/CLYwVCNi3IoYYmarbXxt10mA2t8TCKYbN8X59Eb?=
+ =?us-ascii?Q?+zrBDJjYBj4tWEelv+gyX4EAKomeX43F6Dkh99hE5qc861I9lGyBhnsw7OZB?=
+ =?us-ascii?Q?To3jPvVKS7qt9BplqXWl6SHFDMShKBb/xnPK0O/U1Om8BJITFbI1ZN91KWgL?=
+ =?us-ascii?Q?W5UBxGULMUDOxg9xkGOuxixe0Nm2wXXUj2sJKfZRMIv+LzJEY3mMGAnq8J08?=
+ =?us-ascii?Q?xU0s11sLiZonq30fz0exVsyu5yJEERGH/BYrmia8Hl5yGdmvhXQqDyjhsKI+?=
+ =?us-ascii?Q?CkfG5mz1awj8oV4Xu8G4D2kFkDxVn3HI0+o1qjGgPMC9w9Nrp7xY1lki9nHf?=
+ =?us-ascii?Q?EsqIeMqeM5CoSiXL3kHMWeYdct/Rln6WhNQmddVYj8f5w94LhxwDMl2SrAqA?=
+ =?us-ascii?Q?pt5Y7l/ECbcbkZMsMmW6FMSAI24Ws8bYtvdPqz5TDk6aTda1fZG7MoqkpUlQ?=
+ =?us-ascii?Q?vRpnje132mFHw8lbp9OZfYtqhanIDpBsFd6Q6z29z5EpO+m8VU9EcBb6ENwW?=
+ =?us-ascii?Q?AvM7Zv6d3LqlKL92MwP00Z4iL05aITvBfGvkhAY08MxNJ3V4DBlAKICm5VQM?=
+ =?us-ascii?Q?QG0FRTRr7WuS5nheG++NGSHXrcMNFPr62y9cFxji/Gs63vF3HvHXN+5trIVq?=
+ =?us-ascii?Q?FFIsZrn8XRWXUCl0jMaznepZ25XssfDRfd8rVtfDtYxQLInv565CXV+7pkOu?=
+ =?us-ascii?Q?Ty3Hg98k88+ZoAgIaTE9Yzddtf+yzGPDkVtUX7kjjZfKdu5pLeEphXJNgKYk?=
+ =?us-ascii?Q?rPSjdyn/bFORsRjAVYbdnpPaS/yXqROY4rOSfzQT/Kyfl+umk9nTe1zv8pa7?=
+ =?us-ascii?Q?DJyWc9POrtunvNkjuXuee0vKliMMX3Dk5MrgFnfcbVIPWpJIGDtTuecY+kDA?=
+ =?us-ascii?Q?J4u4vuOrQth1vC39+SCqmNrzwNNfLDQge+n5srW4wH/5v4gX6Alk9jCzUAR1?=
+ =?us-ascii?Q?NRWNjT1LIgkix6RQLcVgPnASRSVOzMNaJnRSXJxoncCQUpdRCeOHnIt8WQg2?=
+ =?us-ascii?Q?un3QcBshvevbeFWT9RSanoQkrKlpjA4WoGDbdkcmfShDN8+gdv/QfOJS1K1C?=
+ =?us-ascii?Q?x8PtsmIvMAthNHsssIkDKEjWUXIDuZwyScQjJ9VZhV6Bd6iwiIvOHuc0Tjt2?=
+ =?us-ascii?Q?daFXt7mSiND+eGC52sVH98u+P6XaOW4Beg3c+stEypj7BP+tkwN5UE30aEWt?=
+ =?us-ascii?Q?or+qk7fuHg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43988d99-6ffe-48ce-c3ae-08df334c5a0c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53bf5fca-1102-4001-a7ea-08df334c591a
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2026 10:31:53.2764
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2026 10:31:51.6971
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RZxU5jqJKUNhC5wKeKkF00xhu4iVp7aNFx18mNi0jTe9EBe/mNMXplVq8bER65ovmk5vYfD4KDSlFrY23eix6IRwwgrQ9CggjoTwFABXeMg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: FjZLxW4as3a6l2nuy4pmK/d/anB4dEjy2v/9BTvELcV4ooURVhtAQQVEcmioxYvaP4fa4tOEBbsFc1UEbTeqGCwYzdo8ulvcROrP6LBRee0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4P189MB1280
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 10:32:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248667
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248666
 Content-Type: text/plain; charset="utf-8"
 
-Version 2.63.4
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ReleaseNotes: https://valgrind.org/docs/manual/dist.news.html
 
-librsvg crate version 2.63.3
-librsvg-rebind crate version 0.3.0
-
-- #1233 - Handle EXIF orientation in images, and handle the
-  image-orientation property.  Note that the only values supported
-  for this property are 'from-image' (the default) and 'none'.
-
-  Note that this will change the rendering of SVG documents which
-  assume the images with EXIF orientation data are not auto-oriented
-  correctly.  In this case, please add the following attribute to the
-  corresponding image elemnts:
-
-    style=3D"image-orientation: none;"
-
-  Special thanks to Mark de Does for providing the test files for this
-  feature.
+- Backport patch to fix  arm64 test probes when cross-compiling
+  0001-Bug-5277723-configure.ac-do-not-fail-the-arm64-test-.patch
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- meta/recipes-gnome/librsvg/librsvg-crates.inc | 76 +++++++++----------
- ...append-RUSTFLAGS-to-rustc-executable.patch |  2 +-
- ...e-care-of-deprecated-assert_cmd-Comm.patch |  2 +-
- .../{librsvg_2.63.3.bb =3D> librsvg_2.63.4.bb}  |  2 +-
- 4 files changed, 41 insertions(+), 41 deletions(-)
- rename meta/recipes-gnome/librsvg/{librsvg_2.63.3.bb =3D> librsvg_2.63.4.b=
-b} (98%)
+ ...igure.ac-do-not-fail-the-arm64-test-.patch | 49 +++++++++++++++++++
+ ...e-Drop-setting-mcpu-cortex-a8-on-arm.patch |  6 +--
+ .../0001-docs-Disable-manual-validation.patch |  6 +--
+ ...c-workaround-off64_t-not-defined-in-.patch |  8 ++-
+ ...etting-mcpu-to-cortex-a8-on-arm-arch.patch | 12 ++---
+ ...check-tests-Fix-timerfd-syscall-test.patch | 10 ++--
+ ...-vgtests-remove-fullpath-after-flags.patch |  2 +-
+ ...eak_cmsg.stderr.exp-adjust-tmp-paths.patch |  2 +-
+ ...ame-_sifields-to-__si_fields-on-musl.patch |  2 +-
+ .../0001-tests-arm-Use-O-instead-of-O0.patch  |  6 +--
+ ...-filter_xml_frames-do-not-filter-usr.patch |  2 +-
+ ...-include-directive-path-for-config.h.patch |  2 +-
+ ...t-for-PPC-instructions-mfatbu-mfatbl.patch | 10 ++--
+ ...n-for-targets-which-don-t-support-it.patch |  2 +-
+ .../valgrind/valgrind/fixed-perl-path.patch   |  8 +--
+ .../valgrind/valgrind/s390x_vec_op_t.patch    |  6 +--
+ ...te-march-mcpu-mfpu-for-ARM-test-apps.patch |  6 +--
+ ...-ld-XXX.so-strlen-intercept-optional.patch |  6 +--
+ ...{valgrind_3.27.1.bb =3D> valgrind_3.28.0.bb} |  4 +-
+ 19 files changed, 99 insertions(+), 50 deletions(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Bug-527772=
+3-configure.ac-do-not-fail-the-arm64-test-.patch
+ rename meta/recipes-devtools/valgrind/{valgrind_3.27.1.bb =3D> valgrind_3.=
+28.0.bb} (96%)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg-crates.inc b/meta/recipes-g=
-nome/librsvg/librsvg-crates.inc
-index 8574ab937ce..25e76f020fc 100644
---- a/meta/recipes-gnome/librsvg/librsvg-crates.inc
-+++ b/meta/recipes-gnome/librsvg/librsvg-crates.inc
-@@ -40,7 +40,7 @@ SRC_URI +=3D " \
-     crate://crates.io/cairo-sys-rs/0.22.9 \
-     crate://crates.io/cast/0.3.0 \
-     crate://crates.io/cbc/0.2.1 \
--    crate://crates.io/cc/1.8.0 \
-+    crate://crates.io/cc/1.10.0 \
-     crate://crates.io/cfg-expr/0.20.10 \
-     crate://crates.io/cfg-if/1.0.5 \
-     crate://crates.io/cfg_aliases/0.2.2 \
-@@ -62,7 +62,7 @@ SRC_URI +=3D " \
-     crate://crates.io/core_detect/1.0.0 \
-     crate://crates.io/cpubits/0.1.1 \
-     crate://crates.io/cpufeatures/0.3.1 \
--    crate://crates.io/crc32fast/1.5.2 \
-+    crate://crates.io/crc32fast/1.5.3 \
-     crate://crates.io/criterion/0.8.2 \
-     crate://crates.io/criterion-plot/0.8.2 \
-     crate://crates.io/crossbeam-deque/0.8.8 \
-@@ -97,7 +97,7 @@ SRC_URI +=3D " \
-     crate://crates.io/fallible_collections/0.4.9 \
-     crate://crates.io/fastrand/2.5.0 \
-     crate://crates.io/fdeflate/0.3.7 \
--    crate://crates.io/find-msvc-tools/0.1.14 \
-+    crate://crates.io/find-msvc-tools/0.1.15 \
-     crate://crates.io/flate2/1.1.10 \
-     crate://crates.io/float-cmp/0.10.0 \
-     crate://crates.io/fnv/1.0.7 \
-@@ -134,19 +134,19 @@ SRC_URI +=3D " \
-     crate://crates.io/hybrid-array/0.4.15 \
-     crate://crates.io/iana-time-zone/0.1.65 \
-     crate://crates.io/iana-time-zone-haiku/0.1.2 \
--    crate://crates.io/icu_collections/2.3.0 \
--    crate://crates.io/icu_locale_core/2.3.0 \
--    crate://crates.io/icu_normalizer/2.3.0 \
--    crate://crates.io/icu_normalizer_data/2.3.0 \
--    crate://crates.io/icu_properties/2.3.0 \
--    crate://crates.io/icu_properties_data/2.3.0 \
--    crate://crates.io/icu_provider/2.3.1 \
-+    crate://crates.io/icu_collections/2.4.0 \
-+    crate://crates.io/icu_locale_core/2.4.0 \
-+    crate://crates.io/icu_normalizer/2.4.0 \
-+    crate://crates.io/icu_normalizer_data/2.4.0 \
-+    crate://crates.io/icu_properties/2.4.0 \
-+    crate://crates.io/icu_properties_data/2.4.0 \
-+    crate://crates.io/icu_provider/2.4.0 \
-     crate://crates.io/idna/1.1.0 \
-     crate://crates.io/idna_adapter/1.2.2 \
-     crate://crates.io/image/0.25.10 \
-     crate://crates.io/image-webp/0.2.4 \
-     crate://crates.io/indexmap/2.14.2 \
--    crate://crates.io/inout/0.2.4 \
-+    crate://crates.io/inout/0.2.5 \
-     crate://crates.io/is_terminal_polyfill/1.70.2 \
-     crate://crates.io/itertools/0.13.0 \
-     crate://crates.io/itertools/0.15.0 \
-@@ -160,7 +160,7 @@ SRC_URI +=3D " \
-     crate://crates.io/js-sys/0.3.106 \
-     crate://crates.io/language-tags/0.3.2 \
-     crate://crates.io/lazy_static/1.5.1 \
--    crate://crates.io/libc/0.2.190 \
-+    crate://crates.io/libc/0.2.191 \
-     crate://crates.io/libfuzzer-sys/0.4.13 \
-     crate://crates.io/libloading/0.8.9 \
-     crate://crates.io/linux-raw-sys/0.12.1 \
-@@ -273,7 +273,7 @@ SRC_URI +=3D " \
-     crate://crates.io/simdutf8/0.1.5 \
-     crate://crates.io/siphasher/1.0.4 \
-     crate://crates.io/slab/0.4.12 \
--    crate://crates.io/smallvec/1.16.3 \
-+    crate://crates.io/smallvec/1.16.4 \
-     crate://crates.io/stable_deref_trait/1.2.1 \
-     crate://crates.io/static_assertions/1.1.0 \
-     crate://crates.io/string_cache/0.9.0 \
-@@ -285,7 +285,7 @@ SRC_URI +=3D " \
-     crate://crates.io/syn/3.0.9 \
-     crate://crates.io/synstructure/0.14.0 \
-     crate://crates.io/system-deps/7.0.8 \
--    crate://crates.io/system-deps/9.0.0 \
-+    crate://crates.io/system-deps/9.0.1 \
-     crate://crates.io/target-lexicon/0.13.5 \
-     crate://crates.io/tempfile/3.27.0 \
-     crate://crates.io/tendril/0.5.1 \
-@@ -295,7 +295,7 @@ SRC_URI +=3D " \
-     crate://crates.io/time/0.3.55 \
-     crate://crates.io/time-core/0.1.9 \
-     crate://crates.io/time-macros/0.2.32 \
--    crate://crates.io/tinystr/0.8.4 \
-+    crate://crates.io/tinystr/0.8.5 \
-     crate://crates.io/tinytemplate/1.2.1 \
-     crate://crates.io/tinyvec/1.13.3 \
-     crate://crates.io/toml/1.1.8+spec-1.1.0 \
-@@ -307,7 +307,7 @@ SRC_URI +=3D " \
-     crate://crates.io/unarray/0.1.4 \
-     crate://crates.io/unicode-bidi/0.3.18 \
-     crate://crates.io/unicode-ident/1.0.27 \
--    crate://crates.io/unicode-normalization/0.1.25 \
-+    crate://crates.io/unicode-normalization/0.1.26 \
-     crate://crates.io/unicode-properties/0.1.4 \
-     crate://crates.io/url/2.5.8 \
-     crate://crates.io/utf8_iter/1.0.4 \
-@@ -341,15 +341,15 @@ SRC_URI +=3D " \
-     crate://crates.io/xml5ever/0.39.0 \
-     crate://crates.io/yansi/1.0.1 \
-     crate://crates.io/yeslogic-fontconfig-sys/6.0.1 \
--    crate://crates.io/yoke/0.8.3 \
-+    crate://crates.io/yoke/0.8.4 \
-     crate://crates.io/yoke-derive/0.8.4 \
-     crate://crates.io/zerocopy/0.8.63 \
-     crate://crates.io/zerocopy-derive/0.8.63 \
-     crate://crates.io/zerofrom/0.1.8 \
-     crate://crates.io/zerofrom-derive/0.1.8 \
-     crate://crates.io/zerotrie/0.2.5 \
--    crate://crates.io/zerovec/0.11.8 \
--    crate://crates.io/zerovec-derive/0.11.6 \
-+    crate://crates.io/zerovec/0.11.9 \
-+    crate://crates.io/zerovec-derive/0.11.7 \
-     crate://crates.io/zlib-rs/0.6.8 \
-     crate://crates.io/zmij/1.0.23 \
-     crate://crates.io/zune-core/0.5.3 \
-@@ -394,7 +394,7 @@ SRC_URI[cairo-rs-0.22.9.sha256sum] =3D "df683f1d30b4579=
-64673a5541a4603208ef95ab687
- SRC_URI[cairo-sys-rs-0.22.9.sha256sum] =3D "ee548131103ad8f698c6725669647b=
-9c757b3b66992dd6a026037596417bee21"
- SRC_URI[cast-0.3.0.sha256sum] =3D "37b2a672a2cb129a2e41c10b1224bb368f9f37a=
-2b16b612598138befd7b37eb5"
- SRC_URI[cbc-0.2.1.sha256sum] =3D "ce2dc9ee5f88d11e0beb842c88b33c8a5cf0d132=
-9c4b19494af42b07dbfe8896"
--SRC_URI[cc-1.8.0.sha256sum] =3D "6651c9ed80effdc7db0ff72512157f901af5e3549=
-e341e24b1dd4887d836d838"
-+SRC_URI[cc-1.10.0.sha256sum] =3D "86e055fa6e3e40ad6187ba25b6855eeb635d5271=
-f8e0f0e1e9a5826b8d75bea0"
- SRC_URI[cfg-expr-0.20.10.sha256sum] =3D "9ba9e9ec16c447027685b1f897b720e18=
-e9a8afd00bd7332c483537e38086c9f"
- SRC_URI[cfg-if-1.0.5.sha256sum] =3D "4e7648175b45a9a48536d676f68d918270699=
-102aa8dab5496df06904c914600"
- SRC_URI[cfg_aliases-0.2.2.sha256sum] =3D "f079e83a288787bcd14a6aea84cee5c8=
-7a67c5a3e660c30f557a3d24761b3527"
-@@ -416,7 +416,7 @@ SRC_URI[core-foundation-sys-0.8.7.sha256sum] =3D "77364=
-8b94d0e5d620f64f28077744574
- SRC_URI[core_detect-1.0.0.sha256sum] =3D "7f8f80099a98041a3d1622845c271458=
-a2d73e688351bf3cb999266764b81d48"
- SRC_URI[cpubits-0.1.1.sha256sum] =3D "15b85f9c39137c3a891689859392b1bd4981=
-2121d0d61c9caf00d46ed5ce06ae"
- SRC_URI[cpufeatures-0.3.1.sha256sum] =3D "5ca28b0ae3115b884660db4118d80379=
-1fd6756b6e88f39c0f3f7859060d7566"
--SRC_URI[crc32fast-1.5.2.sha256sum] =3D "01a7799fd6b852db0e61728dde9a204c42=
-3b44d689dbd432522543614b490e78"
-+SRC_URI[crc32fast-1.5.3.sha256sum] =3D "0ba106e844045ddc02c20768ac4b0b7cb4=
-5f2cc2ecbd833ac9f5dacb183c2055"
- SRC_URI[criterion-0.8.2.sha256sum] =3D "950046b2aa2492f9a536f5f4f9a3de7b9e=
-2476e575e05bd6c333371add4d98f3"
- SRC_URI[criterion-plot-0.8.2.sha256sum] =3D "d8d80a2f4f5b554395e47b5d8305b=
-c3d27813bacb73493eb1001e8f76dae29ea"
- SRC_URI[crossbeam-deque-0.8.8.sha256sum] =3D "622f3fc73690be383c7214310406=
-f28a90e6edeadc3cea882f9d71e495b9711a"
-@@ -451,7 +451,7 @@ SRC_URI[errno-0.3.14.sha256sum] =3D "39cab71617ae0d63f5=
-1a36d69f866391735b51691dbda
- SRC_URI[fallible_collections-0.4.9.sha256sum] =3D "a88c69768c0a15262df2189=
-9142bc6df9b9b823546d4b4b9a7bc2d6c448ec6fd"
- SRC_URI[fastrand-2.5.0.sha256sum] =3D "da7c62ceae207dd37ea5b845da6a0696c79=
-9f85e97da1ab5b7910be3c1c80223"
- SRC_URI[fdeflate-0.3.7.sha256sum] =3D "1e6853b52649d4ac5c0bd02320cddc5ba95=
-6bdb407c4b75a2c6b75bf51500f8c"
--SRC_URI[find-msvc-tools-0.1.14.sha256sum] =3D "aedcfb3409746eddb02b9e19ebd=
-a1c3394f759a152e48ee875a0844d1b955484"
-+SRC_URI[find-msvc-tools-0.1.15.sha256sum] =3D "1c66915cc5391097de7a2b0b972=
-e8505aa33c0df401fd3a6811dbdb32881ba48"
- SRC_URI[flate2-1.1.10.sha256sum] =3D "6e634e2e0ebac1ee034020da1ca582e17ffe=
-4e0f5e985823721e168928136dcb"
- SRC_URI[float-cmp-0.10.0.sha256sum] =3D "b09cf3155332e944990140d967ff5eceb=
-70df778b34f77d8075db46e4704e6d8"
- SRC_URI[fnv-1.0.7.sha256sum] =3D "3f9eec918d3f24069decb9af1554cad7c880e2da=
-24a9afd88aca000531ab82c1"
-@@ -488,19 +488,19 @@ SRC_URI[heck-0.5.0.sha256sum] =3D "2304e00983f87ffb38=
-b55b444b5e3b60a884b5d30c0fca7
- SRC_URI[hybrid-array-0.4.15.sha256sum] =3D "27f864f10dfb56725ce5ce5472bc52=
-252c8f93a4ab86327122cebf62c5f59a17"
- SRC_URI[iana-time-zone-0.1.65.sha256sum] =3D "e31bc9ad994ba00e440a8aa5c9ef=
-0ec67d5cb5e5cb0cc7f8b744a35b389cc470"
- SRC_URI[iana-time-zone-haiku-0.1.2.sha256sum] =3D "f31827a206f56af32e590ba=
-56d5d2d085f558508192593743f16b2306495269f"
--SRC_URI[icu_collections-2.3.0.sha256sum] =3D "fa68d21081c4a05d5a901a1c62ad=
-d574c77048b6a1c67be3b50ce0b60d4ca513"
--SRC_URI[icu_locale_core-2.3.0.sha256sum] =3D "d56e28588da92eee5c3201a6eff3=
-3fabdd49b62269c8938d4ff050ce4d900deb"
--SRC_URI[icu_normalizer-2.3.0.sha256sum] =3D "12f9cf5f235641ed274641dd81c3f=
-28d870e276763d0797aeeab72317b1c646f"
--SRC_URI[icu_normalizer_data-2.3.0.sha256sum] =3D "1563da1ed3e0b3bf3d74c9b8=
-5917ac9c56464d2f57242270c09c9e752f8021a0"
--SRC_URI[icu_properties-2.3.0.sha256sum] =3D "7e7ca276ad3145661a65914e6daf1=
-31ca5120cd3dcee8f8f3214b8875184a148"
--SRC_URI[icu_properties_data-2.3.0.sha256sum] =3D "e590f038c1464a96894fd6d1=
-0127e90a8be4509f56ff7ecef851b15cee0b7caa"
--SRC_URI[icu_provider-2.3.1.sha256sum] =3D "d27bbb9d3abbefac45d55f647c9de1d=
-44aafcd1186eb91879afef17c396c3e73"
-+SRC_URI[icu_collections-2.4.0.sha256sum] =3D "fe090a42a0d3140fed8c63263ed1=
-fecc02422cb2f4bfe55cd8de2de1b8e105dd"
-+SRC_URI[icu_locale_core-2.4.0.sha256sum] =3D "25d29b57c17c6528d0dc4c2141cf=
-a2d08200465acb537a3909c8b9b8a4a984c0"
-+SRC_URI[icu_normalizer-2.4.0.sha256sum] =3D "404a3b8c486f205c87fe7f23ab689=
-4d84a4ad76d6e4671ae1981ba7def87c599"
-+SRC_URI[icu_normalizer_data-2.4.0.sha256sum] =3D "20f0088bfb7441f7a37fa0c9=
-e20cb1e9cba1cac6b9ce8cd2a6dc44294f8e8cbc"
-+SRC_URI[icu_properties-2.4.0.sha256sum] =3D "2ea83d991c56158f7cf898bf86436=
-c1dfe7c07ee82fe88951f2695c9f37a379f"
-+SRC_URI[icu_properties_data-2.4.0.sha256sum] =3D "b98f29af82d02b163fe50161=
-388350e743bb3107cc8e8c2f7314cb505faddfcf"
-+SRC_URI[icu_provider-2.4.0.sha256sum] =3D "413099315636c588ee8f011190b329b=
-971a09a8fae9d157e01dcae8379468514"
- SRC_URI[idna-1.1.0.sha256sum] =3D "3b0875f23caa03898994f6ddc501886a45c7d3d=
-62d04d2d90788d47be1b1e4de"
- SRC_URI[idna_adapter-1.2.2.sha256sum] =3D "cb68373c0d6620ef8105e855e7745e1=
-8b0d00d3bdb07fb532e434244cdb9a714"
- SRC_URI[image-0.25.10.sha256sum] =3D "85ab80394333c02fe689eaf900ab500fbd0c=
-2213da414687ebf995a65d5a6104"
- SRC_URI[image-webp-0.2.4.sha256sum] =3D "525e9ff3e1a4be2fbea1fdf0e98686a6d=
-98b4d8f937e1bf7402245af1909e8c3"
- SRC_URI[indexmap-2.14.2.sha256sum] =3D "cc4e190f5d26ca7051642629da2c52fc03=
-bde85a03197c99408dcd291734c855"
--SRC_URI[inout-0.2.4.sha256sum] =3D "3ce983bb6fb399067d101fbfc9e74174e07e9f=
-29a2bc679efefeb8c645819c3f"
-+SRC_URI[inout-0.2.5.sha256sum] =3D "3b5cf4372d022092674a83b8febf5865f7a573=
-cc0c5baec5e49c879b6a20978f"
- SRC_URI[is_terminal_polyfill-1.70.2.sha256sum] =3D "a6cb138bb79a146c1bd460=
-005623e142ef0181e3d0219cb493e02f7d08a35695"
- SRC_URI[itertools-0.13.0.sha256sum] =3D "413ee7dfc52ee1a4949ceeb7dbc8a33f2=
-d6c088194d9f922fb8318faf1f01186"
- SRC_URI[itertools-0.15.0.sha256sum] =3D "8b4baf93f58d4425749ca49a51c50ebab=
-072c5df6994d08fed93541c331481dc"
-@@ -514,7 +514,7 @@ SRC_URI[jobserver-0.1.35.sha256sum] =3D "1c00acbd29eaba=
-d4a2392fa0e921c874934dbbf41
- SRC_URI[js-sys-0.3.106.sha256sum] =3D "7883d941dae510fb2d978fc3fe018c71c9e=
-2892fd38854de3e8b92c2e5ad9cc5"
- SRC_URI[language-tags-0.3.2.sha256sum] =3D "d4345964bb142484797b161f473a50=
-3a434de77149dd8c7427788c6e13379388"
- SRC_URI[lazy_static-1.5.1.sha256sum] =3D "20870f649af7073d53e38067b2a84312=
-175d56ea15217e1b15bc83506ec50afb"
--SRC_URI[libc-0.2.190.sha256sum] =3D "ce5d3ddc6d3fa000eb1536d85e147bfe31aac=
-aba692ed6a876f95cb7c855be78"
-+SRC_URI[libc-0.2.191.sha256sum] =3D "65cd87c9a6d60536580b316ad985726104730=
-a5151c99845f2490428ef91240a"
- SRC_URI[libfuzzer-sys-0.4.13.sha256sum] =3D "a9fd2f41a1cba099f79a0b6b6c356=
-56cf7c03351a7bae8ff0f28f25270f929d2"
- SRC_URI[libloading-0.8.9.sha256sum] =3D "d7c4b02199fee7c5d21a5ae7d8cfa79a6=
-ef5bb2fc834d6e9058e89c825efdc55"
- SRC_URI[linux-raw-sys-0.12.1.sha256sum] =3D "32a66949e030da00e8c7d4434b251=
-670a91556f4144941d37452769c25d58a53"
-@@ -627,7 +627,7 @@ SRC_URI[simd-adler32-0.3.10.sha256sum] =3D "3a219298ac1=
-1a56ea9a6d2120044824d6f01ae
- SRC_URI[simdutf8-0.1.5.sha256sum] =3D "e3a9fe34e3e7a50316060351f37187a3f54=
-6bce95496156754b601a5fa71b76e"
- SRC_URI[siphasher-1.0.4.sha256sum] =3D "33f4fe9184a62d842c9ef383018f3306d8=
-ba224fd9d836f56d7288308847c256"
- SRC_URI[slab-0.4.12.sha256sum] =3D "0c790de23124f9ab44544d7ac05d60440adc58=
-6479ce501c1d6d7da3cd8c9cf5"
--SRC_URI[smallvec-1.16.3.sha256sum] =3D "5b3dc8af474f516a851ff4bd12db780f94=
-8b9250ad37211e4eec0bccea54e01b"
-+SRC_URI[smallvec-1.16.4.sha256sum] =3D "d0d5d4b1981b8bbbb7aed204cae5726d68=
-3d5d6ac7e74ec54122ea28f315e7c8"
- SRC_URI[stable_deref_trait-1.2.1.sha256sum] =3D "6ce2be8dc25455e1f91df71bf=
-a12ad37d7af1092ae736f3a6cd0e37bc7810596"
- SRC_URI[static_assertions-1.1.0.sha256sum] =3D "a2eb9349b6444b326872e140eb=
-1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
- SRC_URI[string_cache-0.9.0.sha256sum] =3D "a18596f8c785a729f2819c0f6a7eae6=
-ebeebdfffbfe4214ae6b087f690e31901"
-@@ -639,7 +639,7 @@ SRC_URI[syn-2.0.119.sha256sum] =3D "872831b642d1a07999a=
-962a351ed35b955ea2cfc8f3862
- SRC_URI[syn-3.0.9.sha256sum] =3D "d78c8dee4c7bf0e14673097256fed6142ce9d3b8=
-5a408189d07482442145823b"
- SRC_URI[synstructure-0.14.0.sha256sum] =3D "901704edd0dfe137f1987838ee4f25=
-9e4e063c31371bdb423f7ae38ec6f77f02"
- SRC_URI[system-deps-7.0.8.sha256sum] =3D "396a35feb67335377e0251fcbc1092fc=
-85c484bd4e3a7a54319399da127796e7"
--SRC_URI[system-deps-9.0.0.sha256sum] =3D "8a0dae2cbca1f0ff93795713cfe0a4c0=
-2f760e3c0b8ae2ab4ec4045808ff429f"
-+SRC_URI[system-deps-9.0.1.sha256sum] =3D "db551ad38aac61d5e0343e0eeeb0163b=
-e3115c4e23b6a025959570ee0c03c67d"
- SRC_URI[target-lexicon-0.13.5.sha256sum] =3D "adb6935a6f5c20170eeceb1a3835=
-a49e12e19d792f6dd344ccc76a985ca5a6ca"
- SRC_URI[tempfile-3.27.0.sha256sum] =3D "32497e9a4c7b38532efcdebeef879707aa=
-9f794296a4f0244f6f69e9bc8574bd"
- SRC_URI[tendril-0.5.1.sha256sum] =3D "5fed54709c5b3a53d09bb1c113ea4f5ceafd=
-1e772ddcb0030a82e1d56c087b08"
-@@ -649,7 +649,7 @@ SRC_URI[thiserror-impl-2.0.21.sha256sum] =3D "fe5197923=
-287db20a58125f0bc85c062f7f2
- SRC_URI[time-0.3.55.sha256sum] =3D "cdb87b95ec50ddfa440816d227a17b2ccbdda9=
-63a316a727fda0fc4334f7d134"
- SRC_URI[time-core-0.1.9.sha256sum] =3D "9e1c906769ad99c88eaa54e728060edef0=
-82f8e358ff32030cb7c7d315e81109"
- SRC_URI[time-macros-0.2.32.sha256sum] =3D "7e689342a48d2ea927c87ea50cabf85=
-94854bf940e9310208848d680d668ed85"
--SRC_URI[tinystr-0.8.4.sha256sum] =3D "b1e27c91459209c2986af3dcf603a5a74a43=
-68754ce37414f59acc971167f643"
-+SRC_URI[tinystr-0.8.5.sha256sum] =3D "abc840c238154d58f9e86b2792261edfde56=
-5a17696e1cda1a449de27979801a"
- SRC_URI[tinytemplate-1.2.1.sha256sum] =3D "be4d6b5f19ff7664e8c98d03e2139cb=
-510db9b0a60b55f8e8709b689d939b6bc"
- SRC_URI[tinyvec-1.13.3.sha256sum] =3D "fd3ca314f692efd6c868f8408f53fe44463=
-4a845f96c028b97d35f6a1f79f0ee"
- SRC_URI[toml-1.1.8+spec-1.1.0.sha256sum] =3D "20489e00e4d8741d6be680764cc1=
-2e270655e375a20d1011e844a9c3379e678d"
-@@ -661,7 +661,7 @@ SRC_URI[typenum-1.20.1.sha256sum] =3D "b6f5e870be6c3b37=
-1b77fe0ee0bafb859fa4964b440
- SRC_URI[unarray-0.1.4.sha256sum] =3D "eaea85b334db583fe3274d12b4cd1880032b=
-eab409c0d774be044d4480ab9a94"
- SRC_URI[unicode-bidi-0.3.18.sha256sum] =3D "5c1cb5db39152898a79168971543b1=
-cb5020dff7fe43c8dc468b0885f5e29df5"
- SRC_URI[unicode-ident-1.0.27.sha256sum] =3D "a2c754d6c33795a1c324727428e5a=
-7dedb5b06195f9890bdbcba760d3e246563"
--SRC_URI[unicode-normalization-0.1.25.sha256sum] =3D "5fd4f6878c9cb28d874b0=
-09da9e8d183b5abc80117c40bbd187a1fde336be6e8"
-+SRC_URI[unicode-normalization-0.1.26.sha256sum] =3D "75cd3fb03d5288b3ba9a1=
-ee103ac7e9cbb59f0b03d64f8ddfcc04dd42758a85d"
- SRC_URI[unicode-properties-0.1.4.sha256sum] =3D "7df058c713841ad818f1dc5d3=
-fd88063241cc61f49f5fbea4b951e8cf5a8d71d"
- SRC_URI[url-2.5.8.sha256sum] =3D "ff67a8a4397373c3ef660812acab326822203501=
-0ab8680ec4215f38ba3d0eed"
- SRC_URI[utf8_iter-1.0.4.sha256sum] =3D "b6c140620e7ffbb22c2dee59cafe6084a5=
-9b5ffc27a8859a5f0d494b5d52b6be"
-@@ -695,15 +695,15 @@ SRC_URI[writeable-0.6.4.sha256sum] =3D "3ad82d2a33cdc=
-9674dc7465672f271e096168fcdbe
- SRC_URI[xml5ever-0.39.0.sha256sum] =3D "5ab627f34ff61b80d756180d556f9c6880=
-1d836d271b3b8c094504ceca69d221"
- SRC_URI[yansi-1.0.1.sha256sum] =3D "cfe53a6657fd280eaa890a3bc59152892ffa3e=
-30101319d168b781ed6529b049"
- SRC_URI[yeslogic-fontconfig-sys-6.0.1.sha256sum] =3D "1d8b8abf912b9a29ff11=
-2e1671c97c33636903d13a69712037190e6805af4f76"
--SRC_URI[yoke-0.8.3.sha256sum] =3D "709fe23a0424b6a435d82152b1bd3fdfb083348=
-7d5fa90d05d42762a9891fef5"
-+SRC_URI[yoke-0.8.4.sha256sum] =3D "417ef3fcf6c300b7dbd25c85531a746931c02ad=
-536f3cf4786ed1e88223340b3"
- SRC_URI[yoke-derive-0.8.4.sha256sum] =3D "ec8ebde2db3681e8c9980cc27822030e=
-68752690ddfa9473e739aeb4dbde6d71"
- SRC_URI[zerocopy-0.8.63.sha256sum] =3D "e5fe1f8f1b06191a00962174c61aa5005e=
-0bb391a6d80d07e24d115c01a92ed8"
- SRC_URI[zerocopy-derive-0.8.63.sha256sum] =3D "863ad3ac83293fb4d740aedbfdc=
-9240dd8d1a50c1099acd76ce80ce7c7230c7f"
- SRC_URI[zerofrom-0.1.8.sha256sum] =3D "0ec05a11813ea801ff6d75110ad09cd0824=
-ddba17dfe17128ea0d5f68e6c5272"
- SRC_URI[zerofrom-derive-0.1.8.sha256sum] =3D "f75b4683f6c7f45248d4d64056a2=
-4298c6281e0993356d7d1b4a1a962ef10d4a"
- SRC_URI[zerotrie-0.2.5.sha256sum] =3D "4ea269c3bd32f0a32c321907a2ae912ba6f=
-4649bb0fc764a15627e99a7095a3f"
--SRC_URI[zerovec-0.11.8.sha256sum] =3D "bb0464e17806c1d976d5cba29399c7f08e5=
-16e279e2ba493f63123b5fca67dd8"
--SRC_URI[zerovec-derive-0.11.6.sha256sum] =3D "34df6fc39dbd26ddc9c10e6a2984=
-476e13acce22e64e4487636ef494369225da"
-+SRC_URI[zerovec-0.11.9.sha256sum] =3D "f58a2799cfe9a1670c7ea8edbd52ef8edb9=
-3cb37a7f83bf31ba9e35d9dae6a40"
-+SRC_URI[zerovec-derive-0.11.7.sha256sum] =3D "c3743ddbf47738d929cd1ae2e199=
-d40d0162979dfe31aef8ae646d2bf00bf97a"
- SRC_URI[zlib-rs-0.6.8.sha256sum] =3D "b268e58e7c693d7c271f93ffc4ba3b380412=
-554231c85bf61ca7af91042a4112"
- SRC_URI[zmij-1.0.23.sha256sum] =3D "29666d0abbfad1e3dc4dcf6144730dd3a3ab22=
-5bbbdac83319345b1b44ccfc1b"
- SRC_URI[zune-core-0.5.3.sha256sum] =3D "d56377fd46368984a170bc5aac5567e52c=
-a5da874caa60bea39fcbca78fb658b"
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUS=
-TFLAGS-to-rustc-executable.patch b/meta/recipes-gnome/librsvg/librsvg/0001-=
-query-rustc-append-RUSTFLAGS-to-rustc-executable.patch
-index d9a7fbf5145..a0a6d098970 100644
---- a/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-=
-to-rustc-executable.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-query-rustc-append-RUSTFLAGS-=
-to-rustc-executable.patch
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Bug-5277723-confi=
+gure.ac-do-not-fail-the-arm64-test-.patch b/meta/recipes-devtools/valgrind/=
+valgrind/0001-Bug-5277723-configure.ac-do-not-fail-the-arm64-test-.patch
+new file mode 100644
+index 00000000000..01cc6eec4c4
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-Bug-5277723-configure.ac=
+-do-not-fail-the-arm64-test-.patch
+@@ -0,0 +1,49 @@
++From c40ce55b02b89b31a0bed9e0d2586be80681de64 Mon Sep 17 00:00:00 2001
++From: Rudi Heitbaum <rudi@heitbaum.com>
++Date: Sat, 24 Oct 2026 12:00:00 +1100
++Subject: [PATCH] Bug 5277723 - configure.ac: do not fail the arm64 test pr=
+obes
++ when cross-compiling
++
++Commit cd8a547aa changed the dotprod probe from AC_COMPILE_IFELSE to
++AC_RUN_IFELSE and commit 938c24838 added the crypto probe as
++AC_RUN_IFELSE, neither with an action for cross-compiling. autoconf
++then aborts configure with "cannot run test program while cross
++compiling" for every target, not just arm64, as the probes are not
++guarded by the architecture.
++
++Both only decide whether the matching regression tests are built, so
++answer no when the test program cannot be run.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=3Dvalgrind.git;h=
+=3D74e91f2970fc90a76f616c679a81b98e1f303257]
++
++Notes: Drop NEWS change for backport
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ configure.ac | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/configure.ac b/configure.ac
++index 60c3861da..c1dbcbab7 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -4144,6 +4144,9 @@ AC_MSG_RESULT([yes])
++ ], [
++ ac_have_armv82_dotprod_feature=3Dno
++ AC_MSG_RESULT([no])
+++], [
+++ac_have_armv82_dotprod_feature=3Dno
+++AC_MSG_RESULT([cross compiling, assuming no])
++ ])
++ CFLAGS=3D"$save_CFLAGS"
++=20
++@@ -4164,6 +4167,9 @@ AC_MSG_RESULT([yes])
++ ], [
++ ac_have_armv8_crypto=3Dno
++ AC_MSG_RESULT([no])
+++], [
+++ac_have_armv8_crypto=3Dno
+++AC_MSG_RESULT([cross compiling, assuming no)])
++ ])
++ CFLAGS=3D"$save_CFLAGS"
++=20
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-configure-Drop-se=
+tting-mcpu-cortex-a8-on-arm.patch b/meta/recipes-devtools/valgrind/valgrind=
+/0001-configure-Drop-setting-mcpu-cortex-a8-on-arm.patch
+index 3c8bec82b3d..105a2c3995b 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-configure-Drop-setting-m=
+cpu-cortex-a8-on-arm.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-configure-Drop-setting-m=
+cpu-cortex-a8-on-arm.patch
 @@ -1,4 +1,4 @@
--From faa062c4bbd9f3678997a90c85ec4efa05156c07 Mon Sep 17 00:00:00 2001
-+From 31483d73f4a46f18bb18b149532d89c3b9a7ad11 Mon Sep 17 00:00:00 2001
- From: Gyorgy Sarvari <skandigraun@gmail.com>
- Date: Sat, 2 Aug 2025 20:57:49 +0200
- Subject: [PATCH] query-rustc: append RUSTFLAGS to rustc executable
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care=
--of-deprecated-assert_cmd-Comm.patch b/meta/recipes-gnome/librsvg/librsvg/0=
-001-tests-revert-Take-care-of-deprecated-assert_cmd-Comm.patch
-index 35ae9a7cd22..22e0f6c103c 100644
---- a/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-dep=
-recated-assert_cmd-Comm.patch
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-tests-revert-Take-care-of-dep=
-recated-assert_cmd-Comm.patch
+-From 5a776e61af5ab7f0cfd10cde55c796189686916f Mon Sep 17 00:00:00 2001
++From d8ebc7316648ad5880ef91c58ff88a21bbf33a3b Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 10 May 2024 16:27:34 -0700
+ Subject: [PATCH] configure: Drop setting mcpu=3Dcortex-a8 on arm
+@@ -16,10 +16,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+=20
+ diff --git a/configure.ac b/configure.ac
+-index 2dfbd1c..b42fdd4 100755
++index 60c3861..fcfe8e2 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -251,13 +251,13 @@ case "${host_cpu}" in
++@@ -309,13 +309,13 @@ case "${host_cpu}" in
+ =20
+       armv8*)
+          AC_MSG_RESULT([ok (${host_cpu})])
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-docs-Disable-manu=
+al-validation.patch b/meta/recipes-devtools/valgrind/valgrind/0001-docs-Dis=
+able-manual-validation.patch
+index fbd799eeea6..0111d5708e4 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-docs-Disable-manual-vali=
+dation.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-docs-Disable-manual-vali=
+dation.patch
 @@ -1,4 +1,4 @@
--From 5fca1f7d88ce817cb532e6b7e7168d3beb1a86f4 Mon Sep 17 00:00:00 2001
-+From fe9e7305af55f4f24fa026cb7d4c3925ab6a75d9 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Thu, 18 Dec 2025 18:43:20 +0100
- Subject: [PATCH] tests: revert 'Take care of deprecated
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.63.3.bb b/meta/recipes-gn=
-ome/librsvg/librsvg_2.63.4.bb
-similarity index 98%
-rename from meta/recipes-gnome/librsvg/librsvg_2.63.3.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.63.4.bb
-index cdf386ad7ab..6e882700751 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.63.3.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.63.4.bb
-@@ -26,7 +26,7 @@ require ${BPN}-crates.inc
- SRC_URI +=3D "file://0001-query-rustc-append-RUSTFLAGS-to-rustc-executable=
-.patch \
-             file://0001-tests-revert-Take-care-of-deprecated-assert_cmd-Co=
-mm.patch \
-             file://run-ptest"
--SRC_URI[archive.sha256sum] =3D "55311c2293612e4a2e38cd9bdb6160a1c85c158adc=
-7c97e423e1e65949afb6a4"
-+SRC_URI[archive.sha256sum] =3D "31f07d9350dad3f8964fd613c31309ac160fdef13d=
-fac59df6fd082de78d6e8f"
+-From 4f674f458b1f0675abdc0ced01239e99bfa40de8 Mon Sep 17 00:00:00 2001
++From b5f080fac99a060ff5bbd97ee6c84e8b92a57365 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 13 Jan 2022 18:26:02 -0800
+ Subject: [PATCH] docs: Disable manual validation
+@@ -19,10 +19,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
 =20
- UPSTREAM_CHECK_REGEX =3D "librsvg-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ diff --git a/docs/Makefile.am b/docs/Makefile.am
+-index 68a3da5..9833d5c 100644
++index 8b3f55c..61a6e45 100644
+ --- a/docs/Makefile.am
+ +++ b/docs/Makefile.am
+-@@ -202,7 +202,7 @@ valid-manpages: $(MANPAGES_XML_FILES)
++@@ -225,7 +225,7 @@ valid-manpages: $(MANPAGES_XML_FILES)
+  	  fi \
+  	fi
+ =20
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-getdents_filter.c=
+-workaround-off64_t-not-defined-in-.patch b/meta/recipes-devtools/valgrind/=
+valgrind/0001-getdents_filter.c-workaround-off64_t-not-defined-in-.patch
+index 6afb6d79ded..9889a06c625 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-getdents_filter.c-workar=
+ound-off64_t-not-defined-in-.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-getdents_filter.c-workar=
+ound-off64_t-not-defined-in-.patch
+@@ -1,7 +1,7 @@
+-From 8c2313226de5171dd6724c1878a679b556b6cab4 Mon Sep 17 00:00:00 2001
++From 286f86a330efc0d38bb60cc47e9163cc2783f310 Mon Sep 17 00:00:00 2001
+ From: Alyssa Ross <hi@alyssa.is>
+ Date: Sun, 2 Nov 2025 16:43:47 +0100
+-Subject: [PATCH v2] Avoid Glibc-specific ino64_t/off64_t
++Subject: [PATCH] Avoid Glibc-specific ino64_t/off64_t
 =20
+ The *64_t types are transitional APIs for applications that do not yet
+ fully support large files on 32-bit platforms.  musl no longer
+@@ -21,7 +21,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+  1 file changed, 3 insertions(+), 2 deletions(-)
+=20
+ diff --git a/none/tests/linux/getdents_filter.c b/none/tests/linux/getdent=
+s_filter.c
+-index 361659f51..4f46a6ea2 100644
++index 361659f..4f46a6e 100644
+ --- a/none/tests/linux/getdents_filter.c
+ +++ b/none/tests/linux/getdents_filter.c
+ @@ -2,6 +2,7 @@
+@@ -43,5 +43,3 @@ index 361659f51..4f46a6ea2 100644
+      unsigned short d_reclen;
+      unsigned char  d_type;
+      char           d_name[];
+---=20
+-2.51.0
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-makefiles-Drop-se=
+tting-mcpu-to-cortex-a8-on-arm-arch.patch b/meta/recipes-devtools/valgrind/=
+valgrind/0001-makefiles-Drop-setting-mcpu-to-cortex-a8-on-arm-arch.patch
+index f8d1e87ba96..866dee3165f 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-makefiles-Drop-setting-m=
+cpu-to-cortex-a8-on-arm-arch.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-makefiles-Drop-setting-m=
+cpu-to-cortex-a8-on-arm-arch.patch
+@@ -1,4 +1,4 @@
+-From c878aaacadf8ec723be882f9335cb33240df13d6 Mon Sep 17 00:00:00 2001
++From 95f0afde244178821847030ea3efd1996c9f9142 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 20 Apr 2017 10:11:16 -0700
+ Subject: [PATCH] makefiles: Drop setting -mcpu to cortex-a8 on arm
+@@ -19,10 +19,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 12 insertions(+), 12 deletions(-)
+=20
+ diff --git a/helgrind/tests/Makefile.am b/helgrind/tests/Makefile.am
+-index 7adc5c6..cac23c9 100755
++index bfdb3ff..3bd5569 100644
+ --- a/helgrind/tests/Makefile.am
+ +++ b/helgrind/tests/Makefile.am
+-@@ -226,9 +226,9 @@ if ! VGCONF_PLATFORMS_INCLUDE_X86_DARWIN
++@@ -218,9 +218,9 @@ if ! VGCONF_PLATFORMS_INCLUDE_X86_DARWIN
+  endif
+ =20
+  if VGCONF_PLATFORMS_INCLUDE_ARM_LINUX
+@@ -36,10 +36,10 @@ index 7adc5c6..cac23c9 100755
+  annotate_hbefore_CFLAGS =3D $(AM_CFLAGS)
+  tc07_hbl1_CFLAGS        =3D $(AM_CFLAGS)
+ diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
+-index 41a5a03..a76981e 100644
++index d197575..f452d69 100644
+ --- a/none/tests/arm/Makefile.am
+ +++ b/none/tests/arm/Makefile.am
+-@@ -56,10 +56,10 @@ allexec_CFLAGS		=3D $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
++@@ -55,10 +55,10 @@ allexec_CFLAGS		=3D $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
+  # need special helping w.r.t -mfpu and -mfloat-abi, though.
+  # Also force -O0 since -O takes hundreds of MB of memory=20
+  # for v6intThumb.c.
+@@ -53,7 +53,7 @@ index 41a5a03..a76981e 100644
+ =20
+  v8crypto_a_CFLAGS =3D $(AM_CFLAGS) -g -O0 -mfpu=3Dcrypto-neon-fp-armv8 -m=
+arm -march=3Darmv8-a
+  v8crypto_t_CFLAGS =3D $(AM_CFLAGS) -g -O0 -mfpu=3Dcrypto-neon-fp-armv8 -m=
+thumb -march=3Darmv8-a
+-@@ -74,23 +74,23 @@ v8memory_t_CFLAGS =3D $(AM_CFLAGS) -g -O0 \
++@@ -73,23 +73,23 @@ v8memory_t_CFLAGS =3D $(AM_CFLAGS) -g -O0 \
+ =20
+  vcvt_fixed_float_VFP_CFLAGS =3D $(AM_CFLAGS) -g -O0 -mcpu=3Dcortex-a8 -mf=
+pu=3Dneon
+ =20
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-tests-Fi=
+x-timerfd-syscall-test.patch b/meta/recipes-devtools/valgrind/valgrind/0001=
+-memcheck-tests-Fix-timerfd-syscall-test.patch
+index 200b2602cbb..e362ae6f88b 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-tests-Fix-timer=
+fd-syscall-test.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-tests-Fix-timer=
+fd-syscall-test.patch
+@@ -1,4 +1,4 @@
+-From 3a51ed107f67732910dec12279a9279e158afbe7 Mon Sep 17 00:00:00 2001
++From 7676a737160ddd450b2d22f7f96d7f445c65cabb Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 9 Mar 2020 16:30:19 -0700
+ Subject: [PATCH] memcheck/tests: Fix timerfd syscall test
+@@ -16,10 +16,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  3 files changed, 15 insertions(+), 3 deletions(-)
+=20
+ diff --git a/config.h.in b/config.h.in
+-index 00db1a6..23fd77a 100644
++index 7db71e8..8800fc9 100644
+ --- a/config.h.in
+ +++ b/config.h.in
+-@@ -409,6 +409,9 @@
++@@ -442,6 +442,9 @@
+  /* Define to 1 if you have the <sys/sysnvl.h> header file. */
+  #undef HAVE_SYS_SYSNVL_H
+ =20
+@@ -30,10 +30,10 @@ index 00db1a6..23fd77a 100644
+  #undef HAVE_SYS_TIME_H
+ =20
+ diff --git a/configure.ac b/configure.ac
+-index b42fdd4..ec95146 100755
++index fcfe8e2..33acca6 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -4892,6 +4892,7 @@ AC_CHECK_HEADERS([       \
++@@ -5334,6 +5334,7 @@ AC_CHECK_HEADERS([       \
+          sys/syscall.h    \
+          sys/sysnvl.h     \
+          sys/time.h       \
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-vgtests-=
+remove-fullpath-after-flags.patch b/meta/recipes-devtools/valgrind/valgrind=
+/0001-memcheck-vgtests-remove-fullpath-after-flags.patch
+index 9a3596cac1a..3d6f80c6c2e 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-vgtests-remove-=
+fullpath-after-flags.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-memcheck-vgtests-remove-=
+fullpath-after-flags.patch
+@@ -1,4 +1,4 @@
+-From b703b0d11adc9147a7d97817bd771ac40b8c4d39 Mon Sep 17 00:00:00 2001
++From 2ebd36d1190bb16ff537ab2189802c025803b116 Mon Sep 17 00:00:00 2001
+ From: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+ Date: Wed, 16 Sep 2020 13:45:07 -0400
+ Subject: [PATCH] memcheck vgtests remove fullpath-after flags
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak=
+_cmsg.stderr.exp-adjust-tmp-paths.patch b/meta/recipes-devtools/valgrind/va=
+lgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+index 7deca99202c..9e2f1792526 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.s=
+tderr.exp-adjust-tmp-paths.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.s=
+tderr.exp-adjust-tmp-paths.patch
+@@ -1,4 +1,4 @@
+-From bbb5e8a6fc5eec178f8077ab006ab42c009528d4 Mon Sep 17 00:00:00 2001
++From e0efed171478290f06a186b809b4de1d30b69035 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 24 Jan 2020 17:55:39 +0100
+ Subject: [PATCH] none/tests/fdleak_cmsg.stderr.exp: adjust /tmp paths
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-sigqueue-Rename-_=
+sifields-to-__si_fields-on-musl.patch b/meta/recipes-devtools/valgrind/valg=
+rind/0001-sigqueue-Rename-_sifields-to-__si_fields-on-musl.patch
+index efa6c2c8950..a020d30ec8d 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-sigqueue-Rename-_sifield=
+s-to-__si_fields-on-musl.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-sigqueue-Rename-_sifield=
+s-to-__si_fields-on-musl.patch
+@@ -1,4 +1,4 @@
+-From c287382a1f3dd9f2db3df54dde54b4b266791bb9 Mon Sep 17 00:00:00 2001
++From 951319748b6e60615fdf12a59c6df56a25e39cdd Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 10 Jun 2017 00:46:39 -0700
+ Subject: [PATCH] sigqueue: Rename _sifields to __si_fields on musl
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-tests-arm-Use-O-i=
+nstead-of-O0.patch b/meta/recipes-devtools/valgrind/valgrind/0001-tests-arm=
+-Use-O-instead-of-O0.patch
+index 3eea1955793..b1a27dfee30 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-tests-arm-Use-O-instead-=
+of-O0.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-tests-arm-Use-O-instead-=
+of-O0.patch
+@@ -1,4 +1,4 @@
+-From 8087ae8dcc46f3f81af58ed9b7176761b988ee61 Mon Sep 17 00:00:00 2001
++From 12fec29880ae4b1ce8ac98f6fa54323264ecdd11 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 10 May 2024 17:44:47 -0700
+ Subject: [PATCH] tests/arm: Use -O instead of -O0
+@@ -19,10 +19,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+=20
+ diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
+-index a76981e..a198f73 100644
++index f452d69..fbd9416 100644
+ --- a/none/tests/arm/Makefile.am
+ +++ b/none/tests/arm/Makefile.am
+-@@ -57,9 +57,9 @@ allexec_CFLAGS		=3D $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
++@@ -56,9 +56,9 @@ allexec_CFLAGS		=3D $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
+  # Also force -O0 since -O takes hundreds of MB of memory=20
+  # for v6intThumb.c.
+  v6intARM_CFLAGS   =3D $(AM_CFLAGS) -g -O0 -marm
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-valgrind-filter_x=
+ml_frames-do-not-filter-usr.patch b/meta/recipes-devtools/valgrind/valgrind=
+/0001-valgrind-filter_xml_frames-do-not-filter-usr.patch
+index c64c2afd3f0..686f6b26921 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-valgrind-filter_xml_fram=
+es-do-not-filter-usr.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-valgrind-filter_xml_fram=
+es-do-not-filter-usr.patch
+@@ -1,4 +1,4 @@
+-From f8fbebcf69e4a8bf2122b7c55f2ce372377af1bc Mon Sep 17 00:00:00 2001
++From 0965cb629d9fe745e4b903510345178c81523118 Mon Sep 17 00:00:00 2001
+ From: Randy MacLeod <Randy.MacLeod@windriver.com>
+ Date: Mon, 13 May 2019 17:12:21 -0400
+ Subject: [PATCH] valgrind: filter_xml_frames: do not filter /usr
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0003-correct-include-d=
+irective-path-for-config.h.patch b/meta/recipes-devtools/valgrind/valgrind/=
+0003-correct-include-directive-path-for-config.h.patch
+index 3acb5a28f48..71196df8a34 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/0003-correct-include-directiv=
+e-path-for-config.h.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/0003-correct-include-directiv=
+e-path-for-config.h.patch
+@@ -1,4 +1,4 @@
+-From de4d7e478515b63f049b211266d9b946c15cc0b9 Mon Sep 17 00:00:00 2001
++From 3dcfafff80f37b65153f100bccf09ac8092dced1 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 10 Jun 2017 01:03:17 -0700
+ Subject: [PATCH] correct include directive path for config.h
+diff --git a/meta/recipes-devtools/valgrind/valgrind/Added-support-for-PPC-=
+instructions-mfatbu-mfatbl.patch b/meta/recipes-devtools/valgrind/valgrind/=
+Added-support-for-PPC-instructions-mfatbu-mfatbl.patch
+index 109caf76abe..f6589fffdb2 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/Added-support-for-PPC-instruc=
+tions-mfatbu-mfatbl.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/Added-support-for-PPC-instruc=
+tions-mfatbu-mfatbl.patch
+@@ -1,4 +1,4 @@
+-From 85bff993087cd7367ffc35de525c2bf6162398d2 Mon Sep 17 00:00:00 2001
++From 492d4c3cfcd57edd5610ab355ab9f9ba901c6edc Mon Sep 17 00:00:00 2001
+ From: Aneesh Bansal <aneesh.bansal@freescale.com>
+ Date: Mon, 21 Nov 2011 17:31:39 +0530
+ Subject: [PATCH] Added support for PPC instructions mfatbu, mfatbl.
+@@ -17,7 +17,7 @@ Signed-off-by: Aneesh Bansal <aneesh.bansal@freescale.com=
+>
+  3 files changed, 42 insertions(+)
+=20
+ diff --git a/VEX/priv/guest_ppc_defs.h b/VEX/priv/guest_ppc_defs.h
+-index 220fbf1..cd259f3 100644
++index f5571c4..7b80c96 100644
+ --- a/VEX/priv/guest_ppc_defs.h
+ +++ b/VEX/priv/guest_ppc_defs.h
+ @@ -233,6 +233,8 @@ extern UInt ppc32g_dirtyhelper_MFSPR_268_269 ( UInt );
+@@ -30,7 +30,7 @@ index 220fbf1..cd259f3 100644
+                                       UInt vD_idx, UInt sh,
+                                       UInt shift_right );
+ diff --git a/VEX/priv/guest_ppc_helpers.c b/VEX/priv/guest_ppc_helpers.c
+-index 2611e52..72c349b 100644
++index a48164a..229b5a8 100644
+ --- a/VEX/priv/guest_ppc_helpers.c
+ +++ b/VEX/priv/guest_ppc_helpers.c
+ @@ -118,6 +118,24 @@ UInt ppc32g_dirtyhelper_MFSPR_287 ( void )
+@@ -59,10 +59,10 @@ index 2611e52..72c349b 100644
+  /* CALLED FROM GENERATED CODE */
+  /* DIRTY HELPER (reads guest state, writes guest mem) */
+ diff --git a/VEX/priv/guest_ppc_toIR.c b/VEX/priv/guest_ppc_toIR.c
+-index 18716dd..b2e72a0 100644
++index dbeba05..1e51b40 100644
+ --- a/VEX/priv/guest_ppc_toIR.c
+ +++ b/VEX/priv/guest_ppc_toIR.c
+-@@ -11875,6 +11875,28 @@ static Bool dis_proc_ctl ( const VexAbiInfo* vbi,=
+ UInt prefix, UInt theInstr )
++@@ -11864,6 +11864,28 @@ static Bool dis_proc_ctl ( const VexAbiInfo* vbi,=
+ UInt prefix, UInt theInstr )
+           break;
+        }
+ =20
+diff --git a/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets=
+-which-don-t-support-it.patch b/meta/recipes-devtools/valgrind/valgrind/avo=
+id-neon-for-targets-which-don-t-support-it.patch
+index 1597b3a021b..57c242dddc6 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-=
+don-t-support-it.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/avoid-neon-for-targets-which-=
+don-t-support-it.patch
+@@ -1,4 +1,4 @@
+-From 596372bc9b4d31bc9811881cfa747d99a8c25141 Mon Sep 17 00:00:00 2001
++From 0bd621fdd5a211369c30136b4b1408e5ea3748d3 Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Tue, 19 Jan 2016 16:42:36 -0800
+ Subject: [PATCH] avoid neon for targets which don't support it
+diff --git a/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch =
+b/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
+index 6bfc6035ed6..4f9c74efdb6 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/fixed-perl-path.patch
+@@ -1,4 +1,4 @@
+-From 408f9b39ca4f5709b668f13829a94c4cae855006 Mon Sep 17 00:00:00 2001
++From d39ee9960e306aabe707f3a8a1416e39b983ab79 Mon Sep 17 00:00:00 2001
+ From: Qing He <qing.he@intel.com>
+ Date: Tue, 31 Aug 2010 22:51:58 +0800
+ Subject: [PATCH] valgrind: fix perl scripts
+@@ -24,7 +24,7 @@ Signed-off-by: Maxin B. John <maxin.john@intel.com>
+  3 files changed, 3 insertions(+), 3 deletions(-)
+=20
+ diff --git a/massif/ms_print.in b/massif/ms_print.in
+-index a206ce4..df1bc31 100755
++index d97b878..b4a762f 100644
+ --- a/massif/ms_print.in
+ +++ b/massif/ms_print.in
+ @@ -1,4 +1,4 @@
+@@ -34,7 +34,7 @@ index a206ce4..df1bc31 100755
+  ##--------------------------------------------------------------------##
+  ##--- Massif's results printer                         ms_print.in ---##
+ diff --git a/perf/vg_perf.in b/perf/vg_perf.in
+-index 90ee1d2..c585096 100644
++index cc27834..0e49550 100644
+ --- a/perf/vg_perf.in
+ +++ b/perf/vg_perf.in
+ @@ -1,4 +1,4 @@
+@@ -44,7 +44,7 @@ index 90ee1d2..c585096 100644
+  ##--- Valgrind performance testing script                  vg_perf ---##
+  ##--------------------------------------------------------------------##
+ diff --git a/tests/vg_regtest.in b/tests/vg_regtest.in
+-index 3471322..49e1114 100755
++index 2c4fe8c..2017841 100644
+ --- a/tests/vg_regtest.in
+ +++ b/tests/vg_regtest.in
+ @@ -1,4 +1,4 @@
+diff --git a/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch b=
+/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
+index 19690e5ebbd..9b4bfd2a876 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
+@@ -1,4 +1,4 @@
+-From 8c92089741d809cfd18354f1b4df18cd28398a20 Mon Sep 17 00:00:00 2001
++From dcb40da8ebf6ad6fe1ab308973c7896717f7e199 Mon Sep 17 00:00:00 2001
+ From: Yi Fan Yu <yifan.yu@windriver.com>
+ Date: Wed, 17 Mar 2021 12:16:31 -0400
+ Subject: [PATCH] remove s390x_vec_op_t
+@@ -18,10 +18,10 @@ Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+ diff --git a/VEX/priv/guest_s390_defs.h b/VEX/priv/guest_s390_defs.h
+-index 29efa01..3a8f0a0 100644
++index 5c87d2b..9210822 100644
+ --- a/VEX/priv/guest_s390_defs.h
+ +++ b/VEX/priv/guest_s390_defs.h
+-@@ -285,7 +285,7 @@ typedef enum {
++@@ -281,7 +281,7 @@ typedef enum {
+     S390_VEC_OP_VCLFNL,
+     S390_VEC_OP_VCRNF,
+     S390_VEC_OP_LAST             // supposed to be the last element in enu=
+m
+diff --git a/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-=
+mcpu-mfpu-for-ARM-test-apps.patch b/meta/recipes-devtools/valgrind/valgrind=
+/use-appropriate-march-mcpu-mfpu-for-ARM-test-apps.patch
+index 0c18a63c2ba..a258eba914d 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mf=
+pu-for-ARM-test-apps.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/use-appropriate-march-mcpu-mf=
+pu-for-ARM-test-apps.patch
+@@ -1,4 +1,4 @@
+-From a5cd00f1c2d78e2a15f4a0c595f5ac10ca4c3290 Mon Sep 17 00:00:00 2001
++From 9578dae640073ae06df6a1c2c77c9263f2d0b85b Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Tue, 19 Jan 2016 16:00:00 -0800
+ Subject: [PATCH] use appropriate -march/-mcpu/-mfpu for ARM test apps
+@@ -23,10 +23,10 @@ Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+  1 file changed, 4 insertions(+), 2 deletions(-)
+=20
+ diff --git a/none/tests/arm/Makefile.am b/none/tests/arm/Makefile.am
+-index 79b957c..41a5a03 100644
++index 5241bbd..d197575 100644
+ --- a/none/tests/arm/Makefile.am
+ +++ b/none/tests/arm/Makefile.am
+-@@ -87,8 +87,10 @@ neon64_CFLAGS     =3D $(AM_CFLAGS) -g -O0 -mcpu=3Dcorte=
+x-a8 \
++@@ -86,8 +86,10 @@ neon64_CFLAGS     =3D $(AM_CFLAGS) -g -O0 -mcpu=3Dcorte=
+x-a8 \
+  			-mfpu=3Dneon \
+  			-mthumb
+ =20
+diff --git a/meta/recipes-devtools/valgrind/valgrind/valgrind-make-ld-XXX.s=
+o-strlen-intercept-optional.patch b/meta/recipes-devtools/valgrind/valgrind=
+/valgrind-make-ld-XXX.so-strlen-intercept-optional.patch
+index ca7f721d9c0..73c386ce449 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/valgrind-make-ld-XXX.so-strle=
+n-intercept-optional.patch
++++ b/meta/recipes-devtools/valgrind/valgrind/valgrind-make-ld-XXX.so-strle=
+n-intercept-optional.patch
+@@ -1,4 +1,4 @@
+-From b407514aa1a4fd3667b30527260e271da34ce4a7 Mon Sep 17 00:00:00 2001
++From 5726038404bbfd795d4878a77b07f5154bede977 Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Tue, 13 Dec 2016 11:29:55 +0800
+ Subject: [PATCH] make ld-XXX.so strlen intercept optional
+@@ -17,10 +17,10 @@ Signed-off-by: Jackie Huang <jackie.huang@windriver.com=
+>
+  1 file changed, 12 insertions(+), 1 deletion(-)
+=20
+ diff --git a/coregrind/m_redir.c b/coregrind/m_redir.c
+-index 63172b9..1b5bf95 100644
++index 0c43731..1bafb47 100644
+ --- a/coregrind/m_redir.c
+ +++ b/coregrind/m_redir.c
+-@@ -1321,7 +1321,18 @@ static void add_hardwired_spec (const  HChar* sopat=
+t, const HChar* fnpatt,
++@@ -1349,7 +1349,18 @@ static void add_hardwired_spec (const  HChar* sopat=
+t, const HChar* fnpatt,
+     spec->to_addr     =3D to_addr;
+     spec->isWrap      =3D False;
+     spec->isGlobal    =3D False;
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.27.1.bb b/meta/recip=
+es-devtools/valgrind/valgrind_3.28.0.bb
+similarity index 96%
+rename from meta/recipes-devtools/valgrind/valgrind_3.27.1.bb
+rename to meta/recipes-devtools/valgrind/valgrind_3.28.0.bb
+index 829b6c96a86..8c4e2f5aff1 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.27.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.28.0.bb
+@@ -26,8 +26,10 @@ SRC_URI =3D "https://sourceware.org/pub/valgrind/valgrin=
+d-${PV}.tar.bz2 \
+            file://0001-docs-Disable-manual-validation.patch \
+            file://0001-tests-arm-Use-O-instead-of-O0.patch \
+            file://0001-getdents_filter.c-workaround-off64_t-not-defined-in=
+-.patch \
++           file://0001-Bug-5277723-configure.ac-do-not-fail-the-arm64-test=
+-.patch \
+            "
+-SRC_URI[sha256sum] =3D "5d589152eb8071c02feab8ce6ab719e431a1fbc3e2b1700f54=
+32632a8b9264dc"
++
++SRC_URI[sha256sum] =3D "9f7a18d128f05d3a80fea53e6953f34aad7200a425ceaee460=
+99a8a798a7dd9c"
+ UPSTREAM_CHECK_REGEX =3D "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+ COMPATIBLE_HOST =3D '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64|riscv=
+64).*-linux'
