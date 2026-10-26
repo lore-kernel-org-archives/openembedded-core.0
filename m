@@ -1,149 +1,120 @@
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30294.1792962804641953461
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33143.1792973384795733468
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Oct 2026 14:13:27 -0700
+ Sun, 25 Oct 2026 17:09:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=kRDWCCR7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202610252113203d6d3c855f000207b3-oj79fj@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202610252113203d6d3c855f000207b3
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 25 Oct 2026 22:13:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=qMaqlnJMlpMdnJ7jaBKEId1LNwDEs8PWCGBIPIG9kMw=;
- b=kRDWCCR7wPaMrV/33IzJBqOjPPKZh5HxI1RI+lrsVcQoZd4GxUHZdbR+cFOkNgZu6wcgMa
- Q0076sAPqSXXihNRy0UD2+npgLqhGT7VeJX2MtoQFW6k0mb9cFacFgQz37wTwhjFvzzV3mWg
- c5au5G6mNQbgHHAXtlsOj4LGI7SrBUotv/ZqEi+2xFMsaX6J6LihoMvt01NbveKPEJH6HiyT
- le94XPvHQ+n3N+OiqvMq1GZ43/nBK+t0MLKyE3UnwseL41KeZFFvMTgiuizr8bZZOsDYyEKg
- /khL12niagxX17FxWwrisqelmsIKq8SkLG4qdBavGI9xizT5haC/YCfA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH] python3: upgrade 3.12.15 -> 3.12.16
-Date: Sun, 25 Oct 2026 22:13:02 +0100
-Message-ID: <20261025211302.1904712-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=d7uMFmQq;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a5720b0a57so2756395e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 17:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792973383; x=1793578183; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SlRCSbbfosDszALTcJkOeg2ivL7STo0bCDTq3vITszo=;
+        b=d7uMFmQqs6Llv6jhH0snWjxdk24wPiA2NNT53cpaXIQ9mun0FpRVJNB8hVP2zF38V3
+         lkcyIQA0bojjV61dm2s/xmTycON9geKDVGsoNa/U7YQso1aLl8STNPjrxmdDawh3wLpw
+         sgXrweZxcxo3XOqJqD9kquVHIyBaTSAXv5XfEnlIwsHH0pUzSWRO3Ui/wUlQWOeiAKZe
+         W875xy4u0R7kOYlXu0OgNstiiXVlzaY3YTvGYKAyYeZipU/TY8rUmPo8NkDFG9KuSN10
+         U5JNNxsholVQBlshFay6hWnbL7wzHndSASIXF3SPsv+HWUvj079YyQzC28QXJ75O+Zem
+         Xweg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792973383; x=1793578183;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SlRCSbbfosDszALTcJkOeg2ivL7STo0bCDTq3vITszo=;
+        b=M+jfhCRMCskODV9KZj409obmWE6CjKJlmlk0eFVl1LHRNnClD3IhWRmebBf1b3Wdqz
+         AZFRTDtqjXtrX0jUDC2cEi4YIoy10osH/s7M603NdGnc5Y7Segi43f1Hxs0UXnEjaD8k
+         bKd7igf7FOp0c9gSTuq6CyaIoGRbSanWDiy9G6btfiRHKqMzsEQvem+Zpen7/ZOnwcan
+         3IijCViwQQ7f7TtJrHVgeULOraf/oX4RxfK4S19iIJVIOL+yFWIy0peuYF+3IuhCD8RW
+         w+Zwo8Eg3OKkH2fuOX2Tv6176usJ68CnfeMiTNt45P0XWfD0tsyLzz2c51NfVA5ktrn/
+         Rclw==
+X-Forwarded-Encrypted: i=1; AKwUvBwG5vmtxsKsnezH63NYoPvy8xSdgg/jXUH4mS2GTob/8/iYXrm8D4W+ezKrNo8cET+FWUtbKvblL+ytC7Q51E//wQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYL1ihCGJWeZzjyJUIAjUGGxGkngLJInT9prz7TPHjsa47zSy0+Y
+	K1V6BxKmVAS8qU3WMeYfPp6cjcrhcfFz2v8LnL+qnx4N5xH0hEInuXyQ
+X-Gm-Gg: AYBFou12pazJV5dzQzwM5150DjzkJ35a8uP9GE32KupWXybyzL+bSB/qDgUKHphIAKO
+	EuwhsPPTDMVdJHC4lK+LzwpjUQ22yGxen+Vkrccvqv6QW8pdUZgNo47BvkSlmYghEgYEKwv623W
+	/EJz7+rRuAM8kiOF/w3x1/+mas8ViXsc0QmCa5BqJ3snJky1C4uSul7Epx7xbzjizqO1ydsrSuF
+	c0h54rWzSQOwuOz17ro3/MT8ogWLv45XCoUiGVOQ8DAUXjX4ZNzaG1UZB7Zl/rRVcIilijsteB4
+	y4D0ur/EgJfePKsrv1UwgSNjV8/Muaf/xho2644BY/wJoGrtj5N/7PIpHclH5LKfF/lV4/RKTg8
+	CFDJyOYygi7jSfzBOKWtGi3XG/s/zYd5tdXomv32DLBimOkyAvNRYM5m/Jb11nwiPFLbHaQeHpt
+	maMI6RVND83x5VDXVU9E2TYhAZrp3z+4LFVVgpXlBZofmpMi1D8l8vhl1VFImRKEWRglwcFNn4g
+	AilgzibK5ArpyXc2oAe2CGmFDDHPPDBPAs1IxzUaHo/XP7vphABgZ6igKk7xnzKrnC3SdsrefBv
+	RroHaWYlg8/4iRNKuyFgsLn9vNzAiCsrCcUshKOFC7RqNLnRJA==
+X-Received: by 2002:a05:600c:8581:b0:4a3:5da2:38ae with SMTP id 5b1f17b1804b1-4a35da23c55mr62725935e9.14.1792973382750;
+        Sun, 25 Oct 2026 17:09:42 -0700 (PDT)
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecde7c3sm13551329f8f.51.2026.10.25.17.09.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2026 17:09:42 -0700 (PDT)
+Message-ID: <fe9ebfd9a22724c0387504cee4b5e857482a17e9.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 0/5] devtool: Support multiconfig workflows
+ and fix kernel extraction
+From: "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
+To: anusmita.duttamazumder@arm.com, openembedded-core@lists.openembedded.org
+Date: Mon, 26 Oct 2026 01:09:41 +0100
+In-Reply-To: <20261023102215.4043005-1-anusmita.duttamazumder@arm.com>
+References: <20261023102215.4043005-1-anusmita.duttamazumder@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2026 21:13:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248628
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 00:09:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248629
 
-From: Peter Marko <peter.marko@siemens.com>
+Hi Anusmita,
 
-This is a security release of Python 3.12
-Release information: [1]
+Thanks for working on this, multiconfig support in devtool is long
+overdue (YOCTO #13933). Handling the mc: prefix when devtool calls
+bitbake is clearly needed. Before going further, I'd like to agree on
+the long term design of the workspace, as my series works on the same
+problem from another angle.
+https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dadrianf/ide=
+-sdk-improvements
 
-This is an expedited security release to address the compromised eMudhra
-intermediate CA keys. These keys are now blocked by the ssl module as a
-last resort against their use.
-Normal uses of pip, including to upgrade pip itself, are now safe from
-attacks based on those compromised keys, even if pip hasn't been updated
-yet.
+In most cases there is one recipe and one source tree, and what
+differs is only what that source is built for: another multiconfig,
+-native, nativesdk or a multilib variant such as lib32. Build output
+is already separate for all of them: each multiconfig has its own
+TMPDIR, and the BBCLASSEXTEND variants have their own WORKDIR. So the
+question is mostly how the workspace records which variants are
+modified, and which source tree they build.
 
-Security content in this release
-* CVE-2026-115557 gh-160040: Distrust compromised eMudhra intermediate CA keys
-* CVE-2026-77214 CVE-2026-102633 gh-158876: Update bundled Expat to 2.9.0
-* CVE-2024-3220 gh-159428: Don't read mimetypes.knownfiles by default on Windows
-* CVE-2026-114583 gh-160097: Reject links replacing the destination in tarfile.tar_filter
-* gh-87720: Fix additional header refolding-quoting edge case
-* gh-157579: Fix race condition in the cleanup of tempfile.TemporaryDirectory
-* gh-160300: Reject cookies with a negative version in http.cookiejar
+Your series puts the appends in a directory per multiconfig
+(appends/multiconfig/<mc>/) and selects them through BBFILES with
+BB_CURRENT_MC. This is small and makes it explicit which
+configuration is modified. The workspace is still keyed by the bare
+PN though, so a recipe can only be modified in one configuration at a
+time. This matches the current restriction to one BBCLASSEXTEND
+variant per recipe.
 
-[1] https://www.python.org/downloads/release/python-31216/
+My series keeps one bbappend per recipe file and scopes all settings
+with pn-<pn>, so that e.g. foo, foo-native and lib32-foo can be in the
+workspace at the same time. By default they share one source tree. A
+variant gets its own tree only if its SRC_URI, SRCREV or S differ, or
+if a variant builds in the source tree (B =3D S). The oe-workdir and
+oe-logs symlinks in the shared tree are named per variant, e.g.
+oe-workdir-native or oe-workdir-mc1. This does not cover BBMULTICONFIG
+yet: PN is the same in every configuration, so pn- cannot tell them
+apart, and something like a multiconfig specific override would be
+needed in the shared bbappend.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../0001-Avoid-shebang-overflow-on-python-config.py.patch       | 2 +-
- ...1-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch | 2 +-
- ...1-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch | 2 +-
- .../0001-test_ctypes.test_find-skip-without-tools-sdk.patch     | 2 +-
- meta/recipes-devtools/python/python3/makerace.patch             | 2 +-
- .../python/{python3_3.12.15.bb => python3_3.12.16.bb}           | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.12.15.bb => python3_3.12.16.bb} (99%)
+The two approaches overlap but don't fit together well. With both
+merged, devtool would have one mechanism for multiconfigs (separate
+append files) and another one for BBCLASSEXTEND variants (scoped lines
+in a shared append). read_workspace, reset, update-recipe/finish and
+ide-sdk would have to handle both. Modifying e.g. foo-native and
+mc:mc1:foo at the same time would combine both mechanisms.
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-index 6c8b1bf6cd9..3da1b60f3bd 100644
---- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
-@@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index 2d235d2..1ac2263 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2361,6 +2361,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-+@@ -2366,6 +2366,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
-  	@ # Substitution happens here, as the completely-expanded BINDIR
-  	@ # is not available in configure
-  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
-diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-index 6066b26e38f..3cbde6c6cc5 100644
---- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
-@@ -13,7 +13,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index 083f4c7..dce36a5 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -663,8 +663,7 @@ profile-run-stamp:
-+@@ -665,8 +665,7 @@ profile-run-stamp:
-  	# enabled.
-  	$(MAKE) profile-gen-stamp
-  	# Next, run the profile task to generate the profile information.
-diff --git a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-index 5fdf5f4514e..3f59d824054 100644
---- a/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-+++ b/meta/recipes-devtools/python/python3/0001-gh-107811-tarfile-treat-overflow-in-UID-GID-as-failu.patch
-@@ -16,7 +16,7 @@ diff --git a/Lib/tarfile.py b/Lib/tarfile.py
- index 0a0f31e..4dfb67d 100755
- --- a/Lib/tarfile.py
- +++ b/Lib/tarfile.py
--@@ -2721,7 +2721,8 @@ class TarFile(object):
-+@@ -2735,7 +2735,8 @@ class TarFile(object):
-                      os.lchown(targetpath, u, g)
-                  else:
-                      os.chown(targetpath, u, g)
-diff --git a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-index 307e4bf3069..d820e37e601 100644
---- a/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-+++ b/meta/recipes-devtools/python/python3/0001-test_ctypes.test_find-skip-without-tools-sdk.patch
-@@ -18,7 +18,7 @@ diff --git a/Lib/test/test_ctypes/test_find.py b/Lib/test/test_ctypes/test_find.
- index a41e949..eb5fe19 100644
- --- a/Lib/test/test_ctypes/test_find.py
- +++ b/Lib/test/test_ctypes/test_find.py
--@@ -113,10 +113,12 @@ class FindLibraryLinux(unittest.TestCase):
-+@@ -133,10 +133,12 @@ class FindLibraryLinux(unittest.TestCase):
-                  # LD_LIBRARY_PATH)
-                  self.assertEqual(find_library(libname), 'lib%s.so' % libname)
-  
-diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
-index 4575a30bfcf..4fcf6468762 100644
---- a/meta/recipes-devtools/python/python3/makerace.patch
-+++ b/meta/recipes-devtools/python/python3/makerace.patch
-@@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
- index dce36a5..2d235d2 100644
- --- a/Makefile.pre.in
- +++ b/Makefile.pre.in
--@@ -2272,7 +2272,7 @@ COMPILEALL_OPTS=-j0
-+@@ -2277,7 +2277,7 @@ COMPILEALL_OPTS=-j0
-  TEST_MODULES=@TEST_MODULES@
-  
-  .PHONY: libinstall
-diff --git a/meta/recipes-devtools/python/python3_3.12.15.bb b/meta/recipes-devtools/python/python3_3.12.16.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.12.15.bb
-rename to meta/recipes-devtools/python/python3_3.12.16.bb
-index 6c6289b0e69..9946bb075dd 100644
---- a/meta/recipes-devtools/python/python3_3.12.15.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.16.bb
-@@ -42,7 +42,7 @@ SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
-            "
- 
--SRC_URI[sha256sum] = "c2c4321961fab0fb999d66e0cecf521c2ab3994c7992873ea99e306c1094fd5a"
-+SRC_URI[sha256sum] = "b5796915dc45ff745cfb4e990a7e7c93d6f546328a102ce31448d69ebc37575c"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+So my question: what is the better long term design, also with
+-native, nativesdk and multilib in mind? Separate workspace appends
+per configuration or variant, or one append per recipe file with the
+modified variants scoped inside it and one shared source tree?
+
+Regards,
+Adrian
