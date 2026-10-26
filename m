@@ -1,44 +1,44 @@
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38883.1793004978568706182
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38523.1793004973620930012
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 01:56:18 -0700
+ Mon, 26 Oct 2026 01:56:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=o4A1lKGz;
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=Iks9K5J7;
  spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id A84D43D81665;
-	Mon, 26 Oct 2026 04:56:17 -0400 (EDT)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 9F76A3D818BD;
+	Mon, 26 Oct 2026 04:56:12 -0400 (EDT)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id yWGw1k-HwnMh; Mon, 26 Oct 2026 04:56:16 -0400 (EDT)
+ with ESMTP id PpGGN_SvsoVm; Mon, 26 Oct 2026 04:56:11 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 32A123D81844;
-	Mon, 26 Oct 2026 04:56:16 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 32A123D81844
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 490283D81886;
+	Mon, 26 Oct 2026 04:56:11 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 490283D81886
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1793004976; bh=2wXA9kvuVFwrZ+iyx3dvkrTNM+TJ0RZOfDP0gnM/e/8=;
+	t=1793004971; bh=u78LAm3kCalwn/I6m7UYFSB57F27UMB0d29XkBWW4eg=;
 	h=From:Date:MIME-Version:Message-Id:To;
-	b=o4A1lKGzkN7CUvy2Orx8MNBmAAk1jvF7mr1rrlxR8jZ9LkEnRUc6YhJ3Y9fNwslXQ
-	 Roc9p2pgyNl8zchLO3h8ZoAp5hycOB3VeVbsPUOsRuwNeXLPPUg/pF4xvJ+E3P8Ce/
-	 orgwx0t85BUDrhtaJp2Q1niORvt6rFDg8ZC7cC00NF7NFNPY6rj9ckBZNdRS4KGqNe
-	 0tGMpRc28jtUkSel7z43mCj1SdGXSTf3AMs/0R3/YMM5fyETivlpGDeuEYbGhyNODy
-	 elKK/B++KT3s9E5+uxPPxyo6z/SN885bcFsOQ/NkJ2inu0t9sEviLAkwB64W3ga3k/
-	 SFD0waxtHXghQ==
+	b=Iks9K5J7uGbAonFxGAhAScYgq/39lKb4CuEaUMW/lHH87dXnlKveCdrU8PkHmMSOA
+	 DnEKi5Bch6vHD+4kTpQLQBDZyfIB17SWRrSqL9Htww7pq/jy66J8NznVD6y+g230lP
+	 ZqCh2XI4KKdUGRmPW+fhpN0z7gO5FEWPsQmLUdv5wQM3tpn3YqAuFu5YTZZGzFdxB0
+	 gpMjasQSX1nnshK14QpqUpPkszCVRi3d9s156SjeMhkffbxTScd5zbKpUMKTT4V3Z4
+	 u/IRXHdbq8iNtzoXMvJfIi5q6LfIRSMZqyjFYb31kM0c+0IQX46+ZCNgnoo+i5DiUT
+	 zPj6+BwwvR2ww==
 X-Virus-Scanned: amavis at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id L2ZmMPUunFab; Mon, 26 Oct 2026 04:56:16 -0400 (EDT)
+ with ESMTP id BzaVtBpgYiOm; Mon, 26 Oct 2026 04:56:11 -0400 (EDT)
 Received: from isabelle.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id A3FD63D818A9;
-	Mon, 26 Oct 2026 04:56:15 -0400 (EDT)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id B19A63D81896;
+	Mon, 26 Oct 2026 04:56:10 -0400 (EDT)
 From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Date: Mon, 26 Oct 2026 09:55:49 +0100
-Subject: [PATCH 11/20] devtool: ide-sdk: add Cargo build task
+Date: Mon, 26 Oct 2026 09:55:41 +0100
+Subject: [PATCH 03/20] devtool: ide-sdk: export recipe Cargo configuration
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261026-devtool-ide-sdk-cargo-v1-11-d4504e124d07@savoirfairelinux.com>
+Message-Id: <20261026-devtool-ide-sdk-cargo-v1-3-d4504e124d07@savoirfairelinux.com>
 References: <20261026-devtool-ide-sdk-cargo-v1-0-d4504e124d07@savoirfairelinux.com>
 In-Reply-To: <20261026-devtool-ide-sdk-cargo-v1-0-d4504e124d07@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
@@ -47,117 +47,124 @@ Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
 X-Mailer: b4 0.16.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 08:56:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248649
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248641
 
-Generate a Cargo build task that uses the exported recipe config and build
-flags. Run it in the recipe source tree with only the SDK PATH so Cargo
-uses the cross environment captured for the recipe.
+Export recipe Cargo config to the devtool workspace so Cargo and
+rust-analyzer reuse target, linker, rustflags, and dependency settings
+instead of duplicating them in settings.json and tasks.json. Other IDE
+integrations can reuse the generated config too.
+
+Update managed TOML table entries in place to preserve unrelated content.
+tomllib and tomli only parse TOML; using a writer would add a dependency.
 
 AI-Generated: Uses GitHub Copilot
 Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py     | 37 +++++++++++++++++++++++++++++
- scripts/lib/devtool/ide_plugins/ide_code.py | 25 +++++++++++++++++++
- 2 files changed, 62 insertions(+)
+ scripts/lib/devtool/ide_sdk.py | 84 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 990a3060aa..bd0bfb06ec 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -4390,6 +4390,43 @@ class DevtoolIdeSdkRustTests(DevtoolIdeSdkTests):
-         self.assertIn('rust-lang.rust-analyzer', extensions['recommendations'])
-         self.assertIn('ms-vscode.cpptools', extensions['recommendations'])
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index e686dbcff8..21229f5970 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -36,6 +36,34 @@ logger = logging.getLogger('devtool')
+ ide_plugins = {}
  
-+    def test_code_cargo_build_task(self):
-+        recipe_name = "cargo-example"
-+        self._check_workspace()
-+        self._write_bb_config()
-+        tempdir = self._devtool_ide_sdk_recipe(recipe_name, "Cargo.toml", None)
-+        runCmd('devtool ide-sdk %s oe-selftest-image --ide=code '
-+               '--target root@localhost --no-host-check' % recipe_name,
-+               output_log=self._cmd_logger)
-+
-+        with open(os.path.join(tempdir, '.vscode', 'tasks.json')) as tasks_file:
-+            tasks = json.load(tasks_file)['tasks']
-+        build_task = next(task for task in tasks
-+                          if task['label'].startswith('cargo build '))
-+        cargo_config = os.path.join(
-+            self.workspacedir, 'ide-sdk', recipe_name, 'cargo-config.toml')
-+        self.assertEqual(build_task['command'], get_bb_var('CARGO', recipe_name))
-+        self.assertEqual(
-+            build_task['args'][:3], ['--config', cargo_config, 'build'])
-+        self.assertIn('--features', build_task['args'])
-+        self.assertIn('ide-sdk-selftest', build_task['args'])
-+        self.assertEqual(set(build_task['options']['env']), {'PATH'})
-+
-+        build_env = os.environ.copy()
-+        build_env.update(build_task['options']['env'])
-+        result = subprocess.run(
-+            [build_task['command']] + build_task['args'],
-+            cwd=build_task['options']['cwd'], env=build_env,
-+            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-+            universal_newlines=True)
-+        self.assertEqual(result.returncode, 0, result.stdout)
-+
-+        install_task = next(
-+            task for task in tasks
-+            if task['label'].startswith('install && deploy-target '))
-+        self.assertEqual(install_task['dependsOn'], [build_task['label']])
-+
-+
- class DevtoolIdeSdkKernelTests(DevtoolIdeSdkTests):
  
-     @OETestTag("runqemu")
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
-index 80314bfb89..089016c639 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -8,6 +8,7 @@
- import json
- import logging
- import os
-+import shlex
- import shutil
- import shlex
- from devtool.ide_plugins import BuildTool, IdeBase, GdbCrossConfig, DebuggerServerModes, LldbServerConfig, get_devtool_deploy_opts, resolve_deploy_target
-@@ -852,6 +853,28 @@ class IdeVSCode(IdeBase):
-         IdeBase.update_json_file(
-             self.dot_code_dir(modified_recipe), tasks_file, tasks_dict)
- 
-+    def vscode_tasks_cargo(self, args, image_recipe, modified_recipe):
-+        build_task_name = "cargo build %s" % modified_recipe.recipe_id_pretty
-+        cargo_config = modified_recipe.cargo_config_path
-+        build_task = {
-+            "label": build_task_name,
-+            "type": "shell",
-+            "command": modified_recipe.cargo,
-+            "args": ["--config", cargo_config, "build"] +
-+                     shlex.split(modified_recipe.cargo_build_flags) +
-+                     shlex.split(modified_recipe.cargo_packageconfig_confargs),
-+            "options": {
-+                "cwd": modified_recipe.real_srctree,
-+                "env": {"PATH": modified_recipe.path},
-+            },
-+            "group": {
-+                "kind": "build",
-+                "isDefault": True
-+            },
-+            "problemMatcher": []
-+        }
-+        self.vscode_tasks_binary(args, image_recipe, modified_recipe, build_task)
++def set_toml_table_values(content, table, values):
++    """Update one TOML table while preserving unrelated configuration text."""
++    lines = content.splitlines()
++    header = '[%s]' % table
++    try:
++        start = next(i for i, line in enumerate(lines)
++                     if line.strip() == header)
++    except StopIteration:
++        if lines and lines[-1].strip():
++            lines.append('')
++        lines.append(header)
++        start = len(lines) - 1
 +
-     def vscode_tasks_fallback(self, args, image_recipe, modified_recipe):
-         oe_init_dir = modified_recipe.oe_init_dir
-         oe_init = ". %s %s > /dev/null && " % (modified_recipe.oe_init_build_env, modified_recipe.topdir)
-@@ -990,6 +1013,8 @@ class IdeVSCode(IdeBase):
-             self.vscode_tasks_binary(args, image_recipe, modified_recipe)
-         elif modified_recipe.build_tool == BuildTool.KERNEL_MODULE:
-             self.vscode_tasks_kernel_module(args, image_recipe, modified_recipe)
-+        elif modified_recipe.build_tool == BuildTool.CARGO:
-+            self.vscode_tasks_cargo(args, image_recipe, modified_recipe)
-         else:
-             self.vscode_tasks_fallback(args, image_recipe, modified_recipe)
++    end = next((i for i in range(start + 1, len(lines))
++                if lines[i].lstrip().startswith('[')
++                and lines[i].rstrip().endswith(']')), len(lines))
++    for key, value in values.items():
++        entry = '%s = %s' % (key, value)
++        for i in range(start + 1, end):
++            if '=' in lines[i] and lines[i].split('=', 1)[0].strip() == key:
++                lines[i] = entry
++                break
++        else:
++            lines.insert(end, entry)
++            end += 1
++    return '\n'.join(lines).rstrip() + '\n'
++
++
+ class DevtoolIdeMode(Enum):
+     """Different modes are supported by the ide-sdk plugin.
  
+@@ -1122,6 +1150,62 @@ class RecipeModified:
+         self.recipe_id = self.bpn + "-" + self.package_arch
+         self.recipe_id_pretty = self.bpn + ": " + self.package_arch
+ 
++    @property
++    def cargo_config_path(self):
++        return os.path.join(self.ide_sdk_dir, 'cargo-config.toml')
++
++    def update_cargo_config(self):
++        """Export the recipe Cargo config to the devtool workspace."""
++        source_config = os.path.join(self.cargo_home, 'config.toml')
++        try:
++            with open(source_config, 'r') as config_file:
++                original = config_file.read()
++        except FileNotFoundError as exc:
++            raise DevtoolError(
++                'Cargo config not found at %s; build the recipe first' % source_config) from exc
++
++        content = (
++            '# Generated by devtool ide-sdk for the active build environment.\n'
++            '\n'
++            + original)
++        content = set_toml_table_values(content, 'build', {
++            'target': json.dumps(self.cargo_target),
++        })
++        content = set_toml_table_values(content, 'target.%s' % self.cargo_target, {
++            'linker': json.dumps(self.cargo_linker),
++            'rustflags': json.dumps(shlex.split(self.cargo_rustflags)),
++        })
++        env_names = (
++            'CC', 'CXX', 'CFLAGS', 'CXXFLAGS', 'AR',
++            'TARGET_CC', 'TARGET_CXX', 'TARGET_CFLAGS', 'TARGET_CXXFLAGS', 'TARGET_AR',
++            'HOST_CC', 'HOST_CXX', 'HOST_CFLAGS', 'HOST_CXXFLAGS', 'HOST_AR',
++            'RUST_TARGET_PATH', 'RUST_BACKTRACE', 'SOURCE_DATE_EPOCH',
++            'PKG_CONFIG', 'PKG_CONFIG_FOR_BUILD', 'PKG_CONFIG_FOR_TARGET',
++            'PKG_CONFIG_SYSROOT_DIR', 'PKG_CONFIG_PATH', 'PKG_CONFIG_LIBDIR',
++            'LIBGIT2_NO_VENDOR', 'LIBSSH2_SYS_USE_PKG_CONFIG',
++            'LIBSQLITE3_SYS_USE_PKG_CONFIG', 'OPENSSL_NO_VENDOR',
++            'PKG_CONFIG_ALLOW_CROSS', 'PKG_CONFIG_ALL_DYNAMIC',
++            'SYSTEM_DEPS_BUILD_INTERNAL', 'ZSTD_SYS_USE_PKG_CONFIG',
++        )
++        env_values = {}
++        for name in env_names:
++            value = self.cargo_env.get(name)
++            if value is not None:
++                env_values[name] = '{ value = %s, force = true }' % json.dumps(str(value))
++        content = set_toml_table_values(content, 'env', env_values)
++
++        config_path = self.cargo_config_path
++        os.makedirs(os.path.dirname(config_path), exist_ok=True)
++        try:
++            with open(config_path, 'r') as config_file:
++                current = config_file.read()
++        except FileNotFoundError:
++            current = None
++        if current != content:
++            with open(config_path, 'w') as config_file:
++                config_file.write(content)
++        return config_path
++
+     @staticmethod
+     def is_valid_shell_variable(var):
+         """Skip strange shell variables like systemd
 
 -- 
 2.53.0
