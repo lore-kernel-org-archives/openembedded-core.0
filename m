@@ -1,154 +1,332 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.41807.1793018709201369215
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.42005.1793019399302358781
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 05:45:09 -0700
+ Mon, 26 Oct 2026 05:56:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=RbktXkEq;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6952425DF
-	for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 05:45:05 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 348C03F7B4
-	for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 05:45:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793018708; bh=Cw9kf4nxde+kpvwJ/bF1d0DT3KTbFl0oLbU97LN8DVA=;
-	h=From:To:Subject:Date:From;
-	b=RbktXkEqv7jRAXSg0sgqTpkzqAZ1ofrIDhod2Hgtw32oWjcr9xxcSyLwjacmz+9oM
-	 FWmINku2Q48ZrwXqPWwlJdKEusYZqqm6TexGp/vqvN993x0JG18qgg8+TBLm/AXzhW
-	 0RSq0ZMJpwlUZ4fAHJM6nrGwQNfptUch83tByqm0=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=DSnzCFR8;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20261026125634f9067486a8000207c6-goxxds@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261026125634f9067486a8000207c6
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 26 Oct 2026 13:56:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=F2QJU2Z7nGFrQDz3CKlGIBhpvhf5NwH8ZtbnG/z6LLY=;
+ b=DSnzCFR8dQ//gbNBEJbC3/t733xx5mTHCd9uxuE6uqNYyTH+EvSDmzDN9rzHAempzfRb9Q
+ 03iUm/VClftadaSgLSRJSGkNmHzyIPkEczyl6hdSeyh1DnznxQnUJ0mCRvuarlsTfQtonNH8
+ oKgLVHY1uFa5mtAS1ztKxkaP7fCbaqHIhFMWiYEVmyzueLA96RiaoMyridy55vQhz82WSh9I
+ jc3lToUwO7tsHTffEmjsbN/2C3NZSlmpQGmv3BcwtNFIut3eIR1qr/04pkYLrtxQUGjUEzsw
+ OlC2110u4x+nW/LsU7py8gzwsAr+H1h5WkOLD/TQ+IKHdBjOGH+iKY8g==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libunwind: update patch status
-Date: Mon, 26 Oct 2026 12:45:02 +0000
-Message-ID: <20261026124502.1731660-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] python3: upgrade 3.14.9 -> 3.14.10
+Date: Mon, 26 Oct 2026 13:51:38 +0100
+Message-ID: <20261026125138.1770189-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 12:45:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248679
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 12:56:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248680
 Content-Type: text/plain; charset="utf-8"
 
-More patches have been merged upstream, and ensure we reference the
-upstream revisions for clarity.
+From: Peter Marko <peter.marko@siemens.com>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+This is an expedited security release to address the compromised eMudhra
+intermediate CA keys. These keys are now blocked by the ssl module as a
+last resort against their use. Normal uses of pip, including to upgrade
+pip itself, are now safe from attacks based on those compromised keys,
+even if pip hasn't been updated yet.
+
+Release information: [1]
+Security content in this release
+* CVE-2026-115557 gh-160040: Distrust compromised eMudhra intermediate CA keys
+* CVE-2026-114583 gh-160097: Reject links replacing the destination in tarfile.tar_filter
+* gh-160300: Reject cookies with a negative version in http.cookiejar
+
+[1] https://www.python.org/downloads/release/python-31410/
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...1-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.patch | 2 +-
- ...2-coredump-use-glibc-or-musl-register-names-as-appropr.patch | 2 +-
- .../libunwind/libunwind/0005-Handle-musl-on-PPC32.patch         | 2 +-
- meta/recipes-support/libunwind/libunwind/libatomic.patch        | 2 +-
- meta/recipes-support/libunwind/libunwind/mips-byte-order.patch  | 2 +-
- meta/recipes-support/libunwind/libunwind_1.8.3.bb               | 1 +
- 6 files changed, 6 insertions(+), 5 deletions(-)
+ ...shebang-overflow-on-python-config.py.patch |  2 +-
+ ...-qemu-wrapper-when-gathering-profile.patch |  2 +-
+ ...est_sysconfig-for-posix_user-purelib.patch |  2 +-
+ ...146207-Add-support-for-OpenSSL-4.0.0.patch | 22 +++++++++----------
+ ...Update-_ssl._SSLSocket-for-OpenSSL-4.patch | 18 +++++++--------
+ ...utdown-test-in-test_ssl.test_got_eof.patch |  2 +-
+ .../python/python3/makerace.patch             |  2 +-
+ .../{python3_3.14.9.bb => python3_3.14.10.bb} |  2 +-
+ 8 files changed, 26 insertions(+), 26 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.14.9.bb => python3_3.14.10.bb} (99%)
 
-diff --git a/meta/recipes-support/libunwind/libunwind/0001-tests-Garm64-t=
-est-sve-signal-check-that-SVE-is-prese.patch b/meta/recipes-support/libun=
-wind/libunwind/0001-tests-Garm64-test-sve-signal-check-that-SVE-is-prese.=
-patch
-index f7af9a3fce0..c1c0b50033e 100644
---- a/meta/recipes-support/libunwind/libunwind/0001-tests-Garm64-test-sve=
--signal-check-that-SVE-is-prese.patch
-+++ b/meta/recipes-support/libunwind/libunwind/0001-tests-Garm64-test-sve=
--signal-check-that-SVE-is-prese.patch
-@@ -18,7 +18,7 @@ Handle this case by checking HWCAP for SVE support, and=
- skipping the
- test unless we know it is available.  This check is Linux-specific at
- present, but the logic is easily extended.
-=20
--Upstream-Status: Backport
-+Upstream-Status: Backport [c8499e99dc7422a31c126f2954c8150c62d8a017]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  tests/Garm64-test-sve-signal.c | 19 +++++++++++++++++++
-diff --git a/meta/recipes-support/libunwind/libunwind/0002-coredump-use-g=
-libc-or-musl-register-names-as-appropr.patch b/meta/recipes-support/libun=
-wind/libunwind/0002-coredump-use-glibc-or-musl-register-names-as-appropr.=
-patch
-index f458bc3c6f9..4f07f65c8c3 100644
---- a/meta/recipes-support/libunwind/libunwind/0002-coredump-use-glibc-or=
--musl-register-names-as-appropr.patch
-+++ b/meta/recipes-support/libunwind/libunwind/0002-coredump-use-glibc-or=
--musl-register-names-as-appropr.patch
-@@ -10,7 +10,7 @@ Handle this by using a macro to use the correct names.
-=20
- Closes #708.
-=20
--Upstream-Status: Backport
-+Upstream-Status: Backport [df0807c1c2302c364c281d3d1109ddc10c9c7b19]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  src/coredump/_UCD_access_reg_linux.c | 69 ++++++++++++++++------------
-diff --git a/meta/recipes-support/libunwind/libunwind/0005-Handle-musl-on=
--PPC32.patch b/meta/recipes-support/libunwind/libunwind/0005-Handle-musl-=
-on-PPC32.patch
-index 63d3c85de49..396c0a45333 100644
---- a/meta/recipes-support/libunwind/libunwind/0005-Handle-musl-on-PPC32.=
-patch
-+++ b/meta/recipes-support/libunwind/libunwind/0005-Handle-musl-on-PPC32.=
-patch
-@@ -13,7 +13,7 @@ structures.
-=20
- Closes #709.
-=20
--Upstream-Status: Submitted [https://github.com/libunwind/libunwind/pull/=
-710]
-+Upstream-Status: Backport [71559717599cecc4d1ccb2061766ec5c12e10ac6]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  src/ppc32/Ginit.c      | 13 ++++++++++---
-diff --git a/meta/recipes-support/libunwind/libunwind/libatomic.patch b/m=
-eta/recipes-support/libunwind/libunwind/libatomic.patch
-index e783128e2c0..f6abea44a94 100644
---- a/meta/recipes-support/libunwind/libunwind/libatomic.patch
-+++ b/meta/recipes-support/libunwind/libunwind/libatomic.patch
-@@ -7,7 +7,7 @@ Some OS runtimes require libatomic be linked in separatel=
-y to get
- standard atomic operations to work. Try to detect that at configure
- time.
-=20
--Upstream-Status: Submitted [https://github.com/libunwind/libunwind/pull/=
-732/]
-+Upstream-Status: Denied [https://github.com/libunwind/libunwind/pull/732=
-/]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  configure.ac | 12 ++++++++++++
-diff --git a/meta/recipes-support/libunwind/libunwind/mips-byte-order.pat=
-ch b/meta/recipes-support/libunwind/libunwind/mips-byte-order.patch
-index 3336b790553..5c73eaf97fe 100644
---- a/meta/recipes-support/libunwind/libunwind/mips-byte-order.patch
-+++ b/meta/recipes-support/libunwind/libunwind/mips-byte-order.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH 2/2] byte order
- endian.h on musl/mips can't be included in __ASSEMBLER__ mode,
- so use the __BYTE_ORDER__ symbol instead.
-=20
--Upstream-Status: Submitted [https://github.com/libunwind/libunwind/pull/=
-816]
-+Upstream-Status: Backport [https://github.com/libunwind/libunwind/commit=
-/b2d2e81e5fe53b01a0dd39e2e634f963ebeaab43]
- Signed-off-by: Ross Burton <ross.burton@arm.com>
- ---
-  src/mips/getcontext.S | 3 +--
-diff --git a/meta/recipes-support/libunwind/libunwind_1.8.3.bb b/meta/rec=
-ipes-support/libunwind/libunwind_1.8.3.bb
-index 1a3a816d785..27ab122eb34 100644
---- a/meta/recipes-support/libunwind/libunwind_1.8.3.bb
-+++ b/meta/recipes-support/libunwind/libunwind_1.8.3.bb
-@@ -52,4 +52,5 @@ BBCLASSEXTEND =3D "native"
- # libunwind-1.8.1/src/elfxx.c:205:44: error: passing argument 3 of '_Upp=
-c32_get_func_addr' from incompatible pointer type [-Wincompatible-pointer=
--types]
- # libunwind-1.8.1/src/elfxx.c:279:52: error: passing argument 3 of '_Upp=
-c32_get_func_addr' from incompatible pointer type [-Wincompatible-pointer=
--types]
- # and others
-+# Fixed in https://github.com/libunwind/libunwind/commit/43e609e3f37a3c3=
-68d3732e43526ea00bd4e3609
- CFLAGS:append:powerpc:libc-musl =3D " -Wno-error=3Dincompatible-pointer-=
-types"
---=20
-2.43.0
-
+diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+index 7cacaf0ff37..79fee9803fe 100644
+--- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
++++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+@@ -19,7 +19,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index e946018..345ed29 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2839,6 +2839,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++@@ -2844,6 +2844,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
+  	@ # Substitution happens here, as the completely-expanded BINDIR
+  	@ # is not available in configure
+  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
+diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+index 4e41b04a3bb..d3f46c372a6 100644
+--- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
++++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+@@ -18,7 +18,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index 526d500..a7e536d 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -863,8 +863,7 @@ profile-run-stamp:
++@@ -864,8 +864,7 @@ profile-run-stamp:
+  	# enabled.
+  	$(MAKE) profile-gen-stamp
+  	# Next, run the profile task to generate the profile information.
+diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
+index 5509b7475a9..0864f23926a 100644
+--- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
++++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
+@@ -25,7 +25,7 @@ diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
+ index 1fe4b68..383142a 100644
+ --- a/Lib/test/test_sysconfig.py
+ +++ b/Lib/test/test_sysconfig.py
+-@@ -434,7 +434,7 @@ class TestSysConfig(unittest.TestCase, VirtualEnvironmentMixin):
++@@ -435,7 +435,7 @@ class TestSysConfig(unittest.TestCase, VirtualEnvironmentMixin):
+                  expected = os.path.normpath(global_path.replace(base, user, 1))
+                  # bpo-44860: platlib of posix_user doesn't use sys.platlibdir,
+                  # whereas posix_prefix does.
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-146207-Add-support-for-OpenSSL-4.0.0.patch b/meta/recipes-devtools/python/python3/0001-gh-146207-Add-support-for-OpenSSL-4.0.0.patch
+index 8bb4a4c9057..37f55de65c2 100644
+--- a/meta/recipes-devtools/python/python3/0001-gh-146207-Add-support-for-OpenSSL-4.0.0.patch
++++ b/meta/recipes-devtools/python/python3/0001-gh-146207-Add-support-for-OpenSSL-4.0.0.patch
+@@ -32,7 +32,7 @@ diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
+ index dc795c6bd8a..61355927296 100644
+ --- a/Lib/test/test_ssl.py
+ +++ b/Lib/test/test_ssl.py
+-@@ -424,7 +424,7 @@ class BasicSocketTests(unittest.TestCase):
++@@ -439,7 +439,7 @@ class BasicSocketTests(unittest.TestCase):
+          ssl.OP_NO_COMPRESSION
+          self.assertEqual(ssl.HAS_SNI, True)
+          self.assertEqual(ssl.HAS_ECDH, True)
+@@ -41,7 +41,7 @@ index dc795c6bd8a..61355927296 100644
+          self.assertEqual(ssl.HAS_TLSv1_3, True)
+          ssl.OP_NO_SSLv2
+          ssl.OP_NO_SSLv3
+-@@ -615,11 +615,11 @@ class BasicSocketTests(unittest.TestCase):
++@@ -630,11 +630,11 @@ class BasicSocketTests(unittest.TestCase):
+          # Some sanity checks follow
+          # >= 1.1.1
+          self.assertGreaterEqual(n, 0x10101000)
+@@ -56,7 +56,7 @@ index dc795c6bd8a..61355927296 100644
+          self.assertGreaterEqual(minor, 0)
+          self.assertLess(minor, 256)
+          self.assertGreaterEqual(fix, 0)
+-@@ -685,12 +685,14 @@ class BasicSocketTests(unittest.TestCase):
++@@ -700,12 +700,14 @@ class BasicSocketTests(unittest.TestCase):
+              ssl.OP_NO_TLSv1_2,
+              ssl.OP_NO_TLSv1_3
+          ]
+@@ -77,7 +77,7 @@ index dc795c6bd8a..61355927296 100644
+          versions = [
+              ssl.TLSVersion.SSLv3,
+              ssl.TLSVersion.TLSv1,
+-@@ -1184,6 +1186,7 @@ class ContextTests(unittest.TestCase):
++@@ -1199,6 +1201,7 @@ class ContextTests(unittest.TestCase):
+                  ssl.TLSVersion.TLSv1,
+                  ssl.TLSVersion.TLSv1_1,
+                  ssl.TLSVersion.TLSv1_2,
+@@ -85,7 +85,7 @@ index dc795c6bd8a..61355927296 100644
+                  ssl.TLSVersion.SSLv3,
+              }
+          )
+-@@ -1197,7 +1200,7 @@ class ContextTests(unittest.TestCase):
++@@ -1212,7 +1215,7 @@ class ContextTests(unittest.TestCase):
+          with self.assertRaises(ValueError):
+              ctx.minimum_version = 42
+  
+@@ -94,7 +94,7 @@ index dc795c6bd8a..61355927296 100644
+              ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_1)
+  
+              self.assertIn(
+-@@ -1749,23 +1752,24 @@ class ContextTests(unittest.TestCase):
++@@ -1764,23 +1767,24 @@ class ContextTests(unittest.TestCase):
+          self.assertFalse(ctx.check_hostname)
+          self._assert_context_options(ctx)
+  
+@@ -130,7 +130,7 @@ index dc795c6bd8a..61355927296 100644
+  
+          ctx = ssl._create_stdlib_context(purpose=ssl.Purpose.CLIENT_AUTH)
+          self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLS_SERVER)
+-@@ -3863,10 +3867,10 @@ class ThreadedTests(unittest.TestCase):
++@@ -3908,10 +3912,10 @@ class ThreadedTests(unittest.TestCase):
+                             client_options=ssl.OP_NO_TLSv1_2)
+  
+          try_protocol_combo(ssl.PROTOCOL_TLS, ssl.PROTOCOL_TLSv1_2, 'TLSv1.2')
+@@ -147,7 +147,7 @@ diff --git a/Modules/_ssl.c b/Modules/_ssl.c
+ index b45295b4c0c..6f75af86113 100644
+ --- a/Modules/_ssl.c
+ +++ b/Modules/_ssl.c
+-@@ -135,6 +135,17 @@ static void _PySSLFixErrno(void) {
++@@ -136,6 +136,17 @@ static void _PySSLFixErrno(void) {
+  #error Unsupported OpenSSL version
+  #endif
+  
+@@ -165,7 +165,7 @@ index b45295b4c0c..6f75af86113 100644
+  /* OpenSSL API 1.1.0+ does not include version methods */
+  #ifndef OPENSSL_NO_SSL3_METHOD
+  extern const SSL_METHOD *SSLv3_method(void);
+-@@ -1134,7 +1145,7 @@ _asn1obj2py(_sslmodulestate *state, const ASN1_OBJECT *name, int no_name)
++@@ -1137,7 +1148,7 @@ _asn1obj2py(_sslmodulestate *state, const ASN1_OBJECT *name, int no_name)
+  
+  static PyObject *
+  _create_tuple_for_attribute(_sslmodulestate *state,
+@@ -174,7 +174,7 @@ index b45295b4c0c..6f75af86113 100644
+  {
+      Py_ssize_t buflen;
+      PyObject *pyattr;
+-@@ -1163,16 +1174,16 @@ _create_tuple_for_attribute(_sslmodulestate *state,
++@@ -1166,16 +1177,16 @@ _create_tuple_for_attribute(_sslmodulestate *state,
+  }
+  
+  static PyObject *
+@@ -195,7 +195,7 @@ index b45295b4c0c..6f75af86113 100644
+      int index_counter;
+      int rdn_level = -1;
+      int retcode;
+-@@ -6530,9 +6541,15 @@ sslmodule_init_constants(PyObject *m)
++@@ -6599,9 +6610,15 @@ sslmodule_init_constants(PyObject *m)
+      ADD_INT_CONST("PROTOCOL_TLS", PY_SSL_VERSION_TLS);
+      ADD_INT_CONST("PROTOCOL_TLS_CLIENT", PY_SSL_VERSION_TLS_CLIENT);
+      ADD_INT_CONST("PROTOCOL_TLS_SERVER", PY_SSL_VERSION_TLS_SERVER);
+diff --git a/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch b/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch
+index 1005fcf3ec4..1b9a7fc9422 100644
+--- a/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch
++++ b/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch
+@@ -28,7 +28,7 @@ diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
+ index 965dbc36f096499..03d9e3f9e5e96b5 100644
+ --- a/Lib/test/test_ssl.py
+ +++ b/Lib/test/test_ssl.py
+-@@ -2994,6 +2994,36 @@ class ThreadedEchoServer(threading.Thread):
++@@ -3039,6 +3039,36 @@ class ThreadedEchoServer(threading.Thread):
+      def stop(self):
+          self.active = False
+  
+@@ -65,7 +65,7 @@ index 965dbc36f096499..03d9e3f9e5e96b5 100644
+  class AsyncoreEchoServer(threading.Thread):
+  
+      # this one's based on asyncore.dispatcher
+-@@ -5035,6 +5065,58 @@ class ThreadedTests(unittest.TestCase):
++@@ -5079,6 +5109,58 @@ class ThreadedTests(unittest.TestCase):
+                      if cm.exc_value is not None:
+                          raise cm.exc_value
+  
+@@ -141,7 +141,7 @@ diff --git a/Modules/_ssl.c b/Modules/_ssl.c
+ index 1603d0ffd559559..376df32b7cb4bd6 100644
+ --- a/Modules/_ssl.c
+ +++ b/Modules/_ssl.c
+-@@ -351,6 +351,16 @@ typedef struct {
++@@ -352,6 +352,16 @@ typedef struct {
+       * and shutdown methods check for chained exceptions.
+       */
+      PyObject *exc;
+@@ -158,7 +158,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
+  } PySSLSocket;
+  
+  #define PySSLSocket_CAST(op)    ((PySSLSocket *)(op))
+-@@ -498,6 +508,10 @@ fill_and_set_sslerror(_sslmodulestate *state,
++@@ -499,6 +509,10 @@ fill_and_set_sslerror(_sslmodulestate *state,
+      PyObject *init_value, *msg, *key;
+      PyUnicodeWriter *writer = NULL;
+  
+@@ -169,7 +169,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
+      if (errcode != 0) {
+          int lib, reason;
+  
+-@@ -653,6 +667,18 @@ PySSL_ChainExceptions(PySSLSocket *sslsock) {
++@@ -654,6 +668,18 @@ PySSL_ChainExceptions(PySSLSocket *sslsock) {
+      return -1;
+  }
+  
+@@ -188,7 +188,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
+  static PyObject *
+  PySSL_SetError(PySSLSocket *sslsock, const char *filename, int lineno)
+  {
+-@@ -900,6 +926,7 @@ newPySSLSocket(PySSLContext *sslctx, PySocketSockObject *sock,
++@@ -901,6 +927,7 @@ newPySSLSocket(PySSLContext *sslctx, PySocketSockObject *sock,
+      self->server_hostname = NULL;
+      self->err = err;
+      self->exc = NULL;
+@@ -196,7 +196,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
+  
+      /* Make sure the SSL error state is initialized */
+      ERR_clear_error();
+-@@ -1040,6 +1067,11 @@ _ssl__SSLSocket_do_handshake_impl(PySSLSocket *self)
++@@ -1043,6 +1070,11 @@ _ssl__SSLSocket_do_handshake_impl(PySSLSocket *self)
+          BIO_set_nbio(SSL_get_wbio(self->ssl), nonblocking);
+      }
+  
+@@ -208,7 +208,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
+      timeout = GET_SOCKET_TIMEOUT(sock);
+      has_timeout = (timeout > 0);
+      if (has_timeout) {
+-@@ -2505,6 +2537,11 @@ _ssl__SSLSocket_write_impl(PySSLSocket *self, Py_buffer *b)
++@@ -2514,6 +2546,11 @@ _ssl__SSLSocket_write_impl(PySSLSocket *self, Py_buffer *b)
+          BIO_set_nbio(SSL_get_wbio(self->ssl), nonblocking);
+      }
+  
+@@ -220,7 +220,7 @@ index 1603d0ffd559559..376df32b7cb4bd6 100644
+      timeout = GET_SOCKET_TIMEOUT(sock);
+      has_timeout = (timeout > 0);
+      if (has_timeout) {
+-@@ -2645,6 +2682,11 @@ _ssl__SSLSocket_read_impl(PySSLSocket *self, Py_ssize_t len,
++@@ -2654,6 +2691,11 @@ _ssl__SSLSocket_read_impl(PySSLSocket *self, Py_ssize_t len,
+          Py_INCREF(sock);
+      }
+  
+diff --git a/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.patch b/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.patch
+index c42b336798c..59742290e8b 100644
+--- a/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.patch
++++ b/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.patch
+@@ -24,7 +24,7 @@ diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
+ index 03d9e3f9e5e96b5..6445f122b4272be 100644
+ --- a/Lib/test/test_ssl.py
+ +++ b/Lib/test/test_ssl.py
+-@@ -5108,14 +5108,6 @@ class ThreadedTests(unittest.TestCase):
++@@ -5152,14 +5152,6 @@ class ThreadedTests(unittest.TestCase):
+                  sslsock.do_handshake()
+  
+              self.assertEqual(sslsock.pending(), 0)
+diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
+index b589dfb3460..7167d5b4e82 100644
+--- a/meta/recipes-devtools/python/python3/makerace.patch
++++ b/meta/recipes-devtools/python/python3/makerace.patch
+@@ -20,7 +20,7 @@ diff --git a/Makefile.pre.in b/Makefile.pre.in
+ index a7e536d..e946018 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2745,7 +2745,7 @@ COMPILEALL_OPTS=-j0
++@@ -2750,7 +2750,7 @@ COMPILEALL_OPTS=-j0
+  TEST_MODULES=@TEST_MODULES@
+  
+  .PHONY: libinstall
+diff --git a/meta/recipes-devtools/python/python3_3.14.9.bb b/meta/recipes-devtools/python/python3_3.14.10.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.14.9.bb
+rename to meta/recipes-devtools/python/python3_3.14.10.bb
+index 7cee04a0a19..4127126a72a 100644
+--- a/meta/recipes-devtools/python/python3_3.14.9.bb
++++ b/meta/recipes-devtools/python/python3_3.14.10.bb
+@@ -30,7 +30,7 @@ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "e02d9ac21cebda6e46435369744a92c65cc7cd8669697694122cf97ffacd1e53"
++SRC_URI[sha256sum] = "de414a57119abef52784d8993e341d53aed635fc2b05c2607d9f98a2c5b72032"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
