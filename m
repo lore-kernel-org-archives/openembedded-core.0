@@ -1,42 +1,42 @@
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.564.1793036793351066707
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.537.1793036794369270735
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 10:46:33 -0700
+ Mon, 26 Oct 2026 10:46:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Fc7k42jf;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kT+5eee9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a17952323a-c70a7431-50a8-4d5c-824f-9c724b7ad445-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=F5hBWqT2;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NaB5btxJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a17952355c-92188968-0932-4e3c-b8a4-1294844c17fd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793036792; i=@automation.yoctoproject.org;
+	t=1793036793; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=qKclzwlBAqXM7EU7VEhLL1WhADAoZuA4bKNib+IthdQ=;
-	b=Fc7k42jfaW6yo33PbS84Z/OJTMlxzXgfnwsuq9hKTF+IKsbpwnKYQy4FkdtsTjDM
-	EVZzjhEXqnnLXekfq8FBDpWLPsib5SnIMEdhMX0hxMvEaH6ruLUKP4TRGzqemuXmbWH
-	JS8VT7+gVbp5GUqgI1BPTJbbnYoI1C7+M8PNfDoY=
+	bh=k3bI+WjX3q+iGFustPS34Drvx1hA1QnINbeWmE45xPk=;
+	b=F5hBWqT2GMFIo+FZTBFEYYzohIPMbCk7zMe6D8yyG1/8uCdImm67DQgifF30mKU1
+	GnfT5inpXrFp7K+9idZfIEAt81WZ7uMQ0QV9sy8hG+5LuKqtPRyv7Xe4+SSn3LLLXdg
+	CYiNxgsRTPkuwPUwuHRywrbvsfPvtvmP2QoXK9hU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793036792;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793036793;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=qKclzwlBAqXM7EU7VEhLL1WhADAoZuA4bKNib+IthdQ=;
-	b=kT+5eee9SjTUSVaYmfzayITdmowmZhcRms7vei9BbH8+4G+uMnRzBxRDzfKJZDhC
-	sSjP5tezfDVHqF4haZ32PszOtvZzWxVGr1tdfP7FkbLp7x7HRxByIeeuubcrsrLz1Kw
-	WYq6HyRh6nUyjork2Uj+kMqkf6upM1DNbrIswVqA=
+	bh=k3bI+WjX3q+iGFustPS34Drvx1hA1QnINbeWmE45xPk=;
+	b=NaB5btxJ/CyAjpWvQ7ZV78M1WljP0Y6CzJsRHITtyd3BTiO3HtL7eFhD9FJemsv8
+	xjVvMRo6o8ZVLoxpLMKS1DCktz74wlK2hSfkr3BUofPmKGTXMu4OjRx/JnBSI+iVMF/
+	ZpvryYKKkMdugvSH6uUbVM0mlmpNGQMiCFNPFAZs=
 From: patchtest@automation.yoctoproject.org
 To: patrick.wicki@subset.ch
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-networking][PATCH 1/2] squid: install systemd unit without
- executable bit
-In-Reply-To: <20261026173406.1475501-1-patrick.wicki@subset.ch>
-References: <20261026173406.1475501-1-patrick.wicki@subset.ch>
+Subject: Patchtest results for [meta-networking][PATCH 2/2] squid: use /run instead of /var/run in
+ tmpfiles.d
+In-Reply-To: <20261026173406.1475501-2-patrick.wicki@subset.ch>
+References: <20261026173406.1475501-2-patrick.wicki@subset.ch>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a17952323a-c70a7431-50a8-4d5c-824f-9c724b7ad445-000000@us-west-2.amazonses.com>
-Date: Mon, 26 Oct 2026 17:46:32 +0000
+Message-ID: <010101a17952355c-92188968-0932-4e3c-b8a4-1294844c17fd-000000@us-west-2.amazonses.com>
+Date: Mon, 26 Oct 2026 17:46:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.26-54.240.27.192
+X-SES-Outgoing: 2026.10.26-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 17:46:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248689
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248690
 
 --NextPart
 Content-Type: text/plain
@@ -46,7 +46,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-networking-1-2-squid-install-systemd-unit-without-executable-bit.patch
+Testing patch /home/patchtest/share/mboxes/meta-networking-2-2-squid-use-run-instead-of-var-run-in-tmpfiles.d.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
