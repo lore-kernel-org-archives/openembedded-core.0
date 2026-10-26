@@ -1,244 +1,132 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6068.1793051195747913951
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6064.1793051190851993418
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 14:46:35 -0700
+ Mon, 26 Oct 2026 14:46:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=oSbwVeu0;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-48eee44b908so2107201fac.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 14:46:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=rxW+4XYu;
+ spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-84e513874f8so2142517a34.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 14:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793051195; x=1793655995; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1793051190; x=1793655990; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/ixwZywXXbhp5HqkpDBB0XHk0fgGBqlbqBA8TTGVPvA=;
-        b=oSbwVeu02QtWd/k6UePS1x3V3WJBrTdy5HnyjCMCevy8MmSIVJOeIflFudF+nnvd24
-         XeHK62TqEQSHMV5Pe09/n34SgIqcRORKLtPqWkbl0WfXr/m9WKloFjDgN2U0+aNpqV4l
-         hR0mlZMY/GwhVjacR3/769yzLEGjgs0c74aHPoszsJxJp6oSHD8tBXp13iJ+47dDJ/vm
-         0kayE5zjNy3nn6Jjh58MmucRdJRer+g8Dv2Gakf88obp99lrFOPDZcfE/586TRNEeqaU
-         rjKB6Ui+YndgaP3FKsub99ZJAOULseuR4apGO/HdG/gxTHNBjJAakarpdZvkZUWJBSsK
-         MAww==
+        bh=eC23W9bkfFta1DAT+IRQAQck9iRpW3h3UT+kF9qBt2o=;
+        b=rxW+4XYuKrRXMobrBHSykjFub+1bbuHbGdSCAUYSIK3huY08GUX/0suB5AKe61tSBc
+         bZ/mCkmCHKKh079JMAoP7MFCR70wfWO2KSpYIDDm2CA/ui+p80+32QbwKdQ5RP9Do82B
+         BDj70tYe/XeIWETjcPU4rAB+jiPWcRa22Byc3yI9BRSpc0qdM6STOdFOe6D4T1CiydrU
+         cN7ilN3sUFGz5blTLT32Exz7P1pFqH2+nGh9kxvLyi+Lxe12UZUCGQVT0jP25dFzONUC
+         M8P0ItUG1rv3SoFiV6ml0ZNLSwe6Nb4xd9WXf+g/AR9L6X1KmPmaNOD1a7E2IzA69N9l
+         dNsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793051195; x=1793655995;
+        d=1e100.net; s=20260707; t=1793051190; x=1793655990;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/ixwZywXXbhp5HqkpDBB0XHk0fgGBqlbqBA8TTGVPvA=;
-        b=hMHWQKkyrUuB+q2DDXtLa88UM0ZsjqePp9/jM3fKwRWb0vCdKC+XA4vkAeMeR2KFMs
-         0j1tBkYyxeB71jm9OSXmv3sY5rm9fk+B/U9fL8AsXzQ8Qj+dcN3TAQarahe9b2N87XYC
-         fBhmo9cJ+kYYrquvvTmDawwfR3nR2bjPBtmFPYAt6Y3T+bxtA+iuwjh2SVIZHi9lDmB/
-         27NSi3VqYyErwbTkRtrWt2h0CjutlQxYi3wub+t8D5A2RSGbiU3mL3MNxHBp7jNZxS4b
-         0jgk9uwtZeDZEq7ZDhLVZqC+Y3EgJhoqNfYazoOO4joAD5j6dot221DPeUrB6tgifJSe
-         i09w==
-X-Gm-Message-State: AFq9FYLK3egJlR6G+ELID7J+T4R9A4mOPNzocSbpK2alACjUWckFHU9N
-	zYtkqeG8AdOgx3udUHk0+5LV9IGG4Yr2zabvG/+NrRmapUrCYsRzCzP3ZEvR/Q==
-X-Gm-Gg: AYBFou02st4gkMi6mWe69MIjdZ3b1LnYkAwALrYGIpHbCi1uWNEHRSypbbBS+y5MHEX
-	UmiKpcqYwCuqptfJPCFo58qjgJLSNpf5k+awtLgbb2p70ZJL2RZgxs9XjDzCkWoTMCYxl6oH2oK
-	jaMx0Igi3zmX8Jh6EoCTVtUcAXUnu7PZugwdgaVBTSIFDTcSftwXF6NZ89CqcFCuCBL1BGyJAe4
-	B3b2xSDj4BNVmDVyFCwu4KBC1gXvHe0EUiF4410+DoPKoiGOaLY7xl39AImUn21vv4HJ1q1r72L
-	y58wcglOu0LTEsc9JpO3TvbjZkXo9rfoZxAxJpH9yaCFdireq55UMXN+Vv9T9l+5WPwnAcFUNGV
-	GUGIYrVrqDMf2CtjK/TgZpxsm/S69Yy0PfiiITRmi0jKWcB4xYlD19oU7s6zWeNTav7WZADOvcy
-	ATSJO4c8/KHHO3EpuKatlfWoh38Ad3eYGcbe7BU7nJtZVfES3/QJQp6VJ/Nn5GqL79j+I5fmv6D
-	jTettQa4Ns6nbxu2XfxRiuDoqm0lsMzyjGGfPwaYJTk7u5aDyIjng==
-X-Received: by 2002:a05:6808:c1b4:b0:4b9:a8ac:479 with SMTP id 5614622812f47-55c0026d2c6mr5659200b6e.23.1793051194732;
-        Mon, 26 Oct 2026 14:46:34 -0700 (PDT)
+        bh=eC23W9bkfFta1DAT+IRQAQck9iRpW3h3UT+kF9qBt2o=;
+        b=I8h/kPMRuKmLNI25rW0DAs0npE91Dtd0pVe6+OoacjJt4VRI7YgUnuTrDevkHW7+cS
+         Jrxam1YFiClKeyKohwSI5EXpoeGlP0ut9DigDHcy5M5tXsmF0Shs1KMLbAh1AflnT2dQ
+         Q4WHqlZNC5Eqaa3RZELgskwBiInxn+cAOYES9WEMXxX9V04C/bTByNnePOYl45qzrPaQ
+         LeC9+U/OM/5RihyMpAp9KKhWu8bRhziz5nzaXjdDyAguwqosW/W6j0djGQjBMfhdR6sP
+         bwp8Y4xi/E0fLbEtdEjGQuKJb0c6eBIFL3CEusvlGE5zQ8rs/b2BlSWog/NOkEobxuuq
+         nQpw==
+X-Gm-Message-State: AFq9FYL27gDFMauBbMVqEwINAgalFu82YsOoqTb6yLPr0R/1s/ase1xz
+	1Z/MAHWNNIxl+lgzG1CAVqqv2OJQOI8u+HQ6yrWMmPFfLZhoeH5Ge5vKKakkRg==
+X-Gm-Gg: AYBFou3zaiSXXXjYSkx8MG9ta5UkCAsOhA61ZApFgNIVu+kc9q2IPUvakFw9Y52DlOW
+	fXimS5sBSsuTw8GtYLRP7qCPfR2vY8RXhT0pOWAWjr/4rytWFcj9FWJMnosR9Biz2PBA7fkdjwN
+	3EZzoGsSerX2j733oKTVSuGS73yHeFBv3DvDm2QNW7p36OOe3WLiwnWngeTCQTms1329YmHL+ht
+	3S24QBjEWDHHtAts1BSLLiw7dN0jcLriAuFzxVMsdoJ67UFwrWsuu56rFtdh4TSC83Z1lZ0N00i
+	53SoZyRBhkaVez5DHs6uMELx6avOXp/NYsrgs+9ZobX08bnLtKJr/K7X9AiPDFPzzLuiAsVGm25
+	GuD+pSWVVpeuHhCUb+ZcvxnFiz/VnSHbEW+xTdCRVehRZGZdgzalManimqPxxR7kpNKa5tbaVKK
+	7VE9jUc7uROX9ZuWpez2lFwDPOif7FVUTeYhryqCKAzu69ymz1VJfGMQGybsrQ89XOKMnB3tlNl
+	y9dFlvAwluU3+mw1G3vCkma0kut2/4UFkqCUD3vnH1i7A3yUIegDw==
+X-Received: by 2002:a05:6809:343:10b0:55c:95a:f10f with SMTP id 5614622812f47-55c095af16cmr3232603b6e.52.1793051189816;
+        Mon, 26 Oct 2026 14:46:29 -0700 (PDT)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2601:283:4b01:ba50::283f])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-55c0424a05dsm6304219b6e.4.2026.10.26.14.46.34
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-55c0424a05dsm6304219b6e.4.2026.10.26.14.46.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 14:46:34 -0700 (PDT)
+        Mon, 26 Oct 2026 14:46:29 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v5 6/6] spdx: Replace do_create_image_spdx with deploy task
-Date: Mon, 26 Oct 2026 15:45:26 -0600
-Message-ID: <20261026214627.2388650-7-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v5 0/6] Implement SPDX for deploy tasks
+Date: Mon, 26 Oct 2026 15:45:20 -0600
+Message-ID: <20261026214627.2388650-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261026214627.2388650-1-JPEWhacker@gmail.com>
+In-Reply-To: <20260630210422.1903245-1-JPEWhacker@gmail.com>
 References: <20260630210422.1903245-1-JPEWhacker@gmail.com>
- <20261026214627.2388650-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 21:46:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248699
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248693
 Content-Type: text/plain; charset="utf-8"
 
-Replaces the dedicated do_create_image_spdx task with a deploy task tied
-to do_image_complete (which is task that deploys images).
+he SPDX use case for file system image has been well defined since SPDX
+was first implemented, however there has always been a desire to also
+express SPDX output for other non-image deliverables (primarily, those
+that have a do_deploy task or similar). These types of tasks cannot
+easily use the traditional method of having a separate SPDX task that
+runs to create their SPDX output as this causes lots of problems with
+the way dependencies are specified. Instead, it is desirable for these
+tasks to directly produce SPDX output that can be consumed by other
+tasks that depend on them.
 
-This has the advantage that images recipe SPDX dependencies are now
-completely automatically detected in the task graph, and the SPDX
-documents are merged in automatically when dependencies on
-do_image_complete are detected
+This patch series adds support for this. Any sstate task that starts
+with "do_deploy" can now be added to the SPDX_DEPLOY_TASKS list and it
+will run a postfunc to generate SPDX output that describes what is being
+deployed. For classical do_deploy tasks, this is setup to be easy by
+automatically capturing all the deployed output files in the SPDX data,
+but other tasks can be added as well.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- .../create-spdx-image-3.0.bbclass             | 32 +++++++------------
- meta/classes-recipe/nospdx.bbclass            |  1 -
- meta/classes/create-spdx-3.0.bbclass          |  3 --
- meta/classes/spdx-common.bbclass              |  1 -
- meta/lib/oe/spdx30_tasks.py                   | 23 ++++++++-----
- 5 files changed, 27 insertions(+), 33 deletions(-)
+Finally, the do_create_image_spdx task is removed and replaced with a
+SPDX deploy postfunc using this new system. This means that any task
+that depends on do_image_complete will automatically also get the SPDX
+output for the image, simplifying the dependency handling.
 
-diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-index b60cdd826f..64cb065632 100644
---- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
-+++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
-@@ -30,7 +30,7 @@ python do_create_rootfs_spdx() {
-     import oe.spdx30_tasks
-     oe.spdx30_tasks.create_rootfs_spdx(d)
- }
--addtask do_create_rootfs_spdx after do_rootfs do_create_recipe_spdx before do_image
-+addtask do_create_rootfs_spdx after do_rootfs do_create_recipe_spdx before do_image do_image_complete
- SSTATETASKS += "do_create_rootfs_spdx"
- do_create_rootfs_spdx[sstate-inputdirs] = "${SPDXROOTFSDEPLOY}"
- do_create_rootfs_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
-@@ -43,33 +43,25 @@ python do_create_rootfs_spdx_setscene() {
- }
- addtask do_create_rootfs_spdx_setscene
- 
--python do_create_image_spdx() {
-+python create_image_spdx() {
-     import oe.spdx30_tasks
--    oe.spdx30_tasks.create_image_spdx(d)
--}
--addtask do_create_image_spdx after do_image_complete do_create_rootfs_spdx do_create_recipe_spdx before do_build
--SSTATETASKS += "do_create_image_spdx"
--SSTATE_SKIP_CREATION:task-create-image-spdx = "1"
--do_create_image_spdx[sstate-inputdirs] = "${SPDXIMAGEWORK}"
--do_create_image_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
--do_create_image_spdx[cleandirs] = "${SPDXIMAGEWORK}"
--do_create_image_spdx[dirs] = "${SPDXIMAGEWORK}"
--do_create_image_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
--do_create_image_spdx[vardeps] += "\
--    SPDX_IMAGE_PURPOSE \
--    "
-+    from pathlib import Path
-+    current_task = "do_" + d.getVar("BB_CURRENTTASK")
- 
--python do_create_image_spdx_setscene() {
--    sstate_setscene(d)
--}
--addtask do_create_image_spdx_setscene
-+    spdxdeploydir = Path(d.getVar("SPDXDIR") + "/deploy-" + current_task)
- 
-+    oe.spdx30_tasks.create_image_spdx(d, spdxdeploydir)
-+}
-+oe.spdx30_tasks.create_image_spdx[vardeps] += "SPDX_IMAGE_PURPOSE"
-+SPDX_DEPLOY_TASKS += "do_image_complete:create_image_spdx"
-+# No deploy sbom is needed since do_create_image_sbom_spdx() is used instead
-+SPDX_DEPLOY_SBOM = "0"
- 
- python do_create_image_sbom_spdx() {
-     import oe.spdx30_tasks
-     oe.spdx30_tasks.create_image_sbom_spdx(d)
- }
--addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_create_image_spdx before do_build
-+addtask do_create_image_sbom_spdx after do_create_rootfs_spdx do_image_complete before do_build
- SSTATETASKS += "do_create_image_sbom_spdx"
- SSTATE_SKIP_CREATION:task-create-image-sbom-spdx = "1"
- do_create_image_sbom_spdx[sstate-inputdirs] = "${SPDXIMAGEDEPLOYDIR}"
-diff --git a/meta/classes-recipe/nospdx.bbclass b/meta/classes-recipe/nospdx.bbclass
-index 723194da2d..fafcdd0a13 100644
---- a/meta/classes-recipe/nospdx.bbclass
-+++ b/meta/classes-recipe/nospdx.bbclass
-@@ -10,6 +10,5 @@ deltask do_create_spdx
- deltask do_create_spdx_runtime
- deltask do_create_package_spdx
- deltask do_create_rootfs_spdx
--deltask do_create_image_spdx
- deltask do_create_image_sbom_spdx
- deltask do_create_deploy_sbom
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 6077105094..f79ecac153 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -375,9 +375,6 @@ python () {
-         # for the recipe, at least until it's possible for do_populate_sysroot
-         # to describe it's own output.
-         "do_populate_sysroot": "do_create_spdx",
--        # If an image is needed, also depend on the task to create the SBoM for
--        # the image
--        "do_image_complete": "do_create_image_spdx",
-     }
- 
-     def map_task_deps(task, flag):
-diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index bca169670d..13839aac3a 100644
---- a/meta/classes/spdx-common.bbclass
-+++ b/meta/classes/spdx-common.bbclass
-@@ -15,7 +15,6 @@ CVE_VERSION ??= "${PV}"
- SPDXDIR ??= "${WORKDIR}/spdx/${SPDX_VERSION}"
- SPDXDEPLOY = "${SPDXDIR}/deploy"
- SPDXWORK = "${SPDXDIR}/work"
--SPDXIMAGEWORK = "${SPDXDIR}/image-work"
- SPDXSDKWORK = "${SPDXDIR}/sdk-work"
- SPDXSDKEXTWORK = "${SPDXDIR}/sdk-ext-work"
- SPDXDEPS = "${SPDXDIR}/deps.json"
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index c1c0733508..567613cebc 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -1544,19 +1544,19 @@ def create_rootfs_spdx(d):
-     )
- 
- 
--def create_image_spdx(d):
-+def create_image_spdx(d, spdx_deploy_dir):
-     import oe.sbom30
- 
--    image_deploy_dir = Path(d.getVar("DEPLOY_DIR_IMAGE"))
-+    pn = d.getVar("PN")
-+    current_task = "do_" + d.getVar("BB_CURRENTTASK")
-+
-+    image_deploy_dir = Path(d.getVar("IMGDEPLOYDIR"))
-     manifest_path = Path(d.getVar("IMAGE_OUTPUT_MANIFEST"))
--    spdx_work_dir = Path(d.getVar("SPDXIMAGEWORK"))
- 
-     image_basename = d.getVar("IMAGE_BASENAME")
-     machine = d.getVar("MACHINE")
- 
--    objset = oe.sbom30.ObjectSet.new_objset(
--        d, "%s-%s-image" % (image_basename, machine)
--    )
-+    objset = oe.sbom30.ObjectSet.new_objset(d, f"{pn}-{current_task}-deploy")
- 
-     with manifest_path.open("r") as f:
-         manifest = json.load(f)
-@@ -1649,13 +1649,18 @@ def create_image_spdx(d):
-     objset.add_aliases()
-     objset.link()
-     oe.sbom30.write_recipe_jsonld_doc(
--        d, objset, "image", spdx_work_dir, create_task_link=True
-+        d,
-+        objset,
-+        "deploy",
-+        spdx_deploy_dir,
-+        create_task_link=True,
-     )
- 
- 
- def create_image_sbom_spdx(d):
-     import oe.sbom30
- 
-+    pn = d.getVar("PN")
-     image_name = d.getVar("IMAGE_NAME")
-     image_basename = d.getVar("IMAGE_BASENAME")
-     image_link_name = d.getVar("IMAGE_LINK_NAME")
-@@ -1677,7 +1682,9 @@ def create_image_sbom_spdx(d):
-     root_elements.append(oe.sbom30.get_element_link_id(rootfs_image))
- 
-     image_objset, _ = oe.sbom30.find_jsonld(
--        d, "image", "%s-%s-image" % (image_basename, machine), required=True
-+        d,
-+        "deploy",
-+        f"{pn}-do_image_complete-deploy",
-     )
-     for o in image_objset.foreach_root(oe.spdx30.software_File):
-         root_elements.append(oe.sbom30.get_element_link_id(o))
+V2: Fixed SPDX documents missing at SBoM creation time when the
+documents were not a direct dependency of the SBoM, and were present in
+a sstate object. Previously, these sstate objects were not restored
+because they were "covered" by the later sstate tasks, but now they are
+restored if they are depended on by a task that creates SPDX output.
+
+V3: Fixed a bug where dependencies that are not in the taskhash could be
+missing when the final SBoM is created and added tests.
+
+V4: Fixed some testing errors that revealed that EFI providers have to
+be MACHINE_ARCH (and consequently, wic-tools)
+
+Joshua Watt (6):
+  spdx: Skip dependencies that are not in the taskhash
+  spdx: Add ability for deploy tasks to create SPDX
+  oeqa: Add SPDX deploy SBoM test
+  classes-global/sstate: Keep SPDX generating setscene dependencies
+  Add SPDX deploy tasks to various recipes
+  spdx: Replace do_create_image_spdx with deploy task
+
+ meta/classes-global/sstate.bbclass            |  38 ++-
+ meta/classes-recipe/barebox.bbclass           |   1 +
+ .../create-spdx-image-3.0.bbclass             |  32 +-
+ meta/classes-recipe/deploy.bbclass            |   1 +
+ meta/classes-recipe/devicetree.bbclass        |   1 +
+ meta/classes-recipe/kernel-fit-image.bbclass  |   1 +
+ meta/classes-recipe/kernel.bbclass            |   1 +
+ meta/classes-recipe/nospdx.bbclass            |   2 +-
+ meta/classes/create-spdx-3.0.bbclass          | 178 ++++++++++
+ meta/classes/spdx-common.bbclass              |   2 +-
+ meta/lib/oe/sbom30.py                         |  46 ++-
+ meta/lib/oe/spdx30_tasks.py                   | 316 ++++++++++++++----
+ meta/lib/oe/spdx_common.py                    |   2 +-
+ meta/lib/oeqa/selftest/cases/spdx.py          |  11 +
+ meta/recipes-bsp/grub/grub-efi_2.14.bb        |   1 +
+ meta/recipes-bsp/opensbi/opensbi_1.9.bb       |   1 +
+ meta/recipes-bsp/u-boot/u-boot.inc            |   1 +
+ meta/recipes-core/systemd/systemd-boot_262.bb |   2 +-
+ 18 files changed, 536 insertions(+), 101 deletions(-)
+
 -- 
 2.56.0
 
