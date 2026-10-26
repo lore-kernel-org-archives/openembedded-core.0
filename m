@@ -1,141 +1,297 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.18])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40069.1793010707782988464
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40070.1793010710108282949
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 03:31:48 -0700
+ Mon, 26 Oct 2026 03:31:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=qtfDDr8u;
- spf=pass (domain: est.tech, ip: 52.101.69.18, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=cMJiWU5I;
+ spf=pass (domain: est.tech, ip: 40.107.159.33, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EcTVN9jraSfAFhLbhgf0sqdYzhXaIP4S5ep8IVsZVkTi45iuva5QE9CB7qRi3EEF5BB52y4iCO30pnhzoZuH9wzIbKER4xsp42n7i0a8Rvt0ibC5PaKIYeiPLhwR07vfefVromNgCPPj/XOv2s43bno9AH+aR0L4XSlXPuUjGGN/hTMV+2+HEJrzy7Rx6PbCwYWyw1NWoHvK1wv5gqm+AS9zKru0x4wlyhn2//Au/TJ7N44cR/6kuUqrRDTocV7daUrjOTzUGKR7xxrlO/vj7tu4EIs0WW5EIVAVdCJQggKLvXXTYsE9tyZqy4qixBCAGmaje6ZAviHht+Dy6sETSg==
+ b=A8lIUPqmsQKb2vl5SN322T9Lg/S//9YBuxEkFEzKjGzNfax7pdRQEZd4QeyTd3v2tV+LVqlH2L0zKgjcpKjlCB6NiUwf4lKREwTVIqkK/+UEUCoO94nripHx20qM6E/UsUcmUMLOo4gyncqVwxM6H39y4KIwLinUeXMozW1Bm/rBQuQ4JZWg3jKhANWubUw8QBr+xaftwUxfWjHjZ3pYgBcmyL+6PBJFxIGF8Mr4M3ZFtrV9kMGs0K751mqOc2f5JV+v/lly17ym58WJIrjHjpQDAZZwSwaAmdCV/VySBUlm6AEOSYFajSYQoDxN5ncyPRjJzGBYq7y0fN/9F5CZkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wIZ2hvPx+ZKhv5ZxqXO//zMgWZ4xG103PI4RoH7/nWI=;
- b=CCovb4/6KVM2ZfGefRxOIrC0hejsvIt2GAYKqyGp+22CcHlQEQoSs0rVQ8ldA0wBtN5fYQdLvtZaDCrgR8GbTNbw5TC0q2EQQY09CQIS+tuMUT6w1jw2OedGmqfBes72Ywf7Jgen3utqI/VScMHZvyPJujoPG7XxtyfPRoCrfLoVRRlVh5So0T1OtzVd+pOeHHor+nTntQALH3NPvlY3WJcK9EOJ6LNVPDWcO78WMzMHGj++kDsGU8LzrdTVnhuC7UBK1oV1T+KC08rqnzX33vP7upJxXcIhKLHl0uwc8wudr7wsPUNQVLIXCN3sz+OmW6dhk3j578QiiZwBjOABXw==
+ bh=lqKmw8uTxtoPG21BWgrWEUFSyFZ8xKvLhbZEEie8dq4=;
+ b=ZxBk5dSdcySNzp8fxobEbPTewhXC5Y883K8H4AqamuJSprUihZQZTVTZQoGBeBP8DKBM02rupKnwxScY+Dm9BPtgDgPLQ4Lccq0lIAnHszmTohXZQF2QoHvW0Yg0Pd9mSSFao0O4Upbo53PJH5kafzVEm/HdgU//EfZyZLo7soGsBfJ2eUqj1qyPuhf/9l3neM6H1CLBzHrl4/RHYdfnGRaMAWYu5oG0fccuDn/QWTOjbp3rXBQY/G6AxzC+r+vztoTIKCf2yFmNgsFhkMpux9S5JiTkSjNXly3rkuXwemiUjPT7pX3o8+TS1mCqbDLqXc91DopIeEaEJOg4TbTqNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wIZ2hvPx+ZKhv5ZxqXO//zMgWZ4xG103PI4RoH7/nWI=;
- b=qtfDDr8upp9Evu7ZTerfHPGlptmd+wSoOt/BPgvRtp24xkUOWwwzKSV6TffWOjn0U+bTVjrACZnWQa05EmMK9JMS2vxtq5bbdqn7AqCZVghZWxb6VJsws2hTjwbSoC4A435IkzM83otMRaE73Zont1ZOOvzmCVC00JgDusa6gP4Et/xOG+pHdHIjgZYXoYIkxOpYxnTsvaAkyMSdCVoXLUB6uuMfQg8jMExA38tAA7SDpvxFdRJeSmQdUf1FKL9y9EXk1m+0tXdfY3LYrBYI/Zp5eZ0fHCZve+eeWuN5cRH7Dn8bs8TrM4l0OmmC/YpeByUwcYV2JYOu299UwSLfbw==
+ bh=lqKmw8uTxtoPG21BWgrWEUFSyFZ8xKvLhbZEEie8dq4=;
+ b=cMJiWU5I0ff8NMVTx+28IAK0ccAZ5a/ytJ9PvKpE86qXNoL0I6eNKvzJQmlqsq8DkuZGaZ1hq6eJYEtp8yYOtUjmvD51B3JwmFpohMr5097Uj1eeX91ixh3MaM/p2MlsiHmQz74L1I7n5XJMnNCANdJd2RnFo73sGXB2cgH6CiwKHxXt4USt2eqI9wPL8iok337HiL4fyIeMDf2RPEJWZ/5B82Y7Cg72o2eVlRxaVXYDrX+/SWayBMbzZC5XMuDPxU5iZR1csoax3iUyNR+k08+Mlr0Yywpy9JYCQO6swSZxpoDclwOG1FWGZOWtDlYBcVRblQHdYeEv2HvFAsQI4A==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by DU0P189MB2020.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3a4::20) with
+ by PA4P189MB1280.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:c9::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Mon, 26 Oct
- 2026 10:31:43 +0000
+ 2026 10:31:45 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0546.021; Mon, 26 Oct 2026
- 10:31:43 +0000
+ 10:31:44 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/12] libsolv: upgrade 0.7.40 -> 0.7.41
-Date: Mon, 26 Oct 2026 11:31:28 +0100
-Message-ID: <20261026103138.3137-2-jaipaul.cheernam@est.tech>
+Subject: [PATCH 03/12] patch: upgrade 2.8 -> 2.8.1
+Date: Mon, 26 Oct 2026 11:31:29 +0100
+Message-ID: <20261026103138.3137-3-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261026103138.3137-1-jaipaul.cheernam@est.tech>
 References: <20261026103138.3137-1-jaipaul.cheernam@est.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO2P265CA0505.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:13b::12) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P265CA0007.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ad::23) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU0P189MB2020:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd58a301-cb79-4b2a-9987-08df334c53d0
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PA4P189MB1280:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4b88cd2-4ab1-40b6-857e-08df334c54f7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|22082099003|18002099003|3023799007|56012099006|11063799006|261021123027099003|10067099003|261021121427099003|261009223027099003|261022105027099003|260925022911599003|260925021911599003|260925021311599003;
-X-Microsoft-Antispam-Message-Info: r8/FYRVMXDRn7jM559I4gT23BArYYO3Dd0Co9KLtp38qTYNiRZKhMDoPSZeHte5ujS/eMwzw8I4wR/oEryvAtg9e1BIZaliF82U5E2AmSo0+1S2NzkkJe2gc5usM+GpRjXqFKopDCpQzoGGikWvHUUEZNOogdqkJDxwrL8ZoTkxE8AjGfqJ3jjbTQ/sLhrNEVo0Tj3DlEisf+OHTJ+Y9cXsqWYazwjtKUXslqfXO78mUjQ1rpF0jgm7lhpRllH0t/Ti/r72u5yjZIEhZDcc9zAnqJ9s2CbAXeQAu6o22S8BvL9/ScyuESotceS0WZBCD+3ymWxAlCamGVYXa0OnNw9s1/yNdcWnnJjZEMjoiXuV7oP41sy/v/YLmVsXSXz9y62C2vaRX0K+ZuHpdswaykCPUIEkjh/FT8Qe4Id1CGzhIA4Ij+ckSHIiuqNSZj8ciXIwsHtF9VqxnuvDJ9fvDxVAema4Dm5+1dj1FxUyid8ud3a6uI0HdLALrOc8wYk7bNy36Vc1y+kEEhO1fZkexzzc2p2NDhdo98h37IyGXzN3WTfdfUITUCNfGYqVQyAeV+kNk7FJYfdfLefhyoEbZV4DX9II0HiRNDeu8458qDL1qluPPYYRiIqoMdZ7T77n/htPiC8tcS2aSgvv3MUqZMvZE1stdDC2A3LqbtuaIbus=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(22082099003)(18002099003)(3023799007)(56012099006)(11063799006)(261021123027099003)(10067099003)(261021121427099003)(261009223027099003)(261022105027099003)(260925022911599003)(260925021911599003)(260925021311599003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|261009223027099003|261022075727099003|261021121427099003|261021123027099003|261022105027099003|10067099003|56012099006|3023799007|6133799003|22082099003|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info: uLz9QwmsEZnlnFcoouZahPRmN+VmZ09NTPVqFlqWGajEmtmj1vU3LvgvhvaEyJXUiuw+aYCb3OMPqfsJ/czex5FCBay7tlwnJDMXE+VuBnmvi7bFQBtYz5kj05/v9l2mXjP0esBzy8/ACrbJxzG53stqZos8J0+fJ3WwNXH4Z1Jvby2Hl1TvxD0gIkbazOXkHdp/RTsh0ReR2YIAIei5X/cwiulc0kJSWNqVigUT2JC8yWsjYDvkfFwGx03P7GnbJr1Auzmje+lDBKsJbHUe7Ol6RVJwXCcuYsMB6c+JcDKuQPjw3zeLAlmWkFdkvz4CjxwEdSJRkOdHUvBvhq9TFDOF8EYVceeyVJKbtneqyqlAfvFVYtQW3bgD6NAdxRWuVGOTQSoxMYa9qFA5YouJhZeNFqkSfNOEtHMzBL57tFEHsJlkjrmLrjiSu2jVWF/UJSNTJ5rmcbFuFM62pZ2QR9bDZ8q9I/Elc8G2IVB6QrEZegxzkHpFPCGQG+LMm9KlffrNnK6ZHKTrFZ9lEdTXPHu0FhZ9EkjMD8vDUls83Gh87fZm5YqmTlptozyoaZrH/LI7lC3mCYG9Mk6cnRIrm2z6wlBfkZa86OyYF4Y343kL5GtYKbvMCHOveWn8lMNlyXzU10cUCpehsjroTs7F6SMRKPFSw0kiZjOzJLo5l7I=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(261009223027099003)(261022075727099003)(261021121427099003)(261021123027099003)(261022105027099003)(10067099003)(56012099006)(3023799007)(6133799003)(22082099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yahZV/l+yy6MYpuioS5Jm00mL3bxPy/VwYOeJt0nMsGuJXdGChf2Gyy1j7yq?=
- =?us-ascii?Q?Uug5FKiMn59S8RHQxqYJnFAXlkbCNklSyOHGjHw4MwvsOb0xJABql6DfaRdm?=
- =?us-ascii?Q?3TGcwftAZLp9wwDVcB+vb3vstWi+CGCsBfA7cHGbyBFOxDxxMJathls0u6dG?=
- =?us-ascii?Q?g0s32WhchFM7KRY6U78V5VSmXFh3Y0bA4JoOQyxatqhtPTNHzvAfDxv7kVR3?=
- =?us-ascii?Q?t97pMqFrjLKpARRjLskX/GIzDwsCbg9u59P2LgRTCrJogGQrXDOKk/Of3xLl?=
- =?us-ascii?Q?q6TV98H1HmPst6hq65SWFrN3kq3J0kYFfoeqxhByDwAs1hOJvt8s4TSpXCpg?=
- =?us-ascii?Q?gBACkqOrt/kpT8hkXl68SvQzhpSFuH/dCJJzdMsAOv3UhnFfXIe/Voe/RdNn?=
- =?us-ascii?Q?fW9nHJwYUzev8hY2kDFe+Iisx9R7l8YuTKJwpPuj2TP50iSqdxGwLlwuam5M?=
- =?us-ascii?Q?AS6r8YYp7VmZCswwSqbQsLAEJxOHCOhCFsWnJQ+Ba+ffbvEuL0xo4Pxr9UHX?=
- =?us-ascii?Q?O8iXn7CL4hNsbuHqP8ak03II1TTIJFL6p+51Pc6jdDavH8uFqOu1iV7u6VR0?=
- =?us-ascii?Q?TZGpVhArLoynNpAQaVXWIP+2HBNnBPeG3IsxJtuUp7zBgGIOABwdRU6FpTSW?=
- =?us-ascii?Q?vz1Fqy+Nqje2QYJmo1WNl1GGa50rIKKPAbnBKtJECeuS7tSCw/m3FRT1K6yH?=
- =?us-ascii?Q?W6anaWqSAsStPPrTeI2C06l6MnXFH0HBtqXtJ9jEul2eFs89MZ3cxPg7r1qQ?=
- =?us-ascii?Q?FTuJSsPg5tO5Oq6/9pDECHvqo++TWHNicMmvkthtqVDlpix8La9nXYRPaIbu?=
- =?us-ascii?Q?A4Eozm46r/bVfuI9V9GQgtU3E6VDDXSiGKQuAPeH1C93lpGJnMYrH/BRca9p?=
- =?us-ascii?Q?kGiZjPJneVzufNQB/DWUOYtjSGzfTUHcHrCj3fUxb4vNmlw2xaCe2/B8CFFD?=
- =?us-ascii?Q?0FT+cNMfUpNrI/yv95H8AZTkIrA9ReKkSItDXVemlUSd/5vnE//+FRYL8ntO?=
- =?us-ascii?Q?xISwzyZo8xLrFDhCORjPxYdz7QZt+gR6Dx6CTwMmfdQ6ZOP70JB7BCH2Gubr?=
- =?us-ascii?Q?/U9vcc55rXL+qwg7w/Ggoh6P9FcNbnSVShpHudl5MTuvhCi+kNhs97LdAFRE?=
- =?us-ascii?Q?PSw9bBKTgwT6A3fFvyGXEgg35jR+Vvt2ON8G/MPldzDzOHAxTlNNBFWFaZLU?=
- =?us-ascii?Q?s9E2h+g4N4sMaAD5h1FNtOZIW+Dwm2PvRL+mLQDNJ8fKwz/phbj/oj3slukY?=
- =?us-ascii?Q?M3TS1XlNFTYL2zDpH/KGSNt5kXAL8eKJNOZ1P/oS2KLcsd8eWjf3v0McOFi6?=
- =?us-ascii?Q?XjLm7pPzp2oMyfNzfkdLqQsDY948AgtNOdU85QsfpJCEjdT87ol0TXtBKZQ2?=
- =?us-ascii?Q?NSnxIECTxrk1J6ubSivQIxQYN28/IySCyuPLK1Jl0TKyuC9gMEjAYYX1AOOL?=
- =?us-ascii?Q?yMDjQmhfbOrNFzc81TxSpvjKQldAgSBr3e8kWqCYqjjk8WxkXnGuutm/jT3O?=
- =?us-ascii?Q?2fk0wDrdh0iKRJIDnnXt6k4do3adUaU57o8lQDJJADIqtQb0+st9JlELBliD?=
- =?us-ascii?Q?/KqhAzoQGyle9Ve0vFGY860Gz4ZR2izUyqZP+WKuj20zptQkAQLV35W9lYaw?=
- =?us-ascii?Q?t902d/F5GLVJFvV2gwQJT7E53WJD19gTAIxkXJ9Bq8v/CoalwC1tnx155ksW?=
- =?us-ascii?Q?ywtd/GyzqV0zLBQ2V34S1qpYQcIoZCS+gn5IzlpHOr3mOK5gS5fXxU0SHn1U?=
- =?us-ascii?Q?iNfMQJZXlw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+mRj24ugVkGJXUMtMzEkG+rTgGnsmvyAUi/jnTPOvWBKC0Z5goQinEw0ic4k?=
+ =?us-ascii?Q?1Jlwtf4HF+7M9t8vCoC/fVSbEtvvEqUsPwHsskaxJpdQBdoZRJnTJhCbuls4?=
+ =?us-ascii?Q?NXH8k0b4tZzHMmBoie0j/vZqwlDMERrbLhzZEKedsT2IBHsLP/rKHTvDyQJB?=
+ =?us-ascii?Q?3LyWP7Es4OHyX88UobAv9s+g68JeIdgX/JT0o5T+bJiSt7lu46GWYkxmFCH4?=
+ =?us-ascii?Q?EzqHkZfTi1HxrRNWx2lWv3ECdc9losRoIpriHDzcBGyl0MemNrGrsxjBfkgt?=
+ =?us-ascii?Q?i/WCtXNzkwhoHMn/geIHkc76BKPayG2IJOEcXsG5nozpqusdnvAyBRJo5Lc0?=
+ =?us-ascii?Q?VZ3KG/hzSHbRucQGbH9aEqJPrw5BumESQu2jI7p8+71PDmyhNbBNGkPfKgb3?=
+ =?us-ascii?Q?flVOUW9IlG3GRU4c/NOH523nLHnYuU8KX2VZxPu1aV2S9W1+uraiyCUH/rzx?=
+ =?us-ascii?Q?oZeWLLUe2KdY4SSeU67tl3itI1l/V4wz1Gdl03EGtA+nn/9XzyfRBYLwvSIT?=
+ =?us-ascii?Q?X8N2QmgIrfhiBQpPdDT2P4eD/u9P3DXBxZk7PKV53WZc4e+YpMgUakNVgZg1?=
+ =?us-ascii?Q?966FnocWHrD+QyzZtRZLhuuwfNPZ1dzsLXjIGjLvM+rJ3QJMlyoOeFNx1W3/?=
+ =?us-ascii?Q?RHkQZkMtOu2QUU4nE2BiaimfbJmEZye8brqv79/mQKp0FqpMLqBBSPSuK+9m?=
+ =?us-ascii?Q?gX4z7xcg8RtK4Io3vHlB4xy+v5TlpFFfigRY4h1aR4LFP5iBxvTtgC/HQMxr?=
+ =?us-ascii?Q?TPbq81CIU3Ne4DrEMRuow7rc46PMvHxw/6+zB1uEu964/3kd4jvZJW+NM1F9?=
+ =?us-ascii?Q?azgiKjAfVPW/RkXCe0Pr+7l92eQ7iQaOUQnG0z7P58Eq/RnB/vPrBl/isRgk?=
+ =?us-ascii?Q?CjuhHbOsCP2ernqmzgdsv9H6PVuMq39aPoH+3OKxQkmWSXzpWXvgDYdy7Zn5?=
+ =?us-ascii?Q?Ge7UR1NP5QW3SjhlzYobDNaQma8ey50eYy0yqHZA7rPkJGVavthvmIlSoovo?=
+ =?us-ascii?Q?YsRUbwsiMfkSFdlWw5sB8z9QKV9YVabYw8cTItMUqahVBRTj8i5zFV/Dyo4z?=
+ =?us-ascii?Q?izp0tcpYfirOl31kEd1y71NBKjYNVn52sJngM6Ww8RIkKcZj6LBq6ygqRU5q?=
+ =?us-ascii?Q?QXp32wCBrttY8VKeOUAgsxpjzjJiB4nqi8Rtau6ad2bdAGPfKHqrOuUd6dxw?=
+ =?us-ascii?Q?OQoSR5sybo5yMt0zX3GqoDZTCPcpa0EAhHJYkQ8zf3v3zKSWA6/lzF8HkOfp?=
+ =?us-ascii?Q?W92DucVO3LP0Kbjx5HA7WrX4TNeSe0WKAegy8tfeid3m13bwHlWYgb9xsVzS?=
+ =?us-ascii?Q?dTf4PVt751acbCecO8j88dkolCWlKuIRKoLI7kyXHvtwUDU2dCP/+PDGja7p?=
+ =?us-ascii?Q?X/uslMzV8ENis/PuMS4g2NpOAF62cm122Paikh1s9Kv7dilUCi2WdmkB7tQG?=
+ =?us-ascii?Q?DsjIPDCEZWGjw5Ku0ZuB6rIk62nTD7uRPnol8PQZf/8hDIuMlezFOqCO9c6m?=
+ =?us-ascii?Q?5jSzE5N24jO54tckH0OTZinBKApD9soLPhOFxDUA/INJslMQgwMQn7GP0NO3?=
+ =?us-ascii?Q?VmWhusdIqWCAuP4Zsg61FK781Nye8zhH2V+dN1sCDd5O+O8KzgDH1JMv69MV?=
+ =?us-ascii?Q?lEjp9srWU4q1g1C4+46iJwnQl0ccWbHsW+8KcZFq+BF7V6vAFP7Q/bkZjoUd?=
+ =?us-ascii?Q?xmMS8HLgjDt2hDMyf++Xn6nbhhMGGgeUh+BflHCxx4dF+5JLYe7okjW8y8qA?=
+ =?us-ascii?Q?VBMk61GdSQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd58a301-cb79-4b2a-9987-08df334c53d0
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4b88cd2-4ab1-40b6-857e-08df334c54f7
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2026 10:31:42.9185
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2026 10:31:44.7697
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pOSp/mrVm/ZMpBW2I3R+DTmxnYDtxtgSd3IKWNT7EMprm7dOjR3yBYqA77on6fZ//62ugzhRUSAo1uQA7ZIu4LnPcreYKagGgpXcyo+vD7Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2020
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4hj3C72fN0ji63gHMQyOhUHTVDSj7h/F5B2pM/NLJrE9VVh/VuI2/L2rv7B626D4yGRjOI0Ze0U0E+7AHqh9eM1COUyAyV5a2vo4SEDJxYw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4P189MB1280
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 10:31:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248661
-Content-Type: text/plain; charset="utf-8"
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248662
 
-NEWS: https://github.com/openSUSE/libsolv/blob/0.7.41/NEWS
+git log --oneline v2.8..v2.8.1
+c291014 (HEAD, tag: v2.8.1) Version 2.8.1
+0cd45bb Prevent creation of out-of-tree files (CVE-2026-115207)
+e52d17d Pacify -Wzero-as-null-pointer-constant
+2fad9ea build: update gnulib submodule to latest
+a2b1922 Absolute in-tree symlink target resolved relative to symlink parent
+51bb613 Remove symlink caching
+faba04e Don=E2=80=99t infloop on null ranges
+85c1712 Port to POSIX =E2=80=98ed=E2=80=99
+e6d6a4e Avoid null pointer derefence with bad hunks
+54b25ac build: update gnulib submodule to latest
+494ee0b maint: make update-copyright
+d161c9a Skip read-only check when output file specified
+4c30230 Reject empty filenames
+aea6626 Add some missing filename quoting
+77c2720 Fix 'make release' for proper releases
 
-Version 0.7.41
-- selected bug fixes:
-  * improved speed of repo_add_solv, should now be more that 20%
-    faster in many cases
-  * repo_add_solv hardening to catch corrupt solv files earlier
-  * hardened apkv3 code (CVE-2026-104622, CVE-2026-104624)
-  * fixed repo_conda xml parsing (CVE-2026-104621)
-- new features:
-  * support pre-sizing of id hashes (pool_presize_idhashes,
-    pool_get_idcounts solv_read_idcounts)
-  * new POOL_FLAG_NOWHATPROVIDESSHRINK pool flag to disable
-    shrinking if speed matters more then memory usage
+- Switch SRC_URI to the .xz tarball and update the sha256sum for 2.8.1.
+- Drop CVE-2026-56288 and CVE-2026-56289 backport patches.
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../libsolv/{libsolv_0.7.40.bb =3D> libsolv_0.7.41.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libsolv/{libsolv_0.7.40.bb =3D> libsolv_0.7.4=
-1.bb} (96%)
+ meta/recipes-devtools/patch/patch.inc         |  4 +-
+ .../patch/patch/CVE-2026-56288.patch          | 75 -------------------
+ .../patch/patch/CVE-2026-56289.patch          | 36 ---------
+ .../patch/{patch_2.8.bb =3D> patch_2.8.1.bb}    |  2 +-
+ 4 files changed, 2 insertions(+), 115 deletions(-)
+ delete mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
+ delete mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
+ rename meta/recipes-devtools/patch/{patch_2.8.bb =3D> patch_2.8.1.bb} (80%=
+)
 
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.40.bb b/meta/recipes=
--extended/libsolv/libsolv_0.7.41.bb
-similarity index 96%
-rename from meta/recipes-extended/libsolv/libsolv_0.7.40.bb
-rename to meta/recipes-extended/libsolv/libsolv_0.7.41.bb
-index 96b889d6cd9..bc866725ece 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.40.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.41.bb
-@@ -12,7 +12,7 @@ SRC_URI =3D "git://github.com/openSUSE/libsolv.git;branch=
-=3Dmaster;protocol=3Dhttps;ta
-            file://run-ptest \
- "
+diff --git a/meta/recipes-devtools/patch/patch.inc b/meta/recipes-devtools/=
+patch/patch.inc
+index 4b90ece07c6..108ad63996a 100644
+--- a/meta/recipes-devtools/patch/patch.inc
++++ b/meta/recipes-devtools/patch/patch.inc
+@@ -5,9 +5,7 @@ original files, producing patched versions."
+ SECTION =3D "utils"
+ HOMEPAGE =3D "http://savannah.gnu.org/projects/patch/"
 =20
--SRCREV =3D "0e6eea45c9ffc7dd0756060f2b0f5527df02efa7"
-+SRCREV =3D "fa356d93545033a9962dfa99c4685e6299932922"
+-SRC_URI =3D "${GNU_MIRROR}/patch/patch-${PV}.tar.gz \
+- 	   file://CVE-2026-56289.patch \
+- 	   file://CVE-2026-56288.patch \
++SRC_URI =3D "${GNU_MIRROR}/patch/patch-${PV}.tar.xz \
+  	   file://run-ptest \
+    	   "
 =20
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch b/meta/=
+recipes-devtools/patch/patch/CVE-2026-56288.patch
+deleted file mode 100644
+index 7219f5a3c7d..00000000000
+--- a/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From 101a805510356092a6d2a864bb18d440fec57f0a Mon Sep 17 00:00:00 2001
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Tue, 21 Apr 2026 10:05:02 -0700
+-Subject: [PATCH] Avoid null pointer derefence with bad hunks
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Problem reported by Micha=C5=82 Majchrowicz.
+-* src/pch.c (another_hunk): Keep chars_read positive
+-even with malformed hunks.
+-
+-CVE: CVE-2026-56288
+-Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/patch.gi=
+t/commit/?id=3De6d6a4e021660679d7fc9150f981d4920f722313]
+-
+-(cherry picked from commit e6d6a4e021660679d7fc9150f981d4920f722313)
+-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+----
+- src/pch.c | 15 ++++++++++-----
+- 1 file changed, 10 insertions(+), 5 deletions(-)
+-
+-diff --git a/src/pch.c b/src/pch.c
+-index d9f5c61..41150fe 100644
+---- a/src/pch.c
+-+++ b/src/pch.c
+-@@ -1694,7 +1694,8 @@ another_hunk (enum diff difftype, bool rev)
+- 		    p_end =3D filldst-1;
+- 		    malformed ();
+- 		}
+--		chars_read -=3D fillsrc =3D=3D p_ptrn_lines && incomplete_line ();
+-+		chars_read -=3D (1 < chars_read && fillsrc =3D=3D p_ptrn_lines
+-+			       && incomplete_line ());
+- 		p_Char[fillsrc] =3D ch;
+- 		p_line[fillsrc] =3D s;
+- 		p_len[fillsrc++] =3D chars_read;
+-@@ -1711,7 +1712,8 @@ another_hunk (enum diff difftype, bool rev)
+- 		    malformed ();
+- 		}
+- 		context++;
+--		chars_read -=3D fillsrc =3D=3D p_ptrn_lines && incomplete_line ();
+-+		chars_read -=3D (1 < chars_read && fillsrc =3D=3D p_ptrn_lines
+-+			       && incomplete_line ());
+- 		p_Char[fillsrc] =3D ch;
+- 		p_line[fillsrc] =3D s;
+- 		p_len[fillsrc++] =3D chars_read;
+-@@ -1725,7 +1727,8 @@ another_hunk (enum diff difftype, bool rev)
+- 		    p_end =3D fillsrc-1;
+- 		    malformed ();
+- 		}
+--		chars_read -=3D filldst =3D=3D p_end && incomplete_line ();
+-+		chars_read -=3D (1 < chars_read && filldst =3D=3D p_end
+-+			       && incomplete_line ());
+- 		p_Char[filldst] =3D ch;
+- 		p_line[filldst] =3D s;
+- 		p_len[filldst++] =3D chars_read;
+-@@ -1808,7 +1811,8 @@ another_hunk (enum diff difftype, bool rev)
+- 	      fatal (("'<' followed by space or tab expected"
+- 		      " at line %td of patch"),
+- 		     p_input_line);
+--	    chars_read -=3D 2 + (i =3D=3D p_ptrn_lines && incomplete_line ());
+-+	    chars_read -=3D 2 + (3 < chars_read && i =3D=3D p_ptrn_lines
+-+			       && incomplete_line ());
+- 	    p_len[i] =3D chars_read;
+- 	    p_line[i] =3D savebuf (patchbuf + 2, chars_read);
+- 	    p_Char[i] =3D '-';
+-@@ -1833,7 +1837,8 @@ another_hunk (enum diff difftype, bool rev)
+- 	      fatal (("'>' followed by space or tab expected"
+- 		      " at line %td of patch"),
+- 		     p_input_line);
+--	    chars_read -=3D 2 + (i =3D=3D p_end && incomplete_line ());
+-+	    chars_read -=3D 2 + (3 < chars_read && i =3D=3D p_end
+-+			       && incomplete_line ());
+- 	    p_len[i] =3D chars_read;
+- 	    p_line[i] =3D savebuf (patchbuf + 2, chars_read);
+- 	    p_Char[i] =3D '+';
+diff --git a/meta/recipes-devtools/patch/patch/CVE-2026-56289.patch b/meta/=
+recipes-devtools/patch/patch/CVE-2026-56289.patch
+deleted file mode 100644
+index 8f98c444fc6..00000000000
+--- a/meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From e89f7be0853836908226e1df746fe07ef7c46769 Mon Sep 17 00:00:00 2001
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Tue, 21 Apr 2026 13:16:10 -0700
+-Subject: [PATCH] =3D?UTF-8?q?Don=3DE2=3D80=3D99t=3D20infloop=3D20on=3D20nu=
+ll=3D20ranges?=3D
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Problem reported by Micha=C5=82 Majchrowicz.
+-* src/patch.c (locate_hunk): Don=E2=80=99t attempt to optimize
+-matches of a null range.  Instead, apply all the checks
+-we apply to non-null ranges.
+-
+-CVE: CVE-2026-56289
+-Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/patch.gi=
+t/commit/?id=3Dfaba04ef4f2b410257f76c1b9dc85e350929c4b9]
+-
+-(cherry picked from commit faba04ef4f2b410257f76c1b9dc85e350929c4b9)
+-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+----
+- src/patch.c | 3 ---
+- 1 file changed, 3 deletions(-)
+-
+-diff --git a/src/patch.c b/src/patch.c
+-index e4d0524..1e7dfdc 100644
+---- a/src/patch.c
+-+++ b/src/patch.c
+-@@ -1166,9 +1166,6 @@ locate_hunk (idx_t fuzz)
+-     ptrdiff_t max_offset =3D MAX (max_pos_offset, max_neg_offset);
+-     ptrdiff_t min_offset;
+-=20
+--    if (!pat_lines)			/* null range matches always */
+--	return first_guess;
+--
+-     /* Do not try lines <=3D 0.  */
+-     if (first_guess <=3D max_neg_offset)
+- 	max_neg_offset =3D first_guess - 1;
+diff --git a/meta/recipes-devtools/patch/patch_2.8.bb b/meta/recipes-devtoo=
+ls/patch/patch_2.8.1.bb
+similarity index 80%
+rename from meta/recipes-devtools/patch/patch_2.8.bb
+rename to meta/recipes-devtools/patch/patch_2.8.1.bb
+index 33142ac5746..16188008f0b 100644
+--- a/meta/recipes-devtools/patch/patch_2.8.bb
++++ b/meta/recipes-devtools/patch/patch_2.8.1.bb
+@@ -3,7 +3,7 @@ LICENSE =3D "GPL-3.0-only"
+=20
+ CVE_PRODUCT =3D "gnu:patch"
+=20
+-SRC_URI[sha256sum] =3D "308a4983ff324521b9b21310bfc2398ca861798f02307c79eb=
+99bb0e0d2bf980"
++SRC_URI[sha256sum] =3D "3240c7959c5347c8ed347e3c4201c0337bf4240d5cf09d6888=
+9e58eeaba30e17"
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae50=
+4"
 =20
