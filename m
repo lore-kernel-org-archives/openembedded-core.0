@@ -1,44 +1,44 @@
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38528.1793004976717084786
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38883.1793004978568706182
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 01:56:16 -0700
+ Mon, 26 Oct 2026 01:56:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=KFHrSTDT;
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=o4A1lKGz;
  spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id CCA963D818BA;
-	Mon, 26 Oct 2026 04:56:15 -0400 (EDT)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id A84D43D81665;
+	Mon, 26 Oct 2026 04:56:17 -0400 (EDT)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id nwpDPCLDg9nz; Mon, 26 Oct 2026 04:56:15 -0400 (EDT)
+ with ESMTP id yWGw1k-HwnMh; Mon, 26 Oct 2026 04:56:16 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 0BF693D81833;
-	Mon, 26 Oct 2026 04:56:15 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 0BF693D81833
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 32A123D81844;
+	Mon, 26 Oct 2026 04:56:16 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 32A123D81844
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1793004975; bh=JXShXhkRKPWWFRgkHDwUAbTUOqGEt4vPm3yq1BONqLU=;
+	t=1793004976; bh=2wXA9kvuVFwrZ+iyx3dvkrTNM+TJ0RZOfDP0gnM/e/8=;
 	h=From:Date:MIME-Version:Message-Id:To;
-	b=KFHrSTDT2gj+Y/vALe+W7uQH9gBoU28o7c7N1x2cRHGD1emS7JWhOt5VNGl8IWuy2
-	 ThKlQ+kDqx4QcZgYJQojNFQ8gH4zHyHrX3a6lxFcSok5V2IdZIPDA5y7g24uhCl2ds
-	 6vs5nd6H7/q+uFRCK+lPDSNd5XQU6OI5o8su7kdrQ/iO1ZxwUmXQTkb9TnY8gZw9Oo
-	 jmVAjnIJHi6ybqE96QNSDe5euyRCvApNfIAPRpcseaJgQ9lfHLYJUfiEGbhn0h/xTk
-	 EkOwpo8qOn6RFF7JMjN9NtY/UP5eBPNmP3wGFrWY9k4ArhIPUEb7tGURxeNM06JAHH
-	 JotcCLREc2+9Q==
+	b=o4A1lKGzkN7CUvy2Orx8MNBmAAk1jvF7mr1rrlxR8jZ9LkEnRUc6YhJ3Y9fNwslXQ
+	 Roc9p2pgyNl8zchLO3h8ZoAp5hycOB3VeVbsPUOsRuwNeXLPPUg/pF4xvJ+E3P8Ce/
+	 orgwx0t85BUDrhtaJp2Q1niORvt6rFDg8ZC7cC00NF7NFNPY6rj9ckBZNdRS4KGqNe
+	 0tGMpRc28jtUkSel7z43mCj1SdGXSTf3AMs/0R3/YMM5fyETivlpGDeuEYbGhyNODy
+	 elKK/B++KT3s9E5+uxPPxyo6z/SN885bcFsOQ/NkJ2inu0t9sEviLAkwB64W3ga3k/
+	 SFD0waxtHXghQ==
 X-Virus-Scanned: amavis at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id n3-D5k9Vneqp; Mon, 26 Oct 2026 04:56:14 -0400 (EDT)
+ with ESMTP id L2ZmMPUunFab; Mon, 26 Oct 2026 04:56:16 -0400 (EDT)
 Received: from isabelle.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 68E853D81829;
-	Mon, 26 Oct 2026 04:56:14 -0400 (EDT)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id A3FD63D818A9;
+	Mon, 26 Oct 2026 04:56:15 -0400 (EDT)
 From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Date: Mon, 26 Oct 2026 09:55:47 +0100
-Subject: [PATCH 09/20] devtool: ide-sdk: extract install task definition
+Date: Mon, 26 Oct 2026 09:55:49 +0100
+Subject: [PATCH 11/20] devtool: ide-sdk: add Cargo build task
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261026-devtool-ide-sdk-cargo-v1-9-d4504e124d07@savoirfairelinux.com>
+Message-Id: <20261026-devtool-ide-sdk-cargo-v1-11-d4504e124d07@savoirfairelinux.com>
 References: <20261026-devtool-ide-sdk-cargo-v1-0-d4504e124d07@savoirfairelinux.com>
 In-Reply-To: <20261026-devtool-ide-sdk-cargo-v1-0-d4504e124d07@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
@@ -47,48 +47,117 @@ Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
 X-Mailer: b4 0.16.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 08:56:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248647
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248649
 
-Extract the install/deploy task object before adding optional dependencies.
-This preserves existing task output and provides a shared insertion point for
-Cargo build/deploy ordering.
+Generate a Cargo build task that uses the exported recipe config and build
+flags. Run it in the recipe source tree with only the SDK PATH so Cargo
+uses the cross environment captured for the recipe.
 
 AI-Generated: Uses GitHub Copilot
 Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 ---
- scripts/lib/devtool/ide_plugins/ide_code.py | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py     | 37 +++++++++++++++++++++++++++++
+ scripts/lib/devtool/ide_plugins/ide_code.py | 25 +++++++++++++++++++
+ 2 files changed, 62 insertions(+)
 
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 990a3060aa..bd0bfb06ec 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -4390,6 +4390,43 @@ class DevtoolIdeSdkRustTests(DevtoolIdeSdkTests):
+         self.assertIn('rust-lang.rust-analyzer', extensions['recommendations'])
+         self.assertIn('ms-vscode.cpptools', extensions['recommendations'])
+ 
++    def test_code_cargo_build_task(self):
++        recipe_name = "cargo-example"
++        self._check_workspace()
++        self._write_bb_config()
++        tempdir = self._devtool_ide_sdk_recipe(recipe_name, "Cargo.toml", None)
++        runCmd('devtool ide-sdk %s oe-selftest-image --ide=code '
++               '--target root@localhost --no-host-check' % recipe_name,
++               output_log=self._cmd_logger)
++
++        with open(os.path.join(tempdir, '.vscode', 'tasks.json')) as tasks_file:
++            tasks = json.load(tasks_file)['tasks']
++        build_task = next(task for task in tasks
++                          if task['label'].startswith('cargo build '))
++        cargo_config = os.path.join(
++            self.workspacedir, 'ide-sdk', recipe_name, 'cargo-config.toml')
++        self.assertEqual(build_task['command'], get_bb_var('CARGO', recipe_name))
++        self.assertEqual(
++            build_task['args'][:3], ['--config', cargo_config, 'build'])
++        self.assertIn('--features', build_task['args'])
++        self.assertIn('ide-sdk-selftest', build_task['args'])
++        self.assertEqual(set(build_task['options']['env']), {'PATH'})
++
++        build_env = os.environ.copy()
++        build_env.update(build_task['options']['env'])
++        result = subprocess.run(
++            [build_task['command']] + build_task['args'],
++            cwd=build_task['options']['cwd'], env=build_env,
++            stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
++            universal_newlines=True)
++        self.assertEqual(result.returncode, 0, result.stdout)
++
++        install_task = next(
++            task for task in tasks
++            if task['label'].startswith('install && deploy-target '))
++        self.assertEqual(install_task['dependsOn'], [build_task['label']])
++
++
+ class DevtoolIdeSdkKernelTests(DevtoolIdeSdkTests):
+ 
+     @OETestTag("runqemu")
 diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
-index 53cebe71a8..b5ff344e8a 100644
+index 80314bfb89..089016c639 100644
 --- a/scripts/lib/devtool/ide_plugins/ide_code.py
 +++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -682,17 +682,16 @@ class IdeVSCode(IdeBase):
-             deploy_args += ["--port", args.port]
-         for package in args.package or []:
-             deploy_args += ["--package", package]
-+        install_task = {
-+            "label": install_task_name,
+@@ -8,6 +8,7 @@
+ import json
+ import logging
+ import os
++import shlex
+ import shutil
+ import shlex
+ from devtool.ide_plugins import BuildTool, IdeBase, GdbCrossConfig, DebuggerServerModes, LldbServerConfig, get_devtool_deploy_opts, resolve_deploy_target
+@@ -852,6 +853,28 @@ class IdeVSCode(IdeBase):
+         IdeBase.update_json_file(
+             self.dot_code_dir(modified_recipe), tasks_file, tasks_dict)
+ 
++    def vscode_tasks_cargo(self, args, image_recipe, modified_recipe):
++        build_task_name = "cargo build %s" % modified_recipe.recipe_id_pretty
++        cargo_config = modified_recipe.cargo_config_path
++        build_task = {
++            "label": build_task_name,
 +            "type": "shell",
-+            "command": run_install_deploy,
-+            "args": deploy_args,
++            "command": modified_recipe.cargo,
++            "args": ["--config", cargo_config, "build"] +
++                     shlex.split(modified_recipe.cargo_build_flags) +
++                     shlex.split(modified_recipe.cargo_packageconfig_confargs),
++            "options": {
++                "cwd": modified_recipe.real_srctree,
++                "env": {"PATH": modified_recipe.path},
++            },
++            "group": {
++                "kind": "build",
++                "isDefault": True
++            },
 +            "problemMatcher": []
 +        }
-         tasks_dict = {
-             "version": "2.0.0",
--            "tasks": [
--                {
--                    "label": install_task_name,
--                    "type": "shell",
--                    "command": run_install_deploy,
--                    "args": deploy_args,
--                    "problemMatcher": []
--                }
--            ]
-+            "tasks": [install_task]
-         }
-         for cross_debug_config in self.cross_debug_configs:
-             if cross_debug_config.modified_recipe is not modified_recipe:
++        self.vscode_tasks_binary(args, image_recipe, modified_recipe, build_task)
++
+     def vscode_tasks_fallback(self, args, image_recipe, modified_recipe):
+         oe_init_dir = modified_recipe.oe_init_dir
+         oe_init = ". %s %s > /dev/null && " % (modified_recipe.oe_init_build_env, modified_recipe.topdir)
+@@ -990,6 +1013,8 @@ class IdeVSCode(IdeBase):
+             self.vscode_tasks_binary(args, image_recipe, modified_recipe)
+         elif modified_recipe.build_tool == BuildTool.KERNEL_MODULE:
+             self.vscode_tasks_kernel_module(args, image_recipe, modified_recipe)
++        elif modified_recipe.build_tool == BuildTool.CARGO:
++            self.vscode_tasks_cargo(args, image_recipe, modified_recipe)
+         else:
+             self.vscode_tasks_fallback(args, image_recipe, modified_recipe)
+ 
 
 -- 
 2.53.0
