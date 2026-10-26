@@ -1,259 +1,802 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.32])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1755.1793039733437749156
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5897.1793051192594689359
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 11:35:34 -0700
+ Mon, 26 Oct 2026 14:46:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=vD/LITQq;
- spf=pass (domain: est.tech, ip: 52.101.83.32, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JetW2kSiBsmb3s11PaBayjVNGiWhQajrrl/wSaPwcN7R1QzdI7Wb1mN5F5B72YpjTnbwBNfpjgoH20/3kYB+SSqVnaj9XKt1OGhQL7Y+525bErdsV02wq4+jh7/Gi2Z6F86IS0jjMBw9l6+XXE+IJz41F+fTykrqgAExKbU/Vkysp6wIIHQ/RvF3DkfIKuAE21MvQbmT13G/c1haN62Sl7cRLNpIaeQ38JD/3WTPtgP5i3lvCu7ZXb4nxMWiu2eBlQdMzt9rM3Qwe64Xp/GhtLbGzLFrTmQQksfZJghjc4Fbl8JWRndU6DwQwlI/k9ro6pTpMuVFNdFg19yzyDx9dA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qTAigJ103eqN8CpD2F991An78lnDQC/On8ZMEZVzz8k=;
- b=puhla7N+xr4GCpc7dy6GsPRh8MmPZjkEvf8Ylxs7x6K9S6IhpwBF77rsm6q9dewvm2/xo7oEe5Ieyt9CPxrTM0qB74Hh18n3h8zLH85Yt0McPPcMz+eikO5yZqwUS7ogBLb1Ae4ItODwa5Yj27iAtnHM5e83c0EDHuPqk8SmaKFVx3X8cI0tg5+THeZGnZ/mvy6X1h7osVESSUgeKVHsxIo7faNLgeJNvz5J14dl+G2XdgBpzatz0zMKUSjPY19v2ip/10kmsUUqHqAl8VxBQb+9k7HLi9deZvi5L9FdJXCVdRdcyLgOPFwzj+8jw7m6GI2w7aXlti4ZbkpMUDoA6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qTAigJ103eqN8CpD2F991An78lnDQC/On8ZMEZVzz8k=;
- b=vD/LITQqr/9iNpOdZq0oI9KSb9wci55kpjGI3ZeTs+Vwt8Zsi7mdBAONzdkO197ofFD5do+rsFtonW+viRiJXJ4iYbEu4oCM7Bus7vUtWTL09SesyUjOA1mLVWoDO2y4F3SKwbgdancatsPwOueasxtZ8IcJT6sRi4dxae76LgPhpRnDVMg5pc+mwHkWsD4zAUlIgebcH+yuRYpM41t72rHZlmKjw2gRcvwhswtptKlHMeLq/J3rp07ZQDDarTfNyTE2PCWFp086ExsyRfR4RYCHWYIgXio5U8f5kw810BYqols3EcODASjbQ9phjEbhX5dvvzri2UOq9ttIFA1G/Q==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by GVQP189MB062586.EURP189.PROD.OUTLOOK.COM (2603:10a6:710:107::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Mon, 26 Oct
- 2026 18:35:26 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0546.021; Mon, 26 Oct 2026
- 18:35:26 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ad7VO4qC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-53656465d1dso1804802b6e.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 14:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793051192; x=1793655992; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GkHE/er36Hqv89KTCOB7k6z8xrYAAh2+zMxhj+bKTYE=;
+        b=ad7VO4qC41XVd+QfnveKFSBxjZgsCg0tTSnhRJPw41DlblqWxuBtyu+5RXX3i4dNTj
+         ewlAJJdxSr5DIzaWUBUKg1HpQ8tNDj69ARyCqMAAXsjDUX+mz9tqjMnavJ1OVx8nOE2o
+         PGl+O2jIfDc/woQ08Blm2EDpG6aQA0KaOHO/lJtUDBdwkbEZphHIlpHUoFNPIwHtngWe
+         nOQAdJo57eGVB4cn+e3q8uQpi5viEsFh6d1OoAdHK0vhjyTrcxadmv8ZWDH+x1i7t3dw
+         JP3AQuMWdaQZfHtHsajB0znV9PixlORurCVMvFEenifjxB9sj8LmIn9trvUVexXuy2+p
+         +YxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793051192; x=1793655992;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GkHE/er36Hqv89KTCOB7k6z8xrYAAh2+zMxhj+bKTYE=;
+        b=lsf9Klk3F44JCthTpX3mBBseQmMuSoeXWjsjtYQUDl84PPc2K//EFCfiCiqYt3SXJn
+         7TrbVpHz10r1M0RtRtpbyzEMggEQrtv3/+QpOr9clRsaPc6U/XCHLMFVv/LTruE32taJ
+         Xy/KQ4CjMm2l59wNWJGwcFhKsxDlTY9lL5aGXQOCSieK4RdbGqkiS9ywSVsIsboLjeZu
+         sKTNClvnmUwA9Mwu0EmGMVgyy1MY+okCwm14TjSFlwVzZwRhVsA+jrJu+h0P24/t3ZY7
+         Oh45EE9NfOwQOWoHkJun2QNsoD34PAd0JtQTqaW6qd2KJRgH3R7Ki12cNrqtOkaM9C6/
+         MbDw==
+X-Gm-Message-State: AFq9FYJYZJkmbZF4QueUXbkUxQoTFCGkvfW30L+U27/5nCUXMqmsq6mT
+	U0tiEdhhMuHiEtRP+QyS3fMlnIIgvhErggXODi4FNxtCmVfqw5C3Gyb2V9aVVg==
+X-Gm-Gg: AYBFou1sQDjN/7VpjucM5NjDolH/L+ZYoXd9OhPTeqDGf5KvTnNkExO/SOLwGZ9dBv6
+	7UDY9YL4R4uVMqwQwSPbsMHL+UYqbsXSYR7+NeERDJtSI2C+3PVz+c6QO3B1VJUjTGnOOgpBnQK
+	Xzac4EB7sW78Q3LBgzvz+BHG8dgdqdpY1asmoQur28AvVXwFFtAPROxFlYGJE8qNX/w39w9Rwkb
+	zT1w92+PyfvsoYuWxG5kKoLmsFxsVQTKtVoVvr9j6TKAa2ZQ3HTTu6g0io8U+LgLApMmACtouVj
+	G0KqkWQnbosAKMg7RAzNbRq8RPaCwKoR4yRbzN5iA1JVMWhxzggkDu+gZh0UhHD1ENsHQ2JTDwG
+	+54nxdocsBcNjmx6JudI8wZdj1EmQAs29aD3HbAH3LvfQ54CWeAwZMwj98MBs6gMkAmAYirJS7U
+	DflaBACF6hM9YnX6lhVd5YU/VgmgGEJF9MepxpQRU0SrI7SGs7buh5I95zQ0scKSF29gqIvDjXo
+	BCUbWsDhtApTMt8fwPbWA4E9ziqE46wXVm+5yBNlQDU6h7952yj/oc=
+X-Received: by 2002:a05:6808:1798:b0:4fb:6996:aac9 with SMTP id 5614622812f47-55c0030c83amr5269557b6e.35.1793051191538;
+        Mon, 26 Oct 2026 14:46:31 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2601:283:4b01:ba50::283f])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-55c0424a05dsm6304219b6e.4.2026.10.26.14.46.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 14:46:31 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] openssl: Upgrade 4.0.3 -> 4.1.0
-Date: Mon, 26 Oct 2026 19:35:24 +0100
-Message-ID: <20261026183524.6389-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: GV3PEPF0001DD99.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:401::6d7) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v5 2/6] spdx: Add ability for deploy tasks to create SPDX
+Date: Mon, 26 Oct 2026 15:45:22 -0600
+Message-ID: <20261026214627.2388650-3-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261026214627.2388650-1-JPEWhacker@gmail.com>
+References: <20260630210422.1903245-1-JPEWhacker@gmail.com>
+ <20261026214627.2388650-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|GVQP189MB062586:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd0e3e5d-2f6c-4cf5-d26a-08df338fe743
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|6133799003|18002099003|261026121527099003|261026135527099003|11063799006|56012099006|10067099003|261021135927099003|261022115727099003|261022075727099003|261021133027099003|261022105027099003|261009223027099003|261021121427099003|261021130227099003|261022113327099003|261021123027099003|261026140227099003|261026130827099003;
-X-Microsoft-Antispam-Message-Info: j7/pm6h0qkiyL2PbFAh6nWvOg+tXygPr9vgxYAVH5mve/1Q8QcWRky5jzOB4oDPwf3GUU8Pwp/y/ImG6p18wdtXYb8HFfzLgw5PTmVEAe/Hm/cA+qe2OonR7bVfH8UIWzNzupzvnPI+bL5t/d/qqoMQpe/X+4M5amTWDxlnE9ZNFkrw/f7TGQ1VhxOjIFAvUjECxRtws3SRMUjsjV6sk9OmJgQFADw8GpeRapVg28LkE86a/9AA6qwVFp+sSnOALPACl7pdwLATSPdJv9q/cEBZQh17B/h481bt2WTZ3xrDzHPK8h+8XDbOmcKzq8mycKQcuDvsDet5WFDPxjofaLNmCV2TQshPhsSfKFaAfj/VNQD+qka40gQnSJ5ZV1hkK2WjcKTr1+fyoaQtekJysc5lm6il7MtTbHvvOuARza7a6RvnJt3i+jtX8gjASWDKXI+MiBJ5B/L6D97AOHMn4xBHfkfal0qA6Vk8y1IT2euyT8M6D1SFSFt+J/jlIx/DgYfWAY5/uNGoVS3h0nn7vjG8V1lqxOGqvy53nuKJpgqcV30YbYQpqIVO8rb7SyhG9zKys0w3aekZJ4PTtPZnAr0Z7LtOFHjXJmDOgJik07TXa9zmSGs7v6C+ewLBOCTZ1ZQHq8foElAYTHy7Cinw+3U2J+xnCiczaFx03+vRNYqM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(6133799003)(18002099003)(261026121527099003)(261026135527099003)(11063799006)(56012099006)(10067099003)(261021135927099003)(261022115727099003)(261022075727099003)(261021133027099003)(261022105027099003)(261009223027099003)(261021121427099003)(261021130227099003)(261022113327099003)(261021123027099003)(261026140227099003)(261026130827099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4vGsWh1Sh89RElqysVMYzol61gtV9R3NR3/8/K/taS3SHkgcrqXAd9IMqYYi?=
- =?us-ascii?Q?/c0B6kofUHWqq8kbNLQQKINsdJtTHFDTpZ7o+dYf6DwqSVuyQe/MBH+2TQRD?=
- =?us-ascii?Q?aWvpTOQ+bk3Ta21l1MDikQL9HsD23wAQ38neEvBAlwEFFUM3ctounTicNbwm?=
- =?us-ascii?Q?1xHwtVvUd9Xtl/IUdvqyOT6fR+txQ6/kmc8NWckEfeKYwLyiiAIUigd6vvqE?=
- =?us-ascii?Q?khAZK3I8Hfs3GwGPLtcvaaYmYdzNRTHfhPRDPLYHNVH+Mb+/r1dMltSsthOo?=
- =?us-ascii?Q?txn2TUydGXWlyDe/Tx9oX49yFYT8ePjkjdpeQmezucMHjDnrjDgDPvBBoyjY?=
- =?us-ascii?Q?H5DvJg4DFy65Otpzg5IsDhatPrgbJ/kYaBV/3216jVUlIX2gtFielBpmpiUS?=
- =?us-ascii?Q?GKicRX6li73qJJuJY/I9+eityOpLfofTby7VL5KRBLbJJpAoxDOWEMywD4vh?=
- =?us-ascii?Q?2kbKLrYuZ5RQawZY7r92VLKMXAsg/LoPaNgZI1gaq78TmNlEO1QkI4li5jIu?=
- =?us-ascii?Q?8vMUKG5BDVHJRFTk7UmNOOCsxmyUOCmRDAZfMBriUwQLYvhbSDKOMrApUEWF?=
- =?us-ascii?Q?aZon4rS9Lzd7QQSfhhxflzrI63HG7zJP/a2ScnFaVDmOxxh+taQ2spZPib64?=
- =?us-ascii?Q?XWwYdLcfyt60Aibro1u8T5nQfAQF/8IBeRXiQaPGEX/madUrx5FMUpUYedQi?=
- =?us-ascii?Q?xLGovhCqC69Wybn+jlEVY6zhakYnz3gzN4BbK3386627g3O0PiAxtDP6jCc2?=
- =?us-ascii?Q?7pj2rCv0B4E4uO/OvxDifMd01R2HKLZBexTLk4LD4j1aTTdWsuMw9IEizNe6?=
- =?us-ascii?Q?2DCURI/+B0UYOGfNiKeoK7ACaoqQbFGpbB7in+eF4sLRDwMqzc0K4+LnYhbN?=
- =?us-ascii?Q?B9E1Yr29oNHrIRGrMrA3QCyqIpNPKDMr17efxHir9balydkawsKY0PGOHsN7?=
- =?us-ascii?Q?H0Soalme/oqvNwPB7pwcErxgNXQ0yCoHgNnViLkyHtKtrd9MmVgGOOYl0Jra?=
- =?us-ascii?Q?XUOwhqmOgVWGvttiFkS4i2B0aLFfD7MDFEfROOrmK+U0Kdze7g8xCNxcur2n?=
- =?us-ascii?Q?wh+D3Yfl7vO7gAo+wCZIEoB2Ru0F1DWAZV/Ev8yZKGtuL5j6/zAOS/8SKnN2?=
- =?us-ascii?Q?3G8ot5XukylK9xL4oENqxP17Rqdu/DB+oqmyVD4GJmMHYhwSkhos4X1/hhWe?=
- =?us-ascii?Q?IjZdmEMk/4inqNdudMQtnNdKg6cOEK39srFyF2q9IOQM+9tRS9WgOjMmEE3u?=
- =?us-ascii?Q?nqOB23uEpxV95I1cYVpnYAit2yWOaZjXk5CVOcmuf94OvLGIAN4hsOt75cE4?=
- =?us-ascii?Q?kcjASJ1sggo6h1/n/tXH5uqaJ3uF8b9tfBKPcFW668xO1dOxJFxn0i83rL+n?=
- =?us-ascii?Q?Sf+9mX7uACzeHDyWyklKBuUwFXF6OurBJzrjV9t9BbgYcM9JRl/WeNlWWk7U?=
- =?us-ascii?Q?C2ybnHqPUQKwrBSlBMkYB514N4ZhUZAJ6fZVji0XW95oeGx7q+7lc6Ex4WND?=
- =?us-ascii?Q?Fn5ip09B3DoZmrB2tIkR2fN/uHZmH92dh3FrSZr3dFkq14iy6cNE+PE0kVCy?=
- =?us-ascii?Q?4O3Ene2U5tggX5wa3ER/eIJkGsMZyDv0ZgIHqbSrRSMLBx41OR3uaxqXUGT9?=
- =?us-ascii?Q?lfuEychJgOFBkt3dX2QAfGYwvMAabuZZLcuQo9xhCCI3Xm+/ZItfPFGQuNlf?=
- =?us-ascii?Q?b7LV2T6u6myotrLH7gK5IVsUqY9iPNShLVIWQUWKNSTpWfEYwCKiYz420jqx?=
- =?us-ascii?Q?z3prxB4DAn10b1YKNjMwXH3zn/DmRjU=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd0e3e5d-2f6c-4cf5-d26a-08df338fe743
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2026 18:35:26.4418
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3ES0f1/YSq+1WJNVNWhHFpGPRsLUNp9cN4vTOHEio1sU81O+MUJnBQjqqbd0eQeEl3jdZrTkec75vlww8vbQjhWXJ77+r1MlWpJzyzAinj0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVQP189MB062586
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 18:35:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248692
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 21:46:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248695
 Content-Type: text/plain; charset="utf-8"
 
-  Release information [1]:
+Adds support for "deploy" tasks (like do_deploy) to write out SPDX
+documents that describe what has been deployed.
 
-  OpenSSL 4.1.0 is a feature release adding significant new functionality t=
-o OpenSSL.
+Deploy tasks will automatically detect many dependencies on other
+recipes; specifically they will correctly detect dependencies on any
+do_create_spdx task, and also other deploy tasks that generate SPDX
+output. The only known notable exception are transitive (e.g.
+originating from other upstream tasks) dependencies on
+do_image_complete, and do_populate_sysroot. However, these are detected
+if a direct dependency of the deploy task (via translation of the task
+dependencies).
 
-  This release incorporates the following potentially significant or incomp=
-atible changes:
+This same dependency finding algorithm is now applied to the image
+generation SBoM; this means that if an image creation task depends on a
+task that generates a deploy SBoM, it will show up in the dependency
+graph of the image. A typical example is a wic file that consumes the
+kernel, u-boot, etc. will now correctly list those as a dependency, as
+long as their do_deploy step is added to SPDX_DEPLOY_TASKS.
 
-  - Added VC-WIN32-MSVC2013 and VC-WIN64A-MSVC2013 build targets to provide=
- internal functions for bridging the gaps in C99 standard support that are =
-present in MSVC 2013.
-  - Added optimized ML-DSA and ML-KEM NTT operations on ppc64le; optimized =
-ML-DSA operations on x86_64; AVX-512-optimized SHAKE x4 operations for ML-D=
-SA on x86_64; AVX-512 and VAES optimizations for AES-CBC
-  decryption on x86_64.
-  - Changed tsget utility to use Net::Curl::Easy (from the Net-Curl CPAN di=
-stribution) instead of the abandoned WWW::Curl::Easy. Users who rely on tsg=
-et should install Net::Curl::Easy before upgrading.
-  - Dropped Windows-on-Itanium (VC-WIN64I) and Windows CE (VC-CE) targets f=
-rom Configurations.
-  - Dropped no-ecdsa and no-ecdh options from Configure, as these options d=
-id not really disable the implementations. Use no-ec to disable the ellipti=
-c curve support.
-
-  This release adds the following new features:
-
-  - Support for DTLS 1.3 (RFC 9147). Refer to the ossl-guide-dtlsv13(7) man=
-ual page for details.
-  - Support for RFC 8701 GREASE (Generate Random Extensions And Sustain Ext=
-ensibility).
-  - DTLS support in the SSL listener API.
-  - Support for IKEV2 KDF.
-  - Initial support for the Elbrus2000 (e2k) architecture.
-
-  [1] https://github.com/openssl/openssl/blob/openssl-4.1/NEWS.md#major-cha=
-nges-between-openssl-40-and-openssl-410-23-oct-2026
-
-- Refresh existing patches
-- Verified with world
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../0001-Configure-do-not-tweak-mips-cflags.patch  |  6 +++---
- ...trip-sysroot-and-debug-prefix-map-from-co.patch | 14 +++++++-------
- .../0001-extend-check_cwm-test-timeout.patch       |  2 +-
- .../openssl/{openssl_4.0.3.bb =3D> openssl_4.1.0.bb} |  2 +-
- 4 files changed, 12 insertions(+), 12 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_4.0.3.bb =3D> openssl_4.=
-1.0.bb} (99%)
+ .../create-spdx-image-3.0.bbclass             |   4 +-
+ meta/classes-recipe/deploy.bbclass            |   1 +
+ meta/classes-recipe/nospdx.bbclass            |   1 +
+ meta/classes/create-spdx-3.0.bbclass          | 181 +++++++++++
+ meta/classes/spdx-common.bbclass              |   1 +
+ meta/lib/oe/sbom30.py                         |  46 +--
+ meta/lib/oe/spdx30_tasks.py                   | 282 +++++++++++++++---
+ meta/lib/oe/spdx_common.py                    |   2 +-
+ 8 files changed, 453 insertions(+), 65 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-no=
-t-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-=
-Configure-do-not-tweak-mips-cflags.patch
-index 77bfe4e4e52..2991082a5f5 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak=
--mips-cflags.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak=
--mips-cflags.patch
-@@ -1,4 +1,4 @@
--From b5cee0cb0f14a78056ef7722a34b361491f1fdda Mon Sep 17 00:00:00 2001
-+From 89d2702e00b0826fded82b06a9866e0fe7380540 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Tue, 30 May 2023 09:11:27 -0700
- Subject: [PATCH] Configure: do not tweak mips cflags
-@@ -17,10 +17,10 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-  1 file changed, 10 deletions(-)
-=20
- diff --git a/Configure b/Configure
--index c05a30b..db8adee 100755
-+index e66424a..62141fe 100755
- --- a/Configure
- +++ b/Configure
--@@ -1575,16 +1575,6 @@ if ($target =3D~ /^mingw/ && `$config{CC} --target-=
-help 2>&1` =3D~ m/-mno-cygwin/m)
-+@@ -1617,16 +1617,6 @@ if ($target =3D~ /^mingw/ && `$config{CC} --target-=
-help 2>&1` =3D~ m/-mno-cygwin/m)
-          push @{$config{shared_ldflag}}, "-mno-cygwin";
-          }
- =20
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip=
--sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/ope=
-nssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patc=
-h
-index 1d9e7539f67..04f46a3d3e2 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroo=
-t-and-debug-prefix-map-from-co.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroo=
-t-and-debug-prefix-map-from-co.patch
-@@ -1,4 +1,4 @@
--From 6df53bfebcf8ca65910a18220a6576fb110918a5 Mon Sep 17 00:00:00 2001
-+From 4df92463252f8f0695db0143d3a26566a1736b2c Mon Sep 17 00:00:00 2001
- From: =3D?UTF-8?q?Martin=3D20Hundeb=3DC3=3DB8ll?=3D <martin@geanix.com>
- Date: Tue, 6 Nov 2018 14:50:47 +0100
- Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from compil=
-er
-@@ -34,12 +34,12 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 16 insertions(+), 2 deletions(-)
-=20
- diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makef=
-ile.tmpl
--index eff66e5..bc48f51 100644
-+index f8a5b16..807439f 100644
- --- a/Configurations/unix-Makefile.tmpl
- +++ b/Configurations/unix-Makefile.tmpl
--@@ -503,13 +503,27 @@ BIN_LDFLAGS=3D{- join(' ', $target{bin_lflags} || ()=
-,
--                          '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
-- BIN_EX_LIBS=3D$(CNF_EX_LIBS) $(EX_LIBS)
-+@@ -532,13 +532,27 @@ BIN_EX_LIBS=3D$(CNF_EX_LIBS) $(EX_LIBS)
-+ CMOCKA_LIBS=3D{- $config{cmocka_libs} // '' -}
-+ DETOURS_LIBS=3D{- $config{detours_libs} // '' -}
- =20
- -# CPPFLAGS_Q is used for one thing only: to build up buildinf.h
- +# *_Q variables are used for one thing only: to build up buildinf.h
-@@ -67,10 +67,10 @@ index eff66e5..bc48f51 100644
- =20
-  # For x86 assembler: Set PROCESSOR to 386 if you want to support
- diff --git a/crypto/build.info b/crypto/build.info
--index 8e4a885..95b0902 100644
-+index 422f4aa..3573af9 100644
- --- a/crypto/build.info
- +++ b/crypto/build.info
--@@ -114,7 +114,7 @@ DEFINE[../libcrypto]=3D$UPLINKDEF
-+@@ -113,7 +113,7 @@ DEFINE[../libcrypto]=3D$UPLINKDEF
- =20
-  DEPEND[info.o]=3Dbuildinf.h
-  DEPEND[cversion.o]=3Dbuildinf.h
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cw=
-m-test-timeout.patch b/meta/recipes-connectivity/openssl/openssl/0001-exten=
-d-check_cwm-test-timeout.patch
-index 26622fd1b18..29b9728479f 100644
---- a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-=
-timeout.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-=
-timeout.patch
-@@ -1,4 +1,4 @@
--From 07bbd037ca61264bcc311856a119b664ce13f586 Mon Sep 17 00:00:00 2001
-+From ff0de34474c0dfec4f13dfb4079689c8731bf6ce Mon Sep 17 00:00:00 2001
- From: Gyorgy Sarvari <skandigraun@gmail.com>
- Date: Thu, 23 Oct 2025 11:24:36 +0200
- Subject: [PATCH] extend check_cwm test timeout
-diff --git a/meta/recipes-connectivity/openssl/openssl_4.0.3.bb b/meta/reci=
-pes-connectivity/openssl/openssl_4.1.0.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssl/openssl_4.0.3.bb
-rename to meta/recipes-connectivity/openssl/openssl_4.1.0.bb
-index 122bf61f595..1e47c3cf348 100644
---- a/meta/recipes-connectivity/openssl/openssl_4.0.3.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_4.1.0.bb
-@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk =3D " \
-            file://environment.d-openssl.sh \
-            "
-=20
--SRC_URI[sha256sum] =3D "325b5c806167c13b40b1ffeadfe0248197c00eccc4cf123ec1=
-e28d2d2fd216d9"
-+SRC_URI[sha256sum] =3D "50c17baf54cb008f6ce42d50deb4b28050a1aad711636cabd4=
-b241c7e90cc2fd"
-=20
- inherit lib_package multilib_header ptest perlnative manpages
-=20
+diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+index cf79ef5b01..b60cdd826f 100644
+--- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
++++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+@@ -30,7 +30,7 @@ python do_create_rootfs_spdx() {
+     import oe.spdx30_tasks
+     oe.spdx30_tasks.create_rootfs_spdx(d)
+ }
+-addtask do_create_rootfs_spdx after do_rootfs before do_image
++addtask do_create_rootfs_spdx after do_rootfs do_create_recipe_spdx before do_image
+ SSTATETASKS += "do_create_rootfs_spdx"
+ do_create_rootfs_spdx[sstate-inputdirs] = "${SPDXROOTFSDEPLOY}"
+ do_create_rootfs_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
+@@ -47,7 +47,7 @@ python do_create_image_spdx() {
+     import oe.spdx30_tasks
+     oe.spdx30_tasks.create_image_spdx(d)
+ }
+-addtask do_create_image_spdx after do_image_complete do_create_rootfs_spdx before do_build
++addtask do_create_image_spdx after do_image_complete do_create_rootfs_spdx do_create_recipe_spdx before do_build
+ SSTATETASKS += "do_create_image_spdx"
+ SSTATE_SKIP_CREATION:task-create-image-spdx = "1"
+ do_create_image_spdx[sstate-inputdirs] = "${SPDXIMAGEWORK}"
+diff --git a/meta/classes-recipe/deploy.bbclass b/meta/classes-recipe/deploy.bbclass
+index f56fe98d6d..f222a8560f 100644
+--- a/meta/classes-recipe/deploy.bbclass
++++ b/meta/classes-recipe/deploy.bbclass
+@@ -6,6 +6,7 @@
+ 
+ DEPLOYDIR = "${WORKDIR}/deploy-${PN}"
+ SSTATETASKS += "do_deploy"
++SPDX_DEPLOY_ARTIFACTS_DIR:task-deploy = "${DEPLOYDIR}"
+ do_deploy[sstate-inputdirs] = "${DEPLOYDIR}"
+ do_deploy[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+ 
+diff --git a/meta/classes-recipe/nospdx.bbclass b/meta/classes-recipe/nospdx.bbclass
+index 6ccb93ba01..723194da2d 100644
+--- a/meta/classes-recipe/nospdx.bbclass
++++ b/meta/classes-recipe/nospdx.bbclass
+@@ -12,3 +12,4 @@ deltask do_create_package_spdx
+ deltask do_create_rootfs_spdx
+ deltask do_create_image_spdx
+ deltask do_create_image_sbom_spdx
++deltask do_create_deploy_sbom
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 6d47aa1301..6077105094 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -163,6 +163,49 @@ SPDX_GIT_PURL_MAPPINGS[doc] = "A space separated list of domain:purl_type \
+     on gitlab.example.com to the pkg:gitlab PURL type. \
+     github.com is always mapped to pkg:github by default."
+ 
++SPDX_DEPLOY_TASKS ?= ""
++SPDX_DEPLOY_TASKS[doc] = "A space separated list of sstate tasks that produce \
++    deployed output (usually written to DEPLOY_DIR_IMAGE). Tasks in this list \
++    will produce SPDX documents that describe the deployed output. Items in \
++    list have the format 'TASK(:FUNCTION)' where 'TASK' is the sstate task \
++    (which must start with 'do_deploy'), and 'FUNCTION' is the optional \
++    function to call to produce the deploy SPDX. If 'FUNCTION' is omitted \
++    a default function is provided that uses SPDX_DEPLOY_ARTIFACTS and \
++    SPDX_DEPLOY_ARTIFACTS_DIR to configure what deploy artifacts it describes \
++    in the SPDX output.\
++    \
++    Dependencies of deploy tasks that produce SPDX data will be automatically \
++    linked in as a build time dependency of the deploy task's SBoM. (for \
++    example, if one do_deploy depends on another recipes do_deploy, this will \
++    be reflected in the SPDX data)."
++
++SPDX_DEPLOY_SBOM ??= "1"
++SPDX_DEPLOY_SBOM[doc] = "If '1' (the default) a task named \
++    do_create_deploy_sbom will be created to automatically collect all deploy \
++    SPDX documents (from SPDX_DEPLOY_TASKS) and combine them into a SBoM \
++    which will be placed in DEPLOY_DIR_IMAGE. This task is added as a \
++    dependency of do_build, so it will run whenever the recipe is built \
++    directly. The name of the document can be set with SPDX_DEPLOY_SBOM_NAME. \
++    If the recipe already has another task to create an SBoM, this should be \
++    set to '0' to prevent multiple SBoMs from being created."
++
++SPDX_DEPLOY_SBOM_NAME ?= "${PN}-deploy-sbom"
++SPDX_DEPLOY_SBOM_NAME[doc] = "The name of the output deploy SBoM when using \
++    create_deploy_sbom"
++
++SPDX_DEPLOY_ARTIFACTS = "AUTO"
++SPDX_DEPLOY_ARITFACTS[doc] = "A space separated list of deployed artifacts, \
++    relative to SPDX_DEPLOY_ARTIFACTS_DIR that should be included in the SBoM. \
++    If 'AUTO' (the default), all files in SPDX_DEPLOY_ARITFACTS_DIR will be \
++    added. A :task- override *must* be used to set this value so that it is \
++    scoped to a specific task"
++
++SPDX_DEPLOY_ARTIFACTS_DIR = ""
++SPDX_DEPLOY_ARTIFACTS_DIR[doc] = "The directory recipe specific directory \
++    where artifacts are deployed for staging to sstate (e.g. for do_deploy, \
++    this is DEPLOY_DIR). A :task- override *must* be used to set this value so \
++    that it is scoped to a specific task."
++
+ IMAGE_CLASSES:append = " create-spdx-image-3.0"
+ SDK_CLASSES += "create-spdx-sdk-3.0"
+ 
+@@ -293,3 +336,141 @@ python spdx30_build_started_handler () {
+ addhandler spdx30_build_started_handler
+ spdx30_build_started_handler[eventmask] = "bb.event.BuildStarted"
+ 
++python create_deploy_spdx() {
++    import oe.spdx30_tasks
++    from pathlib import Path
++    current_task = "do_" + d.getVar("BB_CURRENTTASK")
++
++    spdxdeploydir = Path(d.getVar("SPDXDIR") + "/deploy-" + current_task)
++
++    artifactsdir = d.getVar("SPDX_DEPLOY_ARTIFACTS_DIR")
++    if not artifactsdir:
++        bb.fatal(f"{pn}: spdx-artifactsdir must be set for task {current_task}")
++        return
++
++    artifacts = d.getVar("SPDX_DEPLOY_ARTIFACTS")
++
++    oe.spdx30_tasks.create_deploy_spdx(d, spdxdeploydir, artifactsdir, artifacts)
++}
++oe.spdx30_tasks.find_build_dep_objsets[vardepsexclude] += "BB_TASKDEPDATA"
++
++python () {
++    # Most recipes generate SPDX output in a distinct task from the task that
++    # actually is the relevant dependency. As such, we need to map the task
++    # that we care about to the task that generates the corresponding SPDX
++    # output so that we can rely on the SPDX output being present when the time
++    # comes to use it downstream.
++    #
++    # The down side of this is that only the first level of dependencies (e.g
++    # tasks listed in SPDX_DEPLOY_TASKS) will have the mapping done and thus
++    # find the dependencies. Transitive dependencies will not be mapped and
++    # thus the SPDX data will not be linked in.
++    #
++    # Ideally, this will be able to go away once more tasks directly generate
++    # SPDX files for their output instead of combining it into monolithic
++    # functions; tasks listed in this map are the best candidates to have this
++    # done first.
++    TASK_MAP = {
++        # If a task requires the RSS be extended, depend on the SPDX build task
++        # for the recipe, at least until it's possible for do_populate_sysroot
++        # to describe it's own output.
++        "do_populate_sysroot": "do_create_spdx",
++        # If an image is needed, also depend on the task to create the SBoM for
++        # the image
++        "do_image_complete": "do_create_image_spdx",
++    }
++
++    def map_task_deps(task, flag):
++        task_flags= (d.getVarFlag(task, flag) or "").split()
++        for t in task_flags:
++            if t in TASK_MAP and TASK_MAP[t] not in task_flags:
++                d.appendVarFlag(task, flag, f" {TASK_MAP[t]}")
++
++    def before_postfunc(f):
++        return f == "sstate_task_postfunc" or "buildhistory" in f
++
++    if bb.data.inherits_class("nospdx", d):
++        return
++
++    sstate_tasks = set((d.getVar("SSTATETASKS") or "").split())
++    deploy_sbom_tasks = []
++    for task in (d.getVar("SPDX_DEPLOY_TASKS") or "").split():
++        if ":" in task:
++            task, func = task.split(":")
++        else:
++            func = "create_deploy_spdx"
++
++        if not task.startswith("do_deploy") and not task == "do_image_complete":
++            bb.fatal(f"Task {task} is not allowed to deploy SPDX data. Must start with 'do_deploy'")
++
++        deploy_sbom_tasks.append(task)
++
++        if task not in sstate_tasks:
++            bb.fatal(f"{task} is not an sstate task")
++
++        spdx_deploy = "${SPDXDIR}/deploy-" + task
++
++        # Ensure function is sorted properly. It should be right before
++        # sstate_task_postfunc
++        postfuncs = (d.getVarFlag(task, "postfuncs") or "").split()
++
++        new_postfuncs = []
++        while True:
++            if not postfuncs or before_postfunc(postfuncs[0]):
++                break
++            new_postfuncs.append(postfuncs.pop(0))
++        new_postfuncs.append(func)
++        new_postfuncs.extend(postfuncs)
++
++        d.setVarFlag(task, "postfuncs", " ".join(new_postfuncs))
++        d.prependVarFlag(task, "sstate-inputdirs", f"{spdx_deploy} ")
++        d.prependVarFlag(task, "sstate-outputdirs", "${DEPLOY_DIR_SPDX} ")
++        d.prependVarFlag(task, "file-checksums", "${SPDX3_DEP_FILES} ")
++        d.prependVarFlag(task, "dirs", f"{spdx_deploy} ")
++        d.prependVarFlag(task, "cleandirs", f"{spdx_deploy} ")
++
++        deps = (d.getVarFlag(task, "depends") or "").split()
++        extra_deps = ["${PN}:do_create_recipe_spdx", "${PN}:do_create_spdx"]
++        for dep in deps:
++            _, fn, taskname = bb.runqueue.split_tid(dep)
++            if taskname in TASK_MAP:
++                extra_deps.append(f"{fn}:{TASK_MAP[taskname]}")
++
++        d.prependVarFlag(task, "depends", " ".join(extra_deps) + " ")
++
++        map_task_deps(task, "deptask")
++        map_task_deps(task, "rdeptask")
++        map_task_deps(task, "recrdeptask")
++
++    # For now, if a recipe is directly built, deploy all of it's deploy tasks
++    # into a single SBoM. We may need an option in the future to have tasks
++    # that don't do this (e.g. because they do not deploy to a location that is
++    # intended to be consumed by the user)
++    if deploy_sbom_tasks and (d.getVar("SPDX_DEPLOY_SBOM") or "") == "1":
++        bb.build.addtask("do_create_deploy_sbom", "do_build", " ".join(deploy_sbom_tasks), d)
++}
++
++python do_create_deploy_sbom() {
++    import oe.spdx30_tasks
++    from pathlib import Path
++    deploydir = Path(d.getVar("SPDXDEPLOYSBOMDEPLOY"))
++    deploy_tasks = []
++    for task in (d.getVar("SPDX_DEPLOY_TASKS") or "").split():
++        if ":" in task:
++            task, _ = task.split(":")
++        deploy_tasks.append(task)
++
++    oe.spdx30_tasks.create_deploy_sbom(d, deploydir, deploy_tasks)
++}
++do_create_deploy_sbom[sstate-inputdirs] = "${SPDXDEPLOYSBOMDEPLOY}"
++do_create_deploy_sbom[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
++do_create_deploy_sbom[recrdeptask] += "do_create_recipe_spdx do_create_spdx"
++do_create_deploy_sbom[cleandirs] += "${SPDXDEPLOYSBOMDEPLOY}"
++do_create_deploy_sbom[file-checksums] += "${SPDX3_DEP_FILES}"
++
++SSTATETASKS += "do_create_deploy_sbom"
++python do_create_deploy_sbom_setscene() {
++    sstate_setscene(d)
++}
++addtask do_create_deploy_sbom_setscene
++SSTATE_SKIP_CREATION:task-create-deploy-sbom = "1"
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
+index 40701730a6..bca169670d 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -26,6 +26,7 @@ SPDX_TOOL_VERSION ??= "1.0"
+ SPDXRECIPEDEPLOY = "${SPDXDIR}/recipe-deploy"
+ SPDXRUNTIMEDEPLOY = "${SPDXDIR}/runtime-deploy"
+ SPDXRECIPESBOMDEPLOY = "${SPDXDIR}/recipes-bom-deploy"
++SPDXDEPLOYSBOMDEPLOY = "${SPDXDIR}/deploy-bom-deploy"
+ 
+ SPDX_INCLUDE_SOURCES ??= "0"
+ SPDX_INCLUDE_SOURCES[doc] = "If set to '1', include source code files in the \
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index b33860e4aa..2d3b54069c 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -1054,6 +1054,25 @@ def write_jsonld_doc(d, objset, dest):
+     objset.objects.remove(objset.doc)
+ 
+ 
++def make_jsonld_link(d, fn, subdir, name, deploydir):
++    pkg_arch = d.getVar("SSTATE_PKGARCH")
++
++    link_name = jsonld_arch_path(
++        d,
++        pkg_arch,
++        subdir,
++        name,
++        deploydir=deploydir,
++    )
++    try:
++        link_name.parent.mkdir(exist_ok=True, parents=True)
++        link_name.symlink_to(os.path.relpath(fn, link_name.parent))
++    except:
++        target = link_name.readlink()
++        bb.warn(f"Unable to link {fn} as {link_name}. Already points to {target}")
++        raise
++
++
+ def write_recipe_jsonld_doc(
+     d,
+     objset,
+@@ -1061,6 +1080,7 @@ def write_recipe_jsonld_doc(
+     deploydir,
+     *,
+     create_spdx_id_links=True,
++    create_task_link=False,
+ ):
+     pkg_arch = d.getVar("SSTATE_PKGARCH")
+ 
+@@ -1068,23 +1088,7 @@ def write_recipe_jsonld_doc(
+ 
+     def link_id(_id):
+         hash_path = jsonld_hash_path(hash_id(_id))
+-
+-        link_name = jsonld_arch_path(
+-            d,
+-            pkg_arch,
+-            *hash_path,
+-            deploydir=deploydir,
+-        )
+-        try:
+-            link_name.parent.mkdir(exist_ok=True, parents=True)
+-            link_name.symlink_to(os.path.relpath(dest, link_name.parent))
+-        except:
+-            target = link_name.readlink()
+-            bb.warn(
+-                f"Unable to link {_id} in {dest} as {link_name}. Already points to {target}"
+-            )
+-            raise
+-
++        make_jsonld_link(d, dest, *hash_path, deploydir)
+         return hash_path[-1]
+ 
+     objset.add_aliases()
+@@ -1100,6 +1104,14 @@ def write_recipe_jsonld_doc(
+         # out, so always do that even if there is an error making the links
+         write_jsonld_doc(d, objset, dest)
+ 
++    if create_task_link:
++        pn = d.getVar("PN")
++        current_task = "do_" + d.getVar("BB_CURRENTTASK")
++
++        make_jsonld_link(d, dest, "by-task", f"{pn}:{current_task}", deploydir)
++
++    return dest
++
+ 
+ def find_root_obj_in_jsonld(d, subdir, fn_name, obj_type, **attr_filter):
+     objset, fn = find_jsonld(d, subdir, fn_name, required=True)
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 3dd87c2a75..c1c0733508 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -598,6 +598,135 @@ def get_is_native(d):
+     return bb.data.inherits_class("native", d) or bb.data.inherits_class("cross", d)
+ 
+ 
++def set_var_field(d, var, obj, name, package=None):
++    val = None
++    if package:
++        val = d.getVar("%s:%s" % (var, package))
++
++    if not val:
++        val = d.getVar(var)
++
++    if val:
++        setattr(obj, name, val)
++
++
++def find_build_dep_objsets(d, start_task):
++    def find_deps(d, taskdepdata, current_dep, start_dep, visited, depth=0):
++        key = f"{current_dep.pn}:{current_dep.taskname}"
++
++        dep_objsets = []
++
++        if key not in visited:
++            visited.add(key)
++
++            for n in current_dep.deps:
++                dep = taskdepdata[n]
++                dep_name = f"{dep.pn}:{dep.taskname}"
++
++                dep_objset, dep_path = oe.sbom30.find_jsonld(d, "by-task", dep_name)
++                if dep_objset:
++                    dep_objsets.append(dep_objset)
++
++                elif dep.pn == start_dep.pn:
++                    # If this task is still part of the same recipe, continue
++                    # searching up the dependency tree until a valid dependency
++                    # is found. This detects transitive dependencies that may
++                    # have been pulled in by previous tasks in the same recipe.
++                    dep_objsets.extend(
++                        find_deps(d, taskdepdata, dep, start_dep, visited, depth + 1)
++                    )
++
++        return dep_objsets
++
++    pn = d.getVar("PN")
++    taskdepdata = d.getVar("BB_TASKDEPDATA", False)
++    for dep in taskdepdata.values():
++        if dep.pn == pn and dep.taskname == start_task:
++            start_dep = dep
++            break
++    else:
++        bb.fatal(f"Unable to find {pn}:{start_task} in taskdepdata")
++
++    return find_deps(d, taskdepdata, start_dep, start_dep, set())
++
++
++def create_deploy_package(d, objset, build, spdxid, name, start_task, files, **attrs):
++    recipe, _ = load_recipe_spdx(d)
++
++    deploy_package = objset.add_root(
++        oe.spdx30.software_Package(
++            _id=spdxid,
++            creationInfo=objset.doc.creationInfo,
++            name=name,
++            software_packageVersion=d.getVar("PV"),
++        )
++    )
++
++    objset.new_scoped_relationship(
++        [oe.sbom30.get_element_link_id(recipe)],
++        oe.spdx30.RelationshipType.generates,
++        oe.spdx30.LifecycleScopeType.build,
++        [deploy_package],
++    )
++
++    set_var_field(d, "HOMEPAGE", deploy_package, "software_homePage")
++    set_var_field(d, "SUMMARY", deploy_package, "summary")
++    set_var_field(d, "DESCRIPTION", deploy_package, "description")
++
++    set_purls(deploy_package, (d.getVar("SPDX_PACKAGE_URLS") or "").split())
++
++    set_timestamp_now(d, deploy_package, "builtTime")
++
++    supplier = objset.new_agent("SPDX_PACKAGE_SUPPLIER")
++    if supplier is not None:
++        deploy_package.suppliedBy = (
++            supplier if isinstance(supplier, str) else supplier._id
++        )
++
++    if files:
++        objset.new_relationship(
++            [deploy_package],
++            oe.spdx30.RelationshipType.contains,
++            sorted(list(files)),
++        )
++
++    objset.new_scoped_relationship(
++        [build],
++        oe.spdx30.RelationshipType.hasOutput,
++        oe.spdx30.LifecycleScopeType.build,
++        sorted(list(files) + [deploy_package]),
++    )
++
++    # Collect dependencies
++    if start_task is not None:
++        dep_builds = set()
++        dep_packages = set()
++        for o in find_build_dep_objsets(d, start_task):
++            if obj := o.find_root(oe.spdx30.software_Package):
++                dep_packages.add(oe.sbom30.get_element_link_id(obj))
++
++            if obj := o.find_root(oe.spdx30.build_Build):
++                dep_builds.add(oe.sbom30.get_element_link_id(obj))
++
++        if dep_packages:
++            objset.new_scoped_relationship(
++                [deploy_package],
++                oe.spdx30.RelationshipType.dependsOn,
++                oe.spdx30.LifecycleScopeType.build,
++                sorted(list(dep_packages)),
++            )
++
++        if dep_builds:
++            objset.new_scoped_relationship(
++                [build],
++                oe.spdx30.RelationshipType.dependsOn,
++                oe.spdx30.LifecycleScopeType.build,
++                sorted(list(dep_builds)),
++            )
++
++    return deploy_package
++
++
+ def create_recipe_spdx(d):
+     deploydir = Path(d.getVar("SPDXRECIPEDEPLOY"))
+     pn = d.getVar("PN")
+@@ -790,7 +919,9 @@ def create_recipe_spdx(d):
+             sorted(list(all_cves)),
+         )
+ 
+-    oe.sbom30.write_recipe_jsonld_doc(d, recipe_objset, "static", deploydir)
++    oe.sbom30.write_recipe_jsonld_doc(
++        d, recipe_objset, "static", deploydir, create_task_link=True
++    )
+ 
+ 
+ def load_recipe_spdx(d):
+@@ -804,17 +935,6 @@ def load_recipe_spdx(d):
+ 
+ 
+ def create_spdx(d):
+-    def set_var_field(var, obj, name, package=None):
+-        val = None
+-        if package:
+-            val = d.getVar("%s:%s" % (var, package))
+-
+-        if not val:
+-            val = d.getVar(var)
+-
+-        if val:
+-            setattr(obj, name, val)
+-
+     license_data = oe.spdx_common.load_spdx_license_data(d)
+ 
+     pn = d.getVar("PN")
+@@ -943,10 +1063,12 @@ def create_spdx(d):
+                 )
+ 
+             set_var_field(
+-                "HOMEPAGE", spdx_package, "software_homePage", package=package
++                d, "HOMEPAGE", spdx_package, "software_homePage", package=package
++            )
++            set_var_field(d, "SUMMARY", spdx_package, "summary", package=package)
++            set_var_field(
++                d, "DESCRIPTION", spdx_package, "description", package=package
+             )
+-            set_var_field("SUMMARY", spdx_package, "summary", package=package)
+-            set_var_field("DESCRIPTION", spdx_package, "description", package=package)
+ 
+             purls = (
+                 d.getVar("SPDX_PACKAGE_URLS:%s" % package)
+@@ -1133,7 +1255,9 @@ def create_spdx(d):
+                 f"Added PACKAGECONFIG entries: {len(enabled)} enabled, {len(disabled)} disabled"
+             )
+ 
+-    oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "builds", deploydir)
++    oe.sbom30.write_recipe_jsonld_doc(
++        d, build_objset, "builds", deploydir, create_task_link=True
++    )
+ 
+ 
+ def create_package_spdx(d):
+@@ -1369,26 +1493,9 @@ def create_rootfs_spdx(d):
+         d, "%s-%s-rootfs" % (image_basename, machine)
+     )
+ 
+-    rootfs = objset.add_root(
+-        oe.spdx30.software_Package(
+-            _id=objset.new_spdxid("rootfs", image_basename),
+-            creationInfo=objset.doc.creationInfo,
+-            name=image_basename,
+-            software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.archive,
+-        )
+-    )
+-    set_timestamp_now(d, rootfs, "builtTime")
+-
+     rootfs_build = objset.add_root(objset.new_task_build("rootfs", "rootfs"))
+     set_timestamp_now(d, rootfs_build, "build_buildEndTime")
+ 
+-    objset.new_scoped_relationship(
+-        [rootfs_build],
+-        oe.spdx30.RelationshipType.hasOutput,
+-        oe.spdx30.LifecycleScopeType.build,
+-        [rootfs],
+-    )
+-
+     files_by_hash = {}
+     collect_build_package_inputs(d, objset, rootfs_build, packages, files_by_hash)
+ 
+@@ -1421,14 +1528,20 @@ def create_rootfs_spdx(d):
+                     )
+                 )
+ 
+-    if files:
+-        objset.new_relationship(
+-            [rootfs],
+-            oe.spdx30.RelationshipType.contains,
+-            sorted(list(files)),
+-        )
++    rootfs = create_deploy_package(
++        d,
++        objset,
++        rootfs_build,
++        objset.new_spdxid("rootfs", image_basename),
++        image_basename,
++        None,
++        files,
++    )
++    rootfs.software_primaryPurpose = oe.spdx30.software_SoftwarePurpose.archive
+ 
+-    oe.sbom30.write_recipe_jsonld_doc(d, objset, "rootfs", deploydir)
++    oe.sbom30.write_recipe_jsonld_doc(
++        d, objset, "rootfs", deploydir, create_task_link=True
++    )
+ 
+ 
+ def create_image_spdx(d):
+@@ -1508,10 +1621,13 @@ def create_image_spdx(d):
+                 set_timestamp_now(d, a, "builtTime")
+ 
+         if artifacts:
+-            objset.new_scoped_relationship(
+-                [image_build],
+-                oe.spdx30.RelationshipType.hasOutput,
+-                oe.spdx30.LifecycleScopeType.build,
++            create_deploy_package(
++                d,
++                objset,
++                image_build,
++                objset.new_spdxid(taskname, "image", imagetype),
++                "image",
++                f"do_{taskname}",
+                 artifacts,
+             )
+ 
+@@ -1532,7 +1648,9 @@ def create_image_spdx(d):
+ 
+     objset.add_aliases()
+     objset.link()
+-    oe.sbom30.write_recipe_jsonld_doc(d, objset, "image", spdx_work_dir)
++    oe.sbom30.write_recipe_jsonld_doc(
++        d, objset, "image", spdx_work_dir, create_task_link=True
++    )
+ 
+ 
+ def create_image_sbom_spdx(d):
+@@ -1710,3 +1828,77 @@ def create_recipe_sbom(d, deploydir):
+     objset, sbom = oe.sbom30.create_sbom(d, sbom_name, [recipe], [recipe_objset])
+ 
+     oe.sbom30.write_jsonld_doc(d, objset, deploydir / (sbom_name + ".spdx.json"))
++
++
++def create_deploy_spdx(d, spdxdeploydir, artifactsdir, artifacts):
++    pn = d.getVar("PN")
++    current_task = "do_" + d.getVar("BB_CURRENTTASK")
++
++    recipe, recipe_objset = load_recipe_spdx(d)
++
++    if artifacts == "AUTO":
++        artifacts = []
++        for root, dirs, files in os.walk(artifactsdir):
++            for p in [Path(os.path.join(root, f)) for f in files]:
++                if p.is_file():
++                    artifacts.append(p)
++    else:
++        artifacts = [artifactsdir / p for p in artifacts.split()]
++
++    artifacts.sort(key=lambda p: (p.is_symlink(), p))
++
++    objset = oe.sbom30.ObjectSet.new_objset(d, f"{pn}-{current_task}-deploy")
++
++    build = objset.add_root(objset.new_task_build(current_task, "deploy"))
++    set_timestamp_now(d, build, "build_buildEndTime")
++    objset.set_is_native(get_is_native(d))
++
++    files = set()
++    for a in artifacts:
++        relpath = a.relative_to(artifactsdir)
++        f = objset.new_file(
++            objset.new_spdxid("deploy", str(relpath)),
++            a.name,
++            a,
++        )
++        files.add(f)
++
++    if not files:
++        bb.fatal(f"No deployed artifacts found in {artifactsdir}")
++        return
++
++    create_deploy_package(
++        d,
++        objset,
++        build,
++        objset.new_spdxid("deploy", pn, current_task),
++        pn,
++        current_task,
++        files,
++    )
++
++    # Create document
++    dest = oe.sbom30.write_recipe_jsonld_doc(
++        d,
++        objset,
++        "deploy",
++        spdxdeploydir,
++        create_task_link=True,
++    )
++
++
++def create_deploy_sbom(d, deploydir, deploy_tasks):
++    pn = d.getVar("PN")
++    sbom_name = d.getVar("SPDX_DEPLOY_SBOM_NAME")
++
++    objsets = []
++    for t in deploy_tasks:
++        o, _ = oe.sbom30.find_jsonld(d, "deploy", f"{pn}-{t}-deploy", required=True)
++        objsets.append(o)
++
++    root_objs = []
++    for o in objsets:
++        root_objs.extend(o.doc.rootElement)
++
++    objset, sbom = oe.sbom30.create_sbom(d, sbom_name, root_objs, objsets)
++    oe.sbom30.write_jsonld_doc(d, objset, deploydir / (sbom_name + ".spdx.json"))
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index 07bf9650e2..9a862d9f5a 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -118,7 +118,7 @@ def collect_direct_deps(d, dep_task):
+         )
+ 
+     for this_dep in taskdepdata.values():
+-        if this_dep[0] == pn and this_dep[1] == current_task:
++        if this_dep.pn == pn and this_dep.taskname == current_task:
+             break
+     else:
+         bb.fatal(f"Unable to find this {pn}:{current_task} in taskdepdata")
+-- 
+2.56.0
+
