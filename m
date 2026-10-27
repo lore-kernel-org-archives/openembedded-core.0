@@ -1,41 +1,41 @@
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12844.1793079632758653441
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12847.1793079635255571593
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 22:40:32 -0700
+ Mon, 26 Oct 2026 22:40:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=iLHz12TW;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0mdtXgo0;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a17bdfdf37-be351dd8-923c-4d7d-8f4b-2a1b85a0c7ff-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Gfi7Ux4H;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=i01uphvy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a17bdfea06-1bd5edad-caea-452a-8ee4-47f1c3d97ab8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793079631;
+	t=1793079634;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=30ndz6whrE19/8WwnaosFoUX2d8T7HHbAQ9zgt9IH7k=;
-	b=iLHz12TWxPP+ASQs+wMBLvPiwm+5c0TAmB9CB5niHDNCqlvuJBVxsZRMkNEzqjP2
-	zUMzkVuoIUzB7x0un2DkSunTj4Xc/kUUQrmRUxil4rYyALGIHWX2ISOayjO7a5uB1Pu
-	14fMuhk7JCQsy+RwtsDLvuQO+UjhSnElzE8p6xYE=
+	bh=zorzwb/BD1YFQMhQoqV7xGXDRxMpptP49+6O5HkFrNg=;
+	b=Gfi7Ux4H7wBx9oK2NHwxBZJghAOwP8LQuIgIuNTtC7ErRRKd7Vq3FLss2m5Ph9xj
+	QICibxRL0na4eVpjdGcAROnqy0hTAsr2KdE+SucS/5hZAZd37QP97WuGxT9Spg5RRlk
+	V0tuw7YrliGrDeHapNydCwpNzX7ntGKlpOK8cQgs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793079631;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793079634;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=30ndz6whrE19/8WwnaosFoUX2d8T7HHbAQ9zgt9IH7k=;
-	b=0mdtXgo07FShCU/fXIs5Qah6B7ZZV/Ycs+4n+IoQuouCyjEGEbBiE9EnmYJEakQF
-	9s6kAwcu5MJRk94W9oNVcmlUZumocMMMzCac6+t0xo9MZXzdjAXi9KFBY7CpPQFcKHg
-	OVSrKcYEO1Ig5ovrjPV/tcvQ5yG169Ix1dqtqYmM=
-Content-Type: multipart/mixed; boundary="===============3397038756059957513=="
+	bh=zorzwb/BD1YFQMhQoqV7xGXDRxMpptP49+6O5HkFrNg=;
+	b=i01uphvy6inf4D75ZfNQQS/nSRsIlTtbwBaV713++f1kndjE9ofT5mHk/Z6dOSks
+	SZ6knMsiIhJuzcOqrqeoVRiPfnG5S9cyLPAytmMx6y48o1CiMuit7IcMX3yDAifpbI8
+	U91HczNxs6kfmAz36AxTQ2nuK0gh5jJtjDGb1yMs=
+Content-Type: multipart/mixed; boundary="===============1078438498893626112=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.170.12 SUCCEEDED
-Message-ID: <010101a17bdfdf37-be351dd8-923c-4d7d-8f4b-2a1b85a0c7ff-000000@us-west-2.amazonses.com>
-Date: Tue, 27 Oct 2026 05:40:31 +0000
+Subject: [AUH] python3-jsonpointer: upgrading to 3.6 SUCCEEDED
+Message-ID: <010101a17bdfea06-1bd5edad-caea-452a-8ee4-47f1c3d97ab8-000000@us-west-2.amazonses.com>
+Date: Tue, 27 Oct 2026 05:40:34 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.27-54.240.27.192
+X-SES-Outgoing: 2026.10.27-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 05:40:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248706
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 05:40:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248707
 
---===============3397038756059957513==
+--===============1078438498893626112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.170.12* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-jsonpointer* to *3.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.170.8-6.170.12.patch
+    - apply the patch: git am 0001-python3-jsonpointer-upgrade-3.4-3.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,128 +64,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1247e1848e71004f1e46479544d53cd286b45f72 Mon Sep 17 00:00:00 2001
+From 41ab32e6e6003746390ccca2ea620f9502bc9ebe Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 27 Oct 2026 05:27:46 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.170.8 -> 6.170.12
+Date: Tue, 27 Oct 2026 05:31:09 +0000
+Subject: [PATCH] python3-jsonpointer: upgrade 3.4 -> 3.6
 
 ---
- ...on3-hypothesis_6.170.8.bb => python3-hypothesis_6.170.12.bb} | 2 +-
+ .../{python3-jsonpointer_3.4.bb => python3-jsonpointer_3.6.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.170.8.bb => python3-hypothesis_6.170.12.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-jsonpointer_3.4.bb => python3-jsonpointer_3.6.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.170.8.bb b/meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.170.8.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb
-index e40ed0d9dd..564b1d1845 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.170.8.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb
-@@ -16,7 +16,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/python/python3-jsonpointer_3.4.bb b/meta/recipes-devtools/python/python3-jsonpointer_3.6.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-jsonpointer_3.4.bb
+rename to meta/recipes-devtools/python/python3-jsonpointer_3.6.bb
+index 1fa8ce7551..c8119b901d 100644
+--- a/meta/recipes-devtools/python/python3-jsonpointer_3.4.bb
++++ b/meta/recipes-devtools/python/python3-jsonpointer_3.6.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=32b15c843b7a329130f4e266a281ebb3"
  
--SRC_URI[sha256sum] = "dfc56ceac35d825fb6a85fa3ac36a598fee3101d264a39895a62f78c1cc95521"
-+SRC_URI[sha256sum] = "92b353d21a010b50b638c730ce67cb631ca78a369b146bcc28b3488f83136e35"
+ inherit pypi ptest setuptools3
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+-SRC_URI[sha256sum] = "e57015ae65af3821c6a3976069860789cf326103f38b22b2178d41d021adad25"
++SRC_URI[sha256sum] = "82e839a3ba3a9e2b54394fda8b3d276c2459d80408d06ef9a6fbc369d7544ffc"
+ 
+ SRC_URI += " \
+ 	file://run-ptest \
 -- 
 2.47.1
 
 
---===============3397038756059957513==
+--===============1078438498893626112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.170.8.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.30.1 crate://crates.io/pyo3-build-config/0.30.1 crate://crates.io/pyo3-ffi/0.30.1 crate://crates.io/pyo3-macros/0.30.1 crate://crates.io/pyo3-macros-backend/0.30.1 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/syn/3.0.9 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/
- wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.170.12.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.30.1 crate://crates.io/pyo3-build-config/0.30.1 crate://crates.io/pyo3-ffi/0.30.1 crate://crates.io/pyo3-macros/0.30.1 crate://crates.io/pyo3-macros-backend/0.30.1 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate
- ://crates.io/syn/3.0.9 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.170.8" to "6.170.12"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 4641133 to 4664233 (+0%)
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/entry_points.txt was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/entry_points.txt was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/python3-jsonpointer: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-3.4.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/j/jsonpointer/jsonpointer-3.6.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-jsonpointer: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer: PV changed from "3.4" to "3.6"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dbg: PV changed from "3.4" to "3.6"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-dev: PV changed from "3.4" to "3.6"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-doc: PV changed from "3.4" to "3.6"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-locale: PV changed from "3.4" to "3.6"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGSIZE changed from 32058 to 37715 (+18%)
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PV changed from "3.4" to "3.6"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-src: PV changed from "3.4" to "3.6"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-staticdev: PV changed from "3.4" to "3.6"
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGV changed from 3.4 [default] to 3.6 [default]
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info -> /usr/lib/python3.14/site-packages/jsonpointer-3.6.dist-info, directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/jsonpointer-3.6.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PKGSIZE changed from 38215 to 39916 (+4%)
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: PV changed from "3.4" to "3.6"
+Changes to packages/x86-64-v3-poky-linux/python3-jsonpointer (sysroot):
+  /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info moved to /usr/lib/python3.14/site-packages/jsonpointer-3.6.dist-info
 
---===============3397038756059957513==
+--===============1078438498893626112==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.170.8-6.170.12.patch"
+ filename="0001-python3-jsonpointer-upgrade-3.4-3.6.patch"
 
-RnJvbSAxMjQ3ZTE4NDhlNzEwMDRmMWU0NjQ3OTU0NGQ1M2NkMjg2YjQ1ZjcyIE1vbiBTZXAgMTcg
+RnJvbSA0MWFiMzJlNmU2MDAzNzQ2MzkwY2NjYTJlYTYyMGY5NTAyYmM5ZWJlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMjcgT2N0IDIwMjYgMDU6Mjc6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNzAuOCAtPiA2LjE3MC4xMgoKLS0tCiAuLi5v
-bjMtaHlwb3RoZXNpc182LjE3MC44LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE3MC4xMi5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWh5cG90aGVzaXNf
-Ni4xNzAuOC5iYiA9PiBweXRob24zLWh5cG90aGVzaXNfNi4xNzAuMTIuYmJ9ICg5MSUpCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNf
-Ni4xNzAuOC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhl
-c2lzXzYuMTcwLjEyLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTcwLjguYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTcw
-LjEyLmJiCmluZGV4IGU0MGVkMGQ5ZGQuLjU2NGIxZDE4NDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTcwLjguYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNzAuMTIu
-YmIKQEAgLTE2LDcgKzE2LDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUu
-cHkgXAogICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImRmYzU2Y2VhYzM1ZDgyNWZiNmE4
-NWZhM2FjMzZhNTk4ZmVlMzEwMWQyNjRhMzk4OTVhNjJmNzhjMWNjOTU1MjEiCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiOTJiMzUzZDIxYTAxMGI1MGI2MzhjNzMwY2U2N2NiNjMxY2E3OGEzNjliMTQ2
-YmNjMjhiMzQ4OGY4MzEzNmUzNSIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9u
-My1hdHRycyBcCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFR1ZSwgMjcgT2N0IDIwMjYgMDU6MzE6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWpzb25wb2ludGVyOiB1cGdyYWRlIDMuNCAtPiAzLjYKCi0tLQogLi4uL3tweXRob24z
+LWpzb25wb2ludGVyXzMuNC5iYiA9PiBweXRob24zLWpzb25wb2ludGVyXzMuNi5iYn0gIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1qc29ucG9pbnRlcl8zLjQuYmIg
+PT4gcHl0aG9uMy1qc29ucG9pbnRlcl8zLjYuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25wb2ludGVyXzMuNC5iYiBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29ucG9pbnRlcl8zLjYuYmIKc2ltaWxh
+cml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLWpzb25wb2ludGVyXzMuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWpzb25wb2ludGVyXzMuNi5iYgppbmRleCAxZmE4Y2U3NTUxLi5jODEx
+OWI5MDFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+anNvbnBvaW50ZXJfMy40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1qc29ucG9pbnRlcl8zLjYuYmIKQEAgLTUsNyArNSw3IEBAIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT0zMmIxNWM4NDNiN2EzMjkxMzBmNGUyNjZhMjgxZWJi
+MyIKIAogaW5oZXJpdCBweXBpIHB0ZXN0IHNldHVwdG9vbHMzCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJlNTcwMTVhZTY1YWYzODIxYzZhMzk3NjA2OTg2MDc4OWNmMzI2MTAzZjM4YjIyYjIxNzhk
+NDFkMDIxYWRhZDI1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjgyZTgzOWEzYmEzYTllMmI1NDM5
+NGZkYThiM2QyNzZjMjQ1OWQ4MDQwOGQwNmVmOWE2ZmJjMzY5ZDc1NDRmZmMiCiAKIFNSQ19VUkkg
+Kz0gIiBcCiAJZmlsZTovL3J1bi1wdGVzdCBcCi0tIAoyLjQ3LjEKCg==
 
---===============3397038756059957513==
+--===============1078438498893626112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/entry_points.txt was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/entry_points.txt was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer-ptest: PKGSIZE changed from 32058 to 37715 (+18%)
+packages/x86-64-v3-poky-linux/python3-jsonpointer/python3-jsonpointer: FILELIST: directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/jsonpointer-3.6.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info -> /usr/lib/python3.14/site-packages/jsonpointer-3.6.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-jsonpointer (sysroot):
+  /usr/lib/python3.14/site-packages/jsonpointer-3.4.dist-info moved to /usr/lib/python3.14/site-packages/jsonpointer-3.6.dist-info
 
---===============3397038756059957513==--
+--===============1078438498893626112==--
