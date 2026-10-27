@@ -1,512 +1,240 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17140.1793102634674037591
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.27])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17765.1793104038951579294
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2026 05:03:54 -0700
+ Tue, 27 Oct 2026 05:27:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=RrZKJGOh;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=bMe2KXAE;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: jose.quaresma@oss.qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69RAeC6C3026388
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 12:03:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=AbBfrZRGp1mT6GkUPhD1Rj6i
-	OYf1aQ98bLm/TS+IsHk=; b=RrZKJGOhPZzakb8uB9H6pLbm472cSqJx8P0Sqm3k
-	JGH4BdJqoD+PxnFO/DjkKWTPdUtcOohliemquJoYEa85TrDws1MR/oz0uWTYwdao
-	Rmy9zdAYKcaOQLO8WHKL9eimmczgXWxMpJ6CO3HBRQeralqV7ZO2hSkJ8uGHKF2j
-	5FR93WIxG4RBo1yVqWRI1HPV6pIrTESBs4OV6ivyHBpVJVWRCZuDPdpmKcSa57/b
-	OvXWaZUsFAgomAt75PvZgxREXExav6AmjDdmbIFTXI5v90uTdr3fn7Vq1WxSPSda
-	mlfcsA52/+sEgtPVSep7mubHmNu6zXEGgZl4PSb40Crxtw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjh91abcp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 12:03:53 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-53395d51187so70245031cf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 05:03:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793102632; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pvcTKkXB4BiTTHK8o1iny620cgf03J5HIBhjlhUigtX6Vo7FaY2gZvYpCDKQu/JKwf
-         ksDKHBVmr8zpw/pZuBfMfmAmV9xrE7QuIJA9acgsaENLZBRk33B040pxTqEflbWigjKP
-         Sd9/qPAT8IATiNiQhDKj/r84/eAsG/gdGJ+iGR8+n60GYG6+Zbs6235XGadP/1RRP56R
-         Ok5dMXXfDhwnUQL18sX5gU0SQXOTRopRCgx1Kzf9V4WasAJiGWxFHJro06B4So0eh3F3
-         oTIl0UdHUsToZfJU6fsbL3kAAPDnmgWPw7m3amnvyAxmQat7tRciKT2vEX5kH91gR6B9
-         u28Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AbBfrZRGp1mT6GkUPhD1Rj6iOYf1aQ98bLm/TS+IsHk=;
-        fh=16XcNlPqxr1myujANuqU/28Ci643iY2s5DLosrYwWgs=;
-        b=Q1smCiWhPjsVba0fygoQW4NGhnW8e1ZqODy9F9YX2Ar1zX0xVH1lQ1GI43qe+QODCq
-         uS9dgf51A9te8qYnKzs1MgXVMJokv49ljG2Xz9xFRPUh5Mlvi5C6vrCYJ76qlDu5ncZT
-         OE9h4nvQCVCieez0IGxlGRhCXsipGzJjXccU1rbDOhhKipTvUSKXE9xnKCPOVNjQlRff
-         qlgAdxlRbs1nLbcOcJINzp+fsxW6uAopzpmhOZRoVtQaCG3VIXpAdzIK2UK+LNt2me8S
-         FlS6XbFeOJqvtLXJCABZgu41boBCesreGGQ2MyA8jCBcA8l8JEyFXG46sjZislHOaLte
-         fwzg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793102632; x=1793707432; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AbBfrZRGp1mT6GkUPhD1Rj6iOYf1aQ98bLm/TS+IsHk=;
-        b=bMe2KXAEMoemMv5nAyrasIkbUMR/Rt4MXuJ9cxdh7t1s7dS+Y+fgS6tD68lFKIXO4X
-         OHQAPp0kMv3PCwlqayjvnsV031oJUaaxX3fO4XxGD7RiJNzIeQs8bGKSD27sWognd5K7
-         dCoYKRridjHfDDGl0AC5bUt2M18XtV/OSqyZASd18wzSeCH9aHvnv6QgZK7sNfeAAeAX
-         5mmOAz1mdgZgXLxFqtpq6AgFeJ76w+aLAKaFBwfor391p7cxRnlF6SXhrgQV34S8Q/KN
-         CM3tmxppLVhAUkboHNaJyDpBAl8u33SMDcMm1/GRxZT4FZIj7Vi3a+CL9mYkYOn+7P7V
-         W2Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793102632; x=1793707432;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=AbBfrZRGp1mT6GkUPhD1Rj6iOYf1aQ98bLm/TS+IsHk=;
-        b=EXkALPMhv3c//hqphxMfMhAG8jFWqMArZ/7DQK6tJPhtBmr3BcYbUvqBzdzvkg3G0f
-         ddSiKAuK8Bz3JWNlEynrlLpTDAWtxxbDAdvmKo3yaq9vXy74mr2zi+ukZY7ATGywi9Xb
-         mcmRH/PVE41ULp/oDV7FwkTXOxsbbQHoCb9vzrS35EVZyUWsZ4G2tCuCV7klyJM23XZS
-         cZZWqUMxMXqASm1MNADtosN8W8mkKCgtvYet8+5eptQ9mtmXBvd0adx2MaNJI65ualaT
-         8oCcca6jmE2Dj/wR3yXamX4zINCOecfu3gPS1wISI/jLW7QkxiXptnLNLqx+BRr9VXE/
-         ak6g==
-X-Forwarded-Encrypted: i=1; AKwUvBzayu4QhnHsHPRGFTYN60EfCDge1t9Kt+aOTYXQ0lIVjQjOr2lQFVgG+/RtskSGPPiDAaKZ6dVN5UkvF9nRUswnnA==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYISEgtpYxJUs7NVgv42tWVq90XdTeR6dyXqXeNSZrY3puDv2z/C
-	I0Ev7q5t5rQ15DM+knkm6rHa7HFnZTrW+fCT79GBGKsjYBG59lY6LHLMI+8BNqrg6TkKpFmN3bW
-	EBW2tdjrm9PBNw+FfqItoqLkA5NRgsydNLFoblcMgE253w5s/ZSlW6DW+LQAbzhAsLJLbhjl2CJ
-	/rlDnldXICEUOLEasIDpFKJrMt4SyN5XeNUOXjmrQ/jizt31WrpRsBrvdcMA==
-X-Gm-Gg: AYBFou1XRiJo8DMHb52i1XliUd09/Gh5YVxwDFJsy796Jgf2xRHPhPTF8jlHNWGK6bo
-	7XCt4j0e1adpSji1typZ0ujacIQli/lJFItmnybV1pNCH0dclCtDCjX9auzYxAvE9o6x6DXz4H3
-	CS2i9h/KF3pATk+8n6hBhlkp7g2fZmF+L0FgvL5lSTFF+OslQiIR73fwD1bSk=
-X-Received: by 2002:a05:622a:5594:b0:535:a5fb:644c with SMTP id d75a77b69052e-5383b60d7a2mr153283061cf.70.1793102632472;
-        Tue, 27 Oct 2026 05:03:52 -0700 (PDT)
-X-Received: by 2002:a05:622a:5594:b0:535:a5fb:644c with SMTP id
- d75a77b69052e-5383b60d7a2mr153282041cf.70.1793102631730; Tue, 27 Oct 2026
- 05:03:51 -0700 (PDT)
+ dkim=pass header.i=@ericsson.com header.s=selector2 header.b=lwHz/0Dg;
+ spf=pass (domain: ericsson.com, ip: 52.101.70.27, mailfrom: daniel.turull@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Iu4K2gfHtJTuwFEJu+aPSSGXVf0cF+tOskCQe8O1yzdANcO2v7K4DvYhmo2OgCq9M+0rxV6fhhEPUlDzmgMae5JvLWWMfL2q5tm8F2YH2aiZ5ZS6z9RdV4t3/ewFFVibSK3G508ka+u6BNt+pDqfnRkPD0bk4wTLkZtv9RPRuY9WGi4KIhJ1x1AIQxPNdI988jP5UYE7SqUaBNrTwo36/vwZzScYQvfIm0a7s9WhG+YZNNTVzkrzZYq36KlYXFIHn6a5WEJq/K/uQ0L+NXjPZziVKGVoLmQUN+kjvgTAjJkAQsZX1iy7O7LD0+86+NJv52umJ4M7pfb35ws62MyKLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wYDkFwLqT30KU0LOCu+ITApZQpFZooVsuD9pCd90MqY=;
+ b=lJgwRdjKIMltmiSAEH45+4sEKTLlmBVzklE7/TUpkeFeUxOy3U4C7/sHgJH0aPYRA2sDOB3fHeTU0V/4elMeAEOQDMMgDB5Xe5OA2sk9FTtte/pBRbAtfJnemcDd4tiSCGqoCC3DvVykH43jV2iOPU1Zr8W/TP2QrIzyzgwP2qYEC1idhlQtqd6TYcBdFPMPTm3erXkaqaLF8SyopaEiDT1kmWAHdZ73p81yIrPSCMqkVsOS/UL+83xykvD0TvdNkFfRtoJ+PzYgd7s4FzUt4lvVOXq4AGa/40a7raA7jMbI3k2h9V6L/7DhuDU7AWlcdKRUS/N9eb/EW4lJzKaW+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wYDkFwLqT30KU0LOCu+ITApZQpFZooVsuD9pCd90MqY=;
+ b=lwHz/0Dg/yxJQty9pqRUw4ygiSelhFLJ2c/wQiSYobwU3oIKLl+GOuf5XmvJw/YMeWC+LXQx855EqczFxVKTnSJh7vq1Ki5h/HksGWD9zrvp7O+uWI+ER5A/ZmPFGn4ytaoVrEf+ySkkhAWzSqDKwNDoLeaO5WrdlNkBGR3rIoz1aNqdAFxa0vshC10rDSIwqwYlJqOrLIyJpxZet9qRYFdCyKYURGfpkrOrf4S5acqN4Rdsuwq6p8VdejNSLKbFyfQ6+q+hCoMpvegWBij+OGwl+rcU+9nmHQIJzq8itWEoGQ563bdfUfvrSNmVDwCPq5MfDbppY+juad8nz+UL2A==
+Received: from AM7PR07MB6437.eurprd07.prod.outlook.com (2603:10a6:20b:140::11)
+ by GV1PR07MB9070.eurprd07.prod.outlook.com (2603:10a6:150:a7::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Tue, 27 Oct
+ 2026 12:27:11 +0000
+Received: from AM7PR07MB6437.eurprd07.prod.outlook.com
+ ([fe80::fb9c:237c:ec12:2db0]) by AM7PR07MB6437.eurprd07.prod.outlook.com
+ ([fe80::fb9c:237c:ec12:2db0%5]) with mapi id 15.21.0546.021; Tue, 27 Oct 2026
+ 12:27:10 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: "devanshp@cisco.com" <devanshp@cisco.com>,
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+CC: "vchavda@cisco.com" <vchavda@cisco.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "rbilovol@cisco.com"
+	<rbilovol@cisco.com>, "JPEWhacker@gmail.com" <JPEWhacker@gmail.com>
+Subject: Re: SPDX 3.0 component releaseTime - clarification and areas for
+ improvement
+Thread-Topic: SPDX 3.0 component releaseTime - clarification and areas for
+ improvement
+Thread-Index: AQHdZfmLtEZYKFGl3ESJ2HWcWE/TQbcRUQWA
+Date: Tue, 27 Oct 2026 12:27:10 +0000
+Message-ID: <57266c588eafc5653ab132ec6856c8b0f4bbb5b8.camel@ericsson.com>
+References: <PH0PR11MB7616891F646E31AD2F01DE9AD3602@PH0PR11MB7616.namprd11.prod.outlook.com>
+In-Reply-To: <PH0PR11MB7616891F646E31AD2F01DE9AD3602@PH0PR11MB7616.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1.1 
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM7PR07MB6437:EE_|GV1PR07MB9070:EE_
+x-ms-office365-filtering-correlation-id: 09a9636f-f30f-467c-4d47-08df34259fc5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|261026140227099003|38070700021|11063799006|10067099003|56012099006|261009223027099003|261022105027099003|261021121427099003|261022113327099003|261022075727099003|18002099003|22082099003|261026121527099003|6133799003|4133799003;
+x-microsoft-antispam-message-info: 8ky/2Qm0TOBIG98PA1uftPZ7cf2j+0o1tyOp0vSmSfkg5iYA3FWxsDwJlJd6lqSfVftAIhoBaiA+8pAR6rr1c6o4tyqObAh2NbPyBihWaz/Hr7FraVRQVgittnLQ3NJTqVtVLq8EQXtjZwO52MblU5ZC1W9zU5kh5FDfgmartoOIMUEC2sfb90vk6sUO5nT8EKuLwURoxgxe8W17OF+CPA/Ky2HGI20wsSociEaQXHCtupfwZbJxrT+TiIcrUw/Q3C3WXFPrmUVU9WcVeILlkZ9OTOJFYJLteGRuqooZQa88i4AK2yySWUvK7/4c8aI4JgM2usc0X72hdaT7sE1ZfoxBf/MX9cwF4kjW6nsTksLlqCXgk5bux8SXYZX5fCMuVHXBz2dQrEib44F7/G9kIsGsPRsEXSBweYmiAW/4cnRLcC324fxYuTctM12yUP5Coszp97Uw02yDTrI+0Sv9TVWjniVRLBj+LlFCtBP0fu410kLCcQZkv/vcG969hIWs6q+jmE/tgHD+CFYvOzY1ZtB7uNytqDe/mz7mRlQI+hZgQxWY86nmJqN5caZ1KegDaQGgWzWN5SUkLImeuFpVipG3XWhM/uPHKQnRRCup/4LIfEPvgtS2mXfqtDJWYrzJpxRSV4JQaBejw0vAgjxJx3Evwk3DQDBfFPi04552miI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR07MB6437.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(261026140227099003)(38070700021)(11063799006)(10067099003)(56012099006)(261009223027099003)(261022105027099003)(261021121427099003)(261022113327099003)(261022075727099003)(18002099003)(22082099003)(261026121527099003)(6133799003)(4133799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NzNxNTB6bDdlSU45VlZFd295L2p6SHJxaEQ3L1ViY3RIVlNNdjl2Rmt0S0No?=
+ =?utf-8?B?eHkvSmFUa2cyZjNKL2d3QkF4ZE5YdjI2QXFrNmsxbnJhMndXMG1XZTBiUUJY?=
+ =?utf-8?B?TFRYamlXYVVoYTNPV2FLZGdiTFFMUFZSNU1tdWRqa3Ryd2U1RWZ3UXVHdmw2?=
+ =?utf-8?B?RlE4bk1kTGViaTd6alJ0L3Zza0c4MTJBTXJScGVmZzFnZ1QzcTVLTkF2cVFa?=
+ =?utf-8?B?cnZ4V3JIL2JJSzk5K0owaHd4OFZzOW5sOUtZYWlaZFozZXZCUVpYMm1PUXMz?=
+ =?utf-8?B?SVQ0NjIwUEVYbzgraWNzTXAvajNxMjM0c0RtQTU3ZzlXUU1UbVpQWDhYcEdE?=
+ =?utf-8?B?ajFQcXZTSk41YUhYK29VN3Jld3h2SEJGZHgzcGJHMVYyaS9MT3JmM2I2eWU2?=
+ =?utf-8?B?NHNXeURuVE54U0RzRkhIQWQxa1hMZFB0YlNPQ1UzZ1c1TXM4a3V5ZEh5UWx5?=
+ =?utf-8?B?WlpJcWswS2p5aVNkOHFyVTFENHE1bStUMmI5WXgvSkRWZjFlbEdDaTgwWGZP?=
+ =?utf-8?B?S2hia295YXlJWW5DSmkzdnpJTFJSZzkzcVNLVmFoWDUra0dFaDB0ZWxid1pz?=
+ =?utf-8?B?MmxqdU11R0lBUUVlTVZFQUJNWFhTSWhJYTJWT1ZicjJZMjd2UEw2eGVGaXl5?=
+ =?utf-8?B?M3VGR1piRnJYWTV3eEpZQVFHZXltUlNQWnR1SS80RFZCSWV6a1o1SDFBQytu?=
+ =?utf-8?B?NkxZbnZNb3NPN3pSOXd0ZFZCUDZZc2NCNzJxYkgrcHdzSVlEOVFFWTZwVlpx?=
+ =?utf-8?B?dVo0MWJVWkpMTEFpS3RyQVBiN2F2d3ZxQVBLc0M2TVdSd2RiblZuTjh2MmZ2?=
+ =?utf-8?B?YjhLTjJrK2JGMGFOblNTaXNBWEFNRFhyZm5rNEhmd0VyNmtxa2VyVUc4M090?=
+ =?utf-8?B?bVVUT0J5YlhVVTNzUVViWW1yS2dCN0FZRzdoVnZ5OEZ3VjhrQVF4SXI0K0tN?=
+ =?utf-8?B?YTluOHhCR2Y1UFk0M2xyMGROVFlHTUo1bkcwKzFBVDlsaG0yNE9hRjFGQjVt?=
+ =?utf-8?B?cXJFQjZUdE1MVWhRck1oKzRWc1FTbnVKSWd1cUV3UmFETExzeVZuMUlVcVFF?=
+ =?utf-8?B?ZlJ4TVdEV1lUc1RidjVRQmFyVElPY0hoTzdBUEtxNVJLeThUY1VxSlpVdmhQ?=
+ =?utf-8?B?SXVlQmtzMXpoLytadG1rejhFdWFPYnR0QVkvY3YzL2pRZWlNU1RmUWhMWUJ1?=
+ =?utf-8?B?Y2JZUHQrVFAwcmtsaU9VbWI3ME41QUc5WWY2aWw5ZHR1ZDFrUXh4ajMwS3J1?=
+ =?utf-8?B?SGtvZGFqeVJheW1rL2Q4TzI1SUVpdXdMSWpYeFdLMGJTb0VURkkvNlRLU0JK?=
+ =?utf-8?B?MnplZ2xXQ2pkcWExYTBsQ0dIYjJScmUrcmpkSDJaSm5aaVNmUW51dUg4NXhm?=
+ =?utf-8?B?RTVBQ00xb3EyaFJITUxGZDNxQjhFNjhFZ0lTRkRaRXR0Nm9vOFRieS82UTRZ?=
+ =?utf-8?B?d1VLS0F6VDN2ZHRLR0t0b3BOVGNpYWpUTzNFN3BmWTlvdXRESmdJSlZFNDAz?=
+ =?utf-8?B?TEFNMzRPUjV1cm96aUtBVkg1cmRFY3NDbTBsYmJORXhNMXlTWCszWmp6VEYr?=
+ =?utf-8?B?TzBRZHI0OXRMdnZhN3F3ZlBHRmwzajc4U0dIN3JsZUs2VU5oLzQzVFFPUURl?=
+ =?utf-8?B?ek95NTd1bTNKazNwa1NHaS92TWVScnp0WmlpTWJKc3RsM0Z4UzRjbjFNd0Vp?=
+ =?utf-8?B?aXYxOVRuV0JJZjB4R1FQWkVmWnlzZXhIclVlM09mcmVZK1RDS3ZiVDZBNWRS?=
+ =?utf-8?B?bXI5SW9ha3hVT2RDQnRDREQxWTdaYlR1ZGVqTzVMSkRPVkRaQysyeHdnVm1J?=
+ =?utf-8?B?aFZjb3RsWW5NeEw0NmJxSTZqcVJ2NmRFWWRhMTQ2VHQ1WHpFZ1pRTGhmN3E3?=
+ =?utf-8?B?TWNTNi82Mld2VnVwQzE2WjU5c1M5Tnd6U0h0RFpFaG5ialBYc2tHMHR1U1NI?=
+ =?utf-8?B?dXhucE1FMUxMbVh6dzFBWk90dFZEdnZzMmZCd1poTjdydFA1VDV6RVNEaGRx?=
+ =?utf-8?B?ZFRHdlNVNlVtMytGNzB0UUtURDVHOTh1T25uVmczaWt1UUVFcWcvejdJcUtq?=
+ =?utf-8?B?VEV3bkdyZ2xYVkVpSTJRRjF3R2dBWURCWjNQOXhRV0xsRTJkYzlyeXR0aXBW?=
+ =?utf-8?B?czArb2xsMWxVQnpvbENRS0NseEk3cVdkZVpqUnUrN29TTnVLM3lZMGorcHN5?=
+ =?utf-8?B?bzhaQmhGZER5QnZReTJlK3IxdVZrVkI4UHZzdEM4WGR4NUFpa09yUVFLNndB?=
+ =?utf-8?B?S0xOcXAyT1BqZURBcGFvT3h1TGFMMDR6dzZBNlF4ZHE4QmZqYmZ0NVc3Q01K?=
+ =?utf-8?B?VERyV0pnM2NWZ3hxaFpuWE9EcVVkcHk2clVKTVRBWVI4MVdML3g0dDVWaXNO?=
+ =?utf-8?Q?JWQ6FeedojorjseA=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <84953006258FB9448DF72BA19B3DA284@eurprd07.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20260630210422.1903245-1-JPEWhacker@gmail.com>
- <20261026214627.2388650-1-JPEWhacker@gmail.com> <20261026214627.2388650-6-JPEWhacker@gmail.com>
- <auBRnwhMKmTkFpQB@nuoska>
-In-Reply-To: <auBRnwhMKmTkFpQB@nuoska>
-From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-Date: Tue, 27 Oct 2026 12:03:40 +0000
-X-Gm-Features: AclHuK86rq5ZpesjB3rbRo2TuH7cmz6SLud7XfBz2vIA-633-hZ_GbS9DYaAZ2s
-Message-ID: <CADWMC-ZECNTJQ8MZBB+=2sNPj1qJUZrx2tZ8HmEDNiAAnG0LSw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v5 5/6] Add SPDX deploy tasks to various recipes
-To: mikko.rapeli@linaro.org
-Cc: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000691178065ed13d8b"
-X-Proofpoint-ORIG-GUID: 0VzSZvH-41wI-ObrR3tDzEcqPEKjAt9d
-X-Proofpoint-GUID: 0VzSZvH-41wI-ObrR3tDzEcqPEKjAt9d
-X-Authority-Analysis: v=2.4 cv=TuxzFzXh c=1 sm=1 tr=0 ts=6ae09329 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=Q4-j1AaZAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=9G7XuZTAXjNdWuc7j9UA:9
- a=itNntiE7ACGd12bT:21 a=QEXdDO2ut3YA:10 a=7zkKd5b7AAAA:8 a=cUW-zQj0AAAA:8
- a=ZNlaEDT0AAAA:8 a=Fu06Ql7JPlQw16eo4bkA:9 a=_yT_fBkxTa9gTHfT:21
- a=lqcHg5cX4UMA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=s4142C9f8xt5yEUcTmgt:22 a=2fd0wjtG6IkNllS7Rezt:22 a=ze7DwQU8YSsHxv14-ET4:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA0NyBTYWx0ZWRfX+TodIWlMzwBr
- w8HQ/tTTLCO/V6cTeLZCJgbqSB1v5zWXeLN/YBwi4bGd2PPP0sGzIdnCjxAqCPozgIl37OGAn+0
- CMKCE/qywX2nRNIPXniiKAVOomXYijdmDe8VDR3JlPjNWtj9S5IDHrqV6zuycJ8IcUVZnvKhrMQ
- sjad8fdKLazyz0mUgC3/iErWFuJ3yP3C8g2ZsSeJCqxPIbPBt0iD1Zy8Uu2o2lNhqCiBZcBE52m
- NBzAAaoUqBXzPTB7W5F+GyvRs2xoNxzXKOXoFVQ9r9LCRHZOnIWk1yMR7wr+phpNRKwn/NTw4Zu
- geXu8U4Z96hElmhHGc/uCFMJGsed3+QLGPK+QrvMxH9TWYd+bWXWoHsEolneRu3AZLLSDwGy2lj
- Fkq/rq4S1lWYkSocRYU+jaVmkEsUUnIzs/E/RF3GRgDDjMTnY4Mg1St9NKCwegnug0WcK4vNdpI
- 6+0lj0qAf8t2aGtAB8A==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDA0NyBTYWx0ZWRfX4OJMlXokIZp0
- 6oGRNwitv+2E/t/tJXTa0ikaBhDhvdw7e3FWH91vr/2f6DHP+1DKOCG92leYSv+dCvFLEvmRTFE
- BMpL+asUUdfiLpyiM+yuWhSjdaBvVtw=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-27_02,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 spamscore=0 priorityscore=1501 bulkscore=0
- adultscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610270047
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR07MB6437.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09a9636f-f30f-467c-4d47-08df34259fc5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2026 12:27:10.8309
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uQbEHM5HFqDd5rez4kwxFH7FZVrEtixZ1ABDlIxP7ClaeNz+1T1/c3uZwRz5C1lHD7vXypwmzSi2bSFbJxtC1j33SdO6DW8RzW/4EXLyKAc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR07MB9070
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 12:04:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248743
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 12:27:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248744
 
---000000000000691178065ed13d8b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 27, 2026 at 7:24=E2=80=AFAM Mikko Rapeli via lists.openembedded=
-.org
-<mikko.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
-
-> On Mon, Oct 26, 2026 at 03:45:25PM -0600, Joshua Watt via
-> lists.openembedded.org wrote:
-> > Adds SPDX deploy tasks to many recipes to record their output when
-> > consumed in an SBoM
->
-> I think this should be the default in deploy.bbclass.
->
-
-I also think that would be preferable, rather than having to spread the
-SPDX_DEPLOY_TASKS all over the place.
-Everything that will use SPDX_DEPLOY_TASKS must already be using
-the deploy.bbclass.
-
-Jose
-
-
-> The class is used to deploy files to "build output". A lot of BSP etc
-> recipes use the class for this purpose and they are currently missing in
-> SPDX
-> output unless some output packages go to image rootfs.
->
-> I think capturing too much data in SPDX is less of a problem than not
-> capturing
-> enough. Thus deploy.bbclass should support SPDX output by default, when
-> SPDX
-> is enabled.
->
-> If there are other very good reasons for not enabling this by default, th=
-en
-> I think the commit message should say that.
->
-> Cheers,
->
-> -Mikko
->
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >  meta/classes-recipe/barebox.bbclass           | 1 +
-> >  meta/classes-recipe/devicetree.bbclass        | 1 +
-> >  meta/classes-recipe/kernel-fit-image.bbclass  | 1 +
-> >  meta/classes-recipe/kernel.bbclass            | 1 +
-> >  meta/recipes-bsp/grub/grub-efi_2.14.bb        | 1 +
-> >  meta/recipes-bsp/opensbi/opensbi_1.9.bb       | 1 +
-> >  meta/recipes-bsp/u-boot/u-boot.inc            | 1 +
-> >  meta/recipes-core/systemd/systemd-boot_262.bb | 2 +-
-> >  8 files changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes-recipe/barebox.bbclass
-> b/meta/classes-recipe/barebox.bbclass
-> > index 3980849b53..252e97fa65 100644
-> > --- a/meta/classes-recipe/barebox.bbclass
-> > +++ b/meta/classes-recipe/barebox.bbclass
-> > @@ -165,5 +165,6 @@ barebox_do_deploy () {
-> >          fi
-> >  }
-> >  addtask deploy after do_compile
-> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
-> >
-> >  EXPORT_FUNCTIONS do_configure do_compile do_install do_deploy
-> > diff --git a/meta/classes-recipe/devicetree.bbclass
-> b/meta/classes-recipe/devicetree.bbclass
-> > index 4fe389bed8..affbf115c2 100644
-> > --- a/meta/classes-recipe/devicetree.bbclass
-> > +++ b/meta/classes-recipe/devicetree.bbclass
-> > @@ -166,6 +166,7 @@ devicetree_do_deploy() {
-> >      done
-> >  }
-> >  addtask deploy before do_build after do_install
-> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
-> >
-> >  EXPORT_FUNCTIONS do_compile do_install do_deploy
-> >
-> > diff --git a/meta/classes-recipe/kernel-fit-image.bbclass
-> b/meta/classes-recipe/kernel-fit-image.bbclass
-> > index 7b2bcd4673..d0f7274e70 100644
-> > --- a/meta/classes-recipe/kernel-fit-image.bbclass
-> > +++ b/meta/classes-recipe/kernel-fit-image.bbclass
-> > @@ -260,3 +260,4 @@ do_deploy() {
-> >      fi
-> >  }
-> >  addtask deploy after do_compile before do_build
-> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
-> > diff --git a/meta/classes-recipe/kernel.bbclass
-> b/meta/classes-recipe/kernel.bbclass
-> > index 0a6d754108..14c71dec54 100644
-> > --- a/meta/classes-recipe/kernel.bbclass
-> > +++ b/meta/classes-recipe/kernel.bbclass
-> > @@ -840,6 +840,7 @@ kernel_do_deploy() {
-> >  do_deploy[prefuncs] +=3D "read_subpackage_metadata"
-> >
-> >  addtask deploy after do_install do_populate_sysroot do_packagedata
-> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
-> >
-> >  EXPORT_FUNCTIONS do_deploy
-> >
-> > diff --git a/meta/recipes-bsp/grub/grub-efi_2.14.bb
-> b/meta/recipes-bsp/grub/grub-efi_2.14.bb
-> > index d19b33b504..8d8671614a 100644
-> > --- a/meta/recipes-bsp/grub/grub-efi_2.14.bb
-> > +++ b/meta/recipes-bsp/grub/grub-efi_2.14.bb
-> > @@ -99,6 +99,7 @@ do_deploy() {
-> >  }
-> >
-> >  addtask deploy after do_install before do_build
-> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
-> >
-> >  FILES:${PN} =3D "${libdir}/grub/${GRUB_TARGET}-efi \
-> >                 ${datadir}/grub \
-> > diff --git a/meta/recipes-bsp/opensbi/opensbi_1.9.bb
-> b/meta/recipes-bsp/opensbi/opensbi_1.9.bb
-> > index 96167f7c73..bb35f906b2 100644
-> > --- a/meta/recipes-bsp/opensbi/opensbi_1.9.bb
-> > +++ b/meta/recipes-bsp/opensbi/opensbi_1.9.bb
-> > @@ -49,6 +49,7 @@ do_deploy () {
-> >  }
-> >
-> >  addtask deploy before do_build after do_install
-> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
-> >
-> >  FILES:${PN} +=3D "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_jump.=
-*"
-> >  FILES:${PN} +=3D
-> "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc
-> b/meta/recipes-bsp/u-boot/u-boot.inc
-> > index b9f61a185c..1c9911ff6e 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> > @@ -474,3 +474,4 @@ uboot_deploy_spl () {
-> >  }
-> >
-> >  addtask deploy before do_build after do_compile
-> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
-> > diff --git a/meta/recipes-core/systemd/systemd-boot_262.bb
-> b/meta/recipes-core/systemd/systemd-boot_262.bb
-> > index bab2e7ae27..c9bc3e2a91 100644
-> > --- a/meta/recipes-core/systemd/systemd-boot_262.bb
-> > +++ b/meta/recipes-core/systemd/systemd-boot_262.bb
-> > @@ -71,4 +71,4 @@ do_deploy () {
-> >  }
-> >
-> >  addtask deploy before do_build after do_compile
-> > -
-> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
-> > --
-> > 2.56.0
-> >
->
-> >
-> >
-> >
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#248711):
-> https://lists.openembedded.org/g/openembedded-core/message/248711
-> Mute This Topic: https://lists.openembedded.org/mt/121950655/10043485
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> jose.quaresma@oss.qualcomm.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000691178065ed13d8b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 27,=
- 2026 at 7:24=E2=80=AFAM Mikko Rapeli via <a href=3D"http://lists.openembed=
-ded.org">lists.openembedded.org</a> &lt;mikko.rapeli=3D<a href=3D"mailto:li=
-naro.org@lists.openembedded.org">linaro.org@lists.openembedded.org</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, O=
-ct 26, 2026 at 03:45:25PM -0600, Joshua Watt via <a href=3D"http://lists.op=
-enembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org=
-</a> wrote:<br>
-&gt; Adds SPDX deploy tasks to many recipes to record their output when<br>
-&gt; consumed in an SBoM<br>
-<br>
-I think this should be the default in deploy.bbclass.<br></blockquote><div>=
-<br></div><div>I also think that would be preferable, rather than having to=
- spread the</div><div>SPDX_DEPLOY_TASKS=C2=A0all over the place.</div><div>=
-Everything that will use SPDX_DEPLOY_TASKS=C2=A0must already be using</div>=
-<div>the deploy.bbclass.</div><div><br></div><div>Jose</div><div><br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-The class is used to deploy files to &quot;build output&quot;. A lot of BSP=
- etc<br>
-recipes use the class for this purpose and they are currently missing in SP=
-DX<br>
-output unless some output packages go to image rootfs.<br>
-<br>
-I think capturing too much data in SPDX is less of a problem than not captu=
-ring<br>
-enough. Thus deploy.bbclass should support SPDX output by default, when SPD=
-X<br>
-is enabled.<br>
-<br>
-If there are other very good reasons for not enabling this by default, then=
-<br>
-I think the commit message should say that.<br>
-<br>
-Cheers,<br>
-<br>
--Mikko<br>
-<br>
-&gt; Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com"=
- target=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes-recipe/barebox.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 1 +<br>
-&gt;=C2=A0 meta/classes-recipe/devicetree.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 1 +<br>
-&gt;=C2=A0 meta/classes-recipe/kernel-fit-image.bbclass=C2=A0 | 1 +<br>
-&gt;=C2=A0 meta/classes-recipe/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 1 +<br>
-&gt;=C2=A0 meta/recipes-bsp/grub/<a href=3D"http://grub-efi_2.14.bb" rel=3D=
-"noreferrer" target=3D"_blank">grub-efi_2.14.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 1 +<br>
-&gt;=C2=A0 meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.9.bb" rel=
-=3D"noreferrer" target=3D"_blank">opensbi_1.9.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 1 +<br>
-&gt;=C2=A0 meta/recipes-bsp/u-boot/u-boot.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 1 +<br>
-&gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd-boot_262.bb"=
- rel=3D"noreferrer" target=3D"_blank">systemd-boot_262.bb</a> | 2 +-<br>
-&gt;=C2=A0 8 files changed, 8 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes-recipe/barebox.bbclass b/meta/classes-recipe=
-/barebox.bbclass<br>
-&gt; index 3980849b53..252e97fa65 100644<br>
-&gt; --- a/meta/classes-recipe/barebox.bbclass<br>
-&gt; +++ b/meta/classes-recipe/barebox.bbclass<br>
-&gt; @@ -165,5 +165,6 @@ barebox_do_deploy () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 addtask deploy after do_compile<br>
-&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 EXPORT_FUNCTIONS do_configure do_compile do_install do_deploy<br=
->
-&gt; diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-rec=
-ipe/devicetree.bbclass<br>
-&gt; index 4fe389bed8..affbf115c2 100644<br>
-&gt; --- a/meta/classes-recipe/devicetree.bbclass<br>
-&gt; +++ b/meta/classes-recipe/devicetree.bbclass<br>
-&gt; @@ -166,6 +166,7 @@ devicetree_do_deploy() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 done<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 addtask deploy before do_build after do_install<br>
-&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 EXPORT_FUNCTIONS do_compile do_install do_deploy<br>
-&gt;=C2=A0 <br>
-&gt; diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/class=
-es-recipe/kernel-fit-image.bbclass<br>
-&gt; index 7b2bcd4673..d0f7274e70 100644<br>
-&gt; --- a/meta/classes-recipe/kernel-fit-image.bbclass<br>
-&gt; +++ b/meta/classes-recipe/kernel-fit-image.bbclass<br>
-&gt; @@ -260,3 +260,4 @@ do_deploy() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 addtask deploy after do_compile before do_build<br>
-&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
-&gt; diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/=
-kernel.bbclass<br>
-&gt; index 0a6d754108..14c71dec54 100644<br>
-&gt; --- a/meta/classes-recipe/kernel.bbclass<br>
-&gt; +++ b/meta/classes-recipe/kernel.bbclass<br>
-&gt; @@ -840,6 +840,7 @@ kernel_do_deploy() {<br>
-&gt;=C2=A0 do_deploy[prefuncs] +=3D &quot;read_subpackage_metadata&quot;<br=
->
-&gt;=C2=A0 <br>
-&gt;=C2=A0 addtask deploy after do_install do_populate_sysroot do_packageda=
-ta<br>
-&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 EXPORT_FUNCTIONS do_deploy<br>
-&gt;=C2=A0 <br>
-&gt; diff --git a/meta/recipes-bsp/grub/<a href=3D"http://grub-efi_2.14.bb"=
- rel=3D"noreferrer" target=3D"_blank">grub-efi_2.14.bb</a> b/meta/recipes-b=
-sp/grub/<a href=3D"http://grub-efi_2.14.bb" rel=3D"noreferrer" target=3D"_b=
-lank">grub-efi_2.14.bb</a><br>
-&gt; index d19b33b504..8d8671614a 100644<br>
-&gt; --- a/meta/recipes-bsp/grub/<a href=3D"http://grub-efi_2.14.bb" rel=3D=
-"noreferrer" target=3D"_blank">grub-efi_2.14.bb</a><br>
-&gt; +++ b/meta/recipes-bsp/grub/<a href=3D"http://grub-efi_2.14.bb" rel=3D=
-"noreferrer" target=3D"_blank">grub-efi_2.14.bb</a><br>
-&gt; @@ -99,6 +99,7 @@ do_deploy() {<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 addtask deploy after do_install before do_build<br>
-&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 FILES:${PN} =3D &quot;${libdir}/grub/${GRUB_TARGET}-efi \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${datadir=
-}/grub \<br>
-&gt; diff --git a/meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.9.bb=
-" rel=3D"noreferrer" target=3D"_blank">opensbi_1.9.bb</a> b/meta/recipes-bs=
-p/opensbi/<a href=3D"http://opensbi_1.9.bb" rel=3D"noreferrer" target=3D"_b=
-lank">opensbi_1.9.bb</a><br>
-&gt; index 96167f7c73..bb35f906b2 100644<br>
-&gt; --- a/meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.9.bb" rel=
-=3D"noreferrer" target=3D"_blank">opensbi_1.9.bb</a><br>
-&gt; +++ b/meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.9.bb" rel=
-=3D"noreferrer" target=3D"_blank">opensbi_1.9.bb</a><br>
-&gt; @@ -49,6 +49,7 @@ do_deploy () {<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 addtask deploy before do_build after do_install<br>
-&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 FILES:${PN} +=3D &quot;/share/opensbi/*/${RISCV_SBI_PLAT}/firmwa=
-re/fw_jump.*&quot;<br>
-&gt;=C2=A0 FILES:${PN} +=3D &quot;/share/opensbi/*/${RISCV_SBI_PLAT}/firmwa=
-re/fw_payload.*&quot;<br>
-&gt; diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-b=
-oot/u-boot.inc<br>
-&gt; index b9f61a185c..1c9911ff6e 100644<br>
-&gt; --- a/meta/recipes-bsp/u-boot/u-boot.inc<br>
-&gt; +++ b/meta/recipes-bsp/u-boot/u-boot.inc<br>
-&gt; @@ -474,3 +474,4 @@ uboot_deploy_spl () {<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 addtask deploy before do_build after do_compile<br>
-&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
-&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd-boot_=
-262.bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_262.bb</a> b/meta=
-/recipes-core/systemd/<a href=3D"http://systemd-boot_262.bb" rel=3D"norefer=
-rer" target=3D"_blank">systemd-boot_262.bb</a><br>
-&gt; index bab2e7ae27..c9bc3e2a91 100644<br>
-&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd-boot_262.bb"=
- rel=3D"noreferrer" target=3D"_blank">systemd-boot_262.bb</a><br>
-&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd-boot_262.bb"=
- rel=3D"noreferrer" target=3D"_blank">systemd-boot_262.bb</a><br>
-&gt; @@ -71,4 +71,4 @@ do_deploy () {<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 addtask deploy before do_build after do_compile<br>
-&gt; -<br>
-&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
-&gt; -- <br>
-&gt; 2.56.0<br>
-&gt; <br>
-<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#248711): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/248711" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/248711</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121950655/100=
-43485" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-mt/121950655/10043485</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:jose.quaresma@oss.qualcomm=
-.com" target=3D"_blank">jose.quaresma@oss.qualcomm.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000691178065ed13d8b--
+SGksDQoNCnlvdSB3ZXJlIGZhc3QgaW4gZXZhbHVhdGluZyB0aGUgcmVsZWFzZSBkYXRlcyBpbiBz
+cGR4LiBUaGUgbWVjaGFuaXNtIGlzIGJlc3QNCmVmZm9ydCBhbmQgb25seSB3aXRoIGV4aXN0aW5n
+IGRhdGEgdGhhdCBjYW4gYmUgZGVkdWNlIGZyb20gdGhlIGRvd25sb2FkZWQNCmFydGlmYWN0cy4N
+Cg0KSSBzdGlsbCBkaWQgbm90IGNyZWF0ZSB0aGUgeW9jdG8tZG9jcyBkb2N1bWVudGF0aW9uIGZv
+ciBpdC4NCg0KDQpPbiBUdWUsIDIwMjYtMTAtMjcgYXQgMTA6MzEgKzAwMDAsIERldmFuc2ggUGF0
+ZWwgLVggKGRldmFuc2hwIC0gRSBJTkZPQ0hJUFMNClBSSVZBVEUgTElNSVRFRCBhdCBDaXNjbykg
+d3JvdGU6DQo+IA0KPiDCoA0KPiANCj4gDQo+IA0KPiANCj4gDQo+IA0KPiANCj4gWW91IGRvbid0
+IG9mdGVuIGdldCBlbWFpbCBmcm9tIGRldmFuc2hwQGNpc2NvLmNvbS4gDQo+IExlYXJuIHdoeSB0
+aGlzIGlzIGltcG9ydGFudCANCj4gDQo+IA0KPiBIZWxsbywNCj4gV2UgYXJlIGV2YWx1YXRpbmcg
+dGhlIGNyZWF0ZS1zcGR4LTMuMCByZWxlYXNlLXRpbWUgZmVhdHVyZSBmb3IgY29tcG9uZW50LWFn
+ZSBhc3Nlc3NtZW50LiBDb21wYXJpbmcgZ2VuZXJhdGVkIHRpbWVzdGFtcHMgd2l0aCB1cHN0cmVh
+bSByZWxlYXNlIGV2aWRlbmNlIGhpZ2hsaWdodGVkIHNldmVyYWwgY2FzZXMgdGhhdCBuZWVkIGNs
+YXJpZmljYXRpb24uDQo+IA0KPiANCj4gQ291bGQgdGhlIFlvY3RvL09wZW5FbWJlZGRlZCBtYWlu
+dGFpbmVycyBhZHZpc2Ugb24gdGhlIGZvbGxvd2luZz8NCj4gwqDCoMKgMS4gDQo+IMKgwqDCoMKg
+wqDCoE1lYW5pbmcgb2bCoCByZWxlYXNlVGltZQ0KPiBJcyB0aGUgZmllbGQgaW50ZW5kZWQgdG8g
+cmVwcmVzZW50IHVwc3RyZWFtIHJlbGVhc2UgcHVibGljYXRpb24gb3IgYSBiZXN0LWVmZm9ydCBz
+b3VyY2UgdGltZXN0YW1wPyBIb3cgc2hvdWxkIGNvbnN1bWVycyBkaXN0aW5ndWlzaCBhIGJhc2Ug
+cmVsZWFzZSBmcm9tIGEgbGF0ZXIgc291cmNlIHNuYXBzaG90Pw0KPiANCkFzIHN0YXRlZCBpbiB0
+aGUgY29tbWl0IGl0IGlzIGJlc3QtZWZmb3J0IGFzIGlzIHRha2luZyB0aGUgdGltZSB0aGF0IHRo
+ZSBmaWxlcw0KaGFzLiBHb29kIHF1ZXN0aW9uIHdoaWNoIEkgZG9uJ3Qga25vdyB0aGUgYW5zd2Vy
+IGZvci4gSSBjYW5ub3QgZmluZCBhIHByb3BlcnR5DQppbiBzcGR4IDMgdGhhdCBjb3VsZCBiZSB1
+c2UgdG8gYW5ub3RhdGUgdGhlIGNvbmZpZGVuY2Ugb3Igd2hlcmUgdGhlIHJlbGVhc2UNCmNvbWVz
+IGZyb20uDQoNCllvdSBjYW4gZm9sbG93IHRoZSBlbWFpbCBkaXNjdXNzaW9uIGluOg0KaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvQ0FKZGQ1R1lDMm1Da055aWlDSm5R
+Wlg1Mk9ibnVCZ0dXVXNTWTBVVzVwPUFhVlp2LUtBQG1haWwuZ21haWwuY29tLw0KDQo+IA0KPiBF
+eGFtcGxlOiB0aW5pIHYwLjE5LjArZ2l0wqBwcm9kdWNlcyAyMDI1LTA1LTA4VDE0OjQxOjI1Wiwg
+bWF0Y2hpbmcgdGhlIHNlbGVjdGVkIHNvdXJjZSByZXZpc2lvbuKAmXMgR2l0IGNvbW1pdHRlciB0
+aW1lc3RhbXAsIHdoaWxlIHRoZXYwLjE5LjAgYmFzZSByZWxlYXNlIGRhdGVzIGZyb20gMjAyMC0w
+NC0xOS4gVGhlc2UgZGVzY3JpYmUgZGlmZmVyZW50IGV2ZW50cyBhbmQgcHJvZHVjZSBkaWZmZXJl
+bnQgY29tcG9uZW50IGFnZXMuIENsZWFyIGd1aWRhbmNlIHdvdWxkIGhlbHAgY29uc3VtZXJzIGlu
+dGVycHJldCB0aGUgZmllbGQgYXBwcm9wcmlhdGVseS4NCj4gwqDCoMKgMS4gDQo+IMKgwqDCoMKg
+wqDCoERhdGVzIGZvciBpbmRpdmlkdWFsIHNvdXJjZSBjb21wb25lbnRzDQo+IENvdWxkIGRhdGVz
+IGJlIHJlc29sdmVkIGluZGVwZW5kZW50bHkgZm9yIGVhY2ggc291cmNlIGNvbXBvbmVudCByYXRo
+ZXIgdGhhbiBhc3NpZ25pbmcgb25lIHJlY2lwZSBlcG9jaCB0byBldmVyeSBkb3dubG9hZGVkIHNv
+dXJjZSBvYmplY3Q/IFRoZWRvd25sb2FkZWQtc291cmNlIGltcGxlbWVudGF0aW9uIGNvbXB1dGVz
+IHRoZSBkYXRlIGJlZm9yZSBpdGVyYXRpbmcgb3ZlciB0aGUgc291cmNlcy4NCj4gDQpZZXMsIGl0
+IGNvdWxkLiBJIHdhbnRlZCB0byBoYXZlIHRoZSBmaXJzdCB2ZXJzaW9uIGluIGZpcnN0LiBFdmFs
+dWF0ZSB0aGUgcmVhbA0KbmVlZCBhbmQgc28gb24gaGF2ZSByZWxlYXNlVGltZSBmb3IgdGhlIGFy
+dGlmYWN0Lg0KPiANCj4gRXhhbXBsZTogVGhlIGlkZW50aWNhbCBvbmNlX2NlbGwtMS4yMS4zLmNy
+YXRlIGFyY2hpdmUgcmVjZWl2ZXMgMjAyNS0wOS0yNSB3aGVuIGNvbnN1bWVkIGJ5wqAgcHl0aG9u
+My1iY3J5cHQgYW5kIDIwMjYtMDItMTAgd2hlbiBjb25zdW1lZCBieXB5dGhvbjMtY3J5cHRvZ3Jh
+cGh5LiBOZWl0aGVyIHZhbHVlIGlzIGluZGVwZW5kZW50bHkgZXN0YWJsaXNoZWQgYXMgdGhlIGNy
+YXRl4oCZcyByZWxlYXNlIGRhdGUuDQo+IEFub3RoZXIgZXhhbXBsZSBpcyBiemlwMiAxLjAuODog
+aXRzIG1haW4gdGFyYmFsbCByZWNlaXZlcyB0aGUgMjAyMC0wNS0xNyBjb21taXQgdGltZXN0YW1w
+IGZyb20gdGhlIGF1eGlsaWFyeWJ6aXAyLXRlc3RzIHJlcG9zaXRvcnkuIEhvd2V2ZXIsIHRoZSBv
+ZmZpY2lhbCByZWxlYXNlIGFubm91bmNlbWVudCBlc3RhYmxpc2hlcyAyMDE5LTA3LTEzIGFzIHRo
+ZSByZWxlYXNlIGRhdGUuIFRoZXJlY2lwZSBpbmNsdWRlcyBib3RoIHRoZSBtYWluIHRhcmJhbGwg
+YW5kIHRoZSBzZXBhcmF0ZSB0ZXN0cyByZXBvc2l0b3J5Lg0KPiDCoMKgwqAxLiANCj4gwqDCoMKg
+wqDCoMKgUmVsZWFzZSB0YXJiYWxscyBhbmQgbWlycm9ycw0KPiBVbmRlciB3aGF0IGNvbmRpdGlv
+bnMgY2FuIGEgZGF0ZSBkZXJpdmVkIGZyb20gZXh0cmFjdGVkIHRhcmJhbGwgdGltZXN0YW1wcz8g
+SG93IHNob3VsZCBtaXJyb3JlZCBvciByZXBhY2tlZCBhcmNoaXZlcyBiZSBoYW5kbGVkLCB3aGls
+ZSBkaXN0aW5ndWlzaGluZyB1cHN0cmVhbSBwdWJsaWNhdGlvbiBmcm9tIG1pcnJvciB1cGxvYWQg
+dGltZXMgYW5kIEhUVFAgbWV0YWRhdGE/DQo+IA0KPiANCkl0IHNob3VsZCB3b3JrIHdpdGggbWly
+cm9ycyBzaW5jZSBpdCBsb29rcyBhdCB0aGUgZGF0ZSBpbnNpZGUgdGhlIHRhcmZpbGUuDQoNCj4g
+RXhhbXBsZTogRm9yIGFic2VpbC1jcHAgMjAyNjAxMDcuMSwgVGhlIGdlbmVyYXRlZCBVVEMgY2Fs
+ZW5kYXIgZGF0ZSwgMjAyNi0wMi0xMSwgbWF0Y2hlcyB0aGUgZGF0ZSBzaG93biBvbiB0aGV1cHN0
+cmVhbSByZWxlYXNlIHBhZ2UuIFdoYXQgdmFsaWRhdGlvbiBvciBxdWFsaWZpY2F0aW9ucyB3b3Vs
+ZCB1cHN0cmVhbSByZWNvbW1lbmQgYmVmb3JlIHJlbHlpbmcgb24gc2ltaWxhciB0YXJiYWxsLWRl
+cml2ZWQgZGF0ZXM/DQp5b3UgcHJvYmFibHkgbmVlZCB0byBoYXZlIHlvdSBvd24gc2NyaXB0cyBv
+ciBwcm9wb3NlIGEgdmFsaWRhdGluZyBvbmUuDQoNCj4gwqDCoMKgMS4gDQo+IMKgwqDCoMKgwqDC
+oE5vcm1hbGl6ZWQgYXJjaGl2ZSB0aW1lc3RhbXBzDQo+IEhvdyBzaG91bGQgdGhlIGZlYXR1cmUg
+aGFuZGxlIGZpeGVkIHRpbWVzdGFtcHMgaW50cm9kdWNlZCBieSBwYWNrYWdpbmcgdG9vbHMgZm9y
+IHJlcHJvZHVjaWJpbGl0eT8gQ291bGQgaWRlbnRpZmllZCBub3JtYWxpemF0aW9uIHZhbHVlcyBi
+ZSBmbGFnZ2VkIHJhdGhlciB0aGFuIHByZXNlbnRlZCBhcyByZWxlYXNlIGV2aWRlbmNlPw0KPiAN
+Cj4gDQo+IEV4YW1wbGU6IEluIG91ciBpbnNwZWN0aW9uLCBldmVyeSByZWd1bGFyIGZpbGUgaW4g
+dGhlIFB5Z21lbnRzIDIuMTkuMiBzb3VyY2UgYXJjaGl2ZSBoYXMgdGltZXN0YW1wIDIwMjAtMDIt
+MDIsIHdoaWNoIGJlY29tZXMgaXRzIFNQRFggcmVsZWFzZSB0aW1lLiBIb3dldmVyLFB5UEkgcmVj
+b3JkcyBwdWJsaWNhdGlvbiBvbiAyMDI1LTA2LTIxLg0KPiBGaXhlZCB0aW1lc3RhbXBzIGFyZSBk
+b2N1bWVudGVkIHBhY2thZ2luZyBiZWhhdmlvcjogSGF0Y2jigJlzIHRpbWVzdGFtcCB1dGlsaXR5
+IGRlZmF1bHRzIHRvIDIwMjAtMDItMDIgd2hlbiBgU09VUkNFX0RBVEVfRVBPQ0hgIGlzIHVuc2V0
+LCBhbmRzY2lraXQtYnVpbGQtY29yZSBkb2N1bWVudHMgdXNpbmcgYSBmaXhlZCB2YWx1ZSBmb3Ig
+cmVwcm9kdWNpYmxlIHNvdXJjZSBkaXN0cmlidXRpb25zIHdoZW4gdGhhdCB2YXJpYWJsZSBpcyB1
+bnNldC4NCg0KS25vd24gaXNzdWUuIHB5dGhvbjMtY3J5cHRvZ3JhcGh5IGhhcyB0aGUgc2FtZSBp
+c3N1ZS4gUHJvYmFibHkgYSB2YXJpYWJsZSBhdCB0aGUNCnJlY2lwZSBsZXZlbCB0byBza2lwIHRo
+ZSByZWxlYXNlIHRpbWUgZm9yIHRoZXNlIGtub3duIGlzc3Vlcy4NCg0KPiDCoMKgwqAxLiANCj4g
+wqDCoMKgwqDCoMKgU2hhcmVkIHNvdXJjZXMgYW5kIHBhY2thZ2Utb2JqZWN0IGNvdmVyYWdlDQo+
+IFdoYXQgaXMgdGhlIHJlY29tbWVuZGVkIGFwcHJvYWNoIGZvciBzaGFyZWQtc291cmNlIGNvbnN1
+bWVycz8gUGxlYXNlIGFsc28gY2xhcmlmeSBob3cgY29uc3VtZXJzIHNob3VsZCBvYnRhaW4gc291
+cmNlIHJlbGVhc2UgZGF0ZXMgd2hlbiBpbnNwZWN0aW5nIGluc3RhbGxlZCBiaW5hcnktcGFja2Fn
+ZSBvYmplY3RzLg0KPiANCj4gDQpZb3UgcHJvYmFibHkgbmVlZCB0byBmb2xsb3cgdGhlIHNwZHgg
+cmVsYXRpb24gdG8gZ2V0IHRoZSBjb21tb24gYW5jZXN0b3IuDQoNCj4gRXhhbXBsZTogZ2NjLXJ1
+bnRpbWUgMTUuMy4wIHVzZXMgc291cmNlcyBzdXBwbGllZCBieSBnY2Mtc291cmNlLTE1LjMuMCwg
+YnV0IGl0cyBlbXB0eVNSQ19VUkkgbWVhbnMgaXQgaGFzIG5vIGRvd25sb2FkZWQtc291cmNlIG9i
+amVjdCBjYXJyeWluZyByZWxlYXNlVGltZS4gVGhlR0NDIHNoYXJlZC1zb3VyY2UgaW1wbGVtZW50
+YXRpb24gaWxsdXN0cmF0ZXMgdGhpcyBhcnJhbmdlbWVudC4NCj4gU2VwYXJhdGVseSwgdGhlIGJp
+bmFyeS1wYWNrYWdlIG9iamVjdCBmb3IgYWNsIGhhcyBubyByZWxlYXNlVGltZSwgYWx0aG91Z2gg
+aXRzIGRvd25sb2FkZWQgc291cmNlIG9iamVjdCBoYXMgb25lLiBUaGVpbnN0YWxsZWQtcGFja2Fn
+ZSBjcmVhdGlvbiBjb2RlIGNyZWF0ZXMgdGhlc2Ugb2JqZWN0cyBzZXBhcmF0ZWx5Lg0KPiDCoMKg
+wqAxLiANCj4gwqDCoMKgwqDCoMKgRGF0ZSBwcm92ZW5hbmNlIGFuZCByZWFzb25zIGZvciBvbWlz
+c2lvbg0KPiBDb3VsZCBzdXBwb3J0aW5nIG1ldGFkYXRhIGlkZW50aWZ5IHdoZXRoZXIgYSBkYXRl
+IGNvbWVzIGZyb20gcHVibGljYXRpb24gZXZpZGVuY2UsIGEgR2l0IGNvbW1pdCwgb3IgYXJjaGl2
+ZSBmaWxlIHRpbWVzdGFtcHMsIGFuZCBleHBsYWluIHdoeSBhIGRhdGUgaXMgdW5hdmFpbGFibGU/
+DQo+IA0KDQpJIGRvbid0IGtub3cgaWYgd2UgaGF2ZSBhbnkgc3BkeCAzIGZpZWxkIHRoYXQgc3Vw
+cG9ydHMgdGhhdC4gSm9zaHVhLCBkbyB5b3UNCmtub3c/DQo+IA0KPiBFeGFtcGxlOiBJbnNwZWN0
+aW9uIG9mIHRoZSBwb2V0cnktY29yZSAyLjMuMSBzb3VyY2UgZGlzdHJpYnV0aW9uIGZvdW5kIHpl
+cm9lZCBhcmNoaXZlIHRpbWVzdGFtcHMsIGxlYWRpbmcgdG8gZmFsbGJhY2sgc3VwcHJlc3Npb24g
+YW5kIGFuIG9taXR0ZWQgcmVsZWFzZSB0aW1lLiBUaGVyZWxlYXNlLWRhdGUgaGVscGVyIHN1cHBy
+ZXNzZXMgdGhlIGRlZmF1bHQgZmFsbGJhY2sgdGltZXN0YW1wLg0KPiBHZW5lcmF0ZWQgY29udGVu
+dCBzdWNoIGFzIG9zLXJlbGVhc2UgYWxzbyBoYXMgbm8gcmVsZWFzZSB0aW1lLCBidXQgZm9yIGEg
+ZGlmZmVyZW50IHJlYXNvbjogaXQgaGFzIG5vIGluZGVwZW5kZW50IHVwc3RyZWFtIHJlbGVhc2Uu
+IENvbnN1bWVycyBuZWVkIHRvIGRpc3Rpbmd1aXNoIHRoZXNlIHNpdHVhdGlvbnMuDQo+IMKgwqDC
+oDEuIA0KPiDCoMKgwqDCoMKgwqBSZXBvcnRpbmcgY29tcGxldGVuZXNzIGFuZCB2YWxpZGF0aW9u
+DQo+IENvdWxkIHRoZSByZXBvcnRpbmcgc2NyaXB0IHJldGFpbiB1bmRhdGVkIHJlY2lwZXMsIHBy
+ZXNlcnZlIHNvdXJjZS92ZXJzaW9uL2FyY2hpdGVjdHVyZSBjb250ZXh0LCBkZXRlY3QgY29uZmxp
+Y3RpbmcgZGF0ZXMsIGFuZCBleHBsaWNpdGx5IHJlcG9ydCBpbnZhbGlkIG9yIHNraXBwZWQgaW5w
+dXRzPw0KPiANClN1cmUsIHBhdGNoZXMgd2VsY29tZQ0KPiANCj4gRXhhbXBsZTogYmFzZS1maWxl
+cyBhbmQgZ2NjLXJ1bnRpbWUgZG8gbm90IGFwcGVhciBpbiB0aGUgcmVwb3J0IGJlY2F1c2UgdGhl
+eSBoYXZlIG5vIGRvd25sb2FkZWQtc291cmNlIHBhY2thZ2Ugb2JqZWN0cy4gSW4gYSBjb250cm9s
+bGVkIHRlc3QsIGNvbmZsaWN0aW5nIGRhdGVzIGZvciB0aGUgc2FtZSByZWNpcGUgYXJlIHJlc29s
+dmVkIGJ5IHNlbGVjdGluZyB3aGljaGV2ZXIgZGF0ZSBpcyBlbmNvdW50ZXJlZCBmaXJzdCwgd2l0
+aG91dCByZXBvcnRpbmcgdGhlIGRpc2FncmVlbWVudC4NCj4gDQo+IA0KPiBUaGVzZSBxdWVzdGlv
+bnMgcmVsYXRlIHRvIGNvbW1pdHMgYWVhYThiYTksIGU1MTkwNjg5LCBhbmQgMTBiNWQyYzAuDQo+
+IA0KPiANCj4gUGxlYXNlIGFkdmlzZSB3aGljaCBiZWhhdmlvcnMgYXJlIGludGVudGlvbmFsIGxp
+bWl0YXRpb25zIGFuZCB3aGljaCB3b3VsZCBiZW5lZml0IGZyb20gZm9sbG93LXVwIGNoYW5nZXMu
+IFdlIGNhbiBwcm92aWRlIHNtYWxsIHJlcHJvZHVjdGlvbnMgYW5kIGNvcnJlc3BvbmRpbmcgc291
+cmNlL1NQRFggZXhhbXBsZXMuDQoNClRoYW5rcyBmb3IgY2hlY2tpbmcgdGhpcyBuZXcgZmVhdHVy
+ZS4gRmVlbCBmcmVlIHRvIHByb3ZpZGUgcGF0Y2hlcyBvbiB0b3Agb2YgdGhlDQpiYXNlbGluZS4g
+SSBkaWQgdGVzdCBpdCBvbiBvZS1jb3JlLg0KDQpCZXN0IHJlZ2FyZHMsDQpEYW5pZWwNCg0K
