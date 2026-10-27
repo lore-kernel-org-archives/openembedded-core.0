@@ -1,98 +1,191 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6495.1793052478503158602
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12844.1793079632758653441
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2026 15:07:58 -0700
+ Mon, 26 Oct 2026 22:40:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=N/K3WfR0;
- spf=pass (domain: gmail.com, ip: 209.85.210.54, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-8490a7d6696so2103187a34.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 15:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793052477; x=1793657277; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kMkLpQjVjjAXJrfKMONZDAAGMa7b1SR2kwQPZq1L4zk=;
-        b=N/K3WfR0vLjs+/kCciUCoALV/taVK52QRTTBJx6uSos8qepcjbJ8OQ9aivEpfSWyou
-         +J8uklriN6kXgMbfX3cdZzdW2DQtKXFQCoH6I767OTABjc8oEHQuD2Ud1IsPqf8zoEvo
-         uAXkQJxgJiZEeWVeVpbwFnBM7dcfqo232jM++yJazPByyo5rnhWpCitnPcp76R8gzOyT
-         9v8MqunWBo4IrCWcMjcpxUF03I8skfaNM5om44RdmYFTiZ+52U8jUoq+OCiwma7aQaLf
-         Vuj3Xj5W7dnQb5aGS4DUHa5KwS/aO+8R953iBIL+1l3Rdimy9WnDg4vNRieRXnGf27cZ
-         3JFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793052477; x=1793657277;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kMkLpQjVjjAXJrfKMONZDAAGMa7b1SR2kwQPZq1L4zk=;
-        b=Ajhdv9k6gJTtjT1sw3+ghtBPb7MzUSgk+2zUcOOBWIa2NVE7Po5bFeXTap41CrEogl
-         ts+07Bf4mxinoNoOXJ1xWjr+5eD/BwCgKCVt9xrKt3PtR6Y+wq9yTctAREY5gT3PqYD7
-         1I97t86KkLgBX3LVFaaCVUJtSESw+hkzGOWEjMU9zeBBAPl10hkvaQwofg2DxJsdfY8I
-         i4PoezLQnYVJkOaLP6WV3Or2xXh02ynKJxYK6LEjsEivWJxpcGRo1h/dyyAVKsnZZkvb
-         7qYojl0dxaiydj+1uBQOQ2h+yo/dWv+tXwaThcFyvhj6PYb47VbiEOcRDwBerMtjhJlI
-         /r/w==
-X-Gm-Message-State: AFq9FYI7FKL1MXNXsX+kZgFbLXAheHOY+8DbaaBHl27q4WD+F2+0wuub
-	DZ4adiH+/sX4ifr45gEKX3iFdhtllp/vWtqChgnXyXDYkDUw1y6+ibtCLAmKMQ==
-X-Gm-Gg: AYBFou0D3XilvVY0DKS7nx7gxkyioqLV8CoaZXhxZk8zpJruqWpfE/rrLitMYNLOmFz
-	NFkPI8KkDk45u5/gyr7WmFFLsufHCfhf82zaeuHrJvzItTm4TH57lvfm9qlsadNc4oQATepc8IU
-	UMU4UeeDyjFGnviUfmkZwtnFxz7XPsyE8Ukef/N5eK7opB6JIp2Iuyhw+hXPfDxATbBQS0ryrA7
-	g3BQePpGcHyxrb8KpNgjmX7zEL7pj0yAL8BxyHzsnUNTiMykIWoliQoUJAUmN/ehgHDynrh02wK
-	aF9EYdfIlFKAUuamIvDIvN3WxU6dW2dsBq/u5GXPCvy3hF4sICWLJ3wIJTUTTxB5i0nvdbn18mG
-	lWqArBB4kS/NJkNIqm7OfVJLzBenRSuc+7pVi7t4ZX+jT8qf+gAQnmbAX8vXiOIqWo3NN2uHa4I
-	/hhg5UrW232tpNF+V/IeLv+ul9fhvn+GGq2T24grNnO5cLicrWxClzm7YPm/J5jzRcmhT+DroJd
-	ek1iWbksnK2iW/Kd+qyDHG2TUJkN1bhqV/mx+2k7vBOX+EE3pB0Iw==
-X-Received: by 2002:a05:6830:b15:b0:81a:9522:f007 with SMTP id 46e09a7af769-850fd189a55mr6835846a34.5.1793052477658;
-        Mon, 26 Oct 2026 15:07:57 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2601:283:4b01:ba50::283f])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-850fb0763easm9025237a34.13.2026.10.26.15.07.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 15:07:56 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 3/3] lib/oe/sbom.py: Split deduplication of CreationInfo
-Date: Mon, 26 Oct 2026 16:06:35 -0600
-Message-ID: <20261026220751.2480577-4-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261026220751.2480577-1-JPEWhacker@gmail.com>
-References: <20261026220751.2480577-1-JPEWhacker@gmail.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=iLHz12TW;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0mdtXgo0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a17bdfdf37-be351dd8-923c-4d7d-8f4b-2a1b85a0c7ff-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1793079631;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=30ndz6whrE19/8WwnaosFoUX2d8T7HHbAQ9zgt9IH7k=;
+	b=iLHz12TWxPP+ASQs+wMBLvPiwm+5c0TAmB9CB5niHDNCqlvuJBVxsZRMkNEzqjP2
+	zUMzkVuoIUzB7x0un2DkSunTj4Xc/kUUQrmRUxil4rYyALGIHWX2ISOayjO7a5uB1Pu
+	14fMuhk7JCQsy+RwtsDLvuQO+UjhSnElzE8p6xYE=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793079631;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=30ndz6whrE19/8WwnaosFoUX2d8T7HHbAQ9zgt9IH7k=;
+	b=0mdtXgo07FShCU/fXIs5Qah6B7ZZV/Ycs+4n+IoQuouCyjEGEbBiE9EnmYJEakQF
+	9s6kAwcu5MJRk94W9oNVcmlUZumocMMMzCac6+t0xo9MZXzdjAXi9KFBY7CpPQFcKHg
+	OVSrKcYEO1Ig5ovrjPV/tcvQ5yG169Ix1dqtqYmM=
+Content-Type: multipart/mixed; boundary="===============3397038756059957513=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-hypothesis: upgrading to 6.170.12 SUCCEEDED
+Message-ID: <010101a17bdfdf37-be351dd8-923c-4d7d-8f4b-2a1b85a0c7ff-000000@us-west-2.amazonses.com>
+Date: Tue, 27 Oct 2026 05:40:31 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.10.27-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2026 22:08:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248704
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 05:40:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248706
 
-The deduplicate logic has a logic flaw in that it was scanning over all
-deduplicated items from previous calls to find_deduplicates(). This
-doesn't make any sense because the types of objects already being
-deduplicated might not match the new filter. In practice, this didn't
-matter because the CreationInfo comparison function doesn't do anything
-that cares if the type is actually a CreationInfo; so it didn't fail
-when it was passed something else.
+--===============3397038756059957513==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Fix this by creating a separate instance of the deduplication object to
-start with a clean state
+Hello,
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.170.12* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.170.8-6.170.12.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 1247e1848e71004f1e46479544d53cd286b45f72 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 27 Oct 2026 05:27:46 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.170.8 -> 6.170.12
+
 ---
- meta/lib/oe/sbom30.py | 1 +
- 1 file changed, 1 insertion(+)
+ ...on3-hypothesis_6.170.8.bb => python3-hypothesis_6.170.12.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.170.8.bb => python3-hypothesis_6.170.12.bb} (91%)
 
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 713eec92d4..e279cfc82b 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -1236,6 +1236,7 @@ def create_sbom(d, name, root_elements, add_objectsets=[]):
-             choose=choose_license_expressions,
-         )
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.170.8.bb b/meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.170.8.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb
+index e40ed0d9dd..564b1d1845 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.170.8.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb
+@@ -16,7 +16,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
  
-+    with objset.deduplicate() as dedup:
-         # Deduplicate creation info
-         dedup.find_duplicates(cmp_creation_info, oe.spdx30.CreationInfo)
+-SRC_URI[sha256sum] = "dfc56ceac35d825fb6a85fa3ac36a598fee3101d264a39895a62f78c1cc95521"
++SRC_URI[sha256sum] = "92b353d21a010b50b638c730ce67cb631ca78a369b146bcc28b3488f83136e35"
  
+ RDEPENDS:${PN} += " \
+     python3-attrs \
 -- 
-2.56.0
+2.47.1
 
+
+--===============3397038756059957513==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.170.8.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.30.1 crate://crates.io/pyo3-build-config/0.30.1 crate://crates.io/pyo3-ffi/0.30.1 crate://crates.io/pyo3-macros/0.30.1 crate://crates.io/pyo3-macros-backend/0.30.1 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/syn/3.0.9 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/
+ wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.170.12.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.30.1 crate://crates.io/pyo3-build-config/0.30.1 crate://crates.io/pyo3-ffi/0.30.1 crate://crates.io/pyo3-macros/0.30.1 crate://crates.io/pyo3-macros-backend/0.30.1 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate
+ ://crates.io/syn/3.0.9 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.170.8 [default] to 6.170.12 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.170.8" to "6.170.12"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 4641133 to 4664233 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/WHEEL was removed
+
+--===============3397038756059957513==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-hypothesis-upgrade-6.170.8-6.170.12.patch"
+
+RnJvbSAxMjQ3ZTE4NDhlNzEwMDRmMWU0NjQ3OTU0NGQ1M2NkMjg2YjQ1ZjcyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMjcgT2N0IDIwMjYgMDU6Mjc6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNzAuOCAtPiA2LjE3MC4xMgoKLS0tCiAuLi5v
+bjMtaHlwb3RoZXNpc182LjE3MC44LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE3MC4xMi5i
+Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWh5cG90aGVzaXNf
+Ni4xNzAuOC5iYiA9PiBweXRob24zLWh5cG90aGVzaXNfNi4xNzAuMTIuYmJ9ICg5MSUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNf
+Ni4xNzAuOC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhl
+c2lzXzYuMTcwLjEyLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTcwLjguYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTcw
+LjEyLmJiCmluZGV4IGU0MGVkMGQ5ZGQuLjU2NGIxZDE4NDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTcwLjguYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNzAuMTIu
+YmIKQEAgLTE2LDcgKzE2LDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUu
+cHkgXAogICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImRmYzU2Y2VhYzM1ZDgyNWZiNmE4
+NWZhM2FjMzZhNTk4ZmVlMzEwMWQyNjRhMzk4OTVhNjJmNzhjMWNjOTU1MjEiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiOTJiMzUzZDIxYTAxMGI1MGI2MzhjNzMwY2U2N2NiNjMxY2E3OGEzNjliMTQ2
+YmNjMjhiMzQ4OGY4MzEzNmUzNSIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9u
+My1hdHRycyBcCi0tIAoyLjQ3LjEKCg==
+
+--===============3397038756059957513==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/entry_points.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/licenses/LICENSE.txt was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/METADATA was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.12.dist-info/WHEEL was added
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/entry_points.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/licenses/LICENSE.txt was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/METADATA was removed
+  /usr/lib/python3.14/site-packages/hypothesis-6.170.8.dist-info/WHEEL was removed
+
+--===============3397038756059957513==--
