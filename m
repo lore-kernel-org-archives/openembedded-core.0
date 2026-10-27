@@ -1,298 +1,487 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19648.1793109563251679268
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.19863.1793110872668453044
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2026 06:59:23 -0700
+ Tue, 27 Oct 2026 07:21:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=Ns9UfYcq;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48df4e9d2d4so2501174f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 06:59:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=CAgwk8OI;
+ spf=pass (domain: gmail.com, ip: 74.125.224.51, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-6798af41644so2854795d50.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 07:21:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793110872; cv=none;
+        d=google.com; s=arc-20260327;
+        b=odzAaHT3CAfFJqJCBDzwJWkawP2fV6EEbiXW6xdOXOoSCsvLfsoMJmp5M7vuoVakFp
+         Y0+t8/6o24Sq3808OHIKb+Gdb49x2nytcrPQic8s8LuzeJpoUzCjGN9ef9WzFCTmBo8x
+         r82Ia/e3n+R6BE3+8C0GQRdZPJv45J4NLrRjhOX2yHsONwSV8mraGr6F/LavQRsv+nCb
+         Y64xAx7fW+BebX3uVEJ0oJwyoF84qOZFf/ZaEWwg5keMjq1hOTLXMxswPGQINUHrZQyX
+         +hkdIoGhAf5sq68J47YdTJx3brQ0b5Ly6MVAMmPOzmnKSqvbcIrd6AID5w6RiMcWG9ZO
+         RjuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DLmOe0DJ+6bB8/A7zic550cNgaVR95GYb8lFJWRPNZQ=;
+        fh=ZnbCn4tju4GffNAZBrxjoOyYgysXbyM6jsp9/JTS04M=;
+        b=pKyZzhl7nXjEV+API9A/ISB1DphZ4RhKYlAyyfma7B+YnGN2wSjr0nq+VKDsyIVXaL
+         QMXUxn4Vq9VCB6/UYAyKWqHS1n1JV6ux8g1zPz+wIRAcfn2Gd/2aaZOCkxcR7LRQ7bhX
+         qzgccW4sJXCRdtmMvkfcHc+HQJ5ebLO8cbXlKDSUmWATmo1/K09dwGiO8FW3K+Ycgc5I
+         GNVhublQcimILIsWicNsxL5UE2mjMbeINiLmFBfgxqLFJfW6yw45dl2EDoNUVvN0OUyi
+         FYP8nzKL7aeN7T5V0S18TXEH49xj4Skzoja0LHWs0E+mKE/USq9hL6d+qj56LqVrKnVc
+         9A7A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793109561; x=1793714361; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SEpHR32qLTpqj+5sF60ODrXwXKsQHyPJ43M6ccKYalQ=;
-        b=Ns9UfYcq3o+XzRw8LJd92wHXLsUCtRpK8unFgGLPcUlKVMHuhLuzQXbeWWn+Aazpzy
-         kQWGtC9yHiG+1Pm08ByGIpSS+3VFLI3LX/0gnRXHQX+vH+Q17rSGJQhtJ1cvgXnvfWQh
-         8aTMnwAq998CC85vdAAhLOVRyqT5HdJtIoyfUH4Oh7tyLqxa2C2QN82TILuFpAqubr/i
-         laxfNaA9v/UBKZFiESYlJ+Obof2xa7UffTQO/CzBkWkk478ynxTNyKrjiJRLnza8JlzF
-         3PdHiCXH3eXjendbvn2haL631JIsMbP62DB/+B35CT6A9FdvTHayZxJX10g4LkARg2VE
-         P9Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793109561; x=1793714361;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1793110872; x=1793715672; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SEpHR32qLTpqj+5sF60ODrXwXKsQHyPJ43M6ccKYalQ=;
-        b=ARXJJVYXzWJOzpPSlQYJMJV6mWCCv4Mc0Gh2zz8s/mQ/NwYkTEUqashX99dH6u4gCt
-         vqhbEjjg5H+pxNE8hFlojaeiPP57V6F4/beYt0lZcVKM+DLrIMCzzmak5yxYVU5Wc6tb
-         /OFO6joDH1KJF90cMNhk5Wm/mCuzFujuw9TMzJ2GSIh1kzGoYANtztNd4vV/CDMHk/zR
-         dsZ14W2yCs57xLgd7Bl2f4Xzi54GrAfvXWy0d7J9Cjgvd7Gz4t/nmaVs8C20fmgp9LVM
-         KnU5LHm+FOj9XSWmMbrteWe3XWBKW3/iYmt8trL2lwIbr/d9cVCl8zLG9xCDTi3eDa5i
-         Rm/Q==
-X-Gm-Message-State: AFq9FYL2zfJdeT7fqRmriund8OqGfmoe9C6sg3HNNHk5ZH1UZ9RS8qF3
-	FVgGGMaiLkpOCvblz0Xu82fhh6uRl4C9ZnF0QEpEGBH+1TLsXzDY3suzvJPHzAXvasnXb0XTWw/
-	X+OMGye+B0Q==
-X-Gm-Gg: AYBFou1xaAH3ijIEaG4OCmKTaIwpJD9EgdkE6FWYAGwYighjCr/Ejw9aKe3eqA2ZhxS
-	R9kM6zRXh+g+fueQQVJ3EumeQxOk8Cv+Op4z8srVdG7GhaXU58Jn/kdwBS+IboHt92vLa2Ptjcr
-	ogfoKnsx7xMD4oYCBNXnmrtnN8PhARjpSGUF4mb2xBy87av2gRPPBmzBAycaBVG7WgfgLz1fifI
-	qrirnfmPrg3FWxsU+9AlgGmk3lRFe0TToMRAFUOGrRz0kpk6DBR6md1s3w57CzgDA9VcOvM++5C
-	9vRnnWSw0+qc6kOYAfyJXGIEUPTi7ExziDFRs2/aARy/JfMSqH/CwTeDy416G7q7FKV3UZyg2ic
-	Ceovb2glGhezXDYkuxnjxRBUfCxqv6VFFeSgDzLshtfSFpoS/qfmJ2JXOrPJ4ay9F+o3VP85CL3
-	CpveknAYrfEM+E3QHI+iHA8lyFopruJTFpxpseMX2wAu2q1OXW7mokV6LbxZP9YK4zdXrZ26Qzk
-	d8O8ITu7DT0kbi6K19Ii3lYNvD+gQ51G/BsSOrVoZkbM/OkqAz3N6UQ3PZLF8ylNqlrtzYoue43
-	ZmQbXIy9TeK1Ti16z/Es2i0VO8xisg38InXNtZVszDEJ
-X-Received: by 2002:a05:6000:22c3:b0:48e:932:aefa with SMTP id ffacd0b85a97d-48e4f1b6743mr10904401f8f.26.1793109561165;
-        Tue, 27 Oct 2026 06:59:21 -0700 (PDT)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecde7c3sm24264788f8f.51.2026.10.27.06.59.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2026 06:59:20 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 Oct 2026 14:59:20 +0100
-Message-Id: <DMFOAG1XU9N9.2NAZB8KTSZUCQ@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Subject: Re: [OE-core][scarthgap] linux-yocto/6.6: update to v6.6.157
-X-Mailer: aerc 0.20.0
-References: <20260917051600.1472502-1-bruce.ashfield@gmail.com>
- <DLLOWJJZP939.377A2ZRET8LZ1@smile.fr> <DM4MU1O808QU.3D1G1PPSLRL5V@smile.fr>
- <CADkTA4PdELZG3bQYeDXvMRc2qDw+6b5yNot2Fvjjq4gY3s_Wxg@mail.gmail.com>
- <DM57Z4HX0NXW.27RXSRT7ZD21K@smile.fr>
- <CADkTA4Njr1sezPZTZh=CY1Nay4RNtLO5Lmi=vg56CUUsqgsW8A@mail.gmail.com>
- <DM8WX2CJGLU6.1AKN2H7P8G9GS@smile.fr> <DMFMNMA1DKKK.3FBS764527ECC@smile.fr>
- <CADkTA4PabVLSkjxCPH4ehgquo2EJt+oEuBvmex5iWgv2sKnsfA@mail.gmail.com>
-In-Reply-To: <CADkTA4PabVLSkjxCPH4ehgquo2EJt+oEuBvmex5iWgv2sKnsfA@mail.gmail.com>
+        bh=DLmOe0DJ+6bB8/A7zic550cNgaVR95GYb8lFJWRPNZQ=;
+        b=CAgwk8OIjuPB5/05Y4ve+g/noLrouxqZZDISg5RlAPGlvTKh7EISEwf/Q8tLq3F6Cc
+         Pu5imGwwzyNmB/IP8IWvDcxpnxyeN0tUfrzstE919WLwYk2LH8ir1b430wr3Ygrwc+I9
+         o/45gCHuPQUrMsHTbmPqt6fEoSA1JqztHB46OxOjAlmwGJjCdv74Pq43Amf5pvOqDqbs
+         VqdgfG0NcvrmYKxDSLOq/ZCaFABSuUuwQdbQcN8KEkjasNFRJyCI1kOlPRaZWHThULde
+         bY7htDNVRLB9GeLO2FkxQtIif3bv7LCZplHztYRHJJsiJV6QeUO9T7kITSW/XEz/AGxl
+         gFqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793110872; x=1793715672;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DLmOe0DJ+6bB8/A7zic550cNgaVR95GYb8lFJWRPNZQ=;
+        b=czlMQKgMLondEGQ50UXP90cREK+ul+EA2cJsqrujad+xoEBikUAiF94RSKdGuB50eE
+         ZpDCJEllMb4F22cv3GVuLbcjkAoLUnZ9GeVM6ZZ6Fr2t80bE492+yoYx+jyroNQkzfDj
+         RJPGfAQJzQOAqs0g1tc56n7zxHnhqdB+ikadbrQ/1ksXWO2edEOThPW79gxjoLqYxXB6
+         pkj9RRYNd+dCSVNjk/aWZFenayV0SSdmF+D3t8vw0nC+eqpF9uanoGmk8Oa27EQBSlbE
+         DX/Kdr545LKOxg03A2DIRViC9lPQmqTYNyu6NcbYhNcPGuikFLBXVg1d80FN8AaJYYWo
+         fEww==
+X-Forwarded-Encrypted: i=1; AKwUvByUXAQXRjm+PCBygZy8G41RNTC99gnk5U8rt98sbAmTEEq3tdGRZajAG/wKO7sPSuWhtW15LzwxqC/40RuuwG9gEg==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYL54RcgiVL71jOkKNFP/kh1t3ezZNjF9SEsa7R9u26LgcyWxVEW
+	rTgXp1mWpAJJSb73NcXDS1ExGH1wl0yFo2pOlht/+Z2Alv+ieTLDU3SLP40AYNWihrjyIOvopGy
+	aJJc8dksvOUYu74djTw+I483q80BYi8A=
+X-Gm-Gg: AYBFou33/7QZkLo8uLEI3uvfc+2+1cGFkNXN+clxKtulbv0i8mFQ90QYm1SqR0tqVWY
+	r54YTNxe0lWfb4xqH/Kc9mLHsA7XV1E/hYfs2aBU/eDyv/xQUfviSP8FOtVdUerSmRB1hmuC37i
+	rpDmYsx6aLPXL6rb+kWYVa3JqU9FJiCOPUEeQNBj9UZT1WdVgtDR2FR5dRSHyxY334TMG4UxnBf
+	j3EDFWQyoB2xqRmowVyUX/9eE9wqkuLtnOZtBRdhhX5g9Lu69eTqGQjoyKXCUxMaSK3/Ji2pD65
+	JgErT4BtUaxxjP3uC6Qv9B96qUq6ddQIJ5rd+O2tvA+qE4aj8OWIUUeCAR00t6lp3q9fogB2zr0
+	oXMfHcuiLMLoIWaGVAbpOJxdPJrI1CP335o/X3yiFrQq9tMA16Ao=
+X-Received: by 2002:a53:c290:0:b0:671:1c5e:9977 with SMTP id
+ 956f58d0204a3-67a4549f3dcmr5595520d50.97.1793110871287; Tue, 27 Oct 2026
+ 07:21:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260630210422.1903245-1-JPEWhacker@gmail.com>
+ <20261026214627.2388650-1-JPEWhacker@gmail.com> <20261026214627.2388650-6-JPEWhacker@gmail.com>
+ <auBRnwhMKmTkFpQB@nuoska> <CADWMC-ZECNTJQ8MZBB+=2sNPj1qJUZrx2tZ8HmEDNiAAnG0LSw@mail.gmail.com>
+In-Reply-To: <CADWMC-ZECNTJQ8MZBB+=2sNPj1qJUZrx2tZ8HmEDNiAAnG0LSw@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 27 Oct 2026 08:20:58 -0600
+X-Gm-Features: AclHuK_WMCtiouEWOmTe6vACZ16qaTUjS8UxWD9hPQ_v__HqzSGs5dubHmTn9CM
+Message-ID: <CAJdd5GY3w+9HvxKO6zxcOMxUgt_Qyr9eydBai_D6CdNL17Ozsw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v5 5/6] Add SPDX deploy tasks to various recipes
+To: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+Cc: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000086ad41065ed32841"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 13:59:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248748
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 14:21:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248749
 
-On Tue Oct 27, 2026 at 2:22 PM CET, Bruce Ashfield wrote:
-> On Tue, Oct 27, 2026 at 8:42=E2=80=AFAM Yoann Congal <yoann.congal@smile.=
-fr> wrote:
+--00000000000086ad41065ed32841
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 27, 2026 at 6:03=E2=80=AFAM Jose Quaresma <
+jose.quaresma@oss.qualcomm.com> wrote:
+
 >
->> On Mon Oct 19, 2026 at 5:16 PM CEST, Yoann Congal wrote:
->> > On Mon Oct 19, 2026 at 4:43 PM CEST, Bruce Ashfield wrote:
->> >> On Thu, Oct 15, 2026 at 3:05=E2=80=AFAM Yoann Congal <yoann.congal@sm=
-ile.fr>
->> wrote:
->> >>
->> >>> On Wed Oct 14, 2026 at 6:55 PM CEST, Bruce Ashfield wrote:
->> >>> > On Wed, Oct 14, 2026 at 10:31=E2=80=AFAM Yoann Congal <yoann.conga=
-l@smile.fr
->> >
->> >>> wrote:
->> >>> >
->> >>> >> On Tue Sep 22, 2026 at 10:08 AM CEST, Yoann Congal wrote:
->> >>> >> > On Thu Sep 17, 2026 at 7:16 AM CEST, Bruce Ashfield via
->> >>> >> lists.openembedded.org wrote:
->> >>> >> >> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->> >>> >> >>
->> >>> >> >> Updating linux-yocto/6.6 to the latest korg -stable release th=
-at
->> >>> >> comprises
->> >>> >> >> the following commits:
->> >>> >> >>
->> >>> >> >>     79643295eba17 Linux 6.6.157
->> >>> >> >>     32e598324edc3 nvmet-rdma: fix queue leak when connect
->> backlog is
->> >>> >> exceeded
->> >>> >> >>     [...]
->> >>> >> >>     73b7a11814838 Revert "arm64: mm: Don't remap pgtables for
->> >>> allocate
->> >>> >> vs populate"
->> >>> >> >>
->> >>> >> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> >>> >> >> ---
->> >>> >> >>  .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
->> >>> >> >>  .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
->> >>> >> >>  meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28
->> >>> +++++++++----------
->> >>> >> >>  3 files changed, 20 insertions(+), 20 deletions(-)
->> >>> >> >
->> >>> >> > Hello Bruce,
->> >>> >> >
->> >>> >> > I think either this 6.6.157 upgrade or the 6.6.156 one triggers=
- a
->> >>> >> > lttng ptest failure:
->> >>> >> >
->> >>>
->> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/4604
->> >>> >> > qemux86-64-ptest debian11-vk-3 scarthgap completed at 2026-09-2=
-1
->> >>> >> 11:38:31+00:00
->> >>> >> >
->> >>>
->> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/4577
->> >>> >> > qemuarm64-ptest ubuntu2404-vk-arm2 scarthgap completed at
->> 2026-09-21
->> >>> >> 14:57:16+00:00
->> >>> >> >
->> >>> >> >
->> >>> >>
->> >>>
->> https://valkyrie.yocto.io/pub/non-release/20260921-71/testresults/qemux8=
-6-64-ptest/core-image-ptest-lttng-tools/log.do_testimage.311077.20260921110=
-838
->> >>> >> :
->> >>> >> > (only one of each message):
->> >>> >> > |FAIL: kernel/test_userspace_probe 91 - Load command with opts:
->> >>> >>
->> >>>
->> --input-path=3D/tmp/tmp.test_userspace_probe_save_load_elf_trace_path.zS=
-A9mh
->> >>> >> > |FAIL: tools/base-path/test_ust 35 - Load command with opts: -i
->> >>> >> ./tools/base-path//load-stream-extra-path.lttng
->> >>> >> > |FAIL: tools/save-load/test_load 2 - Load command with opts: -i
->> >>> >> ./tools/save-load//load-42.lttng
->> >>> >> > |FAIL: tools/rotation/test_ust 101 - App is un-registered
->> >>> >> > |FAIL: tools/save-load/test_autoload 2 - Lttng-tool list comman=
-d
->> with
->> >>> >> option load-42
->> >>> >> > |FAIL: tools/rotation/test_save_load_mi 17 - Lttng-tool list
->> command
->> >>> >> with option yTVkM2lxbFoDS7Nu
->> >>> >> > |FAIL: tools/rotation/test_save_load_mi 8 - Valid lttng
->> >>> enable-rotation
->> >>> >> size XML
->> >>> >> > |FAIL: tools/rotation/test_save_load_mi 5 - Valid lttng
->> >>> enable-rotation
->> >>> >> timer XML
->> >>> >> > |FAIL: tools/relayd-grouping/test_ust 120 - Valid lttng list XM=
-L
->> >>> >> > |FAIL: tools/rotation/test_save_load_mi 18 - Valid lttng list X=
-ML
->> >>> after
->> >>> >> load
->> >>> >> > |FAIL: tools/base-path/test_ust 37 - Stop lttng tracing for
->> session
->> >>> >> load-stream-extra-path
->> >>> >> > |FAIL: tools/trigger/test_add_trigger_cli 293 - add-trigger mi =
-is
->> >>> valid
->> >>> >> > |FAIL: tools/trigger/test_remove_trigger_cli 20 - remove-trigge=
-r
->> mi is
->> >>> >> valid
->> >>> >> > |FAIL: tools/base-path/test_ust 39 - UST per-uid network trace
->> path is
->> >>> >> valid
->> >>> >> > |FAIL: tools/save-load/test_autoload 1 - Start session daemon
->> >>> >> > |FAIL: tools/save-load/test_autoload 3 - No session daemon to k=
-ill
->> >>> >> > |FAIL: tools/save-load/test_load 3 - Destroy session load-42
->> >>> >> > |FAIL: tools/base-path/test_ust 38 - Destroy session
->> >>> >> load-stream-extra-path
->> >>> >> > |FAIL: tools/rotation/test_save_load_mi 21 - Destroy session
->> >>> >> yTVkM2lxbFoDS7Nu
->> >>> >> > |FAIL: tools/mi/test_mi 3 - MI test: Version xsd validation
->> >>> >> > |FAIL: tools/rotation/test_save_load_mi 20 - Found the right
->> rotation
->> >>> >> size value in list XML after load
->> >>> >> > |FAIL: tools/base-path/test_ust 40 - Validate trace for event
->> >>> tp:tptest
->> >>> >> > |FAIL: tools/base-path/test_ust 36 - Start tracing for session
->> >>> >> load-stream-extra-path
->> >>> >> > |FAIL: kernel/test_userspace_probe 92 - Validate userspace prob=
-e
->> >>> listing
->> >>> >> >
->> >>> >> > Any ideas?
->> >>> >> >
->> >>> >> > Thanks!
->> >>> >>
->> >>> >> Hello Bruce,
->> >>> >>
->> >>> >> Gentle ping on the above upgrade failure.
->> >>> >>
->> >>> >> Do you have time to look at this? If you don't, we'll have organi=
-ze
->> to
->> >>> >> find other resources, we can't not update the kernel.
->> >>> >>
->> >>> >
->> >>> > I'll have time next week, but I can't run the test images locally,=
- so
->> >>> I'll
->> >>> > need to come up with my
->> >>> > own tests :)
->> >>>
->> >>> Awesome, thanks Bruce!
->> >>>
->> >>
->> >>
->> >> I bumped -stable again, and when I run the lttng ptests against that
->> >> kernel, I have all tests passing.
->> >>
->> >> So either something in that kernel update fixed it, or I'm doing
->> something
->> >> wrong.
->> >>
->> >> Did you see this once ? or consistently ?
->> >
->> > Twice (x86-64 and arm64) but during the same a-full build:
->> > *
->> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/4604
->> >   qemux86-64-ptest debian11-vk-3 scarthgap completed at 2026-09-21
->> 11:38:31+00:00
->> > *
->> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/4577
->> >   qemuarm64-ptest ubuntu2404-vk-arm2 scarthgap completed at 2026-09-21
->> 14:57:16+00:00
->> >
->> > Then, I removed the patch from the branch.
->> >
->> >> There are some AB-INT bugs that you (among others) have been tracking=
-:
->> >>
->> >>   - 16309 =E2=80=94 ACCEPTED: [scarthgap] AB-INT PTEST: lttng-tools p=
-test
->> timeout
->> >>   - 16139 =E2=80=94 AB-INT PTEST: lttng-tools ptest failure:
->> >> tools/config-directory/test_config.py
->> >>   - 16358 =E2=80=94 AB-INT PTEST: lttng-tools: Couldn't login into se=
-rial
->> console
->> >> as root using blank password
->> >>
->> >> Could it be one of those ?
->> >
->> > I know I've looked through existing bugs and did not find a matching
->> > one. But, given the fact that it happened twice during the same a-full
->> > on 2 different architectures, I don't think it was an AB-INT.
->> >
->> >> I'll send my stable updates later today, and maybe we can run them
->> again to
->> >> see if you get the same passes.
->> >
->> > Happy to. I usually do 2-3 a-full per review cycles. If the
->> > lttng-tools ptests are green, I'll consider this fixed and take the
->> > kernel upgrade patch.
->> >
->> > Thanks!
+>
+> On Tue, Oct 27, 2026 at 7:24=E2=80=AFAM Mikko Rapeli via lists.openembedd=
+ed.org
+> <mikko.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
+>
+>> On Mon, Oct 26, 2026 at 03:45:25PM -0600, Joshua Watt via
+>> lists.openembedded.org wrote:
+>> > Adds SPDX deploy tasks to many recipes to record their output when
+>> > consumed in an SBoM
 >>
->> Hi Bruce,
->>
->> Can you send the linux-yocto/6.6 upgrades for scarthgap "soon-ish"? I've
->> started a scarthgap review cycle and I would like to include the kernel
->> upgrade in it if possible.
+>> I think this should be the default in deploy.bbclass.
 >>
 >
-> I've been hunting an intermittent issue, and just did another -stable bum=
-p
-> yesterday. Once I sort those out, I'll send the changes.
+> I also think that would be preferable, rather than having to spread the
+> SPDX_DEPLOY_TASKS all over the place.
+> Everything that will use SPDX_DEPLOY_TASKS must already be using
+> the deploy.bbclass.
+>
 
-Sounds good.
+I'm fine with that. I will make that change
 
-Thanks Bruce!
---=20
-Yoann Congal
-Smile ECS
 
+>
+> Jose
+>
+>
+>> The class is used to deploy files to "build output". A lot of BSP etc
+>> recipes use the class for this purpose and they are currently missing in
+>> SPDX
+>> output unless some output packages go to image rootfs.
+>>
+>> I think capturing too much data in SPDX is less of a problem than not
+>> capturing
+>> enough. Thus deploy.bbclass should support SPDX output by default, when
+>> SPDX
+>> is enabled.
+>>
+>> If there are other very good reasons for not enabling this by default,
+>> then
+>> I think the commit message should say that.
+>>
+>> Cheers,
+>>
+>> -Mikko
+>>
+>> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>> > ---
+>> >  meta/classes-recipe/barebox.bbclass           | 1 +
+>> >  meta/classes-recipe/devicetree.bbclass        | 1 +
+>> >  meta/classes-recipe/kernel-fit-image.bbclass  | 1 +
+>> >  meta/classes-recipe/kernel.bbclass            | 1 +
+>> >  meta/recipes-bsp/grub/grub-efi_2.14.bb        | 1 +
+>> >  meta/recipes-bsp/opensbi/opensbi_1.9.bb       | 1 +
+>> >  meta/recipes-bsp/u-boot/u-boot.inc            | 1 +
+>> >  meta/recipes-core/systemd/systemd-boot_262.bb | 2 +-
+>> >  8 files changed, 8 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/meta/classes-recipe/barebox.bbclass
+>> b/meta/classes-recipe/barebox.bbclass
+>> > index 3980849b53..252e97fa65 100644
+>> > --- a/meta/classes-recipe/barebox.bbclass
+>> > +++ b/meta/classes-recipe/barebox.bbclass
+>> > @@ -165,5 +165,6 @@ barebox_do_deploy () {
+>> >          fi
+>> >  }
+>> >  addtask deploy after do_compile
+>> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+>> >
+>> >  EXPORT_FUNCTIONS do_configure do_compile do_install do_deploy
+>> > diff --git a/meta/classes-recipe/devicetree.bbclass
+>> b/meta/classes-recipe/devicetree.bbclass
+>> > index 4fe389bed8..affbf115c2 100644
+>> > --- a/meta/classes-recipe/devicetree.bbclass
+>> > +++ b/meta/classes-recipe/devicetree.bbclass
+>> > @@ -166,6 +166,7 @@ devicetree_do_deploy() {
+>> >      done
+>> >  }
+>> >  addtask deploy before do_build after do_install
+>> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+>> >
+>> >  EXPORT_FUNCTIONS do_compile do_install do_deploy
+>> >
+>> > diff --git a/meta/classes-recipe/kernel-fit-image.bbclass
+>> b/meta/classes-recipe/kernel-fit-image.bbclass
+>> > index 7b2bcd4673..d0f7274e70 100644
+>> > --- a/meta/classes-recipe/kernel-fit-image.bbclass
+>> > +++ b/meta/classes-recipe/kernel-fit-image.bbclass
+>> > @@ -260,3 +260,4 @@ do_deploy() {
+>> >      fi
+>> >  }
+>> >  addtask deploy after do_compile before do_build
+>> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+>> > diff --git a/meta/classes-recipe/kernel.bbclass
+>> b/meta/classes-recipe/kernel.bbclass
+>> > index 0a6d754108..14c71dec54 100644
+>> > --- a/meta/classes-recipe/kernel.bbclass
+>> > +++ b/meta/classes-recipe/kernel.bbclass
+>> > @@ -840,6 +840,7 @@ kernel_do_deploy() {
+>> >  do_deploy[prefuncs] +=3D "read_subpackage_metadata"
+>> >
+>> >  addtask deploy after do_install do_populate_sysroot do_packagedata
+>> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+>> >
+>> >  EXPORT_FUNCTIONS do_deploy
+>> >
+>> > diff --git a/meta/recipes-bsp/grub/grub-efi_2.14.bb
+>> b/meta/recipes-bsp/grub/grub-efi_2.14.bb
+>> > index d19b33b504..8d8671614a 100644
+>> > --- a/meta/recipes-bsp/grub/grub-efi_2.14.bb
+>> > +++ b/meta/recipes-bsp/grub/grub-efi_2.14.bb
+>> > @@ -99,6 +99,7 @@ do_deploy() {
+>> >  }
+>> >
+>> >  addtask deploy after do_install before do_build
+>> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+>> >
+>> >  FILES:${PN} =3D "${libdir}/grub/${GRUB_TARGET}-efi \
+>> >                 ${datadir}/grub \
+>> > diff --git a/meta/recipes-bsp/opensbi/opensbi_1.9.bb
+>> b/meta/recipes-bsp/opensbi/opensbi_1.9.bb
+>> > index 96167f7c73..bb35f906b2 100644
+>> > --- a/meta/recipes-bsp/opensbi/opensbi_1.9.bb
+>> > +++ b/meta/recipes-bsp/opensbi/opensbi_1.9.bb
+>> > @@ -49,6 +49,7 @@ do_deploy () {
+>> >  }
+>> >
+>> >  addtask deploy before do_build after do_install
+>> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+>> >
+>> >  FILES:${PN} +=3D "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_jump=
+.*"
+>> >  FILES:${PN} +=3D
+>> "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
+>> > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc
+>> b/meta/recipes-bsp/u-boot/u-boot.inc
+>> > index b9f61a185c..1c9911ff6e 100644
+>> > --- a/meta/recipes-bsp/u-boot/u-boot.inc
+>> > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+>> > @@ -474,3 +474,4 @@ uboot_deploy_spl () {
+>> >  }
+>> >
+>> >  addtask deploy before do_build after do_compile
+>> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+>> > diff --git a/meta/recipes-core/systemd/systemd-boot_262.bb
+>> b/meta/recipes-core/systemd/systemd-boot_262.bb
+>> > index bab2e7ae27..c9bc3e2a91 100644
+>> > --- a/meta/recipes-core/systemd/systemd-boot_262.bb
+>> > +++ b/meta/recipes-core/systemd/systemd-boot_262.bb
+>> > @@ -71,4 +71,4 @@ do_deploy () {
+>> >  }
+>> >
+>> >  addtask deploy before do_build after do_compile
+>> > -
+>> > +SPDX_DEPLOY_TASKS +=3D "do_deploy"
+>> > --
+>> > 2.56.0
+>> >
+>>
+>> >
+>> >
+>> >
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#248711):
+>> https://lists.openembedded.org/g/openembedded-core/message/248711
+>> Mute This Topic: https://lists.openembedded.org/mt/121950655/10043485
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+>> jose.quaresma@oss.qualcomm.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
+
+--00000000000086ad41065ed32841
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 27,=
+ 2026 at 6:03=E2=80=AFAM Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@=
+oss.qualcomm.com">jose.quaresma@oss.qualcomm.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=
+=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Tue, Oct 27, 2026 at 7:24=E2=80=AFAM Mikko Rapeli via <a hr=
+ef=3D"http://lists.openembedded.org" target=3D"_blank">lists.openembedded.o=
+rg</a> &lt;mikko.rapeli=3D<a href=3D"mailto:linaro.org@lists.openembedded.o=
+rg" target=3D"_blank">linaro.org@lists.openembedded.org</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, Oct 26, 2026=
+ at 03:45:25PM -0600, Joshua Watt via <a href=3D"http://lists.openembedded.=
+org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wrote:=
+<br>
+&gt; Adds SPDX deploy tasks to many recipes to record their output when<br>
+&gt; consumed in an SBoM<br>
+<br>
+I think this should be the default in deploy.bbclass.<br></blockquote><div>=
+<br></div><div>I also think that would be preferable, rather than having to=
+ spread the</div><div>SPDX_DEPLOY_TASKS=C2=A0all over the place.</div><div>=
+Everything that will use SPDX_DEPLOY_TASKS=C2=A0must already be using</div>=
+<div>the deploy.bbclass.</div></div></div></blockquote><div><br></div><div>=
+I&#39;m fine with that. I will make that change</div><div>=C2=A0</div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D=
+"gmail_quote"><div><br></div><div>Jose</div><div><br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+<br>
+The class is used to deploy files to &quot;build output&quot;. A lot of BSP=
+ etc<br>
+recipes use the class for this purpose and they are currently missing in SP=
+DX<br>
+output unless some output packages go to image rootfs.<br>
+<br>
+I think capturing too much data in SPDX is less of a problem than not captu=
+ring<br>
+enough. Thus deploy.bbclass should support SPDX output by default, when SPD=
+X<br>
+is enabled.<br>
+<br>
+If there are other very good reasons for not enabling this by default, then=
+<br>
+I think the commit message should say that.<br>
+<br>
+Cheers,<br>
+<br>
+-Mikko<br>
+<br>
+&gt; Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com"=
+ target=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes-recipe/barebox.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 1 +<br>
+&gt;=C2=A0 meta/classes-recipe/devicetree.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 1 +<br>
+&gt;=C2=A0 meta/classes-recipe/kernel-fit-image.bbclass=C2=A0 | 1 +<br>
+&gt;=C2=A0 meta/classes-recipe/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 1 +<br>
+&gt;=C2=A0 meta/recipes-bsp/grub/<a href=3D"http://grub-efi_2.14.bb" rel=3D=
+"noreferrer" target=3D"_blank">grub-efi_2.14.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 1 +<br>
+&gt;=C2=A0 meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.9.bb" rel=
+=3D"noreferrer" target=3D"_blank">opensbi_1.9.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| 1 +<br>
+&gt;=C2=A0 meta/recipes-bsp/u-boot/u-boot.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 1 +<br>
+&gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd-boot_262.bb"=
+ rel=3D"noreferrer" target=3D"_blank">systemd-boot_262.bb</a> | 2 +-<br>
+&gt;=C2=A0 8 files changed, 8 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes-recipe/barebox.bbclass b/meta/classes-recipe=
+/barebox.bbclass<br>
+&gt; index 3980849b53..252e97fa65 100644<br>
+&gt; --- a/meta/classes-recipe/barebox.bbclass<br>
+&gt; +++ b/meta/classes-recipe/barebox.bbclass<br>
+&gt; @@ -165,5 +165,6 @@ barebox_do_deploy () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 addtask deploy after do_compile<br>
+&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 EXPORT_FUNCTIONS do_configure do_compile do_install do_deploy<br=
+>
+&gt; diff --git a/meta/classes-recipe/devicetree.bbclass b/meta/classes-rec=
+ipe/devicetree.bbclass<br>
+&gt; index 4fe389bed8..affbf115c2 100644<br>
+&gt; --- a/meta/classes-recipe/devicetree.bbclass<br>
+&gt; +++ b/meta/classes-recipe/devicetree.bbclass<br>
+&gt; @@ -166,6 +166,7 @@ devicetree_do_deploy() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 done<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 addtask deploy before do_build after do_install<br>
+&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 EXPORT_FUNCTIONS do_compile do_install do_deploy<br>
+&gt;=C2=A0 <br>
+&gt; diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/class=
+es-recipe/kernel-fit-image.bbclass<br>
+&gt; index 7b2bcd4673..d0f7274e70 100644<br>
+&gt; --- a/meta/classes-recipe/kernel-fit-image.bbclass<br>
+&gt; +++ b/meta/classes-recipe/kernel-fit-image.bbclass<br>
+&gt; @@ -260,3 +260,4 @@ do_deploy() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 addtask deploy after do_compile before do_build<br>
+&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
+&gt; diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/=
+kernel.bbclass<br>
+&gt; index 0a6d754108..14c71dec54 100644<br>
+&gt; --- a/meta/classes-recipe/kernel.bbclass<br>
+&gt; +++ b/meta/classes-recipe/kernel.bbclass<br>
+&gt; @@ -840,6 +840,7 @@ kernel_do_deploy() {<br>
+&gt;=C2=A0 do_deploy[prefuncs] +=3D &quot;read_subpackage_metadata&quot;<br=
+>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 addtask deploy after do_install do_populate_sysroot do_packageda=
+ta<br>
+&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 EXPORT_FUNCTIONS do_deploy<br>
+&gt;=C2=A0 <br>
+&gt; diff --git a/meta/recipes-bsp/grub/<a href=3D"http://grub-efi_2.14.bb"=
+ rel=3D"noreferrer" target=3D"_blank">grub-efi_2.14.bb</a> b/meta/recipes-b=
+sp/grub/<a href=3D"http://grub-efi_2.14.bb" rel=3D"noreferrer" target=3D"_b=
+lank">grub-efi_2.14.bb</a><br>
+&gt; index d19b33b504..8d8671614a 100644<br>
+&gt; --- a/meta/recipes-bsp/grub/<a href=3D"http://grub-efi_2.14.bb" rel=3D=
+"noreferrer" target=3D"_blank">grub-efi_2.14.bb</a><br>
+&gt; +++ b/meta/recipes-bsp/grub/<a href=3D"http://grub-efi_2.14.bb" rel=3D=
+"noreferrer" target=3D"_blank">grub-efi_2.14.bb</a><br>
+&gt; @@ -99,6 +99,7 @@ do_deploy() {<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 addtask deploy after do_install before do_build<br>
+&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 FILES:${PN} =3D &quot;${libdir}/grub/${GRUB_TARGET}-efi \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${datadir=
+}/grub \<br>
+&gt; diff --git a/meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.9.bb=
+" rel=3D"noreferrer" target=3D"_blank">opensbi_1.9.bb</a> b/meta/recipes-bs=
+p/opensbi/<a href=3D"http://opensbi_1.9.bb" rel=3D"noreferrer" target=3D"_b=
+lank">opensbi_1.9.bb</a><br>
+&gt; index 96167f7c73..bb35f906b2 100644<br>
+&gt; --- a/meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.9.bb" rel=
+=3D"noreferrer" target=3D"_blank">opensbi_1.9.bb</a><br>
+&gt; +++ b/meta/recipes-bsp/opensbi/<a href=3D"http://opensbi_1.9.bb" rel=
+=3D"noreferrer" target=3D"_blank">opensbi_1.9.bb</a><br>
+&gt; @@ -49,6 +49,7 @@ do_deploy () {<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 addtask deploy before do_build after do_install<br>
+&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 FILES:${PN} +=3D &quot;/share/opensbi/*/${RISCV_SBI_PLAT}/firmwa=
+re/fw_jump.*&quot;<br>
+&gt;=C2=A0 FILES:${PN} +=3D &quot;/share/opensbi/*/${RISCV_SBI_PLAT}/firmwa=
+re/fw_payload.*&quot;<br>
+&gt; diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-b=
+oot/u-boot.inc<br>
+&gt; index b9f61a185c..1c9911ff6e 100644<br>
+&gt; --- a/meta/recipes-bsp/u-boot/u-boot.inc<br>
+&gt; +++ b/meta/recipes-bsp/u-boot/u-boot.inc<br>
+&gt; @@ -474,3 +474,4 @@ uboot_deploy_spl () {<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 addtask deploy before do_build after do_compile<br>
+&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
+&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd-boot_=
+262.bb" rel=3D"noreferrer" target=3D"_blank">systemd-boot_262.bb</a> b/meta=
+/recipes-core/systemd/<a href=3D"http://systemd-boot_262.bb" rel=3D"norefer=
+rer" target=3D"_blank">systemd-boot_262.bb</a><br>
+&gt; index bab2e7ae27..c9bc3e2a91 100644<br>
+&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd-boot_262.bb"=
+ rel=3D"noreferrer" target=3D"_blank">systemd-boot_262.bb</a><br>
+&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd-boot_262.bb"=
+ rel=3D"noreferrer" target=3D"_blank">systemd-boot_262.bb</a><br>
+&gt; @@ -71,4 +71,4 @@ do_deploy () {<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 addtask deploy before do_build after do_compile<br>
+&gt; -<br>
+&gt; +SPDX_DEPLOY_TASKS +=3D &quot;do_deploy&quot;<br>
+&gt; -- <br>
+&gt; 2.56.0<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#248711): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/248711" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/248711</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121950655/100=
+43485" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+mt/121950655/10043485</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:jose.quaresma@oss.qualcomm=
+.com" target=3D"_blank">jose.quaresma@oss.qualcomm.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+</blockquote></div></div>
+
+--00000000000086ad41065ed32841--
