@@ -1,370 +1,617 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16011.1793097039463802472
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15821.1793097111915520470
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2026 03:30:39 -0700
+ Tue, 27 Oct 2026 03:31:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=qMavA0tw;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=476085ac17=hemanth.kumarmd@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69R5auv41606484
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 03:30:39 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=ZqH3oKYeF
-	as+Et4Mk1V+jxhATV4mYPTWTPIDo1Dh8n0=; b=qMavA0twvGCljWpldvu3UBPSf
-	DaEZRuUbgGST0kvEk4GTogR3l8W8uuxU/jb3I2Pjs+ocLloqk/9e8ks6qoa3O3KR
-	FyegQqkAqpUxFVSCvqzkDK+j/hg1otTo2fTujmYu4XWcVk5QfgiRAxVLHLJXMl8M
-	e83vgLoQ/0fFAHL/oIroZJA0MKg2i2eNYb/Tni1N676d5cuYPOrv2yjjfh+exTTF
-	ZFGL68V1HPTPUoMnf3fDf0JkC9GhAmlDxshvE7x4YRs5ZxDAB4Wnb4L1JLv0HXNm
-	FrKT7EQuaPJa4Nfcdwg/gbfrSyFWOCy8LoPr4CxL37fldGDIt7lwfTj0p8jdQ==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023132.outbound.protection.outlook.com [40.93.201.132])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4hgqy1kv5y-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 03:30:38 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=FksdbpXH;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: devanshp@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=23434; q=dns/txt;
+  s=iport01; t=1793097111; x=1794306711;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=J4LiVsbGZZ8MLazAGOKjxmY6g454+NJnfC11rfa2Vkg=;
+  b=FksdbpXHEuk+Z39nkmhyWvW6O3SkQfoAD25pvqcWpHU6/zONZ/Y0Q/Rh
+   26uRk4VXGtDoGJtr9Mc/pJ0Q7NCEfTCAd4Yv6v9MO6q/JmmSK9uH1GPKX
+   cWpkgm9JYhdKPWxfRbLl17aeO6HqHc7RC8uJRcdl8D04bS5sqvQVj17Dw
+   f5pK3+3AwKTDh7nBF2LqF16ZaUPJoi6xwPEkvOtbWgWKphDD76Md4TTa4
+   zG1oxhyV6CktPeZ7B4pDyER2+AM7Ac7jug1xPgkYyk0NRF8M7W6G3i6iR
+   Rxh1QDpSvE5yTLGIVF30Z7JbL/vshQkBiNXlU3HyVXzZdbkqKJCsCFQC7
+   Q==;
+X-CSE-ConnectionGUID: GhRKmSbGS4WVw4lHbMknCA==
+X-CSE-MsgGUID: b1YSXzFsTTeJyl+QhbUp4Q==
+X-IPAS-Result: =?us-ascii?q?A0BoAwBKfOBq/5AQJK1QCh4BPAwCCzqBK4E9MVOBCQKBI?=
+ =?us-ascii?q?0mIIwOFK4YJAYJwnh+Bfg8BAQENAjQdBAEBhD9GAo4XAiY0CQ4BAgQDAgMBA?=
+ =?us-ascii?q?QEBAQEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZAVfRIBGiY/FxAEAQ0NgnuCH?=
+ =?us-ascii?q?RZBAwECDgarLwKJSxs3eIE0gQHgNwaBTYUGgz0cAQUmSWwBhBiEfRcQGxuBc?=
+ =?us-ascii?q?oEVQoYIAQEBAQEXgRkvhBOCMASCDRWBDIFydIJMkR6BRCIDJjMsAVUTFwsHB?=
+ =?us-ascii?q?YE1MwMgCi8tAhQvDxoyHXAMJxIsFy9YGwYFgR1zK3Uqa4EHXYErKWABIYEIg?=
+ =?us-ascii?q?XYCglGCAAIBSUEOB0VTCSU+BRJHJCIIEgkBExouC4EaNTwJJkEVDGQLGgViC?=
+ =?us-ascii?q?AINDHs5EDUgJG09NwYPGQMEgTUFkHQHW4IhHYEtBA4cAQUCIgEBFzc+Dz8FB?=
+ =?us-ascii?q?gUBAkQKkyYBF4MWjCujdwoog3aKfIEmlXAXhASNFJlXiASRBCONZ5VgI4ULA?=
+ =?us-ascii?q?gQCBAUCEAEBBoFoPIFZcBWCbgEzHzQZD5IkgmSCL8kneQIBAQcyAgcCBw4DC?=
+ =?us-ascii?q?5FqLYFPAQE?=
+IronPort-PHdr: A9a23:TnW2qhISa06PbUKx2tmcuVQyDhhOgF28FgcR7pxijKpBbeH+uZ/jJ
+ 0fYo/5qiQyBUYba7qdcgvHN++D7WGMG6Iqcqn1KbpFWVhEEhMlX1wwtCcKIEwv6edbhbjcxG
+ 4JJU1oNwg==
+IronPort-Data: A9a23:+h2OZKxPGFXTH1AFXPF6t+dvxyrEfRIJ4+MujC+fZmUNrF6WrkUFn
+ WJOWG2DOvbZZTOjc9FxaI2xoUMPvJTXmoQwGlRl+VhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWcsaD1MsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJG42B64dwexYOj1xy
+ +NELBAHSxOFrMvjldpXSsE07igiBMDvOIVavjRryivUSK55B5vCWK7No9Rf2V/chOgXQq2YP
+ JRfMGQpNUicC/FMEg9/5JYWkOq2j3/kcyVwo1OOrq1x6G/WpOB0+OiyYIWEIY3UHK25mG6S/
+ 1P9z3bXGS0mOf6OzXm88niRnrP2yHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NUF+t/7ESGzbDZpl7GQGMFVTVGLtchsafaWAAX6
+ 7NApPuwbRRHu7yOQnXb/bCRxQ5e8wBPRYPeTUfolTc43uQ=
+IronPort-HdrOrdr: A9a23:jX4psq/p7SpE2BTGKW1uk+HMdr1zdoMgy1knxilNoENuA6+lfp
+ GV/MjziyWUtN9IYgBdpTnhAsW9qXO1z+8S3WBjB8bcYOCGghrkEGgM1/qZ/9SNIVybygc/79
+ YtT0EdMqyMMbESt6+Ti2fIcadE/DDtytHQuQ6q9QYXcegcUdAZ0+4WMHf9LmRGACN9Kd4SEp
+ 2a6sBbpzymV0g2Q62AbEUtbqzonfGOsIjpTyInKncchTWmvHeF+bT6Gx+X0lMkVS9TwbAtyG
+ 7BkwbozKSuufO2x3bnpiDuBpJt9+fJ+59mPoihm8IVIjLjhkKDf4J6QYCPuzgzvaWG9EsquM
+ OkmWZgA+1Dr1fqOk2lqxrk3AftlBw07WX59FOeiXz/5eTkWTMBDdZbj44xSGqY16NghqA+7E
+ t45RPdi3NlN2KFoM073amOa/herDv3nZPlq59Us5UQa/pGVFYbl/1gwKocKuZwIMu90vFoLM
+ BeSOfB+f1RbVSWK1rdvmVp3ZiQe05bJGbffqDH0fbliQS/WxtCvhAlLMBzpAZxyLstD5ZD/O
+ jKKaJuifVHSdIXd7t0AKMbTdKwEXGle2OFDIu+GyWQKEg8AQOFl7fnpLEuoO26cp0By5U/3J
+ zHTVNDrGY3P0bjE9eH0pFH+g3EBDzVZ0Wm9uhOo5xi/rHsTrviNiOODFgojsu7uv0aRsnWQe
+ y6Np5aC+LqaWHuBYFK1QvjXIQ6EwhUbOQF/tIgH16eqMPCLYPn8uTdbfbIPbLoVS0pX2vua0
+ FzKwQb5P8wmnxDdkWI9SQ5AUmdCXAX1agAYpTnww==
+X-Talos-CUID: =?us-ascii?q?9a23=3A4PLtdGgWCEOh7jgjw6wqvjEIljJuXX3n73LrKWC?=
+ =?us-ascii?q?DVVlXV+GRaVW1+6VPup87?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AsE/tswy5Ev04wmJyu1vmzdx3ts+aqK73OXs9g7s?=
+ =?us-ascii?q?dh/WJFz10eA6dhgmvHrZyfw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+Received: from alln-l-core-07.cisco.com ([173.36.16.144])
+  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 27 Oct 2026 10:31:50 +0000
+Received: from alln-opgw-5.cisco.com (alln-opgw-5.cisco.com [173.37.147.253])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-07.cisco.com (Postfix) with ESMTPS id A570F180001C5
+	for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 10:31:50 +0000 (GMT)
+X-CSE-ConnectionGUID: znl9gwvHSje6BRkTCSQtSw==
+X-CSE-MsgGUID: J8hFqkRUQxO+fqiPNK3Asg==
+Authentication-Results: alln-opgw-5.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+X-IronPort-AV: E=Sophos;i="6.27,181,1787011200"; 
+   d="scan'208,217";a="69983808"
+Received: from mail-northcentralusazon11012012.outbound.protection.outlook.com (HELO CH5PR02CU005.outbound.protection.outlook.com) ([40.107.200.12])
+  by alln-opgw-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 27 Oct 2026 10:31:50 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Yw0Sup0lRFmRGS2RHlGAZapMs+YiRGQeC2hsbymISrnDT7tL3IRtw9rzZ+LHgx7wzRLv0zCeLCWRgGnjuqgmubYBVtaPGRADFMkViU6iMUndX6j6ZDM3oDxjnC4yZAJ7IbA71oLe/elcBfqv78azzatJ/fENfdUgihLdjY7+K6kd84w/ebWcgUGQ/LrT11IYTPuTtTbQaI6nVvuaTSDZopO0jlozlnzvKjGkZW4LatHO1q8H92vHyvR5s5J5HPYlsW/9jtMh7yqUzHin4SojpeQCJCpqJej4Vx0+CmEmo2SdMVG+iig3x+n0hA4GmneocAIiNHbUMLLFhs81ZXlLgQ==
+ b=QUMuBZYjxIrndl8Okk6hN+R3IdHy/+uqta90d4gN3O1Vtr5WwaZk+IPqJDc6Ps/WDYvun/4FAKWrRA7nkHNa8y2xPdsOzZY6Jn8jyN9B5ehtaZOaA9uSBom5+85jv3eXOSjl6BDacjPNqUzFoa0bAE59rwCcRejGzqE2WFHi5ioj33uJf1KFetliuyLKYA+vJ946bZ4QikWT/RPL4/qm/PXWB48jcxCZHzOGhdocX3n8Gbu4QaRAEga4KQg+T5sFDvd2p9kinaLF+4hl5esp+etpOlhv6W5SKvsk33BuzWe6Cl9gu8ZAV56cUnj5CFjFfnFsZ4S68DOFKn8vQ0JI7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZqH3oKYeFas+Et4Mk1V+jxhATV4mYPTWTPIDo1Dh8n0=;
- b=kdkcmGKMKLOykSdLI3F4/wiabppmTpkveTazzXUaJ8e1447Uq8LiNjBdCE/ycz0tscIX1GGM7eGoIv3jdILc3D9pxaxjyvXh/73dj6RFuKjwB27jK7GhM6qFYcpO11dSo6TECBjCt6B/Wzkwnir03uIt4ZJhZtNFLgu5V4akrn6MJ0Xi0n6pwIQUAHcQKRB8KEBwd1LtEmRDrNmDbVkAibgubLBaeF7yXks4/DepFaoZSMAy1+BcWMm0WABIIHlQZJePtbJawkUGXxBr4hGdAm4NIrMDeIKAZTpZg6bPuyBc4WNtpqZhxkdQ+Z2xefJK7XC1nWm64NlLbBAxNv0lNg==
+ bh=J4LiVsbGZZ8MLazAGOKjxmY6g454+NJnfC11rfa2Vkg=;
+ b=RznIPICz7/IgLqUVrmzKEbhO3ZL0bkIWDP4ARFRiSO1Y3ZsR4t4XpSdoaQq6LhO33F0d+YFpbDyWPSlaGqse2hPu83378RbLZjeVK/EyCEp9PaVZR3Eb+UDq8Ytws1sMuD3q3NIXUEH+/DfVmSgIrchGkQ6AxacjlwAvUajJIPzUPEtCkKn2Ypg/cOxRkGWqqUaT2+pQrBJSMuQE1ISqhwAu0+vhgG4FY2fR58+5//3BIaQlKQPCCZPK3126tK5EFGt10Y6tXGNtWiDeTRp0HgTdxB2eYDmu/Iz3Y4FXiEfJLF3tRJl+n3hiY72YmqaVrevr0PeVqhJGEX77PP8GdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=windriver.com;
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
- LV0PR11MB195454.namprd11.prod.outlook.com (2603:10b6:408:3ed::16) with
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+Received: from PH0PR11MB7616.namprd11.prod.outlook.com (2603:10b6:510:26d::20)
+ by FT1PR11MB837409.namprd11.prod.outlook.com (2603:10b6:170:38::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Tue, 27 Oct
- 2026 10:30:36 +0000
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe%4]) with mapi id 15.21.0546.021; Tue, 27 Oct 2026
- 10:30:36 +0000
-From: Hemanth.KumarMD@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.kokkonda@Windriver.com
-Subject: [blacksail][PATCH] gcc: Fix for CVE-2026-95619
-Date: Tue, 27 Oct 2026 03:30:14 -0700
-Message-ID: <20261027103014.3993276-1-Hemanth.KumarMD@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR21CA0020.namprd21.prod.outlook.com
- (2603:10b6:a03:114::30) To DM6PR11MB4564.namprd11.prod.outlook.com
- (2603:10b6:5:2a0::7)
+ 2026 10:31:48 +0000
+Received: from PH0PR11MB7616.namprd11.prod.outlook.com
+ ([fe80::9ba7:5071:9af5:340]) by PH0PR11MB7616.namprd11.prod.outlook.com
+ ([fe80::9ba7:5071:9af5:340%6]) with mapi id 15.21.0546.021; Tue, 27 Oct 2026
+ 10:31:47 +0000
+From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	<devanshp@cisco.com>
+To: "daniel.turull@ericsson.com" <daniel.turull@ericsson.com>,
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+CC: "Ruslan Bilovol (rbilovol)" <rbilovol@cisco.com>, "Viral Chavda (vchavda)"
+	<vchavda@cisco.com>, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, "JPEWhacker@gmail.com"
+	<JPEWhacker@gmail.com>
+Subject: SPDX 3.0 component releaseTime - clarification and areas for
+ improvement
+Thread-Topic: SPDX 3.0 component releaseTime - clarification and areas for
+ improvement
+Thread-Index: AQHdZfmLtEZYKFGl3ESJ2HWcWE/TQQ==
+Date: Tue, 27 Oct 2026 10:31:47 +0000
+Message-ID: <PH0PR11MB7616891F646E31AD2F01DE9AD3602@PH0PR11MB7616.namprd11.prod.outlook.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR11MB7616:EE_|FT1PR11MB837409:EE_
+x-ms-office365-filtering-correlation-id: e2af5b8e-32b2-4dc4-e1b2-08df34158138
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|261026140227099003|38070700021|56012099006|261009223027099003|11063799006|261022105027099003|261022075727099003|261021121427099003|10067099003|18002099003|261026121527099003|6133799003|8096899003;
+x-microsoft-antispam-message-info: TdsvZqlsyqxRCzcs7OvXzv7rniXEfW3pvFrRPGd6B3K3rmeQn9bIZQmBVkqPQZjn5Im/i/e9gF9xXmVLU+7UPr3bF4y03Yo8FRL9iY3cd/6SGJRf7sgCpoylG/Gg/WkLhX8P9HmueVCJcrn1KQY0Q3oET/8d5ZXW1x1XHXDGSYLQG+1GEldOR4Yj3q0ReOIBGIzYsqBAp5pVACaDmlavOJVe6AoQHcRI46ScKKoNEzUkYQ3SD5KdIZmnfu5MroUK8839O/3ivRjytJhAl4qYKvzdnen1FydmA4tBIfJHrZSV1HXaUYpB6m7jNTJ12UJqKDLq9xV0QabGzKIAwpPA8amYCrb6MeYI3CB+3nSZZPXgc2L5Qhe9KXNlD5/YbIFM38niiEtDgAAAzV+Aw2qIO39QIYae6vvT2FtXJNs3hE7SijTH0xFQzV+COvTaFiA8iCUTUeR5tm6DVO4AukGMnUcZ1jDeasKSRW7eveIoyKES4JjuXCOpCQXakrnwLpE+mUskIdasz7Lui4sKs9iBW+lzyHWxeRs2sqPSHNpxh53jslJs3dEueFFL1JpjRDqUNSO57duYImOorvYi970cKIZ2e8ZxwY7WJfEmi2G4nenZfAEq/MAqiZR32fEM2AKI+rixFVgEFox50ilU4fG4efYL8gFb8+7P8M5hjFM9Sio=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB7616.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(261026140227099003)(38070700021)(56012099006)(261009223027099003)(11063799006)(261022105027099003)(261022075727099003)(261021121427099003)(10067099003)(18002099003)(261026121527099003)(6133799003)(8096899003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?3Vb7NWN20FxIkaiCZdycs9Vx5SrpARsp8SAJG0nFfGDzBTjAUsQDQ7Ea?=
+ =?Windows-1252?Q?pICGZl1h1mbOYmWHEHq10REPQDDSpbQ2fUNZmHJ57112uvpS+4TYi0es?=
+ =?Windows-1252?Q?7h8AOWFWraRhK12HZMXAHOkSd7mpM+agkZD+MhH8CTXMow6i02ruS8Ib?=
+ =?Windows-1252?Q?h9kPUmpkVvwKZzf9YphIvM6IeaBzjAgkYI2MLPYGX9/OcNIL1A6tlqen?=
+ =?Windows-1252?Q?Si456JgtG6Q9Nm3ocIngi3jy5evcR+76C1xVT6fJ+yDePHY/XM0991Cx?=
+ =?Windows-1252?Q?2AP2JhHiQnAjtmLJLlUslIikG8THebNaNyUycQzJOgJkC2v+09D1S76i?=
+ =?Windows-1252?Q?k0GzAZiCu/fF9dkqM/0XRc19cqFSSgTWpnpyz2J8blyVpExGku+LAQsM?=
+ =?Windows-1252?Q?BsLv9XZrQ3+bDAnjSIy34Pkkdjm+7B6+efM1ALKwA2jXilud+YaFyo9T?=
+ =?Windows-1252?Q?ZBXcP+YoY7m0Ad/lAiUUyW05rAa63sHmCwASk4CNcbEsPcI+frqAlxRq?=
+ =?Windows-1252?Q?VwBdeHGSa8UFbvDvSLZ03JdBkVZGVT/F5v0IOGQgCzXUFbb9zEFICLpX?=
+ =?Windows-1252?Q?nil6eyvKVF3+bNwtilYLEsnLSNSyFVLAA98KXS8IAwo+jhi/U9KrVoCT?=
+ =?Windows-1252?Q?gbSGrvBM6ET+Am5AH0tuCnubfFA2yxYRISkvjkSgjxXOIfFrX2hl8Usj?=
+ =?Windows-1252?Q?c59yjqcROuoNfBxQB+Rx3jo12W6pBinLHbBOeRDPMg6lJ5uGK6uRsuXg?=
+ =?Windows-1252?Q?dKbqkbRwfoXuMjjAgKc1L9HBOn1GVGZ1oVi0bFFb0VVFB0ioqXE0vF0A?=
+ =?Windows-1252?Q?r8MmoIRisvajtXUf+SeLlDm8lrS5ZK1PWGpxQPwPXOChSGBHzRFvhmKZ?=
+ =?Windows-1252?Q?le1twoSekBFMy9KmZrLo2hsZU03FtWRSmCyUk/63850vYlCd0q2XKCia?=
+ =?Windows-1252?Q?ofC2EKDt4wYfnySi3AWYOB8ie/LstmiA8SQKuKQCy6y7b2aMAknieJ8u?=
+ =?Windows-1252?Q?dfK0synuqP4ds9XkAarJj3exPi/AIS3O89ogoJQAyGhnTZ0xa0g9AGia?=
+ =?Windows-1252?Q?6O5RoedJ7znD067nBvxO8f+46S0ERNUnoWm/bYit/2ILOVLLoH2HaB4S?=
+ =?Windows-1252?Q?EWiHuq+iAhUNeQstofPKnEe4MFnZHMf+uoWevpU1uAS2GiqjT2lnIn8z?=
+ =?Windows-1252?Q?dEZBpKGAtjWHmTc5Ek+iVr/ykQs4cDm1Y6aBXeA3HACVdvn9z4k6QAQo?=
+ =?Windows-1252?Q?5mBkzQ9OBMEtI9sffixaBibXbXvJ4lZD4lE0AgNOxvp7x0D1n2abfcNZ?=
+ =?Windows-1252?Q?KnVn88Ga0c8iw9G9eS8S2EekBm3fAVKfQSCD/oO7F0pqimHYKe7ORfi8?=
+ =?Windows-1252?Q?6uVT8Bk5lxIE49kCO5DQLGhqnZiU1BKaqDLzZ7LFxT4zDN0Vw2punkFW?=
+ =?Windows-1252?Q?/EgXyllhxj5un/pe0Amew6iOW5drWKDRxBIBxxK0nSX2JrTbx9ELnRds?=
+ =?Windows-1252?Q?IUgc099dK51nWcf/S2byainIl6HeXl4sE9MB5w/UgWc/jH5vioD4lCbS?=
+ =?Windows-1252?Q?mgJqHCATMQ0b96Jw23kqaCbVxAW4o6eBq95E6NbzaImiLPIXk1lloyLQ?=
+ =?Windows-1252?Q?zawSgTggik0GLIkK3lJxccEiNllfEUsQwSoRg4GkCaAo89m0uXnfAPFe?=
+ =?Windows-1252?Q?z5RGxgAsHYJmTnKO5ZNS201FmycTqyIrv3t5ma70HyYFZTETdgjqbIdL?=
+ =?Windows-1252?Q?cysToaTLbqZh9wVD/N3h9cGfzzOGqUZWTb+whWeet29mFMiEDBWvM8dW?=
+ =?Windows-1252?Q?Bfaf4MslsBoM16hXo4KqLFvqCZHXdoKr3Zsg2kWyQRhKWiJB?=
+Content-Type: multipart/alternative;
+	boundary="_000_PH0PR11MB7616891F646E31AD2F01DE9AD3602PH0PR11MB7616namp_"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|LV0PR11MB195454:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a2121e0-47f8-4d6d-d2ba-08df3415568f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|52116014|376014|1800799024|6133799003|18002099003|261026140227099003|3023799007|10067099003|38350700014|11063799006|56012099006|261021121427099003|5023799004|261009223027099003|261022105027099003|261022075727099003|261021123027099003|261026121527099003|260925021911599003|260925022911599003|260925021311599003;
-X-Microsoft-Antispam-Message-Info: 0+ID7JOQxCfP+W0CIlNDjjNQeu9fztaAh53Ktc/NIm7mvj2X8799jBS7XijN0FMNHSZPRjDLjSfUd2u6JYNQBjJ/HqSxu6MxnkSwtJfOFzocUhXJJt2Fswp9wQXpDWCq7WxCG45BQufs7CmfX3IzkDJHcEehTX2X+VwD6ghizR4oshSs81aaK2hXD6MSWhoRFFl1wBL+zpDKpeOEA3c6FQ3YzDEKeuEd1X+SCgkUITZ0zjHoC1khcQuRp0mhlfuFTlD+cIyvKP1vp3fzIhnSv77TH3YxfveQwGVn6xEAfqfROt98vtIXVXdZpkZDEh6PppatGFYISt+D6eC93vS5IGTp3u+rN3aveh8JCgeqFGU/wWpTw+YGSYFAAQVsIpLcc30PU54uyQwFOQ3FZfbI7oWiiBP5ac1JOJJV/wH84Bl+ceLwyqxSJaTFGx1wU/pwRkyp1uAbnvTdET8g+sicABtoVZ2ZtaXDm2dJ/Y9COQj3AW3kyrcgxjBTfpvtSR7/dIoOfYwXE8qpK/R0DiUmJdHHzkSUVTOMjQUoQRuZj+4qJP2N87wnRMjgB9nEOIytkg4AwYYlvHK+cnTkkIUMNacHhyjiHiPghe9XIjdlLE7hj44CPgQU6NPa20bn42PGEeH0yZI5BLlKeuF0oPw/IGutwTukx6S0KbAYmXSN8OAXDpDhi2J8qayaYgCsBXSKwhswwdE0j6qzEeNWkanBWV9Y1NmuZISGUcV6iiNnMdg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(52116014)(376014)(1800799024)(6133799003)(18002099003)(261026140227099003)(3023799007)(10067099003)(38350700014)(11063799006)(56012099006)(261021121427099003)(5023799004)(261009223027099003)(261022105027099003)(261022075727099003)(261021123027099003)(261026121527099003)(260925021911599003)(260925022911599003)(260925021311599003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6pNLnZpi/GN3fT/SxqQ7CbV41wv062uljPiEW/sLi2Eso9aX1w22lHvl2YrT?=
- =?us-ascii?Q?pA2tezFtPDQARvaqZuE8/p18NKr6mmkwkTA06gOf7EKE1eNy+R/YpiHzrTUE?=
- =?us-ascii?Q?4UCAsHxfQFRNbszquqUdhrE/HyRO/rhdUbke3goZ96LJQ5sY+rOqr8TJAxiv?=
- =?us-ascii?Q?RWbUwblFXQgVhJUeNi9o46yNAbPsFenVjLrEIL3vqC8fvbwSJd215GdZTNPW?=
- =?us-ascii?Q?Bj2nU2cJCyJvJrtnFfelb7vPgG40Z8jdyUEN/tEpgsQZ1mdq2/Y9t+4v/r8M?=
- =?us-ascii?Q?LyafXxAwPWeMbvt0MBgBaNy7UC0OIbk3uJo4Kg3Bu6/6ujBalv0+3dLG34Th?=
- =?us-ascii?Q?PpnPQSX2vpYctubvxNzHbBPUwgPEbYd0a7nroUgG3sGijE8qeBzG/o4WnMii?=
- =?us-ascii?Q?mbwBdFWLkxImF+7OUlRkj3zqw50XssLuDcILQB4/ev3Qzg+mix3yVxTblxLH?=
- =?us-ascii?Q?KptGESTIGyqPfnIasHgQ8ZCkiCt6iE3b2AeTBc4Mi8+w+fTTtaozIvi99DJJ?=
- =?us-ascii?Q?LQ45M+r8QJmDW+QGuIYITPOOp6Yb0nP7/GggowoxOVxEWEdG4XLMT0OudNNT?=
- =?us-ascii?Q?oXmIdUNYCdT/urXjsA0nXfqRVTe6PHtN9pIs4HN/9kN2yuvV4xpQpV9HKSGc?=
- =?us-ascii?Q?55/I8a/BKcazGisdJtvL+XAWYgqUhnUputXFMwDM8WhH0lNrkb6MUT1WkNHJ?=
- =?us-ascii?Q?2mLBJiNdNJRX4aQsq+hgOnQuYrOpFIC9RS7v7RgTAO6P/AcXawuk9rmuXUE5?=
- =?us-ascii?Q?9rHTDeQuYD5uLkoe9fwVPXcCU198sE6onzFQHDrMACHOPjsMFbOq0247BWIS?=
- =?us-ascii?Q?hBS16nnaDH95oNKDSED+RjzfoQW15dk3fq8up/44I3Dtnq5+kMvbmAUzq6S5?=
- =?us-ascii?Q?DDkGvH1cfK6hLlZn6zSfzpuJ5dGai1qBoyKcB8DuZu7+aKfUdHtB8EiSjtrs?=
- =?us-ascii?Q?TpjQ+asr7oAlEqGUHC8DSOWHZBQhl7xLGMtcALwPC9wduSJU7vhfiJ7gXBGC?=
- =?us-ascii?Q?uLosma9tgAPjyvlqLNr8+tlr+cBkGJDhLXk2eiurlzZDWKm5Vz+MOY6yvDzJ?=
- =?us-ascii?Q?D8MGSO4sIasUnaz2yB44lMF/r92CbMDVMHOn56CDo7OeNxyYTvaSAC379Epx?=
- =?us-ascii?Q?Kco2pqXz8wWuto3jWJjx4nt7woCQYoHSvL+miLoRBZPA7Y9YECeWLNFNf5b0?=
- =?us-ascii?Q?AYQIwXqvycFQ19wXKWH6SSAvbg8tdzWF3Ovot0dl5xGfBEbArtFWR5g5BpRn?=
- =?us-ascii?Q?XsvvH/vb+++TNBec3+kPXSuaGg7yW6cYh4ppSb6YmGBrTCd132jc8geoJhgs?=
- =?us-ascii?Q?hcQRGTK7YUsoNfy3ysPB0cBLiIgc/bCdwHmFeGraw6awvPzkzMfqFks6QkjG?=
- =?us-ascii?Q?o6BvDKDs+FmkX6QH9OfdxaLYw5+fDinYdjzLG0newjWgbf+PjS39Fgo8tRuO?=
- =?us-ascii?Q?SeION6K5YSgHJMqalxmd+2pPCgAQ/WFJUbuN8z3NuiMxvt2kUjQFDuHv9oz4?=
- =?us-ascii?Q?h5rGQhPVCx7JgRZxFjDoGRuB9G/zpOEtSm7CoALUXV1JK/o2Zj0jvFwsL9Vp?=
- =?us-ascii?Q?K290nueMsnuJJlRnPxyfjpjUVpJFO6B+PBQEqlECZtgimv9OBSi4cPJX1pJL?=
- =?us-ascii?Q?f33TEhbAh0sSIvNiKKHMtVYyjFzCvwsPEhYrZsK/bJbGkZy/C5uMTImnlZVL?=
- =?us-ascii?Q?nbaq5bO4e6s7Fj8tRh6y94rZjo+yw1oBxfd5SqzSrO3xtauuwHVT8e6MJxsI?=
- =?us-ascii?Q?jZSS0+7gX+s7TBSfqfY63HKAieCym+g=3D?=
-X-Exchange-RoutingPolicyChecked: JRM+PyBuV2pNfEGLTzRU5L4g0ejBlIA0IJdjhCC9eVvBXW+zYNmtAqAKpwgXRDFY4a7tdN+aCSxr9XHQmZYmApkI4aU4wqsvhAGBB5cWTmAtkeR1pN4BtZ0qLMci8CpJrTJ1hcYGkbGdkH6y6eGcLhMz+mPWEvWUyPCK8hQ6xq9h15m7UgdYnUVlccbCI7/WNyzIiWalsWGZjgrJNw1TfzZGcjOKjXTNOJ9w9LxoVKwGNs0o+qwB0T861eTYVtOtV372yVguK+tQX/ZiRCtl6vcb48iJWmasIqVxPwg5tAyKaRf8SCg4F6SzRIRNzLkIRuGcu33PxnCqLOfu8jQgUQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a2121e0-47f8-4d6d-d2ba-08df3415568f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
+X-Exchange-RoutingPolicyChecked: Rm9cdjBNlybwMA++VqNvSMKH3iLj/AfUsfVoiezfXPOTLkKzRSGT2L1Ia9h9NghdrndSVolrKPIV8K61wyZSp/ovP8snIpCPMsLTp8D9e94dHyRiQIMVtj54N4s4O4tygCRjnSsKNv1FB2PaHpWXgnfUYoi+q3hv09Mw6/90Natb/0HTOOnLjK5IvPOZdQDJdvaQzk8KtvyJgX9uOvzAJM7gDUfF/1PCM/gy+TBzK3+47p8wQIywebl9WLwhCfPsd2Cv4Y0czUzXHiLfKxMiw3xKC/hCHFwGcK5C4Kch1yXozJYftfPCE/1j5eakpE4pKzwx/slHM7vjqmAxTiMETA==
+X-OriginatorOrg: cisco.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2026 10:30:36.2512
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB7616.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2af5b8e-32b2-4dc4-e1b2-08df34158138
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2026 10:31:47.3390
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9lE8VnNMnKMHldovxfn7K8WAnmb94rUt5EJfeQroStfmStyq8WtNsF+GSc+9OcoRFobz77v1iLcPD/A+aSnK8mCkimfaXkczgaaNM8Bnn4Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR11MB195454
-X-Proofpoint-ORIG-GUID: O3HPnIwwTmGf2GO5JAGvefCGEf-jdXyh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDA0MSBTYWx0ZWRfXw5zFsRnm+UJ6
- 0n+fm/dfT3VVmcjC62JSW5u/ko5R7PrStvgwUx4ndw1CkmFs3GllOC10Wc/QgzTGBeABKHA5hf9
- Gj+FXkbz86+rTOyaCp/5Ye43eDGxB3+9WUllTnHB58AOQh0TrwcLBWavip/QMYsKim5I/GzkPat
- 8iI/zetlvRbvT/j1ZBOBNW4Mc8KruOSZy69N9qbxAFet0UNQ2viBX9ikzVnxPlFF/p5Fnlel8bR
- 2G1ebzsPTu8taXbIeKVT4sYiGupm3Ccti9OEDpvsu7od+RaB2q2sC7lbxSRczPlVFQU5YdNssj3
- 8n18Nf/zaKC3jp9hn/wYfRa+V5cOoebfolyt6bKvvmIM8NHDE45qaKRuK9wAc/VWF0laxd8qcKU
- GmERrYjUva0EzL0F3SSgYdAPTyUkiWFNxZFDNOAP1YF8uFXDOv6DW0RZaB4/iH/WXHy3PzhBe3R
- PogvN/OSFP8Dse+df8A==
-X-Authority-Analysis: v=2.4 cv=dr1OmFg4 c=1 sm=1 tr=0 ts=6ae07d4e cx=c_pps
- a=xHq7MdwY2pS/T2WNu/1Gug==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=PYnjg3YJAAAA:8
- a=mDV3o1hIAAAA:8 a=pGLkceISAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8
- a=pUjUj6oU-fdMQ6dj_Z4A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDA0MSBTYWx0ZWRfX8UY9NC2Pu6pJ
- KzWtjzcRPZQ/mm/38bc57oi+yBypNgmnw9XGqo+FzjSgUz/XhbDVadps8q5+mZVaIH6Sl9TUh0m
- DOvR22OcVHRoXorL0iUpMz2gdf5HQAx4L4aO2+Vcl4skV4vjv92e
-X-Proofpoint-GUID: O3HPnIwwTmGf2GO5JAGvefCGEf-jdXyh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-27_02,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0 phishscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610270041
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AfIw11RwEGIwavTZqKW5h9qX948BmJJTs+B5lLsHygVTEJg5RMwFlUh7fPIFwKhvvHx6tBzcm4pH7Q8+hmH6jA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FT1PR11MB837409
+X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-5.cisco.com [173.37.147.253];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 173.37.147.253, alln-opgw-5.cisco.com
+X-Outbound-Node: alln-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 10:30:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248723
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 10:32:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248724
 
-From: Sowmya Sathram <sowmyasathram12@gmail.com>
+--_000_PH0PR11MB7616891F646E31AD2F01DE9AD3602PH0PR11MB7616namp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-libstdc++: Ensure that aligned new detects size_t overflow
+Hello,
+We are evaluating the create-spdx-3.0 release-time feature for component-ag=
+e assessment. Comparing generated timestamps with upstream release evidence=
+ highlighted several cases that need clarification.
 
-Depending on the implementation used for aligned new, the size argument
-may be rounded up to a multiple of the alignment. If the size or
-alignment is a huge value the rounded result could wraparound to a small
-value and be successfully allocated, returning a non-null pointer that is
-smaller than requested. Add size_t overflow checks so std::bad_alloc is
-thrown instead. The using-directive for ::aligned_alloc is replaced with
-a new __gnu_cxx::aligned_alloc function and the parameter adjustments are
-moved from operator new into it, with the added overflow checks for the
-aligned_alloc, _aligned_malloc (Wine) and malloc fallback paths.
+Could the Yocto/OpenEmbedded maintainers advise on the following?
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2026-95619
-https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=59d235ffa5a69231eb42e5290d52dc8c90d28b7a
+  1.
+Meaning of  releaseTime
 
-Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-16.2.inc        |   1 +
- .../gcc/gcc/0027-CVE-2026-95619.patch         | 183 ++++++++++++++++++
- 2 files changed, 184 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0027-CVE-2026-95619.patch
+Is the field intended to represent upstream release publication or a best-e=
+ffort source timestamp? How should consumers distinguish a base release fro=
+m a later source snapshot?
 
-diff --git a/meta/recipes-devtools/gcc/gcc-16.2.inc b/meta/recipes-devtools/gcc/gcc-16.2.inc
-index 3497493619..31a630ce8a 100644
---- a/meta/recipes-devtools/gcc/gcc-16.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-16.2.inc
-@@ -75,6 +75,7 @@ SRC_URI = "${BASEURI} \
-            file://0001-mapper-localhost-might-not-be-known.patch \
-            file://0001-Fix-check-for-working-assembler-gdwarf-4-option.patch \
- 	   file://0026-CVE-2026-102010.patch \
-+	   file://0027-CVE-2026-95619.patch \
- "
- 
- UNPACKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/sources"
-diff --git a/meta/recipes-devtools/gcc/gcc/0027-CVE-2026-95619.patch b/meta/recipes-devtools/gcc/gcc/0027-CVE-2026-95619.patch
-new file mode 100644
-index 0000000000..373323a02e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0027-CVE-2026-95619.patch
-@@ -0,0 +1,183 @@
-+From 59d235ffa5a69231eb42e5290d52dc8c90d28b7a Mon Sep 17 00:00:00 2001
-+From: Jonathan Wakely <jwakely@redhat.com>
-+Date: Wed, 23 Sep 2026 13:15:18 +0100
-+Subject: [PATCH] libstdc++: Ensure that aligned new detects size_t overflow
-+ (CVE-2026-95619)
-+
-+Depending on the implementation used for aligned new, we might need to
-+round the size argument up to a multiple of the alignment. If either the
-+size or the alignment is a huge value then the rounded result could
-+wraparound to a small value which would then be successfully allocated
-+by the underlying libc allocation function. This means that we return a
-+non-null pointer but not of the requested size. Instead we should throw
-+std::bad_alloc because the allocation cannot succeed.
-+
-+This doesn't affect most modern targets because they use the
-+posix_memalign implementation, which doesn't do that rounding.
-+
-+On targets without posix_memalign we use C11 aligned_alloc and round
-+before calling it. That rounding needs to be checked for overflow. The
-+using-directive for ::aligned_alloc is replaced with a new
-+__gnu_cxx::aligned_alloc function and the existing fix-ups for that path
-+are moved from operator new into the new function, with added check for
-+the overflow we need to fix.
-+
-+On *-*-mingw* we use the Windows _aligned_malloc function which
-+correctly checks for overflow on Windows. But the Wine version of that
-+function does not and has the same overflow problem so we need to do our
-+own checks before calling it. We include a conservative 2*sizeof(void*)
-+adjustment in our own overflow check.
-+
-+On targets without any aligned allocation function we provide our own
-+__gnu_cxx::aligned_alloc in terms of malloc. This also needs an overflow
-+check.
-+
-+libstdc++-v3/ChangeLog:
-+
-+        * libsupc++/new_opa.cc
-+        [_GLIBCXX_HAVE_ALIGNED_ALLOC] (__gnu_cxx::aligned_alloc):
-+        Replace using-directive with new function. Check for size_t
-+        overflow.
-+        [_GLIBCXX_HAVE__ALIGNED_MALLOC] (__gnu_cxx::aligned_alloc):
-+        Check for size_t overflow.
-+        (__gnu_cxx::aligned_alloc): Likewise in fallback definition.
-+        (operator new) [_GLIBCXX_HAVE_ALIGNED_ALLOC]: Move parameter
-+        adjustments to new __gnu_cxx::aligned_alloc function.
-+        * testsuite/18_support/new_aligned_wrap.cc: New test.
-+
-+CVE: CVE-2026-95619
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/patch/?id=59d235ffa5a69231eb42e5290d52dc8c90d28b7a]
-+
-+Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-+---
-+ libstdc++-v3/libsupc++/new_opa.cc             | 49 ++++++++++++-------
-+ .../testsuite/18_support/new_aligned_wrap.cc  | 39 +++++++++++++++
-+ 2 files changed, 71 insertions(+), 17 deletions(-)
-+ create mode 100644 libstdc++-v3/testsuite/18_support/new_aligned_wrap.cc
-+
-+diff --git a/libstdc++-v3/libsupc++/new_opa.cc b/libstdc++-v3/libsupc++/new_opa.cc
-+index 7bda847a925..bd0098ac09e 100644
-+--- a/libstdc++-v3/libsupc++/new_opa.cc
-++++ b/libstdc++-v3/libsupc++/new_opa.cc
-+@@ -81,12 +81,38 @@ aligned_alloc (std::size_t al, std::size_t sz)
-+   return nullptr;
-+ }
-+ #elif _GLIBCXX_HAVE_ALIGNED_ALLOC
-+-using ::aligned_alloc;
-++// We have C11 aligned_alloc but we need to satisfy its preconditions.
-++static inline void*
-++aligned_alloc (std::size_t al, std::size_t sz)
-++{
-++# if defined _AIX || defined __APPLE__
-++  /* AIX 7.2.0.0 aligned_alloc incorrectly has posix_memalign's requirement
-++   * that alignment is a multiple of sizeof(void*).
-++   * OS X 10.15 has the same requirement.  */
-++  if (al < sizeof(void*))
-++    al = sizeof(void*);
-++# endif
-++  /* C11: the value of size shall be an integral multiple of alignment.  */
-++  if (__builtin_add_overflow(sz, al - 1, &sz)) [[unlikely]]
-++    return nullptr;
-++  sz &= ~(al - 1);
-++  return ::aligned_alloc(al, sz);
-++}
-+ #elif _GLIBCXX_HAVE__ALIGNED_MALLOC
-++// Use Windows _aligned_malloc
-+ static inline void*
-+ aligned_alloc (std::size_t al, std::size_t sz)
-+-{ return _aligned_malloc(sz, al); }
-++{
-++  // The Wine msvcrt.dll version of _aligned_malloc doesn't detect overflow
-++  // so do it ourselves. We know al + 2 * sizeof(void*) won't overflow because
-++  // has_single_bit(al) was already checked by the caller.
-++  std::size_t check;
-++  if (__builtin_add_overflow(sz, al + 2 * sizeof(void*), &check)) [[unlikely]]
-++    return nullptr;
-++  return _aligned_malloc(sz, al);
-++}
-+ #elif _GLIBCXX_HAVE_MEMALIGN
-++// Use memalign (and assume that what it returns can be passed to free).
-+ static inline void*
-+ aligned_alloc (std::size_t al, std::size_t sz)
-+ {
-+@@ -103,8 +129,10 @@ aligned_alloc (std::size_t al, std::size_t sz)
-+   // We need extra bytes to store the original value returned by malloc.
-+   if (al < sizeof(void*))
-+     al = sizeof(void*);
-+-  void* const malloc_ptr = malloc(sz + al);
-+-  if (!malloc_ptr)
-++  if (__builtin_add_overflow(sz, al, &sz)) [[unlikely]]
-++    return nullptr;
-++  void* const malloc_ptr = malloc(sz);
-++  if (!malloc_ptr) [[unlikely]]
-+     return nullptr;
-+   // Align to the requested value, leaving room for the original malloc value.
-+   void* const aligned_ptr = (void *) (((uintptr_t) malloc_ptr + al) & -al);
-+@@ -131,19 +159,6 @@ operator new (std::size_t sz, std::align_val_t al)
-+   if (__builtin_expect (sz == 0, false))
-+     sz = 1;
-+ 
-+-#if _GLIBCXX_HAVE_POSIX_MEMALIGN
-+-#elif _GLIBCXX_HAVE_ALIGNED_ALLOC
-+-# if defined _AIX || defined __APPLE__
-+-  /* AIX 7.2.0.0 aligned_alloc incorrectly has posix_memalign's requirement
-+-   * that alignment is a multiple of sizeof(void*).
-+-   * OS X 10.15 has the same requirement.  */
-+-  if (align < sizeof(void*))
-+-    align = sizeof(void*);
-+-# endif
-+-  /* C11: the value of size shall be an integral multiple of alignment.  */
-+-  sz = (sz + align - 1) & ~(align - 1);
-+-#endif
-+-
-+   void *p;
-+ 
-+   while ((p = __gnu_cxx::aligned_alloc (align, sz)) == nullptr)
-+diff --git a/libstdc++-v3/testsuite/18_support/new_aligned_wrap.cc b/libstdc++-v3/testsuite/18_support/new_aligned_wrap.cc
-+new file mode 100644
-+index 00000000000..dbd642d6ba5
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/18_support/new_aligned_wrap.cc
-+@@ -0,0 +1,39 @@
-++// { dg-do run }
-++
-++#include <new>
-++#include <stdint.h>
-++#include <testsuite_hooks.h>
-++
-++#pragma GCC diagnostic ignored "-Walloc-size-larger-than="
-++
-++void
-++check_aligned_new_overflow(std::size_t size, std::size_t align)
-++{
-++#if __cpp_aligned_new
-++  std::align_val_t alignv = (std::align_val_t)align;
-++  try
-++    {
-++      (void) ::operator new(size, alignv);
-++      VERIFY(false);
-++    }
-++  catch (const std::bad_alloc&)
-++    {
-++    }
-++
-++  void* p = ::operator new(size, alignv, std::nothrow);
-++  VERIFY(p == 0);
-++#endif
-++}
-++
-++int main()
-++{
-++  check_aligned_new_overflow(-9, 32);
-++  check_aligned_new_overflow(SIZE_MAX, 8);
-++  check_aligned_new_overflow(SIZE_MAX, 32);
-++  check_aligned_new_overflow(SIZE_MAX, 1024);
-++  check_aligned_new_overflow(SIZE_MAX, 65536);
-++  check_aligned_new_overflow(SIZE_MAX -     1,    16);
-++  check_aligned_new_overflow(SIZE_MAX -  1025,  1024);
-++  check_aligned_new_overflow(SIZE_MAX -  1024,  1024);
-++  check_aligned_new_overflow(SIZE_MAX - 65536, 65536);
-++}
-+-- 
-+2.49.0
--- 
-2.49.0
+Example: tini v0.19.0+git produces 2025-05-08T14:41:25Z, matching the selec=
+ted source revision=92s Git committer timestamp, while the v0.19.0 base rel=
+ease<https://github.com/krallin/tini/releases/tag/v0.19.0> dates from 2020-=
+04-19. These describe different events and produce different component ages=
+. Clear guidance would help consumers interpret the field appropriately.
 
+  1.
+Dates for individual source components
+
+Could dates be resolved independently for each source component rather than=
+ assigning one recipe epoch to every downloaded source object? The download=
+ed-source implementation<https://git.openembedded.org/openembedded-core/tre=
+e/meta/lib/oe/spdx30_tasks.py?id=3De519068936be3abe8f049262fc9870cf8cf0527c=
+#n463> computes the date before iterating over the sources.
+
+Example: The identical once_cell-1.21.3.crate archive<https://static.crates=
+.io/crates/once_cell/1.21.3/download> receives 2025-09-25 when consumed by =
+ python3-bcrypt and 2026-02-10 when consumed by python3-cryptography. Neith=
+er value is independently established as the crate=92s release date.
+Another example is bzip2 1.0.8: its main tarball receives the 2020-05-17 co=
+mmit timestamp from the auxiliary bzip2-tests repository. However, the offi=
+cial release announcement<https://sourceware.org/legacy-ml/bzip2-devel/2019=
+-q3/msg00031.html> establishes 2019-07-13 as the release date. The recipe<h=
+ttps://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/bz=
+ip2/bzip2_1.0.8.bb?id=3De519068936be3abe8f049262fc9870cf8cf0527c#n24> inclu=
+des both the main tarball and the separate tests repository.
+
+  1.
+Release tarballs and mirrors
+
+Under what conditions can a date derived from extracted tarball timestamps?=
+ How should mirrored or repacked archives be handled, while distinguishing =
+upstream publication from mirror upload times and HTTP metadata?
+
+Example: For abseil-cpp 20260107.1, The generated UTC calendar date, 2026-0=
+2-11, matches the date shown on the upstream release page<https://github.co=
+m/abseil/abseil-cpp/releases/tag/20260107.1>. What validation or qualificat=
+ions would upstream recommend before relying on similar tarball-derived dat=
+es?
+
+  1.
+Normalized archive timestamps
+
+How should the feature handle fixed timestamps introduced by packaging tool=
+s for reproducibility? Could identified normalization values be flagged rat=
+her than presented as release evidence?
+
+Example: In our inspection, every regular file in the Pygments 2.19.2 sourc=
+e archive has timestamp 2020-02-02, which becomes its SPDX release time. Ho=
+wever, PyPI records publication on 2025-06-21<https://pypi.org/project/Pygm=
+ents/2.19.2/>.
+Fixed timestamps are documented packaging behavior: Hatch=92s timestamp uti=
+lity<https://hatch.pypa.io/1.13/plugins/utilities/> defaults to 2020-02-02 =
+when `SOURCE_DATE_EPOCH` is unset, and scikit-build-core documents using a =
+fixed value<https://scikit-build-core.readthedocs.io/en/latest/reference/co=
+nfigs.html#sdist-reproducible> for reproducible source distributions when t=
+hat variable is unset.
+
+  1.
+Shared sources and package-object coverage
+
+What is the recommended approach for shared-source consumers? Please also c=
+larify how consumers should obtain source release dates when inspecting ins=
+talled binary-package objects.
+
+Example: gcc-runtime 15.3.0 uses sources supplied by gcc-source-15.3.0, but=
+ its empty SRC_URI means it has no downloaded-source object carrying releas=
+eTime. The GCC shared-source implementation<https://git.openembedded.org/op=
+enembedded-core/tree/meta/recipes-devtools/gcc/gcc-shared-source.inc?id=3De=
+519068936be3abe8f049262fc9870cf8cf0527c#n1> illustrates this arrangement.
+Separately, the binary-package object for acl has no releaseTime, although =
+its downloaded source object has one. The installed-package creation code<h=
+ttps://git.openembedded.org/openembedded-core/tree/meta/lib/oe/spdx30_tasks=
+.py?id=3De519068936be3abe8f049262fc9870cf8cf0527c#n920> creates these objec=
+ts separately.
+
+  1.
+Date provenance and reasons for omission
+
+Could supporting metadata identify whether a date comes from publication ev=
+idence, a Git commit, or archive file timestamps, and explain why a date is=
+ unavailable?
+
+Example: Inspection of the poetry-core 2.3.1 source distribution<https://py=
+pi.org/project/poetry-core/2.3.1/#files> found zeroed archive timestamps, l=
+eading to fallback suppression and an omitted release time. The release-dat=
+e helper<https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/sp=
+dx30_tasks.py?id=3De519068936be3abe8f049262fc9870cf8cf0527c#n40> suppresses=
+ the default fallback timestamp.
+Generated content such as os-release<https://git.openembedded.org/openembed=
+ded-core/tree/meta/recipes-core/os-release/os-release.bb?id=3De519068936be3=
+abe8f049262fc9870cf8cf0527c#n1> also has no release time, but for a differe=
+nt reason: it has no independent upstream release. Consumers need to distin=
+guish these situations.
+
+  1.
+Reporting completeness and validation
+
+Could the reporting script retain undated recipes, preserve source/version/=
+architecture context, detect conflicting dates, and explicitly report inval=
+id or skipped inputs?
+
+Example: base-files and gcc-runtime do not appear in the report because the=
+y have no downloaded-source package objects. In a controlled test, conflict=
+ing dates for the same recipe are resolved by selecting whichever date is e=
+ncountered first, without reporting the disagreement.
+
+These questions relate to commits aeaa8ba9<https://git.openembedded.org/ope=
+nembedded-core/commit/?id=3Daeaa8ba9d58d58b2f022e79abaf68a0849c66f2e>, e519=
+0689<https://git.openembedded.org/openembedded-core/commit/?id=3De519068936=
+be3abe8f049262fc9870cf8cf0527c>, and 10b5d2c0<https://git.openembedded.org/=
+openembedded-core/commit/?id=3D10b5d2c0f60539d85b29c78ba5d7eac7d53fa25d>.
+
+Please advise which behaviors are intentional limitations and which would b=
+enefit from follow-up changes. We can provide small reproductions and corre=
+sponding source/SPDX examples.
+
+--_000_PH0PR11MB7616891F646E31AD2F01DE9AD3602PH0PR11MB7616namp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
+Hello,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+We are evaluating the <i>create-spdx-3.0</i> release-time feature for compo=
+nent-age assessment. Comparing generated timestamps with upstream release e=
+vidence highlighted several cases that need clarification.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Could the Yocto/OpenEmbedded maintainers advise on the following?</div>
+<ol start=3D"1">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div class=3D"elementToProof" role=3D"presentation"><b>Meaning of&nbsp; <i>=
+releaseTime</i></b></div>
+</li></ol>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Is the field intended to represent upstream release publication or a best-e=
+ffort source timestamp? How should consumers distinguish a base release fro=
+m a later source snapshot?</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b><br>
+</b></div>
+<div class=3D"elementToProof" style=3D"margin-left: 40px; font-family: Apto=
+s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
+ font-size: 11pt; color: rgb(0, 0, 0);">
+<b>Example: </b><i>tini v0.19.0+git</i>&nbsp;produces <code>2025-05-08T14:4=
+1:25Z</code>, matching the selected source revision=92s Git committer times=
+tamp, while the
+<a href=3D"https://github.com/krallin/tini/releases/tag/v0.19.0" id=3D"anch=
+or-350ed6b3-f95d-e99a-3058-1e61c6a39b4c" class=3D"OWAAutoLink">
+v0.19.0 base release</a> dates from 2020-04-19. These describe different ev=
+ents and produce different component ages. Clear guidance would help consum=
+ers interpret the field appropriately.</div>
+<ol start=3D"2">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div role=3D"presentation"><b>Dates for individual source components</b></d=
+iv>
+</li></ol>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Could dates be resolved independently for each source component rather than=
+ assigning one recipe epoch to every downloaded source object? The
+<a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/=
+spdx30_tasks.py?id=3De519068936be3abe8f049262fc9870cf8cf0527c#n463" id=3D"O=
+WA575f92bb-ce63-d854-a15a-c12e9b45f2e9" class=3D"OWAAutoLink">
+downloaded-source implementation</a> computes the date before iterating ove=
+r the sources.</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b><br>
+</b></div>
+<div class=3D"elementToProof" style=3D"margin-left: 40px; font-family: Apto=
+s, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif;=
+ font-size: 11pt; color: rgb(0, 0, 0);">
+<b>Example:</b> The identical <a href=3D"https://static.crates.io/crates/on=
+ce_cell/1.21.3/download" id=3D"OWAc8a96c72-3740-7f43-9ef8-9e07f06d3626" cla=
+ss=3D"OWAAutoLink" title=3D"https://static.crates.io/crates/once_cell/1.21.=
+3/download">
+once_cell-1.21.3.crate archive</a> receives 2025-09-25 when consumed by&nbs=
+p; <i>python3-bcrypt</i> and 2026-02-10 when consumed by
+<i>python3-cryptography</i>. Neither value is independently established as =
+the crate=92s release date.</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Another example is <i>bzip2 </i>1.0.8: its main tarball receives the 2020-0=
+5-17 commit timestamp from the auxiliary
+<i>bzip2-tests</i> repository. However, the <a href=3D"https://sourceware.o=
+rg/legacy-ml/bzip2-devel/2019-q3/msg00031.html" id=3D"OWAe92df583-d0c3-2db6=
+-c716-bade66036fec" class=3D"OWAAutoLink">
+official release announcement</a> establishes 2019-07-13 as the release dat=
+e. The
+<a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/recipes=
+-extended/bzip2/bzip2_1.0.8.bb?id=3De519068936be3abe8f049262fc9870cf8cf0527=
+c#n24" id=3D"OWA2f59c590-56b2-8afb-5284-2cb601fb08b1" class=3D"OWAAutoLink"=
+>
+recipe</a> includes both the main tarball and the separate tests repository=
+.</div>
+<ol start=3D"3">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div role=3D"presentation"><b>Release tarballs and mirrors</b></div>
+</li></ol>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Under what conditions can a date derived from extracted tarball timestamps?=
+ How should mirrored or repacked archives be handled, while distinguishing =
+upstream publication from mirror upload times and HTTP metadata?</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b><br>
+</b></div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b>Example:</b> For <i>abseil-cpp 20260107.1</i>, The generated UTC calenda=
+r date, 2026-02-11, matches the date shown on the
+<a href=3D"https://github.com/abseil/abseil-cpp/releases/tag/20260107.1" id=
+=3D"OWA5aa26bfb-de19-1396-0def-cc400b8c8d68" class=3D"OWAAutoLink" title=3D=
+"https://github.com/abseil/abseil-cpp/releases/tag/20260107.1">
+upstream release page</a>. What validation or qualifications would upstream=
+ recommend before relying on similar tarball-derived dates?</div>
+<ol start=3D"4">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div role=3D"presentation"><b>Normalized archive timestamps</b></div>
+</li></ol>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+How should the feature handle fixed timestamps introduced by packaging tool=
+s for reproducibility? Could identified normalization values be flagged rat=
+her than presented as release evidence?</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b><br>
+</b></div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b>Example:</b> In our inspection, every regular file in the <i>Pygments 2.=
+19.2</i> source archive has timestamp 2020-02-02, which becomes its SPDX re=
+lease time. However,
+<a href=3D"https://pypi.org/project/Pygments/2.19.2/" id=3D"OWA93e45bdb-64c=
+d-1c8f-cbbd-db20d38b8de8" class=3D"OWAAutoLink">
+PyPI records publication on 2025-06-21</a>.</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Fixed timestamps are documented packaging behavior: <a href=3D"https://hatc=
+h.pypa.io/1.13/plugins/utilities/" id=3D"OWAf87474ba-17d9-176c-3baf-937ab2b=
+c3085" class=3D"OWAAutoLink">
+Hatch=92s timestamp utility</a> defaults to 2020-02-02 when `SOURCE_DATE_EP=
+OCH` is unset, and
+<a href=3D"https://scikit-build-core.readthedocs.io/en/latest/reference/con=
+figs.html#sdist-reproducible" id=3D"OWAacb14021-a605-0606-65a5-93daa214b9bf=
+" class=3D"OWAAutoLink">
+scikit-build-core documents using a fixed value</a> for reproducible source=
+ distributions when that variable is unset.</div>
+<ol start=3D"5">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div role=3D"presentation"><b>Shared sources and package-object coverage</b=
+></div>
+</li></ol>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+What is the recommended approach for shared-source consumers? Please also c=
+larify how consumers should obtain source release dates when inspecting ins=
+talled binary-package objects.</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b><br>
+</b></div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b>Example: </b><i>gcc-runtime</i> 15.3.0 uses sources supplied by <i>gcc-s=
+ource-15.3.0</i>, but its empty
+<i>SRC_URI</i> means it has no downloaded-source object carrying <i>release=
+Time</i>. The
+<a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/recipes=
+-devtools/gcc/gcc-shared-source.inc?id=3De519068936be3abe8f049262fc9870cf8c=
+f0527c#n1" id=3D"OWA622193be-cb31-98cb-8bd9-cc1202a47c0c" class=3D"OWAAutoL=
+ink">
+GCC shared-source implementation</a> illustrates this arrangement.</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Separately, the binary-package object for <i>acl</i> has no <i>releaseTime<=
+/i>, although its downloaded source object has one. The
+<a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/=
+spdx30_tasks.py?id=3De519068936be3abe8f049262fc9870cf8cf0527c#n920" id=3D"O=
+WA91c948f9-2184-563b-18b8-bd08c595c3c5" class=3D"OWAAutoLink">
+installed-package creation code</a> creates these objects separately.</div>
+<ol start=3D"6">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div role=3D"presentation"><b>Date provenance and reasons for omission</b><=
+/div>
+</li></ol>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Could supporting metadata identify whether a date comes from publication ev=
+idence, a Git commit, or archive file timestamps, and explain why a date is=
+ unavailable?</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b><br>
+</b></div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b>Example:</b> Inspection of the <a href=3D"https://pypi.org/project/poetr=
+y-core/2.3.1/#files" id=3D"OWAc2fa2e39-a6a6-bc4a-e759-431296b9fa13" class=
+=3D"OWAAutoLink">
+<i>poetry-core </i>2.3.1 source distribution</a> found zeroed archive times=
+tamps, leading to fallback suppression and an omitted release time. The
+<a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/lib/oe/=
+spdx30_tasks.py?id=3De519068936be3abe8f049262fc9870cf8cf0527c#n40" id=3D"OW=
+A310ab8f7-cf3e-99c4-ffb0-fe68f05d8e9d" class=3D"OWAAutoLink">
+release-date helper</a> suppresses the default fallback timestamp.</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Generated content such as <a href=3D"https://git.openembedded.org/openembed=
+ded-core/tree/meta/recipes-core/os-release/os-release.bb?id=3De519068936be3=
+abe8f049262fc9870cf8cf0527c#n1" id=3D"OWAccfad9f5-580a-6134-2b35-247bf6c4e3=
+b9" class=3D"OWAAutoLink">
+<i>os-release</i></a> also has no release time, but for a different reason:=
+ it has no independent upstream release. Consumers need to distinguish thes=
+e situations.</div>
+<ol start=3D"7">
+<li style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, C=
+alibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<div role=3D"presentation"><b>Reporting completeness and validation</b></di=
+v>
+</li></ol>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+Could the reporting script retain undated recipes, preserve source/version/=
+architecture context, detect conflicting dates, and explicitly report inval=
+id or skipped inputs?</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"margin-left: 40px; font-family: Aptos, Aptos_EmbeddedFont, Ap=
+tos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: =
+rgb(0, 0, 0);">
+<b>Example:</b> <i>base-files</i> <span style=3D"font-family: Aptos, Aptos_=
+EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; color: r=
+gb(0, 0, 0);">
+and</span> <i>gcc-runtime</i> do not appear in the report because they have=
+ no downloaded-source package objects. In a controlled test, conflicting da=
+tes for the same recipe are resolved by selecting whichever date is encount=
+ered first, without reporting the
+ disagreement.</div>
+<div style=3D"margin-left: 0px; font-family: Aptos, Aptos_EmbeddedFont, Apt=
+os_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; color: r=
+gb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+These questions relate to commits <a href=3D"https://git.openembedded.org/o=
+penembedded-core/commit/?id=3Daeaa8ba9d58d58b2f022e79abaf68a0849c66f2e" id=
+=3D"OWAcfed106d-a4cd-ec6a-feae-4671d565b00b" class=3D"OWAAutoLink">
+aeaa8ba9</a>, <a href=3D"https://git.openembedded.org/openembedded-core/com=
+mit/?id=3De519068936be3abe8f049262fc9870cf8cf0527c" id=3D"OWAe032441d-fd39-=
+cd61-c2b8-9fed76dfd34d" class=3D"OWAAutoLink">
+e5190689</a>, and <a href=3D"https://git.openembedded.org/openembedded-core=
+/commit/?id=3D10b5d2c0f60539d85b29c78ba5d7eac7d53fa25d" id=3D"OWA456bfbdc-9=
+e1b-9dfe-ff92-a62741e5cf69" class=3D"OWAAutoLink">
+10b5d2c0</a>.</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Please advise which behaviors are intentional limitations and which would b=
+enefit from follow-up changes. We can provide small reproductions and corre=
+sponding source/SPDX examples.</div>
+</body>
+</html>
+
+--_000_PH0PR11MB7616891F646E31AD2F01DE9AD3602PH0PR11MB7616namp_--
