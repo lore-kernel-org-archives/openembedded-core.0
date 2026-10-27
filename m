@@ -1,35 +1,35 @@
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25898.1793125706329781512
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26172.1793125717342059724
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2026 11:28:28 -0700
+ Tue, 27 Oct 2026 11:28:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=N+dFtY1v;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026102718282402937bb08f0002072d-sx4mic@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026102718282402937bb08f0002072d
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=qS7OMPIk;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026102718283588ed6f4ff60002078e-hdqil8@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026102718283588ed6f4ff60002078e
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 27 Oct 2026 19:28:24 +0100
+        Tue, 27 Oct 2026 19:28:35 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=XYhX5wKgTV3mfhHdnF7cmtY0tw2t3sfrJam87KLPWtE=;
- b=N+dFtY1vobhbrqLPWOJpYMqF2iqyHiHA4pOoI7AR48pCh/M7eNgNv7QqRYOMqRbbCqPAzC
- KHsGljUbkeDFh4VMtmBvBRGYSg7VzsOoBcIbMSbBDfqop4IimBuDG+fAQnOyXCDjubnHRGv0
- hrvJ/GpowHG396OqROMjonTkLrPt24isPTbxFCT7eUf6HY4RIDewfyJdVBtSgCaPyU4LxKFo
- fXtlrj8Q20NRsVPl3D8MMWnGP7YASe06uBd8ykFvoswJT8xkrYMJdCaMBOVB0tiZKtJUDIZ1
- BMBwqxaqGERlqHCbAC9ECSRblB6dtKnwyyS7dQngVxTmZpm52cdpAh9g==;
+ bh=rUdyUM9RAYKn3KZwrtYqAPTfEnq6DtiBhOUfWW74GEQ=;
+ b=qS7OMPIkbrDIWyZaVlvI4hIowOlQdJuajdQ+EtLBCNlifShMsYThZ/ZMYzMf1+EJgObm55
+ fxidwsi5eqb7PIyYZ5NpQlTHq6MuPSLFLlv7ZO+lVrOO/gUcm9/zbC4IYK809MMDSdGH7N0M
+ y4Y1fBYY74KbQ38Ja0nZjOwMGU+B9qjI4Hgnkv2/MVc7Rr2bgbrvlcUj6Qf/jYKqWTw46Pms
+ Ihwy06NQM1ooAPQ4HyidMXdrhZwaYZdknRdbwsnww8Aklz9sVumKL55E0rpq1o4uh8GMvOgf
+ 0j6yFENMypgPWMiCENZLgK4uyFepDrrC8b2eXgB0Ty1EexCYjnrvDJVw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] boost: patch CVE-2023-34399
-Date: Tue, 27 Oct 2026 19:27:18 +0100
-Message-ID: <20261027182718.3084239-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] boost: patch CVE-2023-34399
+Date: Tue, 27 Oct 2026 19:27:26 +0100
+Message-ID: <20261027182726.3084268-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 18:28:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248757
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 18:28:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248758
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -39,13 +39,13 @@ Pick patch referencing this CVE.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../boost/boost/CVE-2023-34399.patch          | 35 +++++++++++++++++++
- meta/recipes-support/boost/boost_1.90.0.bb    |  1 +
+ meta/recipes-support/boost/boost_1.84.0.bb    |  1 +
  2 files changed, 36 insertions(+)
  create mode 100644 meta/recipes-support/boost/boost/CVE-2023-34399.patch
 
 diff --git a/meta/recipes-support/boost/boost/CVE-2023-34399.patch b/meta/recipes-support/boost/boost/CVE-2023-34399.patch
 new file mode 100644
-index 0000000000..f2dbccd67e
+index 00000000000..f2dbccd67e9
 --- /dev/null
 +++ b/meta/recipes-support/boost/boost/CVE-2023-34399.patch
 @@ -0,0 +1,35 @@
@@ -84,10 +84,10 @@ index 0000000000..f2dbccd67e
 +         t = NULL;
 +         return bpis_ptr;
 +     }
-diff --git a/meta/recipes-support/boost/boost_1.90.0.bb b/meta/recipes-support/boost/boost_1.90.0.bb
-index 4b580d078b..c66f182384 100644
---- a/meta/recipes-support/boost/boost_1.90.0.bb
-+++ b/meta/recipes-support/boost/boost_1.90.0.bb
+diff --git a/meta/recipes-support/boost/boost_1.84.0.bb b/meta/recipes-support/boost/boost_1.84.0.bb
+index 4b580d078be..c66f182384d 100644
+--- a/meta/recipes-support/boost/boost_1.84.0.bb
++++ b/meta/recipes-support/boost/boost_1.84.0.bb
 @@ -4,4 +4,5 @@ require boost.inc
  SRC_URI += "file://boost-math-disable-pch-for-gcc.patch \
             file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
