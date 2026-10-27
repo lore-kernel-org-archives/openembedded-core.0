@@ -1,105 +1,81 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20282.1793111843249839327
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20325.1793111998096274881
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2026 07:37:23 -0700
+ Tue, 27 Oct 2026 07:39:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=cqzRRR5e;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=k244ouv0;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id E56164E41343
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 14:37:20 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 8CD5EC79AB4;
+	Tue, 27 Oct 2026 14:40:57 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id ACB54603BD;
-	Tue, 27 Oct 2026 14:37:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 12B3510328FB2;
-	Tue, 27 Oct 2026 15:37:14 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 067BD603BD;
+	Tue, 27 Oct 2026 14:39:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DB89E10329093;
+	Tue, 27 Oct 2026 15:39:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793111836; h=from:subject:date:message-id:to:mime-version:content-type:
+	t=1793111991; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=mK4VTSe3tkcopEFiLNsm1ZPaH4V6WD27ONXTzWR3iuk=;
-	b=cqzRRR5eo7qCgaYo2Qw7qron17Mzo+qn1SISfte+ZG991yhQO2q84lyfyc2+K9PVB/Cdmm
-	e+aIUG0880IVTuZT6WzpDVmpv+f5pIC5vWiRJ8FmCz0fc2lwFP5qYLr1cHSiZ3yuv71OOZ
-	96ISg7eS+bBU4obhAS4bI++nX1bJbvWNQjd+WT2FcYl/Gy+Dx4RkZjn8Hl1gGP6WjvPGZI
-	jxCnBHKiaHX+rCYXL1uwn7j+TLZCeDXT0JAlQodkByebPUtVkZQ+ysehgBcCbJtVRngNJ7
-	svfnuIrK4Lk+YaO2e4CJVRVvAgbu7o2OMV9Z6QE5dJDqeXlW07VgEZfAT0QyLA==
+	bh=5upKtZ7gmq5UpQIsWkpkMJmWgo6zR8kkCPtL1fMmr8M=;
+	b=k244ouv0jcGmevjfoQaA8MZ1rSPYMIxm/93QT1k2Ff2wkHuKpiwpJO+TKoAHvnO3AVv0J0
+	4jyK9NBGLU9tSEVdwCChZQ250QCEnmDIZcmZRHZtBNE4pnBZKM87Xdl6JY/iE5/YbDcvMM
+	KsS35O8yUJvbeMe/wH/KqA/bO+SDl90zduxRuJvCaAiXt3IT225X8f77RA3ALxH15c0uDR
+	8BhM9ADsNES2L69iZz3p/34dVmpHq8n57Ub4WlexEOoHdoBop4KG2NbFniA2BbI5oHuGuW
+	qXp9jkKN6RimbnRjKe6vXT+VIGvxYbZlK9i/+Cj6nPunopggxnM27sqQtA6U6Q==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 Oct 2026 15:37:14 +0100
-Message-Id: <DMFP3GTRT2CQ.3DUW7MRPBWP8T@bootlin.com>
-Subject: Re: [OE-core] [PATCH] openssl: Upgrade 4.0.3 -> 4.1.0
+Date: Tue, 27 Oct 2026 15:39:50 +0100
+Message-Id: <DMFP5GHG44I1.34QV0THODLF26@bootlin.com>
+To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v5 0/6] Implement SPDX for deploy tasks
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
- <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261026183524.6389-1-jaipaul.cheernam@est.tech>
-In-Reply-To: <20261026183524.6389-1-jaipaul.cheernam@est.tech>
+References: <20260630210422.1903245-1-JPEWhacker@gmail.com>
+ <20261026214627.2388650-1-JPEWhacker@gmail.com>
+In-Reply-To: <20261026214627.2388650-1-JPEWhacker@gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 14:37:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248750
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2026 14:40:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248751
 
-On Mon Oct 26, 2026 at 7:35 PM CET, Jaipaul Cheernam wrote:
->   Release information [1]:
+On Mon Oct 26, 2026 at 10:45 PM CET, Joshua Watt via lists.openembedded.org=
+ wrote:
+> he SPDX use case for file system image has been well defined since SPDX
+> was first implemented, however there has always been a desire to also
+> express SPDX output for other non-image deliverables (primarily, those
+> that have a do_deploy task or similar). These types of tasks cannot
+> easily use the traditional method of having a separate SPDX task that
+> runs to create their SPDX output as this causes lots of problems with
+> the way dependencies are specified. Instead, it is desirable for these
+> tasks to directly produce SPDX output that can be consumed by other
+> tasks that depend on them.
 >
->   OpenSSL 4.1.0 is a feature release adding significant new functionality=
- to OpenSSL.
+> This patch series adds support for this. Any sstate task that starts
+> with "do_deploy" can now be added to the SPDX_DEPLOY_TASKS list and it
+> will run a postfunc to generate SPDX output that describes what is being
+> deployed. For classical do_deploy tasks, this is setup to be easy by
+> automatically capturing all the deployed output files in the SPDX data,
+> but other tasks can be added as well.
 >
->   This release incorporates the following potentially significant or inco=
-mpatible changes:
+> Finally, the do_create_image_spdx task is removed and replaced with a
+> SPDX deploy postfunc using this new system. This means that any task
+> that depends on do_image_complete will automatically also get the SPDX
+> output for the image, simplifying the dependency handling.
 >
->   - Added VC-WIN32-MSVC2013 and VC-WIN64A-MSVC2013 build targets to provi=
-de internal functions for bridging the gaps in C99 standard support that ar=
-e present in MSVC 2013.
->   - Added optimized ML-DSA and ML-KEM NTT operations on ppc64le; optimize=
-d ML-DSA operations on x86_64; AVX-512-optimized SHAKE x4 operations for ML=
--DSA on x86_64; AVX-512 and VAES optimizations for AES-CBC
->   decryption on x86_64.
->   - Changed tsget utility to use Net::Curl::Easy (from the Net-Curl CPAN =
-distribution) instead of the abandoned WWW::Curl::Easy. Users who rely on t=
-sget should install Net::Curl::Easy before upgrading.
->   - Dropped Windows-on-Itanium (VC-WIN64I) and Windows CE (VC-CE) targets=
- from Configurations.
->   - Dropped no-ecdsa and no-ecdh options from Configure, as these options=
- did not really disable the implementations. Use no-ec to disable the ellip=
-tic curve support.
->
->   This release adds the following new features:
->
->   - Support for DTLS 1.3 (RFC 9147). Refer to the ossl-guide-dtlsv13(7) m=
-anual page for details.
->   - Support for RFC 8701 GREASE (Generate Random Extensions And Sustain E=
-xtensibility).
->   - DTLS support in the SSL listener API.
->   - Support for IKEV2 KDF.
->   - Initial support for the Elbrus2000 (e2k) architecture.
->
->   [1] https://github.com/openssl/openssl/blob/openssl-4.1/NEWS.md#major-c=
-hanges-between-openssl-40-and-openssl-410-23-oct-2026
->
-> - Refresh existing patches
-> - Verified with world
->
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> ---
 
-Hi Jaipaul,
+Hi Joshua,
 
-Thanks for the upgrade. This is breaking python3 crypto:
+Thanks for the new version.
 
-Failed ptests:
-{'python3-cryptography': ['tests/hazmat/primitives/utils.py:TestAESModeGCM.=
-test_gcm',
-                          'tests/hazmat/primitives/test_sm4.py:TestSM4ModeG=
-CM.test_invalid_tag[vector0]',
-                          'tests/hazmat/primitives/test_ssh.py:TestOpenSSHS=
-erialization.test_load_ssh_private_key_invalid_tag']}
+I believe this is the source of this warning:
 
-Failed ptests:
-{'python3-pyopenssl': ['tests/test_ssl.py:TestMemoryBIO.test_memory_connect=
-']}
+WARNING: core-image-full-cmdline-1.0-r0 do_create_image_sbom_spdx: The foll=
+owing SPDX IDs were unable to be resolved:
+  http://spdxdocs.org/openembedded-alias/by-doc-hash/6e0461f8d0ebcd6cab741f=
+f4175cb1256279c1657d809f71c257fb2a0991e7ca/eudev/UNIHASH/package/eudev
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/4822
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/4908
 
 Can you have a look at the issue?
 
