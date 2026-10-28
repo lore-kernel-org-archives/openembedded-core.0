@@ -1,188 +1,149 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.39515.1793182268522882923
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.39599.1793183344605426923
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 03:11:08 -0700
+ Wed, 28 Oct 2026 03:29:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=D6Kup0Fk;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=PymkAZAR;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: jose.quaresma@oss.qualcomm.com)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69S8Js8v611814
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 10:11:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=s2/gI6+IhCEV4Zwctov1gBWe2RWb+JFICOT
-	ENpvGqgo=; b=D6Kup0FkoZuVRMSRQM43VSwVW3RZBLFNgb2YodEoCL+TgNGRH0H
-	jrnUukRN1XV99pzDLRR8uyKyTiKzoP5UAwLHSNWTNOmOiGmcmp3/sNMvVsxJ9mS7
-	wpRL6yp0G78foPCgJ7JUDTDRBg1+POPv+WNXrA+LUZV+7DgvV6wr2WYwavW+71Co
-	BJon4eMVYUPNeBcZi4rSL4cLB9gx8MPUAxDyHVv2evjlWBmVus3x6FBBqFNs2uxD
-	pxfLpR2rwZHE1X3I+HqzEOBBlriCby8xnGgoNMVlhGmjvjlvZegnZ4ocKNO9S3oG
-	Lnag1O7+0M79M0F0UHJCpE9aFf/94C1H6jA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkbhw8vcs-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 10:11:07 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93caf7856ffso163388685a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 03:11:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=KmPR1JtL;
+ spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5365f9a04c5so13607291cf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 03:29:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793183343; cv=none;
+        d=google.com; s=arc-20260327;
+        b=j6DwBGj0O7aURiLQCZi+/zXWfLdiknR4R8mSWdTHoznLfzEtIQN15tRKuU7PDO/wFP
+         f5CJWjyL4qr7t/XklFpdzIZ/za4zVdzjXQmXXedKdLvAm4BJnOoi2oP3iFbpQ6+tdWYl
+         dO9yNUZydCdQcMj29jVL49k05C0uqiXv67P/Du3b6U4iihLCoSOGzq3Lrkrm52XgDk1/
+         OnR5s3Me5KfRbyYEVrgxK/uB3pHhFsAgY1YvgMocbxNfe88377K1CYRblOENhlBy4Ukt
+         6rH+bR8HBwxcLUqOG3l97GtzMhxNJyhJd+ocnjo6zWAvE5Ty/vHYuLCGMtXjY+BWPLdX
+         glyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qm+SzqPz+PRJzLp3lYVLY7HpbJlzPgGQ646EyxBoW+0=;
+        fh=Qdz0xdskMtkKGCkoiHzHItxfqyRi1RgU725OHa45E9g=;
+        b=Rq1At5TWBCq1yyuh6siaHxZ+2mXuifQWzMJb3wqpdV8NZhDUWpjSjJNI6luwrE4v+a
+         m+tRo1Ay922xItpeC0b1ALQCz2MqTGxkP7/dfriUdXXDgOsjIz4R4kegrcb3yyoxC/+3
+         F7FClAgSOyoOnHzzWO2eBWA6GNztkpzpoTKaZRARlYaZfGBT715ynLQ6u0QQF+b5VSIt
+         Yrc1kpHPa4m6dNZPb+bHmcrU6mzJOOTXhWodksLxoeFOpnhkG9rTFVySLQpHKPPmnjdJ
+         KQcNM302yyuNzLhmjiiVfzGvdvhHH5rQeW+K+z6WrdXVcHxr8JrAkelYF3elJ98UL+XN
+         LCMQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793182267; x=1793787067; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=s2/gI6+IhCEV4Zwctov1gBWe2RWb+JFICOTENpvGqgo=;
-        b=PymkAZARHzu134MoOAVYDV2y72xqKah7E/WoTM4n4TBC149jh2qSTxpq8pPTdl2RV9
-         6vLzknAQu+k+3gtS8MwkqppDUlEVQS+NlO4MEd+9NKEjE0r47WAFxwg21fh/kD1BAuxX
-         qdwSyl1pAv+IK133Z/KUz4yfuMcVZASHxvUeP3Nyv5kPf86Synz0Ni+iU+Qk8y96kTwB
-         heiocqxvRYURzMy3rxXRtYNIITc5POk48yTY1B0QtoSeozB00dNKwdXIDx84KEyTEzFV
-         tis4EFqwdeDUBVYLQJBr1eACmpZJGWlPXNfv+/rjmnpP6ULb8TEqusnhRk3EXqdvB5uu
-         RCqQ==
+        d=gmail.com; s=20260707; t=1793183343; x=1793788143; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qm+SzqPz+PRJzLp3lYVLY7HpbJlzPgGQ646EyxBoW+0=;
+        b=KmPR1JtL03y1KCdmBiFYKDqu86M7lzPNkZEiJaBZVs3KCZ42CU4tra0KPe4RJl9GWu
+         2luPtacV1J+jnSh8ZdCk/r21i0jpDxwOHMqYU7i4k5BNimdflEyN+CHqCsO9PFZB0WB1
+         xVGrNx9hM56E+9VPPiRqBd5jYt/ux4Rq5clgjyGVC6cZKbNUcyEbwshyNXm0AQLVlrYx
+         4AanToVkoir6x+3hGzsIfN2e8Ea2tCzO2MzQ9TcgdzJBbm5GFZTx+TThSy06nrYEv579
+         hH9wlU9vC+0WxZueuyIlkKznHWHuByi3E0aIJV4gJ2iLYf0e4HvdxebpamEmTuQgSPq+
+         8WPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793182267; x=1793787067;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=s2/gI6+IhCEV4Zwctov1gBWe2RWb+JFICOTENpvGqgo=;
-        b=0HwUFeMto7xWGk2H/gYWhsD/y1mtEVhKmHuX+f9s+LGglSVBnppZ6G3RgDTH36InG/
-         VjMYxus/TJGwUqCU+XjVS0rHHbRgbui4wJFVeJxBrWHTEswkvbQN++PcOKnhJeI195lV
-         /uYTHFCew4pPIHyz5r+Z5oLWbrq42nc2RO6vju2GYFfzmZ4LJH55lgMRSoauV5KqdVV5
-         5btwWdG/BV6hvcrbr91/hpXkusZb/hIZQZKP7zdqvWfRfgu64BG1/jZNR65bpWEbkkOi
-         GxZLmyAb0pmh2S5NOb5vHkMqVUK/IQQXIHB4+yFY7Ff8EZtIVyOz51nKOF1wYOOUtJVK
-         ievw==
-X-Gm-Message-State: AFq9FYKp6grfu6ZH20a8gh8+Gi8m9k81EHxzrg6ZH97ADjI4Fa1hCgnz
-	Hyakg6jMCYnGMBc1HSOQcSYL8dddI7fOUVtouDudAWwroF/svC0xY336E6LdzRrq0JjZ0DL3mV/
-	dDy6FGnp9MljrojQ62Bq/j24hJBznptAihLJWPkUJiZu2bJaJCy/lRrUDn/1PcPu8tCWRFrc1hf
-	ABaQHRJPezwuS/7Qc=
-X-Gm-Gg: AYBFou0JnvZybaJ6nZgfYy5SmzCuG7cAoIiZxHPOjsnXg2cjs7gQPO5dVV3cCAipLnY
-	ifGFrDbUQZePtOueO2OUn2ilQRJ3Xw4H9xwCELjCcyO1ZOebKJMVe9GSIVhqg2H8jHbFY6xYJck
-	5d9DRy6Ab0bctPG8YDGYx6YCrrQ7sawyeMth7H3e2fgmbtMcpw8LAWdoJGIwIALkLhbCAYbsiwy
-	xnK6KPAOohYTTiqAMbth1tDSPDI8DdOKIk52FEudqpYmkvn8yPgmm38DS66BE1xGW7RJlq4wUvY
-	FEfdLc8B1gnzBsBKsVTpMJchcHZetn2+UCy8f/bb8qLRwoTrOAEe9p+faW8lk1qEXsVSPtYX5jv
-	y5rGhs7XN78xFe7x1rnDePqIc4apVahfFiZWZISJgWNyMM14PysgtlzEv8HKXUWk=
-X-Received: by 2002:a05:620a:470d:b0:93e:e4d1:797b with SMTP id af79cd13be357-94408cded4fmr236186785a.56.1793182266815;
-        Wed, 28 Oct 2026 03:11:06 -0700 (PDT)
-X-Received: by 2002:a05:620a:470d:b0:93e:e4d1:797b with SMTP id af79cd13be357-94408cded4fmr236181085a.56.1793182265977;
-        Wed, 28 Oct 2026 03:11:05 -0700 (PDT)
-Received: from toster.lan ([185.228.162.222])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb8d5sm28977628f8f.28.2026.10.28.03.11.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 03:11:05 -0700 (PDT)
-From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@oss.qualcomm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v3] igt-gpu-tools: fix build on non-x86 platforms
-Date: Wed, 28 Oct 2026 10:10:23 +0000
-Message-ID: <20261028101022.3308-2-jose.quaresma@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
+        d=1e100.net; s=20260707; t=1793183343; x=1793788143;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qm+SzqPz+PRJzLp3lYVLY7HpbJlzPgGQ646EyxBoW+0=;
+        b=UKYm0O8RfxxIkZAXe420KFj7zVnuEBKo1nrg4xuA8XAdVc3nYRcBOFSZQyFh7hsmpd
+         zeUaalwxww2bLyD0xFC1fpVATzpWGtP55bpC7y5a6SlTrg/FHL788784iJffG2stkOz0
+         u63wkY1wFBLf1Lxh74n8s3rtWvHIG1jVYyp5IoXpTzeHz+Jff9bmADs4LdxiG7wV+kGH
+         Hhbb0QmRcP00FqbDKrWScHvD9js8U9F7si0Hzwqydshi/j/tkh2gEdLjr5lceQxxQKGa
+         MOnIOuaHgqZgK2IZ0aEHh1cBXEI49Ig/Zkn7iCOj8WtfcBdiACvQR7qO21O/S5XfFAkE
+         0DlQ==
+X-Gm-Message-State: AFq9FYKt3nKcZPCJ0cL99avdKNQOAoiUs4P1qN/wQDQDfd0dOsg45/G7
+	ej7nTQufvuVVerYs3UxQgnhIp25F1SlCXXLpI5AKKMw4wwdKpeNJNh54QIrZVSnTznTRVDF5XKK
+	gLMOn9EE6AaJqlTN9rtM0j6L4o/Rq9O4=
+X-Gm-Gg: AYBFou1tKpud6c2Ct1k39tIcbDby/Lwhn2OtfcmgsR6gdd5ZCmrVS7A+Ip8E7FWY/yS
+	J38MtsySJZcim30htambqXQE5GlLKQYT1yoeAPuQ03XAqrdmJWHgKKmZk2uQC49JE6jq/KwJdDr
+	dtSfjPhqSW2Spogpp5kMp68bzY38zof9j94YGCJfLU/t/RWDUWTxcZ+P2sA3RJtZvmxggKLYuhJ
+	EBsn4u7e/GmGeBVU1QAbe5KV/eR6D3ahyGYJrcDx6W+yvjmFeuZHR70z6HU6IbSUTOoTNxjyUkl
+	ME3NlFT5hnAi8q9XXlhlw967b+jaE17JfyFnrlNv7ohqrYEzTaHdBdpEINLdNgcG7H//XDYpDfq
+	mG/K0eCc6z9qLhQahR1utN/OZaLoyjQQ7hU7aGQiZSblzr2GQV1WSpEJ+sSMGTbbVhJ7ivzbhE/
+	8THJIbiGGGyxNVj6V5
+X-Received: by 2002:ac8:5f13:0:b0:531:2243:436a with SMTP id
+ d75a77b69052e-53fcc0d8088mr30787011cf.55.1793183343364; Wed, 28 Oct 2026
+ 03:29:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: DkUwoufnDoPYV2hRWVQ0-ZJdS-GGEMFB
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI4MDA0MCBTYWx0ZWRfX9TkZzcs46vly
- boV3A0Bq0R+pAuN02VSN6mauS7JVvY4V0W0E77o2HFSYLjlHJL5PIKOywzReikrGQy2tjz9vykP
- JhD1fGP9nzHn9YLOTyalz7Ah1DX39OY=
-X-Authority-Analysis: v=2.4 cv=V+joQuni c=1 sm=1 tr=0 ts=6ae1ca3b cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=qOKIifoFPMYe9XV0Ag7/Dg==:17
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=e5mUnYsNAAAA:8 a=vsqMbstPxYt-GFuWyhQA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-ORIG-GUID: DkUwoufnDoPYV2hRWVQ0-ZJdS-GGEMFB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA0MCBTYWx0ZWRfX+kkqzSztFQsM
- 8NWImDlEpmpDtPML9ds/f4MxAKBVOhwBmkn0zAD5fiUqeyGe31yXYUqS8miUeWn0ANqGW32U6zI
- ZbJ+0ftjSVxJUXOj49JD/N0I+9bROfuW8OAzqVNqwEkFpmm6HzVPlSlP7iSue7bBCcAmWH292RU
- 5PIutEnqlvOsZVn1st6BJfnOMcesawDAC5UFtutl6+TDFrmXU0RG+NO32WR9cvodBmOqLt30IKn
- Ex0tf09+Do3tJ8suAcpFfW6KhkSlitC/D06HXw1nZCJC2TZ+iIuJ6TFZaSsx9mngWf5VOz4BzQP
- RHX6K7e6hL1MHP3lrHzIH7EoJrUV+n6nvgHV33JetXNEWOBB23kTh9eNHlefpaAQQH5Gdx9JHmE
- Ex9lVBMP7OQG5kU+mCpbvpTkYSggndgUido6wOwQMASR14+FJqEclDR8EiFN8f1AlO8L8snliEJ
- Oxhn3aR0Z2Ga9TMnMig==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-28_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 clxscore=1015 bulkscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610280040
+References: <20261028101022.3308-2-jose.quaresma@oss.qualcomm.com>
+In-Reply-To: <20261028101022.3308-2-jose.quaresma@oss.qualcomm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 28 Oct 2026 11:28:51 +0100
+X-Gm-Features: AclHuK9wNwmE4GQuD--KdtcBQPQq59GDP9kx5vT9Rezxm6hEN8vMCLjcLlW3RHU
+Message-ID: <CANNYZj-Z99z6A=p8XHinkOFC86L7EMWUxNfJdd_39Op5N=AfGg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] igt-gpu-tools: fix build on non-x86 platforms
+To: jose.quaresma@oss.qualcomm.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: multipart/alternative; boundary="00000000000032cf03065ee408d2"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 10:11:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248805
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 10:29:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248806
 
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+--00000000000032cf03065ee408d2
+Content-Type: text/plain; charset="UTF-8"
 
-The "pause" assembly mnemonic is only available on IA-32 platforms,
-breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
-assembly with the preprocessor checks, making sure that other platforms
-don't see the invalid assembly.
+On Wed, 28 Oct 2026 at 11:11, Jose Quaresma via lists.openembedded.org
+<jose.quaresma=oss.qualcomm.com@lists.openembedded.org> wrote:
 
-FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
-Assembler messages:
-{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
+> +From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> +Date: Fri, 26 Jun 2026 22:34:06 +0300
+> +Subject: [PATCH] lib/amdgpu: insert pause mnemonic only on x86 / x86_64
+> + platforms
+> +
+> +The "pause" assembly mnemonic is only available on IA-32 platforms,
+> +breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
+> +assembly with the preprocessor checks, making sure that other platforms
+> +don't see the invalid assembly.
+> +
+> +FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
+> +Assembler messages:
+> +{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
+> +
+> +Upstream-Status: Pending [for internal clearance]
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
----
 
-v3: rebase on 2.6
+So what's taking so long with this 'internal clearance'? Will it be
+cleared, and why does it need clearance for upstream submission, but not
+for oe-core submission?
 
- ...t-pause-mnemonic-only-on-x86-x86_64-.patch | 36 +++++++++++++++++++
- .../igt-gpu-tools/igt-gpu-tools_2.6.bb        |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+Alex
 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
-new file mode 100644
-index 0000000000..1fdaad7b0c
---- /dev/null
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
-@@ -0,0 +1,36 @@
-+From dc072dc0fc680a055d0cdf5adfdccbab6d0566d6 Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Fri, 26 Jun 2026 22:34:06 +0300
-+Subject: [PATCH] lib/amdgpu: insert pause mnemonic only on x86 / x86_64
-+ platforms
-+
-+The "pause" assembly mnemonic is only available on IA-32 platforms,
-+breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
-+assembly with the preprocessor checks, making sure that other platforms
-+don't see the invalid assembly.
-+
-+FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
-+Assembler messages:
-+{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
-+
-+Upstream-Status: Pending [for internal clearance]
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+---
-+ tests/amdgpu/amd_basic.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/tests/amdgpu/amd_basic.c b/tests/amdgpu/amd_basic.c
-+index 3ad023472136..e5475f337549 100644
-+--- a/tests/amdgpu/amd_basic.c
-++++ b/tests/amdgpu/amd_basic.c
-+@@ -703,8 +703,10 @@ static int wait_for_value64(volatile uint64_t *ptr, uint64_t expected,
-+ 		/* Sleep if interval specified, otherwise tight loop */
-+ 		if (check_interval_ns > 0)
-+ 			nanosleep(&sleep_time, NULL);
-++#if defined(x86_64) || defined(i386)
-+ 		else
-+ 			__asm__ __volatile__("pause" ::: "memory"); /* CPU hint for spin-wait */
-++#endif
-+ 	}
-+ }
-+ 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
-index d76c2355a1..a46b002b83 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
-@@ -12,6 +12,7 @@ inherit meson pkgconfig
- SRCREV = "916c79cfb7675ca01607dcd821f8c49d4f633a6f"
- 
- SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
-+           file://0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch \
-            "
- 
- DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native pciutils jansson"
--- 
-2.56.0
+--00000000000032cf03065ee408d2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Wed, 28 Oct 2026 at 11:11, Jose Quaresma v=
+ia <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt=
+;jose.quaresma=3D<a href=3D"mailto:oss.qualcomm.com@lists.openembedded.org"=
+>oss.qualcomm.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">+From: Dmitry Baryshkov &lt;<a href=
+=3D"mailto:dmitry.baryshkov@oss.qualcomm.com" target=3D"_blank">dmitry.bary=
+shkov@oss.qualcomm.com</a>&gt;<br>
++Date: Fri, 26 Jun 2026 22:34:06 +0300<br>
++Subject: [PATCH] lib/amdgpu: insert pause mnemonic only on x86 / x86_64<br=
+>
++ platforms<br>
++<br>
++The &quot;pause&quot; assembly mnemonic is only available on IA-32 platfor=
+ms,<br>
++breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline<br>
++assembly with the preprocessor checks, making sure that other platforms<br=
+>
++don&#39;t see the invalid assembly.<br>
++<br>
++FAILED: [code=3D1] tests/amdgpu/amd_basic.p/amd_basic.c.o<br>
++Assembler messages:<br>
++{standard input}:3702: Error: unknown mnemonic `pause&#39; -- `pause&#39;<=
+br>
++<br>
++Upstream-Status: Pending [for internal clearance]</blockquote><div><br></d=
+iv><div>So what&#39;s taking so long with this &#39;internal clearance&#39;=
+? Will it be cleared, and why does it need clearance for upstream submissio=
+n, but not for oe-core submission?</div><div><br></div><div>Alex=C2=A0</div=
+></div></div>
+
+--00000000000032cf03065ee408d2--
