@@ -1,100 +1,77 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.66.1793227218420608942
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.222.1793227708907009851
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 15:40:18 -0700
+ Wed, 28 Oct 2026 15:48:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=lVomYdky;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so15255475e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 15:40:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=zaabnmJp;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48afcfc4bf5so1224385f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 15:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793227216; x=1793832016; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793227707; x=1793832507; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=NiDlweREisp7S7DsPIMBkiQCxzYpJYJqvr95PO0Xgx4=;
-        b=lVomYdkydfrBMTtqYgjGuE+z40hbmGJIwD9gIjOAEn/LmAVWVtE+AQ3WoKpmWHVKkz
-         388EagIVnMV/rF0v1VgQyGQBp/5CwAsA00vzcDCQ8Eq+xi6TqF/reliuWIi925ggLtxP
-         CLc/h+poq7OaaCaNh8vz7KYwbhqvzkeDUDCqzWrb2+V5gS5SS3SFmYCfPdllesN6L+QL
-         4pjM0xYa1sZ6/VZ1iM+lVPhX8/QGVsQlcyOcDIs1AJsh53g8aXDc6q8byrZiLWi+Lx7M
-         Eu4AgbqSG1+VFkkYPGrdAX8zcSb6/wS0Z2ftcmoSFTJKFRAs08r8X5qT3mUL84flFU0c
-         AOGw==
+        bh=WrYyGYF33HnL60y4U4YbtLQz1pBssPRE5E1p6D9gV+8=;
+        b=zaabnmJpNvzUsraMkNxWMick2utBfWmeyyuuqt4pwokspqhaKkY6fvEieVGtKizTSv
+         RR3v377//LhTVebv7Y72b6Dl+OSdKrZWlxIt1wsfMGKKbg/vWnZlgaZ+LzXo257A0xzo
+         x/EOgGa/wZmcUm5B7AC7H+OF4wIXceyl8STH3aJ+yKhm8A/8ssJeR9qGtEsBANVd8xjW
+         G4iLsoJBgMCWvxAFWgve/xhTbLzI/wasGWG/acIU0W0Ma8QJk2mbMcgz4YtAqW3tfnXU
+         vBnpiv1aSoofgnvvPeq2GbDFMZyg3oxBe9KeCgioIPXHGMcTovjz6BPt7GIYXGHFreEj
+         vdWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793227216; x=1793832016;
+        d=1e100.net; s=20260707; t=1793227707; x=1793832507;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=NiDlweREisp7S7DsPIMBkiQCxzYpJYJqvr95PO0Xgx4=;
-        b=pDGFOQ8FK161sIdtGmepGMAGq5kl2UGBSQtsKsW8AQAAfa5WdrnAaX5hjnW4urKKa9
-         s0tLwEIXr41RE6KKuCXssF3Bulj9pykY6OV4KMJM3byPCM5870OLUkEX5Rq3MbMHCjxl
-         DDHBFTbhKndO2XgrsnaTiZJHTx8zJh2EvjiNJH9moAS8dvu2S5o3RMc8eMhjyIMtmmJK
-         prdeuGpk3ASOjmYiM/WgU9P3LssQgwSkx7sjn7E59URQK6TNhzsdMEqhEw+pwnA64ihj
-         yo8zm8+6SHj1fR4+gz4W7DgT9LpPmRFT2ib51TB2fSr1GDBg1tqdAhfUXLG1sfRViEBK
-         T54g==
-X-Forwarded-Encrypted: i=1; AKwUvBwiCGsD3r0XLokJRyp3J+ODFOrxNzDuXf061J1fCOgx8EGJRmqwJsJM6Dh39RoxTSMlZw5FvGIGl3Z7KTw0zcBfmw==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYLO3/8I733IEPsatDfo83rkIwmLRe6QLSVS4T/S4YHMYwxfvSzN
-	m1Bo+U8uGoQ7025c1xu3NaynhuRn0h55TPPQPAWooqWn+0pXmVi9NSnR
-X-Gm-Gg: AYBFou3hkb/qLhQhhAUtODJ0R0c0tCyh4vvrBOWkiY+tDPdbrff3fME7LvIhKYg7j+K
-	buTnV9GQ0x9mKqEWuftDD9hvXt5BF5hPg56Uw17+xQxR9GZTtWnB6gD4nnuaX8ufOuQGESCuyA9
-	9VfSIEssjIH1DmUkeOwx1gM6zFJJs8zpqdSjdfU1PhRhMcKNrF2OTqJPmGE7YcaId1NW3/HRg7+
-	g4HKactitSK6lpTALtYBlamai5idfch3YuB2CuwhKdoVnpq3FKPwcS7RV+n2kOffFa3IgAXbs6U
-	xbIJDipOlZOLOQI0/IwsVBdpFZKy+DLqKKkFX6iOTzN+xb0NlN7ZCGUZl4uWuh2gPhmNuwmhSW3
-	0gHG4fzuBJQUfKqTxSqIQP0SUHRsSIUSp0ho75YDw/3TkzFysthVu84aDqwDE1bUTm1kk75x1Lb
-	Tq2KOPLjBewTsWpccxeDYpDW42lYfZqSTkEsW7q6RIRjrRu1Qn57XE3GGylEUzHXuOJuJJfK73h
-	PbtunSPtrb7OZ/qRUYl3ZAdVwoBpfYoQT1FRHY4OwNFgDs4Mo+EtWYJkH4L5QEEhfX2ls/JbUnA
-	KDY1bVBJqRe4rXbK1PKKM6dySB8N2YK16+rdsKW/+TFEvfKzChMpuoyRoMvgvcpvv4N5YWFSjid
-	wSA==
-X-Received: by 2002:a05:600c:8183:b0:4a5:dc5d:20f7 with SMTP id 5b1f17b1804b1-4a966a55283mr73991515e9.14.1793227216275;
-        Wed, 28 Oct 2026 15:40:16 -0700 (PDT)
+        bh=WrYyGYF33HnL60y4U4YbtLQz1pBssPRE5E1p6D9gV+8=;
+        b=Itbm7fgDMUwnOOqsw0+hJkemr7DLpi5L8/zvgl4piwvFClsHszh6CorFGeu82rw/+N
+         gzW0KTMmNn7qvYULCY4RcLt0t6u5dAvb83o21fjcagttePkCrrseKIO2Xnskbk+zcw6d
+         YY95L8XddqyKpsfz4P+IBTpX+DLdCvL3zueLxbj8LHPyIFqvmAA/tBAeI3tt8Reki4vL
+         U6zBPDBEkWTXlG47IXTHo1T+o4tl7yuEBHhmzaiu0pJfWksw3+qqAEXC0rEKGbnoRuU4
+         r+BE/gDAM7DnRYMbRhKtS0moSvHsJgQwiZ5b2Oxz2Coy+sFuyFVjoo1XsWrG1pW9NvD4
+         7gUw==
+X-Forwarded-Encrypted: i=1; AKwUvBygkTVx8iYBcUw0P8ZKsIGTZIRKxXFJWZZSOhZKfZ64MYCizxQuAoFeatrMj04mIKHZiI0THZSi0lJ9QkyydyYvjQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYIqugoTlG2rDSJGIk5atciPhlWdfSfQ3uX20y3jS1vzzJAfN98w
+	cq0j1zhlxjmw2exsUSuukALV5uxhZYoipWalwJ4esklRUzWpmwOfQuRd
+X-Gm-Gg: AYBFou3lvnElav4S+kAsTdwg0fE54RZ4npajSfAOHJ7qq7zzGEJR1Cb10Uk01t97OGB
+	gPldWKVE9XnLL2a54nfOC4pw5yLvQPK0mUWWixarW7atbDDBq5NO++U5TLH5mgMghTf9KQYcfLS
+	2OWYEyxqWXhzFQcPY9XZugL2CX/IOCrAhWXh0CcDUNtiYFQFWRtrYUqnT8pVW8zPQmFGo7pts7M
+	du8faTTvwYPjhExPUbYcz3nDHvYWoxhFWMb5hyFd/+h4TxINmBwjRqsLWO1j8rkrS6oarEXJwcl
+	G5Um/h8ryYcDr8POtn6bZAUVTDJ1PW5xCUBjwMwOlI9NlNap08KHlAHwnc5N66IZwjscDPDSfhp
+	4nI1pNGoS9nhkNPCwst87p0rPc3G6UY1mUvjDQZzG6ntKg3WZY6L63cn+ZONJT+lXlaBYig/t4F
+	pVLPr1IUxQ7UwochNENfUanWDxt8LkS5gqRfOD8zs0ujIBS31t5e7HC6zk1I/f+QH7uMBGP/HQI
+	9n+l3RhrMMypykjXP/Ejmx7X/maMARvuQ52E37Qz69L0VrApHNy4HoBICiFcmp+fxF9rEB0BH3u
+	6Z08Z/LNo6TFhHM52zPsEjZzBP6S/pjb9u+iQ6x9x96Cqzw7dhDbCHdyVS7sa7d8Wiym5iwFYqU
+	A5A==
+X-Received: by 2002:a5d:5f41:0:b0:488:8232:d16e with SMTP id ffacd0b85a97d-48e5d564866mr10107516f8f.45.1793227707063;
+        Wed, 28 Oct 2026 15:48:27 -0700 (PDT)
 Return-Path: <adrian.freihofer@gmail.com>
 Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a9ead8aa0fsm22507015e9.4.2026.10.28.15.40.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd3c32sm32036720f8f.47.2026.10.28.15.48.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 15:40:15 -0700 (PDT)
-Message-ID: <069783d91f3cea538769103632abdc6e85f4b47c.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 03/20] devtool: ide-sdk: export recipe Cargo
- configuration
+        Wed, 28 Oct 2026 15:48:26 -0700 (PDT)
+Message-ID: <58d445ba98e817ff6ac0066c52496ebfccefd257.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 04/20] devtool: ide-sdk: recommend Rust
+ Analyzer for Cargo
 From: "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
 To: enguerrand.de-ribaucourt@savoirfairelinux.com, 
 	openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Date: Wed, 28 Oct 2026 23:40:15 +0100
-In-Reply-To: <20261026-devtool-ide-sdk-cargo-v1-3-d4504e124d07@savoirfairelinux.com>
+Date: Wed, 28 Oct 2026 23:48:26 +0100
+In-Reply-To: <20261026-devtool-ide-sdk-cargo-v1-4-d4504e124d07@savoirfairelinux.com>
 References: <20261026-devtool-ide-sdk-cargo-v1-0-d4504e124d07@savoirfairelinux.com>
-	 <20261026-devtool-ide-sdk-cargo-v1-3-d4504e124d07@savoirfairelinux.com>
+	 <20261026-devtool-ide-sdk-cargo-v1-4-d4504e124d07@savoirfairelinux.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 22:40:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248846
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 22:48:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248847
 
-There are probably two issues with set_toml_table_values() which should
-be fixed.
-
-Multi-line values
-The helper only replaces the first line of an existing key. If
-config.toml already has a multi-line value, e.g. rustflags =3D [\n "-
-C",\n "link-arg=3D-lfoo",\n], the key line is replaced with the new
-single-line value but the continuation lines ("-C", "link-arg=3D-lfoo",
-]) are left behind, which is invalid TOML.
-It also doesn't recognise a header written as [ build ]. It appends a
-second [build] table instead of updating the existing one.
-
-Trailing comments
-New keys are inserted at the end of a table, and the end is found by
-searching for the next [ line.
-Blank and comment lines before that next header are treated as part of
-the table. In the generated cargo-config.toml, the # BUILD_SYS comment
-(which describes the next table) ends up above the injected rustflags.
-Please insert new keys after the last key/value line of the table
-instead.
-
-
-A tomllib.loads() check of the generated file in a selftest would also
-be cheap.
-
-Thank you,
-Adrian
+It also recommends ms-vscode.cpptools. That is only justified by the
+C++ IntelliSense patch (7/20). For a pure-Rust crate, cpptools isn't
+needed (see my reply to 7/20). Maybe it should be removed at least for
+now.
