@@ -1,184 +1,156 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.824.1793229417632997725
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.849.1793229796019278172
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 16:16:57 -0700
+ Wed, 28 Oct 2026 16:23:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=O1MVujZW;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so1253166f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 16:16:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=ApyjoECa;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a2069b9710so14776865e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 16:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793229416; x=1793834216; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793229794; x=1793834594; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=3GNo53krBxkIckXjnJ8VXaH/ye7eP/p7L+iRrNffMbs=;
-        b=O1MVujZWmbUbTC/6vH7xidM2Uy4IeCYzgkvTdfn2DwQQtoIvuSI6OIcb6gcnWM13ph
-         b/J5ywGeBuNi+G+QlWQxyw1vDxRYpySIsrXtWMu1mUb15D4UDIxhYayLHwSnTlDoMQia
-         qhL25VTeWxDYxABEPwSzRUHyUks4wzxRUz/dHg+vUEVODMPa7YVWLXYghnSvPXOTizHM
-         5Sr0XT7LKTHlWCZmNLxcMe8oMTIISYR4iEyORGrVoqye+dUB3iyYZhWslVxoJdiMChrl
-         RKXeXC06c9YzcPVS2dEnlucKKKqm3xs9J2zNpZMV2hX4qVyUdaEj+9210S+uz7W0HCYX
-         fyFA==
+        bh=2olkkcwEBmPWJBoe3cHO9/6LKv6lCN+yqBJTUTEu5e0=;
+        b=ApyjoECavNAUCYrIkFDagBUBtgrffkoyCWh6+dbgVZw6prxwiZmaPieox8XWWjmLO8
+         pp/m9b8CyCEmZD8NZCbgIE21+WJ11KytuyleS3jK53eLjWbOuKnqQ6KJ5g4Xuf4jvaKN
+         sfrorycxhqQ6RGtZiDg9HiKuxpVCvFM8ZRMg6cU8uYUYapuIrjHoe7l4E4ZIeJZVAuqc
+         ZE0TdaCaAbXlXiP+z44lzGLsiZ4ebUVozjTEn/hRY6L91dUBsT1ymGl2oTYBbC16FHoc
+         MfU/9hderKxFbskFkiOMdqQZ7vHMiRhovW26WUp+xSZjT3A/rzqSpbtoGtDo05bW9bet
+         fnPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793229416; x=1793834216;
+        d=1e100.net; s=20260707; t=1793229794; x=1793834594;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3GNo53krBxkIckXjnJ8VXaH/ye7eP/p7L+iRrNffMbs=;
-        b=UvzVPykzrcMc9RyH56sRIgcV8bpoiUIja2izqB1eznNnckK1kkk0nCuLtmLRIxY9+V
-         PgH9PTP7ojvijm75dUHIJ11tGRpFiZrh/+1vk/WFDOHZZNjg3kRDTsVSFPgbXGUg1PB5
-         U5zI8AGHxGM5PfmZgpjXwwo4I4uyAk7VsxRnEN15IbL8FG+eS3zzz9iSqa2D2LX7/tV1
-         bbErSqBhqd+Ia6+kntK3WEMxuJSccf+cMlsOhXEDVsxOVsSJQdxElQUwCgWj8uw8m5ol
-         5SKaOocDgT/1rYnSftJxUlLKSruDnAdR8BqCTuM9q5QG8QeMyfwBqF6nxInYaVz/Y50p
-         RihA==
-X-Forwarded-Encrypted: i=1; AKwUvBzpcoEJyw0IQ382wlPgwggCV2XbHcTM32uoh6uh/U7hWI2W8JfoDG2tUQifQinaf3LGnUzYrQntggIRHh7ajU4oYQ==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYIrGht81cNgJdYTjRbDKZJUSwY2WihMT8VO4UfkuGUL6QjvF6O4
-	gLh5zAxdQzt4VnsE4wNYZvAb/pti1B14d7UPzUZPsxpdlux7eOgnKeMD
-X-Gm-Gg: AYBFou1lwQijkPags0thY2W/FcJHjkgA4rcBAojGJcqFaSMNUvaHyy3lwNI6VbDaerS
-	VMnIG/X3IaveziTQsYizqPjHNHDNTg8bJFcLxq5BJu+6NdIDM7wJgNWicZ5wP1mHYRx54e4tn0U
-	kqHLdtuTrKOe/VBKKq2F74oU/9eyg7SWawCB9AiTltN4KIxhaiqig7Wsn3qi46HamtKaiSKIfh6
-	rm1aQOCA+T6euMzoqrDtwYrutSHtH+jNcYLSMdx1PA4QCmagMDWg5Cr4aMJgvlTRPrhdu/PC70Z
-	ASWdqVhfsxT/9KxTJCS0jXiqfkOj0c+vSn7GviAZKFVF5veEDv8x88+A5P04sUy1T/sfbajXZ+d
-	7RWjLBviKkmd/IkEBKjt7OzK/I8o26pRyHUbqiNHDnWm7pAuTy2cQjnPSfnHKdrTHIe3VluzDfg
-	arOSUvSrm9ofdsYGEVT4n79ScAE2wwoL3Sub2vCGUBoKwAWBKzIYIjLwz4ct3aygLild37fFrYR
-	zkT8HARsEflAekfnj15u+n+lJid0+AGwNYtCishXbsClovbhckStalAPcjr+ejqOxanHRTmMbXI
-	eAACkIumtvZ96ZtS3uW2hBDr2m/g/qkbaZBuRDp7AXiC+G4aT06e+uSPDokOL2zjY9aTJHzX5px
-	nZQ==
-X-Received: by 2002:a05:6000:240b:b0:48d:f996:1814 with SMTP id ffacd0b85a97d-48e5d31aa6dmr9461367f8f.57.1793229415569;
-        Wed, 28 Oct 2026 16:16:55 -0700 (PDT)
+        bh=2olkkcwEBmPWJBoe3cHO9/6LKv6lCN+yqBJTUTEu5e0=;
+        b=TmxhEwZAS6E5XkYVf0BQv/qU51Ad9xciOnaJVUC5DaURqz5nnRzkX7fC+4F4HXYf1D
+         bjpUZOo4iR23/yONRaCXK5SnoL0g4RCITS/Mhw5jmVAPI1buVPMB9tktcly+IglX/kGf
+         SOiQiD55NODT/LvcZwa3bFWb/YHXlOihSdy7m7ILwdaYf+B7XB0lZUjI0GX+b0QAkBTm
+         Cn8LEYCDdV1XII9j63LeTEtcPm/DyVNv9fo+HwgSJqDKS+4o79/rvoNzgPKBUknYt3IW
+         RyXbmbdtYkAZYjLUFL0FrfpcoCV0CbAx4Pll+bLFd9OweC7rp9tRT8q1gsJ8vfucyq6i
+         +A/g==
+X-Forwarded-Encrypted: i=1; AKwUvBzvDvJzNumHU6T92Yn9H/mEXJ89tP8e0IhdIUcOo0o8bssAoUpOD99ZIVJSuHUIuVpQWge0ZWjjX6aElYFKbUudMg==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYIvsMG0WURtQU3s7ZdiXPLsBTlaPjTvfF8PmHcI/3i/1pwBQMjw
+	2c7Krvx0IBzk/cmrPcDgCkTFWDAbsFe9DWocQ45cYSmLuxfMCi4xBSfM
+X-Gm-Gg: AYBFou0I9EQnc/MTZa0C62Yzt9M2Od6wefE85lI/B0Rx7jO2b0iUYGcrHU0PxajECZq
+	H9kfFZVVg1XlzBaRgASNVeOQF/t+y4DdDGXZ3xXaL72q9mG6Zhvh+v+xdnyHJc1aeKMNBcanIJq
+	kaEMQDatW0uaHOMI+njmow6twhkTPzv3IJfgRprTdxTBtLjJprq6Q01f2VkONsaS+EMtj7o7vfG
+	HA24SH5WXE+MdjWMyu6++BauljAsdQpTljgL9TczUvleIGaFgOydkjxP+iuvHpE+leN416Wf6X1
+	PPhLlJZru5fuTmctk6jVbc9zN1IMh4hyOmzsQK93kfdWLbbGJsDxd3sJP7uSI98wur1LzKsTS9r
+	sPcFT8koleGR40Se1qW9hPRlcIA/sZ4UtBE8r3fSJHz0s2wI8n3Pq1N5yruKq6/AEXAHi2n/oKk
+	iAUnyt/soSJjVj8/Yf+j1ZSZ/FTxfBjDKcHa5+m2NpaXSuYOElvotLxUk/marBSk9vFQl/EX0iI
+	H6ng+7sgROFxW7niXUlv6P8qRWm1oewIDaOaG8F8YDbyTpNOlRqQNlcyIpqFrPHxJLk+JS0l8J9
+	kRk/TrOpKz8i9PeKBWszCF7tQPtUp9X0qfyTtHkuT12vcPOFdEc5GHdr9CDTrMXO1JkSLljw5ev
+	drA==
+X-Received: by 2002:a05:600c:1986:b0:4a1:fae5:f2e2 with SMTP id 5b1f17b1804b1-4a9643d5154mr81222255e9.4.1793229794068;
+        Wed, 28 Oct 2026 16:23:14 -0700 (PDT)
 Return-Path: <adrian.freihofer@gmail.com>
 Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3dd7sm31123834f8f.15.2026.10.28.16.16.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa80285b2dsm22042915e9.13.2026.10.28.16.23.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 16:16:55 -0700 (PDT)
-Message-ID: <63d7a5c552ad2521cc9f66a9aa17273fc11522ba.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 13/20] devtool: ide-sdk: parse Rust debug path
- remaps
+        Wed, 28 Oct 2026 16:23:13 -0700 (PDT)
+Message-ID: <718958f35202004b0294b3f4f947dd215a57a2bf.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 16/20] devtool: ide-sdk: map libstd-rs sources
+ to Rust SDK
 From: "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
 To: enguerrand.de-ribaucourt@savoirfairelinux.com, 
 	openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Date: Thu, 29 Oct 2026 00:16:54 +0100
-In-Reply-To: <20261026-devtool-ide-sdk-cargo-v1-13-d4504e124d07@savoirfairelinux.com>
+Date: Thu, 29 Oct 2026 00:23:13 +0100
+In-Reply-To: <20261026-devtool-ide-sdk-cargo-v1-16-d4504e124d07@savoirfairelinux.com>
 References: <20261026-devtool-ide-sdk-cargo-v1-0-d4504e124d07@savoirfairelinux.com>
-	 <20261026-devtool-ide-sdk-cargo-v1-13-d4504e124d07@savoirfairelinux.com>
+	 <20261026-devtool-ide-sdk-cargo-v1-16-d4504e124d07@savoirfairelinux.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 23:17:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248852
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 23:23:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248853
 
-On Mon, 2026-10-26 at 09:55 +0100, Enguerrand de Ribaucourt via
-lists.openembedded.org wrote:
-> Use Cargo RUSTFLAGS to populate reverse debug mappings and recognize
-> Rust
-> --remap-path-prefix alongside the existing GCC prefix-map options.
-> The
-> following LLDB source-map change depends on these normalized
-> mappings.
->=20
-> AI-Generated: Uses GitHub Copilot
-> Signed-off-by: Enguerrand de Ribaucourt
-> <enguerrand.de-ribaucourt@savoirfairelinux.com>
-> ---
-> =C2=A0scripts/lib/devtool/ide_sdk.py | 14 +++++++++++---
-> =C2=A01 file changed, 11 insertions(+), 3 deletions(-)
->=20
-> diff --git a/scripts/lib/devtool/ide_sdk.py
-> b/scripts/lib/devtool/ide_sdk.py
-> index 44429e80b0..f22a98cedf 100755
-> --- a/scripts/lib/devtool/ide_sdk.py
-> +++ b/scripts/lib/devtool/ide_sdk.py
-> @@ -1140,6 +1140,9 @@ class RecipeModified:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if self.build_tool is Bu=
-ildTool.KERNEL_MODULE:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-self.reverse_debug_prefix_map =3D
-> self._init_reverse_debug_prefix_map(
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 self.kernel_cc)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 elif self.build_tool is Build=
-Tool.CARGO:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.=
-reverse_debug_prefix_map =3D
-> self._init_reverse_debug_prefix_map(
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 self.cargo_rustflags)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-self.reverse_debug_prefix_map =3D
-> self._init_reverse_debug_prefix_map(
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 recipe_d.getVar('DEBUG_PREFIX_MAP'))
-> @@ -1292,15 +1295,20 @@ class RecipeModified:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ':'.join(self.sol=
-ib_search_path(image))
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 def _init_reverse_debug_prefix_map(self, debug_p=
-refix_map):
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """Parses GCC map options and=
- returns a mapping of target to
-> host paths.
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """Parses compiler map option=
-s and returns a mapping of
-> target to host paths.
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This function scans a string =
-containing GCC options such as
-> -fdebug-prefix-map,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This function scans a string =
-containing compiler options
-> such as -fdebug-prefix-map,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -fmacro-prefix-map, and =
--ffile-prefix-map (in both '--option
-> value' and '--option=3Dvalue'
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 forms), extracting all m=
-appings from target paths (used in
-> debug info) to host source
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 paths. If multiple mappi=
-ngs for the same target path are
-> found, the most suitable
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 host path is selected (p=
-referring 'sources' over 'build'
-> directories).
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 prefixes =3D ("-fdebug-prefix=
--map", "-fmacro-prefix-map", "-
-> ffile-prefix-map")
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 prefixes =3D (
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "-fde=
-bug-prefix-map",
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "-fma=
-cro-prefix-map",
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "-ffi=
-le-prefix-map",
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "--re=
-map-path-prefix",
+T24gTW9uLCAyMDI2LTEwLTI2IGF0IDA5OjU1ICswMTAwLCBFbmd1ZXJyYW5kIGRlIFJpYmF1Y291
+cnQgdmlhCmxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6Cj4gbGlic3RkLXJzIERXQVJGIHBh
+dGhzIHVzZSBhIHNvdXJjZSBwcmVmaXggdW5kZXIgd29yay1zaGFyZWQsIHdoaWxlCj4gcnVzdC1u
+YXRpdmUgc3RhZ2VzIHRoZSBzdGFuZGFyZC1saWJyYXJ5IHNvdXJjZXMgaW4gdGhlIHJlY2lwZSBu
+YXRpdmUKPiBzeXNyb290Lgo+IERlcml2ZSB0aGUgdGFyZ2V0IHByZWZpeCBmcm9tIEJpdEJha2Ug
+bWV0YWRhdGEgYW5kIG1hcCBpdCB0byB0aGUgU0RLCj4gc291cmNlCj4gdHJlZSBzbyBMTERCIHJ1
+bnRpbWUgZnJhbWVzIHJlc29sdmUgd2l0aG91dCBob3N0IFJ1c3Qgc291cmNlcy4KPiAKPiBBSS1H
+ZW5lcmF0ZWQ6IFVzZXMgR2l0SHViIENvcGlsb3QKPiBTaWduZWQtb2ZmLWJ5OiBFbmd1ZXJyYW5k
+IGRlIFJpYmF1Y291cnQKPiA8ZW5ndWVycmFuZC5kZS1yaWJhdWNvdXJ0QHNhdm9pcmZhaXJlbGlu
+dXguY29tPgo+IC0tLQo+IMKgc2NyaXB0cy9saWIvZGV2dG9vbC9pZGVfcGx1Z2lucy9pZGVfY29k
+ZS5weSB8wqAgMiArKwo+IMKgc2NyaXB0cy9saWIvZGV2dG9vbC9pZGVfc2RrLnB5wqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgfCAxOSArKysrKysrKysrKysrKysrKysrCj4gwqAyIGZpbGVzIGNo
+YW5nZWQsIDIxIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9saWIvZGV2
+dG9vbC9pZGVfcGx1Z2lucy9pZGVfY29kZS5weQo+IGIvc2NyaXB0cy9saWIvZGV2dG9vbC9pZGVf
+cGx1Z2lucy9pZGVfY29kZS5weQo+IGluZGV4IDU5NjU4NmVlOWUuLjYyM2E1NGRkYzYgMTAwNjQ0
+Cj4gLS0tIGEvc2NyaXB0cy9saWIvZGV2dG9vbC9pZGVfcGx1Z2lucy9pZGVfY29kZS5weQo+ICsr
+KyBiL3NjcmlwdHMvbGliL2RldnRvb2wvaWRlX3BsdWdpbnMvaWRlX2NvZGUucHkKPiBAQCAtNTY4
+LDYgKzU2OCw4IEBAIGNsYXNzIElkZVZTQ29kZShJZGVCYXNlKToKPiDCoMKgwqDCoMKgwqDCoMKg
+IH0KPiDCoMKgwqDCoMKgwqDCoMKgIHJvb3Rmc19kYmcgPSBsbGRiX2NvbmZpZy5pbWFnZV9yZWNp
+cGUucm9vdGZzX2RiZwo+IMKgwqDCoMKgwqDCoMKgwqAgaXNfY2FyZ28gPSBtb2RpZmllZF9yZWNp
+cGUuYnVpbGRfdG9vbCBpcyBCdWlsZFRvb2wuQ0FSR08KPiArwqDCoMKgwqDCoMKgwqAgaWYgaXNf
+Y2FyZ286Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc291cmNlX21hcC51cGRhdGUobW9kaWZp
+ZWRfcmVjaXBlLmNhcmdvX3N0ZF9zb3VyY2VfbWFwKQo+IMKgwqDCoMKgwqDCoMKgwqAgaWYgaXNf
+Y2FyZ28gb3Igcm9vdGZzX2RiZzoKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc291cmNlX3Jv
+b3QgPSAoCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbW9kaWZpZWRfcmVjaXBl
+LnJlYWxfc3JjdHJlZQo+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2xpYi9kZXZ0b29sL2lkZV9zZGsu
+cHkKPiBiL3NjcmlwdHMvbGliL2RldnRvb2wvaWRlX3Nkay5weQo+IGluZGV4IDlmZDk1ZjBhNjMu
+LmI2YWMwMmUzNjcgMTAwNzU1Cj4gLS0tIGEvc2NyaXB0cy9saWIvZGV2dG9vbC9pZGVfc2RrLnB5
+Cj4gKysrIGIvc2NyaXB0cy9saWIvZGV2dG9vbC9pZGVfc2RrLnB5Cj4gQEAgLTkxNSw2ICs5MTUs
+NyBAQCBjbGFzcyBSZWNpcGVNb2RpZmllZDoKPiDCoMKgwqDCoMKgwqDCoMKgIHNlbGYuY2FyZ29f
+cGFja2FnZWNvbmZpZ19jb25mYXJncyA9IE5vbmUKPiDCoMKgwqDCoMKgwqDCoMKgIHNlbGYuY2Fy
+Z29fcnVzdGZsYWdzID0gTm9uZQo+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5jYXJnb19lbnYgPSBO
+b25lCj4gK8KgwqDCoMKgwqDCoMKgIHNlbGYuY2FyZ29fc3RkX3NvdXJjZV9tYXAgPSB7fQo+IMKg
+Cj4gwqDCoMKgwqDCoMKgwqDCoCAjIFBvcHVsYXRlZCBhZnRlciBiaXRiYWtlIGJ1aWx0IGFsbCB0
+aGUgcmVjaXBlcwo+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5faW5zdGFsbGVkX2JpbmFyaWVzID0g
+Tm9uZQo+IEBAIC0xMTM0LDYgKzExMzUsMjQgQEAgY2xhc3MgUmVjaXBlTW9kaWZpZWQ6Cj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJ1NZU1RFTV9ERVBTX0JVSUxEX0lOVEVSTkFM
+JzogJ25ldmVyJywKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnWlNURF9TWVNf
+VVNFX1BLR19DT05GSUcnOiAnMScsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0pCj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBsaWJzdGQtcnMgRFdBUkYgcGF0aHMgbWFwIHRvIHNvdXJj
+ZXMgc3RhZ2VkIGJ5IHJ1c3QtCj4gbmF0aXZlLgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGxp
+YnN0ZF9yZWNpcGVfZCA9IHBhcnNlX3JlY2lwZSgKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGNvbmZpZywgdGluZm9pbCwgJ2xpYnN0ZC1ycycsIGFwcGVuZHM9VHJ1ZSwKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZpbHRlcl93b3Jrc3BhY2U9RmFsc2UpCj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgbGlic3RkX3JlY2lwZV9kOgo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgbGlic3RkX3J1c3RzcmMgPSBsaWJzdGRfcmVjaXBlX2QuZ2V0VmFy
+KCdSVVNUU1JDJykKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRhcmdldF9kYmdz
+cmNfZGlyID0KPiBsaWJzdGRfcmVjaXBlX2QuZ2V0VmFyKCdUQVJHRVRfREJHU1JDX0RJUicpCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsaWJzdGRfdG1wZGlyID0gbGlic3RkX3Jl
+Y2lwZV9kLmdldFZhcignVE1QRElSJykKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGlmIGxpYnN0ZF9ydXN0c3JjIGFuZCB0YXJnZXRfZGJnc3JjX2RpciBhbmQKPiBsaWJzdGRfdG1w
+ZGlyOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaGFyZWRfc291
+cmNlX2RpciA9IG9zLnBhdGguam9pbihsaWJzdGRfdG1wZGlyLAo+ICd3b3JrLXNoYXJlZCcpCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRhcmdldF9zb3VyY2Vfcm9v
+dCA9IG9zLnBhdGguam9pbigKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB0YXJnZXRfZGJnc3JjX2RpciwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvcy5wYXRoLnJlbHBhdGgobGlic3RkX3J1c3RzcmMsCj4g
+c2hhcmVkX3NvdXJjZV9kaXIpLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgICdsaWJyYXJ5JykKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgc2RrX3NvdXJjZV9yb290ID0gb3MucGF0aC5qb2luKAo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYucmVjaXBlX3N5c3Jvb3RfbmF0
+aXZlLAo+IHNlbGYubGliZGlyLmxzdHJpcCgnLycpLAoKVGhlIG5hdGl2ZSBydXN0bGliIHBhdGgg
+aXMgYnVpbHQgd2l0aCBzZWxmLmxpYmRpciAodGhlIHRhcmdldCBsaWJkaXIpLgpPbiBtdWx0aWxp
+YiAoL3Vzci9saWI2NCkgaXQgZG9lc24ndCBtYXRjaCB0aGUgcnVzdC1uYXRpdmUgc3lzcm9vdC4K
+UGxlYXNlIHVzZSB0aGUgbmF0aXZlIGxpYmRpciAoU1RBR0lOR19MSUJESVJfTkFUSVZFKS4gVGhl
+IHNlbGZ0ZXN0CmhhcmQtY29kZXMgdXNyL2xpYiBhbmQgc28gZG9lc24ndCBjYXRjaCB0aGlzLgoK
+UmVnYXJkcywKQWRyaWFuCgoKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAncnVzdGxpYicsICdzcmMnLCAncnVzdCcsICdsaWJyYXJ5JykKPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5jYXJnb19zdGRfc291cmNlX21h
+cFt0YXJnZXRfc291cmNlX3Jvb3RdID0KPiBzZGtfc291cmNlX3Jvb3QKPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgc2VsZi5idWlsZF90b29sID0gQnVpbGRUb29sLkNBUkdPCj4gwqDCoMKgwqDC
+oMKgwqDCoCBlbGlmIGJiLmRhdGEuaW5oZXJpdHNfY2xhc3MoJ21vZHVsZScsIHJlY2lwZV9kKToK
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5idWlsZF90b29sID0gQnVpbGRUb29sLktF
+Uk5FTF9NT0RVTEUKPiAKPiAKPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQo+IExpbmtzOiBZb3Ug
+cmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLgo+IFZpZXcvUmVwbHkgT25s
+aW5lICgjMjQ4NjU0KToKPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1i
+ZWRkZWQtY29yZS9tZXNzYWdlLzI0ODY1NAo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0
+cy5vcGVuZW1iZWRkZWQub3JnL210LzEyMTkzODc5Ny80NDU0NTgyCj4gR3JvdXAgT3duZXI6IG9w
+ZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcKPiBVbnN1YnNjcmli
+ZToKPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91
+bnN1YsKgWwo+IGFkcmlhbi5mcmVpaG9mZXJAZ21haWwuY29tXQo+IC09LT0tPS09LT0tPS09LT0t
+PS09LT0tCg==
 
-mapping.split('=3D', 1) splits --remap-path-prefix mappings on the first
-=3D, but rustc splits on the last. It only matters for paths containing
-=3D; .
-
-Regards,
-Adrian
-
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 )
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 all_mappings =3D {}
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 args =3D shlex.split(deb=
-ug_prefix_map)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i =3D 0
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#248650):
-> https://lists.openembedded.org/g/openembedded-core/message/248650
-> Mute This Topic: https://lists.openembedded.org/mt/121938793/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
