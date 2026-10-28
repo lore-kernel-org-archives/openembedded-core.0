@@ -1,91 +1,129 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.469.1793228380168673771
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.465.1793228493846777700
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 15:59:40 -0700
+ Wed, 28 Oct 2026 16:01:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=uNqcNVoW;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso15932175e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 15:59:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=vZJW3e3D;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48c4d99c32bso1183379f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 16:01:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793228378; x=1793833178; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793228492; x=1793833292; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=8dV9DFMwqg46hyETR9sxU3is8VtOrDFU86izEo+X/i4=;
-        b=uNqcNVoWKIfObPLXiORBjQCu+P/++zK+U5obd9mtk0jEihDkv2bLE3fwq54rWqNCy8
-         djNMdFm+2bgxxcGehGZni/KGLRva5ozbXNzaWOfnZ8mSGVZAKu4csluO8eyhC8sH7jfe
-         ijaqCNLwjy+St+IJPFLWk0A6l8OsZMMhnJr79s5uUZM1z4Tgaf9Wx6JH9X8bQp8D7Bsz
-         f9RekSKDtHS2rlRjUdb15OtQ8DzXUBeFjfkVppVpf6ULFZ7tgnONmoFZrMb78CKMRMvu
-         AKyGGNsz+/EKUURye5wWnMsbFE171ZoSe6bQRWk3oFc+/cFphOAkyKg1DiYXvR6Z6ID0
-         BIqA==
+        bh=c9H6M7BeWXkDf/8YVrvpcKXIaQJ/4gAxrJHcKyjtqjY=;
+        b=vZJW3e3D0oygwUVuJY2xIv+M1/BF/SnxphiVgva/rW7KPAzrTvhbYqHhqdFoFOt3Nh
+         AQjlnEvCB5mSn8xFqUj8Y0fTLnQ93HG4f1cIRhjLDz6Aih71sItoMwDmtTngJJ/h3kZo
+         gSeD9HbLySQRhHY5Mr2tpR+9wKNHGBP/yfw+Llw0TOPqqUpYaZuKcFUbhtoGWtvnUBjT
+         QTEligrSNOmXcqXabpbiKcpSDJGMPU0Rcf3Tt66QpcToLvO98UrlK8sNyZ3vMJs+wLO2
+         jH7uA+0qbL4Y2F3F0YyIOPoI1jhH2ugYfbKIBPl/dWWAf1CcXUPBtt21yxlEwff9dP7O
+         OasQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793228378; x=1793833178;
+        d=1e100.net; s=20260707; t=1793228492; x=1793833292;
         h=mime-version:user-agent:content-transfer-encoding:content-type
          :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8dV9DFMwqg46hyETR9sxU3is8VtOrDFU86izEo+X/i4=;
-        b=Gs+CghZCRbn0CxQEVk94FStxXAAuFclkdNQjU3Q0wMTooHPgHSv+FcXX13blOX7edM
-         84CRroehVpSha5Zg7Qng0Ek6dTb7X5S82A8fsRFtg593C7nlTNVU5i9zERGAPewY5uL7
-         l+VVbmi4f1zkkKG+t931fSOJgIyJhdhg+xadI2ZP82f8JxY+t5znDJOy8llPAO9h02B2
-         WU+2njvEFsgV0shl7y2b9KLN8tSKJJhCcRiLFNaJkw8/tvPALT0DKxRa9t1xgxbwwTSY
-         hSm1odIX0O4KqUB1sSHGSj+MBKU87cqkJ7x1BlOYCXi1HnB0I2xHJWd5307gjGs4E0Qe
-         BxUg==
-X-Forwarded-Encrypted: i=1; AKwUvBwaNBTaAb5wBl+Pitw2InJpaxyZg8REyCI7OqZyQsQkzsT0SgJ4CYFlD0Iye9HP7As6kUQVruixMyefOA7ocM+1NA==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYLEGWhHcGTfZwFn1JNJCx1/nnqNTCcljaHC6oHmDGFfrHAsbpLj
-	j0iNR2X7ClZq0/DWyqNOm+PazbK/5aGGpf93zwa6+0C/Ud7i9EWqFqmg
-X-Gm-Gg: AYBFou3asOtUiW+NghaDfzht+yBJyTuCyJYR7kn+OoaovRfTQKbtP6ULxyMGNoPqse3
-	fwFzLxboeh/vBLTq8wZlXSbJ3TvcD50B4iKchNpVDA/2/C+baQeUm3/W9E65eSV3ysxB4KI/Xls
-	Bhrr6Y5EI5jSVcMNYGUIYmNGAWmLYcemeYY/Cyo0IBtHJWxddK3X8qL4OYTjHwgQyTqygI3lqub
-	Rk0EIVecynbSNTt3mE86uCrpFn1lNzvoyC90j5qvNI6cyMX26Hq2XYepCXO/tfhg43kUje2bxmg
-	PD2a7gEeXrdH94njxRGYKpg10pj69MlhvwOfw9j3747WqDMf9h6JA6AEhjmYou2c6JMLdPsCqoK
-	jUfKmOAOPsUokc6oXyHF+L7tmO+k4zq1zdtim3zhfacFlqfHq7ZP5LBS2iOsIPjZmI3NjTFzDZT
-	o27btUzBgwN0/eIhs9lTDE0nsZPrEGc9d6hMXgPhIV8zCKlNP0sDfkYapLyKw9PXO4TOWSg/4Of
-	lvyKoixqtr9Tuwfk60Q8IsXLdTgHAGWReUDeeVt51A/FXsRFDTNPxwbZpZMhVVtnxo8Ug6iC5/B
-	S3/Tf+XN4qjxkku/3HVrOSDPaxik3QVfi292NLG+ahaAkCyUSNt5dJJSYt85EZ6F5FhCiSqFK6D
-	cUw==
-X-Received: by 2002:a05:600c:6384:b0:4a7:a309:6b73 with SMTP id 5b1f17b1804b1-4a9647ac3fcmr75708895e9.1.1793228378262;
-        Wed, 28 Oct 2026 15:59:38 -0700 (PDT)
+        bh=c9H6M7BeWXkDf/8YVrvpcKXIaQJ/4gAxrJHcKyjtqjY=;
+        b=qmJcRttwXaYap3RNTyNt53LGHU0eZ7CHKdx2Rrq0qMGdUNPuXmQ08bKqsa3d+Y5ECP
+         UaH3i6JndVDJzW6ZrTS390XP2Bid1CpELM8k7qjlJRhV105dK25iq0P31pxj61ME1E3M
+         DmgKL3mZiJy9EkFKQPYSN5X4dB8KFPoAlZgrWG50cFXFZ7sXEbssOmeAkIEDdIvy+Oa0
+         Ydp6R/XMJ2dq7jlrVjfqlO2/WYpGgalSLj0Y72In+72e7fi+hP0LEfArm5TiJuRwvzQV
+         hPoehtbJKQwmI9YwSF/bCZCrggt6Yw+K5mBqT55JO4mOXGiSQTpAuYoYH6eBbuTWYu8T
+         bAkA==
+X-Forwarded-Encrypted: i=1; AKwUvBzYOO0FlcqPwKcvGNws9LdfpIpWkE6I9XmiJ89z84KeDHmRpIX+dndVEXKcduWqKAd9dZsom9t2/QeHKiR0EgUJ6w==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYKSjD/Y3KclAYMRNRxw09vQ4bbJvmCVircQrc3hLRNmmzWkZNok
+	y7AF//g5u7ILt8P5QEAq20PinHRbqloS0JA5hW+nD/+tn2tTz1a+CO1J
+X-Gm-Gg: AYBFou0DGPAbUX2+ta73Q+IEAGrSqABQwIQzcqcNUzczwyVG2IjkJndbvowyWJv1Ume
+	hcLjW9s11bBqp8r0vf0gPsxp66YDk/XS5jW735SKZqDz1EPfhCYxgFtw/O7rIQj/RI44jTMmW2V
+	1RWTSCGYz2v76Zd5BM/Re6+Quw1CSLSK720AyKPEH2z8oqQUbw3+abaPURcRZjp5yaCkmBGLWgt
+	fpC6Xq1D7rmtWbNjHcuLSt6fUZ2FvzG9W34jyBeO0cOxrBMLFq2PRvIDYfui7KBXf+aa5o99IIf
+	fsw8Uxu1bUvvoQA34YeE1okX1/pdG9Q/kBZpXpFLQeDnu7fIko23xM26vQtJYGsCEy03EPOnG+K
+	Yp1j8gLwsXeRHNekaxWzqN/C5SPGwe+ZY2xt9Pzg33hbygt6ZF1GF4kuYl6gLTwkAPUQYsTgzkY
+	zNPx0e9FKW63I3jRphxgOCctdT06vq9q6jeBK1GQ5rg/UkNk2KKpDcucSE29kQMoJm94I1SCT1x
+	LGkr9xQc1tt79hdjakdFuH5qLMHFMKuwkt7OhvGjlOSP3MDAqIRgS7mU2R/4A4PwOD2qDYNXTxC
+	WFLUtTBnaV9vpwE9L9MiNdZ5qx0bX3lh7Gl2kSfPV0SsUx02zsuc7VzEoGAzGstVwi35CSFm5Pk
+	h8A==
+X-Received: by 2002:a05:6000:40d9:b0:48d:f14a:9183 with SMTP id ffacd0b85a97d-48e5d2e4ae9mr9706506f8f.15.1793228491872;
+        Wed, 28 Oct 2026 16:01:31 -0700 (PDT)
 Return-Path: <adrian.freihofer@gmail.com>
 Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa81b7fe80sm25897695e9.11.2026.10.28.15.59.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3dd7sm31067668f8f.15.2026.10.28.16.01.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 15:59:37 -0700 (PDT)
-Message-ID: <c4208dc56a7610228b69f4e7749c38862e289319.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 07/20] devtool: ide-sdk: configure Cargo C++
- IntelliSense
+        Wed, 28 Oct 2026 16:01:31 -0700 (PDT)
+Message-ID: <fdb7127ca6cab5aff93c4db18a298464f81a7725.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 10/20] devtool: ide-sdk: order install after
+ optional build task
 From: "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
 To: enguerrand.de-ribaucourt@savoirfairelinux.com, 
 	openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Date: Wed, 28 Oct 2026 23:59:37 +0100
-In-Reply-To: <20261026-devtool-ide-sdk-cargo-v1-7-d4504e124d07@savoirfairelinux.com>
+Date: Thu, 29 Oct 2026 00:01:31 +0100
+In-Reply-To: <20261026-devtool-ide-sdk-cargo-v1-10-d4504e124d07@savoirfairelinux.com>
 References: <20261026-devtool-ide-sdk-cargo-v1-0-d4504e124d07@savoirfairelinux.com>
-	 <20261026-devtool-ide-sdk-cargo-v1-7-d4504e124d07@savoirfairelinux.com>
+	 <20261026-devtool-ide-sdk-cargo-v1-10-d4504e124d07@savoirfairelinux.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 22:59:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248848
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 23:01:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248849
 
-The crate in the example has no C or C++ code, yet but a
-c_cpp_properties.json is generated. cpptools starts as soon as the file
-exists, and ${workspaceFolder}/** recursively reaches the whole workdir
-through the oe-workdir link, plus rootfs-dbg/usr/src/debug/**
-(including kernel sources).
+T24gTW9uLCAyMDI2LTEwLTI2IGF0IDA5OjU1ICswMTAwLCBFbmd1ZXJyYW5kIGRlIFJpYmF1Y291
+cnQgdmlhCmxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6Cj4gTGV0IGJpbmFyeSB0YXNrIGdl
+bmVyYXRpb24gb3B0aW9uYWxseSBpbnNlcnQgYSBidWlsZCB0YXNrIGFuZCBtYWtlCj4gaW5zdGFs
+bC9kZXBsb3kgZGVwZW5kIG9uIGl0LiBDYXJnbyBidWlsZHMgb3V0c2lkZSBCaXRCYWtlLCBzbyB0
+aGlzCj4gb3JkZXJpbmcKPiBlbnN1cmVzIGl0cyBhcnRpZmFjdHMgZXhpc3QgYmVmb3JlIGRvX2lu
+c3RhbGwgYW5kIGRlcGxveS10YXJnZXQgcnVuLgo+IAo+IEFJLUdlbmVyYXRlZDogVXNlcyBHaXRI
+dWIgQ29waWxvdAo+IFNpZ25lZC1vZmYtYnk6IEVuZ3VlcnJhbmQgZGUgUmliYXVjb3VydAo+IDxl
+bmd1ZXJyYW5kLmRlLXJpYmF1Y291cnRAc2F2b2lyZmFpcmVsaW51eC5jb20+Cj4gLS0tCj4gwqBz
+Y3JpcHRzL2xpYi9kZXZ0b29sL2lkZV9wbHVnaW5zL2lkZV9jb2RlLnB5IHwgMTYgKysrKysrKysr
+KysrKystLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pCj4gCj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvbGliL2RldnRvb2wvaWRlX3BsdWdpbnMvaWRl
+X2NvZGUucHkKPiBiL3NjcmlwdHMvbGliL2RldnRvb2wvaWRlX3BsdWdpbnMvaWRlX2NvZGUucHkK
+PiBpbmRleCBiNWZmMzQ0ZThhLi44MDMxNGJmYjg5IDEwMDY0NAo+IC0tLSBhL3NjcmlwdHMvbGli
+L2RldnRvb2wvaWRlX3BsdWdpbnMvaWRlX2NvZGUucHkKPiArKysgYi9zY3JpcHRzL2xpYi9kZXZ0
+b29sL2lkZV9wbHVnaW5zL2lkZV9jb2RlLnB5Cj4gQEAgLTY3NCw3ICs2NzQsNyBAQCBjbGFzcyBJ
+ZGVWU0NvZGUoSWRlQmFzZSk6Cj4gwqDCoMKgwqDCoMKgwqDCoCBJZGVCYXNlLnVwZGF0ZV9qc29u
+X2ZpbGUoCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYuZG90X2NvZGVfZGlyKG1vZGlm
+aWVkX3JlY2lwZSksIGxhdW5jaF9maWxlLAo+IGxhdW5jaF9kaWN0KQo+IMKgCj4gLcKgwqDCoCBk
+ZWYgdnNjb2RlX3Rhc2tzX2JpbmFyeShzZWxmLCBhcmdzLCBpbWFnZV9yZWNpcGUsCj4gbW9kaWZp
+ZWRfcmVjaXBlKToKPiArwqDCoMKgIGRlZiB2c2NvZGVfdGFza3NfYmluYXJ5KHNlbGYsIGFyZ3Ms
+IGltYWdlX3JlY2lwZSwKPiBtb2RpZmllZF9yZWNpcGUsIGJ1aWxkX3Rhc2s9Tm9uZSk6Cj4gwqDC
+oMKgwqDCoMKgwqDCoCBydW5faW5zdGFsbF9kZXBsb3kgPQo+IG1vZGlmaWVkX3JlY2lwZS5nZW5f
+aW5zdGFsbF9kZXBsb3lfc2NyaXB0KGFyZ3MsCj4gaW1hZ2VfcmVjaXBlLm5mc19kZXBsb3lfZGly
+KQo+IMKgwqDCoMKgwqDCoMKgwqAgaW5zdGFsbF90YXNrX25hbWUgPSAiaW5zdGFsbCAmJiBkZXBs
+b3ktdGFyZ2V0ICVzIiAlCj4gbW9kaWZpZWRfcmVjaXBlLnJlY2lwZV9pZF9wcmV0dHkKPiDCoMKg
+wqDCoMKgwqDCoMKgIGRlcGxveV9hcmdzID0gWyItLXRhcmdldCIsIHJlc29sdmVfZGVwbG95X3Rh
+cmdldChhcmdzLAo+IGltYWdlX3JlY2lwZS5uZnNfZGVwbG95X2RpcildCj4gQEAgLTY4OSw5ICs2
+ODksMjEgQEAgY2xhc3MgSWRlVlNDb2RlKElkZUJhc2UpOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAiYXJncyI6IGRlcGxveV9hcmdzLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAicHJv
+YmxlbU1hdGNoZXIiOiBbXQo+IMKgwqDCoMKgwqDCoMKgwqAgfQo+ICvCoMKgwqDCoMKgwqDCoCB0
+YXNrcyA9IFtidWlsZF90YXNrXSBpZiBidWlsZF90YXNrIGVsc2UgW10KPiArwqDCoMKgwqDCoMKg
+wqAgaW5zdGFsbF90YXNrID0gewoKVGhpcyBpcyBub3cgc2V0IHR3aWNlLgoKUmVnYXJkcywKQWRy
+aWFuCgoKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibGFiZWwiOiBpbnN0YWxsX3Rhc2tfbmFt
+ZSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAidHlwZSI6ICJzaGVsbCIsCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgImNvbW1hbmQiOiBydW5faW5zdGFsbF9kZXBsb3ksCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgImFyZ3MiOiBkZXBsb3lfYXJncywKPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAicHJvYmxlbU1hdGNoZXIiOiBbXQo+ICvCoMKgwqDCoMKgwqDCoCB9Cj4gK8KgwqDCoMKg
+wqDCoMKgIGlmIGJ1aWxkX3Rhc2s6Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW5zdGFsbF90
+YXNrWyJkZXBlbmRzT24iXSA9IFtidWlsZF90YXNrWyJsYWJlbCJdXQo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGluc3RhbGxfdGFza1siZGVwZW5kc09yZGVyIl0gPSAic2VxdWVuY2UiCj4gK8Kg
+wqDCoMKgwqDCoMKgIHRhc2tzLmFwcGVuZChpbnN0YWxsX3Rhc2spCj4gwqDCoMKgwqDCoMKgwqDC
+oCB0YXNrc19kaWN0ID0gewo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAidmVyc2lvbiI6ICIy
+LjAuMCIsCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgInRhc2tzIjogW2luc3RhbGxfdGFza10K
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAidGFza3MiOiB0YXNrcwo+IMKgwqDCoMKgwqDCoMKg
+wqAgfQo+IMKgwqDCoMKgwqDCoMKgwqAgZm9yIGNyb3NzX2RlYnVnX2NvbmZpZyBpbiBzZWxmLmNy
+b3NzX2RlYnVnX2NvbmZpZ3M6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIGNyb3NzX2Rl
+YnVnX2NvbmZpZy5tb2RpZmllZF9yZWNpcGUgaXMgbm90Cj4gbW9kaWZpZWRfcmVjaXBlOgo+IAo+
+IAo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCj4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNz
+YWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuCj4gVmlldy9SZXBseSBPbmxpbmUgKCMyNDg2NDgpOgo+
+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3Nh
+Z2UvMjQ4NjQ4Cj4gTXV0ZSBUaGlzIFRvcGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcvbXQvMTIxOTM4NzkxLzQ0NTQ1ODIKPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUr
+b3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZwo+IFVuc3Vic2NyaWJlOgo+IGh0dHBzOi8vbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViwqBbCj4gYWRyaWFu
+LmZyZWlob2ZlckBnbWFpbC5jb21dCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0K
 
-Why is this needed at all? I'm not very rusty. But I would assume that
-with Yocto C/C++ libraries linked by Rust binaries should go into
-separate packages rather than building the C/C++ code bundled. That
-would then mean that ide-sdk would generate either a Cargo or a C/C++
-configuration for the IDE without a need for mixed setups.
-
-If there is a need for bundled C/C++ setups this should probably come
-with test coverage and therefore also with a example using this
-features.
-
-Regards,
-Adrian
