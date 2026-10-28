@@ -1,41 +1,40 @@
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36892.1793167562304195787
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.37042.1793167562342097346
  for <openembedded-core@lists.openembedded.org>;
  Tue, 27 Oct 2026 23:06:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=tC06o06a;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rccGsLGt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a1811d91fa-2b752bee-2117-423b-8157-cc715d5fa628-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Jt5iFvZD;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rnQAF4/l;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a1811d9248-b8205734-ad76-4824-b731-9d54ae2996cd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1793167561;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=js4hl8EAfc5lxrVTyPJfpUr94C+rde/O1fqeJFbm5T4=;
-	b=tC06o06augLf7Sh2SpefB3Oroiv5K8w9owtPGFe2l7YleROvqsKS+RmXYoGd+z7J
-	eco/Q8CVc3g98dK+G0deWtngex4/g2iM9+v1f6HLbEiDOzXNbUbQQEjou1aswNweiNa
-	v8rmanAtb/TJJtXdPkj73siK+P3moAp6fDC9aFpc=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=SHAMSykAvA+bAprk91H3NWRLesYtV7WvNDi12Z2FbGo=;
+	b=Jt5iFvZDJBwiRu6nbyKADTxk/BygthyLaRAyGKBSWLOVPRj6oAAHV3V2fn+9LvF1
+	yYkUeh1Hv88QfbCSz56fk/YZCZR6dacmBhAbiuNyIu/a96DRiNuQyFd5x3BegWB3Tzc
+	yFdvg2pAmCCxExX1KYBrbo88/yKcK1hE0jSECGY8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793167561;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=js4hl8EAfc5lxrVTyPJfpUr94C+rde/O1fqeJFbm5T4=;
-	b=rccGsLGt+yb1IYGuO82BThmXHUl46vdPvWkp9VrF9LkTmBNOLDpmZVqwE9SCiKXP
-	X2xijvJ8yi7ExpLBBu2hjx77WomevlXs/FlVjwuknA2kCeDD1YvJ6rAV5QuTQWq+txq
-	sNIIaKzN2RAFBnLA9LCjFLNBZDqvTEqal3MoUFvI=
-Content-Type: multipart/mixed; boundary="===============7445203711446837614=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=SHAMSykAvA+bAprk91H3NWRLesYtV7WvNDi12Z2FbGo=;
+	b=rnQAF4/lAHuIes2Q/fFN4uPfCm8Nr+wQs9Gsye4Ujbajjy6CS3heNXynbaqxDjsf
+	PLCOmMEKl5AoS5funOXbbeZSUAsPuJuu+3ME42Z5n0XdecO4N82MCJJwiAgFGJMOxiS
+	DmrDk2sagofTCq+lxk6MH629kmY/WbtoRPaXtlzY=
+Content-Type: multipart/mixed; boundary="===============3766011304718827584=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-flit-core: upgrading to 4.2.0 SUCCEEDED
-Message-ID: <010101a1811d91fa-2b752bee-2117-423b-8157-cc715d5fa628-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] repo: upgrading to 2.71 SUCCEEDED
+Message-ID: <010101a1811d9248-b8205734-ad76-4824-b731-9d54ae2996cd-000000@us-west-2.amazonses.com>
 Date: Wed, 28 Oct 2026 06:06:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.28-54.240.27.29
+X-SES-Outgoing: 2026.10.28-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 06:06:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248779
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248780
 
---===============7445203711446837614==
+--===============3766011304718827584==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +42,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-flit-core* to *4.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *repo* to *2.71* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-flit-core-upgrade-3.12.0-4.2.0.patch
+    - apply the patch: git am 0001-repo-upgrade-2.69-2.71.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,183 +63,163 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f532f779fea223ca4bb4ce58344a201668794066 Mon Sep 17 00:00:00 2001
+From c4c6a0be4fb845cca22e07a99f13ff40b7588f9d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 28 Oct 2026 05:47:14 +0000
-Subject: [PATCH] python3-flit-core: upgrade 3.12.0 -> 4.2.0
+Date: Wed, 28 Oct 2026 06:03:53 +0000
+Subject: [PATCH] repo: upgrade 2.69 -> 2.71
 
+style: use `import git_refs` everywhere
+upload: suppress git push progress when quiet or non-TTY
+tests: e2e: add tests for more `repo init` options
+tests: e2e: add tests for sync failures
+tests: e2e: add tests for manifest groups
+tests: e2e: add tests for partial clones & the Android setup
+tests: e2e: add tests for network-only & local-only syncs
+tests: e2e: add tests for init, sync & common workflows
+tests: e2e: fix harness on Windows, CI & inside git checkouts
+style: use `import git_command` everywhere
+style: use `import repo_logging` everywhere
+style: use `import repo_trace` everywhere
+style: use `import ctypes` everywhere
+style: use `import error` everywhere
+tests: e2e: add pytest fixtures & `e2e` marker
+tests: e2e: add a client to run repo against the local server
+tests: e2e: add a local smart HTTP git server
+tests: e2e: add helpers to create bare git repos
+tests: fail skipped tests in CQ
+config: add subcommand to manage ~/.repoconfig/config
+project: accept v3 git bundles in _IsValidBundle
+sync, init: support repo.smartsync config and --head alias
+sync: Provide a CLI command to opt in/out of smartsync for a user.
+upload: reject --fix with --ignore-hooks or --no-verify
 ---
- .../{python3-flit-core_3.12.0.bb => python3-flit-core_4.2.0.bb} | 2 +-
+ meta/recipes-devtools/repo/{repo_2.69.bb => repo_2.71.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-flit-core_3.12.0.bb => python3-flit-core_4.2.0.bb} (90%)
+ rename meta/recipes-devtools/repo/{repo_2.69.bb => repo_2.71.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb b/meta/recipes-devtools/python/python3-flit-core_4.2.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-rename to meta/recipes-devtools/python/python3-flit-core_4.2.0.bb
-index 786906b4b4..5f490ca303 100644
---- a/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-+++ b/meta/recipes-devtools/python/python3-flit-core_4.2.0.bb
-@@ -8,7 +8,7 @@ BUGTRACKER = "https://github.com/pypa/flit/issues"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=41eb78fa8a872983a882c694a8305f08"
+diff --git a/meta/recipes-devtools/repo/repo_2.69.bb b/meta/recipes-devtools/repo/repo_2.71.bb
+similarity index 94%
+rename from meta/recipes-devtools/repo/repo_2.69.bb
+rename to meta/recipes-devtools/repo/repo_2.71.bb
+index c98534ca44..9d9dceb32c 100644
+--- a/meta/recipes-devtools/repo/repo_2.69.bb
++++ b/meta/recipes-devtools/repo/repo_2.71.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
--SRC_URI[sha256sum] = "18f63100d6f94385c6ed57a72073443e1a71a4acb4339491615d0f16d6ff01b2"
-+SRC_URI[sha256sum] = "84e4e4d8fdd45ba2613800a3ebc6834de26d47ec9746efc3719f94181137b460"
+ SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v${PV} \
+            "
+-SRCREV = "a0bc2b14a30bef631b91a2ca37c5254d9af44718"
++SRCREV = "338ddb7d83ea35d5aef94d3c5d95c74fa3845780"
  
- inherit pypi python_flit_core
+ MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
  
 -- 
 2.47.1
 
 
---===============7445203711446837614==
+--===============3766011304718827584==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/all-poky-linux/ca-certificates/ca-certificates-dev: FILES: removed "/lib/*.o /lib/*.la /lib/lib*.so"
-packages/all-poky-linux/ca-certificates/ca-certificates-staticdev: FILES: removed "/lib/*.a"
-packages/all-poky-linux/ca-certificates/ca-certificates: FILES: removed "/bin/* /lib/*.so.* /sbin/*", added "/usr/lib/*.so.*"
-packages/all-poky-linux/tzdata/tzdata: FILES: removed "/bin/* /lib/*.so.* /sbin/*", added "/usr/lib/*.so.*"
-packages/x86-64-v3-poky-linux/python3-flit-core: SRC_URI changed from "https://files.pythonhosted.org/packages/source/f/flit_core/flit_core-3.12.0.tar.gz" to "https://files.pythonhosted.org/packages/source/f/flit_core/flit_core-4.2.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-flit-core: PV changed from "3.12.0" to "4.2.0"
-packages/x86-64-v3-poky-linux/python3-flit-core: PKGV changed from 3.12.0 [default] to 4.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-dbg: PV changed from "3.12.0" to "4.2.0"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-dbg: PKGV changed from 3.12.0 [default] to 4.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-dev: PV changed from "3.12.0" to "4.2.0"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-dev: PKGV changed from 3.12.0 [default] to 4.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-doc: PV changed from "3.12.0" to "4.2.0"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-doc: PKGV changed from 3.12.0 [default] to 4.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-locale: PV changed from "3.12.0" to "4.2.0"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-locale: PKGV changed from 3.12.0 [default] to 4.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-src: PV changed from "3.12.0" to "4.2.0"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-src: PKGV changed from 3.12.0 [default] to 4.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-staticdev: PV changed from "3.12.0" to "4.2.0"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-staticdev: PKGV changed from 3.12.0 [default] to 4.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: PV changed from "3.12.0" to "4.2.0"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: PKGV changed from 3.12.0 [default] to 4.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info -> /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info, directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info -> /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: PKGSIZE changed from 323957 to 336813 (+4%)
-Changes to packages/x86-64-v3-poky-linux/python3-flit-core (sysroot):
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-flit-core-native (sysroot):
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/RECORD was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/RECORD was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/repo: PV changed from "2.69" to "2.71"
+packages/x86-64-v3-poky-linux/repo: SRC_URI changed from "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.69" to "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.71"
+packages/x86-64-v3-poky-linux/repo: PKGV changed from 2.69 [default] to 2.71 [default]
+packages/x86-64-v3-poky-linux/repo/repo-dbg: PV changed from "2.69" to "2.71"
+packages/x86-64-v3-poky-linux/repo/repo-dbg: PKGV changed from 2.69 [default] to 2.71 [default]
+packages/x86-64-v3-poky-linux/repo/repo-dev: PV changed from "2.69" to "2.71"
+packages/x86-64-v3-poky-linux/repo/repo-dev: PKGV changed from 2.69 [default] to 2.71 [default]
+packages/x86-64-v3-poky-linux/repo/repo-doc: PV changed from "2.69" to "2.71"
+packages/x86-64-v3-poky-linux/repo/repo-doc: PKGV changed from 2.69 [default] to 2.71 [default]
+packages/x86-64-v3-poky-linux/repo/repo-locale: PV changed from "2.69" to "2.71"
+packages/x86-64-v3-poky-linux/repo/repo-locale: PKGV changed from 2.69 [default] to 2.71 [default]
+packages/x86-64-v3-poky-linux/repo/repo-src: PV changed from "2.69" to "2.71"
+packages/x86-64-v3-poky-linux/repo/repo-src: PKGV changed from 2.69 [default] to 2.71 [default]
+packages/x86-64-v3-poky-linux/repo/repo-staticdev: PV changed from "2.69" to "2.71"
+packages/x86-64-v3-poky-linux/repo/repo-staticdev: PKGV changed from 2.69 [default] to 2.71 [default]
+packages/x86-64-v3-poky-linux/repo/repo: PV changed from "2.69" to "2.71"
+packages/x86-64-v3-poky-linux/repo/repo: PKGV changed from 2.69 [default] to 2.71 [default]
+packages/x86-64-v3-poky-linux/repo/repo: PKGSIZE changed from 47370 to 47744 (+1%)
 
---===============7445203711446837614==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info -> /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info -> /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-flit-core (sysroot):
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/python3-flit-core-native (sysroot):
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/RECORD was added
-  /usr/lib/python3.14/site-packages/flit_core-4.2.0.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/RECORD was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/WHEEL was removed
-
---===============7445203711446837614==
+--===============3766011304718827584==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-flit-core-upgrade-3.12.0-4.2.0.patch"
+Content-Disposition: attachment; filename="0001-repo-upgrade-2.69-2.71.patch"
 
-RnJvbSBmNTMyZjc3OWZlYTIyM2NhNGJiNGNlNTgzNDRhMjAxNjY4Nzk0MDY2IE1vbiBTZXAgMTcg
+RnJvbSBjNGM2YTBiZTRmYjg0NWNjYTIyZTA3YTk5ZjEzZmY0MGI3NTg4ZjlkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjggT2N0IDIwMjYgMDU6NDc6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWZsaXQtY29yZTogdXBncmFkZSAzLjEyLjAgLT4gNC4yLjAKCi0tLQogLi4uL3tweXRo
-b24zLWZsaXQtY29yZV8zLjEyLjAuYmIgPT4gcHl0aG9uMy1mbGl0LWNvcmVfNC4yLjAuYmJ9IHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1mbGl0LWNvcmVfMy4xMi4w
-LmJiID0+IHB5dGhvbjMtZmxpdC1jb3JlXzQuMi4wLmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1mbGl0LWNvcmVfMy4xMi4wLmJiIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWZsaXQtY29yZV80LjIuMC5iYgpz
-aW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtZmxpdC1jb3JlXzMuMTIuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWZsaXQtY29yZV80LjIuMC5iYgppbmRleCA3ODY5MDZiNGI0
-Li41ZjQ5MGNhMzAzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtZmxpdC1jb3JlXzMuMTIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtZmxpdC1jb3JlXzQuMi4wLmJiCkBAIC04LDcgKzgsNyBAQCBCVUdUUkFDS0VS
-ID0gImh0dHBzOi8vZ2l0aHViLmNvbS9weXBhL2ZsaXQvaXNzdWVzIgogTElDRU5TRSA9ICJCU0Qt
-My1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT00MWViNzhm
-YThhODcyOTgzYTg4MmM2OTRhODMwNWYwOCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE4ZjYz
-MTAwZDZmOTQzODVjNmVkNTdhNzIwNzM0NDNlMWE3MWE0YWNiNDMzOTQ5MTYxNWQwZjE2ZDZmZjAx
-YjIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODRlNGU0ZDhmZGQ0NWJhMjYxMzgwMGEzZWJjNjgz
-NGRlMjZkNDdlYzk3NDZlZmMzNzE5Zjk0MTgxMTM3YjQ2MCIKIAogaW5oZXJpdCBweXBpIHB5dGhv
-bl9mbGl0X2NvcmUKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFdlZCwgMjggT2N0IDIwMjYgMDY6MDM6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBy
+ZXBvOiB1cGdyYWRlIDIuNjkgLT4gMi43MQoKc3R5bGU6IHVzZSBgaW1wb3J0IGdpdF9yZWZzYCBl
+dmVyeXdoZXJlCnVwbG9hZDogc3VwcHJlc3MgZ2l0IHB1c2ggcHJvZ3Jlc3Mgd2hlbiBxdWlldCBv
+ciBub24tVFRZCnRlc3RzOiBlMmU6IGFkZCB0ZXN0cyBmb3IgbW9yZSBgcmVwbyBpbml0YCBvcHRp
+b25zCnRlc3RzOiBlMmU6IGFkZCB0ZXN0cyBmb3Igc3luYyBmYWlsdXJlcwp0ZXN0czogZTJlOiBh
+ZGQgdGVzdHMgZm9yIG1hbmlmZXN0IGdyb3Vwcwp0ZXN0czogZTJlOiBhZGQgdGVzdHMgZm9yIHBh
+cnRpYWwgY2xvbmVzICYgdGhlIEFuZHJvaWQgc2V0dXAKdGVzdHM6IGUyZTogYWRkIHRlc3RzIGZv
+ciBuZXR3b3JrLW9ubHkgJiBsb2NhbC1vbmx5IHN5bmNzCnRlc3RzOiBlMmU6IGFkZCB0ZXN0cyBm
+b3IgaW5pdCwgc3luYyAmIGNvbW1vbiB3b3JrZmxvd3MKdGVzdHM6IGUyZTogZml4IGhhcm5lc3Mg
+b24gV2luZG93cywgQ0kgJiBpbnNpZGUgZ2l0IGNoZWNrb3V0cwpzdHlsZTogdXNlIGBpbXBvcnQg
+Z2l0X2NvbW1hbmRgIGV2ZXJ5d2hlcmUKc3R5bGU6IHVzZSBgaW1wb3J0IHJlcG9fbG9nZ2luZ2Ag
+ZXZlcnl3aGVyZQpzdHlsZTogdXNlIGBpbXBvcnQgcmVwb190cmFjZWAgZXZlcnl3aGVyZQpzdHls
+ZTogdXNlIGBpbXBvcnQgY3R5cGVzYCBldmVyeXdoZXJlCnN0eWxlOiB1c2UgYGltcG9ydCBlcnJv
+cmAgZXZlcnl3aGVyZQp0ZXN0czogZTJlOiBhZGQgcHl0ZXN0IGZpeHR1cmVzICYgYGUyZWAgbWFy
+a2VyCnRlc3RzOiBlMmU6IGFkZCBhIGNsaWVudCB0byBydW4gcmVwbyBhZ2FpbnN0IHRoZSBsb2Nh
+bCBzZXJ2ZXIKdGVzdHM6IGUyZTogYWRkIGEgbG9jYWwgc21hcnQgSFRUUCBnaXQgc2VydmVyCnRl
+c3RzOiBlMmU6IGFkZCBoZWxwZXJzIHRvIGNyZWF0ZSBiYXJlIGdpdCByZXBvcwp0ZXN0czogZmFp
+bCBza2lwcGVkIHRlc3RzIGluIENRCmNvbmZpZzogYWRkIHN1YmNvbW1hbmQgdG8gbWFuYWdlIH4v
+LnJlcG9jb25maWcvY29uZmlnCnByb2plY3Q6IGFjY2VwdCB2MyBnaXQgYnVuZGxlcyBpbiBfSXNW
+YWxpZEJ1bmRsZQpzeW5jLCBpbml0OiBzdXBwb3J0IHJlcG8uc21hcnRzeW5jIGNvbmZpZyBhbmQg
+LS1oZWFkIGFsaWFzCnN5bmM6IFByb3ZpZGUgYSBDTEkgY29tbWFuZCB0byBvcHQgaW4vb3V0IG9m
+IHNtYXJ0c3luYyBmb3IgYSB1c2VyLgp1cGxvYWQ6IHJlamVjdCAtLWZpeCB3aXRoIC0taWdub3Jl
+LWhvb2tzIG9yIC0tbm8tdmVyaWZ5Ci0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8ve3Jl
+cG9fMi42OS5iYiA9PiByZXBvXzIuNzEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Jl
+cG8ve3JlcG9fMi42OS5iYiA9PiByZXBvXzIuNzEuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjY5LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3JlcG8vcmVwb18yLjcxLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi42OS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjcxLmJiCmluZGV4IGM5ODUzNGNhNDQuLjlkOWRjZWIz
+MmMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi42OS5iYgor
+KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNzEuYmIKQEAgLTExLDcgKzEx
+LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdm
+MTQ2NTVmYzg1NGRkYzNjNmJkNTciCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2Vycml0Lmdvb2dsZXNv
+dXJjZS5jb20vZ2l0LXJlcG8uZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluO3RhZz12JHtQ
+Vn0gXAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiYTBiYzJiMTRhMzBiZWY2MzFiOTFhMmNhMzdj
+NTI1NGQ5YWY0NDcxOCIKK1NSQ1JFViA9ICIzMzhkZGI3ZDgzZWEzNWQ1YWVmOTRkM2M1ZDk1Yzc0
+ZmEzODQ1NzgwIgogCiBNSVJST1JTICs9ICJnaXQ6Ly9nZXJyaXQuZ29vZ2xlc291cmNlLmNvbS9n
+aXQtcmVwby5naXQgZ2l0Oi8vZ2l0aHViLmNvbS9HZXJyaXRDb2RlUmV2aWV3L2dpdC1yZXBvLmdp
+dCIKIAotLSAKMi40Ny4xCgo=
 
---===============7445203711446837614==--
+--===============3766011304718827584==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="repo-changelog.txt"
+
+style: use `import git_refs` everywhere
+upload: suppress git push progress when quiet or non-TTY
+tests: e2e: add tests for more `repo init` options
+tests: e2e: add tests for sync failures
+tests: e2e: add tests for manifest groups
+tests: e2e: add tests for partial clones & the Android setup
+tests: e2e: add tests for network-only & local-only syncs
+tests: e2e: add tests for init, sync & common workflows
+tests: e2e: fix harness on Windows, CI & inside git checkouts
+style: use `import git_command` everywhere
+style: use `import repo_logging` everywhere
+style: use `import repo_trace` everywhere
+style: use `import ctypes` everywhere
+style: use `import error` everywhere
+tests: e2e: add pytest fixtures & `e2e` marker
+tests: e2e: add a client to run repo against the local server
+tests: e2e: add a local smart HTTP git server
+tests: e2e: add helpers to create bare git repos
+tests: fail skipped tests in CQ
+config: add subcommand to manage ~/.repoconfig/config
+project: accept v3 git bundles in _IsValidBundle
+sync, init: support repo.smartsync config and --head alias
+sync: Provide a CLI command to opt in/out of smartsync for a user.
+upload: reject --fix with --ignore-hooks or --no-verify
+
+--===============3766011304718827584==--
