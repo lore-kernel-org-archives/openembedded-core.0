@@ -1,155 +1,120 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44147.1793197297306193635
+Received: from mailrelay-egress16.pub.mailoutpod3-cph3.one.com (mailrelay-egress16.pub.mailoutpod3-cph3.one.com [46.30.212.3])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40311.1793186079323022661
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 07:21:37 -0700
+ Wed, 28 Oct 2026 04:14:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=qcPuKuQc;
- spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-8ab37e44643so7085517b3.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 07:21:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793197296; cv=none;
-        d=google.com; s=arc-20260327;
-        b=aI0sVM1hPiYL9mxKPrii+YpJFkHdvqfbU2fwWLR3HsnChl7jcRWPwFn0BxLlJx0LAs
-         x0ujvu0dAkGwI48thc+p5k8oVmjou7eEhLAb1arht1gOM5XPcoA07NL8qcBzBdQa0G1x
-         M9W/W9cj2Zj7tfDdqJlf/fcdGGq4iVwbUBeEGiEpyKZtWCMy1Ne4LHVH7/JLqsHTtRUD
-         MbT+JF2iTbs0y4OOk8IZUm5sRC5D3co66cvHwxMNnBgPpdK/gaN1gkkQ7dkQJiElzDKB
-         Ly5I+S+ZuV97hWcdL4b/DDSx8RSuaIF5Z+N5xr+eru/Z5L2hmN70rv2lAu9e98ycJ5BA
-         rzhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WWPd/L01WeavN2mFyljKnYnArRgQdB6kYAfGWvTpY7k=;
-        fh=VOVZu8FjXojtP/2iv884q8pvwCQeeuFgwI9OY1sYm5U=;
-        b=WPTI+V0a1tw9vdSrvL4ss/1VLNWoz+7zX/u8EbjSGBe15rtibjds6s8qVsEq+bHy0Z
-         BGGRBQTeFZglbG3IB9SQDwotb0xfp/+ZD6hrUvg284hgEmVS7Jf36zS4oZHPi1azX3gr
-         4GR4PiSVf8yGzGKqQQ2/WcMKY0G4/CaGBZZNdnJM38PZUXBCUI2nxPM9lkfATDcbGPjh
-         YnMP5RHvUp5W0j01t2YdaxOyAMLFghuC7bvWSAT7atYlPcYNMzmSmRQV0MbfN7MM4eI9
-         +XKdEjyn0YjI3C8XeJTlaeFVAiSfXmlREjD1B1tpuKUfAgFVSPqK+o8DxrLMwF0GasGN
-         VRTg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793197296; x=1793802096; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WWPd/L01WeavN2mFyljKnYnArRgQdB6kYAfGWvTpY7k=;
-        b=qcPuKuQcOeiat4buqJXmdb0hLzrnYyWRcGJ2JEuaIIAhVY1PS52DV/3irrSYTMpVlN
-         3X7OMobSalgMpPP3BPx5NzP8iGmJZBskRn/7mRy6Aq8M1cy6J9j6C1fhUxK0LFeKyppe
-         eGvYb7TeDVSgtbDDMnDQ1ikEsiNO02i5XCAIGtmzm4XdZbFdx2932kGG+SzMMQAwUG1v
-         um4yBFuBIRDP+fYFrv7CVQcWlVqpEl6SW6rZ2lgSVsCsjO02EYZdZWrEyVW2/LPjq0sO
-         LL4P1hsu1pDYj0e8dBHbOQo1gHW7vmn+ZiwlZ45c5ccHmhDTd/KzbMCm2j1KtNYuH6MN
-         Rp4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793197296; x=1793802096;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WWPd/L01WeavN2mFyljKnYnArRgQdB6kYAfGWvTpY7k=;
-        b=X82BM+ZJZnzcrSvWRuduSOcBxcSc9Q9mDk1K0OKmio6UqriJpAXca9kz6r5qbjc0Pg
-         PuFnNgI9zmWA50Qb6nGSEg4I3xWxl1oweWqD7meBh4YNs+HqYxi6E6k0oov/e+U1hUel
-         xRousGOJySfDi51cv2TKkUPRvCXTj9Us/oY9kZAPG6GOPxAEIKvo9uJDLvL0ZRDzYWod
-         p5helZ9mtlYZoxia3OQnRlw5mjbyRuvzWtpYiuctmqjjbEo3qwLvKeAonTitGbjywNm/
-         xqmWwZuqIGYMJfuA1hy0rTNnpNESHSoYYBu++uWrRm7f7ss9ZM066kSTQIyrqGONKynV
-         PTgQ==
-X-Gm-Message-State: AFq9FYKTEG5/upRqRrjossznRnJDRQ4+b/kwsmWUvZQUUvVE2NzjfVMJ
-	+Janpa/JJ7xfvzS56efrCqZlu+O7ETQhMIwGjGNnA4WhTWhSFEQiYFw0cxZoDwyrHbH0e7QF6tG
-	KXjjMZNfRxIeTFwAXUUPQSP9as9xkS4T/4A==
-X-Gm-Gg: AYBFou3OOw3lM4HD1Fy2XEkGna2SflgdawApO5hWH4ozNEvY1excNznhNeOlfXSTF/D
-	XQs1HHgEQuh8h8SR9xTBodwBtT/SogRHbl/m7qzVDrlCqXE9ni70JDy0LlF7uLZOda9+6TGp9vZ
-	MvNL13IU7LYeZQtIM6vLA/eO5jGFK+/mHwcfKzvj0mj4ilv0cG78jWbXHS/s1pC0ohB20KUgKe0
-	RqUgLeyTuVuXeAOq0n/z379DBJgrkkDbIrpE51/0kPOebAFRgzgVT6hMvHplV7Arzq1AqkKcKAv
-	AAJ9kLWw3GuC0eL9t+ueL1WzReFK0Gl/JNfHQoeGaN/+ld+UEq9bZyvDyyHgRCZKYO/bllKAh+/
-	5hnP9N1ptZBHXnbhpI9L7rbzWAytk+hMgqNrJlVbRJeT/eVSOiVnjPv7F8Nb86V4fmSa7z0le9X
-	Bo+777TgcUkebEEv/7uvJmo91LulObb3BS01KfrZ/KIQ5tkKGb3BBD3JCkiHAiJuU2sPQ+Q0Wau
-	J9tqYWg1GFKOtpwPOrpL4Vj+XoWXq4aNEU3mdr6eBV5aWkI25/u5PFnIG0+2zU6/WkmaShxOoYT
-	VmgQX9eSXxEeD3s0W6eMi8WJyylpbnsDB5G22A6frR5q2vpXm+6PYzBK/350X7w7UxZNGuAxVcM
-	5ykIgFAq8mj04SoZgP6cP0Q==
-X-Received: by 2002:a05:690c:3502:b0:8ab:40c4:efe with SMTP id
- 00721157ae682-8b1b59d18e5mr12581987b3.13.1793197296081; Wed, 28 Oct 2026
- 07:21:36 -0700 (PDT)
+ dkim=pass header.i=@embetrix.com header.s=rsa1 header.b=k4OXgQtS;
+ dkim=pass header.i=@embetrix.com header.s=ed1 header.b=vWJTr4UD;
+ spf=none, err=permanent DNS error (domain: embetrix.com, ip: 46.30.212.3, mailfrom: ayoub.zaki@embetrix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793186076; x=1793790876;
+	d=embetrix.com; s=rsa1;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:to:subject:
+	 mime-version:date:message-id:from;
+	bh=NyhwNw+EqUwtiYmtm9S1TmI7bF9TiXzmgHc1P+aJr8o=;
+	b=k4OXgQtSIKUjtJUj4Z1OB9Moz08eYFgBqfK7li4+pYwqFOOMD3omgdOg6iamyY5HrBzvBbb/Ei9i3
+	 z3dgxpHhNpm0K3CeRWBxwz34lU0/wgCGCure7LPAKaGoESVfNEqw2gAv8TlkEDBiKMRZaWbRths8WC
+	 thVYRHd2R2Bp8GzBiQfBY91rC2u7pfZ/D0gD4h95b153ii/SGhxjyfrh7oHzgqpk/mm5+BOrbpgYk1
+	 1tqXDhY5xQR927O53ZLNuieGohZTieL1RA5FskoIKsTj86N4B8f9BiMSfD1ptdUveTkpQwwS2SjLCR
+	 z7/jjfPxdtXuyppaN6Sw2VTVTcBFaig==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793186076; x=1793790876;
+	d=embetrix.com; s=ed1;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:to:subject:
+	 mime-version:date:message-id:from;
+	bh=NyhwNw+EqUwtiYmtm9S1TmI7bF9TiXzmgHc1P+aJr8o=;
+	b=vWJTr4UD/PkjX3xx2GbYX+dASQ8GIx9KquBKC7EP9f1SXZhfAlHhqyeihPgGXW9ACiZ1NEDxY60Aj
+	 2l4TJbhCg==
+X-HalOne-ID: c1adc3d3-d2c0-11f1-85b2-6d49bcc6f3f8
+Received: from [IPV6:2a02:3102:8c10:1ae0:c98b:5300:3c35:71e4] (dynamic-2a02-3102-8c10-1ae0-c98b-5300-3c35-71e4.310.pool.telefonica.de [2a02:3102:8c10:1ae0:c98b:5300:3c35:71e4])
+	by mailrelay6.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
+	id c1adc3d3-d2c0-11f1-85b2-6d49bcc6f3f8;
+	Wed, 28 Oct 2026 11:14:36 +0000 (UTC)
+Message-ID: <8ed9b8e9-f82b-4275-9284-327b3b0aefae@embetrix.com>
+Date: Wed, 28 Oct 2026 12:14:35 +0100
 MIME-Version: 1.0
-References: <20261024161033.4140130-1-raj.khem@gmail.com> <39540EC2-E240-4E32-A94E-24EA33DE0310@arm.com>
-In-Reply-To: <39540EC2-E240-4E32-A94E-24EA33DE0310@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 28 Oct 2026 07:21:09 -0700
-X-Gm-Features: AclHuK_b9dTH0KdMPaDxdc4g1j7BTxgwgafV5DoormSGRSK3KTBNEYJ9qVD59t8
-Message-ID: <CAMKF1soWija+eU3x0oK34cdankotbZbz+Z056eDKeyq2TzqG6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] consolekit: Upgrade to ConsoleKit2 2.0.0
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d86187065ee74799"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2] pkcs11-provider: import version 1.3.0 from meta-oe
+To: openembedded-core@lists.openembedded.org
+References: <20261028093240.345039-1-ayoub.zaki@embetrix.com>
+From: "Ayoub Zaki" <ayoub.zaki@embetrix.com>
+In-Reply-To: <20261028093240.345039-1-ayoub.zaki@embetrix.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 14:21:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248814
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 15:05:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248815
 
---000000000000d86187065ee74799
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 28, 2026 at 3:40=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
-
-> On 24 Oct 2026, at 17:10, Khem Raj via lists.openembedded.org <raj.khem=
-=3D
-> gmail.com@lists.openembedded.org> wrote:
-> > Note that 2.0.0 changes session and seat IDs on D-Bus from object
-> > paths to bare IDs, which needs a matching fix in polkit's ConsoleKit
-> > backend.
->
-> This makes me worry about switching consolekit -> consolekit2 in the same
-> recipe. There are a number of recipes in oe-core and meta-oe that depend =
-on
-> consolekit so might be impacted, have these been reviewed:
->
-> - pulseaudio
-> - networkmanager
-> - polkit
-> - lxdm
-> - xfce4-power-manager
->
-
-I have patches for polkit and networkmanager, others did not show any
-problems, ptests worked where applicable
-and XFCE image came up on qemu as well.
+Hi,
 
 
->
-> Ross
+On 10/28/26 10:32, Ayoub Zaki wrote:
+> OpenSSL 4.x removed the ENGINE API. Add pkcs11-provider to OE-Core
+> to support token-backed keys for target applications and native signing
+> tools without requiring meta-oe. Token drivers and provider activation
+> remain product-specific.
+> 
+> Imported from meta-oe/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb
+> 
+> Signed-off-by: Ayoub Zaki <ayoub.zaki@embetrix.com>
+> ---
+>   meta/conf/distro/include/maintainers.inc      |  1 +
+>   .../pkcs11-provider/pkcs11-provider_1.3.0.bb  | 21 +++++++++++++++++++
+>   2 files changed, 22 insertions(+)
+>   create mode 100644 meta/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb
+> 
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 74db3e44e9..10cf20a885 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -604,6 +604,7 @@ RECIPE_MAINTAINER:pn-piglit = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-pigz = "Kris Gavvala <kris.gavvala@windriver.com>"
+>   RECIPE_MAINTAINER:pn-pinentry = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-pixman = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-pkcs11-provider = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-pkgconf = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-pm-utils = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-pointercal-xinput = "Unassigned <unassigned@yoctoproject.org>"
+> diff --git a/meta/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb b/meta/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb
+> new file mode 100644
+> index 0000000000..bd51625b8e
+> --- /dev/null
+> +++ b/meta/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb
+> @@ -0,0 +1,21 @@
+> +SUMMARY = "An OpenSSL provider for accessing PKCS#11 tokens"
+> +DESCRIPTION = "An OpenSSL provider to access hardware or software tokens through \
+> +the PKCS#11 Cryptographic Token Interface."
+> +HOMEPAGE = "https://github.com/openssl-projects/pkcs11-provider"
+> +BUGTRACKER = "https://github.com/openssl-projects/pkcs11-provider/issues"
+> +SECTION = "libs"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=b53b787444a60266932bd270d1cf2d45"
+> +
+> +DEPENDS = "openssl p11-kit"
+> +
+> +SRC_URI = "git://github.com/openssl-projects/${BPN}.git;branch=main;protocol=https;tag=v${PV}"
+> +SRCREV = "b55b94344af87a058fd84d6e15390760a5585b1d"
+> +
+> +CVE_PRODUCT = "latchset:pkcs11-provider"
+> +
+> +inherit meson pkgconfig
+> +
+> +FILES:${PN} += "${libdir}/ossl-modules/pkcs11.so"
+> +
+> +BBCLASSEXTEND = "native"
 
---000000000000d86187065ee74799
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The integration report this error:
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 28,=
- 2026 at 3:40=E2=80=AFAM Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.=
-com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">On 24 Oct 2026, at 17:10, Khem Raj via <a href=3D"h=
-ttp://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.op=
-enembedded.org</a> &lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openemb=
-edded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote=
-:<br>
-&gt; Note that 2.0.0 changes session and seat IDs on D-Bus from object<br>
-&gt; paths to bare IDs, which needs a matching fix in polkit&#39;s ConsoleK=
-it<br>
-&gt; backend.<br>
-<br>
-This makes me worry about switching consolekit -&gt; consolekit2 in the sam=
-e recipe. There are a number of recipes in oe-core and meta-oe that depend =
-on consolekit so might be impacted, have these been reviewed:<br>
-<br>
-- pulseaudio<br>
-- networkmanager<br>
-- polkit<br>
-- lxdm<br>
-- xfce4-power-manager<br></blockquote><div><br></div><div>I have patches fo=
-r polkit and networkmanager, others did not show any problems, ptests worke=
-d where applicable</div><div>and XFCE image came up on qemu as well.</div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Ross</blockquote></div></div>
 
---000000000000d86187065ee74799--
+https://bodnuti.dev/reports/openembedded-core/20261028093240.345039-1-ayoub.zaki@embetrix.com/
+
+Is this a known limitation of the checker when introducing a new recipe 
+or is there something I should consider?
+
+What is the recommended way to handle this?
+
+
+Kind regards
+
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
