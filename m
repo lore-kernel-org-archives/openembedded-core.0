@@ -1,230 +1,145 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39979.1793185026148038255
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.55])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40236.1793186037152791425
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 03:57:06 -0700
+ Wed, 28 Oct 2026 04:13:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=VZAvzYBs;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso8323705e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 03:57:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793185024; x=1793789824; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qltz3Sfh8XTSALSgsz0U7aCaqRsqpW3djcinpm/+bmY=;
-        b=VZAvzYBsYI1utcLZb7V+UNmIMF7fp68twdFfXdlufqz3WB2IBOcuL/DblztyUNdv0F
-         rHpSQqMe/AeaSInKowOpV8ThGbtpSN4XNVd+AXSjmgWhyeuhdVe2aekJRdY2ncPwXLlR
-         XlzOe2AUx3Aef0qoHt2lJ8G52NuNpv23DkBNpCqsgLaiqhz4RfRG7zOlBdB02I6jAwun
-         hrk1y4oeo34YFIZLa/gMM1Hw3bKNtViYhVIOPCZBJ8cA/cfD6ArWqz1qG87SKpvdUoWt
-         ODLxxA6/Ccej6Zn0f5FvbRbwzMVxLzPbnmOvW1rHdZwZF7r6+zCvMXKYpd0BR2nQrsWw
-         uIQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793185024; x=1793789824;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Qltz3Sfh8XTSALSgsz0U7aCaqRsqpW3djcinpm/+bmY=;
-        b=ALnb5Vx1MyLBxey9Y28oqeyVm10LD3A3yByd5s4ammhCYN1vUk0q4MzBskBhzSNR93
-         LGzy4/TVBb4pt6BNzhfolC2nnYHYI8THykxZk4xFxg4tzTaT31D6qq6tI7nixP7Le/NV
-         ip6T3F2rPqfB5/0oe6X+yquO/CYEXetOaoZtRbgGUi82nGb/SOJYyzi3C8ugzHBo7cAY
-         2Gz9elaih0z2MauzlZigysJRV3vz+yMhePNw/eOs1iIRVKHe+uu4AorIhlUOdRUHQde7
-         nfcGsKK9GO6Oiv5LbWyKsNQdnXhQQc0LImU8n/cQC2h7ycyxnjpfvDaidOpCOHdRFM+U
-         AGFA==
-X-Forwarded-Encrypted: i=1; AKwUvByPTneLQ6HYOVLSCnchSA8Ku7pOUe+cljnfG3DMv0MFyL6KaPd3hOAceob8GP9KFMY/DrIzkBW/aW+QF/JvoKaQxA==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYJSdCgM0GEUJNvJxDFmvryT6GGf93X6wDguuotKyaulcWI8W1Iz
-	h5zfTTkuW2Agu4UZK2tb1L1BKNYT2R79JrKO1GVoPuqJhXxNQh0B8/jWlnwmThDSDz0=
-X-Gm-Gg: AYBFou2lnLEBWkVElc20JzemDz2gQ9V2I5tBRK8PGBN6nr2XXG5NsMlz1bYWJbI/hGB
-	yVf1Jbgbbh4bRNirRf2llTKbbIC6FyYJdpd7oEO3Wus9juQp7GzAJYQv++7yLkXMJCX4YuaCO2u
-	U7EgJ5//6NTrdeujPuqtnQMiSlqe5itmkWXECnI6JsUjCouUgwpsc5HznKXYRs4pBOwIchl8YLq
-	1P0gDcLGE68IASL5rry115W1Vi6zXo+lmjNG6WLNKilVpmKjZ/Q7caC24lv3o2EhaXyc+ab875n
-	gBzXexKo1BktjOzeE9UgqztV4F/2sV4zH3T30iueyuge0wiQWM4QrLxDouiA+drbMNtPBF4iyiI
-	tLceTQBU+jzPqE9oIrDpUH8oTmhOa7Q3c7wwezqcfemrhSO9EueSMrbba8z7Ip3+IYMPbS1BDQW
-	3hhpemgx7eQOD8aPxJl5ZtVV7D94RW2hU5ADB6/S/N6wOhyVWUwewQdlb6D7OLAg5qQCrSJaDWx
-	5ytNlPnP1KhXhSK1cex+yYyCxpue27PyaWjZoiXDpmuZbhW9HiysxGaTgdJN/HDjtEG9OGetDZ3
-	ZEpxbEfgNkpQDsriPiWcy15t17mpS+EDG8UgH8sl+1klDONPhMB/171TK4IRlOmPu/p0rKU0zsM
-	Ed15EI7VJ029r9Q==
-X-Received: by 2002:a05:600c:c166:b0:4a0:eae0:769a with SMTP id 5b1f17b1804b1-4a9677ca8bfmr37979535e9.28.1793185024345;
-        Wed, 28 Oct 2026 03:57:04 -0700 (PDT)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd35c2sm27303755f8f.39.2026.10.28.03.57.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2026 03:57:03 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 28 Oct 2026 11:56:58 +0100
-Message-Id: <DMGF1CY7LWZQ.3N9SFE4FLRK56@smile.fr>
-To: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)"
- <hthakar@cisco.com>, "peter.marko@siemens.com" <peter.marko@siemens.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches from
- u-boot
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260923173850.21338-1-peter.marko@siemens.com>
- <DM5RBD9MJT2O.2M12R8AMW5OLY@smile.fr>
- <PH7PR11MB8598B39DBADCDF5C628594DDAD672@PH7PR11MB8598.namprd11.prod.outlook.com> <DMGCPPR45G7N.2FMNA6HS4W3G6@smile.fr> <PH7PR11MB85983BF338795A95B47297DEAD6F2@PH7PR11MB8598.namprd11.prod.outlook.com>
-In-Reply-To: <PH7PR11MB85983BF338795A95B47297DEAD6F2@PH7PR11MB8598.namprd11.prod.outlook.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=A/e7iX+T;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=A/e7iX+T;
+ spf=pass (domain: arm.com, ip: 52.101.65.55, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=bdOaaHHs3+4ACYSH/dclhXaHmFeAn9vDVu49WyI+xWPLbqe5bj3To0+V8PR3dy9+A9ShTTaK0jpAuoDzJx1N6S2+olIvYsPKRQqCC5QaGY0zoJP/KppsPgxcVpvbHYV0Uel2MZAJ3izKhLO+mrROwiAFooCg4QFgWFeJyZwHvsHSQEK6i6eC6mzg1+vPFiyNvCYK0q8jC/4yCNhFmgnfYVRJhE541aWZjZAbNaj+NzK7OW+UzZZGzm4InC+xW+HiwGFIDX9C6dpJgImbkmOD7V6wNFr4AA1pRcko2ZxMUaVs5VRowgtwPzZ75fsHIYtD75/+MBc+EVmj58mi9m8E3A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jr+Ma8jUETbEDUVkKKcQ3GjweylH6lUQK1Un5F8f50k=;
+ b=Yzet8kzhkTL5NKSGiq+LwCZByVs+jh+ZxhReNgOJbYUWrsYZL400EfWzZbSbvHUTdHN7SHkSEhcpFgLTEzpyjmFX24JMTp1+a0yTUsCbWv7EuRyjazLzR9oCE0972LqlUVUBsHu0q36fEZ7ob6uKUDYB6PDm4uSHUfsghP3+eRusCP60J7qntJqN+2ZchoK4/AVdxnoXQccSLlMbLNP+hN6Htc7CbO4G+RmsECozas5+Po9zX0Vg6F3cImbJlpZgMhQtDnQhavvSY1JNTfKDtvCgS49RC6WWKbL4C3lNWfAmeZ///5SJ83lU9xkbFNYNnwEzrTRHRRuEs/0VjEamog==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=pengutronix.de smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jr+Ma8jUETbEDUVkKKcQ3GjweylH6lUQK1Un5F8f50k=;
+ b=A/e7iX+TSqQNyzrWm3/BVvt1qDgN4NVH7VyIjzDqkcvH3aeo4vMWhNl8RBKHKmrrIx0TcJvFfxAeHxgTimkXO/tmN2a70OuOLBxIc/drn2sKoXdrHUDP82hzhHWsolP3YDgeT5Xl+c4jSnF/pV69d8frvg56aUQMGOdHa8gBZ0k=
+Received: from AS4PR10CA0030.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5d8::11)
+ by DBBPR08MB6009.eurprd08.prod.outlook.com (2603:10a6:10:1f5::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Wed, 28 Oct
+ 2026 11:13:53 +0000
+Received: from AM2PEPF00070CF6.eurprd02.prod.outlook.com
+ (2603:10a6:20b:5d8:cafe::82) by AS4PR10CA0030.outlook.office365.com
+ (2603:10a6:20b:5d8::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.22 via Frontend Transport; Wed,
+ 28 Oct 2026 11:13:53 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM2PEPF00070CF6.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.4
+ via Frontend Transport; Wed, 28 Oct 2026 11:13:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ltO1noxAokpY3u9fpd2ZZIlqxzZkA+m0+X2WVtlxG1mVGKVs2zkZE1zKp7GdquLT7EXiCn0ILDdRNIrinj4f4n/WZbM9hXfbtxnWduChGi3Fz5rslemlllhDJdgMFEZL84NxlMnL5tUWCg4mADmAzNV9oQ8D9kuYuuPiF29k/2n+LeKpNJ42TiVSR2OxdE7FCCwN4KPizhoTmTnci8ZPBEL7Skel/FsdxoBgtB0soxJflnXJNnOJf0dZ78cOLfeibgiYRFHd+hZr+HKdMTiAo8SiIZYi9TRU13jfEXsdDqgH62CLg/vJd2olJX/yFXmlkqojGtypa6y9+aeNp2mK3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jr+Ma8jUETbEDUVkKKcQ3GjweylH6lUQK1Un5F8f50k=;
+ b=NtO232WuqcFNacl/ZmEj6bmxtiaYlGZYbtM9zhKEzTf/vYeIxQyPsMYM7/+3qunqqx0tetxvOEIPzTc8uIKECJ5OdhX/w2tTwWJDj9VTOINVh7aY3MDAK0rDINuBBu0ekVUGqPJznrYhabrvULCxh26ZwYqtwh3+IYooXEOZh7Dn1Gz7o7LzJx+xClU+xvnKUUrlRA89rxAxCvj4Z1G5nPGRQMnYknHOIr1LAwDfli6OTm0uKoq9xzEgxKSriS5VbbdTQf9RD2wEzQY4NFPMYgkm2ZECgXVy1qsl3GXKzVZW7nYcp+sW9GmWBNrtk0GqyyQCp2W9ZXPAu8Oybjttaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jr+Ma8jUETbEDUVkKKcQ3GjweylH6lUQK1Un5F8f50k=;
+ b=A/e7iX+TSqQNyzrWm3/BVvt1qDgN4NVH7VyIjzDqkcvH3aeo4vMWhNl8RBKHKmrrIx0TcJvFfxAeHxgTimkXO/tmN2a70OuOLBxIc/drn2sKoXdrHUDP82hzhHWsolP3YDgeT5Xl+c4jSnF/pV69d8frvg56aUQMGOdHa8gBZ0k=
+Received: from AS8PR08MB9410.eurprd08.prod.outlook.com (2603:10a6:20b:5a9::13)
+ by GV1PR08MB8059.eurprd08.prod.outlook.com (2603:10a6:150:95::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Wed, 28 Oct
+ 2026 11:13:17 +0000
+Received: from AS8PR08MB9410.eurprd08.prod.outlook.com
+ ([fe80::1f2c:bae7:a4d3:fefb]) by AS8PR08MB9410.eurprd08.prod.outlook.com
+ ([fe80::1f2c:bae7:a4d3:fefb%5]) with mapi id 15.21.0546.012; Wed, 28 Oct 2026
+ 11:13:17 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "m.felsch@pengutronix.de" <m.felsch@pengutronix.de>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yocto@pengutronix.de"
+	<yocto@pengutronix.de>
+Subject: Re: [OE-core] [PATCH 2/2] classes/cargo-update-recipe-crates: support
+ multiple Cargo.lock search directories
+Thread-Topic: [OE-core] [PATCH 2/2] classes/cargo-update-recipe-crates:
+ support multiple Cargo.lock search directories
+Thread-Index: AQHdYYyNG2sB+DSNCUG50VNhSzO0KbcS14SA
+Date: Wed, 28 Oct 2026 11:13:17 +0000
+Message-ID: <CA25B707-72A7-4DD0-9834-EBF7BE50931E@arm.com>
+References: <20261021-mfe-multi-cargo-lock-files-v1-0-d3510d4ad963@pengutronix.de>
+ <20261021-mfe-multi-cargo-lock-files-v1-2-d3510d4ad963@pengutronix.de>
+In-Reply-To: <20261021-mfe-multi-cargo-lock-files-v1-2-d3510d4ad963@pengutronix.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.700.51.1.3)
+Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
+ signed) header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: AS8PR08MB9410:EE_|GV1PR08MB8059:EE_|AM2PEPF00070CF6:EE_|DBBPR08MB6009:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5ff3b60-b62d-4e9d-a590-08df34e48cc0
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|38070700021|4143699003|11063799006|56012099006|261022105027099003|261026121527099003|261026140227099003|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info-Original: TJJhgTSlXVfhjXWrtCj2VKwovnprohKKlAZRjy3gxFeiDxIBw/FBsxMdNXxa393Q+HvxTOsx1oyYw2z3o9bfui3brHnCdzqknPemWiWTO4O1CJ2XR3RLG650yF2g+P2SknA1rxjYWPq5zdMwg7BzuJKmMPPiNaQq6CfhE3iTNH5cigq/R7BEDEs0BSGHDpT8Lil7sgPXCntfScO2fGZPpp6lA6Fj1bDO9rbY2+nvqpNaAkYQYfMYFgRhKvo/VHQJCIRhazs0pkgobq59Q+2clbePZwNUF7nebMFIFiUuWImOi6ur60I+EUCVjCEgBlRrFaY8qnAjpqXLtglL5S6ZpJJoIkLYuwV2PkJwAYqzNGc9RG2CHmR7kD9cqcIEtEWSgzcChsIoIVgQYjQAzd9n3SRp0pJ45McOI88f9YHxwyKmRtXGPiiDiOIy9ZBlzlnFey/p33k56+jUIIfmnxYJnls8lzUe6JI3pHLKsm05JwV4JLS2q8ZlwnYwO5Jtg/B92qq8qYGdNc8smEhIi/3n5/JUE4qWxOXImVZgCUJJawRcjKg65gEPyDY/fS99t23IwjJhIDdT3+WfaF6ZXmt09CFyaJ79rmgaMHaRvAD+LD7UeuM6oFsPrP1C72lIJYjWC7bfkrue2C8wrMy+vsYT8gmnJRinOYdL0l+9pg5JOG3HSncJA3aidhvRGYSBBjf37VhNFRA2BzkfNTqkx+ONgQ==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB9410.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(38070700021)(4143699003)(11063799006)(56012099006)(261022105027099003)(261026121527099003)(261026140227099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8813BA4B482C7A47AF4EC0031D062970@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Exchange-RoutingPolicyChecked: wvc26lS92bcyj1K20GErEKxSkAOzQ6wa3B4uINT1Xq7vNbLRGyfSeMpkZRj7gNMDeWCuw5ef9pDuENsPWhGruxbCoZ7ZcjG/2VuG/YMQrbJnS31RuIIyFsqs1InPemUf+VhVMxMOWSpWJ0y0gsMQaRQ/wo7mxcl1ICxTwOxsHlymAYH4r5AO4UZmEixuw8mBpXWhPLeDeY3TPqRQZ+NA6S14M8u5K/B3cSMXYzpYO+vx8RVZGWlqC6dDTOHZ+dzB+Yv/PAoDqYm4wSknDzo9ff5qphzX26d4gfGUI2JfQ01pxbSW/bNJM5O5pSI/jDjVbrJiQlMkyaEg4v5iq9jrag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8059
+Return-Path: Ross.Burton@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM2PEPF00070CF6.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: aa30a0f5-5d92-4c8e-2ae2-08df34e477bb
+X-Microsoft-Antispam: BCL:0;ARA:13230040|36860700016|82310400026|35042699022|14060799003|1800799024|376014|23010399003|4143699003|11063799006|56012099006|261026140227099003|22082099003|18002099003|10067099003|261022105027099003|261026121527099003;
+X-Microsoft-Antispam-Message-Info: F3cTCruCusqzbYsmCXL5VtnyFSrPFGCqjbpf+wtdKuJoK70DRWnUegVnuQqm76XuxoEFrPyncq5MsJWHGFuzlFd/nuYRB3+hEtNu9VuWCq2Laz/HptprXle6Vejbe85glE55Bv4bGi0WIJ0kXcdwHO4wDmFsYhqlSEp/lMnRRR1RA3cIrDzkx7QBJeZdCuGmXC+/ONdMW5S/GmacNpNaEcvhGSt8JSewiR4p2jk6a8y6E3XHi2zt+dri03ru4/WYv5EW5UAGYcf6zpTQOxV7ZbzQLZ6nZa998cYkr1rfOAH0ZcFgy3RtgZbX2tM0EzNKSr46MKC5uQKe0hm6lXBwfsdRHoyaBxyHgBgCXisnmBFcvxFgKSrt3Hg54RK9NTRfFPZB80fkGCSZpMRRiNQr6f80bJ1d+JOkqLGUard1mF606A1BB6DbaJY1TB5QkUWUHXqTsNhWtI6KC2gEjAJCFAXlpz6gxSby6wl/sV33XqZ+uISB5oZdRzoY6ZDZCGAi8R0g8qcaeQOdvN5/VGs/8AzDmFQhPtxiv+O1FVD1jwzOeZvyN/W3yyDbzcwB5Mx7ZOL1HA8SmIY5YTNTZ0ofrE3s4mwjj/jhyUPxE/hwO8FplEy4UjkNrg7q/tr0WtdNf1u+JSb48MqiPmlqWM/7bE10TpelRAu4mcTkL3Tea8W6pZzgijTaYpnq27j6x4asiJiu/P08BmGJbnoUCWtmfQ==
+X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(35042699022)(14060799003)(1800799024)(376014)(23010399003)(4143699003)(11063799006)(56012099006)(261026140227099003)(22082099003)(18002099003)(10067099003)(261022105027099003)(261026121527099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: JZtLtmrlmwV023cRhc7RbhH5OsdgZau36tDx5aOYI6s7Be8tIQD8ZsYsm3N38suy47Bq2+68QGidmVRiOuuTlCE+I5Ni3wLblyKxJerbLkPE9RSDKgPL0ohR3/kjn4UpUP2hsN2dQkASJ8Owukqmzs7xVNICfCLbt9C0AA+9zN90E6W9rcRYstCueyszwLe2A0WtgMAkgu2lQu+75NpW6OGO+3cEHdvgdqpLz4bMncmMOOC7WsCfccRUTSlQRhva+JWP//KEqlmDJN849WMfF1ioLwTBQXivwOyP9hjXJe1CYMb5feAXPBR5LPYO6erf02ckRogDoXeQRqKx+yN6z7ZX7JYHGVoqhBP7p1xq5MnA+o/6/ww+i8QQCZ8iOrFHhpcOLuNSuZonX1G8nRJgyMoqG1jWn17iNKDvzSxHscL9liDIxIf6NN4fxHd9tOPo
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2026 11:13:52.7623
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5ff3b60-b62d-4e9d-a590-08df34e48cc0
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM2PEPF00070CF6.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6009
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 10:57:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248809
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 11:14:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248810
 
-On Wed Oct 28, 2026 at 11:04 AM CET, Hetvi Thakar -X (hthakar - E INFOCHIPS=
- PRIVATE LIMITED at Cisco) wrote:
-> Hi Yoann,
->
-> Thanks for clarifying. For patches 9=E2=80=9311, I understand that source
-> fixes are preferred. However, networking is disabled in u-boot-tools,
-> so building it would not compile or exercise the affected code. How
-> should these fixes be verified?
-
-By sharing the sources with u-boot which will compile those parts.
-
->
-> Regards,
-> Hetvi
->
-> ________________________________
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoan=
-n.congal=3Dsmile.fr@lists.openembedded.org>
-> Sent: 28 October 2026 14:37
-> To: Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) <hth=
-akar@cisco.com>; peter.marko@siemens.com <peter.marko@siemens.com>; openemb=
-edded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org=
->
-> Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches f=
-rom u-boot
->
-> On Tue Oct 20, 2026 at 7:16 AM CEST, Hetvi Thakar -X (hthakar - E INFOCHI=
-PS PRIVATE LIMITED at Cisco) wrote:
->> Hi Yoann, Peter,
->>
->> Thanks, Yoann. Continuing the discussion here as suggested.
->>
->> As i explained in the other thread [1], the existing u-boot fixes are
->> not currently applied to u-boot-tools. My CVE_STATUS changes address
->> cases where the affected code is not compiled into the tools build.
->>
->> I understand that the proposed separate include would allow both
->> recipes to share the CVE patches without adding them to
->> u-boot-common.inc and affecting downstream users.
->>
->> My concern is whether we need this additional include and shared patch
->> list for cases that can be handled through recipe-specific CVE_STATUS
->> entries. Could we consider the held exclusions on that basis?
->>
->> If maintaining one shared source patch set is the preferred approach,
->> could you clarify how we should handle patches 2=E2=80=9311 of my series=
-?
->> Should we revisit them after the shared include is settled and retain
->> only the exclusions still needed?
->
-> The general idea is that by sharing CVE patches with the main u-boot
-> recipe, CVE would be also "fixed" in u-boot-tools (even if said patch is
-> not compiled).
->
-> For 2-8, patches are in u-boot so no need to ignore them:
-> * [Patch 02/11] u-boot-tools: Ignore CVE-2024-42040
-> * [Patch 03/11] u-boot-tools: Ignore CVE-2024-57254
-> * [Patch 04/11] u-boot-tools: Ignore CVE-2024-57255
-> * [Patch 05/11] u-boot-tools: Ignore CVE-2024-57256
-> * [Patch 06/11] u-boot-tools: Ignore CVE-2024-57257
-> * [Patch 07/11] u-boot-tools: Ignore CVE-2024-57258
-> * [Patch 08/11] u-boot-tools: Ignore CVE-2024-57259
->
-> For 9-11, there are no u-boot patches so ignoring them in the
-> u-boot-tools recipe, would be fair (but patching them would be
-> preferable):
-> * [Patch 09/11] u-boot-tools: Ignore CVE-2026-29007
-> * [Patch 10/11] u-boot-tools: Ignore CVE-2026-29008
-> * [Patch 11/11] u-boot-tools: Ignore CVE-2026-29009
->
-> Regards,
->
->>
->> [1] https://lists.openembedded.org/g/openembedded-core/message/247868
->>
->> Regards,
->> Hetvi
->> ________________________________
->> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.=
-openembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoa=
-nn.congal=3Dsmile.fr@lists.openembedded.org>
->> Sent: 16 October 2026 03:44
->> To: peter.marko@siemens.com <peter.marko@siemens.com>; openembedded-core=
-@lists.openembedded.org <openembedded-core@lists.openembedded.org>
->> Cc: Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) <ht=
-hakar@cisco.com>
->> Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches =
-from u-boot
->>
->> On Wed Sep 23, 2026 at 7:38 PM CEST, Peter Marko via lists.openembedded.=
-org wrote:
->>> From: Peter Marko <peter.marko@siemens.com>
->>>
->>> After sharing CVE_PRODUCT between u-boot and u-boot-tools CVEs
->>> patched in u-boot showed-up in CVE reports for u-boot-tools.
->>>
->>> It does not make much sense to share git repository but not share all
->>> patches on top of it, so move adding all patches from u-boot recipe to =
-a
->>> common include file where also the git repository is defined.
->>>
->>> Signed-off-by: Peter Marko <peter.marko@siemens.com>
->>> ---
->>>  meta/recipes-bsp/u-boot/u-boot-common.inc       | 10 ++++++++++
->>>  meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb |  2 --
->>>  meta/recipes-bsp/u-boot/u-boot_2024.01.bb       | 12 ------------
->>>  3 files changed, 10 insertions(+), 14 deletions(-)
->>
->> Hello Peter, Hetvi,
->>
->> There is a bit of back-and-forth around u-boot-common.inc. So I thought =
-I
->> would give my vision and get your thoughts.
->>
->> Fundamentally, there is confusion about the usage of this .inc file:
->> * This is the common part of u-boot and u-boot-tools recipes (what the
->>   above patch uses)
->> * But, also, this may be used by downstream layers to reuse u-boot
->>   recipe parts. We basically did the revert of Peter's patch a few month
->>   ago for this reason[0].
->>
->> With Paul, we would like to have a single set of patches common for both
->> u-boot and u-boot-tools, but that can't be in u-boot-common.inc as there
->> is a risk of breaking downstream layers.
->>
->> Our idea is to create a new inc file "u-boot-common-patches.inc" (I'm
->> not attached to the name) that contains only SRC_URI +=3D "CVE_*.patch"
->> and a big warning explaining that is file is only supposed to be
->> included from layer-local recipes (namely u-boot and u-boot-tools).
->>
->> This whole situation is not ideal but think the above would solve our
->> issues and still be acceptable under stable policy.
->>
->> What do you think?
->>
->> Regards,
->>
->> [0]: u-boot: move CVE patches out of the common .inc file - openembedded=
--core - OpenEmbedded Core layer
->>      https://git.openembedded.org/openembedded-core/commit/?id=3Df4ced8f=
-f03147dd532a88cf3ce08d61fab057522
->> --
->> Yoann Congal
->> Smile ECS
->
->
-> --
-> Yoann Congal
-> Smile ECS
-
-
---=20
-Yoann Congal
-Smile ECS
-
+T24gMjEgT2N0IDIwMjYsIGF0IDE5OjQ2LCBNYXJjbyBGZWxzY2ggdmlhIGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcgPG0uZmVsc2NoPXBlbmd1dHJvbml4LmRlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
+IHdyb3RlOg0KPiAjIFRoZSBkaXJlY3Rvcnkgd2hlcmUgdG8gc2VhcmNoIGZvciBDYXJnby5sb2Nr
+IGZpbGVzDQo+IENBUkdPX0xPQ0tfU1JDX0RJUiA/Pz0gIiR7U30iDQo+ICsjIENvbW1hLXNlcGFy
+YXRlZCBsaXN0IG9mIGRpcmVjdG9yaWVzIHdoZXJlIHRvIHNlYXJjaCBmb3IgQ2FyZ28ubG9jayBm
+aWxlcy4NCj4gKyMgQ3JhdGVzIGZvdW5kIGluIG11bHRpcGxlIENhcmdvLmxvY2sgZmlsZXMgYXJl
+IGxpc3RlZCBvbmx5IG9uY2UsIGluIHRoZQ0KPiArIyBzZWN0aW9uIG9mIHRoZSBmaXJzdCBDYXJn
+by5sb2NrIGZpbGUgdGhhdCBjb250YWlucyB0aGVtLg0KPiArQ0FSR09fTE9DS19TUkNfRElSUyA/
+Pz0gIiR7Q0FSR09fTE9DS19TUkNfRElSfeKAnQ0KDQpJIGRvbuKAmXQgbGlrZSBoYXZpbmcgdHdv
+IHZhcmlhYmxlcywgZXNwZWNpYWxseSB3aGVuIGEgcmVjaXBlIGNvdWxkIHNldCBib3RoLg0KDQpJ
+IHRoaW5rIHdlIGVpdGhlciBqdXN0IHNwbGl0IF9ESVIsIG9yIHRha2UgYWR2YW50YWdlIG9mIGp1
+c3QgaGF2aW5nIHJlbGVhc2VkIGFuZCByZW5hbWUgX0RJUiB0byBfRElSUyAoYWRkaW5nIHRoZSBy
+ZWxldmFudCBiaXRiYWtlIG1hcmt1cCB0byB0ZWxsIHRoZSB1c2VyIHRoaXMgaGFzIGhhcHBlbmVk
+KS4gIFRoZSBjaG9pY2UgZGVwZW5kcyBvbiB3aGV0aGVyIHRoaXMgY2hhbmdlIGlzIHN1aXRhYmxl
+IGZvciBtYXN0ZXIgb25seSwgb3IgaWYgeW914oCZZCB0aGVuIGJlIHN1Ym1pdHRpbmcgYSBiYWNr
+cG9ydCB0byBzdGFibGUgYnJhbmNoZXPigKYNCg0KUm9zcw==
