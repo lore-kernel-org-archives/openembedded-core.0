@@ -1,61 +1,61 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8441.1793225177305952493
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8443.1793225178229107333
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 15:06:17 -0700
+ Wed, 28 Oct 2026 15:06:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=Kmz/8c0j;
- spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-48ed188ee81so743201fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 15:06:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=Z795uou6;
+ spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-483a66818edso750798fac.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 15:06:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793225176; x=1793829976; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793225177; x=1793829977; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/2WIZpwPimqavDkzbT1ZpVYufGFe+CtcAal/HZACf5Y=;
-        b=Kmz/8c0jPAsESpv9FQRsY3rTErtx4AseGSUf8zMgBTlyIV6LRQDs58fTG9+Gwa3acL
-         L+6VzkaEs4wFWszEnGEhwrGjK1cEe1w1otBbM/xM1u24NQJDxH+sMC2z1ZPzbcqWVf2v
-         Pq2THBdnmB9wZD+6oftsox8MQlKsjMiAGmX/b614d/AxA6tREmpMoKez8iSOY25ZqoRH
-         uj4gkN37H06uMWyl6evBM2mT+r1Uu8sDlDqZGl+pfIMXOugFLRNjtvGhajaDR2ql+WN7
-         CXb6kV7CC1iak6EquWoUOKKObYqZWkgLfommfl/xJKhD7fdsQWSM07oDzyW3a29KVMxN
-         W8qQ==
+        bh=BWf9nPwSiawEirgLzEzSMAEs/S1YebD127It0ONYkPc=;
+        b=Z795uou630ZVhpm6tG2HdtBnKuBDlnOcXzKniStk3Au69YtzeBXipMxQzAQin8IfIY
+         g1RBmZocUfeXltMvS3+brpGS44I/sA2GweoxkNPPK1/EBXW/j7WYgnNUjSEJRhbMQ2Zt
+         KNKMZXkEXgclPcrAME3Sn+NgzIM8VFppBHDs2InmSdBn/md/qSAVQOoz+zcjo9tPJopf
+         D0QMxTHErdAMXEb+/biGsQdHmt7sanp6dIAaGy8o2TjQPkC22ydtlKNHfH+l6ZB/iEsB
+         0A1DJlBsOa3sCErMeIA4lN09jZOhKfLekzaMsnoZNXgWq8tbF++/D0kbV43WdhFbgaJX
+         s+4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793225176; x=1793829976;
+        d=1e100.net; s=20260707; t=1793225177; x=1793829977;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/2WIZpwPimqavDkzbT1ZpVYufGFe+CtcAal/HZACf5Y=;
-        b=1XH2UF5ZjjDSCaOUb7OLPXGaj2ucV81MsybUY786gyeAVGLikU6DWMDn+e+IDTcAff
-         3i5bKIG1ECqroHyjH3Co3nZlXSPe+s91hlRjzun2wy6QfU/tNhqufXtraw6vMTRTqyWA
-         GXbm+VhxxJJS2ZdjXYzBrbQpOOodY1xqDTKn2r88oVghbS5r/zdV98U4MLtbDpKC2WC3
-         V9Q91vqYWItsMAX55I4mezg3hww9sxC9rofX1xWEHMXQF3z0AQTJmmn8tGyo20MRPgCc
-         ojbMPbjtzD0u6i35OGBx9LDXi+vclbR2vUrS6NQw62xQoSdsRxp65HbDFgiN91X5ZRrJ
-         wrfA==
-X-Gm-Message-State: AFq9FYI1vX0RILOBW/HDmbZ55ryNopETB9vGdGrqF04TksxDJ1HgIZ7R
-	+ZMdI5Az6tJVWaa18o345k2Q3SpW7NuzIvjGOinD+6b+nwUhl9OxMlVufpXaXA==
-X-Gm-Gg: AYBFou2H5Ipw1FG49hs4hoXVmTYXObqhv2EhDmAxAiYcWSHXmFdWXogd/n/OGDPZusb
-	Jul/EuIQn1XrX+efJuxD/Bpa/ZyT0u/TrlHxddnumfDhXPDJo+0sSetdnPy/YOCS1koKg1crVHz
-	9JwLODjCH3pM/hbnKOj5YOlAvQVg+CaEA/p31GABpFTb6M0C1kTzjZCbxNgfMO60Ll2ysIOI15E
-	FH7yahHYyBlwa/TpP4dtbKVQ8txDc+ycNlQYbRM0iBU5Mxs1Di9+4leZBoJJWa9VbPEPtciLJCK
-	iQKFbqVsfkRHO2C8YViXg8PQoKkkyCLj6XOypA3u65YLATjga4dsRT/TKqw0BpcNs7h3sYOhLD8
-	cnD0fmEC3TTviMI3tEg7iDK1S72ypgEhV33pseQM3owvPnzqbDg8FsRNETS2hx3vSrIVyyzd/Ws
-	TIpL7CDbkTBnAFNJq85EleiER8a4mZ+KZQa27JQS/DI1dvzKabiYpRGlJg2Xb3VkCg4w8khuE6T
-	ePka+dXd1F/18RH/32sA3TpaAU8dSe9igCV1DrNVOKm8WrbbG2+HGvwmBtMHHPjWIFfstKXpYKr
-	FzJ7JTwwG0ilx8CLycbNHdYsSGs=
-X-Received: by 2002:a05:6871:3a12:b0:48f:e0f6:bd5f with SMTP id 586e51a60fabf-4a8bb70088dmr2596523fac.48.1793225176410;
-        Wed, 28 Oct 2026 15:06:16 -0700 (PDT)
+        bh=BWf9nPwSiawEirgLzEzSMAEs/S1YebD127It0ONYkPc=;
+        b=m9vHjD2LtFaJL9MTiwVzpXwqvIOGHKXmFXoCzreEcdsL33Tnurntov/uXsSwxKzIWZ
+         PR4D/j2Hcg9JwL7zlYHDT/HLIHgviWNrPGNYRSxXWh6GQQ2QfD7V8x5cca/7ClG96mDF
+         C7B8Ap5M7BXsdRS71aBFKzougDCTP2bgz2R0vVmnggQFc/7vsfG5WcDL7LM56xKX9c9A
+         7BLq83vTgeb8VkeMUm8Kt/ES5i5n6rjsvJXe2QUGbcgLGm0SoCyZS6TZncQTrNd9R8hC
+         FDEA8yRIwoWy4AWJR9vHFAedXujgq3jHxxyJvyNIERugv2KZPC2x7O5fJ14TZpXU0kh/
+         0/vw==
+X-Gm-Message-State: AFq9FYJWMFCp28fEkKoGV204uggRIMsLcWAIs/xElbtxfBTRUdx4UzVF
+	w53UtB5/xJBecYdzO28h9NBxXbK9MKf5ny/mi4GBN0DLwOZZ/+pBYWhZY/cJtw==
+X-Gm-Gg: AYBFou0yFfTm7mGVtCmxFEz/ZZIZF7md4qM1C9nRVOM7pd001DNdxyIX563TpTgDbmU
+	9ze2iXGFhQFJvOEz47cJjZfz0XI6lPwsg6EzDObr6gL9SBwyEixWcr8feHdRcpWjLDa0pKKuiiK
+	b2y3DVJu8KzLC4tG5+SBjMwVFyI4FRuAYX5Q35BqdIOLSbFcymic3OFcmf1MNCwlEEr/kCuH/4u
+	uLTHzF59ce1VfkpEgre/PFxwra1hoRiBSZGGElbKEh7BnzcS3b2EayaA2IUhpLtlk0kkLdsoARt
+	+iCwDY6yQlu8AxZSGykPeeAyInvvOqauAfegwoUsGRrHVuEPTtGR0WdVkkj7UOc/xA+zsxTzk5b
+	9KQ3CEwf8A4sdr5NJPTfRHlsjL37IfCdWeydhrYE7RlrLZWy/1+s96pU/FNayRMU17ugR8KiuRl
+	8uThhNtFgzm9XjLBrHR1wszd+xCg1sJTMZRr8KM1HcYYIkz8RnpBlcgzD3JN2m1w5/v2dIjr98A
+	mZl//mCnJ9N/xwcrqjYOBh0+1FKIhHpu3qbJ3a4xK16ubN3AKhUgQWk3xkjY0xHEHgTWSLx6RR/
+	ecUorQaYjsJL3clKpr1pGUmJOtZBWPS1n+N+yYBl7J/v4Rox
+X-Received: by 2002:a05:6871:3869:b0:494:76db:2aa8 with SMTP id 586e51a60fabf-4a8bb59ac9fmr2986976fac.5.1793225177416;
+        Wed, 28 Oct 2026 15:06:17 -0700 (PDT)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2601:283:4b01:ba50::8aac])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a8b77abffcsm3527597fac.4.2026.10.28.15.06.15
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a8b77abffcsm3527597fac.4.2026.10.28.15.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 15:06:15 -0700 (PDT)
+        Wed, 28 Oct 2026 15:06:16 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v7 4/8] classes-global/sstate: Keep SPDX generating setscene dependencies
-Date: Wed, 28 Oct 2026 16:04:35 -0600
-Message-ID: <20261028220609.1348489-5-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v7 5/8] classes-recipe/deploy: Add do_deploy to SPDX_DEPLOY_TASKS
+Date: Wed, 28 Oct 2026 16:04:36 -0600
+Message-ID: <20261028220609.1348489-6-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261028220609.1348489-1-JPEWhacker@gmail.com>
 References: <20261027224931.385138-1-JPEWhacker@gmail.com>
@@ -64,94 +64,29 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 22:06:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248841
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248842
 Content-Type: text/plain; charset="utf-8"
 
-Tasks that create SPDX documents can reference SPDX ids from documents
-created by any task they depend on. When it comes time to create the
-final SBoM, these referenced SPDX ids must be present so that they can
-be merged into the SBoM. Specifically, when a task that restores from
-sstate (a setscene task) is one that can create an SPDX document, and
-that task is depended on by at least one other task that can create an
-SPDX document, it must always be restored.
+Any recipe that inherits this class will automatically generate deploy
+SPDX data for the do_deploy task
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes-global/sstate.bbclass | 38 ++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ meta/classes-recipe/deploy.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index b2fa93650a..c6d9459182 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -1125,11 +1125,28 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+diff --git a/meta/classes-recipe/deploy.bbclass b/meta/classes-recipe/deploy.bbclass
+index f222a8560f..a3b48d6f7a 100644
+--- a/meta/classes-recipe/deploy.bbclass
++++ b/meta/classes-recipe/deploy.bbclass
+@@ -6,6 +6,7 @@
  
-     logit("Considering setscene task: %s" % (str(taskdependees[task])), log)
- 
--    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_create_spdx", "do_create_recipe_spdx", "do_deploy_archives"]
-+    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_deploy_archives"]
-+
-+    # SPDX tasks are only needed if depended on directly, unless they are
-+    # needed by another task that is creating SPDX documents
-+    SPDX_TASKS = {"do_create_spdx", "do_create_recipe_spdx", "do_create_package_spdx"}
- 
-     def isNativeCross(x):
-         return x.endswith("-native") or "-cross-" in x or "-crosssdk" in x or x.endswith("-cross")
- 
-+    def isSpdxTask(key):
-+        taskname = taskdependees[key][1]
-+        # Tasks that start with "do_deploy" might be included in
-+        # SPDX_DEPLOY_TASKS and should be kept
-+        if taskname.startswith("do_deploy"):
-+            return True
-+
-+        # Tasks that are don't start with do_deploy, but still deploy SPDX data
-+        if taskname in {"do_image_complete", "do_populate_sdk", "do_populate_sdk_ext"}:
-+            return True
-+
-+        return taskname in SPDX_TASKS
-+
-     # We only need to trigger deploy_source_date_epoch through direct dependencies
-     if taskdependees[task][1] in directtasks:
-         return True
-@@ -1142,6 +1159,8 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
-                 return False
-         return True
- 
-+    spdx_deps = []
-+
-     for dep in taskdependees:
-         logit("  considering dependency: %s" % (str(taskdependees[dep])), log)
-         if task == dep:
-@@ -1198,12 +1217,27 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
-             # Target populate_sysroot need their dependencies
-             return False
- 
--        if taskdependees[dep][1] in directtasks:
-+        # Collect dependees that create SPDX documents
-+        if isSpdxTask(dep):
-+            spdx_deps.append(dep)
-+            continue
-+
-+        if taskdependees[dep][1] in directtasks or taskdependees[dep][1] in SPDX_TASKS:
-             continue
- 
-         # Safe fallthrough default
-         logit(" Default setscene dependency fall through due to dependency: %s" % (str(taskdependees[dep])), log)
-         return False
-+
-+    # SPDX generating tasks can refer to the SPDXID from the SPDX output of
-+    # their dependencies. Therefore if the current task can generate SPDX and
-+    # is depended on by another SPDX generating task, it must be kept so that
-+    # the IDs can be correctly resolved when merging SPDX output into a
-+    # complete SBoM
-+    if spdx_deps and isSpdxTask(task):
-+        logit(f"Keeping SPDX task {taskdependees[task]} needed by SPDX task(s) {', '.join(str(taskdependees[k]) for k in spdx_deps)}", log)
-+        return False
-+
-     return True
- 
- addhandler sstate_eventhandler
+ DEPLOYDIR = "${WORKDIR}/deploy-${PN}"
+ SSTATETASKS += "do_deploy"
++SPDX_DEPLOY_TASKS += "do_deploy"
+ SPDX_DEPLOY_ARTIFACTS_DIR:task-deploy = "${DEPLOYDIR}"
+ do_deploy[sstate-inputdirs] = "${DEPLOYDIR}"
+ do_deploy[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
 -- 
 2.56.0
 
