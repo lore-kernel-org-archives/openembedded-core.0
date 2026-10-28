@@ -1,120 +1,90 @@
-Received: from mailrelay-egress16.pub.mailoutpod3-cph3.one.com (mailrelay-egress16.pub.mailoutpod3-cph3.one.com [46.30.212.3])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.40311.1793186079323022661
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44848.1793199320829238536
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 04:14:40 -0700
+ Wed, 28 Oct 2026 07:55:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@embetrix.com header.s=rsa1 header.b=k4OXgQtS;
- dkim=pass header.i=@embetrix.com header.s=ed1 header.b=vWJTr4UD;
- spf=none, err=permanent DNS error (domain: embetrix.com, ip: 46.30.212.3, mailfrom: ayoub.zaki@embetrix.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793186076; x=1793790876;
-	d=embetrix.com; s=rsa1;
-	h=content-transfer-encoding:content-type:in-reply-to:from:references:to:subject:
-	 mime-version:date:message-id:from;
-	bh=NyhwNw+EqUwtiYmtm9S1TmI7bF9TiXzmgHc1P+aJr8o=;
-	b=k4OXgQtSIKUjtJUj4Z1OB9Moz08eYFgBqfK7li4+pYwqFOOMD3omgdOg6iamyY5HrBzvBbb/Ei9i3
-	 z3dgxpHhNpm0K3CeRWBxwz34lU0/wgCGCure7LPAKaGoESVfNEqw2gAv8TlkEDBiKMRZaWbRths8WC
-	 thVYRHd2R2Bp8GzBiQfBY91rC2u7pfZ/D0gD4h95b153ii/SGhxjyfrh7oHzgqpk/mm5+BOrbpgYk1
-	 1tqXDhY5xQR927O53ZLNuieGohZTieL1RA5FskoIKsTj86N4B8f9BiMSfD1ptdUveTkpQwwS2SjLCR
-	 z7/jjfPxdtXuyppaN6Sw2VTVTcBFaig==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793186076; x=1793790876;
-	d=embetrix.com; s=ed1;
-	h=content-transfer-encoding:content-type:in-reply-to:from:references:to:subject:
-	 mime-version:date:message-id:from;
-	bh=NyhwNw+EqUwtiYmtm9S1TmI7bF9TiXzmgHc1P+aJr8o=;
-	b=vWJTr4UD/PkjX3xx2GbYX+dASQ8GIx9KquBKC7EP9f1SXZhfAlHhqyeihPgGXW9ACiZ1NEDxY60Aj
-	 2l4TJbhCg==
-X-HalOne-ID: c1adc3d3-d2c0-11f1-85b2-6d49bcc6f3f8
-Received: from [IPV6:2a02:3102:8c10:1ae0:c98b:5300:3c35:71e4] (dynamic-2a02-3102-8c10-1ae0-c98b-5300-3c35-71e4.310.pool.telefonica.de [2a02:3102:8c10:1ae0:c98b:5300:3c35:71e4])
-	by mailrelay6.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id c1adc3d3-d2c0-11f1-85b2-6d49bcc6f3f8;
-	Wed, 28 Oct 2026 11:14:36 +0000 (UTC)
-Message-ID: <8ed9b8e9-f82b-4275-9284-327b3b0aefae@embetrix.com>
-Date: Wed, 28 Oct 2026 12:14:35 +0100
+ dkim=pass header.i=@9elements.com header.s=google header.b=Z2vlNu2Q;
+ spf=pass (domain: 9elements.com, ip: 209.85.218.47, mailfrom: tan.siewert@9elements.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c37b612635bso142684066b.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 07:55:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1793199319; x=1793804119; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zAtGKRB37bTWowEMyP3HfTYiDXfzHB/9yit058DPPFY=;
+        b=Z2vlNu2QMdIzb8Zz0LXO73V2Po06Igdn6thsMVb86ZQibzuSTndmwPqPtpAuE3QqT5
+         1ty8sL+4gF1A+q7ntD7dSgYrmqrB51fGSun4Q1S9rzZ4y8vy2eBPXfsmq6I2iUshlTt2
+         uv6P9Iq7G1HxYdJ95cNyp2MJYWnCa86DHe1dDFfiEDH2IJIvxWJ/hGr+Z+5/WcK8t2cv
+         c6XupTdCWc/ISs+Zx7YtKN9numlfNHlc249e2vbgJJV8PXUMGu5VCsODeWoYREguOjnP
+         vjwYm1GZwWfquTo8jb8nBcVqcdu37AKEVx8cnAlRVVtEdf67qRQmwZQX1CBrl9JSe4lZ
+         Lv6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793199319; x=1793804119;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zAtGKRB37bTWowEMyP3HfTYiDXfzHB/9yit058DPPFY=;
+        b=iP9J2oe7s8YhHVVkNmB2E3HS6yApg6w71f3DGVNxjii9FlCPrJ+4HzIAvLgxZYLKr8
+         4Q9wPrCHLUoWEboXIL12V2fncnryFqfxNSfw2QJF5DyFkbjUIQvQgKzd+PJ7+phqC1FM
+         B8SUr1AyGFaToR0Ulm5MZhgQtA24DtmFimA79ukWjjk3vEdNuKsVA3/w0wdMybQEYKgK
+         uq/LljUgnzcjtbhumm9ZNQKl4kTNs/LLVzYT4a3RHbDPv2kGI2iIkIAimgrUY3Ylc3YS
+         PjJ1jnK73yl0JgwJolIXiFQcKpA7chKz4ppwVcFKmMxdJ7K2oe2fGlHXN0jVd3p2+SQV
+         uMbw==
+X-Forwarded-Encrypted: i=1; AKwUvBwEJefqXCtTyOdq+JFpy/Y4jEpY4HquAVsmfI5yD8me9IpjR/U/6/r5L81bLLWuXboeQ0ePuoA9adREKlo9lEqVcQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYI9Ify8OcwwupcYIDnTOmKPTm1ZAAGE7Aub6z1RYdtw8fuRnICM
+	iwR3DRIxm7Jb0pQXu8MGwusnu3nPEQORe0zHq1kl2u7fkCcwe2K0Y+NwcntGCPSRFV0Ub1aKkQS
+	rx+/A
+X-Gm-Gg: AYBFou1FcTmDUBK8p46D3acqqK8Aa8s9yeIdwQRgpivVeHJ4U63rbBfpeVFoqsfREeh
+	43WzZxLHdMPKzmZ0Ax2QoCqD95HwG30v8HBFbdl+FJRiAfnznHE1hmDq8BcOPx/T93gUg7H9w+a
+	KuzSbl+qt9hV2jcYPrYr7gcV8NXGecZcZcxzXRJTeqF5b9AF4whI1lx+8jTvDe270IYLXZN9/OA
+	GQ7mrDMJvlhhpkC3JCIM3tVToK4EEgiKwHZIXJbICSh6Zk6tfRcpwT/YdV+bdpNnFveb1ajuzOX
+	cTsZGuVkQO7ax2J4Z/rjvCyX/3v6w1uy8kxbCLShx60zEW4PDqtp/bP17lCyH3SP52ezLgYfaDz
+	A9Y0WXOIckm/uXsaleicNnL0JjubkVjZTxn7tNd4trX/qmVqYxjeLM8AUB/YBlv/1Ut1bggl0NS
+	jG2OEONZ+uBS7Uw4/4PKzZ2rUpjHN8b8Q7Pd1v7yklcXuPbgc8gNHPlnP2m9KXZhut4a+2TVOwH
+	11wmR+yIAIyheGEi47vS+/VZWKHOGusHtQmzeiCpkaK5f+6OUOZwjvaRbfRQNmRWAhwrqzRFdG+
+	C/cc3GMp5HMgKsTCSS+kJrw9X8atf9kay4rZROCyYAnzYmR05YTQNn+TAamJ/QRsjER2UiP5GSu
+	51T4XJOCIjYmbw7+mijaio4Al
+X-Received: by 2002:a05:600c:19c8:b0:4a1:df52:3e36 with SMTP id 5b1f17b1804b1-4a967201e9dmr57983465e9.27.1793199009372;
+        Wed, 28 Oct 2026 07:50:09 -0700 (PDT)
+Return-Path: <tan.siewert@9elements.com>
+Received: from ?IPV6:2a01:599:441:aa83:be8d:8cc8:902:f501? ([2a01:599:441:aa83:be8d:8cc8:902:f501])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a977edc08fsm48284485e9.4.2026.10.28.07.50.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 07:50:08 -0700 (PDT)
+Message-ID: <7edd2f20-a4a9-473c-aec7-4377f2e9a0bc@9elements.com>
+Date: Wed, 28 Oct 2026 15:50:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2] pkcs11-provider: import version 1.3.0 from meta-oe
-To: openembedded-core@lists.openembedded.org
-References: <20261028093240.345039-1-ayoub.zaki@embetrix.com>
-From: "Ayoub Zaki" <ayoub.zaki@embetrix.com>
-In-Reply-To: <20261028093240.345039-1-ayoub.zaki@embetrix.com>
+Subject: Re: [PATCH 0/4] systemd: add packageconfigs for storage optimisation
+To: "Tirumala Pudi, Sai Sireesha" <SaiSireesha.T@windriver.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: Patrick Williams <patrick@stwcx.xyz>
+References: <20261023-systemd-optimisations-v1-0-0cce103e54df@9elements.com>
+ <SA7PR11MB9594AC924FFC3242C77F7B8DE8642@SA7PR11MB9594.namprd11.prod.outlook.com>
+From: Tan Siewert <tan.siewert@9elements.com>
+In-Reply-To: <SA7PR11MB9594AC924FFC3242C77F7B8DE8642@SA7PR11MB9594.namprd11.prod.outlook.com>
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 15:05:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248815
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 15:07:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248816
 
-Hi,
-
-
-On 10/28/26 10:32, Ayoub Zaki wrote:
-> OpenSSL 4.x removed the ENGINE API. Add pkcs11-provider to OE-Core
-> to support token-backed keys for target applications and native signing
-> tools without requiring meta-oe. Token drivers and provider activation
-> remain product-specific.
+On 10/23/26 10:00 PM, Tirumala Pudi, Sai Sireesha wrote:
+> Hi Tan,
 > 
-> Imported from meta-oe/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb
+> Thanks for sharing the patch series.
 > 
-> Signed-off-by: Ayoub Zaki <ayoub.zaki@embetrix.com>
-> ---
->   meta/conf/distro/include/maintainers.inc      |  1 +
->   .../pkcs11-provider/pkcs11-provider_1.3.0.bb  | 21 +++++++++++++++++++
->   2 files changed, 22 insertions(+)
->   create mode 100644 meta/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 74db3e44e9..10cf20a885 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -604,6 +604,7 @@ RECIPE_MAINTAINER:pn-piglit = "Ross Burton <ross.burton@arm.com>"
->   RECIPE_MAINTAINER:pn-pigz = "Kris Gavvala <kris.gavvala@windriver.com>"
->   RECIPE_MAINTAINER:pn-pinentry = "Unassigned <unassigned@yoctoproject.org>"
->   RECIPE_MAINTAINER:pn-pixman = "Unassigned <unassigned@yoctoproject.org>"
-> +RECIPE_MAINTAINER:pn-pkcs11-provider = "Unassigned <unassigned@yoctoproject.org>"
->   RECIPE_MAINTAINER:pn-pkgconf = "Ross Burton <ross.burton@arm.com>"
->   RECIPE_MAINTAINER:pn-pm-utils = "Ross Burton <ross.burton@arm.com>"
->   RECIPE_MAINTAINER:pn-pointercal-xinput = "Unassigned <unassigned@yoctoproject.org>"
-> diff --git a/meta/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb b/meta/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb
-> new file mode 100644
-> index 0000000000..bd51625b8e
-> --- /dev/null
-> +++ b/meta/recipes-support/pkcs11-provider/pkcs11-provider_1.3.0.bb
-> @@ -0,0 +1,21 @@
-> +SUMMARY = "An OpenSSL provider for accessing PKCS#11 tokens"
-> +DESCRIPTION = "An OpenSSL provider to access hardware or software tokens through \
-> +the PKCS#11 Cryptographic Token Interface."
-> +HOMEPAGE = "https://github.com/openssl-projects/pkcs11-provider"
-> +BUGTRACKER = "https://github.com/openssl-projects/pkcs11-provider/issues"
-> +SECTION = "libs"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b53b787444a60266932bd270d1cf2d45"
-> +
-> +DEPENDS = "openssl p11-kit"
-> +
-> +SRC_URI = "git://github.com/openssl-projects/${BPN}.git;branch=main;protocol=https;tag=v${PV}"
-> +SRCREV = "b55b94344af87a058fd84d6e15390760a5585b1d"
-> +
-> +CVE_PRODUCT = "latchset:pkcs11-provider"
-> +
-> +inherit meson pkgconfig
-> +
-> +FILES:${PN} += "${libdir}/ossl-modules/pkcs11.so"
-> +
-> +BBCLASSEXTEND = "native"
+> Just wanted to mention that I've submitted a patch upgrading the systemd-related recipes from 262 to 262.1 to the OE-Core mailing list.
+ > > I noticed that your series also modifies systemd_262.bb, so there 
+may be some overlap depending on the order in which the patches merge.
 
-The integration report this error:
+Thanks for the notice! Given that I have to send a v2 out either way 
+I'll just send you a v2 that sets it as prerequisite (if not merged yet).
 
-
-https://bodnuti.dev/reports/openembedded-core/20261028093240.345039-1-ayoub.zaki@embetrix.com/
-
-Is this a known limitation of the checker when introducing a new recipe 
-or is there something I should consider?
-
-What is the recommended way to handle this?
-
-
-Kind regards
-
--- 
-Ayoub Zaki
-Embedded Systems Consultant
+Thanks!
+Tan
