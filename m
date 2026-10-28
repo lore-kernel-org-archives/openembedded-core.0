@@ -1,194 +1,195 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.16])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38270.1793176185989993005
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.38488.1793178471060761965
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 01:29:46 -0700
+ Wed, 28 Oct 2026 02:07:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=IdqP4VMB;
- spf=pass (domain: est.tech, ip: 52.101.83.16, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F6ZII5GMdFsU0hJDlcKT9mgq/POz7y7jOw46CjIQpihK38JI+kpZpxd/BU/70g0n9YqrjyJc15tAX0AVj5Bkju6UAAuPZT4pNy+xCWkggszCv6mGinKZ8XheYV1xpU2lUG+iFFdXRXha+ZKI+DCVmj81vdDOkyOC0isnzq1YdaiRI2pyb4z9dMbwBX0rEF/27xqq9DKP/t/gXSeBoqK2/xrqf2ifRWh9cJ2vg+h/N7YJyZsxHvfo3UGGGeSCWFsES2YIGofEAgXxPeudWuHzhlwtG0Ni6zdQYzQX+CofblwP9rRcvShV0PpJkoDbx/T3sMulo/+AtkN2ff44FBmARA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rJ1e6WSsjpz3Qv6le2Q6TKZAQKbXY4KBGUBfTKaSma4=;
- b=cDxU1iBTpM4nsoBCspo+GD3YLs6FH76pn6mT6d61dcWd3t0MHqarutMiwXqHE6Umd0/QG3I9t+6lbRPHN7MB5Ywjy0tFrzAiF01jqS/NAM9mKSyqJlkdSEsBIhXlwKWJNHJYUWCgHOqiJbwPXh1KoUaSrLpODye5AGETsRSyxqM8hDQCmUwUiUZKPtsRhOu5nB28vM65qyERt9+blJZEqFDv+Zv5X2EO4DYaFwJKUuMJC4XGtYqckx2Rt5kXHExoOqPK/Fow8FQTffMCiw+4BY/tMWQwJIjWMRfRxWjefsLJrvo1/KfJO94WFKHWmusapFLRnBE3azloBRXAxUCdGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rJ1e6WSsjpz3Qv6le2Q6TKZAQKbXY4KBGUBfTKaSma4=;
- b=IdqP4VMBXNbuAEEJlYaQm5AtNW0Ji0HfpcVN/0XSNfMd7XHuOQwDhma2/is7diMl/KXNNzxlc2TlsZShDG2TRsLGF5cWzpyUqX7UxTnpUbjttmQNZGFKdMde0RRFq0FDM/YiaFdi/8rpWVu8RgPGnAyE33cHyvUrTegE+9fQgWypX/03cr8WnKwdB5qydyXGwIYvkOnGEmZSMRl6tF7JugkYiTcxp/ZekHT4OVpIj+vavVHccm9xoQK87Mzc5mr+n7dBNqxDw+g484NMZ1h+lZQudW9M9gmeMyksi/EONVW66H7/SIBHxEPwfBJ5/walDKEd+8E4Y3xBxewauTY83w==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by BESP189MB3178.EURP189.PROD.OUTLOOK.COM (2603:10a6:b10:f4::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Wed, 28 Oct
- 2026 08:29:40 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0546.021; Wed, 28 Oct 2026
- 08:29:40 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libjpeg-turbo: Upgrade 3.2.0 -> 3.2.1
-Date: Wed, 28 Oct 2026 09:29:38 +0100
-Message-ID: <20261028082938.3228-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=QYlVuJQG;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48e10a70540so416567f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 02:07:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1793178469; x=1793783269; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SSkkrye3KzOdPdMzbOxOJtihkT17Q4iD7l5B2XuPdEY=;
+        b=QYlVuJQG/jxWcY4+xOUGuUZ+ViVVqA7BNnoJ30dNBthiCmo558veLvEdNthAjgyKXI
+         ofI4iMlhRGZQg9LZbXYVcm065gyfDuEog1S0LcISvx5o/yZ9b1dkqADDJ5PfDw7rktkc
+         R39kbUPBFrwIozN7GrR/3mnHiE6sSTKx2usrK1XeSEnb+ctBAKMPeD1e90X12vRdN0aH
+         D6HpXUQ0kj0U1Xz4PAvKtF/LKfCj07LX0pFMTq3eg5abICZc4ajYO0tMdlTTnMo3zuV2
+         DOn/8nEfkBugTdU+cjPj0GFZtzNNCoDGHcImJOUx9pojKPSunCu8/UBg9PxSBbSUDK66
+         hXQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793178469; x=1793783269;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SSkkrye3KzOdPdMzbOxOJtihkT17Q4iD7l5B2XuPdEY=;
+        b=F7fH1jWQk79udsEo/+OdOMqHJxCuK/K/9++depDLFyD4Aqx+RXi+OVntExbePHy5Vk
+         ktZtRARMqMGmlKzycwIzAQqC8X4V2KZ91uMRhTrdx7Iz0zGzKJP6Bw1uzdqlOOogZPr8
+         CYc2KBP+00BiPqMQItZowv3KqQh1o6U4gpPCT6s6PqYy0d79F/rFYxPKiNR8nOC8y9P1
+         xsAXVpbmWq6c4Dy7I5mSzSWRsQwChOkNC7tGv46b3s9DbpMqxEWGKgm903sLwk8hB0Pk
+         5qfHufTHSOE0Mvna7s2F4LdyA21X3v7tIlyfjp3l4qud9Pur+zQ8QYHEPnstHItsd5MY
+         83JA==
+X-Forwarded-Encrypted: i=1; AKwUvBwb9xg7UuN+iSfo7kbZTrzyFQkrq5XCLjWkNBpGFyuOj6lxFSpQdZb4mCXQpEHl2tHrAnOYD2n3c1H6u7gKAggp+A==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYLluiQ0/yn9CKQQMAvs/LkeyhGv8tjlvI1anXxE+gmChYxkg8uM
+	Cv/eGJAS6uSLPUmXVe1FvxEaTziYuy4wVUEE69AmnMYD5MowhfFabuFtfUu7U51Vtng=
+X-Gm-Gg: AYBFou10NF6nSoGq2FqLGBZOiN7/Vllkmzs5YmHRe938qpR6XGQeSOHUk3XdgNDi/lv
+	6zBP4e+2P372MudD34T8hifJjljdyLe6f7mFWhOI8GAcSOr3FRFrfExNJTieC2X0TLDSS6Zvwn6
+	fKa+rsk+k/wpfYOwlyLdINTW2k2V0QbWo22SPJe/2KbmmDygmrYFHBosC5KeL3BYh6M14IZT6y5
+	WojDkHmQXKXRsTxx6y/1igVOP3st5cXn2y0bEezokUuLcsFUemyjByUUfHHSvykLQHACaC7h0pU
+	0rGA7elhbh6Y6ER0X2rXE5CU+9nzC3P+XnMHcttNjXMgDiJ/+kzaRmL2z8/cTkDLznUH3gOojcI
+	51m/38koYj2kagkqzLSOMzDD7/p8WPtvUzap6vV/Y1dUbZrdNPVhkchvZqZUxxAGMlcc0zUHttJ
+	VoDnJY0OOWORbDEhFYm5HVZLDJMA25zbBD+wOLuQUYqDBrrPq8huLlji1TviWh4eBh1Ra/NJp+J
+	eoknvbny5kld38EKY1vlkGk3dAjKQRYK0LF+T/3jf/KGJrNBvFs/6VnVIHk7g3TzLHcCidI7aY5
+	Wu30Y6sxThdSfUvZlTSbdJqVmnw3Q+VC+RMa5E3+ezZh+9F6pDKu2jvwzVTRdJXidJk4ZT8k1SC
+	TP5QFZlCekWc5SyU=
+X-Received: by 2002:a05:600c:a48:b0:4a6:42cc:bf66 with SMTP id 5b1f17b1804b1-4a9661ab4e9mr32319075e9.11.1793178468348;
+        Wed, 28 Oct 2026 02:07:48 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a92e104d8csm22003525e9.0.2026.10.28.02.07.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 02:07:44 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P123CA0336.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18c::17) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|BESP189MB3178:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f6630ac-9d84-4114-3f19-08df34cd9c20
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|261026140227099003|260925022911599003|260925021911599003|260925021311599003|11063799006|56012099006|261022075727099003|261009223027099003|261021121427099003|261022105027099003|261021123027099003|10067099003|17002099007|261026121527099003|18002099003;
-X-Microsoft-Antispam-Message-Info: EifSnnROPF7ozWH83BEmIdaVGXjvm8L9sGcoRor+QTRHmWrHSZ3VrqJm7fU1l8FaB2VFsUkIkEBQb88/z4JWx6iDw/z8E9Otjidx6U/UC1IHbI4/e/Zmm4Z3Dsx5trDnjEqNw19fV+HotwNqZbdKrzNBFnmfvpHqqHn5KUbFPdL+R5qYueVyxX9rTMarZiEhqe+9XWB/ksT4AFBEKcD3kkCaigqEtT0Yt24uaPwBrwVKH3d3M6phMuMxl0JFoYqx3PhG1ZkqomUaI/dGuVW965JgIVEfKK1cKIyDt7AYQ6MkG88ThX8ddQEbQetpfqZq9MiwmKG+E5iq0QQKhsnwtljfuYg9XIsChE3njUfeh570BcXuOO6FI1EcDA4OTbHCb1QptKZFf//iCOyAbkPMEU/K5iohjzUwHSbyRHFxMUT8rExbuQoSRbppub4qzEdRjxiSsRoGUyb88ff2EPYFXtNwnqwfl0hRccNeDAXaAg2yddk1dYKTO1miLGlkQ+4iA30Sz/2G+9xZuM/wwaEhvvklVcHSHdmKp1LvzcwGiREXDCH8JQIfGxCZYq8giapnLtIjWibndbrhZ1CQ2S7pQoook+sPNyKTAdl6cORXuU4B0hqkQHSQnOkYoDxbLH5KHGkEAewD7b5A/TRyzzL2933sHCxg70bZt4HowENyeXE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(261026140227099003)(260925022911599003)(260925021911599003)(260925021311599003)(11063799006)(56012099006)(261022075727099003)(261009223027099003)(261021121427099003)(261022105027099003)(261021123027099003)(10067099003)(17002099007)(261026121527099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?A5cNnykspDGbBw6G5akbeZF9+d8QI10KRDj2xv7TN72m3enRn74b4uOZRV1p?=
- =?us-ascii?Q?CW2oWZeD+VLVuKGCPZplNnsJlfsYFW0EryXaYlEOB0LXcb6BtsPCZXG8gw5l?=
- =?us-ascii?Q?9mn+D2GhLpbUuo/973v3V/5F9CZixtyQiHTYE8OzYzxBrdDSF1v3vW+XIVrq?=
- =?us-ascii?Q?dkv2VK6nA3iccMEpGeyoEO49w5txjXkNnEiSjPg3RcjTCDjJQXsTBqeWyV4x?=
- =?us-ascii?Q?8vFvqe9ukowm9E7ETSDPeY5hi3vC9g/34lH0/COlzufQsf8m/wC8XMizEtl7?=
- =?us-ascii?Q?DY7S87iWMPiCfjggu/1OsTOeBUqp5M2boI0vL6nEbs9JQUnZAlfAQzQUlAgQ?=
- =?us-ascii?Q?/wpX9Lq1Oj0xrIgi6XEt/NHrJDIb4sGqorSKTVLYM3NDBWmxhqv1Li/stZHr?=
- =?us-ascii?Q?Oi59SbzWxL3MzR7gX6i8EEGWnBQO5v1xoRLcT9f902uq09UPp7g0MOLSOzp6?=
- =?us-ascii?Q?94lKVLe0lV3COPjxN94lEyCp/Y2gFMpx1PQm7qFQSZ+m7PCpxxX4XgdJcxFA?=
- =?us-ascii?Q?Sech+TU6FwKhNyNHb/6v3lcTZxZNuVTTpPJg5o6gxM72FCQcZW2fc6JNXk6r?=
- =?us-ascii?Q?gsWf0qz+z4zdDCwsg4zmhMEJhky8MyIglRA4U1ksFIvjIW3B87JN19T89kGQ?=
- =?us-ascii?Q?Fcci6o+lEo5439e40+Z8cIYotLdu7AiEqFkNaHjKP9NXEV7pDvScB+iyRDvF?=
- =?us-ascii?Q?+tJG1Xaf4TeVfw1ucKs4slpw9dz4Qhhz2FSMXrbuByD5Le/ZK9lOuQNMRhFv?=
- =?us-ascii?Q?8xZNY0aw8sFqUHCKfU+g4w/R35sVyMZ5+aXC8xwICzk/JnS9/q8Du599slDr?=
- =?us-ascii?Q?BLBaKkxmKTJ/WI0mDK2RdR07ypAS4mBz0gY6zs1SEHvGZ+29D5HSSTBlovA5?=
- =?us-ascii?Q?wUmpV+HAZBNSepJ8t179T8mC7FV+PL+BJXgnyJ2a2K6VGSxaN7Cq+R7ZqMrI?=
- =?us-ascii?Q?0vuyd8kweiNtJ+XHRAYNo9QeCgL3GDIntKzYGr4DoxDroDnNfkygd8OjhYmQ?=
- =?us-ascii?Q?wDqQYd9ylyRkBeoUEqE10SZKKZrMUaLwRABdxxWy6g7Y7Ci3ihp61vpBrMpN?=
- =?us-ascii?Q?Pl5OQJnHAsv9LIFOlY+SeF1Or2wC+Qimuhht+fuY5He7/ZOxw/YbGzDFvCx7?=
- =?us-ascii?Q?54KrBTZb16fdiO0x087RyFP29fbyXwcFL69ZAnQ2A9Nk5P6M3pehibpA5BQf?=
- =?us-ascii?Q?6wqecjvgQBEc3P+ZjTKJnEurukGxmuMe0fqOGsro1RwO6qHsezlsnzguvXOn?=
- =?us-ascii?Q?ef4qXvdlFtwdkBLmaXlkH8iVEYcsKgMpnAKDYJ6YIYII1nOPBTOQsQJfDMuV?=
- =?us-ascii?Q?OmKmycp6+XFcY3aET5+tADTZ2uyMG0y2G+nVnwZPjVed/Pc1QDfIj+qATXQ7?=
- =?us-ascii?Q?p6MhFnEcLs79G9nrmZ/5BBHFMi+TCixq/crmEmv7RuI0P55pgT9CThGNewlW?=
- =?us-ascii?Q?Y+e86S04HrAv0kcad30bfZK+DxBOcGhEQ+cKBjMXyyLEYStUCA08Bx9jDlqh?=
- =?us-ascii?Q?1syZFzZXtSrqi+dl4/FDpX+exY7sqXM9FMOQjlPFCTRZav3Kwxj+/Jdf12oN?=
- =?us-ascii?Q?t66PztrTBUUMaHm1xiN0FNvkCvGq8t8/Jii8cZM/qcIjRwejNdvjePwqQawE?=
- =?us-ascii?Q?KICAPJJauBmf70Cn/6lqGdyju/D4p2nAaCftEczu3LpvWICyDeBVnqC5LgGW?=
- =?us-ascii?Q?EL3Qj43C9xzF3e/T7tSOTFuR89sT9XpVJ6oD7il5YS2iufguh6go51rZ9uIf?=
- =?us-ascii?Q?SmzXEDom24klKtb4mVR9TYFaSmiNnO0=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f6630ac-9d84-4114-3f19-08df34cd9c20
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2026 08:29:40.3536
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EXJVwTw5HXEupnnSg7ESVnFpfwY9mJ5pNYjU8ygaNp9WsfalGD4fRremezXJHWD7BudFXObsTeoI1spejSN5YRopgsLtcvZwuZ4lClxiQ18=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BESP189MB3178
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 28 Oct 2026 10:07:43 +0100
+Message-Id: <DMGCPPR45G7N.2FMNA6HS4W3G6@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches from
+ u-boot
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+ <hthakar@cisco.com>, "peter.marko@siemens.com" <peter.marko@siemens.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260923173850.21338-1-peter.marko@siemens.com>
+ <DM5RBD9MJT2O.2M12R8AMW5OLY@smile.fr>
+ <PH7PR11MB8598B39DBADCDF5C628594DDAD672@PH7PR11MB8598.namprd11.prod.outlook.com>
+In-Reply-To: <PH7PR11MB8598B39DBADCDF5C628594DDAD672@PH7PR11MB8598.namprd11.prod.outlook.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 08:29:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248798
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 09:07:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248799
 
-ReleaseNotes: https://github.com/libjpeg-turbo/libjpeg-turbo/releases/tag/3=
-.2.1
+On Tue Oct 20, 2026 at 7:16 AM CEST, Hetvi Thakar -X (hthakar - E INFOCHIPS=
+ PRIVATE LIMITED at Cisco) wrote:
+> Hi Yoann, Peter,
+>
+> Thanks, Yoann. Continuing the discussion here as suggested.
+>
+> As i explained in the other thread [1], the existing u-boot fixes are
+> not currently applied to u-boot-tools. My CVE_STATUS changes address
+> cases where the affected code is not compiled into the tools build.
+>
+> I understand that the proposed separate include would allow both
+> recipes to share the CVE patches without adding them to
+> u-boot-common.inc and affecting downstream users.
+>
+> My concern is whether we need this additional include and shared patch
+> list for cases that can be handled through recipe-specific CVE_STATUS
+> entries. Could we consider the held exclusions on that basis?
+>
+> If maintaining one shared source patch set is the preferred approach,
+> could you clarify how we should handle patches 2=E2=80=9311 of my series?
+> Should we revisit them after the shared include is settled and retain
+> only the exclusions still needed?
 
-- Drop zlib.patch which is part of release
+The general idea is that by sharing CVE patches with the main u-boot
+recipe, CVE would be also "fixed" in u-boot-tools (even if said patch is
+not compiled).
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- .../jpeg/libjpeg-turbo/zlib.patch             | 50 -------------------
- ...-turbo_3.2.0.bb =3D> libjpeg-turbo_3.2.1.bb} |  5 +-
- 2 files changed, 2 insertions(+), 53 deletions(-)
- delete mode 100644 meta/recipes-graphics/jpeg/libjpeg-turbo/zlib.patch
- rename meta/recipes-graphics/jpeg/{libjpeg-turbo_3.2.0.bb =3D> libjpeg-tur=
-bo_3.2.1.bb} (94%)
+For 2-8, patches are in u-boot so no need to ignore them:
+* [Patch 02/11] u-boot-tools: Ignore CVE-2024-42040
+* [Patch 03/11] u-boot-tools: Ignore CVE-2024-57254
+* [Patch 04/11] u-boot-tools: Ignore CVE-2024-57255
+* [Patch 05/11] u-boot-tools: Ignore CVE-2024-57256
+* [Patch 06/11] u-boot-tools: Ignore CVE-2024-57257
+* [Patch 07/11] u-boot-tools: Ignore CVE-2024-57258
+* [Patch 08/11] u-boot-tools: Ignore CVE-2024-57259
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo/zlib.patch b/meta/rec=
-ipes-graphics/jpeg/libjpeg-turbo/zlib.patch
-deleted file mode 100644
-index 4a62eecb8a..0000000000
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo/zlib.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From 95156233739078e7d4de0aeeacc4b0595630f393 Mon Sep 17 00:00:00 2001
--From: DRC <information@libjpeg-turbo.org>
--Date: Wed, 15 Jul 2026 13:03:38 -0400
--Subject: [PATCH] Build: Fix CMake pkg config file if WITH_SYSTEM_*
--
--If WITH_SYSTEM_ZLIB or WITH_SYSTEM_SPNG is defined, then the generated
--CMake package config file will include (respectively)
--
--    INTERFACE_LINK_LIBRARIES "ZLIB::ZLIB"
--
--or
--
--    INTERFACE_LINK_LIBRARIES "PkgConfig::spng"
--
--in the libjpeg-turbo::turbojpeg and libjpeg-turbo::turbojpeg-static
--target properties.  Thus, our CMake package config file needs to find
--those dependencies.
--
--Fixes #901
--
--Upstream-Status: Backport [https://github.com/libjpeg-turbo/libjpeg-turbo/=
-commit/95156233739078e7d4de0aeeacc4b0595630f393]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- release/Config.cmake.in | 15 +++++++++++++++
-- 1 file changed, 15 insertions(+)
--
--diff --git a/release/Config.cmake.in b/release/Config.cmake.in
--index 0c1ba8aa6d..04c147ef0a 100644
----- a/release/Config.cmake.in
--+++ b/release/Config.cmake.in
--@@ -1,4 +1,19 @@
-- @PACKAGE_INIT@
--=20
--+set(WITH_SYSTEM_SPNG @WITH_SYSTEM_SPNG@)
--+set(WITH_SYSTEM_ZLIB @WITH_SYSTEM_ZLIB@)
--+
--+if(WITH_SYSTEM_SPNG OR WITH_SYSTEM_ZLIB)
--+  include(CMakeFindDependencyMacro)
--+  if(WITH_SYSTEM_SPNG)
--+    find_dependency(PkgConfig)
--+    if(PkgConfig_FOUND)
--+      pkg_check_modules(spng REQUIRED spng IMPORTED_TARGET)
--+    endif()
--+  else()
--+    find_dependency(ZLIB)
--+  endif()
--+endif()
--+
-- include("${CMAKE_CURRENT_LIST_DIR}/@CMAKE_PROJECT_NAME@Targets.cmake")
-- check_required_components("@CMAKE_PROJECT_NAME@")
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb b/meta/recip=
-es-graphics/jpeg/libjpeg-turbo_3.2.1.bb
-similarity index 94%
-rename from meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb
-rename to meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.1.bb
-index 3364c0fb56..f8ba836569 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.1.bb
-@@ -9,9 +9,8 @@ DEPENDS =3D "zlib"
- DEPENDS:append:x86-64:class-target =3D " nasm-native"
- DEPENDS:append:x86:class-target =3D " nasm-native"
-=20
--SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
--           file://zlib.patch"
--SRC_URI[sha256sum] =3D "6f30092cef9fb839779646608f4ee14ae3cbac989c47fa05e8=
-41b0841f09878e"
-+SRC_URI =3D "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz"
-+SRC_URI[sha256sum] =3D "c27ad72a68da151177929aa969ae773a2da5ac2af9ce946079=
-314fdac8cece7f"
- UPSTREAM_CHECK_REGEX =3D "releases/tag/(?P<pver>\d+\.\d+\.(?!9\d+)\d+(\.\d=
-+)*)"
-=20
- PE =3D "1"
+For 9-11, there are no u-boot patches so ignoring them in the
+u-boot-tools recipe, would be fair (but patching them would be
+preferable):
+* [Patch 09/11] u-boot-tools: Ignore CVE-2026-29007
+* [Patch 10/11] u-boot-tools: Ignore CVE-2026-29008
+* [Patch 11/11] u-boot-tools: Ignore CVE-2026-29009
+
+Regards,
+
+>
+> [1] https://lists.openembedded.org/g/openembedded-core/message/247868
+>
+> Regards,
+> Hetvi
+> ________________________________
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoan=
+n.congal=3Dsmile.fr@lists.openembedded.org>
+> Sent: 16 October 2026 03:44
+> To: peter.marko@siemens.com <peter.marko@siemens.com>; openembedded-core@=
+lists.openembedded.org <openembedded-core@lists.openembedded.org>
+> Cc: Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) <hth=
+akar@cisco.com>
+> Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches f=
+rom u-boot
+>
+> On Wed Sep 23, 2026 at 7:38 PM CEST, Peter Marko via lists.openembedded.o=
+rg wrote:
+>> From: Peter Marko <peter.marko@siemens.com>
+>>
+>> After sharing CVE_PRODUCT between u-boot and u-boot-tools CVEs
+>> patched in u-boot showed-up in CVE reports for u-boot-tools.
+>>
+>> It does not make much sense to share git repository but not share all
+>> patches on top of it, so move adding all patches from u-boot recipe to a
+>> common include file where also the git repository is defined.
+>>
+>> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+>> ---
+>>  meta/recipes-bsp/u-boot/u-boot-common.inc       | 10 ++++++++++
+>>  meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb |  2 --
+>>  meta/recipes-bsp/u-boot/u-boot_2024.01.bb       | 12 ------------
+>>  3 files changed, 10 insertions(+), 14 deletions(-)
+>
+> Hello Peter, Hetvi,
+>
+> There is a bit of back-and-forth around u-boot-common.inc. So I thought I
+> would give my vision and get your thoughts.
+>
+> Fundamentally, there is confusion about the usage of this .inc file:
+> * This is the common part of u-boot and u-boot-tools recipes (what the
+>   above patch uses)
+> * But, also, this may be used by downstream layers to reuse u-boot
+>   recipe parts. We basically did the revert of Peter's patch a few month
+>   ago for this reason[0].
+>
+> With Paul, we would like to have a single set of patches common for both
+> u-boot and u-boot-tools, but that can't be in u-boot-common.inc as there
+> is a risk of breaking downstream layers.
+>
+> Our idea is to create a new inc file "u-boot-common-patches.inc" (I'm
+> not attached to the name) that contains only SRC_URI +=3D "CVE_*.patch"
+> and a big warning explaining that is file is only supposed to be
+> included from layer-local recipes (namely u-boot and u-boot-tools).
+>
+> This whole situation is not ideal but think the above would solve our
+> issues and still be acceptable under stable policy.
+>
+> What do you think?
+>
+> Regards,
+>
+> [0]: u-boot: move CVE patches out of the common .inc file - openembedded-=
+core - OpenEmbedded Core layer
+>      https://git.openembedded.org/openembedded-core/commit/?id=3Df4ced8ff=
+03147dd532a88cf3ce08d61fab057522
+> --
+> Yoann Congal
+> Smile ECS
+
+
+--=20
+Yoann Congal
+Smile ECS
+
