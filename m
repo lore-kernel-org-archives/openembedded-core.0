@@ -1,41 +1,41 @@
 Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36891.1793167562239435057
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.37041.1793167562262920824
  for <openembedded-core@lists.openembedded.org>;
  Tue, 27 Oct 2026 23:06:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FIqiO5Y3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4SI5t0vC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a1811d91f3-81ffa0c2-794a-4aab-a3ae-4a580f73cdc3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Dxb5TZ3t;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JsmL51ap;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a1811d9243-b70b46ff-7e49-4e60-88f9-48e0c74a342b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1793167561;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=VsnJm1+QckZkEvV5U4xJNyLB2CWO6s9t2GH01mJmgEg=;
-	b=FIqiO5Y33GGY7/VDt3+YbsyzDdsJmSLhb9VECKmEW+etOZxw9mZTne7ziM9wxH59
-	tQBkhXzwkI2wo9uiAIgmZZstjGuwgzDX+gWM5gVvFkgwxQtdTPSiV3wWk0dshiF5hz+
-	zLpgIu9wBzY07OTpI/O/wesyyc8RasnxdYULqIbs=
+	bh=yavJpcgEFePLFAtq39e79Vedk1UxnjdQ2IomuMzZpn0=;
+	b=Dxb5TZ3tLngWpks5CaSaPx6P/WUgLD5xgsV2Aca8ZfltRT971KI+QnOut2A5s0dv
+	c0py10X00SX4WS9CxoUQvnX0UyVSht2rHXNCCH924zfqXfQj3x/LC/94/8ZJIKnLfci
+	pseXTjQmap1cxIKc0bUHUX7JU8TswE+JkbL2dC2Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793167561;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=VsnJm1+QckZkEvV5U4xJNyLB2CWO6s9t2GH01mJmgEg=;
-	b=4SI5t0vCrbtv0vaa1vtTwmrM0j40ZrUy6zN22fFm0OAAO8iNb0h8lRfIN9Sziy37
-	jw2uBhq1VtiFgooM6hLfbKO4qoZ1JQ1ylaKhNEZxpsZsA9F31knxbkci5zJUC1MNF1g
-	ho4Jb7rn5PjBr2DCtgImQ6Hps00UDMbMzGYGh738=
-Content-Type: multipart/mixed; boundary="===============7939403425353266363=="
+	bh=yavJpcgEFePLFAtq39e79Vedk1UxnjdQ2IomuMzZpn0=;
+	b=JsmL51apxj9dO8mDzXajEVPwqe2DBQsO+tfhhcBuFLreOWE1O8ak15ZaQJAWK5se
+	zMBiuTTQCSooFOlPiKm2LUVyJgNmyZEc/7PeCcGHxzSzUmgHONBy2sn8Ao+mWuB8A56
+	WK3mcWZ39Ai2ID+eRW+13czYddgmOMgkaZ+y2Hx8=
+Content-Type: multipart/mixed; boundary="===============7934798243132493805=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytest: upgrading to 9.2.0 SUCCEEDED
-Message-ID: <010101a1811d91f3-81ffa0c2-794a-4aab-a3ae-4a580f73cdc3-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pyasn1: upgrading to 0.6.5 SUCCEEDED
+Message-ID: <010101a1811d9243-b70b46ff-7e49-4e60-88f9-48e0c74a342b-000000@us-west-2.amazonses.com>
 Date: Wed, 28 Oct 2026 06:06:01 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.10.28-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 06:06:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248777
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 06:06:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248778
 
---===============7939403425353266363==
+--===============7934798243132493805==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pytest* to *9.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-pyasn1* to *0.6.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pytest-upgrade-9.1.1-9.2.0.patch
+    - apply the patch: git am 0001-python3-pyasn1-upgrade-0.6.4-0.6.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,165 +64,166 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8ec63d635b9eb99c2dc39a78f494fe3b66b4f501 Mon Sep 17 00:00:00 2001
+From 6a7f5064f64cfabf58d16a973a4618010bb7cc91 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 28 Oct 2026 05:57:40 +0000
-Subject: [PATCH] python3-pytest: upgrade 9.1.1 -> 9.2.0
+Date: Wed, 28 Oct 2026 05:54:05 +0000
+Subject: [PATCH] python3-pyasn1: upgrade 0.6.4 -> 0.6.5
 
-pytest-9.2.0
-=======================================
+Revision 0.6.5, released 26-10-2026
+---------------------------------------
 
-The pytest team is proud to announce the 9.2.0 release!
-
-This release contains new features, improvements, and bug fixes,
-the full list of changes is available in the changelog:
-
-    https://docs.pytest.org/en/stable/changelog.html
-For complete documentation, please visit:
-    https://docs.pytest.org/en/stable/
-As usual, you can upgrade from PyPI via:
-    pip install -U pytest
-Thanks to all of the contributors to this release:
-
-Happy testing,
-The pytest Development Team
+- GHSA-mm57-4v3p-rchx: Decoded binary REAL mantissas in linear time
+  instead of repeatedly shifting a growing integer and slicing the
+  remaining bytes (thanks for reporting, manus-use, manus-pi, ucsurf,
+  adriank31)
+- GHSA-2qm8-x737-gmw5: Reassembled constructed BIT STRING fragments
+  in linear time while preserving their decoded bit values, including
+  intermediate fragment padding (thanks for reporting, manus-use)
+- GHSA-9m75-vc3g-4x39: Reassembled constructed OCTET STRING and
+  character-string fragments and indefinite-length ANY content in
+  linear time. Nested constructed OCTET STRING fragments now contribute
+  their decoded octets (thanks for reporting, alimony, manus-pi, adriank31)
+- GHSA-fm9c-5rcf-2q5p: Bounded schemaless container type tracking
+  after two distinct tag sets to prevent quadratic CPU use from
+  colliding long tag IDs (thanks for reporting, droideck)
 ---
- .../python/{python3-pytest_9.1.1.bb => python3-pytest_9.2.0.bb} | 2 +-
+ .../python/{python3-pyasn1_0.6.4.bb => python3-pyasn1_0.6.5.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest_9.1.1.bb => python3-pytest_9.2.0.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-pyasn1_0.6.4.bb => python3-pyasn1_0.6.5.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3-pytest_9.1.1.bb b/meta/recipes-devtools/python/python3-pytest_9.2.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-pytest_9.1.1.bb
-rename to meta/recipes-devtools/python/python3-pytest_9.2.0.bb
-index 8c97596ccc..bd580dabd6 100644
---- a/meta/recipes-devtools/python/python3-pytest_9.1.1.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_9.2.0.bb
-@@ -5,7 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
+diff --git a/meta/recipes-devtools/python/python3-pyasn1_0.6.4.bb b/meta/recipes-devtools/python/python3-pyasn1_0.6.5.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-pyasn1_0.6.4.bb
+rename to meta/recipes-devtools/python/python3-pyasn1_0.6.5.bb
+index 086a21ffe8..08b8255a8f 100644
+--- a/meta/recipes-devtools/python/python3-pyasn1_0.6.4.bb
++++ b/meta/recipes-devtools/python/python3-pyasn1_0.6.5.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://pyasn1.sourceforge.net/"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=190f79253908c986e6cacf380c3a5f6d"
  
--SRC_URI[sha256sum] = "1088fbde8f2b49d95a549a195707afa7a76a3ce9bcadc26b6d71f0ffda5fe313"
-+SRC_URI[sha256sum] = "97c4f3b1f3c7414aa36465e09b8220f1d03627993bd51b1282e193753c80557b"
+-SRC_URI[sha256sum] = "9c447d8431c947fe4c8febc4ed9e760bc29011a5b01e5c74b67025bd9fb8ce81"
++SRC_URI[sha256sum] = "6b11616a6bcf3a40e635f082bb232fa57b5e0dd7f517bd7ddd69ec3794508a47"
  
- DEPENDS += "python3-setuptools-scm-native"
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
  
 -- 
 2.47.1
 
 
---===============7939403425353266363==
+--===============7934798243132493805==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pytest: PKGV changed from 9.1.1 [default] to 9.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytest/pytest-9.1.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytest/pytest-9.2.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pytest: PV changed from "9.1.1" to "9.2.0"
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-dbg: PKGV changed from 9.1.1 [default] to 9.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-dbg: PV changed from "9.1.1" to "9.2.0"
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-dev: PKGV changed from 9.1.1 [default] to 9.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-dev: PV changed from "9.1.1" to "9.2.0"
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-doc: PKGV changed from 9.1.1 [default] to 9.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-doc: PV changed from "9.1.1" to "9.2.0"
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-locale: PKGV changed from 9.1.1 [default] to 9.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-locale: PV changed from "9.1.1" to "9.2.0"
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-src: PKGV changed from 9.1.1 [default] to 9.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-src: PV changed from "9.1.1" to "9.2.0"
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-staticdev: PKGV changed from 9.1.1 [default] to 9.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest-staticdev: PV changed from "9.1.1" to "9.2.0"
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest: PKGV changed from 9.1.1 [default] to 9.2.0 [default]
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pytest-9.1.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/pytest-9.2.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pytest-9.1.1.dist-info -> /usr/lib/python3.14/site-packages/pytest-9.2.0.dist-info, removed "/usr/lib/python3.14/site-packages/_pytest/__pycache__/python_api.cpython-314.pyc /usr/lib/python3.14/site-packages/_pytest/python_api.py", added "/usr/lib/python3.14/site-packages/_pytest/nodeid.py /usr/lib/python3.14/site-packages/_pytest/__pycache__/approx.cpython-314.pyc /usr/lib/python3.14/site-packages/_pytest/__pycache__/nodeid.cpython-314.pyc /usr/lib/python3.14/site-packages/_pytest/approx.py"
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest: PKGSIZE changed from 3278569 to 3456629 (+5%)
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest: PV changed from "9.1.1" to "9.2.0"
-Changes to packages/x86-64-v3-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.14/site-packages/pytest-9.1.1.dist-info moved to /usr/lib/python3.14/site-packages/pytest-9.2.0.dist-info
-  /usr/lib/python3.14/site-packages/_pytest/approx.py was added
-  /usr/lib/python3.14/site-packages/_pytest/nodeid.py was added
-  /usr/lib/python3.14/site-packages/_pytest/__pycache__/approx.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/_pytest/__pycache__/nodeid.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/_pytest/__pycache__/python_api.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/_pytest/python_api.py was removed
+packages/x86-64-v3-poky-linux/python3-pyasn1: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyasn1/pyasn1-0.6.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyasn1/pyasn1-0.6.5.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pyasn1: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-dbg: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-dbg: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-dev: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-dev: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-doc: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-doc: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-locale: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-locale: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-ptest: FILELIST: added "/usr/lib/python3-pyasn1/ptest/tests/codec/test_decoder_schemaless.py"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-ptest: PKGSIZE changed from 342710 to 355946 (+4%)
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-src: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-src: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-staticdev: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-staticdev: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyasn1-0.6.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyasn1-0.6.5.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pyasn1-0.6.4.dist-info -> /usr/lib/python3.14/site-packages/pyasn1-0.6.5.dist-info
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1: PV changed from "0.6.4" to "0.6.5"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1: PKGV changed from 0.6.4 [default] to 0.6.5 [default]
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1: PKGSIZE changed from 832755 to 835166 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-pyasn1 (sysroot):
+  /usr/lib/python3.14/site-packages/pyasn1-0.6.4.dist-info moved to /usr/lib/python3.14/site-packages/pyasn1-0.6.5.dist-info
 
---===============7939403425353266363==
+--===============7934798243132493805==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-pytest-changelog.txt"
+Content-Disposition: attachment; filename="python3-pyasn1-changelog.txt"
 
-pytest-9.2.0
-=======================================
+Revision 0.6.5, released 26-10-2026
+---------------------------------------
 
-The pytest team is proud to announce the 9.2.0 release!
+- GHSA-mm57-4v3p-rchx: Decoded binary REAL mantissas in linear time
+  instead of repeatedly shifting a growing integer and slicing the
+  remaining bytes (thanks for reporting, manus-use, manus-pi, ucsurf,
+  adriank31)
+- GHSA-2qm8-x737-gmw5: Reassembled constructed BIT STRING fragments
+  in linear time while preserving their decoded bit values, including
+  intermediate fragment padding (thanks for reporting, manus-use)
+- GHSA-9m75-vc3g-4x39: Reassembled constructed OCTET STRING and
+  character-string fragments and indefinite-length ANY content in
+  linear time. Nested constructed OCTET STRING fragments now contribute
+  their decoded octets (thanks for reporting, alimony, manus-pi, adriank31)
+- GHSA-fm9c-5rcf-2q5p: Bounded schemaless container type tracking
+  after two distinct tag sets to prevent quadratic CPU use from
+  colliding long tag IDs (thanks for reporting, droideck)
 
-This release contains new features, improvements, and bug fixes,
-the full list of changes is available in the changelog:
+--===============7934798243132493805==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pyasn1-upgrade-0.6.4-0.6.5.patch"
 
-    https://docs.pytest.org/en/stable/changelog.html
-For complete documentation, please visit:
-    https://docs.pytest.org/en/stable/
-As usual, you can upgrade from PyPI via:
-    pip install -U pytest
-Thanks to all of the contributors to this release:
+RnJvbSA2YTdmNTA2NGY2NGNmYWJmNThkMTZhOTczYTQ2MTgwMTBiYjdjYzkxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMjggT2N0IDIwMjYgMDU6NTQ6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5YXNuMTogdXBncmFkZSAwLjYuNCAtPiAwLjYuNQoKUmV2aXNpb24gMC42LjUsIHJl
+bGVhc2VkIDI2LTEwLTIwMjYKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+CgotIEdIU0EtbW01Ny00djNwLXJjaHg6IERlY29kZWQgYmluYXJ5IFJFQUwgbWFudGlzc2FzIGlu
+IGxpbmVhciB0aW1lCiAgaW5zdGVhZCBvZiByZXBlYXRlZGx5IHNoaWZ0aW5nIGEgZ3Jvd2luZyBp
+bnRlZ2VyIGFuZCBzbGljaW5nIHRoZQogIHJlbWFpbmluZyBieXRlcyAodGhhbmtzIGZvciByZXBv
+cnRpbmcsIG1hbnVzLXVzZSwgbWFudXMtcGksIHVjc3VyZiwKICBhZHJpYW5rMzEpCi0gR0hTQS0y
+cW04LXg3MzctZ213NTogUmVhc3NlbWJsZWQgY29uc3RydWN0ZWQgQklUIFNUUklORyBmcmFnbWVu
+dHMKICBpbiBsaW5lYXIgdGltZSB3aGlsZSBwcmVzZXJ2aW5nIHRoZWlyIGRlY29kZWQgYml0IHZh
+bHVlcywgaW5jbHVkaW5nCiAgaW50ZXJtZWRpYXRlIGZyYWdtZW50IHBhZGRpbmcgKHRoYW5rcyBm
+b3IgcmVwb3J0aW5nLCBtYW51cy11c2UpCi0gR0hTQS05bTc1LXZjM2ctNHgzOTogUmVhc3NlbWJs
+ZWQgY29uc3RydWN0ZWQgT0NURVQgU1RSSU5HIGFuZAogIGNoYXJhY3Rlci1zdHJpbmcgZnJhZ21l
+bnRzIGFuZCBpbmRlZmluaXRlLWxlbmd0aCBBTlkgY29udGVudCBpbgogIGxpbmVhciB0aW1lLiBO
+ZXN0ZWQgY29uc3RydWN0ZWQgT0NURVQgU1RSSU5HIGZyYWdtZW50cyBub3cgY29udHJpYnV0ZQog
+IHRoZWlyIGRlY29kZWQgb2N0ZXRzICh0aGFua3MgZm9yIHJlcG9ydGluZywgYWxpbW9ueSwgbWFu
+dXMtcGksIGFkcmlhbmszMSkKLSBHSFNBLWZtOWMtNXJjZi0ycTVwOiBCb3VuZGVkIHNjaGVtYWxl
+c3MgY29udGFpbmVyIHR5cGUgdHJhY2tpbmcKICBhZnRlciB0d28gZGlzdGluY3QgdGFnIHNldHMg
+dG8gcHJldmVudCBxdWFkcmF0aWMgQ1BVIHVzZSBmcm9tCiAgY29sbGlkaW5nIGxvbmcgdGFnIElE
+cyAodGhhbmtzIGZvciByZXBvcnRpbmcsIGRyb2lkZWNrKQotLS0KIC4uLi9weXRob24ve3B5dGhv
+bjMtcHlhc24xXzAuNi40LmJiID0+IHB5dGhvbjMtcHlhc24xXzAuNi41LmJifSB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlhc24xXzAuNi40LmJiID0+IHB5dGhv
+bjMtcHlhc24xXzAuNi41LmJifSAoODMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1weWFzbjFfMC42LjQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcHlhc24xXzAuNi41LmJiCnNpbWlsYXJpdHkgaW5kZXggODMlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWFzbjFfMC42
+LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWFz
+bjFfMC42LjUuYmIKaW5kZXggMDg2YTIxZmZlOC4uMDhiODI1NWE4ZiAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5YXNuMV8wLjYuNC5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlhc24xXzAuNi41LmJiCkBAIC0z
+LDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwOi8vcHlhc24xLnNvdXJjZWZvcmdlLm5ldC8iCiBM
+SUNFTlNFID0gIkJTRC0yLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VO
+U0UucnN0O21kNT0xOTBmNzkyNTM5MDhjOTg2ZTZjYWNmMzgwYzNhNWY2ZCIKIAotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjljNDQ3ZDg0MzFjOTQ3ZmU0YzhmZWJjNGVkOWU3NjBiYzI5MDExYTViMDFl
+NWM3NGI2NzAyNWJkOWZiOGNlODEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNmIxMTYxNmE2YmNm
+M2E0MGU2MzVmMDgyYmIyMzJmYTU3YjVlMGRkN2Y1MTdiZDdkZGQ2OWVjMzc5NDUwOGE0NyIKIAog
+aW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEgcHRlc3QtcHl0aG9uLXB5
+dGVzdAogCi0tIAoyLjQ3LjEKCg==
 
-Happy testing,
-The pytest Development Team
-
---===============7939403425353266363==
+--===============7934798243132493805==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pytest/python3-pytest: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pytest-9.1.1.dist-info -> /usr/lib/python3.14/site-packages/pytest-9.2.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/pytest-9.1.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/pytest-9.2.0.dist-info/licenses, removed "/usr/lib/python3.14/site-packages/_pytest/python_api.py /usr/lib/python3.14/site-packages/_pytest/__pycache__/python_api.cpython-314.pyc", added "/usr/lib/python3.14/site-packages/_pytest/approx.py /usr/lib/python3.14/site-packages/_pytest/__pycache__/nodeid.cpython-314.pyc /usr/lib/python3.14/site-packages/_pytest/nodeid.py /usr/lib/python3.14/site-packages/_pytest/__pycache__/approx.cpython-314.pyc"
-Changes to packages/x86-64-v3-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.14/site-packages/pytest-9.1.1.dist-info moved to /usr/lib/python3.14/site-packages/pytest-9.2.0.dist-info
-  /usr/lib/python3.14/site-packages/_pytest/approx.py was added
-  /usr/lib/python3.14/site-packages/_pytest/nodeid.py was added
-  /usr/lib/python3.14/site-packages/_pytest/__pycache__/approx.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/_pytest/__pycache__/nodeid.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/_pytest/__pycache__/python_api.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/_pytest/python_api.py was removed
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1-ptest: FILELIST: added "/usr/lib/python3-pyasn1/ptest/tests/codec/test_decoder_schemaless.py"
+packages/x86-64-v3-poky-linux/python3-pyasn1/python3-pyasn1: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyasn1-0.6.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyasn1-0.6.5.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pyasn1-0.6.4.dist-info -> /usr/lib/python3.14/site-packages/pyasn1-0.6.5.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pyasn1 (sysroot):
+  /usr/lib/python3.14/site-packages/pyasn1-0.6.4.dist-info moved to /usr/lib/python3.14/site-packages/pyasn1-0.6.5.dist-info
 
---===============7939403425353266363==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pytest-upgrade-9.1.1-9.2.0.patch"
-
-RnJvbSA4ZWM2M2Q2MzViOWViOTljMmRjMzlhNzhmNDk0ZmUzYjY2YjRmNTAxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjggT2N0IDIwMjYgMDU6NTc6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5dGVzdDogdXBncmFkZSA5LjEuMSAtPiA5LjIuMAoKcHl0ZXN0LTkuMi4wCj09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQoKVGhlIHB5dGVzdCB0ZWFtIGlzIHBy
-b3VkIHRvIGFubm91bmNlIHRoZSA5LjIuMCByZWxlYXNlIQoKVGhpcyByZWxlYXNlIGNvbnRhaW5z
-IG5ldyBmZWF0dXJlcywgaW1wcm92ZW1lbnRzLCBhbmQgYnVnIGZpeGVzLAp0aGUgZnVsbCBsaXN0
-IG9mIGNoYW5nZXMgaXMgYXZhaWxhYmxlIGluIHRoZSBjaGFuZ2Vsb2c6CgogICAgaHR0cHM6Ly9k
-b2NzLnB5dGVzdC5vcmcvZW4vc3RhYmxlL2NoYW5nZWxvZy5odG1sCkZvciBjb21wbGV0ZSBkb2N1
-bWVudGF0aW9uLCBwbGVhc2UgdmlzaXQ6CiAgICBodHRwczovL2RvY3MucHl0ZXN0Lm9yZy9lbi9z
-dGFibGUvCkFzIHVzdWFsLCB5b3UgY2FuIHVwZ3JhZGUgZnJvbSBQeVBJIHZpYToKICAgIHBpcCBp
-bnN0YWxsIC1VIHB5dGVzdApUaGFua3MgdG8gYWxsIG9mIHRoZSBjb250cmlidXRvcnMgdG8gdGhp
-cyByZWxlYXNlOgoKSGFwcHkgdGVzdGluZywKVGhlIHB5dGVzdCBEZXZlbG9wbWVudCBUZWFtCi0t
-LQogLi4uL3B5dGhvbi97cHl0aG9uMy1weXRlc3RfOS4xLjEuYmIgPT4gcHl0aG9uMy1weXRlc3Rf
-OS4yLjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
-aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1weXRl
-c3RfOS4xLjEuYmIgPT4gcHl0aG9uMy1weXRlc3RfOS4yLjAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dGVzdF85LjEuMS5iYiBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXRlc3RfOS4yLjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXB5dGVzdF85LjEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXB5dGVzdF85LjIuMC5iYgppbmRleCA4Yzk3NTk2Y2NjLi5iZDU4MGRh
-YmQ2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0
-ZXN0XzkuMS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
-eXRlc3RfOS4yLjAuYmIKQEAgLTUsNyArNSw3IEBAIERFU0NSSVBUSU9OID0gIlRoZSBweXRlc3Qg
-ZnJhbWV3b3JrIG1ha2VzIGl0IGVhc3kgdG8gd3JpdGUgc21hbGwgdGVzdHMsIHlldCBzY2FsCiBM
-SUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWJk
-MjdlNDFiNjU1MGZlMGZjNDUzNTZkMWQ4MWVlMzdjIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-MTA4OGZiZGU4ZjJiNDlkOTVhNTQ5YTE5NTcwN2FmYTdhNzZhM2NlOWJjYWRjMjZiNmQ3MWYwZmZk
-YTVmZTMxMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5N2M0ZjNiMWYzYzc0MTRhYTM2NDY1ZTA5
-YjgyMjBmMWQwMzYyNzk5M2JkNTFiMTI4MmUxOTM3NTNjODA1NTdiIgogCiBERVBFTkRTICs9ICJw
-eXRob24zLXNldHVwdG9vbHMtc2NtLW5hdGl2ZSIKIAotLSAKMi40Ny4xCgo=
-
---===============7939403425353266363==--
+--===============7934798243132493805==--
