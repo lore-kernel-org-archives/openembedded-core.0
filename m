@@ -1,99 +1,99 @@
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37926.1793174829607863246
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38087.1793174830191187694
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 01:07:09 -0700
+ Wed, 28 Oct 2026 01:07:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=uEqUgZTk;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=C8CkflIU;
  spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 989FDC4FECC
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 08:08:09 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 5BE21C4FECD
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 08:08:10 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C1B3C60769
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 08:07:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0AD40103290AA;
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8339460769
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 08:07:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A12001032906B;
 	Wed, 28 Oct 2026 09:07:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793174827; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1793174828; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=4ds7sLCtMqut6g2lMJY2NNW3b8S9jYcFf7PyTb8TV2g=;
-	b=uEqUgZTksB8xwU23EBOmmKYGA4dGBcbtCjgRE2Uv1WPJEtNm4s3s60UYhkjlXX2arZFV2h
-	fLUmdU6ldAmTLMm02LM+c0kR2eSC8uGq43xLwCaZ5s+4hoGVdlARS5Z79vsWjEts/9KyOZ
-	epI/Pmkt7VEhpUxfjpKrl7uBz1Mno21b2E7U7JlgcVGmuVDdOdKStpwOPi99wt5lRTD4yc
-	052IGhM4QsVg+dK1zDS6zjJEA2/zdsJN8PWZ09a1iMBnlgAOQXR0RTPDBLIl5XQlw/HaAQ
-	ZK0rYZOrl1AguT47HeXG6vP7bv0ZsvI1/hPuU014clac+667YDnCdkDaLvYWgA==
+	bh=2z1zlt25TGME1om+tMfShCT8dLXsxdMcqzm28ZKHGC8=;
+	b=C8CkflIUcTOYUc8kpO+C86wVbXsbYAKYR+URJ22b/VHH/ltHQ4ZtLQS3LB/EQOnW9OWGbu
+	p3/X0eSYcD8AypCxbhVBruOUU8ysy2MWwSPGAyzLHnaU0XWWJIgoqXcm5lPO01BgVxpaJS
+	Gunk8e3mNkUiBk+7M3YOw05DFA3S7mWtxaCkOtH9wqWF002EyJ+RzzeXEcvyjRPvGEIbOS
+	YVcOu+5VwA+MEvlluL1ZirYhRow0Ug5u/ih7TTLo8VyDVAimIWpsGBdzYQX5IGuZZs36TQ
+	4gv4Z32rL9G2/r7db9UIY+7tZcc2QTlEw/UIwOx5cmrNoTPDO5/M0AHoHWwblw==
 From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Wed, 28 Oct 2026 09:06:59 +0100
-Subject: [PATCH 1/3] python3-sphinx-design: add recipe
+Date: Wed, 28 Oct 2026 09:07:00 +0100
+Subject: [PATCH 2/3] python3-sphinx-tags: add recipe
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261028-sphinx-tags-v1-1-65bf95b5f2d8@bootlin.com>
+Message-Id: <20261028-sphinx-tags-v1-2-65bf95b5f2d8@bootlin.com>
 References: <20261028-sphinx-tags-v1-0-65bf95b5f2d8@bootlin.com>
 In-Reply-To: <20261028-sphinx-tags-v1-0-65bf95b5f2d8@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Antonin Godard <antonin.godard@bootlin.com>, 
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2112;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2106;
  i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=My+e4Cp/wGRbPmdMM87c0cVXPE/KwyHXOvhNyZgpHIw=;
- b=owEBbAKT/ZANAwAKAdGAQUApo6g2AcsmYgBq4a0kD+KLCOe/P/2xYAGGHE1rWdhhzHZvPr7pH
- K3ntpQgOCuJAjIEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCauGtJAAKCRDRgEFAKaOo
- NlGTD/UWfIo0w+SBHH0Xmsv12UzJP8ruPXdbWXTP9P2Ii+6PzHUnWqCA6jo0TvhoiUsB63e6vMR
- DQd6SLTEJC4hoicZnRcqp3wdnYzizK7K5Jl1kT99BXPP+nIyp/G/NUFbaAQP94dJgH8heJAB0ZR
- h1oWtI0OcCT3RqLA7HZqJUPnmxCqpbhwt/7h17X1dB2xLgFtcBcImT8wbk8hZiOhq21YJFAMPCd
- LrFdk9CUcY1aHTFHwiQyFSn4wzaBoS/0RufrLJRjY+EWsxfuPCKKf4AVL0zZ5JIodAODjB3h/XV
- bNZPIvDFYiCrJaSBy7UASuI6j4MGi6rH4sUn/uwi9I/Z2X402thOf4oRU9bBGcpUzrFJLWE/nT0
- D+I07N6lm+lSizOhRpHsWtyA/ruh4l2YcpI6EPb9Fq96YPrpu16Wb2lWnD8t99lEQVcNTkr2Ysg
- miEGGcH1p0Yo65XnO5guqKD76PC+L8fM9je7QCfcz6vcBurV7GcfBFEJqcfwFQNG8M7+Jsecv9v
- qBx4lMSsRHD9D1o0nYbZCVpVoceLdV456ePeniK2zarmcBH7IMreYBXy4a9lCirKFlTumgng1zR
- lo3LD4+e1+d+YT8GLjNWop7W7HHSe7UBBt5jtu2KZFrJvTqOlfmIAyFeOIpalJLkCDjgEeM3Dho
- wNWVcZaMscNIN
+ bh=xSKFlaBk2sRWcePC3QgkJHPtLVytmqqpW4YvuplCsaM=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBq4a0kKnEZSOqe5AsjLrnoo1gou4ftmV43l4gk/
+ dUp2rGKDf2JAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCauGtJAAKCRDRgEFAKaOo
+ NqlxEACO1MyBBnowRq7NIfJgIC2TZgLKjzAiinSpjkjNPwK9f6XTI+Xxct0lbXqcDpJlKqKFQTz
+ f0tzbzcseJuzqNF+3drK5b+85gG3Fct5BrRpH+PUacuggfq6ttg4YqCUADKV2MLJlW+QtrtdVB2
+ Ob3tkwKAw2b/sglOTTsz1MxGAINWQe2YZjItD6E1SK63Lul8m+tmJOZCdyuboVG/28pun72JcAt
+ CuzDqWyOoeW6hnrQGLjoUpe4Vh5rh576K7B5aI2rZfw4Q+57foRsITKRrTZl7+ibS0Jm3Ul3qBZ
+ RKnk8OTz+k8kEXuj/1jkGZcZEZ6qNdcDL5zuRRolot2HlTQ4vtC9GAsnZH7IpIEAgkBCIUh1/0L
+ ji5Zqrzr6rrIJZaWFb3FSsXDE2Bj2mpOf0OuNb2VkHWQFLVG5dxJ60UJT50Di8ww3e9NNkFu3PW
+ ktpx51PJmXDItQTzSE4fYNw1fG/BW2RXG7vuusb3ZViKwrqldGk9yE32w9o/dJrlWtJaEU/JNLS
+ OrSJRumMZfJnkIW8LtSwx8K9jsXsa5c3s26K+uvAKozaemEv2BXlKHABAVn673uHNUdsC4K4Lih
+ byWzU1bRZgLWlus/ODrJuuqiTJJFPr52bfN3bMw4PqP2zy6bWoZESjw/jR4mRCZA0CQEe9G5Hs7
+ CSmTciXjgZf9Cnw==
 X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
  fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 08:07:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248794
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248795
 
-The python3-sphinx-design recipe is a dependency of the sphinx-tags
-extension and will be used in the Yocto Project documentation.
+The python3-sphinx-tags recipe will be used in the Yocto Project
+documentation with of purpose of categorizing documents with tags.
 
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
- meta/conf/distro/include/maintainers.inc                    |  1 +
- meta/recipes-devtools/python/python3-sphinx-design_0.7.0.bb | 12 ++++++++++++
+ meta/conf/distro/include/maintainers.inc                |  1 +
+ meta/recipes-devtools/python/python3-sphinx-tags_0.4.bb | 12 ++++++++++++
  2 files changed, 13 insertions(+)
 
 diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 74db3e44e9..6e37eb1095 100644
+index 6e37eb1095..bac12e4ec0 100644
 --- a/meta/conf/distro/include/maintainers.inc
 +++ b/meta/conf/distro/include/maintainers.inc
-@@ -731,6 +731,7 @@ RECIPE_MAINTAINER:pn-python3-spdx-tools = "Marta Rybczynska <marta.rybczynska@yg
- RECIPE_MAINTAINER:pn-python3-sphinx = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-sphinx-argparse = "Antonin Godard <antonin.godard@bootlin.com>"
+@@ -733,6 +733,7 @@ RECIPE_MAINTAINER:pn-python3-sphinx-argparse = "Antonin Godard <antonin.godard@b
  RECIPE_MAINTAINER:pn-python3-sphinx-copybutton = "Antonin Godard <antonin.godard@bootlin.com>"
-+RECIPE_MAINTAINER:pn-python3-sphinx-design = "Antonin Godard <antonin.godard@bootlin.com>"
+ RECIPE_MAINTAINER:pn-python3-sphinx-design = "Antonin Godard <antonin.godard@bootlin.com>"
  RECIPE_MAINTAINER:pn-python3-sphinx-rtd-theme = "Tim Orling <tim.orling@konsulko.com>"
++RECIPE_MAINTAINER:pn-python3-sphinx-tags = "Antonin Godard <antonin.godard@bootlin.com>"
  RECIPE_MAINTAINER:pn-python3-sphinxcontrib-applehelp = "Tim Orling <tim.orling@konsulko.com>"
  RECIPE_MAINTAINER:pn-python3-sphinxcontrib-devhelp = "Tim Orling <tim.orling@konsulko.com>"
-diff --git a/meta/recipes-devtools/python/python3-sphinx-design_0.7.0.bb b/meta/recipes-devtools/python/python3-sphinx-design_0.7.0.bb
+ RECIPE_MAINTAINER:pn-python3-sphinxcontrib-htmlhelp = "Tim Orling <tim.orling@konsulko.com>"
+diff --git a/meta/recipes-devtools/python/python3-sphinx-tags_0.4.bb b/meta/recipes-devtools/python/python3-sphinx-tags_0.4.bb
 new file mode 100644
-index 0000000000..908ac0846e
+index 0000000000..fad627e64d
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-sphinx-design_0.7.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx-tags_0.4.bb
 @@ -0,0 +1,12 @@
-+SUMMARY = "A sphinx extension for designing beautiful, view size responsive web components"
-+HOMEPAGE = "https://sphinx-design.readthedocs.io/"
++SUMMARY = "A tiny Sphinx extension that implements blog-style tags for documentation"
++HOMEPAGE = "https://sphinx-tags.readthedocs.io/"
 +LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=484a29024499c025d11c52f22a6f0bb8"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=05c148fce9144d129e885beada2a6c94"
 +
-+SRC_URI[sha256sum] = "d2a3f5b19c24b916adb52f97c5f00efab4009ca337812001109084a740ec9b7a"
++SRC_URI[sha256sum] = "3065219bacf47567c706f2237d5665b22f3a5167367b4c4568bcda4371a5359d"
 +
 +inherit pypi python_flit_core
 +
-+PYPI_PACKAGE = "sphinx_design"
++RDEPENDS:${PN} += "python3-sphinx-design"
 +
 +BBCLASSEXTEND = "native nativesdk"
 
