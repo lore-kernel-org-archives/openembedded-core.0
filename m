@@ -1,92 +1,155 @@
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6950.1793221263905413240
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7177.1793221929090469937
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 14:01:04 -0700
+ Wed, 28 Oct 2026 14:12:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=k27VRQVe;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=W5z9JqD/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a18450fee9-cac596dd-0446-4885-acd8-a316b1f7306a-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793221263; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=+9p01zZh/47RhFVad6y2VwH8cdMyIRMxsq4jBKyPBiA=;
-	b=k27VRQVeZGOz/eGIH2SATh/6dA7oT/j4ELNluhQeuks9onx2JHanIf5TL0buAL9+
-	/5iwYZygVvxspg4d1A+VyKT7ao/g97n6zGnaiJdIoaxjIzCzHwBaF7B5jsnrNuJNXWI
-	AcRfNq/xvkHN9nGwIXZtb9ol39l6hdUM20ljkBfQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793221263;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=+9p01zZh/47RhFVad6y2VwH8cdMyIRMxsq4jBKyPBiA=;
-	b=W5z9JqD/CoO8A2QqE+p/lkAZ1pTZapBhk4qSgy3Zw3ybR3U4J4bHmH+hBMoG2rnG
-	hRAyPyLYYuINwp+ehkz4lvqlA6crvRc3czZi9whK6NFh1Kc+gY/AScR5k8cjYUgKa/7
-	HR19Wj0j19eRDoZ0Wg+wn5rarodY8nE/LtX5KFgI=
-From: patchtest@automation.yoctoproject.org
-To: jeroen@myspectrum.nl
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [wrynose][PATCH] python3-pip: patch the vendored python3-certifi
-In-Reply-To: <20261028205033.617954-2-jeroen@myspectrum.nl>
-References: <20261028205033.617954-2-jeroen@myspectrum.nl>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a18450fee9-cac596dd-0446-4885-acd8-a316b1f7306a-000000@us-west-2.amazonses.com>
-Date: Wed, 28 Oct 2026 21:01:03 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.28-54.240.27.191
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=hgtK0SC9;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20261028211206be661a5b85000207fe-b3tyk3@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20261028211206be661a5b85000207fe
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 28 Oct 2026 22:12:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=/xfwsoOkM9ZgI44tCRVWrbjUeRVyyYCqUeZ1/8f49ZA=;
+ b=hgtK0SC9JRVuzSQ3gzhPXOh+1gcVzxnr/7afmYvnGz7PgcR1s8KokDfczvBhlB1rXT8lIb
+ xGlF9I9J6Emb4DwZOfXM+fldBwmfXJbw2qDDPPl49r75Li5TI4peM7IZyD8r4yps2J88Zrlh
+ bVzVyrMr3lYyte8d8a2A+O/T8j5LJGnC1Bx4iN+q+8IVhg+OD4BCZv+mXidx3cyjP+s3qGft
+ AhLfuaLC0FbTKnvgdkQ3OD91gwnp1z3ERIQz96I8BBVST4hMho+TgEhBmWR1fUX1fMmWYhDT
+ Q1fcv8yzCpCzahuSdahXPn4DHtlwBhkcmicqXZ2ELAu7Ugeeh+ZbvW9w==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 3/3] kernel-fit-image: drop the synthetic FIT_LOADABLE_* values
+Date: Wed, 28 Oct 2026 22:11:25 +0100
+Message-ID: <20261028211203.3081460-4-adrian.freihofer@siemens.com>
+In-Reply-To: <20261028211203.3081460-1-adrian.freihofer@siemens.com>
+References: <20261028211203.3081460-1-adrian.freihofer@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 21:01:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248829
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 21:12:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248830
+Content-Type: text/plain; charset="utf-8"
 
---NextPart
-Content-Type: text/plain
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+The anonymous function sets the FIT_LOADABLE_* variables to the flags of
+all loadables joined by " ? ", e.g. "0x86000000 ? 0x87000000". This was
+done only to make the flags visible to the selftests, which could read
+variables but not flags. do_compile reads the flags directly and does
+not need these values.
 
+get_bb_vars_flags can read variable flags now. Let the test request
+the FIT_LOADABLE_* flags of the loadables it configures and drop the
+synthetic values from the class.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/wrynose-python3-pip-patch-the-vendored-python3-certifi.patch
+ meta/classes-recipe/kernel-fit-image.bbclass |  7 ++----
+ meta/lib/oeqa/selftest/cases/fitimage.py     | 24 ++++++++++++--------
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-Remove-emsign-437.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index a238de1aa2..abf7327c97 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -32,8 +32,8 @@ python () {
+     # Parse loadables config
+     loadables = d.getVar('FIT_LOADABLES')
+     if loadables:
+-        # Forbid direct assignment, set synthetic values for testability and
+-        # add the vars to vardeps so their flags are part of the signature.
++        # Only flags are supported. Add the vars to vardeps so their flags are
++        # part of the signature.
+         loadable_vars = ['FIT_LOADABLE_ARCH', 'FIT_LOADABLE_COMPRESSION',
+                          'FIT_LOADABLE_DESCRIPTION', 'FIT_LOADABLE_ENTRYPOINT',
+                          'FIT_LOADABLE_FILENAME', 'FIT_LOADABLE_LOADADDRESS',
+@@ -41,9 +41,6 @@ python () {
+         for v in loadable_vars:
+             if d.getVar(v):
+                 raise bb.parse.SkipRecipe("You cannot use %s as a variable, you can only set flags." % v)
+-
+-            synt_value = " ? ".join([ d.getVarFlag(v, loadable) or "" for loadable in loadables.split() ])
+-            d.setVar(v, synt_value)
+         d.appendVarFlag('do_compile', 'vardeps', ' ' + ' '.join(loadable_vars))
+ }
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index 81d2be5013..1fad53b16c 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -14,7 +14,7 @@ import oe.fitimage
+ 
+ from bb import BBHandledException
+ from oeqa.selftest.case import OESelftestTestCase
+-from oeqa.utils.commands import runCmd, bitbake, get_bb_vars, get_bb_var
++from oeqa.utils.commands import runCmd, bitbake, get_bb_vars, get_bb_vars_flags, get_bb_var
+ 
+ 
+ class BbVarsMockGenKeys:
+@@ -662,10 +662,12 @@ class FitImageTestCase(OESelftestTestCase):
+ class KernelFitImageBase(FitImageTestCase):
+     """Test cases for the linux-yocto-fitimage recipe"""
+ 
+-    def _fit_get_bb_vars(self, additional_vars=[]):
++    def _fit_get_bb_vars(self, additional_vars=[], flags=None):
+         """Retrieve BitBake variables specific to the test case.
+ 
+-        Call the get_bb_vars function once and get all variables needed by the test case.
++        Call the get_bb_vars_flags function once and get all variables needed by
++        the test case. flags maps variable names to lists of flag names. The
++        flags are returned as dict {flag name: value} for their variable name.
+         """
+         internal_used = {
+             'DEPLOY_DIR_IMAGE',
+@@ -676,8 +678,6 @@ class KernelFitImageBase(FitImageTestCase):
+             'FIT_HASH_ALG',
+             'FIT_KERNEL_COMP_ALG',
+             'FIT_LOADABLES',
+-            'FIT_LOADABLE_ENTRYPOINT',
+-            'FIT_LOADABLE_LOADADDRESS',
+             'FIT_OS',
+             'FIT_SIGN_ALG',
+             'FIT_SIGN_INDIVIDUAL',
+@@ -712,7 +712,9 @@ class KernelFitImageBase(FitImageTestCase):
+             'UBOOT_FIT_TEE_LOADADDRESS',
+             'UBOOT_FIT_TEE_ENTRYPOINT',
+         }
+-        bb_vars = get_bb_vars(list(internal_used | set(additional_vars)), self.kernel_recipe)
++        bb_vars, bb_flags = get_bb_vars_flags([*internal_used, *additional_vars], flags, self.kernel_recipe)
++        bb_vars = {var: val or None for var, val in bb_vars.items()}
++        bb_vars.update(bb_flags)
+         self.logger.debug("bb_vars: %s" % pprint.pformat(bb_vars, indent=4))
+         return bb_vars
+ 
+@@ -1025,10 +1027,10 @@ class KernelFitImageBase(FitImageTestCase):
+                 "Entry Point": bb_vars['UBOOT_RD_ENTRYPOINT']
+             }
+         # Create one section per loadable
+-        for index,loadable in enumerate(loadables):
+-            loadaddress = bb_vars['FIT_LOADABLE_LOADADDRESS'].split("?")[index].strip()
++        for loadable in loadables:
++            loadaddress = bb_vars['FIT_LOADABLE_LOADADDRESS'][loadable]
+             req_sections[loadable] = { "Load Address": loadaddress }
+-            entrypoint = bb_vars['FIT_LOADABLE_ENTRYPOINT'].split("?")[index].strip()
++            entrypoint = bb_vars['FIT_LOADABLE_ENTRYPOINT'][loadable]
+             if entrypoint:
+                 req_sections[loadable]['Entry Point'] = entrypoint
+         # Create a configuration section for each DTB
+@@ -1204,7 +1206,9 @@ FIT_LOADABLE_TYPE[loadable2] = "firmware"
+         config = FitImageTestCase._config_add_machine_settings(config, machine, keys=["KERNEL_DEVICETREE", "FIT_CONF_DEFAULT_DTB"])
+         config = self._config_add_kernel_classes(config)
+         self.write_config(config)
+-        bb_vars = self._fit_get_bb_vars()
++        loadables = ['loadable1', 'loadable2']
++        bb_vars = self._fit_get_bb_vars(flags={'FIT_LOADABLE_ENTRYPOINT': loadables,
++                                               'FIT_LOADABLE_LOADADDRESS': loadables})
+         self._gen_atf_tee_dummy_images(bb_vars)
+         self._test_fitimage(bb_vars)
+ 
+-- 
+2.56.0
 
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
