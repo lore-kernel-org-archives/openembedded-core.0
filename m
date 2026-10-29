@@ -1,40 +1,40 @@
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5593.1793252421130285079
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5565.1793252421265247498
  for <openembedded-core@lists.openembedded.org>;
  Wed, 28 Oct 2026 22:40:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DSYQNMYa;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ec8mkkb9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a1862c69d1-afbe70e0-ec82-4c9f-ae48-6a4567db5a22-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=tRHY+CTn;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zB36uMU9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1862c6a48-ca49f9f7-cf76-40fb-a0a0-83469eb4e155-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1793252420;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=ZniDf1of/Ve5fFtjpq77hsxP8z5+hlKorE6UlncpHTY=;
-	b=DSYQNMYavlniF6DYTgTqsKhFPJix2n9OJUxuel2WpjyBJHUnTA7y8DDJ09VMvI3Y
-	FKqRW0cN6++BXlSPla53Nr7sq11k2QtiUgLho8eU5awXXSg7SvA9+nG0TlhYT/tKpxJ
-	FLxoEFLlDc3gRbPEbNrInqt8CvFG3G7vGikBJHbI=
+	bh=uPoTccxqErTb4jbxBmtLIM/Z+AMv6kNJJSi/qJsGA6Q=;
+	b=tRHY+CTnWnG7OJ93S4TMZEmHQm2Y5NfXCyWquwIPR6IRzjcSFRdVqdFMpPwQU85E
+	KSGijBE/GPTR3NDsEC3wusjku91dmTRiS+0BLdJ/nc6IBwIiGqpG/ivMJ1wqjJL0MTw
+	Sz/qLs2yiaJRzoTdtHnhtkFxlb5h2Ic+Bh0NBkUQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793252420;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZniDf1of/Ve5fFtjpq77hsxP8z5+hlKorE6UlncpHTY=;
-	b=ec8mkkb9JmW3kk4pQDu7ur0PU5G1OBWsvvul2I7P5oFZqV2Qs0m7BUe8AC4aWvdK
-	nn6+MopYNAfjTqD5srROfW6S+tcL8ZBZi1lyg6bu25h83S0a32d/Nm0Ge3pHw45ZQuY
-	HQymFBoOrngYNmYrkmYn8k6fk012iOGmDDN7osGg=
-Content-Type: multipart/mixed; boundary="===============4959635363114080139=="
+	bh=uPoTccxqErTb4jbxBmtLIM/Z+AMv6kNJJSi/qJsGA6Q=;
+	b=zB36uMU993som9Hugp3rf08M1DSH9v96Hd9eygzgOYxAYobexOcK/5CD2Lde0BFK
+	J4tQL8/ZL5ylM0BQ8sqmYfgioSozWfOHjszisRVhg8+kbDxvAJNiZiCWxGNpayjLsld
+	ohLOti1bF9w9s+C36yvw3S9VuQ82kZpNXdqLR2sY=
+Content-Type: multipart/mixed; boundary="===============3657324326015665174=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] cracklib: upgrading to 2.10.4 FAILED
-Message-ID: <010101a1862c69d1-afbe70e0-ec82-4c9f-ae48-6a4567db5a22-000000@us-west-2.amazonses.com>
+Subject: [AUH] aspell: upgrading to 0.60.8.3 SUCCEEDED
+Message-ID: <010101a1862c6a48-ca49f9f7-cf76-40fb-a0a0-83469eb4e155-000000@us-west-2.amazonses.com>
 Date: Thu, 29 Oct 2026 05:40:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.29-54.240.27.193
+X-SES-Outgoing: 2026.10.29-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 05:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248894
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248895
 
---===============4959635363114080139==
+--===============3657324326015665174==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -42,16 +42,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cracklib* to *2.10.4* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *aspell* to *0.60.8.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-cracklib-upgrade-2.10.3-2.10.4.patch
+    - apply the patch: git am 0001-aspell-upgrade-0.60.8.2-0.60.8.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -69,180 +63,197 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5d15ffd4f4d295271a9122559d27d3c5a907a780 Mon Sep 17 00:00:00 2001
+From 60aa6f0dc1712dd1e57740670a77e8c44d00e882 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 29 Oct 2026 05:29:14 +0000
-Subject: [PATCH] cracklib: upgrade 2.10.3 -> 2.10.4
+Date: Thu, 29 Oct 2026 05:40:13 +0000
+Subject: [PATCH] aspell: upgrade 0.60.8.2 -> 0.60.8.3
 
-v2.10.5-dev
-v2.10.4 Basic support for other compression in cracklib-format
-        Improvements in python support and explicitly raising minimum python
-        version requirement. (Pino Toscano)
-        Improvements and fixes for autotools build system with support for new
-        gettext 1.0 (Guillem Jover)
-        Security and undefined behavior improvements (Gabe Dijkstra)
 ---
- .../cracklib/{cracklib_2.10.3.bb => cracklib_2.10.4.bb}         | 2 +-
+ .../aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/cracklib/{cracklib_2.10.3.bb => cracklib_2.10.4.bb} (94%)
+ rename meta/recipes-support/aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} (93%)
 
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.10.3.bb b/meta/recipes-extended/cracklib/cracklib_2.10.4.bb
-similarity index 94%
-rename from meta/recipes-extended/cracklib/cracklib_2.10.3.bb
-rename to meta/recipes-extended/cracklib/cracklib_2.10.4.bb
-index 48dd72d5f9..1c7116915c 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.10.3.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.10.4.bb
-@@ -12,7 +12,7 @@ EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
- SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=main;tag=v${PV} \
-            "
+diff --git a/meta/recipes-support/aspell/aspell_0.60.8.2.bb b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
+similarity index 93%
+rename from meta/recipes-support/aspell/aspell_0.60.8.2.bb
+rename to meta/recipes-support/aspell/aspell_0.60.8.3.bb
+index 60d3376678..d97958d83b 100644
+--- a/meta/recipes-support/aspell/aspell_0.60.8.2.bb
++++ b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
+@@ -14,7 +14,7 @@ LICENSE = "LGPL-2.0-only OR LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
  
--SRCREV = "e73d5db1789d198b5f9ec44b68b9c775c3e6c042"
-+SRCREV = "246592be1a654624965630b748ab4f1ac044f513"
- S = "${UNPACKDIR}/${BP}/src"
+ SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "57fe4863eae6048f72245a8575b44b718fb85ca14b9f8c0afc41b254dfd76919"
++SRC_URI[sha256sum] = "0534eae11132405120d11e46bf595bd5dd189bc124ba77a5dd6aae861b48a162"
  
- inherit autotools gettext
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
 -- 
 2.47.1
 
 
---===============4959635363114080139==
+--===============3657324326015665174==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cracklib-changelog.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-v2.10.5-dev
-v2.10.4 Basic support for other compression in cracklib-format
-        Improvements in python support and explicitly raising minimum python
-        version requirement. (Pino Toscano)
-        Improvements and fixes for autotools build system with support for new
-        gettext 1.0 (Guillem Jover)
-        Security and undefined behavior improvements (Gabe Dijkstra)
+packages/x86-64-v3-poky-linux/aspell/aspell-dbg: PKGSIZE changed from 9590968 to 9620192 (+0%)
+packages/x86-64-v3-poky-linux/aspell/aspell-dbg: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-dbg: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-dev: PKGSIZE changed from 37210 to 37211 (+0%)
+packages/x86-64-v3-poky-linux/aspell/aspell-dev: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-dev: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-doc: PKGSIZE changed from 347257 to 347808 (+0%)
+packages/x86-64-v3-poky-linux/aspell/aspell-doc: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-doc: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ast: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ast: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-be: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-be: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ca: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ca: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-cs: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-cs: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-da: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-da: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-de: PKGSIZE changed from 32736 to 32943 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-de: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-de: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-en-gb: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-en-gb: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-eo: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-eo: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-es: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-es: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-fi: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-fi: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-fr: PKGSIZE changed from 32807 to 33026 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-fr: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-fr: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-fur: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-fur: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ga: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ga: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-hr: PKGSIZE changed from 31800 to 31983 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-hr: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-hr: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-hu: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-hu: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-id: PKGSIZE changed from 31716 to 31884 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-id: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-id: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-it: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-it: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ja: PKGSIZE changed from 34747 to 35003 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ja: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ja: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ka: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ka: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-mn: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-mn: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ms: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ms: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-nl: PKGSIZE changed from 32209 to 32415 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-nl: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-nl: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pl: PKGSIZE changed from 31418 to 31609 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pl: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pl: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt-br: PKGSIZE changed from 31998 to 32204 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt-br: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt-br: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt: PKGSIZE changed from 31852 to 32035 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ro: PKGSIZE changed from 33852 to 34051 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ro: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ro: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ru: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-ru: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-rw: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-rw: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sk: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sk: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sl: PKGSIZE changed from 30957 to 31234 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sl: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sl: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sq: PKGSIZE changed from 29903 to 30570 (+2%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sq: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sq: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sr: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sr: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sv: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-sv: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-tg: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-tg: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-uk: PKGSIZE changed from 39600 to 39892 (+1%)
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-uk: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-uk: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-vi: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-vi: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-wa: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-wa: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-zh-cn: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-locale-zh-cn: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-src: PKGSIZE changed from 974876 to 976757 (+0%)
+packages/x86-64-v3-poky-linux/aspell/aspell-src: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-src: FILELIST: directory renamed /usr/src/debug/aspell/0.60.8.2/interfaces/cc -> /usr/src/debug/aspell/0.60.8.3/interfaces/cc, directory renamed /usr/src/debug/aspell/0.60.8.2/prog -> /usr/src/debug/aspell/0.60.8.3/prog, directory renamed /usr/src/debug/aspell/0.60.8.2/gen -> /usr/src/debug/aspell/0.60.8.3/gen, directory renamed /usr/src/debug/aspell/0.60.8.2/lib -> /usr/src/debug/aspell/0.60.8.3/lib, directory renamed /usr/src/debug/aspell/0.60.8.2/modules/speller/default -> /usr/src/debug/aspell/0.60.8.3/modules/speller/default, directory renamed /usr/src/debug/aspell/0.60.8.2/modules/tokenizer -> /usr/src/debug/aspell/0.60.8.3/modules/tokenizer, directory renamed /usr/src/debug/aspell/0.60.8.2/common -> /usr/src/debug/aspell/0.60.8.3/common, directory renamed /usr/src/debug/aspell/0.60.8.2/modules/filter -> /usr/src/debug/aspell/0.60.8.3/modules/filter
+packages/x86-64-v3-poky-linux/aspell/aspell-src: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-staticdev: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-staticdev: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell-utils: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell-utils: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/aspell: PKGSIZE changed from 158080 to 153984 (-3%)
+packages/x86-64-v3-poky-linux/aspell/aspell: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/aspell: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell: SRC_URI changed from "https://ftpmirror.gnu.org//aspell/aspell-0.60.8.2.tar.gz" to "https://ftpmirror.gnu.org//aspell/aspell-0.60.8.3.tar.gz"
+packages/x86-64-v3-poky-linux/aspell: PACKAGES: added "aspell-locale-ar aspell-locale-zh-tw"
+packages/x86-64-v3-poky-linux/aspell: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/libaspell: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/libaspell: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
+packages/x86-64-v3-poky-linux/aspell/libpspell: PV changed from "0.60.8.2" to "0.60.8.3"
+packages/x86-64-v3-poky-linux/aspell/libpspell: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
 
---===============4959635363114080139==
+--===============3657324326015665174==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-cracklib-upgrade-2.10.3-2.10.4.patch"
+ filename="0001-aspell-upgrade-0.60.8.2-0.60.8.3.patch"
 
-RnJvbSA1ZDE1ZmZkNGY0ZDI5NTI3MWE5MTIyNTU5ZDI3ZDNjNWE5MDdhNzgwIE1vbiBTZXAgMTcg
+RnJvbSA2MGFhNmYwZGMxNzEyZGQxZTU3NzQwNjcwYTc3ZThjNDRkMDBlODgyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMjkgT2N0IDIwMjYgMDU6Mjk6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-cmFja2xpYjogdXBncmFkZSAyLjEwLjMgLT4gMi4xMC40Cgp2Mi4xMC41LWRldgp2Mi4xMC40IEJh
-c2ljIHN1cHBvcnQgZm9yIG90aGVyIGNvbXByZXNzaW9uIGluIGNyYWNrbGliLWZvcm1hdAogICAg
-ICAgIEltcHJvdmVtZW50cyBpbiBweXRob24gc3VwcG9ydCBhbmQgZXhwbGljaXRseSByYWlzaW5n
-IG1pbmltdW0gcHl0aG9uCiAgICAgICAgdmVyc2lvbiByZXF1aXJlbWVudC4gKFBpbm8gVG9zY2Fu
-bykKICAgICAgICBJbXByb3ZlbWVudHMgYW5kIGZpeGVzIGZvciBhdXRvdG9vbHMgYnVpbGQgc3lz
-dGVtIHdpdGggc3VwcG9ydCBmb3IgbmV3CiAgICAgICAgZ2V0dGV4dCAxLjAgKEd1aWxsZW0gSm92
-ZXIpCiAgICAgICAgU2VjdXJpdHkgYW5kIHVuZGVmaW5lZCBiZWhhdmlvciBpbXByb3ZlbWVudHMg
-KEdhYmUgRGlqa3N0cmEpCi0tLQogLi4uL2NyYWNrbGliL3tjcmFja2xpYl8yLjEwLjMuYmIgPT4g
-Y3JhY2tsaWJfMi4xMC40LmJifSAgICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2Ny
-YWNrbGliL3tjcmFja2xpYl8yLjEwLjMuYmIgPT4gY3JhY2tsaWJfMi4xMC40LmJifSAoOTQlKQoK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jcmFja2xpYi9jcmFja2xpYl8yLjEw
-LjMuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3JhY2tsaWIvY3JhY2tsaWJfMi4xMC40LmJi
-CnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9j
-cmFja2xpYi9jcmFja2xpYl8yLjEwLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9jcmFja2xpYi9jcmFja2xpYl8yLjEwLjQuYmIKaW5kZXggNDhkZDcyZDVmOS4uMWM3MTE2OTE1
-YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2NyYWNrbGliL2NyYWNrbGliXzIu
-MTAuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3JhY2tsaWIvY3JhY2tsaWJfMi4x
-MC40LmJiCkBAIC0xMiw3ICsxMiw3IEBAIEVYVFJBX09FQ09ORiA9ICItLXdpdGhvdXQtcHl0aG9u
-IC0tbGliZGlyPSR7YmFzZV9saWJkaXJ9IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2Ny
-YWNrbGliL2NyYWNrbGliO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluO3RhZz12JHtQVn0gXAog
-ICAgICAgICAgICAiCiAKLVNSQ1JFViA9ICJlNzNkNWRiMTc4OWQxOThiNWY5ZWM0NGI2OGI5Yzc3
-NWMzZTZjMDQyIgorU1JDUkVWID0gIjI0NjU5MmJlMWE2NTQ2MjQ5NjU2MzBiNzQ4YWI0ZjFhYzA0
-NGY1MTMiCiBTID0gIiR7VU5QQUNLRElSfS8ke0JQfS9zcmMiCiAKIGluaGVyaXQgYXV0b3Rvb2xz
-IGdldHRleHQKLS0gCjIuNDcuMQoK
+CkRhdGU6IFRodSwgMjkgT2N0IDIwMjYgMDU6NDA6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+c3BlbGw6IHVwZ3JhZGUgMC42MC44LjIgLT4gMC42MC44LjMKCi0tLQogLi4uL2FzcGVsbC97YXNw
+ZWxsXzAuNjAuOC4yLmJiID0+IGFzcGVsbF8wLjYwLjguMy5iYn0gICAgICAgICAgIHwgMiArLQog
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvYXNwZWxsL3thc3BlbGxfMC42MC44LjIuYmIgPT4gYXNwZWxsXzAu
+NjAuOC4zLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FzcGVs
+bC9hc3BlbGxfMC42MC44LjIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hc3BlbGwvYXNwZWxs
+XzAuNjAuOC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1zdXBwb3J0L2FzcGVsbC9hc3BlbGxfMC42MC44LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1zdXBwb3J0L2FzcGVsbC9hc3BlbGxfMC42MC44LjMuYmIKaW5kZXggNjBkMzM3NjY3OC4uZDk3
+OTU4ZDgzYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXNwZWxsL2FzcGVsbF8w
+LjYwLjguMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hc3BlbGwvYXNwZWxsXzAuNjAu
+OC4zLmJiCkBAIC0xNCw3ICsxNCw3IEBAIExJQ0VOU0UgPSAiTEdQTC0yLjAtb25seSBPUiBMR1BM
+LTIuMS1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9N2ZiYzMz
+ODMwOWFjMzhmZWZjZDY0YjA0YmI5MDNlMzQiCiAKIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9h
+c3BlbGwvYXNwZWxsLSR7UFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1N2ZlNDg2
+M2VhZTYwNDhmNzIyNDVhODU3NWI0NGI3MThmYjg1Y2ExNGI5ZjhjMGFmYzQxYjI1NGRmZDc2OTE5
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjA1MzRlYWUxMTEzMjQwNTEyMGQxMWU0NmJmNTk1YmQ1
+ZGQxODliYzEyNGJhNzdhNWRkNmFhZTg2MWI0OGExNjIiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIi
+CiBQQUNLQUdFQ09ORklHW2N1cnNlc10gPSAiLS1lbmFibGUtY3Vyc2VzLC0tZGlzYWJsZS1jdXJz
+ZXMsbmN1cnNlcyIKLS0gCjIuNDcuMQoK
 
---===============4959635363114080139==
+--===============3657324326015665174==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 958 .bb files complete (0 cached, 958 parsed). 1997 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/aspell: PACKAGES: added "aspell-locale-ar aspell-locale-zh-tw"
 
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-d5bac216d8d2bfcb482cd6b69e2dcd669fdf34d4"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:d5bac216d8d2bfcb482cd6b69e2dcd669fdf34d4"
-meta-yocto-bsp       
-meta-poky            = "master:82013b83db7ba41da07694e201a7c43f561a9e00"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 175 Local 157 Mirrors 0 Missed 18 Current 194 (89% match, 95% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 345 of 369 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_spdx_setscene)
-NOTE: Running task 706 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_recipe_qa)
-NOTE: Running task 708 of 1029 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_recipe_qa)
-NOTE: recipe cracklib-2.10.4-r0: task do_recipe_qa: Started
-NOTE: recipe zlib-native-1.3.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe cracklib-native-2.10.4-r0: task do_recipe_qa: Started
-NOTE: recipe zlib-native-1.3.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 369 of 369 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe zlib-native-1.3.2-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe zlib-native-1.3.2-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 997 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_create_recipe_spdx)
-NOTE: recipe cracklib-2.10.4-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1000 of 1029 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_fetch)
-NOTE: recipe cracklib-native-2.10.4-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1001 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_fetch)
-NOTE: recipe cracklib-native-2.10.4-r0: task do_create_recipe_spdx: Started
-NOTE: recipe cracklib-2.10.4-r0: task do_fetch: Started
-NOTE: recipe cracklib-native-2.10.4-r0: task do_fetch: Started
-NOTE: recipe cracklib-native-2.10.4-r0: task do_create_recipe_spdx: Succeeded
-NOTE: Running task 1002 of 1029 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_create_recipe_spdx)
-NOTE: recipe cracklib-2.10.4-r0: task do_create_recipe_spdx: Started
-NOTE: recipe cracklib-2.10.4-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe cracklib-2.10.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1003 of 1029 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack)
-NOTE: recipe cracklib-2.10.4-r0: task do_unpack: Started
-NOTE: recipe cracklib-native-2.10.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1004 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack)
-NOTE: Running task 1005 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe cracklib-native-2.10.4-r0: task do_unpack: Started
-NOTE: recipe cracklib-native-2.10.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cracklib-native-2.10.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe cracklib-2.10.4-r0: task do_unpack: Failed
-NOTE: recipe cracklib-native-2.10.4-r0: task do_unpack: Failed
-NOTE: Tasks Summary: Attempted 1005 tasks of which 996 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261029052857.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261029052857.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 2 tasks failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/cracklib/2.10.4/temp/log.do_unpack.4165764
-  virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cracklib-native/2.10.4/temp/log.do_unpack.4165859
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: cracklib-2.10.4-r0 do_unpack: Bitbake Fetcher Error: FetchError("The revision the git tag 'v2.10.4' resolved to didn't match the SRCREV in use (3b38d097102e34b50b5a1c2a8ddd1541172de85a vs 246592be1a654624965630b748ab4f1ac044f513)", 'git://github.com/cracklib/cracklib;protocol=https;branch=main;tag=v2.10.4')
-ERROR: cracklib-native-2.10.4-r0 do_unpack: Bitbake Fetcher Error: FetchError("The revision the git tag 'v2.10.4' resolved to didn't match the SRCREV in use (3b38d097102e34b50b5a1c2a8ddd1541172de85a vs 246592be1a654624965630b748ab4f1ac044f513)", 'git://github.com/cracklib/cracklib;protocol=https;branch=main;tag=v2.10.4')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/cracklib/2.10.4/temp/log.do_unpack.4165764
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack) failed with exit code '1'
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cracklib-native/2.10.4/temp/log.do_unpack.4165859
-ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack) failed with exit code '1'
-
---===============4959635363114080139==--
+--===============3657324326015665174==--
