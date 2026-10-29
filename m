@@ -1,189 +1,150 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7870.1793266712875133089
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7979.1793267163238662998
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 02:38:32 -0700
+ Thu, 29 Oct 2026 02:46:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=ERVNy5aG;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Sl0tR3Wg;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: jose.quaresma@oss.qualcomm.com)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69T8vDXF3824956
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 09:38:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=coS+GnNhdVPb3H4YcWYbdXl8YH5KyBviN2O
-	HsFQRWo0=; b=ERVNy5aGYmYIbI1vB8uxBvzMqSlaDnxnbkjOmeHmm+W/d+KB89U
-	pQC8ZALQ6q7GeK4FAvwoTCEX5KpEmdd5K/tAdYC8hTeQmdXU/Y0DwTSqI2YQsaoj
-	HOesbMUbSio7p+0AHVz0eJHourOAkej1a9bYddgQ2ZfwttUAfnUN3NBeEXKRKSNy
-	CQzNew8S40uqdsR1eb3PGT0c4sUtAU3f1KFhvIy2gVpUorRLbA4BlofSfNv5Yubj
-	ANLypNNkVd1ASbLLO/Q8K6B7qZHoZ/CynQ+0v2QvXTouOplGi4+Esf2i2MgPGlx9
-	T1NLOaDGTCcJ11vLbK3FcMf9BhqptJWOhVg==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hkut3hqx2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 09:38:31 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5351f1b26e6so31089931cf.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 02:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793266711; x=1793871511; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=coS+GnNhdVPb3H4YcWYbdXl8YH5KyBviN2OHsFQRWo0=;
-        b=Sl0tR3WgUbpfel4IBrh8swGzMp/x+/fJ15FHOEYvj9m9BSeJK3TKlzm1dMoWng+BhZ
-         pUp5e7DmtlME0s9qC9vii7sWR9IGmJ4/Uyhi7yPW/BQHIIDBC9/1bBR80z50P7jyK0+0
-         wWOuYmVWKfjn/02HOgwRoCoOYHIsWXb7qJ/yPp5h3UM7VQGQ3+ilrOZITCLqs73PMcaW
-         aGDieTR6jVETUICWlK4xR9hAtCrHYwGwfo3JWAlh04OPX0bmMlFnSCGFUqWeFsuGGPmW
-         fkPmyDo/Fx4cyR+TnokZPV7wppQ7nZzH/U2G/U+TjVeyO8Iie7Z9xO3akaB6HhIp+aqL
-         b/IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793266711; x=1793871511;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=coS+GnNhdVPb3H4YcWYbdXl8YH5KyBviN2OHsFQRWo0=;
-        b=t+UzkSouD4xKr4k0kPNono969QZhZxD/gB0qVggjp+8ukC2L7CUrlVS7EEOlROmHbK
-         E7byCZDkIDirFWgP4aD6XBgIfJHqBAQW5EL9yqEkT88iqc+nE4oDwmJcKj5H0jvqUKw4
-         LQ4E5pEYGEq8fHQinrvrTlaQwdupznOPIbPLbvE80ZvIvTgDzCFodvwjnKbULssZrDZ7
-         2kt+OPPE+hBCN/KZJNDtTb5BJJVL7y07f20HB//1SCZBjkQCGd02I99ksHey/95+8dGg
-         qogJ7Eh7wMkMj1wkfAyILMoFPSw0y04qH9CYL2Ep2qkB6LYU9RiRdh7KlWVCbeo/OWli
-         RsdA==
-X-Gm-Message-State: AFq9FYLZyc9Gqnqqo2cXbb9EcevOqavSmjR+kiiJYxLdbuoNbZBqA44y
-	HViN9CQUDvfezNdDM7/XDP0chcYMAF+Kof5BI11W9MbyXD0VKEDiaJ808K8QIwyRsJQMTgHhayH
-	8mnj3KBcYCcO16ONeJdfRapmluNYYxJ8T42qZ+I1q4wuihInWtcdpER71bai+haJxrMmwomBTu/
-	mVN6zCencTqgOmBdc=
-X-Gm-Gg: AYBFou1V1prkQMg8eEvC+ddT/Ty3trm19gIJPJGUkxeq1XfOWaEQ8DTBVIE/L5XvT+d
-	JGYH4Ho1KovCyKGXxRewTY7SCK2nb45FrjPFoeUAVd0rADk0zz/DPXwmhrSkYiAhq5CAbPOLxF9
-	7CUHff9OfNG2oHNoPJdnBAkFOkHo+tyE5RkHFzsoJUeZca6UB7i9kQwyU3XW1O0zr81906u08y+
-	lAoN7HpE/saPo3itp5Y+Le8P+Zjuez2kQ8Zw7Z6cLL/5aX/kCCvqlbYLO1/egOxNr21wyqHSC90
-	Chgp57suppau1ntg1XFqIt3AkiYUMtHhoH2ZIDwE88KJQoK6b9LpCiA1myJmF657o9S9AwILTHg
-	mvv9Rl0gOF5fGFqHZTqZKproSbWoNbz86oE+cQez6FmDGJontnEYOLviDuV220no=
-X-Received: by 2002:a05:620a:371e:b0:93f:309a:ba5 with SMTP id af79cd13be357-94408cbd0cdmr775029385a.47.1793266710865;
-        Thu, 29 Oct 2026 02:38:30 -0700 (PDT)
-X-Received: by 2002:a05:620a:371e:b0:93f:309a:ba5 with SMTP id af79cd13be357-94408cbd0cdmr775027885a.47.1793266710364;
-        Thu, 29 Oct 2026 02:38:30 -0700 (PDT)
-Received: from toster.lan ([185.228.162.222])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa813d2640sm52611685e9.6.2026.10.29.02.38.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 02:38:29 -0700 (PDT)
-From: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@oss.qualcomm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v5] igt-gpu-tools: fix build on non-x86 platforms
-Date: Thu, 29 Oct 2026 09:37:39 +0000
-Message-ID: <20261029093738.1507-2-jose.quaresma@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=YcDmC/7t;
+ spf=pass (domain: ericsson.com, ip: 52.101.65.4, mailfrom: edaturu@ericsson.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IzThhgHkhvkf7ms6v2lFaowcYP1Iuclz+3EDT40lS/L+2a4rub9W2emdiizKmEDxkFRlheozXlcjphpJrRjEmF8MwkvHc+gfoq37r7uAWpAaWcuR/0a0r/jshGtxXSBK3xfIMHy2RIeWCCvn56lbtvUpdTQGiZAoahdMxgQ+maK0u0HQM07wWnkvi0mDcksvD827fJavqdV4o0OWZ2xyG2D28DQ7ufWVwqdpjt+teAEIK4U36RfkFfzpe9nKVg7MpEIKhw3mgQdLJW6iCFa+fdmifrzJv4vFAypy9+QSuJsx3R1WdSrKLr1yBG832V+t56PN93I0+bsr1pwaG4Xzmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tM49EobpOs8d6Ds4h8DgRy9+9E1eSQqsFR+ESozrJX4=;
+ b=sBlOtrVAidBy0fGPadi39+uPaxoB8cI3eRLc8myfbkDl5NEGm0RutAadxLNWcO7y/btNR+OuEr6FIAtnysCYZxKJvcpxxoy+h3LZpOuHJrMgJ59COju+eK8UkPRoUF1dWkaxL/UIulMxW3ygwKQOVzroGnj9GWugoVv8n5ssWXsKoatMwCpODTDXY3Nit392JibMc+0Qide7WqrvG/vihg7g5SwOGDnkgNfvIHiq+pMnfaBk1yzH2vZFfW7DlkUz9NCORM63VEiMFeL2nyrqXFYNoR5Ue04HsEr5JLlRI51DC5s84OdNWCRi6O5hShd1Vk0UkBQFuVNehiGHqAfjGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=est.tech smtp.mailfrom=ericsson.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tM49EobpOs8d6Ds4h8DgRy9+9E1eSQqsFR+ESozrJX4=;
+ b=YcDmC/7ttCN9M8QoJxs4PpkOTsBSzo+8DY2b7lzZBWE76UvneVSHNNsSTgdcyaZhxh+9yu5DdqJPni5/0LurmOuQq5enrowYEtPwkkmkfQ3tCLxJf4mII4Bm593XEDdK+dsm8TZ3FlBiei64WEz6pyo02lWDIrU8SKAgW/6YlOOy3ZJHqaCgHlPUhyTNR48p6+i/A3KRc0oBnmmDOrTxNz+WjBQFzvK0F6dQAL1yt7XlPE7EoG2yw0c46/BgNUrKYg8llfRI1u9TzezybySwHBwl+z6oSk092+cJJSZ8IqeUyUJS2jJAL+6W0vU06Hczktm5S7KMaH9YVoBR77FxLA==
+Received: from AS4P251CA0021.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:5d3::11)
+ by DU0PR07MB9241.eurprd07.prod.outlook.com (2603:10a6:10:42e::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Thu, 29 Oct
+ 2026 09:45:59 +0000
+Received: from AM2PEPF00070CF6.eurprd02.prod.outlook.com
+ (2603:10a6:20b:5d3:cafe::71) by AS4P251CA0021.outlook.office365.com
+ (2603:10a6:20b:5d3::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.8 via Frontend Transport; Thu, 29
+ Oct 2026 09:45:59 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 192.176.1.74) smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ AM2PEPF00070CF6.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.569.4 via Frontend Transport; Thu, 29 Oct 2026 09:45:59 +0000
+Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Thu, 29 Oct 2026 10:45:58 +0100
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id B2ED44024D32;
+	Thu, 29 Oct 2026 10:45:26 +0100 (CET)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 84706707231C; Thu, 29 Oct 2026 10:45:26 +0100 (CET)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <jaipaul.cheernam@est.tech>, Daniel Turull <daniel.turull@ericsson.com>
+Subject: [PATCH v2] maintainers.inc: add RECIPE_UPGRADE_CHANGELOG_SKIP
+Date: Thu, 29 Oct 2026 10:45:18 +0100
+Message-ID: <20261029094518.1621670-1-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDAzNyBTYWx0ZWRfXyp3ZMUdeztSx
- gfaAZufXQVgcRU9Z3s8dgdloCCrd/DKc+nXjcOJWQNFmxeh3d13xCFseJ67Ax6Qpu31KZS8eMHC
- hWT9pt9wtzED+/I/kl0YmUVbYrNeBN4=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDAzNyBTYWx0ZWRfX7ERPVNMUDwQ9
- t4pgIXa1GUfq4JXzVShGN8w+hwWWRg1ZLzObe4yKKxYcee+blW3GI2FBT3B0YlN85tZw1CooCIq
- BST9sW6CerKeSYFB2kbYq01n2pZsxHizHFyNzgrsQa29YQ1LcS8UkzaARGxhG+iJlK8cfyts8AC
- DbqoBsZ/E+TA/HODO5dRvc9/qHOQnK2JGV7NlfgiQO7aLjBMXFN0j6y7nHqDltZqmji83lVC+IZ
- 7qwT6eMmU6djW2zUxojV2965oGNSlGJdDtwQsQ9lHqA9M3uGy7NukvN6hMJ4KkKMx2+532R+530
- 531FsEQNk5mkpWoQPIj874kDCtZQyPAWzV3u+XauNa6fz3nskz3lhbFT6ylgJhxOFi1W1ThbNKV
- ln4mA8+PXVCoKKjmG4D4cwMCw/n8QcALl8cKOx0kseitUAEao1aXfgnLRhogyD/xrqR/sqWmXvu
- 6FkQ6Q1tylXIZDlu3EA==
-X-Proofpoint-ORIG-GUID: BczJqUGo8AtmenmLR6YdVba65eBrPOG4
-X-Proofpoint-GUID: BczJqUGo8AtmenmLR6YdVba65eBrPOG4
-X-Authority-Analysis: v=2.4 cv=HYSB3SE8 c=1 sm=1 tr=0 ts=6ae31418 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=qOKIifoFPMYe9XV0Ag7/Dg==:17
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=e5mUnYsNAAAA:8
- a=EUspDBNiAAAA:8 a=vsqMbstPxYt-GFuWyhQA:9 a=dawVfQjAaf238kedN5IG:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-29_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015
- spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610290037
+Content-Transfer-Encoding: quoted-printable
+Return-Path: edaturu@ericsson.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM2PEPF00070CF6:EE_|DU0PR07MB9241:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e93f871-abbf-4ac1-cdf9-08df35a16feb
+X-SMTP-Server: smtp-central.internal.ericsson.com
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|36860700016|82310400026|11063799006|56012099006|261009223027099003|261026140227099003|261026121527099003|261028144727099003|10067099003|261022105027099003|261022075727099003|261021121427099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: lR/8gksXe/s/4mKSDkzFIDFcUj31cebeBVcBF5tHddz0POHOV+u9eERD2wlyk18d2zPumIUO+0xitwCZ+j9Mcy3OCFQkKqTtRMROjKX1W5My7DXXxRbAGE96lA3ZEWEPA1qsqHr9DZQkYZsKZYBdZ1u6gWOTzo7nLGZTKDM8rWZLhiJ9S7qsXZj86MFYaEQhfbZhzwVIIZftGMNydToMAIRcX80lqHf+YDcefUoE7PNUVQxspSatRxGZ7Vn1FtbSGyiy1LEF1CVUerOVqc5ZDXgX4x3q1Y3TJf6mqqXGIEX1egxUPZkZbR/q4TazC/U71wG1crSX6mZt3tZHZv7qQD9ZlIheDkc+nRGX7F9ladxhT9nGOeuWRqDxiLGi8rwcHS/C1KvGms1A8wr3CdWCMVLzIaR35rMY9ayNVI1AYrQ7+mkcGunh5rjH+0DVuY5YIVpOihB+eKFSsuE4yBduu7FpGMyTvg/tWd36KvWsYOyyBKbuj3aPEVidbXW/9FzdjFmBTQfyIaLM4JzZaBBkJwrZ3DxH7xDLiBfwyEuKkIkwnMYr4clXlcNmsBM0WYI+lMA33cWnoVpj8pSHmTMGqaF7EYSuYL6YOvd0IyqBivPcEDpKRNxFaeR8Tj8PcgiOep14rNtMm0ehPthelI6ld6lrXEotfUm41F5bY6CJBNgbGob2TKsn1m39i511c9AGaa2ia5sSVzPQjiyuAU/Kqw==
+X-Forefront-Antispam-Report: CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(36860700016)(82310400026)(11063799006)(56012099006)(261009223027099003)(261026140227099003)(261026121527099003)(261028144727099003)(10067099003)(261022105027099003)(261022075727099003)(261021121427099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: uOhlwOZHUmqb+JLSHHJ0DADew2w7z+jgRrDd9WnFut55CZ+u73x1P/I6JOArU4BDBJRKdidZsUG8v9BjxFCkQ2CEazcMrC6SKENHcmFIo44OdlZs1q0GlBiWOFIXkhvsR0c7LpyxPqIlmQhj3yz3K/r6/2WvmnFr8STb1ugvf6/Wq9mOo4XgWTu4lVyZu+E33VS9OiLt28j0j3M76xlkYSvvKOX/hF7mM6WumYyN99KWC7z31fg8173LDVAEswm8w7HAvmXluxx4PcETXD/aCvbKqoSOUa8VTQjPbizUqMIlhgzWVvaBFh2R/XhFoI1KY97laDbflNAN9XJeRMrdreIxH6/KxKEPhYSW3FQuQ4HgJI3NSAvzuFseEgpCGWsWZ+N7g7CrZbHyzElIFfhCw0v5KtjQzcFfUfhuhdDFWQzHbCovS9h5Z2K6alJl0lyq
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 09:45:59.3046
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e93f871-abbf-4ac1-cdf9-08df35a16feb
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM2PEPF00070CF6.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR07MB9241
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 09:38:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248920
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 09:46:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248921
 Content-Type: text/plain; charset="utf-8"
 
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-The "pause" assembly mnemonic is only available on IA-32 platforms,
-breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
-assembly with the preprocessor checks, making sure that other platforms
-don't see the invalid assembly.
+List the recipes whose changelog, as extracted by 'devtool upgrade',
+is badly formed for a commit message: whole release notes documents
+(mesa, gstreamer, cmake, python3), raw git log dumps (u-boot, openssh,
+acpica, freetype, vulkan-validation-layers, parted) or markup banners
+(expat).
 
-FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
-Assembler messages:
-{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
+devtool upgrade reads this variable and sets "changelog_skip": true in
+workspace/changelogs/<pn>.json for listed recipes.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+Keeping the list here makes it visible and updatable alongside the
+recipes, and customisable from other layers.
+
+Assisted-by: kiro:claude-opus-5.5
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
+v2: change ??=3D into +=3D as received feedback
+---
+ meta/conf/distro/include/maintainers.inc | 29 ++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-v5: Move Upstream-Status to the carried patch
-
- ...t-pause-mnemonic-only-on-x86-x86_64-.patch | 37 +++++++++++++++++++
- .../igt-gpu-tools/igt-gpu-tools_2.6.bb        |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
-
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
-new file mode 100644
-index 0000000000..38582bf1d4
---- /dev/null
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
-@@ -0,0 +1,37 @@
-+From dc072dc0fc680a055d0cdf5adfdccbab6d0566d6 Mon Sep 17 00:00:00 2001
-+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+Date: Fri, 26 Jun 2026 22:34:06 +0300
-+Subject: [PATCH] lib/amdgpu: insert pause mnemonic only on x86 / x86_64
-+ platforms
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc
+index 74db3e44e92..8193fbbf474 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -951,3 +951,32 @@ RECIPE_MAINTAINER:pn-xz =3D "Denys Dmytriyenko <denis@=
+denix.org>"
+ RECIPE_MAINTAINER:pn-zip =3D "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-zlib =3D "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-zstd =3D "Unassigned <unassigned@yoctoproject.org>"
 +
-+The "pause" assembly mnemonic is only available on IA-32 platforms,
-+breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
-+assembly with the preprocessor checks, making sure that other platforms
-+don't see the invalid assembly.
-+
-+FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
-+Assembler messages:
-+{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/125c0289617f3c7ba7ee376ea1d8aabd2ff5afdc]
-+
-+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-+---
-+ tests/amdgpu/amd_basic.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/tests/amdgpu/amd_basic.c b/tests/amdgpu/amd_basic.c
-+index 3ad023472136..e5475f337549 100644
-+--- a/tests/amdgpu/amd_basic.c
-++++ b/tests/amdgpu/amd_basic.c
-+@@ -703,8 +703,10 @@ static int wait_for_value64(volatile uint64_t *ptr, uint64_t expected,
-+ 		/* Sleep if interval specified, otherwise tight loop */
-+ 		if (check_interval_ns > 0)
-+ 			nanosleep(&sleep_time, NULL);
-++#if defined(x86_64) || defined(i386)
-+ 		else
-+ 			__asm__ __volatile__("pause" ::: "memory"); /* CPU hint for spin-wait */
-++#endif
-+ 	}
-+ }
-+ 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
-index d76c2355a1..a46b002b83 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
-@@ -12,6 +12,7 @@ inherit meson pkgconfig
- SRCREV = "916c79cfb7675ca01607dcd821f8c49d4f633a6f"
- 
- SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
-+           file://0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch \
-            "
- 
- DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native pciutils jansson"
--- 
-2.56.0
-
++# Recipes (BPN) whose changelog from 'devtool upgrade' is not suitable
++# for a commit message; devtool flags them in its changelog JSON metadata.
++RECIPE_UPGRADE_CHANGELOG_SKIP +=3D "\
++    acpica \
++    cmake \
++    expat \
++    freetype \
++    gst-devtools \
++    gst-examples \
++    gstreamer1.0 \
++    gstreamer1.0-libav \
++    gstreamer1.0-plugins-bad \
++    gstreamer1.0-plugins-base \
++    gstreamer1.0-plugins-good \
++    gstreamer1.0-plugins-ugly \
++    gstreamer1.0-python \
++    gstreamer1.0-rtsp-server \
++    mesa \
++    mesa-gl \
++    mesa-libclc \
++    mesa-tools \
++    openssh \
++    parted \
++    python3 \
++    u-boot \
++    u-boot-tools \
++    vulkan-validation-layers \
++"
