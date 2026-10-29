@@ -1,109 +1,110 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.37])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10543.1793276489447082563
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9690.1793273595198389698
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 05:21:29 -0700
+ Thu, 29 Oct 2026 04:33:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@gehealthcare.com header.s=selector1 header.b=oSnloeKr;
- spf=pass (domain: gehealthcare.com, ip: 52.101.48.37, mailfrom: maxin.john@gehealthcare.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lfs6oAgKDuNBWI5GHc9iI8c3NGMoPIosZQPm9oWi68muOADZlPOcxh7NItJcIxwlzWELb2GE0j6oEm7XaMUJoYE3dgRn11lykpUFzmszgKaAKFN/uU1aeaJPNo3OqVcQJbyr0PcA1MzM1W5Kka/zKTZikJ6NBFkPN1XTFG1epTUuq58riMjK9eMPyu1Z6FUWEO3sZpWBoXg4EGk192mVD8hWJAYreoZoJ5OvATmxXBD5w9uAwAhxK1DFIUEd5KqbE2PkEXgFuPcGSiy05zqrWcYUHOB5AF5HPFqUUb0hCUFOlbxu2Bgok7yK4c4tXgXL4DuBdai5GFXlZJah16cFhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ct6y+GhGaUgCyncsFfJ0WZG9mE7SbmV9sX+tWhU/7B4=;
- b=OLe9MUcdn9mYvxfUaSDR661Nf3tN7L0lGavLJygjyOdYyeupxjEMnPIV0KzScwSNYqapfy9Y/+8XXBpg2CmmFzHdD9xyRQLO+iiaE5W4V9zfFveOeCB2P0r5kzsC8yfssM8uvyr9sstVWlPIfI5MWB5aTdCYUt5BEMvg3pKr3quK1A3ZrUByG3ylZR0m3rIO0cEz0XA9MqluJYldiRzCo2aQJC9g06h8VONntdogYF5aXPnPVkcCCGPowOfzKXTjxbvORGdg92UKIE7tgoqspdr5oA78V7yFm9tsHxu99OazooqN6CRub2Jsa9Tx28kCguL+M612kAdgSnGyZMZp6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 165.85.157.49) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
- pct=100) action=quarantine header.from=gehealthcare.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ct6y+GhGaUgCyncsFfJ0WZG9mE7SbmV9sX+tWhU/7B4=;
- b=oSnloeKr7QguDwx8EPZP7S8oYCMWnxNdFf1idmY/npPjRsA6UkmVV9jP6i2t17hD8TcNW5hsfyaZ4fDqulrrqdfIMhpzKsiHc+HJ4HvFIwSbevJxtuvjol/y8ZbGYK+B7B6kQJnqJsV84D09GiKnrYIakTLeYrlXFIh+KBFgkzwTo2xYxHurnPQseGQQGJlXoPFKKvz4wudLYTb/H73op3hm4QybBJ8/XGiz8kUPhr1sDfcz5I4YMUAwFxzPtrAiU1raq+BjemZCnDyq3WdFcTw0XUoDdkAcfF5EcCv/D2WZCAKsqzIDitOzJ+FvP+IVFJIhXLzmwZ6J8duzyJ12dA==
-Received: from CY5PR19CA0071.namprd19.prod.outlook.com (2603:10b6:930:69::17)
- by CHAPR22MB942290.namprd22.prod.outlook.com (2603:10b6:610:2f5::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Thu, 29 Oct
- 2026 12:21:25 +0000
-Received: from CO1PEPF00012E65.namprd05.prod.outlook.com
- (2603:10b6:930:69:cafe::55) by CY5PR19CA0071.outlook.office365.com
- (2603:10b6:930:69::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.569.8 via Frontend Transport; Thu, 29
- Oct 2026 12:21:25 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
- is 165.85.157.49) smtp.mailfrom=gehealthcare.com; dkim=none (message not
- signed) header.d=none;dmarc=fail action=quarantine
- header.from=gehealthcare.com;
-Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
- not designate 165.85.157.49 as permitted sender)
- receiver=protection.outlook.com; client-ip=165.85.157.49;
- helo=mkerelay2.compute.ge-healthcare.net;
-Received: from mkerelay2.compute.ge-healthcare.net (165.85.157.49) by
- CO1PEPF00012E65.mail.protection.outlook.com (10.167.249.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.569.4 via Frontend Transport; Thu, 29 Oct 2026 12:21:24 +0000
-Received: from 3b1194cbe400.fihel.lab.ge-healthcare.net (zoo12.fihel.lab.ge-healthcare.net [10.168.174.110])
-	by builder1.fihel.lab.ge-healthcare.net (Postfix) with ESMTP id 3721D26D3C
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 14:21:23 +0200 (EET)
-From: Maxin John <maxin.john@gehealthcare.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=rluRHOse;
+ spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: vinicius.eduardo.pedrosa@gmail.com)
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-93ead211f14so67786685a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 04:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793273594; x=1793878394; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=G81UHrxXrN2nmRrrxv6b1XQb/3dubVhPgkr713+nFUw=;
+        b=rluRHOsebJoW2Ye/4iISgqWtNciMSmldmuI2bsp8u/8SJSgtRfulmAfIY9mGEbFgvb
+         VMNF3SljFNC005F0lJ3CIvc0t5FcnEl5gVNx55+S2e32MOA3A4k92HeJHUi8KmfAgT0F
+         1LA1216G8zhGVVqPJH4yKJ6eRxyRlXGBvSjAarfelrKN2kKWiODSgw8o4Svlc+EFSzNn
+         oKCa+0lOysJUjH8NNF4rpqK7zHK5NzDkR6DUTHzMCeey7iZSZ2y2s11P8WSDFyMCadvV
+         Co8uORla1ujLn/mGm4cFZYk8Qz5RG1IKZk2HMoNKZBIqK0oBVtzb4JIUL5I1e7zaSXv0
+         0erQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793273594; x=1793878394;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=G81UHrxXrN2nmRrrxv6b1XQb/3dubVhPgkr713+nFUw=;
+        b=VBlGrGjhOlxqPVjuJNVv/VP+nJ01XJCfyat+Fr8tgBVmOhA93vA6DrhXE1jO83gxln
+         az7ADnfMvTUEK0OSCBZUx0KAv1DlrQ91d6HiiRAgCrNrrSURIA15SDT9KLrhEvpJ1LtC
+         npJf4bWKV4LOWHIN4atvGJ5voJZ79eVG+/oza1nsQiLpBLG1VGwY0+IyzOST26e4mofk
+         +qA704PyPOokWxvRcRu+SnL9mf0l3B6hNmuhFAkSzX/6G84wWnH4LjS0j0DkRRSqWMyL
+         9wQWhhdL55CDT336NyisjIvnl9s8h2f3AER7zRkogMEe9/Ji/cY+Pnubk9Jk89Qa2Jfw
+         wwJw==
+X-Gm-Message-State: AFq9FYLHsvX+WHxLlUzPyo3impP6cLylztpvlzW2rOTiNA9iSCjqC1Iw
+	p0vMnKu+YGNRxSejYFXfMmFhq7Mn8Gz6tx2W4it8IG64DQ2kKXoIqiaLYNS/7aEoy/cE3g==
+X-Gm-Gg: AYBFou1rgslDJb5rFIu2cHhQGHtDHV6NqrKl+0wFUCH7BMhKVBywSvfvEwrB4aPHtqt
+	C6HgKOSIE9TjOreE+5uJO7/gGK0e/LQqV3V/ne6udY++3DmBBUIk670UgUXPfghdJ4wfxKQ99hV
+	POxf2Rq8o7MRH1kNm54hddf9GMIQQU9IcG7BEINO5LDPEbswQxnvcEE5yhE0LYpvu1XberpdAJs
+	CKImyqKUJH0wIE1Lr3HJkD8pUq1Wn2e/VmiuY51fqdOZJT0YQZ/gwqS+AUkWR0x9gs2dwGpqgfI
+	FAQQ5vmcw8LSDaqU623iZBOr4epJtlGVaBkf2jrGCwAb5Lq6PwNXWyQ7cXJuIkWSvRc/F1DiYqe
+	3susToLmdBV5H6dubTRUPBnF7nQJMh7O+BZ4wKjobUd92wFyAtqDp8xk7WDjA1ii7eVzzJjEEpQ
+	Ks4MFbxDYURC3OimM1QA6F/OCDAQCbSukFvFTUTsdcGLStiaLjuAwuA+fgiidgcc+Fz3M+CYcib
+	IwmEmCOofVSb/W4FTLYt+/Sxz0+hGYII4WGX6n2b1FW9rwIBBlhkFdGgbexDW6E87IoiUEDFyl2
+	G3uMc8JX6Yt9TcDIGc1jrcktyB9V3fApvvD+aZ/x3c5h34W0Yl40t7W1aneMLeyMVrn4uQnOTpC
+	DoDjrTswTMaXQ6/uVv9TysZJdKpb+5y+wgirDfUkxD4A26dEA2tMZssBowQ==
+X-Received: by 2002:a05:6102:950:b0:7c2:b741:2391 with SMTP id ada2fe7eead31-7d0542f8019mr913428137.30.1793273109877;
+        Thu, 29 Oct 2026 04:25:09 -0700 (PDT)
+Return-Path: <vinicius.eduardo.pedrosa@gmail.com>
+Received: from MaquinaLab.. ([179.179.238.247])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9912dad26fcsm6678607241.11.2026.10.29.04.25.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 04:25:09 -0700 (PDT)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] uki.bbclass: drop stray f-string prefix in kernel-not-found error
-Date: Thu, 29 Oct 2026 14:21:22 +0200
-Message-ID: <20261029122122.22-1-maxin.john@gehealthcare.com>
-X-Mailer: git-send-email 2.39.2
+Cc: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Subject: [PATCH] yocto-check-layer: don't skip entries when dropping invalid layers
+Date: Thu, 29 Oct 2026 08:24:43 -0300
+Message-ID: <20261029112443.1734921-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Return-Path: maxin.john@gehealthcare.com
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF00012E65:EE_|CHAPR22MB942290:EE_
-X-MS-Office365-Filtering-Correlation-Id: 44db0c0a-e5f0-4256-053f-08df35b72678
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|1800799024|36860700016|82310400026|11063799006|56012099006|261009223027099003|261026121527099003|261022115727099003|261022075727099003|261021121427099003|261021123027099003|10067099003|18002099003;
-X-Microsoft-Antispam-Message-Info: Zt9p3PBHlAgd/JNVOAoO9AVxocMyT8HAYd1ZoR6JzNINfVAqaW+tcYBhdERUkjx8p9qjrBC1d0RTtR4Ogl6anFGvzZI5CdBdeedttglP1GKTBauVyOWoS5vzDpOMzhvEPulXbPd+ZOU6r55kCyncvxG8IkB3NB82cceq5Dir8V9GrRMdmlxCOHVls/EezA5fe47B1MbU5r/gGUimQSHWdpw5yqrdlldUxLDAtHw5II9SxZpAPkFHhNpI3gt00ePb5t/hnrp9vaF0OsTQTcCHYGE1iyOOzcS82l8wytQxSQpZX8/jOSD4X7a75GEGi3Be4ZuoyPTW6/t55trr6MQJb/QjCY+XLMru4anFwENREdTLhRBUIQWk505ir+XXuMHMA6ZaVthRqhqfY/FeCnWsYuzLyj+AMII2uli+9oOtWMj+Qvlz+Xh9lo89/kTzbVsH3XwmhEE9ERl9r7rXPnOkta4pP3MT71MSgOwxJMUTNrcvQibLiQwLHPuGaDE5NiAKYO4e0RlzVAEG4ptuMBuFYVT0m+y3eXW+lo2pLU/kNSlwTD1YeKpTiZbPGrpurc/QjapJ2OM6WMbOLsLp2sdyXKGHBFj6BZQ+5AneBAJr7Pr33rxdHcLjWMRke24vZ35ulbCeCw1h7b4XMGgOSg5njTHGXeuIjEAsR1qtouhHEdVLRaO8ynbO6gJDv1qVsAmd85GW8F9i3pckydVkn9f0bg==
-X-Forefront-Antispam-Report: CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mkerelay2.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(36860700016)(82310400026)(11063799006)(56012099006)(261009223027099003)(261026121527099003)(261022115727099003)(261022075727099003)(261021121427099003)(261021123027099003)(10067099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: sXfybCnS6RATSQOrrITYDM6oR4PGunUP/EMX7qZfmxZgtHhElbqPu9qtDAOgsp5M2jOaTgtkrgH1u9iR2jv0oUKvX8tTxdw7/x9JUyBgi22qGg+YS0y4XfsFAPW7SnphITgBCDx+H6es3nsR1U3f+8s2gV4pi54jlKJbBG8xWKNzS/jh5jpcrfdTnFPvibK9H0LWX9dVtURVTK/mgak4a9P8aI12/JymOJh0Ft06vwc08y65hvXrIO9w6oX/e/RyziPssPdB1KqPUXYcF91Ie7KY8yDBYUAsYOmVC14ha9r0550tPIqtKhBtDM/grDIbwBW4xQdwZU9xNqRGo7aznpqKaNMAHWoF1UBD7OknzpfGwMHwqrNXGz5kgei6yQl1VHULNuh+V6G8g8rKkxZGJui/zGMHujxsnKClouJKBOznTY5k1SCQGVZYsVaTb5cg
-X-OriginatorOrg: gehealthcare.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 12:21:24.8472
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44db0c0a-e5f0-4256-053f-08df35b72678
-X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[mkerelay2.compute.ge-healthcare.net]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CO1PEPF00012E65.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHAPR22MB942290
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 12:21:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248943
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 12:29:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248944
 Content-Type: text/plain; charset="utf-8"
 
-The message was an f-string without placeholders combined with
-'%'-formatting. Drop the f prefix and keep '%'-formatting.
+The "Detected layers" loop removes invalid entries from the list it's
+iterating over. When two invalid layers are next to each other,
+removing the first one skips the second.
 
-Signed-off-by: Maxin John <maxin.john@gehealthcare.com>
+A skipped entry without conf/layer.conf makes the dependency pass fail
+with KeyError: 'collections'. A skipped BSP+DISTRO entry isn't
+reported at all. If no other layer is left to test, the script exits 0.
+
+Iterate over a copy of the list so every entry gets checked. Keep
+removing from the original list, since dep_layers refers to that same
+list when --dependency isn't used.
+
+Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
 ---
- meta/classes-recipe/uki.bbclass | 2 +-
+Hit it on a layer that had a few subdirectories with an empty conf/ in
+them.
+
+Tested on master (fa83da7) with small synthetic layers, same tree and
+command before/after:
+- two adjacent dirs with an empty conf/: KeyError before; after, both
+  get the "ignoring" line and the real layer is tested
+- two adjacent BSP+DISTRO dirs only: exit 0 before, exit 1 after
+- valid layer + one stray conf/ dir: same test results before/after
+
+Applies to master-next too (offset 2), not tested there.
+
+ scripts/yocto-check-layer | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbcl=
-ass
-index 7c5c12a7b2..bcccf824c7 100644
---- a/meta/classes-recipe/uki.bbclass
-+++ b/meta/classes-recipe/uki.bbclass
-@@ -137,7 +137,7 @@ python do_uki() {
-     if kernel_filename:
-         kernel =3D "%s/%s" % (deploy_dir_image, kernel_filename)
-         if not os.path.exists(kernel):
--            bb.fatal(f"ERROR: cannot find %s" % (kernel))
-+            bb.fatal("ERROR: cannot find %s" % (kernel))
-         ukify_cmd +=3D " --linux=3D%s" % (kernel)
-         # not always needed, ukify can detect version from kernel binary
-         kernel_version =3D d.getVar('KERNEL_VERSION')
---=20
-2.39.2
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index 8c8b4db..a580a8f 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -125,7 +125,7 @@ def main():
+         return 1
+ 
+     logger.info("Detected layers:")
+-    for layer in layers:
++    for layer in layers[:]:
+         if layer['type'] == LayerType.ERROR_BSP_DISTRO:
+             logger.error("%s: Can't be DISTRO and BSP type at the same time."\
+                      " Both conf/distro and conf/machine folders were found."\
+-- 
+2.43.0
 
