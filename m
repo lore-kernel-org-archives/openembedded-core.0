@@ -1,250 +1,123 @@
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7012.1793262357053211173
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7321.1793264049995771629
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 01:25:57 -0700
+ Thu, 29 Oct 2026 01:54:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=iBVsWQYm;
- spf=pass (domain: mvista.com, ip: 74.125.82.49, mailfrom: hprajapati@mvista.com)
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-170135e43c7so1009368c88.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 01:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1793262356; x=1793867156; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5DIXIsNwdDYwvjWxwyIf/mOoNzIHMjTEAt+MZW+RHeQ=;
-        b=iBVsWQYmixh+Wknmko6duRtPIBI5t6d6hCqIdC8qD0/CA2qiic4rJpQoTufsrEql1v
-         ZYLKF/vPkUIaUDFcA4F/MTnQjG5eQHD2Pal/DhgN2dZW0qYlU4i3LGUnyhaeElOyWATd
-         RIkIjfWorhYA4wfl0oV+hcwXJut48dwBVnaVw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793262356; x=1793867156;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5DIXIsNwdDYwvjWxwyIf/mOoNzIHMjTEAt+MZW+RHeQ=;
-        b=z7NXsLdyJ6KI1uN+x6vxJ7Ty926UfyCIwPHsftap++pOEPjQ18IaEk88jkBKVErJG7
-         13w37AabdM/JWGSJ1F79/TuWGXoHt9H1P3EcNI3bYe2vvRQ1AbFmuOPLa+alGkZ6vOKN
-         eVb5VhMw4nVFgEUrHWRAuUtctLTKwNQh6NzHmYEzyIO45SHqPGjqLX4fUoQoDDX10RCO
-         hyxl9rpF27VB9FoyCq5MhE/7eEQuuFTvTITrmM7ZfVJmg2KHyhjuDiQRnvzpFgYxGiMt
-         EDXqqeP3+G9BOts+yWy4Zr48X2u4MhxKf0yBpezfE2jXpCrKHyvVe/29kWW7S9rHKSwy
-         Ll/w==
-X-Gm-Message-State: AFq9FYLLsZWH8d192NmQvOxzbfK2USpxbWMhN5x0dz2mYAPVe2FTaiOP
-	IwvG5VNIq+bggN1saQh0uXF8vNMV/Uvw704VVpeYzqQ90qJ7Z7hu0ftkX2lx8NwnVgyoip0zKyX
-	wheVpd/M=
-X-Gm-Gg: AYBFou2pHb2TN4UursFEhe3UISPSmihJiYWzIRTrgl6bLm26UkYC22KrXtw9UOBtQV+
-	zrEMyyOP0lTF9vINx2KFFa7/K9G/jUvup15K4uAYOSaNXyTR2CIwo1+q0Q+D7Dp+6YjIYjoVIBV
-	ehOTzeexUT9Um+CA7MzynxWHABCPK9L5t5XmLP2KWSnj93JjnVxbwyldELzA+sP3Kl9HpWwvigl
-	lStkPh8eJLcqgEuYuJyLmUtQrVdbxqtGbm3nxjVjd1AwRFiLN0zI1mfs5SP1KAHE4+BUZi7vE1W
-	yQztG9+7PTC1DI6Oq/GrhXwTFVEyrTpFFgoh9jeAQ6q6UvuEG8Yx+oXvBhMrTzLlK0NKNmFL944
-	BUW1dudGEgP0qmn/KG/p0sFoq0i+U06PH+/jm3tYljlHGVXDxh0AVrkV3NWpLCgRiKxPr1jZE7X
-	CJjaznIxjbHpbd2aTbIY5bXzadTMAC+iGy8zxbgAhdYRZdSVPu9WsX/DNP/a1dpVd7NLkzRaslj
-	rTgRPH4nUfrrSsi4rmnQl/ChAq3LZuslsiRQIDNbINl8l8q0Q4QV+zS0ViQlY2oZnK3y42DLCUv
-	R7t6wEACuFAjvjgCPOQ6/gR2xq5V7KCmOz0+qOFvFg==
-X-Received: by 2002:a05:7023:a47:10b0:196:e254:db24 with SMTP id a92af1059eb24-1a6cced4226mr6113929c88.21.1793262355989;
-        Thu, 29 Oct 2026 01:25:55 -0700 (PDT)
-Return-Path: <hprajapati@mvista.com>
-Received: from MVIN00013.mvista.com ([103.250.136.237])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a7549528ebsm11760930c88.0.2026.10.29.01.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 01:25:55 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Jdksbpvh;
+ spf=pass (domain: est.tech, ip: 52.101.83.50, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=q8/yzgluCIjjMCr6WtdX0UnYQGw3moai1DaFXuda7C5qRGa08YdT9PoBxZrVcJWFe6gCxDZBIjtTyv7uCV3tsgBHlrIRGbMqxJtqatCoaGWFBcgE0X6GqL6XOwKSD9+f4Z3Mxibpf6Ul7pMMM9rZhHEfOkgtY0jO8xPutSIjo7SE+34tR9ggLucIQLQNuC6p4n7UlTKLGRmGTSb2eanBYsW8k7yapBocCe1BimclZT5ah6Hp4yaZ74QrMYqX/adnPkENRvxZBdivLDtHy1gZeriz17/5YM17Hfi8vVDRm2MJ76R7wHEdq8lAGLD11hzV7hvlPmm86+OmfjUKllyDxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yLKZHmoal1dq4dkZ6xEDGE9u5UjraEWgurPKfozaC+w=;
+ b=nzssjDJZUnaov7swaN7BcWV0DJgdt4h2ey+EtBO98T+NMuwaAD9t4az2xy1kkq/g/9cHFSPImDOxKZnqtHvQV0axvUeE+GVTOKDpciyLArILT7NhoSqOzKVgQ2C5nHPx13hU4dttCQr4a4r8W9wYA041Qpj9QPGxjyggh1nxWVV7WUgL3RzRUs6PafPzOzMw///ejnEXLX7vWv1P+Jkg/qokiLo59ggGFfrnuUc8sXGf9SiILRUFb4euBaVGw7kIEPRNz+IMg/jw5G0pe8Hhly0O0Ct7KXPzUZT6sCPmMskSUuzgV6FJuGXVe1RJlwigIo/HLNFrbB56n2fv2YaKNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yLKZHmoal1dq4dkZ6xEDGE9u5UjraEWgurPKfozaC+w=;
+ b=JdksbpvhlPe/eo3266PxWtmJnqRFGIUgJ+9ue+PUoHx2rbQRD1n/Yt6q6Ab0IvKB7SxXCMDqtUkp4Qc3WOgkp7OIAkFMc7j6NTpjTvqsKunX44NZATL1qPXv+CejhT0dOB5EO9UlRq4bEF+CWKAPArlOXGJUcS94MeGKhsxzJAeAfGKPGgMJ+fK/aKqhyh+/xafeI4V4Ex834gPTBGgt/hXJpekNlvnG1F6/nSzHK7y+01ATm7mFhnsrNRVYzFjOTp7syXOnd11nJjD2eFJ1s4DmHnu5MfLubezqWIySeayA+AgH7tKIJoN0lCRGJOzPEzzAQA5u8uSgzrhcdf/YAQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by AS2P189MB2605.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5e5::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Thu, 29 Oct
+ 2026 08:54:03 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0569.008; Thu, 29 Oct 2026
+ 08:54:03 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCHv5] vim: Fix for CVE-2026-73076
-Date: Thu, 29 Oct 2026 13:55:48 +0530
-Message-ID: <20261029082548.641629-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+Subject: [PATCH v3 0/3] openssl: Upgrade 4.0.3 -> 4.1.0 and dependencies update
+Date: Thu, 29 Oct 2026 09:53:58 +0100
+Message-ID: <20261029085401.9109-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: LO4P123CA0352.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18d::15) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS2P189MB2605:EE_
+X-MS-Office365-Filtering-Correlation-Id: 138d467c-9b62-4a7e-24cc-08df359a2e92
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|11063799006|56012099006|261009223027099003|261026121527099003|261026140227099003|261022105027099003|261021123027099003|261028144727099003|261021121427099003|10067099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: TB77NWzR/bQoxCr7rTj6FDF/YoIoXG+7DxX8VFuzj58uDwMkGsWrIKqRAHMPUeTMyqMZwpFjcaxcLVOg1A+PyTKiUV1Mkf8k7Rzvj/w+7BSrBMDulyegcq2e3cGyh5+eAz0jN4u2K9LpvNh+whZxQfNRT8SsKNLenK3ESz6pKVA5nRHbWVv9NkQEw28MstWMg4rbEy3tTNR6nKRnllQCLGHTK2oSunhLtBuCAcojannXNO+tFfvUdm53xfIUvtGM6y+HuqZXW/LkBWo4QdeevDozHA7MO8ewR6ZdNN18CQDaiS6DBLW2wznoayY21tTEzYIPEafGMBOjAqPspHpmw2M1y67uVRRZoAbKlbyWZclLtq8agyH+x8fhiDvQmzuZq6tm5NTOSjwkokTXjERSEnPNIx6NPWsc3uJ5GytKSNfocF1c9gq9OCv00kS5HhZQqrI/CKQnnCT5keS684WRdie+BdXIv8arK/8h4ONSje2W0KezFkk/lkTvA8o1RmaAfZLXNP8W6I3ljiGMahHnMmTWLAOncvVUIw8IFW9uUEq7HCtqVA4wELy/0iHVt7HCN7Z+LKSesuzMWfxhyAd9ii7rP4qQd+w8UjGabFuNJ5eWIQey77BeRhhtrcJv26Tcz3BVggplDOvQFWbOPUDqvLUlXtP+OMssNWTKs02ZKyQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(11063799006)(56012099006)(261009223027099003)(261026121527099003)(261026140227099003)(261022105027099003)(261021123027099003)(261028144727099003)(261021121427099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iMSq52wgnZ6LrP1b60RZbxEEeIcnc829swAoF3fv6z6E7gVknUKIeFQ9n49d?=
+ =?us-ascii?Q?MfY74cqJf7rbmkJWpZkgMkVIkggLPsOXreCh+Zjp1L6SbKS6hPYAWHjnmU8W?=
+ =?us-ascii?Q?5C0TTinAZ/I6qgR33R6NpD4JZCh6cB+CEr+s8ydlTrqJbOWMAVlmfzGaZiHe?=
+ =?us-ascii?Q?q692Vvsz2Qp7YzcDZrX0LZ36c38CT3Z3qDV8TUzlxRCdLSWjghQPQU6KKKI7?=
+ =?us-ascii?Q?OIIzBhxFZ3YDVVsHb0mqYZB264q6FFg+ejmHoVoyrUUnGbLqiTbYYqSmF1Pk?=
+ =?us-ascii?Q?V4qAfTjHKFAnegpdJq86PoGFKZBJSec9cJxgPSGfYNsj0o4BjfYHteNtEcxb?=
+ =?us-ascii?Q?mOLa/Di10HsSPsq52KejGW5RZZ7/RsMkLDbGurbwaM68czeIjvsS0YG3P6jY?=
+ =?us-ascii?Q?2jusan1EnISeagfLQRqUGKwcxMl9j6BN+oQ4Xtd52FY9BDRfNCJK+nce53f9?=
+ =?us-ascii?Q?xIca/wmDPknoB0Tg+WFOB2n48zj9cB+fgDRQ+7M0we18P0zJjDJST537Zky1?=
+ =?us-ascii?Q?3fgfiRVHwb0vtnCw6g8RdP09H20Ycdo3NgdJS7jXLRY1zHfDP14d4yvgNeCN?=
+ =?us-ascii?Q?3LNAvTm9tE3VLp3PNVdyLzITtcAuEzh8XebnHkr6F2iRJCV6EYLx7P3vPpAo?=
+ =?us-ascii?Q?Db/8cLKcnndVYDvL/rrpbz6ATMT6pnFBEhBUV7q6dczKEGJaObVEvbGgKjD0?=
+ =?us-ascii?Q?SESwqU5YTeZIsiahfu7zQcgrhluPMnhUM0f3cCcIder1NqAFhWTk+lKpAqUA?=
+ =?us-ascii?Q?aR69Q7Df4XGCwweveadU4yLYAcwQVGZwqjonhYxn2/YVRf6AskO/0K0VTfg2?=
+ =?us-ascii?Q?aRwFQWVA48QZUw/kq0PH2k2MxnqKl0sOy4xlA/TuGUAUwkIC6x3EdtTD7oOj?=
+ =?us-ascii?Q?Uhek4Qr8/SiM8dvIw2KwJUk9G4cdDDHnx1TV6/Vh2e1NGD1cjQIxOWWAe2Pn?=
+ =?us-ascii?Q?D0ftw4vRqclT66GbgnBLJvsRVjXxdB1IDVjCPllNjTj4oP0h8fvx41Cn3gVY?=
+ =?us-ascii?Q?KFIXGjZ811/WJLajFm8EPLxbWD0Iqy8juLJVr7Bw66+Xztwb3sZcgyG0gpuZ?=
+ =?us-ascii?Q?GNsE+BiK7rDcY2ItntXdXvVt7LwFKn/6qp//01oRRmaYoZDxW31WVYPjxhfS?=
+ =?us-ascii?Q?WNLHsmQFx/6L2jnMLi1WIE9GLHw2rh6ryvV+wGHFf+4nQOpiB3PzINFCf2Tb?=
+ =?us-ascii?Q?Yf9tZThafmKXELdcYUChkeqDIWoXWYkAEq2/kAHswSo1zAvxc3d5AfZ+eXrW?=
+ =?us-ascii?Q?KAErnrfJIvRXnP7SX+Cjtb+pqV+Vk36YgQGfAyICuVomJ8WUFw6djspMRcT5?=
+ =?us-ascii?Q?bd7r7WLnmvcPZLwCYiBn7/nvO1vDBGq+YkZRb+1otm0QhrNcHumcjFGpAduC?=
+ =?us-ascii?Q?3qLP/Pk++jhSv4N1Ya4nKhv65wP79/Lm9WWXoJ1O2HQiS8pmTFDZBBvraMr4?=
+ =?us-ascii?Q?KjKAa1c/kinWwbLDB0wd5ynuELQJbDWPBDaUPXdoWapTDfQ/db9zq7cooo9E?=
+ =?us-ascii?Q?8teNE8Rlzx0oanjUAm18+IKZGIlydUH+AqYqLwP9si6EfwiX7DIn3c8IJs4Y?=
+ =?us-ascii?Q?f6c5mENyX6N3QTnrIEHBROv04axOZp6OYa4iMvSLzIYHabqCETj6zmwkZGDp?=
+ =?us-ascii?Q?afF6Pl9NcEyANEm96pPS/3/9U+topYBEGpl9dQZJ3PD4nTAVvhSzZE4JWtkD?=
+ =?us-ascii?Q?UOq05OJCbYh2fMGQXRb/jt2jZyDnVAANYSsK5ttotWENITImTeTYTShroXT/?=
+ =?us-ascii?Q?OJF2HYTvaw=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 138d467c-9b62-4a7e-24cc-08df359a2e92
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 08:54:03.4445
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OPm8Fg8VmqjDK8ZpVpxgC+ZQutGSrSADLTykUT8I0k6TT/MfjkWMrTNjNXtz4e+wOw//yj2IZB1ie/Y0Tk85SzH+m3u1wHnLge1zZdeFI44=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2P189MB2605
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 08:26:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248909
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 08:54:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248910
 Content-Type: text/plain; charset="utf-8"
 
-Pick the patch from [1], also referenced in the NVD report [2].
+python3-cryptography and python3-pyopenssl changes works fine on 4.0.3 as w=
+ell
 
-[1] https://github.com/vim/vim/commit/581a2f3ac9c6f96a26324f6b2c8c11415fd0d452
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73076
+Jaipaul Cheernam (3):
+  python3-cryptography: backport InvalidTag fix for openssl 4.1.0
+  python3-pyopenssl: Add patch to return None for TLS 1.3
+  openssl: Upgrade 4.0.3 -> 4.1.0
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../vim/files/CVE-2026-73076.patch            | 155 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 156 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73076.patch
-
-diff --git a/meta/recipes-support/vim/files/CVE-2026-73076.patch b/meta/recipes-support/vim/files/CVE-2026-73076.patch
-new file mode 100644
-index 0000000000..5ed023a747
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-73076.patch
-@@ -0,0 +1,155 @@
-+From c74d28b907af0b1f1621f881f098374124bcd53d Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Fri, 24 Jul 2026 17:43:51 +0200
-+Subject: [PATCH] patch 9.2.0847: [security]: vimball: code execution via
-+ .VimballRecord file
-+
-+Problem:  [security]: vimball: code execution via .VimballRecord file
-+          (tdjackey)
-+Solution: Forbid arbitrary commands, fix broken directory deletion code,
-+          refactor code
-+
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-r22p-fhw4-84p2
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Backport Changes:
-+
-+The .VimballRecord rejection is placed after the fenc/filecnt extraction
-+because the earlier strange-filename check block present in upstream 9.2 does
-+not exist in the 9.1.1683 vim sources.
-+Omitted src/testdir/test_plugin_vimball.vim because the current vim source
-+archive does not include it.
-+
-+CVE: CVE-2026-73076
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/581a2f3ac9c6f96a26324f6b2c8c11415fd0d452]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ runtime/autoload/vimball.vim | 62 +++++++++++++++++++++---------------
-+ 1 file changed, 37 insertions(+), 25 deletions(-)
-+
-+diff --git a/runtime/autoload/vimball.vim b/runtime/autoload/vimball.vim
-+index 6456984411..803d19a83b 100644
-+--- a/runtime/autoload/vimball.vim
-++++ b/runtime/autoload/vimball.vim
-+@@ -18,9 +18,9 @@ if &cp || exists("g:loaded_vimball")
-+  finish
-+ endif
-+ let g:loaded_vimball = "v37"
-+-if v:version < 702
-++if v:version < 900
-+  echohl WarningMsg
-+- echo "***warning*** this version of vimball needs vim 7.2"
-++ echo "***warning*** this version of vimball needs vim 9.0"
-+  echohl Normal
-+  finish
-+ endif
-+@@ -270,6 +270,13 @@ fun! vimball#Vimball(really,...)
-+    let fenc    = substitute(getline(linenr+1),'^\d\+\s*\(\S\{-}\)$','\1','')
-+    let filecnt = filecnt + 1
-+ "   call Decho("fname<".fname."> fsize=".fsize." filecnt=".filecnt. " fenc=".fenc)
-++   if fname =~? '\%(^\|/\)\.VimballRecord$'
-++     echomsg "(Vimball) Forbidding .VimballRecord filename, aborting..."
-++     exe "tabn ".curtabnr
-++     bw! Vimball
-++     call s:ChgDir(curdir)
-++     return
-++   endif
-+ 
-+    if a:really
-+     echomsg "extracted <".fname.">: ".fsize." lines"
-+@@ -309,7 +316,7 @@ fun! vimball#Vimball(really,...)
-+       else
-+        call mkdir(dirname)
-+       endif
-+-	  call s:RecordInVar(home,"rmdir('".dirname."')")
-++	  call s:RecordDirInVar(dirname)
-+      endif
-+     endwhile
-+    endif
-+@@ -343,7 +350,7 @@ fun! vimball#Vimball(really,...)
-+ 	 exe "silent w! ".fnameescape(fnamepath)
-+ 	endif
-+ 	echo "wrote ".fnameescape(fnamepath)
-+-	call s:RecordInVar(home,"call delete('".fnamepath."')")
-++	call s:RecordInVar(fnamepath)
-+     endif
-+ 
-+     " return to tab with vimball
-+@@ -464,11 +471,17 @@ fun! vimball#RmVimball(...)
-+     let s:VBRstring= substitute(exestring,'call delete(','','g')
-+     let s:VBRstring= substitute(s:VBRstring,"[')]",'','g')
-+ "	call Decho("exe ".exestring)
-+-	sil! keepalt keepjumps exe exestring
-++	let nr_files= 0
-++	for line in split(exestring, '|')
-++		if line !~ '^call delete(''[^'']\{-}''\(,"d"\)\?)$'
-++			echomsg "ignoring .VimballRecord entry: " line
-++		else
-++			sil! keepalt keepjumps exe line
-++			let nr_files+= 1
-++		endif
-++	endfor
-+ 	sil! keepalt keepjumps d
-+-	let exestring= strlen(substitute(exestring,'call delete(.\{-})|\=',"D","g"))
-+-"	call Decho("exestring<".exestring.">")
-+-	echomsg "removed ".exestring." files"
-++	echomsg "removed ".nr_files." files"
-+    else
-+     let s:VBRstring= ''
-+ 	let curfile    = substitute(curfile,'\.vmb','','')
-+@@ -622,23 +635,22 @@ fun! s:ChgDir(newdir)
-+ endfun
-+ 
-+ " ---------------------------------------------------------------------
-+-" s:RecordInVar: record a un-vimball command in the .VimballRecord file {{{2
-+-fun! s:RecordInVar(home,cmd)
-+-"  call Dfunc("RecordInVar(home<".a:home."> cmd<".a:cmd.">)")
-+-  if a:cmd =~ '^rmdir'
-+-"   if !exists("s:recorddir")
-+-"    let s:recorddir= substitute(a:cmd,'^rmdir',"call s:Rmdir",'')
-+-"   else
-+-"    let s:recorddir= s:recorddir."|".substitute(a:cmd,'^rmdir',"call s:Rmdir",'')
-+-"   endif
-+-  elseif !exists("s:recordfile")
-+-   let s:recordfile= a:cmd
-+-  else
-+-   let s:recordfile= s:recordfile."|".a:cmd
-++" s:RecordInVar: record a un-vimball file deletion in the .VimballRecord file {{{2
-++fun! s:RecordInVar(file)
-++  if !exists("s:recordfile")
-++    let s:recordfile=[]
-+   endif
-+-"  call Dret("RecordInVar : s:recordfile<".(exists("s:recordfile")? s:recordfile : "")."> s:recorddir<".(exists("s:recorddir")? s:recorddir : "").">")
-++  call add(s:recordfile, $'call delete({string(a:file)})')
-+ endfun
-+ 
-++" s:RecordDirInVar: record a un-vimball dir deletion in the .VimballRecord file {{{2
-++fun! s:RecordDirInVar(dir)
-++  if !exists("s:recorddir")
-++    let s:recorddir = []
-++  endif
-++  call add(s:recorddir, $'call delete({string(a:dir)},"d")')
-++  endfun
-++
-+ " ---------------------------------------------------------------------
-+ " s:RecordInFile: {{{2
-+ fun! s:RecordInFile(home)
-+@@ -660,11 +672,11 @@ fun! s:RecordInFile(home)
-+    setlocal ma
-+    $
-+    if exists("s:recordfile") && exists("s:recorddir")
-+-   	let cmd= cmd.s:recordfile."|".s:recorddir
-++	 let cmd= cmd.join(s:recordfile, '|')."|".join(s:recorddir, '|')
-+    elseif exists("s:recorddir")
-+-   	let cmd= cmd.s:recorddir
-++	 let cmd= cmd.join(s:recorddir, '|')
-+    elseif exists("s:recordfile")
-+-   	let cmd= cmd.s:recordfile
-++	 let cmd= cmd.join(s:recordfile, '|')
-+    else
-+ "    call Dret("s:RecordInFile : neither recordfile nor recorddir exist")
-+ 	return
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index f84d2a9688..3a8b67085a 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -58,6 +58,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-73074.patch \
-            file://CVE-2026-73077.patch \
-            file://CVE-2026-73078.patch \
-+           file://CVE-2026-73076.patch \
-            "
- 
- PV .= ".1683"
--- 
-2.50.1
+ ...1-Configure-do-not-tweak-mips-cflags.patch |  6 +-
+ ...sysroot-and-debug-prefix-map-from-co.patch | 14 ++--
+ .../0001-extend-check_cwm-test-timeout.patch  |  2 +-
+ .../{openssl_4.0.3.bb =3D> openssl_4.1.0.bb}    |  2 +-
+ .../python/python3-cryptography.bb            |  1 +
+ ...-on-AEAD-finalize-failure-regardless.patch | 53 +++++++++++++++
+ ...m-master_key-for-TLS-1.3-connections.patch | 66 +++++++++++++++++++
+ .../python/python3-pyopenssl_26.4.0.bb        |  1 +
+ 8 files changed, 133 insertions(+), 12 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_4.0.3.bb =3D> openssl_4.=
+1.0.bb} (99%)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/0001-=
+Raise-InvalidTag-on-AEAD-finalize-failure-regardless.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pyopenssl/0001-Ret=
+urn-None-from-master_key-for-TLS-1.3-connections.patch
 
