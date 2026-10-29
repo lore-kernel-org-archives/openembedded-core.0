@@ -1,92 +1,110 @@
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4491.1793244938876026184
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4564.1793245507455727893
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 20:35:39 -0700
+ Wed, 28 Oct 2026 20:45:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BGvdlZL5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Rg7tgxIJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a185ba3eb0-25a5efdd-32fe-41a3-afef-d488de487ab0-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793244938; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=HzcoXjCPa2dJ2sB9A3sHU8dIQDhM3HImQYv/kMNmh4c=;
-	b=BGvdlZL5xLvdJpujjvoz4C1PgLREIm2d0pWpO6qz282lY+oNmZwEazNfxX+PBOk9
-	G6F9nFENVY+J3FvrMEMKOGj+kirNhs7X64VaCgx1Pr4AIlWDi7lU1rn5s6dQPaY545h
-	hUUumZVmVkFHR+3e4nJAQJ51FzlGOkZbp5PQp9Lg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793244938;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=HzcoXjCPa2dJ2sB9A3sHU8dIQDhM3HImQYv/kMNmh4c=;
-	b=Rg7tgxIJCZW/IfzmK2jP70cHhbLj+yATSY03g12ys1CqvCvTgDJUEliDShjJJQMt
-	kxAk+HgD6UANPzGZLijFpZLL2JkprN2+ok9dQa63adq5SANIMfMevnR4hodFkO7IMKG
-	cP1BSkk0TdKNWY8wRbyEV7NRqakJ/x4FP74C60C0=
-From: patchtest@automation.yoctoproject.org
-To: bruce.ashfield@gmail.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-yocto-bsp][PATCH 11/11] yocto-bsps: update to v7.2.13
-In-Reply-To: <20261029032527.3150782-12-bruce.ashfield@gmail.com>
-References: <20261029032527.3150782-12-bruce.ashfield@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a185ba3eb0-25a5efdd-32fe-41a3-afef-d488de487ab0-000000@us-west-2.amazonses.com>
-Date: Thu, 29 Oct 2026 03:35:37 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.29-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=MktdLV+E;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-91c73c63116so16901266d6.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 20:45:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793245506; x=1793850306; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EIR/l4g4fqfwofGOUUtRV5LzClmio+KDhP9AQO5HCn0=;
+        b=MktdLV+ET0hkqI8nNNbm8eARGvhs9DoqEgdjJxihmiyQlRTsmTP+gM5cWJr2YDZXuD
+         GA925sO4VqQbvVEcNyumyAbFOoFYVQ1q/dPaI7YDIz2tzDHV1OVIe0NHAUBJWkroyXo0
+         hbjX0HL4TqkHLT9yh5xOostwlKfC+DeogkYbA5G4rwjmIGQExgxbrSfCUlvAooA7YAb2
+         vtVJLs6yfnavygW7TI7sBsl9i9VlTwIbgliZbs3LNJOC78l3bSACgcOi5+kXsUwtrb2Y
+         IcWAOA1u/lhcPbArnQztvZ+Z/dpahdrKb2Rn+jOFmCZKJaROeIxSJ40v5eNv9XYJWfzQ
+         tyhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793245506; x=1793850306;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=EIR/l4g4fqfwofGOUUtRV5LzClmio+KDhP9AQO5HCn0=;
+        b=k9Eoj1VRdjDATIAEzqfJ2gWP5lS8JpEVzEa51LOm/So8IrwrY50iZQgZYBg2xWmNzv
+         ikrNB3Yd4ZtUDiMecCO6oyjr4rRcU19JoNiXsshfJxIcP/rjAScnkMGFCCeTOsb3harI
+         KbWgFdNC2Jj4bvIOEnttoGNXcmosCvWPH93rvvrENT9z1W3r7agn9TIlSPjRCgoQyd/B
+         ApsI1ZDDF3z3tZlLgtLIepcJSWP5orrAEjL9a+3pvB1ivvvRkaUS4EJHAiFI0UAn/BQD
+         M3Tbdf/VnQOE3pzLDwvNMLrz/2Xqs7nfRcz8LzytYHb9Njv8QYUdFhCW9xz+1KAPow8J
+         IPZA==
+X-Gm-Message-State: AFq9FYLnItbqVndeUKhdKcgjHVX+wmtMNhmRYz3YBrqd/X6h53Gtmpeb
+	0BhP/Z4f3qFIM2PS8zlkk4Xs4ZQdyinsUuCZabvtRzk+C/NqwQuIZ3/WIi462fVX
+X-Gm-Gg: AYBFou3c8rwIhLhcOxh/whOKWa0DyMl5FiUUwM6OXkYgPZQcUZC9O/pluLlf4AJN5if
+	34CBxgY8wVna0VJuTH2h2Old73H99Vhe2NYbXKIDoYLT+Zs7OwCaeO8EJuFjMgI2kbl7QOC+0S4
+	6VkIdUdV6qv8i4XzoAaFlfy2zgH0+T5PBH2CIvPZF66JKXfAS5UOeCtMPTp3fQ4I+mgg6wkNXWN
+	EsBUVNkDLHkycqj7GgSSGffPGAvHf1TBob7FeSPkXZMBaM1+jtC40f5Y3obDnuuDs//O1JL+BbE
+	9JCPsWOOktB0EHYqpN3pdN4WHUqjHl2cwFWIWD6AmJM256HTVD/Wey2lUrkx2DbQgB0U60/P8Tu
+	VVljUFsqzx3pCUyac/8tGIn44tGRHaDbKllH4muyzrTrcPJsrRpd7tODqq8X8khZ5MVmCLPrzIG
+	p3kbHf7B+KHBeLKfBr1yfU3z0ZT5/I3GcMWpxsZ5LZEfDLrcfGujkVA+2f6BXsMIqvOBQdY4XFp
+	pbu9T88++UPGU/FNxQ/v12LqLtDc+fLJhdf/6sOf9sYrZNzoHO37+nC075zW+lsKZVjp9sswBSL
+	JC6ZK+O1RXERtckU1Bk3bYkb+THKINzjFtpz43JufY8DpkWdH3m6atVzd2ZyLOzaemYYq+XhPLX
+	/dG1HQG4hSSMzNgl/ri1Y7ex0Ih7XjKjLVMp8/w90Vj9X38lkCugB3TI9f3ymISGFtHl0RE1jY8
+	x2LSqVIi9gmHdzQUhnQAk9ERyvbZsDUntBc+/abwcMU67PHg==
+X-Received: by 2002:a05:6214:48b:b0:91c:74ce:a452 with SMTP id 6a1803df08f44-91c7d1cc182mr70689616d6.46.1793245506084;
+        Wed, 28 Oct 2026 20:45:06 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from bruce-XPS-8940.localdomain (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47c16569sm147542096d6.18.2026.10.28.20.45.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 20:45:04 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: openembedded-core@lists.openembedded.org
+Subject: [scarthgap][PATCH 0/7] linux-yocto/6.6: -stable updates and aufs refresh
+Date: Wed, 28 Oct 2026 23:44:56 -0400
+Message-ID: <20261029034503.3153661-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 03:35:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248874
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 03:45:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248876
+Content-Type: text/plain; charset="utf-8"
 
---NextPart
-Content-Type: text/plain
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Yoann,
 
----
-Testing patch /home/patchtest/share/mboxes/meta-yocto-bsp-11-11-yocto-bsps-update-to-v7.2.13.patch
+Here's the next set of -stable updates for scarthgap (v6.6.156 ->
+v6.6.160), along with a refresh of aufs to upstream aufs6.6.84 and the
+matching reference BSP SRCREV updates (I think you may have some
+of these pending already, so feel free to ignore / drop any of
+mine that you need to).
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+It includes (and replaces) the v6.6.156 and v6.6.157 updates that I
+sent earlier.
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+On the lttng ptest failures that you reported against the 6.6.156/157
+updates: I wasn't able to reproduce them. I built and booted
+core-image-ptest-lttng-tools on qemux86-64 with the 6.6.159 kernel and
+ran the full lttng-tools ptest suite manually. All 765 tests passed,
+including the save/load, rotation and MI XML validation tests that
+failed on the autobuilder.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Since most of those failures are XML/XSD validation, they don't look
+kernel related to me. If they show up again with this series, send me
+the details and I'll dig in further.
 
----
+Bruce
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+poky (7):
+  linux-yocto/6.6: update to v6.6.156
+  linux-yocto/6.6: update to v6.6.157
+  linux-yocto/6.6: update to v6.6.159
+  linux-yocto/6.6: update to v6.6.160
+  linux-yocto/6.6: aufs: refresh to upstream aufs6.6.84
+  yocto-bsps: update to v6.6.159
+  yocto-bsps: update to v6.6.160
 
---NextPart
+ poky:
+ meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend | 12 ++++++------
+ meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb              |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb            |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb                 | 28 ++++++++++++++--------------
+ 4 files changed, 26 insertions(+), 26 deletions(-)
 
-
---NextPart--
+-- 
+2.43.0
