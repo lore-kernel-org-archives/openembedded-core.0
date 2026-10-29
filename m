@@ -1,132 +1,110 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3770.1793241621223711176
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4032.1793242760874968805
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 19:40:21 -0700
+ Wed, 28 Oct 2026 19:59:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=A9iCLA8K;
- spf=pass (domain: gmail.com, ip: 209.85.216.51, mailfrom: ragaprasanth@gmail.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3adc4590de4so1409751a91.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 19:40:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=I8QZzJC8;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: ragaprasanth@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ae7626d14aso4335a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 19:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793241620; x=1793846420; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793242760; x=1793847560; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wQKNx/4yg6jMu+GLzIcz1RO9OU1GOGEq/wrBqL6+YxM=;
-        b=A9iCLA8KHt2Ugqndj0UD7+KljclZ+0NWoxbqC9DyyrLVo6dv7k2C/o0QLOSOjiCbZp
-         MniuvvFmyYFRVAEeRducGsa7ywKOrsPvMkmV4GkPOlqdcw65DSmEfWn/51Za81MqnPhh
-         x/F3XOixx1qV7IpIV6cVZfR7L6S6+d+lz8fBZGorOj8u7wjBcTwT8LLZuVObLAnSAt45
-         TQEGpe1xWFxBAeBe/Z0B+1cDTVP+Gy1+kQJtASr2FANtciVYF95rMKffu47rw1ejlPG0
-         j0OSLlsDIEbUUvKVEWensNrtZ/LQ3z0WJi+4HRdO3Mm6jGpzhpsG7tfsGW1nzFIghSoK
-         7cyA==
+        bh=9xtQCataNJ8xD6PWfok55BlOm6cRbRFB70XorJG9tMs=;
+        b=I8QZzJC8Wf2lnbdJMokTmtYaJNYHuH6WlwyEUEPFoaFKJf+Z+FnGRUOTGh/rdd0tms
+         ePu9pgHp1unVODROYxmX9rnVYaAC3bwfvlowYTk+51W2CWlGaiTQw2XrrJULe6HvTGNj
+         iRERAAU1ByrpClvmJ59241BEzR9+DccSIm6/UbOZYQ+XkMy060Z1F4ogEtTNRfdBXg74
+         x0M3ONs0mK1UdIVtqscjO6bMkTQ1MfQC6XlUZKe+SNz1gAyFDTMcGk5Pdsm92waiHH17
+         DLun4Qry5P+F3feaTI3guecwW6iUqg6Rb00yuLcrHd9r2eD/Z2UOFTFVXVOMCgc5jWsI
+         5etg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793241620; x=1793846420;
+        d=1e100.net; s=20260707; t=1793242760; x=1793847560;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wQKNx/4yg6jMu+GLzIcz1RO9OU1GOGEq/wrBqL6+YxM=;
-        b=BRTbSC1vYWHpkzsDuNMbNLtKCserEjWS00sJ4wZnCOAOZgb4PY4VG1/mOmjfFffb2S
-         bqZhwTu5P6boD0w4W/Y1lQ7MpXo5x1iM2weq1cR7kJZidSidvWlEQlwglqPiSIOUwOiv
-         l+vZdtVESISrQ+lf0ISpjg2EtwOtbBaxI922Ie206OFifAkmBUijPJ3yjdgceIC6x+of
-         D5xbt9psNihorfqXpLHpYowiLZoWoFUm7IsAqc0VC20qbv33QpIteTBX4VOQmFpoXYGt
-         TTINx5tXcC7strAlVBRTTwxoDqkcpEQs7ABA0F9TO+PkWDQXR6/nQ2SfgJtYBy/fTFfg
-         1ePQ==
-X-Gm-Message-State: AFq9FYLhTFc/Wrgc4KM0nTGXi2orXtpNnWFd09o0nkmdWR7xAo4Yu6tc
-	e3MkqEORdJdq+QUJJzmNDTwiZxBkb8Hrf+JQ02IPJHMqwj778CLg9RFcmG/vkGXs
-X-Gm-Gg: AYBFou3nclBGq5WoyiB50014si3GWhwHXEiRHvH5qHAfrezs+ykuc07bnOzALhR8XiQ
-	XiLyamifvyaKoTRL1h2I9p8d/VHixWUY0EcNap9sfl3y5xkXsxFSnsdqcFIAJlA61Qr5wBdV7F2
-	Jtzq4+JwX9SJR3/QcQ2G5buVcD6MDL/L8faa08OjNPGgCjS6bLXW0dORJwPX0QP2honIoarQWhK
-	DtmteVS9ZZONsXuseGpts9UAwM+NNix2BzeJhuHKvnuoyR4/IINiB4NK7Qe6mdw960Z7qULrRX5
-	Jagct8uHgdrEVAAQSrCxt1H5uBkxmQ77yfa+zmmkzWANNFSEoSyVdH+Mnu5K2GHdMsEsy4dLJmS
-	ZcEzgj5SD0+uE5a+275Jq1rUwV3P+dLU9+j2b1H2CdRfZqyUxXQEvFg9gMkN5Qi9V1wIew0IRwF
-	pQk3vHooefHpzPDSqePZK/c9NPB+YPZ+VdF2WI7gKN9cSNaUFwv7lH0nYZbqsic+3yAY0Ga1R5R
-	mjPRUupYRRj9dHezQQI4cqeKZauOxzibxzo3K8Q5AbiL4MsEW4vH+d1j5x12Y0tyKrukg1v4Ofi
-	Tx2gHz26YS+qo76F3kLZFxNAb3/o7g0cM1lgL1n3ugntXcrcjP27c2V1HdZSRWjA
-X-Received: by 2002:a17:90b:2e48:b0:3ac:af8b:6f4 with SMTP id 98e67ed59e1d1-3ae58287a6fmr3355960a91.37.1793241620568;
-        Wed, 28 Oct 2026 19:40:20 -0700 (PDT)
+        bh=9xtQCataNJ8xD6PWfok55BlOm6cRbRFB70XorJG9tMs=;
+        b=CEp7i1P1A/2xkxsgS8I4vN73JhbYT5Dw/dFw0+cY0yknGy2PlPLCBpP/es53L8Jgjr
+         TOC6HWQj7po4TMxLT+TPhe0hdgVhxv6KCKbiAQpygO5f8up6nfbML3Bul9sAHVpH9QH9
+         06f9zODG/peWz8L2v8liZjryGZCY4cEMfMDqJPTVIdfi9ojsjmHr/FrdoeypgXpAw3sj
+         r5sVmKntNrvAzLCFJB5lGKVLSQfOTyi4l8s3Cc4VVG1sKpsu58WA3kb5EOtuu5VLeSEu
+         hxBq1BB4D//Vc5m8qTqfYKrLfNqWsvEC+IIcM92v3mLO3t6slotxZbrsAc1VjE9JRpjA
+         tuhg==
+X-Gm-Message-State: AFq9FYJvUlMYph0Df4MJfmUDRh056pVxXd0PhYtnYMiy+z1wZJv+BH3N
+	g6hXtE0iHSVQd0JcETObRbNU9pu7Etd7XHyc+iRQOOSAmCG977krFLT9Zv9Q7Jjw
+X-Gm-Gg: AYBFou2ZpxdWOBcC+CRrnU8JTheGru8uklj4d0rHlSutiuwCY7SLzd05llwarSrSSfB
+	reKV9tGVQ9u6jTkNkOjOk/xfVs/Xs7eB03vDCgWOa64VGXJZeKX300xFPU7hbU5hFFjBH0gDBDz
+	ayr/jdqYTdz804nn+z9bGMS3fY+y0ZDQ80Dhxn8jBsBEYa7HT12k5h4cbbT+ynRNMUg19zVtMNs
+	3RA+Csuhn7oi3Uf+sNRTHfndbhoT2ZNY8dfZH/yopLW2wMd3d9Ovloa6zME4WpuEXU1wmBG3fWS
+	jeICuyDnVIrX9X2gV/gpaHJF2puizx7QCN5iDN1c1yVwcKKocnyL7OKqEZSWfsPau5dKVn1Flys
+	ApmSKYV4ssnOc2UN23F5pbgAwwRmWFoQcA5iecX0NVlEYpkuj0I3M4YnfssuIOxHLR+gPoQp7sC
+	aQ8nSF6mxMxoR42OMSE6uBLWde+TNGWovFTkdEPbVu/cEHpVf5ywT5hZJEzx3nwmuRIkibxZqH8
+	VB4qhPqmgMVrAdiohGQ4gf9v8BjbDPZtSXS7FIUZkHbQb7FdWo4r3mH301DJySilEq040pWVhzz
+	+uGd0KVmwSc0IgIFdmFIE5aVmtVMJQ+R5qgeAs6/vbWMGPur6Zc+1dTfLejn/nAK
+X-Received: by 2002:a17:90b:1805:b0:3ac:9176:e836 with SMTP id 98e67ed59e1d1-3ae57f9abf3mr2910474a91.21.1793242760017;
+        Wed, 28 Oct 2026 19:59:20 -0700 (PDT)
 Return-Path: <ragaprasanth@gmail.com>
 Received: from prasanth.alps.lineo.co.jp (vpn1.lineo.co.jp. [203.141.200.204])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e7d5b8csm1823761a91.1.2026.10.28.19.40.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e84be81sm1959728a91.13.2026.10.28.19.59.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 19:40:19 -0700 (PDT)
+        Wed, 28 Oct 2026 19:59:19 -0700 (PDT)
 From: "prasanth" <ragaprasanth@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: bruce.ashfield@gmail.com,
 	Prasanth R <ragaprasanth@gmail.com>,
 	Prasanth R <prasanth.r@lineo.co.jp>
-Subject: [PATCH] kernel.bbclass: fix -dev files when KERNEL_PACKAGE_NAME is PN
-Date: Thu, 29 Oct 2026 11:40:10 +0900
-Message-Id: <20261029024010.2113092-1-ragaprasanth@gmail.com>
+Subject: [PATCH] kernel-grub.bbclass: use KERNEL_PACKAGE_NAME for the image packages
+Date: Thu, 29 Oct 2026 11:59:10 +0900
+Message-Id: <20261029025910.2113983-1-ragaprasanth@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 06:45:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248901
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 06:46:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248902
 Content-Type: text/plain; charset="utf-8"
 
-With KERNEL_PACKAGE_NAME = "${PN}", FILES:${KERNEL_PACKAGE_NAME}-dev and
-FILES:${PN}-dev from bitbake.conf become the same variable and the
-bitbake.conf value wins. The same happens for -dbg. The kernel files are
-then not packaged and do_package fails:
+kernel-grub adds its scriptlets to kernel-image-<type>, but kernel.bbclass
+names these packages ${KERNEL_PACKAGE_NAME}-image-<type>. With another
+KERNEL_PACKAGE_NAME the scriptlets go to a package that does not exist,
+so they never run and the GRUB menu is not updated on a kernel upgrade.
 
-  ERROR: linux-yocto-7.2.8+git-r0 do_package: QA Issue: linux-yocto:
-  Files/directories were installed but not shipped in any package:
-    /boot/System.map-7.2.8-yocto-standard
-    /boot/config-7.2.8-yocto-standard
-    /boot/Module.symvers-7.2.8-yocto-standard
-
-This matters when a second kernel recipe. So, Rename the kernel variables
-to the ${PN} names before the keys are expanded, so the kernel values are kept.
-
-Remove the old warning about bug 11905, which was closed as not a bug.
+Use KERNEL_PACKAGE_NAME, as kernel.bbclass and linux-dummy.bbclass do.
 
 AI-Generated: Uses Claude
 Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
 ---
 
 Notes:
-    Tested on master: without this patch do_package fails with the
-    QA error above; with it the build passes with no warnings and linux-yocto-dev
-    contains System.map, Module.symvers and the config.
+    Checked with bitbake -e: with KERNEL_PACKAGE_NAME set, the GRUB
+    scriptlets were set on kernel-image-<type>, which is not in PACKAGES. With this
+    patch they are on <KERNEL_PACKAGE_NAME>-image-<type>; the default is unchanged.
 
- meta/classes-recipe/kernel.bbclass | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ meta/classes-recipe/kernel-grub.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 0a6d754108..b018c164fd 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -60,16 +60,23 @@ KERNEL_VERSION_NAME[vardepvalue] = "${LINUX_VERSION}"
- KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
- KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+diff --git a/meta/classes-recipe/kernel-grub.bbclass b/meta/classes-recipe/kernel-grub.bbclass
+index 2325e635e1..7c6abc5b4f 100644
+--- a/meta/classes-recipe/kernel-grub.bbclass
++++ b/meta/classes-recipe/kernel-grub.bbclass
+@@ -98,6 +98,7 @@ python __anonymous () {
+ 	fi
+ '''
  
-+# With KERNEL_PACKAGE_NAME = "${PN}", FILES:${PN}-dev/-dbg from bitbake.conf
-+# would replace the kernel values during key expansion, so rename the kernel
-+# variables to the ${PN} names first.
-+python kernel_package_name_handler () {
-+    d = e.data
-+    if d.getVar("KERNEL_PACKAGE_NAME") != d.getVar("PN"):
-+        return
-+
-+    for pkg in ("dev", "dbg"):
-+        d.renameVar("FILES:${KERNEL_PACKAGE_NAME}-%s" % pkg, "FILES:${PN}-%s" % pkg)
-+}
-+addhandler kernel_package_name_handler
-+kernel_package_name_handler[eventmask] = "bb.event.RecipePreFinalise"
-+
- python __anonymous () {
--    pn = d.getVar("PN")
-     kpn = d.getVar("KERNEL_PACKAGE_NAME")
++    kname = d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
+     imagetypes = d.getVar('KERNEL_IMAGETYPES')
+     imagetypes = re.sub(r'\.gz$', '', imagetypes)
  
--    # XXX Remove this after bug 11905 is resolved
--    #  FILES:${KERNEL_PACKAGE_NAME}-dev doesn't expand correctly
--    if kpn == pn:
--        bb.warn("Some packages (E.g. *-dev) might be missing due to "
--                "bug 11905 (variable KERNEL_PACKAGE_NAME == PN)")
--
-     # The default kernel recipe builds in a shared location defined by
-     # bitbake/distro confs: STAGING_KERNEL_DIR and STAGING_KERNEL_BUILDDIR.
-     # Set these variables to directories under ${WORKDIR} in alternate
+@@ -105,7 +106,7 @@ python __anonymous () {
+         typelower = type.lower()
+         preinst_append = preinst.replace('KERNEL_IMAGETYPE', type)
+         postinst_prepend = postinst.replace('KERNEL_IMAGETYPE', type)
+-        d.setVar('pkg_preinst:kernel-image-' + typelower + ':append', preinst_append)
+-        d.setVar('pkg_postinst:kernel-image-' + typelower + ':prepend', postinst_prepend)
++        d.setVar('pkg_preinst:%s-image-%s:append' % (kname, typelower), preinst_append)
++        d.setVar('pkg_postinst:%s-image-%s:prepend' % (kname, typelower), postinst_prepend)
+ }
+ 
 -- 
 2.34.1
 
