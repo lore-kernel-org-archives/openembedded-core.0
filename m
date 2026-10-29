@@ -3,241 +3,140 @@ Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbou
  for <openembedded-core@lists.openembedded.org>;
  Thu, 29 Oct 2026 14:06:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=soG8YGGb;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=BDssBuij;
  spf=pass (domain: est.tech, ip: 40.107.130.42, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xW1jytVnQW82PuHbuei+ySCfgOdiFbe9jj8EouyxBP37ypNED0B2wxPV/UIK15PxbcDH/6sTrDsFWAEsxVvJG+V6L0WwbHasSqMEdgbZCli9MinVjXMFhHYANGnmHReE5V0g/ynTZ6khhqqTbOZI3gh5cot+cDkTTM0FwQI6gBB++t2rAW/mYqMCu/hMFDsSEwtISRE8NU7wXlkraZf0pe4RKWd+WH/85m8ESQC1FAJq/rFCH+etqlFBBbd3zyRrv1v/wEO1Nq17o3QdGyVXIVZngZtHaQMzHZHalRA2tk0JVfPCr9L1Pfo5s48lSZqZ3q/l6X91km2C9WCGeeg4Eg==
+ b=Nr7Qkoyn2QS6dViUFww+aAmSStsOka7u36nqh/p5UMfWPWNgGL5SvTgqIMHrFeDAhm5B4+MY6DzynP4J2yU5w3I7RXMWI/ZmIborNWanP1jg/XzGpo8PYT0NoEtaXwKDyYobzTF5aSJfLeiWRCnSwDFG1lskK0h0Z2fxSpDWXpUsMMGP7muBVb3RcfAhutx7EaboaUjMSIdfmfcbRxoS5udIgAp0a0moBAzTvN4/Cl/aKeogEDug9pHB5T80xqys4WPzqyXjOKw9pceMJb5zC5q8K4pyWHzKAx6nsyirr04jfSekrZh9DgcsFS6F4GajzsJiigUhkHHgyQ7mb5+Txg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ex84KnNSRotG4b+lkZq3eUZ3livbznUwAvbsdrrQwgk=;
- b=jeQxq0nTogbgZgV7SKUL7VXpy0m2COCplhvJyLWIovA3cLlK20nVYJs5mrYcAZpkB3GxPRW4wqYJnlND+REcxSb8YYWXR0PUtW+4Tp0x26uwH6nZuvAOdbRhL5qc2WuCcPyOjyuLW2XOHV/q7bzLNaOSciu8dL6z8IKPxhw/HsBiCGuqrysMgEusFMCYEvOd4TNYoNEG69X1RY6KXaeJlEP8+PYz21/bZ03KAAu7dm0/LrUPqfSbK8CGcOjvteond6GyD2veulbxpyCKUKXnZ23RBSq2wacYiYWnMoWuHOPBFrApDzJ8me/NhVjFaHik7K1tyrnFxrwL5fJHQzztqg==
+ bh=e5iAOdcWN0ec8U15NchnHDxCniqHwsAykAUvJnx5QHM=;
+ b=iKRSTtjyQEePJMeglaKrkYUxyr6uwRQv9H4851P2jSNYA6H5T94io2F4Vj6fB9CjHZO7pATx+uZ5ZMlSp7w5VayE8dMJRhI4MKBp/AFdEbp+4OYDs+oPekx1v7wEi/sIbgIKjoXv6AhQdanDSw3rQJ/YuP2Tp6iFB9GHCZbleV3LBqHYwhiNgqdSEtW7mGAYTKzyoQTIBdFmZLpRS28sQE7Fn7lhfQy2Z8T73gOmMIsGHfheCAL4e2c2dPwqJMIc3gDQF8bma8RQZRXFZbfLEZ0s5RSRnKPuqeNW7DHyHBXSaZHnSKYu6qvIV65/6c6ZWrPE+8P0SHWrdJ48nn5t7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ex84KnNSRotG4b+lkZq3eUZ3livbznUwAvbsdrrQwgk=;
- b=soG8YGGbVl8h2JS2+/OTEuiHbrIX5YL5EIcENevmQJMYbIM//JzjNQ0j+JBfwoql6MUqZKrti852E5DVw69OspvctWlVX3KC+6D6Is/D5eOOBNH6TOOZnAjRrMiem8VMN2SKprpOdAFXQgZFIGyyIjT1P/f0y17oqQhdQ5iXNMlUFgFJjZI8BgUgNntK+DjPSNcfhM6OCrw4QJOIpkftpXo8miwjRGSh4ey8x7Gk492JjrMo3q/z6RGWTbo0cLdMY0QLToZwBmCtJmBf0pCO/gB53ljz3ibfUXuxid+zqwC/YjkdFA+ctmuc8GjHaglwxmyViWG1jceIKShm0jBy6g==
+ bh=e5iAOdcWN0ec8U15NchnHDxCniqHwsAykAUvJnx5QHM=;
+ b=BDssBuijXVLQ5LKgcaK4KRjb38dBtOFmUxABzVQpfVj7gzKpf5z40vaNlVhhht7RXG+o1hiBsfvWnRPYMadRLjpPxTZq3t0IbSwdm0icsAaM8eqKGuolfcxQhx31Aq/cw/GL2EWk8k+1uFtGv1LZvQnOzwMpMIk6vU9uJiwLkp8TL9dl3Rn2MdrAiJt1Wr0cmq+N82eGcfYPDr9dbTJ+mAw/AdssDj+1ByFTfU6G0iB/cFEYrOBP5Rjou2LI1lkAidlVmiZgN5NNa9kARIPN5yMRigJaXwIFBXV3AGkM0uUsL0Aryt8uhtJ1ycT/pXyyDuXuHOz3HDXWuyWvfJ3LBA==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by GVXP189MB2127.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:3::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Thu, 29 Oct
- 2026 21:06:39 +0000
+ 2026 21:06:38 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0569.008; Thu, 29 Oct 2026
- 21:06:39 +0000
+ 21:06:38 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 1/2] python3-maturin: Add support for python 3.15.2
-Date: Thu, 29 Oct 2026 22:06:35 +0100
-Message-ID: <20261029210636.16016-2-jaipaul.cheernam@est.tech>
+Subject: [PATCH v3 0/2] python3 upgrade to 3.15.2
+Date: Thu, 29 Oct 2026 22:06:34 +0100
+Message-ID: <20261029210636.16016-1-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261029210636.16016-1-jaipaul.cheernam@est.tech>
+In-Reply-To: <20261012090030.95901-2-jaipaul.cheernam@est.tech>
 References: <20261012090030.95901-2-jaipaul.cheernam@est.tech>
- <20261029210636.16016-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P123CA0469.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a8::6) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P265CA0246.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:350::9) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|GVXP189MB2127:EE_
-X-MS-Office365-Filtering-Correlation-Id: 440947d7-3368-4f70-40c6-08df360086a2
+X-MS-Office365-Filtering-Correlation-Id: abea0393-f3bc-4c80-12ab-08df360085a2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|6133799003|22082099003|18002099003|56012099006|11063799006|4143699003|10067099003|261028144727099003|261022105027099003|261021123027099003|261021121427099003|261009223027099003|261026140227099003;
-X-Microsoft-Antispam-Message-Info: DtEsLR3pw6Kaut5HvkZSeOjUAgytMG6jvcUSSagQOA3JtznbPOWLcddyNlkCEiuyRVEnBriXqKNB2vcQyLHPfghlyeqAURFmGac16xezAG++vY0WSGk0d/BnoLftZRNturkuu4cHvmv5J3iDE93yAaVfeTiMtTOl2AeOjgRPJndNxqopo/yBtQ5XmSlrs8eGWYvAxXKX9YohMZ5f1D3qYUDuHwnCm+d1cZvPmoMYkUUV4+vFMvzuBFOl6p4Qs2IPiI6usAuGqUA0ImHYl67kGvdXjP02MbmB9KEuSdlXPzbZ4/c2QhUlZQ3h5DxBGIy5w/iKqGNGDy98oGw8viAQZpmww+dE5Fbf6FryWafrDUHui2EtFzDOBB5ZZRIIU3zVipO/w0oWA4lFijCJdv/RDc1fCV1qKSUDqcytWK2adExd8/u2Hry2rWkUJKOh1nOgFDCcXWUik9zkuco8EFmrz0FP09Q2LWyWkG7OHvtiRJPInA66J0DTxcCwnnSgerAU0Kk1PncXBPKkn8zpsUCxDVqk6A5q24qJzGMDHYHn3+JvGLzarPkviPt0WLAuhngrVvmI7FKE5UE7oMo6xNiAGbQKtnSoIKcEDkDXz7K9qaLYSDy9Z2+NwOg/LICsMMlIspVucsAtdqvYkgTYVviqNInJb/WCum6hcFRo2QFgD6g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(6133799003)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003)(10067099003)(261028144727099003)(261022105027099003)(261021123027099003)(261021121427099003)(261009223027099003)(261026140227099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|6133799003|22082099003|18002099003|3023799007|56012099006|11063799006|10067099003|261028144727099003|261022105027099003|261021123027099003|261021121427099003|261026121527099003|261009221727099003|261009221227099003|261009223327099003|261009220027099003|261009223027099003|261026140227099003;
+X-Microsoft-Antispam-Message-Info: qrU4Wlsr50yQZZvXkYzKUYlLn7Z6rQALdDSNl78Jz3oswZWl9D2NpsJq1HArbeIj6s+sLRWSq87pt0iNf2eXuX5wLd23h+o2RXjTgJtm/mRzsrhQz6U4+5dn6+1e3Mvu8SBlBdACyDcx5mBw/YVHZCgvGjILa3biDbZPL8S+lb5UZDhZ8JP4Il+qUHTxcz5P4dWjJ0IIrfxsxZgj7WIQSRxr78AE5eTEOQVSLSJ8iSDFjVXDriaB8IsOmiCEHeL+xb9vHqYu4AQzPrMwlchvG1iah/nz8rJ/QDR/jmdtXjSrn3OtTr827Y+OQLUAzhGhcd8Qz7Ta04YrwAMYrD2tNYQLNKUqrmvtlcluJVaFA3NiDVka6S0AIQOgLk8GhtWCLPDZpmrPbFsm90L9bwuLhFtHdKvHOkZQQAk9kko8fxJPNNhV5NAQXQMD/p8cyQWBj3JiAlWZ83dShL/o7rN9FJzwJ98vZ5yxjlliGzgD5Le52eeOGso9a7Ma6p1NwBznRRnblxhJVVJMnFWvXj00q3ttVtIf1aYN+JBJoHDt3wvgz7xLMsJWL/pex+8WwzhPr2aKzEuzmjpu4IiKAMq1EssiKPMQlJeptCcDxEp45st9gQh5YbBl8UuHDK+Z5M+QZh7xSj54TWOeZmVZMjpzyXFOOvhnE3iw4wP9SxIiMaU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(6133799003)(22082099003)(18002099003)(3023799007)(56012099006)(11063799006)(10067099003)(261028144727099003)(261022105027099003)(261021123027099003)(261021121427099003)(261026121527099003)(261009221727099003)(261009221227099003)(261009223327099003)(261009220027099003)(261009223027099003)(261026140227099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FKmrfjKu13EwsLkp8f7yo2RkSgUfSatyh5UrErlPsz/MdMJRsuKNiVgPCKg7?=
- =?us-ascii?Q?Dcc4lSL9AtEujtYYL5ShaHQAFDsp097RH377EwaE+VPIpAz2+OITgLsa6aRq?=
- =?us-ascii?Q?VzMN4IEv811ojsbAHugE9Bj+xtKJqun022ATrBgjRE2gMolbOSIONBfEhbmt?=
- =?us-ascii?Q?b1GQ2eltETg1ZSAfuU/H+3aGxyJWP+5nBtwdKkIhcYLd3keWgnv7VKjbkrb8?=
- =?us-ascii?Q?FRNGZ6sUaACY1GF61yzM4+NcVJ7krPjjtyPMJfzetf630TzudAg0DioXQF/w?=
- =?us-ascii?Q?weTGKAlZqoqqv5xstfxKwT0tMUX1P9vK9j93lrvhvCHY3P+2mQ5IzLvcKnnS?=
- =?us-ascii?Q?mbaOG2teQXAtMok8lqOHFc+82lQuit47t6g5FbOWmkTJs64aNmNRIwkWGoe0?=
- =?us-ascii?Q?4rJpLWrpundZUwmbRTVO8DlXh14YUEJ5MuxBL0GU23L/4o9vsTYaLiIKr8el?=
- =?us-ascii?Q?yd2iqjqW0AlCqNtSN7DzncU4Q4rQH/Sc5+iXTw+psH0oAoEhYWaZQrD/o3w3?=
- =?us-ascii?Q?Ab+lpi0iKxQyrPCGdy9GItKfLKIaGfapirA4yphiOLm0MKtwpHELwkB6t9ne?=
- =?us-ascii?Q?m/+FHqvr6bd6o3OuOCy6wHRE7CJp4Tu/vTl8ZsZNYipPhwHopmNVSWkIpQfM?=
- =?us-ascii?Q?RP5NisL/qlaRs44CGUAD7D9eUh/2x18IUnxX96HNm5ax6QsVsrF9wQ5Ydbf7?=
- =?us-ascii?Q?asCRYB3LgrQsiqVWGGNPeELckyp4JtygBMVrXKpTpUGSCvxSXJ1wF15YFvMq?=
- =?us-ascii?Q?y2Ancabu+02JxnjxaMBvB4MMdFyizwB/6qjmQ29pxWH/awzE1x64zK2K/HW0?=
- =?us-ascii?Q?yPPIEsPVcxxNgiCLzHNs6YuznkxhuF3hiNU+Qpkmbhy24D+MAj3fY/TfV5Ia?=
- =?us-ascii?Q?SQYh7D98R0jj8BG9Ji0VExI4+Jmw0p93VUGVWpvZ6sX0/K6JrQz3ZODOqhsl?=
- =?us-ascii?Q?lC6xPmzQ1mxHKfgbQMdxts/0gbDVwDlGfu1+6Ii755CrSg233PUS+bzR3v5w?=
- =?us-ascii?Q?S3EhlcDn25Y5+ds7s5GhYx/J1FUyMi5uqWqN5NRPzG1m8KA148JQe4lmXYh2?=
- =?us-ascii?Q?lBAFSIJD3Pi6b5P3cRpdVI0Ma5ze7jyi8N31NAqx5bHN5AXit7MY3QMtvkVp?=
- =?us-ascii?Q?TPKf0vH/SBKaZUaojZhiG6MNXbSWY9wm0JDU4cpGHNkxMqn3eN8eXiF/+NAb?=
- =?us-ascii?Q?7sWNLsMoIkzvcnKBxILlc+wwOx2eshB6EdAyFSaqxwPjWwajGDUqg0+a/ZVi?=
- =?us-ascii?Q?y39YkPYVWcVhhRFIyYesXz3fW9Kk/X/44Fi8j8hNZprDA42Eu6ezE1e8cptr?=
- =?us-ascii?Q?6e094P46ClV8T3D52/+2hF4IUCaLFFR6nt46jzJaL3hMd8i2IefimF51rbWG?=
- =?us-ascii?Q?QfUP0LVanbuSkUJcFpIaNy/fvE9r/qUjtkUuADszK7HBjbITacDJdk5RWrWl?=
- =?us-ascii?Q?8nfFzJDycYIQfLxBzw/LdoOBWdw0mF78BZaiBx00qyx0+ai98mr6DA8NTmL5?=
- =?us-ascii?Q?/FfgxGu/JoaQW8BeK75fOJgesDBehMtMy90VVRGyPGO53rU3O544nHDNm8g3?=
- =?us-ascii?Q?JcwBsJhzI9f6sYS4y8JLn2u1J3rSHrFVfvL0T3VXn/4oST2zTCj5EAaAwFWf?=
- =?us-ascii?Q?sF447sN60TKxOSsoAk8DPu4tHpOilEVSOLGF98zNrOhQ6c89pbBKnwRcKpEQ?=
- =?us-ascii?Q?cpjnhyAz9jU8PlMw77kl1oBXbVaqgRWvr5E+L2ogE3Luw+F95jc7hkCgIwo1?=
- =?us-ascii?Q?rUpNvUmaqw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rAlkirEW06GfgGDO9h7zF69kJsG7hDZpJ77IN2v/9jl/Xc4hHiipZtseHd0q?=
+ =?us-ascii?Q?HfOwYBR4Om3qQU/U9TPyNQ4/6mqiEAed4PhM3YIaJDH4vdQ5WsPkpwyL+Yri?=
+ =?us-ascii?Q?GJHVsAS1CpUphg7bNjxU0FVZk9PKyVTp4586tPQW+ijyu7s7zjKPAl4iLtpl?=
+ =?us-ascii?Q?v3dTmm1zlYRcDOMQ4kwjRFOTRtuM8S6P1wYo6L+HCo1f3tRsLkqhGHG/Lkk5?=
+ =?us-ascii?Q?4fM2Qlq54MXH61zVK9kB7EvEATk9wmz3c3wC8HFmg1cg87BrqinZby42CYgo?=
+ =?us-ascii?Q?AQN2uRm+9YNMdlO+PHl9VBWHQiB0w38DhGP1eSsT2Ga5LaefPkBHSI0KV3se?=
+ =?us-ascii?Q?jyylaFe+kFVUi8yOts3flWEQVQeS4ETKukEap2aic4GaAK961j9tie2aYvCa?=
+ =?us-ascii?Q?U8f2//GoZ7RWbUyiStiGpO6g8pUDrx00rTnKCDXTEOOk41zpzzxbJruDjcCi?=
+ =?us-ascii?Q?HSS6HhUlP+iuf6fOimrmaGvgmrs0zJeFRPWSMk4EQwA8V6ashAbIGeuI8lnw?=
+ =?us-ascii?Q?wyF6EV/KHde69fbRaZCXEtczh+iqozt3CKDjczSiLlFneYYokGMg28e6ZsNt?=
+ =?us-ascii?Q?6Xie4TGiLUsCML17HPjcYSOHqVprOpPjmCdZVqKVWlERD8s/hP4XLSA7j6gZ?=
+ =?us-ascii?Q?r9z+qaPpmuIEYx5oQ35A+HL8Ra4q/jwL6wLgV0uW8S7HOIKkSAYOodfzKh+L?=
+ =?us-ascii?Q?KE8+e9Yolbv4+tfFyi1cr7wgTYc3AlbWBAr34FdCTeXbVnJvUjlQtEIZT7dV?=
+ =?us-ascii?Q?Ixty6xWI+JwxAed1VkFsvSklzQ/B0EJCJuCUfhFTiZ9j4uMpI/jCOaQZop3K?=
+ =?us-ascii?Q?sQTQR+ab3rjb9i8Fa+bSnnXHF2RAnwqvDaCwUy4BafUYrpnVLGIUm1Jw/zWB?=
+ =?us-ascii?Q?BHPry3vAHLRS8XZfkFUuCqbH/ZnR7g7mITZrj6GLzus5aL8CFJVUX0fmvxb5?=
+ =?us-ascii?Q?9TFZPcoD9XVQsitKBkIyBLXdAfBdHU/Uly1NbVNOSY+PkN3TjZFTz2hpNHo9?=
+ =?us-ascii?Q?r2AeXEpJNC/fYoeT5LXi6FQc30w4yn5GxU2lvQbSor71+IxriLqCfWksCuVE?=
+ =?us-ascii?Q?uuO/EfyH9TFP85jECygXVMfrMcsCwqCen1BQX8tite9whBKSuyFY4ba+LCMx?=
+ =?us-ascii?Q?lNuvQwKG64STdiuRgTSZQsy8YTeBH1jnfbVynU5EeEPbo60PDwE8A/JHIjc2?=
+ =?us-ascii?Q?jl4K/W4zJsY/tGOr7BvaxGVANT7sKkQMnRqkCii44LQEFyd8B9ExxH58E5py?=
+ =?us-ascii?Q?P0nINE82gawis9jXF9nHcdQFUAm24ubmlnYFgHV3FPqrmWi9v2mSGx40RRA3?=
+ =?us-ascii?Q?Wc/pBC92ZORZ6VC8e7R1TVtcBsBGfPNaAwjoVAzt0HIHyE/LMOWoLlpJuw7U?=
+ =?us-ascii?Q?lD5cKw8XPBQqKHKZTHbzE5H7n5qTTxozcubg9h7jQ5S8P1pM2zUkXfNlWVdR?=
+ =?us-ascii?Q?vwyJQSl5pEqJgL4iRNjj6+lOxpv5pzaIv2bBjzXUD1BYyh954AQF4o6luMrS?=
+ =?us-ascii?Q?jh0IXjvl6AzGdmxXpSkeHH5FW9GWO7mgyy0Ai0+UDAwnUeAFLGzPlqEWjFO4?=
+ =?us-ascii?Q?w7zpyns5PKcBIv3Zc+t7F8K3oqAxcMnHjmHzoYA2XMwBCU7M3wCRj2lGBOPO?=
+ =?us-ascii?Q?Qst1QUNt+ezZggFE1RPqTLQqEU8CvSbvb9Z2Z1U7cCFniML7rFJSemvPD3sw?=
+ =?us-ascii?Q?Mwy923TUj8KJ3q3DuSzOVgQMvL3tbbvd+FmZy+jJwkp+lSZ4nCuOsKtnmXz1?=
+ =?us-ascii?Q?UfGnnwMnQg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 440947d7-3368-4f70-40c6-08df360086a2
+X-MS-Exchange-CrossTenant-Network-Message-Id: abea0393-f3bc-4c80-12ab-08df360085a2
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 21:06:39.7585
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 21:06:38.1294
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GfONTknRCYHSNj0i2noF7QSfPP5s6B5kPC8G3dL/Mq3B6Z8fkQT76u436O4xDFvFKrdORKUCelwSQHAKGElicNVrfUd96THCJNZ1KnWDZGo=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 79WBX2SXf7hgX7zFqAdJRfwJ8skfb8J/90hIhNtoNXagfGGlKJotWmKQE/O7/4oZEgyQbmQTbYbltJu09rmDaYNb/aOpy8sMESFBIca+Gh0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB2127
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 21:06:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248972
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248973
 Content-Type: text/plain; charset="utf-8"
 
-Backport the upstream fix which raises the maximum Python version to
-3.15 and PyPy to 3.12
+Jaipaul Cheernam (2):
+  python3-maturin: Add support for python 3.15.2
+  python3: Upgrade 3.14.10 -> 3.15.2
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- ...1-Update-maximum-Python-PyPy-version.patch | 99 +++++++++++++++++++
- .../python/python3-maturin_1.15.0.bb          |  4 +-
- 2 files changed, 102 insertions(+), 1 deletion(-)
+ meta/classes-recipe/python3-dir.bbclass       |   2 +-
+ ...1-Update-maximum-Python-PyPy-version.patch |  99 +++++++
+ .../python/python3-maturin_1.15.0.bb          |   4 +-
+ ...shebang-overflow-on-python-config.py.patch |   6 +-
+ ...e-stdin-I-O-errors-same-way-as-maste.patch |   2 +-
+ ...-use-prefix-value-from-build-configu.patch |   6 +-
+ ...-qemu-wrapper-when-gathering-profile.patch |   6 +-
+ ...est_sysconfig-for-posix_user-purelib.patch |   6 +-
+ ...clear-RUNSHARED-when-cross-compiling.patch |  46 ++++
+ ...146207-Add-support-for-OpenSSL-4.0.0.patch | 254 ------------------
+ ...st_is_python_process_non_python_subp.patch |  50 ++++
+ .../0001-prefer-valid-entrypoints.patch       |   6 +-
+ ...g.py-use-platlibdir-also-for-purelib.patch |   4 +-
+ ...le.py-correct-the-test-output-format.patch |   6 +-
+ ...Update-_ssl._SSLSocket-for-OpenSSL-4.patch | 234 ----------------
+ ...utdown-test-in-test_ssl.test_got_eof.patch |  41 ---
+ .../python/python3/makerace.patch             |   6 +-
+ .../python/python3/python3-manifest.json      | 199 +++++---------
+ .../python/python3/valid-dists.patch          | 164 -----------
+ .../{python3_3.14.10.bb =3D> python3_3.15.2.bb} |  12 +-
+ 20 files changed, 301 insertions(+), 852 deletions(-)
  create mode 100644 meta/recipes-devtools/python/python3-maturin/0001-Updat=
 e-maximum-Python-PyPy-version.patch
+ create mode 100644 meta/recipes-devtools/python/python3/0001-configure-cle=
+ar-RUNSHARED-when-cross-compiling.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/0001-gh-146207-Add=
+-support-for-OpenSSL-4.0.0.patch
+ create mode 100644 meta/recipes-devtools/python/python3/0001-gh-160881-Fix=
+-test_is_python_process_non_python_subp.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/0002-gh-148292-Upd=
+ate-_ssl._SSLSocket-for-OpenSSL-4.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/0003-gh-148292-Rem=
+ove-shutdown-test-in-test_ssl.test_got_eof.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/valid-dists.patch
+ rename meta/recipes-devtools/python/{python3_3.14.10.bb =3D> python3_3.15.=
+2.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-maturin/0001-Update-maxim=
-um-Python-PyPy-version.patch b/meta/recipes-devtools/python/python3-maturin=
-/0001-Update-maximum-Python-PyPy-version.patch
-new file mode 100644
-index 00000000000..1c78bced287
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-maturin/0001-Update-maximum-Pyth=
-on-PyPy-version.patch
-@@ -0,0 +1,99 @@
-+From 713a7088e1ca9f1fe71efd670826d6b77470c24d Mon Sep 17 00:00:00 2001
-+From: messense <messense@icloud.com>
-+Date: Thu, 29 Oct 2026 21:46:23 +0800
-+Subject: [PATCH] Update maximum Python & PyPy version
-+
-+Upstream-Status: Backport [https://github.com/PyO3/maturin/commit/3bec0a32=
-ae2b67ad4fac0194f762f44141e51473]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ src/python_interpreter/discovery.rs | 12 ++++++++++++
-+ src/python_interpreter/mod.rs       |  4 ++--
-+ 2 files changed, 14 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/python_interpreter/discovery.rs b/src/python_interpreter/=
-discovery.rs
-+index e4bcb73..47548aa 100644
-+--- a/src/python_interpreter/discovery.rs
-++++ b/src/python_interpreter/discovery.rs
-+@@ -708,10 +708,12 @@ mod tests {
-+                 "CPython 3.12",
-+                 "CPython 3.13",
-+                 "CPython 3.14",
-++                "CPython 3.15",
-+                 "PyPy 3.8",
-+                 "PyPy 3.9",
-+                 "PyPy 3.10",
-+                 "PyPy 3.11",
-++                "PyPy 3.12",
-+             ]
-+         "#]];
-+         expected.assert_debug_eq(&pythons);
-+@@ -740,10 +742,13 @@ mod tests {
-+                 "CPython 3.12",
-+                 "CPython 3.13",
-+                 "CPython 3.14",
-++                "CPython 3.15",
-+                 "CPython 3.14t",
-++                "CPython 3.15t",
-+                 "PyPy 3.9",
-+                 "PyPy 3.10",
-+                 "PyPy 3.11",
-++                "PyPy 3.12",
-+             ]
-+         "#]];
-+         expected.assert_debug_eq(&pythons);
-+@@ -765,10 +770,12 @@ mod tests {
-+                 "CPython 3.12",
-+                 "CPython 3.13",
-+                 "CPython 3.14",
-++                "CPython 3.15",
-+                 "PyPy 3.8",
-+                 "PyPy 3.9",
-+                 "PyPy 3.10",
-+                 "PyPy 3.11",
-++                "PyPy 3.12",
-+             ]
-+         "#]];
-+         expected.assert_debug_eq(&pythons);
-+@@ -788,8 +795,10 @@ mod tests {
-+                 "CPython 3.12",
-+                 "CPython 3.13",
-+                 "CPython 3.14",
-++                "CPython 3.15",
-+                 "PyPy 3.10",
-+                 "PyPy 3.11",
-++                "PyPy 3.12",
-+             ]
-+         "#]];
-+         expected.assert_debug_eq(&pythons);
-+@@ -817,10 +826,13 @@ mod tests {
-+                 "CPython 3.12",
-+                 "CPython 3.13",
-+                 "CPython 3.14",
-++                "CPython 3.15",
-+                 "CPython 3.14t",
-++                "CPython 3.15t",
-+                 "PyPy 3.9",
-+                 "PyPy 3.10",
-+                 "PyPy 3.11",
-++                "PyPy 3.12",
-+             ]
-+         "#]];
-+         expected.assert_debug_eq(&pythons);
-+diff --git a/src/python_interpreter/mod.rs b/src/python_interpreter/mod.rs
-+index dca016f..9dcdaf8 100644
-+--- a/src/python_interpreter/mod.rs
-++++ b/src/python_interpreter/mod.rs
-+@@ -23,11 +23,11 @@ pub const MINIMUM_PYTHON_MINOR: usize =3D 7;
-+ /// Minimum supported PyPy minor version.
-+ pub const MINIMUM_PYPY_MINOR: usize =3D 8;
-+ /// Be liberal here to include preview versions
-+-pub const MAXIMUM_PYTHON_MINOR: usize =3D 14;
-++pub const MAXIMUM_PYTHON_MINOR: usize =3D 15;
-+ /// Minimum supported version for free-threaded CPython
-+ pub const FREE_THREADED_MINIMUM_PYTHON_MINOR: usize =3D 14;
-+ /// Maximum supported PyPy minor version.
-+-pub const MAXIMUM_PYPY_MINOR: usize =3D 11;
-++pub const MAXIMUM_PYPY_MINOR: usize =3D 12;
-+=20
-+ /// The kind of Python interpreter (CPython, PyPy, or GraalPy).
-+ #[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, serde::Deserialize, cla=
-p::ValueEnum)]
-diff --git a/meta/recipes-devtools/python/python3-maturin_1.15.0.bb b/meta/=
-recipes-devtools/python/python3-maturin_1.15.0.bb
-index a29e29bda9e..e8c0b6a6ad1 100644
---- a/meta/recipes-devtools/python/python3-maturin_1.15.0.bb
-+++ b/meta/recipes-devtools/python/python3-maturin_1.15.0.bb
-@@ -5,7 +5,9 @@ LICENSE =3D "Apache-2.0 OR MIT"
- LIC_FILES_CHKSUM =3D "file://license-apache;md5=3D1836efb2eb779966696f473e=
-e8540542 \
-                     file://license-mit;md5=3D85fd3b67069cff784d98ebfc7d5c0=
-797"
-=20
--SRC_URI +=3D "file://0001-Cargo.lock-Update-rustix-to-1.1.5.patch"
-+SRC_URI +=3D "file://0001-Cargo.lock-Update-rustix-to-1.1.5.patch \
-+            file://0001-Update-maximum-Python-PyPy-version.patch \
-+           "
-=20
- SRC_URI[sha256sum] =3D "94b26cc8e8aba61a5f2099715fe640e18c5f678e9a500408b3=
-8761263954228a"
-=20
