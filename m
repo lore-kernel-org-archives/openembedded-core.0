@@ -1,110 +1,207 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.228.1793314319755460128
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.560.1793315351318171019
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 15:52:00 -0700
+ Thu, 29 Oct 2026 16:09:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=dqXtgXZR;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so97319f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 15:51:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=gmnKLOT5;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-53669f7b518so533861cf.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 16:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793314318; x=1793919118; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZFvLxLTXFSOLy/rCziO1WqAvO2jAd1DwfBnNQkx2N3s=;
-        b=dqXtgXZRyiVtvlj1rT7J6Czcci3BWIOCHE88alK0YoejWJPCvHQiBXqFK+XLfKx78/
-         3JHaCrpwb3bIZt7UMflX6XactJdgQr0kShjoCd/QI0AavPOgCYD6jX0b+c8BJ1/No6xL
-         SkJj9ASznt6RdJ45vFjghR4lZqb2sR0kGUi4gpcjrMZ8L/bhDBm1RGm6rDwT3kc/gIbS
-         qdMAaHkETN+5cm9lBmz1xWZ4VBIFAjtdYIEmuc7uQyZY001dTPwj+v6cTwu1EzIq4Ax8
-         SprxNXXR5OevAFUf4m4pep+9SJ0iZ6ribbt6+LAysd+/ltppr61DondYYoOsgjzyzIQ3
-         XNFg==
+        d=gmail.com; s=20260707; t=1793315350; x=1793920150; darn=lists.openembedded.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=g3Vci9HXT5usdno8bJQPfuk4UCzQC7QUGMZB3JtDm3I=;
+        b=gmnKLOT5jdb+xRtzfor5w1TGjBO9A1NAYADK6Z+ZdAykqqyIC9HbDvzn8ityrGYeD9
+         kc6MGQ4n8K/3IOqK9qX9AUmbSO/dSu8uveTpirZOjUHQAduaAYzVWrsqmbN/yUpj7JbD
+         t4Pbv/f4ICfp757Gf8NpMc9+e/+WR6pGZHfH7Rdhg2zkqjQuFYJ8OzkmUnduxZAJdeMk
+         BJYD7eC/VR4RYIoe0CPc0QsaQNhdbiXwA8ZENsszNvW2kb00yQXG1FKmAcwQ2qOhfynu
+         iNaf7DACPDCyT4xNzP25gjIUmcDpK4JAGopC7NZZSIfXBMnlgetEeFVXG7Xo/Sag8hZ5
+         gY2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793314318; x=1793919118;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZFvLxLTXFSOLy/rCziO1WqAvO2jAd1DwfBnNQkx2N3s=;
-        b=R0BCKaLMZ1DlI+D6CxN86F1/zgxtzGwzWnCFzqXXyZDIPy6lw9s4TEYUdY97bQtJaT
-         k/m9spl9Bp/nzNmEBoKrrhNr0Mk/K6eYXeAScEe09OVhwdt9Au4IJgnKoF6i3w7RDfbL
-         NddXGBDioiEgSJtuswk9s66D4+Lnr4iEte78G0hQrM+1zIyVqsNdHSsi5+OeLfs7QTt/
-         6lrDB7YLXG5ufGQBI+bof1WNbm22pz6HhMuylMo3r5t2iUkBvV1mANagdqYf42WNk8po
-         BTGnoxAopGsKtJhknFqJ2m0S4HEUI+T9svAozBoi35tMNfQa8RouSXG2VHE6rch9/qEj
-         gMgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxEUzS9SvTHMM62zsWoR24pDWHSrXlKEyWNIijncql4QhT8bQrrW9BQfw5fUmZgP5N6CNc7zdCoblQbd51YOKYGBA==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYKGT0o6TbcQTAs+EW4M/ARKJO2ExocevYAdlgCUWYpVjlO8/847
-	kB5ihsLPndfQIUg+j+8rq5nrpkeeAAE1BqLKwkDNoq6edZwQj5DlJUK88Z+Jc8xHXwE=
-X-Gm-Gg: AYBFou19IAF0vzqDEs9OaVzKj/+k4kq7n4Dg8meo2P/KZJye3d/K/2wg+4SCHXA9y6L
-	MAH0RTrh521pDG2Gr1g3Pkhmr42nSPo50VBzbwbX7/7c5tBnZ4PN54tmdWsoHqXy2/CKGo80/r+
-	BQMzRpxfQFosHIqG+rgAhsC+UdRQywjJzzfE+XHbgtdnZ7kvrmVymDyyWShEbRr/BwLe9uf/7pf
-	WteObJJxcqJSAfTcLv0lHJjLEuAYGvs5G5ZA1HoZPW83bWios4o5PbmR/GB4llGHxLa3OYc5OMC
-	w+WQQ+6f3Ml5dIPe4KmoH4NXanka8ZNlTocE8P3x0UpIexN9RHggqg4w7iFcVm+kzkrfTSScvrf
-	wTzTV/xpTPS3zsFV9jH80ofyTB9yNshys4gL+70yTwz6c1l6RvpeZxxI0BzGy7zLd0lMMit1P0q
-	teWCBOuLxfJEXFNlGsiOSPCe/5ZTBk7Cg/A1VDUS7FaESwmxpjODe+jxSyUQ8tOBjvT3l42Uqa8
-	dCSJlkNu+FXXaZfYeScHgw0bxd+NuNdWpOMWHotpMyYKA0oQJ889CdBvqkEJKWqWKjhTzNpfO1v
-	gAuw7wJS38CEKQVuPE6hsP7OwC7m45DeYjvZrtOBs6yeg//4Da31BAOoqxUdwh8F8arIJD9bQdd
-	QvABDMb8VxXkHNIW7
-X-Received: by 2002:a05:6000:40c7:b0:48d:f1b3:c02e with SMTP id ffacd0b85a97d-48e6e5016f1mr1763313f8f.25.1793314317971;
-        Thu, 29 Oct 2026 15:51:57 -0700 (PDT)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e712c2996sm179224f8f.25.2026.10.29.15.51.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 15:51:57 -0700 (PDT)
-Mime-Version: 1.0
+        d=1e100.net; s=20260707; t=1793315350; x=1793920150;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=g3Vci9HXT5usdno8bJQPfuk4UCzQC7QUGMZB3JtDm3I=;
+        b=Tm+bb/F+QiP82B0GB/vOb77lXjvKX1QdzcauWawfGufVuwoo6dxTaShg/WaeExObRo
+         9eF6UUi6PO+9f6B8iVZgDM1kC0AUaI461m4Ecl+zA/a9AoSZQiNIljO8zLBh7ltbkaQe
+         y/BBxVk9ED+N87zWDhEVx2xSqy4hqkHO6pGRMVgcn0AHQu6pW8/vZVBS/lU6V5l8vWgT
+         azmoglYA5DJHCLpJavlzffZroRU3hlS6uVnFtfdysk5ThC6elmHY7Tn4q7tVVqRdll7b
+         Upkdf5IzRFNtVRpSdtOyWgFTgFct59FFyhGnUWzS1ZYhaf9GkzUZnsLWXWCvh9c+2qgo
+         o3kw==
+X-Gm-Message-State: AFq9FYKdCJbLcm/hJ5CDKBOntp2UsuytsJgvlT/E+oWUrMRg2fKQFUqx
+	1R8uI/dKN5F+D5TYHCjjqy21lva3U3RcaNINU7HxLUT+ShQ20gHv6nRk
+X-Gm-Gg: AYBFou2ggX+cNN+dfCfczP7EoO6BQNJcw0xH6+ttiEpTMOEFuhSxzm+DGSL1xBOIVeC
+	9DLuR0BPbizHeF29s5RHVpulOXMrL8HioAyjx9F/2sZ2mE97VuN4cwerEgK39RA8JYLZkBMtmud
+	sUyOv3DV9kwx6xE2CI2HSxkedRjqQfwx03cA7W+3YwQKLKXthFpBc54o7zsqRFZlA8+6shwcPe6
+	h8QumMjQp0S2WwbEIxsQNLeMpRSFXkRvtaYnjuX6R+6BGEzdklSwCZpi9qKlZBmvgnCrlXxbaWJ
+	ZjMoHcrRKQzeaW6CtT69MplSWkBwEbROjle0SV6p2aZVQ6UGJPOpn2LK6s7U4noTkvHE0iQD2d7
+	628rExGI/f2Vdu3PL66GTS+rZ2FKdHel0yEGM3ToAbxlFgTKgTFQyAf+gS7pgRae0Xajp0c7d5P
+	c+QzRML9FR3xuQodh2xfi3EGt/AFhcjdwNewautFLSZDNKdJ7jfHKE8wV/DSooFZ79Kj+TXRL9H
+	3DfVZUXF/K19e3U5H4wKwROVEEJWHd91AwiTkbs6J2ncyGQC7ha+nZbbamN7GbRJYFbtst82EuS
+	lwoMs5Fkt1dEWPofFm/atwsRezqX17WqD6jZgoHJSxlP5ESAaOKJS3xP9UqP2BpELYXDQjR7uh6
+	N5BaTlr4Bif0c4vcEj3HFHFztG+LrAb89giU1wnqPgnGP+83hONgX
+X-Received: by 2002:ac8:5dd1:0:b0:536:7cc1:4b6b with SMTP id d75a77b69052e-542b6d60c04mr9436911cf.27.1793315349874;
+        Thu, 29 Oct 2026 16:09:09 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ca68bf170sm1128866d6.34.2026.10.29.16.09.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 16:09:09 -0700 (PDT)
+Message-ID: <6ae3d215.cf61d36e.14493f.869f@mx.google.com>
+Date: Thu, 29 Oct 2026 16:09:09 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: adrian.freihofer@siemens.com
+Cc: openembedded-core@lists.openembedded.org, richard.purdie@linuxfoundation.org
+Subject: Re: [OE-core] [PATCH v2 0/3] Fix kernel complementary package installation
+In-Reply-To: <20260923205206.1102615-1-adrian.freihofer@siemens.com>
+References: <20260923205206.1102615-1-adrian.freihofer@siemens.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 29 Oct 2026 23:51:57 +0100
-Message-Id: <DMHOVC3580CN.26K60XV4TXQHN@smile.fr>
-Subject: Re: [OE-core] [PATCH scarthgap] b4-config: Add configuration for
- scarthgap
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <paul@pbarker.dev>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261023-b4-scarthgap-v1-1-6a85c3fec09e@pbarker.dev>
-In-Reply-To: <20261023-b4-scarthgap-v1-1-6a85c3fec09e@pbarker.dev>
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 22:52:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248977
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 23:09:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248978
 
-On Fri Oct 23, 2026 at 12:41 PM CEST, Paul Barker via lists.openembedded.or=
-g wrote:
-> This should simplify sending patches for scarthgap using `b4`.
+On Wed, Sep 23, 2026 at 4:51 PM Adrian Freihofer wrote:
 >
-> Signed-off-by: Paul Barker <paul@pbarker.dev>
-> ---
->  .b4-config | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/.b4-config b/.b4-config
-> new file mode 100644
-> index 000000000000..5876a9f2691d
-> --- /dev/null
-> +++ b/.b4-config
-> @@ -0,0 +1,4 @@
-> +[b4]
-> +  send-series-to =3D openembedded-core@lists.openembedded.org
-> +  prep-pre-flight-checks =3D disable-needs-auto-to-cc, disable-needs-che=
-cking
-> +  send-prefixes =3D scarthgap
->
-> ---
-> base-commit: c9b000059a37241c5b97426f0aadc012b13bd20f
-> change-id: 20261023-b4-scarthgap-31cd33af24d9
->
-> Best regards,
-> -- =20
-> Paul Barker
+> Changes in comparison to v1: Completely different approach
+> - Complementary package installation for kernel sources is disabled
+> - The linux-yocto-src package can now be installed as a regular package whi=
+ch
+>   was not possible before.
+> - Additionally, the kernel source files are now correctly included in the
+>   linux-yocto-src package.
 
-Hello,
+Sorry for the delay on this, I wanted to actually build and measure
+before replying, since this is in master-next.
 
-Are you sure there are no bad interactions with combo-layer and
-poky.git?
-When we started adding those .b4-config I avoided doing it for scarthgap
-because of that.
+First, to make sure I have the use case right: this is TRACE32 (or
+cross-gdb to qemu, it's a similar pattern) running on the host, with
+rootfs-dbg extracted on the host as the debug sysroot. Nothing here runs
+gdb on the target. Correct ?
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+As I said on IRC, I don't want a kernel -src package. It's a second copy
+of the kernel tree that you can't build against, and the generic -src
+machinery is the wrong tool for the kernel. But I'm not saying no to the
+goal. I looked at why linux-yocto-src exists at all, and I think there's
+a simpler way to get you there.
 
+Where the kernel's debug info points today (7.2.13, qemux86-64):
+
+  recorded root                      files   what they are
+  /usr/src/kernel/                    9016   real source
+  /usr/src/debug/linux-yocto/<PV>/     592   generated in ${B}
+
+kernel-arch's KERNEL_CC maps STAGING_KERNEL_DIR and
+STAGING_KERNEL_BUILDDIR to /usr/src/kernel, but not ${B}, where the
+kernel actually builds. ${B} falls through to the generic debug prefix
+map, and those 592 generated files are the only content of
+linux-yocto-src. Everything real is already recorded under
+/usr/src/kernel.
+
+Are the 592 needed for debugging ? I went through them (with
+grep and some AI help):
+
+  files                                     count  content                  r=
+egenerable from source?
+  *.mod.c                                     557  modinfo boilerplate      n=
+o (needs module objects + modpost)
+  .vmlinux.export.c                             1  export table             n=
+o (needs vmlinux.o)
+  vdso32/64-image.c                             2  vdso byte arrays         n=
+o (needs the vdso build)
+  *.asn1.[ch]                                  14  ASN.1 decoder tables     y=
+es
+  capflags.c, inat-tables.c, crc32table.h,
+  raid6 tables.c, consolemap_deftbl.c,
+  defkeymap.c, ucs_*_table.h,
+  oid_registry_data.c, shipped-certs.c,
+  gen-kdb_cmds.c, syscalls_{32,64}.h           14  data tables              y=
+es
+  raid6 int{1,2,4,8}.c                          4  code (awk-unrolled)      y=
+es
+
+Only the raid6 int*.c files are code that you'd ever step through. A
+debugger missing a file just shows no source for that frame. What's
+useful can be regenerated by kbuild from the source (as a prerequisite
+of the .o), and what can't be regenerated isn't useful. So I don't want
+to package any of them. Shipping build output that can be regenerated
+can lead to QA issues with mixed arches.
+
+So, what I'm prototyping instead (and have tested):
+
+1) kernel.bbclass:
+
+     KERNEL_CC:append =3D " -ffile-prefix-map=3D${B}=3D${KERNEL_SRC_PATH}"
+
+   All 9608 debug source paths are now under /usr/src/kernel.
+   copydebugsources() finds nothing for the -src package, so
+   linux-yocto-src isn't created at all. There's no special case in
+   package.py. A generated file regenerated in the tree lands exactly
+   where the debug info expects it.
+
+   I did an A/B of the kernel built with and without it. In the loaded
+   vmlinux sections and the 557 modules, the only differing bytes are
+   the build-ids (vmlinux, the embedded vdso note, the modules) and the
+   .gnu_debuglink CRC. That is expected, since both hash the debug info,
+   which is what changed. There are no code or data changes.
+
+2) For the source itself, I have been carrying an optional linux-source
+   package in kernel-devsrc for a long time. It's off by default
+   (PACKAGECONFIG), a full source tree at /usr/src/linux-source-<kver>,
+   and it doesn't overlap with devsrc (which stays the curated, buildable
+   subset). With:
+
+     IMAGE_INSTALL_DEBUGFS =3D "kernel-dbg kernel-vmlinux linux-source"
+
+   rootfs-dbg has the vmlinux and module .debug files plus the source.
+   The debugger maps /usr/src/kernel to /usr/src/linux-source (TRACE32
+   has source path translation for this).
+
+   I'm not completely sold on sending this one yet, but I could be
+   convinced to go that way rather than a -src package. If it covers
+   your use case, that's the argument that would do it.
+
+On the series:
+
+ - 1/3: I'd drop it. With (1) there's no kernel -src package to make
+   installable. Assuming I haven't screwed up the logic or misunderstood
+   something.
+
+ - 2/3: fine with me. Keeping the kernel out of the complementary
+   install is what I asked for in v1, and with (1) it is a no-op.
+
+ - 3/3: I'd drop it. It selects files by their recorded /usr/src/kernel
+   path, but installs them under /usr/src/debug/linux-yocto/<PV>, so the
+   debugger still needs a path substitution. That's the same cost as
+   mapping to a source package. It also duplicates the whole tree (your
+   8901 files) into a package that can't be built against. And it
+   applies to every kernel-arch recipe (module-base, so out-of-tree
+   modules, perf and make-mod-scripts), not just the kernel, so they all
+   start carrying kernel sources in their -src packages.
+
+   The linux-source package in (2) is what I'd propose in its place.
+   It covers the same need (the full kernel source in rootfs-dbg), but
+   it's opt-in, it's a single copy for the kernel only, it carries no
+   generated files, and it isn't a -src package at all.
+
+Richard: since 1/3 and 3/3 are in master-next, I'd ask that they be held
+while we sort this out.
+
+Two oe-core issues I hit along the way, which I'll report separately:
+
+ - IMAGE_INSTALL_DEBUGFS installs with attempt_only, so a package that
+   can't be installed is silently skipped. I hit this with a file
+   dependency on a usrmerge distro.
+
+ - An on-target postinst from a debugfs-only package leaks into the main
+   rootfs postinst handling and fails do_rootfs.
+
+If this direction works for you, I can send (1) and the linux-source
+package as an RFC so you can try it with TRACE32.
+
+Bruce
