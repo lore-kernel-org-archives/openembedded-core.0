@@ -1,233 +1,125 @@
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8730.1793269814735903056
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9627.1793273457841166529
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 03:30:14 -0700
+ Thu, 29 Oct 2026 04:30:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=AAoD9dMf;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: hthakar@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5202; q=dns/txt;
-  s=iport01; t=1793269814; x=1794479414;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2mjoNzHsHFVo0MyhDHqLlq/XYB6dKQkDj/Q2JQkvebE=;
-  b=AAoD9dMf6yVrcT2gKuyf7aOEHlxwdw3yjQrLSaBvavsHIY1dP/Rhp155
-   X56IoZyljnsRl9Ar6lqwfJz7yBbMQbnLdK5dF4a03sAoggH989cjf82Pa
-   HLIYM240UtiCk1Ld+KUuTiHXcHZ/Q/oRmsmKlE3q9ZfT9TFqXpGMfr2Sf
-   DxsE+vl1c76ekMnar20LWUYxO/TVYNZ1eRf5aIzj3IBpnUMmL7RrwY05e
-   aX92kNw9+qRhi5o40na1QbuKcxKuVtEncI5mSpOJaK7n867SsV67i8v8a
-   F7UjcGSSBXI8BDMgQRuuo1yzVXQOW4t6JKGW8lky9ef/XNxY8wVYf2URj
-   g==;
-X-CSE-ConnectionGUID: uY8RN4L6TryLbseMla6b3Q==
-X-CSE-MsgGUID: LF6pIOOJQJ6ULred4UcLZw==
-X-IPAS-Result: =?us-ascii?q?A0BIAgAiH+Nq/5D/Ja1aHgEBCxIMggULgld1YENJA5ZIA?=
- =?us-ascii?q?54cgX4PAQEBD0QNBAEBhQUCjhwCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NkBIBAgEDMgEYAS0QHAMBAi8rIwgZGoJoAYJ0AxG0T?=
- =?us-ascii?q?IIsgQGDKQE/AkNQ2zMBCxQBBYEzhUCII10YAYR9JxsbgXKBFAGDaYEFgVwCg?=
- =?us-ascii?q?gaGHwSCInoSgVoehjKGXgKHU0iBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjP?=
- =?us-ascii?q?heBBxsGBYEdgR6BGYEHXYErKWABIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckI?=
- =?us-ascii?q?ggSCQETGi4LgRo1PAkmQRUMZAsaBWIIAg0MdjkQMSAmMgQDHRgNSBEsNxUZB?=
- =?us-ascii?q?D5uB5Fdgw0BPRwiEwErgWgBFBAfEQsyknGQFoIhoQ8KKIN2jCKVOhozhVulF?=
- =?us-ascii?q?AuYfY4KllCEaYFoPIFZcBWDIglKGQ+OLgsLgVGCDzOCI4I9yUcnMgIJAy8BA?=
- =?us-ascii?q?QcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:B531DaJyJW0IHytPFE+Rh5QlxSXFcZb7ZxGr2PjKsXjdYENS0DRWm
- GUaC2rQPfaLYmvzeNEiaoXjo05X68CHztdrSQcd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZpCCea+Uf1WlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
- T/Oi5eHYgH8g2Qlajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1zPREMG9E8pNptEEVE7
- vE9LDlTZEu60rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBUrAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MEiojx5nYj/7DLo+gOehhXDlWzZZs1mS46Ew5gA/ySQsi+OwaoqPJILiqcN9umjGv
- kPh2EbAIE8nEMaSxWa4+Vaembqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MvECSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXOIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:0PU4QKwX41mwtDuC9cZ7KrPw9L1zdoMgy1knxilNoNJuHfBw8P
- re+8jzuiWUtN98YhwdcJW7Scu9qBDnhPpICPcqXYtKNTOO0ADDEGgh1/qG/9SKIUPDH4BmuZ
- uIWpIObuEYdWIK7vrS0U2fD8sqxsWB/eSDgOfTyGoocCRRApsQljuQzm2gYzZLrM4sP+tAKK
- ah
-X-Talos-CUID: =?us-ascii?q?9a23=3ApKX2K2ovTmkhh6/A6je6EZXmUd0UIkf7kFOOH1W?=
- =?us-ascii?q?pLWxyRZiRQAGao5oxxg=3D=3D?=
-X-Talos-MUID: 9a23:q5iiIgjNnYzdOwrhw1kjAsMpEOk2+4WJL2I0s8s7n9OJOXBNMBOvk2Hi
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,184,1787011200"; 
-   d="scan'208";a="533528266"
-Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 29 Oct 2026 10:30:13 +0000
-Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id CD1D918000228;
-	Thu, 29 Oct 2026 10:30:12 +0000 (GMT)
-Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
-	id 73C29CBF201; Thu, 29 Oct 2026 03:30:12 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-Subject: [OE-core][wrynose][PATCH v2 2/3] lrzsz: fix CVE-2026-105840
-Date: Thu, 29 Oct 2026 03:30:11 -0700
-Message-Id: <20261029103012.2335950-2-hthakar@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261029103012.2335950-1-hthakar@cisco.com>
-References: <20261029103012.2335950-1-hthakar@cisco.com>
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=bI+Nt8tc;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=bLW25LRC;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.155, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id E5F027A0157
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 07:30:56 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Thu, 29 Oct 2026 07:30:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793273456;
+	 x=1793359856; bh=+oxuWE7RKszQsxTGksj5zJF0TFwhQ4htNPqC+FianWA=; b=
+	bI+Nt8tc+ENLc2jgWy5W6sF+Ubnrz2dETjqH1iHwtAhKJMN2fggG4LvAIdAMj5EK
+	0pMcJTTuD14wzZMtiLw7zga/P5Jcu1KIWbBVpS/HARSHbZ1gb+3b81N+j7ZgxadR
+	1gybIakJ5Fy1Uj6CYsREajIye/57sBDImVjaQyXPgqLAeMutwlAAtUwsBojidunu
+	xf1IfH9UpMrZLujeBT1cLJohKYEmtkmDr5xnfQX4O0r8vl0lCtc2BKSfcAx62JGh
+	j2j9z54eEFMaZCVEQwoZKGYTfYEa25rWhBXNCCj/zoVGCeZhCuUOhUNS+5ZEQXV5
+	aWRLYw03eEmBulRbCc6BJg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm2; t=1793273456; x=1793359856; bh=+
+	oxuWE7RKszQsxTGksj5zJF0TFwhQ4htNPqC+FianWA=; b=bLW25LRCv7eMetNL2
+	uvSCYCoJU2SMHK1Pc+qq1p99a4H5G/QamEkAgzAGOtmwklaKT952Ky8F1g06109B
+	0jmJP/sMOX8eicjA8lI4Xe0+WmW5f/gNhcX0kkhexEhztsOS7AvAW76B40dUMCZi
+	Y74DaYkf6IP78DuSzghji1Ch2JMoHfNx2g5Bk9BtZvKRQ9ValJRQbo0NVXo7E8BG
+	9M/b4/nFoEgdeuKhV25pL1cWpGZuwdVQHfxqMN4o4UwmpwNW1L3xMt0Kj5ZFqm4F
+	acswBiiKpRM8OoNoWGa8yI83z/1fp5MCbXVvMgZpqW9eIEvLe6l+7KlH5iNgPWdM
+	O3YgA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793273456; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm1:rsa-sha256:d+2GAQT4yxca5AdA5Y9RB4oF47oHwold3M8w0HOTs/uKXUp
+	s79LDO1O4LiE7X/PZIDWC6r5ChohM8+MYAryKaIfZ3m7A6XQY2Xg0gzYNLEBfhhW
+	y3Ag68aHkmEYlCb7O6E8T+Be/SYviEXEPy2veZ2oZ0SXzpCbyzID4BmNX9zgR56T
+	pj8Akow1ChXgvcyRTuFSQhyV9XMUvoK8aX5mAb3bEHeV+avz2GT4xVBiqLGX9bTy
+	0MdV4NaZ67iyFmXJbhYxurphdfmdsO3zAJAGas0w9U+86LtNqAUoi+ZQ6Ju+gKj/
+	xVEQnlwgm7GbWeWMibxlVjSGMATIfR6j9IzXSgA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=content-transfer-encoding,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:sYtcr40sOebBCdib0eNWZxGwt4GU/V97ViwhhirIm0w=:0euRrmWDVAV+M0EK7C0gADRyvINaZUJ1xEHwJBSGOVU=;
+X-ME-Sender: <xms:cC7jaqnKQdL6imEoR1qZGNgBXHIkpYYZgiTsxPmqr350FKMfLC7vhw>
+    <xme:cC7jan2_dtzLtF-71MLyS_D9aoGflu0Vd5yRrDjQd6Iuf5gRzkOR15TLI7ijcBiW9
+    NU_CNIsFxbaQZARaDSPR5q3hewlvYsZzASCBTuHueOqDsmChDa5EgY>
+X-ME-Received: <xmr:cC7jamTMHrAsuZwwkVDdSL2gMi9Ja4P1b8ejlHgMh1fjvoimapmtPVdo4LB5FOP891YR25XpjYQEtnMGneDcIaQWP-mtrf0_9Vty79c>
+X-ME-Proxy-Cause: dmFkZTGq0sj8AyL+eJOVy+/ZPa4DyvWkdFE2rZSiy5LLKl32o3kYY2rXRS/6JiMbvei8bU
+    Il7ameUlk0/jIkNJvLfFSOzIYt2uVZ7eG7+PpSFfbaJX+AsD0Bqw8+mwAxt6CKpFb0esqr
+    B3oUAdn6dywENP6es/0ThnQu5C0KZOK/YzQ642+cx+C8BAGC2fbr0uueyoV4sh3oVEcU0O
+    hI4odtLlCnYX2Qmd7oHX15IWwS5v7qOXOzX9nrJoZ0kRYWv6yX16/aqoIEYaVcI3oSiWeD
+    yVNscGQTn9fEDjojoXeB7djDPJeLK5eWsj5HGu6mtuxsd7j5LCVyDI6qw9Hjnc7DJZeHab
+    itZNF3VMXDY2IXdxarwCQixBCZSi7F44lZd/3fqNC9UnOKFNqeRODGj9qBsdHs90+kH4Gs
+    juIvQLRbe+FeRlVfgQ/GsCKgt/6IlusPO4/2LRYuFFHEdoFC+AMlEFolCQeDojlwP/LwX3
+    1NEAh/uO2Y+EwckwuzoInNG7p3SgVYn8Sx/FqVNtfSeOVdgYqr6hi7cLO57/fC+RgD5s/f
+    OsaDfGMij9v9xM44JixWIAX2BHkOp+6400VuqHzqeDwoE8mM8+R0ZdFw0zE/mz9GDkz3yL
+    0sVvhYiYXHXjlObdBwhSQPPvNRfR8c4a07s2c6J/oP2Q6brvTqn5d004fQjw
+X-ME-Proxy: <xmx:cC7japsnyfS4uOwWDqZOLAyTIuLsVyN3fY4iAyRkrsqV_P-QMrmooA>
+    <xmx:cC7jarac5cmILrTgEHwO-STkwNj_aFxmK3u_qsefNoei9JO_uYrh9A>
+    <xmx:cC7jauso7yqz8KpH0dTZhEnI7GDi1p9doWquNezxMOIiPzMJKWWm7g>
+    <xmx:cC7jatFA0ISHo4x4us1bNj9RoV5_9Lgu578t3EIScr-QrMnsVk4s3g>
+    <xmx:cC7jahM4OBRZH92qGZ5rg_v2udmmNHArSqwC1YiBGvgwMoCTTWL5WU3m>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 29 Oct 2026 07:30:55 -0400 (EDT)
+Message-ID: <d367c259a241a33364960b8401e25e6e6ad465e8.camel@pbarker.dev>
+Subject: Re: [PATCH 2/5] uki.bbclass: use f-string for kernel-not-found
+ error message
+From: Paul Barker <paul@pbarker.dev>
+To: Maxin John <maxin.john@gehealthcare.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 29 Oct 2026 11:30:54 +0000
+In-Reply-To: <20261027081221.13-2-maxin.john@gehealthcare.com>
+References: <20261027081221.13-1-maxin.john@gehealthcare.com>
+	 <20261027081221.13-2-maxin.john@gehealthcare.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
-X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 10:30:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248932
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 11:30:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248933
 
-From: Hetvi Thakar <hthakar@cisco.com>
+On Tue, 2026-10-27 at 10:12 +0200, Maxin John wrote:
+> The message was an f-string without placeholders combined with
+> '%'-formatting. Use a single f-string referencing the kernel variable.
+>=20
+> Signed-off-by: Maxin John <maxin.john@gehealthcare.com>
+> ---
+>  meta/classes-recipe/uki.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bb=
+class
+> index 566eab1eaa..cfb930e93d 100644
+> --- a/meta/classes-recipe/uki.bbclass
+> +++ b/meta/classes-recipe/uki.bbclass
+> @@ -138,7 +138,7 @@ python do_uki() {
+>      if kernel_filename:
+>          kernel =3D "%s/%s" % (deploy_dir_image, kernel_filename)
+>          if not os.path.exists(kernel):
+> -            bb.fatal(f"ERROR: cannot find %s" % (kernel))
+> +            bb.fatal(f"ERROR: cannot find {kernel}")
 
-When built without PUBDIR support, lrz does not reject absolute
-pathnames in restricted mode. A malicious sender can therefore
-write outside the receive directory, subject to the receiving
-user's filesystem permissions.
-Backport upstream commit [1], which removes PUBDIR support and
-makes absolute-path rejection unconditional in the restricted-mode
-checks, addressing the vulnerability described in [2].
+Could we drop the f-string prefix instead? String formatting with '%' is
+used more often here.
 
-[1] https://github.com/UweOhse/lrzsz/commit/b1fc8a01e3a074f8462a29dca45ed7c8fd2ef665
-[2] https://security-tracker.debian.org/tracker/CVE-2026-105840
+Best regards,
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
----
-Changes in v2:
-- corrected the advisory reference in commit messsage
----
- .../lrzsz/lrzsz-0.12.20/CVE-2026-105840.patch | 106 ++++++++++++++++++
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |   1 +
- 2 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/CVE-2026-105840.patch
-
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/CVE-2026-105840.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/CVE-2026-105840.patch
-new file mode 100644
-index 00000000000..1bf5eae803c
---- /dev/null
-+++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/CVE-2026-105840.patch
-@@ -0,0 +1,106 @@
-+From b1fc8a01e3a074f8462a29dca45ed7c8fd2ef665 Mon Sep 17 00:00:00 2001
-+From: Uwe Ohse at akiar <uwe@ohse.de>
-+Date: Mon, 10 Aug 2026 18:09:20 +0200
-+Subject: [PATCH] remove PUBDIR, fix the 2nd security hole found by
-+ tristaninsec
-+
-+CVE: CVE-2026-105840
-+Upstream-Status: Backport [https://github.com/UweOhse/lrzsz/commit/b1fc8a01e3a074f8462a29dca45ed7c8fd2ef665]
-+
-+Backport Changes:
-+- Applied the configure.ac change to configure.in, which is the build
-+  configuration filename used by lrzsz 0.12.20.
-+- Omitted NEWS because its 0.13.0 release-note hunk conflicts with the
-+  0.12.20 release history and is not needed for the security fix.
-+
-+(cherry picked from commit b1fc8a01e3a074f8462a29dca45ed7c8fd2ef665)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ configure.in |  7 -------
-+ src/lrz.c    | 16 +++++-----------
-+ src/lsz.c    |  9 ++-------
-+ 3 files changed, 7 insertions(+), 25 deletions(-)
-+
-+diff --git a/configure.in b/configure.in
-+index b7c3c31..504bd32 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -37,13 +37,6 @@ AC_ARG_ENABLE(timesync,
-+ 	  fi],
-+ 	[AC_DEFINE(ENABLE_TIMESYNC)])
-+ AC_SUBST(ENABLE_TIMESYNC)
-+-AC_ARG_ENABLE(pubdir,
-+-	[--enable-pubdir=/path   include support for a public writeable directory],
-+-	[if test "$enableval" = "no" ; then 
-+-		: 
-+-	  else 
-+-	    AC_DEFINE_UNQUOTED(PUBDIR,"$enableval")
-+-	  fi])
-+ AC_ARG_ENABLE(mkdir,
-+ 	[--disable-mkdir   disable support for creating directories (lrz)],
-+ 	[if test "$enableval" = "no" ; then 
-+diff --git a/src/lrz.c b/src/lrz.c
-+index 9c08a3d..168636e 100644
-+--- a/src/lrz.c
-++++ b/src/lrz.c
-+@@ -1553,12 +1553,10 @@ chkinvok(const char *s)
-+ }
-+ 
-+-/*
-+- * Totalitarian Communist pathname processing
-+- */
-+ static void 
-+ checkpath(const char *name)
-+ {
-+ 	if (Restricted) {
-++                FILE *noleak = NULL;
-+ 		const char *p;
-+ 		p=strrchr(name,'/');
-+ 		if (p)
-+@@ -1595,20 +1593,16 @@ checkpath(const char *name)
-+ 			p=name;
-+ 		/* don't overwrite any file in very restricted mode.
-+ 		 * don't overwrite hidden files in restricted mode */
-+-		if ((Restricted==2 || *name=='.') && fopen(name, "r") != NULL) {
-++		if ((Restricted==2 || *name=='.') && (noleak = fopen(name, "r")) != NULL) {
-++                        fclose(noleak);
-+ 			canit(STDOUT_FILENO);
-+ 			vstring("\r\n");
-+ 			vstringf(_("%s: %s exists\n"), 
-+ 				program_name, name);
-+ 			bibi(-1);
-+ 		}
-+-		/* restrict pathnames to current tree or uucppublic */
-+-		if ( strstr(name, "../")
-+-#ifdef PUBDIR
-+-		 || (name[0]== '/' && strncmp(name, PUBDIR, 
-+-		 	strlen(PUBDIR)))
-+-#endif
-+-		) {
-++		/* restrict pathnames to the current tree */
-++		if ( strstr(name, "../") || name[0] == '/') {
-+ 			canit(STDOUT_FILENO);
-+ 			vstring("\r\n");
-+ 			vstringf(_("%s:\tSecurity Violation"),program_name);
-+diff --git a/src/lsz.c b/src/lsz.c
-+index 69f4fb8..3dd91b1 100644
-+--- a/src/lsz.c
-++++ b/src/lsz.c
-+@@ -1009,13 +1009,8 @@ wcs(const char *oname, const char *remotename)
-+ 
-+ 
-+ 	if (Restricted) {
-+-		/* restrict pathnames to current tree or uucppublic */
-+-		if ( strstr(oname, "../")
-+-#ifdef PUBDIR
-+-		 || (oname[0]== '/' && strncmp(oname, MK_STRING(PUBDIR),
-+-		 	strlen(MK_STRING(PUBDIR))))
-+-#endif
-+-		) {
-++		/* restrict pathnames to current tree */
-++		if ( strstr(oname, "../") || oname[0] == '/') {
-+ 			canit(STDOUT_FILENO);
-+ 			vchar('\r');
-+ 			error(1,0,
-+-- 
-+2.35.6
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-index 403266743e0..ec98f690153 100644
---- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-+++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
-            file://0001-Fix-build-with-GCC-15.patch \
-            file://0001-lrzsz-convert-K-R-function-definitions-to-ANSI-C-pro.patch \
-            file://CVE-2026-105841.patch \
-+           file://CVE-2026-105840.patch \
-            "
- SRC_URI[sha256sum] = "c28b36b14bddb014d9e9c97c52459852f97bd405f89113f30bee45ed92728ff1"
- 
--- 
-2.35.6
+--=20
+Paul Barker
 
