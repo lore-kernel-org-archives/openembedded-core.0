@@ -1,41 +1,41 @@
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4460.1793244935420928236
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4462.1793244937349607066
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 20:35:36 -0700
+ Wed, 28 Oct 2026 20:35:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=k/5up1aJ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DrXyGGmS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a185ba3549-d6ebd351-4a35-4370-bbf5-3bfbea90fa8c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=tMS9Oske;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Gd5ugRj9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a185ba3873-3368b5c6-344e-4617-b691-88aa1bb1eb53-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793244935; i=@automation.yoctoproject.org;
+	t=1793244936; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=pezotLXxjHoydqzb6LfayNJX4x7JkTqiWJFkVMB0jBY=;
-	b=k/5up1aJh3TogjVC0YDALb0qlwTZBl3NVUi5dmRvNQWv+jxXpBN7h4IEr0rvCYz8
-	X+gTfu+ycR75juphRvFyODwwfHffHIxWZvnYx9sHxghUJ2TCvtk9ZdGWtncoxRuBbKH
-	vUtZoQMeb3w0NmPaQt8h02hrOxAuep2kaulRYynQ=
+	bh=g9M4xEk/W/vt4bVGxPJqxzBYIqBvQel9peAKorLgGMY=;
+	b=tMS9OskeywVdjUvn3LcflN23ao7cbgVtXazo+dVXgB5sTothW9TOP7B5oNza5ZGQ
+	45XCSPukDDO1YZWW0Mr+LgKFGswCS9pexZxLi/RVNqK4paj7agbM5cJpNoUASsduQ2h
+	sxTHbqszIDnDkxB8VG5eiuXCnF2GZ5odoBQ4kHJU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793244935;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793244936;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=pezotLXxjHoydqzb6LfayNJX4x7JkTqiWJFkVMB0jBY=;
-	b=DrXyGGmSI5iIvPteAhG1qXp1KJGqS4knqbt5p38NOQE2GfrVOUZ4p1aSpTJIsors
-	dh+AraXg8AKBHvy4Frj2joxsSPeFtP2+G7h2AZL99XmPa+JnTlnRp3y9TB0eiXRwDRw
-	6OsA0Qv/3P1Edc1n8kAE/bL+htEzcPrATMJ/89WU=
+	bh=g9M4xEk/W/vt4bVGxPJqxzBYIqBvQel9peAKorLgGMY=;
+	b=Gd5ugRj9aKGcu22aKCnmV48doKizcXOsjZp7mUej4Nge6paoE1P0sfjfE3/vuLsh
+	k9d5s90BCopLp+eqtSLhRlaqqL9C/d+gT3R9flJmx6WZth3pznBPH1yx0pqsg/R2Tz+
+	nVUntmCVZxNfJS05xbxRV64UD+qZdlHUXTwvulC0=
 From: patchtest@automation.yoctoproject.org
 To: bruce.ashfield@gmail.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-yocto-bsp][PATCH 08/11] yocto-bsps: update to v6.18.57
-In-Reply-To: <20261029032527.3150782-9-bruce.ashfield@gmail.com>
-References: <20261029032527.3150782-9-bruce.ashfield@gmail.com>
+Subject: Patchtest results for [meta-yocto-bsp][PATCH 09/11] yocto-bsps: update to v7.2.11
+In-Reply-To: <20261029032527.3150782-10-bruce.ashfield@gmail.com>
+References: <20261029032527.3150782-10-bruce.ashfield@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a185ba3549-d6ebd351-4a35-4370-bbf5-3bfbea90fa8c-000000@us-west-2.amazonses.com>
-Date: Thu, 29 Oct 2026 03:35:35 +0000
+Message-ID: <010101a185ba3873-3368b5c6-344e-4617-b691-88aa1bb1eb53-000000@us-west-2.amazonses.com>
+Date: Thu, 29 Oct 2026 03:35:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.29-54.240.27.193
+X-SES-Outgoing: 2026.10.29-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 03:35:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248871
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248872
 
 --NextPart
 Content-Type: text/plain
@@ -45,7 +45,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-yocto-bsp-08-11-yocto-bsps-update-to-v6.18.57.patch
+Testing patch /home/patchtest/share/mboxes/meta-yocto-bsp-09-11-yocto-bsps-update-to-v7.2.11.patch
 
 FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
