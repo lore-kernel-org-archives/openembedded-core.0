@@ -1,28 +1,28 @@
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17231.1793294309264531329
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17331.1793294314338368236
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 10:18:29 -0700
+ Thu, 29 Oct 2026 10:18:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=PJJFfOvY;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20261029171827a2d95e1f0400020706-f34tay@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261029171827a2d95e1f0400020706
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Tc6zGxd2;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202610291718328a4e1b7b900002078f-uwsmnt@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202610291718328a4e1b7b900002078f
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 29 Oct 2026 18:18:27 +0100
+        Thu, 29 Oct 2026 18:18:32 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=tNHllWYp3t9KOerlTl2jmum22d/GK0vLQCA12omFtHk=;
- b=PJJFfOvYQTZJ38xhq8H7zxxS9dEZnxcQ5CSWQqq9+lDjnXzelk0rE4SMIV+Cusf3t9hm+V
- Tr9k+NCCZThThOLIYivn7GExR+ELkNfEvG86YsOjgya0HyRhFqKH+Fjzp9gC1mfkY1gDVS3c
- 0XTvZRFtDsW/zNpHV2ua6rqwKN4rVAUlb/YZr2HRY9isYo0kVG74iNTenHWAAfUqS/MNEyv5
- k697KDDAKPaUHaxe0+2pKSbD4fkPwU1q/UvYvYf7M7UQ8d+vOT+/2BSp5nuwHdWXckylaDrr
- 9AWPEWX+O3dNlIBfX4upTT9LtIFZCqiCjktrIj3FNYDZVZxayhVQ/XcQ==;
+ bh=n/q4++jztABydhSzHObSRTDN+BH9URleRN0wiVlEwis=;
+ b=Tc6zGxd2hxLohT+IFhCD7NUY1httAkT80W4+0JK8YYfRs05zeTgikpnA83qb9DfPY+8XwF
+ 6zKpDR0wXxgmHgRoQoxEPOtDdPOhjdF+sQqgPPaNNUL+dFBsTaa/6/flpJ2JEkZbXKARXYYn
+ MwgRY4Me0eE0eUiZjLeQRNLCXOIOsJXF09/gV4CEeMSMiWWeETwSdnON0CRv7BMECFkpi7xW
+ StfVIolw04qRuEdLY6gcdlHNua51Zin6iDg4vipuewlKk2+DSpeYovZPq43jSMy2ze9K7FFM
+ PF3MD0gZoiO51TIJ3CPINpBk3qd2FMRKPXQe7dHowj+43Qu+6ZKLINxw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH 7/8] libical: uprade 4.0.5 -> 4.0.6
-Date: Thu, 29 Oct 2026 18:17:05 +0100
-Message-ID: <20261029171709.2842512-7-peter.marko@siemens.com>
+Subject: [blacksail][PATCH 8/8] libical: upgrade 4.0.6 -> 4.0.7
+Date: Thu, 29 Oct 2026 18:17:06 +0100
+Message-ID: <20261029171709.2842512-8-peter.marko@siemens.com>
 In-Reply-To: <20261029171709.2842512-1-peter.marko@siemens.com>
 References: <20261029171709.2842512-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -30,150 +30,72 @@ Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 17:18:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248963
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 17:18:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248964
 Content-Type: text/plain; charset="utf-8"
 
 From: Ross Burton <ross.burton@arm.com>
 
-Drop upstreamed patch.
-
-- CVE: Fix UBSAN issue "bsearch comparator through an incompatible
-  function pointer"
-- RFC5545 section 3.3.5 Date-Time fixes:
-  - Resolve local times in a fall-back overlap to the first occurrence
-  - Fix explicit local time in a DST gap resolves using the
-    post-transition offset
-- RFC5545 section 3.3.10 Recurrence Rule fixes:
-  - FREQ=WEEKLY with BYMONTH and BYSETPOS loses occurrences in the week
-    straddling month boundary
-- libicalvcard: the typed vcardvalue getters now check that the value
-  type of the property uses the same union member as the expected value
-  type of the getter. If the type mismatches, then they return the zero
-  value for the expected value type. The typed setters error with
-  ICAL_BADARG_ERROR instead of overwriting a value held in another union
-  member.
-- libicalvcal: Fixed a memory leak in vobject.c
+- libicalvcard:
+  - `vcardcomponent_clone()` and friends now deep-copy TEXTLIST values (e.g. NICKNAME, CATEGORIES)
+    and structured parameters (JSCOMPS), and keep the property group.
+  - Fixed a use-after-free and a memory leak when converting a vCalendar procedure alarm (PALARM)
+    whose attachment is a plain path name.
+- libical:
+  - Fix busy status of recurring events in `icalcomponent_foreach_recurrence()`.
+  - Fix `icalvalue_decode_ical_string()` and `icallangbind_property_eval_string()` reading past
+    the end of a string that ends in a backslash or a newline.
+  - `icaltimezone_truncate_vtimezone()` no longer reads the RRULE after freeing it when the new
+     DTSTART is within a year of UNTIL (RSCALE rules), and no longer uses an uninitialized onset
+     when no RRULE occurrence falls before the window close.
+  - Fix IMAGE and STRUCTURED-DATA given by URI (with or without VALUE=URI) parsing to a URI value,
+    whose string `icalproperty_get_image()` and `icalproperty_get_structureddata()` then read as
+    an icalattach pointer.
+  - Fix use-after-free and double free in `icalcomponent_merge_component()` when both calendars
+    have a VTIMEZONE with the same TZID. Every VTIMEZONE of the merged calendar is now merged,
+    and a conflicting VTIMEZONE is added under a renamed TZID (e.g. "Zone1") that its events use.
+  - Fix out-of-bounds access to the year days bitmask in the recurrence iterator when an RSCALE
+    date falls outside the year (e.g. BYWEEKNO with a DTSTART before the calendar's epoch).
+  - Fix `icalrecur_iterator_set_range()` for a reverse range on a rule without UNTIL, which
+    started the iteration at year 0 instead of at 'from'.
+  - Fix `icalparser_clean()` for proper reuse by resetting internal structure values and clearing
+    the root component to avoid a use-after-free.
+  - Behavior change: The typed icalvalue getters now check that the value type of the icalvalue
+    uses the same union member as the expected value type of the getter, as the vcardvalue getters
+    have done since version 4.0.6. If the type mismatches, then they return the zero value for the
+    expected value type. The typed setters error with ICAL_BADARG_ERROR instead of overwriting a
+    value held in another union member.
+- libicalss:
+  - Fix heap-buffer-overflow in `icalspanlist_as_freebusy_matrix()` for busy spans that start
+    before or end after the spanlist. `icalspanlist_from_vfreebusy()` now sets the spanlist
+    start/end from DTSTART/DTEND and marks FBTYPE=FREE periods as free (all others as busy).
 - Buildsystem changes:
-  - Fix build paths in installed cmake files (esp. for cross-compiling)
-  - Install the libicalversion.h header
-  - Fix building libical as a submodule in a larger CMake project
-  - Fix "now" linker support check in the hardening compiler options
-  - Fix the DESTINATION path for libical.jar
-  - Use private linkage for 3rdparty libraries (icu, glib, ..)
-- Built-in timezones updated to tzdata2026e.
-- Remove ancient hack (since 2012) to support malformed TZID parameters
+  - Fix CMake command target_link_libraries() to use all-keywords as required since CMake v4.4.4.
+  - When cross-compiling, don't build/install ical-glib-src-generator w/o existing binary
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 3c04485f3effa61811fabadb52473ee29bc95f1e)
+(From OE-Core rev: 0646b1d8b6ad5a4c49afd72487e2f28b7fa7b6c3)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...001-Mark-ICU-as-private-linkage-1366.patch | 76 -------------------
- .../{libical_4.0.5.bb => libical_4.0.6.bb}    |  6 +-
- 2 files changed, 2 insertions(+), 80 deletions(-)
- delete mode 100644 meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linkage-1366.patch
- rename meta/recipes-support/libical/{libical_4.0.5.bb => libical_4.0.6.bb} (91%)
+ .../libical/{libical_4.0.6.bb => libical_4.0.7.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libical/{libical_4.0.6.bb => libical_4.0.7.bb} (96%)
 
-diff --git a/meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linkage-1366.patch b/meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linkage-1366.patch
-deleted file mode 100644
-index 53bd1683af..0000000000
---- a/meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linkage-1366.patch
-+++ /dev/null
-@@ -1,76 +0,0 @@
--From 13642054f650795446f6020d9d2e14d147b8da51 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross@burtonini.com>
--Date: Wed, 2 Sep 2026 16:14:44 +0100
--Subject: [PATCH] Mark ICU as private linkage (#1366)
--
--* libical-glib: Hide some target options in the installed CMake files
--
--The build paths could be shown in the installed .cmake files, thus
--hide them from there, because they are not needed.
--
--Closes https://github.com/libical/libical/issues/532
--
--* libical: mark ICU linkage as private
--
--There's no need to expose the ICU linkage publically as the .so will
--pull this in itself.
--
--This has a side-effect of removing build/sysroot paths from the installed
--.cmake files.
--
--Closes #532.
--
-----------
--
--Co-authored-by: Milan Crha <mcrha@redhat.com>
--(cherry picked from commit 38c7e6d31a3a1a4bd67479f402c323fb0679271e)
--
--Upstream-Status: Backport [libical 13642054f650795446f6020d9d2e14d147b8da51]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- src/libical-glib/CMakeLists.txt | 9 +++++----
-- src/libical/CMakeLists.txt      | 2 +-
-- 2 files changed, 6 insertions(+), 5 deletions(-)
--
--diff --git a/src/libical-glib/CMakeLists.txt b/src/libical-glib/CMakeLists.txt
--index d63bbf3c..470a4d22 100644
----- a/src/libical-glib/CMakeLists.txt
--+++ b/src/libical-glib/CMakeLists.txt
--@@ -24,16 +24,17 @@ if(NOT DEFINED LIBXML2_DEFINITIONS)
-- endif()
-- target_compile_options(
--   ical-glib-src-generator
---  PUBLIC
--+  PRIVATE
--     ${GLIB_CFLAGS}
--     ${LIBXML2_DEFINITIONS}
--     -DG_LOG_DOMAIN=\"src-generator\"
-- )
-- target_link_libraries(
--   ical-glib-src-generator
---  ${GLIB_LDFLAGS}
---  ${GOBJECT_LDFLAGS}
---  ${LIBXML2_LIBRARIES}
--+  PRIVATE
--+    ${GLIB_LDFLAGS}
--+    ${GOBJECT_LDFLAGS}
--+    ${LIBXML2_LIBRARIES}
-- )
-- 
-- install(
--diff --git a/src/libical/CMakeLists.txt b/src/libical/CMakeLists.txt
--index 6fc2e953..583f2eeb 100644
----- a/src/libical/CMakeLists.txt
--+++ b/src/libical/CMakeLists.txt
--@@ -294,7 +294,7 @@ if(DEFINED CMAKE_THREAD_LIBS_INIT)
--   target_link_libraries(ical ${CMAKE_THREAD_LIBS_INIT})
-- endif()
-- if(ICU_FOUND)
---  target_link_libraries(ical ${ICU_LIBRARIES})
--+  target_link_libraries(ical PRIVATE ${ICU_LIBRARIES})
--   if(VCPKG_MANIFEST_MODE)
--     if(NOT APPLE AND NOT WIN32)
--       target_link_libraries(ical "m;stdc++")
---- 
--2.43.0
--
-diff --git a/meta/recipes-support/libical/libical_4.0.5.bb b/meta/recipes-support/libical/libical_4.0.6.bb
-similarity index 91%
-rename from meta/recipes-support/libical/libical_4.0.5.bb
-rename to meta/recipes-support/libical/libical_4.0.6.bb
-index e9b093544f..7b9185c374 100644
---- a/meta/recipes-support/libical/libical_4.0.5.bb
-+++ b/meta/recipes-support/libical/libical_4.0.6.bb
-@@ -10,10 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6d9294493d031c817783b0400a126c89 \
-                     "
+diff --git a/meta/recipes-support/libical/libical_4.0.6.bb b/meta/recipes-support/libical/libical_4.0.7.bb
+similarity index 96%
+rename from meta/recipes-support/libical/libical_4.0.6.bb
+rename to meta/recipes-support/libical/libical_4.0.7.bb
+index 7b9185c374..cbfcb0675e 100644
+--- a/meta/recipes-support/libical/libical_4.0.6.bb
++++ b/meta/recipes-support/libical/libical_4.0.7.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6d9294493d031c817783b0400a126c89 \
  SECTION = "libs"
  
--SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
--           file://0001-Mark-ICU-as-private-linkage-1366.patch \
--           "
--SRC_URI[sha256sum] = "cc09a3ac41d60e6144e644bd3fcf97d47106d659c4a0b8965102581401e67c9c"
-+SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
-+SRC_URI[sha256sum] = "2e3729cb69c282d3bb17a8d2b198af6e4bc7502fd3621c9adf573921fe9dceb0"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
+-SRC_URI[sha256sum] = "2e3729cb69c282d3bb17a8d2b198af6e4bc7502fd3621c9adf573921fe9dceb0"
++SRC_URI[sha256sum] = "47c05bc96e41416578cf1803bb2ba3f8d292cb17d5ac2fca539dee922bae8a94"
  
  inherit cmake pkgconfig gobject-introspection vala github-releases
  
