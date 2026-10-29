@@ -1,81 +1,119 @@
-Received: from outbound6.mail.transip.nl (outbound6.mail.transip.nl [136.144.136.128])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17522.1793295052849942754
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17819.1793295761012383139
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 10:30:54 -0700
+ Thu, 29 Oct 2026 10:42:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=VgJkp9Xh;
- spf=pass (domain: myspectrum.nl, ip: 136.144.136.128, mailfrom: jeroen@myspectrum.nl)
-Received: from submission11.mail.transip.nl (unknown [10.103.8.162])
-	by outbound6.mail.transip.nl (Postfix) with ESMTP id 4jFrqF4hWpzwLGwD
-	for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 18:30:49 +0100 (CET)
-Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
-	by submission11.mail.transip.nl (Postfix) with ESMTPSA id 4jFrqC5kXkz3R3nyt;
-	Thu, 29 Oct 2026 18:30:47 +0100 (CET)
-Received: from yellow.myspectrum.nl (212-204-162-136.cable.dynamic.v4.ziggo.nl [212.204.162.136])
-	(Authenticated sender: sendmail@myspectrum.nl)
-	by yellow.myspectrum.nl (Postfix) with ESMTPSA id 7B2D420072;
-	Thu, 29 Oct 2026 17:30:45 +0000 (UTC)
-Authentication-Results: yellow.myspectrum.nl;
-	auth=pass smtp.auth=sendmail@myspectrum.nl smtp.mailfrom=jeroen@myspectrum.nl
-Received: by yellow.myspectrum.nl (sSMTP sendmail emulation); Thu, 29 Oct 2026 18:30:39 +0100
-From: jeroen@myspectrum.nl
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=rv44TvYo;
+ spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: vinicius.eduardo.pedrosa@gmail.com)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-7c3cecbda48so532024137.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 10:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793295760; x=1793900560; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dOptRBHreKUu27j4sN5ODspH1Sx7vSnqCRPaXgeia6s=;
+        b=rv44TvYoY2q+Vl9SpSH4wtWTWh7EG5ujGyqrh3bPjl+2fwANk9XhDHTz/h0Gy6fNCd
+         EbIwixHqNQKDANYlfyvLoo2eXNDXiznBADJ98abi3oTVGLrafAIPr1M/Ad9XZR+koEIY
+         ZK7+Ys1T8DWv3LMgl/ZiPq4v+pbpaVoHFnsnGnJlxRkZjWynK9ZA3xFeuKn1+k3YSOs9
+         AnZ711P3ydM4wpro3ZrEUn0eNdAhZSWqIKWIJwpjRqaCF3etbjDkTlPiJWo0mDVnegLJ
+         p2CaV7HL1gu6OiTyF+YaW0nNIxsMuA5dxnB124JPnvkClChVgTG4dmJLMpk29blJoFwC
+         Slsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793295760; x=1793900560;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dOptRBHreKUu27j4sN5ODspH1Sx7vSnqCRPaXgeia6s=;
+        b=JZBCS7g8QF3pR1Le31CLniFBqvJCYAObpYbzOWc6j8Chye6q5YbX4sLNc6OEbvyt3q
+         LZh0rYIcm13DTkLw8i2ExokG4uCNtXHpjzM/fw3kSzyQxZl3g/WUextHCX6NssqK5wXY
+         cSsaDjaXL5ezZqV+3uyemV/WdlWsELk3L2YoH4oM5wYx4vvvAJpIwA6o4meJXdkUAn+P
+         ER8aj6/4kMgmHwAWm/OEz6VUCSBc6ycozg2/NQU2Q+G1Qc0ebap4a634s6dKNkWhdvW1
+         k30w93f9gioZMX1up2fAWHUNN76j05T22I+JHcu1YvWgvbmp1tijm6rL4s2Ew/pbZhNb
+         OgMw==
+X-Gm-Message-State: AFq9FYJtH0ghYL1XTTvck0hJMNxKUS4PwFdI0eYUusvLzxSbesvqZCYh
+	/gHN/cDWl+EwqLbY8Up/BD8t2Jd+XEgvSuq95csWAH3qiS7qyKOS8UO+2ID8oyyEuEc=
+X-Gm-Gg: AYBFou1tZkcTLvcOEQm3LGby/QKf+/A/I5mcn5BkqECR7U1B3KS2YJpFuECAg9Pc5cy
+	cshF0HhaqC77qZlsBGEbGPB4EdpgVOKXxRONJ3o3OADyeI8vJyWYrnuSk/7CfBcgD0AXkoatl4s
+	fPuJ9bzuvBtBdmTRtX4Kabiz1qaufqQyHvMeq33jPp9tsNh9VsyJYpm7BPRY4sQvUizks1lyyQC
+	KbrNEGifByYU+PPu43yFDjSd1b3sfVcm8u4jlRAFbeg/Pa8+m1AsW6uCVVIMyEQo+ICjgSISmk/
+	Dj4hlfxiNbfahyOb8zYlAYQ9Gj2aJt6YNCgMahQ/moSTeje2/Nk0RbnxA6Re8xKLz0AuPMvJE5V
+	FONt+utPdXRMA8vuTi/JdNT/1HAzh92LxfLlmntCj3m4zZcQ7IBZciQVdLbZeS7Tkzc9QLJvQLz
+	/6bJihhqqIHqh3CyLT4UNqDUUxugjFEql52a3fb5C2hfW/u76lvCdNQw+nYmCkqPoNHy6pqBAOT
+	ol0PDmY43za4DxUBwwWckVG4a/HA1ixiVLkO7UcZ4iXdHiJK9O5SmPrgXrUNmvvh9SdQn4Vlc5w
+	IzxBrEK2kW+bRfubYGdDbRoAWFmnZEbWVOkclviZ0vjgVFERsq+GU41QT8O4o1qBch/CTHeNfgO
+	zGQRCO+QfUY2Aj1RYyUUcKiR1BwOdIrUgrHdT
+X-Received: by 2002:a05:6102:f08:b0:7c3:e156:da3c with SMTP id ada2fe7eead31-7d03a48f298mr3246280137.15.1793295759848;
+        Thu, 29 Oct 2026 10:42:39 -0700 (PDT)
+Return-Path: <vinicius.eduardo.pedrosa@gmail.com>
+Received: from MaquinaLab.. ([179.179.238.247])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec67a2d0dfsm139408e0c.7.2026.10.29.10.42.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 10:42:38 -0700 (PDT)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jeroen Hofstee <jhofstee@victronenergy.com>
-Subject: [OE-core][PATCH] lrzsz: disable Werror (fix clang 23 build)
-Date: Thu, 29 Oct 2026 18:30:17 +0100
-Message-ID: <20261029173017.225745-1-jeroen@myspectrum.nl>
-X-Mailer: git-send-email 2.53.0
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [PATCH v2] kernel.bbclass: add gzip-native to DEPENDS
+Date: Thu, 29 Oct 2026 14:42:29 -0300
+Message-ID: <20261029174229.3427875-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-Scanned-By: ClueGetter at submission11.mail.transip.nl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=transip-a; d=myspectrum.nl; t=1793295047; h=from:subject:to:cc:date:
- mime-version; bh=RHEB/80zqAHzVEVc8jdbCBNlv88kZXKf922V6prbkXc=;
- b=VgJkp9XhCm8RVxBRqqRYxS+IEaWdO5m06n8jQxXzV8jkj5b7UC7U22vzMZSgzNQp8qNB55
- 4MlZYGz1Xv+xgdT62rIFZlgosQxFR6yAvzK25cJkv3chTQaElhzpo5kPEs2IAkRnjoGG+y
- 4vAQ9Bnm/VPsOkSTBS90y4SdDHhcN4sSyharyeqBqvfakUmJe0R33SLamIwDkKQ6CRaxmk
- kNR+LVrb+OdstjYMUo1Ig4RsiEp8287Zm6nvdQ/LEiUvaqcXxiXgXaxmWVKMeE9QPpl3g+
- gtkm2WQf4TFIwlGJrH+MzZVzNC/2O8PM9kBZCg9wS8tuS7EzhFy0UF1Xa6QZSw==
-X-Report-Abuse-To: abuse@transip.nl
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 17:31:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248969
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 17:43:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248970
 Content-Type: text/plain; charset="utf-8"
 
-From: Jeroen Hofstee <jhofstee@victronenergy.com>
+gzip-native is only in do_deploy[depends]. On a fresh work directory,
+do_compile runs the host gzip to create kernel/config_data.gz and,
+with CONFIG_KERNEL_GZIP, the compressed kernel payload.
 
-When compiling with clang, the build errors with:
+do_unpack cleans ${B} but not the recipe sysroot. After do_deploy has
+run once, a rebuild from do_unpack picks up pigz from gzip-native
+instead. Same .config, same uncompressed IKCONFIG data, but
+config_data.gz and the kernel image come out different.
 
-src/zm.c:37:12: error: variable 'Crc32' set but not used [-Werror,-Wunuse=
-d-but-set-global]
+Add gzip-native to DEPENDS so the same compressor is used from the
+first do_compile, and drop it from do_deploy[depends], which DEPENDS
+now covers.
 
-This is caused by -Werror being ebabled by default in combination with
-some harmless unused globals. This is an alternative to [1] (which
-removes the unused globals) by disabling Werror instead.
-
-[1] https://lore.kernel.org/openembedded-core/20261028011006.1704070-1-kh=
-em.raj@oss.qualcomm.com/
-
-Signed-off-by: Jeroen Hofstee <jhofstee@victronenergy.com>
+Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
 ---
- meta/recipes-bsp/lrzsz/lrzsz_0.13.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.13.1.bb b/meta/recipes-bsp/lr=
-zsz/lrzsz_0.13.1.bb
-index 521cedf789..5b7005917b 100644
---- a/meta/recipes-bsp/lrzsz/lrzsz_0.13.1.bb
-+++ b/meta/recipes-bsp/lrzsz/lrzsz_0.13.1.bb
-@@ -18,6 +18,8 @@ SRC_URI[sha256sum] =3D "112f91059fbd118e016d800c1a5c5a1=
-702e965d8b9bfbda6015e44e20b
-=20
- UPSTREAM_CHECK_URI =3D "http://ohse.de/uwe/software/lrzsz.html"
-=20
-+EXTRA_OECONF =3D "--disable-Werror"
-+
- inherit autotools gettext
-=20
- do_install() {
---=20
-2.53.0
+Notes:
+    Changes in v2:
+    - drop gzip-native from do_deploy[depends], as Bruce suggested. The
+      modules tarball in do_deploy still gets pigz: do_deploy reaches
+      gzip-native through do_install (checked with bitbake -g, not with
+      a build).
+    - kept Bruce's Ack, the only change is the one he suggested
+    
+    v1: https://patchwork.yoctoproject.org/project/oe-core/patch/20261029124742.3223868-1-vinicius.eduardo.pedrosa@gmail.com/
+
+ meta/classes-recipe/kernel.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 0a6d754..46da867 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -19,14 +19,14 @@ KERNEL_PACKAGE_NAME ??= "kernel"
+ KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
+ 
+ PROVIDES += "virtual/kernel"
+-DEPENDS += "virtual/cross-binutils virtual/cross-cc kmod-native bc-native bison-native"
++DEPENDS += "virtual/cross-binutils virtual/cross-cc kmod-native bc-native bison-native gzip-native"
+ DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lzo", "lzop-native", "", d)}"
+ DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lz4", "lz4-native", "", d)}"
+ DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.zst", "zstd-native", "", d)}"
+ DEPENDS += "${@bb.utils.contains("KERNEL_IMAGETYPES", "Image.lz4", "lz4-native", "", d)}"
+ PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+ 
+-do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot gzip-native:do_populate_sysroot"
++do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
+ do_clean[depends] += "make-mod-scripts:do_clean"
+ 
+ # CPE entries from NVD use linux_kernel, but the raw CVE entries from the kernel CNA have
+-- 
+2.43.0
 
