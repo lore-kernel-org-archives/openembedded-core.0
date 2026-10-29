@@ -1,216 +1,248 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5563.1793252418251227158
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5593.1793252421130285079
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 22:40:20 -0700
+ Wed, 28 Oct 2026 22:40:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=REDK2nuD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IXMWqDrD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1862c69d7-fc8372a3-8c34-4c06-841c-5c102cb78bfa-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DSYQNMYa;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ec8mkkb9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a1862c69d1-afbe70e0-ec82-4c9f-ae48-6a4567db5a22-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1793252420;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FeR7lo0BrAh8aEp5oQTnvwT5ovEVgdSaj6Mzrr+pDnw=;
-	b=REDK2nuDbRPNiyD5GlFicPvkQvQTvS+MtjjYigQfI+jn3wCUgug/PuyFFMD1M+26
-	AT5G7UJXiipW9p8PNDThDOcYQjazRNkTrrIUpf+2Kkej4PT/RGtq7/bXuAQYYT7j6VS
-	6F5FMDPvIwUuPpfD58bNgS1f2aNMm+AGClKqLIX4=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=ZniDf1of/Ve5fFtjpq77hsxP8z5+hlKorE6UlncpHTY=;
+	b=DSYQNMYavlniF6DYTgTqsKhFPJix2n9OJUxuel2WpjyBJHUnTA7y8DDJ09VMvI3Y
+	FKqRW0cN6++BXlSPla53Nr7sq11k2QtiUgLho8eU5awXXSg7SvA9+nG0TlhYT/tKpxJ
+	FLxoEFLlDc3gRbPEbNrInqt8CvFG3G7vGikBJHbI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793252420;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FeR7lo0BrAh8aEp5oQTnvwT5ovEVgdSaj6Mzrr+pDnw=;
-	b=IXMWqDrDnFSiUnkDgr0WISDsBxlxhBJA0TCGoGqWw+LFgun2/czSIcwuNZJEJ70r
-	ctQ2SjMDPV4x7xw7xzc/lhS1/jo13USNK12ML2VUpj98tQuWdTvQ6XHAv8fEJ6YvHIu
-	pHsTDMaU5QNRZSd09VmBf8k6gM41UMAPkOuK4t34=
-Content-Type: multipart/mixed; boundary="===============8360611243571787379=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=ZniDf1of/Ve5fFtjpq77hsxP8z5+hlKorE6UlncpHTY=;
+	b=ec8mkkb9JmW3kk4pQDu7ur0PU5G1OBWsvvul2I7P5oFZqV2Qs0m7BUe8AC4aWvdK
+	nn6+MopYNAfjTqD5srROfW6S+tcL8ZBZi1lyg6bu25h83S0a32d/Nm0Ge3pHw45ZQuY
+	HQymFBoOrngYNmYrkmYn8k6fk012iOGmDDN7osGg=
+Content-Type: multipart/mixed; boundary="===============4959635363114080139=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: =?utf-8?q?Juhandr=C3=A9_Knoetze_=3Cjuhandre=2Eknoetze=40windriver=2Ecom?=@yoctoproject.org, 
-	=?utf-8?q?=3E?=@yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dbus-glib: upgrading to 0.116 SUCCEEDED
-Message-ID: <010101a1862c69d7-fc8372a3-8c34-4c06-841c-5c102cb78bfa-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] cracklib: upgrading to 2.10.4 FAILED
+Message-ID: <010101a1862c69d1-afbe70e0-ec82-4c9f-ae48-6a4567db5a22-000000@us-west-2.amazonses.com>
 Date: Thu, 29 Oct 2026 05:40:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.29-54.240.27.31
+X-SES-Outgoing: 2026.10.29-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 05:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248892
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248894
 
---===============8360611243571787379==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpkYnVzLWdsaWIqIHRvICowLjExNiogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAg
-ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtZGJ1cy1nbGliLXVwZ3JhZGUtMC4xMTQt
-MC4xMTYucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBh
-bmQgc3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFu
-IGltYWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2lj
-IHNhbml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQg
-Y29tbWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBw
-cm9wcmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUg
-cmVjaXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwg
-UkVDSVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0
-CmF1dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNl
-IHJldmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1
-aWxkL3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0
-cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRv
-bWF0ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0t
-ID44IC0tCkZyb20gYmEyZjA2ZGZiMzE5YzA5OTMwY2RmOWI5NThjMjE5MWQ5MmQ0NTg2MCBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2pl
-Y3Qub3JnPgpEYXRlOiBUaHUsIDI5IE9jdCAyMDI2IDA1OjIyOjMwICswMDAwClN1YmplY3Q6IFtQ
-QVRDSF0gZGJ1cy1nbGliOiB1cGdyYWRlIDAuMTE0IC0+IDAuMTE2Ck1JTUUtVmVyc2lvbjogMS4w
-CkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5zZmVy
-LUVuY29kaW5nOiA4Yml0CgpkYnVzLWdsaWIgMC4xMTYgKDIwMjYtMDktMjcpCj09PT09PT09PT09
-PT09PT09PT09PT09PT09PT0KClRoZSDigJxUaGlzIGlzIHdyb25nIHRvb2whIE5vLiBOb3QgZ29v
-ZC4gTm8uIE5ldmVyIHVzZSB0aGlz4oCdIHJlbGVhc2UuCkJ1ZyBmaXhlczoKCuKAoiBSZW1vdmUg
-YEdfR05VQ19DT05TVGAgZnJvbSBgX2dldF90eXBlKClgIGZ1bmN0aW9ucy4KICBUaGlzIGNhbiBj
-YXVzZSBtaXNjb21waWxhdGlvbiB3aXRoIGdjYy0xNi4KICAoZGJ1cy1nbGliITcsIERhdmlkIE5v
-cnRoKQoK4oCiIERpc2FibGUgYmFzaCBjb21wbGV0aW9uIGJ5IGRlZmF1bHQuCiAgVGhpcyBpcyBh
-biB1bm1haW50YWluZWQgYmFzaCBjb21wbGV0aW9uIGZvciBkYnVzLXNlbmQoMSksCiAgd2hpY2gg
-aXMgbm90IHBhcnQgb2YgR0xpYiwgYW5kIGFwcGFyZW50bHkgZG9lc24ndCB3b3JrIGFzIGludGVu
-ZGVkLgogIEZvciBhIGRidXMtc2VuZCBlcXVpdmFsZW50IHdpdGggc2hlbGwgY29tcGxldGlvbiwg
-cGxlYXNlIHRyeSBHTGliJ3MKICBnZGJ1cygxKSBvciBzeXN0ZW1kJ3MgYnVzY3RsKDEpLiAoZGJ1
-cy1nbGliITUsIFNpbW9uIE1jVml0dGllKQotLS0KIC4uLi9kYnVzL3tkYnVzLWdsaWJfMC4xMTQu
-YmIgPT4gZGJ1cy1nbGliXzAuMTE2LmJifSAgICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1j
-b3JlL2RidXMve2RidXMtZ2xpYl8wLjExNC5iYiA9PiBkYnVzLWdsaWJfMC4xMTYuYmJ9ICg5NSUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTQuYmIg
-Yi9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNi5iYgpzaW1pbGFyaXR5IGlu
-ZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjEx
-NC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTYuYmIK
-aW5kZXggYzY4MjRkNTY4OC4uNjI0NDgxNWQzMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNv
-cmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9k
-YnVzLWdsaWJfMC4xMTYuYmIKQEAgLTE2LDcgKzE2LDcgQEAgREVQRU5EUyA9ICJleHBhdCBnbGli
-LTIuMCB2aXJ0dWFsL2xpYmludGwgZGJ1cy1nbGliLW5hdGl2ZSBkYnVzIgogREVQRU5EUzpjbGFz
-cy1uYXRpdmUgPSAiZ2xpYi0yLjAtbmF0aXZlIGRidXMtbmF0aXZlIgogCiBTUkNfVVJJID0gImh0
-dHBzOi8vZGJ1cy5mcmVlZGVza3RvcC5vcmcvcmVsZWFzZXMvZGJ1cy1nbGliL2RidXMtZ2xpYi0k
-e1BWfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzA5YzVjMDg1YjJhMGUzOTFiOGVl
-N2Q3ODNhMWQ2M2ZlNDQ0ZTk2NzE3Y2MxODE0ZDYxYjVlOGZjMjgyN2E3YyIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICJlM2YzZDQ0ODdlMjg4MzgwMDc3MGVkNTg5OWVkMTExYmRjNGJhNzA1NmFmMzRh
-MjU1YzRjNDZhZDhhMjQ4NmYzIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgZ2V0dGV4
-dCBiYXNoLWNvbXBsZXRpb24gZ3RrLWRvYwogCi0tIAoyLjQ3LjEKCg==
-
---===============8360611243571787379==
+--===============4959635363114080139==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGSIZE changed from 35449 to 0 (-100%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: FILELIST: removed all items "/etc/bash_completion.d/dbus-bash-completion.sh /usr/libexec/dbus-bash-completion-helper"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: RDEPENDS: removed "dbus-glib (['>= 0.114']) expat (['>= 2.9.0']) glib-2.0 (['>= 2.90.0']) dbus-lib (['>= 1.16.2']) glibc (['>= 2.44+git0+34106fee69'])"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGSIZE changed from 988216 to 883504 (-11%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: FILELIST: removed "/usr/libexec/.debug/dbus-bash-completion-helper /usr/lib/.debug/libdbus-glib-1.so.2.3.6", added "/usr/lib/.debug/libdbus-glib-1.so.2.3.7"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PKGSIZE changed from 50142 to 50051 (-0%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-doc: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-doc: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-locale: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-locale: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PKGSIZE changed from 597432 to 582099 (-3%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: FILELIST: directory renamed /usr/src/debug/dbus-glib/0.114/dbus-gmain -> /usr/src/debug/dbus-glib/0.116/dbus-gmain, removed "/usr/src/debug/dbus-glib/0.114/dbus/dbus-gsignature.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gsignature.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-binding-tool-glib.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-tool.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-binding-tool-glib.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-tool.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-lowlevel.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gmarshal.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-parse-variant.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized-priv.h /usr/src/debug/dbus-glib/
- 0.114/dbus/dbus-gidl.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gproxy.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gobject.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gparser.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gutils.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gobject.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gparser.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gidl.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gthread.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gutils.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-utils.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-bash-completion-helper.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gloader-expat.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-utils.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtest.c", added "/usr/src/debug/dbus-glib/0.116/dbus/dbus-gsignature.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gsignature.h /usr/src/debug/dbus-
- glib/0.116/dbus/dbus-binding-tool-glib.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-tool.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-binding-tool-glib.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-tool.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-lowlevel.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gmarshal.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-parse-variant.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized-priv.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gidl.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gproxy.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gobject.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gparser.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gutils.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue.c /usr/src/debug/dbus-glib/0.116/d
- bus/dbus-gobject.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gparser.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gidl.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gthread.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gutils.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-utils.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gloader-expat.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-utils.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtest.c"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-staticdev: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-staticdev: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-tools: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-tools: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: FILELIST: removed "/usr/lib/libdbus-glib-1.so.2.3.6", added "/usr/lib/libdbus-glib-1.so.2.3.7"
-packages/x86-64-v3-poky-linux/dbus-glib: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib: SRC_URI changed from "https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.114.tar.gz" to "https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.116.tar.gz"
-packages/x86-64-v3-poky-linux/dbus-glib: PV changed from "0.114" to "0.116"
-Changes to packages/x86-64-v3-poky-linux/dbus-glib (sysroot):
-  /usr/lib/libdbus-glib-1.so.2 changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
-  /usr/lib/libdbus-glib-1.so changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
-  /usr/lib/libdbus-glib-1.so.2.3.6 moved to /usr/lib/libdbus-glib-1.so.2.3.7
+Hello,
 
---===============8360611243571787379==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="dbus-glib-changelog.txt"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *cracklib* to *2.10.4* has Failed(do_compile).
 
-ZGJ1cy1nbGliIDAuMTE2ICgyMDI2LTA5LTI3KQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09
-CgpUaGUg4oCcVGhpcyBpcyB3cm9uZyB0b29sISBOby4gTm90IGdvb2QuIE5vLiBOZXZlciB1c2Ug
-dGhpc+KAnSByZWxlYXNlLgpCdWcgZml4ZXM6CgrigKIgUmVtb3ZlIGBHX0dOVUNfQ09OU1RgIGZy
-b20gYF9nZXRfdHlwZSgpYCBmdW5jdGlvbnMuCiAgVGhpcyBjYW4gY2F1c2UgbWlzY29tcGlsYXRp
-b24gd2l0aCBnY2MtMTYuCiAgKGRidXMtZ2xpYiE3LCBEYXZpZCBOb3J0aCkKCuKAoiBEaXNhYmxl
-IGJhc2ggY29tcGxldGlvbiBieSBkZWZhdWx0LgogIFRoaXMgaXMgYW4gdW5tYWludGFpbmVkIGJh
-c2ggY29tcGxldGlvbiBmb3IgZGJ1cy1zZW5kKDEpLAogIHdoaWNoIGlzIG5vdCBwYXJ0IG9mIEdM
-aWIsIGFuZCBhcHBhcmVudGx5IGRvZXNuJ3Qgd29yayBhcyBpbnRlbmRlZC4KICBGb3IgYSBkYnVz
-LXNlbmQgZXF1aXZhbGVudCB3aXRoIHNoZWxsIGNvbXBsZXRpb24sIHBsZWFzZSB0cnkgR0xpYidz
-CiAgZ2RidXMoMSkgb3Igc3lzdGVtZCdzIGJ1c2N0bCgxKS4gKGRidXMtZ2xpYiE1LCBTaW1vbiBN
-Y1ZpdHRpZSkK
+Detailed error information:
 
---===============8360611243571787379==
+do_compile failed
+
+
+
+Next steps:
+    - apply the patch: git am 0001-cracklib-upgrade-2.10.3-2.10.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 5d15ffd4f4d295271a9122559d27d3c5a907a780 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 29 Oct 2026 05:29:14 +0000
+Subject: [PATCH] cracklib: upgrade 2.10.3 -> 2.10.4
+
+v2.10.5-dev
+v2.10.4 Basic support for other compression in cracklib-format
+        Improvements in python support and explicitly raising minimum python
+        version requirement. (Pino Toscano)
+        Improvements and fixes for autotools build system with support for new
+        gettext 1.0 (Guillem Jover)
+        Security and undefined behavior improvements (Gabe Dijkstra)
+---
+ .../cracklib/{cracklib_2.10.3.bb => cracklib_2.10.4.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/cracklib/{cracklib_2.10.3.bb => cracklib_2.10.4.bb} (94%)
+
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.10.3.bb b/meta/recipes-extended/cracklib/cracklib_2.10.4.bb
+similarity index 94%
+rename from meta/recipes-extended/cracklib/cracklib_2.10.3.bb
+rename to meta/recipes-extended/cracklib/cracklib_2.10.4.bb
+index 48dd72d5f9..1c7116915c 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.10.3.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.10.4.bb
+@@ -12,7 +12,7 @@ EXTRA_OECONF = "--without-python --libdir=${base_libdir}"
+ SRC_URI = "git://github.com/cracklib/cracklib;protocol=https;branch=main;tag=v${PV} \
+            "
+ 
+-SRCREV = "e73d5db1789d198b5f9ec44b68b9c775c3e6c042"
++SRCREV = "246592be1a654624965630b748ab4f1ac044f513"
+ S = "${UNPACKDIR}/${BP}/src"
+ 
+ inherit autotools gettext
+-- 
+2.47.1
+
+
+--===============4959635363114080139==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="cracklib-changelog.txt"
 
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGSIZE changed from 35449 to 0 (-100%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: FILELIST: removed all items "/etc/bash_completion.d/dbus-bash-completion.sh /usr/libexec/dbus-bash-completion-helper"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: RDEPENDS: removed "expat (['>= 2.9.0']) glibc (['>= 2.44+git0+34106fee69']) dbus-glib (['>= 0.114']) glib-2.0 (['>= 2.90.0']) dbus-lib (['>= 1.16.2'])"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGSIZE changed from 988216 to 883504 (-11%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: FILELIST: removed "/usr/lib/libdbus-glib-1.so.2.3.6", added "/usr/lib/libdbus-glib-1.so.2.3.7"
-Changes to packages/x86-64-v3-poky-linux/dbus-glib (sysroot):
-  /usr/lib/libdbus-glib-1.so.2 changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
-  /usr/lib/libdbus-glib-1.so changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
-  /usr/lib/libdbus-glib-1.so.2.3.6 moved to /usr/lib/libdbus-glib-1.so.2.3.7
+v2.10.5-dev
+v2.10.4 Basic support for other compression in cracklib-format
+        Improvements in python support and explicitly raising minimum python
+        version requirement. (Pino Toscano)
+        Improvements and fixes for autotools build system with support for new
+        gettext 1.0 (Guillem Jover)
+        Security and undefined behavior improvements (Gabe Dijkstra)
 
---===============8360611243571787379==
+--===============4959635363114080139==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-dbus-glib-upgrade-0.114-0.116.patch"
+ filename="0001-cracklib-upgrade-2.10.3-2.10.4.patch"
 
-RnJvbSBiYTJmMDZkZmIzMTljMDk5MzBjZGY5Yjk1OGMyMTkxZDkyZDQ1ODYwIE1vbiBTZXAgMTcg
+RnJvbSA1ZDE1ZmZkNGY0ZDI5NTI3MWE5MTIyNTU5ZDI3ZDNjNWE5MDdhNzgwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMjkgT2N0IDIwMjYgMDU6MjI6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-YnVzLWdsaWI6IHVwZ3JhZGUgMC4xMTQgLT4gMC4xMTYKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVu
-dC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rp
-bmc6IDhiaXQKCmRidXMtZ2xpYiAwLjExNiAoMjAyNi0wOS0yNykKPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PQoKVGhlIOKAnFRoaXMgaXMgd3JvbmcgdG9vbCEgTm8uIE5vdCBnb29kLiBOby4g
-TmV2ZXIgdXNlIHRoaXPigJ0gcmVsZWFzZS4KQnVnIGZpeGVzOgoK4oCiIFJlbW92ZSBgR19HTlVD
-X0NPTlNUYCBmcm9tIGBfZ2V0X3R5cGUoKWAgZnVuY3Rpb25zLgogIFRoaXMgY2FuIGNhdXNlIG1p
-c2NvbXBpbGF0aW9uIHdpdGggZ2NjLTE2LgogIChkYnVzLWdsaWIhNywgRGF2aWQgTm9ydGgpCgri
-gKIgRGlzYWJsZSBiYXNoIGNvbXBsZXRpb24gYnkgZGVmYXVsdC4KICBUaGlzIGlzIGFuIHVubWFp
-bnRhaW5lZCBiYXNoIGNvbXBsZXRpb24gZm9yIGRidXMtc2VuZCgxKSwKICB3aGljaCBpcyBub3Qg
-cGFydCBvZiBHTGliLCBhbmQgYXBwYXJlbnRseSBkb2Vzbid0IHdvcmsgYXMgaW50ZW5kZWQuCiAg
-Rm9yIGEgZGJ1cy1zZW5kIGVxdWl2YWxlbnQgd2l0aCBzaGVsbCBjb21wbGV0aW9uLCBwbGVhc2Ug
-dHJ5IEdMaWIncwogIGdkYnVzKDEpIG9yIHN5c3RlbWQncyBidXNjdGwoMSkuIChkYnVzLWdsaWIh
-NSwgU2ltb24gTWNWaXR0aWUpCi0tLQogLi4uL2RidXMve2RidXMtZ2xpYl8wLjExNC5iYiA9PiBk
-YnVzLWdsaWJfMC4xMTYuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZGJ1
-cy97ZGJ1cy1nbGliXzAuMTE0LmJiID0+IGRidXMtZ2xpYl8wLjExNi5iYn0gKDk1JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNC5iYiBiL21ldGEv
-cmVjaXBlcy1jb3JlL2RidXMvZGJ1cy1nbGliXzAuMTE2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2RidXMvZGJ1cy1nbGliXzAuMTE0LmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNi5iYgppbmRleCBj
-NjgyNGQ1Njg4Li42MjQ0ODE1ZDMwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9kYnVz
-L2RidXMtZ2xpYl8wLjExNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xp
-Yl8wLjExNi5iYgpAQCAtMTYsNyArMTYsNyBAQCBERVBFTkRTID0gImV4cGF0IGdsaWItMi4wIHZp
-cnR1YWwvbGliaW50bCBkYnVzLWdsaWItbmF0aXZlIGRidXMiCiBERVBFTkRTOmNsYXNzLW5hdGl2
-ZSA9ICJnbGliLTIuMC1uYXRpdmUgZGJ1cy1uYXRpdmUiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9k
-YnVzLmZyZWVkZXNrdG9wLm9yZy9yZWxlYXNlcy9kYnVzLWdsaWIvZGJ1cy1nbGliLSR7UFZ9LnRh
-ci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjMDljNWMwODViMmEwZTM5MWI4ZWU3ZDc4M2Ex
-ZDYzZmU0NDRlOTY3MTdjYzE4MTRkNjFiNWU4ZmMyODI3YTdjIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gImUzZjNkNDQ4N2UyODgzODAwNzcwZWQ1ODk5ZWQxMTFiZGM0YmE3MDU2YWYzNGEyNTVjNGM0
-NmFkOGEyNDg2ZjMiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyBnZXR0ZXh0IGJhc2gt
-Y29tcGxldGlvbiBndGstZG9jCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFRodSwgMjkgT2N0IDIwMjYgMDU6Mjk6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+cmFja2xpYjogdXBncmFkZSAyLjEwLjMgLT4gMi4xMC40Cgp2Mi4xMC41LWRldgp2Mi4xMC40IEJh
+c2ljIHN1cHBvcnQgZm9yIG90aGVyIGNvbXByZXNzaW9uIGluIGNyYWNrbGliLWZvcm1hdAogICAg
+ICAgIEltcHJvdmVtZW50cyBpbiBweXRob24gc3VwcG9ydCBhbmQgZXhwbGljaXRseSByYWlzaW5n
+IG1pbmltdW0gcHl0aG9uCiAgICAgICAgdmVyc2lvbiByZXF1aXJlbWVudC4gKFBpbm8gVG9zY2Fu
+bykKICAgICAgICBJbXByb3ZlbWVudHMgYW5kIGZpeGVzIGZvciBhdXRvdG9vbHMgYnVpbGQgc3lz
+dGVtIHdpdGggc3VwcG9ydCBmb3IgbmV3CiAgICAgICAgZ2V0dGV4dCAxLjAgKEd1aWxsZW0gSm92
+ZXIpCiAgICAgICAgU2VjdXJpdHkgYW5kIHVuZGVmaW5lZCBiZWhhdmlvciBpbXByb3ZlbWVudHMg
+KEdhYmUgRGlqa3N0cmEpCi0tLQogLi4uL2NyYWNrbGliL3tjcmFja2xpYl8yLjEwLjMuYmIgPT4g
+Y3JhY2tsaWJfMi4xMC40LmJifSAgICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2Ny
+YWNrbGliL3tjcmFja2xpYl8yLjEwLjMuYmIgPT4gY3JhY2tsaWJfMi4xMC40LmJifSAoOTQlKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jcmFja2xpYi9jcmFja2xpYl8yLjEw
+LjMuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3JhY2tsaWIvY3JhY2tsaWJfMi4xMC40LmJi
+CnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9j
+cmFja2xpYi9jcmFja2xpYl8yLjEwLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9jcmFja2xpYi9jcmFja2xpYl8yLjEwLjQuYmIKaW5kZXggNDhkZDcyZDVmOS4uMWM3MTE2OTE1
+YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2NyYWNrbGliL2NyYWNrbGliXzIu
+MTAuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3JhY2tsaWIvY3JhY2tsaWJfMi4x
+MC40LmJiCkBAIC0xMiw3ICsxMiw3IEBAIEVYVFJBX09FQ09ORiA9ICItLXdpdGhvdXQtcHl0aG9u
+IC0tbGliZGlyPSR7YmFzZV9saWJkaXJ9IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2Ny
+YWNrbGliL2NyYWNrbGliO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluO3RhZz12JHtQVn0gXAog
+ICAgICAgICAgICAiCiAKLVNSQ1JFViA9ICJlNzNkNWRiMTc4OWQxOThiNWY5ZWM0NGI2OGI5Yzc3
+NWMzZTZjMDQyIgorU1JDUkVWID0gIjI0NjU5MmJlMWE2NTQ2MjQ5NjU2MzBiNzQ4YWI0ZjFhYzA0
+NGY1MTMiCiBTID0gIiR7VU5QQUNLRElSfS8ke0JQfS9zcmMiCiAKIGluaGVyaXQgYXV0b3Rvb2xz
+IGdldHRleHQKLS0gCjIuNDcuMQoK
 
---===============8360611243571787379==--
+--===============4959635363114080139==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 958 .bb files complete (0 cached, 958 parsed). 1997 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-d5bac216d8d2bfcb482cd6b69e2dcd669fdf34d4"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:d5bac216d8d2bfcb482cd6b69e2dcd669fdf34d4"
+meta-yocto-bsp       
+meta-poky            = "master:82013b83db7ba41da07694e201a7c43f561a9e00"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 175 Local 157 Mirrors 0 Missed 18 Current 194 (89% match, 95% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 345 of 369 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_spdx_setscene)
+NOTE: Running task 706 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_recipe_qa)
+NOTE: Running task 708 of 1029 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_recipe_qa)
+NOTE: recipe cracklib-2.10.4-r0: task do_recipe_qa: Started
+NOTE: recipe zlib-native-1.3.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe cracklib-native-2.10.4-r0: task do_recipe_qa: Started
+NOTE: recipe zlib-native-1.3.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 369 of 369 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.3.2.bb:do_create_recipe_spdx_setscene)
+NOTE: recipe zlib-native-1.3.2-r0: task do_create_recipe_spdx_setscene: Started
+NOTE: recipe zlib-native-1.3.2-r0: task do_create_recipe_spdx_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 997 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_create_recipe_spdx)
+NOTE: recipe cracklib-2.10.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1000 of 1029 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_fetch)
+NOTE: recipe cracklib-native-2.10.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1001 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_fetch)
+NOTE: recipe cracklib-native-2.10.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe cracklib-2.10.4-r0: task do_fetch: Started
+NOTE: recipe cracklib-native-2.10.4-r0: task do_fetch: Started
+NOTE: recipe cracklib-native-2.10.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1002 of 1029 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_create_recipe_spdx)
+NOTE: recipe cracklib-2.10.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe cracklib-2.10.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe cracklib-2.10.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1003 of 1029 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack)
+NOTE: recipe cracklib-2.10.4-r0: task do_unpack: Started
+NOTE: recipe cracklib-native-2.10.4-r0: task do_fetch: Succeeded
+NOTE: Running task 1004 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack)
+NOTE: Running task 1005 of 1029 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe cracklib-native-2.10.4-r0: task do_unpack: Started
+NOTE: recipe cracklib-native-2.10.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe cracklib-native-2.10.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe cracklib-2.10.4-r0: task do_unpack: Failed
+NOTE: recipe cracklib-native-2.10.4-r0: task do_unpack: Failed
+NOTE: Tasks Summary: Attempted 1005 tasks of which 996 didn't need to be rerun and 2 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261029052857.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261029052857.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 2 tasks failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/cracklib/2.10.4/temp/log.do_unpack.4165764
+  virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cracklib-native/2.10.4/temp/log.do_unpack.4165859
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: cracklib-2.10.4-r0 do_unpack: Bitbake Fetcher Error: FetchError("The revision the git tag 'v2.10.4' resolved to didn't match the SRCREV in use (3b38d097102e34b50b5a1c2a8ddd1541172de85a vs 246592be1a654624965630b748ab4f1ac044f513)", 'git://github.com/cracklib/cracklib;protocol=https;branch=main;tag=v2.10.4')
+ERROR: cracklib-native-2.10.4-r0 do_unpack: Bitbake Fetcher Error: FetchError("The revision the git tag 'v2.10.4' resolved to didn't match the SRCREV in use (3b38d097102e34b50b5a1c2a8ddd1541172de85a vs 246592be1a654624965630b748ab4f1ac044f513)", 'git://github.com/cracklib/cracklib;protocol=https;branch=main;tag=v2.10.4')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/cracklib/2.10.4/temp/log.do_unpack.4165764
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack) failed with exit code '1'
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cracklib-native/2.10.4/temp/log.do_unpack.4165859
+ERROR: Task (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/cracklib/cracklib_2.10.4.bb:do_unpack) failed with exit code '1'
+
+--===============4959635363114080139==--
