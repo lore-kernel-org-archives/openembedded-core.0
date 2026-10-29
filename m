@@ -1,119 +1,120 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17819.1793295761012383139
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1907.1793301632818340939
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 10:42:41 -0700
+ Thu, 29 Oct 2026 12:20:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=rv44TvYo;
- spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: vinicius.eduardo.pedrosa@gmail.com)
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-7c3cecbda48so532024137.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 10:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793295760; x=1793900560; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dOptRBHreKUu27j4sN5ODspH1Sx7vSnqCRPaXgeia6s=;
-        b=rv44TvYoY2q+Vl9SpSH4wtWTWh7EG5ujGyqrh3bPjl+2fwANk9XhDHTz/h0Gy6fNCd
-         EbIwixHqNQKDANYlfyvLoo2eXNDXiznBADJ98abi3oTVGLrafAIPr1M/Ad9XZR+koEIY
-         ZK7+Ys1T8DWv3LMgl/ZiPq4v+pbpaVoHFnsnGnJlxRkZjWynK9ZA3xFeuKn1+k3YSOs9
-         AnZ711P3ydM4wpro3ZrEUn0eNdAhZSWqIKWIJwpjRqaCF3etbjDkTlPiJWo0mDVnegLJ
-         p2CaV7HL1gu6OiTyF+YaW0nNIxsMuA5dxnB124JPnvkClChVgTG4dmJLMpk29blJoFwC
-         Slsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793295760; x=1793900560;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dOptRBHreKUu27j4sN5ODspH1Sx7vSnqCRPaXgeia6s=;
-        b=JZBCS7g8QF3pR1Le31CLniFBqvJCYAObpYbzOWc6j8Chye6q5YbX4sLNc6OEbvyt3q
-         LZh0rYIcm13DTkLw8i2ExokG4uCNtXHpjzM/fw3kSzyQxZl3g/WUextHCX6NssqK5wXY
-         cSsaDjaXL5ezZqV+3uyemV/WdlWsELk3L2YoH4oM5wYx4vvvAJpIwA6o4meJXdkUAn+P
-         ER8aj6/4kMgmHwAWm/OEz6VUCSBc6ycozg2/NQU2Q+G1Qc0ebap4a634s6dKNkWhdvW1
-         k30w93f9gioZMX1up2fAWHUNN76j05T22I+JHcu1YvWgvbmp1tijm6rL4s2Ew/pbZhNb
-         OgMw==
-X-Gm-Message-State: AFq9FYJtH0ghYL1XTTvck0hJMNxKUS4PwFdI0eYUusvLzxSbesvqZCYh
-	/gHN/cDWl+EwqLbY8Up/BD8t2Jd+XEgvSuq95csWAH3qiS7qyKOS8UO+2ID8oyyEuEc=
-X-Gm-Gg: AYBFou1tZkcTLvcOEQm3LGby/QKf+/A/I5mcn5BkqECR7U1B3KS2YJpFuECAg9Pc5cy
-	cshF0HhaqC77qZlsBGEbGPB4EdpgVOKXxRONJ3o3OADyeI8vJyWYrnuSk/7CfBcgD0AXkoatl4s
-	fPuJ9bzuvBtBdmTRtX4Kabiz1qaufqQyHvMeq33jPp9tsNh9VsyJYpm7BPRY4sQvUizks1lyyQC
-	KbrNEGifByYU+PPu43yFDjSd1b3sfVcm8u4jlRAFbeg/Pa8+m1AsW6uCVVIMyEQo+ICjgSISmk/
-	Dj4hlfxiNbfahyOb8zYlAYQ9Gj2aJt6YNCgMahQ/moSTeje2/Nk0RbnxA6Re8xKLz0AuPMvJE5V
-	FONt+utPdXRMA8vuTi/JdNT/1HAzh92LxfLlmntCj3m4zZcQ7IBZciQVdLbZeS7Tkzc9QLJvQLz
-	/6bJihhqqIHqh3CyLT4UNqDUUxugjFEql52a3fb5C2hfW/u76lvCdNQw+nYmCkqPoNHy6pqBAOT
-	ol0PDmY43za4DxUBwwWckVG4a/HA1ixiVLkO7UcZ4iXdHiJK9O5SmPrgXrUNmvvh9SdQn4Vlc5w
-	IzxBrEK2kW+bRfubYGdDbRoAWFmnZEbWVOkclviZ0vjgVFERsq+GU41QT8O4o1qBch/CTHeNfgO
-	zGQRCO+QfUY2Aj1RYyUUcKiR1BwOdIrUgrHdT
-X-Received: by 2002:a05:6102:f08:b0:7c3:e156:da3c with SMTP id ada2fe7eead31-7d03a48f298mr3246280137.15.1793295759848;
-        Thu, 29 Oct 2026 10:42:39 -0700 (PDT)
-Return-Path: <vinicius.eduardo.pedrosa@gmail.com>
-Received: from MaquinaLab.. ([179.179.238.247])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec67a2d0dfsm139408e0c.7.2026.10.29.10.42.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 10:42:38 -0700 (PDT)
-From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [PATCH v2] kernel.bbclass: add gzip-native to DEPENDS
-Date: Thu, 29 Oct 2026 14:42:29 -0300
-Message-ID: <20261029174229.3427875-1-vinicius.eduardo.pedrosa@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=q8e6l02s;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 7E0C81A13AD;
+	Thu, 29 Oct 2026 19:20:30 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 433F26076A;
+	Thu, 29 Oct 2026 19:20:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 80E2E10328F94;
+	Thu, 29 Oct 2026 20:20:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793301625; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=rmCPIeiF0ha5jYfsHQzJWBH6R/NKvy3/EO5GORauvnE=;
+	b=q8e6l02sSFPBI0fxT3JTAW2A5bHwSjWV/MwGQY1EzKvvDNgD7sjr/Wn9p8qtptF9jF5M6N
+	qzOKzLuoRevR06ATpJhPKgSNlzT0sgyLQwuWTanu0dGQ9rB4dKyuy+bkGiqoNoDZZNC+sM
+	g9qHTmKRqOKeUS4MwdeMTjyyyqNSU/imhKGFbOSQjSHanmIIOyeNLbx0/W6KaVEcSOOXyh
+	qx4BLjSc2Y2RtPy2d10beYuQQiPumOoVrPKt8kHygeqr/unsJdAbxttjD3hRgwlY7MHX8F
+	NRGFJQZqh9OPWmUbOyNNdNPUYwKmYSuXegUWWvgMuZle/q/AgEAP1JBrhQiYww==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 29 Oct 2026 20:20:23 +0100
+Message-Id: <DMHKDCKTNA0P.36QFAT6G2VED4@bootlin.com>
+Subject: Re: [OE-core][PATCH v7 7/8] layer.conf: Fix initramfs-framework not
+ knowing which udev it has
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261027224931.385138-1-JPEWhacker@gmail.com>
+ <20261028220609.1348489-1-JPEWhacker@gmail.com>
+ <20261028220609.1348489-8-JPEWhacker@gmail.com>
+In-Reply-To: <20261028220609.1348489-8-JPEWhacker@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 17:43:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248970
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 19:20:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248971
 
-gzip-native is only in do_deploy[depends]. On a fresh work directory,
-do_compile runs the host gzip to create kernel/config_data.gz and,
-with CONFIG_KERNEL_GZIP, the compressed kernel payload.
+On Wed Oct 28, 2026 at 11:04 PM CET, Joshua Watt via lists.openembedded.org=
+ wrote:
+> The SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS from initramfs-framework to eudev
+> and systemd meant that it would not correctly update when switching udev
+> providers (for example, when switching from the "poky" distro to
+> "poky-altcfg" distro). Fix this by removing both entries.
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
 
-do_unpack cleans ${B} but not the recipe sysroot. After do_deploy has
-run once, a rebuild from do_unpack picks up pigz from gzip-native
-instead. Same .config, same uncompressed IKCONFIG data, but
-config_data.gz and the kernel image come out different.
+Hi Joshua,
 
-Add gzip-native to DEPENDS so the same compressor is used from the
-first do_compile, and drop it from do_deploy[depends], which DEPENDS
-now covers.
+It looks like we have two failing ptests:
 
-Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
----
+2026-10-29 13:59:49,255 - oe-selftest - INFO - containerimage.ContainerImag=
+eTests.test_expected_files (subunit.RemotedTestCase)
+2026-10-29 13:59:49,258 - oe-selftest - INFO -  ... FAIL
+...
+2026-10-29 16:43:44,508 - oe-selftest - INFO - FAIL: containerimage.Contain=
+erImageTests.test_expected_files (subunit.RemotedTestCase)
+2026-10-29 16:43:44,508 - oe-selftest - INFO - ----------------------------=
+------------------------------------------
+2026-10-29 16:43:44,511 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/containerimage.py", line 79, in tes=
+t_expected_files
+    bitbake('container-test-image')
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/utils/commands.py", line 247, in bitbake
+    return runCmd(cmd, ignore_status, timeout, output_log=3Doutput_log, **o=
+ptions)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/utils/commands.py", line 214, in runCmd
+    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
+s" % (command, result.status, exc_output))
+AssertionError: Command 'bitbake  container-test-image' returned non-zero e=
+xit status 1:
+...
+ERROR: linux-dummy-1.0-r0 do_deploy: No deployed artifacts found in /srv/po=
+kybuild/yocto-worker/oe-selftest-debian/build/build-st-2057211/tmp/work/x86=
+-64-v3-poky-linux/linux-dummy/1.0/deploy-linux-dummy
 
-Notes:
-    Changes in v2:
-    - drop gzip-native from do_deploy[depends], as Bruce suggested. The
-      modules tarball in do_deploy still gets pigz: do_deploy reaches
-      gzip-native through do_install (checked with bitbake -g, not with
-      a build).
-    - kept Bruce's Ack, the only change is the one he suggested
-    
-    v1: https://patchwork.yoctoproject.org/project/oe-core/patch/20261029124742.3223868-1-vinicius.eduardo.pedrosa@gmail.com/
+2026-10-29 16:06:26,004 - oe-selftest - INFO - sstatetests.SStateHashSameSi=
+gs2.test_sstate_allarch_samesigs (subunit.RemotedTestCase)
+2026-10-29 16:06:26,009 - oe-selftest - INFO -  ... FAIL
+...
+AssertionError: {'nat[236063 chars]/do_package_write_rpm': '1c255309c294370=
+cd4b42[66420 chars]25f'} !=3D {'nat[236063 chars]/do_prepare_recipe_sysroot=
+': 'ec112619862bfba2[66420 chars]25f'}
+  {'adwaita-icon-theme/do_compile': 'a25b554f7e8661288308f43852443b92aab5f2=
+645308eb21ab8bcce1c016f7b7',
+   'adwaita-icon-theme/do_configure': '75e61587201815e441c95207df638178c3c2=
+5a68b31df2f59ea53262001118b6',
+   'adwaita-icon-theme/do_create_package_spdx': 'f835ed6c0081ae4a047aa7e79c=
+c8a9e6e655ec760e615afc1960f3aec4779703',
+   'adwaita-icon-theme/do_create_recipe_spdx': '4dbac02267e196c377e849a6b6c=
+12e8474f35e7d53ea5fe02a9dff6f3da5a78c',
+   'adwaita-icon-theme/do_create_spdx': '5a1f1516ddb2b6fdbd73bf4a07a60e0c5e=
+89d29e27a4f2be776071d15f34efd7',
 
- meta/classes-recipe/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/5152
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/5184
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4968
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 0a6d754..46da867 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -19,14 +19,14 @@ KERNEL_PACKAGE_NAME ??= "kernel"
- KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME") == "kernel") else d.getVar("KERNEL_PACKAGE_NAME") }"
- 
- PROVIDES += "virtual/kernel"
--DEPENDS += "virtual/cross-binutils virtual/cross-cc kmod-native bc-native bison-native"
-+DEPENDS += "virtual/cross-binutils virtual/cross-cc kmod-native bc-native bison-native gzip-native"
- DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lzo", "lzop-native", "", d)}"
- DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.lz4", "lz4-native", "", d)}"
- DEPENDS += "${@bb.utils.contains("INITRAMFS_FSTYPES", "cpio.zst", "zstd-native", "", d)}"
- DEPENDS += "${@bb.utils.contains("KERNEL_IMAGETYPES", "Image.lz4", "lz4-native", "", d)}"
- PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
- 
--do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot gzip-native:do_populate_sysroot"
-+do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
- do_clean[depends] += "make-mod-scripts:do_clean"
- 
- # CPE entries from NVD use linux_kernel, but the raw CVE entries from the kernel CNA have
--- 
-2.43.0
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
