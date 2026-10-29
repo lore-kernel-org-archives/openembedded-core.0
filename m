@@ -1,331 +1,194 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4369.1793244359376647842
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4492.1793244941122457555
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 20:25:59 -0700
+ Wed, 28 Oct 2026 20:35:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=pVlIBqqJ;
- spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-93f20c3aaa5so149092085a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 20:25:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=DeDDEnnA;
+ spf=pass (domain: gmail.com, ip: 209.85.222.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93f1e5d7450so139915785a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 20:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793244358; x=1793849158; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=U/cNMYWjNjBTERPCzRbK78L3m+kTWOHVMKMRmb7LCUQ=;
-        b=pVlIBqqJe+D1WfTnCTDT4H+4RBhcOsPf972cHWh0n2aeonghYf9ueiCHEPJ6ANFwRr
-         4Xcax/wxOERTt2jEMRB0QYKMluPzaiqZtKcPCWIIJGwCuZhjxDCrCUTkSFWOyLZgc2Md
-         SRTxNW8rfJ1zmI4cRM6uS8JAlSIPSLaXofVAENrPwfyWZ4W5x57rVk6KIcHK6dLLaqRH
-         2nX17rtWqfsSjSkwEqo3d9lbvil6C8xT+y2YMxIkTi6SfLUW9z59rGC5HKL7SgMf7eJh
-         ggBis2jwFnrWULNmel1wTiMr53TqGcFrFVRRsuyv5bmTx80NlIMzA76Il/4C9DLPTM3s
-         XiKw==
+        d=gmail.com; s=20260707; t=1793244940; x=1793849740; darn=lists.openembedded.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9+YkE4e37j9RIT5MOPDzuz7RYslYY/DgjlPAIe4fyA0=;
+        b=DeDDEnnAHzS0iszzB0GKJ1otTXCawlQ09/5TZwb9YHSeeuZwavEZK2Oq6Qyr3KIuH6
+         9ubpzFhviV6Wfrmp2u9ReBVqvuYZA87Q+srFry+ez4Dgz95SO2JUlotbmzd1pEHvgTsw
+         9ItLVjBgzaE6cgwPOduWllZzZr+oFnfSYYp8nAijFzIAM7eutmJCgUhBcB/X6bpueRda
+         v1dL0SYQT3eYcQ49cLGHDSEmbGcvSfJsQZ32n0BuXaFhTBdvtMHMQn5S5O3zhvlhdQH/
+         UYOncMNtlhmDHg7C7qXdmpVYrMLCk/od3FXIIVj3IL5RGLNxWtLpyiaSIxIjkVcdwvY6
+         R9qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793244358; x=1793849158;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=U/cNMYWjNjBTERPCzRbK78L3m+kTWOHVMKMRmb7LCUQ=;
-        b=Uro8Ysh8T7Cc8m8LyN0J62dgQh33YdX5sjmb0rvzdkXWSWX/ca78t23S/URDu0HCcs
-         V3FhANkSM0uiwPjtAlDDsR7RP840tRkOvjTbrKgjfz02A5jW9tftIORjleZWbGUa6b3v
-         Z6Dw9H6RezRZeJfi5owSTGkTeI2Q8ajNqHCjABZPOrFClWSzOpyjBmvmZlzhCnvkZ2l/
-         UvUPdf005BybQ2cZLgLtBXUh49OqAlulNEzTU4kmFlmIqFj/Y38h4wHBYf7473SXHBAG
-         WfSIjmRYs6NX4lhkwRQ+8942ioMMP5OZ8a4PZtFgtWvq3VxZK6Y4jeqFQlkL59HQPcUC
-         LdPg==
-X-Gm-Message-State: AFq9FYKlzz6hEqLjrW98dcJBrYWZnpcW4VGJbMzOoC3AWP0tDNWl/WOj
-	F9loxLKh3R8wjeO1tj62xirWeTWDDpKitnjYOrxXhoVH4ccXeu41GZlpuBdj3m2Q
-X-Gm-Gg: AYBFou2TzpeV2JehxefixAxSgV4p2qLTGBoKTkC1AzsmqPLSeirCBKTSg6GIiHawwu4
-	ynsXNeORGoeUPeQuIKJwhR3VsBC4c6dmIsEnCBkG9d3u2IdLE3tY5iQTt0PuHusZmPHcWVuFpNo
-	9yjJaFn6Foy2qhPBOOzg0ujb4mjrC3w1JfUv05FLz2BalmtMPcGTm+6CtE2l4jB4mDm/ofeFNXf
-	XeeBJG5BEq1Y2XIZi73KAcGkWEMhnOqP8HJEKvlE26iyoxQbnaQ6okwJeTUNICRK6gMXPgYTK8m
-	hJbRqeadzc12XBLHqk8sxjb9sxg89SA1HlxQl3/BfpiLI4o7gE9aHyvkKq6XvQoG7rfZyqJbHS8
-	L+yUDOqZWecORRUzfqqv9mRDoeGGUao/64tfr5m556c6ROdR+Z+TYCMkH2eSsbKMcBYP7tUvk+1
-	ikjOKGvMCgTIeVizMbPcDYYLqxbp2pS2JxN2DCKpZlAvK0P/eLxDuV7+KyF9aK61MI+9ulmlg+F
-	pweJCjN8AM7TN7kBuWI/s1b++AaILDgsxEqClICOFxyDsM9Jl4s/fd6sV44+UFLaPIgjzmLYuDp
-	1daUMCXdMXinEGImOSfQzX3BGJef6+HP+0e6rpbeFerJdZ9aPzD/mOkAumA9BP4jC8+J7TogWEt
-	99rsneQjh4mXkb6HZOz/vRAreZkvhPoNROmxk/1rO7pjlQdIMcZjzH+FblCdL0aglh8W8GSR8OP
-	D5yCYl87csORoRCiMy0fVMemzd+ZVKLcx5s3CP2IW2QqGhJg==
-X-Received: by 2002:a05:620a:f06:b0:93f:c7d:1340 with SMTP id af79cd13be357-94408e0bc94mr626877685a.79.1793244358086;
-        Wed, 28 Oct 2026 20:25:58 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793244940; x=1793849740;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9+YkE4e37j9RIT5MOPDzuz7RYslYY/DgjlPAIe4fyA0=;
+        b=XkhpvqSsWA+g0JKyl/m2T3Ry0pUot5aVBuMdlhOcWwq/NfYiVVyFP96f2AKJtac6Xr
+         nOzceOUMQjJ2pHAQ1IRXfxS1+9JutfHahamVEdBUwxIFh5x0dTI5NX/tmu6qrrkcZw2X
+         NSArnv1Lmv6kdjEISsVNtZ7ZjFWnemCQB6X2JEkJG1AtABZbFi0QU3MOYzcetLxqc0Lg
+         r0E7ljnu3ai2onKbqI8/6R+1yFhUdUkkm7IkHzeLTmsTG9JY1QCGFcKlbbMWOFvAJ7ky
+         UVRee/p1/5Wu69x9/Ydj+bcz2RuXc5qQuGfIVJtTLUadUjhufrqC76nkTdjBTBkjgobN
+         AkpA==
+X-Gm-Message-State: AFq9FYKgKRuEnXWMCdlxaNU+6ZSOcDXmIO4sRcjXAXq9sdkyYwuYf5qb
+	iia01tvKIyY+nVvy33qW9gQzRQLwS6jSAqCT0STfMV7b45eM6VBIvSUmZTX7PefD
+X-Gm-Gg: AYBFou2GfKCfQvqO8wDbQIfvmq+0xVBXM1VUWtPndFJWNt8Z6XYrodiGJCOMziDtJaD
+	0NTQFWXQMDojJWuRLliOqtiuUGCf9clnRokWmUBnpnu0bUEpPmbRlsqPtygYMY3CUqGGyGKL9DK
+	k+/5bOwis+KUpYpf3VtAmTEjcIR3iylv55iButU+JiCspXxB+ztrhISBmKDnHCmfe+PKHOkTKQV
+	kjDXlLkFKf57mSWkl5lQtH5jyjCQ+A/8VCva2gbmnb0exEdmYJn0mOjpQzE8twO50et68yGx6EI
+	KSHLEm9jXBlIo5dtrQ6hfAtQ6K89bTmoRmKCmXhZApG47LuAqojj2YQC0nF6GPZM0KbDCn1Z0i6
+	4iZSCccofTfbfUrB/bIlJC7vqhRG8kB1ldeSsA5vEoqzqs1f7eU7fw94RtH1VguYowobWD7y5tj
+	EYlpufLfB/x+qqAq1RVPVfpLmStHS6zSP0IwleUXnHIAqeI1fr3kiW0/Tz2kwf8VXfZnjM4NJhz
+	iMtdpqGq4cKv8ulMOyw46ZiaKOviYhPRF0PWehj3i7hvaCOzTwH6yMo+2WM/H8C+Cl5EoYRZC2D
+	IfoV/FwBIHO/ob8wkGSo90NHNUH6JO5DGCH90gz1GM3vQR37yi8vXpwJivFtR+FEjAzLskhpZBd
+	+RgO5qr0O6AaSBCV4oPP8ta1oPf1YRA1T9e5XVv9lxwiXxq9rx1WlDmdmAJFalurj0RIkzP+zqw
+	==
+X-Received: by 2002:a05:620a:4044:b0:940:f53d:5eb with SMTP id af79cd13be357-94408ccad65mr670946685a.35.1793244939777;
+        Wed, 28 Oct 2026 20:35:39 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from bruce-XPS-8940.localdomain (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47bda586sm147529056d6.8.2026.10.28.20.25.52
+Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f0787d96sm1420504685a.28.2026.10.28.20.35.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2026 20:25:53 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [meta-yocto-bsp][PATCH 10/11] yocto-bsps: update to v6.18.59
-Date: Wed, 28 Oct 2026 23:25:25 -0400
-Message-ID: <20261029032527.3150782-11-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261029032527.3150782-1-bruce.ashfield@gmail.com>
-References: <20261029032527.3150782-1-bruce.ashfield@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 03:26:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248867
-Content-Type: text/plain; charset="utf-8"
-
+        Wed, 28 Oct 2026 20:35:37 -0700 (PDT)
+Message-ID: <6ae2bf09.0a372733.3ab85e.5e55@mx.google.com>
+Date: Wed, 28 Oct 2026 20:35:37 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Prasanth R <ragaprasanth@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, prasanth.r@lineo.co.jp
+Subject: Re: [PATCH] kernel.bbclass: fix -dev files when KERNEL_PACKAGE_NAME is PN
+In-Reply-To: <20261029024010.2113092-1-ragaprasanth@gmail.com>
+References: <20261029024010.2113092-1-ragaprasanth@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+List-Id: <openembedded-core.lists.openembedded.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 03:35:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248875
 
-Updating linux-yocto/6.18 to the latest korg -stable release that comprises
-the following commits:
+On Wed, Oct 29, 2026 at 11:40 AM Prasanth R <ragaprasanth@gmail.com> wrote:
+>
 
-    1253a6aa5d104 Linux 6.18.59
-    9a5d65b06dc33 smb: client: drain outstanding I/O before truncating on O_TRUNC open
-    a4c584ea79d95 ice: fix crash in ethtool offline loopback test
-    9f158a9b10e1e ice: fix broken Rx on VFs
-    f4a25618c3683 ice: switch to Page Pool
-    0026267561bc6 ice: drop page splitting and recycling
-    c8bd04221f6a8 ice: remove legacy Rx and construct SKB
-    4d143608a0445 smb: client: fix data corruption with concurrent writes and O_TRUNC
-    c027f8b429dbb vsock/vmci: validate packet source for connected sockets
-    ecd7ead4bf05e ipv4: udp: Create exceptions before socket matching
-    6cd829de69efd vsock/virtio: validate packet source for connected sockets
-    569c34a35fbc9 virtio: set skb owner of virtio_transport_reset_no_sock() reply
-    f320b85c90fe5 workqueue: Fix unbound pool lifetime for pending pwqs
-    299912bbc6455 workqueue: release pwq pools by pool type
-    94d13387b96e5 io_uring/cancel: don't spin on local work the task can't run
-    7123c79206e49 io_uring/cancel: move cancelation code from io_uring.c to cancel.c
-    76cb14d6f1433 io_uring/cancel: move __io_uring_cancel() into cancel.c
-    755e88e78beaf io_uring/cancel: move request/task cancelation logic into cancel.c
-    de477667b890b cifs: add revalidation on FSCTL failure in smb2_duplicate_extents()
-    242c7b3a71ddf smb/client: refresh allocation size after duplicate extents
-    8d891c218016b sched_ext: Fix stall when a task enqueued with SCX_ENQ_LAST lands back on its CPU's local DSQ
-    6ac46ae5ac561 drm/amdgpu: free the userptr ranges when a CS fails after parser_bos
-    2058a1fe791bb tracing: Keep the predicate limit separate from program capacity
-    07180a910e9d0 tracing: Fix ignored return value of resize_buffer_duplicate_size()
-    a425e1c687595 sched_ext: idle: Respect task affinity in restricted CPU selection
-    dfcfe2874e7c1 drm/i915/dmc: Harden DMC firmware payload parsing
-    c8b1a48404679 ntfs3: free the sbi after a grace period
-    d977b979081ef fs/ntfs3: fix ntfs_mount_options leak in ntfs_fill_super()
-    129b0a64fe9ac ntfs3: fix double free of sbi->options->nls and clarify ownership of fc->fs_private
-    e0ab437276575 ntfs3: fix use-after-free of sbi->options in cmp_fnames
-    a1647b653549f scsi: st: Fix use-after-free race between st_remove() and st_open()
-    d2f591e6c7304 smb: client: fix multiuser mount with krb5
-    d96f3365ce61c smb: client: fix heap overflow in cifs_do_set_acl()
-    45e60747a9db2 net/sched: cls_flower: validate mask pointer after nla_next()
-    898cb4f2e12a5 ksmbd: zero the FS_OBJECT_ID_INFORMATION buffer before filling it in
-    d8c450ad0d089 ksmbd: initialize FileSystemControlFlags in FS_CONTROL_INFORMATION
-    beba2ef6f66a7 ksmbd: fill in FileSysIdentifier in FS_POSIX_INFORMATION
-    a9f14ea73e82d net: psp: do not inherit the Rx association on clone
-    8243d587a081e net: bridge: mcast: don't truncate the port group walk on teardown
-    80d5db1686b05 ext4: free the sbi after a grace period
-    cad63a7798d6a ASoC: SOF: ipc4-topology: Fix shift-out-of-bounds for aggregated ALH capture
-    c17cc2027773e futex: Fix mm reuse handling for FUT_OFF_MMSHARED
-    dce8f7f03a47b drm/amdgpu: keep the eviction fence until the last handle is closed
-    0caeefed99b37 KVM: x86/mmu: Cope with the SS bit being set in #NPF exit codes
-    7786dde1b5001 KVM: x86/mmu: Preserve nested TDP shadow page tables if they are used as roots
-    dc29c0478b856 netfilter: nft_byteorder: remove multi-register support
-    61f376654fb9d drm/amdgpu: Fix VCE 3 ring align_mask
-    d49fa454c2869 KVM: SVM: Stop toggling virtual VMSAVE/VMLOAD on intercept recalc
-    5dac5c7ba8f5f ipv4: avoid divide by zero in fib_rebalance
-    ba5001db9bb23 s390/pci: Fix leak of uninitialized kernel data in SCLP report
-    34fa3607b7604 s390/ctcm: Prevent XID null dereference
-    813a72beaa5d3 page_pool: keep frag_offset aligned for odd-sized requests
-    40507f59f230d sctp: validate chunk length in the inqueue parser
-    b8b7d28dc2b74 tipc: protect node reset trace dump with node lock
-    f7e82f72b90ce workqueue: Annotate cb_lock nesting when draining a dead BH pool
-    6b26b3d39904c workqueue: Use raise_softirq() to trigger softirq in irq_work handler
-    b6a0e5faf0dca netlink: specs: add missing mask attributes for conntrack dump
-    62ed32a1d4499 netlink: specs: fix the conntrack filter type
-    e20e6b14e3b5c xfs: fix zoned write iomap flags assignments
-    19a1a22029ad3 xfs: fix capability check in xfs
-    e5456dec79c71 xfs: don't hold buffer locks across sync transaction commit in xfs_sync_sb_buf
-    8f2efa742f4cf net/iucv: fix the recvmsg window update
-    3cdd8b1abddeb mac802154: fix data race and NULL deref on local->assoc_dev
-    c8922e7afb058 dm-integrity: require stable writes for internal hash modes
-    fc512700f1413 dm-integrity: fix infinite loop on discard with large tag size
-    40791f07bad61 dm-ebs: fix incorrect device offset check in ebs_ctr()
-    ac5d887ab9359 dm-crypt: fix a tiny race condition in crypt_dec_pending
-    73df2ff409f3d dm cache: fix issue with background work locking
-    de9e8e587c07b dm cache: fix demotion stats in passthrough mode
-    04d020b3d0b58 cifs: don't update i_size in cifs_do_truncate without a cached handle
-    2f9dd8214d421 cgroup: fix spurious SIGKILL of CLONE_INTO_CGROUP children
-    86814e5370068 tcp: fix use-after-free in do_tcp_getsockopt(TCP_CC_INFO)
-    c1804ef016392 tcp: fix use-after-free in do_tcp_getsockopt(TCP_CONGESTION)
-    f641066b0ddcd wifi: p54: validate firmware record lengths
-    09c7cce2e59e6 tracing: Fix hist trigger timestamps for buffered events
-    813e18881c647 tracing: Do not initialize tracefs work if tracing is disabled
-    a866a8a753922 tracing: Check operator stack capacity before pushing
-    7c0c6d88a232a tracing: Take trace_types_lock when dropping the buffer_meta reference
-    c4918c28b1baf tracing: Fix the shift out of bounds in the log2 histogram modifier
-    3a3c4503ba1b4 drm/xe: Bump LRU for external objects on exec and rebind
-    ef82b4d5cb4a3 drm/i915/dmc: Add sanity check for DMC load address
-    22fd3f760845f drm/i915/cx0_phy: Fix ARL-S host bridge detection
-    96d9996e5dbcf drm/exec: don't immediately add prelocked obj to array of locked objs
-    07002a326c7cc drm/amdgpu: report the BO alignment in bytes in GEM_LIST_HANDLES
-    652b1f26125fe drm/amdgpu: don't drop the runtime PM reference twice in amdgpu_gpr
-    05507b9b19f95 drm/amdgpu/sdma3: Work around POLL_REGMEM / FENCE hang
-    6cfc4a25d4f02 drm/amd/pm: add zero fan stop temperature support on smu 14.0.2
-    55a65ef61e277 scsi: libiscsi: Validate the task named by a management response
-    7215a69b6456f scsi: libiscsi: Validate the ITT reflected in a Reject PDU
-    6cadfa6f1f589 scsi: libiscsi: Reject a negative task index from parse_pdu_itt
-    1d91ec793d6c8 scsi: xen/scsifront: Check for a NULL shadow entry on a backend response
-    2effbe746452c scsi: bsg: Pass reply_len to bsg_setup_queue() to fit UFS ARPMB replies
-    029770f5baded ring-buffer: Fix false warning in ring_buffer_map_get_reader()
-    2f1248b728b56 ring-buffer: Fix the sub-buffer array base in rb_meta_subbuf_idx()
-    8512d0312cc0e ring-buffer: Do not show buffer_meta for CPUs without a buffer
-    29469305a9390 perf: Update cgroup time when rotating multiplexed events
-    b67fb3955b07d perf: Track the perf mlock gift separately
-    5d476bb76b7d7 i2c: viai2c-wmt: Fix clock leak in wmt_i2c_probe()
-    d2cb4d7451491 i2c: qcom-cci: Fix HALT_ACK reset request being dropped
-    1f36e4ddd05d5 tracing/histograms: Reject non-stacktrace fields for synthetic stacktrace fields
-    13735c2cf4849 tools: gpio: fix building from the top level with O=
-    77a63d1b813b0 sctp: revalidate output stream after association connect wait
-    6232e93c3036c pinctrl: amd: Clear S4 wake bits when firmware has _AEI
-    5f23e4e3a31da net: rds: fix uninitialized trans dereference in CM event handler
-    2465d27ef90de net/sched: fix use-after-free in __tcf_action_put()
-    568323cddd54f lib/crypto: poly1305: Use memzero_explicit() in poly1305_final()
-    ae6584eaaa4f1 lib/crypto: arm64: Fix lost Poly1305 carry when resuming NEON state
-    492c10662177f namei: test for a negative dentry the way traverse_mounts() does
-    4586ef24ce390 eventfs: Free the eventfs_inode after an rcu grace period too
-    2e10b8a74f55b pid_namespace: make zap_pid_ns_processes() freezable
-    952501bfc6e5e fsnotify: prevent mark additions during connector teardown
-    d00d5f534a823 KVM: nVMX: Reset MMU back to the root MMU if loading L2 state fails for !VM-Entry
-    b77e9622bbade x86/kvm: Don't consume async #PF flags on a kernel #PF in NMI context
-    811fb6d0b0760 watch_queue: Fix note pool publication race in watch_queue_set_size()
-    2b54d3c971a1e unicode: free the map after a grace period
-    d518fc5cced10 bootconfig: give the footer size static_assert a message
-    1a177064f501e autofs: ignore notification errors from a replaced pipe
-    debb0f36bfe3d afs: free the super info after a grace period
-    5078c91f5c84b accel/rocket: search every core slot when a core is removed
-    7249a442ab261 PCI: Don't treat ~0 as ready in pci_dev_wait() with RRS SV
-    7595bacee48bc printk: Postpone kthread startup
-    3eb08f09bfb36 perf: Fix perf_pmu_migrate_context() leaving events behind
-    d0ffb0dc01166 gpio: mxc: fix race between gpiochip registration and IRQ domain setup
-    238f93bd1d063 gpio: mxc: fix wakeup_pads bit operations
-    dab5c228a8468 gpio: mxc: use BIT() macro
-    911f606dd05d7 gpio: mxc: fix both_edges bit operations
-    261802c14e1a3 gpio: mxc: fix race between chained IRQ handler install and probe completion
-    78189c0e35abb gpiolib: fix memory leak in gpiod_set_array_value_complex() on error paths
-    1c9fcfca51e3c calipso: keep BIG TCP payload_len in calipso_skbuff_setattr()
-    e221a7d6f7c91 net/ipv6: Introduce payload_len helpers
-    40c04abcbc34e net: bcmgenet: unshare the skb before writing the control block
-    bdd55b8a8acbf netlink: avoid hashing the network namespace pointer
-    c9fb89246d992 scsi: libsas: Fix SMP IO deadlock during HA resume
-    fbb5a6f0b06fb tracing: probes: error if BTF is required but unavailable
-    4c42ce499ce4b pipe: preserve existing fasync readers on writer setup failure
-    7780f9e828da0 samples: pidfd: fix userprogs typo
-    04d4571c00db6 ocfs2/dlm: Protect the recovery list during debugfs reads
-    de3923caf0772 drm/panthor: fix immortalis condition
-    9b07828b133b3 scsi: target: iscsi: Fix race in discovery auth updates
-    71e12d43ef37e scsi: st: Save the visited block for the partition the drive is in
-    e3bf250a2fda6 nios2: fix __wsum type degradation in csum_fold()
-    e4d45c651d19f spi: tegra114: assert CS GPIO for every transfer in a message
-    21f41b6daf0db drm/xe/oa: Zero OA buffer at allocation
-    6046bb9cb2859 drm/xe: skip eviction of a BO with no resource
-    8d15821aa2de1 ASoC: amd: yc: disable MSI on resume
-    efe1393e783f2 net/mlx5: HWS, fix flow meter offset within its bulk
-    a3516f0704b96 net/mlx5: HWS, release L2 to L3 tunnel reformats to their own pool
-    79071b67182e1 accel/rocket: clear rdev on device init failure
-    06791594274f8 netlink: reset skb headers before unicast and multicast filtering
-    4a9fb8122a19d regmap: Drop map lock during cache init and exit
-    bae057687f615 regcache: Do not overwrite error code when finalizing cache after error
-    b498b70a8174b regcache: Add ->populate() callback to separate from ->init()
-    0a9a172d4cbfc ASoC: nau8822: Fix the 128x oversampling switch bits
-    9a87917b8f3d5 ASoC: wm8978: Fix the 128x oversampling switch bits
-    9b1a72628f125 ASoC: max98371: Fix the Speaker DHT Min Volume bits
-    384e00dd8908b ASoC: pcm3168a: Fix the DAC zero flag polarity bit
-    db3a7a70cc214 ASoC: cs42l52: Fix the NG Type Switch bit
-    856ecf3c600af ASoC: cs42l56: Put the Limiter Cushion control on the limiter register
-    4528f8d38d893 ASoC: stm32: spdifrx: fix synchronization state check
-    d3239b8f4fc46 ASoC: Intel: avs: Reset the stream unless it is already prepared
-    a7c7d0ff87637 net/rds: don't let the rdma_cm destroy an id RDS still owns on route failure
-    c2c5359ef2c33 vsock: treat TCP_CLOSING as once-established
-    fb5fb74fb4fff gpio: nct6694: Mark the GPIO controller as sleeping
-    6b03e354526f6 drm/vc4: hdmi: Move packet RAM enable to PM runtime
-    47b725c17dcb2 pinctrl: sunxi: dt: do not accumulate npins across probe attempts
-    9d0508bcf6743 pinctrl: qcom: ipq5018: replace gcc_plltest with pwm2 on gpio12
-    2ac0256a28e15 power: supply: core: prevent unregistering a power supply while a callback runs
-    dda0df37aabd8 power: supply: generic-adc-battery: Fix temperature IIO channel conversion
-    06e3e6dc2688f tools/power turbostat: Fix add_counter issue if > 24 counters.
-    f573d257aad5a tools/power turbostat: Fix PMT error path fd handling
-    b2af180dbc5f5 tools/power turbostat: Fix CWF PMT off-by-one
-    e2c86984ccc0b tools/power turbostat: Fix fd_perf leak on reset
-    e76e6284de2ba pinctrl: qcom: ipq5018: add missing pwm3 function on gpio13
-    54e54a690bf13 pinctrl: qcom: qcs8300: Fix intr_target_width
-    f47ce27af80b8 Drivers: hv: Don't reset VMBus connection state on error/exit paths
-    2b561786c9076 x86/hyperv: Avoid using per-cpu output page in hv_apicid_to_vp_index()
-    7141331f2d245 Drivers: hv: Avoid infinite retry loop in init_vp_index()
-    c3e5854b2e8b6 power: supply: ds2780: Fix ds2780_get_capacity() returning raw value
-    7de3a5a49410a power: supply: Fix maintenance charge table kernel-doc
-    ea9c08c33d57c ARM: dts: ti/omap: dra7: fix PCIe PHY clock divider definition
-    0992d03e55e5a soc/tegra: fuse: Add missing newline to APBMISC error message
-    07fa8baa78d64 kho: free phys_bits bitmaps using free_page() in __kho_abort()
-    96d2abaa2e328 i2c: qcom-geni: Restore the source-clock selection policy
-    cd3c05651d04b rose: purge rose_neigh->queue on final teardown
-    6b450cf6dd419 ax25: bound REJ-driven fast retransmits with the existing N2 counter
-    c7bdc88b27cc6 ALSA: ctxfi: Use correct DAIO type for da_desc
-    fb5e2dd6565a9 ALSA: ctxfi: Rename SPDIFI1 to SPDIFI_BAY
-    7fca3600e79e9 ALSA: ctxfi: Don't enumerate SPDIF1 at DAIO initialization
-    b48ebe399b4e7 drm/ttm: fix swapped-out resources never leaving their bulk_move range
-    2926d88bb7fc4 Linux 6.18.58
-    2566780c684c9 KVM: x86: Use active memslots for the per-vCPU MMIO cache
-    517404e157395 ksmbd: fix heap out-of-bounds write in krb5_authenticate()
-    88c7c3aa8d0ff wifi: atk9k: Revert "wifi: ath9k: reject short WMI command responses"
-    5c0940abe76c9 bpf, sockmap: Account for receive queue in FIONREAD without a verdict program
-    8b7748e9904f8 kho: free chunks using free_page() instead of kfree()
-    a6d84b420a848 io_uring/kbuf: don't charge provided buffer rings to RLIMIT_MEMLOCK
-    e46794d1936ca io_uring: do not charge the SQ/CQ rings to RLIMIT_MEMLOCK
-    314b72d5e8273 rose: hold a reference on incoming sockets queued for accept()
-    30ec3025b7715 USB: iowarrior: fix use-after-free on disconnect race
-    e8ed9a1dfc74f usb: iowarrior: remove inherent race with minor number
-    c24d2e190b955 selinux: allow multiple opens of /sys/fs/selinux/policy
-    93a7f297362de mm/damon/core: fix damos_walk() vs kdamond_fn() exit race
-    7e54ed8a780c8 mm/damon/core: cancel damos_walk() before damon_ctx->kdamond reset
-    7ea3850b9ce00 xfs: close crash window in attr dabtree inactivation
-    4b963fddf470f xfs: factor out xfs_attr3_leaf_init
-    50144efd23ad9 xfs: factor out xfs_attr3_node_entry_remove
-    0f39d936a3493 ima: Fix stack-out-of-bounds in is_bprm_creds_for_exec()
-    265ca3f6524be ima: Access decompressed kernel module to verify appended signature
-    7d6fd50746482 fat: stop reading directory entries past the end-of-directory marker
-    f6c1e709a4f91 cifs: fix time_last_write stamp placement in setattr/truncate paths
-    2efa187fd4c9b drm/xe/i2c: cancel the client work on remove
-    97e736000731f scsi: ufs: core: Avoid unsafe MMIO reads in ufshcd_mcq_compl_all_cqes_lock()
-    ee01d48f0f086 scsi: ufs: core: Add a comment block above ufshcd_mcq_compl_all_cqes_lock()
-    e36bac5923a3b scsi: ufs: core: Add debug log for MCQ command timeout
-    d12c834b97c36 scsi: ufs: core: Move an assignment in ufshcd_mcq_process_cqe()
-    a34a230ccea1b scsi: ch: Do not keep references to data transfer element devices
-    8176ec7e36987 scsi: ufs: core: Decouple CQ sweep from request iterator in MCQ
-    9e8fc7972b398 riscv: patch: fix handling of bpf-jit execmem addresses
-    420bf39a22a73 riscv: patch: Avoid early phys_to_page()
-    08275dcfbfc3b net: mana: reserve RX buffer headroom to fix forwarding performance
-    eececf7c3a679 net: xilinx: axienet: Free outstanding DMA buffers on dmaengine stop
-    cc7732b8549ec Bluetooth: RFCOMM: connect the session socket without rfcomm_mutex
-    638ee6bca1975 sched_ext: Fix CPU hotplug hang when a dying CPU's tasks sit in the BPF scheduler
-    454b67fcc28c1 dm-integrity: validate the superblock on resume
-    2e25842f0e442 dm-integrity: fix NULL pointer dereference when the 'R' flag is used
-    0c9d4f9c66ca7 wifi: mt76: connac: tolerate inactive BSS deactivation
-    22732b0f290ac nfsd: fix all-zero stateid in CB_OFFLOAD for async COPY
-    0c5595cba7224 mm/mremap: fix locked_vm leak from MREMAP_DONTUNMAP self-merge
-    5720bf6b91295 mm/mremap: fix locked_vm leak by splitting VMA for MREMAP_DONTUNMAP
-    fdf4f011c6004 iavf: send MAC change request synchronously
-    5aa9efb559174 iavf: iavf_virtchnl_completion: drop duplicate ether_addr_equal() test
-    b030fde644501 drm/amd: Create a device link between APU display and XHCI devices
-    2d06cb25a497d ip6_gre: remove obsolete ERSPAN PMTU update
-    903a2ab8325a2 PCI: dwc: Return -EIO from dw_pcie_wait_for_link() if device is not active
-    adc0d81b4d415 PCI: dwc: Return -ENODEV from dw_pcie_wait_for_link() if device is not found
-    e32aa1d85126e RDMA/erdma: Use IRQ-safe XArray helpers for QP and CQ tables
-    3c03f6f7c6f2d usb: gadget: f_hid: Add missing error code
-    7820bca8cb207 spi: mpc52xx: clean up interrupt handling
+Can you elaborate on the configuration / build that you are doing that
+is triggering this ? You have multiple kernels ? and you are setting
+KERNEL_PACKAGE_NAME =3D  "${PN}" as part of that ? How you ran into this
+is important for understanding the context. It could be that we can
+avoid the issue in another way.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> With KERNEL_PACKAGE_NAME =3D "${PN}", FILES:${KERNEL_PACKAGE_NAME}-dev and
+> FILES:${PN}-dev from bitbake.conf become the same variable and the
+> bitbake.conf value wins. The same happens for -dbg. The kernel files are
+> then not packaged and do_package fails:
 
-diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-index 4ac68ca..38c920f 100644
---- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-+++ b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-@@ -8,4 +8,4 @@ KMACHINE:genericx86 ?= "common-pc"
- KMACHINE:genericx86-64 ?= "common-pc-64"
- 
- KBRANCH:genericarm64 ?= "v6.18/standard/genericarm64"
--SRCREV_machine:genericarm64 ?= "be5c5b2879fa33294d498a2cafdaf012bda1f21e"
-+SRCREV_machine:genericarm64 ?= "12c82799f6285726ff94453e5cdcad7e753c30c5"
--- 
-2.43.0
+Also for -dbg, the bitbake.conf value is a superset of what the kernel class
+sets, so nothing is actually lost there. It is just the key collision
+warning. Worth saying that, so it is clear that -dev is the real breakage.
 
+>
+>   ERROR: linux-yocto-7.2.8+git-r0 do_package: QA Issue: linux-yocto:
+>   Files/directories were installed but not shipped in any package:
+>     /boot/System.map-7.2.8-yocto-standard
+>     /boot/config-7.2.8-yocto-standard
+>     /boot/Module.symvers-7.2.8-yocto-standard
+>
+> This matters when a second kernel recipe. So, Rename the kernel variables
+> to the ${PN} names before the keys are expanded, so the kernel values are k=
+ept.
+
+This sentence is broken. Can you say who actually sets
+KERNEL_PACKAGE_NAME =3D "${PN}" and why? I assume an alternate/second
+kernel recipe, but that should be spelled out. This is the specifics
+that are hinted at in my opening question.
+
+I'd also like the commit message to explain why an event handler is
+needed. My first reaction was that this was more complex than it needed
+to be. But key expansion happens (in sorted order) before anonymous python
+runs, so by the time __anonymous() sees it, the kernel value is already
+gone. Fixing it in anonymous python would also clobber any :append to
+FILES:${KERNEL_PACKAGE_NAME}-dev from a bbappend. A :append in the class
+keeps the files but still triggers the "Variable key ... replaces original
+key" warning on every parse. So renaming before expansion is the right
+place. Just say so in the commit, so the next person doesn't have to work
+it out again.
+
+>
+> Remove the old warning about bug 11905, which was closed as not a bug.
+
+Fine. 11905 is the same key expansion ordering issue, and that is
+expected bitbake behaviour, which is why the fix belongs here.
+
+>
+> AI-Generated: Uses Claude
+> Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
+> ---
+>
+> Notes:
+>     Tested on master: without this patch do_package fails with the
+>     QA error above; with it the build passes with no warnings and linux-yoc=
+to-dev
+>     contains System.map, Module.symvers and the config.
+
+Please also confirm the default case (KERNEL_PACKAGE_NAME =3D "kernel") is
+unchanged. It should be, since the handler returns early, but it is the
+case almost everyone uses.
+
+Also note in the commit that with KERNEL_PACKAGE_NAME =3D "${PN}", the -dev
+package no longer picks up the bitbake.conf default -dev contents
+(includedir, .so symlinks, etc). That matches what kernel-dev gets
+today, so I think it is correct, but it is a behaviour change and should
+be stated (and confirmed by testing).
+
+>
+>  meta/classes-recipe/kernel.bbclass | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kerne=
+l.bbclass
+> index 0a6d754108..b018c164fd 100644
+> --- a/meta/classes-recipe/kernel.bbclass
+> +++ b/meta/classes-recipe/kernel.bbclass
+> @@ -60,16 +60,23 @@ KERNEL_VERSION_NAME[vardepvalue] =3D "${LINUX_VERSION}"
+>  KERNEL_VERSION_PKG_NAME =3D "${@legitimize_package_name(d.getVar('KERNEL_V=
+ERSION'))}"
+>  KERNEL_VERSION_PKG_NAME[vardepvalue] =3D "${LINUX_VERSION}"
+>
+> +# With KERNEL_PACKAGE_NAME =3D "${PN}", FILES:${PN}-dev/-dbg from bitbake.=
+conf
+> +# would replace the kernel values during key expansion, so rename the kern=
+el
+> +# variables to the ${PN} names first.
+
+Same here. Add a line saying this must run before key expansion
+(i.e. it can't live in __anonymous), so nobody "simplifies" it later.
+
+> +python kernel_package_name_handler () {
+> +    d =3D e.data
+> +    if d.getVar("KERNEL_PACKAGE_NAME") !=3D d.getVar("PN"):
+> +        return
+> +
+> +    for pkg in ("dev", "dbg"):
+> +        d.renameVar("FILES:${KERNEL_PACKAGE_NAME}-%s" % pkg, "FILES:${PN}-=
+%s" % pkg)
+> +}
+> +addhandler kernel_package_name_handler
+> +kernel_package_name_handler[eventmask] =3D "bb.event.RecipePreFinalise"
+> +
+>  python __anonymous () {
+> -    pn =3D d.getVar("PN")
+>      kpn =3D d.getVar("KERNEL_PACKAGE_NAME")
+>
+> -    # XXX Remove this after bug 11905 is resolved
+> -    #  FILES:${KERNEL_PACKAGE_NAME}-dev doesn't expand correctly
+> -    if kpn =3D=3D pn:
+> -        bb.warn("Some packages (E.g. *-dev) might be missing due to "
+> -                "bug 11905 (variable KERNEL_PACKAGE_NAME =3D=3D PN)")
+> -
+
+The code itself looks fine. A v2 with the commit message and comment
+updates and I'll ack it.
+
+Bruce
+
+> --
+> 2.34.1
