@@ -1,95 +1,96 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7325.1793264078081543354
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7326.1793264079888058519
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 01:54:38 -0700
+ Thu, 29 Oct 2026 01:54:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=KT/WPq2G;
- spf=pass (domain: gmail.com, ip: 74.125.82.53, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1438d9363fbso340345c88.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 01:54:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=VvepczeP;
+ spf=pass (domain: gmail.com, ip: 74.125.82.43, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-15dd124bbe7so3483825c88.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 01:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793264077; x=1793868877; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VS6uyItG/+NB2NcXcEmp3vBI+YbmvI8XOmbJY4xMAus=;
-        b=KT/WPq2GYXA4bo7T2GAUbtGbaja4MIPxCDjh8TrSY9Ha9vHOVEZMLHkPHv1NIf2UGu
-         3WAipOGlk6yqTlb1+mjA/+TTtEzfdF2Xf/u9+4qCiYj8rRH6XbdzfYeR+8h+rbuVf73A
-         Wt8t7tLAbUWEkEPPArRobD6oh999ZPqQjf7atonvAEMcTNdqWESwHzYDr4ODFeairdOb
-         +u2M1lxWHXAM1+o7PBrOvaqo9yiIYiZmtFS6QGrmIk+Uh5sySTOkhtuwLNUdVhEn954f
-         mqbZOcH7uGIYnxoLGbrYBEPXydsPHZUyWxg8dzdt11XYPeUcW4PO1fbZod3TWKHRtwRZ
-         Fnfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793264077; x=1793868877;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793264079; x=1793868879; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VS6uyItG/+NB2NcXcEmp3vBI+YbmvI8XOmbJY4xMAus=;
-        b=PXzyzOGs4n60lla0hr5pANYOBBImKclyTSraFwZP5YE5yep3b+zLU6+rlKzndHOHQW
-         PDxy06TSNxRxZb8v/6l8pMYDSeqDBCCBLohohdFghluSpVekK0A2nTI6USWabFXlYyn6
-         Os23HiVJD+dvVFLmg9kZCpwQhXgyRkNSlnuHw25hEkF00Hh3ogyApY2fVDy9aVbQlhUj
-         815/6TsqQcKJZL14E/iLuvlNJSA9/stzR/se7gubuvml6dg/0Bs1BC0/kQNFLXXw56Fy
-         20vT7fr+RzTDnQtbV+CGxlKpIi/H3Hr+sTIdu9OHSW5L6hHLE0DrfxzikJZydFVEzXlL
-         U+Nw==
-X-Gm-Message-State: AFq9FYKtk/JdcVe95oe6A0PL2YyaBKdLiinVa0NoSJ/hr/+vA2NeAI8t
-	KoqBhBqJ1O3SJv/Se2ReW9+mK3VZuhtvg5zTwCdx0Jz3trVJs2aU8S444qhqLg==
-X-Gm-Gg: AYBFou0OyEflamU9HRS/zbma84qoFMmkE235eO8bcDJwL/KY3LNX3xcj/HBqzfMpx8z
-	MLd/+AmF7sTaR5pzFVXUhzX67C33+2N/PyRBFhmuvNb3eRYTDD1eA4ufih3Z9VtQG1NRoZp13GP
-	OXIhfvlxA5yOaDKclwqVaXxrTb8q8n8j3Ot2BUqOVY5nFWn5CPtdLlluxUIRoEF6kLBSspmVmBW
-	vIoKW/CBmBP396UlsL3altoUgkeN0LYyoog8Qi5G9NZqYDQmPTpjXKbss+2aWIXmSjj4CWUhbAq
-	EgEcw0X9u5hNC7ZKAJbKG3zeKU6VerIz3sd3EOy3dusUgRwEkfR1L7Pg3XbMKHrasdxSF94ddp3
-	92Y+whmQup/YXoB4omAqPqeM9ainjw92GS1trTe2GWWEfsyh1S6OvVOaZ/3XUIC2f4slpSmE/pl
-	7dU7ZKqW0MmBUvdsstu+0IVsYURk33j9p2QwauTJTZbahXR2hzdI2jcarKoekMv/H6VFrCMk+WF
-	qsm9AYrRN73fTzAG+QNz3E7zNzm7JaJCQVSZYMm929n60Q+0LooyR5dHHP5+fxrkO1B+W06BTe1
-	LY+qiYg4L7SlXUsG2R03FyvAkoxXI9RX8kJYzWF4rvCPLvfGMZfwVZ7Y0QPinpy8
-X-Received: by 2002:a05:7022:ea8e:b0:146:5f73:d45b with SMTP id a92af1059eb24-1a941feb9b2mr2755807c88.3.1793264076916;
-        Thu, 29 Oct 2026 01:54:36 -0700 (PDT)
+        bh=wop2QJenn/5dkzZWsgWBFL9kmujbzXJdJjOsngzUhEM=;
+        b=VvepczePibLOjbnyB1ekq0e+UpARZEPP2/MMPczPtImojOJ5+rTgBx12BfhNYt19gk
+         ysGar0ePG2s1+CjmvONN+oNR69/LDq7ls8d5U2uSqOs9kAOxMfzA0+fAkSrk9eDR8GMH
+         MHq0wlzaOKN50ua1ZY1BcPNEspEC89YJoSjHh+Tqppe3pXhXb6K5HmCQ0wE5ql6widhV
+         578MjT/8EHVYLwroNxX5bPmljmEBLvOaHNPs/Gyiu3u7KB/Cn1G33gfMivT+gosL3ZYW
+         AAR2zuyRHgeD5r3LfLp4Z/cQDbMwlIzmmFDIwHI5lH9iu3pES9osdcDE8YllDHaR9AcA
+         3TAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793264079; x=1793868879;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wop2QJenn/5dkzZWsgWBFL9kmujbzXJdJjOsngzUhEM=;
+        b=Lf2RtjNk7IM2sH5AsA9pruhRBRL5YMvdR3NfxR0hBHjWDWv28pdrG2lhBo4x8VCQAb
+         Eq89npeYDnDtBcWGGCjxhgloOdPBMRbfGR5rSrAv0j/Zuo0IpZOgR/QRBPC+PGxbo50f
+         UIOBtkzovbvf27SsOVBjR/nsDHLz/yaHSONkD9SeWKLQKLQwAvgFlHVkb2zotTlowwkX
+         inrEmZMeEOLuD3dZQ7vWT/zUDedFTvOr5Pjdr0ldaTZyqXUmktn7g+l2tzjcszu49HHw
+         2G5+HahCF0JC1yE90IBekASQ3YtPWr/1tRhvwlaeo/pc6hQy9wzc0PXzTTVmk8RSDitG
+         ti3Q==
+X-Gm-Message-State: AFq9FYKX0p/nNlHmBK6pRi4xi5KJ756VdEYyK0OQYUsOpP0sXZ1sl5ys
+	zynuacfSV1jgguvgBDkO2xyGpxPSjOtrgG6Kf7fs5RXv3rGoM/fXmvbZIx9ZWA==
+X-Gm-Gg: AYBFou2xoZyCAQd89aWJaHOGXHiRKbENIB6GM4tzk+d4BBIU2ppa9EmFApx1yrttntf
+	kjQraMas6/CjOmkdLgKFfl9/KTKI8xi0mtIcCEsjEOoBG0DnzS2JSuAb1BNhvco7onckMFHvqun
+	IQI6YKcsDnJGQD0QrVQsCJLlCNVz6MeGjaIjKtIT+KxEqd7qGwe4mr3HVow8YUPVywDtkFR1m/y
+	J+OsEwuURoSzSEouZHJn9Tf53mNKeqUWo0gFyY9X7YiVB2eSwQV+QpDfHFIdV7YY/nCPuPapD2u
+	JntEaZVD8R6wCWVG8/Qnu9da01zyGxKCo9svbZWVy/hS5OMHwuPDfCRleWPQq94J7nnSBt50rss
+	OmS4DtGYLovOcvPvfcvOnATMdWmbDtsiN4GegzoiTwp15RplwYGAMC1qK1FGHHgyeKkvrB4yRzx
+	nRX49eF2F8s7Ieu7cB/7J9T2AaWSzo5q8h/DbDnamSUPsvuPkxqDbgcCl+FLKbXDwUC2ARq6L2T
+	zOUtDYj27EbMmFhP1YijVsr/CQEeRaPx1ViexnqbQFTC/IL2O5Xc+wmLINdEZk1tuBKuGEzS7cn
+	Cxd9EaTq+hS0oSieDNX/tRINEVjw96tza18Pa7pm163wsFAxIE9bjkmLCXX5+w==
+X-Received: by 2002:a05:7022:fd04:b0:16c:eaf1:335d with SMTP id a92af1059eb24-1a6ce2fea82mr7886082c88.30.1793264078940;
+        Thu, 29 Oct 2026 01:54:38 -0700 (PDT)
 Return-Path: <ankur.tyagi85@gmail.com>
 Received: from NVAPF55DW0D-IPD.. ([147.161.217.9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a75c81490csm15056178c88.8.2026.10.29.01.54.35
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a75c81490csm15056178c88.8.2026.10.29.01.54.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 01:54:36 -0700 (PDT)
+        Thu, 29 Oct 2026 01:54:38 -0700 (PDT)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][PATCH 1/4] tzdata/tzcode-native: upgrade 2026e -> 2026f
-Date: Thu, 29 Oct 2026 21:54:27 +1300
-Message-ID: <20261029085430.3491140-1-ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 2/4] aspell: upgrade 0.60.8.2 -> 0.60.8.3
+Date: Thu, 29 Oct 2026 21:54:28 +1300
+Message-ID: <20261029085430.3491140-2-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261029085430.3491140-1-ankur.tyagi85@gmail.com>
+References: <20261029085430.3491140-1-ankur.tyagi85@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 08:54:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248914
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 08:54:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248915
 Content-Type: text/plain; charset="utf-8"
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Changelog:
-https://www.iana.org/time-zones/releases/2026f
+- Fix CVE-2026-75818, CVE-2026-75819, CVE-2026-75820 and CVE-2026-103658.
+- Fix various other memory problems.
+- Fix various typos in documentation.
+- Remove unused MySpell example code.
 
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} (93%)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 44872c3637..d8dd7a3bce 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "BSD-3-Clause AND LicenseRef-PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/recipes-support/aspell/aspell_0.60.8.2.bb b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
+similarity index 93%
+rename from meta/recipes-support/aspell/aspell_0.60.8.2.bb
+rename to meta/recipes-support/aspell/aspell_0.60.8.3.bb
+index 60d3376678..d97958d83b 100644
+--- a/meta/recipes-support/aspell/aspell_0.60.8.2.bb
++++ b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
+@@ -14,7 +14,7 @@ LICENSE = "LGPL-2.0-only OR LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
  
--PV = "2026e"
-+PV = "2026f"
+ SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "57fe4863eae6048f72245a8575b44b718fb85ca14b9f8c0afc41b254dfd76919"
++SRC_URI[sha256sum] = "0534eae11132405120d11e46bf595bd5dd189bc124ba77a5dd6aae861b48a162"
  
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -14,5 +14,5 @@ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
- 
- S = "${UNPACKDIR}/tz"
- 
--SRC_URI[tzcode.sha256sum] = "cc3d27ca2a0d8399504551b920970d80af83bfb9c216e8082a15491921935d54"
--SRC_URI[tzdata.sha256sum] = "b26882805f26aac59d5b222978e6580484b834ccdc98be89df2f05a6dc53a652"
-+SRC_URI[tzcode.sha256sum] = "5a18da01393679ef2559214dc687563f7f3d05691f6f58b7fbc0166f3e796cd6"
-+SRC_URI[tzdata.sha256sum] = "01b4a91cec5167ed48c11e8ab78f2048cead78ce94b0cafcad0ae8c5a3044d3d"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
