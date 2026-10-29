@@ -1,346 +1,126 @@
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9733.1793273915010944092
+Received: from CY7PR03CU001.outbound.protection.outlook.com (CY7PR03CU001.outbound.protection.outlook.com [40.93.198.64])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9983.1793274716239437634
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 04:38:36 -0700
+ Thu, 29 Oct 2026 04:51:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: mark.yang@lge.com)
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
-	by 156.147.23.51 with ESMTP; 29 Oct 2026 20:38:32 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: mark.yang@lge.com
-Received: from unknown (HELO markyang..) (10.177.122.207)
-	by 156.147.1.151 with ESMTP; 29 Oct 2026 20:38:32 +0900
-X-Original-SENDERIP: 10.177.122.207
-X-Original-MAILFROM: mark.yang@lge.com
-From: mark.yang@lge.com
-To: openembedded-core@lists.openembedded.org
-Cc: "mark.yang" <mark.yang@lge.com>
-Subject: [RFC PATCH 1/4] gcc: point the musl dynamic linker at nonarch_base_libdir
-Date: Thu, 29 Oct 2026 20:38:26 +0900
-Message-ID: <20261029113829.2806167-2-mark.yang@lge.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261029113829.2806167-1-mark.yang@lge.com>
-References: <20261029113829.2806167-1-mark.yang@lge.com>
+ dkim=pass header.i=@gehealthcare.com header.s=selector1 header.b=fbE3NEfm;
+ spf=pass (domain: gehealthcare.com, ip: 40.93.198.64, mailfrom: maxin.john@gehealthcare.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=P+ytFxHLwkvvC06ke2r2xVP9ER6yjXi1tKW0rHBuf3wUI2nnW4nXy66B/2OXCWBVJekdNQj8QaN6/YGgNxxQyIcqGsthr5PDrI47tOxiAGYXBcJvx93Q8E095blM45qq/vHqw9ROBbIkfusASyrWWLzWn3vsQrcINYNxKPv6q+Kg9YZv7rpzEP+oJVeyAy5ajTJf9/C77fsAnpPSUWh2ahnzIJpD6NR3qKw6ACLKWX8PpwmSunW7Te32GoDYYioMVuAtp9rNeH9ZMOfhAw7XxPh10WddHFQrc8jS2BnqTM7BcoxT0J+IDytCsoWlkafPVvFZ37WLWq24aCbag0HP7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T20H5d7zXqnI1XbkoQWN2PcgPD9b5SdZyuyJVAc4s0Y=;
+ b=qodGhr7Ezl/Meyt53LBR1PlgEKzZNw9fjFMfM3JLeVcd/6m0DVr9CzGDM13nNVLXHoHZuHHEzQT91tuNRxRhekcSGNn6qAC4UmNiPU2OgfL2E+oVaHSU4z8VNGzc7SjTvDETpr72IgBAR+zZyBTH6ruAKq/nIl3x/bRkb9TlgVfsr32RmsBTJ0xe1TfA4pjyQRScxXh6XXnOWbkdOpnAFDTExwbJ3UQ1ylIVTKq6fVKxV1AZjfUUemOr0ghRXrQk8OVsNp4cCSAse49qi+ZvDkTnkSsV4XXQga+WdTqUQmIGPnEtEpWZrIm08qBAmETvK5XEOj29qJyabTyIN3EROQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 165.85.157.49) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
+ pct=100) action=quarantine header.from=gehealthcare.com; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T20H5d7zXqnI1XbkoQWN2PcgPD9b5SdZyuyJVAc4s0Y=;
+ b=fbE3NEfm6ekCB8c7nvb9DP2PsWH1eUx0NZjsPPCbnLhRZQneL7DRsQxlnFuQa71KdoqDdxyttsnchxCKpKP6UeVqyLvK0W1MO8i67gKQnYh4aVfKiqtzLnkbURI5s+yzyDGLefIo9aeBz4O8k99VWYWjp1BM6bSASyySk/1lTz4rXZlf8wVsdCQn1FQwpLl0HNCYVDW0PLXgCeaE8rW+Mwo39+IQc7mEUofdMSP7l9lEYFkuN7YyqmTnMuA++XgWVwFtf3V/kpWpmFojcEe+YJZhORfn0yYu9rIwrog0Abz+vs9ubDMJUPozLa6/9PMqtCZ/NiN2gQmEULhWpQpejw==
+Received: from MW4PR04CA0289.namprd04.prod.outlook.com (2603:10b6:303:89::24)
+ by IA3PR22MB5805.namprd22.prod.outlook.com (2603:10b6:208:51a::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.22; Thu, 29 Oct
+ 2026 11:51:51 +0000
+Received: from SJ1PEPF000023D0.namprd02.prod.outlook.com
+ (2603:10b6:303:89:cafe::9d) by MW4PR04CA0289.outlook.office365.com
+ (2603:10b6:303:89::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.22 via Frontend Transport; Thu,
+ 29 Oct 2026 11:51:51 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
+ is 165.85.157.49) smtp.mailfrom=gehealthcare.com; dkim=none (message not
+ signed) header.d=none;dmarc=fail action=quarantine
+ header.from=gehealthcare.com;
+Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
+ not designate 165.85.157.49 as permitted sender)
+ receiver=protection.outlook.com; client-ip=165.85.157.49;
+ helo=mkerelay2.compute.ge-healthcare.net;
+Received: from mkerelay2.compute.ge-healthcare.net (165.85.157.49) by
+ SJ1PEPF000023D0.mail.protection.outlook.com (10.167.244.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.569.4 via Frontend Transport; Thu, 29 Oct 2026 11:51:50 +0000
+Received: from cad3020129e1 (zoo12.fihel.lab.ge-healthcare.net [10.168.174.110])
+	by builder1.fihel.lab.ge-healthcare.net (Postfix) with SMTP id 7CD9826D3C;
+	Thu, 29 Oct 2026 13:51:48 +0200 (EET)
+Date: Thu, 29 Oct 2026 13:51:48 +0200
+From: Maxin John <maxin.john@gehealthcare.com>
+To: Paul Barker <paul@pbarker.dev>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/5] uki.bbclass: use f-string for kernel-not-found error
+ message
+Message-ID: <auMzVOVVpRskKkDP@cad3020129e1>
+References: <20261027081221.13-1-maxin.john@gehealthcare.com>
+ <20261027081221.13-2-maxin.john@gehealthcare.com>
+ <d367c259a241a33364960b8401e25e6e6ad465e8.camel@pbarker.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d367c259a241a33364960b8401e25e6e6ad465e8.camel@pbarker.dev>
+Return-Path: maxin.john@gehealthcare.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D0:EE_|IA3PR22MB5805:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6150fc3d-07e8-42ea-96ca-08df35b304c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|36860700016|1800799024|23010399003|82310400026|261028144727099003|261026140227099003|11063799006|4143699003|261009223027099003|261021123027099003|261022105027099003|261022075727099003|261022115727099003|10067099003|261021121427099003|56012099006|18002099003|22082099003|261026121527099003;
+X-Microsoft-Antispam-Message-Info: xAhPEoL8zYj4TWeNdjEDuLKINSqIqWwwzgsiOtu09m2tENSwDgFxZtttTytTg+akQKcstbTucjGC3e1oUD/61L4fM8LMI9JAeR0PZG15r3nd2myum55egLoXJZb1neZYNaq5pvgbuX6FAOsPCIeVHoWU2cdSawmhegv82L0m46Dzl2+Q9am6imDPaMz/lu1aXklpB9MVECSEX0JyEmxyJXzHuPvlTTB5kMoFDIaBtUjTEiPZXoSQh94vnkNdc+ODNbN9XEOUv75COWAtUtyL9anweXQofSDEFjiQRTyKh1XtCx0gDcn/gFXNFBYdWktz3XswEq2SPbx86Yj+wrZIYr5gJswOltHiHuHG3eQDOvtaTp+c1XfsdBIv8bj99m4XGDRu5JeZ55HPanQ7qPkabME+Xe5RqWwKsXw9AfjM1P07ZjuUGi6GpFf1MXZRlFwfcc3vJ6Z06teoBjNqm5Kw3t42pQ+b4LAFi3F/kiuDnhesKSihU+5znG0oKtdya8BwI4TQaPwx3Bpax+XNBeDj4E/H6oUX7kHKwItQxajEehtcoTn1IY+w6UNXCfdofXxQwv6yUgRmYhohAWiPjCny1vJvs54bJ9Xq/Uq17Q46u01GB+9Jh7cPU5IOeJqY18E8aDK7NuzQkETy8i43dIA5EJouZ2AldzUGgM+RYtrIGzxNsIQyn/L6opRRJyCqr99T+LNBuKydxOpPlhhZFABd4g==
+X-Forefront-Antispam-Report: CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mkerelay2.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(23010399003)(82310400026)(261028144727099003)(261026140227099003)(11063799006)(4143699003)(261009223027099003)(261021123027099003)(261022105027099003)(261022075727099003)(261022115727099003)(10067099003)(261021121427099003)(56012099006)(18002099003)(22082099003)(261026121527099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: CGTU4jBNvSJaLgd9M9wazSy5mgs7pXjprtd9zvIUoWYTE1fz714qIjvMe5MT1v4oeDf+OsqqTFZN8zriRY2iZwMQpLIfSFH8YShreWkc1xbMDVsyqe8iPljEU67xxjH7msnQFNRPpRf0wbAjQdnyfs7AsAPLobbuFs4CcGiB49k3gz/2kEMlAbf+e/9c4H2g3TyECrVOfT3NyhcFxcTBkKQNkVRn/NvzCWHYOAyVGqZ42YwXlqQnY0QAtkIIbT6pyAXNEsABjgtUGkOai2aumDCCXDs9v5tQz6bJv7vIQcN18d4ulUrctRqeMlWKhuPXNPkEXLD4HPSIi5CvC5XFzyDo0qSLlgZf3K3jvDucpaejjMDQjpnv9UCOCPhhmQunmA0mI+Zn9BrgqIXB28rthQKpF55WBkRASdaAzq6/Cyf0W4/TYM8gYciSbt7tiuan
+X-OriginatorOrg: gehealthcare.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 11:51:50.3179
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6150fc3d-07e8-42ea-96ca-08df35b304c4
+X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[mkerelay2.compute.ge-healthcare.net]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF000023D0.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR22MB5805
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 11:38:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248939
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 11:52:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248940
 
-From: "mark.yang" <mark.yang@lge.com>
+Hi Paul,
 
-Make gcc embed the musl loader path from nonarch_base_libdir instead
-of base_libdir.
+On Thu, Oct 29, 2026 at 11:30:54AM +0000, Paul Barker wrote:
+> CAUTION: This email originated from outside of GE HealthCare. Only open links or attachments if you trust the sender. Report suspicious emails using Outlook???s ???Report??? button.
+> 
+> On Tue, 2026-10-27 at 10:12 +0200, Maxin John wrote:
+> > The message was an f-string without placeholders combined with
+> > '%'-formatting. Use a single f-string referencing the kernel variable.
+> >
+> > Signed-off-by: Maxin John <maxin.john@gehealthcare.com>
+> > ---
+> >  meta/classes-recipe/uki.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
+> > index 566eab1eaa..cfb930e93d 100644
+> > --- a/meta/classes-recipe/uki.bbclass
+> > +++ b/meta/classes-recipe/uki.bbclass
+> > @@ -138,7 +138,7 @@ python do_uki() {
+> >      if kernel_filename:
+> >          kernel = "%s/%s" % (deploy_dir_image, kernel_filename)
+> >          if not os.path.exists(kernel):
+> > -            bb.fatal(f"ERROR: cannot find %s" % (kernel))
+> > +            bb.fatal(f"ERROR: cannot find {kernel}")
+> 
+> Could we drop the f-string prefix instead? String formatting with '%' is
+> used more often here.
 
-In a multilib build the 64-bit variant got its own base_libdir
-(/usr/lib64), so its binaries asked for /usr/lib64/ld-musl-aarch64.so.1.
-The musl recipe installs every variant's loader in nonarch_base_libdir
-(/usr/lib here), so that file does not exist. With the musl.inc guard
-removed, meson's compiler sanity check fails under qemu-user
-(qemuarm64 + lib32, usrmerge):
-
-  qemu-aarch64: Could not open '/usr/lib64/ld-musl-aarch64.so.1': No such file or directory
-
-Reference: https://errors.yoctoproject.org/Errors/Details/973525/
-
-The musl wiki wants exactly /lib/ld-musl-$ARCH.so.1 in PT_INTERP, so
-that a binary runs on any musl system, and says the loader must not
-move to /lib64 or anywhere else. The loader name already carries the
-architecture, so all of them can share one directory.
-
-nonarch_base_libdir keeps the no-lib64 rule, and without usrmerge it is
-the wiki path itself. With usrmerge it becomes /usr/lib, which
-non-multilib usrmerge builds already use.
-
-Reference: https://wiki.musl-libc.org/guidelines-for-distributions
-
-          gcc-cross-aarch64                lib32-gcc-cross-arm
-  before  /usr/lib64/ld-musl-aarch64.so.1  /usr/lib/ld-musl-armhf.so.1
-  after   /usr/lib/ld-musl-aarch64.so.1    unchanged
-
-glibc builds keep their default loader path.
-
-- 0007: MUSL_DYNAMIC_LINKER* use a new SYSTEMLIBS_NONARCH_DIR. The cross
-  classes set target_nonarch_base_libdir for it, next to
-  target_base_libdir.
-- gcc-multilib-config: stop rewriting the musl loader per multilib,
-  which 24c4e01892 ("gcc: also relocate the musl loader") added.
-  It gave the x86-64 target and SDK gcc /lib64/ld-musl-x86_64.so.1.
-  Only nativesdk-gcc keeps it, for the %r relocation marker.
-
-Signed-off-by: mark.yang <mark.yang@lge.com>
----
- meta/classes-recipe/cross-canadian.bbclass    |  1 +
- meta/classes-recipe/cross.bbclass             |  1 +
- meta/classes-recipe/crosssdk.bbclass          |  1 +
- meta/recipes-devtools/gcc/gcc-common.inc      |  1 +
- .../gcc/gcc-configure-common.inc              |  2 +
- .../gcc/gcc-multilib-config.inc               | 20 ++++++----
- ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 39 ++++++++++---------
- ...s-fix-v4bx-to-linker-to-support-EABI.patch |  2 +-
- 8 files changed, 40 insertions(+), 27 deletions(-)
-
-diff --git a/meta/classes-recipe/cross-canadian.bbclass b/meta/classes-recipe/cross-canadian.bbclass
-index 25e67d9e07..4d0b1785b7 100644
---- a/meta/classes-recipe/cross-canadian.bbclass
-+++ b/meta/classes-recipe/cross-canadian.bbclass
-@@ -145,6 +145,7 @@ target_base_prefix := "${root_prefix}"
- target_prefix := "${prefix}"
- target_exec_prefix := "${exec_prefix}"
- target_base_libdir = "${target_base_prefix}/${baselib}"
-+target_nonarch_base_libdir := "${nonarch_base_libdir}"
- target_libdir = "${target_exec_prefix}/${baselib}"
- target_includedir := "${includedir}"
+Sure, I will send a v2.
  
-diff --git a/meta/classes-recipe/cross.bbclass b/meta/classes-recipe/cross.bbclass
-index bceee5d6e6..d36c200a48 100644
---- a/meta/classes-recipe/cross.bbclass
-+++ b/meta/classes-recipe/cross.bbclass
-@@ -59,6 +59,7 @@ target_base_prefix := "${root_prefix}"
- target_prefix := "${prefix}"
- target_exec_prefix := "${exec_prefix}"
- target_base_libdir = "${target_base_prefix}/${baselib}"
-+target_nonarch_base_libdir := "${nonarch_base_libdir}"
- target_libdir = "${target_exec_prefix}/${baselib}"
- target_includedir := "${includedir}"
- 
-diff --git a/meta/classes-recipe/crosssdk.bbclass b/meta/classes-recipe/crosssdk.bbclass
-index 6246c09de4..7002eb0894 100644
---- a/meta/classes-recipe/crosssdk.bbclass
-+++ b/meta/classes-recipe/crosssdk.bbclass
-@@ -42,6 +42,7 @@ TARGET_FPU = ""
- target_libdir = "${SDKPATHNATIVE}${libdir_nativesdk}"
- target_includedir = "${SDKPATHNATIVE}${includedir_nativesdk}"
- target_base_libdir = "${SDKPATHNATIVE}${base_libdir_nativesdk}"
-+target_nonarch_base_libdir = "${SDKPATHNATIVE}${base_libdir_nativesdk}"
- target_prefix = "${SDKPATHNATIVE}${prefix_nativesdk}"
- target_exec_prefix = "${SDKPATHNATIVE}${prefix_nativesdk}"
- baselib = "lib"
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 41a8177e0c..9850f5e9da 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -111,6 +111,7 @@ B ?= "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
- target_includedir ?= "${includedir}"
- target_libdir ?= "${libdir}"
- target_base_libdir ?= "${base_libdir}"
-+target_nonarch_base_libdir ?= "${nonarch_base_libdir}"
- target_prefix ?= "${prefix}"
- 
- # We need to ensure that for the shared work directory, the do_patch signatures match
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index ff98f828e5..c5450a23df 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -72,6 +72,7 @@ CPPFLAGS = ""
- SYSTEMHEADERS = "${target_includedir}"
- SYSTEMLIBS = "${target_base_libdir}/"
- SYSTEMLIBS1 = "${target_libdir}/"
-+SYSTEMLIBS_NONARCH = "${target_nonarch_base_libdir}/"
- SYSTEMLOCALHEADERS = "${target_prefix}/local/include"
- 
- do_configure:prepend () {
-@@ -84,6 +85,7 @@ do_configure:prepend () {
- #define STANDARD_STARTFILE_PREFIX_1 "${SYSTEMLIBS}"
- #define STANDARD_STARTFILE_PREFIX_2 "${SYSTEMLIBS1}"
- #define SYSTEMLIBS_DIR "${SYSTEMLIBS}"
-+#define SYSTEMLIBS_NONARCH_DIR "${SYSTEMLIBS_NONARCH}"
- #define LOCAL_INCLUDE_DIR "${SYSTEMLOCALHEADERS}"
- #endif /* ! GCC_DEFAULTS_H */
- _EOF
-diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-index cafc64971d..ede0b68144 100644
---- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-+++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
-@@ -123,15 +123,19 @@ python gcc_multilib_setup() {
-                         r'\1' + wrap_libdir(libdirx32) + r'\3'),
-                     (r'^(#define\s*UCLIBC_DYNAMIC_LINKER\b\s*)(\S+)(\s*\".*\")$',
-                         r'\1' + wrap_libdir(libdir32) + r'\3'),
--                    (r'^(#define\s*MUSL_DYNAMIC_LINKER32\s*)(\S+)(\s*\".*\")$',
--                        r'\1' + wrap_libdir(libdir32) + r'\3'),
--                    (r'^(#define\s*MUSL_DYNAMIC_LINKER64\s*)(\S+)(\s*\".*\")$',
--                        r'\1' + wrap_libdir(libdir64) + r'\3'),
--                    (r'^(#define\s*MUSL_DYNAMIC_LINKERX32\s*)(\S+)(\s*\".*\")$',
--                        r'\1' + wrap_libdir(libdirx32) + r'\3'),
--                    (r'^(#define\s*MUSL_DYNAMIC_LINKER\b\s*)(\S+)(\s*\".*\")$',
--                        r'\1' + wrap_libdir(libdir32) + r'\3'),
-                 ]
-+                # musl loaders keep SYSTEMLIBS_NONARCH_DIR, nativesdk-gcc needs %r
-+                if pn == "nativesdk-gcc":
-+                    substs += [
-+                        (r'^(#define\s*MUSL_DYNAMIC_LINKER32\s*)(\S+)(\s*\".*\")$',
-+                            r'\1' + wrap_libdir(libdir32) + r'\3'),
-+                        (r'^(#define\s*MUSL_DYNAMIC_LINKER64\s*)(\S+)(\s*\".*\")$',
-+                            r'\1' + wrap_libdir(libdir64) + r'\3'),
-+                        (r'^(#define\s*MUSL_DYNAMIC_LINKERX32\s*)(\S+)(\s*\".*\")$',
-+                            r'\1' + wrap_libdir(libdirx32) + r'\3'),
-+                        (r'^(#define\s*MUSL_DYNAMIC_LINKER\b\s*)(\S+)(\s*\".*\")$',
-+                            r'\1' + wrap_libdir(libdir32) + r'\3'),
-+                    ]
- 
-                 for (i, line) in enumerate(filelines):
-                     for subst in substs:
-diff --git a/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-index 07e9e23f3d..17c9a7173a 100644
---- a/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0007-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
-@@ -12,8 +12,11 @@ SH, sparc, alpha for possible future support (if any)
- 
- Removes the do_headerfix task in metadata
- 
-+MUSL_DYNAMIC_LINKER uses SYSTEMLIBS_NONARCH_DIR instead.
-+
- Upstream-Status: Inappropriate [OE configuration]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: mark.yang <mark.yang@lge.com>
- ---
-  gcc/config/aarch64/aarch64-linux.h |  4 ++--
-  gcc/config/alpha/linux-elf.h       |  4 ++--
-@@ -47,7 +50,7 @@ index 116bb4e69f3..c0de4900dc2 100644
-  
-  #undef MUSL_DYNAMIC_LINKER
- -#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
--+#define MUSL_DYNAMIC_LINKER  SYSTEMLIBS_DIR "ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
-++#define MUSL_DYNAMIC_LINKER  SYSTEMLIBS_NONARCH_DIR "ld-musl-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
-  
-  #undef  ASAN_CC1_SPEC
-  #define ASAN_CC1_SPEC "%{%:sanitize(address):-funwind-tables}"
-@@ -86,7 +89,7 @@ index 8ef5643b5d6..76893197773 100644
-  #endif
-  #define MUSL_DYNAMIC_LINKER \
- -  "/lib/ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
--+  SYSTEMLIBS_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
-  
-  /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
-     use the GNU/Linux version, not the generic BPABI version.  */
-@@ -116,7 +119,7 @@ index efbd978c610..9ea0261b0fc 100644
-  
-  #undef MUSL_DYNAMIC_LINKER
- -#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-i386.so.1"
--+#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-musl-i386.so.1"
-++#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_NONARCH_DIR "ld-musl-i386.so.1"
- diff --git a/gcc/config/i386/linux64.h b/gcc/config/i386/linux64.h
- index 24170ee2845..733e3e4945a 100644
- --- a/gcc/config/i386/linux64.h
-@@ -134,13 +137,13 @@ index 24170ee2845..733e3e4945a 100644
-  
-  #undef MUSL_DYNAMIC_LINKER32
- -#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-i386.so.1"
--+#define MUSL_DYNAMIC_LINKER32 SYSTEMLIBS_DIR "ld-musl-i386.so.1"
-++#define MUSL_DYNAMIC_LINKER32 SYSTEMLIBS_NONARCH_DIR "ld-musl-i386.so.1"
-  #undef MUSL_DYNAMIC_LINKER64
- -#define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-x86_64.so.1"
--+#define MUSL_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-musl-x86_64.so.1"
-++#define MUSL_DYNAMIC_LINKER64 SYSTEMLIBS_NONARCH_DIR "ld-musl-x86_64.so.1"
-  #undef MUSL_DYNAMIC_LINKERX32
- -#define MUSL_DYNAMIC_LINKERX32 "/lib/ld-musl-x32.so.1"
--+#define MUSL_DYNAMIC_LINKERX32 SYSTEMLIBS_DIR "ld-musl-x32.so.1"
-++#define MUSL_DYNAMIC_LINKERX32 SYSTEMLIBS_NONARCH_DIR "ld-musl-x32.so.1"
- diff --git a/gcc/config/linux.h b/gcc/config/linux.h
- index d6280a4d4dd..c79d4902f85 100644
- --- a/gcc/config/linux.h
-@@ -178,7 +181,7 @@ index fbc75a90ad5..38c239940bd 100644
-  #undef MUSL_DYNAMIC_LINKER
-  #define MUSL_DYNAMIC_LINKER \
- -  "/lib/ld-musl-loongarch" ABI_GRLEN_SPEC MUSL_ABI_SPEC ".so.1"
--+  SYSTEMLIBS_DIR "ld-musl-loongarch" ABI_GRLEN_SPEC MUSL_ABI_SPEC ".so.1"
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-loongarch" ABI_GRLEN_SPEC MUSL_ABI_SPEC ".so.1"
-  
-  #undef GNU_USER_TARGET_LINK_SPEC
-  #define GNU_USER_TARGET_LINK_SPEC \
-@@ -200,7 +203,7 @@ index 7b09cde7693..8bfafaf87f7 100644
-  
-  #undef MUSL_DYNAMIC_LINKER
- -#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-microblaze" MUSL_DYNAMIC_LINKER_E ".so.1"
--+#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-musl-microblaze" MUSL_DYNAMIC_LINKER_E ".so.1"
-++#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_NONARCH_DIR "ld-musl-microblaze" MUSL_DYNAMIC_LINKER_E ".so.1"
-  
-  #undef  SUBTARGET_EXTRA_SPECS
-  #define SUBTARGET_EXTRA_SPECS \
-@@ -236,14 +239,14 @@ index ae15d490108..0281650009d 100644
-  #undef MUSL_DYNAMIC_LINKER32
-  #define MUSL_DYNAMIC_LINKER32 \
- -  "/lib/ld-musl-mips%{mips32r6|mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
--+  SYSTEMLIBS_DIR "ld-musl-mips%{mips32r6|mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-mips%{mips32r6|mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
-  #undef MUSL_DYNAMIC_LINKER64
-  #define MUSL_DYNAMIC_LINKER64 \
- -  "/lib/ld-musl-mips64%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
--+  SYSTEMLIBS_DIR "ld-musl-mips64%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-mips64%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
-  #define MUSL_DYNAMIC_LINKERN32 \
- -  "/lib/ld-musl-mipsn32%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
--+  SYSTEMLIBS_DIR "ld-musl-mipsn32%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-mipsn32%{mips64r6:r6}%{EL:el}%{msoft-float:-sf}.so.1"
-  
-  #define BIONIC_DYNAMIC_LINKERN32 "/system/bin/linker32"
-  #define GNU_USER_DYNAMIC_LINKERN32 \
-@@ -265,7 +268,7 @@ index 9060c940a44..c7712db194a 100644
-  
-  #undef MUSL_DYNAMIC_LINKER
- -#define MUSL_DYNAMIC_LINKER "/lib/ld-musl-riscv" XLEN_SPEC MUSL_ABI_SUFFIX ".so.1"
--+#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-musl-riscv" XLEN_SPEC MUSL_ABI_SUFFIX ".so.1"
-++#define MUSL_DYNAMIC_LINKER SYSTEMLIBS_NONARCH_DIR "ld-musl-riscv" XLEN_SPEC MUSL_ABI_SUFFIX ".so.1"
-  
-  #define ICACHE_FLUSH_FUNC "__riscv_flush_icache"
-  
-@@ -295,11 +298,11 @@ index 0316d8cb65d..8de5eb8bb49 100644
-  #undef MUSL_DYNAMIC_LINKER32
-  #define MUSL_DYNAMIC_LINKER32 \
- -  "/lib/ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
--+  SYSTEMLIBS_DIR "ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
-  #undef MUSL_DYNAMIC_LINKER64
-  #define MUSL_DYNAMIC_LINKER64 \
- -  "/lib/ld-musl-powerpc64" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
--+  SYSTEMLIBS_DIR "ld-musl-powerpc64" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-powerpc64" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
-  
-  #undef  DEFAULT_ASM_ENDIAN
-  #if (TARGET_DEFAULT & MASK_LITTLE_ENDIAN)
-@@ -316,7 +319,7 @@ index afb5c6ad867..3eb6c814ced 100644
-  #undef MUSL_DYNAMIC_LINKER
-  #define MUSL_DYNAMIC_LINKER \
- -  "/lib/ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
--+  SYSTEMLIBS_DIR "ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-powerpc" MUSL_DYNAMIC_LINKER_E "%{msoft-float:-sf}.so.1"
-  
-  #ifndef GNU_USER_DYNAMIC_LINKER
-  #define GNU_USER_DYNAMIC_LINKER GLIBC_DYNAMIC_LINKER
-@@ -335,10 +338,10 @@ index 2c3bca5dfcb..1332624abad 100644
-  
-  #undef MUSL_DYNAMIC_LINKER32
- -#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-s390.so.1"
--+#define MUSL_DYNAMIC_LINKER32 SYSTEMLIBS_DIR "ld-musl-s390.so.1"
-++#define MUSL_DYNAMIC_LINKER32 SYSTEMLIBS_NONARCH_DIR "ld-musl-s390.so.1"
-  #undef MUSL_DYNAMIC_LINKER64
- -#define MUSL_DYNAMIC_LINKER64 "/lib/ld-musl-s390x.so.1"
--+#define MUSL_DYNAMIC_LINKER64 SYSTEMLIBS_DIR "ld-musl-s390x.so.1"
-++#define MUSL_DYNAMIC_LINKER64 SYSTEMLIBS_NONARCH_DIR "ld-musl-s390x.so.1"
-  
-  #undef  LINK_SPEC
-  #define LINK_SPEC \
-@@ -351,7 +354,7 @@ index 78a7905a919..28493851982 100644
-  #undef MUSL_DYNAMIC_LINKER
-  #define MUSL_DYNAMIC_LINKER \
- -  "/lib/ld-musl-sh" MUSL_DYNAMIC_LINKER_E MUSL_DYNAMIC_LINKER_FP \
--+  SYSTEMLIBS_DIR "ld-musl-sh" MUSL_DYNAMIC_LINKER_E MUSL_DYNAMIC_LINKER_FP \
-++  SYSTEMLIBS_NONARCH_DIR "ld-musl-sh" MUSL_DYNAMIC_LINKER_E MUSL_DYNAMIC_LINKER_FP \
-    "%{mfdpic:-fdpic}.so.1"
-  
- -#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux.so.2"
-diff --git a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
-index d8c96ed86e..5fce4c4ca1 100644
---- a/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
-+++ b/meta/recipes-devtools/gcc/gcc/0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch
-@@ -23,7 +23,7 @@ index 76893197773..12c334463c6 100644
- +++ b/gcc/config/arm/linux-eabi.h
- @@ -91,10 +91,14 @@
-  #define MUSL_DYNAMIC_LINKER \
--   SYSTEMLIBS_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
-+   SYSTEMLIBS_NONARCH_DIR "ld-musl-arm" MUSL_DYNAMIC_LINKER_E "%{mfloat-abi=hard:hf}%{mfdpic:-fdpic}.so.1"
-  
- +/* For armv4 we pass --fix-v4bx to linker to support EABI */
- +#undef TARGET_FIX_V4BX_SPEC
+> Best regards,
+> 
+> --
+> Paul Barker
+
+Best Regards,
+Maxin 
