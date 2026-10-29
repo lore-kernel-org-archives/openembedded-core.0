@@ -1,259 +1,436 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5565.1793252421265247498
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5721.1793253654944424234
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2026 22:40:21 -0700
+ Wed, 28 Oct 2026 23:00:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=tRHY+CTn;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zB36uMU9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1862c6a48-ca49f9f7-cf76-40fb-a0a0-83469eb4e155-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793252420;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=uPoTccxqErTb4jbxBmtLIM/Z+AMv6kNJJSi/qJsGA6Q=;
-	b=tRHY+CTnWnG7OJ93S4TMZEmHQm2Y5NfXCyWquwIPR6IRzjcSFRdVqdFMpPwQU85E
-	KSGijBE/GPTR3NDsEC3wusjku91dmTRiS+0BLdJ/nc6IBwIiGqpG/ivMJ1wqjJL0MTw
-	Sz/qLs2yiaJRzoTdtHnhtkFxlb5h2Ic+Bh0NBkUQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793252420;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=uPoTccxqErTb4jbxBmtLIM/Z+AMv6kNJJSi/qJsGA6Q=;
-	b=zB36uMU993som9Hugp3rf08M1DSH9v96Hd9eygzgOYxAYobexOcK/5CD2Lde0BFK
-	J4tQL8/ZL5ylM0BQ8sqmYfgioSozWfOHjszisRVhg8+kbDxvAJNiZiCWxGNpayjLsld
-	ohLOti1bF9w9s+C36yvw3S9VuQ82kZpNXdqLR2sY=
-Content-Type: multipart/mixed; boundary="===============3657324326015665174=="
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=oxoAiHnE;
+ spf=pass (domain: gmail.com, ip: 74.125.82.177, mailfrom: ragaprasanth@gmail.com)
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-33fb4680717so527933eec.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2026 23:00:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793253654; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nauLrRgO2siUcy20U90hoQN4LmQjA2VAdF53pQtqDEVY/UyZtXdQQxwD5WvX7peLpy
+         aVmIv9CsMyNUuUC7Hw2ieq4b4pkIOdZjA48zyuXKE0D/J9/0TDqAxgx9NwD7AOXYQs1k
+         2OhypLw/NRFSrfGXHuapx8Mm3EJdmIWbP+RO3pXMX+CCzoK+4PdW5+WeHCoskhFkweTV
+         rmG2/kq0upinICQOv8BVYY00VhaGlBqqPVh3QUVC6DkcF7y1Llt8LkdPAPfFtVndsn0D
+         6IB+aNuG+ZDDNvptQs5wmD6/DHKY6cbMg0dnyNqCDdozVUimEtEpNNbgsEK2DQwglzsH
+         FZBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=VVHUDIxVFLrIo2SXdg7Ci02YgjGyHwZVLpkcXzPaLtQ=;
+        fh=AWggaWrKTgWJTc+6FkvE3V8kb5xAoFX50Iwj1AleN1U=;
+        b=VZuG4OHL4XmdGqCMSZxY8gM21O9pa+V4cYZwvFNHBRGQA9jv2Vr2IQjv253Bsh3/oW
+         S1QxaA4IwIX1oBiwu8x6Gpmwjan6c/uwJ+jFqpNob9ETOWY9SFacwCgMD/k26eQBlhlb
+         dZDbDX+jbTx2olBQm3xCJeosghSEFl3Vh6lgIrBGC9ckuVknUE5qwuK4kXp1ZPIExESh
+         nGrabKALhuRzlCFBIwkax2tI5SeXpSgerfuE3wtGHVim3rpbVWHTBtHQkhqxWUMiN/kv
+         BhaA44hVJYjao55OJUet4GcVjc9vaXbUUUClZZWXxaAC1Nil/Alv8QeZDV6E6tr6DnLS
+         oBcw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793253654; x=1793858454; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VVHUDIxVFLrIo2SXdg7Ci02YgjGyHwZVLpkcXzPaLtQ=;
+        b=oxoAiHnE1bT/C3QDXs2jiPV0d2MSeCFI4RZo8jP5AjrMdxXx4HT+dTIzre6Q1OEeun
+         Z32/r0rPNoUMvyRCkMMv/WbWvyct/aHh7sXKBlYynf73drWzRnvHN+gFy0l3gB9TzWex
+         xijD6dpeJ5Dkst1Ec/W4K7FVPIzJ9ZEMc8zz4USnX10CfftrhOVm77CbJcWqfZGILUfd
+         seEOyk7+s1KnEMax2jwbF7rA0iG4dTRLSgOtAxjZCoHm5JG+77H/sNrIPkbKva6LgJgG
+         gBeX/EHAqBoxVhlHQ7fkTTI8hrFoeejCySjO2z+KjqtLpY8qvgbKnEmjLCvRyuR5ViLh
+         TATA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793253654; x=1793858454;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=VVHUDIxVFLrIo2SXdg7Ci02YgjGyHwZVLpkcXzPaLtQ=;
+        b=V7AaabvmNRUcT13+y7RWaSJ/w1akGac8siknTU994QB/sL5S28LnfFLFF8DiqdsWDF
+         bTyjwSRY4V4Q4x+/GW2B36nPIExne98tsplfVORXQcOj+HdrzkD8slSHQmv71z0KHOY5
+         5crWLjQFQYoO/9cLib09OcZ9jnGVPNAv8LGM5GRN4j2YgVkj2N9HD086MvnPJwJFwUJE
+         T9jsh2v8gMZKZazL7YxEBgungnXFGuSBKaQ9y10xK3tBPJkeZKBkE1VTgsLMO2cOXBwR
+         XzHRnIjoDoVXyj30AiDLYdAZvwxcWqwb3PQwbCCtszSkmTGD3g5H3wkmj6KZp6dq6/W8
+         VMoQ==
+X-Gm-Message-State: AFq9FYL6WBxvD6EB4Wlg4t4LPf3yICWYfkEiRiLedXg6xQN7R2ta4DWR
+	SzzhNQzNHWo8LvKb/bIz6q49u4pYLJV6Owg/79JnFxGaOyf+4i71sagZGiCp6vxnCjZc+BCcrSf
+	Rcq2iYgtn69xm3/xkn0lnlD0SMO6Vz02vnA==
+X-Gm-Gg: AYBFou3gLSQjQyeU8uE/2Doqmdacp685eMLn6Ky0SSZjlyIgfiTeH5x4s8VgCwKpXuE
+	rw20QU8eCgAeOr2sd0j4FC/sME735xLmB/braZI25JwDhK6ewR/SIlHXANbZunYUSxxSVfXd+2k
+	sq/z5Ds/DThzREq/96oW9zHuQk544ccjZ0fmHlrQLSTF/9/RWT6w4gY13Ywb9KrI2rElIrAbKrD
+	NzwNOZ1BkP1iB6zhOY8bm6DYZe2OcFj7Y8Wif7zzvqQg87MwWH4wuSSyZwFg8SbqQk0wrl31hpc
+	nCFlJ7gdws7qb+y2rv2R5OmOrCbu6H3PJsjVavkPQGmAbsee7HYIJ81PifKI4JkcDFIWvxJ+nA4
+	ubNPZgmimzDAWrCbJQcXcDLubR6orZQwLQJ2k8V0=
+X-Received: by 2002:a05:693c:60d3:b0:369:2505:380 with SMTP id
+ 5a478bee46e88-36a203ff8d6mr6796336eec.24.1793253653949; Wed, 28 Oct 2026
+ 23:00:53 -0700 (PDT)
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] aspell: upgrading to 0.60.8.3 SUCCEEDED
-Message-ID: <010101a1862c6a48-ca49f9f7-cf76-40fb-a0a0-83469eb4e155-000000@us-west-2.amazonses.com>
-Date: Thu, 29 Oct 2026 05:40:20 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.29-54.240.27.33
+References: <20261029024010.2113092-1-ragaprasanth@gmail.com>
+ <6ae2bf09.0a372733.3ab85e.5e55@mx.google.com> <CAG7eodEvhmPWudqazp1WivHWN05x=TwPQww4ik_ZceruT0wAfQ@mail.gmail.com>
+In-Reply-To: <CAG7eodEvhmPWudqazp1WivHWN05x=TwPQww4ik_ZceruT0wAfQ@mail.gmail.com>
+From: Prasanth Ramesh <ragaprasanth@gmail.com>
+Date: Thu, 29 Oct 2026 15:00:17 +0900
+X-Gm-Features: AclHuK-BMCpulYiaxYGRV08-CzApvETzdSkCzTVEXtkrTvCFODdxM2P2VtqNrWA
+Message-ID: <CAG7eodGgG1nXcr7FV5suCBboKgRKeHkMVTr5XKyhvBSX8ht3QQ@mail.gmail.com>
+Subject: Re: [PATCH] kernel.bbclass: fix -dev files when KERNEL_PACKAGE_NAME
+ is PN
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000009327e065ef46787"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 05:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248895
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 06:00:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248898
 
---===============3657324326015665174==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+--00000000000009327e065ef46787
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hi Bruce,
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *aspell* to *0.60.8.3* has Succeeded.
+I don't see my patches in the patchwork, am i missing something?
 
-Next steps:
-    - apply the patch: git am 0001-aspell-upgrade-0.60.8.2-0.60.8.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Thanks,
+Prasanth R
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+On Thu, Oct 29, 2026 at 2:08=E2=80=AFPM Prasanth Ramesh <ragaprasanth@gmail=
+.com>
+wrote:
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+> Hi Bruce,
+>
+> Thanks for the detailed review and the explanation regarding the event
+> handler. That makes perfect sense.
+>
+> Sent v2.
+>
+> Thanks,
+> Prasanth R
+>
+>
+> On Thu, Oct 29, 2026 at 12:35=E2=80=AFPM Bruce Ashfield <bruce.ashfield@g=
+mail.com>
+> wrote:
+>
+>> On Wed, Oct 29, 2026 at 11:40 AM Prasanth R <ragaprasanth@gmail.com>
+>> wrote:
+>> >
+>>
+>> Can you elaborate on the configuration / build that you are doing that
+>> is triggering this ? You have multiple kernels ? and you are setting
+>> KERNEL_PACKAGE_NAME =3D  "${PN}" as part of that ? How you ran into this
+>> is important for understanding the context. It could be that we can
+>> avoid the issue in another way.
+>>
+>> > With KERNEL_PACKAGE_NAME =3D "${PN}", FILES:${KERNEL_PACKAGE_NAME}-dev=
+ and
+>> > FILES:${PN}-dev from bitbake.conf become the same variable and the
+>> > bitbake.conf value wins. The same happens for -dbg. The kernel files a=
+re
+>> > then not packaged and do_package fails:
+>>
+>> Also for -dbg, the bitbake.conf value is a superset of what the kernel
+>> class
+>> sets, so nothing is actually lost there. It is just the key collision
+>> warning. Worth saying that, so it is clear that -dev is the real breakag=
+e.
+>>
+>> >
+>> >   ERROR: linux-yocto-7.2.8+git-r0 do_package: QA Issue: linux-yocto:
+>> >   Files/directories were installed but not shipped in any package:
+>> >     /boot/System.map-7.2.8-yocto-standard
+>> >     /boot/config-7.2.8-yocto-standard
+>> >     /boot/Module.symvers-7.2.8-yocto-standard
+>> >
+>> > This matters when a second kernel recipe. So, Rename the kernel
+>> variables
+>> > to the ${PN} names before the keys are expanded, so the kernel values
+>> are kept.
+>>
+>> This sentence is broken. Can you say who actually sets
+>> KERNEL_PACKAGE_NAME =3D "${PN}" and why? I assume an alternate/second
+>> kernel recipe, but that should be spelled out. This is the specifics
+>> that are hinted at in my opening question.
+>>
+>> I'd also like the commit message to explain why an event handler is
+>> needed. My first reaction was that this was more complex than it needed
+>> to be. But key expansion happens (in sorted order) before anonymous pyth=
+on
+>> runs, so by the time __anonymous() sees it, the kernel value is already
+>> gone. Fixing it in anonymous python would also clobber any :append to
+>> FILES:${KERNEL_PACKAGE_NAME}-dev from a bbappend. A :append in the class
+>> keeps the files but still triggers the "Variable key ... replaces origin=
+al
+>> key" warning on every parse. So renaming before expansion is the right
+>> place. Just say so in the commit, so the next person doesn't have to wor=
+k
+>> it out again.
+>>
+>> >
+>> > Remove the old warning about bug 11905, which was closed as not a bug.
+>>
+>> Fine. 11905 is the same key expansion ordering issue, and that is
+>> expected bitbake behaviour, which is why the fix belongs here.
+>>
+>> >
+>> > AI-Generated: Uses Claude
+>> > Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
+>> > ---
+>> >
+>> > Notes:
+>> >     Tested on master: without this patch do_package fails with the
+>> >     QA error above; with it the build passes with no warnings and
+>> linux-yocto-dev
+>> >     contains System.map, Module.symvers and the config.
+>>
+>> Please also confirm the default case (KERNEL_PACKAGE_NAME =3D "kernel") =
+is
+>> unchanged. It should be, since the handler returns early, but it is the
+>> case almost everyone uses.
+>>
+>> Also note in the commit that with KERNEL_PACKAGE_NAME =3D "${PN}", the -=
+dev
+>> package no longer picks up the bitbake.conf default -dev contents
+>> (includedir, .so symlinks, etc). That matches what kernel-dev gets
+>> today, so I think it is correct, but it is a behaviour change and should
+>> be stated (and confirmed by testing).
+>>
+>> >
+>> >  meta/classes-recipe/kernel.bbclass | 21 ++++++++++++++-------
+>> >  1 file changed, 14 insertions(+), 7 deletions(-)
+>> >
+>> > diff --git a/meta/classes-recipe/kernel.bbclass
+>> b/meta/classes-recipe/kernel.bbclass
+>> > index 0a6d754108..b018c164fd 100644
+>> > --- a/meta/classes-recipe/kernel.bbclass
+>> > +++ b/meta/classes-recipe/kernel.bbclass
+>> > @@ -60,16 +60,23 @@ KERNEL_VERSION_NAME[vardepvalue] =3D
+>> "${LINUX_VERSION}"
+>> >  KERNEL_VERSION_PKG_NAME =3D
+>> "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
+>> >  KERNEL_VERSION_PKG_NAME[vardepvalue] =3D "${LINUX_VERSION}"
+>> >
+>> > +# With KERNEL_PACKAGE_NAME =3D "${PN}", FILES:${PN}-dev/-dbg from
+>> bitbake.conf
+>> > +# would replace the kernel values during key expansion, so rename the
+>> kernel
+>> > +# variables to the ${PN} names first.
+>>
+>> Same here. Add a line saying this must run before key expansion
+>> (i.e. it can't live in __anonymous), so nobody "simplifies" it later.
+>>
+>> > +python kernel_package_name_handler () {
+>> > +    d =3D e.data
+>> > +    if d.getVar("KERNEL_PACKAGE_NAME") !=3D d.getVar("PN"):
+>> > +        return
+>> > +
+>> > +    for pkg in ("dev", "dbg"):
+>> > +        d.renameVar("FILES:${KERNEL_PACKAGE_NAME}-%s" % pkg,
+>> "FILES:${PN}-%s" % pkg)
+>> > +}
+>> > +addhandler kernel_package_name_handler
+>> > +kernel_package_name_handler[eventmask] =3D "bb.event.RecipePreFinalis=
+e"
+>> > +
+>> >  python __anonymous () {
+>> > -    pn =3D d.getVar("PN")
+>> >      kpn =3D d.getVar("KERNEL_PACKAGE_NAME")
+>> >
+>> > -    # XXX Remove this after bug 11905 is resolved
+>> > -    #  FILES:${KERNEL_PACKAGE_NAME}-dev doesn't expand correctly
+>> > -    if kpn =3D=3D pn:
+>> > -        bb.warn("Some packages (E.g. *-dev) might be missing due to "
+>> > -                "bug 11905 (variable KERNEL_PACKAGE_NAME =3D=3D PN)")
+>> > -
+>>
+>> The code itself looks fine. A v2 with the commit message and comment
+>> updates and I'll ack it.
+>>
+>> Bruce
+>>
+>> > --
+>> > 2.34.1
+>>
+>
 
-Regards,
-The Upgrade Helper
+--00000000000009327e065ef46787
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- >8 --
-From 60aa6f0dc1712dd1e57740670a77e8c44d00e882 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 29 Oct 2026 05:40:13 +0000
-Subject: [PATCH] aspell: upgrade 0.60.8.2 -> 0.60.8.3
+<div dir=3D"ltr"><div>Hi=C2=A0Bruce,</div><div><br></div><div>I don&#39;t s=
+ee my patches in the patchwork, am i=C2=A0missing something?</div><div><br>=
+</div><div>Thanks,=C2=A0</div><div>Prasanth R</div></div><br><div class=3D"=
+gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Thu, Oct 29, 2026 at 2:08=E2=80=AFPM Prasanth Ramesh &lt;<a href=3D"mailto=
+:ragaprasanth@gmail.com">ragaprasanth@gmail.com</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Hi Bruce,<b=
+r><br>Thanks for the detailed review and the explanation regarding the even=
+t handler. That makes perfect sense.<br><br>Sent v2.<br><br>Thanks,<br>Pras=
+anth R<div><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><br>=
+</div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Thu, Oct 29, 2026 at 12:35=E2=80=AFPM Bruce Ashfield &=
+lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashf=
+ield@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">On Wed, Oct 29, 2026 at 11:40 AM Prasanth R &lt;<a href=3D"ma=
+ilto:ragaprasanth@gmail.com" target=3D"_blank">ragaprasanth@gmail.com</a>&g=
+t; wrote:<br>
+&gt;<br>
+<br>
+Can you elaborate on the configuration / build that you are doing that<br>
+is triggering this ? You have multiple kernels ? and you are setting<br>
+KERNEL_PACKAGE_NAME =3D=C2=A0 &quot;${PN}&quot; as part of that ? How you r=
+an into this<br>
+is important for understanding the context. It could be that we can<br>
+avoid the issue in another way.<br>
+<br>
+&gt; With KERNEL_PACKAGE_NAME =3D &quot;${PN}&quot;, FILES:${KERNEL_PACKAGE=
+_NAME}-dev and<br>
+&gt; FILES:${PN}-dev from bitbake.conf become the same variable and the<br>
+&gt; bitbake.conf value wins. The same happens for -dbg. The kernel files a=
+re<br>
+&gt; then not packaged and do_package fails:<br>
+<br>
+Also for -dbg, the bitbake.conf value is a superset of what the kernel clas=
+s<br>
+sets, so nothing is actually lost there. It is just the key collision<br>
+warning. Worth saying that, so it is clear that -dev is the real breakage.<=
+br>
+<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0ERROR: linux-yocto-7.2.8+git-r0 do_package: QA Issue: linu=
+x-yocto:<br>
+&gt;=C2=A0 =C2=A0Files/directories were installed but not shipped in any pa=
+ckage:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0/boot/System.map-7.2.8-yocto-standard<br>
+&gt;=C2=A0 =C2=A0 =C2=A0/boot/config-7.2.8-yocto-standard<br>
+&gt;=C2=A0 =C2=A0 =C2=A0/boot/Module.symvers-7.2.8-yocto-standard<br>
+&gt;<br>
+&gt; This matters when a second kernel recipe. So, Rename the kernel variab=
+les<br>
+&gt; to the ${PN} names before the keys are expanded, so the kernel values =
+are kept.<br>
+<br>
+This sentence is broken. Can you say who actually sets<br>
+KERNEL_PACKAGE_NAME =3D &quot;${PN}&quot; and why? I assume an alternate/se=
+cond<br>
+kernel recipe, but that should be spelled out. This is the specifics<br>
+that are hinted at in my opening question.<br>
+<br>
+I&#39;d also like the commit message to explain why an event handler is<br>
+needed. My first reaction was that this was more complex than it needed<br>
+to be. But key expansion happens (in sorted order) before anonymous python<=
+br>
+runs, so by the time __anonymous() sees it, the kernel value is already<br>
+gone. Fixing it in anonymous python would also clobber any :append to<br>
+FILES:${KERNEL_PACKAGE_NAME}-dev from a bbappend. A :append in the class<br=
+>
+keeps the files but still triggers the &quot;Variable key ... replaces orig=
+inal<br>
+key&quot; warning on every parse. So renaming before expansion is the right=
+<br>
+place. Just say so in the commit, so the next person doesn&#39;t have to wo=
+rk<br>
+it out again.<br>
+<br>
+&gt;<br>
+&gt; Remove the old warning about bug 11905, which was closed as not a bug.=
+<br>
+<br>
+Fine. 11905 is the same key expansion ordering issue, and that is<br>
+expected bitbake behaviour, which is why the fix belongs here.<br>
+<br>
+&gt;<br>
+&gt; AI-Generated: Uses Claude<br>
+&gt; Signed-off-by: Prasanth R &lt;<a href=3D"mailto:prasanth.r@lineo.co.jp=
+" target=3D"_blank">prasanth.r@lineo.co.jp</a>&gt;<br>
+&gt; ---<br>
+&gt;<br>
+&gt; Notes:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Tested on master: without this patch do_package fai=
+ls with the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0QA error above; with it the build passes with no wa=
+rnings and linux-yocto-dev<br>
+&gt;=C2=A0 =C2=A0 =C2=A0contains System.map, Module.symvers and the config.=
+<br>
+<br>
+Please also confirm the default case (KERNEL_PACKAGE_NAME =3D &quot;kernel&=
+quot;) is<br>
+unchanged. It should be, since the handler returns early, but it is the<br>
+case almost everyone uses.<br>
+<br>
+Also note in the commit that with KERNEL_PACKAGE_NAME =3D &quot;${PN}&quot;=
+, the -dev<br>
+package no longer picks up the bitbake.conf default -dev contents<br>
+(includedir, .so symlinks, etc). That matches what kernel-dev gets<br>
+today, so I think it is correct, but it is a behaviour change and should<br=
+>
+be stated (and confirmed by testing).<br>
+<br>
+&gt;<br>
+&gt;=C2=A0 meta/classes-recipe/kernel.bbclass | 21 ++++++++++++++-------<br=
+>
+&gt;=C2=A0 1 file changed, 14 insertions(+), 7 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/=
+kernel.bbclass<br>
+&gt; index 0a6d754108..b018c164fd 100644<br>
+&gt; --- a/meta/classes-recipe/kernel.bbclass<br>
+&gt; +++ b/meta/classes-recipe/kernel.bbclass<br>
+&gt; @@ -60,16 +60,23 @@ KERNEL_VERSION_NAME[vardepvalue] =3D &quot;${LINUX=
+_VERSION}&quot;<br>
+&gt;=C2=A0 KERNEL_VERSION_PKG_NAME =3D &quot;${@legitimize_package_name(d.g=
+etVar(&#39;KERNEL_VERSION&#39;))}&quot;<br>
+&gt;=C2=A0 KERNEL_VERSION_PKG_NAME[vardepvalue] =3D &quot;${LINUX_VERSION}&=
+quot;<br>
+&gt;<br>
+&gt; +# With KERNEL_PACKAGE_NAME =3D &quot;${PN}&quot;, FILES:${PN}-dev/-db=
+g from bitbake.conf<br>
+&gt; +# would replace the kernel values during key expansion, so rename the=
+ kernel<br>
+&gt; +# variables to the ${PN} names first.<br>
+<br>
+Same here. Add a line saying this must run before key expansion<br>
+(i.e. it can&#39;t live in __anonymous), so nobody &quot;simplifies&quot; i=
+t later.<br>
+<br>
+&gt; +python kernel_package_name_handler () {<br>
+&gt; +=C2=A0 =C2=A0 d =3D e.data<br>
+&gt; +=C2=A0 =C2=A0 if d.getVar(&quot;KERNEL_PACKAGE_NAME&quot;) !=3D d.get=
+Var(&quot;PN&quot;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 for pkg in (&quot;dev&quot;, &quot;dbg&quot;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.renameVar(&quot;FILES:${KERNEL_PACKAGE_=
+NAME}-%s&quot; % pkg, &quot;FILES:${PN}-%s&quot; % pkg)<br>
+&gt; +}<br>
+&gt; +addhandler kernel_package_name_handler<br>
+&gt; +kernel_package_name_handler[eventmask] =3D &quot;bb.event.RecipePreFi=
+nalise&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 python __anonymous () {<br>
+&gt; -=C2=A0 =C2=A0 pn =3D d.getVar(&quot;PN&quot;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 kpn =3D d.getVar(&quot;KERNEL_PACKAGE_NAME&quot;)<=
+br>
+&gt;<br>
+&gt; -=C2=A0 =C2=A0 # XXX Remove this after bug 11905 is resolved<br>
+&gt; -=C2=A0 =C2=A0 #=C2=A0 FILES:${KERNEL_PACKAGE_NAME}-dev doesn&#39;t ex=
+pand correctly<br>
+&gt; -=C2=A0 =C2=A0 if kpn =3D=3D pn:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;Some packages (E.g. *-dev) =
+might be missing due to &quot;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;bug 119=
+05 (variable KERNEL_PACKAGE_NAME =3D=3D PN)&quot;)<br>
+&gt; -<br>
+<br>
+The code itself looks fine. A v2 with the commit message and comment<br>
+updates and I&#39;ll ack it.<br>
+<br>
+Bruce<br>
+<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+</blockquote></div>
+</blockquote></div>
 
----
- .../aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} (93%)
-
-diff --git a/meta/recipes-support/aspell/aspell_0.60.8.2.bb b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
-similarity index 93%
-rename from meta/recipes-support/aspell/aspell_0.60.8.2.bb
-rename to meta/recipes-support/aspell/aspell_0.60.8.3.bb
-index 60d3376678..d97958d83b 100644
---- a/meta/recipes-support/aspell/aspell_0.60.8.2.bb
-+++ b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
-@@ -14,7 +14,7 @@ LICENSE = "LGPL-2.0-only OR LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
- SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
--SRC_URI[sha256sum] = "57fe4863eae6048f72245a8575b44b718fb85ca14b9f8c0afc41b254dfd76919"
-+SRC_URI[sha256sum] = "0534eae11132405120d11e46bf595bd5dd189bc124ba77a5dd6aae861b48a162"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
--- 
-2.47.1
-
-
---===============3657324326015665174==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/aspell/aspell-dbg: PKGSIZE changed from 9590968 to 9620192 (+0%)
-packages/x86-64-v3-poky-linux/aspell/aspell-dbg: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-dbg: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-dev: PKGSIZE changed from 37210 to 37211 (+0%)
-packages/x86-64-v3-poky-linux/aspell/aspell-dev: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-dev: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-doc: PKGSIZE changed from 347257 to 347808 (+0%)
-packages/x86-64-v3-poky-linux/aspell/aspell-doc: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-doc: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ast: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ast: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-be: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-be: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ca: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ca: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-cs: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-cs: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-da: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-da: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-de: PKGSIZE changed from 32736 to 32943 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-de: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-de: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-en-gb: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-en-gb: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-eo: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-eo: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-es: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-es: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-fi: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-fi: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-fr: PKGSIZE changed from 32807 to 33026 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-fr: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-fr: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-fur: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-fur: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ga: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ga: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-hr: PKGSIZE changed from 31800 to 31983 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-hr: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-hr: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-hu: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-hu: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-id: PKGSIZE changed from 31716 to 31884 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-id: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-id: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-it: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-it: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ja: PKGSIZE changed from 34747 to 35003 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ja: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ja: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ka: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ka: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-mn: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-mn: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ms: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ms: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-nl: PKGSIZE changed from 32209 to 32415 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-nl: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-nl: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pl: PKGSIZE changed from 31418 to 31609 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pl: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pl: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt-br: PKGSIZE changed from 31998 to 32204 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt-br: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt-br: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt: PKGSIZE changed from 31852 to 32035 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-pt: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ro: PKGSIZE changed from 33852 to 34051 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ro: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ro: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ru: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-ru: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-rw: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-rw: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sk: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sk: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sl: PKGSIZE changed from 30957 to 31234 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sl: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sl: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sq: PKGSIZE changed from 29903 to 30570 (+2%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sq: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sq: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sr: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sr: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sv: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-sv: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-tg: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-tg: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-uk: PKGSIZE changed from 39600 to 39892 (+1%)
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-uk: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-uk: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-vi: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-vi: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-wa: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-wa: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-zh-cn: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-locale-zh-cn: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-src: PKGSIZE changed from 974876 to 976757 (+0%)
-packages/x86-64-v3-poky-linux/aspell/aspell-src: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-src: FILELIST: directory renamed /usr/src/debug/aspell/0.60.8.2/interfaces/cc -> /usr/src/debug/aspell/0.60.8.3/interfaces/cc, directory renamed /usr/src/debug/aspell/0.60.8.2/prog -> /usr/src/debug/aspell/0.60.8.3/prog, directory renamed /usr/src/debug/aspell/0.60.8.2/gen -> /usr/src/debug/aspell/0.60.8.3/gen, directory renamed /usr/src/debug/aspell/0.60.8.2/lib -> /usr/src/debug/aspell/0.60.8.3/lib, directory renamed /usr/src/debug/aspell/0.60.8.2/modules/speller/default -> /usr/src/debug/aspell/0.60.8.3/modules/speller/default, directory renamed /usr/src/debug/aspell/0.60.8.2/modules/tokenizer -> /usr/src/debug/aspell/0.60.8.3/modules/tokenizer, directory renamed /usr/src/debug/aspell/0.60.8.2/common -> /usr/src/debug/aspell/0.60.8.3/common, directory renamed /usr/src/debug/aspell/0.60.8.2/modules/filter -> /usr/src/debug/aspell/0.60.8.3/modules/filter
-packages/x86-64-v3-poky-linux/aspell/aspell-src: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-staticdev: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-staticdev: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell-utils: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell-utils: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/aspell: PKGSIZE changed from 158080 to 153984 (-3%)
-packages/x86-64-v3-poky-linux/aspell/aspell: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/aspell: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell: SRC_URI changed from "https://ftpmirror.gnu.org//aspell/aspell-0.60.8.2.tar.gz" to "https://ftpmirror.gnu.org//aspell/aspell-0.60.8.3.tar.gz"
-packages/x86-64-v3-poky-linux/aspell: PACKAGES: added "aspell-locale-ar aspell-locale-zh-tw"
-packages/x86-64-v3-poky-linux/aspell: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/libaspell: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/libaspell: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-packages/x86-64-v3-poky-linux/aspell/libpspell: PV changed from "0.60.8.2" to "0.60.8.3"
-packages/x86-64-v3-poky-linux/aspell/libpspell: PKGV changed from 0.60.8.2 [default] to 0.60.8.3 [default]
-
---===============3657324326015665174==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-aspell-upgrade-0.60.8.2-0.60.8.3.patch"
-
-RnJvbSA2MGFhNmYwZGMxNzEyZGQxZTU3NzQwNjcwYTc3ZThjNDRkMDBlODgyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMjkgT2N0IDIwMjYgMDU6NDA6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
-c3BlbGw6IHVwZ3JhZGUgMC42MC44LjIgLT4gMC42MC44LjMKCi0tLQogLi4uL2FzcGVsbC97YXNw
-ZWxsXzAuNjAuOC4yLmJiID0+IGFzcGVsbF8wLjYwLjguMy5iYn0gICAgICAgICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvYXNwZWxsL3thc3BlbGxfMC42MC44LjIuYmIgPT4gYXNwZWxsXzAu
-NjAuOC4zLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FzcGVs
-bC9hc3BlbGxfMC42MC44LjIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hc3BlbGwvYXNwZWxs
-XzAuNjAuOC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1zdXBwb3J0L2FzcGVsbC9hc3BlbGxfMC42MC44LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1zdXBwb3J0L2FzcGVsbC9hc3BlbGxfMC42MC44LjMuYmIKaW5kZXggNjBkMzM3NjY3OC4uZDk3
-OTU4ZDgzYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXNwZWxsL2FzcGVsbF8w
-LjYwLjguMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hc3BlbGwvYXNwZWxsXzAuNjAu
-OC4zLmJiCkBAIC0xNCw3ICsxNCw3IEBAIExJQ0VOU0UgPSAiTEdQTC0yLjAtb25seSBPUiBMR1BM
-LTIuMS1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9N2ZiYzMz
-ODMwOWFjMzhmZWZjZDY0YjA0YmI5MDNlMzQiCiAKIFNSQ19VUkkgPSAiJHtHTlVfTUlSUk9SfS9h
-c3BlbGwvYXNwZWxsLSR7UFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1N2ZlNDg2
-M2VhZTYwNDhmNzIyNDVhODU3NWI0NGI3MThmYjg1Y2ExNGI5ZjhjMGFmYzQxYjI1NGRmZDc2OTE5
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjA1MzRlYWUxMTEzMjQwNTEyMGQxMWU0NmJmNTk1YmQ1
-ZGQxODliYzEyNGJhNzdhNWRkNmFhZTg2MWI0OGExNjIiCiAKIFBBQ0tBR0VDT05GSUcgPz89ICIi
-CiBQQUNLQUdFQ09ORklHW2N1cnNlc10gPSAiLS1lbmFibGUtY3Vyc2VzLC0tZGlzYWJsZS1jdXJz
-ZXMsbmN1cnNlcyIKLS0gCjIuNDcuMQoK
-
---===============3657324326015665174==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/aspell: PACKAGES: added "aspell-locale-ar aspell-locale-zh-tw"
-
---===============3657324326015665174==--
+--00000000000009327e065ef46787--
