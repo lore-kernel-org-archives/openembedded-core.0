@@ -1,166 +1,190 @@
 Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.63])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.8717.1793357086430159205
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 03:44:46 -0700
+ Fri, 30 Oct 2026 03:44:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=RFlBY+D+;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=GEXxkbcS;
  spf=pass (domain: est.tech, ip: 40.107.159.63, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pkyrchM0lr39pz3djoQ4x7wRlLrwlO329Zg6901L8JT24o/V88t9x8Qz9FoKbg4BWBOnjo1mhUxWMzr7XUkwk6z40qqLphbM2klInW17IRPhh7/uYZtzSuE5KDxbWWQ7n76Gv4e/MWWUryw5C7a6SLZvENzbbiKexm5hvxTrz8jgtfexvMcTexHmIMh1DwvMDIusspoPjWOym78IFyVpR59qL1JoEEnqMUHkqWyQx2h7+6hoNTUXpHh7dbBJ2X66o/qYFmK5rjvZRq/A4XkVcDMoSeZlVGMn3UGtQxg/m3JxI+ntlXn+Ckg+b+vScpCE/djaiBFDODxQncQTh34VIQ==
+ b=hGd4xVHp84HE8gbPtGoruaAPZK6K1JMRBzmMiN7jawogdDFSJIPaFUhD266STzNRYsF6NNuNjGk5DY5F7lQFidjSKsIeI1i1F220pOkfm4tr+BoRef/WBPcp/knFdmyhSCkZNrZ13SQeiky+e1GSHCqZ336I4jsgPOb85xdIR+62REwGLCKOOoHSWxuuyU8cX1VudNMJCzyN7fFHfGfBLnQQ4saxYRd4yx/bvUYUgozE/EO+sO0hYIRyqoTsseuGSGbJDQqUJM95OlTRRpfww6Gyu7Gdw0uevHpXNnT+a1e6mQVfTzF1Ikc3vcRop1+lz03A+i3wGzZiRKD9/0GVHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y4YAslMbIGiXQ7uLDjIFcC9ibL+pDRMPPRWWkBjgJjw=;
- b=kqg/JdwTGn74c4MIqxb4sAytc0Ppk2LLeBqGjJu6v+Yz2th4eZ/xkXR1hBhD7NerqCIEiEpfuCuizWNyD3osXxrLSNyBnP0NcczjkpHfki2Td+Yu35CccFmencxE0u1kxC5ErT/WCJe8/QeIJuvbBuU5G/Rpdz/6gG0OwZ5yMi07gIR4LSL8bCJd4h28Mpl2UNyDO9sfDV0iOHGZl2nuOZvDhi9D+HQffBI1HgX1Gk7edmMsfVK8uHzJI2eO2YJ3XeLWG8T9meFtZJPNe53kej81LuTSxRjo0nxOBt9btenKYdEeWENPcd6bP1HeoMau+PINkrNiPjzC/NEbulq5Sw==
+ bh=+Z192O3hg8yuR1oQAnPG2g9XmT6HHbYtagoq9u6+hlM=;
+ b=vbFxoPuQlgZWOTr0oKdv5T0kmAJZVCdzJwl+F9ZBiVwxPpTh3exd0ltIDpom60bOGhgyYc98op7J6JJRcJ//YuoXm9f9iFYZ7beDM7Td8uU2SxnFJXKivR57K7f8oIDcPvklhC8fM+mNxDOzejzDj/+UAccxOqKiq2d3IYMZcNcuT7Lyh3cbrT/pVR+4ubnKtk/7oatE74QDSkMnyekTyj2+tFuLwaNW0eFiXGTT+R+IzZuQGTeZIeGu1qtHLQzOdspJdBRddIz1aeJBz+z1C2HYmo2dlGY3uN/I30dgKY78uP4F0FCkdrNxTT9HvbUalDLwMIpfU4JGYIA9p81KkA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y4YAslMbIGiXQ7uLDjIFcC9ibL+pDRMPPRWWkBjgJjw=;
- b=RFlBY+D+Ibu9nR5I+20ydPOPnj76ao2GVQRCoENNB/zFoEO8zaWpvum7B0ORZi5yBEqNZPo+8OOPvchfCWX/Q/3qy0hLAMR7iLKW86t8kvZILeIOG6+3Xh7MstPGDD8apnFDk0QKQGKSUGymB/yg0+4xRDBuKn4y7LJGoijXSyZ8MNic5wtkiPpC5OdA1Eolqp66Rv9pMBOqmuRu5HK18mYVT8e0lv2OsquWs94pOYF49g28juHAAA4qFvo5DlUKjzPF4l5JPPvVjr3JUjCyLMMbhTEB+ze2fF9e+KoPvjocEmJoH8BdIQh3jbsOYv3qGvIwXw0lLM24i95xGaeyBg==
+ bh=+Z192O3hg8yuR1oQAnPG2g9XmT6HHbYtagoq9u6+hlM=;
+ b=GEXxkbcS7Knk3TXd36WEwa6d0bp41SmuKjwfxd2eTlDJqAJbhUw4m1ci3JZe85Hn6dfunYAgrdgyO6Np8lQ1aKlhEEVH/RDbB/7NI31oTNnuD3uy8IQCBQpwRjEduJ0VPO3pKog1DQeRWF0FT2ty0BAtZJkRDBxhCXL2BR4czgMHII46TX6qypGFTmxn3UGhBczATRsYysopW1SLIs/3oOdRJa6HwsPcriZavRRuMRr1UIHmgl+mrEzvK3q78kIgwG2EYuHjkZ8MswZSAsFTVvdtSxVvTIQm72EHREjVZwyq9lJoP5LZribGxc8tukS7wxbZJ02PSMbpBZeJtXtqnQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by AS2P189MB2606.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5f1::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Fri, 30 Oct
- 2026 10:44:41 +0000
+ 2026 10:44:43 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0569.008; Fri, 30 Oct 2026
- 10:44:41 +0000
+ 10:44:43 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/9] Upgrades on 30th Oct
-Date: Fri, 30 Oct 2026 11:44:30 +0100
-Message-ID: <20261030104439.18901-1-jaipaul.cheernam@est.tech>
+Subject: [PATCH 1/9] debugedit: upgrade 5.3 -> 5.4
+Date: Fri, 30 Oct 2026 11:44:31 +0100
+Message-ID: <20261030104439.18901-2-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20261030104439.18901-1-jaipaul.cheernam@est.tech>
+References: <20261030104439.18901-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DU7P195CA0022.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:10:54d::16) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZPR01CA0213.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b4::27) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS2P189MB2606:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ecc7273-3628-41d7-5aed-08df3672cdb2
+X-MS-Office365-Filtering-Correlation-Id: 5dad8e38-4cf6-424a-899a-08df3672cea2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|11063799006|56012099006|261009223027099003|261026140227099003|261028144727099003|261026121527099003|261021121427099003|261022105027099003|261021123027099003|10067099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info: jEzldPd7eb0T5lvV+PIA/TP59JnrQb00IEmMGi2mzCCdB+fBCHpbSBuAkTKQnjJy3UypS8zqcdlJv2Z7luObfAOAN1UAY8CI1YK+z9O9Pn0PQhDKPBhdyNdnDJNT4tW7hXdDvmbMz/3jwi76C4Ems0nEdceLKRKi4uc2knjc3yi30S6FboIc9JddWO7cJfIkTw77g71/1SxsWnZOwzhQX2Pky4F84xsEdRLJoxXIQwRMcC2tEFmsXAYJEp0HBfgUE14SvsyESmAZoNQrrj8K1nrb5WxZFYDBMZEiUZU0z9Q5BcufZ9anvdaGenF00AeKtf4xLVrAWZi2mrdOIyDVhsOvsDx4vEOneDUn6HAdzyF9gFLJ25GLVbU/JLodpiZo0cNgVb+9AjnGAjVeNEj3WjT56gxRxikXJrYbolM4WrumCp3pBgJmxet4C9+e5iNarwmiPwt8BwNM+8ub6pHeQ+wDmoShm7in0sc/ZLB5EGTVhzc06BhVmIf3NvgBqZZkGib2U4Zr6dCXdY1EnJIS4p4zKVCJx72wymM9aJ/fb8yWMNz0CXfwXD35+9KCGzb4rZOAV0/ixyCv6PZg6uTXlSBb8LpBqRNieYFgOD8+5/iaAQL2dEYkzPr+2fDpXh5GCon7K4nZavrXnGui23emg8BvrSg/Bz5Wg9IDN2D/Kos=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(11063799006)(56012099006)(261009223027099003)(261026140227099003)(261028144727099003)(261026121527099003)(261021121427099003)(261022105027099003)(261021123027099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|260925022911599003|260925021311599003|260925021911599003|11063799006|56012099006|261009223027099003|261026140227099003|261028144727099003|261026121527099003|261021121427099003|261022105027099003|261021123027099003|10067099003|25016099003|12006099003|22082099003|18002099003|29003799003|6133799003;
+X-Microsoft-Antispam-Message-Info: 4O5gfus7A0iJB+ok0dJvIps2M+HTv2RpxJiSGir2uAw72BHfpOoZO9T6mdgzR12gwIb9PU1mF7i7kT66SBsnYSgUNFlEE9VsXZkE+lwR8Sp3K6PKja8ts1E9geQoLMCOhG+nPgsCa+7T3/c0y0TwQH2dvOYoVRfhv+EnY5EMUc2+O/yJSIpQ0Iy65mVQ15sFEl4oK58MO7RDGpWKoyfSpOLzZUtZS6c2+AjPDi6kM6vnqDO3kMdaCkYySwu+3s9ibOpsNZGbmBf7IAs2ZoYAbHKNXDkCHlZto4A0/zhcwsYNL1cn9nt52IxtPtHt+lofusjs6rwJY3fujlolDgnShtOdKepddE382OXw+0L4OnrsDEUQ7/MmkhKgSs3FuCfUlMXRDQvyqGvyUcWTeReLAXTFHYG0ynksYDpRcfe323drLkj/Qriko1Au5v07G27gOkB2nceGVJRUI/5ZKwIaubixhLmy0e6+XDY+CmpjsUngquqU2iezGA5eWZa4dIEXfC+YDN5/nADU1TgeXthdt5iqp/Az42kY4Z+BZyh0WUXJV3zO9FYmPckH7+YeymyCf4cfAJblRKXIxJdkYn7CkTw3vthhf4uOfu/cmFcnIj0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(260925022911599003)(260925021311599003)(260925021911599003)(11063799006)(56012099006)(261009223027099003)(261026140227099003)(261028144727099003)(261026121527099003)(261021121427099003)(261022105027099003)(261021123027099003)(10067099003)(25016099003)(12006099003)(22082099003)(18002099003)(29003799003)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?I72ElFa6v6n18syJX0hG1SkUKuCqI2ebwSdsjs0WwjQUd8Vs2I1teAZWrq43?=
- =?us-ascii?Q?GlWVv+sCQgjyZC97NnA/2X2a9lQy5S5bGAChvGaVozoMYqQLcaDTwLrlPuvd?=
- =?us-ascii?Q?0N8IHdFanr5vJkkU7HrDYsPsZIqD1zwvFMjl7gZFQGQ+xAsAEUdut2JQJZV5?=
- =?us-ascii?Q?b6H9QcpHxRHMcmq50lPpTAAxP48nLzs4ADCm+ypiE3v7uifaPzvMBBQ/8NKo?=
- =?us-ascii?Q?8BkuwfuxSSX+LTKbBnHrHhI1zaKVfXo2koOO9otKicx15U353mArxpO5JqzP?=
- =?us-ascii?Q?AGizXrrwg0hGAnb/DDmdKBvC9rxgTvcGeKaM1Pto7YAZTGgRmEfLWOJwYMS7?=
- =?us-ascii?Q?cTQVhZpeMuMwS11u1D8hcKbEFR7Wmr7FcFxA5pLW5Iu6h26eyDlh+oUlZUls?=
- =?us-ascii?Q?9/AoeMTFtu8qPgyPaZo1zQnlwrmOJHSyojHmdPL7bh5027DjJNnW+PRGUKJa?=
- =?us-ascii?Q?x91JUG1fyP9KQ+0RqKy77wEW0VH22z46pYav3BPNdteQFgvmla/B5giUiUEH?=
- =?us-ascii?Q?fWljuY3qQiwYP7WE0+0XPb9nVKN+DlZ+n/nuxuOE36FZUlNEUlAy/nMMYCZ6?=
- =?us-ascii?Q?Rjy22eoiWHRXZ8Hj040+wqroAxmlvzpaPMOg5OFZaRX85y+NiZtoecrddsr1?=
- =?us-ascii?Q?YLEW8MN4DTRFfOt3EjAuipLBQ3bUbMlVkQBoEcdWgX7G4IqlvHMoc8qxRu4P?=
- =?us-ascii?Q?HbyXoyoFDj26XRixQkMfiuftSP3hEa1fNSkJokj9Fm8fofVBmqRNaBZud7hR?=
- =?us-ascii?Q?LEXuVE3ZIFpWfSvJ40yegz1bzInU2zqclm7JydSwOXeNBm865ABMyIeizRrv?=
- =?us-ascii?Q?iGG7J9hBV0RGtoFjh269Nre6g6fIk/mVj32ZvA6xILzczf+L25GDVNnqq6Ux?=
- =?us-ascii?Q?iLx4NMFLh+vwZucCzu2WtMkvTN69QMfSY6ri3PGXtb4As6Bq5GwPGD9opEK1?=
- =?us-ascii?Q?DpTWLbJivxxVGxCgxPa/aSXMcVLIb7qYpNhpAE8Jt6xdhGCE8P22FLQFk+nx?=
- =?us-ascii?Q?lc6inRGdSxhPVOEc6y6fvFIakjgR/PkZ3JrEAVkpwLnzIn8jF+Hxdp1+J9w4?=
- =?us-ascii?Q?iWNBkq5z+1D9R35/qhKOLN58vNEw3WMa0517GRowedltlVRgjaHaSFGt/ULp?=
- =?us-ascii?Q?46AM9XYLEo4szjY2EMGySMJYscXBe7Hdab6HTB/mLUh5lHK0hBElGT6cJRnp?=
- =?us-ascii?Q?Ory1ak2tSyW066a/jZBpNjMIIfkDLEeSbYVEDk62ZvakLcQfG9GR7dJryc4I?=
- =?us-ascii?Q?/lAdNPFbVir5er7OiEOiOJhElwaOXJ8kBwrn9rV+QnJAgNZlYfpuowwb5H9o?=
- =?us-ascii?Q?EWocb61GTiUPtuW1ZyTLAciazbBCiTrjuvMj5GPCsS+9qs+cL8z9NpHqtFqe?=
- =?us-ascii?Q?zF6IHqQWd+GBCCR+JIRjzlgWfeP/Oi0zh1s1Txk5EnDdfaXwrmCNyt6jelr4?=
- =?us-ascii?Q?I8N1r+5jBI8OE3typARXD5UDn8KdIfupFI3WCi5RhTztfAn0eTHW5DLGNggW?=
- =?us-ascii?Q?5++0iqZgfw4UUT0rESg6/De00Xl0kK/eWXEf0AL80eBHORaV6Qn4cZD108XY?=
- =?us-ascii?Q?VMFtERl2SUrKFXVwjOquo7uTleiQ9onzMnqzrxA++61uXrGUwnrL57t90Ism?=
- =?us-ascii?Q?l+4Dx/c/GGajHkTAcC15esrfBPlIk1JWBYeYbuWGxQwE1dLyK1JBHk3yHjKh?=
- =?us-ascii?Q?M5TEKZO5wt8x2QN4B4wRlRjvngfi4uvGj1nTmWw/mQmyd/zDMGVD0X/z2hIo?=
- =?us-ascii?Q?IPIfyhhHnw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pW6XjtuWt+kN/xuj1gW4h6xn4kNnvsc10RLSpDlqksA0TUVeonFexDqAfcOo?=
+ =?us-ascii?Q?VFgU5ETJuhcW7DQPGUXM0HLi6LRT2wIVY2/dRY7S0mvY+C2h8MdInBmpQ5uS?=
+ =?us-ascii?Q?ys8Q4Tphvx72fsOXopA3XK0fDuPwFa+JioD+KyMg6EEvSCTrnwJF4uqeinUR?=
+ =?us-ascii?Q?Snnp38PWRhizr4mZ0+kOHnugmRTBchgoR5XBe8mXl2qKUmlPU1sd6/zFWpHt?=
+ =?us-ascii?Q?uqDSpnXYXmTKcWymX3sts8Q6MV/nwb6XmZWL1LcKvxS8CLZbxxhfjcd9kMNe?=
+ =?us-ascii?Q?nI/W15CUDAjjC0RshJm5Tc54oxeIzaxb6PDdJ17xO0AdrbFpslsQUzjJcRCc?=
+ =?us-ascii?Q?Qt28kV3wvWIbynRfiLEhuGKg0N39UrANvXonAGqOTNiLs7Iz1S+62KJVQFTz?=
+ =?us-ascii?Q?BXm3S5DDAuYccDY4byAmGfgpgHDEtOBM2Fbc//vWDiks7AHdU3MsyiSLaVLE?=
+ =?us-ascii?Q?tUDDrtQ7jGXTjAZ4M1Tp2yOYUpaAByedfbS4LbGlgzUWBu3Y5ato1rekV12K?=
+ =?us-ascii?Q?nZopTcdz4sOLhOAW4WHq7OxRxThpbZNHz+2UgnIISmjPX9wIet+05aGnrXQC?=
+ =?us-ascii?Q?+RmGc+mLY7R1JB+o5JuYXPgXtI5j57WByvG2saRNeyBnKbEsmf+1tYY3zpih?=
+ =?us-ascii?Q?ESvhagjVgetWctN9VkTIbs9zyRDC66jfhyOsNP0UvwfS+aoYmtKs1Nl3zTDw?=
+ =?us-ascii?Q?KWju2EZtRyS9TuGx9283ULubH5JPrb+ZjBxvj2/1rCluV108yqJYv2Ka0Bmd?=
+ =?us-ascii?Q?9+Z3NEaoWTBkvbZXNRtkNLDvV+C7+1+CajdEuf9bGot6fsD4SGqeTx6M3QO+?=
+ =?us-ascii?Q?LOEVxM8RkvhDi1oH81X5geheUHhrUO88Tz75pWT04rM5kmhAO2brdwpSIBbF?=
+ =?us-ascii?Q?fQ93+d73gXEAXi9d9/AcnUB1trRt6FektCu1Py1T53pcvofl2K9Oo/aRbr1v?=
+ =?us-ascii?Q?+juIeFXzkCrcd9MW9e2p8cJNuauZgy/5Car7f+ZS6wjhfn4QdtCWjV24wR6O?=
+ =?us-ascii?Q?Fy4Mvhbqt8BVZIEcB6XsEdIgOEzenm/hSAlnMEqllbwyZrrzuHHIKi+mbxU4?=
+ =?us-ascii?Q?uufaX/th0CzRF0c7N0T65XGfUwto/6IWAOZH731EnwyWrHlE6D8Ja3Zw5lag?=
+ =?us-ascii?Q?v9V/FrVimxGb+Uwd35W1WfNCCFqQaZGIJCTvvqq9ZCxaBghDlqMBsdDJudAc?=
+ =?us-ascii?Q?DRO42MIMj1D9iKBOnntEhMp0xEYIA9aho/W2RNPAZX9/HXRgg3I9p4AsS3Qk?=
+ =?us-ascii?Q?KSIeGHndf8piw2XZLIkMXlav/RtlCYmsVqCiFKySAWwjA+yNcBqUDZgtjGQx?=
+ =?us-ascii?Q?278t4bTCj1HfmkJSfDD048fZFLSY+VLnJcL9AefHL3wDINh4CZ8D0FOSIbdi?=
+ =?us-ascii?Q?Ok0ZIIYeOWD0G/fn39ISMgF/Q8roOIKf06GJieKUn+jd4Z32Y7fM/RL4Y6RX?=
+ =?us-ascii?Q?zZFqD4zoZazv8+qkWUh4xoN6ZzbhS4yospejWtOcLU6dBb+mFKDhUuxbO1Il?=
+ =?us-ascii?Q?hSN9lpETQ4JwGprRdojfDuJbI6eIgq5Ne7DMfeKd1Rny0lqlw8wf7yQKtWeV?=
+ =?us-ascii?Q?ZP+/jRHq3X4H7/s3p3SD2noMV3NsywPnpNcAEP3TPN8ZiYQ0ZxNibvL4aGoP?=
+ =?us-ascii?Q?AI9fePM3x9yiR7J9mNxBZuI33arxOw0/j4mjlcJFYPnD1cRv8JeiDJjQ08IG?=
+ =?us-ascii?Q?QXjdRMFnwdh+p2B4P3T9Z40bC+VeqLGNFj3L9SjusrtFibeW2TtQenHq0TI4?=
+ =?us-ascii?Q?f12NgxKsXA=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ecc7273-3628-41d7-5aed-08df3672cdb2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5dad8e38-4cf6-424a-899a-08df3672cea2
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 10:44:41.6515
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 10:44:43.1998
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nJpzyTygrwdpR3RC81Eb5cmN4ABh4JRDR0bwC1pGqNHre5irf1Ro+b4aE614R1T0t4cWtEL6JbCuGkseSNjUy3o6qDc+7ndlJIUABvb/isw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: bVLT82f0jI74SzT2UgFkht6WhDssU40U9+mbwxibM1igVWyfFjAMk8eKn/cBzeD2eI7Ke3b3dvPD3ZuL/62BedXDdMlLoRXhYUx5v2XlEoA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2P189MB2606
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:45:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249017
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249018
+Content-Type: text/plain; charset="utf-8"
 
-Jaipaul Cheernam (9):
-  debugedit: upgrade 5.3 -> 5.4
-  libslirp: upgrade 4.9.6 -> 4.9.7
-  librepo: upgrade 1.21.2 -> 1.21.3
-  epiphany: upgrade 51.1 -> 51.2
-  qemu: Upgrade 11.1.2 -> 11.1.3
-  libx11: upgrade 1.8.13 -> 1.8.14
-  libxpm: Upgrade 3.5.19 -> 3.5.20
-  libxrender: Upgrade 0.9.12 -> 0.9.13
-  libxtst: Upgrade 1.2.5 -> 1.2.6
+git log --oneline debugedit-5.3..debugedit-5.4
+14f5719 (HEAD -> main, tag: debugedit-5.4, origin/main, origin/HEAD) config=
+ure: Set version to 5.4
+2682b77 debugedit: Update section headers if section headers are not at end=
+ of ELF
+09d391a debugedit: correct spelling mistake of encoding
+655aba6 debugedit: Handle CUs that aren't zero terminated
+405d97d debugedit: Guard that .debug_abbrev ends in a zero byte
+bb0fb31 debugedit: Sanity check .debug_str_offsets index
+1daafec debugedit: Add terminator checks for .debug_str and .debug_line_str
+07a6fae debugedit: Don't use alloca and sanity check line table dir/file co=
+unts
+e683355 debugedit: Add CU sanity check to edit_info
+140f2d6 debugedit: Use ELF_F_PERMISSIVE when using ELF_F_LAYOUT
+2fe958a debugedit-classify-ar: Check while elf_begin loop failed or succeed=
+ed
+f09ecfd debugedit-classify-ar: Use strtol to parse -m argument
+c0db16f debugedit-classify-ar: Close elf after elf_getarhdr fail in classif=
+y_ar_elf
+33b0de4 debugedit-classify-ar: Break early for found_debug
+2a1acc6 tests: check eu-elflint works before testing --check-elf
 
- .../slirp/{libslirp_4.9.6.bb =3D> libslirp_4.9.7.bb}  |  4 ++--
- .../{debugedit_5.3.bb =3D> debugedit_5.4.bb}          |  2 +-
- ...ac-do-not-check-for-executables-needed-onl.patch |  4 ++--
- .../0003-Makefile.am-do-not-update-manual.patch     |  2 +-
- ...-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch |  2 +-
- .../{librepo_1.21.2.bb =3D> librepo_1.21.3.bb}        |  4 ++--
- ...{qemu-native_11.1.2.bb =3D> qemu-native_11.1.3.bb} |  1 +
- ...ative_11.1.2.bb =3D> qemu-system-native_11.1.3.bb} |  1 +
- meta/recipes-devtools/qemu/qemu.inc                 |  2 +-
- ...ddition-environment-space-to-boot-loader-q.patch |  2 +-
- ...cv-extract-sfence_vma_allowed-from-helper_.patch |  9 +++------
- ...force-disable-SDL_HINT_VIDEO_X11_FORCE_EGL.patch |  2 +-
- .../qemu/0002-apic-fixup-fallthrough-to-PIC.patch   |  2 +-
- ...002-target-riscv-add-helper_tlb_flush_page.patch | 13 +++++--------
- ...cv-use-a-targeted-TLB-page-flush-for-sfenc.patch | 13 +++++--------
- ...004-qemu-Do-not-include-file-if-not-exists.patch |  4 ++--
- ...ome-user-space-mmap-tweaks-to-address-musl.patch |  2 +-
- .../qemu/qemu/0006-qemu-Determinism-fixes.patch     |  2 +-
- ...n.build-use-relative-path-to-refer-to-file.patch |  6 +++---
- ..._SYNC-and-MAP_SHARED_VALIDATE-on-needed-li.patch |  2 +-
- ...-configure-lookup-meson-exutable-from-PATH.patch |  2 +-
- ...e-pip-and-the-python-venv-aren-t-used-for-.patch |  2 +-
- .../qemu/{qemu_11.1.2.bb =3D> qemu_11.1.3.bb}         |  0
- .../epiphany/{epiphany_51.1.bb =3D> epiphany_51.2.bb} |  2 +-
- ...2-help-meson.build-disable-the-use-of-yelp.patch |  2 +-
- meta/recipes-gnome/epiphany/files/distributor.patch |  4 ++--
- meta/recipes-gnome/epiphany/files/migrator.patch    |  2 +-
- .../xorg-lib/libx11/disable_tests.patch             |  2 +-
- .../xorg-lib/{libx11_1.8.13.bb =3D> libx11_1.8.14.bb} |  2 +-
- .../xorg-lib/{libxpm_3.5.19.bb =3D> libxpm_3.5.20.bb} |  2 +-
- .../{libxrender_0.9.12.bb =3D> libxrender_0.9.13.bb}  |  2 +-
- .../xorg-lib/{libxtst_1.2.5.bb =3D> libxtst_1.2.6.bb} |  2 +-
- 32 files changed, 48 insertions(+), 55 deletions(-)
- rename meta/recipes-connectivity/slirp/{libslirp_4.9.6.bb =3D> libslirp_4.=
-9.7.bb} (86%)
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../debugedit/{debugedit_5.3.bb =3D> debugedit_5.4.bb}          | 2 +-
+ ...configure.ac-do-not-check-for-executables-needed-onl.patch | 4 ++--
+ .../files/0003-Makefile.am-do-not-update-manual.patch         | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
  rename meta/recipes-devtools/debugedit/{debugedit_5.3.bb =3D> debugedit_5.=
 4.bb} (93%)
- rename meta/recipes-devtools/librepo/{librepo_1.21.2.bb =3D> librepo_1.21.=
-3.bb} (87%)
- rename meta/recipes-devtools/qemu/{qemu-native_11.1.2.bb =3D> qemu-native_=
-11.1.3.bb} (99%)
- rename meta/recipes-devtools/qemu/{qemu-system-native_11.1.2.bb =3D> qemu-=
-system-native_11.1.3.bb} (99%)
- rename meta/recipes-devtools/qemu/{qemu_11.1.2.bb =3D> qemu_11.1.3.bb} (10=
-0%)
- rename meta/recipes-gnome/epiphany/{epiphany_51.1.bb =3D> epiphany_51.2.bb=
-} (94%)
- rename meta/recipes-graphics/xorg-lib/{libx11_1.8.13.bb =3D> libx11_1.8.14=
-.bb} (92%)
- rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.19.bb =3D> libxpm_3.5.20=
-.bb} (88%)
- rename meta/recipes-graphics/xorg-lib/{libxrender_0.9.12.bb =3D> libxrende=
-r_0.9.13.bb} (87%)
- rename meta/recipes-graphics/xorg-lib/{libxtst_1.2.5.bb =3D> libxtst_1.2.6=
-.bb} (86%)
 
+diff --git a/meta/recipes-devtools/debugedit/debugedit_5.3.bb b/meta/recipe=
+s-devtools/debugedit/debugedit_5.4.bb
+similarity index 93%
+rename from meta/recipes-devtools/debugedit/debugedit_5.3.bb
+rename to meta/recipes-devtools/debugedit/debugedit_5.4.bb
+index 6b5f2aa99e6..d80462500a9 100644
+--- a/meta/recipes-devtools/debugedit/debugedit_5.3.bb
++++ b/meta/recipes-devtools/debugedit/debugedit_5.4.bb
+@@ -14,7 +14,7 @@ SRC_URI =3D "https://sourceware.org/ftp/debugedit/${PV}/d=
+ebugedit-${PV}.tar.xz \
+            file://0001-configure.ac-do-not-check-for-executables-needed-on=
+l.patch \
+            "
+=20
+-SRC_URI[sha256sum] =3D "3b8c6396fe235e0270c9b9c0d244cfd0e86c284fc27e820acc=
+58360e7cfa08c2"
++SRC_URI[sha256sum] =3D "00e1d74d31df9012913975b76ab0d864f0e2569d29e3127131=
+7161187803813a"
+=20
+ DEPENDS =3D "elfutils xxhash"
+ DEPENDS:append:libc-musl =3D " musl-legacy-error"
+diff --git a/meta/recipes-devtools/debugedit/files/0001-configure.ac-do-not=
+-check-for-executables-needed-onl.patch b/meta/recipes-devtools/debugedit/f=
+iles/0001-configure.ac-do-not-check-for-executables-needed-onl.patch
+index a241972efa1..ce22819c967 100644
+--- a/meta/recipes-devtools/debugedit/files/0001-configure.ac-do-not-check-=
+for-executables-needed-onl.patch
++++ b/meta/recipes-devtools/debugedit/files/0001-configure.ac-do-not-check-=
+for-executables-needed-onl.patch
+@@ -1,4 +1,4 @@
+-From bb64eddf41794ca5fd85dc3fecd29246d4d9ad23 Mon Sep 17 00:00:00 2001
++From 8e96d0537ef99fb0fd6e12c647cdc279737ac808 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 17 Jun 2026 18:59:57 +0200
+ Subject: [PATCH] configure.ac: do not check for executables needed only in
+@@ -17,7 +17,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+), 26 deletions(-)
+=20
+ diff --git a/configure.ac b/configure.ac
+-index 4868844..8d74463 100644
++index f9ca877..0782036 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -51,31 +51,6 @@ AC_CHECK_TOOL([NM], [nm])
+diff --git a/meta/recipes-devtools/debugedit/files/0003-Makefile.am-do-not-=
+update-manual.patch b/meta/recipes-devtools/debugedit/files/0003-Makefile.a=
+m-do-not-update-manual.patch
+index 50be95696d6..607e8849574 100644
+--- a/meta/recipes-devtools/debugedit/files/0003-Makefile.am-do-not-update-=
+manual.patch
++++ b/meta/recipes-devtools/debugedit/files/0003-Makefile.am-do-not-update-=
+manual.patch
+@@ -1,4 +1,4 @@
+-From f9e6f9cadedc94323e8878e60aaa684be7c52d97 Mon Sep 17 00:00:00 2001
++From 84cabce9acfecfd5d07aaed3a007abe8782feca6 Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Thu, 23 Mar 2023 13:09:23 +0800
+ Subject: [PATCH] Makefile.am: do not update manual
