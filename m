@@ -1,75 +1,63 @@
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6242.1793343934535302039
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6284.1793344308477143558
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 00:05:35 -0700
+ Fri, 30 Oct 2026 00:11:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=EKP4hNH6;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=1UjxGVQh;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1A0AA4E4139A;
-	Fri, 30 Oct 2026 07:05:32 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B3BF44E4139A;
+	Fri, 30 Oct 2026 07:11:46 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DA694603C2;
-	Fri, 30 Oct 2026 07:05:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 84CB3103287DA;
-	Fri, 30 Oct 2026 08:05:28 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 78A47603C2;
+	Fri, 30 Oct 2026 07:11:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E7D26103287DA;
+	Fri, 30 Oct 2026 08:11:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793343931; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1793344305; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=9YOJHKszX4enul69GLfJeulxXxqnGYySvpte6y2iaFc=;
-	b=EKP4hNH6PhixIXLivu08Ah9sbr4p4blyc6Y0yiS6pXPuSkG3ht6ERuJqBGM9fgdr0zGw/F
-	1JfFGPHYu6EW6+kVWxwLCW9OSxAwPzUcX1a/5ZEWnFhnksFGrgMCnXEn2FSUqNj+7VoZyZ
-	0GeJ2zcjb3rNlY8/LD353nC3gEdrrbGk5fMGCdh8uimS+EWBKMhGHNGlbokZfQ3HAOXOhe
-	cmO+QlUAMIYYYDXiBjx4aZfewvH8AdnCXLfWmC3a/dCFHYzJMxd6G5A6uqCb0bw1OaCDIg
-	sC88x+ltyRsZzA3XFK15iuEGxcIwUtVO/vZzZiK3rHdCQM16FuahaZjvFmdbfw==
+	bh=yj/RmdyfkPXQ02FhNnsgBFELsgJgEqfI2qL8Hf6yhJU=;
+	b=1UjxGVQhZJwKZhZMSjiVGqjvssPPZ3/ItMstZzRjRGYV3QVaA/1Poj7tj3/tZ2MyknpTKi
+	TsszKYonJkHEEp1IaUaMDWr/8aDMC8mus9FvwLtzB3KndwTnHHbe+x3fEm5irBWiK6+8Qt
+	x0gjR2ExMtgLirTc5faaSX0C2jCtTZ6MEXW5fxeyl/QNsBbTw6PqUry9OK1kyIqiA9RyJP
+	erL3DNJoV/rc96qOcEC2mHJQcqJEK5lgwbfONo4VYsGJYTvIpGIWse+n3WuPGWuc4ORZpb
+	e9zaI7zpb9UjqTAMgo7AOBb9mCE3Ymkv3IUaHTGW0Nc0RnJfWPHZlDo+q9Cfmw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Oct 2026 08:05:27 +0100
-Message-Id: <DMHZD6V13WC0.2307BYF5XATFW@bootlin.com>
-Cc: <openembedded-core@lists.openembedded.org>, "Ricardo Salveti"
- <ricardo.salveti@oss.qualcomm.com>, "Paul Barker" <paul@pbarker.dev>
+Date: Fri, 30 Oct 2026 08:11:41 +0100
+Message-Id: <DMHZHYL1PXD1.KB99W7BEUE3U@bootlin.com>
+Cc: "stondo@gmail.com" <stondo@gmail.com>, "JPEWhacker@gmail.com"
+ <JPEWhacker@gmail.com>, "Paul Barker" <paul@pbarker.dev>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Otavio Salvador" <otavio@ossystems.com.br>
-Subject: Re: [OE-core] [PATCH v2 3/3] checklayer: Share each world signature
- dump between the tests needing it
+To: <kazuyoshi_akiyama@jp.honda>, "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] spdx30_tasks: Fix duplicated revision in Git
+ PURLs
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261019143924.1521981-1-otavio@ossystems.com.br>
- <20261019143924.1521981-4-otavio@ossystems.com.br>
- <179327642127.31634.6504288368028561565@ossystems.com.br>
-In-Reply-To: <179327642127.31634.6504288368028561565@ossystems.com.br>
+References: <TYYP301MB1158B7A88A133C646658C16AEBAF2@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM> <CAJdd5GZSuNS-ykMbZQc82aAqSmnGdv6-q0r7qfLUpjr_tBLiAA@mail.gmail.com> <TYYP301MB11587036529EF529116C88DDEB6D2@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM>
+In-Reply-To: <TYYP301MB11587036529EF529116C88DDEB6D2@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:05:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248991
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:11:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248992
 
-On Thu Oct 29, 2026 at 1:20 PM CET, Otavio Salvador wrote:
-> Hi Mathieu,
+On Fri Oct 30, 2026 at 1:09 AM CET, KAZUYOSHI AKIYAMA via openembedded-core=
+ wrote:
+> Hi,
 >
-> I saw this patch was reverted in master-next to test Ricardo's
-> "checklayer: run bitbake once per machine for the machine tests",
-> since the two conflict. Ricardo replied that his patch solves the same
-> issue and can be dropped in favour of this one:
+> A gentle ping on this patch.
 >
-> https://patchwork.yoctoproject.org/comment/42922/
+> Joshua reviewed it with "LGTM" and a Reviewed-by tag, but it still
+> appears to be waiting for merge.
 >
-> master-next still has the revert, with Ricardo's patch on top. Could
-> you drop both, so this patch goes back in with 1/3 and 2/3? It covers
-> the machine tests as his does, and the common tests too: test_world
-> and test_signatures share one dump.
+> Would it be possible to pick this up for master when you have a chance?
 >
-> If you'd rather keep Ricardo's version, I have a follow-up on top of
-> it that moves the common tests to his cache, and I can send that
-> instead.
->
-> Thanks,
-> Otavio
 
-Hi Otavio,
+Hi,
 
-This was discussed during yesterday review meeting: we believe we should
-proceed with your version of the changes, possibly with some
-improvements. So yes, I dropped Ricardo patch.
+I believe your patch already landed into master:
+https://git.openembedded.org/openembedded-core/commit/?id=3De31479ddbaf5
 
 Thanks,
 Mathieu
