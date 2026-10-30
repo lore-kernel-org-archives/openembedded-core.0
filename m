@@ -1,59 +1,59 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17420.1793382354904134540
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17571.1793382352412632828
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 10:45:55 -0700
+ Fri, 30 Oct 2026 10:45:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=WDUUXDCq;
- spf=pass (domain: snapchat.com, ip: 209.85.128.51, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso12157245e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:45:54 -0700 (PDT)
+ dkim=pass header.i=@snap.com header.s=google header.b=RjkT06XS;
+ spf=pass (domain: snapchat.com, ip: 209.85.128.45, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a215e64962so9935745e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:45:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1793382353; x=1793987153; darn=lists.openembedded.org;
+        d=snap.com; s=google; t=1793382351; x=1793987151; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zTYTMWdQDa+If8tLZBpiTnWTn8B3l4VynpUSztSIowg=;
-        b=WDUUXDCqD4Br8qnS2QM1+fg/iRRgdcPsB/smjl0mGdhLhpxCWPF9rsmSiOqWm/lq8F
-         F5B8NXt2vZQvJ8P+mz6kVbw4okHmrYx1FYRXmeNnQ0VZqwALi25XgcWUJb4v7eju1UKD
-         Rfg9rIx9U6bLbIBm8bPpFzQGDWJHVhTuZH2Fc=
+        bh=akEzDyyR0nPyoS65nkff5PGNsxQ7dCLK+1bnMvBuSqQ=;
+        b=RjkT06XSfAtIePDCsZwNvBjcPy7oknYWpOYLACqtToSvNrO0rKTvdRmrTCYnN3a9d/
+         oc29Dl01KI5GWuKTqHjqm1K67uimHW6+nkiVoP2gBZ4T3vKbQhabpJ83H7yubSDrLIvp
+         2iPteWj8HINc4SzgqQ73nTe/IOWPrH5Zm0exs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793382353; x=1793987153;
+        d=1e100.net; s=20260707; t=1793382351; x=1793987151;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zTYTMWdQDa+If8tLZBpiTnWTn8B3l4VynpUSztSIowg=;
-        b=RWlIYS+ZRKxtKBB7Io8/SYlakVyvYk7AnzScT3n5AD8bIWcQTtu72/cKD4Nch1WHrB
-         L8GKV6UuONny5yeQE2vXKXOummyRydPR+7E2ysmeh629DXdXQwW/9aei9Vf6awf0OQGM
-         H43g4O9xdEMhfBRnA5wI+zi+buX6YNDyvpfNVwO902/BPyjb78x2JAB0qJeBRXrgySzR
-         Z5ZyNjC+pFAXgDha1u6s4P3e7sNAVBCf5RR0lr2yhEhs+7hv6pQAF6tnh6Fc0tZ7N8gX
-         iDnXy6vQ99NKancondjJ/A8h/H0iCaTR4WfRigQ/DsKVfp3x2b40SCSwkvCzDCZ9ML8U
-         Kg5w==
-X-Gm-Message-State: AFq9FYKdQhX3buy5uhLNks24CPn0kPyu5ezr/O6Sw5nsELi6Je4XG6GY
-	t82d4FcX9TCSy9yPGWB328t1X1Ply/YwBgi558QldVQLejnf3viH5fZDj48lva+8TCP211eoJYc
-	ZpL0nFUU=
-X-Gm-Gg: AYBFou2phiiJzc2UN/pBckQYog4Yhwcj2iuF/BEMAqdB9Ifefr1IfH24Iuc8FndBTyc
-	ISIYpRtj8HQ7nvMn2XbGIkKON/lVdkZzfohbD1Zg2hklYIwlNp8O+VcOzL5pvf3RSzW3f3JfdkO
-	Lz77EDqUs65ZZ83w42ffnVnG9p4rEFPbg5JASjD7/4t6GVeGP8AyOIMnZ/QpVrsp8K0DQrYt3HA
-	xYB+dn1e0K3yGp4RS/dEdiV3O4maFGBuzd8YON9o6ruaUdJKfUYmY7Sod7ibC1Gp4YQ+BoqMJ5a
-	XRxnYRbnrz3jY9zHU7greZsnmDfE5StclxqQlIJC+3DJGhfC2eKBSSziLJkMqoKNJP+txD7JzKW
-	4bPhnH5Cbxc2xqpgNvWC3wcBzfp2Dly79EtRwTgKidUIkEjPH/+gDloyMG4RLD0InkUqg8F+JMt
-	Hhkbc6EXAMdyN2nj7KE+PFG25kafjqvWXFoMbIR8O7pGqT/V/mP+Tlp7yGAotgrUMB0FFHR89Ew
-	JMAlg2Naz3/yzEnv7ONy+58XkvuUgPJkDqpv1+ywkxy3vpYLpMVjF1OtIWBlMLuiX1NyKFi11A1
-	u4psP4iQUI4+VbtsFBjd2MYsFzskUZsipCffGFZik9oYNwjGZvJEM3fTdjEpggTyiHhmSoKCIQ=
+        bh=akEzDyyR0nPyoS65nkff5PGNsxQ7dCLK+1bnMvBuSqQ=;
+        b=1K7lZt2qK3Hk00JrI2YRPU3XWMtl7lwvsXqUHIQOVliCpLBgWVsYczQD/Kv98PbFeM
+         Jss5ngPL6z+jQWDwGZc6V6CcHwQxl0EyZAEaVyYrnwL52XksCuNmrUQy7d8GtfIszDFg
+         dOYV4FjNAOtPV7NjmC1zmMvqIiB0n8uMvgaJvxyJpXTgDBW/JWWWtr4w0gh9hv2VxgtL
+         CipsUsowpXCr0ko5vYa/MQn+4fgD8nqBNUar6AxD0JJ8AtrkIMovpZEgVOEoydV8vkvQ
+         u/w1tjGS+47cZK341wOxPIGcTVyZESo5YLHcASly2/1p7nseopyZKmIsViFi5Gkdk425
+         eBeg==
+X-Gm-Message-State: AFq9FYJYzI4HLraVWIDCZm/VkfttgJB2sRgpexvfvZZhqnZXkESr39XP
+	EW6VHnfWttNQhdUPjvDrUt3jx5dQVfHvbenE3VHW6CmXuYiDIGFpUz+aP7+sJd+DvXVqjp/YLSa
+	rKecyPMY=
+X-Gm-Gg: AYBFou0zvrV/YXE+ahaR0qqxpgQ/RyDn+UlFRpSx272rJpphHpr+vHoGjo1PftKUKhe
+	hP3T+0wBMRaTW0i01lt8puR6mivVu1Q93NM0WNo16XIronxLNJh6ucaGkekR6b/FVMKRkqnA4nF
+	kGuz1qD6aDYMhtbxcEIm/neqk7XOABLH1toUFFzPLZ3nonqoDbQO0jJf7aNHw1Tf3DbUi9L4Skp
+	7zKQv7ePUBWqRG2jQJvyQOprUCK9JAQBLQzBDCB6UyWasre1vkjspWMK1iBjWtMXSHZCfRRRqUA
+	gnXKWdd0KQX444eBKXqPPIOZxYfx1HanHYJbAk6e2pgxVMla3e3+f8cZ7oDzxLvmNNJ0VG+dIAI
+	pPfsfVJL80I/da41b0N1Zmds4Y48vd/uC8eVtUgCH1dKrK8Sw2bttZLjxhfJHEZyTwufW5ygOhc
+	w1+G4xxA326JwPc5pwykLi+jNJ2ar+eJSIYOT6ZZNM/s0KEqRhZRjpTHImAV1XH9zDBb5mkrJ+r
+	121uYoYCNtwehFR6IOgxHDTO6Ea3fbpW1HnARWYYu0+kly0t1t70TESZa26AT0/owusZjcNlZKp
+	dpTGFiMTn6kWYPf0zyqaRwlsraMME60TlOmyhYO1wLnV802A49qZK2yvZrZosKYrWfTH7IHkdw=
 	=
-X-Received: by 2002:a05:600c:468b:b0:4a1:e225:b122 with SMTP id 5b1f17b1804b1-4ac182dcb7amr67339075e9.14.1793382353134;
-        Fri, 30 Oct 2026 10:45:53 -0700 (PDT)
+X-Received: by 2002:a05:600c:3556:b0:4a1:c6fd:4db0 with SMTP id 5b1f17b1804b1-4ac187a80b4mr73961285e9.19.1793382350580;
+        Fri, 30 Oct 2026 10:45:50 -0700 (PDT)
 Return-Path: <ecordonnier@snapchat.com>
 Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf751c2d2sm80991385e9.15.2026.10.30.10.45.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf751c2d2sm80991385e9.15.2026.10.30.10.45.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 10:45:52 -0700 (PDT)
+        Fri, 30 Oct 2026 10:45:50 -0700 (PDT)
 From: ecordonnier@snap.com
 To: openembedded-core@lists.openembedded.org
 Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH v2 2/3] archiver.bbclass: remove .git from original git source archives
-Date: Fri, 30 Oct 2026 18:45:35 +0100
-Message-ID: <20261030174536.2724008-3-ecordonnier@snap.com>
+Subject: [PATCH v2 1/3] archiver.bbclass: archive shallow git sources which have no clone
+Date: Fri, 30 Oct 2026 18:45:34 +0100
+Message-ID: <20261030174536.2724008-2-ecordonnier@snap.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261030174536.2724008-1-ecordonnier@snap.com>
 References: <20261030174536.2724008-1-ecordonnier@snap.com>
@@ -61,107 +61,120 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:45:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249063
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249062
 Content-Type: text/plain; charset="utf-8"
 
 From: Etienne Cordonnier <ecordonnier@snap.com>
 
-In the original mode, do_ar_original unpacks git sources and archives the
-unpacked tree, including its .git. This .git is of no use in the archive:
+In the original mode, do_ar_original archives a source if the fetcher's
+localpath is a file, or a directory (which is unpacked and tarred). For git,
+localpath is the clone in DL_DIR/git2. A shallow fetch (BB_GIT_SHALLOW) can
+use the gitshallow tarball (ud.fullshallow) without creating the clone: since
+bitbake commit 457288b2f ("fetch2/git: Add support for fast initial shallow
+fetch") this is what a shallow fetch does by default, and it also happens when
+the shallow tarball is fetched from a mirror. In this case, the source was
+silently skipped and not archived at all.
 
-- For a clone, unpack() uses clone -s, so .git has no objects, only a
-  reference to the clone in DL_DIR via objects/info/alternates. It is
-  confusing and still wastes a little space.
-- For a shallow tarball, .git has all the (compressed) objects, which
-  duplicates the sources and doubles the size of the archive.
+Treat this case like a directory source, as unpack() populates the
+directory from the shallow tarball. Use the same check as unpack()
+(clonedir_need_update()), so that the case of an out of date clone, where
+unpack() also uses the shallow tarball, is handled as well.
 
-Remove it, as well as the .git files of submodules. Keep it with nocheckout
-(which bareclone implies), where the repository is what gets unpacked.
-
-AI-Generated: Claude Opus 5.5
+AI-Generated: Claude Sonnet 5.5
 Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- meta/classes/archiver.bbclass            | 12 +++++++
- meta/lib/oeqa/selftest/cases/archiver.py | 43 ++++++++++++++++++++++++
- 2 files changed, 55 insertions(+)
+ meta/classes/archiver.bbclass            |  8 +++-
+ meta/lib/oeqa/selftest/cases/archiver.py | 48 ++++++++++++++++++++++++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index f6cca35186..a6b5706abd 100644
+index 0400d6e373..f6cca35186 100644
 --- a/meta/classes/archiver.bbclass
 +++ b/meta/classes/archiver.bbclass
-@@ -216,6 +216,18 @@ python do_ar_original() {
-         elif os.path.isdir(local) or shallow:
+@@ -204,10 +204,16 @@ python do_ar_original() {
+     fetch = bb.fetch.Fetch(urls, ld)
+     tarball_suffix = {}
+     for url in fetch.urls:
++        ud = fetch.ud[url]
+         local = fetch.localpath(url).rstrip("/");
++        # A shallow git fetch which used the shallow tarball has no up to date
++        # clone, which is what localpath() points to. unpack() then uses the
++        # shallow tarball, using the same check as here.
++        shallow = getattr(ud, 'shallow', False) and os.path.isfile(ud.fullshallow) \
++                  and ud.method.clonedir_need_update(ud, ld)
+         if os.path.isfile(local):
+             shutil.copy(local, ar_outdir)
+-        elif os.path.isdir(local):
++        elif os.path.isdir(local) or shallow:
              tmpdir = tempfile.mkdtemp(dir=d.getVar('ARCHIVER_WORKDIR'))
              fetch.unpack(tmpdir, (url,))
-+            if isinstance(ud.method, bb.fetch.git.Git) and not ud.nocheckout:
-+                # The .git of a clone has no objects (clone -s only references
-+                # them via objects/info/alternates), and the one of a shallow
-+                # tarball duplicates the sources, so it is of no use in the
-+                # archive. This includes the .git files of submodules. Keep it
-+                # with nocheckout (and bareclone), where it is the source.
-+                for root, dirs, files in os.walk(ud.destdir):
-+                    if '.git' in dirs:
-+                        dirs.remove('.git')
-+                        bb.utils.remove(os.path.join(root, '.git'), recurse=True)
-+                    if '.git' in files:
-+                        os.remove(os.path.join(root, '.git'))
              # To handle recipes with more than one source, we add the "name"
-             # URL parameter as suffix. We treat it as an error when
-             # there's more than one URL without a name, or a name gets reused.
 diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
-index 84f13839c9..d55787cfc4 100644
+index 8c5aa75e9b..84f13839c9 100644
 --- a/meta/lib/oeqa/selftest/cases/archiver.py
 +++ b/meta/lib/oeqa/selftest/cases/archiver.py
-@@ -212,6 +212,49 @@ class Archiver(OESelftestTestCase):
+@@ -7,6 +7,8 @@
+ import os
+ import glob
+ import re
++import shutil
++import tarfile
+ from oeqa.utils.commands import bitbake, get_bb_vars
+ from oeqa.selftest.case import OESelftestTestCase
  
-         names = self._get_original_git_archive_names(target)
-         self.assertTrue([n for n in names if n.endswith('/COPYING')], 'Archive has no source files: %s' % names[:20])
-+        self._assert_no_git(names)
-+
-+    def test_archiver_mode_original_git(self):
+@@ -176,6 +178,52 @@ class Archiver(OESelftestTestCase):
+ 
+         self._test_archiver_mode('original', 'ed-1.21.1.tar.lz')
+ 
++    def test_archiver_mode_original_git_shallow(self):
 +        """
-+        Test that the archive of a git source with
-+        `ARCHIVER_MODE[src] = "original"` has no .git directory.
++        Test that the archiver archives a shallow git source with
++        `ARCHIVER_MODE[src] = "original"` when only the shallow tarball is
++        available, but not the clone. This is what happens with the fast
++        initial shallow fetch, or when the shallow tarball is fetched from a
++        mirror.
 +        """
 +        target = 'gitrepotest'
 +
 +        features = 'INHERIT += "archiver"\n'
 +        features += 'ARCHIVER_MODE[src] = "original"\n'
++        features += 'BB_GIT_SHALLOW = "1"\n'
++        features += 'BB_GENERATE_SHALLOW_TARBALLS = "1"\n'
++        features += 'DL_DIR = "${TOPDIR}/downloads-shallow"\n'
 +        self.write_config(features)
 +
++        # Fetch to create the shallow tarball, then remove the clone if the
++        # fetcher fell back to a full clone, so that the second fetch has to
++        # use the shallow tarball. cleansstate makes sure that the archive is
++        # created again and not restored from sstate.
 +        bitbake('-c cleansstate %s' % target)
++        bitbake('-c fetch %s' % target)
++        bb_vars = get_bb_vars(['DL_DIR'])
++        self.track_for_cleanup(bb_vars['DL_DIR'])
++        self.assertTrue(glob.glob(os.path.join(bb_vars['DL_DIR'], 'gitshallow_*.tar.gz')),
++                        'Missing shallow tarball in DL_DIR')
++        shutil.rmtree(os.path.join(bb_vars['DL_DIR'], 'git2'))
++        bitbake('-c cleansstate %s' % target)
++
 +        bitbake('-c deploy_archives %s' % target)
 +
 +        names = self._get_original_git_archive_names(target)
 +        self.assertTrue([n for n in names if n.endswith('/COPYING')], 'Archive has no source files: %s' % names[:20])
-+        self._assert_no_git(names)
 +
-+    def test_archiver_mode_original_gitsm(self):
++    def _get_original_git_archive_names(self, target):
 +        """
-+        Test that the archive of a git source with submodules with
-+        `ARCHIVER_MODE[src] = "original"` contains the submodules, but neither
-+        the .git directory nor the .git files of the submodules.
++        Return the names of the files in the original source archive of the
++        git source of target.
 +        """
-+        target = 'git-submodule-test'
++        bb_vars = get_bb_vars(['DEPLOY_DIR_SRC'], target)
++        archives = glob.glob(os.path.join(bb_vars['DEPLOY_DIR_SRC'], '*', '%s-*' % target, '%s-*.tar.*' % target))
++        self.assertEqual(len(archives), 1, 'Expected one source archive for %s, found %s' % (target, archives))
++        with tarfile.open(archives[0]) as tar:
++            return tar.getnames()
 +
-+        features = 'INHERIT += "archiver"\n'
-+        features += 'ARCHIVER_MODE[src] = "original"\n'
-+        features += 'COPYLEFT_LICENSE_INCLUDE = "*"\n'
-+        self.write_config(features)
-+
-+        bitbake('-c cleansstate %s' % target)
-+        bitbake('-c deploy_archives %s' % target)
-+
-+        names = self._get_original_git_archive_names(target)
-+        self.assertTrue([n for n in names if n.endswith('/.gitmodules')], 'Archive has no submodules: %s' % names[:20])
-+        self._assert_no_git(names)
-+
-+    def _assert_no_git(self, names):
-+        git = [n for n in names if '.git' in n.split('/')]
-+        self.assertFalse(git, 'Archive contains .git: %s' % git[:20])
- 
-     def _get_original_git_archive_names(self, target):
+     def test_archiver_mode_patched(self):
          """
+         Test that the archiver works with `ARCHIVER_MODE[src] = "patched"`.
 -- 
 2.43.0
 
