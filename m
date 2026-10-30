@@ -1,133 +1,254 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11505.1793366952955944809
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12805.1793370198372570216
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 06:29:13 -0700
+ Fri, 30 Oct 2026 07:23:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=nlWGXpGV;
- spf=pass (domain: baylibre.com, ip: 209.85.219.51, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-91c63449320so9045766d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 06:29:12 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=C5QHh4Ul;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a208d93758so7822095e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1793366952; x=1793971752; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uxTr2x53qdjxXR75sd1FfiPlRU7ZWnh4q0YQvusHYFc=;
-        b=nlWGXpGV4So5DB4rwyzxC3hQZs/cQCgkpMewjHJ73dfBC+oH5DGvGfuy813MD17606
-         oI9qvHqWFz8Or8I6opMObpJ7VonBH7aOvw+nVGi7/KpGOuEpep/6FziYnmwlK2IQVTLX
-         pFXlkZ/+8QddRbguTPtPw+V3u6qqHkJthpwj5zLXp+928+QprqiL25M4Y7aAUo9xE1FN
-         RKYN3qE3boT0UuTx2NMfx070W79hoqZZZS/UItTb6Yk9nR/p7Tu9YSSCQ8kxbNOl6rWG
-         T7H0cgVWMTXHkdgXspAWxvMXEH/vWzyfn3TwVOuogcTCyZqrilkfjzoi4N4cmtB8bRbT
-         Qa3Q==
+        d=smile.fr; s=google2; t=1793370196; x=1793974996; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1J79NYYv95hZKvyvbCGzbNBrr9H3aqq/WPIu4hNxcHM=;
+        b=C5QHh4UlcxQUPmqqORrkYf9yJ+uFkmh1Bn+lvQqxlt4M/Jx+9j/PRhL0/1vzD5mqzi
+         Et5hJk8XrkbijdX8Bb6LAm2ZudmSkQnw4ZZTCcXzrKvsdEPTt+Mi1Hn++iz0oJAK9/jM
+         /unLD1QjfhgFgmUcr9SDbqkYL9sECeYRZoTes/BneUKRaP6IglcoYuQQHjaYc7PePDdo
+         V+Y3ROinX3/WhZVVbq0hrjxN/CO6T+I5pP6hUR7Yc+x4q7FVgqEQh+ihlxGwdC8K7ldb
+         Wko35bbMmd7srEfZ9ZYMfj21Jv+ZZ0sCyDYznZJoNIuI6da+h++oPPhjaHe+C9NUMwbU
+         3NgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793366952; x=1793971752;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=uxTr2x53qdjxXR75sd1FfiPlRU7ZWnh4q0YQvusHYFc=;
-        b=XE0+vXr7KBXM1Lx3zqaU2wKcMZ2f71k6PB14fr0bhFvT+t5/Lspt1D399CHFTSn8gI
-         6wyUh4UeUzrcWII9FOI/49rc0ewtTohRT19Kw6fRfXbUyHEGI6Zw+yOkS51O5kV86kJt
-         aRy15t1eDBd1bdUKeE6PF507NJF98Qg4X8jKAyfPk6Qrqe9UczST4pD15epRMTa5DU5i
-         4au1+84tLaJfX3/5n8G4RaErE/wjOwB2SZanLk+jJq8JENdAfy+RFxeYAl18GEyPT7xK
-         2rqnD+hTyUgj2V1Yx9emwOpeO8B4OSmySfjesS9b2C9/bDcdDRRwKDh1Hk7xa2md/1/z
-         xk3Q==
-X-Gm-Message-State: AFq9FYK22f+q07UlGUnVgk5YUxtO4TM/LVGy81QppGFLy5Q8EbNXsCMn
-	ilUJ9f3wxNIE5nIIYsp5z2v8WgRHwXtH0iK4ZC2uBiBOhIt0QSVgmmZiWvzIwrecSfS8J1dd+pR
-	zQTpq
-X-Gm-Gg: AYBFou2HaAnbcYeN5MhvfSFApOb7KLCqy3p3Bj8QPLXs8DeNSZvNxvf6L1zsp10GVr0
-	BkXEL2XInWUJ9yFYOdDfyePpNYizXk3EwHID7+ToeVCtlJJfLRL2/Xw00xx5Pz6By89hWVNJpFd
-	Kc15jpsGH1n8//b1hxpjHDiEEAj4kon29a3+jtdxtEG/pqrlasWXkKtj/f/Vv9f9OmjDLn3OiAT
-	Alq3IM51DoxMPNOnHDexfl0VBRD7Hwew3woE8278r5bgHfg4DMKNP35FvjNgfSPQoKh8IkJO9YM
-	ZM01ZwYjwZxGKUDHIF0TgYJ/nBXfJSQqNNSbQiHK0RUDDo9VOTuXB221whqGyUzOQale5fVJfT/
-	4dlWpw5QkM3q+Z0OWYIk1oM4C6i/IyN/xel558emqDfDRlQ5Xt+wsZGcS9aqhBy4lq4WkqZpEGf
-	Srf/qaEEmlMmczIUbWzzOnOJkyPztEPOaSK6zlvN/07iXfkxkYyu8/2YbIlUPF8PN6saVjILHkE
-	BQ5y4Y9cuP0eUmtigNXpjcoNPzxF6Wf9YwP0q+DsJ8XQgz/7DPs5PNyNnlQOGY3qvTpE2/juiQP
-	tLhnDlqKTCxO3DguknJu3zUtnqLR8dNdW9qCB6OOnIdZiK5c+/krviBMWnn2LjWpykcBtgGRIXZ
-	SweZFUIJADg==
-X-Received: by 2002:a05:620a:4686:b0:93e:d051:8f19 with SMTP id af79cd13be357-944217999e9mr350512685a.40.1793366951437;
-        Fri, 30 Oct 2026 06:29:11 -0700 (PDT)
-Return-Path: <tgamblin@baylibre.com>
-Received: from megalith.oryx-coho.ts.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-94425ac5322sm141264785a.39.2026.10.30.06.29.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 06:29:10 -0700 (PDT)
-From: "Trevor Gamblin" <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3: skip TimerfdTests class
-Date: Fri, 30 Oct 2026 09:29:07 -0400
-Message-ID: <20261030132907.2617042-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.56.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20260707; t=1793370196; x=1793974996;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1J79NYYv95hZKvyvbCGzbNBrr9H3aqq/WPIu4hNxcHM=;
+        b=Zj8L5T2FdZroVS6pUaCJBJ+4S6Ry7Ebq2rqcsRhhKnhay8iIOBLT3oWnFU2QBSG6u5
+         LP65+OhUsukYUdQWNcMrGB2ZEa9RBZiRbNEA5tkS8b4p4c5t4iyRvk0kPL5e1qiy8k1H
+         LM8CfyAlYx5azW1QZtfP2rkF+iZUHX56io3Uw96JxsnxWScBQnVXwm7a7I5RZzQipak/
+         mpz2rh6aPKE7ZN6xP1Z92+D4VhTm23X73mC7RvzWwckPL+FSVoR3SeI9B9+5nPLJjGWn
+         6p8yExDMWXt249nV2xaKykIdNOCD66mVRqQipv9WssROXfHFA9eQrtJu4g8RwKgATwNC
+         s2Jw==
+X-Forwarded-Encrypted: i=1; AKwUvByjs5ep/mctBwusX2iiioNO/Yy6D2H+L56QIuL5MmDF1Dw50WoSJ0uGUTMbNBufyHQtcU9cfTok2fNlE/Osk5I/wA==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYJO3IfPfrLf7+V8nEvv4Yt8rprZq+haodUhRaXKyhUfe79nE/OM
+	CyVF5CepYNIzb4OJ4jHcfwWxzNu7PV3zfR7d6lbmgYYzUCtZuqF9Kn4mv0wa0N1U3VQ=
+X-Gm-Gg: AYBFou36mFqSJwGOq5KCPbVfWav9zlfJwwQTC2kt6d4ns1Jd4aZP2FGR5wDwzFV58V4
+	LmDQoJ3JaUn72XWKqqFA6KkBCncblzF95VMs2JkB/DtdvBr+xJ1DgGSLZWoXOZ4SBxQajmaJ+xR
+	OuLw7sr6JTTaWRcB7q3ctl6/U2DM5Ff8etP8AC6q6h3CyVV2pYfhBtvdxa9Q6T/2NMQRZZU1oCD
+	ox7141UkqTWhNgBJy9stg8QcGA4/4ti0J6U2bxMu3m2Ec78COV31xiDtp1savdXw/bJ+GxP8iR6
+	pEZGUewPSt4fsJl+XkEMEbqTRKrAOr0E47OUq7TJEA1zR8/qjp7ktSH0Cmpj1r6auy7p5Y+Ownh
+	odeWeTDmpLa92RzdO3Z6PUf1wU1Tov2JSbI9SrY5zoAgjG5UZiu8B5ZpX8Atb7v6TofwvtntBl+
+	TIN5eR7lPzpOwyAbmCZT8ph7p9zfDGYlX+NqbUmgsHn7v9I3fjJ/n2dAR+2JpABzxZZi4a71496
+	HYIOrz2QH4YV0pRt+26iJvNZEm6wDKMapJfNZqbGt5OnKtPFLIsOO7s/ORGicvIqQ1MBTdKIXHc
+	EJxT834OVkTGIVtdbcR3GXmNCqMlIH9zN9TOAtWPi9Wgliv2BamBMnP7Xedz5q+HRYXhlr/8p5R
+	rYhsZW9PcI84N+97z
+X-Received: by 2002:a05:600c:8b5c:b0:4a1:fe55:88ef with SMTP id 5b1f17b1804b1-4ac1889c4b9mr58014765e9.20.1793370196507;
+        Fri, 30 Oct 2026 07:23:16 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abeb77c132sm45542385e9.1.2026.10.30.07.23.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2026 07:23:15 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 30 Oct 2026 15:23:14 +0100
+Message-Id: <DMI8OE0BA0GR.10SBSJ2SFLIA3@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH v2 2/5] libsoup-2.4: fix
+ CVE-2026-1801
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <jason.stasiak@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260929205055.2403390-2-jason.stasiak@gmail.com>
+ <20261014161209.2227316-1-jason.stasiak@garmin.com>
+ <20261014161209.2227316-2-jason.stasiak@garmin.com>
+In-Reply-To: <20261014161209.2227316-2-jason.stasiak@garmin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 14:10:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249043
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 14:23:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249044
 
-test_timerfd_ns_TFD_TIME() recently failed on riscv64, but 15743 saw
-another part of the suite fail for x86-64. There are other tests in the
-same TimerfdTests that look prone to load timeouts. Instead of
-individually skipping tests and/or for certain architectures, skip the
-class, putting the skip below the general list with a new comment.
-Remove the original comment for 15743, since it's mentioned in the
-TimerfdTests skip note.
+On Wed Oct 14, 2026 at 6:12 PM CEST, Jason Stasiak via lists.openembedded.o=
+rg wrote:
+> Backport fix for CVE-2026-1801 from meta-oe to OE-core. Update CVE
+> patch to restore the chunked server validation unit test from the
+> upstream libsoup3 patch (b9a1c0663ff8ab6e79715db4b35b54f560416ddd).
+>
+> (From meta-oe rev: 07d67228162018f5f619dce7183f85e79293378d)
+>
+> Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
+> ---
+> Changes since v1:
+>    - Resolved malformed patch lines
+>
+>  .../libsoup/libsoup-2.4/CVE-2026-1801.patch   | 217 ++++++++++++++++++
+>  .../libsoup/libsoup-2.4_2.74.3.bb             |   1 +
+>  2 files changed, 218 insertions(+)
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-180=
+1.patch
+>
+> diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1801.patch=
+ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1801.patch
+> new file mode 100644
+> index 0000000000..f7579a9834
+> --- /dev/null
+> +++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1801.patch
+> @@ -0,0 +1,217 @@
+> +From f9c933e258e9ef2f221cca6395f8092a1c4b93dd Mon Sep 17 00:00:00 2001
+> +From: Changqing Li <changqing.li@windriver.com>
+> +Date: Thu, 19 Mar 2026 17:10:36 +0800
+> +Subject: [PATCH 2/4] Fix CVE-2026-1801
+> +
+> +This patch merges 3 upstream patches
 
-New results (x86-64):
+Please do not merge patches like this. Instead, backport the 3 patches
+into CVE-2026-1801-{01,02,03}.patch.
+(Again, I know this is in the upstream meta-oe commit, but we simply
+have different review expectation)
 
-|Total duration: 3 min 20 sec
-|Total tests: run=48,083 (filtered) skipped=2,507
-|Total test files: run=529/538 (filtered) skipped=76 resource_denied=9
-|Result: SUCCESS
-|DURATION: 202
-|END: /usr/lib/python3/ptest
-|2026-10-30T13:18
-|STOP: ptest-runner
-|TOTAL: 1 FAIL: 0
-|root@qemux86-64:~#
+> +
+> +Chery-pick the first two patches to make the context is the same as the
+> +third patch that fix CVE-2026-1801
+> +
+> +Upstream-Status: Backport
+> +[https://gitlab.gnome.org/GNOME/libsoup/-/commit/1e32b5e123aa1689505472b=
+dbfcbd897eac41977,
+> +https://gitlab.gnome.org/GNOME/libsoup/-/commit/8a2e15c88512ae4517d2c2c8=
+87d39299725b22da,
+> +https://gitlab.gnome.org/GNOME/libsoup/-/commit/b9a1c0663ff8ab6e79715db4=
+b35b54f560416ddd]
+> +CVE: CVE-2026-1801
+> +
+> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +
+> +Backport the chunked server validation unit test from the upstream
+> +libsoup3 patch (b9a1c0663ff8ab6e79715db4b35b54f560416ddd).
+> +
+> +Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
+> +---
+> + libsoup/soup-body-input-stream.c | 66 +++++++++++++++++++------------
+> + tests/server-test.c              | 67 ++++++++++++++++++++++++++++++++
+> + 2 files changed, 108 insertions(+), 25 deletions(-)
+> +
+> +diff --git a/libsoup/soup-body-input-stream.c b/libsoup/soup-body-input-=
+stream.c
+> +index 6b95884..25d9312 100644
+> +--- a/libsoup/soup-body-input-stream.c
+> ++++ b/libsoup/soup-body-input-stream.c
+> +@@ -159,15 +159,18 @@ soup_body_input_stream_read_chunked (SoupBodyInput=
+Stream  *bistream,
+> + again:
+> + 	switch (bistream->priv->chunked_state) {
+> + 	case SOUP_BODY_INPUT_STREAM_STATE_CHUNK_SIZE:
+> +-		nread =3D soup_filter_input_stream_read_line (
+> +-			fstream, metabuf, sizeof (metabuf), blocking,
+> +-			&got_line, cancellable, error);
+> +-		if (nread <=3D 0)
+> ++		nread =3D soup_filter_input_stream_read_until (
+> ++				fstream, metabuf, sizeof (metabuf),
+> ++				"\r\n", 2, blocking, TRUE,
+> ++				&got_line, cancellable, error);
+> ++		if (nread < 0)
+> + 			return nread;
+> +-		if (!got_line) {
+> +-			g_set_error_literal (error, G_IO_ERROR,
+> +-					     G_IO_ERROR_PARTIAL_INPUT,
+> +-					     _("Connection terminated unexpectedly"));
+                        ^ This indentation is different from upstream.
+Please avoid changing upstream patch if not needed.
 
-[YOCTO #16470]
+> ++		if (nread =3D=3D 0 || !got_line) {
+> ++			if (error && *error =3D=3D NULL) {
+> ++				g_set_error_literal (error, G_IO_ERROR,
+> ++									G_IO_ERROR_PARTIAL_INPUT,
+> ++									("Connection terminated unexpectedly"));
+> ++			}
+> + 			return -1;
+> + 		}
+> +=20
+> +@@ -180,9 +183,9 @@ again:
+> +=20
+> + 	case SOUP_BODY_INPUT_STREAM_STATE_CHUNK:
+> + 		nread =3D soup_body_input_stream_read_raw (
+> +-			bistream, buffer,
+> +-			MIN (count, bistream->priv->read_length),
+> +-			blocking, cancellable, error);
+> ++				bistream, buffer,
+> ++				MIN (count, bistream->priv->read_length),
+> ++				blocking, cancellable, error);
+> + 		if (nread > 0) {
+> + 			bistream->priv->read_length -=3D nread;
+> + 			if (bistream->priv->read_length =3D=3D 0)
+> +@@ -191,16 +194,19 @@ again:
+> + 		return nread;
+> +=20
+> + 	case SOUP_BODY_INPUT_STREAM_STATE_CHUNK_END:
+> +-		nread =3D soup_filter_input_stream_read_line (
+> +-			SOUP_FILTER_INPUT_STREAM (bistream->priv->base_stream),
+> +-			metabuf, sizeof (metabuf), blocking,
+> +-			&got_line, cancellable, error);
+> +-		if (nread <=3D 0)
+> ++		nread =3D soup_filter_input_stream_read_until (
+> ++				SOUP_FILTER_INPUT_STREAM (bistream->priv->base_stream),
+> ++				metabuf, sizeof (metabuf),
+> ++				"\r\n", 2, blocking, TRUE,
+> ++				&got_line, cancellable, error);
+> ++		if (nread < 0)
+> + 			return nread;
+> +-		if (!got_line) {
+> +-			g_set_error_literal (error, G_IO_ERROR,
+> +-					     G_IO_ERROR_PARTIAL_INPUT,
+> +-					     _("Connection terminated unexpectedly"));
+> ++		if (nread =3D=3D 0 || !got_line) {
+> ++			if (error && *error =3D=3D NULL) {
+> ++				g_set_error_literal (error, G_IO_ERROR,
+> ++				G_IO_ERROR_PARTIAL_INPUT,
+> ++				_("Connection terminated unexpectedly"));
+> ++			}
+> + 			return -1;
+> + 		}
+> +=20
+> +@@ -208,13 +214,23 @@ again:
+> + 		break;
+> +=20
+> + 	case SOUP_BODY_INPUT_STREAM_STATE_TRAILERS:
+> +-		nread =3D soup_filter_input_stream_read_line (
+> +-			fstream, buffer, count, blocking,
+> +-			&got_line, cancellable, error);
+> +-		if (nread <=3D 0)
+> ++		nread =3D soup_filter_input_stream_read_until (
+> ++				fstream, metabuf, sizeof (metabuf),
+> ++				"\r\n", 2, blocking, TRUE,
+> ++				&got_line, cancellable, error);
+> ++		if (nread < 0)
+> + 			return nread;
+> +=20
+> +-		if (strncmp (buffer, "\r\n", nread) || strncmp (buffer, "\n", nread))=
+ {
+> ++		if (nread =3D=3D 0) {
+> ++			if (error && *error =3D=3D NULL) {
+> ++				g_set_error_literal (error, G_IO_ERROR,
+> ++				G_IO_ERROR_PARTIAL_INPUT,
+> ++				_("Connection terminated unexpectedly"));
+> ++			}
+> ++			return -1;
+> ++		}
+> ++
+> ++		if (nread =3D=3D 2 && strncmp (metabuf, "\r\n", nread) =3D=3D 0) {
+> + 			bistream->priv->chunked_state =3D SOUP_BODY_INPUT_STREAM_STATE_DONE;
+> + 			bistream->priv->eof =3D TRUE;
+> + 		}
+> +diff --git a/tests/server-test.c b/tests/server-test.c
+> +index 8976103e..fbe8bdcc 100644
+> +--- a/tests/server-test.c
+> ++++ b/tests/server-test.c
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/recipes-devtools/python/python3_3.14.10.bb | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Same remarks as patch 1/5 about test code. If we don't exercise it we
+don't have to backport/review it.
 
-diff --git a/meta/recipes-devtools/python/python3_3.14.10.bb b/meta/recipes-devtools/python/python3_3.14.10.bb
-index b062b4e7c5..e59a155487 100644
---- a/meta/recipes-devtools/python/python3_3.14.10.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.10.bb
-@@ -255,7 +255,6 @@ do_install:append:class-nativesdk () {
- # 15120 (test_input_no_stdout_fileno)
- # 15131 (*TestBarrier.test_timeout)
- # 15177 (test_thread_time)
--# 15743 (test.test_os.test_os.TimerfdTests.test_timerfd_TFD_TIMER_ABSTIME)
- # 15885 (test_default_timeout)
- SKIPPED_TESTS = " \
-     --ignore *TestBarrier.test_timeout \
-@@ -263,7 +262,6 @@ SKIPPED_TESTS = " \
-     --ignore ExecutorShutdownTest \
-     --ignore ProcessPoolShutdownTest \
-     --ignore ThreadPoolShutdownTest \
--    --ignore test.test_os.test_os.TimerfdTests.test_timerfd_TFD_TIMER_ABSTIME \
-     --ignore test_active_children \
-     --ignore test_default_timeout \
-     --ignore test_input_no_stdout_fileno \
-@@ -330,6 +328,15 @@ SKIPPED_TESTS += " \
-     --ignore test_shutdown_no_wait_max_tasks_gh119592 \
- "
- 
-+# Intermittent failure under load - these are all timer tests.
-+# test_timerfd_TFD_TIMER_ABSTIME was observed failing in Bugzilla YP 15743.
-+# test_timerfd_ns_TFS_TIMER_ABSTIME was observed failing in Bugzilla YP 16470.
-+# There are actually several other tests in the suite that all look prone to
-+# load variability, so skip the whole test class.
-+SKIPPED_TESTS:append = " \
-+    --ignore TimerfdTests \
-+"
-+
- # https://github.com/python/cpython/issues/159424
- SKIPPED_TESTS:append:libc-musl = " \
-     --ignore test.test_readline.TestHistoryManipulation.test_append_limited_history \
--- 
-2.56.0
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
