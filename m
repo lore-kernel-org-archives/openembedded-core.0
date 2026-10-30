@@ -1,135 +1,130 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11475.1793366675977360434
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11498.1793366748074394130
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 06:24:36 -0700
+ Fri, 30 Oct 2026 06:25:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=kEDmoMLp;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-53fdd2fb171so7815301cf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 06:24:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793366675; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QAbDebbKKXyf2nzjMpZ7H6mmgtTLKhDMXbBqTsrPNQY/S0j2LXt6Ei5VA3PFypbl7G
-         EH09A8goPEs02FtPR3XAuk7anRYh4bsboqoI+UlPWxoKnV+ifhLEOrZYbaHNuY+pcAAz
-         HIf+qW0WZMQ/ARBdh8xYfQJIHxRSIp/O+SM3p4PED5EKRPsSgst0VfFXtoTu32vfnL0r
-         HBqc8T1BlBg8Czo8necVB2tOsECHVgqp/NdOKsS94dUfKnawu5k0cpmN6Poow8eBlToY
-         +6tZg2zw91mrUSQKkUQxbDTqIaCok5UjOIR7XnSCOJ0HlEnnMF7uOPPMpTJZZ8W0Si/1
-         vsBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=17cfgWDJONgXZBa5+/UKsMugbppt9lI/A2/dmhoWe10=;
-        fh=3d571T8SRa6klgnGqFkKB7jgNbhbmQaR4RR78McTrIE=;
-        b=p8q77+gUanWCh0XOe1yu40MQQSg/iZxTRC3KuPvo4/By/BITQ9OUjas60Yz1F/znO1
-         QFm+Xmp9hApaWxN2W3EhAc7gO1xw7sDd/WoZz14G3UxZ1vAAMmJBkNvGYYA28ioxwjH/
-         uTDpJ39gO+J5pIUFY/dDBJ8NRAMCylOJowfA/iDN7xpBZyUNE1EA9h/dfPA8PO/SEagN
-         H9bMrned6yCQQ5MmsSGnzMAmtdxqllUqJ/kgN/TsFM2/O0OvORMHXCk1d8rO4RyTJfKQ
-         Tv4RKwNLvCzMeAZ4jlBPoUW6KtEEXWYWVOJm9ZHSN+lfqUgWKi+Nj7mzeH8YqeS91F0r
-         QWfQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=Y0A5yvS+;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48af4d4e61fso387103f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 06:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793366675; x=1793971475; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=17cfgWDJONgXZBa5+/UKsMugbppt9lI/A2/dmhoWe10=;
-        b=kEDmoMLpo0YWnDPbZr7dwW/Qf4+Gs7X7OTRBbtd5bYM0PMr6yxIybVAtRXTzV6X1cr
-         Rmcc5H2AJ7sUJ+INtGzBoOPy8u5mjCPZXeIeRuZu4j70HTtH0fBMlSQSOfO00X56Nd9b
-         st2ZpZxNaqOAgdhMlH64GqOTtuQRKCSo6jVHishuR+7neIQuO58CbA365AFDXkbYlEye
-         gyhAOnFt5kOx5pst5g35M6l22Z32had5W01j3rG5OG+kw2n1QLgB1EDVFeBw1nmezH8D
-         w8s6VaZgDWfKD6807vBTjYOgYaFqqmO9sg2qb61tOGwHWmETYoo91WPOZ8MrE0f0XhAa
-         DNIw==
+        d=smile.fr; s=google2; t=1793366746; x=1793971546; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TxPKVHRvb4PlQ6T4Sx1skR6ljyQ9ljZ75maIgJ2sfeM=;
+        b=Y0A5yvS+vlvPzWOWo5cDPedLw0ZbbC0CcIt3gK5D9qrM/MX60SGVIPjwakYGJLglkx
+         i6HIam/MDXJsJZsw5MXtIJ1DE/fe2k512enLwoP351mW18r5cxN4tuuJBx8ijoDLFmHF
+         WoSJfBufNfAgfnNP1yO820+Hr4nS3EuEvb73lyYfJ79zO612lmkq/IDU2GNpZ7omYKqr
+         sr+jSh1o5lS3L0/ci+EoYwAReutkzV695Ndrap+vwuI4gnKsvyn5KbXvdTnlge8yz9xo
+         2eDklhMcWyKdHXAYemKWGo92z9PEI0velgS/fnRdH612ET2v1ZAYn+zBw9EO7rjBXvva
+         ZZ5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793366675; x=1793971475;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=17cfgWDJONgXZBa5+/UKsMugbppt9lI/A2/dmhoWe10=;
-        b=OpFPvI3OLNNLs0S0EYiI44JfcECecvN0eWblQBHe7oF8vLXWxTfFqZRfW4DS6jqTAb
-         ayYEmPWeshTzUYtCWwVha4RBKmyNuwut/zRJklvI/CtUAA5xuovr82T1Ou4SOK7W8vZD
-         0W0i2KyQpnuE3TLDBYho9ttVostraVXXitrAO2dKw7yFMtE0ZfLPyYRyMV17BEkHwwIR
-         uv/BpL1Ytdsf8sfEDxO6fSe9+QBcMoZSbJ7FU+E3kkME7h3GGIKskJ2fYTAKCTbxiIGR
-         /0kCIHWzvASn1StKaZnOdMxEhDHeQQBdaAyRUQ5Lu4eihXVaWdkp6bkNr8Cz0pwq05fy
-         GlzQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxVRytWMsJV++qCew72Dvh+wKfa0N+gCBowQuHCFq3o5wz/0HyLG/KKblUotOrWW1CbTlUQ/Tv2SI2trfmFuZM0pg==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYIlkIHM8DbS8NLitBGNUwk9nhcIKcPoYEQMYDMjWyKJZ15PSG8X
-	CAxJr0+42t6HJsArL+lqrZRxsI8zYBIUxoxiBvcp/1pg2JGNqEq7a3ymmvZ1YNz7ijsQ4VsC/l0
-	63N9rzWEX6gfrawhCInx2udOmZmMgrmA=
-X-Gm-Gg: AYBFou0+p5VZlN9tMfyN0CTIBX1bYGWIkqlOfXVfGmwMCNCSIE2/eD2RavE/iZHr//g
-	SAY4fLilkjrNfQVICXv4SZH9YGrHYyUQ6n+vZtW5dpfkgGWk6EGtXD37nEziBcYZDdUmBHToQsj
-	Vy7w+pSOWWu3NLdI+cu7cvD9/L17SSB16qYSY+qKvlMmQOlKSgHLFzTRY6JbJg/cziWCHFHxkrW
-	FMYMpwDfUMdbK+ycB/1/jXhRpfyD4FMauoOe8Tcb+oakvJv01OAiRFv7ZurwUmFzApPu44ei7Va
-	2jPMzR+Scyi/mRiDX2xPuphXpmQzCtGauL5TkPiMo0fUvxSfRQ1/Bmfzq1uOkM7T0JexGibuksS
-	v6T0/pgraohXdHg3bWda/1T6Z6Dxdwyg7FeFNDzFl+Pf55yigrlxuo/mYbWbltmiWDCltRM/wYQ
-	PE1L4vwgD4esvPijOA
-X-Received: by 2002:a05:620a:444f:b0:93f:5717:e7b9 with SMTP id
- af79cd13be357-9442177e372mr342192185a.30.1793366674886; Fri, 30 Oct 2026
- 06:24:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20261030100214.3111726-1-roshs@qti.qualcomm.com> <CADkTA4NWzzaT11ssicpviaA3AgYtOPbpg_HGuciPSttkQUggdQ@mail.gmail.com>
-In-Reply-To: <CADkTA4NWzzaT11ssicpviaA3AgYtOPbpg_HGuciPSttkQUggdQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 30 Oct 2026 14:24:22 +0100
-X-Gm-Features: AclHuK8RGdLlcveHwEiXkSWW1G-3AeTEXEaNCZlTplt2M2nfiYmb3UEFoJ3ES2w
-Message-ID: <CANNYZj-1kbfQpAGpPKaOd_mGqA8Ums_+NO_aFyYtO2fq+gUudA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] kernel-devsrc: add runtime dependency on sed
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: roshs@qti.qualcomm.com, openembedded-core@lists.openembedded.org, 
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Sumanth Gavini <sumanth.gavini@windriver.com>
-Content-Type: multipart/alternative; boundary="0000000000009bd4a9065f0eb7fe"
-List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 13:24:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249039
-
---0000000000009bd4a9065f0eb7fe
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, 30 Oct 2026 at 13:56, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
-
-> I say "probably" above, because you aren't saying what you are
-> building that triggered that script to be called at all. From a quick
-> grep of the kernel it is only linking vmlinux that uses that.
->
-> Are you rebuilding the kernel completely from -devsrc ? (which
-> shouldn't work)  Or doing something else that is triggering it to be
-> called ?
->
-
-From a different thread, I do not think this script is actually called or
-used. Rather there was an interaction with rpm packaging that revealed the
-missing sed dependency in the package, caused by this script. Rpm tries to
-be clever when processing binaries it's asked to package up, and sometimes
-that gets in the way (but other times reveals useful info about missing
-dependencies).
-
-Alex
-
---0000000000009bd4a9065f0eb7fe
-Content-Type: text/html; charset="UTF-8"
+        d=1e100.net; s=20260707; t=1793366746; x=1793971546;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TxPKVHRvb4PlQ6T4Sx1skR6ljyQ9ljZ75maIgJ2sfeM=;
+        b=XRmID4+rwQBfVZZJeW6iSUnT3R0u0L6ODzmZcJmVamDJvSyVWv1qj4RVmRmNhoc4HO
+         9WOjlBul3sN+zm8eVc4wYsDiu65Lwjka2C6FP8eQww6fJqRC08enSMr4x42y3PN4uiJh
+         MMDGyfQY7MtPsh3PP6Ym2R/fRu5z7+/KmRwllFb6ZFisQPhgi9X+Ln46JawXAlhfqjfA
+         5paq1G/Adm7OpJdL1WuQsTEdW/Bv49XLUr6MMZaW2rQoz6d+Tcmb9bnT3q8RVY39uiOo
+         mqo0Ts6QeXuQPsLNOVUeXD0UAbdwQ45vVyhlHo2VDvCB1QCyLGQztHbrppoyg2MkMze0
+         LOMg==
+X-Forwarded-Encrypted: i=1; AKwUvByVnuY0KxWZjlDSeYNjtZiuJPPCwyFlcxShtmI5RK4xdAJ+5egQ33P1sHC5K5j+hdI9ej7ZzoaWHY3y3PuCdVQjFQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYKOwbNnK6GjzFJ42ZLxNgG/AenkEkYksnBiPTTXAhbiBb0JL68x
+	B3BysMKIuYRvwdkQM62dy4yQwobr1RJrIBbCq+0xkvW/U7dR3OwNfVhYtUopZ+fukdo=
+X-Gm-Gg: AYBFou3YDViwvU46yMQBQ9xLw0rHVdm8SU2eRHhby0UjBr4sh9F3Vsy2bSkVecKW7Wo
+	hwU5z0JSVIC+vIDJcjbHd5md591DuurqJAfMFJJAyfnyCaUM1xeUroZbsJdDsah8hTQoFkoXPgV
+	74d1tZ2N6NMhVoAwYuqXbihCLKwcuQTWxQqf2DuCOMp01pHg9asjqeU9dseG8mgPgT0Tms6pDbH
+	35e4NuM2B7DIE+LiK1iVRWYbdr0DeS4+SoGJPyuTn1+XKmRj4cMvzhtUlCmsrd8edQmB79EPNh/
+	XLDZM1BC/pUrAP0MMLYHMAarc5yEfpKgT/5EiLxBiGfrQBpsgrPYSWr59pfd8llTbbBBrztP+kG
+	imhbcXbRPjSh0QW4hmkC4cBNzfSnKL34MWz9XWKEgQzXMogd6SInsx7uw8F+sM088kzNYoIzNd7
+	qJiq1sqL06yB5M6kPyzqxtzd452u6CawBXTdZvJ54gza3kbMoG02HSyzgJrYYrQZD4dM2eXnCW0
+	yTFkQJmt0sSxS7Ikuv+BTVOnNqfTFx5PWnjyenVl06815+gSUNsifoggwizzEZtcKvESRTPe/1r
+	laEwVMyPtmm6p89AbAaMYbctmjBbQ3pruVDbZ1U+xu7tehjhyVlWwANGK7HD0xZZqiVJvH9qHjA
+	81XrUTXldi2Xt8L4b
+X-Received: by 2002:a05:600c:3f0a:b0:4a3:7344:13b4 with SMTP id 5b1f17b1804b1-4ac1709a2d0mr51484645e9.14.1793366746100;
+        Fri, 30 Oct 2026 06:25:46 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac0a0a3495sm43991475e9.4.2026.10.30.06.25.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2026 06:25:45 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 30 Oct 2026 14:25:45 +0100
+Message-Id: <DMI7GDCWUAVT.2F5IBL7MTJR2D@smile.fr>
+Subject: Re: [OE-core] [PATCH scarthgap] b4-config: Add configuration for
+ scarthgap
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Paul Barker" <paul@pbarker.dev>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261023-b4-scarthgap-v1-1-6a85c3fec09e@pbarker.dev>
+ <DMHOVC3580CN.26K60XV4TXQHN@smile.fr>
+ <7ed3a9b73c814ee1eed9efb56f1c03600e680f87.camel@pbarker.dev>
+In-Reply-To: <7ed3a9b73c814ee1eed9efb56f1c03600e680f87.camel@pbarker.dev>
+List-Id: <openembedded-core.lists.openembedded.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 13:25:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249040
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 30 Oct 2026 at 13:56, Bruce Ashfi=
-eld &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.co=
-m</a>&gt; wrote:</div><div class=3D"gmail_quote gmail_quote_container"><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_quote"><div><div style=3D"font-size:small">I say &quot;probably&q=
-uot; above, because you aren&#39;t saying what you are</div><div style=3D"f=
-ont-size:small">building that triggered that script to be called at all. Fr=
-om a quick</div><div style=3D"font-size:small">grep of the kernel it is onl=
-y linking vmlinux that uses that.=C2=A0</div><div style=3D"font-size:small"=
-><br></div><div style=3D"font-size:small">Are you rebuilding the kernel com=
-pletely from -devsrc ?=C2=A0(which=C2=A0</div><div style=3D"font-size:small=
-">shouldn&#39;t work)=C2=A0 Or doing something else that is triggering it t=
-o be</div><div style=3D"font-size:small">called ?</div></div></div></div></=
-blockquote><div><br></div><div>From a different thread, I do not think this=
- script is actually called or used. Rather there was an interaction with rp=
-m packaging that revealed the missing sed dependency in the package, caused=
- by this script. Rpm tries to be clever when processing binaries it&#39;s a=
-sked to package up, and sometimes that gets in the way (but other times rev=
-eals useful info about missing dependencies).</div><div><br></div><div>Alex=
-=C2=A0</div></div></div>
+On Fri Oct 30, 2026 at 12:57 PM CET, Paul Barker wrote:
+> On Thu, 2026-10-29 at 23:51 +0100, Yoann Congal wrote:
+>> On Fri Oct 23, 2026 at 12:41 PM CEST, Paul Barker via lists.openembedded=
+.org wrote:
+>> > This should simplify sending patches for scarthgap using `b4`.
+>> >=20
+>> > Signed-off-by: Paul Barker <paul@pbarker.dev>
+>> > ---
+>> >  .b4-config | 4 ++++
+>> >  1 file changed, 4 insertions(+)
+>> >=20
+>> > diff --git a/.b4-config b/.b4-config
+>> > new file mode 100644
+>> > index 000000000000..5876a9f2691d
+>> > --- /dev/null
+>> > +++ b/.b4-config
+>> > @@ -0,0 +1,4 @@
+>> > +[b4]
+>> > +  send-series-to =3D openembedded-core@lists.openembedded.org
+>> > +  prep-pre-flight-checks =3D disable-needs-auto-to-cc, disable-needs-=
+checking
+>> > +  send-prefixes =3D scarthgap
+>> >=20
+>> > ---
+>> > base-commit: c9b000059a37241c5b97426f0aadc012b13bd20f
+>> > change-id: 20261023-b4-scarthgap-31cd33af24d9
+>> >=20
+>> > Best regards,
+>> > -- =20
+>> > Paul Barker
+>>=20
+>> Hello,
+>>=20
+>> Are you sure there are no bad interactions with combo-layer and
+>> poky.git?
+>> When we started adding those .b4-config I avoided doing it for scarthgap
+>> because of that.
+>
+> Yeah, I like to use b4 everywhere now but this is a challenge. We
+> probably don't want a b4 config in the poky repo as it's likely to
+> result in patches going to the wrong list.
+>
+> We could add this to file_exclude in combo-layer-scarthgap.conf in the
+> poky-config repo. There's only me and Richard going to be pushing to the
+> poky repo so we should be able to make sure we both have the config
+> change.
+>
+> Best regards,
 
---0000000000009bd4a9065f0eb7fe--
+I propose to continue with the patch in this review cycle but let's
+remind ourselves to keep an eye on .b4-config not ending up in poky.git
+at merge time.
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
+
