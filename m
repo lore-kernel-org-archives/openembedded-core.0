@@ -1,127 +1,151 @@
 Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18426.1793384585510602649
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18314.1793384586225537324
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 11:23:05 -0700
+ Fri, 30 Oct 2026 11:23:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=nGIY+lEX;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=gLqAzxDI;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=pAkgV1hw;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=tyBmvphO;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.157, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C988A14001C1
-	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 14:23:04 -0400 (EDT)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 90BA214001AF
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 14:23:05 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Fri, 30 Oct 2026 14:23:04 -0400
+  by phl-compute-06.internal (MEProxy); Fri, 30 Oct 2026 14:23:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793384584;
-	 x=1793470984; bh=Yffg4XCCPnSJ42Qk6013b+ItxGVt+NUYEH+3x7Ry3Es=; b=
-	nGIY+lEXJHo542Rzws+yuXJLDDxBMaqNTOOGX5ffa9uCBJsjfo7Puns0F5CRdZly
-	3POMY7ZG2xfuIQwkv2X3CfQbcFuagtahB/UdSb0vwgxN3kO1cV1uKPKtmVcAa6Cl
-	hwfq6WwtJe1UOMIre+R4MPkN2Ox0VCe+Rejh6xGo97dz+rNHpFROyhlAKw2NSjzz
-	qUfziasAcY1/eVID43NsICFHPOb7nGz4IOpxbl0loszb2F1vbHDpFFe4uFIRJM8t
-	qaRU/2ZPsusyQNpY4G+IfK5bZaqdjMm3odqbpiHrKEerBK0QlewCI4NKAwOXqyZK
-	piZhtxlX+AeRb4HC8WU08w==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793384585;
+	 x=1793470985; bh=QHQlvAUlrpENwPNpVzuKdJLghqigtexaARokWR9NwtE=; b=
+	pAkgV1hwt8PQJzEeOo55iBhFnfXTNo4fAzonx++PJ3s0SJX9GD7+4WPpEEcRvLvX
+	uUHuaeHBjnAPPDlgtX1sn359jaqzFQzT0Tb+Hh5+8avn5JWDmgcwpMudq+rWYprl
+	rG3hK9aZjoyIMEtZbankELK1OUhpZmlkgCq/YQt7KwJxMr41FNi+w/5P4PZsDs1T
+	L58Ego/H5MdYw58Clz7g3Vhq5wQQLg97o+6Sm9zTR4ZjKYjwYTtfsSEUUaxZ5Cbq
+	ny9MkZojJbWeTqVZ+AliB1khXAZ2gvhBRdw5sxXT/0SeFZ0tuxLE6xwCsV64yPeC
+	KrRO6kJc41SV0Leq13Sf2Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793384584; x=
-	1793470984; bh=Yffg4XCCPnSJ42Qk6013b+ItxGVt+NUYEH+3x7Ry3Es=; b=g
-	LqAzxDIXuYTWVa6sjrCE5rO9rb7UFwFD6Rc/B/+crmnziaS966Sjo6LhJ4jH6nTk
-	uwdekHWhyEEms2UXlka9PdWe5uIom2aJlz5+Tdii3lc3/MwU3qMmL1qDQQj9ywvC
-	olPX9VY7Zy5eLQuMEAvZFR3zabQ6XxNr0mXu332uw71VCHUVoLMJW4ltTi8lqCL+
-	LVbaKvW4xtibOjIh+pAI8qpJXvJ5kpj9pnrOBJGIrmgxX8+4D7ZPFOPuD2oBIfm9
-	aLuz8dKoyAjjdZKU56teXi1fPppzequjOohIofClGMw/9DFLcitG72R0erPfNoND
-	/b1EFFjgRwUBVuFr7gULw==
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793384585; x=
+	1793470985; bh=QHQlvAUlrpENwPNpVzuKdJLghqigtexaARokWR9NwtE=; b=t
+	yBmvphOK2IQX/5/mSRamEB0PAghyEyVE1cKMncj8swaMGJH48YrqCDNy5twbDdQF
+	6MBYPOinlBU4DoMuBwnwHiJbNMhvEbuZaqxgoxGqA7geQ8lbxz6RpzRGfwMujYUP
+	qrlqtzwQBUtrVd2zTiAJCID5TAQpjuc/VGvec/o/3uAbgoKbQf7qAesVcxd5L2bC
+	nd3Pmgmti1HGgWQdY/91S5caZHJr8QpsaosNND4u5AaqNTTc30XE2O86bQ/Z9hXs
+	fWesR8ezP2xPv3aW/BebWK40mnvp/fMv/TQo0wfG3hnXb3yCnCaFxvsyNSXNlUP+
+	G8rvjc4GQwGvrDc7/s5iQ==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793384584; d=pbarker.dev;
+DKIM2-Signature: i=1; m=1; t=1793384585; d=pbarker.dev;
 	mf=PHBhdWxAcGJhcmtlci5kZXY+;
 	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm1:rsa-sha256:ag5RguK8c/0/URGcbbOEesu5zWSWNS+94a5YtwEIl52/e5w
-	59Mhd9g2x/DYSoOSnAysQfbVjcN1B2KicJLyUQLcpepWU1RxK8BNrrVt16siNWLk
-	/Nk+A6TlozYvWu3M3+PjH7nbFQNCphNgcHEdIMkH50zGZeznUI+jn1RTvrABDIx9
-	Yao29lVO5hBvWOz33AFoF8jC55cVWuDDHStGvInqJDmT7p1zwuHW2MuOayuYs1c9
-	hbrf580CNHgkFhfZveRshszjCEF6FzkVRrkOiUcQXkZfCfegCiEXkJGRTnOpQD5A
-	49MNC/TIYDUg4kYfIGHwJAvvdF4EA80TGBfbN/g==;
+	s=fm1:rsa-sha256:f3EX7YMWVCMSh30I8nKAh78X7kvtaFKX/4dJlExfXJjt/UM
+	DmgWswvv9Qw1uXCJSlCp0Wx5KEmzolK0RRY9uLZtLyg6iPOSkeXY/2jMPB6ILWiT
+	Gu/bTz1P8UVBR8iCvfKbnsyWo6jJqSXD0S/dbBQKdjksMBjrBlkrHoj7UCtkJVzk
+	dN1278HQeqjuo7S1UHMZ3PrAVaqShsNISHvp2oOWria/CYoQDIJu9X+tCeWqTaDj
+	KGnRzra2n/4oU8VGTvX3Y/FSv4qpjQQde4flI/zxpKxQml9TIm+t08H5hJo+NYCF
+	z7Ox8jJvgXu336/AZrYMeoh7RcZkbwmNTIbhgjQ==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=mi-m=1; hc=12;
 	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
 	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:CmoWjtLkhVV5q88f6cR5e7QM05ufyxpviNe8v2dYWPY=:H+tZ8/0cnSRrgJO/U8wSNls+AAaPQweP0jki9vMqiOY=;
-X-ME-Sender: <xms:iODkakz28eXV0Uz2kAtWi868UaoNxpOIbFEGJMHvtOEAEKGWyh6zPw>
-    <xme:iODkauTF8Rnoen_RYGBBcUm_c8_JENbpfsp0gIRCXmclXOBo6XZEyyVdzB_U6RtCn
-    ggbctjUfgIqNq0wAxzQY-HCtyG65SAdq5zvQz6IQZJ8BQK5YYkVCdS35Q>
-X-ME-Received: <xmr:iODkaj8QNZ5bEaOPgC-xm_4xyLQ4CED4R3rw8hbtJyrEIeoAsBbXmxPWAOyQByxUSIggk-axRxr1SmzxAKPsyT2FdKfsUxw>
+Message-Instance: m=1; h=sha256:yiiWm31qP9tYzACp8RB/lcIzOGT01a43HNNDPvyvJec=:saOgvBd40xKqvlgaYxO1mSuovGKs5cpa5P3ap2JH7yg=;
+X-ME-Sender: <xms:ieDkar4cGjJWq1pSQkTP1omHau9S5RJTn4cfMHcjPCjxACkmKHpsaA>
+    <xme:ieDkam6QrOYXNg9Sc8qWWkHHoXz9V3649vS7ybq1vrPyELNeTTwrrAGGLySGsn4Gw
+    nAFGq5UNgTqXPM9dbCAkzbBCVPAJp2uEZ4x8OznItWzSdyckIazrw80>
+X-ME-Received: <xmr:ieDkagFJ7f4MkX9dHBbDYT3GUZHTbfQmSvHFdq-bY5cLbfGo9pndoI_KL3EBjgUCVCn488oDLirQWIVeQa48mLbXgE6tiJs>
 X-ME-Proxy-Cause: dmFkZTE82P92HZkC+ZomUHxemSV8RkNuGwYsZL2mbexosF0T7TBU9rApGbwo0b/68f/O19
     vATzYUr3Fo+kkppN5zngdozwXkckfNgwKLOBa9S4aRvvYTHxpozQdT9y9qQ3fn1CBWNH3P
     XUExcsB2Sz3P1eGEsfF22/J0fyVkW5BeB62Vni8KlZi2EMoxPbPXKSJsLhVYHj3ULJgLl9
     XFirCZdHEQc43ptyAbOayYpSFIZOPxg2HSODz4nbCpTbdJGZfV9NXbnjo9Ugflq94hh6KT
-    MJT4DQCsG2hNuXb7kIsKU58IYWFy1DFB07MUttVFlPXBFcVbbNYgc7yAlefskUMNMMZ0Yx
-    J9UfBQuOhPW9EoqEdM3oIA+Hv/EkKne0E2CllRJPbKivbflIs8wjB63sWGbNw8Y5RxaN1B
-    FJHvUhQUtd3lXP7Iv1lqFBTChYmu19OYbJRAcIkV4f8I8aHPXroTa2Iigb8FaJWX8K7G7M
-    uVVw+tAuAaPV3oGpuK7kHggpxdmWUXTJWUygtbrrd4Be/FF25XQvG04xzr+kIXcneGIJ4X
-    YpW6vbSx50Dv26LzrGkBb7lVXD5hJYmqGdp22LDNPbZ7EAD8BhHi++nVinONhte5IfzA8V
-    0wbfUbu9Y4PopA3BAoPVuGY+F6/KdaTfM6J+eYx+rueIWIdrcq1CYyQdVAvw
-X-ME-Proxy: <xmx:iODkatrNHs1crGg8bgEdOpouKwRibaCccmcMm3TVhBIlX3JUxR2BXA>
-    <xmx:iODkaon_zb1kjkQl6G1zxWBZysHBRf8FjFXLaiNqaZTFd2TaBWeDTQ>
-    <xmx:iODkasLOLuIoVodqimbKLemrARYNUsjPk-5o1hpmLnokev90aNy-Ng>
-    <xmx:iODkalwHHQ79GBYrYa7e89gog_Fh6XMvjcHcFnGvdLl6LjSsEzbqTw>
-    <xmx:iODkalXAr4mCpIWO9XKmoXMZAiKl_ToXnvev2sngZcqnfw4OkjFtJApZ>
+    MJT4DQCsG2hNuXb7kIsKU58IYWFy1DFB07MUttVFlPXBFcVbbNYgc7yAlefskUMNMMZ0oF
+    PQBOaj+f9XOWoitzsdXosbLgTzr3Xc+baMIdqp8mfKCOHBGhcKma6xEVvv2CLCpYZXhRmw
+    sTPj1f9WkIg7XP1un85gnxwY9ZtDqTuJTGseUWKYw9nRDVa8ZcriJrfZb4a6MiX0WOo0Qc
+    1gA2hy3edZ4fIGOhS9ug/tzTSXXTYKHdHfSyQrNtaDvaNQFQh+2heQqUA44ODdHlFQMdAF
+    nkh7XqdNMgt+SjYglM+k9QIPSpFAFwSwKqiOxFDzqqvhWg4/wtXZ4z7njftDGjmkEK45NW
+    O9iJs9iyujY+xtcGTly9mPtEYrOepDPxEt3oY8gcEMOvvcWgeWbPSI4J9omg
+X-ME-Proxy: <xmx:ieDkanREZQ2NST9gRZmZh4838v9yS7b87jj4lK90lCDEQI0Loo5xxQ>
+    <xmx:ieDkahvbVEzpWU6nImptF3eTM6c6eI7xxf0HlmOkhLFOr0kzDCYPaQ>
+    <xmx:ieDkaux3d8FMV8A3Ztk0JXuSs4QEAUrsEu-nSIm5Y2R7eN54xZvqYQ>
+    <xmx:ieDkaj7KwMY9X2LqhO8ZW114yObFrlTKuTqfGu4Va5Qc7Q7xODeETw>
+    <xmx:ieDkaufM9V4Nfj_K18x4V99EMolV0YmviqT9eChTiLqU3VUItSx495pj>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
  30 Oct 2026 14:23:04 -0400 (EDT)
 From: Paul Barker <paul@pbarker.dev>
-Date: Fri, 30 Oct 2026 18:22:58 +0000
-Subject: [PATCH 3/4] oeqa: selftest: prservice: Don't print regex in
- failure message
+Date: Fri, 30 Oct 2026 18:22:59 +0000
+Subject: [PATCH 4/4] oeqa: selftest: Use raw strings where required for
+ regexes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-selftest-fixes-v1-3-1ba0fc952001@pbarker.dev>
+Message-Id: <20261030-selftest-fixes-v1-4-1ba0fc952001@pbarker.dev>
 References: <20261030-selftest-fixes-v1-0-1ba0fc952001@pbarker.dev>
 In-Reply-To: <20261030-selftest-fixes-v1-0-1ba0fc952001@pbarker.dev>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openssh-sha256; t=1793384582; l=1044;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1793384582; l=2406;
  i=paul@pbarker.dev; s=id_piv_33200296; h=from:subject:message-id;
- bh=H+tZ8/0cnSRrgJO/U8wSNls+AAaPQweP0jki9vMqiOY=;
+ bh=saOgvBd40xKqvlgaYxO1mSuovGKs5cpa5P3ap2JH7yg=;
  b=U1NIU0lHAAAAAQAAAGgAAAATZWNkc2Etc2hhMi1uaXN0cDI1NgAAAAhuaXN0cDI1NgAAAEEEQ
  dOfZ4fCf9WdA7cHWnYqW4P6zifYTwJ18a3l28hvdGt3M0CTKu/FWpwoh+x5E487TvYA9iW0goTM
  GGtdemFzVgAAAAZwYXRhdHQAAAAAAAAABnNoYTUxMgAAAGQAAAATZWNkc2Etc2hhMi1uaXN0cDI
- 1NgAAAEkAAAAgHjOsJa0/iB8KSsUcTwSqDhef9J20886oyZEvFyfzct0AAAAhAM7Sg97JknicgG
- 7Giqnjvxe8Pfk26m9hF3kwGUodCGVO
+ 1NgAAAEkAAAAgbpgBhHroxBw8kfgbTi+30PYcXtvh9ujgEVnDGuJpCqcAAAAhAOKt22PwC/U8o5
+ ttCuurg7vpiD8zTGbDYlzKfMaBQC1r
 X-Developer-Key: i=paul@pbarker.dev; a=openssh;
  fpr=SHA256:IlqExt9TPtGqXrqYg/YPMlsWlOGC6AVubz/PwuYw6KY
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 18:23:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249070
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 18:23:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249071
 
-Printing the regex doesn't clarify anything.
+We need to use raw string literals to avoid misinterpretation of escape
+sequences.
 
 Signed-off-by: Paul Barker <paul@pbarker.dev>
 ---
- meta/lib/oeqa/selftest/cases/prservice.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/bblock.py       | 4 ++--
+ meta/lib/oeqa/selftest/cases/buildhistory.py | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/prservice.py b/meta/lib/oeqa/selftest/cases/prservice.py
-index 8da3739c57f4..32b499c1d90c 100644
---- a/meta/lib/oeqa/selftest/cases/prservice.py
-+++ b/meta/lib/oeqa/selftest/cases/prservice.py
-@@ -37,7 +37,7 @@ class BitbakePrTests(OESelftestTestCase):
-         package_data_file = os.path.join(self.pkgdata_dir, 'runtime', package_name)
-         package_data = ftools.read_file(package_data_file)
-         find_pr = re.search(r"PKGR: r[0-9]+\.([0-9]+)", package_data)
--        self.assertTrue(find_pr, "No PKG revision found via regex 'PKGR: r[0-9]+\.([0-9]+)' in %s" % package_data_file)
-+        self.assertTrue(find_pr, "No PKG revision found in %s" % package_data_file)
-         return int(find_pr.group(1))
+diff --git a/meta/lib/oeqa/selftest/cases/bblock.py b/meta/lib/oeqa/selftest/cases/bblock.py
+index cb99d32bb5d0..6ed1172f2e9b 100644
+--- a/meta/lib/oeqa/selftest/cases/bblock.py
++++ b/meta/lib/oeqa/selftest/cases/bblock.py
+@@ -35,7 +35,7 @@ class BBLock(OESelftestTestCase):
+             for recipe in recipes:
+                 for task in tasks:
+                     find_in_contents = re.search(
+-                        'SIGGEN_LOCKEDSIGS_.+\s\+=\s"%s:%s:.*"' % (recipe, task),
++                        r'SIGGEN_LOCKEDSIGS_.+\s\+=\s"%s:%s:.*"' % (recipe, task),
+                         contents,
+                     )
+                     self.assertFalse(
+@@ -62,7 +62,7 @@ class BBLock(OESelftestTestCase):
+             if tasks:
+                 for task in tasks:
+                     find_in_contents = re.search(
+-                        'SIGGEN_LOCKEDSIGS_.+\s\+=\s"%s:%s:.*"' % (recipe, task),
++                        r'SIGGEN_LOCKEDSIGS_.+\s\+=\s"%s:%s:.*"' % (recipe, task),
+                         contents,
+                     )
+                     self.assertTrue(
+diff --git a/meta/lib/oeqa/selftest/cases/buildhistory.py b/meta/lib/oeqa/selftest/cases/buildhistory.py
+index 1edc60c72d0e..43bcc1bd3648 100644
+--- a/meta/lib/oeqa/selftest/cases/buildhistory.py
++++ b/meta/lib/oeqa/selftest/cases/buildhistory.py
+@@ -55,7 +55,7 @@ class BuildhistoryTests(OESelftestTestCase):
  
-     def get_task_stamp(self, package_name, recipe_task):
+     def test_buildhistory_buildtime_pr_backwards(self):
+         target = 'xcursor-transparent-theme'
+-        error = "ERROR:.*QA Issue: Package version for package %s went backwards which would break package feeds \(from .*-r1.* to .*-r0.*\)" % target
++        error = r"ERROR:.*QA Issue: Package version for package %s went backwards which would break package feeds \(from .*-r1.* to .*-r0.*\)" % target
+         self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
+         self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
+ 
 
 -- 
 2.43.0
