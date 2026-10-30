@@ -1,212 +1,155 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9288.1793359733796715607
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9455.1793360617157849534
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 04:28:54 -0700
+ Fri, 30 Oct 2026 04:43:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=BHaOHEoq;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso6627685e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 04:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793359732; x=1793964532; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iIT4EIUWM1dJ9SYimM0hDCMuoN2gKWKz/aIvstZIqwA=;
-        b=BHaOHEoqcARLQabAsTPsdUrDNqnxrtssFnsVOb2uf2CemWKnycPcaYhEQN1MqyCvb3
-         qA3chDdYBakudnPSQnrIM8dr0PRrPJyHFA+pawf2Od6y77T7M50udID+7/EfKghzMIDH
-         uNrK2ycJGvJZRhjiUVF5B3twJ/6WIuZ4ExbUIbEvHhdmASKrgpZxdQnArLMX6ccVwG8o
-         elYBbs6opfZQc53sqmN0m9GQgWTX3NBWhiheLnKYx88+9/P7PEyTTIX25gsEEeJ0eNlH
-         3IafnGdXN/AHEyZkwp0plHcaVnnPoOrRcnD8BLPT3BPv01rvK90+SCxItKEmEjgL5bjA
-         9pnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793359732; x=1793964532;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iIT4EIUWM1dJ9SYimM0hDCMuoN2gKWKz/aIvstZIqwA=;
-        b=OZ5gjQUPiC/ibjd4kaPDX0cztCY0DCbBB4pu8pYiyYAFGyMrjdZfOsJyLnMceNjOYt
-         xDPc2xKO2nRsvQe3P7rkAj9UUTtTslL6Fb/qyPu5mZKem4CxP5TS0xb5Dh8emozxVXlG
-         w5HbIUEzbR37JSa8jgljN9GsOERF+Sxv28FyzyVJwQZ7gMIPXSuSM9+4GE5F4Aa4L/t9
-         YmLyxiJrmexsGGFd50usXCoBhRd1Z6IzRGa309v1hyVt1YDizivCRA4PbK/H1lQD1dME
-         PwiTkIr27uzrLRFkIXFEMZX/DqoplzOcQGJdu+HrVTi829lp8JIpZOOEVFtlXzZwEC4e
-         nPBA==
-X-Forwarded-Encrypted: i=1; AKwUvByr/4AhuuFF/Fw9mryXIxo0v2ZBzV4P8ttgUblpXdSzjIHpp0WcYGKGYoy4LF+K03qx3H7Djy3Tio8QjjlkTFX7LQ==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYJaNY91EyXatq8n55aNxHE0aBxK9N7REVCvLqQbqd6fU4jQLl15
-	RigAa+cwkd7/eIIrdfbxGrSeDIlFaf14dn/ZzMUyy4GRTWu1GuYFaQByG9m6lM+9S64=
-X-Gm-Gg: AYBFou2IsIXd1U/mFb0eG5k7MaqsSfcXO/82yWa+xbUb8BmM42EfaKmIlRU1yuovsEJ
-	e+IlNEyvSnsQ3rkp70AiPblK/43S+r+eiHxWAeB8bj7Y6+W1n53yN5f4dPmYsQ8op/Yfbl6jQMd
-	674C8Acjhw78QPQ/OYPgLZfqir6R22YKYAGf38eC+tJXiu1ryJ34oKQcguFaSHJkAxHS/zPXFJp
-	rQmzukmKqTSjg11lAtunZiWSkwiOgxa9COdr4qnLNqtG3MQmKwluVu5UWqKEr5h3P057JVh4u1+
-	itfzvYNyMcjFHAXwazKLJWpjCdcObQBKfLf/YEofyeHy/eBNEuoS9npKg8SWylN78ntE1jrzRAn
-	nK3JeRuQrfE333lgbyY/dQsoq+e+NnNrvWDP5vHYAEKdWvQpu65BaKVjbgkriHdK4YpiUYNkuWI
-	Q+M/CBAGNKog2XeK9hNllyOokbfiyZ+3VPlhe9H2U169QB7FM0S9UXO6QHnREJhh/w7olvLeOP6
-	0DnqYDR7ePkr3xSk6pcym+OcCKdOS/WSMy7APrqPhMp0mQTGNrWcHhAL8TpXL6lIcs1JyygNCTS
-	AFh2hEAmUim95wSyWOnn3Pkk37Ku6Cpq87FKuivYzlFoDfxiwl751AGg0dJYtY/v9c8zV6SLvJ8
-	lBWCErQ9kxdjPoddkMWzCcTwJxxWrV8AEA0DaSA==
-X-Received: by 2002:a05:600c:354c:b0:4a2:8c5:5e5 with SMTP id 5b1f17b1804b1-4ac17d16b1fmr41030925e9.7.1793359732037;
-        Fri, 30 Oct 2026 04:28:52 -0700 (PDT)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf5b286a0sm45009995e9.4.2026.10.30.04.28.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2026 04:28:51 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=fnwllfh3;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=DwV36rVF;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.152, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0C6811400174
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:43:36 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Fri, 30 Oct 2026 07:43:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793360616;
+	 x=1793447016; bh=wW3i24brd6lYw3ld0ogUWkXM05cUYRiPqW4v/M1edXM=; b=
+	fnwllfh3BAIcSpNdRn3buQPmlyI5ttfaAumOcz58AmyBo3HOrKkGNwy1VlWI8Cmq
+	Rno4gN1Iz8pZtDBFxBxHwj62fvw0rYhHRRp+QIhGJlATA1kq0i4dut1a+iELkG0Y
+	GT5ybx76SVUR8I6+2f9x4tVL7dAbM5Ron39RsrOaOwysazpma5TsVR067xr+TV2r
+	p/niqqTtG0mksCY4WQ03IO7LhUwYSJOGOdmd6SyGibhhGHFrFa7PLSHRjvbaYela
+	TP53GTwFLjshq86NlLC4u8qKktFiZCmdsNCwdoFqOope8aFegu6FZq7E0ZKJKWHE
+	ET9zqg0R1BJci8LWqC3wVw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm2; t=1793360616; x=1793447016; bh=w
+	W3i24brd6lYw3ld0ogUWkXM05cUYRiPqW4v/M1edXM=; b=DwV36rVFyCNxAEz6V
+	hoX1sQrW/mGiAX8GmSrEN52qiVIKsK2IXQBUtMCO9IWXo943EjD4xM7ZxSlB44oX
+	d+v8MNMumDMtKxPLGoaMhnDc1SPfE8PX+l9Wu6W0XgL8dWCm8PmHUrDxpPbHzJoA
+	5nwYq8bq/1s2wHYxJj5Y7J5Ojk90DRLc37Tc97SMm4L0BGgiQONP5UxAofgV/WGU
+	Rgm4HOx/fZNtqJtw4GnNUvcnPlD3C8Pe//DR538F9LDOxj8FP3c9l7imt1QOLha6
+	YsTlPn8HhAM+l15v1dSn1yPHLsSShrQKJnPUQqwDMxsJueq3ZibZok1QDZuri1OJ
+	D2MSA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793360616; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm1:rsa-sha256:dp3JzCSqNJN53vHLfWctF/BBXNDMO8jVuSQvfl8XvlC5iCH
+	fcWNJPy4TD12j1bpPqrTtQfBsqZfG/p83vCLEV6LnefZ2wHsx4RXfjJTa3AdmVze
+	aE++XlsiQau2Q2qjaw6IgADH5EH0X0C+X2ZucxkEiD1aSwTODAGlgUMGyxGQUHZH
+	5XHos7cEmqpmtfewBBBlmN3iacX2dtjzjiHTxUg43XPCaS+N1GkDCsFE/DLuoB+r
+	zX1W93o+HKSfeRg0TYWejGQmHDRPqwy/zA0GVWGEiA18tFK87lCTujCNwjkIkPPB
+	cXqUtO7r3GZ9rLJJwJ8LnMq+sAGm/rZ/tEM6KJQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=content-transfer-encoding,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:loDzo2LnrflkvwpdyESM7KKfpF2mTrNkX/try1lSc7U=:ksfIBakIMrC+TyCTYemTW1k1IozpRILFFhtSzOmivPU=;
+X-ME-Sender: <xms:54LkavHdm9Y7wZlURKpfmgKugt79NMFfPtAL5qmoJtF3CK2iIkj44g>
+    <xme:54LkaiWlg9q16MSuy4KyihK1JoLzIQWMG5pzX6IyHgLpgIUbA6DfT_VqvcoFbb31W
+    sT-va56eZkVgDN4cysA6FR212l5yEupXdUo2HFrx3Y1L4hGP3rsyF8>
+X-ME-Received: <xmr:54LkauyE0dik3iF6uDsiKKG7dsuIpWmsZOz86Eo51k8-MPbe-65bvvVCjVXM0VrICgc0epROnPJYNCftNfvGyYCKHcQCESv6ItAHTCk>
+X-ME-Proxy-Cause: dmFkZTE/gXJlcHv7NQvGH/iOoHpp/4imL+YQWApa7GDKLYDsiLYGWOBhRdoNTtTBKhTjsT
+    g0a7AXoHXSSHHLuJnJ+N61v3pKhKToC4IIllawZSqfJt2aHj05XZGjElZ5J+HQZmErGiPX
+    Hfv+Vqa7cx1qZn+WEfKIVnmsUxGlbF0Hsp4M9rTvD/SeFZKVrf8YmgAsLqmTQvhHGKU7XS
+    Iy0NmemV9+LN34RkdmgXRcxcURX2qczBhsRWUfbleSVaGr3+9zExjMyjFsXqhm9v7rxOyh
+    xqruyahN4Vx3u/ROHdpLhsaug3qp1xCKNibzJhwJhJIUKNVceyk6nROFs47BRIymhEKTrW
+    V/cSJg09LWsla48evwaiKhR/QHMJyfyBpIWFkW5p81/bBcvLcmg3YvAuI35NwG9thgVGh4
+    TrdZlHX37bw429NvvK/dLvheQMWByIYtMk4QcAt6SO1+eAI7yjdMiKIdhysmrFrqQAgsRo
+    veAX+XFxbrdVKkhAM8T/FmGhoH6VXqM5lEGtZsoZ/6UQBvInnIJftvD0tegPV9+pBLVez/
+    7sUKQYExoO8+ivdKltWjanQe1HIj9/zP0rHCS3+0w6n7JwWpytSowb1JxIsjoet3db3GU0
+    CnvW7db6jWbp6Lwm2kcF1ZUAORJgkt7dMI0GbPyUnWLQgRcDsI7c2IKWJwEw
+X-ME-Proxy: <xmx:54LkaoPpC-h_0bIVrdTURfbOWM7HMsOJxUY5GPLk5uHTOtv9_3EU7w>
+    <xmx:54Lkan6caEkPAouAKGx46Fz4pW-lxWa1sSaabkHt16TaXL6yJSpRjQ>
+    <xmx:54LkahPB42Opq_v6pVhVhiMT0nPMNx3qoBiauFCysELLx5A1RhTwOQ>
+    <xmx:54Lkatn5iHpcHPAIobi382o-JW06gpIhJBCO82HElFsVSDsAHZknuQ>
+    <xmx:6ILkaoVVrmbPQJdSbit6BN06RUXyo3x4hyzyEtyXX82Om5rJvVl-FPJ8>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 30 Oct 2026 07:43:35 -0400 (EDT)
+Message-ID: <2d92a69b0b95fbc662687a1aaee1ac154d8198a8.camel@pbarker.dev>
+Subject: Re: [PATCH] yocto-check-layer: don't skip entries when dropping
+ invalid layers
+From: Paul Barker <paul@pbarker.dev>
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Oct 2026 11:43:33 +0000
+In-Reply-To: <20261029112443.1734921-1-vinicius.eduardo.pedrosa@gmail.com>
+References: <20261029112443.1734921-1-vinicius.eduardo.pedrosa@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Oct 2026 12:28:51 +0100
-Message-Id: <DMI4YUY8VTX7.N1DBWV01TTNK@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH v2 5/8] curl: fix CVE-2026-8927
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)"
- <devanshp@cisco.com>, "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261016130439.603118-1-devanshp@cisco.com>
- <DMI367I27X8Y.1QCWB126HTJ6L@smile.fr>
- <PH0PR11MB761654423DFF3F2219CCDCA2D36D2@PH0PR11MB7616.namprd11.prod.outlook.com>
-In-Reply-To: <PH0PR11MB761654423DFF3F2219CCDCA2D36D2@PH0PR11MB7616.namprd11.prod.outlook.com>
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249030
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:43:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249031
 
-On Fri Oct 30, 2026 at 11:31 AM CET, Devansh Patel -X (devanshp - E INFOCHI=
-PS PRIVATE LIMITED at Cisco) wrote:
-> Hi Yoann,
-> Thanks, that makes sense. I=E2=80=99ll fold the Digest feature-detection
-> change into the main CVE patch, add the explanation, and remove the
-> separate dependency patch and recipe entry in v3.
-> Do the other patches in v2 look good, or are further changes needed?
-> I=E2=80=99d like to address all feedback together before sending v3 to av=
-oid
-> multiple revisions of the series.
+On Thu, 2026-10-29 at 08:24 -0300, Vinicius Pedrosa wrote:
+> The "Detected layers" loop removes invalid entries from the list it's
+> iterating over. When two invalid layers are next to each other,
+> removing the first one skips the second.
+>=20
+> A skipped entry without conf/layer.conf makes the dependency pass fail
+> with KeyError: 'collections'. A skipped BSP+DISTRO entry isn't
+> reported at all. If no other layer is left to test, the script exits 0.
+>=20
+> Iterate over a copy of the list so every entry gets checked. Keep
+> removing from the original list, since dep_layers refers to that same
+> list when --dependency isn't used.
+>=20
+> Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+> ---
+> Hit it on a layer that had a few subdirectories with an empty conf/ in
+> them.
+>=20
+> Tested on master (fa83da7) with small synthetic layers, same tree and
+> command before/after:
+> - two adjacent dirs with an empty conf/: KeyError before; after, both
+>   get the "ignoring" line and the real layer is tested
+> - two adjacent BSP+DISTRO dirs only: exit 0 before, exit 1 after
+> - valid layer + one stray conf/ dir: same test results before/after
+>=20
+> Applies to master-next too (offset 2), not tested there.
+>=20
+>  scripts/yocto-check-layer | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+> index 8c8b4db..a580a8f 100755
+> --- a/scripts/yocto-check-layer
+> +++ b/scripts/yocto-check-layer
+> @@ -125,7 +125,7 @@ def main():
+>          return 1
+> =20
+>      logger.info("Detected layers:")
+> -    for layer in layers:
+> +    for layer in layers[:]:
 
-Sadly, I don't have more time to spend on this series in this review
-cycle. I have to move forward to unblock the 50+ other patches.
-This is a complex series with lots of changes from upstream, I'm not
-surprised it takes time.
-Try to apply the ideas of previous reviews to the other patches of your
-series, maybe you will find issues?
-You could also ask for a review from your coworkers before sending the
-v3?
+While this is technically correct, it's not immediately obvious what's
+going on here unless you really know your Python details.
 
-> Regards,
-> Devansh
-> ________________________________
-> From: Yoann Congal via openembedded-core <yoann.congal=3Dsmile.fr@lists.o=
-penembedded.org>
-> Sent: Friday, October 30, 2026 15:34
-> To: Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco) <d=
-evanshp@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-=
-core@lists.openembedded.org>
-> Subject: Re: [OE-core][scarthgap][PATCH v2 5/8] curl: fix CVE-2026-8927
->
-> On Fri Oct 16, 2026 at 3:04 PM CEST, Devansh Patel -X (devanshp - E INFOC=
-HIPS PRIVATE LIMITED at Cisco) wrote:
->> From: Devansh Patel <devanshp@cisco.com>
->>
->> This patch applies the upstream fix as referenced in [3], using the
->> commits shown in [1] and [2].
->>
->> [1] https://github.com/curl/curl/commit/1968b32afd8e41fbb87f8911d15c552c=
-6b705385
->> [2] https://github.com/curl/curl/commit/5c225384b8d52c67ce8259c6e4203bc5=
-7aacb567
->> [3] https://curl.se/docs/CVE-2026-8927.html
->>
->> The test adaptations account for these earlier upstream changes:
->> [4] https://github.com/curl/curl/commit/6cf3d7b1b161bc45501d17b401225bef=
-e3c43943
->> [5] https://github.com/curl/curl/commit/a186ecf4bf0c8ebb3a9a826155b33921=
-64ec257a
->>
->> Validation: ptests passed (866 tests, no failures). The release build
->> skips test1647 because debug support is disabled. A native debug build
->> with stunnel passed test1647 with the test compatibility changes below.
->>
->> Signed-off-by: Devansh Patel <devanshp@cisco.com>
->> ---
->>
->> Changes in v2:
->> - Rebase onto stable/scarthgap-review
->> - Explain the test.h macro requirements in the backport changes.
->> - Adapt CONNECT normalization and the expected error for curl 8.7.1.
->> - Record target ptest and native debug validation.
->>
->>  .../curl/curl/CVE-2026-8927-dependent.patch   |  39 ++
->>  .../curl/curl/CVE-2026-8927.patch             | 390 ++++++++++++++++++
->>  meta/recipes-support/curl/curl_8.7.1.bb       |   2 +
->>  3 files changed, 431 insertions(+)
->>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927-depende=
-nt.patch
->>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927.patch
->>
->> diff --git a/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.patc=
-h b/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.patch
->> new file mode 100644
->> index 0000000..d05699d
->> --- /dev/null
->> +++ b/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.patch
->> @@ -0,0 +1,39 @@
->> +From a07fc9a9855848da48a4533b85153c681ae1b1a0 Mon Sep 17 00:00:00 2001
->> +From: Daniel Stenberg <daniel@haxx.se>
->> +Date: Fri, 25 Apr 2025 08:16:13 +0200
->> +Subject: [PATCH] tests/buildinfo: former "disabled" now provides more i=
-nfo
->> +
->> +This tool now contains ON/OFF information about features in the build.
->> +This way, runtests gets both positive and negative feature presence wit=
-h
->> +this. Allows for more flexibility and avoids having to duplicate the
->> +names.
->> +
->> +Closes #17180
->> +
->> +CVE: CVE-2026-8927
->> +Upstream-Status: Backport [https://github.com/curl/curl/commit/1968b32a=
-fd8e41fbb87f8911d15c552c6b705385]
->> +
->> +Backport Changes:
->> +- Add only the Digest feature flag needed by the tests. Keep the old
->> +  disabled helper, which clears this flag when Digest is disabled.
->> +  Leave out the buildinfo rename and other feature-reporting changes.
->> +
->> +(cherry picked from commit 1968b32afd8e41fbb87f8911d15c552c6b705385)
->> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
->> +---
->> + tests/runtests.pl | 2 ++
->> + 1 file changed, 2 insertions(+)
->> +
->> +diff --git a/tests/runtests.pl b/tests/runtests.pl
->> +index ddfab20e86..b40df554b2 100755
->> +--- a/tests/runtests.pl
->> ++++ b/tests/runtests.pl
->> +@@ -637,6 +637,8 @@ sub checksystemfeatures {
->> +             $feature{"Kerberos"} =3D $feat =3D~ /Kerberos/i;
->> +             # SPNEGO enabled
->> +             $feature{"SPNEGO"} =3D $feat =3D~ /SPNEGO/i;
->> ++            # Digest auth enabled unless disabled by build
->> ++            $feature{"digest-auth"} =3D 1;
->> +             # CharConv enabled
->> +             $feature{"CharConv"} =3D $feat =3D~ /CharConv/i;
->> +             # TLS-SRP enabled
->
-> Reading the code more closely, I think it would make more sense to fold
-> this CVE-2026-8927-dependent.patch into CVE-2026-8927.patch with the
-> proper explanation (Like you did with the CONNECT line).
->
-> I generally don't like squashing patches like this but in those 2 cases,
-> I think this is the better option (the runtests.pl patch does not look
-> like the upstream patch anymore, and the CONNECT line is buried in a
-> very long cleanup patch).
->
-> Thanks!
-> --
-> Yoann Congal
-> Smile ECS
+I'd prefer to move this to a validate_layers() function which logs the
+errors and builds a new list of valid layers then returns it. Something
+like:
 
+    def validate_layers(layers):
+        valid_layers =3D []
+        for layer in layers:
+            ...
+
+        return valid_layers
+
+Best regards,
 
 --=20
-Yoann Congal
-Smile ECS
+Paul Barker
 
