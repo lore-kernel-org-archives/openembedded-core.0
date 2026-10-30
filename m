@@ -1,152 +1,144 @@
 Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9455.1793360617157849534
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9714.1793361466502686138
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 04:43:37 -0700
+ Fri, 30 Oct 2026 04:57:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=fnwllfh3;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=DwV36rVF;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=DV8kp32c;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=ERbHg919;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.152, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0C6811400174
-	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:43:36 -0400 (EDT)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6B4161400186
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:57:45 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Fri, 30 Oct 2026 07:43:36 -0400
+  by phl-compute-05.internal (MEProxy); Fri, 30 Oct 2026 07:57:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-transfer-encoding:content-type:content-type:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793360616;
-	 x=1793447016; bh=wW3i24brd6lYw3ld0ogUWkXM05cUYRiPqW4v/M1edXM=; b=
-	fnwllfh3BAIcSpNdRn3buQPmlyI5ttfaAumOcz58AmyBo3HOrKkGNwy1VlWI8Cmq
-	Rno4gN1Iz8pZtDBFxBxHwj62fvw0rYhHRRp+QIhGJlATA1kq0i4dut1a+iELkG0Y
-	GT5ybx76SVUR8I6+2f9x4tVL7dAbM5Ron39RsrOaOwysazpma5TsVR067xr+TV2r
-	p/niqqTtG0mksCY4WQ03IO7LhUwYSJOGOdmd6SyGibhhGHFrFa7PLSHRjvbaYela
-	TP53GTwFLjshq86NlLC4u8qKktFiZCmdsNCwdoFqOope8aFegu6FZq7E0ZKJKWHE
-	ET9zqg0R1BJci8LWqC3wVw==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793361465;
+	 x=1793447865; bh=Fc79aIi2Ilwvia+Ag1GTQJe5ytnb9hdiHE96zBiut14=; b=
+	DV8kp32cj7O/od9YRgiMgZ5F0PkSoPB0v8vJ/EwOkbvw6e129+icwGoV9Wjjf5U5
+	Wm2bu1KAGopMWoqeb52IBp+U2ON70SsvlUGJQo2UyCBSPwkZfAQd+OhcRpTjWHAO
+	iFfmce0CEbnZyaqHVmzSQYxxEzbLghZRpDOFVXmtBRO4X58dTnjkyTpbJxIeJkpY
+	BZDkCV2JcL7C1WLcfJjKHB/dZWhi9vRSUSpvEvX7yZmHIUXJZPtYT3gIqY2KsKpU
+	FipmRUMMQRATMkP20bQpTq/+QnYFXUmxXNLgN6IYMXABIDkw10YkQE1vWFYBnjEn
+	lwpiRtQ5oW7nKlSYNfaKKA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1793360616; x=1793447016; bh=w
-	W3i24brd6lYw3ld0ogUWkXM05cUYRiPqW4v/M1edXM=; b=DwV36rVFyCNxAEz6V
-	hoX1sQrW/mGiAX8GmSrEN52qiVIKsK2IXQBUtMCO9IWXo943EjD4xM7ZxSlB44oX
-	d+v8MNMumDMtKxPLGoaMhnDc1SPfE8PX+l9Wu6W0XgL8dWCm8PmHUrDxpPbHzJoA
-	5nwYq8bq/1s2wHYxJj5Y7J5Ojk90DRLc37Tc97SMm4L0BGgiQONP5UxAofgV/WGU
-	Rgm4HOx/fZNtqJtw4GnNUvcnPlD3C8Pe//DR538F9LDOxj8FP3c9l7imt1QOLha6
-	YsTlPn8HhAM+l15v1dSn1yPHLsSShrQKJnPUQqwDMxsJueq3ZibZok1QDZuri1OJ
-	D2MSA==
+	:x-me-sender:x-sasl-enc; s=fm2; t=1793361465; x=1793447865; bh=F
+	c79aIi2Ilwvia+Ag1GTQJe5ytnb9hdiHE96zBiut14=; b=ERbHg919lBMBAlI3c
+	1AS656dekylrL3O7NA2pF3LYzuD2PrklgnvjXywHfVJiQAEYI/Piq9VEU4fExI0c
+	R7EUULbOErGFZht5iaaDBDG6GlVsaAW3I3RTeV/BHHd5c7h0ttIHrkv3FDg0C+y3
+	CieVhWP8Riqx5SbP4VliBFdWvjqNAlDRP6LCNXX04MC6OgAIxi4SspCtELsZwOqD
+	pIoF92k2o8lGDvzxcYbfKNnOwunrZq9gpT0O6usq+wqV7K74nSiZHZjeFG0H1KYe
+	A9ZumvLuunwAb5zOljJAJlJKIARQb72eEvF146wITkLMd2gZdrF8so1PqjB5n/QI
+	fIgDA==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793360616; d=pbarker.dev;
+DKIM2-Signature: i=1; m=1; t=1793361465; d=pbarker.dev;
 	mf=PHBhdWxAcGJhcmtlci5kZXY+;
 	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm1:rsa-sha256:dp3JzCSqNJN53vHLfWctF/BBXNDMO8jVuSQvfl8XvlC5iCH
-	fcWNJPy4TD12j1bpPqrTtQfBsqZfG/p83vCLEV6LnefZ2wHsx4RXfjJTa3AdmVze
-	aE++XlsiQau2Q2qjaw6IgADH5EH0X0C+X2ZucxkEiD1aSwTODAGlgUMGyxGQUHZH
-	5XHos7cEmqpmtfewBBBlmN3iacX2dtjzjiHTxUg43XPCaS+N1GkDCsFE/DLuoB+r
-	zX1W93o+HKSfeRg0TYWejGQmHDRPqwy/zA0GVWGEiA18tFK87lCTujCNwjkIkPPB
-	cXqUtO7r3GZ9rLJJwJ8LnMq+sAGm/rZ/tEM6KJQ==;
+	s=fm1:rsa-sha256:m2kTfrQPvbsKhJEpmOnhBvV8esVTu7I7LZ85DeyZ1UhBhhY
+	xugbsYcQIke3HM8Fgi5iLHCjBuRK089jbJHgw/CYGtJZse0JxgRHs3ojpDgqhvz5
+	KiTWjNJmER3Sl1KzWiGhnOI3LGEg/RvNQCNtWKndWG/lhrxqsak1BaqlTx1cvJiz
+	jSFKT4kS9Qy9kuQCU/XsM2BMG2Rg4HPG+QqB/z3YhS5hOIueNBnkPwaycfXkZagy
+	jtSo8NXppri8YZM3R9ryloS9JZITOMzYqHwnnMyEgJO0DvqVUbHiTcMi/u6dGW3K
+	nlSyLqO0pGwH9CCaXf5///3yjdqM7Z8fj/z5OvA==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=mi-m=1; hc=12;
 	hn=content-transfer-encoding,content-type,date,feedback-id,from,
 	in-reply-to,message-id,mime-version,references,subject,to,
 	user-agent;
-Message-Instance: m=1; h=sha256:loDzo2LnrflkvwpdyESM7KKfpF2mTrNkX/try1lSc7U=:ksfIBakIMrC+TyCTYemTW1k1IozpRILFFhtSzOmivPU=;
-X-ME-Sender: <xms:54LkavHdm9Y7wZlURKpfmgKugt79NMFfPtAL5qmoJtF3CK2iIkj44g>
-    <xme:54LkaiWlg9q16MSuy4KyihK1JoLzIQWMG5pzX6IyHgLpgIUbA6DfT_VqvcoFbb31W
-    sT-va56eZkVgDN4cysA6FR212l5yEupXdUo2HFrx3Y1L4hGP3rsyF8>
-X-ME-Received: <xmr:54LkauyE0dik3iF6uDsiKKG7dsuIpWmsZOz86Eo51k8-MPbe-65bvvVCjVXM0VrICgc0epROnPJYNCftNfvGyYCKHcQCESv6ItAHTCk>
-X-ME-Proxy-Cause: dmFkZTE/gXJlcHv7NQvGH/iOoHpp/4imL+YQWApa7GDKLYDsiLYGWOBhRdoNTtTBKhTjsT
-    g0a7AXoHXSSHHLuJnJ+N61v3pKhKToC4IIllawZSqfJt2aHj05XZGjElZ5J+HQZmErGiPX
-    Hfv+Vqa7cx1qZn+WEfKIVnmsUxGlbF0Hsp4M9rTvD/SeFZKVrf8YmgAsLqmTQvhHGKU7XS
-    Iy0NmemV9+LN34RkdmgXRcxcURX2qczBhsRWUfbleSVaGr3+9zExjMyjFsXqhm9v7rxOyh
-    xqruyahN4Vx3u/ROHdpLhsaug3qp1xCKNibzJhwJhJIUKNVceyk6nROFs47BRIymhEKTrW
-    V/cSJg09LWsla48evwaiKhR/QHMJyfyBpIWFkW5p81/bBcvLcmg3YvAuI35NwG9thgVGh4
-    TrdZlHX37bw429NvvK/dLvheQMWByIYtMk4QcAt6SO1+eAI7yjdMiKIdhysmrFrqQAgsRo
-    veAX+XFxbrdVKkhAM8T/FmGhoH6VXqM5lEGtZsoZ/6UQBvInnIJftvD0tegPV9+pBLVez/
-    7sUKQYExoO8+ivdKltWjanQe1HIj9/zP0rHCS3+0w6n7JwWpytSowb1JxIsjoet3db3GU0
-    CnvW7db6jWbp6Lwm2kcF1ZUAORJgkt7dMI0GbPyUnWLQgRcDsI7c2IKWJwEw
-X-ME-Proxy: <xmx:54LkaoPpC-h_0bIVrdTURfbOWM7HMsOJxUY5GPLk5uHTOtv9_3EU7w>
-    <xmx:54Lkan6caEkPAouAKGx46Fz4pW-lxWa1sSaabkHt16TaXL6yJSpRjQ>
-    <xmx:54LkahPB42Opq_v6pVhVhiMT0nPMNx3qoBiauFCysELLx5A1RhTwOQ>
-    <xmx:54Lkatn5iHpcHPAIobi382o-JW06gpIhJBCO82HElFsVSDsAHZknuQ>
-    <xmx:6ILkaoVVrmbPQJdSbit6BN06RUXyo3x4hyzyEtyXX82Om5rJvVl-FPJ8>
+Message-Instance: m=1; h=sha256:AQwgn2F7B4EDF6FB7YiwrgktEyo1Lsz/6S9n3GLXvik=:fR/Lf+BxySlf6wlz0KRiuYiVK8Asq9BhtxTkMC8AvuE=;
+X-ME-Sender: <xms:OYbkaiu9RiuQVeLQ7xPn8l1wdGHE1oj91pVikYVyJtAWX_s4Rv5mQA>
+    <xme:OYbkatfMSoFcnlmK9YkYA4up1LB8vb_MXW805K9GHrhsXdS_s0Yb58DbB_jdUE0St
+    U3IOFWVlyUheaPJy--KxwYbaSld9kSFbhXckKgtmiIwO-VFg3LuXA>
+X-ME-Received: <xmr:OYbkarZXX71Ul666w9z0yo3BNniHcSQGlt-e-wHcdUf3_oE-2mkUkZWZ8oSaBsr8MLdOemKEToq-nlUdao20M8IXMU_svD7MypPGCHw>
+X-ME-Proxy-Cause: dmFkZTEVwY0xqUFC+N+XcgV4mJ7A0jl4gmkHsTFTQ5LyKzB6Fat0UEtfx9V3PGYVme/+LD
+    +wcjjB66BhKJrthq10MjtpjLqhgqkvcg5AMEDqUytv6Quduai1SmcRFuaOSXUaHtrSBnYF
+    mLjVNaer9N8ENf65hubu8pQi4otbG1jCTPStzYLUCkZmidC0zgKyZ0tg40BQFnvEEGFhfS
+    N5sFxzEeyew9AEgZhkMp5+4BCiXpCjeqs7ZOo1WdHNPLqbqkCb2Pt0+68j0i+6iQOmGxIl
+    sYlBhdsUt1Tkw+Ig82CI+WqZ8fYwI1gfnq5ht5059yYyjAyWcc+flbhfGcxNF6cnAgLPg0
+    gBPfUEoYrLzWZ261bPFQAihIVCtEOnZ+yqjPK7w51Q1/CJ2qLXdH0ZsWGqZkSI1XGsex+p
+    umgZXTLHsuI8uj0xZQxrzZ85aKSIamj6G9ZMReGoGqqAGdXgIEE2Q2zMNb3g3N6pARZxza
+    qII9YxE7NiRB4N4OVi4vlyhBEguPdfcqr9FgE3t3HRPOVLu7JaNFEovAnIFHx5OYTrdA45
+    V6cU5i60qXZfGBE4G0JPVdqD1CBUtCdb+SENuGzp1y/BiJaq4iyKGsMLOF70X9W0mkoOTN
+    3a0C3/tW1D+pylB2lyavoZHaUMCGpcp4oB/RZCgiZXY6AR9uCt/P3X93rnAA
+X-ME-Proxy: <xmx:OYbkaoUlCCIBXHi9NhB8gOaJyIGTTndrf8KBpeukamT4zLXOwN0ykw>
+    <xmx:OYbkalj1j6XDyJhbHwMsaspNQZty8f-PGduvM-M1-66UstZvRMsO-w>
+    <xmx:OYbkauVxcO-M8hY79GgX5g_FcT5gvaJFf3xl1eyxiG4fNjJaWtPa7A>
+    <xmx:OYbkakPv5GlJ95Awfzu4ZhnBty2k3JReKZF2BOX2HV02-0Y8kfKkww>
+    <xmx:OYbkapQWbOBbBPpQ7ReibbH66ncp8V6D7b7Lo2eCFAt0_vwipmnHvM2y>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 30 Oct 2026 07:43:35 -0400 (EDT)
-Message-ID: <2d92a69b0b95fbc662687a1aaee1ac154d8198a8.camel@pbarker.dev>
-Subject: Re: [PATCH] yocto-check-layer: don't skip entries when dropping
- invalid layers
+ 30 Oct 2026 07:57:44 -0400 (EDT)
+Message-ID: <7ed3a9b73c814ee1eed9efb56f1c03600e680f87.camel@pbarker.dev>
+Subject: Re: [OE-core] [PATCH scarthgap] b4-config: Add configuration for
+ scarthgap
 From: Paul Barker <paul@pbarker.dev>
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, 
+To: Yoann Congal <yoann.congal@smile.fr>, 
 	openembedded-core@lists.openembedded.org
-Date: Fri, 30 Oct 2026 11:43:33 +0000
-In-Reply-To: <20261029112443.1734921-1-vinicius.eduardo.pedrosa@gmail.com>
-References: <20261029112443.1734921-1-vinicius.eduardo.pedrosa@gmail.com>
+Date: Fri, 30 Oct 2026 11:57:43 +0000
+In-Reply-To: <DMHOVC3580CN.26K60XV4TXQHN@smile.fr>
+References: <20261023-b4-scarthgap-v1-1-6a85c3fec09e@pbarker.dev>
+	 <DMHOVC3580CN.26K60XV4TXQHN@smile.fr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:43:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249031
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:57:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249032
 
-On Thu, 2026-10-29 at 08:24 -0300, Vinicius Pedrosa wrote:
-> The "Detected layers" loop removes invalid entries from the list it's
-> iterating over. When two invalid layers are next to each other,
-> removing the first one skips the second.
+On Thu, 2026-10-29 at 23:51 +0100, Yoann Congal wrote:
+> On Fri Oct 23, 2026 at 12:41 PM CEST, Paul Barker via lists.openembedded.=
+org wrote:
+> > This should simplify sending patches for scarthgap using `b4`.
+> >=20
+> > Signed-off-by: Paul Barker <paul@pbarker.dev>
+> > ---
+> >  .b4-config | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >=20
+> > diff --git a/.b4-config b/.b4-config
+> > new file mode 100644
+> > index 000000000000..5876a9f2691d
+> > --- /dev/null
+> > +++ b/.b4-config
+> > @@ -0,0 +1,4 @@
+> > +[b4]
+> > +  send-series-to =3D openembedded-core@lists.openembedded.org
+> > +  prep-pre-flight-checks =3D disable-needs-auto-to-cc, disable-needs-c=
+hecking
+> > +  send-prefixes =3D scarthgap
+> >=20
+> > ---
+> > base-commit: c9b000059a37241c5b97426f0aadc012b13bd20f
+> > change-id: 20261023-b4-scarthgap-31cd33af24d9
+> >=20
+> > Best regards,
+> > -- =20
+> > Paul Barker
 >=20
-> A skipped entry without conf/layer.conf makes the dependency pass fail
-> with KeyError: 'collections'. A skipped BSP+DISTRO entry isn't
-> reported at all. If no other layer is left to test, the script exits 0.
+> Hello,
 >=20
-> Iterate over a copy of the list so every entry gets checked. Keep
-> removing from the original list, since dep_layers refers to that same
-> list when --dependency isn't used.
->=20
-> Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-> ---
-> Hit it on a layer that had a few subdirectories with an empty conf/ in
-> them.
->=20
-> Tested on master (fa83da7) with small synthetic layers, same tree and
-> command before/after:
-> - two adjacent dirs with an empty conf/: KeyError before; after, both
->   get the "ignoring" line and the real layer is tested
-> - two adjacent BSP+DISTRO dirs only: exit 0 before, exit 1 after
-> - valid layer + one stray conf/ dir: same test results before/after
->=20
-> Applies to master-next too (offset 2), not tested there.
->=20
->  scripts/yocto-check-layer | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
-> index 8c8b4db..a580a8f 100755
-> --- a/scripts/yocto-check-layer
-> +++ b/scripts/yocto-check-layer
-> @@ -125,7 +125,7 @@ def main():
->          return 1
-> =20
->      logger.info("Detected layers:")
-> -    for layer in layers:
-> +    for layer in layers[:]:
+> Are you sure there are no bad interactions with combo-layer and
+> poky.git?
+> When we started adding those .b4-config I avoided doing it for scarthgap
+> because of that.
 
-While this is technically correct, it's not immediately obvious what's
-going on here unless you really know your Python details.
+Yeah, I like to use b4 everywhere now but this is a challenge. We
+probably don't want a b4 config in the poky repo as it's likely to
+result in patches going to the wrong list.
 
-I'd prefer to move this to a validate_layers() function which logs the
-errors and builds a new list of valid layers then returns it. Something
-like:
-
-    def validate_layers(layers):
-        valid_layers =3D []
-        for layer in layers:
-            ...
-
-        return valid_layers
+We could add this to file_exclude in combo-layer-scarthgap.conf in the
+poky-config repo. There's only me and Richard going to be pushing to the
+poky repo so we should be able to make sure we both have the config
+change.
 
 Best regards,
 
