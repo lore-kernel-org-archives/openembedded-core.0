@@ -1,161 +1,155 @@
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1568.1793425338749673097
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18915.1793386318692511609
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 22:42:18 -0700
+ Fri, 30 Oct 2026 11:51:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TeOigJ2G;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rC/8gLfw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a1907aed95-6254f9d2-3150-4f5e-912e-f23aedb56fb2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793425337;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=jV9aWtVLIOjPvUdk4/t/y8y6zDXcxaPdstZrDLIOK2w=;
-	b=TeOigJ2GHIDVdcMyNz0+JeFnpmrCMrwYzKP5na7NU1MWOpG2awmhh4iRUrHjiO0i
-	Bowsr//uCSNI6HnaOJ/4lQp8qdzpj+FMvUzpjywRFjpIxfuDuqRZIPucSLLSi3hE9tz
-	snjQtiUxqgjCGN30Ui1/RMz9L/FnEdjImljI1wFE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793425337;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=jV9aWtVLIOjPvUdk4/t/y8y6zDXcxaPdstZrDLIOK2w=;
-	b=rC/8gLfw2vHGEDqLumWM8OQLKa/yo14FMVeEvEfDJM7GajItBAQH+xDzcF53UuHY
-	GnvKghqdDSI5oflroD0Lw1E7Z4h7IgFMjiM21JR7bUQssGscmD64EIFpAxXTWNIIBEu
-	99ZrVMFhqL8DykzxfrKC06dlWdv/4I7IygZghFXY=
-Content-Type: multipart/mixed; boundary="===============3651353072052000201=="
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=qDos1CvM;
+ spf=pass (domain: gmail.com, ip: 209.85.221.178, mailfrom: vinicius.eduardo.pedrosa@gmail.com)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5ea969fafeeso421709e0c.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793386317; x=1793991117; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fIRNPSCnsOwCO/iTDnL7g2imZc6S4kxfs5iyp7CYwsE=;
+        b=qDos1CvM8n/0QM2pYHClHNpbusfxqCzy+kK2QIXRA1Sk+9cbWBiz9Tr2kOWYAC1+aT
+         JPwdDwVyfXnRcdAz+pehfnm5jp3C44zvDKKVETfoNVyWq5SEGfT3pMJWNu8jX4sNsPtT
+         +j3uRONUUrlG7RKgCK1ORTp4AdydSxl57Xx2cjcom8BDRrQlZGIoZ8WTHdn1yM3KhMrv
+         odQ2sC2VAY8LTqeVl2foG+7gyotBJPaJDXPcK4mh3LJS2rJDIRVQyYkgXZqI5IcOjAcT
+         oD5hvlBJ2SMUM80+ByeMAsqU0n72+WO/9CCiFweEPZz1J7ig2rrfzZpvLoAq9IZV+CkB
+         wEhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793386317; x=1793991117;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fIRNPSCnsOwCO/iTDnL7g2imZc6S4kxfs5iyp7CYwsE=;
+        b=ktSxBBs8HZvnEeWt0bVZHIjFPANr3UDaNYX1Qy2+kSB90yWWQNZsqW/5CHwlW26jYp
+         LgQvlh4eSM+/aJG4UKxQ4cKJoMoCZ2lbkoYZZ1137O3hhBHTWKWE65LJEH7AqnfVKDju
+         VlToOcQtSSgWA2nowAI1frHcKO/od3MSVbFjb5OFFENZ0X2jc1kEJ3Zdx8yE6YennVqz
+         kE3+2+xvEh8vRWrlJnPaqpNXDkET2GzWbJ0q0UTCvrW0O5QS9aaAYKSaeeTwmlPQ7bFI
+         8Nq9pCKyMid/CYAOf8mWDCz82+nasPE7roojiyLq6qqtcPxWOt27+4tqo4WTyy85Qoku
+         MHQQ==
+X-Gm-Message-State: AFq9FYLP5tcLL4qP+h3dMj9o0y0yWhGScoDfPBX0lyznIf2Wur6r0CYw
+	AdIVm6D7Ji/WR00Tk5Xrt/lqoimkzRQx2P1zzuW4jgCEuqu7ZqP3l0H9JXrsDLPxLtE=
+X-Gm-Gg: AYBFou2i3letHgqiwlNRCoxGHj9G8+0NgFXEzBSCclIqQEM9N1s04sGEfMn/ANiThvU
+	e7o4LY7oT5KAF6atbZrgaIEZqfwpKxFP7tFfwqTYVZ2DkB/vimUldRv014PHwCcjqkmAxQ0sGfb
+	6vdQpQzFGwfvVyMlXmKbuh56+UJ40a6ENkUsUA5+WL5pSUbZQkxDD+RWmLX0EZ4wZP8ioZsF5k6
+	E7uXs+W6nzz7570bDAVwM04aKDsOAeDCqKKz3Xwh7ZkntYJQlukrQxn9gcYv8OomxjIQcVSzjy+
+	RPBHvSKoGOLy6oso1l9gOUI3Y+3o+QsTUyP6SRxPX0mHR5AWMkoCL2ay9HPNRHcMQD50p7oKMYl
+	bK/FvlxOxl1gCtiX6YsIc5GvHLsc6Cne/aPqCoyaY/e4MMtkFykD2UN5lWcLHOvwQpSHO2sVF8w
+	/jcyUq7T8hpQZFIZIMnjnM/FtLX3Jhq7wEIBvEvzItZPo3+B7qarVMYutgLZSG89JiCddQAIGQl
+	Vijm4H7etXAxG67dPbr0fMpE623zicWd0hk88zmqzhj3dAhrOgGrT/8+wek7YrocGvG1TEa1CIL
+	r83ACbYZfD9JB26TT2Jz0JitTi4f5l+Dsue4QPSHeSh6qK90Wfq9Gaqc8VbNImPZvqF4DuCRVjk
+	6c+KRtR9/QCPG3TniHD49y9FU2+FgQG8P9b9Ga/MUogwWIETp9csEDbOyfA==
+X-Received: by 2002:a05:6122:1da0:b0:5ea:c51a:37a1 with SMTP id 71dfb90a1353d-5ec686ff12emr1563759e0c.8.1793386317396;
+        Fri, 30 Oct 2026 11:51:57 -0700 (PDT)
+Return-Path: <vinicius.eduardo.pedrosa@gmail.com>
+Received: from MaquinaLab.. ([179.179.238.247])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ec69bf54casm3307298e0c.9.2026.10.30.11.51.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 11:51:56 -0700 (PDT)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [PATCH v3] yocto-check-layer: don't skip entries when dropping invalid layers
+Date: Fri, 30 Oct 2026 15:51:45 -0300
+Message-ID: <20261030185145.818577-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <3c6ddfc306b5369be0748e492955e3a1a4bb9a74.camel@pbarker.dev>
+References: <3c6ddfc306b5369be0748e492955e3a1a4bb9a74.camel@pbarker.dev>
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] kmod: upgrading to 34.3 SUCCEEDED
-Message-ID: <010101a1907aed95-6254f9d2-3150-4f5e-912e-f23aedb56fb2-000000@us-west-2.amazonses.com>
-Date: Sat, 31 Oct 2026 05:42:17 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.31-54.240.27.191
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 05:42:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249137
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 07:50:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249142
+Content-Type: text/plain; charset="utf-8"
 
---===============3651353072052000201==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+The "Detected layers" loop removes invalid entries from the list it's
+iterating over. When two invalid layers are adjacent, removing the
+first skips the second, leaving it in the list.
 
-Hello,
+A skipped entry without conf/layer.conf makes the dependency pass fail
+with KeyError: 'collections'. A skipped BSP+DISTRO entry isn't
+reported. If no other layer is left to test, the script exits 0.
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *kmod* to *34.3* has Succeeded.
+Move the filtering into validate_layers(), which builds a new list
+containing only valid layers. Keep validation at its original position
+and update dep_layers when it previously shared the same list, without
+changing the existing dependency handling.
 
-Next steps:
-    - apply the patch: git am 0001-kmod-upgrade-34.2-34.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From aea91a4dc4a9c5892d90d3bc06ba9be5d5a9403d Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 31 Oct 2026 05:37:02 +0000
-Subject: [PATCH] kmod: upgrade 34.2 -> 34.3
-
+Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
 ---
- meta/recipes-kernel/kmod/{kmod_34.2.bb => kmod_34.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/kmod/{kmod_34.2.bb => kmod_34.3.bb} (97%)
+Changes in v3:
+Paul was right that v2 combined two separate changes. I should have
+kept the dependency-handling change separate from the original bug fix.
+This version keeps only the fix, with validation at its original
+position, preserving the existing dependency handling and duplicate
+collection checks.
 
-diff --git a/meta/recipes-kernel/kmod/kmod_34.2.bb b/meta/recipes-kernel/kmod/kmod_34.3.bb
-similarity index 97%
-rename from meta/recipes-kernel/kmod/kmod_34.2.bb
-rename to meta/recipes-kernel/kmod/kmod_34.3.bb
-index 892468a87e..435ab4f47c 100644
---- a/meta/recipes-kernel/kmod/kmod_34.2.bb
-+++ b/meta/recipes-kernel/kmod/kmod_34.3.bb
-@@ -18,7 +18,7 @@ inherit bash-completion gtk-doc manpages meson pkgconfig update-alternatives
- SRC_URI = "https://www.kernel.org/pub/linux/utils/kernel/${BPN}/${BP}.tar.xz \
-            file://depmod-search.conf \
-            "
--SRC_URI[sha256sum] = "5a5d5073070cc7e0c7a7a3c6ec2a0e1780850c8b47b3e3892226b93ffcb9cb54"
-+SRC_URI[sha256sum] = "985554de49c21a58abd68c6cda2251384e1e5bb08b3b14c7f02b51f4c90c2958"
+Tested on master (b62d5e6) with two adjacent directories containing
+only an empty conf/. Before the fix, the script raises KeyError;
+afterwards, both directories are ignored and the valid layer is tested.
+
+Regarding AI, I wrote the code myself and use AI to help with English
+and code review. I'm not sure whether that alone requires the
+AI-Generated tag, but I can add it if needed.
+
+ scripts/yocto-check-layer | 33 ++++++++++++++++++++-------------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
+
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index 8c8b4db..ca4ada0 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -48,6 +48,22 @@ def dump_layer_debug(layer):
+     if collections:
+         logger.debug("%s collections: %s" % (layer["name"], ", ".join(collections)))
  
- EXTRA_OEMESON += "\
-     -Ddistconfdir=${nonarch_base_libdir} \
++def validate_layers(layers):
++    valid_layers = []
++    for layer in layers:
++        if layer['type'] == LayerType.ERROR_BSP_DISTRO:
++            logger.error("%s: Can't be DISTRO and BSP type at the same time."\
++                     " Both conf/distro and conf/machine folders were found."\
++                     % layer['name'])
++        elif layer['type'] == LayerType.ERROR_NO_LAYER_CONF:
++            logger.info("%s: Doesn't have conf/layer.conf file, so ignoring"\
++                     % layer['name'])
++        else:
++            logger.info("%s: %s, %s" % (layer['name'], layer['type'],
++                layer['path']))
++            valid_layers.append(layer)
++    return valid_layers
++
+ def main():
+     parser = argparse.ArgumentParser(
+             description="Yocto Project layer checking tool",
+@@ -125,19 +141,10 @@ def main():
+         return 1
+ 
+     logger.info("Detected layers:")
+-    for layer in layers:
+-        if layer['type'] == LayerType.ERROR_BSP_DISTRO:
+-            logger.error("%s: Can't be DISTRO and BSP type at the same time."\
+-                     " Both conf/distro and conf/machine folders were found."\
+-                     % layer['name'])
+-            layers.remove(layer)
+-        elif layer['type'] == LayerType.ERROR_NO_LAYER_CONF:
+-            logger.info("%s: Doesn't have conf/layer.conf file, so ignoring"\
+-                     % layer['name'])
+-            layers.remove(layer)
+-        else:
+-            logger.info("%s: %s, %s" % (layer['name'], layer['type'],
+-                layer['path']))
++    layers = validate_layers(layers)
++    # Keep dep_layers in sync when it previously shared the layers list.
++    if not args.dependency:
++        dep_layers = layers
+     if not layers:
+         return 1
+ 
 -- 
-2.47.1
+2.43.0
 
-
---===============3651353072052000201==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/kmod/kmod-bash-completion: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-bash-completion: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod-dbg: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-dbg: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod-dbg: PKGSIZE changed from 1063880 to 1065064 (+0%)
-packages/x86-64-v3-poky-linux/kmod/kmod-dev: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-dev: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod-doc: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-doc: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod-fish-completion: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-fish-completion: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod-locale: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-locale: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod-src: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-src: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod-src: PKGSIZE changed from 405030 to 405446 (+0%)
-packages/x86-64-v3-poky-linux/kmod/kmod-src: FILELIST: directory renamed /usr/src/debug/kmod/34.2/libkmod -> /usr/src/debug/kmod/34.3/libkmod, directory renamed /usr/src/debug/kmod/34.2/shared -> /usr/src/debug/kmod/34.3/shared, directory renamed /usr/src/debug/kmod/34.2/tools -> /usr/src/debug/kmod/34.3/tools
-packages/x86-64-v3-poky-linux/kmod/kmod-staticdev: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-staticdev: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod-zsh-completion: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod-zsh-completion: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod/kmod: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/kmod: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod: PV changed from "34.2" to "34.3"
-packages/x86-64-v3-poky-linux/kmod: SRC_URI changed from "https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz file://depmod-search.conf" to "https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.3.tar.xz file://depmod-search.conf"
-packages/x86-64-v3-poky-linux/kmod/libkmod: PKGV changed from 34.2 [default] to 34.3 [default]
-packages/x86-64-v3-poky-linux/kmod/libkmod: PV changed from "34.2" to "34.3"
-
---===============3651353072052000201==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-kmod-upgrade-34.2-34.3.patch"
-
-RnJvbSBhZWE5MWE0ZGM0YTljNTg5MmQ5MGQzYmMwNmJhOWJlNWQ1YTk0MDNkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMzEgT2N0IDIwMjYgMDU6Mzc6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
-bW9kOiB1cGdyYWRlIDM0LjIgLT4gMzQuMwoKLS0tCiBtZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qv
-e2ttb2RfMzQuMi5iYiA9PiBrbW9kXzM0LjMuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9r
-bW9kL3trbW9kXzM0LjIuYmIgPT4ga21vZF8zNC4zLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kXzM0LjIuYmIgYi9tZXRhL3JlY2lwZXMta2VybmVs
-L2ttb2Qva21vZF8zNC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1rZXJuZWwva21vZC9rbW9kXzM0LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1r
-ZXJuZWwva21vZC9rbW9kXzM0LjMuYmIKaW5kZXggODkyNDY4YTg3ZS4uNDM1YWI0ZjQ3YyAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9rbW9kL2ttb2RfMzQuMi5iYgorKysgYi9tZXRh
-L3JlY2lwZXMta2VybmVsL2ttb2Qva21vZF8zNC4zLmJiCkBAIC0xOCw3ICsxOCw3IEBAIGluaGVy
-aXQgYmFzaC1jb21wbGV0aW9uIGd0ay1kb2MgbWFucGFnZXMgbWVzb24gcGtnY29uZmlnIHVwZGF0
-ZS1hbHRlcm5hdGl2ZXMKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cua2VybmVsLm9yZy9wdWIvbGlu
-dXgvdXRpbHMva2VybmVsLyR7QlBOfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8v
-ZGVwbW9kLXNlYXJjaC5jb25mIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjVhNWQ1MDczMDcwY2M3ZTBjN2E3YTNjNmVjMmEwZTE3ODA4NTBjOGI0N2IzZTM4OTIyMjZiOTNm
-ZmNiOWNiNTQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTg1NTU0ZGU0OWMyMWE1OGFiZDY4YzZj
-ZGEyMjUxMzg0ZTFlNWJiMDhiM2IxNGM3ZjAyYjUxZjRjOTBjMjk1OCIKIAogRVhUUkFfT0VNRVNP
-TiArPSAiXAogICAgIC1EZGlzdGNvbmZkaXI9JHtub25hcmNoX2Jhc2VfbGliZGlyfSBcCi0tIAoy
-LjQ3LjEKCg==
-
---===============3651353072052000201==--
