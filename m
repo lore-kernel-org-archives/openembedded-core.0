@@ -1,161 +1,218 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.65])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11616.1793367238058986846
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12161.1793368688415446256
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 06:33:59 -0700
+ Fri, 30 Oct 2026 06:58:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=l4fVqvQn;
- spf=pass (domain: est.tech, ip: 52.101.84.65, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dqg1wBDPIu3PUro/H91Tfg9yGAaQzbKGupNB3ffXxBTTX7BcunepgaoBFKpjT+3AyokAGUxFzZPnq6D241bD/m2khy3va9Ti6GcIXhcpT9o5wQIH0uVjMgPHqNpdwzYwOX7qHv82myJOkiMjo7dqijUBXrY/xlUrLCR0eJ0/oV2hD/Dzvxu76hruEfo2ruaX4KW6J1jpar4wFhYoJgj8RvBFAuGIe7d6QcqPwS2mjJ5aQ2YPOkgCkMVHiupuQkI1DngDYU4Mwc7QVzdcmJlxWtsGgHsk33EAP/Eb8dY4rQvbDyPPg0r7Ux7Oli7Iqc6ScT1txcptQnFmaA+Wfdbclg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JesokFH3caFWmGt6226VM9amkDWPRRHwdWULRHfd19g=;
- b=LZYHGvawMtB09HG1+b0lhafkAP7rSlW3Ua5HwW4i3XSfU+OOIvFmiT1k08FI814YlBsYu/TK/6By8FOxHVEewAE9JEBnfWAkjpqaJpyG0c+iSBMMcAniX880Iyca6KosZeI+FUiUl87LrkMLr3qiWauLiDRYY3ACHGJfeR4mHZ3kbsKkXG/o0D2Yoo2qfga1G8HRUZKFo3rvy596rq4uE+4d6Ab8LpweVpm3O+0szN81jHkn92CHbLYT/+DW4W8Vl02EJAQtucsFq4Sx2lVz+2mKykzjowiWSsZxqnaSObxL7YAj6VerN9XTGrwWpVMxbPjMMypwXkU3PUBc1ExMzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JesokFH3caFWmGt6226VM9amkDWPRRHwdWULRHfd19g=;
- b=l4fVqvQnTM4hec9e0zNzEUlpy/fjNhejd7obF9k3QFZKd5O/0FRElbXgClQ/tKmBeRht2kNa+B2LAgXSzI89OT62Corb+B+YcsLzLEtVkKZSSX1HoU284IqcETKlsey4C5X+HWlCuPYICZxenCsH6dcmV0pBXYD2196UTuDD/FOOyvnzYgBtxiuxC+f4jzjLGpOVeU5w/G3iCRI2wFJjSbGsJmnu4ztOIxCtG1keF7X5a0VEsWwZGpvBbpmjNjONfLVAONlqtcwkVE8GiXI0tO2kKiKqvaaWF2qsg5+qKpplwf100bEsgvawstyZTNYm+VThxrb5qqXrCjz1nzW6eg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by AS4P189MB2279.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:586::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Fri, 30 Oct
- 2026 13:33:53 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0569.008; Fri, 30 Oct 2026
- 13:33:53 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] elfutils: skip run-stackprof-system.sh ptest under qemu
-Date: Fri, 30 Oct 2026 14:33:50 +0100
-Message-ID: <20261030133350.20515-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=ZBPemOde;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48e0d1da913so556150f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 06:58:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1793368686; x=1793973486; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JzhWYKakW1QILcM1PxtfQEpuvP0c8HwHVfr6I0BU3Cs=;
+        b=ZBPemOdersDzfPw+27qF+ged2i339o8i9I0YYCJ4jXOJ/ihdbLR6ZhC/RrTZtYf/AC
+         4LisELWiAhrx+LlT0UMuvwayT0gKbkJe6SJBgFJ+lIUshYSw4MSw32++xguqcVMj1gH6
+         voWDlY49IkD2+YP8gzs8TfGQCbCPUFRW3GBps/5h9C4fltxsqFfGsu320WgGbyxCJm5l
+         cR/MyTCxOvWmOlVVQRhFzjpWq8wCHOqI1c1H/5JOxsVa3xKElGcMnKnUHbtJGQ+6TYFT
+         FumK2V4XEH1NYIq/TIxy3jln1Ns94neK9GfZTB1Ktp9C/UDXWw41yzjTm8ooJdsTAjDt
+         KmAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793368686; x=1793973486;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JzhWYKakW1QILcM1PxtfQEpuvP0c8HwHVfr6I0BU3Cs=;
+        b=KT1r5W3Voo6dvFzHG+m+LOjP0kEMUWsCv739y+EDzU6kfB7fbCdK1BGtdfEAzdWB+r
+         WcNePngYd9VStjjsZumfiu9W97Uwaz1FyMlboN+8xRLa9Nz0RF/Ae5+xECQ3E0i5hex6
+         EyDtsEAoQuSlKcLJGoMys+QKadQYiWxD3V7FyPjRXGIaPCsjsVtK9Rgx0RGBHEydvDvK
+         EZJt7iilnFAh7K7216a2EwCaD0hCvPZXB8dllyaxROG+xjt15uRpp3vwOcU4x2hbcjjB
+         rBSriYkw1ywnN+eimEcZrlk7Z7hdgTqz8DuxyjJUAw2FSmOIu5n7vr+626KKaVNQf167
+         yY8A==
+X-Forwarded-Encrypted: i=1; AKwUvBwoxn624cYmjwCOqj0QGj+VgfpTZFU2IrbWQoYYcKYOqeNRw19RmTYHHS28zvL0FwgG6bfpx3Y6c8fWbbUP6xgSSw==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYLtX4FU9OVzEZLV5O1dzHwy2pfLYscCVsqHX+wGeHJERtFsKNOr
+	g33v07WcWUXGZmSB8SrUBBqNTzfFNku+hczVqtvZOgWSGUU/U3cNhgPwOLeYkBgjnuM=
+X-Gm-Gg: AYBFou287rXM9wmqsMHxUDg+01s4zFE8DTubUr6evT9A5qKkxGcf50T+CSwjoFS7+i0
+	OK0Q9XcLF4kUHNDNhqR9mLEnpwyP+CstynHlOgu6uVgubpeN2G/jVzTAMxnE7Lvxw4Bi5pG9/BQ
+	rV7He5wdp7JBE9o0m33yHCjwypyH+b7hnKlAr8hmBrWq5kq+AF8f2qO1RSJx1fjZkxjtbbpKw3t
+	6aC+lvkOiSTiyPEibo9Y7DB+DU7aMuLmpFWPepE+q0DoGDZOGo5OFcqb+9e/Lc9heIz/nj9XJM6
+	FH88UFi2QoJMfXbVtrBQ55RdRGHnEYxV6M6xeWuoj0bpchWlN9+Sl1FlWuugv6juBcp66cUn+51
+	PS13N4RrCGnLk1Mc5Mm3Bhsj6PBRCuaVaw1CwJhjcQ8Fdi7jrux7lVyq/56SOEUebE051EB37m8
+	INfkhO7bByM1DJ0+T0Ia1+sKz/1Q7zQyLWJx09+5dk1FRzvktT6Bo0SeYuIVxlVm4xZvfjkvuhk
+	kA8NS+T6KbHR6rW0mUknW/F6yN06pDGWzmnhyzROAjtsyUT0z5DmumMGQqLYBtUSlShlmqOOP66
+	8D4K5wlDgYvkvoCVwVGiArJdyURjzVTAqdZvt93eY/+Qb5QMFQWNoAPux+pu1IIxJTLqn4LaGO3
+	e10iXjtHQ2tn0f3az
+X-Received: by 2002:a5d:498b:0:b0:48d:f1b3:7e67 with SMTP id ffacd0b85a97d-48e64cb316emr11151515f8f.18.1793368686386;
+        Fri, 30 Oct 2026 06:58:06 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b78c10sm3205011f8f.25.2026.10.30.06.58.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2026 06:58:06 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P265CA0265.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:37c::17) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS4P189MB2279:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3db041b3-494a-48d2-60c1-08df368a7061
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|11063799006|56012099006|261009223027099003|261026121527099003|261028144727099003|261026140227099003|261021123027099003|261021121427099003|261022075727099003|261022105027099003|10067099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info: IbOI3de67w8V6RTzvWtAXeUKNgbv1zExyJ37colDvLVjtvdvmLTKZhEkuShW5yZabWuSGlzFwcGAKV4TBBj5LXgaA2utMqOEA4iUyLv0oi341z1rSewjxX+91C3faWL3BXVYzEEA0phX7SCEXf0CvxOXGHwSAZ9au9L/FrOg4qEhp2YhCJoI91irqHM8ti5uvO0vpTvHfm461yyjZuoqJgel99hnkaNGpJRNYosh9D8DNyCUk6ZJwRapnowtFeWRLv2Ho7rfytnVlgruJHNeauoMTLCkS1T2ZBgBB+6EKVCl7vdgBEqbLfZWDH+3icEhdAcqk9nC4VpTwvIo0fNVSQD/7+itTZLuVq/QABXDxLEx3lJ7oAlblqyY2SM+HBJl2d/7y0tGEDsAiotCWdsXXDdbtHVshFoPrwB6PBGFNVxHxvLQ3Ei19K0qK9kuPw2mT92GxAAB7d/5EzvTKbyh7BzVvNWc21DsFQJahEvTv8+C4QwMzRH9jX/CEJyv8rN7lZKMxbGdjTt6tVPQ0qb4xpQnkIyAB0ZEwCBwXSWIzININR3IndcZ8JelHkfoDFguDKs7cY968Sdcq8wjA7EVwe1hx1y/BXWMQ+ExWaMB/Uw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(11063799006)(56012099006)(261009223027099003)(261026121527099003)(261028144727099003)(261026140227099003)(261021123027099003)(261021121427099003)(261022075727099003)(261022105027099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1r7vj6QZAVAzA1e/Q2deWGBXqt1eJbmydeEH0ZVDmRHPvMKdguNDiXwzAPkA?=
- =?us-ascii?Q?lSPxRLgLu0E46ufXfqpXnwMTbezBX9+AixqlfcJ0m4koMn0pasZls/2pVN88?=
- =?us-ascii?Q?uH2f0gX3rJdJUJQFqcmjPm1CjicN0MV3PysYpQp8c1hAX96mK2mU+7BvOeuB?=
- =?us-ascii?Q?48jD5z6rdAxKDodeL3pE5OP2Gl0PPpaWAsXETleJ4F7Mqpyxsup3xR//Hc9+?=
- =?us-ascii?Q?kUF0OFBEeCCQG3jzPsLiUti8SRkPaOdFmwAKR8mIoNQ6OINX5Lwu/pLGa8mk?=
- =?us-ascii?Q?jRGaKnhcgxkXZPca9N85vY31zD4IIrrEPgCTz2Ll1cHfY7HIDSeP1bMKb1b8?=
- =?us-ascii?Q?YsWwgk0KdPLRXPmnP11YADaV69+P2AjDKtauGxSQJwaTprCY7cjfagKsvJu2?=
- =?us-ascii?Q?lXHlQtpwgwWVkXwN/xGbF2pWOXhNEokVSt0cus1mRWLtGlU/wqZ6mjyCmojk?=
- =?us-ascii?Q?B433Ofuyl5F73fmnUPRZyFxJnxy30HRfqLvMwOnoBRf/6LHtix2nTUNnCfES?=
- =?us-ascii?Q?+Er+8Ri6nBwBbknQs9/ABFtA0CECL41ZBzscmph8WwWhEh/9Bqt8S6kA4Lf7?=
- =?us-ascii?Q?h3ObFMctfBH5Hd7/fdYmTbSz3JbLcudZO9RG3B3mLFOha8i34KEIJNDnFV7n?=
- =?us-ascii?Q?j6SUpflNiusKQ+mcX9JNaDNy4dS4JCSqSPbofp7Gp3CldOeKnke/HA/N3cNe?=
- =?us-ascii?Q?floc39PdSB316+vAiNhMgMcAjvWwziKxxerb/errOSStYTjtoc6b8SAskHia?=
- =?us-ascii?Q?zLHwKDr1drC3v8SC6kmI+nDB490hRV0/R40ZHAeQz/yBa/75KpYEzZRmTSR+?=
- =?us-ascii?Q?p766WKRYKvV+mueL7YqZkVnqj0ds/kmbEXT/IHpNuYSi0yJjVymXkKNA0CAa?=
- =?us-ascii?Q?TWtenJGPqcSNW2mvR+bHLirZ02/shfiz9BXjcd2fEyqc35zSsmcwyibPhFSe?=
- =?us-ascii?Q?vLk5TTARvSbPMUlvJnTD1EKRtI3NZJ97OF6Ai+ffoo0RJO3Wfbz7MSRyuFV6?=
- =?us-ascii?Q?PEDnIOWlZ6CWFo0A9gYYSyxM1wx3vPyXBZD7lFYKqfnnND7VrELm1Gq9Ln8q?=
- =?us-ascii?Q?L0frUU0Qt6+BisMuWJlQJO7NTJSVOYp1xLTbo6vnlKn/BWcoh9oexbKxtM1n?=
- =?us-ascii?Q?3oKBuLNyboXPm3mUqz2sl9jOZzexOWqbqNEjUAmykVrgF9B30xnv4v+UYxM0?=
- =?us-ascii?Q?RJ8zqo/trAp9Y7Y0By1V7MjUkYXPalAk+MnEAI5OzqLdZsHkExDrZiQaWyYl?=
- =?us-ascii?Q?nA03BlfIdp07OYXD6GU67il44bNnLVQy0QbUukF9IJsnSoT7rFN4PGSK0H3P?=
- =?us-ascii?Q?yEXo5M2dJRYEtlrEEtEJU3bXEiT5HUZNyck71BJADlhwsOt+Mhs24qcNqcN/?=
- =?us-ascii?Q?a7znT1qiTuqiyWqo5Q6hmH84DnCOxzHbRwFjyl2G5DYOu2OET6gvtSHADFCL?=
- =?us-ascii?Q?wjp0HLhMlRKq13oklD7lTylloAG5OSdNPQq7LU40DolNDWTu4PGxE4sHBhzK?=
- =?us-ascii?Q?3YpEzzoJBRkuC2aaUQYmsutqWNcH7S8Rrb+snS3DwkWdODKmAUTdwzwUlHSu?=
- =?us-ascii?Q?zayvK5SUH5VhGYcSSdYjNTO4+7ljtNUMC5MU6gg2YIvOZ1AoSW+OPIWFKb/6?=
- =?us-ascii?Q?RKbFVbM8qcWo7kN+1KAs7PvLngS6VfbRHc5wCru/gHrbcLA0b4Uq1ZLq/9CJ?=
- =?us-ascii?Q?ALqcpoF9aSlqcu7nO1kgL3mTqcg0kK4qwUge19sq1cIb1eXbqq5uOPMye3Tp?=
- =?us-ascii?Q?ctQrDyixpYiWSiv8Fj8ESoQ9SXalzpE=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3db041b3-494a-48d2-60c1-08df368a7061
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 13:33:53.0190
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QuXHLq2p/erZQppTsYMs33vnd23kGo42oAEg8AOegdlL2Oog0Fus27beFpl2JJf2v8KQDGJsTvDtmUx6EXAHrU+R9t3T27G/UkGTuEFgW0Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB2279
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 30 Oct 2026 14:58:05 +0100
+Message-Id: <DMI854LM1BUP.I6CD1Z6N56QW@smile.fr>
+To: <jason.stasiak@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [scarthgap][PATCH v2 1/5] libsoup-2.4: fix
+ CVE-2026-1539
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260929205055.2403390-2-jason.stasiak@gmail.com>
+ <20261014161209.2227316-1-jason.stasiak@garmin.com>
+In-Reply-To: <20261014161209.2227316-1-jason.stasiak@garmin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 13:34:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249041
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 13:58:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249042
 
-Non-deterministic under qemu as needs userspace perf samples in a fixed win=
-dow
-Issue already reported upstream and updated ticket with details
+Hello,
 
-Reported upstream: https://sourceware.org/bugzilla/show_bug.cgi?id=3D34544
+On Wed Oct 14, 2026 at 6:12 PM CEST, Jason Stasiak via lists.openembedded.o=
+rg wrote:
+> Backport fix for CVE-2026-1539 from meta-oe to OE-core.
+> Update CVE patch to restore the auth-redirect proxy validation
+> unit test from the upstream libsoup3 patch.
+>
+> (From meta-oe rev: 07d67228162018f5f619dce7183f85e79293378d)
+>
+> Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
+> ---
+> Changes since v1:
+>    - Resolved malformed patch lines
+>
+>  .../libsoup/libsoup-2.4/CVE-2026-1539.patch   | 104 ++++++++++++++++++
+>  .../libsoup/libsoup-2.4_2.74.3.bb             |   1 +
+>  2 files changed, 105 insertions(+)
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-153=
+9.patch
+>
+> diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1539.patch=
+ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1539.patch
+> new file mode 100644
+> index 0000000000..2682c35a42
+> --- /dev/null
+> +++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-1539.patch
+> @@ -0,0 +1,104 @@
+> +From 285faea567e1e2a95226201175dbf745a64a2439 Mon Sep 17 00:00:00 2001
+> +From: Changqing Li <changqing.li@windriver.com>
+         ^
+I just saw that this is in the meta-oe commit but this patch is not
+authored by Changqing Li but by Carlos Garcia Campos.
 
-Skip test case via ELFUTILS_PTEST_SKIP
+> +Date: Fri, 20 Mar 2026 15:04:22 +0800
+> +Subject: [PATCH 4/4] Also remove Proxy-Authorization header on cross ori=
+gin
+> + redirect
+> +
+> +Closes #489
+> +
+> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/comm=
+it/98c1285d9d78662c38bf14b4a128af01ccfdb446]
+> +CVE: CVE-2026-1539
+> +
+> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +
+> +Backport the auth-redirect proxy validation unit tests from the upstream
+> +libsoup3 patch
+> +
+> +Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
+> +---
+> + libsoup/soup-session.c |  1 +
+> + tests/httpd.conf.in    |  1 +
+> + tests/proxy-test.c     | 36 ++++++++++++++++++++++++++++++++++++
+> + 3 files changed, 38 insertions(+)
+> +
+> +diff --git a/libsoup/soup-session.c b/libsoup/soup-session.c
+> +index fadd5cd2..4cad0946 100644
+> +--- a/libsoup/soup-session.c
+> ++++ b/libsoup/soup-session.c
+> +@@ -1192,6 +1192,7 @@ soup_session_redirect_message (SoupSession *sessio=
+n, SoupMessage *msg)
+> + 	/* Strip all credentials on cross-origin redirect. */
+> + 	if (!soup_uri_host_equal (soup_message_get_uri (msg), new_uri)) {
+> + 		soup_message_headers_remove (msg->request_headers, "Authorization");
+> ++		soup_message_headers_remove (msg->request_headers, "Proxy-Authorizati=
+on");
+> + 		soup_message_set_auth (msg, NULL);
+> + 	}
+> +=20
+> +diff --git a/tests/httpd.conf.in b/tests/httpd.conf.in
+> +index 93fb7ff4..e190b6f7 100644
+> +--- a/tests/httpd.conf.in
+> ++++ b/tests/httpd.conf.in
+> +@@ -37,6 +37,7 @@ DirectoryIndex index.txt
+> + TypesConfig /dev/null
+> + AddType application/x-httpd-php .php
+> + Redirect permanent /redirected /index.txt
+> ++Redirect permanent /Basic/realm1/redirected https://127.0.0.1:47525/ind=
+ex.txt
+> +=20
+> + # Proxy #1: unauthenticated
+> + Listen 127.0.0.1:47526
+> +diff --git a/tests/proxy-test.c b/tests/proxy-test.c
+> +index 1d68aa05..105a02a6 100644
+> +--- a/tests/proxy-test.c
+> ++++ b/tests/proxy-test.c
+> +@@ -322,6 +322,41 @@ do_proxy_redirect_test (void)
+> + 	soup_test_session_abort_unref (session);
+> + }
+> +=20
+> ++static void proxy_auth_redirect_message_restarted (SoupMessage *msg)
+> ++{
+> ++	if (msg->status_code !=3D SOUP_STATUS_MOVED_PERMANENTLY)
+> ++		return;
+> ++
+> ++	g_assert_null (soup_message_headers_get_one (msg->request_headers, "Pr=
+oxy-Authorization"));
+> ++}
+> ++
+> ++static void
+> ++do_proxy_auth_redirect_test (void)
+> ++{
+> ++	SoupSession *session;
+> ++	SoupMessage *msg;
+> ++	char *url;
+> ++
+> ++	SOUP_TEST_SKIP_IF_NO_APACHE;
+> ++	SOUP_TEST_SKIP_IF_NO_TLS;
+> ++
+> ++	session =3D soup_test_session_new (SOUP_TYPE_SESSION_ASYNC,
+> ++		SOUP_SESSION_PROXY_RESOLVER, proxy_resolvers[AUTH_PROXY],
+> ++		NULL);
+> ++
+> ++	url =3D g_strconcat (HTTP_SERVER, "/Basic/realm1/redirected", NULL);
+> ++	msg =3D soup_message_new (SOUP_METHOD_GET, url);
+> ++	g_signal_connect (session, "authenticate", G_CALLBACK (authenticate), =
+NULL);
+> ++	g_signal_connect (msg, "restarted", G_CALLBACK (proxy_auth_redirect_me=
+ssage_restarted), NULL);
+> ++
+> ++	soup_session_send_message (session, msg);
+> ++	soup_test_assert_message_status (msg, SOUP_STATUS_OK);
+> ++
+> ++	g_free (url);
+> ++	g_object_unref (msg);
+> ++	soup_test_session_abort_unref (session);
+> ++}
 
-ptest results:
-Before:
-glibc: 263 PASSED, 45 SKIPPED, 0 FAILED
-musl: 255 PASSED, 44 SKIPPED, 0 FAILED
-clang: 263 PASSED, 45 SKIPPED, 0 FAILED
+This function body has changes from upstream patch:
+* soup_test_session_new call arguments
+* g_signal_connect (session, "authenticate, ... instead of msg
+* soup_test_session_send_message -> soup_session_send_message call
+* indentation changed which tends to hide the above changes.
 
-with change:
-glibc: 262 PASSED, 46 SKIPPED, 0 FAILED
-musl: 254 PASSED, 45 SKIPPED, 0 FAILED,
-clang: 262 PASSED, 46 SKIPPED, 0 FAILED
+Since the recipe does not inherit ptest, do we actually exercise this
+test code? If we don't, please consider just removing it.
 
-[YOCTO #16473]
+If you want to keep it, please explain/document the above changes (or in
+case of the indentation change: revert it)
+The current explanation is not detailed enough for that.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- meta/recipes-devtools/elfutils/elfutils_0.197.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.197.bb b/meta/recipe=
-s-devtools/elfutils/elfutils_0.197.bb
-index 6e58afb2745..f309a3643fe 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.197.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.197.bb
-@@ -65,6 +65,9 @@ PTEST_XFAILS ?=3D ""
- PTEST_XFAILS:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-ll=
-d', ' run-strip-strmerge.sh run-elflint-self.sh run-backtrace-data.sh run-r=
-everse-sections-self.sh', '', d)}"
- PTEST_XFAILS:append:libc-musl =3D " run-large-elf-file.sh run-backtrace-da=
-ta.sh run-backtrace-native.sh run-backtrace-native-core.sh run-stack-d-test=
-.sh run-stack-i-test.sh run-stack-demangled-test.sh run-deleted.sh run-comp=
-ress-test.sh"
-=20
-+ELFUTILS_PTEST_SKIP ?=3D ""
-+ELFUTILS_PTEST_SKIP:append:qemuall =3D " run-stackprof-system.sh"
-+
- do_install_ptest() {
- 	# copy the files which needed by the cases
- 	TEST_FILES=3D"strip strip.o addr2line elfcmp objdump readelf size.o nm.o =
-nm elflint elfcompress elfclassify stack unstrip srcfiles stackprof"
-@@ -106,6 +109,13 @@ do_install_ptest() {
- 	sed -i -e 's|@XFAIL_TESTS@|${PTEST_XFAILS}|' ${D}${PTEST_PATH}/run-ptest
- }
-=20
-+do_install_ptest:append() {
-+	for t in ${ELFUTILS_PTEST_SKIP}; do
-+		sed -i -e '\|stackprof-subr.sh|a echo "unreliable under qemu, skipping (=
-PR34544)"; exit 77' \
-+			${D}${PTEST_PATH}/tests/$t
-+	done
-+}
-+
- EXTRA_OEMAKE:class-native =3D ""
- EXTRA_OEMAKE:class-nativesdk =3D ""
-=20
