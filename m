@@ -1,506 +1,360 @@
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8474.1793356305425528807
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8612.1793356656482203374
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 03:31:45 -0700
+ Fri, 30 Oct 2026 03:37:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=h3b0+H0c;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: devanshp@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=14446; q=dns/txt;
-  s=iport01; t=1793356305; x=1794565905;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   mime-version;
-  bh=2zYgJ47j4YufgpqW4GdSoPP8rofZnX4WjHp8qo4R8ZY=;
-  b=h3b0+H0cZpC9Xq1DF5hVoeEVrWO051LQTA2StYnC2Z27CzFg44iCyaF9
-   QOA2A2Km7KRaKpgUOdOLVQ9P8/uJ4rVq8mk0zVslfN3hiUlR33QNk58Ce
-   CYXskFNJcXFl0DFygD6uG6m/XD2OBemTepCxhhnl/lqeEuOVJ6JRtQyjL
-   T44pnbyT5F9l/fTJnFs7btO28guGIawDVym0JVNFXk5h+rsXP7GcS2YAv
-   zGu2gJpFCzjNt65+ABWZ/mt0TP44BsRmnz/DdWlgSOpl/jF40vBoMUb2O
-   KPYGK8nRt/8aSFniK/FEjxrFafyXfNYbK4YPydzoKVu11Ozh9hcpUCUC5
-   g==;
-X-CSE-ConnectionGUID: Pgo49uH3QX+f23nIJ1jGhA==
-X-CSE-MsgGUID: GFUQMA5qTDmAWW8il3Eheg==
-X-IPAS-Result: =?us-ascii?q?A0CFAwDMcORq/5X/Ja1aHgEBCxIMZYEgC4E9MVOBCQKBE?=
- =?us-ascii?q?RJJiCMDhSuGWYIhA54dFIFqDwEBAQ0CLgEVDQQBAYUFAo4cAiY0CQ4BAgQDA?=
- =?us-ascii?q?gMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQEBAQMBSgE9AgEIE?=
- =?us-ascii?q?QMBAQEBFRknCh0IAgQBEgiCe4IdFkEDAQIOBqt6AoodeIE0gQGDKQE/AgJAA?=
- =?us-ascii?q?dwPFAGBOIVAgx4BASuBNYJdgSMYARuEYicbG4FygVeCMTg+gQWBXAIBAYEXH?=
- =?us-ascii?q?iseH4NWgjAEgiJ6EhuBPx5lCYwiAQGHblJyIgMmMywBVRMXCwcFgSUQMwMgC?=
- =?us-ascii?q?i8tAhQNIg8aBS0dcAwnEg8dFxEeWBsGBRIgKkFDMCuBGYEHXYErKWECH0YtF?=
- =?us-ascii?q?YF2AoJRgSNdAgFJQQ4HRVMJJT4FEkckIggSCQETGi4LgRo1PAkmQRUMZAsaB?=
- =?us-ascii?q?RpICAILAgx2KBEQEx4gJjIEAx4jbT03Bg8ZAwSBNQWRBgdbghxxAVoHGhMBG?=
- =?us-ascii?q?w4CTyxxERYgCpMAJo9Xo3cKKIN3jCONPogyF4VbpRWZCCONZ5VohSYCBAIEB?=
- =?us-ascii?q?QIQAQEGgWg8gVlwFYMiCRY0GQ+OLhaDYIVBf8d6eQIBCDIBAQcCBw4DC4Foh?=
- =?us-ascii?q?GGLHwImB4FPAQE?=
-IronPort-PHdr: A9a23:pRjo7R3BGd4nlJEHsmDPmlBlVkEcU/3cJAUZ7N8gk71RN/jl9JX5N
- 0uZ7vJo3xfFXoTevupNkPGe87vhVmoJ/YubvTgcfYZNWR4IhYRenwEpDMOfT0yuBPXrdCc9W
- s9FUTdY
-IronPort-Data: A9a23:1KU8b6j6HXrVwVQiMgxSqwcnX161OxEKZh0ujC45NGQN5FlHY01je
- htvDTrXOP/fN2L0c9Eibou0oEMFv8CEnddiHlc//n89EC9jpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNs/nb8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUg9eErUHxur
- sUoaz5XNRaipbu077KSH7wEasQLdKEHPasFsX1miDWcBvE8TNWaGePB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgZ/5JEWxI9EglHzfiNRrkmVvYI84nPYy0p6172F3N/9J4DQGpUKwRfIz
- o7A10vXPyg/HYGG9RaA202T1u7Lxg77VY1HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBF2QHY909v8hwTjsvv
- rOUo+7U6fVUmOT9YVqW96yfqnW5Pi19EIPITXZsodctizU7nLwOsw==
-IronPort-HdrOrdr: A9a23:VySmU6+0uLb4CKlgKcJuk+HRdr1zdoMgy1knxilNoENuA6+lfp
- GV/MjziyWUtN9IYgBepTnhAsW9qADnhOBICOgqTPuftWbdyRCVxe1ZnO/fKnjbalHDH41mpO
- hdmspFeafN5DFB5K6QjnjbYrMdKZu8gd2VbIzlvhFQpHRRGtldBnBCe3+m+yNNNW57LKt8Pq
- CxouBAoD2tc2kWaMOUOlkpNtKom/T70LjdTVojHRAI1Cmi5AnE1JfKVzSI1BYXVD1ChYwl7X
- XElALB4KCiueGQyxPX1WPfhq4m1ucJzOEtOOW8zuwubhn8gAehY4psH5eYuioune2p4FE21P
- HRvhYJJa1ImjPsV1DwhSGo9xjr0T4o5XOn40Sfm2HfrcvwQy9/I9ZdhLhebgDS5yMbzZJBOe
- NwriCkXqhsfFf9dRfGlp/1vtZR5wyJSE8Z4KsuZrpkINIjgfFq3NQiFQhuYeY99WrBmfAa+a
- 9VfYDhzccTV0+GZHbEuWQq6tmtUnMvWiqieCE5y5eoO/w8pgEl86Per/ZvxEvp+P8GOup5zv
- WBPaJymL5USMgKKap7GecaWMOyTnfAWBTWLQupUB/a/Yw8SjvwQqTMkf0IzfDvfIZNwIo5mZ
- zHXl8dvWkue1j2AcnL2JFQ6BjCTGi0QDyok6hlltVEk6y5QKCuPTyISVgoncflq/IDAtfDU/
- L2PJ5NGffsIWbnBI4M1QzjXJtZL2UYTaQuy5wGckPLptiOJpzht+TdfvqWLL3xESw8Ume6GX
- cHVCibHrQ30qlqYA6OvPH8YQKYRqWkx+MDLEHzxZln9LQw
-X-Talos-CUID: 9a23:u+X8zW7MewJlSC1MPNsszEETRpE4Uibk/DTeeRS+KEQwSpKVYArF
-X-Talos-MUID: =?us-ascii?q?9a23=3AYcqH6w8dvtf5XvRDH8yKIayQf+hG3p2LIR0Urbk?=
- =?us-ascii?q?Dkva7ZS10YBqdgTviFw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 30 Oct 2026 10:31:44 +0000
-Received: from rcdn-opgw-4.cisco.com (rcdn-opgw-4.cisco.com [72.163.7.165])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 25682180001DE
-	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:31:44 +0000 (GMT)
-X-CSE-ConnectionGUID: HBuovw/bRlif/efZ91+FxA==
-X-CSE-MsgGUID: NhiZYWZGSLqPYKiPkxrlgA==
-Authentication-Results: rcdn-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.27,186,1787011200"; 
-   d="scan'208,217";a="97533242"
-Received: from mail-southcentralusazon11012036.outbound.protection.outlook.com (HELO SN4PR2101CU001.outbound.protection.outlook.com) ([40.93.195.36])
-  by rcdn-opgw-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 30 Oct 2026 10:31:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CaOI48pnXW5imCA8ZfIvIsHV3NXzdd8LUA54pMhs2iKAeGCmcLUJlx2nSTT4OjzL8tu40KSgQDSvnRUV+zLWGdYnNhiTrx1G+9XWau0SbcZb0aTg1tKEXjK2fiWDG2MFwyDJA59JAUihqQOE2oxOCxogYODNX0r0HPKjSqJxzKfUnFBa6MFOtPWWyl31v2A/F8yF+jrwCnbpkGfVhWLIuGTGGKEmDgndI/zRmyDA3Q29ocnhLMdjPbewctcs5H4lsOLMivTy1e80nGZjemdOkQTcLyDXPLKq4xAKMOG8vH4zUC8gCgkr4ebu3FHyEgtAdp1e+Nlk+eemn/uXsm8/3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2zYgJ47j4YufgpqW4GdSoPP8rofZnX4WjHp8qo4R8ZY=;
- b=dnNdMu3o6zSqMpErt+s0wIF1GiiSif4883zkTJqylIFf1gXTI6dPD5MfqWaVWHASHQdCyquYwS14bM5n/0DmmatgdrODhrJ3mcYp0CSf3cZLdwYhwV7eYwmMrQiu1T0ZiVt2J+aGrX8N7lV3MuNY9NrX8WSkC5lBvJv2NFipP3wHJ7RSySNn9z+m+tlN4WS1y9OUZEO3ok+ZJpFWKOihGifncEX5jKwSDFe7w5mvA6679WDZ/2DPWyFFh9r/zSMoTnulHCPFGl6UWQM2PXGEwheZUuY+Jp7cuGQS47Dace76VHV46yrCGp/bFFIE+g+z4UrrL4FXXYbiImrU5zA4Sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from PH0PR11MB7616.namprd11.prod.outlook.com (2603:10b6:510:26d::20)
- by IA0PR11MB7330.namprd11.prod.outlook.com (2603:10b6:208:436::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.10; Fri, 30 Oct
- 2026 10:31:42 +0000
-Received: from PH0PR11MB7616.namprd11.prod.outlook.com
- ([fe80::9ba7:5071:9af5:340]) by PH0PR11MB7616.namprd11.prod.outlook.com
- ([fe80::9ba7:5071:9af5:340%6]) with mapi id 15.21.0569.009; Fri, 30 Oct 2026
- 10:31:42 +0000
-From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)"
-	<devanshp@cisco.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
-	<yoann.congal@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH v2 5/8] curl: fix CVE-2026-8927
-Thread-Topic: [OE-core][scarthgap][PATCH v2 5/8] curl: fix CVE-2026-8927
-Thread-Index: AQHdaFYQkkWxe/VOS0WEP3+n/YGfTLcV37Nb
-Date: Fri, 30 Oct 2026 10:31:42 +0000
-Message-ID: <PH0PR11MB761654423DFF3F2219CCDCA2D36D2@PH0PR11MB7616.namprd11.prod.outlook.com>
-References: <20261016130439.603118-1-devanshp@cisco.com>
- <DMI367I27X8Y.1QCWB126HTJ6L@smile.fr>
-In-Reply-To: <DMI367I27X8Y.1QCWB126HTJ6L@smile.fr>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB7616:EE_|IA0PR11MB7330:EE_
-x-ms-office365-filtering-correlation-id: 0ea23abb-bfa1-4d12-713e-08df3670fd2d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|10067099003|18002099003|22082099003|8096899003|13003099007|38070700021|56012099006|11063799006|4143699003|261028144727099003|261026135527099003|261026121527099003|261026140227099003|261026130827099003|261022115727099003|261021135927099003|261021133027099003|261021130227099003|261021123027099003|261021121427099003|261022113327099003|261022105027099003|261022075727099003|261009223327099003|261009223027099003|261009221727099003|261009221227099003|261009220027099003;
-x-microsoft-antispam-message-info: djt5MCCwW+b5fSvPjxQ5Q1yze8yjjheFSfKZFHOAGerN6q0Ck8p8hgR2V6atwt6FFxr/N+/GROTjTZPJIqzWFLjfmlGbJ5hj+iNoU24Idk3qB+A4gXYRmOil6ObI0c6aTQUThc3BgC1VWXloh+STnRLCqt/JOtxAW+FT5p1A+Jzm5Hz/kkaoOuyEjDctJOefchctPT+E0fXlOuC/jSz6V9VStFKC3O4JrLJrmw/w4Nvz4HJ0ZI2Cg5WIL5i8w5pF+T0aDYawYpk4LKzDyosi2p0nhAdC7qNG6ZBX5u+dfluKNDFkckxL4NrCT17LghIwPkKmau0SGe4fy5XyX1HqCd6annUve49Ll3EiE0u4hJ18PwVjRcvskxr2lNFge2swk3Qj4qJ1Q4tSUaRm1m6+M03pZCSwANjjdLWaNHb8yBATYD1XhyqyxVel8Kj5r8Y8dYRsehfWX1+u1/WPkaq3/uXYJV/ydF58bKRYfXjuS4Rs7T81JDcLDmYO+u6RGED2MjYPvE6a9pGGXZvL/F43QQhQVX5BixbjFcvB8nl5wwzJgpxuuv4a20Z+ray9pWFesMQSKssF0No44Ss6B+MXHA4hO8+K27ephgu1u60Bz60kSzsBO8PxkUDxmgmSu5d2RMyuw+PJSK4ZywU+ajP18M3/CmiDxImJEkkiZYVHBn4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB7616.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(10067099003)(18002099003)(22082099003)(8096899003)(13003099007)(38070700021)(56012099006)(11063799006)(4143699003)(261028144727099003)(261026135527099003)(261026121527099003)(261026140227099003)(261026130827099003)(261022115727099003)(261021135927099003)(261021133027099003)(261021130227099003)(261021123027099003)(261021121427099003)(261022113327099003)(261022105027099003)(261022075727099003)(261009223327099003)(261009223027099003)(261009221727099003)(261009221227099003)(261009220027099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?Sk5Sflkzd7ei0soaf0R43wDz9LS82VI3RCWdTsqBvj5Ihi4m3ftb8cu4?=
- =?Windows-1252?Q?KK0qxpEuZ7sEz9PEBL5XG3h9zr7zvHU65l43vPXMmmwLKL6hUPBUpHUJ?=
- =?Windows-1252?Q?iAO+kyO2zslzwtPMEg6rOKuxKMTicwAgvsfVBggqmcQvbnH1SyPiDMZ6?=
- =?Windows-1252?Q?m6P0DUoZ0jbbBu04MiBrQB6HHz1zFc1J+1N1POtLhomlUjR1iwQzSMGd?=
- =?Windows-1252?Q?CUuDR2UAohMaonU5ydNn9qFbsH6LWOo3UU1QV5zV4azW/tHSESMnNe2P?=
- =?Windows-1252?Q?UqmTwbcQPWvlTfgXqZKOX+eWTNPvK9TWowEeIwKq5dklr2wuUQTuP5B5?=
- =?Windows-1252?Q?VBEDxKMbB/iw3VI6cAtjpPRBYYGb5bijCgKjgs2jVD3UYWJxfTgnuKUW?=
- =?Windows-1252?Q?DfN0o9G8MoNcJrufDYH4AUI6S1m5A25q/Urf0NRfyjGpLcBhrV1PKYkY?=
- =?Windows-1252?Q?ttchWWkXFhU3GxdFuUjFAjrDfa/1iPXX7EjU4pjMer3OeIfmyIUSKd9y?=
- =?Windows-1252?Q?mSD3m5wDgmSBH5E11DGuE8dr/9DW8SCQvTVX7ElsLHjz6Ig2bJ+oBafZ?=
- =?Windows-1252?Q?UKahCyKZtiYJ/qrqpX38B2mAt3DRV1YR9RGZS9SuIzj22s5YK/zuT3K7?=
- =?Windows-1252?Q?EAqmoDPqcUn5pxZvcaBG2bV4CNfjs+hBtVTIyf2JLAq4ve5kLf/q/nYA?=
- =?Windows-1252?Q?VFjtPUGu0bi2pgH53Krflozqlmg5fRxhhz91e/WLG080LsMVwoDGCUMo?=
- =?Windows-1252?Q?FQStC7Ard8IYpwAEWCB0L0MdFa6ZaOzvv8deaeiZytBDeFPuz4msvPIa?=
- =?Windows-1252?Q?x8do93qM9eW/1fR4484Rnj6mztZVrsdEhAuAqoXmPjGWBip8LqXOIcMO?=
- =?Windows-1252?Q?1yrqXNcczn9ilV74Bc/DgLu5KKuObGT8e0UlqxnfeIp8s9V5ENlDEitN?=
- =?Windows-1252?Q?9/yFpQwMX814hrT1dQZlewc6ZJHR6svBSDzdFZ7ANiT1ZJeou2sn5hP8?=
- =?Windows-1252?Q?kplCF4Dkv1X/07ZLnU5C31tHL2dc3hbTiJVAilMlCrO1f8EFQWkxvm+o?=
- =?Windows-1252?Q?rdbL01aRmbSonMyPvv9QCA2Kxa9KrTTFPpS2tkV5JKw4WII7yZVxkZu5?=
- =?Windows-1252?Q?EFnpqlhbsBnuWjVDzf5krYW+8u1GVLKiz/wlSBc3ZPT3QiCNs9rcW7qq?=
- =?Windows-1252?Q?apqzhMya4h6DCh4FUDFk4PGW5njlVYOO82v7YfG98xYn7qG/P79HVmTK?=
- =?Windows-1252?Q?tcdEa9nPOQ/HfCG+LXrLJxiPreof8BKmTYI0P1yjBzExnyIzUp1Jv+uX?=
- =?Windows-1252?Q?iyrwjE6Jib/slDxDhSam8/JCjFiwW1F7PkdmJrS4t2PhqH01nPV6WWyC?=
- =?Windows-1252?Q?mzC7KntTD+yi/vm62jC4T6frf3UgljUoLyNz0X5iI6geksg75qE7Eljs?=
- =?Windows-1252?Q?tX/rXdtHJAx6z8PDhVx6PFolFFuVCrepvFCS0v5uNTLEBghkeRvoHLcO?=
- =?Windows-1252?Q?LMrpfRm/jsj06d9FbT/NXj9g0DCIuZUU8P2svNu5uiCCpw1UjIy1TgrN?=
- =?Windows-1252?Q?Fm7opzjmeC8oy0uam5KYx5g8FUTUXqsqrzAAFJOl/vA2pTebqElAk6+G?=
- =?Windows-1252?Q?Q8Vpf8tHOJ/TiF16cCn/3cEmemQPhuNxZJpzXXLkhmkO3yQTGkfSrvsH?=
- =?Windows-1252?Q?Ql1s7298XGUuqVhhMmDWJsV1ssTRVleDNoClcrMlHd7PqZNLL0Ey06ir?=
- =?Windows-1252?Q?NzSefuP3BOfj5yaeU3pTAOAxFATfWfoV072EgQzRpohiGWvERdes3pV+?=
- =?Windows-1252?Q?aB+eS5CXF8YLHapn3Ee6fXv6ltPgFpAWJc+mmPLUfA7nNSX6?=
-Content-Type: multipart/alternative;
-	boundary="_000_PH0PR11MB761654423DFF3F2219CCDCA2D36D2PH0PR11MB7616namp_"
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=j7R+XCMP;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: jinwli@qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69UAJnjg3593627
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:37:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Xn5L4ZvuQhlO7iLo5IvGtomx/7j/1U5NWKw
+	zQ80kfG8=; b=j7R+XCMPwiHv26urzAvJoRnhixW77/ZofUP4g9Y0sU5ybmF/6j8
+	v6WDXkM3mK12UEzqV7NKvyNYkHbDdOzg6kj+XVhPs9qqMHbFG6//g9+9Flo5Y+71
+	q/ZfviX8m8ukkaMPJUQyGHlabA+LEUgJlQtGixCRYggmemphkxxwA5F2rwnamXjw
+	XV/RXNDLstEF4J4egIQtb6jQdqNqfjylj5K6Bqckcav9bjN9iCldfM7fIeVqvcBt
+	10VY+TO0sKLOuJIo8SD8GX7lDzAP2Xx0NIiWVKocghhvxrAvUogm2hsSPhAwsuwW
+	CP5eJerc/dTxRxcRktB8pugx0a8i1VBulHw==
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme6qtgct-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:37:34 +0000 (GMT)
+Received: from pps.filterd (aptaippmta01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69UAbV3q2486101;
+	Fri, 30 Oct 2026 10:37:31 GMT
+Received: from bt-iot-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 69UAbV5k2486092
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 30 Oct 2026 10:37:31 +0000 (GMT)
+Received: by bt-iot-sh02-lnx.ap.qualcomm.com (Postfix, from userid 4467392)
+	id 8BA0323C5F; Fri, 30 Oct 2026 18:37:30 +0800 (CST)
+From: Jinwang Li <jinwang.li@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
+        wei.deng@oss.qualcomm.com, shuai.zhang@oss.qualcomm.com,
+        mengshi.wu@oss.qualcomm.com, xiuzhuo.shang@oss.qualcomm.com,
+        jinwang.li@oss.qualcomm.com
+Subject: [PATCH] bluez5: backport obexd phonebook-dummy and NewMissedCalls fixes
+Date: Fri, 30 Oct 2026 18:37:29 +0800
+Message-Id: <20261030103729.80707-1-jinwang.li@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 5vdfYuCeAHKXl90/PcIY6/1DVisOoZj85u9UUW0hvLiEfz5SFDfB5tpzVDbFZm9J7/411czJGO2Jhz6XYWTqG1L4ZGxACdNR5+iiX17MwTIq6N6XDka+9xFNd742RQe3U/GehKlRRNoExm5gNb6O2R+9xQ1ZlLLZ+LATsswKmrCiaH3TalGAqMisa5kr5TB2SO6LLF2DEq5/QSO6pIyoPVfokGOi2+hD8rPZbiw8iOcII/BHP+xreV1OahqAPzSeeSy6ChaFrw+fHLYuGUbb5udSnaJiQZIffWzNUojzYeQZFWhZ1OQoGQSl44bKI5ktiXVG58ovU5W4VwGfDLQ+iQ==
-X-OriginatorOrg: cisco.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB7616.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ea23abb-bfa1-4d12-713e-08df3670fd2d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2026 10:31:42.1575
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: M4XPMggAIN3VvOWIgeEssFUk3XPcqeHyncmX+Oa/U4oehY2sMpXkJ7cfdUd7xwKuEUEUgOFhMsRRErZRCNoiSQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7330
-X-Outbound-Client-TLS: ANONYMOUS;rcdn-opgw-4.cisco.com [72.163.7.165];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 72.163.7.165, rcdn-opgw-4.cisco.com
-X-Outbound-Node: rcdn-l-core-12.cisco.com
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-GUID: pJiOzAfHNHhEGhqsg3FTP7zQR7KP-FVl
+X-Proofpoint-ORIG-GUID: pJiOzAfHNHhEGhqsg3FTP7zQR7KP-FVl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA0MiBTYWx0ZWRfXx+7KyLf7dyrw
+ 3N4lMInmHpxm26JVUCYXZyUrTvRkBtvlOJcROaY88pfTaP4lBjPtJndyXZlGQlH+R5CQVz0xepN
+ WyYCfCX12er4HtP9Gjz5pBnCFsjlp66nsm75T248sk48qByK9I1FwnZUeUZupZElGtHJBKN0vvw
+ qUJF7k5v5/wfQob+YI4C4qaZhpWRiA/iVQXCY4fLGnj/kAT3MSgr1bUZbDIr4M5vFDDXmETk2rL
+ Fze/d4PlzTCdCm1yEOTQCPQSQPROoMszRSa755ep9GtjlrDY+nW//2rQvRiW7ZcD7S/lT4EE80R
+ bxdmkmKDVCtOnfEh2JCgBfo0fARM2uXhjqiVIbe5eo/N7JLM5OfXIEMgcv03CggLJDGVS/mUM+9
+ BAW+31hKycl99FgymUcHucPKDsQHXmvduDBIBFOF/1zweGY94fBztH9FtnfgTsEtde+HG5Twnm6
+ 8Cxp7waU4dsHLZ7QQ9w==
+X-Authority-Analysis: v=2.4 cv=dPgzC+Zb c=1 sm=1 tr=0 ts=6ae4736f cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=3WHJM1ZQz_JShphwDgj5:22 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8
+ a=IUn8tT7Z2qCdTtQOOCMA:9 a=IcQjpISvx0Ct2ArQ:21
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA0MiBTYWx0ZWRfXx2n6a8GkQBVL
+ 4NhTV+vxdmHA5DwBbRS4uxsLB9nzUCSccQ/6bPRKfnyYtq7xAaowlkGp8uiR2Bz8lENM2tH62aU
+ OvHXqhJzEMV2eA8WliSO1FdRqFY3LvY=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-30_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300042
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:31:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249014
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:37:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249015
+Content-Type: text/plain; charset="utf-8"
 
---_000_PH0PR11MB761654423DFF3F2219CCDCA2D36D2PH0PR11MB7616namp_
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+Backport three obexd fixes from upstream:
+- Fix FILE* leak in phonebook-dummy
+- Fix the size of the PBAP NewMissedCalls parameter (uint8, not uint16)
+- Report NewMissedCalls for the mch folder in the dummy backend
 
-Hi Yoann,
-Thanks, that makes sense. I=92ll fold the Digest feature-detection change i=
-nto the main CVE patch, add the explanation, and remove the separate depend=
-ency patch and recipe entry in v3.
-Do the other patches in v2 look good, or are further changes needed? I=92d =
-like to address all feedback together before sending v3 to avoid multiple r=
-evisions of the series.
-Regards,
-Devansh
-________________________________
-From: Yoann Congal via openembedded-core <yoann.congal=3Dsmile.fr@lists.ope=
-nembedded.org>
-Sent: Friday, October 30, 2026 15:34
-To: Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco) <dev=
-anshp@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-co=
-re@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH v2 5/8] curl: fix CVE-2026-8927
+Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   3 +
+ ...exd-Fix-FILE-leak-in-phonebook-dummy.patch |  47 ++++++++
+ ...ap-Fix-NewMissedCalls-parameter-size.patch | 110 ++++++++++++++++++
+ ...d-pbap-Report-NewMissedCalls-for-mch.patch |  74 ++++++++++++
+ 4 files changed, 234 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-Fix-FILE-leak-in-phonebook-dummy.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-NewMissedCalls-parameter-size.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Report-NewMissedCalls-for-mch.patch
 
-On Fri Oct 16, 2026 at 3:04 PM CEST, Devansh Patel -X (devanshp - E INFOCHI=
-PS PRIVATE LIMITED at Cisco) wrote:
-> From: Devansh Patel <devanshp@cisco.com>
->
-> This patch applies the upstream fix as referenced in [3], using the
-> commits shown in [1] and [2].
->
-> [1] https://github.com/curl/curl/commit/1968b32afd8e41fbb87f8911d15c552c6=
-b705385
-> [2] https://github.com/curl/curl/commit/5c225384b8d52c67ce8259c6e4203bc57=
-aacb567
-> [3] https://curl.se/docs/CVE-2026-8927.html
->
-> The test adaptations account for these earlier upstream changes:
-> [4] https://github.com/curl/curl/commit/6cf3d7b1b161bc45501d17b401225befe=
-3c43943
-> [5] https://github.com/curl/curl/commit/a186ecf4bf0c8ebb3a9a826155b339216=
-4ec257a
->
-> Validation: ptests passed (866 tests, no failures). The release build
-> skips test1647 because debug support is disabled. A native debug build
-> with stunnel passed test1647 with the test compatibility changes below.
->
-> Signed-off-by: Devansh Patel <devanshp@cisco.com>
-> ---
->
-> Changes in v2:
-> - Rebase onto stable/scarthgap-review
-> - Explain the test.h macro requirements in the backport changes.
-> - Adapt CONNECT normalization and the expected error for curl 8.7.1.
-> - Record target ptest and native debug validation.
->
->  .../curl/curl/CVE-2026-8927-dependent.patch   |  39 ++
->  .../curl/curl/CVE-2026-8927.patch             | 390 ++++++++++++++++++
->  meta/recipes-support/curl/curl_8.7.1.bb       |   2 +
->  3 files changed, 431 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927-dependen=
-t.patch
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927.patch
->
-> diff --git a/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.patch=
- b/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.patch
-> new file mode 100644
-> index 0000000..d05699d
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.patch
-> @@ -0,0 +1,39 @@
-> +From a07fc9a9855848da48a4533b85153c681ae1b1a0 Mon Sep 17 00:00:00 2001
-> +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Fri, 25 Apr 2025 08:16:13 +0200
-> +Subject: [PATCH] tests/buildinfo: former "disabled" now provides more in=
-fo
-> +
-> +This tool now contains ON/OFF information about features in the build.
-> +This way, runtests gets both positive and negative feature presence with
-> +this. Allows for more flexibility and avoids having to duplicate the
-> +names.
-> +
-> +Closes #17180
-> +
-> +CVE: CVE-2026-8927
-> +Upstream-Status: Backport [https://github.com/curl/curl/commit/1968b32af=
-d8e41fbb87f8911d15c552c6b705385]
-> +
-> +Backport Changes:
-> +- Add only the Digest feature flag needed by the tests. Keep the old
-> +  disabled helper, which clears this flag when Digest is disabled.
-> +  Leave out the buildinfo rename and other feature-reporting changes.
-> +
-> +(cherry picked from commit 1968b32afd8e41fbb87f8911d15c552c6b705385)
-> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
-> +---
-> + tests/runtests.pl | 2 ++
-> + 1 file changed, 2 insertions(+)
-> +
-> +diff --git a/tests/runtests.pl b/tests/runtests.pl
-> +index ddfab20e86..b40df554b2 100755
-> +--- a/tests/runtests.pl
-> ++++ b/tests/runtests.pl
-> +@@ -637,6 +637,8 @@ sub checksystemfeatures {
-> +             $feature{"Kerberos"} =3D $feat =3D~ /Kerberos/i;
-> +             # SPNEGO enabled
-> +             $feature{"SPNEGO"} =3D $feat =3D~ /SPNEGO/i;
-> ++            # Digest auth enabled unless disabled by build
-> ++            $feature{"digest-auth"} =3D 1;
-> +             # CharConv enabled
-> +             $feature{"CharConv"} =3D $feat =3D~ /CharConv/i;
-> +             # TLS-SRP enabled
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 22d50bc23f..eff229567c 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -69,6 +69,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
+            file://0001-gobex-Fix-ABORT-response-being-discarded.patch \
+            file://0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch \
++           file://0001-obexd-Fix-FILE-leak-in-phonebook-dummy.patch \
++           file://0001-obexd-pbap-Fix-NewMissedCalls-parameter-size.patch \
++           file://0001-obexd-pbap-Report-NewMissedCalls-for-mch.patch \
+            "
+ S = "${UNPACKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-Fix-FILE-leak-in-phonebook-dummy.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-Fix-FILE-leak-in-phonebook-dummy.patch
+new file mode 100644
+index 0000000000..9b9cba331f
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-Fix-FILE-leak-in-phonebook-dummy.patch
+@@ -0,0 +1,47 @@
++From 062fa5fc95282da2168dce96a6dc78cb2cefe572 Mon Sep 17 00:00:00 2001
++From: Jinwang Li <jinwang.li@oss.qualcomm.com>
++Date: Wed, 30 Sep 2026 15:39:53 +0800
++Subject: [PATCH 1/3] obexd: Fix FILE* leak in phonebook-dummy
++
++fdopen(fd, "r") transfers ownership of fd to the FILE stream, but the
++loop was calling close(fd) directly instead of fclose(fp), leaking the
++FILE structure and its stdio buffer on every vCard read. Also handle
++fdopen() failure, which was previously unchecked.
++
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/549f3d50686bbf18f01b949a913ddd10cb6e8b5c]
++Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
++---
++ obexd/plugins/phonebook-dummy.c | 10 +++++++++-
++ 1 file changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/obexd/plugins/phonebook-dummy.c b/obexd/plugins/phonebook-dummy.c
++index 0dce13f66..188429a21 100644
++--- a/obexd/plugins/phonebook-dummy.c
+++++ b/obexd/plugins/phonebook-dummy.c
++@@ -164,6 +164,14 @@ static int foreach_vcard(DIR *dp, vcard_func_t func, uint16_t offset,
++ 		}
++ 
++ 		fp = fdopen(fd, "r");
+++		if (fp == NULL) {
+++			err = errno;
+++			error("fdopen(%s): %s(%d)", filename, strerror(err),
+++									err);
+++			close(fd);
+++			continue;
+++		}
+++
++ 		v = Parse_MIME_FromFile(fp);
++ 		if (v != NULL) {
++ 			func(filename, v, user_data);
++@@ -171,7 +179,7 @@ static int foreach_vcard(DIR *dp, vcard_func_t func, uint16_t offset,
++ 			n++;
++ 		}
++ 
++-		close(fd);
+++		fclose(fp);
++ 	}
++ 
++ 	g_slist_free_full(sorted, g_free);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-NewMissedCalls-parameter-size.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-NewMissedCalls-parameter-size.patch
+new file mode 100644
+index 0000000000..da5a7d634e
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-NewMissedCalls-parameter-size.patch
+@@ -0,0 +1,110 @@
++From fd39102cd189c524b60915feb46f075d0c12c972 Mon Sep 17 00:00:00 2001
++From: Jinwang Li <jinwang.li@oss.qualcomm.com>
++Date: Tue, 27 Oct 2026 15:10:45 +0800
++Subject: [PATCH 2/3] obexd/pbap: Fix NewMissedCalls parameter size
++
++NewMissedCalls is a one-byte apparam, but was encoded with
++g_obex_apparam_set_uint16(). Use uint8 instead, and update the
++phonebook callback type to match.
++
++Fixes: 398d3e23533a ("obexd: Make use of GObexApparam API")
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/f1af76b9868ef8f7f403d572f07fc533b1908eda]
++Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
++---
++ obexd/plugins/irmc.c              | 4 ++--
++ obexd/plugins/pbap.c              | 8 ++++----
++ obexd/plugins/phonebook-tracker.c | 2 +-
++ obexd/plugins/phonebook.h         | 2 +-
++ 4 files changed, 8 insertions(+), 8 deletions(-)
++
++diff --git a/obexd/plugins/irmc.c b/obexd/plugins/irmc.c
++index cfd8a45d4..b9888bbed 100644
++--- a/obexd/plugins/irmc.c
+++++ b/obexd/plugins/irmc.c
++@@ -74,7 +74,7 @@ static const char *owner_vcard =
++ 		"END:VCARD\r\n";
++ 
++ static void phonebook_size_result(const char *buffer, size_t bufsize,
++-					int vcards, int missed,
+++					int vcards, uint8_t missed,
++ 					gboolean lastpart, void *user_data)
++ {
++ 	struct irmc_session *irmc = user_data;
++@@ -90,7 +90,7 @@ static void phonebook_size_result(const char *buffer, size_t bufsize,
++ }
++ 
++ static void query_result(const char *buffer, size_t bufsize, int vcards,
++-				int missed, gboolean lastpart, void *user_data)
+++			uint8_t missed, gboolean lastpart, void *user_data)
++ {
++ 	struct irmc_session *irmc = user_data;
++ 	const char *s, *t;
++diff --git a/obexd/plugins/pbap.c b/obexd/plugins/pbap.c
++index 9f8684863..3ee54f1fe 100644
++--- a/obexd/plugins/pbap.c
+++++ b/obexd/plugins/pbap.c
++@@ -159,7 +159,7 @@ static void cache_clear(struct cache *cache)
++ }
++ 
++ static void phonebook_size_result(const char *buffer, size_t bufsize,
++-					int vcards, int missed,
+++					int vcards, uint8_t missed,
++ 					gboolean lastpart, void *user_data)
++ {
++ 	struct pbap_session *pbap = user_data;
++@@ -186,7 +186,7 @@ static void phonebook_size_result(const char *buffer, size_t bufsize,
++ 		DBG("missed %d", missed);
++ 	}
++ 
++-	pbap->obj->apparam = g_obex_apparam_set_uint16(pbap->obj->apparam,
+++	pbap->obj->apparam = g_obex_apparam_set_uint8(pbap->obj->apparam,
++ 							NEWMISSEDCALLS_TAG,
++ 							missed);
++ 
++@@ -194,7 +194,7 @@ static void phonebook_size_result(const char *buffer, size_t bufsize,
++ }
++ 
++ static void query_result(const char *buffer, size_t bufsize, int vcards,
++-				int missed, gboolean lastpart, void *user_data)
+++			uint8_t missed, gboolean lastpart, void *user_data)
++ {
++ 	struct pbap_session *pbap = user_data;
++ 
++@@ -224,7 +224,7 @@ static void query_result(const char *buffer, size_t bufsize, int vcards,
++ 		pbap->obj->firstpacket = TRUE;
++ 	}
++ 
++-	pbap->obj->apparam = g_obex_apparam_set_uint16(pbap->obj->apparam,
+++	pbap->obj->apparam = g_obex_apparam_set_uint8(pbap->obj->apparam,
++ 							NEWMISSEDCALLS_TAG,
++ 							missed);
++ 
++diff --git a/obexd/plugins/phonebook-tracker.c b/obexd/plugins/phonebook-tracker.c
++index eb7a84f46..2f7411312 100644
++--- a/obexd/plugins/phonebook-tracker.c
+++++ b/obexd/plugins/phonebook-tracker.c
++@@ -488,7 +488,7 @@ struct phonebook_data {
++ 	GSList *contacts;
++ 	phonebook_cache_ready_cb ready_cb;
++ 	phonebook_entry_cb entry_cb;
++-	int newmissedcalls;
+++	uint8_t newmissedcalls;
++ 	GCancellable *query_canc;
++ 	char *req_name;
++ 	int vcard_part_count;
++diff --git a/obexd/plugins/phonebook.h b/obexd/plugins/phonebook.h
++index c73ae73b8..f3150e1f6 100644
++--- a/obexd/plugins/phonebook.h
+++++ b/obexd/plugins/phonebook.h
++@@ -61,7 +61,7 @@ struct apparam_field {
++  * Contacts will be returned in the vcard format.
++  */
++ typedef void (*phonebook_cb) (const char *buffer, size_t bufsize,
++-		int vcards, int missed, gboolean lastpart, void *user_data);
+++		int vcards, uint8_t missed, gboolean lastpart, void *user_data);
++ 
++ /*
++  * Interface between the PBAP core and backends to
++-- 
++2.34.1
++
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Report-NewMissedCalls-for-mch.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Report-NewMissedCalls-for-mch.patch
+new file mode 100644
+index 0000000000..b907c32088
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Report-NewMissedCalls-for-mch.patch
+@@ -0,0 +1,74 @@
++From 615a26bd9b6c53a06c278d74dce790e557ddfb6e Mon Sep 17 00:00:00 2001
++From: Jinwang Li <jinwang.li@oss.qualcomm.com>
++Date: Tue, 27 Oct 2026 15:10:46 +0800
++Subject: [PATCH 3/3] obexd/pbap: Report NewMissedCalls for mch
++
++The dummy backend always reports zero NewMissedCalls. Count the
++vCards in the folder instead, capped at UINT8_MAX.
++
++Fixes PTS test PBAP/PSE/PBD/BV-05-C
++
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/d987dbc0f0817fa7927be174920713dfe2aaff13]
++Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
++---
++ obexd/plugins/phonebook-dummy.c | 23 ++++++++++++++++++++++-
++ 1 file changed, 22 insertions(+), 1 deletion(-)
++
++diff --git a/obexd/plugins/phonebook-dummy.c b/obexd/plugins/phonebook-dummy.c
++index 188429a21..d04cc98e0 100644
++--- a/obexd/plugins/phonebook-dummy.c
+++++ b/obexd/plugins/phonebook-dummy.c
++@@ -41,6 +41,7 @@ struct dummy_data {
++ 	char *folder;
++ 	int fd;
++ 	guint id;
+++	uint8_t newmissedcalls;
++ };
++ 
++ struct cache_query {
++@@ -244,7 +245,8 @@ static gboolean read_dir(void *user_data)
++ 	closedir(dp);
++ done:
++ 	/* FIXME: Missing vCards fields filtering */
++-	dummy->cb(buffer->str, buffer->len, count, 0, TRUE, dummy->user_data);
+++	dummy->cb(buffer->str, buffer->len, count, dummy->newmissedcalls,
+++							TRUE, dummy->user_data);
++ 
++ 	g_string_free(buffer, TRUE);
++ 
++@@ -360,6 +362,22 @@ static gboolean is_dir(const char *dir)
++ 	return S_ISDIR(st.st_mode);
++ }
++ 
+++static uint8_t count_vcards(const char *folder)
+++{
+++	DIR *dp;
+++	uint16_t count = 0;
+++
+++	dp = opendir(folder);
+++	if (dp == NULL)
+++		return 0;
+++
+++	foreach_vcard(dp, NULL, 0, UINT8_MAX, NULL, &count);
+++
+++	closedir(dp);
+++
+++	return count;
+++}
+++
++ char *phonebook_set_folder(const char *current_folder,
++ 		const char *new_folder, uint8_t flags, int *err)
++ {
++@@ -490,6 +508,9 @@ void *phonebook_pull(const char *name, const struct apparam_field *params,
++ 	dummy->folder = folder;
++ 	dummy->fd = -1;
++ 
+++	if (g_strcmp0(name, PB_CALLS_MISSED) == 0)
+++		dummy->newmissedcalls = count_vcards(folder);
+++
++ 	if (err)
++ 		*err = 0;
++ 
++-- 
++2.34.1
++
+-- 
+2.34.1
 
-Reading the code more closely, I think it would make more sense to fold
-this CVE-2026-8927-dependent.patch into CVE-2026-8927.patch with the
-proper explanation (Like you did with the CONNECT line).
-
-I generally don't like squashing patches like this but in those 2 cases,
-I think this is the better option (the runtests.pl patch does not look
-like the upstream patch anymore, and the CONNECT line is buried in a
-very long cleanup patch).
-
-Thanks!
---
-Yoann Congal
-Smile ECS
-
-
---_000_PH0PR11MB761654423DFF3F2219CCDCA2D36D2PH0PR11MB7616namp_
-Content-Type: text/html; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-Hi Yoann,</div>
-<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-Thanks, that makes sense. I=92ll fold the Digest feature-detection change i=
-nto the main CVE patch, add the explanation, and remove the separate depend=
-ency patch and recipe entry in v3.</div>
-<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
- font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
-etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-Do the other patches in v2 look good, or are further changes needed? I=92d =
-like to address all feedback together before sending v3 to avoid multiple r=
-evisions of the series.</div>
-<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
- color: rgb(0, 0, 0);">
-<span style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService,=
- Calibri, Helvetica, sans-serif; font-size: 11pt;">Regards,<br>
-Devansh</span><span style=3D"font-family: Calibri, Arial, Helvetica, sans-s=
-erif; font-size: 12pt;"><br>
-</span></div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<b>From:</b> Yoann Congal via openembedded-core &lt;yoann.congal=3Dsmile.fr=
-@lists.openembedded.org&gt;<br>
-<b>Sent:</b> Friday, October 30, 2026 15:34<br>
-<b>To:</b> Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisc=
-o) &lt;devanshp@cisco.com&gt;; openembedded-core@lists.openembedded.org &lt=
-;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core][scarthgap][PATCH v2 5/8] curl: fix CVE-2026-8=
-927 </div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-size: 11pt;">On Fri Oct 16, 2026 at 3:04 PM CEST, Devans=
-h Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco) wrote:<br>
-&gt; From: Devansh Patel &lt;devanshp@cisco.com&gt;<br>
-&gt;<br>
-&gt; This patch applies the upstream fix as referenced in [3], using the<br=
->
-&gt; commits shown in [1] and [2].<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://github.com/curl/curl/commit/1968b32afd8e41fbb87=
-f8911d15c552c6b705385" id=3D"OWAab7a2809-e50c-58e6-583b-d208866ca645" class=
-=3D"OWAAutoLink" data-auth=3D"NotApplicable">
-https://github.com/curl/curl/commit/1968b32afd8e41fbb87f8911d15c552c6b70538=
-5</a><br>
-&gt; [2] <a href=3D"https://github.com/curl/curl/commit/5c225384b8d52c67ce8=
-259c6e4203bc57aacb567" id=3D"OWA5389be46-d21e-7df9-a13e-ccf32b767a35" class=
-=3D"OWAAutoLink" data-auth=3D"NotApplicable">
-https://github.com/curl/curl/commit/5c225384b8d52c67ce8259c6e4203bc57aacb56=
-7</a><br>
-&gt; [3] <a href=3D"https://curl.se/docs/CVE-2026-8927.html" id=3D"OWAbdab8=
-733-19f2-210a-9114-2cd8b556976e" class=3D"OWAAutoLink" data-auth=3D"NotAppl=
-icable">
-https://curl.se/docs/CVE-2026-8927.html</a><br>
-&gt;<br>
-&gt; The test adaptations account for these earlier upstream changes:<br>
-&gt; [4] <a href=3D"https://github.com/curl/curl/commit/6cf3d7b1b161bc45501=
-d17b401225befe3c43943" id=3D"OWAc1495dc5-bf38-59e9-8166-a6ab4015eb75" class=
-=3D"OWAAutoLink" data-auth=3D"NotApplicable">
-https://github.com/curl/curl/commit/6cf3d7b1b161bc45501d17b401225befe3c4394=
-3</a><br>
-&gt; [5] <a href=3D"https://github.com/curl/curl/commit/a186ecf4bf0c8ebb3a9=
-a826155b3392164ec257a" id=3D"OWA9bddef12-b2b5-f3fe-25ec-7cf31f4fe3dd" class=
-=3D"OWAAutoLink" data-auth=3D"NotApplicable">
-https://github.com/curl/curl/commit/a186ecf4bf0c8ebb3a9a826155b3392164ec257=
-a</a><br>
-&gt;<br>
-&gt; Validation: ptests passed (866 tests, no failures). The release build<=
-br>
-&gt; skips test1647 because debug support is disabled. A native debug build=
-<br>
-&gt; with stunnel passed test1647 with the test compatibility changes below=
-.<br>
-&gt;<br>
-&gt; Signed-off-by: Devansh Patel &lt;devanshp@cisco.com&gt;<br>
-&gt; ---<br>
-&gt;<br>
-&gt; Changes in v2:<br>
-&gt; - Rebase onto stable/scarthgap-review<br>
-&gt; - Explain the test.h macro requirements in the backport changes.<br>
-&gt; - Adapt CONNECT normalization and the expected error for curl 8.7.1.<b=
-r>
-&gt; - Record target ptest and native debug validation.<br>
-&gt;<br>
-&gt;&nbsp; .../curl/curl/CVE-2026-8927-dependent.patch&nbsp;&nbsp; |&nbsp; =
-39 ++<br>
-&gt;&nbsp; .../curl/curl/CVE-2026-8927.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 390 ++++++++++++++++++<br>
-&gt;&nbsp; meta/recipes-support/curl/curl_8.7.1.bb&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp; |&nbsp;&nbsp; 2 +<br>
-&gt;&nbsp; 3 files changed, 431 insertions(+)<br>
-&gt;&nbsp; create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927-=
-dependent.patch<br>
-&gt;&nbsp; create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927.=
-patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.pa=
-tch b/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..d05699d<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-support/curl/curl/CVE-2026-8927-dependent.patch<br>
-&gt; @@ -0,0 +1,39 @@<br>
-&gt; +From a07fc9a9855848da48a4533b85153c681ae1b1a0 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Daniel Stenberg &lt;daniel@haxx.se&gt;<br>
-&gt; +Date: Fri, 25 Apr 2025 08:16:13 +0200<br>
-&gt; +Subject: [PATCH] tests/buildinfo: former &quot;disabled&quot; now pro=
-vides more info<br>
-&gt; +<br>
-&gt; +This tool now contains ON/OFF information about features in the build=
-.<br>
-&gt; +This way, runtests gets both positive and negative feature presence w=
-ith<br>
-&gt; +this. Allows for more flexibility and avoids having to duplicate the<=
-br>
-&gt; +names.<br>
-&gt; +<br>
-&gt; +Closes #17180<br>
-&gt; +<br>
-&gt; +CVE: CVE-2026-8927<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/curl/curl/co=
-mmit/1968b32afd8e41fbb87f8911d15c552c6b705385" id=3D"OWAef395399-b4b7-813a-=
-d3dc-766a35255b8c" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">https:=
-//github.com/curl/curl/commit/1968b32afd8e41fbb87f8911d15c552c6b705385</a>]=
-<br>
-&gt; +<br>
-&gt; +Backport Changes:<br>
-&gt; +- Add only the Digest feature flag needed by the tests. Keep the old<=
-br>
-&gt; +&nbsp; disabled helper, which clears this flag when Digest is disable=
-d.<br>
-&gt; +&nbsp; Leave out the buildinfo rename and other feature-reporting cha=
-nges.<br>
-&gt; +<br>
-&gt; +(cherry picked from commit 1968b32afd8e41fbb87f8911d15c552c6b705385)<=
-br>
-&gt; +Signed-off-by: Devansh Patel &lt;devanshp@cisco.com&gt;<br>
-&gt; +---<br>
-&gt; + tests/runtests.pl | 2 ++<br>
-&gt; + 1 file changed, 2 insertions(+)<br>
-&gt; +<br>
-&gt; +diff --git a/tests/runtests.pl b/tests/runtests.pl<br>
-&gt; +index ddfab20e86..b40df554b2 100755<br>
-&gt; +--- a/tests/runtests.pl<br>
-&gt; ++++ b/tests/runtests.pl<br>
-&gt; +@@ -637,6 +637,8 @@ sub checksystemfeatures {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; $feature{&quot;Kerberos&quot;} =3D $feat =3D~ /Kerberos/i;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; # SPNEGO enabled<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; $feature{&quot;SPNEGO&quot;} =3D $feat =3D~ /SPNEGO/i;<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #=
- Digest auth enabled unless disabled by build<br>
-&gt; ++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $=
-feature{&quot;digest-auth&quot;} =3D 1;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; # CharConv enabled<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; $feature{&quot;CharConv&quot;} =3D $feat =3D~ /CharConv/i;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; # TLS-SRP enabled<br>
-<br>
-Reading the code more closely, I think it would make more sense to fold<br>
-this CVE-2026-8927-dependent.patch into CVE-2026-8927.patch with the<br>
-proper explanation (Like you did with the CONNECT line).<br>
-<br>
-I generally don't like squashing patches like this but in those 2 cases,<br=
->
-I think this is the better option (the runtests.pl patch does not look<br>
-like the upstream patch anymore, and the CONNECT line is buried in a<br>
-very long cleanup patch).<br>
-<br>
-Thanks!<br>
---<br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</body>
-</html>
-
---_000_PH0PR11MB761654423DFF3F2219CCDCA2D36D2PH0PR11MB7616namp_--
