@@ -1,107 +1,104 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17896.1793383550971702487
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18117.1793384059057029569
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 11:05:51 -0700
+ Fri, 30 Oct 2026 11:14:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=AS7OQDyv;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so8541635e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:05:50 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=XAdkjmcT;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49d05d51553so6549665e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:14:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793383549; x=1793988349; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/vkDFjoAdycWLKfk2EQLwAZ0ti6xEpoVGoF6fA+UW38=;
-        b=AS7OQDyvzubrVn9KDocLWu4xhmf4mZItcoYY1FBaOvsw5br7uYLPdeQtPFacpgjR62
-         cW9d1Nz2H7y0r4M1K0oN7MhYrInmIG+S1+1JKnhJGq36524NWX0ExMKgsZswe7h1qN1q
-         1XNuOJph2eaf4lFvlIyG8gjtQP1fStp7mGG9khln8h7xpFEOH0K2DH5YOCX1VqFHrs2/
-         OzeESz8IjmE01lX/sE1KQZFM+an/742SNLw5AKQvViYJnHqd2ioSZuSmPksnlUSvS4O1
-         5r/GTcgX+7rPpgSxY/8v1h1N0vn2eNMqsd73YVeleH4bISJzkoYQalYBXR46A9mg3cAl
-         yp6g==
+        d=smile.fr; s=google2; t=1793384057; x=1793988857; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9ZXZKDhLl73HM8wcVYpzy8cr3kwS2ROHbtHJ6fqstwY=;
+        b=XAdkjmcT1ndKtAtXMVsiUfQ/g6KDnX3q7f+ejDKI570yvc0S9iOe0Sn9F57UIwLPCT
+         SZ7pCbu+Fhy/VnnSugPcbPrm4Y/vE9da1NyLkHs/UDrYjJcpx2bO4lTRE81fzZISbzhx
+         nZXduV4R9StCcmbs9pE2kFUQ1lMo92dTYOiWBQV31bzTQwJcgUyqZQf93XCgxbhgX+ga
+         SCDYihUZ3aKtiEU5KH4928QDfCIgw80JFLE74q7xbKwZhzHkI7oV0I4TT/BWodksSLaG
+         ZlZBHVmFD/ERdMVZKwcIoplFb6TfPlMdCYlpI23jGUi0ww8X42CKqJjLTeIYw2cFInQs
+         KOfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793383549; x=1793988349;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/vkDFjoAdycWLKfk2EQLwAZ0ti6xEpoVGoF6fA+UW38=;
-        b=yQ1xziG3uFvbgbOKju2CBvlLD50rvDHcUmiuBRcFpGQmsob4t5jTOea6pNKrpzNuOB
-         UOdv4uOkROO4+E2tchFhbyhw0yGfH5FtsjwpEYcZEcPFneh0trnW8Lmx44+N1LBQ13ju
-         k2bXifgu4IUh/Nnhhvm+s1Cf3CxptTyEzuSVQaePENNleg4N/jMcRGaDpc3gmCcg5XkN
-         MJleZZIFxKH0y7w1GGyZxsld5XtrKopEs7vZqiy+AJS9BGXcgEpnLmSpa9MAPBVso8pV
-         MMwP6vZK9QyMQOBlm1FjlxKrzPU9irDjWad4w9RVZEToWZ6tzihtFazax4I6TZa8bYjL
-         pmkQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzlgi7nz2j3ff3hLFie5wEuULSWvbqdgyXW8OP8bnUJR7mw5dsgAdt2YlPXhCdKrzkeUGatod6ccL/uBJHBKm1EHQ==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYIvi9RN2OZApxwRGWYTspgTHKmDx/8RZOk2N91keKvnQZEmXI0V
-	w/P+7uSWwWu2MxCoJ7m0Utb+1fvR0DnFFlYCZg1wqGlIrQNp9ferYRcomoLXS596X1Y=
-X-Gm-Gg: AYBFou2b3W9OaRdxo7n2AuxGOG/SFdXGyPA7cqHtSOnvWeccR/eU7fkSaWVPK22d36d
-	S/5ZA/L1VAorvyTNQCbzsFDpY5kpQ8aa0vVuWSgg8lN/QkVZj5oeTPBi/0PLdC2JggmXJbLHl+1
-	yvTHhjipsZqybMfQe/z6oQh0yAZPS/5TtyO95RpzvbqEXWda+jsD8hJLTb2/Y9Yv6IJwwmQUoQ3
-	dmzyDqZny9JqL8TXo6CzxmJR3LgtnMEDMTxa3Z7AgZabY/s0NFVnXEskR/quscyCSqLD8vUzsb7
-	u6PV+a48nVf5DWmUr0fN44K3CyK4aUTULv1ZleV0mdlzWNTJBkRN5kI1gloFmQXJzarD7HvI1de
-	CSr/sCVYlID7Q+XbBT2YmOuauf+ixUsBim/ouSfcxS85BVArf8+t1KNrbs/3Zp66x45+yfgAtKI
-	bPviJf2B+KC0tUCZhWDL91I1ya/nvpwVFdMVJXPVOwQ0rvia5yNw76SQ/vgiRdoD16/ePZ5fUXQ
-	d+h3Q/CVf+1TY85Je2u+89a8oi7tmdAeu1BU584cGbOP0p5mgMxProfgzqC+kku+WFwLmtNkPJ3
-	vFEtwxNFqaiUrFiX77IGC3By9UJ82MvNDTgNN84GwJAcyDG5U1afnwOVn+H16zrXeBrybujlJ/S
-	aOGuxq60WgjSDEPR7t1deV/0yumcaZK0nfE8bUg==
-X-Received: by 2002:a05:600d:e:b0:4ad:181a:4350 with SMTP id 5b1f17b1804b1-4ad181a44a0mr17615005e9.21.1793383549109;
-        Fri, 30 Oct 2026 11:05:49 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793384057; x=1793988857;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9ZXZKDhLl73HM8wcVYpzy8cr3kwS2ROHbtHJ6fqstwY=;
+        b=x7YY8vo+xIS0AzHCk4Gkl1HhSgW/UFDKGqRHnuDJo+3u58vQGocgat7q2i5gfnFR78
+         nrMPk9fj+ZwbVSGd1zYpC5I6lobPTf0RsW/f09/iZbF8w9+pzD3LNbWS+cGYExYR018m
+         5jGrd7qw/hUByiBJy3HqyeMpthW9FTNIDm/Mo7juWJ1pNtxKiVDqn5TLGBlKOdGj6eyr
+         XCJaQAxB9/HB6BG4avso2KZP8/lPZ4u/k8EZPLwGMr9z9c1Oy4YDwfKtNEGCQ5GAQuzE
+         PG7jsoRSucMfO5wa0iRiLyeNBmWwvGhJ4z5pOs4/VL4xdGbuxAKI+iZBR3/xJgflr8o1
+         Ulmg==
+X-Forwarded-Encrypted: i=1; AKwUvBxkTxDmrNwb/BlVO3ZDkblE2GMZJ5Qs0+LXNtLjOnAaGEb72YznIuab0ex+fKjvwBSXTLZg0Is6PkYiSLwwBB02Vw==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYLb8IQlIv0I5cRRgp+keQjEWy4MU6bMCKyKDin15cQf4a5X0jxB
+	Wkd9x/Yy4BIsRUjhH/GXZqpZFNKYOJjTEa8WTxWGjYOS/YeVgZKTlQA6bTCixRfPMU9KX5loN4b
+	e/RyZAIU=
+X-Gm-Gg: AYBFou3BVBUdZtD5X0lmsiGa4CzU80IFD5JewjBXnshQGJK/J8khcJ8dExOpyy4n5vi
+	HedXd9YMughOAWMBH9v6NefWmOmWf7yL6Q6j7OxVQUW656Th7cX21JynaKYA0oDLobkWxNMgHSq
+	aQDhj7GlSEPgbFJQ+shnb1NQBoAwi/H3gFNmXw/qRPT/7WLISIUmz2uJP+pqAFR70vmYmZ5tHaj
+	oYVPJJrCNvvO1SGwJbUVGIuNFGcpn8eVsHIZPHIvn+aTcqXJj1d4rGrGjDsjtIcClJSr0eOKdob
+	XK7dV+jPN+vKSb0MhYueaQ2YcGOlFtD7PcM6FJrN+aRpotNAu05eg3LjAH0JHNfYguoHtG7xegO
+	Swy+aN7VkRuWbyj57ow+CmyKL3qcD0bkOgOP0PCLub8jmWCqm7ZJAvjiq+IDTa2x8BL519ItO+p
+	kgYoY8gHLk5lY2QS7bgQavPHFX38mNWyZPFgRUthlGVrHqjIEDqbZq5Zh8lq1nzRqkTvWB+7VMw
+	tPLDKQeGQOdAlb7sXMQs60W6N/fq7kW9lgEm35QPTuw/CWMcLrsrAD/CbsVBJ+EDYAryD++w2WP
+	GagdtxqdS9YolwvD6gdW4pXbOOe74P4ZvMcH7mtafVKk7ctck2HrBrc6Awa4o4zIBhoWEJ9u+Wg
+	9qY+0XKlwV1Hu9b/b
+X-Received: by 2002:a05:600c:3f14:b0:4a3:59ee:86b with SMTP id 5b1f17b1804b1-4ac14ec873emr68869415e9.4.1793384057158;
+        Fri, 30 Oct 2026 11:14:17 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6c76507sm78907425e9.10.2026.10.30.11.05.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b80ecbsm4627078f8f.35.2026.10.30.11.14.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2026 11:05:48 -0700 (PDT)
+        Fri, 30 Oct 2026 11:14:16 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Oct 2026 19:05:48 +0100
-Message-Id: <DMIDESIPEIRY.EBQY59ECLXD1@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH v4 1/5] apr-util: Fix CVE-2025-49506
+Date: Fri, 30 Oct 2026 19:14:16 +0100
+Message-Id: <DMIDL9WPJ77U.C0WBAFUQBDSV@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] libsoup-2.4: fix CVE-2026-1467
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>
-To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
+To: <jason.stasiak@gmail.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20261029101127.2240608-1-hthakar@cisco.com>
-In-Reply-To: <20261029101127.2240608-1-hthakar@cisco.com>
+References: <20260831211324.635049-1-jason.stasiak@garmin.com>
+In-Reply-To: <20260831211324.635049-1-jason.stasiak@garmin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 18:05:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249065
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 18:14:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249066
 
-On Thu Oct 29, 2026 at 11:11 AM CET, Hetvi Thakar -X (hthakar - E INFOCHIPS=
- PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Hetvi Thakar <hthakar@cisco.com>
+On Mon Aug 31, 2026 at 11:13 PM CEST, Jason Stasiak via lists.openembedded.=
+org wrote:
+> From: Jason Stasiak <jason.stasiak@gmail.com>
 >
-> Backport the upstream timing-safe comparison fix [1].
-> APR-util 1.6.4 identifies this issue as fixed [2].
+> Backport fix for CVE-2026-1467 from meta-oe to OE-core.
+> Update CVE patch to address a use case where a uri validation
+> failure was not handled.
 >
-> [1] https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5ea=
-fc534ae24b19e
+> (From meta-oe rev: 07d67228162018f5f619dce7183f85e79293378d)
 >
-> [2] https://nvd.nist.gov/vuln/detail/CVE-2025-49506
->
-> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+> Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
 > ---
-> Changes in v4:
-> - Drop the XLC-specific compatibility follow-up patch,
->   as it is not required by OE-Core's GCC/Clang toolchains.
-> - removed other patch entries from SRC_URI
-> ---
->  .../apr/apr-util/CVE-2025-49506.patch         | 310 ++++++++++++++++++
->  meta/recipes-support/apr/apr-util_1.6.3.bb    |   1 +
->  2 files changed, 311 insertions(+)
->  create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.patc=
-h
+>  .../libsoup/libsoup-2.4/CVE-2026-1467.patch   | 276 ++++++++++++++++++
+>  .../libsoup/libsoup-2.4_2.74.3.bb             |   1 +
+>  2 files changed, 277 insertions(+)
+>  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-146=
+7.patch
 
 Hello,
 
-I took the patches of this series into the review cycle.
+Sorry I took so much time answering this one. It has some non-trivial
+changes from upstream and I pushed its review "for later" for 2 months
+now :-/
 
-Those patches are from 1.6.4. Have thought about upgrading to 1.6.5
-instead? APR seems to have a nice stable policy but their git commits
-are not easy to grok.
-Can you look into the commit history to see if there is anything there
-preventing us from upgrading?
+Since you have another series on libsoup-2.4[0], can you merge this CVE fix
+into its next version? ... and also applying the same review as the
+series:
+* metadata preservation (authorship, subject, ...)
+* diff minimisation from upstream patch
+
+[0]: https://lore.kernel.org/all/20261014161209.2227316-1-jason.stasiak@gar=
+min.com/
 
 Thanks!
 --=20
