@@ -1,41 +1,40 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6189.1793344583317665900
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6186.1793344580202982431
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 00:16:23 -0700
+ Fri, 30 Oct 2026 00:16:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dRCNC8jX;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JXgzYOKN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a18baab314-b4a3efc2-9580-4318-ae24-676323c12644-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=K6Evy4cG;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tzQSaKSD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a18baaa5cb-7fb85e67-7ebd-4f96-9915-5b99976d70a3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793344582;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LG0QKbV5ruQLyl9e4JlPjCKloOH3ng2oeLLNAQfzGKI=;
-	b=dRCNC8jXoRlRKAmUwYv4vldHsmAj19S0Fvfe/mw6O0oI1Y4k6Y6owTJzEJumDpBE
-	kYhqGmS8dxQYdYVpcB7+fFcBnVZ7T2+7wp86glO1ZHarw9Sjajb2aQcWYwazgj/cbBh
-	4ubkImnCH7kEsB7lmLRYDafKMpVDdC+Qdymk9etk=
+	t=1793344579;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=F6FGxe8nhqUmyWIiX1a04DfCNYn99tXO87eupIker4A=;
+	b=K6Evy4cGbUoLnMuEhlroKrCx1jtD2p7PSZDQZUvCmkbbXmLt5lcGlslwWfihCz+t
+	rBJ7mzksFBn32nFcspX4OycCim5JuYYRRtEIx7v4W7LWL3uhiQLHjyfcbfcAfp8gXT6
+	RQVMVPUdvS4YMCQoNlSfbgvWThPiUMNa0kg/Lo0A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793344582;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LG0QKbV5ruQLyl9e4JlPjCKloOH3ng2oeLLNAQfzGKI=;
-	b=JXgzYOKNFxOdmCU9BYh+kZNCtW455m8LyT5rPSH5tgxntk9MpPUBpBjlkMvqXYbQ
-	pqlhJ1tIgc2EGhJHdmdEPnDFy3X3aP3yq3L/cX8eZHlylSGi+aYVTLkDoQed22zl/wL
-	VLB7P4fFWywg6KSgB4MTu0HnCqSltc+xBl6fx4LE=
-Content-Type: multipart/mixed; boundary="===============7068564742394264665=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793344579;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=F6FGxe8nhqUmyWIiX1a04DfCNYn99tXO87eupIker4A=;
+	b=tzQSaKSDQKeAjJ4FL8CU+euBEEZ2KoFbBM7HPp37wMNOuR1cNTK17gBaSbZU8yUi
+	yZCKv5s1h0UR7vAPDSNdk+OPkA08N7DblKyhfdqpyFDzOWeeIXzPEku5/o3nq4JDkIP
+	o3EB/tJamid4GK7J9yemQD7GyB41hK3GNMs/9VwI=
+Content-Type: multipart/mixed; boundary="===============3054127222177550986=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wayland-protocols: upgrading to 1.50 SUCCEEDED
-Message-ID: <010101a18baab314-b4a3efc2-9580-4318-ae24-676323c12644-000000@us-west-2.amazonses.com>
-Date: Fri, 30 Oct 2026 07:16:22 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libslirp: upgrading to 4.9.7 SUCCEEDED
+Message-ID: <010101a18baaa5cb-7fb85e67-7ebd-4f96-9915-5b99976d70a3-000000@us-west-2.amazonses.com>
+Date: Fri, 30 Oct 2026 07:16:19 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.30-54.240.27.33
+X-SES-Outgoing: 2026.10.30-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249002
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248995
 
---===============7068564742394264665==
+--===============3054127222177550986==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +42,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *wayland-protocols* to *1.50* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libslirp* to *4.9.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wayland-protocols-upgrade-1.49-1.50.patch
+    - apply the patch: git am 0001-libslirp-upgrade-4.9.6-4.9.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,114 +63,159 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4d3f2147ba4fd7a52ad1e85803d2ed0aaf88456a Mon Sep 17 00:00:00 2001
+From c8f6d296019a8783d7b62dfb8bc8472fd8b86062 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 30 Oct 2026 07:13:04 +0000
-Subject: [PATCH] wayland-protocols: upgrade 1.49 -> 1.50
+Date: Fri, 30 Oct 2026 05:13:09 +0000
+Subject: [PATCH] libslirp: upgrade 4.9.6 -> 4.9.7
 
+## [4.9.7] - 2026-10-30
+### Security
+
+  - ip6_icmp: Fix memory leak on ipv6 ping
+  - icmp_forward_error: Fix Out-of-Bounds Heap Read & Information Disclosure
+  - if_output: Fix Queue Pointer Corruption and Crash
+  - ARP/NDP: avoid adding records for multicast addresses and our addresses
+
+### Fixed
+
+  - Fix build with llvm
+  - bootp: Fix endianness of addition
+
+### Security
+### Fixed
+### Security
+### Security
+### Security
+[Unreleased]:
+https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.7...master
+[4.9.7]: https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.6...v4.9.7
+[4.9.6]: https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.5...v4.9.6
 ---
- .../{wayland-protocols_1.49.bb => wayland-protocols_1.50.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.49.bb => wayland-protocols_1.50.bb} (91%)
+ .../slirp/{libslirp_4.9.6.bb => libslirp_4.9.7.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/slirp/{libslirp_4.9.6.bb => libslirp_4.9.7.bb} (86%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.49.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.50.bb
-similarity index 91%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.49.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.50.bb
-index f06e75fe8a..530f83216f 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.49.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.50.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
-                     file://stable/presentation-time/presentation-time.xml;endline=26;md5=4646cd7d9edc9fa55db941f2d3a7dc53"
+diff --git a/meta/recipes-connectivity/slirp/libslirp_4.9.6.bb b/meta/recipes-connectivity/slirp/libslirp_4.9.7.bb
+similarity index 86%
+rename from meta/recipes-connectivity/slirp/libslirp_4.9.6.bb
+rename to meta/recipes-connectivity/slirp/libslirp_4.9.7.bb
+index 9d231f111d..11e6679dea 100644
+--- a/meta/recipes-connectivity/slirp/libslirp_4.9.6.bb
++++ b/meta/recipes-connectivity/slirp/libslirp_4.9.7.bb
+@@ -5,8 +5,8 @@ LICENSE = "BSD-3-Clause AND MIT"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=f95a9bf4a7e411164fe843697ccda59e \
+                     file://LICENSE;md5=cfea6044642fd63b90ce9d79f5db64d9"
  
- SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/${PV}/downloads/wayland-protocols-${PV}.tar.xz"
--SRC_URI[sha256sum] = "ec4c8f74942d6dff7ace8b4ce4764f0ef9ff618a935d974ea77edee2ad240b14"
-+SRC_URI[sha256sum] = "4460c20cfcf68b994a5ee206ed15fc19ad312f16c96075186e83b0e3f4aa48a5"
+-SRC_URI = "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master;tag=v${PV}"
+-SRCREV = "392af90207fc51dd9f9044ee9b1f963f3c851c2c"
++SRC_URI = "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=stable-4.9;tag=v${PV}"
++SRCREV = "ce12dcddf710a71dc0de6450ec95edbadf8e9f66"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
  
- UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/tags"
- UPSTREAM_CHECK_REGEX = "releases/(?P<pver>.+)"
+ DEPENDS = "glib-2.0"
 -- 
 2.47.1
 
 
---===============7068564742394264665==
+--===============3054127222177550986==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/all-poky-linux/wayland-protocols: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.49/downloads/wayland-protocols-1.49.tar.xz" to "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.50/downloads/wayland-protocols-1.50.tar.xz"
-packages/all-poky-linux/wayland-protocols: PKGV changed from 1.49 [default] to 1.50 [default]
-packages/all-poky-linux/wayland-protocols: PV changed from "1.49" to "1.50"
-Changes to packages/all-poky-linux/wayland-protocols (sysroot):
-  /usr/include/wayland-protocols/xx-hotkey-v1-enum.h was added
-  /usr/include/wayland-protocols/xx-image-capture-color-management-v1-enum.h was added
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dbg: PKGV changed from 1.49 [default] to 1.50 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dbg: PV changed from "1.49" to "1.50"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: FILES: removed "/lib/*.la /lib/*.o /lib/lib*.so"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PKGSIZE changed from 148792 to 154106 (+4%)
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: FILELIST: added "/usr/include/wayland-protocols/xx-hotkey-v1-enum.h /usr/include/wayland-protocols/xx-image-capture-color-management-v1-enum.h"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PKGV changed from 1.49 [default] to 1.50 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: PV changed from "1.49" to "1.50"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-doc: PKGV changed from 1.49 [default] to 1.50 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-doc: PV changed from "1.49" to "1.50"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-locale: PKGV changed from 1.49 [default] to 1.50 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-locale: PV changed from "1.49" to "1.50"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PKGV changed from 1.49 [default] to 1.50 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-src: PV changed from "1.49" to "1.50"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: FILES: removed "/lib/*.a"
-packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: PKGV changed from 1.49 [default] to 1.50 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols-staticdev: PV changed from "1.49" to "1.50"
-packages/all-poky-linux/wayland-protocols/wayland-protocols: FILES: removed "/sbin/* /bin/* /lib/*.so.*", added "/usr/lib/*.so.*"
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGSIZE changed from 882098 to 883853 (+0%)
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PKGV changed from 1.49 [default] to 1.50 [default]
-packages/all-poky-linux/wayland-protocols/wayland-protocols: PV changed from "1.49" to "1.50"
+packages/x86-64-v3-poky-linux/libslirp: PKGV changed from 4.9.6 [default] to 4.9.7 [default]
+packages/x86-64-v3-poky-linux/libslirp: SRC_URI changed from "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master;tag=v4.9.6" to "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=stable-4.9;tag=v4.9.7"
+packages/x86-64-v3-poky-linux/libslirp: PV changed from "4.9.6" to "4.9.7"
+packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PKGV changed from 4.9.6 [default] to 4.9.7 [default]
+packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PKGSIZE changed from 608568 to 609128 (+0%)
+packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PV changed from "4.9.6" to "4.9.7"
+packages/x86-64-v3-poky-linux/libslirp/libslirp-dev: PKGV changed from 4.9.6 [default] to 4.9.7 [default]
+packages/x86-64-v3-poky-linux/libslirp/libslirp-dev: PV changed from "4.9.6" to "4.9.7"
+packages/x86-64-v3-poky-linux/libslirp/libslirp-doc: PKGV changed from 4.9.6 [default] to 4.9.7 [default]
+packages/x86-64-v3-poky-linux/libslirp/libslirp-doc: PV changed from "4.9.6" to "4.9.7"
+packages/x86-64-v3-poky-linux/libslirp/libslirp-locale: PKGV changed from 4.9.6 [default] to 4.9.7 [default]
+packages/x86-64-v3-poky-linux/libslirp/libslirp-locale: PV changed from "4.9.6" to "4.9.7"
+packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PKGV changed from 4.9.6 [default] to 4.9.7 [default]
+packages/x86-64-v3-poky-linux/libslirp/libslirp-src: FILELIST: directory renamed /usr/src/debug/libslirp/4.9.6/src -> /usr/src/debug/libslirp/4.9.7/src
+packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PKGSIZE changed from 607086 to 607597 (+0%)
+packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PV changed from "4.9.6" to "4.9.7"
+packages/x86-64-v3-poky-linux/libslirp/libslirp-staticdev: PKGV changed from 4.9.6 [default] to 4.9.7 [default]
+packages/x86-64-v3-poky-linux/libslirp/libslirp-staticdev: PV changed from "4.9.6" to "4.9.7"
+packages/x86-64-v3-poky-linux/libslirp/libslirp: PKGV changed from 4.9.6 [default] to 4.9.7 [default]
+packages/x86-64-v3-poky-linux/libslirp/libslirp: PV changed from "4.9.6" to "4.9.7"
 
---===============7068564742394264665==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/all-poky-linux/wayland-protocols (sysroot):
-  /usr/include/wayland-protocols/xx-hotkey-v1-enum.h was added
-  /usr/include/wayland-protocols/xx-image-capture-color-management-v1-enum.h was added
-packages/all-poky-linux/wayland-protocols/wayland-protocols-dev: FILELIST: added "/usr/include/wayland-protocols/xx-image-capture-color-management-v1-enum.h /usr/include/wayland-protocols/xx-hotkey-v1-enum.h"
-
---===============7068564742394264665==
+--===============3054127222177550986==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-wayland-protocols-upgrade-1.49-1.50.patch"
+ filename="0001-libslirp-upgrade-4.9.6-4.9.7.patch"
 
-RnJvbSA0ZDNmMjE0N2JhNGZkN2E1MmFkMWU4NTgwM2QyZWQwYWFmODg0NTZhIE1vbiBTZXAgMTcg
+RnJvbSBjOGY2ZDI5NjAxOWE4NzgzZDdiNjJkZmI4YmM4NDcyZmQ4Yjg2MDYyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMzAgT2N0IDIwMjYgMDc6MTM6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-YXlsYW5kLXByb3RvY29sczogdXBncmFkZSAxLjQ5IC0+IDEuNTAKCi0tLQogLi4uL3t3YXlsYW5k
-LXByb3RvY29sc18xLjQ5LmJiID0+IHdheWxhbmQtcHJvdG9jb2xzXzEuNTAuYmJ9ICAgIHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQve3dheWxhbmQtcHJvdG9jb2xzXzEuNDkuYmIg
-PT4gd2F5bGFuZC1wcm90b2NvbHNfMS41MC5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLXByb3RvY29sc18xLjQ5LmJiIGIvbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFuZC1wcm90b2NvbHNfMS41MC5iYgpzaW1pbGFy
-aXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93
-YXlsYW5kLXByb3RvY29sc18xLjQ5LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-d2F5bGFuZC93YXlsYW5kLXByb3RvY29sc18xLjUwLmJiCmluZGV4IGYwNmU3NWZlOGEuLjUzMGY4
-MzIxNmYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQt
-cHJvdG9jb2xzXzEuNDkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5
-bGFuZC1wcm90b2NvbHNfMS41MC5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HO21kNT1jN2IxMmI2NzAyZGEzOGNhMDI4YWNlNTRhYWUzZDQ4NCBc
-CiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9zdGFibGUvcHJlc2VudGF0aW9uLXRpbWUvcHJl
-c2VudGF0aW9uLXRpbWUueG1sO2VuZGxpbmU9MjY7bWQ1PTQ2NDZjZDdkOWVkYzlmYTU1ZGI5NDFm
-MmQzYTdkYzUzIgogCiBTUkNfVVJJID0gImh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93
-YXlsYW5kL3dheWxhbmQtcHJvdG9jb2xzLy0vcmVsZWFzZXMvJHtQVn0vZG93bmxvYWRzL3dheWxh
-bmQtcHJvdG9jb2xzLSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlYzRjOGY3
-NDk0MmQ2ZGZmN2FjZThiNGNlNDc2NGYwZWY5ZmY2MThhOTM1ZDk3NGVhNzdlZGVlMmFkMjQwYjE0
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ0NjBjMjBjZmNmNjhiOTk0YTVlZTIwNmVkMTVmYzE5
-YWQzMTJmMTZjOTYwNzUxODZlODNiMGUzZjRhYTQ4YTUiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9
-ICJodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93YXlsYW5kLXByb3RvY29s
-cy8tL3RhZ3MiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy8oP1A8cHZlcj4uKyki
-Ci0tIAoyLjQ3LjEKCg==
+CkRhdGU6IEZyaSwgMzAgT2N0IDIwMjYgMDU6MTM6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJzbGlycDogdXBncmFkZSA0LjkuNiAtPiA0LjkuNwoKIyMgWzQuOS43XSAtIDIwMjYtMTAtMzAK
+IyMjIFNlY3VyaXR5CgogIC0gaXA2X2ljbXA6IEZpeCBtZW1vcnkgbGVhayBvbiBpcHY2IHBpbmcK
+ICAtIGljbXBfZm9yd2FyZF9lcnJvcjogRml4IE91dC1vZi1Cb3VuZHMgSGVhcCBSZWFkICYgSW5m
+b3JtYXRpb24gRGlzY2xvc3VyZQogIC0gaWZfb3V0cHV0OiBGaXggUXVldWUgUG9pbnRlciBDb3Jy
+dXB0aW9uIGFuZCBDcmFzaAogIC0gQVJQL05EUDogYXZvaWQgYWRkaW5nIHJlY29yZHMgZm9yIG11
+bHRpY2FzdCBhZGRyZXNzZXMgYW5kIG91ciBhZGRyZXNzZXMKCiMjIyBGaXhlZAoKICAtIEZpeCBi
+dWlsZCB3aXRoIGxsdm0KICAtIGJvb3RwOiBGaXggZW5kaWFubmVzcyBvZiBhZGRpdGlvbgoKIyMj
+IFNlY3VyaXR5CiMjIyBGaXhlZAojIyMgU2VjdXJpdHkKIyMjIFNlY3VyaXR5CiMjIyBTZWN1cml0
+eQpbVW5yZWxlYXNlZF06Cmh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9zbGlycC9saWJz
+bGlycC9jb21wYXJlL3Y0LjkuNy4uLm1hc3RlcgpbNC45LjddOiBodHRwczovL2dpdGxhYi5mcmVl
+ZGVza3RvcC5vcmcvc2xpcnAvbGlic2xpcnAvY29tcGFyZS92NC45LjYuLi52NC45LjcKWzQuOS42
+XTogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3NsaXJwL2xpYnNsaXJwL2NvbXBhcmUv
+djQuOS41Li4udjQuOS42Ci0tLQogLi4uL3NsaXJwL3tsaWJzbGlycF80LjkuNi5iYiA9PiBsaWJz
+bGlycF80LjkuNy5iYn0gICAgICAgICAgICB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5z
+ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L3NsaXJwL3tsaWJzbGlycF80LjkuNi5iYiA9PiBsaWJzbGlycF80LjkuNy5iYn0gKDg2JSkK
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3NsaXJwL2xpYnNsaXJwXzQu
+OS42LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zbGlycC9saWJzbGlycF80LjkuNy5i
+YgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L3NsaXJwL2xpYnNsaXJwXzQuOS42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29ubmVj
+dGl2aXR5L3NsaXJwL2xpYnNsaXJwXzQuOS43LmJiCmluZGV4IDlkMjMxZjExMWQuLjExZTY2Nzlk
+ZWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvc2xpcnAvbGlic2xpcnBf
+NC45LjYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zbGlycC9saWJzbGlycF80
+LjkuNy5iYgpAQCAtNSw4ICs1LDggQEAgTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UgQU5EIE1JVCIK
+IExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlSSUdIVDttZDU9Zjk1YTliZjRhN2U0MTEx
+NjRmZTg0MzY5N2NjZGE1OWUgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5TRTtt
+ZDU9Y2ZlYTYwNDQ2NDJmZDYzYjkwY2U5ZDc5ZjVkYjY0ZDkiCiAKLVNSQ19VUkkgPSAiZ2l0Oi8v
+Z2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9zbGlycC9saWJzbGlycC5naXQ7cHJvdG9jb2w9aHR0cHM7
+YnJhbmNoPW1hc3Rlcjt0YWc9diR7UFZ9IgotU1JDUkVWID0gIjM5MmFmOTAyMDdmYzUxZGQ5Zjkw
+NDRlZTliMWY5NjNmM2M4NTFjMmMiCitTUkNfVVJJID0gImdpdDovL2dpdGxhYi5mcmVlZGVza3Rv
+cC5vcmcvc2xpcnAvbGlic2xpcnAuZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1zdGFibGUtNC45
+O3RhZz12JHtQVn0iCitTUkNSRVYgPSAiY2UxMmRjZGRmNzEwYTcxZGMwZGU2NDUwZWM5NWVkYmFk
+ZjhlOWY2NiIKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gInYoP1A8cHZlcj5cZCsoXC5c
+ZCspKykiCiAKIERFUEVORFMgPSAiZ2xpYi0yLjAiCi0tIAoyLjQ3LjEKCg==
 
---===============7068564742394264665==--
+--===============3054127222177550986==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="libslirp-changelog.txt"
+
+## [4.9.7] - 2026-10-30
+### Security
+
+  - ip6_icmp: Fix memory leak on ipv6 ping
+  - icmp_forward_error: Fix Out-of-Bounds Heap Read & Information Disclosure
+  - if_output: Fix Queue Pointer Corruption and Crash
+  - ARP/NDP: avoid adding records for multicast addresses and our addresses
+
+### Fixed
+
+  - Fix build with llvm
+  - bootp: Fix endianness of addition
+
+### Security
+### Fixed
+### Security
+### Security
+### Security
+[Unreleased]:
+https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.7...master
+[4.9.7]: https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.6...v4.9.7
+[4.9.6]: https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.5...v4.9.6
+
+--===============3054127222177550986==--
