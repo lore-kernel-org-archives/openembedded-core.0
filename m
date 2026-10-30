@@ -1,150 +1,175 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12861.1793370574523298398
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9904.1793362479956408500
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 07:29:34 -0700
+ Fri, 30 Oct 2026 05:14:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=cjFeIQ6X;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so4402315e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:29:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=g/ojw4Xn;
+ spf=pass (domain: gmail.com, ip: 209.85.222.43, mailfrom: vinicius.eduardo.pedrosa@gmail.com)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-9907a58f14dso132474241.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 05:14:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793370573; x=1793975373; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793362479; x=1793967279; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=mwWSVD3wTEkfGwqfT1ewyKDY8p5V8R2d16Pm48KwbVk=;
-        b=cjFeIQ6XDnN6Qa5davxYQNWtGvIj1KI2CFUWN2CrTWmi/y1XOkiPukMI/S4y6Yn7Vu
-         2HYPSRLc3tOmFbqr0oeylRSUOZJEg0tLqujmb4E/XEmJjkaRGz9U6g64lJ1R2DtsUst5
-         U4agfOXrd4NEOK+ntw1OTHfmCig6AT5IuieMy7wYj9NjjGHX+bxKly9UbaInZQjU8mkJ
-         1IrQLhv1wFEhBBtMcajteuIzD8YIOd2rzuoGDJI65gGJCkx4zj+scX056g0HYJSVBbgG
-         7JH51gWGc1QmMB+wJurOIDVk8DXSRPJF7M+7FfgAmvyzAZMHblXTmVkvtyD4lxcyvLGq
-         KqhA==
+        bh=cG4w6+p0HocFd2R/or3i1b3M1XNxrYaxH2FBoyzJb7g=;
+        b=g/ojw4XnovZOrLx9GsQpN+j0QdaJu2fJ+qIq8dtAGykvdybzjXZLoxiijomcAjM1id
+         tBZFJ2TtcJ/RHktYjH8/z8E9IKEgwFuEgOrgMJHb4B/dJrox263DdosMog21RgdojNui
+         EsKQ//ZZxAyjp5QYl5870Py3Y0wxmwHFmEFHNRTQoH9yuLLh9rHnkzJ8ncbU9iIvtkrb
+         OQXDiV0M8uZfKzNnJI5ysBjRHD3exweTu1qcI54krjzgom/v+ZeJKw5eclfJBGAhTNnB
+         o0hrrImCZagVfqCmFSqywP2rtn3K/TDQpGJUgbwSN/kSNhNgmpfTuwYUyA4m2TlVn29k
+         0kiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793370573; x=1793975373;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mwWSVD3wTEkfGwqfT1ewyKDY8p5V8R2d16Pm48KwbVk=;
-        b=jOoncRKiziFDz+ZctGAsZ59xha5ZWEE2cieG1cMd1if6/GOtOS3PqyuW+rbu2iAyew
-         yNleSowmyBzs+mXIrKGDl6/yqJI5Tuu/VJhy9xINzQth8U1mAVNsONeyr/Z1I5xa6q2q
-         aHiTGHpYrXF86qJFCjUQp4hRNYa03mFXm0FeIj2Bn91FhwMQnKjHm4NBWKvs//fpnZLs
-         TRz9fs66NP17abFM/KMPhCZ0nbiizWNvOL3A0t/7vjI4HIf9MRrZ1oPoab9LPeAtijbn
-         oKwNkuVtADwc0jQOdopC4CYJwxq0OMQoikSkfGndoHsNmKjzfuNcz547b8B1jrVg6c+l
-         Xfeg==
-X-Forwarded-Encrypted: i=1; AKwUvBzHq+YEbSVQ49BxOqULRLK5xkf7Ln25aju+o/7BMiByyIDSYS+BfOiMxvIvIcVCD+EdHnlF3NMe8f1lVD2+AxwQ4A==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYJqdJKsQroWfpjWUvjs3sR/ZXKh0ABcFETrpj9xT6D6wHF8ixWa
-	7X6gz3clfdZ76WLh0tcKHlrC2VOF+YS4NdmG4FL8oUJoKGPp4JLXC4OFsGhSfzBHp9cTlCcM/jd
-	xpRh0zi4=
-X-Gm-Gg: AYBFou2uVFdTyPFiJHqs0xLFMNkuYweOuubgX57NWNWBpx/XbhTeJUwHaFXgQIy5M4Z
-	YQQzwQoaOdl5yLHofB4G+VAR+92y99U5Ak4VKdjAl9gYoj52CjoInuVfqiPD+Ar2EWr7+uHWOdd
-	GXw6w3lsdGtrItgnNtV/1FWDFaLnCNaMpOiwmoxPlLXrd9EuqMWRnhsHX6ybTL6IadVM3trU9He
-	MiCsC6bqU5QB6odF0Yys396+Rq1iUn/rmsCKTUMWUztcA3/mkazhHsr8VlGbLy8mRlDNZgf/pjk
-	PrtaKxRIE7WpsgoTWN4cLUyWAacHPGWAsV65QQ8L5rMSKAIbV/DO4pDSv88ER1i3n1gnO0ouHPE
-	5YmOb5batKB+FeF6ha31vtXsu9kbs1UV0W+xFDYL0Si0XncqvvV+T3gz+84glF7g19PWC8p0EGS
-	o0tqRkZRKO947UFX0wvqX2DU1XVqncjivv0snckl4TB8DZcU/bWQ/Eiw9ksxda/WwOrIFcKHUNo
-	Te8SFMA5409EjZ4kfcJ3DYoVvQ3hpYjuV7kwtzU18R7+zchGBcqZsnfyW5/xSnNtJlyE1CvQLML
-	51wL8tQG1nervi/+bmvyyT+XEovZXuRJ7TPKaaWFvMxIrDf0Iv+RANsDf/i7fSs/gpPtfdZAMER
-	2CVCvFsm65fafkEHu
-X-Received: by 2002:a05:600c:5246:b0:4a1:d459:db4b with SMTP id 5b1f17b1804b1-4ac1889c7bdmr55026585e9.24.1793370572769;
-        Fri, 30 Oct 2026 07:29:32 -0700 (PDT)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa81a896fesm156672935e9.10.2026.10.30.07.29.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2026 07:29:32 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Oct 2026 15:29:31 +0100
-Message-Id: <DMI8T75J2RLU.2XXJ5T2RBGCWH@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH v2 3/5] libsoup-2.4: fix
- CVE-2026-2443
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <jason.stasiak@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260929205055.2403390-2-jason.stasiak@gmail.com>
- <20261014161209.2227316-1-jason.stasiak@garmin.com>
- <20261014161209.2227316-3-jason.stasiak@garmin.com>
-In-Reply-To: <20261014161209.2227316-3-jason.stasiak@garmin.com>
+        d=1e100.net; s=20260707; t=1793362479; x=1793967279;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cG4w6+p0HocFd2R/or3i1b3M1XNxrYaxH2FBoyzJb7g=;
+        b=Qrms/9NYV99V9PjevPvwWld4Ev7/2NQSyqAbHOMGCJZUith3h/Zn+LJxAHF5pJYReQ
+         vpF8N9dZcQS8MI3YBeAmNQj8qt6WFD7JcRgTCx+z9WJo4BWqLzCTcVg69ecL2PuYw4ex
+         MsQw7LHfjVQRKleY3jWhdenGWgRTn3HsAMigXgnTX461490Vc3elcB/sXNTGQjU8UOiu
+         eyJAhMbvLUqfIwKBVt4bE+6yweC+B5WW+x7utmX7/LlXsBMKs54eNs/RbM2iAUIbEiV6
+         12aa0vVHr95I/HS/SY/3jgEcEvffYMDV6ODCdYJ4agKoaBS9HLklnaF8pcBled2n7bOl
+         dJKw==
+X-Gm-Message-State: AFq9FYIP897fXFLpdlJh9mj3Vuy4qfuf2U4WEKxQXuyfcISFY3KS8tFD
+	ST9Fxgw2+Jvm0KWwBVa9PCJ5NNl4wDrsbzplIpc0qNcsUDkUcagcG3dnsOOp5exZOus=
+X-Gm-Gg: AYBFou0UOAdo0lDA4CcpTnm1l73AgRxz7bxjiMUBMlxAvW34sNZmIe8j7emcYhegEdF
+	zV+NhJFL/OkDdXkYvI16twgLIpdOZ8jl0l2HLB9AgOnUmmF3fHSck8rdbWFKbV6suIEQGSGijGC
+	hrSICgCOVZxrYKVsv54iDRWF5tovJEm14aXCK8/kReJaBLzyA35lW8iO1O9EWHxKX7JObvaYR8o
+	hwdiLYip0FB04OM16ufSUd5M5A5EeLoK4LsDYs4AlAY20ALBOiDQOGhiQlJv28AWK57efsxdwGZ
+	sCUFNiWa1t9nTAzy9+YqLc9/3DgwoUlIzf5c6eGRvGI4cOIY8DJvMAvkXggjbRv/jeoGjZmI1nF
+	mNCM6ELqYg+d7wQ33Zy7MgMrHZvD9iRlGs0KcVcm1NdGJ8hv9gfPh7YjdehFJO7QSBLgJoM88G5
+	WWvdVv1HaXq6iXxmsRfcRBVbs/7P7c/uyLr7V4WMJ9ZaMFs+fnc0SjcnWJoT/Ms9hsDT1hiCZtg
+	PJxFoTff93Tg7MMklbJoVvNbr1Zg5wwrt+BCmPHt6jafu5PLlwgHQFqCLTVC+6RlnupTLsNv606
+	1WGEGEaHGognq40fCDgUPJBAkiaqRlW4i+eUwObhvyuODluVPohFjiYFHpDWaZXON+YxhP1h5Yz
+	LR2meUxOh3Ni/FVJ9nEgrlFUfo41tIcDDQ/uo
+X-Received: by 2002:a05:6102:290c:b0:779:5049:87b2 with SMTP id ada2fe7eead31-7d0723d710bmr953473137.0.1793362477644;
+        Fri, 30 Oct 2026 05:14:37 -0700 (PDT)
+Return-Path: <vinicius.eduardo.pedrosa@gmail.com>
+Received: from MaquinaLab.. ([179.179.238.247])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-992ee437d86sm2417827241.8.2026.10.30.05.14.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 05:14:37 -0700 (PDT)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [PATCH v2] yocto-check-layer: don't skip entries when dropping invalid layers
+Date: Fri, 30 Oct 2026 09:14:28 -0300
+Message-ID: <20261030121428.1658630-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261029112443.1734921-1-vinicius.eduardo.pedrosa@gmail.com>
+References: <20261029112443.1734921-1-vinicius.eduardo.pedrosa@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 14:29:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249045
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 14:38:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249046
+Content-Type: text/plain; charset="utf-8"
 
-On Wed Oct 14, 2026 at 6:12 PM CEST, Jason Stasiak via lists.openembedded.o=
-rg wrote:
-> Backport fix for CVE-2026-2443 from meta-oe to OE-core. Update CVE
-> patch to restore the range-test validation unit test from the
-> upstream libsoup3 patch (b9a1c0663ff8ab6e79715db4b35b54f560416ddd).
->
-> (From meta-oe rev: 07d67228162018f5f619dce7183f85e79293378d)
->
-> Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
-> ---
->  .../libsoup/libsoup-2.4/CVE-2026-2443.patch   | 390 ++++++++++++++++++
->  .../libsoup/libsoup-2.4_2.74.3.bb             |   1 +
->  2 files changed, 391 insertions(+)
->  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-244=
-3.patch
->
-> diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-2443.patch=
- b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-2443.patch
-> new file mode 100644
-> index 0000000000..e4d5f184fa
-> --- /dev/null
-> +++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-2443.patch
-> @@ -0,0 +1,390 @@
-> +From 7bb3115a296154e3f465900ea5c984a493385a7f Mon Sep 17 00:00:00 2001
-> +From: Philip Withnall <pwithnall@gnome.org>
-> +Date: Fri, 19 Dec 2025 23:49:05 +0000
-> +Subject: [PATCH] Fix CVE-2026-2443
-> +
-> +Upstream-Status: Backport [
-> +c1796442 soup-message-headers: Rework Range response statuses to match A=
-pache
-> +191ef313 soup-message-headers: Fix rejection of Range headers with trail=
-ing garbage
-> +be677bea soup-message-headers: Fix parsing of invalid Range suffix lengt=
-hs
-> +2bbfdfe8 soup-message-headers: Reject ranges where end is before start
-> +739bf7cb soup-message-headers: Reject invalid Range ends longer than the=
- content
-> +]
-> +CVE: CVE-2026-2443
-> +
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +
-> +Backport the range-test validation unit tests from the upstream libsoup3=
- patches.
-> +
-> +Upstream-Status: Backport [
-> +5890c42d tests: Add more tests for invalid Range headers
-> +c1796442 soup-message-headers: Rework Range response statuses to match A=
-pache
-> +6574a84f tests: Allow range tests to check more response statuses
-> +191ef313 soup-message-headers: Fix rejection of Range headers with trail=
-ing garbage
-> +be677bea soup-message-headers: Fix parsing of invalid Range suffix lengt=
-hs
-> +2bbfdfe8 soup-message-headers: Reject ranges where end is before start
-> +739bf7cb soup-message-headers: Reject invalid Range ends longer than the=
- content
-> +]
+The "Detected layers" loop removes invalid entries from the list it's
+iterating over. When two invalid layers are next to each other,
+removing the first one skips the second.
 
-Please split the backports into separate patch files. Also, only one
-"Upstream-Status:" per patch is expected.
-And please use a commit URL (like in 1/5), that way I can automatically
-grab the upstream patch and compare it with yours. It also helps manual
-review.
+A skipped entry without conf/layer.conf makes the dependency pass fail
+with KeyError: 'collections'. A skipped BSP+DISTRO entry isn't
+reported at all. If no other layer is left to test, the script exits 0.
 
-> +
-> +Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
-> +---
-> + libsoup/soup-message-headers.c |  62 ++++++++++----
-> + tests/range-test.c             | 149 ++++++++++++++++++++++++++++-----
-> + 2 files changed, 172 insertions(+), 39 deletions(-)
+Move the check into validate_layers(), which returns a new list with
+only the valid layers. Call it right after detect_layers(), so
+dep_layers is built from the filtered list too.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+---
+v2: move the check into validate_layers(), as suggested by Paul.
+
+Since it now runs before dep_layers is built, a dropped BSP+DISTRO
+layer no longer takes part in the duplicate collection check, and with
+--dependency it can't be pulled in as a dependency of another layer
+anymore. Without --dependency it already couldn't.
+
+Hit it on a layer that had a few subdirectories with an empty conf/ in
+them.
+
+Tested on master (b62d5e6) with small synthetic layers, same tree and
+command before/after:
+- two adjacent dirs with an empty conf/: KeyError before; after, both
+  get the "ignoring" line and the real layer is tested
+- two adjacent BSP+DISTRO dirs only: exit 0 before, exit 1 after
+- valid layer + one stray conf/ dir: same test results before/after
+- --dependency, valid layer depending on a BSP+DISTRO one: before, the
+  BSP+DISTRO layer was added to BBLAYERS for the test; after, the valid
+  layer is skipped for the missing dependency, same as without
+  --dependency
+
+Applies to master-next too, not tested there.
+
+ scripts/yocto-check-layer | 39 ++++++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
+
+diff --git a/scripts/yocto-check-layer b/scripts/yocto-check-layer
+index 8c8b4db..607b03b 100755
+--- a/scripts/yocto-check-layer
++++ b/scripts/yocto-check-layer
+@@ -48,6 +48,22 @@ def dump_layer_debug(layer):
+     if collections:
+         logger.debug("%s collections: %s" % (layer["name"], ", ".join(collections)))
+ 
++def validate_layers(layers):
++    valid_layers = []
++    for layer in layers:
++        if layer['type'] == LayerType.ERROR_BSP_DISTRO:
++            logger.error("%s: Can't be DISTRO and BSP type at the same time."\
++                     " Both conf/distro and conf/machine folders were found."\
++                     % layer['name'])
++        elif layer['type'] == LayerType.ERROR_NO_LAYER_CONF:
++            logger.info("%s: Doesn't have conf/layer.conf file, so ignoring"\
++                     % layer['name'])
++        else:
++            logger.info("%s: %s, %s" % (layer['name'], layer['type'],
++                layer['path']))
++            valid_layers.append(layer)
++    return valid_layers
++
+ def main():
+     parser = argparse.ArgumentParser(
+             description="Yocto Project layer checking tool",
+@@ -103,6 +119,12 @@ def main():
+     if not layers:
+         logger.error("Failed to detect layers")
+         return 1
++
++    logger.info("Detected layers:")
++    layers = validate_layers(layers)
++    if not layers:
++        return 1
++
+     if args.additional_layers:
+         additional_layers = detect_layers(args.additional_layers, args.no_auto)
+     else:
+@@ -124,23 +146,6 @@ def main():
+         logger.error("Failed layer validation")
+         return 1
+ 
+-    logger.info("Detected layers:")
+-    for layer in layers:
+-        if layer['type'] == LayerType.ERROR_BSP_DISTRO:
+-            logger.error("%s: Can't be DISTRO and BSP type at the same time."\
+-                     " Both conf/distro and conf/machine folders were found."\
+-                     % layer['name'])
+-            layers.remove(layer)
+-        elif layer['type'] == LayerType.ERROR_NO_LAYER_CONF:
+-            logger.info("%s: Doesn't have conf/layer.conf file, so ignoring"\
+-                     % layer['name'])
+-            layers.remove(layer)
+-        else:
+-            logger.info("%s: %s, %s" % (layer['name'], layer['type'],
+-                layer['path']))
+-    if not layers:
+-        return 1
+-
+     # Find all dependencies, and get them checked too
+     if not args.no_auto_dependency:
+         depends = []
+-- 
+2.43.0
 
