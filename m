@@ -1,100 +1,110 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17421.1793382357389934189
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17896.1793383550971702487
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 10:45:57 -0700
+ Fri, 30 Oct 2026 11:05:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=crhrQIrR;
- spf=pass (domain: snapchat.com, ip: 209.85.128.48, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a7992e2f7dso10925635e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:45:57 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=AS7OQDyv;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so8541635e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:05:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1793382356; x=1793987156; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Upk+wuxIPDAACVjtvC/iE5jL+I+YaJYzblxfw8evh3A=;
-        b=crhrQIrR3y4aWbxtfgmGSFodCJbf4taUu6yNHKDaknHqcUJAIBQIDnM4vBDR8GJbDG
-         wg1QVT77wj5F0zzNTsnUkPfx06kV+W+HrJA0zHk2hM3Z3VggtngiCxkqRXSaSot5v+MM
-         O919y+5Z4pfZSxSG85FbYANI78xEHW6XnSGm8=
+        d=smile.fr; s=google2; t=1793383549; x=1793988349; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/vkDFjoAdycWLKfk2EQLwAZ0ti6xEpoVGoF6fA+UW38=;
+        b=AS7OQDyvzubrVn9KDocLWu4xhmf4mZItcoYY1FBaOvsw5br7uYLPdeQtPFacpgjR62
+         cW9d1Nz2H7y0r4M1K0oN7MhYrInmIG+S1+1JKnhJGq36524NWX0ExMKgsZswe7h1qN1q
+         1XNuOJph2eaf4lFvlIyG8gjtQP1fStp7mGG9khln8h7xpFEOH0K2DH5YOCX1VqFHrs2/
+         OzeESz8IjmE01lX/sE1KQZFM+an/742SNLw5AKQvViYJnHqd2ioSZuSmPksnlUSvS4O1
+         5r/GTcgX+7rPpgSxY/8v1h1N0vn2eNMqsd73YVeleH4bISJzkoYQalYBXR46A9mg3cAl
+         yp6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793382356; x=1793987156;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Upk+wuxIPDAACVjtvC/iE5jL+I+YaJYzblxfw8evh3A=;
-        b=Xnc5wOauO39jM1edY7FG6jiRUZxC+wkzquSrf6FoAu8CHR1Yniv54lkYMoHaJ8wQVw
-         WtGkIgd55KsCr3LBNiDh63LjFS7ZonIWxrNKoMRJplVkN56ELqowzWKvbIFWtH0A0RGF
-         pFyC52doVCs0J9ZsDV/TfSn7pxACnjAPonvWn1urBhKyVOpA0QFCjw9EPiUoE8m34oW+
-         3NYC8nxkuTAJJGxk6sHZpTy5m9H8QYYUU1XBaGx3bBKS5zJ4XaTIg1tDYKV68XZGV/Qf
-         CJzDR+erbabDb96v6STMhiZm7nc9qeoRp76Rz0H/q5dhWUVjK/Yx0K2IOHhxAG3DcVg8
-         icZA==
-X-Gm-Message-State: AFq9FYIPPP4RuGrb2Ne43/var4nxkCD9jEn5sc6fDHTRFO/C+W73Twwf
-	6Va/PDD1n05Z1wj00Lx1YeNVq7XEY93uzcVn0edM7ZqGdgB2uDtlgBPAxqULs8F5H6+tZd0jF5k
-	dB1qvFNE=
-X-Gm-Gg: AYBFou0zoe9kKDo9OF1u4ctP8Wg3b2BqxAX9vr4iEEuNGmYB+7o1ATrR5yDerTsBAru
-	x1rv4rQxWnJS9cKYDKZokjmSeqtBr6/zRWghkXeNNfPOAjVUsFLpD4HhlDTcTG45iP3wb1nTzVA
-	CYUIEpNCUb63s5icxIWkBtR1gI5xRqxBUFPY5Wm2K1MeK5AdITuqMmVqOrtuedu8NnIxYiFuagG
-	Q2lVrvCv3M7SZP877F23JVdjuoli5YJ16nD+BmEfriH2IcPno+4d6rjQg9coaR64nt9HFw7UK/6
-	6k82TqZlqvJWDwZ5Oami6gB0jEtZ9zxpopyjJFupYXbdXwIDeZch+zJwU+0XrbVrF/yowGnoj/i
-	homm4SuxByt2Z0yGmh83prQix4u0qWE0ujSdaZqfQdrL42cxuskC7YhTnK8ccYCkEbRdsUCd+ly
-	fuvS5wOWgOV4zHpuLK+ompU5Q9kO7ESqPQRjWkP4mqnZ7kjQGTiKEhDXW8X0u2m3Q2Xw1O/zTwk
-	pJNtuuSMh6bKKrwlmMj9JWHXNemFa9lfEvoAVnaQBAD+pkZXWO6HoLWf9SIUpXsgc2GkGrXzyqx
-	EMxj+DXVy0jA+bECSH11g1TSEkBw9IVrxl0FzAtblk+B7yrmRF3JJvMU8VuGFtL6+9n2Qd5t82M
-	=
-X-Received: by 2002:a05:600c:1f87:b0:4a1:f68a:9736 with SMTP id 5b1f17b1804b1-4ac17b2be08mr67633825e9.26.1793382355522;
-        Fri, 30 Oct 2026 10:45:55 -0700 (PDT)
-Return-Path: <ecordonnier@snapchat.com>
-Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf751c2d2sm80991385e9.15.2026.10.30.10.45.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 10:45:54 -0700 (PDT)
-From: ecordonnier@snap.com
-To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH v2 3/3] archiver.bbclass: fail on sources which cannot be archived
-Date: Fri, 30 Oct 2026 18:45:36 +0100
-Message-ID: <20261030174536.2724008-4-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261030174536.2724008-1-ecordonnier@snap.com>
-References: <20261030174536.2724008-1-ecordonnier@snap.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20260707; t=1793383549; x=1793988349;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/vkDFjoAdycWLKfk2EQLwAZ0ti6xEpoVGoF6fA+UW38=;
+        b=yQ1xziG3uFvbgbOKju2CBvlLD50rvDHcUmiuBRcFpGQmsob4t5jTOea6pNKrpzNuOB
+         UOdv4uOkROO4+E2tchFhbyhw0yGfH5FtsjwpEYcZEcPFneh0trnW8Lmx44+N1LBQ13ju
+         k2bXifgu4IUh/Nnhhvm+s1Cf3CxptTyEzuSVQaePENNleg4N/jMcRGaDpc3gmCcg5XkN
+         MJleZZIFxKH0y7w1GGyZxsld5XtrKopEs7vZqiy+AJS9BGXcgEpnLmSpa9MAPBVso8pV
+         MMwP6vZK9QyMQOBlm1FjlxKrzPU9irDjWad4w9RVZEToWZ6tzihtFazax4I6TZa8bYjL
+         pmkQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzlgi7nz2j3ff3hLFie5wEuULSWvbqdgyXW8OP8bnUJR7mw5dsgAdt2YlPXhCdKrzkeUGatod6ccL/uBJHBKm1EHQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYIvi9RN2OZApxwRGWYTspgTHKmDx/8RZOk2N91keKvnQZEmXI0V
+	w/P+7uSWwWu2MxCoJ7m0Utb+1fvR0DnFFlYCZg1wqGlIrQNp9ferYRcomoLXS596X1Y=
+X-Gm-Gg: AYBFou2b3W9OaRdxo7n2AuxGOG/SFdXGyPA7cqHtSOnvWeccR/eU7fkSaWVPK22d36d
+	S/5ZA/L1VAorvyTNQCbzsFDpY5kpQ8aa0vVuWSgg8lN/QkVZj5oeTPBi/0PLdC2JggmXJbLHl+1
+	yvTHhjipsZqybMfQe/z6oQh0yAZPS/5TtyO95RpzvbqEXWda+jsD8hJLTb2/Y9Yv6IJwwmQUoQ3
+	dmzyDqZny9JqL8TXo6CzxmJR3LgtnMEDMTxa3Z7AgZabY/s0NFVnXEskR/quscyCSqLD8vUzsb7
+	u6PV+a48nVf5DWmUr0fN44K3CyK4aUTULv1ZleV0mdlzWNTJBkRN5kI1gloFmQXJzarD7HvI1de
+	CSr/sCVYlID7Q+XbBT2YmOuauf+ixUsBim/ouSfcxS85BVArf8+t1KNrbs/3Zp66x45+yfgAtKI
+	bPviJf2B+KC0tUCZhWDL91I1ya/nvpwVFdMVJXPVOwQ0rvia5yNw76SQ/vgiRdoD16/ePZ5fUXQ
+	d+h3Q/CVf+1TY85Je2u+89a8oi7tmdAeu1BU584cGbOP0p5mgMxProfgzqC+kku+WFwLmtNkPJ3
+	vFEtwxNFqaiUrFiX77IGC3By9UJ82MvNDTgNN84GwJAcyDG5U1afnwOVn+H16zrXeBrybujlJ/S
+	aOGuxq60WgjSDEPR7t1deV/0yumcaZK0nfE8bUg==
+X-Received: by 2002:a05:600d:e:b0:4ad:181a:4350 with SMTP id 5b1f17b1804b1-4ad181a44a0mr17615005e9.21.1793383549109;
+        Fri, 30 Oct 2026 11:05:49 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6c76507sm78907425e9.10.2026.10.30.11.05.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2026 11:05:48 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 30 Oct 2026 19:05:48 +0100
+Message-Id: <DMIDESIPEIRY.EBQY59ECLXD1@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH v4 1/5] apr-util: Fix CVE-2025-49506
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <xe-linux-external@cisco.com>
+To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261029101127.2240608-1-hthakar@cisco.com>
+In-Reply-To: <20261029101127.2240608-1-hthakar@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:46:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249064
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 18:05:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249065
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+On Thu Oct 29, 2026 at 11:11 AM CET, Hetvi Thakar -X (hthakar - E INFOCHIPS=
+ PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Hetvi Thakar <hthakar@cisco.com>
+>
+> Backport the upstream timing-safe comparison fix [1].
+> APR-util 1.6.4 identifies this issue as fixed [2].
+>
+> [1] https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5ea=
+fc534ae24b19e
+>
+> [2] https://nvd.nist.gov/vuln/detail/CVE-2025-49506
+>
+> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+> ---
+> Changes in v4:
+> - Drop the XLC-specific compatibility follow-up patch,
+>   as it is not required by OE-Core's GCC/Clang toolchains.
+> - removed other patch entries from SRC_URI
+> ---
+>  .../apr/apr-util/CVE-2025-49506.patch         | 310 ++++++++++++++++++
+>  meta/recipes-support/apr/apr-util_1.6.3.bb    |   1 +
+>  2 files changed, 311 insertions(+)
+>  create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.patc=
+h
 
-In the original mode, do_ar_original archives a source if the fetcher's
-localpath is a file, or a directory. Any other source is silently skipped,
-and the source archive is incomplete without any notice. Until commit
-"archiver.bbclass: archive shallow git sources which have no clone", this
-happened for shallow git fetches, whose localpath is the clone in
-DL_DIR/git2, which is not created when the shallow tarball is used.
+Hello,
 
-No fetcher has a valid case for a localpath which is neither a file nor a
-directory after do_fetch, so make it a fatal error.
+I took the patches of this series into the review cycle.
 
-AI-Generated: Claude Opus 5.5
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
----
- meta/classes/archiver.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+Those patches are from 1.6.4. Have thought about upgrading to 1.6.5
+instead? APR seems to have a nice stable policy but their git commits
+are not easy to grok.
+Can you look into the commit history to see if there is anything there
+preventing us from upgrading?
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index a6b5706abd..ec62b89400 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -249,6 +249,8 @@ python do_ar_original() {
-                         bb.fatal("Cannot determine archive names for original source because 'name=' URL parameter '%s' is used twice. Make it unique in: %s %s" % (name, tarball_suffix[name], url))
-             tarball_suffix[name] = url
-             create_tarball(d, tmpdir + '/.', name, ar_outdir)
-+        else:
-+            bb.fatal("Cannot archive %s: its local path %s is neither a file nor a directory" % (url, local))
- 
-     # Emit patch series files for 'original'
-     bb.note('Writing patch series files...')
--- 
-2.43.0
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
