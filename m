@@ -1,321 +1,194 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.65])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7081.1793350085064789562
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.32])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7137.1793350436979968775
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 01:48:05 -0700
+ Fri, 30 Oct 2026 01:53:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=FMRPAwy8;
- spf=pass (domain: est.tech, ip: 40.107.162.65, mailfrom: adarsh.jagadish.kamini@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=EUFceno3;
+ spf=pass (domain: est.tech, ip: 40.107.159.32, mailfrom: adarsh.jagadish.kamini@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=To/u4TJLndczFGK2HSZaevT44jSatJOcIY9ZjmPkn2U+ZRpgua/JU2rOi1+rk0F+DxiRneJslvSJFqxwdZ2g+F/GGzyunec8P9byLSw1TZgbU+198Y4q9zfErWA+z+B/PEZTC4JzSlED8B0NR2WdGQVrAkdTWtYjqPgRuzbKZuYy9tKIkBWgRU90plI4Fb0BegUj0HhxT+3FjS9Zz2ZxI6xG7OstBkQ2B7wmpFKh8FDWAYtrRH8RkRKTtm6RJY+NOqrmafMu3A9fWV+t0O705o8Grm6O+ACyOyRtqpctPnqa7Je4PtpUn5MQDGVWn3Xl1Jt5JevNi1pT5uIz+cZQ2Q==
+ b=E/rZqQY7GW6ZgVkhYqlRWxRYlYN8R4hzvOMozEi3Ciu5PU5zRnZaBonvbMKNS1xjCPnvrMgU9C92OuJCZpXGpb+X+NzjfskYbMp744XXj9W2xphuMJ/ov6+LOR4tMtCcqmYyjcaE7WOAZYu8kNUxroWEhG25prjJs9MLn9VNE/oD29lDXS3zmfOj4exUyhWYJEvNvRonlbh8/R67a2/xK4U2Cn79hhXQtmPEMJyEzoxVEDyyZW0oQDNGsQKcn/FPJ0fvVrTk1AuCLqUNgPtpvpkeFdFcnebZXApY/4N1MKIAf0fuKnAAJCLgTQAF98pJe7pxeJmF3nw0bNxCFMKlfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SWjwGi611assn42Rpl/aVRW/JbVb32uNs+dKOq0x6+M=;
- b=LFTK7HjP+nrHjuj0QOOrp1poIt4PDPmZ9B4VDHP/CIH+kEy8d8sQ2k/KOesC+8cwDkpRhpPje00fKVwnGnCsOSKllH4Cs1QwoFUucCxchwPuVSyifXUNhXnAvVfx0klhia4duGZJRjZFAEh53HqK9Mq2aDaSF/T+ZQfoGCpDFVDKM3ERYzScMd+8avmmcv9Z098bUH+n8qmSYRPqLGmrktAaNVdvDQ/3OGTaEmwnmz5ZC4/YAQi2SBcIE2/zdw26TlrUotLe1fC1tEeSduG0v7VM+iPf+7eOJnID6USAqqPJkEht1ZWQRBQi5dLLutA7MryPbser9DI12rq8o4ZmTw==
+ bh=b1B6Nq9Bt7ETgTlO4jwLk2enWZliy6exJPCuA5n5FT0=;
+ b=ffPDqbOk5W0Uznx7uQE6sT4eMlkk0pWATs8Qr4JF6HP/sz0mGRwnGOD/ieC+2EkGfDuRKfC1b1Flmgfsu3+nEhJo2/7HoeMn1KwFpDYyf4nA2Wfxsc8amrwcDRNaH3gAWw/eqfn/+hlppuzFx8XPIesucgj1+YzlSj0ytq5V0KqkuTu/WPUmG4UB6HFY2IOSAxwvP3gUygGSjPiqJ/420yFUnuCCp9tqdFotpr5LciRq/hsG2tTH+gR7xBsZAZGNW25wxDqGP7e1T3ewZVeUX4FPjt3OvxQsCKWBklzHRc+VbUcBc14KCeUllt3eJJI8Keu1rkPZUHI/rFVxAVu9DQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SWjwGi611assn42Rpl/aVRW/JbVb32uNs+dKOq0x6+M=;
- b=FMRPAwy8bEoTPcq3/e90ojF+/cIPorGC9J1/+uay0apM0ud3+QNb7VKFBnDej6LFqQC0otwh/v0/f2EIkfhgIo6JeY2ndoVXCfudjM1b0gqRWXPhtPO0HHgCRbhJS53ema4+6mfDgcY4xXM/C/gmmpoTk2mNskqCFCmHFUBopQx8jxn4XMgiuETCHAlBD/fSbGLg0VxKBZY2lN/+X9kA6Oqre4l4EZ1pWC6xw+EzKReGV19YWjjt9jJXbXEJVw0Wf16zN5umwT7e4zssrKteOetqsNGApzUFycN7xFVRNx7J/NmbW7HHueg4ihL9UiNHkXO9SeBax23F25oKAaURWA==
+ bh=b1B6Nq9Bt7ETgTlO4jwLk2enWZliy6exJPCuA5n5FT0=;
+ b=EUFceno3RV1+cF67FCWWasSr8LjFfA4IK/FbCqz6oW1tt4ASJ6kXqVmMojmoihQoDEw3TN3wJ4E68TIKv/WstVp0/8A9iiRslTa7wSyxqmu7h3mg3eeTLxALdTwGuL5lvfQImMyDnKY0anUIl7oDZGj2JB1si6nlabYoC2yTn/Dmk0SjQhYe0jT0GdJYL4nayIdmhXEVowmFru9xE1kszV+oJQMscgS4fKaKLPBRliy5Bt3M7bFCD8IC/WCTafU08ahdpuwPlJbtll0YBwIcLBZxd4vdBycjgeHa8XppgIifaJ8YVWi0fkjA/lZeSEcW7bSTiUgHQ4ex1KYYEG8svQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM9P189MB1666.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:305::16)
- by DB8P189MB1032.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:16e::14) with
+ by PAVP189MB2434.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:305::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Fri, 30 Oct
- 2026 08:47:41 +0000
+ 2026 08:53:51 +0000
 Received: from AM9P189MB1666.EURP189.PROD.OUTLOOK.COM
  ([fe80::806f:3b74:7216:3e92]) by AM9P189MB1666.EURP189.PROD.OUTLOOK.COM
  ([fe80::806f:3b74:7216:3e92%6]) with mapi id 15.21.0569.009; Fri, 30 Oct 2026
- 08:47:40 +0000
+ 08:53:51 +0000
 From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail][PATCH] curl: fix CVE-2026-92388
-Date: Fri, 30 Oct 2026 09:47:25 +0100
-Message-ID: <20261030084725.11260-1-adarsh.jagadish.kamini@est.tech>
+Subject: [OE-core][wrynose][PATCH 1/2] curl: fix CVE-2026-87864
+Date: Fri, 30 Oct 2026 09:53:50 +0100
+Message-ID: <20261030085350.13089-1-adarsh.jagadish.kamini@est.tech>
 X-Mailer: git-send-email 2.43.0
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P302CA0008.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c2::16) To AM9P189MB1666.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU2PR04CA0040.eurprd04.prod.outlook.com
+ (2603:10a6:10:234::15) To AM9P189MB1666.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:305::16)
 Return-Path: adarsh.jagadish.kamini@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9P189MB1666:EE_|DB8P189MB1032:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1228661c-aeda-444a-987e-08df366274e3
+X-MS-TrafficTypeDiagnostic: AM9P189MB1666:EE_|PAVP189MB2434:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05910d00-15ed-4bc7-b9e4-08df366351fb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|260925022911599003|260925021311599003|260925021911599003|11063799006|56012099006|261009223027099003|261026121527099003|261026140227099003|261026130827099003|261022105027099003|10067099003|261028144727099003|261026135527099003|261021133027099003|261022075727099003|261021121427099003|261022113327099003|261021123027099003|261022115727099003|261021130227099003|261021135927099003|3023799007|18002099003|13003099007;
-X-Microsoft-Antispam-Message-Info: taFFCyry97FHU12wcwAV3S/DXrRJyGmQT9NNtAVy0KWW8wfcQIZx2cQMn2i0C3Dw71fQ3EndBPHtl6D8tbsU8NbFJWUKgbth/PCLSmbpcfKWsRuaUcKpGMF5JZYNSXstLfysOgt00joDp5hUdGf5nlgSvjUdEXptC+o2wfnczoVpCOuP4qCDhbflpBI1fR7ZqunK1OHlyETHnLnw+0j7DjMv+snYhh+j9IqEGM73dsdV9BtxLX/9ywekTUkKc6gBjREyqjN+ThhcpxbPsWQSGXYaDqchnR5/GbCKix4ez54NpQXYxN0ie6o62awCih1GHmbzolvWHWpLvHowtvyyTS8w964ZvGj9stkyiDNuUbk1Wap9O9adGt2E9fso98FCOlv1EyKM5qZRzBwRdD3Ul1EZ8Q/kXtO11PsTbzBYbYjsQXf7bkop+gsP3kI2fQ2xEq3GG0hPJJfaTzBkXjEZ4dVrUb5dXj/Gyo/RPsB7aua0P7Q4bKBxx76WfR33ApPRYfC+MDVswVEtKxL5Huejgb/b3dsA8WfAj6uZbfOsQlEd0ffsdWgUMU5TTamXNwv0XY9vKPAAz81P2L1/HGhEhv9BSTeuJN9VzwO3v331bsVJtqZD/d5OnuxbQgAweuyCQlxdV9T6dphc/HwFBLAHkbUSoDbEd1Y+Jpd1yupxidE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P189MB1666.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(260925022911599003)(260925021311599003)(260925021911599003)(11063799006)(56012099006)(261009223027099003)(261026121527099003)(261026140227099003)(261026130827099003)(261022105027099003)(10067099003)(261028144727099003)(261026135527099003)(261021133027099003)(261022075727099003)(261021121427099003)(261022113327099003)(261021123027099003)(261022115727099003)(261021130227099003)(261021135927099003)(3023799007)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|10067099003|260925021911599003|260925022911599003|260925021311599003|11063799006|261028144727099003|261009223027099003|261022105027099003|261022113327099003|261022075727099003|261022115727099003|261021121427099003|261021123027099003|261021130227099003|261021133027099003|261021135927099003|56012099006|261026140227099003|261026135527099003|261026121527099003|261026130827099003|12006099003|13003099007|18002099003;
+X-Microsoft-Antispam-Message-Info: eYDcGNV6vjBfnQ6uu+K92inN0gHDEEV6TGlK4iA6aUYf22QNTPPRNHvyS3zW0F1H9yvbFhUdtLl5ujlfL2Box5zGmefVT8qIZpp3NhkWqwkGUMwjZzuP0LBLxevVSNSf3rjeT9Kxh0+hRalX7LfPS9+iyLJQGFZ/6Dh/cwZuJXIGVmEbUA/qCUH9WHv4R1pWP/P6B7HwI2+dItII4Z1aVatZgNWGWqDmigTrkWfEKT6zpsbiEKDMHbzcATwvi9VNa5VTjZv4q4Uj+ZquxanJVjyBTcklsF757rCvPlXEe03L+MWVbVa29W8rVxWPHLKHYCNGEZzL45U9YtydmklajiJD0/r8Knk57YgcjzuQg/3Lyc3/2Ax9/oVjIWRn1p6Vp3auEfppOaXllWLvF6uNAv5l51PZSdI4kNIrDkfk4W/YWuWNMML5CAEzcVmiNfBmE0KldYEJURBDPBEXDcQDyi6ea06vtR87dG5n8y10Up3v2B7XCHZK88VFP3xApRr8bHH6BgiM4V1+ipNbaLai9RprAJplu7mGZ+z//spttJOrPL6AmktdaCVQdS0C/5kXB7JtsjVbz5+Gxyqzyy7j+T+QuUos2U7FHBj+hkTTfK0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P189MB1666.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(10067099003)(260925021911599003)(260925022911599003)(260925021311599003)(11063799006)(261028144727099003)(261009223027099003)(261022105027099003)(261022113327099003)(261022075727099003)(261022115727099003)(261021121427099003)(261021123027099003)(261021130227099003)(261021133027099003)(261021135927099003)(56012099006)(261026140227099003)(261026135527099003)(261026121527099003)(261026130827099003)(12006099003)(13003099007)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IyAIC6IQ4Buj/mllRTx7UoKJJuUxg/gSlWn8+7qpwVcxTq1swMHlu6yVTIVi?=
- =?us-ascii?Q?DEkgPpDbVdQ9JRUqZ5BfoeCb5gkdtSPVq/JtjAlSMnynT4gHh1BByyuWrOa4?=
- =?us-ascii?Q?+/7EgChSUh+QMa2Ksm+SpadzRZG0SCY5li+2AKtkcz56Bx1kA96Wd/acpWCy?=
- =?us-ascii?Q?8aHQW26kwNbcyIpLcT+6mq2Olqcp0LFrJZstYiDwylNX8274xPieTPPfcKPQ?=
- =?us-ascii?Q?J0PQBy1/wlD6tRfUZnwSVF8/aCu1ziY7A5hVWRYeB//6cSmKAxeehe/B+7ef?=
- =?us-ascii?Q?hPyirarNbSUdqhoy3OIkmAs/CtQGeketJvf+u0wPaPtM86isX7BcZte19HsW?=
- =?us-ascii?Q?093Wm0dJgQeDYhHsO1/nxpKh35FRtyYMpuMnyCx0Ms2UQC+ffBOY7MRzKcvV?=
- =?us-ascii?Q?+aQ72XQjtz/bIPwlkWg6TpFldDyW5krFHy7QLOsR0Y8LJkI/dkCaEtaXJriY?=
- =?us-ascii?Q?eaTFRLhUBSPJ153UXMO8/A+/sewyCip2tTsPraNj9FjjsBe+8oOkEuh0EPfP?=
- =?us-ascii?Q?i6k5+aV2Xg/J3iMH8LPquhWHruqvlFT2eSd4Tc19ys8dyKUkjyxZWtc/c+J8?=
- =?us-ascii?Q?431qbTCcPMa4p0RoS9n0rjxVOWZ2HLObNjUVGCV1gewxVf1L4TGbx5kk/Dsr?=
- =?us-ascii?Q?mWA6PQSha5TQx4wY00QYqnoiCk00bPzFmPqtXfrkSnz3x3NtDEshxSjz4eGy?=
- =?us-ascii?Q?2ud7Agu3cviY4NGa1wFyYoJqgBme2IIAME0LbRQosYNeZ1vDiymQOctMzfHP?=
- =?us-ascii?Q?aZzTAqE9Xjr2OmumS5vSlHzYwLOZqVa/e4J6GTVgdXYdslmcMz8jFnOKU5Zl?=
- =?us-ascii?Q?bFGUFxbJ1yf75GnIF9Wz2TDki/I89idANnPPVRhj+uRFFYRh1QfjGlVOvfTU?=
- =?us-ascii?Q?KqXQGNFezW/nYc9+ZtpddkswlSBXFPpjpJEIL4qTAl7DkZSxqf4D3a1LA76H?=
- =?us-ascii?Q?5v2ddLiRDWEfdtfejGq6pJPpjo0CElqIFpMxpgoOMy2t7uHql0ochrdk9q8W?=
- =?us-ascii?Q?V2wl4OpRKp1bQYBm4Ewly18qWPQPZ6A/b1QRmJ6UalDWBemmVVlLqEKHRBZ1?=
- =?us-ascii?Q?kfmygvscQNWxmLwvahEeKvh/cXlT1OQgkKXBbDI+gjj1D6F8zplhwX4eht0a?=
- =?us-ascii?Q?nhpqGXRRwRZJXB/2R2eo7UiOqk04eqOu/JFzInK1RIpMFjTpxscLDl7qd24o?=
- =?us-ascii?Q?2XUtMiUPbCqn50aetrbeJHtbW4G86G2HlWfCrYpjw8sIBEIN9iuPkRQKF9AP?=
- =?us-ascii?Q?cQvE3OarL1aqgjcpLWZgpxE8X/Qg2c4hEgv+y8IpQEUvApuY1oIM9oH3r703?=
- =?us-ascii?Q?jFBe4RNdTQeEBYKWAIikG7VQJRD8KDKFeVQCMpiz7bzuqUHVDXMvh99Eq85S?=
- =?us-ascii?Q?KfgFpClZyxkaprCoToJs8I2WGEtGMAdNq37HCqacNmiaxZ3pCc0UqnjJVBXt?=
- =?us-ascii?Q?G+9QiSmjkZcHjFm2m3ElYDDN2tDs1iYB6IVj6FoH/PQXe4jKao6dWhF8eqrY?=
- =?us-ascii?Q?+IlWt7QHr5RlZikosz53ITkVDZ4qZOnZroRcBkuaqetEy9khgbY0I+JUDn1C?=
- =?us-ascii?Q?UqR4BNFQboGLsrXzDdCw7R8CboujcR908Y6XNOxT5Yp27DfSCLCZ6kyN+E14?=
- =?us-ascii?Q?A6MSCO6Yjs4gpaKjmu+fzbt/OsQTMcu+gYiL0Hl8zknmGq4BZf1Qs8stf1Of?=
- =?us-ascii?Q?dQZPJ3+hTpDYAAtYxvOoSsOphi5OBw399TZ8o0vHDsNE5qSJR3oJ3iXI/nKh?=
- =?us-ascii?Q?2z+4wNEU0xY7eMbBNemVHmOlwqrN3Gc=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?diQagyV8p5+VQzd5HsnJdLEvCqVJ9FaekMCIzVi0lPp85/X8ztC13VGFvHJ0?=
+ =?us-ascii?Q?O4FDb9+4Uqc655hkq7MjL/pa9DifQLYO3QZLLeqNzzO17GJIMz5mhYYCB1WP?=
+ =?us-ascii?Q?VqWcN4iqSqphl6fs0R3KrzuqJB3TjHNncIwxj8q2Kib/+/RGWph9aMlOPsxv?=
+ =?us-ascii?Q?DUdRP+I9OqnaGE0nV7GY5WYC1g6JI7/NcT9f+VrVaZVBBKI9/M/jRQVXp6Dz?=
+ =?us-ascii?Q?O5BEHg8Zx4rlR25vsVDt2wxkIXMGdbT2NK1YJq1AOAGE3sTrzVkaqEdgC9FD?=
+ =?us-ascii?Q?Utr8BSBwqhM50ewoB41UyVon6rstGgWkgfS1QBRqsZc0e8XDvCzEokdgqMgC?=
+ =?us-ascii?Q?taODZZBof0oJMxcAD+IyieeAB8jzCF+DvdH8zBNcdEnvja8W0rSQZWL3M6nI?=
+ =?us-ascii?Q?c75tfG85Vs1dpGhP4N3G8fHCJvD5XvgRyd6lVwvtCbJ01xbNDMKNTQZ6rKl/?=
+ =?us-ascii?Q?vfIKeEf7x0tF9LndSm/kRNExafUGtPJpGWo0vQX1LT7KC6Y1wpfgSLUvoYY/?=
+ =?us-ascii?Q?GA9VZoOKAtZuQglNciWgtH/ew2X/T0CyzWa6rh/vyZpRcz8GGefRfFY8Twuu?=
+ =?us-ascii?Q?InUCNSg1K+PST9S8f2Orj4myAbELCk+sXOKhNBMk43RIzykUVPI14CmNbg1i?=
+ =?us-ascii?Q?RYYr0RDfLszOXaR8u5XGF/46qnzcmyP/k6oNzizYeclq6CVgKaUTAIjmUCxT?=
+ =?us-ascii?Q?HyO+rHA6WvWZ6eZ1VxX1rxM+wDZIpFIBGM8prIME9TJHLekaZUK6K33eUwhJ?=
+ =?us-ascii?Q?8HvLNab9REmMVUkkxRPlWs3SJWYazMLhO70TbNKNLcHPVcbRW1UT5OW1q1Sh?=
+ =?us-ascii?Q?T879DMxVxuyz4vqDjaekc3LuztSExlGLRzJuB65s9taGxexQwxx9x1pxk0Fh?=
+ =?us-ascii?Q?N/FL8w5r2c3+vfkIq2jpb78c93uOo4LeP7YN9T0HJ0bX8eoUmz+l1ubpBCpw?=
+ =?us-ascii?Q?RKUkjPWonAUA+pbSZGHyVfrXw1BtJ70kIv5slPzvS7fOsH4KBZvf+asdX/r1?=
+ =?us-ascii?Q?rSqmqL3TtO5uhLjb///IsUCogi8ZgorjwFfcEj/dxsTyxubaOmOcq3XqTme+?=
+ =?us-ascii?Q?ufve4uzbx+4sPHiiXOMxK73MxA2mRG1Fpyvs39q3FL7JcG5VCfkj7yg0+/KP?=
+ =?us-ascii?Q?d6uNaLDaixxVZWyIPhQxtmFqr/lRGON4ux5WYXrexjZ+ACPEUv1wA9T4yf17?=
+ =?us-ascii?Q?b0VYe4T1LI7Z1ycsm3aRev76W+wGihapyW5tzdNtdgv4Wuwcho7AeyHKJIXK?=
+ =?us-ascii?Q?1BM7WJF9e88vNCDqoPv2RLnR2h+ZzTfaqE8ksMe1P/+v/xkefHuUs5RUnq5b?=
+ =?us-ascii?Q?j4SJ2T9dwqmaXr7UUF5UBB3lnmhEt+MK8NBm+XdRKir82a8u4DQ3vs64fh9W?=
+ =?us-ascii?Q?2uboqpr09X1SKliug3Oof6CNeZ3C1fAxVuunSF6phkv/Nt9kP3VTczaRQ4GF?=
+ =?us-ascii?Q?n1DpeV35F3wP354G4YtEa9cyozrgc17s1M+sj/S4YnolVCm6XtIGket+xBuq?=
+ =?us-ascii?Q?w3Obx48biHvn9OtKUtDzFl35oRwq1H3W7zvbr1lg7G+lShkPxDpuLUtb9AF8?=
+ =?us-ascii?Q?7ad1FQyufdYw0q1euyIkNi3/ax/dfwYGxoVUg51Nae6q3gqlFmET0kMkaTZl?=
+ =?us-ascii?Q?Y2OEnMzGeARxfyfMPCxibk2CmeKvdPzUmqjbmmiUVRxpajXms0+N53L6NHc4?=
+ =?us-ascii?Q?V1USDEVfDkNeXnG/mROh3eyBwxlZehbVWMmipeZcfbYQP14sff8B5/6VgGVh?=
+ =?us-ascii?Q?Kbz5gqIHy1NhzciD9K9DPyzaN2Z4BtI=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1228661c-aeda-444a-987e-08df366274e3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05910d00-15ed-4bc7-b9e4-08df366351fb
 X-MS-Exchange-CrossTenant-AuthSource: AM9P189MB1666.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 08:47:40.7354
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 08:53:51.6194
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: djUPBYtiQW4qKGZ9IqXvDM3vOS1EY7T3oyZmCpUY1TyPb4qClibks+Qt4UimJfeLQGy/tGPEwPKAc4Tts4K61Ieqj5b8+bOI88PaheIHBs0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB1032
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6PFxiuIak/hRXmWyoxryxP339jVK/c4ip3WBgepePqQ/ulxUUaA/0BDWFsxGDAEqHgnUKDYrqH8oQhJhHJng5HEpzEPaPLMVwe9D+8uvYf0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVP189MB2434
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 08:48:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249005
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 08:54:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249006
 Content-Type: text/plain; charset="utf-8"
 
-Backport patch to fix CVE-2026-92388.
+Backport patch to fix CVE-2026-87864.
 
 References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-92388
+  https://nvd.nist.gov/vuln/detail/CVE-2026-87864
 
 Upstream fix:
-  https://github.com/curl/curl/commit/ba8f8a7f27a5c5e19e4ef212
-  https://github.com/curl/curl/commit/b85acacec9b38442741bb019bc9
+  https://github.com/curl/curl/commit/3b547de301342b347fb3c6ea6ae797
 
 Tested with ptest:
-Before: PASSED: 980, FAILED: 0, SKIPPED: 0, ABORTED: 0
-After: PASSED: 980, FAILED: 0, SKIPPED: 0, ABORTED: 0
+Before: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
+After: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
 
 Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 ---
- .../curl/curl/CVE-2026-92388-1.patch          | 133 ++++++++++++++++++
- .../curl/curl/CVE-2026-92388-2.patch          |  31 ++++
- meta/recipes-support/curl/curl_8.22.0.bb      |   2 +
- 3 files changed, 166 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92388-1.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92388-2.patch
+ .../curl/curl/CVE-2026-87864.patch            | 52 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87864.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-92388-1.patch b/meta/r=
-ecipes-support/curl/curl/CVE-2026-92388-1.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-87864.patch b/meta/rec=
+ipes-support/curl/curl/CVE-2026-87864.patch
 new file mode 100644
-index 0000000000..1996a686c6
+index 0000000000..01efc71c4a
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-92388-1.patch
-@@ -0,0 +1,133 @@
-+From 2beb5ec65a71022cc4d29aed72872d44c8dc05e5 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 16 Sep 2026 15:17:37 +0200
-+Subject: [PATCH] ftplistparser: no more overwriting set.write_func
++++ b/meta/recipes-support/curl/curl/CVE-2026-87864.patch
+@@ -0,0 +1,52 @@
++From ca1b787c594b2f1b2fc7227b75d2166551aca32d Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Thu, 27 Aug 2026 09:47:53 +0200
++Subject: [PATCH] imap: APPEND CRLF fix
 +
-+The entries in the 'set' struct should remain as set by the application.
++Deny an APPEND operation with CRLF conversion requested as we are unable
++to predict the final upload size and APPEND requires us to announce it
++before starting the upload.
 +
-+Closes #22969
++The check for unknown sizes had already been there, but the crlf
++conversion that renders a known size unknown was not accounted for.
 +
-+CVE: CVE-2026-92388
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/ba8f8a7f27a=
-5c5e19e4ef212]
++Closes #22702
++
++CVE: CVE-2026-87864
++Upstream-Status: Backport [https://github.com/curl/curl/commit/3b547de3013=
+42b347fb3c6ea6ae797]
 +
 +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 +---
-+ lib/cw-out.c        | 10 ++++++++--
-+ lib/ftp-int.h       |  5 -----
-+ lib/ftp.c           | 13 -------------
-+ lib/ftplistparser.c | 10 ++++++++++
-+ lib/ftplistparser.h |  5 +++++
-+ 5 files changed, 23 insertions(+), 20 deletions(-)
++ lib/imap.c | 11 ++++++++---
++ 1 file changed, 8 insertions(+), 3 deletions(-)
 +
-+diff --git a/lib/cw-out.c b/lib/cw-out.c
-+index 0137975b1e..cceebf8c4e 100644
-+--- a/lib/cw-out.c
-++++ b/lib/cw-out.c
-+@@ -147,8 +147,14 @@ static void cw_get_writefunc(struct Curl_easy *data, =
-cw_out_type otype,
-+   switch(otype) {
-+   case CW_OUT_BODY:
-+   case CW_OUT_BODY_0LEN:
-+-    *pwcb =3D data->set.fwrite_func;
-+-    *pwcb_data =3D data->set.out;
-++    if(Curl_ftp_listmode(data)) {
-++      *pwcb =3D Curl_ftp_parselist;
-++      *pwcb_data =3D data;
-++    }
-++    else {
-++      *pwcb =3D data->set.fwrite_func;
-++      *pwcb_data =3D data->set.out;
-++    }
-+     *pmax_write =3D CURL_MAX_WRITE_SIZE;
-+     /* if we ever want buffering of BODY output, we can set `min_write`
-+      * the preferred size. The default should always be to pass data
-+diff --git a/lib/ftp-int.h b/lib/ftp-int.h
-+index 8d7e141274..0bf6b9a245 100644
-+--- a/lib/ftp-int.h
-++++ b/lib/ftp-int.h
-+@@ -79,11 +79,6 @@ struct ftp_parselist_data; /* defined later in ftplistp=
-arser.c */
-+=20
-+ struct ftp_wc {
-+   struct ftp_parselist_data *parser;
-+-
-+-  struct {
-+-    curl_write_callback write_function;
-+-    FILE *file_descriptor;
-+-  } backup;
-+ };
-+=20
-+ /* This FTP struct is used in the Curl_easy. All FTP data that is
-+diff --git a/lib/ftp.c b/lib/ftp.c
-+index 70bf654bf9..36cc73397f 100644
-+--- a/lib/ftp.c
-++++ b/lib/ftp.c
-+@@ -4017,15 +4017,6 @@ static CURLcode init_wc_data(struct Curl_easy *data=
-,
-+     goto fail;
++diff --git a/lib/imap.c b/lib/imap.c
++index 0546595f89..f37568fb20 100644
++--- a/lib/imap.c
+++++ b/lib/imap.c
++@@ -884,7 +884,6 @@ static CURLcode imap_perform_append(struct Curl_easy *=
+data,
++       result =3D Curl_creader_set_mime(data, postp);
++     if(result)
++       return result;
++-    data->state.infilesize =3D Curl_creader_client_length(data);
++   }
++   else
++ #endif
++@@ -894,9 +893,15 @@ static CURLcode imap_perform_append(struct Curl_easy =
+*data,
++       return result;
 +   }
 +=20
-+-  /* backup old write_function */
-+-  ftpwc->backup.write_function =3D data->set.fwrite_func;
-+-  /* parsing write function */
-+-  data->set.fwrite_func =3D Curl_ftp_parselist;
-+-  /* backup old file descriptor */
-+-  ftpwc->backup.file_descriptor =3D data->set.out;
-+-  /* let the writefunc callback know the transfer */
-+-  data->set.out =3D data;
-+-
-+   infof(data, "Wildcard - Parsing started");
-+   return CURLE_OK;
-+=20
-+@@ -4061,10 +4052,6 @@ static CURLcode wc_statemach(struct Curl_easy *data=
-,
-+       /* In this state is LIST response successfully parsed, so lets rest=
-ore
-+          previous WRITEFUNCTION callback and WRITEDATA pointer */
-+       struct ftp_wc *ftpwc =3D wildcard->ftpwc;
-+-      data->set.fwrite_func =3D ftpwc->backup.write_function;
-+-      data->set.out =3D ftpwc->backup.file_descriptor;
-+-      ftpwc->backup.write_function =3D ZERO_NULL;
-+-      ftpwc->backup.file_descriptor =3D NULL;
-+       wildcard->state =3D CURLWC_DOWNLOADING;
-+=20
-+       if(Curl_ftp_parselist_geterror(ftpwc->parser)) {
-+diff --git a/lib/ftplistparser.c b/lib/ftplistparser.c
-+index 47e3d75d94..2ee5fe3faf 100644
-+--- a/lib/ftplistparser.c
-++++ b/lib/ftplistparser.c
-+@@ -1012,6 +1012,16 @@ static CURLcode parse_winnt(struct Curl_easy *data,
-+   return CURLE_OK;
-+ }
-+=20
-++/* returns TRUE if in wildcard listing mode */
-++bool Curl_ftp_listmode(struct Curl_easy *data)
-++{
-++  if(data->state.wildcardmatch) {
-++    struct WildcardData * const wildcard =3D data->wildcard;
-++    return wildcard && (wildcard->state <=3D CURLWC_MATCHING);
-++  }
-++  return FALSE;
-++}
-++
-+ size_t Curl_ftp_parselist(char *buffer, size_t size, size_t nmemb,
-+                           void *connptr)
-+ {
-+diff --git a/lib/ftplistparser.h b/lib/ftplistparser.h
-+index 5d7aa492ba..942e102894 100644
-+--- a/lib/ftplistparser.h
-++++ b/lib/ftplistparser.h
-+@@ -27,6 +27,9 @@
-+=20
-+ #ifndef CURL_DISABLE_FTP
-+=20
-++/* returns TRUE if in wildcard listing mode */
-++bool Curl_ftp_listmode(struct Curl_easy *data);
-++
-+ /* WRITEFUNCTION callback for parsing LIST responses */
-+ size_t Curl_ftp_parselist(char *buffer, size_t size, size_t nmemb,
-+                           void *connptr);
-+@@ -71,6 +74,8 @@ void Curl_wildcard_dtor(struct WildcardData **wcp);
-+ struct Curl_easy;
-+=20
-+ #else /* CURL_DISABLE_FTP */
-++#define Curl_ftp_listmode(x) FALSE
-++#define Curl_ftp_parselist ZERO_NULL
-+ #define Curl_wildcard_dtor(x)
-+ #endif /* !CURL_DISABLE_FTP */
-+=20
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-92388-2.patch b/meta/r=
-ecipes-support/curl/curl/CVE-2026-92388-2.patch
-new file mode 100644
-index 0000000000..e89658468f
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-92388-2.patch
-@@ -0,0 +1,31 @@
-+From 318019e91cae747d1d5d85be8556466e6943408f Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 17 Sep 2026 14:32:52 +0200
-+Subject: [PATCH] ftplistparser: only use the list parser in CURLWC_MATCHIN=
-G
-+ state
-+
-+Follow-up to ba8f8a7f27a5c5e1
-+
-+Closes #22985
-+
-+CVE: CVE-2026-92388
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/b85acacec9b=
-38442741bb019bc9]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ lib/ftplistparser.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/ftplistparser.c b/lib/ftplistparser.c
-+index 2ee5fe3faf..77f90c763d 100644
-+--- a/lib/ftplistparser.c
-++++ b/lib/ftplistparser.c
-+@@ -1017,7 +1017,7 @@ bool Curl_ftp_listmode(struct Curl_easy *data)
-+ {
-+   if(data->state.wildcardmatch) {
-+     struct WildcardData * const wildcard =3D data->wildcard;
-+-    return wildcard && (wildcard->state <=3D CURLWC_MATCHING);
-++    return wildcard && (wildcard->state =3D=3D CURLWC_MATCHING);
++-  /* Check we know the size of the upload */
+++  /* Check we know the size of the upload. This takes all readers
+++   * into account. Especially crlf conversions which make the size
+++   * unpredictable, e.g. -1. */
+++  data->state.infilesize =3D Curl_creader_total_length(data);
++   if(data->state.infilesize < 0) {
++-    failf(data, "Cannot APPEND with unknown input file size");
+++    if(data->set.crlf)
+++      failf(data, "Cannot APPEND with CRLF conversion making size unknown=
+");
+++    else
+++      failf(data, "Cannot APPEND with unknown input file size");
++     return CURLE_UPLOAD_FAILED;
 +   }
-+   return FALSE;
-+ }
-diff --git a/meta/recipes-support/curl/curl_8.22.0.bb b/meta/recipes-suppor=
-t/curl/curl_8.22.0.bb
-index 96f889165e..0d9596b1f3 100644
---- a/meta/recipes-support/curl/curl_8.22.0.bb
-+++ b/meta/recipes-support/curl/curl_8.22.0.bb
-@@ -14,6 +14,8 @@ SRC_URI =3D " \
-     file://run-ptest \
-     file://disable-tests \
-     file://no-test-timeout.patch \
-+    file://CVE-2026-92388-1.patch \
-+    file://CVE-2026-92388-2.patch \
- "
++=20
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-suppor=
+t/curl/curl_8.19.0.bb
+index c2697d6dd8..ac25f7f156 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -39,6 +39,7 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-9546-01.patch \
+            file://CVE-2026-9546-02.patch \
+            file://CVE-2026-80230.patch \
++           file://CVE-2026-87864.patch \
+            "
 =20
  SRC_URI:append:class-nativesdk =3D " \
