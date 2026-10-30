@@ -1,176 +1,186 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13600.1793372123722683881
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14129.1793373474138221185
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 07:55:24 -0700
+ Fri, 30 Oct 2026 08:17:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=aypUNPOM;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so6359035e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 07:55:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=F5CJRNKX;
+ spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-917bab38b14so10106176d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 08:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793372122; x=1793976922; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mfQDiek1DDDQbE/K+N82FAeJQ+A8smK/pVlVHvjsGYQ=;
-        b=aypUNPOMCwt9T9yHqneg4Nz2P4MxiCTSBS5HFvHB5OJSBvf7hUwWRAscMtdtKUW+dN
-         NwlXuiazw9RMndILSrlo0rF2wAN6vO5oZat+6d2XalgErhUZnFlIjU9u9FF6/1LsNwVa
-         n3FMXaFhf7BQerHV07MJ9+k40wEEu2Zt7kXNkkBfittTV5ydtgOwn9FHGjsW7sXOzMGu
-         H6Nx/T6H4omNHgf4O0W+J4gKdIQpCHWiIhBiXL/exuyQV58xSeF6X8m6u07GqglS1NjX
-         5h/OSz3tmgnCmZbE69w2cvgb/u9R2PjD/RkacbNKDvlDrcPz/fNT7/Wpl2ywrTfBbxfp
-         Izyg==
+        d=gmail.com; s=20260707; t=1793373473; x=1793978273; darn=lists.openembedded.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rlErJOeNbi9rxn92xwwjodbFgFVRVbRlZAkI6Xg2TB8=;
+        b=F5CJRNKX15/pVc13Z7zjxYvcqWAUyjbuAcT94ztLaqK8yBBBwI1KPgrbuUiZzdG7JR
+         o8mClvGoPuodvFH3d159PKv8RLsKPb7A9dvc3hbzxcBD9YreuASDu8xR4BKCL0+MQHEk
+         7W4fyzXyacG6Ivrn2wKk4u5J5YeRfK8+EtTueeeu8gM557/aeoVrycB8WBm4ehTFZnrd
+         gjQ9++nG6OuXO1y9f9qQ89n8xTOpDAKi0eCTTE6Umgh4M319XZZK/6kDJe/crC+2AYBM
+         m3wT0F2MxcgV5/cimUddSOtMJuC5L5sGxeikZmKjm71VdLOFi5xrtVaQC6QqQnx6GD2W
+         isfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793372122; x=1793976922;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mfQDiek1DDDQbE/K+N82FAeJQ+A8smK/pVlVHvjsGYQ=;
-        b=NjcZqAuGLVcpBXGmBCXykP3EjgtZrFxb7dmMEIc+VzZoS4ky76GC8ZhapqVCK1+/Sc
-         e8ZfPqxuzrtvmf1iv/knNo9hj+wxhlTaNYZYzSvT+OoS1/VSphBTL0Elb5vP07aNTxeu
-         j9g4D+KESPsxUtVebOJK69DXLzdOVK9fcafonIVg4PnB1RtFE9q355ZALcQ9kaxT7VUA
-         +WPlXr44D0VPcEMVD89g1jd8+97HHdqndze7lJZbrJwzAPqEeTBIe0GFRMW3kJ1R4Q6E
-         hKUc1/Sw7to271R0VmmJ803RIYKVpxWx4H8+lHth8Hjd61NOVUwB3fNOZy91/tx9MKRP
-         Qx/g==
-X-Forwarded-Encrypted: i=1; AKwUvBxsbicDs8hoYweXL3WHEp9mUJKe2kj/HbqiSRsbudwiboAAbip+P+SRaB+nSbBegXqKt1l3x+tQz1RgWVswHIsWZg==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYIxCg5PYLLEDBRSVow974o3hm5r+ZEDXcYV19sj/IgRINZd9bMc
-	QlKl7+12ADybp5Fh4AwYWXnwM0HSPh3gH6LPp1BsJslekDnhmop4jz8deSPlqLkoiwU=
-X-Gm-Gg: AYBFou110U19QBaPYtwiWze5NZ2c28THrIr26+te8mT9kNkn8e2B2PHVZH8v4ZN78wY
-	ArvfqhPGS+t65Idb1CpAxRPbzek9EWA6H5uL5uPjyV9AEeyr2PjsBbWj2ra85/a+tp9W13Tn5iY
-	lkN3eS52K0HbR0OT56MsYDEZNhxCpk72rSNcWM8t5avgymvYjxBaWEVqAoo4THwsIDHnHjaZz4m
-	Cov1FNjPM/w3pd6A8XkQAxHqyzVb2qEjABcpf9K28XQt18Ms0ZeVP1tvUvvLTbXGbLKVDlbytUK
-	l6c5soqGBR4hVn11NVoBlorizs3Dp5xrecqE1KGYRgibj1Fh7Y/f3JmLa29kyD+M4hPYKR91Oe2
-	oa8bmwl7zIMeWnlqi8bw1alK6gq4IT+Q0Wld3u5GWSR2xJ2wEou5M+ZGYG1KQKaJZWDdhIvC56v
-	aBvQp2yzOEwa155GE1AFUxyEPr1QVWh88GgwktA97DsFDwCUsCjpIlmYAio/aB+RckVDAuWy39o
-	TWp6mWjQiPnApnac/ZBuBDp1m0Y6QIS1GxTcFQXhWPwarfg2tUBiC6OgTCrow3ltuOX8rxxr4t6
-	2GKBLz6Yf4UeI/2eW0qCgA15Z9yCbyuG1goWSXAmz3Xb0mBkKxjTEJRE/dNdCAdEIxRdT5h45Lq
-	uDhrzIwSEhLYwAxbY
-X-Received: by 2002:a05:600c:8b63:b0:4a2:40:7f35 with SMTP id 5b1f17b1804b1-4ac18993232mr53928715e9.31.1793372121804;
-        Fri, 30 Oct 2026 07:55:21 -0700 (PDT)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf396dfdbsm68671915e9.1.2026.10.30.07.55.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2026 07:55:21 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Oct 2026 15:55:21 +0100
-Message-Id: <DMI9CYTP539M.2XQG8FY4G0IBK@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH v2 5/5] libsoup-2.4: fix
- CVE-2026-3633
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <jason.stasiak@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260929205055.2403390-2-jason.stasiak@gmail.com>
- <20261014161209.2227316-1-jason.stasiak@garmin.com>
- <20261014161209.2227316-5-jason.stasiak@garmin.com>
-In-Reply-To: <20261014161209.2227316-5-jason.stasiak@garmin.com>
+        d=1e100.net; s=20260707; t=1793373473; x=1793978273;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rlErJOeNbi9rxn92xwwjodbFgFVRVbRlZAkI6Xg2TB8=;
+        b=klh2VdrcNOV7DQqtM2LGpTd+/wMvQQGhnaPoH0reSrNXvCDYE7A6TRQKSaZmReLZCW
+         c1+1gRNTb3iHuplKc904NmAu2jywbbdbcWa/Xt4lROt6BtEc8TUzInjhHr2aWTREH8wM
+         3oqRDEXsTsgGvm5fnQD+CXSs6+9pMFxmWromDg57Xbe6pT7m309LqlLzrHITazUrxYRg
+         unSOKB6MN2x4RTXCy8ECFOTJaapAJcInh+a6Ie6eVif3p7XIfAnk9k9Z3p8GfwepeyQ3
+         woW/sHkvpK97OrSWOu4spymfkBQSHQ+kWRsw32lDxVM5s5XgztifJrKJDee1HHgJF8Es
+         /P9g==
+X-Gm-Message-State: AFq9FYKXzwD1hZWw1mqRfg4/oQ421G+TfSKd62ms2a/w0ueUaLYSmk/j
+	x0E5JY24BNO0NTN1FUOn9l6DmKfi/NbSzio08dyal2fwSYsKoKD957ne
+X-Gm-Gg: AYBFou3lXqzVuPuAN1I4N638eR+QguCVfBv1QNrSg4Nvjw9IyXKW9UUKsBM6JzE8Mkq
+	Bydgbadw3fTmD0KzNS85MqpfjfZI/yyNwqAi6qhXgPO1ibsgUm8rDYMAQhfRpjvSQCUGclhutkl
+	AmBEtJQ5DGU14LYNMmoX6sxLeeUu2dH8PxkSVpT+PcSGJRBkFmpmwIhs2DPYYHfHnWARUE6rOke
+	RlTn0byl2MC/oM/N7Fd87kQtwsn5a0yCVg+A4xFQfWr4p+wukzOZtOzrmQj4yzmXTqLtHwuUG73
+	eMdQIXzaw4xPI3jon56gdDWwfXJdPtQHEMx2TN/JjyV5kKAVq26eujNY4G/I509G6MGmAt5Guxb
+	m+/ZYQ7DxqAlX0kSw/R2asoGHG5JObU5eYOs9wLzjopGOeV0XP8SP5jJToNXmGZ7rCoSDfHBGtd
+	wZp1QoKSuq+Y70U9bZwDGINOismrgdFlMLk0PZptQxIcca0r67oB8KbCh9743+cvp6NeocS++ax
+	0IFx7LZKpPmOSxuKOa89iCBUBZMUmqVxorifMJL8J8GusjgvUAsqLh5/0jZljBkHLHl9v0ogTUR
+	leMc7pMr6DJydkgjY3RB4aqaoBF9GVWzLrZlgk4eS7vCZJtv4yIwyYE8d1A5vjN3HHdJOn2hpwn
+	17jBwzGqaDjQIc54rkq4OCsXDwKqc5UlxdtaKecZSU/VsFGCGb/N3
+X-Received: by 2002:a05:620a:2984:b0:93f:2e7e:c818 with SMTP id af79cd13be357-94421799c57mr455433185a.59.1793373472756;
+        Fri, 30 Oct 2026 08:17:52 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94425ad7431sm161857185a.40.2026.10.30.08.17.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 08:17:52 -0700 (PDT)
+Message-ID: <6ae4b520.2ba6c529.9958c.7be2@mx.google.com>
+Date: Fri, 30 Oct 2026 08:17:52 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: adrian.freihofer@siemens.com
+Cc: openembedded-core@lists.openembedded.org,
+ richard.purdie@linuxfoundation.org, Peter.Marko@siemens.com
+Subject: Re: [OE-core] [PATCH v2 0/3] Fix kernel complementary package installation
+In-Reply-To: <7f6cfc2f345e31d031ee099a0d591b72c0a1ddc1.camel@siemens.com>
+References: <20260923205206.1102615-1-adrian.freihofer@siemens.com>
+ <6ae3d215.cf61d36e.14493f.869f@mx.google.com>
+ <7f6cfc2f345e31d031ee099a0d591b72c0a1ddc1.camel@siemens.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 14:55:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249052
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 15:17:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249053
 
-On Wed Oct 14, 2026 at 6:12 PM CEST, Jason Stasiak via lists.openembedded.o=
-rg wrote:
-> Backport fix for CVE-2026-3633 [1] and additional supporting patches
-> [2][3][4] from the upstream libsoup 3 repo.
+On Thu, Oct 30, 2026 at 6:40 AM Freihofer, Adrian wrote:
 >
-> [1] https://gitlab.gnome.org/GNOME/libsoup/-/commit/7f2013d874f005035f224=
-5e382ec82823a439926
-> [2] https://gitlab.gnome.org/GNOME/libsoup/-/commit/0120f183ca2b74abeee84=
-39f73abc8ab504fbccf
-> [3] https://gitlab.gnome.org/GNOME/libsoup/-/commit/05910f8cb577682d444b0=
-abaef670b4eb028e2fa
-> [4] https://gitlab.gnome.org/GNOME/libsoup/-/commit/a90c442df5f980dd9a810=
-8c9def3b06607662fc8
+> > First, to make sure I have the use case right: this is TRACE32 (or
+> > cross-gdb to qemu, it's a similar pattern) running on the host, with
+> > rootfs-dbg extracted on the host as the debug sysroot. Nothing here
+> > runs gdb on the target. Correct ?
 >
-> Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
-> ---
->  .../libsoup/libsoup-2.4/CVE-2026-3633-1.patch |  51 ++++++++
->  .../libsoup/libsoup-2.4/CVE-2026-3633-2.patch |  53 ++++++++
->  .../libsoup/libsoup-2.4/CVE-2026-3633-3.patch |  49 ++++++++
->  .../libsoup/libsoup-2.4/CVE-2026-3633-4.patch | 113 ++++++++++++++++++
->  .../libsoup/libsoup-2.4_2.74.3.bb             |   4 +
->  5 files changed, 270 insertions(+)
->  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-363=
-3-1.patch
->  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-363=
-3-2.patch
->  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-363=
-3-3.patch
->  create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-363=
-3-4.patch
+> Yes, that's the use case which triggered this discussion.
 >
-> diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-3633-1.pat=
-ch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-3633-1.patch
-> new file mode 100644
-> index 0000000000..37eeb24409
-> --- /dev/null
-> +++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-3633-1.patch
-> @@ -0,0 +1,51 @@
-> +From 5d61da4e261fab02d07dc74bb3049bbd13535247 Mon Sep 17 00:00:00 2001
-> +From: Jason Stasiak <jason.stasiak@garmin.com>
-> +Date: Fri, 25 Sep 2026 10:17:05 -0700
-> +Subject: [PATCH 1/4] CVE-2026-3633: Make SoupMessage a private and final=
- type
+> But I can think about more use cases which could benefit from a
+> complete -src package (or different package name) for the kernel as
+> there are also more use cases for any other -src package.
 
-Please keep upstream authorship info and title.
+Thanks for confirming. I'd like to hear what those other use cases are,
+since they're what would drive a full source package (more on that below).
 
-> +
-> +CVE: CVE-2026-3633
-> +Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/libsoup/-/com=
-mit/0120f183ca2b74abeee8439f73abc8ab504fbccf ]
-> +
-> +Backport the introduction of soup_message_set_method() from upstream
-> +libsoup 3 patch to begin alignment of libsoup 2.4 code with that needed
-> +to address CVE-2026-3633.
-> +
-> +Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
-> +---
-> + libsoup/soup-message-private.h |  2 ++
-> + libsoup/soup-message.c         | 10 ++++++++++
-> + 2 files changed, 12 insertions(+)
-> +
-> +diff --git a/libsoup/soup-message-private.h b/libsoup/soup-message-priva=
-te.h
-> +index c30361c0..ee73112f 100644
-> +--- a/libsoup/soup-message-private.h
-> ++++ b/libsoup/soup-message-private.h
-> +@@ -179,4 +179,6 @@ gboolean    soup_message_has_chunk_allocator (SoupMe=
-ssage *msg);
-> + SoupBuffer *soup_message_allocate_chunk      (SoupMessage *msg,
-> + 					      goffset      read_length);
-> +=20
-> ++void	soup_message_set_method (SoupMessage        *msg,
-> ++		                         const char         *method);
-> + #endif /* __SOUP_MESSAGE_PRIVATE_H__ */
-> +diff --git a/libsoup/soup-message.c b/libsoup/soup-message.c
-> +index cc4f22b6..eae11eea 100644
-> +--- a/libsoup/soup-message.c
-> ++++ b/libsoup/soup-message.c
-> +@@ -2394,3 +2394,13 @@ soup_message_allocate_chunk (SoupMessage *msg,
-> +=20
-> + 	return priv->chunk_allocator (msg, read_length, priv->chunk_allocator_=
-data);
-> + }
-> ++
-> ++
-> ++void
-> ++soup_message_set_method (SoupMessage *msg,
-> ++                         const char  *method)
-> ++{
-> ++	g_return_if_fail (method !=3D NULL);
-> ++
-> ++	msg->method =3D g_intern_string (method);
+For the host-side case, though, I don't think we need a source package
+at all. The debugger runs on the host, so rootfs-dbg only has to supply
+the symbols (kernel-dbg, kernel-vmlinux). The source can come from any
+tree on the host that matches the build: the build's
+work-shared/<machine>/kernel-source, or a linux-yocto checkout at the
+recipe's SRCREV. With the prefix map change, every path in the kernel's
+debug info is under /usr/src/kernel, so it's a single mapping in the
+debugger to that tree.
 
-Same idea, please don't reindent upstream code.
-Also, upstream, that function uses soup_message_get_instance_private()
-that your don't, can you explain why?
+> >    I'm not completely sold on sending this one yet, but I could be
+> >    convinced to go that way rather than a -src package. If it covers
+> >    your use case, that's the argument that would do it.
+>
+> I think this sounds very good and it would address at least the remote
+> debugging case and make it much more consistent than it is now.
 
-(I'll stop my review here, please apply the above reviews and from the
-previous patches of the series to the next patches)
+Having thought about it more, I'm going to keep linux-source local for
+now. The problem is that a full source tree plus the ${B} artifacts is a
+superset of kernel-devsrc. Everything devsrc does can be done with it,
+just with a bigger footprint. I don't want two copies of the kernel source
+to maintain, one curated and one not, and that's what linux-source is.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+If a use case arrives that needs the source inside a rootfs (and not just
+on the host), I'd want it done inside kernel-devsrc: one tree at
+/usr/src/kernel, curated by default as it is today, with an opt-in to
+widen it to the full source. No second copy, and no path mapping at all,
+since the debug info already points there. The source would need to be
+its own package without devsrc's toolchain RDEPENDS, so rootfs-dbg can
+take it without pulling in a compiler. And it stays opt-in: nobody should
+get ~1.6GB of source by accident.
 
+It also doesn't have to be the whole tree. devsrc is already machine
+specific, so the likely way I'd go is a larger devsrc: a curated spine
+(core plus the machine's arch), with the drivers it needs discovered
+from what the build actually compiled. On qemux86-64 that's about 330MB,
+versus 1.5GB for the full tree.
+
+> >  - 2/3: fine with me. Keeping the kernel out of the complementary
+> >    install is what I asked for in v1, and with (1) it is a no-op.
+>
+> Should we then not just drop this patch as well? It's ugly to have this
+> kernel specific case handled outside of the kernel recipe.
+
+Agreed, drop it. With the prefix map, linux-yocto-src isn't created at
+all, so there's nothing for core-image to exclude. That makes it all three.
+
+The way I see it now, the 592 generated files in linux-yocto-src are the
+actual bug today. They're there only because ${B} isn't mapped, and
+they're the only reason the kernel gets a -src package. Complementary
+install then pulls that package into rootfs-dbg without kernel-dbg, which
+is the inconsistency you started from. Fixing the map removes the package,
+and so the inconsistency, without any kernel special case in the image
+classes or package.py.
+
+> What the kernel recipe could provide instead:
+> A: an empty -src package (just to behave like all other packages).
+> B: an empty meta package which RDEPENDS on all the real kernel source
+> packages. The kernel would no longer be something special. The sources
+> are also included in the rootfs-dbg by default as for all user space
+> packages. If the user prefers to have the kernel excluded from rootfs-
+> dbg he can do what the patch does.
+>
+> I think B would be the most consistent approach and therefore also the
+> most self-explanatory implementation.
+
+I don't think we should do either.
+
+A is an empty package that exists only so the kernel matches a pattern.
+It doesn't give anyone anything.
+
+For B, the real source package it would depend on doesn't exist (see
+above). Even if it did, B puts the kernel back on the generic
+complementary path, which is what I pushed back on in v1:
+
+ - Complementary install maps every installed kernel-module-* package to
+   linux-yocto-src, so almost every debug image would get the full kernel
+   source by default, about 1.6GB unpacked.
+
+ - It ties linux-yocto to whichever recipe ends up providing the source.
+
+ - kernel-dbg still isn't pulled in by complementary install
+   (KERNEL_PACKAGE_NAME vs PN), so you'd still get source without symbols.
+
+The kernel is special here, in that it isn't usually a rootfs package.
+I'd rather that be explicit (IMAGE_INSTALL_DEBUGFS for the symbols, and
+a mapping to the source on the host) than hidden behind a meta-package.
+
+So my plan is:
+
+ - drop 1/3, 2/3 and 3/3
+ - I'll send the kernel.bbclass prefix map change on its own, once I've
+   checked SPDX's compiled-sources filter is unaffected (it's the only
+   other consumer of the kernel's debugsources list)
+ - revisit a full source package, inside kernel-devsrc, when there's a
+   concrete use case that needs it in a rootfs
+
+Thougts ?
+
+Bruce
