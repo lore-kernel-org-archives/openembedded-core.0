@@ -1,530 +1,423 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8874.1793357901774629979
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8912.1793358087577988970
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 03:58:21 -0700
+ Fri, 30 Oct 2026 04:01:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Y6akPs/v;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: roshs@qti.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69U8F5Q81120769;
-	Fri, 30 Oct 2026 10:58:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=vt1m1ZVMazUB2U0RHkJlpkCb
-	kvHjiZY4OHDD6SRv9wA=; b=Y6akPs/v0ZcNubUDT9pkNZkWoGSFymENs46FuVi9
-	9+5Ne6FjNQCRqtv7j6YNhAManpMVABNnY8wzaDQA1CeF1h5i9SsLpWD8l1Wp4RXu
-	VgR7PES/CGQO5t3mVBzCqRJ7ywQRN5+0KkTd/l8t8HtpS2z9tiAgk6dZCQuwOsZ/
-	ZjijujtBviTGayuJxJdWesdaVgbtd/cCJdFwE+IPlG3obLc04SmH1Ohv2OMcOl/U
-	d8QGBTV1sppkPVirxtg40O8yuvzXh/wzlU5gsQEUiBlRrCXOeDi0o/bKAa7+bgPQ
-	nff4gbJUMaMTmqwoKTvJ2xk4/n05HlhXabSIkL3LEDh/GA==
-Received: from bl0pr07cu001.outbound.protection.outlook.com (mail-bl0pr07cu00105.outbound.protection.outlook.com [40.93.4.5])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme6pjjg9-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 30 Oct 2026 10:58:19 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xS81MT3qAm1PJqYbuRDpsPk9Bt8e7gNz5VC+2vkDZ6B66T+O0u1JnV73SzvAQOq9XcChdmy6vFU5/6ObXZREoDf04tZs398y6h4euqumSVKKNdWMRFT00EhV7xmNrqMPtpIoe378AZ3gb8bYWwvETf3l0wv5fFxZ38MS6l6XbBo0bHjyEp1j+sWuNq1cfu4gf4+uAm0rgNc1NGkFWSibOYDpb2MmJ6CyaK6kqYx/4BUNDjWXlsmB7Tsck2aza4pwPAV+OGd+GpPLbVKuKGCGewo+Av1l5HeguN7cIvN5X9OvatCfWJj1qSYnUHpUG/xwbjdq+i4xghPB96oHYvjv5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vt1m1ZVMazUB2U0RHkJlpkCbkvHjiZY4OHDD6SRv9wA=;
- b=LYLeydCu+C67ijBzTefwmEstaJy4TyDdMXwfp3fwVFntxMUc0EXuS1t79+yUVOndJWdU7qtwH9kD+AntwBORTt0D+iNx8PyWoFOx2ko0JiW9hwgnrZgcHbGKrdv87eo3lvNu3HjVoxaWGou3eXCQVyL2QsOuBYDAfZ1CSsK3Fa0//W0vaDSkIum3cCS3bmZChfD4ulICNY92CBxdGTxTux4J0w/kdJ3F5C2wlUoQh0eWMhSToX2khZUvwZCOKLZAF3MtUNysp0r4P00uEV8WTfEWrBT4o8WQ7EztyQBswFaATbj2iLXaxHiSYENDLChM5IsG/NE5RpRSFuL/Rt7YVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
- header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
-Received: from DS4PR02MB11190.namprd02.prod.outlook.com (2603:10b6:8:32a::18)
- by SA0PR02MB7483.namprd02.prod.outlook.com (2603:10b6:806:ee::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.10; Fri, 30 Oct
- 2026 10:58:15 +0000
-Received: from DS4PR02MB11190.namprd02.prod.outlook.com
- ([fe80::aba2:f69a:a7c6:95ca]) by DS4PR02MB11190.namprd02.prod.outlook.com
- ([fe80::aba2:f69a:a7c6:95ca%5]) with mapi id 15.21.0569.009; Fri, 30 Oct 2026
- 10:58:14 +0000
-From: Roshan Sivakumar <roshs@qti.qualcomm.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-        Sumanth Gavini
-	<sumanth.gavini@windriver.com>,
-        Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-        Paul Barker <paul@pbarker.dev>
-Subject: Re: [OE-core][PATCH] rpm: disable the RPM 6 script interpreter
- dependency generator
-Thread-Topic: [OE-core][PATCH] rpm: disable the RPM 6 script interpreter
- dependency generator
-Thread-Index: AQHdYgHpy8hwRXPh30+Uw7KS7+AmSLcUn9+AgAFTkfM=
-Date: Fri, 30 Oct 2026 10:58:14 +0000
-Message-ID: <DS4PR02MB1119020ECBB039D39BB64FDF6876D2@DS4PR02MB11190.namprd02.prod.outlook.com>
-References: <20261022084635.3702905-1-roshs@qti.qualcomm.com>
- <CANNYZj8v+Tk5zkt8tjPvyN31jKhYBLXm9eJgZgawYDiYo3-=hg@mail.gmail.com>
-In-Reply-To: <CANNYZj8v+Tk5zkt8tjPvyN31jKhYBLXm9eJgZgawYDiYo3-=hg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=qti.qualcomm.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS4PR02MB11190:EE_|SA0PR02MB7483:EE_
-x-ms-office365-filtering-correlation-id: 1230f19f-f4c9-439e-1ec5-08df3674b221
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|38070700021|5023799004|11063799006|4143699003|56012099006|261009223027099003|261009221227099003|261026140227099003|261026121527099003|261028144727099003|261021123027099003|261021121427099003|261022105027099003|261022075727099003|10067099003|18002099003|22082099003|6133799003|3023799007|8096899003;
-x-microsoft-antispam-message-info: u9fhRL+4FTxvjYlZayA/qijc0kYJcyBl1yKdSMaRZpouyWADQN1GOuVES026wjC8rzqc6l+HVbBkQMxNwqU41G3TFr6oPcPpwO5s/WXv0B0tE5h2NAhCVR6AejwWp4daLFK2JR1gQAmEm8NaICYHM6+Yf4xJgssi6tT9o5pERbTkhK9EwvmI6Bh1WxUjflRZsKWqPflmp8clRheiqAQfkKYDpQxIXronbgjghovGimFm5eIwKh89QKs+1Yjam9M+MyXoV5srdFQ22uDdyGlNe8xdV4Bbtq2z6M2Y580yI6aJLKwcYbpxMeDm2rLpknkcR4YUfqroMIJPOKVEmLG/e0hDon+m+q/bWJM2/w6RWqWGmpwBNJmpl1dnmmfWfx9rNXQd1Uw3wlYR57yBqJKwiEVGZfNzFicx9p5UmuB0jTKR/4IySMvv2QSNc4l5wPyWzrWOCX2rbCUF1eLvHlAqbKzaPWJmcg94RmluHQOY3SAa7dsdTt4jwq4m3KPQGTXUCXMkQnjwdlCIY48WikBt0I66PzNaqhhQ6sK6bCX3djk23LXm9/rukOCAOB1E5ij0dbH0V+JDHvUdjunJjyL1KxG92Cd6DbNGXv2yYtI+KgUPQmduQVCQRTKqEJwRvikYYMjF45sRlO0qw+QZm7c84XsevUgPzuhwNnO07L7qGRI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PR02MB11190.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(38070700021)(5023799004)(11063799006)(4143699003)(56012099006)(261009223027099003)(261009221227099003)(261026140227099003)(261026121527099003)(261028144727099003)(261021123027099003)(261021121427099003)(261022105027099003)(261022075727099003)(10067099003)(18002099003)(22082099003)(6133799003)(3023799007)(8096899003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?Uf4lefe7GMS3FD2fOyWMp8lE8BJkgU5vkiksHiFyRr6J0crNOG4KOX/9Z5?=
- =?iso-8859-1?Q?VFtTtuOyhCankEhdIQ94TemEk2kT5uGjg14DIBspoPlmdu7ButTrNaa2pr?=
- =?iso-8859-1?Q?H8mNiQfGCpQqiZeZBHeae/tq943or0loKcsMzfZtsVnJZpk/e4Mo/HKY+I?=
- =?iso-8859-1?Q?LwTaZhHemw8u3KtmE22ISqokPHH5a6IPXwZx1QZOQEojoCMcuCRVqkHu+o?=
- =?iso-8859-1?Q?MrqSfxG8Zdxj7ILbiJE8O5A5MxfhcZHiB3E9Z0mPf3gVvXr6rdJoF9qmoW?=
- =?iso-8859-1?Q?E/hem71Zh5+Jk2+Ik+pacNFbeIM8A4ZzWJ5LDy38ePzU59Ksr2/6VJjPFn?=
- =?iso-8859-1?Q?b0g3m4ocpm3Jw54itf8YslyXNcXCyGorKOD/6suwEzi+yrxvLYxycyJgKw?=
- =?iso-8859-1?Q?pO+CisUyCNS90jDahSpJF+gh3xqN1Z+AcFdeALlrmf7sMsJZAgVhsg8nII?=
- =?iso-8859-1?Q?3UxMISU+bPVD49Tu+xb9RQXhKerR2P5aJ0XKP3aCy+7F96b/iY5kMLNkag?=
- =?iso-8859-1?Q?vgk5h6qtUC4OhLBUyG2mgnU3Tg/o1Ibi1PNAdmObTig2x0bgNYuIJjJ8RF?=
- =?iso-8859-1?Q?nr37CjV8SDVbo85/7Hjn3prMSNM2cQJibwSj6KXrMQAU0F3jegd08pVjqW?=
- =?iso-8859-1?Q?MbXZniQJKOhcYUgbqaOd6cPi28NhclzemjZ0OVaXKXG408SaEw5PQI1xQX?=
- =?iso-8859-1?Q?K/+dPL3pwmAv+OI6UghE69n3H9s3eLokQ7ShyZ1v1G1kn75rdF8Z5ukVZg?=
- =?iso-8859-1?Q?YBm8Xb4XFix4YHXdyHiwLSPxVJfzwld5jrRJ4mhjBnvXsSCVsYadtYmkvL?=
- =?iso-8859-1?Q?QlNhRdund83gQwEA+jvjFHeeRBTGZJxqO2qvxKC/haDxkA3kffVW/KmXIC?=
- =?iso-8859-1?Q?RmOMH7uNPcFEuT5yO9lCj1EaNnQQ3inpEpBYhSRErA3LLoBKbDp4rWMU2P?=
- =?iso-8859-1?Q?7QpRo4GMuvhVQIXfPcFeNj02UQbG4kBTBoMRBpGzVP9YZ6sPNaJPaYt7jN?=
- =?iso-8859-1?Q?oas6chj1tRfu22QEluyZsk9qwizBLFUG8sr/vOeHTNwEajkrCPKSSnn6yj?=
- =?iso-8859-1?Q?M+J569wlRdj9LrsgXOz+6i//AgJDeCAPHGIqqy7Mx3T4u0vlMpsatv6WqP?=
- =?iso-8859-1?Q?w/KgfTybFh9PeAa5nsMXZMRn/SRqZ26Ony0a+yBvr0j5PhDmDw0DkQJdbD?=
- =?iso-8859-1?Q?o1tUlPo3QXkcHTgCrzAY1ByPLuvriFrDmjKCcCBVH7GMAIkTZfPliIjXqI?=
- =?iso-8859-1?Q?/FPZvj5ah6Q00lluTCmEhQzxw+1okENWtBs7KlScnjICVPfICvON2/kqNs?=
- =?iso-8859-1?Q?Mx7n1rBLv7NV2riTZxSOYU18/NPAEKoDP3wS2l918I1w1Xb1LqKeknntLZ?=
- =?iso-8859-1?Q?HKuqfgVGhBbs3RwOeBlRLc8l9KVajo2z2mtM9YcWo9fQOj21bf9MDofUUz?=
- =?iso-8859-1?Q?fWFx9uDQcn0RPin8l2xpIyTqa2rT3s3UeoX8m++FpSDjOIbIqvkEQCOW26?=
- =?iso-8859-1?Q?ByeF49tezc2FKwJwFnT0BLs+fps8eXGmCn6Wi//7/qVG1QqoqSY/nx5wsk?=
- =?iso-8859-1?Q?8NTJkKsByuDGIrsi+ohlq1n/kAYMLyzIPXgyP/m1i2rKGbYGDL4eiEPCZ4?=
- =?iso-8859-1?Q?+RjMx1X/v5BWaywPglg4OdtKNjgP55LeBe9JDIWj40dw4lF7ssB3GWZmt1?=
- =?iso-8859-1?Q?s++CLzLZMAZII/NJ2x3oKZH0PJK3IYVx0fcO3uqeO8ZNevDwyUVGnDtswy?=
- =?iso-8859-1?Q?p0VgzZQgAG4Jq0MCDgEjhMjzUN1OT48Oc3eG+ulQrUmT0+?=
-Content-Type: multipart/alternative;
-	boundary="_000_DS4PR02MB1119020ECBB039D39BB64FDF6876D2DS4PR02MB11190na_"
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: qEjV1Hi0AjZAWJrNxIU8nYC2aOqhslDarqP9AbhX7fOkYH4itlVDhMcXlgdyleNGveXfykikKkI5947xDVi1Un/8w3vNCKd9hYTgTpy1daf4L3emYPpowKWSjy+51eNPw8NB3gz2bf9qFTNUt5Ibps5kn0o2+YSxG6/f9SYA2TWsCF2//v9gbPJXCf5OJHNNJMXHpfY0a3zSdBAQ/+Iqums7iNUzQZrsOZDaaJROw0Sxr1FMp0nUQxZLI5++ZX+q58wzQc69Kt+mhp8ZCfVxEMYEKGAbZtTA5G2w/KQx2elT0yeqHgdacjL/bU1JQeTE4ZIqeTAL+NNcFXt1s21G/Q==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: CjsYtJ7PZVzv8mJTOWj66p1ZIOBX/Hn8wvDl+5z6V61J8B4fAnVv1VXvqTz+vxDNtMWL8V3C7MiEYae8hQlAFWDQivLcKpnBZMnxSAGQiMOf3z5R8oUVCageo7NueJmnOJm72P3oP0lkc5C3mVczmVeCb8RLL6eOjLcHUqPrnKdaWg09xk+OHzCCf6Bn0PJ4j1BDHIP2rhp7WqDn8cVZCnoA5qFCIas4dg4EP/LArjKdZE0nEXY7/qKv+7rDLYCRhC16VMg3h8aP49VcUJ38cCbtvXk2i3ugF/ba0wJ+nmjP/3f/WKDgOxlUHhHBgpnRobsC4LL93lXJGaVFw7/pgvERFZCB+5EfKDcooKG8iftM8/jRR6Q6kJYaGCtPVzMHEBJGRQuAahz/L0jCUasfL0khxilzEjJ304IHk3it4XbrqFIoOpsduxpGZ347qW6PshWE4IM3JzP56hn9QCDwhfovW/zRpZcv8Ueka1pHHqniEq30NimbMcVoIbv/1rpt1g6AEFH5rOwiuE1jeYvxYb/sGbjI/VdykeNxpTx6DSs8d0z9RBiAC7Ib8EtdccSJcRIwbCS6Z6mpFMTYreB0FHxBKREM2TRWXEq5M2drX6OSeqUTYf5tfsQq8MumXxrj
-X-OriginatorOrg: qti.qualcomm.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS4PR02MB11190.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1230f19f-f4c9-439e-1ec5-08df3674b221
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2026 10:58:14.2115
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qh+88psbt1BpY+JKQhDOVR02jM3otEMRicI0H4ij/vRUwiry0uarFtJcYb6mY1ey5m8z1wtWKDw785XC/ryOTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR02MB7483
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA0MyBTYWx0ZWRfXxSzNeaamGVaA
- pQ066IELOluG7p/1NXYFp8B3B0FAZqWqyGWysnxuOW/SVos43QwNdcYSC4MAfasW2bkM+fZo2mF
- qGtqxyYO9pVSlDjmi5YCf9HaLqGLLjckUWKet4Da0s/jnDJNzm8s1GjgPVNATX4puW/9/HcKv/c
- +FjUDQBWb6/lF/cruhPiJLMgIDuX9DkGHs2r2FcKPxYgpQ5exkJNRDtBGpZxB66/zsoozIG3VKB
- Tw0siTNiGDk3YiNQl0WCKgaL6sr1PSphjCFtGMTxzeegMWdh9uMbJk3FVEnHcFPNXIgROLy2Xdc
- MJmcoiGr/nJjFHdeRKLCjBdtp+gUFMaZP3BIIQ4b6pQu/w5pV1JrKaweOozBgRXrESontvgm4+/
- 3020haT4JzoWv8nQWKYEPxKyvvlfpa0ZrW+ui6awfZXRcJ8jSvkeak7fMOVQfJ4nKXkVY+RRA+I
- 3PDh0U9slQDYji9EMgw==
-X-Proofpoint-ORIG-GUID: U1sa3vB-7eLMGDuYVG7oJq3y35sP0Bzq
-X-Proofpoint-GUID: U1sa3vB-7eLMGDuYVG7oJq3y35sP0Bzq
-X-Authority-Analysis: v=2.4 cv=AJ83otAg c=1 sm=1 tr=0 ts=6ae4784b cx=c_pps
- a=SzPxVFfh7B3C0UVW/03dkw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=660iZSQnnn4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8
- a=t7CeM3EgAAAA:8 a=ag1SF4gXAAAA:8 a=zaMboryHWa1J7lJU6hoA:9 a=lqcHg5cX4UMA:10
- a=wPNLvfGTeEIA:10 a=Hcn3069hBYusoJ836sMA:9 a=jjSlll3UALhGpuZy:21
- a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22 a=Yupwre4RP9_Eg_Bd0iYG:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDA0MyBTYWx0ZWRfX0nQY+uqqbiWk
- T6sGg1LVaNI0JvHClHD+K/pY4BcNZ16OjJPYcKhCq6oepixqUSJvGyudd5B/HMdRsXueJJ6ZoIf
- ZmkGK28Vz5KhtTzdjK5d8NyY1w+Hr28=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-30_03,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 bulkscore=0 phishscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1011 priorityscore=1501 suspectscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610300043
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=ZO+lT0bc;
+ spf=pass (domain: smile.fr, ip: 209.85.208.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b1aa4d71e7so527735a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 04:01:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1793358086; x=1793962886; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/TmDpfPPgWsk8U9Kyot4vUQgV+bfjQBWF+CZVPiuOSM=;
+        b=ZO+lT0bcXzKuCT9ZglgfGDJRGUszUlbcXl1+1GdCTobFJxw5HZDu+SNxFNtQ8g0EfD
+         TM6oe8GjxsG7/LbaZ10ute3C9Iz4HBFp0ne20bUqkkievs1X2QLdSPPsbjvsTb8W9N3i
+         EmeyxqS67SrZ+hUPQ+YKOgvnIiMaa+1slbbVokzLUEMo6BsIrnZP70uCmuiiEokRXN/i
+         GOR4j4HVSBkJnHidhALZSbk5y6V6UWG7UT9A0U3u8PoesUBxJCv/9n8qtO6QpN2FxS2N
+         vNdhDkJjf2dsOYiQfRxQjTtIv0ZyjZlV51JMepsPJ9Ad3xvyEjFZiX4Bvh2OP4vpfojN
+         gKpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793358086; x=1793962886;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/TmDpfPPgWsk8U9Kyot4vUQgV+bfjQBWF+CZVPiuOSM=;
+        b=GIWhqoGnNmQsI66oCkG7qH2Q6Qo6FnBxYo3HqyWLFXKYX4zdF8amAkwSJV0UHLDYwN
+         BPfr025313ouj6ZTsRVhZOPCvYulAXpv3TnBrGwC8C7HAUubD0NuBnkeZmXD9sqPI3wZ
+         yndfnWrCoCRjLxpD9+pj2ZXV9KxGLlIxKCYxa3ZnEYzdcdnnCj8y5NXEss/KcIew5cBi
+         Bi4u3If8GsQVOnC6c8FbZdXyfvPtibUDhxSGG9b07SWocfOXWNL7jaAQyzExASVTPPA9
+         X+llVo+RAJ3FxQ0Fd42vvolHRBI/D1EHO8NqJytAURsApUGvKDIKZad67ID4AZbqrSI2
+         y89Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxaG5h7H6vDvDajVBotAEYXXY5L/LdT2vMqZimuPruTeihbUy5WTm9Im6WKZEw89pEVMNp9ohPyf0cMC6kRZ/sNgg==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYKdY3fmOYdTsvcZ9sttYo4AQdeKcZ3Z77J4riNy8RFYF0j+Rxh8
+	nxjX2oyO0g7F+bbvzjI5aQkigtcZ0H174bs6WyEspTLf6dpzEjkdQC6IiqimyLOjwug=
+X-Gm-Gg: AYBFou2m2/xqvZW4cRRZwvNxh5r/p0XFcdLwagldtrrjJuvGPBdrr9yeaVDBGWZeERn
+	CpRzGn0psy/luiMTqyTqkTM9ubPxH6NWJnUnikppQM8XJr2M9oEIW22Yf53xMVeI+Glgiyy289x
+	t9YQJxT4omP34knkBcr54vpQO5/TebOvG7cEWh2F5CUItGEQBf260uosU3i+fSg7vnHriEP+J9g
+	ez+AeqfhRU7fjr8NFOrJ6FkHpmgliO2tt93zKDAGqgyOUIU/R9hHxiOcq9QjqAqKl19kmm4euRm
+	r0i5GNTWE9ly5nIzPLX/IKwcM/D6DlRz81vONTptpCgW63sxZAN8p+3SaljEUevOjKBljd2uJvq
+	NnPrjQQYiFTt0Hx5UvqYV5fliU0B6O4Jy9p0Pxbpw5Xod4hRwIQ6u7vmBMInoV6kjFj0nK1/1PV
+	vx1Hu/QKsdkS6CnIZdCru5W2LkwL8YKHeiTtmqHspcX6d/I0zXMTn5DodNRaGgoThpCPXp3LRJu
+	pBsn2hG1djb3ThZko5q3etKfPf7bQleCCJKdpp+7z51YcHpP5sEg7Ix1gJO4Dq5xQH4sTZLck6r
+	qmu/2SAUCBxECv54YuwHu5NOleDOuyN6cw7HQvpL8NaVShftNUl7w58SAQWhyNs1GFxMbnjZE/D
+	qQQpqLxzyPxPv+rMm
+X-Received: by 2002:a05:6402:7ca:b0:6b1:df89:7e11 with SMTP id 4fb4d7f45d1cf-6b4d4f7367emr1035100a12.36.1793358083975;
+        Fri, 30 Oct 2026 04:01:23 -0700 (PDT)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71ba24f6sm2570094f8f.51.2026.10.30.04.01.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2026 04:01:23 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 30 Oct 2026 12:01:23 +0100
+Message-Id: <DMI4DTXTVWDM.1ZLOT94319M1J@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH v2 6/8] curl: fix CVE-2026-8932
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+ <devanshp@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261016130439.603118-1-devanshp@cisco.com>
+ <20261016130439.603118-2-devanshp@cisco.com>
+In-Reply-To: <20261016130439.603118-2-devanshp@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 10:58:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249027
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 11:01:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249028
 
---_000_DS4PR02MB1119020ECBB039D39BB64FDF6876D2DS4PR02MB11190na_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Hi Alexander,
-
-I agree that disabling RPM's shebang-based dependency generator removes an =
-existing feature, so I've dropped that approach. Instead, I've sent a minim=
-al patch that declares the missing dependency directly: openembedded-core@l=
-ists.openembedded.org | [PATCH] kernel-devsrc: add runtime dependency on se=
-d<https://lists.openembedded.org/g/openembedded-core/topic/patch_kernel_dev=
-src_add/122008476>
-
-This pulls in the full sed package which provides /bin/sed in usrmerge buil=
-ds : Blaming openembedded-core/meta/recipes-extended/sed/sed_4.10.bb at mas=
-ter =B7 openembedded/openembedded-core<https://github.com/openembedded/open=
-embedded-core/blame/master/meta/recipes-extended/sed/sed_4.10.bb#L66>.
-
-Without this, populate_sdk task fails with "/bin/sed has no provider" error=
- in builds where usermerge DISTRO_FEATURE is enabled.
-
-But if the script in a target package refers to /bin/sed, and the target ro=
-ot filesystem is not providing that, then the problem is not with the depen=
-dency checker, it's with the script and/or filesystem layout. Disabling the=
- check does not address that problem, it just sweeps it under the carpet. A=
-m I missing something? How does this work on Fedora for example, which also=
- uses usrmerge?
-
-I agree, will investigate further on this. In the meantime, I'd suggest we =
-take this minimal RDEPENDS fix to unblock the immediate issue.
-
-
-
-Thanks,
-
-Roshan.
-
-
-
-
-________________________________
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Sent: Thursday, October 29, 2026 07:29
-To: Roshan Sivakumar <roshs@qti.qualcomm.com>
-Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>; Sumanth Gavini <sumanth.gavini@windriver.com>; Richard Purdie=
- <richard.purdie@linuxfoundation.org>; Paul Barker <paul@pbarker.dev>
-Subject: Re: [OE-core][PATCH] rpm: disable the RPM 6 script interpreter dep=
-endency generator
-
-
-WARNING: This email originated from outside of Qualcomm. Please be wary of =
-any links or attachments, and do not enable macros.
-
-On Thu, 22 Oct 2026 at 12:12, Roshan Sivakumar via lists.openembedded.org<h=
-ttp://lists.openembedded.org> <roshs=3Dqti.qualcomm.com@lists.openembedded.=
-org<mailto:qti.qualcomm.com@lists.openembedded.org>> wrote:
-RPM 4 generated dependencies with the external __find_requires /
-__find_provides generator, which OE disabled entirely via
-_use_internal_dependency_generator 0. RPM 6 removed that mechanism; for
-v6-format packages only the internal fileattr generators run.
-
-I don't understand. What was enabled in rpm 4 and what was not? What ran an=
-d what didn't? The above seems to say that rpm 4 used external generator, w=
-hich was disabled by oe, but then the disabling statement refers to interna=
-l generator.
-
-rpm's script.attr generator therefore runs for the first time in OE
-builds. For every packaged executable whose first line is a #! shebang
-it emits an interpreter dependency. kernel-devsrc ships
-scripts/mksysmap (#!/bin/sed -f) as an executable, so its package gains:
-
-  Requires: /bin/sed
-
-OE manages build and runtime dependencies explicitly through
-DEPENDS / RDEPENDS and does not want these. They break real use cases:
-
-- The interpreter path is taken verbatim from the shebang. A #!/bin/sed
-  script requires /bin/sed, but under usrmerge the only provider
-  (busybox) offers /usr/bin/sed. The literal paths never match and the
-  package becomes uninstallable.
-
-But if the script in a target package refers to /bin/sed, and the target ro=
-ot filesystem is not providing that, then the problem is not with the depen=
-dency checker, it's with the script and/or filesystem layout. Disabling the=
- check does not address that problem, it just sweeps it under the carpet. A=
-m I missing something? How does this work on Fedora for example, which also=
- uses usrmerge?
-
-- In the SDK the sole interpreter providers (busybox, coreutils, bash,
-  perl) are deliberately banned by target-sdk-provides-dummy, so these
-  auto-generated requires make -dev/-src packages uninstallable during
-  do_populate_sdk ("nothing provides /bin/sed needed by kernel-devsrc").
-
-This probably needs steps to reproduce, so we can better understand the iss=
-ue.
-
-- The requires are non-reproducible: they are only emitted when the
-  interpreter is scanned from the shebang during packaging, so the same
-  recipe can produce different packages between the reproducible A and
-  B builds.
-
-I also don't understand this. How does the non-reproducibility happen exact=
-ly? Why would it produce different requires?
-
-This is the same class of regression already handled for the pkgconfig
-generator; see "rpm: disable the RPM 6 pkgconfig dependency generator".
-
-There was also a concern during patch review that the checks that the gener=
-ator does are useful to catch missing runtime dependencies in recipes, and =
-disabling this would regress the packaging quality. Something like this che=
-cker should be made generic (e.g. run in do_package, regardless of specific=
- packaging backend). How does this check work exactly, and where is it impl=
-emented? Do we have an equivalent in do_package (I vaguely remember that we=
- do)? If there's an equivalent, then why it doesn't complain but the rpm-sp=
-ecific check does?
-
-This needs further investigation.
-
-Alex
-
---_000_DS4PR02MB1119020ECBB039D39BB64FDF6876D2DS4PR02MB11190na_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Hi Alexander,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-I agree that disabling RPM's shebang-based dependency generator removes an =
-existing feature, so I've dropped that approach. Instead, I've sent a minim=
-al patch that declares the missing dependency directly:
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/topic/patch_k=
-ernel_devsrc_add/122008476" id=3D"OWAaed867b5-ffad-16b3-55f2-4991d89d2302" =
-class=3D"OWAAutoLink">
-openembedded-core@lists.openembedded.org | [PATCH] kernel-devsrc: add runti=
-me dependency on sed</a></div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-This pulls in the full sed package which provides /bin/sed in usrmerge buil=
-ds : <a href=3D"https://github.com/openembedded/openembedded-core/blame/mas=
-ter/meta/recipes-extended/sed/sed_4.10.bb#L66" id=3D"OWA22e016e9-b0b3-e96a-=
-941f-3a5de4c436e0" class=3D"OWAAutoLink">
-Blaming openembedded-core/meta/recipes-extended/sed/sed_4.10.bb at master =
-=B7 openembedded/openembedded-core</a>.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Without this, populate_sdk task fails with &quot;/bin/sed has no provider&q=
-uot; error in builds where usermerge DISTRO_FEATURE is enabled.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<blockquote style=3D"margin-left: 0.8ex; padding-left: 1ex; border-left: 3p=
-x solid rgb(200, 200, 200); color: rgb(102, 102, 102);">
-<div class=3D"elementToProof" style=3D"direction: ltr; font-family: Aptos, =
-Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; fo=
-nt-size: 11pt; color: rgb(0, 0, 0);">
-But if the script in a target package refers to /bin/sed, and the target ro=
-ot filesystem is not providing that, then the problem is not with the depen=
-dency checker, it's with the script and/or filesystem layout. Disabling the=
- check does not address that problem,
- it just sweeps it under the carpet. Am I missing something? How does this =
-work on Fedora for example, which also uses usrmerge?</div>
-</blockquote>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-I agree, will investigate further on this. In the meantime, I'd suggest we =
-take this minimal RDEPENDS fix to unblock the immediate issue.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"Signature" class=3D"elementToProof" data-signature-name=3D"rosha=
-n">
-<p class=3D"elementToProof" style=3D"margin: 0in; font-family: Calibri, san=
-s-serif; font-size: 11pt;">
-Thanks,</p>
-<p class=3D"elementToProof" style=3D"margin: 0in; font-family: Calibri, san=
-s-serif; font-size: 11pt;">
-Roshan.</p>
-<p class=3D"elementToProof" style=3D"margin: 0in; font-family: Calibri, san=
-s-serif; font-size: 11pt;">
-&nbsp;</p>
-</div>
-<div><br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<b>From:</b> Alexander Kanavin &lt;alex.kanavin@gmail.com&gt;<br>
-<b>Sent:</b> Thursday, October 29, 2026 07:29<br>
-<b>To:</b> Roshan Sivakumar &lt;roshs@qti.qualcomm.com&gt;<br>
-<b>Cc:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;; Sumanth Gavini &lt;sumanth.gavini@windriver.com&=
-gt;; Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt;; Paul Barker=
- &lt;paul@pbarker.dev&gt;<br>
-<b>Subject:</b> Re: [OE-core][PATCH] rpm: disable the RPM 6 script interpre=
-ter dependency generator
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<p style=3D"text-align: center; margin-top: 1em; margin-bottom: 1em;"><span=
- class=3D"spanWithBackgroundColor" style=3D"font-family: sans-serif; font-s=
-ize: 14px; color: black; background-color: yellow;"><b>WARNING:</b> This em=
-ail originated from outside of Qualcomm.
- Please be wary of any links or attachments, and do not enable macros.</spa=
-n></p>
-<div style=3D"direction: ltr;">On Thu, 22 Oct 2026 at 12:12, Roshan Sivakum=
-ar via <a href=3D"http://lists.openembedded.org" id=3D"OWA3bc3c223-953b-5d4=
-4-52fa-0524e3e23159" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
-lists.openembedded.org</a> &lt;roshs=3D<a href=3D"mailto:qti.qualcomm.com@l=
-ists.openembedded.org" id=3D"OWA5a05ef81-78cc-0555-df5a-2a0259b2fa19" class=
-=3D"OWAAutoLink">qti.qualcomm.com@lists.openembedded.org</a>&gt; wrote:</di=
-v>
-<blockquote style=3D"margin: 0px 0px 0px 0.8ex; padding-left: 1ex; border-l=
-eft: 1px solid rgb(204, 204, 204);">
-<div style=3D"direction: ltr;">RPM 4 generated dependencies with the extern=
-al __find_requires /<br>
-__find_provides generator, which OE disabled entirely via<br>
-_use_internal_dependency_generator 0. RPM 6 removed that mechanism; for<br>
-v6-format packages only the internal fileattr generators run.<br>
-</div>
-</blockquote>
-<div style=3D"direction: ltr;"><br>
-</div>
-<div style=3D"direction: ltr;">I don't understand. What was enabled in rpm =
-4 and what was not? What ran and what didn't? The above seems to say that r=
-pm 4 used external generator, which was disabled by oe, but then the disabl=
-ing statement refers to internal generator.</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-<blockquote style=3D"margin: 0px 0px 0px 0.8ex; padding-left: 1ex; border-l=
-eft: 1px solid rgb(204, 204, 204);">
-<div style=3D"direction: ltr;">rpm's script.attr generator therefore runs f=
-or the first time in OE<br>
-builds. For every packaged executable whose first line is a #! shebang<br>
-it emits an interpreter dependency. kernel-devsrc ships<br>
-scripts/mksysmap (#!/bin/sed -f) as an executable, so its package gains:<br=
+On Fri Oct 16, 2026 at 3:04 PM CEST, Devansh Patel -X (devanshp - E INFOCHI=
+PS PRIVATE LIMITED at Cisco) wrote:
+> From: Devansh Patel <devanshp@cisco.com>
 >
-<br>
-&nbsp; Requires: /bin/sed<br>
-<br>
-OE manages build and runtime dependencies explicitly through<br>
-DEPENDS / RDEPENDS and does not want these. They break real use cases:<br>
-<br>
-- The interpreter path is taken verbatim from the shebang. A #!/bin/sed<br>
-&nbsp; script requires /bin/sed, but under usrmerge the only provider<br>
-&nbsp; (busybox) offers /usr/bin/sed. The literal paths never match and the=
-<br>
-&nbsp; package becomes uninstallable.<br>
-</div>
-</blockquote>
-<div style=3D"direction: ltr;"><br>
-</div>
-<div style=3D"direction: ltr;">But if the script in a target package refers=
- to /bin/sed, and the target root filesystem is not providing that, then th=
-e problem is not with the dependency checker, it's with the script and/or f=
-ilesystem layout. Disabling the check
- does not address that problem, it just sweeps it under the carpet. Am I mi=
-ssing something? How does this work on Fedora for example, which also uses =
-usrmerge?</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-<blockquote style=3D"margin: 0px 0px 0px 0.8ex; padding-left: 1ex; border-l=
-eft: 1px solid rgb(204, 204, 204);">
-<div style=3D"direction: ltr;">- In the SDK the sole interpreter providers =
-(busybox, coreutils, bash,<br>
-&nbsp; perl) are deliberately banned by target-sdk-provides-dummy, so these=
-<br>
-&nbsp; auto-generated requires make -dev/-src packages uninstallable during=
-<br>
-&nbsp; do_populate_sdk (&quot;nothing provides /bin/sed needed by kernel-de=
-vsrc&quot;).<br>
-</div>
-</blockquote>
-<div style=3D"direction: ltr;"><br>
-</div>
-<div style=3D"direction: ltr;">This probably needs steps to reproduce, so w=
-e can better understand the issue.</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-<blockquote style=3D"margin: 0px 0px 0px 0.8ex; padding-left: 1ex; border-l=
-eft: 1px solid rgb(204, 204, 204);">
-<div style=3D"direction: ltr;">- The requires are non-reproducible: they ar=
-e only emitted when the<br>
-&nbsp; interpreter is scanned from the shebang during packaging, so the sam=
-e<br>
-&nbsp; recipe can produce different packages between the reproducible A and=
-<br>
-&nbsp; B builds.<br>
-</div>
-</blockquote>
-<div style=3D"direction: ltr;"><br>
-</div>
-<div style=3D"direction: ltr;">I also don't understand this. How does the n=
-on-reproducibility happen exactly? Why would it produce different requires?=
-</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-<blockquote style=3D"margin: 0px 0px 0px 0.8ex; padding-left: 1ex; border-l=
-eft: 1px solid rgb(204, 204, 204);">
-<div style=3D"direction: ltr;">This is the same class of regression already=
- handled for the pkgconfig<br>
-generator; see &quot;rpm: disable the RPM 6 pkgconfig dependency generator&=
-quot;.<br>
-</div>
-</blockquote>
-<div style=3D"direction: ltr;"><br>
-</div>
-<div style=3D"direction: ltr;">There was also a concern during patch review=
- that the checks that the generator does are useful to catch missing runtim=
-e dependencies in recipes, and disabling this would regress the packaging q=
-uality. Something like this checker
- should be made generic (e.g. run in do_package, regardless of specific pac=
-kaging backend). How does this check work exactly, and where is it implemen=
-ted? Do we have an equivalent in do_package (I vaguely remember that we do)=
-? If there's an equivalent, then
- why it doesn't complain but the rpm-specific check does?</div>
-<div style=3D"direction: ltr;"><br>
-</div>
-<div style=3D"direction: ltr;">This needs further investigation.</div>
-<div style=3D"direction: ltr;"><br>
-</div>
-<div style=3D"direction: ltr;">Alex</div>
-</body>
-</html>
+> This patch applies the upstream fix as referenced in [2], using the
+> commit shown in [1].
+>
+> [1] https://github.com/curl/curl/commit/7541ae569d82fb308a5e2d94916027da4=
+fa3ba3e
+> [2] https://curl.se/docs/CVE-2026-8932.html
+>
+> Validation: unit3303 passes in a native debug build with OpenSSL.
+>
+> Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> ---
+>
+> Changes in v2:
+> - Rebase onto stable/scarthgap-review.
+> - Record native unit3303 validation.
+>
+>  .../curl/curl/CVE-2026-8932.patch             | 423 ++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+>  2 files changed, 424 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8932.patch
 
---_000_DS4PR02MB1119020ECBB039D39BB64FDF6876D2DS4PR02MB11190na_--
+This is not an easy patch to review. I need you to make it easier by
+reformating it:
+
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-8932.patch b/meta/re=
+cipes-support/curl/curl/CVE-2026-8932.patch
+> new file mode 100644
+> index 0000000..432d5e5
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-8932.patch
+> @@ -0,0 +1,423 @@
+> +From c25faf128bba57a64da636f126773b858b35bc27 Mon Sep 17 00:00:00 2001
+> +From: Joshua Rogers <MegaManSec@users.noreply.github.com>
+> +Date: Tue, 19 May 2026 11:47:50 +0200
+> +Subject: [PATCH] tls: fix incomplete mTLS config in conn reuse and sessi=
+on
+> + cache
+> +
+> +cert_type, key, key_type, key_passwd and key_blob lived in
+> +ssl_config_data but not in ssl_primary_config, so they were invisible to
+> +match_ssl_primary_config() and to the TLS session cache peer key.
+> +
+> +Two easy handles sharing a connection pool could reuse each other's
+> +authenticated connections when they differed only on SSLKEY, SSLKEYTYPE,
+> +KEYPASSWD, SSLCERTTYPE or SSLKEYBLOB. The second handle would silently
+> +inherit the first handle's authenticated identity.
+> +
+> +Promote all five fields into ssl_primary_config so the conn-reuse
+> +predicate and session cache key cover the complete client credential
+> +set. Also replace the fixed ":CCERT" session cache marker with the
+> +actual clientcert path so sessions are not shared across different
+> +client certificates.
+> +
+> +Verified by test 3303 and 3304
+> +
+> +Reported-By: Joshua Rogers (AISLE Research)
+> +Closes #21667
+> +
+> +CVE: CVE-2026-8932
+> +Upstream-Status: Backport [https://github.com/curl/curl/commit/7541ae569=
+d82fb308a5e2d94916027da4fa3ba3e]
+> +
+> +Backport Changes:
+> +- Add the missing credential fields to ssl_primary_config for
+> +  connection and session matching. Keep the backend fields as aliases
+> +  instead of changing accesses throughout the TLS backends.
+> +- Keep the session cache in vtls.c; curl 8.7.1 has no vtls_scache
+> +  files or peer key API.
+> +- Use the older unit test harness and allocator (memdebug.h last).
+> +  Combine unit3304's case-insensitive type checks into unit3303,
+> +  with key_blob deep copy and connection/session matching checks.
+> +- Use a writable hostname array for the older char * hostname field.
+> +
+> +(cherry picked from commit 7541ae569d82fb308a5e2d94916027da4fa3ba3e)
+> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> +---
+> + lib/urldata.h           |   5 +
+> + lib/vtls/vtls.c         |  25 +++++
+> + tests/data/Makefile.inc |   3 +-
+> + tests/data/test3303     |  23 +++++
+> + tests/unit/Makefile.inc |   4 +-
+> + tests/unit/unit3303.c   | 211 ++++++++++++++++++++++++++++++++++++++++
+> + 6 files changed, 269 insertions(+), 2 deletions(-)
+> + create mode 100644 tests/data/test3303
+> + create mode 100644 tests/unit/unit3303.c
+> +
+> +diff --git a/lib/urldata.h b/lib/urldata.h
+> +index d2d9424197..9015515e17 100644
+> +--- a/lib/urldata.h
+> ++++ b/lib/urldata.h
+> +@@ -286,6 +286,11 @@ struct ssl_primary_config {
+> +   char *CAfile;          /* certificate to verify peer against */
+> +   char *issuercert;      /* optional issuer certificate filename */
+> +   char *clientcert;
+> ++  char *cert_type;       /* format for certificate (default: PEM) */
+> ++  char *key;             /* private key file name */
+                                                ^ upstream patch has no
+space here. Please reduce this kind of noise to the minimum.
+
+> ++  struct curl_blob *key_blob;
+
+Please try to keep upstream ordering (key_blob goes at the end of the
+change in upstream patch).
+
+Also, in many place of the patch, these elements are inserted in
+existing code. Can you try to find the spot in the existing code were
+diff is minimal? Here, neither the context above nor below match the
+upstream patch.
+
+> ++  char *key_type;        /* format for private key (default: PEM) */
+> ++  char *key_passwd;      /* plain text private key password */
+> +   char *cipher_list;     /* list of ciphers to use */
+> +   char *cipher_list13;   /* list of TLS 1.3 cipher suites to use */
+> +   char *pinned_key;
+> +diff --git a/lib/vtls/vtls.c b/lib/vtls/vtls.c
+> +index d13a3cb1b7..c89e8abcc6 100644
+> +--- a/lib/vtls/vtls.c
+> ++++ b/lib/vtls/vtls.c
+> +@@ -187,10 +187,15 @@ match_ssl_primary_config(struct Curl_easy *data,
+> +      blobcmp(c1->cert_blob, c2->cert_blob) &&
+> +      blobcmp(c1->ca_info_blob, c2->ca_info_blob) &&
+> +      blobcmp(c1->issuercert_blob, c2->issuercert_blob) &&
+> ++     blobcmp(c1->key_blob, c2->key_blob) &&
+> +      Curl_safecmp(c1->CApath, c2->CApath) &&
+> +      Curl_safecmp(c1->CAfile, c2->CAfile) &&
+> +      Curl_safecmp(c1->issuercert, c2->issuercert) &&
+> +      Curl_safecmp(c1->clientcert, c2->clientcert) &&
+> ++     curl_strequal(c1->cert_type, c2->cert_type) &&
+> ++     Curl_safecmp(c1->key, c2->key) &&
+> ++     curl_strequal(c1->key_type, c2->key_type) &&
+> ++     !Curl_timestrcmp(c1->key_passwd, c2->key_passwd) &&
+
+Same remark about ordering and context, it continues to apply below.
+
+> + #ifdef USE_TLS_SRP
+> +      !Curl_timestrcmp(c1->username, c2->username) &&
+> +      !Curl_timestrcmp(c1->password, c2->password) &&
+> +@@ -234,10 +239,15 @@ static bool clone_ssl_primary_config(struct ssl_pr=
+imary_config *source,
+> +   CLONE_BLOB(cert_blob);
+> +   CLONE_BLOB(ca_info_blob);
+> +   CLONE_BLOB(issuercert_blob);
+> ++  CLONE_BLOB(key_blob);
+> +   CLONE_STRING(CApath);
+> +   CLONE_STRING(CAfile);
+> +   CLONE_STRING(issuercert);
+> +   CLONE_STRING(clientcert);
+> ++  CLONE_STRING(cert_type);
+> ++  CLONE_STRING(key);
+> ++  CLONE_STRING(key_type);
+> ++  CLONE_STRING(key_passwd);
+> +   CLONE_STRING(cipher_list);
+> +   CLONE_STRING(cipher_list13);
+> +   CLONE_STRING(pinned_key);
+> +@@ -257,12 +267,17 @@ static void Curl_free_primary_ssl_config(struct ss=
+l_primary_config *sslc)
+> +   Curl_safefree(sslc->CAfile);
+> +   Curl_safefree(sslc->issuercert);
+> +   Curl_safefree(sslc->clientcert);
+> ++  Curl_safefree(sslc->cert_type);
+> ++  Curl_safefree(sslc->key);
+> ++  Curl_safefree(sslc->key_type);
+> ++  Curl_safefree(sslc->key_passwd);
+> +   Curl_safefree(sslc->cipher_list);
+> +   Curl_safefree(sslc->cipher_list13);
+> +   Curl_safefree(sslc->pinned_key);
+> +   Curl_safefree(sslc->cert_blob);
+> +   Curl_safefree(sslc->ca_info_blob);
+> +   Curl_safefree(sslc->issuercert_blob);
+> ++  Curl_safefree(sslc->key_blob);
+> +   Curl_safefree(sslc->curves);
+> +   Curl_safefree(sslc->CRLfile);
+> + #ifdef USE_TLS_SRP
+> +@@ -297,6 +312,11 @@ CURLcode Curl_ssl_easy_config_complete(struct Curl_=
+easy *data)
+> +   data->set.ssl.key_passwd =3D data->set.str[STRING_KEY_PASSWD];
+> +   data->set.ssl.primary.clientcert =3D data->set.str[STRING_CERT];
+> +   data->set.ssl.key_blob =3D data->set.blobs[BLOB_KEY];
+> ++  data->set.ssl.primary.cert_type =3D data->set.ssl.cert_type;
+> ++  data->set.ssl.primary.key =3D data->set.ssl.key;
+> ++  data->set.ssl.primary.key_type =3D data->set.ssl.key_type;
+> ++  data->set.ssl.primary.key_passwd =3D data->set.ssl.key_passwd;
+> ++  data->set.ssl.primary.key_blob =3D data->set.ssl.key_blob;
+> +=20
+> + #ifndef CURL_DISABLE_PROXY
+> +   data->set.proxy_ssl.primary.CApath =3D data->set.str[STRING_SSL_CAPAT=
+H_PROXY];
+> +@@ -322,6 +342,11 @@ CURLcode Curl_ssl_easy_config_complete(struct Curl_=
+easy *data)
+> +   data->set.proxy_ssl.key_passwd =3D data->set.str[STRING_KEY_PASSWD_PR=
+OXY];
+> +   data->set.proxy_ssl.primary.clientcert =3D data->set.str[STRING_CERT_=
+PROXY];
+> +   data->set.proxy_ssl.key_blob =3D data->set.blobs[BLOB_KEY_PROXY];
+> ++  data->set.proxy_ssl.primary.cert_type =3D data->set.proxy_ssl.cert_ty=
+pe;
+> ++  data->set.proxy_ssl.primary.key =3D data->set.proxy_ssl.key;
+> ++  data->set.proxy_ssl.primary.key_type =3D data->set.proxy_ssl.key_type=
+;
+> ++  data->set.proxy_ssl.primary.key_passwd =3D data->set.proxy_ssl.key_pa=
+sswd;
+> ++  data->set.proxy_ssl.primary.key_blob =3D data->set.proxy_ssl.key_blob=
+;
+> + #ifdef USE_TLS_SRP
+> +   data->set.proxy_ssl.primary.username =3D
+> +     data->set.str[STRING_TLSAUTH_USERNAME_PROXY];
+> +diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
+> +index f420a8a4f5..27b1b52a10 100644
+> +--- a/tests/data/Makefile.inc
+> ++++ b/tests/data/Makefile.inc
+> +@@ -264,4 +264,5 @@ test3024 test3025 test3026 test3027 test3028 test302=
+9 test3030 \
+> + \
+> + test3100 test3101 test3102 test3103 \
+> + test3200 \
+> +-test3201 test3202
+> ++test3201 test3202 \
+> ++test3303
+> +diff --git a/tests/data/test3303 b/tests/data/test3303
+> +new file mode 100644
+> +index 0000000000..9b52bcb817
+> +--- /dev/null
+> ++++ b/tests/data/test3303
+> +@@ -0,0 +1,23 @@
+> ++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
+> ++<testcase>
+> ++<info>
+> ++<keywords>
+> ++unittest
+> ++TLS
+> ++mTLS
+> ++</keywords>
+> ++</info>
+> ++
+> ++# Client-side
+> ++<client>
+> ++<server>
+> ++none
+> ++</server>
+> ++<features>
+> ++unittest
+> ++</features>
+> ++<name>
+> ++conn-reuse match distinguishes mTLS key, cert_type, key_type and key_pa=
+sswd fields
+> ++</name>
+> ++</client>
+> ++</testcase>
+> +diff --git a/tests/unit/Makefile.inc b/tests/unit/Makefile.inc
+> +index 1926b49b3a..afbe29d2b7 100644
+> +--- a/tests/unit/Makefile.inc
+> ++++ b/tests/unit/Makefile.inc
+> +@@ -39,7 +39,7 @@ UNITPROGS =3D unit1300          unit1302 unit1303 unit=
+1304 unit1305 unit1307 \
+> +  unit1650 unit1651 unit1652 unit1653 unit1654 unit1655 unit1656 \
+> +  unit1660 unit1661 \
+> +  unit2600 unit2601 unit2602 unit2603 \
+> +- unit3200
+> ++ unit3200 unit3303
+> +=20
+> + unit1300_SOURCES =3D unit1300.c $(UNITFILES)
+> +=20
+> +@@ -134,3 +134,5 @@ unit2602_SOURCES =3D unit2602.c $(UNITFILES)
+> + unit2603_SOURCES =3D unit2603.c $(UNITFILES)
+> +=20
+> + unit3200_SOURCES =3D unit3200.c $(UNITFILES)
+> ++
+> ++unit3303_SOURCES =3D unit3303.c $(UNITFILES)
+> +diff --git a/tests/unit/unit3303.c b/tests/unit/unit3303.c
+> +new file mode 100644
+> +index 0000000000..d0a59877d6
+> +--- /dev/null
+> ++++ b/tests/unit/unit3303.c
+> +@@ -0,0 +1,211 @@
+> ++/**********************************************************************=
+*****
+> ++ *                                  _   _ ____  _
+> ++ *  Project                     ___| | | |  _ \| |
+> ++ *                             / __| | | | |_) | |
+> ++ *                            | (__| |_| |  _ <| |___
+> ++ *                             \___|\___/|_| \_\_____|
+> ++ *
+> ++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+> ++ *
+> ++ * This software is licensed as described in the file COPYING, which
+> ++ * you should have received as part of this distribution. The terms
+> ++ * are also available at https://curl.se/docs/copyright.html.
+> ++ *
+> ++ * You may opt to use, copy, modify, merge, publish, distribute and/or =
+sell
+> ++ * copies of the Software, and permit persons to whom the Software is
+> ++ * furnished to do so, under the terms of the COPYING file.
+> ++ *
+> ++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY O=
+F ANY
+> ++ * KIND, either express or implied.
+> ++ *
+> ++ * SPDX-License-Identifier: curl
+> ++ *
+> ++ **********************************************************************=
+*****/
+> ++#include "curlcheck.h"
+> ++#include "cfilters.h"
+> ++#include "http.h"
+> ++#include "urldata.h"
+> ++
+> ++#ifdef USE_SSL
+> ++#include "vtls/vtls.h"
+> ++#include "vtls/vtls_int.h"
+> ++#endif
+> ++#include "memdebug.h" /* LAST include file */
+> ++
+> ++static CURLcode unit_setup(void)
+> ++{
+> ++  return curl_global_init(CURL_GLOBAL_ALL);
+> ++}
+> ++
+> ++static void unit_stop(void)
+> ++{
+> ++  curl_global_cleanup();
+> ++}
+> ++
+> ++UNITTEST_START
+> ++#ifdef USE_SSL
+> ++{
+> ++  CURL *curl;
+    ^ indent changed from upstream patch. Which make it needlessly
+harder to review.
+
+Indentation diff aside, I also noticed a lot of changes from upstream
+test code. At some point, if the upstream test can't apply to the
+backported sources, I have to ask if it's worth it? I'd rather have no
+test instead of an entirely new test that upstream never reviewed.
+
+
+Can you send a v3 series with those changes?
+Please renumber the patches 1-4/4 (many tools don't like partial series
+like these)
+Also, look at 7-8/8 and apply the same idea of diff minimisation from
+upstream (if applicable)
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
