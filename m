@@ -1,125 +1,117 @@
 Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16285.1793379004120259713
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16439.1793379341943801553
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 09:50:04 -0700
+ Fri, 30 Oct 2026 09:55:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=aFb4BTVO;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=SL26Yog0;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=HlAd6K7B;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=E9G42S09;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.156, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 15993140005E
-	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 12:50:03 -0400 (EDT)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 23B1F14001A2
+	for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 12:55:41 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Fri, 30 Oct 2026 12:50:03 -0400
+  by phl-compute-04.internal (MEProxy); Fri, 30 Oct 2026 12:55:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-transfer-encoding:content-type:content-type:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793379003;
-	 x=1793465403; bh=GxUu7GGnGnsgp077emWF1/bVi3mvC1dKZt3USmlw4XA=; b=
-	aFb4BTVOO/05HLMkFQpU72Xu20QHvKdMTVVarZHdpd9IsdquCArAaJmtcWgOfKO7
-	2Uxrl8ajCoMNy7y7Z3npMnUDmydxWKJWk126ejzQLn0NIDLc2DONjMtCUz/hk3gd
-	hzQ0onEr7pDBoC0mLwX0uBd/Lj0NgvGStUrgBlNEW1qElVi79q2JzsqIULar1x6N
-	JINb2tJ4wfv/VEcJYqU3jrZbancY0rQhwQlMna7W0UiE3/9peqRemm2Ex7gxfKcO
-	1luXRYWeD2KlKluLHD7xXRo2U70EMRsneaEnsXv2HveQprFeidrf1vJajrMm/KDL
-	Qp+9N/+IKh8pKu5DDSI3mQ==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793379341;
+	 x=1793465741; bh=AcxLbuJyKDq+hODOkdBCv7Iq0Ky5aYgcggIP73PWB6E=; b=
+	HlAd6K7BGgabAY2SLMFYchJaR6DJHXazJb8PRVSjZkem6Q7DCtbf5e5EUDAGTGSm
+	ZBER3mlUUGVESi9GTaBUwCCe9LU2J6eFW8o409i2e4WgibOSfAAqaRKTnV+iQf0i
+	+3xoht/Kq3wCV/EoigjEX2wzH9uB1tw1ktTcz3STlwDV0WfGETOSZFEmJ0hfnZG/
+	r7ipdL5as1FlYjotpuSd4y2TdN8R2eS96dETIMjdXIJ3PTRGTINgk8EwrIQucHQ+
+	9AhwqJiSucNMtEKEjNJ30vR8sjAgrELvTE0EcluQPt+TGvKQVabhYvygS8YC9DVO
+	h4Bz8LFjpevXBHQ8VAChDQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1793379003; x=1793465403; bh=G
-	xUu7GGnGnsgp077emWF1/bVi3mvC1dKZt3USmlw4XA=; b=SL26Yog0uqEXqlJvZ
-	bOYE/m4Qk9sI0ON3a6Iv05vBdT6CJ2XYwKW7sF0Plp7v3vODUU8esbxbZbcSOp4W
-	WOL2jFquWQ16TiIrLA9QBn46S2KHDJoo/q/AoNBS/AO/MP6nZ0bzX/BK/hdD+VLp
-	XTwTnz5uiGs5epNDKOFefEobxcpVMbC9UgQXL/SG2EkDrVZv7dtoU1xv8ahHbONY
-	TEaYRNXPDAfAQ/Zuk/Dcw6efe2UOrwwnsKVh/IBqmtCkmArXfiMM0CnXtGkUr2kN
-	CoicdUca5bjRa0UiFohtD3XWVO83jK7CXLKri2EAtSZvV46+gPA4X5AMkjlcQxWj
-	WhGKg==
+	:x-me-sender:x-sasl-enc; s=fm2; t=1793379341; x=1793465741; bh=A
+	cxLbuJyKDq+hODOkdBCv7Iq0Ky5aYgcggIP73PWB6E=; b=E9G42S09KNqgHvdeK
+	ChNdkqv1jhVOF8x9TKT0enpqFjgJPshGAJ+6gDCtJicWTJQYNQiOx8PaDvRwclWU
+	gVORL+CFuaAZchIcUWPrgzGdEqtFTuPcSpdawdzQMwY+rQoWu5YzkQdu4jB2Qob9
+	gZWMvXrt2Lb8VcMfsgiiCaAiVj3gqF/RuJvxYqBo6eOfa4QzdwrVMgEU0xXmz/xg
+	jFcEDS2L1T5AX17gqc4r3siF6NdYNyWbh8IHZdWTEHCuIpwHpswkStvNtNgBjhl3
+	s9pHqn8qHKmM4UVb+tUXn/vXsaBTcE3u8jdnc0W9UccPcxE5v4+tjdJLoji+CwMv
+	uUWBA==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793379003; d=pbarker.dev;
+DKIM2-Signature: i=1; m=1; t=1793379341; d=pbarker.dev;
 	mf=PHBhdWxAcGJhcmtlci5kZXY+;
 	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm1:rsa-sha256:nQx+NsPnF1wSf0XOy2049M2e07ryYqfmJVXsodufLSoeDMS
-	CIBoOxUMdYZA2ZDKulBNwXJTg7mH2H2DzYiRLlpeCtUyEbDliQn1N2wSI3NAvPpV
-	m0H5Uq4ADNSCBNzIY4X99lAQS9DnHezuiEK4MRtpg4TsFWqD9LTP+DUNPjpex5Uz
-	oDC3Hfl6lOw0kzZ2D9poyoFYSftm2t6aiXBAKi5IGTKGhUzzaTMWUXENjbgDuiik
-	tt0O2gsIjktph6RfuvjzMzK4cDh+uv51rD3HVaIumAmhrgPfEDPwl6JEb8j3XZe0
-	6HWf1YExYFjDptpgB9A+urvSLt/yMRjqm8nyvDw==;
+	s=fm1:rsa-sha256:J2apABPF8haQdxRygdmTt2eWDi5SZcWnWAAleIOzacO3kK/
+	SK7Qi2STyeNqvc7pumFIy0lffXcZQzofRLNlN9OE2a3JqyYviP6d6kDscp3g1HJF
+	YPsMwNgaFf1xtiZYHeIhOb6wszQlikFU/yfXfE/rLML+dF/IlnUhDs8sTlDslSDj
+	kEq80Pe9ILvo04FD3YMB10MCPTcVRc8aGJ+rWx4NxETwf+dkueZlIUGxWq7zvQW9
+	DvWJw8oAA3tfmM/gPsaX43FlM28nLKgcXpW2WGlFD33mvj3IkldfB2v+vCtOk0dB
+	coXUG8HAeofgYiVKBwFxmG6GlQksfBB9vMtU4AA==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=mi-m=1; hc=12;
 	hn=content-transfer-encoding,content-type,date,feedback-id,from,
 	in-reply-to,message-id,mime-version,references,subject,to,
 	user-agent;
-Message-Instance: m=1; h=sha256:8TMarVQSb0mRT5v7V4hr/jKErLNTTapKuE21zZUVKj8=:GxUu7GGnGnsgp077emWF1/bVi3mvC1dKZt3USmlw4XA=;
-X-ME-Sender: <xms:usrkaqx3uXub6_0MG0RmNXNskXs4dQKo-b9uKq5RgttCvwWY0YBcbg>
-    <xme:usrkasQboKIEMERiBeF_6e8hx4N4ErQYho6zLJUGuu2suiRafjFKk5XU8YrxmlkZa
-    yMxKO3U869pq0-v4J0KSRmHTfGP1hutoj_MuQvQMkpEF8s2KCEI1bB0>
-X-ME-Received: <xmr:usrkap_gFtyezOx5QUnLbbGDs49MxjVTU3hVAyxpRJQ916Ty94DRGbV98EmpeZsxJqvlOC5ppkbWbUJ3_9lcUYO0Tbj6ffPndUBaLrk>
-X-ME-Proxy-Cause: dmFkZTFECXpgCrYOGoXYIDWOk3ItYvCs6bcEjhz8qS+VY38vcN/eTsjDfcRvb2ua74CVKO
-    g2uHEfHJt/1WsaC2ns43sY/uKzHsWwvD1Q0qpD2tUo7CkYd36ZxKIS6AHM175inX+477lR
-    /g+Pwtsma/up0wLk3YPgKkCWLmN00rFJGuif5FaieO/aghbKEjrCzDhDmrX+JJoVabSyKt
-    OVE1ksKLy2ZYepTBaLCZmAKvy40P4lBGid9rdDYkAtEAKyd5Y14wauZ3KLCkkZqtCDXUqj
-    CacZGItJgsY9tDKAqrzJZk6SKeOGXoCYd+kJuuNw5s+4hZ0ITIxBxQDsGlJNLRNwoPkQiI
-    1ncfpXTtzfVX+H3mnNQXk/G9v05XbC7qDOKqlLc0+bIYYOpr4VyzNgb6E15gu2fobMw5KH
-    oniu4xNLCJqSUuPuKXo7duMcxb3iJ9Vaq2trHZE9IkLKerVtrBn2hXIEgmcI0tLaTsnh7R
-    uZT6bw5KjF2NramdvdyCoWyKDbTFQiaTr1JS9CtlDM8mXqzmSBe0ztRN8bKUumOyFGubMV
-    vokVyoqz6gLwtLl90llg7HzkgJ7cuyBzf3w3xzJnonXGFz00O5lI+BgC273pbnNLIZ52Qh
-    r0qQS9K2jQqaOaAYSalVuC7WpmuR4CAyGpyvJaS2zS+XJr0XxBBTB1uHHJ7Q
-X-ME-Proxy: <xmx:usrkarrG-l8BCQ1s_J-lDLf1DvptCyfJRHYgAlpIYGt0IpNQDD337Q>
-    <xmx:usrkauk2kJU157a9B5H24PK6Wp4hoJNqEyc-cNmxephRynCqhrCYsQ>
-    <xmx:usrkaqKiIIoFSGda4TPKB4pdKjcPKgch0dVUG9tNozeIacgwoU3txQ>
-    <xmx:usrkarx972Zx5VnujXUDV-jizyh-SkUF8F5m7y9NG-BlPeKn4KJYCA>
-    <xmx:u8rkaqBePFvrNlSFy3Q4vGwQPGZPT_KYmO8SMeHBStIbkF0MHdS_UF7C>
+Message-Instance: m=1; h=sha256:EXOZeYtxk+AQ5ahhLlpXqkF/WtHEkw6KXkJeHB7OkdA=:AcxLbuJyKDq+hODOkdBCv7Iq0Ky5aYgcggIP73PWB6E=;
+X-ME-Sender: <xms:DMzkamMEVtlvHTis3Z5shXOElOYMVTxQmhhO-pxSu0I6oDWW-3DD3w>
+    <xme:DMzkaq9vaI_uduS057Bj95fM_sHC0eFel6mlrO1gIqwrVkLUfC0FaUXbfMjJtqkAz
+    xQRF4xEjm9Pks_5G6Q0FDk6fVE_p27lykQ3SpKxolM4bZDuW6ByEnk>
+X-ME-Received: <xmr:DMzkaq69a8-2o35X7wn_Deq0HT4NsxBHX3GEmWVDlaW6mUN28SumSNF44y9UwkaPqxA7Supgeq8NXwPkdV7VCh0XdzwMl5eUxkTob54>
+X-ME-Proxy-Cause: dmFkZTGnyEeSjSfXnz7LC5w5ESkO/Ej6o0v+PrA1tV2XkmM+i+p4LMLQFPOkh8MMqyVpS7
+    Pll4ht62DQKYwc7Ujbkgj24htX4V2u2PHzwk4quEiJrj7pByIx3L6mszXFRTfPDZHxSRrG
+    Vb0oLJyHAmqvIdNiFDCXEs7KfgMTA7OFKT3b1dvPFhJDFcB9mU6KRTtM3oVvDT2I05tjWg
+    vIIOvCg0mBCKjPrKuZOETljp9QAGDHzqzmlvi7/DQAFTV/cq6ZwLdmJRyBKNgruvWGC4Vu
+    gzt2S8ztV3zyVMWhG90u0Y/EIh/6e2/ZAOUd1FiUjpdozME8d9PFnwclTXYoSYuObtndEH
+    buiRG0R4Tb437qp4IFC4MCCwQhBcrHMCFUS7odL80Hpt8CFG4gvEIJBsck/a/Wfmq0mrZQ
+    V85n4L6kfelIt2h2CbwHuAbMSGkHqvOAIbISDtGOa5W+Y6and7pPNvchpo/pHPSsFOj1do
+    wjFhNp3HNYcO+SXfjv6H6gQ9hNjG1g7/caV6oo8Nhtz30gmFaZHJoYXCcSoTaJmw37vtH9
+    bmERb6hh7LpbvWII2UDHehm6RDkqQxLPMymRyywfFxta2cJv58yUv7dd0ptcpQbSY6dmUG
+    PbxyiFeCAm7yfGPrA2WVo4qp/s7wlhLqitF3329/HrJPYG5vemzLsMwtTz9g
+X-ME-Proxy: <xmx:DMzkah1gjAVW-B8IqfNYdTRp2wqaxCpSMEdpAMy40iqi3mwRZVM69A>
+    <xmx:DMzkahB4oSWky28-MgXZrAcNMcWVXaCWAyxNHOpzZQ_jLNafN09M9Q>
+    <xmx:DMzkaj1q9kNRiiI53Oru7QM8FNmntOipdN-Xb-SxAbHRa5SyNK4a4A>
+    <xmx:DMzkaru8LgXkaWfq4DAB30WiPBwH_kdlLFPLs-RnFXOte53F6D13QA>
+    <xmx:DczkaulqD4El_oKAlmJFXIETRrQmhk36T_Pnq1qw1OxzI0SEjRsK-IId>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 30 Oct 2026 12:50:01 -0400 (EDT)
-Message-ID: <3c6ddfc306b5369be0748e492955e3a1a4bb9a74.camel@pbarker.dev>
-Subject: Re: [PATCH v2] yocto-check-layer: don't skip entries when dropping
- invalid layers
+ 30 Oct 2026 12:55:40 -0400 (EDT)
+Message-ID: <af31ac60fa1d53994a3efbe4d537e3b99db8415a.camel@pbarker.dev>
+Subject: Re: [PATCH] archiver.bbclass: warn about sources which are not
+ archived
 From: Paul Barker <paul@pbarker.dev>
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 30 Oct 2026 16:49:59 +0000
-In-Reply-To: <20261030121428.1658630-1-vinicius.eduardo.pedrosa@gmail.com>
-References: <20261029112443.1734921-1-vinicius.eduardo.pedrosa@gmail.com>
-	 <20261030121428.1658630-1-vinicius.eduardo.pedrosa@gmail.com>
+To: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
+Date: Fri, 30 Oct 2026 16:55:39 +0000
+In-Reply-To: <20261030131434.2267687-1-ecordonnier@snap.com>
+References: <20261030131434.2267687-1-ecordonnier@snap.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 16:50:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249054
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 16:55:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249055
 
-On Fri, 2026-10-30 at 09:14 -0300, Vinicius Pedrosa wrote:
-> The "Detected layers" loop removes invalid entries from the list it's
-> iterating over. When two invalid layers are next to each other,
-> removing the first one skips the second.
+On Fri, 2026-10-30 at 14:14 +0100, ecordonnier@snap.com wrote:
+> From: Etienne Cordonnier <ecordonnier@snap.com>
 >=20
-> A skipped entry without conf/layer.conf makes the dependency pass fail
-> with KeyError: 'collections'. A skipped BSP+DISTRO entry isn't
-> reported at all. If no other layer is left to test, the script exits 0.
+> In the original mode, do_ar_original archives a source if the fetcher's
+> localpath is a file, or a directory. Any other source is silently skipped=
+,
+> and the source archive is incomplete without any notice. This happened fo=
+r
+> example for shallow git fetches, whose localpath is the clone in
+> DL_DIR/git2, which is not created when the shallow tarball is used.
 >=20
-> Move the check into validate_layers(), which returns a new list with
-> only the valid layers. Call it right after detect_layers(), so
-> dep_layers is built from the filtered list too.
+> No fetcher has a valid case for a localpath which is neither a file nor a
+> directory after do_fetch, so warn about it.
 
-Hi,
+Hi Etienne,
 
-This is now changing a different behaviour as well as fixing the bug you
-tried to address in v1. These should be separate patches - one to fix
-the accidental removal of valid layers and one to move the validation
-before setting dep_layers (if this is justified... the commit message
-for the second change needs to explain why this is needed).
-
-I have to ask, is this AI generated? If so, make sure you're following
-our docs [1].
-
-[1]: https://docs.yoctoproject.org/contributor-guide/submit-changes.html#ac=
-ceptance-of-ai-generated-code
+The archiver class is used for license compliance and to ensure sources
+are available for later rebuilds or debug. If it fails to archive
+something it is supposed to, that should be a fatal error, i.e.
+bb.fatal().
 
 Best regards,
 
