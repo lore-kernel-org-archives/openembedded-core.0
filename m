@@ -1,129 +1,220 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5151.1793336760283864103
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5236.1793336859846644337
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2026 22:06:00 -0700
+ Thu, 29 Oct 2026 22:07:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=fhO4bh4n;
- spf=pass (domain: gmail.com, ip: 74.125.82.176, mailfrom: ragaprasanth@gmail.com)
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-369f3e9e431so258178eec.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 22:06:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=FbO+rpgu;
+ spf=pass (domain: gmail.com, ip: 74.125.82.48, mailfrom: ragaprasanth@gmail.com)
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-18cdcfc05ffso383239c88.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2026 22:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793336759; x=1793941559; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793336859; x=1793941659; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wrSuhwqZhnkNK2wKB1CdezBjGVN0X9taGSv+yqEE4HQ=;
-        b=fhO4bh4nbOQoD4qqD/CY43d4jmnjS4PuZFaKJlGUDmBeUULv5IDafhZSOCGXG0n9Ii
-         vOtrupGtz2NTelQylP7aRGQTD0okIKgnklQz6Xhu89OQYkcmIjDoWFUSh1ZWKAG0bFfI
-         AlOvax+BooFZusU7tj75lEpcJ1vWYGOX0CgFi95/L3ZO+GjlAmly0haQvmpb8ivGxmz3
-         LN5SOSI0qnInGcaTAYTb9OBjtgiuWuLvHBjd1HbU1MU5i4lHJJ+J/kIa2TEtXLxBxvld
-         xumVtQhEdgOCSki8yA7/Q2VFQYZ8YVXWs7SBPOWdE1IoirLDnuPainiUmsI3tNfQevib
-         3IKA==
+        bh=C69V8/KPSUwKAUW+gxLhhDNKu4fPf4+GJhsCqJGU4hw=;
+        b=FbO+rpguyJVRFaPPSPom+7QkQ+AIgdYwA1SqIYbKXjE1BG2Odl2ck5s2xkKlZUpcxl
+         gUEKFJVy454ZgWo8eY/BDl6hkwVcLZA12PykaVG6qKiso0JO7G5us8Dg4EMAA03eyb/x
+         HkIRU+oh9U9/wdbhiJD3aox+85uqe06TpMP8J5zP0BQOsmEynbfzeRfyO9QXyQXkXctM
+         EMrtvH5ZGermCiaWCt4XEfNU7T1RwCxr+XkkVsMjvwSUIEw9TsdYTersJchaDgx47BbP
+         1PJd18CrO5lWPzp1WqYfLMUsMExBpA3s2CIDmBg6fGAT4w424GgZP8/SnuNCY22oOmQ4
+         Gw8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793336759; x=1793941559;
+        d=1e100.net; s=20260707; t=1793336859; x=1793941659;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wrSuhwqZhnkNK2wKB1CdezBjGVN0X9taGSv+yqEE4HQ=;
-        b=NmHvWuMcZ+/wX+surGjVnt6v8L9dCj+RpqkCd0Bor8o17JmxFtLFrue2aHZ2BDvoF3
-         FIsptbuzEJXZWB7d8Q4gneUrKTOmaDgYpkGHUMj4bdJrKmVXFnNFqHTP7S/OeGX8yHwi
-         uqTGQOnYuoY3IDZ8x6R5h6cMj1V7ASPCu457HZYuJ7gg1l8mXq44kzuUaF3BNqKIlOsi
-         +ELbVWNziQXd0h0/T8AqeE1xOha0wVbD8UaJknm0ts5C1eP6HPT+XIPDsa6hYjXTUUpm
-         FpBVdp9uC7djn62cp80C9/vwqNlRIreIzTByjRdeTU6bXNmHD18JSmGDbdct60gvl16M
-         AhUw==
-X-Gm-Message-State: AFq9FYI2kx8y8YIWhIwL8ecZVVic8b/s9VnrRu6/uFb0w6HyTCPOPWPT
-	ki3QfgXfxC5MkYuFdhtx7eOaBh9TBYBKmOCaDmSy+0WJQWhpKxc0F085SJuQduNS
-X-Gm-Gg: AYBFou1HSd98jpBGi0c5Dex2uDjNekjgcoezg2dldmyfjlodIsTJrWFPx36bhLXCGFH
-	+OpE5fEZGi3VjbQAsqok3MMCaBxEMOCCOLyXjffus/067OrevF9aCAW7Uk0RSnf9VG7lxH8M7Je
-	bG9kwHalaiMBsPnWERhTDyU+LbB2VvCPW03NhCEF/bojZtdGzW/Mql+twuzsoKd8xJptgCPwO6x
-	9YEmeNXkV2v4F7NdhLoM1DyMwQQwh8ogv5P7HnqIrBvoI8cpAMa/c5378nFGur3qo/KC1KDMkT+
-	QV9bHRA5mBn9tsFinzbxehSV+L8HvPL4VMKbUBpvWFscVRUfPXzFh3dGJlhhE5UEV+NL3911q73
-	NVu0YRZUiS58sWQEVHuETKlZccQZROrAWPjImYeQi8lUWbpSHF+VUk2K8R+Pyz4rU2lI9yOnnn5
-	MEUyVzQbFwfuwuea0exG02XmM90a6z8cvwkWlIsiECqdoVKGDdJjpnQc8QkPOL3TAZ+ILy7w1Tz
-	lnR8/DAxTetX/IHnsSlegZ25c43wY5MBX/z0eyJZ3WnEKdSiAQXqYZZSCWTYR0ZvXd2LUNXvQw2
-	Ws2cPC3VTtMgsnPeh4FArbJQYq1ZUB/3x6wrkNMi3eheLfDnLp534Zfb3xmR1ejC
-X-Received: by 2002:a05:7301:5408:b0:36a:1446:4852 with SMTP id 5a478bee46e88-36a30008540mr6005766eec.5.1793336759284;
-        Thu, 29 Oct 2026 22:05:59 -0700 (PDT)
+        bh=C69V8/KPSUwKAUW+gxLhhDNKu4fPf4+GJhsCqJGU4hw=;
+        b=GYdv5RCp5fm6d4usrakZkMp46rmVqb/CVxL7jry4ySajMtNCyScrifnwKAeVidxExk
+         hwleM7qvo2hAppv3oKPjz9gkiAAEKCygtBmlk4je42S8Y5FMANEbN+9vD/4MNowWm/84
+         XyraL7l2hbxcZSFCNC0SOyhGS8Q6vCwv9XpPBwxIdd4wsKvtoxbQcTnd5aaLs6pD8Ndz
+         5FjfessSfaDW1nGu4SynJaoSm0UNK+AMBhsHxhP8t1kKgG/E9c9MezNyi86kggoDdAVq
+         1wB+iO/Kks9vQlu/uWT+5cP3uAv2yfrraadYnakATJt+wwLLkciMBaLvgdX3WJ0Y2ykX
+         K1Zw==
+X-Gm-Message-State: AFq9FYKtZ3SYN/7LnsX3PVJDk1A++sRVYzDc5rKV0YnpHsT3leSztcGg
+	cU3DMAzQVb/hIcELCX8rcfdq2V/hCkQkIO4r+GnSfY3JD/xZpZk7ZsIWNd61+tn1
+X-Gm-Gg: AYBFou1wpSLwaRsF8gckxvMhfajEhWjoHQdwDFswPxOnvXF7HNoNs/kHnBgYnAat5R4
+	eQnh1YxsVXoLdcBXKZRj7EAtQnPQuk4O4I7RGtcC+L8tpKhAl3/7cBFUwI8OTKeapSCGQ5nnwgE
+	UZCb6wisrhYxb34yz3xTwH7MVFhK+BJv+9qH9qz0RCA1P8v3LrFX1g2NzMI8r1a5RHPquR5gh/3
+	xMoTgX3qXcldtNQTh+YKS0wAyTEzZGjCgocJThmc0ZN6ZUlAUsse04L2rqsx7Ca21nnptBk8ZM9
+	thtzL7YZPg8w0zTxMY9d0vlpG0PaG/PTz/0tT5QDPbBeryNrXPhl3ELTNAlU44Ke7gUGYXBMdH2
+	A78QO/B8IIvN4smp3dCeUUEvorZXKE2Q9nX3oeP8bEAS0LPrQfNt6P86TjwQ6A4nEZiLoR8wAoo
+	yvs254Kqs7eAQY4n7vpwfXnHQ8oRPqtwxd2m3Zpi+ggy2n4KWWhwCU/uY3dqZ/sbr3UDDpST/ds
+	exVhvNWN3ihyCTsSlzeXCoZ2F6HvDHHJejR9JUXqgX12Cva4qSd4/1u7EJcRl/4poUfX4BuEyLl
+	pjygfjWDBBZuDt34pIGougZnM2enoTesfAGfboE0dx9gSE0RbKnj0x5t/uBmQxBk
+X-Received: by 2002:a05:701b:4193:10b0:15a:4155:3d9d with SMTP id a92af1059eb24-1ac5da76f61mr1724807c88.31.1793336858933;
+        Thu, 29 Oct 2026 22:07:38 -0700 (PDT)
 Return-Path: <ragaprasanth@gmail.com>
 Received: from prasanth.alps.lineo.co.jp (vpn1.lineo.co.jp. [203.141.200.204])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42935b4asm4690065eec.16.2026.10.29.22.05.58
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a5fb97sm4115991eec.23.2026.10.29.22.07.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 22:05:58 -0700 (PDT)
+        Thu, 29 Oct 2026 22:07:38 -0700 (PDT)
 From: Prasanth R <ragaprasanth@gmail.com>
 X-Google-Original-From: Prasanth R <prasanth.r@lineo.co.jp>
 To: openembedded-core@lists.openembedded.org
 Cc: Prasanth R <ragaprasanth@gmail.com>,
 	Prasanth R <prasanth.r@lineo.co.jp>
-Subject: [PATCH] zlib: patch CVE-2026-85091 and CVE-2026-76844
-Date: Fri, 30 Oct 2026 14:05:31 +0900
-Message-Id: <20261030050531.720920-1-prasanth.r@lineo.co.jp>
+Subject: [PATCH] alsa-lib: patch CVE-2026-96674 and CVE-2026-96675
+Date: Fri, 30 Oct 2026 14:07:23 +0900
+Message-Id: <20261030050723.721054-1-prasanth.r@lineo.co.jp>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 05:06:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248986
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 05:07:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/248987
 Content-Type: text/plain; charset="utf-8"
 
 From: Prasanth R <ragaprasanth@gmail.com>
 
-Backport the upstream fix. It covers both CVEs.
-CVE-2026-85091 & CVE-2026-76844
+Backport the two upstream fixes:
+- CVE-2026-96674 & CVE-2026-96675
 
 Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
 ---
- .../zlib/zlib/CVE-2026-85091.patch            | 31 +++++++++++++++++++
- meta/recipes-core/zlib/zlib_1.3.2.bb          |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2026-85091.patch
+ .../alsa/alsa-lib/CVE-2026-96674.patch        | 68 +++++++++++++++++++
+ .../alsa/alsa-lib/CVE-2026-96675.patch        | 45 ++++++++++++
+ .../alsa/alsa-lib_1.2.16.1.bb                 |  2 +
+ 3 files changed, 115 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
 
-diff --git a/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch b/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
 new file mode 100644
-index 0000000000..005d986be0
+index 0000000000..1060723bf9
 --- /dev/null
-+++ b/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch
-@@ -0,0 +1,31 @@
-+From df84af25dc1942490e1d1c899a07619152a46148 Mon Sep 17 00:00:00 2001
-+From: Mark Adler <git@madler.net>
-+Date: Wed, 16 Sep 2026 16:26:14 -0700
-+Subject: [PATCH] Fix buffer overflow bug in non-blocking gzwrite.
++++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
+@@ -0,0 +1,68 @@
++From f8253a68baf9a5f57cdff1cd178920d13e5beb2b Mon Sep 17 00:00:00 2001
++From: Harsh Raj Singhania <raj.harshraut@gmail.com>
++Date: Thu, 1 Oct 2026 00:28:15 +0530
++Subject: [PATCH] topology: fix uint32_t overflow in control decoder size
++ checks
 +
-+This addresses CVE-2026-85091.
++size2 = x->size + x->priv.size was computed in 32-bit arithmetic and could
++wrap on a 64-bit host, bypassing the subsequent bounds check. Pre-check
++for overflow then cast to size_t. Affects tplg_decode_control_mixer,
++tplg_decode_control_enum, and tplg_decode_control_bytes.
 +
-+CVE: CVE-2026-85091 CVE-2026-76844
-+Upstream-Status: Backport [https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148]
++Closes: https://github.com/alsa-project/alsa-lib/pull/527
++Signed-off-by: Harsh Raj Singhania <raj.harshraut@gmail.com>
++Signed-off-by: Takashi Iwai <tiwai@suse.de>
++
++CVE: CVE-2026-96674
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/f8253a68baf9a5f57cdff1cd178920d13e5beb2b]
 +Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
 +---
-+ gzwrite.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
++ src/topology/ctl.c | 21 ++++++++++++++++++---
++ 1 file changed, 18 insertions(+), 3 deletions(-)
 +
-+diff --git a/gzwrite.c b/gzwrite.c
-+index b217b85..5123292 100644
-+--- a/gzwrite.c
-++++ b/gzwrite.c
-+@@ -242,8 +242,11 @@ local z_size_t gz_write(gz_statep state, voidpc buf, z_size_t len) {
-+             n -= state->strm.avail_in;
-+             state->x.pos += n;
-+             len -= n;
-+-            if (ret == -1)
-++            if (ret == -1) {
-++                state->strm.avail_in = 0;
-++                state->strm.next_in = state->in;
-+                 return state->again ? put - len : 0;
-++            }
-+         } while (len);
-+     }
-+ 
-diff --git a/meta/recipes-core/zlib/zlib_1.3.2.bb b/meta/recipes-core/zlib/zlib_1.3.2.bb
-index 8a23d98cd3..c6619f81cc 100644
---- a/meta/recipes-core/zlib/zlib_1.3.2.bb
-+++ b/meta/recipes-core/zlib/zlib_1.3.2.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
- # The source tarball needs to be .gz as only the .gz ends up in fossils/
- SRC_URI = "https://zlib.net/${BP}.tar.gz \
-            file://run-ptest \
-+           file://CVE-2026-85091.patch \
++diff --git a/src/topology/ctl.c b/src/topology/ctl.c
++index 322c461c..93a09f1e 100644
++--- a/src/topology/ctl.c
+++++ b/src/topology/ctl.c
++@@ -1315,7 +1315,12 @@ next:
++ 	}
++ 	INIT_LIST_HEAD(&heap);
++ 	mc = bin;
++-	size2 = mc->size + mc->priv.size;
+++	if (mc->priv.size > size || mc->size > size - mc->priv.size) {
+++		snd_error(TOPOLOGY, "mixer: element sizes overflow (%d, priv %d)",
+++				    mc->size, mc->priv.size);
+++		return -EINVAL;
+++	}
+++	size2 = (size_t)mc->size + (size_t)mc->priv.size;
++ 	if (size2 > size) {
++ 		snd_error(TOPOLOGY, "mixer: wrong element size (%d, priv %d)",
++ 				    mc->size, mc->priv.size);
++@@ -1419,7 +1424,12 @@ next:
++ 	}
++ 	INIT_LIST_HEAD(&heap);
++ 	ec = bin;
++-	size2 = ec->size + ec->priv.size;
+++	if (ec->priv.size > size || ec->size > size - ec->priv.size) {
+++		snd_error(TOPOLOGY, "enum: element sizes overflow (%d, priv %d)",
+++				    ec->size, ec->priv.size);
+++		return -EINVAL;
+++	}
+++	size2 = (size_t)ec->size + (size_t)ec->priv.size;
++ 	if (size2 > size) {
++ 		snd_error(TOPOLOGY, "enum: wrong element size (%d, priv %d)",
++ 				    ec->size, ec->priv.size);
++@@ -1510,7 +1520,12 @@ next:
++ 		return -EINVAL;
++ 	}
++ 	bc = bin;
++-	size2 = bc->size + bc->priv.size;
+++	if (bc->priv.size > size || bc->size > size - bc->priv.size) {
+++		snd_error(TOPOLOGY, "bytes: element sizes overflow (%d, priv %d)",
+++				    bc->size, bc->priv.size);
+++		return -EINVAL;
+++	}
+++	size2 = (size_t)bc->size + (size_t)bc->priv.size;
++ 	if (size2 > size) {
++ 		snd_error(TOPOLOGY, "bytes: wrong element size (%d, priv %d)",
++ 				    bc->size, bc->priv.size);
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
+new file mode 100644
+index 0000000000..6cce139324
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
+@@ -0,0 +1,45 @@
++From 81c4a89eb445f8e991ca80ab55b5649530c0aacd Mon Sep 17 00:00:00 2001
++From: Harsh Raj Singhania <raj.harshraut@gmail.com>
++Date: Thu, 1 Oct 2026 00:28:53 +0530
++Subject: [PATCH] pcm: replace multi plugin binding asserts with -EINVAL checks
++
++Sparse binding maps leave sidxs[i] == -1 for gap indices. The previous
++assert() calls caused SIGABRT in debug builds and OOB reads under NDEBUG.
++Return -EINVAL with explicit bounds and sign checks instead.
++
++[ fixed coding style -- tiwai ]
++
++Closes: https://github.com/alsa-project/alsa-lib/pull/527
++Signed-off-by: Harsh Raj Singhania <raj.harshraut@gmail.com>
++Signed-off-by: Takashi Iwai <tiwai@suse.de>
++
++CVE: CVE-2026-96675
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/81c4a89eb445f8e991ca80ab55b5649530c0aacd]
++Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
++---
++ src/pcm/pcm_multi.c | 12 ++++++++++--
++ 1 file changed, 10 insertions(+), 2 deletions(-)
++
++diff --git a/src/pcm/pcm_multi.c b/src/pcm/pcm_multi.c
++index 121c4c20..c7c67e73 100644
++--- a/src/pcm/pcm_multi.c
+++++ b/src/pcm/pcm_multi.c
++@@ -1121,8 +1121,16 @@ int snd_pcm_multi_open(snd_pcm_t **pcmp, const char *name,
++ 	}
++ 	for (i = 0; i < channels_count; ++i) {
++ 		snd_pcm_multi_channel_t *bind = &multi->channels[i];
++-		assert(sidxs[i] < (int)slaves_count);
++-		assert(schannels[i] < schannels_count[sidxs[i]]);
+++		if (sidxs[i] < 0 || sidxs[i] >= (int)slaves_count) {
+++			SNDERR("multi: ch %d invalid slave idx %d",
+++			       i, sidxs[i]);
+++			return -EINVAL;
+++		}
+++		if (schannels[i] >= schannels_count[sidxs[i]]) {
+++			SNDERR("multi: ch %d channel %d out of range",
+++			       i, schannels[i]);
+++			return -EINVAL;
+++		}
++ 		bind->slave_idx = sidxs[i];
++ 		bind->slave_channel = schannels[i];
++ 		if (sidxs[i] < 0)
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+index 685f06c726..30a5d3bb57 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+ 
+ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
+            file://CVE-2026-90781.patch \
++           file://CVE-2026-96674.patch \
++           file://CVE-2026-96675.patch \
             "
- UPSTREAM_CHECK_URI = "http://zlib.net/"
+ SRC_URI[sha256sum] = "f740db7f488255944ffd4428416ee3390a96742856916433df468c281436480e"
  
 -- 
 2.34.1
