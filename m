@@ -1,183 +1,135 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11431.1793366543845190131
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11475.1793366675977360434
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 06:22:24 -0700
+ Fri, 30 Oct 2026 06:24:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=HXtIOUKp;
- spf=pass (domain: snapchat.com, ip: 209.85.221.47, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48e0d1c095dso391631f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 06:22:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=kEDmoMLp;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-53fdd2fb171so7815301cf.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 06:24:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793366675; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QAbDebbKKXyf2nzjMpZ7H6mmgtTLKhDMXbBqTsrPNQY/S0j2LXt6Ei5VA3PFypbl7G
+         EH09A8goPEs02FtPR3XAuk7anRYh4bsboqoI+UlPWxoKnV+ifhLEOrZYbaHNuY+pcAAz
+         HIf+qW0WZMQ/ARBdh8xYfQJIHxRSIp/O+SM3p4PED5EKRPsSgst0VfFXtoTu32vfnL0r
+         HBqc8T1BlBg8Czo8necVB2tOsECHVgqp/NdOKsS94dUfKnawu5k0cpmN6Poow8eBlToY
+         +6tZg2zw91mrUSQKkUQxbDTqIaCok5UjOIR7XnSCOJ0HlEnnMF7uOPPMpTJZZ8W0Si/1
+         vsBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=17cfgWDJONgXZBa5+/UKsMugbppt9lI/A2/dmhoWe10=;
+        fh=3d571T8SRa6klgnGqFkKB7jgNbhbmQaR4RR78McTrIE=;
+        b=p8q77+gUanWCh0XOe1yu40MQQSg/iZxTRC3KuPvo4/By/BITQ9OUjas60Yz1F/znO1
+         QFm+Xmp9hApaWxN2W3EhAc7gO1xw7sDd/WoZz14G3UxZ1vAAMmJBkNvGYYA28ioxwjH/
+         uTDpJ39gO+J5pIUFY/dDBJ8NRAMCylOJowfA/iDN7xpBZyUNE1EA9h/dfPA8PO/SEagN
+         H9bMrned6yCQQ5MmsSGnzMAmtdxqllUqJ/kgN/TsFM2/O0OvORMHXCk1d8rO4RyTJfKQ
+         Tv4RKwNLvCzMeAZ4jlBPoUW6KtEEXWYWVOJm9ZHSN+lfqUgWKi+Nj7mzeH8YqeS91F0r
+         QWfQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1793366542; x=1793971342; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RKMu/2h78He6JTBgSTzIZ2rGtQcSqM8neGCHEgBXo4g=;
-        b=HXtIOUKppFi517gUeHRAcMS7Hr2d5CrsFzzdfhFijSk+Crieq/qeEH5aosnJEWUgCo
-         Fee+l+gOR5+SdHnhJ6xgXm0eHwxK6YJa05hXHa08lUKBZj9YIB1qLWlcRJFXmXXO+n+e
-         WpKdexI1s7QvsbfmdYKFpSHzxIl570Py+Zyzs=
+        d=gmail.com; s=20260707; t=1793366675; x=1793971475; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=17cfgWDJONgXZBa5+/UKsMugbppt9lI/A2/dmhoWe10=;
+        b=kEDmoMLpo0YWnDPbZr7dwW/Qf4+Gs7X7OTRBbtd5bYM0PMr6yxIybVAtRXTzV6X1cr
+         Rmcc5H2AJ7sUJ+INtGzBoOPy8u5mjCPZXeIeRuZu4j70HTtH0fBMlSQSOfO00X56Nd9b
+         st2ZpZxNaqOAgdhMlH64GqOTtuQRKCSo6jVHishuR+7neIQuO58CbA365AFDXkbYlEye
+         gyhAOnFt5kOx5pst5g35M6l22Z32had5W01j3rG5OG+kw2n1QLgB1EDVFeBw1nmezH8D
+         w8s6VaZgDWfKD6807vBTjYOgYaFqqmO9sg2qb61tOGwHWmETYoo91WPOZ8MrE0f0XhAa
+         DNIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793366542; x=1793971342;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RKMu/2h78He6JTBgSTzIZ2rGtQcSqM8neGCHEgBXo4g=;
-        b=ynWGBeGiavbepIjEj51mE6PN30C97arni0aAUths21iDLOeTsmMdBkE0UUiqac8vdH
-         AW8ukJnZxeTLNbwUCeLvIaVKnt0Dl9DD3Wr2bfYg0DGVG9i96cAfOVH+/IW547VwM/5D
-         cudITHDU/J3BiSyUXeo9jhh++4Tx/UAM3vOy6CGSMja0ntl+EEfJbX0fcYJotpHEJm8n
-         yvuKdVqFjW2g6apIqK1vFoZkJ+q2yOy3XLyrqDKs9qGYo175V+dQ+YrRFqmAoC7P8VgL
-         yjqhO52OihO9mJvkxlQGArL0wBZyU1qUeHI5UHyg67sUB4b08GfKJVDnGMQ2ctG4wHmO
-         dSTg==
-X-Gm-Message-State: AFq9FYLe+9jQ5BYWrmwJWiFP2pjH76ICF5xsL/8xgW3yO3gXTuoJ1JnC
-	OXI6jQhCoMy6K7pBWUMfFmkvWJW1izd0amgjBvfq0lG2MQ0Iarh/VbhgC+V6N0WWymLv2CbENWk
-	VWRBrcJ0=
-X-Gm-Gg: AYBFou2TY/dfJyurJsRe+s6VCac2ULQ7tbjOnGvUwD+x7A8NNLEQuHn6psD8YYNkID8
-	Z5m2gkw3VsnNJQ77FdIb3t4zN4nnLYZ/aWidpvp/mpzGa7OwTCL3LS+noCbuFCQgcdR3f4/LjpJ
-	5z40M7Pjzb1mNly8jeHqiv3jDAKlNU5M4n0PvxhCVmCEncdJlG9ET7a49P0x1mmSsp6smDyT+aj
-	VN4UGEBA4/TPlrn0w108G0Vt800j89wrhMYR6pd0XW8n3EdwN8xFJF2aHdYJWdy0PznI5r9Fnld
-	JrRrEuGgwiuMdwe+j4y5cocCQepFHWKYUPiLEHIGWCA27VcJfTYz0SJPxKjqQLKkkfCD9Ydzg9B
-	OCcHSrTYvbq/mYs2snEuoXx5Ng/e4TUI7ZeC4J/CbVUd0Hf1OBspPMeUHn8y9dwET7Jli9CvO0w
-	Jv9LUSPGSQA1BdQ3l3aq27qGQxUklhClPl+erKS3nPbzQ0RoDSY2t9E0IPL7rQyR4t5fq/I9VTu
-	obEIS6aXs57pTC8bb4pLOmEPcCTP8cOybRA4ntBrtItlSSL720RiqgyChR2pWNC4x5tLOpeYIZl
-	m4lOt8zaoDAY7Z1eXrDJJsbSX/ocmoConDejv2iXH+zR5K0Opg9QLklEeL2Nfir836z+KAvP
-X-Received: by 2002:a5d:64c4:0:b0:48c:6fa4:fc89 with SMTP id ffacd0b85a97d-48e6e3072d7mr5652391f8f.12.1793366541905;
-        Fri, 30 Oct 2026 06:22:21 -0700 (PDT)
-Return-Path: <ecordonnier@snapchat.com>
-Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b725b8sm3312900f8f.20.2026.10.30.06.22.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 06:22:21 -0700 (PDT)
-From: ecordonnier@snap.com
-To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH] archiver.bbclass: archive shallow git sources which have no clone
-Date: Fri, 30 Oct 2026 14:22:19 +0100
-Message-ID: <20261030132219.2280397-1-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1793366675; x=1793971475;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=17cfgWDJONgXZBa5+/UKsMugbppt9lI/A2/dmhoWe10=;
+        b=OpFPvI3OLNNLs0S0EYiI44JfcECecvN0eWblQBHe7oF8vLXWxTfFqZRfW4DS6jqTAb
+         ayYEmPWeshTzUYtCWwVha4RBKmyNuwut/zRJklvI/CtUAA5xuovr82T1Ou4SOK7W8vZD
+         0W0i2KyQpnuE3TLDBYho9ttVostraVXXitrAO2dKw7yFMtE0ZfLPyYRyMV17BEkHwwIR
+         uv/BpL1Ytdsf8sfEDxO6fSe9+QBcMoZSbJ7FU+E3kkME7h3GGIKskJ2fYTAKCTbxiIGR
+         /0kCIHWzvASn1StKaZnOdMxEhDHeQQBdaAyRUQ5Lu4eihXVaWdkp6bkNr8Cz0pwq05fy
+         GlzQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxVRytWMsJV++qCew72Dvh+wKfa0N+gCBowQuHCFq3o5wz/0HyLG/KKblUotOrWW1CbTlUQ/Tv2SI2trfmFuZM0pg==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYIlkIHM8DbS8NLitBGNUwk9nhcIKcPoYEQMYDMjWyKJZ15PSG8X
+	CAxJr0+42t6HJsArL+lqrZRxsI8zYBIUxoxiBvcp/1pg2JGNqEq7a3ymmvZ1YNz7ijsQ4VsC/l0
+	63N9rzWEX6gfrawhCInx2udOmZmMgrmA=
+X-Gm-Gg: AYBFou0+p5VZlN9tMfyN0CTIBX1bYGWIkqlOfXVfGmwMCNCSIE2/eD2RavE/iZHr//g
+	SAY4fLilkjrNfQVICXv4SZH9YGrHYyUQ6n+vZtW5dpfkgGWk6EGtXD37nEziBcYZDdUmBHToQsj
+	Vy7w+pSOWWu3NLdI+cu7cvD9/L17SSB16qYSY+qKvlMmQOlKSgHLFzTRY6JbJg/cziWCHFHxkrW
+	FMYMpwDfUMdbK+ycB/1/jXhRpfyD4FMauoOe8Tcb+oakvJv01OAiRFv7ZurwUmFzApPu44ei7Va
+	2jPMzR+Scyi/mRiDX2xPuphXpmQzCtGauL5TkPiMo0fUvxSfRQ1/Bmfzq1uOkM7T0JexGibuksS
+	v6T0/pgraohXdHg3bWda/1T6Z6Dxdwyg7FeFNDzFl+Pf55yigrlxuo/mYbWbltmiWDCltRM/wYQ
+	PE1L4vwgD4esvPijOA
+X-Received: by 2002:a05:620a:444f:b0:93f:5717:e7b9 with SMTP id
+ af79cd13be357-9442177e372mr342192185a.30.1793366674886; Fri, 30 Oct 2026
+ 06:24:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261030100214.3111726-1-roshs@qti.qualcomm.com> <CADkTA4NWzzaT11ssicpviaA3AgYtOPbpg_HGuciPSttkQUggdQ@mail.gmail.com>
+In-Reply-To: <CADkTA4NWzzaT11ssicpviaA3AgYtOPbpg_HGuciPSttkQUggdQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 30 Oct 2026 14:24:22 +0100
+X-Gm-Features: AclHuK8RGdLlcveHwEiXkSWW1G-3AeTEXEaNCZlTplt2M2nfiYmb3UEFoJ3ES2w
+Message-ID: <CANNYZj-1kbfQpAGpPKaOd_mGqA8Ums_+NO_aFyYtO2fq+gUudA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] kernel-devsrc: add runtime dependency on sed
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: roshs@qti.qualcomm.com, openembedded-core@lists.openembedded.org, 
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Sumanth Gavini <sumanth.gavini@windriver.com>
+Content-Type: multipart/alternative; boundary="0000000000009bd4a9065f0eb7fe"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 13:22:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249038
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 13:24:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249039
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+--0000000000009bd4a9065f0eb7fe
+Content-Type: text/plain; charset="UTF-8"
 
-In the original mode, do_ar_original archives a source if the fetcher's
-localpath is a file, or a directory (which is unpacked and tarred). For git,
-localpath is the clone in DL_DIR/git2. A shallow fetch (BB_GIT_SHALLOW) can
-use the gitshallow tarball (ud.fullshallow) without creating the clone: since
-bitbake commit 457288b2f ("fetch2/git: Add support for fast initial shallow
-fetch") this is what a shallow fetch does by default, and it also happens when
-the shallow tarball is fetched from a mirror. In this case, the source was
-silently skipped and not archived at all.
+On Fri, 30 Oct 2026 at 13:56, Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
 
-Treat this case like a directory source: unpack() can unpack the shallow
-tarball. Use the same check as unpack() (clonedir_need_update()), so that the
-case of an out of date clone, where unpack() also uses the shallow tarball, is
-handled as well.
+> I say "probably" above, because you aren't saying what you are
+> building that triggered that script to be called at all. From a quick
+> grep of the kernel it is only linking vmlinux that uses that.
+>
+> Are you rebuilding the kernel completely from -devsrc ? (which
+> shouldn't work)  Or doing something else that is triggering it to be
+> called ?
+>
 
-The shallow tarball only contains the repository, so the unpacked tree has a
-.git with all the (compressed) objects, which would double the size of the
-archive. Drop it. The .git of a clone has no objects either (clone -s only
-references them via objects/info/alternates), so neither archive contains a
-usable repository.
+From a different thread, I do not think this script is actually called or
+used. Rather there was an interaction with rpm packaging that revealed the
+missing sed dependency in the package, caused by this script. Rpm tries to
+be clever when processing binaries it's asked to package up, and sometimes
+that gets in the way (but other times reveals useful info about missing
+dependencies).
 
-AI-Generated: Claude Sonnet 5.5
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
----
- meta/classes/archiver.bbclass            | 14 +++++++-
- meta/lib/oeqa/selftest/cases/archiver.py | 41 ++++++++++++++++++++++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+Alex
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 0400d6e373..06ce6443ee 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -204,12 +204,24 @@ python do_ar_original() {
-     fetch = bb.fetch.Fetch(urls, ld)
-     tarball_suffix = {}
-     for url in fetch.urls:
-+        ud = fetch.ud[url]
-         local = fetch.localpath(url).rstrip("/");
-+        # A shallow git fetch which used the shallow tarball has no up to date
-+        # clone, which is what localpath() points to. unpack() then uses the
-+        # shallow tarball, using the same check as here.
-+        shallow = getattr(ud, 'shallow', False) and os.path.isfile(ud.fullshallow) \
-+                  and ud.method.clonedir_need_update(ud, ld)
-         if os.path.isfile(local):
-             shutil.copy(local, ar_outdir)
--        elif os.path.isdir(local):
-+        elif os.path.isdir(local) or shallow:
-             tmpdir = tempfile.mkdtemp(dir=d.getVar('ARCHIVER_WORKDIR'))
-             fetch.unpack(tmpdir, (url,))
-+            if shallow:
-+                # The unpacked shallow tarball has a .git with all the objects,
-+                # which would ship the sources twice. Drop it: the .git of a
-+                # clone has no objects either (clone -s), so neither archive
-+                # contains a usable repository.
-+                bb.utils.remove(os.path.join(ud.destdir, '.git'), recurse=True)
-             # To handle recipes with more than one source, we add the "name"
-             # URL parameter as suffix. We treat it as an error when
-             # there's more than one URL without a name, or a name gets reused.
-diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
-index 8c5aa75e9b..70aa5a4b1c 100644
---- a/meta/lib/oeqa/selftest/cases/archiver.py
-+++ b/meta/lib/oeqa/selftest/cases/archiver.py
-@@ -7,6 +7,8 @@
- import os
- import glob
- import re
-+import shutil
-+import tarfile
- from oeqa.utils.commands import bitbake, get_bb_vars
- from oeqa.selftest.case import OESelftestTestCase
- 
-@@ -176,6 +178,45 @@ class Archiver(OESelftestTestCase):
- 
-         self._test_archiver_mode('original', 'ed-1.21.1.tar.lz')
- 
-+    def test_archiver_mode_original_git_shallow(self):
-+        """
-+        Test that the archiver archives a shallow git source with
-+        `ARCHIVER_MODE[src] = "original"` when only the shallow tarball is
-+        available, but not the clone. This is what happens with the fast
-+        initial shallow fetch, or when the shallow tarball is fetched from a
-+        mirror.
-+        """
-+        target = 'gitrepotest'
-+
-+        features = 'INHERIT += "archiver"\n'
-+        features += 'ARCHIVER_MODE[src] = "original"\n'
-+        features += 'BB_GIT_SHALLOW = "1"\n'
-+        features += 'BB_GENERATE_SHALLOW_TARBALLS = "1"\n'
-+        features += 'DL_DIR = "${TOPDIR}/downloads-shallow"\n'
-+        self.write_config(features)
-+
-+        # Fetch to create the shallow tarball, then remove the clone if the
-+        # fetcher fell back to a full clone, so that the second fetch has to
-+        # use the shallow tarball. cleansstate makes sure that the archive is
-+        # created again and not restored from sstate.
-+        bitbake('-c cleansstate %s' % target)
-+        bitbake('-c fetch %s' % target)
-+        bb_vars = get_bb_vars(['DL_DIR', 'DEPLOY_DIR_SRC'])
-+        self.track_for_cleanup(bb_vars['DL_DIR'])
-+        self.assertTrue(glob.glob(os.path.join(bb_vars['DL_DIR'], 'gitshallow_*.tar.gz')),
-+                        'Missing shallow tarball in DL_DIR')
-+        shutil.rmtree(os.path.join(bb_vars['DL_DIR'], 'git2'))
-+        bitbake('-c cleansstate %s' % target)
-+
-+        bitbake('-c deploy_archives %s' % target)
-+
-+        archives = glob.glob(os.path.join(bb_vars['DEPLOY_DIR_SRC'], '*', '%s-*' % target, '%s-*.tar.*' % target))
-+        self.assertEqual(len(archives), 1, 'Expected one source archive for %s, found %s' % (target, archives))
-+        with tarfile.open(archives[0]) as tar:
-+            names = tar.getnames()
-+        self.assertTrue([n for n in names if n.endswith('/COPYING')], 'Archive has no source files: %s' % names[:20])
-+        self.assertFalse([n for n in names if '/.git/' in n], 'Archive contains git objects')
-+
-     def test_archiver_mode_patched(self):
-         """
-         Test that the archiver works with `ARCHIVER_MODE[src] = "patched"`.
--- 
-2.43.0
+--0000000000009bd4a9065f0eb7fe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 30 Oct 2026 at 13:56, Bruce Ashfi=
+eld &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.co=
+m</a>&gt; wrote:</div><div class=3D"gmail_quote gmail_quote_container"><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=
+=3D"gmail_quote"><div><div style=3D"font-size:small">I say &quot;probably&q=
+uot; above, because you aren&#39;t saying what you are</div><div style=3D"f=
+ont-size:small">building that triggered that script to be called at all. Fr=
+om a quick</div><div style=3D"font-size:small">grep of the kernel it is onl=
+y linking vmlinux that uses that.=C2=A0</div><div style=3D"font-size:small"=
+><br></div><div style=3D"font-size:small">Are you rebuilding the kernel com=
+pletely from -devsrc ?=C2=A0(which=C2=A0</div><div style=3D"font-size:small=
+">shouldn&#39;t work)=C2=A0 Or doing something else that is triggering it t=
+o be</div><div style=3D"font-size:small">called ?</div></div></div></div></=
+blockquote><div><br></div><div>From a different thread, I do not think this=
+ script is actually called or used. Rather there was an interaction with rp=
+m packaging that revealed the missing sed dependency in the package, caused=
+ by this script. Rpm tries to be clever when processing binaries it&#39;s a=
+sked to package up, and sometimes that gets in the way (but other times rev=
+eals useful info about missing dependencies).</div><div><br></div><div>Alex=
+=C2=A0</div></div></div>
+
+--0000000000009bd4a9065f0eb7fe--
