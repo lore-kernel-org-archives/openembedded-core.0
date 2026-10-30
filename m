@@ -1,244 +1,200 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10761.1793364989544704588
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11062.1793365609388130803
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 05:56:29 -0700
+ Fri, 30 Oct 2026 06:06:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=TDGPPw7a;
- spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8b09e07e149so5352617b3.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 05:56:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793364988; cv=none;
+ dkim=pass header.i=@konsulko.com header.s=google header.b=D6XkjDla;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.178, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2e9e53d011eso5990535ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 06:06:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793365609; cv=none;
         d=google.com; s=arc-20260327;
-        b=WkVksjsV0eGWZFyYD5Imxv3Nsoqs0uLlKRXvP2ztCriHoiySxgwd6ECSP7oHok3OFN
-         4Olzpt91DUT2Omh5c6vMCuIQkTACR7ZLevube0lvB2qORQ7rjOOnVg6W125EZnSgyPgx
-         Kcap+OzmIkxdYlbNZL0r+ZXWDsNVgXFf+65RlhfE4gWdIZJXXinInxgDXm0lNV0ytgd1
-         lvxZtQDTQWZ1S+dsoUVpds1jGi8AviCXux0Co9LZx3+sFYorNGxqoL0hD30QVDyW52P8
-         DSqc4xiPCUNtKqoEalBew8NdJGXuOMlUH+kSj8ERgwvX5hTltqAVTAtGQ7XHlXlDNQVO
-         0mVg==
+        b=TY3Jocbo7fTtpHRzKNVZDJUesJmFnnVV7qnWYUD0ERW7O7VwxCwHvYs7PgkAuuYrEJ
+         0Q5ILhqR2qUXW446utPs/s+4TTl5YwExJImuWOl2k0AMN0D7C43M7mhG9rNB/9127YCJ
+         KhysZOSneGVVY7VQKqZ47+S/8Bo+mRJhr3orWqyIzLRQ1cwqjl/dr7Fwpr8nzRt0WPcU
+         3XXO3N3AFfrf7pXZJXeQHj95eh6I0qDltd+9pgoMsniLlqCuc90l9bjh8GNHTlpeGk+u
+         7BspwAmUcqsysHs230vrIVMgNWaE89T3nqhtXtKZ+6DCA4aMe2bByv7a4erwDkZaOVJ5
+         rnwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=pKmfbLjgSKr5rgLGjDo+Zyl2yEDElFZemM6BWUfR9WA=;
-        fh=Dc7M/NYC+XWAgsAQXsVZfrS+oEsbMTk6OlSI4qIWfk0=;
-        b=ImHHg5hfBXi/Zwr2vYHHcaGd1Qcb5v7OOuZVo5dkIBxBAsB4DnWOq5sDKcuYfMIUWQ
-         W3/2NU6lk1x4KqpPsg74fem7nQiKOrHMeNg9QcomDalsCN6/jSd/eZBTVcS/q6cJbfwx
-         Ky1wUww/JjhuiyFYez+37jWe6uLqWxnd5PQU7T0MixOLMEUCuSECGWH5bq+Q3LnMJaKc
-         s9o63F6fHZ0PAK9bSLITX5gUU6Twbd7ZutwOY4fKomUTrbDOJQfdwhl1zWrejNUV3p5a
-         sRW00hu7m3ukgVDVfpn+UEkk/uvtLCp4HZiKFCD+xt3HjlVP1MyRqQL6Z71Z+j1Hz68d
-         /hPA==;
+        bh=SKsWS7gROfjTNS9L9qKTuGohxLnsZLwMmIDiqwe9nUE=;
+        fh=VOVZu8FjXojtP/2iv884q8pvwCQeeuFgwI9OY1sYm5U=;
+        b=CR6lj1j0ph/D/Q6mua6gXKGWLArKxq2j3JEBEpksloVgIky9XITRxUQKTUT1J3V2Ed
+         +0TIeCAee/OCVL5x1XgPmA++mjclyyU1UT1qRb3sr02LnqBtX4yyf+hHh9wRYBuMerGC
+         jzwsyrax9PEPpnA3BOAwSuTO8QuH1NWrtzVa7Yviw5ct6Ok0295vLLUKXI418EApCUuZ
+         GRud0CpmB1mGM88fixiXeutB7ksQBdsM5qRqtR+XY7Ls9ycvcUutNZKbdH7xf2ATfikV
+         tX2oEWhV3qB2BMd/GfhH0aOOQ7LgqBk3IlpBnjmFQlQjTPhwybqtNCQ9AOUK2cjWq/RO
+         vzpw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793364988; x=1793969788; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1793365609; x=1793970409; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pKmfbLjgSKr5rgLGjDo+Zyl2yEDElFZemM6BWUfR9WA=;
-        b=TDGPPw7aAGt9PIJoM3syTVZBOjSdBa2+bIasvyqbfAsurq7qs6cqULasNoFeCz+Mdy
-         9BYpwsCw1MJBYbNTi9Ycr9lyMztL5Pl/XuDuGdv2fAVWu+nHSTbV5UztOb+SiCOSJ88y
-         uQc51pqg+C0GBdQyxqL5fmUIzshokO7QTlkcvyLXadOP+FRRP89P5pzqS6Tu/OzHFV0w
-         TOmZl4LuH26tEBPvDGB01QwRY6Wj25WwOiEjs6xfnDTgsRmBA2XGbwYukD2X3qXrPcx4
-         NFPIJHyI0dhqBqseJdQEtWb/OpQvWyiDauBVsIoJlbCZF3vLE2vtVTBzPMKUvbOP7kpx
-         xYKQ==
+        bh=SKsWS7gROfjTNS9L9qKTuGohxLnsZLwMmIDiqwe9nUE=;
+        b=D6XkjDla+23jnQd4ni8FEBd2NkpEH5S4GZadoXvX3VQQ/a57Kq7lQXrIf4yUJmhk9N
+         qbx7gT5FWaRNuo0KVw5ByjiiKzg6WftlePmJHjl3DGWhUeJ1AaKUjhzXyVpyxp91r4p0
+         CwMwpmQapOaqp9F+2zVNiJUu6Asaq6/VaF46Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793364988; x=1793969788;
+        d=1e100.net; s=20260707; t=1793365609; x=1793970409;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=pKmfbLjgSKr5rgLGjDo+Zyl2yEDElFZemM6BWUfR9WA=;
-        b=bOQti9dijofFykqQ06o8oK/mOg1ThjD2IbFtgOBBWEruPbnCjwjQYkJqtFWx6q6QAc
-         2YVvR8u8Z7StIKBiEoNUAXF2ISzjI5ly4U7lQF05gJAEnBTsgl2TTfxdWms4zOZUi+AW
-         j3s8vpVvYaClNsH9JoSQokCFigITFWLQY1lxqM6O4WMjXFYB2sJuwo/tkf5F3LaQkJ9S
-         sWlDcTlRxFR5uOFSvMivcXL8sOZJynIOVEWqM648Yf52AXPbjdCEzJcoafgxUePOIgyf
-         kY5Qa1bNL7lSHd9zi/BgOLx9jNKnB8TcaHg2hYPB737BNCLN6cIixAy4k4KiDRe8uDPv
-         zqpA==
-X-Gm-Message-State: AFq9FYLIcWf9BSR4euu0WWu2HNFTQ8Fd7irtqTnrn4s9o3H+lSR09aDZ
-	tTd2zFeYSVsDlTihBFh+fhcasPaiI1k4KaFZkV5Gg0KHqNdTwOrWDkzMXKWf51+2kPPibUyBVMs
-	0S8QdgiibWktgD8MtI/Ycz1Q/MfiQ3c8=
-X-Gm-Gg: AYBFou2/oAwwYISujR/KgPeyhkMSgWQh46XlKvJqtYnRqhkmUP0ta3MP5ra9LGwPJ1N
-	TsN6PcgGzoOrIauEuHy8zNhtYLWutNuUOG3ZNCOkoMfKpHEQQkArzRV73UEJmG0XejXmCbum/HC
-	+dUARam1EWVL6mJxmn5oAr1fRXkfpgwr0g4hJWJgvsApczEaDjsvLs8FezdOJJeiIZwsFylfBSj
-	3IaG6PrV5+fU4i8WvbBmxjE/pLur+TROu64I2HcWBoKnl/h1Rv9MRav2+mxbnrflNt651SNXUkt
-	8pra9MOUrcFaDdsQN0UylHZpQ/EsiXwcYW+AEiKrexhyVTAIHd0DUqyVkc8lzh9sJNUT+SlAgvR
-	aaAiT6/ir4TFP3QYslK0KgcoMqb6UUNcYZWt6+T2p9v4FpTKEOvtb9nLaGU7FgssGsgf6rdTVb7
-	zrnkFHQi4sF7Xd1IIwN6ctQbpHieBnshHmZ3DAPkpw0ofYmxTlWdRqyhc=
-X-Received: by 2002:a05:690c:660c:b0:8b0:9e07:d8b3 with SMTP id
- 00721157ae682-8b2b671b69dmr11606417b3.48.1793364988322; Fri, 30 Oct 2026
- 05:56:28 -0700 (PDT)
+        bh=SKsWS7gROfjTNS9L9qKTuGohxLnsZLwMmIDiqwe9nUE=;
+        b=eElsQAe7J7OhOOT3Y5OpV6p/G1V3tEqYMwJgLO024Z9K8Z0AR2+w3x2iWhlOMN0sGs
+         nIr4AfUgk2rywtifSlWBXAzjai15o+qJ0G7WdpLY8OJrE7OGDBKPtSKGh9EZot6B1ksg
+         ZUfmiFivxlxtAE2j59qlwQ+ep+h6cc+JJFyknlDn1sPdt+2wg9BbLOripk23721bG6on
+         qWRbQWJjq1xGqnDohtwgDCe0pTzuFtTFvEl1IPNG/XiItPVtaA1FOUmHVEV5h0zaqD5+
+         0527u6CV1HJ5Xi2j9C3R9FmfTjLr+6jlapnsxdJQGQmRkKya9id1Z/8q926w9hb8B0Z1
+         7wPA==
+X-Gm-Message-State: AFq9FYIBIBoYz2zJxsQOaoEisYIfXejrEQhT1ZT1HXkJk3OUp1NGpUQz
+	suNuOQ2HjtdWc6KE84huyYIgSWY135JsoGXbaaIei4mZxiSytS5MNSeqwY2REZId9LUZU4a0RMJ
+	y6UrXn7OPCJEKxWbeeztP6dfw9iz1SN7AweLgidtwCA==
+X-Gm-Gg: AYBFou2i4bp8uMPgj2zmCGIAUufE+cNVcAfOBC2Ibgi1szMLm2/9J+tFsjd8nKyC/om
+	PPuNFNhdhzaJU80z0CBzCjef5rTvUPP9eZF7bqE06IaMijv8g1s9+cW1JGnF9CVLrfMOdgGu/3l
+	HRcu6zNW20eNh20Erq6BnuB7Q9loLHv78RdHxkIYHtnv1DdY7sL2FlEYTscxtSUUJPW6ZAGnOjH
+	gO/OWK/dsLMJjKgnSsy0/NcBENwTUFxU6lV9gO3jHVU7l9oXfT10UrbcRvcfVsk65n8owMJimV2
+	ziiSeoYRC2srwvlFFyrcvU8npe2OQ9JuOiYbbYGaQVR41zHus9qXjzA4A2WULME4OiXF45/taTL
+	EroTeNjwTEfqNDUKt5y7aVocdrIqL2shlV06NwoRyIp0h/lJA6LPJzOo1e/a3AAcn78aMNHMjMG
+	P60Joi5it4Ext1f82eHAGd1cG+2fxawcIjugdJQv4tRP65rrM=
+X-Received: by 2002:a17:903:1a0f:b0:2e9:6788:9369 with SMTP id
+ d9443c01a7336-2eb364cbac0mr25611115ad.34.1793365608636; Fri, 30 Oct 2026
+ 06:06:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20261030100214.3111726-1-roshs@qti.qualcomm.com>
-In-Reply-To: <20261030100214.3111726-1-roshs@qti.qualcomm.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 30 Oct 2026 08:56:14 -0400
-X-Gm-Features: AclHuK807bwaexNQ7XNiVZd8t9omkoywDcG3Q12yMBRigVwiYYUYpxHorjXfh3M
-Message-ID: <CADkTA4NWzzaT11ssicpviaA3AgYtOPbpg_HGuciPSttkQUggdQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] kernel-devsrc: add runtime dependency on sed
-To: roshs@qti.qualcomm.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	Sumanth Gavini <sumanth.gavini@windriver.com>
-Content-Type: multipart/alternative; boundary="00000000000014e762065f0e536f"
+References: <20261022183608.3500655-1-leon.anavi@konsulko.com>
+ <20261022183608.3500655-3-leon.anavi@konsulko.com> <CC19F9F9-7D82-478B-B2D9-1EDD29E71104@arm.com>
+In-Reply-To: <CC19F9F9-7D82-478B-B2D9-1EDD29E71104@arm.com>
+From: Leon Anavi <leon.anavi@konsulko.com>
+Date: Fri, 30 Oct 2026 15:06:37 +0200
+X-Gm-Features: AclHuK8NpIZpcCpW635_4VaotNECRIpfT43d3QDIvx5VnKI9YD2B5FDifFKKAFk
+Message-ID: <CALtQ3O3uzVS3i9sWegp02m_31gFFT_f1Bj-t8bSnAtcBZ2DtWA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] recipetool: Drop PYPI_PACKAGE if it matches BPN
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000e336c065f0e7825"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 12:56:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249035
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 13:06:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249036
 
---00000000000014e762065f0e536f
+--0000000000000e336c065f0e7825
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 30, 2026 at 6:03=E2=80=AFAM Roshan Sivakumar via openembedded-c=
-ore
-<roshs=3Dqti.qualcomm.com@lists.openembedded.org> wrote:
+Hi Ross,
 
-> kernel-devsrc ships scripts/mksysmap, which is a sed script
-> (#!/bin/sed -f). The package therefore has a runtime dependency on
-> sed that was not declared.
+On Wed, Oct 28, 2026 at 12:43=E2=80=AFPM Ross Burton <Ross.Burton@arm.com> =
+wrote:
+
+> On 22 Oct 2026, at 19:36, Leon Anavi via lists.openembedded.org
+> <leon.anavi=3Dkonsulko.com@lists.openembedded.org> wrote:
+> > diff --git a/scripts/lib/recipetool/create.py
+> b/scripts/lib/recipetool/create.py
+> > index bf533a45cf..3baf19c7c2 100644
+> > --- a/scripts/lib/recipetool/create.py
+> > +++ b/scripts/lib/recipetool/create.py
+> > @@ -795,6 +795,20 @@ def create_recipe(args):
+> >         if name_pv and not realpv:
+> >             realpv =3D name_pv
+> >
+> > +    # PYPI_PACKAGE is not needed if it matches the default derived fro=
+m
+> BPN (see pypi.bbclass)
+> > +    if pn and 'pypi' in classes and extravalues.get('PYPI_PACKAGE'):
+> > +        bpn =3D pn
+> > +        if bpn.endswith('-native'):
+> > +            bpn =3D bpn[:-len('-native')]
+> > +        if bpn.startswith('nativesdk-'):
+> > +            bpn =3D bpn[len('nativesdk-'):]
+> > +        for prefix in ('python-', 'python3-'):
+> > +            if bpn.startswith(prefix):
+> > +                bpn =3D bpn[len(prefix):]
+> > +                break
+> > +        if re.sub(r"[-_.]+", "-", bpn).lower() =3D=3D
+> extravalues['PYPI_PACKAGE']:
+> > +            del extravalues['PYPI_PACKAGE']
+> > +
+> >     handle_license_vars(srctree_use, lines_before, handled, extravalues=
+,
+> tinfoil.config_data)
+> >
+> >     if not outfile:
+>
+> This is adding buildsystem-specific logic into the generic create.py,
+> which is continued will mean the logic is spread across multiple places.
+>
+> I think it would be better to have a =E2=80=9Ccleanup=E2=80=9D hook for t=
+he build system
+> plugins, so the python-specific cleanup can remain in the python plugin.
 >
 
-We probably shouldn't be shipping that script, some broader copies
-than I'd prefer of scripts/ have snuck into devsrc over time.
+Thank you for the code review. Following your suggestion, I have submitted
+version 2 of the patch, which includes a cleanup hook in
+create_buildsys_python.py. Please let me know if you have any remarks.
 
-I say "probably" above, because you aren't saying what you are
-building that triggered that script to be called at all. From a quick
-grep of the kernel it is only linking vmlinux that uses that.
+Best regards, Leon
 
-Are you rebuilding the kernel completely from -devsrc ? (which
-shouldn't work)  Or doing something else that is triggering it to be
-called ?
-
-Bruce
-
-
->
-> Declare it explicitly in RDEPENDS, alongside the other interpreters
-> the kernel scripts need (bc, python3, flex, bison, gawk, ...), rather
-> than relying on the packaging backend to infer it from the shebang.
->
-> Assisted-by: Claude Code:claude-opus-4.8
-> Signed-off-by: Roshan Sivakumar <roshs@qti.qualcomm.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 90bdbfc534..92fd0e0c66 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -468,3 +468,5 @@ RDEPENDS:${PN} +=3D "${@bb.utils.contains('ARCH',
-> 'powerpc', 'elfutils-dev', '', d
->  RDEPENDS:${PN} +=3D "gcc-plugins libmpc-dev"
->  # 5.13+ needs grep for powerpc
->  RDEPENDS:${PN}:append:powerpc =3D " grep"
-> +# scripts/mksysmap is a #!/bin/sed -f script
-> +RDEPENDS:${PN} +=3D "sed"
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#249012):
-> https://lists.openembedded.org/g/openembedded-core/message/249012
-> Mute This Topic: https://lists.openembedded.org/mt/122008476/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---00000000000014e762065f0e536f
+--0000000000000e336c065f0e7825
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
-tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 30, 2026 at 6:03=
-=E2=80=AFAM Roshan Sivakumar via openembedded-core &lt;roshs=3D<a href=3D"m=
-ailto:qti.qualcomm.com@lists.openembedded.org">qti.qualcomm.com@lists.opene=
-mbedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">kernel-devsrc ships scripts/mksysmap, which is a sed script<br>
-(#!/bin/sed -f). The package therefore has a runtime dependency on<br>
-sed that was not declared.<br></blockquote><div><br></div><div><div class=
-=3D"gmail_default" style=3D"font-size:small">We probably shouldn&#39;t be s=
-hipping that script, some broader copies</div><div class=3D"gmail_default" =
-style=3D"font-size:small">than I&#39;d prefer of scripts/ have snuck into d=
-evsrc over time.</div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">I say &quot;probably&quot; above, because you aren&#39;t s=
-aying what you are</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">building that triggered that script to be called at all. From a quick</=
-div><div class=3D"gmail_default" style=3D"font-size:small">grep of the kern=
-el it is only linking vmlinux that uses that.=C2=A0</div><div class=3D"gmai=
-l_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default"=
- style=3D"font-size:small">Are you rebuilding the kernel completely from -d=
-evsrc ?=C2=A0(which=C2=A0</div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">shouldn&#39;t work)=C2=A0 Or doing something else that is trigge=
-ring it to be</div><div class=3D"gmail_default" style=3D"font-size:small">c=
-alled ?</div></div><div class=3D"gmail_default" style=3D"font-size:small"><=
-br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div>=
-<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Declare it explicitly in RDEPENDS, alongside the other interpreters<br>
-the kernel scripts need (bc, python3, flex, bison, gawk, ...), rather<br>
-than relying on the packaging backend to infer it from the shebang.<br>
-<br>
-Assisted-by: Claude Code:claude-opus-4.8<br>
-Signed-off-by: Roshan Sivakumar &lt;<a href=3D"mailto:roshs@qti.qualcomm.co=
-m" target=3D"_blank">roshs@qti.qualcomm.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a> | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" =
-rel=3D"noreferrer" target=3D"_blank">kernel-devsrc.bb</a> b/meta/recipes-ke=
-rnel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"noreferrer" target=3D=
-"_blank">kernel-devsrc.bb</a><br>
-index 90bdbfc534..92fd0e0c66 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
-@@ -468,3 +468,5 @@ RDEPENDS:${PN} +=3D &quot;${@bb.utils.contains(&#39;ARC=
-H&#39;, &#39;powerpc&#39;, &#39;elfutils-dev&#39;, &#39;&#39;, d<br>
-=C2=A0RDEPENDS:${PN} +=3D &quot;gcc-plugins libmpc-dev&quot;<br>
-=C2=A0# 5.13+ needs grep for powerpc<br>
-=C2=A0RDEPENDS:${PN}:append:powerpc =3D &quot; grep&quot;<br>
-+# scripts/mksysmap is a #!/bin/sed -f script<br>
-+RDEPENDS:${PN} +=3D &quot;sed&quot;<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#249012): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/249012" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/249012</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/122008476/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/122008476/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+<div dir=3D"ltr"><div>Hi Ross,</div><br><div class=3D"gmail_quote gmail_quo=
+te_container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 28, 2026 at=
+ 12:43=E2=80=AFPM Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ro=
+ss.Burton@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 22 Oct 2026, at 19:36, Leon Anavi via <a href=3D"http:/=
+/lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openemb=
+edded.org</a> &lt;leon.anavi=3D<a href=3D"mailto:konsulko.com@lists.openemb=
+edded.org" target=3D"_blank">konsulko.com@lists.openembedded.org</a>&gt; wr=
+ote:<br>
+&gt; diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool=
+/create.py<br>
+&gt; index bf533a45cf..3baf19c7c2 100644<br>
+&gt; --- a/scripts/lib/recipetool/create.py<br>
+&gt; +++ b/scripts/lib/recipetool/create.py<br>
+&gt; @@ -795,6 +795,20 @@ def create_recipe(args):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if name_pv and not realpv:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0realpv =3D name_pv<br>
+&gt; <br>
+&gt; +=C2=A0 =C2=A0 # PYPI_PACKAGE is not needed if it matches the default =
+derived from BPN (see pypi.bbclass)<br>
+&gt; +=C2=A0 =C2=A0 if pn and &#39;pypi&#39; in classes and extravalues.get=
+(&#39;PYPI_PACKAGE&#39;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bpn =3D pn<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if bpn.endswith(&#39;-native&#39;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bpn =3D bpn[:-len(&#39;-nat=
+ive&#39;)]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if bpn.startswith(&#39;nativesdk-&#39;):<=
 br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bpn =3D bpn[len(&#39;native=
+sdk-&#39;):]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for prefix in (&#39;python-&#39;, &#39;py=
+thon3-&#39;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if bpn.startswith(prefix):<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bpn =3D bpn[l=
+en(prefix):]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if re.sub(r&quot;[-_.]+&quot;, &quot;-&qu=
+ot;, bpn).lower() =3D=3D extravalues[&#39;PYPI_PACKAGE&#39;]:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 del extravalues[&#39;PYPI_P=
+ACKAGE&#39;]<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0handle_license_vars(srctree_use, lines_before, hand=
+led, extravalues, tinfoil.config_data)<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0if not outfile:<br>
 <br>
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
+This is adding buildsystem-specific logic into the generic create.py, which=
+ is continued will mean the logic is spread across multiple places.<br>
+<br>
+I think it would be better to have a =E2=80=9Ccleanup=E2=80=9D hook for the=
+ build system plugins, so the python-specific cleanup can remain in the pyt=
+hon plugin.<br></blockquote><div><br></div><div>Thank you for the code revi=
+ew. Following your suggestion, I have submitted version 2 of the patch, whi=
+ch includes a cleanup hook in create_buildsys_python.py. Please let me know=
+ if you have any remarks.<br><br>Best regards, Leon</div></div></div>
 
---00000000000014e762065f0e536f--
+--0000000000000e336c065f0e7825--
