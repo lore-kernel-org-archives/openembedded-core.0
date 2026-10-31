@@ -1,62 +1,62 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3735.1793405754170704080
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3727.1793405749800504634
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:15:54 -0700
+ Fri, 30 Oct 2026 17:15:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=LmovmGEj;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso15320205e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:53 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=lzPUGZf8;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso8899955e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405752; x=1794010552; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405748; x=1794010548; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=SoR6UsStZxwrxptAfix40IhdIqpTGd9V1rNo1g4o3hk=;
-        b=LmovmGEj49tcXhWF7l3sfsEHXxOP0xDM5dKC5dRVq57hI2shKu4L2A1sMRv5qvEiON
-         w1Apl6nIiZIosPSsBZmVdDc3fVXzX3r8zHzuXD/O6OZtlu/U7/ExRJig3vmYGSbBN0Wg
-         ocDqxOb2+1R7nVxywxQ2w4UAlzFAdZ/Q2zRCp+0TxayGnbM5jxccpPmQL7MpB5XtNQYS
-         dOxQtWZ4RTN+cGhwDe1Vxv1sAUxaiLErWLjxeNo3qqYOKDPFe/Zsf0d5gfvyLzpD2Qqt
-         tCx+PWqlkbLvb5JS0fH3rnPnql5NcaUF4gGINO7XuaDtm1Foplu1mBeqCLvx21sPeN/H
-         EQRw==
+        bh=TRly+ZUVY/y6VrERmE9dO2mJxiLVYuWOF4Mw8L8yHIA=;
+        b=lzPUGZf80dsofrEdXoeRsCP7/POXySyBUA3s18RAHdmglJMNRa/9/iaPg/vkBpESmf
+         Mb67iL/qKanBtjjdO9fV398dxhrrpZXeOrcgdR28LEJfk4zVOhHR823XVAGH4VkSWQVK
+         sdjEy+RlhDlzIKNotwCOXLkV7x0CeMAZsVV+mVaYX6c2WyUMc1em1bGTjpZWFmo6zWE7
+         sVvu0RzFC6C4PJP4OaHHXTSsl0ayzsKm30o3HtOoW0Qm5I/QodG5cgN2snT1e73x21Nl
+         rFfHPxM5oEu8bhnQoIOR4W40p5J1dnejqWNQjW3P2Zhv0bytf6SJwknfgYByxh6V0Jkb
+         lorQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405752; x=1794010552;
+        d=1e100.net; s=20260707; t=1793405748; x=1794010548;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=SoR6UsStZxwrxptAfix40IhdIqpTGd9V1rNo1g4o3hk=;
-        b=q9R2I93RwmC0ODqhEPdN7gAcwZB+UqRr/0NK0oPI/HSR9Z0FLMxaWgEhG1jVXbmf8v
-         wFmMIRAle6n0yFRK/jBOhd2cvMEVj4yqRDjdeBWfi6OqH6/Xx7ha28KHnurVNTzWJd6w
-         Uilys1uw5XeR7Sm4RFvW6BfC17QKNdZVos1qdKlCn8KkdigCL5q2lfgKLjIiV5H0x9j5
-         T7+f6WXoJphT3eJDbkJYvGY4ZhGOISYAcXM2nTax875esG0ElkbLHbr/LgjTiUVbkKMM
-         Lt/3MjoBKbMBzQOJMeJiG24S2LwQlstIw4D3XzQjrSO4ASdjCAI/vSPiYmUfDm1HxpW1
-         u/8A==
-X-Gm-Message-State: AFq9FYLK23ZVZ0TQ+vXvDoCy/c7t04f7DNL34zC9Dy85As2fAAU/zxF5
-	mzBj//5gKbUSiFpMHu+Oj2BlI92NATWW2fPwpdU2MVAZH+GHO4QmEta76DJh/hYciNqFxTVxW83
-	JU7LeEN0=
-X-Gm-Gg: AYBFou3rCRVMLPZjs0ekkLj9fOu+67g088zr2MfzDW1wXvgm7TzvO88+JGgGi824eK/
-	4jGxC05zqqWx51JERnSIFUt0p7nEMYrALoUyC9ZzVZ53xcf8VWdyNzBMRcNI50A2j7GDF3wo1Mi
-	xRK+XiuKRuHx/ogb6MdAhKt51g8vMeIhMgFHCw71jDymZbO6uE+hPmS2uIQktyoZCwAdcxve/uq
-	xzm2Ek0kZR2dKbOHv25UjgLgiVXnRuSqYMXxr+d34T4W/xfaHM4hk4p5FQ/rbLkV5GhhNysmI0Z
-	EF6Sqn0dSTBCU/GRHPnlJqJPKga0vEJ+tNwg0AMqYDsJPWAEVuWtdtjgIn1xCAcxUVI0yg6KwTR
-	bJ1kR41uBIJKdn8IuXQTxLBTOL2kCB3QGa3URFm0cVXr/q8LaBGNNqXynnDB97yU8VtZvUbT1zp
-	Nmh++b9Ew35+zAcHAbsAZKsp7prOubA5rxt/62kgK0zzxpd/giFb+xK/jaXS6XV/Fluy2gzNNyQ
-	JEUmb8cyx+KgkCs/vtKsKgdA//ycc9gxiyk+GwBpZvu3AFhzyyc8V73e/HKVKLPAT2DEyQFBlCv
-	OCZ7DPUMaDokFWLnZyeUc9fjy+7vbU1CGYcAFZIsD8mHnBWpiMLE+ZKegMZ0Q1zDRKclkPP5OL/
-	ICsl6vMeQSLxQqvyJrU/zppYcsFHs
-X-Received: by 2002:a05:600c:6095:b0:4a3:7344:13b5 with SMTP id 5b1f17b1804b1-4ac182dcb98mr80336845e9.16.1793405752431;
-        Fri, 30 Oct 2026 17:15:52 -0700 (PDT)
+        bh=TRly+ZUVY/y6VrERmE9dO2mJxiLVYuWOF4Mw8L8yHIA=;
+        b=Y+ajzLigs5Gx3YEPtK7jt2TsZTQBTOvD0Mq/jgN9oXb6pwooJlXyoU3d99irGitds4
+         t6dyYE8xGt3aQ7FhNk2YZYh/CUTc/zkhkWUjFuwot4K1fFBPAcm8OFLppjwn16HWT7rH
+         UJq82HWsLb0tQws+M7Hw3A0INGJF2z0TrunAMM3f9Q1iYaeGkFXXkb3wUddl+wMsWv3+
+         H0AJy9VVyuRrzBlBDrHI2iEu/Y86tscUkD9TU0TJJarDQFcdPE+kZnnpr0jijjW9VqaQ
+         vYQgypKUUOTq/ug+ElGVq+IjZCnjjpcLFzRCnlhWYgDSRi4tRJ3i9NLzqxV/oAWZYvW4
+         PElw==
+X-Gm-Message-State: AFq9FYIJPNDKc1Dt+VS4BY5cborwElt5a99jXpttj5g7msZfcTimmAcE
+	eCAWnrpuqGDmh6k5etzYirKpm8mNrZcFPLZp0uJk2PVd5yTu+1LXrEWTNiOCvCRdkwUp6oqWsuF
+	zBf9BzLs=
+X-Gm-Gg: AYBFou2SIn/r7SuesC83MibaEDMODyDi4v5nl2hyRPA10trOn+yuU1wH+NdADwOjXAj
+	neeQB8ElaqkzpvCmAwyB0xyGrbWlcf5IJu0hMojJaJ2rANQjj95TrUWfn/5jqUbC0+e62vPvaXo
+	YMt7OAAzK/ferNGvVF+uyQ18w2RznhfLUHGuJNdUcQfU4SaLXSo1XIkFNoielkqUZPWr049XIPL
+	oPi6qQyGFFBu8Xu+IKanBWUnVn9UnnIjECL8yMtppBR1iwofUPFi4z4uDyr0RToBmPD2YBOG50v
+	jVL2HIumI8clL+FK29anKOe+0kZF+e2T/nw+smrDyndsIRFVRKGeoorElHz0eH4AnChzE9gGDCZ
+	by8jmGx7GEpm8FOdRJzzljz772shV1G5s3G22PiBCyyASYMAX61v8Gyxetdo0BoStI1sM981jIM
+	69ix/+tJmxOK6H0R4lX5jVgg7vDkUPSH37kKPulpMEH9ojAX+Q9Cx0w7GiHsAq2rUHpnKGjlX/P
+	hn/3n4g6wYmcw0XVTDS9iOC053yqC7OvwPcz6dFDFarqC0g5f6nH+VCakwr9ns/h9EJDZelPKm+
+	EL4ZscYxv3D6UfpVRTkiGyW862IpYz5eyc6aWaYnP6SuisPVbJxHParfX2ez3YiJ2+nK9r00+hj
+	5BkRu2DL/sQwx3Fshaaun2w26Dvse
+X-Received: by 2002:a05:600c:6285:b0:4a1:fa27:df7c with SMTP id 5b1f17b1804b1-4ac182dc8f6mr86252485e9.34.1793405748002;
+        Fri, 30 Oct 2026 17:15:48 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:15:52 -0700 (PDT)
+        Fri, 30 Oct 2026 17:15:47 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/55] libpng: patch CVE-2026-46675
-Date: Sat, 31 Oct 2026 01:14:37 +0100
-Message-ID: <fc564217d93f388e452a64c1d0df07528bc1f889.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 08/55] util-linux: patch CVE-2026-76642
+Date: Sat, 31 Oct 2026 01:14:29 +0100
+Message-ID: <e0950ffa68bdf9071a7839b90501b1472173ce4d.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
@@ -64,153 +64,172 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249091
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249083
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1].
-
-[1] https://security-tracker.debian.org/tracker/CVE-2026-46675
+Pick patch referencing this CVE from 2.41.6 release.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpng/files/CVE-2026-46675.patch         | 115 ++++++++++++++++++
- .../libpng/libpng_1.6.42.bb                   |   1 +
- 2 files changed, 116 insertions(+)
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../util-linux/CVE-2026-76642.patch           | 136 ++++++++++++++++++
+ 2 files changed, 137 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-76642.patch
 
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 10803e38938..fdc8c62f6e5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -62,6 +62,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://CVE-2026-78410-01.patch \
+            file://CVE-2026-78410-02.patch \
+            file://CVE-2026-78410-03.patch \
++           file://CVE-2026-76642.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-76642.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-76642.patch
 new file mode 100644
-index 00000000000..3af0251c553
+index 00000000000..b5d811770a3
 --- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch
-@@ -0,0 +1,115 @@
-+From aa77ef38c17ab2fc1b41bec09fb973c6a386641d Mon Sep 17 00:00:00 2001
-+From: Cosmin Truta <ctruta@gmail.com>
-+Date: Wed, 23 Sep 2026 18:30:11 +0300
-+Subject: [PATCH] fix: Clear stale zstream pointers when releasing the inflate
-+ stream
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-76642.patch
+@@ -0,0 +1,136 @@
++From a15c00a9e545aa8b9cf6ec0f888ff6c7b3eaeedc Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Tue, 28 Jul 2026 11:40:25 +0200
++Subject: [PATCH] libmount: skip post-mount hooks after failed mount helper
++ [CVE-2026-76642]
 +
-+The zstream buffer pointers and counters are all cleared on acquisition
-+in `png_inflate_claim`, but only `next_in` and `avail_in` were cleared
-+on release in `png_read_finish_IDAT`, and none were cleared on release
-+in the chunk decompression paths.
++When an external mount.<type> helper exits nonzero, exec_helper()
++stores the failure in helper_status but returns zero (meaning the
++fork/exec/wait infrastructure succeeded). This zero propagates as
++the mount result, causing MNT_STAGE_MOUNT_POST and MNT_STAGE_POST
++hooks to execute as if the mount had succeeded.
 +
-+If `png_read_end` is called before row reading starts, the IDAT stream
-+is never claimed. Previously, a leftover non-zero `avail_in` caused the
-+refill in `png_read_IDAT_data` to be skipped, and inflation continued
-+through a stale `next_in` into an input buffer that may since have been
-+deallocated.
++This allows privileged post-mount operations on the pre-existing
++target filesystem:
 +
-+Introduce the function `png_inflate_detach_buffers` to clear the
-+pointers and the counters of zstream input and output buffers on both
-+acquisition and release. Although clearing `next_out` and `avail_out`
-+is not currently necessary at any call site, it makes release mirror
-+acquisition at a negligible cost paid once for each zlib stream.
++ - X-mount.idmap clones and idmaps the underlying target, creating
++   an overmount that inherits suid/exec from the root filesystem
++   (ignoring nosuid/nodev/noexec from fstab)
 +
-+This is a cherry-pick of commit 6c7783b151377f591c83955e23da50991ad1a600
-+from branch 'libpng18'.
++ - X-mount.owner/group/mode changes the physical target inode
++   ownership and permissions even though no mount was created
 +
-+Reported-by: Ze Sheng <OwenSanzas@users.noreply.github.com>
-+Reported-by: JasonHonKL <JasonHonKL@users.noreply.github.com>
++Gate both MNT_STAGE_MOUNT_POST in mnt_context_do_mount() and
++MNT_STAGE_POST in mnt_context_mount() on is_success_status(), which
++already correctly distinguishes helper exit status from process
++execution status. This is a centralized fix -- individual hooks do
++not need their own guards.
 +
-+CVE: CVE-2026-46675
-+Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/aa77ef38c17ab2fc1b41bec09fb973c6a386641d]
++Audit of all hooks registered at these stages:
++
++ MNT_STAGE_MOUNT_POST:
++  - hook_mount.c (attach, propagation, vfsflags): already skip when
++    helper executed (commit f94a7760)
++  - hook_idmap.c: would clone+idmap pre-existing target -- now blocked
++  - hook_subdir.c: deinit calls tmptgt_cleanup() -- safe
++  - hook_mount_legacy.c (propagation, bindremount): no resources to leak
++  - hook_loopdev.c: deinit fixed to call delete_loopdev() when the
++    cleanup hook is skipped (was only free(), leaking fd and device)
++  - hook_veritydev.c: deinit calls delete_veritydev() -- safe
++
++ MNT_STAGE_POST:
++  - hook_owner.c: would chown/chmod target -- now blocked; deinit
++    only frees uid/gid/mode struct, no resources to leak
++
++Signed-off-by: Karel Zak <kzak@redhat.com>
++(cherry picked from commit f57cea130839c0af8dc0525274267ae4cfd66bbf)
++(cherry picked from commit 1d14676ea70003e9f5b2a6a76af0cadb1190411a)
++
++CVE: CVE-2026-76642
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/a15c00a9e545aa8b9cf6ec0f888ff6c7b3eaeedc]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ pngrutil.c | 33 +++++++++++++++++++--------------
-+ 1 file changed, 19 insertions(+), 14 deletions(-)
++ libmount/src/context_mount.c | 23 ++++++++++++++++++++---
++ libmount/src/hook_loopdev.c  | 13 +++++++++++--
++ 2 files changed, 31 insertions(+), 5 deletions(-)
 +
-+diff --git a/pngrutil.c b/pngrutil.c
-+index 551395168..482f0ae8d 100644
-+--- a/pngrutil.c
-++++ b/pngrutil.c
-+@@ -332,6 +332,18 @@ png_read_buffer(png_structrp png_ptr, png_alloc_size_t new_size, int warn)
++diff --git a/libmount/src/context_mount.c b/libmount/src/context_mount.c
++index 77435684b..80c45beeb 100644
++--- a/libmount/src/context_mount.c
+++++ b/libmount/src/context_mount.c
++@@ -574,6 +574,22 @@ static int is_success_status(struct libmnt_context *cxt)
++ 	return 0;
 + }
-+ #endif /* READ_iCCP|iTXt|pCAL|sCAL|sPLT|tEXt|zTXt|SEQUENTIAL_READ */
 + 
-++/* Detach the zstream from the input and output buffers left by
-++ * the current or a previous owner, and possibly deallocated since.
-++ */
-++static void
-++png_inflate_detach_buffers(png_structrp png_ptr)
+++/* Check if the mount stage explicitly failed (helper or syscall returned
+++ * an error). Unlike is_success_status(), this treats "nothing happened"
+++ * as not-failed -- the MOUNT stage may be a no-op for operations like
+++ * bind/move with the new mount API where open_tree() runs in PREP and
+++ * move_mount() is deferred to MOUNT_POST. */
+++static int is_mount_stage_failed(struct libmnt_context *cxt)
 ++{
-++   png_ptr->zstream.next_in = NULL;
-++   png_ptr->zstream.avail_in = 0;
-++   png_ptr->zstream.next_out = NULL;
-++   png_ptr->zstream.avail_out = 0;
+++	if (mnt_context_helper_executed(cxt))
+++		return mnt_context_get_helper_status(cxt) != 0;
+++
+++	if (mnt_context_syscall_called(cxt))
+++		return mnt_context_get_status(cxt) != 1;
+++
+++	return 0;
 ++}
 ++
-+ /* png_inflate_claim: claim the zstream for some nefarious purpose that involves
-+  * decompression.  Returns Z_OK on success, else a zlib error code.  It checks
-+  * the owner but, in final release builds, just issues a warning if some other
-+@@ -392,13 +404,7 @@ png_inflate_claim(png_structrp png_ptr, png_uint_32 owner)
++ /* try mount(2) for all items in comma separated list of the filesystem @types */
++ static int do_mount_by_types(struct libmnt_context *cxt, const char *types)
++ {
++@@ -874,8 +890,9 @@ int mnt_context_do_mount(struct libmnt_context *cxt)
++ 	} else
++ 		res = do_mount_by_pattern(cxt, cxt->fstype_pattern);
 + 
-+ #endif /* ZLIB_VERNUM >= 0x1240 */
++-	/* after mount stage */
++-	if (res == 0) {
+++	/* after mount stage -- the post-mount hooks are commit-path only,
+++	 * skip them if the mount helper or syscall has failed */
+++	if (res == 0 && !is_mount_stage_failed(cxt)) {
++ 		rc = mnt_context_call_hooks(cxt, MNT_STAGE_MOUNT_POST);
++ 		if (rc)
++ 			return rc;
++@@ -1058,7 +1075,7 @@ again:
++ 		}
++ 	}
 + 
-+-      /* Set this for safety, just in case the previous owner left pointers to
-+-       * memory allocations.
-+-       */
-+-      png_ptr->zstream.next_in = NULL;
-+-      png_ptr->zstream.avail_in = 0;
-+-      png_ptr->zstream.next_out = NULL;
-+-      png_ptr->zstream.avail_out = 0;
-++      png_inflate_detach_buffers(png_ptr);
++-	if (rc == 0)
+++	if (rc == 0 && !is_mount_stage_failed(cxt))
++ 		rc = mnt_context_call_hooks(cxt, MNT_STAGE_POST);
 + 
-+       if ((png_ptr->flags & PNG_FLAG_ZSTREAM_INITIALIZED) != 0)
-+       {
-+@@ -744,7 +750,8 @@ png_decompress_chunk(png_structrp png_ptr,
-+          else if (ret == Z_OK)
-+             ret = PNG_UNEXPECTED_ZLIB_RETURN;
++ 	mnt_context_deinit_hooksets(cxt);
++diff --git a/libmount/src/hook_loopdev.c b/libmount/src/hook_loopdev.c
++index 34351116c..af9a52227 100644
++--- a/libmount/src/hook_loopdev.c
+++++ b/libmount/src/hook_loopdev.c
++@@ -23,6 +23,8 @@ struct hook_data {
++ 	int loopdev_fd;
++ };
 + 
-+-         /* Release the claimed stream */
-++         /* Release the claimed stream. */
-++         png_inflate_detach_buffers(png_ptr);
-+          png_ptr->zowner = 0;
-+       }
+++static int delete_loopdev(struct libmnt_context *cxt, struct hook_data *hd);
+++
++ /* de-initiallize this module */
++ static int hookset_deinit(struct libmnt_context *cxt, const struct libmnt_hookset *hs)
++ {
++@@ -30,9 +32,16 @@ static int hookset_deinit(struct libmnt_context *cxt, const struct libmnt_hookse
 + 
-+@@ -1569,6 +1576,7 @@ png_handle_iCCP(png_structrp png_ptr, png_inforp info_ptr, png_uint_32 length)
++ 	DBG(HOOK, ul_debugobj(hs, "deinit '%s'", hs->name));
 + 
-+                                     if (errmsg == NULL)
-+                                     {
-++                                       png_inflate_detach_buffers(png_ptr);
-+                                        png_ptr->zowner = 0;
-+                                        return;
-+                                     }
-+@@ -1595,7 +1603,8 @@ png_handle_iCCP(png_structrp png_ptr, png_inforp info_ptr, png_uint_32 length)
-+                else /* profile truncated */
-+                   errmsg = png_ptr->zstream.msg;
++-	/* remove all our hooks */
+++	/* remove all our hooks and free hook data */
++ 	while (mnt_context_remove_hook(cxt, hs, 0, &data) == 0) {
++-		free(data);
+++		if (data) {
+++			struct hook_data *hd = (struct hook_data *) data;
+++
+++			/* cleanup after skipped MOUNT_POST hook */
+++			if (hd->loopdev_fd > -1)
+++				delete_loopdev(cxt, hd);
+++			free(hd);
+++		}
++ 		data = NULL;
++ 	}
 + 
-+-               /* Release the stream */
-++               /* Release the claimed stream. */
-++               png_inflate_detach_buffers(png_ptr);
-+                png_ptr->zowner = 0;
-+             }
-+ 
-+@@ -4294,11 +4303,7 @@ png_read_finish_IDAT(png_structrp png_ptr)
-+     */
-+    if (png_ptr->zowner == png_IDAT)
-+    {
-+-      /* Always do this; the pointers otherwise point into the read buffer. */
-+-      png_ptr->zstream.next_in = NULL;
-+-      png_ptr->zstream.avail_in = 0;
-+-
-+-      /* Now we no longer own the zstream. */
-++      png_inflate_detach_buffers(png_ptr);
-+       png_ptr->zowner = 0;
-+ 
-+       /* The slightly weird semantics of the sequential IDAT reading is that we
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-index f375aa5f4e9..8e7f9d8f8ec 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz
-            file://CVE-2026-34757_p1.patch \
-            file://CVE-2026-34757_p2.patch \
-            file://CVE-2026-33416-05.patch \
-+           file://CVE-2026-46675.patch \
- "
- 
- SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
