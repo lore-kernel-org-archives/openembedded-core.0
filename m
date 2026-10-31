@@ -1,41 +1,41 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1567.1793425338550586871
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1568.1793425338749673097
  for <openembedded-core@lists.openembedded.org>;
  Fri, 30 Oct 2026 22:42:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cGNlevuB;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Di0vVseR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1907aed14-0be9b10a-b007-4119-a082-2c46ada7fc7a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TeOigJ2G;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rC/8gLfw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a1907aed95-6254f9d2-3150-4f5e-912e-f23aedb56fb2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1793425337;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zEbyhN9cNjtXJO9ZUWk45igwFwVGW3RESqy2uTpJt2E=;
-	b=cGNlevuB8J4BAyRcixUg4HDe/7ZVWbKBfixneZgS9mTT4RbxyNJ3qV0JabLpNT/c
-	HfOSRUj2VShJL3Tn5EhGOghPYKM4RF8gSYzkP6Mc74Yi1SosDCldXnjarr94gj12UZZ
-	rdnh+UtOsfglcYuxis/4W1Numex+FmhzGMVnqKtI=
+	bh=jV9aWtVLIOjPvUdk4/t/y8y6zDXcxaPdstZrDLIOK2w=;
+	b=TeOigJ2GHIDVdcMyNz0+JeFnpmrCMrwYzKP5na7NU1MWOpG2awmhh4iRUrHjiO0i
+	Bowsr//uCSNI6HnaOJ/4lQp8qdzpj+FMvUzpjywRFjpIxfuDuqRZIPucSLLSi3hE9tz
+	snjQtiUxqgjCGN30Ui1/RMz9L/FnEdjImljI1wFE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793425337;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zEbyhN9cNjtXJO9ZUWk45igwFwVGW3RESqy2uTpJt2E=;
-	b=Di0vVseRn46HYU3GTCMA56+WzDNUVfTu/lc5T6nqTOeeZ4BNC8SbdVsxVkYY8r4+
-	GUhNXsNRaHIMMTlu7XXzmM6v0PSPm8Vdl76cNgph/bplLQrpy0vh/wbFJxRLOByf6hm
-	2l8ije2aLygvHOb0kkbzqjuSJX8KFcaQfCY9JRx8=
-Content-Type: multipart/mixed; boundary="===============2309597393803099629=="
+	bh=jV9aWtVLIOjPvUdk4/t/y8y6zDXcxaPdstZrDLIOK2w=;
+	b=rC/8gLfw2vHGEDqLumWM8OQLKa/yo14FMVeEvEfDJM7GajItBAQH+xDzcF53UuHY
+	GnvKghqdDSI5oflroD0Lw1E7Z4h7IgFMjiM21JR7bUQssGscmD64EIFpAxXTWNIIBEu
+	99ZrVMFhqL8DykzxfrKC06dlWdv/4I7IygZghFXY=
+Content-Type: multipart/mixed; boundary="===============3651353072052000201=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-websockets: upgrading to 17.4 SUCCEEDED
-Message-ID: <010101a1907aed14-0be9b10a-b007-4119-a082-2c46ada7fc7a-000000@us-west-2.amazonses.com>
+Subject: [AUH] kmod: upgrading to 34.3 SUCCEEDED
+Message-ID: <010101a1907aed95-6254f9d2-3150-4f5e-912e-f23aedb56fb2-000000@us-west-2.amazonses.com>
 Date: Sat, 31 Oct 2026 05:42:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.10.31-54.240.27.33
+X-SES-Outgoing: 2026.10.31-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 05:42:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249136
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 05:42:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249137
 
---===============2309597393803099629==
+--===============3651353072052000201==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-websockets* to *17.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *kmod* to *34.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-websockets-upgrade-17.1-17.4.patch
+    - apply the patch: git am 0001-kmod-upgrade-34.2-34.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,103 +64,98 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6d7fb275e2a3ecfcb9fbd24187831348547cebe3 Mon Sep 17 00:00:00 2001
+From aea91a4dc4a9c5892d90d3bc06ba9be5d5a9403d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 31 Oct 2026 05:22:06 +0000
-Subject: [PATCH] python3-websockets: upgrade 17.1 -> 17.4
+Date: Sat, 31 Oct 2026 05:37:02 +0000
+Subject: [PATCH] kmod: upgrade 34.2 -> 34.3
 
 ---
- .../{python3-websockets_17.1.bb => python3-websockets_17.4.bb}  | 2 +-
+ meta/recipes-kernel/kmod/{kmod_34.2.bb => kmod_34.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-websockets_17.1.bb => python3-websockets_17.4.bb} (79%)
+ rename meta/recipes-kernel/kmod/{kmod_34.2.bb => kmod_34.3.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-websockets_17.1.bb b/meta/recipes-devtools/python/python3-websockets_17.4.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-websockets_17.1.bb
-rename to meta/recipes-devtools/python/python3-websockets_17.4.bb
-index b5ee3ec661..81c8ebed2a 100644
---- a/meta/recipes-devtools/python/python3-websockets_17.1.bb
-+++ b/meta/recipes-devtools/python/python3-websockets_17.4.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=51924a6af4495b8cfaee1b1da869b6f4"
+diff --git a/meta/recipes-kernel/kmod/kmod_34.2.bb b/meta/recipes-kernel/kmod/kmod_34.3.bb
+similarity index 97%
+rename from meta/recipes-kernel/kmod/kmod_34.2.bb
+rename to meta/recipes-kernel/kmod/kmod_34.3.bb
+index 892468a87e..435ab4f47c 100644
+--- a/meta/recipes-kernel/kmod/kmod_34.2.bb
++++ b/meta/recipes-kernel/kmod/kmod_34.3.bb
+@@ -18,7 +18,7 @@ inherit bash-completion gtk-doc manpages meson pkgconfig update-alternatives
+ SRC_URI = "https://www.kernel.org/pub/linux/utils/kernel/${BPN}/${BP}.tar.xz \
+            file://depmod-search.conf \
+            "
+-SRC_URI[sha256sum] = "5a5d5073070cc7e0c7a7a3c6ec2a0e1780850c8b47b3e3892226b93ffcb9cb54"
++SRC_URI[sha256sum] = "985554de49c21a58abd68c6cda2251384e1e5bb08b3b14c7f02b51f4c90c2958"
  
- inherit pypi python_setuptools_build_meta
- 
--SRC_URI[sha256sum] = "acfea4c20bf54384883ea33b1240fc1db4f52e190823a4e2b334bc3e8bfca96a"
-+SRC_URI[sha256sum] = "09d3939b70df0c8ad2da145ebd50978bccaee1d565e838b0e7921a34d38571eb"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+ EXTRA_OEMESON += "\
+     -Ddistconfdir=${nonarch_base_libdir} \
 -- 
 2.47.1
 
 
---===============2309597393803099629==
+--===============3651353072052000201==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-websockets: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/websockets/websockets-17.1.tar.gz" to "https://files.pythonhosted.org/packages/source/w/websockets/websockets-17.4.tar.gz"
-packages/x86-64-v3-poky-linux/python3-websockets: PKGV changed from 17.1 [default] to 17.4 [default]
-packages/x86-64-v3-poky-linux/python3-websockets: PV changed from "17.1" to "17.4"
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-dbg: PKGV changed from 17.1 [default] to 17.4 [default]
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-dbg: PV changed from "17.1" to "17.4"
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-dev: PKGV changed from 17.1 [default] to 17.4 [default]
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-dev: PV changed from "17.1" to "17.4"
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-doc: PKGV changed from 17.1 [default] to 17.4 [default]
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-doc: PV changed from "17.1" to "17.4"
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-locale: PKGV changed from 17.1 [default] to 17.4 [default]
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-locale: PV changed from "17.1" to "17.4"
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-src: PKGV changed from 17.1 [default] to 17.4 [default]
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-src: FILELIST: directory renamed /usr/src/debug/python3-websockets/17.1/src/websockets -> /usr/src/debug/python3-websockets/17.4/src/websockets
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-src: PV changed from "17.1" to "17.4"
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-staticdev: PKGV changed from 17.1 [default] to 17.4 [default]
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets-staticdev: PV changed from "17.1" to "17.4"
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets: PKGSIZE changed from 1711167 to 1729135 (+1%)
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets: PKGV changed from 17.1 [default] to 17.4 [default]
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets: FILELIST: directory renamed /usr/lib/python3.14/site-packages/websockets-17.1.dist-info -> /usr/lib/python3.14/site-packages/websockets-17.4.dist-info, directory renamed /usr/lib/python3.14/site-packages/websockets-17.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/websockets-17.4.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets: PV changed from "17.1" to "17.4"
-Changes to packages/x86-64-v3-poky-linux/python3-websockets (sysroot):
-  /usr/lib/python3.14/site-packages/websockets-17.1.dist-info moved to /usr/lib/python3.14/site-packages/websockets-17.4.dist-info
+packages/x86-64-v3-poky-linux/kmod/kmod-bash-completion: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-bash-completion: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod-dbg: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-dbg: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod-dbg: PKGSIZE changed from 1063880 to 1065064 (+0%)
+packages/x86-64-v3-poky-linux/kmod/kmod-dev: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-dev: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod-doc: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-doc: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod-fish-completion: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-fish-completion: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod-locale: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-locale: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod-src: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-src: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod-src: PKGSIZE changed from 405030 to 405446 (+0%)
+packages/x86-64-v3-poky-linux/kmod/kmod-src: FILELIST: directory renamed /usr/src/debug/kmod/34.2/libkmod -> /usr/src/debug/kmod/34.3/libkmod, directory renamed /usr/src/debug/kmod/34.2/shared -> /usr/src/debug/kmod/34.3/shared, directory renamed /usr/src/debug/kmod/34.2/tools -> /usr/src/debug/kmod/34.3/tools
+packages/x86-64-v3-poky-linux/kmod/kmod-staticdev: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-staticdev: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod-zsh-completion: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod-zsh-completion: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod/kmod: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/kmod: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod: PV changed from "34.2" to "34.3"
+packages/x86-64-v3-poky-linux/kmod: SRC_URI changed from "https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz file://depmod-search.conf" to "https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.3.tar.xz file://depmod-search.conf"
+packages/x86-64-v3-poky-linux/kmod/libkmod: PKGV changed from 34.2 [default] to 34.3 [default]
+packages/x86-64-v3-poky-linux/kmod/libkmod: PV changed from "34.2" to "34.3"
 
---===============2309597393803099629==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-websockets/python3-websockets: FILELIST: directory renamed /usr/lib/python3.14/site-packages/websockets-17.1.dist-info -> /usr/lib/python3.14/site-packages/websockets-17.4.dist-info, directory renamed /usr/lib/python3.14/site-packages/websockets-17.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/websockets-17.4.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-websockets (sysroot):
-  /usr/lib/python3.14/site-packages/websockets-17.1.dist-info moved to /usr/lib/python3.14/site-packages/websockets-17.4.dist-info
-
---===============2309597393803099629==
+--===============3651353072052000201==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-websockets-upgrade-17.1-17.4.patch"
+Content-Disposition: attachment; filename="0001-kmod-upgrade-34.2-34.3.patch"
 
-RnJvbSA2ZDdmYjI3NWUyYTNlY2ZjYjlmYmQyNDE4NzgzMTM0ODU0N2NlYmUzIE1vbiBTZXAgMTcg
+RnJvbSBhZWE5MWE0ZGM0YTljNTg5MmQ5MGQzYmMwNmJhOWJlNWQ1YTk0MDNkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMzEgT2N0IDIwMjYgMDU6MjI6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXdlYnNvY2tldHM6IHVwZ3JhZGUgMTcuMSAtPiAxNy40CgotLS0KIC4uLi97cHl0aG9u
-My13ZWJzb2NrZXRzXzE3LjEuYmIgPT4gcHl0aG9uMy13ZWJzb2NrZXRzXzE3LjQuYmJ9ICB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtd2Vic29ja2V0c18xNy4xLmJi
-ID0+IHB5dGhvbjMtd2Vic29ja2V0c18xNy40LmJifSAoNzklKQoKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13ZWJzb2NrZXRzXzE3LjEuYmIgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2Vic29ja2V0c18xNy40LmJiCnNpbWls
-YXJpdHkgaW5kZXggNzklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy13ZWJzb2NrZXRzXzE3LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy13ZWJzb2NrZXRzXzE3LjQuYmIKaW5kZXggYjVlZTNlYzY2MS4uODFj
-OGViZWQyYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXdlYnNvY2tldHNfMTcuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtd2Vic29ja2V0c18xNy40LmJiCkBAIC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9MSUNFTlNFO21kNT01MTkyNGE2YWY0NDk1YjhjZmFlZTFiMWRhODY5YjZmNCIK
-IAogaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIAotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gImFjZmVhNGMyMGJmNTQzODQ4ODNlYTMzYjEyNDBmYzFkYjRmNTJlMTkwODIz
-YTRlMmIzMzRiYzNlOGJmY2E5NmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDlkMzkzOWI3MGRm
-MGM4YWQyZGExNDVlYmQ1MDk3OGJjY2FlZTFkNTY1ZTgzOGIwZTc5MjFhMzRkMzg1NzFlYiIKIAog
-QkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFNhdCwgMzEgT2N0IDIwMjYgMDU6Mzc6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
+bW9kOiB1cGdyYWRlIDM0LjIgLT4gMzQuMwoKLS0tCiBtZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qv
+e2ttb2RfMzQuMi5iYiA9PiBrbW9kXzM0LjMuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9r
+bW9kL3trbW9kXzM0LjIuYmIgPT4ga21vZF8zNC4zLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kXzM0LjIuYmIgYi9tZXRhL3JlY2lwZXMta2VybmVs
+L2ttb2Qva21vZF8zNC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1rZXJuZWwva21vZC9rbW9kXzM0LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1r
+ZXJuZWwva21vZC9rbW9kXzM0LjMuYmIKaW5kZXggODkyNDY4YTg3ZS4uNDM1YWI0ZjQ3YyAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9rbW9kL2ttb2RfMzQuMi5iYgorKysgYi9tZXRh
+L3JlY2lwZXMta2VybmVsL2ttb2Qva21vZF8zNC4zLmJiCkBAIC0xOCw3ICsxOCw3IEBAIGluaGVy
+aXQgYmFzaC1jb21wbGV0aW9uIGd0ay1kb2MgbWFucGFnZXMgbWVzb24gcGtnY29uZmlnIHVwZGF0
+ZS1hbHRlcm5hdGl2ZXMKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cua2VybmVsLm9yZy9wdWIvbGlu
+dXgvdXRpbHMva2VybmVsLyR7QlBOfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8v
+ZGVwbW9kLXNlYXJjaC5jb25mIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjVhNWQ1MDczMDcwY2M3ZTBjN2E3YTNjNmVjMmEwZTE3ODA4NTBjOGI0N2IzZTM4OTIyMjZiOTNm
+ZmNiOWNiNTQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTg1NTU0ZGU0OWMyMWE1OGFiZDY4YzZj
+ZGEyMjUxMzg0ZTFlNWJiMDhiM2IxNGM3ZjAyYjUxZjRjOTBjMjk1OCIKIAogRVhUUkFfT0VNRVNP
+TiArPSAiXAogICAgIC1EZGlzdGNvbmZkaXI9JHtub25hcmNoX2Jhc2VfbGliZGlyfSBcCi0tIAoy
+LjQ3LjEKCg==
 
---===============2309597393803099629==--
+--===============3651353072052000201==--
