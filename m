@@ -1,126 +1,219 @@
 Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3752.1793405767245853208
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3743.1793405763043807540
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:16:07 -0700
+ Fri, 30 Oct 2026 17:16:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=PzzR6iO2;
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=gNOBplq0;
  spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so13645195e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:07 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so10822515e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405765; x=1794010565; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405761; x=1794010561; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=e7UAWR+Nk7/pNeu2Y9kU1H0diu/iQ72DNQgmENMeLT8=;
-        b=PzzR6iO2KralpF85YjwjXboed/5MNwzTPzESQmpB8yMgzFSWw35wdjxZZtz4SFw9qN
-         vEJcHw6oOmnbvRIicYmAkyQ2oSPf94hBkKXDxDWPURLKnr2m4Rma3h9p7UqHRC4PoZrl
-         oSTx3BO0oktn6Gnp+CiH5a5prP74zcejBt7z4xQ9NvO5cFzw0u30GLjMkG7l/I+W435n
-         1hqkj/wlp+Cq5euZJ9hG0AOZvZoJhj3zwFz2wo40XtQu3QdqpkeViuHhVqwFyyY6N0S5
-         ii8+tLsgqx4ml27eKXrqa+7LH9tF6EN+r3UsFU4Oyswa4vX0Z5dCeeAMuavJKMjoYBu4
-         CITw==
+        bh=B0TrtbR6yzRP1pQeoThvh7wqjUnHLUS9A3nsWlFaWpg=;
+        b=gNOBplq0rh6lKTELn403dPchdtGrbNQNZsZy6vi6kX0VuyXRgZaDAvOgErfoGxIhow
+         ye/Fig9B4qulZpnOmcF2FpPimn4f7YtfvOTNwlMwVpvmfS6UxJWoYvIJsu+t9GgcTxY1
+         EcaAsNVrRM8gPxDXcBJCJqCdkfrBC6MVpX8hC8RuM5TuN9lauS6f5LZM7WH23tBzH9NL
+         Yl1HMNRHv6QaTaLvNvbVOeZAD0IpfQo0QjAPwAKMs1ci9Pgo+OqDZA06AUexIEr0rSB/
+         yBUMlKh0Wuriw8jN6AtzPsyTRlS4HfvqKYO2cWzrELhFsddqUijh6qSFDUsZc7kkFxHS
+         G3Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405765; x=1794010565;
+        d=1e100.net; s=20260707; t=1793405761; x=1794010561;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=e7UAWR+Nk7/pNeu2Y9kU1H0diu/iQ72DNQgmENMeLT8=;
-        b=RMzCVOW1rFz0Yt0YFgG99KoXC6pV9YHIQXhSP/f6RMHZ39thW07/x9c6nAB2uZXUYi
-         wSJ/htMGKvazHI0V4kHsaP1TtY/jq3RKqZMOzCDDs9oX7kKnq7dGAzfHWbMlP51CCEyT
-         EypFMYuC96lVBWyYEsa7HrkR+qM3A//CH9nUKRHsIk/z4PbLgyN2CWEQKhsiHo5Vfa4A
-         EidlBAAXXusdd6EnnqB/g4Wd92qr8xK8CNEY0ztlcVboDdSz/v2OtGH0HXmXj7pjLaKm
-         EWYEkY9kit3SslWuFvm4D14FdD2bwABaCeQXhC3cjfdY3u7uBfQUBI4J8Ob0uag+mF/j
-         RIxw==
-X-Gm-Message-State: AFq9FYJozOfrsIdgzGYimj3nR4DtWeI5DBd0C2TIA3rtp//5mslLYOXc
-	5oB7xj1i4iR7R1XA750UUftzDh9s54JTkZ29DLArqZWvKMIL66cUr0xa2g4h1jvlb0lsK6OSjQN
-	AkcZyf2I=
-X-Gm-Gg: AYBFou19/NPRIso+o82COA22pE7kE+u7Hta/B1CHkhz/9yOJYA+fykYjsS4xkufTOsc
-	fi3d/pbsT7zN7PjOVNf1bdXGA40Wu3mo26Z8/PNb7xe5cvakZTKlTUGXo7uCHNby5JYp+jVS4ez
-	VWiiSJl5cEoiHX4SjS0g+QNddsZcRlYqpGH9KE8RLnyUow4LW1XARr2p7ut/sdZQyN3HvAHOjXl
-	skyO80j1oP95IxLdSf5zbif12QRqjTgkzo3mLSNg0yfifhVq5BmXtFRqkgrxvsvRC/5qvhK34oT
-	M8v0s5UqnEPYUZSvx2PrX7mxx/JWH7u69p/+5atMX0EasxZqa5nLNwswjy1aO5pndA207b2sPFH
-	vu6b3rrKsphEp5oghzilXVrRFO4Y+Piyu8j8vtaTk5kwVEiV0OrXx2omx2Ggq9VdHtkr2QI7Tfi
-	KIi817otJJkTyKRhF0HUESQm8BEDESD/q0TCxt7NU+0LaD51T4S6oBZ9SZskEeHdolokj4oPh2z
-	YVqn5kIMx26+3wJvFj8Vh/FWpQ1IzSBXE/AZudHIYiBvahORLQm4CWgLeKHJJrn4smxlYJAHndH
-	JC7HpiQdOwdblPLFg+TgGxmDf6TsnETW1bYD8YrzBys36WascIsDcGeCLE9vQytRA1XuL4MRVJK
-	8Vct/hmK1yWk5yEG+MPTP12w2vhhE
-X-Received: by 2002:a05:600c:8b63:b0:49d:34:420d with SMTP id 5b1f17b1804b1-4ac17ff9d41mr82056125e9.20.1793405765441;
-        Fri, 30 Oct 2026 17:16:05 -0700 (PDT)
+        bh=B0TrtbR6yzRP1pQeoThvh7wqjUnHLUS9A3nsWlFaWpg=;
+        b=bvK7zYwSWNvCyJzlPJ7DoOA7tbz5YVO/OlINY+CVOyH2FnRXqRmBxMjci3t6yHxIGW
+         5/Hgc8jAYXaVegfNay+iHo2JsFo2qVrMIVQrSIsimLu6k538a0cBhmLi0H+mUILL4frN
+         Dce2TJE5RbDxUtJyV7wSG7uasjdap+699x7+9qYHzUysHaD8hJT46Yj6qow0czKtL6yK
+         0Fg1PkOyeP1lX6M01Zod9bv5K7lMR7GvX76u3OXmUwCRhGqpmhM/GYeZFVS2XVpUbc+H
+         Ag+MFcbz5AUrrXTBMvc1+cnN9VQR65AzvUPBReXO9KE50clClQHhh/LTMygrgzkNjrFz
+         dsbQ==
+X-Gm-Message-State: AFq9FYIBrvbTpaBW8RnxvP7nHP3DGvU12zUMX9324t26gn+AHCVSuZJX
+	bCXfewwe5PDs5Oi4wtYRPnRhyZOlJfdr1p5ZXRvVm/lfEJPB4fE6guxJTwYmqOcGe4e8tkVveJH
+	QMX3H5ns=
+X-Gm-Gg: AYBFou3BkXvYXglFCf4xeBK7QTyJ5T9ixnr0v3Z8XvARZUJG6gG8+8LHEOjwctLYtI8
+	ZFrnGPRxoHEPBoIHEQVu7Udhrt8s8Mv4zU/JL4nXoJvBl+eMmkH2U2vRv8LcR9ViBFQYjztY1FL
+	9SvJqatH4840Tcg58J7ofuIxB8hGmwx0faEPzmTV/uyb1QddoO3EMm0SU5b8Ha1zZdhd6T6BBeP
+	ix3q1QiBZiYIKZQtH4m5wVpbFVrZn8TmHlpP+AEqvtrW/eGgKJS58k0rjhQJmyqbUEUj7bWofEW
+	q2rGkLjPCRS/VNHlMVQ2AgLwRjp7G50E/cE0FpuRTnPyCX8JxY7VbQTJwxi4p81ZLU9JPvhhnaU
+	ACPammGOlGat1nAWXdtt2tsZ7jvoDAA2g0ysZUWoRLP4l8etEIqKfv2uimRx/QJj2Q4T3baIyBO
+	8fUv6p0Mqd/qKSc6p0a0KGbIcByQGIT1BzEM+p0dBUEzpTSoAAtoJEdcw8DyeAacg+ftZIUvyf/
+	Ov+Mq3LV+yyVraOBferjFDWwSxUJaF/d6hvoXYep84mjTGY+g4o77UpKXdx4IUnKQ8zosP5sSDP
+	8N9+KlFgwcyctAhzJ/UaopdLBe8qWaugKzs+FCYlvYBsiCxGmngbL94enpk4P1+KrUhksSQXJFK
+	fPfh9cTumJ0k5YKHbQ9BQvuPDqv7k
+X-Received: by 2002:a05:600c:e545:b0:4ad:181a:4354 with SMTP id 5b1f17b1804b1-4ad181a4478mr30232815e9.30.1793405761223;
+        Fri, 30 Oct 2026 17:16:01 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.16.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.16.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:16:04 -0700 (PDT)
+        Fri, 30 Oct 2026 17:16:00 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 38/55] shadow-native: Disable syslog usage
-Date: Sat, 31 Oct 2026 01:14:59 +0100
-Message-ID: <8f136272878dea4e0540e2f53491a2b5c37821f3.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 31/55] glibc: patch CVE-2026-8674
+Date: Sat, 31 Oct 2026 01:14:52 +0100
+Message-ID: <2ee1db69d295556b5aa99965ff088e844c1eb168.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249113
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249106
 Content-Type: text/plain; charset="utf-8"
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Peter Marko <peter.marko@siemens.com>
 
-Spamming the build host's syslog with useradd information during image creation
-isn't great. Add a patch to disable that.
+Pick patch referencing this CVE from 2.41 branch (oldest release
+still receiving security updates).
 
-It may be possible to convince upstream to make it a configure option but for
-now the patch is trivial and reduces host impact to the logs.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a52572886e60e4aff9d54b57bf45a301e1dec1ee)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: fixed a 3.41 -> 2.41 typo in branch name]
 ---
- .../shadow/files/disable_syslog.patch         | 22 +++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |  1 +
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/disable_syslog.patch
+ .../glibc/glibc/0042-CVE-2026-8674.patch      | 118 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
+ 2 files changed, 119 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
 
-diff --git a/meta/recipes-extended/shadow/files/disable_syslog.patch b/meta/recipes-extended/shadow/files/disable_syslog.patch
+diff --git a/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch b/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
 new file mode 100644
-index 00000000000..7299a8e61cd
+index 00000000000..bbdeafd5f38
 --- /dev/null
-+++ b/meta/recipes-extended/shadow/files/disable_syslog.patch
-@@ -0,0 +1,22 @@
-+When building images using shadow-native, we shouldn't be spamming the host's
-+log with lots of syslog messages which aren't relavent. Disable syslog use
-+in the native case.
++++ b/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
+@@ -0,0 +1,118 @@
++From c97fdd483232a831829aaff458a212307f1bf4bc Mon Sep 17 00:00:00 2001
++From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
++Date: Mon, 14 Sep 2026 17:08:03 -0300
++Subject: [PATCH] resolv: Fix assertion failure on search list truncation [BZ
++ 31026, CVE-2026-8674]
 +
-+Upstream-Status: Inappropriate [Would upstream accept a configure option?]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++update_from_conf copies the search list into the 256-byte
++resp->defdname and truncates it when an entry does not fit, then
++asserts that resolv_conf_matches accepts the result.
 +
-+Index: shadow-4.17.2/lib/defines.h
-+===================================================================
-+--- shadow-4.17.2.orig/lib/defines.h
-++++ shadow-4.17.2/lib/defines.h
-+@@ -88,7 +88,9 @@
++The truncation check there compared the accumulated size against
++sizeof (resp->dnsrch) (the pointer array) instead of resp->defdname,
++and the empty-list case did not account for a first entry that does
++not fit at all.  A long search domain in resolv.conf or LOCALDOMAIN
++thus aborts any process using the resolver.
++
++Check whether the entry fits in the remaining defdname space, matching
++alloc_buffer_copy_string, and also accept an empty resp->dnsrch when
++the first entry is too long.  Add tests covering both cases through
++the search and domain directives.
++
++Checked on x86_64-linux-gnu and i686-linux-gnu.
++Reviewed-by: Florian Weimer <fweimer@redhat.com>
++
++(cherry picked from commit 506ea57086bfb9ce3daff1c14246a1cb532aba0a)
++(cherry picked from commit c0c8a45dee30c8089822d859575a3ad4324b15ff)
++
++CVE: CVE-2026-8674
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=c97fdd483232a831829aaff458a212307f1bf4bc]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ resolv/resolv_conf.c                  | 19 +++++++++------
++ resolv/tst-resolv-res_init-skeleton.c | 35 +++++++++++++++++++++++++++
++ 2 files changed, 47 insertions(+), 7 deletions(-)
++
++diff --git a/resolv/resolv_conf.c b/resolv/resolv_conf.c
++index dcf92ee90e..0418267044 100644
++--- a/resolv/resolv_conf.c
+++++ b/resolv/resolv_conf.c
++@@ -281,8 +281,12 @@ resolv_conf_matches (const struct __res_state *resp,
++   {
++     if (resp->dnsrch[0] == NULL)
++       {
++-        /* Empty search list.  No default domain name.  */
++-        return conf->search_list_size == 0 && resp->defdname[0] == '\0';
+++        /* Empty search list, or the first entry does not fit in
+++           resp->defdname.  No default domain name.  */
+++        return resp->defdname[0] == '\0'
+++          && (conf->search_list_size == 0
+++              || (strlen (conf->search_list[0]) + 1
+++                  > sizeof (resp->defdname)));
++       }
 + 
-+ /* cleaner than lots of #ifdefs everywhere - use this as follows:
-+    SYSLOG((LOG_CRIT, "user %s cracked root", user)); */
-+-#ifdef ENABLE_NLS
-++#if 1
-++#define SYSLOG(x)
-++#elif ENABLE_NLS
-+ /* Temporarily set LC_TIME to "C" to avoid strange dates in syslog.
-+    This is a workaround for a more general syslog(d) design problem -
-+    syslogd should log the current system time for each event, and not
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index a308ea00d24..37aa7b1f17c 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -24,6 +24,7 @@ SRC_URI:append:class-target = " \
- 
- SRC_URI:append:class-native = " \
-            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
-+           file://disable_syslog.patch \
-            "
- SRC_URI[sha256sum] = "a305edf5d19bddbdf5e836d2d609fa8bff2d35458819de4d9f06306a1cf24342"
- 
++     if (resp->dnsrch[0] != resp->defdname)
++@@ -309,11 +313,12 @@ resolv_conf_matches (const struct __res_state *resp,
++           }
++         else
++           {
++-            /* resp->dnsrch is truncated if the number of elements
++-               exceeds MAXDNSRCH, or if the combined storage space for
++-               the search list exceeds what can be stored in
++-               resp->defdname.  */
++-            if (i == MAXDNSRCH || search_list_size > sizeof (resp->dnsrch))
+++            /* resp->dnsrch is truncated if the number of elements exceeds
+++               MAXDNSRCH, or if conf->search_list[i] does not fit in the
+++               remaining space of resp->defdname.  */
+++            if (i == MAXDNSRCH
+++                || (search_list_size + strlen (conf->search_list[i]) + 1
+++                    > sizeof (resp->defdname)))
++               break;
++             /* Otherwise, a mismatch indicates a match failure.  */
++             return false;
++diff --git a/resolv/tst-resolv-res_init-skeleton.c b/resolv/tst-resolv-res_init-skeleton.c
++index 3ccbe71db9..4e9c57f3cb 100644
++--- a/resolv/tst-resolv-res_init-skeleton.c
+++++ b/resolv/tst-resolv-res_init-skeleton.c
++@@ -713,6 +713,41 @@ struct test_case test_cases[] =
++      "nameserver 192.0.2.1\n"
++      "; nameserver[0]: [192.0.2.1]:53\n"
++     },
+++/* Search list entries which do not fit in the legacy 256-byte
+++   resp->defdname buffer (bug 31026).  LONG244 is 244 characters long,
+++   so it does not fit after "example.com\0" (12 bytes).  LONG256 is 256
+++   characters long, so it does not fit even as the first entry.  */
+++#define LBL63 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+++#define LONG244 LBL63 "." LBL63 "." LBL63 "." \
+++  "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+++#define LONG256 LBL63 "." LBL63 "." LBL63 "." LBL63 "a"
+++    {.name = "search list truncated at long entry after short entry",
+++     .conf = "nameserver 192.0.2.1\n"
+++     "search example.com " LONG244 "\n",
+++     .expected = "search example.com\n"
+++     "; search[0]: example.com\n"
+++     "; search[1]: " LONG244 "\n"
+++     "nameserver 192.0.2.1\n"
+++     "; nameserver[0]: [192.0.2.1]:53\n"
+++    },
+++    {.name = "search list truncated at long first entry",
+++     .conf = "nameserver 192.0.2.1\n"
+++     "search " LONG256 " example.com\n",
+++     .expected = "; search[0]: " LONG256 "\n"
+++     "; search[1]: example.com\n"
+++     "nameserver 192.0.2.1\n"
+++     "; nameserver[0]: [192.0.2.1]:53\n"
+++    },
+++    {.name = "long first entry from the domain directive",
+++     .conf = "nameserver 192.0.2.1\n"
+++     "domain " LONG256 "\n",
+++     .expected = "; search[0]: " LONG256 "\n"
+++     "nameserver 192.0.2.1\n"
+++     "; nameserver[0]: [192.0.2.1]:53\n"
+++    },
+++#undef LONG256
+++#undef LONG244
+++#undef LBL63
++     {.name = "trust-ad flag",
++      .conf = "options trust-ad\n"
++      "nameserver 192.0.2.1\n",
+diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
+index 3e95792b359..3b27328c21a 100644
+--- a/meta/recipes-core/glibc/glibc_2.39.bb
++++ b/meta/recipes-core/glibc/glibc_2.39.bb
+@@ -74,6 +74,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0039-CVE-2026-77117-CVE-2026-80489.patch \
+            file://0040-CVE-2026-18374-01.patch \
+            file://0041-CVE-2026-18374-02.patch \
++           file://0042-CVE-2026-8674.patch \
+ "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
