@@ -1,202 +1,306 @@
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3725.1793405748023250408
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3722.1793405745388189869
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:15:48 -0700
+ Fri, 30 Oct 2026 17:15:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=H5PqKBCq;
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=dXaG7dnC;
  spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so7670825e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:47 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so10209165e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405746; x=1794010546; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=3d8e1J0kLtWJ5JU8A/W7Dm2rw4lhderkEP3c8nbb9/c=;
-        b=H5PqKBCqagqTet9JjqGbJtOHTreq7N/j0DCEdNKsLEgW/26Fn23GkYgmnVUUmcQ63p
-         m8utK3xp68njWPRXq1IYggUaEl3XemJVDneYpaGlu8HVEmiHHVfXDbRoqQHgItBiEi6v
-         OZ4cxQ6SoOmVhGOdOQuHufrCCiC+0jMeL4Y7Hh1/4bGY0C7PgY0leV9cgR57+QHPUY6r
-         Vw5ZHuQGXp3QodIH+PLZUptC4yg/MO4gjNcLzAIlIJWI2vU7h80KrYC71bOIDhSn3CU2
-         re2xoi71xK5mwfAVLzXgn3kFddvLw3zsXrzdoGPwJE9YwAutTwPa+hKvnWSloLsMUKZ+
-         TnMA==
+        d=smile.fr; s=google2; t=1793405744; x=1794010544; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ttd90mwM0q8AxxiAWDKwpYRcDcvgc9nGWSzuBwqJCBE=;
+        b=dXaG7dnC2WZuL19Hb7c1k23JWI3blUA7y6ZgBq0AwNOYEz1wkvVNIz556M+ZyS0ofl
+         cREUjOIire/pCBZCvnOWXieKZHw+XsRj/RTkkY9gbL0bWrCcbAjbY+e7wYOCHrhOEToO
+         ZC4cNBC0o+jb8aE9GES4tomr+A6NiSot7l+o5QwOWUNRHunozL6VaKsP1fZ3Ev3+O2KF
+         RSVa21Hi8J6+dT2HF6x0/TIHAAyOzzLEeS8iO8IJGbS3x71FAhDDbM/J2pDlesYsnH/4
+         aqlJSSXk+5myMgzl7ROOLRx/gPm4tgkt4ghPAQcQ0cxYGLHRxQpC3gWnLqA0TfHSEiY5
+         gmQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405746; x=1794010546;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=3d8e1J0kLtWJ5JU8A/W7Dm2rw4lhderkEP3c8nbb9/c=;
-        b=LvOYjJEg9u50hjS0k+nu/Lxl3+J338J8gGpoHjfAxKyqMq7qoRwDo3hNfvyx7XH80l
-         jSYm5yKa5m26PMt0J+lA9THQc2ZxSvxB83vkXroJE1U7LmVcLdj6dhJR6ToNqozjP070
-         UrNoxkwV1kPNAkeAwcAqIR4L0RE35E8vGy5Fs6McJR0p1ptHiEeY7tnem46lUAno43aA
-         zD7+vuGSi03VkJ2d5Du1n827bjL3sPCIyGS7ZjOgnbWdwqeJRcOhiZ8DsG5r3d3kBEfb
-         YdRdiaB40cZfvo/A82P6NBrESgHsbXKWMhyDK7Wxy+nD7hAOJlfWH0XG7arpuk5dKCgV
-         xGvg==
-X-Gm-Message-State: AFq9FYJrWWFE8VfsddQThZZs0vW+Y3Z29eIpkEXOJ6D7zKPhD8WPZvR5
-	eiC5kuy+xLgSyjipR/DDUfW3r+s2XFxwl6BsArIFSOAuclxeTbBPo898hhGqsLAlvqs/hou8Qj0
-	4GOWLjAA=
-X-Gm-Gg: AYBFou0sbG8z2X8Td2dbuNz3kpWTXRXfEyxGotCZWa2u/vTwm/JOQXH+yzKaCkJtYKQ
-	2m700e5yCxlD4spiAdDmZuGqSx9xDRO2Vok6YJT4aCFG7vaB/0r6pIXhngPfk33nyRYpo2l06HT
-	hh4ZWH4LlorQIvZGuCkN+I6FotrELRcdC7Cgc3uReJg5jB6wQTORuYLFXvhGpBoMlMuk+Leau5h
-	A9HsK7QHTyV3xaKfhoei7wZfnwOqWNBVEtSwC0shFrxklhYprJjHYJrq3AvzuogySlpzcTC3fN/
-	0cIIcoSPGXa+apY5eyjmPQZQC2d5v2Pw/KY6JIhyYY0QT+f/fxf33/IxX1M+uCaU7HFQo1vw11y
-	ZcWvzZr47Nhg7g0bP2uB7YTxJ/LPc4kbrXYXp4Ia+IeGGnVAE1ZFv7IE+0Kri0X5BoP1m23HER9
-	Uzn93rDnZ3r23g+LsKGbnCcndOs5dzwg9KDSI3zb2SOh1I1vL/jDvFcQS6UEeEQq2FWjCQITvEn
-	96yg9/OLamoNCP1nHjfskcRIdqjXzhisdDRVs4BDOrmq3Nwzm8URDXYYKD4bvRCqh9EJiAimpY+
-	sNKfpmfswX/HoNYrAokYbp7mY739siEkZ+ATvz6yoR5EXLXeIF17ELxlmqQbnzMUehrW9vZL7d0
-	Qt/YDYjISjU++vvk2R+t8PqJ3MsxMRQbXwDTrLALhv6b7DE9rog==
-X-Received: by 2002:a05:600c:46d1:b0:4ab:cc03:7f60 with SMTP id 5b1f17b1804b1-4ac18993780mr87415555e9.18.1793405746282;
-        Fri, 30 Oct 2026 17:15:46 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793405744; x=1794010544;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ttd90mwM0q8AxxiAWDKwpYRcDcvgc9nGWSzuBwqJCBE=;
+        b=A3CH/kFX3qQuKo9b96mMamu1/Hum6hLpR1VSzSLi+GRV9ynyQPkxlHdqHN90cCM8tI
+         x26kcKc9rLwJhRPg5Wp0EdnoGKP60O87rGEyhMXumDO2J0JG/Q2NEupJnAgSWOhYTKea
+         TJATehClNkBmj/ZfT3yJeBKb0S5gcEB/+Vub9Q1xxSbG7QSoRZwmR1lJ33u4HrYsIIoX
+         4qrGqvi3JviWtfNucSvOJJ4PIWlbqKjzNqnblg9GyTdT5XgCM2Y+SmVrz5msGecHTCBU
+         G+cbzmR6gulwtNXGxFIRG/N9dw/dDKre8FJVEkSLRDLQOAMa4GHvIqnM5QOyaBKXC5QC
+         11dA==
+X-Gm-Message-State: AFq9FYJwCFQbByL28Lvdj8/rdIWCrLBTFM21C1JODMlha139srp8+0M3
+	p/DnTisU4u8hYhj+y5ZcUDk8mACJ1BgbcZw69asq2izFuPis0vYHw/Yolr7g85QQ9oHwk4A3909
+	EaXpuiaQ=
+X-Gm-Gg: AYBFou0GlUls02Bwdgt1Z2zdenp+x5sFqb42Of49we30Bct7AGsgXyib02z3+2XWdc8
+	1gjxcy5XI2zxLsig0r8WfiymXrQiji1CHqkKlmgDFjFdZ1A3phzgG7kTKsYv/T8BvT/iLfLFrYD
+	HONUsnZ84qGwU2+T5KNjwGJhx9CdZ8FDjaBjq2dW4foOzGd2Xxmf34nFX1WutXKhRdWZXXXFpKj
+	vKXq3R/6Lk+TeecXstbB4NXfB80HjqaFtJRaLgvp7MY2Rx/iaaE3OslKGZ7eztt6nEh/MRxs889
+	/XQ4NhqKFcIU308WmnYjf1yiDkbhHkiXEzRb8vfqIRM17cY/P7txhfgSK7blC94wRTzWVX+8mfd
+	HU+/p4AyRVxp1KqbGBpDeB3OjVhGoMnmyRANv2t4G3gx47cSquSQIoHiZxo3m/APdWGtUiHJ8d4
+	IIAkBKDU9TMb+XUCe+uRVWchJAkpM72Ag5UNOUpiBbdo16pqxw8XgsH7b942D3RB++6gSuDZGIM
+	WC8DnSkoaKdLXuhuigSYHqdovjMeIGI6hCml08Lbo6e/ql8Zi5Dy2aXhy/n/QGzz7pWcK37heOe
+	id87wK512qI2eFhYYy78BeIf93GjNWTueRjowMRCXNkxfqH/DF5E32f5G6TswxNt+EmkhDUi2Oo
+	tMYFt1isLVQqelH1G1IuuG31n/iAw
+X-Received: by 2002:a05:600c:198c:b0:4a1:fc98:1cb1 with SMTP id 5b1f17b1804b1-4ac15584c05mr93676175e9.2.1793405743302;
+        Fri, 30 Oct 2026 17:15:43 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:15:45 -0700 (PDT)
+        Fri, 30 Oct 2026 17:15:42 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/55] util-linux: patch CVE-2026-78408
-Date: Sat, 31 Oct 2026 01:14:27 +0100
-Message-ID: <3893b4b5363b0c6da7506bd4282979ef5c8bfb44.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 00/55] Patch review
+Date: Sat, 31 Oct 2026 01:14:21 +0100
+Message-ID: <cover.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
-References: <cover.1793405493.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:15:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249081
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249076
 Content-Type: text/plain; charset="utf-8"
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Tuesday, November 3.
 
-Pick patch referencing this CVE from 2.41.6 release.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/5029
+* qemuarm64-ptest failed with 16267 – [scarthgap] AB-INT PTEST: python3 failure (test_wrong_cert_tls13)
+  retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/4818
 
-Regression patch as submitted to Wrynose is not needed as that code is
-not yet present in 2.39.3.
+The following changes since commit 44b46b8ad6e461dd9289face17cbfaeca6f5d0f2:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: util-linux 2.41.6 release notes:
-https://www.kernel.org/pub/linux/utils/util-linux/v2.41/v2.41.6-ChangeLog ]
----
- meta/recipes-core/util-linux/util-linux.inc   |  1 +
- .../util-linux/CVE-2026-78408.patch           | 98 +++++++++++++++++++
- 2 files changed, 99 insertions(+)
+  python3-certifi: upgrade 2026.7.22 -> 2026.10.19 (2026-10-22 12:49:16 +0100)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-review
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-review
+
+for you to fetch changes up to d8d1c0ccd8b51574af64c8781aaa4cf46f1d3211:
+
+  util-linux: patch CVE-2026-53615 (2026-10-30 19:26:06 +0100)
+
+----------------------------------------------------------------
+
+Alexander Kanavin (1):
+  gstreamer1.0: disable an intermittently failing test
+
+Ankur Tyagi (1):
+  tzdata/tzcode-native: upgrade 2026d -> 2026e
+
+Benhur Tessele (1):
+  go: fix CVE-2026-56862
+
+Bruce Ashfield (5):
+  linux-yocto/6.6: update to v6.6.156
+  linux-yocto/6.6: update to v6.6.157
+  linux-yocto/6.6: update to v6.6.159
+  linux-yocto/6.6: update to v6.6.160
+  linux-yocto/6.6: aufs: refresh to upstream aufs6.6.84
+
+Hetvi Thakar (5):
+  apr-util: Fix CVE-2025-49506
+  apr-util: Fix CVE-2026-32327
+  apr-util: Mark CVE-2026-34191 not applicable
+  apr-util: Fix CVE-2026-34501
+  apr-util: Fix CVE-2026-34502
+
+Jaipaul Cheernam (2):
+  python3-urllib3: Fix CVE-2026-97689
+  curl: fix CVE-2026-80230
+
+Jakub Szczudlo (Nokia) (1):
+  libarchive: fix CVE-2026-15028
+
+Paul Barker (1):
+  b4-config: Add configuration for scarthgap
+
+Peter Marko (32):
+  util-linux: patch CVE-2026-53614
+  util-linux: patch CVE-2026-53613
+  util-linux: patch CVE-2026-53612
+  util-linux: patch CVE-2024-28085 regression
+  util-linux: patch CVE-2026-78408
+  util-linux: patch CVE-2026-78410
+  util-linux: patch CVE-2026-76642
+  expat: patch CVE-2026-102633
+  expat: patch CVE-2026-77214
+  popt: patch CVE-2026-18743
+  popt: patch CVE-2026-18739
+  glib-2.0: patch CVE-2026-15588
+  glib-2.0: patch CVE-2026-16118
+  libpng: patch CVE-2026-46675
+  libpcre2: update to latest release branch hash 50b3c0d7ce
+  glibc: patch CVE-2026-5928
+  glibc: patch CVE-2026-5450
+  glibc: patch CVE-2026-6791
+  glibc: patch CVE-2026-6368
+  glibc: patch CVE-2026-19542
+  glibc: patch CVE-2026-19499
+  glibc: patch CVE-2026-77117
+  glibc: patch CVE-2026-80489
+  glibc: add tests for CVE-2026-77117 and CVE-2026-80489.
+  glibc: patch CVE-2026-18374
+  glibc: patch CVE-2026-8674
+  glibc: patch CVE-2026-89092
+  glibc: patch CVE-2026-97399
+  glibc: stable 2.39 branch updates to b7a0de2c8f
+  dhcpcd: patch CVE-2025-70102
+  python3: upgrade 3.12.15 -> 3.12.16
+  util-linux: patch CVE-2026-53615
+
+Richard Purdie (1):
+  shadow-native: Disable syslog usage
+
+Ross Burton (1):
+  gstreamer: skip test_queue:test_leaky_downstream test as it's flakey
+
+Suresh H A (1):
+  systemd: try AT_EMPTY_PATH for access_fd() first
+
+Theo GAIGE (1):
+  python3-pyelftools: add python3-logging to RDEPENDS
+
+Yoann Congal (2):
+  scripts/install-buildtools: Update to 5.0.21
+  linux-yocto/6.6: update CVE exclusions (6.6.160)
+
+ .b4-config                                    |    4 +
+ .../dhcpcd/dhcpcd_10.0.6.bb                   |    1 +
+ .../dhcpcd/files/CVE-2025-70102.patch         |   30 +
+ .../expat/expat/CVE-2026-102633.patch         |   68 +
+ .../expat/expat/CVE-2026-77214.patch          |  106 +
+ meta/recipes-core/expat/expat_2.8.3.bb        |    2 +
+ .../glib-2.0/glib-2.0/CVE-2026-15588.patch    |  267 +
+ .../glib-2.0/glib-2.0/CVE-2026-16118.patch    |   48 +
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |    2 +
+ meta/recipes-core/glibc/glibc-version.inc     |    2 +-
+ .../glibc/glibc/0031-CVE-2026-5928.patch      |  112 +
+ .../glibc/glibc/0032-CVE-2026-5450.patch      |  133 +
+ .../glibc/glibc/0033-CVE-2026-6791.patch      |  364 +
+ .../glibc/glibc/0034-CVE-2026-6368.patch      |  577 ++
+ .../glibc/glibc/0035-CVE-2026-19542.patch     |   99 +
+ .../glibc/glibc/0036-CVE-2026-19499.patch     |  100 +
+ .../glibc/glibc/0037-CVE-2026-77117.patch     |   32 +
+ .../glibc/glibc/0038-CVE-2026-80489.patch     |   32 +
+ .../0039-CVE-2026-77117-CVE-2026-80489.patch  |  172 +
+ .../glibc/glibc/0040-CVE-2026-18374-01.patch  |   53 +
+ .../glibc/glibc/0041-CVE-2026-18374-02.patch  |  103 +
+ .../glibc/glibc/0042-CVE-2026-8674.patch      |  118 +
+ .../glibc/glibc/0047-CVE-2026-89092.patch     |  245 +
+ .../glibc/glibc/0048-CVE-2026-97399.patch     |  128 +
+ meta/recipes-core/glibc/glibc_2.39.bb         |   14 +
+ ...ry-AT_EMPTY_PATH-for-access_fd-first.patch |   34 +
+ meta/recipes-core/systemd/systemd_255.22.bb   |    1 +
+ meta/recipes-core/util-linux/util-linux.inc   |   15 +
+ ...ib-fileutils-add-ul_open_no_symlinks.patch |   98 +
+ ...dd-ul_openat_resolve-openat2-wrapper.patch |   85 +
+ ...x-RESOLVE_NO_SYMLINKS-fallback-value.patch |   71 +
+ ...x-unused-parameter-warnings-without-.patch |   64 +
+ ..._open_tree-helper-for-safe-tree-open.patch |   85 +
+ .../util-linux/CVE-2024-28085-0003.patch      |   77 +
+ .../util-linux/CVE-2026-53612.patch           |   92 +
+ .../util-linux/CVE-2026-53613.patch           |  192 +
+ .../util-linux/CVE-2026-53614.patch           |   83 +
+ .../util-linux/CVE-2026-53615.patch           |  109 +
+ .../util-linux/CVE-2026-76642.patch           |  136 +
+ .../util-linux/CVE-2026-78408.patch           |   98 +
+ .../util-linux/CVE-2026-78410-01.patch        |   94 +
+ .../util-linux/CVE-2026-78410-02.patch        |   96 +
+ .../util-linux/CVE-2026-78410-03.patch        |  115 +
+ meta/recipes-devtools/go/go-1.22.12.inc       |    1 +
+ .../go/go/CVE-2026-56862.patch                |   98 +
+ .../python/python3-pyelftools_0.30.bb         |    2 +-
+ .../python3-urllib3/CVE-2026-97689.patch      |  251 +
+ .../python/python3-urllib3_2.2.2.bb           |   14 +-
+ ...shebang-overflow-on-python-config.py.patch |    2 +-
+ ...-qemu-wrapper-when-gathering-profile.patch |    2 +-
+ ...e-treat-overflow-in-UID-GID-as-failu.patch |    2 +-
+ ...pes.test_find-skip-without-tools-sdk.patch |    2 +-
+ .../python/python3/makerace.patch             |    2 +-
+ ...{python3_3.12.15.bb => python3_3.12.16.bb} |    2 +-
+ .../libarchive/CVE-2026-15028.patch           |   41 +
+ .../libarchive/libarchive_3.7.9.bb            |    1 +
+ .../shadow/files/disable_syslog.patch         |   22 +
+ meta/recipes-extended/shadow/shadow.inc       |    1 +
+ meta/recipes-extended/timezone/timezone.inc   |    6 +-
+ .../linux/cve-exclusion_6.6.inc               | 7716 +++++++++++++++--
+ .../linux/linux-yocto-rt_6.6.bb               |    6 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  |   28 +-
+ .../gstreamer/gstreamer1.0/run-ptest          |    7 +
+ .../libpng/files/CVE-2026-46675.patch         |  115 +
+ .../libpng/libpng_1.6.42.bb                   |    1 +
+ .../apr/apr-util/CVE-2025-49506.patch         |  310 +
+ .../apr-util/CVE-2026-32327-dependent.patch   |   34 +
+ .../apr/apr-util/CVE-2026-32327.patch         | 2162 +++++
+ .../apr/apr-util/CVE-2026-34501.patch         |  128 +
+ .../apr/apr-util/CVE-2026-34502_p1.patch      |  106 +
+ .../apr/apr-util/CVE-2026-34502_p2.patch      |   38 +
+ meta/recipes-support/apr/apr-util_1.6.3.bb    |    8 +
+ .../curl/curl/CVE-2026-80230.patch            |   63 +
+ meta/recipes-support/curl/curl_8.7.1.bb       |   70 +-
+ .../recipes-support/libpcre/libpcre2_10.43.bb |   20 +-
+ .../popt/popt/CVE-2026-18739.patch            |   92 +
+ .../popt/popt/CVE-2026-18743.patch            |   97 +
+ meta/recipes-support/popt/popt_1.19.bb        |    3 +
+ scripts/install-buildtools                    |    4 +-
+ 80 files changed, 14838 insertions(+), 982 deletions(-)
+ create mode 100644 .b4-config
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/CVE-2025-70102.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-102633.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-77214.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-16118.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-CVE-2026-5928.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0032-CVE-2026-5450.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0033-CVE-2026-6791.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0034-CVE-2026-6368.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0035-CVE-2026-19542.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0037-CVE-2026-77117.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0038-CVE-2026-80489.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0039-CVE-2026-77117-CVE-2026-80489.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0040-CVE-2026-18374-01.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0041-CVE-2026-18374-02.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0047-CVE-2026-89092.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0048-CVE-2026-97399.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0024-fs-util-try-AT_EMPTY_PATH-for-access_fd-first.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-lib-fileutils-add-ul_open_no_symlinks.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-lib-fileutils-add-ul_openat_resolve-openat2-wrapper.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-lib-fileutils-fix-RESOLVE_NO_SYMLINKS-fallback-value.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-lib-fileutils-fix-unused-parameter-warnings-without-.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-libmount-add-mnt_open_tree-helper-for-safe-tree-open.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2024-28085-0003.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-53612.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-53613.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-53614.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-53615.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-76642.patch
  create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-78410-01.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-78410-02.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-78410-03.patch
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-56862.patch
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch
+ rename meta/recipes-devtools/python/{python3_3.12.15.bb => python3_3.12.16.bb} (99%)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-15028.patch
+ create mode 100644 meta/recipes-extended/shadow/files/disable_syslog.patch
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2026-32327-dependent.patch
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2026-32327.patch
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2026-34501.patch
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2026-34502_p1.patch
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2026-34502_p2.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80230.patch
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18739.patch
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18743.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 6598a92b30f..2eb9251a704 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -57,6 +57,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://CVE-2026-53613.patch \
-            file://CVE-2026-53612.patch \
-            file://CVE-2024-28085-0003.patch \
-+           file://CVE-2026-78408.patch \
-            "
- 
- SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
-new file mode 100644
-index 00000000000..36f3c91ddc5
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
-@@ -0,0 +1,98 @@
-+From 43ec8a89f6c99130727084b3496a2ffd2b4200f0 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Mon, 31 Aug 2026 17:03:32 +0200
-+Subject: [PATCH] nsenter, unshare: add O_CLOEXEC to all open() calls
-+ [CVE-2026-78408]
-+
-+Add O_CLOEXEC (and EFD_CLOEXEC for eventfd) as defense in depth to
-+all file descriptor creation sites in nsenter and unshare. All these
-+descriptors are already explicitly closed before exec, but O_CLOEXEC
-+provides a safety net against future code changes that might
-+accidentally introduce a leak path.
-+
-+No functional change.
-+
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+
-+CVE: CVE-2026-78408
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/43ec8a89f6c99130727084b3496a2ffd2b4200f0]
-+Backport notes:
-+- 2 hunks left out as that code is not yet present in 2.39.3.
-+- Verified that no other "open(" calls are in this version in patched files.
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ sys-utils/nsenter.c | 6 +++---
-+ sys-utils/unshare.c | 8 ++++----
-+ 2 files changed, 7 insertions(+), 7 deletions(-)
-+
-+diff --git a/sys-utils/nsenter.c b/sys-utils/nsenter.c
-+index cf6c83174..9d9d90a48 100644
-+--- a/sys-utils/nsenter.c
-++++ b/sys-utils/nsenter.c
-+@@ -134,7 +134,7 @@ static void open_target_fd(int *fd, const char *type, const char *path)
-+ 	if (*fd >= 0)
-+ 		close(*fd);
-+ 
-+-	*fd = open(path, O_RDONLY);
-++	*fd = open(path, O_RDONLY | O_CLOEXEC);
-+ 	if (*fd < 0)
-+ 		err(EXIT_FAILURE, _("cannot open %s"), path);
-+ }
-+@@ -492,7 +492,7 @@ int main(int argc, char *argv[])
-+ 
-+ 	/* Remember the current working directory if I'm not changing it */
-+ 	if (root_fd >= 0 && wd_fd < 0 && wdns == NULL) {
-+-		wd_fd = open(".", O_RDONLY);
-++		wd_fd = open(".", O_RDONLY | O_CLOEXEC);
-+ 		if (wd_fd < 0)
-+ 			err(EXIT_FAILURE,
-+ 			    _("cannot open current working directory"));
-+@@ -515,7 +515,7 @@ int main(int argc, char *argv[])
-+ 
-+ 	/* working directory specified as in-namespace path */
-+ 	if (wdns) {
-+-		wd_fd = open(wdns, O_RDONLY);
-++		wd_fd = open(wdns, O_RDONLY | O_CLOEXEC);
-+ 		if (wd_fd < 0)
-+ 			err(EXIT_FAILURE,
-+ 			    _("cannot open current working directory"));
-+diff --git a/sys-utils/unshare.c b/sys-utils/unshare.c
-+index 05db627be..c47739862 100644
-+--- a/sys-utils/unshare.c
-++++ b/sys-utils/unshare.c
-+@@ -108,7 +108,7 @@ static void setgroups_control(int action)
-+ 		return;
-+ 	cmd = setgroups_strings[action];
-+ 
-+-	fd = open(file, O_WRONLY);
-++	fd = open(file, O_WRONLY | O_CLOEXEC);
-+ 	if (fd < 0) {
-+ 		if (errno == ENOENT)
-+ 			return;
-+@@ -125,7 +125,7 @@ static void map_id(const char *file, uint32_t from, uint32_t to)
-+ 	char *buf;
-+ 	int fd;
-+ 
-+-	fd = open(file, O_WRONLY);
-++	fd = open(file, O_WRONLY | O_CLOEXEC);
-+ 	if (fd < 0)
-+ 		 err(EXIT_FAILURE, _("cannot open %s"), file);
-+ 
-+@@ -219,7 +219,7 @@ static void settime(time_t offset, clockid_t clk_id)
-+ 
-+ 	len = snprintf(buf, sizeof(buf), "%d %" PRId64 " 0", clk_id, (int64_t) offset);
-+ 
-+-	fd = open("/proc/self/timens_offsets", O_WRONLY);
-++	fd = open("/proc/self/timens_offsets", O_WRONLY | O_CLOEXEC);
-+ 	if (fd < 0)
-+ 		err(EXIT_FAILURE, _("failed to open /proc/self/timens_offsets"));
-+ 
-+@@ -289,7 +289,7 @@ static pid_t fork_and_wait(int *fd)
-+ 	pid_t pid;
-+ 	uint64_t ch;
-+ 
-+-	*fd = eventfd(0, 0);
-++	*fd = eventfd(0, EFD_CLOEXEC);
-+ 	if (*fd < 0)
-+ 		err(EXIT_FAILURE, _("eventfd failed"));
-+ 
