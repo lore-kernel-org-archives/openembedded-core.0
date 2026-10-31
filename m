@@ -1,62 +1,62 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3740.1793405759587732044
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3740.1793405761358170763
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:15:59 -0700
+ Fri, 30 Oct 2026 17:16:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=kLuzt86y;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so8104765e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:59 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=heOiR6xD;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a549cd7fd2so11366115e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405758; x=1794010558; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405760; x=1794010560; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=XJyI0grHAWQ2SKe1I9yHMJY+ZwqKLuwF46fLMNFDNn0=;
-        b=kLuzt86yLVazcHQEFCYCns5wN9dtJwivn4PursazcQWzpsfWy4DHKf1u9DuDHt0xaA
-         Mb1hUA7lLBd311HV+qYUp9fdgYP76tdKDITPRrHpNhrGGr5wYue+z76tsiEKBxfEBCA3
-         Y7+UgH8bPyg4vMS7MuAsgRhq3anP2iRr91eMgz/ucB378TQoHwlE7hpNYCDpGERvJ9+e
-         tomKUMH3bz9e79uUXruCEeoEH6Rt5OUXLKQdmUM+Y/zTbUMECSCm4O0pdwr7T4/47gMy
-         q1ZwSUMnJbioWjIioJHLjbLt3XsMaTiV4G5LksKaR+t/BVlumoz+eix9V0cDEHkbCgc+
-         Ggrg==
+        bh=RNEOwpRbC8H/x/ExUaL8Olf+KaLVsgrAIpPMIDg6ZqA=;
+        b=heOiR6xDrj4N3HvfupOS0x0Vfc5jnBFAP/vEwKYwnkN8nVSUFBW/LqfRGcS+W7XAyl
+         XGaynQEqBLmOnuQPT6I0hSS3kFB907HPapDlxJIG4VELcWisZ5NBvgZoqXo1HM679Gyh
+         cfmD8Ls23NU3Q9rVz+b30xmm9y4HjVCcawBCMoTRLnRZ80B5g2gIgY4i7ngPZjd3Ie4I
+         baV0uSIha/9DLqc7cg04zSukcQxc3UbCLvvq4QB38b1peDx6ojIltO5p0uRnx/ooYM6u
+         3czEACcuYfB9MSzwpXzVYR7n66DBwlfGWxYa99PGqDS5gIB5mvYKEFqm7aLLC/3CJtPm
+         BstQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405758; x=1794010558;
+        d=1e100.net; s=20260707; t=1793405760; x=1794010560;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=XJyI0grHAWQ2SKe1I9yHMJY+ZwqKLuwF46fLMNFDNn0=;
-        b=ImVebGdQWo7gHjgkY8lOV8DzFrRqjh+DOpq2icV1DLWTRZUNJLjGQQLm7SRkEKSnYC
-         VsmXRXdmdnGGQVvoFLq/qardkNxnp3K4JbUjz540ReKSnxEtPDTroS+83iyY8LLUru1Q
-         Ux8BTEUltnQyKnW6IsDdr3hxXYz3Hun14LUminhBXOHodh9qPQe1FTa960MX204+stZM
-         cKLx0N6TCtWXDC/fo+FG2KaERz4vZ8Q70/LIwt4YuwH1LwvcQ00EV7sypV+9872P3hyg
-         Texa2Z1Z2CeMFAdIVmxRRf2fOE0pezS/+M3Um+/O0D2Y8hZh31E6HPdnPKf7EslpRPm0
-         Pfhg==
-X-Gm-Message-State: AFq9FYK8pia3FVVwNwQ4zUo0TpgS+WgbIawUt8BgsLwEKvKLJuo0MOfF
-	8KSPAQheccQRKkMs8xHUUr5U5WejVPl3ZdCR4NSRz/7X/WzmToRxsAllEuk0KtbsCaq/tlRVeVs
-	Ge4sQsmI=
-X-Gm-Gg: AYBFou1VpF9GyAf01XuNsYL/69iATvuSWQfamMmr0yOy3GI7zPgqft4Dekz5jF05FX3
-	8vOvTUqtgH0GB59H3KFBLk3ixl3/Re1o72odjr4k2ZKysm3SvLrC3QY51zq3A/regRah+TVy0ab
-	/UwiQ6ZGdV8q/BTJVv2b9D1NYs/vgOXr5PkZhlnOljZniJsykooqldlBj/yAVCGH+FyCFm1JB7w
-	Su99l1sVLX7HksL4eFIh92JvXP45wbzn/xmDrwPxMZfbyiFEuEb2EhkUOXr5daQyPXRiRDYHIFn
-	/yDG9kwG6zK6t4x018mVDlf6nAgIYC+wsuuNMxnhnj+wS2TPFGrL6Iz48G6kwVaWp4ydAPnUph1
-	mt8WmN3JR02GWqTUUGAhbhXzg374mQo6Z/9VMHmrbQAhlEvxZVCZi30VT392uaPPCueEWimgjQN
-	lyHOioxvV911p5zKbcFXCBCLfi9jNwLIaVCJWEwUPqKcW2tpDwbHHDRMESpKLf29RXvnBfg0UYa
-	15N1Fxxb4dAam925d44uWuqdNAUttXDnYsmGGQI3WwgwQaKkrgEsYOjLXLW/btgvf5zgDeCxW3S
-	LHH973ytrwNgwq6ppcdGDsARR5mAbQMTKlhadEwPAY3AHqMTroBeBBrpW+rjhRsphPyXZMQzC8/
-	YB1PNQ07EGo+D5VLjrJiTjZnckhlX
-X-Received: by 2002:a05:600c:524c:b0:4a1:fcfa:2a07 with SMTP id 5b1f17b1804b1-4ac1960dd8dmr86629295e9.30.1793405757841;
-        Fri, 30 Oct 2026 17:15:57 -0700 (PDT)
+        bh=RNEOwpRbC8H/x/ExUaL8Olf+KaLVsgrAIpPMIDg6ZqA=;
+        b=O05cXbLmDRH6ULGgX37XSStfUo8HmIcr6/ky47r4YYzB6rTNP5+PZIYFLCICQVm4V7
+         wPNHL6BcNBjmEyum5q/b/W473JQ0CwEeH4RAgoAtEMmHReflH9qYuxl6Qda6f/35fqmO
+         TC0JSJOCKi4xqcArn1P/61OrI8+D30YuUPq9WsNeavYKiOOzbleo08s9DoIbT0H6iiXW
+         VsQP08TtNAzBDBR/aQEye2wJaBjOCF5DwLAKoZEngxfMYZuGBm+0r0t5MNtQFHb9MfW6
+         CJEnMf4B0uXqXBxaOhG9sDT+NwM/7b1suvLZ8nmvYPyBZqt4mRsw3AESeMINe51R240X
+         auyw==
+X-Gm-Message-State: AFq9FYI4Vtb7P38GzYhude6fQEVzdA8SNA0AwTGcLvuZuyTnd3m27Yn8
+	x70z4/TsQBUVhR6Zcr8QAawINFMDrsyy2sBjs6Jj7hGJ2JsHbF162CckC4xMsANeHLSGNs39hbp
+	tP7XMmcE=
+X-Gm-Gg: AYBFou2h9pnnHrfdjatV2xeLVQe6hQ9PHzTuPthx/R2j02TUpEnxB5NXUPDNFZMSFxt
+	Cf4MMEWY2P/El26/Kr1cUjHSsgCmjob8I7/C1h9xEox4IHnNozdVP+FwxAx7SFpsE0rKPHk6xEu
+	pUiH0gVowh/3QszaZwYhUn8P93UUJUbbwBnKiGdgu45ZmAD53ok1CPCNp173RQ1ixJEDRVPjEcO
+	DJyd6dkzQMZ8Wqa+Hypl49iiXWm5rx+BW2JiVJv0A8OoWmVka5nDZAb+vNWN5TTlA1KWlTNtIar
+	tgplryDdxJZsBfQeewUWntY7GPxGI1daPvwVYpDjSflnuzoMMwz61FUyqbDu+RVG8rYjFOyW8xy
+	zrlmTUnYPza3UyrHsnxAIS9aahGyivDpg2UgsDEKPR0D3nG+FjvvVSLb06CElqt5FrCHU4qLlpI
+	w6DPHJ41q4CJS1VYhOulFV5zDBEVCr08kqsoLsZADrQ5RwBtZyzmBIb+mnEnRhj/4OTWcOmjLpe
+	5AseqZR+J4Yrz5DT5FxawJocxk8GlbzcccJ3wb/pt0ABKc/9NOviAOJD+llf/B+XKrHZYohhOv6
+	mRnXD0UTWNsUw+bKdmZFo3Eo6DHxuncAy7QK3vMen5MZALtUYQ0Du1C1I4l9AD1wtJcdyV1nLol
+	O+VVdQBtMwov0gpDqi18cSYWe18T8
+X-Received: by 2002:a05:600c:64c9:b0:4a2:180a:3417 with SMTP id 5b1f17b1804b1-4ac14dd1debmr90451745e9.1.1793405759610;
+        Fri, 30 Oct 2026 17:15:59 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:15:57 -0700 (PDT)
+        Fri, 30 Oct 2026 17:15:59 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 25/55] glibc: patch CVE-2026-19542
-Date: Sat, 31 Oct 2026 01:14:46 +0100
-Message-ID: <63acfcce6e0d6f926b5328d52407be935332493c.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 28/55] glibc: patch CVE-2026-80489
+Date: Sat, 31 Oct 2026 01:14:49 +0100
+Message-ID: <bdf6a7982e20e874aafa06b85b44d9e2bb6ef54a.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
@@ -64,141 +64,70 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249100
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249103
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch [1] which is [2] backported to 2.41 (oldest release still
-receiving security updates) which is mentioned in [3].
-
-[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=9318c2571576017d280a31b7b9ab576c9b696b1a
-[2] https://sourceware.org/git/?p=glibc.git;a=commit;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3
-[3] https://security-tracker.debian.org/tracker/CVE-2026-19542
+Pick patch referencing this CVE from 2.41 branch (oldest release
+still receiving security updates).
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 [YC: fixed a 3.41 -> 2.41 typo in branch name]
 ---
- .../glibc/glibc/0035-CVE-2026-19542.patch     | 99 +++++++++++++++++++
+ .../glibc/glibc/0038-CVE-2026-80489.patch     | 32 +++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.39.bb         |  1 +
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0035-CVE-2026-19542.patch
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0038-CVE-2026-80489.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0035-CVE-2026-19542.patch b/meta/recipes-core/glibc/glibc/0035-CVE-2026-19542.patch
+diff --git a/meta/recipes-core/glibc/glibc/0038-CVE-2026-80489.patch b/meta/recipes-core/glibc/glibc/0038-CVE-2026-80489.patch
 new file mode 100644
-index 00000000000..5c82606792c
+index 00000000000..3ca1c959bb2
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0035-CVE-2026-19542.patch
-@@ -0,0 +1,99 @@
-+From 9318c2571576017d280a31b7b9ab576c9b696b1a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/0038-CVE-2026-80489.patch
+@@ -0,0 +1,32 @@
++From ec116a0fbedcc860631e525e70b409cf295f27da Mon Sep 17 00:00:00 2001
 +From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 14 Aug 2026 13:41:16 +0200
-+Subject: [PATCH] misc: Fix out-of-bounds array write in tdelete (bug 34506)
++Date: Fri, 28 Aug 2026 10:26:07 +0200
++Subject: [PATCH] iconvdata: EUC_JISX0213 decoding lacks pending character
++ reset (CVE-2026-80489)
 +
-+Allocate the maximum array sizes directly, instead of resizing
-+the arrays as needed.  This eliminates alloca usage from the
-+function, and fixes the out-of-bounds accesses.  The asserts
-+guard against the bug coming back if the balancing of the tree
-+turns out not to work correctly.
++This fixes bug 34568.
 +
-+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+(cherry picked from commit e2789c46e3bfdcd67a82bea9946b315c179e83d3)
++Reviewed-by: Carlos O'Donell <carlos@redhat.com>
++(cherry picked from commit 4dafa087ff5fe7df45bd37dc727e988da6b8c935)
 +
-+CVE: CVE-2026-19542
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=9318c2571576017d280a31b7b9ab576c9b696b1a]
++CVE: CVE-2026-80489
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=ec116a0fbedcc860631e525e70b409cf295f27da]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ misc/tsearch.c | 31 +++++++++++--------------------
-+ 1 file changed, 11 insertions(+), 20 deletions(-)
++ iconvdata/euc-jisx0213.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/misc/tsearch.c b/misc/tsearch.c
-+index d15260baed..350fe15bf0 100644
-+--- a/misc/tsearch.c
-++++ b/misc/tsearch.c
-+@@ -85,6 +85,7 @@
-+ #include <assert.h>
-+ #include <stdalign.h>
-+ #include <stddef.h>
-++#include <stdint.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+ #include <search.h>
-+@@ -406,12 +407,13 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+   int cmp;
-+   node *rootp = (node *) vrootp;
-+   node root, unchained;
-+-  /* Stack of nodes so we remember the parents without recursion.  It's
-+-     _very_ unlikely that there are paths longer than 40 nodes.  The tree
-+-     would need to have around 250.000 nodes.  */
-+-  int stacksize = 40;
-++  /* Stack of nodes so we remember the parents without recursion.  The
-++     stack size is a conservative approximation of the maximum height
-++     of a red-black tree, based on size of the address space.
-++     Actual numbers are closer to 57 (32 bit) and 117 (63 bit).  */
-++  enum { stacksize = 2 * UINTPTR_WIDTH };
-+   int sp = 0;
-+-  node **nodestack = alloca (sizeof (node *) * stacksize);
-++  node *nodestack[stacksize];
-+ 
-+   if (rootp == NULL)
-+     return NULL;
-+@@ -424,14 +426,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+   root = DEREFNODEPTR(rootp);
-+   while ((cmp = (*compar) (key, root->key)) != 0)
-+     {
-+-      if (sp == stacksize)
-+-	{
-+-	  node **newstack;
-+-	  stacksize += 20;
-+-	  newstack = alloca (sizeof (node *) * stacksize);
-+-	  nodestack = memcpy (newstack, nodestack, sp * sizeof (node *));
-+-	}
-+-
-++      assert (sp < stacksize);
-+       nodestack[sp++] = rootp;
-+       p = DEREFNODEPTR(rootp);
-+       if (cmp < 0)
-+@@ -470,13 +465,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+       node upn;
-+       for (;;)
-+ 	{
-+-	  if (sp == stacksize)
-+-	    {
-+-	      node **newstack;
-+-	      stacksize += 20;
-+-	      newstack = alloca (sizeof (node *) * stacksize);
-+-	      nodestack = memcpy (newstack, nodestack, sp * sizeof (node *));
-+-	    }
-++	  assert (sp < stacksize);
-+ 	  nodestack[sp++] = parentp;
-+ 	  parentp = up;
-+ 	  upn = DEREFNODEPTR(up);
-+@@ -541,6 +530,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+ 		  SETNODEPTR(pp,q);
-+ 		  /* Make sure pp is right if the case below tries to use
-+ 		     it.  */
-++		  assert (sp < stacksize);
-+ 		  nodestack[sp++] = pp = LEFTPTR(q);
-+ 		  q = RIGHT(p);
-+ 		}
-+@@ -625,6 +615,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+ 		  SETLEFT(p,RIGHT(q));
-+ 		  SETRIGHT(q,p);
-+ 		  SETNODEPTR(pp,q);
-++		  assert (sp < stacksize);
-+ 		  nodestack[sp++] = pp = RIGHTPTR(q);
-+ 		  q = LEFT(p);
-+ 		}
++diff --git a/iconvdata/euc-jisx0213.c b/iconvdata/euc-jisx0213.c
++index 9c3f28da2d..f0305c113a 100644
++--- a/iconvdata/euc-jisx0213.c
+++++ b/iconvdata/euc-jisx0213.c
++@@ -224,6 +224,9 @@
++ 	    STANDARD_FROM_LOOP_ERR_HANDLER (1);				      \
++ 	  }								      \
++       }									      \
+++    else 								      \
+++      /* There was a pending character.  Clear it.  */			      \
+++      *statep = 0;							      \
++ 									      \
++     put32 (outptr, ch);							      \
++     outptr += 4;							      \
 diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
-index b7f6278c95a..eb198427d1a 100644
+index 3090b9cd277..bd0b4f06190 100644
 --- a/meta/recipes-core/glibc/glibc_2.39.bb
 +++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -67,6 +67,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0032-CVE-2026-5450.patch \
-            file://0033-CVE-2026-6791.patch \
-            file://0034-CVE-2026-6368.patch \
-+           file://0035-CVE-2026-19542.patch \
+@@ -70,6 +70,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0035-CVE-2026-19542.patch \
+            file://0036-CVE-2026-19499.patch \
+            file://0037-CVE-2026-77117.patch \
++           file://0038-CVE-2026-80489.patch \
  "
  S = "${WORKDIR}/git"
  B = "${WORKDIR}/build-${TARGET_SYS}"
