@@ -1,250 +1,139 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.321.1793416329919602260
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.643.1793418617023625236
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 20:12:10 -0700
+ Fri, 30 Oct 2026 20:50:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=fmG17k4s;
- spf=pass (domain: mvista.com, ip: 74.125.82.170, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36661f953e4so2052837eec.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 20:12:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=ED8MAhqV;
+ spf=pass (domain: gmail.com, ip: 74.125.82.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1846bc43c28so1609120c88.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 20:50:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1793416329; x=1794021129; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793418616; x=1794023416; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BnyzBQa9eKGEZJHZtdMr4Bqp9OVEAnEabO19UJ2q2gs=;
-        b=fmG17k4s/AZED+oINgrrvOvqItZMKmQVW4x25IvbS9TXOL576aarWUzklWNLvSlsiM
-         f7Rf6zZZ7RVA0kIlHeK816BbraZSi1vFjd4GdypDqg7ORT/km95kcg9cGaBCl8fLw6LY
-         3U6ycR0nXmbCd2nyUIvuyq5D2x0cJMgnx9c2g=
+        bh=YuM0f6ylzfairJwcLPcwlFJZmqp6WYZ2TVp7tHHYreU=;
+        b=ED8MAhqVWFI+EbFcvJ8A9pEm6s670ZS/vxNsX5+1aZdnPvyc/v2682FrMtr4YV6c3P
+         ft+ja6mFyzndgi4kvNPWaYz/Y7bJeGVBaoUvZcdOSd1s9S+1b5UAGyoRCOF+y7VC8DNW
+         cvYz5SpFiFOGZoKz3ci4bairhs/5brT2uhIwnQmKiAB+6gNKqWEPchrXBgWO0lN7lVpu
+         E3oFnpQGlic3BcGu1tmxniz/d6HFThmn9g4CDTemFSQ5/JPkY5WNRcTK/jDId2XJPk/F
+         EpiX0Z84q7gm43qtB9zmS2nRfErm/nzNuBKod0ELtIzV1+wKQB2xq3KfgRq8ufJYJFft
+         D9Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793416329; x=1794021129;
+        d=1e100.net; s=20260707; t=1793418616; x=1794023416;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BnyzBQa9eKGEZJHZtdMr4Bqp9OVEAnEabO19UJ2q2gs=;
-        b=JVX3CADPgVD0YB/kZSEUPOy/iUXKxOpNZn5pV44oT2LLGAuYT5ztNgk/wRutwCcIb6
-         ZOVwyfUGXH9UwHAGsZRRFnQAlsPyp1OTwFIODGMq+67AWYFPyb+5p1UpkNQK9kpXpUT6
-         GZu9AIslfSBqzt5tBs2DgT9MAZkVCb3D07fu87NnVEAmF6ORY6aY1CajluqzXhey2pwb
-         6afKUkldsevmMkcDMpd3pa8GU1TvpxWnEvWUytsmgAMOyISXL4h96lQPHBLuQVZQdOGc
-         hprr1Jq5FxHWb0xhUw9bZFBWMzYs2yQBQBktL51vNjKX4q/IXvVUMK5RmrxdlXlskApG
-         N9mA==
-X-Gm-Message-State: AFq9FYI5qPA9XJUwlu49rtq2GyJORJkmTzRzWjsUOENbaDTBTtDW2RA3
-	t7/1au5sQDLFTjFgazwzcOlut3rtlD5Td8vLTS6dfNPE7/CJknIFUwpJqK6CXe8nymSnuKpSKYT
-	u0Kx3UIo=
-X-Gm-Gg: AYBFou3zC+L1son2PYYaG3cKpNjB1gql5jp6f9MOtHf8j+CHUbM3XJ5T/ITfpfc92yZ
-	pICARsXk04xRrj7C7gRB1kvsZdMrPhHfvcbXQmw3ljBb2TBswFPwyY+YCEtp9sThypm0r/zCNCo
-	YsfeZmTvzIjmeWlHIgB9DzehHOhat34utzODwm/R2YzvwVvERsltaPvxOP3kukgHLhFBwxSpcbr
-	EXsZ/KB2uehBDC5tl+KYoZtSA7i4dRAlSw4EP/2NSuCRrqIqae4GGEB0AybxB8kFKvZCG0W54Gi
-	fzDMrPf0DV7Rz7Gt41tGdHadBqxU1nNz48WOmvmNtojUTdiFVTl+hE2f9a05T7htVyKAvJ3kBAC
-	4iBszlDGNf58ZVLV6E1j/KraXFlUuq2fS/aVMWLlHNxN3YsgIfJ3ywUrBW4ggjn/zvnVkCSNG1i
-	kggDjvSDme7LSQ6n/zuPLu9g3XWR3YV4N0wflwSBQ23pcfavVQanySRhi9h/bKFNYZiS+XeBkJc
-	fTKBK9J/EPQF4zDNSyw7DjpwbpeLTOkX6cB1dGKg20csuDY5YYHyqcoiGfq3huUXqfaG8TJbHkx
-	qzdmhK9GCYe7NRuEu+zucT5fuDY=
-X-Received: by 2002:a05:693c:414f:20b0:369:e930:6bc4 with SMTP id 5a478bee46e88-36a423f6f4amr6186799eec.30.1793416329013;
-        Fri, 30 Oct 2026 20:12:09 -0700 (PDT)
-Return-Path: <hprajapati@mvista.com>
-Received: from MVIN00013 ([103.250.136.237])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a61a0csm13316816eec.22.2026.10.30.20.12.07
+        bh=YuM0f6ylzfairJwcLPcwlFJZmqp6WYZ2TVp7tHHYreU=;
+        b=iyBXuFs8Jr6+D8VtC5Wkla6SUXCCJfXtU8I/5dD2CtSJuGslPPuUFnWJTHFM/7T0Nt
+         Q0/LcbJOFNYKHJuyGF6IYkNWYcAFFMqaTvhGK134XohSIq7DpptRX+f7LBT/Or9tFA+R
+         ANE30ht51tRwulUrcpycFulRrmnABceQT50IBXCDXuMXMMzyVUSY4FIV3Gbm1PdE3gIz
+         qk14d4xy2ikSj9fM8ye5Vx7Sy//1ndd6FsU6522KiaKDaWugpZp7S+gZv02iXbK87xec
+         9PJJWIsbipk/RyQ8J2pFrXRExgGMOg2MfCjhhSlL8CVk7MlBXspwbiHrTi7MtauLPWlC
+         Le/A==
+X-Gm-Message-State: AFq9FYIrKFX4+BtB8QeRipdaLwRAJjguADnykRFOXURRPONnG5+I5RMI
+	vrperMe7bxNS2fmTJsNKYEg3nxfJk1C4k9KLclRGmsidaCf0W2pj+q0zdBFYvCv07Nw=
+X-Gm-Gg: AYBFou2bKFLwn8hMBEBhQooLen5iYx4ER9+wprcQSiXTx/MFa5n8rqIKvV0mSFLCi2f
+	v0KM1Is6zwMUKtf5FGO+f4SjOaMJkJegXaRKTVMT0lABoUApxvhlLpOfdzYMMpQvXdm1fWd+8iV
+	Zi3PDYPrzbyCUKIEAV4vtqkJEfIQbDRK7AbPCwt6onwufQfbAUYRcKkfEQZPoUspONmXBxaqCAh
+	C01dKsDqqCbpLOUav7wLirVuRP4CteJrclD6/cmAUL6ECsh5cBJHlTG6nHLBQzXiCh56Y1Qs2Zz
+	mnCzwIMJSYHsJNXrYlHiAvrtoID0lIDOZgCSNgf68NQxWgrIfG8StMKcHbl7tUKrQE/pEQIW+hV
+	7Zeqznt0r5xT17a1FB3qx/R9S6PPDnxYVQOTGUapO+9OtAmuutxq9s3yD3mZpO5OWPAK4bgYdwI
+	6KHXDZVxpSRcl1mB63eMTmvnzTLP6ktF+gI+5OyxjGUnpdJnUFhWQhfWT7f3h3oCi4PZ2Gj2U3s
+	B5qR+zTj0i92N2ttwv9hWjelkQNXda8HGidX6DwBZISq2XZQkIwVnmtx6BY0LeGhf5ogmrSqSTr
+	Y4R39X/43Yh4N3K+qe9Unprv9eTL/sSvrez101PlWgahk9FvgwIqa/nS1Ws0bx6c0dorWpoC+bD
+	sKYQtjuqkxIluYTMBVydfuor9OLwd5mPHI6yjleCv20R/WrjDH+quxg2YAArEBZfb0nbBq1Gbly
+	571v3G0qBUohIkOvw4QDu+cJE0yCTfL2zrozTscqzVYVa+8/ZgRw0HWpI+pDxbnfDI2VjZw/3WR
+	RmHNnfc19t9FZZ16o9aYsh/hFiMDU84eOi3mGal/TOYv/SUi4LDDV9LOcGgCwSmh6YiOmGF7jiX
+	u9iH
+X-Received: by 2002:a05:701b:4211:10b0:1a7:99b9:2eb9 with SMTP id a92af1059eb24-1ac5de4e8a1mr5718457c88.27.1793418616077;
+        Fri, 30 Oct 2026 20:50:16 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac193b8179sm12958201c88.11.2026.10.30.20.50.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 20:12:08 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Fri, 30 Oct 2026 20:50:15 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCHv6] vim: Fix for CVE-2026-73076
-Date: Sat, 31 Oct 2026 08:42:03 +0530
-Message-ID: <20261031031203.5491-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] tcl8: Fix http-4.15 ptest failure
+Date: Fri, 30 Oct 2026 20:50:12 -0700
+Message-ID: <20261031035012.2124098-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 03:12:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249131
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 03:50:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249132
 Content-Type: text/plain; charset="utf-8"
 
-Pick the patch from [1], also referenced in the NVD report [2].
+From: Khem Raj <raj.khem@gmail.com>
 
-[1] https://github.com/vim/vim/commit/581a2f3ac9c6f96a26324f6b2c8c11415fd0d452
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73076
+The test expects the DNS lookup of the bogus host not_a_host.tcl.tk to
+fail, but tcl.tk now has a wildcard DNS record, so the request succeeds
+with a "301 Moved Permanently" reply and the test fails. Backport the
+upstream Tcl 9 change to use a host in a non-existent TLD instead.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Tested with core-image-ptest-tcl8 on qemux86-64 with glibc and musl.
+
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- .../vim/files/CVE-2026-73076.patch            | 155 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 156 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73076.patch
+ ...t-Do-not-rely-on-tk-TLD-in-http-4.15.patch | 35 +++++++++++++++++++
+ meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb   |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-devtools/tcltk8/tcl8/0001-http.test-Do-not-rely-on-tk-TLD-in-http-4.15.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-73076.patch b/meta/recipes-support/vim/files/CVE-2026-73076.patch
+diff --git a/meta/recipes-devtools/tcltk8/tcl8/0001-http.test-Do-not-rely-on-tk-TLD-in-http-4.15.patch b/meta/recipes-devtools/tcltk8/tcl8/0001-http.test-Do-not-rely-on-tk-TLD-in-http-4.15.patch
 new file mode 100644
-index 0000000000..aacca1a3f0
+index 0000000000..28eb6c9436
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-73076.patch
-@@ -0,0 +1,155 @@
-+From c74d28b907af0b1f1621f881f098374124bcd53d Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Fri, 24 Jul 2026 17:43:51 +0200
-+Subject: [PATCH] patch 9.2.0847: [security]: vimball: code execution via
-+ .VimballRecord file
++++ b/meta/recipes-devtools/tcltk8/tcl8/0001-http.test-Do-not-rely-on-tk-TLD-in-http-4.15.patch
+@@ -0,0 +1,35 @@
++From 54accd2a65ec689be9f0bbed6870d231a8d35f90 Mon Sep 17 00:00:00 2001
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Sat, 31 Oct 2026 02:56:00 +0000
++Subject: [PATCH] http.test: Do not rely on tk TLD in http-4.15
 +
-+Problem:  [security]: vimball: code execution via .VimballRecord file
-+          (tdjackey)
-+Solution: Forbid arbitrary commands, fix broken directory deletion code,
-+          refactor code
++http-4.15 expects the lookup of the bogus host not_a_host.tcl.tk to
++fail, but tcl.tk now has a wildcard DNS record, so the request
++succeeds with a "301 Moved Permanently" reply and the test fails:
 +
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-r22p-fhw4-84p2
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
++---- Test completed normally; Return code was: 0
++---- Return code should have been one of: 1
 +
-+Backport Changes:
++Use a host in a non-existent TLD instead and increase the timeout so a
++slow negative DNS lookup does not confound the test, as done upstream
++for Tcl 9 in [bbaf69c3dd].
 +
-+The .VimballRecord rejection is placed after the fenc/filecnt extraction
-+because the earlier strange-filename check block present in upstream 9.2 does
-+not exist in the 9.1.1683 vim sources.
-+Omitted src/testdir/test_plugin_vimball.vim because the current vim source
-+archive does not include it.
-+
-+CVE: CVE-2026-73076
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/581a2f3ac9c6f96a26324f6b2c8c11415fd0d452]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Backport [https://github.com/tcltk/tcl/commit/0a97f6d1c55f4158bafd1539dc1b20cce6188857]
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 +---
-+ runtime/autoload/vimball.vim | 62 +++++++++++++++++++++---------------
-+ 1 file changed, 37 insertions(+), 25 deletions(-)
++ tests/http.test | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/runtime/autoload/vimball.vim b/runtime/autoload/vimball.vim
-+index 6456984411..5791c7f44a 100644
-+--- a/runtime/autoload/vimball.vim
-++++ b/runtime/autoload/vimball.vim
-+@@ -18,9 +18,9 @@ if &cp || exists("g:loaded_vimball")
-+  finish
-+ endif
-+ let g:loaded_vimball = "v37"
-+-if v:version < 702
-++if v:version < 900
-+  echohl WarningMsg
-+- echo "***warning*** this version of vimball needs vim 7.2"
-++ echo "***warning*** this version of vimball needs vim 9.0"
-+  echohl Normal
-+  finish
-+ endif
-+@@ -270,6 +270,13 @@ fun! vimball#Vimball(really,...)
-+    let fenc    = substitute(getline(linenr+1),'^\d\+\s*\(\S\{-}\)$','\1','')
-+    let filecnt = filecnt + 1
-+ "   call Decho("fname<".fname."> fsize=".fsize." filecnt=".filecnt. " fenc=".fenc)
-++   if fname =~? '\%(^\|/\)\.VimballRecord$'
-++     echomsg "(Vimball) Forbidding .VimballRecord filename, aborting..."
-++     exe "tabn ".curtabnr
-++     bw! Vimball
-++     call s:ChgDir(curdir)
-++     return
-++   endif
-+ 
-+    if a:really
-+     echomsg "extracted <".fname.">: ".fsize." lines"
-+@@ -309,7 +316,7 @@ fun! vimball#Vimball(really,...)
-+       else
-+        call mkdir(dirname)
-+       endif
-+-	  call s:RecordInVar(home,"rmdir('".dirname."')")
-++	  call s:RecordDirInVar(dirname)
-+      endif
-+     endwhile
-+    endif
-+@@ -343,7 +350,7 @@ fun! vimball#Vimball(really,...)
-+ 	 exe "silent w! ".fnameescape(fnamepath)
-+ 	endif
-+ 	echo "wrote ".fnameescape(fnamepath)
-+-	call s:RecordInVar(home,"call delete('".fnamepath."')")
-++	call s:RecordInVar(fnamepath)
-+     endif
-+ 
-+     " return to tab with vimball
-+@@ -464,11 +471,17 @@ fun! vimball#RmVimball(...)
-+     let s:VBRstring= substitute(exestring,'call delete(','','g')
-+     let s:VBRstring= substitute(s:VBRstring,"[')]",'','g')
-+ "	call Decho("exe ".exestring)
-+-	sil! keepalt keepjumps exe exestring
-++	let nr_files= 0
-++	for line in split(exestring, '|')
-++		if line !~ '^call delete(''[^'']\{-}''\(,"d"\)\?)$'
-++			echomsg "ignoring .VimballRecord entry: " line
-++		else
-++			sil! keepalt keepjumps exe line
-++			let nr_files+= 1
-++		endif
-++	endfor
-+ 	sil! keepalt keepjumps d
-+-	let exestring= strlen(substitute(exestring,'call delete(.\{-})|\=',"D","g"))
-+-"	call Decho("exestring<".exestring.">")
-+-	echomsg "removed ".exestring." files"
-++	echomsg "removed ".nr_files." files"
-+    else
-+     let s:VBRstring= ''
-+ 	let curfile    = substitute(curfile,'\.vmb','','')
-+@@ -622,23 +635,22 @@ fun! s:ChgDir(newdir)
-+ endfun
-+ 
-+ " ---------------------------------------------------------------------
-+-" s:RecordInVar: record a un-vimball command in the .VimballRecord file {{{2
-+-fun! s:RecordInVar(home,cmd)
-+-"  call Dfunc("RecordInVar(home<".a:home."> cmd<".a:cmd.">)")
-+-  if a:cmd =~ '^rmdir'
-+-"   if !exists("s:recorddir")
-+-"    let s:recorddir= substitute(a:cmd,'^rmdir',"call s:Rmdir",'')
-+-"   else
-+-"    let s:recorddir= s:recorddir."|".substitute(a:cmd,'^rmdir',"call s:Rmdir",'')
-+-"   endif
-+-  elseif !exists("s:recordfile")
-+-   let s:recordfile= a:cmd
-+-  else
-+-   let s:recordfile= s:recordfile."|".a:cmd
-++" s:RecordInVar: record a un-vimball file deletion in the .VimballRecord file {{{2
-++fun! s:RecordInVar(file)
-++  if !exists("s:recordfile")
-++    let s:recordfile=[]
-+   endif
-+-"  call Dret("RecordInVar : s:recordfile<".(exists("s:recordfile")? s:recordfile : "")."> s:recorddir<".(exists("s:recorddir")? s:recorddir : "").">")
-++  call add(s:recordfile, $'call delete({string(a:file)})')
-+ endfun
-+ 
-++" s:RecordDirInVar: record a un-vimball dir deletion in the .VimballRecord file {{{2
-++fun! s:RecordDirInVar(dir)
-++  if !exists("s:recorddir")
-++    let s:recorddir = []
-++  endif
-++  call add(s:recorddir, $'call delete({string(a:dir)},"d")')
-++  endfun
-++
-+ " ---------------------------------------------------------------------
-+ " s:RecordInFile: {{{2
-+ fun! s:RecordInFile(home)
-+@@ -660,11 +672,11 @@ fun! s:RecordInFile(home)
-+    setlocal ma
-+    $
-+    if exists("s:recordfile") && exists("s:recorddir")
-+-   	let cmd= cmd.s:recordfile."|".s:recorddir
-++	let cmd= cmd.join(s:recordfile, '|')."|".join(s:recorddir, '|')
-+    elseif exists("s:recorddir")
-+-   	let cmd= cmd.s:recorddir
-++	let cmd= cmd.join(s:recorddir, '|')
-+    elseif exists("s:recordfile")
-+-   	let cmd= cmd.s:recordfile
-++	let cmd= cmd.join(s:recordfile, '|')
-+    else
-+ "    call Dret("s:RecordInFile : neither recordfile nor recorddir exist")
-+ 	return
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index f84d2a9688..3a8b67085a 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -58,6 +58,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-73074.patch \
-            file://CVE-2026-73077.patch \
-            file://CVE-2026-73078.patch \
-+           file://CVE-2026-73076.patch \
++diff --git a/tests/http.test b/tests/http.test
++index 6406675..d6b3537 100644
++--- a/tests/http.test
+++++ b/tests/http.test
++@@ -624,7 +624,7 @@ test http-4.14 {http::Event} -body {
++ test http-4.15 {http::Event} -body {
++     # This test may fail if you use a proxy server. That is to be
++     # expected and is not a problem with Tcl.
++-    set token [http::geturl //not_a_host.tcl.tk -timeout 3000 -command \#]
+++    set token [http::geturl //not-a-host.nodns. -timeout 30000 -command \#]
++     http::wait $token
++     http::status $token
++     # error codes vary among platforms.
+diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+index 5e296cc7e6..8d2aa34acb 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
++++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+@@ -23,6 +23,7 @@ SRC_URI = "${BASE_SRC_URI} \
+            file://alter-includedir.patch \
+            file://run-ptest \
+            file://0001-generic-tcl.h-use-Tcl_WideInt-for-seconds-in-Tcl_Tim.patch \
++           file://0001-http.test-Do-not-rely-on-tk-TLD-in-http-4.15.patch \
             "
+ SRC_URI[sha256sum] = "1880b6337de72431174511419550bb4cf1327b7c8200a5466d1c4eb3ecac5132"
  
- PV .= ".1683"
--- 
-2.50.1
-
