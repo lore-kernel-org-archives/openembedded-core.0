@@ -1,62 +1,62 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3732.1793405756100085927
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3733.1793405757026930910
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:15:56 -0700
+ Fri, 30 Oct 2026 17:15:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=YFj+lZKC;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48b060ec084so712804f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:55 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=FWzdkqnB;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a9a8d6cea8so16511665e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405754; x=1794010554; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405755; x=1794010555; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=uRLq2lVBQ748efm/Bk73jg9Gh7f4yso5SjuptXvBXFs=;
-        b=YFj+lZKCRp6yJfP7SA2uTi1YDQvMSZT62eeRKB+fx9z+UfS5wykP3AQch8paHKPzz6
-         3yLIMjhdwewBjL0hfisdF/r/bABqPSMRW0M2RHXdgW2V9rChm0+6X5EiTcfPtZM48Upq
-         mHQCqdKMYEkQyp7pgnZB6kkavXMScOA2IrxXyBOnz7xbrp3CJmHlZjmQEvYphQjynv00
-         csyqfW+wTHyLxb4n1DqwlqWDSe2sRPEtLhkAlFtuzjgXsvhVwv0r/Hu6Kn0C4WiV0W6f
-         GLB7QH0H97+xqA6av8inDpWcy+b2OiDwM/eupxE+4LMltZmqPiL28pcnOFTDUvo5bIYa
-         UmyA==
+        bh=Uv2agkakm/YeH+aatKZoSbg1BvgobRxU0ooaJDgdUW0=;
+        b=FWzdkqnBBH2W4MhqAKCPtcODrAHV22ud5LcLyzovq+zzwkNV7Y3If+abhPbY3b7h0R
+         rL73NVZReW3qFlsoGJ29NPj5ZhYavXPaNXrqqdN3e9m8YzNsu6DGBvv20HUZKgdPydGf
+         sGWEPn8hLKMPTuohuv6DtjRfpMXY45aEFXfm314L/o+vFngNI4XZjxyNkprrzTpe7KNK
+         HpRlX0M9vD6A8656M/Ts3JIoJgbEW25R5ClQDJ8JNotzIUgLMhl35LH6LAr0bWL+UCbt
+         fYkF4KaSz17MTijx3FuhfVmTdAd1gC4po3bPWOMj+H3daXpRKxHljUoL4zL6FEVV+0Gd
+         rH3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405754; x=1794010554;
+        d=1e100.net; s=20260707; t=1793405755; x=1794010555;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=uRLq2lVBQ748efm/Bk73jg9Gh7f4yso5SjuptXvBXFs=;
-        b=kgaAiMcaqmbBqxDz/PFI3zMZdIlRkpdzThbHvUVZXBxT8x8wNYXCKqYKj83+vGcFDk
-         BdT3Ybs1mhlb12FRrLa+5bBQ417Ou/N5A6R7NtB9E1OCHj47/nvytld4ePnEd7uzRNjX
-         kVfBZnrjdFd8x8PniwwXTcYTqjqEo9YeYOFPYfevtBznjyZ6KXyWi0V3sjQO4ve84Xfe
-         up52haMIqRx6Rs+Fuk0vh5Lgr+6rXneIOsub8L3gBvFuRyf7BGiKcEaNRWeioBndBJk7
-         EMdgMqjQeyU9I/51k7FJiyszl5oecvVU9gGcNMQnxFkBG27APlFA16wTARYRJlbERZIt
-         Zx+w==
-X-Gm-Message-State: AFq9FYJaBZo7aOGkJDsXtqzUWejgVvums/ffo9ccZ/IM/fTt07HNIA5j
-	RVEGSh2zmvPvLhKUdIM0lubwZ64MpC1gPcLIQmGy9iDvXPWYpZEYzxzJGWXlvbQEdTX/kJXSoLL
-	AjC1fvOs=
-X-Gm-Gg: AYBFou3IsrhS3KLEw9bSJQH8qLH9pKYoACdA6aKtkntRy9u+vNuz9AQkZkNrjb/e/Ps
-	9QC0kbubUmh0ex2pvop3d7wUF46d2feudCTgFCCNIcCkC4R8kG0iKfrwa7Oxcp7Y78MwYLb9VK2
-	FWbFFLRyGn8YpqutrZR0V0ce1aI1CVdQKhYSvQDy1wOUEiGgsjqpYWOvVfR9qEfKz9l7vdHHodI
-	3c4o5TnsOdc5BThc5uXQgvNL61ufwTMeh90iVc2EeOhaH7OVStA/eA1KWAeiDBKmFZvd/M8ADiE
-	4TpkA0KQv2fp/vJrHgmmI6jUFIek0xRNNO7eI1RsSWus+5TfZM3v4gQyjN6nFEfFZpnl+fNCam+
-	7yVX5x/t/l70PCtBq1VOeA8AY20jpBUTSo8TtJi3oG6Umdl2OiDWdK2d5AZsu4/79QhtlJAnY63
-	M+kbyME6roOcJo/kf0ZEPwi/556uckoZ/aEntKZ7doXn/0B2ghJea1RyHf+IciIfcmer2Ahotya
-	2GBTmjyNQjy0DJOkFE3C5xHvcqYxXyPYy+P5dGW5mszZfAzaR0dvgWnjOLwTomvuPlAo7/1Du37
-	L8nZ34e0TmMgBpvgSHoRtrXR5j0DFwKREgSZAXLbwuG4n6/9Ie8ojPFLuXgIHVMywGG5ciePfSd
-	6w9Mm4cASlRlafIPRPchUOT4GD5fY
-X-Received: by 2002:a05:600c:83c5:b0:4a2:148b:c88c with SMTP id 5b1f17b1804b1-4ac17191017mr85482245e9.8.1793405754084;
-        Fri, 30 Oct 2026 17:15:54 -0700 (PDT)
+        bh=Uv2agkakm/YeH+aatKZoSbg1BvgobRxU0ooaJDgdUW0=;
+        b=gIl99KG/orW5T7AN0xXD8/lh/7tMN+VWcVwIeWwe+fupCUiPMDo9HUr6t12ZCrBwTD
+         tsk3j+t2BFW8OxT74KJYOOpciLAuuP5aBWZ97XRjAq7xkFuT/70nTLjEpJRUPItdWRNU
+         2BJkmBa0iQ2Lxz++5h2XOfg7tyAc9px9EnbCOuIpv62g3hCxX7azanAoGdhyiyI0cFlC
+         CtheyxxfCFiEl/nxzjzm40CckBOV8fzlW295uzTfEh8tqPE0o9zfg36oM7Sl5OVscDNw
+         9FX32JHTleWpptVccP9m1lq1qpZ4idIBq+nWE247pqpJmjPvzgj0vCqkX6OOPzy3442A
+         PLRw==
+X-Gm-Message-State: AFq9FYLjO6KbleiIqqZ4P3mkvkztv5Fxubb/C/1hjgL+x0NWiRx1jyuU
+	DeZbOJU1SZXns4EodR9ous2SedY1vhnUFvJq/qCt93WCoikkWTDQcEN9KJWctHAi3ogk9IxjUd5
+	T30Bm490=
+X-Gm-Gg: AYBFou23Wr3bsGDIZlGu+9pIBLI6Ze1FLuCTyyGLdHE7VE4Iw4PZrx1T8rCeIAjVBsT
+	PwskgvKlDJfcX0rZo9UJps/h4O9VJkceF0RHUv1KCp7yyFQ0WmNMBxcrCq4zYByXCdNgUu2u66g
+	81zJf7us3mqLJUzb2PbJtXjcZ64s2Vn7gae7F0H4ZuhKWIZYZNet0wS7YildDL++/J8B1yhlNoZ
+	ksPh/8ZiJKwYiJLq64GYqPhsjak6JeImKL6x+UkAvuk3fuLA6Bz3dMFQYIn1gWkgn7a/1PGn9UH
+	X2XN09zIPsECEesXBYJxoK4yc9KOCy9yi4j1QxWwtQln3Rsa/dN4rr+JncSEKt4BYzZJ+iNXUrt
+	9BRVSaeTTIb9goIWBtzJDmcbCix0wleOhT+7dzXmz0ITMyAyQUqEpdJ1tOl2dhm0+s9SE3enLP0
+	ra0F4gT/Fz8VKu4cs7XDEesrrxuh0bYYv4qy4taeNpG24qT0xx6YAmzmraSt/B8oS6OTZ9IbeBz
+	vIZNFkTj+DxwO5oSV6CmqhpYqaSIzZ4TGZgdLJ56CfZa9OPP/aoQEEKmhTs7thfEGti7Du48FYw
+	HHcK0ReQDbI1KnD6p8YFH9TpZ+v+5uAyGyR/cH6KduQBkF0vK5ljqxyHWTCvjNYnIq9Th7UPk33
+	qZQ0pz+O3tmCN5GgI4qrQVQavXmm0rw==
+X-Received: by 2002:a05:600c:c87:b0:4a1:efbe:529c with SMTP id 5b1f17b1804b1-4ac17567fe1mr89407265e9.12.1793405755169;
+        Fri, 30 Oct 2026 17:15:55 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:15:53 -0700 (PDT)
+        Fri, 30 Oct 2026 17:15:54 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 19/55] python3-urllib3: Fix CVE-2026-97689
-Date: Sat, 31 Oct 2026 01:14:40 +0100
-Message-ID: <a24491466f8796015bd1146d874f4be52f10ad42.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 21/55] glibc: patch CVE-2026-5928
+Date: Sat, 31 Oct 2026 01:14:42 +0100
+Message-ID: <1284d19d8055885de7ab943b8b0ef74b2e9f5493.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
@@ -64,309 +64,154 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249094
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249096
 Content-Type: text/plain; charset="utf-8"
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport the upstream fix [1] as mentioned in [2]
+Pick patch [1] which is [2] backported to 2.41 (oldest release still
+receiving security updates) which is mentioned in [3].
 
-[1] https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb0b1b090f5ed
-[2] https://nvd.nist.gov/vuln/detail/cve-2026-97689
+[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=8941538b92a574a24e9308e164869239d2b0d845
+[2] https://sourceware.org/git/?p=glibc.git;a=commit;h=ef3bfb5f910011f3780cb06aa47e730035f53285
+[3] https://security-tracker.debian.org/tracker/CVE-2026-5928
 
-Testing:
-  - test_response.py::test_chunk_size_line_too_long - passed
-  - test_response.py::test_chunk_trailer_line_length (6 cases) - passed
-  - test_socketlevel.py::test_chunked_size_line_too_long_does_not_buffer - passed
-  - Full test_response.py: 161 passed, 45 skipped (no regressions)
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: fixed a 3.41 -> 2.41 typo in branch name]
 ---
- .../python3-urllib3/CVE-2026-97689.patch      | 251 ++++++++++++++++++
- .../python/python3-urllib3_2.2.2.bb           |  14 +-
- 2 files changed, 258 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch
+ .../glibc/glibc/0031-CVE-2026-5928.patch      | 112 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-CVE-2026-5928.patch
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch
+diff --git a/meta/recipes-core/glibc/glibc/0031-CVE-2026-5928.patch b/meta/recipes-core/glibc/glibc/0031-CVE-2026-5928.patch
 new file mode 100644
-index 00000000000..98b007324cf
+index 00000000000..60b81e74529
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch
-@@ -0,0 +1,251 @@
-+From 5d5fac45ff18a8159c5a4aa973ed9fc2f5dd35ad Mon Sep 17 00:00:00 2001
-+From: Quentin Pradet <quentin.pradet@gmail.com>
-+Date: Tue, 15 Sep 2026 22:33:41 +0400
-+Subject: [PATCH] Merge commit from fork
++++ b/meta/recipes-core/glibc/glibc/0031-CVE-2026-5928.patch
+@@ -0,0 +1,112 @@
++From 8941538b92a574a24e9308e164869239d2b0d845 Mon Sep 17 00:00:00 2001
++From: Rocket Ma <marocketbd@gmail.com>
++Date: Fri, 1 May 2026 20:39:07 -0700
++Subject: [PATCH] libio: Fix ungetwc operating on byte stream [BZ #33998]
 +
-+* Bound chunk-size line reads to prevent memory exhaustion DoS
++* libio/wgenops.c: When _IO_wdefault_pbackfail attempts to push back one
++character, it accidently compare the wchar to push back with the last
++char from byte stream, instead of wide stream. Under specific coding,
++attacker may exploit this to leak information. This commit fix bug
++33998, or CVE-2026-5928.
 +
-+The streaming chunked path (HTTPResponse.stream() / read_chunked()) read
-+each chunk-size line with an unbounded readline(), unlike the plain read()
-+path which delegates to http.client's _MAXLINE-capped reader. A malicious
-+server could advertise Transfer-Encoding: chunked and then send a very long
-+run of bytes with no newline, forcing the client to buffer the entire run
-+before the chunk size could be rejected.
++Signed-off-by: Rocket Ma <marocketbd@gmail.com>
++Reviewed-by: Carlos O'Donell <carlos@redhat.com>
++(cherry picked from commit ef3bfb5f910011f3780cb06aa47e730035f53285)
 +
-+This caps the chunk-size line (and the trailing CRLF line) at _MAXLINE,
-+raising ProtocolError when exceeded, matching the behaviour read() already
-+had. Only the size line is bounded; chunk bodies still go through the sized
-+_safe_read(), so legitimate large chunks are unaffected.
-+
-+Verified with a local malicious server streaming a 200 MiB unterminated
-+size line: stream() previously grew RSS by ~530 MB, now stays at ~1 MB and
-+fails fast, matching read(). A 5 MiB chunk body still streams correctly.
-+
-+* Fix a black formatting issue
-+
-+* Test chunked response trailer length limits
-+
-+* Fix number in the changelog entry
-+
-+---------
-+
-+Co-authored-by: Illia Volochii <illia.volochii@gmail.com>
-+
-+CVE: CVE-2026-97689
-+Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52afb0b1b090f5ed]
-+
-+Note:
-+ - changeLog change is not backported
-+ - Adjusted commit change as per current version
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++CVE: CVE-2026-5928
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=8941538b92a574a24e9308e164869239d2b0d845]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/urllib3/response.py                   | 20 +++++-
-+ test/test_response.py                     | 82 ++++++++++++++++++++++-
-+ test/with_dummyserver/test_socketlevel.py | 34 ++++++++++
-+ 3 files changed, 132 insertions(+), 4 deletions(-)
++ libio/Makefile              |  1 +
++ libio/bug-wgenops-bz33998.c | 54 +++++++++++++++++++++++++++++++++++++
++ libio/wgenops.c             |  4 +--
++ 3 files changed, 57 insertions(+), 2 deletions(-)
++ create mode 100644 libio/bug-wgenops-bz33998.c
 +
-+diff --git a/src/urllib3/response.py b/src/urllib3/response.py
-+index d52e37a..caeec0a 100644
-+--- a/src/urllib3/response.py
-++++ b/src/urllib3/response.py
-+@@ -67,6 +67,13 @@ if typing.TYPE_CHECKING:
-+ 
-+ log = logging.getLogger(__name__)
-+ 
-++# Maximum length of a chunk-size line (and the trailing CRLF line) when reading a
-++# chunked-transfer-encoded response. Matches ``http.client._MAXLINE`` so urllib3's
-++# streaming path bounds these reads exactly like the stdlib ``.read()`` path does,
-++# preventing a malicious server from forcing unbounded buffering (memory exhaustion)
-++# via an unterminated chunk-size line.
-++_MAX_CHUNK_LINE_LENGTH = 2**16
++diff --git a/libio/Makefile b/libio/Makefile
++index e143ccdb2c..43ee8db06d 100644
++--- a/libio/Makefile
+++++ b/libio/Makefile
++@@ -83,6 +83,7 @@ tests = \
++   bug-ungetwc1 \
++   bug-ungetwc2 \
++   bug-wfflush \
+++  bug-wgenops-bz33998 \
++   bug-wmemstream1 \
++   bug-wsetpos \
++   test-fmemopen \
++diff --git a/libio/bug-wgenops-bz33998.c b/libio/bug-wgenops-bz33998.c
++new file mode 100644
++index 0000000000..cc4067da99
++--- /dev/null
+++++ b/libio/bug-wgenops-bz33998.c
++@@ -0,0 +1,54 @@
+++/* Regression test for ungetwc operating on byte stream (BZ #33998)
+++   Copyright (C) 2026 The GNU Toolchain Authors.
+++   This file is part of the GNU C Library.
 ++
-+ 
-+ class ContentDecoder:
-+     def decompress(self, data: bytes, max_length: int = -1) -> bytes:
-+@@ -1333,7 +1340,12 @@ class HTTPResponse(BaseHTTPResponse):
-+         # we'll try to read it from socket.
-+         if self.chunk_left is not None:
-+             return None
-+-        line = self._fp.fp.readline()  # type: ignore[union-attr]
-++        line = self._fp.fp.readline(_MAX_CHUNK_LINE_LENGTH + 1)  # type: ignore[union-attr]
-++        if len(line) > _MAX_CHUNK_LINE_LENGTH:
-++            self.close()
-++            raise ProtocolError(
-++                "Response chunk size line exceeded maximum allowed length"
-++            ) from None
-+         line = line.split(b";", 1)[0]
-+         try:
-+             self.chunk_left = int(line, 16)
-+@@ -1437,7 +1449,11 @@ class HTTPResponse(BaseHTTPResponse):
-+ 
-+             # Chunk content ends with \r\n: discard it.
-+             while self._fp is not None:
-+-                line = self._fp.fp.readline()
-++                line = self._fp.fp.readline(_MAX_CHUNK_LINE_LENGTH + 1)
-++                if len(line) > _MAX_CHUNK_LINE_LENGTH:
-++                    raise ProtocolError(
-++                        "Response chunk trailer line exceeded maximum allowed length"
-++                    )
-+                 if not line:
-+                     # Some sites may not end with '\r\n'.
-+                     break
-+diff --git a/test/test_response.py b/test/test_response.py
-+index 0e8abd9..2871ac2 100644
-+--- a/test/test_response.py
-++++ b/test/test_response.py
-+@@ -26,6 +26,7 @@ from urllib3.exceptions import (
-+     SSLError,
-+ )
-+ from urllib3.response import (  # type: ignore[attr-defined]
-++    _MAX_CHUNK_LINE_LENGTH,
-+     BaseHTTPResponse,
-+     BytesQueueBuffer,
-+     HTTPResponse,
-+@@ -1375,6 +1376,63 @@ class TestResponse:
-+         assert isinstance(orig_ex, InvalidChunkLength)
-+         assert orig_ex.length == fp.BAD_LENGTH_LINE.encode()
-+ 
-++    def test_chunk_size_line_too_long(self) -> None:
-++        # A malicious server can send a chunk-size line with no newline. urllib3's
-++        # streaming path must reject it with a bounded read rather than buffering
-++        # the whole line (memory exhaustion). See GHSA / CVE for chunked DoS.
-++        stream = [b"foooo"]
-++        fp = MockChunkedEncodingLongChunkSizeLine(stream)
-++        r = httplib.HTTPResponse(MockSock)  # type: ignore[arg-type]
-++        r.fp = fp  # type: ignore[assignment]
-++        r.chunked = True
-++        r.chunk_left = None
-++        resp = HTTPResponse(
-++            r, preload_content=False, headers={"transfer-encoding": "chunked"}
-++        )
-++        with pytest.raises(ProtocolError) as ctx:
-++            next(resp.read_chunked())
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
 ++
-++        assert "chunk size line exceeded maximum allowed length" in str(ctx.value)
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
 ++
-++    @pytest.mark.parametrize(
-++        "trailer_length",
-++        [
-++            _MAX_CHUNK_LINE_LENGTH - 1,
-++            _MAX_CHUNK_LINE_LENGTH,
-++            _MAX_CHUNK_LINE_LENGTH + 1,
-++        ],
-++    )
-++    @pytest.mark.parametrize("line_ending", [b"\r\n", b""])
-++    def test_chunk_trailer_line_length(
-++        self, trailer_length: int, line_ending: bytes
-++    ) -> None:
-++        # The line limit includes its CRLF, but not the final blank line.
-++        trailer = b"X:" + b"x" * (trailer_length - 2 - len(line_ending)) + line_ending
-++        fp = BytesIO(b"3\r\nfoo\r\n0\r\n" + trailer + (b"\r\n" if line_ending else b""))
-++        r = httplib.HTTPResponse(MockSock, method="GET")  # type: ignore[arg-type]
-++        r.fp = fp  # type: ignore[assignment]
-++        resp = HTTPResponse(
-++            r,
-++            preload_content=False,
-++            headers={"transfer-encoding": "chunked"},
-++            original_response=r,
-++        )
-++        chunks = resp.read_chunked()
-++        assert next(chunks) == b"foo"
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <https://www.gnu.org/licenses/>.  */
 ++
-++        if trailer_length > _MAX_CHUNK_LINE_LENGTH:
-++            with pytest.raises(
-++                ProtocolError,
-++                match="Response chunk trailer line exceeded maximum allowed length",
-++            ):
-++                next(chunks)
-++        else:
-++            assert list(chunks) == []
+++#include "support/temp_file.h"
+++#include "support/xstdio.h"
+++#include "support/xunistd.h"
+++#include <stdlib.h>
+++#include <unistd.h>
+++#include <sys/mman.h>
+++#include <stdio.h>
+++#include <wchar.h>
+++#include <support/check.h>
 ++
-++        assert fp.closed
-++        assert r.isclosed()
-++        assert resp.closed
+++static int
+++do_test (void)
+++{
+++  char *filename;
+++  int fd = create_temp_file ("tst-bz33998-", &filename);
+++  TEST_VERIFY (fd != -1);
+++  xwrite (fd, "A", sizeof ("A")); // write "A\0" by design
+++  xclose (fd);
 ++
-+     def test_truncated_before_chunk(self) -> None:
-+         stream = [b"foooo", b"bbbbaaaaar"]
-+         fp = MockChunkedNoChunks(stream)
-+@@ -1629,8 +1687,20 @@ class MockChunkedEncodingResponse:
-+                 self.cur_chunk = self.cur_chunk[amt:]
-+             return chunk_part
-+ 
-+-    def readline(self) -> bytes:
-+-        return self.pop_current_chunk(till_crlf=True)
-++    def readline(self, amt: int = -1) -> bytes:
-++        # Emulate a real file object's readline(size): return bytes up to and
-++        # including the first newline, or at most ``amt`` bytes when ``amt >= 0``,
-++        # whichever comes first.
-++        if len(self.cur_chunk) <= 0:
-++            self.cur_chunk = self._pop_new_chunk()
-++        line = self.cur_chunk
-++        newline_index = line.find(b"\n")
-++        if newline_index != -1:
-++            line = line[: newline_index + 1]
-++        if 0 <= amt < len(line):
-++            line = line[:amt]
-++        self.cur_chunk = self.cur_chunk[len(line) :]
-++        return line
-+ 
-+     def read(self, amt: int = -1) -> bytes:
-+         return self.pop_current_chunk(amt)
-+@@ -1658,6 +1728,14 @@ class MockChunkedInvalidChunkLength(MockChunkedEncodingResponse):
-+         return f"{self.BAD_LENGTH_LINE}{chunk.decode()}\r\n".encode()
-+ 
-+ 
-++class MockChunkedEncodingLongChunkSizeLine(MockChunkedEncodingResponse):
-++    def _encode_chunk(self, chunk: bytes) -> bytes:
-++        # A chunk-size line far longer than _MAX_CHUNK_LINE_LENGTH with no
-++        # newline, simulating a malicious server that never terminates the
-++        # size line (memory-exhaustion attack).
-++        return b"f" * (2**16 + 1024)
+++  FILE *fp = xfopen (filename, "r+");
+++  TEST_COMPARE (getwc (fp), L'A');
+++  /* If the bug is fixed, then ungetwc should not touch byte stream.
+++     If the bug is not fixed, ungetwc firstly match last read char, L'A',
+++     failed, then the pbackfail branch, matching last read char in byte
+++     stream, that is, '\0' (initialized when setup wide stream). */
+++  char *old_read_ptr = fp->_IO_read_ptr;
+++  TEST_COMPARE (ungetwc (L'\0', fp), L'\0');
+++  TEST_VERIFY (fp->_IO_read_ptr == old_read_ptr);
 ++
+++  xfclose (fp);
+++  free (filename);
 ++
-+ class MockChunkedEncodingWithoutCRLFOnEnd(MockChunkedEncodingResponse):
-+     def _encode_chunk(self, chunk: bytes) -> bytes:
-+         return "{:X}\r\n{}{}".format(
-+diff --git a/test/with_dummyserver/test_socketlevel.py b/test/with_dummyserver/test_socketlevel.py
-+index dceb5ee..2b258ae 100644
-+--- a/test/with_dummyserver/test_socketlevel.py
-++++ b/test/with_dummyserver/test_socketlevel.py
-+@@ -2055,6 +2055,40 @@ class TestStream(SocketDummyServerTestCase):
-+ 
-+             done_event.set()
-+ 
-++    def test_chunked_size_line_too_long_does_not_buffer(self) -> None:
-++        # A malicious server can advertise chunked encoding and then send an
-++        # unterminated chunk-size line (no newline). The streaming path must
-++        # reject it with a bounded read instead of buffering the whole run,
-++        # which would exhaust memory.
-++        done_event = Event()
-++        # Well above the 65536-byte cap, but small enough for a fast test.
-++        run_length = 512 * 1024
+++  return 0;
+++}
 ++
-++        def socket_handler(listener: socket.socket) -> None:
-++            sock = listener.accept()[0]
-++
-++            buf = b""
-++            while not buf.endswith(b"\r\n\r\n"):
-++                buf += sock.recv(65536)
-++
-++            sock.sendall(b"HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n")
-++            # A chunk-size line that never terminates with a newline.
-++            with contextlib.suppress(OSError):
-++                sock.sendall(b"f" * run_length)
-++
-++            done_event.wait(5)
-++            sock.close()
-++
-++        self._start_server(socket_handler)
-++
-++        with HTTPConnectionPool(self.host, self.port, retries=False) as pool:
-++            r = pool.request("GET", "/", timeout=LONG_TIMEOUT, preload_content=False)
-++            with pytest.raises(ProtocolError) as ctx:
-++                next(r.stream(65536))
-++            assert "chunk size line exceeded maximum allowed length" in str(ctx.value)
-++
-++            done_event.set()
-++
-+     def test_large_compressed_stream(self) -> None:
-+         done_event = Event()
-+         expected_total_length = 296085
-diff --git a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-index b77dd5297d3..7ca210429b7 100644
---- a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-@@ -7,13 +7,13 @@ SRC_URI[sha256sum] = "dd505485549a7a552833da5e6063639d0d177c04f23bc3864e41e5dc5f
- 
- inherit pypi python_hatchling
- 
--SRC_URI += " \
--    file://CVE-2025-50181.patch \
--    file://CVE-2025-66418.patch \
--    file://CVE-2025-66471.patch \
--    file://CVE-2026-21441.patch \
--    file://CVE-2026-44431.patch \
--"
-+SRC_URI += "file://CVE-2025-50181.patch \
-+           file://CVE-2025-66418.patch \
-+           file://CVE-2025-66471.patch \
-+           file://CVE-2026-21441.patch \
-+           file://CVE-2026-44431.patch \
-+           file://CVE-2026-97689.patch \
-+           "
- 
- RDEPENDS:${PN} += "\
-     python3-certifi \
+++#include <support/test-driver.c>
++diff --git a/libio/wgenops.c b/libio/wgenops.c
++index 0a11d1b1de..9e0b2c00ea 100644
++--- a/libio/wgenops.c
+++++ b/libio/wgenops.c
++@@ -108,8 +108,8 @@ _IO_wdefault_pbackfail (FILE *fp, wint_t c)
++ {
++   if (fp->_wide_data->_IO_read_ptr > fp->_wide_data->_IO_read_base
++       && !_IO_in_backup (fp)
++-      && (wint_t) fp->_IO_read_ptr[-1] == c)
++-    --fp->_IO_read_ptr;
+++      && (wint_t) fp->_wide_data->_IO_read_ptr[-1] == c)
+++    --fp->_wide_data->_IO_read_ptr;
++   else
++     {
++       /* Need to handle a filebuf in write mode (switch to read mode). FIXME!*/
+diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
+index d31c8656414..0a4f7ac3bd6 100644
+--- a/meta/recipes-core/glibc/glibc_2.39.bb
++++ b/meta/recipes-core/glibc/glibc_2.39.bb
+@@ -63,6 +63,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-CVE-2026-6238-0004.patch \
+            file://0029-CVE-2026-6238-0005.patch \
+            file://0030-CVE-2026-6238-0006.patch \
++           file://0031-CVE-2026-5928.patch \
+ "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
