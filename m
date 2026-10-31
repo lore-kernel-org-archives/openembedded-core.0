@@ -1,249 +1,322 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.163.1793464009771014134
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.69.1793464011423841747
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Oct 2026 09:26:50 -0700
+ Sat, 31 Oct 2026 09:26:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=hCDqFT+C;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: vgharaee@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso20058425e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 09:26:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=obxfuNXu;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: vgharaee@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a215e64962so16382105e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 09:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793464008; x=1794068808; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793464010; x=1794068810; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=/BZSbL+uFoeAbLtqjpjE7qgWLM5Nq0cOjYdApkjywTc=;
-        b=hCDqFT+CtpikrMiT+dUKTvswnm95rgLmw2Ry5Iu0yeU5wdiOAba/soq79zwK9d4McP
-         nmF+opUu2iV9J6MP7a411geR8avPx/8ApKgKuYpF07ne6OmZyjQsLEGSJKLadS0SYF4d
-         vAPjw0WBxJlBtuExW3/6JYvmDSIAMQu/M89bsHm6XLJ/bRNSQGwJ+D0BnnwNZT4ubI/6
-         iInoQE4x6jyn2cJoUwbh2Y0BoPBDJv6ZjvWFeZ0XsBrqlOwW9Qiy43iEfqwFFUMj4ICT
-         0XCrObLbY/2zN7aNEYYEIrdLrR6pXOrjzwx47IMPCnvS2lrNCjJYsJY2NKo8EC1Vzay9
-         nnDA==
+        bh=LlH0iORSfvD2wu6fFSkRmEWmqtcx/phC0Of0iK+QnVI=;
+        b=obxfuNXuBSjn0HXrqm7hLfwkfewZ3V46x6kAY6voOzNaW6foRJUSJzLLq/wFOd6a6h
+         Htb0TzqrsRGIzmYbnsZtwdAMFmtmR1jao9ukGCgyRsIz1mwrPTKLlYI2tMxbyctWS+d1
+         YHG+uzWge8sYr+uBSz8zj0VxAMFA3o+VBa9LrQ7z/ony4TrKsgMc33scUqd4EaG8LOq1
+         5pDBT/WhSyw9wKGIQuyQdNAOe5FrYTkW8iVsCdVRyqbEhpPbEFU19JJC+egTq1evUKPw
+         bcHg+XnMY+huqwolMl6LaptFCD6gTwnwc+NH9B1MujGBJC5HsqULXV7Oykqo5xL21PDB
+         mZvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793464008; x=1794068808;
+        d=1e100.net; s=20260707; t=1793464010; x=1794068810;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=/BZSbL+uFoeAbLtqjpjE7qgWLM5Nq0cOjYdApkjywTc=;
-        b=enUGp3Ci4inj5dNDDFO6gZqhgQK+fXaW4AlmG3bV+o0rlp8P7hX+fZW6yCX67xh53+
-         mgFMwjRX86zcn6cL0rNE6vUuKqmwW3OqiMcCXxSwrhWL2rPJaU/7TxQCuM4uegHVp7P+
-         X24Cxj3XVFvM2lkZONEvb6YTCwNlxAXH7asMrv3PbFaWZlujiOuUyCOa7MQndOBqB6YP
-         RUnfSmdQl3U8rU4hbVusoHKs0O8C01IdZzRQljTyfIwT1POjjN3I21wMINieP1eiMVza
-         u7O/ktUc3s6SJ/6ta402uko60BCoYcQlFAei/wz9x8qftlc4bRgy202UuaPf/V0/hped
-         cgsQ==
-X-Gm-Message-State: AFq9FYLwqsarLLye/Hqv2isEfLOGJQomxU9152A+Vr8JCR0g+qVY4/LG
-	oQ0sVLa3ed2FVrUI+o8WhuVVU2gRQiPo6Z9Zs7Xfp/Dcr8QnhxJzQXL/DATcIw==
-X-Gm-Gg: AYBFou2opKiYYw/fHUAL6i0VsGZBMlQmbo2E0DG/G7xtdDnZJz+TMKZmLUmcEVUU3nb
-	vC1XMFfKAm8kgEbWxL1329RsiwvboziFqe7yixn7ST339w0khDr8YFxiLoLxS3Z85Cg3GzQvYn+
-	XbNT3ZnkxeP+/MY42mkpXAyskAyJEk7cT0+Q8bZ15JQKd1kaScM/UXcAUYqu1JQc7uoUXUY+NOY
-	Ld6x161RCP9i5bCbS/SO/tcbJzFsipGA2yiPT+7191yp1iWsKmTm6hSfa4zHkaYU4QB10QrrH7K
-	AWuz9vCMK1zTlTOd5ecgwGITzfWowBo8PrW5tWM8rZEOwFHHFrxKbkubP9DB8w+iW1Sb8f9BKPU
-	yp7B8xTeHh/v+vBofZBM4gdfWFHEZDE3Cbt9XMhTmUL7XHvQNIMBOmAdXwTiiv9szX+S3xIHQiw
-	EmHF0c0nYLQFyL7G8pD+A0a0UZ0A3Qcdj8dVjyfeXwQO6wffYCy/6gV+WLhmsnc2qQU4LBqy14F
-	/ePl6X0YY75QBkW7S1JqdYEQQZORnjpPGf3jVhB8zdorqEa62CN/vhiITgintoufK2LGZpGVgaP
-	1etcpd2u2jW4cPAyG87MRMIXBnIXhKpIzwrQOzvsdlY9ut0gUBof0WO9z0TZtQga1yb2/xiP
-X-Received: by 2002:a05:600c:354c:b0:4a2:8c5:5e5 with SMTP id 5b1f17b1804b1-4ac17d16b1fmr127267985e9.7.1793464008059;
-        Sat, 31 Oct 2026 09:26:48 -0700 (PDT)
+        bh=LlH0iORSfvD2wu6fFSkRmEWmqtcx/phC0Of0iK+QnVI=;
+        b=zDhIxEFU7ka71hLzv1ciDjvsD4ZuyBqt9lWuEd1I57JGVP+jNS5IJ5o7LPizwRexJV
+         U1+563Hz55S1ZfJ/btxgfcQFb+T8sozxFoUSXoF6EMByTFgv87WzEyIAFAbU++eeoQbU
+         LJ8xhGs/VeI9KvLe8zymIxRHOPRzf+o56WVI99/byxCetqva541hpuSN5UKecA4VrNQP
+         Xh1oFGpA6nDXjiCyhWTRt2hCDE8Y1mz5nsjufUpkswqnSV72FCzrs5YocwVW9YGUTZtI
+         hBoiGKekpa/XRkvT6ZLLIG/pIDGeXIJ7ca31md3snTP2Z8GWhGYt6EdIk3Rhsx9TGwuA
+         WWdg==
+X-Gm-Message-State: AFq9FYJG4NofPVIeuwM3/NAyVZThgQwjdzS5y2NwMC+en528lAERghHL
+	NM9M6ZW5G1PIibznfpdRISOeMhOXoIpJRjdbcoJVdFOfQsubGfvs0Esl69QtqA==
+X-Gm-Gg: AYBFou3Rmu1TKOEsQvbONjcBhA7OPmG1PtaOvATK1oo/+ghQ+3WZgZ7Z9oN9rwZ+QuC
+	c0euRhsWpR7P07EMGHBC2js9SFLhzTVwucl9q7vc79gO/AMXRkhrSKM5xioiCa2q7Dkewts37Nk
+	CDFs/raHIWWVXxp8By6dvQp+w9V/+hMwksWLaem6dlNcDfM2t2zf50tRHwLxlB3RwyomGvGAl6j
+	q3g+9/B8FKaz+g5vQh2UWLjw71h1S28Wm5bWWiCmkJInJc92fgya6ktikyil4HkzNh012NkVEtd
+	40yOtAspuxw2ReIOJzR0gIVfnV6vYAG0bQcD6V97D+IuUlvmVw1sqt2h3v5hOeMds0f/K9c5s34
+	342JIC/56KSo2w8izXfhM5l5f5NXyWTC2bx3dyt6JQ3AQ98JTtUeKdn30Tjf4UOVGge7D+dvNJ7
+	mjnopCGgbotawdWZhqubl+LEYcN3IQo+aT3tarY9tcoqmTefxPzaqJMZozu8uL8cYCId2bg/oOx
+	pAvunc+psMSOfbxgudAFsvzLICm8eZjQufcAXxOHvA1jvZq/d0jdBWbIkedtT0JvRn1mBthOZy2
+	p0j5qNplPjGE5vbRoxoRxseu+k4VVuh9LneV+n0joc3/12FoaP0Gu1C8/6vEzAfr9kPiZEO9Rum
+	1xGoEycImGy26jevVPA==
+X-Received: by 2002:a05:600c:8b5c:b0:4a1:fe55:88ef with SMTP id 5b1f17b1804b1-4ac1889c4b9mr135140865e9.20.1793464009629;
+        Sat, 31 Oct 2026 09:26:49 -0700 (PDT)
 Return-Path: <vgharaee@gmail.com>
 Received: from vahid-mr.fritz.box ([2001:16e0:257:b301:9825:3e45:cd0a:824b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa813d2640sm214214455e9.6.2026.10.31.09.26.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa813d2640sm214214455e9.6.2026.10.31.09.26.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 09:26:47 -0700 (PDT)
+        Sat, 31 Oct 2026 09:26:49 -0700 (PDT)
 From: "Vahid Gharaee" <vgharaee@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 5/6] oe.selftest: Improve FIT DTB alias validation
-Date: Sat, 31 Oct 2026 17:26:48 +0100
-Message-ID: <20261031162649.944625-6-vgharaee@gmail.com>
+Subject: [PATCH v3 6/6] kernel-fit-image: preserve vendored DTB aliases for external overrides
+Date: Sat, 31 Oct 2026 17:26:49 +0100
+Message-ID: <20261031162649.944625-7-vgharaee@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261031162649.944625-1-vgharaee@gmail.com>
 References: <20261031162649.944625-1-vgharaee@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 18:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249163
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 18:42:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249164
 Content-Type: text/plain; charset="utf-8"
 
 From: Vahid Gharaee <vgharaee@gmail.com>
 
-Use explicit DTB alias targets instead of relying on FIT node
-naming conventions.
+When an external DTB overrides a kernel-provided DTB, the FIT
+generation skips the kernel DTB. With KERNEL_DTBVENDORED enabled,
+this also drops the vendored configuration name.
 
-Discover external DTBs and symlink aliases when generating
-expected FIT configurations, including vendored DTB names.
+Preserve the vendored name by creating a configuration alias
+referencing the external DTB image. Resolve external symlinks
+to their actual DTB targets.
+
+Add regression tests for regular and symlinked external DTB
+overrides.
 
 Signed-off-by: Vahid Gharaee <vgharaee@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/fitimage.py | 80 ++++++++++++++++--------
- 1 file changed, 55 insertions(+), 25 deletions(-)
+ .../recipes-test/ext-dtb/test-dtbs-as-ext.bb  |  11 ++
+ meta/classes-recipe/kernel-fit-image.bbclass  |   7 ++
+ meta/lib/oeqa/selftest/cases/fitimage.py      | 105 ++++++++++++++++--
+ 3 files changed, 113 insertions(+), 10 deletions(-)
 
+diff --git a/meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb b/meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb
+index 217ca36235..de994cebce 100644
+--- a/meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb
++++ b/meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
+ 
+ inherit devicetree
+ 
++TEST_EXTRA_DTB ?= ""
+ COMPATIBLE_MACHINE = ".*"
+ 
+ SRC_URI = "\
+@@ -18,8 +19,18 @@ SRC_URI = "\
+ # Sym-links are handled as extra configuration nodes in FIT images.
+ do_install:append() {
+     ln -sf test-ext.dtb "${D}/boot/devicetree/test-ext-alias.dtb"
++
++    if [ -n "${TEST_EXTRA_DTB}" ]; then
++        cp "${D}/boot/devicetree/test-ext.dtb" \
++           "${D}/boot/devicetree/${TEST_EXTRA_DTB}"
++    fi
+ }
+ 
+ do_deploy:append() {
+     ln -sf test-ext.dtb "${DEPLOYDIR}/devicetree/test-ext-alias.dtb"
++
++    if [ -n "${TEST_EXTRA_DTB}" ]; then
++        cp "${DEPLOYDIR}/devicetree/test-ext.dtb" \
++           "${DEPLOYDIR}/devicetree/${TEST_EXTRA_DTB}"
++    fi
+ }
+diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
+index ea4f39373d..1ef2717908 100644
+--- a/meta/classes-recipe/kernel-fit-image.bbclass
++++ b/meta/classes-recipe/kernel-fit-image.bbclass
+@@ -192,6 +192,7 @@ python do_compile() {
+     # Prepare a DTB image section
+     kernel_devicetree = d.getVar('KERNEL_DEVICETREE')
+     external_kernel_devicetree = d.getVar("EXTERNAL_KERNEL_DEVICETREE")
++    external_dtb_aliases = {}
+     if kernel_devicetree:
+         for dtb in kernel_devicetree.split():
+             # In deploy_dir the DTBs are without sub-directories also with KERNEL_DTBVENDORED = "1"
+@@ -205,6 +206,8 @@ python do_compile() {
+             if external_kernel_devicetree:
+                 ext_dtb_path = os.path.join(external_kernel_devicetree, dtb_name)
+                 if os.path.exists(ext_dtb_path) and os.path.getsize(ext_dtb_path) > 0:
++                    if conf_name != dtb_name:
++                        external_dtb_aliases[conf_name] = ext_dtb_path
+                     continue
+ 
+             # Copy the dtb or dtbo file into the FIT image assembly directory
+@@ -229,6 +232,10 @@ python do_compile() {
+                     root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
+                         d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"), True)
+ 
++        for alias, dtb_path in external_dtb_aliases.items():
++            symlink_target = oe.fitimage.symlink_points_below(os.path.basename(dtb_path), external_kernel_devicetree)
++            root_node.fitimage_emit_section_dtb_alias(alias, symlink_target or dtb_path)
++
+     # Prepare a u-boot script section
+     fit_uboot_env = d.getVar("FIT_UBOOT_ENV")
+     if fit_uboot_env:
 diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 2783e4e85c..6a0b0f82e9 100644
+index 6a0b0f82e9..90b7a20ad0 100644
 --- a/meta/lib/oeqa/selftest/cases/fitimage.py
 +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -432,6 +432,30 @@ class FitImageTestCase(OESelftestTestCase):
-             mapped_name = dtb.replace('/', '_')
-         return mapped_name
- 
-+    @staticmethod
-+    def _get_test_dtb_files():
-+        return (
-+            ["test-ext.dtb", "test-overlay.dtbo"],
-+            {"test-ext-alias.dtb": "test-ext.dtb"},
-+        )
-+
-+    @staticmethod
-+    def _get_external_dtb_files(devicetree_dir):
-+        dtbs = []
-+        aliases = {}
-+
-+        for name in sorted(os.listdir(devicetree_dir)):
-+            if not name.endswith((".dtb", ".dtbo")):
-+                continue
-+
-+            target = oe.fitimage.symlink_points_below(name, devicetree_dir)
-+            if target:
-+                aliases[name] = target
-+            else:
-+                dtbs.append(name)
-+
-+        return dtbs, aliases
-+
-     @staticmethod
-     def _get_dtb_files(bb_vars):
-         """Return a list of devicetree names
-@@ -442,15 +466,22 @@ class FitImageTestCase(OESelftestTestCase):
-         """
+@@ -467,10 +467,9 @@ class FitImageTestCase(OESelftestTestCase):
          kernel_devicetree = bb_vars.get('KERNEL_DEVICETREE')
          all_dtbs = []
--        dtb_symlinks = []
-+        dtb_aliases = {}
+         dtb_aliases = {}
++        external_aliases = {}
++        kernel_dtbs = kernel_devicetree.split() if kernel_devicetree else []
+ 
+-        if kernel_devicetree:
+-            all_dtbs += [FitImageTestCase._apply_dtbvendored(bb_vars, dtb) for dtb in kernel_devicetree.split()]
+-       
+         if bb_vars.get("PREFERRED_PROVIDER_virtual/dtb") == "test-dtbs-as-ext":
+             if bb_vars.get("_python_only_test"):
+                 external_dtbs, external_aliases = FitImageTestCase._get_test_dtb_files()
+@@ -481,6 +480,23 @@ class FitImageTestCase(OESelftestTestCase):
+             all_dtbs.extend(external_dtbs)
+             dtb_aliases.update(external_aliases)
+ 
++        for dtb in kernel_dtbs:
++            dtb_name = os.path.basename(dtb)
++            mapped_name = FitImageTestCase._apply_dtbvendored(bb_vars, dtb)
 +
-         if kernel_devicetree:
-             all_dtbs += [FitImageTestCase._apply_dtbvendored(bb_vars, dtb) for dtb in kernel_devicetree.split()]
--        # Support only the test recipe which provides 1 devicetree and 1 devicetree overlay
--        pref_prov_dtb = bb_vars.get('PREFERRED_PROVIDER_virtual/dtb')
--        if pref_prov_dtb == "test-dtbs-as-ext":
--            all_dtbs += ["test-ext.dtb", "test-overlay.dtbo"]
--            dtb_symlinks.append("test-ext-alias.dtb")
--        return (all_dtbs, dtb_symlinks)
-+       
-+        if bb_vars.get("PREFERRED_PROVIDER_virtual/dtb") == "test-dtbs-as-ext":
-+            if bb_vars.get("_python_only_test"):
-+                external_dtbs, external_aliases = FitImageTestCase._get_test_dtb_files()
++            if dtb_name in all_dtbs:
++                target = dtb_name
++            elif dtb_name in external_aliases:
++                target = external_aliases[dtb_name]
 +            else:
-+                devicetree_dir = os.path.join(bb_vars["DEPLOY_DIR_IMAGE"], "devicetree")
-+                external_dtbs, external_aliases = FitImageTestCase._get_external_dtb_files(devicetree_dir)
++                target = None
 +
-+            all_dtbs.extend(external_dtbs)
-+            dtb_aliases.update(external_aliases)
++            if target:
++                if mapped_name != target:
++                    dtb_aliases[mapped_name] = target
++            else:
++                all_dtbs.append(mapped_name)
 +
-+        return all_dtbs, dtb_aliases
+         return all_dtbs, dtb_aliases
  
      @staticmethod
-     def _get_loadables(bb_vars):
-@@ -473,13 +504,12 @@ class FitImageTestCase(OESelftestTestCase):
-         configs = (bb_vars.get('FIT_CONFIGS') or "").split()
-         kernels = FitImageTestCase._get_flag_values(bb_vars, 'FIT_CONFIG_KERNEL', configs)
-         dtbs = FitImageTestCase._get_flag_values(bb_vars, 'FIT_CONFIG_DTB', configs)
--        _, dtb_symlinks = FitImageTestCase._get_dtb_files(bb_vars)
-+        _, dtb_aliases = FitImageTestCase._get_dtb_files(bb_vars)
+@@ -508,10 +524,10 @@ class FitImageTestCase(OESelftestTestCase):
          extra_configs = []
          for conf in configs:
              dtb = dtbs[conf]
--            if dtb in dtb_symlinks:
--                # Symlinks of test-dtbs-as-ext point to the DTB without "-alias"
--                dtb = dtb.replace("-alias", "")
-+            if dtb in dtb_aliases:
-+                dtb = dtb_aliases[dtb]
-             elif dtb:
+-            if dtb in dtb_aliases:
+-                dtb = dtb_aliases[dtb]
+-            elif dtb:
++            if dtb:
                  dtb = FitImageTestCase._apply_dtbvendored(bb_vars, dtb)
-             extra_configs.append((conf, kernels[conf] or "kernel-1", dtb))
-@@ -976,10 +1006,10 @@ class KernelFitImageBase(FitImageTestCase):
-                 if not dtb.endswith('.dtbo'):
-                     its_field_check.append('kernel = "kernel-1";')
-                 its_field_check.append('fdt = "fdt-%s";' % dtb)
--            for dtb in dtb_symlinks:
++                dtb = dtb_aliases.get(dtb, dtb)
 +
-+            for dtb, target in dtb_symlinks.items():
-                 its_field_check.append('kernel = "kernel-1";')
--                # Works only for tests were the symlink is with -alias suffix
--                its_field_check.append('fdt = "fdt-%s";' % dtb.replace('-alias', ''))
-+                its_field_check.append('fdt = "fdt-%s";' % target)
+             extra_configs.append((conf, kernels[conf] or "kernel-1", dtb))
+         return extra_configs
  
-             if initramfs_image and initramfs_image_bundle != "1":
-                 its_field_check.append('ramdisk = "ramdisk-1";')
-@@ -1076,11 +1106,10 @@ class KernelFitImageBase(FitImageTestCase):
-                 req_sections[loadable]['Entry Point'] = entrypoint
-         # Create a configuration section for each DTB
-         if dtb_files:
--            for dtb in dtb_files + dtb_symlinks:
-+            for dtb in dtb_files + list(dtb_symlinks):
-                 conf_name = bb_vars['FIT_CONF_PREFIX'] + dtb
--                # Assume that DTBs with an "-alias" in its name are symlink DTBs created e.g. by the
--                # test-dtbs-as-ext test recipe. Make the configuration node pointing to the real DTB.
--                real_dtb = dtb.replace("-alias", "")
-+                # Resolve DTB aliases using their explicit target mapping.
-+                real_dtb = dtb_symlinks.get(dtb, dtb)
-                 # dtb overlays do not refer to a kernel (yet?)
-                 if dtb.endswith('.dtbo'):
-                     req_sections[conf_name] = {
-@@ -1146,7 +1175,7 @@ class KernelFitImageBase(FitImageTestCase):
-         fit_hash_alg_len = FitImageTestCase.MKIMAGE_HASH_LENGTHS[fit_hash_alg]
-         fit_sign_alg_len = FitImageTestCase.MKIMAGE_SIGNATURE_LENGTHS[fit_sign_alg]
-         dtb_files, dtb_symlinks = FitImageTestCase._get_dtb_files(bb_vars)
--        all_dtb_names = set(dtb_files + dtb_symlinks)
-+        all_dtb_names = set(dtb_files) | set(dtb_symlinks)
-         # The public key is always injected into UBOOT_DTB_IMAGE (-K flag in
-         # uboot-sign.bbclass concat_dtb).  For DTB-based configurations, the
-         # same key is also injected into each per-configuration DTB, so either
-@@ -1610,7 +1639,7 @@ class FitImagePyTests(KernelFitImageBase):
+@@ -1379,6 +1395,58 @@ PREFERRED_PROVIDER_virtual/dtb = "test-dtbs-as-ext"
+         self._gen_atf_tee_dummy_images(bb_vars)
+         self._test_fitimage(bb_vars)
+ 
++    def test_fit_image_ext_dtb_vendored_override(self):
++        """Check that an external DTB overrides a vendored kernel DTB."""
++        machine = self._get_machine_or_skip()
++
++        if machine != "qemuarm64":
++            self.skipTest("This test requires the qemuarm64 foundation-v8.dtb")
++
++        config = """
++KERNEL_DTBVENDORED = "1"
++PREFERRED_PROVIDER_virtual/dtb = "test-dtbs-as-ext"
++TEST_EXTRA_DTB = "foundation-v8.dtb"
++FIT_CONF_DEFAULT_DTB = "arm/foundation-v8.dtb"
++FIT_CONFIGS = "external-override"
++FIT_CONFIG_DTB[external-override] = "arm/foundation-v8.dtb"
++"""
++        config = self._config_add_machine_settings(config, machine, keys=["KERNEL_DEVICETREE"])
++        config = self._config_add_kernel_classes(config)
++        config = self._config_add_uboot_env(config)
++
++        self.write_config(config)
++
++        bb_vars = self._fit_get_bb_vars()
++        self._gen_atf_tee_dummy_images(bb_vars)
++
++        its_path, fit_path = self._bitbake_fit_image(bb_vars)
++
++        self.assertExists(its_path)
++        self.assertExists(fit_path)
++
++        self.logger.info("Regression test ITS: %s", its_path)
++
++        with open(its_path, encoding="utf-8") as f:
++            its = f.read()
++
++        self.assertIn("fdt-foundation-v8.dtb", its)
++        self.assertIn("conf-arm_foundation-v8.dtb", its)
++        self.assertIn("conf-external-override", its)
++        self.assertNotIn("fdt-arm_foundation-v8.dtb {", its)
++        # The vendored configuration must be the default.
++        self.assertIn('default = "conf-arm_foundation-v8.dtb";', its)
++
++        # Both the vendored and custom configurations must reference
++        # the external DTB image.
++        for conf in ("conf-arm_foundation-v8.dtb", "conf-external-override"):
++            match = re.search(r'\b' + re.escape(conf) + r'\s*\{([^{}]*)', its)
++            self.assertIsNotNone(match, "Missing configuration: %s" % conf)
++            self.assertIn('fdt = "fdt-foundation-v8.dtb";', match.group(1))
++
++        self._check_its_file(bb_vars, its_path)
++
++        uboot_tools_bindir = self._setup_native('u-boot-tools-native')
++        self._check_fitimage(bb_vars, fit_path, uboot_tools_bindir)
+ 
+     def test_sign_fit_image_configurations(self):
+         """
+@@ -1616,17 +1684,17 @@ class FitImagePyTests(KernelFitImageBase):
+         root.fitimage_emit_section_dtb(
+             "test-overlay.dtbo", "a-dir/test-overlay.dtbo"
+         )
+-        
++
+         with self.assertRaises(bb.BBHandledException):
+             root.fitimage_emit_section_config_custom(
+                 "invalid", "kernel-1", "test-overlay.dtbo"
+             )
+-        
++
+         # A regular DTB may explicitly select a kernel.
+         root.fitimage_emit_section_dtb(
+             "test-board.dtb", "a-dir/test-board.dtb"
+         )
+-        
++
+         root.fitimage_emit_section_config_custom(
+             "regular", "kernel-1", "test-board.dtb"
+         )
+@@ -1639,7 +1707,7 @@ class FitImagePyTests(KernelFitImageBase):
      def _test_fitimage_py(self, bb_vars_overrides=None):
          topdir = os.path.join(os.environ['BUILDDIR'])
          fitimage_its_path = os.path.join(topdir, self._testMethodName + '.its')
--
-+        
+-        
++
          # Provide variables without calling bitbake
          bb_vars = {
              # image-fitimage.conf
-@@ -1660,7 +1689,10 @@ class FitImagePyTests(KernelFitImageBase):
-             # x86 kernels produce a setup.bin section; set to the file name to
-             # enable it, or to "" / omit the key to suppress it.
-             'KERNEL_SETUP_BIN': 'setup1.bin',
-+            # ... existing entries ...
-+            '_python_only_test': True,
-         }
+@@ -1764,6 +1832,23 @@ class FitImagePyTests(KernelFitImageBase):
+         self.logger.debug("Checking its: %s" % fitimage_its_path)
+         self._check_its_file(bb_vars, fitimage_its_path)
+ 
++    def test_fitimage_py_vendored_external_dtb_symlink_override(self):
++        bb_vars = {
++            "KERNEL_DEVICETREE": "arm/test-ext-alias.dtb",
++            "KERNEL_DTBVENDORED": "1",
++            "PREFERRED_PROVIDER_virtual/dtb": "test-dtbs-as-ext",
++            "_python_only_test": True,
++        }
 +
-         if bb_vars_overrides:
-             bb_vars.update(bb_vars_overrides)
-             if logging.DEBUG >= self.logger.level:
-@@ -1689,15 +1721,12 @@ class FitImagePyTests(KernelFitImageBase):
-                 bb_vars.get('UBOOT_LOADADDRESS'), bb_vars.get('UBOOT_ENTRYPOINT'),
-                 bb_vars.get('UBOOT_MKIMAGE_KERNEL_TYPE'))
++        dtbs, aliases = FitImageTestCase._get_dtb_files(bb_vars)
++
++        self.assertIn("test-ext.dtb", dtbs)
++        self.assertNotIn("arm_test-ext-alias.dtb", dtbs)
++        self.assertEqual(aliases["arm_test-ext-alias.dtb"],"test-ext.dtb")
++
++        # Verify that the original external symlink alias is preserved
++        self.assertEqual(aliases["test-ext-alias.dtb"], "test-ext.dtb")
++
+     def test_fitimage_py_default(self):
+         self._test_fitimage_py()
  
--        dtb_files, dtb_symlinks = FitImageTestCase._get_dtb_files(bb_vars)
-+        dtb_files, dtb_aliases = FitImageTestCase._get_dtb_files(bb_vars)
-         for dtb in dtb_files:
-             root_node.fitimage_emit_section_dtb(dtb, os.path.join("a-dir", dtb),
-                 bb_vars.get("UBOOT_DTB_LOADADDRESS"), bb_vars.get("UBOOT_DTBO_LOADADDRESS"))
- 
--        for dtb_symlink in dtb_symlinks:
--            # For test purposes, assume each symlink points to a DTB with the same basename minus "-alias"
--            # In this case, "test-ext-alias.dtb" -> "test-ext.dtb"
--            dtb_target = dtb_symlink.replace("-alias", "")
-+        for dtb_symlink, dtb_target in dtb_aliases.items():
-             root_node.fitimage_emit_section_dtb_alias(dtb_symlink, os.path.join("a-dir", dtb_target))
- 
-         if bb_vars.get('FIT_UBOOT_ENV'):
-@@ -1910,6 +1939,7 @@ class UBootFitImageTests(FitImageTestCase):
-             'UBOOT_SIGN_IMG_KEYNAME',
-             'UBOOT_SIGN_KEYDIR',
-             'UBOOT_SIGN_KEYNAME',
-+            'EXTERNAL_KERNEL_DEVICETREE',
-         }
-         bb_vars = get_bb_vars(list(internal_used | set(additional_vars)), UBootFitImageTests.BOOTLOADER_RECIPE)
-         self.logger.debug("bb_vars: %s" % pprint.pformat(bb_vars, indent=4))
 -- 
 2.55.0
 
