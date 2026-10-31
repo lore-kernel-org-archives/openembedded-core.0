@@ -1,62 +1,62 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3743.1793405763043807540
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3751.1793405768248431971
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:16:03 -0700
+ Fri, 30 Oct 2026 17:16:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=gNOBplq0;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so10822515e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:02 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=EoXBDTry;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48afbd2c386so699479f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405761; x=1794010561; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405766; x=1794010566; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=B0TrtbR6yzRP1pQeoThvh7wqjUnHLUS9A3nsWlFaWpg=;
-        b=gNOBplq0rh6lKTELn403dPchdtGrbNQNZsZy6vi6kX0VuyXRgZaDAvOgErfoGxIhow
-         ye/Fig9B4qulZpnOmcF2FpPimn4f7YtfvOTNwlMwVpvmfS6UxJWoYvIJsu+t9GgcTxY1
-         EcaAsNVrRM8gPxDXcBJCJqCdkfrBC6MVpX8hC8RuM5TuN9lauS6f5LZM7WH23tBzH9NL
-         Yl1HMNRHv6QaTaLvNvbVOeZAD0IpfQo0QjAPwAKMs1ci9Pgo+OqDZA06AUexIEr0rSB/
-         yBUMlKh0Wuriw8jN6AtzPsyTRlS4HfvqKYO2cWzrELhFsddqUijh6qSFDUsZc7kkFxHS
-         G3Qw==
+        bh=ld843SK4pwH1kMpypeItx54BJTQXHbxkSsgBiP8mFmQ=;
+        b=EoXBDTry+sEcIg72ymZAOCqnnnOFXX3//XsnfyRMIwUSNdwQzSxKT05JunOaAcAnE9
+         1fYJSuhlBnPy0Vgsu//tHu7a0U6URkCvUL4iBw8COeVFg5jt52xz3S4tAsI9FuTzxkxh
+         B5YFEBh3ggm743gtdurwQ0+OEh42CEWS8/tTbNx830iZNKXqhOiNl6DQ3FDzOFqfKqNN
+         78hqvBMVR3nT+zFLaDPSGa7TNjSJmBhfZbyvu9lHEUCEnx4EIv+a6PfYIcwI79I8taQQ
+         askl+uT6nQ7mUOVEGB3jZwfDQWGSIMuhGQVt8/8OkLywn9J+DhtyNIoa5cdvm0cz4xhf
+         X1ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405761; x=1794010561;
+        d=1e100.net; s=20260707; t=1793405766; x=1794010566;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=B0TrtbR6yzRP1pQeoThvh7wqjUnHLUS9A3nsWlFaWpg=;
-        b=bvK7zYwSWNvCyJzlPJ7DoOA7tbz5YVO/OlINY+CVOyH2FnRXqRmBxMjci3t6yHxIGW
-         5/Hgc8jAYXaVegfNay+iHo2JsFo2qVrMIVQrSIsimLu6k538a0cBhmLi0H+mUILL4frN
-         Dce2TJE5RbDxUtJyV7wSG7uasjdap+699x7+9qYHzUysHaD8hJT46Yj6qow0czKtL6yK
-         0Fg1PkOyeP1lX6M01Zod9bv5K7lMR7GvX76u3OXmUwCRhGqpmhM/GYeZFVS2XVpUbc+H
-         Ag+MFcbz5AUrrXTBMvc1+cnN9VQR65AzvUPBReXO9KE50clClQHhh/LTMygrgzkNjrFz
-         dsbQ==
-X-Gm-Message-State: AFq9FYIBrvbTpaBW8RnxvP7nHP3DGvU12zUMX9324t26gn+AHCVSuZJX
-	bCXfewwe5PDs5Oi4wtYRPnRhyZOlJfdr1p5ZXRvVm/lfEJPB4fE6guxJTwYmqOcGe4e8tkVveJH
-	QMX3H5ns=
-X-Gm-Gg: AYBFou3BkXvYXglFCf4xeBK7QTyJ5T9ixnr0v3Z8XvARZUJG6gG8+8LHEOjwctLYtI8
-	ZFrnGPRxoHEPBoIHEQVu7Udhrt8s8Mv4zU/JL4nXoJvBl+eMmkH2U2vRv8LcR9ViBFQYjztY1FL
-	9SvJqatH4840Tcg58J7ofuIxB8hGmwx0faEPzmTV/uyb1QddoO3EMm0SU5b8Ha1zZdhd6T6BBeP
-	ix3q1QiBZiYIKZQtH4m5wVpbFVrZn8TmHlpP+AEqvtrW/eGgKJS58k0rjhQJmyqbUEUj7bWofEW
-	q2rGkLjPCRS/VNHlMVQ2AgLwRjp7G50E/cE0FpuRTnPyCX8JxY7VbQTJwxi4p81ZLU9JPvhhnaU
-	ACPammGOlGat1nAWXdtt2tsZ7jvoDAA2g0ysZUWoRLP4l8etEIqKfv2uimRx/QJj2Q4T3baIyBO
-	8fUv6p0Mqd/qKSc6p0a0KGbIcByQGIT1BzEM+p0dBUEzpTSoAAtoJEdcw8DyeAacg+ftZIUvyf/
-	Ov+Mq3LV+yyVraOBferjFDWwSxUJaF/d6hvoXYep84mjTGY+g4o77UpKXdx4IUnKQ8zosP5sSDP
-	8N9+KlFgwcyctAhzJ/UaopdLBe8qWaugKzs+FCYlvYBsiCxGmngbL94enpk4P1+KrUhksSQXJFK
-	fPfh9cTumJ0k5YKHbQ9BQvuPDqv7k
-X-Received: by 2002:a05:600c:e545:b0:4ad:181a:4354 with SMTP id 5b1f17b1804b1-4ad181a4478mr30232815e9.30.1793405761223;
-        Fri, 30 Oct 2026 17:16:01 -0700 (PDT)
+        bh=ld843SK4pwH1kMpypeItx54BJTQXHbxkSsgBiP8mFmQ=;
+        b=NNgB0AmNyhyn9CmsYPMUBVbA8iZQQ+LDYs88oy4uWKz2puFsnu/4A5UQVNU0UZpxsr
+         Q7sCsIIh94jwLG2D0dFkND7kZGm7rMG2cljTKbIgkPSo7sIw4ggZFyTebbcH/xco5IHj
+         AXSKO5fwp/Tw395+M222a+SfqNaGpgpeNMqIdV0eE43fhpxSLShP/siR/mEMp5Q4VZUp
+         /H+qTvTiZtLlW/DoJ8/HOAm8LvsgXRPh7tRBwdK9YRPMezbfA1IEuDkwUvLYnBo1v+H3
+         i6oI11jHEWtvOju5QqKdlcjUJHG4UU1jxV5Gxg3ry/CNQOJIoH1mTr+LCDyDShNsCgrv
+         546A==
+X-Gm-Message-State: AFq9FYLB9rfJmYK+jg7U/5zVVHM+FzQDxOMKIq4HB+qaLqjZYTnmnJT0
+	gOl3G7KGWjeRspkybgzjDfdvXfVF18qxrxO3a4udaB9ZDL5uO3HSh8sEdWF4BUEno9RnT4oe1hu
+	GyuZ3q8c=
+X-Gm-Gg: AYBFou0sxAv46VkHDa/BFCHjozg2LBQH4W0jAO3GNTfCr0pmNbqPmiuASAz6XCzw4K0
+	yUGIcFzzHMyRn7Zyu6IHlZUtrPrjs5IiJXgEoBCQXQhnvaQO1zit1Uq+MKB4Os0y3cluXTTT16E
+	BRPhFMFyOsnNXHKNTlk3x8BDoUUrscwNm1hA3r+7xnIEoSoLiEbdbEASzIsBnsLU7CDuxSnK9KT
+	2yI2C1tAPD8qVD94ghGBu9SRLoNcDr9gf+hz0zVVP4t1qgd6QrwjPgHBp/9m+SnZQdhQ2ES7Oqq
+	nKaQ2gwO5+X0mTx1xI7XhbHZuOLFjmWX27Q63nVW0lycCSG9BAlSwjfO+NtJOPmsaesTnpl7hCA
+	TB6oZNSnN4EE5yscA4eXI+wvtxR5YeKqPHQaeOLbYUz3n5Oo57b6ZeiLl0PXYjKTLxQ4PjHBql7
+	hZIKLnAnJjWWUrdiv/o5i558UnbYNqASn+YoO0tGMa/WQgPkraAWXF1mFme0VXsw9eg7jo5ES76
+	K8jNhcfoNL1cfPZzN3U6ROPGT8uMeUtn6QBH1/F71rAr+jPpd0zfha0za6tPrCakwzIZxiRI7SI
+	fBAGtJXD1cwDcf4Ydr2U8P1I3tP5uuDYS0hdmB5f7Bn4+2YKGCHE+J+G6iV8JITm4M2TemO6sbm
+	W3uYYaXKrKOwAx5EnSReThZOIyFId
+X-Received: by 2002:a05:600c:8709:b0:4a1:9078:911 with SMTP id 5b1f17b1804b1-4ac181e75b7mr93786355e9.31.1793405766555;
+        Fri, 30 Oct 2026 17:16:06 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.16.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.16.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:16:00 -0700 (PDT)
+        Fri, 30 Oct 2026 17:16:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 31/55] glibc: patch CVE-2026-8674
-Date: Sat, 31 Oct 2026 01:14:52 +0100
-Message-ID: <2ee1db69d295556b5aa99965ff088e844c1eb168.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 40/55] gstreamer: skip test_queue:test_leaky_downstream test as it's flakey
+Date: Sat, 31 Oct 2026 01:15:01 +0100
+Message-ID: <cd4d5e4527341943a26f24a9306541548808fcc9.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
@@ -64,156 +64,32 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249106
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249115
 Content-Type: text/plain; charset="utf-8"
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Pick patch referencing this CVE from 2.41 branch (oldest release
-still receiving security updates).
+This test occasionally fails, so skip it.  A bug has been filed upstream.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+[ YOCTO #15408 ]
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ac8fa6ada2a0cf0ae27316837985dd57b01e727f)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: fixed a 3.41 -> 2.41 typo in branch name]
 ---
- .../glibc/glibc/0042-CVE-2026-8674.patch      | 118 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
- 2 files changed, 119 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
+ meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch b/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
-new file mode 100644
-index 00000000000..bbdeafd5f38
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0042-CVE-2026-8674.patch
-@@ -0,0 +1,118 @@
-+From c97fdd483232a831829aaff458a212307f1bf4bc Mon Sep 17 00:00:00 2001
-+From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+Date: Mon, 14 Sep 2026 17:08:03 -0300
-+Subject: [PATCH] resolv: Fix assertion failure on search list truncation [BZ
-+ 31026, CVE-2026-8674]
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
+index d6219ddcccb..b0f2a3050b6 100755
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
+@@ -27,4 +27,7 @@ GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,parser_convert_duration,parser_pull_frame_
+ # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/work_items/5163
+ GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,test_device_monitor"
+ 
++# https://bugzilla.yoctoproject.org/show_bug.cgi?id=15408
++GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,test_leaky_downstream"
 +
-+update_from_conf copies the search list into the 256-byte
-+resp->defdname and truncates it when an entry does not fit, then
-+asserts that resolv_conf_matches accepts the result.
-+
-+The truncation check there compared the accumulated size against
-+sizeof (resp->dnsrch) (the pointer array) instead of resp->defdname,
-+and the empty-list case did not account for a first entry that does
-+not fit at all.  A long search domain in resolv.conf or LOCALDOMAIN
-+thus aborts any process using the resolver.
-+
-+Check whether the entry fits in the remaining defdname space, matching
-+alloc_buffer_copy_string, and also accept an empty resp->dnsrch when
-+the first entry is too long.  Add tests covering both cases through
-+the search and domain directives.
-+
-+Checked on x86_64-linux-gnu and i686-linux-gnu.
-+Reviewed-by: Florian Weimer <fweimer@redhat.com>
-+
-+(cherry picked from commit 506ea57086bfb9ce3daff1c14246a1cb532aba0a)
-+(cherry picked from commit c0c8a45dee30c8089822d859575a3ad4324b15ff)
-+
-+CVE: CVE-2026-8674
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=c97fdd483232a831829aaff458a212307f1bf4bc]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ resolv/resolv_conf.c                  | 19 +++++++++------
-+ resolv/tst-resolv-res_init-skeleton.c | 35 +++++++++++++++++++++++++++
-+ 2 files changed, 47 insertions(+), 7 deletions(-)
-+
-+diff --git a/resolv/resolv_conf.c b/resolv/resolv_conf.c
-+index dcf92ee90e..0418267044 100644
-+--- a/resolv/resolv_conf.c
-++++ b/resolv/resolv_conf.c
-+@@ -281,8 +281,12 @@ resolv_conf_matches (const struct __res_state *resp,
-+   {
-+     if (resp->dnsrch[0] == NULL)
-+       {
-+-        /* Empty search list.  No default domain name.  */
-+-        return conf->search_list_size == 0 && resp->defdname[0] == '\0';
-++        /* Empty search list, or the first entry does not fit in
-++           resp->defdname.  No default domain name.  */
-++        return resp->defdname[0] == '\0'
-++          && (conf->search_list_size == 0
-++              || (strlen (conf->search_list[0]) + 1
-++                  > sizeof (resp->defdname)));
-+       }
-+ 
-+     if (resp->dnsrch[0] != resp->defdname)
-+@@ -309,11 +313,12 @@ resolv_conf_matches (const struct __res_state *resp,
-+           }
-+         else
-+           {
-+-            /* resp->dnsrch is truncated if the number of elements
-+-               exceeds MAXDNSRCH, or if the combined storage space for
-+-               the search list exceeds what can be stored in
-+-               resp->defdname.  */
-+-            if (i == MAXDNSRCH || search_list_size > sizeof (resp->dnsrch))
-++            /* resp->dnsrch is truncated if the number of elements exceeds
-++               MAXDNSRCH, or if conf->search_list[i] does not fit in the
-++               remaining space of resp->defdname.  */
-++            if (i == MAXDNSRCH
-++                || (search_list_size + strlen (conf->search_list[i]) + 1
-++                    > sizeof (resp->defdname)))
-+               break;
-+             /* Otherwise, a mismatch indicates a match failure.  */
-+             return false;
-+diff --git a/resolv/tst-resolv-res_init-skeleton.c b/resolv/tst-resolv-res_init-skeleton.c
-+index 3ccbe71db9..4e9c57f3cb 100644
-+--- a/resolv/tst-resolv-res_init-skeleton.c
-++++ b/resolv/tst-resolv-res_init-skeleton.c
-+@@ -713,6 +713,41 @@ struct test_case test_cases[] =
-+      "nameserver 192.0.2.1\n"
-+      "; nameserver[0]: [192.0.2.1]:53\n"
-+     },
-++/* Search list entries which do not fit in the legacy 256-byte
-++   resp->defdname buffer (bug 31026).  LONG244 is 244 characters long,
-++   so it does not fit after "example.com\0" (12 bytes).  LONG256 is 256
-++   characters long, so it does not fit even as the first entry.  */
-++#define LBL63 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-++#define LONG244 LBL63 "." LBL63 "." LBL63 "." \
-++  "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-++#define LONG256 LBL63 "." LBL63 "." LBL63 "." LBL63 "a"
-++    {.name = "search list truncated at long entry after short entry",
-++     .conf = "nameserver 192.0.2.1\n"
-++     "search example.com " LONG244 "\n",
-++     .expected = "search example.com\n"
-++     "; search[0]: example.com\n"
-++     "; search[1]: " LONG244 "\n"
-++     "nameserver 192.0.2.1\n"
-++     "; nameserver[0]: [192.0.2.1]:53\n"
-++    },
-++    {.name = "search list truncated at long first entry",
-++     .conf = "nameserver 192.0.2.1\n"
-++     "search " LONG256 " example.com\n",
-++     .expected = "; search[0]: " LONG256 "\n"
-++     "; search[1]: example.com\n"
-++     "nameserver 192.0.2.1\n"
-++     "; nameserver[0]: [192.0.2.1]:53\n"
-++    },
-++    {.name = "long first entry from the domain directive",
-++     .conf = "nameserver 192.0.2.1\n"
-++     "domain " LONG256 "\n",
-++     .expected = "; search[0]: " LONG256 "\n"
-++     "nameserver 192.0.2.1\n"
-++     "; nameserver[0]: [192.0.2.1]:53\n"
-++    },
-++#undef LONG256
-++#undef LONG244
-++#undef LBL63
-+     {.name = "trust-ad flag",
-+      .conf = "options trust-ad\n"
-+      "nameserver 192.0.2.1\n",
-diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
-index 3e95792b359..3b27328c21a 100644
---- a/meta/recipes-core/glibc/glibc_2.39.bb
-+++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -74,6 +74,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0039-CVE-2026-77117-CVE-2026-80489.patch \
-            file://0040-CVE-2026-18374-01.patch \
-            file://0041-CVE-2026-18374-02.patch \
-+           file://0042-CVE-2026-8674.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+ gnome-desktop-testing-runner gstreamer
