@@ -1,52 +1,51 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3734.1793405753130271752
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3728.1793405752602013862
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:15:53 -0700
+ Fri, 30 Oct 2026 17:15:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=dasdQZqE;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a7992e2f7dso13600865e9.3
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=O8BUTfkA;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so12080795e9.1
         for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google2; t=1793405751; x=1794010551; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Iqc2vzaQIzK+nfRbs2eMIBbk2tfwKCYAmM3CG1oCDO0=;
-        b=dasdQZqELBRaFkwYbfvkeYdEgPIRcqsiGAoFTuBs3RUTITwUcTAIJJjjkDkQyNj11a
-         m+uxzEQHiG+9fqZmjqI4xftOblWSUvzBCT2NdlWRbhdxAekE7Gjcg5BaSPJGxvUo4c65
-         2V+YX9cQKeDqKLOrTI2vi9y6tF6DLoyQilY069ZFOVIU+uJhC6uHxbwZWmZHbzKouYiO
-         h3QLK8bowCIkpkQE+N70fxVJCLc83H4T5Gk+lVRuvnYa3lSAYDDSnYx7yHo44dYpHAhm
-         /yL8BEBwgqxYr5/+5j170a1Lv/zGfDayjwOuwEXzgzyPes4eEXm8M2whRTkMx+iKZHwM
-         eX1A==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=IEoqv/flZTgcJrHxa8wd0QKNRtqfCcxDu7Q2ziNK6Js=;
+        b=O8BUTfkAwKkGyCBex+jtkyrxb40WqSuIgXPAdQCz/OqCtrCu8tBn0MwvuefndUOq5o
+         P7ja43YN8rcwxt9szJBym0GaXduu5CTdyM5RQ4IwlRE830WcaqPTIWsgCgxv2057QNwl
+         8G/zCudzyqsCz3rGgOm+vqsHosM/xgTkBMAvypaNU95zYKOxzwebMKCLhua4ax6y6DWa
+         jg/eYTzsHEvu6qinJw4/rsRttOy/TnboyeWbOQkeoNsgeN6i0DFVn111w/mPYrPOUFPP
+         oBjX18vnrSFXc0tFbOCi3kxrOzaF4VjDKLCLM86MaBso9xkANAsrphsd3gaRDMXhtT+3
+         TGew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1793405751; x=1794010551;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Iqc2vzaQIzK+nfRbs2eMIBbk2tfwKCYAmM3CG1oCDO0=;
-        b=IiqJUY7Ll6Ol2ZEVB//3vMArnBtgZgpDqeDM5dKRVddVCsOGIJiKeQxEUlliaQEAYo
-         vbrNZ6kRscB6iUK2UOzJ8SdHCMvcN8dGc+ndJM8ISsADcr6hFJm2cqgQ9H0KxOzTtBMC
-         2TF0QeGXyqWQsBIGJVY3hohUJvYO7pC3SFj3IsDiWPvUmAxx5oi6Ta0o3mbDlmRXl9JI
-         lOFoxDOPVwpcxJh227Ucoqvy8e/JMf6JDelzffsrW9AQLnyBwx6xQ73zYMAV3zI9BesF
-         UZS99RAOmvmpguaGvPgMjkfJ5l1pUkux0PnD6Vw1+scdu8UoR4bhjD5gnR92vdW/NQcJ
-         FbmQ==
-X-Gm-Message-State: AFq9FYIiJsaPBgOfh8nILulZAa+NDmuiB17ISm/ZtnVD3gd5FWFDRkR7
-	J4dJ6M4dK4p3laege2AzmzlMOdiOqJEQ5G6bfVDPT3XY8mttjf2z9eiL6/hFmXpMVFeS18A/PO1
-	y/xexTWA=
-X-Gm-Gg: AYBFou1A9tX/1LqgdPE6w/hLDvGWCux3CgdMfjqiPbkX9WXv5CO90BGDViog1k4dlT4
-	lsafWRwwEftuLeiqwQi8tNdJ0/MitL3mlOJAs71lWCPSY2jp7OGdQ+03ovmYK257D4uagozjs4J
-	g3uGsI+1vw6oGYcBhUAzClNQuqV7rSthSl5LdIUnozsgEmnmbecaiXvaWag4MsmakACISUjmHdW
-	grDVsl5P2WW43HG5th8OmE0vrnc4Oy0Omfy1fu9k31/PYTT77vmHg28NN5OHIYLX7vQvcrVk1g1
-	TNk+Q9zsXP6ckJJDQzuLcb75gcRkNmSaTv4nrijV/nqiUOfYxrTX1JqlwDJi8OtI1nV4RSd0V3W
-	B1mnRiwbXPMLsfwhfL5QIE7pPWR9b+sI+eV3n2L2ZlLHO5Rq2X99uVfmdQj0Sr/+ky1o/KMfgr0
-	c3b5TyPPqTVrGon5yVcL/jVEIhSCJXLIKvI0xSQuOgLgSamI9HSk2ssYEtgqrKY1CREZjibL8Yj
-	LK6Zy0oimEDlDw9UuWL4gK7PX3wuqbIRMme+/8m5IUpRY0jhfs/EJe4ZLjISB1nd/NVgVLU8o3h
-	308Kq/pOJYogoSA65Wb0KsNwb5kkvJ6uEGYDId4f7s5vZL5Gp58Rc01a1bwfVRqzpIk81oLJrkq
-	DnXXshIC9Jz9FNm4eboxo/C3HmRvUVyOJQ7s31hm2imZyN/zhTQ==
-X-Received: by 2002:a05:600c:698d:b0:4a2:994:575c with SMTP id 5b1f17b1804b1-4ac185bcc4emr86567795e9.34.1793405751332;
-        Fri, 30 Oct 2026 17:15:51 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=IEoqv/flZTgcJrHxa8wd0QKNRtqfCcxDu7Q2ziNK6Js=;
+        b=TFt2p6q2jNAhByjqI5K+yVFYPAozyMsmHTwVtq5pJzL2eC6wvFiHoJ87qpXV01gP4V
+         gMh7O1wHrohUtvh2sbUdQt9yzSzZBBD6fGFxIg6ZuS+Hb2dh6OdMd0vGwn7CvRe94q3J
+         eoapJrd17Vq+Qv7kztNw6u/UtG0qFPP2l5E0K3c9cJV1iPg3ADepQttUlSilpIICynxR
+         JmcPfAVEw7ZLW67pqva7dLa7eHsxJxT6/OQhiju75Ht3UUYYfv1gyari3aKDopTMMDLV
+         WkXD+izbhm0TUBld/QOAx4uolQydLv9fwo7M1vaRaG9GSDv2yNx7724pXG+ZIb/3pNqt
+         EPkA==
+X-Gm-Message-State: AFq9FYIJB1zCRyYlWEQvMNtUg+MB0v/+re/n+lruWEblLOyhe6TCNh6i
+	pDBbf/4X41vKr0k53xPvEQBUP2Dq+j9oNKY217yvNsKg1aJyqwbFTSbUc6KN9o3zEZlHJfiODFt
+	J0KOAj6I=
+X-Gm-Gg: AYBFou35esNaInoOcvEG75uyZgDzDj6qw4N2sjRzCAaVoB49kdILYgaBVoA7F9mdpsP
+	SjMt3KVn6k957FflK2+OTZRN9GdiYQFG+cg3DAEUWtpNc+OUpLDb3LkZk9jQE+VrsBjRfKAR3EZ
+	Vj9U/xmpy6c+H2U2KBzCjf6Sw5amG5516Dh+SdraUJcRLfARG7G6Md/fFUS+PanpMSzJ/WBahCN
+	zaV9qkBQRKrh+u+F6a7ur+K/x4/GcFTRxJJnh0wOr37Qk/ssJZIIpi2/iYY9C81BahVe+s5z+Lu
+	dO1Ul7AGuV/ZvZEwZzwEYflR0TQbwSqCJQ9jHbJ+sbdZVDhZ6nEIjRzc1ikWFhHa8YBRrBtrRlP
+	GKcvbMjeZOWllPrK9M2xPDTicBs1PRzjpRJ0bZvQBy4qoyciSiWYykvxXV8aNdu/fdBUoh+jlXi
+	HZJsZ4I2GDDJGsAeav6gnV9dL9pLHQxusrMCDZ98pOVO1E5h7iGRalSvpGFSEzRMQHtCfNd/FAR
+	M2MsGS4ePM/vRV7ff2UeQWJ4LAQ7pq84wGdkUx82IBeyvrSvx8cFARz/kRLZ6o9ScBTsuDZyBIC
+	SNv70leUJ2c2JYhJ/efSkUse8dpWylAes/xbdnH7po+R/WP67YuRMvcUkkUS+752Qn8TVD65HyS
+	kymc3wkuV4bu5INnfVw1oodch0i8M
+X-Received: by 2002:a05:600c:1c0f:b0:4a1:ac66:6059 with SMTP id 5b1f17b1804b1-4ac19233381mr84069795e9.26.1793405750822;
+        Fri, 30 Oct 2026 17:15:50 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.50
@@ -55,315 +54,153 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Fri, 30 Oct 2026 17:15:50 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 14/55] glib-2.0: patch CVE-2026-15588
-Date: Sat, 31 Oct 2026 01:14:35 +0100
-Message-ID: <9e99d78d51d56e29a55009d7fb2812568ea0aa9e.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 13/55] popt: patch CVE-2026-18739
+Date: Sat, 31 Oct 2026 01:14:34 +0100
+Message-ID: <c048b4a6a3c798afa662049c2a31db077e0a4444.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249089
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249088
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch per [1].
-
-[1] https://security-tracker.debian.org/tracker/CVE-2026-15588
+Pick patch referencing this CVE.
+Convert change in cmake file to autotools/makefile.
+Install the new test in recipe.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c211972ad21e1801abc7dd15951093316c5528f4)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: backport translated cmake to automake
+     (the project migrated in between) ]
 ---
- .../glib-2.0/glib-2.0/CVE-2026-15588.patch    | 267 ++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   1 +
- 2 files changed, 268 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
+ .../popt/popt/CVE-2026-18739.patch            | 92 +++++++++++++++++++
+ meta/recipes-support/popt/popt_1.19.bb        |  2 +
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18739.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
+diff --git a/meta/recipes-support/popt/popt/CVE-2026-18739.patch b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
 new file mode 100644
-index 00000000000..e5ff0e87d36
+index 00000000000..0a1e8f35907
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
-@@ -0,0 +1,267 @@
-+From 4235f7b42ba51d6fdb4abd7c4276031802f39834 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Sat, 4 Jul 2026 18:13:08 +0100
-+Subject: [PATCH] gdbusauth: Limit length of lines read from client
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
+@@ -0,0 +1,92 @@
++From 14c42b415ba0c11640f7d4ee80920452d0287058 Mon Sep 17 00:00:00 2001
++From: Yao Zhang <294772273@qq.com>
++Date: Wed, 5 Aug 2026 14:52:10 +0800
++Subject: [PATCH] Fix CVE-2026-18739: off-by-one error in poptStuffArgs()
 +
-+The client isn’t trusted at this point, and there was previously nothing
-+limiting how long a line `GDBusAuth` would read. So an untrusted client
-+could exhaust the server’s memory by sending anything except `\r\n`.
++The poptStuffArgs function only checks whether (con->os - con->optionStack)
++is equal to POPT_OPTION_DEPTH (10) before incrementing con->os, and does
++not increment the value by 1 to perform boundary pre-checking, as
++handleAlias does.
 +
-+Fix that by applying a reasonably length limit when reading a line, and
-+add a unit test.
++Add a new test program as a reproducer for this case.
 +
-+Spotted by Gitee Codepecker Lab.
++Co-authored-by: Panu Matilainen <pmatilai@redhat.com>
 +
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+Fixes: #3985
++Fixes: CVE-2026-18739
 +
-+CVE: CVE-2026-15588
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/4235f7b42ba51d6fdb4abd7c4276031802f39834]
++CVE: CVE-2026-18743
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/14c42b415ba0c11640f7d4ee80920452d0287058]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ gio/gdbusauth.c        |  44 +++++++++++++++
-+ gio/tests/gdbus-auth.c | 119 +++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 163 insertions(+)
++ src/popt.c        |  2 +-
++ tests/Makefile.am |  5 ++++-
++ tests/testit.sh   |  2 ++
++ tests/tstuff.c    | 17 +++++++++++++++++
++ 4 files changed, 24 insertions(+), 2 deletions(-)
++ create mode 100644 tests/tstuff.c
 +
-+diff --git a/gio/gdbusauth.c b/gio/gdbusauth.c
-+index 9e31c8318..a5938c969 100644
-+--- a/gio/gdbusauth.c
-++++ b/gio/gdbusauth.c
-+@@ -262,6 +262,21 @@ find_mech_by_name (GDBusAuth *auth,
-+   return ret;
-+ }
++diff --git a/src/popt.c b/src/popt.c
++index 9ea3dfe..458aadc 100644
++--- a/src/popt.c
+++++ b/src/popt.c
++@@ -1668,7 +1668,7 @@ int poptStuffArgs(poptContext con, const char ** argv)
++     int argc;
++     int rc;
 + 
-++static size_t
-++get_longest_mechanism_name_length (GDBusAuth *auth)
++-    if ((con->os - con->optionStack) == POPT_OPTION_DEPTH)
+++    if ((con->os - con->optionStack + 1) == POPT_OPTION_DEPTH)
++ 	return POPT_ERROR_OPTSTOODEEP;
++ 
++     for (argc = 0; argv[argc]; argc++)
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index c410389..99fbf64 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -11,7 +11,10 @@ EXTRA_DIST = testit.sh \
++ 
++ AM_CPPFLAGS = -I. -I$(top_srcdir)/src
++ 
++-noinst_PROGRAMS = test1 test2 tdict test3
+++noinst_PROGRAMS = test1 test2 tdict test3 tstuff
+++tstuff_SOURCES = tstuff.c
+++tstuff_LDFLAGS =
+++tstuff_LDADD = $(top_builddir)/src/libpopt.la
++ test1_SOURCES = test1.c
++ test1_LDFLAGS = 
++ test1_LDADD = $(top_builddir)/src/libpopt.la
++diff --git a/tests/testit.sh b/tests/testit.sh
++index 4078f51..d26be3a 100755
++--- a/tests/testit.sh
+++++ b/tests/testit.sh
++@@ -172,6 +172,8 @@ run test1 "test1 - 61" "" -x=f1
++ 
++ run test1 "test1 - 62" "arg1: 0 arg2: (none) aInt: 1" --randint=-1
++ 
+++run tstuff "tstuff - 1" "-13"
+++
++ if ! [ -e test3-data ]; then
++   # create symlink for running during 'make distcheck'
++   ln -s "${srcdir}/test3-data" test3-data
++diff --git a/tests/tstuff.c b/tests/tstuff.c
++new file mode 100644
++index 0000000..b820c7b
++--- /dev/null
+++++ b/tests/tstuff.c
++@@ -0,0 +1,17 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++int main(int argc, char *argv[])
 ++{
-++  size_t len = 0;
-++
-++  for (GList *l = auth->priv->available_mechanisms; l != NULL; l = l->next)
-++    {
-++      Mechanism *m = l->data;
-++
-++      len = MAX (len, strlen (m->name));
+++    poptContext ctx = poptGetContext(argv[0], argc, (const char **)argv, NULL, 0);
+++    int rc = 0;
+++    for (int i = 0; i < 100; ++i) {
+++	const char *ea[] = { "a", NULL };
+++	if ((rc = poptStuffArgs(ctx, ea)))
+++	    break;
 ++    }
+++    printf("%d\n", rc);
 ++
-++  return len;
+++    poptFreeContext(ctx);
+++    return rc;
 ++}
-++
-+ GDBusAuth  *
-+ _g_dbus_auth_new (GIOStream *stream)
-+ {
-+@@ -270,6 +285,20 @@ _g_dbus_auth_new (GIOStream *stream)
-+                        NULL);
-+ }
-+ 
-++/* Arbitrarily chosen limit on the length of a DATA command payload, to prevent
-++ * unbounded reads from malicious clients.
-++ *
-++ *  - The ANONYMOUS mechanism doesn’t use DATA.
-++ *  - The EXTERNAL mechanism just uses it to transfer a decimal-encoded UID.
-++ *  - The DBUS_COOKIE_SHA1 mechanism transfers a challenge and a SHA1 hash. The
-++ *    hash is bounded in length, but the challenge is not, so could potentially
-++ *    hit this limit. It doesn’t seem unreasonable to bound the challenge to
-++ *    ~4KB though. GDBus itself generates a 16 byte challenge.
-++ *
-++ * See https://dbus.freedesktop.org/doc/dbus-specification.html#auth-command-data
-++ */
-++#define MAX_DATA_PAYLOAD_LENGTH_BYTES 4096
-++
-+ /* ---------------------------------------------------------------------------------------------------- */
-+ /* like g_data_input_stream_read_line() but sets error if there's no content to read */
-+ static gchar *
-+@@ -307,6 +336,7 @@ _my_g_data_input_stream_read_line (GDataInputStream  *dis,
-+  */
-+ static gchar *
-+ _my_g_input_stream_read_line_safe (GInputStream  *i,
-++                                   size_t         max_line_length,
-+                                    gsize         *out_line_length,
-+                                    GCancellable  *cancellable,
-+                                    GError       **error)
-+@@ -316,11 +346,22 @@ _my_g_input_stream_read_line_safe (GInputStream  *i,
-+   gssize num_read;
-+   gboolean last_was_cr;
-+ 
-++  g_assert (max_line_length <= SIZE_MAX - 2);
-++
-+   str = g_string_new (NULL);
-+ 
-+   last_was_cr = FALSE;
-+   while (TRUE)
-+     {
-++      if (str->len >= max_line_length + 2  /* allow for \r\n */)
-++        {
-++          g_set_error_literal (error,
-++                               G_IO_ERROR,
-++                               G_IO_ERROR_FAILED,
-++                               _("Malformed D-Bus authentication line"));
-++          goto fail;
-++        }
-++
-+       num_read = g_input_stream_read (i,
-+                                       &c,
-+                                       1,
-+@@ -1073,6 +1114,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
-+         case SERVER_STATE_WAITING_FOR_AUTH:
-+           debug_print ("SERVER: WaitingForAuth");
-+           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
-++                                                    strlen ("AUTH ") + get_longest_mechanism_name_length (auth) + strlen (" ") + MAX_DATA_PAYLOAD_LENGTH_BYTES,
-+                                                     &line_length,
-+                                                     cancellable,
-+                                                     error);
-+@@ -1294,6 +1336,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
-+         case SERVER_STATE_WAITING_FOR_DATA:
-+           debug_print ("SERVER: WaitingForData");
-+           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
-++                                                    strlen ("DATA ") + MAX_DATA_PAYLOAD_LENGTH_BYTES,
-+                                                     &line_length,
-+                                                     cancellable,
-+                                                     error);
-+@@ -1336,6 +1379,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
-+         case SERVER_STATE_WAITING_FOR_BEGIN:
-+           debug_print ("SERVER: WaitingForBegin");
-+           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
-++                                                    MAX (strlen ("BEGIN"), strlen ("NEGOTIATE_UNIX_FD")),
-+                                                     &line_length,
-+                                                     cancellable,
-+                                                     error);
-+diff --git a/gio/tests/gdbus-auth.c b/gio/tests/gdbus-auth.c
-+index 657571be3..3323d6eeb 100644
-+--- a/gio/tests/gdbus-auth.c
-++++ b/gio/tests/gdbus-auth.c
-+@@ -263,6 +263,124 @@ temp_dbus_keyrings_teardown (void)
-+   g_unsetenv ("G_DBUS_COOKIE_SHA1_KEYRING_DIR_IGNORE_PERMISSION");
-+ }
-+ 
-++static void
-++async_result_cb (GObject      *obj,
-++                 GAsyncResult *result,
-++                 void         *user_data)
-++{
-++  GAsyncResult **result_out = user_data;
-++
-++  g_assert (result_out != NULL);
-++  g_assert (*result_out == NULL);
-++
-++  *result_out = g_object_ref (result);
-++  g_main_context_wakeup (g_main_context_get_thread_default ());
-++}
-++
-++static gboolean
-++server_new_connection_unexpected_cb (GDBusServer     *server,
-++                                     GDBusConnection *connection,
-++                                     void            *user_data)
-++{
-++  g_assert_not_reached ();
-++  return FALSE;
-++}
-++
-++static void
-++test_auth_server_read_limit (void)
-++{
-++  GDBusServer *server = NULL;
-++  unsigned long new_connection_id = 0;
-++  const char *server_address;
-++  GIOStream *client_stream = NULL;
-++  GOutputStream *client_output_stream;
-++  GInputStream *client_input_stream;
-++  GAsyncResult *result = NULL;
-++  char *write_buffer = NULL;
-++  char read_buffer[100];
-++  ssize_t read_len;
-++  size_t bytes_written;
-++  GError *local_error = NULL;
-++
-++  g_test_summary ("Test that GDBusServer limits the lengths of reads it does during auth from a client");
-++  g_test_bug ("https://gitlab.gnome.org/GNOME/glib/-/issues/3985");
-++
-++  server = server_new_for_mechanism (NULL);
-++
-++  new_connection_id = g_signal_connect (server,
-++                                        "new-connection",
-++                                        G_CALLBACK (server_new_connection_unexpected_cb),
-++                                        NULL);
-++  server_address = g_dbus_server_get_client_address (server);
-++  g_dbus_server_start (server);
-++
-++  /* Start connecting as a client */
-++  g_dbus_address_get_stream (server_address, NULL, async_result_cb, &result);
-++
-++  while (result == NULL)
-++    g_main_context_iteration (NULL, TRUE);
-++
-++  client_stream = g_dbus_address_get_stream_finish (result, NULL, &local_error);
-++  g_assert_no_error (local_error);
-++  g_clear_object (&result);
-++
-++  /* Send an over-long AUTH line, maliciously */
-++  client_output_stream = g_io_stream_get_output_stream (client_stream);
-++  client_input_stream = g_io_stream_get_input_stream (client_stream);
-++
-++  write_buffer = g_strdup_printf ("AUTH DBUS_COOKIE_SHA1 context%0*d 123 456\r\n", 5000, 0);
-++
-++  g_output_stream_write_all_async (client_output_stream,
-++                                   write_buffer,
-++                                   strlen (write_buffer),
-++                                   G_PRIORITY_DEFAULT,
-++                                   NULL,
-++                                   async_result_cb,
-++                                   &result);
-++
-++  while (result == NULL)
-++    g_main_context_iteration (NULL, TRUE);
-++
-++  g_output_stream_write_all_finish (client_output_stream, result, &bytes_written, &local_error);
-++  g_assert_no_error (local_error);
-++  g_assert_cmpuint (bytes_written, ==, strlen (write_buffer));
-++  g_clear_object (&result);
-++
-++  g_clear_pointer (&write_buffer, g_free);
-++
-++  /* Authentication should have been rejected, so reading or writing the stream
-++   * should now fail. */
-++  read_len = g_input_stream_read (client_input_stream,
-++                                  read_buffer,
-++                                  sizeof (read_buffer),
-++                                  NULL,
-++                                  &local_error);
-++  g_assert_error (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_CLOSED);
-++  g_assert_cmpint (read_len, <, 0);
-++  g_clear_error (&local_error);
-++
-++  write_buffer = g_strdup_printf ("AUTH\r\n");
-++
-++  g_output_stream_write_all (client_output_stream,
-++                             write_buffer,
-++                             strlen (write_buffer),
-++                             &bytes_written,
-++                             NULL,
-++                             &local_error);
-++  g_assert_error (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_CLOSED);
-++  g_assert_cmpuint (bytes_written, ==, 0);
-++  g_clear_error (&local_error);
-++
-++  g_clear_pointer (&write_buffer, g_free);
-++
-++  /* Cleanup */
-++  g_clear_object (&client_stream);
-++  g_dbus_server_stop (server);
-++
-++  g_clear_signal_handler (&new_connection_id, server);
-++  g_clear_object (&server);
-++}
-++
-+ /* ---------------------------------------------------------------------------------------------------- */
-+ 
-+ int
-+@@ -282,6 +400,7 @@ main (int   argc,
-+   g_test_add_func ("/gdbus/auth/server/ANONYMOUS",        auth_server_anonymous);
-+   g_test_add_func ("/gdbus/auth/server/EXTERNAL",         auth_server_external);
-+   g_test_add_func ("/gdbus/auth/server/DBUS_COOKIE_SHA1", auth_server_dbus_cookie_sha1);
-++  g_test_add_func ("/gdbus/auth/server/read-limit", test_auth_server_read_limit);
-+ 
-+   /* TODO: we currently don't have tests for
-+    *
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index 70b0b74e881..62f173739cf 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -58,6 +58,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2026-58015_p2.patch \
-            file://CVE-2026-58015_p3.patch \
-            file://CVE-2026-58015_p4.patch \
-+           file://CVE-2026-15588.patch \
+diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
+index c8b4875c1b7..18cc4f2867d 100644
+--- a/meta/recipes-support/popt/popt_1.19.bb
++++ b/meta/recipes-support/popt/popt_1.19.bb
+@@ -11,6 +11,7 @@ DEPENDS = "virtual/libiconv"
+ SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
+            file://run-ptest \
+            file://CVE-2026-18743.patch \
++           file://CVE-2026-18739.patch \
             "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+ SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
+ 
+@@ -25,6 +26,7 @@ do_compile_ptest() {
+ do_install_ptest() {
+     install ${B}/tests/.libs/test* ${D}/${PTEST_PATH}
+     install ${B}/tests/.libs/tdict ${D}/${PTEST_PATH}
++    install ${B}/tests/.libs/tstuff ${D}/${PTEST_PATH}
+     install ${B}/tests/testit.sh ${D}/${PTEST_PATH}
+     install ${B}/tests/test-poptrc ${D}/${PTEST_PATH}
+ }
