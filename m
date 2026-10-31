@@ -1,62 +1,62 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3756.1793405777492851342
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3760.1793405774769881705
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:16:17 -0700
+ Fri, 30 Oct 2026 17:16:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=TXJxI+st;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso13072355e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:17 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=Q2THjRvq;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so12081735e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405776; x=1794010576; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405773; x=1794010573; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=J6cU1KWgohvQIsXRaxumf1PfocdRspIWit2FnUnQWak=;
-        b=TXJxI+st9nMIndPErwrGi/qwRG+zNRGrmWHjuY5NNn3iTjGaZ7aH8LVPGlzIsKI47E
-         sNT7k1vkGmPn/kG4UID0Cc8PIIBlXtc/JJomv4ALrhxRuxwvJnoqAB/G7poWv5xndp8A
-         cpdgBiHagqlfnCYtm1qWKSzrO+/Z8zyl32ychOcOMEDUouFAFZJFYaoUBU6sUJZ+cZo8
-         6VP87GKuvSvCpke/jtM1H1DUOYm3fmqXSPHnpCtEW6e0i0qOhCLssnNlAOMi9OUSLwMR
-         aCLvjH2UaH5U4OmDnrrumd1IALxV8hCJBckiEWW/UvWi++2H2ORc7jTbTzRjSyeJW6Q6
-         o8EA==
+        bh=uhlDmis/O4qUPvn112/iokSs+AELTRugTqDd+bFsGDc=;
+        b=Q2THjRvq9u/ijObP5Qb4i0vu3wdX5+Y4b0VdTRM7ASZsj1MEuq9mlAv6ZpX9Y0hNDL
+         jxEzTBuYCAnZp1uFDtTlFZi2w6/JgUIm3QnHs7jw431qqbBbtDbFe+WQCixc+xsjZwzb
+         mxNjhGVnKM8K1NVYmozK2kl8tzZfFmrMeCPmCG4eGfGBrSYKJ3RavdIA6k8KKjfdXZGf
+         uIVP0fWJiIN+djxAPYBcPsQOM6j+xJItuSdt18yInHTnAo9uwbba9Gl+y2zLRv/ifOw8
+         SzQdIxq61xpeu7SsUGQUdbmITpGnGfRyBE2q3Si8wgoAH616jUaaFC5CZwr1JcPrcGgr
+         YHwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405776; x=1794010576;
+        d=1e100.net; s=20260707; t=1793405773; x=1794010573;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=J6cU1KWgohvQIsXRaxumf1PfocdRspIWit2FnUnQWak=;
-        b=CpC1vqVhW15DX5JIh/j4PAxppZYdv2L2goSGBED6/t8Hx8ftRqhduW9fsxjcSKf4WQ
-         STGDEogCcVfJa17F8Q1S5XfBK0KLqMy5SCnE5k6yp4jyHuMVpWLsTs91iygEp2zIfy8f
-         NZxFsIiOtPRlZUxTr/IHIYi5hro2mouyD/amA44bpoQc87+/HSdCWWBUBYJnbKNjxUkv
-         /SZsfCO9pP9aPuIqQogqQFrPjWLl+lzr1zGF4w6wdQS9kHI+n1pMbQ1kfYhA551L9Edm
-         CzpgGutZ5ShQhjoCpa7cHB8HnapjAD7hBtO6n7gHihfrSWn9Vv6DnOxvGb/YIaMoBe0S
-         Mcyg==
-X-Gm-Message-State: AFq9FYIdf/uBRxCmqHNoODp18NtjN1NwSLvtbd61Zpjhg/85Z4C/3PNX
-	Wu3N9qK0Cmt+yQVcSt8vtlw7ZCXG3m7Ug93p06r8P9cbvjwPjI8aR1YjTLeaBoWuSdXLOJ9w+Xc
-	50pLbdPs=
-X-Gm-Gg: AYBFou0hAvfn3wf3TvOEEXelF6ZzpD3jKi2LdgtMksAYEij+CMeTJ1ZtoYckbcXrEaX
-	sadFOTHiBJ+lzDpCx4H4WtFNYe2KWACVxZU5+crsIre/zG8qZSKxTE6u8xJLClGkFHuGw4SCyDt
-	/JRRBXX1b/avy4KihX2yFUvID/qIYKYMkwiLvbFHeM2uQPhxTPwaA6gnD8oUENrkPIHleZkxIHz
-	FyqFo1WQUljfew439IRO1Kw/hv+9RLT5BsCY0LnRrl+Aqv03X1+kHw0lHPwrWaxmMGHZt4rXpqh
-	T22Aka/5J86g1ZfTPwNOiygLKYR+Cmg6jDGZMd5exulenBVuj48y5rdVKIA5FiNN4fBsI0o4HHq
-	EcGwMnowlf7XZrzytIvQ7y28rrauXLGuB4r5QyK1bHXQdJAMsh6S8aHzM5MS+5xjxrOuGmSbu2w
-	46/bYZdYtI76jouBs2bCsn2dnzEPN/GVi3Y9Jjkfs1auNxNkBZHhknY/fq7kVsGUy/vwVysZW8d
-	sDKjahXtjfWA8+2dIem5TrL08vEigzjdee2qD9vaM1kmo+9SU7ndfSQIMGC58CB5MgCKqAuutl0
-	YzfDlNoboon3JkVEKdjusmGaxh5Yh+e0r2s1X04B3FXUHcFxmT/of49/iRHjJMlP9z0aS9+pk6/
-	JABWlffVFVuqgEUQIFRYA4u8cq4ma
-X-Received: by 2002:a05:600c:870f:b0:4a2:1196:db0e with SMTP id 5b1f17b1804b1-4ac1899348bmr77127115e9.30.1793405775714;
-        Fri, 30 Oct 2026 17:16:15 -0700 (PDT)
+        bh=uhlDmis/O4qUPvn112/iokSs+AELTRugTqDd+bFsGDc=;
+        b=hxiPQDpfPIgHwxc4C8XMci4i70/5tgUc9HhbbmOLsOF5WhzyGXM8vez6EduKujodco
+         z3DLvsXxCkWcEbnH4Gb3x6Es2Yibo9MI2vC3RHyCMkozaFlnJFWVbdkUyhZeRV3ZeD4c
+         MuNRnZ3ci6RQV6tk6Qkynm5tfJycYdtCbhLLdsJ/gKnvOi7Yoxd2U4PjK4p9CVgctDJG
+         Tv/DkNPNYwFRelw4opJ/cFE4NDPQWPQqoO4CAbTmhWwme+Us8SoNTypGS0SRX7hrwuwi
+         QbwMELizfgrEkWixkdXUazCwqlOYXoy1R42PqF4DugQEcUcGQozJdINL9yjpgwF4mBws
+         mnNQ==
+X-Gm-Message-State: AFq9FYIe8eIVmB8YQW3ESdOgHtC8WmMBHKodsaOOqtMpFZxC3SlkodyQ
+	4GISwiNWPGLLgAgvgTJyOjo/rrUcD9fC3Ls+Of3IC1bgCayJXWhFQaY0UQhtzj+pF+WKIKacx/K
+	/S1xjr9w=
+X-Gm-Gg: AYBFou08KTvw+j5sSHjoA2y/4u0WBqXKmI/UiVzPi7VsV5XTf/YUYEQuIe5CHvielk/
+	uwt3gI62oQVdCOPNZcYVRlNT7hADyvFgRAUXGhjyh+FziKokFjnPCuZLCM/8kTcFbLWr6CX/V24
+	IuJOqCuQjw7kiGo5rrBODh1qV3is8fbRlu2zt9/HvWjSWilK5uebppqxLyADc0YHlSkyKm1Tdlz
+	Lwdk1fRq76cz4IDptRM5BSVaMC1EUn53DKCunwL0pmkAoU5cPx5SJ2xm8B62+tdip8WY/reJbjO
+	mYYShIyNVSWW9WC3cksBA9A7wNq0J2h95njyHWa+74ykbB0QIF11ZE+PPKoh0RUIEI67w9c/1on
+	5lgvDfaba6pSXMtPJhTX10rNYsaL8uiKIqyQylCO6W9kbeLz1/XDZB3k1RoI8XQT+WLvYFg5mF8
+	afk9JNDMsibs+UCzkdZgPv/JQhzaoMKZCL+sHtZQ6ujqVpiuAx5Il7weySewJ+CUmAMsBQQPGrg
+	+KYLjs45OfyeNTo3UXH/bi48YmJARl4st8C9wS0QS87hihZ2Op8YIcfQfTCWcVc7MbUAYT82eYV
+	Xva3WzTWY6wH1F1wkisv/fMLNMnO2L5IXhNy/TX7o940aCqizEvdkFlDdnhxHKdqiJ4ld5Jn0M2
+	eGnX2ntkTWG2iPu0RM7jeweHvLSh9
+X-Received: by 2002:a05:600c:34cf:b0:4a7:c366:d791 with SMTP id 5b1f17b1804b1-4ac150b38ebmr89289585e9.1.1793405773075;
+        Fri, 30 Oct 2026 17:16:13 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.16.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.16.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:16:15 -0700 (PDT)
+        Fri, 30 Oct 2026 17:16:12 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 54/55] apr-util: Fix CVE-2026-34502
-Date: Sat, 31 Oct 2026 01:15:15 +0100
-Message-ID: <bea81d9b46442cb146b4aa0fecb3ab1ea3da289f.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 49/55] systemd: try AT_EMPTY_PATH for access_fd() first
+Date: Sat, 31 Oct 2026 01:15:10 +0100
+Message-ID: <2f8965687dd3eaf7ab53e1381b3221c16cd54370.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
@@ -64,194 +64,85 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249129
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249123
 Content-Type: text/plain; charset="utf-8"
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Suresh H A <Suresh.HA@bmwtechworks.in>
 
-Backport the upstream memcache validation fix [1] and its follow-up
-parsing correction [2] to address CVE-2026-34502 [3].
+Backport a fix to try AT_EMPTY_PATH which changes access_fd() to use
+faccessat(..., AT_EMPTY_PATH) instead of validating access through
+/proc/self/fd/<fd>.
 
-[1] https://github.com/apache/apr-util/commit/f1c98dd0847c43375daf3789c936685adbc6d872
-[2] https://github.com/apache/apr-util/commit/997c02ce5b9db44083c580e3e47095f5ac4524ae
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-34502
+This fixes a reproducible race during service startup. On
+Linux 6.6 / systemd 255 (Scarthgap) based platform, affected
+services may fail to start when systemd-remount-fs.service runs
+concurrently and remounts procfs. In this window, access_fd()
+can fail with -ESRCH while resolving /proc/self/fd/<fd>, causing
+systemd to report that the executable cannot be located.
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+The upstream implementation performs the access check directly on
+the file descriptor, avoiding dependence on procfs path resolution
+and eliminating the observed race.
+
+Signed-off-by: Suresh H A <Suresh.HA@bmwtechworks.in>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: More details available at:
+https://lore.kernel.org/all/MAXP287MB42404C1A7233A3D773FFA7DFEE802@MAXP287MB4240.INDP287.PROD.OUTLOOK.COM/ ]
 ---
- .../apr/apr-util/CVE-2026-34502_p1.patch      | 106 ++++++++++++++++++
- .../apr/apr-util/CVE-2026-34502_p2.patch      |  38 +++++++
- meta/recipes-support/apr/apr-util_1.6.3.bb    |   2 +
- 3 files changed, 146 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr-util/CVE-2026-34502_p1.patch
- create mode 100644 meta/recipes-support/apr/apr-util/CVE-2026-34502_p2.patch
+ ...ry-AT_EMPTY_PATH-for-access_fd-first.patch | 34 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_255.22.bb   |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0024-fs-util-try-AT_EMPTY_PATH-for-access_fd-first.patch
 
-diff --git a/meta/recipes-support/apr/apr-util/CVE-2026-34502_p1.patch b/meta/recipes-support/apr/apr-util/CVE-2026-34502_p1.patch
+diff --git a/meta/recipes-core/systemd/systemd/0024-fs-util-try-AT_EMPTY_PATH-for-access_fd-first.patch b/meta/recipes-core/systemd/systemd/0024-fs-util-try-AT_EMPTY_PATH-for-access_fd-first.patch
 new file mode 100644
-index 00000000000..d4c6cb39b40
+index 00000000000..268ace04c46
 --- /dev/null
-+++ b/meta/recipes-support/apr/apr-util/CVE-2026-34502_p1.patch
-@@ -0,0 +1,106 @@
-+From f1c98dd0847c43375daf3789c936685adbc6d872 Mon Sep 17 00:00:00 2001
-+From: Eric Covener <covener@apache.org>
-+Date: Mon, 3 Aug 2026 12:33:18 +0000
-+Subject: [PATCH] Merge r1936812 from aprutil 1.7.x:
++++ b/meta/recipes-core/systemd/systemd/0024-fs-util-try-AT_EMPTY_PATH-for-access_fd-first.patch
+@@ -0,0 +1,34 @@
++From 228d4c63102367a757ba4f31c49a148975607a72 Mon Sep 17 00:00:00 2001
++From: Mike Yuan <me@yhndnzj.com>
++Date: Mon, 20 May 2024 19:33:26 +0800
++Subject: [PATCH] fs-util: try AT_EMPTY_PATH for access_fd() first
 +
-+Merge r1936811 from apr trunk:
++Upstream-Status: Backport [https://github.com/systemd/systemd/pull/32933/commits/c675851d5fd503c1ae5d244f041d43ae9e3ab79b]
 +
-+apr_memcache: error checking
-+
-+Reviewed By: covener, jorton, jfclere
-+
-+
-+
-+
-+
-+git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1936813 13f79535-47bb-0310-9956-ffa450edef68
-+
-+CVE: CVE-2026-34502
-+Upstream-Status: Backport [https://github.com/apache/apr-util/commit/f1c98dd0847c43375daf3789c936685adbc6d872]
-+
-+(cherry picked from commit f1c98dd0847c43375daf3789c936685adbc6d872)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++Signed-off-by: Suresh H A <Suresh.HA@bmwtechworks.in>
 +---
-+ memcache/apr_memcache.c | 31 ++++++++++++++++++++++++++++---
-+ 1 file changed, 28 insertions(+), 3 deletions(-)
++ src/basic/fs-util.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+diff --git a/memcache/apr_memcache.c b/memcache/apr_memcache.c
-+index 2c7bd1de..137be778 100644
-+--- a/memcache/apr_memcache.c
-++++ b/memcache/apr_memcache.c
-+@@ -595,6 +595,11 @@ static apr_status_t get_server_line(apr_memcache_conn_t *conn)
-+     conn->blen = bsize;
-+     conn->buffer[bsize] = '\0';
++diff --git a/src/basic/fs-util.c b/src/basic/fs-util.c
++index 5bc7d2f..3a7ebd2 100644
++--- a/src/basic/fs-util.c
+++++ b/src/basic/fs-util.c
++@@ -668,6 +668,14 @@ int unlink_or_warn(const char *filename) {
++ int access_fd(int fd, int mode) {
++         /* Like access() but operates on an already open fd */
 + 
-++    /* Validate CRLF line termination to prevent integer underflow attacks */
-++    if (bsize < 2 || conn->buffer[bsize-2] != '\r' || conn->buffer[bsize-1] != '\n') {
-++        return APR_EGENERAL;
-++    }
+++        if (faccessat(fd, "", mode, AT_EMPTY_PATH) >= 0)
+++                return 0;
+++        if (errno != EINVAL)
+++                return -errno;
 ++
-+     return apr_brigade_cleanup(conn->tb);
-+ }
-+ 
-+@@ -1087,9 +1092,14 @@ apr_memcache_version(apr_memcache_server_t *ms,
-+     }
-+ 
-+     if (strncmp(MS_VERSION, conn->buffer, MS_VERSION_LEN) == 0) {
-+-        *baton = apr_pstrmemdup(p, conn->buffer+MS_VERSION_LEN+1, 
-+-                                conn->blen - MS_VERSION_LEN - 2);
-+-        rv = APR_SUCCESS;
-++        if (conn->blen < MS_VERSION_LEN + 2) {
-++            rv = APR_EGENERAL;
-++        }
-++        else {
-++            *baton = apr_pstrmemdup(p, conn->buffer+MS_VERSION_LEN+1, 
-++                                    conn->blen - MS_VERSION_LEN - 2);
-++            rv = APR_SUCCESS;
-++       } 
-+     }
-+     else {
-+         rv = APR_EGENERAL;
-+@@ -1555,23 +1565,35 @@ apr_memcache_multgetp(apr_memcache_t *mc,
-+ static const char *stat_read_string(apr_pool_t *p, char *buf, apr_size_t len)
-+ {
-+     /* remove trailing \r\n and null char */
-++    if (len < 2) {
-++        return apr_pstrdup(p, "");
-++    }
-+     return apr_pstrmemdup(p, buf, len-2);
-+ }
-+ 
-+ static apr_uint32_t stat_read_uint32(apr_pool_t *p, char *buf, apr_size_t  len)
-+ {
-++    if (len < 2) {
-++        return 0;
-++    }
-+     buf[len-2] = '\0';
-+     return atoi(buf);
-+ }
-+ 
-+ static apr_uint64_t stat_read_uint64(apr_pool_t *p, char *buf, apr_size_t  len)
-+ {
-++    if (len < 2) {
-++        return 0;
-++    }
-+     buf[len-2] = '\0';
-+     return apr_atoi64(buf);
-+ }
-+ 
-+ static apr_time_t stat_read_time(apr_pool_t *p, char *buf, apr_size_t  len)
-+ {
-++    if (len < 2) {
-++        return 0;
-++    }
-+     buf[len-2] = '\0';
-+     return apr_time_from_sec(atoi(buf));
-+ }
-+@@ -1583,6 +1605,9 @@ static apr_time_t stat_read_rtime(apr_pool_t *p, char *buf, apr_size_t  len)
-+     char *usecs;
-+     const char *sep = ":.";
-+ 
-++    if (len < 2) {
-++        return apr_time_make(0, 0);
-++    }
-+     buf[len-2] = '\0';
-+ 
-+     secs = apr_strtok(buf, sep, &tok);
-diff --git a/meta/recipes-support/apr/apr-util/CVE-2026-34502_p2.patch b/meta/recipes-support/apr/apr-util/CVE-2026-34502_p2.patch
-new file mode 100644
-index 00000000000..844ad8109d4
---- /dev/null
-+++ b/meta/recipes-support/apr/apr-util/CVE-2026-34502_p2.patch
-@@ -0,0 +1,38 @@
-+From 997c02ce5b9db44083c580e3e47095f5ac4524ae Mon Sep 17 00:00:00 2001
-+From: Eric Covener <covener@apache.org>
-+Date: Fri, 7 Aug 2026 14:23:29 +0000
-+Subject: [PATCH] fix memcache version parsing
+++        /* Support for AT_EMPTY_PATH is added rather late (kernel 5.8), so fall back to going through /proc/
+++         * if unavailable. */
+++
++         if (access(FORMAT_PROC_FD_PATH(fd), mode) < 0) {
++                 if (errno != ENOENT)
++                         return -errno;
++-- 
++2.43.0
 +
-+partial port of 1936966 from trunk
-+
-+
-+git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1936975 13f79535-47bb-0310-9956-ffa450edef68
-+
-+CVE: CVE-2026-34502
-+Upstream-Status: Backport [https://github.com/apache/apr-util/commit/997c02ce5b9db44083c580e3e47095f5ac4524ae]
-+
-+(cherry picked from commit 997c02ce5b9db44083c580e3e47095f5ac4524ae)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ memcache/apr_memcache.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/memcache/apr_memcache.c b/memcache/apr_memcache.c
-+index 137be778..74146712 100644
-+--- a/memcache/apr_memcache.c
-++++ b/memcache/apr_memcache.c
-+@@ -1092,12 +1092,12 @@ apr_memcache_version(apr_memcache_server_t *ms,
-+     }
-+ 
-+     if (strncmp(MS_VERSION, conn->buffer, MS_VERSION_LEN) == 0) {
-+-        if (conn->blen < MS_VERSION_LEN + 2) {
-++        if (conn->blen < MS_VERSION_LEN + 4) {
-+             rv = APR_EGENERAL;
-+         }
-+         else {
-+             *baton = apr_pstrmemdup(p, conn->buffer+MS_VERSION_LEN+1, 
-+-                                    conn->blen - MS_VERSION_LEN - 2);
-++                                    conn->blen - MS_VERSION_LEN - 3);
-+             rv = APR_SUCCESS;
-+        } 
-+     }
-diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
-index 8d751e7b7a1..f694ae01eb9 100644
---- a/meta/recipes-support/apr/apr-util_1.6.3.bb
-+++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
-@@ -17,6 +17,8 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
-            file://CVE-2026-32327-dependent.patch \
-            file://CVE-2026-32327.patch \
- 		   file://CVE-2026-34501.patch \
-+		   file://CVE-2026-34502_p1.patch \
-+		   file://CVE-2026-34502_p2.patch \
-            file://run-ptest \
+diff --git a/meta/recipes-core/systemd/systemd_255.22.bb b/meta/recipes-core/systemd/systemd_255.22.bb
+index 84d41a86c9b..1bdeb551fd8 100644
+--- a/meta/recipes-core/systemd/systemd_255.22.bb
++++ b/meta/recipes-core/systemd/systemd_255.22.bb
+@@ -39,6 +39,7 @@ SRC_URI += " \
+            file://CVE-2026-29111-04.patch \
+            file://CVE-2026-4105.patch \
+            file://0023-journal-replace-a-bunch-of-assert-with-friendlier-ch.patch \
++           file://0024-fs-util-try-AT_EMPTY_PATH-for-access_fd-first.patch \
             "
  
+ # patches needed by musl
