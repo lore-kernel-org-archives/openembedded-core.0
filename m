@@ -1,426 +1,106 @@
-Received: from outbound8.mail.transip.nl (outbound8.mail.transip.nl [136.144.136.8])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6122.1793453074213367457
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4410.1793479867357576113
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Oct 2026 06:24:36 -0700
+ Sat, 31 Oct 2026 13:51:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@myspectrum.nl header.s=transip-a header.b=Dr3FvigE;
- spf=pass (domain: myspectrum.nl, ip: 136.144.136.8, mailfrom: oe@myspectrum.nl)
-Received: from submission11.mail.transip.nl (unknown [10.103.8.162])
-	by outbound8.mail.transip.nl (Postfix) with ESMTP id 4jGzG736zJzY75Yq
-	for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 14:24:31 +0100 (CET)
-Received: from yellow.myspectrum.nl (unknown [IPv6:2a01:7c8:bb0c:45:5054:ff:fe01:854])
-	by submission11.mail.transip.nl (Postfix) with ESMTPSA id 4jGzG64cP9z3R3nyw;
-	Sat, 31 Oct 2026 14:24:30 +0100 (CET)
-Received: from [192.168.178.17] (212-204-162-136.cable.dynamic.v4.ziggo.nl [212.204.162.136])
-	(Authenticated sender: oe@myspectrum.nl)
-	by yellow.myspectrum.nl (Postfix) with ESMTPSA id B8B7220141;
-	Sat, 31 Oct 2026 13:24:28 +0000 (UTC)
-Authentication-Results: yellow.myspectrum.nl;
-	auth=pass smtp.auth=oe@myspectrum.nl smtp.mailfrom=oe@myspectrum.nl
-Content-Type: multipart/alternative;
- boundary="------------QfQKYmTiLepxcbd8aagNnqDx"
-Message-ID: <29941044-0317-4fa9-9b36-e891ab5b1d83@myspectrum.nl>
-Date: Sat, 31 Oct 2026 14:24:27 +0100
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=F3i50BK2;
+ spf=pass (domain: gmail.com, ip: 74.125.82.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-353804b591eso2999480eec.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 13:51:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793479867; x=1794084667; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=k0+tq+iQLQj6mfZ680mAmHvzMstnHHsiXE+KQnDxeE0=;
+        b=F3i50BK2dGqz2tVXC81DwlQr7WD06XtPc+Ni32g1ixPwFGvsasayeGM4k3X9m2gwVA
+         c1lASgha4nnvwLfYStcYVmzHPu+71w2cesvrogqUDpTxOSRs75nineRD4qdxGhXTjT3P
+         BcbnZLGxyAHvbXmjo/z5acRlUmpEPmgHzVBZHyKCXy4H6bp80gSIh+m8DtMP8xc1+6hs
+         BAj7JEPGv96ub/JMmZbWyA6uI/Qgk4ko6ZWee9g2oo9eRdQ+ZMxELzEodZ9TLJuenhh3
+         UMyx2Wd6zy1vmK8R9kos1/955O1gfpuvlYz653CHmOoX0D2V1n/1rsewxUPMeDrGMbfL
+         YN+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793479867; x=1794084667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=k0+tq+iQLQj6mfZ680mAmHvzMstnHHsiXE+KQnDxeE0=;
+        b=TtvF0atp3WITxrQ+sp84MyckHNno/FrkXIradADJ9/SEh/tkBb6A9aPY30hIjN/SvI
+         WkONLSnA/N4g+1ASKKZySQB9Wcqn6CtqsMPIydFnLEq9zUjTZMqDHlkaLGcbantvsSP5
+         uBAetDjklnyfUl8poriy/9FmZ8MhpP2Yn6aV9w9DjSFD2uxek7MQU/loEgysj2tRWR38
+         fZOCckzsT7ipoVoP7W27yBA5D3fGtOb3Ui6Yclp+aD9L7u4UOndeXoXNVzgLKInoQzFQ
+         ZEYWEttxLXHxhKRNZj+BFGUh8VFn+Ha7wwctx77PjVNJE6RvEac0C8VxkzTeEnr9eCso
+         a3eA==
+X-Gm-Message-State: AFq9FYLG7u4fMHod+FRLxkGricIo30MXRWsOB75vsJsK3bEfdLatx8Wj
+	tdvKP8CYu8WTwDob40tuKBCJX3d/Tl0zbViP5wqKb4GNg/dfIxCacpzYywpKg4+BMVQ=
+X-Gm-Gg: AYBFou2mTmN8SjEDhHuzxZYZpj7ERCoAam7tYnn7d58q0v7x0zLMClD9fBpF7zftzQg
+	uuooVMk9t6QvhiIM0sd25MSBli3lI86Ipe3YVs16veUBUQgROemqfk7gq2P8RZE5irDiWAO2LUQ
+	H010r8K8dEWFJuepIRQzJ42C+s24yiiz1zWTXU1WrCCfKQL3zqnW5u14HlY72YcbQ72lSx9yQgS
+	VXPlVu9i3jkjW6izm7K5AR3GbUY/0MJJsU5NMg6CgoEIRFDb4GKy3V0ybvdLpL0BlvGkQ+/Nwkg
+	ws4RySAoZEdyQlW5EOPx1sMj1ISWOMCTxkcz3e3K0NJeqWnlZ86Ynod314da+5v0rKqj6okhFXW
+	blF4fsIpVjp3AEuF4MqFBqi2ZrTvTJPCspi4/fRz1g4MDdZkDg4V9CtvHKJRJ1FmClk3uvkEtye
+	FTypIyn8JZ2MA+MikXObs6C5HRdVzOArha2/fkrjP6i1fHsSmhtgmXgEOZKbVNmh1AsnKQPePpY
+	A+b7uqLAjKDc9aGPPkRQV9nXAIe6kzvh6XgxgsfQqktRTWczTvlfiPi/cFVYZVNS3S4GNBLAXXs
+	mvs2UQCTKVTOlu5NBxef4meUGdAOW1QEQx+G07ED92ztsxjX8p04fFjG0PRLMd5+RoCDPaMn+Zh
+	GxxBoCMJT1oRoiVSmv3sYgci6luBOCAMfr2h0OL3E5lS2+NDz+ApZJnz4wjoZyuwPTywf3wo0is
+	5d4cZhmCR2LQqD4/01BzCmJHTUgRc2MN9/HGxjmYijr5rXEsftjZ9jVAik4I6BTy3mDAie9MJbd
+	M7PCRo7sA8qVHVpGih4tgugNthW7Fn6HR4PLDYt2gPhEoec4GV0xfQo+pEni+J0LSKYRwkm8kHo
+	PBg7
+X-Received: by 2002:a05:701b:4283:10b0:191:a5b2:ef4a with SMTP id a92af1059eb24-1ac5cb186d7mr8579341c88.28.1793479866380;
+        Sat, 31 Oct 2026 13:51:06 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac19f4b08bsm21018489c88.16.2026.10.31.13.51.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Oct 2026 13:51:05 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] dbus: Let the ptest package install alongside dbus-broker
+Date: Sat, 31 Oct 2026 13:51:03 -0700
+Message-ID: <20261031205103.458712-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][scarthgap 13/55] popt: patch CVE-2026-18739
-To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
-References: <cover.1793405493.git.yoann.congal@smile.fr>
- <c048b4a6a3c798afa662049c2a31db077e0a4444.1793405493.git.yoann.congal@smile.fr>
-Content-Language: en-US
-Cc: peter.marko@siemens.com
-From: Jeroen Hofstee <oe@myspectrum.nl>
-In-Reply-To: <c048b4a6a3c798afa662049c2a31db077e0a4444.1793405493.git.yoann.congal@smile.fr>
-X-Scanned-By: ClueGetter at submission11.mail.transip.nl
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=transip-a; d=myspectrum.nl; t=1793453070; h=from:subject:to:cc:
- references:in-reply-to:date:mime-version:content-type;
- bh=nMEG3/TleqLSwg1uaZO6Al83KfrocIA/pqSkLj2+dss=;
- b=Dr3FvigEv1R25RiM1HDtLcwXmLGIo1DsCy2goMLGUktcUnRkxwJtUu3ScqQSOUmf69hv9/
- 0RW8BJVWesD/8jFCrHeisr7te1OvEON73AwcB7AttJrzhC+wi9+NhFFjFGGR6WOtbe0n1q
- gmZW3RwPg4NNyBZvbqwpHcJKz3zloYOQytsPdaJKSz49NEEWNhAWEIZYCAZ7LdHzTxNeQI
- ZFGuhm0jd0pCck5Wd4qVAds6ah68gKnLhmbKYVN9kxj+BRh10O+0/quqMEnj1vVx5nqfmw
- m4U0BgmBi7f6gE3IGqTqHHSeR1zN+GRE+qtBJ19kyvuO5Y08r3Ie1XrH7LVkdg==
-X-Report-Abuse-To: abuse@transip.nl
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 13:24:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249146
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 20:51:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249147
+Content-Type: text/plain; charset="utf-8"
 
-This is a multi-part message in MIME format.
---------------QfQKYmTiLepxcbd8aagNnqDx
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+dbus-ptest RDEPENDS on dbus, both explicitly and through ptest.bbclass,
+and dbus-broker RCONFLICTS dbus. With VIRTUAL-RUNTIME_dbus = "dbus-broker"
+(systemd pulls it in) core-image-ptest-dbus fails in do_rootfs:
 
-Hi Yoann,
+  package dbus-broker-37-r0.6.cortexa57 conflicts with dbus provided by dbus-1-1.16.2-r0.45.cortexa57
+  package dbus-ptest-1.16.2-r0.45.cortexa57 requires dbus, but none of the providers can be installed
 
-This is a low prio CVE, but that CVE: CVE-2026-18743 is incorrect in Fix 
-CVE-2026-18739 and the fix is incomplete.
+The installed tests don't use the system bus. They start private buses
+with dbus-daemon (DBUS_TEST_DAEMON) and use dbus-send, so depend on the
+dbus-daemon and dbus-tools packages instead and drop the dbus dependency,
+like avahi does.
 
-But that is already the case in master. I will send a patch for it as soon
-as things finish building here. It can't hurt if you include it anyway.
+With this the images using dbus-broker as the system bus also pass all 60 dbus
+ptests.
 
-With kind regards,
-
-Jeroen
-
-On 10/31/26 01:14, Yoann Congal via openembedded-core wrote:
-> From: Peter Marko<peter.marko@siemens.com>
->
-> Pick patch referencing this CVE.
-> Convert change in cmake file to autotools/makefile.
-> Install the new test in recipe.
->
-> Signed-off-by: Peter Marko<peter.marko@siemens.com>
-> Signed-off-by: Mathieu Dubois-Briand<mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
-> (cherry picked from commit c211972ad21e1801abc7dd15951093316c5528f4)
-> Signed-off-by: Yoann Congal<yoann.congal@smile.fr>
-> [YC: backport translated cmake to automake
->       (the project migrated in between) ]
-> ---
->   .../popt/popt/CVE-2026-18739.patch            | 92 +++++++++++++++++++
->   meta/recipes-support/popt/popt_1.19.bb        |  2 +
->   2 files changed, 94 insertions(+)
->   create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18739.patch
->
-> diff --git a/meta/recipes-support/popt/popt/CVE-2026-18739.patch b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
-> new file mode 100644
-> index 00000000000..0a1e8f35907
-> --- /dev/null
-> +++ b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
-> @@ -0,0 +1,92 @@
-> +From 14c42b415ba0c11640f7d4ee80920452d0287058 Mon Sep 17 00:00:00 2001
-> +From: Yao Zhang<294772273@qq.com>
-> +Date: Wed, 5 Aug 2026 14:52:10 +0800
-> +Subject: [PATCH] Fix CVE-2026-18739: off-by-one error in poptStuffArgs()
-> +
-> +The poptStuffArgs function only checks whether (con->os - con->optionStack)
-> +is equal to POPT_OPTION_DEPTH (10) before incrementing con->os, and does
-> +not increment the value by 1 to perform boundary pre-checking, as
-> +handleAlias does.
-> +
-> +Add a new test program as a reproducer for this case.
-> +
-> +Co-authored-by: Panu Matilainen<pmatilai@redhat.com>
-> +
-> +Fixes: CVE-2026-18739
-> +
-> +CVE: CVE-2026-18743
-> +Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/14c42b415ba0c11640f7d4ee80920452d0287058]
-> +Signed-off-by: Peter Marko<peter.marko@siemens.com>
-> +---
-> + src/popt.c        |  2 +-
-> + tests/Makefile.am |  5 ++++-
-> + tests/testit.sh   |  2 ++
-> + tests/tstuff.c    | 17 +++++++++++++++++
-> + 4 files changed, 24 insertions(+), 2 deletions(-)
-> + create mode 100644 tests/tstuff.c
-> +
-> +diff --git a/src/popt.c b/src/popt.c
-> +index 9ea3dfe..458aadc 100644
-> +--- a/src/popt.c
-> ++++ b/src/popt.c
-> +@@ -1668,7 +1668,7 @@ int poptStuffArgs(poptContext con, const char ** argv)
-> +     int argc;
-> +     int rc;
-> +
-> +-    if ((con->os - con->optionStack) == POPT_OPTION_DEPTH)
-> ++    if ((con->os - con->optionStack + 1) == POPT_OPTION_DEPTH)
-> + 	return POPT_ERROR_OPTSTOODEEP;
-> +
-> +     for (argc = 0; argv[argc]; argc++)
-> +diff --git a/tests/Makefile.am b/tests/Makefile.am
-> +index c410389..99fbf64 100644
-> +--- a/tests/Makefile.am
-> ++++ b/tests/Makefile.am
-> +@@ -11,7 +11,10 @@ EXTRA_DIST = testit.sh \
-> +
-> + AM_CPPFLAGS = -I. -I$(top_srcdir)/src
-> +
-> +-noinst_PROGRAMS = test1 test2 tdict test3
-> ++noinst_PROGRAMS = test1 test2 tdict test3 tstuff
-> ++tstuff_SOURCES = tstuff.c
-> ++tstuff_LDFLAGS =
-> ++tstuff_LDADD = $(top_builddir)/src/libpopt.la
-> + test1_SOURCES = test1.c
-> + test1_LDFLAGS =
-> + test1_LDADD = $(top_builddir)/src/libpopt.la
-> +diff --git a/tests/testit.sh b/tests/testit.sh
-> +index 4078f51..d26be3a 100755
-> +--- a/tests/testit.sh
-> ++++ b/tests/testit.sh
-> +@@ -172,6 +172,8 @@ run test1 "test1 - 61" "" -x=f1
-> +
-> + run test1 "test1 - 62" "arg1: 0 arg2: (none) aInt: 1" --randint=-1
-> +
-> ++run tstuff "tstuff - 1" "-13"
-> ++
-> + if ! [ -e test3-data ]; then
-> +   # create symlink for running during 'make distcheck'
-> +   ln -s "${srcdir}/test3-data" test3-data
-> +diff --git a/tests/tstuff.c b/tests/tstuff.c
-> +new file mode 100644
-> +index 0000000..b820c7b
-> +--- /dev/null
-> ++++ b/tests/tstuff.c
-> +@@ -0,0 +1,17 @@
-> ++#include <stdio.h>
-> ++#include <popt.h>
-> ++
-> ++int main(int argc, char *argv[])
-> ++{
-> ++    poptContext ctx = poptGetContext(argv[0], argc, (const char **)argv, NULL, 0);
-> ++    int rc = 0;
-> ++    for (int i = 0; i < 100; ++i) {
-> ++	const char *ea[] = { "a", NULL };
-> ++	if ((rc = poptStuffArgs(ctx, ea)))
-> ++	    break;
-> ++    }
-> ++    printf("%d\n", rc);
-> ++
-> ++    poptFreeContext(ctx);
-> ++    return rc;
-> ++}
-> diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
-> index c8b4875c1b7..18cc4f2867d 100644
-> --- a/meta/recipes-support/popt/popt_1.19.bb
-> +++ b/meta/recipes-support/popt/popt_1.19.bb
-> @@ -11,6 +11,7 @@ DEPENDS = "virtual/libiconv"
->   SRC_URI ="http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \ 
-> file://run-ptest \ file://CVE-2026-18743.patch \ + 
-> file://CVE-2026-18739.patch \ "
->   SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
->   
-> @@ -25,6 +26,7 @@ do_compile_ptest() {
->   do_install_ptest() {
->       install ${B}/tests/.libs/test* ${D}/${PTEST_PATH}
->       install ${B}/tests/.libs/tdict ${D}/${PTEST_PATH}
-> +    install ${B}/tests/.libs/tstuff ${D}/${PTEST_PATH}
->       install ${B}/tests/testit.sh ${D}/${PTEST_PATH}
->       install ${B}/tests/test-poptrc ${D}/${PTEST_PATH}
->   }
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#249088):https://lists.openembedded.org/g/openembedded-core/message/249088
-> Mute This Topic:https://lists.openembedded.org/mt/122021640/9720520
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [oe@myspectrum.nl]
-> -=-=-=-=-=-=-=-=-=-=-=-
---------------QfQKYmTiLepxcbd8aagNnqDx
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p>Hi Yoann,</p>
-    <div class=3D"moz-cite-prefix">This is a low prio CVE, but that=C2=A0=
-<span
-      style=3D"white-space: pre-wrap">CVE: CVE-2026-18743 is incorrect in
-</span><span style=3D"white-space: pre-wrap">Fix CVE-2026-18739 and the f=
-ix is incomplete. </span>
-      <pre wrap=3D"" class=3D"moz-quote-pre">But that is already the case=
- in master. I will send a patch for it as soon
-as things finish building here. It can't hurt if you include it anyway.
-
-With kind regards,
-
-Jeroen</pre>
-      On 10/31/26 01:14, Yoann Congal via openembedded-core wrote:<br>
-    </div>
-    <blockquote type=3D"cite"
-cite=3D"mid:c048b4a6a3c798afa662049c2a31db077e0a4444.1793405493.git.yoann=
-.congal@smile.fr">
-      <pre wrap=3D"" class=3D"moz-quote-pre">From: Peter Marko <a class=3D=
-"moz-txt-link-rfc2396E" href=3D"mailto:peter.marko@siemens.com">&lt;peter=
-.marko@siemens.com&gt;</a>
-
-Pick patch referencing this CVE.
-Convert change in cmake file to autotools/makefile.
-Install the new test in recipe.
-
-Signed-off-by: Peter Marko <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
-lto:peter.marko@siemens.com">&lt;peter.marko@siemens.com&gt;</a>
-Signed-off-by: Mathieu Dubois-Briand <a class=3D"moz-txt-link-rfc2396E" h=
-ref=3D"mailto:mathieu.dubois-briand@bootlin.com">&lt;mathieu.dubois-brian=
-d@bootlin.com&gt;</a>
-Signed-off-by: Richard Purdie <a class=3D"moz-txt-link-rfc2396E" href=3D"=
-mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfounda=
-tion.org&gt;</a>
-(cherry picked from commit c211972ad21e1801abc7dd15951093316c5528f4)
-Signed-off-by: Yoann Congal <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:yoann.congal@smile.fr">&lt;yoann.congal@smile.fr&gt;</a>
-[YC: backport translated cmake to automake
-     (the project migrated in between) ]
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- .../popt/popt/CVE-2026-18739.patch            | 92 +++++++++++++++++++
- meta/recipes-support/popt/popt_1.19.bb        |  2 +
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18739.patch
+ meta/recipes-core/dbus/dbus_1.16.2.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/popt/popt/CVE-2026-18739.patch b/meta/r=
-ecipes-support/popt/popt/CVE-2026-18739.patch
-new file mode 100644
-index 00000000000..0a1e8f35907
---- /dev/null
-+++ b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
-@@ -0,0 +1,92 @@
-+From 14c42b415ba0c11640f7d4ee80920452d0287058 Mon Sep 17 00:00:00 2001
-+From: Yao Zhang <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:294772=
-273@qq.com">&lt;294772273@qq.com&gt;</a>
-+Date: Wed, 5 Aug 2026 14:52:10 +0800
-+Subject: [PATCH] Fix CVE-2026-18739: off-by-one error in poptStuffArgs()
-+
-+The poptStuffArgs function only checks whether (con-&gt;os - con-&gt;opt=
-ionStack)
-+is equal to POPT_OPTION_DEPTH (10) before incrementing con-&gt;os, and d=
-oes
-+not increment the value by 1 to perform boundary pre-checking, as
-+handleAlias does.
-+
-+Add a new test program as a reproducer for this case.
-+
-+Co-authored-by: Panu Matilainen <a class=3D"moz-txt-link-rfc2396E" href=3D=
-"mailto:pmatilai@redhat.com">&lt;pmatilai@redhat.com&gt;</a>
-+
-+Fixes: CVE-2026-18739
-+
-+CVE: CVE-2026-18743
-+Upstream-Status: Backport [<a class=3D"moz-txt-link-freetext" href=3D"ht=
-tps://github.com/rpm-software-management/popt/commit/14c42b415ba0c11640f7=
-d4ee80920452d0287058">https://github.com/rpm-software-management/popt/com=
-mit/14c42b415ba0c11640f7d4ee80920452d0287058</a>]
-+Signed-off-by: Peter Marko <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:peter.marko@siemens.com">&lt;peter.marko@siemens.com&gt;</a>
-+---
-+ src/popt.c        |  2 +-
-+ tests/Makefile.am |  5 ++++-
-+ tests/testit.sh   |  2 ++
-+ tests/tstuff.c    | 17 +++++++++++++++++
-+ 4 files changed, 24 insertions(+), 2 deletions(-)
-+ create mode 100644 tests/tstuff.c
-+
-+diff --git a/src/popt.c b/src/popt.c
-+index 9ea3dfe..458aadc 100644
-+--- a/src/popt.c
-++++ b/src/popt.c
-+@@ -1668,7 +1668,7 @@ int poptStuffArgs(poptContext con, const char ** a=
-rgv)
-+     int argc;
-+     int rc;
-+=20
-+-    if ((con-&gt;os - con-&gt;optionStack) =3D=3D POPT_OPTION_DEPTH)
-++    if ((con-&gt;os - con-&gt;optionStack + 1) =3D=3D POPT_OPTION_DEPTH=
-)
-+ 	return POPT_ERROR_OPTSTOODEEP;
-+=20
-+     for (argc =3D 0; argv[argc]; argc++)
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index c410389..99fbf64 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -11,7 +11,10 @@ EXTRA_DIST =3D testit.sh \
-+=20
-+ AM_CPPFLAGS =3D -I. -I$(top_srcdir)/src
-+=20
-+-noinst_PROGRAMS =3D test1 test2 tdict test3
-++noinst_PROGRAMS =3D test1 test2 tdict test3 tstuff
-++tstuff_SOURCES =3D tstuff.c
-++tstuff_LDFLAGS =3D
-++tstuff_LDADD =3D $(top_builddir)/src/libpopt.la
-+ test1_SOURCES =3D test1.c
-+ test1_LDFLAGS =3D=20
-+ test1_LDADD =3D $(top_builddir)/src/libpopt.la
-+diff --git a/tests/testit.sh b/tests/testit.sh
-+index 4078f51..d26be3a 100755
-+--- a/tests/testit.sh
-++++ b/tests/testit.sh
-+@@ -172,6 +172,8 @@ run test1 "test1 - 61" "" -x=3Df1
-+=20
-+ run test1 "test1 - 62" "arg1: 0 arg2: (none) aInt: 1" --randint=3D-1
-+=20
-++run tstuff "tstuff - 1" "-13"
-++
-+ if ! [ -e test3-data ]; then
-+   # create symlink for running during 'make distcheck'
-+   ln -s "${srcdir}/test3-data" test3-data
-+diff --git a/tests/tstuff.c b/tests/tstuff.c
-+new file mode 100644
-+index 0000000..b820c7b
-+--- /dev/null
-++++ b/tests/tstuff.c
-+@@ -0,0 +1,17 @@
-++#include &lt;stdio.h&gt;
-++#include &lt;popt.h&gt;
-++
-++int main(int argc, char *argv[])
-++{
-++    poptContext ctx =3D poptGetContext(argv[0], argc, (const char **)ar=
-gv, NULL, 0);
-++    int rc =3D 0;
-++    for (int i =3D 0; i &lt; 100; ++i) {
-++	const char *ea[] =3D { "a", NULL };
-++	if ((rc =3D poptStuffArgs(ctx, ea)))
-++	    break;
-++    }
-++    printf("%d\n", rc);
-++
-++    poptFreeContext(ctx);
-++    return rc;
-++}
-diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-suppor=
-t/popt/popt_1.19.bb
-index c8b4875c1b7..18cc4f2867d 100644
---- a/meta/recipes-support/popt/popt_1.19.bb
-+++ b/meta/recipes-support/popt/popt_1.19.bb
-@@ -11,6 +11,7 @@ DEPENDS =3D "virtual/libiconv"
- SRC_URI =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"http://ftp.rpm.or=
-g/popt/releases/popt-1.x/${BP}.tar.gz\file://run-ptest\file://CVE-2026-18=
-743.patch\+file://CVE-2026-18739.patch\">"http://ftp.rpm.org/popt/release=
-s/popt-1.x/${BP}.tar.gz \
-            file://run-ptest \
-            file://CVE-2026-18743.patch \
-+           file://CVE-2026-18739.patch \
-            "</a>
- SRC_URI[sha256sum] =3D "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fda=
-d3ca2758c63240f9"
-=20
-@@ -25,6 +26,7 @@ do_compile_ptest() {
- do_install_ptest() {
-     install ${B}/tests/.libs/test* ${D}/${PTEST_PATH}
-     install ${B}/tests/.libs/tdict ${D}/${PTEST_PATH}
-+    install ${B}/tests/.libs/tstuff ${D}/${PTEST_PATH}
-     install ${B}/tests/testit.sh ${D}/${PTEST_PATH}
-     install ${B}/tests/test-poptrc ${D}/${PTEST_PATH}
- }
-</pre>
-      <br>
-      <fieldset class=3D"moz-mime-attachment-header"></fieldset>
-      <pre wrap=3D"" class=3D"moz-quote-pre">
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#249088): <a class=3D"moz-txt-link-freetext" href=3D"h=
-ttps://lists.openembedded.org/g/openembedded-core/message/249088">https:/=
-/lists.openembedded.org/g/openembedded-core/message/249088</a>
-Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
-.openembedded.org/mt/122021640/9720520">https://lists.openembedded.org/mt=
-/122021640/9720520</a>
-Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
-edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
-enembedded.org</a>
-Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
-nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
-/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
-"mailto:oe@myspectrum.nl">oe@myspectrum.nl</a>]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------QfQKYmTiLepxcbd8aagNnqDx--
+diff --git a/meta/recipes-core/dbus/dbus_1.16.2.bb b/meta/recipes-core/dbus/dbus_1.16.2.bb
+index e602c67727..3038d0c5f4 100644
+--- a/meta/recipes-core/dbus/dbus_1.16.2.bb
++++ b/meta/recipes-core/dbus/dbus_1.16.2.bb
+@@ -108,7 +108,11 @@ RRECOMMENDS:${PN}-lib = "${PN}"
+ RRECOMMENDS:${PN}-lib:class-target = "${VIRTUAL-RUNTIME_dbus}"
+ FILES:${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-test-tool ${datadir}/xml/dbus-1"
+ 
+-RDEPENDS:${PN}-ptest += "bash make dbus"
++# The tests start their own buses with dbus-daemon and talk to them with
++# dbus-send; they don't need the system bus (dbus), which would conflict with
++# other system bus implementations such as dbus-broker.
++RDEPENDS:${PN}-ptest += "bash make ${PN}-daemon ${PN}-tools"
++RDEPENDS:${PN}-ptest:remove = "${PN}"
+ 
+ pkg_postinst:${PN}() {
+ 	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
