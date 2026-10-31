@@ -1,62 +1,62 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3736.1793405754865440322
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3738.1793405760299894895
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:15:55 -0700
+ Fri, 30 Oct 2026 17:16:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=n/zo1fj9;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a208d93758so13416685e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:15:54 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=eHAO1G/+;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so12081125e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405753; x=1794010553; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405758; x=1794010558; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=mhLxndRUcANw2n2B/eOX54RVFhFonUtg2tKtZhpVoMs=;
-        b=n/zo1fj9GKQA9sse43SJTlsM+yyarG7ha4r6nBMMsQPkWCflQnlvCSS32CnZ/TkY43
-         iXLFgiriw44XlaKEXADgqb4sbdhbVQ3Y+rqFI0nc25tAhLgwze1RySfNLwTB2FbYitd2
-         UVTzEWkLIfjyh++4j++AXsSBjh6XD6zC6rqi6tGD4XPFdFC18uFkMdOhpOn6MEiSZWO3
-         bqENWK3+Lx9JLaPGODBaiAziM8nB+tAGGwdMCf3bizgFWYYNRK6d1+Bq6OYrdqXA0hZw
-         ZCZUQvIsgPThNq85dHve+1vN8mpghr8y0HUdp5fqrGqH2eFkB00tXm7lKdr3DbwuPfyp
-         4ZcQ==
+        bh=acZltvv8U/hK3FqPP8SNuYpjpClnMu1iR1fpZYYRUH8=;
+        b=eHAO1G/+bbtiy9y/QMzZQjcYYHQhz/6WZJfzPu2rfA1H575rw5+ELSBADPibJjF/dC
+         SlanxRY8t0aCfzObruBU0+tdfbQQxeTgoglsK5CDO3LX2pwW7gLuysyBe0zU6N172aCj
+         F+alAWW7eh1C/0oQvPbSYCbivFXynEgEe/K9abEI8bNO7Hk0/5UtrmKattep71GtGCRT
+         tDTH3lwFUhRkrRq+WALCbobKAkYkPjtLfdWXNaimHNHKYYupW8BJ322LUjPPTm9oB0ZH
+         Dmg9aqjA6TYSJv/Vc3IaXj4FH48s/lFE00Sq3hny8RKAvW6ZbvqvFv136/vHUzqay7y8
+         l/sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405753; x=1794010553;
+        d=1e100.net; s=20260707; t=1793405758; x=1794010558;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=mhLxndRUcANw2n2B/eOX54RVFhFonUtg2tKtZhpVoMs=;
-        b=ztpQ/GiBYjXPmWtjzr5V3uRcHekQo5BAD9o55AP39SgGgSZLMAd7rzUz9SQtRbO+Kx
-         TIsB3XOLexIIWwvxCdxZ6H/KYXpblNZDVmt0uXvHL1NAs+G0pOP5SHNWdIHkJ3xy+/EH
-         hSc5idEjJ756Fk30WCNjpACz+4jMJ8t+SkQPJxYzxrmg4rnAAun4P4zmCs+eLtdc3Pvv
-         FB0RKLBQ2bJvisgM2QAEwSsXbj6O/t/mEz9zWmM5RDxb+AQrpJlQqw9iXnQSHLkhW34J
-         ASkxrv+Rcp89JrYCGq6ZHIGc2sAx4vbjJst8/mqdlnjuNJ982AP/1FnwUSxessX/T82b
-         7Q4w==
-X-Gm-Message-State: AFq9FYJWI+zyV9Q0wgcI1Yz78BK+YCM8PDNZG9lLUpbIZtNGEqtb+oup
-	G9f2vJ2o468PMeMMnikw9uF7OmZrNyMy2LZ7+89eTTTwrjc567prfD7HGzr9XqiD73WLEr3W3Vb
-	lDqtsqqE=
-X-Gm-Gg: AYBFou2v6ryBGyofBUfMASPF6k8Ox53xJb4ymF6HSOgoZpQcv01WkBurSKaI//tCedO
-	NIq7xoSNXQzIPhpq8CtmMLGyLCPVF4D3nuZGAsPSBe0/xl0A9jHVQP89snW+bXiLfqyBCn/xpLt
-	QV28V28mtJNDqPGQzcAabdtJjCknTizuBmxA26m3pB44nYzXCKRTAIPEEPOfZ6nDq8L7SyyHDfn
-	p95vOX0eMokKPfupNUJCVf4Gzn8jZN0R7O3PTrfiYhmwAmrKQvFozqcUkZybDAZIWeMqHlkwwJ+
-	+CYW5dv/HTR0J2palT0Ud7+DsMo09U/XS5tYcc6FcwGljJODYSC9bkVbT+5cDv2W9jaC/PHNTnB
-	yOZXpczDdt8dSvIsFcOrXfOSujq8qTVnaW1qkRoavwgm+biBsgkraw/g+R8qA62qHuBuDBeWLCT
-	TjuavOpkyHNuPnyIthuRbbIruMhAPehmjlSCY3rb2+H52W+pr+OFoSHtGutO5XMK+w5j5fjsRsG
-	FFvWOrQmRJ8Vceo3VYfzSlTH/EJ8O7eOZqDTIeVQ9Pj7xJGHXmvaTS56chPUBMh4hW9c40eB7f2
-	uiisqFUw3D1kJOgJk41WWV/gcwzbKJ0MybfvLfeBD82UOJvrdVMfUAmIsCzTXPA44XBZx4/Xr3J
-	YmW+Mx+YWsal0iJAKewRJpvdiPNr4zJqhEPflK9CRxd8evgiuHQ==
-X-Received: by 2002:a05:600c:a41:b0:4a1:ac66:6ac6 with SMTP id 5b1f17b1804b1-4ac18c73d85mr81512945e9.26.1793405753054;
-        Fri, 30 Oct 2026 17:15:53 -0700 (PDT)
+        bh=acZltvv8U/hK3FqPP8SNuYpjpClnMu1iR1fpZYYRUH8=;
+        b=sQl6Ybe4BN1Z2x70FD9CW6bpKrNSATqTMQvXjv3wquclbzq1gLjiyJvAXaUOwSZIXC
+         28UodDXrmGdGw1UnRLFkGT/TOEZyhSw9zPQ2vqQPdDrFwpwNN9dn4/oRJdY40/uDOrwO
+         5GQUoDlWlL62ZdDIqh9XvweOBqsRMbL7D8Vh/h7Z1DTmCws9UnRXp+LSdFp5f292ACV3
+         lYclXa5pNb7Ik3Tsj019NIkgAcSR9geS2IQ2pLfU+yzsWlYExWj7wfTDlQh/AUy6VAZ+
+         4y5OJvlkt8/mNCqZa2l1IZnqybWMIm1n4oHMB25NqALW9ssFHOU7O+FviRf1JZDiEfU0
+         Hj7w==
+X-Gm-Message-State: AFq9FYJUsL7pnadFUYo4l9vO/xqV7lRzI2zIvdXVzeptlgl51o5lHw1H
+	yE67evnRMV876GT/oTQxotsG4QnmuAwni72PLfIDz5fO1T7dMagdFXKpPbnoDfZOH6/e+CCE4xI
+	ZMSnO1mk=
+X-Gm-Gg: AYBFou2/p4CvYFoA79uPWYrJL/HbEGQSnGOGgyjUcTY+BnpyLYb6YhYgHgxbHIj4HMD
+	7pap6xYCavBhkyxLC31s/DWThORHAfoAkW/K3DRbyB5w/1ZJ7X/8LtCVo7Jbd37lEag4PPK/pkp
+	nXVuLvDcNM5kXF+7GnwAOwbyZqoyCbkDp1zAQDMDkQwyu4/7qRWDZBrKaXlV5YUa0ikCEVK0ji/
+	ucLZ7zSxGCmN5csNxhOCVjuUo+DTDRMC2HRWjhtX74pezFGUgFASq7tGoVIznn3a4io9G80Bsql
+	LHOczjfNxjakOxMg+BiOkDyKGqUZPelM9pf06UwPR59tqtqf5sq062yamDeZQF5NLk0PkJZge40
+	gm3fnFm/gyt415lkgI70Be3JxphI4MlqIDXiUPV4vN1G1G6leNTD8tmyzxTh5pOdIkhu37d8naC
+	rjAyBcllzbmlP3n6BsZEaSnYrLiw+Qznx8BDrke0qSfaHKLY8CYJjS/k5P36xSEodKyGDGKrj5I
+	4pJEWAdPh1DumN93hURrl83IcWOj+8enhR7xjJ+DkItnw62RDG8bz2H1q0HEAO2+zTMDE2OTXhK
+	Ta1+9GIScT8B6yhoNxY80CtntkuCJAySgaoFvLxZMjHfit/2cSpRjPiqzlknBzBff/ZgTxmU71i
+	isyvsGf9gDQb7FtFuMLgnFmDQEm60
+X-Received: by 2002:a05:600c:4f8b:b0:4a3:5a98:c279 with SMTP id 5b1f17b1804b1-4ac17ffb07cmr85525665e9.8.1793405758463;
+        Fri, 30 Oct 2026 17:15:58 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:15:52 -0700 (PDT)
+        Fri, 30 Oct 2026 17:15:57 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 17/55] go: fix CVE-2026-56862
-Date: Sat, 31 Oct 2026 01:14:38 +0100
-Message-ID: <55017ae457253c6f8ef3a1ae4e74be3c63c420e3.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 26/55] glibc: patch CVE-2026-19499
+Date: Sat, 31 Oct 2026 01:14:47 +0100
+Message-ID: <d3c11728cebabc0fc8131e0b3275f49263be21d4.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
@@ -64,143 +64,138 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249092
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249101
 Content-Type: text/plain; charset="utf-8"
 
-From: Benhur Tessele <benhur.tessele@est.tech>
+From: Peter Marko <peter.marko@siemens.com>
 
-A malicious TLS 1.3 peer could keep sending KeyUpdate messages after
-the handshake completed, forcing the other side to perform key
-derivation indefinitely, because handshake records were always treated
-as state-advancing.
+Pick patch referencing this CVE from 2.41 branch (oldest release
+still receiving security updates).
 
-Backport the upstream fix [1]. The bogo_config.json hunk is dropped
-since the BoGo test harness does not exist in Go 1.22, and the new test
-is adapted to use testConfig.
-
-[1] https://github.com/golang/go/commit/27420571845abc6a97e19e21542a3213a74f67f4
-
-Signed-off-by: Benhur Tessele <benhur.tessele@est.tech>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: fixed a 3.41 -> 2.41 typo in branch name]
 ---
- meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
- .../go/go/CVE-2026-56862.patch                | 98 +++++++++++++++++++
- 2 files changed, 99 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-56862.patch
+ .../glibc/glibc/0036-CVE-2026-19499.patch     | 100 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
+ 2 files changed, 101 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index c8fb9ef450d..cec3bbbb4ee 100644
---- a/meta/recipes-devtools/go/go-1.22.12.inc
-+++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -63,6 +63,7 @@ SRC_URI += "\
-     file://CVE-2026-32288.patch \
-     file://CVE-2026-27145.patch \
-     file://CVE-2026-39823.patch \
-+    file://CVE-2026-56862.patch \
- "
- SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
- 
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-56862.patch b/meta/recipes-devtools/go/go/CVE-2026-56862.patch
+diff --git a/meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch b/meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch
 new file mode 100644
-index 00000000000..5fca5be4ce8
+index 00000000000..792c5276d0b
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-56862.patch
-@@ -0,0 +1,98 @@
-+From 616c582eae27699513109445d5c177b42c3bb9fc Mon Sep 17 00:00:00 2001
-+From: "Nicholas S. Husin" <nsh@golang.org>
-+Date: Wed, 22 Jul 2026 12:27:12 -0400
-+Subject: [PATCH] crypto/tls: do not count handshake messages as
-+ state-advancing post-handshake
++++ b/meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch
+@@ -0,0 +1,100 @@
++From 5256941bc811248670eda4636dccd0a390d34dec Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Thu, 27 Aug 2026 13:34:54 +0200
++Subject: [PATCH] stdlib: Fix right-justification in strfmon (bug 34510,
++ CVE-2026-19499)
 +
-+Previously, we always counted handshake messages, such as KeyUpdate, as
-+state-advancing, regardless of whether a handshake has been completed or
-+not. As a result, a malicious client can keep sending KeyUpdate messages
-+to force the server to keep performing key derivation operations
-+indefinitely.
++The memmove call did not take into account that __printf_buffer_pad
++updated the buffer pointers.
 +
-+Fix the issue by making it so that handshake messages are regarded
-+as state-advancing only prior to handshake completion.
++Fixes commit e88b9f0e5cc50cab57a299dc7efe1a4eb385161d
++("stdio-common: Convert vfprintf and related functions to buffers"),
++which went into glibc 2.37.
 +
-+Thank you to Qi Deng of Aurascape.ai for reporting this issue.
++Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
++(cherry picked from commit b090cf226ff65b913e41536f1f573f500855615c)
 +
-+Fixes #79866
-+Fixes #80528
-+Fixes CVE-2026-56862
-+
-+Change-Id: I37d27fd5f16227a9dde5f29bb5ae6c436a6a6964
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/804261
-+Reviewed-by: Roland Shoemaker <roland@golang.org>
-+Reviewed-by: Neal Patel <nealpatel@google.com>
-+LUCI-TryBot-Result: golang-scoped@luci-project-accounts.iam.gserviceaccount.com <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Reviewed-by: Neal Patel <neal@golang.org>
-+
-+CVE: CVE-2026-56862
-+Upstream-Status: Backport [https://github.com/golang/go/commit/27420571845abc6a97e19e21542a3213a74f67f4]
-+
-+Backport notes for go1.22.12:
-+- Dropped the src/crypto/tls/bogo_config.json hunk; the BoGo test
-+  harness and its config do not exist in Go 1.22.
-+- Test uses testConfig instead of testConfigClient/testConfigServer,
-+  which were introduced after Go 1.22.
-+
-+Signed-off-by: Benhur Tessele <benhur.tessele@est.tech>
++CVE: CVE-2026-19499
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5256941bc811248670eda4636dccd0a390d34dec]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/crypto/tls/conn.go      |  2 +-
-+ src/crypto/tls/conn_test.go | 34 ++++++++++++++++++++++++++++++++++
-+ 2 files changed, 35 insertions(+), 1 deletion(-)
++ stdlib/Makefile               |  1 +
++ stdlib/strfmon_l.c            |  5 +++--
++ stdlib/tst-strfmon-bug34510.c | 33 +++++++++++++++++++++++++++++++++
++ 3 files changed, 37 insertions(+), 2 deletions(-)
++ create mode 100644 stdlib/tst-strfmon-bug34510.c
 +
-+diff --git a/src/crypto/tls/conn.go b/src/crypto/tls/conn.go
-+index 770d456f18..376b2dcd1e 100644
-+--- a/src/crypto/tls/conn.go
-++++ b/src/crypto/tls/conn.go
-+@@ -699,7 +699,7 @@ func (c *Conn) readRecordOrCCS(expectChangeCipherSpec bool) error {
-+ 		return c.in.setErrorLocked(c.sendAlert(alertUnexpectedMessage))
++diff --git a/stdlib/Makefile b/stdlib/Makefile
++index c9c8f702a2..b655f0e5eb 100644
++--- a/stdlib/Makefile
+++++ b/stdlib/Makefile
++@@ -324,6 +324,7 @@ tests := \
++   tst-stdc_leading_zeros \
++   tst-stdc_trailing_ones \
++   tst-stdc_trailing_zeros \
+++  tst-strfmon-bug34510 \
++   tst-strfmon_l \
++   tst-strfrom \
++   tst-strfrom-locale \
++diff --git a/stdlib/strfmon_l.c b/stdlib/strfmon_l.c
++index 5e22aac750..bd849ff470 100644
++--- a/stdlib/strfmon_l.c
+++++ b/stdlib/strfmon_l.c
++@@ -549,7 +549,8 @@ __vstrfmon_l_buffer (struct __printf_buffer *buf, locale_t loc,
++       /* Now test whether the output width is filled.  */
++       if (buf->write_ptr - startp < width)
++ 	{
++-	  size_t pad_width = width - (buf->write_ptr - startp);
+++	  size_t written_width = buf->write_ptr - startp;
+++	  size_t pad_width = width - written_width;
++ 	  __printf_buffer_pad (buf, ' ', pad_width);
++ 	  if (__printf_buffer_has_failed (buf))
++ 	    /* Implies length check.  */
++@@ -558,7 +559,7 @@ __vstrfmon_l_buffer (struct __printf_buffer *buf, locale_t loc,
++ 	     Otherwise move the field contents in place.  */
++ 	  if (!left)
++ 	    {
++-	      memmove (startp + pad_width, startp, buf->write_ptr - startp);
+++	      memmove (startp + pad_width, startp, written_width);
++ 	      memset (startp, ' ', pad_width);
++ 	    }
 + 	}
-+ 
-+-	if typ != recordTypeAlert && typ != recordTypeChangeCipherSpec && len(data) > 0 {
-++	if (typ == recordTypeApplicationData || (typ == recordTypeHandshake && !handshakeComplete)) && len(data) > 0 {
-+ 		// This is a state-advancing message: reset the retry count.
-+ 		c.retryCount = 0
-+ 	}
-+diff --git a/src/crypto/tls/conn_test.go b/src/crypto/tls/conn_test.go
-+index 5e090a017d..303012ccc5 100644
-+--- a/src/crypto/tls/conn_test.go
-++++ b/src/crypto/tls/conn_test.go
-+@@ -317,3 +317,37 @@ func TestRecordBadVersionTLS13(t *testing.T) {
-+ 		t.Fatalf("unexpected error: got %q, want %q", err, expectedErr)
-+ 	}
-+ }
++diff --git a/stdlib/tst-strfmon-bug34510.c b/stdlib/tst-strfmon-bug34510.c
++new file mode 100644
++index 0000000000..b187bde1f4
++--- /dev/null
+++++ b/stdlib/tst-strfmon-bug34510.c
++@@ -0,0 +1,33 @@
+++/* Test handling of right-padding in strfmon (bug 34510, CVE-2026-19499).
+++   Copyright (C) 2026 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
 ++
-++// TestKeyUpdateSpamPostHandshakeTLS13 tests that TLS 1.3 KeyUpdate messages do
-++// not count as a state-advancing message after a handshake has been completed.
-++func TestKeyUpdateSpamPostHandshakeTLS13(t *testing.T) {
-++	client, server := localPipe(t)
-++	defer server.Close()
-++	defer client.Close()
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
 ++
-++	go func() {
-++		c := Client(client, testConfig.Clone())
-++		if err := c.Handshake(); err != nil {
-++			t.Error(err)
-++			return
-++		}
-++		ku, err := (&keyUpdateMsg{}).marshal()
-++		if err != nil {
-++			t.Error(err)
-++			return
-++		}
-++		cs := cipherSuiteTLS13ByID(c.cipherSuite)
-++		for i := 0; i <= maxUselessRecords; i++ {
-++			c.writeRecordLocked(recordTypeHandshake, ku)
-++			c.setWriteTrafficSecret(cs, QUICEncryptionLevelInitial, cs.nextTrafficSecret(c.out.trafficSecret))
-++		}
-++	}()
-++	s := Server(server, testConfig.Clone())
-++	if err := s.Handshake(); err != nil {
-++		t.Fatal(err)
-++	}
-++	expectedErr := "tls: too many non-advancing records"
-++	if _, err := s.Read(make([]byte, 1)); err == nil || err.Error() != expectedErr {
-++		t.Fatalf("unexpected error: got %v, want %q", err, expectedErr)
-++	}
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <https://www.gnu.org/licenses/>.  */
+++
+++#include <monetary.h>
+++#include <errno.h>
+++#include <support/check.h>
+++#include <support/next_to_fault.h>
+++
+++static int
+++do_test (void)
+++{
+++  struct support_next_to_fault ntf = support_next_to_fault_allocate (100);
+++  TEST_COMPARE (strfmon (ntf.buffer, ntf.length, "%100n", 1.23), -1);
+++  TEST_COMPARE (errno, E2BIG);
+++  return 0;
 ++}
+++
+++#include <support/test-driver.c>
+diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
+index eb198427d1a..567d53dd6f6 100644
+--- a/meta/recipes-core/glibc/glibc_2.39.bb
++++ b/meta/recipes-core/glibc/glibc_2.39.bb
+@@ -68,6 +68,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0033-CVE-2026-6791.patch \
+            file://0034-CVE-2026-6368.patch \
+            file://0035-CVE-2026-19542.patch \
++           file://0036-CVE-2026-19499.patch \
+ "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
