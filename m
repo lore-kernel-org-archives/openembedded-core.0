@@ -1,70 +1,70 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3738.1793405760299894895
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3739.1793405760926226941
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:16:00 -0700
+ Fri, 30 Oct 2026 17:16:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=eHAO1G/+;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so12081125e9.1
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=QkhU3wmC;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so10822395e9.2
         for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405758; x=1794010558; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405759; x=1794010559; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=acZltvv8U/hK3FqPP8SNuYpjpClnMu1iR1fpZYYRUH8=;
-        b=eHAO1G/+bbtiy9y/QMzZQjcYYHQhz/6WZJfzPu2rfA1H575rw5+ELSBADPibJjF/dC
-         SlanxRY8t0aCfzObruBU0+tdfbQQxeTgoglsK5CDO3LX2pwW7gLuysyBe0zU6N172aCj
-         F+alAWW7eh1C/0oQvPbSYCbivFXynEgEe/K9abEI8bNO7Hk0/5UtrmKattep71GtGCRT
-         tDTH3lwFUhRkrRq+WALCbobKAkYkPjtLfdWXNaimHNHKYYupW8BJ322LUjPPTm9oB0ZH
-         Dmg9aqjA6TYSJv/Vc3IaXj4FH48s/lFE00Sq3hny8RKAvW6ZbvqvFv136/vHUzqay7y8
-         l/sA==
+        bh=B8e/1hPUYF7XWTxY7TKGR+voFJWZw6veG77yXSTn9i4=;
+        b=QkhU3wmCpElRI0agi70mknnVpfNp39Kl92ZN4flrnfVX8PTYODXY0lvhfGkDHnwtAG
+         EgcT6cqNd6ufB6MI+KwMKjRqLoFMehWybePDvc8qU4llBdMTjcPUFwIdynXy8SI9BM0q
+         whpYPLWn0+FEfaYoGvEo+OgtYiIO1ZrE6lw1c/V+jdNKubuTmElPvPSf+x8jQq3k9rAO
+         BGRp49E+/4yemYlBGCEc7KlNkV2O8NDGVBOdDDwlueRTDH1/45UoCtxurMkjzdctTHzk
+         c3HcgaTPm22AaTFdGzwY6GHnzs6XRFmuncbOzNLaWGsDqsBkW9hIzIDCCXAxxBtMPbxO
+         5lnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405758; x=1794010558;
+        d=1e100.net; s=20260707; t=1793405759; x=1794010559;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=acZltvv8U/hK3FqPP8SNuYpjpClnMu1iR1fpZYYRUH8=;
-        b=sQl6Ybe4BN1Z2x70FD9CW6bpKrNSATqTMQvXjv3wquclbzq1gLjiyJvAXaUOwSZIXC
-         28UodDXrmGdGw1UnRLFkGT/TOEZyhSw9zPQ2vqQPdDrFwpwNN9dn4/oRJdY40/uDOrwO
-         5GQUoDlWlL62ZdDIqh9XvweOBqsRMbL7D8Vh/h7Z1DTmCws9UnRXp+LSdFp5f292ACV3
-         lYclXa5pNb7Ik3Tsj019NIkgAcSR9geS2IQ2pLfU+yzsWlYExWj7wfTDlQh/AUy6VAZ+
-         4y5OJvlkt8/mNCqZa2l1IZnqybWMIm1n4oHMB25NqALW9ssFHOU7O+FviRf1JZDiEfU0
-         Hj7w==
-X-Gm-Message-State: AFq9FYJUsL7pnadFUYo4l9vO/xqV7lRzI2zIvdXVzeptlgl51o5lHw1H
-	yE67evnRMV876GT/oTQxotsG4QnmuAwni72PLfIDz5fO1T7dMagdFXKpPbnoDfZOH6/e+CCE4xI
-	ZMSnO1mk=
-X-Gm-Gg: AYBFou2/p4CvYFoA79uPWYrJL/HbEGQSnGOGgyjUcTY+BnpyLYb6YhYgHgxbHIj4HMD
-	7pap6xYCavBhkyxLC31s/DWThORHAfoAkW/K3DRbyB5w/1ZJ7X/8LtCVo7Jbd37lEag4PPK/pkp
-	nXVuLvDcNM5kXF+7GnwAOwbyZqoyCbkDp1zAQDMDkQwyu4/7qRWDZBrKaXlV5YUa0ikCEVK0ji/
-	ucLZ7zSxGCmN5csNxhOCVjuUo+DTDRMC2HRWjhtX74pezFGUgFASq7tGoVIznn3a4io9G80Bsql
-	LHOczjfNxjakOxMg+BiOkDyKGqUZPelM9pf06UwPR59tqtqf5sq062yamDeZQF5NLk0PkJZge40
-	gm3fnFm/gyt415lkgI70Be3JxphI4MlqIDXiUPV4vN1G1G6leNTD8tmyzxTh5pOdIkhu37d8naC
-	rjAyBcllzbmlP3n6BsZEaSnYrLiw+Qznx8BDrke0qSfaHKLY8CYJjS/k5P36xSEodKyGDGKrj5I
-	4pJEWAdPh1DumN93hURrl83IcWOj+8enhR7xjJ+DkItnw62RDG8bz2H1q0HEAO2+zTMDE2OTXhK
-	Ta1+9GIScT8B6yhoNxY80CtntkuCJAySgaoFvLxZMjHfit/2cSpRjPiqzlknBzBff/ZgTxmU71i
-	isyvsGf9gDQb7FtFuMLgnFmDQEm60
-X-Received: by 2002:a05:600c:4f8b:b0:4a3:5a98:c279 with SMTP id 5b1f17b1804b1-4ac17ffb07cmr85525665e9.8.1793405758463;
-        Fri, 30 Oct 2026 17:15:58 -0700 (PDT)
+        bh=B8e/1hPUYF7XWTxY7TKGR+voFJWZw6veG77yXSTn9i4=;
+        b=hKoqNWGlcIwxdukDqVSer013zDMMf0DvyQICnFae0GG4Y0LEjZfEYLiqiUNv8T41bJ
+         pL2TceNLcVZGcn5FNfv/TmhZEFZG7wU5yIyJbU3XUo2JPsfTjQa7+vreDhteWG9u8wTi
+         MEiQUsV0DM/cXQV7EnIL+v+2H51/TkTkd1HE9+iyzf3/eZHozWavjZJQ64KC9BUNKGjz
+         Afckev4p5I8ZRWXvmoQHkdu5YJ2pCemaB6zVr6N3drjIcBnDSoAMwx9uWStXqRZqfsKn
+         E7avhbRr0SvHQ7DrwBsJyMWtSPEw4+dKAh5ykJ9ck82qdfu6N1y/z8bKzu9GKgz/B6dp
+         7n0g==
+X-Gm-Message-State: AFq9FYLGxf0jkxikOfCllY6DESzILRmdrbecqMxP51zuO4frP9N6o/zx
+	5PEPlWugw/Vk25NGC/t4YT9uC9kP+SFSrnGBQGGqrcevJ7nVlq0FaB0o+IpWwHTTENQ8KlmNKIJ
+	gw8MPubA=
+X-Gm-Gg: AYBFou1wzmV6RHkU44U8w2TXwh3LjFIQFDR3W4cg1niJOnyziaOVpW7iGpefmTTfJ/g
+	ov4tNLJn2Hn1BeWjwSJHHoJdOh1PcVW1P7K7b+ECqbrYzqu9vugI1iPL+JG5AY26LHd9gDwBCPm
+	3KN7gtL08pZ3n2/MPzAZFIG6S+Atu3afiOEdntXEbmkLc1eyqmhIV8+6kchtt1eT0g7otCMZHyc
+	YXnNGU/b2ADKnkvPPTrlItpacdm8tEErM5j07JxspdHIoh+Xa7GjQIZ+EiNDlLllRB5dn2FxLd2
+	zcmF5Mkdx2Nk+msatbD0Wpl7/fQpjiT//1WWf3pqLFA/ZKAMcP4ohOlT875cgiDVg1N6CAn7LHU
+	B4PTy0xs3Dzwz6KbErEnLQKvRhJ9voS7LDsq6BvGfYX2BjRFdxlofscdficl2QFS4MmMKQy0u8i
+	wLpo0X6GHmfcvBRtVobrBTHyH1gEN7UsMDVyDQSeqwxm+altfZIqepuobAQxw45Uh7WaryZfqWe
+	+cWs1qT7F3le8G+66a6M3TNNPDTrfFYQ/URxto+hWEtTaAC0O0Qe2mQzp1WGkcrTTbozkXnXe0I
+	2zQwgaNiycwaHL/atMukrNK1S6vJfUzCWiPPQ96vgtb+cVVafGmXEDHf8YW2skJOphzBdUctJEL
+	yCbbEUOJWiW4tWp1cS9NFeOaSg2K+TiM5i9jxPcNTQZJgNWo9OQ==
+X-Received: by 2002:a05:600c:1f87:b0:4a1:f68a:9736 with SMTP id 5b1f17b1804b1-4ac17b2be08mr85337655e9.26.1793405759129;
+        Fri, 30 Oct 2026 17:15:59 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.15.58
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:15:57 -0700 (PDT)
+        Fri, 30 Oct 2026 17:15:58 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 26/55] glibc: patch CVE-2026-19499
-Date: Sat, 31 Oct 2026 01:14:47 +0100
-Message-ID: <d3c11728cebabc0fc8131e0b3275f49263be21d4.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 27/55] glibc: patch CVE-2026-77117
+Date: Sat, 31 Oct 2026 01:14:48 +0100
+Message-ID: <53899a08c24fd46024112ebb665d4dcd4a04a8ea.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249101
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249102
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -76,126 +76,58 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 [YC: fixed a 3.41 -> 2.41 typo in branch name]
 ---
- .../glibc/glibc/0036-CVE-2026-19499.patch     | 100 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch
+ .../glibc/glibc/0037-CVE-2026-77117.patch     | 32 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.39.bb         |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0037-CVE-2026-77117.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch b/meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch
+diff --git a/meta/recipes-core/glibc/glibc/0037-CVE-2026-77117.patch b/meta/recipes-core/glibc/glibc/0037-CVE-2026-77117.patch
 new file mode 100644
-index 00000000000..792c5276d0b
+index 00000000000..fa42a548c34
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0036-CVE-2026-19499.patch
-@@ -0,0 +1,100 @@
-+From 5256941bc811248670eda4636dccd0a390d34dec Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glibc/glibc/0037-CVE-2026-77117.patch
+@@ -0,0 +1,32 @@
++From e43e46f94398b3de446fec11da1e7633ea5202ec Mon Sep 17 00:00:00 2001
 +From: Florian Weimer <fweimer@redhat.com>
-+Date: Thu, 27 Aug 2026 13:34:54 +0200
-+Subject: [PATCH] stdlib: Fix right-justification in strfmon (bug 34510,
-+ CVE-2026-19499)
++Date: Fri, 28 Aug 2026 10:26:07 +0200
++Subject: [PATCH] iconvdata: SHIFT_JISX0213 decoding lacks pending character
++ reset (CVE-2026-77117)
 +
-+The memmove call did not take into account that __printf_buffer_pad
-+updated the buffer pointers.
++This fixes bug 34556.
 +
-+Fixes commit e88b9f0e5cc50cab57a299dc7efe1a4eb385161d
-+("stdio-common: Convert vfprintf and related functions to buffers"),
-+which went into glibc 2.37.
++Reviewed-by: Carlos O'Donell <carlos@redhat.com>
++(cherry picked from commit 68d94bbe50b7577d48998107d632ef3a0df050e3)
 +
-+Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
-+(cherry picked from commit b090cf226ff65b913e41536f1f573f500855615c)
-+
-+CVE: CVE-2026-19499
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5256941bc811248670eda4636dccd0a390d34dec]
++CVE: CVE-2026-77117
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=e43e46f94398b3de446fec11da1e7633ea5202ec]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ stdlib/Makefile               |  1 +
-+ stdlib/strfmon_l.c            |  5 +++--
-+ stdlib/tst-strfmon-bug34510.c | 33 +++++++++++++++++++++++++++++++++
-+ 3 files changed, 37 insertions(+), 2 deletions(-)
-+ create mode 100644 stdlib/tst-strfmon-bug34510.c
++ iconvdata/shift_jisx0213.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/stdlib/Makefile b/stdlib/Makefile
-+index c9c8f702a2..b655f0e5eb 100644
-+--- a/stdlib/Makefile
-++++ b/stdlib/Makefile
-+@@ -324,6 +324,7 @@ tests := \
-+   tst-stdc_leading_zeros \
-+   tst-stdc_trailing_ones \
-+   tst-stdc_trailing_zeros \
-++  tst-strfmon-bug34510 \
-+   tst-strfmon_l \
-+   tst-strfrom \
-+   tst-strfrom-locale \
-+diff --git a/stdlib/strfmon_l.c b/stdlib/strfmon_l.c
-+index 5e22aac750..bd849ff470 100644
-+--- a/stdlib/strfmon_l.c
-++++ b/stdlib/strfmon_l.c
-+@@ -549,7 +549,8 @@ __vstrfmon_l_buffer (struct __printf_buffer *buf, locale_t loc,
-+       /* Now test whether the output width is filled.  */
-+       if (buf->write_ptr - startp < width)
-+ 	{
-+-	  size_t pad_width = width - (buf->write_ptr - startp);
-++	  size_t written_width = buf->write_ptr - startp;
-++	  size_t pad_width = width - written_width;
-+ 	  __printf_buffer_pad (buf, ' ', pad_width);
-+ 	  if (__printf_buffer_has_failed (buf))
-+ 	    /* Implies length check.  */
-+@@ -558,7 +559,7 @@ __vstrfmon_l_buffer (struct __printf_buffer *buf, locale_t loc,
-+ 	     Otherwise move the field contents in place.  */
-+ 	  if (!left)
-+ 	    {
-+-	      memmove (startp + pad_width, startp, buf->write_ptr - startp);
-++	      memmove (startp + pad_width, startp, written_width);
-+ 	      memset (startp, ' ', pad_width);
-+ 	    }
-+ 	}
-+diff --git a/stdlib/tst-strfmon-bug34510.c b/stdlib/tst-strfmon-bug34510.c
-+new file mode 100644
-+index 0000000000..b187bde1f4
-+--- /dev/null
-++++ b/stdlib/tst-strfmon-bug34510.c
-+@@ -0,0 +1,33 @@
-++/* Test handling of right-padding in strfmon (bug 34510, CVE-2026-19499).
-++   Copyright (C) 2026 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <monetary.h>
-++#include <errno.h>
-++#include <support/check.h>
-++#include <support/next_to_fault.h>
-++
-++static int
-++do_test (void)
-++{
-++  struct support_next_to_fault ntf = support_next_to_fault_allocate (100);
-++  TEST_COMPARE (strfmon (ntf.buffer, ntf.length, "%100n", 1.23), -1);
-++  TEST_COMPARE (errno, E2BIG);
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
++diff --git a/iconvdata/shift_jisx0213.c b/iconvdata/shift_jisx0213.c
++index 364298dcff..834fa81322 100644
++--- a/iconvdata/shift_jisx0213.c
+++++ b/iconvdata/shift_jisx0213.c
++@@ -226,6 +226,9 @@
++ 	    STANDARD_FROM_LOOP_ERR_HANDLER (1);				      \
++ 	  }								      \
++       }									      \
+++    else 								      \
+++      /* There was a pending character.  Clear it.  */			      \
+++      *statep = 0;							      \
++ 									      \
++     put32 (outptr, ch);							      \
++     outptr += 4;							      \
 diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
-index eb198427d1a..567d53dd6f6 100644
+index 567d53dd6f6..3090b9cd277 100644
 --- a/meta/recipes-core/glibc/glibc_2.39.bb
 +++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -68,6 +68,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0033-CVE-2026-6791.patch \
+@@ -69,6 +69,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0034-CVE-2026-6368.patch \
             file://0035-CVE-2026-19542.patch \
-+           file://0036-CVE-2026-19499.patch \
+            file://0036-CVE-2026-19499.patch \
++           file://0037-CVE-2026-77117.patch \
  "
  S = "${WORKDIR}/git"
  B = "${WORKDIR}/build-${TARGET_SYS}"
