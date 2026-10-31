@@ -1,62 +1,62 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3758.1793405778337078282
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3762.1793405775448406832
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2026 17:16:18 -0700
+ Fri, 30 Oct 2026 17:16:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=nMWnGAwt;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a218c463d1so7693635e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:18 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=KNfwnl/p;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a218c463d1so7693505e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2026 17:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793405776; x=1794010576; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793405774; x=1794010574; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=1PL9L2UYoGclyu0WjR6qYDpZAq0FQd0qynZdH/frOag=;
-        b=nMWnGAwtOyfXHrz3b9OocKVGF2J/ec0PhrbRO9TMOYfry6gA9xLSKFrovwakU0fCSZ
-         MrAx6+eKpBKrS37bm0Q6nR64adqK+V1HKQBZTWQJ0NP9TIVpEWA5t8QiW5cjfBSH3+45
-         yjsAFqS6A+RdlE070Rz+YMNffkmVlb4CuqGfadkd/2yISD2KQ4UZPE8v4T47FB3CQu8X
-         Ywvw7hZBq8kroahgtizUnzxhhUxKfHI2dDSrBKOuvk02ASrbSB1epsszAs7Me/7l5efA
-         z0SOVu5Tn0aNBCMHhtUd8YpAgCtnaS5c9Lwcv7bB58h2GY/3HKnuzqqm2lJpGibQCl5v
-         AliQ==
+        bh=zRHOYxOg8o2IDt5Nz0V6ZLVwAPiea76O64kbuoX2u+I=;
+        b=KNfwnl/pskJpiZi+s7Nx4Uwx/OjHVXRxDCktTNdDDMuagQEaB/3sTIYetXx+be5SWH
+         i0wX08l8h9bussoPH81Gsm1/9Vw9Eeq+/6M5hI9ZrgS4qyjeR5jz9SjkOhwDM3Y6nQbW
+         0emdZha72QjE9IQMAb2LVjF8xy6qklW6YppVyy3roH/9VHZ62ne7ggUzx4NR/G/vNBLN
+         5g+UAZn1XybrVcomGbngkrkQlHWo+ZbY0PYZwgqQ+nU3EOqSiDEPplwZQigadTJKo6W+
+         CAwtQE+y+WvwMNmLK0w4gJnxje1srvVbzHNmZFd0Yw9wS1RH4jfEpRjMwKYCDerwZTH3
+         DSXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793405776; x=1794010576;
+        d=1e100.net; s=20260707; t=1793405774; x=1794010574;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=1PL9L2UYoGclyu0WjR6qYDpZAq0FQd0qynZdH/frOag=;
-        b=Y+bElH48yTIXOKr9FSSZK9YGz5pkaHLznCt7kLoAZqRXPHhbpyw6ZjsFsbESuDWTUf
-         ztTdCvqAbipN+MwCcYYSebDRPvFIJ0xLXCHWbUFvL/eXgZ74vFYRDQnI/sDedl4UA2ju
-         3EtpBqTD9al0zsCllBYaWcxbpditfSXgN1hQpJx3kFn/3hNY6t+b3U3ebKze6mcAlNHI
-         6YuUx8g2Y9wVQCruO75Uhc8oC8VLs4RgC0I86F+rZHKAbLMcCQTQcUXIxHIxhVa1E0iU
-         qI2DGb8Nk7XMmtHjSAc1HMQKcu3ExnlWMCQUKKDGoOGw5brJToD+X0ReuUXLOp9bvaut
-         /qnw==
-X-Gm-Message-State: AFq9FYIgono1HErEtE2RCOBX0Spcfns0kqLfcVWG6pDyZxpCDgz5R8nF
-	3XG06zP9Do/6M1kyNPvK72fnXgPG3ueWXWhpXqoHT6gVzY5BxdHQ7oWdIs/1MKQJvCYMlHQHqlO
-	pJuL75pU=
-X-Gm-Gg: AYBFou1nGe4YYJNAVWi9T7b830naV3WhOZGA3Zq6GdfIHSk7b9pIrp3YsBYhxLnENWi
-	8fzArANpPSQenoeyoK02rbTYGsqZ5fvmiP6mOEUM+dy2D9fYCZLh+mPtBemHYfOlpubP9Uopz7A
-	L7+yje2Qh+Xymzx0/IQ0QdV1ELkysfW37APTpK7BjhQHB9ZaeLqe1FsmD+PXRoSvYLmcjghs7zY
-	gFZkG9yxkPVJy2Uqt0y45kG+UwS/LjQBHjR65LntmUu06Li2YvunnJO0HzXLY1BRINQSyJSzODH
-	zJ9styMHN4wSVIHK/bRg07uaZP5nfxwLGnT1EYI82fPVc05qXy0PJgjS2EaegTG8cF4AKl7WEqS
-	s591D4x0Ik0vQubkvk69FTeBwNdBhJudLu2mzAGrjujJFY6EUu5T0YOHOkcX+EUoh1wR1t7U/1S
-	7dokk9NYgFIe6K3ATvGaKaoOjy0/MRD/fy6+rfAx8tB8QVCjkmavaRte+9NHuf3mDx66hkmiUmW
-	AnZll4y7eOm2IXMTGu+u238AISvNcfP97v7p2Z2QMrc613FX+b56hClLrMnn7bYT4iSJ/SzwVBb
-	ZjtO+QuoZlg35XSnvkNv/Htwb7Eo2E9Bpb8z/PzLlre1nbT/cEjGX3+Fe3rzlUh6t/T1ha3RQz0
-	jBAReHFsmZiFaaeyRc3NmXVLKS5m0
-X-Received: by 2002:a05:600c:8b55:b0:4a1:ddca:8b66 with SMTP id 5b1f17b1804b1-4ac19234a06mr85338175e9.31.1793405776591;
-        Fri, 30 Oct 2026 17:16:16 -0700 (PDT)
+        bh=zRHOYxOg8o2IDt5Nz0V6ZLVwAPiea76O64kbuoX2u+I=;
+        b=wF/s0b2vq96unVHeLpFON63dm2ea+cjmQShvDgCbCv8v/ojdPvcpigyZAivbEx2TgQ
+         CMaJwwLnJjHSTCWNvf2cl3odEuF+tBpDOWBsYammONEDJJyAl1hCfI4fywUQgdFLcqIT
+         uNJMBugd1IWIkHIJbUQl/mZQe66K4MsJith/62vk7xv41uyFl2o7PRFu3HLD+KLRxJTJ
+         6Moqq6ffNLKTwA/BI40YvdpVeB1Vz+tsnR9+LPviu23+libuuT04J3qAsIbE/QX1Ij6J
+         E4LmjtgNjzOIqePagv/B+MChH5j+704t6vACOGIY3jiOHr1u3J7uaM3uu4UI46m8s2M0
+         YkYQ==
+X-Gm-Message-State: AFq9FYKH/azhIRy3wf98uMCca+lcNac+5LvSNBCrFZnQQnPFalwjbrat
+	QPOxpw9VAGPWEsqWd+L6Lx5fZQsF//M/6lhAXhgX8Qcf64JbkKHoudM2wSdk+1QJM5xjq99Hdby
+	RBREYMLA=
+X-Gm-Gg: AYBFou3voAL9GMHoElFoz4Oq80O+VHeDwv2W9mJda2IK3WyEzpBW250Yv7zWoPgQoPs
+	VMfs5kwiAJ4InZsqVNsRg7mdvZ6msf3oIVgMlFjEsj9azzkqqP9mNDhS7BKpVxD1atIpOcGvWXR
+	iEoMhJXPkptUphNiqpNTBMNYu2+8nuCXTt//X9ZhDulvjuElAUe1PwVHNg99stRPwR/Lj6mtm33
+	ko5aXKRDJXa6o6JlZIqCrWTZBO3kG0EuEWHBG2AiljFg94f46JujBVb3jyjXKogniezB/1YGrQJ
+	dQbuM+fBiVZ+05ihavwVytqlx1cAL7Gnp+8da//WFXCKZzHkA1y2scuTdGZSc+TU/i100MfAz2w
+	2F+YAjpR9q5zFLyG3bg6A0hBSoVSzZNrp0lqso/hsqpzdQDUKNyxsH/C8g2OaJ3k+7J+WHoqZOs
+	MPGv/xJOTprtDuHElX+BqZEBi4z6P6cqvnBxn99U59TLKTVAefPm80qGH0aB25Xq4dIYceXZhfp
+	8v0ZFZHuOD2Gd7Tp750x/S8/vNK4FGJyFfhcaODbfLIFWQKVQrwrHaasSc843Uc7uWAsP421WR6
+	T8Kxyxbzk9Utxl22Gc6G5oxTXK2672eDesWZh70Q09MjJRo91njq8MEaIM5imef/CrIyu6TylOp
+	7wLIvQKJ+QgVX/dUN51ysfytJpdGA+p+st91fibgOocekbND0f/A=
+X-Received: by 2002:a05:600c:a4e:b0:4a7:76fa:87e9 with SMTP id 5b1f17b1804b1-4ac187a766bmr87864305e9.21.1793405773598;
+        Fri, 30 Oct 2026 17:16:13 -0700 (PDT)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.16.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ab61d8b9f4sm130350635e9.12.2026.10.30.17.16.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 17:16:15 -0700 (PDT)
+        Fri, 30 Oct 2026 17:16:13 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 55/55] util-linux: patch CVE-2026-53615
-Date: Sat, 31 Oct 2026 01:15:16 +0100
-Message-ID: <d8d1c0ccd8b51574af64c8781aaa4cf46f1d3211.1793405493.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 50/55] apr-util: Fix CVE-2025-49506
+Date: Sat, 31 Oct 2026 01:15:11 +0100
+Message-ID: <9da45770bb3a2b541b61f44e370ba20f415fb6c8.1793405493.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
@@ -64,149 +64,351 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2026 00:16:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249130
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249124
 Content-Type: text/plain; charset="utf-8"
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Pick patch per [1] from 2.41 branch.
-Resolve minor conflict with [2] (unrelated const variable).
+Backport the upstream timing-safe comparison fix [1].
+APR-util 1.6.4 identifies this issue as fixed [2].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-53615
-[2] https://github.com/util-linux/util-linux/commit/7eba8f98bdc3ed9c0ef1c8527aa61e1a3656449c
+[1] https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc534ae24b19e
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-49506
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/util-linux/util-linux.inc   |   1 +
- .../util-linux/CVE-2026-53615.patch           | 109 ++++++++++++++++++
- 2 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-53615.patch
+ .../apr/apr-util/CVE-2025-49506.patch         | 310 ++++++++++++++++++
+ meta/recipes-support/apr/apr-util_1.6.3.bb    |   1 +
+ 2 files changed, 311 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index fdc8c62f6e5..66616f06527 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -63,6 +63,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://CVE-2026-78410-02.patch \
-            file://CVE-2026-78410-03.patch \
-            file://CVE-2026-76642.patch \
-+           file://CVE-2026-53615.patch \
+diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
+new file mode 100644
+index 00000000000..0ab5cf06485
+--- /dev/null
++++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
+@@ -0,0 +1,310 @@
++From f77a20761cb15686f8d4de5b5eafc534ae24b19e Mon Sep 17 00:00:00 2001
++From: Eric Covener <covener@apache.org>
++Date: Mon, 3 Aug 2026 12:10:13 +0000
++Subject: [PATCH] Merge r1936804 from aprutil 1.7.x:
++
++use timing safe comparison
++
++Submitted By: ylavic
++Reviewed By: ylavic, rpluem, covener
++
++
++
++
++git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1936805 13f79535-47bb-0310-9956-ffa450edef68
++
++CVE: CVE-2025-49506
++Upstream-Status: Backport [https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc534ae24b19e]
++
++(cherry picked from commit f77a20761cb15686f8d4de5b5eafc534ae24b19e)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ crypto/apr_crypto.c |  60 +++++++++++++++++---
++ crypto/apr_passwd.c | 135 ++++++++++++++++++++++++++++++++++++++++----
++ 2 files changed, 176 insertions(+), 19 deletions(-)
++
++diff --git a/crypto/apr_crypto.c b/crypto/apr_crypto.c
++index 9ba190ef..ca3f0887 100644
++--- a/crypto/apr_crypto.c
+++++ b/crypto/apr_crypto.c
++@@ -21,6 +21,7 @@
++ #include "apu.h"
++ #include "apr_pools.h"
++ #include "apr_dso.h"
+++#include "apr_version.h"
++ #include "apr_strings.h"
++ #include "apr_hash.h"
++ #include "apr_thread_mutex.h"
++@@ -173,19 +174,64 @@ APU_DECLARE(apr_status_t) apr_crypto_memzero(void *buffer, apr_size_t size)
++     return APR_SUCCESS;
++ }
++ 
+++/* Borrow this from APR-1.8 if not available */
+++#if !APR_VERSION_AT_LEAST(1,8,0)
+++
+++/* A volatile variable which is always zero but allows to block the compiler
+++ * from optimizing or eliding code using it. Volatile forces the compiler to
+++ * emit a memory load for which no value can be assumed, so for instance an
+++ * add/sub/xor/or with "optblocker" is a noop that will hide the result to
+++ * the optimizer.
+++ */
+++static volatile const apr_uint32_t optblocker;
+++
+++/* Return whether x is not zero, with no branching controlled by x.
+++ *
+++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
+++ * which provides timing attacks safe integer operations/primitives.
+++ * Code:
+++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h
+++ * Paper:
+++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
+++ */
+++#if __has_attribute(always_inline)
+++__attribute__((always_inline))
+++#endif
+++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
+++{
+++    x |= -x; /* sets the most significant bit unless x == 0 */
+++
+++    /* shift bit 31 (MSB) to bit 0 */
+++    x >>= 32-6;      /* keep 6 bits */
+++    x += optblocker; /* lose the optimizer */
+++    x >>= 5;         /* keep the (original) MSB only */
+++
+++    /* x is now 0 or 1 */
+++    return x & INT_MAX;
+++}
+++
+++#endif /* !APR_VERSION_AT_LEAST(1,8,0) */
+++
++ APU_DECLARE(int) apr_crypto_equals(const void *buf1, const void *buf2,
++                                    apr_size_t size)
++ {
++-    const unsigned char *p1 = buf1;
++-    const unsigned char *p2 = buf2;
++-    unsigned char diff = 0;
++-    apr_size_t i;
+++#if APR_VERSION_AT_LEAST(1,8,0)
+++    return apr_memeq_timingsafe(buf1, buf2, size);
+++#else
+++    apr_uint32_t diff = 0;
+++    volatile apr_size_t count = size; /* prevent loop unrolling */
+++    apr_size_t i = 0;
++ 
++-    for (i = 0; i < size; ++i) {
++-        diff |= p1[i] ^ p2[i];
+++    for (; i < count; ++i) {
+++        const unsigned char c1 = ((volatile const unsigned char *)buf1)[i];
+++        const unsigned char c2 = ((volatile const unsigned char *)buf2)[i];
+++
+++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
++     }
++ 
++-    return 1 & ((diff - 1) >> 8);
+++    /* (diff == 0) <=> (diff != 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++#endif
++ }
++ 
++ APU_DECLARE(apr_status_t) apr_crypto_get_driver(
++diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c
++index c961de2b..74b5fc17 100644
++--- a/crypto/apr_passwd.c
+++++ b/crypto/apr_passwd.c
++@@ -14,6 +14,7 @@
++  * limitations under the License.
++  */
++ 
+++#include "apr_version.h"
++ #include "apr_strings.h"
++ #include "apr_md5.h"
++ #include "apr_lib.h"
++@@ -39,6 +40,111 @@
++ 
++ static const char * const apr1_id = "$apr1$";
++ 
+++#if APR_VERSION_AT_LEAST(1,8,0)
+++
+++#define streq_timingsafe    apr_streq_timingsafe
+++#define strneq_timingsafe   apr_strneq_timingsafe
+++
+++#else /* borrow code from APR-1.8 if not available */
+++
+++/* A volatile variable which is always zero but allows to block the compiler
+++ * from optimizing or eliding code using it. Volatile forces the compiler to
+++ * emit a memory load for which no value can be assumed, so for instance an
+++ * add/sub/xor/or with "optblocker" is a noop that will hide the result to
+++ * the optimizer.
+++ */
+++static volatile const apr_uint32_t optblocker;
+++
+++/* Return whether x is not zero, with no branching controlled by x.
+++ *
+++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
+++ * which provides timing attacks safe integer operations/primitives.
+++ * Code:
+++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h
+++ * Paper:
+++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
+++ */
+++#if __has_attribute(always_inline)
+++__attribute__((always_inline))
+++#endif
+++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
+++{
+++    x |= -x; /* sets the most significant bit unless x == 0 */
+++
+++    /* shift bit 31 (MSB) to bit 0 */
+++    x >>= 32-6;      /* keep 6 bits */
+++    x += optblocker; /* lose the optimizer */
+++    x >>= 5;         /* keep the (original) MSB only */
+++
+++    /* x is now 0 or 1 */
+++    return x & INT_MAX;
+++}
+++
+++static int streq_timingsafe(const char *sec1, const char *str2)
+++{
+++    apr_uint32_t diff = 0;
+++    apr_size_t i1 = 0, i2 = 0;
+++
+++    for (;; ++i2) {
+++        const unsigned char c1 = ((volatile const unsigned char *)sec1)[i1];
+++        const unsigned char c2 = ((volatile const unsigned char *)str2)[i2];
+++
+++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
+++
+++        /* Not a shortest/longest match because an attacker would usually know
+++         * one of the strings and could then determine the length of the other.
+++         * So assume only sec1 and its length are secret and stop the loop at
+++         * the end of str2. If sec1 is shorter than str2 the loop will continue
+++         * by comparing the rest of str2 with the trailing NUL byte of sec1.
+++         * In any case since the diff above is computed up to and including a
+++         * NUL byte, only the same content and length will raise match.
+++         */
+++        if (!c2) {
+++            break;
+++        }
+++
+++        /* Don't go above sec1's NUL byte */
+++        i1 += test_nonzero_timingsafe(c1);
+++    }
+++
+++    /* (diff == 0) <=> (diff != 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++}
+++
+++static int strneq_timingsafe(const char *sec1, const char *str2, apr_size_t n)
+++{
+++    apr_uint32_t diff = 0;
+++    volatile apr_size_t count = n; /* prevent loop unrolling */
+++    apr_size_t i1 = 0, i2 = 0;
+++
+++    for (; i2 < count; ++i2) {
+++        const unsigned char c1 = ((volatile const unsigned char *)sec1)[i1];
+++        const unsigned char c2 = ((volatile const unsigned char *)str2)[i2];
+++
+++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
+++
+++        /* Not a shortest/longest match because an attacker would usually know
+++         * one of the strings and could then determine the length of the other.
+++         * So assume only sec1 and its length are secret and stop the loop at
+++         * the end of str2. If sec1 is shorter than str2 the loop will continue
+++         * by comparing the rest of str2 with the trailing NUL byte of sec1.
+++         * In any case since the diff above is computed up to and including a
+++         * NUL byte, only the same content and length will raise match.
+++         */
+++        if (!c2) {
+++            break;
+++        }
+++
+++        /* Don't go above sec1's NUL byte */
+++        i1 += test_nonzero_timingsafe(c1);
+++    }
+++
+++    /* (diff == 0) <=> (diff != 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++}
+++
+++#endif /* APR_VERSION_AT_LEAST(1,8,0) */
+++
++ #if !defined(WIN32) && !defined(BEOS) && !defined(NETWARE)
++ #if defined(APU_CRYPT_THREADSAFE) || !APR_HAS_THREADS || \
++     defined(CRYPT_R_CRYPTD) || defined(CRYPT_R_STRUCT_CRYPT_DATA)
++@@ -86,28 +192,33 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
++ #if !CRYPT_MISSING
++     char *crypt_pw;
++ #endif
++-    if (hash[0] == '$'
++-        && hash[1] == '2'
++-        && (hash[2] == 'a' || hash[2] == 'y')
++-        && hash[3] == '$') {
+++
+++    if ((strneq_timingsafe(hash, "$2a$", 4) | /* test both */
+++         strneq_timingsafe(hash, "$2y$", 4))) {
+++        /*
+++         * The hash was created using [apr_]bcrypt encoding.
+++         */
++         if (_crypt_blowfish_rn(passwd, hash, sample, sizeof(sample)) == NULL)
++             return APR_FROM_OS_ERROR(errno);
++     }
++-    else if (!strncmp(hash, apr1_id, strlen(apr1_id))) {
+++    else if (strneq_timingsafe(hash, apr1_id, strlen(apr1_id))) {
++         /*
++          * The hash was created using our custom algorithm.
++          */
++         apr_md5_encode(passwd, hash, sample, sizeof(sample));
++     }
++-    else if (!strncmp(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
++-         apr_sha1_base64(passwd, (int)strlen(passwd), sample);
+++    else if (strneq_timingsafe(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
+++        /*
+++         * The hash is a (naked) SHA1.
+++         */
+++        apr_sha1_base64(passwd, (int)strlen(passwd), sample);
++     }
++     else {
++         /*
++          * It's not our algorithm, so feed it to crypt() if possible.
++          */
++ #if CRYPT_MISSING
++-        return (strcmp(passwd, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++        return streq_timingsafe(hash, passwd) ? APR_SUCCESS : APR_EMISMATCH;
++ #elif defined(CRYPT_R_CRYPTD)
++         apr_status_t rv;
++         CRYPTD *buffer = malloc(sizeof(*buffer));
++@@ -118,7 +229,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
++         if (!crypt_pw)
++             rv = APR_EMISMATCH;
++         else
++-            rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++            rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
++         free(buffer);
++         return rv;
++ #elif defined(CRYPT_R_STRUCT_CRYPT_DATA)
++@@ -149,7 +260,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
++         if (!crypt_pw)
++             rv = APR_EMISMATCH;
++         else
++-            rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++            rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
++         free(buffer);
++         return rv;
++ #else
++@@ -173,14 +284,14 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
++                 rv = APR_EMISMATCH;
++             }
++             else {
++-                rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++                rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
++             }
++             crypt_mutex_unlock();
++             return rv;
++         }
++ #endif
++     }
++-    return (strcmp(sample, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++    return streq_timingsafe(hash, sample) ? APR_SUCCESS : APR_EMISMATCH;
++ }
++ 
++ static const char * const bcrypt_id = "$2y$";
+diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
+index 3a5f52d2501..7b5a04c4350 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.3.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
+ 	   file://0001-test_transformation-Check-if-transform-is-supported-.patch \
++           file://CVE-2025-49506.patch \
+            file://run-ptest \
             "
  
- SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-53615.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-53615.patch
-new file mode 100644
-index 00000000000..f06f175e9c9
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-53615.patch
-@@ -0,0 +1,109 @@
-+From 05c2dbadf34cc74192287f377904afaaf4061623 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Wed, 25 Mar 2026 11:54:28 +0100
-+Subject: [PATCH] libblkid: dos: validate EBR data and links within extended
-+ partition
-+
-+The parse_dos_extended() function processes EBR (Extended Boot Record)
-+chains, but does not properly validate that partitions and links stay
-+within the master extended partition area [ex_start, ex_start+ex_size).
-+
-+For EBR data partitions at index 0 and 1, there are no bounds checks
-+at all, unlike entries at index 2 and 3. This allows a crafted disk
-+image to register partitions at arbitrary sectors via uint32_t overflow
-+in the abs_start calculation (cur_start + start wraps to a small value).
-+
-+Fix by:
-+ - using 64-bit arithmetic for the abs_start calculation to avoid
-+   uint32_t wraparound
-+ - applying the extended partition area bounds check to all EBR data
-+   entries, not just index >= 2
-+ - validating EBR link targets stay within the extended area and
-+   advance forward (preventing backward links that could loop)
-+
-+Reported-by: Michele Piccinni <piccinni.michele@gmail.com>
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+(cherry picked from commit e9d544d013267ea86b70ee8ff78abd280e6641af)
-+
-+CVE: CVE-2026-53615
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/05c2dbadf34cc74192287f377904afaaf4061623]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ libblkid/src/partitions/dos.c | 38 +++++++++++++++++++++++++++--------
-+ 1 file changed, 30 insertions(+), 8 deletions(-)
-+
-+diff --git a/libblkid/src/partitions/dos.c b/libblkid/src/partitions/dos.c
-+index d5a8aa3ae..5c78aac21 100644
-+--- a/libblkid/src/partitions/dos.c
-++++ b/libblkid/src/partitions/dos.c
-+@@ -46,6 +46,7 @@ static int parse_dos_extended(blkid_probe pr, blkid_parttable tab,
-+ {
-+ 	blkid_partlist ls = blkid_probe_get_partlist(pr);
-+ 	uint32_t cur_start = ex_start, cur_size = ex_size;
-++	uint64_t ex_end = (uint64_t) ex_start + ex_size;
-+ 	unsigned char *data;
-+ 	int ct_nodata = 0;	/* count ext.partitions without data partitions */
-+ 	int i;
-+@@ -88,24 +89,31 @@ static int parse_dos_extended(blkid_probe pr, blkid_parttable tab,
-+ 		/* Parse data partition */
-+ 		for (p = p0, i = 0; i < 4; i++, p++) {
-+ 			uint32_t abs_start;
-++			uint64_t abs;
-+ 			blkid_partition par;
-+ 
-+ 			/* the start is relative to the parental ext.partition */
-+ 			start = dos_partition_get_start(p) * ssf;
-+ 			size = dos_partition_get_size(p) * ssf;
-+-			abs_start = cur_start + start;	/* absolute start */
-+ 
-+ 			if (!size || is_extended(p))
-+ 				continue;
-++
-++			abs = (uint64_t) cur_start + start;
-++
-++			/* data partition must be within the extended area */
-++			if (abs < ex_start || abs + size > ex_end) {
-++				DBG(LOWPROBE, ul_debug("#%d: EBR data partition outside "
-++					"extended -- ignore", i + 1));
-++				continue;
-++			}
-++			abs_start = (uint32_t) abs;
-++
-+ 			if (i >= 2) {
-+-				/* extra checks to detect real data on
-++				/* extra check to detect real data on
-+ 				 * 3rd and 4th entries */
-+ 				if (start + size > cur_size)
-+ 					continue;
-+-				if (abs_start < ex_start)
-+-					continue;
-+-				if (abs_start + size > ex_start + ex_size)
-+-					continue;
-+ 			}
-+ 
-+ 			/* Avoid recursive non-empty links, see ct_nodata counter */
-+@@ -142,8 +150,22 @@ static int parse_dos_extended(blkid_probe pr, blkid_parttable tab,
-+ 		if (i == 4)
-+ 			goto leave;
-+ 
-+-		cur_start = ex_start + start;
-+-		cur_size = size;
-++		{
-++			uint64_t next = (uint64_t) ex_start + start;
-++
-++			if (next + size > ex_end) {
-++				DBG(LOWPROBE, ul_debug("EBR link outside "
-++					"extended area -- leave"));
-++				goto leave;
-++			}
-++			if (next <= cur_start) {
-++				DBG(LOWPROBE, ul_debug("EBR link does not "
-++					"advance -- leave"));
-++				goto leave;
-++			}
-++			cur_start = (uint32_t) next;
-++			cur_size = size;
-++		}
-+ 	}
-+ leave:
-+ 	return BLKID_PROBE_OK;
