@@ -1,373 +1,447 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14543.1793538614783568028
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15966.1793543993317219401
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Nov 2026 05:10:14 -0800
+ Sun, 01 Nov 2026 06:39:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Srd2/fzM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: roshs@qti.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A1BHAvZ3284633;
-	Sun, 1 Nov 2026 13:10:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=nYeqK4suZrpvlyuKRpDOYWO5
-	Cgd7fcCsHkVKRjPBBvA=; b=Srd2/fzMiGk8KFdVlse4ee8SdQfX76FYlvA/jvlm
-	4wT/bnRwj8/G8gIDBumkZR18QkA4i2zRXfnHRKgEa04iXl3ZtbGgCyTGHz+IJgJ8
-	NR0KExRzX7UfU8QQru/D1Gw36FBfUgvkYHFgEXpQk0i1aKTsdC7NgM5Jt5HfDTqK
-	IfTOldyeFg8LVuXG+jIpj5knH3VDb8wWtvBU7rApSiUSVKPL19aeZdWVJXV9H+ik
-	P3hrIYVQxT5TwxNipZLXZ+uf9fganRf8yCKOZs8lyY/o2bSTg8BXKF1cRq3lTyL3
-	zxRHPbHgEudDD60Ni9qEiS93nW94LUmXZQPVT32yL6zNTQ==
-Received: from bn1pr07cu003.outbound.protection.outlook.com (mail-bn1pr07cu00300.outbound.protection.outlook.com [40.93.12.0])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn9gk35ye-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sun, 01 Nov 2026 13:10:09 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S6WTG2lyvObQy5qMBW6/sFuBW2nvP84/4ZNbbsk0dGJ+w++DkRFW7XxiTWCPMU6oDGYbJh7YLeWlfO4b/bgMTzFdEWwto7MYITEpzARzTm0yfe9i02XFR2CqQjDmTw7cbSOAGg9pmNZUEVEi3KNGyiEIrATgv2TeoTTqS16i558lsqaDwgYDhLCGcPArCoE+5XGjCy3dLfeGiw7H7MzXYYFnz1mFAxoxU057C7u2CI/eF201S7HuTseGfpNvtPYN49CgG6cmI+aEWTkNAj7ofYWyT1LgoZfgmfi+W6LN1sfWNjwZY9FIhl4J/MKKdi9Wycwnf5bulibEJmgCiTeNcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nYeqK4suZrpvlyuKRpDOYWO5Cgd7fcCsHkVKRjPBBvA=;
- b=rzJ+1c0F6s52rCPsdh495PwwEObiaSpZ46OuMKGmqhtQhW4YzTrojvHMQO9LFa8Hy0AVEFo7ofKqPjMiEtjb1i4dzDtZ20AnAh7zT8lEMnyDCmRkvt48hbpULKRjb060QYORGgD0aNg0sZbdRBOrdCcyK5Bqn9sNrSEYT7noZpocLJdanAPPQNykmvs2mycTRsvymwXEJBSgZpahnUw49Zg8OishbAfqttLJlAUM+d94vjqragp1U6olJ5n//NmaZC2llx+rrRbajKzgPnyIZK+Zwld9vBQYyhn02FhqwFwylNiunfEIJEbR0HG4Y3IDikdqx3pNk7k8jHJbOXb9Pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
- header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
-Received: from DS4PR02MB11190.namprd02.prod.outlook.com (2603:10b6:8:32a::18)
- by CO1PR02MB8602.namprd02.prod.outlook.com (2603:10b6:303:15d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Sun, 1 Nov
- 2026 13:10:04 +0000
-Received: from DS4PR02MB11190.namprd02.prod.outlook.com
- ([fe80::aba2:f69a:a7c6:95ca]) by DS4PR02MB11190.namprd02.prod.outlook.com
- ([fe80::aba2:f69a:a7c6:95ca%5]) with mapi id 15.21.0569.011; Sun, 1 Nov 2026
- 13:10:04 +0000
-From: Roshan Sivakumar <roshs@qti.qualcomm.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Alexander Kanavin
-	<alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-        Peter Kjellerstedt
-	<peter.kjellerstedt@axis.com>,
-        Sumanth Gavini <sumanth.gavini@windriver.com>
-Subject: Re: [OE-core][PATCH] kernel-devsrc: add runtime dependency on sed
-Thread-Topic: [OE-core][PATCH] kernel-devsrc: add runtime dependency on sed
-Thread-Index: AQHdaFXgULscCbJgJ0a+HciI7gz+RbcWC2sAgAAH3ACAABZtAIADCHim
-Date: Sun, 1 Nov 2026 13:10:04 +0000
-Message-ID: <DS4PR02MB111905C17A50EC946A8E16B0F876B2@DS4PR02MB11190.namprd02.prod.outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=QfpdjSyH;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e9d7791b00so15950455ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 06:39:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793543992; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gdRluyonWCwDdAxbM7N/jufHvsEqZYBvRh+eF5WUZcrG1BGaVRvH7sfQPCQV9F1OVc
+         Cfhn2rkb7Vnj7vSx6L5pQpHILZFl+n3nbPNYTPAR0woEDd8WU7rCoPA6bZy3jg3CY7cK
+         hJ9FT8ErQtZDAeNusEH6FV7M0fnvbX7cz9NEJpni/+BYd8pHu8/zHtiTJaBEl5ILYrdb
+         e6aqK9an/uQPqG6VHMovOWbXt5CzgnufskbOLtg2NA7H6xpyCZ1wrsOfyCrzlslfMCkt
+         7LdjjedmGtnbMfLcER9MsE48fxi0inkGP3a3A/6HY/2PqYkwanILcnb+6x0Bhp1hq6Vw
+         Wreg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=d0IOfsMD5SxMJd0XSmmsDbCH0cLOORr0623lhHBumwk=;
+        fh=XEeFuJirsPXni/ugNGBRaJgK9WqZbhVJyAZe3jlzViw=;
+        b=mmwMqTwaKiBSHoqHr+QR+bNeaTAD9rVIoOahdU3qWQBG4N8WTkJ9u+g9TO9U7RlA5C
+         GfVjsZYmet4mpYWVcgHiBY8kV7z058n5+Jj5UTrmdTnoE7pJuKkilaZv/J9DvaSbPN//
+         GB418MMtrOYXOY9KY0fi88xIgHdhQ/TM6wI2PQjyI94/rV/cg1JxwqnpIepOT5N46zdt
+         2PN+M3BtNQjapsYrZVSFQA6/U38kXtuMUtjNDx3aFrRMfY1/xKD5aDHzvddIDdkgn0Jp
+         MXakTmB4A32Ih0mf+2EJnZDjoSlQ6wbtUtp8ga0Sxqdi+15xc/WVVq3rCHESuhZZ7XyG
+         JABw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793543992; x=1794148792; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=d0IOfsMD5SxMJd0XSmmsDbCH0cLOORr0623lhHBumwk=;
+        b=QfpdjSyH04LF0Lb6LMUH/B6MOmHevIK9t2loLVnm9AWtGwUPM9PCnFadwhNDbn9nB+
+         p2EXqI01klJZR+4iAO0j+q9rH9B7amzNmbLO6Newze11OgwqHCcmYvCw9mM9W7FYavRz
+         Up0a5TxpGUsnx/PIMzhVZbZoEnPxWRW/pAzj14Jz7Jp+aExohCkbjsxKKljHv82d8vST
+         caq5M3vEBV89tIwSX4n3I4Mo8zCWWSrFhy6T996vJ0iUjxhNpzU9gruspYH5AHIjWFLE
+         /W8dcs4mBiFe+wdtezSo5LAq0sWQwkxB0TsIcMQu33xiEVJ90GHYkJzdpNUUe29QLeFl
+         rmcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793543992; x=1794148792;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=d0IOfsMD5SxMJd0XSmmsDbCH0cLOORr0623lhHBumwk=;
+        b=d0Xl4qS8/vhEXqtlQBoT6XO4Vc8fEmbKvNCpkcwTtAjSbXXt5MT+DVQAhMXikFtvMG
+         fVEz1pwW641TQ0kHkDcS5vQo/utQjhYuXneKXw5+moryiokbKesOg82mFQIq2MvO732o
+         tOlyL2/HujHKfIofp5LaulLJryRAfYKT/bfCm/YyroOr3t8SB4YO6wqWSpwZsSMh4qvd
+         hXG8KokoDG4wjEegEnWpwmnBKbUVIU5wq5q6bZ2SEzZordjLPQO88y+43pcdk8Q1H2I7
+         srqk/FjNNmmF/RfFQ+BiFbwOIr9mriRCnPeldlpXOLPHvDSC9u6wPwPlHJ/GVS+bNdz6
+         wNHA==
+X-Forwarded-Encrypted: i=1; AKwUvByB1pBTfUmvjaVMYS8zEgXhB93O37VZ7PLBvn4/2MjbHFFzPDygGwKRQheIkrHchHATj/swP43mNvh9UhB1jYODcA==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z+urUJ5BGoTjNVhKKXkGOO0CoplE+0hTTTzuNBkin/qCp8pF6mc
+	4cgtFpGfzkkMJ6BOKmm5hM4ikufhXbwg3r3cSwvqJXZ5Em5xLBzCMLF3tiJ0h0p+s5XZ6ZXMiuq
+	sT8mhgjgmh5WiMT0hu1jB5HTn40QWJPo=
+X-Gm-Gg: AYBFou0PHI24jdyH8jBDlxTXxen8w+pHu0CMjJOQ1ZIoFVokVCU0+wO/YGB6JHurvNH
+	7dVEclKIZas8BirQRfiImeeVoDMkE4yubtAB+kwZpJwfSNRGnmHeFWEWE1LxjJANOKnM81qBmEU
+	U6qcqeQfe64pHUDbKt+mECRp9aeUiTu7BD2aEA3CPxlVbjOscn4wn+zXOkYm6RmrXjJ3dWWb8zZ
+	EX45tFEEXH0agUJEIoAgsyNg3EHZ+9ZlHHpH2HpPdKZDqdscQOC0UsqjWJHyLkVNFOkKHXOLcfd
+	DUKJVZqRzp/OM/N+49LTWOEo03vShdmGyfazmKc1Sv31E26/6iSDCjLavK252khmTk3pZNBLxIT
+	Vgalr7a4+iQRla7uZZCFxb19NXW/ehXREeXBQf4xdKAYKuF3NBb73P9REOVy1679P0jO3oCbF32
+	DF1m/otXGNUlJ5YagQI2aFKARsXWZR7d5mhrd5+73cz7445TZKg/Gbxxw=
+X-Received: by 2002:a17:903:230b:b0:2ea:19bc:2fe2 with SMTP id
+ d9443c01a7336-2eb36401db6mr76270145ad.10.1793543992364; Sun, 01 Nov 2026
+ 06:39:52 -0800 (PST)
+MIME-Version: 1.0
 References: <20261030100214.3111726-1-roshs@qti.qualcomm.com>
  <CADkTA4NWzzaT11ssicpviaA3AgYtOPbpg_HGuciPSttkQUggdQ@mail.gmail.com>
  <CANNYZj-1kbfQpAGpPKaOd_mGqA8Ums_+NO_aFyYtO2fq+gUudA@mail.gmail.com>
- <CADkTA4NCoBwDCxZrgsfAUQP4=9JMbb9CeYVzFg+j7J61ZfsSQg@mail.gmail.com>
-In-Reply-To: <CADkTA4NCoBwDCxZrgsfAUQP4=9JMbb9CeYVzFg+j7J61ZfsSQg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=qti.qualcomm.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS4PR02MB11190:EE_|CO1PR02MB8602:EE_
-x-ms-office365-filtering-correlation-id: a9e64984-26a5-40a0-a14c-08df381971ab
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|38070700021|4143699003|11063799006|5023799004|56012099006|261009223027099003|261028144727099003|261021121427099003|261026121527099003|261026140227099003|261022113327099003|261022105027099003|10067099003|22082099003|18002099003|6133799003|8096899003|3023799007;
-x-microsoft-antispam-message-info: 5V2rt1XNsweG48xMCMEobkzYJy2dchG4gSPT5xZDBD+P9X5SX0U/tor6BOAvN6z6qXIM4wJcC3xXVJ0+NXZGC3/hw89KDIfrwZvrjphuShz49piJMm/QfofT+6aNrbJXnJlGuEXIVgrUaKTUdvZV05ymCs4oHtoqHiaVPGBq+pJ+OBePDAIHP/7ReqqsmcLCL8UnDI/6LW+w1rAmqyp6qO8rUHdNi1OvIrtRSHNyVdjJwUS/dutcj312H8X8D31n+yX7C2Qp73hu7ZS6Q+IKLF9gho6f1ER6eJebKpn7NXe/OaGJvraCDfJoNWFS/ERd71wdsj7OuU9UTn4Nyz2h8SUecL/Koyl6dlT94inPV8qJZ0yw8JZsPttnY9xXVsnEyDjWW1czWisQtLDXOWdN+r1T3Mo1OIGBjd6SHezuGi6BihFpY6ZusNcYpf3YSHfkTMLxuVFK0geZlr4oBhnEuKu6VEtZJgNiB3yViEKvErRD7h0ISl0Spp2eZeBzLF4rWlb8u2F3piUPrHhBSkmtrUsNSVjnSpo0DQTvb/zN45/CaZCBvgvWTPU+a9V/6SeAm1grHpGvQYwfUSdnsmevd+hEu1oiPLYgzdtM9W7W5Utnsu7673C3bzJAVUrGwblpd3GS+B25NmmWPu2Yuvy1JRA6vTESYYWRKfXvneZrt4L1D1JP/mjh1tZEeeE+IhbbKW7Jfq5bukVx4PwaMp2BxVmConKAUhh6Bo9RiUpfihA=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PR02MB11190.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(38070700021)(4143699003)(11063799006)(5023799004)(56012099006)(261009223027099003)(261028144727099003)(261021121427099003)(261026121527099003)(261026140227099003)(261022113327099003)(261022105027099003)(10067099003)(22082099003)(18002099003)(6133799003)(8096899003)(3023799007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a3E5SnZWZzhBcnYrU3Y5c2g4cVB6UnVNUmh1dVRrY0plYVdQbmpGdWFNTGhr?=
- =?utf-8?B?SE0xWm5qellLQnBOTUVKNXBydmdacjMycmJKQWw3V21jUE9tcUJ4cmZwZmFl?=
- =?utf-8?B?STQvNks3ekVxMUNnSDllUmRsa2RsRUMvTWZQMlZlalFzVkhING5FMG5rckR3?=
- =?utf-8?B?N2tpWWVJV1NGVHJQU3NOZkRnRGZBMkFQd1d0bHA4VEQwKy9XMGtJbEkwTmNr?=
- =?utf-8?B?bzNsUUplTTZ6eVNkRFY1VTVlMFNRSE0xeGdkaEs0QzlXcEFTZkZ1MTNLL1k4?=
- =?utf-8?B?RjhyR3ZWT2xTN0V4V3lqNXA1SjlCNmZYZWFta3kxWkRtdjB0QnVYYjZySlZX?=
- =?utf-8?B?VXhJczUrUFg4Q0xtSFRUU2xYQUgvb1huczh0MVQ1eGZYeXY1eXlHbXFHZnBT?=
- =?utf-8?B?Z1Y0ak5DMFRlU2NML3VzR0kwb3duRVBESlRVYW0xRTFwTGpxQ2ZtM1Y3RFc3?=
- =?utf-8?B?SDVPTHk4b2hQdTlIMFhPbkxQWXFPRHF4QkRqYmN2aEhnVVZaNlBBZ0JXRUFH?=
- =?utf-8?B?amhXTGx1RlYwbWxwNEFHRjNoK3BYZ2VFejZtbytnMzBHaHNwcTRyN3g4bHV1?=
- =?utf-8?B?S2U4Q1BtamlzU3JPMXIzQzJ5UlBOZ0NMRFIwQjVCeUR2d0FWSnh2ZlBsNXV5?=
- =?utf-8?B?QlZldUhjM2Q2eHpFOGR6dHozekh4MnNRVytldk0xeFJoUHRZSzQrclJqTndC?=
- =?utf-8?B?K1ZHOEU1YnY1b1ZYQnpDTmdiRWEzc0NKcGtDbXdrVUpWN0tDUXI2UU1PZzVv?=
- =?utf-8?B?MnRlRjdTbjlhSWxKQ2RTR1AvWXBkS3J4aDdmYytaY3JtZzViaThrUWhYS1dk?=
- =?utf-8?B?MnUxT3JBSmp6ZmNDOUpSZHBtU3NmaUpCYjFPaFpocDk4bTlCNlA2VEYxZ1Va?=
- =?utf-8?B?bHJ0N0Q1WVo0T0FERFNNUE44a1dnUmVQUjQrN0YrKytkQWxCTEllMzZqK3Ar?=
- =?utf-8?B?emw2SlRlWS9CMlZHeWI1cUxvMWpHamtjOEIwVHBIdlVIa2VseDc2VXZlakVC?=
- =?utf-8?B?SEh4a0hOMTRTdlRUUkxaQmJ3NTY4eG5GSVZmUjA4MlBUZWxWYjNpODNSR1N3?=
- =?utf-8?B?SjBSRXpvSHRSSVV0ZGJSVFI2QmdTWU1MNW5yS1NFV2w1RFY2Zm1SdS8raEd3?=
- =?utf-8?B?RHM1cC9ReE05Um1QcjFMcU5EeWgvYWgyUVpSeGFMakZWaXNLb1JiSlQrSGIy?=
- =?utf-8?B?clNnVkFmUW5XaGhwSkFhOHBnWTNXREtEa2VGMndydHg5THMvcE05VmpXbHhI?=
- =?utf-8?B?aVJFVGRSVU1tN0VMb09VcjQwOXpPOUNwSmxtbzh4YUVrWFR1QjFTY1hqS29F?=
- =?utf-8?B?WUlQRUcxUmMvRTdEVTJFWEVQcmF2eVhKRGJBNEtqRjhSL1hCRmp2dWZQSUNw?=
- =?utf-8?B?akxCNnhSQjVzbmlMdkU4TVNJYUZWcSttaG5Jb3JDMjVQWXlHY3pwc2gweUJH?=
- =?utf-8?B?Y3psMHZNV3hXYWNqVUFhNU11ejhsV3BxMU5lME5ROEdnbWNrcGplWWcveXhq?=
- =?utf-8?B?Tk1sWXhrbTZDSzFSK2t4MUY2VFNVT2ZvZ202UC9OZGZJdGprcFRxMkNxS2c1?=
- =?utf-8?B?aGRuWWRUWFNTSG84Q1o0dTMwVVFHWlFhc2Rib25ZTVhYQi9oUzhDM1Y1WDZi?=
- =?utf-8?B?dGxXTjVtdG80ZjZnYUZnRTgyYVdYVThDTjlJeUR0SHoxZlJzOW13ZWpGVHhJ?=
- =?utf-8?B?ZVdxeUMrNG5IQjFrL2RkZWNuOGtWYUJTMERvYkxUNWZqRjFGa0VpM0hYRm1o?=
- =?utf-8?B?cDJjR3Y1Y3lORlRhWFpVb3graDRMZ2k2UEMzTnlrc2pMdmZpdWNiemE4aHhu?=
- =?utf-8?B?UzZrV3NHNUovWmFsRy9KTVdUdUFpUy8rTHRKRU9Hb09JQ09PUkphbHY2THNY?=
- =?utf-8?B?ald3UWpWaWZnOS81aVR3Y0pOZXRYL2pWRGsweWFvREJ2VHh4dktBVFhEVHcw?=
- =?utf-8?B?bnlGVWVwR3l1T2xTeXNSRnhaOElWR2dtczFhT1Jvdk1TVzVUdHRkK29LRk44?=
- =?utf-8?B?QVNiOXl2WU5vSW1GcVlYSEFWaWtUWEw3Qjg5ZnNZKzRIWmlqQ0xidnZyVDBx?=
- =?utf-8?B?bXRycnUxMDIwVnNtRnVwY1JlL1piYyszTUwrSmNVOEFISFFIQWVxNFlHSmZl?=
- =?utf-8?B?K2FkdW5ONzUrS08vWEpuUHBxelZGWDlPeXowWXZjNGplZkVoamVwTUVQdFBT?=
- =?utf-8?B?RWw5YWtHUnBoKzlROTZyakZsZTNFbFVuUzRlMnJyZUVnYWoraUFLTk9pZ3VJ?=
- =?utf-8?B?WjdVeTNqYlMrYm04ODhMbkxMcWVsWlI5TEtaTHBUMlAxblI2RFgzQ3RBdWpJ?=
- =?utf-8?B?RFZ6cGk2TW4zRW5td0lwSmJ1NUlVYmRXNTk5akNIbzdzdmdldGgzZz09?=
-Content-Type: multipart/alternative;
-	boundary="_000_DS4PR02MB111905C17A50EC946A8E16B0F876B2DS4PR02MB11190na_"
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: U0oOTyLy/4hkbSdDrdjQVIIhU4f2mpel9eblE0Z4uFHfU+Ed+PwbgjIvz2fz3GNMPfdV/S9dvyxX94zZSb2+Q7JURyDkz+V264JIV4GLK4Ia1Q5nJUIEXZDpyv0edrDsaccGKKGTHeFIyDv+uQjedyK3VEKRdeJA9+Ao7pHOunZVASGi/CXmYqH6ncqSgRHLHcOXR4NTBRQyA/jqDOFBy07dTft4m9s5xbgqahE7OKyJSeJWob0Xv1KlSM9xhq6TCjYav4d6HTZZR5ZS3FwaV4nDfG+p0y41UpDysxoJiLkgIkPik3wkVtwV0VQUChxWCEqHQVYaqO2wX3hpCnR9eA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: pfRyLWMyoKja+PsnYEpN5RH9vpVW3LQgHGJWOwghQP7gABcTjM3kQWVKX+96qjpuyGRk1sBvK2JpuV/IWfRWTiK+wSgYAwAH1UsAi5FvHX5waQNp616g3NUyswlcTMoHyrxyhR0tFUjwfghNKWZQ9MNr/R3fRxtCgt2MfgtngGltTEHX/JfE4OCEOfUgaadX6ejP6ooCXPQKRNepkqu0BhhDiQqDPqbsvn7pUIOWOgo8nlNlNkjb9HCNY5AJvwQgk7p1zZzKcAfncXu1zbUbej1rPtPosgCvTwWYN7eDuWGKp3wO51uW1wWdy1vM1lT05AVv5i2IrZETLqznmFNCc6cUKdOgcPpUsDA4WMbJp23GN4gHpt2lW2gm2hNXCosjLGRnZ2xrBQwuhLVizYcFEDp7M7vuoDLFjJ2nEO9JfR7rc1KjFCwA3ZrXcPUtEyuoqwVqQT1n82cqxGesaKqhOwyK6YUHrIA7QJLPKQzLP78BzyxhsVjUMrb9o7aLxafz8EbWsp7vjmrdTJoYkvDWxtdjnmUHJPczhgyvzMli8+H4A02cuHMWVaYowmLFSccH4roY2dCIzAR1KJg6b4ixy5O08Khyui5nX2vowqQ9QA1vAtm/g6UEgF4gEyJuxTb1
-X-OriginatorOrg: qti.qualcomm.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS4PR02MB11190.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9e64984-26a5-40a0-a14c-08df381971ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2026 13:10:04.2071
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: G4MCMwWhSWnocRjh5bq/l19AwNw4ZrGxGXO5BxrMpfoCGwjOa2oNMayia4wyUnJfKgzYt2LVHrYLdrCvO88QeQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR02MB8602
-X-Proofpoint-GUID: sOTgaUaKAfpM2vb1HRA3bKT_ruIYv3G3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAxMDA1MiBTYWx0ZWRfX/mIyEyskG2ur
- SWe2uKn8QTyjQNvYo42JXh7tRZ5ipbomq8K4l+UAdZ3LluDDY/QVg/ZxQ7umTtasDy/pQ9+zKA7
- 58GX+Kd6gsVcAK4lbYm0WMGJ8D9UpvXM6OQ7o6eOjtHvwdyiVI9UJiBn9iPNuZShe9NuqyAn3VN
- vdXMqOVA8/EjgU+EYKlj2At+VCPDLVOAWuUEm9vkgwvwB+TotBEsHlgjPORXsTsiOcUM+8a56SI
- AUYYOBpPbmrTf2eUsNtio7hv4b0mfODBcBZfZqwPkFyCIn8lhW0dLs85Th97eBqkB5uoMCEhSFP
- buBKIQcenCmx31n+oAfrWvaNh6Fv7PG8mSW4l4TRV4SDjs1ObDCQ2Cj/TJ7Njx4kz4dR+fAGL6j
- M3hFQ1ANUCYUzXoixk8pgO+/DFr/UDqXXEZthnkZivy9zXYMIqJgC8h01Uhld7U+IhZDBvKPpLh
- 1rMwanJUovcq/jFckLw==
-X-Authority-Analysis: v=2.4 cv=HNBWhYtv c=1 sm=1 tr=0 ts=6ae73a32 cx=c_pps
- a=mfYkKR9NxLGvUTVXB4IRvg==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=zJRp6_cAMcgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=Q4-j1AaZAAAA:8 a=3-RhneuVAAAA:8
- a=t7CeM3EgAAAA:8 a=14JIizlwcqTeFzKGqc4A:9 a=lqcHg5cX4UMA:10 a=QEXdDO2ut3YA:10
- a=TXnzwgEct7VAXVHDZHcA:9 a=rOnxDLtR6WI8q8hb:21 a=frz4AuCg-hUA:10
- a=_W_S_7VecoQA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=VLVLkjT_5ZicWzSuYqSo:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAxMDA1MiBTYWx0ZWRfX0emVvr9ZGQiI
- qDL2+PMHJl9Th0jMb2AozX71bnz1jaFniUn1D/tHLMlh15jFWpwJ3pIVHmc6msncrB1ySxqRRkW
- BfIuYN5zNr/EC6lp4CI1pRHxEf1yIuw=
-X-Proofpoint-ORIG-GUID: sOTgaUaKAfpM2vb1HRA3bKT_ruIYv3G3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-01_04,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- adultscore=0 suspectscore=0 phishscore=0 clxscore=1011 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611010052
+ <CADkTA4NCoBwDCxZrgsfAUQP4=9JMbb9CeYVzFg+j7J61ZfsSQg@mail.gmail.com> <DS4PR02MB111905C17A50EC946A8E16B0F876B2@DS4PR02MB11190.namprd02.prod.outlook.com>
+In-Reply-To: <DS4PR02MB111905C17A50EC946A8E16B0F876B2@DS4PR02MB11190.namprd02.prod.outlook.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 1 Nov 2026 09:39:40 -0500
+X-Gm-Features: AclHuK87kdG9Eu8ih3s3Njrn-puZ8Zzrp2cQXpF0gJIf5SFKrZeGGsegwjyiQk8
+Message-ID: <CADkTA4MafrzEFPLhda-XFcBBn--ziqWHUkCASvNMZS-Xv+Ze=Q@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] kernel-devsrc: add runtime dependency on sed
+To: Roshan Sivakumar <roshs@qti.qualcomm.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Sumanth Gavini <sumanth.gavini@windriver.com>
+Content-Type: multipart/alternative; boundary="0000000000008dd332065f3800e0"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 13:10:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249154
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 14:39:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249155
 
---_000_DS4PR02MB111905C17A50EC946A8E16B0F876B2DS4PR02MB11190na_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--0000000000008dd332065f3800e0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgQnJ1Y2UsDQoNCkdpdmluZyBtb3JlIGNvbnRleHQgb24gd2hhdCBpbnNwaXJlZCB0aGlzIHBh
-dGNoLg0KDQpXaGVuIEkgdHJ5IHRvIGdlbmVyYXRlIHNkayBpbmNsdWRpbmcga2VybmVsLWRldnNy
-YyBpbiBpdCBieSBydW5uaW5nIHRoZSBwb3B1bGF0ZV9zZGsgdGFzaywgSSBnb3QgYW4gZXJyb3Ig
-c2F5aW5nDQoNCiJOb3RoaW5nIHByb3ZpZGVzIHNlZCAuLiAiDQoNCkkgZm91bmQgb3V0IHRoYXQg
-cnBtIGdlbmVyYXRlcyB0aGlzIGRlcGVuZGVuY3kgYnkgc2Nhbm5pbmcgdGhlIHNoZWJhbmcgbGlu
-ZSBpbiB0aGUgbWtzeXNtYXAgc2NyaXB0Lg0KDQpUT09MQ0hBSU5fVEFSR0VUX1RBU0sgKz0gImtl
-cm5lbC1kZXZzcmMiDQoNClRoaXMgaXMgaG93IGtlcm5lbC1kZXZzcmMgaXMgYWRkZWQgdG8gYmUg
-aW5jbHVkZWQgaW4gdGhlIHNkay4NCg0KQXJlIHlvdSBzdWdnZXN0aW5nIHRoYXQgd2UgcmVtb3Zl
-IG1rc3lzbWFwIHNjcmlwdCBjb21wbGV0ZWx5IGZyb20gdGhlIGtlcm5lbC1kZXZzcmMgcGFja2Fn
-ZT8NCg0KDQpUaGFua3MsDQoNClJvc2hhbi4NCg0KDQoNCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fDQpGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29t
-Pg0KU2VudDogRnJpZGF5LCBPY3RvYmVyIDMwLCAyMDI2IDA3OjQ0DQpUbzogQWxleGFuZGVyIEth
-bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+DQpDYzogUm9zaGFuIFNpdmFrdW1hciA8cm9z
-aHNAcXRpLnF1YWxjb21tLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+OyBQZXRlciBL
-amVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT47IFN1bWFudGggR2F2aW5p
-IDxzdW1hbnRoLmdhdmluaUB3aW5kcml2ZXIuY29tPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXVtQ
-QVRDSF0ga2VybmVsLWRldnNyYzogYWRkIHJ1bnRpbWUgZGVwZW5kZW5jeSBvbiBzZWQNCg0KDQpX
-QVJOSU5HOiBUaGlzIGVtYWlsIG9yaWdpbmF0ZWQgZnJvbSBvdXRzaWRlIG9mIFF1YWxjb21tLiBQ
-bGVhc2UgYmUgd2FyeSBvZiBhbnkgbGlua3Mgb3IgYXR0YWNobWVudHMsIGFuZCBkbyBub3QgZW5h
-YmxlIG1hY3Jvcy4NCg0KDQpPbiBGcmksIE9jdCAzMCwgMjAyNiBhdCA5OjI04oCvQU0gQWxleGFu
-ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb208bWFpbHRvOmFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+PiB3cm90ZToNCk9uIEZyaSwgMzAgT2N0IDIwMjYgYXQgMTM6NTYsIEJydWNlIEFz
-aGZpZWxkIDxicnVjZS5hc2hmaWVsZEBnbWFpbC5jb208bWFpbHRvOmJydWNlLmFzaGZpZWxkQGdt
-YWlsLmNvbT4+IHdyb3RlOg0KSSBzYXkgInByb2JhYmx5IiBhYm92ZSwgYmVjYXVzZSB5b3UgYXJl
-bid0IHNheWluZyB3aGF0IHlvdSBhcmUNCmJ1aWxkaW5nIHRoYXQgdHJpZ2dlcmVkIHRoYXQgc2Ny
-aXB0IHRvIGJlIGNhbGxlZCBhdCBhbGwuIEZyb20gYSBxdWljaw0KZ3JlcCBvZiB0aGUga2VybmVs
-IGl0IGlzIG9ubHkgbGlua2luZyB2bWxpbnV4IHRoYXQgdXNlcyB0aGF0Lg0KDQpBcmUgeW91IHJl
-YnVpbGRpbmcgdGhlIGtlcm5lbCBjb21wbGV0ZWx5IGZyb20gLWRldnNyYyA/ICh3aGljaA0Kc2hv
-dWxkbid0IHdvcmspICBPciBkb2luZyBzb21ldGhpbmcgZWxzZSB0aGF0IGlzIHRyaWdnZXJpbmcg
-aXQgdG8gYmUNCmNhbGxlZCA/DQoNCkZyb20gYSBkaWZmZXJlbnQgdGhyZWFkLCBJIGRvIG5vdCB0
-aGluayB0aGlzIHNjcmlwdCBpcyBhY3R1YWxseSBjYWxsZWQgb3IgdXNlZC4gUmF0aGVyIHRoZXJl
-IHdhcyBhbiBpbnRlcmFjdGlvbiB3aXRoIHJwbSBwYWNrYWdpbmcgdGhhdCByZXZlYWxlZCB0aGUg
-bWlzc2luZyBzZWQgZGVwZW5kZW5jeSBpbiB0aGUgcGFja2FnZSwgY2F1c2VkIGJ5IHRoaXMgc2Ny
-aXB0LiBScG0gdHJpZXMgdG8gYmUgY2xldmVyIHdoZW4gcHJvY2Vzc2luZyBiaW5hcmllcyBpdCdz
-IGFza2VkIHRvIHBhY2thZ2UgdXAsIGFuZCBzb21ldGltZXMgdGhhdCBnZXRzIGluIHRoZSB3YXkg
-KGJ1dCBvdGhlciB0aW1lcyByZXZlYWxzIHVzZWZ1bCBpbmZvIGFib3V0IG1pc3NpbmcgZGVwZW5k
-ZW5jaWVzKS4NCg0KDQpBaGEuDQoNClNvIGluIHRoYXQgY2FzZSAoYXNzdW1pbmcgd2UgcHJvdmUg
-aXQpLCB3ZSBzaG91bGQgZHJvcCB0aGUgc3BlY2lmaWMgc2NyaXB0IChhbmQga2VlcCBhIGhlYWRl
-ciBhcm91bmQgYXMgY2xlYW46IG5vcm1hbGx5IGxvb2tzIGZvciBzb21lIG9mIHRoZXNlKSB2ZXJz
-dXMganVzdCBhZGRpbmcgdGhlIHJ1bnRpbWUgZGVwZW5kZW5jeSBmb3Igc29tZXRoaW5nIHRoYXQg
-aXNuJ3QgdXNlZCBhdCAuLi4gcnVudGltZS4NCg0Kbm90ZTogTXkgY29tbWVudCBpcyBmb3IgUm9z
-aGFuLCBub3QgQWxleCENCg0KQnJ1Y2UNCg0KDQpBbGV4DQoNCg0KLS0NCi0gVGhvdSBzaGFsdCBu
-b3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0
-aGVlIGF0IGl0cyBlbmQNCi0gIlVzZSB0aGUgZm9yY2UgSGFycnkiIC0gR2FuZGFsZiwgU3RhciBU
-cmVrIElJDQoNCg==
+On Sun, Nov 1, 2026 at 8:10=E2=80=AFAM Roshan Sivakumar <roshs@qti.qualcomm=
+.com>
+wrote:
 
---_000_DS4PR02MB111905C17A50EC946A8E16B0F876B2DS4PR02MB11190na_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> Hi Bruce,
+>
+> Giving more context on what inspired this patch.
+>
+> When I try to generate sdk including kernel-devsrc in it by running the
+> populate_sdk task, I got an error saying
+>
+> "Nothing provides sed .. "
+>
+>
+And only for rpm as the package manager ? The reason I ask, is that while
+it isn't a primary
+mode for the -devsrc package, I know people have been putting it into SDKs
+in the past.
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29m
-IiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01T
-Rm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAx
-MXB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpIaSBCcnVjZSw8L2Rpdj4NCjxkaXYgY2xhc3M9
-ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRl
-ZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJp
-ZjsgZm9udC1zaXplOiAxMXB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4N
-CjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBB
-cHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGlj
-YSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMXB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpH
-aXZpbmcgbW9yZSBjb250ZXh0IG9uIHdoYXQgaW5zcGlyZWQgdGhpcyBwYXRjaC48L2Rpdj4NCjxk
-aXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRv
-c19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwg
-c2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMXB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+
-DQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6
-IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmks
-IEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMXB0OyBjb2xvcjogcmdiKDAsIDAs
-IDApOyI+DQpXaGVuIEkgdHJ5IHRvIGdlbmVyYXRlIHNkayBpbmNsdWRpbmcga2VybmVsLWRldnNy
-YyBpbiBpdCBieSBydW5uaW5nIHRoZSBwb3B1bGF0ZV9zZGsgdGFzaywgSSBnb3QgYW4gZXJyb3Ig
-c2F5aW5nPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFt
-aWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxp
-YnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6IHJnYigw
-LCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5
-bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRT
-ZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsg
-Y29sb3I6IHJnYigwLCAwLCAwKTsiPg0KJnF1b3Q7Tm90aGluZyBwcm92aWRlcyBzZWQgLi4gJnF1
-b3Q7Jm5ic3A7PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQt
-ZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBD
-YWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6IHJn
-YigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIg
-c3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0Zv
-bnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFw
-dDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KSSBmb3VuZCBvdXQgdGhhdCBycG0gZ2VuZXJhdGVz
-IHRoaXMgZGVwZW5kZW5jeSBieSBzY2FubmluZyB0aGUgc2hlYmFuZyBsaW5lIGluIHRoZSBta3N5
-c21hcCBzY3JpcHQuPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZv
-bnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNl
-LCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6
-IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTog
-QXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwg
-SGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7IGNvbG9yOiByZ2IoMCwgMCwg
-MCk7Ij4NClRPT0xDSEFJTl9UQVJHRVRfVEFTSyArPSAmcXVvdDtrZXJuZWwtZGV2c3JjJnF1b3Q7
-PC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBB
-cHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBI
-ZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6IHJnYigwLCAwLCAw
-KTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZv
-bnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNl
-LCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsgY29sb3I6
-IHJnYigwLCAwLCAwKTsiPg0KVGhpcyBpcyBob3cga2VybmVsLWRldnNyYyBpcyBhZGRlZCB0byBi
-ZSBpbmNsdWRlZCBpbiB0aGUgc2RrLjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2Yi
-IHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNG
-b250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEx
-cHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxl
-bWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9u
-dCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBm
-b250LXNpemU6IDExcHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkFyZSB5b3Ugc3VnZ2VzdGlu
-ZyB0aGF0IHdlIHJlbW92ZSBta3N5c21hcCBzY3JpcHQgY29tcGxldGVseSBmcm9tIHRoZSBrZXJu
-ZWwtZGV2c3JjIHBhY2thZ2U/PC9kaXY+DQo8ZGl2IGlkPSJTaWduYXR1cmUiIGNsYXNzPSJlbGVt
-ZW50VG9Qcm9vZiIgZGF0YS1zaWduYXR1cmUtbmFtZT0icm9zaGFuIj4NCjxkaXYgY2xhc3M9ImVs
-ZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZv
-bnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsg
-Zm9udC1zaXplOiAxMXB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4NCjxw
-IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9Im1hcmdpbjogMGluOyBmb250LWZhbWlseTog
-Q2FsaWJyaSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMXB0OyI+DQpUaGFua3MsPC9wPg0KPHAg
-Y2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0ibWFyZ2luOiAwaW47IGZvbnQtZmFtaWx5OiBD
-YWxpYnJpLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDExcHQ7Ij4NClJvc2hhbi48L3A+DQo8cCBj
-bGFzcz0iZWxlbWVudFRvUHJvb2YiIHN0eWxlPSJtYXJnaW46IDBpbjsgZm9udC1mYW1pbHk6IENh
-bGlicmksIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTFwdDsiPg0KJm5ic3A7PC9wPg0KPC9kaXY+
-DQo8ZGl2IGlkPSJhcHBlbmRvbnNlbmQiPjwvZGl2Pg0KPGhyIHN0eWxlPSJkaXNwbGF5OmlubGlu
-ZS1ibG9jazt3aWR0aDo5OCUiIHRhYmluZGV4PSItMSI+DQo8ZGl2IGlkPSJkaXZScGx5RndkTXNn
-IiBkaXI9Imx0ciI+PGZvbnQgZmFjZT0iQ2FsaWJyaSwgc2Fucy1zZXJpZiIgc3R5bGU9ImZvbnQt
-c2l6ZToxMXB0IiBjb2xvcj0iIzAwMDAwMCI+PGI+RnJvbTo8L2I+IEJydWNlIEFzaGZpZWxkICZs
-dDticnVjZS5hc2hmaWVsZEBnbWFpbC5jb20mZ3Q7PGJyPg0KPGI+U2VudDo8L2I+IEZyaWRheSwg
-T2N0b2JlciAzMCwgMjAyNiAwNzo0NDxicj4NCjxiPlRvOjwvYj4gQWxleGFuZGVyIEthbmF2aW4g
-Jmx0O2FsZXgua2FuYXZpbkBnbWFpbC5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBSb3NoYW4gU2l2
-YWt1bWFyICZsdDtyb3Noc0BxdGkucXVhbGNvbW0uY29tJmd0Ozsgb3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZyAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZyZndDs7IFBldGVyIEtqZWxsZXJzdGVkdCAmbHQ7cGV0ZXIua2plbGxlcnN0ZWR0
-QGF4aXMuY29tJmd0OzsgU3VtYW50aCBHYXZpbmkgJmx0O3N1bWFudGguZ2F2aW5pQHdpbmRyaXZl
-ci5jb20mZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV1bUEFUQ0hdIGtlcm5l
-bC1kZXZzcmM6IGFkZCBydW50aW1lIGRlcGVuZGVuY3kgb24gc2VkPC9mb250Pg0KPGRpdj4mbmJz
-cDs8L2Rpdj4NCjwvZGl2Pg0KPGRpdj4NCjxwIHN0eWxlPSJ0ZXh0LWFsaWduOmNlbnRlciI+PHNw
-YW4gc3R5bGU9ImJhY2tncm91bmQtY29sb3I6I2ZmZmYwMDsgZm9udC1zaXplOjE0cHg7IGZvbnQt
-ZmFtaWx5OnNhbnMtc2VyaWY7IGNvbG9yOiMwMDAwMDAiPjxzdHJvbmc+V0FSTklORzo8L3N0cm9u
-Zz4gVGhpcyBlbWFpbCBvcmlnaW5hdGVkIGZyb20gb3V0c2lkZSBvZiBRdWFsY29tbS4gUGxlYXNl
-IGJlIHdhcnkgb2YgYW55IGxpbmtzIG9yIGF0dGFjaG1lbnRzLCBhbmQgZG8gbm90IGVuYWJsZQ0K
-IG1hY3Jvcy48L3NwYW4+PC9wPg0KPGRpdj4NCjxkaXYgZGlyPSJsdHIiPg0KPGRpdiBkaXI9Imx0
-ciI+DQo8ZGl2IGNsYXNzPSJ4X2dtYWlsX2RlZmF1bHQiIHN0eWxlPSJmb250LXNpemU6c21hbGwi
-Pjxicj4NCjwvZGl2Pg0KPC9kaXY+DQo8YnI+DQo8ZGl2IGNsYXNzPSJ4X2dtYWlsX3F1b3RlIHhf
-Z21haWxfcXVvdGVfY29udGFpbmVyIj4NCjxkaXYgZGlyPSJsdHIiIGNsYXNzPSJ4X2dtYWlsX2F0
-dHIiPk9uIEZyaSwgT2N0IDMwLCAyMDI2IGF0IDk6MjTigK9BTSBBbGV4YW5kZXIgS2FuYXZpbiAm
-bHQ7PGEgaHJlZj0ibWFpbHRvOmFsZXgua2FuYXZpbkBnbWFpbC5jb20iPmFsZXgua2FuYXZpbkBn
-bWFpbC5jb208L2E+Jmd0OyB3cm90ZTo8YnI+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIGNsYXNzPSJ4
-X2dtYWlsX3F1b3RlIiBzdHlsZT0ibWFyZ2luOjBweCAwcHggMHB4IDAuOGV4OyBib3JkZXItbGVm
-dDoxcHggc29saWQgcmdiKDIwNCwyMDQsMjA0KTsgcGFkZGluZy1sZWZ0OjFleCI+DQo8ZGl2IGRp
-cj0ibHRyIj4NCjxkaXYgZGlyPSJsdHIiPk9uIEZyaSwgMzAgT2N0IDIwMjYgYXQgMTM6NTYsIEJy
-dWNlIEFzaGZpZWxkICZsdDs8YSBocmVmPSJtYWlsdG86YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29t
-IiB0YXJnZXQ9Il9ibGFuayI+YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPC9hPiZndDsgd3JvdGU6
-PC9kaXY+DQo8ZGl2IGNsYXNzPSJ4X2dtYWlsX3F1b3RlIj4NCjxibG9ja3F1b3RlIGNsYXNzPSJ4
-X2dtYWlsX3F1b3RlIiBzdHlsZT0ibWFyZ2luOjBweCAwcHggMHB4IDAuOGV4OyBib3JkZXItbGVm
-dDoxcHggc29saWQgcmdiKDIwNCwyMDQsMjA0KTsgcGFkZGluZy1sZWZ0OjFleCI+DQo8ZGl2IGRp
-cj0ibHRyIj4NCjxkaXYgY2xhc3M9InhfZ21haWxfcXVvdGUiPg0KPGRpdj4NCjxkaXYgc3R5bGU9
-ImZvbnQtc2l6ZTpzbWFsbCI+SSBzYXkgJnF1b3Q7cHJvYmFibHkmcXVvdDsgYWJvdmUsIGJlY2F1
-c2UgeW91IGFyZW4ndCBzYXlpbmcgd2hhdCB5b3UgYXJlPC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250
-LXNpemU6c21hbGwiPmJ1aWxkaW5nIHRoYXQgdHJpZ2dlcmVkIHRoYXQgc2NyaXB0IHRvIGJlIGNh
-bGxlZCBhdCBhbGwuIEZyb20gYSBxdWljazwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1zaXplOnNt
-YWxsIj5ncmVwIG9mIHRoZSBrZXJuZWwgaXQgaXMgb25seSBsaW5raW5nIHZtbGludXggdGhhdCB1
-c2VzIHRoYXQuJm5ic3A7PC9kaXY+DQo8ZGl2IHN0eWxlPSJmb250LXNpemU6c21hbGwiPjxicj4N
-CjwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1zaXplOnNtYWxsIj5BcmUgeW91IHJlYnVpbGRpbmcg
-dGhlIGtlcm5lbCBjb21wbGV0ZWx5IGZyb20gLWRldnNyYyA/Jm5ic3A7KHdoaWNoJm5ic3A7PC9k
-aXY+DQo8ZGl2IHN0eWxlPSJmb250LXNpemU6c21hbGwiPnNob3VsZG4ndCB3b3JrKSZuYnNwOyBP
-ciBkb2luZyBzb21ldGhpbmcgZWxzZSB0aGF0IGlzIHRyaWdnZXJpbmcgaXQgdG8gYmU8L2Rpdj4N
-CjxkaXYgc3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+Y2FsbGVkID88L2Rpdj4NCjwvZGl2Pg0KPC9k
-aXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PkZyb20g
-YSBkaWZmZXJlbnQgdGhyZWFkLCBJIGRvIG5vdCB0aGluayB0aGlzIHNjcmlwdCBpcyBhY3R1YWxs
-eSBjYWxsZWQgb3IgdXNlZC4gUmF0aGVyIHRoZXJlIHdhcyBhbiBpbnRlcmFjdGlvbiB3aXRoIHJw
-bSBwYWNrYWdpbmcgdGhhdCByZXZlYWxlZCB0aGUgbWlzc2luZyBzZWQgZGVwZW5kZW5jeSBpbiB0
-aGUgcGFja2FnZSwgY2F1c2VkIGJ5IHRoaXMgc2NyaXB0LiBScG0gdHJpZXMgdG8gYmUgY2xldmVy
-IHdoZW4gcHJvY2Vzc2luZyBiaW5hcmllcw0KIGl0J3MgYXNrZWQgdG8gcGFja2FnZSB1cCwgYW5k
-IHNvbWV0aW1lcyB0aGF0IGdldHMgaW4gdGhlIHdheSAoYnV0IG90aGVyIHRpbWVzIHJldmVhbHMg
-dXNlZnVsIGluZm8gYWJvdXQgbWlzc2luZyBkZXBlbmRlbmNpZXMpLjwvZGl2Pg0KPGRpdj48YnI+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pjxicj4NCjwvZGl2
-Pg0KPGRpdj4NCjxkaXYgY2xhc3M9InhfZ21haWxfZGVmYXVsdCIgc3R5bGU9ImZvbnQtc2l6ZTpz
-bWFsbCI+QWhhLjwvZGl2Pg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9u
-dC1zaXplOnNtYWxsIj48YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9InhfZ21haWxfZGVmYXVsdCIg
-c3R5bGU9ImZvbnQtc2l6ZTpzbWFsbCI+U28gaW4gdGhhdCBjYXNlIChhc3N1bWluZyB3ZSBwcm92
-ZSBpdCksIHdlIHNob3VsZCBkcm9wIHRoZSBzcGVjaWZpYyBzY3JpcHQgKGFuZCBrZWVwIGEgaGVh
-ZGVyIGFyb3VuZCBhcyBjbGVhbjogbm9ybWFsbHkgbG9va3MgZm9yIHNvbWUgb2YgdGhlc2UpIHZl
-cnN1cyBqdXN0IGFkZGluZyB0aGUgcnVudGltZSBkZXBlbmRlbmN5IGZvciBzb21ldGhpbmcgdGhh
-dA0KIGlzbid0IHVzZWQgYXQgLi4uIHJ1bnRpbWUuPC9kaXY+DQo8ZGl2IGNsYXNzPSJ4X2dtYWls
-X2RlZmF1bHQiIHN0eWxlPSJmb250LXNpemU6c21hbGwiPjxicj4NCjwvZGl2Pg0KPGRpdiBjbGFz
-cz0ieF9nbWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9udC1zaXplOnNtYWxsIj5ub3RlOiBNeSBjb21t
-ZW50IGlzIGZvciZuYnNwO1Jvc2hhbiwgbm90IEFsZXghPC9kaXY+DQo8ZGl2IGNsYXNzPSJ4X2dt
-YWlsX2RlZmF1bHQiIHN0eWxlPSJmb250LXNpemU6c21hbGwiPjxicj4NCjwvZGl2Pg0KPGRpdiBj
-bGFzcz0ieF9nbWFpbF9kZWZhdWx0IiBzdHlsZT0iZm9udC1zaXplOnNtYWxsIj5CcnVjZTwvZGl2
-Pg0KPGJyPg0KPC9kaXY+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPGJsb2NrcXVvdGUgY2xhc3M9Inhf
-Z21haWxfcXVvdGUiIHN0eWxlPSJtYXJnaW46MHB4IDBweCAwcHggMC44ZXg7IGJvcmRlci1sZWZ0
-OjFweCBzb2xpZCByZ2IoMjA0LDIwNCwyMDQpOyBwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxkaXYgZGly
-PSJsdHIiPg0KPGRpdiBjbGFzcz0ieF9nbWFpbF9xdW90ZSI+DQo8ZGl2PjwvZGl2Pg0KPGRpdj5B
-bGV4Jm5ic3A7PC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8
-ZGl2PjxiciBjbGVhcj0iYWxsIj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxzcGFuIGNs
-YXNzPSJ4X2dtYWlsX3NpZ25hdHVyZV9wcmVmaXgiPi0tIDwvc3Bhbj48YnI+DQo8ZGl2IGRpcj0i
-bHRyIiBjbGFzcz0ieF9nbWFpbF9zaWduYXR1cmUiPi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRo
-ZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBl
-bmQ8YnI+DQotICZxdW90O1VzZSB0aGUgZm9yY2UgSGFycnkmcXVvdDsgLSBHYW5kYWxmLCBTdGFy
-IFRyZWsgSUk8YnI+DQo8YnI+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9k
-eT4NCjwvaHRtbD4NCg==
 
---_000_DS4PR02MB111905C17A50EC946A8E16B0F876B2DS4PR02MB11190na_--
+
+> I found out that rpm generates this dependency by scanning the shebang
+> line in the mksysmap script.
+>
+> TOOLCHAIN_TARGET_TASK +=3D "kernel-devsrc"
+>
+> This is how kernel-devsrc is added to be included in the sdk.
+>
+> Are you suggesting that we remove mksysmap script completely from the
+> kernel-devsrc package?
+>
+>
+yes.
+
+Bruce
+
+
+
+> Thanks,
+>
+> Roshan.
+>
+>
+> ------------------------------
+> *From:* Bruce Ashfield <bruce.ashfield@gmail.com>
+> *Sent:* Friday, October 30, 2026 07:44
+> *To:* Alexander Kanavin <alex.kanavin@gmail.com>
+> *Cc:* Roshan Sivakumar <roshs@qti.qualcomm.com>;
+> openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org>; Peter Kjellerstedt <
+> peter.kjellerstedt@axis.com>; Sumanth Gavini <sumanth.gavini@windriver.co=
+m
+> >
+> *Subject:* Re: [OE-core][PATCH] kernel-devsrc: add runtime dependency on
+> sed
+>
+>
+> *WARNING:* This email originated from outside of Qualcomm. Please be wary
+> of any links or attachments, and do not enable macros.
+>
+>
+> On Fri, Oct 30, 2026 at 9:24=E2=80=AFAM Alexander Kanavin <alex.kanavin@g=
+mail.com>
+> wrote:
+>
+> On Fri, 30 Oct 2026 at 13:56, Bruce Ashfield <bruce.ashfield@gmail.com>
+> wrote:
+>
+> I say "probably" above, because you aren't saying what you are
+> building that triggered that script to be called at all. From a quick
+> grep of the kernel it is only linking vmlinux that uses that.
+>
+> Are you rebuilding the kernel completely from -devsrc ? (which
+> shouldn't work)  Or doing something else that is triggering it to be
+> called ?
+>
+>
+> From a different thread, I do not think this script is actually called or
+> used. Rather there was an interaction with rpm packaging that revealed th=
+e
+> missing sed dependency in the package, caused by this script. Rpm tries t=
+o
+> be clever when processing binaries it's asked to package up, and sometime=
+s
+> that gets in the way (but other times reveals useful info about missing
+> dependencies).
+>
+>
+> Aha.
+>
+> So in that case (assuming we prove it), we should drop the specific scrip=
+t
+> (and keep a header around as clean: normally looks for some of these)
+> versus just adding the runtime dependency for something that isn't used a=
+t
+> ... runtime.
+>
+> note: My comment is for Roshan, not Alex!
+>
+> Bruce
+>
+>
+>
+> Alex
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
+e
+> at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--0000000000008dd332065f3800e0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Nov 1, 2026 at 8:10=
+=E2=80=AFAM Roshan Sivakumar &lt;<a href=3D"mailto:roshs@qti.qualcomm.com">=
+roshs@qti.qualcomm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex"><div class=3D"msg1055014046367821379">
+
+
+
+
+<div dir=3D"ltr">
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+Hi Bruce,</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+Giving more context on what inspired this patch.</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+When I try to generate sdk including kernel-devsrc in it by running the pop=
+ulate_sdk task, I got an error saying</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+&quot;Nothing provides sed .. &quot;=C2=A0</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+<br></div></div></div></blockquote><div><br></div><div><div class=3D"gmail_=
+default" style=3D"font-size:small">And only for rpm as the=C2=A0package man=
+ager ? The reason I ask, is that while it isn&#39;t a primary</div><div cla=
+ss=3D"gmail_default" style=3D"font-size:small">mode for the -devsrc package=
+, I know people have been putting it into SDKs in the past.</div><br></div>=
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div cla=
+ss=3D"msg1055014046367821379"><div dir=3D"ltr"><div style=3D"font-family:Ap=
+tos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;fon=
+t-size:11pt;color:rgb(0,0,0)">
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+I found out that rpm generates this dependency by scanning the shebang line=
+ in the mksysmap script.</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+TOOLCHAIN_TARGET_TASK +=3D &quot;kernel-devsrc&quot;</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+This is how kernel-devsrc is added to be included in the sdk.</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+Are you suggesting that we remove mksysmap script completely from the kerne=
+l-devsrc package?</div>
+<div id=3D"m_1055014046367821379Signature">
+<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
+bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
+<br></div></div></div></div></blockquote><div><br></div><div><div class=3D"=
+gmail_default" style=3D"font-size:small">yes.</div><div class=3D"gmail_defa=
+ult" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
+=3D"font-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><div class=3D"msg1055014046367821379"><di=
+v dir=3D"ltr"><div id=3D"m_1055014046367821379Signature"><div style=3D"font=
+-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans=
+-serif;font-size:11pt;color:rgb(0,0,0)">
+</div>
+<p style=3D"margin:0in;font-family:Calibri,sans-serif;font-size:11pt">
+Thanks,</p>
+<p style=3D"margin:0in;font-family:Calibri,sans-serif;font-size:11pt">
+Roshan.</p>
+<p style=3D"margin:0in;font-family:Calibri,sans-serif;font-size:11pt">
+=C2=A0</p>
+</div>
+<div id=3D"m_1055014046367821379appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%">
+<div id=3D"m_1055014046367821379divRplyFwdMsg" dir=3D"ltr"><font face=3D"Ca=
+libri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>From:</b> =
+Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_b=
+lank">bruce.ashfield@gmail.com</a>&gt;<br>
+<b>Sent:</b> Friday, October 30, 2026 07:44<br>
+<b>To:</b> Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" =
+target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+<b>Cc:</b> Roshan Sivakumar &lt;<a href=3D"mailto:roshs@qti.qualcomm.com" t=
+arget=3D"_blank">roshs@qti.qualcomm.com</a>&gt;; <a href=3D"mailto:openembe=
+dded-core@lists.openembedded.org" target=3D"_blank">openembedded-core@lists=
+.openembedded.org</a> &lt;<a href=3D"mailto:openembedded-core@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a>&g=
+t;; Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" t=
+arget=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;; Sumanth Gavini &lt;<a=
+ href=3D"mailto:sumanth.gavini@windriver.com" target=3D"_blank">sumanth.gav=
+ini@windriver.com</a>&gt;<br>
+<b>Subject:</b> Re: [OE-core][PATCH] kernel-devsrc: add runtime dependency =
+on sed</font>
+<div>=C2=A0</div>
+</div>
+<div>
+<p style=3D"text-align:center"><span style=3D"background-color:rgb(255,255,=
+0);font-size:14px;font-family:sans-serif;color:rgb(0,0,0)"><strong>WARNING:=
+</strong> This email originated from outside of Qualcomm. Please be wary of=
+ any links or attachments, and do not enable
+ macros.</span></p>
+<div>
+<div dir=3D"ltr">
+<div dir=3D"ltr">
+<div style=3D"font-size:small"><br>
+</div>
+</div>
+<br>
+<div>
+<div dir=3D"ltr">On Fri, Oct 30, 2026 at 9:24=E2=80=AFAM Alexander Kanavin =
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt; wrote:<br>
+</div>
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+<div dir=3D"ltr">
+<div dir=3D"ltr">On Fri, 30 Oct 2026 at 13:56, Bruce Ashfield &lt;<a href=
+=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail=
+.com</a>&gt; wrote:</div>
+<div>
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+<div dir=3D"ltr">
+<div>
+<div>
+<div style=3D"font-size:small">I say &quot;probably&quot; above, because yo=
+u aren&#39;t saying what you are</div>
+<div style=3D"font-size:small">building that triggered that script to be ca=
+lled at all. From a quick</div>
+<div style=3D"font-size:small">grep of the kernel it is only linking vmlinu=
+x that uses that.=C2=A0</div>
+<div style=3D"font-size:small"><br>
+</div>
+<div style=3D"font-size:small">Are you rebuilding the kernel completely fro=
+m -devsrc ?=C2=A0(which=C2=A0</div>
+<div style=3D"font-size:small">shouldn&#39;t work)=C2=A0 Or doing something=
+ else that is triggering it to be</div>
+<div style=3D"font-size:small">called ?</div>
+</div>
+</div>
+</div>
+</blockquote>
+<div><br>
+</div>
+<div>From a different thread, I do not think this script is actually called=
+ or used. Rather there was an interaction with rpm packaging that revealed =
+the missing sed dependency in the package, caused by this script. Rpm tries=
+ to be clever when processing binaries
+ it&#39;s asked to package up, and sometimes that gets in the way (but othe=
+r times reveals useful info about missing dependencies).</div>
+<div><br>
+</div>
+</div>
+</div>
+</blockquote>
+<div><br>
+</div>
+<div>
+<div style=3D"font-size:small">Aha.</div>
+<div style=3D"font-size:small"><br>
+</div>
+<div style=3D"font-size:small">So in that case (assuming we prove it), we s=
+hould drop the specific script (and keep a header around as clean: normally=
+ looks for some of these) versus just adding the runtime dependency for som=
+ething that
+ isn&#39;t used at ... runtime.</div>
+<div style=3D"font-size:small"><br>
+</div>
+<div style=3D"font-size:small">note: My comment is for=C2=A0Roshan, not Ale=
+x!</div>
+<div style=3D"font-size:small"><br>
+</div>
+<div style=3D"font-size:small">Bruce</div>
+<br>
+</div>
+<div>=C2=A0</div>
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+<div dir=3D"ltr">
+<div>
+<div></div>
+<div>Alex=C2=A0</div>
+</div>
+</div>
+</blockquote>
+</div>
+<div><br clear=3D"all">
+</div>
+<div><br>
+</div>
+<span>-- </span><br>
+<div dir=3D"ltr">- Thou shalt not follow the NULL pointer, for chaos and ma=
+dness await thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+<br>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div></blockquote></div><div><br clear=3D"all"></div><div><br></div><span =
+class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gm=
+ail_signature">- Thou shalt not follow the NULL pointer, for chaos and madn=
+ess await thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, S=
+tar Trek II<br><br></div></div>
+
+--0000000000008dd332065f3800e0--
