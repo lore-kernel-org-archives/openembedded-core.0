@@ -1,98 +1,97 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3789.1793583297521158372
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3908.1793583800913082426
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Nov 2026 17:34:57 -0800
+ Sun, 01 Nov 2026 17:43:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=dOfk7SiG;
- spf=pass (domain: konsulko.com, ip: 209.85.216.51, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3ae1da332bcso1108243a91.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 17:34:57 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Z9hxo2G+;
+ spf=pass (domain: konsulko.com, ip: 209.85.215.171, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cdac6d19ddaso898060a12.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 17:43:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1793583297; x=1794188097; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1793583800; x=1794188600; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ao8q/zhr//PH5HbVeouUxAwt2tPocP79Q1vama/gjyo=;
-        b=dOfk7SiGXYyItS80Xx8/Are0MvSMVGPFwjowY/ftLfMRz7/K6BW3ew6/rVR5+PJFLm
-         xp68xzRXZ7Qwh9FOwWkncTfPoM8WsPdzzCI0sobvvTc6G90OYKLBsefpR7DBs4i/eDAh
-         kiJjxBtfIhiwSJD4LagiLPOlehJjHrRLV46hM=
+        bh=ollOlzTgY/SBmBZCTQHsdgzdSBYT0edeDPVwAyVsiGE=;
+        b=Z9hxo2G+r+9yjZ0I9WR6OWuMAp4vNLjhSrGrdsvsNnI6F6eLMXTzJPQFrNuytFYcqE
+         KH2uTXZTZeCZNJ5mwjZNT6a1Fltx4nwYpcvh7K7otys4Zya/aYYWXNB0Xs4M2hVshtaE
+         Twz1Ilk/9G5fLeiYx3LSdiysy3QHHMASGUehM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793583297; x=1794188097;
+        d=1e100.net; s=20260707; t=1793583800; x=1794188600;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Ao8q/zhr//PH5HbVeouUxAwt2tPocP79Q1vama/gjyo=;
-        b=f0gBu3MJ0KNFhdYw9kk/RgUkcsO1A7iNkIbZ+MZb+HXCfm2msMKgqsqawN6bpip3PV
-         PtCAKQhs06x7YQhcaimb3Z+HYHFpfEw7nPQhq+rSD+e7oLF/evwg3XnU5QSvjvlxLNeZ
-         v0KCSRKh22bhufNywy8nGEWPIKOxIiFf69Li95MHXPa4pS9OMO8ptV1mx9qRdGDMbOmo
-         /9e16MbIhSQhRi4q01gwaRMKz/M/eY2qC2Y49pmdEOPRv0izHCryKk4sji2+aRk10WAe
-         ftbaw/626Kq4N40DSTc/KVjynHVlObxky4K53fnvpTugtP7UIXDH9w5rKdRCnHhfP3g4
-         Lwcw==
-X-Gm-Message-State: APuU4Z+ZDmQHl0OQSafkOZWfqYRzzXPeBtbOuExSiLtQ0RBdeiv/cJEG
-	9G8L86SbeQOn0iCdcKgamfx/P9aLRMGmZpe+vYOO0mODC7XHXjTsRYDjI0sX3l2WVZwkF4QFshr
-	XAKqf
-X-Gm-Gg: AYBFou0DxvbX3zGzJa9OZO9MZRgMo1jpLsPeN8rSqxaJ5nQ/Gu3kejc1MQYWjVJRNqH
-	nm3WqEyM1kmtbTJhJ0FcrnPWEmmGlpftIfGuVrlgTdiXdON62QQlAyuXWKG7fjlYPrsjUX2pHdA
-	rNp0JAcPZE6vof9RNeK8rap6RDMllBc5yv5y3lmb25WHGZkKwxka39RjCQBCTNGHb9Q2YLOG6iy
-	sGDLvw2vBIhkJDz2rrH5P/6CuCiqXmYr/y7PpxAlXxvsWcAsrMEtASeQMhhOqwHSce/io7MUZT+
-	W4aCJfNvm5xsFKOtzds9VzmRprRB78JuAc+igP+v0U+bSlFWaW0GEAPl8CbtQqCB0xzo8WCzf9v
-	dOKDpJ8loM7gbnvnT1kVKyPV5LJ3/G2/OXWkVwxRa9jSwxuy0nzXfZU1+jGrAtv2Szw851FwUrq
-	kqNctp52Oeo1ApoF29Dy9xIo6Sq3xVcaeCFwVnWHODZcJRTb9TGaPEjXMxtGSfDsVpwgUwbfUJi
-	htFX4l9q3aN3Rn+ZcPy0g+QNLfxK8mHRXoBxwvmbKK3SrRXhIurXUzjIbOjMr6md+hY4XNCpbyG
-	dIvmzZPIQ2cHmqOae/RVDWumzGWkP6+9SxGJTF5Kc1OhRTU2fEd3g55GJfTP5DVuIbPGrKZPEsp
-	bgOl7GtT+IqExHUEalG/LqpP4Zg==
-X-Received: by 2002:a17:90b:52c6:b0:3ab:be66:ddc7 with SMTP id 98e67ed59e1d1-3ae897ccab8mr8690244a91.10.1793583296717;
-        Sun, 01 Nov 2026 17:34:56 -0800 (PST)
+        bh=ollOlzTgY/SBmBZCTQHsdgzdSBYT0edeDPVwAyVsiGE=;
+        b=zwYbZkU/DCi9XC7MfiFhdYHV5FhPxzBPElk2Q2FJVcUHz1Yid7tN6zgUtcd1Sv33Ld
+         NOC5sSDgPC8ZlYGwQFPO+IU24600Sx2blgx/j9q6kVAdW67kMnCI3jLAn1a5EnHRripn
+         tcFaWSjM/IS6lncctrzlVdB5g9h7rai7QTsbjUTs/ZYP97QlN8laQsKA4HlMhFhfVjB8
+         y51t2dtkA4gSBCR/ZPO8o6KurtinIRySHSR+nTKye6379erildlDJ61cOE7ISKnVlSMM
+         416coYSQbBdqr0U+tMk/gPuosQdPAEgUyY+md0o3m2ytBue/EfvfQnV1fx90FumnRRfI
+         q7eA==
+X-Gm-Message-State: APuU4Z8iuYgnuttpQaijyvSCQdoIhwT+VNI3/fIVML5glw0sZPEkTEMT
+	7v0WHnASL3RfjL4OOU5nEpFiSWzW0Mmn5tDSxH6RSimTA4xfnmjrrm2sB5JbVnZkB/ebKAqWOAr
+	CHgu4
+X-Gm-Gg: AYBFou2hQ7xo/9Wbj3ChxHy3m/nF6JKG/wFySMVURiLFst0p6W9Iz+W2ycrrp8y75Z0
+	BfqfhtzRSpdnUXLfvlgqOj0BY9riUNMP70u0DeVKdY6/FZj8/rG7bxpd9LI95HnhM9f1gKEGNB3
+	i3pEhBCjhko+pF5TaX8vqHs6E7N9ROl6BiGeft/oo2lASF+s4JqE1t68VGBLMZTuBIp/wZEOOw7
+	KSfLTuF2c9ZlnGxN0CbX8l3MGiNoQ6Pp9j8RHLYhNGHPKNNQ+puf7c4yQ+wPPWX4S4p99+vZEiU
+	u8zlzDnLRRfjYN+eZCqDPe6KJk0Nh71wZ9L6/GQat03l3XrHLodP1SOjj9YW/kIpQwvV8JAhbLw
+	fyNsP5vMBH7WyaLo5l27jMKu0o4aqiUa0z/9erhuLDZ5yOOxJMVrb85cyZ54QM+miOtBawaw4Vz
+	cMSdy+ALIUkiQB0tctKVUByksp5oqWCu6aBwEQ8yjcRyJRpJ7WaapqVvbW5x36i/CJMcuSeVjUh
+	gBk6zbIaVTc5m4+rVI17BuDi9ZR1vnuKjtdgy+JM2hxCcDKVQdGj3+WEy69RGryrvnAgfwaDG+v
+	LpVJt+u0JDBcCi2j9kk1d6/fr7fZgpBj+hpFqHULMeiyKSD9AlV8C7in7ERqYZCeWDn8c6Z8r9w
+	gnXRCO2rqesSsHBGa7kE2tEabWw==
+X-Received: by 2002:a17:90b:1b0f:b0:3ac:a5ff:2cc3 with SMTP id 98e67ed59e1d1-3ae8957d4f8mr7495423a91.8.1793583800121;
+        Sun, 01 Nov 2026 17:43:20 -0800 (PST)
 Return-Path: <tim.orling@konsulko.com>
 Received: from thetis.home.local ([2606:c800:6024:2000:9eb8:9e38:131:9f02])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e8fb2fesm15867398a91.4.2026.11.01.17.34.56
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae8826a769sm5578279a91.4.2026.11.01.17.43.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 17:34:56 -0800 (PST)
+        Sun, 01 Nov 2026 17:43:19 -0800 (PST)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-pluggy: upgrade 1.6.0 -> 1.7.0
-Date: Sun,  1 Nov 2026 17:34:52 -0800
-Message-ID: <20261102013452.4084023-1-tim.orling@konsulko.com>
+Subject: [PATCH] python3-iniconfig: upgrade 2.3.0 -> 2.3.1
+Date: Sun,  1 Nov 2026 17:43:15 -0800
+Message-ID: <20261102014315.77862-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 01:35:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249171
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 01:43:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249172
 Content-Type: text/plain; charset="utf-8"
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-Hookspecs can now declare default argument values, and hookspec
-methods without self now emit a DeprecationWarning. Also fixes hook
-registration on Python 3.14 with forward-reference annotations and
-several plugin registration and tracing bugs.
+Fixes quadratic parse time for values with many continuation lines,
+and strips a leading UTF-8 BOM instead of raising ParseError.
 
-https://pluggy.readthedocs.io/en/latest/changelog.html#pluggy-1-7-0-2026-10-14
-https://github.com/pytest-dev/pluggy/compare/1.6.0...1.7.0
+https://github.com/pytest-dev/iniconfig/blob/v2.3.1/CHANGELOG
+https://github.com/pytest-dev/iniconfig/compare/v2.3.0...v2.3.1
 
-Tested with core-image-ptest-python3-pluggy on qemux86-64.
+Tested with core-image-ptest-python3-pluggy on qemux86-64, whose
+pytest run imports iniconfig.
 
 AI-Generated: Uses Claude Code (Claude Opus 5.5)
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../python/{python3-pluggy_1.6.0.bb => python3-pluggy_1.7.0.bb} | 2 +-
+ .../{python3-iniconfig_2.3.0.bb => python3-iniconfig_2.3.1.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pluggy_1.6.0.bb => python3-pluggy_1.7.0.bb} (80%)
+ rename meta/recipes-devtools/python/{python3-iniconfig_2.3.0.bb => python3-iniconfig_2.3.1.bb} (78%)
 
-diff --git a/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb b/meta/recipes-devtools/python/python3-pluggy_1.7.0.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-pluggy_1.6.0.bb
-rename to meta/recipes-devtools/python/python3-pluggy_1.7.0.bb
-index b8e4bbc75b..55d6383fa1 100644
---- a/meta/recipes-devtools/python/python3-pluggy_1.6.0.bb
-+++ b/meta/recipes-devtools/python/python3-pluggy_1.7.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pytest-dev/pluggy"
+diff --git a/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb b/meta/recipes-devtools/python/python3-iniconfig_2.3.1.bb
+similarity index 78%
+rename from meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb
+rename to meta/recipes-devtools/python/python3-iniconfig_2.3.1.bb
+index 6933ac4935..a20ac8b3fe 100644
+--- a/meta/recipes-devtools/python/python3-iniconfig_2.3.0.bb
++++ b/meta/recipes-devtools/python/python3-iniconfig_2.3.1.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/iniconfig/"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1c8206d16fd5cc02fa9b0bb98955e5c2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=4a73af4b5f1f3a8731e5def70e8c1254"
  
--SRC_URI[sha256sum] = "7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3"
-+SRC_URI[sha256sum] = "d1eaa46ebb595891b860ab086b4d09c8588af65ebd4361b8e8f4bb8920b90ba8"
+-SRC_URI[sha256sum] = "c76315c77db068650d49c5b56314774a7804df16fee4402c1f19d6d15d8c4730"
++SRC_URI[sha256sum] = "67f4b9c50da0dedf52af349e7749a80a9057a5031199791b906c3bb3ae878960"
  
  DEPENDS += "python3-setuptools-scm-native"
  
