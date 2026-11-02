@@ -1,93 +1,122 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15278.1793633871496959905
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.718.1793639590635169086
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2026 07:37:51 -0800
+ Mon, 02 Nov 2026 09:13:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=YjYyaoC/;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so20452725e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 07:37:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793633870; x=1794238670; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fHnT3p8U8W428YwCxWJodQHwOscQ6YLaMCZHkexWJVk=;
-        b=YjYyaoC/Ua0Xc7jWO0tcv1jA55hZKmXqbQG9u7OqD+Ku3AXbw3vSNdM6DyXgYskGEk
-         aVDq42wcqIqJ63dx5mprGCamj0XJO/kS6SzXwIUy0XOjwplPXPiqSmIGmXOhYF7N8b7j
-         rhMMTLU5FnctA6bM5W8E3IPUMtu0UznplJVb+E5+vnXBBxgU2MgdlRzVza0wONFs9b7j
-         qUJQLvN+/pOnN8Cfd3kjFlom4S02TtNVoc4SaDV5AYlgL5hTOxJQhg6wIaQ2PFDLJChn
-         ae20U996LtWRRigetnaOfWM5WJwyeRzPAlRtGItbbPKY5k51gfNnWj2jPFI5BivkfASv
-         H5CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793633870; x=1794238670;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fHnT3p8U8W428YwCxWJodQHwOscQ6YLaMCZHkexWJVk=;
-        b=GkZTNCLkrv1mmV+3sUXIbjA5ENIucdE+cKR7GW4XiCEIoiSbd+tVD0hKqNGChfyjpH
-         cKa5sCvWQqL7/cSa7PT+ZWHW2yQcR3MfE2IqbqG6E4pOLBXJWgPSd0EmtuJ3nMgOZQNe
-         /BxnrJEbI73bHUHTEwKeg5WB31140dQVbq1zWJvMXerKNwc2MAb+RhN86zuClbvnRNuV
-         k28rUJEMvXMCU1AqggQsIoo8TmuQcc7gWNInGQWh1hfztpBWL+BkSojsc29KBx0fPBwb
-         d0V96oq7yUHZjENRLQ++ByfFYeIA/6aHNxCC6bDEl3ReMuEv4J0gegyAufP2Xlzgl1LM
-         1Pow==
-X-Gm-Message-State: AFq9FYIW736bnViVHqcCcE5VL7M3cSFF7V2R1zUJzoBv2OtyUMt3yktd
-	DrOAWcwmGCkpx3TWJ42SbzFL+PMD6vNvFtCV2x0eBEJyUr1/lFp90CFnGOt006i/UZpB7AeA0oQ
-	T8PgvhY4=
-X-Gm-Gg: AYBFou1Zu9RgH9M6VH6MBzQCz6e9VXBRD6WvHYqoTAnDaJGRwf+wks9J2YV+8+41Ypw
-	zzVBps7QUj8HyrUJoQdFQ+GVWIgXNOOge5XzuyJVP9xJTf7zn1GiMWfsnFScfSbZdsV4F7DMv00
-	1paxKZPl20NN7CtJRcSMr2RALGjrW3JaA+KoARLcfIEpYDJtOMHVaCxBPt5vdHTuJOEp/7oPuNs
-	057/Og92VHOGDx8Lhf3Q4uAC+F+8uv+XUfuwHcqK15coxXZvIQSJDAIoPbBa2Mq/ZsIKUBwJ8EX
-	TcVGu/jHyiyFGfPJkuhamOTQUN/atnjXyOozGFv7N4xtZdiF4AWBezYlIUdSByfXtKYxyOKnnja
-	gYMJwTQY7NsbsMGiw0lkDAzubS+YOWb55aQtxYxZiqtJEi22JXHUoNB9/SppGXrtjNCqZGDVBT7
-	tUhi9kK+TQ+8/qwGTlKyAci2Z+h1ZCnVnQVjEOC/0jV2RcgFcdwotCwWLhmEqoPPlLKKzEdf4jI
-	/66h7LO5CBntnQPdYik5smL/pLXl3o1DdX+x3TlqLDOSeSV5MFL9DSmYuAFXlOz53rPFNJ4zq4I
-	4XNnw7SEEF1u7w62qnADxPq+xXb2DGN6O+1fHXDjzmUyBOCpGOrFHIP0yc4HstqHrSx7weKXff6
-	Mc26B1zzgeNwuzugyWV7k+3ZcH05x/J1bBXYt
-X-Received: by 2002:a05:600c:4e41:b0:4a6:42cc:bf6c with SMTP id 5b1f17b1804b1-4ac16acfbd0mr220589475e9.7.1793633869607;
-        Mon, 02 Nov 2026 07:37:49 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac0a762bc1sm127422305e9.4.2026.11.02.07.37.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 07:37:49 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: OE-core ML <openembedded-core@lists.openembedded.org>
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] scripts/install-buildtools: Update default to 6.1
-Date: Mon,  2 Nov 2026 16:34:45 +0100
-Message-ID: <20261102153444.416219-2-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.55.0
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=bs8ZLxPN;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: roshs@qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2GZNPH246724;
+	Mon, 2 Nov 2026 17:13:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=kXmZ7psu3W2hbhU+UIRh7Rn1L3/+/5D+VLJ
+	YKsoimRw=; b=bs8ZLxPN6XPTDeIVmwGRwaJOgeGg+vOVYM9Zm9tO064kEOZFV9H
+	t8hczVmxkCghTS5IkUHheiB+ZdW6qm5/fzVVZf0Iqly4cRwp186UvbL+1opLlcnY
+	n+G39R4Ma3ak7KEBeTfGW+KCW+/uee1z4l8HGMCvLZd7g4VEZ6+YuhWjWMU3ht8d
+	Ef759zoGhHlqPtV5zgN/f1A/u6O5AeTgS/iktOmbDWHczh96c0w3JYFb7jUiz6HI
+	n1ZhJzCFsZSSvsYHgi4EMPO0iyfV6Lj9OnUSen5lz9zesPT/Joe5v0WpTyDDsmiP
+	dTCTlov+yTZc9n2OX8Bt5+qz7wmRtcGY4uQ==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpnmethsx-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 17:13:06 +0000 (GMT)
+Received: from pps.filterd (apblrppmta02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2HD4fO2427895;
+	Mon, 2 Nov 2026 17:13:04 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-roshs-hyd.qualcomm.com [10.147.243.236])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 6A2HD4x02427889
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 02 Nov 2026 17:13:04 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4086833)
+	id 3D4D5B7F; Mon,  2 Nov 2026 22:43:03 +0530 (+0530)
+From: Roshan Sivakumar <roshs@qti.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+        Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+        Sumanth Gavini <sumanth.gavini@windriver.com>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Roshan Sivakumar <roshs@qti.qualcomm.com>
+Subject: [OE-core][PATCH] kernel-devsrc: drop unused scripts/mksysmap to avoid sed dependency
+Date: Mon,  2 Nov 2026 22:43:00 +0530
+Message-Id: <20261102171300.3830206-1-roshs@qti.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Authority-Analysis: v=2.4 cv=KZ1HIgYD c=1 sm=1 tr=0 ts=6ae8c4a2 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8 a=iUqKOTVaOQw_3Cj6zKAA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA2OCBTYWx0ZWRfX1a64tJBBgTso
+ zSjJXB04lnFZvdXZbWS5TT22I2Glh5wgEUoZATs8w5gyhxczysIFtRVyfVV1gend1ZUsv6WHVF2
+ kPAg6f/g0Q1O/XT6e8hMgcoKJ2bvY43UwwBmTL+9hpZtrXYR1cCagE3Y0hpsgypr6gQA2Vaj+gG
+ g/R98KXozcEZ2fAuhCcO98oLV8Cy22QKBFCkZL2l9BGm42maLiJQB1pvdv5grjX+5Nw6KN5+a5b
+ JIg5pMWp5iCf8AxHEeCtnHtIi4y3VNZ6Z/vmlE46ZWvnYbn7ngzQGz/dhmiCHFrT6EEZW/w4ShX
+ H+LsNrsNy6VaZGNam/THt76x1a1ulmrJFiwBrOaFbJtCf7sAUGnM9ZLrk5mJkqh9zMSsjPG0WIO
+ iroHD2VgQIg3Btaw4BkD3Y7hkvo6vA5Xmm29Or5mOnI2RQTEzHZBTBPZKln6teW1pNqDq33cJ4b
+ JyDaPYiReWXnBXDASTw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA2OCBTYWx0ZWRfXwlxO6Zh1Q4nm
+ GyVWoPh/YnPKZl0Iviqg2qGI1W2l+rdbWzsxwjWoL9XtmnxhbgSP8rWq4J/75ODMPsO4BwxQVpD
+ dojTQFudFmIdzQMSurebVBnBN9nxjpU=
+X-Proofpoint-ORIG-GUID: ReHWDFWM9E8KitAS_sKHa_svjjBdKVXy
+X-Proofpoint-GUID: ReHWDFWM9E8KitAS_sKHa_svjjBdKVXy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_04,2026-11-02_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 suspectscore=0 bulkscore=0
+ priorityscore=1501 malwarescore=0 impostorscore=0 phishscore=0 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611020068
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 15:37:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249218
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 17:13:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249219
 Content-Type: text/plain; charset="utf-8"
 
-From: Yoann Congal <yoann.congal@smile.fr>
+scripts/mksysmap is a '#!/bin/sed -f' script that is consumed only by
+scripts/link-vmlinux.sh during a full vmlinux link (NM | sed -f mksysmap
+> System.map). External module builds against kernel-devsrc never relink
+vmlinux, so the script is never used in this package.
 
-Update the default to the 6.1 release.
+Because it is packaged with a '#!/bin/sed' shebang, the RPM 6 interpreter
+dependency generator emits "Requires: /bin/sed" for kernel-devsrc. Only
+full GNU sed provides /bin/sed (busybox provides /usr/bin/sed), so SDK
+population fails with "nothing provides /bin/sed" on images using busybox
+sed.
 
-"The last main release" makes a less surprising default than an
-arbitrary (now-EoL) stable point release.
+Remove the script in do_install, mirroring the existing removal of
+scripts/package/debian/rules (dropped to avoid an RDEPENDS on make). This
+clears the spurious /bin/sed dependency without pulling full sed into the
+package or the SDK.
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Assisted-by: Claude Code:claude-opus-4.8
+Signed-off-by: Roshan Sivakumar <roshs@qti.qualcomm.com>
 ---
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 4e6f6e25d72..b92c26c4567 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -58,8 +58,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 90bdbfc534..7da7e270c3 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -158,6 +158,13 @@ do_install() {
+         # Remove as we else would ned to RDEPEND on make
+         rm $kerneldir/build/scripts/package/debian/rules 2>/dev/null || :
  
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-5.3.2'
--DEFAULT_INSTALLER_VERSION = '5.3.2'
-+DEFAULT_RELEASE = 'yocto-6.1'
-+DEFAULT_INSTALLER_VERSION = '6.1'
- DEFAULT_BUILDDATE = '202110XX'
- 
- # Python version sanity check
++        # scripts/mksysmap is a '#!/bin/sed -f' script that is only consumed by
++        # scripts/link-vmlinux.sh during a full vmlinux link. External module
++        # builds never relink vmlinux, so it is unused here. Remove it as otherwise
++        # we would need to pull sed into the package/SDK to satisfy
++        # the dependency generated via the RPM shebang dependency generator (Requires: /bin/sed).
++        rm $kerneldir/build/scripts/mksysmap 2>/dev/null || :
++
+         # tools/include is needed by the archscripts host tools that
+         # 'make scripts prepare' rebuilds on target (e.g. x86 vdso2c) and
+ 	# not checked against objtool as it previously was.
+-- 
+2.34.1
+
