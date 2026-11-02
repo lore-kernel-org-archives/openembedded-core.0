@@ -1,200 +1,280 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2055.1793654491070653073
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2662.1793655984252370591
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2026 13:21:31 -0800
+ Mon, 02 Nov 2026 13:46:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=WoV+3RQZ;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=LyLDnRhO;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 4D6907A0013
-	for <openembedded-core@lists.openembedded.org>; Mon,  2 Nov 2026 16:21:30 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 02 Nov 2026 16:21:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793654490;
-	 x=1793740890; bh=4fvsCUD6BYt1k15u2VHw1ZEJG2S4i/SDpmKWBmhEE48=; b=
-	WoV+3RQZa9HcfilrcqMNP+Lf1PnICEQum5kIgbjdEW+fU3UWAPRGCpJk/bzO+90v
-	TuCNTxs1Maj4UtjsTkIEKPA+sofMwZWOhCHY/JEMTkWyLThw4km9Wyh0SR22AG+z
-	FfzTcBT0QdKuqZR3jmQf87l3VM9yFumICmpGBou3agzMxfYIa+8OrRzlqsZoMNfm
-	Lh4tg8R+5aMsEgoEclYDr13jJ/wbGs62kscy1wnUc+kF0lR0HOCIkZL2TrcDEPO1
-	MMA13YkN5oGDnDSd5iMOyFvBePX9WAWEfheh7qeJzSQ6wLzMy+pBo0fRyH1jUjOI
-	xAYCvfkkfRUQR66OL1UEzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1793654490; x=1793740890; bh=4
-	fvsCUD6BYt1k15u2VHw1ZEJG2S4i/SDpmKWBmhEE48=; b=LyLDnRhOprUz3AgUS
-	pwbjwefbp+8dnQ7Q+WHj9zEfXExWvM47Pdq0Aaj0nBbOJf8xUbzV1+WA3+ndZQ3M
-	Q1dE5aI+vK2hVZkVstil2rtFWIZiLtCARsRwmAuPUtAWT7eVysDxjEpp0d/gSX7j
-	eBwq6rJeSL9n4VDXPmVYUbV111gNByWBDj2J9lvuPKXe9RrWbJy7dvCICF/APKEF
-	pl33v6TiLKQa/Jnq9l7yCd6N30ns1JK0lQMEvSyAk6iOJzY8MT/DsWz33//vZFxW
-	8W/qjprywdNul0LQdDiOy9zpO8VcoWmvDd2w3rgrIcyftWGWEvfIB85gVGpDiVak
-	QJJDg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793654490; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm1:rsa-sha256:PJhiSM6bnp6e4h7+Zgg+O0XQw2VOI7ZAm5s5pFFt/bvxmsL
-	twkPmoPA3N+6/5T/2vCfeHbVFqhvNxFX5Xg9a5iVZ1v09YP7ThjYrB4In+8n9m0y
-	wUGmJJMWMbeX2EnHOg/NV/NQToopwcGbFCBp6019rS22SSuJf92KRtI6eL7mOxlF
-	eGD3sL7cLbOCtMOeLwz32mjBpscUeKLyLxNKRUMjpr4uBLslENpA4x6pURlzOKlQ
-	zg8RhC+yW6BEHu32xxNQxLTDqzVjpUDuWwA9myaLsTz0dmONVq+7AAl5nqt3BVYA
-	StgQJhjMjNvuTmIcS0rYlgvwBQgjh4aD6Gaws6Q==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=content-transfer-encoding,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:bGGrihAM5k09e18EWkRb9MdWxx85yBg78Ud71m6n7tQ=:D9/b+zSFk2GTZtIXcKwC/xx0QjBMroWsQn+IzYC2a58=;
-X-ME-Sender: <xms:2f7oarl3JGBvkN3on5TZvPR9g77qbbUMu-8mnbuwPTHSHcSup8gF-w>
-    <xme:2f7oak3PNlgWKXYpSeAu1yborKR7WTZQzfKZU3HyIvu5q2xx1Kh8H02NyymNN16hL
-    DS_uDYEEFWvAjRRO2GmY_bNFZR3XzXOUhmTqfeZasO6TY7cFTF2Kzqt>
-X-ME-Received: <xmr:2f7oavRn2uIWjRAfcKGVjF6WTExhL7sF2ws-xpEOEDWfJOw-LXEEvKSz-BJ4Lrgj570oy-Xm6bETj5OoFW0XhQe8NIKMQ3Zr1GWyjX5gh-Id>
-X-ME-Proxy-Cause: dmFkZTFBmuuzP3aAt5j0D5PQlBNzs4G9Kcgr/q3ZtyF6y+qMF0p1T23SIjjjbto85ONmIX
-    C9ydpyYNNua/2Gi+L5jo5A5BPxaOpiU2t+tib4DZ9QcwCJSOP4w0agbqrOXtC4ctxsmzhe
-    4zMRuUhijzsGVegbAMX8D6L7zbPRW0ABZpv5DC3aNSXvprQ8fUcrFnUyjlO6v2vNQ20hb3
-    TMPV39JBOPm6VxcX39tYlrBGBqitIokXNj4BaggBZFQl1j7boF+d8yydMdvPZx6xXe6plk
-    9Y/+KaKxp8VpgPX/hZSAElzUQMFf50VYcdeQ84muJz6l9dIcwvX5OwXH9hZ5U8VD5c6zrb
-    eVKu8eS2GpWES2OzvNeXLF/NYQ9FcRc+zabDkHJv352lV6vaL9fGcyCBZceZCix7OXzWbT
-    RAqPXBpXI2sgMerkUmqKJb9kTePdGBJgK706IpCIzdmTZZcZDU4B55A47Gd19suht+yonp
-    A+FAEBB/EiueTVxhnri4qmKydE2tlHRXPS2sUSYfNVnYHpC720vKnzMZuu/v9radLPkzTu
-    PcY/Od93F38OxFg3SDL/SNUOwgyl0rWwyjsEIAs3fE/5FbI7YESlfxGCY5EzV4Bu7Yg2AF
-    towMlcIBQxC/ddJbI/f3JT3WlQsOVxQIyq1oPRyMj1JZWWn7rDfKhDvce/fA
-X-ME-Proxy: <xmx:2f7oauvDLWX_e2S12JX48dkMfzJQzltS-xDWBOs27E0KqXkLMn6t8Q>
-    <xmx:2f7oasYK7IJ0CBUT2P007VFxvTMvqcxhIyjqHs1tGb1Hd2KyvpkqXw>
-    <xmx:2f7oartlThBovve43RYHWPn4UvqK51oJiEEHOlLNRzHluMT4_igXTA>
-    <xmx:2f7oamEFwC4crGqO9KYihRvEGHx0I6lBjc1IujMc1cAGo3MnZHj2lA>
-    <xmx:2v7oamIC98G5ANd99ZRwtx38n1xHT2l-Grx1rzGDM8mafHE3AN4RHDTs>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 Nov 2026 16:21:29 -0500 (EST)
-Message-ID: <01e34b7b659856ddc441fef77a655623f718d2bd.camel@pbarker.dev>
-Subject: Re: [OE-core][scarthgap 19/55] python3-urllib3: Fix CVE-2026-97689
-From: Paul Barker <paul@pbarker.dev>
-To: Yoann Congal <yoann.congal@smile.fr>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 02 Nov 2026 21:21:25 +0000
-In-Reply-To: <DMKQGM0OK34J.11PEY49EZB5M7@smile.fr>
-References: <cover.1793405493.git.yoann.congal@smile.fr>
-	 <a24491466f8796015bd1146d874f4be52f10ad42.1793405493.git.yoann.congal@smile.fr>
-	 <64d8e8dcb939b38d9a3fb4999000a56138aa4f79.camel@pbarker.dev>
-	 <DMKQGM0OK34J.11PEY49EZB5M7@smile.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=xXn03aVX;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: ticotimo@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5bfa65c8617so2087958e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 13:46:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793655982; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ayAusB6yyW7k5lfPdZ/yzEAtByhvmDvPRno2WZk7JLWk/Z7l7/cUt78Ldn483TQ0gg
+         AoJQtDpgIeDT4q9ram8aEKPiNR5DzP024OHOjrwDlGXsjVgmJR3eSo33QrWpwI33Neo7
+         StybP2n3r2t4T+b0RyhSZdsD9FQtPUUrA7AugX/fjFFHoE95RpbPIrzYxIV5GRuwodqE
+         DTQd0HPUlc3qID1VH037DqRoToXPHQ9doyDE1kyk9p/fYIlGZ7ngP8OQGzEgpUg8Eng7
+         xiNHwgeXIEEBOE33YWedJ/KKGi6XcAm38ZouKjeig9m0YV4Px4KqLTLj9jpGkJGS2/UE
+         JoKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=MR7/sW4/IeK/exQ4C57lAb9NtM+AgY5/w5GYQ02XX7M=;
+        fh=MvCSRTAi0v5CsXDkNrBJHAFTWGfRJU/fHzmS8LYi+no=;
+        b=qGcaqoCs+TR9ro16vSauIDpY48b/fUiNZq1q7H8Nj6dbTjBt+28WSTZnhkCvXqAgpG
+         OgEYB6eq/U84O0V+SQDEFQtXxMWnPL6bObxKgUWngYPdkdciSqM6ObU1pnqPEaCIksLk
+         H7yalUBp6tNM4FntVQEYi7nXtkAFfYLdwehlHiyoTy71dJREcNKIvKAK9NlO3O7WB8Uy
+         2AVesr3H1314yVtrN5gV1NFiHZ6b3/BGGxPzQkL4EJdDWUxBozHNZFNnEOT9hVn9ysUx
+         33nZ5HKJsQBtvLrXUx3w9gKckKGFRiy1Xn2zR+EhWU2MbiWbkZPCK7CBsD6FzpUINO0x
+         7c/A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793655982; x=1794260782; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MR7/sW4/IeK/exQ4C57lAb9NtM+AgY5/w5GYQ02XX7M=;
+        b=xXn03aVXXdqm/2tIFbMrLMhkWhKJLdlTt6lz+tlSnQpmvMdw4ZCBIyX5j9t27YNhTb
+         4E0jsPQfHn4Y3ybqEirjkK0il4N1jVSUcpY6bwGx+bFSz54bHDHUROxsb4yQDEa9dfHn
+         BvIIzNwjbpf4C3mCs+euBtUS6xFz/eiri06a+dXjxvTyX0gOgwdSFyjzujhhP4Mruuyt
+         U3f98hdgMt2MhV2t8HTR8vz9dfyavsRBNKoX+WRH64R85OVoIwr4VPHLONrfH5AfHXnK
+         so+i9ysoXwYFjpTT/i7abr4oo2vRrt6leGrLlUCmmFt7Uc6o4PHjT5b2Ln1gAL+CIiU8
+         s2WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793655982; x=1794260782;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=MR7/sW4/IeK/exQ4C57lAb9NtM+AgY5/w5GYQ02XX7M=;
+        b=oJLTpCR+88EpqVbSXtb+fkiIlOY51IcgDRER8y8Kwh6u8cmm2lAqwTXuV/6z1rD1yP
+         EUOwgxiBovtCToTKyOhn613C8glmWT7gSj2rDpVg0dUePwtkl6rYQew/jXPysl8P8lQq
+         fTRmLYeXlv6JbFo4B2YoVJvJ09jwqXkcT932fCfGGzG59wz0BHVzN61GbH/DGW/5r50+
+         TC8vJFw3GqXcMF4CaNntXP9QUJPNRPsuU7eGfHHgkQqdvebgSx/iXoEVu7bDoJHTYgGA
+         kEV8q50YM0tpjBfwCcVuufoNlSmfVZUllDLbsaNAa6NbpNniSv8qN7hlVqCO94TDnKy7
+         c4MQ==
+X-Forwarded-Encrypted: i=1; AKwUvBziQ2rJBAUgD8GIDk+h5LY/fwoRYmH2OVzJkummSnyf34TGiDYO86wMjIayXxTKj6JNOvBvYlH312A1cFTdfPY1iA==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9xP4udlDO6E4gCFD2hx5dD3Ujj+PxzI5oq75WITsi+LlK+HTAT
+	MaiNu7zwVPv9qRjwnRUPj06bt85i/cZRPsf234szXaQHCivj9vs0UDnE07rCISBhVbNtljFFtmu
+	GMbzz0wvCeN4llaGZ/w064vkGkDAGuKDXmQ==
+X-Gm-Gg: AYBFou1Oy7mmnxJ2DE9fgCkTrjKlp5c3NGdPlPwNeAROxymPjfXuOKcqJAzp/wMJ/WU
+	RBBskQywojG9gDYYM19VX8MRti6CvjpSW5UPD6VwNofI0toacD1OQVjMuHeyDaELGDRISugqHhT
+	sV3HfpfF1Yzi26hq7WrEWfO4Zju6kfdBfj/sbBVbwssRf+TA+VfYpmpYJ9eKlhYpfeSOb5XKC0w
+	Ueonw5fktG8BDguQelzKpp1xj07GUfWc0UuKNVcaGaBFMm8Ze3CB0bTEqTFUcUOrP70iPFRdRP9
+	jZ8NmL1/UytQkxNAATTUbgALaBVzHjBhYg/VRFXuPc7bfEd8/kYMj4sL1tKxO9EOJhjJoHueV24
+	mTsLF1uTXrs63dzuAaGlcByhcLHgABcehXJS6KRhbm0FwgJ+MYnwg23RfJyH/lX4XFE9XPic=
+X-Received: by 2002:a05:6512:1588:b0:5bf:ec95:41ed with SMTP id
+ 2adb3069b0e04-5bfec9545d3mr550351e87.24.1793655981764; Mon, 02 Nov 2026
+ 13:46:21 -0800 (PST)
 MIME-Version: 1.0
+References: <20261102011816.3710992-1-tim.orling@konsulko.com>
+ <20261102011816.3710992-2-tim.orling@konsulko.com> <DMKSA11YDYBP.33D4G9KGENZHA@bootlin.com>
+In-Reply-To: <DMKSA11YDYBP.33D4G9KGENZHA@bootlin.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Mon, 2 Nov 2026 13:46:09 -0800
+X-Gm-Features: AclHuK-14cP0iTCcXO83ZTDcu8LJnNxZ1OeU2SNZVSNVh6kc-3rjw0YVr_miXak
+Message-ID: <CANx9H-CzaTzi4nu5LH_qHcA7ZqVPb5SB7JSc9k+wVggKtHFr1g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/5] python3-uvloop: enable ptest
+To: mathieu.dubois-briand@bootlin.com
+Cc: tim.orling@konsulko.com, openembedded-core@lists.openembedded.org, 
+	Trevor Gamblin <tgamblin@baylibre.com>
+Content-Type: multipart/alternative; boundary="000000000000a47589065f521330"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 21:21:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249225
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 21:46:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249226
 
-On Mon, 2026-11-02 at 13:44 +0100, Yoann Congal wrote:
-> On Mon Nov 2, 2026 at 12:02 PM CET, Paul Barker wrote:
-> > On Sat, 2026-10-31 at 01:14 +0100, Yoann Congal wrote:
-> > > From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> > >=20
-> > > Backport the upstream fix [1] as mentioned in [2]
-> > >=20
-> > > [1] https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5=
-c52afb0b1b090f5ed
-> > > [2] https://nvd.nist.gov/vuln/detail/cve-2026-97689
-> > >=20
-> > > Testing:
-> > >   - test_response.py::test_chunk_size_line_too_long - passed
-> > >   - test_response.py::test_chunk_trailer_line_length (6 cases) - pass=
-ed
-> > >   - test_socketlevel.py::test_chunked_size_line_too_long_does_not_buf=
-fer - passed
-> > >   - Full test_response.py: 161 passed, 45 skipped (no regressions)
-> > >=20
-> > > Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> > > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> > > ---
-> > >  .../python3-urllib3/CVE-2026-97689.patch      | 251 ++++++++++++++++=
-++
-> > >  .../python/python3-urllib3_2.2.2.bb           |  14 +-
-> > >  2 files changed, 258 insertions(+), 7 deletions(-)
-> > >  create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-=
-2026-97689.patch
-> > >=20
-> > > diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97=
-689.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.pat=
-ch
-> > > new file mode 100644
-> > > index 00000000000..98b007324cf
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.pat=
-ch
-> > > @@ -0,0 +1,251 @@
-> > > +From 5d5fac45ff18a8159c5a4aa973ed9fc2f5dd35ad Mon Sep 17 00:00:00 20=
-01
-> > > +From: Quentin Pradet <quentin.pradet@gmail.com>
-> > > +Date: Tue, 15 Sep 2026 22:33:41 +0400
-> > > +Subject: [PATCH] Merge commit from fork
-> > > +
-> > > +* Bound chunk-size line reads to prevent memory exhaustion DoS
-> > > +
-> > > +The streaming chunked path (HTTPResponse.stream() / read_chunked()) =
-read
-> > > +each chunk-size line with an unbounded readline(), unlike the plain =
-read()
-> > > +path which delegates to http.client's _MAXLINE-capped reader. A mali=
-cious
-> > > +server could advertise Transfer-Encoding: chunked and then send a ve=
-ry long
-> > > +run of bytes with no newline, forcing the client to buffer the entir=
-e run
-> > > +before the chunk size could be rejected.
-> > > +
-> > > +This caps the chunk-size line (and the trailing CRLF line) at _MAXLI=
-NE,
-> > > +raising ProtocolError when exceeded, matching the behaviour read() a=
-lready
-> > > +had. Only the size line is bounded; chunk bodies still go through th=
-e sized
-> > > +_safe_read(), so legitimate large chunks are unaffected.
-> > > +
-> > > +Verified with a local malicious server streaming a 200 MiB untermina=
-ted
-> > > +size line: stream() previously grew RSS by ~530 MB, now stays at ~1 =
-MB and
-> > > +fails fast, matching read(). A 5 MiB chunk body still streams correc=
-tly.
-> > > +
-> > > +* Fix a black formatting issue
-> > > +
-> > > +* Test chunked response trailer length limits
-> > > +
-> > > +* Fix number in the changelog entry
-> > > +
-> > > +---------
-> > > +
-> > > +Co-authored-by: Illia Volochii <illia.volochii@gmail.com>
-> > > +
-> > > +CVE: CVE-2026-97689
-> > > +Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit=
-/cd770b059b543be29298ea5c52afb0b1b090f5ed]
-> > > +
-> > > +Note:
-> > > + - changeLog change is not backported
-> > > + - Adjusted commit change as per current version
-> >=20
-> > Do we need more detail on the adjustments made during backporting?
->=20
-> I did not need more infos for this one, changes were obvious enough. And
-> the resulting code is the same as upstream's.
+--000000000000a47589065f521330
+Content-Type: text/plain; charset="UTF-8"
 
-Ok, sounds good. Thanks for confirming!
+I have a v2 in testing which drops 8 time sensitive tests on qemuriscv64.
+I'll double check the skips against your list of failures before I send.
 
-Best regards,
+On Mon, Nov 2, 2026 at 06:10 Mathieu Dubois-Briand via openembedded-core
+<mathieu.dubois-briand=bootlin.com@lists.openembedded.org> wrote:
 
---=20
-Paul Barker
+> On Mon Nov 2, 2026 at 2:18 AM CET, Tim Orling via openembedded-core wrote:
+> > From: Tim Orling <tim.orling@konsulko.com>
+> >
+> > The sdist ships the test suite. run-ptest deselects:
+> > * tests that conflict with pytest's output capture;
+> > * tests broken by libuv 1.53.0 spawning with posix_spawn() on Linux,
+> >   which bypasses uvloop's preexec_fn fork hook;
+> > * DNS tests that wait for resolver timeouts without network access,
+> >   which took the suite from 1 to 10 minutes over tap without NAT.
+> >
+> > .flake8 and mypy.ini let test_sourcecode skip cleanly when flake8 and
+> > mypy are missing.
+> >
+> > Tested with core-image-ptest-python3-uvloop on qemux86-64 (kvm, tap):
+> > 455 passed, 35 skipped, 0 failed in 82s, so add it to PTESTS_SLOW.
+> >
+> > AI-Generated: Uses Claude Code (Claude Opus 5.5)
+> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> > ---
+>
+> Hi Tim,
+>
+> Thanks for your patch.
+>
+> I can see it tends to fail on riscv.
+>
+> First build:
+> Failed ptests:
+> {'python3-uvloop':
+> ['tests/test_regr1.py:TestIssue39Regr.test_issue39_regression',
+>
+> 'tests/test_tcp.py:Test_UV_TCPSSL.test_create_connection_ssl_1',
+>
+> 'tests/test_tcp.py:Test_UV_TCPSSL.test_create_server_ssl_over_ssl',
+>                     'tests/test_tcp.py:Test_UV_TCPSSL.test_renegotiation',
+>
+> 'tests/test_tcp.py:Test_AIO_TCPSSL.test_create_connection_ssl_1',
+>
+> 'tests/test_unix.py:Test_UV_UnixSSL.test_create_unix_connection_ssl_1',
+>
+> 'tests/test_unix.py:Test_AIO_UnixSSL.test_create_unix_connection_ssl_1',
+>
+> 'tests/test_unix.py:Test_AIO_UnixSSL.test_create_unix_server_ssl_1']}
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2713
+>
+> Second build:
+> Failed ptests:
+> {'python3-uvloop':
+> ['tests/test_regr1.py:TestIssue39Regr.test_issue39_regression']}
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2714
+>
+> This is riscv, so emulation is slower than for other architectures.
+> Maybe we need to relax a bit some timings.
+>
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#249211):
+> https://lists.openembedded.org/g/openembedded-core/message/249211
+> Mute This Topic: https://lists.openembedded.org/mt/122051652/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
+--000000000000a47589065f521330
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">I have a v2 in testing which drops 8 time sensitive tests=
+ on qemuriscv64. I&#39;ll double check the skips against your list of failu=
+res before I send.</div><div><br><div class=3D"gmail_quote gmail_quote_cont=
+ainer"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 2, 2026 at 06:10 M=
+athieu Dubois-Briand via openembedded-core &lt;mathieu.dubois-briand=3D<a h=
+ref=3D"mailto:bootlin.com@lists.openembedded.org">bootlin.com@lists.openemb=
+edded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Mon Nov 2, 2026 at 2:18 AM CET, Tim Orling via openembedded-c=
+ore wrote:<br>
+&gt; From: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=
+=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+&gt;<br>
+&gt; The sdist ships the test suite. run-ptest deselects:<br>
+&gt; * tests that conflict with pytest&#39;s output capture;<br>
+&gt; * tests broken by libuv 1.53.0 spawning with posix_spawn() on Linux,<b=
+r>
+&gt;=C2=A0 =C2=A0which bypasses uvloop&#39;s preexec_fn fork hook;<br>
+&gt; * DNS tests that wait for resolver timeouts without network access,<br=
+>
+&gt;=C2=A0 =C2=A0which took the suite from 1 to 10 minutes over tap without=
+ NAT.<br>
+&gt;<br>
+&gt; .flake8 and mypy.ini let test_sourcecode skip cleanly when flake8 and<=
+br>
+&gt; mypy are missing.<br>
+&gt;<br>
+&gt; Tested with core-image-ptest-python3-uvloop on qemux86-64 (kvm, tap):<=
+br>
+&gt; 455 passed, 35 skipped, 0 failed in 82s, so add it to PTESTS_SLOW.<br>
+&gt;<br>
+&gt; AI-Generated: Uses Claude Code (Claude Opus 5.5)<br>
+&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.co=
+m" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Tim,<br>
+<br>
+Thanks for your patch.<br>
+<br>
+I can see it tends to fail on riscv.<br>
+<br>
+First build:<br>
+Failed ptests:<br>
+{&#39;python3-uvloop&#39;: [&#39;tests/test_regr1.py:TestIssue39Regr.test_i=
+ssue39_regression&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;=
+tests/test_tcp.py:Test_UV_TCPSSL.test_create_connection_ssl_1&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;=
+tests/test_tcp.py:Test_UV_TCPSSL.test_create_server_ssl_over_ssl&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;=
+tests/test_tcp.py:Test_UV_TCPSSL.test_renegotiation&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;=
+tests/test_tcp.py:Test_AIO_TCPSSL.test_create_connection_ssl_1&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;=
+tests/test_unix.py:Test_UV_UnixSSL.test_create_unix_connection_ssl_1&#39;,<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;=
+tests/test_unix.py:Test_AIO_UnixSSL.test_create_unix_connection_ssl_1&#39;,=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;=
+tests/test_unix.py:Test_AIO_UnixSSL.test_create_unix_server_ssl_1&#39;]}<br=
+>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/buil=
+ds/2713" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/56/builds/2713</a><br>
+<br>
+Second build:<br>
+Failed ptests:<br>
+{&#39;python3-uvloop&#39;: [&#39;tests/test_regr1.py:TestIssue39Regr.test_i=
+ssue39_regression&#39;]}<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/buil=
+ds/2714" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/56/builds/2714</a><br>
+<br>
+This is riscv, so emulation is slower than for other architectures.<br>
+Maybe we need to relax a bit some timings.<br>
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#249211): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/249211" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/249211</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/122051652/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/122051652/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000a47589065f521330--
