@@ -1,113 +1,92 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3542.1793582313260077064
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3932.1793583187320135279
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Nov 2026 17:18:33 -0800
+ Sun, 01 Nov 2026 17:33:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=GLxLzbaw;
- spf=pass (domain: konsulko.com, ip: 209.85.214.175, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2e8f2c3ad6bso14637315ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 17:18:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1793582313; x=1794187113; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=m1KzcvHPCnZ+ewGJIcPnXbE5wLx10GAnhGabVhP0VX8=;
-        b=GLxLzbawmJ3qRE1K7UOmSU2KxfE6MTJat2yap+HI3Y/yJ8sbl8fNv8m7H5bgTFDoaQ
-         3HWtlN70ycnX7o+yis229GNjl8WYWWPBDztX7wxIXAt1KWLf3vPm8pD631zBorhnr/uO
-         +uVrcj1kCu6cieepF4Dnm7B1zBvyYYFVZM1uM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793582313; x=1794187113;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=m1KzcvHPCnZ+ewGJIcPnXbE5wLx10GAnhGabVhP0VX8=;
-        b=q14plRJ6bSPEgDdpxNNCm/EcTxgCdfE4NbJ7g6ALyPJFKvCt7sOwB84Ht7IhlGQBi/
-         zVPQNsYajTHYcF3Z74mVZ0Sv8PEG0U9RVAbr8UAnSE3a6YI6XgVlxs98Ny0lPRzpSYkU
-         bIK+xGpx0A8sXV+ThdcBbvEBMfFeYa0mywOaHlVehCkzVioLbhvE1qNt3wlwznkeA4kD
-         Y8HqqmshmJwEMH0mLZMCQwkso1ZCpSiUqBSu2fLYOXfQ5TcPxdpKwVYxxZ1jpK+quIGY
-         ZT3BfN7kx56RToXk5MnMqyKABO0LDcQqsF13o+XAMD8HSuCuuDGLFuDlLgnUB/xCTMqS
-         vTvQ==
-X-Gm-Message-State: APuU4Z8BK8Q+5GlPt6LzyaEwas2zN3Qd7AmQfUVqx/fuq8gbjrg8s8oC
-	JGPGvyvGSyFfa3UVwL1ue6vOM4i3lXy0nDI/8jHM14iqK6ufq6ZNxICXd+37QJKckcBR7hanc/g
-	JKzpU
-X-Gm-Gg: AYBFou0dLcQJuX9k/gRt91G1y386gm9ofd1bVGcmcjy9GJoSosoBNlNEggJF0J7Mdx7
-	RKUv3Bx2WeGs8hibd9SQA9JIsVOT1Cgm4BdeHmrt4v6uTENxv4XHD22ezoJcvSS+rIJVHq19YrH
-	uOPY+gW6qQ+t7/cIg8kVb64X+9YG0pX8tmeUgwU59ek0mYBzVBUNtMbJ5c8B1ZbDqoejK6Krqvx
-	pp+OxU+VEcT67nhW0XIbYcgFjBsRaKK1V3OqnvkWq3Kdmdq88jjuZGxZr6tZYe2mKVV+eu9kWm5
-	+v4ElAJ0LLXie07Ct8owrl6pj3+NQXjt5y/WDpi7OjNBqm7Wz6nzmm9WZhrcv8phZrMRTO6nSs8
-	AjgWPRLz43HzujEFMqNwoGO8R/7+K73tmkbiBGu8SE2MQ856EqtzF6JHTo8r/h6NnNHstQXC46+
-	3hta/8sTQ0t9xmOkdTwokHTEQZhg76uq+4tdGbfp33HKHCGSUBzczpWGpmo/eGtaD6f0RVNi87K
-	yGSsqgm1wP0qK/to54+3lSuBAc7SEwMfLGEDsz3q4P89aPCnJ9bIZuAEp4tDH+qz5ZhS8sWCeed
-	I1XcYv6+Ndp/3z+seO3QyLhm7U9MDHAJa2KP3ZVErB7RFPpGXtGkTVb124rVu5gRK6wK+UkenAh
-	fwO0Uu5vum1aMtTz5Tv/26wnhNA==
-X-Received: by 2002:a17:90b:3807:b0:3ad:a232:403f with SMTP id 98e67ed59e1d1-3ae897aa79emr7623278a91.56.1793582312519;
-        Sun, 01 Nov 2026 17:18:32 -0800 (PST)
-Return-Path: <tim.orling@konsulko.com>
-Received: from thetis.home.local ([2606:c800:6024:2000:9eb8:9e38:131:9f02])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e9426ffsm16436533a91.7.2026.11.01.17.18.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 17:18:32 -0800 (PST)
-From: tim.orling@konsulko.com
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 5/5] python3-websockets: upgrade 17.1 -> 17.4
-Date: Sun,  1 Nov 2026 17:18:16 -0800
-Message-ID: <20261102011816.3710992-5-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261102011816.3710992-1-tim.orling@konsulko.com>
-References: <20261102011816.3710992-1-tim.orling@konsulko.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=pIiXgzfS;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KLi6uM55;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a199e38178-37dba0bf-d612-4b2e-a762-94ce6ee336a2-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1793583186; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=VRNlgKmOmhDB573YJRrFjzFgaXhvW9nxFydi22DE+wI=;
+	b=pIiXgzfSaYyUJjA6WCtMI1+W/AndXQwCM2GcgesSayjrKPf2ZKAqBazZNO3+FqlO
+	THNpK2TYznpH5YIzxUnYyAkvaFTxZuT27rOSgYAPJXEa8Rx981JaZVarXavk/5l3oeJ
+	ETyQkX7hJEWwBRuFjMsgVHLT/XzKvsdGiNbjQSLc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793583186;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=VRNlgKmOmhDB573YJRrFjzFgaXhvW9nxFydi22DE+wI=;
+	b=KLi6uM55T3zoXGSO39LNtzFEn9Xh+qljtes4+GBsn/OLzOA9ut+SQzvb+J0jD3+P
+	xY5gPeUS3IIIERp8U2pBMfkAX+WHtFxtwjW6kJ9qNuS7fdw1a/icfKiy1ZAITLAFz/H
+	hIOcoRKQQPFE8jVpXIsMAZrp2p3y7z2lFD9pGMiY=
+From: patchtest@automation.yoctoproject.org
+To: tim.orling@konsulko.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/5] python3-uvloop: enable ptest
+In-Reply-To: <20261102011816.3710992-2-tim.orling@konsulko.com>
+References: <20261102011816.3710992-2-tim.orling@konsulko.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a199e38178-37dba0bf-d612-4b2e-a762-94ce6ee336a2-000000@us-west-2.amazonses.com>
+Date: Mon, 2 Nov 2026 01:33:06 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.02-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 01:18:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249169
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 01:33:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249170
 
-From: Tim Orling <tim.orling@konsulko.com>
+--NextPart
+Content-Type: text/plain
 
-17.4 fixes a denial of service by memory exhaustion: recv() now rejects
-fragmented messages split into more than 4096 frames (tunable via
-WEBSOCKETS_MAX_FRAGMENTS). 17.2 and 17.3 are bug fix releases.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-17.3 added uvloop variants of the asyncio tests, so add python3-uvloop
-to the ptest dependencies.
-
-https://websockets.readthedocs.io/en/stable/project/changelog.html
-https://github.com/python-websockets/websockets/compare/17.1...17.4
-
-Tested with core-image-ptest-python3-websockets on qemux86-64 (kvm,
-slirp): 2550 passed, 114 skipped, 0 failed.
-
-AI-Generated: Uses Claude Code (Claude Opus 5.5)
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- .../{python3-websockets_17.1.bb => python3-websockets_17.4.bb} | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-websockets_17.1.bb => python3-websockets_17.4.bb} (89%)
+Testing patch /home/patchtest/share/mboxes/2-5-python3-uvloop-enable-ptest.patch
 
-diff --git a/meta/recipes-devtools/python/python3-websockets_17.1.bb b/meta/recipes-devtools/python/python3-websockets_17.4.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-websockets_17.1.bb
-rename to meta/recipes-devtools/python/python3-websockets_17.4.bb
-index d1bec373e0..a2357ebee6 100644
---- a/meta/recipes-devtools/python/python3-websockets_17.1.bb
-+++ b/meta/recipes-devtools/python/python3-websockets_17.4.bb
-@@ -9,7 +9,7 @@ SRC_URI = "\
-     git://github.com/python-websockets/websockets;branch=main;protocol=https;tag=${PV} \
-     file://run-ptest \
- "
--SRCREV = "e87ea9be0373edd5065b5e94dfa714cfde23023b"
-+SRCREV = "625a59ed613ac60e60d577dd64b8641d59ecb2b1"
- 
- CVE_PRODUCT = "websockets_project:websockets"
- 
-@@ -23,4 +23,5 @@ RDEPENDS:${PN} = " \
- 
- RDEPENDS:${PN}-ptest += "\
-     python3-misc \
-+    python3-uvloop \
- "
--- 
-2.47.3
+FAIL: test max line length: Patch line too long (current length 333, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
