@@ -1,104 +1,83 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13473.1793628621151357477
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13526.1793629583813736209
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2026 06:10:22 -0800
+ Mon, 02 Nov 2026 06:26:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=Ng9pUjUs;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=OE97LgVh;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: benjamin.robin@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id BF1DC4E413CF
-	for <openembedded-core@lists.openembedded.org>; Mon,  2 Nov 2026 14:10:18 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 6D2AEC4FECD
+	for <openembedded-core@lists.openembedded.org>; Mon,  2 Nov 2026 14:27:25 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 76F8860750;
-	Mon,  2 Nov 2026 14:10:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9CFFE10328C5E;
-	Mon,  2 Nov 2026 15:10:12 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4BD9B60750;
+	Mon,  2 Nov 2026 14:26:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 09DDF1032909D;
+	Mon,  2 Nov 2026 15:26:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793628613; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=mYBZh4MBfD7z858jOdgahy41HhJoDiGdqJetYsn5KBw=;
-	b=Ng9pUjUs+Crx68Jz9AmX3vB6O8tMKr5myfPfMTGm2YuZ8gStMVQUGQsGcmpm4Y9iLohuRk
-	Tr8O9sYV1AIta9n9827Tvqm/zR0E6IXlPnY+9s5DJZdKzjUy9K1uoTV7A4tY69PTcMIkSc
-	NbvAwrwK+r3rBcV1U9EeiR8uTeiWHfeICCWbFPbAFMf7axn5Xq3hyM91nMakt6dTznAZu+
-	2a5aoewN9MOHlD9+sLGlVlNDw5Ax9I4njaoZBKyT9kf21x90bCoibmTJsnFSBm/SMkLGBF
-	+3BacYnUh1vgwYyOcWL3936rFD91sfFzkQkmdJDCV4ek+RHFy8qWtd6KCvlqUQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 02 Nov 2026 15:10:11 +0100
-Message-Id: <DMKSA11YDYBP.33D4G9KGENZHA@bootlin.com>
-Cc: "Trevor Gamblin" <tgamblin@baylibre.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <tim.orling@konsulko.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 2/5] python3-uvloop: enable ptest
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261102011816.3710992-1-tim.orling@konsulko.com>
- <20261102011816.3710992-2-tim.orling@konsulko.com>
-In-Reply-To: <20261102011816.3710992-2-tim.orling@konsulko.com>
+	t=1793629576; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=1H+I+pP010UA2Rw/wxLU56TEj1mIvXkC00mKr3Z3ELs=;
+	b=OE97LgVhZRKFNKnBDv69SSf7tySYfXKH3Udvx4qCNrXmaj7JD373lVliah7ZuzRD14v75D
+	dizfM+SrIKRD4q5FMf3uBSNJyZeNnzAcaiToBdiVR4/aJP/IGdBpv10KEsfwylZc7z4kAD
+	eXhdVny7iA8mXiTrLC3hW8qtuAUvbEZMDB7vXxJ35F1zexePo/VhysnHBrnnHWHjOlIz6m
+	Cg46GO04l7PnP3LnCNWba8m6B2ZcQSem5YcnnnoRembomqYsJKKoHkhEhD+CfPQAPhyYjT
+	MwHDA3ca0cMOcptTzLagM44Nn/xCqyTHsOF0QGi1CfjwVNPgPzQlLwigsZUfBA==
+From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
+Date: Mon, 02 Nov 2026 15:26:09 +0100
+Subject: [PATCH] python3-sbom-cve-check: update to version 1.4.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-sbom-cve-check-update-1-4-0-v1-1-ba8e76e1359d@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQqDMAwA0F+RnA00RQrbr4wd2hhnNqbSqAjiv
+ 9vN47u8HUyyisG92iHLqqbjUEB1BdzH4SWobTF45wOR82hp/CKvgtwLf3CZ2jgLEjboMMVAIXZ
+ 8C8lDGaYsnW7//fG8bEt6C8+/Eo7jBEbj3w5/AAAA
+X-Change-ID: 20261102-sbom-cve-check-update-1-4-0-ba616afc96b2
+To: openembedded-core@lists.openembedded.org
+Cc: ross.burton@arm.com, Peter.Marko@siemens.com, 
+ olivier.benjamin@bootlin.com, mathieu.dubois-briand@bootlin.com, 
+ thomas.petazzoni@bootlin.com, 
+ "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
+X-Mailer: b4 0.15.2
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 14:10:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249211
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 14:26:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249212
 
-On Mon Nov 2, 2026 at 2:18 AM CET, Tim Orling via openembedded-core wrote:
-> From: Tim Orling <tim.orling@konsulko.com>
->
-> The sdist ships the test suite. run-ptest deselects:
-> * tests that conflict with pytest's output capture;
-> * tests broken by libuv 1.53.0 spawning with posix_spawn() on Linux,
->   which bypasses uvloop's preexec_fn fork hook;
-> * DNS tests that wait for resolver timeouts without network access,
->   which took the suite from 1 to 10 minutes over tap without NAT.
->
-> .flake8 and mypy.ini let test_sourcecode skip cleanly when flake8 and
-> mypy are missing.
->
-> Tested with core-image-ptest-python3-uvloop on qemux86-64 (kvm, tap):
-> 455 passed, 35 skipped, 0 failed in 82s, so add it to PTESTS_SLOW.
->
-> AI-Generated: Uses Claude Code (Claude Opus 5.5)
-> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> ---
+For details on this new release, see:
+https://github.com/bootlin/sbom-cve-check/releases/tag/v1.4.0
 
-Hi Tim,
+Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+---
+This release introduces an OpenVEX export type and fixes various issues.
+Most importantly, it corrects the CVE assessment for the Linux kernel:
+previously, a large number of CVEs were incorrectly marked as fixed when
+they should have been marked as affected.
+---
+ ...{python3-sbom-cve-check_1.3.5.bb => python3-sbom-cve-check_1.4.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for your patch.
+diff --git a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.4.0.bb
+similarity index 80%
+rename from meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb
+rename to meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.4.0.bb
+index 5396720fbd0a..fe38fed5ea3c 100644
+--- a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb
++++ b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.4.0.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=570a9b3749dd0463a1778803b12a6dce"
+ 
+-SRC_URI[sha256sum] = "9ed8b0e9c46015444cd3e30332d9558e0be5f5fec97f6df47c6760166a314167"
++SRC_URI[sha256sum] = "b0dfd6a60c715d7b4694897fdde5dddac0524e9bb25bc6736160712ce1d91e86"
+ 
+ inherit pypi python_hatchling
+ 
 
-I can see it tends to fail on riscv.
+---
+base-commit: 5ffd9e055469165d486048cd1f505058dbc35b63
+change-id: 20261102-sbom-cve-check-update-1-4-0-ba616afc96b2
 
-First build:
-Failed ptests:
-{'python3-uvloop': ['tests/test_regr1.py:TestIssue39Regr.test_issue39_regre=
-ssion',
-                    'tests/test_tcp.py:Test_UV_TCPSSL.test_create_connectio=
-n_ssl_1',
-                    'tests/test_tcp.py:Test_UV_TCPSSL.test_create_server_ss=
-l_over_ssl',
-                    'tests/test_tcp.py:Test_UV_TCPSSL.test_renegotiation',
-                    'tests/test_tcp.py:Test_AIO_TCPSSL.test_create_connecti=
-on_ssl_1',
-                    'tests/test_unix.py:Test_UV_UnixSSL.test_create_unix_co=
-nnection_ssl_1',
-                    'tests/test_unix.py:Test_AIO_UnixSSL.test_create_unix_c=
-onnection_ssl_1',
-                    'tests/test_unix.py:Test_AIO_UnixSSL.test_create_unix_s=
-erver_ssl_1']}
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2713
-
-Second build:
-Failed ptests:
-{'python3-uvloop': ['tests/test_regr1.py:TestIssue39Regr.test_issue39_regre=
-ssion']}
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2714
-
-This is riscv, so emulation is slower than for other architectures.
-Maybe we need to relax a bit some timings.
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+--  
+Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 
