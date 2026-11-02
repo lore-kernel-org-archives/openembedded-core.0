@@ -1,189 +1,156 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.9])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9511.1793615273574902660
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.8])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9754.1793615270477773929
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2026 02:27:54 -0800
+ Mon, 02 Nov 2026 02:27:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=avd9LwY8;
- spf=pass (domain: est.tech, ip: 40.107.162.9, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=jS7Qom3V;
+ spf=pass (domain: est.tech, ip: 52.101.66.8, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ibtInN/Agth/8axA/efxttrmT+uVni4MaVudOfmo6utmSqOUiUd4eUEE4LrMGVGwypJQQcReagiFS+ltnEQk3vclZTcfw28j/TCyRuOsRg5H2V9zExpa6pU8s9EHUft0HjAq8O9JICYsDmQarLxoA9xWlI5VFaO9g+5EXumNuSCZ6EZXC74bdm0Oo62IqZns2loE5mUVBVUyDihJ7JtlQdk883gxwEaw4Fg2vAa0kiAvu6vfFgGY9VLDPLUWG0r3d9seFozLA+M+ANTZ2p4Ol/epT9xd+EjNRWHAVZ7x8cqHsoUWKzqNMKzKwEZykugsz6+jZhDx3gwOk/Fv7dKdEA==
+ b=q3vctqYiB/LkIPcdrb3pFNAm4YON/7ZaiAlPJEM8HpoFKXhFRREmx6BRGfgc21XCI46bzQkH4RFvj5rwAc6jwtW4jTwMxve4mzql9OQggFF9n/XO9G06b2SVPbW3e5wnOFYEt5PskV+bzZkYnBWOjwi4i0NYcbroA/pinwEgQLAWSsay5nEPuRd4RlHL9htcguzv5Av3SI3x1KYABn1YzdrHv4mdFrDuQKcm+VzEMkIE7gIuKSTwj0VbmKmnB/NOurCFaxqa0+4PAyFvdRMS2S2TZmEyr3WJyxR+QPztWywWW9fIvahFzSGbsFmSfquwhGAW7XRKS+IfnmsnMubSpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A4mDBbir6196WBfKTe2FqKMniG3DO2p6ku8S1CjEVO8=;
- b=muSpqaeSmMDyANYdLtCuD6foJJ09p8TfjHZgkhP+L6Cqyegfiy1t1rKrEYQmiY5sEaW4o+Rlm0TF8x2935M7d1rj3qKjEwmxbJoKGqHgvitkYRLReq7zYy7Lh3x32Qi3K4MvTw0u1Pg/S2ESNHOvVE50KvNHVBEobHwhG55YL05Bb+nF9nrQ1Sad3GoDVlFzLh20IFxAzXMaxM6/IGWRGbJG/RT6QkfSCH8oRFnTPL1EZkTWQ2jxGCI8euTn2jY6QBwO3ea9/WgcplSWP4y1pE5wmH9bNxDvTds72KM1kj9jyNVBkchgOuOiOkB+uSUcw8PE47iUoqEOhaQvGkhyBA==
+ bh=mndB/McD4xycmpYvWOhs7zI/goJ7L3ZqOWFRDShUz40=;
+ b=uOaqZg5aT7oMwdMqzrc5bZ+u4A1O/YGt22+xT4Sy8WYsAW3AAI+RSR9RFGGD1lunxqICqj5wfol9WKZPSUJYIj4S0Eiq39HH8E+uUDiaRXwuakorpkSveSze4IuZulJz7KBzOgdmQMy11nyERDIC+cM1OAjSItSZyT2CvOA/5JQUJpeFug+fxlifDuw+x87qKGwoUjgvjmJnYCpkepBpOoFuIipsOe72T23O3Qro7eOlmGLbHhZCs1yTabh/R323SQuIy22NbpjmelLZ4ZUM2x3Ovvk/Agz7FGKOXo3TNEPoQ8Sju9Emx1mwo3qQuj8NzaViWVdksuA92FFOuo+00A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A4mDBbir6196WBfKTe2FqKMniG3DO2p6ku8S1CjEVO8=;
- b=avd9LwY8NHwv1lU9nao4K0ej7XkyCISIrgcJh7F9xsQHt1JF/VxX7YHGoF+6eXAAjzHYaQ73EhPRrvsVp37cbGjqk+iVQsm7tKonX8ZLXDr5Z/xN/F+11/lRfGiJ36zkSIbDOk+fpVZS5UMfM4KLCfAsH0Bl4jV8dleuUNckfXlvShQJnzy6Yq6GVVq0kbLTRx+p2M/wPM3oe0CX0xb3W0hCG6Ywu7rWUBxKU2pIHt6GXMp98JyUeWS8KQn9cuOn05NU8nTv2P72L2i6rDGD5y97V/kxDKmpNQkpex9iJplr2GWNRcz7Ge9tIPrPS3mIE7Znt/bUsWAXaB/ZDJTg6Q==
+ bh=mndB/McD4xycmpYvWOhs7zI/goJ7L3ZqOWFRDShUz40=;
+ b=jS7Qom3VopARtCTU6bWxIUwpHSvb/Bd8vI3Ml98IC4CmBm4ngxSbAg5gQIQMKX6lIGKhJiCtOxFxvrM4ktxdKO2iabkJm1OFDRaM+6wtqHR1tSuQP4nNQTcOBBbyEIJl4YA4oODbR/vpGke1y+3FvDdbCw1tyf73dB6tBLisIIt/vBHmiL/6gDzv8ycIMCZZ6eT1eTP1ZP9CkDsf7dP3QXgSdlbEHrPYt/U9+SDh+CaLWjhncwnDHnj1L4/aRW893iklkaBg7Z53pQ3N9k3BxOeVMmtVffiSE13qw//RG+EXl/1kz+yMz6oegNdSKUOxmyLVVkFWRqTdmM4upSA2cA==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by GVXP189MB3512.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2ac::19) with
+ by PR3P189MB1113.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:48::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 10:27:46 +0000
+ 2026 10:27:44 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
- 10:27:45 +0000
+ 10:27:44 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] mtools: upgrade 4.0.49 -> 4.0.50
-Date: Mon,  2 Nov 2026 11:27:40 +0100
-Message-ID: <20261102102742.31991-2-jaipaul.cheernam@est.tech>
+Subject: [PATCH 1/4] patchelf: upgrade 0.19.2 -> 0.19.3
+Date: Mon,  2 Nov 2026 11:27:39 +0100
+Message-ID: <20261102102742.31991-1-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261102102742.31991-1-jaipaul.cheernam@est.tech>
-References: <20261102102742.31991-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P265CA0170.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:312::9) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PR3P191CA0040.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:102:55::15) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|GVXP189MB3512:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3ec2c39-113f-4125-f838-08df38cbef65
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PR3P189MB1113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5f6b95e8-a1ae-4fe6-073c-08df38cbee7a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|11063799006|56012099006|261009223027099003|261009221227099003|261009221727099003|261009220027099003|261009223327099003|261028144727099003|261021123027099003|261021121427099003|261022105027099003|261026140227099003|10067099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info: +iLl98QKkHGzukJJpXWs581TAOeNobp3rN+0/H26EKxv3W/b9vX96hjzV/pWT2UJDhZbE//8dbQ2yAurUmbgegS/s07Ne+CEpnc5C5HLpHbbykOB1jMbAN36RqgOn/8rpicJSJ7F15uKTwsvydXyTNIBIQgIARQzcG3DCJA7Bjtd/zZFUdaFqiNORYVF8GMWnBoA2lzv7NfkccUsvTZPjKS9Bo3/UZhAskgTmTWmMUAR051cQX2S+MlPce/WRyPwm1s130z+08FSPhVTmXjegsJaxXhvpU71I71tR6hLTLNN0d2D07x2EBHyPb3+VcB2CBqcZoehe324/Gx6dsmi9znhon6m4BJHtnIYqhN3iUlh/TckfsRCHfMaDMSZb5TZnRvD+w8Qw8tfdeDEKXzV7+imqW6QXYkgr0jc5WOYAeGHnSeoGLC3DUE9mDlRKOjvrfEtHKAh6M9wPmIRFnCzJx2jHNBVryXudv8/lCuoTkb+WZYaufclCOqjXJcYuBUedwXoKT5HLEMcBHOSG9uvtaNe/OPJfOIJeMjxeodSSJ5BPYAG4vZvbybWDXbaE8VFj/KHQit74t+sdnBS730aswuRIjNPlvAb60ASxeMtMZi8KZ1Wc0Jj5c5QkLLWBWOGXLEegbz0vzMD2+zxTjOKCJAv4AvsYCtPZmlG2GLEjVw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(11063799006)(56012099006)(261009223027099003)(261009221227099003)(261009221727099003)(261009220027099003)(261009223327099003)(261028144727099003)(261021123027099003)(261021121427099003)(261022105027099003)(261026140227099003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|261021123027099003|261021121427099003|261022105027099003|261009223027099003|261026140227099003|261028144727099003|11063799006|10067099003|56012099006|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info: fzoGDk4G4a/9JVSoxUcxfDBbtib2PX78Y/EbHujrvi4ZnWv8f/MiC2bBjzMYIfA0I+t4KFnGjxgWXkqqNoygHpjyPXI9194Q96EuVyLGGDltMLs7eQebHe7izwuVHbbDsZzYbV2GWONbO8uAei52HSXvouRnK2uZ5xK6TDX0ouUuqeYobzZ6igatYT8MiKQmJfBiFDhs0QVgjIGUHWSmU4828pDjtFUGmQq0dtZ33f3cetbhVHLDvviKa8L4jKj4s+nJU3A5IyJM5fO8PxEsjsRW5aHLXYmwMm4c2XWU8rGnRMzxCs124Zar2jm+q5V2btQv64D2hqMy3lJjPPay4wgIsRn2MKsE44LpKnW4tdxz5xtTsOhiDMQbSS0Nn4lu6WWr62wTjea/sYYzR7OTPoBNvKNEmlGLXDLzFzTuwWXnm72fDLOH9WjzkiSn+BZ5RuLqgTIQxyYMI5eAiODTYg3jFwTXz1a4SFoa1kz7jyXsGdgNAp14MKmR3lc+JMVki102x57x3RjU1HcIPxL8sNKNyLhn5MTmMYyDpTqM/e39c1TEQEPCUqkG2wPsvAHZKNB44ecisY5x0JcwDOcjRR3vvjmTDTCLB2oRCPtUc8r22l4JUYWTNycogiigfVeV12GoG6cru6euaCJyvh3QH9k4wwHc/PzlgFGwcdkmYmY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(261021123027099003)(261021121427099003)(261022105027099003)(261009223027099003)(261026140227099003)(261028144727099003)(11063799006)(10067099003)(56012099006)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sN2Hwd4zUM8DUPlQGKoV8WUDPAsQnHE2kA6gdFpBtDfexUe6gVzBBNaXBR+y?=
- =?us-ascii?Q?X5O7hq4HujZ8YzZaR+5XHKm/60iprXUvkAivfz4ndJLYJIoLda0SVikmF5Zc?=
- =?us-ascii?Q?R3FWXE7jW//O680vuguAP2a5Hc17sEJJkT+Iapb2iCRH4A7xyF9DlGUNcLwI?=
- =?us-ascii?Q?1Hbh6270egfdqSbkaPssWxyfnP4uHbLU5KsvY1uMpmfdLp77BPfhGURyCdL8?=
- =?us-ascii?Q?O5VIBGLYKLcNi2TtZJ2ctEVa+ScWx53avjk8N08VFiYCsiA7Yo92K+VWkSQy?=
- =?us-ascii?Q?8cz3SjzfHQ0mINYCU+fDv/PcCBMAtlwG2ilDDbAOpnB7f8fhdIuJxlTvksfb?=
- =?us-ascii?Q?ZSYvWgohC/uD7DnS2CkwWX7v56h/WMwqWI9BQImvK0eukfm9OIP8G4A+DQJL?=
- =?us-ascii?Q?Nh9s+fXD0X0d85geglI/LRdwR/fxMs2XzYcN2ivL0FowywuB9ICURftUnVD+?=
- =?us-ascii?Q?OJNnUq6R6ZIcYa3yJn2cPHb9CYOjVWTiC30irwdu8dvnNKiRoc4Ma9nu2Mbt?=
- =?us-ascii?Q?Hsr6MJ/uAZS+qz0CMvwr+/OpjycRGTSoRn5/Bfkt7RTRLXha+VX7QdPFAsk6?=
- =?us-ascii?Q?Sgcyjec262WG9n1F7zfLxYf5epq/TTnTqSzWHZPnFRsiXqzndIbyerRN7VRX?=
- =?us-ascii?Q?ExtXgJ5dccDutH5MuE2dR7UL2aQSDgQgeChrSIV84afTuD4sNAxk1oYCEoXr?=
- =?us-ascii?Q?kFinxOA4171leQT6ZXvVWg4WDtprXtgMJNFf1VzUMenJ3LX6RbsPRY/vej+c?=
- =?us-ascii?Q?/f0y2qCltfhq4eZLcc1aDxL8kaHeLVILiEqQmk60UzRZUKOv3wDUu8cKFbv0?=
- =?us-ascii?Q?kuF1a0zjqmM5erR5U/6dUjkXJcEgY3MLUYAmjsvgamVkn6SpqD3/xTRVMR2V?=
- =?us-ascii?Q?egOujBpFkyq1w3q6SgKXV9bWZTskQcDpqK2KB5XC2sY+1HMcdnJDMCR2oOyQ?=
- =?us-ascii?Q?hWe+WI99KAmD+sMofOBcf+uME2JhcmqWIaiMGZwY4LEy5cDP5+dzrulZ0FDa?=
- =?us-ascii?Q?KPVpQxTQFdXFdw68Lf7qOfhkb/boCDtl/otKUQqmPiNDmRNoosjAcuSrD8Jn?=
- =?us-ascii?Q?5icK7Ya0osSVG9LMnxf8ylkwjK07oARf7dDcqYTsLR4L34qpABg2/+NpWBX4?=
- =?us-ascii?Q?87aWla3/MUjVtFj4qKia6zSBS3CorGxE/HKHC2xs3axdoliA5QYDusDnfIj+?=
- =?us-ascii?Q?B5tK3K+B7B4kmR+e8ywp71l/EZh0UQK3DBH+jh3f2+xMFs2dKo1uB55Jf2Ax?=
- =?us-ascii?Q?Ja9uw0zaRZzOTM0UkGjRSIoId4FbwO/JXU0EtPyK3mHL04otSAFfSxNVytSW?=
- =?us-ascii?Q?4TSmqWQCeOpsElQfrlyS+syPd9olpN+NiVyTQg7c5YLG6xj40ce7gnULbwjD?=
- =?us-ascii?Q?UewCBKDER/ZLY0sVYwDAgC8mnsM5nQ5Nnc3DCUAsqLI8KCt57Ya6LQpwJBHm?=
- =?us-ascii?Q?TF1hnGDB4jcho1cQ2ltPX7SvI8EX0sHK0QozXGRxOEpbkLvW6k8KrXIOwQsk?=
- =?us-ascii?Q?zALPngm8XEe6Xzbid0sw2kjZHZ4JSWbcvoQxyjNmwrQo6I9GOGCF0vB/2c+O?=
- =?us-ascii?Q?Fb7kPgmO2ksAcq6Ll29e+YpyNdsBkSHoey/5jJccDDCtg74DqFiWvscNV1l1?=
- =?us-ascii?Q?8shT6eFIHlsvvt+OYxsj/xf/0J+SKRHL0Sw3KlsIY+UcU6oOFBViF9z0rB4D?=
- =?us-ascii?Q?mZyaLMFJdRB5ZL9/lviUDtaJfL39oBQEQauYmQlFbNHdHQRiic9Ci3e8M/57?=
- =?us-ascii?Q?o6arGSMi1A=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HKjuVCZAJilCVMOk6qQqzfPUyRWxpClLTf6NDW8X6x75u0ZnBWC+ViCIHBx8?=
+ =?us-ascii?Q?nwnj/V7pp1nM174eWxov1ghQYLsiC6qWSqpbjDTRzhkpYDhinLTHTpxJXa+7?=
+ =?us-ascii?Q?F1fih5rKIs0FY1k/NPoPgPtzRGlod8k8nxG+WAXBtxc1KR0ENwHViXETSqgi?=
+ =?us-ascii?Q?iUU2gJ2Bz/zer+KLsmZY+TCfyykIlakQQiBuVJom4+al10f0bMcCb4j/uPu5?=
+ =?us-ascii?Q?UxjNFzgQf2e3wjwmv+Q3qC967xTg3iYOaMy2qzlu43aels5Sv6HUrfaNRcV9?=
+ =?us-ascii?Q?G2OBWSjExbytWfrLOnvSh2mCrIPgNcJ8bGp5yJhONJv9vdrDRilkHjtxHg4V?=
+ =?us-ascii?Q?eykxTOiFxrU91U0aiqTdUQKufZRVXBLv7V7wDRG43uIUMvcfuz2y9uuY/Sf/?=
+ =?us-ascii?Q?7mFS1QiaaehO9yzadFhh4zFUIa1c4OK8L+mp/iMhocURNtKHdDsduYd1pQ65?=
+ =?us-ascii?Q?5b/86667X56raz7727/j2kQ30lDjgEcvzVfcdziPk+7CbRioTqL1XPG70L3N?=
+ =?us-ascii?Q?1gvjbqXqHRynrKRw2r5p9A/2Bmmk0ytf+x6YuuhI0WE5wmCp1cZ0x8RrGOhi?=
+ =?us-ascii?Q?8lBWcs/TRewuEi4mamyXSt9PrCYmVhMY/I7kGDE10ra9iils9OhATDuXNM0c?=
+ =?us-ascii?Q?qn8k7RycO6eNBiFMQUqnngj5RYj7LkG40nRkIN/1cxCfD1Q15cgmsHE95KrG?=
+ =?us-ascii?Q?QC3Du/jYA96tALHaz39RYo7YS98pY15FERaS0Wi40XB3XWWzjOVibpRMrmTf?=
+ =?us-ascii?Q?fanwG22nGOWqLX1Pw9pfb/7ciyEJlHAg7T3Z5YLkFJ/6x5gOwOt+khLxGHLB?=
+ =?us-ascii?Q?3i9fmY6gjm3LHOjxZEUjsvhy85KSBpR8D14blfBiIRCIepeO3/zc45cJIaup?=
+ =?us-ascii?Q?pWIZkiRFlqXuKTpmV4YJPaEcCldPWAVsjcuawIPuVMMOUnNAekZjFtgLbCqU?=
+ =?us-ascii?Q?HllCkGagl4t8H01mjj4IpgDTMNa272BSV//fCO76ayAVBjOZNl+yE8fUNGQs?=
+ =?us-ascii?Q?opH3QFf0nSWjIuL2PA5sVPPHxiLImHNSSDsyXQIHdZq44GfCTtCtn4MOvpO0?=
+ =?us-ascii?Q?hiqvxCLQI0dW81NTryKa9QRc5tYxRDdljJkAokHKKu3KcqyaQWOA3DxLYbS3?=
+ =?us-ascii?Q?YoW4UgPx0y1CcKxC/CwWhuPF2TwBD1ZANsQXZkBjgGYJTeHHISRIGnECwrXy?=
+ =?us-ascii?Q?Vd9lHna4ynThd1yj3Pad1f9umQ4eANJHjfuFL8npBD895dSmeXpKyVmBOBis?=
+ =?us-ascii?Q?CL0Hd63shm0wqpLMnaXbLqMdrIkCf2+DEvbhEkyyizMkQuVmRBKcqjKc6o/q?=
+ =?us-ascii?Q?LmYJEWzIFd6IuT5RWGLSOZ0GwSlYe3rbe4RkQUMWdlpX915yXNWMUrNQ58RQ?=
+ =?us-ascii?Q?sCVjXjmIKgPFpT5vJ/4567NaMYP2WPTcUtAEh3NkB3Q6CjQX1PaTKaGy4sM0?=
+ =?us-ascii?Q?J2G+ad8usPMqW9zcyiyP0yRVm0WsZIHypA6iTy+0/UNyb8KG5R6zxY/69uwj?=
+ =?us-ascii?Q?xKTjKwNvZ+nDCumEV3Cu8zv4SUXFYuiUYDCErP/1iT4YU2ObJ3BDXUDUY0zX?=
+ =?us-ascii?Q?gVoV4eCwy6fX2MUm4SD9Lgopv5wJ0KWIdgolaTMkPPN0dJ3GQpUgcfCx3LgE?=
+ =?us-ascii?Q?Bmc0fdcXm0bzRQsjNiJya+rFgCNq0qYi9Dk6gypXAzUN3qgP2WJZ4W2GKkWt?=
+ =?us-ascii?Q?xapEqHr4nvQBhym6HzD/uOMjrAFqJj/C+kqely04hA3lIWPqe402PP5rnpm0?=
+ =?us-ascii?Q?N0L/MOHHOQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3ec2c39-113f-4125-f838-08df38cbef65
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f6b95e8-a1ae-4fe6-073c-08df38cbee7a
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 10:27:45.7175
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 10:27:44.2201
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lU/KA0K+qBP1L6IGsCv0T0g31DHs2lmFHTM7DowaLjyaqB5kQSrS9VlmSi7/hEnibmjaS8yke8aXC0/QtG3jUHKeWi+uRIF9S5sjTFthiEE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB3512
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8Oh/K6TgayuP0FZ5JyrgxUS61un0ScF24U4qsUScZX8puyE0woo0DQBAgdLxAiPwotLZpUEeSVEDNFsm9wizxKR3crgXPh8PBHiKZP6mJ7c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB1113
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 10:28:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249200
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249197
 Content-Type: text/plain; charset="utf-8"
 
-ReleaseInfo: https://lists.gnu.org/archive/html/info-mtools/2026-10/msg0000=
-1.html
+Release: https://github.com/NixOS/patchelf/releases/tag/0.19.3
 
-Improvements since the 4.0.49 release are:
-        - Fix CVE-2026-118384
+A bug fix release for executable rewrites, symbol version definitions, and =
+zsh
+completion.
 
-- Refresh existing patches
+* Fix overlapping load segment mappings when growing an executable's interp=
+reter
+  and then rewriting its RPATH. Preserve writable coverage of `.dynamic` so=
+ the
+  dynamic loader can update `DT_DEBUG`, fixing crashes in musl bootstrap GC=
+C and
+  GNAT (#672).
+* Reuse the header load segment for further growth and reserve enough file =
+and
+  virtual address space after `strip` removes padding, preventing later rew=
+rites
+  from overlapping mappings or corrupting section contents (#672).
+* Keep the program header table covered by a load segment when repeated
+  executable rewrites split note segments and grow the table. This fixes in=
+valid
+  PHDR coverage on x86_64 and an assertion failure on AArch64, including wh=
+en
+  patching Grpc.Tools binaries (#675, #679).
+* Update `DT_VERDEF` when `.gnu.version_d` is relocated, preventing the dyn=
+amic
+  loader from following stale symbol version definitions and crashing befor=
+e
+  the program starts (#664, #665).
+* Fix zsh completion of options, OS ABI names, input files, library names, =
+and
+  colon-separated directory lists (#677).
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch      | 2 +-
- .../mtools/mtools/disable-hardcoded-configs.patch           | 2 +-
- meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch   | 6 +++---
- .../mtools/{mtools_4.0.49.bb =3D> mtools_4.0.50.bb}           | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/mtools/{mtools_4.0.49.bb =3D> mtools_4.0.50.b=
-b} (93%)
+ meta/recipes-devtools/patchelf/patchelf_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch b/meta/=
-recipes-devtools/mtools/mtools/clang_UNUSED.patch
-index ddf3706f511..3b975d5c40a 100644
---- a/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-+++ b/meta/recipes-devtools/mtools/mtools/clang_UNUSED.patch
-@@ -1,4 +1,4 @@
--From 6914c6e15cd15daf1dae81458e5346958c9d5449 Mon Sep 17 00:00:00 2001
-+From 1e420800695fce8af0f2c93d3485646d0f50e93a Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 19 Sep 2018 11:55:41 -0700
- Subject: [PATCH] Undefine UNUSED macros with clang
-diff --git a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.=
-patch b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-index 63992ac5471..2220295f844 100644
---- a/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-+++ b/meta/recipes-devtools/mtools/mtools/disable-hardcoded-configs.patch
-@@ -1,4 +1,4 @@
--From 16969d42ec6514883bcee87cc89b3e7864481d7e Mon Sep 17 00:00:00 2001
-+From 8b7a818762eb2d87428e0e1dfe439456cc3e6e85 Mon Sep 17 00:00:00 2001
- From: Ed Bartosh <ed.bartosh@linux.intel.com>
- Date: Tue, 13 Jun 2017 14:55:52 +0300
- Subject: [PATCH] Disabled reading host configs.
-diff --git a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch b/me=
-ta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-index fb7ba56eec7..682341af2bc 100644
---- a/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-+++ b/meta/recipes-devtools/mtools/mtools/mtools-makeinfo.patch
-@@ -1,4 +1,4 @@
--From b517158e8ffc6a665506007b20708d6c2589cec1 Mon Sep 17 00:00:00 2001
-+From f487cd37a3fce9b2829e62f29347a06c75677a2e Mon Sep 17 00:00:00 2001
- From: Marcin Juszkiewicz <hrw@openedhand.com>
- Date: Fri, 8 Jun 2007 08:35:12 +0000
- Subject: [PATCH] mtools: imported from OE
-@@ -10,7 +10,7 @@ Upstream-Status: Inappropriate [licensing]
-  2 files changed, 33 insertions(+), 5 deletions(-)
+diff --git a/meta/recipes-devtools/patchelf/patchelf_git.bb b/meta/recipes-=
+devtools/patchelf/patchelf_git.bb
+index a69f3b9d757..9553b211556 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_git.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_git.bb
+@@ -5,9 +5,9 @@ HOMEPAGE =3D "https://github.com/NixOS/patchelf"
+ LICENSE =3D "GPL-3.0-only"
 =20
- diff --git a/Makefile.in b/Makefile.in
--index 7b305b0..70c8c74 100644
-+index d9cc6e3..1f8d93f 100644
- --- a/Makefile.in
- +++ b/Makefile.in
- @@ -26,10 +26,11 @@ USERCFLAGS =3D
-@@ -39,7 +39,7 @@ index 7b305b0..70c8c74 100644
-  pdf: mtools.pdf
-  %.pdf: %.texi sysconfdir.texi
- diff --git a/configure.ac b/configure.ac
--index 37f0d00..c93cfb5 100644
-+index fa73f7b..c42a232 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -36,6 +36,33 @@ AC_PATH_PROG(INSTALL_INFO, install-info, "")
-diff --git a/meta/recipes-devtools/mtools/mtools_4.0.49.bb b/meta/recipes-d=
-evtools/mtools/mtools_4.0.50.bb
-similarity index 93%
-rename from meta/recipes-devtools/mtools/mtools_4.0.49.bb
-rename to meta/recipes-devtools/mtools/mtools_4.0.50.bb
-index 294b2f37b28..0e3b754f1d2 100644
---- a/meta/recipes-devtools/mtools/mtools_4.0.49.bb
-+++ b/meta/recipes-devtools/mtools/mtools_4.0.50.bb
-@@ -24,7 +24,7 @@ RRECOMMENDS:${PN}:libc-glibc =3D "\
- 	glibc-gconv-ibm866 \
- 	glibc-gconv-ibm869 \
- 	"
--SRC_URI[sha256sum] =3D "6fe5193583d6e7c59da75e63d7234f76c0b07caf33b103894f=
-46f66a871ffc9f"
-+SRC_URI[sha256sum] =3D "f3a58e6cfc2634b03c240442548e3b00103692357afc28e1e7=
-104744dd6478b5"
+ SRC_URI =3D "git://github.com/NixOS/patchelf;protocol=3Dhttps;branch=3Dmas=
+ter;tag=3D${PV}"
+-SRCREV =3D "382d8bc12db9e720515da49d9c272ef4a622c3c0"
++SRCREV =3D "2b4b49d36b62690860414dd127f567be4f1f3208"
 =20
- SRC_URI =3D "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-            file://mtools-makeinfo.patch \
+-PV =3D "0.19.2"
++PV =3D "0.19.3"
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc678957b0c8e964aa6c70fd77641a71=
+e"
+=20
