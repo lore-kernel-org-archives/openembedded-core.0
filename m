@@ -1,197 +1,179 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10149.1793617243799896766
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10163.1793617329207273879
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2026 03:00:44 -0800
+ Mon, 02 Nov 2026 03:02:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=I6WM7kJ0;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=Aos1rNM0;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.145, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id B13A8EC0583
-	for <openembedded-core@lists.openembedded.org>; Mon,  2 Nov 2026 06:00:42 -0500 (EST)
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=aeRWL924;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=jfXVqOTc;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.157, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 4A26B14000CB
+	for <openembedded-core@lists.openembedded.org>; Mon,  2 Nov 2026 06:02:08 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Mon, 02 Nov 2026 06:00:42 -0500
+  by phl-compute-05.internal (MEProxy); Mon, 02 Nov 2026 06:02:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-transfer-encoding:content-type:content-type:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793617242;
-	 x=1793703642; bh=yJeCsng/q/L7Yps45IVV1X7KGUqx55I2wiz/k8ZZUQE=; b=
-	I6WM7kJ0m1aareoxnRXob2dsL5WsLxMaGNybz2vNihS7AZ5yIdj6FIhi9olGH8H7
-	i5ycRr+I+mrtR42wQvEAV4mmwWOG4o7WR9BT+eOuWPzDg3RUYjAqa6HuwMqpmJfB
-	Dx1bawSOhu2sKiJjbWiwbQyLbPNmjBliUrHl6BLyfcZongXGMVeW2YtfYChVpEro
-	2fzQAz20QZ7xjUjQ4GARnOc4mNj1tsN6cwo6bLxUiLJ2QNSTMXqN/J4F+84psalG
-	CULY0CXWwhCjfvwEKYPS6KvImQJuwm3HvrR3XX7tqClWyI8UXLmS1xY36XDguXAy
-	W8OnRKL4uuTJoO3YQNb0ug==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793617328;
+	 x=1793703728; bh=0jT44KO6uuww+fdVXLZhK0GWQSBjUWrIa1F//kmbb4s=; b=
+	aeRWL924c35Zi0zvZw4LFPKrVHShElUMedt/rGbjlqiBC5LGA4d2qTOKnYCw43Ng
+	DyQT4s8RswbdaF+91a8oc74h1peyjKkrbdW2KbNBkKO0GQwJ26m1Kg6tuOGpMX/0
+	NRGCHXtJmelhCPsCFs0dUY5X/S953WCEFxoebqHv9YOJZnfe72piMLIGYt8wiowJ
+	kbN0dj+zN4DQL4qp4DC1rjReoXXIcizaG8GnWjVSqkOUIO18TBriyTiPGBJgvSWA
+	kTElj2AOubEE53Jzml6NEnx7pqSxiUuMZhz7+dqHYSWYeZyw3rUZF0Auz4bK7bI+
+	l9KzWgZ+XMWMLHP+1uP9ig==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1793617242; x=1793703642; bh=y
-	JeCsng/q/L7Yps45IVV1X7KGUqx55I2wiz/k8ZZUQE=; b=Aos1rNM0FyDE1ck7z
-	QJfIJTEeYoCCMkI3rjw5VpgWSRTVaTSnCd2Fqq3i10OtC338ggOmkOkKJFaf/UBw
-	+RD0TAakPuj1MswXayx4llJMykrZ8tgsI2vkuMNYqAVBlYT5WvX/lS0oLPGsEjDC
-	MnlBsIBN2bYHGppbDbXVR1llrr12aVblkUL163WSC0Hn+Yk/iwBKvIlg66llDkWY
-	yl0wHVRwnsvzCzzh+wcfgoTXWXlPTQknoVim6E1Sp9cOOSPxkc9gVCByCClPHUcj
-	G/pk/onezzDuddpgN+rKyHwBkeJbiNrHaNzlvBckD1FJaSg+vLf+inPvlXkDiqxt
-	Vj4xw==
+	:x-me-sender:x-sasl-enc; s=fm2; t=1793617328; x=1793703728; bh=0
+	jT44KO6uuww+fdVXLZhK0GWQSBjUWrIa1F//kmbb4s=; b=jfXVqOTclDMaLQ2r9
+	iW36SPszuR3dkbZkcbQ905Bgcer6Sjd0RDSMEpLEQ+3lTwBSeD0wrE9QISa/Pvx0
+	ALFpHfyMAkhq2vt0zU6TdVrt/Dy6z5ihelOfU6U2GeZuv541QP5Qa5xsbT+KvcAa
+	Ks+fv94LeMfFdVIHxUMpEdGK2x3zdkQkEsZG6huYL9pQyt370tMQrjnumLzafmja
+	eZgLqz8t/auhselUSfaWXVclGLeGRaywJvmdqoRRvjQUSlRqBgx1BZSnx380vLPX
+	5XM7owBHWDmYf1N5uIAKBFAaJkiK/lNzz5svyIsneoFzwPNRHYeyobOZcYqVwdio
+	V/UiA==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793617242; d=pbarker.dev;
+DKIM2-Signature: i=1; m=1; t=1793617328; d=pbarker.dev;
 	mf=PHBhdWxAcGJhcmtlci5kZXY+;
 	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm1:rsa-sha256:ZzjHZHAQ55Z+6o3GPlmEjiLyVt85oZSlCV1lBX/b18o7CmE
-	LQZkSZdmyKZTPEoMWYr7s4urYIxl0mDIIu3EJack7Dg5ynbRmwgceKWtMgAA/zTu
-	MoecBZPuR4PoA9xuwXO5ptmt/G72ixh1zYBS0s1ycKtjdry9dwCIowMxmENweVw8
-	bFk4o5ycgqtilsrvonHn9jq3v9eGwWZUScmpUZHtYsG0NI4bf9fsXDoVXOyFYGaW
-	rzTtZtC4xsjxtlvXsv5+49+F5PgJrInPdpkvM5RIvW315GRtJAiuO7pquygbhmau
-	7w4DoU5daYWVhWHoeWLxHYE/0hpiStvfOFyUM8Q==;
+	s=fm1:rsa-sha256:jZaR908ZveH//WmZdPkBqAvP9oESgF3QKANHIpUhAjo6zGy
+	EXJFRACPe2Nw3KhCwe+8ZU7hDaj3DSZVkXsDS2M690wSM/70Nd+9UMBpgPc//5oA
+	ZlpC+/R/5TWlS1ZRHrKwO7yR84nYFh2zIzEzsN4Z2nXuWZSPBnfctJcv2AqmsbGW
+	ojGbmPrkUvPsK3pX4GTl7Bh1VPJCE33YbsTbm2EoANz/yUrKTQqOA8G7mlDyTFRf
+	pW2cY0zElCM8WNl7FvD5uCYTd1T6w/KTg9oFGu2Q1eByMGH6ttwovJJw1S9srps2
+	eG9mf0adcVpOJWHbURPDpCa1UIVz+RRpm7f3g1g==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=mi-m=1; hc=12;
 	hn=content-transfer-encoding,content-type,date,feedback-id,from,
 	in-reply-to,message-id,mime-version,references,subject,to,
 	user-agent;
-Message-Instance: m=1; h=sha256:3s0sX1sCJdbseUYT3rHxl1qf3+ypL7grAkAXYfawRnU=:5OfqyCHjTGVcaltCONfMsnCZItVBsl7j5HUjCadA0X8=;
-X-ME-Sender: <xms:Wm3oahWJf9mVca9tvmiOZvHhidZn4mrvl88lZpelxQJG6lpC4VYtyA>
-    <xme:Wm3oannbZZ6xBrwLSi-wdzqNcetc9ck6nBaae6hLuBOakMRzxB34jCTP8fH4iXx8-
-    CApChWKzD7bSWQHQ6CuI58xOsHcEqKoOC566eA0CbJiCLQ5JowPvIop>
-X-ME-Received: <xmr:Wm3oarAeYmodBYzRtOH_faPPmzKZ100lN8RLAl308ld9gZt_eDsSrCGwmGpZZSCeC9I1VBgKkQDd7NhtdqCuEjnmyd6nxCykGVsCjiPq4r2o>
-X-ME-Proxy-Cause: dmFkZTF4akQHmSPpBZSInmB+yuyJB1Z/GvIXe1Sd3fQuOkVVHVhy6W/SjLdtqrOliLskuB
-    SI2oPkEQHJoknIaE0owrxnIiXDHz3EnU8zNQXzDgtGfT6djV/Qsx5vipMkYxogA3m4XBaR
-    nf6XAEopBGdn9YLpG0e8CQbTjcCwzrJhB/zGNMimDDTODsNSOdvXLQmwTYg7wZneUQmUNF
-    0Mt/WPAY8HWLDR1dU0EcmET1rJS9HlJv31bR3nX4zTQ3bMMd0vJW3s9VUyA8qVaXiBCqso
-    C2BQWXx8r5oBbYJl7lNaawcg5BXT1L5gF7xWNuHDpSKPV20jnGUDuNs00RuagBRXIb4UBD
-    m76cbIB7h4dmlMSW8kdWzj604kHMl4ZKVeaTk9S+azEnfb4qM99pYkD2iUrKfCbaMav6wH
-    3mXSycsOQB972FqXMZAOcR10W4Dv5DKQZkIbBSdA4igYIVw4JrzgPJ9YK4R/NcL+oGsWwM
-    ZC0hJINgCTh3gaoQKwTnVoP/6yoDk+XkBnoDZ7NlzelGVTo46DCwrtQKM7jgjWktIOsEe3
-    r8cy0+RsI3ZFjuiePzS2rZ3j29hWyFIDoa2pckDxjOXMdHQuSueJ4chjpCkNcYQsEm9x2C
-    bVq1eeTmfhVHod4DS4uxUQwvkIiJDsph6aZmAEx6w8WtON0AhEZ3GZ2sel8w
-X-ME-Proxy: <xmx:Wm3oavd5c4UGu1WzlYkYhV_Y91BEu5GX2-bgejo3hg7RA30IVssk8A>
-    <xmx:Wm3oauJVOR0wJZb-oh_qu21-zCKvOcgB27BtOWm5Mvny5MJeiYD4Xg>
-    <xmx:Wm3oaqeIgrpTqH5LqEi4pkU0enatT4MLROlNxaPeT905GcGjefkN0g>
-    <xmx:Wm3oat3r4ldk2EqmdT_DbwjsA5Hx0RYkkFyb4fHxq2iSIsOmnqRcGA>
-    <xmx:Wm3oaj6Om6kvX50EHuqZ5imC9EYQ2LE-pv1HVgV2_B5_jSR5N_vEH9k3>
+Message-Instance: m=1; h=sha256:AgLd4+k1S7FgAtPL2tArdiijMKddN/W04E35lM2lMNY=:E77ipakZ8QjIkOjEOwyR/XG5mQjIj97qLVX9TU4JVN0=;
+X-ME-Sender: <xms:sG3oarQklLAkBH17HpmcUZO69vptJkVC3tB_J7f6zY3-4GfqOOMY-w>
+    <xme:sG3oaiz4kA53t6tuoqLTrxNWsZjLc0aV9LEE9oieHJIyFZFJ-3FbY1G7n2FlNn1Sb
+    zUQ925nhxqIPjvrbu8G7V39hk4KYaAZDrozx_w_A9hgu2jYHH7qXEWQ>
+X-ME-Received: <xmr:sG3oaucoipf4z91i531QA6A2xoD6PnPgFsgJEU3H2Z4AXbM7QC-pD64pDRUGqjRk-YAS-kHbB9dNkHtUGRJZcV2skP3z62nVMtWp34skLWsS>
+X-ME-Proxy-Cause: dmFkZTF2fixVjmKkMHYGERE+Qg8uZXjH7UixYMj4E/wRdeb0EzMrQwxsI3FQwXruPWy1N8
+    CR71AZx13tkN5w+yuzpsCRxkyG5CWaX3NoLlK2oBQMwu8uqjDI/F5rITeXsDPoP/L0S+wJ
+    4WfGOn9end+yYjSoYkzZ/XMSWxsl5uG1hP8D47zh6kK1kGdhqUehK/AdjRpz+DxIJut8l6
+    L+o3I8jKyRc7NujkB0mXNbODyURiHcsuBCIyd741vpnauDYmrF/32mwik2gtmCLm2RB9bi
+    qBYQvxPLL2m5Uhgm07bT4U/dMe+TBxMCk2Ao/Z6IHbMlujvnDMESzLvr+YQRL3ajHmpapB
+    hX6EwwO3Ia8LCl88Le1F6ZdsrQHjcZ1Gv0eT0xjDWiRRGhvVwgU5a9CmNL8QxiM0vF7SAJ
+    pS+h+ZxdS3rOEF6sc9tIaawpE3cg33lFUYsyUnB+K+Te0fff4/TfJZtl9GPGDgzlZASFug
+    41fv4Xb3jo0/r6EtnKQIj6xHtNuCD68yN43vYqTj83azb9IhxsiD/SmftFGIsqbArT/wC7
+    my3cFpGh/wkbc2/1PlVKB6Nk94j2Vro95aFxFNQ5MYVsLZoyspKAFIy/cKiyxL9oWN1HRn
+    ID2uSi19id77a6qDEHDAaX1lqvoXqUDxp+JWO4aAwEMh4W0NXMqnYcKuaE7w
+X-ME-Proxy: <xmx:sG3oamI9YdV1LxXhvGg3uQa-UXHAc4pbZVfFiTOzbK0GfiBAzj6GUw>
+    <xmx:sG3oanGsq7NXq5cJWC-kLzr8iQJVl5vnv67I2ArOfWxnbthwDlbg2g>
+    <xmx:sG3oaordyVCOxgY1AiLKjtMXCmFWuZtq2duBDdUdd8L1q9Gptpqh9g>
+    <xmx:sG3oaoQCyoWaN_hTpCFfBXiilM54NcrsSi46Oa-qvX90qZtEr5s4og>
+    <xmx:sG3oan1TgSwxHMjvWPkfGa471goed51lHpRLNnacKojOnW960lj7Xyxh>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 Nov 2026 06:00:41 -0500 (EST)
-Message-ID: <97d4996cd94c690b0a2578e6b7cd07d4ee854406.camel@pbarker.dev>
-Subject: Re: [OE-core][scarthgap 18/55] libpcre2: update to latest release
- branch hash 50b3c0d7ce
+ 2 Nov 2026 06:02:07 -0500 (EST)
+Message-ID: <64d8e8dcb939b38d9a3fb4999000a56138aa4f79.camel@pbarker.dev>
+Subject: Re: [OE-core][scarthgap 19/55] python3-urllib3: Fix CVE-2026-97689
 From: Paul Barker <paul@pbarker.dev>
 To: Yoann Congal <yoann.congal@smile.fr>, 
 	openembedded-core@lists.openembedded.org
-Date: Mon, 02 Nov 2026 11:00:40 +0000
-In-Reply-To: <dc683396c1a767e7f3125daa4a4335b850c58b67.1793405493.git.yoann.congal@smile.fr>
+Date: Mon, 02 Nov 2026 11:02:07 +0000
+In-Reply-To: <a24491466f8796015bd1146d874f4be52f10ad42.1793405493.git.yoann.congal@smile.fr>
 References: <cover.1793405493.git.yoann.congal@smile.fr>
-	 <dc683396c1a767e7f3125daa4a4335b850c58b67.1793405493.git.yoann.congal@smile.fr>
+	 <a24491466f8796015bd1146d874f4be52f10ad42.1793405493.git.yoann.congal@smile.fr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 11:00:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249201
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 11:02:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249202
 
 On Sat, 2026-10-31 at 01:14 +0100, Yoann Congal wrote:
-> From: Peter Marko <peter.marko@siemens.com>
+> From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 >=20
-> Handles CVE-2026-103111, CVE-2026-86145, CVE-2026-89158, CVE-2026-89160,
-> CVE-2026-89157, CVE-2026-89156 and CVE-2026-89161.
+> Backport the upstream fix [1] as mentioned in [2]
 >=20
-> The project committed to have 5 year security support for each release
-> on a dedicated release branch.
-> Switch from release tarball to git fetcher to use this feature.
+> [1] https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5c52a=
+fb0b1b090f5ed
+> [2] https://nvd.nist.gov/vuln/detail/cve-2026-97689
 >=20
-> Git log with all changes and manually created CVE annotations:
-> $ git log --oneline pcre2-10.43..50b3c0d7ceaf23578d04e644c02781c322ef6cb0
-> 50b3c0d7 Backport of pcre2-10.49-Fix-large-stack-allocation.patch [CVE-20=
-26-103111]
-> b7d3ffd4 Backport of pcre2-10.48-Fix-DFA-workspace-overflows.patch [CVE-2=
-026-86145]
-> 9c11f0dc Backport of pcre2-10.48-Fix-compiler-integer-overflows.patch [CV=
-E-2026-89158]
-> 2866e543 Backport of pcre2-10.48-Fix-invalid-UTF-backwards-scans.patch [C=
-VE-2026-89160]
-> 714e1062 Backport of pcre2-10.48-Fix-allocation-byte-sizing.patch [CVE-20=
-26-89157]
-> 91759151 Backport of pcre2-10.48-Check-JIT-mode-before-validation.patch [=
-CVE-2026-89156]
-> 87f50503 Backport of pcre2-10.48-Fix-JIT-match-context-reuse.patch [CVE-2=
-026-89161]
-> ed0e58f5 Backport of pcre2-10.48-Fix-JIT-STR_END.patch
-> dc733f56 Backport of pcre2-10.44-Fix-incorrect-compiling.patch
-> 7f3e5400 Backport of pcre2-10.44-Fix-locking-region.patch
+> Testing:
+>   - test_response.py::test_chunk_size_line_too_long - passed
+>   - test_response.py::test_chunk_trailer_line_length (6 cases) - passed
+>   - test_socketlevel.py::test_chunked_size_line_too_long_does_not_buffer =
+- passed
+>   - Full test_response.py: 161 passed, 45 skipped (no regressions)
 >=20
-> Diff of release tarball and git repository is:
-> Only in pcre2-10.43/: aclocal.m4
-> Only in pcre2-10.43/: ar-lib
-> Only in libpcre2-10.43+git/: autogen.sh
-> Only in libpcre2-10.43+git/: .bazelrc
-> Only in libpcre2-10.43+git/: BUILD.bazel
-> Only in libpcre2-10.43+git/: build.zig
-> Only in pcre2-10.43/: compile
-> Only in pcre2-10.43/: config.guess
-> Only in pcre2-10.43/: config.sub
-> Only in pcre2-10.43/: configure
-> Only in pcre2-10.43/: depcomp
-> Only in libpcre2-10.43+git/: .git
-> Only in libpcre2-10.43+git/: .github
-> Only in libpcre2-10.43+git/: .gitignore
-> Only in libpcre2-10.43+git/: index.md
-> Only in pcre2-10.43/: INSTALL
-> Only in pcre2-10.43/: install-sh
-> Only in pcre2-10.43/: ltmain.sh
-> Only in pcre2-10.43/m4: libtool.m4
-> Only in pcre2-10.43/m4: lt~obsolete.m4
-> Only in pcre2-10.43/m4: ltoptions.m4
-> Only in pcre2-10.43/m4: ltsugar.m4
-> Only in pcre2-10.43/m4: ltversion.m4
-> Only in libpcre2-10.43+git/: maint
-> Only in pcre2-10.43/: Makefile.in
-> Only in pcre2-10.43/: missing
-> Only in libpcre2-10.43+git/: MODULE.bazel
-> Only in libpcre2-10.43+git/: pcre2_fuzzer_16.dict
-> Only in libpcre2-10.43+git/: pcre2_fuzzer_16.options
-> Only in libpcre2-10.43+git/: pcre2_fuzzer_32.dict
-> Only in libpcre2-10.43+git/: pcre2_fuzzer_32.options
-> Only in libpcre2-10.43+git/: pcre2_fuzzer.dict
-> Only in libpcre2-10.43+git/: pcre2_fuzzer.options
-> Only in libpcre2-10.43+git/: README.md
-> Only in pcre2-10.43/: test-driver
-> Only in libpcre2-10.43+git/: WORKSPACE.bazel
->=20
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 > ---
->  .../recipes-support/libpcre/libpcre2_10.43.bb | 20 +++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
+>  .../python3-urllib3/CVE-2026-97689.patch      | 251 ++++++++++++++++++
+>  .../python/python3-urllib3_2.2.2.bb           |  14 +-
+>  2 files changed, 258 insertions(+), 7 deletions(-)
+>  create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026=
+-97689.patch
 >=20
-> diff --git a/meta/recipes-support/libpcre/libpcre2_10.43.bb b/meta/recipe=
-s-support/libpcre/libpcre2_10.43.bb
-> index f744df88fad..743b0ec04e5 100644
-> --- a/meta/recipes-support/libpcre/libpcre2_10.43.bb
-> +++ b/meta/recipes-support/libpcre/libpcre2_10.43.bb
-> @@ -10,23 +10,27 @@ SECTION =3D "devel"
->  LICENSE =3D "BSD-3-Clause"
->  LIC_FILES_CHKSUM =3D "file://LICENCE;md5=3D321a5eb46acae6b6c1ff2c7a866d8=
-36a"
-> =20
-> -SRC_URI =3D "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2=
-"
-> -
-> -GITHUB_BASE_URI =3D "https://github.com/PCRE2Project/pcre2/releases"
-> -UPSTREAM_CHECK_REGEX =3D "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
-> -
-> -SRC_URI[sha256sum] =3D "e2a53984ff0b07dfdb5ae4486bbb9b21cca8e7df2434096c=
-c9bf1b728c350bcb"
-> +BASE_VER =3D "${@d.getVar('PV').split('+')[0]}"
-> +SRC_URI =3D "git://github.com/PCRE2Project/pcre2;protocol=3Dhttps;branch=
-=3Drelease/pcre2-${BASE_VER}"
+> diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.=
+patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch
+> new file mode 100644
+> index 00000000000..98b007324cf
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.patch
+> @@ -0,0 +1,251 @@
+> +From 5d5fac45ff18a8159c5a4aa973ed9fc2f5dd35ad Mon Sep 17 00:00:00 2001
+> +From: Quentin Pradet <quentin.pradet@gmail.com>
+> +Date: Tue, 15 Sep 2026 22:33:41 +0400
+> +Subject: [PATCH] Merge commit from fork
+> +
+> +* Bound chunk-size line reads to prevent memory exhaustion DoS
+> +
+> +The streaming chunked path (HTTPResponse.stream() / read_chunked()) read
+> +each chunk-size line with an unbounded readline(), unlike the plain read=
+()
+> +path which delegates to http.client's _MAXLINE-capped reader. A maliciou=
+s
+> +server could advertise Transfer-Encoding: chunked and then send a very l=
+ong
+> +run of bytes with no newline, forcing the client to buffer the entire ru=
+n
+> +before the chunk size could be rejected.
+> +
+> +This caps the chunk-size line (and the trailing CRLF line) at _MAXLINE,
+> +raising ProtocolError when exceeded, matching the behaviour read() alrea=
+dy
+> +had. Only the size line is bounded; chunk bodies still go through the si=
+zed
+> +_safe_read(), so legitimate large chunks are unaffected.
+> +
+> +Verified with a local malicious server streaming a 200 MiB unterminated
+> +size line: stream() previously grew RSS by ~530 MB, now stays at ~1 MB a=
+nd
+> +fails fast, matching read(). A 5 MiB chunk body still streams correctly.
+> +
+> +* Fix a black formatting issue
+> +
+> +* Test chunked response trailer length limits
+> +
+> +* Fix number in the changelog entry
+> +
+> +---------
+> +
+> +Co-authored-by: Illia Volochii <illia.volochii@gmail.com>
+> +
+> +CVE: CVE-2026-97689
+> +Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/cd7=
+70b059b543be29298ea5c52afb0b1b090f5ed]
+> +
+> +Note:
+> + - changeLog change is not backported
+> + - Adjusted commit change as per current version
 
-Nitpick: Can we just use the fixed branch name `release/pcre2-10.43`
-here? This isn't going to change on scarthgap.
+Do we need more detail on the adjustments made during backporting?
 
 Best regards,
 
