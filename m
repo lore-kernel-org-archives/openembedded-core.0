@@ -1,141 +1,200 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1349.1793652744775907701
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2055.1793654491070653073
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2026 12:52:25 -0800
+ Mon, 02 Nov 2026 13:21:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Hl3kbqST;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Vtx9Jalz;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2K6Qk51301324
-	for <openembedded-core@lists.openembedded.org>; Mon, 2 Nov 2026 20:52:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=5c3CfV5iYegbBW+aclYXsxfV4qlpINeBnqx
-	b3nBvwXE=; b=Hl3kbqST/qolxtG94KZwJhpSqLZRqOKwqPdBWXazNc74Hj68OZo
-	RofbClYujTKC4+XggekNj+PQfZekLRKusABg+8PxETve9eOyu+QTHTrDzjsaoTAw
-	NtBfTsITn1Y0SYML03f5+6Z1aZhN3C6yFhlKpO2f75ABLdRJnzPmxydwEKouNAGR
-	+BSfOO7KsTIL/xNDMBCG2yyAKgwVwmjPQxWRxJ4S7MbXtCYPYPmECuY4TB1/xfq6
-	NIiUBSRoH9SmPeQVE5pUgzWyQoWVyCWkzx5ypqBXEDzg+3E5N5cI20tBejGWYfYj
-	c4QXpXeY5tpHWOtYTKVPRU0w7r5qCCz0Z9A==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpsa6tdgy-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 20:52:23 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cdb061cc4dbso34632a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 12:52:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793652742; x=1794257542; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5c3CfV5iYegbBW+aclYXsxfV4qlpINeBnqxb3nBvwXE=;
-        b=Vtx9JalzvV2yYcjLt2+f+rMsSDmq9QgxEm2yA7lDS95FhsRmHRk6TkU5tv5iSFu4aY
-         4tQPEYW7zQmcBZgwjBRbNe0yEWENtlkegWawntwocR/P0EPYxR6i/9kdSnRJzu5sOtk5
-         6njlUpEmYqmW5zaoi/e9QQ0BP2JRpT83TnU4qsTkgyIV73UNrcpsRvxAfMVG/yEzut/J
-         n6mPBwfZrrHZvIg430J4cdIfE9ck4vDjhevt/MKg9j0g81hur5dBHoEpexXk+GwPJvr5
-         d//qSpA0SKptitcfgIg1jLCggTf65MjLNm0bcHxpKq3cAdwve9HeWgvQp6rm6uujVDO/
-         3idQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793652742; x=1794257542;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5c3CfV5iYegbBW+aclYXsxfV4qlpINeBnqxb3nBvwXE=;
-        b=YO8FzzuwZ1PbEUAGR2aTbOfICfYvQfXGnRtx5khFSEduMrkUPRvY9QbwHygfQYTq71
-         vAG0/ebREH3ZYvyJ6oGk4HYOHtDhI+otcITt8DAtZ/smK5OgdjHKS9uIKnD4p0X66rmB
-         VHNrujPyYdXOtgI6P2kZ1x9aWtJq/GHd6e0fJL3WWstfsNFJbzJjaEUB2HAV8ZZF9icZ
-         FukY7shMgk3+p4G91fNZJVU8o0NmuNkG0eny9zepul8HMJ5PbeGZevxQuDPUl9t0RJTi
-         dEUxtSpZjagP5K2xOLCqkwOrmlD/169+7nHUbjlDFd0GAABXqDsxXcfyZml7rUjL/yly
-         rQYg==
-X-Gm-Message-State: APuU4Z/emJdKFpZW8lhvFCD6IP6Yvw3MQGV4t6ss93jPVhivv2O8uPrI
-	eHOgI/EibMLI9YevOAZQPSwdwC30di0Rsqk1sA2Eww9d2E6nZJWbyC0FpkRqLWuOqQv2QGHcoL7
-	YpGnmcludR/SuF5H75Haui7W0MVyz/DHO/F72vM4CGs72i3jvXtewxAxQQwFGoDqZBm4JqxsydD
-	A3mpCvDZO0IiYAJhISIw==
-X-Gm-Gg: AYBFou3jAZa8H09JD9wC14fQ9dAjPVlU792HvBAjJO1PhkqfqznSQaarRwo2eBvse6L
-	tFEW9z/xRwHL+UGd0K3//KeDDZvEqdxarkDU96q8l5k3mf0yRAuk6xiGMPegzSkGoheTO792xAc
-	0MtSzWcF4BVOSIOxvrSTCxXIdexWwLUcLN3lIrSTSwq/cZsFdbXlIFb72pbn2ENweGB4q8jO/Bs
-	40UlVGRaO/6BtYelyP0jGpkvHUxlxjLiC5+QXTY0ROZrRvmMCokQp5e69DfWItI7ANY/IfS1U3V
-	xd+1i20a4VsxE0j+AuMGb9fT5V09dTBesYQZo+XL6Y7Ua0a7KbYc4cX83gVfyIsC52wmySZdvI2
-	DW1Ly04notfjKYnw1UCFiN694om7KTQxPwfGhVoilAtgYckW06zfzxT8+Caq/hYptkC5scjRGou
-	v7soAMR8IhZkYb0upZGo0+irukA62Zl103shKmiZ+oew8o5xXxcBQUkp6CzgK7D0wrH788QAqGv
-	HFdQU5nn3Nd/Yc=
-X-Received: by 2002:a17:90a:dfc7:b0:3ac:6e91:3f1f with SMTP id 98e67ed59e1d1-3ae6f00cccemr9016861a91.37.1793652742231;
-        Mon, 02 Nov 2026 12:52:22 -0800 (PST)
-X-Received: by 2002:a17:90a:dfc7:b0:3ac:6e91:3f1f with SMTP id 98e67ed59e1d1-3ae6f00cccemr9016848a91.37.1793652741669;
-        Mon, 02 Nov 2026 12:52:21 -0800 (PST)
-Received: from ip-172-31-25-255.us-west-2.compute.internal (ec2-35-83-207-173.us-west-2.compute.amazonaws.com. [35.83.207.173])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb392486bbsm31345365ad.30.2026.11.02.12.52.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 12:52:21 -0800 (PST)
-From: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denis@denix.org>
-Subject: [PATCH] weston-init: drop the stale screen-share section
-Date: Mon,  2 Nov 2026 20:52:13 +0000
-Message-ID: <20261102205213.652922-1-ricardo.salveti@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=WoV+3RQZ;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=LyLDnRhO;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 4D6907A0013
+	for <openembedded-core@lists.openembedded.org>; Mon,  2 Nov 2026 16:21:30 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Mon, 02 Nov 2026 16:21:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793654490;
+	 x=1793740890; bh=4fvsCUD6BYt1k15u2VHw1ZEJG2S4i/SDpmKWBmhEE48=; b=
+	WoV+3RQZa9HcfilrcqMNP+Lf1PnICEQum5kIgbjdEW+fU3UWAPRGCpJk/bzO+90v
+	TuCNTxs1Maj4UtjsTkIEKPA+sofMwZWOhCHY/JEMTkWyLThw4km9Wyh0SR22AG+z
+	FfzTcBT0QdKuqZR3jmQf87l3VM9yFumICmpGBou3agzMxfYIa+8OrRzlqsZoMNfm
+	Lh4tg8R+5aMsEgoEclYDr13jJ/wbGs62kscy1wnUc+kF0lR0HOCIkZL2TrcDEPO1
+	MMA13YkN5oGDnDSd5iMOyFvBePX9WAWEfheh7qeJzSQ6wLzMy+pBo0fRyH1jUjOI
+	xAYCvfkkfRUQR66OL1UEzQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm2; t=1793654490; x=1793740890; bh=4
+	fvsCUD6BYt1k15u2VHw1ZEJG2S4i/SDpmKWBmhEE48=; b=LyLDnRhOprUz3AgUS
+	pwbjwefbp+8dnQ7Q+WHj9zEfXExWvM47Pdq0Aaj0nBbOJf8xUbzV1+WA3+ndZQ3M
+	Q1dE5aI+vK2hVZkVstil2rtFWIZiLtCARsRwmAuPUtAWT7eVysDxjEpp0d/gSX7j
+	eBwq6rJeSL9n4VDXPmVYUbV111gNByWBDj2J9lvuPKXe9RrWbJy7dvCICF/APKEF
+	pl33v6TiLKQa/Jnq9l7yCd6N30ns1JK0lQMEvSyAk6iOJzY8MT/DsWz33//vZFxW
+	8W/qjprywdNul0LQdDiOy9zpO8VcoWmvDd2w3rgrIcyftWGWEvfIB85gVGpDiVak
+	QJJDg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793654490; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm1:rsa-sha256:PJhiSM6bnp6e4h7+Zgg+O0XQw2VOI7ZAm5s5pFFt/bvxmsL
+	twkPmoPA3N+6/5T/2vCfeHbVFqhvNxFX5Xg9a5iVZ1v09YP7ThjYrB4In+8n9m0y
+	wUGmJJMWMbeX2EnHOg/NV/NQToopwcGbFCBp6019rS22SSuJf92KRtI6eL7mOxlF
+	eGD3sL7cLbOCtMOeLwz32mjBpscUeKLyLxNKRUMjpr4uBLslENpA4x6pURlzOKlQ
+	zg8RhC+yW6BEHu32xxNQxLTDqzVjpUDuWwA9myaLsTz0dmONVq+7AAl5nqt3BVYA
+	StgQJhjMjNvuTmIcS0rYlgvwBQgjh4aD6Gaws6Q==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=content-transfer-encoding,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to,
+	user-agent;
+Message-Instance: m=1; h=sha256:bGGrihAM5k09e18EWkRb9MdWxx85yBg78Ud71m6n7tQ=:D9/b+zSFk2GTZtIXcKwC/xx0QjBMroWsQn+IzYC2a58=;
+X-ME-Sender: <xms:2f7oarl3JGBvkN3on5TZvPR9g77qbbUMu-8mnbuwPTHSHcSup8gF-w>
+    <xme:2f7oak3PNlgWKXYpSeAu1yborKR7WTZQzfKZU3HyIvu5q2xx1Kh8H02NyymNN16hL
+    DS_uDYEEFWvAjRRO2GmY_bNFZR3XzXOUhmTqfeZasO6TY7cFTF2Kzqt>
+X-ME-Received: <xmr:2f7oavRn2uIWjRAfcKGVjF6WTExhL7sF2ws-xpEOEDWfJOw-LXEEvKSz-BJ4Lrgj570oy-Xm6bETj5OoFW0XhQe8NIKMQ3Zr1GWyjX5gh-Id>
+X-ME-Proxy-Cause: dmFkZTFBmuuzP3aAt5j0D5PQlBNzs4G9Kcgr/q3ZtyF6y+qMF0p1T23SIjjjbto85ONmIX
+    C9ydpyYNNua/2Gi+L5jo5A5BPxaOpiU2t+tib4DZ9QcwCJSOP4w0agbqrOXtC4ctxsmzhe
+    4zMRuUhijzsGVegbAMX8D6L7zbPRW0ABZpv5DC3aNSXvprQ8fUcrFnUyjlO6v2vNQ20hb3
+    TMPV39JBOPm6VxcX39tYlrBGBqitIokXNj4BaggBZFQl1j7boF+d8yydMdvPZx6xXe6plk
+    9Y/+KaKxp8VpgPX/hZSAElzUQMFf50VYcdeQ84muJz6l9dIcwvX5OwXH9hZ5U8VD5c6zrb
+    eVKu8eS2GpWES2OzvNeXLF/NYQ9FcRc+zabDkHJv352lV6vaL9fGcyCBZceZCix7OXzWbT
+    RAqPXBpXI2sgMerkUmqKJb9kTePdGBJgK706IpCIzdmTZZcZDU4B55A47Gd19suht+yonp
+    A+FAEBB/EiueTVxhnri4qmKydE2tlHRXPS2sUSYfNVnYHpC720vKnzMZuu/v9radLPkzTu
+    PcY/Od93F38OxFg3SDL/SNUOwgyl0rWwyjsEIAs3fE/5FbI7YESlfxGCY5EzV4Bu7Yg2AF
+    towMlcIBQxC/ddJbI/f3JT3WlQsOVxQIyq1oPRyMj1JZWWn7rDfKhDvce/fA
+X-ME-Proxy: <xmx:2f7oauvDLWX_e2S12JX48dkMfzJQzltS-xDWBOs27E0KqXkLMn6t8Q>
+    <xmx:2f7oasYK7IJ0CBUT2P007VFxvTMvqcxhIyjqHs1tGb1Hd2KyvpkqXw>
+    <xmx:2f7oartlThBovve43RYHWPn4UvqK51oJiEEHOlLNRzHluMT4_igXTA>
+    <xmx:2f7oamEFwC4crGqO9KYihRvEGHx0I6lBjc1IujMc1cAGo3MnZHj2lA>
+    <xmx:2v7oamIC98G5ANd99ZRwtx38n1xHT2l-Grx1rzGDM8mafHE3AN4RHDTs>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 2 Nov 2026 16:21:29 -0500 (EST)
+Message-ID: <01e34b7b659856ddc441fef77a655623f718d2bd.camel@pbarker.dev>
+Subject: Re: [OE-core][scarthgap 19/55] python3-urllib3: Fix CVE-2026-97689
+From: Paul Barker <paul@pbarker.dev>
+To: Yoann Congal <yoann.congal@smile.fr>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 02 Nov 2026 21:21:25 +0000
+In-Reply-To: <DMKQGM0OK34J.11PEY49EZB5M7@smile.fr>
+References: <cover.1793405493.git.yoann.congal@smile.fr>
+	 <a24491466f8796015bd1146d874f4be52f10ad42.1793405493.git.yoann.congal@smile.fr>
+	 <64d8e8dcb939b38d9a3fb4999000a56138aa4f79.camel@pbarker.dev>
+	 <DMKQGM0OK34J.11PEY49EZB5M7@smile.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA4MyBTYWx0ZWRfXzlgbz/mPVWoc
- DK8vVSyNnTilOLrY6V1019hQxqlzOoI0SOe1zFY1Efi0EOShIp8mmkliV2jAU9yOdMMnP/3/Bz3
- kdZo8cPASs5sitkbahScGR9Ys+Jg/4z1kHwTF7s1tpFrhE5FDPnObJAEXfrqUaDXOuVEmDLICa/
- 8wjcEdKZCm/Kt3oK74xfh1tZF1kx2ekgjik2Ep3cU8VBuG3buDNQh8pwSENrt5EzKlPde3VUDe6
- cLesZ+0EMY4Rs9Y0zDBPjrgN9bV12jtmPckIc6JsArv8l2z8Atlu2G7j6+uCDqQOshRhqoIm04V
- zBkS1GtrEeWLprBHCKOzjirXI6hjCt86tG86krj6MGHuByzWO+gCxdFiZUx15j62Hh44zl2K2vH
- fp2atdl7DgUwVw0Yq3T0eoK0bs4A376db0/zAz0lM8F+yQU9+zkYbOXQlBKsQfIcaqFx2mHZAjO
- iBQprSgY4PuaerSTG0w==
-X-Proofpoint-GUID: D885Y6hxM_vA3uQsycGiWpGOeEM5cd1G
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA4MyBTYWx0ZWRfX4F82nmFySGAy
- ylcX9sQ5eHqdeMY6WJT1iZxrXdXyTLOWTM4Z5frt5p4kzSrZnK9r4VFz46+Twub0RDeI8X4A/h1
- pg4jjMAutlxlQiHdGf/jA35SUeGOz5s=
-X-Proofpoint-ORIG-GUID: D885Y6hxM_vA3uQsycGiWpGOeEM5cd1G
-X-Authority-Analysis: v=2.4 cv=I9fw19gg c=1 sm=1 tr=0 ts=6ae8f807 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=P2/bgbqRawb6I1+7fxbs5g==:17
- a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=e5mUnYsNAAAA:8
- a=EUspDBNiAAAA:8 a=KQ1s4FroH7B7mCAmJSEA:9 a=x9snwWr2DeNwDh03kgHS:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-02_06,2026-11-02_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- bulkscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020083
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 20:52:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249224
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 21:21:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249225
 
-Weston 16.0 removed both the screen-share module [1] and
-fullscreen-shell [2], and the 16.0 upgrade dropped their
-PACKAGECONFIGs, but weston.ini still carries a [screen-share] section
-launching weston with fullscreen-shell.so. Nothing reads it any more,
-so remove it.
+On Mon, 2026-11-02 at 13:44 +0100, Yoann Congal wrote:
+> On Mon Nov 2, 2026 at 12:02 PM CET, Paul Barker wrote:
+> > On Sat, 2026-10-31 at 01:14 +0100, Yoann Congal wrote:
+> > > From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> > >=20
+> > > Backport the upstream fix [1] as mentioned in [2]
+> > >=20
+> > > [1] https://github.com/urllib3/urllib3/commit/cd770b059b543be29298ea5=
+c52afb0b1b090f5ed
+> > > [2] https://nvd.nist.gov/vuln/detail/cve-2026-97689
+> > >=20
+> > > Testing:
+> > >   - test_response.py::test_chunk_size_line_too_long - passed
+> > >   - test_response.py::test_chunk_trailer_line_length (6 cases) - pass=
+ed
+> > >   - test_socketlevel.py::test_chunked_size_line_too_long_does_not_buf=
+fer - passed
+> > >   - Full test_response.py: 161 passed, 45 skipped (no regressions)
+> > >=20
+> > > Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> > > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> > > ---
+> > >  .../python3-urllib3/CVE-2026-97689.patch      | 251 ++++++++++++++++=
+++
+> > >  .../python/python3-urllib3_2.2.2.bb           |  14 +-
+> > >  2 files changed, 258 insertions(+), 7 deletions(-)
+> > >  create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-=
+2026-97689.patch
+> > >=20
+> > > diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97=
+689.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.pat=
+ch
+> > > new file mode 100644
+> > > index 00000000000..98b007324cf
+> > > --- /dev/null
+> > > +++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97689.pat=
+ch
+> > > @@ -0,0 +1,251 @@
+> > > +From 5d5fac45ff18a8159c5a4aa973ed9fc2f5dd35ad Mon Sep 17 00:00:00 20=
+01
+> > > +From: Quentin Pradet <quentin.pradet@gmail.com>
+> > > +Date: Tue, 15 Sep 2026 22:33:41 +0400
+> > > +Subject: [PATCH] Merge commit from fork
+> > > +
+> > > +* Bound chunk-size line reads to prevent memory exhaustion DoS
+> > > +
+> > > +The streaming chunked path (HTTPResponse.stream() / read_chunked()) =
+read
+> > > +each chunk-size line with an unbounded readline(), unlike the plain =
+read()
+> > > +path which delegates to http.client's _MAXLINE-capped reader. A mali=
+cious
+> > > +server could advertise Transfer-Encoding: chunked and then send a ve=
+ry long
+> > > +run of bytes with no newline, forcing the client to buffer the entir=
+e run
+> > > +before the chunk size could be rejected.
+> > > +
+> > > +This caps the chunk-size line (and the trailing CRLF line) at _MAXLI=
+NE,
+> > > +raising ProtocolError when exceeded, matching the behaviour read() a=
+lready
+> > > +had. Only the size line is bounded; chunk bodies still go through th=
+e sized
+> > > +_safe_read(), so legitimate large chunks are unaffected.
+> > > +
+> > > +Verified with a local malicious server streaming a 200 MiB untermina=
+ted
+> > > +size line: stream() previously grew RSS by ~530 MB, now stays at ~1 =
+MB and
+> > > +fails fast, matching read(). A 5 MiB chunk body still streams correc=
+tly.
+> > > +
+> > > +* Fix a black formatting issue
+> > > +
+> > > +* Test chunked response trailer length limits
+> > > +
+> > > +* Fix number in the changelog entry
+> > > +
+> > > +---------
+> > > +
+> > > +Co-authored-by: Illia Volochii <illia.volochii@gmail.com>
+> > > +
+> > > +CVE: CVE-2026-97689
+> > > +Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit=
+/cd770b059b543be29298ea5c52afb0b1b090f5ed]
+> > > +
+> > > +Note:
+> > > + - changeLog change is not backported
+> > > + - Adjusted commit change as per current version
+> >=20
+> > Do we need more detail on the adjustments made during backporting?
+>=20
+> I did not need more infos for this one, changes were obvious enough. And
+> the resulting code is the same as upstream's.
 
-[1] https://gitlab.freedesktop.org/wayland/weston/-/commit/3bd77f781766abaf8aa9fe55d4f9b98c03e29e42
-[2] https://gitlab.freedesktop.org/wayland/weston/-/commit/29b740ffee98236c5ccb93c09d750b07d37fb8fd
+Ok, sounds good. Thanks for confirming!
 
-AI-Generated: Uses Claude Code (claude-opus-5-5)
-Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
----
- meta/recipes-graphics/wayland/weston-init/weston.ini | 3 ---
- 1 file changed, 3 deletions(-)
+Best regards,
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
-index 41360bdbbc..8201d76345 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston.ini
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-@@ -70,8 +70,5 @@ require-outputs=none
- #min_accel_factor = 0.16
- #max_accel_factor = 1.0
- 
--[screen-share]
--command=/usr/bin/weston --backend=rdp-backend.so --shell=fullscreen-shell.so --no-resizeable
--
- #[xwayland]
- #path=/usr/bin/Xwayland
--- 
-2.43.0
+--=20
+Paul Barker
 
