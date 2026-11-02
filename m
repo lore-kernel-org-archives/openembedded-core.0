@@ -1,508 +1,599 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6419.1793597020996823272
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7168.1793599720409159088
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Nov 2026 21:23:41 -0800
+ Sun, 01 Nov 2026 22:08:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gQf1HeKn;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QSdZk+bP;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a19ab696b6-0557ebcc-9b9e-46d9-89f7-baa965e3ad89-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793597019;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZwKAPTQziqf/mKp7aR1IGEO+Hojm1sV36RD8AIKyr8k=;
-	b=gQf1HeKn7EQwfk6NG5OYnOzw1od5219xuMgWb8R9kdyXwiwG8ZAFX1v5xvpfbdJ6
-	Q1pcN9bl9OU7yL1PNUPLAi1jj+rG3p7UZM6CM81/S/ZjWjuRkGWsmFYvneT6L4eMD1t
-	x1vl3tH6JbHUaX1EKI84cFImQ3C1eyxI//AJtG+M=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793597019;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZwKAPTQziqf/mKp7aR1IGEO+Hojm1sV36RD8AIKyr8k=;
-	b=QSdZk+bPhX+yEgVOefVfJgLtn0SNeoezfotz1GUwv7+qAXxzLu8t7N9JpxFEO9xf
-	Bo0so6RMeAgg1Kl0C3c2akNyCoEDzGTumo47y23qgBppj8fNFf/sASakt4GsJbofOCI
-	dLeFziDVdoFqUXj3ZpJ3Kjx0cetIKQoWdQapGxnU=
-Content-Type: multipart/mixed; boundary="===============7362369057933006516=="
+ dkim=pass header.i=@mvista.com header.s=google header.b=WFhGi2Al;
+ spf=pass (domain: mvista.com, ip: 74.125.82.181, mailfrom: rsangam@mvista.com)
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-3514b90bb89so5406786eec.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2026 22:08:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1793599720; x=1794204520; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+dD4WvWNdEm8yJjbIhqWCx24nLkc/zLTfGSCMvqf9SM=;
+        b=WFhGi2Alkyc5dlIjlVZ9NqgSdLq5NXGi79RMuHeiSoKW2veLt511CuZAx7VVrjRpFk
+         eBIToI0QTI0pI4T/5UpZ7t+Nh0snQpa913aQmFILn1QIbFKN/XCDIeTgmxWPaFoVFJLw
+         0mcA+F8SZ1sNCrJ6+oKP5G4R/I1k2BSCPHX3Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793599720; x=1794204520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+dD4WvWNdEm8yJjbIhqWCx24nLkc/zLTfGSCMvqf9SM=;
+        b=cC0IKqFk65D3yeWBxZlm2QGLn2H9HsAzctWWmiFekfk4CI20CfTN20Y85aQL4PSZQz
+         t7gX4u/zrZP6SmhfdVCj5v1eUZ5CwwQxIv828scVtTv7B4bx/bnbY8mZFAoMmaF9ffqY
+         AmuKJ35gTjtXBJl5Z7v+9p900lu0v51RlQHGVqb+WyAG556dv98BguMoNjqFVUAAy98M
+         avu/VpxlJmsUhbto2OlWtpX3gpXpujS+rCaIp+lbepJtV9dNI961QFH9FsI8L2Qy7cSA
+         RgUxIvPX/PjLOmP7NVBlkWVKfeN8ynXLKlSSUwah8ul/3PY3IlM1rNiHMtw9MNICTKH1
+         6UTQ==
+X-Gm-Message-State: AFq9FYJmVadGv6PHHH/BbrcEvSueR88pS7t3p6T9dkx07fbLzUYYtdVN
+	Lpg5YHXpgCIjIRp2YwTmhwDxYJ+ZglNpn3JkM2dqOTcHmdkgnDE20ElnbmV7w+BrJHzD2mhITjY
+	hhm62
+X-Gm-Gg: AYBFou07taTE1B4Jwuzbovx9X4cUkkTNi0RZv3In3kP6RfYJ7j0lr+3As9hcapDg0iB
+	J5Ln7+aRs/oZ54lLnJ9v9cT+gvu8zfrUkZ2ZEyrgXq1t98wnZDdSfZehTORcHB8K4qIj6JzloUt
+	+dD7p3oEsiiSdkFx8aMaEuipac01L0fObs2Yfy7tWL3b3cUzhLoQxTD6RfOp77cQY7FfkuqZdbh
+	U3D5R/z4HqfCdoRMGe3rWPNy5r7AcBLbDhXtTWDouQROkQW7nHYvlB1qgAMn0fxkecKx2zfXm9t
+	3DJ3dv2Hn+Xvc9elENYsHmcwm0xlJOJ6NuTmCLlSpCZvLLp6nAOeOsvy7zZ45STwOaFWHgFQwge
+	EQP924UYI1Vd/UDt/Rqg5Lz434JRuleH0R/RbNhthQGBCBtbt7gaamm2vVBf0mcMehML1pBdydd
+	x3JtAGhCWkC+K3Pk9NwZR0ms3tM8FltG/JkZRGY7CbgxHfSQ9g7gjp6S7cPcIkFo+dU95LkjiqR
+	XSUAyGynw+NUZ5drYGQx0oIcCDt+LL46zyhM5tvGYufxXoWYzwvFHr15A00X4kdcDDkyImUyN91
+	v9cIrgCMq0AGfryJw58udKEAjxff8FIG1DGc
+X-Received: by 2002:a05:7022:5f15:b0:16a:f5cd:365 with SMTP id a92af1059eb24-1b009604eb1mr7358502c88.5.1793599719048;
+        Sun, 01 Nov 2026 22:08:39 -0800 (PST)
+Return-Path: <rsangam@mvista.com>
+Received: from MVIN00040.mvista.com ([49.207.197.97])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1845817csm30235606c88.5.2026.11.01.22.08.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Nov 2026 22:08:38 -0800 (PST)
+From: Rohini Sangam <rsangam@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Rohini Sangam <rsangam@mvista.com>
+Subject: [OE-core][scarthgap][PATCH] bind: Security fix for CVE-2026-19667
+Date: Mon,  2 Nov 2026 11:38:30 +0530
+Message-Id: <20261102060830.89471-1-rsangam@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gtk4: upgrading to 4.24.1 SUCCEEDED
-Message-ID: <010101a19ab696b6-0557ebcc-9b9e-46d9-89f7-baa965e3ad89-000000@us-west-2.amazonses.com>
-Date: Mon, 2 Nov 2026 05:23:39 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.02-54.240.27.31
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 05:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249180
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 06:08:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249181
+Content-Type: text/plain; charset="utf-8"
 
---===============7362369057933006516==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Pick patch from [1] and [2] also mentioned at Debian tracker in [3]
 
-Hello,
+[1] https://github.com/isc-projects/bind9/commit/c4203fb70e3985452afddeadb7075aa91ae05d7d
+[2] https://github.com/isc-projects/bind9/commit/993d10fe15adbac485d399f1e4144b55ed226ecf
+[3] https://security-tracker.debian.org/tracker/CVE-2026-19667
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gtk4* to *4.24.1* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-gtk4-upgrade-4.24.0-4.24.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From f24d6b8e043585b8d1e79d47a48e584aaf159fc9 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 2 Nov 2026 05:23:33 +0000
-Subject: [PATCH] gtk4: upgrade 4.24.0 -> 4.24.1
-
-Overview of Changes in 4.24.1, 01-10-2026
-=========================================
+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
 ---
- meta/recipes-gnome/gtk+/{gtk4_4.24.0.bb => gtk4_4.24.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.24.0.bb => gtk4_4.24.1.bb} (98%)
+ .../bind/bind/CVE-2026-19667-1.patch          | 139 +++++++
+ .../bind/bind/CVE-2026-19667-2.patch          | 355 ++++++++++++++++++
+ .../recipes-connectivity/bind/bind_9.18.49.bb |   2 +
+ 3 files changed, 496 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-19667-1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-19667-2.patch
 
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.24.0.bb b/meta/recipes-gnome/gtk+/gtk4_4.24.1.bb
-similarity index 98%
-rename from meta/recipes-gnome/gtk+/gtk4_4.24.0.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.24.1.bb
-index 08fd2c30b7..5a18c4bdf9 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.24.0.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.24.1.bb
-@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM = " \
-     file://tests/testgtk.c;endline=25;md5=49d06770681b8322466b52ed19d29fb2 \
- "
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-19667-1.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-19667-1.patch
+new file mode 100644
+index 0000000000..5c52e42034
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-19667-1.patch
+@@ -0,0 +1,139 @@
++From e5c7129b2d312d14759aa8b4a146f78a6a60020e Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@isc.org>
++Date: Thu, 6 Aug 2026 17:15:26 +0200
++Subject: [PATCH 1/2] Reject negative cache records that do not fit in a
++ dns_rdata_t
++
++dns_ncache_add() assembles each negative cache record in a 64 KiB stack
++buffer and then stores its size in dns_rdata_t.length, which is 16 bits
++wide.  A record that fills the buffer exactly is recorded as being zero
++bytes long, which is small enough to satisfy the size checks in
++dns_rdataslab_fromrdataset() that would otherwise have rejected it.  The
++truncated record is committed to the cache, and every reader of it then
++fails an assertion.
++
++A response whose authority section repeats one SOA record, with MNAME
++and RNAME compressed against a long QNAME, expands to exactly that size,
++so check the length where the record is produced rather than relying on
++the slab code to notice.  Every other way of building a dns_rdata_t
++already refuses anything longer than DNS_RDATA_MAXLENGTH.
++
++While here, refuse a singleton RRset with more than one record and a
++second SOA RRset as DNS_R_TOOMANYRECORDS, which is now also what more
++than DNS_NCACHE_RDATA records reports instead of ISC_R_NOSPACE.  The
++message parser and the resolver already reject duplicate singletons
++and a second SOA on their own, but dns_ncache_add() should not depend
++on its callers for that.
++
++Co-authored-by: Mark Andrews <marka@isc.org>
++(cherry picked from commit 8b20ed0a647cd1e9efc3bf442fc5d898f6a4de57)
++
++CVE: CVE-2026-19667
++Upstream-Status: Backport [https://github.com/isc-projects/bind9/commit/c4203fb70e3985452afddeadb7075aa91ae05d7d]
++
++Signed-off-by: Rohini Sangam <rsangam@mvista.com>
++---
++ lib/dns/ncache.c | 48 +++++++++++++++++++++++++++++++++++++++++++++---
++ 1 file changed, 45 insertions(+), 3 deletions(-)
++
++diff --git a/lib/dns/ncache.c b/lib/dns/ncache.c
++index c99c266..bab42bf 100644
++--- a/lib/dns/ncache.c
+++++ b/lib/dns/ncache.c
++@@ -63,14 +63,30 @@ copy_rdataset(dns_rdataset_t *rdataset, isc_buffer_t *buffer) {
++ 		return ISC_R_NOSPACE;
++ 	}
++ 	count = dns_rdataset_count(rdataset);
+++
+++	/*
+++	 * Reject duplicate singleton records.
+++	 */
+++	if (dns_rdatatype_issingleton(rdataset->type) && count != 1) {
+++		return DNS_R_TOOMANYRECORDS;
+++	}
+++
++ 	INSIST(count <= 65535);
++ 	isc_buffer_putuint16(buffer, (uint16_t)count);
++ 
+++	if (ar.length < 2 + count * 2) {
+++		/*
+++		 * The count took 2 bytes and each rdata needs at least 2
+++		 * more for its length.  Bail early if that cannot fit.
+++		 */
+++		return ISC_R_NOSPACE;
+++	}
+++
++ 	result = dns_rdataset_first(rdataset);
++ 	while (result == ISC_R_SUCCESS) {
++ 		dns_rdataset_current(rdataset, &rdata);
++ 		dns_rdata_toregion(&rdata, &r);
++-		INSIST(r.length <= 65535);
+++		INSIST(r.length <= DNS_RDATA_MAXLENGTH);
++ 		isc_buffer_availableregion(buffer, &ar);
++ 		if (ar.length < 2) {
++ 			return ISC_R_NOSPACE;
++@@ -79,6 +95,7 @@ copy_rdataset(dns_rdataset_t *rdataset, isc_buffer_t *buffer) {
++ 		 * Copy the rdata length to the buffer.
++ 		 */
++ 		isc_buffer_putuint16(buffer, (uint16_t)r.length);
+++
++ 		/*
++ 		 * Copy the rdata to the buffer.
++ 		 */
++@@ -129,8 +146,9 @@ addoptout(dns_message_t *message, dns_db_t *cache, dns_dbnode_t *node,
++ 	dns_rdata_t rdata[DNS_NCACHE_RDATA];
++ 	dns_rdataset_t ncrdataset;
++ 	dns_rdatalist_t ncrdatalist;
++-	unsigned char data[65536];
+++	unsigned char data[UINT16_MAX];
++ 	unsigned int next = 0;
+++	bool seen_soa = false;
++ 
++ 	/*
++ 	 * Convert the authority data from 'message' into a negative cache
++@@ -177,6 +195,20 @@ addoptout(dns_message_t *message, dns_db_t *cache, dns_dbnode_t *node,
++ 					continue;
++ 				}
++ 				type = rdataset->type;
+++
+++				/*
+++				 * A negative response carries one SOA
+++				 * RRset.  The resolver rejects a second
+++				 * one before it gets here; don't rely on
+++				 * that.
+++				 */
+++				if (type == dns_rdatatype_soa) {
+++					if (seen_soa) {
+++						return DNS_R_TOOMANYRECORDS;
+++					}
+++					seen_soa = true;
+++				}
+++
++ 				if (type == dns_rdatatype_rrsig) {
++ 					type = rdataset->covers;
++ 				}
++@@ -224,10 +256,20 @@ addoptout(dns_message_t *message, dns_db_t *cache, dns_dbnode_t *node,
++ 					}
++ 
++ 					if (next >= DNS_NCACHE_RDATA) {
++-						return ISC_R_NOSPACE;
+++						return DNS_R_TOOMANYRECORDS;
++ 					}
++ 					dns_rdata_init(&rdata[next]);
++ 					isc_buffer_remainingregion(&buffer, &r);
+++					/*
+++					 * dns_rdata_t.length is 16 bits wide,
+++					 * so a longer record would be silently
+++					 * truncated here and would then pass
+++					 * the size checks in
+++					 * dns_rdataslab_fromrdataset().
+++					 */
+++					if (r.length > DNS_RDATA_MAXLENGTH) {
+++						return ISC_R_NOSPACE;
+++					}
++ 					rdata[next].data = r.base;
++ 					rdata[next].length = r.length;
++ 					rdata[next].rdclass =
++-- 
++2.44.4
++
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-19667-2.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-19667-2.patch
+new file mode 100644
+index 0000000000..8427eae31f
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-19667-2.patch
+@@ -0,0 +1,355 @@
++From 993d10fe15adbac485d399f1e4144b55ed226ecf Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@isc.org>
++Date: Tue, 1 Sep 2026 10:05:05 +0200
++Subject: [PATCH 2/2] Test that an oversized negative cache record is rejected
++
++Nothing exercised dns_ncache_add() with a record too large to store, so
++the missing range check went unnoticed for as long as the length field
++was wide enough to hold one.
++
++The record has to be built below the message parser.  SOA is the only
++record type whose negative cache form is larger than its wire form, and
++the parser now collapses repeated identical SOA records into one, so a
++response can no longer be made to reach the limit.  Assemble the
++authority section by hand instead, sized to the exact 64 KiB fill that
++used to be stored as a zero-length record and to either side of
++DNS_RDATA_MAXLENGTH, and cover the singleton and record-count
++rejections while at it.
++
++Assisted-by: Claude:claude-fable-5
++(cherry picked from commit a82c98e5db5b0ca3e2a1e2f42bcd7374d0235f70)
++
++CVE: CVE-2026-19667
++Upstream-Status: Backport [https://github.com/isc-projects/bind9/commit/993d10fe15adbac485d399f1e4144b55ed226ecf]
++
++Signed-off-by: Rohini Sangam <rsangam@mvista.com>
++---
++ tests/dns/Makefile.am   |   1 +
++ tests/dns/ncache_test.c | 303 ++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 304 insertions(+)
++ create mode 100644 tests/dns/ncache_test.c
++
++diff --git a/tests/dns/Makefile.am b/tests/dns/Makefile.am
++index 7062c60..512329e 100644
++--- a/tests/dns/Makefile.am
+++++ b/tests/dns/Makefile.am
++@@ -27,6 +27,7 @@ check_PROGRAMS =		\
++ 	dst_test		\
++ 	keytable_test		\
++ 	name_test		\
+++	ncache_test		\
++ 	nsec3_test		\
++ 	nsec3param_test		\
++ 	private_test		\
++diff --git a/tests/dns/ncache_test.c b/tests/dns/ncache_test.c
++new file mode 100644
++index 0000000..19a30b2
++--- /dev/null
+++++ b/tests/dns/ncache_test.c
++@@ -0,0 +1,303 @@
+++/*
+++ * Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++ *
+++ * SPDX-License-Identifier: MPL-2.0
+++ *
+++ * This Source Code Form is subject to the terms of the Mozilla Public
+++ * License, v. 2.0. If a copy of the MPL was not distributed with this
+++ * file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++ *
+++ * See the COPYRIGHT file distributed with this work for additional
+++ * information regarding copyright ownership.
+++ */
+++
+++#include <inttypes.h>
+++#include <sched.h> /* IWYU pragma: keep */
+++#include <setjmp.h>
+++#include <stdarg.h>
+++#include <stdbool.h>
+++#include <stddef.h>
+++#include <stdlib.h>
+++#include <string.h>
+++
+++#define UNIT_TESTING
+++#include <cmocka.h>
+++
+++#include <isc/stdtime.h>
+++#include <isc/util.h>
+++
+++#include <dns/db.h>
+++#include <dns/message.h>
+++#include <dns/name.h>
+++#include <dns/ncache.h>
+++#include <dns/rdata.h>
+++#include <dns/rdatalist.h>
+++#include <dns/rdataset.h>
+++#include <dns/result.h>
+++
+++#include <tests/dns.h>
+++
+++/*
+++ * dns_ncache_add() turns every RRset it keeps from the authority section
+++ * into one negative cache record laid out as
+++ *
+++ *	owner name | type | trust | count | count * (rdlen | rdata)
+++ *
+++ * The rdata is copied verbatim and never parsed, so the tests below fill
+++ * it from this buffer and only care about its length.
+++ */
+++static unsigned char filler[UINT16_MAX];
+++
+++/*
+++ * dns_rdataslab_fromrdataset() stores each record behind a 2-byte length,
+++ * or an 8-byte length, offset and order header with --enable-fixed-rrset,
+++ * and refuses a record that would exceed DNS_RDATA_MAXLENGTH together
+++ * with that header.
+++ */
+++#if DNS_RDATASET_FIXED
+++#define SLAB_OVERHEAD 8
+++#else
+++#define SLAB_OVERHEAD 2
+++#endif
+++
+++static dns_name_t *
+++name_fromstring(dns_fixedname_t *fixed, const char *namestr) {
+++	dns_name_t *name = dns_fixedname_initname(fixed);
+++	isc_result_t result;
+++
+++	result = dns_name_fromstring(name, namestr, 0, NULL);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++
+++	return name;
+++}
+++
+++static dns_message_t *
+++negative_response(void) {
+++	dns_message_t *msg = NULL;
+++
+++	dns_message_create(mctx, DNS_MESSAGE_INTENTRENDER, &msg);
+++	msg->flags = DNS_MESSAGEFLAG_QR | DNS_MESSAGEFLAG_AA;
+++	msg->rcode = dns_rcode_nxdomain;
+++
+++	return msg;
+++}
+++
+++/*
+++ * Add an RRset of 'count' rdatas to the authority section of 'msg', at
+++ * 'ownerstr', marked for negative caching the way the resolver marks
+++ * them.  The rdata lengths are chosen so that the negative cache record
+++ * built from the RRset is exactly 'size' bytes long.
+++ */
+++static void
+++add_rrset(dns_message_t *msg, const char *ownerstr, dns_rdatatype_t type,
+++	  dns_rdatatype_t covers, unsigned int count, size_t size) {
+++	dns_name_t *name = NULL;
+++	dns_rdatalist_t *rdatalist = NULL;
+++	dns_rdataset_t *rdataset = NULL;
+++	size_t payload, rdlen;
+++	isc_result_t result;
+++
+++	result = dns_message_gettempname(msg, &name);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++	name_fromstring((dns_fixedname_t *)name, ownerstr);
+++	name->attributes |= DNS_NAMEATTR_NCACHE;
+++
+++	result = dns_message_gettemprdatalist(msg, &rdatalist);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++	rdatalist->rdclass = dns_rdataclass_in;
+++	rdatalist->type = type;
+++	rdatalist->covers = covers;
+++	rdatalist->ttl = 3600;
+++
+++	/*
+++	 * Split the rdata bytes evenly, giving the remainder to the first
+++	 * rdatas one byte at a time.
+++	 */
+++	assert_true(size >= name->length + 5 + count * 2);
+++	payload = size - name->length - 5 - count * 2;
+++	rdlen = payload / count;
+++
+++	for (unsigned int i = 0; i < count; i++) {
+++		dns_rdata_t *rdata = NULL;
+++
+++		result = dns_message_gettemprdata(msg, &rdata);
+++		assert_int_equal(result, ISC_R_SUCCESS);
+++		rdata->rdclass = dns_rdataclass_in;
+++		rdata->type = type;
+++		rdata->data = filler;
+++		rdata->length = rdlen + (i < payload % count ? 1 : 0);
+++		assert_true(rdata->length <= DNS_RDATA_MAXLENGTH);
+++		ISC_LIST_APPEND(rdatalist->rdata, rdata, link);
+++	}
+++
+++	result = dns_message_gettemprdataset(msg, &rdataset);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++	result = dns_rdatalist_tordataset(rdatalist, rdataset);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++	rdataset->trust = dns_trust_authauthority;
+++	rdataset->attributes |= DNS_RDATASETATTR_NCACHE;
+++	ISC_LIST_APPEND(name->list, rdataset, link);
+++
+++	dns_message_addname(msg, name, DNS_SECTION_AUTHORITY);
+++	/*
+++	 * dns_ncache_add() skips the section when its count is zero.
+++	 */
+++	msg->counts[DNS_SECTION_AUTHORITY] += count;
+++}
+++
+++/*
+++ * Cache 'msg' as an NXDOMAIN for 'qname' in a fresh cache and return the
+++ * result of dns_ncache_add(), and in 'find_result' what a lookup of
+++ * 'qname' sees afterwards: DNS_R_NCACHENXDOMAIN if the record was stored,
+++ * ISC_R_NOTFOUND if it was rejected.
+++ */
+++static isc_result_t
+++ncache_add(dns_message_t *msg, const dns_name_t *qname,
+++	   isc_result_t *find_result) {
+++	isc_stdtime_t now;
+++	dns_db_t *db = NULL;
+++	dns_dbnode_t *node = NULL;
+++	dns_fixedname_t ffound;
+++	dns_name_t *found = dns_fixedname_initname(&ffound);
+++	dns_rdataset_t rdataset = DNS_RDATASET_INIT;
+++	isc_result_t result;
+++
+++	isc_stdtime_get(&now);
+++
+++	result = dns_db_create(mctx, "rbt", dns_rootname, dns_dbtype_cache,
+++			       dns_rdataclass_in, 0, NULL, &db);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++
+++	result = dns_db_findnode(db, qname, true, &node);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++
+++	result = dns_ncache_add(msg, db, node, dns_rdatatype_any, now, 0, 3600,
+++				NULL);
+++
+++	dns_db_detachnode(db, &node);
+++
+++	*find_result = dns_db_find(db, qname, NULL, dns_rdatatype_a, 0, now,
+++				   NULL, found, &rdataset, NULL);
+++	if (dns_rdataset_isassociated(&rdataset)) {
+++		dns_rdataset_disassociate(&rdataset);
+++	}
+++
+++	dns_db_detach(&db);
+++
+++	return result;
+++}
+++
+++/*
+++ * A record that does not fit in dns_rdata_t.length must be rejected.
+++ * Its size used to be truncated to 16 bits instead, so a record of
+++ * exactly 65536 bytes was committed to the cache with a length of zero
+++ * and every subsequent reader of the cache entry failed an assertion.
+++ */
+++ISC_RUN_TEST_IMPL(ncache_add_size) {
+++	struct {
+++		size_t size;
+++		isc_result_t expected;
+++	} tests[] = {
+++		/*
+++		 * The largest record that can be stored: the slab needs
+++		 * SLAB_OVERHEAD more bytes for its record header.
+++		 */
+++		{ DNS_RDATA_MAXLENGTH - SLAB_OVERHEAD, ISC_R_SUCCESS },
+++		{ DNS_RDATA_MAXLENGTH + 1, ISC_R_NOSPACE },
+++		{ 65536, ISC_R_NOSPACE },
+++	};
+++	dns_fixedname_t fqname;
+++	dns_name_t *qname = name_fromstring(&fqname, "missing.example.");
+++
+++	for (size_t i = 0; i < ARRAY_SIZE(tests); i++) {
+++		dns_message_t *msg = negative_response();
+++		isc_result_t result, find_result;
+++
+++		/*
+++		 * Two RRSIG(NSEC) records, because a single rdata cannot be
+++		 * longer than DNS_RDATA_MAXLENGTH.
+++		 */
+++		add_rrset(msg, "example.", dns_rdatatype_rrsig,
+++			  dns_rdatatype_nsec, 2, tests[i].size);
+++
+++		result = ncache_add(msg, qname, &find_result);
+++		assert_int_equal(result, tests[i].expected);
+++		assert_int_equal(find_result, tests[i].expected == ISC_R_SUCCESS
+++						      ? DNS_R_NCACHENXDOMAIN
+++						      : ISC_R_NOTFOUND);
+++
+++		dns_message_detach(&msg);
+++	}
+++}
+++
+++/*
+++ * A negative response holds at most one SOA record.  The message parser
+++ * and the resolver enforce that on their own, so exercise the checks in
+++ * dns_ncache_add() with hand-built messages.
+++ */
+++ISC_RUN_TEST_IMPL(ncache_add_soa) {
+++	dns_fixedname_t fqname;
+++	dns_name_t *qname = name_fromstring(&fqname, "missing.example.");
+++	dns_message_t *msg = NULL;
+++	isc_result_t result, find_result;
+++
+++	/* One SOA is fine. */
+++	msg = negative_response();
+++	add_rrset(msg, "example.", dns_rdatatype_soa, dns_rdatatype_none, 1,
+++		  100);
+++	result = ncache_add(msg, qname, &find_result);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++	assert_int_equal(find_result, DNS_R_NCACHENXDOMAIN);
+++	dns_message_detach(&msg);
+++
+++	/* Two SOA records in one RRset are not. */
+++	msg = negative_response();
+++	add_rrset(msg, "example.", dns_rdatatype_soa, dns_rdatatype_none, 2,
+++		  100);
+++	result = ncache_add(msg, qname, &find_result);
+++	assert_int_equal(result, DNS_R_TOOMANYRECORDS);
+++	assert_int_equal(find_result, ISC_R_NOTFOUND);
+++	dns_message_detach(&msg);
+++
+++	/* Neither are two SOA RRsets. */
+++	msg = negative_response();
+++	add_rrset(msg, "example.", dns_rdatatype_soa, dns_rdatatype_none, 1,
+++		  100);
+++	add_rrset(msg, "sub.example.", dns_rdatatype_soa, dns_rdatatype_none, 1,
+++		  100);
+++	result = ncache_add(msg, qname, &find_result);
+++	assert_int_equal(result, DNS_R_TOOMANYRECORDS);
+++	assert_int_equal(find_result, ISC_R_NOTFOUND);
+++	dns_message_detach(&msg);
+++}
+++
+++/*
+++ * dns_ncache_add() stores at most DNS_NCACHE_RDATA (100) records.
+++ */
+++ISC_RUN_TEST_IMPL(ncache_add_count) {
+++	dns_fixedname_t fqname;
+++	dns_name_t *qname = name_fromstring(&fqname, "missing.example.");
+++	dns_message_t *msg = negative_response();
+++	isc_result_t result, find_result;
+++
+++	for (unsigned int i = 0; i < 101; i++) {
+++		char owner[64];
+++
+++		snprintf(owner, sizeof(owner), "nsec%u.example.", i);
+++		add_rrset(msg, owner, dns_rdatatype_nsec, dns_rdatatype_none, 1,
+++			  100);
+++	}
+++
+++	result = ncache_add(msg, qname, &find_result);
+++	assert_int_equal(result, DNS_R_TOOMANYRECORDS);
+++	assert_int_equal(find_result, ISC_R_NOTFOUND);
+++	dns_message_detach(&msg);
+++}
+++
+++ISC_TEST_LIST_START
+++ISC_TEST_ENTRY(ncache_add_size)
+++ISC_TEST_ENTRY(ncache_add_soa)
+++ISC_TEST_ENTRY(ncache_add_count)
+++ISC_TEST_LIST_END
+++
+++ISC_TEST_MAIN
++-- 
++2.44.4
++
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.49.bb b/meta/recipes-connectivity/bind/bind_9.18.49.bb
+index 723a09e739..fef00e363f 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.49.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.49.bb
+@@ -18,6 +18,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2026-19667-1.patch \
++           file://CVE-2026-19667-2.patch \
+            "
  
--SRC_URI[archive.sha256sum] = "28ba4ac1c04f86eac09b79a163cb163a4c2b54442d9f7eccc04679062a581044"
-+SRC_URI[archive.sha256sum] = "e98abe720e16129c8c0f50761dee0a2e9ae2478055e31018f6cf977fcf6513e9"
- 
- S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
- 
+ SRC_URI[sha256sum] = "c43ce4548ebed788cd9df63658a7de105ceafba43fcd63fa352b1093e525cd24"
 -- 
-2.47.1
+2.34.1
 
-
---===============7362369057933006516==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/gtk4/gtk4-dbg: PKGSIZE changed from 93423992 to 93436680 (+0%)
-packages/x86-64-v3-poky-linux/gtk4/gtk4-dbg: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-dbg: FILELIST: removed "/usr/lib/.debug/libgtk-4.so.1.2400.0", added "/usr/lib/.debug/libgtk-4.so.1.2400.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-dbg: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-dev: PKGSIZE changed from 13043219 to 13043531 (+0%)
-packages/x86-64-v3-poky-linux/gtk4/gtk4-dev: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-dev: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-doc: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-doc: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ab: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ab: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-af: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-af: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-am: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-am: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-an: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-an: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ang: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ang: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ar: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ar: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-as: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-as: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ast: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ast: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-az-ir: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-az-ir: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-az: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-az: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-be+latin: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-be+latin: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-be: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-be: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bg: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bg: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bn-in: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bn-in: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bn: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bn: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-br: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-br: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bs: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-bs: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ca+valencia: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ca+valencia: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ca: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ca: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-crh: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-crh: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-cs: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-cs: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-cy: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-cy: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-da: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-da: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-de: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-de: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-dz: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-dz: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-el: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-el: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en+shaw: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en+shaw: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-ca: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-ca: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-gb: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en-gb: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-en: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eo: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eo: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-es: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-es: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-et: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-et: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eu: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-eu: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fa: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fa: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fi: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fi: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fr: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fr: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fur: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-fur: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ga: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ga: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gd: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gd: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gl: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gl: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gu: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-gu: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-he: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-he: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hi: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hi: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hr: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hr: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hu: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hu: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hy: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-hy: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ia: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ia: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-id: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-id: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ie: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ie: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-io: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-io: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-is: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-is: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-it: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-it: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ja: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ja: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ka: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ka: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kab: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kab: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kk: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kk: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-km: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-km: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kn: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-kn: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ko: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ko: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ku: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ku: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ky: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ky: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lg: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lg: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-li: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-li: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lt: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lt: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lv: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-lv: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mai: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mai: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mi: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mi: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mjw: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mjw: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mk: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mk: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ml: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ml: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mn: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mn: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mr: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-mr: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ms: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ms: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-my: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-my: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nb: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nb: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nds: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nds: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ne: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ne: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nl: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nl: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nn: PKGSIZE changed from 119345 to 120006 (+1%)
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nn: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nn: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nso: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-nso: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-oc: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-oc: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-or: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-or: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pa: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pa: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pl: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pl: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ps: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ps: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pt-br: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pt-br: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pt: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-pt: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ro: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ro: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ru: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ru: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-rw: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-rw: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-si: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-si: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sk: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sk: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sl: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sl: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sq: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sq: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+ije: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+ije: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+latin: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr+latin: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sr: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sv: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-sv: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ta: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ta: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-te: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-te: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tg: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tg: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-th: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-th: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tr: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tr: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tt: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-tt: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ug: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ug: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uk: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uk: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ur: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-ur: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uz+cyrillic: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uz+cyrillic: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uz: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-uz: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-vi: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-vi: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-wa: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-wa: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-xh: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-xh: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-yi: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-yi: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-cn: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-cn: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-hk: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-hk: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-tw: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-locale-zh-tw: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-src: PKGSIZE changed from 58395754 to 58401999 (+0%)
-packages/x86-64-v3-poky-linux/gtk4/gtk4-src: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-src: FILELIST: directory renamed /usr/src/debug/gtk4/4.24.0/gtk/media -> /usr/src/debug/gtk4/4.24.1/gtk/media, directory renamed /usr/src/debug/gtk4/4.24.0/gdk/wayland -> /usr/src/debug/gtk4/4.24.1/gdk/wayland, directory renamed /usr/src/debug/gtk4/4.24.0/gsk/gpu/shaders -> /usr/src/debug/gtk4/4.24.1/gsk/gpu/shaders, directory renamed /usr/src/debug/gtk4/4.24.0/tools -> /usr/src/debug/gtk4/4.24.1/tools, directory renamed /usr/src/debug/gtk4/4.24.0/gdk/x11 -> /usr/src/debug/gtk4/4.24.1/gdk/x11, directory renamed /usr/src/debug/gtk4/4.24.0/gdk -> /usr/src/debug/gtk4/4.24.1/gdk, directory renamed /usr/src/debug/gtk4/4.24.0/gdk/loaders -> /usr/src/debug/gtk4/4.24.1/gdk/loaders, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/css -> /usr/src/debug/gtk4/4.24.1/gtk/css, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/svg/libgtk_svg.a.p -> /usr/src/debug/gtk4/4.24.1/gtk/svg/libgtk_svg.a.p, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/svg -> /usr/
- src/debug/gtk4/4.24.1/gtk/svg, directory renamed /usr/src/debug/gtk4/4.24.0/testsuite/reftests -> /usr/src/debug/gtk4/4.24.1/testsuite/reftests, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/timsort -> /usr/src/debug/gtk4/4.24.1/gtk/timsort, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/a11y -> /usr/src/debug/gtk4/4.24.1/gtk/a11y, directory renamed /usr/src/debug/gtk4/4.24.0/gsk -> /usr/src/debug/gtk4/4.24.1/gsk, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/print -> /usr/src/debug/gtk4/4.24.1/gtk/print, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/print/backends -> /usr/src/debug/gtk4/4.24.1/gtk/print/backends, directory renamed /usr/src/debug/gtk4/4.24.0/gsk/gl -> /usr/src/debug/gtk4/4.24.1/gsk/gl, directory renamed /usr/src/debug/gtk4/4.24.0/gsk/gpu -> /usr/src/debug/gtk4/4.24.1/gsk/gpu, directory renamed /usr/src/debug/gtk4/4.24.0/gdk/deprecated -> /usr/src/debug/gtk4/4.24.1/gdk/deprecated, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/a11y/atspi -> /usr/src/debu
- g/gtk4/4.24.1/gtk/a11y/atspi, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/deprecated -> /usr/src/debug/gtk4/4.24.1/gtk/deprecated, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/inspector -> /usr/src/debug/gtk4/4.24.1/gtk/inspector, directory renamed /usr/src/debug/gtk4/4.24.0/gtk/roaring -> /usr/src/debug/gtk4/4.24.1/gtk/roaring, removed "/usr/src/debug/gtk4/4.24.0/gtk/gtkactionobserverprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopovermenubar.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssselector.c /usr/src/debug/gtk4/4.24.0/gtk/fnmatch.c /usr/src/debug/gtk4/4.24.0/gtk/gtkapplication-dbus.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpopovermenubar.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistitembaseprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktexthistoryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstringpairprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksingleselection.h /usr/src/debug/gtk4/4.24.0/gtk/gtkatcontextprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkimcontextprivate.h /usr/src/debug/gtk4/4.2
- 4.0/gtk/gtkcssstylechange.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorpickershellprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscustompropertypoolprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksearchengine.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssanimatedstyleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmediacontrols.c /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutcontroller.c /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutcontroller.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmediacontrols.h /usr/src/debug/gtk4/4.24.0/gtk/gtksettingsprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssvariablesetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconhelperprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscolorprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksettings.c /usr/src/debug/gtk4/4.24.0/gtk/gtksizerequestcache.c /usr/src/debug/gtk4/4.24.0/gtk/gtktestutils.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstyleproperty.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstyleprovider.c /usr/src/debug/gtk4/4.24.0/gtk/gtktestutils.h /usr/src/debug/gtk4
- /4.24.0/gtk/gtksettings.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstyleprovider.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmenusectionboxprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssbordervalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssshadowvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkapplication.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssnumbervalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkapplication.h /usr/src/debug/gtk4/4.24.0/gtk/gtklabel.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcenterlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessible.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssenumvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcustomlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrenderlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtkwindowhandle.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsslineheightvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessible.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcenterlayout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcustomlayout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwindowhandle.c /usr/src/debug/gt
- k4/4.24.0/gtk/gtkroundedboxprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssfiltervalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorpickershell.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnview.c /usr/src/debug/gtk4/4.24.0/gtk/gtkplacesview.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpropertylookuplistmodelprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnview.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsstransientnodeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdragsourceprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuiltinicon.c /usr/src/debug/gtk4/4.24.0/gtk/gtknativedialogprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconcachevalidatorprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksidebarrowprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdragsource.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimcontextsimple.h /usr/src/debug/gtk4/4.24.0/gtk/gtkjoinedmenu.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdropprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrootprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextprivate.h /usr/src/debug/gtk4/4.24
- .0/gtk/gtkimcontextsimple.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdragsource.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcomposetable.c /usr/src/debug/gtk4/4.24.0/gtk/gtknativedialog.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssvariableset.c /usr/src/debug/gtk4/4.24.0/gtk/gtkactionobservableprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklayoutchild.h /usr/src/debug/gtk4/4.24.0/gtk/gtklayoutchild.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcomposetable.h /usr/src/debug/gtk4/4.24.0/gtk/gtknativedialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssrepeatvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbookmarklist.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturedrag.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrendericonprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktexttagtable.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbookmarklist.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturedrag.c /usr/src/debug/gtk4/4.24.0/gtk/gtktexttagtable.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechoosernativeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblerangeprivate.h /u
- sr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblevalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblerange.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblevalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkoverlay.h /usr/src/debug/gtk4/4.24.0/gtk/gtkprogresstrackerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpropertylookuplistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkprogresstracker.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblerange.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssnodedeclarationprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewrowwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkoverlay.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechoosererrorstack.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmediastream.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssanimatedstyle.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmediastream.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewcolumn.h /usr/src/debug/gtk4/4.24.0/gtk/gtktexttag.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmountoperation-x11.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimag
- e.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbuildable.c /usr/src/debug/gtk4/4.24.0/gtk/gtktexttag.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewcolumn.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistheaderwidget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturedragprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksectionmodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssprovider.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdropdown.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorscaleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssprovider.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdropdown.c /usr/src/debug/gtk4/4.24.0/gtk/gtkistringprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksectionmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtktexttagprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistitemfactoryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistitemfactory.c /usr/src/debug/gtk4/4.24.0/gtk/gtksizerequestcacheprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkenumlist.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpasswordentry.c /usr/src/debug/gtk4/4.24.0/gtk/gtkli
- stitemfactory.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcoloreditor.c /usr/src/debug/gtk4/4.24.0/gtk/gtkenumlist.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsstransformvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpasswordentry.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuiltiniconprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssvaluesprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdbusgenerated.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdbusgenerated.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagelinearprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageradialprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagescaledprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkactionhelper.c /usr/src/debug/gtk4/4.24.0/gtk/gtkactionbar.c /usr/src/debug/gtk4/4.24.0/gtk/gtkheaderbar.c /usr/src/debug/gtk4/4.24.0/gtk/gtkscrollbar.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstylepropertyimpl.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscornervalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkactionbar.h /usr/src/debug/gtk4/4.24.0/gtk/gtkheaderbar.h /usr/src
- /debug/gtk4/4.24.0/gtk/gtkscrollbar.h /usr/src/debug/gtk4/4.24.0/gtk/gtksearchbar.c /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontroller.h /usr/src/debug/gtk4/4.24.0/gtk/gtksearchbar.h /usr/src/debug/gtk4/4.24.0/gtk/gtksectionmodelprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerlegacy.h /usr/src/debug/gtk4/4.24.0/gtk/gskpangoprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmodulesprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontroller.c /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerlegacy.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextmark.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssmediaquery.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagecrossfadeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmodules.c /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcut.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextviewchildprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextmark.h /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcut.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorp
- ickerkwin.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccelgroupprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorpickerkwinprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktexttypes.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistitemprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmountoperationprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageicontheme.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistheaderprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkactionobservable.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturerotate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktexttagtableprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturerotate.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextlayoutprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktext.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssnodeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkadjustmentprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgestureprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscolorvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkjoinedmenuprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktex
- t.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorchooserwidget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorplane.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesture.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpicture.h /usr/src/debug/gtk4/4.24.0/gtk/gtkprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopovercontentprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssnode.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesture.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpicture.c /usr/src/debug/gtk4/4.24.0/gtk/gtkprivate.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextattributesprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssdimensionvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscalcvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistheaderwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconcache.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewrowwidget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssboxesimplprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgestureclickprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgestureswipeprivate.h /usr/src/debug/gtk4/
- 4.24.0/gtk/gtkrendericon.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkglarea.h /usr/src/debug/gtk4/4.24.0/gtk/gtknative.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstylepropertyprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssarrayvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkapplicationprivate.h /usr/src/debug/gtk4/4.24.0/gtk/text-input-unstable-v3-protocol.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblehypertextprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstringpair.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcsseasevalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkflattenlistmodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktestatcontext.c /usr/src/debug/gtk4/4.24.0/gtk/gtkscaler.c /usr/src/debug/gtk4/4.24.0/gtk/gtkflattenlistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtksorter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkswitch.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmenutrackeritemprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtknotebook.c /usr
- /src/debug/gtk4/4.24.0/gtk/gtkmenutrackeritem.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilder-menus.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrendernodepaintable.c /usr/src/debug/gtk4/4.24.0/gtk/gtknotebook.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechooserentry.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrenderbackground.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssshadowvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscustompropertypool.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssbordervalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkselectionfiltermodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssinitialvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdropcontrollermotion.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssinitialvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistitemwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktreelistrowsorter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkselectionfiltermodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdropcontrollermotion.h /usr/src/debug/gtk4/4.24.0/gtk/gtktreelistrowsorter.c /usr/src/debug/gtk4/
- 4.24.0/gtk/gtkapplication-x11.c /usr/src/debug/gtk4/4.24.0/gtk/gtkexpression.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssfontfeaturesvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkprivatetypebuiltins.c /usr/src/debug/gtk4/4.24.0/gtk/gtkexpression.c /usr/src/debug/gtk4/4.24.0/gtk/gtkprivatetypebuiltins.h /usr/src/debug/gtk4/4.24.0/gtk/gtkheaderbarprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkentry.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfixed.c /usr/src/debug/gtk4/4.24.0/gtk/gtkframe.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgizmo.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimage.c /usr/src/debug/gtk4/4.24.0/gtk/gtklayoutmanagerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrecentmanagerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsslookup.c /usr/src/debug/gtk4/4.24.0/gtk/gtkwidgetpaintable.c /usr/src/debug/gtk4/4.24.0/gtk/gtkwidgetpaintableprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturerotateprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwidgetpaintable.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbox.c /usr/src/debug/gtk4
- /4.24.0/gtk/gtkcsskeyframesprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewrowprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkplacesviewrowprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfixed.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbox.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssdynamicprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechoosernative.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintlayout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkframe.h /usr/src/debug/gtk4/4.24.0/gtk/gtkimage.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfixedlayout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturesingle.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturestylus.h /usr/src/debug/gtk4/4.24.0/gtk/gtkslicelistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkarraylistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimmulticontext.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfixedlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpasswordentryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageinvalid.c /usr/src
- /debug/gtk4/4.24.0/gtk/gtkimmulticontext.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageinvalidprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturesingle.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturestylus.c /usr/src/debug/gtk4/4.24.0/gtk/gtkslicelistmodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtksearchenginemodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstylechangeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrenderbackgroundprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmediafileprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextchildprivate.h /usr/src/debug/gtk4/4.24.0/gtk/open-type-layout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerkey.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextsegment.c /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerkey.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssfiltervalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessibleattributesetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextencodingprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintsolverprivate.h /usr/src/debug/gtk
- 4/4.24.0/gtk/gtkmain.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorutils.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorutils.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewtitleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmain.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewtitle.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewcolumnprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechooserdialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfontchooserdialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmediafile.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgestureswipe.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblehypertext.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagecrossfade.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblehypertext.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgestureswipe.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmediafile.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconpaintableprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgrid.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrenderborder.c /usr/src/debug/gtk4/4.24.0/gtk/gtknoselection.c /usr/src/
- debug/gtk4/4.24.0/gtk/gtkactionobserver.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmenutrackerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessiblevaluestatic.c /usr/src/debug/gtk4/4.24.0/gtk/gtknoselection.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgrid.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorscale.c /usr/src/debug/gtk4/4.24.0/gtk/gtkicontheme.c /usr/src/debug/gtk4/4.24.0/gtk/gtksizegroup-private.h /usr/src/debug/gtk4/4.24.0/gtk/gtkicontheme.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconcacheprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksearchentryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksorter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkswitch.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwidget.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwindow.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbitset.h /usr/src/debug/gtk4/4.24.0/gtk/gtkborder.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwidget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkwindow.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstringvalueprivate.h /usr/sr
- c/debug/gtk4/4.24.0/gtk/gtkbitset.c /usr/src/debug/gtk4/4.24.0/gtk/gtkborder.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkglarea.c /usr/src/debug/gtk4/4.24.0/gtk/gtknative.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrbtree.c /usr/src/debug/gtk4/4.24.0/gtk/gtktrashmonitorprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkroundedbox.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextbtreeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfontdialogbutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorpickerportalprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfontdialogbutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpaned.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmodelbuttonprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsstransition.c /usr/src/debug/gtk4/4.24.0/gtk/gtkboolfilter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssanimationprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilefilter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturezoom.c /usr/src/debug/gtk4/4.24.0/gtk/gtkb
- oolfilter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilefilter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfontfilter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturezoom.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmountoperation.h /usr/src/debug/gtk4/4.24.0/gtk/gtksearchentry.h /usr/src/debug/gtk4/4.24.0/gtk/gtksymbolicpaintable.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcountingbloomfilterprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksymbolicpaintable.h /usr/src/debug/gtk4/4.24.0/gtk/gtksearchenginemodelprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkkineticscrolling.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmountoperation.c /usr/src/debug/gtk4/4.24.0/gtk/gtksearchentry.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturelongpress.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstylecascade.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturelongpress.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsstransientnode.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextmarkprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssreferencevalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturepanpr
- ivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssboxesprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscornervalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcsstypesprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilethumbnailprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessibletext.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssbgsizevalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrenderborderprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessibletext.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistitembase.c /usr/src/debug/gtk4/4.24.0/gtk/gtkapplicationimpl.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssshorthandpropertyimpl.c /usr/src/debug/gtk4/4.24.0/gtk/gdktextureutils.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgridview.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistview.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextview.c /usr/src/debug/gtk4/4.24.0/gtk/gtkscrollinfoprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkinscription.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgridview.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistlistmodelprivate.h /usr/src/debug/gtk
- 4/4.24.0/gtk/gtklistview.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextview.h /usr/src/debug/gtk4/4.24.0/gtk/gtkinscription.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintlayoutprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistitem.h /usr/src/debug/gtk4/4.24.0/gtk/gtktexthandle.c /usr/src/debug/gtk4/4.24.0/gtk/gtktreeexpander.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistitem.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssfontfeaturesvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktreeexpander.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilderlistitemfactory.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsstypes.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagepaintableprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsstransformvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilderlistitemfactory.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilderscope.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcalendar.h /usr/src/debug/gtk4/4.24.0/gtk/gtklevelbar.h /usr/src/debug/gtk4/4.24.0/gtk/gtkactionmuxerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkplace
- ssidebar.c /usr/src/debug/gtk4/4.24.0/gtk/gtktestatcontextprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilderscope.h /usr/src/debug/gtk4/4.24.0/gtk/gtkkineticscrollingprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcalendar.c /usr/src/debug/gtk4/4.24.0/gtk/gtklevelbar.c /usr/src/debug/gtk4/4.24.0/gtk/gtksidebarrow.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssmediaqueryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtknomediafileprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpanedhandleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscolorvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdirectorylist.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimcontextsimpleseqs.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagefallbackprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktexthistory.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssshorthandproperty.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdirectorylist.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagelinear.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageradial.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstrain
- tvflparser.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagescaled.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechooserprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcustomsorter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstringsorter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfontfilterprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcustomsorter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstringsorter.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistbase.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstyle.c /usr/src/debug/gtk4/4.24.0/gtk/gtkeditable.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimmodule.c /usr/src/debug/gtk4/4.24.0/gtk/gtkeditable.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistbase.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintguide.h /usr/src/debug/gtk4/4.24.0/gtk/gtksvgwidget.h /usr/src/debug/gtk4/4.24.0/gtk/gtkentrybuffer.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintguideprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksvgwidget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintguide.c /usr/src/debug/gtk4/4.24.0/gtk/gtksortkeys.c /usr/src/d
- ebug/gtk4/4.24.0/gtk/gtkemojicompletionprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkentrybuffer.h /usr/src/debug/gtk4/4.24.0/gtk/gtkemojicompletion.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagepaintable.c /usr/src/debug/gtk4/4.24.0/gtk/gtktooltip.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkplacesviewprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkprogressbar.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewcell.h /usr/src/debug/gtk4/4.24.0/gtk/gtkflowboxprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtknomediafile.c /usr/src/debug/gtk4/4.24.0/gtk/gtkprogressbar.h /usr/src/debug/gtk4/4.24.0/gtk/gtktooltip.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewcell.c /usr/src/debug/gtk4/4.24.0/gtk/gtktooltipprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkflowbox.h /usr/src/debug/gtk4/4.24.0/gtk/gtkexpander.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorchooserwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistbox.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsslineheightvaluepri
- vate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrevealer.c /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutcontrollerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextiter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkexpander.h /usr/src/debug/gtk4/4.24.0/gtk/gtkflowbox.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistbox.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrevealer.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextiter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkapplicationaccels.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstaticstyle.c /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollermotion.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcustomfilter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstringfilter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkentryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstringfilter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcustomfilter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopoverbin.c /usr/src/debug/gtk4/4.24.0/gtk/gtkenumsprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollermotion.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilethumbnail.c /us
- r/src/debug/gtk4/4.24.0/gtk/gtkgizmoprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkopenuriportal.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilderprecompile.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorpickerportal.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssunsetvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkactionhelperprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkopenuriportal.h /usr/src/debug/gtk4/4.24.0/gtk/gtksizerequest.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopoverbin.h /usr/src/debug/gtk4/4.24.0/gtk/gtksizerequest.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstrainttypesprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilterlistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextlinedisplaycacheprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewcellwidget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilterlistmodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsspalettevalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsspalettevalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageconicprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkc
- ssimagevalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsswidgetnodeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturepan.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstacksidebar.h /usr/src/debug/gtk4/4.24.0/gtk/gtksvgwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkversion.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturepan.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmagnifier.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstacksidebar.c /usr/src/debug/gtk4/4.24.0/gtk/gtkversion.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbinlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtkboxlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistitemwidget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmultifilter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdialogerror.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscalcvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbinlayout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkboxlayout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdialogerror.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmultifilter.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistfactorywidget.c /usr/src/
- debug/gtk4/4.24.0/gtk/gtkpanedhandle.c /usr/src/debug/gtk4/4.24.0/gtk/gtkadjustment.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeditablelabel.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechooserutils.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfontchooserutils.c /usr/src/debug/gtk4/4.24.0/gtk/gtkeditablelabel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkadjustment.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechooserutils.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfontchooserutils.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextlinedisplaycache.c /usr/src/debug/gtk4/4.24.0/gtk/gtkoverlaylayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtkoverlaylayout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkroot.h /usr/src/debug/gtk4/4.24.0/gtk/gtkroot.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistfactorywidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilderprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpathbarprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkspinnerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstackswitcher.h /usr/src/debug/gtk4/4.24.0/gtk/gtkviewport.h /usr
- /src/debug/gtk4/4.24.0/gtk/gtkfilechoosererrorstackprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkresources.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstackswitcher.c /usr/src/debug/gtk4/4.24.0/gtk/gtkviewport.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcsseasevalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkresources.h /usr/src/debug/gtk4/4.24.0/gtk/gtksearchengineprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistheaderbase.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilder.c /usr/src/debug/gtk4/4.24.0/gtk/gtkemojichooser.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpathbar.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimcontextwaylandprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopover.c /usr/src/debug/gtk4/4.24.0/gtk/gtkspinner.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilder.h /usr/src/debug/gtk4/4.24.0/gtk/gtkemojichooser.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistheaderbaseprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopover.h /usr/src/debug/gtk4/4.24.0/gtk/gtkspinner.h /usr/src/debug/gtk4/4.24.0/gtk/gtktooltipwindowprivate.h /usr/
- src/debug/gtk4/4.24.0/gtk/gtkcssvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilesystemmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilesystemmodelprivate.h /usr/src/debug/gtk4/4.24.0/gtk/language-names.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorplaneprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageconic.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagevalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcsswidgetnode.c /usr/src/debug/gtk4/4.24.0/gtk/language-names.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrendernodepaintableprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagefallback.c /usr/src/debug/gtk4/4.24.0/gtk/gtksizegroup.c /usr/src/debug/gtk4/4.24.0/gtk/gtkscale.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstack.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpango.c /usr/src/debug/gtk4/4.24.0/gtk/gtkquery.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrange.c /usr/src/debug/gtk4/4.24.0/gtk/gtkvideo.c /usr/src/debug/gtk4/4.24.0/gtk/gtklabel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpaned.c /usr/src/debug/gtk4/4.24.0/gtk/gtkvideo.h /usr/s
- rc/debug/gtk4/4.24.0/gtk/gtktypes.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrange.h /usr/src/debug/gtk4/4.24.0/gtk/gtkscale.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstack.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssnodedeclaration.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdebug.h /usr/src/debug/gtk4/4.24.0/gtk/gtkentry.h /usr/src/debug/gtk4/4.24.0/gtk/gtkenums.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfontchooserdialogprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstyleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkimmoduleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistbaseprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistitemmanager.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistitemmanagerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmaplistmodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssfontvariationsvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmaplistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstyleanimationprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageurlprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextsegmentprivate.h /
- usr/src/debug/gtk4/4.24.0/gtk/gtkcssnodestylecache.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimcontextwayland.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfiledialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfontdialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturesingleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturestylusprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintexpressionprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutmanager.h /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcuttrigger.h /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutmanager.c /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcuttrigger.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfiledialog.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfontdialog.h /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutmanagerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewsorterprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkactionable.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilelauncher.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorpickerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechooserwi
- dget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfontchooserwidget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkorientable.c /usr/src/debug/gtk4/4.24.0/gtk/gtkscrollable.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextencoding.c /usr/src/debug/gtk4/4.24.0/gtk/gtkactionable.h /usr/src/debug/gtk4/4.24.0/gtk/gtkapplicationaccelsprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilelauncher.c /usr/src/debug/gtk4/4.24.0/gtk/gtkorientable.h /usr/src/debug/gtk4/4.24.0/gtk/gtkscrollable.h /usr/src/debug/gtk4/4.24.0/gtk/gtklinkbutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmenubutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmultiselection.c /usr/src/debug/gtk4/4.24.0/gtk/gtkscrolledwindow.c /usr/src/debug/gtk4/4.24.0/gtk/gtkspinbutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtklinkbutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmenubutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintexpression.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmultiselection.h /usr/src/debug/gtk4/4.24.0/gtk/gtkscrolledwindow.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmagnifierpri
- vate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkspinbutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagerecolorprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraint.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimagerecolor.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccelgroup.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmultisorter.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcoloreditorprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktexttypesprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraint.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmultisorter.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorpicker.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmenusectionbox.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccelgroup.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssreferencevalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconcachevalidator.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssproviderprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechoosercell.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechoosercellprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkscrollinfo.c /usr/src/deb
- ug/gtk4/4.24.0/gtk/gtkbookmarksmanager.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewcellprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutaction.c /usr/src/debug/gtk4/4.24.0/gtk/gtktypebuiltins.c /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutaction.h /usr/src/debug/gtk4/4.24.0/gtk/gtkscrollinfo.h /usr/src/debug/gtk4/4.24.0/gtk/gtktypebuiltins.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechooserentryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessibleattributeset.c /usr/src/debug/gtk4/4.24.0/gtk/gtkurilauncher.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopovercontent.c /usr/src/debug/gtk4/4.24.0/gtk/gtksortkeysprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkurilauncher.c /usr/src/debug/gtk4/4.24.0/gtk/gtktypefuncs.inc /usr/src/debug/gtk4/4.24.0/gtk/gtkpasswordentrybuffer.c /usr/src/debug/gtk4/4.24.0/gtk/text-input-unstable-v3-client-protocol.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsspositionvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpasswordentrybuffer.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsssele
- ctorprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsskeyframes.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkarraylistmodelprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtknumericsorter.c /usr/src/debug/gtk4/4.24.0/gtk/gtksingleselection.c /usr/src/debug/gtk4/4.24.0/gtk/gtksorterprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwindowprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuttonprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorswatch.c /usr/src/debug/gtk4/4.24.0/gtk/gtkfilterprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtknativeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gdktextureutilsprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrbtreeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkscalerprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtknumericsorter.h /usr/src/debug/gtk4/4.24.0/gtk/gtksnapshotprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwidgetfocus.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaspectframe.c /usr/src/debug/gtk4/
- 4.24.0/gtk/gtkcssfontvariationsvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssrepeatvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaspectframe.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstylecascadeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtksignallistitemfactory.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssnodestylecacheprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintvflparserprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkallocatedbitmask.c /usr/src/debug/gtk4/4.24.0/gtk/gtksignallistitemfactory.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdrawingarea.c /usr/src/debug/gtk4/4.24.0/gtk/gtksizegroup.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdrawingarea.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsslookupprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerscroll.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpointerfocusprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerscroll.c /usr/src/debug/gtk4/4.24.0/gtk/gtksnapshot.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconpaintable.c /usr/src/debug/gtk4/4.24.0/gtk/gse
- ttings-mapping.h /usr/src/debug/gtk4/4.24.0/gtk/gtkactionmuxer.c /usr/src/debug/gtk4/4.24.0/gtk/gtkseparator.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconpaintable.h /usr/src/debug/gtk4/4.24.0/gtk/gtksnapshot.c /usr/src/debug/gtk4/4.24.0/gtk/gtkiconhelper.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdrop.c /usr/src/debug/gtk4/4.24.0/gtk/gsettings-mapping.c /usr/src/debug/gtk4/4.24.0/gtk/gtkseparator.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorutilsprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextiterprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklayoutmanager.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrecentmanager.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssinheritvalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtklayoutmanager.h /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssinheritvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkrecentmanager.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrenderlayoutprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbookmarksmanagerprivate.h /usr/src/debug/gtk4
- /4.24.0/gtk/gtkselectionmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistheader.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistheader.h /usr/src/debug/gtk4/4.24.0/gtk/gtkselectionmodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextviewchild.c /usr/src/debug/gtk4/4.24.0/gtk/gtksecurememory.c /usr/src/debug/gtk4/4.24.0/gtk/gtktogglebutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtktogglebutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssshorthandpropertyprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextutil.c /usr/src/debug/gtk4/4.24.0/gtk/gtkwindowcontrols.h /usr/src/debug/gtk4/4.24.0/gtk/gtkplacessidebarprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkwindowgroup.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssanimation.c /usr/src/debug/gtk4/4.24.0/gtk/gtkwindowcontrols.c /usr/src/debug/gtk4/4.24.0/gtk/gtkwindowgroup.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgestureclick.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbitmaskprivateimpl.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewcellwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstati
- cstyleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkapplicationwindow.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgestureclick.h /usr/src/debug/gtk4/4.24.0/gtk/gtkapplicationwindow.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopovermenuprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextutilprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssenumvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtktrashmonitor.c /usr/src/debug/gtk4/4.24.0/gtk/gtklistlistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewsorter.c /usr/src/debug/gtk4/4.24.0/gtk/gtksortlistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtktreelistmodel.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewsorter.h /usr/src/debug/gtk4/4.24.0/gtk/gtksortlistmodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtktreelistmodel.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsstransitionprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkiconthemeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmenutracker.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaboutdialog.h /usr/src/debug/gtk4/4.24.0/gtk/gtkalertdialog.h /usr/src/
- debug/gtk4/4.24.0/gtk/gtkcolordialog.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopovermenu.h /usr/src/debug/gtk4/4.24.0/gtk/gtkprintdialog.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpopovermenu.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaboutdialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkalertdialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolordialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkprintdialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkallocatedbitmaskprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpointerfocus.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcsspositionvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturezoomprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessibletextprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssbgsizevalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktooltipwindow.c /usr/src/debug/gtk4/4.24.0/gtk/gtkconstraintsolver.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdragicon.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewrow.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechooserwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk
- /gtkfontchooserwidgetprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkapplication-wayland.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssnumbervalueprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolumnviewrow.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdragicon.h /usr/src/debug/gtk4/4.24.0/gtk/gtkfilechoosernativeportal.c /usr/src/debug/gtk4/4.24.0/gtk/gtkplacesviewrow.c /usr/src/debug/gtk4/4.24.0/gtk/gtksecurememoryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkpangoprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkqueryprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkrangeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerfocus.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgesturelongpressprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkimagedefinition.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimagedefinitionprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssdynamic.c /usr/src/debug/gtk4/4.24.0/gtk/gtkeventcontrollerfocus.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuildableprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextattributes.c /usr/src
- /debug/gtk4/4.24.0/gtk/gtkdroptarget.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcheckbutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmodelbutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtkscalebutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextchild.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstyleproperty.c /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilderparser.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdroptarget.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuilderscopeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextchild.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcheckbutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkscalebutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcsscolor.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcenterbox.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssdimensionvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcenterbox.h /usr/src/debug/gtk4/4.24.0/gtk/gtkatcontext.h /usr/src/debug/gtk4/4.24.0/gtk/gtkimcontext.h /usr/src/debug/gtk4/4.24.0/gtk/gtklistviewprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstyleanimation.c /usr/src/debug/gtk4/4.24.0/gtk/gtk
- textviewprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextbtree.c /usr/src/debug/gtk4/4.24.0/gtk/gtkatcontext.c /usr/src/debug/gtk4/4.24.0/gtk/gtkimcontext.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssarrayvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkapplicationwindowprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmarshalers.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextbufferprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssstringvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgridlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtktextlayout.c /usr/src/debug/gtk4/4.24.0/gtk/gtkmarshalers.c /usr/src/debug/gtk4/4.24.0/gtk/xdp-dbus.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgridlayout.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstylepropertyprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gskpango.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcssunsetvalue.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolordialogbutton.h /usr/src/debug/gtk4/4.24.0/gtk/gtkmessagedialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpadcontroller.c /usr/src/debug/gtk4/4.24.0/gtk/gtkstyleprovid
- erprivate.h /usr/src/debug/gtk4/4.24.0/gtk/xdp-dbus.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorchooserdialog.c /usr/src/debug/gtk4/4.24.0/gtk/gtkcolordialogbutton.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpadcontroller.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextbuffer.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageurl.c /usr/src/debug/gtk4/4.24.0/gtk/gtkaccessibleprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkdroptargetasync.c /usr/src/debug/gtk4/4.24.0/gtk/gtkpopovermenubarprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtktextbuffer.c /usr/src/debug/gtk4/4.24.0/gtk/gtkdroptargetasync.h /usr/src/debug/gtk4/4.24.0/gtk/gtkshortcutactionprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcssimageiconthemeprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkcolorswatchprivate.h /usr/src/debug/gtk4/4.24.0/gtk/gtkbuildable.h /usr/src/debug/gtk4/4.24.0/gtk/gtkgraphicsoffload.h /usr/src/debug/gtk4/4.24.0/gtk/gtkstringlist.c /usr/src/debug/gtk4/4.24.0/gtk/gtkgraphicsoffload.c /usr/src/debug/gtk4/4.24.0/gtk/gtktexthandleprivate.h /
- usr/src/debug/gtk4/4.24.0/gtk/gtkstringlist.h", added "/usr/src/debug/gtk4/4.24.1/gtk/gtktrashmonitor.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewcolumnprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstackswitcher.h /usr/src/debug/gtk4/4.24.1/gtk/gtksortlistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistlistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechoosererrorstackprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktreelistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstackswitcher.c /usr/src/debug/gtk4/4.24.1/gtk/gtksortlistmodel.h /usr/src/debug/gtk4/4.24.1/gtk/gtktreelistmodel.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgrid.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmediastream.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmenutrackerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmediastream.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblevaluestatic.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgrid.c /usr/src/debug/gtk4/4.24.1/gtk/gtktexttag.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpointerfocus.c /usr/src/debug/gtk4/4.24.1/gtk/gtk
- texttag.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistheaderwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturedragprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssprovider.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorplaneprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageconic.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagevalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssprovider.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsswidgetnode.c /usr/src/debug/gtk4/4.24.1/gtk/gtkistringprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktexttagprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdragicon.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechooserwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfontchooserwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkapplication-wayland.c /usr/src/debug/gtk4/4.24.1/gtk/gtksizerequestcacheprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssnumbervalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcoloreditor.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdragicon.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextbtree
- private.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstyleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkimmoduleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistbaseprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistitemmanager.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistitemmanagerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmountoperation.h /usr/src/debug/gtk4/4.24.1/gtk/gtkactionbar.c /usr/src/debug/gtk4/4.24.1/gtk/gtkheaderbar.c /usr/src/debug/gtk4/4.24.1/gtk/gtkscrollbar.c /usr/src/debug/gtk4/4.24.1/gtk/gtksearchbar.c /usr/src/debug/gtk4/4.24.1/gtk/gtkkineticscrolling.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmountoperation.c /usr/src/debug/gtk4/4.24.1/gtk/gtkheaderbar.h /usr/src/debug/gtk4/4.24.1/gtk/gtkscrollbar.h /usr/src/debug/gtk4/4.24.1/gtk/gtksearchbar.h /usr/src/debug/gtk4/4.24.1/gtk/gtkimagedefinition.c /usr/src/debug/gtk4/4.24.1/gtk/gtkimagedefinitionprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkactionbar.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdroptarget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkevent
- controllerlegacy.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssdynamic.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssnodestylecache.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdroptarget.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmodulesprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsstransientnode.c /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontrollerlegacy.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscolor.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmodules.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssdimensionvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtktexttypes.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscornervalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilethumbnailprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmarshalers.h /usr/src/debug/gtk4/4.24.1/gtk/gtkactionobservable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechooserwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfontchooserwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgridlayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextbufferprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextlayout.c /usr/src/debug/
- gtk4/4.24.1/gtk/gtkmarshalers.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgridlayout.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssunsetvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmessagedialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpadcontroller.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssnodeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgestureprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpadcontroller.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscolorvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesture.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagerecolorprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpicture.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagerecolor.c /usr/src/debug/gtk4/4.24.1/gtk/gtkprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextbuffer.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessibleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpopovermenubarprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextbuffer.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssnode.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesture.c /usr/src/debug/gtk4/4.
- 24.1/gtk/gtkpicture.c /usr/src/debug/gtk4/4.24.1/gtk/gtkprivate.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintlayoutprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssdimensionvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageiconthemeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechoosercell.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechoosercellprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilderlistitemfactory.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistheaderwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstringlist.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilderlistitemfactory.c /usr/src/debug/gtk4/4.24.1/gtk/gtkiconcache.c /usr/src/debug/gtk4/4.24.1/gtk/gtktexthandleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstringlist.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilderscope.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpopovermenubar.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewrowwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcalendar.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechooserentryprivate.h /usr/
- src/debug/gtk4/4.24.1/gtk/gtklevelbar.h /usr/src/debug/gtk4/4.24.1/gtk/fnmatch.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpopovermenubar.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilderscope.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssboxesimplprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgestureclickprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgestureswipeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcalendar.c /usr/src/debug/gtk4/4.24.1/gtk/gtklevelbar.c /usr/src/debug/gtk4/4.24.1/gtk/gtksidebarrow.c /usr/src/debug/gtk4/4.24.1/gtk/gtktypefuncs.inc /usr/src/debug/gtk4/4.24.1/gtk/gtkurilauncher.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstylechange.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstylepropertyprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorpickershellprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscolorvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdirectorylist.c /usr/src/debug/gtk4/4.24.1/gtk/gtkimcontextsimpleseqs.h /usr/src/debug/gtk4/4.24.1/gtk/text-input-unstable-v3-protocol.c /usr/src/debug/gtk4/4.2
- 4.1/gtk/gtkdirectorylist.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssvariablesetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcustomsorter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorswatch.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstringsorter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfontfilterprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktestatcontext.c /usr/src/debug/gtk4/4.24.1/gtk/gdktextureutilsprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcustomsorter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstringsorter.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistbase.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmenutrackeritemprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstyle.c /usr/src/debug/gtk4/4.24.1/gtk/gtkeditable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkimmodule.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmenutrackeritem.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilder-menus.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrendernodepaintable.c /usr/src/debug/gtk4/4.24.1/gtk/gtksizerequestcache.c /usr/s
- rc/debug/gtk4/4.24.1/gtk/gtkeditable.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwidgetfocus.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistbase.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssbordervalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaspectframe.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssinitialvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssinitialvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssnumbervalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaspectframe.h /usr/src/debug/gtk4/4.24.1/gtk/gtksortkeys.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdrawingarea.c /usr/src/debug/gtk4/4.24.1/gtk/gtkexpander.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrevealer.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextiter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdrawingarea.h /usr/src/debug/gtk4/4.24.1/gtk/gtkexpander.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrevealer.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextiter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkapplicationaccels.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorpickershell.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssf
- iltervalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcustomfilter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstringfilter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkswitch.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdebugprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcustomfilter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkentryprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkenumsprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgizmoprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpangoprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkopenuriportal.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilderprecompile.c /usr/src/debug/gtk4/4.24.1/gtk/gtkactionmuxer.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpopoverbin.c /usr/src/debug/gtk4/4.24.1/gtk/gtkseparator.h /usr/src/debug/gtk4/4.24.1/gtk/gtkopenuriportal.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwidgetpaintable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkwidgetpaintable.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpopoverbin.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwidgetpaintableprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkseparator.
- c /usr/src/debug/gtk4/4.24.1/gtk/gtkbox.c /usr/src/debug/gtk4/4.24.1/gtk/gtkroundedbox.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsspalettevalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbox.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssdynamicprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsspalettevalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechoosernative.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturesingle.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturestylus.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssvariableset.c /usr/src/debug/gtk4/4.24.1/gtk/gtkactionobservableprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturepan.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstacksidebar.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturepan.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageinvalid.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstacksidebar.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageinvalidprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturesingle.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturestylus.c /usr/src/debug/gtk4/4.24.1/gtk/gtkc
- ssrepeatvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscalcvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssshorthandpropertyprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistfactorywidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkadjustment.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwindowgroup.c /usr/src/debug/gtk4/4.24.1/gtk/gtkadjustment.c /usr/src/debug/gtk4/4.24.1/gtk/gtkwindowgroup.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbitmaskprivateimpl.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewcellwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkoverlaylayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtkoverlaylayout.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextencodingprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewtitleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewtitle.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmediafile.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmediafile.h /usr/src/debug/gtk4/4.24.1/gtk/gtkiconpaintableprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtknoselection.c /usr/src/debug/gtk4/4.24.1/gtk/gtkactiono
- bserver.c /usr/src/debug/gtk4/4.24.1/gtk/gtknoselection.h /usr/src/debug/gtk4/4.24.1/gtk/gtktooltipwindowprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkicontheme.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimage.c /usr/src/debug/gtk4/4.24.1/gtk/gtkicontheme.h /usr/src/debug/gtk4/4.24.1/gtk/gtkiconcacheprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksearchentryprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksectionmodel.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdropdown.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstringvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdropdown.c /usr/src/debug/gtk4/4.24.1/gtk/gtksectionmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtktooltipwindow.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewrow.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagefallback.c /usr/src/debug/gtk4/4.24.1/gtk/gtkenumlist.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpasswordentry.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewrow.c /usr/src/debug/gtk4/4.24.1/gtk/gtkplacesviewrow.c /usr/src/debug/gtk4/4.24.1/gtk/gtkenumlist.
- h /usr/src/debug/gtk4/4.24.1/gtk/gtkpasswordentry.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfontdialogbutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfontdialogbutton.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmodelbuttonprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksecurememoryprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturezoom.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturezoom.h /usr/src/debug/gtk4/4.24.1/gtk/gtkactionhelper.c /usr/src/debug/gtk4/4.24.1/gtk/gtksearchentry.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssfontvariationsvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtksearchentry.c /usr/src/debug/gtk4/4.24.1/gtk/gtksearchenginemodelprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstyleanimationprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageurlprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextsegmentprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontroller.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturelongpress.c /usr/src/debug/gtk4/4.24.1/gtk/gskpangoprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontro
- llerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilderscopeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontroller.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturelongpress.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextmark.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorutils.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturesingleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturestylusprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcut.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextmark.h /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcut.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistviewprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextviewprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewsorterprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssarrayvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkapplicationwindowprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistheaderprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorpickerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturerotate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktexttagtablep
- rivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssbgsizevalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessibletext.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessibletext.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturerotate.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolordialogbutton.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolordialogbutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintexpression.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmagnifierprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorplane.c /usr/src/debug/gtk4/4.24.1/gtk/gtktexttypesprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdroptargetasync.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcoloreditorprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkinscription.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistlistmodelprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpopovercontentprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechoosernativeportal.c /usr/src/debug/gtk4/4.24.1/gtk/gtkinscription.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdroptargetasync.h /usr/src/debug/gtk4/4.24.1/gtk/gtksho
- rtcutactionprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscalcvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssproviderprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbookmarksmanager.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewcellprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgraphicsoffload.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgraphicsoffload.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdebug.c /usr/src/debug/gtk4/4.24.1/gtk/gtkactionobserverprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkentry.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfixed.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssselector.c /usr/src/debug/gtk4/4.24.1/gtk/gtkplacessidebar.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessibleattributeset.c /usr/src/debug/gtk4/4.24.1/gtk/gtkapplication-dbus.c /usr/src/debug/gtk4/4.24.1/gtk/gtktexthistoryprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkframe.c /usr/src/debug/gtk4/4.24.1/gtk/gtkqueryprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrangeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkatcontextprivate.h /usr/src
- /debug/gtk4/4.24.1/gtk/gtkimcontextprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssarrayvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcutcontroller.c /usr/src/debug/gtk4/4.24.1/gtk/gtkentry.h /usr/src/debug/gtk4/4.24.1/gtk/gtkenums.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpasswordentrybuffer.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfixed.h /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcutcontroller.h /usr/src/debug/gtk4/4.24.1/gtk/gtkframe.h /usr/src/debug/gtk4/4.24.1/gtk/gtkimage.h /usr/src/debug/gtk4/4.24.1/gtk/gtklabel.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpaned.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpasswordentrybuffer.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsskeyframes.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintvflparser.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuttonprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilterprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtknativeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrbtreeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkscalerprivate.h /usr/src/debug/gtk4/4.24
- .1/gtk/gtksnapshotprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksorterprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwindowprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktestutils.c /usr/src/debug/gtk4/4.24.1/gtk/gtktestutils.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechooserentry.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrenderbackground.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssshadowvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscustompropertypool.c /usr/src/debug/gtk4/4.24.1/gtk/gtkapplication.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintguide.h /usr/src/debug/gtk4/4.24.1/gtk/gtkselectionfiltermodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssfontvariationsvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintguideprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssrepeatvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkapplication.h /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintguide.c /usr/src/debug/gtk4/4.24.1/gtk/gtkselectionfiltermodel.h /usr/src/debug/
- gtk4/4.24.1/gtk/gtkemojicompletionprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkemojicompletion.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagepaintable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkplacesviewprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsslineheightvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkheaderbarprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsstransientnodeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpointerfocusprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklayoutmanagerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilethumbnail.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrecentmanagerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksnapshot.h /usr/src/debug/gtk4/4.24.1/gtk/gtkiconpaintable.c /usr/src/debug/gtk4/4.24.1/gtk/gsettings-mapping.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorpickerportal.c /usr/src/debug/gtk4/4.24.1/gtk/gtkactionhelperprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkiconpaintable.h /usr/src/debug/gtk4/4.24.1/gtk/gtksnapshot.c 
- /usr/src/debug/gtk4/4.24.1/gtk/gtkbuiltinicon.c /usr/src/debug/gtk4/4.24.1/gtk/gtkiconhelper.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstrainttypesprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gsettings-mapping.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilterlistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkiconcachevalidatorprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextiterprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewrowprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdropprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilterlistmodel.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssinheritvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkplacesviewrowprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssinheritvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrootprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintlayout.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbookmarksmanagerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkarraylistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkimmulti
- context.c /usr/src/debug/gtk4/4.24.1/gtk/gtklayoutchild.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistheader.c /usr/src/debug/gtk4/4.24.1/gtk/gtkslicelistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintlayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtklayoutchild.c /usr/src/debug/gtk4/4.24.1/gtk/gtkimmulticontext.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistheader.h /usr/src/debug/gtk4/4.24.1/gtk/gtkslicelistmodel.h /usr/src/debug/gtk4/4.24.1/gtk/gtksecurememory.c /usr/src/debug/gtk4/4.24.1/gtk/gtktogglebutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtktogglebutton.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrenderbackgroundprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextutil.c /usr/src/debug/gtk4/4.24.1/gtk/open-type-layout.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeditablelabel.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturedrag.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeditablelabel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssanimation.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturedrag.c /
- usr/src/debug/gtk4/4.24.1/gtk/gtkglarea.h /usr/src/debug/gtk4/4.24.1/gtk/gtknative.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgestureclick.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstaticstyleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkapplicationwindow.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgestureclick.h /usr/src/debug/gtk4/4.24.1/gtk/gtkapplicationwindow.h /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintsolverprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkoverlay.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmain.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextutilprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssenumvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewrowwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmain.c /usr/src/debug/gtk4/4.24.1/gtk/gtkoverlay.c /usr/src/debug/gtk4/4.24.1/gtk/gtknative.c /usr/src/debug/gtk4/4.24.1/gtk/gtkwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilderprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpathbarprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkspinnerprivate.h /usr/src/debug/
- gtk4/4.24.1/gtk/gtkwindow.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewsorter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblehypertext.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgestureswipe.c /usr/src/debug/gtk4/4.24.1/gtk/gtkresources.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblehypertext.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewsorter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgestureswipe.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistheaderbase.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilder.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsstransitionprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkiconthemeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkimcontextwaylandprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpathbar.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpopover.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrenderborder.c /usr/src/debug/gtk4/4.24.1/gtk/gtkspinner.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilder.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistheaderbaseprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpopover.h /usr/src/debug/
- gtk4/4.24.1/gtk/gtkspinner.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorscale.c /usr/src/debug/gtk4/4.24.1/gtk/gtksorter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkswitch.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwidget.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwindow.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbitset.h /usr/src/debug/gtk4/4.24.1/gtk/gtkborder.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbutton.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrbtree.c /usr/src/debug/gtk4/4.24.1/gtk/gtkscaler.c /usr/src/debug/gtk4/4.24.1/gtk/gtksorter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorscaleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbitset.c /usr/src/debug/gtk4/4.24.1/gtk/gtkborder.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintsolver.c /usr/src/debug/gtk4/4.24.1/gtk/gtkglarea.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistitemfactoryprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistitemfactory.c /usr/src/debug/gtk4/4.24.1/gtk/gtksizegroup.c /usr/src/deb
- ug/gtk4/4.24.1/gtk/gtkscale.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstack.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrange.c /usr/src/debug/gtk4/4.24.1/gtk/gtkvideo.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistitemfactory.h /usr/src/debug/gtk4/4.24.1/gtk/gtkimage.c /usr/src/debug/gtk4/4.24.1/gtk/gtklabel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpaned.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpango.c /usr/src/debug/gtk4/4.24.1/gtk/gtkquery.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrange.h /usr/src/debug/gtk4/4.24.1/gtk/gtkscale.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstack.h /usr/src/debug/gtk4/4.24.1/gtk/gtktypes.h /usr/src/debug/gtk4/4.24.1/gtk/gtkvideo.h /usr/src/debug/gtk4/4.24.1/gtk/gtktrashmonitorprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdebug.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsstransformvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorpickerportalprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdbusgenerated.c /usr/src/debug/gtk4/4.24.1/gtk/gtkboolfilter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilefilter.h /usr/src/deb
- ug/gtk4/4.24.1/gtk/gtkboolfilter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdbusgenerated.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilefilter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfontfilter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturelongpressprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksectionmodelprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstylecascade.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstyleproperty.c /usr/src/debug/gtk4/4.24.1/gtk/gtkimcontextwayland.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssmediaquery.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagecrossfadeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintexpressionprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssreferencevalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorpickerkwin.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccelgroupprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorpickerkwinprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturepanprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistitemprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstyleanimatio
- n.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageicontheme.c /usr/src/debug/gtk4/4.24.1/gtk/xdp-dbus.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstylepropertyprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistitembase.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstyleproviderprivate.h /usr/src/debug/gtk4/4.24.1/gtk/xdp-dbus.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmultiselection.c /usr/src/debug/gtk4/4.24.1/gtk/gtkscrolledwindow.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorchooserdialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkapplicationimpl.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextlayoutprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmultiselection.h /usr/src/debug/gtk4/4.24.1/gtk/gtkadjustmentprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssshorthandpropertyimpl.c /usr/src/debug/gtk4/4.24.1/gtk/gtkjoinedmenuprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkscrolledwindow.h /usr/src/debug/gtk4/4.24.1/gtk/gdktextureutils.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmultisorter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgridview.c /usr/src/debug/g
- tk4/4.24.1/gtk/gtklistview.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextview.c /usr/src/debug/gtk4/4.24.1/gtk/gtkscrollinfoprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgridview.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistview.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmultisorter.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextview.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorpicker.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmenusectionbox.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextattributesprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssreferencevalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistitem.h /usr/src/debug/gtk4/4.24.1/gtk/gtkiconcachevalidator.c /usr/src/debug/gtk4/4.24.1/gtk/gtktexthandle.c /usr/src/debug/gtk4/4.24.1/gtk/gtktreeexpander.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistitem.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorswatchprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktreeexpander.h /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcutaction.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsstypes.c /usr/src/debug/gtk4/4.24.1/
- gtk/gtkshortcutaction.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsstransformvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkactionmuxerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktestatcontextprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksortkeysprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssmediaqueryprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkapplicationprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksearchengine.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmediacontrols.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmediacontrols.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagelinear.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageradial.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagescaled.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgizmo.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkflattenlistmodel.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechooserprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtknumericsorter.c /usr/src/debug/gtk4/4.24.1/gtk/gtksingleselection.c /usr/src/debug/gtk4/4.24.1/gtk
- /gtkflattenlistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkiconhelperprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksingleselection.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscolorprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtknumericsorter.h /usr/src/debug/gtk4/4.24.1/gtk/gtksettings.c /usr/src/debug/gtk4/4.24.1/gtk/gtksettings.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssshadowvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdropcontrollermotion.c /usr/src/debug/gtk4/4.24.1/gtk/gtkresources.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdropcontrollermotion.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstylecascadeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcenterlayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessible.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssenumvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcustomlayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrenderlayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewcell.h /usr/src/debug/gtk4/4.24.1/gtk/gtksignallistitemfactory.c /usr/src/debug/gtk4/4.24.1/gtk/gtkwindowhan
- dle.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessible.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcenterlayout.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssnodestylecacheprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcustomlayout.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewcell.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintvflparserprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksignallistitemfactory.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwindowhandle.c /usr/src/debug/gtk4/4.24.1/gtk/gtkroundedboxprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssfontfeaturesvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstaticstyle.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnview.c /usr/src/debug/gtk4/4.24.1/gtk/gtkplacesview.c /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontrollermotion.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnview.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontrollermotion.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsslookup.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdragsourceprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstringfilte
- r.h /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturerotateprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksidebarrowprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorutilsprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdragsource.c /usr/src/debug/gtk4/4.24.1/gtk/gtkimcontextsimple.h /usr/src/debug/gtk4/4.24.1/gtk/gtkjoinedmenu.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewcellwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtklayoutmanager.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrecentmanager.c /usr/src/debug/gtk4/4.24.1/gtk/gtklayoutmanager.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrecentmanager.h /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraintprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdragsource.h /usr/src/debug/gtk4/4.24.1/gtk/gtkimcontextsimple.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfixedlayout.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcomposetable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageconicprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagevalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsswidgetnodeprivate.h /usr
- /src/debug/gtk4/4.24.1/gtk/gtkfixedlayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtknativedialog.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrenderlayoutprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksvgwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpasswordentryprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcomposetable.h /usr/src/debug/gtk4/4.24.1/gtk/gtknativedialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextviewchild.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistitemwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmediafileprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextchildprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontrollerkey.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechooserutils.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbookmarklist.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfontchooserutils.c /usr/src/debug/gtk4/4.24.1/gtk/gtktexttagtable.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextsegment.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbookmarklist.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechooserutils.h /usr/src/debug/gtk4/4.24
- .1/gtk/gtkeventcontrollerkey.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfontchooserutils.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextlinedisplaycache.c /usr/src/debug/gtk4/4.24.1/gtk/gtktexttagtable.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblerangeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblevalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblerange.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblevalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkroot.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblerange.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssnodedeclarationprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkroot.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechooserdialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfontchooserdialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkviewport.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagecrossfade.c /usr/src/debug/gtk4/4.24.1/gtk/gtkviewport.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsseasevalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksearchengineprivate.h /usr/src/debug/gtk4/4.24.
- 1/gtk/gtkemojichooser.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechoosererrorstack.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaboutdialog.h /usr/src/debug/gtk4/4.24.1/gtk/gtkalertdialog.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolordialog.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmenutracker.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssanimatedstyle.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpopovermenu.h /usr/src/debug/gtk4/4.24.1/gtk/gtkemojichooser.c /usr/src/debug/gtk4/4.24.1/gtk/gtkprintdialog.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpopovermenu.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaboutdialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkalertdialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolordialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewcolumn.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilesystemmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilesystemmodelprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkallocatedbitmaskprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmountoperation-x11.c /usr/src/
- debug/gtk4/4.24.1/gtk/gtkprintdialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtksizegroup-private.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolumnviewcolumn.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsspositionvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkgesturezoomprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessibletextprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssbgsizevalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/language-names.c /usr/src/debug/gtk4/4.24.1/gtk/language-names.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrendernodepaintableprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbuilderparser.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuiltiniconprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfontchooserdialogprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsstransition.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssanimationprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssvaluesprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagelinearprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageradialprivate.h /usr/src/debug/gtk4/4.24.1/
- gtk/gtkcssimagescaledprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksymbolicpaintable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmaplistmodel.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontrollerfocus.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcountingbloomfilterprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmaplistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtksymbolicpaintable.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstylepropertyimpl.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscornervalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontrollerfocus.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextattributes.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbuildableprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextchild.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcheckbutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmodelbutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtkscalebutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextchild.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcheckbutton.h /usr/src/debug/gtk4/4.24.1/gtk/gtkscalebutton.h /usr/src/debug/gtk4/4.24.1/gtk/g
- tktextmarkprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfiledialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfontdialog.c /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcutmanager.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcenterbox.c /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcuttrigger.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextviewchildprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcenterbox.h /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcutmanager.c /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcuttrigger.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfiledialog.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfontdialog.h /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcutmanagerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkatcontext.h /usr/src/debug/gtk4/4.24.1/gtk/gtkimcontext.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssboxesprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsstypesprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmountoperationprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtktextbtree.c /usr/src/debug/gtk4/4.24.1/gtk/gtkatcontext.c /usr/src/debug/gtk4/4.24.1/
- gtk/gtkimcontext.c /usr/src/debug/gtk4/4.24.1/gtk/gtkactionable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkfilelauncher.h /usr/src/debug/gtk4/4.24.1/gtk/gtkorientable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkscrollable.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextencoding.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstringvalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkactionable.h /usr/src/debug/gtk4/4.24.1/gtk/gtkapplicationaccelsprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilelauncher.c /usr/src/debug/gtk4/4.24.1/gtk/gtkorientable.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrenderborderprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gskpango.c /usr/src/debug/gtk4/4.24.1/gtk/gtkscrollable.h /usr/src/debug/gtk4/4.24.1/gtk/gtklinkbutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmenubutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtkspinbutton.c /usr/src/debug/gtk4/4.24.1/gtk/gtktext.c /usr/src/debug/gtk4/4.24.1/gtk/gtklinkbutton.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmenubutton.h /usr/src/debug/gtk4/4.24.1/gtk/gtkspinbutton.h /usr/src/debug/g
- tk4/4.24.1/gtk/gtktext.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorchooserwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraint.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccelgroup.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimageurl.c /usr/src/debug/gtk4/4.24.1/gtk/gtkconstraint.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssnodedeclaration.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccelgroup.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssfontfeaturesvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbuildable.h /usr/src/debug/gtk4/4.24.1/gtk/gtkscrollinfo.c /usr/src/debug/gtk4/4.24.1/gtk/gtktypebuiltins.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagepaintableprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbuildable.c /usr/src/debug/gtk4/4.24.1/gtk/gtkscrollinfo.h /usr/src/debug/gtk4/4.24.1/gtk/gtktypebuiltins.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpopovercontent.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistitembaseprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkkineticscrollingprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkrendericon.c /us
- r/src/debug/gtk4/4.24.1/gtk/gtkstringpairprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsscustompropertypoolprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtknomediafileprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssanimatedstyleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpanedhandleprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssimagefallbackprivate.h /usr/src/debug/gtk4/4.24.1/gtk/text-input-unstable-v3-client-protocol.h /usr/src/debug/gtk4/4.24.1/gtk/gtktexthistory.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcsspositionvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssshorthandproperty.c /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessiblehypertextprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstringpair.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssselectorprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsseasevalue.c /usr/src/debug/gtk4/4.24.1/gtk/gtkarraylistmodelprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksettingsprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtknotebook.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstyleproper
- ty.c /usr/src/debug/gtk4/4.24.1/gtk/gtkstyleprovider.c /usr/src/debug/gtk4/4.24.1/gtk/gtknotebook.h /usr/src/debug/gtk4/4.24.1/gtk/gtkstyleprovider.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmenusectionboxprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssbordervalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksvgwidget.h /usr/src/debug/gtk4/4.24.1/gtk/gtktreelistrowsorter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkentrybuffer.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistitemwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksvgwidget.c /usr/src/debug/gtk4/4.24.1/gtk/gtkentrybuffer.h /usr/src/debug/gtk4/4.24.1/gtk/gtktreelistrowsorter.c /usr/src/debug/gtk4/4.24.1/gtk/gtktooltip.c /usr/src/debug/gtk4/4.24.1/gtk/gtkprogressbar.c /usr/src/debug/gtk4/4.24.1/gtk/gtkflowboxprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtknomediafile.c /usr/src/debug/gtk4/4.24.1/gtk/gtkprogressbar.h /usr/src/debug/gtk4/4.24.1/gtk/gtktooltip.h /usr/src/debug/gtk4/4.24.1/gtk/gtkurilauncher.h /usr/src/debug/gtk4/4.24.1/gtk/gtksizegroup.h 
- /usr/src/debug/gtk4/4.24.1/gtk/gtkapplication-x11.c /usr/src/debug/gtk4/4.24.1/gtk/gtkallocatedbitmask.c /usr/src/debug/gtk4/4.24.1/gtk/gtktooltipprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkexpression.h /usr/src/debug/gtk4/4.24.1/gtk/gtkflowbox.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorchooserwidgetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistbox.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsslineheightvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkshortcutcontrollerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkprivatetypebuiltins.c /usr/src/debug/gtk4/4.24.1/gtk/gtkexpression.c /usr/src/debug/gtk4/4.24.1/gtk/gtkflowbox.c /usr/src/debug/gtk4/4.24.1/gtk/gtklistbox.c /usr/src/debug/gtk4/4.24.1/gtk/gtkprivatetypebuiltins.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsslookupprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontrollerscroll.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpropertylookuplistmodelprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkeventcontrollerscroll.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcss
- unsetvalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtksizerequest.h /usr/src/debug/gtk4/4.24.1/gtk/gtknativedialogprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdrop.c /usr/src/debug/gtk4/4.24.1/gtk/gtksizerequest.c /usr/src/debug/gtk4/4.24.1/gtk/gtktextlinedisplaycacheprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcsskeyframesprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkselectionmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkversion.h /usr/src/debug/gtk4/4.24.1/gtk/gtkmagnifier.c /usr/src/debug/gtk4/4.24.1/gtk/gtkselectionmodel.h /usr/src/debug/gtk4/4.24.1/gtk/gtksearchenginemodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkversion.c /usr/src/debug/gtk4/4.24.1/gtk/gtkbinlayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtkboxlayout.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmultifilter.c /usr/src/debug/gtk4/4.24.1/gtk/gtkdialogerror.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcssstylechangeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkbinlayout.h /usr/src/debug/gtk4/4.24.1/gtk/gtkboxlayout.h /usr/src/debug/gtk4/4.24.1/gtk/gtkdi
- alogerror.c /usr/src/debug/gtk4/4.24.1/gtk/gtkmultifilter.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpanedhandle.c /usr/src/debug/gtk4/4.24.1/gtk/gtkrendericonprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwindowcontrols.h /usr/src/debug/gtk4/4.24.1/gtk/gtkplacessidebarprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkwindowcontrols.c /usr/src/debug/gtk4/4.24.1/gtk/gtkcssfiltervalueprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkfilechoosernativeprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkaccessibleattributesetprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkprogresstrackerprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkpropertylookuplistmodel.c /usr/src/debug/gtk4/4.24.1/gtk/gtkprogresstracker.c /usr/src/debug/gtk4/4.24.1/gtk/gtkpopovermenuprivate.h /usr/src/debug/gtk4/4.24.1/gtk/gtkcolorutils.h /usr/src/debug/gtk4/4.24.1/gtk/gtklistfactorywidgetprivate.h"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-src: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4-staticdev: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4-staticdev: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4: PKGSIZE changed from 34611883 to 34615979 (+0%)
-packages/x86-64-v3-poky-linux/gtk4/gtk4: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4/gtk4: FILELIST: removed "/usr/lib/libgtk-4.so.1.2400.0", added "/usr/lib/libgtk-4.so.1.2400.1"
-packages/x86-64-v3-poky-linux/gtk4/gtk4: PV changed from "4.24.0" to "4.24.1"
-packages/x86-64-v3-poky-linux/gtk4: SRC_URI changed from "https://download.gnome.org/sources//gtk/4.24/gtk-4.24.0.tar.xz;name=archive" to "https://download.gnome.org/sources//gtk/4.24/gtk-4.24.1.tar.xz;name=archive"
-packages/x86-64-v3-poky-linux/gtk4: PKGV changed from 4.24.0 [default] to 4.24.1 [default]
-packages/x86-64-v3-poky-linux/gtk4: PV changed from "4.24.0" to "4.24.1"
-Changes to packages/x86-64-v3-poky-linux/gtk4 (sysroot):
-  /usr/lib/libgtk-4.so.1 changed symlink target from libgtk-4.so.1.2400.0 to libgtk-4.so.1.2400.1
-  /usr/lib/libgtk-4.so.1.2400.0 moved to /usr/lib/libgtk-4.so.1.2400.1
-
---===============7362369057933006516==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="gtk4-changelog.txt"
-
-Overview of Changes in 4.24.1, 01-10-2026
-=========================================
-
---===============7362369057933006516==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gtk4-upgrade-4.24.0-4.24.1.patch"
-
-RnJvbSBmMjRkNmI4ZTA0MzU4NWI4ZDFlNzlkNDdhNDhlNTg0YWFmMTU5ZmM5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMiBOb3YgMjAyNiAwNToyMzozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGd0
-azQ6IHVwZ3JhZGUgNC4yNC4wIC0+IDQuMjQuMQoKT3ZlcnZpZXcgb2YgQ2hhbmdlcyBpbiA0LjI0
-LjEsIDAxLTEwLTIwMjYKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
-LS0tCiBtZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy97Z3RrNF80LjI0LjAuYmIgPT4gZ3RrNF80LjI0
-LjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdub21lL2d0aysve2d0azRfNC4yNC4wLmJiID0+IGd0
-azRfNC4yNC4xLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9ndGsr
-L2d0azRfNC4yNC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2d0aysvZ3RrNF80LjI0LjEuYmIK
-c2ltaWxhcml0eSBpbmRleCA5OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2d0aysv
-Z3RrNF80LjI0LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9ndGsrL2d0azRfNC4y
-NC4xLmJiCmluZGV4IDA4ZmQyYzMwYjcuLjVhMThjNGJkZjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1nbm9tZS9ndGsrL2d0azRfNC4yNC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9n
-dGsrL2d0azRfNC4yNC4xLmJiCkBAIC0zMyw3ICszMyw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAi
-IFwKICAgICBmaWxlOi8vdGVzdHMvdGVzdGd0ay5jO2VuZGxpbmU9MjU7bWQ1PTQ5ZDA2NzcwNjgx
-YjgzMjI0NjZiNTJlZDE5ZDI5ZmIyIFwKICIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0g
-PSAiMjhiYTRhYzFjMDRmODZlYWMwOWI3OWExNjNjYjE2M2E0YzJiNTQ0NDJkOWY3ZWNjYzA0Njc5
-MDYyYTU4MTA0NCIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImU5OGFiZTcyMGUxNjEy
-OWM4YzBmNTA3NjFkZWUwYTJlOWFlMjQ3ODA1NWUzMTAxOGY2Y2Y5NzdmY2Y2NTEzZTkiCiAKIFMg
-PSAiJHtVTlBBQ0tESVJ9LyR7R05PTUVCTn0tJHtQVn0iCiAKLS0gCjIuNDcuMQoK
-
---===============7362369057933006516==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/gtk4/gtk4: FILELIST: removed "/usr/lib/libgtk-4.so.1.2400.0", added "/usr/lib/libgtk-4.so.1.2400.1"
-Changes to packages/x86-64-v3-poky-linux/gtk4 (sysroot):
-  /usr/lib/libgtk-4.so.1 changed symlink target from libgtk-4.so.1.2400.0 to libgtk-4.so.1.2400.1
-  /usr/lib/libgtk-4.so.1.2400.0 moved to /usr/lib/libgtk-4.so.1.2400.1
-
---===============7362369057933006516==--
