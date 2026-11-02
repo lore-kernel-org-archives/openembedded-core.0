@@ -1,138 +1,112 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14789.1793632690165701934
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14791.1793632691893166111
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2026 07:18:10 -0800
+ Mon, 02 Nov 2026 07:18:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=KFIq+D9e;
- spf=pass (domain: gmail.com, ip: 74.125.82.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-36a0f27c9f4so5881715eec.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 07:18:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=mNhoe61q;
+ spf=pass (domain: gmail.com, ip: 74.125.82.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36661f953e4so4947950eec.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 07:18:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793632689; x=1794237489; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nhJPL0eLoi2+Tg1FCD+EJIFR4M+ACEpe3NS3dLBaVsI=;
-        b=KFIq+D9eHcSYIy9YkQfwWoP3C6y28fBXgWWaflDVbNz3fdYCxRKeMkkuezV8+mV6F9
-         B4B2bz9a5k6dPqiGVYbPRhuZ9hLCBOnmeG4LS2kDWXLL30Nr5qJyCf90rlyucabK5kZL
-         72GfpaidkMXnugiEPhOfEhTdhj69qNRNZH6OuvydGmpmF/PVXLmEtzYlUfIhIndqpqBd
-         6t8GucsWdefRJDUnUBgK0EK0zZHlH5fvIyCzBT470IqsW4g+rZyF1hZRZb5HNQ50sXlc
-         O+o5D2mqdOuLAbz7jn36QqNnXt26llvUgIFdzo/RZSVleeIPS+g4xxPbmuCRGu7xhCtI
-         eT5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793632689; x=1794237489;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793632691; x=1794237491; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nhJPL0eLoi2+Tg1FCD+EJIFR4M+ACEpe3NS3dLBaVsI=;
-        b=t4QBuTFotULWQL0dGxKrpSIlwP90Q/SrUJ5rwgAsyfywnI5XQ+p0aDINr7VxOurVnu
-         mh9UczsCffQKstcZw1jwn7CALHk99iW0D7Oo6tfrkhmkY/1wAM8HtveiGVAMdvCCAOlo
-         8b5oVM1BMF3U0byyXbiHqPX7a82Cmt9XIYHeLs4hDmuugde/K14hT/L2BIkJyFvJrK9G
-         6k7XDbuMrSSnNv1FiTWpYk7qPgyNMMWOb3iHDV6437hJBASEEMRB4dgPr8XRkFxD7F8C
-         FI8RKhQpSPEPp0OhwoVnn4/16aq8ca1dVSqIVCU2xTcq6ke7fqBW5cZDvvCUUv5+tzbq
-         Do6A==
-X-Gm-Message-State: AFq9FYJlDd7N9VoaPtIhfJcjfD8yQH6FuS8fAtycitUXNHXvyfBqZRBa
-	bHXAHdAEGqqCQ/wEN1Gu6UNhv9SrP3GtvJeQFzwcmNY7vF/g6V/I2A8BOsAhF3igIFQ=
-X-Gm-Gg: AYBFou3ez43ougQw9XfHCMceHnOdp1jX3npsK0DlyINVoECPcDk5vMICiSorPzEe92m
-	S0pPjaAAGMfoI9oeq9iOT46XuS/AOWGh4NqciEaJ9dBILZ5InhShWVyLPMX+LM119JmOsyE2EGx
-	AV18+TXo8LV4kbn2mRKuSIFeWF2WYwdWkXt+tdLmHzReEcgyA5j+set79s1aD+KlyMIdkex6V56
-	ZL4eYJr1NMDRp+IfqteVbzqKKt/lPbAzCd0fTuqZZ1aXSfqSjdSTNyhXpJfC19OBVglQNRIMj6E
-	EoMBaBLQz/Chc76VNnHdeAGRVEh+8PYRKlnV50tdCFsKfqwaH+h409d/Tn8S7dQkasznjWeH6dm
-	yj02YMwaiotQj2uMlysAJtAaZvv/OqmEe3mGOtYf4enLW/S7o9DZBbU1etLejP2sHOsbmdbSRDY
-	JxbguXOp7kj/1rdhsc+Pod1LSNFFEFkbiPyqJhmqFkZG1HBDvJsV1J7Z9fOncCS003RtjYghLI0
-	+NPwQB0CLUciVUeSgQrbMm5PiW+/paHwxKQ3HJ4YfEBIW+8fHiqiddlzNGeYq1Efdm2udcsyTys
-	bP+vSyqUYIntVQ0H1gMphOadZJgA5T5UjSh+X/0ZJjpnWeOk2QqbAkrLHPLI5C/AZpV1kzDIRcM
-	1PadUMeU0vYmUVhNt3ajx5vdMg93urARTHHE9ik5GyO1vjzVBs1xFzZA+8tjc18Y2R4JcjAqY5W
-	DQzJ/sl6mBgquuZEzaKFupfiro5ZFUd9iNG480PGX1xAf6cAwo1cjLZ0AZNjeTmPw9cEaGygZac
-	AvK2oyMKKuKrSkZEB4JohbHKAkrop1Sw09boW69QTCPNGpNSDmEvdAwbEL836zsf6I+GsQm69vb
-	knDz
-X-Received: by 2002:a05:693c:87ce:10b0:36a:1fa2:fbbe with SMTP id 5a478bee46e88-36a424658edmr16277940eec.41.1793632689258;
-        Mon, 02 Nov 2026 07:18:09 -0800 (PST)
+        bh=lppffl+AK6IAJekrS05oF2XWkx16QcBcrJFXoqs8jq0=;
+        b=mNhoe61qt8n1hgVm2oAWB/jLulFJAaMjwcKnc/yjfGLLzEApKy6LjLutyzlCD0Q0/O
+         29sZ1KTR0Q52mdTywhubLhEV06D4z/aAnRtGXF5AjuOghsbWC/uTjBiHdlDBK/BCmAKS
+         Wb4WFLdgTVLNcJay2l9TsDKHvvTgOhSrTf83FR1hrMcws53L5vCau4wSo40OmINIAqIP
+         M7xU6ihZnYiZC10zelXIS2MbrbJLeP/u8Xm1+GQmhQkw3xRsw1doygsIsNx0kVOS9zSi
+         yt+Uqp8lincwORi+giPOxRGgRu3WGDVHV3sUCvIwLf7rW1+V5pIm9gneckDECw6LNqem
+         iZ9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793632691; x=1794237491;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lppffl+AK6IAJekrS05oF2XWkx16QcBcrJFXoqs8jq0=;
+        b=pSICG2NX4bYE0nPckD6JlfW/MWy8yvQ7l9SqkzzEZ6Uc0YeWtVq9+itAqfHE0SNJq3
+         zEvBDxKeSaoE62Z0d+235HscrjF/nOP3fruUHKnJYI1oB9kyHIRMEgsOpyMSrZCKFekP
+         O+wKguCGHt3MNz6ltL7IuIOCNlZtpYtC9k8Gvil3fuuMMRVqb5XA/wHZaXsKbGz/mJ2U
+         EHTcrWnKHO3SNLX/r89y7Pu2d3Mha5oW608g96La7OH3kzKJJIv1BpMwU/s5P3E7aqwt
+         KP9UXoF4qBLs0Tn4LaPAZ/YDvaYNThTYbeHbF8SGJavkUkm2FH++nH11R1JvMO6peX5u
+         DDqw==
+X-Gm-Message-State: APuU4Z+krOSgJD+BbtXiuvaY+zOram7xNjtIgilkrARYPWN/Ce7C8tr3
+	WWnSNHjjHzsq1+B8LlTyP19i7hlnP/pwaLHyAnliTo6GLZN/uQKsbXwNssL7epzqg90=
+X-Gm-Gg: AYBFou3/bEPRTZBB58sU5153XCOEyrgK/rdkgmJW9KCLaMDlKL7TMU96syXjYWFr3pX
+	D6zl6o18K9m2lxdBCg4QNqiANsb0gFfVi1Z05aOOZtVsHCQJujv4519DExo28BInhAeGyHoMaB9
+	1dMwxbOUN25jVLVejNfHXyaRxPkiqHPiOWCBeVjikZPjrisSogVRvAuBhVVsI5LTCVQf6HWWJLc
+	3qm/G2cWMBs3sS1L697GhItohDc6Io7H86WnyfOsdc0uKuHK2tbzDxhSqWOCAE1VruaY2rcS2X6
+	sAuGbwrzLXmtQw4khz64yAPE6ADvr7wWonYq/EuEVa+iEAW+CH9J9ZMSFyDXj3vGl5Q7dZ1Ol0v
+	voA/Qy6DvEJlmwQaRTXRhBJtpAYalnsfGNIiC7ocPzW2WimCu+JTHwtWqSg7NE++42UXSBhaDlF
+	mGzLGxRKZmVJYjP3rGmuVYY+MPA/1j59gSk7YBK/Syn4n2CLmvxMKXBDq2veps/dBy9wO4Qk7nA
+	3jFMGZfgWFZq3MqOqTcvc0BUejPVIAMR1Ylc2BgP9TFxVNwjk2Gu+XhSKw8/FBJnxQcs513fgH1
+	JUyi6URKKWJkrnO/1RJU35yAJ2ODaMurddHDvjf1dZmPNLa0b88tlfPtEFdUSgWHQOcHBq0SEaL
+	h++gcHOP0g2kJQ83g1pgSrDRDkvjnhaOy7isIRIbA7rC0ZaCUxSZwJRAoSwXOEBM+3a5fjIyZL9
+	VvgseR65SKFlyewCK5WyUFbkpJvPU9CUM/tjYhZ7VteyKxtk8zpE6l6gdBUW8J0wyTrvm93aBxN
+	Cu1+j70KUwUNBITl3g7A8zS9xt5HGOtQpGAmfAnK3EsJ+XerIiaVw2wJs/bjCcRwQFyMuRrixlZ
+	4YuHFoVpzJBBhYoN9MpcE6otGw==
+X-Received: by 2002:a05:693c:87d5:20b0:35e:7bfd:4613 with SMTP id 5a478bee46e88-36a42425470mr15505986eec.40.1793632691070;
+        Mon, 02 Nov 2026 07:18:11 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428fa380sm35444348eec.12.2026.11.02.07.18.07
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428fa380sm35444348eec.12.2026.11.02.07.18.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 07:18:07 -0800 (PST)
+        Mon, 02 Nov 2026 07:18:10 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH v3 1/2] dbus: Package dbus-daemon separately from the system bus units
-Date: Mon,  2 Nov 2026 07:18:04 -0800
-Message-ID: <20261102151805.3233815-1-khem.raj@oss.qualcomm.com>
+Subject: [PATCH v3 2/2] dbus: Let the ptest package install alongside dbus-broker
+Date: Mon,  2 Nov 2026 07:18:05 -0800
+Message-ID: <20261102151805.3233815-2-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261102151805.3233815-1-khem.raj@oss.qualcomm.com>
+References: <20261102151805.3233815-1-khem.raj@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2026 15:18:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249213
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249214
 Content-Type: text/plain; charset="utf-8"
 
-dbus-daemon is also used to run private buses, e.g. by GLib's GTestDBus
-and python-dbusmock in test suites. It is currently in the dbus package
-together with the system bus service units, which conflicts with other
-system bus implementations: dbus-broker RCONFLICTS dbus, so with
-VIRTUAL-RUNTIME_dbus = "dbus-broker" no dbus-daemon can be installed and
-such tests fail with
+dbus-ptest RDEPENDS on dbus, both explicitly and through ptest.bbclass,
+and dbus-broker RCONFLICTS dbus. With VIRTUAL-RUNTIME_dbus = "dbus-broker"
+(systemd pulls it in) core-image-ptest-dbus fails in do_rootfs:
 
-  Error spawning dbus-daemon: Failed to spawn child process "dbus-daemon" (No such file or directory)
+  package dbus-broker-37-r0.6.cortexa57 conflicts with dbus provided by dbus-1-1.16.2-r0.45.cortexa57
+  package dbus-ptest-1.16.2-r0.45.cortexa57 requires dbus, but none of the providers can be installed
 
-Move dbus-daemon, dbus-run-session and dbus-cleanup-sockets into a new
-dbus-daemon package, similar to Debian, which can be installed alongside
-dbus-broker.
+The installed tests don't use the system bus. They start private buses
+with dbus-daemon (DBUS_TEST_DAEMON) and use dbus-send, so depend on the
+dbus-daemon and dbus-tools packages instead and drop the dbus dependency,
+like avahi does.
 
-dbus RDEPENDS on it, so nothing changes for existing users.
+With this the images using dbus-broker as the system bus also pass all 60 dbus
+ptests.
 
 Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- meta/recipes-core/dbus/dbus_1.16.2.bb | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+v2: Add PN-daemon conditional upon message-bus packageconfig
+v3: No change
+
+ meta/recipes-core/dbus/dbus_1.16.2.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/dbus/dbus_1.16.2.bb b/meta/recipes-core/dbus/dbus_1.16.2.bb
-index c7815d78f7..e602c67727 100644
+index e602c67727..ca2e6c7b90 100644
 --- a/meta/recipes-core/dbus/dbus_1.16.2.bb
 +++ b/meta/recipes-core/dbus/dbus_1.16.2.bb
-@@ -50,7 +50,7 @@ PACKAGECONFIG[selinux] = "-Dselinux=enabled,-Dselinux=disabled,libselinux"
- PACKAGECONFIG[tests] = "-Dmodular_tests=enabled -Dinstalled_tests=true,-Dmodular_tests=disabled -Dinstalled_tests=false,glib-2.0"
+@@ -108,7 +108,11 @@ RRECOMMENDS:${PN}-lib = "${PN}"
+ RRECOMMENDS:${PN}-lib:class-target = "${VIRTUAL-RUNTIME_dbus}"
+ FILES:${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-test-tool ${datadir}/xml/dbus-1"
 
- DEPENDS = "virtual/libintl"
--RDEPENDS:${PN} += "${PN}-common ${PN}-tools"
-+RDEPENDS:${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'message-bus', '${PN}-daemon', '', d)} ${PN}-common ${PN}-tools"
- RDEPENDS:${PN}:class-native = ""
+-RDEPENDS:${PN}-ptest += "bash make dbus"
++RDEPENDS:${PN}-ptest += "bash make ${@bb.utils.contains('PACKAGECONFIG', 'message-bus', '${PN}-daemon', '', d)} ${PN}-tools"
++# The tests start their own buses with dbus-daemon and talk to them with
++# dbus-send; they don't need the system bus (dbus), which would conflict with
++# other system bus implementations such as dbus-broker.
++RDEPENDS:${PN}-ptest:remove = "${PN}"
 
- inherit systemd useradd update-rc.d
-@@ -58,7 +58,7 @@ inherit systemd useradd update-rc.d
- INITSCRIPT_NAME = "dbus-1"
- INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
-
--PACKAGES =+ "${PN}-lib ${PN}-common ${PN}-tools"
-+PACKAGES =+ "${PN}-lib ${PN}-common ${PN}-daemon ${PN}-tools"
-
- USERADD_PACKAGES = "dbus-common"
- USERADD_PARAM:dbus-common = "--system --home ${localstatedir}/lib/dbus \
-@@ -69,10 +69,7 @@ CONFFILES:${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
-
- DEBIANNAME:${PN} = "dbus-1"
-
--FILES:${PN} = "${bindir}/dbus-daemon* \
--               ${bindir}/dbus-cleanup-sockets \
--               ${bindir}/dbus-launch \
--               ${bindir}/dbus-run-session \
-+FILES:${PN} = "${bindir}/dbus-launch \
-                ${libexecdir}/dbus* \
-                ${sysconfdir} \
-                ${localstatedir} \
-@@ -93,6 +90,14 @@ FILES:${PN}-common = "${sysconfdir}/dbus-1 \
-                       ${systemd_user_unitdir}/sockets.target.wants \
-                       ${nonarch_libdir}/sysusers.d/dbus.conf \
- "
-+# The message bus executable on its own, without the system bus units, so that
-+# it can be installed next to another system bus implementation (dbus-broker)
-+# for things like test suites which start private buses.
-+FILES:${PN}-daemon = "${bindir}/dbus-daemon* \
-+                      ${bindir}/dbus-cleanup-sockets \
-+                      ${bindir}/dbus-run-session \
-+"
-+RDEPENDS:${PN}-daemon = "${PN}-common"
- FILES:${PN}-tools = "${bindir}/dbus-uuidgen \
-                      ${bindir}/dbus-send \
-                      ${bindir}/dbus-monitor \
+ pkg_postinst:${PN}() {
+ 	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
