@@ -1,93 +1,88 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7764.1793700725740284276
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7818.1793700734839792234
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 02:12:06 -0800
+ Tue, 03 Nov 2026 02:12:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=H8ub8HzP;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a4dc547987so20302365e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 02:12:05 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=So05aVpK;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48afcd7ba9bso2263849f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 02:12:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793700724; x=1794305524; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793700733; x=1794305533; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fHnT3p8U8W428YwCxWJodQHwOscQ6YLaMCZHkexWJVk=;
-        b=H8ub8HzP4F19Nws1niIIXtpS0g2g1rsCbcR29y6X7UFiNciDZb9kOXQSX+GJCeCf9v
-         DnRXFa8+uZrrO9kBhJxhkXQflAxKA7lRMXdn46R09KYUVphiJO8IipC5kGAMtf3vx80T
-         x97THb1QHDoJYgB/WKuZNbT76AkwZQEKtmas+DTHdNuTM51nUv6+upMixy+Wi1Xss/K7
-         2yMmsd0dxa4O6qEAvqk7ak0pua7sSvkKQC4nF3R3XCYtrHfYOSyUXb6geZhehQAwlQMN
-         OF5VFokAUVTaO0mXN77IrZm57H8Ls2OIp5BrcxXEoCYOd8ZnDpukkXRCMgmI2gzFIsPx
-         sRDw==
+        bh=nq4N2RwdlDLvq6fFLfTbd5Auzz2O6+BU2I0pm/5too0=;
+        b=So05aVpKiw1u09qAQDDsEkw5u5x/AGlLfGnglKrMPgG/MZqDbCp7H3goUIWVceBjwu
+         Z5Btdq76vjai30quFQfjrXcE+hLktIxulNvgzGauYC4ChY4WTuhcxQ5XLfFFaSyP/Cxv
+         CX+0/k6CqgSxLCBDJD6PDeYyRg1EuTi7VqbTZA1aMDrF+nvGka7Hafr6SmxM2dHV/oDP
+         DR94mBBycOinByL8f6oOyQVhu35JXqKPFrkKFbr70aUscrMmihNu3OEX7RNbb7VGGqPz
+         gtV1gkKGlOcUvFKKxptyHcuvwTn/TXIHQqxpkNQ55dyTL/j5ECi1fqTIC2OpCXKcoNC3
+         E/Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793700724; x=1794305524;
+        d=1e100.net; s=20260707; t=1793700733; x=1794305533;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fHnT3p8U8W428YwCxWJodQHwOscQ6YLaMCZHkexWJVk=;
-        b=nxL5zXGm25k8jcg3hVyheNMgOHSfG2+56nB2ruWnQLMi4yjYzoP8WMXkQ4hY7yn6Bd
-         NCXMdGpmKBHRjSadcaI/7aLfwsmueQHrDJzY4cLXLtjjrl2rWGScdP8RIWdU3lTMNHKN
-         B835hIIiqK13/vg33sJrx5yQcn+CYLp9POd8gnLgAbxbe8+pculfReuhE8TYlmljjfR4
-         auplfDsUzhjfiLbQmw8nu783ZMctGERDu/brPW2VTtdagO5EUwcwbJn5hqFuXIW34ZAH
-         wLLguR7Zoi5msVUcZR992nYFhQmK7M41tR1u4BgfPC8qtfjtvizGZPtutJ0egflIxDVV
-         0CTA==
-X-Gm-Message-State: APuU4Z8ADmbNmwTApj6xIQT4kovM7O5gZPTtb+ll4MqPxe1KivrKJWpk
-	o7C/tfTcPNgQuDqgWSNMrPgdtICxrevb549huZDrdgsjUOqLflMX+HSrJ16GEsu7J62lYEJujgk
-	ekOiSElE=
-X-Gm-Gg: AYBFou2a1gV9n51Uk9DyT8BtB0xjEia2dG3vdgrjfEJwjcDGg4mjc0ErS9TMxy/tHZT
-	nHof78W1eusNumGT1AS/IRccE0xQLeaPMfiF7d7vG9RucbwqXKzRDJqyRJzL8ij1uIwL69VXsOh
-	+xh6OjVEr86nahxwzhwwG1xuKK7bkfDFPR1idwcVzgFv/EE1hoKN+S6sgIUuS6+iHXcsclV+dfq
-	vMT4JMa7ciX604f0u68o/xfq3RVYbyn+nE0VpQOyvHeA8I36O2T0VCA9qhQmrpnQO1ZAi7ZQmnA
-	62qYAVCXL7FGpfShdaDLGt/K90TaTufqQyQcAOWtcUtoRdLFOrZRZXm5V2oiMCSgGlGrcllrtkA
-	wn+0pSbk9IDzgxByE7ZlJIQl/78Mp7xKx4lP1Mr/yVhXSk0uLO+rUHIcPHsOL70GZ1+5/RkQDNY
-	SJsr5et5TUGIP9xGwn4xhY8x9VLnKAkP0REN4Fx2cHYTyRSAhzZeUz9ktSNwH9u2K0eaWtUgkku
-	q7YcDf6RW5uCnoa1DXJEL2eTwE2CQIcL7GdK+CYKZV0h9P28No0Vf3hSrksfL9WHBOMI/BuZDcK
-	LTP/0E4CQo4g3zWbBGKhEwMnGdVFL6cZ2mKOhHMteBKNCLuzKxdFNP1MLgiYo/VGiJ1XlMkp+gC
-	z/nsqeM4xFEIER0iLibeBmR3QCaCugWj5B7qAtQ==
-X-Received: by 2002:a05:600c:4f86:b0:4a7:669c:c988 with SMTP id 5b1f17b1804b1-4ac18b7df2cmr294918885e9.23.1793700723903;
-        Tue, 03 Nov 2026 02:12:03 -0800 (PST)
+        bh=nq4N2RwdlDLvq6fFLfTbd5Auzz2O6+BU2I0pm/5too0=;
+        b=by0kg2GDxNqqs3pZ7XbWFTzj1NR8JQEILGxgRQmqJh5Fv59/kR3veCzTTvkzWLR45d
+         KpZ7EC3Xjv2VLKQ+tLArUbqfUMbqfefFlmpCk3eBtANsWwE3Savq9x+rhDGZWbcvWa0D
+         +vYeuStZomV6OJxXB7a1djMGgEXlLETzWlt4qjldVXGYsV7tXAs9xH/aIz1mqHGGg0F9
+         31pPvHHARk2C/xH/M4I8T/e21uczkvYmJ0fn7ofNXpgwuMn+BcFQ0n9cnrLTVHemkWve
+         7vCPPsg77s285CK3PysLKc5y7LLb4Etn2us+kVvZa7BMshUOmzwbDMgHvACzKfItXGy3
+         uj+g==
+X-Gm-Message-State: APuU4Z+BKf+zG5PIF6jalIRcJ55HAgkHD2YAL08B29RU/YuWG9IO+kry
+	kF1wKolAafME3M09OWQaVTJTKnt6zXvtSyWOebKIoToveEzmZvHDNz2qX7ZEE6d2Ud4Igt/m6UE
+	Z1c523eU=
+X-Gm-Gg: AYBFou1hxRDu9wHx3SEcU4HEb1gzLsplGJ3g+i6OVXXLPt1Pnkd2BdYJzyAtDabLD6T
+	1GHpneDwfyzFJkp3n8UVjxtimw5oBi8wbuu1VetzYdkb6atk71cHuM3x45WgoIJEjjaJiMU/k2T
+	Nl74ma77fhO2/7Sn3Ja3gCzrjYcznM3ZPStYQPqrLLnUjBqGpSY6QOlnmaZqC9qlWnhXzAntUqF
+	NA8mh53LhGJrk2tHNoeXeN8FWKF8Cz4Qb2oaNKvrzR/pdPz1EcXJQtm5WdZkYcgNV1bjYKnX6vo
+	LeHm0enDhdOIgTAqUOixUcYKAJhgeLgdJR/ERBZTG1XMTlDWV/hFTmC6B7xYCkoKIIUC8VZb5rR
+	RIzwO1nrjX26MxzigyKgQ+mgd/Sn5/G2yjvHCvC4+9ryRd+6AD+F1krXcqJofWvhW93SY90j73O
+	SCsDTnjFXZQjzUc+qhxk62XYZKGiF8SzUorcrv1padVPWlrT0zjzfXs0U5BLAKardec+ukoirGM
+	EpC0/abZaByvri9JaXZ82QGKaEKIvsDlgILkdVsq67AozXryYpga2MwDiJY71kv3ISeU/lSXo9W
+	cafH0cu8vC5O1Tz9UXO1/243bGOqiTXacQyPsEQjav0vOLnEm74HiHvKDQH8RDIVu6QL6cwmXoI
+	DOff1BwctwFzrJK+wqrnFGs8DWWgouMGNTyUhUBZRAUv9aXLfojYwShNavw==
+X-Received: by 2002:a05:6000:420c:b0:48d:f855:d1e0 with SMTP id ffacd0b85a97d-48e6e50b9ddmr28120644f8f.57.1793700733016;
+        Tue, 03 Nov 2026 02:12:13 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b393fd1748sm3209735e9.7.2026.11.03.02.12.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b964desm23962894f8f.46.2026.11.03.02.12.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 02:12:03 -0800 (PST)
+        Tue, 03 Nov 2026 02:12:12 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [blacksail][PATCH] scripts/install-buildtools: Update default to 6.1
-Date: Tue,  3 Nov 2026 11:12:01 +0100
-Message-ID: <20261103101201.871655-1-yoann.congal@smile.fr>
+Subject: [blacksail][PATCH] README: Add blacksail subject-prefix to git-send-email suggestion
+Date: Tue,  3 Nov 2026 11:12:10 +0100
+Message-ID: <20261103101210.871946-1-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 10:12:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249275
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 10:12:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249276
 Content-Type: text/plain; charset="utf-8"
 
 From: Yoann Congal <yoann.congal@smile.fr>
 
-Update the default to the 6.1 release.
-
-"The last main release" makes a less surprising default than an
-arbitrary (now-EoL) stable point release.
+That might help new users send correct first stable patches.
 
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 4e6f6e25d72..b92c26c4567 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -58,8 +58,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+diff --git a/README.md b/README.md
+index 92373e4a047..7e38fe580cb 100644
+--- a/README.md
++++ b/README.md
+@@ -26,7 +26,7 @@ As a quick guide, patches should be sent to openembedded-core@lists.openembedded
+ The git command to do that would be:
  
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-5.3.2'
--DEFAULT_INSTALLER_VERSION = '5.3.2'
-+DEFAULT_RELEASE = 'yocto-6.1'
-+DEFAULT_INSTALLER_VERSION = '6.1'
- DEFAULT_BUILDDATE = '202110XX'
+ ```
+-git send-email -M -1 --to openembedded-core@lists.openembedded.org
++git send-email -M -1 --to openembedded-core@lists.openembedded.org --subject-prefix='blacksail][PATCH'
+ ```
  
- # Python version sanity check
+ Mailing list:
