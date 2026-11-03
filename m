@@ -1,166 +1,92 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11003.1793711917136047112
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11140.1793712666977044817
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 05:18:37 -0800
+ Tue, 03 Nov 2026 05:31:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=Z+hVDTDG;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 378FA1595
-	for <openembedded-core@lists.openembedded.org>; Tue,  3 Nov 2026 05:18:33 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E4D373F632
-	for <openembedded-core@lists.openembedded.org>; Tue,  3 Nov 2026 05:18:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793711916; bh=eGacEYSx7qQUWkf/wfu1f/IWhoImZPRLEuavT3x8G68=;
-	h=From:To:Subject:Date:From;
-	b=Z+hVDTDGn3SdmZgLwbg9xtA5cwavrBpai2wGrDpXTB24dP450NQ634Iv2LG3BNa8R
-	 NzgYh+KAwtoiz8t6IIv5ufbiF1pWHL8kXXe+iDz34EP1HD0TV6zVG+TSijA2Y81fD7
-	 BOy1+ueR7dPb5UgcTINfkyiLoMKSc6DQTgB4eO+E=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] automake: remove bb/inc split
-Date: Tue,  3 Nov 2026 13:18:31 +0000
-Message-ID: <20261103131831.1622873-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=a5SiWRsR;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=H1EQxIG3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a1a19b35c4-cbd4e12b-c486-4366-8e3e-626847b588fa-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1793712666; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=YAO72qtQw199TWxaOL7/VMSj1+P+Gjl2D1o6Sn5NNRg=;
+	b=a5SiWRsR2BXv2W7pRJgXdV3dQMpTM53fgW5A9UKi3NDy8zACif65VbexD3WQXpG0
+	qSjtZBP+lXCXghAzyEIuRc5aRkM0ABpeCxo+c4eJc+HxjY6YTsJWmGMYPXOwxWaVsRn
+	aM5UrKOAT0BHn3/vPmC7x0j0lXPERUa3DgMpCQr8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793712666;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=YAO72qtQw199TWxaOL7/VMSj1+P+Gjl2D1o6Sn5NNRg=;
+	b=H1EQxIG3IPOCteyXuSK531bRkZdhDaGNRxorPdqeJAB0nHQCV+x/s3hdh1oKxA+q
+	7xb+4ZOvpqMtQuAPmF6IQUgEx6wwSGzdq22XEIEuyYkKsBpGSEb2/tN/tlz0pnQIbEa
+	vt5ENmhV6e5rFlRdSxQNVYxiLx8M84nIpGcJU5Uw=
+From: patchtest@automation.yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] automake: remove bb/inc split
+In-Reply-To: <20261103131831.1622873-1-ross.burton@arm.com>
+References: <20261103131831.1622873-1-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a1a19b35c4-cbd4e12b-c486-4366-8e3e-626847b588fa-000000@us-west-2.amazonses.com>
+Date: Tue, 3 Nov 2026 13:31:06 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.03-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 13:18:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249279
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 13:31:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249280
 
-There's no poiint having this split as there's only one recipe.
+--NextPart
+Content-Type: text/plain
 
-As part of the merge we can do some cleanup
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-- Remove the AUTOMAKE assignment which is not used as we don't
-  autoreconf automake
-- Remove NAMEVER, never used
-- Remove a redundant mkdir of ${datadir}, as automake always installs
-  files into there.
-
-Confirmed that the output is bit-for-bit identical after this change.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/automake/automake.inc   | 21 -------
- .../automake/automake_1.19.bb                 | 56 +++++++++++--------
- 2 files changed, 33 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-devtools/automake/automake.inc
+Testing patch /home/patchtest/share/mboxes/automake-remove-bb-inc-split.patch
 
-diff --git a/meta/recipes-devtools/automake/automake.inc b/meta/recipes-d=
-evtools/automake/automake.inc
-deleted file mode 100644
-index 9946c73c715..00000000000
---- a/meta/recipes-devtools/automake/automake.inc
-+++ /dev/null
-@@ -1,21 +0,0 @@
--SUMMARY =3D "A GNU tool for automatically generating Makefiles"
--DESCRIPTION =3D "Automake is a tool for automatically generating `Makefi=
-le.in' files compliant with the GNU Coding \
--Standards. Automake requires the use of Autoconf."
--LICENSE =3D "GPL-2.0-only"
--HOMEPAGE =3D "http://www.gnu.org/software/automake/"
--SECTION =3D "devel"
--
--SRC_URI =3D "${GNU_MIRROR}/automake/automake-${PV}.tar.gz"
--
--inherit autotools texinfo
--
--do_configure() {
--	# We can end up patching macros, which would then mean autoreconf
--	# Cheat by saying everything is up to date.
--	touch ${S}/aclocal.m4 ${S}/Makefile.in ${S}/configure
--	oe_runconf
--}
--
--export AUTOMAKE =3D "${@bb.utils.which('automake', d.getVar('PATH'))}"
--
--FILES:${PN} +=3D "${datadir}/automake* ${datadir}/aclocal*"
-diff --git a/meta/recipes-devtools/automake/automake_1.19.bb b/meta/recip=
-es-devtools/automake/automake_1.19.bb
-index 0ee4d8facfa..aaf3ab9a6f5 100644
---- a/meta/recipes-devtools/automake/automake_1.19.bb
-+++ b/meta/recipes-devtools/automake/automake_1.19.bb
-@@ -1,10 +1,38 @@
--require automake.inc
--
-+SUMMARY =3D "A GNU tool for automatically generating Makefiles"
-+DESCRIPTION =3D "Automake is a tool for automatically generating `Makefi=
-le.in' files compliant with the GNU Coding \
-+Standards. Automake requires the use of Autoconf."
- LICENSE =3D "GPL-2.0-only"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
-bbe"
--DEPENDS:class-native =3D "autoconf-native"
-+HOMEPAGE =3D "http://www.gnu.org/software/automake/"
-+SECTION =3D "devel"
-=20
--NAMEVER =3D "${@oe.utils.trim_version("${PV}", 2)}"
-+DEPENDS =3D "autoconf-native"
-+
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
-bbe"
-+
-+SRC_URI =3D "${GNU_MIRROR}/automake/automake-${PV}.tar.gz \
-+           file://0002-automake-Update-for-python.m4-to-respect-libdir.p=
-atch \
-+           file://0004-Add-a-new-distro-feature-ptest.patch \
-+           file://0006-automake-Remove-delays-in-configure-scripts-using=
--au.patch \
-+           "
-+
-+SRC_URI[sha256sum] =3D "79e8b1f7a967e87ce8a9ded76bee7f793d0ce1886ab2002f=
-eb1b0510f578b75a"
-+
-+inherit autotools texinfo
-+
-+PERL =3D "${USRBINPATH}/perl"
-+PERL:class-native =3D "${USRBINPATH}/env perl"
-+PERL:class-nativesdk =3D "${USRBINPATH}/env perl"
-+
-+CACHED_CONFIGUREVARS +=3D "ac_cv_path_PERL=3D'${PERL}'"
-+
-+do_configure() {
-+	# We can end up patching macros, which would then mean autoreconf
-+	# Cheat by saying everything is up to date.
-+	touch ${S}/aclocal.m4 ${S}/Makefile.in ${S}/configure
-+	oe_runconf
-+}
-+
-+FILES:${PN} +=3D "${datadir}/automake* ${datadir}/aclocal*"
-=20
- RDEPENDS:${PN} +=3D "\
-     autoconf \
-@@ -19,22 +47,4 @@ RDEPENDS:${PN} +=3D "\
-=20
- RDEPENDS:${PN}:class-native =3D "autoconf-native hostperl-runtime-native=
-"
-=20
--SRC_URI +=3D "\
--           file://0002-automake-Update-for-python.m4-to-respect-libdir.p=
-atch \
--           file://0004-Add-a-new-distro-feature-ptest.patch \
--           file://0006-automake-Remove-delays-in-configure-scripts-using=
--au.patch \
--           "
--
--SRC_URI[sha256sum] =3D "79e8b1f7a967e87ce8a9ded76bee7f793d0ce1886ab2002f=
-eb1b0510f578b75a"
--
--PERL =3D "${USRBINPATH}/perl"
--PERL:class-native =3D "${USRBINPATH}/env perl"
--PERL:class-nativesdk =3D "${USRBINPATH}/env perl"
--
--CACHED_CONFIGUREVARS +=3D "ac_cv_path_PERL=3D'${PERL}'"
--
--do_install:append () {
--    install -d ${D}${datadir}
--}
--
- BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.43.0
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
