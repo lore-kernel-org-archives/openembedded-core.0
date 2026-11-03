@@ -1,113 +1,113 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7804.1793700683814735490
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7758.1793700706338566506
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 02:11:23 -0800
+ Tue, 03 Nov 2026 02:11:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=C0Xju6tr;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-91791ec1b83so30556156d6.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 02:11:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793700683; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PL2DR5+bxKGH5oKHRghOiBUJ0RPIf4i1G2JvmGnmlTzZvYiXLx1zqSA+cwv2aESHAY
-         SdVXpwj4GVprh8HgaMPhwyrr10BsjC3YgtiHyE3+l03xi65ufRzcxkvA8EniTWY5Uy0t
-         cG7q3rA1WKM0Dkf1BnsY2L96MJWGu6ahi559kPWnu8iU3V5ohyw8juCWig+ai0XhzSRS
-         dfNz0wXq+Q7UrDnQdW27NtJQh+r/s4rw+MZHBWKr172/yz6N+0W1OlrK8MKGQYMCyeza
-         txYhIIwAOOIdYTh4cgpMaSbpsSJT3j0vSr5oNKJixe9HbP6WtmHNIfrndi7XyV1zFk15
-         77EQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=K3T2DfgYghDG50Yo0u7UBu9nz3VhtPsltjs1f/2aY88=;
-        fh=6Z4xUuTqkcxNv6cvnn0HdSGcZYvnhz2BRm++iEwx924=;
-        b=YOyYjKH3I4zctNEgfuHAK3T9aHQr7zqbNlM3O/0kfUrxwFhcnPLirPmlRUzl9lT0zR
-         JfIBaQTGYBUSi3mGA+30/mH5slsonnrUZSMRa1IPzHH+TmfKTUzfvPM0ii8FUXUXEZDN
-         pKcFlcd907TxqOWw1pLA1DRFEQYjnaE9eSG6R6YWHqGwQ/y8E77I2oOdPx6BUPVlm+iy
-         Wz5b03houhy+sWCqc1Jn+/Pl6EGsbqp9skE5F1vAleYwoAa3L4tKIZ9u98OjJmO/HKh5
-         VOtFNQNlqEwBKmZjTh1yzQseK/5jw00JZX24DVZZQiq9S0YZBPrgwkyUMsftfBJPWr+p
-         BbAw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=DJDw3606;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48df8fe8513so3427930f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 02:11:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793700683; x=1794305483; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K3T2DfgYghDG50Yo0u7UBu9nz3VhtPsltjs1f/2aY88=;
-        b=C0Xju6tr0YSajBvGUdVZXNZDPHtD20d0cOqXFEEwv+yzGb5lfPx/rstMC1hC4hr3R9
-         OIMMCb1E23RrHqGf64Fc3V/3zOS0pDqcci2IfkuNgsRkOvoQhPyJSNDkn7GrHXoxFQaS
-         bk4lqRFxh97oYpuzRe/Hg7rlnTaPSrotqA5nrBSMwpcjw4SnFGYCJIYiHRMN/toPvoZg
-         6xrqmoOl0q5DSSICLTO2xzUoFubGYpYQFtvc8w4ztWdd2Dbuqzfn9vNBrAn4PmsQehop
-         PwSROF3EuRjCxB00Oo6eM3mIIbTIc0EPKv42uKP7q8xs+52PSVCGPUPhrv/lUhm5Be57
-         jDlA==
+        d=smile.fr; s=google2; t=1793700704; x=1794305504; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t029OmNeQLRN0LV5J1U3ysVuMfzHmS3is2WlNq+SdnA=;
+        b=DJDw3606XmQn/ltK9CMcxYWGpSBzFD60G/Lc7wLYlKpHzpXOb4k1ASrTYhdk0wrcyk
+         +3H8tUIzGLa8R9IEPNaWikQgxEL3tXhvuQYz3q1HuTsN8E/VFjybG2XSf23u7Lgefzau
+         1kxn2IhiNsRYOMG+4CP93GiXEjLpiLeFXh3YTbhsEMO/i2eilb6Z2idYLPk3bh1sk47q
+         GY9MYonHlgwjWulQx+DII8OiLgLSr1LpvOs95fcd/8l8oeazD6m8d5dD/NtY2q7iMCzj
+         K2mW2OMChHXLFOEHd6ro0aM9JV92LANmFgiqyISAtnV6ET3klJWP4M5hOAOUWZEtqSLV
+         Prkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793700683; x=1794305483;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=K3T2DfgYghDG50Yo0u7UBu9nz3VhtPsltjs1f/2aY88=;
-        b=VxQ/DrV/F4CE3+kf++ibopIDlnLYaQYv8PNufpRpFY0JNMdMpYoSTCtUK1EfOp5DA5
-         ytOOPYR0JDWOoaV3tXWO6z1w5wZXVN5o7QypMzTD525sVXAWv2TY+9jm+L9/hsZM3dxT
-         HITbc4IS11qnVuXfvG0e27wsWLmLPWf1ImuDtOMbDBMEtgh0BCi9VpUOI5WRhH02YG9n
-         1MRYw75qh20F6PIrO2Xi+J/jLKwXxG/CDsEG2FyXKudnOeV656D79xHIcfeLSu6RagTs
-         pRHnIKc/H8JsGCrlXYkmX2kspnM+QZTjTBGyNHWdYfdDocKPzd8/J8ucMB0yhNiATw+U
-         sjMw==
-X-Gm-Message-State: APuU4Z/wo9NTlj5s4+MnZbcpt1RxZiyoZwYzqJXLwO8z/MYaHPZMgqgr
-	E8GOwPg02k/Qe/KQOQgzI7TxjDw8cwt/EtjseFz6kiQKD+QRI37djAIMvWfs0vKHHeax30kEmzF
-	+COsW7k8oLe+96upMzsuz9W95366qFXg=
-X-Gm-Gg: AYBFou35ksx4v5S7nUkC0srtwTmiEfuphqHGgNEVy2QjaYEJ/1M7F/ZDqDqTQFFrrwK
-	0q0B4gZQovuTywQHpbjXkSYIv8I11e6pifSclBFqiFYziFe7PSuIu9Lyat1hwvMM6LECSkr2R/y
-	ustu6HC/Lf5CKJI4nFLtJ5iotM0Zyl3ff6E2kBVMS4QDq1BzXoEVkYRYKBRCcjyuUDv/T6Lj2TZ
-	W+xr/v2Zu5RMWcvcXLf4HpPFald0TzySlssgyfzr4t1dEaTCYSEHSeqPlLfWW4vnlXDxnNNiODj
-	evdgC78l5l0jy6DZTlDoZ0B2TtQ08HH/8EiGhRZSV45e76CJmkPIvlNKGIPYjB1MtFqSVbdNgih
-	fp1MJrGHFZCklqAv4iM31trg4siRPCLTjZTrBzSFx1ccrGCCq1ng/v8f2RFEmDl3jGq6Ed3g=
-X-Received: by 2002:ad4:5cee:0:b0:91c:a244:7580 with SMTP id
- 6a1803df08f44-91ca4b03e15mr207262466d6.18.1793700682515; Tue, 03 Nov 2026
- 02:11:22 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793700704; x=1794305504;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t029OmNeQLRN0LV5J1U3ysVuMfzHmS3is2WlNq+SdnA=;
+        b=hE/4dEJYQMkqN4LmZnJ8ocb46T5ns9BRtfkR1X9V+Eg+gv0JEuVs6/s6N5Hum6MwGZ
+         Gl48kV1YotGbH0TgXnHrO3KGOhtD8tKfsokmY2xojW1PbaSxPccvYSdTcna86zUuDua6
+         xtd1us/Iyf9TzFfIEh8zebET9Z4ayplO76HzTKjk8ZEO6Eg7g+8E/dBl+D7yRsS9Ir0f
+         AKoIXcjN20eZbUirmntg9Npo2PMl1IAOGFblfeThli8bNYOe2OT0ol21AOD/S8DnaJr4
+         nMghNpX0UEZoCHNe427zDa5wuMIWGa8famfiuiSbM06aTsIqvU1asKDTdvjjc7GSBHoU
+         6N4g==
+X-Gm-Message-State: APuU4Z9iBcQ8kti6AWGCU9gtriLgn8rPStR/e3YHwtnlnxX1fXPhH0Zq
+	IHDZNF4IM97FO9XOl5rrl5aCalSvniqH1Rcg86bJiuGVMBi1E+KAr0Sw0t/ZMf7WUaZTAxwMaMc
+	K7a34rZI=
+X-Gm-Gg: AYBFou2NGTQRJzzWj5tDwA/JmkGQ1UWpmDzOn/wRZYvPMbdh2vu+FolLdwf9gwo3cz9
+	G7VjbhUM70EfVkwttrt1dAt3kbHNFLsviJgcAP8ZOALFQ3TRpvZF3CBSAKPL9IgL5MvCOdqVRGy
+	f2lXk19tCGMAdTtzPHIstOkPFpna1jRiy9ren6jbEpdmssBZMEYKEODHA4jVKkBv0Ar1Rr0wm1e
+	4zb3w3tCjIr0AZbVRoVg/Atl8bLy54KjeKX4O/czrRxVnqxFgvwoBcs4zdP3V6+AZK1jSqSdvrk
+	fzGhThSpU7IIjLOw/nrT5hxQ7iSfjzewhTYKIyHYwa4RtCKht44L5pIMO/BC7loxaT5I6DnuZma
+	Tmr5OJoqAoiQEES+9RBxhTa0paD7F77zum4SZkUKuvFxWdMOVthzLZo8iDd91A5VqRLfN9Hh+rC
+	zRrzHFj6VckCp/deVH6vs1lXOrfKRgbj7SmPon/+WsG3VAZEdVOiCFSBQUBHSkaWPIwQLyEvtHI
+	WiZ9RtELK0Ufs0fD33LxYIsObaVuR/pDjQSX4x3HUOXdhOL34XXNJyqcBI+PmYdEhm+Z7MrPRYH
+	F9p/iFdncUzBbs130iHofdp+uiYB8giuRCs10J4229KPCdY15vb1m9bqZc9P+H1yE+zO2dQZpkx
+	NKPSOuVdoEQz40VgtaepnJE2jIHja537RAccorjw3T+83+1g7LqrgLc6b0Q==
+X-Received: by 2002:a05:6000:29cf:b0:48c:4a62:9af7 with SMTP id ffacd0b85a97d-48e6e50090bmr17438558f8f.28.1793700704438;
+        Tue, 03 Nov 2026 02:11:44 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fbba47a32sm1015068f8f.1.2026.11.03.02.11.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 02:11:44 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [blacksail][PATCH] pseudo: Upgrade 1.9.11 -> 1.9.12+git
+Date: Tue,  3 Nov 2026 11:11:31 +0100
+Message-ID: <20261103101131.870592-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-References: <20261103094531.39610-1-jaipaul.cheernam@est.tech> <20261103094531.39610-2-jaipaul.cheernam@est.tech>
-In-Reply-To: <20261103094531.39610-2-jaipaul.cheernam@est.tech>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 3 Nov 2026 11:11:11 +0100
-X-Gm-Features: AclHuK86EPbYZbLwpuFxAA0IbMBQhqyqHSEz15wGTY2SY9SXMQOHuRFkyB7X1c8
-Message-ID: <CANNYZj_a3nx5kaDMSLT2wNaSQ1sBekvamBfiDL1hVT8okk7FgA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] lttng-tools: Extend recipe for nativesdk variant
-To: jaipaul.cheernam@est.tech
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000003cb71065f5c7c0d"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 10:11:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249273
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 10:11:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249274
+Content-Type: text/plain; charset="utf-8"
 
---00000000000003cb71065f5c7c0d
-Content-Type: text/plain; charset="UTF-8"
+From: Yoann Congal <yoann.congal@smile.fr>
 
-On Tue, 3 Nov 2026 at 10:45, Jaipaul Cheernam via openembedded-core
-<jaipaul.cheernam=est.tech@lists.openembedded.org> wrote:
+Switch from master to the pseudo-1.9 stable branch.
 
-> Extend the lttng-tools recipe with nativesdk support so
-> that LTTng tools can be built and included in the SDK.
->
+Changelog:
+* pseudo_client: Fix xattr/rename handling with empty paths
+* ports/linux/guts: Add open_tree wrapper
+* test: Add open_tree test
+* ports/linux/pseudo_wrappers.c: Add syscall support for open_tree() wrapper
+* test: Add open_tree syscall test
+* test: Add open_tree_attr syscall test
+* ports/linux/guts: Add open_tree_attr wrapper
+* ports/linux/pseudo_wrappers: forward pre-init syscall/prctl to the real function
+* pseudo_util: bound pseudo_get_value()'s recovery re-init
+* Makefile.in: Bump to 1.9.12
+* ports/linux: Add missing header
+* ports/linux: Fix header ordering for Ubuntu 22.04
+* ports/linux/guts: Fix uninitialized pseudo_path in open_tree wrappers
 
-You need to explain the actual use case. How are they going to be used when
-in the SDK?
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Alex
-
---00000000000003cb71065f5c7c0d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 3 Nov 2026 at 10:45, Jaipaul Chee=
-rnam via openembedded-core &lt;jaipaul.cheernam=3D<a href=3D"mailto:est.tec=
-h@lists.openembedded.org">est.tech@lists.openembedded.org</a>&gt; wrote:</d=
-iv><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">Extend the lttng-tools recipe with nativesdk sup=
-port so<br>
-that LTTng tools can be built and included in the SDK.<br></blockquote><div=
-><br></div><div>You need to explain the actual use case. How are they going=
- to be used when in the SDK?</div><div><br></div><div>Alex=C2=A0</div></div=
-></div>
-
---00000000000003cb71065f5c7c0d--
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index d8466b018e1..02e86799f7b 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,6 +1,6 @@
+ require pseudo.inc
+ 
+-SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https;tag=pseudo-${PV} \
++SRC_URI = "git://git.yoctoproject.org/pseudo;branch=pseudo-1.9;protocol=https \
+            file://fallback-passwd \
+            file://fallback-group \
+            "
+@@ -12,8 +12,8 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+ 
+-SRCREV = "ba8887e5f1e922f866681ec7dec1a00b602a9328"
+-PV = "1.9.11"
++SRCREV = "e627b0dcb639f387db935fae1f9b93b30cded5e1"
++PV = "1.9.12+git"
+ 
+ # largefile and 64bit time_t support adds these macros via compiler flags globally
+ # remove them for pseudo since pseudo intercepts some of the functions which will be
