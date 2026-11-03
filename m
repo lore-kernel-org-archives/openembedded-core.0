@@ -1,41 +1,41 @@
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7340.1793698563106254687
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7342.1793698564555005830
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 01:36:03 -0800
+ Tue, 03 Nov 2026 01:36:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AQYED7b7;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QrY1k/XW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a1a0c3ff5a-dfa756b1-92b9-434d-a48f-cee9951a6682-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=pT27+63b;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=MMJwRBPS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1a0c4059d-872c9735-5702-45b3-b5c2-a243fb6440c4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793698562; i=@automation.yoctoproject.org;
+	t=1793698563; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=dAxtBsv9eAg6sUY6Ei/NIthGIArM2+8503ZCKaMOkDw=;
-	b=AQYED7b7vbJv1VJcgIJnYJXyMYkEDq/uNkT8suZVE9mScWiyuda/bDNbFVZltxrU
-	7dBiD/3YS/Ldw1YXLjMgQKG6YIo5SMhRM0oRkE7DtyNevDt3N8Hivh+zLIq/R28m3p7
-	Nkd1qZBfLNX5MNllglI03mV5sWKCCEVSQ3Au2Tcw=
+	bh=tf6qKfD/t9eDKtTaEocCBY0lrHVHVnjEjdkWUNuVRUM=;
+	b=pT27+63bgcBAn0naq2Wksglk+DAwumUhOgFpD8sNR3POd7S6oKmakCVKZPK+kRgH
+	f4z0gU3FrPfamsYLP84wpz68QQK2Ecd1RR2EpUprlQp2Brm/v7SJXGzb8uZ3XEJkSPr
+	FiEkBUMUdbyMWp4XI/F8Jd2B7thShFEDv+O5kpm4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793698562;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793698563;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=dAxtBsv9eAg6sUY6Ei/NIthGIArM2+8503ZCKaMOkDw=;
-	b=QrY1k/XWg4XEsDCDjkNn5Bzh8NKU98A2BaWtFsWx71qeNkkt0mXfvRFsRArHpHio
-	/mnH/PqETPzkxe0k0OE+yM+pPdQY5Htpv4NoIeHWge3/xybWHS/hLZI4Wx+A6yNzaAT
-	Uw/A/SrifzuRXH6cFUhkKM8/ISKgI4CzgFMKSrGI=
+	bh=tf6qKfD/t9eDKtTaEocCBY0lrHVHVnjEjdkWUNuVRUM=;
+	b=MMJwRBPSmXSvYl9hpNULRWavm9ION/4X5PwtM28Vk9of2qKtisQZZnqY6yfNLUx+
+	lwjBJnhzzfvSO0uxjMAtGb75j3LTxmr43NblGY1cNHQQCaw8NvGQiuTuSAXmWFdv6Lf
+	1HPsGtwkfd+sUup2N7Z3a8yFHXfttmn/HuokFN2U=
 From: patchtest@automation.yoctoproject.org
 To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 02/12] librepo: upgrade 1.21.3 -> 1.22.0
-In-Reply-To: <20261103092800.39286-3-jaipaul.cheernam@est.tech>
-References: <20261103092800.39286-3-jaipaul.cheernam@est.tech>
+Subject: Patchtest results for [PATCH 12/12] gtk4: upgrade 4.24.0 -> 4.24.1
+In-Reply-To: <20261103092800.39286-13-jaipaul.cheernam@est.tech>
+References: <20261103092800.39286-13-jaipaul.cheernam@est.tech>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1a0c3ff5a-dfa756b1-92b9-434d-a48f-cee9951a6682-000000@us-west-2.amazonses.com>
-Date: Tue, 3 Nov 2026 09:36:01 +0000
+Message-ID: <010101a1a0c4059d-872c9735-5702-45b3-b5c2-a243fb6440c4-000000@us-west-2.amazonses.com>
+Date: Tue, 3 Nov 2026 09:36:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.03-54.240.27.29
+X-SES-Outgoing: 2026.11.03-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 09:36:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249267
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249268
 
 --NextPart
 Content-Type: text/plain
@@ -45,7 +45,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/02-12-librepo-upgrade-1.21.3---1.22.0.patch
+Testing patch /home/patchtest/share/mboxes/12-12-gtk4-upgrade-4.24.0---4.24.1.patch
 
 FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
