@@ -1,116 +1,115 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3011.1793734910975327223
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.61])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3135.1793735324283343744
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 11:41:51 -0800
+ Tue, 03 Nov 2026 11:48:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=ecOwsW2G;
- spf=pass (domain: konsulko.com, ip: 209.85.214.177, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2e5fb79ce82so30047595ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 11:41:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1793734910; x=1794339710; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rxYJVeyen7gHFPNAcTuvhYQnXwEVIszNV0/ajp957Kw=;
-        b=ecOwsW2G8bk44kDzsJXfA6s+yYgxd61SxmmPkrDnssVvoCCX0UI9kKrnKzGBEdz7jt
-         w5SVNpp/++vo7j40TuFxMPypSQOhsRt6QOOGcrrBJs02QAapDO2clz4aI19zCq2pZCus
-         BE/eX43xrtilmLEholK6+PzSNPG6YnLKz/uMc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793734910; x=1794339710;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rxYJVeyen7gHFPNAcTuvhYQnXwEVIszNV0/ajp957Kw=;
-        b=OIuqeVpS4SAZsHNEeDKDRbuOdc3M4wSy/BoY/rtjwt3/MGQU8t0NIzMVEBGgQx/8aY
-         fErsJgfsvIx0kL04ydqWptIPyMlogI+C7JGAR3E+3GnGqfPl4SV0mJTBk9Rh0ZDU18OS
-         dGSvNCGeMDnRZuSa9DXFnxTnQzT3T+YE82wULfIJJSCIH7SkOIodsqPVNWdkwTYSpd61
-         Ecd7ASxx6p3IKTQYmYc2+oD3ooda2K6Q6ANK39iH+dC2OjT2+6X6jAGRKl3/U+p8lOkL
-         opji/W+B6taOusE5mCv/5G/sAI3uk3zqUl/Kk/Kx7pilk0tW8glT1UuCawaoCJrkeOnl
-         ZWJA==
-X-Gm-Message-State: APuU4Z92pCdd7aEEPELz9vsPxBuvVPf8lWovbQeVLHBRNne4CYnbTKbw
-	uGTuSU6aWbMjKcBZrQ1He9xL8GnuPd1GxMVakbSZjfJao8xdwi+Cg1oz83j4crgB8tLG5l/SKC0
-	ymZq+
-X-Gm-Gg: AYBFou2To89BiTJVaOaugj5PdqnFocsMNzOWfwTic2gOECBEg33GpehwKOithpCAMaL
-	xs3DaawMFgenmzwtWtEtmd/Cd65vuApJhUv+gZaiUVfrPLfF5Bo2mXrBcho72CgMAdQ5Ohj2ehG
-	CLi/wfSiIk7IxJN1cO66F60BW3Uq5bgkmPeF0UIkyQEAI2z612PHL8GpviiBbjLJcDzF8j8vGUl
-	ssQ1C61uZ/rQ3E7ocTqMXYvlQHflRFZXAWrz5sksyJM9HrHb1kf3YaSACB/VQVMb/NAxRPY45J0
-	OyV+i2TUm6P6M5mNj3rY7slCnb5b9MiPwdpTcUYfckVsV4FZEzUgzF3KIMnlUBuezcVVn/rXzLU
-	lbNZ6l3SdxiyeTfHlAOJj63sHTggDzK7oQMW6ZsffWjq97Niq98pouYETDHUlE9auzhdCNaYeyI
-	3FhV+Z05u5YSCZKfmUByd4ood0dO4ZiVydcWTLgrnh3r9UdTLM109dWq5/6H5KdZZ6C9kXcGXes
-	i+oQrvsyZBl1JAhsLcLH6IZ9C7OgisnsppjextSxOo+4wQHVYlx+/hDY9K1EEIrSfzrN1Ky3TDf
-	M0ie5G2a0el0idhr+nQspNCVRFBo1DTtvxNTCGJ1W0LwGdWcwLcZB99ibJPW+sG643j12DHvlB8
-	ZpTy4GJVKQ6qc0k9bx9mVq+V7QtA=
-X-Received: by 2002:a17:902:f54a:b0:2e4:adb3:c776 with SMTP id d9443c01a7336-2eb364b8234mr132945455ad.24.1793734910344;
-        Tue, 03 Nov 2026 11:41:50 -0800 (PST)
-Return-Path: <tim.orling@konsulko.com>
-Received: from thetis.home.local ([2606:c800:6024:2000:d453:884b:8607:3eb7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eb39052ec9sm44562375ad.6.2026.11.03.11.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 11:41:49 -0800 (PST)
-From: tim.orling@konsulko.com
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH v2 5/5] python3-websockets: upgrade 17.1 -> 17.4
-Date: Tue,  3 Nov 2026 11:38:34 -0800
-Message-ID: <20261103193829.1806542-10-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261102011816.3710992-1-tim.orling@konsulko.com>
-References: <20261102011816.3710992-1-tim.orling@konsulko.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=bbDhEIJM;
+ spf=pass (domain: axis.com, ip: 52.101.72.61, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fqcNnVufkMo3teLv2bkouUmvyfM0RDk1wuqFqDRJ1SkDKXDZwLSPlmoK+0kiln9FudUhd39ahzbIYnqdmZRjPIO8/ZMU3iVGeljXVu7vhJXCgZCkHAdGyWKkCGTvFzg9g8OjlibsqNoh+tHbKWM/6+r2rF80gCDsVF8x9Gz/BijxR3ReVdHFBKqgPmlNPVh+0qtgLoi19yCc+SIQlFZwdZnZTsk2elK9P9YBJo6bxXkrbqkHnW+nPAAIHovCeXftPVCeuGA+wEF0XhgDY7sAi7Rq/eOhD0Ke8jwIZDQ9iqgkFEBJqo2/u+EhPFUgyrUGLjloBD2MBh/4PlloxiDJPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oAVGg1xvAz1qKyMFw79S2unjR1pjdV7NTm8oCCwVPqE=;
+ b=dLDxNkybTQvXiK5gPRI/DO0INzNIzyuyJG6TpjeOnuOcxOu0moX0mMasUtAFzkfAShSSp1+H6ig1+4lvLZNH2z62p0l0b03BKrF2lUOThKwY+YE7xdg/t/xTdbkBHgabnEtZoUnBW5Z9I5im8z0z27LFIQvNtBhlwack9gBRZm6i6mMFWAYNgJEDYS2b9GSEigX+GBZ9oD5fb+aDofIsrftvyeqpEEtpW7tET7IZDHIMD7aX0ObT2FbMAO9S10ILOKCuqsBeAA/t6ixNmzrh8Sw6VYqr3i5HGF3vQJ6NekNYWrQMI6vGFSNooW9YJJFrrC3dbIJOjrKTU8gdv5wXIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oAVGg1xvAz1qKyMFw79S2unjR1pjdV7NTm8oCCwVPqE=;
+ b=bbDhEIJMirNq3Xws7X+WaAMbaVDLGfy3VSymA5ZJ0qf8493ON+h8rsekno0RtyTYT1Gn3QzwaJFGprOL/m8v9uHNJEKC5094TCYCjAPm8T9R7EydhnpSLXgm4cmmHxg3YRlkb51BHctwhFquh6qNE8r5evmy4itvJWj2h12Qr4k=
+Received: from WA2P291CA0024.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:1e::15)
+ by GV2PR02MB12435.eurprd02.prod.outlook.com (2603:10a6:150:36b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
+ 2026 19:48:39 +0000
+Received: from WA1PEPF000099D3.eurprd04.prod.outlook.com
+ (2603:10a6:1d0:1e:cafe::b) by WA2P291CA0024.outlook.office365.com
+ (2603:10a6:1d0:1e::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.9 via Frontend Transport; Tue, 3
+ Nov 2026 19:48:39 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 195.60.68.100) smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ WA1PEPF000099D3.mail.protection.outlook.com (10.167.242.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.592.5 via Frontend Transport; Tue, 3 Nov 2026 19:48:39 +0000
+Received: from se-mail10w.axis.com (10.20.40.10) by se-mail11w.axis.com
+ (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Tue, 3 Nov
+ 2026 20:48:38 +0100
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Tue, 3 Nov 2026 20:48:38 +0100
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id B8B3016FD
+	for <openembedded-core@lists.openembedded.org>; Tue,  3 Nov 2026 20:48:38 +0100 (CET)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id AC5B2129D3B; Tue,  3 Nov 2026 20:48:38 +0100 (CET)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] insane.bbclass: Avoid buildpaths QA reporting on HOME if its in TMPDIR
+Date: Tue, 3 Nov 2026 20:48:33 +0100
+Message-ID: <20261103194836.3765498-1-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Return-Path: peter.kjellerstedt@axis.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: WA1PEPF000099D3:EE_|GV2PR02MB12435:EE_
+X-MS-Office365-Filtering-Correlation-Id: 64cfa20e-bf54-48a0-32b3-08df39e374ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700016|23010399003|18002099003|261102123227099003|56012099006|10067099003|261009223027099003|261022105027099003|261021121427099003|11063799006|261028144727099003|261026140227099003;
+X-Microsoft-Antispam-Message-Info: 1oT3XVBNizO5Edq6kVeZ3GfAEG6n7mf75q26wvERv5GLlBo5jda/eafBwvbWYX+MWz5nwMsZDt1/FaqgHSKtVGXE5IZVoNqVQEBPqZf6HXB+hbvPVdkFD6M3vrkcni87ZKCJzC1Zlj20KyDZHmMDhFeIfItOonH78+WulGO7vLYmEr6CUioAICGSpYM6fGx8hGhgABAtB7MEjviRg0aP+6TMmF3qOKJZuhNbbpzFwjZcifARqDmq6kLTqwkAG6N/pjo5dLEpRa284vXoRRq/7hN2L7U6nH8qHCmjqwG6LocG/f4qk+4ylQWocroC26pT57olGCmNkATJV3f1OUdMVSHgPtQnw9NUFE1HwXrAu3BOMY5Vxx09TKFcQ+HQ9c5bYbEQJupXlNEvvAPBDhJ80zBAGTl9zj2UTbMHq3wg5Y9rkw+HbqsDHkqvOq7jsh2szN7+hzCKHkg4qe81qF/0lTWMkHC3D8RVaqPOG4YDwcHGT/PjYnmpqmgAfqo7uWJ9rY44CIVQm9ASTO7pEChXWCXa0ZWJEy3GThlFshDlduB4sAjraWRjyE3gX3ckURb7Fon5H2FNm3CVRHENo9r8+6BHzdm6zsKoJH2V2XNgZK8vXPTolS/uVG/y5ucz2EUZrMaE7C3QNWJRSoNOxWsE0Gb5Rc0pL+o9oORH6jRDDCaVyQgDcRIKS+F61mcLEJJ6QypRy43+oJKZD9bT598G8A==
+X-Forefront-Antispam-Report: CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700016)(23010399003)(18002099003)(261102123227099003)(56012099006)(10067099003)(261009223027099003)(261022105027099003)(261021121427099003)(11063799006)(261028144727099003)(261026140227099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: txYKjJlJVgN0A7wzwgIcmYS70dd6/Ocvhoc13jN9pA0cHuJNb5ki2225QVwebV0sG27mU1l4Y2hsaRYTRN9wOWx58sNZ3lqqsoXCkZx54MM+Ore0jn55AvYva/WPOirXoICFQjPQ9xyBpwDQ1JTv2fdwuUaWDz9anugzVmkzX0mlDNkalZ58xkQroEOwqUYfh0OXdRJeEmxnlZ/wz3XfKlyqIhklwL5K2UOJroYzdqnSMK9N5NlJDfi5S1AzTBWMxpP4fRv4lsK/R693LYc5+5SPpzFMVVksOjmn2l0rTovrP+gSc6EltMjcvjzFLUE1oYM++fADnjGfcvTQl8jMg2dywtQjE4+AXMDvEFX44kcoXp2iStDk2vgzSDkkQz0nD1eDzkEoFdFUmWWFM/hJQd7fCqAq7rjbSP0wTtRxmqzKALlGmgO9NnyKHcLz32hz
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 19:48:39.1386
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64cfa20e-bf54-48a0-32b3-08df39e374ec
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: WA1PEPF000099D3.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR02MB12435
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 19:41:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249296
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 19:48:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249297
 Content-Type: text/plain; charset="utf-8"
 
-From: Tim Orling <tim.orling@konsulko.com>
+Since TMPDIR is typically under HOME, there is no reason to report on
+HOME if that is the case, and TMPDIR has already been reported.
 
-17.4 fixes a denial of service by memory exhaustion: recv() now rejects
-fragmented messages split into more than 4096 frames (tunable via
-WEBSOCKETS_MAX_FRAGMENTS). 17.2 and 17.3 are bug fix releases.
-
-17.3 added uvloop variants of the asyncio tests, so add python3-uvloop
-to the ptest dependencies.
-
-https://websockets.readthedocs.io/en/stable/project/changelog.html
-https://github.com/python-websockets/websockets/compare/17.1...17.4
-
-Tested with core-image-ptest-python3-websockets on qemux86-64 and
-qemuriscv64.
-
-AI-Generated: Uses Claude Code (Claude Opus 5.5)
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
-Changes in v2:
-- Drop the test counts from the commit message
+ meta/classes-global/insane.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../{python3-websockets_17.1.bb => python3-websockets_17.4.bb} | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-websockets_17.1.bb => python3-websockets_17.4.bb} (89%)
-
-diff --git a/meta/recipes-devtools/python/python3-websockets_17.1.bb b/meta/recipes-devtools/python/python3-websockets_17.4.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-websockets_17.1.bb
-rename to meta/recipes-devtools/python/python3-websockets_17.4.bb
-index d1bec373e0..a2357ebee6 100644
---- a/meta/recipes-devtools/python/python3-websockets_17.1.bb
-+++ b/meta/recipes-devtools/python/python3-websockets_17.4.bb
-@@ -9,7 +9,7 @@ SRC_URI = "\
-     git://github.com/python-websockets/websockets;branch=main;protocol=https;tag=${PV} \
-     file://run-ptest \
- "
--SRCREV = "e87ea9be0373edd5065b5e94dfa714cfde23023b"
-+SRCREV = "625a59ed613ac60e60d577dd64b8641d59ecb2b1"
- 
- CVE_PRODUCT = "websockets_project:websockets"
- 
-@@ -23,4 +23,5 @@ RDEPENDS:${PN} = " \
- 
- RDEPENDS:${PN}-ptest += "\
-     python3-misc \
-+    python3-uvloop \
- "
--- 
-2.47.3
-
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insan=
+e.bbclass
+index 721088a8f5..350e1f83c2 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -443,6 +443,7 @@ def package_qa_check_buildpaths(path, name, d, elf):
+         if tmpdir in file_content:
+             path =3D package_qa_clean_path(path, d, name)
+             oe.qa.handle_error("buildpaths", "File %s in package %s contai=
+ns reference to TMPDIR" % (path, name), d)
++            buildpaths_skip.append(tmpdir.decode())
+         if homedir and homedir in file_content and not any(path.startswith=
+(homedir.decode()) for path in buildpaths_skip):
+             path =3D package_qa_clean_path(path, d, name)
+             oe.qa.handle_error("buildpaths", "File %s in package %s contai=
+ns a reference to the build host HOME directory. If upstream hardcodes a di=
+rectory path that matches your home, you can set OEQA_BUILDPATHS_SKIP =3D \=
+"%s\" in the recipe." % (path, name, homedir.decode()), d)
