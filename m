@@ -1,92 +1,135 @@
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11140.1793712666977044817
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11818.1793714591836859463
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 05:31:07 -0800
+ Tue, 03 Nov 2026 06:03:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=a5SiWRsR;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=H1EQxIG3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a1a19b35c4-cbd4e12b-c486-4366-8e3e-626847b588fa-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793712666; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=YAO72qtQw199TWxaOL7/VMSj1+P+Gjl2D1o6Sn5NNRg=;
-	b=a5SiWRsR2BXv2W7pRJgXdV3dQMpTM53fgW5A9UKi3NDy8zACif65VbexD3WQXpG0
-	qSjtZBP+lXCXghAzyEIuRc5aRkM0ABpeCxo+c4eJc+HxjY6YTsJWmGMYPXOwxWaVsRn
-	aM5UrKOAT0BHn3/vPmC7x0j0lXPERUa3DgMpCQr8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793712666;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=YAO72qtQw199TWxaOL7/VMSj1+P+Gjl2D1o6Sn5NNRg=;
-	b=H1EQxIG3IPOCteyXuSK531bRkZdhDaGNRxorPdqeJAB0nHQCV+x/s3hdh1oKxA+q
-	7xb+4ZOvpqMtQuAPmF6IQUgEx6wwSGzdq22XEIEuyYkKsBpGSEb2/tN/tlz0pnQIbEa
-	vt5ENmhV6e5rFlRdSxQNVYxiLx8M84nIpGcJU5Uw=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] automake: remove bb/inc split
-In-Reply-To: <20261103131831.1622873-1-ross.burton@arm.com>
-References: <20261103131831.1622873-1-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1a19b35c4-cbd4e12b-c486-4366-8e3e-626847b588fa-000000@us-west-2.amazonses.com>
-Date: Tue, 3 Nov 2026 13:31:06 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.03-54.240.27.192
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=wUhDRBuv;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 83BB71A1415
+	for <openembedded-core@lists.openembedded.org>; Tue,  3 Nov 2026 14:03:09 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 567616046C;
+	Tue,  3 Nov 2026 14:03:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 18905103291EE;
+	Tue,  3 Nov 2026 15:03:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793714585; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=EYzzoRhBWmRUIsCpFXndBsu6MRytOyE4tRZa2l/4GWU=;
+	b=wUhDRBuv+XTIghFIEFoK4inpakjkJVxd8CiXxZfaMY9klfA8GmHTVqRcCgVLSOwYtYZier
+	9AnYNB03WG/EqUhaiUcFFhsnBg1cU5q2WOxT0v9237cZxNlaVBoqeDKP6AZo2pYt6MvH2P
+	5JColYqsjBx5TfMmCCTbiAMPq5APcaz1BD6j8XT+/Vl0ID+3msW34q2YWVC5pawoNsPThh
+	HIZOdENKXKhsd4uGy68Y+dC2yKpUnsNpp6h8Z4/EVeNRi3GzivtaMOnHek4MEK62sY51ww
+	ddHe9j0zWmSaBq1hbThTzVuZ9lSrUUplr9GDhQbfPJM7XjAEXo+aHDvkBLDMZA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Nov 2026 15:03:03 +0100
+Message-Id: <DMLMR3WP1E5A.M59CDZB7EE06@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v5 3/3] python3: Upgrade 3.14.10 -> 3.15.2
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261012090030.95901-2-jaipaul.cheernam@est.tech>
+ <20261102080823.31025-1-jaipaul.cheernam@est.tech>
+ <20261102080823.31025-4-jaipaul.cheernam@est.tech>
+In-Reply-To: <20261102080823.31025-4-jaipaul.cheernam@est.tech>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 13:31:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249280
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 14:03:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249281
 
---NextPart
-Content-Type: text/plain
+On Mon Nov 2, 2026 at 9:08 AM CET, Jaipaul Cheernam wrote:
+> ReleaseNotes: https://docs.python.org/3/whatsnew/changelog.html#python-3-=
+15-2-final
+>
+> - Drop patches which are part of upstream release
+>   - 0001-gh-146207-Add-support-for-OpenSSL-4.0.0.patch
+>   - 0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch
+>   - 0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.patch
+>   - valid-dists.patch
+> - Add --without-system-libmpdec as EXTRA_OECONF configure option
+>   (--with-system-libmpdec is needed new package mpdecimal [1])
+> - Bump PYTHON_BASEVERSION to 3.15 in python3-dir.bbclass
+> - Update python3-manifest
+> - Refresh existing patches
+> - Add two fixes needed for the new release
+>   - 0001-gh-160881-Fix-test_is_python_process_non_python_subp.patch
+>   - 0001-configure-clear-RUNSHARED-when-cross-compiling.patch
+>
+> Verification:
+> - Built python3 for glibc and musl
+> - verified ptest for all 34 python3 packages which supports ptest
+>
+> [1] https://github.com/python/cpython/issues/115119
+>
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> ---
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Jaipaul,
 
----
-Testing patch /home/patchtest/share/mboxes/automake-remove-bb-inc-split.patch
+Another issue, sorry. With python3-wcwidth ptest:
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+Failed ptests:
+{'python3-wcwidth': 'START: ptest-runner\n'
+                    '2026-11-03T11:04\n'
+                    'SKIP: '
+                    'tests/test_fastcall_args.py:tests/test_fastcall_args.p=
+y # '
+                    "SKIP could not import 'wcwidth._wcwidth_c': No module =
+"
+                    "named 'wcwidth._wcwidth_c'\n"
+                    'SKIP: tests/test_setup.py:tests/test_setup.py # SKIP '
+                    "could not import 'setuptools': No module named "
+                    "'setuptools'\n"
+                    '\n'
+                    '@pytest.fixture(autouse=3DTrue)\n'
+                    '    def _verify_extension_mode():\n'
+                    '        """\n'
+                    '        Assert the loaded implementation matches the '
+                    'WCWIDTH_PYTHON env var.\n'
+                    '    \n'
+                    '        In extension mode the C extension must be acti=
+ve; '
+                    'in Python mode it must not be, so a silently-\n'
+                    '        failed C build is caught in CI.\n'
+                    '        """\n'
+                    '        # local\n'
+                    '        import wcwidth\n'
+                    '    \n'
+                    "        if os.environ.get('WCWIDTH_PYTHON', ''):\n"
+                    '            assert not wcwidth.HAS_C_EXTENSION, "C '
+                    'extension loaded in Python mode"\n'
+                    '        else:\n'
+                    '>           assert wcwidth.HAS_C_EXTENSION, "C extensi=
+on '
+                    'not loaded in extension mode"\n'
+                    'E           AssertionError: C extension not loaded in =
+'
+                    'extension mode\n'
+                    'E           assert False\n'
+                    "E            +  where False =3D <module 'wcwidth' from=
+ "
+                    "'/usr/lib/python3.15/site-packages/wcwidth/__init__.py=
+'>.HAS_C_EXTENSION\n"
+                    '\n'
+                    'tests/conftest.py:27: AssertionError\n'
+                    'ERROR: '
+                    'tests/test_ambiguous.py:test_wcwidth_ambiguous_default=
+[\\xa1-INVERTED_EXCLAMATION]\n'
+                    '\n'
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1508
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Can you have a look at the issue?
 
----
+Thanks,
+Mathieu
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
---NextPart
-
-
---NextPart--
