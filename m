@@ -1,280 +1,294 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6941.1793696844528960398
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7186.1793697745918077048
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 01:07:24 -0800
+ Tue, 03 Nov 2026 01:22:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=sUMUVvc0;
- spf=pass (domain: est.tech, ip: 40.107.162.46, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HRFb0RTrT9qRx8vorjfMQOl8kzehsQeMEqSLthgl3saccspWQz3GpFPqLhHVcd43QcBZlODshEEVrY7kuBCXRIcRtzZK3wgaLMq8u0VOjoHqRcsPeMe7inGh9tSQSbf7UKTL34C6ELZSPMvpL55otxCVgrcZJ8ran4IRlA8gxmaDio6bL5hWIchKldcMIwihtj8Nv4IVooazNYchAKjXwv1uQVxfq2K2ybkGBS3H5Uv6XaNQwAFQ61WohheZEsIzCIUPrfhIpG26u32eRHLYYdhTLRAwjd9elauIVQxlNUqd0qbyFpUlDItSVH4O/oMIVs9gb1GXPDmTvDd/7LLZ4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IwGoJCJ1HZAek41coOOtdY+c5PvvXqWdTSCQoIPcvVA=;
- b=P/jnzRppPc5L1YpFRebkIILSCOE7aPZlFtijHBN57q66agK4iFQ8EWMKNmxKeCAyvfZj0bnzrqrNbeUQdsiQ7jahr1IlGWCMUnL3y3oqrdgCRc9hs3vyQh1UojsJvKIp4esdT0yoafZei25cJ5iYjl8GU6RKzqqK8d64uwoabSLyYSwggJuXBicVL7uMKS40F4bD6S0g2Zqjbm42WBU55FEiNA0ZgKXXyqodG93MF0vq/m75UZnP+/zzSlFN6asalTys+31CxPlXV8J5Uo2VVz7N+M4nOqvoZJvE2LGIp75eGF+koEDZ/PDZTL2Y7Uh+dxloOTKkc/4pYadWnwXiJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IwGoJCJ1HZAek41coOOtdY+c5PvvXqWdTSCQoIPcvVA=;
- b=sUMUVvc0WNbhQOhF2G0syP8VtU0ewzngSCokz5x7Dwe79QM6Ikxg/WRS0E0nKJTmoRbKDamXS/A5WtOiUUFNENsDA1pxChK2m5G6+mlya+pNmk3NAcmIkKfsabwiTh/PmiKHmE/4o6zRb9lYikej2osEx5beqXqnyD2jhSvoZ4zR/hHgGSmpKpmzv3iYjSSsjNHWHrI7K61DpKnbpyUPGQaM+kYIrRL4JuKBtlwabYGEn01JpoPFonhaEgJ7v95MDUlN8PV6J83v9fDYvW0W05GoOhH/47kzwC2/eDXe9leTxU0oCOSWwlAHiumxYuSfzjD3ZnZcsmbq4GhM5Pv3hQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by VI0P189MB3235.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2b8::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
- 2026 09:07:17 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0569.011; Tue, 3 Nov 2026
- 09:07:17 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v2] lttng-ust: add ptest support
-Date: Tue,  3 Nov 2026 10:07:15 +0100
-Message-ID: <20261103090715.13551-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261029131154.7487-1-pratik.farkase@est.tech>
-References: <20261029131154.7487-1-pratik.farkase@est.tech>
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=ChOK8Ffw;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a5087a5348so31387955e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 01:22:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1793697744; x=1794302544; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7wuu5CsrOFvuJ48IYEeP0f+cCcRUddRHDOAb15l/Omg=;
+        b=ChOK8FfwmHDUewexkGk9A89VR8p49Uo7mtpszzD+k8FjQfCIGmhAxsBsBP9cvbKfr2
+         hJwqMPXUUVcmueYgOUldw790OJWXCfCTVUbzcmk449TglpCeysqffEsJgefzrbYY+COb
+         51HgLkNTDgWVRNnd11tpX47rSlE9D3EFZJBxbGjjTaQGnDPwGfh64kTlbjiXhDv1WQxL
+         2RWeLEAn5eizWKOu+1gtrT6egHdeGZ/bM1dynAXjd0mjpqt6gYyWaE8O1hJT3RKNHkuC
+         i6xu9EzwIb2bIxIzal+PZiaJgLxVEEl+3/7DGdkXebDNFlHJsfmiCUlu5LjtKqQO9Lr9
+         yqpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793697744; x=1794302544;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7wuu5CsrOFvuJ48IYEeP0f+cCcRUddRHDOAb15l/Omg=;
+        b=idbVgnPMVLKkGLB9Ya6wkiwwZiJhXhcONj7imAbCZbhkp0ozt5Gnip3uvhLTwjHIWd
+         6xymop/mFspoPilFm9UVxJ0F+sSB7YEbo5rX/sr30Idx57GypoIxEb5nzJfmorOEoxPb
+         4f0DpqlKJG2t4VXt6T1fYDVa7LUWGAtBhxiN0FfunvsgV6Ud9GqNCAr1Q9ihJymc3jgD
+         Ppm88tzlcjnYM1V5uKCUsjO76ucyFcqKkadkFueH/5jVf/3UoTSRm4jl0wkJ7eGTdqsM
+         Keq9nJTlfX/DW6JJfNvVyzmcPx1DVBaZGVZgU+B16q8r/1OmgmDwrVaFEdr2ARESA8Rm
+         MN9Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwFTy0aNqwnvN1ej9caiS3owVk8Ky/ekRp5vCH2stZ5/k272r+bF/KX/zHO0kxZMnUlCp6KAEm5eLrMR1B2eGo3jA==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9SlsrocnEsTkzg9VFMR4zyrN23qBM01lTE/cVnJvxGQ3EFXfcO
+	rzm38TN7sNupvOzri0+xTjzH6x3zTTiDXkkekpTMMGcOW7aQYMONEWH9J/ZKE5hiRFE=
+X-Gm-Gg: AYBFou1R0B7S7zEfoczA7xc+jEE5AnVVUD5u/h5imZGJKLrywbd5NZEPYDYGCDsYeZi
+	bQf9ER2RYdoXpkWTYuqMXorh2eeAisvVCUJ8u7hEKQ/RPG8qXaU3d9jLdhPnDkZLQpaMI9pLJVI
+	+amx/CMZTo6YtaLm9o3CSKcnD90iTDCZBrAWWHAR1tOinNMRcCC8CwST/mpmm02U/vLL2FsKAOX
+	YvKpPzK21JRs6wZclGw66W0wDH85Hk/ZiYlFS0vAML4OPcOMSqufGrD6px7kqm5/rCAtxM9i9bg
+	s16NZqE509VA5qcm2dX7qTP5EyEEB2QkjcRc4QD/Apx24NbUAhuREYx51yF68vweb1yaRxxeuNR
+	CC1NeRfp+CmVJiAd7svJ0A1SVjGf9NGC59+r0gxQ3sYufMtQ3eCmxIvUwB+99iu3GUOy7dAvq9W
+	x2DkNdybgHf+l97DT2KlymZHGfBpQH2Mh3PZ7CGY7vMz3vUKu3E4fWJrGDhXmk5PGbTSYfWRp9c
+	OO+eKG4VjfTZlc0deja7mVBCPG1sby3dhda7Djs7BSLyv86im69k+3g9SDB1WVquxjXPi930Nja
+	t9B9BfLz7cKUkdaailmopqCMDVnTn8LPzD7VzJU6RNioxMkUVGaNTgKBNhsVX4LEQZq5batHcxe
+	mlrEev3hQfC/glw==
+X-Received: by 2002:a05:600c:4ece:b0:4a3:5a42:b2a4 with SMTP id 5b1f17b1804b1-4ac185bca52mr278807725e9.12.1793697744046;
+        Tue, 03 Nov 2026 01:22:24 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac09cc3e9asm139980925e9.3.2026.11.03.01.22.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2026 01:22:23 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: PA7P264CA0395.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:399::26) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
-Return-Path: pratik.farkase@est.tech
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|VI0P189MB3235:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17ab3112-4042-4921-ee09-08df3989dbeb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|261021123027099003|260925021911599003|260925022911599003|260925021311599003|11063799006|5023799004|56012099006|261028144727099003|261009223027099003|261021121427099003|261026121527099003|261026140227099003|261022105027099003|10067099003|12006099003|22082099003|18002099003|261102123227099003|6133799003|261102130727099003;
-X-Microsoft-Antispam-Message-Info: Rdaj+doOpl/p8yj1pur1H4WjBhVfcOv2MuLS8L0GHJAaccWMuGzE2xlPUtTKh2W6mv8H9ymeO9Q3Sg8mmO1eaJ+FfReo1fQiUMVHsqqH64WhfkiGCIr/JL3OfgPdav2/8o1bU7g6BMzoLExHa4Q9CmwHY6P2XX2vM4X6fhHNhW15BKUst+HduvQ+qbqZyPJ4eph0pltescGVw1GO429FA1g/mM6cUEV5L1Cqj+IyA7Oabj1kVEjYw6cgTG4TFYYxU6WCB4bdb8/SonD8zoFHwuJIFBxHNTqEY9Sbg4y/l5h9OamSh0t/73icegX3RgmOJtD0s5yrzrzI+27tCalHOVy1XMnM8Y0MhUXI5Uf8kf/8b15rZLU8uTB9QEJlCXm/3DwoyH7XM5+I3GxxcRTUsn3Gk4gkmbZggb1OV0uhlHCZ/rMN+Z/z8XtGnoG0Vvhf5ZsTaOxBSna1yz8pyDZvqczK3X3/mHoELRo+QGfXmPbsRG7nZ3zeinEt6y7ZY5nhiu5HU93AxDCkGXI6q29StVmwQAS5u+76QGgQPYOp+oVEY68vXLsjlsb2FD0JUR/TL3SUUAFHeB9i4ETB7RRqXnfaaJoxtq/Kn0bqHjQwbvU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(261021123027099003)(260925021911599003)(260925022911599003)(260925021311599003)(11063799006)(5023799004)(56012099006)(261028144727099003)(261009223027099003)(261021121427099003)(261026121527099003)(261026140227099003)(261022105027099003)(10067099003)(12006099003)(22082099003)(18002099003)(261102123227099003)(6133799003)(261102130727099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TqLYmr3lOSqKrwSR76hZg3zHdOINYWhsxbzj247YW+9DQ00qMy5VJoFKW2GU?=
- =?us-ascii?Q?1+EbzOi6BzlaHWuVMK1aOIWKhJKur/beNidqILTXBdJauP8Baf5sQHCQvFUk?=
- =?us-ascii?Q?S4oGGBFjOA9AMn/rA0Tki+LemP9NBHEBC7RCd310PIrJfik5gFcwFWar8X1I?=
- =?us-ascii?Q?FJ9cZdpxL1HlM31r0AAdQ8GFCSZcKWQwAsAEx6EeaaDMipMvUGSUIord/4Iw?=
- =?us-ascii?Q?SBzl/sWrcCHNrVbjYOGK48itUuQtTNdWpUFh0SpOOrTuq7udXxWCyBAJOtXn?=
- =?us-ascii?Q?EHFNWLvwTgqOv3iKHU9p0wnMez7wdPpTGLR4tDZ56y0+774uSP2UE/tXPds0?=
- =?us-ascii?Q?+hUu+P7aePHMslIb2lRJeW+dw2fC0B0LqxH5AovLKzQ7HmirmoUlYzFu1EoH?=
- =?us-ascii?Q?IvfoRai9JCqZoKLv4utamWCY7M+9CZNDyAYmsWf8VOr4lRoGwMX0jYkpAMJq?=
- =?us-ascii?Q?3A1NKDzn10nBfi0n/co3dDzHgdeNIm0Y3AlDr5jY+KTHhusCF84+b4LQngXM?=
- =?us-ascii?Q?CeG2sgTWoWVpFhFEcunnyOGJ14mGTKqm3wPp29hW0KLopJGduMDkO0FtK7Iw?=
- =?us-ascii?Q?J7ikv0FHWJllNiGcI7djTyJ3fkRZSMT2pzSgsPLjJXH9diKmsvgCwp/2G1XL?=
- =?us-ascii?Q?S7Panqk7XEmEkbmxpSYH2hwPJnpCPvHqce7p5c9n5fUJzFZAa1lrkNCMheDq?=
- =?us-ascii?Q?qBMjhxknCMGkRe1iZuXWVSdAqxv3MvhYYd4Nqe0d1yLdUWrlmn5I+LT0rCU1?=
- =?us-ascii?Q?f8Adsl8XQmmoIrtSr/SrW3h7ts6IF3cuK8kz5ciHg2aSe3uZKWgVFVLSbgiu?=
- =?us-ascii?Q?iFoNVQvpgWzEI9g2ZC/ivv8+xsp3ZHmix/vzdQsniZa3qnMSfUjFKMxWceQW?=
- =?us-ascii?Q?fZRN2iD7yEvaxjdVKhHedEqg7MGmuw4POcZ4Fk21NGTPdT+mvjliyYrA7PZ2?=
- =?us-ascii?Q?mUTDS8kdOCl6f3zMCaKGroHHXaG7Hm8xhKziJk9YLI9XkQBUxYgmx1x8Gwpp?=
- =?us-ascii?Q?ZUvjFsxphRkPmN6vPWvput0MG/JoRGs/KKPDpEkBQFaURRwFJaZ58j+YzLyK?=
- =?us-ascii?Q?+Ewm5ihkakAUYQv+t6T+YeFZsU1MiDfF1VLRvuR6Vu1DK7k7MQ0ugvCmPYEu?=
- =?us-ascii?Q?+23/69i7Um4UsVjM9mO3IcFvip7T7zDkFClZYifVeguLhWo+Goa5YYDCSb8h?=
- =?us-ascii?Q?DH0hczR3EiardGiea0lmtolcMpFwybrzJUCC2KesePgjG28Hlcvgu3csmVJT?=
- =?us-ascii?Q?Cbiw/IT29X935ssU1crZsBVbqUHfM0v4RTln9nCMTDSWJ2TTp6n/lDKQewvb?=
- =?us-ascii?Q?9ZEa+Ore0TCklnCFlMT/YU72ibUFdz5K4sMaX82Kif9lFgsOWqNWGSlNkrxb?=
- =?us-ascii?Q?FO8BGrEVw+1VPFePPmuPivS39B/5JhUgDR762VNticoPoj/k6V+aUt5Dtjuf?=
- =?us-ascii?Q?5B6zPltxEojicXWF/t139cttehZXPa577rUoLIg4Kk3lN+Hq0ic1adJYDCtc?=
- =?us-ascii?Q?AGbiG23zhVEA9vC3yBsSExiUQNFwwDeDIlhoVhFeR5CRg96DjGqvFC9TSolL?=
- =?us-ascii?Q?qhgRE7dLzc8JMIHpK5dth8izadbe9hP9hD5D7IEZat6aHXIvkRrG+eQRmrTQ?=
- =?us-ascii?Q?mY6GzUIVpXek43xXVdO5Cut4vtSHVmGY2AyBc/SkEqmNECoH7BJfnLJJNY27?=
- =?us-ascii?Q?ABFi461ttAsV85D3loIp2fC7ySuHOHFoHHSW138xh6b9gbhIUuunMOe+RYlD?=
- =?us-ascii?Q?8piFd1vd8g=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17ab3112-4042-4921-ee09-08df3989dbeb
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 09:07:17.3841
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DLSJvR76rZwhk7vEazKqyADiWkvWnbUuPDytfuhWMaHjLHRPNLVaoNiRPhs8wzn9ds3B61y0agukt30Tg2s1hw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3235
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Nov 2026 10:22:22 +0100
+Message-Id: <DMLGS7DZ86PF.3RG2UJSCTM4TV@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches from
+ u-boot
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+ <hthakar@cisco.com>, "peter.marko@siemens.com" <peter.marko@siemens.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260923173850.21338-1-peter.marko@siemens.com>
+ <DM5RBD9MJT2O.2M12R8AMW5OLY@smile.fr>
+ <PH7PR11MB8598B39DBADCDF5C628594DDAD672@PH7PR11MB8598.namprd11.prod.outlook.com> <DMGCPPR45G7N.2FMNA6HS4W3G6@smile.fr> <PH7PR11MB85983BF338795A95B47297DEAD6F2@PH7PR11MB8598.namprd11.prod.outlook.com> <DMGF1CY7LWZQ.3N9SFE4FLRK56@smile.fr> <PH7PR11MB859851658A7D586768D2A604AD692@PH7PR11MB8598.namprd11.prod.outlook.com>
+In-Reply-To: <PH7PR11MB859851658A7D586768D2A604AD692@PH7PR11MB8598.namprd11.prod.outlook.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 09:07:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249251
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 09:22:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249252
 
-Build and run the lttng-ust unit test suite under ptest, modelled on the
-liburcu ptest support: the run-ptest script executes each TAP test from
-the tests/unit subdirectories and reports PASS/FAIL. The compile tests,
-benchmarks and the abi0-conflict regression test (unstable under QEMU)
-are excluded.
+On Tue Nov 3, 2026 at 6:33 AM CET, Hetvi Thakar -X (hthakar - E INFOCHIPS P=
+RIVATE LIMITED at Cisco) wrote:
+> Hi Yoann,
+>
+> My reason for adding CVE_STATUS for is that u-boot-tools uses
+> tools-only_defconfig, which disables networking. The affected TCP and
+> NFS code is therefore not compiled into the tools.
+> not-applicable-config accurately describes this configuration.
+>
+> I understand the preference for sharing source patches between u-boot
+> and u-boot-tools. However, the tools remain unaffected by these CVEs
+> regardless of whether the source fixes are applied, so I believe the
+> configuration exclusions are technically valid.
+>
+> The same approach is already used in the wrynose branch [1], which
+> excludes all three CVEs. The fix for CVE-2026-29009 was also applied
+> separately to u-boot on wrynose [2].
+> Additionally, For CVE-2026-29007 and CVE-2026-29008, I have not
+> located a merged upstream fix or a formal patch submission for either
+> CVE in the U-Boot community.
+>
+> For these reasons, I believe retaining the CVE_STATUS entries is
+> appropriate for u-boot-tools on Scarthgap. They accurately reflect the
+> configuration being built and keep the CVE assessment consistent with
+> the approach already accepted for Wrynose.
 
-The ust-elf test ships prebuilt, intentionally foreign-architecture ELF
-fixtures, so they are kept from being stripped and the related QA checks
-are relaxed for the ptest package.
+The new proposed approach would have to be deployed on wrynose as well
+(if applicable, I have not checked).
 
-Tested on qemuriscv64 with ptest-runner.
+I think that having the precise reason for a non-applicable CVE is not
+worth doing the CVE work twice (once with a patch, once with the
+CVE_STATUS). If we can fix both u-boot/u-boot-tools with a single patch
+it's more efficient.
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
+I still think we should merge the sources (upstream+patches) between
+u-boot/u-boot-tools and fix the CVEs only once if possible.
 
-Notes:
-    v2: Skip unit/ust-error on musl. It segfaults because lttng_ust_strerro=
-r()
-        negates its argument (undefined for the INT_MIN the test passes) an=
-d then
-        reads its lookup table out of bounds; this only shows up on musl.
+>
+> [1] https://github.com/openembedded/openembedded-core/blob/wrynose/meta/r=
+ecipes-bsp/u-boot/u-boot-tools_2026.01.bb
+> [2] https://git.openembedded.org/openembedded-core/commit/?h=3Dwrynose&id=
+=3Ddff41dcd5e54cad46ba91ecc45faefb0c8db9089
+>
+> Regards,
+> Hetvi
+> ________________________________
+> From: Yoann Congal <yoann.congal@smile.fr>
+> Sent: 28 October 2026 16:26
+> To: Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) <hth=
+akar@cisco.com>; peter.marko@siemens.com <peter.marko@siemens.com>; openemb=
+edded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org=
+>
+> Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches f=
+rom u-boot
+>
+> On Wed Oct 28, 2026 at 11:04 AM CET, Hetvi Thakar -X (hthakar - E INFOCHI=
+PS PRIVATE LIMITED at Cisco) wrote:
+>> Hi Yoann,
+>>
+>> Thanks for clarifying. For patches 9=E2=80=9311, I understand that sourc=
+e
+>> fixes are preferred. However, networking is disabled in u-boot-tools,
+>> so building it would not compile or exercise the affected code. How
+>> should these fixes be verified?
+>
+> By sharing the sources with u-boot which will compile those parts.
+>
+>>
+>> Regards,
+>> Hetvi
+>>
+>> ________________________________
+>> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.=
+openembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoa=
+nn.congal=3Dsmile.fr@lists.openembedded.org>
+>> Sent: 28 October 2026 14:37
+>> To: Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) <ht=
+hakar@cisco.com>; peter.marko@siemens.com <peter.marko@siemens.com>; openem=
+bedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.or=
+g>
+>> Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches =
+from u-boot
+>>
+>> On Tue Oct 20, 2026 at 7:16 AM CEST, Hetvi Thakar -X (hthakar - E INFOCH=
+IPS PRIVATE LIMITED at Cisco) wrote:
+>>> Hi Yoann, Peter,
+>>>
+>>> Thanks, Yoann. Continuing the discussion here as suggested.
+>>>
+>>> As i explained in the other thread [1], the existing u-boot fixes are
+>>> not currently applied to u-boot-tools. My CVE_STATUS changes address
+>>> cases where the affected code is not compiled into the tools build.
+>>>
+>>> I understand that the proposed separate include would allow both
+>>> recipes to share the CVE patches without adding them to
+>>> u-boot-common.inc and affecting downstream users.
+>>>
+>>> My concern is whether we need this additional include and shared patch
+>>> list for cases that can be handled through recipe-specific CVE_STATUS
+>>> entries. Could we consider the held exclusions on that basis?
+>>>
+>>> If maintaining one shared source patch set is the preferred approach,
+>>> could you clarify how we should handle patches 2=E2=80=9311 of my serie=
+s?
+>>> Should we revisit them after the shared include is settled and retain
+>>> only the exclusions still needed?
+>>
+>> The general idea is that by sharing CVE patches with the main u-boot
+>> recipe, CVE would be also "fixed" in u-boot-tools (even if said patch is
+>> not compiled).
+>>
+>> For 2-8, patches are in u-boot so no need to ignore them:
+>> * [Patch 02/11] u-boot-tools: Ignore CVE-2024-42040
+>> * [Patch 03/11] u-boot-tools: Ignore CVE-2024-57254
+>> * [Patch 04/11] u-boot-tools: Ignore CVE-2024-57255
+>> * [Patch 05/11] u-boot-tools: Ignore CVE-2024-57256
+>> * [Patch 06/11] u-boot-tools: Ignore CVE-2024-57257
+>> * [Patch 07/11] u-boot-tools: Ignore CVE-2024-57258
+>> * [Patch 08/11] u-boot-tools: Ignore CVE-2024-57259
+>>
+>> For 9-11, there are no u-boot patches so ignoring them in the
+>> u-boot-tools recipe, would be fair (but patching them would be
+>> preferable):
+>> * [Patch 09/11] u-boot-tools: Ignore CVE-2026-29007
+>> * [Patch 10/11] u-boot-tools: Ignore CVE-2026-29008
+>> * [Patch 11/11] u-boot-tools: Ignore CVE-2026-29009
+>>
+>> Regards,
+>>
+>>>
+>>> [1] https://lists.openembedded.org/g/openembedded-core/message/247868
+>>>
+>>> Regards,
+>>> Hetvi
+>>> ________________________________
+>>> From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
+.openembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yo=
+ann.congal=3Dsmile.fr@lists.openembedded.org>
+>>> Sent: 16 October 2026 03:44
+>>> To: peter.marko@siemens.com <peter.marko@siemens.com>; openembedded-cor=
+e@lists.openembedded.org <openembedded-core@lists.openembedded.org>
+>>> Cc: Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) <h=
+thakar@cisco.com>
+>>> Subject: Re: [OE-core] [scarthgap][PATCH] u-boot-tools: use all patches=
+ from u-boot
+>>>
+>>> On Wed Sep 23, 2026 at 7:38 PM CEST, Peter Marko via lists.openembedded=
+.org wrote:
+>>>> From: Peter Marko <peter.marko@siemens.com>
+>>>>
+>>>> After sharing CVE_PRODUCT between u-boot and u-boot-tools CVEs
+>>>> patched in u-boot showed-up in CVE reports for u-boot-tools.
+>>>>
+>>>> It does not make much sense to share git repository but not share all
+>>>> patches on top of it, so move adding all patches from u-boot recipe to=
+ a
+>>>> common include file where also the git repository is defined.
+>>>>
+>>>> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+>>>> ---
+>>>>  meta/recipes-bsp/u-boot/u-boot-common.inc       | 10 ++++++++++
+>>>>  meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb |  2 --
+>>>>  meta/recipes-bsp/u-boot/u-boot_2024.01.bb       | 12 ------------
+>>>>  3 files changed, 10 insertions(+), 14 deletions(-)
+>>>
+>>> Hello Peter, Hetvi,
+>>>
+>>> There is a bit of back-and-forth around u-boot-common.inc. So I thought=
+ I
+>>> would give my vision and get your thoughts.
+>>>
+>>> Fundamentally, there is confusion about the usage of this .inc file:
+>>> * This is the common part of u-boot and u-boot-tools recipes (what the
+>>>   above patch uses)
+>>> * But, also, this may be used by downstream layers to reuse u-boot
+>>>   recipe parts. We basically did the revert of Peter's patch a few mont=
+h
+>>>   ago for this reason[0].
+>>>
+>>> With Paul, we would like to have a single set of patches common for bot=
+h
+>>> u-boot and u-boot-tools, but that can't be in u-boot-common.inc as ther=
+e
+>>> is a risk of breaking downstream layers.
+>>>
+>>> Our idea is to create a new inc file "u-boot-common-patches.inc" (I'm
+>>> not attached to the name) that contains only SRC_URI +=3D "CVE_*.patch"
+>>> and a big warning explaining that is file is only supposed to be
+>>> included from layer-local recipes (namely u-boot and u-boot-tools).
+>>>
+>>> This whole situation is not ideal but think the above would solve our
+>>> issues and still be acceptable under stable policy.
+>>>
+>>> What do you think?
+>>>
+>>> Regards,
+>>>
+>>> [0]: u-boot: move CVE patches out of the common .inc file - openembedde=
+d-core - OpenEmbedded Core layer
+>>>      https://git.openembedded.org/openembedded-core/commit/?id=3Df4ced8=
+ff03147dd532a88cf3ce08d61fab057522
+>>> --
+>>> Yoann Congal
+>>> Smile ECS
+>>
+>>
+>> --
+>> Yoann Congal
+>> Smile ECS
+>
+>
+> --
+> Yoann Congal
+> Smile ECS
 
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-kernel/lttng/lttng-ust/run-ptest | 31 ++++++++++
- meta/recipes-kernel/lttng/lttng-ust_2.16.0.bb | 60 ++++++++++++++++++-
- 3 files changed, 91 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-ust/run-ptest
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 74591a34f2..d5357d8732 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -64,6 +64,7 @@ PTESTS_FAST =3D "\
-     libxslt \
-     libyaml \
-     logrotate \
-+    lttng-ust \
-     lua \
-     lzo \
-     m4 \
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/run-ptest b/meta/recipes-k=
-ernel/lttng/lttng-ust/run-ptest
-new file mode 100644
-index 0000000000..468562eb70
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-ust/run-ptest
-@@ -0,0 +1,31 @@
-+#!/bin/sh
-+
-+PTEST_PATH=3D$(dirname "$0")
-+cd "$PTEST_PATH/tests" || exit 1
-+
-+export UST_TESTS_SRCDIR=3D"$PTEST_PATH/tests"
-+export UST_TESTS_BUILDDIR=3D"$PTEST_PATH/tests"
-+
-+TESTS=3D"
-+unit/libringbuffer/test_shm
-+unit/gcc-weak-hidden/test_gcc_weak_hidden
-+unit/libcommon/test_get_cpu_mask_from_sysfs
-+unit/libcommon/test_get_max_cpuid_from_mask
-+unit/libcommon/test_get_max_cpuid_from_sysfs
-+unit/libcommon/test_get_possible_cpus_array_len
-+unit/libmsgpack/test_msgpack
-+unit/pthread_name/test_pthread_name
-+unit/snprintf/test_snprintf
-+unit/ust-elf/test_ust_elf
-+unit/ust-error/test_ust_error
-+unit/ust-utils/test_ust_utils
-+"
-+
-+for test in $TESTS; do
-+    [ -x "$test" ] || continue
-+    if ( cd "$(dirname "$test")" && ./"$(basename "$test")" ); then
-+        echo "PASS: $test"
-+    else
-+        echo "FAIL: $test"
-+    fi
-+done
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.16.0.bb b/meta/recipes-k=
-ernel/lttng/lttng-ust_2.16.0.bb
-index abc701cb79..49084df2aa 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.16.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.16.0.bb
-@@ -13,7 +13,7 @@ PYTHON_OPTION =3D "am_cv_python_pyexecdir=3D'${PYTHON_SIT=
-EPACKAGES_DIR}' \
-=20
- # lttng-ust publishes bugfix/security-only releases on its per-minor
- # stable-X.Y branches, the same upstream and release model as lttng-tools.
--inherit autotools lib_package manpages python3native pkgconfig upstream-st=
-able-release-point
-+inherit autotools lib_package manpages python3native pkgconfig upstream-st=
-able-release-point ptest
-=20
- include lttng-platforms.inc
-=20
-@@ -33,6 +33,7 @@ PE =3D "2"
- SRC_URI =3D "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
-            file://0001-python-lttngust-Makefile.am-Add-install-lib-to-setu=
-p.patch \
-            file://0001-lttng-ust-common-link-with-liburcu-explicitly.patch=
- \
-+           file://run-ptest \
-            "
-=20
- SRC_URI[sha256sum] =3D "1e84e02fa1fc1261eb6cf3d14d64006506a29f7c605ac85de0=
-2180318c6aa38a"
-@@ -52,3 +53,60 @@ do_install:append() {
-         # still refer to Python 2 in the shebang
-         sed -i -e '1s,#!.*python.*,#!${bindir}/python3,' ${D}${bindir}/ltt=
-ng-gen-tp
- }
-+
-+RDEPENDS:${PN}-ptest +=3D "bash liburcu"
-+
-+INHIBIT_PACKAGE_STRIP_FILES =3D "\
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/x86_64/main.elf \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/x86_64/main.elf.debug \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/x86/main.elf \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/x86/main.elf.debug \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/armeb/main.elf \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/armeb/main.elf.debug \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/aarch64_be/main.elf \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/aarch64_be/main.elf.debug=
- \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/pic/hello.exec \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/pic/hello.pic \
-+    ${PKGD}${PTEST_PATH}/tests/unit/ust-elf/data/pic/hello.pie \
-+"
-+
-+INSANE_SKIP:${PN}-ptest +=3D "arch ldflags buildpaths"
-+SKIP_FILEDEPS:${PN}-ptest =3D "1"
-+
-+LTTNG_UST_PTEST_DIRS =3D " \
-+    unit/libringbuffer \
-+    unit/gcc-weak-hidden \
-+    unit/libcommon \
-+    unit/libmsgpack \
-+    unit/pthread_name \
-+    unit/snprintf \
-+    unit/ust-elf \
-+    unit/ust-error \
-+    unit/ust-utils \
-+"
-+
-+LTTNG_UST_PTEST_DIRS:remove:libc-musl =3D "unit/ust-error"
-+
-+do_compile_ptest() {
-+    for d in ${LTTNG_UST_PTEST_DIRS}; do
-+        oe_runmake -C ${B}/tests/$d check TESTS=3D
-+    done
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests/utils
-+    install -m 0644 ${S}/tests/utils/tap.sh ${S}/tests/utils/utils.sh ${D}=
-${PTEST_PATH}/tests/utils/
-+
-+    for d in ${LTTNG_UST_PTEST_DIRS}; do
-+        mf=3D${B}/tests/$d/Makefile
-+        install -d ${D}${PTEST_PATH}/tests/$d
-+        for p in $(makefile-getvar $mf noinst_PROGRAMS); do
-+            ${B}/libtool --mode=3Dinstall install -m 0755 ${B}/tests/$d/$p=
- ${D}${PTEST_PATH}/tests/$d/
-+        done
-+        for s in $(makefile-getvar $mf dist_noinst_SCRIPTS dist_check_SCRI=
-PTS); do
-+            install -m 0755 ${S}/tests/$d/$s ${D}${PTEST_PATH}/tests/$d/
-+        done
-+    done
-+
-+    cp -R --preserve=3Dmode ${S}/tests/unit/ust-elf/data ${D}${PTEST_PATH}=
-/tests/unit/ust-elf/
-+}
 --=20
-2.43.0
+Yoann Congal
+Smile ECS
 
