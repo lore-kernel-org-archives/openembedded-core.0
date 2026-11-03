@@ -1,115 +1,262 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.61])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3135.1793735324283343744
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4404.1793739023097503161
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 11:48:44 -0800
+ Tue, 03 Nov 2026 12:50:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=bbDhEIJM;
- spf=pass (domain: axis.com, ip: 52.101.72.61, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fqcNnVufkMo3teLv2bkouUmvyfM0RDk1wuqFqDRJ1SkDKXDZwLSPlmoK+0kiln9FudUhd39ahzbIYnqdmZRjPIO8/ZMU3iVGeljXVu7vhJXCgZCkHAdGyWKkCGTvFzg9g8OjlibsqNoh+tHbKWM/6+r2rF80gCDsVF8x9Gz/BijxR3ReVdHFBKqgPmlNPVh+0qtgLoi19yCc+SIQlFZwdZnZTsk2elK9P9YBJo6bxXkrbqkHnW+nPAAIHovCeXftPVCeuGA+wEF0XhgDY7sAi7Rq/eOhD0Ke8jwIZDQ9iqgkFEBJqo2/u+EhPFUgyrUGLjloBD2MBh/4PlloxiDJPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oAVGg1xvAz1qKyMFw79S2unjR1pjdV7NTm8oCCwVPqE=;
- b=dLDxNkybTQvXiK5gPRI/DO0INzNIzyuyJG6TpjeOnuOcxOu0moX0mMasUtAFzkfAShSSp1+H6ig1+4lvLZNH2z62p0l0b03BKrF2lUOThKwY+YE7xdg/t/xTdbkBHgabnEtZoUnBW5Z9I5im8z0z27LFIQvNtBhlwack9gBRZm6i6mMFWAYNgJEDYS2b9GSEigX+GBZ9oD5fb+aDofIsrftvyeqpEEtpW7tET7IZDHIMD7aX0ObT2FbMAO9S10ILOKCuqsBeAA/t6ixNmzrh8Sw6VYqr3i5HGF3vQJ6NekNYWrQMI6vGFSNooW9YJJFrrC3dbIJOjrKTU8gdv5wXIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oAVGg1xvAz1qKyMFw79S2unjR1pjdV7NTm8oCCwVPqE=;
- b=bbDhEIJMirNq3Xws7X+WaAMbaVDLGfy3VSymA5ZJ0qf8493ON+h8rsekno0RtyTYT1Gn3QzwaJFGprOL/m8v9uHNJEKC5094TCYCjAPm8T9R7EydhnpSLXgm4cmmHxg3YRlkb51BHctwhFquh6qNE8r5evmy4itvJWj2h12Qr4k=
-Received: from WA2P291CA0024.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:1e::15)
- by GV2PR02MB12435.eurprd02.prod.outlook.com (2603:10a6:150:36b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Tue, 3 Nov
- 2026 19:48:39 +0000
-Received: from WA1PEPF000099D3.eurprd04.prod.outlook.com
- (2603:10a6:1d0:1e:cafe::b) by WA2P291CA0024.outlook.office365.com
- (2603:10a6:1d0:1e::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.9 via Frontend Transport; Tue, 3
- Nov 2026 19:48:39 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 195.60.68.100) smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- WA1PEPF000099D3.mail.protection.outlook.com (10.167.242.27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.592.5 via Frontend Transport; Tue, 3 Nov 2026 19:48:39 +0000
-Received: from se-mail10w.axis.com (10.20.40.10) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Tue, 3 Nov
- 2026 20:48:38 +0100
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Tue, 3 Nov 2026 20:48:38 +0100
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id B8B3016FD
-	for <openembedded-core@lists.openembedded.org>; Tue,  3 Nov 2026 20:48:38 +0100 (CET)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id AC5B2129D3B; Tue,  3 Nov 2026 20:48:38 +0100 (CET)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] insane.bbclass: Avoid buildpaths QA reporting on HOME if its in TMPDIR
-Date: Tue, 3 Nov 2026 20:48:33 +0100
-Message-ID: <20261103194836.3765498-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@baylibre.com header.s=google header.b=LXCncJRm;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.51, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-917aca1aee5so928166d6.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 12:50:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1793739022; x=1794343822; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:subject:from:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ei04PK5T3TEUjKuAdyCYpszEdirGTAy8DtnN2/QNO+w=;
+        b=LXCncJRmbEFAc5AJLyg23xroa3/WySVIkQPrRfs2LnkRTysjx3/+JXbAHZZPn14jMe
+         aoLtfnX8e3reFzxrvVyv7Lz4ZVIIFnh41qw4/VQonyls8P9aRuGs7CCv2ategdt5ow36
+         RAWGae6ZDdr0kEftt6cECnZsA8qrcs6pCqP5sEMd0CPA57XEEYxUMlk3poqk5XUFdi2e
+         RQSWTBFElvsID8jtfjLlIS6hauu+fKeOjUUnJc1w/61CTb3+4Gc7zqaHSt3Gm0iG8Q7q
+         dsKmCXNffazsg8iV0iEtEEtaTuaUa0mVzVgtyCj+VxfsukXrY5/1jGUtasGMiFJjke35
+         Pzag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793739022; x=1794343822;
+        h=in-reply-to:references:to:subject:from:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ei04PK5T3TEUjKuAdyCYpszEdirGTAy8DtnN2/QNO+w=;
+        b=NF5N31m8KqhbPYVLZeBzmXBIFK2/Dx3jqdOyhvfau0jFf70VTWAVMRmVt1NPsG46QY
+         VXQuCn1AnjEAD+8qaTx9bmdt17+O3FXcs4THOms7wjuVhJKV31hNCQ9wyvm6O6VA52fY
+         8EYooeJzdEIk/BuZ+F6VWHCsyMqtnu2ZBmEpYvKQWjSixxWHVsVck7SB6ekkNVoYQbAB
+         I5CEsL5wyGwoQwISMiatqw2lvTBsN5+gqvq+NSVPAH+EhcZPT1MJt+IHVXHAGthnybMQ
+         2FZDHag/8OoTU9hoO7C1BRBl23Dlc9QMN26byu2wBlkHZuufIIijqUN59bOiOdQuv9SP
+         yLlA==
+X-Forwarded-Encrypted: i=1; AKwUvBz37EFRHKtTehI5h2e9CNXAcBYSnGZxpaxHgxT6LPOtpmfEPQ64o1Z2cIfDaIZdl+eSIeEXt2AmH2/X/ZAJyDgUGQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z8vzQLf8GTX1sFF93pay9nrJ0Vymyv7CNhO4peeG0fHDpRLixIC
+	+cD+5++7nm7pX/1PDDt6vhs+hStToqMZYIX9vmL1IA/fyoHn4hy5x82irYBHcQhPArT1MwAzuh1
+	2kr7N
+X-Gm-Gg: AYBFou0jtuIUvx4QxsIyT2tawcq7HX5JYylszNuATVIYcniYmEHwnNF4zd7MZgUogHV
+	6vAM7/zsaOlJikwKjkjaDdWHn64KPBfHF/cGF7xLdRs1tUHk1dCGQA/H0bnAc+gdmK3FOUFc2VY
+	osXX/xN3yRnFlGHfHUNzO+5NntXN472TL/ntBwAMkdFfXpacOsvMDwWpq//cXcukGvRn1Zrui47
+	X1zIaaxCZ95mBzm2txhUWb5NmIb6D8V3IPj2oZClPKI4buRcCGhhWWYazLOCI6l6vtpXsIwzJQN
+	64dwq0Ot+sECZ3+jDETeidVEvaxv8cNZGTdq7kejRnlw75mxgKSKNs/Hltw3V4WuMMToBgv+DVz
+	WS8aUAJPmL7V1EKBHu658Wu4kLntLGc4xKd0eCOe1VNkpu0wgNfM1emPiTiie1ljjkxWWwLLPBK
+	3Aqr6N9MvHxosCaYOGJef6s99jiz58/XpPdrsk1fC7U0zZ1Zo1oyMFf4T4EV8H57+BSxBEVur24
+	i1NmSlnJMhO5zkqjmQzZjrqEsKUTP3gVFl0omIE4257kA61tAbF9iqNxDWG7zTccf2mdasdXmum
+	1CGxbtBHjphTTYrPK0amFpzO14ksbWWutCjtlFTMnySNto7do6rbsw9a5DrTwVA2
+X-Received: by 2002:a05:6214:1c0a:b0:91c:9259:bc27 with SMTP id 6a1803df08f44-91ca4b84b3cmr234314236d6.47.1793739021399;
+        Tue, 03 Nov 2026 12:50:21 -0800 (PST)
+Return-Path: <tgamblin@baylibre.com>
+Received: from localhost ([2001:1970:3847:e000:1977:be2f:4a71:2892])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e7dfdfb5fsm510216d6.16.2026.11.03.12.50.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2026 12:50:20 -0800 (PST)
+Mime-Version: 1.0
+Date: Tue, 03 Nov 2026 15:50:18 -0500
+Message-Id: <DMLVEXD46FYX.3D2U16C6F63AY@baylibre.com>
+From: "Trevor Gamblin" <tgamblin@baylibre.com>
+Subject: Re: [PATCH v2 2/5] python3-uvloop: enable ptest
+To: <tim.orling@konsulko.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.22.0
+References: <20261102011816.3710992-1-tim.orling@konsulko.com>
+ <20261103193829.1806542-4-tim.orling@konsulko.com>
+In-Reply-To: <20261103193829.1806542-4-tim.orling@konsulko.com>
 Content-Transfer-Encoding: quoted-printable
-Return-Path: peter.kjellerstedt@axis.com
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: WA1PEPF000099D3:EE_|GV2PR02MB12435:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64cfa20e-bf54-48a0-32b3-08df39e374ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|82310400026|376014|1800799024|36860700016|23010399003|18002099003|261102123227099003|56012099006|10067099003|261009223027099003|261022105027099003|261021121427099003|11063799006|261028144727099003|261026140227099003;
-X-Microsoft-Antispam-Message-Info: 1oT3XVBNizO5Edq6kVeZ3GfAEG6n7mf75q26wvERv5GLlBo5jda/eafBwvbWYX+MWz5nwMsZDt1/FaqgHSKtVGXE5IZVoNqVQEBPqZf6HXB+hbvPVdkFD6M3vrkcni87ZKCJzC1Zlj20KyDZHmMDhFeIfItOonH78+WulGO7vLYmEr6CUioAICGSpYM6fGx8hGhgABAtB7MEjviRg0aP+6TMmF3qOKJZuhNbbpzFwjZcifARqDmq6kLTqwkAG6N/pjo5dLEpRa284vXoRRq/7hN2L7U6nH8qHCmjqwG6LocG/f4qk+4ylQWocroC26pT57olGCmNkATJV3f1OUdMVSHgPtQnw9NUFE1HwXrAu3BOMY5Vxx09TKFcQ+HQ9c5bYbEQJupXlNEvvAPBDhJ80zBAGTl9zj2UTbMHq3wg5Y9rkw+HbqsDHkqvOq7jsh2szN7+hzCKHkg4qe81qF/0lTWMkHC3D8RVaqPOG4YDwcHGT/PjYnmpqmgAfqo7uWJ9rY44CIVQm9ASTO7pEChXWCXa0ZWJEy3GThlFshDlduB4sAjraWRjyE3gX3ckURb7Fon5H2FNm3CVRHENo9r8+6BHzdm6zsKoJH2V2XNgZK8vXPTolS/uVG/y5ucz2EUZrMaE7C3QNWJRSoNOxWsE0Gb5Rc0pL+o9oORH6jRDDCaVyQgDcRIKS+F61mcLEJJ6QypRy43+oJKZD9bT598G8A==
-X-Forefront-Antispam-Report: CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(1800799024)(36860700016)(23010399003)(18002099003)(261102123227099003)(56012099006)(10067099003)(261009223027099003)(261022105027099003)(261021121427099003)(11063799006)(261028144727099003)(261026140227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: txYKjJlJVgN0A7wzwgIcmYS70dd6/Ocvhoc13jN9pA0cHuJNb5ki2225QVwebV0sG27mU1l4Y2hsaRYTRN9wOWx58sNZ3lqqsoXCkZx54MM+Ore0jn55AvYva/WPOirXoICFQjPQ9xyBpwDQ1JTv2fdwuUaWDz9anugzVmkzX0mlDNkalZ58xkQroEOwqUYfh0OXdRJeEmxnlZ/wz3XfKlyqIhklwL5K2UOJroYzdqnSMK9N5NlJDfi5S1AzTBWMxpP4fRv4lsK/R693LYc5+5SPpzFMVVksOjmn2l0rTovrP+gSc6EltMjcvjzFLUE1oYM++fADnjGfcvTQl8jMg2dywtQjE4+AXMDvEFX44kcoXp2iStDk2vgzSDkkQz0nD1eDzkEoFdFUmWWFM/hJQd7fCqAq7rjbSP0wTtRxmqzKALlGmgO9NnyKHcLz32hz
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 19:48:39.1386
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64cfa20e-bf54-48a0-32b3-08df39e374ec
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: WA1PEPF000099D3.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR02MB12435
+Content-Type: text/plain; charset=UTF-8
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 19:48:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249297
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 21:07:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249298
 
-Since TMPDIR is typically under HOME, there is no reason to report on
-HOME if that is the case, and TMPDIR has already been reported.
+On Tue Nov 3, 2026 at 2:38 PM EST, tim.orling wrote:
+> From: Tim Orling <tim.orling@konsulko.com>
+>
+> The sdist ships the test suite. run-ptest deselects:
+> * tests that conflict with pytest's output capture;
+> * tests broken by libuv 1.53.0 spawning with posix_spawn() on Linux,
+>   which bypasses uvloop's preexec_fn fork hook;
+> * DNS tests that wait for resolver timeouts without network access,
+>   which took the suite from 1 to 10 minutes over tap without NAT;
+> * on riscv64 only, TLS stress tests, the issue39 deadlock check and a
+>   socket cancellation test, whose fixed timeouts are too short for qemu
+>   without KVM.
+>
+> .flake8 and mypy.ini let test_sourcecode skip cleanly when flake8 and
+> mypy are missing.
+>
+> Tested with core-image-ptest-python3-uvloop on qemux86-64. It takes
+> over 30 seconds, so add it to PTESTS_SLOW.
+>
+> AI-Generated: Uses Claude Code (Claude Opus 5.5)
+> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> ---
+> Changes in v2:
+> - Skip 13 timing sensitive tests on riscv64 only, covering the
+>   qemuriscv64 AutoBuilder failures plus their counterparts in the other
+>   event loop class and test_socket_cancel_sock_sendall, found in 10 runs
+>   under load (stress-ng)
+> - Build the -k expression in a loop to fix patchtest's line length check
+> - Drop the test counts from the commit message
+>
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  .../python/python3-uvloop/run-ptest           | 50 +++++++++++++++++++
+>  .../python/python3-uvloop_0.22.1.bb           | 27 +++++++++-
+>  3 files changed, 76 insertions(+), 2 deletions(-)
+>  create mode 100755 meta/recipes-devtools/python/python3-uvloop/run-ptest
+>
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+> index bef45bb4d5..50b971bace 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -154,6 +154,7 @@ PTESTS_SLOW =3D "\
+>      python3-click \
+>      python3-cryptography \
+>      python3-numpy \
+> +    python3-uvloop \
+>      python3-xmltodict \
+>      strace \
+>      tar \
+> diff --git a/meta/recipes-devtools/python/python3-uvloop/run-ptest b/meta=
+/recipes-devtools/python/python3-uvloop/run-ptest
+> new file mode 100755
+> index 0000000000..0cb9a26b88
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-uvloop/run-ptest
+> @@ -0,0 +1,50 @@
+> +#!/bin/sh
+> +# test_process_streams_redirect: replaces the stdout/stderr fds, which
+> +# conflicts with pytest's output capture.
+> +# test_process_preexec_fn_{1,2}, Test_UV_DNS test_getaddrinfo_{8,9}: lib=
+uv
+> +# 1.53.0 spawns with posix_spawn(), so preexec_fn never runs, and an emp=
+ty
+> +# host gives EAI_NODATA.
+> +# test_getaddrinfo_{1,2,3,5,6,11}, Test_AIO_DNS test_getaddrinfo_{8,9}: =
+each
+> +# DNS lookup waits for the resolver timeout without network access.
+> +# --deselect matches a node id prefix, so -k handles 1, 2 and 11.
+> +# riscv64: qemu runs without KVM there, too slow for the fixed timeouts =
+in
+> +# the TLS stress tests, the issue39 deadlock check (signal.alarm(5)) and
+> +# test_socket_cancel_sock_sendall, which must cancel within 0.2s.
+> +SLOW=3D""
+> +if [ "$(uname -m)" =3D "riscv64" ]; then
+> +    SLOW=3D"
+> +        --deselect=3Dtests/test_tcp.py::Test_UV_TCPSSL::test_create_conn=
+ection_ssl_1
+> +        --deselect=3Dtests/test_tcp.py::Test_UV_TCPSSL::test_create_serv=
+er_ssl_over_ssl
+> +        --deselect=3Dtests/test_tcp.py::Test_UV_TCPSSL::test_renegotiati=
+on
+> +        --deselect=3Dtests/test_tcp.py::Test_AIO_TCPSSL::test_create_con=
+nection_ssl_1
+> +        --deselect=3Dtests/test_tcp.py::Test_AIO_TCPSSL::test_create_ser=
+ver_ssl_over_ssl
+> +        --deselect=3Dtests/test_tcp.py::Test_AIO_TCPSSL::test_renegotiat=
+ion
+> +        --deselect=3Dtests/test_unix.py::Test_UV_UnixSSL::test_create_un=
+ix_connection_ssl_1
+> +        --deselect=3Dtests/test_unix.py::Test_UV_UnixSSL::test_create_un=
+ix_server_ssl_1
+> +        --deselect=3Dtests/test_unix.py::Test_AIO_UnixSSL::test_create_u=
+nix_connection_ssl_1
+> +        --deselect=3Dtests/test_unix.py::Test_AIO_UnixSSL::test_create_u=
+nix_server_ssl_1
+> +        --deselect=3Dtests/test_regr1.py::TestIssue39Regr::test_issue39_=
+regression
+> +        --deselect=3Dtests/test_sockets.py::TestUVSockets::test_socket_c=
+ancel_sock_sendall
+> +        --deselect=3Dtests/test_sockets.py::TestAIOSockets::test_socket_=
+cancel_sock_sendall
+> +    "
+> +fi
+> +KEEP=3D"not (test_getaddrinfo_1 or test_getaddrinfo_2)"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes-global/insane.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+This 'KEEP' variable name seems misleading given that it's using 'not' to a=
+void
+running those two test cases, but then gets built up in a loop. I think it'=
+d be
+better to just add them with --deselect like the others, even if it ends up
+being more verbose.
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insan=
-e.bbclass
-index 721088a8f5..350e1f83c2 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -443,6 +443,7 @@ def package_qa_check_buildpaths(path, name, d, elf):
-         if tmpdir in file_content:
-             path =3D package_qa_clean_path(path, d, name)
-             oe.qa.handle_error("buildpaths", "File %s in package %s contai=
-ns reference to TMPDIR" % (path, name), d)
-+            buildpaths_skip.append(tmpdir.decode())
-         if homedir and homedir in file_content and not any(path.startswith=
-(homedir.decode()) for path in buildpaths_skip):
-             path =3D package_qa_clean_path(path, d, name)
-             oe.qa.handle_error("buildpaths", "File %s in package %s contai=
-ns a reference to the build host HOME directory. If upstream hardcodes a di=
-rectory path that matches your home, you can set OEQA_BUILDPATHS_SKIP =3D \=
-"%s\" in the recipe." % (path, name, homedir.decode()), d)
+> +for n in 10 12 13 14 15 16 17 18 19 20 21 22; do
+> +    KEEP=3D"$KEEP or test_getaddrinfo_$n"
+> +done
+> +pytest --automake $SLOW \
+> +    -k "$KEEP" \
+> +    --deselect=3Dtests/test_process.py::Test_UV_Process::test_process_st=
+reams_redirect \
+> +    --deselect=3Dtests/test_process.py::Test_AIO_Process::test_process_s=
+treams_redirect \
+> +    --deselect=3Dtests/test_process.py::Test_UV_Process::test_process_pr=
+eexec_fn_1 \
+> +    --deselect=3Dtests/test_process.py::Test_UV_Process::test_process_pr=
+eexec_fn_2 \
+> +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_3 \
+> +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_5 \
+> +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_6 \
+> +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_8 \
+> +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_9 \
+> +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_3 \
+> +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_5 \
+> +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_6 \
+> +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_8 \
+> +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_9
+
+I wonder if we could keep this list inside the recipe file itself, similar =
+to
+how python3's recipe uses SKIPPED_TESTS with various appends? That example =
+uses
+unittest instead of pytest, but it should be possible to pass the list. May=
+be
+I'm wrong.
+
+Trevor
+
+> diff --git a/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb b/meta=
+/recipes-devtools/python/python3-uvloop_0.22.1.bb
+> index 887c262ae7..39b6a2602a 100644
+> --- a/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
+> +++ b/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
+> @@ -7,11 +7,34 @@ LIC_FILES_CHKSUM =3D "file://LICENSE-APACHE;md5=3Dbb927=
+39ddad0a2811957bd98bdb90474 \
+> =20
+>  DEPENDS +=3D "libuv python3-wheel-native"
+> =20
+> -SRC_URI +=3D "file://0001-setup.cfg-use-system-libuv.patch"
+> +SRC_URI +=3D "\
+> +    file://0001-setup.cfg-use-system-libuv.patch \
+> +    file://run-ptest \
+> +"
+>  SRC_URI[sha256sum] =3D "6c84bae345b9147082b17371e3dd5d42775bddce91f88549=
+9017f4607fdaf39f"
+> =20
+> -inherit pypi python_setuptools_build_meta cython
+> +inherit pypi python_setuptools_build_meta cython ptest-python-pytest
+> =20
+>  RDEPENDS:${PN} =3D "python3-asyncio"
+> =20
+> +RDEPENDS:${PN}-ptest +=3D "\
+> +    python3-ctypes \
+> +    python3-io \
+> +    python3-logging \
+> +    python3-math \
+> +    python3-multiprocessing \
+> +    python3-netclient \
+> +    python3-numbers \
+> +    python3-pickle \
+> +    python3-pprint \
+> +    python3-psutil \
+> +    python3-pyopenssl \
+> +    python3-threading \
+> +"
+> +
+> +do_install_ptest:append() {
+> +    # test_sourcecode needs these to skip cleanly when flake8 and mypy a=
+re missing
+> +    install -m 0644 ${S}/.flake8 ${S}/mypy.ini ${D}${PTEST_PATH}/
+> +}
+> +
+>  BBCLASSEXTEND =3D "native nativesdk"
+
+
