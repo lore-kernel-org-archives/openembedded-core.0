@@ -1,603 +1,401 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.348.1793740733663380697
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1349.1793743456502925818
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 13:18:54 -0800
+ Tue, 03 Nov 2026 14:04:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=z5ESxbP5;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: ticotimo@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5bfa686881fso3586519e87.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 13:18:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793740731; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iK3w7bSZenAZLwUzr7S+fWgLe1esNRVKP08myhZj/tZyYSQ0MHun6efikzdjtHln3P
-         9R2tX89JazdN5Apn7aCuy++rvCm1l6ZZ7Pp4ruYmVKnnGRudjBP/2ngklyNU4zgE6H62
-         eW7oAUC7LZu0vEa0VqHsJPVUJu5fcI+XZXe6jgsJa9vUp+cgCQ8ZCnWg18GCxTg9ZrGZ
-         iisgftsW7Utq6MxIuyOJSaR/Oe2AbVd5yNK9iWJNP3jYgWQ5iEQA/WvQdR8sGeyRCLgz
-         5duTZ5wtpYR3j6Vw/W7uEbOqAujL8hf7orKwRPAHrL9AoAUDpN/xbM4ntoWl4LOU64Li
-         5kZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=iTRcs7n6pelQol+TMxHjxpsVxExj0O3+x3SAtP0q5qE=;
-        fh=dxkKDQZQ+CHn/rmh2vNj/3U1A1Uhz38ZfcQXLvif9Bk=;
-        b=oFFELCVooKcRYHZ8/rRjl6bdD5q0JOS4JIOEFgEBz+daqCzya+wwRQSF2VpUs2obRz
-         8BbDUHCKVXFGPkh1cRqIH0TRAvtDAqnEiyDj7i0MPkRfPzExx76ccD5GOjTvzIysoVqL
-         CYrhicJ0VUo6oO3tuHLobY+MFWcwdwzxKvYTRvw+SyDaSsH9Lc3Y/qtnMmYcCXgvwMmW
-         PhoGW6rPMt8lUlB8iS3TV3GhWWXEak4nflvN2mFojmxZdRH2XhLrZROSW+UqM8gY60HK
-         MbdHTm3Cb8gZRzauWbQuK49Ypky9+1irZ5+UseeoLF5r3lbca2TikyyQR3mTFdIvH6nh
-         WhQg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793740731; x=1794345531; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iTRcs7n6pelQol+TMxHjxpsVxExj0O3+x3SAtP0q5qE=;
-        b=z5ESxbP5BPXYwvOM4CggujfAys5/hXk1sE4840QIcGyPk/7dIYodaSRGuN5/qdq3D/
-         2MrHJQlY2b+BIAZKiGdW1Gp8Y+V2JGjfMmLLXvIyB23aMUNXy05B5JXg7zHSeMTn6rtD
-         JTWpdHOM3XJs28WrxLIei5SnqKwlbrGRtS73MTb6nmU6uPEpzuY+hKZsEkO3vrH4XGY1
-         EylUNRFLIzESaxbincHJdABXaojmUG4r6CmD7ChP9EQ/Gt6nhUWQs55NN8GYqh06hl2H
-         T4fvQkEcErfwPriY4S8GpCZKtoVoOOt+3QUhnTiC+EgA05mWgitwbFvLH/n6yU9q34JZ
-         B7Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793740731; x=1794345531;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=iTRcs7n6pelQol+TMxHjxpsVxExj0O3+x3SAtP0q5qE=;
-        b=rgudHbsRu+7hA3H1J6An8ZcmvDmkIeQ7awruOgwImathSDk8WpHwVdl+X+lffWeDJ4
-         LuEUgGU9/iF1OF0z0+44aNpwi1EmGgi1tdmx0dGxSgWSPOe1XELLdfLeaDlY80z2Pw8s
-         ox3E1JdkEY6molUbQjQsbuc+N9fm7GmIJtaYsaJmc5OuX5P/Ku3G/76XKJ0Vya3eSGHp
-         mdOzbV+/4Ax15Bu9rdMdynsl+5kxtWw9aXrMWOlxIIznGYNN/BWD0ae7rC8aj3+re5tB
-         z5JtHmCyGDCipazwu5mK6UF2lygs7mviP3mqIknG+VVRCPoSigZoBzCWgO6DNGYXwOk7
-         ZkBg==
-X-Forwarded-Encrypted: i=1; AKwUvByhclkeiOQ7nb1fcDF7wGlG1trM0RvO1X06IY6bQjDEsYFHueyfHZ7GJwURaGW/ILuyFQjQ1km6zwi4ZinZjGqCsQ==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z9/rxN0Tv3kkC8gkZxSZfuJ7rQPlqMhL8tLUi2cMx9LeMVS7rms
-	GzMK8fLfOLMf9wbaetD0uNem46g9JpKDVHAff1mRT0ww7NrTZgQbvCtvBs5idroh9lCaLNrslzu
-	Ne0xvgY7EaUpr3p9KcpfqUtrrekPEPAs=
-X-Gm-Gg: AYBFou0yV+MXFd8kMCGj86zC0NIImnpamy/irZONSJ8C42EycPDHBfkeTvOMC5YDDja
-	5mZgAigT4DrtSnD48PPJn9i7ZIhdObAq+eNusoJL0MYLRvR7F2A7QleQM5v+3T/E/qw9+oO6e9O
-	pme/KwOAr7jmKAIu2xXQKtq+ptxOpJmxHG9HoTOhjcBd1q2CYA1EmRDsXv8+2qpa2roW8FEYg8b
-	S0efMach8CadOT73UhmXfVCmWYltuiF4kr7dRdvophtk/BvNu6Azr/DQ6DukZ0riqU8GivqEPnA
-	VKam5oTWxEtCAYyzvOYAekoEfAYpRH3xLN9vrPQOkrWDr0uKGmEH0L1Uf2Yitej8aEOfDK6GP91
-	00IzVTN+F8Edk7RCsBIHN2G/UW2nufeHnmRyg
-X-Received: by 2002:a05:6512:a94:b0:5bf:b246:87a2 with SMTP id
- 2adb3069b0e04-5bfd957b610mr4930887e87.10.1793740730902; Tue, 03 Nov 2026
- 13:18:50 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=F2y2zCuf;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=576704952c=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3LMaU73891638
+	for <openembedded-core@lists.openembedded.org>; Tue, 3 Nov 2026 14:04:15 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PPS06212021; bh=jmvUZFxCGXUcT7scm+hb6V
+	hxLI5EBB0MHgzPPea1u58=; b=F2y2zCufjPw8ZZsd6csbON14NqONGEr/L/20v9
+	2xQFx6+NppBv87BSQ/IOsSPVkvCH4ZkdCjK9hq9Kl/tpvMTMOOjJT5msjx5eMJ5C
+	7jS0n1OJ9j+C5/SjLk7uyp0a9Pb9sbcPj52unAKTWBXdigGQJfJGwzX8cJEroYgN
+	CdlDfOJIVNXPXB5dc9M64NZZ0/YgMSem27WEJM6+6cAat6QCK6cJ7O00Q3FfDgPE
+	fiFrITtSKsG5O9GHbHHOdjMYrR677TZ6bcg9rErFot37dusmX0Z0eMk2RDi3qYWT
+	PPKGuZ6GS1/hdStdL0bnCR1TXvMHn5UyNPPoP9oBENupcfbw==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023131.outbound.protection.outlook.com [40.93.201.131])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4hnbm1n2qq-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 03 Nov 2026 14:04:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v/ca6VmG/jVPXvycuFS43LXrlWem3svcKs+3/1t0eaiaUgv7dC25ZSopaoytNlNq/zHokFQ8N7umJRgFgGFQGR1r4PKhdCXXh4pnRJyYZ8Mj/wQDsRmZfoFMd4hZNLDZawV7CxwJjdEusA6pw6495cu7DNNckdNo3O0arBPh3cspLCupXyMDByZxGwDjvhOZhxcHMX9+rbbcxbmPl0IrOWQ9Rc09FQ4CS3EZlERaJnzxV8PVQJlQuKE6jcssotE35cMe8myvKHhY9o5d4kNY3bLRD8BagxUzIfGXtIDjY3772mS5ggN/n5LrE6ymgwIdxcm2aiNi4NWMnTv4EZjkdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jmvUZFxCGXUcT7scm+hb6VhxLI5EBB0MHgzPPea1u58=;
+ b=rMUevAn5BQns0MjITg2uVCKMSo8mi8NFDxeJmUv3TfoBw1S65oioTG0DCNcGSPPvUHqq4oJMomT7KwU7PasuBtZynVssQjmdG/kicGpmyPinKSwOYQNFKu2CLFQM9e/3gc+JoKiaPTRbyHNJ1lYH00zAFtPbmRQZxSfJSrpyNHcPRSvXagRcPOPZwxlEyoMVCtb3Q6LHR1zF/i4cbgIwJltv9EZMvgeR7FZQf3gFUtTtJga/6o7QZf3wTTO4X/2pljTVp1aoQI85UumoI/xdTwut0JsMNUfcXqOTqO1E0lct1ijp6Gk0bLj+I9dMAtykav/DmrMxDAp47L04i0AW0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=windriver.com;
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by IA3PR11MB9422.namprd11.prod.outlook.com (2603:10b6:208:57e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.10; Tue, 3 Nov
+ 2026 22:04:10 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::5627:e3a5:cb26:b555%4]) with mapi id 15.21.0592.007; Tue, 3 Nov 2026
+ 22:04:10 +0000
+Content-Type: multipart/alternative;
+ boundary="------------2C1hxWZ4dUzrrOdDpVR29eqT"
+Message-ID: <1905cd5a-760f-4f3e-99af-4aea68136154@windriver.com>
+Date: Tue, 3 Nov 2026 17:04:09 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v5] igt-gpu-tools: fix build on non-x86
+ platforms
+To: jose.quaresma@oss.qualcomm.com, openembedded-core@lists.openembedded.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20261029093738.1507-2-jose.quaresma@oss.qualcomm.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <20261029093738.1507-2-jose.quaresma@oss.qualcomm.com>
+X-ClientProxiedBy: YT4PR01CA0362.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:fd::17) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-References: <20261102011816.3710992-1-tim.orling@konsulko.com>
- <20261103193829.1806542-4-tim.orling@konsulko.com> <DMLVEXD46FYX.3D2U16C6F63AY@baylibre.com>
-In-Reply-To: <DMLVEXD46FYX.3D2U16C6F63AY@baylibre.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Tue, 3 Nov 2026 13:18:38 -0800
-X-Gm-Features: AclHuK_mUVlqp7TAkUeJUnsXl-dZWcsO6WaCHJ3tuM1lAxV9hAyMcYwoTo6P2MM
-Message-ID: <CANx9H-C3ZkaZkTdk_OP4E1=kGGCMsDgqq+=NdxMB+gt8AXvBnA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/5] python3-uvloop: enable ptest
-To: tgamblin@baylibre.com
-Cc: tim.orling@konsulko.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000015ae3e065f65cfd9"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|IA3PR11MB9422:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad92ebb7-f9d7-4768-5537-08df39f66372
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|4022899009|261022105027099003|261102123227099003|260925021911599003|260925021311599003|260925022911599003|261021121427099003|11063799006|261026140227099003|56012099006|261009223027099003|261026121527099003|10067099003|261021135927099003|261028144727099003|18002099003|22082099003|3023799007|6133799003|13003099007|8096899003;
+X-Microsoft-Antispam-Message-Info: Asp6/wZW43E74q6tvnvAO7ZaDjogq++vOUAHxzS0q8ZK2PaQuOJTIpncD4YCoUVcHYV0dkVBk8C9O/Wo2J2Rp035O9ipKm79UVbYzvomjyGUtnmqroT8nUp1YrJOiEzkfWT9weTynHhy8ZDZEga1+E7EuqyLNDoHDcxP09p/WgiCofGSATqnUZfwvCBccODSgmQ953H5LwXJjJXbgUmKWBkLn+r+F79LDIaf4Rr6bGf+qdNfpTDWfp9bFudbVtvIu8nareATwoWwt5Y3WEL70sqX85MUjTj9kGtVkW8fg9KjddemdodoXJpAcVRCQa6/ltu6dQJ/sXeDReALKKj1+pi+qRP/UNiAo/AP7/MaoAZpW6+7Uwo0sCA2lhot502Dw24A93WLAB3Rg4GKCsB2S9wMJ04PusIAQCfFEXiJuWvUpOOBn28+bgno0p2lO4O4+IciBi92GBRwCrjhepVgtffSf9HIj4XIr84nfbT2wiDpFnqyUIlosLk7N1+Y2FjEDmUENs8c6DN25f7cHZu0FpvD+vA7JU09SokixZK1IXy090L5+giMK+KJ0jtE/an7wL/FaE2wZIQ7DhIqBXYxK9EJKdDKuI3tXtWc8CMMh6HujQRkJ2QK/F87E9+2D4F7
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(4022899009)(261022105027099003)(261102123227099003)(260925021911599003)(260925021311599003)(260925022911599003)(261021121427099003)(11063799006)(261026140227099003)(56012099006)(261009223027099003)(261026121527099003)(10067099003)(261021135927099003)(261028144727099003)(18002099003)(22082099003)(3023799007)(6133799003)(13003099007)(8096899003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VFBpbWZuVEJIUCs2Y20rYXNvMVl5dVplRHZlbmJiTzErcC9MSjZ5aTlWUHU0?=
+ =?utf-8?B?WW1YYjRCU3lBSmdISkYyZExJSjEvMk1mdnZ6V0xyZjk4ZHlGMDFsWEYwQUNw?=
+ =?utf-8?B?WnowR3BaMkZ3ZWN0ZUkvYXh6L0RaOXViQWU2dk9Hcnh1RytvQjFlc0RCNXhY?=
+ =?utf-8?B?NVF1bExWZC9GSGFwTERacldaRXEvejJBY3NRWXhaSmhmVG1BcjgveG5zYitH?=
+ =?utf-8?B?N3NXSklkby9UYnhqaHlmUkROc0ozbjlYS1c3Ym1oUU9iNnc0dzdZYkRTTjVy?=
+ =?utf-8?B?QjRXdmxMdUpPMmtUWllWeExYOUR6V2hDMlEyUXRKY0NCQlZPTFBMQ0tJTjdT?=
+ =?utf-8?B?Y2RndEVuNnNWM2R4T3d3SDlnOWdhZmtLVC9uU0tMRG8wVGxVa1ZKenNmRjVl?=
+ =?utf-8?B?Rm9xQmRZUWdKdmwvV3RSZnFaY0tETytlUjBXN015bTZPWDdDQzY0Z3dHVUpW?=
+ =?utf-8?B?Njl0eXpTeDF0VlZGdjhJK3hSQ2NGUjI4UTZueFo4NG5EK3RRNi9SY1doelB0?=
+ =?utf-8?B?cGdpaWxlMTRpZ0Jzd3JXQVVkbnJNL0VNUGNHY2ExZU5JZWFKZ3lmTEtGK2Za?=
+ =?utf-8?B?ejJOZU9Zdy9RNmVxeVRRMjFOSnp6TTVYemx2U0VlZVJLTlJlSlprMGg0ZVc2?=
+ =?utf-8?B?aUhibDhWU1lRSVZ4R0FzMzhIQm9MZmRUYjY2UVd6ckFXRFN5c3dGRGtFc1B5?=
+ =?utf-8?B?YUxsZDJMZFgwUGdUN0N0MTdQUllhYXByYzdqK25FWXVMaVlJcytnOEo5cHM2?=
+ =?utf-8?B?MkFNRGFDQzU1bXErVlZ1T1c1YjJNQXhHbGpVNEtPZXhZa1E5UWkxNFNCRGEr?=
+ =?utf-8?B?aExLTnVFZHNjbkYwY0orVXVrSDNkakRleGNWOWljOVdSN3FqVU1DTVk3S1VI?=
+ =?utf-8?B?REZycFpJVHZiSkxFbkttYkMzOEhnUUxacXVNTmxHVXUycWxLWDVOT0dEdk5l?=
+ =?utf-8?B?ejh2WUlydk1wY0pTVnpJczVqdTJRYlNHZWJVVnQ3OWxQTk9oeGJ0NlZVeUxl?=
+ =?utf-8?B?QTN5WlFMWkNaWUowWFNBNDRaQVlPSnpMNVpiRjRTVWpnZ1dqM3hHbk02Q0kx?=
+ =?utf-8?B?NkVnS292SmRrMWdzcmpqZVpSUFJXTGk2WTNwQkRHNk9QRkp4RkxUZERsYW5O?=
+ =?utf-8?B?SndPbkxWTGNlZWZrdkJ1bVJaWVIxYjM0ZU5KS3M1T2lpNkUvV2tXdkN0R0x1?=
+ =?utf-8?B?SjdxRlQ3bk56TmJNSUxGdVJ6QlpucFJYcFFhYnlPVjJQUFpKSERHQ3dEV3Nq?=
+ =?utf-8?B?amdzRHRTWU5mVGo2OGQ2d0FHK2FLTForajZJNjhDakdKQ2pOVFhlTExVczJp?=
+ =?utf-8?B?NmlwM0FPUUFjWllVbEpPTi9vckNFdU9YcmpiZmduSm1abDBEMmhMalVLay9m?=
+ =?utf-8?B?QU5GVk5MaFFUSHRZTXd5WVRoVmQycXluTTJjQkdDRzRlalNqdHkrMUdESTVK?=
+ =?utf-8?B?emNVVEVJUnBYMDgvZ2t6SnFVQW5tbzJEb1psUzR6cGRmSVF3UTN3VnFIVVBy?=
+ =?utf-8?B?YnRzUFVFUXBHZjVoM1p5OXpKeGFMVkkwN2YyQTRORVdnSGRnQTdaaEwyQ0lI?=
+ =?utf-8?B?Vkx2U1lCZUpzOWkvTkQyamV3UmtSeDNZN3UwZU1WMXJQak8xSXlIZFNKMGZ4?=
+ =?utf-8?B?T3lPTXJaSEUrN3VVbFBlT0ZFSmxtZmZSakQxR1lhTW1tY0lmbFhaUTNJUEpK?=
+ =?utf-8?B?djJTY2NYOVQ5RHFFazVzU2t3dFBaZncwenBmVTE0NmpvMGtNQWl2YXk2UURT?=
+ =?utf-8?B?STZvS2tuOEwwUGdFZGprS0orY1JRUWpZRWMzS0ZObnp4RGt5ZktnVk1veFcr?=
+ =?utf-8?B?SGY2T0tncXdrR2Y3WWRFZlRhWFZJVEg0YkV5cmEraC9aZUxpTDRwTzBsdEJp?=
+ =?utf-8?B?UVlxY2VVb1FCVDB0d2hSVFdRTWFKUWpPd0NDR1NZdjhtbkp4a3NERGUzWG41?=
+ =?utf-8?B?eW1RQlpvVHNaVzVPR25KbGw2c2cyQzNNTndPOE9hTUJFd0hGV0d4bS8zMVVU?=
+ =?utf-8?B?WCtkWCtxT1pWM01vamJTai9uVHdkSDVNMHdXaUgyS041MEVtUWtEZGRJZk5J?=
+ =?utf-8?B?TU5XVkUvbXpHakhSTWJUOE1iZXJVblhZMTFJMkNmTWFKYlZnbGczZjU1YmI1?=
+ =?utf-8?B?SU9QRFVoSFlpYmp4a3FFTGNPL3UvaENXVTZBdm5YdjE1eDZzeDFYTDNoUWVU?=
+ =?utf-8?B?QUh3V3RHWXZwVFNpZnh5OXZtKzU2Yk1qNGVrSHltMmlwMzNCbFppL3JBY2dj?=
+ =?utf-8?B?RXVvbGJqOHc4VzZWT3p0NHJDR25sT0xVY1pET2JlS0pqaVFvMnRsOEVMOVpy?=
+ =?utf-8?B?UXZxUGNFcS9WYnFoWDF0TjNoVzdHYlE2bHBySXNqdDBsOC9VZlV1WnpwZVpm?=
+ =?utf-8?Q?rI3rxKJgsbN6tPyA=3D?=
+X-Exchange-RoutingPolicyChecked: Dv37wooUGPudEGzAdklivZCX0Z4DZ1KgcwGqNxZ7M/lr+btnIDJnkrcRbDoG2TxzDi/dg9CeSZKU6+l20NSzi5rGqdcIRWqLEqoEbvffLFaDkuI3IRWcPBB0iB7VilwavA1Dew5tIhNdfXtT8w0zyeHLzfudE37JHS6iPsFoY5BzYElN3CQWZKHxJypwr1rLD+l+9yWRA7kQGoSRIxtoZG3TGotcBg3zMAkLm5lpt72fdqN/RfEbFwyevYoKMyilHWubIiV+mDlf6L5ZY97EjMdK3E1bC4l8qn36O8Y5RRRCXQj3BSjnXG944lMfxluX7QvLORM78xpsfBN/o9Q9MA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad92ebb7-f9d7-4768-5537-08df39f66372
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 22:04:10.4076
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y81JToasxr5oxgxrJF3Lo0r0rQYZ3JDJz8aeQ+qgeir6hJ5eAI7ncJDGVBU5ocmVluzYdNWqaCv88Md4j5bBXgqWE+AeISyMtTnZxztuNGo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9422
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA4NyBTYWx0ZWRfX48JYIZzPOUTv
+ cBdCobM2uNVeq19pCreWnzlC8u5Phl8bsgTcbm5MNfbCommMPiggkCvxeJPd05FZhQfDAzwOcTz
+ 4Fhx6S7MZlITllD/rTCNukwnUAcTkGRePw1rW+RzniTapAdrOJTrgxJMM5gYy/L0R7ZquZv0R/L
+ 1h1mJ4y1Ruama1JeUPBTNLXGDYR8CFNIANU6bvgusf1XvJo4vi5pHwhmIzjwgJL0u7re3g+DTzq
+ QExMMdFcBqDgBq55C+Uh1UwCLoJDHEwd8Lxz430aGh0z01deEXgZwAKXbZDY2wMGY2/aRWWIzTn
+ yCYFFeC4eBYx+YGaKPf6/bcxE93nOsdxAOxstCdH+Dhau2Drpym6NHmNZ7GkO8j29vyD36LIj8W
+ md2hbLK+BjnDAthCWL9bU/flRr1mSjLzq3YBhp9nyCB8gTVRZ3hAJ2zNIeJBXVmFZkJfUu5hQlE
+ pd2ph8znhsDgBdok5Ag==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA4NyBTYWx0ZWRfX1tczDimf3WTk
+ fY3jVGFwJf0QL5sGftuYvZ2EU+UrSjTvo63uSjRaKQQcV63sMeHjl4dZaIpVEnq79Va0GkQo3gB
+ QQW22GFl75cMoEuNGy1ePLH4/lrne4RIKe2z6YCj/Px7iy13ICuV
+X-Proofpoint-ORIG-GUID: CoKNGEQ-oUQZlDWWM_yG8uQ7x3cV_oa5
+X-Authority-Analysis: v=2.4 cv=RZsFmFtv c=1 sm=1 tr=0 ts=6aea5a5f cx=c_pps
+ a=toaxmG8YyEc+6C1DZWrQ+w==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=e5mUnYsNAAAA:8
+ a=Q4-j1AaZAAAA:8 a=EUspDBNiAAAA:8 a=t7CeM3EgAAAA:8 a=67i78bWrlm566LU-p-gA:9
+ a=QEXdDO2ut3YA:10 a=tt0lkP_pJGzVDPY59VwA:9 a=K6P4jNpjGy2tLxdD:21
+ a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: 5wa64sWGlOemlqAzYwMMMKJ7sKfkevaR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-03_05,2026-11-03_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 spamscore=0 malwarescore=0 suspectscore=0
+ adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611030087
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 21:18:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249299
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 22:04:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249300
 
---00000000000015ae3e065f65cfd9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------2C1hxWZ4dUzrrOdDpVR29eqT
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 3, 2026 at 1:07=E2=80=AFPM Trevor Gamblin via openembedded-core
-<tgamblin=3Dbaylibre.com@lists.openembedded.org> wrote:
+Jose,
 
-> On Tue Nov 3, 2026 at 2:38 PM EST, tim.orling wrote:
-> > From: Tim Orling <tim.orling@konsulko.com>
-> >
-> > The sdist ships the test suite. run-ptest deselects:
-> > * tests that conflict with pytest's output capture;
-> > * tests broken by libuv 1.53.0 spawning with posix_spawn() on Linux,
-> >   which bypasses uvloop's preexec_fn fork hook;
-> > * DNS tests that wait for resolver timeouts without network access,
-> >   which took the suite from 1 to 10 minutes over tap without NAT;
-> > * on riscv64 only, TLS stress tests, the issue39 deadlock check and a
-> >   socket cancellation test, whose fixed timeouts are too short for qemu
-> >   without KVM.
-> >
-> > .flake8 and mypy.ini let test_sourcecode skip cleanly when flake8 and
-> > mypy are missing.
-> >
-> > Tested with core-image-ptest-python3-uvloop on qemux86-64. It takes
-> > over 30 seconds, so add it to PTESTS_SLOW.
-> >
-> > AI-Generated: Uses Claude Code (Claude Opus 5.5)
-> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> > ---
-> > Changes in v2:
-> > - Skip 13 timing sensitive tests on riscv64 only, covering the
-> >   qemuriscv64 AutoBuilder failures plus their counterparts in the other
-> >   event loop class and test_socket_cancel_sock_sendall, found in 10 run=
-s
-> >   under load (stress-ng)
-> > - Build the -k expression in a loop to fix patchtest's line length chec=
-k
-> > - Drop the test counts from the commit message
-> >
-> >  .../distro/include/ptest-packagelists.inc     |  1 +
-> >  .../python/python3-uvloop/run-ptest           | 50 +++++++++++++++++++
-> >  .../python/python3-uvloop_0.22.1.bb           | 27 +++++++++-
-> >  3 files changed, 76 insertions(+), 2 deletions(-)
-> >  create mode 100755 meta/recipes-devtools/python/python3-uvloop/run-pte=
-st
-> >
-> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc
-> b/meta/conf/distro/include/ptest-packagelists.inc
-> > index bef45bb4d5..50b971bace 100644
-> > --- a/meta/conf/distro/include/ptest-packagelists.inc
-> > +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> > @@ -154,6 +154,7 @@ PTESTS_SLOW =3D "\
-> >      python3-click \
-> >      python3-cryptography \
-> >      python3-numpy \
-> > +    python3-uvloop \
-> >      python3-xmltodict \
-> >      strace \
-> >      tar \
-> > diff --git a/meta/recipes-devtools/python/python3-uvloop/run-ptest
-> b/meta/recipes-devtools/python/python3-uvloop/run-ptest
-> > new file mode 100755
-> > index 0000000000..0cb9a26b88
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/python/python3-uvloop/run-ptest
-> > @@ -0,0 +1,50 @@
-> > +#!/bin/sh
-> > +# test_process_streams_redirect: replaces the stdout/stderr fds, which
-> > +# conflicts with pytest's output capture.
-> > +# test_process_preexec_fn_{1,2}, Test_UV_DNS test_getaddrinfo_{8,9}:
-> libuv
-> > +# 1.53.0 spawns with posix_spawn(), so preexec_fn never runs, and an
-> empty
-> > +# host gives EAI_NODATA.
-> > +# test_getaddrinfo_{1,2,3,5,6,11}, Test_AIO_DNS test_getaddrinfo_{8,9}=
-:
-> each
-> > +# DNS lookup waits for the resolver timeout without network access.
-> > +# --deselect matches a node id prefix, so -k handles 1, 2 and 11.
-> > +# riscv64: qemu runs without KVM there, too slow for the fixed timeout=
-s
-> in
-> > +# the TLS stress tests, the issue39 deadlock check (signal.alarm(5)) a=
-nd
-> > +# test_socket_cancel_sock_sendall, which must cancel within 0.2s.
-> > +SLOW=3D""
-> > +if [ "$(uname -m)" =3D "riscv64" ]; then
-> > +    SLOW=3D"
-> > +
-> --deselect=3Dtests/test_tcp.py::Test_UV_TCPSSL::test_create_connection_ss=
-l_1
-> > +
-> --deselect=3Dtests/test_tcp.py::Test_UV_TCPSSL::test_create_server_ssl_ov=
-er_ssl
-> > +        --deselect=3Dtests/test_tcp.py::Test_UV_TCPSSL::test_renegotia=
-tion
-> > +
-> --deselect=3Dtests/test_tcp.py::Test_AIO_TCPSSL::test_create_connection_s=
-sl_1
-> > +
-> --deselect=3Dtests/test_tcp.py::Test_AIO_TCPSSL::test_create_server_ssl_o=
-ver_ssl
-> > +
-> --deselect=3Dtests/test_tcp.py::Test_AIO_TCPSSL::test_renegotiation
-> > +
-> --deselect=3Dtests/test_unix.py::Test_UV_UnixSSL::test_create_unix_connec=
-tion_ssl_1
-> > +
-> --deselect=3Dtests/test_unix.py::Test_UV_UnixSSL::test_create_unix_server=
-_ssl_1
-> > +
-> --deselect=3Dtests/test_unix.py::Test_AIO_UnixSSL::test_create_unix_conne=
-ction_ssl_1
-> > +
-> --deselect=3Dtests/test_unix.py::Test_AIO_UnixSSL::test_create_unix_serve=
-r_ssl_1
-> > +
-> --deselect=3Dtests/test_regr1.py::TestIssue39Regr::test_issue39_regressio=
-n
-> > +
-> --deselect=3Dtests/test_sockets.py::TestUVSockets::test_socket_cancel_soc=
-k_sendall
-> > +
-> --deselect=3Dtests/test_sockets.py::TestAIOSockets::test_socket_cancel_so=
-ck_sendall
-> > +    "
-> > +fi
-> > +KEEP=3D"not (test_getaddrinfo_1 or test_getaddrinfo_2)"
->
-> This 'KEEP' variable name seems misleading given that it's using 'not' to
-> avoid
-> running those two test cases, but then gets built up in a loop. I think
-> it'd be
-> better to just add them with --deselect like the others, even if it ends =
-up
-> being more verbose.
->
-> > +for n in 10 12 13 14 15 16 17 18 19 20 21 22; do
-> > +    KEEP=3D"$KEEP or test_getaddrinfo_$n"
-> > +done
-> > +pytest --automake $SLOW \
-> > +    -k "$KEEP" \
-> > +
-> --deselect=3Dtests/test_process.py::Test_UV_Process::test_process_streams=
-_redirect
-> \
-> > +
-> --deselect=3Dtests/test_process.py::Test_AIO_Process::test_process_stream=
-s_redirect
-> \
-> > +
-> --deselect=3Dtests/test_process.py::Test_UV_Process::test_process_preexec=
-_fn_1
-> \
-> > +
-> --deselect=3Dtests/test_process.py::Test_UV_Process::test_process_preexec=
-_fn_2
-> \
-> > +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_3 \
-> > +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_5 \
-> > +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_6 \
-> > +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_8 \
-> > +    --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getaddrinfo_9 \
-> > +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_3 \
-> > +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_5 \
-> > +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_6 \
-> > +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_8 \
-> > +    --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_getaddrinfo_9
->
-> I wonder if we could keep this list inside the recipe file itself, simila=
-r
-> to
-> how python3's recipe uses SKIPPED_TESTS with various appends? That exampl=
-e
-> uses
-> unittest instead of pytest, but it should be possible to pass the list.
-> Maybe
-> I'm wrong.
->
+Thanks for the fix. When people were discussing it on the YP patch 
+review call today,
+the question arose: Why didn't the YP autobuilder catch this error and 
+are there more
+inline assembly issues that we are not testing and catching at build time ?
 
-Good points that honestly I was not aware of previously. I am working on a
-SKIPPED_TESTS v3.
+Can you look into that or explain why it's not worth doing so?
 
-Thank you for the review!
-
---Tim
+Thanks,
+../Randy
 
 
+On 2026-10-29 05:37, Jose Quaresma via lists.openembedded.org wrote:
+> From: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
 >
-> Trevor
+> The "pause" assembly mnemonic is only available on IA-32 platforms,
+> breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
+> assembly with the preprocessor checks, making sure that other platforms
+> don't see the invalid assembly.
 >
-> > diff --git a/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
-> b/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
-> > index 887c262ae7..39b6a2602a 100644
-> > --- a/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
-> > +++ b/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
-> > @@ -7,11 +7,34 @@ LIC_FILES_CHKSUM =3D
-> "file://LICENSE-APACHE;md5=3Dbb92739ddad0a2811957bd98bdb90474 \
-> >
-> >  DEPENDS +=3D "libuv python3-wheel-native"
-> >
-> > -SRC_URI +=3D "file://0001-setup.cfg-use-system-libuv.patch"
-> > +SRC_URI +=3D "\
-> > +    file://0001-setup.cfg-use-system-libuv.patch \
-> > +    file://run-ptest \
-> > +"
-> >  SRC_URI[sha256sum] =3D
-> "6c84bae345b9147082b17371e3dd5d42775bddce91f885499017f4607fdaf39f"
-> >
-> > -inherit pypi python_setuptools_build_meta cython
-> > +inherit pypi python_setuptools_build_meta cython ptest-python-pytest
-> >
-> >  RDEPENDS:${PN} =3D "python3-asyncio"
-> >
-> > +RDEPENDS:${PN}-ptest +=3D "\
-> > +    python3-ctypes \
-> > +    python3-io \
-> > +    python3-logging \
-> > +    python3-math \
-> > +    python3-multiprocessing \
-> > +    python3-netclient \
-> > +    python3-numbers \
-> > +    python3-pickle \
-> > +    python3-pprint \
-> > +    python3-psutil \
-> > +    python3-pyopenssl \
-> > +    python3-threading \
-> > +"
-> > +
-> > +do_install_ptest:append() {
-> > +    # test_sourcecode needs these to skip cleanly when flake8 and mypy
-> are missing
-> > +    install -m 0644 ${S}/.flake8 ${S}/mypy.ini ${D}${PTEST_PATH}/
-> > +}
-> > +
-> >  BBCLASSEXTEND =3D "native nativesdk"
+> FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
+> Assembler messages:
+> {standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
 >
+> Signed-off-by: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Jose Quaresma<jose.quaresma@oss.qualcomm.com>
+> ---
 >
+> v5: Move Upstream-Status to the carried patch
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>   ...t-pause-mnemonic-only-on-x86-x86_64-.patch | 37 +++++++++++++++++++
+>   .../igt-gpu-tools/igt-gpu-tools_2.6.bb        |  1 +
+>   2 files changed, 38 insertions(+)
+>   create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+>
+> diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+> new file mode 100644
+> index 0000000000..38582bf1d4
+> --- /dev/null
+> +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+> @@ -0,0 +1,37 @@
+> +From dc072dc0fc680a055d0cdf5adfdccbab6d0566d6 Mon Sep 17 00:00:00 2001
+> +From: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
+> +Date: Fri, 26 Jun 2026 22:34:06 +0300
+> +Subject: [PATCH] lib/amdgpu: insert pause mnemonic only on x86 / x86_64
+> + platforms
+> +
+> +The "pause" assembly mnemonic is only available on IA-32 platforms,
+> +breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
+> +assembly with the preprocessor checks, making sure that other platforms
+> +don't see the invalid assembly.
+> +
+> +FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
+> +Assembler messages:
+> +{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
+> +
+> +Upstream-Status: Backport [https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/125c0289617f3c7ba7ee376ea1d8aabd2ff5afdc]
+> +
+> +Signed-off-by: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
+> +---
+> + tests/amdgpu/amd_basic.c | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/tests/amdgpu/amd_basic.c b/tests/amdgpu/amd_basic.c
+> +index 3ad023472136..e5475f337549 100644
+> +--- a/tests/amdgpu/amd_basic.c
+> ++++ b/tests/amdgpu/amd_basic.c
+> +@@ -703,8 +703,10 @@ static int wait_for_value64(volatile uint64_t *ptr, uint64_t expected,
+> + 		/* Sleep if interval specified, otherwise tight loop */
+> + 		if (check_interval_ns > 0)
+> + 			nanosleep(&sleep_time, NULL);
+> ++#if defined(x86_64) || defined(i386)
+> + 		else
+> + 			__asm__ __volatile__("pause" ::: "memory"); /* CPU hint for spin-wait */
+> ++#endif
+> + 	}
+> + }
+> +
+> diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+> index d76c2355a1..a46b002b83 100644
+> --- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+> +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+> @@ -12,6 +12,7 @@ inherit meson pkgconfig
+>   SRCREV = "916c79cfb7675ca01607dcd821f8c49d4f633a6f"
+>   
+>   SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
+> +file://0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch \
+>              "
+>   
+>   DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native pciutils jansson"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#249298):
-> https://lists.openembedded.org/g/openembedded-core/message/249298
-> Mute This Topic: https://lists.openembedded.org/mt/122082304/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> View/Reply Online (#248920):https://lists.openembedded.org/g/openembedded-core/message/248920
+> Mute This Topic:https://lists.openembedded.org/mt/121991366/3616765
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [randy.macleod@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
---00000000000015ae3e065f65cfd9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+# Randy MacLeod
+# Wind River Linux
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 3, =
-2026 at 1:07=E2=80=AFPM Trevor Gamblin via openembedded-core &lt;tgamblin=
-=3D<a href=3D"mailto:baylibre.com@lists.openembedded.org">baylibre.com@list=
-s.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Tue Nov 3, 2026 at 2:38 PM EST, tim.orling wrote:<br>
-&gt; From: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" target=
-=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
-&gt;<br>
-&gt; The sdist ships the test suite. run-ptest deselects:<br>
-&gt; * tests that conflict with pytest&#39;s output capture;<br>
-&gt; * tests broken by libuv 1.53.0 spawning with posix_spawn() on Linux,<b=
-r>
-&gt;=C2=A0 =C2=A0which bypasses uvloop&#39;s preexec_fn fork hook;<br>
-&gt; * DNS tests that wait for resolver timeouts without network access,<br=
->
-&gt;=C2=A0 =C2=A0which took the suite from 1 to 10 minutes over tap without=
- NAT;<br>
-&gt; * on riscv64 only, TLS stress tests, the issue39 deadlock check and a<=
-br>
-&gt;=C2=A0 =C2=A0socket cancellation test, whose fixed timeouts are too sho=
-rt for qemu<br>
-&gt;=C2=A0 =C2=A0without KVM.<br>
-&gt;<br>
-&gt; .flake8 and mypy.ini let test_sourcecode skip cleanly when flake8 and<=
-br>
-&gt; mypy are missing.<br>
-&gt;<br>
-&gt; Tested with core-image-ptest-python3-uvloop on qemux86-64. It takes<br=
->
-&gt; over 30 seconds, so add it to PTESTS_SLOW.<br>
-&gt;<br>
-&gt; AI-Generated: Uses Claude Code (Claude Opus 5.5)<br>
-&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.co=
-m" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
-&gt; ---<br>
-&gt; Changes in v2:<br>
-&gt; - Skip 13 timing sensitive tests on riscv64 only, covering the<br>
-&gt;=C2=A0 =C2=A0qemuriscv64 AutoBuilder failures plus their counterparts i=
-n the other<br>
-&gt;=C2=A0 =C2=A0event loop class and test_socket_cancel_sock_sendall, foun=
-d in 10 runs<br>
-&gt;=C2=A0 =C2=A0under load (stress-ng)<br>
-&gt; - Build the -k expression in a loop to fix patchtest&#39;s line length=
- check<br>
-&gt; - Drop the test counts from the commit message<br>
-&gt;<br>
-&gt;=C2=A0 .../distro/include/ptest-packagelists.inc=C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 1 +<br>
-&gt;=C2=A0 .../python/python3-uvloop/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 50 +++++++++++++++++++<br>
-&gt;=C2=A0 .../python/<a href=3D"http://python3-uvloop_0.22.1.bb" rel=3D"no=
-referrer" target=3D"_blank">python3-uvloop_0.22.1.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 27 +++++++++-<br>
-&gt;=C2=A0 3 files changed, 76 insertions(+), 2 deletions(-)<br>
-&gt;=C2=A0 create mode 100755 meta/recipes-devtools/python/python3-uvloop/r=
-un-ptest<br>
-&gt;<br>
-&gt; diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/co=
-nf/distro/include/ptest-packagelists.inc<br>
-&gt; index bef45bb4d5..50b971bace 100644<br>
-&gt; --- a/meta/conf/distro/include/ptest-packagelists.inc<br>
-&gt; +++ b/meta/conf/distro/include/ptest-packagelists.inc<br>
-&gt; @@ -154,6 +154,7 @@ PTESTS_SLOW =3D &quot;\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 python3-click \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 python3-cryptography \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 python3-numpy \<br>
-&gt; +=C2=A0 =C2=A0 python3-uvloop \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 python3-xmltodict \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 strace \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 tar \<br>
-&gt; diff --git a/meta/recipes-devtools/python/python3-uvloop/run-ptest b/m=
-eta/recipes-devtools/python/python3-uvloop/run-ptest<br>
-&gt; new file mode 100755<br>
-&gt; index 0000000000..0cb9a26b88<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-devtools/python/python3-uvloop/run-ptest<br>
-&gt; @@ -0,0 +1,50 @@<br>
-&gt; +#!/bin/sh<br>
-&gt; +# test_process_streams_redirect: replaces the stdout/stderr fds, whic=
-h<br>
-&gt; +# conflicts with pytest&#39;s output capture.<br>
-&gt; +# test_process_preexec_fn_{1,2}, Test_UV_DNS test_getaddrinfo_{8,9}: =
-libuv<br>
-&gt; +# 1.53.0 spawns with posix_spawn(), so preexec_fn never runs, and an =
-empty<br>
-&gt; +# host gives EAI_NODATA.<br>
-&gt; +# test_getaddrinfo_{1,2,3,5,6,11}, Test_AIO_DNS test_getaddrinfo_{8,9=
-}: each<br>
-&gt; +# DNS lookup waits for the resolver timeout without network access.<b=
-r>
-&gt; +# --deselect matches a node id prefix, so -k handles 1, 2 and 11.<br>
-&gt; +# riscv64: qemu runs without KVM there, too slow for the fixed timeou=
-ts in<br>
-&gt; +# the TLS stress tests, the issue39 deadlock check (signal.alarm(5)) =
-and<br>
-&gt; +# test_socket_cancel_sock_sendall, which must cancel within 0.2s.<br>
-&gt; +SLOW=3D&quot;&quot;<br>
-&gt; +if [ &quot;$(uname -m)&quot; =3D &quot;riscv64&quot; ]; then<br>
-&gt; +=C2=A0 =C2=A0 SLOW=3D&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_tcp.py::Test_UV_T=
-CPSSL::test_create_connection_ssl_1<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_tcp.py::Test_UV_T=
-CPSSL::test_create_server_ssl_over_ssl<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_tcp.py::Test_UV_T=
-CPSSL::test_renegotiation<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_tcp.py::Test_AIO_=
-TCPSSL::test_create_connection_ssl_1<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_tcp.py::Test_AIO_=
-TCPSSL::test_create_server_ssl_over_ssl<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_tcp.py::Test_AIO_=
-TCPSSL::test_renegotiation<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_unix.py::Test_UV_=
-UnixSSL::test_create_unix_connection_ssl_1<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_unix.py::Test_UV_=
-UnixSSL::test_create_unix_server_ssl_1<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_unix.py::Test_AIO=
-_UnixSSL::test_create_unix_connection_ssl_1<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_unix.py::Test_AIO=
-_UnixSSL::test_create_unix_server_ssl_1<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_regr1.py::TestIss=
-ue39Regr::test_issue39_regression<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_sockets.py::TestU=
-VSockets::test_socket_cancel_sock_sendall<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --deselect=3Dtests/test_sockets.py::TestA=
-IOSockets::test_socket_cancel_sock_sendall<br>
-&gt; +=C2=A0 =C2=A0 &quot;<br>
-&gt; +fi<br>
-&gt; +KEEP=3D&quot;not (test_getaddrinfo_1 or test_getaddrinfo_2)&quot;<br>
-<br>
-This &#39;KEEP&#39; variable name seems misleading given that it&#39;s usin=
-g &#39;not&#39; to avoid<br>
-running those two test cases, but then gets built up in a loop. I think it&=
-#39;d be<br>
-better to just add them with --deselect like the others, even if it ends up=
-<br>
-being more verbose.<br>
-<br>
-&gt; +for n in 10 12 13 14 15 16 17 18 19 20 21 22; do<br>
-&gt; +=C2=A0 =C2=A0 KEEP=3D&quot;$KEEP or test_getaddrinfo_$n&quot;<br>
-&gt; +done<br>
-&gt; +pytest --automake $SLOW \<br>
-&gt; +=C2=A0 =C2=A0 -k &quot;$KEEP&quot; \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_process.py::Test_UV_Process::te=
-st_process_streams_redirect \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_process.py::Test_AIO_Process::t=
-est_process_streams_redirect \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_process.py::Test_UV_Process::te=
-st_process_preexec_fn_1 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_process.py::Test_UV_Process::te=
-st_process_preexec_fn_2 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getad=
-drinfo_3 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getad=
-drinfo_5 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getad=
-drinfo_6 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getad=
-drinfo_8 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_UV_DNS::test_getad=
-drinfo_9 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_geta=
-ddrinfo_3 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_geta=
-ddrinfo_5 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_geta=
-ddrinfo_6 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_geta=
-ddrinfo_8 \<br>
-&gt; +=C2=A0 =C2=A0 --deselect=3Dtests/test_dns.py::Test_AIO_DNS::test_geta=
-ddrinfo_9<br>
-<br>
-I wonder if we could keep this list inside the recipe file itself, similar =
-to<br>
-how python3&#39;s recipe uses SKIPPED_TESTS with various appends? That exam=
-ple uses<br>
-unittest instead of pytest, but it should be possible to pass the list. May=
-be<br>
-I&#39;m wrong.<br></blockquote><div><br>Good points that=C2=A0honestly=C2=
-=A0I was not aware of previously. I am working on a SKIPPED_TESTS v3.</div>=
-<div><br></div><div>Thank you for the review!</div><div><br></div><div>--Ti=
-m</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Trevor<br>
-<br>
-&gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-uv=
-loop_0.22.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-uvloop_0.22.1.=
-bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-uvloop_0.22=
-.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-uvloop_0.22.1.bb</a><br=
->
-&gt; index 887c262ae7..39b6a2602a 100644<br>
-&gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3-uvloop_0.=
-22.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-uvloop_0.22.1.bb</a><=
-br>
-&gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3-uvloop_0.=
-22.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-uvloop_0.22.1.bb</a><=
-br>
-&gt; @@ -7,11 +7,34 @@ LIC_FILES_CHKSUM =3D &quot;file://LICENSE-APACHE;md5=
-=3Dbb92739ddad0a2811957bd98bdb90474 \<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 DEPENDS +=3D &quot;libuv python3-wheel-native&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -SRC_URI +=3D &quot;file://0001-setup.cfg-use-system-libuv.patch&quot;=
-<br>
-&gt; +SRC_URI +=3D &quot;\<br>
-&gt; +=C2=A0 =C2=A0 file://0001-setup.cfg-use-system-libuv.patch \<br>
-&gt; +=C2=A0 =C2=A0 file://run-ptest \<br>
-&gt; +&quot;<br>
-&gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;6c84bae345b9147082b17371e3dd5d42775=
-bddce91f885499017f4607fdaf39f&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -inherit pypi python_setuptools_build_meta cython<br>
-&gt; +inherit pypi python_setuptools_build_meta cython ptest-python-pytest<=
-br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 RDEPENDS:${PN} =3D &quot;python3-asyncio&quot;<br>
-&gt;=C2=A0 <br>
-&gt; +RDEPENDS:${PN}-ptest +=3D &quot;\<br>
-&gt; +=C2=A0 =C2=A0 python3-ctypes \<br>
-&gt; +=C2=A0 =C2=A0 python3-io \<br>
-&gt; +=C2=A0 =C2=A0 python3-logging \<br>
-&gt; +=C2=A0 =C2=A0 python3-math \<br>
-&gt; +=C2=A0 =C2=A0 python3-multiprocessing \<br>
-&gt; +=C2=A0 =C2=A0 python3-netclient \<br>
-&gt; +=C2=A0 =C2=A0 python3-numbers \<br>
-&gt; +=C2=A0 =C2=A0 python3-pickle \<br>
-&gt; +=C2=A0 =C2=A0 python3-pprint \<br>
-&gt; +=C2=A0 =C2=A0 python3-psutil \<br>
-&gt; +=C2=A0 =C2=A0 python3-pyopenssl \<br>
-&gt; +=C2=A0 =C2=A0 python3-threading \<br>
-&gt; +&quot;<br>
-&gt; +<br>
-&gt; +do_install_ptest:append() {<br>
-&gt; +=C2=A0 =C2=A0 # test_sourcecode needs these to skip cleanly when flak=
-e8 and mypy are missing<br>
-&gt; +=C2=A0 =C2=A0 install -m 0644 ${S}/.flake8 ${S}/mypy.ini ${D}${PTEST_=
-PATH}/<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#249298): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/249298" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/249298</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/122082304/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/122082304/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+--------------2C1hxWZ4dUzrrOdDpVR29eqT
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---00000000000015ae3e065f65cfd9--
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <head>
+
+    
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Jose,<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">Thanks for the fix. When people were
+      discussing it on the YP patch review call today,&nbsp;</div>
+    <div class="moz-cite-prefix">the question arose: Why didn't the YP
+      autobuilder catch this error and are there more<br>
+      inline assembly issues that we are not testing and catching at
+      build time ?<br>
+      <br>
+      Can you look into that or explain why it's not worth doing so?<br>
+      <br>
+      Thanks,</div>
+    <div class="moz-cite-prefix">../Randy</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">On 2026-10-29 05:37, Jose Quaresma via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20261029093738.1507-2-jose.quaresma@oss.qualcomm.com">
+      <pre wrap="" class="moz-quote-pre">From: Dmitry Baryshkov <a class="moz-txt-link-rfc2396E" href="mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com&gt;</a>
+
+The &quot;pause&quot; assembly mnemonic is only available on IA-32 platforms,
+breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
+assembly with the preprocessor checks, making sure that other platforms
+don't see the invalid assembly.
+
+FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
+Assembler messages:
+{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
+
+Signed-off-by: Dmitry Baryshkov <a class="moz-txt-link-rfc2396E" href="mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com&gt;</a>
+Signed-off-by: Jose Quaresma <a class="moz-txt-link-rfc2396E" href="mailto:jose.quaresma@oss.qualcomm.com">&lt;jose.quaresma@oss.qualcomm.com&gt;</a>
+---
+
+v5: Move Upstream-Status to the carried patch
+
+ ...t-pause-mnemonic-only-on-x86-x86_64-.patch | 37 +++++++++++++++++++
+ .../igt-gpu-tools/igt-gpu-tools_2.6.bb        |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+new file mode 100644
+index 0000000000..38582bf1d4
+--- /dev/null
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+@@ -0,0 +1,37 @@
++From dc072dc0fc680a055d0cdf5adfdccbab6d0566d6 Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <a class="moz-txt-link-rfc2396E" href="mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com&gt;</a>
++Date: Fri, 26 Jun 2026 22:34:06 +0300
++Subject: [PATCH] lib/amdgpu: insert pause mnemonic only on x86 / x86_64
++ platforms
++
++The &quot;pause&quot; assembly mnemonic is only available on IA-32 platforms,
++breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
++assembly with the preprocessor checks, making sure that other platforms
++don't see the invalid assembly.
++
++FAILED: [code=1] tests/amdgpu/amd_basic.p/amd_basic.c.o
++Assembler messages:
++{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
++
++Upstream-Status: Backport [<a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/125c0289617f3c7ba7ee376ea1d8aabd2ff5afdc">https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/125c0289617f3c7ba7ee376ea1d8aabd2ff5afdc</a>]
++
++Signed-off-by: Dmitry Baryshkov <a class="moz-txt-link-rfc2396E" href="mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com&gt;</a>
++---
++ tests/amdgpu/amd_basic.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/tests/amdgpu/amd_basic.c b/tests/amdgpu/amd_basic.c
++index 3ad023472136..e5475f337549 100644
++--- a/tests/amdgpu/amd_basic.c
+++++ b/tests/amdgpu/amd_basic.c
++@@ -703,8 +703,10 @@ static int wait_for_value64(volatile uint64_t *ptr, uint64_t expected,
++ 		/* Sleep if interval specified, otherwise tight loop */
++ 		if (check_interval_ns &gt; 0)
++ 			nanosleep(&amp;sleep_time, NULL);
+++#if defined(x86_64) || defined(i386)
++ 		else
++ 			__asm__ __volatile__(&quot;pause&quot; ::: &quot;memory&quot;); /* CPU hint for spin-wait */
+++#endif
++ 	}
++ }
++ 
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+index d76c2355a1..a46b002b83 100644
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+@@ -12,6 +12,7 @@ inherit meson pkgconfig
+ SRCREV = &quot;916c79cfb7675ca01607dcd821f8c49d4f633a6f&quot;
+ 
+ SRC_URI = &quot;git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
++           <a class="moz-txt-link-freetext" href="file://0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch">file://0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch</a> \
+            &quot;
+ 
+ DEPENDS += &quot;libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native pciutils jansson&quot;
+</pre>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre wrap="" class="moz-quote-pre">-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#248920): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/248920">https://lists.openembedded.org/g/openembedded-core/message/248920</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/121991366/3616765">https://lists.openembedded.org/mt/121991366/3616765</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------2C1hxWZ4dUzrrOdDpVR29eqT--
