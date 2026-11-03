@@ -1,40 +1,41 @@
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5339.1793687205659172838
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5404.1793687205587793305
  for <openembedded-core@lists.openembedded.org>;
  Mon, 02 Nov 2026 22:26:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HBvnaZOE;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=WVgW5P2a;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1a016b3c3-325e26c9-af91-4144-855d-1d3fdb97576d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HoavL/3L;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bUTxILfC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a1a016b326-1fb9aa43-b8be-483a-ad75-d4c696988f4d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1793687204;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=K4GdRuCmznjPsXcsGWJiRs7LqRV9yCdxS5dFX7aIkNM=;
-	b=HBvnaZOE08nRDeyNo8qJzS1mfnqcdFOPp8FKxvwPCxCQqtd29FYWTfviRzDhKmhA
-	JyzdJ6/neg1xWFVZZDHzlb9/k6ZXInCEW8+FN/Lxd/2rFcHxJCQ8EGF1y624SdjMa6G
-	lpXYHwzdUlLi1AhdNTyRGu16Bvl/yu8x2JIhGpHY=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=q0Q7JukAoUl5Nal1AEe2bJr5bvTUmMnZgGOMii3ahXA=;
+	b=HoavL/3LLx3FJP7eEFYiK4djlZue/+GesHuJIQ8Rkc5tA2C4GBPBcYxEWN12a2Go
+	MkWtoqTX1CRysoVeHgxqKRbi/O5R+chl1LL0317Tw2seBwjJC4Ld6FTiikp84/999Se
+	w6Ws2rZJmTgSHEz3ffTc6f5d5WXckrN993esSIus=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793687204;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=K4GdRuCmznjPsXcsGWJiRs7LqRV9yCdxS5dFX7aIkNM=;
-	b=WVgW5P2awpgF79uQ6kNeCpvGIp6v/lQwVEqt3lnCqZ8wEs/iDtWg6KqUZv3SuHfi
-	NCMe9LB6P4TFBNDymypjmvPL6KQNeSVM2bBWTJitPqYDAtOxjxc7uL7qTq0kNituilr
-	SgGKYUzpyTZJ6EJfUh3MlNr+Q5kq2CchXbjMtIjY=
-Content-Type: multipart/mixed; boundary="===============5900856345481813981=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=q0Q7JukAoUl5Nal1AEe2bJr5bvTUmMnZgGOMii3ahXA=;
+	b=bUTxILfCOUTPonh85gfoI4fa221CUxiLEM32G78S7rvyVzaf1jDqUeBXG1O5AAFY
+	LFUjFP5EkboplEf0RD2VtieBq5f8JpPPvOmxrVh/t8FtnNDwoDWwce15cmtxYXunZj9
+	VOkWOR/COeoTHlWSaD3EsjSLm32/AiADIu7KDRHY=
+Content-Type: multipart/mixed; boundary="===============9199844102465102582=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] nghttp2: upgrading to 1.71.0 SUCCEEDED
-Message-ID: <010101a1a016b3c3-325e26c9-af91-4144-855d-1d3fdb97576d-000000@us-west-2.amazonses.com>
+To: Hiago De Franco <hfranco@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] hwdata: upgrading to 0.412 SUCCEEDED
+Message-ID: <010101a1a016b326-1fb9aa43-b8be-483a-ad75-d4c696988f4d-000000@us-west-2.amazonses.com>
 Date: Tue, 3 Nov 2026 06:26:44 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.03-54.240.27.30
+X-SES-Outgoing: 2026.11.03-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 06:26:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249244
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249243
 
---===============5900856345481813981==
+--===============9199844102465102582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -42,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *nghttp2* to *1.71.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *hwdata* to *0.412* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-nghttp2-upgrade-1.70.0-1.71.0.patch
+    - apply the patch: git am 0001-hwdata-upgrade-0.411-0.412.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -63,301 +64,97 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b2a81bf82c56570b010aa20fa7fbc625c2cd3fbb Mon Sep 17 00:00:00 2001
+From 6b7e0bba686620e6a8913b5ad6e04f286c37767c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 3 Nov 2026 06:26:35 +0000
-Subject: [PATCH] nghttp2: upgrade 1.70.0 -> 1.71.0
+Date: Tue, 3 Nov 2026 06:23:23 +0000
+Subject: [PATCH] hwdata: upgrade 0.411 -> 0.412
 
-Update bash_completion
-Update manual pages
-Bump package and library versions
-Update AUTHORS
-Bump ngtcp2 and nghttp3
-GHA: Remove macos-15
-Remove public server text
-Update window upfront
-Update remote window upfront when DATA is sent
-Increase recv window when DATA frame header is received
-Bump deps
-Fix docker build
-Bump wolfssl to v5.9.4-stable
-Bump aws-lc to v5.12.0
-Bump boringssl
-Bump libbpf to v1.8.0
-Simplify map insertion
-Fix priority update
-Simplify map insertion
-build(deps): bump github.com/quic-go/quic-go from 0.64.0 to 0.64.1
-Remove LICENSE file
-Add oss-scanner files
-Better map hasher
-build(deps): bump github.com/quic-go/quic-go from 0.64.0 to 0.64.1
-nghttp2_nv_array_copy: Detect size_t overflow
-Update doc
-Fix signed integer overflow in nghttp2_session_get_stream_local_window_size
-Deal with too large window size when consuming data
-build(deps): bump github.com/quic-go/quic-go from 0.63.0 to 0.64.0
-GHA: Use aws-lc instead of openssl for macos build
-build(deps): bump golang.org/x/net from 0.59.0 to 0.61.0
-Update doc
-bpf: Avoid verifier instruction limits
-nghttpx: Fix the bug that GSO on QUIC connection is disabled
-Update GitHub funding configuration
-build(deps): bump github.com/quic-go/quic-go from 0.62.0 to 0.63.0
-build(deps): bump golang.org/x/net from 0.58.0 to 0.59.0
-GHA: Reduce cmake and macos jobs
-GHA: Remove cygwin build because it stopped functioning
-GHA: Reduce openssl1 jobs
-GHA: Use packaged OpenSSL
-Bump ubuntu
-Bump ubuntu to 26.04 for android Dockerfile
-GHA: Bump ubuntu to 26.04
-GHA: Bump clang to 21
-Bump neverbleed
-nghttpx: Remove server push
-Bump clang-format to 21
-lib: Disallow HEADERS and PUSH_PROMISE in CONNECT stream
-nghttpx: Rewrite CertLookupTree based on RFC 9525 rules
-nghttpx: Client TLS certificate validation based on RFC 9525
-nghttpx: Refactor Router
-build(deps): bump github.com/quic-go/quic-go from 0.61.0 to 0.62.0
-Bump go to 1.26
-Munit cxx assertions
-src: Use munit C++ assertions
-tests: Bump munit
-GHA: Use g++-15
-Gha bump ubuntu
-GHA: Disable examples with aws-lc as well
-GHA: Bump ubuntu to 26.04
-build(deps): bump golang.org/x/net from 0.57.0 to 0.58.0
-nghttpx: Check QUIC version
-Add length check for CONTINUATION
-util: add <fstream> include
-build(deps): bump actions/stale from 10 to 11
-Revert "Take into account idle streams"
-Add option to limit the maximum outbound queue size
-Take into account idle streams
-build(deps): bump actions/stale from 10 to 11
-Bump package version
+Update pci
 ---
- .../nghttp2/{nghttp2_1.70.0.bb => nghttp2_1.71.0.bb}            | 2 +-
+ .../recipes-support/hwdata/{hwdata_0.411.bb => hwdata_0.412.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/nghttp2/{nghttp2_1.70.0.bb => nghttp2_1.71.0.bb} (84%)
+ rename meta/recipes-support/hwdata/{hwdata_0.411.bb => hwdata_0.412.bb} (93%)
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.71.0.bb
-similarity index 84%
-rename from meta/recipes-support/nghttp2/nghttp2_1.70.0.bb
-rename to meta/recipes-support/nghttp2/nghttp2_1.71.0.bb
-index 1b09f91ce6..214545ab81 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.70.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.71.0.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
+diff --git a/meta/recipes-support/hwdata/hwdata_0.411.bb b/meta/recipes-support/hwdata/hwdata_0.412.bb
+similarity index 93%
+rename from meta/recipes-support/hwdata/hwdata_0.411.bb
+rename to meta/recipes-support/hwdata/hwdata_0.412.bb
+index b83c11f09d..c59654e138 100644
+--- a/meta/recipes-support/hwdata/hwdata_0.411.bb
++++ b/meta/recipes-support/hwdata/hwdata_0.412.bb
+@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later OR X11"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1556547711e8246992b999edd9445a57"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
+ SRC_URI = "git://github.com/vcrhonek/${BPN}.git;branch=master;protocol=https;tag=v${PV}"
+-SRCREV = "7fc63d411377e40aab66bfbf77dce6a439c3fe87"
++SRCREV = "816a9490ffcdad1929e0e53f79c500e1aeadd492"
  
--SRC_URI[sha256sum] = "e05cb1388eaca3830aded4ccf20044b6e1ac1a61411dcca11b0437c4285c8bc2"
-+SRC_URI[sha256sum] = "c0f55121d88650e4b9227aec28cebaf664d2417ca60fe70be0f8d38829f52116"
- 
- inherit cmake manpages python3native github-releases
+ inherit allarch
  
 -- 
 2.47.1
 
 
---===============5900856345481813981==
+--===============9199844102465102582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/nghttp2: PV changed from "1.70.0" to "1.71.0"
-packages/x86-64-v3-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.70.0/nghttp2-1.70.0.tar.xz" to "https://github.com/nghttp2/nghttp2/releases//download/v1.71.0/nghttp2-1.71.0.tar.xz"
-packages/x86-64-v3-poky-linux/nghttp2: PKGV changed from 1.70.0 [default] to 1.71.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.70.0" to "1.71.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 638632 to 644168 (+1%)
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.70.0 [default] to 1.71.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.29.5", added "/usr/lib/.debug/libnghttp2.so.14.30.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.70.0" to "1.71.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 253584 to 254636 (+0%)
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.70.0 [default] to 1.71.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.70.0" to "1.71.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 49546 to 49388 (-0%)
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.70.0 [default] to 1.71.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.70.0" to "1.71.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.70.0 [default] to 1.71.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PV changed from "1.70.0" to "1.71.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1050159 to 1054646 (+0%)
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.70.0 [default] to 1.71.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-src: FILELIST: directory renamed /usr/src/debug/nghttp2/1.70.0/lib/includes/nghttp2 -> /usr/src/debug/nghttp2/1.71.0/lib/includes/nghttp2, directory renamed /usr/src/debug/nghttp2/1.70.0/lib -> /usr/src/debug/nghttp2/1.71.0/lib
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.70.0" to "1.71.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.70.0 [default] to 1.71.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PV changed from "1.70.0" to "1.71.0"
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2: PKGV changed from 1.70.0 [default] to 1.71.0 [default]
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.29.5", added "/usr/lib/libnghttp2.so.14.30.0"
-Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.29.5 to libnghttp2.so.14.30.0
-  /usr/lib/libnghttp2.so.14.29.5 moved to /usr/lib/libnghttp2.so.14.30.0
+packages/all-poky-linux/hwdata/hwdata-dbg: PV changed from "0.411" to "0.412"
+packages/all-poky-linux/hwdata/hwdata-dbg: PKGV changed from 0.411 [default] to 0.412 [default]
+packages/all-poky-linux/hwdata/hwdata-dev: PV changed from "0.411" to "0.412"
+packages/all-poky-linux/hwdata/hwdata-dev: PKGV changed from 0.411 [default] to 0.412 [default]
+packages/all-poky-linux/hwdata/hwdata-doc: PV changed from "0.411" to "0.412"
+packages/all-poky-linux/hwdata/hwdata-doc: PKGV changed from 0.411 [default] to 0.412 [default]
+packages/all-poky-linux/hwdata/hwdata-locale: PV changed from "0.411" to "0.412"
+packages/all-poky-linux/hwdata/hwdata-locale: PKGV changed from 0.411 [default] to 0.412 [default]
+packages/all-poky-linux/hwdata/hwdata-src: PV changed from "0.411" to "0.412"
+packages/all-poky-linux/hwdata/hwdata-src: PKGV changed from 0.411 [default] to 0.412 [default]
+packages/all-poky-linux/hwdata/hwdata-staticdev: PV changed from "0.411" to "0.412"
+packages/all-poky-linux/hwdata/hwdata-staticdev: PKGV changed from 0.411 [default] to 0.412 [default]
+packages/all-poky-linux/hwdata/hwdata: PV changed from "0.411" to "0.412"
+packages/all-poky-linux/hwdata/hwdata: PKGSIZE changed from 10556262 to 10566303 (+0%)
+packages/all-poky-linux/hwdata/hwdata: PKGV changed from 0.411 [default] to 0.412 [default]
+packages/all-poky-linux/hwdata: PV changed from "0.411" to "0.412"
+packages/all-poky-linux/hwdata: PKGV changed from 0.411 [default] to 0.412 [default]
+packages/all-poky-linux/hwdata: SRC_URI changed from "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.411" to "git://github.com/vcrhonek/hwdata.git;branch=master;protocol=https;tag=v0.412"
 
---===============5900856345481813981==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="nghttp2-changelog.txt"
-
-Update bash_completion
-Update manual pages
-Bump package and library versions
-Update AUTHORS
-Bump ngtcp2 and nghttp3
-GHA: Remove macos-15
-Remove public server text
-Update window upfront
-Update remote window upfront when DATA is sent
-Increase recv window when DATA frame header is received
-Bump deps
-Fix docker build
-Bump wolfssl to v5.9.4-stable
-Bump aws-lc to v5.12.0
-Bump boringssl
-Bump libbpf to v1.8.0
-Simplify map insertion
-Fix priority update
-Simplify map insertion
-build(deps): bump github.com/quic-go/quic-go from 0.64.0 to 0.64.1
-Remove LICENSE file
-Add oss-scanner files
-Better map hasher
-build(deps): bump github.com/quic-go/quic-go from 0.64.0 to 0.64.1
-nghttp2_nv_array_copy: Detect size_t overflow
-Update doc
-Fix signed integer overflow in nghttp2_session_get_stream_local_window_size
-Deal with too large window size when consuming data
-build(deps): bump github.com/quic-go/quic-go from 0.63.0 to 0.64.0
-GHA: Use aws-lc instead of openssl for macos build
-build(deps): bump golang.org/x/net from 0.59.0 to 0.61.0
-Update doc
-bpf: Avoid verifier instruction limits
-nghttpx: Fix the bug that GSO on QUIC connection is disabled
-Update GitHub funding configuration
-build(deps): bump github.com/quic-go/quic-go from 0.62.0 to 0.63.0
-build(deps): bump golang.org/x/net from 0.58.0 to 0.59.0
-GHA: Reduce cmake and macos jobs
-GHA: Remove cygwin build because it stopped functioning
-GHA: Reduce openssl1 jobs
-GHA: Use packaged OpenSSL
-Bump ubuntu
-Bump ubuntu to 26.04 for android Dockerfile
-GHA: Bump ubuntu to 26.04
-GHA: Bump clang to 21
-Bump neverbleed
-nghttpx: Remove server push
-Bump clang-format to 21
-lib: Disallow HEADERS and PUSH_PROMISE in CONNECT stream
-nghttpx: Rewrite CertLookupTree based on RFC 9525 rules
-nghttpx: Client TLS certificate validation based on RFC 9525
-nghttpx: Refactor Router
-build(deps): bump github.com/quic-go/quic-go from 0.61.0 to 0.62.0
-Bump go to 1.26
-Munit cxx assertions
-src: Use munit C++ assertions
-tests: Bump munit
-GHA: Use g++-15
-Gha bump ubuntu
-GHA: Disable examples with aws-lc as well
-GHA: Bump ubuntu to 26.04
-build(deps): bump golang.org/x/net from 0.57.0 to 0.58.0
-nghttpx: Check QUIC version
-Add length check for CONTINUATION
-util: add <fstream> include
-build(deps): bump actions/stale from 10 to 11
-Revert "Take into account idle streams"
-Add option to limit the maximum outbound queue size
-Take into account idle streams
-build(deps): bump actions/stale from 10 to 11
-Bump package version
-
---===============5900856345481813981==
+--===============9199844102465102582==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-nghttp2-upgrade-1.70.0-1.71.0.patch"
+ filename="0001-hwdata-upgrade-0.411-0.412.patch"
 
-RnJvbSBiMmE4MWJmODJjNTY1NzBiMDEwYWEyMGZhN2ZiYzYyNWMyY2QzZmJiIE1vbiBTZXAgMTcg
+RnJvbSA2YjdlMGJiYTY4NjYyMGU2YTg5MTNiNWFkNmUwNGYyODZjMzc3NjdjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMyBOb3YgMjAyNiAwNjoyNjozNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
-aHR0cDI6IHVwZ3JhZGUgMS43MC4wIC0+IDEuNzEuMAoKVXBkYXRlIGJhc2hfY29tcGxldGlvbgpV
-cGRhdGUgbWFudWFsIHBhZ2VzCkJ1bXAgcGFja2FnZSBhbmQgbGlicmFyeSB2ZXJzaW9ucwpVcGRh
-dGUgQVVUSE9SUwpCdW1wIG5ndGNwMiBhbmQgbmdodHRwMwpHSEE6IFJlbW92ZSBtYWNvcy0xNQpS
-ZW1vdmUgcHVibGljIHNlcnZlciB0ZXh0ClVwZGF0ZSB3aW5kb3cgdXBmcm9udApVcGRhdGUgcmVt
-b3RlIHdpbmRvdyB1cGZyb250IHdoZW4gREFUQSBpcyBzZW50CkluY3JlYXNlIHJlY3Ygd2luZG93
-IHdoZW4gREFUQSBmcmFtZSBoZWFkZXIgaXMgcmVjZWl2ZWQKQnVtcCBkZXBzCkZpeCBkb2NrZXIg
-YnVpbGQKQnVtcCB3b2xmc3NsIHRvIHY1LjkuNC1zdGFibGUKQnVtcCBhd3MtbGMgdG8gdjUuMTIu
-MApCdW1wIGJvcmluZ3NzbApCdW1wIGxpYmJwZiB0byB2MS44LjAKU2ltcGxpZnkgbWFwIGluc2Vy
-dGlvbgpGaXggcHJpb3JpdHkgdXBkYXRlClNpbXBsaWZ5IG1hcCBpbnNlcnRpb24KYnVpbGQoZGVw
-cyk6IGJ1bXAgZ2l0aHViLmNvbS9xdWljLWdvL3F1aWMtZ28gZnJvbSAwLjY0LjAgdG8gMC42NC4x
-ClJlbW92ZSBMSUNFTlNFIGZpbGUKQWRkIG9zcy1zY2FubmVyIGZpbGVzCkJldHRlciBtYXAgaGFz
-aGVyCmJ1aWxkKGRlcHMpOiBidW1wIGdpdGh1Yi5jb20vcXVpYy1nby9xdWljLWdvIGZyb20gMC42
-NC4wIHRvIDAuNjQuMQpuZ2h0dHAyX252X2FycmF5X2NvcHk6IERldGVjdCBzaXplX3Qgb3ZlcmZs
-b3cKVXBkYXRlIGRvYwpGaXggc2lnbmVkIGludGVnZXIgb3ZlcmZsb3cgaW4gbmdodHRwMl9zZXNz
-aW9uX2dldF9zdHJlYW1fbG9jYWxfd2luZG93X3NpemUKRGVhbCB3aXRoIHRvbyBsYXJnZSB3aW5k
-b3cgc2l6ZSB3aGVuIGNvbnN1bWluZyBkYXRhCmJ1aWxkKGRlcHMpOiBidW1wIGdpdGh1Yi5jb20v
-cXVpYy1nby9xdWljLWdvIGZyb20gMC42My4wIHRvIDAuNjQuMApHSEE6IFVzZSBhd3MtbGMgaW5z
-dGVhZCBvZiBvcGVuc3NsIGZvciBtYWNvcyBidWlsZApidWlsZChkZXBzKTogYnVtcCBnb2xhbmcu
-b3JnL3gvbmV0IGZyb20gMC41OS4wIHRvIDAuNjEuMApVcGRhdGUgZG9jCmJwZjogQXZvaWQgdmVy
-aWZpZXIgaW5zdHJ1Y3Rpb24gbGltaXRzCm5naHR0cHg6IEZpeCB0aGUgYnVnIHRoYXQgR1NPIG9u
-IFFVSUMgY29ubmVjdGlvbiBpcyBkaXNhYmxlZApVcGRhdGUgR2l0SHViIGZ1bmRpbmcgY29uZmln
-dXJhdGlvbgpidWlsZChkZXBzKTogYnVtcCBnaXRodWIuY29tL3F1aWMtZ28vcXVpYy1nbyBmcm9t
-IDAuNjIuMCB0byAwLjYzLjAKYnVpbGQoZGVwcyk6IGJ1bXAgZ29sYW5nLm9yZy94L25ldCBmcm9t
-IDAuNTguMCB0byAwLjU5LjAKR0hBOiBSZWR1Y2UgY21ha2UgYW5kIG1hY29zIGpvYnMKR0hBOiBS
-ZW1vdmUgY3lnd2luIGJ1aWxkIGJlY2F1c2UgaXQgc3RvcHBlZCBmdW5jdGlvbmluZwpHSEE6IFJl
-ZHVjZSBvcGVuc3NsMSBqb2JzCkdIQTogVXNlIHBhY2thZ2VkIE9wZW5TU0wKQnVtcCB1YnVudHUK
-QnVtcCB1YnVudHUgdG8gMjYuMDQgZm9yIGFuZHJvaWQgRG9ja2VyZmlsZQpHSEE6IEJ1bXAgdWJ1
-bnR1IHRvIDI2LjA0CkdIQTogQnVtcCBjbGFuZyB0byAyMQpCdW1wIG5ldmVyYmxlZWQKbmdodHRw
-eDogUmVtb3ZlIHNlcnZlciBwdXNoCkJ1bXAgY2xhbmctZm9ybWF0IHRvIDIxCmxpYjogRGlzYWxs
-b3cgSEVBREVSUyBhbmQgUFVTSF9QUk9NSVNFIGluIENPTk5FQ1Qgc3RyZWFtCm5naHR0cHg6IFJl
-d3JpdGUgQ2VydExvb2t1cFRyZWUgYmFzZWQgb24gUkZDIDk1MjUgcnVsZXMKbmdodHRweDogQ2xp
-ZW50IFRMUyBjZXJ0aWZpY2F0ZSB2YWxpZGF0aW9uIGJhc2VkIG9uIFJGQyA5NTI1Cm5naHR0cHg6
-IFJlZmFjdG9yIFJvdXRlcgpidWlsZChkZXBzKTogYnVtcCBnaXRodWIuY29tL3F1aWMtZ28vcXVp
-Yy1nbyBmcm9tIDAuNjEuMCB0byAwLjYyLjAKQnVtcCBnbyB0byAxLjI2Ck11bml0IGN4eCBhc3Nl
-cnRpb25zCnNyYzogVXNlIG11bml0IEMrKyBhc3NlcnRpb25zCnRlc3RzOiBCdW1wIG11bml0CkdI
-QTogVXNlIGcrKy0xNQpHaGEgYnVtcCB1YnVudHUKR0hBOiBEaXNhYmxlIGV4YW1wbGVzIHdpdGgg
-YXdzLWxjIGFzIHdlbGwKR0hBOiBCdW1wIHVidW50dSB0byAyNi4wNApidWlsZChkZXBzKTogYnVt
-cCBnb2xhbmcub3JnL3gvbmV0IGZyb20gMC41Ny4wIHRvIDAuNTguMApuZ2h0dHB4OiBDaGVjayBR
-VUlDIHZlcnNpb24KQWRkIGxlbmd0aCBjaGVjayBmb3IgQ09OVElOVUFUSU9OCnV0aWw6IGFkZCA8
-ZnN0cmVhbT4gaW5jbHVkZQpidWlsZChkZXBzKTogYnVtcCBhY3Rpb25zL3N0YWxlIGZyb20gMTAg
-dG8gMTEKUmV2ZXJ0ICJUYWtlIGludG8gYWNjb3VudCBpZGxlIHN0cmVhbXMiCkFkZCBvcHRpb24g
-dG8gbGltaXQgdGhlIG1heGltdW0gb3V0Ym91bmQgcXVldWUgc2l6ZQpUYWtlIGludG8gYWNjb3Vu
-dCBpZGxlIHN0cmVhbXMKYnVpbGQoZGVwcyk6IGJ1bXAgYWN0aW9ucy9zdGFsZSBmcm9tIDEwIHRv
-IDExCkJ1bXAgcGFja2FnZSB2ZXJzaW9uCi0tLQogLi4uL25naHR0cDIve25naHR0cDJfMS43MC4w
-LmJiID0+IG5naHR0cDJfMS43MS4wLmJifSAgICAgICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvbmdodHRwMi97bmdodHRwMl8xLjcwLjAuYmIgPT4gbmdodHRwMl8xLjcxLjAuYmJ9ICg4
-NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
-NzAuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjcxLjAuYmIK
-c2ltaWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdo
-dHRwMi9uZ2h0dHAyXzEuNzAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdo
-dHRwMi9uZ2h0dHAyXzEuNzEuMC5iYgppbmRleCAxYjA5ZjkxY2U2Li4yMTQ1NDVhYjgxIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS43MC4wLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjcxLjAuYmIKQEAgLTYs
-NyArNiw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTc2NGFiZGYz
-MGIyZWFkZDM3Y2U0N2RjYmNlMGVhMWVjIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJ
-fS9kb3dubG9hZC92JHtQVn0vbmdodHRwMi0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2
-c3VtXSA9ICJlMDVjYjEzODhlYWNhMzgzMGFkZWQ0Y2NmMjAwNDRiNmUxYWMxYTYxNDExZGNjYTEx
-YjA0MzdjNDI4NWM4YmMyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImMwZjU1MTIxZDg4NjUwZTRi
-OTIyN2FlYzI4Y2ViYWY2NjRkMjQxN2NhNjBmZTcwYmUwZjhkMzg4MjlmNTIxMTYiCiAKIGluaGVy
-aXQgY21ha2UgbWFucGFnZXMgcHl0aG9uM25hdGl2ZSBnaXRodWItcmVsZWFzZXMKIAotLSAKMi40
-Ny4xCgo=
+CkRhdGU6IFR1ZSwgMyBOb3YgMjAyNiAwNjoyMzoyMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGh3
+ZGF0YTogdXBncmFkZSAwLjQxMSAtPiAwLjQxMgoKVXBkYXRlIHBjaQotLS0KIC4uLi9yZWNpcGVz
+LXN1cHBvcnQvaHdkYXRhL3tod2RhdGFfMC40MTEuYmIgPT4gaHdkYXRhXzAuNDEyLmJifSB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS97aHdkYXRhXzAuNDExLmJiID0+IGh3ZGF0YV8w
+LjQxMi5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9od2RhdGEv
+aHdkYXRhXzAuNDExLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaHdkYXRhL2h3ZGF0YV8wLjQx
+Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9od2RhdGEvaHdkYXRhXzAuNDExLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9o
+d2RhdGEvaHdkYXRhXzAuNDEyLmJiCmluZGV4IGI4M2MxMWYwOWQuLmM1OTY1NGUxMzggMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2h3ZGF0YS9od2RhdGFfMC40MTEuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvaHdkYXRhL2h3ZGF0YV8wLjQxMi5iYgpAQCAtOCw3ICs4LDcg
+QEAgTElDRU5TRSA9ICJHUEwtMi4wLW9yLWxhdGVyIE9SIFgxMSIKIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTE1NTY1NDc3MTFlODI0Njk5MmI5OTllZGQ5NDQ1YTU3Igog
+CiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vdmNyaG9uZWsvJHtCUE59LmdpdDticmFuY2g9
+bWFzdGVyO3Byb3RvY29sPWh0dHBzO3RhZz12JHtQVn0iCi1TUkNSRVYgPSAiN2ZjNjNkNDExMzc3
+ZTQwYWFiNjZiZmJmNzdkY2U2YTQzOWMzZmU4NyIKK1NSQ1JFViA9ICI4MTZhOTQ5MGZmY2RhZDE5
+MjllMGU1M2Y3OWM1MDBlMWFlYWRkNDkyIgogCiBpbmhlcml0IGFsbGFyY2gKIAotLSAKMi40Ny4x
+Cgo=
 
---===============5900856345481813981==
+--===============9199844102465102582==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="hwdata-changelog.txt"
 
-packages/x86-64-v3-poky-linux/nghttp2/nghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.29.5", added "/usr/lib/libnghttp2.so.14.30.0"
-Changes to packages/x86-64-v3-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.29.5 to libnghttp2.so.14.30.0
-  /usr/lib/libnghttp2.so.14.29.5 moved to /usr/lib/libnghttp2.so.14.30.0
+Update pci
 
---===============5900856345481813981==--
+--===============9199844102465102582==--
