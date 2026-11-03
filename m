@@ -1,278 +1,171 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7216.1793698094554339183
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.60])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7219.1793698101544969562
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 01:28:19 -0800
+ Tue, 03 Nov 2026 01:28:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=ngxOVW55;
- spf=pass (domain: est.tech, ip: 52.101.72.43, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=BDX5D6yP;
+ spf=pass (domain: est.tech, ip: 52.101.72.60, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nPe8LtQOZz1vrT3McAQ0PV31g8T45vWoUDX1v5yI8vsigvia1FKhF4RyEE22FoO0XJSFXmcBsP7TiyePANbk4RW6NKHX2ijLHPrIrgClGSo1RvtpLAJ08ZozK+BSv9XSbkmZn4c7WEAckIQofL9FmGHEyCdrUkwX37/WYmELcC2jbVWb7e+c4EISHMmaFpyUFN0X4ZBPcAb+0ZBPqh6D9JID5KJc4HwPvhwr61uJXC3YwL4pv2dOw/xSaL+Slz9DAErZ99x1gaYkcqBClU8ARAHU2+BK2PwLmS3IqFYbZPaREr5aG9hE9UwNhBFrNGOWJdSJ486r5klQuDQjS0wFxQ==
+ b=UWj65Os0Jl9KjqUGEL/JwikukwYbtsNhyWSc+7GYxCNSBXEPDmIcp3qlMwxSOWRep7Bo1zH/gDpo6lbsS2XXj1bdkDbM8PZdmJSPdPwCz4Yunyy2OmHS46auvFixS2Q38PZaiQ4h0KegZCn2LIvl1z/XW+rd2XZTQdy0F1wQrX0+Yn+g2mVkJLvfa/zgsfOgBRUWTV0pLz2M9tI1Lb2G9Sm0NqhzfATkkHrAw0DG7bin8ejBJkQzhn8mAsn+ueqhKM/O2npKeVsEH4X4yZz07S2qP2w6Qf6Z67GX/81knCTvPcqn2bJJbM42xahaUAUbeeUopuQ5B7o+lGl14daZ0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D/NBHyqKrpNN9iFt5ykpv9TZSVlKn7ndePD96WfT2Lw=;
- b=jhYNrc612qJCpsH2mHs5sWutkUk1TPgQ5nuClrvN7ZsOS0CHUNHvzxWF7q/wDCqO9zEcoLeWFW4pOvHA/VJvkKdaBVYtxBW0dBAWZ3Py+S9sp918M/1CGu68l59ILXGDc9qomyfu0ShJj4uQRkbPPiU3rAlyVWpCgjD4vkvJ6mkfOmH4jfXZUDTNW6WlbdkNQ91zK177hVmLRPBrioWOimWRCAZ0IkcAhmAVK2GvEMmv1BpIVFy6++YCKGxQjV0GY9S+nTCN0ZrhJh2/G0Ju+hs3e/YcOp0LzVdP4mWXWCyPWJ1IacoB+f/DFLGl+O0UG9faZaTuZ5HYi3uENj1ciA==
+ bh=1CP5DoYjKD+zT8zzFiRP8qO/0PLpzpPv7OqLYHF50kA=;
+ b=amc/W9vg4hTvFwn+YlFT+5Az+pEYY9Y3hvv1Cse9HaaoNgkG23H0cj26blxfl7ClAsGUpXNJQFk7Y1JoFt/nBq1WcbdRIBiswpa95wMQWSy8kQD+CiEjNR9aCjM3e4L8q53OFHLEz1uac7M+kwdPhun26YMUiyUO2eChr/J7wv1KAyayEtQjQlFQBVwmdfc1AVIfSnRmhQghKf2pCAFa1L3Gc7X3NebEvxadXsXWIV40uigLYWPw6kIIXxTuSsPX1qBI1lKmOCC2Dk2uKhi8zPkvg2nLJB9LrULWev2OiKyY6hPv/qK8MHYLFdJfcCBf3Kn2aXvdWmlgQ9/zsq1Oww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D/NBHyqKrpNN9iFt5ykpv9TZSVlKn7ndePD96WfT2Lw=;
- b=ngxOVW55dMq4N6nZm6albbZih1X5j7qbyY9rBthYOQA5LI2TX7+EBPt++GSP/L0dfBn30umWhZf4YvPWgx3Yjlrrap7b69GL+01TQoMHq3UEAhiJkJJqhdI40/p0IootThQxucl3KCInsYRa+zToEbVkX+nZFpZz2FqEqhHJacsIiI4F0RHEZchja3scYdpryVposRXgk6yW6kMpKVe9+gaPF6J0nRA0ETq8cdr8kVQzrT9YrVZc3sY77tkEX9qf6Ynh9BL0bBGyyxpHnbEMofrIQVyddKApz6i5GPw6DPeE2Oa9d3jTNfepbHBEJLFXLpRrdzs/fizU63Lwd4I8BA==
+ bh=1CP5DoYjKD+zT8zzFiRP8qO/0PLpzpPv7OqLYHF50kA=;
+ b=BDX5D6yPKgihfGCdoftePSFUDjEIRorBq5qm0TuEnSYzoM+xEigj6iKHx/rRxX0MTQgDe0Gi2rvRB+1cfkpLfLteaQNvQ+N5kMpiAJAUhJVacOIlfeuwCvZ8dx2ok2e07OLsMRYK4pexQqNopqL84q6YZnOKXiNgalxVyr0IizhhBU/oH+0ftxoKW8Sa5gg0xbxwoVbTmt1dK7OUAXtuWLHIsj6P1JrV2vwiPHXxcr129nqY6vrRhyvQk+09W8lFp6AyrfAeDxekbpPTMFYH/wM15ETYAv/xhhi+6PpkQGRRwgcficg5vq4rhO20iatG5YicIsr+mJZQBZM7trKSZQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by PAXP189MB1951.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:277::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Tue, 3 Nov 2026
- 09:28:15 +0000
+ 09:28:21 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0592.007; Tue, 3 Nov 2026
- 09:28:15 +0000
+ 09:28:21 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 08/12] python3-pip: upgrade 26.2.2 -> 26.3
-Date: Tue,  3 Nov 2026 10:27:56 +0100
-Message-ID: <20261103092800.39286-9-jaipaul.cheernam@est.tech>
+Subject: [PATCH 12/12] gtk4: upgrade 4.24.0 -> 4.24.1
+Date: Tue,  3 Nov 2026 10:28:00 +0100
+Message-ID: <20261103092800.39286-13-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261103092800.39286-1-jaipaul.cheernam@est.tech>
 References: <20261103092800.39286-1-jaipaul.cheernam@est.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO0P123CA0006.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::8) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PA7P264CA0050.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:34a::16) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PAXP189MB1951:EE_
-X-MS-Office365-Filtering-Correlation-Id: bff7453e-4f89-4ffc-77eb-08df398cc95f
+X-MS-Office365-Filtering-Correlation-Id: b21413d1-7f91-4959-f1fd-08df398ccd68
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|261102123227099003|11063799006|261022075727099003|56012099006|261028144727099003|261021121427099003|261021123027099003|261022113327099003|261022115727099003|261022105027099003|261021133027099003|261021130227099003|261021135927099003|261009223027099003|261026121527099003|261026135527099003|261026130827099003|261026140227099003|10067099003|18002099003|22082099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info: AL8+QdlFFl10KbyHkBhEQMBgzBehQTxJCmtLZcD1cBhWmRYnyFIJDyMgwYmf1hVXtg4XvsoCargBE3T6lOFN+fIgWkh7VV/zyhgoXwK8+H0qHmJGGla+7BzUzU78rF727VFI02/6k6QDbq10U+Psl3UdHQB4ccG+drL33XE2vHKG0OFSQdXeHljrvQ2EYwV+dQIcuRnN52N7rF7mKUPxE1q62EfdRaEIN6zGoq11Dsux3zaw9tmJYeOw1Nti0SzM7ZQfvI0hriSe/JAFkFk0rqjxfjBKO6WnSOJD/PrlyGLa9N9KRYnXD9cR7XpeNVtjxC8NAI4bqdmfVw5Rhs8G3UONxEPAvvzCU/8X2R6K35LD4fAw08eduW2f5h38tivQIjsfBXP+T3LkVzP1YPo642mwhqGPlyP8hLc+JSkNaC4x6BH1ZOltWHXx81x+k8+7GL7DOjlMh5FdjNFOar3Fvk0wgoGWtht3Okcx6uATnkIluDRduaeHeW9v/innHXCIZda6dnSQ8Gu7ERJoExpjchI09j3nxtc16RXhcsW10e8C5sn3KrUsceLjGClCpDSz/RieRYNHG75qOGsLUnHz4eIR9OB9gvoGQA8tWzlGaZlpoFY5QiL97t88PlpfiRcleJHyMwK5AP6n/oJoO64W0pQ5uL3J6LtXHw3jrUsCuhM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(261102123227099003)(11063799006)(261022075727099003)(56012099006)(261028144727099003)(261021121427099003)(261021123027099003)(261022113327099003)(261022115727099003)(261022105027099003)(261021133027099003)(261021130227099003)(261021135927099003)(261009223027099003)(261026121527099003)(261026135527099003)(261026130827099003)(261026140227099003)(10067099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|261102123227099003|11063799006|261022075727099003|56012099006|261028144727099003|261021121427099003|261021123027099003|261022115727099003|261022105027099003|261009223027099003|261026121527099003|261026140227099003|10067099003|18002099003|22082099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info: 3oAHMiT2P5WU/m55Vas83E1S4ySdw1BTsqinq03GJqiBU3e088Bv1PlWoOkdhYdC+KLiCUxsqKvjhRUyVzAWWmFc2veDkaOJTBbe05A+U+DwY5HRO6idkBWhD4ka+9SSpC+xY5tx0W/7guGienqXNkTcDnWPJ4u8PtHlreKTS/CTmRIm3qnEwtGfAXhn6qLun+BrHFegBK/s+GlF6cAD0x342e5bN1QxtWCx/KUpQwjYksRRwLHqxn4NhRICUOCmi0rBheZuwoLv+MBDKRbRd3sKGTGbJlt62XdH5oA//oSefvXY0JYAtsY3IGOh+KI0K1uUzxggaWPRWMnMlypOnhjx+SNgVACcTg5cQ3YAwLtfeiNrjcQQki9E9wA1b8u5QzWsOhq7uAlaNrz4tXjluA6tALQ8kEJaSxXR6VX7h9wyEZxNYYgOlHsMfnBHEyeYGv3HX0115TOd7hb9pCEk0xZKlrJ8mmjifoFPGGd+zvbZzevUvaUumofd9kfHRFsi06qC8K6d5H7IBGatb3Ph1HsnD/KkeStQwBZcZ+qd54wob9cPj2BSclsGHHMhrsP0jSuCnTgbtCXCer6xlzkfjTP3+H/Yo3ranm45zfKeHZGukzOE4MVYZzgcxBj4J9bXQSAygXyVuD5YrrFR58TnoZYTgakdEcXFR7I6+O/LSkk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(261102123227099003)(11063799006)(261022075727099003)(56012099006)(261028144727099003)(261021121427099003)(261021123027099003)(261022115727099003)(261022105027099003)(261009223027099003)(261026121527099003)(261026140227099003)(10067099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u5SGV7phQGlwwfJuBdpPEDuKmJhQNyTM9uyxSi9YCw+eZmEXndhBreczjZya?=
- =?us-ascii?Q?kcm+c59VLrA+vFUHHSs3Buvlwu3LYJfkKIZEMlBSQJlQXHgbOYlchy/8ZFkd?=
- =?us-ascii?Q?4sKxc+PtbaOyeooA+HTpZwHYo6eAYCtcu2999bGXh1+oqGUzA1kzIqABvCU7?=
- =?us-ascii?Q?i0u5KPja6Cgt76Ol/5YHcGJ6YYsqLfGRsREppZdBEmzxcN5VUfQHey1YY7QL?=
- =?us-ascii?Q?gXzHma0j0kyYZQnQzs42YnOfzpzmfD0c99ajRMBGG8zyWMH9a3uaetDwhofA?=
- =?us-ascii?Q?Jw7gUHGGdn/619ga8fW+7FEcdE7Yqatp7d7YzKdQXQs78dWrGQln/5ElZNc7?=
- =?us-ascii?Q?JayGAan1fFzQm1yDlQfkIry08YvIvr0TPg0iWGIoHDGJ/ZFT7OM5a0MlcUN+?=
- =?us-ascii?Q?q7vcfMGKi5MA5G4/kXTP3AQ7C9jcnXEGJY/m/TNXogxcvxD7ZJSfSfFG+kbQ?=
- =?us-ascii?Q?Ifg7NbTa9T5/ss6+oZgur2Rs12nfh8h2fRYv27G3/l0ksYR9x1NPGWjoQ5+1?=
- =?us-ascii?Q?hUOWxPhxZjo0wx84BXhrhu26w6fwxl4TP/tSl4IeZXzDCmttqDGx3+VD7InD?=
- =?us-ascii?Q?BE9D+xMkGMlBNMZCClzYswpHnJjN3BobOPI15oqvQ9uKoxWZMjODH6zvpGS9?=
- =?us-ascii?Q?lHkGcD4FKl7dHbVegixNMmGGb+9C8kHvXTKiBxUI8XChJWNJUlcd2+Xa9pw/?=
- =?us-ascii?Q?D1bkdufDLRvgRMjPBdf2VjUbBUmRt40286LOJTme5bdnMawezZ6xewLue8QX?=
- =?us-ascii?Q?+FCm+pxi4wNAaGB5NY8dXhuhMhKEHlCu+m1mp5ODGwugxUlWjzDq9PCaiWTM?=
- =?us-ascii?Q?9g0oLC86V0d36HcQl8FCoNDgL8qy9xAhMVEHpwQRWt2BBsm1bvUyz5z+wDdO?=
- =?us-ascii?Q?pr9QEmSMba40T7ygfgfhDtJnJGbH8L7O4bypD4u2JkGQlT0KM05QCWcJ/UOM?=
- =?us-ascii?Q?JYW085dm2VqeVf2kG6/kIfFWdHiaqVIIg8ZLfI0t8QIul3VEcXmLuWyFjWK/?=
- =?us-ascii?Q?qx/6fOd9S31feSw0giZbzfxuVACztTV2rXTTZcq+JW2JP5a2wTsRq7iFh0Mj?=
- =?us-ascii?Q?6bn4MT/zSizrs9E5Zq62nm9gHG9SfNzAFqN6uhqgEsuMqKLjvqaOJMxp2EmX?=
- =?us-ascii?Q?AahfZDupC000YJLNktUoleWu6PkCMQdiEHRiIZIRkLDGFlqLqE2QRSRlibeC?=
- =?us-ascii?Q?HPGTRjSSO4TyRB+Y4Ibekinej5sMcxqICYOPjosF/xzXckMHH4ISMXSpAngF?=
- =?us-ascii?Q?a+cDg+XvX0CZoXfaUDpYKI7GHOgKLpEG526tbH04RIAVV2NqlpLkZ9RaU4D/?=
- =?us-ascii?Q?Ap51kmmrohy1Ur6IiexQHbmZdFPEqvAuQ6hfxfBQnPUAX1kNBC5gWtpKrSVb?=
- =?us-ascii?Q?zpmBd8omJA2DC2meZGjT8POVyvuC3VpSlcmQRyFKRdLpFfeyV99VR6hyhnr6?=
- =?us-ascii?Q?x/gPql0mCROwKPYZk91zqx/dmUw+Z07quWe9hGvZLyPqu0BUBfDNOaDc3pjD?=
- =?us-ascii?Q?+/QlWqjQAB+YkDoskhMdqxdt4xQErwEoNOd7k6FcN1EjD8y5QOjKz+9EIS5m?=
- =?us-ascii?Q?B3bgKMCkeo4Ne4FzB9pUZj9OXAnCnNw16hI6PlvowT/vzYDEuJXAXbdY8lGm?=
- =?us-ascii?Q?iMeGFkI4yej9UXeHhIEzbwrYYT6bqvjGqapqXQpib8ncdbMaNqChp8i4YNfZ?=
- =?us-ascii?Q?eckvrtkDftctacaqFGdGr/If9ryV7zUR0fs0jJGXq/HDpds29bvsFDPxu7Pg?=
- =?us-ascii?Q?UWM2+Elt6Q=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WOkwq4iRTYwURByVxp6GieGn7xCzIjq8Zgld+vI51hnKQzGq8SCyYwRux0F0?=
+ =?us-ascii?Q?PEOkGzqTa1WyzjpM8hwHI7CekDKoH8EwmI8FDTdoZqb11kqbczMWVrwFDqXb?=
+ =?us-ascii?Q?0W65z89bvLjAX3uDb8jqAURRdRd8sf+T8bbt7yiVI5E1kJ7ihLgoylhtvNVN?=
+ =?us-ascii?Q?ZYkqZf5rnHu4+U+J5y66KvrJCvIbz7NRM8kPTMobd4B8wUo5NykZ0yJOzlR6?=
+ =?us-ascii?Q?YRz1EXI2RqLEGjsNZVuZAjGHMyF0nVfyoV4zelLHNDtEFiBP2ClS6+qg+x+V?=
+ =?us-ascii?Q?+SB9hE9ZN00Bz9Kg67G98HzgmYuDJikQPmTc7ZfM07L0fNqor5eEOwr7sqPB?=
+ =?us-ascii?Q?Zh9EsvfG9T383K0ZHAvzXJvoGccZpXVo4+1t/Uqw+jv4pUH3WLaiZe+g/1df?=
+ =?us-ascii?Q?Rq5PQOL38CPI9Tj60NeTlPpGa4vgC1lJbR9Sqeivyqn+1fNwxjW2jZYViDR3?=
+ =?us-ascii?Q?S7eAirifaeLBoH5xZer9w8oEPJFfgEWmGG3XoDwni7miiK5yi7vvk9uvJDQX?=
+ =?us-ascii?Q?oaw7Gt35M6jhe/kisPL4UE2KRUxOfoVB5GNLMpX8c1aHnSo/A045P35FfgFG?=
+ =?us-ascii?Q?AgUp9lBeWRBGJ51nUFrNR7gZyNl/5wKodXrP8HBwolyNPZJEO8eoenvxB99+?=
+ =?us-ascii?Q?sumqhJV8M3v12xTFICnu2zDt72Vi6BKH6/Um+9VHFffkzcmzzUXfT57eubes?=
+ =?us-ascii?Q?Dd/QTuUIsgofoptW84XCQNLKednqKIlRUx4sc6OWq/Ij1Ei/c0fR6l50Iyaa?=
+ =?us-ascii?Q?RU36uHvOXboaC0r6FS7g2mq5Ser12N5g3MGOylz6U15jZMrP+CNDsTz0w+vA?=
+ =?us-ascii?Q?ohNNvqKadAfbHnkj2CQUuhxAiJoGAUmmAmJFNlMtVCWPTd0w7T169pBCrKUB?=
+ =?us-ascii?Q?OCnEnHrhnZq1odzWtKbXiCGTw49NKcYTG47j/TKivzZbUTUdNXaPPxxX7rBS?=
+ =?us-ascii?Q?wdlj/DkNkTxeO8M9nUbT58xlphNU/y+b82Rh5FC3PKjXe/QXIJ8CBmdL0/sH?=
+ =?us-ascii?Q?/xW2B+0Tv/MFf6SDDxc7bvad0jOkdHRwl6Bh3+6PbK7ZCVfSvnDP6VHQco/a?=
+ =?us-ascii?Q?MsXlXqYwwUcldShSTfnToWe8+d+EwmySDECjHpnPUcCWd15JBT5gmToJmykQ?=
+ =?us-ascii?Q?8YnYhc4VJ7vicCzqjoCyaDUIRZXRARkpnlmmE16kj0LsmvMkw48ReQj/OZe1?=
+ =?us-ascii?Q?IQ6BGux22v/vKV8b494oDT0ISsoykGoKb8x24xnxmh08xrT2XzPGe3CSdUNw?=
+ =?us-ascii?Q?glXhAt9vjaZC278pkEIZTRDqjqSvDlH/k9jUav2cfCsDAczmukQ2Kfu/WIo6?=
+ =?us-ascii?Q?FfIt2MDDIdjqt6MaafE8L/xBgBlArOhKZi6w1AIQl8F/dyBNe8H4xrP3vriq?=
+ =?us-ascii?Q?KT9ImkNBkgIhfaHSPlPCUhNcW7mwhuWSYG/I4VkPGaYgTBPT8nQ4kXCHP/qa?=
+ =?us-ascii?Q?PLY9s01yAKVy25Ox2vXYz+bDI6RQFnSkxbcg7uxW4CUlP3l6dPMV27f3GQQ5?=
+ =?us-ascii?Q?mG67P0EpRZCf4eUess7DHzymosQLW3HHOAnsATs4VxCn1/4e/4qU35MuXHuW?=
+ =?us-ascii?Q?FI7z0/4r0JvJxzLA6X77S8qCOaw8LZWK21y+x4OVidzE1q0UiWWyZG51cQuz?=
+ =?us-ascii?Q?wbXDT7v5EtD4VHAwM5812qzV6ZasOb7ugd/aUBTUKzXYU3I7p1F6I+oWlwNY?=
+ =?us-ascii?Q?sdsOf0HtNI6C+gsOS/5LldJyYZj+gGPhoBRTiWl0W0DsWzLXkQpTuO0ELzrQ?=
+ =?us-ascii?Q?FTW6bjvhZQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: bff7453e-4f89-4ffc-77eb-08df398cc95f
+X-MS-Exchange-CrossTenant-Network-Message-Id: b21413d1-7f91-4959-f1fd-08df398ccd68
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 09:28:14.7811
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 09:28:21.5590
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ci1E8//VKwjikxyCwiNEtBwH1x/SoK7pVhELNRQnsRkJFTsHzg7R7bzVno0DURAz0Z/6HhRLRI7nXGQ4uER8AwvoV+vIXsZU3groNAJmgEQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: F2KZUT+5rtG6EvvkUAOp/2lH3Nd7IA/jr6+thfUolLp/aGMW44c1Pdl0tWOVIQIoWjPFMyswV8DECYIreyzbp1UU7TJsHfoMFCBkSguHECY=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP189MB1951
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 09:28:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249261
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 09:28:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249265
 
-26.3 (2026-11-02)
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+NEWS: https://gitlab.gnome.org/GNOME/gtk/-/blob/4.24.1/NEWS
 
-Improved Documentation
-----------------------
+Overview of Changes in 4.24.1, 01-10-2026
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-- Clarify in the security policy that pip has never considered installing
-  untrusted wheels safe. This is because Python's import system is dynamic,=
- so
-  pip cannot guarantee that installing a wheel will not execute third-party
-  code. (`#14412 < >`_)
-
-Deprecations and Removals
--------------------------
-
-- Block unexpected imports during installation, warn about unsafe imports
-  afterward, and improve recovery from interrupted installations. (`#13842 =
-<
-  >`_)
-
-Features
---------
-
-- Show build backend warnings for local source directories and log them at =
-debug
-  level for other sources. (`#14372 < >`_)
-- Add support for selecting extras in pylock.toml files with ``-r
-  pylock.toml[extra1,extra2]``. (`#14205 < >`_)
-- Allow ``--group`` to select non-default groups from local pylock files,
-  e.g. ``--group pylock.toml:docs``. (`#14390 < >`_)
-- Support ``--no-binary`` with ``-r pylock.toml``. Before, pip would get th=
-e
-  sdist from the index instead of the locked URL, or fail if no wheel were
-  available in the lock file. (`#14187 < >`_)
-- Speed up installing a wheel with console scripts by not resolving every
-  ``PATH`` entry. (`#14235 < >`_)
-- Clarify the warning for ``~``-prefixed leftover distribution directories.
-  (`#11849 < >`_)
-
-Bug Fixes
----------
-
-- Report build-backend import failures as pip errors instead of displaying =
+* Bugs fixed:
+  - #8409 search-entry: Needs extra touch to show OSK although it has focus
+    (Guido G=C3=BCnther)
+  - #8419 text-input: Preedit gets cleared due to text-change-cause(1) (Gui=
+do
+    G=C3=BCnther)
+  - #8433 GtkSvgWidget can't parse '@media' if it is not on a new line (Mat=
+thias
+    Clasen)
+  - !10264 gtkmain: Split out debug code
+  - !10367 gtkgstsink: release GL context on disposal (Pierre Berube)
+  - !10369 Post-release version bump (Matthias Clasen)
+  - !10372 Fix typo in CONTRIBUTING.md (Michael Fohqul)
+  - !10385 texthandle: fix transformation issues & relative movement (Flori=
 an
-  uncaught traceback. (`#12248 < >`_)
-- No longer log the "pip is looking at multiple versions of a package" mess=
-age
-  until pip has looked at at least two versions of that package. (`#12928 <=
- >`_)
-- Fix ``pip``'s self version check reporting an outdated version from the
-  environment instead of the running pip when run as a zipapp. (`#13084 < >=
-`_)
-- Fix a fatal error when using the ``PIP_CONFIG_FILE`` environment variable=
- with
-  ``pip config set``. (`#13279 < >`_)
-- Avoid misleading error messages that include extra markers such as
-  ``; extra =3D=3D "..."`` when installing packages. (`#13618 < >`_)
-- When installing to a custom ``--prefix``, use the ``posix_prefix`` scheme
-  when running from a Debian patched Python distribution to avoid a superfl=
-uous
-  ``/local/`` subdirectory. (`#13634 < >`_)
-- Refuse to follow an HTTP redirect to a ``file:`` URL. (`#14171 < >`_)
-- Prevent wheel cache origin mismatch warnings from exposing URL credential=
-s.
-  (`#14232 < >`_)
-- Report the incomplete-download error on Windows, not a ``PermissionError`=
-`.
-  (`#14237 < >`_)
-- Fix the global configuration location on macOS in virtual environments cr=
-eated
-  from Homebrew Python. (`#14303 < >`_)
-- Reject extra arguments to ``pip config edit`` instead of silently ignorin=
-g
-  them. (`#14347 < >`_)
-- Honor supplied hashes when using ``--no-require-hashes``. (`#14355 < >`_)
-- Fix wheel installation with data files when the installation prefix is a
-  filesystem root. (`#14358 < >`_)
-- Restore support for UTF-8 configuration files when Python's UTF-8 mode is
-  enabled. (`#14367 < >`_)
-- Restore vendored Requests' PyOpenSSL fallback on non-Windows systems with=
-out
-  importing PyOpenSSL on Windows. (`#14402 < >`_)
-- Respect configured network settings while checking build constraint files=
-.
-  (`#14403 < >`_)
-- Apply PyPI's direct URL dependency restriction to extras and cached wheel=
-s.
-  (`#14341 < >`_)
-- Fix a crash when installing or uninstalling a distribution with an invali=
+    "sp1rit"=E2=80=8B)
+  - !10393 Fix typo ('witten' should be 'written') (ReinoutS)
+  - !10395 searchbar: Show OSK when search-mode gets enabled (Guido G=C3=BC=
+nther)
+  - !10396 docs: Correct docs for allocation functions (Benjamin Otte)
+  - !10398 textbuffer: Fix tag colors in accessible text attributes (Sean R=
+owe)
+  - !10403 gtk/inscription: Refresh GtkInscription's PangoLayout when roote=
 d
-  entry point. (`#8573 < >`_)
-- Fail with a clearer error message on invalid configuration values. (`#867=
-1 <
-  >`_)
-- Keep ``--version`` available only for pip and prevent its use in subcomma=
-nds.
-  (`#9456 < >`_)
+    (Christian Hergert)
+  - !10409 text: Protect against invalid offset (Alessandro Astone)
+  - !10414 macos: fix cursor keys (Arjan Molenaar)
+  - !10421 various fixes (Benjamin Otte)
+  - !10422 Norwegian Nynorsk translation. (Roy-Magne Mo)
+  - !10423 gl: Create 2 fbos per frame instead of 1 per image (Benjamin Ott=
+e)
+  - !10425 Update Norwegian nynorsk translation (Roy-Magne Mo)
+  - !10429 textview: Make text handles visible after giving them a position
+    (Carlos Garnacho)
 
-Vendored Libraries
-------------------
-
-- Upgrade certifi to 2026.10.23
-- Upgrade distlib to 0.4.4
-- Upgrade idna to 3.20
-- Upgrade msgpack to 1.2.4
-- Upgrade packaging to 26.3
-- Upgrade platformdirs to 4.12.4
-- Upgrade pygments to 2.21.0
-- Upgrade pyproject-hooks to 1.3.3
-- Upgrade rich to 15.0.0
-- Downgrade tomli to 2.3.2 to retain TOML 1.0 parsing on Python 3.10.
-- Upgrade truststore to 0.10.5
-- Upgrade urllib3 to 2.8.0
-
-Process
--------
-
-- Allow pip itself to be built with flit-core 4.
+* Translation updates:
+  - Norwegian Nynorsk (Roy-Magne Mo)
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../python/python3-pip/no_shebang_mangling.patch            | 6 +++---
- .../python/{python3-pip_26.2.2.bb =3D> python3-pip_26.3.bb}   | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_26.2.2.bb =3D> python3-pi=
-p_26.3.bb} (97%)
+ meta/recipes-gnome/gtk+/{gtk4_4.24.0.bb =3D> gtk4_4.24.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.24.0.bb =3D> gtk4_4.24.1.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.p=
-atch b/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
-index f388928230..998d8a73cf 100644
---- a/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
-+++ b/meta/recipes-devtools/python/python3-pip/no_shebang_mangling.patch
-@@ -1,4 +1,4 @@
--From ea75b7fc017f7a1a3a47e9e2bef21209f0f36a04 Mon Sep 17 00:00:00 2001
-+From 717c440db8787fda9fb2abf207fe894e291ce0f0 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Wed, 23 Feb 2022 12:27:06 +0000
- Subject: [PATCH] python3-pip: Don't change shebang
-@@ -13,7 +13,7 @@ Upstream-Status: Inappropriate [OE specific config]
-  1 file changed, 3 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.24.0.bb b/meta/recipes-gnome/gt=
+k+/gtk4_4.24.1.bb
+similarity index 98%
+rename from meta/recipes-gnome/gtk+/gtk4_4.24.0.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.24.1.bb
+index 08fd2c30b7..5a18c4bdf9 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.24.0.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.24.1.bb
+@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM =3D " \
+     file://tests/testgtk.c;endline=3D25;md5=3D49d06770681b8322466b52ed19d2=
+9fb2 \
+ "
 =20
- diff --git a/src/pip/_vendor/distlib/scripts.py b/src/pip/_vendor/distlib/=
-scripts.py
--index ac9e909..1faa5b6 100644
-+index 0338012..64b00a2 100644
- --- a/src/pip/_vendor/distlib/scripts.py
- +++ b/src/pip/_vendor/distlib/scripts.py
- @@ -157,6 +157,8 @@ class ScriptMaker(object):
-@@ -25,7 +25,7 @@ index ac9e909..1faa5b6 100644
-          if os.name !=3D 'posix':
-              simple_shebang =3D True
-          elif getattr(sys, "cross_compiling", False):
--@@ -367,7 +369,7 @@ class ScriptMaker(object):
-+@@ -373,7 +375,7 @@ class ScriptMaker(object):
-                  return
- =20
-              match =3D FIRST_LINE_RE.match(first_line.replace(b'\r\n', b'\=
-n'))
-diff --git a/meta/recipes-devtools/python/python3-pip_26.2.2.bb b/meta/reci=
-pes-devtools/python/python3-pip_26.3.bb
-similarity index 97%
-rename from meta/recipes-devtools/python/python3-pip_26.2.2.bb
-rename to meta/recipes-devtools/python/python3-pip_26.3.bb
-index c83c9e4468..a6ce6a1fbc 100644
---- a/meta/recipes-devtools/python/python3-pip_26.2.2.bb
-+++ b/meta/recipes-devtools/python/python3-pip_26.3.bb
-@@ -26,7 +26,7 @@ inherit pypi python_flit_core
+-SRC_URI[archive.sha256sum] =3D "28ba4ac1c04f86eac09b79a163cb163a4c2b54442d=
+9f7eccc04679062a581044"
++SRC_URI[archive.sha256sum] =3D "e98abe720e16129c8c0f50761dee0a2e9ae2478055=
+e31018f6cf977fcf6513e9"
 =20
- SRC_URI +=3D "file://no_shebang_mangling.patch"
-=20
--SRC_URI[sha256sum] =3D "3a8e5c800492787f33a4114ef54444546c340df428974ebba1=
-7e0fd47e11af2f"
-+SRC_URI[sha256sum] =3D "6c36ae7da8695be67e3cd9f7d87919667ced53f57ce2ede75d=
-89b5912ed2bc4c"
-=20
- CVE_PRODUCT =3D "pypa:pip"
+ S =3D "${UNPACKDIR}/${GNOMEBN}-${PV}"
 =20
