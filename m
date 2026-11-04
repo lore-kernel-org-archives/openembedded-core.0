@@ -1,61 +1,61 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11870.1793806546882519766
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11871.1793806548433220465
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 07:35:46 -0800
+ Wed, 04 Nov 2026 07:35:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=cxabRe2d;
- spf=pass (domain: gmail.com, ip: 209.85.167.169, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-4c5d8c7f326so311790b6e.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 07:35:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=NEGFlf41;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-8451a619da7so550148a34.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 07:35:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793806546; x=1794411346; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793806547; x=1794411347; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BTYMigd0+ZyC4B85UyNY8s3jidM5wVxaP5djY52xhfM=;
-        b=cxabRe2dIDWW7Da23Ygi9A/REHjtYB/ZThDLz3yGwPK4YqNKhGR6K4dtT7XeKB5vrd
-         SyXePapJs0PJp6cruVp26wBDPOFKUDnGeUoe9Mqirl94WHhAH3LZRrdqMmMxQHXEAgHH
-         ldlANVeeGwj52eWi0F1D/5j+/sJ8I8h/GgA+9RbbYluHZT9igM6DbMKxS1bvdcj4+lzj
-         pF71G9rkt6/4rwUuNyhzB5agA1Lw87TlmOCP8LrXf46ejVrhDrDXFhl3/nuacDbe77Vl
-         Q+lHQrJRE8RR+iPeCBGsINZfzOa4vuXT8W2iD1G/LaaOdd7iRbNwfpVMN9N7TMErNftj
-         FQlA==
+        bh=eQGYr8GCQvUsr05n7h4ns23NXlVBlfSkuZZYFiRn/H0=;
+        b=NEGFlf41kHXDfjY11MooK2bpejdE7BACGicyGwG/wU+ntBEWJ2o9EA204+XqwkECtg
+         pMRsksaXp6ch2goFZAQjZuJgsqmMfwiwmNM7Ar8I2MQKp2t5Ei8l7JGvzCz1AJ4CukAy
+         DDHavPzeVeW5fuBnix3rM+45NdwLIqAdvNZL/V+KvIPgUtZQ8HsSX2IQrzRBHUYec8LR
+         R4U8Rs4AnPiazJLwtYkgK3L7pDBekOq/yiggo9EgLa476eBTlekezkLp2vwlOyrVS7lX
+         8heO/Avd1bsDa8L2pZQYG8W25tXwGz3YM3Ltcj5quzuBt0s5gvqdEqTwD1E7M5ybszkW
+         ZAjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793806546; x=1794411346;
+        d=1e100.net; s=20260707; t=1793806547; x=1794411347;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BTYMigd0+ZyC4B85UyNY8s3jidM5wVxaP5djY52xhfM=;
-        b=EGuOffJ9apkA9Mj/3j9ubGy+orGWc4EalIJFjDyY4VzMiKZhqJsSys5PhbCtB21n71
-         7yLcjTNkp1a1RDHxJjwF8fKbLwuFSDagk6rQ+W2x08RG0axC9ktgV2X+f0MKBlFZKYrN
-         zVWnF3is5exOjQGm7MIQtDAlFUKamZak7nj/4cLjc3gq8USZH2ajsMUDbR0AmowwTumN
-         ClqcYXxjtwA3lSYhVySmKWEOLeOs8HJ/oDHLn5UlxLVdu0YwBq9pDR+Gt2OUW4SSWowD
-         9ynoK6Pr8/aLeKCls6rhHIjOBXekzx7WCWqfJwMgDNmXaNApVunrLp1cHBOoIyWrXqGe
-         qZNg==
-X-Gm-Message-State: APuU4Z/eVGi5E8HYrL4bNwLy+5AyPi/OyXEZ4A/duqvmdaJN93lk3Bxp
-	a/YOTsw+gOF5NMsrEhAODrKyTBpe0juIydDzKKw3T1MCO6rto7Cq1zj+Hweb4Q==
-X-Gm-Gg: AYBFou1ySkW4+UWpPh8xssae1Zu1i1+SgOzXy1QyBa01yMSF7D/DV/3gZHKrk+yVP7f
-	GqVFcj+OtyzOIdLPujXE3MCNatiKBiwSC7FYzL6+qzEofK59Kn5ECvGiKYYKahSpLzpHsVs1ecF
-	3wLVtfDTXZS/uXA2ddPm2YOqOuolaq762v+ID9+WE7VRv82N3TFaaEgqvGxrSi582eQHGCO6vBl
-	gWXFHRygfG8/eCnSMMVGjbprboSKilAOTQ5mhff7rPHz/RVuSHrSRGgomE59RXgXZugGguQdpU9
-	jYtZaj2WfatWitwNHdVAaYfBcjYB+j1IzAMA/eT5u1xiq2nkxUFfanVwuoHH8G8UpwjNvXxEnGi
-	ZJdGB0DqXKH/GpOTfie1PlZuuRoT/oeERG4O9UCv0MDq3ISSAClTYMf64h0YMhNlE1U4csQOozV
-	tPirU/0B/QohigcnKIktCwlEnvFygRaSoxTxJS89fRwLaihz7cM73D/AEQfsvtTpoJ5+KMFDPcm
-	vSfz5Ld6EevWjBSauF/HF+5JbSGx5hEmI9nosV4d8AHvj2xJ2Jd+d4qrFwXZcSmrTVQOMI3+P//
-	pkO5AcC6tV/78vQIKVzHd+BUmRGoDFW1wUS+JqDAS8aToJZm
-X-Received: by 2002:a05:6808:6503:b0:53b:1d13:dffd with SMTP id 5614622812f47-5640d917ea3mr11707243b6e.7.1793806545917;
-        Wed, 04 Nov 2026 07:35:45 -0800 (PST)
+        bh=eQGYr8GCQvUsr05n7h4ns23NXlVBlfSkuZZYFiRn/H0=;
+        b=I5Ql5iX93gjmtfMAkbiGifvyMdV8vKBtDvfn0XInRczN5T3OPz9AtE8XAWcSnGI1kp
+         WWST0oL0XjAZ5tzUp2ijrELwj0kCEU4HQZYhxetf12uiSupa9y0DsQjwzkYZn9QErgjh
+         b9VgoASM/WZUetvt7/ZhwBmCzSM/p8SWc10Jtt24m4TnoVJonG6UgCNKLtgT7tO3mcp5
+         Mq3SqaUaZKaan6kfFGYew+8MF0TOgoiqBuuYpkyFMlvE0iLYf6vMa3NLJJtly3W7cQrj
+         sC/eyFnUTqAtEqmlRIjpbBJ6/NaNYSTJld+JJLoUK/XqGewAedb5TaVXExvSSwkmkfeD
+         LtlQ==
+X-Gm-Message-State: APuU4Z/QrCm72KTfA2aF3uSQvR4U+aQykn7cUFs42bHKMc0oGRkNKhVD
+	ZI5Kikw0GkU811J95A6ahg71PftNc3tP7HF+Or/p36yqw9HVw6xgFmfTei2XHQ==
+X-Gm-Gg: AYBFou3zd6IpX3kJ72wadKZz26FcAGcS/owf4H2WyG99z/FSZtjX2A1gtUcRNUIdkKq
+	z6lplYvZ3medfX209rQxORyOF/SO+imNO/CAO0FynAsup3VOhy6YRF9I+/W+ZowUNMiG0bEmRj5
+	Nz7HphHEVI9ErXNudDLUb1TgOqVHO1fu2dvDBgrFpGg84ZDYMyemkGwP2h3O8DTXiLnHy3rial9
+	tjmgjhb0EL7kUGVRmmgQzf42VpuFk9lF+Cu5v38IjUfVBjbJLqmSkPcEgZq3tPTm7EY3mEW91Yh
+	jiruPTGt7JqcFzMKgX3oYrxWdPLeklsCuyiKzpj5JVfp8l7MGMfbMXkdCfKXXeJTc1jyxHBrV2W
+	QgIiEqSnfkoYuh0axUMK4HNkrIr46vVBYQGYHI7VSoqJw+zcPPumlrLNetMSRRw5T6i0NeOOziT
+	0s5FxmkWr90gU3MEubhaknSeTL1Id4lkHSGIyMc/kY2VFvP3/AkbAn0IXkv61DLyQ2bKFWmSA2q
+	0DTx+Sfj+NPoR1pido3JM2qRhnapMReFJvotAhjAl0gLiVxvXca+RaZddRkp6F7t+pYekio4fUe
+	J8414VOgLgjZPULZzy6VF83trJM=
+X-Received: by 2002:a05:6808:4e0b:b0:564:3fe1:2f95 with SMTP id 5614622812f47-5643fe14f4amr6879850b6e.56.1793806547426;
+        Wed, 04 Nov 2026 07:35:47 -0800 (PST)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2601:283:4b01:ba50::1d6f])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-567a9f9f8basm1894928b6e.12.2026.11.04.07.35.44
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-567a9f9f8basm1894928b6e.12.2026.11.04.07.35.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 07:35:44 -0800 (PST)
+        Wed, 04 Nov 2026 07:35:46 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v8 8/9] ovmf: Allow empty SPDX deploy artifacts
-Date: Wed,  4 Nov 2026 08:34:01 -0700
-Message-ID: <20261104153535.3184146-9-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v8 9/9] linux-dummy: Allow empty SPDX deploy artifacts
+Date: Wed,  4 Nov 2026 08:34:02 -0700
+Message-ID: <20261104153535.3184146-10-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261104153535.3184146-1-JPEWhacker@gmail.com>
 References: <20261028220609.1348489-1-JPEWhacker@gmail.com>
@@ -64,29 +64,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 15:35:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249402
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249403
 Content-Type: text/plain; charset="utf-8"
 
-In native builds, ovfm do_deploy doesn't produce any artifacts. Set the
-SPDX_DEPLOY_ALLOW_EMPTY flag to prevent SPDX from erroring when this
-occurs.
+The recipe doesn't deploy anything so set SPDX_DEPLOY_ALLOW_EMPTY so
+that it doesn't generate an error
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-kernel/linux/linux-dummy.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index bf69108f0a..7cc844dfa6 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -249,5 +249,6 @@ do_deploy:class-target() {
-     fi
- }
- addtask do_deploy after do_compile before do_build
-+SPDX_DEPLOY_ALLOW_EMPTY:task-deploy = "1"
+diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
+index d7f39a452d..c45352aab2 100644
+--- a/meta/recipes-kernel/linux/linux-dummy.bb
++++ b/meta/recipes-kernel/linux/linux-dummy.bb
+@@ -23,6 +23,8 @@ FILES:kernel-vmlinux = ""
+ ALLOW_EMPTY:kernel-vmlinux = "1"
+ DESCRIPTION:kernel-vmlinux = "Kernel vmlinux meta package"
  
- BBCLASSEXTEND = "native"
++SPDX_DEPLOY_ALLOW_EMPTY:task-deploy = "1"
++
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ COMPATIBLE_HOST = ".*-linux"
 -- 
 2.56.0
 
