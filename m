@@ -1,184 +1,116 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4783.1793780328456154270
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4870.1793780804505902243
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 00:18:48 -0800
+ Wed, 04 Nov 2026 00:26:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=jQfMLU+w;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9A5BB1A1451
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Nov 2026 08:18:46 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6708760770;
-	Wed,  4 Nov 2026 08:18:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3EC9D103291D1;
-	Wed,  4 Nov 2026 09:18:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793780326; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=sshNqZFTdZvOx+IxJ2hXCBLir1D/iXXnCNXMnlPjKlQ=;
-	b=jQfMLU+wJSh+VuKFwWZA1Sm1kHdCYzEaIiKHHqGDNkmGF5kNpuxL+2tuHaL2lhul5HL4ql
-	fKO88C0V1Ql6zUiNFpYXBvp8vsuVxj4j78nE8+kIYKlR4A/1RLnDw6aOoaaRYMbqPaQNoT
-	UoWQbYTAkqvo6mjiqoqtEVyw+mXWTd2/rkVFKP1/mSQa4VDSg9IsYHPlOJ2KWIoZrTKqI7
-	qqMfKG9ZG3+GjMjnQrng8vFqsHXTSduSAJG2mmLZk94n/RXKUxO6hbgPwGpWV//708La+I
-	nMrzj/wb/WgGBt4ylB6ixXhOiAJp4bv3XOVkBn9pHJF/AJytI04/kfefRvpYaw==
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=ExSk5BIl;
+ spf=pass (domain: axis.com, ip: 52.101.84.44, mailfrom: anton.skorup@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QTaySIJHAprKbflu3JIjDAWaOT/RV4f8/Lc5eEy6YWt6nNa2E5IWE3Vb9i7+4eQqGMVAr4ZuANUIx0jnzQK1ikUg0JjaSX/NFB7diheq6dbP3rAUL6VKQ4N7VJvWpIVAWajr9iWovmmPh9WL/qUxmhz7I3Wwk0d58W+6fX2oMFlgOQYRNuJ+60eWKubwu8Y6BTmdBAUAjcZBjmLTLkdTewOQ08vuJ8PrBvNW2OME83fYWQ3mdkiu1SP+4YuD+Lh9vL8tckRwwAoZFIwo5fPCApJ6bGiTtNB1sSrah8ZxWJjGMP8jFfBX0TQUecZICf9TFG+h2bEq9Q30ha0wA4Kzdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tyr7ivlILMMWCa1fgs4bxXmRd34I8wlO+8vOdROyk/E=;
+ b=nEuqdmpN63mLKtPEXEdA1AKBTYL9RJNR6w7qE719PT0dN27mrGKxBef6LOzvvwB8mvPxIy4h34BU8ylnCK2id8u1Dv54vtNWyrwFMlenOSo7eoHLMGMLL+rxPSVQuzgbIQnF+stDEIKHBs0lFasVycVwfWjREqHkOdUGIY+hKJ9n4ABf2uU1bv2JLmTslfIcYzRydRCRU+6AzBV6SF4d6ULROVO9MT5lkyE6mQC9ugT90wRnwVk5Ft1rsAqWNNQTWNZEx+U1FjM4GpFrWEeLRRJtDhlMUIJtGQwc93JaMEJolD04IoH+u7lHKbTHjf7nFMGjy0sl9USP+mfU3ntFrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tyr7ivlILMMWCa1fgs4bxXmRd34I8wlO+8vOdROyk/E=;
+ b=ExSk5BIlcFL5v/59Kf5NSnnmL3V8L87pu1NwDKUm8h2yQD+8Rey0Tg6rBGXQR29BFaj3Q9ciHnhLeu94k3VvK5UW7FJiH1YlSJLH0uXqyI9Xuip5u1o/vpZmYArOW3z1dx57VukT2eN3CreQOPbtDAQEn+8xaqolTzMwf5hSZ74=
+Received: from PAZP264CA0173.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:236::16)
+ by AS5PR02MB11294.eurprd02.prod.outlook.com (2603:10a6:20b:6c2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.9; Wed, 4 Nov 2026
+ 08:26:38 +0000
+Received: from MI3PEPF00008552.eurprd05.prod.outlook.com
+ (2603:10a6:102:236:cafe::d) by PAZP264CA0173.outlook.office365.com
+ (2603:10a6:102:236::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.9 via Frontend Transport; Wed, 4
+ Nov 2026 08:26:38 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 195.60.68.100) smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ MI3PEPF00008552.mail.protection.outlook.com (10.167.240.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.592.5 via Frontend Transport; Wed, 4 Nov 2026 08:26:38 +0000
+Received: from se-mail10w.axis.com (10.20.40.10) by se-mail11w.axis.com
+ (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Wed, 4 Nov
+ 2026 09:26:37 +0100
+Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Wed, 4 Nov 2026 09:26:37 +0100
+Received: from pc62260-2523.se.axis.com (pc62260-2523.se.axis.com [10.92.71.7])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 98CDD232;
+	Wed,  4 Nov 2026 09:26:37 +0100 (CET)
+Received: by pc62260-2523.se.axis.com (Postfix, from userid 19544)
+	id 93E14845099; Wed,  4 Nov 2026 09:26:37 +0100 (CET)
+From: Anton Skorup <antonsk@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Anton Skorup <anton@skorup.se>, Anton Skorup <anton.skorup@axis.com>
+Subject: [OE-core][PATCHv1] zip: set CVE product identifiers
+Date: Wed, 4 Nov 2026 09:26:35 +0100
+Message-ID: <20261104082635.2183419-1-antonsk@axis.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Nov 2026 09:18:44 +0100
-Message-Id: <DMMA20XX82TT.25B06OAQZF9KX@bootlin.com>
-Subject: Re: [OE-core] [PATCH v11 1/4] libtoml1: fix building tests with gcc
- 16
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <adam.duskett@amarulasolutions.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261103145914.1229467-1-adam.duskett@amarulasolutions.com>
-In-Reply-To: <20261103145914.1229467-1-adam.duskett@amarulasolutions.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Return-Path: Anton.Skorup@axis.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PEPF00008552:EE_|AS5PR02MB11294:EE_
+X-MS-Office365-Filtering-Correlation-Id: fb4d0780-baa1-4b34-5894-08df3a4d5881
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|36860700016|82310400026|23010399003|376014|1800799024|10067099003|18002099003|56012099006|11063799006|261022075727099003|261102123227099003|261026121527099003|261021121427099003|261009223027099003;
+X-Microsoft-Antispam-Message-Info: VL2fZCKL3QZ8K8XXJFJlNT+AlRzqTWhylZwP4eSuAlxTJjJqjJdju4CKrMymWixEzsY7Zt308LSQJL2KSReihGVy08f24Nmj6F6JlgYqdMs+hI4jWiyq/PrKB+FGJDBq7I6Wvvufbl6n/wM/RdlYjCTI7OP9dgvMvfsVi8vyw9u6POPrvEjBJ7BgVizbC4TTdYxagSUfBtEF1zDVesZdKR7t3d0Bye1Ehtyp5Cz41saDchu20fNR5a2fQBRB7l8Up5yInqaE/WJ2P4EYo5KsiE61sYje/s71I6ZY4I/WQCVTDArTZIhkel6dZHe59fR401Bp1VLH/LtE8xFWuGaeA6nQrrjuHcGTii+Z98n0GMTXswSf3ZXjYi9XCG1u2OQbbsLV0JTuuGAJeJ/JwAsF9M0avbpU5XgZKoTbP4oARml6r7SlwX9btCelUlk6TIxKE/kEwYyEC85pldgXwzT+6mQkPbBqugmUF32BkWKM9/w//Zk3pyRacYVxcqtWJux/19IXX/7/rrTN2nhANnf4ozZbb0z9EmEz+1kB1XjSlGdA9JfJWxwDTCLhOkt3xkqtbC5jRqf3cFCjfAj43DWGk3UMqIEkfWxR7NM10n38qGb3JJScsd+4gTPglBUXMVNPdxIY6u9lONwGe0KEFIOuMjMi+gfRKuQq7la0umLKznFDBfU9oMI2+jqGa+m2KiT2Lxxqvd/IkFOLp5RT61jhzQ==
+X-Forefront-Antispam-Report: CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(23010399003)(376014)(1800799024)(10067099003)(18002099003)(56012099006)(11063799006)(261022075727099003)(261102123227099003)(261026121527099003)(261021121427099003)(261009223027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: mrhH2sfEH2pStWx6OJvmCVqI8lq4TzR0K85aSQQ8UEa48wtkTyHCUU7dI9YBKPfkc/JYDKlSKpvrd0VjN2TIf6D61OAm1pqM4BgX9YYwetmJoU67XSaGfGTLbzcPUMV5zTOLx7NNVZ2TH0Re6MwtC+eWTSyLhUTwgDwFHs2kQgR22PYKG0fCGfxuNyd1oNaJE7Scfba/PDYydv7VYuLfOX6k4qgbp7x+tuvuJ+dmoX5C+ejKvYFpeV+dhENwrhiuZ9i0kMDv7ubWFhftwK5uh3ipdpXWZErvpYKbgXbBGgsM5GsBZqvENevv82wDwRXSRqzky6UtoCVKc9MQvthQ09wnDwaST7AFtwc+GK4w1E8nL6ZjGXFaUnMkCbN4nO8BsYCLMxFU8ITmW0TF14RvZwjkTU1WcZ+BAv2vALqxxUvKb/85r26McOBUi5KqD+xa
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 08:26:38.1014
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb4d0780-baa1-4b34-5894-08df3a4d5881
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: MI3PEPF00008552.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR02MB11294
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 08:18:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249345
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 08:26:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249346
+Content-Type: text/plain; charset="utf-8"
 
-On Tue Nov 3, 2026 at 3:59 PM CET, Adam Duskett via openembedded-core wrote=
-:
-> GCC 16 warns that the format may be used uninitialized when a value is
-> assigned a different type, for example:
->
->   toml::value v(true);
->   v =3D std::chrono::hours(1);
->
-> The warning is a false positive, but the tests build with -Werror, so
-> the build fails.
->
-> Every operator=3D copied the old format out of the union behind a type
-> check that GCC could not see through, so it flagged a possible read of
-> an inactive member.
->
-> Add a small helper that keeps the format when the type is unchanged and
-> uses the default format otherwise, so the old format is never copied.
-> The convenience overloads now convert their argument and forward to the
-> main ones, removing a lot of duplicated code.
->
-> Fixes:
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/4814
->
-> Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-> ---
+From: Anton Skorup <anton@skorup.se>
 
-Hi Adam,
+Signed-Off-By: Anton Skorup <anton.skorup@axis.com>
+---
+ meta/recipes-extended/zip/zip_3.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks for the new version.
-
-We can see three selftest failures on the autobuilder:
-
-2026-11-03 21:45:31,569 - oe-selftest - INFO - buildoptions.ImageOptionsTes=
-ts.test_incremental_image_generation (subunit.RemotedTestCase)
-2026-11-03 21:45:31,580 - oe-selftest - INFO -  ... FAIL
-...
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/buildoptions.py", line 32, in test_=
-incremental_image_generation
-    self.assertTrue(incremental_created, msg =3D "Match failed in:\n%s" % l=
-og_data_created)
-  File "/usr/lib/python3.12/unittest/case.py", line 727, in assertTrue
-    raise self.failureException(msg)
-AssertionError: None is not true : Match failed in:
-...
-ERROR: core-image-minimal-1.0-r0 do_rootfs: Postinstall scriptlets of ['pos=
-tinst-rootfs-failing-0:1.0-r0.noarch'] have failed. If the intention is to =
-defer them to first boot,
-then please place them into pkg_postinst_ontarget:${PN} ().
-Deferring to first boot via 'exit 1' is no longer supported.
-Details of the failure are in /srv/pokybuild/yocto-worker/oe-selftest-debia=
-n/build/build-st-847819/tmp/work/qemux86_64-poky-linux/core-image-minimal/1=
-.0/temp/log.do_rootfs.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/oe-selftes=
-t-debian/build/build-st-847819/tmp/work/qemux86_64-poky-linux/core-image-mi=
-nimal/1.0/temp/log.do_rootfs.3494045
-NOTE: recipe core-image-minimal-1.0-r0: task do_rootfs: Failed
-ERROR: Task (/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/op=
-enembedded-core/meta/recipes-core/images/core-image-minimal.bb:do_rootfs) f=
-ailed with exit code '1'
-NOTE: Tasks Summary: Attempted 4387 tasks of which 4386 didn't need to be r=
-erun and 1 failed.
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/o=
-e-selftest-debian/build/build-st-847819/tmp/log/error-report/error_report_2=
-0261103225802.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/oe-selftest-debian/build/bu=
-ild-st-847819/tmp/log/error-report/error_report_20261103225802.txt [-s serv=
-er]
-NOTE: The contents of these logs will be posted in public if you use the ab=
-ove command with the default server. Please ensure you remove any identifyi=
-ng or proprietary information when prompted before sending.
-...
-2026-11-03 22:58:43,332 - oe-selftest - INFO - runtime_test.Postinst.test_f=
-ailing_postinst (subunit.RemotedTestCase)
-2026-11-03 22:58:43,333 - oe-selftest - INFO -  ... FAIL
-...
-2026-11-04 00:03:04,207 - oe-selftest - INFO - FAIL: runtime_test.Postinst.=
-test_failing_postinst (subunit.RemotedTestCase)
-2026-11-04 00:03:04,210 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2026-11-04 00:03:04,210 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/runtime_test.py", line 459, in test=
-_failing_postinst
-    self.assertGreaterEqual(bb_result.output.find("Postinstall scriptlets o=
-f ['postinst-rootfs-failing'] have failed."), 0,
-  File "/usr/lib/python3.12/unittest/case.py", line 1275, in assertGreaterE=
-qual
-    self.fail(self._formatMessage(msg, standardMsg))
-  File "/usr/lib/python3.12/unittest/case.py", line 715, in fail
-    raise self.failureException(msg)
-AssertionError: -1 not greater than or equal to 0 : Warning about a failed =
-scriptlet not found in bitbake output: NOTE: Reconnecting to bitbake server=
-...
-...
-2026-11-03 23:51:38,596 - oe-selftest - INFO - runtime_test.TestImage.test_=
-testimage_install (subunit.RemotedTestCase)
-2026-11-03 23:51:38,597 - oe-selftest - INFO -  ... FAIL
-...
-2026-11-04 00:03:04,274 - oe-selftest - INFO - FAIL: runtime_test.TestImage=
-.test_testimage_install (subunit.RemotedTestCase)
-2026-11-04 00:03:04,277 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2026-11-04 00:03:04,277 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/runtime_test.py", line 131, in test=
-_testimage_install
-    bitbake('-c testimage core-image-full-cmdline')
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/utils/commands.py", line 247, in bitbake
-    return runCmd(cmd, ignore_status, timeout, output_log=3Doutput_log, **o=
-ptions)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^
-  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/utils/commands.py", line 214, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
-s" % (command, result.status, exc_output))
-AssertionError: Command 'bitbake  -c testimage core-image-full-cmdline' ret=
-urned non-zero exit status 1:
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 2109 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/5181
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4997
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/5213
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
+diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/z=
+ip/zip_3.0.bb
+index d1092551f7..0ae525bd4e 100644
+--- a/meta/recipes-extended/zip/zip_3.0.bb
++++ b/meta/recipes-extended/zip/zip_3.0.bb
+@@ -26,6 +26,7 @@ SRC_URI[sha256sum] =3D "f0e8bb1f9b7eb0b01285495a2699df3a4=
+b766784c1765a8f1aeedf63c0
+=20
+ CVE_STATUS[CVE-2018-13410] =3D "disputed: Disputed and also Debian doesn't=
+ consider a vulnerability"
+ CVE_STATUS[CVE-2018-13684] =3D "cpe-incorrect: Not for zip but for smart c=
+ontract implementation for it"
++CVE_PRODUCT =3D "info-zip_project:zip zip_project:zip"
+=20
+ # zip.inc sets CFLAGS, but what Makefile actually uses is
+ # CFLAGS_NOOPT.  It will also force -O3 optimization, overriding
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
 
