@@ -1,74 +1,72 @@
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2487.1793771623046540596
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2488.1793771623174818563
  for <openembedded-core@lists.openembedded.org>;
  Tue, 03 Nov 2026 21:53:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=DO5g1zCL;
- spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=iONBEiWE;
+ spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=99587; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=88589; q=dns/txt;
   s=iport01; t=1793771623; x=1794981223;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=nRvKtAq+QrEWLNSeWMVMNqFTaEa8XpwUuMAIaajoO/o=;
-  b=DO5g1zCLAO/ZeFWI7Js19mDDNB57y9hb68V9Pjmg5lkQLVYdjNE3DNQd
-   K3/WZR7GoQoQ49+4jomOiOFWlcPY0HZRGalvO3mUv7il1Hu24sLsOhAlB
-   ywurmee/MbucGOZ/7ImZo8DT6vkMJfOLjuiLcyBHRtxoTsJCojTNpMH/T
-   vSDDOCRgX3PNouDi3hj35OQ1XaDRclp0CLRssBolPKxpwkrRepCpAi0ZT
-   fNOR0DMnvsxyLrp3hJ88fb0aHhuZdmzbQdby5ZmxVhLQeLRFd4cwAl9HU
-   meHOaqlmhJ4r2mt5D803gnzzFCvMV+2CrLegAnkLl++ZbNerC1kD/8ivk
+  bh=JNJOWnJPe0sb8ODSUMLykx1ByFgU23TSVlyeLkie3G4=;
+  b=iONBEiWE07R3p68sLc0WAnWkj/riLAUa0Qo2VuA/RmAYQ7wa2jEVfWhf
+   q/ZjxQIxNj8nIOYc1HcjS3b+dgLSvogFO5Q/3qIWheKw0okciEmaqVKD/
+   f249QI2RPZqLc4vi25TH2GZ7zPINBh4nLRkEaJMbejnjbd8TavsYuHqpU
+   niSJpNSfB3lR+UlCX//f2c/pvW97PLD0gW10bTsIJS3G9NI0S5HEWiwQX
+   9gVr++k0GP+37Ld1C1IXSJ3hsZFa/Hn8xHUGxG3Rdpp2QZg40zOXp+D+C
+   1YS7kgF2B5HtfcwpVZgu5OHXe7muYI16IMvWr+S//ZwDrSy3kTr/f+P2J
    Q==;
-X-CSE-ConnectionGUID: l9IHG2xcSRm3A+e1tzcgRA==
-X-CSE-MsgGUID: s1XVLoNXT9q4rxS5Iu4SFQ==
-X-IPAS-Result: =?us-ascii?q?A0AcAACOx+pq/4z/Ja1aFgYBAQEBAQEHAQESAQEEBAEBg?=
- =?us-ascii?q?XwHAQELAYJWdWBDSQOMb4lZA4ETilKFZ4xUFIFkBg8BAQEPLgYdBAEBghKCc?=
- =?us-ascii?q?wKOHAImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGTw2QE?=
- =?us-ascii?q?gECAQMBGQECCgsBGAEoBRAcAwECLyAHBCMIGYMCAYI6AzcDEbpBgXkzgQGDK?=
- =?us-ascii?q?QE/AkNQ2EwNgloBCxQBgTgBhT+Cf4UkXRgBhH0nGxuBcoEUAYE7gTh2gQWBG?=
- =?us-ascii?q?kIBAxiBAAljhiAEgg0VgQyBWhgGMjOCIoMbhlsCiEJIgR4DWSwBVRMNCgsHB?=
- =?us-ascii?q?YFoAzUSKhVuMh2BIz4XgQcbBgWBHYEegRKBB12BKyhdASGBCIF2AoJRggACA?=
- =?us-ascii?q?UlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VDGYLGgVhCAINDHQ5EDAeJ?=
- =?us-ascii?q?C8FHCZAGwoUGA1IESw3FRkEPm4Hki2CTjELBgEBDQgXBAwTCQEQCAIHEwEHD?=
- =?us-ascii?q?BgETDUMBwECFB4EDxgFAQUBBAMhDwILAi0DkkMUCQcKkBaCIYE1iXqUQTBxC?=
- =?us-ascii?q?iiDeIwkjT6CAIV8GjOEBIFXkkKDVY5/C5h9glmLMRaDdJErNAsOAhY3hGmBa?=
- =?us-ascii?q?DyBWXAVO4JnCQlBGQ+BHI0RAQsLgVEngWiFE4F+x0omMgEBAQEHAy8BAQcCB?=
- =?us-ascii?q?w4DC4FokR5gAQE?=
-IronPort-Data: A9a23:sPFH0q1eLgrA6OUHyPbD5YJwkn2cJEfYwER7XKvMYLTBsI5bp2RSy
- mZJDTuBPPrcM2fyftlybo7j9xwBupHdyoVgGQU43Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yEzmE4Ej9atANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- rsen+WFYAX7gmcsaTpOg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGCBAXHaJC6u1MO2QV3
- L8VcSwfZR+5rrfjqF67YrEEasULNsLnOsYb/3pn1zycVa1gSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUiYC/FMEg9/5JYWkOSlgnD+YjRwo1OOrq1x6G/WpOB0+OWxa4uMJoPQFK25mG6D/
- 1L422PfMi1LLYCF2QHY02/wvcH2yHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7CQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:EZAFyqpyLhg0dZPAMizqIhsaV5oJeYIsimQD101hICG9vPb2qy
- nIpoV96faaslcssR0b9OxofZPwI080lqQFhbX5Q43DYOCOggLBR+tfBMnZsljd8kbFmNK1u5
- 0NT0EHMqySMXFKyeDn/QK/D9EshPOD8KyumKPi6k0Fd3ANV0mlhD0Jcjpy1SZNNXB7OaY=
-X-Talos-CUID: =?us-ascii?q?9a23=3AGvdVB2u1YxvSnGbc+RZtKCSq6IshI1z94y3AKHS?=
- =?us-ascii?q?CDD1AC7DMVU2b95lNxp8=3D?=
-X-Talos-MUID: 9a23:pjGlZAU6AfRrYKHq/CS1tA9GM+FY3/W3VFodqsgnppW/GxUlbg==
+X-CSE-ConnectionGUID: q5cIXO6wSR+TqHvLZKAh2A==
+X-CSE-MsgGUID: 1ugwHMWRTLihZIo7Zz1JZQ==
+X-IPAS-Result: =?us-ascii?q?A0BmAgCOx+pq/43/Ja1aFggBAQsSDIIFC4JXdWBDSQMBl?=
+ =?us-ascii?q?kcDgROKUpI7FIFkBg8BAQEPLgYdBAEBghKCcwKOHAImNAkOAQIEAwIDAQEBA?=
+ =?us-ascii?q?QEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGFQE5DZASAQIBAwEZAQwLARgBLRAcA?=
+ =?us-ascii?q?wECFxggBwQjCBkJgnkBgjoDNwMRukGBeTOBAYMpAT8CQ1DYTA2CWgELFAGBO?=
+ =?us-ascii?q?IVAgn+FJF0YAYR9JxsbgXKBFYE7gTh2gQWBGjcLAQMYfgsEI14PhW8Egg0Vg?=
+ =?us-ascii?q?QyBWhgGZYIiiXYCiEJIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIz4XgQcbB?=
+ =?us-ascii?q?gWBHYEegRKBB12BKyhdASGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBE?=
+ =?us-ascii?q?xosCoEaNTwJJj8VDGYLGgVhCAINDHQ5EDAeJC8FHCZAGwoUGA1IESw3FRkEP?=
+ =?us-ascii?q?m4Hki2CCVQtBgEBLgIMHQ0DERMBBwwXARc2AzUMBwEWHhMYBQEFAQEnDwILB?=
+ =?us-ascii?q?pMAAxMHkBaCIYE1nh4dMHEKKIN4hhqGCo0+ggCFfBozhASBV5JCkW1nC5h9j?=
+ =?us-ascii?q?goWg3SDU41YT02EaYFoPIFZcBU7gmcJCQFAGQ+BHAWNDQsLgVEngWiDKoFpy?=
+ =?us-ascii?q?UgmMgIBAQcDLwEBBwIHDgMLgWiQAAEQF3ZgAQE?=
+IronPort-Data: A9a23:Kmto+ajbMec9UmBNmxLuot/FX161MREKZh0ujC45NGQN5FlHY01je
+ htvW2qCbqyCYWX0edAkO4qw9UICsJ/VmN4wHQQ5+SA9HihjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNsvrY8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUBp+1WMUYQ6
+ sciawwUTg6ntcGfwOiSH7wEasQLdKEHPasFsX1miDWcBvE8TNWbH+PB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZg5/5JEWxI9EglHzcDBcoVOErII84nPYy0p6172F3N/9J4DRHZkNxR3Cz
+ o7A1z3kDQ46EeOl9R6E8kCNgbD9j3rZartHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFmIHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:rPOLS60zJquP5xa6qEQbZAqjBJAkLtp133Aq2lEZdPWaSKOlfq
+ eV7ZMmPHDP6Qr5NEtMpTnEAtjjfZq+z+8Q3WBuB9eftWDd0QPCRr2Kr7GSpgEIcBeRygcy78
+ tdmtBFeb7NJGk/q9rm6w+lFNtl6tyG/Ke0wdr69R5WPGdXg2UK1XYANu5deXcGPTV7OQ==
+X-Talos-CUID: 9a23:gn//aGwVk+1XHmfw1meaBgUNR8sEQlqD00zqYHOhKXhNep68SQW5rfY=
+X-Talos-MUID: 9a23:qO8xVgrVxj8hio4ae/gez2h/O9hIxpuUNGQMkacnvJa2J3VSCQ7I2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,194,1787011200"; 
-   d="scan'208";a="543914729"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 04 Nov 2026 05:53:41 +0000
+   d="scan'208";a="543040332"
+Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
+  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 04 Nov 2026 05:53:40 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id BC9A6180001FA;
+	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id B745D180005D5;
 	Wed,  4 Nov 2026 05:53:40 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 68664CBF203; Tue,  3 Nov 2026 21:53:40 -0800 (PST)
+	id 61FDCCBF202; Tue,  3 Nov 2026 21:53:40 -0800 (PST)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 3/3] acl: fix CVE-2026-54370
-Date: Tue,  3 Nov 2026 21:53:35 -0800
-Message-Id: <20261104055335.2080900-4-dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 2/3] acl: fix CVE-2026-54369
+Date: Tue,  3 Nov 2026 21:53:34 -0800
+Message-Id: <20261104055335.2080900-3-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261104055335.2080900-1-dkelaiya@cisco.com>
 References: <20261104055335.2080900-1-dkelaiya@cisco.com>
@@ -76,166 +74,714 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
+X-Outbound-Node: rcdn-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 05:53:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249328
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249329
 Content-Type: text/plain; charset="utf-8"
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Backport the getfacl [1], setfacl [3], setfacl --restore [4] and
-chacl [5] hardening identified by [2]. These changes use directory
-descriptors and symlink-safe operations instead of repeatedly
-resolving full pathnames. They require the new APIs and shared
-compatibility helpers from the preceding CVE-2026-54369 backport.
+Backport the libacl _at API implementation [1] identified by [2] to
+ACL 2.3.2. These directory-relative APIs support AT_SYMLINK_NOFOLLOW
+and AT_EMPTY_PATH. Existing pathname APIs retain their historical
+symlink-following behavior; callers must adopt the new interfaces.
 
 Include the following prerequisite changes:
 
-Add fchmodat compatibility code [6]. Hardened setfacl uses this
-for permission changes when the kernel lacks the required
-AT_SYMLINK_NOFOLLOW or AT_EMPTY_PATH support.
+Extract visibility-hidden.h [5]. The proc-self-fd compatibility
+helpers introduced by [7] include this header and use its hidden
+annotation for internal declarations.
 
-Rename the original walker to old_walk_tree [7]. This preserves
-its callers while the new walker interface is introduced and
-stages their migration; the rename does not itself fix the CVE.
+Add xattrat syscall wrappers [6]. The compatibility functions in
+[7] call these wrappers when libc lacks the corresponding
+interfaces. Include only the errno.h correction from [10] so
+errno and ENOSYS are declared in the fallback paths.
 
-Add the directory-fd-based walk_tree implementation [8]. The
-getfacl and setfacl fixes use its callback interface to operate
-relative to directory descriptors.
+Add xattrat compatibility implementations [7]. The new ACL APIs
+use these functions to support older kernels and unsupported
+O_PATH/AT_EMPTY_PATH combinations through the fallbacks described
+upstream [9].
 
-Add openat2 detection and a syscall wrapper [9]. The restore fix
-uses this interface with RESOLVE_NO_SYMLINKS to resolve directory
-components without following symbolic links.
+Include API documentation [3] and clarification of the legacy
+functions' symlink behavior [4] so applications can correctly adopt
+the new interfaces [8]. These documentation changes explain the
+security-relevant behavior without changing the legacy API contract.
 
-Preserve upstream compatibility behavior [10-12]: physical restore
-uses -P; non-physical restore remains available with warnings when
-openat2 support is enabled. Physical directory resolution fails
-rather than silently falling back when openat2 is unavailable.
+The shared helpers and new APIs also support the following
+CVE-2026-54370 utility hardening. The preceding tar change prevents
+name conflicts with the newly introduced libacl declarations.
 
-Retain ACL 2.3.2's .test harness and include the upstream restore
-regression test as restore-symlinks.test so ptest packages it
-without the root/restore.test exclusion.
-
-[1] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=2ee940139e9bba5005a3d987a6daecdda909089e
-[2] https://security-tracker.debian.org/tracker/CVE-2026-54370
-[3] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=2c03ceefa0610d551d9cc089ce0a404cbe2d34b4
-[4] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=54e14e9bc545f505b379d0792a2748d9baf88700
-[5] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=601cc884a548ae9e9d246ae749e54b3272e4b1d7
-[6] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=c3492ef76587ce1e652bbb1bdf99f8ea6224b364
-[7] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=f7210d140298ccc73b2b1713635e7c39d58a8eeb
-[8] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=39b00348f5911e4e5937ddfb079cc456288b3cd3
-[9] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=7244f425227a23533f0b0b41c717dbd59736b907
-[10] https://www.openwall.com/lists/oss-security/2026/06/29/1#:~:text=%2D%20When%20walking%20directory%20trees,throughout%20the%20code.
-[11] https://www.openwall.com/lists/oss-security/2026/06/29/1#:~:text=Support%20for%20specific%20AT_%2A%20flags,these%20operations%20will%20fail.
-[12] https://www.openwall.com/lists/oss-security/2026/06/29/1#:~:text=%2D%20As%20mentioned%20above%2C%20the%20%2D%2Drestore%20option,the%20operation%20will%20fail.
+[1] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=5906d2868ec8d3b08be556153696e6b1122eeeda
+[2] https://security-tracker.debian.org/tracker/CVE-2026-54369
+[3] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=0071c6d1fea0a8a6270333baa85fb609be325c26
+[4] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=170dbd3beff9bd5bdab3f72db1a04bf282f6087c
+[5] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=60d3c0c7539f4082ab963c9b20a8fa3ac0fbc73e
+[6] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=4eb92d4d449d16fdae4f9ba332809ff9bfd47e65
+[7] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=ea0b56cdd9b3d537da2366dacbbfc93fefce152a
+[8] https://www.openwall.com/lists/oss-security/2026/06/29/1#:~:text=Instead%2C%20version%202.4.0,control%20when%20to%20follow%20symbolic%20links.
+[9] https://www.openwall.com/lists/oss-security/2026/06/29/1#:~:text=The%20xattrat%28%29%20system%20calls,these%20operations%20will%20fail.
+[10] https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=a009adf38ed8cf3cc2ad8bfb7060630caba0bdaa
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../acl/CVE-2026-54370-dependent_p1.patch     | 168 ++++
- .../acl/CVE-2026-54370-dependent_p2.patch     | 761 ++++++++++++++++++
- .../acl/CVE-2026-54370-dependent_p3.patch     | 439 ++++++++++
- .../acl/CVE-2026-54370-dependent_p4.patch     | 140 ++++
- .../attr/acl/CVE-2026-54370_p1.patch          | 299 +++++++
- .../attr/acl/CVE-2026-54370_p2.patch          | 403 ++++++++++
- .../attr/acl/CVE-2026-54370_p3.patch          | 603 ++++++++++++++
- .../attr/acl/CVE-2026-54370_p4.patch          | 213 +++++
- meta/recipes-support/attr/acl_2.3.2.bb        |   8 +
- 9 files changed, 3034 insertions(+)
- create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p1.patch
- create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p2.patch
- create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p3.patch
- create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p4.patch
- create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch
- create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch
- create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch
- create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch
+ .../acl/CVE-2026-54369-dependent_p1.patch     |  69 ++
+ .../acl/CVE-2026-54369-dependent_p2.patch     | 200 ++++
+ .../acl/CVE-2026-54369-dependent_p3.patch     | 712 +++++++++++++
+ .../attr/acl/CVE-2026-54369_p1.patch          | 719 +++++++++++++
+ .../attr/acl/CVE-2026-54369_p2.patch          | 957 ++++++++++++++++++
+ .../attr/acl/CVE-2026-54369_p3.patch          | 109 ++
+ meta/recipes-support/attr/acl_2.3.2.bb        |   6 +
+ 7 files changed, 2772 insertions(+)
+ create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p1.patch
+ create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p2.patch
+ create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p3.patch
+ create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p1.patch
+ create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p2.patch
+ create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p3.patch
 
-diff --git a/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p1.patch b/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p1.patch
+diff --git a/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p1.patch b/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p1.patch
 new file mode 100644
-index 00000000000..c8a70ba3c63
+index 00000000000..c1fd57720f6
 --- /dev/null
-+++ b/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p1.patch
-@@ -0,0 +1,168 @@
-+From 9e97fa6569529fe28af7839f0e83e3a01eb631ab Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p1.patch
+@@ -0,0 +1,69 @@
++From 104000f79a011db7731d8fcfdfbdb750d79a62b7 Mon Sep 17 00:00:00 2001
 +From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Tue, 16 Jun 2026 22:44:07 +0200
-+Subject: [PATCH] Add fchmodat syscall backwards compatibility code
++Date: Fri, 12 Jun 2026 16:56:37 +0200
++Subject: [PATCH] Split off visibility attribute header
 +
-+Support for the AT_SYMLINK_NOFOLLOW flag was added in commit 09da082b07bb
-+("fs: Add fchmodat2()") and support for the AT_EMPTY_PATH flag was added in
-+commit 5daeb41a6fc9d ("fchmodat2: add support for AT_EMPTY_PATH"), both
-+merged in kernel version 6.6 from October 2023.
-+
-+Add a fchmodat_compat() wrapper that detects when the kernel doesn't support
-+those features and fall back to chmod("/proc/self/fd/<dirfd>", mode) when
-+necessary.
-+
-+CVE: CVE-2026-54370
-+Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=c3492ef76587ce1e652bbb1bdf99f8ea6224b364]
++CVE: CVE-2026-54369
++Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=60d3c0c7539f4082ab963c9b20a8fa3ac0fbc73e]
 +
 +Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+(cherry picked from commit c3492ef76587ce1e652bbb1bdf99f8ea6224b364)
++(cherry picked from commit 60d3c0c7539f4082ab963c9b20a8fa3ac0fbc73e)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ include/Makemodule.am     |  1 +
-+ include/fchmodat_compat.h | 12 ++++++
-+ libmisc/Makemodule.am     |  1 +
-+ libmisc/fchmodat_compat.c | 88 +++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 102 insertions(+)
-+ create mode 100644 include/fchmodat_compat.h
-+ create mode 100644 libmisc/fchmodat_compat.c
++ include/Makemodule.am       |  1 +
++ include/misc.h              |  8 +-------
++ include/visibility-hidden.h | 11 +++++++++++
++ 3 files changed, 13 insertions(+), 7 deletions(-)
++ create mode 100644 include/visibility-hidden.h
 +
 +diff --git a/include/Makemodule.am b/include/Makemodule.am
-+index 36fc1c3..30d1fda 100644
++index 89bc669..dd95135 100644
 +--- a/include/Makemodule.am
 ++++ b/include/Makemodule.am
-+@@ -2,6 +2,7 @@ noinst_HEADERS += \
-+ 	include/libacl.h \
++@@ -3,6 +3,7 @@ noinst_HEADERS += \
 + 	include/acl.h \
 + 	include/acl_ea.h \
-++	include/fchmodat_compat.h \
++ 	include/misc.h \
+++	include/visibility-hidden.h \
++ 	include/walk_tree.h
++ 
++ SUBST_INSTALL_HEADER = \
++diff --git a/include/misc.h b/include/misc.h
++index 52cfec4..ec095d9 100644
++--- a/include/misc.h
+++++ b/include/misc.h
++@@ -20,13 +20,7 @@
++ 
++ #include <stdio.h>
++ #include <sys/types.h>
++-
++-/* Mark library internal functions as hidden */
++-#if defined(HAVE_VISIBILITY_ATTRIBUTE)
++-# define hidden __attribute__((visibility("hidden")))
++-#else
++-# define hidden /* hidden */
++-#endif
+++#include "include/visibility-hidden.h"
++ 
++ hidden int __acl_high_water_alloc(void **buf, size_t *bufsize, size_t newsize);
++ 
++diff --git a/include/visibility-hidden.h b/include/visibility-hidden.h
++new file mode 100644
++index 0000000..2d02731
++--- /dev/null
+++++ b/include/visibility-hidden.h
++@@ -0,0 +1,11 @@
+++#ifndef VISIBILITY_HIDDEN_H
+++#define VISIBILITY_HIDDEN_H
+++
+++/* Mark library internal functions as hidden */
+++#if defined(HAVE_VISIBILITY_ATTRIBUTE)
+++# define hidden __attribute__((visibility("hidden")))
+++#else
+++# define hidden /* hidden */
+++#endif
+++
+++#endif /* VISIBILITY_HIDDEN_H */
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p2.patch b/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p2.patch
+new file mode 100644
+index 00000000000..a08a5a33f29
+--- /dev/null
++++ b/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p2.patch
+@@ -0,0 +1,200 @@
++From 46ef0ac778d0fe5099e9268c45fd97817a843199 Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruenba@redhat.com>
++Date: Fri, 12 Jun 2026 13:18:23 +0200
++Subject: [PATCH] Add xattrat syscall wrappers
++
++The getxattrat(), setxattrat(), listxattrat(), and removexattrat() system calls
++don't have shims provided by glibc, yet.  For each of those system calls, test
++if glibc defines it and add a local shim using syscall() if not.
++
++CVE: CVE-2026-54369
++Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=4eb92d4d449d16fdae4f9ba332809ff9bfd47e65]
++
++Backport Changes:
++- Fold only the libmisc/xattrat.c <errno.h> include from upstream
++  follow-up a009adf38ed8cf3cc2ad8bfb7060630caba0bdaa so errno and
++  ENOSYS are declared for the syscall fallback paths.
++
++Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
++(cherry picked from commit 4eb92d4d449d16fdae4f9ba332809ff9bfd47e65)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ configure.ac          |  7 ++++
++ include/Makemodule.am |  3 +-
++ include/xattrat.h     | 25 +++++++++++++
++ libmisc/Makemodule.am |  5 +++
++ libmisc/xattrat.c     | 85 +++++++++++++++++++++++++++++++++++++++++++
++ 5 files changed, 124 insertions(+), 1 deletion(-)
++ create mode 100644 include/xattrat.h
++ create mode 100644 libmisc/xattrat.c
++
++diff --git a/configure.ac b/configure.ac
++index 96fd96a..22d5084 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -34,6 +34,13 @@ AC_SYS_LARGEFILE
++ AM_PROG_AR
++ LT_INIT
++ 
+++AC_CHECK_FUNCS(getxattrat setxattrat listxattrat removexattrat)
+++AM_CONDITIONAL([NEED_XATTRAT],
+++	       [test "x$ac_cv_func_getxattrat" = xno -o \
+++		     "x$ac_cv_func_setxattrat" = xno -o \
+++		     "x$ac_cv_func_listxattrat" = xno -o \
+++		     "x$ac_cv_func_removexattrat" = xno])
+++
++ dnl Minimal version supporting AM_GNU_GETTEXT_REQUIRE_VERSION.
++ AM_GNU_GETTEXT_VERSION([0.19.6])
++ dnl Require at least the following version, but use the latest available one.
++diff --git a/include/Makemodule.am b/include/Makemodule.am
++index dd95135..47b1c26 100644
++--- a/include/Makemodule.am
+++++ b/include/Makemodule.am
++@@ -4,7 +4,8 @@ noinst_HEADERS += \
++ 	include/acl_ea.h \
++ 	include/misc.h \
++ 	include/visibility-hidden.h \
++-	include/walk_tree.h
+++	include/walk_tree.h \
+++	include/xattrat.h
++ 
++ SUBST_INSTALL_HEADER = \
++ 	subst_install_header() { \
++diff --git a/include/xattrat.h b/include/xattrat.h
++new file mode 100644
++index 0000000..e4ba0c0
++--- /dev/null
+++++ b/include/xattrat.h
++@@ -0,0 +1,25 @@
+++#ifndef MISC_XATTRAT_H
+++#define MISC_XATTRAT_H
+++
+++#include "config.h"
+++
+++#ifndef HAVE_GETXATTRAT
+++ssize_t getxattrat(int dirfd, const char *path, int at_flags, const char *name,
+++		   void *value, size_t size);
+++#endif
+++
+++#ifndef HAVE_SETXATTRAT
+++int setxattrat(int dirfd, const char *path, int at_flags, const char *name,
+++	       const void *value, size_t size, int flags);
+++#endif
+++
+++#ifndef HAVE_LISTXATTRAT
+++ssize_t listxattrat(int dirfd, const char *path, int at_flags, char *list,
+++		    size_t size);
+++#endif
+++
+++#ifndef HAVE_REMOVEXATTRAT
+++int removexattrat(int dirfd, const char *path, int at_flags, const char *name);
+++#endif
+++
+++#endif /* MISC_XATTRAT_H */
++diff --git a/libmisc/Makemodule.am b/libmisc/Makemodule.am
++index 2bb7bf0..6826a35 100644
++--- a/libmisc/Makemodule.am
+++++ b/libmisc/Makemodule.am
++@@ -7,3 +7,8 @@ libmisc_la_SOURCES = \
++ 	libmisc/quote.c \
++ 	libmisc/unquote.c \
++ 	libmisc/walk_tree.c
+++
+++if NEED_XATTRAT
+++libmisc_la_SOURCES += \
+++	libmisc/xattrat.c
+++endif
++diff --git a/libmisc/xattrat.c b/libmisc/xattrat.c
++new file mode 100644
++index 0000000..6740a39
++--- /dev/null
+++++ b/libmisc/xattrat.c
++@@ -0,0 +1,85 @@
+++/*
+++  File: xattrat.c
+++
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
+++
+++  This library is free software; you can redistribute it and/or
+++  modify it under the terms of the GNU Lesser General Public
+++  License as published by the Free Software Foundation; either
+++  version 2.1 of the License, or (at your option) any later version.
+++
+++  This library is distributed in the hope that it will be useful,
+++  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++  Lesser General Public License for more details.
+++
+++  You should have received a copy of the GNU Lesser General Public
+++  License along with this library; if not, see <https://www.gnu.org/licenses/>.
+++*/
+++
+++#include "config.h"
+++#include <linux/xattr.h>
+++#include <sys/syscall.h>
+++#include <unistd.h>
+++#include <errno.h>
+++
+++#include "xattrat.h"
+++
+++ssize_t
+++getxattrat(int dirfd, const char *path, int at_flags, const char *name,
+++	   void *value, size_t size)
+++{
+++#ifdef __NR_getxattrat
+++	struct xattr_args uargs = {
+++		.value = (unsigned long)value,
+++		.size = size,
+++	};
+++
+++	return syscall(__NR_getxattrat, dirfd, path, at_flags, name,
+++		       &uargs, sizeof(uargs));
+++#else
+++	errno = ENOSYS;
+++	return -1;
+++#endif
+++}
+++
+++int
+++setxattrat(int dirfd, const char *path, int at_flags, const char *name,
+++	   const void *value, size_t size, int flags)
+++{
+++#ifdef __NR_setxattrat
+++	struct xattr_args uargs = {
+++		.value = (unsigned long)value,
+++		.size = size,
+++		.flags = flags,
+++	};
+++
+++        return syscall(__NR_setxattrat, dirfd, path, at_flags, name,
+++                       &uargs, sizeof(uargs));
+++#else
+++	errno = ENOSYS;
+++	return -1;
+++#endif
+++}
+++
+++ssize_t listxattrat(int dirfd, const char *path, int at_flags, char *list,
+++		    size_t size)
+++{
+++#ifdef __NR_listxattrat
+++        return syscall(__NR_listxattrat, dirfd, path, at_flags, list, size);
+++#else
+++	errno = ENOSYS;
+++	return -1;
+++#endif
+++}
+++
+++int
+++removexattrat(int dirfd, const char *path, int at_flags, const char *name)
+++{
+++#ifdef __NR_removexattrat
+++	return syscall(__NR_removexattrat, dirfd, path, at_flags, name);
+++#else
+++	errno = ENOSYS;
+++	return -1;
+++#endif
+++}
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p3.patch b/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p3.patch
+new file mode 100644
+index 00000000000..b5ca98d4648
+--- /dev/null
++++ b/meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p3.patch
+@@ -0,0 +1,712 @@
++From 28b1bde001c4566023a76db90692ad8ad32378de Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruenba@redhat.com>
++Date: Fri, 12 Jun 2026 15:45:25 +0200
++Subject: [PATCH] Add xattrat syscall backwards compatibility code
++
++The getxattrat(), setxattrat(), listxattrat(), and removexattrat() system calls
++have only been added in kernel version 6.13 which was released in January 2025.
++On older systems, those system calls will fail with errno == ENOSYS.  So we use
++the old system calls (for example, getxattr() and lgetxattr()) when they are
++sufficient, and the new xattrat() system calls when they are needed.
++
++In addition, when the new system calls are not available, we resort to the
++following hacks for achieving the desired behavior: when dirfd is not AT_FDCWD,
++the pathname can usually be resolved relative to dirfd as
++"/proc/self/fd/<dirfd>/pathname".  And when that also fails because the
++resulting pathname is too long, the original pathname can be resolved using
++openat(dirfd, pathname, O_PATH) and then accessed as "/proc/self/fd/<fd>".
++
++Also, due to a current kernel limitation, the xattrat system calls will not
++accept dirfd file descriptors of type O_PATH with an empty pathname (and with
++the AT_EMPTY_PATH flag set in at_flags) [*].  When running into this case, we
++also fall back to accessing the file via "/proc/self/fd/<fd>".
++
++When those hacks fail because the /proc filesystem is not available, these
++compatibility wrappers will fail with errno == ENOSYS.
++
++[*] https://lore.kernel.org/linux-fsdevel/20260607164136.2948550-2-agruenba@redhat.com/
++
++CVE: CVE-2026-54369
++Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=ea0b56cdd9b3d537da2366dacbbfc93fefce152a]
++
++Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
++(cherry picked from commit ea0b56cdd9b3d537da2366dacbbfc93fefce152a)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ include/Makemodule.am          |   3 +-
++ include/xattrat_compat.h       |  24 ++++++++
++ libmisc/Makemodule.am          |   8 +++
++ libmisc/getxattrat_compat.c    | 108 +++++++++++++++++++++++++++++++++
++ libmisc/listxattrat_compat.c   | 107 ++++++++++++++++++++++++++++++++
++ libmisc/proc-self-fd.c         |  92 ++++++++++++++++++++++++++++
++ libmisc/proc-self-fd.h         |  31 ++++++++++
++ libmisc/removexattrat_compat.c | 107 ++++++++++++++++++++++++++++++++
++ libmisc/setxattrat_compat.c    | 108 +++++++++++++++++++++++++++++++++
++ 9 files changed, 587 insertions(+), 1 deletion(-)
++ create mode 100644 include/xattrat_compat.h
++ create mode 100644 libmisc/getxattrat_compat.c
++ create mode 100644 libmisc/listxattrat_compat.c
++ create mode 100644 libmisc/proc-self-fd.c
++ create mode 100644 libmisc/proc-self-fd.h
++ create mode 100644 libmisc/removexattrat_compat.c
++ create mode 100644 libmisc/setxattrat_compat.c
++
++diff --git a/include/Makemodule.am b/include/Makemodule.am
++index 47b1c26..36fc1c3 100644
++--- a/include/Makemodule.am
+++++ b/include/Makemodule.am
++@@ -5,7 +5,8 @@ noinst_HEADERS += \
 + 	include/misc.h \
 + 	include/visibility-hidden.h \
 + 	include/walk_tree.h \
-+diff --git a/include/fchmodat_compat.h b/include/fchmodat_compat.h
++-	include/xattrat.h
+++	include/xattrat.h \
+++	include/xattrat_compat.h
++ 
++ SUBST_INSTALL_HEADER = \
++ 	subst_install_header() { \
++diff --git a/include/xattrat_compat.h b/include/xattrat_compat.h
 +new file mode 100644
-+index 0000000..c10f8ad
++index 0000000..0016e9e
 +--- /dev/null
-++++ b/include/fchmodat_compat.h
-+@@ -0,0 +1,12 @@
-++#ifndef FCHMODAT_COMPAT_H
-++#define FCHMODAT_COMPAT_H
+++++ b/include/xattrat_compat.h
++@@ -0,0 +1,24 @@
+++#ifndef XATTRAT_COMPAT_H
+++#define XATTRAT_COMPAT_H
 ++
-++#include <fcntl.h>
+++ssize_t getxattrat_compat(int dirfd, const char *path, int at_flags,
+++			  const char *name, void *value, size_t size);
 ++
-++int fchmodat_compat(int dirfd, const char *pathname, mode_t mode, int flags);
+++int setxattrat_compat(int dirfd, const char *path, int at_flags,
+++		      const char *name, const void *value, size_t size,
+++		      int flags);
+++
+++ssize_t listxattrat_compat(int dirfd, const char *path, int at_flags,
+++			   char *list, size_t size);
+++
+++int removexattrat_compat(int dirfd, const char *path, int at_flags,
+++			 const char *name);
 ++
 ++#ifndef DECLARATIONS_ONLY
-++# define fchmodat fchmodat_compat
+++# define getxattrat getxattrat_compat
+++# define setxattrat setxattrat_compat
+++# define listxattrat listxattrat_compat
+++# define removexattrat removexattrat_compat
 ++#endif
 ++
-++#endif /* FCHMODAT_COMPAT_H */
+++#endif /* XATTRAT_COMPAT_H */
 +diff --git a/libmisc/Makemodule.am b/libmisc/Makemodule.am
-+index 4099098..07b03c6 100644
++index 6826a35..4099098 100644
 +--- a/libmisc/Makemodule.am
 ++++ b/libmisc/Makemodule.am
-+@@ -5,6 +5,7 @@ noinst_HEADERS += \
++@@ -1,10 +1,18 @@
++ noinst_LTLIBRARIES += libmisc.la
 + 
+++noinst_HEADERS += \
+++	libmisc/proc-self-fd.h
+++
 + libmisc_la_SOURCES = \
 + 	libmisc/uid_gid_lookup.c \
-++	libmisc/fchmodat_compat.c \
-+ 	libmisc/getxattrat_compat.c \
+++	libmisc/getxattrat_compat.c \
 + 	libmisc/high_water_alloc.c \
-+ 	libmisc/listxattrat_compat.c \
-+diff --git a/libmisc/fchmodat_compat.c b/libmisc/fchmodat_compat.c
+++	libmisc/listxattrat_compat.c \
++ 	libmisc/next_line.c \
+++	libmisc/proc-self-fd.c \
++ 	libmisc/quote.c \
+++	libmisc/removexattrat_compat.c \
+++	libmisc/setxattrat_compat.c \
++ 	libmisc/unquote.c \
++ 	libmisc/walk_tree.c
++ 
++diff --git a/libmisc/getxattrat_compat.c b/libmisc/getxattrat_compat.c
 +new file mode 100644
-+index 0000000..dd2a8b8
++index 0000000..1de1114
 +--- /dev/null
-++++ b/libmisc/fchmodat_compat.c
-+@@ -0,0 +1,88 @@
+++++ b/libmisc/getxattrat_compat.c
++@@ -0,0 +1,108 @@
 ++/*
-++  File: fchmodat_compat.c
+++  File: getxattrat_compat.c
+++
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
+++
+++  This library is free software; you can redistribute it and/or
+++  modify it under the terms of the GNU Lesser General Public
+++  License as published by the Free Software Foundation; either
+++  version 2.1 of the License, or (at your option) any later version.
+++
+++  This library is distributed in the hope that it will be useful,
+++  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++  Lesser General Public License for more details.
+++
+++  You should have received a copy of the GNU Lesser General Public
+++  License along with this library; if not, see <https://www.gnu.org/licenses/>.
+++*/
+++
+++#include "config.h"
+++#include <sys/xattr.h>
+++#include <unistd.h>
+++#include <fcntl.h>
+++#include <errno.h>
+++#include <stdlib.h>
+++#include "xattrat.h"
+++#include "libmisc/proc-self-fd.h"
+++
+++#define DECLARATIONS_ONLY
+++#include "xattrat_compat.h"
+++
+++/* Used in {set,list,remove}xattrat_compat.c */
+++int slow_empty_paths;
+++
+++static ssize_t
+++xgetxattr(const char *path, int at_flags, const char *name, void *value,
+++	  size_t size)
+++{
+++	if (at_flags & AT_SYMLINK_NOFOLLOW)
+++		return lgetxattr(path, name, value, size);
+++	return getxattr(path, name, value, size);
+++}
+++
+++ssize_t
+++getxattrat_compat(int dirfd, const char *path, int at_flags, const char *name,
+++		  void *value, size_t size)
+++{
+++	struct proc_self_fd_buffer buffer;
+++	static int no_getxattrat;
+++	char *newpath;
+++	ssize_t ret;
+++	int fd;
+++
+++	if (at_flags & ~(AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW)) {
+++		errno = EINVAL;
+++		return -1;
+++	}
+++	if (!*path) {
+++		if (!(at_flags & AT_EMPTY_PATH)) {
+++			errno = ENOENT;
+++			return -1;
+++		}
+++	}
+++
+++	if (dirfd == AT_FDCWD || *path == '/')
+++		return xgetxattr(path, at_flags, name, value, size);
+++
+++	if (!no_getxattrat) {
+++		if (!*path && slow_empty_paths)
+++			goto proc_self_fd_path;
+++		ret = getxattrat(dirfd, path, at_flags, name, value, size);
+++		if (ret != -1)
+++		       return ret;
+++		if (need_slow_empty_paths(dirfd, path)) {
+++			slow_empty_paths = 1;
+++			goto proc_self_fd_path;
+++		}
+++		if (errno != ENOSYS)
+++			return -1;
+++		no_getxattrat = 1;
+++	}
+++
+++proc_self_fd_path:
+++	newpath = proc_self_fd_realpath(dirfd, path, &at_flags, &buffer);
+++	if (!newpath)
+++		return -1;
+++	ret = xgetxattr(newpath, at_flags, name, value, size);
+++	proc_self_fd_free(newpath, &buffer);
+++	if (ret != -1)
+++		return ret;
+++	if (errno == ENOENT) {
+++		if (!*path) {
+++			errno = EBADF;
+++			return -1;
+++		}
+++		if (fcntl(dirfd, F_GETFL) != -1)
+++			errno = ENOENT;
+++		return -1;
+++	} else if (errno != ENAMETOOLONG)
+++		return ret;
+++
+++	fd = openat_with_flags(dirfd, path, at_flags);
+++	if (fd == -1)
+++		return -1;
+++	ret = getxattr(proc_self_fd_path(fd, &buffer), name, value, size);
+++	close(fd);
+++	return ret;
+++}
++diff --git a/libmisc/listxattrat_compat.c b/libmisc/listxattrat_compat.c
++new file mode 100644
++index 0000000..311d3d6
++--- /dev/null
+++++ b/libmisc/listxattrat_compat.c
++@@ -0,0 +1,107 @@
+++/*
+++  File: listxattrat_compat.c
+++
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
+++
+++  This library is free software; you can redistribute it and/or
+++  modify it under the terms of the GNU Lesser General Public
+++  License as published by the Free Software Foundation; either
+++  version 2.1 of the License, or (at your option) any later version.
+++
+++  This library is distributed in the hope that it will be useful,
+++  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++  Lesser General Public License for more details.
+++
+++  You should have received a copy of the GNU Lesser General Public
+++  License along with this library; if not, see <https://www.gnu.org/licenses/>.
+++*/
+++
+++#include "config.h"
+++#include <sys/xattr.h>
+++#include <unistd.h>
+++#include <fcntl.h>
+++#include <errno.h>
+++#include <stdlib.h>
+++#include "xattrat.h"
+++#include "libmisc/proc-self-fd.h"
+++
+++#define DECLARATIONS_ONLY
+++#include "xattrat_compat.h"
+++
+++/* Defined in getxattrat_compat.c */
+++extern int slow_empty_paths;
+++
+++static ssize_t
+++xlistxattr(const char *path, int at_flags, char *list, size_t size)
+++{
+++	if (at_flags & AT_SYMLINK_NOFOLLOW)
+++		return llistxattr(path, list, size);
+++	return listxattr(path, list, size);
+++}
+++
+++ssize_t
+++listxattrat_compat(int dirfd, const char *path, int at_flags, char *list,
+++		   size_t size)
+++{
+++	struct proc_self_fd_buffer buffer;
+++	static int no_listxattrat;
+++	char *newpath;
+++	ssize_t ret;
+++	int fd;
+++
+++	if (at_flags & ~(AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW)) {
+++		errno = EINVAL;
+++		return -1;
+++	}
+++	if (!*path) {
+++		if (!(at_flags & AT_EMPTY_PATH)) {
+++			errno = ENOENT;
+++			return -1;
+++		}
+++	}
+++
+++	if (dirfd == AT_FDCWD || *path == '/')
+++		return xlistxattr(path, at_flags, list, size);
+++
+++	if (!no_listxattrat) {
+++		if (!*path && slow_empty_paths)
+++			goto proc_self_fd_path;
+++		ret = listxattrat(dirfd, path, at_flags, list, size);
+++		if (ret != -1)
+++		       return ret;
+++		if (need_slow_empty_paths(dirfd, path)) {
+++			slow_empty_paths = 1;
+++			goto proc_self_fd_path;
+++		}
+++		if (errno != ENOSYS)
+++			return -1;
+++		no_listxattrat = 1;
+++	}
+++
+++proc_self_fd_path:
+++	newpath = proc_self_fd_realpath(dirfd, path, &at_flags, &buffer);
+++	if (!newpath)
+++		return -1;
+++	ret = xlistxattr(newpath, at_flags, list, size);
+++	proc_self_fd_free(newpath, &buffer);
+++	if (ret != -1)
+++		return ret;
+++	if (errno == ENOENT) {
+++		if (!*path) {
+++			errno = EBADF;
+++			return -1;
+++		}
+++		if (fcntl(dirfd, F_GETFL) != -1)
+++			errno = ENOENT;
+++		return -1;
+++	} else if (errno != ENAMETOOLONG)
+++		return ret;
+++
+++	fd = openat_with_flags(dirfd, path, at_flags);
+++	if (fd == -1)
+++		return -1;
+++	ret = listxattr(proc_self_fd_path(fd, &buffer), list, size);
+++	close(fd);
+++	return ret;
+++}
++diff --git a/libmisc/proc-self-fd.c b/libmisc/proc-self-fd.c
++new file mode 100644
++index 0000000..0ae5cf2
++--- /dev/null
+++++ b/libmisc/proc-self-fd.c
++@@ -0,0 +1,92 @@
+++/*
+++  File: xattrat_compat.c
 ++
 ++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 ++
@@ -256,247 +802,123 @@ index 00000000000..c8a70ba3c63
 ++#include "config.h"
 ++#include <unistd.h>
 ++#include <fcntl.h>
-++#include <sys/stat.h>
-++#include <errno.h>
 ++#include <stdio.h>
 ++#include <stdlib.h>
+++#include <errno.h>
 ++#include "libmisc/proc-self-fd.h"
 ++
-++#define DECLARATIONS_ONLY
-++#include "fchmodat_compat.h"
-++
-++/*
-++ * Support for the AT_SYMLINK_NOFOLLOW flag was added in commit 09da082b07bb
-++ * ("fs: Add fchmodat2()") and support for the AT_EMPTY_PATH flag was added in
-++ * commit 5daeb41a6fc9d ("fchmodat2: add support for AT_EMPTY_PATH"), both
-++ * merged in kernel version 6.6 from October 2023.
-++ */
-++
-++static int no_symlink_nofollow;
-++
-++int fchmodat_compat(int dirfd, const char *pathname, mode_t mode, int flags)
+++char *
+++proc_self_fd_path(int fd, struct proc_self_fd_buffer *buffer)
 ++{
-++	struct proc_self_fd_buffer buffer;
-++	int fd = dirfd;
+++	sprintf(buffer->buffer, "/proc/self/fd/%d", fd);
+++	return buffer->buffer;
+++}
+++
+++void
+++proc_self_fd_free(char *path, struct proc_self_fd_buffer *buffer)
+++{
+++	if (path != buffer->buffer)
+++		free(path);
+++}
+++
+++char *
+++proc_self_fd_realpath(int dirfd, const char *path, int *at_flags,
+++		      struct proc_self_fd_buffer *buffer)
+++{
+++	char *newpath;
 ++	int ret;
 ++
-++	if ((flags & AT_SYMLINK_NOFOLLOW) && no_symlink_nofollow)
-++			goto no_symlink_nofollow;
-++	if ((flags & AT_EMPTY_PATH) && no_symlink_nofollow) {
-++		if (!*pathname)
-++			goto proc_self_fd_path;
-++		flags &= ~AT_EMPTY_PATH;
+++	if (!*path) {
+++		*at_flags &= ~AT_SYMLINK_NOFOLLOW;
+++		return proc_self_fd_path(dirfd, buffer);
 ++	}
-++	ret = fchmodat(dirfd, pathname, mode, flags);
-++	if (ret != -1)
-++		return ret;
-++	if (errno == ENOTSUP && (flags & AT_SYMLINK_NOFOLLOW)) {
-++		no_symlink_nofollow = 1;
-++		goto no_symlink_nofollow;
-++	}
-++	if (errno == EINVAL && (flags & AT_EMPTY_PATH)) {
-++		no_symlink_nofollow = 1;
-++		goto proc_self_fd_path;
-++	}
-++	return ret;
-++
-++no_symlink_nofollow:
-++	if (*pathname) {
-++		int open_flags = O_PATH | O_CLOEXEC;
-++		if (flags & AT_SYMLINK_NOFOLLOW)
-++			open_flags |= O_NOFOLLOW;
-++		fd = openat(dirfd, pathname, open_flags);
-++		if (fd == -1)
-++			return -1;
-++	}
-++	/* fall through */
-++
-++proc_self_fd_path:
-++	ret = chmod(proc_self_fd_path(fd, &buffer), mode);
-++	if (ret == -1 && errno == ENOENT)
-++		errno = EBADF;
-++	if (fd != dirfd) {
-++		int saved_errno = errno;
-++		close(fd);
-++		errno = saved_errno;
-++	}
-++	return ret;
+++	ret = asprintf(&newpath, "/proc/self/fd/%d/%s", dirfd, path);
+++	if (ret == -1)
+++		return NULL;
+++	return newpath;
 ++}
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p2.patch b/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p2.patch
-new file mode 100644
-index 00000000000..cd904c6ac4b
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p2.patch
-@@ -0,0 +1,761 @@
-+From 5234b62884727c1ce151cb259954cc78abb6471a Mon Sep 17 00:00:00 2001
-+From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Tue, 9 Jun 2026 08:15:30 +0200
-+Subject: [PATCH] Rename walk_tree to old_walk_tree
-+
-+CVE: CVE-2026-54370
-+Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=f7210d140298ccc73b2b1713635e7c39d58a8eeb]
-+
-+Backport Changes:
-+- Retain ACL 2.3.2's libmisc source ordering for uid_gid_lookup.c.
-+- Rename the original walker without the later __acl symbol macro.
-+
-+Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+(cherry picked from commit f7210d140298ccc73b2b1713635e7c39d58a8eeb)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ include/Makemodule.am   |   2 +-
-+ include/old_walk_tree.h |  40 +++++++
-+ include/walk_tree.h     |  40 -------
-+ libmisc/Makemodule.am   |   4 +-
-+ libmisc/old_walk_tree.c | 258 ++++++++++++++++++++++++++++++++++++++++
-+ libmisc/walk_tree.c     | 258 ----------------------------------------
-+ tools/do_set.c          |   2 +-
-+ tools/getfacl.c         |   6 +-
-+ tools/setfacl.c         |   6 +-
-+ 9 files changed, 308 insertions(+), 308 deletions(-)
-+ create mode 100644 include/old_walk_tree.h
-+ delete mode 100644 include/walk_tree.h
-+ create mode 100644 libmisc/old_walk_tree.c
-+ delete mode 100644 libmisc/walk_tree.c
-+
-+diff --git a/include/Makemodule.am b/include/Makemodule.am
-+index 30d1fda..3926bda 100644
-+--- a/include/Makemodule.am
-++++ b/include/Makemodule.am
-+@@ -4,8 +4,8 @@ noinst_HEADERS += \
-+ 	include/acl_ea.h \
-+ 	include/fchmodat_compat.h \
-+ 	include/misc.h \
-++	include/old_walk_tree.h \
-+ 	include/visibility-hidden.h \
-+-	include/walk_tree.h \
-+ 	include/xattrat.h \
-+ 	include/xattrat_compat.h
-+ 
-+diff --git a/include/old_walk_tree.h b/include/old_walk_tree.h
-+new file mode 100644
-+index 0000000..fbc469e
-+--- /dev/null
-++++ b/include/old_walk_tree.h
-+@@ -0,0 +1,40 @@
+++
+++int
+++openat_with_flags(int dirfd, const char *path, int at_flags)
+++{
+++	int flags = O_PATH | O_CLOEXEC;
+++
+++	if (at_flags & AT_SYMLINK_NOFOLLOW)
+++		flags |= O_NOFOLLOW;
+++	return openat(dirfd, path, flags);
+++}
+++
 ++/*
-++  File: old_walk_tree.h
+++ * getxattrat(), setxattrat(), listxattrat(), and removexattrat() up to at
+++ * least kernel version 7.2 fail with EBADF when the dirfd is an O_PATH file
+++ * descriptor and the pathname is NULL or empty.
+++ */
+++int
+++need_slow_empty_paths(int dirfd, const char *path)
+++{
+++	int saved_errno = errno;
+++	int open_flags;
 ++
-++  Copyright (C) 2007 Andreas Gruenbacher <a.gruenbacher@computer.org>
-++
-++  This library is free software; you can redistribute it and/or
-++  modify it under the terms of the GNU Lesser General Public
-++  License as published by the Free Software Foundation; either
-++  version 2.1 of the License, or (at your option) any later version.
-++
-++  This library is distributed in the hope that it will be useful,
-++  but WITHOUT ANY WARRANTY; without even the implied warranty of
-++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++  Lesser General Public License for more details.
-++
-++  You should have received a copy of the GNU Lesser General Public
-++  License along with this library; if not, see <https://www.gnu.org/licenses/>.
-++*/
-++
-++#ifndef __WALK_TREE_H
-++#define __WALK_TREE_H
-++
-++#define WALK_TREE_RECURSIVE		0x01
-++#define WALK_TREE_PHYSICAL		0x02
-++#define WALK_TREE_LOGICAL		0x04
-++#define WALK_TREE_DEREFERENCE		0x08
-++#define WALK_TREE_DEREFERENCE_TOPLEVEL	0x10
-++#define WALK_TREE_ONE_FILESYSTEM	0x20
-++
-++#define WALK_TREE_TOPLEVEL	0x100
-++#define WALK_TREE_SYMLINK	0x200
-++#define WALK_TREE_FAILED	0x400
-++
-++struct stat;
-++
-++extern int old_walk_tree(const char *path, int walk_flags, unsigned int num,
-++		     int (*func)(const char *, const struct stat *, int,
-++				 void *), void *arg);
-++
-++#endif
-+diff --git a/include/walk_tree.h b/include/walk_tree.h
-+deleted file mode 100644
-+index 4773194..0000000
-+--- a/include/walk_tree.h
-++++ /dev/null
-+@@ -1,40 +0,0 @@
-+-/*
-+-  File: walk_tree.h
-+-
-+-  Copyright (C) 2007 Andreas Gruenbacher <a.gruenbacher@computer.org>
-+-
-+-  This library is free software; you can redistribute it and/or
-+-  modify it under the terms of the GNU Lesser General Public
-+-  License as published by the Free Software Foundation; either
-+-  version 2.1 of the License, or (at your option) any later version.
-+-
-+-  This library is distributed in the hope that it will be useful,
-+-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+-  Lesser General Public License for more details.
-+-
-+-  You should have received a copy of the GNU Lesser General Public
-+-  License along with this library; if not, see <https://www.gnu.org/licenses/>.
-+-*/
-+-
-+-#ifndef __WALK_TREE_H
-+-#define __WALK_TREE_H
-+-
-+-#define WALK_TREE_RECURSIVE		0x01
-+-#define WALK_TREE_PHYSICAL		0x02
-+-#define WALK_TREE_LOGICAL		0x04
-+-#define WALK_TREE_DEREFERENCE		0x08
-+-#define WALK_TREE_DEREFERENCE_TOPLEVEL	0x10
-+-#define WALK_TREE_ONE_FILESYSTEM	0x20
-+-
-+-#define WALK_TREE_TOPLEVEL	0x100
-+-#define WALK_TREE_SYMLINK	0x200
-+-#define WALK_TREE_FAILED	0x400
-+-
-+-struct stat;
-+-
-+-extern int walk_tree(const char *path, int walk_flags, unsigned int num,
-+-		     int (*func)(const char *, const struct stat *, int,
-+-				 void *), void *arg);
-+-
-+-#endif
-+diff --git a/libmisc/Makemodule.am b/libmisc/Makemodule.am
-+index 07b03c6..26e802b 100644
-+--- a/libmisc/Makemodule.am
-++++ b/libmisc/Makemodule.am
-+@@ -10,12 +10,12 @@ libmisc_la_SOURCES = \
-+ 	libmisc/high_water_alloc.c \
-+ 	libmisc/listxattrat_compat.c \
-+ 	libmisc/next_line.c \
-++	libmisc/old_walk_tree.c \
-+ 	libmisc/proc-self-fd.c \
-+ 	libmisc/quote.c \
-+ 	libmisc/removexattrat_compat.c \
-+ 	libmisc/setxattrat_compat.c \
-+-	libmisc/unquote.c \
-+-	libmisc/walk_tree.c
-++	libmisc/unquote.c
-+ 
-+ if NEED_XATTRAT
-+ libmisc_la_SOURCES += \
-+diff --git a/libmisc/old_walk_tree.c b/libmisc/old_walk_tree.c
+++	if (errno != EBADF)
+++		return 0;
+++	if (*path)
+++	       return 0;
+++	open_flags = fcntl(dirfd, F_GETFL);
+++	if (open_flags == -1) {
+++		errno = saved_errno;
+++		return 0;
+++	}
+++	if (!(open_flags & O_PATH))
+++		return 0;
+++	return 1;
+++}
++diff --git a/libmisc/proc-self-fd.h b/libmisc/proc-self-fd.h
 +new file mode 100644
-+index 0000000..2202e0c
++index 0000000..368fd1e
 +--- /dev/null
-++++ b/libmisc/old_walk_tree.c
-+@@ -0,0 +1,258 @@
-++/*
-++  File: old_walk_tree.c
+++++ b/libmisc/proc-self-fd.h
++@@ -0,0 +1,31 @@
+++#ifndef MISC_XATTRAT_COMPAT_H
+++#define MISC_XATTRAT_COMPAT_H
 ++
-++  Copyright (C) 2007 Andreas Gruenbacher <a.gruenbacher@computer.org>
+++#include <limits.h>
+++#include "include/visibility-hidden.h"
+++
+++/*
+++ * The maximum number of decimal digits of an N-bit number is
+++ * ceil(N * log10(2)), with log10(2) being approx. 0.30103.  We
+++ * use 31/100 as a safe and close enough approximation; the
+++ * overshoot even for 128-bit numbers is only one byte.
+++ */
+++#define TYPE_BITS(type) (sizeof(type) * CHAR_BIT)
+++#define DECIMAL_DIGITS(type) ((TYPE_BITS(type) * 31 + 99) / 100)
+++
+++struct proc_self_fd_buffer {
+++	char buffer[sizeof("/proc/self/fd/") +
+++		    /* sign */ 1 + DECIMAL_DIGITS(int)];
+++};
+++
+++hidden char *proc_self_fd_path(int fd, struct proc_self_fd_buffer *buffer);
+++hidden void proc_self_fd_free(char *path, struct proc_self_fd_buffer *buffer);
+++
+++hidden extern int slow_empty_paths;
+++
+++hidden char *proc_self_fd_realpath(int dirfd, const char *path, int *at_flags,
+++				   struct proc_self_fd_buffer *buffer);
+++hidden int openat_with_flags(int dirfd, const char *path, int at_flags);
+++hidden int need_slow_empty_paths(int dirfd, const char *path);
+++
+++#endif /* MISC_XATTRAT_COMPAT_H */
++diff --git a/libmisc/removexattrat_compat.c b/libmisc/removexattrat_compat.c
++new file mode 100644
++index 0000000..888b268
++--- /dev/null
+++++ b/libmisc/removexattrat_compat.c
++@@ -0,0 +1,107 @@
+++/*
+++  File: getxattrat_compat.c
+++
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 ++
 ++  This library is free software; you can redistribute it and/or
 ++  modify it under the terms of the GNU Lesser General Public
@@ -513,254 +935,385 @@ index 00000000000..cd904c6ac4b
 ++*/
 ++
 ++#include "config.h"
-++#include <sys/types.h>
-++#include <sys/stat.h>
+++#include <sys/xattr.h>
 ++#include <unistd.h>
-++#include <sys/time.h>
-++#include <sys/resource.h>
-++#include <dirent.h>
-++#include <stdio.h>
-++#include <string.h>
+++#include <fcntl.h>
 ++#include <errno.h>
+++#include <stdlib.h>
+++#include "xattrat.h"
+++#include "libmisc/proc-self-fd.h"
 ++
-++#include "old_walk_tree.h"
+++#define DECLARATIONS_ONLY
+++#include "xattrat_compat.h"
 ++
-++struct entry_handle {
-++	struct entry_handle *prev, *next;
-++	dev_t dev;
-++	ino_t ino;
-++	DIR *stream;
-++	long pos;
-++};
+++/* Defined in getxattrat_compat.c */
+++extern int slow_empty_paths;
 ++
-++struct walk_tree_args {
-++	char path[FILENAME_MAX];
-++	int walk_flags;
-++	int (*func)(const char *, const struct stat *, int, void *);
-++	void *arg;
-++	int depth;
-++	struct entry_handle dirs;
-++	struct entry_handle *closed;
-++	unsigned int num_dir_handles;
-++	struct stat st;
-++	dev_t dev;
-++};
-++
-++static int walk_tree_visited(struct entry_handle *dirs, dev_t dev, ino_t ino)
+++static int
+++xremovexattr(const char *path, int at_flags, const char *name)
 ++{
-++	struct entry_handle *i;
-++
-++	for (i = dirs->next; i != dirs; i = i->next)
-++		if (i->dev == dev && i->ino == ino)
-++			return 1;
-++	return 0;
+++	if (at_flags & AT_SYMLINK_NOFOLLOW)
+++		return lremovexattr(path, name);
+++	return removexattr(path, name);
 ++}
 ++
-++static int walk_tree_rec(struct walk_tree_args *args)
+++
+++int
+++removexattrat_compat(int dirfd, const char *path, int at_flags,
+++		     const char *name)
 ++{
-++	int follow_symlinks = (args->walk_flags & WALK_TREE_LOGICAL) ||
-++			      ((args->walk_flags & WALK_TREE_DEREFERENCE) &&
-++			       !(args->walk_flags & WALK_TREE_PHYSICAL) &&
-++			       args->depth == 0);
-++	int have_dir_stat = 0, flags = args->walk_flags, err;
-++	struct entry_handle dir;
+++	struct proc_self_fd_buffer buffer;
+++	static int no_removexattrat;
+++	char *newpath;
+++	int fd, ret;
 ++
-++	/*
-++	 * If (walk_flags & WALK_TREE_PHYSICAL), do not traverse symlinks.
-++	 * If (walk_flags & WALK_TREE_LOGICAL), traverse all symlinks.
-++	 * Otherwise, traverse only top-level symlinks.
-++	 */
-++	if (args->depth == 0)
-++		flags |= WALK_TREE_TOPLEVEL;
-++
-++	if (lstat(args->path, &args->st) != 0)
-++		return args->func(args->path, NULL, flags | WALK_TREE_FAILED,
-++				  args->arg);
-++
-++	if (flags & WALK_TREE_ONE_FILESYSTEM) {
-++		if (args->dev == 0)
-++			args->dev = args->st.st_dev;
-++		else if (args->st.st_dev != args->dev)
-++			return 0;
+++	if (at_flags & ~(AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW)) {
+++		errno = EINVAL;
+++		return -1;
+++	}
+++	if (!*path) {
+++		if (!(at_flags & AT_EMPTY_PATH)) {
+++			errno = ENOENT;
+++			return -1;
+++		}
 ++	}
 ++
-++	if (S_ISLNK(args->st.st_mode)) {
-++		flags |= WALK_TREE_SYMLINK;
-++		if ((flags & WALK_TREE_DEREFERENCE) ||
-++		    ((flags & WALK_TREE_TOPLEVEL) &&
-++		     (flags & WALK_TREE_DEREFERENCE_TOPLEVEL))) {
-++			if (stat(args->path, &args->st) != 0)
-++				return args->func(args->path, NULL,
-++						  flags | WALK_TREE_FAILED,
-++						  args->arg);
-++			dir.dev = args->st.st_dev;
-++			dir.ino = args->st.st_ino;
-++			have_dir_stat = 1;
+++	if (dirfd == AT_FDCWD || *path == '/')
+++		return xremovexattr(path, at_flags, name);
+++
+++	if (!no_removexattrat) {
+++		if (!*path && slow_empty_paths)
+++			goto proc_self_fd_path;
+++		ret = removexattrat(dirfd, path, at_flags, name);
+++		if (ret != -1)
+++			return ret;
+++		if (need_slow_empty_paths(dirfd, path)) {
+++			slow_empty_paths = 1;
+++			goto proc_self_fd_path;
 ++		}
-++	} else if (S_ISDIR(args->st.st_mode)) {
-++		dir.dev = args->st.st_dev;
-++		dir.ino = args->st.st_ino;
-++		have_dir_stat = 1;
+++		if (errno != ENOSYS)
+++			return ret;
+++		no_removexattrat = 1;
 ++	}
-++	err = args->func(args->path, &args->st, flags, args->arg);
 ++
-++	/*
-++	 * Recurse if WALK_TREE_RECURSIVE and the path is:
-++	 *      a dir not from a symlink
-++	 *      a link and follow_symlinks
-++	 */
-++        if ((flags & WALK_TREE_RECURSIVE) &&
-++	    ((!(flags & WALK_TREE_SYMLINK) && S_ISDIR(args->st.st_mode)) ||
-++	     ((flags & WALK_TREE_SYMLINK) && follow_symlinks))) {
-++		struct dirent *entry;
-++
-++		/*
-++		 * Check if we have already visited this directory to break
-++		 * endless loops.
-++		 *
-++		 * If we haven't stat()ed the file yet, do an opendir() for
-++		 * figuring out whether we have a directory, and check whether
-++		 * the directory has been visited afterwards. This saves a
-++		 * system call for each non-directory found.
-++		 */
-++		if (have_dir_stat && walk_tree_visited(&args->dirs, dir.dev, dir.ino))
-++			return err;
-++
-++		if (args->num_dir_handles == 0 && args->closed->prev != &args->dirs) {
-++close_another_dir:
-++			/* Close the topmost directory handle still open. */
-++			args->closed = args->closed->prev;
-++			args->closed->pos = telldir(args->closed->stream);
-++			closedir(args->closed->stream);
-++			args->closed->stream = NULL;
-++			args->num_dir_handles++;
+++proc_self_fd_path:
+++	newpath = proc_self_fd_realpath(dirfd, path, &at_flags, &buffer);
+++	if (!newpath)
+++		return -1;
+++	ret = xremovexattr(newpath, at_flags, name);
+++	proc_self_fd_free(newpath, &buffer);
+++	if (ret != -1)
+++		return ret;
+++	if (errno == ENOENT) {
+++		if (!*path) {
+++			errno = EBADF;
+++			return -1;
 ++		}
+++		if (fcntl(dirfd, F_GETFL) != -1)
+++			errno = ENOENT;
+++		return -1;
+++	} else if (errno != ENAMETOOLONG)
+++		return ret;
 ++
-++		dir.stream = opendir(args->path);
-++		if (!dir.stream) {
-++			if (errno == ENFILE && args->closed->prev != &args->dirs) {
-++				/* Ran out of file descriptors. */
-++				args->num_dir_handles = 0;
-++				goto close_another_dir;
-++			}
+++	fd = openat_with_flags(dirfd, path, at_flags);
+++	if (fd == -1)
+++		return -1;
+++	ret = removexattr(proc_self_fd_path(fd, &buffer), name);
+++	close(fd);
+++	return ret;
+++}
++diff --git a/libmisc/setxattrat_compat.c b/libmisc/setxattrat_compat.c
++new file mode 100644
++index 0000000..dfe367f
++--- /dev/null
+++++ b/libmisc/setxattrat_compat.c
++@@ -0,0 +1,108 @@
+++/*
+++  File: getxattrat_compat.c
 ++
-++			/*
-++			 * PATH may be a symlink to a regular file, or a dead
-++			 * symlink which we didn't follow above.
-++			 */
-++			if (errno != ENOTDIR && errno != ENOENT)
-++				err += args->func(args->path, NULL, flags |
-++						 WALK_TREE_FAILED, args->arg);
-++			return err;
-++		}
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 ++
-++		/* See walk_tree_visited() comment above... */
-++		if (!have_dir_stat) {
-++			if (stat(args->path, &args->st) != 0)
-++				goto skip_dir;
-++			dir.dev = args->st.st_dev;
-++			dir.ino = args->st.st_ino;
-++			if (walk_tree_visited(&args->dirs, dir.dev, dir.ino))
-++				goto skip_dir;
-++		}
+++  This library is free software; you can redistribute it and/or
+++  modify it under the terms of the GNU Lesser General Public
+++  License as published by the Free Software Foundation; either
+++  version 2.1 of the License, or (at your option) any later version.
 ++
-++		/* Insert into the list of handles. */
-++		dir.next = args->dirs.next;
-++		dir.prev = &args->dirs;
-++		dir.prev->next = &dir;
-++		dir.next->prev = &dir;
-++		args->num_dir_handles--;
+++  This library is distributed in the hope that it will be useful,
+++  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++  Lesser General Public License for more details.
 ++
-++		while ((entry = readdir(dir.stream)) != NULL) {
-++			char *path_end;
+++  You should have received a copy of the GNU Lesser General Public
+++  License along with this library; if not, see <https://www.gnu.org/licenses/>.
+++*/
 ++
-++			if (!strcmp(entry->d_name, ".") ||
-++			    !strcmp(entry->d_name, ".."))
-++				continue;
-++			path_end = strchr(args->path, 0);
-++			if ((path_end - args->path) + strlen(entry->d_name) + 1 >=
-++			    FILENAME_MAX) {
-++				errno = ENAMETOOLONG;
-++				err += args->func(args->path, NULL,
-++						  flags | WALK_TREE_FAILED,
-++						  args->arg);
-++				continue;
-++			}
-++			*path_end++ = '/';
-++			strcpy(path_end, entry->d_name);
-++			args->depth++;
-++			err += walk_tree_rec(args);
-++			args->depth--;
-++			*--path_end = 0;
-++			if (!dir.stream) {
-++				/* Reopen the directory handle. */
-++				dir.stream = opendir(args->path);
-++				if (!dir.stream)
-++					return err + args->func(args->path,
-++								NULL,
-++								flags | WALK_TREE_FAILED,
-++								args->arg);
-++				seekdir(dir.stream, dir.pos);
+++#include "config.h"
+++#include <sys/xattr.h>
+++#include <unistd.h>
+++#include <fcntl.h>
+++#include <errno.h>
+++#include <stdlib.h>
+++#include "xattrat.h"
+++#include "libmisc/proc-self-fd.h"
 ++
-++				args->closed = args->closed->next;
-++				args->num_dir_handles--;
-++			}
-++		}
+++#define DECLARATIONS_ONLY
+++#include "xattrat_compat.h"
 ++
-++		/* Remove from the list of handles. */
-++		dir.prev->next = dir.next;
-++		dir.next->prev = dir.prev;
-++		args->num_dir_handles++;
+++/* Defined in getxattrat_compat.c */
+++extern int slow_empty_paths;
 ++
-++	skip_dir:
-++		if (closedir(dir.stream) != 0)
-++			err += args->func(args->path, NULL,
-++					 flags | WALK_TREE_FAILED, args->arg);
-++	}
-++	return err;
+++static int
+++xsetxattr(const char *path, int at_flags, const char *name, const void *value,
+++	  size_t size, int flags)
+++{
+++	if (at_flags & AT_SYMLINK_NOFOLLOW)
+++		return lsetxattr(path, name, value, size, flags);
+++	return setxattr(path, name, value, size, flags);
 ++}
 ++
-++int old_walk_tree(const char *path, int walk_flags, unsigned int num,
-++	      int (*func)(const char *, const struct stat *, int, void *),
-++	      void *arg)
+++int
+++setxattrat_compat(int dirfd, const char *path, int at_flags, const char *name,
+++		  const void *value, size_t size, int flags)
 ++{
-++	struct walk_tree_args args;
+++	struct proc_self_fd_buffer buffer;
+++	static int no_setxattrat;
+++	char *newpath;
+++	int fd, ret;
 ++
-++	args.num_dir_handles = num;
-++	if (args.num_dir_handles < 1) {
-++		struct rlimit rlimit;
-++
-++		args.num_dir_handles = 1;
-++		if (getrlimit(RLIMIT_NOFILE, &rlimit) == 0 &&
-++		    rlimit.rlim_cur >= 2)
-++			args.num_dir_handles = rlimit.rlim_cur / 2;
+++	if (at_flags & ~(AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW)) {
+++		errno = EINVAL;
+++		return -1;
 ++	}
-++	args.dirs.next = &args.dirs;
-++	args.dirs.prev = &args.dirs;
-++	args.closed = &args.dirs;
-++	if (strlen(path) >= FILENAME_MAX) {
-++		errno = ENAMETOOLONG;
-++		return func(path, NULL, WALK_TREE_FAILED, arg);
+++	if (!*path) {
+++		if (!(at_flags & AT_EMPTY_PATH)) {
+++			errno = ENOENT;
+++			return -1;
+++		}
 ++	}
-++	strcpy(args.path, path);
-++	args.walk_flags = walk_flags;
-++	args.func = func;
-++	args.arg = arg;
-++	args.depth = 0;
-++	args.dev = 0;
 ++
-++	return walk_tree_rec(&args);
+++	if (dirfd == AT_FDCWD || *path == '/')
+++		return xsetxattr(path, at_flags, name, value, size, flags);
+++
+++	if (!no_setxattrat) {
+++		if (!*path && slow_empty_paths)
+++			goto proc_self_fd_path;
+++		ret = setxattrat(dirfd, path, at_flags, name, value, size,
+++				 flags);
+++		if (ret != -1)
+++			return ret;
+++		if (need_slow_empty_paths(dirfd, path)) {
+++			slow_empty_paths = 1;
+++			goto proc_self_fd_path;
+++		}
+++		if (errno != ENOSYS)
+++			return ret;
+++		no_setxattrat = 1;
+++	}
+++
+++proc_self_fd_path:
+++	newpath = proc_self_fd_realpath(dirfd, path, &at_flags, &buffer);
+++	if (!newpath)
+++		return -1;
+++	ret = xsetxattr(newpath, at_flags, name, value, size, flags);
+++	proc_self_fd_free(newpath, &buffer);
+++	if (ret != -1)
+++		return ret;
+++	if (errno == ENOENT) {
+++		if (!*path) {
+++			errno = EBADF;
+++			return -1;
+++		}
+++		if (fcntl(dirfd, F_GETFL) != -1)
+++			errno = ENOENT;
+++		return -1;
+++	} else if (errno != ENAMETOOLONG)
+++		return ret;
+++
+++	fd = openat_with_flags(dirfd, path, at_flags);
+++	if (fd == -1)
+++		return -1;
+++	ret = setxattr(proc_self_fd_path(fd, &buffer), name, value, size, flags);
+++	close(fd);
+++	return ret;
 ++}
-+diff --git a/libmisc/walk_tree.c b/libmisc/walk_tree.c
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/attr/acl/CVE-2026-54369_p1.patch b/meta/recipes-support/attr/acl/CVE-2026-54369_p1.patch
+new file mode 100644
+index 00000000000..87b640ee2cc
+--- /dev/null
++++ b/meta/recipes-support/attr/acl/CVE-2026-54369_p1.patch
+@@ -0,0 +1,719 @@
++From 20f5c4a6c6cc580c892e9076d457b2d92b5d5c61 Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruenba@redhat.com>
++Date: Wed, 3 Jun 2026 00:53:04 +0200
++Subject: [PATCH] Add libacl _at function variants
++
++Add new libacl functions acl_get_file_at(), acl_set_file_at(),
++acl_delete_def_file_at(), and acl_extended_file_at() that take a directory file
++descriptor and an AT_* flags argument, similar to fstatat(2).
++
++The AT_* flags argument supports the AT_SYMLINK_NOFOLLOW and AT_EMPTY_PATH flags.
++
++Bump LT_CURRENT and LT_AGE to indicate a backwards-compatible change.
++
++CVE: CVE-2026-54369
++Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=5906d2868ec8d3b08be556153696e6b1122eeeda]
++
++Backport Changes:
++- Replace ACL 2.3.2's legacy file implementations with _at wrappers.
++- Remove obsolete byteorder includes when adopting the wrappers.
++
++Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
++(cherry picked from commit 5906d2868ec8d3b08be556153696e6b1122eeeda)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ exports                             |   9 +++
++ include/acl.h                       |   4 ++
++ include/libacl.h                    |   1 +
++ libacl/Makemodule.am                |  14 ++--
++ libacl/__acl_extended_file.c        |  49 -------------
++ libacl/__acl_extended_file.h        |   3 -
++ libacl/acl_delete_def_file_at.c     |  45 ++++++++++++
++ libacl/acl_extended_file.c          |   7 +-
++ libacl/acl_extended_file_at.c       |  53 ++++++++++++++
++ libacl/acl_extended_file_nofollow.c |   7 +-
++ libacl/acl_get_file.c               |  63 +---------------
++ libacl/acl_get_file_at.c            | 107 ++++++++++++++++++++++++++++
++ libacl/acl_set_file.c               |  40 +----------
++ libacl/acl_set_file_at.c            |  71 ++++++++++++++++++
++ 14 files changed, 308 insertions(+), 165 deletions(-)
++ delete mode 100644 libacl/__acl_extended_file.c
++ delete mode 100644 libacl/__acl_extended_file.h
++ create mode 100644 libacl/acl_delete_def_file_at.c
++ create mode 100644 libacl/acl_extended_file_at.c
++ create mode 100644 libacl/acl_get_file_at.c
++ create mode 100644 libacl/acl_set_file_at.c
++
++diff --git a/exports b/exports
++index 67a2163..2435358 100644
++--- a/exports
+++++ b/exports
++@@ -75,3 +75,12 @@ ACL_1.2 {
++ 	# Linux specific extensions
++ 	acl_extended_file_nofollow;
++ } ACL_1.1;
+++
+++ACL_1.3 {
+++    global:
+++	# Linux specific extensions
+++	acl_delete_def_file_at;
+++	acl_extended_file_at;
+++	acl_get_file_at;
+++	acl_set_file_at;
+++} ACL_1.2;
++diff --git a/include/acl.h b/include/acl.h
++index 710bf31..8863e27 100644
++--- a/include/acl.h
+++++ b/include/acl.h
++@@ -114,10 +114,14 @@ EXPORT char *acl_to_text(acl_t acl, ssize_t *len_p);
++ /*=== Object manipulation ===*/
++ 
++ EXPORT int acl_delete_def_file(const char *path_p);
+++EXPORT int acl_delete_def_file_at(int dirfd, const char *path_p, int at_flags);
++ EXPORT acl_t acl_get_fd(int fd);
++ EXPORT acl_t acl_get_file(const char *path_p, acl_type_t type);
+++EXPORT acl_t acl_get_file_at(int dirfd, const char *path_p, int at_flags, acl_type_t type);
++ EXPORT int acl_set_fd(int fd, acl_t acl);
++ EXPORT int acl_set_file(const char *path_p, acl_type_t type, acl_t acl);
+++EXPORT int acl_set_file_at(int dirfd, const char *path_p, int at_flags, acl_type_t type,
+++			   acl_t acl);
++ 
++ #ifdef __cplusplus
++ }
++diff --git a/include/libacl.h b/include/libacl.h
++index b1f3bcf..e778a81 100644
++--- a/include/libacl.h
+++++ b/include/libacl.h
++@@ -60,6 +60,7 @@ EXPORT acl_t acl_from_mode(mode_t mode);
++ EXPORT int acl_equiv_mode(acl_t acl, mode_t *mode_p);
++ EXPORT int acl_extended_file(const char *path_p);
++ EXPORT int acl_extended_file_nofollow(const char *path_p);
+++EXPORT int acl_extended_file_at(int dirfd, const char *path_p, int at_flags);
++ EXPORT int acl_extended_fd(int fd);
++ EXPORT int acl_entries(acl_t acl);
++ EXPORT const char *acl_error(int code);
++diff --git a/libacl/Makemodule.am b/libacl/Makemodule.am
++index 604f829..eda6a93 100644
++--- a/libacl/Makemodule.am
+++++ b/libacl/Makemodule.am
++@@ -2,10 +2,10 @@ lib_LTLIBRARIES += libacl.la
++ 
++ # No other library exports version info, otherwise we'd have to add
++ # "libacl_" prefix to all these variables.
++-LT_CURRENT = 2
+++LT_CURRENT = 3
++ # The configure script will set this for us automatically.
++ #LT_REVISION =
++-LT_AGE = 1
+++LT_AGE = 2
++ LTVERSION = $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
++ 
++ CFILES = $(POSIX_CFILES) $(LIBACL_CFILES) $(INTERNAL_CFILES) \
++@@ -17,8 +17,7 @@ HFILES = \
++ 	libacl/byteorder.h \
++ 	libacl/__acl_from_xattr.h \
++ 	libacl/__acl_to_xattr.h \
++-	libacl/perm_copy.h \
++-	libacl/__acl_extended_file.h
+++	libacl/perm_copy.h
++ 
++ POSIX_CFILES = \
++ 	libacl/acl_add_perm.c \
++@@ -29,6 +28,7 @@ POSIX_CFILES = \
++ 	libacl/acl_copy_int.c \
++ 	libacl/acl_create_entry.c \
++ 	libacl/acl_delete_def_file.c \
+++	libacl/acl_delete_def_file_at.c \
++ 	libacl/acl_delete_entry.c \
++ 	libacl/acl_delete_perm.c \
++ 	libacl/acl_dup.c \
++@@ -37,6 +37,7 @@ POSIX_CFILES = \
++ 	libacl/acl_get_entry.c \
++ 	libacl/acl_get_fd.c \
++ 	libacl/acl_get_file.c \
+++	libacl/acl_get_file_at.c \
++ 	libacl/acl_get_perm.c \
++ 	libacl/acl_get_permset.c \
++ 	libacl/acl_get_qualifier.c \
++@@ -44,6 +45,7 @@ POSIX_CFILES = \
++ 	libacl/acl_init.c \
++ 	libacl/acl_set_fd.c \
++ 	libacl/acl_set_file.c \
+++	libacl/acl_set_file_at.c \
++ 	libacl/acl_set_permset.c \
++ 	libacl/acl_set_qualifier.c \
++ 	libacl/acl_set_tag_type.c \
++@@ -59,10 +61,10 @@ LIBACL_CFILES = \
++ 	libacl/acl_error.c \
++ 	libacl/acl_extended_fd.c \
++ 	libacl/acl_extended_file.c \
+++	libacl/acl_extended_file_at.c \
++ 	libacl/acl_extended_file_nofollow.c \
++ 	libacl/acl_from_mode.c \
++-	libacl/acl_to_any_text.c \
++-	libacl/__acl_extended_file.c
+++	libacl/acl_to_any_text.c
++ 
++ INTERNAL_CFILES = \
++ 	libacl/__acl_from_xattr.c \
++diff --git a/libacl/__acl_extended_file.c b/libacl/__acl_extended_file.c
 +deleted file mode 100644
-+index 0aa5f35..0000000
-+--- a/libmisc/walk_tree.c
++index f366621..0000000
++--- a/libacl/__acl_extended_file.c
 ++++ /dev/null
-+@@ -1,258 +0,0 @@
++@@ -1,49 +0,0 @@
 +-/*
-+-  File: walk_tree.c
++-  File: __acl_extended_file.c
 +-
-+-  Copyright (C) 2007 Andreas Gruenbacher <a.gruenbacher@computer.org>
++-  Copyright (C) 2000, 2011
++-  Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
 +-
 +-  This library is free software; you can redistribute it and/or
 +-  modify it under the terms of the GNU Lesser General Public
@@ -777,369 +1330,55 @@ index 00000000000..cd904c6ac4b
 +-*/
 +-
 +-#include "config.h"
-+-#include <sys/types.h>
-+-#include <sys/stat.h>
 +-#include <unistd.h>
-+-#include <sys/time.h>
-+-#include <sys/resource.h>
-+-#include <dirent.h>
-+-#include <stdio.h>
-+-#include <string.h>
-+-#include <errno.h>
++-#include <sys/xattr.h>
++-#include "libacl.h"
 +-
-+-#include "walk_tree.h"
++-#include "byteorder.h"
++-#include "acl_ea.h"
++-#include "__acl_extended_file.h"
 +-
-+-struct entry_handle {
-+-	struct entry_handle *prev, *next;
-+-	dev_t dev;
-+-	ino_t ino;
-+-	DIR *stream;
-+-	long pos;
-+-};
-+-
-+-struct walk_tree_args {
-+-	char path[FILENAME_MAX];
-+-	int walk_flags;
-+-	int (*func)(const char *, const struct stat *, int, void *);
-+-	void *arg;
-+-	int depth;
-+-	struct entry_handle dirs;
-+-	struct entry_handle *closed;
-+-	unsigned int num_dir_handles;
-+-	struct stat st;
-+-	dev_t dev;
-+-};
-+-
-+-static int walk_tree_visited(struct entry_handle *dirs, dev_t dev, ino_t ino)
++-int
++-__acl_extended_file(const char *path_p,
++-		    ssize_t (*fun)(const char *, const char *,
++-				   void *, size_t))
 +-{
-+-	struct entry_handle *i;
++-	int base_size = sizeof(acl_ea_header) + 3 * sizeof(acl_ea_entry);
++-	int retval;
 +-
-+-	for (i = dirs->next; i != dirs; i = i->next)
-+-		if (i->dev == dev && i->ino == ino)
-+-			return 1;
++-	retval = fun(path_p, ACL_EA_ACCESS, NULL, 0);
++-	if (retval < 0 && errno != ENOATTR && errno != ENODATA)
++-		return -1;
++-	if (retval > base_size)
++-		return 1;
++-	retval = fun(path_p, ACL_EA_DEFAULT, NULL, 0);
++-	if (retval < 0 && errno != ENOATTR && errno != ENODATA)
++-		return -1;
++-	if (retval >= base_size)
++-		return 1;
 +-	return 0;
 +-}
-+-
-+-static int walk_tree_rec(struct walk_tree_args *args)
-+-{
-+-	int follow_symlinks = (args->walk_flags & WALK_TREE_LOGICAL) ||
-+-			      ((args->walk_flags & WALK_TREE_DEREFERENCE) &&
-+-			       !(args->walk_flags & WALK_TREE_PHYSICAL) &&
-+-			       args->depth == 0);
-+-	int have_dir_stat = 0, flags = args->walk_flags, err;
-+-	struct entry_handle dir;
-+-
-+-	/*
-+-	 * If (walk_flags & WALK_TREE_PHYSICAL), do not traverse symlinks.
-+-	 * If (walk_flags & WALK_TREE_LOGICAL), traverse all symlinks.
-+-	 * Otherwise, traverse only top-level symlinks.
-+-	 */
-+-	if (args->depth == 0)
-+-		flags |= WALK_TREE_TOPLEVEL;
-+-
-+-	if (lstat(args->path, &args->st) != 0)
-+-		return args->func(args->path, NULL, flags | WALK_TREE_FAILED,
-+-				  args->arg);
-+-
-+-	if (flags & WALK_TREE_ONE_FILESYSTEM) {
-+-		if (args->dev == 0)
-+-			args->dev = args->st.st_dev;
-+-		else if (args->st.st_dev != args->dev)
-+-			return 0;
-+-	}
-+-
-+-	if (S_ISLNK(args->st.st_mode)) {
-+-		flags |= WALK_TREE_SYMLINK;
-+-		if ((flags & WALK_TREE_DEREFERENCE) ||
-+-		    ((flags & WALK_TREE_TOPLEVEL) &&
-+-		     (flags & WALK_TREE_DEREFERENCE_TOPLEVEL))) {
-+-			if (stat(args->path, &args->st) != 0)
-+-				return args->func(args->path, NULL,
-+-						  flags | WALK_TREE_FAILED,
-+-						  args->arg);
-+-			dir.dev = args->st.st_dev;
-+-			dir.ino = args->st.st_ino;
-+-			have_dir_stat = 1;
-+-		}
-+-	} else if (S_ISDIR(args->st.st_mode)) {
-+-		dir.dev = args->st.st_dev;
-+-		dir.ino = args->st.st_ino;
-+-		have_dir_stat = 1;
-+-	}
-+-	err = args->func(args->path, &args->st, flags, args->arg);
-+-
-+-	/*
-+-	 * Recurse if WALK_TREE_RECURSIVE and the path is:
-+-	 *      a dir not from a symlink
-+-	 *      a link and follow_symlinks
-+-	 */
-+-        if ((flags & WALK_TREE_RECURSIVE) &&
-+-	    ((!(flags & WALK_TREE_SYMLINK) && S_ISDIR(args->st.st_mode)) ||
-+-	     ((flags & WALK_TREE_SYMLINK) && follow_symlinks))) {
-+-		struct dirent *entry;
-+-
-+-		/*
-+-		 * Check if we have already visited this directory to break
-+-		 * endless loops.
-+-		 *
-+-		 * If we haven't stat()ed the file yet, do an opendir() for
-+-		 * figuring out whether we have a directory, and check whether
-+-		 * the directory has been visited afterwards. This saves a
-+-		 * system call for each non-directory found.
-+-		 */
-+-		if (have_dir_stat && walk_tree_visited(&args->dirs, dir.dev, dir.ino))
-+-			return err;
-+-
-+-		if (args->num_dir_handles == 0 && args->closed->prev != &args->dirs) {
-+-close_another_dir:
-+-			/* Close the topmost directory handle still open. */
-+-			args->closed = args->closed->prev;
-+-			args->closed->pos = telldir(args->closed->stream);
-+-			closedir(args->closed->stream);
-+-			args->closed->stream = NULL;
-+-			args->num_dir_handles++;
-+-		}
-+-
-+-		dir.stream = opendir(args->path);
-+-		if (!dir.stream) {
-+-			if (errno == ENFILE && args->closed->prev != &args->dirs) {
-+-				/* Ran out of file descriptors. */
-+-				args->num_dir_handles = 0;
-+-				goto close_another_dir;
-+-			}
-+-
-+-			/*
-+-			 * PATH may be a symlink to a regular file, or a dead
-+-			 * symlink which we didn't follow above.
-+-			 */
-+-			if (errno != ENOTDIR && errno != ENOENT)
-+-				err += args->func(args->path, NULL, flags |
-+-						 WALK_TREE_FAILED, args->arg);
-+-			return err;
-+-		}
-+-
-+-		/* See walk_tree_visited() comment above... */
-+-		if (!have_dir_stat) {
-+-			if (stat(args->path, &args->st) != 0)
-+-				goto skip_dir;
-+-			dir.dev = args->st.st_dev;
-+-			dir.ino = args->st.st_ino;
-+-			if (walk_tree_visited(&args->dirs, dir.dev, dir.ino))
-+-				goto skip_dir;
-+-		}
-+-
-+-		/* Insert into the list of handles. */
-+-		dir.next = args->dirs.next;
-+-		dir.prev = &args->dirs;
-+-		dir.prev->next = &dir;
-+-		dir.next->prev = &dir;
-+-		args->num_dir_handles--;
-+-
-+-		while ((entry = readdir(dir.stream)) != NULL) {
-+-			char *path_end;
-+-
-+-			if (!strcmp(entry->d_name, ".") ||
-+-			    !strcmp(entry->d_name, ".."))
-+-				continue;
-+-			path_end = strchr(args->path, 0);
-+-			if ((path_end - args->path) + strlen(entry->d_name) + 1 >=
-+-			    FILENAME_MAX) {
-+-				errno = ENAMETOOLONG;
-+-				err += args->func(args->path, NULL,
-+-						  flags | WALK_TREE_FAILED,
-+-						  args->arg);
-+-				continue;
-+-			}
-+-			*path_end++ = '/';
-+-			strcpy(path_end, entry->d_name);
-+-			args->depth++;
-+-			err += walk_tree_rec(args);
-+-			args->depth--;
-+-			*--path_end = 0;
-+-			if (!dir.stream) {
-+-				/* Reopen the directory handle. */
-+-				dir.stream = opendir(args->path);
-+-				if (!dir.stream)
-+-					return err + args->func(args->path,
-+-								NULL,
-+-								flags | WALK_TREE_FAILED,
-+-								args->arg);
-+-				seekdir(dir.stream, dir.pos);
-+-
-+-				args->closed = args->closed->next;
-+-				args->num_dir_handles--;
-+-			}
-+-		}
-+-
-+-		/* Remove from the list of handles. */
-+-		dir.prev->next = dir.next;
-+-		dir.next->prev = dir.prev;
-+-		args->num_dir_handles++;
-+-
-+-	skip_dir:
-+-		if (closedir(dir.stream) != 0)
-+-			err += args->func(args->path, NULL,
-+-					 flags | WALK_TREE_FAILED, args->arg);
-+-	}
-+-	return err;
-+-}
-+-
-+-int walk_tree(const char *path, int walk_flags, unsigned int num,
-+-	      int (*func)(const char *, const struct stat *, int, void *),
-+-	      void *arg)
-+-{
-+-	struct walk_tree_args args;
-+-
-+-	args.num_dir_handles = num;
-+-	if (args.num_dir_handles < 1) {
-+-		struct rlimit rlimit;
-+-
-+-		args.num_dir_handles = 1;
-+-		if (getrlimit(RLIMIT_NOFILE, &rlimit) == 0 &&
-+-		    rlimit.rlim_cur >= 2)
-+-			args.num_dir_handles = rlimit.rlim_cur / 2;
-+-	}
-+-	args.dirs.next = &args.dirs;
-+-	args.dirs.prev = &args.dirs;
-+-	args.closed = &args.dirs;
-+-	if (strlen(path) >= FILENAME_MAX) {
-+-		errno = ENAMETOOLONG;
-+-		return func(path, NULL, WALK_TREE_FAILED, arg);
-+-	}
-+-	strcpy(args.path, path);
-+-	args.walk_flags = walk_flags;
-+-	args.func = func;
-+-	args.arg = arg;
-+-	args.depth = 0;
-+-	args.dev = 0;
-+-
-+-	return walk_tree_rec(&args);
-+-}
-+diff --git a/tools/do_set.c b/tools/do_set.c
-+index b510032..a958ede 100644
-+--- a/tools/do_set.c
-++++ b/tools/do_set.c
-+@@ -37,7 +37,7 @@
-+ #include "sequence.h"
-+ #include "do_set.h"
-+ #include "parse.h"
-+-#include "walk_tree.h"
-++#include "old_walk_tree.h"
-+ 
-+ 
-+ extern const char *progname;
-+diff --git a/tools/getfacl.c b/tools/getfacl.c
-+index 5a45c04..8ef774b 100644
-+--- a/tools/getfacl.c
-++++ b/tools/getfacl.c
-+@@ -37,7 +37,7 @@
-+ #include <getopt.h>
-+ #include "misc.h"
-+ #include "user_group.h"
-+-#include "walk_tree.h"
-++#include "old_walk_tree.h"
-+ 
-+ #define POSIXLY_CORRECT_STR "POSIXLY_CORRECT"
-+ 
-+@@ -736,7 +736,7 @@ int main(int argc, char *argv[])
-+ 				if (*line == '\0')
-+ 					continue;
-+ 
-+-				had_errors += walk_tree(line, walk_flags, 0,
-++				had_errors += old_walk_tree(line, walk_flags, 0,
-+ 							do_print, NULL);
-+ 			}
-+ 			if (!feof(stdin)) {
-+@@ -745,7 +745,7 @@ int main(int argc, char *argv[])
-+ 				had_errors++;
-+ 			}
-+ 		} else
-+-			had_errors += walk_tree(argv[optind], walk_flags, 0,
-++			had_errors += old_walk_tree(argv[optind], walk_flags, 0,
-+ 						do_print, NULL);
-+ 		optind++;
-+ 	} while (optind < argc);
-+diff --git a/tools/setfacl.c b/tools/setfacl.c
-+index 86ba733..cb05975 100644
-+--- a/tools/setfacl.c
-++++ b/tools/setfacl.c
-+@@ -33,7 +33,7 @@
-+ #include "sequence.h"
-+ #include "parse.h"
-+ #include "do_set.h"
-+-#include "walk_tree.h"
-++#include "old_walk_tree.h"
-+ 
-+ #define POSIXLY_CORRECT_STR "POSIXLY_CORRECT"
-+ 
-+@@ -310,14 +310,14 @@ int next_file(const char *arg, seq_t seq)
-+ 
-+ 	if (strcmp(arg, "-") == 0) {
-+ 		while ((line = __acl_next_line(stdin)))
-+-			errors = walk_tree(line, walk_flags, 0, do_set, &args);
-++			errors = old_walk_tree(line, walk_flags, 0, do_set, &args);
-+ 		if (!feof(stdin)) {
-+ 			fprintf(stderr, _("%s: Standard input: %s\n"),
-+ 				progname, strerror(errno));
-+ 			errors = 1;
-+ 		}
-+ 	} else {
-+-		errors = walk_tree(arg, walk_flags, 0, do_set, &args);
-++		errors = old_walk_tree(arg, walk_flags, 0, do_set, &args);
-+ 	}
-+ 	return errors ? 1 : 0;
-+ }
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p3.patch b/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p3.patch
-new file mode 100644
-index 00000000000..0daa3261e9b
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p3.patch
-@@ -0,0 +1,439 @@
-+From faf0010982141d0644280beada5c9ea957960436 Mon Sep 17 00:00:00 2001
-+From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Tue, 9 Jun 2026 08:42:16 +0200
-+Subject: [PATCH] Add the new walk_tree helper
-+
-+CVE: CVE-2026-54370
-+Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=39b00348f5911e4e5937ddfb079cc456288b3cd3]
-+
-+Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+(cherry picked from commit 39b00348f5911e4e5937ddfb079cc456288b3cd3)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ include/Makemodule.am |   1 +
-+ include/walk_tree.h   |  40 +++++
-+ libmisc/Makemodule.am |   1 +
-+ libmisc/walk_tree.c   | 340 ++++++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 382 insertions(+)
-+ create mode 100644 include/walk_tree.h
-+ create mode 100644 libmisc/walk_tree.c
-+
-+diff --git a/include/Makemodule.am b/include/Makemodule.am
-+index 3926bda..3e2a47b 100644
-+--- a/include/Makemodule.am
-++++ b/include/Makemodule.am
-+@@ -6,6 +6,7 @@ noinst_HEADERS += \
-+ 	include/misc.h \
-+ 	include/old_walk_tree.h \
-+ 	include/visibility-hidden.h \
-++	include/walk_tree.h \
-+ 	include/xattrat.h \
-+ 	include/xattrat_compat.h
-+ 
-+diff --git a/include/walk_tree.h b/include/walk_tree.h
++diff --git a/libacl/__acl_extended_file.h b/libacl/__acl_extended_file.h
++deleted file mode 100644
++index 0b0da9e..0000000
++--- a/libacl/__acl_extended_file.h
+++++ /dev/null
++@@ -1,3 +0,0 @@
++-int __acl_extended_file(const char *path_p,
++-			ssize_t (*)(const char *, const char *,
++-				    void *, size_t));
++diff --git a/libacl/acl_delete_def_file_at.c b/libacl/acl_delete_def_file_at.c
 +new file mode 100644
-+index 0000000..60df8da
++index 0000000..74815c7
 +--- /dev/null
-++++ b/include/walk_tree.h
-+@@ -0,0 +1,40 @@
+++++ b/libacl/acl_delete_def_file_at.c
++@@ -0,0 +1,45 @@
 ++/*
-++  File: walk_tree.h
+++  File: acl_delete_def_file_at.c
 ++
-++  Copyright (C) 2007-2026 Andreas Gruenbacher <a.gruenbacher@computer.org>
+++  Copyright (C) 1999, 2000
+++  Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 ++
 ++  This library is free software; you can redistribute it and/or
 ++  modify it under the terms of the GNU Lesser General Public
@@ -1155,49 +1394,232 @@ index 00000000000..0daa3261e9b
 ++  License along with this library; if not, see <https://www.gnu.org/licenses/>.
 ++*/
 ++
-++#ifndef __WALK_TREE_H
-++#define __WALK_TREE_H
+++#include "config.h"
+++#include <sys/types.h>
+++#include <sys/xattr.h>
+++#include <fcntl.h>
+++#include "acl_ea.h"
+++#include "xattrat_compat.h"
+++#include "libacl.h"
 ++
-++enum walk_flags {
-++	WALK_TREE_RECURSIVE = 0x01,
-++	WALK_TREE_PHYSICAL = 0x02,
-++	WALK_TREE_LOGICAL = 0x04,
-++	WALK_TREE_ONE_FILESYSTEM = 0x08,
+++int
+++acl_delete_def_file_at(int dirfd, const char *path_p, int at_flags)
+++{
+++	int error;
 ++
-++	WALK_TREE_TOPLEVEL = 0x100,
-++	WALK_TREE_FAILED = 0x200,
-++};
+++	if (at_flags & ~(AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW)) {
+++		errno = EINVAL;
+++		return -1;
+++	}
 ++
-++struct stat;
+++	error = removexattrat(dirfd, path_p, at_flags, ACL_EA_DEFAULT);
+++	if (error < 0 && errno != ENOATTR && errno != ENODATA)
+++		return -1;
+++	return 0;
+++}
 ++
-++extern int walk_tree(const char *pathname, enum walk_flags walk_flags,
-++		     int (*func)(int, const char *, const char *,
-++				 unsigned char, enum walk_flags, void *),
-++		     void *arg);
-++
-++#endif
-+diff --git a/libmisc/Makemodule.am b/libmisc/Makemodule.am
-+index 26e802b..9d656ca 100644
-+--- a/libmisc/Makemodule.am
-++++ b/libmisc/Makemodule.am
-+@@ -13,6 +13,7 @@ libmisc_la_SOURCES = \
-+ 	libmisc/old_walk_tree.c \
-+ 	libmisc/proc-self-fd.c \
-+ 	libmisc/quote.c \
-++	libmisc/walk_tree.c \
-+ 	libmisc/removexattrat_compat.c \
-+ 	libmisc/setxattrat_compat.c \
-+ 	libmisc/unquote.c
-+diff --git a/libmisc/walk_tree.c b/libmisc/walk_tree.c
++diff --git a/libacl/acl_extended_file.c b/libacl/acl_extended_file.c
++index bb0f1e8..d427a16 100644
++--- a/libacl/acl_extended_file.c
+++++ b/libacl/acl_extended_file.c
++@@ -19,16 +19,13 @@
++ */
++ 
++ #include "config.h"
++-#include <unistd.h>
++-#include <sys/xattr.h>
+++#include <fcntl.h>
++ #include "libacl.h"
++ 
++-#include "__acl_extended_file.h"
++-
++ 
++ int
++ acl_extended_file(const char *path_p)
++ {
++-	return __acl_extended_file(path_p, getxattr);
+++	return acl_extended_file_at(AT_FDCWD, path_p, 0);
++ }
++ 
++diff --git a/libacl/acl_extended_file_at.c b/libacl/acl_extended_file_at.c
 +new file mode 100644
-+index 0000000..5b1b576
++index 0000000..ac46bb4
 +--- /dev/null
-++++ b/libmisc/walk_tree.c
-+@@ -0,0 +1,340 @@
+++++ b/libacl/acl_extended_file_at.c
++@@ -0,0 +1,53 @@
 ++/*
-++  File: walk_tree.c
+++  File: acl_extended_file_at.c
 ++
-++  Copyright (C) 2007-2026 Andreas Gruenbacher <a.gruenbacher@computer.org>
+++  Copyright (C) 2000, 2011
+++  Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
+++
+++  This library is free software; you can redistribute it and/or
+++  modify it under the terms of the GNU Lesser General Public
+++  License as published by the Free Software Foundation; either
+++  version 2.1 of the License, or (at your option) any later version.
+++
+++  This library is distributed in the hope that it will be useful,
+++  but WITHOUT ANY WARRANTY; without even the implied warranty of
+++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++  Lesser General Public License for more details.
+++
+++  You should have received a copy of the GNU Lesser General Public
+++  License along with this library; if not, see <https://www.gnu.org/licenses/>.
+++*/
+++
+++#include "config.h"
+++#include <unistd.h>
+++#include <sys/xattr.h>
+++#include <fcntl.h>
+++#include "libacl.h"
+++#include "xattrat_compat.h"
+++#include "acl_ea.h"
+++
+++
+++int
+++acl_extended_file_at(int dirfd, const char *path_p, int at_flags)
+++{
+++	int base_size = sizeof(acl_ea_header) + 3 * sizeof(acl_ea_entry);
+++	int retval;
+++
+++	if (at_flags & ~(AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW)) {
+++		errno = EINVAL;
+++		return -1;
+++	}
+++
+++	retval = getxattrat(dirfd, path_p, at_flags, ACL_EA_ACCESS, NULL, 0);
+++	if (retval < 0 && errno != ENOATTR && errno != ENODATA)
+++		return -1;
+++	if (retval > base_size)
+++		return 1;
+++	retval = getxattrat(dirfd, path_p, at_flags, ACL_EA_DEFAULT, NULL, 0);
+++	if (retval < 0 && errno != ENOATTR && errno != ENODATA)
+++		return -1;
+++	if (retval >= base_size)
+++		return 1;
+++	return 0;
+++}
++diff --git a/libacl/acl_extended_file_nofollow.c b/libacl/acl_extended_file_nofollow.c
++index 7f622dd..e2b7e26 100644
++--- a/libacl/acl_extended_file_nofollow.c
+++++ b/libacl/acl_extended_file_nofollow.c
++@@ -19,15 +19,12 @@
++ */
++ 
++ #include "config.h"
++-#include <unistd.h>
++-#include <sys/xattr.h>
+++#include <fcntl.h>
++ #include "libacl.h"
++ 
++-#include "__acl_extended_file.h"
++-
++ 
++ int
++ acl_extended_file_nofollow(const char *path_p)
++ {
++-	return __acl_extended_file(path_p, lgetxattr);
+++	return acl_extended_file_at(AT_FDCWD, path_p, AT_SYMLINK_NOFOLLOW);
++ }
++diff --git a/libacl/acl_get_file.c b/libacl/acl_get_file.c
++index 4a86d1a..7a37b35 100644
++--- a/libacl/acl_get_file.c
+++++ b/libacl/acl_get_file.c
++@@ -1,8 +1,7 @@
++ /*
++   File: acl_get_file.c
++ 
++-  Copyright (C) 1999, 2000
++-  Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
++ 
++   This library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++@@ -19,69 +18,13 @@
++ */
++ 
++ #include "config.h"
++-#include <sys/types.h>
++-#include <sys/stat.h>
++-#include <unistd.h>
++-#include <stdio.h>
++-#include <sys/xattr.h>
+++#include <fcntl.h>
++ #include "libacl.h"
++-#include "__acl_from_xattr.h"
++-
++-#include "byteorder.h"
++-#include "acl_ea.h"
++ 
++ /* 23.4.16 */
++ acl_t
++ acl_get_file(const char *path_p, acl_type_t type)
++ {
++-	const size_t size_guess = acl_ea_size(16);
++-	char *ext_acl_p = alloca(size_guess);
++-	const char *name;
++-	int retval;
++-
++-	switch(type) {
++-		case ACL_TYPE_ACCESS:
++-			name = ACL_EA_ACCESS;
++-			break;
++-		case ACL_TYPE_DEFAULT:
++-			name = ACL_EA_DEFAULT;
++-			break;
++-		default:
++-			errno = EINVAL;
++-			return NULL;
++-	}
++-
++-	if (!ext_acl_p)
++-		return NULL;
++-	retval = getxattr(path_p, name, ext_acl_p, size_guess);
++-	if (retval == -1 && errno == ERANGE) {
++-		retval = getxattr(path_p, name, NULL, 0);
++-		if (retval > 0) {
++-			ext_acl_p = alloca(retval);
++-			if (!ext_acl_p)
++-				return NULL;
++-			retval = getxattr(path_p, name, ext_acl_p, retval);
++-		}
++-	}
++-	if (retval > 0) {
++-		acl_t acl = __acl_from_xattr(ext_acl_p, retval);
++-		return acl;
++-	} else if (retval == 0 || errno == ENOATTR || errno == ENODATA) {
++-		struct stat st;
++-
++-		if (stat(path_p, &st) != 0)
++-			return NULL;
++-
++-		if (type == ACL_TYPE_DEFAULT) {
++-			if (S_ISDIR(st.st_mode))
++-				return acl_init(0);
++-			else {
++-				errno = EACCES;
++-				return NULL;
++-			}
++-		} else
++-			return acl_from_mode(st.st_mode);
++-	} else
++-		return NULL;
+++	return acl_get_file_at(AT_FDCWD, path_p, 0, type);
++ }
++ 
++diff --git a/libacl/acl_get_file_at.c b/libacl/acl_get_file_at.c
++new file mode 100644
++index 0000000..8d00c1c
++--- /dev/null
+++++ b/libacl/acl_get_file_at.c
++@@ -0,0 +1,107 @@
+++/*
+++  File: acl_get_file_at.c
+++
+++  Copyright (C) 1999, 2000
+++  Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 ++
 ++  This library is free software; you can redistribute it and/or
 ++  modify it under the terms of the GNU Lesser General Public
@@ -1217,442 +1639,162 @@ index 00000000000..0daa3261e9b
 ++#include <sys/types.h>
 ++#include <sys/stat.h>
 ++#include <unistd.h>
-++#include <fcntl.h>
-++#include <sys/time.h>
-++#include <sys/resource.h>
-++#include <dirent.h>
 ++#include <stdio.h>
-++#include <stdlib.h>
-++#include <string.h>
-++#include <errno.h>
+++#include <sys/xattr.h>
+++#include <fcntl.h>
+++#include "libacl.h"
+++#include "xattrat_compat.h"
+++#include "__acl_from_xattr.h"
+++#include "acl_ea.h"
 ++
-++#include "walk_tree.h"
-++
-++struct dir_stack_entry {
-++	struct dir_stack_entry *parent;
-++	DIR *stream;
-++	long pos;
-++	dev_t dev;
-++	ino_t ino;
-++};
-++
-++struct dir_hash_entry {
-++	struct dir_hash_entry *next;
-++	dev_t dev;
-++	ino_t ino;
-++};
-++
-++#define DIR_HASH_SIZE 128
-++
-++struct walk_tree_args {
-++	enum walk_flags walk_flags;
-++	int (*func)(int, const char *, const char *, unsigned char,
-++		    enum walk_flags, void *);
-++	void *arg;
-++	int depth;
-++	unsigned int num_dir_handles;
-++	dev_t dev;
-++	struct dir_hash_entry **dir_hash;
-++};
-++
-++static int dir_visited(struct dir_stack_entry *entry, dev_t dev, ino_t ino)
+++acl_t
+++acl_get_file_at(int dirfd, const char *path_p, int at_flags, acl_type_t type)
 ++{
-++	while (entry) {
-++		if (entry->dev == dev && entry->ino == ino)
-++			  return 1;
-++		entry = entry->parent;
-++	}
-++	return 0;
-++}
+++	size_t size_guess = acl_ea_size(16);
+++	char *onstack_buffer = alloca(size_guess);
+++	char *ext_acl_p = onstack_buffer;
+++	const char *name;
+++	acl_t acl = NULL;
+++	int retries = 0;
+++	int retval;
 ++
-++static unsigned int dir_hash(dev_t dev, ino_t ino)
-++{
-++	return (dev ^ ino) % DIR_HASH_SIZE;
-++}
-++
-++static int dir_hash_insert_unique(struct walk_tree_args *args, struct stat *st)
-++{
-++	unsigned int bucket = dir_hash(st->st_dev, st->st_ino);
-++	struct dir_hash_entry *entry;
-++
-++	if (!args->dir_hash) {
-++		/* allocate the directory hash table */
-++		args->dir_hash = calloc(DIR_HASH_SIZE, sizeof(*args->dir_hash));
-++		if (!args->dir_hash)
-++			return -1;
+++	switch(type) {
+++		case ACL_TYPE_ACCESS:
+++			name = ACL_EA_ACCESS;
+++			break;
+++		case ACL_TYPE_DEFAULT:
+++			name = ACL_EA_DEFAULT;
+++			break;
+++		default:
+++			errno = EINVAL;
+++			goto out;
 ++	}
 ++
-++	entry = args->dir_hash[bucket];
-++	while (entry) {
-++		if (entry->dev == st->st_dev && entry->ino == st->st_ino)
-++			return 1;
-++		entry = entry->next;
-++	}
-++
-++	entry = malloc(sizeof(*entry));
-++	if (!entry)
-++		return -1;
-++
-++	entry->dev = st->st_dev;
-++	entry->ino = st->st_ino;
-++	entry->next = args->dir_hash[bucket];
-++	args->dir_hash[bucket] = entry;
-++	return 0;
-++}
-++
-++static char *new_dirname(const char *dirname, const char *pathname)
-++{
-++	size_t dirlen, pathlen;
-++	char *newname, *n;
-++	int need_slash;
-++
-++	if (*dirname == '\0' && *pathname == '.' &&
-++	    (*(pathname+1) == '/' || *(pathname+1) == '\0')) {
-++		pathname++;
-++		while (*pathname == '/')
-++			pathname++;
-++	}
-++
-++	dirlen = strlen(dirname);
-++	pathlen = strlen(pathname);
-++	need_slash = (pathlen > 0 && pathname[pathlen - 1] != '/');
-++	n = newname = malloc(dirlen + pathlen + need_slash + 1);
-++	if (newname == NULL)
-++		return NULL;
-++	memcpy(n, dirname, dirlen);
-++	n += dirlen;
-++	memcpy(n, pathname, pathlen);
-++	n += pathlen;
-++	if (need_slash)
-++		*n++ = '/';
-++	*n++ = '\0';
-++	return newname;
-++}
-++
-++static int walk_tree_rec(int dirfd, const char *dirname, const char *pathname,
-++			 unsigned char dirtype, struct walk_tree_args *args,
-++			 struct dir_stack_entry *parent_dir)
-++{
-++	enum walk_flags walk_flags = args->walk_flags;
-++	struct dir_stack_entry this_dir = {
-++		.parent = parent_dir,
-++	};
-++	int follow;
-++	struct stat st;
-++	char *mydirname = NULL;
-++	int dir_open_flags;
-++	int fd = -1;
-++	struct dirent *entry;
-++	int err = 0;
-++
-++	if (args->depth == 0)
-++		walk_flags |= WALK_TREE_TOPLEVEL;
-++
-++	follow = (walk_flags & WALK_TREE_LOGICAL) ||
-++		 (!(walk_flags & WALK_TREE_PHYSICAL) && !args->depth);
-++
-++	if (!(walk_flags & WALK_TREE_RECURSIVE) ||
-++	    (dirtype != DT_UNKNOWN &&
-++	     dirtype != DT_DIR &&
-++	     (dirtype != DT_LNK ||
-++	      ((walk_flags & WALK_TREE_PHYSICAL) &&
-++	       !(walk_flags & WALK_TREE_TOPLEVEL)))))
-++		goto visit_this;
-++
-++	if (args->num_dir_handles == 0) {
-++		struct dir_stack_entry *top;
-++
-++close_another_parent:
-++		/* Close the topmost parent directory handle still open. */
-++		top = parent_dir;
-++		if (!top || !top->stream) {
-++			errno = ENFILE;
-++			goto fail;
-++		}
-++		while (top->parent && top->parent->stream)
-++			top = top->parent;
-++		top->pos = telldir(top->stream);
-++		closedir(top->stream);
-++		top->stream = NULL;
-++		args->num_dir_handles++;
-++	}
-++
-++	dir_open_flags = O_RDONLY | O_DIRECTORY | (follow ? 0 : O_NOFOLLOW);
-++	fd = openat(dirfd, pathname, dir_open_flags);
-++	if (fd == -1) {
-++		if (errno == ENOTDIR || errno == ENOENT || errno == ELOOP)
-++			goto visit_this;
-++		if (errno != ENFILE)
-++			goto fail;
-++		/* Ran out of file descriptors. */
-++		args->num_dir_handles = 0;
-++		goto close_another_parent;
-++	}
-++	args->num_dir_handles--;
-++	if (dirtype == DT_UNKNOWN && !follow)
-++		dirtype = DT_DIR;
-++
-++	if (fstat(fd, &st) == -1)
-++		goto fail;
-++	if (walk_flags & WALK_TREE_ONE_FILESYSTEM) {
-++		if (args->dev == 0)
-++			args->dev = st.st_dev;
-++		else if (st.st_dev != args->dev)
-++			goto dir_visited;
-++	}
-++
-++	if (walk_flags & WALK_TREE_LOGICAL) {
-++		if (dir_visited(parent_dir, st.st_dev, st.st_ino))
-++			goto dir_visited;
-++		this_dir.dev = st.st_dev;
-++		this_dir.ino = st.st_ino;
-++	} else {
-++		int ret = dir_hash_insert_unique(args, &st);
-++		if (ret == 1)
-++			goto dir_visited;
-++		if (ret == -1)
-++			goto fail;
-++	}
-++	goto visit_this;
-++
-++dir_visited:
-++	close(fd);
-++	fd = -1;
-++	if (dirtype == DT_UNKNOWN) {
-++		if (fstatat(dirfd, pathname, &st, AT_SYMLINK_NOFOLLOW) == -1)
-++			goto fail;
-++		dirtype = IFTODT(st.st_mode);
-++	}
-++	if (dirtype == DT_DIR)
+++	if (at_flags & ~(AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW)) {
+++		errno = EINVAL;
 ++		goto out;
+++	}
 ++
-++visit_this:
-++	err += args->func(dirfd, dirname, pathname, dirtype,
-++			  walk_flags, args->arg);
+++	for (;;) {
+++		retval = getxattrat(dirfd, path_p, at_flags, name, ext_acl_p,
+++				    size_guess);
+++		if (retval != -1 || errno != ERANGE)
+++			break;
+++		if (++retries >= 8)
+++			break;
 ++
-++	if (fd == -1)
-++		goto out;
-++	this_dir.stream = fdopendir(fd);
-++	if (this_dir.stream == NULL)
-++		goto fail;
+++		retval = getxattrat(dirfd, path_p, at_flags, name, NULL, 0);
+++		if (retval <= 0)
+++			break;
+++		size_guess = retval;
 ++
-++	mydirname = new_dirname(dirname, pathname);
-++	if (mydirname == NULL)
-++		goto fail;
+++		if (ext_acl_p != onstack_buffer)
+++			free(ext_acl_p);
+++		ext_acl_p = malloc(size_guess);
+++		if (!ext_acl_p)
+++                       goto out;
+++	}
+++	if (retval > 0) {
+++		acl = __acl_from_xattr(ext_acl_p, retval);
+++	} else if (retval == 0 || errno == ENOATTR || errno == ENODATA) {
+++		struct stat st;
 ++
-++	args->depth++;
-++	while ((entry = readdir(this_dir.stream)) != NULL) {
-++		if (!strcmp(entry->d_name, ".") ||
-++		    !strcmp(entry->d_name, ".."))
-++			continue;
+++		if (fstatat(dirfd, path_p, &st, at_flags) != 0)
+++			goto out;
 ++
-++		err += walk_tree_rec(fd, mydirname, entry->d_name,
-++				     entry->d_type, args, &this_dir);
-++
-++		if (!this_dir.stream) {
-++			/* Reopen the directory handle. */
-++			fd = openat(dirfd, pathname, dir_open_flags);
-++			if (fd == -1)
-++				goto fail_depth;
-++			args->num_dir_handles--;
-++			this_dir.stream = fdopendir(fd);
-++			if (!this_dir.stream)
-++				goto fail_depth;
-++			seekdir(this_dir.stream, this_dir.pos);
+++		if (S_ISLNK(st.st_mode)) {
+++			errno = ENOTSUP;
+++			goto out;
 ++		}
+++		if (type == ACL_TYPE_DEFAULT) {
+++			if (S_ISDIR(st.st_mode))
+++				acl = acl_init(0);
+++			else
+++				errno = EACCES;
+++		} else
+++			acl = acl_from_mode(st.st_mode);
 ++	}
-++	args->depth--;
-++
-++	if (closedir(this_dir.stream) != 0) {
-++		this_dir.stream = NULL;
-++		goto fail;
-++	}
-++	this_dir.stream = NULL;
 ++
 ++out:
-++	free(mydirname);
-++	if (this_dir.stream) {
-++		closedir(this_dir.stream);
-++		args->num_dir_handles++;
-++		fd = -1;
-++	}
-++	if (fd != -1) {
-++		close(fd);
-++		args->num_dir_handles++;
-++	}
-++	return err;
-++
-++fail:
-++	err += args->func(dirfd, dirname, pathname, dirtype,
-++			  walk_flags | WALK_TREE_FAILED, args->arg);
-++	goto out;
-++
-++fail_depth:
-++	args->depth--;
-++	goto fail;
+++	if (ext_acl_p != onstack_buffer)
+++		free(ext_acl_p);
+++	return acl;
 ++}
 ++
-++/*
-++ * If (walk_flags & WALK_TREE_PHYSICAL), do not traverse symlinks.
-++ * If (walk_flags & WALK_TREE_LOGICAL), traverse all symlinks.
-++ * Otherwise, traverse only top-level symlinks.
-++ */
-++int walk_tree(const char *pathname, enum walk_flags walk_flags,
-++	      int (*func)(int, const char *, const char *, unsigned char,
-++			  enum walk_flags, void *),
-++	      void *arg)
-++{
-++	struct walk_tree_args args = {
-++		.walk_flags = walk_flags,
-++		.func = func,
-++		.arg = arg,
-++	};
-++	struct rlimit rlimit;
-++	int err;
-++
-++	/* number of directory file descriptors to keep open at a time */
-++	if (getrlimit(RLIMIT_NOFILE, &rlimit) != 0)
-++		rlimit.rlim_cur = 0;
-++	args.num_dir_handles = rlimit.rlim_cur / 4 + 1;
-++
-++	err = walk_tree_rec(AT_FDCWD, "", pathname, DT_UNKNOWN, &args, NULL);
-++
-++	if (args.dir_hash) {
-++		/* destroy the directory hash table */
-++		int n;
-++
-++		for (n = 0; n < DIR_HASH_SIZE; n++) {
-++			struct dir_hash_entry *entry = args.dir_hash[n];
-++			while (entry) {
-++				struct dir_hash_entry *next = entry->next;
-++				free(entry);
-++				entry = next;
-++			}
-++		}
-++		free(args.dir_hash);
-++	}
-++
-++	return err;
-++}
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p4.patch b/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p4.patch
-new file mode 100644
-index 00000000000..a78ed510f34
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p4.patch
-@@ -0,0 +1,140 @@
-+From d3012ad3c4dbe81f7b33eddc02c14d930a0742fc Mon Sep 17 00:00:00 2001
-+From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Sat, 20 Jun 2026 16:17:02 +0200
-+Subject: [PATCH] Add openat2 syscall wrapper
-+
-+Add a syscall wrapper for the openat2() syscall added in kernel version v5.6
-+from March 2020.
-+
-+On systems where the openat2() syscall is available but shouldn't be used, use
-+the --disable-openat2 configure option.
-+
-+CVE: CVE-2026-54370
-+Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=7244f425227a23533f0b0b41c717dbd59736b907]
-+
-+Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+(cherry picked from commit 7244f425227a23533f0b0b41c717dbd59736b907)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ configure.ac          | 14 ++++++++++++++
-+ include/Makemodule.am |  1 +
-+ include/openat2.h     | 16 ++++++++++++++++
-+ libmisc/Makemodule.am |  7 +++++++
-+ libmisc/openat2.c     | 30 ++++++++++++++++++++++++++++++
-+ 5 files changed, 68 insertions(+)
-+ create mode 100644 include/openat2.h
-+ create mode 100644 libmisc/openat2.c
-+
-+diff --git a/configure.ac b/configure.ac
-+index 22d5084..c3353f6 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -34,6 +34,20 @@ AC_SYS_LARGEFILE
-+ AM_PROG_AR
-+ LT_INIT
++diff --git a/libacl/acl_set_file.c b/libacl/acl_set_file.c
++index 185b1bd..d276942 100644
++--- a/libacl/acl_set_file.c
+++++ b/libacl/acl_set_file.c
++@@ -1,8 +1,7 @@
++ /*
++   File: acl_set_file.c
 + 
-++AC_CHECK_FUNCS(openat2)
-++AC_CHECK_HEADERS([linux/openat2.h])
-++AC_CHECK_DECL([__NR_openat2], [], [], [[#include <sys/syscall.h>]])
-++if test "x$ac_cv_have_decl___NR_openat2" = xyes -a \
-++	"x$ac_cv_header_linux_openat2_h" = xyes; then
-++	use_openat2=yes
-++else
-++	use_openat2=no
-++fi
-++AM_CONDITIONAL([USE_OPENAT2], [test "x$use_openat2" = xyes])
-++AM_CONDITIONAL([HAVE_OPENAT2], [test "x$ac_cv_func_openat2" = xyes])
-++AS_IF([test "x$use_openat2" = xyes],
-++      [AC_DEFINE([USE_OPENAT2], [1], [Define to use openat2 syscall])])
-++
-+ AC_CHECK_FUNCS(getxattrat setxattrat listxattrat removexattrat)
-+ AM_CONDITIONAL([NEED_XATTRAT],
-+ 	       [test "x$ac_cv_func_getxattrat" = xno -o \
-+diff --git a/include/Makemodule.am b/include/Makemodule.am
-+index 3e2a47b..43a136a 100644
-+--- a/include/Makemodule.am
-++++ b/include/Makemodule.am
-+@@ -5,6 +5,7 @@ noinst_HEADERS += \
-+ 	include/fchmodat_compat.h \
-+ 	include/misc.h \
-+ 	include/old_walk_tree.h \
-++	include/openat2.h \
-+ 	include/visibility-hidden.h \
-+ 	include/walk_tree.h \
-+ 	include/xattrat.h \
-+diff --git a/include/openat2.h b/include/openat2.h
++-  Copyright (C) 1999, 2000
++-  Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
++ 
++   This library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++@@ -19,46 +18,13 @@
++ */
++ 
++ #include "config.h"
++-#include <sys/types.h>
++-#include <sys/stat.h>
++-#include <unistd.h>
++-#include <sys/xattr.h>
+++#include <fcntl.h>
++ #include "libacl.h"
++-#include "__acl_to_xattr.h"
++-
++-#include "byteorder.h"
++-#include "acl_ea.h"
++-
++ 
++ /* 23.4.22 */
++ int
++ acl_set_file(const char *path_p, acl_type_t type, acl_t acl)
++ {
++-	acl_obj *acl_obj_p = ext2int(acl, acl);
++-	char *ext_acl_p;
++-	const char *name;
++-	size_t size;
++-	int error;
++-
++-	if (!acl_obj_p)
++-		return -1;
++-	switch (type) {
++-		case ACL_TYPE_ACCESS:
++-			name = ACL_EA_ACCESS;
++-			break;
++-		case ACL_TYPE_DEFAULT:
++-			name = ACL_EA_DEFAULT;
++-			break;
++-		default:
++-			errno = EINVAL;
++-			return -1;
++-	}
++-
++-	ext_acl_p = __acl_to_xattr(acl_obj_p, &size);
++-	if (!ext_acl_p)
++-		return -1;
++-	error = setxattr(path_p, name, (char *)ext_acl_p, size, 0);
++-	free(ext_acl_p);
++-	return error;
+++	return acl_set_file_at(AT_FDCWD, path_p, 0, type, acl);
++ }
++ 
++diff --git a/libacl/acl_set_file_at.c b/libacl/acl_set_file_at.c
 +new file mode 100644
-+index 0000000..d267895
++index 0000000..40f83d1
 +--- /dev/null
-++++ b/include/openat2.h
-+@@ -0,0 +1,16 @@
-++#ifndef MISC_OPENAT2_H
-++#define MISC_OPENAT2_H
-++
-++#include "config.h"
-++#include <stdint.h>
-++
-++#ifdef USE_OPENAT2
-++#include <linux/openat2.h>
-++
-++#ifndef HAVE_OPENAT2
-++int openat2(int dirfd, const char *pathname, const struct open_how *how,
-++	    size_t size);
-++#endif
-++#endif
-++
-++#endif /* MISC_OPENAT2_H */
-+diff --git a/libmisc/Makemodule.am b/libmisc/Makemodule.am
-+index 9d656ca..e45a82a 100644
-+--- a/libmisc/Makemodule.am
-++++ b/libmisc/Makemodule.am
-+@@ -22,3 +22,10 @@ if NEED_XATTRAT
-+ libmisc_la_SOURCES += \
-+ 	libmisc/xattrat.c
-+ endif
-++
-++if USE_OPENAT2
-++if !HAVE_OPENAT2
-++libmisc_la_SOURCES += \
-++	libmisc/openat2.c
-++endif
-++endif
-+diff --git a/libmisc/openat2.c b/libmisc/openat2.c
-+new file mode 100644
-+index 0000000..bdc78e1
-+--- /dev/null
-++++ b/libmisc/openat2.c
-+@@ -0,0 +1,30 @@
+++++ b/libacl/acl_set_file_at.c
++@@ -0,0 +1,71 @@
 ++/*
-++  File: openat2.c
+++  File: acl_set_file_at.c
 ++
+++  Copyright (C) 1999, 2000
+++  Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
 ++  Copyright (C) 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
 ++
 ++  This library is free software; you can redistribute it and/or
@@ -1670,1577 +1812,1150 @@ index 00000000000..a78ed510f34
 ++*/
 ++
 ++#include "config.h"
-++#include <sys/syscall.h>
+++#include <sys/types.h>
+++#include <sys/stat.h>
 ++#include <unistd.h>
+++#include <sys/xattr.h>
+++#include <fcntl.h>
+++#include "libacl.h"
+++#include "xattrat_compat.h"
+++#include "__acl_to_xattr.h"
+++#include "acl_ea.h"
 ++
-++#include "openat2.h"
 ++
-++int openat2(int dirfd, const char *pathname, const struct open_how *how,
-++	    size_t size)
+++int
+++acl_set_file_at(int dirfd, const char *path_p, int at_flags, acl_type_t type,
+++		acl_t acl)
 ++{
-++	return syscall(__NR_openat2, dirfd, pathname, how, size);
+++	acl_obj *acl_obj_p = ext2int(acl, acl);
+++	char *ext_acl_p;
+++	const char *name;
+++	size_t size;
+++	int error;
+++
+++	if (!acl_obj_p)
+++		return -1;
+++	switch (type) {
+++		case ACL_TYPE_ACCESS:
+++			name = ACL_EA_ACCESS;
+++			break;
+++		case ACL_TYPE_DEFAULT:
+++			name = ACL_EA_DEFAULT;
+++			break;
+++		default:
+++			errno = EINVAL;
+++			return -1;
+++	}
+++
+++	if (at_flags & ~(AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW)) {
+++		errno = EINVAL;
+++		return -1;
+++	}
+++
+++	ext_acl_p = __acl_to_xattr(acl_obj_p, &size);
+++	if (!ext_acl_p)
+++		return -1;
+++	error = setxattrat(dirfd, path_p, at_flags, name, (char *)ext_acl_p,
+++			   size, 0);
+++	free(ext_acl_p);
+++	return error;
 ++}
+++
 +-- 
 +2.35.6
 +
-diff --git a/meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch b/meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch
+diff --git a/meta/recipes-support/attr/acl/CVE-2026-54369_p2.patch b/meta/recipes-support/attr/acl/CVE-2026-54369_p2.patch
 new file mode 100644
-index 00000000000..b977a92b337
+index 00000000000..8a9ad982c82
 --- /dev/null
-+++ b/meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch
-@@ -0,0 +1,299 @@
-+From b8a5843fafde6563bc1e7a9e9314f7a1075fc6a0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/attr/acl/CVE-2026-54369_p2.patch
+@@ -0,0 +1,957 @@
++From dd8f9c772a4ba53225baf7f54fc7fa7859004aa8 Mon Sep 17 00:00:00 2001
 +From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Tue, 9 Jun 2026 08:43:16 +0200
-+Subject: [PATCH] harden getfacl
++Date: Fri, 5 Jun 2026 06:21:41 +0200
++Subject: [PATCH] Add libacl _at function documentation
 +
-+Switch to the new walk_tree helper that uses directory file descriptors and
-+relative paths instead of building full pathnames.  On the final pathname
-+component, use functions that only follow symlinks when requested (stat() ->
-+fstatat(), acl_get_file() -> acl_get_file_at()).  This prevents getfacl from
-+accidentally following a symlink an attacker may have planted.
++Add man page documentation for acl_delete_def_file_at(), and
++acl_extended_file_at(), acl_get_file_at(), and acl_set_file_at().
 +
-+A notable change is that commands like 'getfacl -P symlink' will now fail with
-+an ELOOP error ("Too many levels of symbolic links").  Previously, command-line
-+arguments that refer to symbolic links were silently ignored in -P (--physical)
-+mode.
-+
-+Fixes: CVE-2026-54370 ("acl < 2.4.0 TOCTOU Symlink Traversal via getfacl/setfacl")
-+
-+CVE: CVE-2026-54370
-+Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=2ee940139e9bba5005a3d987a6daecdda909089e]
-+
-+Backport Changes:
-+- Retain ACL 2.3.2's FILE argument in the tabular output helper.
-+- Update its caller to use the safe walker display name and stat.
-+- Retain existing option variable linkage while changing walk_flags.
++CVE: CVE-2026-54369
++Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=0071c6d1fea0a8a6270333baa85fb609be325c26]
 +
 +Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+(cherry picked from commit 2ee940139e9bba5005a3d987a6daecdda909089e)
++(cherry picked from commit 0071c6d1fea0a8a6270333baa85fb609be325c26)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ tools/getfacl.c | 111 ++++++++++++++++++++++++++++++------------------
-+ 1 file changed, 70 insertions(+), 41 deletions(-)
++ man/man3/Makemodule.am            |   4 +
++ man/man3/acl_delete_def_file.3    | 113 +++++++++++++++++++++--
++ man/man3/acl_delete_def_file_at.3 |   1 +
++ man/man3/acl_extended_file.3      | 132 +++++++++++++++++++++++----
++ man/man3/acl_extended_file_at.3   |   1 +
++ man/man3/acl_get_file.3           | 137 +++++++++++++++++++++++++---
++ man/man3/acl_get_file_at.3        |   1 +
++ man/man3/acl_set_file.3           | 147 +++++++++++++++++++++++++++---
++ man/man3/acl_set_file_at.3        |   1 +
++ man/man5/acl.5                    |   8 +-
++ 10 files changed, 493 insertions(+), 52 deletions(-)
++ create mode 100644 man/man3/acl_delete_def_file_at.3
++ create mode 100644 man/man3/acl_extended_file_at.3
++ create mode 100644 man/man3/acl_get_file_at.3
++ create mode 100644 man/man3/acl_set_file_at.3
 +
-+diff --git a/tools/getfacl.c b/tools/getfacl.c
-+index 8ef774b..2077820 100644
-+--- a/tools/getfacl.c
-++++ b/tools/getfacl.c
-+@@ -4,6 +4,7 @@
-+ 
-+   Copyright (C) 1999-2002
-+   Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
-++  Copyright 2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
-+  	
-+   This program is free software; you can redistribute it and/or modify
-+   it under the terms of the GNU General Public License as published by
-+@@ -30,6 +31,7 @@
-+ #include <limits.h>
-+ #include <stdlib.h>
-+ #include <unistd.h>
-++#include <fcntl.h>
-+ #include <string.h>
-+ #include <sys/stat.h>
-+ #include <dirent.h>
-+@@ -37,7 +39,7 @@
-+ #include <getopt.h>
-+ #include "misc.h"
-+ #include "user_group.h"
-+-#include "old_walk_tree.h"
-++#include "walk_tree.h"
-+ 
-+ #define POSIXLY_CORRECT_STR "POSIXLY_CORRECT"
-+ 
-+@@ -70,7 +72,7 @@ static const struct option long_options[] = {
-+ const char *progname;
-+ const char *cmd_line_options;
-+ 
-+-int walk_flags = WALK_TREE_DEREFERENCE_TOPLEVEL;
-++enum walk_flags walk_flags = 0;
-+ int opt_print_acl;
-+ int opt_print_default_acl;
-+ int opt_strip_leading_slash = 1;
-+@@ -325,7 +327,7 @@ int show_line(FILE *stream, struct name_list **acl_names,  acl_t acl,
-+ 	return 0;
-+ }
-+ 
-+-int do_show(FILE *stream, const char *path_p, const struct stat *st,
-++int do_show(FILE *stream, const char *fullname, const struct stat *st,
-+             acl_t acl, acl_t dacl)
-+ {
-+ 	struct name_list *acl_names = get_list(st, acl),
-+@@ -364,7 +366,7 @@ int do_show(FILE *stream, const char *path_p, const struct stat *st,
-+ 		if (ret < 0)
-+ 			return ret;
-+ 	}
-+-	fprintf(stream, "# file: %s\n", xquote(path_p, "\n\r"));
-++	fprintf(stream, "# file: %s\n", xquote(fullname, "\n\r"));
-+ 	while (acl_names != NULL || dacl_names != NULL) {
-+ 		acl_tag_t acl_tag, dacl_tag;
-+ 
-+@@ -423,11 +425,11 @@ int do_show(FILE *stream, const char *path_p, const struct stat *st,
-+  * of the file PATH_P.
-+  */
-+ static acl_t
-+-acl_get_file_mode(const char *path_p)
-++acl_get_from_file_mode_at(int dirfd, const char *pathname, int at_flags)
-+ {
-+ 	struct stat st;
-+ 
-+-	if (stat(path_p, &st) != 0)
-++	if (fstatat(dirfd, pathname, &st, at_flags) != 0)
-+ 		return NULL;
-+ 	return acl_from_mode(st.st_mode);
-+ }
-+@@ -444,15 +446,32 @@ flagstr(mode_t mode)
-+ 	return str;
-+ }
-+ 
-+-int do_print(const char *path_p, const struct stat *st, int walk_flags, void *unused)
-++static int do_print(int dirfd, const char *dirname, const char *pathname,
-++		    unsigned char dirtype, enum walk_flags walk_flags,
-++		    void *unused)
-+ {
-++	static char *__fullname;
-++	const char *fullname;
-+ 	const char *default_prefix = NULL;
-+ 	acl_t acl = NULL, default_acl = NULL;
-++	struct stat st;
-++	int at_flags;
-+ 	int error = 0;
-+ 
-++	if (*dirname) {
-++		free(__fullname);
-++		__fullname = NULL;
-++		if (asprintf(&__fullname, "%s%s", dirname, pathname) == -1) {
-++			fprintf(stderr, "%s: %s", progname, strerror(errno));
-++			return 1;
-++		}
-++		fullname = __fullname;
-++	} else
-++		fullname = pathname;
-++
-+ 	if (walk_flags & WALK_TREE_FAILED) {
-+-		fprintf(stderr, "%s: %s: %s\n", progname, xquote(path_p, "\n\r"),
-+-			strerror(errno));
-++		fprintf(stderr, "%s: %s: %s\n", progname,
-++			xquote(fullname, "\n\r"), strerror(errno));
-+ 		return 1;
-+ 	}
-+ 
-+@@ -461,21 +480,37 @@ int do_print(const char *path_p, const struct stat *st, int walk_flags, void *un
-+ 	 * skip symlinks altogether, and when doing a half-logical walk, we
-+ 	 * skip all non-toplevel symlinks. 
-+ 	 */
-+-	if ((walk_flags & WALK_TREE_SYMLINK) &&
-+-	    ((walk_flags & WALK_TREE_PHYSICAL) ||
-+-	     !(walk_flags & (WALK_TREE_TOPLEVEL | WALK_TREE_LOGICAL))))
-+-		return 0;
-++	at_flags = AT_SYMLINK_NOFOLLOW;
-++	if ((walk_flags & WALK_TREE_LOGICAL) ||
-++	    ((walk_flags & WALK_TREE_TOPLEVEL) &&
-++	     !(walk_flags & WALK_TREE_PHYSICAL)))
-++	       at_flags = 0;
-++
-++	if (dirtype == DT_LNK && (at_flags & AT_SYMLINK_NOFOLLOW))
-++		goto cleanup;
-++
-++	if (fstatat(dirfd, pathname, &st, at_flags) != 0)
-++		goto fail;
-++	if (S_ISLNK(st.st_mode)) {
-++		if (!(walk_flags & WALK_TREE_TOPLEVEL))
-++			goto cleanup;
-++		errno = ELOOP;
-++		goto fail;
-++	}
-+ 
-+ 	if (opt_print_acl) {
-+-		acl = acl_get_file(path_p, ACL_TYPE_ACCESS);
-++		acl = acl_get_file_at(dirfd, pathname, at_flags,
-++				      ACL_TYPE_ACCESS);
-+ 		if (acl == NULL && (errno == ENOSYS || errno == ENOTSUP))
-+-			acl = acl_get_file_mode(path_p);
-++			acl = acl_get_from_file_mode_at(dirfd, pathname,
-++							at_flags);
-+ 		if (acl == NULL)
-+ 			goto fail;
-+ 	}
-+ 
-+-	if (opt_print_default_acl && S_ISDIR(st->st_mode)) {
-+-		default_acl = acl_get_file(path_p, ACL_TYPE_DEFAULT);
-++	if (opt_print_default_acl && S_ISDIR(st.st_mode)) {
-++		default_acl = acl_get_file_at(dirfd, pathname, at_flags,
-++					      ACL_TYPE_DEFAULT);
-+ 		if (default_acl == NULL) {
-+ 			if (errno != ENOSYS && errno != ENOTSUP)
-+ 				goto fail;
-+@@ -493,34 +528,30 @@ int do_print(const char *path_p, const struct stat *st, int walk_flags, void *un
-+ 		default_prefix = "default:";
-+ 
-+ 	if (opt_strip_leading_slash) {
-+-		if (*path_p == '/') {
-++		if (*fullname == '/') {
-+ 			if (!absolute_warning) {
-+ 				fprintf(stderr, _("%s: Removing leading "
-+ 					"'/' from absolute path names\n"),
-+-				        progname);
-++					progname);
-+ 				absolute_warning = 1;
-+ 			}
-+-			while (*path_p == '/')
-+-				path_p++;
-+-		} else if (*path_p == '.' && *(path_p+1) == '/')
-+-			while (*++path_p == '/')
-+-				/* nothing */ ;
-+-		if (*path_p == '\0')
-+-			path_p = ".";
-++			while (*fullname == '/')
-++				fullname++;
-++		}
-+ 	}
-+ 
-+ 	if (opt_tabular)  {
-+-		if (do_show(stdout, path_p, st, acl, default_acl) != 0)
-++		if (do_show(stdout, fullname, &st, acl, default_acl) != 0)
-+ 			goto fail;
-+ 	} else {
-+ 		if (opt_comments) {
-+-			printf("# file: %s\n", xquote(path_p, "\n\r"));
-++			printf("# file: %s\n", xquote(fullname, "\n\r"));
-+ 			printf("# owner: %s\n",
-+-			       xquote(user_name(st->st_uid, opt_numeric), " \t\n\r"));
-++			       xquote(user_name(st.st_uid, opt_numeric), " \t\n\r"));
-+ 			printf("# group: %s\n",
-+-			       xquote(group_name(st->st_gid, opt_numeric), " \t\n\r"));
-+-			if ((st->st_mode & (S_ISVTX | S_ISUID | S_ISGID)) && !posixly_correct)
-+-				printf("# flags: %s\n", flagstr(st->st_mode));
-++			       xquote(group_name(st.st_gid, opt_numeric), " \t\n\r"));
-++			if ((st.st_mode & (S_ISVTX | S_ISUID | S_ISGID)) && !posixly_correct)
-++				printf("# flags: %s\n", flagstr(st.st_mode));
-+ 		}
-+ 		if (acl != NULL) {
-+ 			char *acl_text = acl_to_any_text(acl, NULL, '\n',
-+@@ -557,8 +588,7 @@ cleanup:
-+ 	return error;
-+ 
-+ fail:
-+-	fprintf(stderr, "%s: %s: %s\n", progname, xquote(path_p, "\n\r"),
-+-		strerror(errno));
-++	fprintf(stderr, "%s: %s: %s\n", progname, fullname, strerror(errno));
-+ 	error = -1;
-+ 	goto cleanup;
-+ }
-+@@ -589,7 +619,7 @@ void help(void)
-+ "  -P, --physical          physical walk, do not follow symbolic links\n"
-+ "  -t, --tabular           use tabular output format\n"
-+ "  -n, --numeric           print numeric user/group identifiers\n"
-+-"      --one-file-system   skip files on different filesystems\n"
-++"      --one-file-system   don't descend into directories on other filesystems\n"
-+ "  -p, --absolute-names    don't strip leading '/' in pathnames\n"));
-+ 	}
-+ #endif
-+@@ -666,7 +696,7 @@ int main(int argc, char *argv[])
-+ 			case 'L':  /* follow all symlinks */
-+ 				if (posixly_correct)
-+ 					goto synopsis;
-+-				walk_flags |= WALK_TREE_LOGICAL | WALK_TREE_DEREFERENCE;
-++				walk_flags |= WALK_TREE_LOGICAL;
-+ 				walk_flags &= ~WALK_TREE_PHYSICAL;
-+ 				break;
-+ 
-+@@ -674,8 +704,7 @@ int main(int argc, char *argv[])
-+ 				if (posixly_correct)
-+ 					goto synopsis;
-+ 				walk_flags |= WALK_TREE_PHYSICAL;
-+-				walk_flags &= ~(WALK_TREE_LOGICAL | WALK_TREE_DEREFERENCE |
-+-						WALK_TREE_DEREFERENCE_TOPLEVEL);
-++				walk_flags &= ~WALK_TREE_LOGICAL;
-+ 				break;
-+ 
-+ 			case 's':  /* skip files with only base entries */
-+@@ -713,7 +742,7 @@ int main(int argc, char *argv[])
-+ 				help();
-+ 				return 0;
-+ 
-+-			case ':':  /* option missing */
-++			case ':':  /* argument missing */
-+ 			case '?':  /* unknown option */
-+ 			default:
-+ 				goto synopsis;
-+@@ -736,7 +765,7 @@ int main(int argc, char *argv[])
-+ 				if (*line == '\0')
-+ 					continue;
-+ 
-+-				had_errors += old_walk_tree(line, walk_flags, 0,
-++				had_errors += walk_tree(line, walk_flags,
-+ 							do_print, NULL);
-+ 			}
-+ 			if (!feof(stdin)) {
-+@@ -745,7 +774,7 @@ int main(int argc, char *argv[])
-+ 				had_errors++;
-+ 			}
-+ 		} else
-+-			had_errors += old_walk_tree(argv[optind], walk_flags, 0,
-++			had_errors += walk_tree(argv[optind], walk_flags,
-+ 						do_print, NULL);
-+ 		optind++;
-+ 	} while (optind < argc);
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch b/meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch
-new file mode 100644
-index 00000000000..0f6efeeb2a3
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch
-@@ -0,0 +1,403 @@
-+From 28d24088e44b651394c83440504353ef130c1e3d Mon Sep 17 00:00:00 2001
-+From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Tue, 9 Jun 2026 08:43:46 +0200
-+Subject: [PATCH] harden setfacl
-+
-+Switch to the new walk_tree helper that uses directory file descriptors and
-+relative paths instead of building full pathnames.  On the final pathname
-+component, use functions that only follow symlinks when requested (stat() ->
-+fstatat(), acl_get_file() -> acl_get_file_at(), chmod() -> fchmodat(),
-+acl_set_file() -> acl_set_file_at(), acl_delete_def_file() ->
-+acl_delete_def_file_at()).  This prevents setfacl from accidentally following a
-+symlink an attacker may have planted.
-+
-+A notable change is that commands like 'setfacl -P ... symlink' will now fail
-+with an ELOOP error ("Too many levels of symbolic links").  Previously,
-+command-line arguments that refer to symbolic links were silently ignored in
-+-P (--physical) mode.
-+
-+(The --restore option is hardened in a separate patch.)
-+
-+Fixes: CVE-2026-54370 ("acl < 2.4.0 TOCTOU Symlink Traversal via getfacl/setfacl")
-+
-+CVE: CVE-2026-54370
-+Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=2c03ceefa0610d551d9cc089ce0a404cbe2d34b4]
-+
-+Backport Changes:
-+- Retain existing walk_flags linkage with the new enum type.
-+
-+Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+(cherry picked from commit 2c03ceefa0610d551d9cc089ce0a404cbe2d34b4)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ man/man1/setfacl.1 |  1 -
-+ tools/do_set.c     | 98 +++++++++++++++++++++++++++++++---------------
-+ tools/do_set.h     |  5 ++-
-+ tools/setfacl.c    | 18 ++++-----
-+ 4 files changed, 79 insertions(+), 43 deletions(-)
-+
-+diff --git a/man/man1/setfacl.1 b/man/man1/setfacl.1
-+index 1ccaa11..cc826df 100644
-+--- a/man/man1/setfacl.1
-++++ b/man/man1/setfacl.1
-+@@ -130,7 +130,6 @@ This option cannot be mixed with `\-\-restore'.
-+ .TP 4
-+ .I \-P, \-\-physical
-+ Physical walk, do not follow symbolic links to directories.
-+-This also skips symbolic link arguments.
-+ Only effective in combination with \-R.
-+ This option cannot be mixed with `\-\-restore'.
-+ .TP 4
-+diff --git a/tools/do_set.c b/tools/do_set.c
-+index a958ede..2ff533c 100644
-+--- a/tools/do_set.c
-++++ b/tools/do_set.c
-+@@ -31,13 +31,14 @@
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-+ #include <unistd.h>
-++#include <fcntl.h>
-+ #include <dirent.h>
-+ #include <ftw.h>
-+ #include "misc.h"
-+ #include "sequence.h"
-+ #include "do_set.h"
-+ #include "parse.h"
-+-#include "old_walk_tree.h"
-++#include "walk_tree.h"
-+ 
-+ 
-+ extern const char *progname;
-+@@ -124,7 +125,7 @@ clone_entry(
-+ void
-+ print_test(
-+ 	FILE *file,
-+-	const char *path_p,
-++	const char *fullname,
-+ 	const struct stat *st,
-+ 	const acl_t acl,
-+ 	const acl_t default_acl)
-+@@ -134,7 +135,7 @@ print_test(
-+ 	acl_text = acl_to_any_text(acl, NULL, ',', TEXT_ABBREVIATE);
-+ 	default_acl_text =
-+ 		acl_to_any_text(default_acl, "d:", ',', TEXT_ABBREVIATE);
-+-	fprintf(file, "%s: %s,%s\n", path_p,
-++	fprintf(file, "%s: %s,%s\n", fullname,
-+ 		acl_text ? acl_text : "*",
-+ 		default_acl_text ? default_acl_text : "*");
-+ 	acl_free(acl_text);
-+@@ -167,7 +168,9 @@ set_perm(
-+ 
-+ static int
-+ retrieve_acl(
-+-	const char *path_p,
-++	int dirfd,
-++	const char *pathname,
-++	int at_flags,
-+ 	acl_type_t type,
-+ 	const struct stat *st,
-+ 	acl_t *old_acl,
-+@@ -177,7 +180,7 @@ retrieve_acl(
-+ 		return 0;
-+ 	*acl = NULL;
-+ 	if (type == ACL_TYPE_ACCESS || S_ISDIR(st->st_mode)) {
-+-		*old_acl = acl_get_file(path_p, type);
-++		*old_acl = acl_get_file_at(dirfd, pathname, at_flags, type);
-+ 		if (*old_acl == NULL && (errno == ENOSYS || errno == ENOTSUP)) {
-+ 			if (type == ACL_TYPE_DEFAULT)
-+ 				*old_acl = acl_init(0);
-+@@ -251,18 +254,23 @@ remove_extended_entries(
-+ 
-+ 
-+ #define RETRIEVE_ACL(type) do { \
-+-	error = retrieve_acl(path_p, type, st, old_xacl, xacl); \
-++	error = retrieve_acl(dirfd, pathname, at_flags, type, &st, \
-++			     old_xacl, xacl); \
-+ 	if (error) \
-+ 		goto fail; \
-+ 	} while(0)
-+ 
-+ int
-+ do_set(
-+-	const char *path_p,
-+-	const struct stat *st,
-+-	int walk_flags,
-++	int dirfd,
-++	const char *dirname,
-++	const char *pathname,
-++	unsigned char dirtype,
-++	enum walk_flags walk_flags,
-+ 	void *arg)
-+ {
-++	static char *__fullname;
-++	const char *fullname;
-+ 	struct do_set_args *args = arg;
-+ 	acl_t old_acl = NULL, old_default_acl = NULL;
-+ 	acl_t acl = NULL, default_acl = NULL;
-+@@ -274,9 +282,23 @@ do_set(
-+ 	char *acl_text;
-+ 	int acl_modified = 0, default_acl_modified = 0;
-+ 	int acl_mask_provided = 0, default_acl_mask_provided = 0;
-++	struct stat st;
-++	int at_flags;
-++
-++	if (*dirname) {
-++		free(__fullname);
-++		__fullname = NULL;
-++		if (asprintf(&__fullname, "%s%s", dirname, pathname) == -1) {
-++			fprintf(stderr, "%s: %s", progname, strerror(errno));
-++			return 1;
-++		}
-++		fullname = __fullname;
-++	} else
-++		fullname = pathname;
-+ 
-+ 	if (walk_flags & WALK_TREE_FAILED) {
-+-		fprintf(stderr, "%s: %s: %s\n", progname, path_p, strerror(errno));
-++		fprintf(stderr, "%s: %s: %s\n", progname, fullname,
-++			strerror(errno));
-+ 		return 1;
-+ 	}
-+ 
-+@@ -285,11 +307,23 @@ do_set(
-+ 	 * skip symlinks altogether, and when doing a half-logical walk, we
-+ 	 * skip all non-toplevel symlinks. 
-+ 	 */
-+-	if ((walk_flags & WALK_TREE_SYMLINK) &&
-+-	    ((walk_flags & WALK_TREE_PHYSICAL) ||
-+-	     !(walk_flags & (WALK_TREE_TOPLEVEL | WALK_TREE_LOGICAL))))
-++
-++	at_flags = AT_SYMLINK_NOFOLLOW;
-++	if ((walk_flags & WALK_TREE_LOGICAL) ||
-++	    ((walk_flags & WALK_TREE_TOPLEVEL) &&
-++	     !(walk_flags & WALK_TREE_PHYSICAL)))
-++		at_flags = 0;
-++
-++	if (dirtype == DT_LNK && (at_flags & AT_SYMLINK_NOFOLLOW))
-+ 		return 0;
-+ 
-++	if (fstatat(dirfd, pathname, &st, at_flags) != 0)
-++		goto fail;
-++	if (S_ISLNK(st.st_mode)) {
-++		errno = ELOOP;
-++		goto fail;
-++	}
-++
-+ 	/* Execute the commands in seq (read ACLs on demand) */
-+ 	error = seq_get_cmd(args->seq, SEQ_FIRST_CMD, &cmd);
-+ 	if (error == 0)
-+@@ -316,7 +350,7 @@ do_set(
-+ 		/* Check for `X', and replace with `x' as appropriate. */
-+ 		if (perm & CMD_PERM_COND_EXECUTE) {
-+ 			perm &= ~CMD_PERM_COND_EXECUTE;
-+-			if (S_ISDIR(st->st_mode) || has_execute_perms(*xacl))
-++			if (S_ISDIR(st.st_mode) || has_execute_perms(*xacl))
-+ 				perm |= CMD_PERM_EXECUTE;
-+ 		}
-+ 
-+@@ -407,8 +441,9 @@ do_set(
-+ 		if (error > 0) {
-+ 			acl_text = acl_to_any_text(acl, NULL, ',', 0);
-+ 			fprintf(stderr, _("%s: %s: Malformed access ACL "
-+-				"`%s': %s at entry %d\n"), progname, path_p,
-+-				acl_text, acl_error(error), which_entry+1);
-++				"`%s': %s at entry %d\n"), progname,
-++				fullname, acl_text, acl_error(error),
-++				which_entry+1);
-+ 			acl_free(acl_text);
-+ 			errors++;
-+ 			goto cleanup;
-+@@ -435,7 +470,7 @@ do_set(
-+ 			acl_text = acl_to_any_text(default_acl, NULL, ',', 0);
-+ 			fprintf(stderr, _("%s: %s: Malformed default ACL "
-+ 			                  "`%s': %s at entry %d\n"),
-+-				progname, path_p, acl_text,
-++				progname, fullname, acl_text,
-+ 				acl_error(error), which_entry+1);
-+ 			acl_free(acl_text);
-+ 			errors++;
-+@@ -444,7 +479,7 @@ do_set(
-+ 	}
-+ 
-+ 	/* Only directories can have default ACLs */
-+-	if (default_acl && !S_ISDIR(st->st_mode) && (walk_flags & WALK_TREE_RECURSIVE)) {
-++	if (default_acl && !S_ISDIR(st.st_mode) && (walk_flags & WALK_TREE_RECURSIVE)) {
-+ 		/* In recursive mode, ignore default ACLs for files */
-+ 		acl_free(default_acl);
-+ 		default_acl = NULL;
-+@@ -463,7 +498,7 @@ do_set(
-+ 
-+ 	/* update the file system */
-+ 	if (opt_test) {
-+-		print_test(stdout, path_p, st,
-++		print_test(stdout, fullname, &st,
-+ 		           acl, default_acl);
-+ 		goto cleanup;
-+ 	}
-+@@ -473,17 +508,15 @@ do_set(
-+ 
-+ 		equiv_mode = acl_equiv_mode(acl, &mode);
-+ 
-+-		if (acl_set_file(path_p, ACL_TYPE_ACCESS, acl) != 0) {
-++		if (acl_set_file_at(dirfd, pathname, at_flags, ACL_TYPE_ACCESS,
-++				    acl) != 0) {
-+ 			if (errno == ENOSYS || errno == ENOTSUP) {
-+ 				if (equiv_mode != 0)
-+ 					goto fail;
-+ 				else {
-+-					struct stat st;
-+-
-+-					if (stat(path_p, &st) != 0)
-+-						goto fail;
-+ 					mode |= st.st_mode & 07000;
-+-					if (chmod(path_p, mode) != 0)
-++					if (fchmodat(dirfd, pathname, mode,
-++						     at_flags) != 0)
-+ 						goto fail;
-+ 				}
-+ 			} else
-+@@ -492,21 +525,23 @@ do_set(
-+ 		args->mode = mode;
-+ 	}
-+ 	if (default_acl) {
-+-		if (S_ISDIR(st->st_mode)) {
-++		if (S_ISDIR(st.st_mode)) {
-+ 			if (acl_entries(default_acl) == 0) {
-+-				if (acl_delete_def_file(path_p) != 0 &&
-++				if (acl_delete_def_file_at(dirfd, pathname,
-++							   at_flags) != 0 &&
-+ 				    errno != ENOSYS && errno != ENOTSUP)
-+ 					goto fail;
-+ 			} else {
-+-				if (acl_set_file(path_p, ACL_TYPE_DEFAULT,
-+-						 default_acl) != 0)
-++				if (acl_set_file_at(dirfd, pathname, at_flags,
-++						    ACL_TYPE_DEFAULT,
-++						    default_acl) != 0)
-+ 					goto fail;
-+ 			}
-+ 		} else {
-+ 			if (acl_entries(default_acl) != 0) {
-+ 				fprintf(stderr, _("%s: %s: Only directories "
-+ 						"can have default ACLs\n"),
-+-					progname, path_p);
-++					progname, fullname);
-+ 				errors++;
-+ 				goto cleanup;
-+ 			}
-+@@ -527,7 +562,8 @@ cleanup:
-+ 	return errors;
-+ 	
-+ fail:
-+-	fprintf(stderr, "%s: %s: %s\n", progname, path_p, strerror(errno));
-++	fprintf(stderr, "%s: %s: %s\n", progname, fullname,
-++		strerror(errno));
-+ 	errors++;
-+ 	goto cleanup;
-+ }
-+diff --git a/tools/do_set.h b/tools/do_set.h
-+index 15566f3..460e369 100644
-+--- a/tools/do_set.h
-++++ b/tools/do_set.h
-+@@ -23,13 +23,14 @@
-+ #define __DO_SET_H
-+ 
-+ #include "sequence.h"
-++#include "walk_tree.h"
-+ 
-+ struct do_set_args {
-+ 	seq_t seq;
-+ 	mode_t mode;
-+ };
-+ 
-+-extern int do_set(const char *path_p, const struct stat *stat_p, int flags,
-+-		  void *arg);
-++extern int do_set(int dirfd, const char *dirname, const char *pathname,
-++		  unsigned char dirtype, enum walk_flags flags, void *arg);
-+ 
-+ #endif  /* __DO_SET_H */
-+diff --git a/tools/setfacl.c b/tools/setfacl.c
-+index cb05975..6c504a7 100644
-+--- a/tools/setfacl.c
-++++ b/tools/setfacl.c
-+@@ -24,6 +24,7 @@
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <unistd.h>
-++#include <fcntl.h>
-+ #include <errno.h>
-+ #include <sys/stat.h>
-+ #include <dirent.h>
-+@@ -33,7 +34,7 @@
-+ #include "sequence.h"
-+ #include "parse.h"
-+ #include "do_set.h"
-+-#include "old_walk_tree.h"
-++#include "walk_tree.h"
-+ 
-+ #define POSIXLY_CORRECT_STR "POSIXLY_CORRECT"
-+ 
-+@@ -74,7 +75,7 @@ static const struct option long_options[] = {
-+ const char *progname;
-+ const char *cmd_line_options, *cmd_line_spec;
-+ 
-+-int walk_flags = WALK_TREE_DEREFERENCE_TOPLEVEL;
-++enum walk_flags walk_flags = 0;
-+ int opt_recalculate;  /* recalculate mask entry (0=default, 1=yes, -1=no) */
-+ int opt_promote;  /* promote access ACL to default ACL */
-+ int opt_test;  /* do not write to the file system.
-+@@ -184,7 +185,7 @@ restore(
-+ 		}
-+ 
-+ 		args.mode = 0;
-+-		error = do_set(path_p, &st, 0, &args);
-++		error = do_set(AT_FDCWD, "", path_p, DT_UNKNOWN, WALK_TREE_PHYSICAL, &args);
-+ 		if (error != 0) {
-+ 			status = 1;
-+ 			goto resume;
-+@@ -310,14 +311,14 @@ int next_file(const char *arg, seq_t seq)
-+ 
-+ 	if (strcmp(arg, "-") == 0) {
-+ 		while ((line = __acl_next_line(stdin)))
-+-			errors = old_walk_tree(line, walk_flags, 0, do_set, &args);
-++			errors = walk_tree(line, walk_flags, do_set, &args);
-+ 		if (!feof(stdin)) {
-+ 			fprintf(stderr, _("%s: Standard input: %s\n"),
-+ 				progname, strerror(errno));
-+ 			errors = 1;
-+ 		}
-+ 	} else {
-+-		errors = old_walk_tree(arg, walk_flags, 0, do_set, &args);
-++		errors = walk_tree(arg, walk_flags, do_set, &args);
-+ 	}
-+ 	return errors ? 1 : 0;
-+ }
-+@@ -590,14 +591,13 @@ int main(int argc, char *argv[])
-+ 				break;
-+ 
-+ 			case 'L':  /* follow symlinks */
-+-				walk_flags |= WALK_TREE_LOGICAL | WALK_TREE_DEREFERENCE;
-++				walk_flags |= WALK_TREE_LOGICAL;
-+ 				walk_flags &= ~WALK_TREE_PHYSICAL;
-+ 				break;
-+ 
-+ 			case 'P':  /* do not follow symlinks */
-+ 				walk_flags |= WALK_TREE_PHYSICAL;
-+-				walk_flags &= ~(WALK_TREE_LOGICAL | WALK_TREE_DEREFERENCE |
-+-						WALK_TREE_DEREFERENCE_TOPLEVEL);
-++				walk_flags &= ~WALK_TREE_LOGICAL;
-+ 				break;
-+ 
-+ 			case 't':  /* test mode */
-+@@ -614,7 +614,7 @@ int main(int argc, char *argv[])
-+ 				status = 0;
-+ 				goto cleanup;
-+ 
-+-			case ':':  /* option missing */
-++			case ':':  /* argument missing */
-+ 			case '?':  /* unknown option */
-+ 			default:
-+ 				goto synopsis;
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch b/meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch
-new file mode 100644
-index 00000000000..3857d016ae5
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch
-@@ -0,0 +1,603 @@
-+From 8949b1ccf74caeef8f8d6134bebd0e2a98117ff0 Mon Sep 17 00:00:00 2001
-+From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Sat, 20 Jun 2026 19:35:48 +0200
-+Subject: [PATCH] harden setfacl --restore
-+
-+In setfacl --restore, use functions that support the AT_SYMLINK_NOFOLLOW flag
-+(stat() -> fstatat(), chown() -> fchownat(), chmod() -> fchmodat()).  Allow the
-+-P (--physical) option to be used together with --restore.
-+
-+In physical restore mode, use openat2(RESOLVE_NO_SYMLINKS) for resolving the
-+pathname components leading up to the last one, and use the AT_SYMLINK_NOFOLLOW
-+flag on the last pathname component.
-+
-+On systems where openat2() *is* available, warn when attempting a non-physical
-+restore as that can be dangerous.  The purpose of this warning is to cause
-+users to switch to physical restore mode over time.
-+
-+This warning can be disabled with the --disable-unsafe-restore-warnings
-+configure option.
-+
-+On systems where openat2() *is not* available, do not warn when attempting a
-+non-physical restore; this is to preserve the historic behavior when building
-+this package on older systems.  On those systems, a physical restore will fail
-+with ENOSYS ("Function not implemented").
-+
-+Fixes: CVE-2026-54370 ("acl < 2.4.0 TOCTOU Symlink Traversal via getfacl/setfacl")
-+
-+CVE: CVE-2026-54370
-+Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=54e14e9bc545f505b379d0792a2748d9baf88700]
-+
-+Backport Changes:
-+- Retain .test names used by the ACL 2.3.2 test harness.
-+- Include the upstream restore test absent from ACL 2.3.2.
-+- Name it restore-symlinks.test to avoid root ptest exclusions.
-+- Rebase restore logic onto ACL 2.3.2's existing implementation.
-+
-+Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+(cherry picked from commit 54e14e9bc545f505b379d0792a2748d9baf88700)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ configure.ac               |   9 ++
-+ man/man1/setfacl.1         |  16 +--
-+ test/Makemodule.am         |   9 +-
-+ test/restore-symlinks.test |  26 +++++
-+ test/root/restore.test     |   2 +-
-+ test/sbits-restore.test    |   2 +-
-+ test/utf8-filenames.test   |   2 +-
-+ tools/setfacl.c            | 211 +++++++++++++++++++++++++++++++------
-+ 8 files changed, 231 insertions(+), 46 deletions(-)
-+ create mode 100644 test/restore-symlinks.test
-+
-+diff --git a/configure.ac b/configure.ac
-+index c3353f6..3632345 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -48,6 +48,15 @@ AM_CONDITIONAL([HAVE_OPENAT2], [test "x$ac_cv_func_openat2" = xyes])
-+ AS_IF([test "x$use_openat2" = xyes],
-+       [AC_DEFINE([USE_OPENAT2], [1], [Define to use openat2 syscall])])
-+ 
-++AC_ARG_ENABLE([unsafe-restore-warnings],
-++	[AS_HELP_STRING([--disable-unsafe-restore-warnings], [Disable warnings about unsafe restore operations])])
-++if test "x$use_openat2" = xno; then
-++	enable_unsafe_restore_warnings=no
-++fi
-++AM_CONDITIONAL([UNSAFE_RESTORE_WARNINGS], [test "x$enable_unsafe_restore_warnings" != xno])
-++AS_IF([test "x$enable_unsafe_restore_warnings" != xno],
-++      [AC_DEFINE([UNSAFE_RESTORE_WARNINGS], [1], [Define to enable unsafe restore warnings])])
-++
-+ AC_CHECK_FUNCS(getxattrat setxattrat listxattrat removexattrat)
-+ AM_CONDITIONAL([NEED_XATTRAT],
-+ 	       [test "x$ac_cv_func_getxattrat" = xno -o \
-+diff --git a/man/man1/setfacl.1 b/man/man1/setfacl.1
-+index cc826df..c04eb3a 100644
-+--- a/man/man1/setfacl.1
-++++ b/man/man1/setfacl.1
-+@@ -30,7 +30,7 @@ setfacl \- set file access control lists
-+ [\-bkndRLPvh] [{\-m|\-x} acl_spec] [{\-M|\-X} acl_file] file ...
-+ 
-+ .B setfacl
-+-\-\-restore={file|-}
-++[\-P] \-\-restore={file|-}
-+ 
-+ .SH DESCRIPTION
-+ This utility sets Access Control Lists (ACLs) of files and directories.
-+@@ -113,25 +113,27 @@ of a complete directory subtree are restored using this mechanism. If the input
-+ contains owner comments or group comments, setfacl attempts to restore the
-+ owner and owning group. If the input contains flags comments (which define the setuid,
-+ setgid, and sticky bits), setfacl sets those three bits accordingly; otherwise,
-+-it clears them. This option cannot be mixed with other options except `\-\-test'.
-+-If the file specified is '\fB-\fP', then it will be read from standard input.
-++it clears them. This option cannot be combined with any other options except
-++`\-P' and `\-\-test'.  When combined with `\-P', setfacl will not follow
-++symlinks when resolving pathnames.  If the file specified is '\fB-\fP', then it
-++will be read from standard input.
-+ .TP 4
-+ .I \-\-test
-+ Test mode. Instead of changing the ACLs of any files, the resulting ACLs are listed.
-+ .TP 4
-+ .I \-R, \-\-recursive
-+-Apply operations to all files and directories recursively. This option cannot be mixed with `\-\-restore'.
-++Apply operations to all files and directories recursively. This option cannot
-++be combined with `\-\-restore'.
-+ .TP 4
-+ .I \-L, \-\-logical
-+ Logical walk, follow symbolic links to directories. The default behavior is to follow
-+ symbolic link arguments, and skip symbolic links encountered in subdirectories.
-+ Only effective in combination with \-R.
-+-This option cannot be mixed with `\-\-restore'.
-++This option cannot be combined with `\-\-restore'.
-+ .TP 4
-+ .I \-P, \-\-physical
-+ Physical walk, do not follow symbolic links to directories.
-+-Only effective in combination with \-R.
-+-This option cannot be mixed with `\-\-restore'.
-++Only effective in combination with \-R or \-\-restore.
-+ .TP 4
-+ .I \-v, \-\-version
-+ Print the version of setfacl and exit.
-+diff --git a/test/Makemodule.am b/test/Makemodule.am
-+index e1d715d..89497af 100644
-+--- a/test/Makemodule.am
-++++ b/test/Makemodule.am
-+@@ -8,15 +8,20 @@ TESTS = \
-+ 	test/getfacl-recursive.test \
-+ 	test/malformed-restore.test \
-+ 	test/misc.test \
-+-	test/sbits-restore.test \
-+ 	test/setfacl-X.test \
-+-	test/utf8-filenames.test \
-+ 	test/root/getfacl.test \
-+ 	test/root/permissions.test \
-+ 	test/root/restore.test \
-+ 	test/root/setfacl.test \
-+ 	$(XFAIL_TESTS)
-+ 
-++if UNSAFE_RESTORE_WARNINGS
-++TESTS += \
-++	test/restore-symlinks.test \
-++	test/sbits-restore.test \
-++	test/utf8-filenames.test
-++endif
-++
-+ EXTRA_DIST += \
-+ 	test/make-tree \
-+ 	test/malformed-restore-double-owner.acl \
-+diff --git a/test/restore-symlinks.test b/test/restore-symlinks.test
++diff --git a/man/man3/Makemodule.am b/man/man3/Makemodule.am
++index c0c4825..4d6d0e1 100644
++--- a/man/man3/Makemodule.am
+++++ b/man/man3/Makemodule.am
++@@ -9,6 +9,7 @@ dist_man_MANS += \
++ 	man/man3/acl_copy_int.3 \
++ 	man/man3/acl_create_entry.3 \
++ 	man/man3/acl_delete_def_file.3 \
+++	man/man3/acl_delete_def_file_at.3 \
++ 	man/man3/acl_delete_entry.3 \
++ 	man/man3/acl_delete_perm.3 \
++ 	man/man3/acl_dup.3 \
++@@ -17,6 +18,7 @@ dist_man_MANS += \
++ 	man/man3/acl_error.3 \
++ 	man/man3/acl_extended_fd.3 \
++ 	man/man3/acl_extended_file.3 \
+++	man/man3/acl_extended_file_at.3 \
++ 	man/man3/acl_extended_file_nofollow.3 \
++ 	man/man3/acl_free.3 \
++ 	man/man3/acl_from_mode.3 \
++@@ -24,6 +26,7 @@ dist_man_MANS += \
++ 	man/man3/acl_get_entry.3 \
++ 	man/man3/acl_get_fd.3 \
++ 	man/man3/acl_get_file.3 \
+++	man/man3/acl_get_file_at.3 \
++ 	man/man3/acl_get_perm.3 \
++ 	man/man3/acl_get_permset.3 \
++ 	man/man3/acl_get_qualifier.3 \
++@@ -31,6 +34,7 @@ dist_man_MANS += \
++ 	man/man3/acl_init.3 \
++ 	man/man3/acl_set_fd.3 \
++ 	man/man3/acl_set_file.3 \
+++	man/man3/acl_set_file_at.3 \
++ 	man/man3/acl_set_permset.3 \
++ 	man/man3/acl_set_qualifier.3 \
++ 	man/man3/acl_set_tag_type.3 \
++diff --git a/man/man3/acl_delete_def_file.3 b/man/man3/acl_delete_def_file.3
++index 8448666..059aa8f 100644
++--- a/man/man3/acl_delete_def_file.3
+++++ b/man/man3/acl_delete_def_file.3
++@@ -1,6 +1,6 @@
++ .\" Access Control Lists manual pages
++ .\"
++-.\" (C) 2002 Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++.\" (C) 2002-2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
++ .\"
++ .\" This is free documentation; you can redistribute it and/or
++ .\" modify it under the terms of the GNU General Public License as
++@@ -21,11 +21,12 @@
++ .\" License along with this manual.  If not, see
++ .\" <http://www.gnu.org/licenses/>.
++ .\"
++-.Dd March 23, 2002
+++.Dd June 5, 2026
++ .Dt ACL_DELETE_DEF_FILE 3
++ .Os "Linux ACL"
++ .Sh NAME
++-.Nm acl_delete_def_file
+++.Nm acl_delete_def_file ,
+++.Nm acl_delete_def_file_at
++ .Nd delete a default ACL by filename
++ .Sh LIBRARY
++ Linux Access Control Lists library (libacl, \-lacl).
++@@ -33,7 +34,15 @@ Linux Access Control Lists library (libacl, \-lacl).
++ .In sys/types.h
++ .In sys/acl.h
++ .Ft int
++-.Fn acl_delete_def_file "const char *path_p"
+++.Fo acl_delete_def_file
+++.Fa "const char *path_p"
+++.Fc
+++.Ft int
+++.Fo acl_delete_def_file_at
+++.Fa "int dirfd"
+++.Fa "const char *path_p"
+++.Fa "int at_flags"
+++.Fc
++ .Sh DESCRIPTION
++ The
++ .Fn acl_delete_def_file
++@@ -49,22 +58,108 @@ If the argument
++ is not a directory, then the function fails. It is no error if the directory whose pathname is pointed to by the argument
++ .Va path_p
++ does not have a default ACL.
+++.Ss Fn acl_delete_def_file_at
+++The
+++.Fn acl_delete_def_file_at
+++function operates in exactly the same way as
+++.Fn acl_delete_def_file ,
+++except for the differences described here.
+++.Pp
+++If the pathname given in
+++.Va path_p
+++is relative, then it is interpreted relative to the directory referred to by the file descriptor
+++.Va dirfd
+++(rather than relative to the current working directory of the calling process, as is done by
+++.Fn acl_delete_def_file ) .
+++.Pp
+++If
+++.Va path_p
+++is relative and
+++.Va dirfd
+++is the special value
+++.Dv AT_FDCWD ,
+++then
+++.Va path_p
+++is interpreted relative to the current working directory of the calling process (like
+++.Fn acl_delete_def_file ) .
+++.Pp
+++If
+++.Va path_p
+++is absolute, then
+++.Va dirfd
+++is ignored.
+++.Pp
+++The
+++.Va at_flags
+++argument can either be 0, or include one or more of the following flags ORed:
+++.Bl -tag
+++.It Dv AT_EMPTY_PATH
+++If
+++.Va path_p
+++is an empty string, operate on the file referred to by
+++.Va dirfd
+++(which may have been obtained using the
+++.Xr open 2
+++.Dv O_PATH
+++flag). In this case,
+++.Va dirfd
+++can refer to any type of file, not just a directory.
+++.It Dv AT_SYMLINK_NOFOLLOW
+++If
+++.Va path_p
+++refers to a symbolic link, do not dereference it: instead, fail the operation
+++and set the global variable
+++.Va errno
+++to
+++.Er ENOTSUP .
+++This indicates that the symbolic link cannot have ACLs.
+++.El
++ .Sh RETURN VALUE
++-.Rv -std acl_delete_def_file
+++.Rv -std acl_delete_def_file acl_delete_def_file_at
++ .Sh ERRORS
++ If any of the following conditions occur, the
++ .Fn acl_delete_def_file
++-function returns the value
+++and
+++.Fn acl_delete_def_file_at
+++functions return the value
++ .Li -1
++-and and sets
+++and set
++ .Va errno
++ to the corresponding value:
++ .Bl -tag -width Er
+++.It Bq Er EBADF
+++The argument
+++.Va path_p
+++is relative but the argument
+++.Va dirfd
+++is neither
+++.Dv AT_FDCWD
+++nor a valid file descriptor.
++ .It Bq Er EINVAL
++ The file referred to by
++ .Va path_p
++ is not a directory.
+++.Pp
+++An invalid flag was specified in the
+++.Va at_flags
+++argument.
+++.It Bq Er ENOTDIR
+++A component of the path prefix is not a directory.
+++.Pp
+++The argument
+++.Va path_p
+++is relative and the argument
+++.Va dirfd
+++is a file descriptor referring to a file other than a directory.
++ .It Bq Er ENOTSUP
+++The argument
+++.Va at_flags
+++includes the flag
+++.Dv AT_SYMLINK_NOFOLLOW
+++and
+++.Va path_p
+++is a symbolic link.
+++.Pp
++ The file system on which the file identified by
++ .Va path_p
++ is located does not support ACLs, or ACLs are disabled.
++@@ -75,6 +170,10 @@ This function requires modification of a file system which is currently read-onl
++ .El
++ .Sh STANDARDS
++ IEEE Std 1003.1e draft 17 (\(lqPOSIX.1e\(rq, abandoned)
+++.Pp
+++Function
+++.Fn acl_delete_def_file_at
+++is a Linux specific extension.
++ .Sh SEE ALSO
++ .Xr acl_get_file 3 ,
++ .Xr acl_set_file 3 ,
++diff --git a/man/man3/acl_delete_def_file_at.3 b/man/man3/acl_delete_def_file_at.3
 +new file mode 100644
-+index 0000000..9eb055e
++index 0000000..73411a2
 +--- /dev/null
-++++ b/test/restore-symlinks.test
-+@@ -0,0 +1,26 @@
-++        $ mkdir d
-++        $ touch d/f
-++        $ ln -s f d/l
-++        $ getfacl -RP d > physical
-++        $ getfacl -RL d > logical
-++
-++Restoring a physical backup should work:
-++
-++        $ setfacl --restore=physical --physical
-++
-++Restoring a backup non-physically should produce the following warning:
-++
-++        $ setfacl --restore=physical
-++	> Warning: option --restore=file is unsafe without option -P (--physical) as it traverses symbolic links in pathnames
-++
-++
-++Restoring a logical backup can fail:
-++
-++        $ setfacl --restore=logical --physical
-++        > setfacl: d/l: Too many levels of symbolic links
-++
-++Malformed restore file
-++
-++	$ echo "# owner: root" > dump
-++	$ setfacl --restore=dump 2>&1
-++	>setfacl: dump: No filename found in line 0, aborting
-+diff --git a/test/root/restore.test b/test/root/restore.test
-+index c85097c..504a525 100644
-+--- a/test/root/restore.test
-++++ b/test/root/restore.test
-+@@ -20,7 +20,7 @@ Cry immediately if we are not running as root.
-+ 	>
-+ 	$ chown bin passwd
-+ 	$ chmod u+s passwd
-+-	$ setfacl --restore passwd.acl
-++	$ setfacl --restore passwd.acl --physical
-+ 	$ ls -dl passwd | awk '{print $1 " " $3 " " $4}' | sed 's/\\.//g'
-+ 	> -rwsr-xr-x root root
-+ 
-+diff --git a/test/sbits-restore.test b/test/sbits-restore.test
-+index 5899b0a..3d048ea 100644
-+--- a/test/sbits-restore.test
-++++ b/test/sbits-restore.test
-+@@ -12,7 +12,7 @@ Ensure setting of SUID/SGID/sticky via --restore works
-+ 	$ mkdir d
-+ 	$ touch d/g
-+ 	$ touch d/u
-+-	$ setfacl --restore d.acl
-++	$ setfacl --restore=d.acl --physical
-+ 	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//g'
-+ 	> drwxr-xr-t
-+ 	$ ls -dl d/u | awk '{print $1}' | sed 's/\\.$//g'
-+diff --git a/test/utf8-filenames.test b/test/utf8-filenames.test
-+index dae0308..ad5b9dc 100644
-+--- a/test/utf8-filenames.test
-++++ b/test/utf8-filenames.test
-+@@ -9,6 +9,6 @@ NAME_MAX.
-+        $ mkdir -p $UPATH/$UPATH/$UPATH
-+        $ touch $UPATH/$UPATH/$UPATH/$UPATH
-+        $ getfacl $UPATH/$UPATH/$UPATH/$UPATH > utf8-filenames.acl
-+-       $ setfacl  --restore=utf8-filenames.acl
-++       $ setfacl  --restore=utf8-filenames.acl --physical
-+        $ rm -R $UPATH
-+        $ rm utf8-filenames.acl
-+diff --git a/tools/setfacl.c b/tools/setfacl.c
-+index 6c504a7..070cb73 100644
-+--- a/tools/setfacl.c
-++++ b/tools/setfacl.c
-+@@ -35,16 +35,19 @@
-+ #include "parse.h"
-+ #include "do_set.h"
-+ #include "walk_tree.h"
-++#include "openat2.h"
-++#include "fchmodat_compat.h"
-+ 
-+ #define POSIXLY_CORRECT_STR "POSIXLY_CORRECT"
-+ 
-+ /* '-' stands for `process non-option arguments in loop' */
-+ #if !POSIXLY_CORRECT
-+ #  define CMD_LINE_OPTIONS "-:bkndvhm:M:x:X:RLP"
-+-#  define CMD_LINE_SPEC "[-bkndRLP] { -m|-M|-x|-X ... } file ..."
-++#  define CMD_LINE_SPEC1 "[-bkndRLP] { -m|-M|-x|-X ... } file ..."
-++#  define CMD_LINE_SPEC2 "[-P] --restore=file"
-+ #endif
-+ #define POSIXLY_CMD_LINE_OPTIONS "-:bkndvhm:M:x:X:"
-+-#define POSIXLY_CMD_LINE_SPEC "[-bknd] {-m|-M|-x|-X ... } file ..."
-++#define POSIXLY_CMD_LINE_SPEC1 "[-bknd] {-m|-M|-x|-X ... } file ..."
-+ 
-+ static const struct option long_options[] = {
-+ #if !POSIXLY_CORRECT
-+@@ -117,7 +120,8 @@ has_any_of_type(
-+ int
-+ restore(
-+ 	FILE *file,
-+-	const char *filename)
-++	const char *filename,
-++	enum walk_flags walk_flags)
-+ {
-+ 	char *path_p;
-+ 	struct stat st;
-+@@ -128,6 +132,12 @@ restore(
-+ 	int lineno = 0, backup_line;
-+ 	int error, status = 0;
-+ 	int chmod_required = 0;
-++	int dirfd = -1;
-++	char *dirname = NULL, *pathname;
-++	int at_flags = (walk_flags & WALK_TREE_PHYSICAL) ? AT_SYMLINK_NOFOLLOW : 0;
-++#ifdef UNSAFE_RESTORE_WARNINGS
-++	static int non_physical_restore_warning;
-++#endif
-+ 
-+ 	memset(&st, 0, sizeof(st));
-+ 
-+@@ -177,15 +187,75 @@ restore(
-+ 			goto getout;
-+ 		}
-+ 
-+-		error = stat(path_p, &st);
-+-		if (opt_test && error != 0) {
-++#ifdef UNSAFE_RESTORE_WARNINGS
-++		if (!(walk_flags & WALK_TREE_PHYSICAL) &&
-++		    !non_physical_restore_warning) {
-++			fprintf(stderr,
-++				_("Warning: option --restore=file is unsafe "
-++				  "without option -P (--physical) as it "
-++				  "traverses symbolic links in pathnames\n"));
-++			non_physical_restore_warning = 1;
-++		}
-++#endif
-++
-++		/* find the last pathname component */
-++		pathname = path_p + strlen(path_p);
-++		while (pathname > path_p && pathname[-1] == '/')
-++			pathname--;
-++		while (pathname > path_p && pathname[-1] != '/')
-++			pathname--;
-++
-++		if ((walk_flags & WALK_TREE_PHYSICAL) && pathname != path_p) {
-++			dirname = malloc(pathname - path_p + 1);
-++			if (dirname == NULL) {
-++				fprintf(stderr, "%s: %s\n",
-++					progname, strerror(errno));
-++				status = 1;
-++				goto getout;
-++			}
-++			memcpy(dirname, path_p, pathname - path_p);
-++			dirname[pathname - path_p] = '\0';
-++#ifdef USE_OPENAT2
-++			struct open_how how = {
-++				.flags = O_PATH | O_DIRECTORY,
-++				.resolve = RESOLVE_NO_SYMLINKS,
-++			};
-++			dirfd = openat2(AT_FDCWD, dirname, &how, sizeof(how));
-++#else
-++			errno = ENOSYS;
-++			dirfd = -1;
-++#endif
-++			if (dirfd == -1) {
-++				fprintf(stderr,
-++					_("%s: lookup of directory %s without "
-++					  "following symlinks: %s\n"),
-++					progname,
-++					xquote(dirname, "\n\r"),
-++					strerror(errno));
-++				status = 1;
-++				goto resume;
-++			}
-++		} else {
-++			dirfd = AT_FDCWD;
-++			dirname = "";
-++			pathname = path_p;
-++		}
-++
-++		error = fstatat(dirfd, pathname, &st, at_flags);
-++		if (error == 0 && S_ISLNK(st.st_mode)) {
-++			errno = ELOOP;
-++			error = -1;
-++		}
-++		if (error != 0) {
-+ 			fprintf(stderr, "%s: %s: %s\n", progname,
-+ 				xquote(path_p, "\n\r"), strerror(errno));
-+ 			status = 1;
-++			goto resume;
-+ 		}
-+ 
-+ 		args.mode = 0;
-+-		error = do_set(AT_FDCWD, "", path_p, DT_UNKNOWN, WALK_TREE_PHYSICAL, &args);
-++		error = do_set(dirfd, dirname, pathname, DT_UNKNOWN,
-++			       walk_flags | WALK_TREE_TOPLEVEL, &args);
-+ 		if (error != 0) {
-+ 			status = 1;
-+ 			goto resume;
-+@@ -201,7 +271,8 @@ restore(
-+ 			st.st_gid = -1;
-+ 		if (!opt_test &&
-+ 		    (st.st_uid != -1 || st.st_gid != -1)) {
-+-			if (chown(path_p, st.st_uid, st.st_gid) != 0) {
-++			if (fchownat(dirfd, pathname, st.st_uid, st.st_gid,
-++				     at_flags) != 0) {
-+ 				fprintf(stderr, _("%s: %s: Cannot change "
-+ 					          "owner/group: %s\n"),
-+ 					progname, xquote(path_p, "\n\r"),
-+@@ -220,7 +291,8 @@ restore(
-+ 			if (!args.mode)
-+ 				args.mode = st.st_mode;
-+ 			args.mode &= (S_IRWXU | S_IRWXG | S_IRWXO);
-+-			if (chmod(path_p, flags | args.mode) != 0) {
-++			if (fchmodat(dirfd, pathname, flags | args.mode,
-++				     at_flags) != 0) {
-+ 				fprintf(stderr, _("%s: %s: Cannot change "
-+ 					          "mode: %s\n"),
-+ 					progname, xquote(path_p, "\n\r"),
-+@@ -229,6 +301,14 @@ restore(
-+ 			}
-+ 		}
-+ resume:
-++		if (dirfd != -1 && dirfd != AT_FDCWD) {
-++			close(dirfd);
-++			dirfd = -1;
-++		}
-++		if (dirname && *dirname) {
-++			free(dirname);
-++			dirname = NULL;
-++		}
-+ 		if (path_p) {
-+ 			free(path_p);
-+ 			path_p = NULL;
-+@@ -267,6 +347,12 @@ void help(void)
-+ 		progname, VERSION);
-+ 	printf(_("Usage: %s %s\n"),
-+ 		progname, cmd_line_spec);
-++#if !POSIXLY_CORRECT
-++	if (!posixly_correct) {
-++		printf("       %s %s\n",
-++		      progname, CMD_LINE_SPEC2);
-++	}
-++#endif
-+ 	printf(_(
-+ "  -m, --modify=acl        modify the current ACL(s) of file(s)\n"
-+ "  -M, --modify-file=file  read ACL entries to modify from file\n"
-+@@ -330,6 +416,9 @@ int next_file(const char *arg, seq_t seq)
-+ 
-+ int main(int argc, char *argv[])
-+ {
-++	enum { UNDEFINED_MODE, SET_MODE, RESTORE_MODE } mode = UNDEFINED_MODE;
-++	char **restore_args = NULL;
-++	int opt_restore_count = 0;
-+ 	int opt;
-+ 	int saw_files = 0;
-+ 	int status = 0, status2;
-+@@ -344,16 +433,16 @@ int main(int argc, char *argv[])
-+ 
-+ #if POSIXLY_CORRECT
-+ 	cmd_line_options = POSIXLY_CMD_LINE_OPTIONS;
-+-	cmd_line_spec = _(POSIXLY_CMD_LINE_SPEC);
-++	cmd_line_spec = POSIXLY_CMD_LINE_SPEC1;
-+ #else
-+ 	if (getenv(POSIXLY_CORRECT_STR))
-+ 		posixly_correct = 1;
-+ 	if (!posixly_correct) {
-+ 		cmd_line_options = CMD_LINE_OPTIONS;
-+-		cmd_line_spec = _(CMD_LINE_SPEC);
-++		cmd_line_spec = CMD_LINE_SPEC1;
-+ 	} else {
-+ 		cmd_line_options = POSIXLY_CMD_LINE_OPTIONS;
-+-		cmd_line_spec = _(POSIXLY_CMD_LINE_SPEC);
-++		cmd_line_spec = POSIXLY_CMD_LINE_SPEC1;
-+ 	}
-+ #endif
-+ 
-+@@ -383,6 +472,9 @@ int main(int argc, char *argv[])
-+ 
-+ 		switch (opt) {
-+ 			case 'b':  /* remove all extended entries */
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				if (seq_append_cmd(seq, CMD_REMOVE_EXTENDED_ACL,
-+ 				                        ACL_TYPE_ACCESS) ||
-+ 				    seq_append_cmd(seq, CMD_REMOVE_ACL,
-+@@ -391,20 +483,32 @@ int main(int argc, char *argv[])
-+ 				break;
-+ 
-+ 			case 'k':  /* remove default ACL */
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				if (seq_append_cmd(seq, CMD_REMOVE_ACL,
-+ 				                        ACL_TYPE_DEFAULT))
-+ 					ERRNO_ERROR(1);
-+ 				break;
-+ 
-+ 			case 'n':  /* do not recalculate mask */
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				opt_recalculate = -1;
-+ 				break;
-+ 
-+ 			case 'r':  /* force recalculate mask */
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				opt_recalculate = 1;
-+ 				break;
-+ 
-+ 			case 'd':  /*  operations apply to default ACL */
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				opt_promote = 1;
-+ 				break;
-+ 
-+@@ -440,6 +544,9 @@ int main(int argc, char *argv[])
-+ 				goto set_modify_delete;
-+ 
-+ 			set_modify_delete:
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				if (!posixly_correct)
-+ 					parse_mode |= SEQ_PARSE_DEFAULT;
-+ 				if (opt_promote)
-+@@ -498,6 +605,9 @@ int main(int argc, char *argv[])
-+ 				goto set_modify_delete_from_file;
-+ 
-+ 			set_modify_delete_from_file:
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				if (!posixly_correct)
-+ 					parse_mode |= SEQ_PARSE_DEFAULT;
-+ 				if (opt_promote)
-+@@ -551,6 +661,9 @@ int main(int argc, char *argv[])
-+ 
-+ 
-+ 			case '\1':  /* file argument */
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				if (seq_empty(seq))
-+ 					goto synopsis;
-+ 				saw_files = 1;
-+@@ -561,36 +674,31 @@ int main(int argc, char *argv[])
-+ 				break;
-+ 
-+ 			case 'B':  /* restore ACL backup */
-+-				saw_files = 1;
-+-
-+-				if (strcmp(optarg, "-") == 0)
-+-					file = stdin;
-+-				else {
-+-					file = fopen(optarg, "r");
-+-					if (file == NULL) {
-+-						fprintf(stderr, "%s: %s: %s\n",
-+-							progname,
-+-							xquote(optarg, "\n\r"),
-+-							strerror(errno));
-+-						status = 2;
-+-						goto cleanup;
-+-					}
-+-				}
-+-
-+-				status = restore(file,
-+-				               (file == stdin) ? NULL : optarg);
-+-
-+-				if (file != stdin)
-+-					fclose(file);
-+-				if (status != 0)
-++				if (mode == SET_MODE)
-++					goto synopsis;
-++				mode = RESTORE_MODE;
-++				opt_restore_count++;
-++				restore_args = realloc(restore_args,
-++					opt_restore_count * sizeof(*restore_args));
-++				if (!restore_args) {
-++					fprintf(stderr, "%s: %s\n", progname, strerror(errno));
-++					status = 1;
-+ 					goto cleanup;
-++				}
-++				restore_args[opt_restore_count - 1] = optarg;
-+ 				break;
-+ 
-+ 			case 'R':  /* recursive */
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				walk_flags |= WALK_TREE_RECURSIVE;
-+ 				break;
-+ 
-+ 			case 'L':  /* follow symlinks */
-++				if (mode == RESTORE_MODE)
-++					goto synopsis;
-++				mode = SET_MODE;
-+ 				walk_flags |= WALK_TREE_LOGICAL;
-+ 				walk_flags &= ~WALK_TREE_PHYSICAL;
-+ 				break;
-+@@ -636,7 +744,42 @@ int main(int argc, char *argv[])
-+ 				seq_delete_cmd(seq, seq_remove_default_acl_cmd);
-+ 		}
-+ 	}
-++
-++	if (mode == RESTORE_MODE) {
-++		if (walk_flags & WALK_TREE_LOGICAL)
-++			goto synopsis;
-++
-++		for (opt = 0; opt < opt_restore_count; opt++) {
-++			if (strcmp(restore_args[opt], "-") == 0)
-++				file = stdin;
-++			else {
-++				file = fopen(restore_args[opt], "r");
-++				if (file == NULL) {
-++					fprintf(stderr, "%s: %s: %s\n",
-++						progname,
-++						xquote(restore_args[opt], "\n\r"),
-++						strerror(errno));
-++					status = 2;
-++					goto cleanup;
-++				}
-++			}
-++
-++			status2 = restore(file,
-++			               (file == stdin) ? NULL : restore_args[opt],
-++			               walk_flags);
-++
-++			if (file != stdin)
-++				fclose(file);
-++			if (status == 0)
-++				status = status2;
-++		}
-++		free(restore_args);
-++	}
-++
-+ 	while (optind < argc) {
-++		if (mode == RESTORE_MODE)
-++			goto synopsis;
-++		mode = SET_MODE;
-+ 		if(!seq)
-+ 			goto synopsis;
-+ 		if (seq_empty(seq))
-+@@ -647,7 +790,7 @@ int main(int argc, char *argv[])
-+ 		if (status == 0)
-+ 			status = status2;
-+ 	}
-+-	if (!saw_files)
-++	if (mode == SET_MODE && !saw_files)
-+ 		goto synopsis;
-+ 
-+ 	goto cleanup;
+++++ b/man/man3/acl_delete_def_file_at.3
++@@ -0,0 +1 @@
+++.so man3/acl_delete_def_file.3
++diff --git a/man/man3/acl_extended_file.3 b/man/man3/acl_extended_file.3
++index c4e1354..3a659f7 100644
++--- a/man/man3/acl_extended_file.3
+++++ b/man/man3/acl_extended_file.3
++@@ -1,6 +1,6 @@
++ .\" Access Control Lists manual pages
++ .\"
++-.\" (C) 2002 Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++.\" (C) 2002-2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
++ .\"
++ .\" This is free documentation; you can redistribute it and/or
++ .\" modify it under the terms of the GNU General Public License as
++@@ -21,11 +21,13 @@
++ .\" License along with this manual.  If not, see
++ .\" <http://www.gnu.org/licenses/>.
++ .\"
++-.Dd March 23, 2002
+++.Dd June 5, 2026
++ .Dt ACL_EXTENDED_FILE 3
++ .Os "Linux ACL"
++ .Sh NAME
++-.Nm acl_extended_file, acl_extended_file_nofollow
+++.Nm acl_extended_file ,
+++.Nm acl_extended_file_at ,
+++.Nm acl_extended_file_nofollow
++ .Nd test for information in ACLs by file name
++ .Sh LIBRARY
++ Linux Access Control Lists library (libacl, \-lacl).
++@@ -33,9 +35,19 @@ Linux Access Control Lists library (libacl, \-lacl).
++ .In sys/types.h
++ .In acl/libacl.h
++ .Ft int
++-.Fn acl_extended_file "const char *path_p"
+++.Fo acl_extended_file
+++.Fa "const char *path_p"
+++.Fc
++ .Ft int
++-.Fn acl_extended_file_nofollow "const char *path_p"
+++.Fo acl_extended_file_at
+++.Fa "int dirfd"
+++.Fa "const char *path_p"
+++.Fa "int at_flags"
+++.Fc
+++.Ft int
+++.Fo acl_extended_file_nofollow
+++.Fa "const char *path_p"
+++.Fc
++ .Sh DESCRIPTION
++ The
++ .Fn acl_extended_file
++@@ -63,17 +75,77 @@ mechanisms, such as Mandatory Access Control schemes. The
++ .Xr access 2
++ system call can be used to check whether a given type of access to a file
++ object would be granted.
++-.Pp
++-.Fn acl_extended_file_nofollow
++-is identical to
+++.Ss Fn acl_extended_file_at
+++The
+++.Fn acl_extended_file_at
+++function operates in exactly the same way as
++ .Fn acl_extended_file ,
++-except in the case of a symbolic link, where the link itself is interrogated,
++-not the file that it refers to.  Since symbolic links have no ACL themselves,
++-the operation is supposed to fail on them.
++-.Sh RETURN VALUE
++-If successful, the
+++except for the differences described here.
+++.Pp
+++If the pathname given in
+++.Va path_p
+++is relative, then it is interpreted relative to the directory referred to by the file descriptor
+++.Va dirfd
+++(rather than relative to the current working directory of the calling process, as is done by
+++.Fn acl_extended_file ) .
+++.Pp
+++If
+++.Va path_p
+++is relative and
+++.Va dirfd
+++is the special value
+++.Dv AT_FDCWD ,
+++then
+++.Va path_p
+++is interpreted relative to the current working directory of the calling process (like
+++.Fn acl_extended_file ) .
+++.Pp
+++If
+++.Va path_p
+++is absolute, then
+++.Va dirfd
+++is ignored.
+++.Pp
+++The
+++.Va at_flags
+++argument can either be 0, or include one or more of the following flags ORed:
+++.Bl -tag
+++.It Dv AT_EMPTY_PATH
+++If
+++.Va path_p
+++is an empty string, operate on the file referred to by
+++.Va dirfd
+++(which may have been obtained using the
+++.Xr open 2
+++.Dv O_PATH
+++flag). In this case,
+++.Va dirfd
+++can refer to any type of file, not just a directory.
+++.It Dv AT_SYMLINK_NOFOLLOW
+++If
+++.Va path_p
+++refers to a symbolic link, do not dereference it: instead, fail the operation
+++and set the global variable
+++.Va errno
+++to
+++.Er ENOTSUP .
+++This indicates that the symbolic link cannot have ACLs.
+++.El
+++.Ss Fn acl_extended_nofollow
+++The
+++.Fn acl_extended_file_at
+++function operates in exactly the same way as
++ .Fn acl_extended_file
++-function returns
+++with a
+++.Va dirfd
+++value of
+++.Dv AT_FDCWD
+++and an
+++.Va at_flags
+++value of
+++.Dv AT_SYMLINK_NOFOLLOW .
+++.Sh RETURN VALUE
+++If successful, these functions return
++ .Li 1
++ if the file object referred to by
++ .Va path_p
++@@ -87,16 +159,26 @@ is returned and the global variable
++ .Va errno
++ is set to indicate the error.
++ .Sh ERRORS
++-If any of the following conditions occur, the
++-.Fn acl_extended_file
++-function returns
+++If any of the following conditions occur, these functions return
++ .Li -1
++-and sets
+++and set
++ .Va errno
++ to the corresponding value:
++ .Bl -tag -width Er
++ .It Bq Er EACCES
++ Search permission is denied for a component of the path prefix.
+++.It Bq Er EBADF
+++The argument
+++.Va path_p
+++is relative but the argument
+++.Va dirfd
+++is neither
+++.Dv AT_FDCWD
+++nor a valid file descriptor.
+++.It Bq Er EINVAL
+++An invalid flag was specified in the
+++.Va at_flags
+++argument.
++ .It Bq Er ENAMETOOLONG
++ The length of the argument
++ .Va path_p
++@@ -107,7 +189,21 @@ The named object does not exist or the argument
++ points to an empty string.
++ .It Bq Er ENOTDIR
++ A component of the path prefix is not a directory.
+++.Pp
+++The argument
+++.Va path_p
+++is relative and the argument
+++.Va dirfd
+++is a file descriptor referring to a file other than a directory.
++ .It Bq Er ENOTSUP
+++The argument
+++.Va at_flags
+++includes the flag
+++.Dv AT_SYMLINK_NOFOLLOW
+++and
+++.Va path_p
+++is a symbolic link.
+++.Pp
++ The file system on which the file identified by
++ .Va path_p
++ is located does not support ACLs, or ACLs are disabled.
++diff --git a/man/man3/acl_extended_file_at.3 b/man/man3/acl_extended_file_at.3
++new file mode 100644
++index 0000000..ff80220
++--- /dev/null
+++++ b/man/man3/acl_extended_file_at.3
++@@ -0,0 +1 @@
+++.so man3/acl_extended_file.3
++\ No newline at end of file
++diff --git a/man/man3/acl_get_file.3 b/man/man3/acl_get_file.3
++index f76c911..cd65c36 100644
++--- a/man/man3/acl_get_file.3
+++++ b/man/man3/acl_get_file.3
++@@ -1,6 +1,6 @@
++ .\" Access Control Lists manual pages
++ .\"
++-.\" (C) 2002 Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++.\" (C) 2002-2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
++ .\"
++ .\" This is free documentation; you can redistribute it and/or
++ .\" modify it under the terms of the GNU General Public License as
++@@ -21,11 +21,12 @@
++ .\" License along with this manual.  If not, see
++ .\" <http://www.gnu.org/licenses/>.
++ .\"
++-.Dd March 23, 2002
+++.Dd June 5, 2026
++ .Dt ACL_GET_FILE 3
++ .Os "Linux ACL"
++ .Sh NAME
++-.Nm acl_get_file
+++.Nm acl_get_file ,
+++.Nm acl_get_file_at
++ .Nd get an ACL by filename
++ .Sh LIBRARY
++ Linux Access Control Lists library (libacl, \-lacl).
++@@ -33,7 +34,17 @@ Linux Access Control Lists library (libacl, \-lacl).
++ .In sys/types.h
++ .In sys/acl.h
++ .Ft acl_t
++-.Fn acl_get_file "const char *path_p" "acl_type_t type"
+++.Fo acl_get_file
+++.Fa "const char *path_p"
+++.Fa "acl_type_t type"
+++.Fc
+++.Ft acl_t
+++.Fo acl_get_file_at
+++.Fa "int dirfd"
+++.Fa "const char *path_p"
+++.Fa "int at_flags"
+++.Fa "acl_type_t type"
+++.Fc
++ .Sh DESCRIPTION
++ The
++ .Fn acl_get_file
++@@ -52,15 +63,21 @@ is used to indicate whether the access ACL or the default ACL associated with
++ .Va path_p
++ is returned. If
++ .Va type
++-is ACL_TYPE_ACCESS, the access ACL of
+++is
+++.Dv ACL_TYPE_ACCESS ,
+++the access ACL of
++ .Va path_p
++ is returned. If
++ .Va type
++-is ACL_TYPE_DEFAULT, the default ACL of
+++is
+++.Dv ACL_TYPE_DEFAULT ,
+++the default ACL of
++ .Va path_p
++ is returned. If
++ .Va type
++-is ACL_TYPE_DEFAULT and no default ACL is associated with the directory
+++is
+++.Dv ACL_TYPE_DEFAULT
+++and no default ACL is associated with the directory
++ .Va path_p ,
++ then an ACL containing zero ACL entries is returned. If
++ .Va type
++@@ -76,8 +93,71 @@ with the
++ returned by
++ .Fn acl_get_file
++ as an argument.
+++.Ss Fn acl_get_file_at
+++The
+++.Fn acl_get_file_at
+++function operates in exactly the same way as
+++.Fn acl_get_file ,
+++except for the differences described here.
+++.Pp
+++If the pathname given in
+++.Va path_p
+++is relative, then it is interpreted relative to the directory referred to by the file descriptor
+++.Va dirfd
+++(rather than relative to the current working directory of the calling process, as is done by
+++.Fn acl_get_file ) .
+++.Pp
+++If
+++.Va path_p
+++is relative and
+++.Va dirfd
+++is the special value
+++.Dv AT_FDCWD ,
+++then
+++.Va path_p
+++is interpreted relative to the current working directory of the calling process (like
+++.Fn acl_get_file ) .
+++.Pp
+++If
+++.Va path_p
+++is absolute, then
+++.Va dirfd
+++is ignored.
+++.Pp
+++The
+++.Va at_flags
+++argument can either be 0, or include one or more of the following flags ORed:
+++.Bl -tag
+++.It Dv AT_EMPTY_PATH
+++If
+++.Va path_p
+++is an empty string, operate on the file referred to by
+++.Va dirfd
+++(which may have been obtained using the
+++.Xr open 2
+++.Dv O_PATH
+++flag). In this case,
+++.Va dirfd
+++can refer to any type of file, not just a directory, and the behavior of
+++.Fn acl_get_file_at
+++is similar to that of
+++.Fn acl_get_fd .
+++.It Dv AT_SYMLINK_NOFOLLOW
+++If
+++.Va path_p
+++refers to a symbolic link, do not dereference it: instead, fail the operation
+++and set the global variable
+++.Va errno
+++to
+++.Er ENOTSUP .
+++This indicates that the symbolic link cannot have ACLs.
+++.El
++ .Sh RETURN VALUE
++-On success, this function returns a pointer to the
+++On success, the
+++.Fn acl_get_file
+++and
+++.Fn acl_get_file_at
+++functions return a pointer to the
++ working storage.  On error, a value of
++ .Li (acl_t)NULL
++ is returned, and
++@@ -86,9 +166,11 @@ is set appropriately.
++ .Sh ERRORS
++ If any of the following conditions occur, the
++ .Fn acl_get_file
++-function returns a value of
+++and
+++.Fn acl_get_file_at
+++functions return a value of
++ .Li (acl_t)NULL
++-and sets
+++and set
++ .Va errno
++ to the corresponding value:
++ .Bl -tag -width Er
++@@ -100,10 +182,25 @@ Argument
++ .Va type
++ specifies a type of ACL that cannot be associated with
++ .Va path_p .
+++.It Bq Er EBADF
+++The argument
+++.Va path_p
+++is relative but the argument
+++.Va dirfd
+++is neither
+++.Dv AT_FDCWD
+++nor a valid file descriptor.
++ .It Bq Er EINVAL
++ The argument
++ .Va type
++-is not ACL_TYPE_ACCESS or ACL_TYPE_DEFAULT.
+++is not
+++.Dv ACL_TYPE_ACCESS
+++or
+++.Dv ACL_TYPE_DEFAULT .
+++.Pp
+++An invalid flag was specified in the
+++.Va at_flags
+++argument.
++ .It Bq Er ENAMETOOLONG
++ The length of the argument
++ .Va path_p
++@@ -116,13 +213,31 @@ points to an empty string.
++ The ACL working storage requires more memory than is allowed by the hardware or system-imposed memory management constraints.
++ .It Bq Er ENOTDIR
++ A component of the path prefix is not a directory.
+++.Pp
+++The argument
+++.Va path_p
+++is relative and the argument
+++.Va dirfd
+++is a file descriptor referring to a file other than a directory.
++ .It Bq Er ENOTSUP
+++The argument
+++.Va at_flags
+++includes the flag
+++.Dv AT_SYMLINK_NOFOLLOW
+++and
+++.Va path_p
+++is a symbolic link.
+++.Pp
++ The file system on which the file identified by
++ .Va path_p
++ is located does not support ACLs, or ACLs are disabled.
++ .El
++ .Sh STANDARDS
++ IEEE Std 1003.1e draft 17 (\(lqPOSIX.1e\(rq, abandoned)
+++.Pp
+++Function
+++.Fn acl_get_file_at
+++is a Linux specific extension.
++ .Sh SEE ALSO
++ .Xr acl_free 3 ,
++ .Xr acl_get_entry 3 ,
++diff --git a/man/man3/acl_get_file_at.3 b/man/man3/acl_get_file_at.3
++new file mode 100644
++index 0000000..76ca2b0
++--- /dev/null
+++++ b/man/man3/acl_get_file_at.3
++@@ -0,0 +1 @@
+++.so man3/acl_get_file.3
++diff --git a/man/man3/acl_set_file.3 b/man/man3/acl_set_file.3
++index 9ff96f1..c2b8b58 100644
++--- a/man/man3/acl_set_file.3
+++++ b/man/man3/acl_set_file.3
++@@ -1,6 +1,6 @@
++ .\" Access Control Lists manual pages
++ .\"
++-.\" (C) 2002 Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
+++.\" (C) 2002-2026 Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
++ .\"
++ .\" This is free documentation; you can redistribute it and/or
++ .\" modify it under the terms of the GNU General Public License as
++@@ -21,11 +21,12 @@
++ .\" License along with this manual.  If not, see
++ .\" <http://www.gnu.org/licenses/>.
++ .\"
++-.Dd March 23, 2002
+++.Dd June 5, 2026
++ .Dt ACL_SET_FILE 3
++ .Os "Linux ACL"
++ .Sh NAME
++-.Nm acl_set_file
+++.Nm acl_set_file ,
+++.Nm acl_set_file_at
++ .Nd set an ACL by filename
++ .Sh LIBRARY
++ Linux Access Control Lists library (libacl, \-lacl).
++@@ -33,7 +34,19 @@ Linux Access Control Lists library (libacl, \-lacl).
++ .In sys/types.h
++ .In sys/acl.h
++ .Ft int
++-.Fn acl_set_file "const char *path_p" "acl_type_t type" "acl_t acl"
+++.Fo acl_set_file
+++.Fa "const char *path_p"
+++.Fa "acl_type_t type"
+++.Fa "acl_t acl"
+++.Fc
+++.Ft int
+++.Fo acl_set_file_at
+++.Fa "int dirfd"
+++.Fa "const char *path_p"
+++.Fa "int at_flags"
+++.Fa "acl_type_t type"
+++.Fa "acl_t acl"
+++.Fc
++ .Sh DESCRIPTION
++ The
++ .Fn acl_set_file
++@@ -53,11 +66,15 @@ with
++ .Va path_p
++ is being set. If the
++ .Va type
++-parameter is ACL_TYPE_ACCESS, the access ACL of
+++parameter is
+++.Dv ACL_TYPE_ACCESS ,
+++the access ACL of
++ .Va path_p
++ shall be set. If the
++ .Va type
++-parameter is ACL_TYPE_DEFAULT, the default ACL of
+++parameter is
+++.Dv ACL_TYPE_DEFAULT ,
+++the default ACL of
++ .Va path_p
++ shall be set. If the argument
++ .Va type
++@@ -71,9 +88,13 @@ parameter must reference a valid ACL according to the rules described on the
++ .Xr acl_valid 3
++ manual page if the
++ .Va type
++-parameter is ACL_TYPE_ACCESS, and must either reference a valid ACL or an ACL with zero ACL entries if the
+++parameter is
+++.Dv ACL_TYPE_ACCESS ,
+++and must either reference a valid ACL or an ACL with zero ACL entries if the
++ .Va type
++-parameter is ACL_TYPE_DEFAULT. If the
+++parameter is
+++.Dv ACL_TYPE_DEFAULT .
+++If the
++ .Va acl
++ parameter references an empty ACL, then the
++ .Fn acl_set_file
++@@ -81,14 +102,75 @@ function removes any default ACL associated with the directory referred to
++ by the
++ .Va path_p
++ parameter.
+++.Ss Fn acl_set_file_at
+++The
+++.Fn acl_set_file_at
+++function operates in exactly the same way as
+++.Fn acl_set_file ,
+++except for the differences described here.
+++.Pp
+++If the pathname given in
+++.Va path_p
+++is relative, then it is interpreted relative to the directory referred to by the file descriptor
+++.Va dirfd
+++(rather than relative to the current working directory of the calling process, as is done by
+++.Fn acl_set_file ) .
+++.Pp
+++If
+++.Va path_p
+++is relative and
+++.Va dirfd
+++is the special value
+++.Dv AT_FDCWD ,
+++then
+++.Va path_p
+++is interpreted relative to the current working directory of the calling process (like
+++.Fn acl_set_file ) .
+++.Pp
+++If
+++.Va path_p
+++is absolute, then
+++.Va dirfd
+++is ignored.
+++.Pp
+++The
+++.Va at_flags
+++argument can either be 0, or include one or more of the following flags ORed:
+++.Bl -tag
+++.It Dv AT_EMPTY_PATH
+++If
+++.Va path_p
+++is an empty string, operate on the file referred to by
+++.Va dirfd
+++(which may have been obtained using the
+++.Xr open 2
+++.Dv O_PATH
+++flag). In this case,
+++.Va dirfd
+++can refer to any type of file, not just a directory, and the behavior of
+++.Fn acl_set_file_at
+++is similar to that of
+++.Fn acl_set_fd .
+++.It Dv AT_SYMLINK_NOFOLLOW
+++If
+++.Va path_p
+++refers to a symbolic link, do not dereference it: instead, fail the operation
+++and set the global variable
+++.Va errno
+++to
+++.Er ENOTSUP .
+++This indicates that the symbolic link cannot have ACLs.
+++.El
++ .Sh RETURN VALUE
++-.Rv -std acl_set_file
+++.Rv -std acl_set_file acl_set_file_at
++ .Sh ERRORS
++ If any of the following conditions occur, the
++ .Fn acl_set_file
++-function returns
+++and
+++.Fn acl_set_file_at
+++functions return
++ .Li -1
++-and sets
+++and set
++ .Va errno
++ to the corresponding value:
++ .Bl -tag -width Er
++@@ -100,6 +182,14 @@ Argument
++ .Va type
++ specifies a type of ACL that cannot be associated with
++ .Va path_p .
+++.It Bq Er EBADF
+++The argument
+++.Va path_p
+++is relative but the argument
+++.Va dirfd
+++is neither
+++.Dv AT_FDCWD
+++nor a valid file descriptor.
++ .It Bq Er EINVAL
++ The argument
++ .Va acl
++@@ -111,13 +201,22 @@ can obtain.
++ .Pp
++ The
++ .Va type
++-parameter is not ACL_TYPE_ACCESS or ACL_TYPE_DEFAULT.
+++parameter is not
+++.Dv ACL_TYPE_ACCESS
+++or
+++.Dv ACL_TYPE_DEFAULT .
++ .Pp
++ The
++ .Va type
++-parameter is ACL_TYPE_DEFAULT, but the file referred to by
+++parameter is
+++.Dv ACL_TYPE_DEFAULT ,
+++but the file referred to by
++ .Va path_p
++ is not a directory.
+++.Pp
+++An invalid flag was specified in the
+++.Va at_flags
+++argument.
++ .It Bq Er ENAMETOOLONG
++ The length of the argument
++ .Va path_p
++@@ -130,7 +229,21 @@ points to an empty string.
++ The directory or file system that would contain the new ACL cannot be extended or the file system is out of file allocation resources.
++ .It Bq Er ENOTDIR
++ A component of the path prefix is not a directory.
+++.Pp
+++The argument
+++.Va path_p
+++is relative and the argument
+++.Va dirfd
+++is a file descriptor referring to a file other than a directory.
++ .It Bq Er ENOTSUP
+++The argument
+++.Va at_flags
+++includes the flag
+++.Dv AT_SYMLINK_NOFOLLOW
+++and
+++.Va path_p
+++is a symbolic link.
+++.Pp
++ The file identified by
++ .Va path_p 
++ cannot be associated with the ACL because the file system on which the file
++@@ -149,12 +262,18 @@ when the
++ .Va acl
++ parameter refers to an empty ACL and the
++ .Va type
++-parameter is ACL_TYPE_DEFAULT is an extension in the Linux implementation, in order that all values returned by
+++parameter is
+++.Dv ACL_TYPE_DEFAULT
+++is an extension in the Linux implementation, in order that all values returned by
++ .Fn acl_get_file
++ can be passed to
++ .Fn acl_set_file .
++ The POSIX.1e function for removing a default ACL is
++ .Fn acl_delete_def_file .
+++.Pp
+++Function
+++.Fn acl_get_file_at
+++is a Linux specific extension.
++ .Sh SEE ALSO
++ .Xr acl_delete_def_file 3 ,
++ .Xr acl_get_file 3 ,
++diff --git a/man/man3/acl_set_file_at.3 b/man/man3/acl_set_file_at.3
++new file mode 100644
++index 0000000..acb33f9
++--- /dev/null
+++++ b/man/man3/acl_set_file_at.3
++@@ -0,0 +1 @@
+++.so man3/acl_set_file.3
++diff --git a/man/man5/acl.5 b/man/man5/acl.5
++index 396370b..b88c379 100644
++--- a/man/man5/acl.5
+++++ b/man/man5/acl.5
++@@ -21,7 +21,7 @@
++ .\" License along with this manual.  If not, see
++ .\" <http://www.gnu.org/licenses/>.
++ .\"
++-.Dd March 23, 2002
+++.Dd June 5, 2026
++ .Dt ACL 5
++ .Os "Linux ACL"
++ .Sh NAME
++@@ -462,7 +462,7 @@ For further details, see
++ .Ss POSIX 1003.1e FUNCTIONS BY AVAILABILITY
++ The first group of functions is supported on most systems with POSIX-like
++ access control lists, while the second group is supported on fewer systems.
++-For applications that will be ported the second group is best avoided.
+++For applications that will be ported, the second group is best avoided.
++ .Pp
++ .Xr acl_delete_def_file 3 ,
++ .Xr acl_dup 3 ,
++@@ -498,14 +498,18 @@ These non-portable extensions are available on Linux systems.
++ .Pp
++ .Xr acl_check 3 ,
++ .Xr acl_cmp 3 ,
+++.Xr acl_delete_def_file_at 3 ,
++ .Xr acl_entries 3 ,
++ .Xr acl_equiv_mode 3 ,
++ .Xr acl_error 3 ,
++ .Xr acl_extended_fd 3 ,
++ .Xr acl_extended_file 3 ,
+++.Xr acl_extended_file_at 3 ,
++ .Xr acl_extended_file_nofollow 3 ,
++ .Xr acl_from_mode 3 ,
+++.Xr acl_get_file_at 3 ,
++ .Xr acl_get_perm 3 ,
+++.Xr acl_set_file_at 3 ,
++ .Xr acl_to_any_text 3
++ .Sh AUTHOR
++ Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
 +-- 
 +2.35.6
 +
-diff --git a/meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch b/meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch
+diff --git a/meta/recipes-support/attr/acl/CVE-2026-54369_p3.patch b/meta/recipes-support/attr/acl/CVE-2026-54369_p3.patch
 new file mode 100644
-index 00000000000..8e7ce671d1e
+index 00000000000..3fbc80bc0c7
 --- /dev/null
-+++ b/meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch
-@@ -0,0 +1,213 @@
-+From b1a2f75859542ccef4afe60647af42fd9572bd31 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/attr/acl/CVE-2026-54369_p3.patch
+@@ -0,0 +1,109 @@
++From 705f229b08f5bc3e7df4cda21ba7cf3aad103f37 Mon Sep 17 00:00:00 2001
 +From: Andreas Gruenbacher <agruenba@redhat.com>
-+Date: Mon, 8 Jun 2026 13:47:24 +0200
-+Subject: [PATCH] harden chacl
++Date: Wed, 17 Jun 2026 17:16:26 +0200
++Subject: [PATCH] man pages: Clarify symlink following behavior
 +
-+Harden chacl by making sure it doesn't follow any symbolic links other than
-+the ones specified on the command line.  This is done by resolving pathnames
-+relative to directory file descriptors and switching to symlink-safe functions
-+(acl_get_file() -> acl_get_file_at(), acl_set_file() -> acl_set_file_at(),
-+opendir() -> openat() + fdopendir()).
++In the acl_delete_def_file(), acl_extended_file(), acl_get_file(), and
++acl_set_file() manual pages, clarify that those functions follow symlinks;
++before this change, that wasn't very obvious.
 +
-+Fixes: CVE-2026-54370 ("acl < 2.4.0 TOCTOU Symlink Traversal via getfacl/setfacl")
-+
-+CVE: CVE-2026-54370
-+Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=601cc884a548ae9e9d246ae749e54b3272e4b1d7]
++CVE: CVE-2026-54369
++Upstream-Status: Backport [https://cgit.git.savannah.nongnu.org/cgit/acl.git/commit/?id=170dbd3beff9bd5bdab3f72db1a04bf282f6087c]
 +
 +Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-+(cherry picked from commit 601cc884a548ae9e9d246ae749e54b3272e4b1d7)
++(cherry picked from commit 170dbd3beff9bd5bdab3f72db1a04bf282f6087c)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ tools/chacl.c | 108 +++++++++++++++++++++++++++++++++++---------------
-+ 1 file changed, 77 insertions(+), 31 deletions(-)
++ man/man3/acl_delete_def_file.3 |  7 ++++++-
++ man/man3/acl_extended_file.3   |  7 ++++++-
++ man/man3/acl_get_file.3        | 10 +++++++++-
++ man/man3/acl_set_file.3        |  7 ++++++-
++ 4 files changed, 27 insertions(+), 4 deletions(-)
 +
-+diff --git a/tools/chacl.c b/tools/chacl.c
-+index 8fff875..3d57413 100644
-+--- a/tools/chacl.c
-++++ b/tools/chacl.c
-+@@ -21,6 +21,7 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+ #include <unistd.h>
-++#include <fcntl.h>
-+ #include <getopt.h>
-+ #include <libgen.h>
-+ #include <stdio.h>
-+@@ -34,8 +35,10 @@
-+ 
-+ static int acl_delete_file (const char * path, acl_type_t type);
-+ static int list_acl(char *file);
-+-static int set_acl(acl_t acl, acl_t dacl, const char *fname);
-+-static int walk_dir(acl_t acl, acl_t dacl, const char *fname);
-++static int set_acl(acl_t acl, acl_t dacl, int dirfd, const char *dname,
-++		   const char *fname, unsigned int depth);
-++static int walk_dir(acl_t acl, acl_t dacl, int dirfd, const char *dname,
-++		    const char *fname, unsigned int depth);
-+ 
-+ static char *program;
-+ static int rflag;
-+@@ -197,7 +200,7 @@ main(int argc, char *argv[])
-+ 
-+ 	/* place acls on files */
-+ 	for (; optind < argc; optind++)
-+-		failed += set_acl(acl, dacl, argv[optind]);
-++		failed += set_acl(acl, dacl, AT_FDCWD, "", argv[optind], 0);
-+ 
-+ 	if (acl)
-+ 		acl_free(acl);
-+@@ -221,7 +224,8 @@ acl_delete_file(const char *path, acl_type_t type)
-+ 		acl_entry_t entry;
-+ 		acl_tag_t tag;
-+ 
-+-		acl = acl_get_file(path, ACL_TYPE_ACCESS);
-++		acl = acl_get_file_at(AT_FDCWD, path, AT_SYMLINK_NOFOLLOW,
-++				      ACL_TYPE_ACCESS);
-+ 		if (!acl)
-+ 			return -1;
-+ 		error = acl_get_entry(acl, ACL_FIRST_ENTRY, &entry);
-+@@ -237,9 +241,12 @@ acl_delete_file(const char *path, acl_type_t type)
-+ 			error = acl_get_entry(acl, ACL_NEXT_ENTRY, &entry);
-+ 		}
-+ 		if (!error)
-+-			error = acl_set_file(path, ACL_TYPE_ACCESS, acl);
-++			error = acl_set_file_at(AT_FDCWD, path,
-++						AT_SYMLINK_NOFOLLOW,
-++						ACL_TYPE_ACCESS, acl);
-+ 	} else
-+-		error = acl_delete_def_file(path);
-++		error = acl_delete_def_file_at(AT_FDCWD, path,
-++					       AT_SYMLINK_NOFOLLOW);
-+ 	return(error);
-+ }
-+ 
-+@@ -292,63 +299,102 @@ list_acl(char *file)
-+ }
-+ 
-+ static int
-+-set_acl(acl_t acl, acl_t dacl, const char *fname)
-++set_acl(acl_t acl, acl_t dacl, int dirfd, const char *dname, const char *fname,
-++	unsigned int depth)
-+ {
-++	static char *aname;
-+ 	int failed = 0;
-+ 
-++	if (aname) {
-++		free(aname);
-++		aname = NULL;
-++	}
-++	if (asprintf(&aname, "%s%s", dname, fname) == -1) {
-++		fprintf(stderr, _("%s: malloc failed: %s\n"),
-++			program, strerror(errno));
-++		exit(1);
-++	}
-++
-+ 	if (rflag)
-+-		failed += walk_dir(acl, dacl, fname);
-++		failed += walk_dir(acl, dacl, dirfd, dname, fname, depth);
-+ 
-+ 	/* set regular acl */
-+-	if (acl && acl_set_file(fname, ACL_TYPE_ACCESS, acl) == -1) {
-+-		fprintf(stderr, _("%s: cannot set access acl on \"%s\": %s\n"),
-+-			program, fname, strerror(errno));
-+-		failed++;
-++	if (acl && acl_set_file_at(dirfd, fname, AT_SYMLINK_NOFOLLOW,
-++				   ACL_TYPE_ACCESS, acl) == -1) {
-++		int saved_errno = errno;
-++		struct stat st;
-++
-++		if (!depth || errno != ENOTSUP ||
-++		    fstatat(dirfd, fname, &st, AT_SYMLINK_NOFOLLOW) == -1 ||
-++		    !S_ISLNK(st.st_mode)) {
-++			fprintf(stderr, _("%s: cannot set access acl on \"%s\": %s\n"),
-++				program, aname, strerror(saved_errno));
-++			failed++;
-++		}
-+ 	}
-+ 	/* set default acl */
-+-	if (dacl && acl_set_file(fname, ACL_TYPE_DEFAULT, dacl) == -1) {
-+-		fprintf(stderr, _("%s: cannot set default acl on \"%s\": %s\n"),
-+-			program, fname, strerror(errno));
-+-		failed++;
-++	if (dacl && acl_set_file_at(dirfd, fname, AT_SYMLINK_NOFOLLOW,
-++				    ACL_TYPE_DEFAULT, dacl) == -1) {
-++		int saved_errno = errno;
-++		struct stat st;
-++
-++		if (!depth || errno != ENOTSUP ||
-++		    fstatat(dirfd, fname, &st, AT_SYMLINK_NOFOLLOW) == -1 ||
-++		    !S_ISLNK(st.st_mode)) {
-++			fprintf(stderr, _("%s: cannot set default acl on \"%s\": %s\n"),
-++				program, aname, strerror(saved_errno));
-++			failed++;
-++		}
-+ 	}
-+ 
-+ 	return(failed);
-+ }
-+ 
-+ static int
-+-walk_dir(acl_t acl, acl_t dacl, const char *fname)
-++walk_dir(acl_t acl, acl_t dacl, int dirfd, const char *dname, const char *fname,
-++	 unsigned int depth)
-+ {
-+ 	int failed = 0;
-+ 	DIR *dir;
-+ 	struct dirent *d;
-+-	char *name;
-++	char *dname2;
-++	int fd;
-++
-++	depth++;
-+ 
-+-	if ((dir = opendir(fname)) == NULL) {
-+-		if (errno != ENOTDIR) {
-+-			fprintf(stderr, _("%s: opendir failed: %s\n"),
-++	fd = openat(dirfd, fname, O_DIRECTORY | O_NOFOLLOW);
-++	if (fd == -1) {
-++		if (errno != ENOTDIR && errno != ELOOP) {
-++			fprintf(stderr, _("%s: openat failed: %s\n"),
-+ 				program, strerror(errno));
-+ 			return(1);
-+ 		}
-+ 		return(0);	/* got a file, not an error */
-+ 	}
-++	if ((dir = fdopendir(fd)) == NULL) {
-++		fprintf(stderr, _("%s: opendir failed: %s\n"),
-++			program, strerror(errno));
-++		return(1);
-++	}
-++
-++	dname2 = malloc(strlen(dname) + strlen(fname) + 2);
-++	if (dname2 == NULL) {
-++		fprintf(stderr, _("%s: malloc failed: %s\n"),
-++			program, strerror(errno));
-++		exit(1);
-++	}
-++	sprintf(dname2, "%s%s/", dname, fname);
-+ 
-+ 	while ((d = readdir(dir)) != NULL) {
-+ 		/* skip "." and ".." entries */
-+ 		if (strcmp(d->d_name, ".") == 0 || strcmp(d->d_name, "..") == 0)
-+ 			continue;
-+ 		
-+-		name = malloc(strlen(fname) + strlen(d->d_name) + 2);
-+-		if (name == NULL) {
-+-			fprintf(stderr, _("%s: malloc failed: %s\n"),
-+-				program, strerror(errno));
-+-			exit(1);
-+-		}
-+-		sprintf(name, "%s/%s", fname, d->d_name);
-+-
-+-		failed += set_acl(acl, dacl, name);
-+-		free(name);
-++		failed += set_acl(acl, dacl, fd, dname2, d->d_name, depth);
-+ 	}
-+ 	closedir(dir);
-+ 
-++	free(dname2);
-++
-+ 	return(failed);
-+ }
++diff --git a/man/man3/acl_delete_def_file.3 b/man/man3/acl_delete_def_file.3
++index 059aa8f..0bb48d0 100644
++--- a/man/man3/acl_delete_def_file.3
+++++ b/man/man3/acl_delete_def_file.3
++@@ -46,8 +46,13 @@ Linux Access Control Lists library (libacl, \-lacl).
++ .Sh DESCRIPTION
++ The
++ .Fn acl_delete_def_file
++-function deletes a default ACL from the directory whose pathname is pointed to by the argument
+++function deletes a default ACL from the directory whose pathname is given in
++ .Va path_p .
+++If
+++.Va path_p
+++is a symbolic link,
+++.Fn acl_delete_def_file
+++operates on the directory the link refers to.
++ .Pp
++ The effective user ID of the process must match the owner of the file or
++ directory or the process must have the CAP_FOWNER capability for the
++diff --git a/man/man3/acl_extended_file.3 b/man/man3/acl_extended_file.3
++index 3a659f7..b3b3dbc 100644
++--- a/man/man3/acl_extended_file.3
+++++ b/man/man3/acl_extended_file.3
++@@ -53,13 +53,18 @@ The
++ .Fn acl_extended_file
++ function returns
++ .Li 1
++-if the file or directory referred to by the argument
+++if the file or directory whose pathname is given in
++ .Va path_p
++ is associated with an extended access ACL, or if the directory referred to by
++ .Va path_p
++ is associated with a default ACL. The function returns
++ .Li 0
++ if the file has neither an extended access ACL nor a default ACL.
+++If
+++.Va path_p
+++is a symbolic link,
+++.Fn acl_extended_file
+++returns information about the file or directory the link refers to.
++ .Pp
++ An extended ACL is an ACL that contains entries other than the three
++ required entries of tag types ACL_USER_OBJ, ACL_GROUP_OBJ and ACL_OTHER.
++diff --git a/man/man3/acl_get_file.3 b/man/man3/acl_get_file.3
++index cd65c36..15e561f 100644
++--- a/man/man3/acl_get_file.3
+++++ b/man/man3/acl_get_file.3
++@@ -48,8 +48,16 @@ Linux Access Control Lists library (libacl, \-lacl).
++ .Sh DESCRIPTION
++ The
++ .Fn acl_get_file
++-function retrieves the access ACL associated with a file or directory, or the default ACL associated with a directory. The pathname for the file or directory is pointed to by the argument
+++function retrieves the access ACL associated with a file or directory, or the
+++default ACL associated with a directory. The pathname for the file or directory
+++is given in the argument
++ .Va path_p .
+++If
+++.Va path_p
+++is a symbolic link,
+++.Fn acl_get_file
+++returns information about the file or directory the link refers to.
+++.Pp
++ The ACL is placed into working storage and
++ .Fn acl_get_file
++ returns a pointer to that storage.
++diff --git a/man/man3/acl_set_file.3 b/man/man3/acl_set_file.3
++index c2b8b58..05d7da4 100644
++--- a/man/man3/acl_set_file.3
+++++ b/man/man3/acl_set_file.3
++@@ -52,8 +52,13 @@ The
++ .Fn acl_set_file
++ function associates an access ACL with a file or directory, or
++ associates a default ACL with a directory. The pathname for the file or
++-directory is pointed to by the argument
+++directory is given in the argument
++ .Va path_p .
+++If
+++.Va path_p
+++is a symbolic link,
+++.Fn acl_set_file
+++operates on the file or directory the link refers to.
++ .Pp
++ The effective user ID of the process must match the owner of the file or
++ directory or the process must have the CAP_FOWNER capability for the
 +-- 
 +2.35.6
 +
 diff --git a/meta/recipes-support/attr/acl_2.3.2.bb b/meta/recipes-support/attr/acl_2.3.2.bb
-index 28c587a0e08..3e48e82c191 100644
+index a405cc2692e..28c587a0e08 100644
 --- a/meta/recipes-support/attr/acl_2.3.2.bb
 +++ b/meta/recipes-support/attr/acl_2.3.2.bb
-@@ -24,6 +24,14 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
-            file://CVE-2026-54369_p1.patch \
-            file://CVE-2026-54369_p2.patch \
-            file://CVE-2026-54369_p3.patch \
-+           file://CVE-2026-54370-dependent_p1.patch \
-+           file://CVE-2026-54370-dependent_p2.patch \
-+           file://CVE-2026-54370-dependent_p3.patch \
-+           file://CVE-2026-54370-dependent_p4.patch \
-+           file://CVE-2026-54370_p1.patch \
-+           file://CVE-2026-54370_p2.patch \
-+           file://CVE-2026-54370_p3.patch \
-+           file://CVE-2026-54370_p4.patch \
+@@ -18,6 +18,12 @@ DEPENDS = "attr"
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
+            file://0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch \
+            file://0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch \
++           file://CVE-2026-54369-dependent_p1.patch \
++           file://CVE-2026-54369-dependent_p2.patch \
++           file://CVE-2026-54369-dependent_p3.patch \
++           file://CVE-2026-54369_p1.patch \
++           file://CVE-2026-54369_p2.patch \
++           file://CVE-2026-54369_p3.patch \
             file://run-ptest \
             "
  SRC_URI[sha256sum] = "5f2bdbad629707aa7d85c623f994aa8a1d2dec55a73de5205bac0bf6058a2f7c"
