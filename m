@@ -1,318 +1,263 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6367.1793788685176849221
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6417.1793788908801517273
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 02:38:05 -0800
+ Wed, 04 Nov 2026 02:41:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=JhjlNFds;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-91c5e31bea9so8446096d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 02:38:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793788684; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YJOUEk8EEXGRW2mNXpP0Z+HtitmVw34F7pZ7L6+tZibrZKPaS27aatUzchMZAsqwko
-         NucoCMOYSec1O5sRqvH7O5fBqz7uouI5WMxMYb7JKf/BnyD0SUjOX8k9BMGy/keOGQ9T
-         RqZMO2OV7mHSKslQy0+CKtWH7BWf+oFiGN/8xdVQ6Ie4pcq8rpZfoy1YckE/0YbpuSAm
-         Ix/fIGvFczYFzMWdgwPR9J831eKnM1tIcKiqM2iHhRoqSgcQIJtZ2/cj88+5KFwIsnDH
-         ZYIc1ENU9P2JM5kTOzenz5Aopd4nQ7VD3L6frTiVnE1jVYPpyRcxQ1lCD16CjvVaXs1k
-         Z4jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9X0+LrwCc0IKtLmakosiZEMnXMcyXvRcF5/sNc0crUI=;
-        fh=IgcHwqBro0UH/+SvJ2ObDUbqNAllHg8gmoNqKfqQrdY=;
-        b=h3BXMYItXJsJjpFS5e0xPmKG2Pknq3HWBeicYXkzvG7aulmFHyq4L+zZQLlxlcwD7/
-         EETBg7xPKnYLT0B3LMQBxcR6LF7o128Q6rpDIxJIX8UBwrq2iThptc6Zx0wbtZi1pWXF
-         M+LyWRtCYpLYFSpGwtekObmwk5XAS2RBavwG5je5A9bK5eGU43gaqjimI/0jF71cwLTz
-         uX7AXHRfcW6ij6u/EPWnbgCpnOM3H17BTdthpgf1rvxAjzOZ5PIad+OHXiE4iAI8CtZE
-         3vKqfhjh3TtDCiQfatxziAyCn122LU9skn6ahxs9fcnb9/H8L4HUu5/l7ojOCMCePYT8
-         zWDg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793788684; x=1794393484; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9X0+LrwCc0IKtLmakosiZEMnXMcyXvRcF5/sNc0crUI=;
-        b=JhjlNFdsNzj4wR4eOl/lHb87A15W7E9DUZmwVpPtru0qxSZ/OIY1TmBAcEE2JPC17I
-         0YuUd98A6fGcBcFtHvcH+ysyPJoLRBgohEsjjE4yKf6wC3VyPXgR1DI9z5y/UeEQNXeL
-         viT72IW5xXe19lYximd3qE7udI/XUpOaixe5LIUcyBug2f5YWlQ3Koax6rgpMGP8yTCo
-         Yp0xWB8xny/Dl35qCu6YJ2E4Nc3XVQ4TfayBSw1XiDp6/65RGGFyEmBQ0kMzVv9IJ/Bz
-         RUC1YEbrBStLETeMMSNciwh35xwr05c/zTdrKHr0H3L+Qag1sVeuZqfSkeSOwrrhudoq
-         FGTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793788684; x=1794393484;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9X0+LrwCc0IKtLmakosiZEMnXMcyXvRcF5/sNc0crUI=;
-        b=A6D0ROZABHMJEUHgFS7sTqja80VhTVEbCT6ovm9MvAI6WrBz+ABodzAAej63j3ZMXA
-         AItYdd7yd7LREYONEm48cWrsUffuhDdN1efYbJpxLLtOrqlCEo7ecB0rAZuHVRsp3Col
-         h6NBOT6hDM1jOfwS/BdYB9oDns3Kd73YegnQHZfLThhrsOZM5FRTDdIHGWxCE18flAn+
-         fIcYHUb37eQ1v0AqX0xnF9uUDH3w5YZhmi1UdtZmbmeP4eCvrFxd8J+hR0t9hxuxrnBU
-         ANeRfPQvKudUjt8neC3j8HLChl0oJ8O/h+2mgl+3q4J8ihT7vLjxtm0UVenIo9oPLIQm
-         9B5Q==
-X-Gm-Message-State: APuU4Z/3nuWz9GKoh8z39tV2hEoyjtCClZWLq0TTy4ptxaiIDDM7ZNmR
-	NwJhW0OjmGxz9imReg1fH5LsH8spQLZr9xDussHxMYdWxPB2UDiCFO7XT2V2s85XO4FSNwywPja
-	Mrzc4okPIMD00gRI6Af0B2aanqHC2hZw=
-X-Gm-Gg: AYBFou0XJr/UEQNzanmkzb7REpvaChwcWhA8mMfZCxFX2tvqMEO0JfL+28iDPWLb09d
-	rGJ49byWyXcFgqMj5cXSwylxH0RU8L5G8USgCNdMkTQUKEX8iTE/OAj4v0WXKoSkSh5GDfFC7Ls
-	5xahZ72HjwJf+2qhOPEQldJqV1rToaM/z6STykQ+H4c8vVGt67UQeXDY3wzH8snjxlUpkHklv33
-	GcPLw15oprCsVlZ4pbvq0c5HEykeeVXGl5zrd6XQcT4Xd1642f5PWWXTK4RYX4Ha+bmP+If8+fd
-	fNs9w+DbWETBrHlL8/4VISixpP1xIDhZ4ztUIDgEUpezaQnP4GGIkOEVFlcUCnJjnlr4UBvBfR9
-	meYbh+EZnJTomIsV4p5zJhTpdvF4bdM1jFEpiPa1gTw3eiRlCm9KpmXyUQreYnACHDHKeN/A=
-X-Received: by 2002:a05:6214:c49:b0:91c:79eb:ea55 with SMTP id
- 6a1803df08f44-91ca4b7aa24mr268743016d6.28.1793788684029; Wed, 04 Nov 2026
- 02:38:04 -0800 (PST)
+ dkim=pass header.i=@nokia.com header.s=selector1 header.b=txU27JlY;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: nokia.com, ip: 52.101.70.43, mailfrom: jakub.szczudlo@nokia.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=baS1/RPDQmmkn2OQYTh/LUtdSnIQQvSwoHdmsIbdCTYxSVhHP+CuFrYeJWSJx4QGZjaRiSNOu/RUtSJtElverYm42UJwUEInPfntH5a20Q3jGPzQNZl4Fl+3/S9Q9trhq1y3Ko4vHa1DWeFLLy/HNtbRrUg4M6grcbHgztbRSqcx9gFxLufEeG9N5wF9YeVKQ6HGNuSMZVDHTR2O5uAkrnKJT4TFjUr/5dhFip4gjHEyvNSuzHTHImcvTwUX6WOmKFIe+bq0JYRBSla6uSB/39NWNqyV6+t8I52pLDLeOL3NNypC7EoBmyLmHJCJyX+0rL0bDUarz9j42o4a4ikFdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ykcDBRSt2FwS+u0YojyS/WV7XQRLg8u3c6DSjnXbawY=;
+ b=AeOun87lREEZGTICspz3tvNGHlP2cBiCgH68Y/QkxmgBC9pa2zo+Z3OSs1zxWRkW1gaRyYK+LhLVb6ARL6wuMpZd+LFLp+43LYUXavjRFkz/hVQ11PKhIPgnc8QJRZkIHvaD2Q+PkTYRYZVAofWf656moLqIPAz6DsCsdPXq+imJm3dZivXu1quxGQIoijCzA+zvZGB2S/Ho40o+98mtIplR2daZDjsn79p0KjVJbW2K5ras3zDl/o9A6eyr0J/ozgPm5tDybGI8BQf8u6xBt/4QOye+86ZeHSUpELUQr4taErktWyYrN5q5AlcjQEkw4aS1OsWSLaitD89/OCSKIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
+ dkim=pass header.d=nokia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ykcDBRSt2FwS+u0YojyS/WV7XQRLg8u3c6DSjnXbawY=;
+ b=txU27JlYbdITQ3AUNJXXoVpS/K9yvXmQRIhCIZ60Mtz7YM8Ga13OzahYkDKYCbMUiattybRi0vavO0BK2refn2pHYMD0uYSi5YhlQNeHusZ6NyGoj6MqYGB2GlmBlciUSJag33bOGawfFeIJDP+qYQPA8f8gmicraJpJ+fYY8UoC2fkAC0MZfaaWWqiZaVyrfuJa9hYDpkdWHQXZDAIa7pjzPXnFFO6KnTx6deLrDOvLmqIo8o2wguRQbSWttxmj8OWF0gSL254yjYKR8nlvyBBTkNr20TmduCe3BZGL1TtTkG3fGwF9TgdfNyiDoMD1Y8IPyRonY1irI7hPukqgdA==
+Received: from GV2PR07MB11919.eurprd07.prod.outlook.com
+ (2603:10a6:150:357::20) by AM9PR07MB7281.eurprd07.prod.outlook.com
+ (2603:10a6:20b:2c4::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.9; Wed, 4 Nov 2026
+ 10:41:44 +0000
+Received: from GV2PR07MB11919.eurprd07.prod.outlook.com
+ ([fe80::159a:9a82:1362:e680]) by GV2PR07MB11919.eurprd07.prod.outlook.com
+ ([fe80::159a:9a82:1362:e680%3]) with mapi id 15.21.0592.009; Wed, 4 Nov 2026
+ 10:41:43 +0000
+From: "Jakub Szczudlo (Nokia)" <jakub.szczudlo@nokia.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "yoann.congal@smile.fr" <yoann.congal@smile.fr>, "Jakub Szczudlo (Nokia)"
+	<jakub.szczudlo@nokia.com>
+Subject: [wrynose][PATCH] Backport patch to fix CVE-2026-12087.
+Thread-Topic: [wrynose][PATCH] Backport patch to fix CVE-2026-12087.
+Thread-Index: AQHdbEkV8nzaZpjoFE6C1fkWDi1/EQ==
+Date: Wed, 4 Nov 2026 10:41:43 +0000
+Message-ID: <20261104104137.2043865-1-jakub.szczudlo@nokia.com>
+Accept-Language: en-US, en-150
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nokia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV2PR07MB11919:EE_|AM9PR07MB7281:EE_
+x-ms-office365-filtering-correlation-id: 30474998-70a0-4d1c-b5c0-08df3a6037e9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|38070700021|260925022911599003|260925021911599003|260925021311599003|11063799006|56012099006|261021121427099003|261009223027099003|261021123027099003|261102123227099003|261026140227099003|261026121527099003|261028144727099003|261022105027099003|10067099003|12006099003|18002099003|6133799003|13003099007;
+x-microsoft-antispam-message-info: Me2hKmwSNujtvAyTr0/Ny5dTJcLOatjFatAqpl+gIpc7J+YWlhzGAzlPoQIurZT98DADHOJdxdW3/naY4ATsXQQ/BdMHTMp7WHF/Sql+s1DRDkg0x5DAgOyBD+MUpC5ppKJD5d83znwkKmW1DP8fBoqxOEhsKUSAnMSaFKrNl6hCYKVRWeEVXk/sHe00T6lWoeTemFkCuGG9SjVtbdJyepjEfvfZj9pq6dRxcT3oTkM7HlgvxpnzVppbX7czar3qKpl3adXUgDuBOR5OZdg2hYU+/L1yq4Bsisaq56cjgcLPbQXYqS19mXUflz7qRmyhXGNZYQF42fpqK1kAsOKGualS96Wy/9ANAIXaCX7H9NE9GTNZeUAHWUflLYyIHfh2VOn07Fggi5YeDqTt2/cT9b6ORXlZMtBukjEYZArQyIivChDE0+jLfErr8OGud2OO7NQd+JngTEqutMXvVF2YbXe+FRNZ8JgZbhXHQkNLGdGg7X/PuNNgfFYssbj8eHSc+UNxHPdWxx5V73+MUu6ZBlCU7j6tkrShVC+YzT3yDwqk7gmPD/aOGj0sXYpsyTCokm8lEGBhwhTWy17/9w265G3eZHS7N/Cv6GEiyPWY909V/nfDU+uZY5nJoIpU0sRqkOKTakEM4MdvL8WirkJVEYrB/oDKoolpy1aqfozMHIY=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR07MB11919.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(38070700021)(260925022911599003)(260925021911599003)(260925021311599003)(11063799006)(56012099006)(261021121427099003)(261009223027099003)(261021123027099003)(261102123227099003)(261026140227099003)(261026121527099003)(261028144727099003)(261022105027099003)(10067099003)(12006099003)(18002099003)(6133799003)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WHF5ZEtjMFlkSXRITm9sNUhqSy9ObXp3QzFyM0dWemdOMm9LZDVmRmF4Q0FC?=
+ =?utf-8?B?dXQrTS8rTk9VMVBVMGMvWmtvSTduaENYYzBNWW9jQTI3N0tJT254bktmaTJx?=
+ =?utf-8?B?alhrYjBZT3NIK2VXeXZpczk5WlRQbm4xL0QrTEFWdUZFWnd3dGthTGpCekxN?=
+ =?utf-8?B?STBCdG1CU1lsVjRSVnBLc1MzTUhoc0pCSnZ6bFZVYjNFK2VGdTU1VGVEalFJ?=
+ =?utf-8?B?L3Q0V3g3czN5U0hWMjF0L1llSWhzMFF4dXRXWXlQQjArUVBvZzhOVHhFTkpI?=
+ =?utf-8?B?TFZyZmJKSEtBMDNHT3NiMEJuc05FT0pNM1BsYWM5OFdLamhHTU5BZ1Q2U0w5?=
+ =?utf-8?B?OVpPUW1icHU2Y2p2NloxanJXcGJHdEx5Uys3WEMyTWNYRDd6OFRub0s3aE55?=
+ =?utf-8?B?c0FUYTBJWjEwS1Y4TStmL2FZM3FRRWlHR3NwRmJ0T2xibHRPR002a2lsc3ht?=
+ =?utf-8?B?UmZ6V045RDlqVnAreTlzMk13OTBncFhOby9weGZ3d3Q0bktNeVRUa29kZ1Ft?=
+ =?utf-8?B?YlIwVG9NNTlxNTlveC9KN1NaRXRDTy9PaURGVHpwUWxLMzFrV2ZIR2Y0ck5m?=
+ =?utf-8?B?d0FBeXJVZlh6ajI3cngwRHIvRWdXb0NBQ0M5MzNwMSt4MG1wWkFmazkxTFhy?=
+ =?utf-8?B?VkdDVVNhN1NkZy9wQnZ2R0xDZy81WFgyRUhFYVJ4VFVqSkk5dzdjY1hFOFlw?=
+ =?utf-8?B?TzF4RlZPaWJlWkdBZFA5UzljU0ptUUNHWjVOY01sb1NyZEtiaXBCMUMwUFlz?=
+ =?utf-8?B?ZHRsdTlqamFCYm42NWp1RHE0cEMwZmN1cVRRZlZ3SEhzM1RYWWdnSlc2SkxH?=
+ =?utf-8?B?Z0JLTmNrNWFlallzaFNqeWJJZG5ZRVZDRVd1elhURGlSVllNcktUNHpNaXQx?=
+ =?utf-8?B?T2dYbmVDUUNmSW5pQjRneEJJMlcvUU5Ba1JzU0E0WTQyUnlVdXlsYTE5OXE1?=
+ =?utf-8?B?azNRMmpjUVE4Y0piM1pJQnViaEtDSTlCVEdkOFZSaEF4WW5JOHBuR3dGK090?=
+ =?utf-8?B?RkVBMVlxcjAvV00wclZITDZIaTFuUVZQaVdyOG5NamhJMEc0b1NTbGlONlNZ?=
+ =?utf-8?B?cTNTTFFOZEV0TCtFMmVlVW9mWVFDWlZNRnFqc2cwSEFJNEdpZDVTNlNxUzRm?=
+ =?utf-8?B?ejJMZDBzeUpMNWI4YWNHd2NENWNzR2pQaG9QZStLVHVKenVNMTRKYStaaURx?=
+ =?utf-8?B?cVRRSTF6RGlSc2N2Wjd6akFaRU11cnEwbjEzd1ZrbE4zQ2kzUG4ybUZoSkM3?=
+ =?utf-8?B?ZnhMN0RjTTlvT2xmeXBKTTNpVVdZQTl3c2FiVWlIYXNEYnFoOGdMTVBCQjRM?=
+ =?utf-8?B?dEpxUHlRaGlVa09SaVpnY2xtaW9xYWhsKzN0S1pXcWJrbitvazlMY2ZTUkhy?=
+ =?utf-8?B?eUcwY0xuQklCU3Zmd29jMlFrVTJVMTM2aW9URHhCTFkxSlplQS95Y0NEYUdF?=
+ =?utf-8?B?ZDBOSzJrdGFDWGNFc2dDODAxZWY0VlNEbGF3SzBVd0VwTWVzcnZycVNSOVNJ?=
+ =?utf-8?B?MUdxMU9MMTduV0U0WDJXcytLTGJ6SENpTytKU0MrNGtFdGhDUmtzSXczNzNU?=
+ =?utf-8?B?V3lVeVltV3RJODJHQm13ZEZ5ZGJaOHo5ZWx4R2hZVzNZVTByOTdmdzBKWWZZ?=
+ =?utf-8?B?NENmdWtkMDF1aHpUcDEyQVpRQ3hzMmtJVWhwbUxCa0d0WEl2cytYRXBmZy9m?=
+ =?utf-8?B?N3k2VkxxRk1FblNPL3JMMXQ5c0xPSTRtMVVra3ROR0w3SlV2V0VRS1NTZTVZ?=
+ =?utf-8?B?Sm16WE9LRzkvRXFRU0RRQU12cnpvbXROMzFPZWVOREM1U3pmb1ZiQXZSWXFh?=
+ =?utf-8?B?bjh3OXk0cUYwajJaSmR6QnE2QVV0M040SUdVNXlVeXo0Z0RXVnNkakpZNU5t?=
+ =?utf-8?B?WVk1OHVPaTc1WGxNbjNnQUlDb3RIZG5zN1VKL3lnbDVCQWZFajlDTlBmdFdL?=
+ =?utf-8?B?MmE3akxYcXhaOXJqUXRoaWVmakZVSHJTeDVEQlIzMlhlQTJhWDVvY2U3RHlt?=
+ =?utf-8?B?cWNQQzNSSFV4ZzNQWWhPQUxvS0hDb1RXRTUySitkd3ZwTFE0L3RZcW9BSlUz?=
+ =?utf-8?B?c1RLelZOVm9UN2xUWEplOWtJdGxlVkxJRDBXbnBIbDV5VkJQemZ6bCtBbzVn?=
+ =?utf-8?B?eVE1dnp0Q0hURWxhcC9vQ0ZvbmQvVXJEU3FTemVWLzV4K3E2S1J2NWt1bGZT?=
+ =?utf-8?B?NzB1Q056QkwzMm1VVzg1bnRzdFl4TlNmVE9rbEZIOGNyVWt1K1YvbEZZRlZ1?=
+ =?utf-8?B?RDJCVW5aNmtWNkwvSmF1K3k0RDhzTkpyVC9hWHhKUVVZK0ovZlNEREpxSnNZ?=
+ =?utf-8?B?RTlDYnFoTHY5QS94bFJtTjlPdnJsalFNQVV5RWdEb1BOMW9sdmtVdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <18E449B471A74413.164306@lists.openembedded.org> <DS4PR02MB11190D3AA58D06C430BC4203687682@DS4PR02MB11190.namprd02.prod.outlook.com>
-In-Reply-To: <DS4PR02MB11190D3AA58D06C430BC4203687682@DS4PR02MB11190.namprd02.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Nov 2026 11:37:53 +0100
-X-Gm-Features: AclHuK8Qhdu6_JZQ_Ru9P3Pnld_PtwcrKt3f-R-FeeaXLkPlV6O2GnzZ8gnPwpo
-Message-ID: <CANNYZj9DcLwXLp3H49O_HZshYdiXiJ493Jh0Dvh_SRNzPA=_1Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] kernel-devsrc: drop unused scripts/mksysmap to
- avoid sed dependency
-To: Roshan Sivakumar <roshs@qti.qualcomm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	Sumanth Gavini <sumanth.gavini@windriver.com>
-Content-Type: multipart/alternative; boundary="00000000000050517e065f70f9e4"
+X-OriginatorOrg: nokia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR07MB11919.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30474998-70a0-4d1c-b5c0-08df3a6037e9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2026 10:41:43.8812
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VkB6A68zCa7GimcGmCJJ1OeudSc+E+CY/dYqbeCq7q7IzXa3cbNLpsYldsIGUlJZ5IPU7okFtIWY5FTvW81WrprDryJMaz3Ki/qs9kwypaU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR07MB7281
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 10:38:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249351
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 10:41:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249352
 
---00000000000050517e065f70f9e4
-Content-Type: text/plain; charset="UTF-8"
-
-Please do not ping people for review, especially less than 48 hours after
-the patch was posted. If no one has anything to say, they will not clutter
-the mailing list with 'lgtm'. The patch will move through the standard
-review process as usual (CI pipeline, patch review meetings), and you'll
-hear if something needs to be addressed, otherwise it will merge quietly.
-
-Alex
-
-On Wed, 4 Nov 2026 at 02:30, Roshan Sivakumar <roshs@qti.qualcomm.com>
-wrote:
-
-> Could someone review this patch? @Alexander <alex.kanavin@gmail.com>,
-> @Bruce <bruce.ashfield@gmail.com>, @Peter <peter.kjellerstedt@axis.com>
->
-> Thanks,
->
-> Roshan.
->
->
-> ------------------------------
-> *From:* Roshan Sivakumar via openembedded-core <roshs=
-> qti.qualcomm.com@lists.openembedded.org>
-> *Sent:* Monday, November 2, 2026 09:13
-> *To:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org>
-> *Cc:* Alexander Kanavin <alex.kanavin@gmail.com>; Peter Kjellerstedt <
-> peter.kjellerstedt@axis.com>; Sumanth Gavini <sumanth.gavini@windriver.com>;
-> Bruce Ashfield <bruce.ashfield@gmail.com>; Roshan Sivakumar <
-> roshs@qti.qualcomm.com>
-> *Subject:* [OE-core][PATCH] kernel-devsrc: drop unused scripts/mksysmap
-> to avoid sed dependency
->
-> WARNING: This email originated from outside of Qualcomm. Please be wary of
-> any links or attachments, and do not enable macros.
->
-> scripts/mksysmap is a '#!/bin/sed -f' script that is consumed only by
-> scripts/link-vmlinux.sh during a full vmlinux link (NM | sed -f mksysmap
-> > System.map). External module builds against kernel-devsrc never relink
-> vmlinux, so the script is never used in this package.
->
-> Because it is packaged with a '#!/bin/sed' shebang, the RPM 6 interpreter
-> dependency generator emits "Requires: /bin/sed" for kernel-devsrc. Only
-> full GNU sed provides /bin/sed (busybox provides /usr/bin/sed), so SDK
-> population fails with "nothing provides /bin/sed" on images using busybox
-> sed.
->
-> Remove the script in do_install, mirroring the existing removal of
-> scripts/package/debian/rules (dropped to avoid an RDEPENDS on make). This
-> clears the spurious /bin/sed dependency without pulling full sed into the
-> package or the SDK.
->
-> Assisted-by: Claude Code:claude-opus-4.8
-> Signed-off-by: Roshan Sivakumar <roshs@qti.qualcomm.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 90bdbfc534..7da7e270c3 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -158,6 +158,13 @@ do_install() {
->          # Remove as we else would ned to RDEPEND on make
->          rm $kerneldir/build/scripts/package/debian/rules 2>/dev/null || :
->
-> +        # scripts/mksysmap is a '#!/bin/sed -f' script that is only
-> consumed by
-> +        # scripts/link-vmlinux.sh during a full vmlinux link. External
-> module
-> +        # builds never relink vmlinux, so it is unused here. Remove it as
-> otherwise
-> +        # we would need to pull sed into the package/SDK to satisfy
-> +        # the dependency generated via the RPM shebang dependency
-> generator (Requires: /bin/sed).
-> +        rm $kerneldir/build/scripts/mksysmap 2>/dev/null || :
-> +
->          # tools/include is needed by the archscripts host tools that
->          # 'make scripts prepare' rebuilds on target (e.g. x86 vdso2c) and
->         # not checked against objtool as it previously was.
-> --
-> 2.34.1
->
->
-
---00000000000050517e065f70f9e4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Please do not ping people for review, especially less=
- than 48 hours after the patch was posted. If no one has anything to say, t=
-hey will not clutter the mailing list with &#39;lgtm&#39;. The patch will m=
-ove through the standard review process as usual (CI pipeline, patch review=
- meetings), and you&#39;ll hear if something needs to be addressed, otherwi=
-se it will merge quietly.</div><div><br></div><div>Alex</div></div><br><div=
- class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Wed, 4 Nov 2026 at 02:30, Roshan Sivakumar &lt;<a href=3D"mailto=
-:roshs@qti.qualcomm.com">roshs@qti.qualcomm.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D"msg-5574475297=
-050941096">
-
-
-
-
-<div dir=3D"ltr">
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-Could someone review this patch? <a id=3D"m_-5574475297050941096OWAAM965965=
-" href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">
-@Alexander</a>, <a id=3D"m_-5574475297050941096OWAAM949424" href=3D"mailto:=
-bruce.ashfield@gmail.com" target=3D"_blank">
-@Bruce</a>, <a id=3D"m_-5574475297050941096OWAAM888764" href=3D"mailto:pete=
-r.kjellerstedt@axis.com" target=3D"_blank">
-@Peter</a></div>
-<div id=3D"m_-5574475297050941096Signature">
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:11pt;color:rgb(0,0,0)">
-<br>
-</div>
-<p style=3D"margin:0in;font-family:Calibri,sans-serif;font-size:11pt">Thank=
-s,</p>
-<p style=3D"margin:0in;font-family:Calibri,sans-serif;font-size:11pt">Rosha=
-n.</p>
-<p style=3D"margin:0in;font-family:Calibri,sans-serif;font-size:11pt">=C2=
-=A0</p>
-</div>
-<div id=3D"m_-5574475297050941096appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%">
-<div id=3D"m_-5574475297050941096divRplyFwdMsg" dir=3D"ltr"><font face=3D"C=
-alibri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>From:</b>=
- Roshan Sivakumar via openembedded-core &lt;roshs=3D<a href=3D"mailto:qti.q=
-ualcomm.com@lists.openembedded.org" target=3D"_blank">qti.qualcomm.com@list=
-s.openembedded.org</a>&gt;<br>
-<b>Sent:</b> Monday, November 2, 2026 09:13<br>
-<b>To:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
-ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
-ded-core@lists.openembedded.org</a>&gt;<br>
-<b>Cc:</b> Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" =
-target=3D"_blank">alex.kanavin@gmail.com</a>&gt;; Peter Kjellerstedt &lt;<a=
- href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blank">peter.kjelle=
-rstedt@axis.com</a>&gt;; Sumanth Gavini &lt;<a href=3D"mailto:sumanth.gavin=
-i@windriver.com" target=3D"_blank">sumanth.gavini@windriver.com</a>&gt;; Br=
-uce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_bla=
-nk">bruce.ashfield@gmail.com</a>&gt;; Roshan Sivakumar &lt;<a href=3D"mailt=
-o:roshs@qti.qualcomm.com" target=3D"_blank">roshs@qti.qualcomm.com</a>&gt;<=
-br>
-<b>Subject:</b> [OE-core][PATCH] kernel-devsrc: drop unused scripts/mksysma=
-p to avoid sed dependency</font>
-<div>=C2=A0</div>
-</div>
-<div><font size=3D"2"><span style=3D"font-size:11pt">
-<div>WARNING: This email originated from outside of Qualcomm. Please be war=
-y of any links or attachments, and do not enable macros.<br>
-<br>
-scripts/mksysmap is a &#39;#!/bin/sed -f&#39; script that is consumed only =
-by<br>
-scripts/link-vmlinux.sh during a full vmlinux link (NM | sed -f mksysmap<br=
->
-&gt; System.map). External module builds against kernel-devsrc never relink=
-<br>
-vmlinux, so the script is never used in this package.<br>
-<br>
-Because it is packaged with a &#39;#!/bin/sed&#39; shebang, the RPM 6 inter=
-preter<br>
-dependency generator emits &quot;Requires: /bin/sed&quot; for kernel-devsrc=
-. Only<br>
-full GNU sed provides /bin/sed (busybox provides /usr/bin/sed), so SDK<br>
-population fails with &quot;nothing provides /bin/sed&quot; on images using=
- busybox<br>
-sed.<br>
-<br>
-Remove the script in do_install, mirroring the existing removal of<br>
-scripts/package/debian/rules (dropped to avoid an RDEPENDS on make). This<b=
-r>
-clears the spurious /bin/sed dependency without pulling full sed into the<b=
-r>
-package or the SDK.<br>
-<br>
-Assisted-by: Claude Code:claude-opus-4.8<br>
-Signed-off-by: Roshan Sivakumar &lt;<a href=3D"mailto:roshs@qti.qualcomm.co=
-m" target=3D"_blank">roshs@qti.qualcomm.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" target=
-=3D"_blank">kernel-devsrc.bb</a> | 7 +++++++<br>
-=C2=A01 file changed, 7 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" =
-target=3D"_blank">kernel-devsrc.bb</a> b/meta/recipes-kernel/linux/<a href=
-=3D"http://kernel-devsrc.bb" target=3D"_blank">kernel-devsrc.bb</a><br>
-index 90bdbfc534..7da7e270c3 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" target=
-=3D"_blank">kernel-devsrc.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" target=
-=3D"_blank">kernel-devsrc.bb</a><br>
-@@ -158,6 +158,13 @@ do_install() {<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Remove as we else would =
-ned to RDEPEND on make<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rm $kerneldir/build/script=
-s/package/debian/rules 2&gt;/dev/null || :<br>
-<br>
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # scripts/mksysmap is a &#39;#!=
-/bin/sed -f&#39; script that is only consumed by<br>
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # scripts/link-vmlinux.sh durin=
-g a full vmlinux link. External module<br>
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # builds never relink vmlinux, =
-so it is unused here. Remove it as otherwise<br>
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # we would need to pull sed int=
-o the package/SDK to satisfy<br>
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # the dependency generated via =
-the RPM shebang dependency generator (Requires: /bin/sed).<br>
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rm $kerneldir/build/scripts/mks=
-ysmap 2&gt;/dev/null || :<br>
-+<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # tools/include is needed =
-by the archscripts host tools that<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # &#39;make scripts prepar=
-e&#39; rebuilds on target (e.g. x86 vdso2c) and<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # not checked against objtool as=
- it previously was.<br>
---<br>
-2.34.1<br>
-<br>
-</div>
-</span></font></div>
-</div>
-
-</div></blockquote></div>
-
---00000000000050517e065f70f9e4--
+UmVmZXJlbmNlczoKICBodHRwczovL252ZC5uaXN0Lmdvdi92dWxuL2RldGFpbC9DVkUtMjAyNi0x
+MjA4NwoKVXBzdHJlYW0gZml4OgogIGh0dHBzOi8vZ2l0aHViLmNvbS9QZXJsL3Blcmw1L2NvbW1p
+dC9kZTE5YTBiMGFkMTkwMGZlZjk3NmM1YzE0MDBiZDhmMTFlYzZjNmNiCgpUZXN0ZWQgd2l0aCBw
+dGVzdAoKU2lnbmVkLW9mZi1ieTogSmFrdWIgU3pjenVkbG8gPGpha3ViLnN6Y3p1ZGxvQG5va2lh
+LmNvbT4KLS0tCiAuLi4vcGVybC9maWxlcy9DVkUtMjAyNi0xMjA4Ny5wYXRjaCAgICAgICAgICAg
+fCAxNjEgKysrKysrKysrKysrKysrKysrCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGVybC9wZXJs
+XzUuNDIuMC5iYiAgICAgfCAgIDEgKwogMiBmaWxlcyBjaGFuZ2VkLCAxNjIgaW5zZXJ0aW9ucygr
+KQogY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2ZpbGVzL0NW
+RS0yMDI2LTEyMDg3LnBhdGNoCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Bl
+cmwvZmlsZXMvQ1ZFLTIwMjYtMTIwODcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGVy
+bC9maWxlcy9DVkUtMjAyNi0xMjA4Ny5wYXRjaApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAw
+MDAwMDAwMDAwLi5kMzYyMTQ2ZTNhCi0tLSAvZGV2L251bGwKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3BlcmwvZmlsZXMvQ1ZFLTIwMjYtMTIwODcucGF0Y2gKQEAgLTAsMCArMSwxNjEgQEAK
+K0Zyb206IFBhdWwgTGVvTmVyZCBFdmFucyA8bGVvbmVyZEBsZW9uZXJkLm9yZy51az4KK0RhdGU6
+IE1vbiwgNCBNYXkgMjAyNiAxNjoxMjo0OSArMDEwMAorU3ViamVjdDogY3Bhbi9Tb2NrZXQgLSBV
+cGRhdGUgdG8gdmVyc2lvbiAyLjA0MQorCisyLjA0MSAgIDIwMjYtMDMtMjYKKyAgICAgICAgW0NI
+QU5HRVNdCisgICAgICAgICAqIE1vZGVybmlzZSBQb2QgZG9jdW1lbnRhdGlvbiBmb3JtYXR0aW5n
+CisKKyAgICAgICAgW0JVR0ZJWEVTXQorICAgICAgICAgKiBGaXggcmV1c2Ugb2YgYFNUUkxFTiBs
+ZW5gIHZhcmlhYmxlIGluIHBhY2tfaXBfbXJlcV9zb3VyY2UoKQorCitCYWNrcG9ydCBjaGFuZ2Vz
+OgorLSBBZGp1c3RlZCB0aGUgdXBzdHJlYW0gaHVua3MgdG8gbWF0Y2ggdGhlIHBlcmwgNS40MiBj
+b2RlIGxheW91dC4KKy0gRHJvcCBub3QgY29kZSBmaWxlcyBmcm9tIHRoZSBiYWNrcG9ydC4KKwor
+Q1ZFOiBDVkUtMjAyNi0xMjA4NworVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9n
+aXRodWIuY29tL1BlcmwvcGVybDUvY29tbWl0L2RlMTlhMGIwYWQxOTAwZmVmOTc2YzVjMTQwMGJk
+OGYxMWVjNmM2Y2JdCisKK1NpZ25lZC1vZmYtYnk6IEpha3ViIFN6Y3p1ZGxvIDxqYWt1Yi5zemN6
+dWRsb0Bub2tpYS5jb20+CistLS0KKyBjcGFuL1NvY2tldC9Tb2NrZXQueHMgfCA4NCArKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLQorIDEgZmlsZSBjaGFuZ2Vk
+LCA1NyBpbnNlcnRpb25zKCspLCAyNyBkZWxldGlvbnMoLSkKKworZGlmZiAtLWdpdCBhL2NwYW4v
+U29ja2V0L1NvY2tldC54cyBiL2NwYW4vU29ja2V0L1NvY2tldC54cworLS0tIGEvY3Bhbi9Tb2Nr
+ZXQvU29ja2V0LnhzCisrKysgYi9jcGFuL1NvY2tldC9Tb2NrZXQueHMKK0BAIC0xMjcyLDI2ICsx
+MjcyLDM1IEBACisgICAgICAgICBzdHJ1Y3QgaXBfbXJlcSBtcmVxOworICAgICAgICAgY2hhciAq
+IG11bHRpYWRkcmJ5dGVzOworICAgICAgICAgY2hhciAqIGludGVyZmFjZWJ5dGVzOworLSAgICAg
+ICAgU1RSTEVOIGxlbjsKKy0gICAgICAgIGlmIChET19VVEY4KG11bHRpYWRkcikgJiYgIXN2X3V0
+ZjhfZG93bmdyYWRlKG11bHRpYWRkciwgMSkpCistICAgICAgICAgICAgY3JvYWsoIldpZGUgY2hh
+cmFjdGVyIGluICVzIiwgIlNvY2tldDo6cGFja19pcF9tcmVxIik7CistICAgICAgICBtdWx0aWFk
+ZHJieXRlcyA9IFN2UFZieXRlKG11bHRpYWRkciwgbGVuKTsKKy0gICAgICAgIGlmIChsZW4gIT0g
+c2l6ZW9mKG1yZXEuaW1yX211bHRpYWRkcikpCistICAgICAgICAgICAgY3JvYWsoIkJhZCBhcmcg
+bGVuZ3RoICVzLCBsZW5ndGggaXMgJSIgVVZ1ZiAiLCBzaG91bGQgYmUgJSIgVVZ1ZiwKKy0gICAg
+ICAgICAgICAgICAgICAgICJTb2NrZXQ6OnBhY2tfaXBfbXJlcSIsIChVVilsZW4sIChVVilzaXpl
+b2YobXJlcS5pbXJfbXVsdGlhZGRyKSk7CisrCisrICAgICAgICB7CisrICAgICAgICAgICAgaWYg
+KERPX1VURjgobXVsdGlhZGRyKSAmJiAhc3ZfdXRmOF9kb3duZ3JhZGUobXVsdGlhZGRyLCAxKSkK
+KysgICAgICAgICAgICAgICAgY3JvYWsoIldpZGUgY2hhcmFjdGVyIGluICVzIiwgIlNvY2tldDo6
+cGFja19pcF9tcmVxIik7CisrCisrICAgICAgICAgICAgU1RSTEVOIGxlbjsKKysgICAgICAgICAg
+ICBtdWx0aWFkZHJieXRlcyA9IFN2UFZieXRlKG11bHRpYWRkciwgbGVuKTsKKysgICAgICAgICAg
+ICBpZiAobGVuICE9IHNpemVvZihtcmVxLmltcl9tdWx0aWFkZHIpKQorKyAgICAgICAgICAgICAg
+ICBjcm9haygiQmFkIGFyZyBsZW5ndGggJXMsIGxlbmd0aCBpcyAlIiBVVnVmICIsIHNob3VsZCBi
+ZSAlIiBVVnVmLAorKyAgICAgICAgICAgICAgICAgICAgICAgICJTb2NrZXQ6OnBhY2tfaXBfbXJl
+cSIsIChVVilsZW4sIChVVilzaXplb2YobXJlcS5pbXJfbXVsdGlhZGRyKSk7CisrICAgICAgICB9
+CisrCisgICAgICAgICBaZXJvKCZtcmVxLCBzaXplb2YobXJlcSksIGNoYXIpOworICAgICAgICAg
+Q29weShtdWx0aWFkZHJieXRlcywgJm1yZXEuaW1yX211bHRpYWRkciwgc2l6ZW9mKG1yZXEuaW1y
+X211bHRpYWRkciksIGNoYXIpOworICAgICAgICAgaWYoU3ZPSyhpbnRlcmZhY2UpKSB7CisgICAg
+ICAgICAgICAgaWYgKERPX1VURjgoaW50ZXJmYWNlKSAmJiAhc3ZfdXRmOF9kb3duZ3JhZGUoaW50
+ZXJmYWNlLCAxKSkKKyAgICAgICAgICAgICAgICAgY3JvYWsoIldpZGUgY2hhcmFjdGVyIGluICVz
+IiwgIlNvY2tldDo6cGFja19pcF9tcmVxIik7CisrCisrICAgICAgICAgICAgU1RSTEVOIGxlbjsK
+KyAgICAgICAgICAgICBpbnRlcmZhY2VieXRlcyA9IFN2UFZieXRlKGludGVyZmFjZSwgbGVuKTsK
+KyAgICAgICAgICAgICBpZiAobGVuICE9IHNpemVvZihtcmVxLmltcl9pbnRlcmZhY2UpKQorICAg
+ICAgICAgICAgICAgICBjcm9haygiQmFkIGFyZyBsZW5ndGggJXMsIGxlbmd0aCBpcyAlIiBVVnVm
+ICIsIHNob3VsZCBiZSAlIiBVVnVmLAorICAgICAgICAgICAgICAgICAgICAgICAgICJTb2NrZXQ6
+OnBhY2tfaXBfbXJlcSIsIChVVilsZW4sIChVVilzaXplb2YobXJlcS5pbXJfaW50ZXJmYWNlKSk7
+CisrCisgICAgICAgICAgICAgQ29weShpbnRlcmZhY2VieXRlcywgJm1yZXEuaW1yX2ludGVyZmFj
+ZSwgc2l6ZW9mKG1yZXEuaW1yX2ludGVyZmFjZSksIGNoYXIpOworICAgICAgICAgfQorICAgICAg
+ICAgZWxzZQorICAgICAgICAgICAgIG1yZXEuaW1yX2ludGVyZmFjZS5zX2FkZHIgPSBJTkFERFJf
+QU5ZOworKworICAgICAgICAgU1QoMCkgPSBzdl8ybW9ydGFsKG5ld1NWcHZuKChjaGFyICopJm1y
+ZXEsIHNpemVvZihtcmVxKSkpOworICNlbHNlCisgICAgICAgICBub3RfaGVyZSgicGFja19pcF9t
+cmVxIik7CitAQCAtMTMzMSwzMyArMTM0MCw0OCBAQAorICAgICAgICAgY2hhciAqIG11bHRpYWRk
+cmJ5dGVzOworICAgICAgICAgY2hhciAqIHNvdXJjZWJ5dGVzOworICAgICAgICAgY2hhciAqIGlu
+dGVyZmFjZWJ5dGVzOworLSAgICAgICAgU1RSTEVOIGxlbjsKKy0gICAgICAgIGlmIChET19VVEY4
+KG11bHRpYWRkcikgJiYgIXN2X3V0ZjhfZG93bmdyYWRlKG11bHRpYWRkciwgMSkpCistICAgICAg
+ICAgICAgY3JvYWsoIldpZGUgY2hhcmFjdGVyIGluICVzIiwgIlNvY2tldDo6cGFja19pcF9tcmVx
+X3NvdXJjZSIpOworLSAgICAgICAgbXVsdGlhZGRyYnl0ZXMgPSBTdlBWYnl0ZShtdWx0aWFkZHIs
+IGxlbik7CistICAgICAgICBpZiAobGVuICE9IHNpemVvZihtcmVxLmltcl9tdWx0aWFkZHIpKQor
+LSAgICAgICAgICAgIGNyb2FrKCJCYWQgYXJnIGxlbmd0aCAlcywgbGVuZ3RoIGlzICUiIFVWdWYg
+Iiwgc2hvdWxkIGJlICUiIFVWdWYsCistICAgICAgICAgICAgICAgICAgICAiU29ja2V0OjpwYWNr
+X2lwX21yZXEiLCAoVVYpbGVuLCAoVVYpc2l6ZW9mKG1yZXEuaW1yX211bHRpYWRkcikpOworLSAg
+ICAgICAgaWYgKERPX1VURjgoc291cmNlKSAmJiAhc3ZfdXRmOF9kb3duZ3JhZGUoc291cmNlLCAx
+KSkKKy0gICAgICAgICAgICBjcm9haygiV2lkZSBjaGFyYWN0ZXIgaW4gJXMiLCAiU29ja2V0Ojpw
+YWNrX2lwX21yZXFfc291cmNlIik7CistICAgICAgICBpZiAobGVuICE9IHNpemVvZihtcmVxLmlt
+cl9zb3VyY2VhZGRyKSkKKy0gICAgICAgICAgICBjcm9haygiQmFkIGFyZyBsZW5ndGggJXMsIGxl
+bmd0aCBpcyAlIiBVVnVmICIsIHNob3VsZCBiZSAlIiBVVnVmLAorLSAgICAgICAgICAgICAgICAg
+ICAgIlNvY2tldDo6cGFja19pcF9tcmVxIiwgKFVWKWxlbiwgKFVWKXNpemVvZihtcmVxLmltcl9z
+b3VyY2VhZGRyKSk7CistICAgICAgICBzb3VyY2VieXRlcyA9IFN2UFZieXRlKHNvdXJjZSwgbGVu
+KTsKKysKKysgICAgICAgIHsKKysgICAgICAgICAgICBpZiAoRE9fVVRGOChtdWx0aWFkZHIpICYm
+ICFzdl91dGY4X2Rvd25ncmFkZShtdWx0aWFkZHIsIDEpKQorKyAgICAgICAgICAgICAgICBjcm9h
+aygiV2lkZSBjaGFyYWN0ZXIgaW4gJXMiLCAiU29ja2V0OjpwYWNrX2lwX21yZXFfc291cmNlIik7
+CisrCisrICAgICAgICAgICAgU1RSTEVOIGxlbjsKKysgICAgICAgICAgICBtdWx0aWFkZHJieXRl
+cyA9IFN2UFZieXRlKG11bHRpYWRkciwgbGVuKTsKKysgICAgICAgICAgICBpZiAobGVuICE9IHNp
+emVvZihtcmVxLmltcl9tdWx0aWFkZHIpKQorKyAgICAgICAgICAgICAgICBjcm9haygiQmFkIGFy
+ZyBsZW5ndGggJXMsIGxlbmd0aCBpcyAlIiBVVnVmICIsIHNob3VsZCBiZSAlIiBVVnVmLAorKyAg
+ICAgICAgICAgICAgICAgICAgICAgICJTb2NrZXQ6OnBhY2tfaXBfbXJlcSIsIChVVilsZW4sIChV
+VilzaXplb2YobXJlcS5pbXJfbXVsdGlhZGRyKSk7CisrICAgICAgICB9CisrCisrICAgICAgICB7
+CisrICAgICAgICAgICAgaWYgKERPX1VURjgoc291cmNlKSAmJiAhc3ZfdXRmOF9kb3duZ3JhZGUo
+c291cmNlLCAxKSkKKysgICAgICAgICAgICAgICAgY3JvYWsoIldpZGUgY2hhcmFjdGVyIGluICVz
+IiwgIlNvY2tldDo6cGFja19pcF9tcmVxX3NvdXJjZSIpOworKworKyAgICAgICAgICAgIFNUUkxF
+TiBsZW47CisrICAgICAgICAgICAgc291cmNlYnl0ZXMgPSBTdlBWYnl0ZShzb3VyY2UsIGxlbik7
+CisrICAgICAgICAgICAgaWYgKGxlbiAhPSBzaXplb2YobXJlcS5pbXJfc291cmNlYWRkcikpCisr
+ICAgICAgICAgICAgICAgIGNyb2FrKCJCYWQgYXJnIGxlbmd0aCAlcywgbGVuZ3RoIGlzICUiIFVW
+dWYgIiwgc2hvdWxkIGJlICUiIFVWdWYsCisrICAgICAgICAgICAgICAgICAgICAgICAgIlNvY2tl
+dDo6cGFja19pcF9tcmVxIiwgKFVWKWxlbiwgKFVWKXNpemVvZihtcmVxLmltcl9zb3VyY2VhZGRy
+KSk7CisrICAgICAgICB9CisrCisgICAgICAgICBaZXJvKCZtcmVxLCBzaXplb2YobXJlcSksIGNo
+YXIpOworICAgICAgICAgQ29weShtdWx0aWFkZHJieXRlcywgJm1yZXEuaW1yX211bHRpYWRkciwg
+c2l6ZW9mKG1yZXEuaW1yX211bHRpYWRkciksIGNoYXIpOworICAgICAgICAgQ29weShzb3VyY2Vi
+eXRlcywgJm1yZXEuaW1yX3NvdXJjZWFkZHIsIHNpemVvZihtcmVxLmltcl9zb3VyY2VhZGRyKSwg
+Y2hhcik7CisrCisgICAgICAgICBpZihTdk9LKGludGVyZmFjZSkpIHsKKyAgICAgICAgICAgICBp
+ZiAoRE9fVVRGOChpbnRlcmZhY2UpICYmICFzdl91dGY4X2Rvd25ncmFkZShpbnRlcmZhY2UsIDEp
+KQorICAgICAgICAgICAgICAgICBjcm9haygiV2lkZSBjaGFyYWN0ZXIgaW4gJXMiLCAiU29ja2V0
+OjpwYWNrX2lwX21yZXEiKTsKKysKKysgICAgICAgICAgICBTVFJMRU4gbGVuOworICAgICAgICAg
+ICAgIGludGVyZmFjZWJ5dGVzID0gU3ZQVmJ5dGUoaW50ZXJmYWNlLCBsZW4pOworICAgICAgICAg
+ICAgIGlmIChsZW4gIT0gc2l6ZW9mKG1yZXEuaW1yX2ludGVyZmFjZSkpCisgICAgICAgICAgICAg
+ICAgIGNyb2FrKCJCYWQgYXJnIGxlbmd0aCAlcywgbGVuZ3RoIGlzICUiIFVWdWYgIiwgc2hvdWxk
+IGJlICUiIFVWdWYsCisgICAgICAgICAgICAgICAgICAgICAgICAgIlNvY2tldDo6cGFja19pcF9t
+cmVxIiwgKFVWKWxlbiwgKFVWKXNpemVvZihtcmVxLmltcl9pbnRlcmZhY2UpKTsKKysKKyAgICAg
+ICAgICAgICBDb3B5KGludGVyZmFjZWJ5dGVzLCAmbXJlcS5pbXJfaW50ZXJmYWNlLCBzaXplb2Yo
+bXJlcS5pbXJfaW50ZXJmYWNlKSwgY2hhcik7CisgICAgICAgICB9CisgICAgICAgICBlbHNlCisg
+ICAgICAgICAgICAgbXJlcS5pbXJfaW50ZXJmYWNlLnNfYWRkciA9IElOQUREUl9BTlk7CisrCisg
+ICAgICAgICBTVCgwKSA9IHN2XzJtb3J0YWwobmV3U1Zwdm4oKGNoYXIgKikmbXJlcSwgc2l6ZW9m
+KG1yZXEpKSk7CisgI2Vsc2UKKyAgICAgICAgIFBFUkxfVU5VU0VEX1ZBUihtdWx0aWFkZHIpOwor
+QEAgLTEzOTgsMTYgKzE0MjIsMjIgQEAKKyAjaWZkZWYgSEFTX0lQVjZfTVJFUQorICAgICAgICAg
+c3RydWN0IGlwdjZfbXJlcSBtcmVxOworICAgICAgICAgY2hhciAqIG11bHRpYWRkcmJ5dGVzOwor
+LSAgICAgICAgU1RSTEVOIGxlbjsKKy0gICAgICAgIGlmIChET19VVEY4KG11bHRpYWRkcikgJiYg
+IXN2X3V0ZjhfZG93bmdyYWRlKG11bHRpYWRkciwgMSkpCistICAgICAgICAgICAgY3JvYWsoIldp
+ZGUgY2hhcmFjdGVyIGluICVzIiwgIlNvY2tldDo6cGFja19pcHY2X21yZXEiKTsKKy0gICAgICAg
+IG11bHRpYWRkcmJ5dGVzID0gU3ZQVmJ5dGUobXVsdGlhZGRyLCBsZW4pOworLSAgICAgICAgaWYg
+KGxlbiAhPSBzaXplb2YobXJlcS5pcHY2bXJfbXVsdGlhZGRyKSkKKy0gICAgICAgICAgICBjcm9h
+aygiQmFkIGFyZyBsZW5ndGggJXMsIGxlbmd0aCBpcyAlIiBVVnVmICIsIHNob3VsZCBiZSAlIiBV
+VnVmLAorLSAgICAgICAgICAgICAgICAgICAgIlNvY2tldDo6cGFja19pcHY2X21yZXEiLCAoVVYp
+bGVuLCAoVVYpc2l6ZW9mKG1yZXEuaXB2Nm1yX211bHRpYWRkcikpOworKworKyAgICAgICAgewor
+KyAgICAgICAgICAgIGlmIChET19VVEY4KG11bHRpYWRkcikgJiYgIXN2X3V0ZjhfZG93bmdyYWRl
+KG11bHRpYWRkciwgMSkpCisrICAgICAgICAgICAgICAgIGNyb2FrKCJXaWRlIGNoYXJhY3RlciBp
+biAlcyIsICJTb2NrZXQ6OnBhY2tfaXB2Nl9tcmVxIik7CisrCisrICAgICAgICAgICAgU1RSTEVO
+IGxlbjsKKysgICAgICAgICAgICBtdWx0aWFkZHJieXRlcyA9IFN2UFZieXRlKG11bHRpYWRkciwg
+bGVuKTsKKysgICAgICAgICAgICBpZiAobGVuICE9IHNpemVvZihtcmVxLmlwdjZtcl9tdWx0aWFk
+ZHIpKQorKyAgICAgICAgICAgICAgICBjcm9haygiQmFkIGFyZyBsZW5ndGggJXMsIGxlbmd0aCBp
+cyAlIiBVVnVmICIsIHNob3VsZCBiZSAlIiBVVnVmLAorKyAgICAgICAgICAgICAgICAgICAgICAg
+ICJTb2NrZXQ6OnBhY2tfaXB2Nl9tcmVxIiwgKFVWKWxlbiwgKFVWKXNpemVvZihtcmVxLmlwdjZt
+cl9tdWx0aWFkZHIpKTsKKysgICAgICAgIH0KKysKKyAgICAgICAgIFplcm8oJm1yZXEsIHNpemVv
+ZihtcmVxKSwgY2hhcik7CisgICAgICAgICBDb3B5KG11bHRpYWRkcmJ5dGVzLCAmbXJlcS5pcHY2
+bXJfbXVsdGlhZGRyLCBzaXplb2YobXJlcS5pcHY2bXJfbXVsdGlhZGRyKSwgY2hhcik7CisgICAg
+ICAgICBtcmVxLmlwdjZtcl9pbnRlcmZhY2UgPSBpZmluZGV4OworKworICAgICAgICAgU1QoMCkg
+PSBzdl8ybW9ydGFsKG5ld1NWcHZuKChjaGFyICopJm1yZXEsIHNpemVvZihtcmVxKSkpOworICNl
+bHNlCisgICAgICAgICBQRVJMX1VOVVNFRF9WQVIobXVsdGlhZGRyKTsKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL3BlcmxfNS40Mi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3BlcmwvcGVybF81LjQyLjAuYmIKaW5kZXggODg2ZWFhYWEzNy4uYmJlOTc5YWI2OSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvcGVybF81LjQyLjAuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvcGVybF81LjQyLjAuYmIKQEAgLTIzLDYgKzIz
+LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL3d3dy5jcGFuLm9yZy9zcmMvNS4wL3BlcmwtJHtQVn0u
+dGFyLmd6O25hbWU9cGVybCBcCiAgICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyNi01NzQzMi0wMi5w
+YXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyNi00MjQ5Ni5wYXRjaCBcCiAgICAgICAg
+ICAgIGZpbGU6Ly9DVkUtMjAyNi01NzQzMy5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly9DVkUt
+MjAyNi0xMjA4Ny5wYXRjaCBcCiAgICAgICAgICAgICIKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5h
+dGl2ZSA9ICIgXAogICAgICAgICAgICBmaWxlOi8vcGVybC1jb25maWdwbS1zd2l0Y2gucGF0Y2gg
+XAotLSAKMi4zNC4xCgo=
