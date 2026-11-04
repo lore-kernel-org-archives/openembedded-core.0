@@ -1,131 +1,142 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.23])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7205.1793792314298488007
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7364.1793792645179888125
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 03:38:35 -0800
+ Wed, 04 Nov 2026 03:44:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=cgeoUWLM;
- spf=pass (domain: est.tech, ip: 40.107.162.23, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cqRAXWStIvGPHS66rxT7zQ3gbO7coFGY7Z+ykM/29QlgrbN/KKGKd2h6D3+UKNtxLxBZDFWiUtbT7dEqYznk/wE3PXah9sMNYUXbGQBrDpbvna4lbvgTIACkhjf8WBV62iYkFGYZFKtfmYQ/Ptv4DWuUlvh23pNN7Do6LG1R1jRu1dXk8ts8wscykfAuDj4+Kr4eYjiSMOG+K+RcJLCZkDqYxi1aj9yXvmDzeuz4iy2UJER2oDgsVaj1Luq/9nwgAqoK0tZnZbDtZWwHiQtJhLaSv9cfxBFl5NO3W80dyUEk+wekkvZzLwn3xyvyRn5UP/hfNkpcF2u9enRd7NfkDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OFIytUSPHIoQmkDzpP9N7yJDsdWC5urUqIH19VQKQ4c=;
- b=MmG+neC2zaX0eZKDis7HHMHuoNSowp04LzdLk6CmZOq7G72/7IRomJ6gLG28V4CkPO3blKL6egUYfVNRwV8DROLBNodWW0JYV1uw0b/dDmgQSxDtG1mrh2s4i+sIin4AF/hAym8jV2bjNLrf6a8VlPbY0mSpsr+d7PIztACOaDbrR5Z504O9/PWdQtCcrJrvzhtzd0SdRCq7FtJUmX6MVtsb1PbL37/P/RIoM3yalN/0qLW8kFuFRvyPdxJ39JtMO/5ynEi0qknWPFizm0q8NPRQYnneEXfN5obihvZynGpLI8foT/JZLI+xoLOKgEsMGXPakGye+aeOYTloHJ4O6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OFIytUSPHIoQmkDzpP9N7yJDsdWC5urUqIH19VQKQ4c=;
- b=cgeoUWLMIaN1sSuBQ8VcSkeLRxGU8fi9SiF2Qf4NvG3CfKJyjBVdzwOsSXUGZzEAN0eCY1jCUtz1VRn2PmY8IpyFf8KrMI9SJsEUyIRNslSq+Scw+TOeL5FhoH4Be5K2hKtkv0aQG8huGn00PBjfsLJgesk/QiUrnv7ZH0LtDevPf0U/AzGaSW9djFYveuREtgohrvG2Ml52Q6v5evvgM388+h+sKqVADyiDuHLsVbcZHihdolgkm/DUz6w7uuLzV+NeMg1RVcWGWtTMb3iJaX19TKy4zFJT0jpTMEj66nki4rq/Ul+R6Ov1f9CLGfDwBwvX8qKEXJFCODtHZtCEuQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by GV1P189MB2084.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:57::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.9; Wed, 4 Nov 2026
- 11:38:27 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0592.007; Wed, 4 Nov 2026
- 11:38:27 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=pass header.i=@linaro.org header.s=google header.b=ZLPRdnDu;
+ spf=pass (domain: linaro.org, ip: 209.85.208.176, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3acd523a802so4537411fa.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 03:44:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1793792643; x=1794397443; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cUv+d0mtlKN3XKWoXy7cW6TPfBnSqGE3u9mmWIStxRQ=;
+        b=ZLPRdnDuvpvJMP9ATBdCz/VTRPSNo6lVtLwwH4f2QIxp+al4sWZf5umscC4Z+DqIGL
+         MfWD+cPkXHt1flRduU8GAVGdEaYJfNRPtH5DCuiqKGLmetesrKWhP4goME6fARZLoG9n
+         a4Rz06u+pQlwIYQSv72nFRYt2ScOZ1AtBjhOa1UlUsM3ai4E/tebNFbftozGkX5qo27z
+         ifb8AUQmFgX0ODRlOWJAWMR9indEenDxgln8nljXSpUiNE3m1ROBTw16oXf+WkclyBlw
+         /dqqSFMg8ETklP+nRiVrbFahSONyNDoXqwotnQap6f4qCpg222J2I5H9OAf863EjK41t
+         6+ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793792643; x=1794397443;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cUv+d0mtlKN3XKWoXy7cW6TPfBnSqGE3u9mmWIStxRQ=;
+        b=2oyzal8K43skpZ/7DaqUQTTYZIYe1MrMhqw88alRGbH32RmKUGUThVKaIM9GS/QIye
+         YvnnkjfZWloBWlWRlyiZkhaiEnCBB5K3EL1Db+8MoiMmckNJ9M3/qvC9yopz5Z+KW7/4
+         dtccqfYSNnlyN6f0zwHUDDeU1XjkhVC9qvnoY1fQy+DvTZYMT/mtaygG4+xftWBhvp/D
+         a2AChCkXmHdFmjakdoGW2XM0SbI7uYgw5ESiRW5CQlhzYXXKm3bZug3/SfmUg41QA8r1
+         JchY/Tn0r+olKv9bMCZFcSrj5/OKZrz1w6kwXMaDkv8d93W5B8FnGcYbsO3a00x7veYN
+         CxUA==
+X-Gm-Message-State: APuU4Z9QBtY+8i3C1Sm53fmT02433h0kYPD6D0UpN0vp3jsW8qJ5D2f5
+	DlEkJm2IJN7ro5LNdLijhvaf2HZ5XO4PAtwWZ34Pg5ceEOROdpxbViK85vTANvJoM9hQQ+/RQC0
+	3wI8GXjU=
+X-Gm-Gg: AYBFou1zz8eU4dnbIB+bfbyR8EeZijPnjC0omjUA49jQf7GGV3AEg4S+zANmu5pIOWn
+	qrGKUl0vLldGmrl20JTFplwbMOXC/63zyr/I1x8YNoDyD64eu5CafqgQHxGaLtZkvCjHoydf5Y4
+	dh0agc5dsVL60FLce/xTFYoBHMGPyWCSoEToPW6yVsL8DEH5vcJpc+nMHgdt89Dse5q0HZDEQZU
+	a0p2z9wGiv3Qhv4k/VWXcEYlPSbvA5wEuYugYmRRaddoEZmtObzvnc1j9w8+Lu+t2tePp+X2QYF
+	22Xdl7RJet9m+sTmrpVgTCPvl928ZpdLUMw90X9VhbuWx+7h08jPeEXeF7vFJUe85B9rx9C7tnC
+	zsofB54JfF87MSf+K+3O7w9b+SxO/uh3ht23W6kdxCdxhKk/4V+/Uimt5UykZqtEpBC+0gP4M1I
+	ALMvE2k7mIvat/KSIJkW9ECIegW32OqlyfTg9LgxksKEK8nnQmKL21d6UtkpS/dlenB/+Q+tmIv
+	fQULzmz52LzhE9E20vwGqO3rFELvnUJH5X2UdFqlpt6pShnEXZjUnCepksACQDFETLYyz+i12Il
+	aLfr3+pnulDft7i7DW6sfBA9PzSf67pQKYuWYk4jAcOrJRZ6dpuM0IGgng==
+X-Received: by 2002:a05:651c:31cd:b0:3ac:e0a2:1438 with SMTP id 38308e7fff4ca-3ace0a21bf8mr1519721fa.29.1793792642900;
+        Wed, 04 Nov 2026 03:44:02 -0800 (PST)
+Return-Path: <mikko.rapeli@linaro.org>
+Received: from nuoska (78-27-71-225.bb.dnainternet.fi. [78.27.71.225])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3acdc6facc6sm4027611fa.37.2026.11.04.03.44.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 03:44:02 -0800 (PST)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] xorgproto: upgrade 2025.1 -> 2026.1
-Date: Wed,  4 Nov 2026 12:38:21 +0100
-Message-ID: <20261104113822.45520-3-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261104113822.45520-1-jaipaul.cheernam@est.tech>
-References: <20261104113822.45520-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO0P123CA0001.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::10) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH] kernel-yocto.bbclass: capture stderr from subprocess.check_output()
+Date: Wed,  4 Nov 2026 13:43:41 +0200
+Message-ID: <20261104114341.656092-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|GV1P189MB2084:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30081ea9-0f2b-48c6-6e2b-08df3a682470
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|56012099006|11063799006|261021121427099003|261021123027099003|261009223027099003|261102123227099003|261022105027099003|261022075727099003|261026140227099003|261028144727099003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 36W1GVR7zZ0UM0jSd1PkYdwAQX5dzrbt/Ii66LSPYQvnLJDjuZQYzEtYen8s+c3WMfczH6uCV2oJ/pfjLdGhe8I35+8yTCpOayhoOHz5FF7m6jZcAzUgg/4rX43sSoK+/HGctJ8YA/OMI2Ufiu9hC6ZS4mHHtBBG6hVjdSvqBa30kwQOqqaHc7FlPWelbkiU6sjVcrdyEgWFLGz4bMqXl43/oTOctCp3IxxMK8qRRzLK2orxhEahWlmxZVDGWF230uZgFhrEHPBKUJ7oStEdmX5oJ6rHWh1KIeIZqrIEklzGtgrxoM+i+i9FAElPjgWfHIyIus6bILYp7Y4CnPK5Vl3GJeQ4d0hnsDOOlS2+eBya6FT5pP0IGzCf7XAmwl+sjY9hsSr+JiqDWb+2/SB96bAs2ohnyYeDpIdNc+m8u0bOexr1LVZWjiprY1fuuJX7xnSpe1hUamzssK4laQbirH+/MpLOf1ZGKQQ9fA2ujpVzJAFBM8BEl4GmerNgJW5i3dE4KN23uLVP5wzCKTscq2ZAdwSdGuo/89Co0lJ/QVCyXLfC3sKArf4HCHqEJbIiSNqfKrb6MEuiJYWHvHx7DA+yvsmXyAYh5wfDTCd+sQo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(56012099006)(11063799006)(261021121427099003)(261021123027099003)(261009223027099003)(261102123227099003)(261022105027099003)(261022075727099003)(261026140227099003)(261028144727099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1qXWKYoOgPmH4+O5+TJ0mWb1I9+5NuuVe03lz86WDruqAPMNPTOEntR3inAM?=
- =?us-ascii?Q?p2r21oIau/JJxlrpkOGL38uUWqjqtMj1VKBL++P31lAcldY3iLk+RdFEjKMz?=
- =?us-ascii?Q?y2hNk1vmaTXXksLm8DB57tofN+2D+xVy11CK5EhLfXiuu9NofEmzORRpLIxU?=
- =?us-ascii?Q?r6G63tZqW/P6z2R9/umqfLFKVJm6MBQbx5VZpLf3TfPoGGbaz2USrcApLXoc?=
- =?us-ascii?Q?CZYF6kKhHnq7EVM/onFqAh+P9W15jsOPiEKvO23f4/3HMU+19HVA5OXcUB+J?=
- =?us-ascii?Q?O65y3KGmW6y7627gFjMGQSmMlLjhDoAMViOqOoV3uCB2/nELQBN9EmiegQNC?=
- =?us-ascii?Q?KUkZJhacRin8BA82mUTaSlKoBCNDidS9THvYLvzSed2Q8/AqWPWwl04bk6qr?=
- =?us-ascii?Q?0yrdX9taR+dkE8njHBebxiJRzrT5H7zWC5FDp+1AQCwbiz6fYGM9gfjAtj4I?=
- =?us-ascii?Q?Fpkau0TkAjlzuPQeoEUgy7/qAj51JLZ4syigLgKhLAbWEqy2+lDBEWqk4VoR?=
- =?us-ascii?Q?2M4iox+9fguNoFfxXRCjLiNdkbrDGI5xamRDpPPGYp0u4hu1xqX4vdbzAIec?=
- =?us-ascii?Q?Py9MTGHRhvAQEbSORpKH5f2T9ZaAlk98Pkn4OSxrLUrPXnfFHUXAg0hmnLV7?=
- =?us-ascii?Q?Igp6p2VLxpOQGGSGQcKce3WRb82lW+9VRj2fY/yT5529mHvLdckWZAjUmKdU?=
- =?us-ascii?Q?tELiVCcmzIDN0TiWkZ9Wu858Pxz68h1c/82XM55iDsjcJjIlG2dYF+NYUeeV?=
- =?us-ascii?Q?UdeDeVLH/6yjmPx3MTaPvheXzmKNX8vUDbMZoymZneLA4jZVuGmI+pSq5yY5?=
- =?us-ascii?Q?CqQGXYX7sFLRcOzJLwp4ZDCYKWTEnThcWd6kHy6LNxh4vVMFEOAs2JPmW4jH?=
- =?us-ascii?Q?u1LeHM+kAXC7g7w8wgLlJimskGt/g99ovETT0DMKBFRWuZi1/tUkSlZgtlAv?=
- =?us-ascii?Q?CMU7d5TLFoWjZ3KZkog98AMuP/Pm8768vznnR4LvQJfmr9Lj2GNNyz1BoGWP?=
- =?us-ascii?Q?DTuReYgbYjQfzZvxPCHuAPbyvVJZY9HJdaA4ZwT9jrvYHF0NUBXP1g1kU3Eo?=
- =?us-ascii?Q?s5nivb8SREkMHdHu+n041wqhNT1rfVYKBQCcNLNkeBx4VB8ngasX+8BuqO5B?=
- =?us-ascii?Q?tr74iv4Q+qFmsXS0Lkewgi3K0wfnN9Blvs6dyTSnYlbCHDpW+BuZAWIR7cUy?=
- =?us-ascii?Q?MH9iE9wWvDxfnS18mk89DjqeVMBS9JTvl3eQUQiwAR3Q80R3mADjv4RmHoOu?=
- =?us-ascii?Q?U9A+aMiV+fGeUxtiCwqiVKgFUKqFwFiUl+gCDzBKHvFsoejiBZisOzhYsAtD?=
- =?us-ascii?Q?IPRy/vYJKAw44Ne+BdK7kNKn4RuEuOOiecSbVLGOauQwoPYbfTXY+1jQn1O5?=
- =?us-ascii?Q?bWVA0HavnUGDJoSwBTtaQYydsQzZomApfk6coBhaBriqyFxbppSkzQEZhRsb?=
- =?us-ascii?Q?Mg16CztKJOLT29xuEtknY9Qz1ZIg4KfE1+8NPleYKUG6+hUUiGdTDXLUKm5T?=
- =?us-ascii?Q?yZp/P15iyK+/nonuzeQLvm+DpkNCLHXETlneCGBomCTEdf/0J30eAJyxHy2F?=
- =?us-ascii?Q?IeRpcpROxTOz1Bf6PTxMrvWm1x/+8BJaCA9ixm9HPOZNk2hJBm8zaOc+R7RR?=
- =?us-ascii?Q?vzR0kiNOTzc3HM/BFVOwI4ESC41z/R7Sn+CerkKTiFY7DrxL8grNXFeWWunt?=
- =?us-ascii?Q?afaceSHVdMIBQNy01KAQgN6hKgNHsRMqixyYMlTwL0ytFl7KTpUso/qG2sp1?=
- =?us-ascii?Q?GCuA1hfhqw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30081ea9-0f2b-48c6-6e2b-08df3a682470
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 11:38:27.3442
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fpWpd8v16f7ZypQj36tt1wlMi42uXvouFQges6ueUhzlVipHm0XjCpBwApfVdF7/hFEXtOlQt0AT5yzSU2BGmw+eSqR1nfzN79jutjzIGLY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2084
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 11:38:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249370
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 11:44:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249371
 Content-Type: text/plain; charset="utf-8"
 
-CompareLog: https://gitlab.freedesktop.org/xorg/proto/xorgproto/-/compare/x=
-orgproto-2025.1...xorgproto-2026.1
+Hard to debug failures without stderr in output.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- .../xorg-proto/{xorgproto_2025.1.bb =3D> xorgproto_2026.1.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-proto/{xorgproto_2025.1.bb =3D> xorgprot=
-o_2026.1.bb} (90%)
+ meta/classes-recipe/kernel-yocto.bbclass | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb b/meta/re=
-cipes-graphics/xorg-proto/xorgproto_2026.1.bb
-similarity index 90%
-rename from meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb
-rename to meta/recipes-graphics/xorg-proto/xorgproto_2026.1.bb
-index e187c56fbc..37327b2d06 100644
---- a/meta/recipes-graphics/xorg-proto/xorgproto_2025.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/xorgproto_2026.1.bb
-@@ -9,7 +9,7 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://COPYING-x11proto;md5=3D0b9fe3db4015bcbe920e7c=
-67a39ee3f1"
-=20
- SRC_URI =3D "${XORG_MIRROR}/individual/proto/${BP}.tar.xz"
--SRC_URI[sha256sum] =3D "56898c716c0578df8a2d828c9c3e5c528277705c0484381a81=
-960fe1a67668e8"
-+SRC_URI[sha256sum] =3D "f9bfe4a9ed8c8ab9d2a3b0d49797f046052dadd06b7a8b45db=
-ffaffb137e8290"
-=20
- inherit meson
-=20
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
+index 43674e8bcb..002782f2ee 100644
+--- a/meta/classes-recipe/kernel-yocto.bbclass
++++ b/meta/classes-recipe/kernel-yocto.bbclass
+@@ -548,7 +548,7 @@ python do_config_analysis() {
+         for action in ["analysis","audit"]:
+             if action == "analysis":
+                 try:
+-                    analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--blame', c], cwd=s, env=env ).decode('utf-8')
++                    analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--blame', c], cwd=s, stderr=subprocess.STDOUT, env=env ).decode('utf-8')
+                 except subprocess.CalledProcessError as e:
+                     bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
+ 
+@@ -556,7 +556,7 @@ python do_config_analysis() {
+ 
+             if action == "audit":
+                 try:
+-                    analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--summary', '--extended', '--sanity', c], cwd=s, env=env ).decode('utf-8')
++                    analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--summary', '--extended', '--sanity', c], cwd=s, stderr=subprocess.STDOUT, env=env ).decode('utf-8')
+                 except subprocess.CalledProcessError as e:
+                     bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
+ 
+@@ -593,7 +593,7 @@ python do_kernel_configcheck() {
+     # passed a valid meta-series for processing
+     kmeta = d.getVar("KMETA")
+     if not kmeta or not os.path.exists('{}/{}'.format(s,kmeta)):
+-        kmeta = subprocess.check_output(['kgit', '--meta'], cwd=d.getVar('S')).decode('utf-8').rstrip()
++        kmeta = subprocess.check_output(['kgit', '--meta'], cwd=d.getVar('S'), stderr=subprocess.STDOUT).decode('utf-8').rstrip()
+ 
+     env = os.environ.copy()
+     env['PATH'] = "%s:%s%s" % (d.getVar('PATH'), s, "/scripts/util/")
+@@ -608,7 +608,7 @@ python do_kernel_configcheck() {
+         env['CLANG_FLAGS'] = " -fintegrated-as"
+ 
+     try:
+-        configs = subprocess.check_output(['scc', '--configs', '-o', s + '/.kernel-meta'], env=env).decode('utf-8')
++        configs = subprocess.check_output(['scc', '--configs', '-o', s + '/.kernel-meta'], stderr=subprocess.STDOUT, env=env).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+         bb.fatal( "Cannot gather config fragments for audit: %s" % e.output.decode("utf-8") )
+ 
+@@ -627,7 +627,7 @@ python do_kernel_configcheck() {
+ 
+     # category #1: mismatches
+     try:
+-        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--mismatches', extra_params], cwd=s, env=env ).decode('utf-8')
++        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--mismatches', extra_params], cwd=s, stderr=subprocess.STDOUT, env=env ).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+         bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
+ 
+@@ -649,7 +649,7 @@ python do_kernel_configcheck() {
+     if bsp_check_visibility > 1:
+         extra_params = "--strict"
+     try:
+-        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--invalid', extra_params], cwd=s, env=env ).decode('utf-8')
++        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--invalid', extra_params], cwd=s, stderr=subprocess.STDOUT, env=env ).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+         bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
+ 
+@@ -668,7 +668,7 @@ python do_kernel_configcheck() {
+ 
+     # category #3: redefined options (this is pretty verbose and is debug only)
+     try:
+-        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--sanity'], cwd=s, env=env ).decode('utf-8')
++        analysis = subprocess.check_output(['symbol_why.py', '--dotconfig',  '{}'.format( d.getVar('B') + '/.config' ), '--sanity'], cwd=s, stderr=subprocess.STDOUT, env=env ).decode('utf-8')
+     except subprocess.CalledProcessError as e:
+         bb.fatal( "config analysis failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')))
+ 
+-- 
+2.55.0
+
