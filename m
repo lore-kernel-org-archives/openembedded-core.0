@@ -1,175 +1,101 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3873.1793752067233850970
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4789.1793755553487540236
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 16:27:47 -0800
+ Tue, 03 Nov 2026 17:25:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=vfiWOxun;
- spf=pass (domain: gmail.com, ip: 74.125.82.47, mailfrom: ragaprasanth@gmail.com)
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1b1ce85287aso178772c88.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 16:27:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793752066; cv=none;
-        d=google.com; s=arc-20260327;
-        b=U1h0Ytpq7q1Ks3D2U9kGKDGUeJb7YygiyLNCfCOMRSUL5zBdw3Ro8Wvo8R02NJ5SGX
-         hxc+cNuYiHRFePFfxr477ESNoCUR7gUC/B2Mq08udfjmB51MDJMyTyewTKenzTG5cZI7
-         SCW6EA1WUIlNsHRwMmzW29a8NPrRJYEnllvya3e3z8I6vI51sqOGvq3jjQpL6esemyne
-         yo27/rOBJDkfZCHTbh4b3mtXnqugxwS/whWJDfrl8HSF1hLRJxVCdNek0VXUPY6Mw17E
-         kPQQHGDaB+g+EOY7Zkhm9ywwc1cJU0qcqN7L98vKeSbe84kCl6GgnUHnrDazdWza42Ym
-         ZgJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0C4dGslj+3i72MYCHPTvFOoKuYn/Q6B4RH3UmnNQLbk=;
-        fh=lgc1ShYQgJzkSaxSbCXB/S1Eni0mdaya29OgnDN98ww=;
-        b=WdHLjBuhJhGYw0lyS5rNCL/dec3N8sh7i9sj/GJgkwctKmaDxdFX7uV8RVO8c90VEn
-         Sw/n3oD6Bad02WMGr6X/YluHQsaEECZkhbm8sPUux4Ip+u9vUYmlCRghZVWt3aTyuW2d
-         G4qA6G93d3WcJppKKhQhq8nu9dni04degoXhZhyIP026nl00Ny+LWNZ+IFWq43eLsM4u
-         t6mikxpE7Ce78q8VCTj0QWQFaT8mEV1pFkuKqGgMKAJWpJIGa/2Kzgx6WYQFPHWH10yD
-         Py0/Xt0hxUckwEZIgnuUueqsNa4tIqX7aZCPHrh7sR8mPDtzOr/YQlwS3kkan2QYvZLb
-         qttw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=B2IxcG9f;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3ae1b34e0d2so688942a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 17:25:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793752066; x=1794356866; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0C4dGslj+3i72MYCHPTvFOoKuYn/Q6B4RH3UmnNQLbk=;
-        b=vfiWOxunu/yQOB8q8hIydbpdKXq0hag86n8tfln6q69NOba3+fsovboK2f9yUqCMY6
-         If6o+Jks/nPSnp49ErEcaEb3Ok1VUGFpwFLVci4yHJDZJteUu4pOeKqb4w5qery4W8J3
-         xqoApbbYzUM0lDCbX1aVMtm6sGyS2QCtj1tRcauU5oRYSlG5CgD/dJhtD9M+rSbGOpOh
-         ORZe/fZXhAyV9Xun+ZVncJDROXLoP/vCJpJqeePr26GO97hCGLoKT+zTB+6CaJBgdhls
-         /AHvM82nEERyuEq/hOemzssj6hpON7AIb/ySaD/0IUrfnc8gO634r+iMU1Q2jV4owJ37
-         ws1g==
+        d=gmail.com; s=20260707; t=1793755553; x=1794360353; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BwwsVpukaYS7YM+WUmYpdYGlhp++acwu59WpbPIoCQM=;
+        b=B2IxcG9fyDlQb6x81B7pScfw++TY2OUvZ9WxdnWxT3dAgFBEIaaj5/peGEK+kRLQ7C
+         twYjR0DKljKcAKZ4Ih4S0cQN+K+OsSwGRLJiKgTT4/UUSqp2/Ng9HlMt5KSIDPphoCT/
+         iW2C7CSwdIaQwHZH4KA/bszfOLgMJxO0+DPC26HUCrzw23rqsg7mO/PSPAa1cMU94SH0
+         NY7PSAhmVv4hsFvRg7Zv+LYmbW6X3qcEPHs0wrJtCnkolYA/Jkke8DAnkhN3jV5bxu4z
+         L/0MFff1F0FUe7wszqP4DkSX5QNWFWHI7reqhyyiPOk7SRbQaAzNo1IKP8dI34g7he3H
+         Ccsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793752066; x=1794356866;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0C4dGslj+3i72MYCHPTvFOoKuYn/Q6B4RH3UmnNQLbk=;
-        b=XmSTFLIjbx53oaaixYtJeDxTskqkRYYRii9t+ssXr8ikiGfdWcgyPxbBAGnLLWnoHB
-         NW/Q9cQ9R5J4nfM8916xvDfx4NfeoOtMgppGZ0n/rZfZg+ZX0F4tz0HZx1eatgJeG+0P
-         xtYlrKiTT02h5Luv44iVe+Ltp7mnCalYapUh9sefBvERkXaMT04TN7NaJ47YSHBJ3LV3
-         ZK7y4Wl/aPhw2dMq3LQBCusAI/zYrnhUtD+1yoUd93asqDsi1hJ/p3wqaBB7swg93irp
-         47FYR4o9iGpuB1eVPQw8rGvITnu5e9dpxldW9UluPEwC6yzDm5NJ4TP82WBtA5dIxr3b
-         OZIw==
-X-Forwarded-Encrypted: i=1; AKwUvByXqH4qG3rVi5FB5Sr/eur3R034cqH3UY0J+SpfbnwGSEWpPdrvK4GiL3QpLg/vEuzg77qCp+OoPA7jRwmqYoe0kQ==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z9ItSZOCt/DNNs5Hb6Ctwj3sB3phrHbgO/7CE8YnkYFJpnCXrSz
-	PG16EsTsQsTjIH8EzwOcLTgVZHvwjRHaqN/TmQuSUKglOCQgvHluCOmFTkJZANEpVgIQRH5Hg1f
-	kpB0LWDcw7jkcQn8Xp6OwCrn3PgPVfPU=
-X-Gm-Gg: AYBFou3rVnSAEysiJyq57AuYoG0cczkWFDHrhJVXPSrA0OD3pETfkujcyy1mAy9mVON
-	+EzSUunbOzA8IVTuLRP0bX+TV4OpumFVKlBqMdNP7xpXeSkQhmA/YwAYMpwWvVpauylnzCzAzDD
-	ansMuf4kVB1ploSG3h3EECGfKtMQIg6eGysiceFdufB1U49HndfnI1oYgBOpTA/CbNg0+AI/h9e
-	jQCNXbr1L/KGr8kOObvvDyDrg6RDKR/RN4H9FmUewe0IP5CfpBTdcEz6PLPE4O3LlMdNsnaN4Hi
-	WQR02v578xyJ/QD2G4wdsWeTRmXqMlFgxAagAfeErhfdS5GGc9UFpI3cp0Y4XTe9abMPgC70Ko/
-	u25Cl3QHxaZYQbdvbAb9zqyBqrtMCq/lOF6Z7qDM=
-X-Received: by 2002:a05:7022:ea8a:b0:188:e51:e86a with SMTP id
- a92af1059eb24-1ac56c9fe97mr19149225c88.2.1793752066282; Tue, 03 Nov 2026
- 16:27:46 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793755553; x=1794360353;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BwwsVpukaYS7YM+WUmYpdYGlhp++acwu59WpbPIoCQM=;
+        b=qTzThZWBW5BvEuAExWkN8IiV66FNEbgsKnGjnV/7DcFTj+ZYyP3TZO94lgbBXMDbF0
+         wzYb1jzMIHCU/w0HSOyX1L8Gh9SttpvoWKhuWu8qUEDqkFKKs8OXarCjP8B28ahVaVCW
+         8Vq2NByvjpcQMKUTflvKcNJGQliDd7/2fQ4VVNh+CkMl6KH6Wn2YSWEum+cA7UJtXcGb
+         KBHu2IJRBryXK280LfgbdgLcxonbDejjt9/XBP325dNZkxpcIog/qgcseN9jtWQr7o0G
+         FmaTfIK7i3L0exYA2RQ4rMQVfb8KJrluuAm9RbEr04BfnN7QxEnQlSJGSCPXyQXWYMvj
+         QmrA==
+X-Gm-Message-State: APuU4Z8pJIi5fM6HFtmg+MlxIXd5aAgTDRn8go0h2OiKieZwu9Tk8lwu
+	awmWc4r5bwesOEOFyB3QLpw0n6RCxoWuJTfJ0hkgvvhjISXG3Qn0DPh4b8giMw==
+X-Gm-Gg: AYBFou1EOV1yNsGHRtEyEMrTnye/X11pErz2Dg/2O+jL/L96TWk40KUPlsV7waHewTr
+	oFftVLvzKrg4giBDeUUE8J4me3dGjaz8hJBhKPgXCg87XM33iofMvAzs9eFPY7yRHCmVcjc7549
+	nOyIQ0eqvusq6CxZ+Vhp43yO7AlHrEJIiL+FIQY6m9MpG7V0wr/M+7NhlJdmxIf9jhS64XKiFU7
+	X5Cw+d02qA7g6mOe++GhXWX7pSz9lrGQJ6eN0Knn77D5scpuL5p8ui8Di1KVnoLkPnSh/U+tGko
+	KHAB3jQedqkFe7sOGDqXL+lNXiEPDxQwmjeJneiINhPwLzixD/KrvfXj3uECiMuXLA4jaf8KIuj
+	GRJfOnEFlwhX9hJn7l0oI3WLKTt5du/Ha8iVXDKxYx/JpFrgDrpFNFKpRXNWfOua0n8zWOPkZHz
+	5s+7FX8cllZgH/LzxbAqFVosl6hJKsRIwKwR1r/AflTNQZMGKEvhD3TV3ZWjXwJRUnJ55f7YZ/2
+	4mVJU00QQkt6xI6UcmT7rKvCbfjkcBXvCJmI1yZ6B6oA0Hg+LYnhWtNPzKlqSkigJcE9weU0sMq
+	z2H7Pjp7WnK8eu0l11gXQcoIhlHDR05e34wHqE6pd88dEWrGBoi2MV8aYV3oUQ==
+X-Received: by 2002:a17:90b:4b8f:b0:3ac:b6eb:e0de with SMTP id 98e67ed59e1d1-3ae8955a23amr7559145a91.4.1793755552706;
+        Tue, 03 Nov 2026 17:25:52 -0800 (PST)
+Return-Path: <ankur.tyagi85@gmail.com>
+Received: from NVAPF55DW0D-IPD.. ([147.161.217.9])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b096b52911sm388556a91.3.2026.11.03.17.25.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 17:25:52 -0800 (PST)
+From: ankur.tyagi85@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][blacksail][PATCH 1/3] tzdata/tzcode-native: upgrade 2026e -> 2026f
+Date: Wed,  4 Nov 2026 14:25:39 +1300
+Message-ID: <20261104012541.1429500-1-ankur.tyagi85@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20261029060913.1586484-1-ragaprasanth@gmail.com> <6ae34604.ca480166.87e27.0c55@mx.google.com>
-In-Reply-To: <6ae34604.ca480166.87e27.0c55@mx.google.com>
-From: Prasanth Ramesh <ragaprasanth@gmail.com>
-Date: Wed, 4 Nov 2026 09:27:09 +0900
-X-Gm-Features: AclHuK82eZD7-jscc5e-3co38f9eE3V_ycPlard3xqnUuuVs6p-upg8z-3_Mcp8
-Message-ID: <CAG7eodE0GBmOtBsDM-4Sj2xEUmhLWZyu5sEy1Sdh68RUM=1H4w@mail.gmail.com>
-Subject: Re: [PATCH] kernel-grub.bbclass: use KERNEL_PACKAGE_NAME for the
- image packages
-To: mathieu.dubois-briand@bootlin.com
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, openembedded-core@lists.openembedded.org, 
-	prasanth.r@lineo.co.jp
-Content-Type: multipart/alternative; boundary="000000000000b9dbe5065f68722e"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 00:27:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249314
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 01:25:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249315
+Content-Type: text/plain; charset="utf-8"
 
---000000000000b9dbe5065f68722e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Hi Mathieu,
+Changelog:
+https://www.iana.org/time-zones/releases/2026f
 
-I see the kernel.bbclass v2 and kernel-grub patches are both marked
-=E2=80=9CChanges Requested=E2=80=9D in patchwork.
-Bruce acked both. Are there any issues to look into?
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a5c5781d51df60bbb3d9945c9b3ad89f4d9502f4)
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+---
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thanks,
-Prasanth R
-
-
-On Thu, Oct 29, 2026 at 10:11=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gma=
-il.com>
-wrote:
-
-> On Thu, Oct 29, 2026 at 2:09 AM Prasanth R <ragaprasanth@gmail.com> wrote=
-:
-> >
-> > kernel-grub adds its scriptlets to kernel-image-<type>, but
-> kernel.bbclass
-> > names these packages ${KERNEL_PACKAGE_NAME}-image-<type>. With another
-> > KERNEL_PACKAGE_NAME the scriptlets go to a package that does not exist,
-> > so they never run and the GRUB menu is not updated on a kernel upgrade.
-> >
-> > Use KERNEL_PACKAGE_NAME, as kernel.bbclass and linux-dummy.bbclass do.
-> >
-> [...]
-> >
-> > +    kname =3D d.getVar('KERNEL_PACKAGE_NAME') or "kernel"
->
-> Minor: the 'or "kernel"' isn't needed, since kernel.bbclass already
-> defaults KERNEL_PACKAGE_NAME with ??=3D. It's harmless though, so I'm
-> fine with it as-is.
->
-> Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> Bruce
->
-
---000000000000b9dbe5065f68722e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><p dir=3D"ltr">Hi Mathieu,</p>
-<p dir=3D"ltr">I see the kernel.bbclass v2 and kernel-grub patches are both=
- marked =E2=80=9CChanges Requested=E2=80=9D in patchwork.=C2=A0<br><span st=
-yle=3D"background-color:transparent">Bruce acked both. Are=C2=A0there any i=
-ssues to look into?</span></p><br><div>Thanks,<br>Prasanth R<div><div dir=
-=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div =
-dir=3D"ltr"><br></div></div></div></div></div><br><div class=3D"gmail_quote=
- gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 2=
-9, 2026 at 10:11=E2=80=AFPM Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashf=
-ield@gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Thu, Oct 29, 2026 at 2:09 AM Pra=
-santh R &lt;<a href=3D"mailto:ragaprasanth@gmail.com" target=3D"_blank">rag=
-aprasanth@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; kernel-grub adds its scriptlets to kernel-image-&lt;type&gt;, but kern=
-el.bbclass<br>
-&gt; names these packages ${KERNEL_PACKAGE_NAME}-image-&lt;type&gt;. With a=
-nother<br>
-&gt; KERNEL_PACKAGE_NAME the scriptlets go to a package that does not exist=
-,<br>
-&gt; so they never run and the GRUB menu is not updated on a kernel upgrade=
-.<br>
-&gt;<br>
-&gt; Use KERNEL_PACKAGE_NAME, as kernel.bbclass and linux-dummy.bbclass do.=
-<br>
-&gt;<br>
-[...]<br>
-&gt;<br>
-&gt; +=C2=A0 =C2=A0 kname =3D d.getVar(&#39;KERNEL_PACKAGE_NAME&#39;) or &q=
-uot;kernel&quot;<br>
-<br>
-Minor: the &#39;or &quot;kernel&quot;&#39; isn&#39;t needed, since kernel.b=
-bclass already<br>
-defaults KERNEL_PACKAGE_NAME with ??=3D. It&#39;s harmless though, so I&#39=
-;m<br>
-fine with it as-is.<br>
-<br>
-Acked-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" ta=
-rget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-<br>
-Bruce<br>
-</blockquote></div>
-
---000000000000b9dbe5065f68722e--
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 44872c3637..d8dd7a3bce 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "BSD-3-Clause AND LicenseRef-PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2026e"
++PV = "2026f"
+ 
+ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -14,5 +14,5 @@ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ S = "${UNPACKDIR}/tz"
+ 
+-SRC_URI[tzcode.sha256sum] = "cc3d27ca2a0d8399504551b920970d80af83bfb9c216e8082a15491921935d54"
+-SRC_URI[tzdata.sha256sum] = "b26882805f26aac59d5b222978e6580484b834ccdc98be89df2f05a6dc53a652"
++SRC_URI[tzcode.sha256sum] = "5a18da01393679ef2559214dc687563f7f3d05691f6f58b7fbc0166f3e796cd6"
++SRC_URI[tzdata.sha256sum] = "01b4a91cec5167ed48c11e8ab78f2048cead78ce94b0cafcad0ae8c5a3044d3d"
