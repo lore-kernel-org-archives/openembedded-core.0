@@ -1,41 +1,41 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6465.1793789192998207692
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6467.1793789194018743767
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 02:46:33 -0800
+ Wed, 04 Nov 2026 02:46:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=puEmWtg7;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=paSUYyik;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1a62ae771-4df1f1b9-2dfb-47b8-ae99-4b4bf14b8dc3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GY4tYZGl;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tviJeaJ5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1a62aea85-358fdfd6-efa4-4e35-8634-b46c2e0e7a0d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793789192; i=@automation.yoctoproject.org;
+	t=1793789193; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=H2jh8//uhk4KBMgkTylqdWoeNfrl25BP3a2+KP+BvaA=;
-	b=puEmWtg7OmIIrUwy2x0zlaFDZcBShttPfC1gcDzA10lESh+CxujJI6s0pyVBanei
-	/lNlsEhoe8Eacpx2O/n7HzifVsEc2wysZcyE04XDKKV+rs1pPNfFJbyYKO/dwmwNH/G
-	otQshw39mls0NUWRBDJA/Mt4Qdy3LiA6VWK+Vu08=
+	bh=dGuTQd0mek+SX5NOkc2sPk3DK5UNP0C6O+bm5AF0ikA=;
+	b=GY4tYZGlugKoI75rDyEaSckNtpTw0tc+AGULM3zfa86L5GHg4ceszXyDLFttL4el
+	xwF9Zv1Vr8KHvSBQmU1vDtGCpVlyDvxtXY2XNjik2AQqqnX/4Ey7k7e/L5fEA6os4Xu
+	kO2a7//uZcZTKPcou8yfXtKatHH/BhnuGN1dfQEI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793789192;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793789193;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=H2jh8//uhk4KBMgkTylqdWoeNfrl25BP3a2+KP+BvaA=;
-	b=paSUYyikWGD7ddwnGtAUkwb8nR+Y9hqxyuWd1X2T8ncU9g5TN+AbieOL2mvEc45U
-	In5hu4KHpN1Y/lxAz9tKeMjjc09HFw4LFKjwaWtZ0jkJy+WGES7/XjKh0cV2PJKLysv
-	JyUJ0mnvTqGccqmvLs1bl6hE3ai1owQTJutFM6/M=
+	bh=dGuTQd0mek+SX5NOkc2sPk3DK5UNP0C6O+bm5AF0ikA=;
+	b=tviJeaJ5wSB/YcamFanxzuA85ESgTbAuFN1k6C1k4/nvu7VQeYHqJK5GSwYbkpax
+	nu4oaVRj3YYknS2gLsuP5bzCxQKLBkPg/68o9j84DW5X0BjG8eHl4Lzt4QO6R67J7Gm
+	lqfzl9bYGUR3/JkG7jWm3Cck3WmWR5LHjjaMi56A=
 From: patchtest@automation.yoctoproject.org
 To: "Jakub Szczudlo (Nokia)" <jakub.szczudlo@nokia.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [scarthgap][PATCH] Backport patch to fix CVE-2026-12087.
-In-Reply-To: <20261104104150.2043957-1-jakub.szczudlo@nokia.com>
-References: <20261104104150.2043957-1-jakub.szczudlo@nokia.com>
+Subject: Patchtest results for [wrynose][PATCH] Backport patch to fix CVE-2026-12087.
+In-Reply-To: <20261104104137.2043865-1-jakub.szczudlo@nokia.com>
+References: <20261104104137.2043865-1-jakub.szczudlo@nokia.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1a62ae771-4df1f1b9-2dfb-47b8-ae99-4b4bf14b8dc3-000000@us-west-2.amazonses.com>
+Message-ID: <010101a1a62aea85-358fdfd6-efa4-4e35-8634-b46c2e0e7a0d-000000@us-west-2.amazonses.com>
 Date: Wed, 4 Nov 2026 10:46:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.04-54.240.27.33
+X-SES-Outgoing: 2026.11.04-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 10:46:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249354
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249355
 
 --NextPart
 Content-Type: text/plain
@@ -45,7 +45,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/scarthgap-Backport-patch-to-fix-CVE-2026-12087..patch
+Testing patch /home/patchtest/share/mboxes/wrynose-Backport-patch-to-fix-CVE-2026-12087..patch
 
 FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
