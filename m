@@ -1,58 +1,54 @@
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.22064.1793832596465025383
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22082.1793832604131227726
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 14:49:57 -0800
+ Wed, 04 Nov 2026 14:50:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=UVx8tZhA;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202611042249536f0226702f0002074f-rax93b@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202611042249536f0226702f0002074f
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Q7hfT4gL;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20261104225001c17939487800020711-yrmxut@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20261104225001c17939487800020711
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 04 Nov 2026 23:49:53 +0100
+        Wed, 04 Nov 2026 23:50:01 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=WXzemKwfLyX2R2hJwfbkJ2PLKo3YRxApScZhZafVjg4=;
- b=UVx8tZhAzOYsdKQxrHHJh39+KS4FQyogyO90DXHN0LNsD3jTiDPuc5hd6m0exeCd2+2MnS
- c7PIcWtinN7XcPQjJlkZj6dBSr2UXH0IF4oqtlNhIWgmEapCPoNjC1LvByxbiaEzN1SD85OF
- nUUCwiOIWzBhjODY50rByzU+yS5k8Broa16oT5O7UX8ttrbRjaWbt8C50l0zEBeZNnwfQr+A
- HQ6upBCTIgsdfnISdHrV32IHotPtGc2MGHN9ONBReDPj7pAClGHcLtJ3x+tbWvBDWUvpQws5
- IErhKgQKa4rfLl21aHu+OzUYpmdq64gUTYwF2lQqF3nn0Nfr4znjfZYA==;
+ bh=ShQp6dAVPYr0l4Hzc71qWVNyFfhfMhrqJzEWW4HyiPA=;
+ b=Q7hfT4gLBEB35ASNQR2FStSywwYI5mcjCxIgUstFXXFHnkOlZoTxX5xShpLSERP1Izi9Yf
+ 30kMgcpcZt/pybQJntlJy3Fxfr4YDsDPu4l2dfgVgopvFgsjnHfr6KF61AiMdwhCBip+w2br
+ gladObHLpGKC6xVUiehp8djuRNbkKBd8QBxypOV/cq0AqpaavFSapQZpUpJODkYYdSNWkma3
+ aucDDJ2gVKDzdDjvXcMkM+XWDKamgEC84YW2POnl6hC4SVzJuP56PFyo9zLIXEh6aUN++jA0
+ o30HtmjV5JRauTbuebxlha0Jj6b+PJ2PHqMgXwrkLJrrVB4rRxe9RtMA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH] alsa-lib: patch CVE-2026-96674 and CVE-2026-96675
-Date: Wed,  4 Nov 2026 23:48:16 +0100
-Message-ID: <20261104224816.2433428-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH] alsa-lib: patch CVE-2026-96674 and CVE-2026-96675
+Date: Wed,  4 Nov 2026 23:48:40 +0100
+Message-ID: <20261104224840.2433581-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 22:50:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249415
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 22:50:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249416
 Content-Type: text/plain; charset="utf-8"
 
-From: Prasanth R <ragaprasanth@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backport the two upstream fixes:
-- CVE-2026-96674 & CVE-2026-96675
+Pick same patches as done in master commit
+fbe75cba76c36924d7569bafc5f2d4f037c429c4
 
-Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: fbe75cba76c36924d7569bafc5f2d4f037c429c4)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../alsa/alsa-lib/CVE-2026-96674.patch        | 68 +++++++++++++++++++
  .../alsa/alsa-lib/CVE-2026-96675.patch        | 45 ++++++++++++
- .../alsa/alsa-lib_1.2.16.1.bb                 |  2 +
+ .../alsa/alsa-lib_1.2.15.3.bb                 |  2 +
  3 files changed, 115 insertions(+)
  create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
  create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
 
 diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
 new file mode 100644
-index 0000000000..1060723bf9
+index 0000000000..49d00d3845
 --- /dev/null
 +++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
 @@ -0,0 +1,68 @@
@@ -73,7 +69,7 @@ index 0000000000..1060723bf9
 +
 +CVE: CVE-2026-96674
 +Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/f8253a68baf9a5f57cdff1cd178920d13e5beb2b]
-+Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
 + src/topology/ctl.c | 21 ++++++++++++++++++---
 + 1 file changed, 18 insertions(+), 3 deletions(-)
@@ -126,7 +122,7 @@ index 0000000000..1060723bf9
 + 				    bc->size, bc->priv.size);
 diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
 new file mode 100644
-index 0000000000..6cce139324
+index 0000000000..bd8c35a1c3
 --- /dev/null
 +++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
 @@ -0,0 +1,45 @@
@@ -147,7 +143,7 @@ index 0000000000..6cce139324
 +
 +CVE: CVE-2026-96675
 +Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/81c4a89eb445f8e991ca80ab55b5649530c0aacd]
-+Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
 + src/pcm/pcm_multi.c | 12 ++++++++++--
 + 1 file changed, 10 insertions(+), 2 deletions(-)
@@ -175,16 +171,16 @@ index 0000000000..6cce139324
 + 		bind->slave_idx = sidxs[i];
 + 		bind->slave_channel = schannels[i];
 + 		if (sidxs[i] < 0)
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
-index 685f06c726..30a5d3bb57 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
-@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.3.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.3.bb
+index 3081a522cb..288777b83f 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.3.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.15.3.bb
+@@ -13,6 +13,8 @@ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+ SRC_URI += "file://CVE-2026-25068.patch"
+ SRC_URI += "file://CVE-2026-56109.patch"
+ SRC_URI += "file://CVE-2026-90781.patch"
++SRC_URI += "file://CVE-2026-96674.patch"
++SRC_URI += "file://CVE-2026-96675.patch"
+ SRC_URI[sha256sum] = "7b079d614d582cade7ab8db2364e65271d0877a37df8757ac4ac0c8970be861e"
  
- SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
-            file://CVE-2026-90781.patch \
-+           file://CVE-2026-96674.patch \
-+           file://CVE-2026-96675.patch \
-            "
- SRC_URI[sha256sum] = "f740db7f488255944ffd4428416ee3390a96742856916433df468c281436480e"
- 
+ inherit autotools pkgconfig
