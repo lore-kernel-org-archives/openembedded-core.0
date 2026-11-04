@@ -3,67 +3,69 @@ Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
  for <openembedded-core@lists.openembedded.org>;
  Wed, 04 Nov 2026 02:56:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dG54EIGn;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=TwMr79FE;
  spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2698; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=4149; q=dns/txt;
   s=iport01; t=1793789809; x=1794999409;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=lNvI0jGnEi7iljRbjS7byO6iNOhNamCoSP+AUaIK7/E=;
-  b=dG54EIGnsknQqMQxc62yAiKAOMznww/w5ZgROVoP8oe5NQZD2J7mTwX0
-   nIvUBcfyIQkJCPvDSD+gANuF/S+YjzEeg5PbSIAYySldI9AgfK6XXdxZ4
-   5rIk729F7eo/6Wm1cj0qGSJ89VeLUQIuVAUFD5BIyhoBgSo/d/0gXA2aP
-   LSlXlTbkxpBt1qJpIO0y/RBFYYEfp98182NY14BhKbB7gyMMEeXV92sb4
-   3U5PqE3M/dowwXT1ma6j5JQYnalahQV+uVFISlfZr8doIknYQjvtUHqHg
-   0p43TPbp7ztOjowCM5jyHcvULTjT2CR1Hdpfd7QDiq36kE03Rs/0Qb/u4
-   g==;
-X-CSE-ConnectionGUID: 5kkJ+FK0S9+ARhjfYbMFAA==
-X-CSE-MsgGUID: +PY0VO96SmaSGWo3dD/Z+Q==
-X-IPAS-Result: =?us-ascii?q?A0BGAgA+Dutq/5X/Ja1RCYJZgld1YENJlksDniEUgWoPA?=
- =?us-ascii?q?QEBD0QNBAEBhQUCjhwCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECA?=
- =?us-ascii?q?QcFgQ4Thk8NkBMCAQMyARgBLRAgMSsrGYMCAYJ0AxEGuwGCLIEBgykBPwICQ?=
- =?us-ascii?q?AFQ2zMBCxQBgTiFQIgjdQGEfScbG4FygRWDaYEFgVwCAYEzEmeFeQSCInoSg?=
- =?us-ascii?q?XhljBiIREiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdgR6BE?=
- =?us-ascii?q?oEHXYErKF0BIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1P?=
- =?us-ascii?q?AkmPxUMZgsaBWEIAg0MdDkQMB4kLwUcJkAbChQYDUgRLDcVGQQ+bgeSLYIgc?=
- =?us-ascii?q?QFZBy0IIgKBbBgBOAulWqERCiiDeIwklToaM6pxCyOYWo4KlTcyG02EaYFoP?=
- =?us-ascii?q?IFZcBU7gmcJFjQZD445g2uGQMgbJjICCTIBAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:DY+Rda056tQnETw7nPbD5YJwkn2cJEfYwER7XKvMYLTBsI5bpzwAm
- DBKDWyDMquNYmCgfYxwaorgoU4H78LWmtZqTgps3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yEzmE4Ej9atANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- rsen+WFYAX7gmcsbjpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGUUI1H8422b5MUCJnz
- /waJgEHSz6qrrfjqF67YrEEasULNsLnOsYb/3pn1zycVKxgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUiRC/FMEg9/5JYWkOSlgnD+YjRwo1OOrq1x6G/WpOB0+OWxa4qMIIzaFa25mG7bn
- lOewUOoXCofPeew9j3e/l7rtKz2yHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl/DQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:9boP/6NGa+MJPcBcTuOjsMiBIKoaSvp037Dk7S9MoHtuA6ulfq
- +V/cjzuSWYtN9VYgBDpTniAtjlfZqjz/5ICOAqVN/INjUO+lHYSb2KhrGN/9SPIUHDH5ZmpM
- RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IHjJ7MHd3ATV0mmhD0JczqmLg==
-X-Talos-CUID: 9a23:/o8xUm7AGIEE0+io+tssqU0XOIMLUSXmnTT5GU+6B1djbZO8YArF
-X-Talos-MUID: 9a23:+y6PwwubEGF7S6eAys2nxwlTbPlPsvqVDUk2vqoB4MWoch4zAmLI
+  bh=LyDb+WjXtLXpiOOuXE5F8hpv82+G+Yz0GU/O9IUNnRg=;
+  b=TwMr79FEZwo4G+fl5lCYZ2sHHIl4tpF4zT2xjMZVsHNO8KcwGf0h1pDX
+   ho9kvOvt+aZVPci/uNfv4nM7ri7zh9hA5nsPt1Uk+2qwyV0u1Nve4YcSn
+   rePKJUzQs5k7k582eYUzlplTJPzDuF9iiAU5+4pAAgVC1/07jo8CZPscM
+   65zjiEhLFAl+sDksCh+cxQ3RM4tgzri8hpto16Hh322Gab8LRvxq7obge
+   /IakDH1fjUmVh7VkMcA2raZqbDffjkzMIXvvTg9/2i98yfcuhX3I3e/wO
+   SkVgFCJZaY3BWHp6KlEA6x/BXwfZSalheXKhd/LAgjcMfbUNFegce6LER
+   w==;
+X-CSE-ConnectionGUID: Ys/e6Ef9RqSAFUBtG/wKYQ==
+X-CSE-MsgGUID: 8/RIvoBaTzOruAP5q2Jyuw==
+X-IPAS-Result: =?us-ascii?q?A0BIAgA+Dutq/5T/Ja1aglmCV3VgQ0mWSwOeIYF+DwEBA?=
+ =?us-ascii?q?Q9EDQQBAYUFAo4cAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4ZPDZASAQIBAycLARgBLRAcAwECLysjCBAJgwIBgnQDEQa6Lxs3gXkzg?=
+ =?us-ascii?q?QGDKQE/AgJAAVDbMwELFAGBOIVAiCNdGAGEfScbG4FygRWDaYEFgVwCAYFHh?=
+ =?us-ascii?q?l4Egg0VgQyBWh6DB4l2AohCSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+F?=
+ =?us-ascii?q?4EHGwYFgR2BHoESgQddgSsoXQEhgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiC?=
+ =?us-ascii?q?BIJARMaLAqBGjU8CSY/FQxmCxoFYQgCDQx0ORAwHiQvBRwmQBsKFBgNSBEsN?=
+ =?us-ascii?q?xUZBD5uB5ItgxABYS0BExYBAYIDOAKTJJJBoREKKIN4jCSDXZFdGjOqcQuYf?=
+ =?us-ascii?q?Y4KlTwtG02EaYFoPIFZcBWDIgkWNBkPji4LC4NghkDIGyYyAgkyAQEHAgcOA?=
+ =?us-ascii?q?wuBaJF+AQE?=
+IronPort-Data: A9a23:+wb00KvtHp4Tr4HV1oOE8O656ufnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKTqEP/yNMzT1c9wkbojkoEsBvcWDmtdgHlZq+HgwF38VgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrb/656yYsjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZzdJ5xYuajhKsvvb9Es21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwy/0wDD9j+
+ 60iMQskQC2pm83x35GKc7w57igjBJGD0II3oHpsy3TdSP0hW52GGvyM7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtHYH49tL/Aan3Xfz5VrFuUtKMf6GnIxws327/oWDbQUoHWHpUMxBbI9
+ woq+UypRSs7Ktu1wAaX1Wixr9eShHnZSZ8NQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2cYLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWna1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:sXxRWqvl7Au48QRwxE+MUMpC7skDVNV00zEX/kB9WHVpmwKj+P
+ xG+85rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1MmZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
+ lbH5SWcOeAbmRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaDZ2JK2xCe36m+oocfng+OaYE
+X-Talos-CUID: =?us-ascii?q?9a23=3A/qgarGgAEV7j7M1t4c2riDM9/jJuQ2aawSn9LR6?=
+ =?us-ascii?q?CEF1AZoC/VXDX54BVqp87?=
+X-Talos-MUID: 9a23:vXC26QZmjnvDLuBT53jWpS9lHs5U8YO0FWk1zIxcmdiZKnkl
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,195,1787011200"; 
-   d="scan'208";a="543812888"
-Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
+   d="scan'208";a="543812889"
+Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
   by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 04 Nov 2026 10:56:48 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 62809180001C1;
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 6613E18000172;
 	Wed,  4 Nov 2026 10:56:48 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 0C073CBF201; Wed,  4 Nov 2026 02:56:48 -0800 (PST)
+	id 118AFCBF202; Wed,  4 Nov 2026 02:56:48 -0800 (PST)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][scarthgap][PATCH 1/3] curl: set CVE_STATUS for CVE-2026-19931
-Date: Wed,  4 Nov 2026 02:56:43 -0800
-Message-Id: <20261104105645.2523473-2-dkelaiya@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 2/3] curl: fix CVE-2026-18924
+Date: Wed,  4 Nov 2026 02:56:44 -0800
+Message-Id: <20261104105645.2523473-3-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261104105645.2523473-1-dkelaiya@cisco.com>
 References: <20261104105645.2523473-1-dkelaiya@cisco.com>
@@ -71,57 +73,112 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-12.cisco.com
+X-Outbound-Node: rcdn-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 10:56:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249360
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249361
 Content-Type: text/plain; charset="utf-8"
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Analysis:
-- The advisory [1] names [2] as its fixed-in commit. It moves
-  connection maintenance to admin handles, preserving the identity
-  used by authentication reuse checks.
-- Earlier, [4] added Negotiate/NTLM connection reuse checks,
-  including an SSPI ambient-user check using recent_conn_id.
-  Later, [5] removed that SSPI check; the other checks remain.
-- Curl 8.7.1 predates [4]. Applying [2] alone would not reproduce
-  the later upstream behavior; a source fix needs backport analysis.
-- The advisory describes Negotiate reuse with empty credentials and
-  lists curl 8.7.1 within the affected range [1].
-- On Linux, this requires krb5 and negotiate-auth. Scarthgap enables
-  negotiate-auth but leaves krb5 disabled by default.
-- Follow the merged GSS-API configuration check in [3]. Set
-  not-applicable-config if either option is absent; otherwise keep
-  unpatched while the source backport is deferred.
-- Record the CVE as not-applicable-config unless both required
-  PACKAGECONFIG options are enabled; otherwise retain unpatched status.
-  The CVE_STATUS decision is conditional, not hardcoded.
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-Reference:
-[1] https://curl.se/docs/CVE-2026-19931.html
-[2] https://github.com/curl/curl/commit/7103a93b05bc69ea98ed9d05d02fa9eeba533f2f
-[3] https://github.com/openembedded/openembedded-core/commit/93c410c455b92a2b1fe3b77347e57d02f344056b
-[4] https://github.com/curl/curl/commit/1a17959fc7a80864c9c9b37097856bdb4a465cf8
-[5] https://github.com/curl/curl/commit/1c58877705b172da892cb9c18c5edb572f2d1d73
+Make accepted HTTP/2 push handles inherit their parent's share object.
+Use the curl 8.7.1 share setter to retain its locking, reference
+counting and shared-cache handling during cleanup.
+
+Retain curl_easy_duphandle() instead of the later creation change in
+[3]. In 8.7.1, duplication leaves the share and connection-cache
+pointers NULL. The share setter increments its use count before the
+push callback and multi addition; cleanup releases it. Share cleanup
+is blocked while this reference remains. Keep the documented
+inheritance of parent options.
+
+[1] https://github.com/curl/curl/commit/90325ff0444cbdff368bda5d26d6405a0bb6ee43
+[2] https://curl.se/docs/CVE-2026-18924.html
+[3] https://github.com/curl/curl/commit/fad90b666df98c93ee165341b0c8101c7b10ad7b
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- meta/recipes-support/curl/curl_8.7.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../curl/curl/CVE-2026-18924.patch            | 56 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-18924.patch
 
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-18924.patch b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
+new file mode 100644
+index 0000000000..cf8a3a6290
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
+@@ -0,0 +1,56 @@
++From 90325ff0444cbdff368bda5d26d6405a0bb6ee43 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 5 Aug 2026 10:02:53 +0200
++Subject: [PATCH] http2: make server push transfers inherit share from
++ parent
++
++Reported-by: Stephan Zeisberg
++Closes #22488
++
++CVE: CVE-2026-18924
++Upstream-Status: Backport [https://github.com/curl/curl/commit/90325ff0444cbdff368bda5d26d6405a0bb6ee43]
++
++Backport Changes:
++- Use share.h because curl 8.7.1 does not have curl_share.h.
++- Use curl_easy_setopt(second, CURLOPT_SHARE, data->share)
++  instead of Curl_share_easy_link(), which is absent from curl 8.7.1.
++  The setter locks the share, updates its dirty counter and links
++  shared caches.
++- Retain curl_easy_duphandle() instead of the later curl_easy_init()
++  change in [1], preserving curl 8.7.1's documented push-option
++  inheritance. In 8.7.1, duplication leaves share and state.conn_cache
++  NULL. The share setter increments share->dirty before the push
++  callback and Curl_multi_add_perform(). Curl_close() drops the use
++  count on rejection or cleanup; curl_share_cleanup() refuses to free
++  a share still in use. The share lifetime fix therefore does not
++  require the later handle-creation change.
++
++[1] https://github.com/curl/curl/commit/fad90b666df98c93ee165341b0c8101c7b10ad7b
++
++(cherry picked from commit 90325ff0444cbdff368bda5d26d6405a0bb6ee43)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ lib/http2.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/lib/http2.c b/lib/http2.c
++index 99d7f3b0e2..694900fd8c 100644
++--- a/lib/http2.c
+++++ b/lib/http2.c
++@@ -47,6 +47,7 @@
++ #include "transfer.h"
++ #include "dynbuf.h"
++ #include "headers.h"
+++#include "share.h"
++ /* The last 3 #include files should be in this order */
++ #include "curl_printf.h"
++ #include "curl_memory.h"
++@@ -776,6 +777,8 @@ static struct Curl_easy *h2_duphandle(struct Curl_cfilter *cf,
++       second->req.p.http = http;
++       http2_data_setup(cf, second, &second_stream);
++       second->state.priority.weight = data->state.priority.weight;
+++      if(data->share)
+++        (void)curl_easy_setopt(second, CURLOPT_SHARE, data->share);
++     }
++   }
++   return second;
 diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index ab33d4aa77..b308aa1e3f 100644
+index b308aa1e3f..33265f0f25 100644
 --- a/meta/recipes-support/curl/curl_8.7.1.bb
 +++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -64,6 +64,7 @@ CVE_STATUS[CVE-2026-8458] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotia
- CVE_STATUS[CVE-2026-9547] = "not-applicable-config: vulnerable libssh backend is not enabled by the recipe"
- CVE_STATUS[CVE-2026-82209] = "not-applicable-config: public suffix list support is disabled by the recipe with --without-libpsl"
- CVE_STATUS[CVE-2026-12064] = "${@bb.utils.contains('PACKAGECONFIG', 'libssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabled in PACKAGECONFIG', d)}"
-+CVE_STATUS[CVE-2026-19931] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: GSS-API Negotiate is disabled', d)}"
+@@ -43,6 +43,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-13608.patch \
+            file://CVE-2026-8286.patch \
+            file://CVE-2026-80230.patch \
++           file://CVE-2026-18924.patch \
+            "
  
- inherit autotools pkgconfig binconfig multilib_header ptest
- 
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.35.6
