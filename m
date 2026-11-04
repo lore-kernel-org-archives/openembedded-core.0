@@ -1,124 +1,579 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.28])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8203.1793796415211451445
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8907.1793798463816163864
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 04:46:55 -0800
+ Wed, 04 Nov 2026 05:21:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=QuZp/Mx2;
- spf=pass (domain: axis.com, ip: 52.101.72.28, mailfrom: christian.lindeberg@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aFcHydDft/VXVviJaYwkqj/GaTYd2aj9E/ggdQPCR5Vf7mTWl1ot3YBzgTJPaMvXwz6YN0rhl56l8xLmfFY+AJVTtd+oNm989T31xE+AQci2DR662lQlaDtSTLqgELOnQ9DpyMmLuHiPqzR3CDLgkiQaxlW+WlQtp3ymhitAr6yZ9Eh0pLUYdxEMQBfyn4zCO8zAa99Ok2AiREswdspkbZwqn318O9C4SJnZ80UPQVuSqM41Y/TYEgTT2vRfomr16k/y5RAa1Ga0moZWigKmKNf4SURMaSoR8b70T4VslTOlLxCm50+/EbfOaLFLg+08eDdeyGW23UZhZZAzmw+kxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=98t11d4ioYVj06gsvOQPzUQn+AHwTKsNzk6vTVyORg4=;
- b=MWs4f2OW3aI+MhN7scUEChWOUV7JklO/hNtPJnVrb7bcq3BPNTDKNUaOTxLRCHGxMDwqBmRBAGLBMCwym4Jzyi8US6zY9cEPoNu1gX0yxQ8OTTwr5TKP2KpEjjSxueoA3PaQn5BkN4/F7NO+TZvmDc85p6w/zpFXu/+m2PyatghouBfCSKXgZr3qESRS4yHjPh2FTcMmczXIM94DfAiM8ZipY6h5BI+4GIQLSe2wjqbLXpFtosAspDUkTnFJASjwHxdjycEvaWmLZBI9Ob7tFkcFNF/CvFaPbUzsLs5qGaSYD6mwJpcEJwjsh/99lF7tLfkM/LivIFwuxywVA8AfGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=98t11d4ioYVj06gsvOQPzUQn+AHwTKsNzk6vTVyORg4=;
- b=QuZp/Mx2yudHyLiRSCOcxDetvYrRxCglg7r7wygcVqzZ3ycMRty2d2azaFuPGiD3Nr1ROCb2nrzPMNGGWnCh8CMIbhVed5jGlmLLZk8EC6fq/dEqzdJUQIWNiA42nHXRZr0UmgPZTHpWLzwOgydkuFWsGXijzM+cEYQPQxyBVo0=
-Received: from MA3P292CA0006.ESPP292.PROD.OUTLOOK.COM (2603:10a6:250:2c::14)
- by AS4PR02MB8182.eurprd02.prod.outlook.com (2603:10a6:20b:4cd::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.9; Wed, 4 Nov 2026
- 12:46:49 +0000
-Received: from MAD0EPF000008B2.eurprd04.prod.outlook.com
- (2603:10a6:250:2c:cafe::ae) by MA3P292CA0006.outlook.office365.com
- (2603:10a6:250:2c::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Wed, 4
- Nov 2026 12:46:49 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 195.60.68.100) smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- MAD0EPF000008B2.mail.protection.outlook.com (10.167.241.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.592.5 via Frontend Transport; Wed, 4 Nov 2026 12:46:49 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Wed, 4 Nov
- 2026 13:46:48 +0100
-Received: from se-mail10w.axis.com (10.20.40.10) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Wed, 4 Nov
- 2026 13:46:48 +0100
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Wed, 4 Nov 2026 13:46:48 +0100
-Received: from pc50740-2234.se.axis.com (pc50740-2234.se.axis.com [10.94.131.4])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 857461515
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Nov 2026 13:46:48 +0100 (CET)
-Received: by pc50740-2234.se.axis.com (Postfix, from userid 21184)
-	id 818935287280; Wed,  4 Nov 2026 13:46:48 +0100 (CET)
-From: Christian Lindeberg <christian.lindeberg@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] go-mod-update-modules.bbclass: Fix no licenses
-Date: Wed, 4 Nov 2026 13:46:40 +0100
-Message-ID: <20261104124640.4050362-1-christian.lindeberg@axis.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=FdwaGev4;
+ spf=pass (domain: amarulasolutions.com, ip: 209.85.218.42, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c40f5077425so10357666b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 05:21:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1793798462; x=1794403262; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rAT0p06uFiC/KOR/Q+yxGmPyBliloon1QjwJr4+/lBI=;
+        b=FdwaGev4TZtr9q1F3gCBzGiNUbLiN6HTUWqF6ZmSOBRM+70TN90ISPCKbEb6gD3Nz+
+         8IePcgRVf1KiHQP/FkBOqLrpGOdv0eLXCGrVVdXJMygloKg1H4hWp8Ilvysk7ugsq9Aa
+         LQDiOpwUYrgY7ygErTX47WNl2g6vuHs67ygeU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793798462; x=1794403262;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rAT0p06uFiC/KOR/Q+yxGmPyBliloon1QjwJr4+/lBI=;
+        b=L5rzUofuPIsGIUfFM8E6lF1W/bP9iX7VTDFqLjXvM9ypXKCdF0OJPnVCGdExzpS6mv
+         ehBXg2dxhzjVCWmN1ijETJkMr86vpe48cTTXp0A/auPugiU8YUc8OZOjhRV04oilia28
+         wJs/JDfEduoioQdy0ejYOWqJG+i9Ck9HqonJoO5RNNxs1AxAcoI12wCnn2CODtDuLDDO
+         VTyHMa0WlV8hAI/BmxfTXPTUNIf/eN3gQTxfqSQc1RyU6THJTUae3nzCwcjxhjXoY9xg
+         2tNC81UjbgjPJM7OrGWLM9gwiMm0dz65SecLkpkzfMydKby+O6hQHU9UKS8UnXyURHFA
+         FDmw==
+X-Gm-Message-State: APuU4Z/K4Lvb0m0CRS3n1nrf/iw88aTfg8Vg1TrRtOGq/yIpgsTMa2XO
+	Rc+ppIoId5RW43Kff74+iM7MXpc8eFpiZyXldYMYFb0jd6TEaniWFtfDt0eYiKTXcMfl1opV0je
+	oGAlLEqI=
+X-Gm-Gg: AYBFou2ImYFgkMxFAWQ3OA3B+PNmgYlns6Kb0hhnKAehIlK4O9tXa5yj5CG13+YAiwt
+	Sa1HzPRzK3l67jCg3E/iumaAhbU6nFePATyP2stDG/teZ78rVR8uSPmzXRe14DV/uw0t57hGe44
+	WMHlBy66FnGpIOISIqbZnAmAW3y/tcCzZPYk2XuIyn7ggVcqwAOVPAFszfekZoKHyieZFisTak+
+	iciK6S8bAMeWeX6j+FKqgFjE3rEltYuKVFfjDDU4isOokirlpWA8qytdTpju0VZ9TYl4TpLyBrq
+	WpclVcpvPxp5Up6SHkdQyji/wXWIVVg/3ghMzyU0llwZqInSSEqLipvyaNcVWKNp7l/+HVS4Hfx
+	dsjOm/EaFOjCE9h/YokHdU2i1SXgZq79MRKu5/v8N8o6B0c5QC3h/7Q7qooaHrEokr/2K2xxVKD
+	4R8gqF7tSPo+659zommjR9/MLta0ynXF21c7NVPixdd89pTOly40/GwF4t+LILnc75GenMYDEiV
+	0hMDVm+O/VHA0S4ZBi6PW3ogfUhSMkuSoQbU+bxoCqcfMBpqnj8qkblUBj7Q/QtszHroA+FpaYS
+	NQWWW6uqlm7bjJecT1oPEMXu+cWPYYrqFFax1wb2tNrnX2sIAVc6gGOsqM0mTXxFirF2NyFO1h1
+	WzBONOTVrY5FY8cOsw7PQWCfOZcBgPg4y9T7r0lMY2Ht3MR8WdCU7hkZryi73NvRGwTrgcrnUrG
+	MK+dR57mbkEhrp+OWNa03PcQGsgtyTi1E=
+X-Received: by 2002:a17:906:a005:b0:c29:4634:5c8f with SMTP id a640c23a62f3a-c4ca7405bffmr1437890366b.0.1793798461738;
+        Wed, 04 Nov 2026 05:21:01 -0800 (PST)
+Return-Path: <adam.duskett@amarulasolutions.com>
+Received: from adam-linux.tail032493.ts.net (2001-1c00-8181-e800-030c-182b-b2a8-e89d.cable.dynamic.v6.ziggo.nl. [2001:1c00:8181:e800:30c:182b:b2a8:e89d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d0e140f93sm70343466b.6.2026.11.04.05.20.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 05:20:59 -0800 (PST)
+From: Adam Duskett <adam.duskett@amarulasolutions.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
+Subject: [PATCH v12 1/4] libtoml1: fix building tests with gcc 16
+Date: Wed,  4 Nov 2026 14:20:53 +0100
+Message-ID: <20261104132057.607953-1-adam.duskett@amarulasolutions.com>
+X-Mailer: git-send-email 2.56.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Return-Path: Christian.Lindeberg@axis.com
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MAD0EPF000008B2:EE_|AS4PR02MB8182:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85e1e20e-4341-4523-173d-08df3a71b183
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|82310400026|36860700016|261028144727099003|261022105027099003|11063799006|56012099006|261009223027099003|261021121427099003|261102123227099003|261021123027099003|261022075727099003|261026121527099003|261026140227099003|10067099003|18002099003|13003099007;
-X-Microsoft-Antispam-Message-Info: ksLfB1LBtkVIoi1uK3yLevp1uHkH1NNYO3DILG86CjXiM43KwT85gpRE4HGz3enL4D+ykHS1U/+83LZ2I8iiRzDXb6iYOfcLTdlrkvp6JAHb8wCkSn5CDpKUuAvAuJ/MUWU/PHyaNIwYATvcQtGxKcnpvi5NIVXp8Q9KsBLnrQm4F0lGwpU1rBuIsHjnlTtv9iajwPhZIfm31Ii31iy3pXHkT4OhVviDJsKHBXeNSHf1UuhB+Cgmlbc9UXlmTBXQOY3SeZ50fpj2B2g11kcttk+CZ09MMIpKIOKdrQ1g+BFrqL3tuuRrpVLRdOzI0NHJuAj9NjoOkuxICWZPebMCU1vb9uKNo7v8rqpvmhju0lOzyJ3sfXAoQREb3U/DRpwUTy+kgUPO45rroJRh9UTDtO3gSXa4BActyUKgf5jup6uqXvsFLzXJ6KujXNlObwls7akgJphrLMXPzrzmqTzddP3xAZa+qHgel8bpr+p/AW8b+4MSww2TI7tpdeq/bSehCLipGfF6Y5z3Yxm+uX/1+7qJYnABiuKGeukd6xopHyQirND4SZF+hvqGUf0ZCm+N7U3r2fO3lSzNRLlYA0CFXR20fOVnfn5Rby9UkX022dzjCfQ9nWez/1S/mXMZwESFiX1LwH87pprXwYxNjDE8tsxr6eVOytjrlMK9hKCEQs8=
-X-Forefront-Antispam-Report: CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(82310400026)(36860700016)(261028144727099003)(261022105027099003)(11063799006)(56012099006)(261009223027099003)(261021121427099003)(261102123227099003)(261021123027099003)(261022075727099003)(261026121527099003)(261026140227099003)(10067099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: llr9+Szueipr6hxdNgSrKL4ATbNcxbRQITBdwjGKhT0FzZEtyyPQUFw0YrnUzc00b6/W61NfooKXJ/ExqN6MCqX07yWFRudW7Cw8rSA4r9jqwMs1Hss8V94Fm1cnosGdwBM9KVpS2kCrzUG7EmGI1PTvTj7oY6VNkrK1v7f+d+QA6HbQf2EcvJcWgGF61+8kaKeyurtwntjoBeGhghIUhTKX2HipS76wK2YTmBpdAtUtmY/ea6EzrOhBdFS7uUhMHx1K+pReY+pOFfrum5yCssexhglBGe5zMOxSqqLsQtxPptlHDlBirJcxRVeyNbn6EHKe2tsPtnZ9l/K04/yMD7ctp+mCWwLImDJOlbAnWstVT4j1u1UNGtEtiKOaPrnJM1E/4qz3Znir5qaBQzIa6Vk5lVgJDQeCr6sBA5b3Drob3vDmn5YCoe0OuDprkOS+
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 12:46:49.2843
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85e1e20e-4341-4523-173d-08df3a71b183
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: MAD0EPF000008B2.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR02MB8182
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 12:47:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249375
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 13:21:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249376
 Content-Type: text/plain; charset="utf-8"
 
-Fix the no licenses edge case where a trailing "AND" gives a LICENSE
-value with an invalid format.
-E.g. github.com/jstemmer/go-junit-report@v2.1.0 where only the tests
-have external module dependencies.
+GCC 16 warns that the format may be used uninitialized when a value is
+assigned a different type, for example:
 
-Signed-off-by: Christian Lindeberg <christian.lindeberg@axis.com>
+  toml::value v(true);
+  v = std::chrono::hours(1);
+
+The warning is a false positive, but the tests build with -Werror, so
+the build fails.
+
+Every operator= copied the old format out of the union behind a type
+check that GCC could not see through, so it flagged a possible read of
+an inactive member.
+
+Add a small helper that keeps the format when the type is unchanged and
+uses the default format otherwise, so the old format is never copied.
+The convenience overloads now convert their argument and forward to the
+main ones, removing a lot of duplicated code.
+
+Fixes:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/4814
+
+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
- meta/classes-recipe/go-mod-update-modules.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ ...e-uninitialized-warnings-in-operator.patch | 466 ++++++++++++++++++
+ .../libtoml11/libtoml11_4.4.0.bb              |   1 +
+ 2 files changed, 467 insertions(+)
+ create mode 100644 meta/recipes-devtools/libtoml11/files/0002-avoid-maybe-uninitialized-warnings-in-operator.patch
 
-diff --git a/meta/classes-recipe/go-mod-update-modules.bbclass b/meta/class=
-es-recipe/go-mod-update-modules.bbclass
-index 435e7e30ff..fc618dd750 100644
---- a/meta/classes-recipe/go-mod-update-modules.bbclass
-+++ b/meta/classes-recipe/go-mod-update-modules.bbclass
-@@ -91,10 +91,10 @@ python do_update_modules() {
-         licenses_filename =3D os.path.join(thisdir, f"{bpn}-licenses.inc")
-         with open(licenses_filename, "w") as f:
-             f.write(notice)
--            f.write('LICENSE +=3D "AND')
-+            f.write('LICENSE +=3D "')
-             if licenses:
--                f.write(' ')
--                f.write(oe.spdx_license.AndOp.join(licenses).sort().to_str=
-ing())
-+                f.write(oe.spdx_license.AndOp.NAME + ' ' +
-+                        oe.spdx_license.AndOp.join(licenses).sort().to_str=
-ing())
-             f.write('"\n\n')
-             f.write('LIC_FILES_CHKSUM +=3D "\\\n')
-             for lic in sorted(lic_files_chksum, key=3Dfold_uri):
+diff --git a/meta/recipes-devtools/libtoml11/files/0002-avoid-maybe-uninitialized-warnings-in-operator.patch b/meta/recipes-devtools/libtoml11/files/0002-avoid-maybe-uninitialized-warnings-in-operator.patch
+new file mode 100644
+index 0000000000..9de62ff3fc
+--- /dev/null
++++ b/meta/recipes-devtools/libtoml11/files/0002-avoid-maybe-uninitialized-warnings-in-operator.patch
+@@ -0,0 +1,466 @@
++From e53cc3da832cae3722b969e515b9f8612250377d Mon Sep 17 00:00:00 2001
++From: Adam Duskett <adam.duskett@amarulasolutions.com>
++Date: Tue, 3 Nov 2026 15:08:49 +0100
++Subject: [PATCH] avoid maybe-uninitialized warnings in operator=
++
++GCC 16 warns that the format may be used uninitialized when a value is
++assigned a different type, for example:
++
++  toml::value v(true);
++  v = std::chrono::hours(1);
++
++The warning is a false positive, but the tests build with -Werror, so
++the build fails.
++
++Every operator= copied the old format out of the union behind a type
++check that GCC could not see through, so it flagged a possible read of
++an inactive member.
++
++Add a small helper that keeps the format when the type is unchanged and
++uses the default format otherwise, so the old format is never copied.
++The convenience overloads now convert their argument and forward to the
++main ones, removing a lot of duplicated code.
++
++Upstream-Status: Submitted [https://github.com/ToruNiina/toml11/pull/325]
++Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
++---
++ include/toml11/value.hpp | 293 ++++++++-------------------------------
++ 1 file changed, 57 insertions(+), 236 deletions(-)
++
++diff --git a/include/toml11/value.hpp b/include/toml11/value.hpp
++index 8b446a7..e512c3e 100644
++--- a/include/toml11/value.hpp
+++++ b/include/toml11/value.hpp
++@@ -404,18 +404,8 @@ class basic_value
++     {}
++     basic_value& operator=(boolean_type x)
++     {
++-        boolean_format_info fmt;
++-        if(this->is_boolean())
++-        {
++-            fmt = this->as_boolean_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::boolean;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->boolean_, boolean_storage(x, fmt));
+++        this->assign_keeping_format(value_t::boolean, this->boolean_,
+++                                    std::move(x));
++         return *this;
++     }
++ 
++@@ -444,18 +434,8 @@ class basic_value
++     {}
++     basic_value& operator=(integer_type x)
++     {
++-        integer_format_info fmt;
++-        if(this->is_integer())
++-        {
++-            fmt = this->as_integer_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::integer;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->integer_, integer_storage(std::move(x), std::move(fmt)));
+++        this->assign_keeping_format(value_t::integer, this->integer_,
+++                                    std::move(x));
++         return *this;
++     }
++ 
++@@ -497,18 +477,7 @@ class basic_value
++     template<typename T, enable_if_integer_like_t<T> = nullptr>
++     basic_value& operator=(T x)
++     {
++-        integer_format_info fmt;
++-        if(this->is_integer())
++-        {
++-            fmt = this->as_integer_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::integer;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->integer_, integer_storage(x, std::move(fmt)));
+++        *this = static_cast<integer_type>(x);
++         return *this;
++     }
++ 
++@@ -537,18 +506,8 @@ class basic_value
++     {}
++     basic_value& operator=(floating_type x)
++     {
++-        floating_format_info fmt;
++-        if(this->is_floating())
++-        {
++-            fmt = this->as_floating_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::floating;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->floating_, floating_storage(std::move(x), std::move(fmt)));
+++        this->assign_keeping_format(value_t::floating, this->floating_,
+++                                    std::move(x));
++         return *this;
++     }
++ 
++@@ -594,18 +553,7 @@ class basic_value
++     template<typename T, enable_if_floating_like_t<T> = nullptr>
++     basic_value& operator=(T x)
++     {
++-        floating_format_info fmt;
++-        if(this->is_floating())
++-        {
++-            fmt = this->as_floating_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::floating;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->floating_, floating_storage(x, std::move(fmt)));
+++        *this = static_cast<floating_type>(x);
++         return *this;
++     }
++ 
++@@ -635,18 +583,8 @@ class basic_value
++     {}
++     basic_value& operator=(string_type x)
++     {
++-        string_format_info fmt;
++-        if(this->is_string())
++-        {
++-            fmt = this->as_string_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::string;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->string_, string_storage(x, std::move(fmt)));
+++        this->assign_keeping_format(value_t::string, this->string_,
+++                                    std::move(x));
++         return *this;
++     }
++ 
++@@ -674,18 +612,7 @@ class basic_value
++     {}
++     basic_value& operator=(const typename string_type::value_type* x)
++     {
++-        string_format_info fmt;
++-        if(this->is_string())
++-        {
++-            fmt = this->as_string_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::string;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->string_, string_storage(string_type(x), std::move(fmt)));
+++        *this = string_type(x);
++         return *this;
++     }
++ 
++@@ -715,18 +642,7 @@ class basic_value
++     {}
++     basic_value& operator=(string_view_type x)
++     {
++-        string_format_info fmt;
++-        if(this->is_string())
++-        {
++-            fmt = this->as_string_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::string;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->string_, string_storage(string_type(x), std::move(fmt)));
+++        *this = string_type(x);
++         return *this;
++     }
++ 
++@@ -779,18 +695,7 @@ class basic_value
++         >::value, std::nullptr_t> = nullptr>
++     basic_value& operator=(const T& x)
++     {
++-        string_format_info fmt;
++-        if(this->is_string())
++-        {
++-            fmt = this->as_string_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::string;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->string_, string_storage(detail::string_conv<string_type>(x), std::move(fmt)));
+++        *this = detail::string_conv<string_type>(x);
++         return *this;
++     }
++ 
++@@ -820,18 +725,8 @@ class basic_value
++     {}
++     basic_value& operator=(local_date_type x)
++     {
++-        local_date_format_info fmt;
++-        if(this->is_local_date())
++-        {
++-            fmt = this->as_local_date_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::local_date;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->local_date_, local_date_storage(x, fmt));
+++        this->assign_keeping_format(value_t::local_date, this->local_date_,
+++                                    std::move(x));
++         return *this;
++     }
++ 
++@@ -861,18 +756,8 @@ class basic_value
++     {}
++     basic_value& operator=(local_time_type x)
++     {
++-        local_time_format_info fmt;
++-        if(this->is_local_time())
++-        {
++-            fmt = this->as_local_time_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::local_time;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->local_time_, local_time_storage(x, fmt));
+++        this->assign_keeping_format(value_t::local_time, this->local_time_,
+++                                    std::move(x));
++         return *this;
++     }
++ 
++@@ -901,18 +786,7 @@ class basic_value
++     template<typename Rep, typename Period>
++     basic_value& operator=(const std::chrono::duration<Rep, Period>& x)
++     {
++-        local_time_format_info fmt;
++-        if(this->is_local_time())
++-        {
++-            fmt = this->as_local_time_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::local_time;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->local_time_, local_time_storage(local_time_type(x), std::move(fmt)));
+++        *this = local_time_type(x);
++         return *this;
++     }
++ 
++@@ -942,18 +816,8 @@ class basic_value
++     {}
++     basic_value& operator=(local_datetime_type x)
++     {
++-        local_datetime_format_info fmt;
++-        if(this->is_local_datetime())
++-        {
++-            fmt = this->as_local_datetime_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::local_datetime;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->local_datetime_, local_datetime_storage(x, fmt));
+++        this->assign_keeping_format(value_t::local_datetime, this->local_datetime_,
+++                                    std::move(x));
++         return *this;
++     }
++ 
++@@ -983,18 +847,8 @@ class basic_value
++     {}
++     basic_value& operator=(offset_datetime_type x)
++     {
++-        offset_datetime_format_info fmt;
++-        if(this->is_offset_datetime())
++-        {
++-            fmt = this->as_offset_datetime_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::offset_datetime;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->offset_datetime_, offset_datetime_storage(x, fmt));
+++        this->assign_keeping_format(value_t::offset_datetime, this->offset_datetime_,
+++                                    std::move(x));
++         return *this;
++     }
++ 
++@@ -1018,18 +872,7 @@ class basic_value
++     {}
++     basic_value& operator=(std::chrono::system_clock::time_point x)
++     {
++-        offset_datetime_format_info fmt;
++-        if(this->is_offset_datetime())
++-        {
++-            fmt = this->as_offset_datetime_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::offset_datetime;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->offset_datetime_, offset_datetime_storage(offset_datetime_type(x), fmt));
+++        *this = offset_datetime_type(x);
++         return *this;
++     }
++ 
++@@ -1060,19 +903,8 @@ class basic_value
++     {}
++     basic_value& operator=(array_type x)
++     {
++-        array_format_info fmt;
++-        if(this->is_array())
++-        {
++-            fmt = this->as_array_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::array;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->array_, array_storage(
++-                    detail::storage<array_type>(std::move(x)), std::move(fmt)));
+++        this->assign_keeping_format(value_t::array, this->array_,
+++                                    detail::storage<array_type>(std::move(x)));
++         return *this;
++     }
++ 
++@@ -1124,21 +956,8 @@ class basic_value
++     template<typename T, enable_if_array_like_t<T> = nullptr>
++     basic_value& operator=(T x)
++     {
++-        array_format_info fmt;
++-        if(this->is_array())
++-        {
++-            fmt = this->as_array_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::array;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        array_type a(std::make_move_iterator(x.begin()),
++-                     std::make_move_iterator(x.end()));
++-        assigner(this->array_, array_storage(
++-                    detail::storage<array_type>(std::move(a)), std::move(fmt)));
+++        *this = array_type(std::make_move_iterator(x.begin()),
+++                           std::make_move_iterator(x.end()));
++         return *this;
++     }
++ 
++@@ -1169,19 +988,8 @@ class basic_value
++     {}
++     basic_value& operator=(table_type x)
++     {
++-        table_format_info fmt;
++-        if(this->is_table())
++-        {
++-            fmt = this->as_table_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::table;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        assigner(this->table_, table_storage(
++-            detail::storage<table_type>(std::move(x)), std::move(fmt)));
+++        this->assign_keeping_format(value_t::table, this->table_,
+++                                    detail::storage<table_type>(std::move(x)));
++         return *this;
++     }
++ 
++@@ -1231,21 +1039,8 @@ class basic_value
++     template<typename T, enable_if_table_like_t<T> = nullptr>
++     basic_value& operator=(T x)
++     {
++-        table_format_info fmt;
++-        if(this->is_table())
++-        {
++-            fmt = this->as_table_fmt();
++-        }
++-        this->cleanup();
++-        this->type_   = value_t::table;
++-        this->region_ = region_type{};
++-#ifdef TOML11_ENABLE_ACCESS_CHECK
++-        this->accessed_ = false;
++-#endif
++-        table_type t(std::make_move_iterator(x.begin()),
++-                     std::make_move_iterator(x.end()));
++-        assigner(this->table_, table_storage(
++-            detail::storage<table_type>(std::move(t)), std::move(fmt)));
+++        *this = table_type(std::make_move_iterator(x.begin()),
+++                           std::make_move_iterator(x.end()));
++         return *this;
++     }
++ 
++@@ -2083,6 +1878,32 @@ class basic_value
++         return;
++     }
++ 
+++    // Assign a new value of type `ty`. If this already holds a value of that
+++    // type, only the value is replaced and its format is kept. Otherwise the
+++    // current value is destroyed and the new one gets the default format.
+++    //
+++    // The format of the inactive union member is never read, so compilers do
+++    // not see a (false positive) maybe-uninitialized read through the union.
+++    template<typename Storage>
+++    void assign_keeping_format(const value_t ty, Storage& dst,
+++                               typename Storage::value_type v)
+++    {
+++        if(this->type_ == ty)
+++        {
+++            dst.value = std::move(v);
+++        }
+++        else
+++        {
+++            this->cleanup();
+++            this->type_ = ty;
+++            assigner(dst, Storage(std::move(v), typename Storage::format_type{}));
+++        }
+++        this->region_ = region_type{};
+++#ifdef TOML11_ENABLE_ACCESS_CHECK
+++        this->accessed_ = false;
+++#endif
+++    }
+++
++     template<typename T, typename U>
++     static void assigner(T& dst, U&& v)
++     {
+diff --git a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+index 49f9840f06..d9f0fa82f0 100644
+--- a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
++++ b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+@@ -17,6 +17,7 @@ SRC_URI = "\
+     gitsm://github.com/ToruNiina/toml11.git;protocol=https;branch=main;tag=v${PV} \
+     file://0001-Remove-whitespace-in-operator.patch \
+     file://0001-Remove-more-whitespaces-after-operator.patch \
++    file://0002-avoid-maybe-uninitialized-warnings-in-operator.patch \
+     file://run-ptest \
+ "
+ SRCREV = "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
+-- 
+2.56.0
+
