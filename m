@@ -1,106 +1,159 @@
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2705.1793747773085312755
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3447.1793750797322547467
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2026 15:16:13 -0800
+ Tue, 03 Nov 2026 16:06:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.51, mailfrom: mark.yang@lge.com)
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.51 with ESMTP; 4 Nov 2026 08:16:10 +0900
-X-Original-SENDERIP: 156.147.1.127
-X-Original-MAILFROM: mark.yang@lge.com
-Received: from unknown (HELO markyang..) (10.177.122.207)
-	by 156.147.1.127 with ESMTP; 4 Nov 2026 08:16:10 +0900
-X-Original-SENDERIP: 10.177.122.207
-X-Original-MAILFROM: mark.yang@lge.com
-From: mark.yang@lge.com
+ dkim=pass header.i=@konsulko.com header.s=google header.b=oodw3YDL;
+ spf=pass (domain: konsulko.com, ip: 209.85.214.172, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2e9d7791b00so881315ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 16:06:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1793750797; x=1794355597; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AUw70Yge+8TVjO1iMgrrsL9pycDODoqX4oTggk2Qx4E=;
+        b=oodw3YDL9O2cQe5b0Qgi67/seyIw0NOODv702l3YT/yWNVnWVLtF/+teqWFsnDznHf
+         wXjHFQPOBB/HfYcAa1rfEO5R+VJ9NCiBqV/4925ZBXYTVKzpew8Uol4DIHKRrx1wW8Wc
+         c/8YxGElQJMYV5BQXjPkyRKy5c+liz19LAn3c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793750797; x=1794355597;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AUw70Yge+8TVjO1iMgrrsL9pycDODoqX4oTggk2Qx4E=;
+        b=QGFp/R6DggjH8klN1GptqP3Hb82e5T87wnWGFoVYMcNpRdN4T5uyXCqZ8cUJnPvcxk
+         WvEFL/e8XAY1DdswPAxXZuA69dLhvU99WUWWRCrbdU+wdMukSM/zJHR0Qiq9Sg/Nd2kn
+         6MKFr6G+2vewu4phu1XBjmXvQJiHeW09wK0plJIoynYj3dZqmrp4gEGFgFv1Ot2hvccF
+         ckjLDoQKfLFlC2VJKStNih6xWg/B8pB91V5Bk3KIkr32aI6EcVl/cL17wOcurw42NIws
+         cQH5m5UF4/goUMStW0MVaNE79Jk7s4tCbmNoqtmgMDrT5d7E/n59hNxFgC6nuua7BbXM
+         p6EA==
+X-Gm-Message-State: APuU4Z8Jy/ik5a/wSdLbRP/4TFIpZfR7k+hJOq71pdHI9D107ugCvta7
+	rONJLKbyGFMhgu2zf71Vz1p9vnO5xl6kGwmZYepp/7eL+bv2+i8AakpWKpSdiCRqYFxIYESGukF
+	TLc1O
+X-Gm-Gg: AYBFou3MfgH5vInDz7ba5a/EPaE9as93MxK2mKvG4bq/lXc6o6aDNxTSvHR4chP0tbL
+	5vkGj804uZqp4r8w0fbK+nuqvzKl2tvid1QJyU4lUm/w9wGCAnexydWJa5xY+Gji7t0TU4dXzsL
+	wUpGcmgQ0PNBVHl/52VR5XcP2vqif2i+sm+ptDv694A4KDdpDZ9sepTICqh0eDUrT1GqMI466ND
+	czVpBNiIfQfniKrLLUjzAb8iuT/eeGpCi0JCUBrp23k81Xgk26R1aDOa4TcL8DhuQbifoB+3Vwg
+	qvX4EDL4Hk8STQT3/TBnNdz0bZZkkQmNoHyTpbHDgx90rTYAip39S822/1VlGuKCFdzxmsAeEgu
+	DGbjwDXhWDBVz7qzAfCh/RDpKkyaxLnTDu1a2lMM6bVI88FvmiOQxaErTTs1//PEnluTmn72/u4
+	PUM1YTWhbT8WEcXyyQTSr9Hi+9HjR1X69K1roJd2ikt41QaFqBQ7K2kxSkGhgaio+Rx5M6Tkx5q
+	CBz0/wdfbqh3LLyp+jhLYsAd5HcfjnbfLd1v1GuvBEPWWV9AAg7hWs+XvdWEK1VrDHx2KgK6E+P
+	DE8uZVOP/RGrA5IAYFFbcBeCjIiSR+YgXqd71yHrnACyBjFi18OlGT7pte86K/+55v3sZSsaFJu
+	fFpmmIYyDGOHUdyFhhOUBuZt/bC8BF/nalgWbzkxamR5Ihd91
+X-Received: by 2002:a17:902:e74b:b0:2e5:70cd:b606 with SMTP id d9443c01a7336-2eb364f2b71mr134960955ad.56.1793750796550;
+        Tue, 03 Nov 2026 16:06:36 -0800 (PST)
+Return-Path: <tim.orling@konsulko.com>
+Received: from thetis.home.local ([2606:c800:6024:2000:d453:884b:8607:3eb7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ed088a624esm588985ad.0.2026.11.03.16.06.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 16:06:35 -0800 (PST)
+From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Martin Jansa <martin.jansa@gmail.com>,
-	"mark.yang" <mark.yang@lge.com>
-Subject: [PATCH 3/6] multilib_header_wrapper.h: support musl
-Date: Wed,  4 Nov 2026 08:16:04 +0900
-Message-ID: <20261103231607.4021851-4-mark.yang@lge.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261103231607.4021851-1-mark.yang@lge.com>
-References: <20261103231607.4021851-1-mark.yang@lge.com>
+Cc: tgamblin@baylibre.com,
+	Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH v3 1/5] python3-uvloop: import 0.22.1 from meta-homeassistant
+Date: Tue,  3 Nov 2026 16:06:25 -0800
+Message-ID: <20261104000629.3345377-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261103193829.1806542-2-tim.orling@konsulko.com>
+References: <20261103193829.1806542-2-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2026 23:16:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249307
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 00:06:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249309
 Content-Type: text/plain; charset="utf-8"
 
-From: "mark.yang" <mark.yang@lge.com>
+From: Tim Orling <tim.orling@konsulko.com>
 
-Pick the -32/-64 variant on musl from the musl headers in the sysroot,
-or from __SIZEOF_POINTER__ when both variants are there. glibc multilib
-is unchanged.
+uvloop is an asyncio event loop built on libuv. The python3-websockets
+test suite exercises it, so bring it into oe-core.
 
-This brings back __MHWORDSIZE, dropped in 3a6ba47ede. musl defines
-__WORDSIZE in sys/reg.h and sys/user.h, and a wrapper included after
-them would redefine it. The first wrapper in a translation unit sets
-it as follows:
+Changes from the meta-homeassistant recipe:
+* Build against the oe-core libuv recipe through setup.cfg, instead of
+  patching setup.py; drop the Cython pin relaxation, since ~=3.1 already
+  allows Cython 3.2.
+* LICENSE is "Apache-2.0 OR MIT" (dual-licensed upstream), and the
+  vendored libuv licenses are dropped since it is not built.
+* Drop aiohttp, psutil and pyopenssl from RDEPENDS; they are only test
+  dependencies. Add python3-asyncio.
+* Move the maintainer entry to maintainers.inc.
 
-1. Already defined: used as is. SWIG has no __has_include, so musl
-   recipes that run it over wrapped headers pass -D__MHWORDSIZE=<bits>.
-2. Only bits/alltypes-32.h or only bits/alltypes-64.h: 32 or 64.
-   This is a recipe sysroot, which has one musl variant.
-3. bits/alltypes.h with both variants: __SIZEOF_POINTER__ * 8.
-   This is an SDK sysroot.
-4. Otherwise: __WORDSIZE from bits/wordsize.h, as before.
-
-musl installs bits/alltypes-32.h or -64.h now that its bits headers
-are wrapped.
-
-bpf needs no __bpf__ check. 6d8c7e3426 removed the old one, which
-set 64. A lib32 recipe that builds eBPF with clang -target bpf gets
-8-byte pointers, so the pointer size alone would pick the -64.h
-headers. Its sysroot has only the -32.h ones, and rule 2 picks those.
-
-Signed-off-by: mark.yang <mark.yang@lge.com>
+AI-Generated: Uses Claude Code (Claude Opus 5.5)
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- scripts/multilib_header_wrapper.h | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+No changes in v2 or v3.
 
-diff --git a/scripts/multilib_header_wrapper.h b/scripts/multilib_header_wrapper.h
-index 88f3193812..cb7ebb8c10 100644
---- a/scripts/multilib_header_wrapper.h
-+++ b/scripts/multilib_header_wrapper.h
-@@ -5,9 +5,23 @@
-  * 
-  */
- 
--#include <bits/wordsize.h>
-+#ifndef __MHWORDSIZE
-+# if defined(__has_include)
-+#  if __has_include(<bits/alltypes-32.h>) && !__has_include(<bits/alltypes-64.h>)
-+#   define __MHWORDSIZE 32				/* musl, 32-bit only */
-+#  elif __has_include(<bits/alltypes-64.h>) && !__has_include(<bits/alltypes-32.h>)
-+#   define __MHWORDSIZE 64				/* musl, 64-bit only */
-+#  elif __has_include(<bits/alltypes.h>)
-+#   define __MHWORDSIZE (__SIZEOF_POINTER__ * 8)	/* musl, both (SDK) */
-+#  endif
-+# endif
-+# ifndef __MHWORDSIZE
-+#  include <bits/wordsize.h>				/* glibc */
-+#  define __MHWORDSIZE __WORDSIZE
-+# endif
-+#endif
- 
--#if __WORDSIZE == 32
-+#if __MHWORDSIZE == 32
- 
- #ifdef _MIPS_SIM
- 
-@@ -23,9 +37,9 @@
- #include <ENTER_HEADER_FILENAME_HERE-32.h>
- #endif
- 
--#elif __WORDSIZE == 64
-+#elif __MHWORDSIZE == 64
- #include <ENTER_HEADER_FILENAME_HERE-64.h>
- #else
- #error "Unknown __WORDSIZE detected"
--#endif /* matches #if __WORDSIZE == 32 */
-+#endif /* matches #if __MHWORDSIZE == 32 */
-   
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../0001-setup.cfg-use-system-libuv.patch     | 21 +++++++++++++++++++
+ .../python/python3-uvloop_0.22.1.bb           | 17 +++++++++++++++
+ 3 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-uvloop/0001-setup.cfg-use-system-libuv.patch
+ create mode 100644 meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 74db3e44e9..0b2b8c5b8a 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -750,6 +750,7 @@ RECIPE_MAINTAINER:pn-python3-unittest-automake-output = "Ross Burton <ross.burto
+ RECIPE_MAINTAINER:pn-python3-uritools = "Marta Rybczynska <marta.rybczynska@ygreky.com>"
+ RECIPE_MAINTAINER:pn-python3-urllib3 = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-uv-build = "Trevor Gamblin <tgamblin@baylibre.com>"
++RECIPE_MAINTAINER:pn-python3-uvloop = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-vcs-versioning = "Trevor Gamblin <tgamblin@baylibre.com>"
+ RECIPE_MAINTAINER:pn-python3-vcversioner = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-python3-wcwidth = "Tim Orling <tim.orling@konsulko.com>"
+diff --git a/meta/recipes-devtools/python/python3-uvloop/0001-setup.cfg-use-system-libuv.patch b/meta/recipes-devtools/python/python3-uvloop/0001-setup.cfg-use-system-libuv.patch
+new file mode 100644
+index 0000000000..d295239b90
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-uvloop/0001-setup.cfg-use-system-libuv.patch
+@@ -0,0 +1,21 @@
++From: Tim Orling <tim.orling@konsulko.com>
++Subject: [PATCH] setup.cfg: use system libuv
++
++Build against the libuv recipe instead of the bundled copy in
++vendor/libuv.
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Tim Orling <tim.orling@konsulko.com>
++---
++ setup.cfg | 3 +++
++ 1 file changed, 3 insertions(+)
++
++--- a/setup.cfg
+++++ b/setup.cfg
++@@ -1,3 +1,6 @@
+++[build_ext]
+++use_system_libuv = 1
+++
++ [egg_info]
++ tag_build = 
++ tag_date = 0
+diff --git a/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb b/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
+new file mode 100644
+index 0000000000..887c262ae7
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-uvloop_0.22.1.bb
+@@ -0,0 +1,17 @@
++SUMMARY = "Fast implementation of asyncio event loop on top of libuv"
++HOMEPAGE = "https://github.com/MagicStack/uvloop"
++BUGTRACKER = "https://github.com/MagicStack/uvloop/issues"
++LICENSE = "Apache-2.0 OR MIT"
++LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=bb92739ddad0a2811957bd98bdb90474 \
++                    file://LICENSE-MIT;md5=489c8bc34154e4b59f5c58e664f7d70f"
++
++DEPENDS += "libuv python3-wheel-native"
++
++SRC_URI += "file://0001-setup.cfg-use-system-libuv.patch"
++SRC_URI[sha256sum] = "6c84bae345b9147082b17371e3dd5d42775bddce91f885499017f4607fdaf39f"
++
++inherit pypi python_setuptools_build_meta cython
++
++RDEPENDS:${PN} = "python3-asyncio"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.47.3
+
