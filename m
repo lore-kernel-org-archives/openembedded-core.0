@@ -1,146 +1,95 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5913.1793787378171132386
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6934.1793791381625757258
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 02:16:18 -0800
+ Wed, 04 Nov 2026 03:23:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fTwTh4sE;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5768e3f886=abinivesh.ga@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A48MCvW1736654;
-	Wed, 4 Nov 2026 01:53:30 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=OpXbA1yXW
-	om0WjH7iyO8dUEH+xi2nrDSozwhWueAhnI=; b=fTwTh4sEOMeFHqR5qk8pS3Bq/
-	TwiVDz4wXpQWUXwu4jgUVNWIupqHZGaCydJRktuNx+zXkH52E5fv9fkxTQSxs7SF
-	Ri67h44/tESKcDEGmhsVGRexf16elN0IkwV4s/CXUjYG9p1knzAUVXYDRvyUnrT5
-	nXqxuqzHJ2x/497lZk+P6O/3ib7dUyp3hNlmtobWZP55fHPcTRvQ+6XKpqUtdtZF
-	ohy6pIGJsYC/EDTE6/hs/GK80njHUE/iU/XmCyyXmyW6jDtyBw+UXuWw+DHzr/Pe
-	ogoUlM+YrMWk9Qrj65O96tYd3kAjZXMUa4eE6405pWsVnQkQ1YFGmeC9z7ajA==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4hnfue5qc5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 04 Nov 2026 01:53:30 -0800 (PST)
-Received: from ala-p2exch01.corp.ad.wrs.com (10.11.226.101) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.61; Wed, 4 Nov 2026 01:53:30 -0800
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-p2exch01.corp.ad.wrs.com (10.11.226.101) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Wed, 4 Nov 2026 01:53:30 -0800
-Received: from oak-lpgbuild12.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 4 Nov 2026 01:53:29 -0800
-From: Abinivesh G A <Abinivesh.GA@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <yoann.congal@smile.fr>, Abinivesh G A <Abinivesh.GA@windriver.com>
-Subject: [scarthgap][PATCH] ffmpeg: fix CVE-2026-75143
-Date: Wed, 4 Nov 2026 09:53:28 +0000
-Message-ID: <20261104095328.2295613-1-Abinivesh.GA@windriver.com>
-X-Mailer: git-send-email 2.54.0
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=HUoG0/mN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a215e64962so5537395e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 03:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793791380; x=1794396180; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OGuJ2lcQkDnU1caQ5Yb3gd5LVSISe79RyVMIgPXAFR0=;
+        b=HUoG0/mNFj5Tby8fESt4rt/WFsHboP/NguxtNUKeuibjjm0G/5oFmRFsESOUuXfjrv
+         fK+mOhA7ENXrHDYH2MqUzBSfDnu7kwd8na6vqDELDuFywyTJ3A7a9f+JmRSEySz7QVEr
+         L7Q7r8rS9WQhrkmIZuzEd0ALvQVvRLyENtaONiw3AQMTLlQpShvVrhUdWw60qJQhyH2t
+         rBVg5hISMipa71lpplcZsM7CWwq6SwXW1TkBAfyaZHPFyy8jVfAtV7yeVAjBUNiuUgiI
+         v82zcYENiMkdIKZd2cWjX4lSEnGwdtQbaNQZaDCNORkuXaXREQgOO/SF9FHzSCTgWYrs
+         Bdzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793791380; x=1794396180;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OGuJ2lcQkDnU1caQ5Yb3gd5LVSISe79RyVMIgPXAFR0=;
+        b=YO+u3hi4FDzrw9EjyjObovOY74pLnbAF8Gxz9OCoXDA/z0Lh32LF7EgsMB64xpfE0+
+         fCwK0su4biyF7oWgehLtNFtUNh7g/F9akDmBFD0u0UnBkuh8XCNrZtHOvNDw997iAT4b
+         40EUQ40P/90GQHz/0N2vNk3fIl4PzICrapo0BZQAayikq15w3pb8tKMi1T6YuAWKRJlf
+         Tjg72g+qYfxSwomfUaSK8xZjReawOf0OvHPfDyQKov5yi0XV/dQuh+Ty3nzsEAjAu99x
+         QZfmCxl9L0w+FpdfolH0Guc+QsHi1v99oHplLauQyyNhxuzna82ruZWpuXCMBXs9ckwJ
+         EbEQ==
+X-Gm-Message-State: APuU4Z8Gxf6ip2gjSsffmzp30rckusfSLnmPN0JWQ7EAQdwt42PVpDWL
+	J7aJmKlqS7Z+CVaQgUo3ciGBM6ixtPD71bJcTaCs5OBxN4xlt9RCPtk8ZxE4sg==
+X-Gm-Gg: AYBFou3ZtzGawqf3r/cMEPf9fpPu2oMno8LLlGSLFXOG1LmO/cUsVdnPo3yk5YO6SKT
+	KtnNUyrhOstf49Nyxmljd8MDZei0bX/GwdUvMutLEUO4l4zFpsJAVOoBFa0F+frjbU6N9vQ7FUN
+	1dbDBFz4DUVOgsaKTPBQVasJOYaBePWdnTy77IBg7mJxAnzKEIS336/haxj5NKW85wOVX1z6NA2
+	I14Ndl1mnru7tUg+yVcrBCJORGLqv5C7DLPMOXVl9Ao+0vTY77XYAy6FuLxxIQNIK50q9lHwhuN
+	50qPShLOItVerIU/0X3OCUebuAymIM2fcP+tlotWg3jba24gX0dPWUXebOS6Q/MBJuZf5w7qpsQ
+	5dPKL3/FP+3b/ZjAorw/yzSwauJ3M5qoOHvoR+gRKuy1W4qDw1cNc0AbAiXtVPcrt5tpgyxBQKq
+	rx82OwjN/RVwenI2q9t1g4R/nq26NdIoLhTw8gm+pClLO/5K74OSHABrBfmPlr9OyyXT1NgcVzI
+	wiofzT7fgrF+m/kwN6RK/VhQD0sjrbryqBau/NU0Kv2rHpmGLL6MmaKTgN+yRsq+Bf3nlu8/VtG
+	l+CVK+8Jk4rYxPfJ7ja0bBrI+6XYfWaw
+X-Received: by 2002:a05:600c:4f86:b0:4a7:669c:c988 with SMTP id 5b1f17b1804b1-4ac18b7df2cmr372342685e9.23.1793791379557;
+        Wed, 04 Nov 2026 03:22:59 -0800 (PST)
+Return-Path: <stondo@gmail.com>
+Received: from fedora ([165.225.94.251])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b412e48fd8sm45024275e9.1.2026.11.04.03.22.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 03:22:58 -0800 (PST)
+From: Stefano Tondo <stondo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: jpewhacker@gmail.com,
+	peter.marko@siemens.com,
+	adrian.freihofer@siemens.com,
+	Stefano Tondo <stondo@gmail.com>
+Subject: [PATCH 0/3] spdx30: Fix two bugs in the source download enrichment
+Date: Wed,  4 Nov 2026 12:22:54 +0100
+Message-ID: <20261104112257.866914-1-stondo@gmail.com>
+X-Mailer: git-send-email 2.56.0
 MIME-Version: 1.0
-X-Proofpoint-ORIG-GUID: FNA2BgaCe8fUVbOFtPIv5TiWqrwvKiV3
-X-Proofpoint-GUID: FNA2BgaCe8fUVbOFtPIv5TiWqrwvKiV3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDAzOSBTYWx0ZWRfXzZXYD1jV8SFS
- TR+3EL+wfYaRFAfLsIMxdqZPfyoOhSuqIdmHn5kYZH7TjNYls4zbIpm6CW4bCkJwm2tNmBzmgDV
- 6KEiCwZywNnyPfrXfD66NHblBsdKTagBCOjG1yEk1SsHmA120bFU6w+GZ6bfA51bHnSKU6TmACY
- +YjPwKrffWJsYV2PEw0epGau0Jd5gkGs3RVv1Ei52nBAnwbS/+6goaAfVSabO6HZYcuM1Gf3D/Z
- TbEH0wVvkdtgW//CzG9+rG0+kr5+EHqlYE2yLuE4YU9poHGyzHGLDp2epECHUxNjJm65X7WrkMp
- i0cTv6WkDDpuYWdVu5nIsK+/yCeUykmDnhr4ukJys+GagsEiGqgnK2HVtVoF7DC5cOOMIanE0bF
- 4Kn4Wu3lvFP02Hh9K3oC/h6q36YmMYtTpl2If+rvr6oCC1zU8BdNtGBGDZ87/xpRmy3ohBBTNSw
- mkNCOCvpQylJ4w48DNQ==
-X-Authority-Analysis: v=2.4 cv=f+rdl+yM c=1 sm=1 tr=0 ts=6aeb009a cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=emhf11hzAAAA:8 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8
- a=5fZKPoO2FM44ekDmq-gA:9 a=HLUCug_QN4oeKp6PugZw:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDAzOSBTYWx0ZWRfX9M21vNGRra95
- j4Q/wJfU0Su206n/L5oxd/W79ptNwB1TqXCJlheY8NwhprsTqbNW2+pDi4a2fqNCMKpDUtWSp+i
- O/oJgSwjD0JwqGLChU8vJoCT2lOYPZb06R7LBVtCk4nzBBAaesTN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-04_02,2026-11-03_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 bulkscore=0 clxscore=1011 impostorscore=0
- lowpriorityscore=0 spamscore=0 priorityscore=1501 malwarescore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611040039
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 11:20:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249362
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 11:23:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249363
 Content-Type: text/plain; charset="utf-8"
 
-FFmpeg before commit 1c10bcc contains a heap buffer overflow in the RIST
-protocol reader (libavformat/librist.c). librist_read() ignored its size
-argument and copied the full payload length into the caller-provided
-buffer, overflowing it when the payload exceeds the destination size.
+Two fixes for the source download enrichment added in 9f1825e74d
+("spdx30: Add Git version and PURL to source downloads"):
 
-Backport the upstream fix that clamps the copy to the caller buffer size.
+- _enrich_source_package() and _generate_git_purl() start with an
+  underscore, so bitbake leaves them out of the do_create_spdx
+  signature, and SPDX_GIT_PURL_MAPPINGS with them. Changing the
+  mappings restored the previous SPDX from sstate.
 
-Upstream fix:
-https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/1c10bcc2e17255dacb717a25ab3db142ce390602
+- gitsm downloads got no version and no PURL, because only fd.type
+  "git" was handled.
 
-CVE: CVE-2026-75143
+Patch 1 changes the do_create_spdx signature of every recipe once.
 
-Signed-off-by: Abinivesh G A <Abinivesh.GA@windriver.com>
----
- .../ffmpeg/ffmpeg/CVE-2026-75143.patch        | 32 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-75143.patch
+Patch 3 adds one selftest per fix. Each fails on master without its
+fix. With the series, all SPDX30Check selftests pass.
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-75143.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-75143.patch
-new file mode 100644
-index 0000000000..418fcf029a
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-75143.patch
-@@ -0,0 +1,32 @@
-+From 1c10bcc2e17255dacb717a25ab3db142ce390602 Mon Sep 17 00:00:00 2001
-+From: Joshua Rogers <MegaManSec@users.noreply.github.com>
-+Date: Tue, 4 Aug 2026 12:11:55 +0000
-+Subject: [PATCH] avformat/librist: honor the caller buffer size in
-+ librist_read
-+
-+librist_read() ignored its size argument and copied the full payload_len,
-+overflowing a smaller destination (e.g. via the async: wrapper). Clamp the
-+copy to the caller-provided buffer size.
-+
-+Fixes: out of array access
-+
-+Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/1c10bcc2e17255dacb717a25ab3db142ce390602]
-+CVE: CVE-2026-75143
-+Signed-off-by: Abinivesh G A <Abinivesh.GA@windriver.com>
-+---
-+ libavformat/librist.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libavformat/librist.c b/libavformat/librist.c
-+index 9669d5b5df5a5..3c4b5e3e5b96f 100644
-+--- a/libavformat/librist.c
-++++ b/libavformat/librist.c
-+@@ -226,7 +226,7 @@ static int librist_read(URLContext *h, uint8_t *buf, int size)
-+         }
-+     }
-+ 
-+-    size = data_block->payload_len;
-++    size = FFMIN(data_block->payload_len, size);
-+     memcpy(buf, data_block->payload, size);
-+ out_free:
-+     rist_receiver_data_block_free2(&data_block);
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-index 849835c849..cae84d044e 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-@@ -32,6 +32,7 @@ SRC_URI = " \
-     file://CVE-2024-35369.patch \
-     file://CVE-2025-25473.patch \
-     file://CVE-2025-22921.patch \
-+    file://CVE-2026-75143.patch \
- "
- 
- SRC_URI[sha256sum] = "a231e3d5742c44b1cdaebfb98ad7b6200d12763e0b6db9e1e2c5891f2c083a18"
+Stefano Tondo (3):
+  spdx30: Make source download enrichment part of the task signature
+  spdx30: Enrich gitsm source downloads like git ones
+  oeqa/selftest: Add tests for source download enrichment
+
+ meta/lib/oe/spdx30_tasks.py          | 10 +++---
+ meta/lib/oeqa/selftest/cases/spdx.py | 47 ++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+), 5 deletions(-)
+
 -- 
-2.54.0
+2.56.0
 
