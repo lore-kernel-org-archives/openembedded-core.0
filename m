@@ -1,70 +1,70 @@
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4451.1793777792423509325
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4452.1793777792484065324
  for <openembedded-core@lists.openembedded.org>;
  Tue, 03 Nov 2026 23:36:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Gg6+6I/a;
- spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=d5HbFD3U;
+ spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3198; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=2796; q=dns/txt;
   s=iport01; t=1793777792; x=1794987392;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=V8Ws33bq4BowSHvb7sQltZUGGDBvUgiRSR80Sy9Dk7w=;
-  b=Gg6+6I/aGBbcvvi1U0YxfBE9vtnIcSMTh1d0FT1tTmvr3c94xQug0Wxf
-   CJ0KryfnsiokygY7RFVP66hjp1/147j98cOWhNUMFgk1dPPvketOvkNpH
-   D4OWZfdoTRLHkfQczBbXhKxb1gyIucvLPBT0FSLk4Ozm/lK/+W0Xw03e1
-   8nP4ZbkryYt85Oqnvs8Sps9UFpshhNt4sRVygZXzjQTtUiaC65MLKp6+V
-   YlPHUYnCXsu1a/4t3MHOrzV3udk+3e7imbWldBuh4mvHPeIOzD0mOzjnG
-   RHWsW0E+38uvUz4wHPiXdqTKdZ+VGBTiOfDMeF8yIvQePeCzRiy53+oqn
-   A==;
-X-CSE-ConnectionGUID: Lw1w9G+uTTuIW4vASjdjCw==
-X-CSE-MsgGUID: 1K+1s45/QUaaibjj3kqTcw==
-X-IPAS-Result: =?us-ascii?q?A0BJAgBW3+pq/4z/Ja1aglmCGD91YENJlksDniCBfg8BA?=
- =?us-ascii?q?QEPRA0EAQGFBQKOHAImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
- =?us-ascii?q?wWBDhOGTw2QEgECAQMnCwEYAS0QHAMBAi8rIwgQCYIqWAGCdAMRBrl3GzeBe?=
- =?us-ascii?q?TOBAYMpAT8CAkABUNszAQsUAYE4hUCII10YAYR9JxsbgXKEfoEFgVwCAYglB?=
- =?us-ascii?q?IIigQyBWh6MfQKIQkiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGB?=
- =?us-ascii?q?YEdgR6BEoEHXYErKF0BIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSCQETG?=
- =?us-ascii?q?iwKgRo1PAkmPxUMZgsaBWEIAg0MdDkQMB4kLwUcJkAbChQYDUgRLDcVGQQ+b?=
- =?us-ascii?q?geSLYJxGQdhLQEpAoEgSFUpknuSQaERCiiDeIwklToaM6lLgSYLmH2OCpYCT?=
- =?us-ascii?q?4RpgWg8gVlwFYMiCRY0GQ+OOYNrhkDIGyYyAgkyAQEHAgcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:H7Gu66hzelAnlOExsHJKDmHHX161MREKZh0ujC45NGQN5FlHY01je
- htvXWiEO6qDNGLzKdx2YInj8U0GvsOGz4QxSlM9qy9nQShjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNsvrY8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqU85b9oUE4N6
- MAkNREyMg6qvOC6wpmkH7wEasQLdKEHPasFsX1miDWcBvE8TNWbGOPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZg9/5JEWxI9EglHzcDBcoVOErII84nPYy0p6172F3N/9J4DRGpkIxBbCz
- o7A1z3aQUgBaIHY8AeM+3OmhO2UnjrHU51HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFmUHY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:MkwzE6sLsLQiOX7vxztC/dJ27skDVNV00zEX/kB9WHVpmwKj+P
- xG+85rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1MmZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
- lbH5SWcOeAbmRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaDZ2JK2xCe36m+oocfng+OaYE
-X-Talos-CUID: =?us-ascii?q?9a23=3AkFcfOGly1zhbmS/W+NgMejCdYPHXOVnClWiBDAy?=
- =?us-ascii?q?lNVp0aYLJV3ar+q9muNU7zg=3D=3D?=
-X-Talos-MUID: 9a23:iTZHiAQTqq3A6wd7RXS1p3I7L5s1pJ2TAUkMm5cE4MqdCSdvbmI=
+  bh=JqYHdcD1WayfWlwsqI+kFkwhC+E2/eXijqcNMujKI2k=;
+  b=d5HbFD3UjcMpicBBbNmiOMiD9iYJ/JT4bKCPTRI2IZz2Q/yY0508nBT2
+   mZOEVYh9yzzfbmh+llU3Cym0SVCXjx5Ngs8r1QJhnDRVsMuhI8//g7pC2
+   tNOta2xtRdFYThULK/frIUDj2U05TAjeN4GtzTtGM0En3fTaepPHl0qMh
+   A+6PYbQY1ljHFnfNBVHTRNMig6gIyDpnxkknL0yI7BC33h4dxviiyMuat
+   lV3JmgxtTwDlJaAvWB07gjz+hiwy9lQViy/Njh6AciP5EuDM93T3wMhHd
+   uacTrIPJbEG8J/aV0iSGZmK4Zfy2YNDhv1R9HAcFWwT4ruAAmi8IeyUk/
+   g==;
+X-CSE-ConnectionGUID: 233iqakrQLiZiDrvflfN9w==
+X-CSE-MsgGUID: +JM4e8NsS/+uEfYdXofa9g==
+X-IPAS-Result: =?us-ascii?q?A0BGAgBQ4Opq/5L/Ja1RCYJZgld1YENJlksDniAUgWoPA?=
+ =?us-ascii?q?QEBD0QNBAEBhQUCjhwCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECA?=
+ =?us-ascii?q?QcFgQ4Thk8NkBMCAQMyARgBLRAgMSsrGYMCAYJ0AxEGuk6CLIEBgykBPwICQ?=
+ =?us-ascii?q?AFQ2zMBCxQBgTiFQIgjdQGEfScbG4FygRWDaYEFgVwCAYEzEmeFeQSCInoSg?=
+ =?us-ascii?q?XhljBiIREiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdgR6BE?=
+ =?us-ascii?q?oEHXYErKF0BIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1P?=
+ =?us-ascii?q?AkmPxUMZgsaBWEIAg0MdDkQMB4kLwUcJkAbChQYDUgRLDcVGQQ+bgeSLYIgc?=
+ =?us-ascii?q?QFZBy0IIgKBbBgBOAulWqERCiiDeIwklToaM6pxCyOYWo4KlTcyG02EaYFoP?=
+ =?us-ascii?q?IFZcBU7gmcJFjQZD445g2uGQMgbJjICCTIBAQcCBw4DC4FokX4BAQ?=
+IronPort-Data: A9a23:XrrqTayHUkavss0nvTd6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUBy
+ mQZWD2BbP3fYTf8Kd4jYIi28EtU68DVy9IxSAto+VhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWctajlMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJBttZowB8+VtOEVPx
+ /00Mi4Dah6l1v3jldpXSsE07igiBNPgMIVavjRryivUSK53B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cPXWjOX9PYH46tOuri332cixRgFmUvqEwpWPUyWSd1ZCwbIGEK4faFJw9ckCw5
+ UDjo2mpJAohc5+C5DS0/kKriOaeknauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBVy4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rHnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:66Ohj6GbGVBzRiXQpLqEyseALOsnbusQ8zAXPo5KJiC9Ffbo8P
+ xG88576faZslsssTQb6LK90cq7MBfhHOBOgbX5VI3KNGKNhILrFvAG0WKI+VPd8kPFmtK1rZ
+ 0QEJRWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqUuEiWpRGtldB8ATMHfjLnFL
+X-Talos-CUID: =?us-ascii?q?9a23=3A/snjtGsyJm6UPaTFIXmvleTF6It/KSbc1X7TOXa?=
+ =?us-ascii?q?cCFRoZKeLR1ue3vJ7xp8=3D?=
+X-Talos-MUID: 9a23:JfwKTQW9uvJ0QpHq/HzOoW1vZOFz2OPtFW0DoJk2vMeNZCMlbg==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,194,1787011200"; 
-   d="scan'208";a="543745282"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 04 Nov 2026 07:36:31 +0000
+   d="scan'208";a="543993891"
+Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
+  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 04 Nov 2026 07:36:31 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 85994180005A7;
+	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 8840D180005B8;
 	Wed,  4 Nov 2026 07:36:31 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id DA408CBEFAB; Tue,  3 Nov 2026 23:36:30 -0800 (PST)
+	id E1962CBEF6B; Tue,  3 Nov 2026 23:36:30 -0800 (PST)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 09/12] curl: fix CVE-2026-92389
-Date: Tue,  3 Nov 2026 23:36:24 -0800
-Message-Id: <20261104073627.302002-10-dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 11/12] curl: set CVE_STATUS for CVE-2026-19931
+Date: Tue,  3 Nov 2026 23:36:26 -0800
+Message-Id: <20261104073627.302002-12-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261104073627.302002-1-dkelaiya@cisco.com>
 References: <20261104073627.302002-1-dkelaiya@cisco.com>
@@ -72,104 +72,57 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
+X-Outbound-Node: rcdn-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 07:36:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249337
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249338
 Content-Type: text/plain; charset="utf-8"
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+Analysis:
+- The advisory [1] names [2] as its fixed-in commit. It moves
+  connection maintenance to admin handles, preserving the identity
+  used by authentication reuse checks.
+- Earlier, [4] added Negotiate/NTLM connection reuse checks,
+  including an SSPI ambient-user check using recent_conn_id.
+  Later, [5] removed that SSPI check; the other checks remain.
+- Curl 8.19.0 predates [4]. Applying [2] alone would not reproduce
+  the later upstream behavior; a source fix needs backport analysis.
+- The advisory describes Negotiate reuse with empty credentials and
+  lists curl 8.19.0 within the affected range [1].
+- On Linux, this requires krb5 and negotiate-auth. Wrynose enables
+  negotiate-auth but leaves krb5 disabled by default [3].
+- Follow the merged GSS-API configuration check in [3]. Set
+  not-applicable-config if either option is absent; otherwise keep
+  unpatched while the source backport is deferred.
+- Record the CVE as not-applicable-config unless both required
+  PACKAGECONFIG options are enabled; otherwise retain unpatched status.
+  The CVE_STATUS decision is conditional, not hardcoded.
 
-Reject TFTP packets and state transitions that conflict with the
-requested transfer direction. This prevents a download from using
-a reused handle's upload callback or data.
-
-[1] https://github.com/curl/curl/commit/63dd390fab905a239a97e2700532929343ebc4e9
-[2] https://curl.se/docs/CVE-2026-92389.html
+Reference:
+[1] https://curl.se/docs/CVE-2026-19931.html
+[2] https://github.com/curl/curl/commit/7103a93b05bc69ea98ed9d05d02fa9eeba533f2f
+[3] https://github.com/openembedded/openembedded-core/commit/93c410c455b92a2b1fe3b77347e57d02f344056b
+[4] https://github.com/curl/curl/commit/1a17959fc7a80864c9c9b37097856bdb4a465cf8
+[5] https://github.com/curl/curl/commit/1c58877705b172da892cb9c18c5edb572f2d1d73
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../curl/curl/CVE-2026-92389.patch            | 56 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92389.patch
+ meta/recipes-support/curl/curl_8.19.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-92389.patch b/meta/recipes-support/curl/curl/CVE-2026-92389.patch
-new file mode 100644
-index 00000000000..adbf62e94ab
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-92389.patch
-@@ -0,0 +1,56 @@
-+From 44d91a58fabd1de3555e669e12d88040844be716 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 16 Sep 2026 23:46:44 +0200
-+Subject: [PATCH] tftp: verify direction in a few places
-+
-+Closes #22974
-+
-+CVE: CVE-2026-92389
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/63dd390fab905a239a97e2700532929343ebc4e9]
-+
-+(cherry picked from commit 63dd390fab905a239a97e2700532929343ebc4e9)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ lib/tftp.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
-+
-+diff --git a/lib/tftp.c b/lib/tftp.c
-+index cc0769b..fca77b7 100644
-+--- a/lib/tftp.c
-++++ b/lib/tftp.c
-+@@ -361,6 +361,9 @@ static CURLcode tftp_tx(struct tftp_conn *state, tftp_event_t event)
-+   char *bufptr;
-+   bool eos;
-+ 
-++  if(!data->state.upload)
-++    return CURLE_TFTP_ILLEGAL;
-++
-+   switch(event) {
-+ 
-+   case TFTP_EVENT_ACK:
-+@@ -768,10 +771,14 @@ static CURLcode tftp_send_first(struct tftp_conn *state,
-+     break;
-+ 
-+   case TFTP_EVENT_ACK: /* Connected for transmit */
-++    if(!data->state.upload)
-++      return CURLE_TFTP_ILLEGAL;
-+     result = tftp_connect_for_tx(state, event);
-+     break;
-+ 
-+   case TFTP_EVENT_DATA: /* Connected for receive */
-++    if(data->state.upload)
-++      return CURLE_TFTP_ILLEGAL;
-+     result = tftp_connect_for_rx(state, event);
-+     break;
-+ 
-+@@ -1074,6 +1081,8 @@ static CURLcode tftp_receive_packet(struct Curl_easy *data,
-+ 
-+     switch(state->event) {
-+     case TFTP_EVENT_DATA:
-++      if(data->state.upload)
-++        return CURLE_TFTP_ILLEGAL;
-+       /* Do not pass to the client empty or retransmitted packets */
-+       if(state->rbytes > 4 &&
-+          (NEXT_BLOCKNUM(state->block) == getrpacketblock(&state->rpacket))) {
-+-- 
-+2.35.6
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index e039207a0e4..6cf6e328272 100644
+index f2de4dfa042..f30750a6061 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -57,6 +57,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-92386_p2.patch \
-            file://CVE-2026-107928.patch \
-            file://CVE-2026-87864.patch \
-+           file://CVE-2026-92389.patch \
-            "
+@@ -77,6 +77,7 @@ CVE_STATUS[CVE-2026-9547] = "not-applicable-config: vulnerable libssh backend is
+ CVE_STATUS[CVE-2026-12064] = "${@bb.utils.contains('PACKAGECONFIG', 'libssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabled in PACKAGECONFIG', d)}"
+ CVE_STATUS[CVE-2026-8458] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: applicable only with GSS-API-backed Negotiate authentication', d)}"
+ CVE_STATUS[CVE-2026-82209] = "not-applicable-config: public suffix list support is disabled by the recipe with --without-libpsl"
++CVE_STATUS[CVE-2026-19931] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: GSS-API Negotiate is disabled', d)}"
  
- SRC_URI:append:class-nativesdk = " \
+ inherit autotools pkgconfig binconfig multilib_header ptest
+ 
 -- 
 2.35.6
