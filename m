@@ -1,194 +1,182 @@
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27739.1793856392225095439
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.27744.1793856421655430252
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 21:26:32 -0800
+ Wed, 04 Nov 2026 21:27:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=EFZD6ohC;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: arpitpa@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4016; q=dns/txt;
-  s=iport01; t=1793856392; x=1795065992;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vfRwK+kzNvG1i3bofr1KCKvq0119ps+NMgWCVeh+Fyc=;
-  b=EFZD6ohCbfnhpLj0Z6aSL6/0CqISwJ553SWwlzauPjTwTQrVZ4alYK+w
-   dNN0u44fsLeomnIjyKTqUcbC0Wlo964tYTPMyGrP6ZEr79+vygbfvFNpe
-   dzxuIbhn4E0Dr5ySErAIAaDt4ctjQyQuw2FSAODDJ5D+72V6jvvRosJ4x
-   CboooMm0CxUwBX2VaI/+agOD/porYzfEjYiJ1jkA0y6Psr/TT8Ohz+OAF
-   q3M8xuCN9v6NmG40Et2g5Nutx+E9P03SOmG4mxJgFjaMgbGk1vfW11qt3
-   8feC2h4b/5OrTUTMM9QMt26MIOSU/sutU6XS1usX2KaKPJy6T/G3Ad0wS
-   w==;
-X-CSE-ConnectionGUID: G9OSEDb6Rh6A2b9rczhpiw==
-X-CSE-MsgGUID: RY7SPHyZT/eQztd9uoHHaw==
-X-IPAS-Result: =?us-ascii?q?A0AaAACDEuxq/47/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBglZ1YENJjHKJWZ4kgX4PAQEBD0QNBAEBhD9Gjh8CJjQJDgECBAMCA?=
- =?us-ascii?q?wEBAQEBAQEBAQEBAQoBAQUBAQECAQcFgQ4Thk8NkBIBAgEqCwEYAS0sAwECW?=
- =?us-ascii?q?iMhgwIBgnQDEbw6gXkzgQGCZkMBPwJDUNlLgWgBCxQBBYEzAYU/ModxXRgBh?=
- =?us-ascii?q?H0nG4FJRIR+gQWBXAEBiCYEgy6BWo0YAoFShnBIgR4DWSwBVRMNCgsHBYFoA?=
- =?us-ascii?q?zUSKhVuMh2BIz4XgQcbBgWBHYEegRKBB12BKyhdASGBCIF2AoJRggACAUlBD?=
- =?us-ascii?q?gdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VDGQLGgVhCAINDHI5EDAeJC8FH?=
- =?us-ascii?q?CZAGwoYGA1IESw3FRkEPm4Hki+DEQGBDQErgQVAYhajRIIhoRGEKoFoijyVO?=
- =?us-ascii?q?hozhVulFguYfY4KllGEaYFoPEaBAQsHMxoIGxWDIglKGQ+OKwMLC4NggX+DF?=
- =?us-ascii?q?MlEJjICCTIBAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:7hFHtKO7X9WCeZ/vrR3zlsFynXyQoLVcMsEvi/4bfWQNrUohhWcEx
- zQXXGGFOPzbNDf1c9ByPIri80sF6MCGyocyGXM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
- ykmQoCeap1yFjmD9k/F3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WVzlV
- e/a+ZWFZgb8g2IsaAr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
- 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
- I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj69o/K3obEYdGwOYpKDtEp
- OYTOjAVbw/W0opawJrjIgVtrt4oIM+uOMYUvWttiGmES/0nWpvEBa7N4Le03h9p2ZsIRqmYP
- ZdEL2MzNnwsYDUXUrsTIJskhOa0nnDXeDxDo1XTrq0yi4TW5FEtjOezaoGLJrRmQ+1vrxmjn
- kLXzVi+DygIKNDO1D2l0nuz07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/KJpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOf9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:CwDCwK1rZeYx//Zf0FADywqjBJ4kLtp133Aq2lEZdPWaSKOlfq
- eV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKhTbaknDH5ZmpM
- RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
-X-Talos-CUID: =?us-ascii?q?9a23=3AplL/B2pfZCyyPnBAUdylnG3mUe90VUbw4H2OGU/?=
- =?us-ascii?q?mIDxjGaeeW1+I+bwxxg=3D=3D?=
-X-Talos-MUID: 9a23:Me+UMQWCRAAfia3q/AXd2wpaFNZa3+OjMVIRncQbvOmkPDMlbg==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,196,1787011200"; 
-   d="scan'208";a="544762364"
-Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 05:26:31 +0000
-Received: from sjc-ads-10129.cisco.com (sjc-ads-10129.cisco.com [10.30.210.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id 2564E18000223;
-	Thu,  5 Nov 2026 05:26:31 +0000 (GMT)
-Received: by sjc-ads-10129.cisco.com (Postfix, from userid 1877011)
-	id C7A90CC2EF1; Wed,  4 Nov 2026 21:26:30 -0800 (PST)
-From: Arpit Patel <arpitpa@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-Subject: [OE-core][wrynose][PATCH 03/10] sqlite3: fix CVE-2026-119374
-Date: Wed,  4 Nov 2026 21:26:28 -0800
-Message-Id: <20261105052628.2443928-1-arpitpa@cisco.com>
-X-Mailer: git-send-email 2.35.6
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DeLPOxmc;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yTN5nsUz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1aa2cbb03-8dad50f8-2f7e-4796-853b-993382947053-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1793856420;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=sGKoLFIxPmT9FaIF0uymjji2N1YwrO0RxFfiB0SIyE0=;
+	b=DeLPOxmc5NqeIvwXNlTI4rULLIpagj05I9gsIcLIGATBDWZsdutLqP/15CKyh21o
+	8Rr0au7vSy1J8xGMeWS74tGYkaCCrsy3n2YVIKdAMwxgpExOjUuAYF/E/AvGkgVWL7F
+	ah9ftGHGSAVdIqeEufd/3k1VFm8+YMqHLJByNTUM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793856420;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=sGKoLFIxPmT9FaIF0uymjji2N1YwrO0RxFfiB0SIyE0=;
+	b=yTN5nsUz4tPDnJ76QiaZ4h2yPrmaOcO08RLQFZg6lER66cRTM6m0o3oKA0Ac8NHn
+	sgve6DiX8NtB9fbwQRySWBZKD2ruhy/uaHAEjwuC4ZgI0kxQoaGNXg1r1/dBrTKvD/f
+	KmvFJcHgQxkjsg+XOAS71ABeLSdEtYu4igKzmBaQ=
+Content-Type: multipart/mixed; boundary="===============2708739346291344657=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-10129.cisco.com [10.30.210.133];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 10.30.210.133, sjc-ads-10129.cisco.com
-X-Outbound-Node: rcdn-l-core-05.cisco.com
+From: auh@yoctoproject.org
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-pycairo: upgrading to 1.29.2 SUCCEEDED
+Message-ID: <010101a1aa2cbb03-8dad50f8-2f7e-4796-853b-993382947053-000000@us-west-2.amazonses.com>
+Date: Thu, 5 Nov 2026 05:27:00 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.05-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 05:26:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249421
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 05:27:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249422
 
-This patch applies the upstream fix [1], which addresses an FTS5
-secure-delete buffer overrun when handling a corrupted database.
-The GitHub mirror commit [1] corresponds to the SQLite Fossil
-check-in shown in [2].
+--===============2708739346291344657==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-[1] https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21df5960704d9
-[2] https://sqlite.org/src/info/9cd4f9e920
+Hello,
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-119374
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-pycairo* to *1.29.2* has Succeeded.
 
-Signed-off-by: Arpit Patel <arpitpa@cisco.com>
+Next steps:
+    - apply the patch: git am 0001-python3-pycairo-upgrade-1.29.1-1.29.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 72aec4eb8f8de0a1a7eb406a10095424145be5a6 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 5 Nov 2026 05:15:49 +0000
+Subject: [PATCH] python3-pycairo: upgrade 1.29.1 -> 1.29.2
+
+.. _v1.29.2:
+
+1.29.2 - 2026-10-04
+-------------------
 ---
- .../sqlite/sqlite3/CVE-2026-119374.patch      | 76 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.51.3.bb |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
+ .../{python3-pycairo_1.29.1.bb => python3-pycairo_1.29.2.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pycairo_1.29.1.bb => python3-pycairo_1.29.2.bb} (90%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
-new file mode 100644
-index 0000000000..e82f48951b
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
-@@ -0,0 +1,76 @@
-+From 260a971baff8140195c181b94ce2264efbb042b9 Mon Sep 17 00:00:00 2001
-+From: dan <Dan Kennedy>
-+Date: Tue, 11 Aug 2026 14:16:12 +0000
-+Subject: [PATCH] Fix a problem in fts5 secure-delete code that could lead to a
-+ buffer overrun when dealing with a strategically corrupted database. Problem
-+ reported by YEONBA.
-+
-+FossilOrigin-Name: 9cd4f9e9205c5a5096388397a39349db9ff5377d19095c6b20388ff799969c31
-+
-+CVE: CVE-2026-119374
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21df5960704d9]
-+
-+Backport Changes:
-+- Applied the fix from ext/fts5/fts5_index.c to sqlite3.c because the
-+  recipe uses SQLite's amalgamated source.
-+- Omitted ext/fts5/test/fts5corruptB.test because the extracted source
-+  does not include the upstream Tcl test tree.
-+- Omitted manifest and manifest.uuid because they are Fossil metadata
-+  and are not needed for this source patch.
-+
-+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
-+---
-+ sqlite3.c | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index bfd285777d..1889632086 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -252752,32 +252752,36 @@ static void fts5DoSecureDelete(
-+   if( p->rc==SQLITE_OK ){
-+     const int nMove = nPg - iNextOff;     /* Number of bytes to move */
-+     int nShift = iNextOff - iOff;         /* Distance to move them */
-+-
-++    int nNewPg = 0;
-+     int iPrevKeyOut = 0;
-+-    int iKeyIn = 0;
-++    i64 iKeyIn = 0;
-+ 
-+     memmove(&aPg[iOff], &aPg[iNextOff], nMove);
-+     iPgIdx -= nShift;
-+-    nPg = iPgIdx;
-++    nNewPg = iPgIdx;
-+     fts5PutU16(&aPg[2], iPgIdx);
-+ 
-+     for(iIdx=0; iIdx<nIdx; /* no-op */){
-+       u32 iVal = 0;
-+       iIdx += fts5GetVarint32(&aIdx[iIdx], iVal);
-+       iKeyIn += iVal;
-++      if( iKeyIn>nPg ){
-++        FTS5_CORRUPT_IDX(p);
-++        break;
-++      }
-+       if( iKeyIn!=iDelKeyOff ){
-+         int iKeyOut = (iKeyIn - (iKeyIn>iOff ? nShift : 0));
-+-        nPg += sqlite3Fts5PutVarint(&aPg[nPg], iKeyOut - iPrevKeyOut);
-++        nNewPg += sqlite3Fts5PutVarint(&aPg[nNewPg], iKeyOut - iPrevKeyOut);
-+         iPrevKeyOut = iKeyOut;
-+       }
-+     }
-+ 
-+-    if( iPgIdx==nPg && nIdx>0 && pSeg->iLeafPgno!=1 ){
-++    if( p->rc==SQLITE_OK && iPgIdx==nNewPg && nIdx>0 && pSeg->iLeafPgno!=1 ){
-+       fts5SecureDeleteIdxEntry(p, iSegid, pSeg->iLeafPgno);
-+     }
-+ 
-+-    assert_nc( nPg>4 || fts5GetU16(aPg)==0 );
-+-    fts5DataWrite(p, FTS5_SEGMENT_ROWID(iSegid,pSeg->iLeafPgno), aPg, nPg);
-++    assert_nc( nNewPg>4 || fts5GetU16(aPg)==0 );
-++    fts5DataWrite(p, FTS5_SEGMENT_ROWID(iSegid,pSeg->iLeafPgno), aPg, nNewPg);
-+   }
-+   sqlite3_free(aIdx);
-+ }
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
-index 52e7659a8e..f76ca8bd56 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
-@@ -14,4 +14,5 @@ SRC_URI += "\
- 	file://CVE-2026-119377_p1.patch \
- 	file://CVE-2026-119377_p2.patch \
- 	file://CVE-2026-119373.patch \
-+	file://CVE-2026-119374.patch \
- "
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.29.1.bb b/meta/recipes-devtools/python/python3-pycairo_1.29.2.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-pycairo_1.29.1.bb
+rename to meta/recipes-devtools/python/python3-pycairo_1.29.2.bb
+index b70d1f177d..28c0ab0d7a 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.29.1.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.29.2.bb
+@@ -13,7 +13,7 @@ DEPENDS = "cairo python3"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/pycairo-${PV}.tar.gz"
+ GITHUB_BASE_URI = "https://github.com/pygobject/pycairo/releases/"
+ 
+-SRC_URI[sha256sum] = "4fbd26b4af24c9787d84cf5448e34eb8dca064b732479aaecd03109520eebd5f"
++SRC_URI[sha256sum] = "3e69fff74fe64f5ba2dfa31f67c6bdf26413342574047437d2ac520d35e9a489"
+ 
+ S = "${UNPACKDIR}/pycairo-${PV}"
+ 
 -- 
-2.35.6
+2.47.1
 
+
+--===============2708739346291344657==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-pycairo: SRC_URI changed from "https://github.com/pygobject/pycairo/releases//download/v1.29.1/pycairo-1.29.1.tar.gz" to "https://github.com/pygobject/pycairo/releases//download/v1.29.2/pycairo-1.29.2.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pycairo: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-dbg: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-dbg: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-dev: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-dev: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-doc: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-doc: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-locale: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-locale: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-src: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-src: FILELIST: directory renamed /usr/src/debug/python3-pycairo/1.29.1/cairo -> /usr/src/debug/python3-pycairo/1.29.2/cairo
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-src: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-staticdev: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo-staticdev: PV changed from "1.29.1" to "1.29.2"
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo: PKGV changed from 1.29.1 [default] to 1.29.2 [default]
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pycairo-1.29.1.dist-info -> /usr/lib/python3.14/site-packages/pycairo-1.29.2.dist-info
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo: PV changed from "1.29.1" to "1.29.2"
+Changes to packages/x86-64-v3-poky-linux/python3-pycairo (sysroot):
+  /usr/lib/python3.14/site-packages/pycairo-1.29.1.dist-info moved to /usr/lib/python3.14/site-packages/pycairo-1.29.2.dist-info
+
+--===============2708739346291344657==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pycairo-upgrade-1.29.1-1.29.2.patch"
+
+RnJvbSA3MmFlYzRlYjhmOGRlMGExYTdlYjQwNmExMDA5NTQyNDE0NWJlNWE2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgNSBOb3YgMjAyNiAwNToxNTo0OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcHljYWlybzogdXBncmFkZSAxLjI5LjEgLT4gMS4yOS4yCgouLiBfdjEuMjkuMjoKCjEu
+MjkuMiAtIDIwMjYtMTAtMDQKLS0tLS0tLS0tLS0tLS0tLS0tLQotLS0KIC4uLi97cHl0aG9uMy1w
+eWNhaXJvXzEuMjkuMS5iYiA9PiBweXRob24zLXB5Y2Fpcm9fMS4yOS4yLmJifSAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHljYWlyb18xLjI5LjEuYmIgPT4g
+cHl0aG9uMy1weWNhaXJvXzEuMjkuMi5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHljYWlyb18xLjI5LjEuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHljYWlyb18xLjI5LjIuYmIKc2ltaWxhcml0eSBp
+bmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXB5Y2Fpcm9fMS4yOS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtcHljYWlyb18xLjI5LjIuYmIKaW5kZXggYjcwZDFmMTc3ZC4uMjhjMGFiMGQ3YSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Y2Fpcm9f
+MS4yOS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNh
+aXJvXzEuMjkuMi5iYgpAQCAtMTMsNyArMTMsNyBAQCBERVBFTkRTID0gImNhaXJvIHB5dGhvbjMi
+CiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vcHljYWlyby0k
+e1BWfS50YXIuZ3oiCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL3B5Z29i
+amVjdC9weWNhaXJvL3JlbGVhc2VzLyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjRmYmQyNmI0
+YWYyNGM5Nzg3ZDg0Y2Y1NDQ4ZTM0ZWI4ZGNhMDY0YjczMjQ3OWFhZWNkMDMxMDk1MjBlZWJkNWYi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2U2OWZmZjc0ZmU2NGY1YmEyZGZhMzFmNjdjNmJkZjI2
+NDEzMzQyNTc0MDQ3NDM3ZDJhYzUyMGQzNWU5YTQ4OSIKIAogUyA9ICIke1VOUEFDS0RJUn0vcHlj
+YWlyby0ke1BWfSIKIAotLSAKMi40Ny4xCgo=
+
+--===============2708739346291344657==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-pycairo-changelog.txt"
+
+.. _v1.29.2:
+
+1.29.2 - 2026-10-04
+-------------------
+
+--===============2708739346291344657==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-pycairo/python3-pycairo: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pycairo-1.29.1.dist-info -> /usr/lib/python3.14/site-packages/pycairo-1.29.2.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pycairo (sysroot):
+  /usr/lib/python3.14/site-packages/pycairo-1.29.1.dist-info moved to /usr/lib/python3.14/site-packages/pycairo-1.29.2.dist-info
+
+--===============2708739346291344657==--
