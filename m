@@ -1,62 +1,62 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29832.1793868245168627884
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30081.1793868246107514885
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 00:44:05 -0800
+ Thu, 05 Nov 2026 00:44:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=WQ1Erk3b;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48e10a70540so967813f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:44:04 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=k6gWD9Fj;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4919a880834so147167f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:44:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793868243; x=1794473043; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793868244; x=1794473044; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Y5NabnRNijO9A1Xgtz9zUCqMOaZOv7lIU7BNgWrU9JI=;
-        b=WQ1Erk3b4IpEHaSZXXF+O3dEC0OsJj/yVs8ufDvRDqS7/vJHAt7DE4fnadFoinWZBM
-         g169BbgdeQFT1FLmDGudoWwwKl2XIWOx+0bQrjxBF7MDcxmJr2zI89kb+b8q5Fg8DbSz
-         SAkwl5DobCPPhvdpbp8M+WllFB8U1tEse/eDYee8GqXjkzd5pZ9+sR6uRoUeJ96ibKAv
-         zM1F9E0p0SRS9DcZhSrfEbl/9IImw9d0w3Hea24zNPgSXyvFw5/eKDQoVcEUSdanfkxF
-         YkV58wObY3E6MfpAw/HXhukNdBju1eLs8++AfdtGWThcIVa+Fl3XeMpSNeWngNdX2ffJ
-         Pnjw==
+        bh=JDQpJ43WaO2iHkFhxPQi2uJ0C8S05IWTN9zwv68ncAo=;
+        b=k6gWD9FjhNVDOBht4J6IMsotk/xcT0W/ACQ6VVQ6WQ9PY0oyln+oKLku2KmS8WUYfF
+         XRX6UY2Nlt+7hhzI2VA8vbcNKW7rLJCYCmjYq1aZuxbkB13gwyqinQbq74wrzVTNRWD9
+         LdR3tw9uuhh8zKyCZjQ3gATytVfmjsDiNoyhgl/Vd+v2isQTZ2ji49it+Nzf69rFhjKo
+         lfLpT/9ui51Vlh+IeWMr6Oec8BYiW8v8CxwVR0izmdE2GyQhpW5ka925JLIDwUMivd8E
+         1hzndS4fVFkhKklHzIswTfc25mjo7mG5FddY3hvBt1XFB/Etkcrn+zU3zDOSGjx12xZd
+         nf5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793868243; x=1794473043;
+        d=1e100.net; s=20260707; t=1793868244; x=1794473044;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Y5NabnRNijO9A1Xgtz9zUCqMOaZOv7lIU7BNgWrU9JI=;
-        b=eI7fcOlswkhRLwf5pKKHWIrHEpmhPzM7E+Qv1q2RKbT/37qYiFQQDlCEQ1y4dpPb5K
-         rHxDfgrYvRTq8dQsM/r2M4fTR6umfOIP8X672xJMEdW9AV7VGcUvmJt8/DUgrGpvn1Zk
-         +5KiNizmg4KBLiCVJtZQZrN5ZIMeYmLr/u36VHWNLAA2rGBFflfGhNidHT4OXGGI8Su1
-         xOXC9t7mYIpUrjJrSQ+QXMvNFQUptri5yPOz46yROA7t/QFZcRQNeTES6iQaPpPiNinB
-         4/k21X+DfAolUsS/SjzkPBmqNHVLCVHzQ2xNxvr7vApEneLn+wCHQR55/vNbraIRu0KC
-         9WOw==
-X-Gm-Message-State: APuU4Z/NZ0w22K7hiKu6l9+ixiymrn+Qm/1qncuxJF48LmnwJsmv+mOC
-	pBeJevTExWa2JAFo0ERAvnMEAkisgcNnTDK5fTZEq/aDCtVPtRPz6BtWiRpxH5jdFo9md6fGb3J
-	OP5k3PE8=
-X-Gm-Gg: AYBFou1zSo8OwmgVgiW1CnIS4IGqR5uunT4lzbMjAECZk353IZPN0fL4ISi7n+Doda6
-	4F8620lHwPOyyWYIDbzA9G5+c4NfAcG4hYAdTIOglaOCU7GViRlpwaaXANUk2+h4y+b3mnyT+jV
-	7zucRdUNIZ8FK2+UczTXErekJboG2km6D1B96G0fUHfaM8BFo0mbqPtKauFLgOq4Z+NHC7v/+tM
-	d+u3wV3X7DU3VhwAGt6pkjkNUI4hpEFjIMuqHACj/XJ9jZDX/d0+2lcrx2aeFcIe+ldiK0xnyZb
-	k0F5eaMyXuyXokyLlVvmOs0ogT8CUU3WNbFCAeqPPt7Np/zU3CeaqnEMUiycQz1VQZbXYFsmhWV
-	24i0uci70sqQ+iNTbJqOfm7TvvziaiSmU9N8Z2nRpVZMQHzrTlYlz1sATztY4reojIRJADZQWH3
-	t1PM0T0lXRzIcOzgHMIU2A3xDrA0N+2a+YByCLvnTNYcC9kvZLZByXPejQg6muNKfGPxoNRtQzZ
-	ZEcSGK0AAt94JObYb6eMRxoe0aWXSfCRRzuZ2+mYQGxqgn+rYRllCvqooiO+sUS+YUOqYz2wfZT
-	/OMugjEC7lipAZBMNlxkm5m43CVPM0cRa+cbw7SrhdwX8W+pufAwiDNNrnN8720gQnvHD2oeo+e
-	zIlu9+jXXNT8Tji0keL4vyCmukiej
-X-Received: by 2002:a05:6000:430d:b0:490:da85:7aee with SMTP id ffacd0b85a97d-490da857cbemr5022719f8f.24.1793868243304;
-        Thu, 05 Nov 2026 00:44:03 -0800 (PST)
+        bh=JDQpJ43WaO2iHkFhxPQi2uJ0C8S05IWTN9zwv68ncAo=;
+        b=BedTHeniUrErhBoihVFwQvUqw+gO/m9Aymyy3lq0NcKcGTHjZItuhcafqR3hel6pMG
+         wHA3+EU6M0AwEX+1F/c4nZ3kbzeRqux63b1dobeqZemKSF64DpreGYhkqCGovRHY+D1I
+         7y3a57P26FpLlcT3J5pD/FQSz63hP677p1oW6NLUdFy5AP+ojiOa3PpoqH6tRrR+1NDV
+         JOUho8SH5o0EKAaVtngFo2hi73rztyV7Asw8fHysQCTyLbd2HLFl6q0Xp0rPoaZ1NnVb
+         trtbptAJH7PATFnn8j2qbTQUt6ya45r10VNRRKV79aCHmWle3Fs62j+xGo8aeU3RQFii
+         4zVA==
+X-Gm-Message-State: APuU4Z9xWR4PQTZ5mInING+391vQcgM2ni+6Ilw1GYLpDXz6UmVmpN3H
+	nN0ilG3ci7TWdZBRlnzXyh70E9i/WgXvoyI4L5XGpZfY879hECXCGH2lo9DhlChbZWIKOb5zjWO
+	qpnaLtLs=
+X-Gm-Gg: AYBFou3iuzoF/+csR+m7dP4aLbguU0farpyOSRzAP0ECt6XGWQplS1an0Ru6VQCmCTu
+	RAv/86sC1PxUzXyvi99t6ZHrsE4hTTkoxUxdXZ0t3KWrV1nKOit/MqfqQbxcKdiRkWusq/jF838
+	UGhLXltkE6thrWFVIfv8Yb0Kpdex4ttzKqOscW1JFDG/MKgImzA4oZepOtBQsLtRBcyzUmDELLr
+	YJSKuRM9WriET2gFShygFRZbdK1KWMoiUlhSXplnq/EJg5eKcMajJiQ2R+G076XfTY5xvhoOpbK
+	EFGWnmTMoP6c1YiTBehSSVm/eSzJRd+RRhfnQsgClhKoHojPgkb0lyQ5H7Wb7j2BkNktvcyB7PO
+	VvnOSKfzbXzioPlvOIeRu5U+dtbUHtyNsnGTcXKS14jS5O7gI2TzmjOkJxAzfQo4qB/o9NHpJfG
+	ZShFqAsGaegXZ27rRauXEs2lrLiGJzseaoWrzWVOnnuNmeuRU9GNv0p3/QwXiqCO23ucGmSNyH4
+	eBClEDCcoey0zJz7NofUvmsdYLb2pWN7jQFKObnnYhIqalDsJaIBYtjnWy1gnBZ115qtKAoRaDa
+	mDEQacpac3glbi33DVacAMG262upqWjc7n6s5lOWH4xu/2eJvcKU0KUfR+CQuf9vk4GRVIYqMLG
+	ilpGFNeWzIfotl3Avz33RSfh210k1
+X-Received: by 2002:a5d:5f09:0:b0:490:71a7:6f3c with SMTP id ffacd0b85a97d-49071a77019mr5573184f8f.55.1793868244227;
+        Thu, 05 Nov 2026 00:44:04 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.44.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.44.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 05 Nov 2026 00:44:03 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 47/60] tcl, tcl8: set override-specific ptest skips in SKIPPED_TESTS
-Date: Thu,  5 Nov 2026 09:43:06 +0100
-Message-ID: <fbad0ddd1166278df6bbdac603412e3d880f4842.1793867929.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 49/60] populate_sdk_ext: Fix locale error handling in SDK
+Date: Thu,  5 Nov 2026 09:43:08 +0100
+Message-ID: <028ff91bf4bb2e96ddf8d1aa7c1ed1f603c994d5.1793867929.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793867929.git.yoann.congal@smile.fr>
 References: <cover.1793867929.git.yoann.congal@smile.fr>
@@ -64,74 +64,41 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:44:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249506
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249508
 Content-Type: text/plain; charset="utf-8"
 
-From: OOHehir <oo.hehir@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-On musl, the sed meant to add the unixInit-3 skip once added it after every
-SKIP="$SKIP line in run-ptest, & a skip set inside a case arm left run-ptest
-with a syntax error. Write SKIPPED_TESTS into run-ptest's empty SKIP="" instead,
-as python3 does; the common skips stay in run-ptest.
+During automated testing we occasionally we see the error:
 
-Suggested-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: OOHehir <oo.hehir@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+"ERROR: the installer requires the en_US.UTF-8 locale to be installed (but not selected), please install it first"
+
+This is puzzling as the locale *is* installed. The use of -q with grep in
+a pipeline is potentially problematic as grep can exit early and cause a
+pipefail/SIGPIPE.
+
+Tweak the code to avoid it and a few other issues (add quoting, handle the
+"." correctly, match a whole line).
+
+[YOCTO #16198]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e175045bf914c2502314825ad555975452deb054)
+(cherry picked from commit f290e76eef3bd175f71414b7f78aafd0af5e0ce2)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/tcltk/tcl_9.0.4.bb    | 11 ++++++-----
- meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb | 11 ++++++-----
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ meta/classes-recipe/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.4.bb b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
-index 97ba82d5fa1..5166ef25112 100644
---- a/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
-@@ -75,14 +75,15 @@ do_compile_ptest() {
- 	oe_runmake tcltest
- }
- 
-+# Override-specific skips; do_install_ptest needs the empty SKIP="" in run-ptest
-+SKIPPED_TESTS = ""
-+# Assumes locales other than provided by musl-locales
-+SKIPPED_TESTS:append:libc-musl = " unixInit-3*"
-+
- do_install_ptest() {
- 	cp ${B}/tcltest ${D}${PTEST_PATH}
- 	cp -r ${S}/tests ${D}${PTEST_PATH}
--}
--
--do_install_ptest:append:libc-musl () {
--	# Assumes locales other than provided by musl-locales
--	sed -i '/SKIP="$SKIP.*$/a # unixInit-3* is suppressed due to hardcoded locale assumptions\nSKIP="$SKIP unixInit-3\\\*"' ${D}${PTEST_PATH}/run-ptest
-+	sed -i -e 's|^SKIP=""$|SKIP="${SKIPPED_TESTS}"|' ${D}${PTEST_PATH}/run-ptest
- }
- 
- # Fix some paths that might be used by Tcl extensions
-diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
-index 2094c9935ab..07f3ad4592d 100644
---- a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
-+++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
-@@ -79,14 +79,15 @@ do_compile_ptest() {
- 	oe_runmake tcltest
- }
- 
-+# Override-specific skips; do_install_ptest needs the empty SKIP="" in run-ptest
-+SKIPPED_TESTS = ""
-+# Assumes locales other than provided by musl-locales
-+SKIPPED_TESTS:append:libc-musl = " unixInit-3*"
-+
- do_install_ptest() {
- 	cp ${B}/tcltest ${D}${PTEST_PATH}
- 	cp -r ${S}/tests ${D}${PTEST_PATH}
--}
--
--do_install_ptest:append:libc-musl () {
--	# Assumes locales other than provided by musl-locales
--	sed -i '/SKIP="$SKIP.*$/a # unixInit-3* is suppressed due to hardcoded locale assumptions\nSKIP="$SKIP unixInit-3\\\*"' ${D}${PTEST_PATH}/run-ptest
-+	sed -i -e 's|^SKIP=""$|SKIP="${SKIPPED_TESTS}"|' ${D}${PTEST_PATH}/run-ptest
- }
- 
- # Fix some paths that might be used by Tcl extensions
+diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+index a1188da9697..00b41ec0cbf 100644
+--- a/meta/classes-recipe/populate_sdk_ext.bbclass
++++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+@@ -678,7 +678,7 @@ sdk_ext_preinst() {
+ 	fi
+         # Check setting of LC_ALL set above
+ 	canonicalised_locale=`echo $LC_ALL | sed 's/UTF-8/utf8/'`
+-	if ! locale -a | grep -q $canonicalised_locale ; then
++	if ! locale -a | grep -Fx "$canonicalised_locale" > /dev/null ; then
+ 		echo "ERROR: the installer requires the $LC_ALL locale to be installed (but not selected), please install it first"
+ 		exit 1
+ 	fi
