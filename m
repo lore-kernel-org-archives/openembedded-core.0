@@ -1,87 +1,225 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30842.1793873176620917291
- for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 02:06:17 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=gO4Wlq2C;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so14920395e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 02:06:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793873175; x=1794477975; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JLQ0B5dQTDgYxDr9QTIViw+V1TWk+LQM2VhqucxE80Q=;
-        b=gO4Wlq2C44VFWCOnvFR/KZjnfWeBVi7HpU4GkrAaCUEbd7BD7ro2MRUkflcC5tlxTT
-         HP3iwg6Bk1eYFZ1lFixeq/Rr0N/vs0CNlPzuZlrHa3vPft6zqp9OZzU3/xD2ova1N7wH
-         Tm545TN2Y335dmjrILVat1GZXQwdBemjLqJ4/9U5oG4bm3LmZmwlU/jfPqWq7X7haBJf
-         uSa+9Sfkk293JXe0eOG3BcROTDfwNMfuO6cSNjyMHWOHZi3u/gXsO2NMV5EMp9pf12Es
-         ndp6AI+pAXa2ziMkdUTauZP8uGmVPRBlAiKQu6HQlPrQrvaGLT93EwI6M664GYNIl6US
-         wGnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793873175; x=1794477975;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JLQ0B5dQTDgYxDr9QTIViw+V1TWk+LQM2VhqucxE80Q=;
-        b=IytCXgjqBhVY8iHVI8D2CheJSQQG1/e1SW4FITDkAm/cDLjs+sox22tmYy8BUbZfpH
-         qjq1auHEuIyObpHPP819uzMmJarbzvgx//5Jry+QiEOu05m8dr64lwNFlUIhXC1/9VzS
-         t+LU6Wa5XdZFFQRZdZbvLCDN7Wh5U3wfQ+bmABfwRJobu4ntVs4Fro85J1mB24/NE9rG
-         0pglK3yk7V2/4e7BnAnJpFOdDX+cMei5lyHKfQAetgyfGbVEk6zlmAXBHN+2Ey5d+v1N
-         FjlFA9vni2DQ28WdclpXEWWYssOUSt66EoGZnfiJ1kz4R4Wmhu2Gil89+a7m0zPLdBRf
-         Gb+w==
-X-Forwarded-Encrypted: i=1; AKwUvBwxr+9wi9LWTdi1U4sK2XQ0cQJ3N0BQfCkfs5ImDr5MBL0YGib5qN/ngU/w4N02GdphSJbRxXBlaGJJ2fH05Rh1RA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z9rjkeZufp1Oa24traHq/SQbWhCzHsQR1ofv45kVIVruG+AC2CR
-	cDDJIChSR5ZvgbDBJ0lfedNVTUso63CLD44kZU97oUdDZon6wnVlsEA/ppito8TODXJ/zt+Nt23
-	Cscn2iE8=
-X-Gm-Gg: AYBFou3jMGSPBW81E2S+np1Yfp5ZMnHbVNuzYWBHiitRh9YlX5DHzPfMRBUHXvLFjgT
-	fU+a++BaOCmdrNTTj+O660PdB0LSh3LF++7N3rt62xOMQMdNY2PRGjVzsMTO0ykPgPC1zjZLXma
-	2pBhZju4i0LaIwkFEbFYkFQlnhenRnaNZybM6XMx1vf19kRv4Fbl1wRtJ2aYg3bk/SeOeZN20+D
-	tLjT1vFigfraW5x2s47weDNNRbFV48tnelTSQnYu5Ck4+RLXVlLmoYecpZvOUXzmx3tpq5KHJZt
-	r3VCeyX/Pepq3IISnxJhpbQxOw2HL8UirgJBqAYPFEufRuMte318xPWl9kmHsO2REDqNC0CmaXx
-	Q5uPs9hzfSWB+BGpMkxZQNSzmI44kTsgnGKN96RLeZ84hAYmYAnI+urznKChUG5+L7ewfr0bA2Z
-	NwjEwE5SDa4F/Q2Kq6EHAkrlk8R2kZD4+swC2Csg64tpDWJUVapohGRNner2n0yi5h8NXgBNcUD
-	hu17aSN+b1w76cjrSO2+GMpTvngRMqheb1DYWM3aZOPh0+/iduUT4QsseXa6lFhdlXHNX537Puh
-	G5Slp+aqdI+m4AEgYA2zwTjuaT82Y9nVIw4vv/7d3wSJW6EB/jTdRw1iJ9oOA56IpJKUpNxscjC
-	dszllpjuOHO1SASonDk8NGcrcvxkLqIIaqLex7Q==
-X-Received: by 2002:a05:600c:34d4:b0:4a2:d7e:5ccb with SMTP id 5b1f17b1804b1-4ac182dca99mr455438105e9.15.1793873165528;
-        Thu, 05 Nov 2026 02:06:05 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b4527fed5bsm163806775e9.3.2026.11.05.02.06.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 02:06:05 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Nov 2026 11:06:04 +0100
-Message-Id: <DMN6YR8G2OMU.1POIRTW2BGU0S@smile.fr>
-Subject: Re: Recall: Re: [scarthgap][PATCH] ffmpeg: fix CVE-2026-75143
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "G A, Abinivesh" <Abinivesh.GA@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <00JZM110RUU4.4KMF3UH0MQTZ1@sj0pr11mb5895>
-In-Reply-To: <00JZM110RUU4.4KMF3UH0MQTZ1@sj0pr11mb5895>
+Subject: Re: [wrynose][PATCH 1/2] curl: fix CVE-2026-87864
+To: openembedded-core@lists.openembedded.org
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.83)
+X-Originating-Platform: Windows Edge 156
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Thu, 05 Nov 2026 02:14:13 -0800
+References: <20261030085350.13089-1-adarsh.jagadish.kamini@est.tech>
+In-Reply-To: <20261030085350.13089-1-adarsh.jagadish.kamini@est.tech>
+Message-ID: <105529.1793873653631988994@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="nAXvkog6R6ct7B1fQFS2"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 10:06:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249525
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 10:14:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249526
 
-On Thu Nov 5, 2026 at 6:39 AM CET, Abinivesh G A wrote:
-> Abinivesh.GA@windriver.com would like to recall the message, "Re: [scarth=
-gap][PATCH] ffmpeg: fix CVE-2026-75143".
+--nAXvkog6R6ct7B1fQFS2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hello Yoann, Adarsh,
 
-The "recall" function of your mail system does not work on public
-mailing lists nor with any mail client that is not Outlook/Microsoft.
-It only send empty mails that only add noise to the mailing list.
+I submitted the five-patch curl v2 series on October 23 [1] and
+the twelve-patch series on November 4 [2]. I have also prepared
+nine further patches on top, forming a consolidated Wrynose stack
+addressing 26 additional CVEs.
 
-Please do not use it on the Yocto mailing lists.
+These comprise 25 source fixes and a conditional CVE_STATUS change
+for CVE-2026-19931. The stack builds on Jaipaul's already accepted
+CVE-2026-80230 fix.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+I noticed that Adarsh has submitted fixes for CVE-2026-87864,
+CVE-2026-92388 and CVE-2026-92389. My twelve-patch submission
+includes 87864 and 92389, while the additional nine include 92388.
 
+Could we coordinate which versions to retain for these three CVEs?
+
+[1] https://lists.openembedded.org/g/openembedded-core/message/248493
+[2] https://lists.openembedded.org/g/openembedded-core/message/249332
+
+Thanks,
+Darsh
+
+On Fri, Oct 30, 2026 at 02:23 PM, Adarsh Jagadish Kamini wrote:
+
+>=20
+> Backport patch to fix CVE-2026-87864.
+>=20
+> References:
+> https://nvd.nist.gov/vuln/detail/CVE-2026-87864
+>=20
+> Upstream fix:
+> https://github.com/curl/curl/commit/3b547de301342b347fb3c6ea6ae797
+>=20
+> Tested with ptest:
+> Before: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
+> After: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
+>=20
+> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+> ---
+> .../curl/curl/CVE-2026-87864.patch | 52 +++++++++++++++++++
+> meta/recipes-support/curl/curl_8.19.0.bb | 1 +
+> 2 files changed, 53 insertions(+)
+> create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87864.patch
+>=20
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-87864.patch
+> b/meta/recipes-support/curl/curl/CVE-2026-87864.patch
+> new file mode 100644
+> index 0000000000..01efc71c4a
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-87864.patch
+> @@ -0,0 +1,52 @@
+> +From ca1b787c594b2f1b2fc7227b75d2166551aca32d Mon Sep 17 00:00:00 2001
+> +From: Stefan Eissing <stefan@eissing.org>
+> +Date: Thu, 27 Aug 2026 09:47:53 +0200
+> +Subject: [PATCH] imap: APPEND CRLF fix
+> +
+> +Deny an APPEND operation with CRLF conversion requested as we are unable
+> +to predict the final upload size and APPEND requires us to announce it
+> +before starting the upload.
+> +
+> +The check for unknown sizes had already been there, but the crlf
+> +conversion that renders a known size unknown was not accounted for.
+> +
+> +Closes #22702
+> +
+> +CVE: CVE-2026-87864
+> +Upstream-Status: Backport [ https://github.com/curl/curl/commit/3b547de3=
+01342b347fb3c6ea6ae797
+> ]
+> +
+> +Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+> +---
+> + lib/imap.c | 11 ++++++++---
+> + 1 file changed, 8 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/lib/imap.c b/lib/imap.c
+> +index 0546595f89..f37568fb20 100644
+> +--- a/lib/imap.c
+> ++++ b/lib/imap.c
+> +@@ -884,7 +884,6 @@ static CURLcode imap_perform_append(struct Curl_easy
+> *data,
+> + result =3D Curl_creader_set_mime(data, postp);
+> + if(result)
+> + return result;
+> +- data->state.infilesize =3D Curl_creader_client_length(data);
+> + }
+> + else
+> + #endif
+> +@@ -894,9 +893,15 @@ static CURLcode imap_perform_append(struct Curl_eas=
+y
+> *data,
+> + return result;
+> + }
+> +
+> +- /* Check we know the size of the upload */
+> ++ /* Check we know the size of the upload. This takes all readers
+> ++ * into account. Especially crlf conversions which make the size
+> ++ * unpredictable, e.g. -1. */
+> ++ data->state.infilesize =3D Curl_creader_total_length(data);
+> + if(data->state.infilesize < 0) {
+> +- failf(data, "Cannot APPEND with unknown input file size");
+> ++ if(data->set.crlf)
+> ++ failf(data, "Cannot APPEND with CRLF conversion making size unknown");
+> ++ else
+> ++ failf(data, "Cannot APPEND with unknown input file size");
+> + return CURLE_UPLOAD_FAILED;
+> + }
+> +
+> diff --git a/meta/recipes-support/curl/curl_8.19.0.bb
+> b/meta/recipes-support/curl/curl_8.19.0.bb
+> index c2697d6dd8..ac25f7f156 100644
+> --- a/meta/recipes-support/curl/curl_8.19.0.bb
+> +++ b/meta/recipes-support/curl/curl_8.19.0.bb
+> @@ -39,6 +39,7 @@ SRC_URI =3D " https://curl.se/download/ ${BP}.tar.xz \
+> file://CVE-2026-9546-01.patch \
+> file://CVE-2026-9546-02.patch \
+> file://CVE-2026-80230.patch \
+> + file://CVE-2026-87864.patch \
+> "
+>=20
+> SRC_URI:append:class-nativesdk =3D " \
+
+--nAXvkog6R6ct7B1fQFS2
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hello Yoann, Adarsh,<br /><br />I submitted the five-patch curl v2 ser=
+ies on October 23 [1] and<br />the twelve-patch series on November 4 [2]. I=
+ have also prepared<br />nine further patches on top, forming a consolidate=
+d Wrynose stack<br />addressing 26 additional CVEs.<br /><br />These compri=
+se 25 source fixes and a conditional CVE_STATUS change<br />for CVE-2026-19=
+931. The stack builds on Jaipaul's already accepted<br />CVE-2026-80230 fix=
+.</div>
+<div>&nbsp;</div>
+<div>I noticed that Adarsh has submitted fixes for CVE-2026-87864,<br />CVE=
+-2026-92388 and CVE-2026-92389. My twelve-patch submission<br />includes 87=
+864 and 92389, while the additional nine include 92388.<br /><br />Could we=
+ coordinate which versions to retain for these three CVEs?<br /><br />[1] <=
+a href=3D"https://lists.openembedded.org/g/openembedded-core/message/248493=
+" target=3D"_blank" rel=3D"noopener">https://lists.openembedded.org/g/opene=
+mbedded-core/message/248493</a>&nbsp;<br />[2] <a href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/message/249332" target=3D"_blank" rel=3D"=
+noopener">https://lists.openembedded.org/g/openembedded-core/message/249332=
+</a>&nbsp;<br /><br />Thanks,<br />Darsh<br /><br />On Fri, Oct 30, 2026 at=
+ 02:23 PM, Adarsh Jagadish Kamini wrote:</div>
+<div>
+<blockquote>Backport patch to fix CVE-2026-87864.<br /><br />References:<br=
+ /><a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-87864" target=3D"_b=
+lank" rel=3D"noopener">https://nvd.nist.gov/vuln/detail/CVE-2026-87864</a><=
+br /><br />Upstream fix:<br /><a href=3D"https://github.com/curl/curl/commi=
+t/3b547de301342b347fb3c6ea6ae797" target=3D"_blank" rel=3D"noopener">https:=
+//github.com/curl/curl/commit/3b547de301342b347fb3c6ea6ae797</a><br /><br /=
+>Tested with ptest:<br />Before: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORT=
+ED: 0<br />After: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0<br /><br =
+/>Signed-off-by: Adarsh Jagadish Kamini &lt;adarsh.jagadish.kamini@est.tech=
+&gt;<br />---<br />.../curl/curl/CVE-2026-87864.patch | 52 ++++++++++++++++=
++++<br />meta/recipes-support/curl/curl_8.19.0.bb | 1 +<br />2 files change=
+d, 53 insertions(+)<br />create mode 100644 meta/recipes-support/curl/curl/=
+CVE-2026-87864.patch<br /><br />diff --git a/meta/recipes-support/curl/curl=
+/CVE-2026-87864.patch b/meta/recipes-support/curl/curl/CVE-2026-87864.patch=
+<br />new file mode 100644<br />index 0000000000..01efc71c4a<br />--- /dev/=
+null<br />+++ b/meta/recipes-support/curl/curl/CVE-2026-87864.patch<br />@@=
+ -0,0 +1,52 @@<br />+From ca1b787c594b2f1b2fc7227b75d2166551aca32d Mon Sep =
+17 00:00:00 2001<br />+From: Stefan Eissing &lt;stefan@eissing.org&gt;<br /=
+>+Date: Thu, 27 Aug 2026 09:47:53 +0200<br />+Subject: [PATCH] imap: APPEND=
+ CRLF fix<br />+<br />+Deny an APPEND operation with CRLF conversion reques=
+ted as we are unable<br />+to predict the final upload size and APPEND requ=
+ires us to announce it<br />+before starting the upload.<br />+<br />+The c=
+heck for unknown sizes had already been there, but the crlf<br />+conversio=
+n that renders a known size unknown was not accounted for.<br />+<br />+Clo=
+ses #22702<br />+<br />+CVE: CVE-2026-87864<br />+Upstream-Status: Backport=
+ [<a href=3D"https://github.com/curl/curl/commit/3b547de301342b347fb3c6ea6a=
+e797" target=3D"_blank" rel=3D"noopener">https://github.com/curl/curl/commi=
+t/3b547de301342b347fb3c6ea6ae797</a>]<br />+<br />+Signed-off-by: Adarsh Ja=
+gadish Kamini &lt;adarsh.jagadish.kamini@est.tech&gt;<br />+---<br />+ lib/=
+imap.c | 11 ++++++++---<br />+ 1 file changed, 8 insertions(+), 3 deletions=
+(-)<br />+<br />+diff --git a/lib/imap.c b/lib/imap.c<br />+index 0546595f8=
+9..f37568fb20 100644<br />+--- a/lib/imap.c<br />++++ b/lib/imap.c<br />+@@=
+ -884,7 +884,6 @@ static CURLcode imap_perform_append(struct Curl_easy *dat=
+a,<br />+ result =3D Curl_creader_set_mime(data, postp);<br />+ if(result)<=
+br />+ return result;<br />+- data-&gt;state.infilesize =3D Curl_creader_cl=
+ient_length(data);<br />+ }<br />+ else<br />+ #endif<br />+@@ -894,9 +893,=
+15 @@ static CURLcode imap_perform_append(struct Curl_easy *data,<br />+ re=
+turn result;<br />+ }<br />+ <br />+- /* Check we know the size of the uplo=
+ad */<br />++ /* Check we know the size of the upload. This takes all reade=
+rs<br />++ * into account. Especially crlf conversions which make the size<=
+br />++ * unpredictable, e.g. -1. */<br />++ data-&gt;state.infilesize =3D =
+Curl_creader_total_length(data);<br />+ if(data-&gt;state.infilesize &lt; 0=
+) {<br />+- failf(data, "Cannot APPEND with unknown input file size");<br /=
+>++ if(data-&gt;set.crlf)<br />++ failf(data, "Cannot APPEND with CRLF conv=
+ersion making size unknown");<br />++ else<br />++ failf(data, "Cannot APPE=
+ND with unknown input file size");<br />+ return CURLE_UPLOAD_FAILED;<br />=
++ }<br />+ <br />diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/me=
+ta/recipes-support/curl/curl_8.19.0.bb<br />index c2697d6dd8..ac25f7f156 10=
+0644<br />--- a/meta/recipes-support/curl/curl_8.19.0.bb<br />+++ b/meta/re=
+cipes-support/curl/curl_8.19.0.bb<br />@@ -39,6 +39,7 @@ SRC_URI =3D "<a hr=
+ef=3D"https://curl.se/download/" target=3D"_blank" rel=3D"noopener">https:/=
+/curl.se/download/</a>${BP}.tar.xz \<br />file://CVE-2026-9546-01.patch \<b=
+r />file://CVE-2026-9546-02.patch \<br />file://CVE-2026-80230.patch \<br /=
+>+ file://CVE-2026-87864.patch \<br />"<br /><br />SRC_URI:append:class-nat=
+ivesdk =3D " \</blockquote>
+</div>
+
+--nAXvkog6R6ct7B1fQFS2--
