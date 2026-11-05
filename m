@@ -1,62 +1,62 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29808.1793868226874161188
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30058.1793868227518436409
  for <openembedded-core@lists.openembedded.org>;
  Thu, 05 Nov 2026 00:43:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=GZavbFPa;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so17150255e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:43:46 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=CtsazFqF;
+ spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48e10a70540so967576f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:43:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793868225; x=1794473025; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793868226; x=1794473026; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=6zt6tWrFJUSAvKy51sNbIWHwF1rygOtMD53DnU1LeaU=;
-        b=GZavbFPac5Q4onA25mBGasuiO6DcI7aasNcNyxa0qXSk9kqTk8j35Y8rWi2Apq0X4I
-         RnFJVYxeDOxeCT3105SAma3baITTNh1bXKX1WaplxPMiyHBtmNN1C7sCfzHa784akNSZ
-         5QQ+WVnU56NP5QrAJzjhgDccsAcDCzAB390m8b0FWDiu+Ve+VCtn3/4sy5HggJb0R5PV
-         tJXEyQbYVqIm7dx1BvrxvMDqoYV/uYAzGhM6A0MYSNxk4RVsPyx9P1F/pLLayLJUzepK
-         Y4M45izaKgTh/uGoYCLoTZjxBaVVIu0baEO1JQNA8tyJv0FTaDrBU0r01w5a3mGct+U1
-         /FfQ==
+        bh=iCa7Q5TtCSEemoH3Ww23JWJ+UCEqT86IO2EacuvaYMY=;
+        b=CtsazFqFOahZhCIli16hni9Tp82v9i1q/WQg8hTGmajz55obM+erCVyHZOncEgUuWl
+         iHx4+/nDyldb1a0dhqxnBJiEy7ToGaIFrUg2+P04GBL6assemNMD7LUExHYIvzO3XVWg
+         ztimkyRisE3XExa9WKFQXWOQw4RBW7iGY9UmBfuOTNA2thNjbWJ81EdNsiVGETLmb+S+
+         QBC6clE6TBdGzmlsHaz6IFNj8Qbw6ET+AJG9IF/athmKcSsHChGokeP/IFPUqJdi4Vbq
+         Repg5O11zkhG3jdmZMHas5k9PwUmHdHYvSpa8Lep4/LblGLHcs2CrGg/iSmVNOC+0aLa
+         yZhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793868225; x=1794473025;
+        d=1e100.net; s=20260707; t=1793868226; x=1794473026;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=6zt6tWrFJUSAvKy51sNbIWHwF1rygOtMD53DnU1LeaU=;
-        b=TsiMUVx/aegCGjMnqwAzYWxlSpq+MCPQn5v6WEwIgC71JwQEqeiw++8YaTtIDJMhcb
-         u6J4BpbdJrOgZ9bb0LK2dy0vsTqtTsBEPoGFW2G0Ab+mGhzWRp0CcHiaKWMu+f3q4T3p
-         abIb7wLOGoZJSRXfsXkhvtEOEXxyJfcUgiBgNIDUDrpxe5hOylXMniiDlgUrkws3oR09
-         i+8WrssgcQZu0f9arhiTn0JkIcun9GevhJiCZu6/XRQEd1wM/tR4bGRV/RmuK/x3ORpn
-         4nY6t5EJGxsjt3Dx6syKJ9hSwhx+EJZcnLJbzL+MfnQtxHU+J6sCGyGjEook4iDB1agE
-         H9oA==
-X-Gm-Message-State: APuU4Z8+qQsVgqMoP37lsBW6k2sE+IZER8+GKNIAh5ZTAtJU4X0qGUzX
-	B+YYNtXlvc0e6gGZ7GAmyNEw5+gGW8YNKIoeR51wRY3Z3l2nuMwfR33Y6JUajxyt0kewItUsGJz
-	9HcxM0io=
-X-Gm-Gg: AYBFou2pcmdNN8mirs37gFyf4QPWgqYMLuYtsXHwsQtRNF9PD3lWNx89ruAmCKSmhG2
-	r7GpPtXL4ydhdGsdnGJOmVvWu3qzpcU6j3lA+vFQ4E5hStCp6K3V4DgVZqS2UNDcjV6SiI1OCvN
-	2gR8fOuPaJQ6hZWmB/NZJZwIqnXlI3ZGwJwZWo7cO5BV7/erahCNlolhWZSXQuKYY3O8gn+w7IO
-	qZPaocFYnq4KaAUj7BMQpOLk+eor/URnHPny32EchiZCK/wtlKPNuxtd6rlgHEVTrnSD97raXWd
-	HD+pqd89AUuyvm02GB+szVF0axhRE8Yxh+rQtply10LTEGMnnmOuTEjWhEX1RZ3+CTVIruJ66P+
-	804kj4tTBdz89JduginOSwW809dPCpQIiHK4MISQ7gFD/R20LBd/Hw4i1rGocRKcaYYmMOpRshh
-	9JyMHOPp3NGfWKKFGnFgrC6W8U8XRYwQJ3LbIvuzGK6+Wt6JiqlSKQdXYba3xJsdtGZ+TjVLwlX
-	8/09clEntGdslNfZB55UMfO1mDCWNt+6j/Vor/sZpTrfXbFooUUl+M9AgEHfw0ZwqVq2WMmxx0g
-	O+/bRkmyBbGtJjjMYnEoiQigRzjpd3alREl0y0LcZgoFhzKxj87tyBlFt8nWe1H5hN93HaaHB4u
-	RkbOUo3BsfrJ3JSPZ3furgEnig04Y
-X-Received: by 2002:a05:600c:848c:b0:4a1:f99e:f22d with SMTP id 5b1f17b1804b1-4ac17471091mr423667325e9.6.1793868224990;
-        Thu, 05 Nov 2026 00:43:44 -0800 (PST)
+        bh=iCa7Q5TtCSEemoH3Ww23JWJ+UCEqT86IO2EacuvaYMY=;
+        b=yu6wyVH/ES2IKkTbyJ+R/q8075c43xvmtZt4sRiG6A9x30hMt3AsBNtO8pPpg8eq6/
+         tvbArdmBnu4vcE/LKWbKfNeXf6lykrGWqc+tahMt50U+WWibOG8oTKA8/ROFHblabh0S
+         +P7/iAmLJCOoQX23n1SIGn2gNLd9BruJCTDTWPV4SI2Zsex96lFopFyUEWse2HY0Lk6j
+         Re9b3AsbRUCaay/aXW9lUlqbE/NjlJJA8Bu2CkLzzjZgMCWicHlYTBo66IchWuIqitvA
+         eQ3EBymBaW1DA/2aN5B64KStubBnGyj1wwnzzFalulgDz+CDUqGhNC/0geVwPI//zS4B
+         tu5A==
+X-Gm-Message-State: APuU4Z8M8cgLBku8AN3iMbGjx4+5pxtRfyLv2SoCuddZgJp2+Bu165LV
+	anlvaPz9Kdc2t/BaoR2lfQjwM0Hl+y+am0Nlhu0hQnv+B8q1p26fumCaLNHcOMRrXGwc/EhP+k2
+	mJ9r60vw=
+X-Gm-Gg: AYBFou2mnBhUfPvulCnVstIqVMQ7ZqTvVNfD3CXezyi55WNXwpBFPIwJf3I3d0lvCfm
+	z9RdIztWBcvV487HTC9dqgMq+uxkQJDtbVhqcglwvIQkIQ+2ZQgz1/NhyTZ3SQ2AzhqJG9QbS6k
+	PKMpXFQrL49WSLcFZ9xmEWdqirA096LF7dIoO+A7bQ4j1Y3MubzDjQu5fA1s/oIXluJzdcB33+l
+	hCpSmZMOcwZ0eUzSy+6EtrPs6EgmjTYdaSXIbqufL2wmG4DL9Hz1FI+6enVNv9ivMyqKK7Kxw/V
+	GBKE5jCGAAdijKFGqNkTvcisRIsXd53eTk2YOkAWxphRRlL0vDoSd6K/6FDPie+WFJsetf6uLzo
+	FxHdmeeB6gUGgrpxpQQ+lr5V3XDi+/mlHm4QW15VyZ9WBiuzZY/Lm0nRofrtFlF5EvXvtUkAeKL
+	OoXglj+JwKgNU8Z/CfljCuL9pkqIsMKQPh1ktUv7OSaR2rqZxnPL4O9ChsYNzBx3hO+tK2XTt+Y
+	Z/vN8JuXGOjMqWXGLunw26LMzNWQuCkrv9Tc0W4R0gMd+aURKH30hT6L/2VN4/ItOwN9eB9QdEe
+	JsbervWOhf/fbNjw97lY5h1zWW81NAO8e6qDo6tpEbz6dkIn6/o/DLntr5BsTfw8xKD+IK1/xzJ
+	9pcZvvt/6T/RyTUqOzCwWKFOHrktKFw==
+X-Received: by 2002:a05:600c:630d:b0:4a1:fae2:a8ab with SMTP id 5b1f17b1804b1-4ac150b38abmr398922805e9.3.1793868225642;
+        Thu, 05 Nov 2026 00:43:45 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.43.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.43.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 00:43:44 -0800 (PST)
+        Thu, 05 Nov 2026 00:43:45 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 14/60] libical: uprade 4.0.5 -> 4.0.6
-Date: Thu,  5 Nov 2026 09:42:33 +0100
-Message-ID: <2dd434f74077dc80a2d6d91f2e9d3a5aea1f6eff.1793867929.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 15/60] libical: upgrade 4.0.6 -> 4.0.7
+Date: Thu,  5 Nov 2026 09:42:34 +0100
+Message-ID: <c0f850bd3d4e9b723e6f97f667b56500766c9d2c.1793867929.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793867929.git.yoann.congal@smile.fr>
 References: <cover.1793867929.git.yoann.congal@smile.fr>
@@ -64,150 +64,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:43:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249473
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249474
 Content-Type: text/plain; charset="utf-8"
 
 From: Ross Burton <ross.burton@arm.com>
 
-Drop upstreamed patch.
-
-- CVE: Fix UBSAN issue "bsearch comparator through an incompatible
-  function pointer"
-- RFC5545 section 3.3.5 Date-Time fixes:
-  - Resolve local times in a fall-back overlap to the first occurrence
-  - Fix explicit local time in a DST gap resolves using the
-    post-transition offset
-- RFC5545 section 3.3.10 Recurrence Rule fixes:
-  - FREQ=WEEKLY with BYMONTH and BYSETPOS loses occurrences in the week
-    straddling month boundary
-- libicalvcard: the typed vcardvalue getters now check that the value
-  type of the property uses the same union member as the expected value
-  type of the getter. If the type mismatches, then they return the zero
-  value for the expected value type. The typed setters error with
-  ICAL_BADARG_ERROR instead of overwriting a value held in another union
-  member.
-- libicalvcal: Fixed a memory leak in vobject.c
+- libicalvcard:
+  - `vcardcomponent_clone()` and friends now deep-copy TEXTLIST values (e.g. NICKNAME, CATEGORIES)
+    and structured parameters (JSCOMPS), and keep the property group.
+  - Fixed a use-after-free and a memory leak when converting a vCalendar procedure alarm (PALARM)
+    whose attachment is a plain path name.
+- libical:
+  - Fix busy status of recurring events in `icalcomponent_foreach_recurrence()`.
+  - Fix `icalvalue_decode_ical_string()` and `icallangbind_property_eval_string()` reading past
+    the end of a string that ends in a backslash or a newline.
+  - `icaltimezone_truncate_vtimezone()` no longer reads the RRULE after freeing it when the new
+     DTSTART is within a year of UNTIL (RSCALE rules), and no longer uses an uninitialized onset
+     when no RRULE occurrence falls before the window close.
+  - Fix IMAGE and STRUCTURED-DATA given by URI (with or without VALUE=URI) parsing to a URI value,
+    whose string `icalproperty_get_image()` and `icalproperty_get_structureddata()` then read as
+    an icalattach pointer.
+  - Fix use-after-free and double free in `icalcomponent_merge_component()` when both calendars
+    have a VTIMEZONE with the same TZID. Every VTIMEZONE of the merged calendar is now merged,
+    and a conflicting VTIMEZONE is added under a renamed TZID (e.g. "Zone1") that its events use.
+  - Fix out-of-bounds access to the year days bitmask in the recurrence iterator when an RSCALE
+    date falls outside the year (e.g. BYWEEKNO with a DTSTART before the calendar's epoch).
+  - Fix `icalrecur_iterator_set_range()` for a reverse range on a rule without UNTIL, which
+    started the iteration at year 0 instead of at 'from'.
+  - Fix `icalparser_clean()` for proper reuse by resetting internal structure values and clearing
+    the root component to avoid a use-after-free.
+  - Behavior change: The typed icalvalue getters now check that the value type of the icalvalue
+    uses the same union member as the expected value type of the getter, as the vcardvalue getters
+    have done since version 4.0.6. If the type mismatches, then they return the zero value for the
+    expected value type. The typed setters error with ICAL_BADARG_ERROR instead of overwriting a
+    value held in another union member.
+- libicalss:
+  - Fix heap-buffer-overflow in `icalspanlist_as_freebusy_matrix()` for busy spans that start
+    before or end after the spanlist. `icalspanlist_from_vfreebusy()` now sets the spanlist
+    start/end from DTSTART/DTEND and marks FBTYPE=FREE periods as free (all others as busy).
 - Buildsystem changes:
-  - Fix build paths in installed cmake files (esp. for cross-compiling)
-  - Install the libicalversion.h header
-  - Fix building libical as a submodule in a larger CMake project
-  - Fix "now" linker support check in the hardening compiler options
-  - Fix the DESTINATION path for libical.jar
-  - Use private linkage for 3rdparty libraries (icu, glib, ..)
-- Built-in timezones updated to tzdata2026e.
-- Remove ancient hack (since 2012) to support malformed TZID parameters
+  - Fix CMake command target_link_libraries() to use all-keywords as required since CMake v4.4.4.
+  - When cross-compiling, don't build/install ical-glib-src-generator w/o existing binary
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 3c04485f3effa61811fabadb52473ee29bc95f1e)
+(From OE-Core rev: 0646b1d8b6ad5a4c49afd72487e2f28b7fa7b6c3)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...001-Mark-ICU-as-private-linkage-1366.patch | 76 -------------------
- .../{libical_4.0.5.bb => libical_4.0.6.bb}    |  6 +-
- 2 files changed, 2 insertions(+), 80 deletions(-)
- delete mode 100644 meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linkage-1366.patch
- rename meta/recipes-support/libical/{libical_4.0.5.bb => libical_4.0.6.bb} (91%)
+ .../libical/{libical_4.0.6.bb => libical_4.0.7.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libical/{libical_4.0.6.bb => libical_4.0.7.bb} (96%)
 
-diff --git a/meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linkage-1366.patch b/meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linkage-1366.patch
-deleted file mode 100644
-index 53bd1683af2..00000000000
---- a/meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linkage-1366.patch
-+++ /dev/null
-@@ -1,76 +0,0 @@
--From 13642054f650795446f6020d9d2e14d147b8da51 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross@burtonini.com>
--Date: Wed, 2 Sep 2026 16:14:44 +0100
--Subject: [PATCH] Mark ICU as private linkage (#1366)
--
--* libical-glib: Hide some target options in the installed CMake files
--
--The build paths could be shown in the installed .cmake files, thus
--hide them from there, because they are not needed.
--
--Closes https://github.com/libical/libical/issues/532
--
--* libical: mark ICU linkage as private
--
--There's no need to expose the ICU linkage publically as the .so will
--pull this in itself.
--
--This has a side-effect of removing build/sysroot paths from the installed
--.cmake files.
--
--Closes #532.
--
-----------
--
--Co-authored-by: Milan Crha <mcrha@redhat.com>
--(cherry picked from commit 38c7e6d31a3a1a4bd67479f402c323fb0679271e)
--
--Upstream-Status: Backport [libical 13642054f650795446f6020d9d2e14d147b8da51]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- src/libical-glib/CMakeLists.txt | 9 +++++----
-- src/libical/CMakeLists.txt      | 2 +-
-- 2 files changed, 6 insertions(+), 5 deletions(-)
--
--diff --git a/src/libical-glib/CMakeLists.txt b/src/libical-glib/CMakeLists.txt
--index d63bbf3c..470a4d22 100644
----- a/src/libical-glib/CMakeLists.txt
--+++ b/src/libical-glib/CMakeLists.txt
--@@ -24,16 +24,17 @@ if(NOT DEFINED LIBXML2_DEFINITIONS)
-- endif()
-- target_compile_options(
--   ical-glib-src-generator
---  PUBLIC
--+  PRIVATE
--     ${GLIB_CFLAGS}
--     ${LIBXML2_DEFINITIONS}
--     -DG_LOG_DOMAIN=\"src-generator\"
-- )
-- target_link_libraries(
--   ical-glib-src-generator
---  ${GLIB_LDFLAGS}
---  ${GOBJECT_LDFLAGS}
---  ${LIBXML2_LIBRARIES}
--+  PRIVATE
--+    ${GLIB_LDFLAGS}
--+    ${GOBJECT_LDFLAGS}
--+    ${LIBXML2_LIBRARIES}
-- )
-- 
-- install(
--diff --git a/src/libical/CMakeLists.txt b/src/libical/CMakeLists.txt
--index 6fc2e953..583f2eeb 100644
----- a/src/libical/CMakeLists.txt
--+++ b/src/libical/CMakeLists.txt
--@@ -294,7 +294,7 @@ if(DEFINED CMAKE_THREAD_LIBS_INIT)
--   target_link_libraries(ical ${CMAKE_THREAD_LIBS_INIT})
-- endif()
-- if(ICU_FOUND)
---  target_link_libraries(ical ${ICU_LIBRARIES})
--+  target_link_libraries(ical PRIVATE ${ICU_LIBRARIES})
--   if(VCPKG_MANIFEST_MODE)
--     if(NOT APPLE AND NOT WIN32)
--       target_link_libraries(ical "m;stdc++")
---- 
--2.43.0
--
-diff --git a/meta/recipes-support/libical/libical_4.0.5.bb b/meta/recipes-support/libical/libical_4.0.6.bb
-similarity index 91%
-rename from meta/recipes-support/libical/libical_4.0.5.bb
-rename to meta/recipes-support/libical/libical_4.0.6.bb
-index e9b093544f1..7b9185c3742 100644
---- a/meta/recipes-support/libical/libical_4.0.5.bb
-+++ b/meta/recipes-support/libical/libical_4.0.6.bb
-@@ -10,10 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6d9294493d031c817783b0400a126c89 \
-                     "
+diff --git a/meta/recipes-support/libical/libical_4.0.6.bb b/meta/recipes-support/libical/libical_4.0.7.bb
+similarity index 96%
+rename from meta/recipes-support/libical/libical_4.0.6.bb
+rename to meta/recipes-support/libical/libical_4.0.7.bb
+index 7b9185c3742..cbfcb0675e6 100644
+--- a/meta/recipes-support/libical/libical_4.0.6.bb
++++ b/meta/recipes-support/libical/libical_4.0.7.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6d9294493d031c817783b0400a126c89 \
  SECTION = "libs"
  
--SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
--           file://0001-Mark-ICU-as-private-linkage-1366.patch \
--           "
--SRC_URI[sha256sum] = "cc09a3ac41d60e6144e644bd3fcf97d47106d659c4a0b8965102581401e67c9c"
-+SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
-+SRC_URI[sha256sum] = "2e3729cb69c282d3bb17a8d2b198af6e4bc7502fd3621c9adf573921fe9dceb0"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
+-SRC_URI[sha256sum] = "2e3729cb69c282d3bb17a8d2b198af6e4bc7502fd3621c9adf573921fe9dceb0"
++SRC_URI[sha256sum] = "47c05bc96e41416578cf1803bb2ba3f8d292cb17d5ac2fca539dee922bae8a94"
  
  inherit cmake pkgconfig gobject-introspection vala github-releases
  
