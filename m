@@ -1,247 +1,137 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.59])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29798.1793866705562105863
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29642.1793867185526627759
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 00:18:26 -0800
+ Thu, 05 Nov 2026 00:26:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=pZ/unoh9;
- spf=pass (domain: est.tech, ip: 52.101.83.59, mailfrom: pratik.farkase@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=gVVh3Dai;
+ spf=pass (domain: prevas.dk, ip: 40.107.162.4, mailfrom: rasmus.villemoes@prevas.dk)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pQCTVCLCvXabszTRO3t1pUueEn0PGSOVGNcFwtbNqFU0TTAmzXiyJ49X61jA2v6iFuhD6dp8rF4Ph0Tv9sAdA1pucbYJdaPRXJnPvKsqCWSgbKk+SZ81+f2ouvGjxnDmuhGfQ8l+88OyIbsoZ3KkEQH5Gv5CohkJC4DXM5E72dQVfurc/hs/r4nk7Ukbne/2/w5658pJWG3ujnSeC6RdFzQ6xpfDP3G6kqoz4cqwTtnTdIo0N4WSz2cP1XWclBqkfN9mAvUwmKBKJ0V0oL6MusGk9jP17+sLg4QImUW+ZIr8+60uhMe0XFuDSBE9H4x36gC0sy57gKfFFGdIRrB8QQ==
+ b=NwKIK9MJ8szsMt2fPsuAW/66VYJEfoAb4jSBIwjyTaI3eRsnD5t+ChezwD8ex9Tg4Dq0z7ShX5dmILLWORt4c6nMdM+zIKYGE3vlWMe+WUOUl2D7gMOAO2HRFJBN9B7wplBjidKV8Kj2CZJ8Tl9IrlBvXHQYx/hBTjwXVvVvpIYLGpcveqnsetKKbCpo9I9QNGsV9/iRg9JXoEyE8IaHgmo7MjSwoftXEiIseU2gcR1B03uTOnFKFdn4XlwaPdkecyzfdMel9BR9roX6qN/P8Ty017zJJwogWfa73wZ84wpC+XE4+WjTnl4ovWyFHiaikYXPaTgJg1V98WsWJwhNuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X5qrk0CAMeq35tAVzIQaPxtWmGYwwrv89LprnQYnOVM=;
- b=Smf+iB1Mrx3SWHnWzNHTeawLlWUpbgWr06oSv3B4L3hrh9qt34uXORGViyA1oP17QzA8fLpebMgjkmAv3Seve4SsjJORwvRRn3a0pzNtTMUmIdSU/0/IdRagxQC5tm1/mkwnJ8jiEMwqrGC0/StXRAacV0i6udD7DU6Yx4bq3o7VBX8DD6Kts0gaygVbgaI2uPwEZg3Mo5Nj7tDVNB0pq82lk9wjHyQ9gzmpClS+h3UXV/GGBisgaOoxaB0a5jixnhqI+Xt/yyPZo0Qn0GkzF7dRVCfgSMGjOSTN7/Mr9RWIlNT1QfGK8LvvvyBsjfOXzMmm3mESGHLjnCvTbgE4sw==
+ bh=YIR1gEOly+P5dUEO7KxVL0v9uB8sQJJ05FSEcYZB1Vs=;
+ b=f2HSkcr5G7i9kUEGGAMQ+on502yxEP7WuU0vMwW/VQviCMCQImbzIJBl8V9SS9kegGSIPRl+GHCHKrEnLv5uY7X/Ao7xD040OqnyI7sLNJlPHB3PF5EgsMu+A+X5D5WcB3oefXvrQ5JVJas2VIS5cwCbA3GEuQKFxWlczDu/5KOZwy/ciQi/KkwBwqSqCO1o2oMo5AQoJJXOJy2cBOtqMUc7y+cP4LCy45r2CtLalSfM/CCiV9I5BfPZwqRVpYrshYaO1FO/bVq5cyRczOKTBSU5hICaBl/qFAjn/i1zpdKQvQaFS4G/T4+LuBVE75YFNPdMH4r5ogNYbtQnxtLFhw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X5qrk0CAMeq35tAVzIQaPxtWmGYwwrv89LprnQYnOVM=;
- b=pZ/unoh9yRdgoaZlR/u5cp3f8A4+jqIEW+8cdO0sagQAhuNQB+QPosdVNCzYCkVqBHiTl3apweMZRfh8nSHQ9hse1vR9OmVhy+qULFRiUkbEfCIFDtoTHYSm83iKvpXjXdf/Lfy9NdZ/oPaEcRF2ci23vDzQgS4sTHfLQb1Xh7HnXf7oFnGjkoxLqthlP72zItP1yY1DUUkN96h272J2C0hD5XS2Nu0iAVmaeq5mGnZmf73IXF+Kp2W/2Hd39ZoYfYgCNu4IzJeKlrUJMkbXwBjQuXDNKsyRNIckapNpNpdoX9nvieQesVUETNjOhWOsL++ShPtfas9EggRDs7SRBQ==
+ bh=YIR1gEOly+P5dUEO7KxVL0v9uB8sQJJ05FSEcYZB1Vs=;
+ b=gVVh3Dai4/p+JqRKfPFIkbhcNgjt2v7iRAG+Pe282welT213zrC7QqIOUGbZd2gSS96IeDZcEHjqS1ssRuJHFRsPUCouPFOTPpjSDVXlGDLjeft5KGc5pPUbVz6khB4FMa8/if34LITYRI4WZWqKCIndURVq3P7LmGVm2bv5V0k=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by PRAP189MB1897.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:290::22) with
+ header.d=none;dmarc=none action=none header.from=prevas.dk;
+Received: from DB9PR10MB8248.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:4ca::21)
+ by AM7PR10MB909885.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:182::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Thu, 5 Nov
- 2026 08:18:18 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0592.007; Thu, 5 Nov 2026
- 08:18:18 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
+ 2026 08:26:20 +0000
+Received: from DB9PR10MB8248.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e639:bdd4:4bb5:6361]) by DB9PR10MB8248.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e639:bdd4:4bb5:6361%7]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
+ 08:26:20 +0000
+From: Rasmus Villemoes <ravi@prevas.dk>
 To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v2] log4cplus: add ptest support
-Date: Thu,  5 Nov 2026 09:18:14 +0100
-Message-ID: <20261105081814.16384-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261104083458.12316-1-pratik.farkase@est.tech>
-References: <20261104083458.12316-1-pratik.farkase@est.tech>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Rasmus Villemoes <ravi@prevas.dk>
+Subject: [PATCH] image-buildinfo.bbclass: add missing vardeps to buildinfo_target function
+Date: Thu,  5 Nov 2026 09:26:16 +0100
+Message-ID: <20261105082616.2991341-1-ravi@prevas.dk>
+X-Mailer: git-send-email 2.56.0
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO0P123CA0006.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::8) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
-Return-Path: pratik.farkase@est.tech
+X-ClientProxiedBy: GVZP280CA0060.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:271::16) To DB9PR10MB8248.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:4ca::21)
+Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|PRAP189MB1897:EE_
-X-MS-Office365-Filtering-Correlation-Id: e940dbbe-11f6-46e7-b678-08df3b15591d
+X-MS-TrafficTypeDiagnostic: DB9PR10MB8248:EE_|AM7PR10MB909885:EE_
+X-MS-Office365-Filtering-Correlation-Id: e4449261-f431-406b-13d6-08df3b167819
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|6133799003|10067099003|22082099003|260925021911599003|260925022911599003|260925021311599003|261102123227099003|56012099006|18002099003|261009223027099003|261021121427099003|261021123027099003|261022075727099003|11063799006|261026121527099003;
-X-Microsoft-Antispam-Message-Info: zX5XGsvqIlmUIwYNzhWcDz8+MzMpjRqUBZwPo3PpPHCMFFRJtsHdX5hdR9CXZ4PvAKpGYVTXUwDy31Y2d077/GwARU0cFlWOqtehtz+3an0kRj6YOWDcEZSFYz94kRLpb1ts3Zh3QHb9sJsq1D/Ii7oK02NyVN6qllZmOlY3DP8dxSke5neamky/txU2KO9LKGvftUtK9jo+WmW28aNXJbV5DbtDEDmBhBgLfnnQfLa/swuntW9cvYq/6VIKHN8Ls4GGQDS2bGo/ZHpgm6BwCdFqFifZXjIbyTFa1qbykm5lMhfOjYmSnx/cmHJExFGob5jRk0A79eTuOoaAwK9TVH+fQnr3y+Gta5lo7nPlHfF5OZ3+UcMRFzqxNfqmBrAxM5uzPJWVCoMFsw/fuz0DRJ+257e8xFl4eQKKKWN0ow5hweNWdmhsj5pkNLeXWRpAMfUCnBDND3u15nfTkFE3UEb82oeNmy04kQaAgrb7ZOi+2cLpFyp8bRyjIUU2zNJIDXQIfuIHO3DoCSP+a/5rKH08X7m0LipHaXBaBg4Vp8b3Yjy2GNjyRiWu/IayctxFXqCb1tj8vQVN+dwTEvftzIuH+we96aQzAq2Ml6MkD6SDUXrhF7/eb1oi/0WRHPG+UYexx4eIrYmtwYqb7dtyAA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(6133799003)(10067099003)(22082099003)(260925021911599003)(260925022911599003)(260925021311599003)(261102123227099003)(56012099006)(18002099003)(261009223027099003)(261021121427099003)(261021123027099003)(261022075727099003)(11063799006)(261026121527099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|261102123227099003|11063799006|56012099006|261009223027099003|261021121427099003|261022075727099003|261028144727099003|261026140227099003|261026121527099003|261022115727099003|261022105027099003|18002099003|10067099003|3023799007;
+X-Microsoft-Antispam-Message-Info: DoalMFjb/v9nUymvARWRYtktMXYjg5Nr3coH79JOiJwzQL+fj8d9GWsljfXKhXAZA0TljyHlZcgzftSKGhtNTyN669WoaOLCEYZiUdAbsoQexA/XSx92wLjBogGZDyR4aJ1/4sEUVRbp05HxMvQ9uwLXCNm5jbzJ6agDBDOdvZ/waKcyaP5DQVdp9fb0v+Sw0pYtD61+RXC8hwGTrwN2CJeFGRUShBbyL9wCr5J9qTc7z0MDIYaom0kHbekSs0eid2dslxwnrKEQb6OmgUYRkYL9vIVAH7kCzdTcud5Cg99LMN/3dhpPLKD5nILoJokoVeDopLu3DU3gX/uKqLAkl2rP6Asm76Vp4gtk2ducY4DdqYk9NhisCQEj9ARum8wYRQT+OJOGiJI65BtJwYziArvut6ZKUdK+5qSeJ21rpkGIcNPNSFRnHnukyWgzOH5qO6od6BKoysthqr8p1qzs9G5xRbKRq11Iucl3scg0F4jEGdzBY+1+7QEkPfmFcHjJ58CnFv4ZCcxf9cn6ktKqNsLs5L1PfJMHCYYfxAds66pWxaibjaqiuVPvbSrBmcPHuAeXzoLRSw2Y4JxQaEW/YxD8p9/zbwRClmPJMZRgfzC8w7AxRqSgAh04mWsuWTorEhsU0Y2/t0orltNQ4Q5ujNnRQ6qMsZrtDcTgYRffPw0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR10MB8248.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(261102123227099003)(11063799006)(56012099006)(261009223027099003)(261021121427099003)(261022075727099003)(261028144727099003)(261026140227099003)(261026121527099003)(261022115727099003)(261022105027099003)(18002099003)(10067099003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZipQxCEqr+OkJQR0Jh3wf0wg/pkVV8PLHQAQJYKimJQui3/E/8g217JHWQqd?=
- =?us-ascii?Q?MD0d5dxYxVfmkl3wIW3yOmF4A+C4V9GDm/ln+A37RJMWGh5MmwueSHxOkIVc?=
- =?us-ascii?Q?VUncNNgCkHrnl1x1tl4im6IwLqmFWQbh11fa1s76bjIqg04Fr1Z34IBb0FFw?=
- =?us-ascii?Q?ihGuZEVpCmF//a0z5g2x51AwO8tpMspzCxR+XQ6c5+2KuXwpCl8jPFwy+SfG?=
- =?us-ascii?Q?gOXZQU4xSrs/EacSsOuNbJTMRAo6+0qI7RjY2e41r8GbWSXsGdVkrhnn7Hom?=
- =?us-ascii?Q?LpcWiF3Fvcik4x6lw7fRpVaDQy22AQz/7UpBaxkj2lTN2qEFObTqsZv3TUpm?=
- =?us-ascii?Q?zp7w+D2arPVdYFRWCdP4m0hf0c/UXvFvqeNVeb51jNTcXNbwhfYEilGiBRAO?=
- =?us-ascii?Q?m5WWjwNXycGVPX7aCmNKC8KbO7aRe3hgOVwxA4Pq7oPY0phSXUC9pkKbAp9w?=
- =?us-ascii?Q?H/LfsPF0F7Wih/1wYXx75HPO0bs7w72ISECwTLogK3n+qaCiiznpFlBzlR1d?=
- =?us-ascii?Q?hacksGbkv0L+j9x77Of/Hbu5GHECxQR55q1+YFsinKpRnvO37QfqxnPcgH4J?=
- =?us-ascii?Q?342VJRxOf6NNH/iLwDMOqEB6679TsGDZp0THyzT1FS8JKnVA0xXrcoAxZiwS?=
- =?us-ascii?Q?BRyyeiN6QY2H/FmZioChqJzs1hcqvIUGniamckUnm4dkTEYpYJpLPgmBCdm5?=
- =?us-ascii?Q?kJZW/6KDSoUGKfBTfZntsRS1K7jEfsX0wTs8OKAg4gs0/6xaSUpXi4/5uSaV?=
- =?us-ascii?Q?2W4keJ/3qMzhXlstMTpPxv5hTTSqjdf/PFEH+xr3weVIOz1Zvq3CH0gQQb/C?=
- =?us-ascii?Q?dVWgx06xTFgY9crE2deIw2MQjjJImhlAEhmtyEZR7j3rNU7je9UUABaax20p?=
- =?us-ascii?Q?lqZvRfsRUkmHf0u8VEULeN5dlPrP9FoFv4ef5CLhLsK4w/RMGQhoO0Wy10MQ?=
- =?us-ascii?Q?8XLX4SvU+RDLJ9aZbLkfdOt03gKjilGfz09BQk1ntYrdMNC3xDft63LqeXaP?=
- =?us-ascii?Q?td8RlbCif+qx0Sz/hsvSHew9k6ajjcfIpG8vUqiE+CjRsaHlsX0TIwadamFN?=
- =?us-ascii?Q?/99qU1UPlVhy6WLdYnB3Pz/FwQicl4uxZFwu+g/OgJU9Qc8PPfPo8dITJz1w?=
- =?us-ascii?Q?7MkQIhQYoY8rLClllzff0u986PXHLhX+J6sDbyBmM4xnhX6P0plbzHC024EE?=
- =?us-ascii?Q?qxAj3fKnSkjf5DKGLNMG4rkjoYhjiE1hhCy1k78HWUDZGTvZkIynC+SDadRf?=
- =?us-ascii?Q?HiVrBLQzCxhxFOaFIs+cwvTzlw6w0qtggy47i2/W1BuoI4FPVk8BQCZJFQqP?=
- =?us-ascii?Q?wtDtlHLlaYcxnlQeBltIYo8AYWXptamh1w7RX4p4QqtTWwOzthITI5MM9/6b?=
- =?us-ascii?Q?y22V1IZZR6A89SugZ+LNggx7TJ2GoPa/7A9wPkA7LpmQPIMiV/tc1mYkYuFY?=
- =?us-ascii?Q?lNOQAzceEWYWt/jf3cVn4icWgI+AdOwqP4DLuEA0v3sj9T1L7M2E7/ItfYK0?=
- =?us-ascii?Q?XxGEjN+gDu6I+AwRo96ZyO89aj8KYKiv3tBW0JVjZR6LnbWJdWo+GFvBQY57?=
- =?us-ascii?Q?QdQRVCqkE9HK36HcFsISH99TBQiotRWWWpNc35e1V/UfKlxvhMujfPsvlv3R?=
- =?us-ascii?Q?lNkycaYBQO2QMrIDN4QFPtXSjFyBeDKqXO7+++eF7yqBhwW7ystb7ClUC8cs?=
- =?us-ascii?Q?Npa4925KF0ffwJ14FKmQ9pJr8r2Cc7oCqFm84rNgKdmKp23G4xzlQcD8zfjr?=
- =?us-ascii?Q?hheB2rgTiQ=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: e940dbbe-11f6-46e7-b678-08df3b15591d
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?y9i/nd8kUpRah1/dnnkbh9X1JoGlKRrqiFMo2/aQ7XAzyWhBlEkkDlGqKI2y?=
+ =?us-ascii?Q?vG1pFYU8hXpN+GunNEK9QoCqbKiRAYEu2YlGf4kFluFByATCPqVsv4ey1eYq?=
+ =?us-ascii?Q?7UYjizt59w6F4Ng7UfhB/QtpcE6biriZei60xZWA5GZXnCyzhJzSj+IHQvuS?=
+ =?us-ascii?Q?5Oxylele37tYptlb2ImRPbnhbShWWJQWu2qre/HEIV1kHBadPls9r7ivhRIJ?=
+ =?us-ascii?Q?lnI/PRK35LDITMBFmA/e3zUiuDu7yKk2E+2DuWhPXBa4tr38nGi5Q2uJKjku?=
+ =?us-ascii?Q?yyuG5hMkRsRCB4vNu/wubj0oDUY1IL2HeRaO4xHVg7bwfv4ibxtBahHP1a2H?=
+ =?us-ascii?Q?xY5sgyPLEdAxR6IRYnnJRHWOP1ip85x2U9Jbaf/PCSRHOAxBXv8idOO3+wNU?=
+ =?us-ascii?Q?3mqnduC1Rc2Z6itiNbFpwePXeyrcNZK590z1MINscmnlsn5Z9NaxBIbWxjyw?=
+ =?us-ascii?Q?310damgF/sfqA4unWTTxgaEyi3u6gDd1zmgUUjd+WSDOq5y96yWG9jBYmt7Z?=
+ =?us-ascii?Q?bdZeTndtI+IG/FxDuZL2ya21xaifaTK/KiHA8PBDke2Jv/AmfTtLmq5Z72p4?=
+ =?us-ascii?Q?2KZOuuX/8IK3Tx0VpjBb3QSokgGV6JWuMxzSfltJ4SMy58+g2QtikK44K5LG?=
+ =?us-ascii?Q?fkM6FgmxAD4K1uW3uyZNJfH+A7+RKswwpXzZTvEHo82f/nPAECNNNcWWlEOB?=
+ =?us-ascii?Q?MAt9UYj2YuFbZ2xw0/trL+SuFH3Zjh9l/+Wvsavj48Vgr/lK+nxybNKFWXja?=
+ =?us-ascii?Q?9tRvlWmgjJBjRlwIhl1F2O/SvCjIQOQg6PTzwjQ1nPcpctShO6MM6rUfPhZ2?=
+ =?us-ascii?Q?xAiyPSPnp1bbUy8t6qMH38qlbLb93KhyGmNeT3Vmn4m1Wbi75Ra6Y04C+QlS?=
+ =?us-ascii?Q?MCxjrJ5DovzqkckZHsh1i3FwYdsO8bYlUn1pOBRk4AeXgV6BpsmlPH3+xCiy?=
+ =?us-ascii?Q?yR+WRh8u+nvMR6J581lzv8bLoAVyJymQsjINvHheu5qiYkpNDIxgSkCV9EuO?=
+ =?us-ascii?Q?Zi5vlAfULAimcXNu/jNXtQyOIwYQokVrPJnuXigL4z40LlDfXnmjzrh9v+oc?=
+ =?us-ascii?Q?FtEcJmyOkZdX80gMFy6RyrHxKPoKfQ+Ol4+Esh36TV/70E4BhSepRSdHMrfw?=
+ =?us-ascii?Q?nHVUuayNn6Vko0N69FrJ0c9YPeGN1FHLHULUMhbHqaD9mCqT65x2k8p9700a?=
+ =?us-ascii?Q?kGTeEvipqEb8aFxvWzgFVqCqkhWEOVF1nFKqS31lwGIieio+faAqphNp2VWj?=
+ =?us-ascii?Q?zkJDTK+eLA0mK/vzis2pLhl1m7d8hX3xRl+/x8gPMlfVIKfJ3jcS/Pk2RRma?=
+ =?us-ascii?Q?I9EeKCXuj88BMWRnXXjiqbtR/E3JbpvtGNstkKCYVzJ4RG6f6lh3AAm0Bupp?=
+ =?us-ascii?Q?86tQUqvp5zLko1IlHj/uyc2tm9N4RpZhCaN8pFfOQmCXq6DFXnZ+JWswjhw+?=
+ =?us-ascii?Q?FpAaT8XbL+dAHwO5Nv/AOaELevja3iEPOG2ce0DvCt77eTBkX9nmwa2ZMQL5?=
+ =?us-ascii?Q?qONd8Q9NHiAsGtgQ86JYtNlMqYVJG5fNubnRxhIekxakgGFblnBeWWgJDAq8?=
+ =?us-ascii?Q?kP1E1ozdiH5EooXT63RNcL7QoWyJePaayseYMnxJcKW+c8GtG4UvunjAm4WG?=
+ =?us-ascii?Q?kD7h8WgP3Phl9nTDJBamg3ZCXXqhFbJlA0OEnG6xaTAoMN0jiM6bujfuq/cG?=
+ =?us-ascii?Q?3qUL6n+Q2B8mbPz2HsmFd+IqiAfoF/Loph3m0/4PW+1npFnHxaUeV5XhvBom?=
+ =?us-ascii?Q?xyeA/pbiqSQnhacGQ7fPyCOg5Ht2M/M=3D?=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4449261-f431-406b-13d6-08df3b167819
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR10MB8248.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 08:18:18.6493
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 08:26:20.1758
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tCM0qVDutHmeRSjoKvymbywseNmUHCVaYFuvMZrauPHAWg9oo7V2xoH7HIdlLGgHOaoEbgc7k5YCDqf27fnBvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAP189MB1897
+X-MS-Exchange-CrossTenant-UserPrincipalName: M+lETmn7yh+4Iv81df6EevuUyb4X6Mk022nFZK62diK7Lb20aoFIhmQqMuOQBo02vtyZ9ZZ9COdwEpbxmR+H5DMszK3wcP61wPGBqA17nJQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR10MB909885
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:18:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249457
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249458
 Content-Type: text/plain; charset="utf-8"
 
-Build the GNU Autotest based test suite and run it under ptest, following
-the tar ptest pattern: the generated testsuite is shipped together with
-atconfig/atlocal, whose build-host paths and tool locations are rewritten
-to the on-target ptest directory. The test programs use libtool -no-install=
-,
-so the real binaries are installed with libtool.
+From: Rasmus Villemoes <ravi@prevas.dk>
 
-Tested on qemuriscv64 with ptest-runner.
+Bitbake does see that buildinfo_target depends on the value of
+${IMAGE_BUILDINFO_VARS} itself. So adding an element to that list does
+cause do_rootfs to run again.
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+But bitbake does not know that the value is a list of variable names
+whose values are fetched, so changing one of the mentioned variables
+does not guarantee that do_rootfs gets re-run.
+
+Fix that by adding all the ${IMAGE_BUILDINFO_VARS} as [vardeps] for
+buildinfo_target.
+
+Signed-off-by: Rasmus Villemoes <ravi@prevas.dk>
 ---
+ meta/classes/image-buildinfo.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Notes:
-    v2: Trim atlocal to the variables the on-target tests need; the dropped
-        compiler/flags variables embedded build paths and broke ptest packa=
-ge
-        reproducibility.
-
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../log4cplus/log4cplus/run-ptest             |  5 ++
- .../log4cplus/log4cplus_2.2.0.1.bb            | 74 ++++++++++++++++++-
- 3 files changed, 79 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/log4cplus/log4cplus/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index d5357d8732..f8d2cb25b0 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -63,6 +63,7 @@ PTESTS_FAST =3D "\
-     libxmlb \
-     libxslt \
-     libyaml \
-+    log4cplus \
-     logrotate \
-     lttng-ust \
-     lua \
-diff --git a/meta/recipes-devtools/log4cplus/log4cplus/run-ptest b/meta/rec=
-ipes-devtools/log4cplus/log4cplus/run-ptest
-new file mode 100644
-index 0000000000..1f346cc8b1
---- /dev/null
-+++ b/meta/recipes-devtools/log4cplus/log4cplus/run-ptest
-@@ -0,0 +1,5 @@
-+#!/bin/sh
-+
-+cd @PTEST_PATH@/tests/
-+
-+./testsuite --am-fmt -k '!headers-compilation'
-diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb b/meta/re=
-cipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
-index a10dd175a2..91b7eddcb4 100644
---- a/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
-+++ b/meta/recipes-devtools/log4cplus/log4cplus_2.2.0.1.bb
-@@ -16,6 +16,78 @@ SRC_URI[sha256sum] =3D "374175c22fabe752eb1c20138e732b69=
-ae191e641f92d32c9432985cd8
- UPSTREAM_CHECK_URI =3D "https://github.com/log4cplus/log4cplus/releases"
- UPSTREAM_CHECK_REGEX =3D "log4cplus-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/classes/image-buildinfo.bbclass b/meta/classes/image-buil=
+dinfo.bbclass
+index ec57c04e55..de0becd432 100644
+--- a/meta/classes/image-buildinfo.bbclass
++++ b/meta/classes/image-buildinfo.bbclass
+@@ -41,6 +41,8 @@ def buildinfo_target(d):
+         vars =3D (d.getVar("IMAGE_BUILDINFO_VARS") or "")
+         return image_buildinfo_outputvars(vars, d)
 =20
--inherit autotools pkgconfig
-+inherit autotools pkgconfig ptest
++buildinfo_target[vardeps] +=3D "${IMAGE_BUILDINFO_VARS}"
 +
-+SRC_URI +=3D "file://run-ptest"
-+
-+RDEPENDS:${PN}-ptest +=3D "bash diffutils gawk grep sed ${PN}"
-+
-+INSANE_SKIP:${PN}-ptest +=3D "buildpaths"
-+
-+LOG4CPLUS_PTEST_TESTS =3D " \
-+    appender_test \
-+    configandwatch_test \
-+    customloglevel_test \
-+    fileappender_test \
-+    filter_test \
-+    hierarchy_test \
-+    loglog_test \
-+    ndc_test \
-+    ostream_test \
-+    patternlayout_test \
-+    performance_test \
-+    priority_test \
-+    propertyconfig_test \
-+    thread_test \
-+    timeformat_test \
-+    unit_tests \
-+"
-+
-+do_compile_ptest() {
-+    rm -f ${S}/tests/testsuite
-+    oe_runmake -C ${B} tests/testsuite
-+    for t in ${LOG4CPLUS_PTEST_TESTS}; do
-+        oe_runmake -C ${B} $t ${t}U
-+    done
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+
-+    install -m 0755 ${S}/tests/testsuite ${D}${PTEST_PATH}/tests/
-+
-+    install -m 0644 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
-+    sed -i "/^abs_/d" ${D}${PTEST_PATH}/tests/atconfig
-+    cat >> ${D}${PTEST_PATH}/tests/atconfig <<EOF
-+abs_builddir=3D'${PTEST_PATH}/tests'
-+abs_srcdir=3D'${PTEST_PATH}/tests'
-+abs_top_builddir=3D'${PTEST_PATH}'
-+abs_top_srcdir=3D'${PTEST_PATH}'
-+EOF
-+
-+    enable_threads=3D$(sed -n "s|^: \${ENABLE_THREADS=3D'\(.*\)'}|\1|p" ${=
-B}/tests/atlocal)
-+    wchar_support=3D$(sed -n "s|^: \${BUILD_WITH_WCHAR_T_SUPPORT=3D'\(.*\)=
-'}|\1|p" ${B}/tests/atlocal)
-+    cat > ${D}${PTEST_PATH}/tests/atlocal <<EOF
-+: \${GREP=3D'grep'}
-+: \${AWK=3D'gawk'}
-+: \${SED=3D'sed'}
-+: \${ENABLE_THREADS=3D'$enable_threads'}
-+: \${BUILD_WITH_WCHAR_T_SUPPORT=3D'$wchar_support'}
-+EOF
-+
-+    for t in ${LOG4CPLUS_PTEST_TESTS}; do
-+        ${B}/libtool --mode=3Dinstall install -m 0755 ${B}/$t ${D}${PTEST_=
-PATH}/
-+        [ -e ${B}/${t}U ] && ${B}/libtool --mode=3Dinstall install -m 0755=
- ${B}/${t}U ${D}${PTEST_PATH}/
-+        install -d ${D}${PTEST_PATH}/tests/$t
-+        for f in expout experr log4cplus.properties.1 log4cplus.properties=
-.2; do
-+            [ -e ${S}/tests/$t/$f ] && install -m 0644 ${S}/tests/$t/$f ${=
-D}${PTEST_PATH}/tests/$t/
-+        done
-+        for f in ${B}/tests/$t/*.properties; do
-+            [ -e $f ] && install -m 0644 $f ${D}${PTEST_PATH}/tests/$t/
-+        done
-+    done
-+
-+    sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/run-ptest
-+}
-=20
- BBCLASSEXTEND =3D "native"
+ python buildinfo() {
+     if not d.getVar('IMAGE_BUILDINFO_FILE'):
+         return
 --=20
-2.43.0
+2.56.0
 
