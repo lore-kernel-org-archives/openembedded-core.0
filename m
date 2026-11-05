@@ -1,135 +1,124 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.631.1793897300020588161
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5622.1793910432423249265
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 08:48:20 -0800
+ Thu, 05 Nov 2026 12:27:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=HipSNrJL;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: vgharaee@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so14582485e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:48:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=DC+7IyJR;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-91ea2e29d90so5764896d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 12:27:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793910431; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FiwIKvZUqmprYddCcOSwcQAAgZ01PxdAXBCGt/6C2FXBKbU/bKDBvfuE45bUmcpxb/
+         tsJ882A3k8PWvkYkwYcgV6/0Chv7T7kHZhlKh1C6YhxCC2TUVc/72HY5Gmmfsccb5cQQ
+         QfdnISBwaj5hbN5pHEDnOjgxDY3XbDod4DGugVo2yTY+tQnErHWwi9vsBp7PM6xEjhTN
+         hODanK/3BfNbHXo3xXKrb/IQbbZJ34Zda3XoxXX2Kn8M8JfTZooGBjPY/4YrhZ2BYgtd
+         H8QoBSIacGpC90fDuSiHukqrcYXNvlWhGvTnnPhwO5KCg0RKV4y4FUm1EZtZ3qc4xURi
+         9H8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/udfPvmnNPIauocsqTCDXGp20kz4sHPRcZa5jSObO70=;
+        fh=RjULCJOwF62uOXSxCw0adLgJmH1Gk2cfNmyTWZGL0cA=;
+        b=GDupC1sK9KgwCq/UwzlwKpJR+ivx+PeN0NoJQwhST6+BrjVGTE8OxdtVcpRo1zklyY
+         8zmy107K22kLl2I6HrNvHjHzLteymDc4ne887eGVKF4NKwRHZ4/i/TBuzl6SWEf4lAll
+         lebZAS51NttSJA5SMekkRWv9luxPjEZgCV8a/8iz3apU8Pj7AfOW20nvf3FSrjf3GNyh
+         eWkBZ1hGPpKQPNUn58V6LIwcsTsQ5+QM544SqeOne/623ext9mVp3oVF1Qy4bF6jEhqO
+         UDEa7pECCRVIVtTAAEsmwLsYG7jiyDWFoIBhcQ3F7MN8aDBPvLRU+/y9WVw5rTn+RqPT
+         CQcw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793897298; x=1794502098; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Gr2z0lSEdi/qlkh17yOTTROqhkNmkqALo8HOCCZw8bs=;
-        b=HipSNrJL8eP5WZxKdnkrLwSMvJqZ2J8Ls6bSiz2vuGJNDS0eZu/9+FL4oPA9TFPBNd
-         bJjxkc7yHB8y8Kc6zmnBj6xOYl5KaekYlmG8ozYT+ZeauEBKViGxZi+KGwb32czlaOb1
-         tlKFSid0nPO/Y2LBWwR/hFsQJSDyCJm5OFyCDQO93joy1MqjXo3rHGkdb8wKvJEanXh6
-         e2Gi7EdeQ7d+mu7M5Se+QvqY+FRrivrZiLaurAddOQ7KDZwUQV3MriAPlASkfoYWVyWm
-         X3sK54vhhexJ+rJ+Vtc1Sqx4RcN5VpdWwTyQue2ZwF47LyFh6hScTF1zmk+DQLkH5aaC
-         c0zA==
+        d=gmail.com; s=20260707; t=1793910431; x=1794515231; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/udfPvmnNPIauocsqTCDXGp20kz4sHPRcZa5jSObO70=;
+        b=DC+7IyJRQj4Ufyi+73042EnEtzUFt1GAh/Qk+TozZUxX9TigsFJ+2zGpW2V+FYhtQF
+         qtOUrVq5A1o23VCc1wBXDtblz+u0/JXxkN5joFaSO/msKsWnT7WcsLNAH3/Lsmr9ucSU
+         FOIZUJTB/mSIllo1/7uPuT/DGtdjLnU0L4H308+VWl8vYTJhTXBDcoLsT6i764O4NEej
+         i/wao59civSJrrfKXgtgU/Yj5pwX2m9vArfF0uWTZSQMFjX7EJpoR0FJKE1kXwIPxF4M
+         hwZctpWdSV3iAaYV+UIyLmrOEVZCMSjb6jsQ1vAGXK1z43engHfONJi+Y7188syFvINm
+         V8Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793897298; x=1794502098;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Gr2z0lSEdi/qlkh17yOTTROqhkNmkqALo8HOCCZw8bs=;
-        b=u3SG+BPXaGbZq9yIffWiVDrWV65XL54HnW9byZbg/XYHAOkzhsi5Y1qCRDAVbKEMVO
-         SnseY4lp1m2tQErt45r2Im/dp/ZvsGD2KWM4Wbs98N1JHp54nqfeAni28oCZy0jbdEjE
-         RzLvy4n1OZxgSXGkMMyTuh087VMAZo3RtNM4Qcwccw7sDQ71ctX9XIgNHzleNE0GxA4k
-         7lMlCKn6n/IOOfsP5ZBSwALkn8qf54MTszNm76BPu8xudSf56Hbt9W6dEshgcW2kDOHg
-         f3XXbS62xDs2J3pLR9VQzDWkbEDlipdy/GVtYIbv+DPnjhYroGZrCIq9Dszr0ygdSonS
-         z/0w==
-X-Gm-Message-State: APuU4Z+AOS5hc3fzP0C7lJPMCiRncv1zAHLc11Tqm4BFg8KDKCF37pZG
-	L4nwZHx/l8XqAjUQmIz6H0F1DihiNBu1yZumt8iox/1EECdItTwpeeJkuaetsQ==
-X-Gm-Gg: AYBFou3n6BbXLsZu8NGT0+q+n48nyQMieC44o04h8WEzSS6JzlDwGAESUUA2FrbOvPP
-	vAI6cpTpkzyWqhaqvfDI8yrPX671XFcFHkV0nl9DK6FWyDVEy1Omjc1am1BairBWSc0o7mWI6wC
-	0qyz869/AE2oMPz/e5pt5OlJnxxsMxzeR35U2DWmLkOiRp3E2cpjgMXBh2rTuagXnw+Ld6yPBTq
-	ihuFF87QB7TAJF9J8SiyEWH4p9h2zyDHlotTuRY3wLVW9SEnYkHz66NNQbaoAww+j1/I9DwVjdJ
-	2wYj0Yh4x3kRz6ICw6VQ0uOqYVViwpHF2gVE+b1JMto3oUgvzEhxefFwmWHJnGNsgtVll47Bez2
-	nOVSuGgC784q9NKzJW25xvIODxboMR01fZaKxXBh+QrcUHehSlaFZ0wJrOpyR40byoloey5ELxA
-	qTwCUu4Z8II1Zn2UbbBNpzjOePeeVWHN9gCRqmaSXsZPUpUZn6qFU+6kdI/sJj+EvVRvPcQfsjV
-	B5xqBRS/C6P1th4dni2hnCaTqLK8vQnqN8WcqVd4rIU2gLn0wujJer7cNqn8uEgNRc6fitZ6V7T
-	COltRgpoAVpwXtKKEBs//R24R+cpc2z/VsrLn4HNfKbQewEPCc3pLgxjAj/a8xuQ41rBsQ==
-X-Received: by 2002:a05:600c:3b8f:b0:4a6:42cc:bf66 with SMTP id 5b1f17b1804b1-4ac16acfdd5mr456708145e9.11.1793897298255;
-        Thu, 05 Nov 2026 08:48:18 -0800 (PST)
-Return-Path: <vgharaee@gmail.com>
-Received: from vahid-mr.t-mobile.de ([88.128.94.1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b63863d490sm42536975e9.2.2026.11.05.08.48.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 08:48:17 -0800 (PST)
-From: "Vahid Gharaee" <vgharaee@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v4 1/6] oe.fitimage: Support multiple kernel nodes and configuration selection
-Date: Thu,  5 Nov 2026 17:48:21 +0100
-Message-ID: <20261105164826.1340446-2-vgharaee@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261105164826.1340446-1-vgharaee@gmail.com>
-References: <20261105164826.1340446-1-vgharaee@gmail.com>
+        d=1e100.net; s=20260707; t=1793910431; x=1794515231;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/udfPvmnNPIauocsqTCDXGp20kz4sHPRcZa5jSObO70=;
+        b=P04p3e+B1khSVaLNl3UGgsckEAdnXjA4xYSsNi/3e4Z4VVc9Qw4seliFWhfb4Os39y
+         i2X4HD0CebK1en3NimvZDqw0xtex6uEaLOBnV/ls6N3kpWHTjlklSw/Yt/dwB/C7bkms
+         AhMD5a5qVbjE1EohwPcSGMbWm62ST7yG+qHbI3mdD1FMavGdI89kvu/l+e2Dpyb0wR9Q
+         DsJQvX7h7gFeKeectqwPGyUxb0GK3M6x5RT3p4WPp8560T6L/GTRotXcA5KmfqWQXvK0
+         21485a5TJCNtH1TMYUIWAO7AmPnGTmywHXg2g+KFsMWbBwA2L54kmvaU4pg+W0APa/VD
+         RZcg==
+X-Gm-Message-State: APuU4Z8m/jDflMJemvLiq+suHXEl/UBJpNp1Z8YK2NB8vINgpKyzoV5q
+	F9lk/HuEemuJ7GDE3sp2WcNms4Q2aQDVLQWjhtDe+rQIsioQ8ucm1rhVNu/7ZyWFl0QBt+bo9Dy
+	2drfWEazEDtCbn4HQZm6ek2L3jHroDmM=
+X-Gm-Gg: AYBFou3lA73cflnzopS1+/lOZQH+RLw2+Q8A3/HAfgFYl7iTRdOrtqOFJSFCo/wSdu5
+	N9kI+gIbsfcGU4T+Q0yb0gCX2XSknHwflz+DutHuXt6ud7ShWH8Rkhfoq1vkVInmwf9bkx4TvWI
+	A199ZGU4Z72FZmtPRHIlxHZWwqiN6WoRkaS+QCZP4o1DHxkc7q0LkmszClMIpRntEnFLVbJ0VLo
+	iTLFDNHqJul/yxNxIlArLNmE9lkadZMpoicZzmWE0dHgHOGZ0PrPf/rVa1Cu3ARwjJtVZwqiDt3
+	G4uH7M67y9EhGgAKZD6hkU5ZHO5QNJryK7os0LAWr4RPBefV2SNJ5TZelwmSHpdLO/EoaDNF0PO
+	e9a6u0YHfwChYer+552oSO+Nw0vNbXcHOXIv89YbEi22uMJy9nSelCjwkndfUlV4Wa47/FcQ=
+X-Received: by 2002:a05:6214:3911:b0:91e:7939:dda5 with SMTP id
+ 6a1803df08f44-91ea98b3b9fmr1328666d6.23.1793910431205; Thu, 05 Nov 2026
+ 12:27:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261105122145.543282-1-stondo@gmail.com>
+In-Reply-To: <20261105122145.543282-1-stondo@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 5 Nov 2026 21:26:57 +0100
+X-Gm-Features: AclHuK8nfJ_E6mjxH8Y68i3P9IZUWgLAgfGyu6JvkM0w0rRJCjg1DVl8K8hEEsY
+Message-ID: <CANNYZj9=G4+jmRx7UJMYbsp2xwDxwSmm+Gv2HxcPJtOen_9LUA@mail.gmail.com>
+Subject: Re: [RFC] spdx30: name, version and purl for dependency downloads
+To: Stefano Tondo <stondo@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, stefano.tondo.ext@siemens.com, 
+	bitbake-devel@lists.openembedded.org, Joshua Watt <JPEWhacker@gmail.com>, 
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>, 
+	Peter Marko <peter.marko@siemens.com>, Adrian Freihofer <adrian.freihofer@siemens.com>, 
+	Patrick Wicki <patrick.wicki@siemens.com>
+Content-Type: multipart/alternative; boundary="00000000000002ce0a065f8d5276"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 19:57:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249572
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 20:27:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249578
 
-From: Vahid Gharaee <v.gharaee@reinhausen.com>
+--00000000000002ce0a065f8d5276
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Vahid Gharaee <vgharaee@gmail.com>
----
- meta/lib/oe/fitimage.py | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+On Thu, 5 Nov 2026 at 13:21, Stefano Tondo <stondo@gmail.com> wrote:
 
-diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
-index 484e5c5ee0..91ccc31d46 100644
---- a/meta/lib/oe/fitimage.py
-+++ b/meta/lib/oe/fitimage.py
-@@ -193,6 +193,7 @@ class ItsNodeRootKernel(ItsNode):
-         self._dtbs = []
-         self._dtb_alias = []
-         self._kernel = None
-+        self._kernels = {}
-         self._ramdisk = None
-         self._bootscr = None
-         self._setup = None
-@@ -268,8 +269,8 @@ class ItsNodeRootKernel(ItsNode):
-     def fitimage_emit_section_kernel(self, kernel_id, kernel_path, compression,
-         load, entrypoint, mkimage_kernel_type, entrysymbol=None):
-         """Emit the fitImage ITS kernel section"""
--        if self._kernel:
--            bb.fatal("Kernel section already exists in the ITS file.")
-+        if kernel_id in self._kernels:
-+            bb.fatal("Kernel section '%s' already exists in the ITS file." % kernel_id)
-         if entrysymbol:
-             result = subprocess.run([self._host_prefix + "nm", "vmlinux"], capture_output=True, text=True)
-             for line in result.stdout.splitlines():
-@@ -294,7 +295,10 @@ class ItsNodeRootKernel(ItsNode):
-             compression,
-             opt_props,
-         )
--        self._kernel = kernel_node
-+        self._kernels[kernel_id] = kernel_node
-+
-+        if self._kernel is None:
-+            self._kernel = kernel_node
- 
-     def fitimage_emit_section_dtb(self, dtb_id, dtb_path, dtb_loadaddress=None,
-                                   dtbo_loadaddress=None, add_compatible=False):
-@@ -425,7 +429,7 @@ class ItsNodeRootKernel(ItsNode):
- 
-         self._loadables.append(loadable_node)
- 
--    def _fitimage_emit_one_section_config(self, conf_node_name, dtb=None):
-+    def _fitimage_emit_one_section_config(self, conf_node_name, dtb=None, kernel=None):
-         """Emit the fitImage ITS configuration section"""
-         opt_props = {}
-         conf_desc = []
-@@ -436,9 +440,11 @@ class ItsNodeRootKernel(ItsNode):
-         if dtb and os.path.splitext(dtb.name)[1] == ".dtbo":
-             include_kernel = 0
- 
--        if self._kernel and include_kernel:
-+        selected_kernel = kernel if kernel is not None else self._kernel
-+
-+        if selected_kernel and include_kernel:
-             conf_desc.append("Linux kernel")
--            opt_props["kernel"] = self._kernel.name
-+            opt_props["kernel"] = selected_kernel.name
-             if self._sign_enable:
-                 sign_entries.append("kernel")
- 
--- 
-2.56.0
+> I would like your opinion on a direction for the SPDX output of
+> recipes with language dependencies. I have working patches for it,
+> described below, but I would rather agree on the approach before
+> sending them.
+>
 
+I'm afraid I am missing context, which is hardly surprising because I did
+no spdx work until now. What are the language dependencies? Does something
+require or recommend them? Is there a normative document that defines them?
+The email talks about how the implementation works, but says nothing about
+what the problem is.
+
+Alex
+
+--00000000000002ce0a065f8d5276
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, 5 Nov 2026 at 13:21, Stefano Tondo &l=
+t;<a href=3D"mailto:stondo@gmail.com">stondo@gmail.com</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">I would like your opi=
+nion on a direction for the SPDX output of<br>
+recipes with language dependencies. I have working patches for it,<br>
+described below, but I would rather agree on the approach before<br>
+sending them.<br></blockquote><div><br></div><div>I&#39;m afraid I am missi=
+ng context, which is hardly surprising because I did no spdx work until now=
+. What are the language dependencies? Does something require or recommend t=
+hem? Is there a normative document that defines them? The email talks about=
+ how the implementation works, but says nothing about what the problem is.<=
+/div><div><br></div><div>Alex</div><br></div></div>
+
+--00000000000002ce0a065f8d5276--
