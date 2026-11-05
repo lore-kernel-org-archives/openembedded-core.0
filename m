@@ -1,51 +1,51 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29809.1793868228426116418
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30060.1793868228914983000
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 00:43:48 -0800
+ Thu, 05 Nov 2026 00:43:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=o32plq0O;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e3b22e971so802057f8f.0
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=aj/A20jq;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-491971ac844so219839f8f.2
         for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:43:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google2; t=1793868227; x=1794473027; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=9XzYjjHruDYXyJBM8oRizKnOumkOcERkhbmnioyGxCA=;
-        b=o32plq0OYAuBclpKpPO7FBmMxW4zWFo/I4rMde4g90/n6UZO9YHAioI0nhM2DqIZhI
-         WqElbwrikgELIc7wyv9Yf860jgq+j2KiMWHATvPLH2ulupBI2PPiXVGQa4r0Ts5zpGst
-         dXcc5/q9ARhshftDSRgbzBRKmdNfsl9WeTyrz8O6TurCTJy5egfW2mcdOenCRhS3jPhe
-         gWRvTcacwKUKdYJj7kapmZLr1D998fsnOBNPoS+PtZqLMNIsffmC74jsQt7z8rHXyOrD
-         5EvFpJ20o+xL28eGvt8zekeLdelrIKFvlgk07LufzmoyvdIsy6fL6dEznHN8eF5XNtF6
-         iz7A==
+        bh=K3sqE3yeEQjI5W0uXKCKMluoqWqyJiJM1NMhhl34wqI=;
+        b=aj/A20jqk7gsywW/Avs+va6PYYp7I7OGWs0lXB3TJWsY+3d6U/mDKKFBhpLoCnwZc6
+         WinKSupsvSWWIXYdHmzOnYF4x4gJ0aoGVRQzsnvKlNapRmi1C4fyHS0Dr4baUq6o7+Lj
+         psaI9hLQrKhXu80zCAqtHLTPZkfoGgS7bSRqzHKLGpVxhFKvP0Dh15wDnxv5Qyoqk9Le
+         3k3lme+41KdUs7ch0rPKVri/adQoW0VTT+zBRqetzO6dsRM1zx950OpLjB32S5UfvkiE
+         Uewi8C3lG/XeCxZTtrOheanBP8/3fONrNhxkyD7X5wOC65/umHc11jqOKgq3zF4nO8/a
+         fgfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1793868227; x=1794473027;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=9XzYjjHruDYXyJBM8oRizKnOumkOcERkhbmnioyGxCA=;
-        b=ahHTeub6ku3Z8oke10I5R1nY0hdOP0BcrEGQCSEl0W4WN4BHEUp+RlUqwDFdRlmrQF
-         GRkbV4wSJ9GmR0aaVqXWVHl3JUyirRgUiSM8qRMmUejJc1GpAftqsB61qle/Ec6FeCJq
-         bS05fG6en9zfiPtTSgFlbZz5xVkSFmpgKP/aGETIDGEmKjPVmHjzMvcfCBuCPl3j7PV6
-         VqrFCJQicu8jhRuZL+iCqu7z071+KBYzuoaXyfwUB7vJ9TfK50dQ6yLh8DFqpKeDkYPp
-         in+0+OtLMPDt5iXjmqZ8iJBTweTxDLFEhaIvWGUKIQCHllXxIJmGSiMPd1uz015/dRJc
-         DYFA==
-X-Gm-Message-State: APuU4Z8Qo7cClbdKXm0WZ/As2MbJKlPs/DACt3pLKTSq43c9J5yqmQ06
-	I4vYDMwrlwg9B+PLdJ/8adBJDxayGzgbSlwx8I/A/SBSC23VXzg8XZr+HV/gV24AgKOClHs9oH3
-	wJ9nv4Pg=
-X-Gm-Gg: AYBFou1TiZBlMZDZ373mQcMQ1rJMHvF/jwQmXc3C7YE3kWY9gRxTu2Sv4DagHebbNRH
-	aYNmv0wluhgT9/WEqlTdlar+vLW2RESN/cd0w0taxRyRFrApnrrO4UXUpkqoLLf9BCrH4Xo7DU9
-	hZ7UkHwf8P6QqgWP3UGxhO7lB68YcWtQNrMXKGq4oz56A/gO/+Vf0TCP86h51WO9VUj+uoxVUsL
-	tB4uhsKQha7O/CEZrlWza7zykkAq0TGJOiaErLDaowpBOTrS75Rclomlr9HY+zCqbPyvGFhEi2d
-	8mB6AORLIUOWft0bXalxaeW9mBOjmV3YkshXYJoeF1udobr1QrVI9QoFrx+HBGzORfR4RSKALSF
-	fykusyD6ubc2LlThyJdK2U29pYaZIdD/vZE1WLH5RA6ac4H7v0xSkJf7pUd17aUU2XiDbzuBs2c
-	qi/J8KG3z3Z2Ue2P14ISIY3YFLAhY5PVgGtAsRAv7N6ewyKrqbJ8H9yDQ0zGR8c6S785Myw2jJ7
-	UX7THODSYXSCum164IwMsIZk0/rK8MAkrFMp1jG+uFiZ1JykkIHEqNReF5NNaPR4FnqNuTUIy8J
-	L3UBHoxbJ2k5n9KHC6fB/BO8LFsK5KsHuxpS+/vvfL4UHAOCnoJv972OUH0vQDvG1u/vomfNzRh
-	i2VV0B8h3f4iivS0NVAxXCB+u89QJT3TjE0TlwFNcSJ8hQVXZaA==
-X-Received: by 2002:a5d:5e93:0:b0:48f:c415:df5 with SMTP id ffacd0b85a97d-48fc4150e9fmr8338848f8f.48.1793868226655;
-        Thu, 05 Nov 2026 00:43:46 -0800 (PST)
+        bh=K3sqE3yeEQjI5W0uXKCKMluoqWqyJiJM1NMhhl34wqI=;
+        b=mbUe/E450AjdytInPOgi2h22bjiNlWtpugcS194cBKU/nRsG7NBGYveMrjuwMzXD6b
+         aMBHr6hyJZpGhfy2xY5oOM8ZxsfyGs/1ptq/UeomMYwW7u34X9l1518YmP/OKcPEZPdw
+         GH2SrHjmdreXjTIpitHt6PoKLNpMwObCurR8l5AN8dvRXpbWmMQ48S+QCEJZzLq65CQ+
+         o8rtnOx9gGm8fNlPA6sUfUJhXEhPoLfzr9fyyfNKwgYcgtGlAKEwgJ0Xs9GswqPMv5rq
+         uWA8ryGkjTlm//POUWaHh9GJuoJGf9rZ9DiAvyafVlAI1lnEMYuN2X40Gl1n087OjX8h
+         ap0Q==
+X-Gm-Message-State: APuU4Z/qgK6vt3+l1kqKEZsO1IBKIzoSllLiF+n3LG4PPbji9mBWU0LO
+	t+Uq/q6z4/xAyRxZvZt4i0vVfYrccqA4HQutn7yCmx1ixhYxEzKhiu8AjHU8SYDtYmRvnLoFJSZ
+	8UGO/oNk=
+X-Gm-Gg: AYBFou175jsUcBhqOBN/oRPPNk/HkvflpsygL58xqNf7nU2urn+4RogxgraIeVFSKkH
+	hI/pwjBlByOCcqoc6Ljl4RKnggUtbWTXD1t0ualBikiiurt+/DWc2EV7JmuproUov0ZtGv68W07
+	mXrRdOedLK1BDtMmKw+MUz55dbApRLbcVnUkV7nduRdibQE6QJ+nGCXRIOz6KbgZ4MSht4xjXGt
+	1J5TMMDkJtdYLPQkrEeOaSKaSxNeZEh8S7g5fwWnz9y0SuC1tXvMLOSptSIGD8QIwHoLsAj92Rl
+	4RoqiUNPmwbCaC32+3t00ofEVEYI/jpra31mevGhQMAKtjsocKhVbJZd38ajEvEQV+Wr7pY2QGl
+	cR0iSVYw0joFjjf8s1IenOZEuAy/dQjyNPx+BBBbFYiy/SkL+ENtQMi+ITsSru2NDQAbD3QpUyN
+	IVF8Rd4sE+zkk1oAxeVPqi2e7msrFMmxem2Zo2iS3n86Xlv0xHFQ/ugBceQ2CWVvyMw5KX+/86n
+	IyoOUvMyUCQuTAPwLAs1UEc0hUcJbSO2wiK365WVuk3PLAPgunhEarUTo8weiokMPhC5w2OaDAP
+	VXWAQSzy4zP58nCCRJgyAOcrKyzAmFpHp/vNgKan7m/AW9/+CQDktpjnqSggDL2qgHHsVY0PMSC
+	VKy9t+3OI9SO7QrUmn3rkobMPrEtCeA7M36EHrNbah/7Br3jIqg==
+X-Received: by 2002:a05:6000:46c3:b0:48e:4a8a:e17f with SMTP id ffacd0b85a97d-48e6e2bc7f2mr27519929f8f.4.1793868227029;
+        Thu, 05 Nov 2026 00:43:47 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.43.46
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Thu, 05 Nov 2026 00:43:46 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 17/60] curl: fix CVE-2026-92389
-Date: Thu,  5 Nov 2026 09:42:36 +0100
-Message-ID: <c66a7149dd42992ec2b5f1f003443aebc63ae929.1793867929.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 18/60] piglit: fix build with Python 3.14.9
+Date: Thu,  5 Nov 2026 09:42:37 +0100
+Message-ID: <ea8fcc4f54d9a92c191b4d668d691a5e3bd08fd3.1793867929.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793867929.git.yoann.congal@smile.fr>
 References: <cover.1793867929.git.yoann.congal@smile.fr>
@@ -64,99 +64,77 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:43:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249476
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249477
 Content-Type: text/plain; charset="utf-8"
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+From: Ross Burton <ross.burton@arm.com>
 
-Backport patch to fix CVE-2026-92389.
+Python 3.14.9 added bounds checking to the mtime argument, so piglit
+passing the mtime as a string causes runtime errors:
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-92389
+    File "/usr/lib/python3.14/gzip.py", line 303, in _write_gzip_header
+        if not 0 <= mtime < 2**32:
+    TypeError: '<=' not supported between instances of 'int' and 'str'
 
-Upstream fix:
-  https://github.com/curl/curl/commit/63dd390fab905a239a97e270
-
-Tested with ptest:
-Before: PASSED: 980, FAILED: 0, SKIPPED: 0, ABORTED: 0
-After: PASSED: 980, FAILED: 0, SKIPPED: 0, ABORTED: 0
-
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 66cf97860d9833b852298a6cd60334c372a18dc3)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-92389.patch            | 53 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.22.0.bb      |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92389.patch
+ ...-reproducible_mtime-should-be-an-int.patch | 33 +++++++++++++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb    |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-serializer-reproducible_mtime-should-be-an-int.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-92389.patch b/meta/recipes-support/curl/curl/CVE-2026-92389.patch
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-serializer-reproducible_mtime-should-be-an-int.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-serializer-reproducible_mtime-should-be-an-int.patch
 new file mode 100644
-index 00000000000..9bd685f3209
+index 00000000000..4578c296b0d
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-92389.patch
-@@ -0,0 +1,53 @@
-+From 83182969a364dac093c621990e4a140a7407e478 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 16 Sep 2026 23:46:44 +0200
-+Subject: [PATCH] tftp: verify direction in a few places
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-serializer-reproducible_mtime-should-be-an-int.patch
+@@ -0,0 +1,33 @@
++From 58a5bea55a5f7972462124e7a8f1b1971ad5483d Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Thu, 22 Oct 2026 14:09:08 +0100
++Subject: [PATCH] tests/serializer: reproducible_mtime should be an int
++X-ARM-No-Footer: NoDisclaimer
 +
-+Closes #22974
++The mtime argument is an integer not a string, so parse it with int().
 +
-+CVE: CVE-2026-92389
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/63dd390fab905a239a97e270]
++Passing a string breaks piglit with Python 3.14.9, which does integer
++bound checks on the specified mtime.
 +
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/1269]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
-+ lib/tftp.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
++ tests/serializer.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/lib/tftp.c b/lib/tftp.c
-+index d95da69dc3..b6d1cee601 100644
-+--- a/lib/tftp.c
-++++ b/lib/tftp.c
-+@@ -366,6 +366,9 @@ static CURLcode tftp_tx(struct tftp_conn *state, tftp_event_t event)
-+   char *bufptr;
-+   bool eos;
++diff --git a/tests/serializer.py b/tests/serializer.py
++index 5ee9a1578..f7fdadf43 100644
++--- a/tests/serializer.py
+++++ b/tests/serializer.py
++@@ -140,7 +140,7 @@ def serializer(name, profile, outfile):
++     tree = et.ElementTree(root)
++     reproducible_mtime = None
++     if 'SOURCE_DATE_EPOCH' in os.environ:
++-        reproducible_mtime=os.environ['SOURCE_DATE_EPOCH']
+++        reproducible_mtime=int(os.environ['SOURCE_DATE_EPOCH'])
++     with gzip.GzipFile(outfile, 'wb', mtime=reproducible_mtime) as f:
++         tree.write(f, encoding='utf-8', xml_declaration=True)
 + 
-++  if(!data->state.upload)
-++    return CURLE_TFTP_ILLEGAL;
-++
-+   switch(event) {
-+ 
-+   case TFTP_EVENT_ACK:
-+@@ -773,10 +776,14 @@ static CURLcode tftp_send_first(struct tftp_conn *state,
-+     break;
-+ 
-+   case TFTP_EVENT_ACK: /* Connected for transmit */
-++    if(!data->state.upload)
-++      return CURLE_TFTP_ILLEGAL;
-+     result = tftp_connect_for_tx(state, event);
-+     break;
-+ 
-+   case TFTP_EVENT_DATA: /* Connected for receive */
-++    if(data->state.upload)
-++      return CURLE_TFTP_ILLEGAL;
-+     result = tftp_connect_for_rx(state, event);
-+     break;
-+ 
-+@@ -1077,6 +1084,8 @@ static CURLcode tftp_receive_packet(struct Curl_easy *data,
-+ 
-+     switch(state->event) {
-+     case TFTP_EVENT_DATA:
-++      if(data->state.upload)
-++        return CURLE_TFTP_ILLEGAL;
-+       /* Do not pass to the client empty or retransmitted packets */
-+       if(state->rbytes > 4 &&
-+          (NEXT_BLOCKNUM(state->block) == getrpacketblock(&state->rpacket))) {
-diff --git a/meta/recipes-support/curl/curl_8.22.0.bb b/meta/recipes-support/curl/curl_8.22.0.bb
-index 0d9596b1f37..95d5801ad55 100644
---- a/meta/recipes-support/curl/curl_8.22.0.bb
-+++ b/meta/recipes-support/curl/curl_8.22.0.bb
-@@ -16,6 +16,7 @@ SRC_URI = " \
-     file://no-test-timeout.patch \
-     file://CVE-2026-92388-1.patch \
-     file://CVE-2026-92388-2.patch \
-+    file://CVE-2026-92389.patch \
- "
++-- 
++2.43.0
++
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index cd1ae5d6d28..50c4c40111f 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -11,6 +11,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
+            file://0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch \
+            file://0001-tests-no_error.py-modify-_command-and-not-command.patch \
++           file://0001-tests-serializer-reproducible_mtime-should-be-an-int.patch \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
- SRC_URI:append:class-nativesdk = " \
