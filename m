@@ -1,60 +1,60 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.639.1793897310540453176
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.635.1793897306593405018
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 08:48:30 -0800
+ Thu, 05 Nov 2026 08:48:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=qhkHObYK;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: vgharaee@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so13152985e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:48:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=rJYnhKQO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: vgharaee@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49d05d51553so13909385e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:48:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793897309; x=1794502109; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1793897305; x=1794502105; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=fTo5JWhIlUvscC/8YJqwYSrCObxnEn2i4XgciURvDI8=;
-        b=qhkHObYKRznGXCeeaJtKhT7rb1RxXpHoARgHyro7BbJVCReqAucFX9Re0C7CsATDSM
-         bk/N+wgF8bBDkq0Qxib0AVGFcRNgaBur1K2JcSTUQeerDG0UYxYJGtfK0WWoivvJKo9G
-         ifaHRfVJC2ZNiCv8fAIecoNZBB24wdh3F4A6idVrJV4rxH0df3Hib7jBQgXXjN3YJq6u
-         06f4MirQx18lzyUrcXnpoa2hOPuIpRo1LPp4a1H6T5uhvccuH4VW2eyU2vwEFBCbJKff
-         PaRDvnymC6wWKbtaCGIs8EgMyf4nDaIW/F4tqn7i9WVK5gKa2AnnqFO1JoJQzufhHoJh
-         SqBg==
+        bh=wLo4MO57mFeEdguzm54nlZUyTtxgfw9IFek1ZO55BmY=;
+        b=rJYnhKQOZLrBPWXFxyeaerjnZT3RkELpWsd54XCqFz0A5ufsGD3zgc1L6QoMEc4abY
+         kFJq/oDJkeMZkamHwxGnZTgklojXfVfg8JESX2hkFi5hG2GAkl+c9d1/ERUyZjzm7pfu
+         1qESCj/fXEAch8TRA9JAMpdDcjQBw8ITNQIuMpFXNZZtBu94ZDh0tJp0908nye6Ld0+m
+         O66HpJCBw+WUJGjqXNACVQJCKFlPPQ765v8emHyDsox6fwHA1RXyFiUQ7IkGhSqL38QG
+         rvp67u+gbW25P56fGYPlxriRjy84BHCKcOBWGUPuNss3K5fhHe9T4DdlQ5jYMNos9i1f
+         2hJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793897309; x=1794502109;
+        d=1e100.net; s=20260707; t=1793897305; x=1794502105;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=fTo5JWhIlUvscC/8YJqwYSrCObxnEn2i4XgciURvDI8=;
-        b=1HHHpUCPbqXBTIK8V7DcLZpMVYj3Ho7UQPTYFXKxtrGxNt2UOYYJVUBNZ0FEbSNdsB
-         F/SNBgdWUAtg6Bn7/RDQgJGWQAKnXYESRDABcZStc8zrm0Kc71k69/vHUYpZ4g/nFsHF
-         EUFAR4sIh9OBxPJlMGihrujuyZhOucjTg2sUJYmziZqWa6BcfU08yNlKk+pqBJUc7zUd
-         yde9dy0BkGjB0KhOTh0cf15fF1Ji0jtrwt/uYNZiR5B+/yafJwX74xr2N89KctonTa6k
-         8pmJ2jbDMYMU4OUGwQ3AcotqN5R2SDevxryueNmyxRwYPi0/LLI3AKQYOVGK++QG6n8U
-         5Cew==
-X-Gm-Message-State: APuU4Z/G4u0lRJq9Qo8QFC8numbOLRiuDEF6uLeMm42EjS6nFk9k9UPW
-	Z9nONtuiFsR88JwZWxlX4ROXNlfemFtgRn4ofa7PgJd25+0JaaQtYT/8kRsMrA==
-X-Gm-Gg: AYBFou2o54xBd27RY73LAIfZex7Hv30ZidlJDk5RY2xEHJgiq0fU41nkLQIfR02Vb2j
-	MSmDTdcMw4u5N0NJJPIWR5zTYcD14CPjYcaxcyxa3kitJdoTz0nsKgHVicJDFP3Wb6Da7gBaZIC
-	+JBj9arvxogZBzC4LsaC85LaJGk2vWRuoGsl7UXr2NHWZijxCDtbyy9Anz3LsJjnXf2Sf13fO02
-	p7ezc4ATUCFPHDc9mhvTVAoUe3TV1AbL6HxMhWQuSYfknFiQps7Rc3WcrF4SX4Cmgtbza1jd9cq
-	hhSqSZZZBBXgGJ88XRB0qXqLaP+IThl5bh/F291Wyyf8E74y0yeJBDWVWp9C7VcbikbvfsTkWL7
-	787jkUMlcIeDGwUAWh3e+ZtFVOVAkBTTe6nVzuZtmCvH3bHKKLudanEuzhie3czi26wRVTBU5Dk
-	xy/d0HmLJ/pbFmT3cLm+MCEIRdQzfPtjnge+0uGOuokmPui3mQ0DSzV6dSo0rdgWCyZ8h8ZGPzJ
-	4AXkR9xG28jee22wFqT9LQwPaPt3fUoEkZWpKEQ7zR134XnYyQFBkejbNt1OoLA+4Z9H5Zc9lhV
-	vR4eOa32ZEgXZf1IB3teokB4w1NAnvTMIsq+kuYaRmB61uOOuRXzrqWn1Boo4PmP6EmqTA==
-X-Received: by 2002:a05:600c:64c5:b0:4a2:150f:1613 with SMTP id 5b1f17b1804b1-4ac17a367edmr446483805e9.7.1793897308700;
-        Thu, 05 Nov 2026 08:48:28 -0800 (PST)
+        bh=wLo4MO57mFeEdguzm54nlZUyTtxgfw9IFek1ZO55BmY=;
+        b=fsFZEoPnorbEoqfE1VeoHbf7sGAx/6uR5q90AAWzUR8RJe+B5kjJA2e1ttTtZ6v6eL
+         qxcOu98ZxuFRI/Z/rh2hdtJ+ZJrK1Jf87g17yHXCwJtCR9bNBnJ4EMFsT0j69AERUUAp
+         Bd/vuIEoLRRInFVxEDKjTU46uP0XW/4mAB6cCtVKsYN2d9wQxuY7FesLeRNMYiAejNxv
+         HjL/nayyZ2Xws3cFrwzR6CSCaKT/JD9bL5lqEuG46hFkdilhSBp2vgOG8LBEAderBd1M
+         J4Py7EOHxp3bPdw526Ugjoy55mtTHgd3y1DLtpSffGAgrYBAgTAhL80OhcdytaYeB7Dw
+         f1+w==
+X-Gm-Message-State: APuU4Z+vUf0x06kkp94F4JgWZd8X238iUqIyOmDKl32FPz505aqV3Owc
+	Dxm9+4YObxxjJ2GUH2g1tQmJDWf/MsRndJyL3kLpypcVPy28yLBhij/fotUVuQ==
+X-Gm-Gg: AYBFou3Kh1+K5JDvSzznUsEBmsjjo7st3cRNGzkWRtBGs8IiYT+oxpzqLPx7o0SRuaf
+	0tudIR3r3jXFhIB0bgnciu1fHujpKQkY1rmi0a8Hu2VVYgHLRPPG5/BcTbHZpq+UjTkkgehjqkb
+	XTfG8h3hvj/yZyBxRFUSonO9ApGKgL6O+8lzpX+VECtQR/8qBEY8vMDXBKxOjbVE/b586SX73go
+	8IC5gk7NDkXZ3ZJeNEVunyPG601wzpxGfaT2rKgHlIs+qk7sDFI4pffA/MDG3nIQgB7lX6JPaWZ
+	VXODJOxyRc70U1RZySIaZ2p60K6/mbl7k8Sfd3H2L/VNoTESlFFIu0LU3XG72Oc1af2MhIet2BH
+	vPVtoZwt5QD4s3YPDNPcReFp18rk/yOBJok6v4F6uQly7n9lCx06xHcAraNRn1Rj5b/y1aCmbUM
+	4IyrnC0iDwDhBitAQVKWUSoJBjvSt173qccK6hpzxe5/3ho75UuNnToAa2lPtEq1iWDxOU0lSWQ
+	2tK4MSUglKVwOvjKDAHWPJP5NdGj14OmS7f6iVceEHarWbbRoG4ds+/7886Ol7RAFaVLqpJ+gM9
+	xEsxMWW1xHbprMEl1UzBi/8I2/+PYCrvZLQuHpHCBrPxwi751/RBjYylpC/MhkUxKqSP
+X-Received: by 2002:a05:600c:8b46:b0:4a0:4a8:d444 with SMTP id 5b1f17b1804b1-4ac18c73238mr440835575e9.33.1793897304616;
+        Thu, 05 Nov 2026 08:48:24 -0800 (PST)
 Return-Path: <vgharaee@gmail.com>
 Received: from vahid-mr.t-mobile.de ([88.128.94.1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b63863d490sm42536975e9.2.2026.11.05.08.48.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b63863d490sm42536975e9.2.2026.11.05.08.48.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 08:48:28 -0800 (PST)
+        Thu, 05 Nov 2026 08:48:24 -0800 (PST)
 From: "Vahid Gharaee" <vgharaee@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v4 6/6] kernel-fit-image: preserve vendored DTB aliases for external overrides
-Date: Thu,  5 Nov 2026 17:48:26 +0100
-Message-ID: <20261105164826.1340446-7-vgharaee@gmail.com>
+Subject: [PATCH v4 4/6] oe.fitimage: Add custom configurations and harden multi-kernel handling
+Date: Thu,  5 Nov 2026 17:48:24 +0100
+Message-ID: <20261105164826.1340446-5-vgharaee@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261105164826.1340446-1-vgharaee@gmail.com>
 References: <20261105164826.1340446-1-vgharaee@gmail.com>
@@ -62,260 +62,432 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 19:57:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249577
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249575
 Content-Type: text/plain; charset="utf-8"
 
 From: Vahid Gharaee <vgharaee@gmail.com>
 
-When an external DTB overrides a kernel-provided DTB, the FIT
-generation skips the kernel DTB. With KERNEL_DTBVENDORED enabled,
-this also drops the vendored configuration name.
+One can now add configs that point to any kernel node and,
+optionally, a DTB with fitimage_emit_section_config_custom(). The default
+config still can be chosen by name with fitimage_set_default_config().
 
-Preserve the vendored name by creating a configuration alias
-referencing the external DTB image. Resolve external symlinks
-to their actual DTB targets.
+The default configuration is now stored and written to the ITS once, in
+write_its_file(). Before, fitimage_set_default_config() had to overwrite
+the property that fitimage_emit_section_config() had already set.
 
-Add regression tests for regular and symlinked external DTB
-overrides.
+DTBs and DTB symlink aliases are now looked up by the id they were added
+with. Before, the lookup depended on the "fdt-" node name or the alias
+name.
+
+Reject explicit kernel selection for FIT overlays and validate
+configuration generation order.
+
+Tested with oe-selftest -r fitimage.FitImagePyTests.
 
 Signed-off-by: Vahid Gharaee <vgharaee@gmail.com>
 ---
- .../recipes-test/ext-dtb/test-dtbs-as-ext.bb  |  11 ++
- meta/classes-recipe/kernel-fit-image.bbclass  |   7 ++
- meta/lib/oeqa/selftest/cases/fitimage.py      | 105 ++++++++++++++++--
- 3 files changed, 113 insertions(+), 10 deletions(-)
+ meta/classes-recipe/kernel-fit-image.bbclass | 129 +++++++++++++++++--
+ meta/lib/oe/fitimage.py                      |  85 ++++++++++--
+ meta/lib/oeqa/selftest/cases/fitimage.py     |  37 ++++++
+ 3 files changed, 227 insertions(+), 24 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb b/meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb
-index 217ca36235..de994cebce 100644
---- a/meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb
-+++ b/meta-selftest/recipes-test/ext-dtb/test-dtbs-as-ext.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- inherit devicetree
- 
-+TEST_EXTRA_DTB ?= ""
- COMPATIBLE_MACHINE = ".*"
- 
- SRC_URI = "\
-@@ -18,8 +19,18 @@ SRC_URI = "\
- # Sym-links are handled as extra configuration nodes in FIT images.
- do_install:append() {
-     ln -sf test-ext.dtb "${D}/boot/devicetree/test-ext-alias.dtb"
-+
-+    if [ -n "${TEST_EXTRA_DTB}" ]; then
-+        cp "${D}/boot/devicetree/test-ext.dtb" \
-+           "${D}/boot/devicetree/${TEST_EXTRA_DTB}"
-+    fi
- }
- 
- do_deploy:append() {
-     ln -sf test-ext.dtb "${DEPLOYDIR}/devicetree/test-ext-alias.dtb"
-+
-+    if [ -n "${TEST_EXTRA_DTB}" ]; then
-+        cp "${DEPLOYDIR}/devicetree/test-ext.dtb" \
-+           "${DEPLOYDIR}/devicetree/${TEST_EXTRA_DTB}"
-+    fi
- }
 diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index 457654926c..74511b01d2 100644
+index abf7327c97..457654926c 100644
 --- a/meta/classes-recipe/kernel-fit-image.bbclass
 +++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -188,6 +188,7 @@ python do_compile() {
+@@ -29,19 +29,53 @@ python () {
+         d.appendVarFlag('do_compile', 'depends', ' virtual/dtb:do_populate_sysroot')
+         d.setVar('EXTERNAL_KERNEL_DEVICETREE', "${RECIPE_SYSROOT}/boot/devicetree")
+ 
+-    # Parse loadables config
+-    loadables = d.getVar('FIT_LOADABLES')
+-    if loadables:
+-        # Only flags are supported. Add the vars to vardeps so their flags are
+-        # part of the signature.
+-        loadable_vars = ['FIT_LOADABLE_ARCH', 'FIT_LOADABLE_COMPRESSION',
+-                         'FIT_LOADABLE_DESCRIPTION', 'FIT_LOADABLE_ENTRYPOINT',
+-                         'FIT_LOADABLE_FILENAME', 'FIT_LOADABLE_LOADADDRESS',
+-                         'FIT_LOADABLE_OS', 'FIT_LOADABLE_TYPE']
+-        for v in loadable_vars:
+-            if d.getVar(v):
+-                raise bb.parse.SkipRecipe("You cannot use %s as a variable, you can only set flags." % v)
+-        d.appendVarFlag('do_compile', 'vardeps', ' ' + ' '.join(loadable_vars))
++    # Parse loadables, additional kernels and additional configurations
++    for items_var, flag_vars in (
++            ('FIT_LOADABLES', ['FIT_LOADABLE_ARCH', 'FIT_LOADABLE_COMPRESSION',
++                               'FIT_LOADABLE_DESCRIPTION', 'FIT_LOADABLE_ENTRYPOINT',
++                               'FIT_LOADABLE_FILENAME', 'FIT_LOADABLE_LOADADDRESS',
++                               'FIT_LOADABLE_OS', 'FIT_LOADABLE_TYPE']),
++            ('FIT_KERNELS', ['FIT_KERNEL_COMPRESSION', 'FIT_KERNEL_DEPLOYDIR',
++                             'FIT_KERNEL_DESCRIPTION', 'FIT_KERNEL_ENTRYPOINT',
++                             'FIT_KERNEL_FILENAME', 'FIT_KERNEL_LOADADDRESS',
++                             'FIT_KERNEL_MULTICONFIG', 'FIT_KERNEL_RECIPE',
++                             'FIT_KERNEL_TYPE']),
++            ('FIT_CONFIGS', ['FIT_CONFIG_DTB', 'FIT_CONFIG_KERNEL'])):
++        items = d.getVar(items_var)
++        if items:
++            # Only variable flags are supported, not direct assignments.
++            for v in flag_vars:
++                if d.getVar(v):
++                    raise bb.parse.SkipRecipe(
++                        "You cannot use %s as a variable, you can only set flags." % v
++                    )
++
++            # Include variable flags in the do_compile task signature.
++            d.appendVarFlag('do_compile', 'vardeps', ' ' + ' '.join(flag_vars))
++
++    # Additional kernels may be deployed by another recipe, by a recipe of
++    # another multiconfig or be provided as prebuilt files
++    kernels = (d.getVar('FIT_KERNELS') or "").split()
++    if "kernel-1" in kernels:
++        bb.fatal("FIT_KERNELS must not contain kernel-1, it is reserved for virtual/kernel")
++    duplicates = sorted(set(k for k in kernels if kernels.count(k) > 1))
++    if duplicates:
++        bb.fatal("FIT_KERNELS contains duplicate entries: %s" % ' '.join(duplicates))
++    for kernel in kernels:
++        recipe = d.getVarFlag('FIT_KERNEL_RECIPE', kernel)
++        mc = d.getVarFlag('FIT_KERNEL_MULTICONFIG', kernel)
++        if mc:
++            if not d.getVarFlag('FIT_KERNEL_DEPLOYDIR', kernel):
++                bb.fatal("FIT_KERNEL_DEPLOYDIR[%s] must be set if FIT_KERNEL_MULTICONFIG[%s] is set" % (kernel, kernel))
++            d.appendVarFlag('do_compile', 'mcdepends', ' mc:%s:%s:%s:do_deploy' %
++                            (d.getVar('BB_CURRENT_MC'), mc, recipe or 'virtual/kernel'))
++        elif recipe:
++            d.appendVarFlag('do_compile', 'depends', ' %s:do_deploy' % recipe)
++        else:
++            if not d.getVarFlag('FIT_KERNEL_FILENAME', kernel):
++                bb.fatal("FIT_KERNEL_FILENAME[%s] must be set if neither FIT_KERNEL_RECIPE[%s] nor FIT_KERNEL_MULTICONFIG[%s] is set" % (kernel, kernel, kernel))
++            kernel_path = fit_kernel_path(d, kernel)
++            d.appendVarFlag('do_compile', 'file-checksums', ' %s:%s' % (kernel_path, os.path.exists(kernel_path)))
+ }
+ 
+ do_configure[noexec] = "1"
+@@ -61,6 +95,30 @@ def apply_dtbvendored(d,dtb):
+         mapped_name = dtb.replace('/', '_')
+     return mapped_name
+ 
++def fit_kernel_path(d, kernel):
++    filename = d.getVarFlag('FIT_KERNEL_FILENAME', kernel) or "linux.bin"
++    deploydir = d.getVarFlag('FIT_KERNEL_DEPLOYDIR', kernel) or d.getVar('DEPLOY_DIR_IMAGE')
++    return os.path.join(deploydir, filename)
++
++def fit_kernel_deployed_files(d, recipe):
++    """Return the real paths of all files deployed by do_deploy of recipe (PN or PROVIDES) in this multiconfig"""
++    import bb.runqueue
++    mc = d.getVar('BB_CURRENT_MC') or ""
++    taskdepdata = d.getVar('BB_TASKDEPDATA', False)
++    pns = set(dep.pn for tid, dep in taskdepdata.items()
++              if dep.taskname == "do_deploy" and bb.runqueue.mc_from_tid(tid) == mc and
++                 (dep.pn == recipe or recipe in dep.provides))
++    if len(pns) != 1:
++        bb.fatal("Could not identify the do_deploy dependency providing %s (found: %s)" % (recipe, ' '.join(sorted(pns)) or "none"))
++    pn = pns.pop()
++    for arch in d.getVar('SSTATE_ARCHS').split():
++        manifest = os.path.join(d.getVar('SSTATE_MANIFESTS'), "manifest-%s-%s.deploy" % (arch, pn))
++        if os.path.exists(manifest):
++            with open(manifest) as f:
++                return set(os.path.realpath(line) for line in f.read().splitlines() if line and not line.endswith('/'))
++    bb.fatal("No deploy manifest found for %s" % pn)
++fit_kernel_deployed_files[vardepsexclude] = "BB_TASKDEPDATA SSTATE_ARCHS"
++
+ python do_compile() {
+     import shutil
+     import oe.fitimage
+@@ -94,6 +152,39 @@ python do_compile() {
+         d.getVar('UBOOT_LOADADDRESS'), d.getVar('UBOOT_ENTRYPOINT'),
+         d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'), d.getVar("UBOOT_ENTRYSYMBOL"))
+ 
++    # Prepare additional kernel image sections
++    for kernel in d.getVar('FIT_KERNELS').split():
++        recipe = d.getVarFlag('FIT_KERNEL_RECIPE', kernel)
++        mc = d.getVarFlag('FIT_KERNEL_MULTICONFIG', kernel)
++        kernel_path = fit_kernel_path(d, kernel)
++        if not os.path.exists(kernel_path):
++            bb.fatal("File for kernel %s not found at %s" % (kernel, kernel_path))
++        # Artifacts of another multiconfig cannot be verified, its FIT_KERNEL_DEPLOYDIR is trusted
++        deployed = None
++        if recipe and not mc:
++            deployed = fit_kernel_deployed_files(d, recipe)
++            if os.path.realpath(kernel_path) not in deployed:
++                bb.fatal("File for kernel %s at %s is not deployed by %s" % (kernel, kernel_path, recipe))
++        kernel_file = "linux-%s.bin" % kernel
++        shutil.copyfile(kernel_path, kernel_file)
++
++        kernel_comp = d.getVarFlag('FIT_KERNEL_COMPRESSION', kernel)
++        if not kernel_comp:
++            kernel_comp = "none"
++            # linux_comp only describes linux.bin written by kernel-fit-extra-artifacts of the same recipe
++            if (recipe or mc) and os.path.basename(kernel_path) == "linux.bin":
++                kernel_comp_path = os.path.join(os.path.dirname(kernel_path), "linux_comp")
++                if not os.path.exists(kernel_comp_path) or \
++                        (deployed is not None and os.path.realpath(kernel_comp_path) not in deployed):
++                    bb.fatal("%s not found or not deployed by the kernel recipe, set FIT_KERNEL_COMPRESSION[%s]" % (kernel_comp_path, kernel))
++                with open(kernel_comp_path) as kernel_comp_f:
++                    kernel_comp = kernel_comp_f.read().strip()
++        root_node.fitimage_emit_section_kernel(kernel, kernel_file, kernel_comp,
++            d.getVarFlag('FIT_KERNEL_LOADADDRESS', kernel) or d.getVar('UBOOT_LOADADDRESS'),
++            d.getVarFlag('FIT_KERNEL_ENTRYPOINT', kernel) or d.getVar('UBOOT_ENTRYPOINT'),
++            d.getVarFlag('FIT_KERNEL_TYPE', kernel) or d.getVar('UBOOT_MKIMAGE_KERNEL_TYPE'),
++            description=d.getVarFlag('FIT_KERNEL_DESCRIPTION', kernel) or "Linux kernel")
++
      # Prepare a DTB image section
      kernel_devicetree = d.getVar('KERNEL_DEVICETREE')
      external_kernel_devicetree = d.getVar("EXTERNAL_KERNEL_DEVICETREE")
-+    external_dtb_aliases = {}
-     if kernel_devicetree:
-         for dtb in kernel_devicetree.split():
-             # In deploy_dir the DTBs are without sub-directories also with KERNEL_DTBVENDORED = "1"
-@@ -201,6 +202,8 @@ python do_compile() {
-             if external_kernel_devicetree:
-                 ext_dtb_path = os.path.join(external_kernel_devicetree, dtb_name)
-                 if os.path.exists(ext_dtb_path) and os.path.getsize(ext_dtb_path) > 0:
-+                    if conf_name != dtb_name:
-+                        external_dtb_aliases[conf_name] = ext_dtb_path
-                     continue
+@@ -209,6 +300,18 @@ python do_compile() {
+     # Generate the configuration section
+     root_node.fitimage_emit_section_config(default_dtb, d.getVar("FIT_CONF_MAPPINGS"))
  
-             # Copy the dtb or dtbo file into the FIT image assembly directory
-@@ -225,6 +228,10 @@ python do_compile() {
-                     root_node.fitimage_emit_section_dtb(dtb_name, dtb_name,
-                         d.getVar("UBOOT_DTB_LOADADDRESS"), d.getVar("UBOOT_DTBO_LOADADDRESS"), True)
- 
-+        for alias, dtb_path in external_dtb_aliases.items():
-+            symlink_target = oe.fitimage.symlink_points_below(os.path.basename(dtb_path), external_kernel_devicetree)
-+            root_node.fitimage_emit_section_dtb_alias(alias, symlink_target or dtb_path)
++    # Generate additional configurations, e.g. referring to additional kernels
++    for conf in d.getVar('FIT_CONFIGS').split():
++        conf_dtb = d.getVarFlag('FIT_CONFIG_DTB', conf)
++        if conf_dtb:
++            conf_dtb = apply_dtbvendored(d, conf_dtb)
++        root_node.fitimage_emit_section_config_custom(conf,
++            d.getVarFlag('FIT_CONFIG_KERNEL', conf), conf_dtb)
 +
-     # Prepare a u-boot script section
-     fit_uboot_env = d.getVar("FIT_UBOOT_ENV")
-     if fit_uboot_env:
++    fit_conf_default = d.getVar('FIT_CONF_DEFAULT')
++    if fit_conf_default:
++        root_node.fitimage_set_default_config(fit_conf_default)
++
+     # Write the its file
+     root_node.write_its_file(itsfile)
+ 
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index 91ccc31d46..55dfdc1737 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -147,8 +147,11 @@ class ItsNodeConfiguration(ItsNode):
+ class ItsNodeRootKernel(ItsNode):
+     """Create FIT images for the kernel
+ 
+-    Currently only a single kernel (no less or more) can be added to the FIT
+-    image along with 0 or more device trees and 0 or 1 ramdisk.
++    One or more kernels can be added to the FIT image along with 0 or more
++    device trees and 0 or 1 ramdisk. The first kernel added is the default
++    kernel referenced by the automatically generated configurations.
++    Additional configurations referring to other kernels can be added with
++    fitimage_emit_section_config_custom().
+ 
+     If a device tree included in the FIT image, the default configuration is the
+     firt DTB. If there is no dtb present than the default configuation the kernel.
+@@ -192,7 +195,9 @@ class ItsNodeRootKernel(ItsNode):
+ 
+         self._dtbs = []
+         self._dtb_alias = []
+-        self._kernel = None
++        # DTB ids as passed to fitimage_emit_section_dtb(_alias) mapped to their nodes
++        self._dtbs_by_id = {}
++        self._default_conf = None
+         self._kernels = {}
+         self._ramdisk = None
+         self._bootscr = None
+@@ -213,11 +218,18 @@ class ItsNodeRootKernel(ItsNode):
+                 bb.fatal("FIT image signing is enabled for individual images but no image key name is provided.")
+ 
+     def write_its_file(self, itsfile):
++        if self._default_conf:
++            self.configurations.add_property('default', self._default_conf)
+         with open(itsfile, 'w') as f:
+             f.write("/dts-v1/;\n\n")
+             self.emit(f, 0)
+ 
++    def _check_image_id_unique(self, image_id):
++        if any(node.name == image_id for node in self.images.sub_nodes):
++            bb.fatal("Image node '%s' already exists in the ITS file." % image_id)
++
+     def its_add_node_image(self, image_id, description, image_type, compression, opt_props):
++        self._check_image_id_unique(image_id)
+         image_node = ItsNodeImage(
+             image_id,
+             self.images,
+@@ -242,6 +254,7 @@ class ItsNodeRootKernel(ItsNode):
+         return image_node
+ 
+     def its_add_node_dtb(self, image_id, description, image_type, compression, opt_props, compatible):
++        self._check_image_id_unique(image_id)
+         dtb_node = ItsNodeDtb(
+             image_id,
+             self.images,
+@@ -267,7 +280,7 @@ class ItsNodeRootKernel(ItsNode):
+         return dtb_node
+ 
+     def fitimage_emit_section_kernel(self, kernel_id, kernel_path, compression,
+-        load, entrypoint, mkimage_kernel_type, entrysymbol=None):
++        load, entrypoint, mkimage_kernel_type, entrysymbol=None, description="Linux kernel"):
+         """Emit the fitImage ITS kernel section"""
+         if kernel_id in self._kernels:
+             bb.fatal("Kernel section '%s' already exists in the ITS file." % kernel_id)
+@@ -290,19 +303,18 @@ class ItsNodeRootKernel(ItsNode):
+ 
+         kernel_node = self.its_add_node_image(
+             kernel_id,
+-            "Linux kernel",
++            description,
+             mkimage_kernel_type,
+             compression,
+             opt_props,
+         )
+         self._kernels[kernel_id] = kernel_node
+ 
+-        if self._kernel is None:
+-            self._kernel = kernel_node
+-
+     def fitimage_emit_section_dtb(self, dtb_id, dtb_path, dtb_loadaddress=None,
+                                   dtbo_loadaddress=None, add_compatible=False):
+         """Emit the fitImage ITS DTB section"""
++        if dtb_id in self._dtbs_by_id:
++            bb.fatal("DTB '%s' already exists in the ITS file." % dtb_id)
+         load=None
+         dtb_ext = os.path.splitext(dtb_path)[1]
+         if dtb_ext == ".dtbo":
+@@ -332,9 +344,12 @@ class ItsNodeRootKernel(ItsNode):
+             compatible
+         )
+         self._dtbs.append(dtb_node)
++        self._dtbs_by_id[dtb_id] = dtb_node
+ 
+     def fitimage_emit_section_dtb_alias(self, dtb_alias_id, dtb_path, add_compatible=False):
+         """Add a configuration node referring to another DTB"""
++        if dtb_alias_id in self._dtbs_by_id:
++            bb.fatal("DTB '%s' already exists in the ITS file." % dtb_alias_id)
+         # Preserve the DTB's compatible string to be added to the configuration node
+         compatible = None
+         if add_compatible:
+@@ -343,6 +358,7 @@ class ItsNodeRootKernel(ItsNode):
+         dtb_id = os.path.basename(dtb_path)
+         dtb_alias_node = ItsNodeDtbAlias("fdt-" + dtb_id, dtb_alias_id, compatible)
+         self._dtb_alias.append(dtb_alias_node)
++        self._dtbs_by_id[dtb_alias_id] = dtb_alias_node
+ 
+     def fitimage_emit_section_boot_script(self, bootscr_id, bootscr_path):
+         """Emit the fitImage ITS u-boot script section"""
+@@ -440,7 +456,7 @@ class ItsNodeRootKernel(ItsNode):
+         if dtb and os.path.splitext(dtb.name)[1] == ".dtbo":
+             include_kernel = 0
+ 
+-        selected_kernel = kernel if kernel is not None else self._kernel
++        selected_kernel = kernel if kernel is not None else next(iter(self._kernels.values()), None)
+ 
+         if selected_kernel and include_kernel:
+             conf_desc.append("Linux kernel")
+@@ -510,6 +526,9 @@ class ItsNodeRootKernel(ItsNode):
+             )
+ 
+     def fitimage_emit_section_config(self, default_dtb_image=None, mappings=None):
++        if self.configurations.sub_nodes:
++            bb.fatal("Standard FIT configurations must be emitted before custom configurations")
++
+         if self._dtbs:
+             dtb_extra_confs = []
+             dtb_confs = {}
+@@ -567,13 +586,57 @@ class ItsNodeRootKernel(ItsNode):
+                 )
+                 bb.fatal("FIT configuration mapping(s) not matched with any DTB: %s" % ', '.join(unused_conf))
+         else:
+-            # Currently exactly one kernel is supported.
++            # Without DTBs, emit one configuration for the default kernel
+             self._fitimage_emit_one_section_config(self._conf_prefix + "1")
+ 
++        # The caller must emit standard configurations before custom ones.
++        # The first configuration is the default unless overridden by
++        # default_dtb_image or a later call to fitimage_set_default_config().
+         default_conf = self.configurations.sub_nodes[0].name
+         if default_dtb_image and self._dtbs:
+             default_conf = self._conf_prefix + default_dtb_image
+-        self.configurations.add_property('default', default_conf)
++        self._default_conf = default_conf
++
++    def fitimage_emit_section_config_custom(self, conf_id, kernel_id=None, dtb_id=None):
++        """Emit an additional configuration node for a specific kernel and optional DTB
++
++        kernel_id is the name of a kernel image node, the default kernel is used if not set.
++        dtb_id is the id passed to fitimage_emit_section_dtb or fitimage_emit_section_dtb_alias.
++        """
++        conf_node_name = self._conf_prefix + conf_id
++        if any(conf.name == conf_node_name for conf in self.configurations.sub_nodes):
++            bb.fatal("FIT configuration '%s' already exists in the ITS file." % conf_node_name)
++
++        kernel = None
++        if kernel_id:
++            kernel = self._kernels.get(kernel_id)
++            if not kernel:
++                bb.fatal("FIT configuration '%s' refers to unknown kernel '%s'. Available kernels: %s" %
++                         (conf_node_name, kernel_id, ' '.join(self._kernels)))
++
++        dtb = None
++        if dtb_id:
++            dtb = self._dtbs_by_id.get(dtb_id)
++            if not dtb:
++                bb.fatal("FIT configuration '%s' refers to unknown DTB '%s'. Available DTBs: %s" %
++                         (conf_node_name, dtb_id, ' '.join(self._dtbs_by_id)))
++
++        if kernel_id and dtb and os.path.splitext(dtb.name)[1] == ".dtbo":
++            bb.fatal(
++                "FIT configuration '%s' cannot select kernel '%s' "
++                "with device tree overlay '%s'" %
++                (conf_node_name, kernel_id, dtb_id)
++            )
++
++        self._fitimage_emit_one_section_config(conf_node_name, dtb, kernel)
++    
++    def fitimage_set_default_config(self, conf_id):
++        """Select the default configuration, overriding the one chosen by fitimage_emit_section_config"""
++        conf_node_name = self._conf_prefix + conf_id
++        if not any(conf.name == conf_node_name for conf in self.configurations.sub_nodes):
++            bb.fatal("FIT default configuration '%s' does not exist. Available configurations: %s" %
++                     (conf_node_name, ' '.join(conf.name for conf in self.configurations.sub_nodes)))
++        self._default_conf = conf_node_name
+ 
+     def run_mkimage_assemble(self, itsfile, fitfile):
+         cmd = [
 diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index 8ff75dd3da..03c13d20a4 100644
+index 40431184de..1b99d6bac8 100644
 --- a/meta/lib/oeqa/selftest/cases/fitimage.py
 +++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -467,10 +467,9 @@ class FitImageTestCase(OESelftestTestCase):
-         kernel_devicetree = bb_vars.get('KERNEL_DEVICETREE')
-         all_dtbs = []
-         dtb_aliases = {}
-+        external_aliases = {}
-+        kernel_dtbs = kernel_devicetree.split() if kernel_devicetree else []
+@@ -1580,6 +1580,43 @@ KERNEL_DTBVENDORED = "1"
  
--        if kernel_devicetree:
--            all_dtbs += [FitImageTestCase._apply_dtbvendored(bb_vars, dtb) for dtb in kernel_devicetree.split()]
--       
-         if bb_vars.get("PREFERRED_PROVIDER_virtual/dtb") == "test-dtbs-as-ext":
-             if bb_vars.get("_python_only_test"):
-                 external_dtbs, external_aliases = FitImageTestCase._get_test_dtb_files()
-@@ -481,6 +480,23 @@ class FitImageTestCase(OESelftestTestCase):
-             all_dtbs.extend(external_dtbs)
-             dtb_aliases.update(external_aliases)
+ class FitImagePyTests(KernelFitImageBase):
+     """Test cases for the fitimage.py module without calling bitbake"""
++    def test_custom_config_rejects_kernel_with_overlay(self):
++        """An overlay configuration must not silently ignore an explicit kernel."""
++        root = oe.fitimage.ItsNodeRootKernel(
++            "Test FIT", "1", "x86_64-poky-linux-", "x86",
++            "linux", "conf-", False, None,
++            "uboot-mkimage", "", "uboot-mkimage", "",
++            "sha256", "rsa2048", "pkcs-1.5",
++            None, False, None
++        )
++
++        root.fitimage_emit_section_kernel(
++            "kernel-1", "linux.bin", "none",
++            "0x20008000", "0x20008000", "kernel"
++        )
++
++        root.fitimage_emit_section_dtb(
++            "test-overlay.dtbo", "a-dir/test-overlay.dtbo"
++        )
++        
++        with self.assertRaises(bb.BBHandledException):
++            root.fitimage_emit_section_config_custom(
++                "invalid", "kernel-1", "test-overlay.dtbo"
++            )
++        
++        # A regular DTB may explicitly select a kernel.
++        root.fitimage_emit_section_dtb(
++            "test-board.dtb", "a-dir/test-board.dtb"
++        )
++        
++        root.fitimage_emit_section_config_custom(
++            "regular", "kernel-1", "test-board.dtb"
++        )
++
++        # An overlay without an explicit kernel is valid.
++        root.fitimage_emit_section_config_custom(
++            "overlay", None, "test-overlay.dtbo"
++        )
  
-+        for dtb in kernel_dtbs:
-+            dtb_name = os.path.basename(dtb)
-+            mapped_name = FitImageTestCase._apply_dtbvendored(bb_vars, dtb)
-+
-+            if dtb_name in all_dtbs:
-+                target = dtb_name
-+            elif dtb_name in external_aliases:
-+                target = external_aliases[dtb_name]
-+            else:
-+                target = None
-+
-+            if target:
-+                if mapped_name != target:
-+                    dtb_aliases[mapped_name] = target
-+            else:
-+                all_dtbs.append(mapped_name)
-+
-         return all_dtbs, dtb_aliases
- 
-     @staticmethod
-@@ -517,10 +533,10 @@ class FitImageTestCase(OESelftestTestCase):
-         extra_configs = []
-         for conf in configs:
-             dtb = dtbs[conf]
--            if dtb in dtb_aliases:
--                dtb = dtb_aliases[dtb]
--            elif dtb:
-+            if dtb:
-                 dtb = FitImageTestCase._apply_dtbvendored(bb_vars, dtb)
-+                dtb = dtb_aliases.get(dtb, dtb)
-+
-             extra_configs.append((conf, kernels[conf] or "kernel-1", dtb))
-         return extra_configs
- 
-@@ -1390,6 +1406,58 @@ PREFERRED_PROVIDER_virtual/dtb = "test-dtbs-as-ext"
-         self._gen_atf_tee_dummy_images(bb_vars)
-         self._test_fitimage(bb_vars)
- 
-+    def test_fit_image_ext_dtb_vendored_override(self):
-+        """Check that an external DTB overrides a vendored kernel DTB."""
-+        machine = self._get_machine_or_skip()
-+
-+        if machine != "qemuarm64":
-+            self.skipTest("This test requires the qemuarm64 foundation-v8.dtb")
-+
-+        config = """
-+KERNEL_DTBVENDORED = "1"
-+PREFERRED_PROVIDER_virtual/dtb = "test-dtbs-as-ext"
-+TEST_EXTRA_DTB = "foundation-v8.dtb"
-+FIT_CONF_DEFAULT_DTB = "arm/foundation-v8.dtb"
-+FIT_CONFIGS = "external-override"
-+FIT_CONFIG_DTB[external-override] = "arm/foundation-v8.dtb"
-+"""
-+        config = self._config_add_machine_settings(config, machine, keys=["KERNEL_DEVICETREE"])
-+        config = self._config_add_kernel_classes(config)
-+        config = self._config_add_uboot_env(config)
-+
-+        self.write_config(config)
-+
-+        bb_vars = self._fit_get_bb_vars()
-+        self._gen_atf_tee_dummy_images(bb_vars)
-+
-+        its_path, fit_path = self._bitbake_fit_image(bb_vars)
-+
-+        self.assertExists(its_path)
-+        self.assertExists(fit_path)
-+
-+        self.logger.info("Regression test ITS: %s", its_path)
-+
-+        with open(its_path, encoding="utf-8") as f:
-+            its = f.read()
-+
-+        self.assertIn("fdt-foundation-v8.dtb", its)
-+        self.assertIn("conf-arm_foundation-v8.dtb", its)
-+        self.assertIn("conf-external-override", its)
-+        self.assertNotIn("fdt-arm_foundation-v8.dtb {", its)
-+        # The vendored configuration must be the default.
-+        self.assertIn('default = "conf-arm_foundation-v8.dtb";', its)
-+
-+        # Both the vendored and custom configurations must reference
-+        # the external DTB image.
-+        for conf in ("conf-arm_foundation-v8.dtb", "conf-external-override"):
-+            match = re.search(r'\b' + re.escape(conf) + r'\s*\{([^{}]*)', its)
-+            self.assertIsNotNone(match, "Missing configuration: %s" % conf)
-+            self.assertIn('fdt = "fdt-foundation-v8.dtb";', match.group(1))
-+
-+        self._check_its_file(bb_vars, its_path)
-+
-+        uboot_tools_bindir = self._setup_native('u-boot-tools-native')
-+        self._check_fitimage(bb_vars, fit_path, uboot_tools_bindir)
- 
-     def test_sign_fit_image_configurations(self):
-         """
-@@ -1627,17 +1695,17 @@ class FitImagePyTests(KernelFitImageBase):
-         root.fitimage_emit_section_dtb(
-             "test-overlay.dtbo", "a-dir/test-overlay.dtbo"
-         )
--        
-+
-         with self.assertRaises(bb.BBHandledException):
-             root.fitimage_emit_section_config_custom(
-                 "invalid", "kernel-1", "test-overlay.dtbo"
-             )
--        
-+
-         # A regular DTB may explicitly select a kernel.
-         root.fitimage_emit_section_dtb(
-             "test-board.dtb", "a-dir/test-board.dtb"
-         )
--        
-+
-         root.fitimage_emit_section_config_custom(
-             "regular", "kernel-1", "test-board.dtb"
-         )
-@@ -1650,7 +1718,7 @@ class FitImagePyTests(KernelFitImageBase):
      def _test_fitimage_py(self, bb_vars_overrides=None):
          topdir = os.path.join(os.environ['BUILDDIR'])
-         fitimage_its_path = os.path.join(topdir, self._testMethodName + '.its')
--        
-+
-         # Provide variables without calling bitbake
-         bb_vars = {
-             # image-fitimage.conf
-@@ -1775,6 +1843,23 @@ class FitImagePyTests(KernelFitImageBase):
-         self.logger.debug("Checking its: %s" % fitimage_its_path)
-         self._check_its_file(bb_vars, fitimage_its_path)
- 
-+    def test_fitimage_py_vendored_external_dtb_symlink_override(self):
-+        bb_vars = {
-+            "KERNEL_DEVICETREE": "arm/test-ext-alias.dtb",
-+            "KERNEL_DTBVENDORED": "1",
-+            "PREFERRED_PROVIDER_virtual/dtb": "test-dtbs-as-ext",
-+            "_python_only_test": True,
-+        }
-+
-+        dtbs, aliases = FitImageTestCase._get_dtb_files(bb_vars)
-+
-+        self.assertIn("test-ext.dtb", dtbs)
-+        self.assertNotIn("arm_test-ext-alias.dtb", dtbs)
-+        self.assertEqual(aliases["arm_test-ext-alias.dtb"],"test-ext.dtb")
-+
-+        # Verify that the original external symlink alias is preserved
-+        self.assertEqual(aliases["test-ext-alias.dtb"], "test-ext.dtb")
-+
-     def test_fitimage_py_default(self):
-         self._test_fitimage_py()
- 
 -- 
 2.56.0
 
