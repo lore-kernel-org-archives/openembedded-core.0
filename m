@@ -1,267 +1,264 @@
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29099.1793863899057720525
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29281.1793863899138250911
  for <openembedded-core@lists.openembedded.org>;
  Wed, 04 Nov 2026 23:31:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Av/h9ZQj;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Yg40uOTU;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7053; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=7421; q=dns/txt;
   s=iport01; t=1793863899; x=1795073499;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4nXGAt6UEGE3x3wRmA8I8lAZNRFMGnnpWB0YWVCvBno=;
-  b=Av/h9ZQj6Wfxe3DVcn+2Sr/ctaaBM00t1uqXyyC0YSGkeVykw87yulkw
-   ZDJz5OkEnetqdrp8DObuyyGGjqzKjGXMBULaalGuf4zYFIJRR50IKMEjt
-   0XAguiL4zMABK07bn7/VZJnZKzB8kIOSDkTm5euRuKRlPbanV7N3WOQx4
-   5zUTe86D+yAu9vUbeeePNn40HkKv9wc5XzyDoJnj6JhA06r1avjaM05xk
-   RZKDkFhauQqonwTkcDuUlmcwOEtXLc71ytjGzDnbUuE6h8xXAgb9QTgiO
-   Oh3kC2/MQbNebbPGEB0gZjvNYcFZxyATXOjALiVsDX3YY3fKaJPIAai7G
-   A==;
-X-CSE-ConnectionGUID: 02p8OUdYTFq70Or5aQ3LiA==
-X-CSE-MsgGUID: LEW0kZLWSxSevamxF8eMhQ==
-X-IPAS-Result: =?us-ascii?q?A0ADAABUL+xq/5L/Ja1aGgEBAQEBAQEBAQEDAQEBARIBA?=
- =?us-ascii?q?QEBAgIBAQEBgXwFAQEBAQsBglZ1YENJA4xvhziBNWyLaJI8gXsDDwEBAQ9ED?=
- =?us-ascii?q?QQBAYQ/jmUCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFgQ4Th?=
- =?us-ascii?q?k8NkBIBLQsBGAFZAwECTwsjGAmDAgGCOgM3AxG8IkOBeTOBAYMpAT8CQ1DYT?=
- =?us-ascii?q?A1ygWgBCxQBgTgBhT+Cf4UkXRgBRIQ5JxuBSUSBFYNpgQWBGkICgTiGbgSDH?=
- =?us-ascii?q?BKBWoZAhlgCgVKGcUiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGB?=
- =?us-ascii?q?YEdgR6BEoEHXYErKF4hgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiCBIJARMaL?=
- =?us-ascii?q?AqBGjU8CSY/FQxkCxoFYQgCDQxyORAwHiQvBRwmQBsKGBgNSBEsNxUZBD5uB?=
- =?us-ascii?q?5Ivgh5sBwFzGgEqAQQTC3kFgQyTESaQHoIhoCBxhCqMJI8+hXwaM4QEgVeSQ?=
- =?us-ascii?q?pJUC5h9jgqECpF3UIRpgWg8OYEgMxoIGxWDIglKGQ+OKwQKC4NggkqCSVHIc?=
- =?us-ascii?q?SYyAgkDLwEBBwIHDgMLgWiQAYF9AQE?=
-IronPort-Data: A9a23:Q+n96K4hl9GBll/EfjoxKAxRtG/GchMFZxGqfqrLsTDasY5as4F+v
- jQbXDiDbq7fYTTyc9BzO43lp0pXv5fTn9Q2TVZsqXw2Zn8b8sCt6fZ1gavT04J+CuWZESqLO
- u1HMoGowPgcFyGa+1H1dOex9RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
- 5Wo/KUzBHf/g2QqaztMt/rZwP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
- +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eZdcAqsFKDVBy2
- +VHcBcXMxm63Ma36efuIgVsrpxLwMjDJogTvDRkiDreF/tjGcGFSKTR7tge1zA17ixMNa+BP
- IxCNnw1MUmGOkERUrsUIMpWcOOAl2TlejFVgFmUvqEwpWPUyWSd1ZCwa4KPKoHUGpo9ckCwg
- k/5p2fLJi4hJOeS1zOA4lz8i8rPpHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
- lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBVy4PTyVKb5ots8peqSEW6
- 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
-IronPort-HdrOrdr: A9a23:zPQvKaH6UVL57rhopLqE2MeALOsnbusQ8zAXPidKOH5om6Oj+f
- xG8M536faWskdzZJhfo7G90cC7KBu2n6KdirN/AV7NZmXbUROTTL1K3M/F3yDqHTH4+6p20K
- dtdLU7NfjLZGIK6PoTJGKDYrEdKB7tytHNudvj
-X-Talos-CUID: 9a23:hjxVKWD4BMPWnVH6E3E97B4zJ8wUTlPEky/3ORKxMD1NSZTAHA==
-X-Talos-MUID: =?us-ascii?q?9a23=3AVm9rOQ4Frb1qCoWaU7TNxjLVxoxMzpv2C3Iprq4?=
- =?us-ascii?q?WgMSaPClgFWeQqTSOF9o=3D?=
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=RVpoJPeaIzIOUz6ctzbrma22Fc+BU8j9pnSR2UCAmi0=;
+  b=Yg40uOTUarfw/Y4x1fliZn5i/OEUgx3t9dWB+vbk0vnysw2WfsBNZR2a
+   fiXRxCfgy0cPP1BWlH/R9jodQDLkbPUWQgzANomPdJUQYyl75/7JKNij8
+   UW9BBzQIelinFdB3pwUMN1Ws6pjMBkCjjcpzIOMUD+5R9rNt5Y3An0o0k
+   i/YelI6nh3SJfQfxgIoE75thQ6/cWvqKoh3bArEBip4menJV0Uy+QWjhs
+   fDnqks+PBIWOArHjzb2edAQkghhgK4wEtm2dX0ywt3fuhVLoOeO9epd6E
+   h3JEkwgn6vGRhwawJtpxOMD+IDUB0NdPsXQmnBi2qJLZ6tMCDxz/P0p+Q
+   Q==;
+X-CSE-ConnectionGUID: CLrac4DtTz2k8W/dqBa79w==
+X-CSE-MsgGUID: yTNFlKRPReS5rywd8LKNNw==
+X-IPAS-Result: =?us-ascii?q?A0AaAADiL+xq/5D/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
+ =?us-ascii?q?AcBAQsBglZ1YENJA4xvhziCIQOLZZI8gXsDDwEBAQ9EDQQBAYQ/RgKOHQImN?=
+ =?us-ascii?q?AkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGTw2QEgECAQMnC?=
+ =?us-ascii?q?wEYAT0cAwECLyALIwgQCYMCAYI6AzcDEbwWQ4F5M4EBgykBPwJDUNhMDXKBa?=
+ =?us-ascii?q?AELFAGBOAGFP4J/hSRdGAFEhDknG4FJRIEVg2mBBYEaQgKBN4ZvBIMcEoFag?=
+ =?us-ascii?q?QOFPYZYAoFShnFIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIz4XgQcbBgWBH?=
+ =?us-ascii?q?YEegRKBB12BKyheIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKg?=
+ =?us-ascii?q?Ro1PAkmPxUMZAsaBWEIAg0McjkQMB4kLwUcJkAbChgYDUgRLDcVGQQ+bgeSL?=
+ =?us-ascii?q?4JkJgeBDgEHIwEESywgKGmTN5I/oCBxhCqMJI8+hXwaM4VbpRYLmH2OCoQKk?=
+ =?us-ascii?q?XdQhGmBaDyBWTMaCBsVO4JnCUoZD44rDguDYIJKgklRyHEmMgIJAy8BAQcCB?=
+ =?us-ascii?q?w4DC4FokACBfgEB?=
+IronPort-Data: A9a23:csy5UqtsSAKjfK7lOVd3YZcrVOfnVAFfMUV32f8akzHdYApBsoF/q
+ tZmKW6POq6ONjajctEkPYSx8UNSscDczNRnSAZqpHtmFnwRgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrb/656yYsjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZzdJ5xYuajhKsvvb9Es11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw0cJtCGoS2
+ eAkOmoOPi/Ei/ucye3qVbw57igjBJGD0II3oHpsy3TdSP0hW52GG/qM7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtLYH49tL/Aan3XYiBCoV6YjaE2+GPUigd21dABNfKIJofbH5wPxBfwS
+ mTu7ljfLBU5DuSlxAHY6GOzir/rvgXdR9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cEXhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:h3fT5qDtv3vxrgzlHemA55DYdb4zR+YMi2TDsHoBLSC9Hfb3qy
+ nDppkmPFrP+VUssRIb6LW90de7IE80nKQdieJ6AV7hZniFhILCFu5fBOXZrwEIYxefysdtkY
+ F9bqN5FNr8SXJ+jcr8/U2ENuxI+qjhzEht7t2utkuEimpRGsdd0zs=
+X-Talos-CUID: 9a23:mDEB/G5Y4Wb+PufY6tss32oOE8t5XmHh3i3Tc3D/BX9DQeLEVgrF
+X-Talos-MUID: =?us-ascii?q?9a23=3AfhtGvw9JYUmpd/oeg8ZtB3eQf9ZUxYqqK3o1q5g?=
+ =?us-ascii?q?95tOVKiAgHxS7qiviFw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,196,1787011200"; 
-   d="scan'208";a="530285677"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 07:31:38 +0000
+   d="scan'208";a="543921229"
+Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 07:31:38 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 1F0361800023E
+	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id 2709A1800048B
 	for <openembedded-core@lists.openembedded.org>; Thu,  5 Nov 2026 07:31:38 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id B9B4CCC1611; Wed,  4 Nov 2026 23:31:37 -0800 (PST)
+	id C3908CBF202; Wed,  4 Nov 2026 23:31:37 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 1/3] python3-urllib3: Fix CVE-2026-44432
-Date: Wed,  4 Nov 2026 23:31:35 -0800
-Message-Id: <20261105073137.381446-1-yurade@cisco.com>
+Subject: [OE-core][wrynose][PATCH 3/3] python3-urllib3: Fix CVE-2026-97688
+Date: Wed,  4 Nov 2026 23:31:37 -0800
+Message-Id: <20261105073137.381446-3-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20261105073137.381446-1-yurade@cisco.com>
+References: <20261105073137.381446-1-yurade@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+X-Outbound-Node: rcdn-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 07:31:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249449
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249450
 Content-Type: text/plain; charset="utf-8"
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+This patch applies the upstream fix as referenced in [3],
+using the commit shown in [1] and regression commit from [2].
 
-[1] https://github.com/urllib3/urllib3/commit/2bdcc44d1e163fb5cc48a8662425e35e15adfe6a
-[2] https://security-tracker.debian.org/tracker/CVE-2026-44432
+Regression test-only follow-up skips the Brotli case when urllib3 uses
+brotlicffi, because that trailing-data case is unsupported by that
+backend. The skip is limited to Brotli; the Deflate regression case
+remains covered.
+
+[1] https://github.com/urllib3/urllib3/commit/ea2ad7b21a80da3632f80016526a18864586077f
+[2] https://github.com/urllib3/urllib3/commit/9016d7e8afc68185496ef07f3c3a4a743d04922e
+[3] https://security-tracker.debian.org/tracker/CVE-2026-97688
+[4] https://github.com/urllib3/urllib3/pull/5258
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
- .../python3-urllib3/CVE-2026-44432.patch      | 157 ++++++++++++++++++
- .../python/python3-urllib3_2.6.3.bb           |   1 +
- 2 files changed, 158 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-44432.patch
+ .../CVE-2026-97688-regression.patch           |  29 +++++
+ .../python3-urllib3/CVE-2026-97688.patch      | 107 ++++++++++++++++++
+ .../python/python3-urllib3_2.6.3.bb           |   2 +
+ 3 files changed, 138 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-97688-regression.patch
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-97688.patch
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-44432.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-44432.patch
+diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97688-regression.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97688-regression.patch
 new file mode 100644
-index 0000000000..1f036ae205
+index 0000000000..220b024e1e
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-44432.patch
-@@ -0,0 +1,157 @@
-+From 2bdcc44d1e163fb5cc48a8662425e35e15adfe6a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97688-regression.patch
+@@ -0,0 +1,29 @@
++From 9016d7e8afc68185496ef07f3c3a4a743d04922e Mon Sep 17 00:00:00 2001
 +From: Illia Volochii <illia.volochii@gmail.com>
-+Date: Thu, 7 May 2026 18:39:03 +0300
++Date: Tue, 15 Sep 2026 22:04:41 +0300
++Subject: [PATCH] Skip `test_read_chunked_with_trailing_data_does_not_hang` for
++ brotlicffi (#5258)
++
++CVE: CVE-2026-97688
++Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/9016d7e8afc68185496ef07f3c3a4a743d04922e]
++
++Signed-off-by: Yogita Urade <yurade@cisco.com>
++---
++ test/test_response.py | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/test/test_response.py b/test/test_response.py
++index 5ecdbd9..24118f6 100644
++--- a/test/test_response.py
+++++ b/test/test_response.py
++@@ -831,6 +831,8 @@ class TestResponse:
++         # while trailing data remains in the decoder's input buffer.
++         original_data = b"A" * 100
++         content_encoding, compress_func = data
+++        if content_encoding == "br" and brotli.__name__ == "brotlicffi":
+++            pytest.skip("This case is not supported by brotlicffi")
++         compressed_data = compress_func(original_data) + b"tail"
++         httplib_r = httplib.HTTPResponse(MockSock)  # type: ignore[arg-type]
++         httplib_r.fp = MockChunkedEncodingResponse([compressed_data])  # type: ignore[assignment]
++--
++2.35.6
+diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97688.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97688.patch
+new file mode 100644
+index 0000000000..4fcdce68fc
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97688.patch
+@@ -0,0 +1,107 @@
++From ea2ad7b21a80da3632f80016526a18864586077f Mon Sep 17 00:00:00 2001
++From: Illia Volochii <illia.volochii@gmail.com>
++Date: Tue, 15 Sep 2026 21:32:04 +0300
 +Subject: [PATCH] Merge commit from fork
 +
-+* Avoid any decoding in `HTTPResponse.drain_conn`
++* Prevent an infinite loop when decoding Deflate responses
 +
-+* Add a comment
-+
-+* Simplify `drain_conn`
-+
-+* Add tests
-+
-+* Add additional checks to the test
-+
-+* Fix full decompression on the 2nd small read from response using Brotli
++* Move the new test to a better place
 +
 +* Add a changelog entry
 +
-+* Inverse the order in the changelog entry
-+
-+* Mention `stream` call
-+
-+CVE: CVE-2026-44432
-+Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/2bdcc44d1e163fb5cc48a8662425e35e15adfe6a]
++CVE: CVE-2026-97688
++Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/ea2ad7b21a80da3632f80016526a18864586077f]
 +
 +Backport Changes:
-+- Omitted changelog/GHSA-mf9v-mfxr-j63j.bugfix.rst because the OE recipe
++- Omitted changelog/GHSA-gh4c-6fx4-qh6g.bugfix.rst because the OE recipe
 +  backport applies the runtime fix and tests; the package does not ship it.
 +
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ src/urllib3/response.py                  | 17 +++++++++++------
-+ test/test_response.py                    | 24 +++++++++++++++++++++---
-+ test/with_dummyserver/test_connection.py | 19 +++++++++++++++++++
-+ 3 files changed, 51 insertions(+), 9 deletions(-)
++ src/urllib3/response.py |  8 +++++++-
++ test/test_response.py   | 38 +++++++++++++++++++++++++++++++++++++-
++ 2 files changed, 44 insertions(+), 2 deletions(-)
 +
 +diff --git a/src/urllib3/response.py b/src/urllib3/response.py
-+index 521c31b282..e9246b75e3 100644
++index e9e0cee75e..dccdb12936 100644
 +--- a/src/urllib3/response.py
 ++++ b/src/urllib3/response.py
-+@@ -798,13 +798,14 @@ def drain_conn(self) -> None:
-+         Unread data in the HTTPResponse connection blocks the connection from being released back to the pool.
-+         """
-+         try:
-+-            self.read(
-+-                # Do not spend resources decoding the content unless
-+-                # decoding has already been initiated.
-+-                decode_content=self._has_decoded_content,
-+-            )
-++            self._raw_read()
-+         except (HTTPError, OSError, BaseSSLError, HTTPException):
-+             pass
-++        if self._has_decoded_content:
-++            # `_raw_read` skips decompression, so we should clean up the
-++            # decoder to avoid keeping unnecessary data in memory.
-++            self._decoded_buffer = BytesQueueBuffer()
-++            self._decoder = None
-+ 
++@@ -76,6 +76,10 @@ def __init__(self) -> None:
++     def decompress(self, data: bytes, max_length: int = -1) -> bytes:
++         data = self._unfed_data + data
++         self._unfed_data = b""
+++        # Data received after EOF cannot produce more output from this
+++        # Deflate stream.
+++        if self._obj.eof:
+++            return b""
++         if not data and not self._obj.unconsumed_tail:
++             return data
++         original_max_length = max_length
++@@ -118,7 +122,9 @@ def decompress(self, data: bytes, max_length: int = -1) -> bytes:
 +     @property
-+     def data(self) -> bytes:
-+@@ -1091,7 +1092,11 @@ def read(
-+         elif amt is not None:
-+             cache_content = False
++     def has_unconsumed_tail(self) -> bool:
++         return bool(self._unfed_data) or (
++-            bool(self._obj.unconsumed_tail) and not self._first_try
+++            bool(self._obj.unconsumed_tail)
+++            and not self._first_try
+++            and not self._obj.eof
++         )
 + 
-+-            if self._decoder and self._decoder.has_unconsumed_tail:
-++            if (
-++                self._decoder
-++                and self._decoder.has_unconsumed_tail
-++                and len(self._decoded_buffer) < amt
-++            ):
-+                 decoded_data = self._decode(
-+                     b"",
-+                     decode_content,
++     def flush(self) -> bytes:
 +
 +diff --git a/test/test_response.py b/test/test_response.py
-+index c70262c04e..da521137bf 100644
++index 799325b58c..4675646232 100644
 +--- a/test/test_response.py
 ++++ b/test/test_response.py
-+@@ -858,22 +858,33 @@ def test_memory_usage_decode_with_max_length(
-+             pytest.skip(f"Proper {request.node.callspec.id} decoder is not available")
++@@ -11,7 +11,7 @@
++ from base64 import b64decode
++ from http.client import IncompleteRead as httplib_IncompleteRead
++ from io import BufferedReader, BytesIO, TextIOWrapper
++-from test import onlyBrotli, onlyZstd
+++from test import LONG_TIMEOUT, onlyBrotli, onlyZstd
++ from unittest import mock
 + 
-+         name, compressed_data = data
-+-        limit = 1024 * 1024  # 1 MiB
-++        limit1 = 1024 * 1024  # 1 MiB
-++        # We test with two read calls because the second call may be
-++        # able to use the internal buffer filled by the first call, and
-++        # we want to ensure that full decompression is never triggered
-++        # by the second call. The limit for the second call is lowered
-++        # to make sure that the internal buffer is used for the Brotli
-++        # case specifically https://github.com/google/brotli/issues/1396
-++        limit2 = 1024  # 1 KiB
-+         if read_method in ("read_chunked", "stream"):
-+             httplib_r = httplib.HTTPResponse(MockSock)  # type: ignore[arg-type]
-++            httplib_r.chunked = True
-++            httplib_r.chunk_left = 1
-+             httplib_r.fp = MockChunkedEncodingResponse([compressed_data])  # type: ignore[assignment]
-+             r = HTTPResponse(
-+                 httplib_r,
-+                 preload_content=False,
-+                 headers={"transfer-encoding": "chunked", "content-encoding": name},
-+             )
-+-            next(getattr(r, read_method)(amt=limit, decode_content=True))
-++            for limit in (limit1, limit2):
-++                next(getattr(r, read_method)(amt=limit, decode_content=True))
-+         else:
-+             fp = BytesIO(compressed_data)
-+             r = HTTPResponse(
-+                 fp, headers={"content-encoding": name}, preload_content=False
-+             )
-+-            getattr(r, read_method)(amt=limit, decode_content=True)
-++            for limit in (limit1, limit2):
-++                getattr(r, read_method)(amt=limit, decode_content=True)
++ import pytest
++@@ -813,6 +813,42 @@ def test_read_chunked_with_all_data_already_in_decompressor(
++             assert len(result[-1]) == len(original_data) % 10240
++         assert b"".join(result) == original_data
 + 
-+         # Check that the internal decoded buffer is empty unless brotli
-+         # is used.
-+@@ -883,6 +894,13 @@ def test_memory_usage_decode_with_max_length(
-+         if name != "br" or brotli.__name__ == "brotlicffi":
-+             assert len(r._decoded_buffer) == 0
-+ 
-++        # Check that memory usage is still within the limit while the
-++        # connection is being drained, meaning that the call does not
-++        # decompress the whole content.
-++        r.drain_conn()
-++        assert r._decoder is None
-++        assert len(r._decoded_buffer) == 0
+++    @pytest.mark.timeout(LONG_TIMEOUT)
+++    @pytest.mark.parametrize(
+++        "data",
+++        [d[1] for d in _test_compressor_params],
+++        ids=[d[0] for d in _test_compressor_params],
+++    )
+++    def test_read_chunked_with_trailing_data_does_not_hang(
+++        self,
+++        request: pytest.FixtureRequest,
+++        data: tuple[str, typing.Callable[[bytes], bytes]] | None,
+++    ) -> None:
+++        if data is None:
+++            pytest.skip(f"Proper {request.node.callspec.id} decoder is not available")
+++        # The decoded body must fill multiple bounded reads so EOF is reached
+++        # while trailing data remains in the decoder's input buffer.
+++        original_data = b"A" * 100
+++        content_encoding, compress_func = data
+++        compressed_data = compress_func(original_data) + b"tail"
+++        httplib_r = httplib.HTTPResponse(MockSock)  # type: ignore[arg-type]
+++        httplib_r.fp = MockChunkedEncodingResponse([compressed_data])  # type: ignore[assignment]
+++        r = HTTPResponse(
+++            httplib_r,
+++            preload_content=False,
+++            headers={
+++                "transfer-encoding": "chunked",
+++                "content-encoding": content_encoding,
+++            },
+++        )
 ++
-+     def test_multi_decoding_deflate_deflate(self) -> None:
-+         data = zlib.compress(zlib.compress(b"foo"))
-+
-+diff --git a/test/with_dummyserver/test_connection.py b/test/with_dummyserver/test_connection.py
-+index b9c547c00f..940815dac2 100644
-+--- a/test/with_dummyserver/test_connection.py
-++++ b/test/with_dummyserver/test_connection.py
-+@@ -138,3 +138,22 @@ def test_invalid_tunnel_scheme(pool: HTTPConnectionPool) -> None:
-+         str(e.value)
-+         == "Invalid proxy scheme for tunneling: 'socks', must be either 'http' or 'https'"
-+     )
+++        stream = r.stream(len(original_data) // 2, decode_content=True)
+++        if content_encoding in ("br", "zstd"):
+++            with pytest.raises(DecodeError):
+++                list(stream)
+++        else:
+++            assert b"".join(stream) == original_data
 ++
-++
-++def test_response_after_drain_conn(pool: HTTPConnectionPool) -> None:
-++    """
-++    Test that a connection can be reused after calling `drain_conn` on
-++    an unread response.
-++    """
-++    conn = pool._get_conn()
-++
-++    conn.request("GET", "/", preload_content=False)
-++    response = conn.getresponse()
-++    assert response.status == 200
-++    response.drain_conn()
-++
-++    conn.request("GET", "/", preload_content=False)
-++    response = conn.getresponse()
-++    assert response.status == 200
-++
-++    conn.close()
++     @pytest.mark.parametrize(
++         "delta",
++         (
 diff --git a/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb b/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb
-index 537a68cdab..b9d9b5671e 100644
+index ad5dd190d8..73bfd36974 100644
 --- a/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb
 +++ b/meta/recipes-devtools/python/python3-urllib3_2.6.3.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
- 
- SRC_URI += "file://CVE-2026-44431.patch \
-             file://CVE-2026-97689.patch \
-+            file://CVE-2026-44432.patch \
+@@ -8,6 +8,8 @@ SRC_URI += "file://CVE-2026-44431.patch \
+             file://CVE-2026-44432.patch \
+             file://CVE-2026-97687_p1.patch \
+             file://CVE-2026-97687_p2.patch \
++            file://CVE-2026-97688.patch \
++            file://CVE-2026-97688-regression.patch \
             "
  SRC_URI[sha256sum] = "1b62b6884944a57dbe321509ab94fd4d3b307075e0c2eae991ac71ee15ad38ed"
  
