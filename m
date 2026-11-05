@@ -1,62 +1,62 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29804.1793868225313643248
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30064.1793868232106950271
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 00:43:45 -0800
+ Thu, 05 Nov 2026 00:43:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=EOov8OTh;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so10184715e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:43:45 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=c+sR6bYY;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4b467581b98so11101105e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:43:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793868223; x=1794473023; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1793868230; x=1794473030; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=1DrC+02vrqHeTdDBCSrlVL54RIUZ6yqF7fmHcsuzo4Q=;
-        b=EOov8OThCqrVAcQhVJZZPG6ebJU8DlmJ6nxRqdfsYIMJSXa2r4xJZZzr+hFRRY7m2L
-         ippcriFshH25ENCgVHStEYln0FgVGC0F/VQzsu5tNC9OB94hdJKZmn2232pdEza3E0CC
-         waFbdAAijUfMXq80CJonz7qo098tamtiLYCyBzdwpQZYUUX/NT8U/cA6enOzeQmjFcGZ
-         HoWwsuBQ/MVc7102FqQCd+2yrxD9DWQyhcXkluqhDTh9zoOU+o4meDzO5qxLdzhHznGI
-         3JcXjDK3L0ra39fdPmCXplHt5NgFkrUZ/Mw9QdlU/P1p0c8w0NbBJWqy5Cdxj9NN/YWq
-         4SOQ==
+        bh=oizrmlHDhTRQd2RkMAywry92RJjWqt5Jst3dQ8RCS68=;
+        b=c+sR6bYYdVHjOj6Rw+Xe+coAwzrmD5kgkxphXkIOT922YpRw1VFk/hQaOJsZo9vBkz
+         xSrFkagdkXAegnHOelx4KUbljNlfU6R50A8LBThID4VRq+CSFn8lQZ5ebEnR5I/It+T8
+         ncG0kfIKsESf+1jjitwEOqF63NB3ME3ovqHHH4W07HfPUHwhRJbN/QGZ7J24Gq/4VdS/
+         me53MKtTXkn/5kZdYFrdcmqOKksCsjBjbqYlkgCv8QrjJ96JOzGuxES9HlqnSXUYOnN8
+         rx7NdRNLwETifVjL38sXtT16q5RuHls9i3n2KE0G1/JSLoePvRqFSKC3/e7hf/3xoRjb
+         fs6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793868223; x=1794473023;
+        d=1e100.net; s=20260707; t=1793868230; x=1794473030;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=1DrC+02vrqHeTdDBCSrlVL54RIUZ6yqF7fmHcsuzo4Q=;
-        b=C2sp0EBerhqS2I61A6IQX1LCB4SAej0V5XlTzMIsxotU3CCdAztkvYmbvqSPY4/jI6
-         wlCRH3M3kEy9IHf7MFDW/aKLbHVc+YoovJMZRNra+/J7nNwXMrFEdo5AV8B9iDXnCF+z
-         9k1KrG4LFU3Uus6yTkiJ2prxmk5b7gJKlcI6hIlKbH92JpYxozHlG0ISEnxs8ScrAxRY
-         G46OJO3zFlfPejkwm/HUEQe5pm2PPvqbJNOGwhgbFc74EFjii0WMkvJzyIca2p8pG58l
-         SxtBaiMW3Bk5iyHsEVVrOZWsTawopiaxeyIUz8H1BSJYKgnNvf/XcYNehnkMzdDxoSXy
-         rDcA==
-X-Gm-Message-State: APuU4Z9SuS/4Zbgdz4rf8PjP0V8JDYcn9MSs5/pEzPh62Sa+7nawzDOL
-	LuPOLUgNEWftuo+tHGWA/JDbyA4NbPCRJKeQyzBQRZkCSS4ewjqb0V+WsAUJ+URf2T4hpOwaAlx
-	DaxhpfeM=
-X-Gm-Gg: AYBFou0YZFp1u6emZ1ceZKdC3ChDtIZNWB3n21heNx0e4b6tltEOsmJcqhAgcKwZuZa
-	QvYGIKNpitFpmvLuQDw7+6YCK3ba677DqFDMPm8UgRu/EWjnQoxrcL6ROGaqq3Fm1ZtWUceUIoo
-	RhZktsT/FtyjaXJ5ta+6uLIqv8B0QOkAQDi6Wqg/IudqFdlagZHJRbj0i79Wikcn7WblcR1UIXd
-	NK4Y0NOw5De1HQXWw3xEhT6RH/9WHpqvZqG1SuxWM3PzPucVJkhJhRKeL81ONFdxb/sc0mIP7Il
-	ggrF/1TD2u2dQzHh7RihwAC1IrZCPp6dtGe7xdfc+JOpBmKLY9ijseU49DQXmLWWFJ7BYWtd1Us
-	KGSiDoa1mSoF7mhMY/6eygjWNZ7MoxbbpfrkL7gOVu5ofUH2Hwk+u/Ndt/AlL98M2KMPsbxxyUz
-	qXjZZnH6FWSf2EbTfhWW8I+Szkg+dU/lQcRVSrEBkuZsxdQwPXGVD6RMniJoevK7JTC9Py87it+
-	dfUkmQUVFB7s9JppROh6ENWCBzK6fDch9hg5/Z1uAXy0r9rZnIv3JUQxXO5vXyaZbZJ3CgkDoAE
-	7BouAufIRo42sajr4ey1XPh10pns5+yTekrb0r6c21iExyO3VZVnLAAma8UZKUZ8Vz6854WZCj2
-	9AqTHGWtp7Mr+3FFO2kcxfncAcAXTio70n3cf6UR9A7Pz5nLlhw==
-X-Received: by 2002:a05:600c:3b8f:b0:4a6:42cc:bf66 with SMTP id 5b1f17b1804b1-4ac16acfdd5mr426751315e9.11.1793868223486;
-        Thu, 05 Nov 2026 00:43:43 -0800 (PST)
+        bh=oizrmlHDhTRQd2RkMAywry92RJjWqt5Jst3dQ8RCS68=;
+        b=aQ257c55QQ5N72/sDdAnd790K2adj8sPe5pDpr92CmE48MM3emnXXZpzQDB0ksbTIp
+         6uFn2hJsd+NDAQjauvGfO2tScbfUszne+eT6Yst9XSIGOeVVnhTCzrNd2cfYJn0Az+Vl
+         A36w3RjPCEesRnE5PIHF8/HrOeqpnj2axpIxDFsPA6+rx/zsqfWqURTbfcWMEjJAQ37M
+         XB81k+MGp3HdDTdE3BgkIVT3TXlpacCbbkfNwyBZT7dRyDsx0kpjqFtQRTlZ5sdGoslj
+         UvyTIdwj+dsvzLBLt69Y+BuH/CTB5GiJBxxaTTOYs8FbDCo1x3cEjfCI6R8Nwdbf1Nz6
+         HeZw==
+X-Gm-Message-State: APuU4Z+nIcdYQBrpiAN5Zhxzghx51ShZcva/W4M2DgqE22hTPXL0+L4i
+	0RmKrOnU65SpDxKrHb1fdF0Ia5iXHemRSd7koRVXnvlipwkZO/TL3jvtgKTaBs9OWkXmQVHTkK2
+	uMV7PZk8=
+X-Gm-Gg: AYBFou14FovpwKuwdyoIPr4XlJQaIuSlL1SS1AEZG9MyoKXZ5o3D38rXvTqmg8JzvGc
+	RiB/xwNFtZ2Lg36xUAt3s0sPDLeLY02042/pSgO+XSQNMgexJs3KqmnzvdWqPkHLqzq0XTejCPQ
+	j/wEYjGNPn/sgJi0mbNoLZ+6fghsIPkb2ujfa4E8tOGnS837XPmFszpmmS3NFCxaT2i/TOcBS6l
+	tKm+4T3FX06XQg5v8u0gFi7lN+yqOVRKF/A3fS5OOSqnPPQlCDuUb5o3hRvlZwsR3KxBD+9c07o
+	ehB7AaS+bghO6qiCWprfJUyjOn8zt1uvKrJxzJCn57bSwx4/MCum6OkskuY/94X0MuYjrA6mnYw
+	iAaCijRxE8iecTfS8sQbTEB/veVD/n9yvLCH4iVkV/6+jRB4NihMJI35R4qFaI2OMxXfzJGWQPt
+	KllQfcZIGi480gmawCGBKKHeNo0sjfvhTp8St2DVCkfwYqA93vXY//TxuMwwf2hmEEMHYYMobet
+	8EeknCt91WBNfV+JMLTHYfLPQQyaKM9W+1eP0r27udYVLEd6C3uCQhbSt1X82KVHC3p63qBUOxO
+	UpzwDS4vEz4jqhCHnxfxzVDqhu9YEkDvHJW4fSYGq04A9QJUUzxt2zCtC6gr6pRt+DkIUFRfiWB
+	Y2GECVH8QZCywSUo9R7tyR6OfoI1E
+X-Received: by 2002:a05:600c:5246:b0:4a1:d459:db4b with SMTP id 5b1f17b1804b1-4ac1889c7bdmr407552275e9.24.1793868230245;
+        Thu, 05 Nov 2026 00:43:50 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.43.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.43.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 00:43:43 -0800 (PST)
+        Thu, 05 Nov 2026 00:43:49 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 11/60] bind: upgrade 9.20.29 -> 9.20.30
-Date: Thu,  5 Nov 2026 09:42:30 +0100
-Message-ID: <61e563a46655c5bc9b146ba1a3945f1b384898a0.1793867929.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 24/60] linux-yocto/7.2: aufs: refresh to upstream aufs7.2
+Date: Thu,  5 Nov 2026 09:42:43 +0100
+Message-ID: <504ad160fb38446b0953844a021034dffd4a73ca.1793867929.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793867929.git.yoann.congal@smile.fr>
 References: <cover.1793867929.git.yoann.congal@smile.fr>
@@ -64,137 +64,123 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:43:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249470
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249483
 Content-Type: text/plain; charset="utf-8"
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-ReleaseNotes: https://bind9.readthedocs.io/en/v9.20.30/notes.html#notes-for-bind-9-20-30
+Integrating the following commit(s) to linux-yocto/7.2:
 
-CVE fixes: CVE-2026-19630, CVE-2026-96888, CVE-2026-97313, CVE-2026-94300
+1/2 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: aufs: update to upstream aufs7.2 (latest)
+    Date: Sat, 3 Oct 2026 22:19:28 -0400
 
-- Other bug fixes are mentioned in ReleaseNotes.
-- Refresh existing patches
+    Refresh the in-tree aufs to the current upstream aufs-standalone aufs7.2
+    snapshot (3b79c0b). This moves to the native aufs7.2, which handles the 7.x
+    VFS APIs directly (superseding our carried v7.0/v7.1 port adaptations), and
+    brings in the x86 CONFIG_PREEMPT_RT support.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+2/2 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: fs/aufs: preserve open-coded lock_rename and is_current_mnt_ns across refresh
+    Date: Sat, 3 Oct 2026 23:48:17 -0400
+
+    The aufs7.2 refresh moved fs/aufs to the native upstream snapshot, whose
+    vfsub.c calls lock_rename()/unlock_rename() and our_mnt() directly.
+    Upstream makes those callable through its own base/standalone integration
+    patches (un-static + EXPORT_SYMBOL). Our integration differs: we keep
+    lock_rename() static and open-code the rename-locking in aufs, and we
+    export a small is_current_mnt_ns() wrapper rather than our_mnt(). The
+    mechanical refresh delta reverted both of those carried adaptations,
+    which breaks the aufs module build (implicit lock_rename(), and an
+    unexported our_mnt()) whenever aufs is compiled.
+
+    Restore them on top of the native refresh: re-open-code the rename-lock
+    helpers (au_lock_rename/au_unlock_rename, mirroring the in-tree v7.2
+    implementations bit-for-bit) and route the FUSE mnt-ns check back through
+    is_current_mnt_ns(). The create-excl / a_ops swap_rw adaptations remain
+    genuinely superseded by native aufs; only these two integration-coupled
+    ones must be carried.
+
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 3d52bad81bb24f84af630b9bbd3cadd7048ceec5)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+(cherry picked from commit 3a16d5ac24308747854fa1e9194d16dc061a2876)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../bind/bind/0001-avoid-start-failure-with-bind-user.patch   | 2 +-
- .../0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch     | 2 +-
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 4 ++--
- meta/recipes-connectivity/bind/bind/conf.patch                | 2 +-
- .../bind/bind/init.d-add-support-for-read-only-rootfs.patch   | 2 +-
- .../bind/bind/make-etc-initd-bind-stop-work.patch             | 2 +-
- .../bind/{bind_9.20.29.bb => bind_9.20.30.bb}                 | 2 +-
- 8 files changed, 10 insertions(+), 10 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.20.29.bb => bind_9.20.30.bb} (97%)
+ .../linux/linux-yocto-rt_7.2.bb               |  4 ++--
+ .../linux/linux-yocto-tiny_7.2.bb             |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_7.2.bb  | 20 +++++++++----------
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-index 15796a15fba..d302bc14810 100644
---- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-@@ -1,4 +1,4 @@
--From 95141cf9494292fc5645165ef3d5e9e2ed2208c6 Mon Sep 17 00:00:00 2001
-+From 1c087c24e8162c7a042cf1f19ad313e0f3a21196 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 15 Oct 2018 16:55:09 +0800
- Subject: [PATCH] avoid start failure with bind user
-diff --git a/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch b/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-index 99e781799da..eb0adcfabef 100644
---- a/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-@@ -1,4 +1,4 @@
--From 06e9624eb7e474a08ed7e1a456bfe9759ba211da Mon Sep 17 00:00:00 2001
-+From aa978a473328123575af0270dc1dd274050bdfc0 Mon Sep 17 00:00:00 2001
- From: Khem Raj <khem.raj@oss.qualcomm.com>
- Date: Fri, 10 Apr 2026 23:33:49 +0000
- Subject: [PATCH] m4: Backport ax_prog_cc_for_build.m4 macros
-diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-index 80a4f2abded..5871fb433cd 100644
---- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-@@ -1,4 +1,4 @@
--From f28920a59b658fcda24efde1c45322f785a0b0fe Mon Sep 17 00:00:00 2001
-+From 525570781b873c3434df49ac753afca7c1bd9613 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Mon, 27 Aug 2018 21:24:20 +0800
- Subject: [PATCH] `named/lwresd -V' and start log hide build options
-@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
+index ecce6498f43..e8083159559 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
+@@ -15,8 +15,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- diff --git a/configure.ac b/configure.ac
--index 0bc3965..e1c2b12 100644
-+index 4d02c6e..225f59c 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
-diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-index 323985a4025..73300b46e87 100644
---- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-+++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-@@ -1,4 +1,4 @@
--From f003f396067e6cc1e2ec609b296bb642b8ddf47b Mon Sep 17 00:00:00 2001
-+From 4388bec9a8ebd7d9dded4b1942a5670cdaec064f Mon Sep 17 00:00:00 2001
- From: Paul Gortmaker <paul.gortmaker@windriver.com>
- Date: Tue, 9 Jun 2015 11:22:00 -0400
- Subject: [PATCH] bind: ensure searching for json headers searches sysroot
-@@ -32,7 +32,7 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-SRCREV_machine ?= "6e3aff84e18e0a58ae185f48365bce087aa25319"
+-SRCREV_meta ?= "f26871a964ee3984a78f5e8fa1001cf43e551a20"
++SRCREV_machine ?= "e1ac915949f84df75ab979843a0c16c0355d5d60"
++SRCREV_meta ?= "409e37cf5194730ea597a1c18f3475c7e5661f4e"
  
- diff --git a/configure.ac b/configure.ac
--index 26c442a..0bc3965 100644
-+index 75088e5..4d02c6e 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -872,7 +872,7 @@ AS_CASE([$with_lmdb],
-diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
-index 28ee4ae74d3..f88f93951f1 100644
---- a/meta/recipes-connectivity/bind/bind/conf.patch
-+++ b/meta/recipes-connectivity/bind/bind/conf.patch
-@@ -1,4 +1,4 @@
--From 5fc3dfd3f994b5fd97e97837eee2ad808cd8af93 Mon Sep 17 00:00:00 2001
-+From 65c90b60cc9f30c383b8e30b900abd04bc977bd1 Mon Sep 17 00:00:00 2001
- From: Qing He <qing.he@intel.com>
- Date: Tue, 30 Nov 2010 13:35:42 +0800
- Subject: [PATCH] bind: add new recipe
-diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-index b373251c47e..388335b2711 100644
---- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-+++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-@@ -1,4 +1,4 @@
--From 42c109317070d19fda70635b7043cbc6f9ec36ef Mon Sep 17 00:00:00 2001
-+From c58e1309e80449ecc1fa1fa793630b53c08f958e Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 27 Mar 2014 02:34:41 +0000
- Subject: [PATCH] init.d: add support for read-only rootfs
-diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-index 74cf947787a..bd6ada88228 100644
---- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-+++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-@@ -1,4 +1,4 @@
--From 2e1314f2e71be15704ba18756250185b36a5c0da Mon Sep 17 00:00:00 2001
-+From ad9cb821a119f441f6131e01715d5e0eab368fc0 Mon Sep 17 00:00:00 2001
- From: Roy Li <rongqing.li@windriver.com>
- Date: Thu, 15 Nov 2012 02:27:54 +0000
- Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
-diff --git a/meta/recipes-connectivity/bind/bind_9.20.29.bb b/meta/recipes-connectivity/bind/bind_9.20.30.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.20.29.bb
-rename to meta/recipes-connectivity/bind/bind_9.20.30.bb
-index c280d5b98d4..44f09ceaa81 100644
---- a/meta/recipes-connectivity/bind/bind_9.20.29.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.30.bb
-@@ -21,7 +21,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
-            "
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-7.2;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
+index c6ab5544bc1..67580a5acaa 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
+@@ -18,8 +18,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRC_URI[sha256sum] = "587029508b3b1b43229fae416c97e5543aba45809cefaca98a5004a02a5736c1"
-+SRC_URI[sha256sum] = "9e1443a40a72a30272cbc3196d020a6b2e26937111c83e59e101e82e1e3b4fef"
+-SRCREV_machine ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
+-SRCREV_meta ?= "f26871a964ee3984a78f5e8fa1001cf43e551a20"
++SRCREV_machine ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
++SRCREV_meta ?= "409e37cf5194730ea597a1c18f3475c7e5661f4e"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_7.2.bb b/meta/recipes-kernel/linux/linux-yocto_7.2.bb
+index 39759329ef0..eb14bdc17f4 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_7.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_7.2.bb
+@@ -17,18 +17,18 @@ KBRANCH:qemux86-64 ?= "v7.2/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v7.2/standard/base"
+ KBRANCH:qemumips64 ?= "v7.2/standard/mti-malta"
+ 
+-SRCREV_machine:qemuarm ?= "2fd911abf4b675ed9f8904b8a57b087323bfa2cc"
+-SRCREV_machine:qemuarm64 ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
+-SRCREV_machine:qemuloongarch64 ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
++SRCREV_machine:qemuarm ?= "8d67eedc20fc5238eb546ececf7eef7f5dce22db"
++SRCREV_machine:qemuarm64 ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
++SRCREV_machine:qemuloongarch64 ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
+ SRCREV_machine:qemumips ?= "ab0e33fefa2a3d0366b2b8deb7cfb3be2d8dc436"
+-SRCREV_machine:qemuppc ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
+-SRCREV_machine:qemuriscv64 ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
+-SRCREV_machine:qemuriscv32 ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
+-SRCREV_machine:qemux86 ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
+-SRCREV_machine:qemux86-64 ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
++SRCREV_machine:qemuppc ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
++SRCREV_machine:qemuriscv64 ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
++SRCREV_machine:qemuriscv32 ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
++SRCREV_machine:qemux86 ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
++SRCREV_machine:qemux86-64 ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
+ SRCREV_machine:qemumips64 ?= "ab0e33fefa2a3d0366b2b8deb7cfb3be2d8dc436"
+-SRCREV_machine ?= "864d1a112ea46c71a55e62cd5e1eac9ef9a4ea6e"
+-SRCREV_meta ?= "f26871a964ee3984a78f5e8fa1001cf43e551a20"
++SRCREV_machine ?= "48b9e9647133d8d71348e0ec1f9da415abd14b8a"
++SRCREV_meta ?= "409e37cf5194730ea597a1c18f3475c7e5661f4e"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
