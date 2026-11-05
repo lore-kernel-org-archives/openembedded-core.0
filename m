@@ -1,51 +1,51 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30078.1793868242495557784
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29826.1793868242844035804
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 00:44:02 -0800
+ Thu, 05 Nov 2026 00:44:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=Nx1HPfqe;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so9499955e9.3
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=L7V8Cndw;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a5087a5348so12208265e9.0
         for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:44:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google2; t=1793868241; x=1794473041; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=eynollC/3ZH9l9OdSSy8XUZhx+nxkdPkQ5liuF14r8E=;
-        b=Nx1HPfqePSXjeNf78+fZhK/lW0A5MRK0x2NGrXUdxTBHz+Av7BWttg0FL7yXA34XGh
-         Z1zyiCtOINGHUuN2owwvY0IQtEq/n5hZzeU7dYtqXdj8OoPMV+ArSLCqFFdVSjOhpNUB
-         M3zCAKJFiJMdSXjnW47wuqEcmKy4B8wbGaRxGCP3BpyspLZ3V/jT6mS4vf4UdpsuS1gJ
-         iryPydCV3ks9TG9UCaiMAIdIybbHez2rqK4Fma2egbH3dii4I2X80f1kT8urmIuxK5qu
-         7UXjn9i6FBxJj/1Zlc3DRov0QtnGE5NqJYCVS3dc486RhPCUmLYs2NRNpdwh4WTjmoj0
-         GUBg==
+        bh=oOeqjJQPGmemdjjw25gIlNaEChUpyMTvNgzmpwrS110=;
+        b=L7V8CndwZdF4pIVDIPrVW62ww78KATJ0xcpVESFfheYoG/VoUhZZLimMeCu+sYkoFV
+         SYjebqrUryK1pchqyRTI1c8oVqJlCOnegBxswOpV6/wcJNuc9YKsgs/qpEUa5CR5zCH/
+         yTRTUoBmT+NadVjpmr7rGc34aFD/dK3lYX7CT6o189mIQ3uUjLlK0FhWsjYZuNy+U6IE
+         YDkBs1lhvf07aDSN0oKYqQQVPkc285hoooHzITr4BjLIe3dqz/IfBYp1lB12lmLSnQ9/
+         +v8PfOHsltidwlhKtkDD+JmpciOUyZMDZXhmrmz20VzySN1wyJGqZCm4svd3cOgzAiCa
+         zM3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1793868241; x=1794473041;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=eynollC/3ZH9l9OdSSy8XUZhx+nxkdPkQ5liuF14r8E=;
-        b=MyKsNnEdyOuvjqeZ7aBft+WeAS1utx182dYYJ7aAxwfAaYRr5XalBEfWteHNUXw1FV
-         k9fdwlCTQmjpz8hZJwgswgSfIJpsjL2lnJdYBqHPYDv6dLu492JG/vZUkM61oZeiAdxi
-         4Sj8JgH8XJnUOqWl2LTO55ZsQ3P54d/nFf1jr4I/oGDZ9vrA+ohviRwkKaKyOXbOKivs
-         e007XBpq+yhegH7lHwfcKl0BkryWvC1yUnFlyz76r+Q+bUfrh+9YwvGaw4vdGJVMplaw
-         emjurzr95A5OfiNAD4U+HzNcR4r7Dv9TRgyOtHkPLaQVMcl1FC+T+XBx6nK35tgmV/QQ
-         QuGw==
-X-Gm-Message-State: APuU4Z+rSC4Db+PISEZo2Yp8x3J452Db685vgvPD7TjpeIB890y+izTs
-	yOTg1c+HGY5AXis8XoXIvTnfEXkFG5/ZYKZcpsoJq0if32srMXQ9z2wxHqQhTGz46LW/rQl2kJW
-	/Ldd8CcU=
-X-Gm-Gg: AYBFou0gHKkntZhuh1/qME0veml9gA18iOBpEKHarB5EnylxSjFP3LSwaAsinjE8q54
-	9GguPuFEJ31+nWYTQpA2aiwrWwlb8agrP1lZzb+EhBQHPouq/Jm9QHyzjstyncnNvFFbDGNZUJd
-	M0hD+4ni/g0cpIlHHiydF+3JRa4Q762DZjF8PU19/6LEP4/OZX34iczYV8ImboFiI58glzsE89s
-	42nbTZksbJh2qHE+J0BIcVtiU7deVJO0fEjqcW2UoIhnNegKT4PaWv5xtK9dhBYwcwWvtpLU068
-	SZFMZyGcTYJ/NAqyoNEk34/Dwe0fFYBMCAUcrR22ac9tD8yRED1t3gV9gNprzol1yHzHiUqYZ7e
-	xHmrUHMQwFCtw3O/3MIdSrkWT12IoLdQ5z0YxFz30zSrFoQ5S+v8+XgXpCnTXKfjSloFqi5M1fD
-	joQmGfht4cIXKApfkwxZDUPcHKn5Dj6zSaEE28TUUA4VxetelVvWeGTRgSwuWOHbOqXS7rIYetT
-	nfGVEK0ntKa5nNcI2i58nWxBKpfuAEvN3UkWSuNUFN8t76jpK6sWstqmgHhHpcMYOt7GyY/i0YI
-	JLMBZmRuLupB0fh1rbLe/aQ/aab6+GNMW1Jnmr1ryoow0euf+OFk6C+qNN7MiCQ9Gy3DMttRbvx
-	SRZZsmC1kSe3lR2PHzBIBcxi4tdxREw==
-X-Received: by 2002:a05:6000:4a05:b0:491:8462:20c6 with SMTP id ffacd0b85a97d-4918462226dmr1675885f8f.18.1793868240553;
-        Thu, 05 Nov 2026 00:44:00 -0800 (PST)
+        bh=oOeqjJQPGmemdjjw25gIlNaEChUpyMTvNgzmpwrS110=;
+        b=Mn6PIiCaD8yyvfIGWoFU3Wp0or9kISRhLqQ68kUEt6aTI1xws02+Flcrqq1GwHYgB4
+         W4zJzKlDlPLpQnGGl4L05h8fv7e695HHkScBjQwmHvpiS0jKIGIxgvvE3dSnsTN6KEMd
+         4EwNmp03bnX+DiXCzcUg03l0UvhXTuKv0+FwXXRpI8uQizMnpDBJDMuq8EEbt60FrzGD
+         EMurJndJdebxOKasAdkBOHicTqjQHCCNzPIm4Ha/P2lGhgRDdytEMXM+c4POSoEPyED8
+         o+dxaA7aBAyHWp3FpY594+qLyk+3tlm3ZtBgGxo+ji106UDnxH/taPyrS3urTX3Ifdv3
+         8phw==
+X-Gm-Message-State: APuU4Z+NWYQb470H4bMG0xl2+Pm9MNrIjKfDAxnoB8TFQahSArjwWnhk
+	l7DidEDyrKh88BGckghIiULTaNE5DJVVYmGLlfIIwJ/isKdZNcN0C6avCgfVbkSpgLlAueJEnk6
+	bURNQ81A=
+X-Gm-Gg: AYBFou3iuwjVr/DNyh2CzbTC+8zFQyE5dVSlMdjQAnVUrXNrpSMEyNV2p2+gIYfg1Mx
+	Jeqa0szpvQqxUYioaVvr4qICg3KJ4hDGDIFvjhfmfzDUe5NZPLo1LcIxz2xE8lfnNOBnjVfsKX9
+	6OsknZ/KJOfSM1HHatY+AZqLVJ9o5edDM8RVUTQkEO56CyTDhdNpFGk9XULOVdiYlZ+WBEdTGCQ
+	PjkvRm4SLeDfrJxPiqkx2SekOw/2vpKv35b5LXcQ8HVm5+BiQszuN0WSH/7PQ9MC+Ep9qeiw7G0
+	HJXnH2Bzsqg2OhFAViwPv8CnMOwuElSZ2mA+GggSdn/z8Diuba+mDaLAa/bVhZkPTnkD6SIph6h
+	kbZSodGRvw6TGbmZLmR67d/0HIE3mzCSAQSxw53kds6WXVS9q4H0d27PQguD3gXzq3AnoZjtEmD
+	8EYiOqmVPUOYL6dXe6uKLW1SigLebW8Q81UqQL4NuwLAcRgIsOmAsK0r6WkbOhpLpIQTmgfyMnu
+	diS/JzW62r2R2i88C+N4ihsf/ZwoVllU2Xy/GsfGWHuvAAYa4k/ejeOufFjektD4ieAM68YDQp2
+	TpKuhUDbA1YSZI483DMs3XMJlODjkT22EdhOvjzdAOdHmDwr2azu+7u7Zn/nTaen/OH0+W38gsQ
+	4Qg0Yb9icIAIpKO/QH/8hUZvpjqVVS3z1paijbYRl9s04wUGTBw==
+X-Received: by 2002:a05:600c:a00d:b0:4a5:e6fd:65e5 with SMTP id 5b1f17b1804b1-4ac19705d57mr401416355e9.31.1793868241005;
+        Thu, 05 Nov 2026 00:44:01 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.44.00
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Thu, 05 Nov 2026 00:44:00 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 41/60] libfyaml: Detect the need for libatomic at configure time
-Date: Thu,  5 Nov 2026 09:43:00 +0100
-Message-ID: <75c322d6d04099a4a0d6cf8e52880a5ba4c37b90.1793867929.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 42/60] spdx_common: fix source inclusion with externalsrc
+Date: Thu,  5 Nov 2026 09:43:01 +0100
+Message-ID: <1e598f31163871824902004ca2f860d8e3eca7e4.1793867929.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793867929.git.yoann.congal@smile.fr>
 References: <cover.1793867929.git.yoann.congal@smile.fr>
@@ -64,150 +64,82 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:44:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249500
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249501
 Content-Type: text/plain; charset="utf-8"
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Francesco Valla <francesco@valla.it>
 
-Backport the upstream autoconf check which links a program using 8-byte
-atomics, first without and then with -latomic, and adds -latomic to the
-library link and libfyaml.pc when needed.
+The source inclusion logic activated by SPDX_INCLUDE_SOURCES creates a
+dedicated source directory and fills it either:
 
-This replaces the TUNE_FEATURES match added in bea66b4bce, which had to
-enumerate the 32-bit tunes and could not tell whether the compiler can
-do the 8-byte operations inline. Clang does not link libatomic
-implicitly, so on mips, powerpc, riscv32 and i486 builds failed with:
+ - calling do_unpack and do_patch into that directory, or
+ - copying sources from the work-shared directory for recipes that use
+   one.
 
-  error: undefined reference: __atomic_load_8
-  error: undefined reference: __atomic_compare_exchange_8
+This mechanism however does not work properly when coupled with the
+externalsrc class, which deletes the do_unpack and do_patch tasks as
+part of its logic; one notable use case is the devtool development flow.
+In this case, the following issues are observed:
 
-AI-Generated: Uses Claude Code
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+  - the tools required by the removed tasks (e.g.: quilt for do_patch)
+    are not included in the recipe sysroot, leading to a failure when
+    the task is forcibly executed as part of the spdx source collection;
+  - for a recipe inheriting kernel.bbclass, the directory hosting the
+    external source is deleted (because is moved to spdx_workdir and
+    then wiped) and the kernel-source symlink pointing to it is
+    replaced with an empty directory.
+
+As a solution, treat the external source directory case just like the
+work-shared case, copying the source code from the externalsrc location
+to the SPDX dedicated directory instead of re-unpacking it there.
+
+It should be noted that if an in-tree build is performed while using
+externalsrc (i.e., if EXTERNALSRC_BUILD is equal or under EXTERNALSRC),
+build artifacts will be treated as source files and added to the
+generated SPDX files.
+
+Signed-off-by: Francesco Valla <francesco@valla.it>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 42cc96e3ff41793446444c3a34ce9402066cab3a)
+(cherry picked from commit e2118f2158e8678c9f822d44574e6c06f97eec9f)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...e-platforms-need-latomic-for-atomics.patch | 95 +++++++++++++++++++
- .../libfyaml/libfyaml_0.9.6.bb                |  3 +-
- 2 files changed, 96 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libfyaml/libfyaml/0003-autoconf-Some-platforms-need-latomic-for-atomics.patch
+ meta/lib/oe/spdx_common.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/libfyaml/libfyaml/0003-autoconf-Some-platforms-need-latomic-for-atomics.patch b/meta/recipes-support/libfyaml/libfyaml/0003-autoconf-Some-platforms-need-latomic-for-atomics.patch
-new file mode 100644
-index 00000000000..545ec6bad6c
---- /dev/null
-+++ b/meta/recipes-support/libfyaml/libfyaml/0003-autoconf-Some-platforms-need-latomic-for-atomics.patch
-@@ -0,0 +1,95 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Pantelis Antoniou <panto@debian-ppc.home.arpa>
-+Date: Wed, 6 May 2026 10:51:13 +0300
-+Subject: [PATCH] autoconf: Some platforms need -latomic for atomics
-+
-+Some (admittedly old) platforms require -latomic to support
-+8 byte atomics. So probe for it and then wire it all through
-+the build.
-+
-+Signed-off-by: Pantelis Antoniou <pantelis.antoniou@konsulko.com>
-+
-+Upstream-Status: Backport [https://github.com/pantoniou/libfyaml/commit/fdfe2c054235ddbf83a2b235d08aba6316ae1ad1]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-+---
-+ configure.ac    | 34 +++++++++++++++++++++++++++++++++-
-+ libfyaml.pc.in  |  2 +-
-+ src/Makefile.am |  2 +-
-+ 3 files changed, 35 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index f5c854f..eb62f9c 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -30,7 +30,7 @@ m4_pattern_allow([^(AM_EXTRA_RECURSIVE_TARGETS|AM_PROG_AR)$])dnl
-+ # include them
-+ m4_ifdef([AM_EXTRA_RECURSIVE_TARGETS],
-+ 	 [AM_EXTRA_RECURSIVE_TARGETS([doc-help doc-html doc-latexpdf doc-man doc-clean doc-markdown])],
-+-	 [AC_MSG_WARN([Old automake version without AM_EXTRA_RECURSIVE_TARGETS, doc-* rules won't be available at top level])])
-++	 [AC_MSG_WARN([Old automake version without AM_EXTRA_RECURSIVE_TARGETS, doc-* rules will not be available at top level])])
-+ 
-+ m4_define(fyaml_major, `echo $VERSION | cut -d. -f1 | cut -d- -f1`)
-+ m4_define(fyaml_minor, `echo $VERSION | cut -d. -f2 | cut -d- -f1`)
-+@@ -656,6 +656,38 @@ AC_SUBST(HAVE_HEAP_TRAMPOLINES)
-+ AC_DEFINE_UNQUOTED([HAVE_HEAP_TRAMPOLINES], [$HAVE_HEAP_TRAMPOLINES], [Define to 1 if GCC heap trampolines are enabled])
-+ AM_CONDITIONAL([HAVE_HEAP_TRAMPOLINES], [ test x$HAVE_HEAP_TRAMPOLINES = x1 ])
-+ 
-++dnl check if -latomic is needed
-++AC_CACHE_CHECK([whether 8-byte atomics need -latomic],
-++  [ac_cv_libatomic_needed],
-++  [
-++    save_LIBS="$LIBS"
-++
-++    AC_LINK_IFELSE(
-++      [AC_LANG_PROGRAM([[]], [[
-++        volatile unsigned long long v = 1;
-++        return (int)__atomic_fetch_sub(&v, 1, __ATOMIC_SEQ_CST);
-++      ]])],
-++      [ac_cv_libatomic_needed=no],
-++      [
-++        LIBS="$save_LIBS -latomic"
-++        AC_LINK_IFELSE(
-++          [AC_LANG_PROGRAM([[]], [[
-++            volatile unsigned long long v = 1;
-++            return (int)__atomic_fetch_sub(&v, 1, __ATOMIC_SEQ_CST);
-++          ]])],
-++          [ac_cv_libatomic_needed=yes],
-++          [ac_cv_libatomic_needed=unknown])
-++      ])
-++
-++    LIBS="$save_LIBS"
-++  ])
-++
-++AS_IF([test "x$ac_cv_libatomic_needed" = "xyes"], [LIBS="$LIBS -latomic" ],
-++      [test "x$ac_cv_libatomic_needed" = "xunknown"],
-++	[ AC_MSG_ERROR([compiler supports __atomic builtins but linking 8-byte atomics failed, even with -latomic]) ])
-++AS_IF([test "x$ac_cv_libatomic_needed" = "xyes"], [ATOMIC_LIBS="-latomic"], [ ATOMIC_LIBS="" ])
-++AC_SUBST([ATOMIC_LIBS])
-++
-+ dnl trim cflags, cppflags, ldflags
-+ CFLAGS=`echo $CFLAGS | sed -e 's/^[ ]*//'`
-+ CPPFLAGS=`echo $CPPFLAGS | sed -e 's/^[ ]*//'`
-+diff --git a/libfyaml.pc.in b/libfyaml.pc.in
-+index 17278cc..9fce459 100644
-+--- a/libfyaml.pc.in
-++++ b/libfyaml.pc.in
-+@@ -6,5 +6,5 @@ includedir=@includedir@
-+ Name: libfyaml
-+ Description: Fancy YAML 1.3 parser library
-+ Version: @PACKAGE_VERSION@
-+-Libs: -L${libdir} @ASAN_LIBS@ @PTHREAD_LIBS@ @LIBCLANG_LDFLAGS@ @LIBCLANG_LIBS@ @LIBM@ -lfyaml
-++Libs: -L${libdir} @ASAN_LIBS@ @PTHREAD_LIBS@ @LIBCLANG_LDFLAGS@ @LIBCLANG_LIBS@ @LIBM@ @ATOMIC_LIBS@ -lfyaml
-+ Cflags: -I${includedir} @ASAN_CFLAGS@ @PTHREAD_CFLAGS@
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 7d0aab5..1aa24b5 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -74,7 +74,7 @@ libfyaml_la_CPPFLAGS = $(AM_CPPFLAGS) $(INTERNAL_INCLUDES)
-+ libfyaml_la_CFLAGS = $(AM_CFLAGS)
-+ libfyaml_la_LDFLAGS = -no-undefined $(AM_LDFLAGS) $(AM_LIBLDFLAGS) \
-+ 		      -version $(LIBTOOL_VERSION)
-+-libfyaml_la_LIBADD = $(LIBM)
-++libfyaml_la_LIBADD = $(LIBM) $(ATOMIC_LIBS)
-+ 
-+ # blake3 section
-+ libfyaml_la_CPPFLAGS += -I$(top_srcdir)/src/blake3
-diff --git a/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb b/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb
-index 012ff7052d9..d8050f44d95 100644
---- a/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb
-+++ b/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb
-@@ -9,11 +9,10 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libfyaml-${PV}.tar.gz \
-            file://0001-Fix-32-bit-build-by-removing-stray-parameter-to-fy_s.patch \
-            file://0002-vlsize-Handle-decoding-when-size_t-sizeof-uint64_t.patch \
-            file://0001-build-don-t-output-none-required-to-LIBM-if-no-linke.patch \
-+           file://0003-autoconf-Some-platforms-need-latomic-for-atomics.patch \
-            "
- SRC_URI[sha256sum] = "a59cc3331e2eb903ec36933ad52a45888041cac31e44f553a00511131242c483"
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index ad2bc0ffda3..07bf9650e21 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -42,6 +42,10 @@ def is_work_shared_spdx(d):
+     return "/work-shared/" in d.getVar("S")
  
- inherit autotools pkgconfig github-releases
--# Specify linking with -latomic on architectures missing 64bit atomics.
--LDFLAGS += "${@bb.utils.contains_any('TUNE_FEATURES', '32 armv5 o32 m32', '-latomic', '', d)}"
  
- BBCLASSEXTEND = "native"
++def is_external_src_spdx(d):
++    return bb.data.inherits_class("externalsrc", d) and bool(d.getVar("EXTERNALSRC"))
++
++
+ def load_spdx_license_data(d):
+     with open(d.getVar("SPDX_LICENSES"), "r") as f:
+         data = json.load(f)
+@@ -174,8 +178,9 @@ def get_patched_src(d):
+     """
+     spdx_workdir = d.getVar("SPDXWORK")
+ 
+-    # Do not unpack the sources again for the recipe using work-shared
+-    if not is_work_shared_spdx(d):
++    # Do not unpack the sources again for the recipe using work-shared or an
++    # external source directory
++    if not is_work_shared_spdx(d) and not is_external_src_spdx(d):
+         localdata = d.createCopy()
+ 
+         # Change the UNPACKDIR to make do_unpack do_patch run in another dir.
+@@ -196,7 +201,7 @@ def get_patched_src(d):
+             if not os.path.exists(kernel_dst_path):
+                 shutil.move(kernel_src_path, kernel_dst_path)
+ 
+-    # Copy source from work-shared to spdx_workdir
++    # Copy source from work-shared or external source directory to spdx_workdir
+     else:
+         share_src = d.getVar("S")
+ 
