@@ -1,63 +1,62 @@
 Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29829.1793868244166582639
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29833.1793868245564491808
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 00:44:04 -0800
+ Thu, 05 Nov 2026 00:44:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=FfWrvDY3;
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=TMh8XEJg;
  spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso1372426f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:44:03 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-491846221ffso247175f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:44:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793868242; x=1794473042; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LDe0U9tiqKK6MOPEUXhCGn/g9Rvo63YPQBnztoTSJ84=;
-        b=FfWrvDY3woC+PNHwaJ+FFqQOjjWNlcORakSpiquCX2BlNXF9l9ldcHBu5vibE5/vl0
-         O8FiqIdz8XPH530a0i/i9TseQrT+ke/aozR8Ge3AYUpXQTG2vPzE2HVcyFpuf6HRI5lh
-         Iuy3aryKVqwf4/vHbFmqpuSzcJpHpa7/l77AahamrEzTkDiLDGCd9L8xpOxaev8dVd3J
-         EPyVEHaVOQafbbF8SJind+UK+o0Gh/0JcJ9/X20rGIGjt/vWFW2A0ZGm+HXvWA3CBv2c
-         SLJjOSQLqiDMaWbkPnXi33fjKUTKq+HY1rYRqL+LDKnGt8G4QwTvJqw0luKN1ok9VyQf
-         ww/A==
+        d=smile.fr; s=google2; t=1793868244; x=1794473044; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=oXSUoCBbd+Wz8ftr6We4YDkDYWE5Au93XbR0EbrSniE=;
+        b=TMh8XEJgGupaqfeXcqzLPFUKzKRyljM8Kuzccs+kDY5BSa3zc2ZdG47c/+fxYLH5mV
+         XOnSJClkUQPjH+ssmtmM9A33eN9F4o+MQKPZXyyllZimbsjyRwWnE5e2oWuYhogt0qbL
+         GgZy4UO+cqOIBpxLneSDX+bW9k0Ebe66VKueLJKOic7q5nkUj2sBRT+AAo6Dp+Irbchz
+         KA/V4PIU7inoNeHouOCwC2oZKQCihuroIVh6X6D0L4+7DL5az8tsflNMgKl6BUErWqKj
+         vMxaKlQVMkERJuHmt3XpYto1pprOSzZl7hvql+zfNu3Ssw0HwB/FdCeCauiHIDmEPti8
+         PgkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793868242; x=1794473042;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LDe0U9tiqKK6MOPEUXhCGn/g9Rvo63YPQBnztoTSJ84=;
-        b=vWTBAdGwLoOg2toAjKWR3jTh8NXpEMs4teIF0wRhdx2hko8QoNroK15GnPZ7RO9b2W
-         311lLOw+T3y2cMDr2bf/JlQMkh8XIn2beIrI4Zn60bRDU/GR+RqXIt0gm3wNj678fYcg
-         WdExn1/YUDjd8Nb6qi2fObboaDyDIRpnDviDiuRGAGZ4RcERhzeSEChEu+rFnfBe2Njx
-         NgR9Z0Kn9+Q4vYpS0YpEO+DeRwYBISKLVsWvExLUtTGHNOcOzy+/xsmpmp+g2Uw2ZfGA
-         6Vs5B7uOgz/Itfpp5icoT69xXDI+sYATKaV1IVqlxn4B5fMmu1DWX02qIjsw/Fz2Ds7O
-         MSBQ==
-X-Gm-Message-State: APuU4Z8Oquvci1QrbRj/MDUVcenYNW6Z5YWYDNLDETLwwbciCcrdFLzU
-	XwBLKoF85nONaN7p0UTvNgz/l9f5vUf3ga5D8bQTxa1r0qGbuWTQl/eDY1ejeeMSB8qDSFrskPt
-	SnW1oqag=
-X-Gm-Gg: AYBFou1yucVc9JgmD4KW55xjJ5VKMMMJXOIYolhugYyHRqH+eGcvpe1jPtMckWno0Ah
-	QKCpjP0zFQ2C2BWhnlIfqB+xz67+7Qoh5H40XPC1Mqln0SmOUKrO2FjjCaaNzabvg53XJy6GGPk
-	NHgozCH9QkoVm4cklIAiAHBh89sX4DpXJ1w0u9JodgakUBOihK36E4526BZ5iPBlBFnCPkyqtuF
-	YxPAKYDJCndj8PA5y5QAHfcbZzxFESFsLyMd3k9ZpGDRLUaBgJPwZquuWH5Az/pP7LzCR9rX5wf
-	ORXPBdrfnMJIc6iXCzHcpA3fZDckMJFNuwFtD4CrJJiMSVTCPv6yZlzl8muBaf6pDuzNxsbu6YA
-	YAn3tnd6oUvPsP+ZQq6ZnlybKUXX3w3UWdFA6iswLrNa8DQyUL4G8elwlghSqPpWN3eFEKcfyk3
-	z+WTJmvl0rtyAcxVJpLjmT6VuIu0X9rpijsmc+ElJJKF1JSNtOoSY7K0Wi0V1vs68f8hXuDMHF3
-	6L/kgGYJ6l63vc5wksuzcC3JvlD7xSCMKj4MnPYbWQd0YS9MoCBF2ApG6wWmUVWqxJqPS8d23aD
-	QoisAXnc+OTDnwAjmZ/+j2ioGgpqrOLt8riYBczKI5l5rFoq0xVJ1M7ndxOFdipR9MF7WPWKubp
-	Erxnfj2a96nceOsl0t1X85Y8CTRvI
-X-Received: by 2002:a05:6000:4b0b:b0:48d:db77:d124 with SMTP id ffacd0b85a97d-48e6e2db9e1mr40048585f8f.6.1793868242383;
-        Thu, 05 Nov 2026 00:44:02 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793868244; x=1794473044;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=oXSUoCBbd+Wz8ftr6We4YDkDYWE5Au93XbR0EbrSniE=;
+        b=ERw24J0oZCSX+UOoX5oy67z6ityVNeCGU4BuUpaLCtUCq0s1pXwOxjzgaKowIhP0ug
+         Nqy4RScwlZYfpFGuy2HR0iRgk7ANMoJEHUEVSF5pCiWJWclYA2tJcbY7iFj8uP7HYCso
+         QZvdjoajDljndovIsH5ki7C6X6eOSRVu2gRxg+3yJJlACJBYyxB5HotVxWA9jsiABfOb
+         UCPrlPOViAQL122kgjKqXNdmtrBfJ261ARfSm5DScUEkJ8yeB/NGjnL0NlOH41Ky/sf+
+         nh5OCCf5T+HA+UmqyOKCSNQwKVc6nWUW7++1GMUBfLxoO41bjbYQxgkOKjsDOPSm2x8n
+         ISXA==
+X-Gm-Message-State: APuU4Z854F0EBU/5VJfLpHCDgsDafnIEZMyXGqrwx0rzbxZhOUVQWQLv
+	7ld9x6/a0at+9ND2cwTwElvyG19NiQu5HHfSoxrDNzfNWe2AeTm6y/nvJ8n6NO5vkRGBtcbXUzl
+	UJtnxZBM=
+X-Gm-Gg: AYBFou2DAYn7ywBLzh8QkCA1qChoT9tCCwx0X9/vcCcjWOnt/z1ZJfpe5yPyIlyYAAQ
+	J1qoTfR43NSmRK7VeL4iSqtDfUCyhkoL60KA1Jceo+xaVvmOzeRLYaCw52i7Pczqbt9y9jZUDRR
+	L+K/uRHgAdLv0b0kc4geBeXpR8DNFZMPcQ5+PvqfRlFjJpzJ/ZlDkl/Tfnv4GGHRQay63eGY4R4
+	4sb+dusFmKMwKaSUuxxMEYkzkEHUyXsKNNmQc2S9d9E9gQsSV+HL2P9efZr0W+tJ1Ko1QvYPHsO
+	F2bxKlxmE7OzSbkLSBCF6ygk+Q1Nxh9IFPYxdB25W33uXf4zI5/COF7Jo6aMTqhahhkM71f7ikN
+	oQAOZwfrRY4l9WjsBIavlcHI2cbUDhOyhQoP3ZbzPgBdNblnSzgU9pXIJOTIuKt5wK9p+/wmcgL
+	eJ0tvnfZgXaoMH6TKAQoPBhZlE8K5S1bq7TQtz46WLpA291YEUGv2NlAaFLcliHa7mZsfmNicTp
+	1kJiuJJW3WSoSc92za/Ienk/YJ10Lc0nEEuwrtrTck7TcXoKFqVrLvMMvVXrYhiG6U0HL27uK0Z
+	5ybkyxSSOBjZeuWsk10XuRHEvp3RDM5OBTHW4uskVFQYxiANtBuaJkHD0vjpLKD4urW8Fw6z6Fk
+	Ec2BwfcZur/84brcySj+z/XxME9fd
+X-Received: by 2002:a05:6000:2488:b0:487:27f9:840 with SMTP id ffacd0b85a97d-48e6e50d953mr38631182f8f.53.1793868243813;
+        Thu, 05 Nov 2026 00:44:03 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.44.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.44.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 00:44:02 -0800 (PST)
+        Thu, 05 Nov 2026 00:44:03 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 45/60] systemd: merge group members from /etc/group and nss-systemd
-Date: Thu,  5 Nov 2026 09:43:04 +0100
-Message-ID: <cc97d91005f4ea2c4c78da088109809296dd8ebe.1793867929.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 48/60] tcl, tcl8: skip binary-40.3 on RISC-V
+Date: Thu,  5 Nov 2026 09:43:07 +0100
+Message-ID: <e81fc5a178332fe571abe38647c6b8d0c2128427.1793867929.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793867929.git.yoann.congal@smile.fr>
 References: <cover.1793867929.git.yoann.congal@smile.fr>
@@ -65,39 +64,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:44:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249504
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249507
 Content-Type: text/plain; charset="utf-8"
 
-From: Martin Hundebøll <martin@geanix.com>
+From: OOHehir <oo.hehir@gmail.com>
 
-When systemd is configured with userdb and nss integration, it provides
-group memberships in **addition** to those recorded in /etc/group. For
-those additional memberships to be considered by nss, the group database
-must be configured to merge the result from both /etc/group and the
-systemd nss plugin.
+binary-40.3 expects a negative float NaN to stay negative when widened to
+double. RISC-V returns the positive canonical NaN instead, as the ISA requires,
+so the test always fails there. Reported upstream on the matching MIPS ticket.
 
-[RB] Reference for the recommended configuration can be found at:
-https://www.freedesktop.org/software/systemd/man/latest/nss-systemd.html
-
-Signed-off-by: Martin Hundebøll <martin@geanix.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: OOHehir <oo.hehir@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4041c0e84b3e98841bca9ab1d35b763acc2c0db4)
+(cherry picked from commit 0fc94c72e57c7b16fd427caf394fdcf4c623d6a2)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/systemd/systemd_261.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/tcltk/tcl_9.0.4.bb    | 4 ++++
+ meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_261.3.bb b/meta/recipes-core/systemd/systemd_261.3.bb
-index 1f482d988e8..f7e588a1968 100644
---- a/meta/recipes-core/systemd/systemd_261.3.bb
-+++ b/meta/recipes-core/systemd/systemd_261.3.bb
-@@ -898,7 +898,7 @@ pkg_postinst:${PN}:libc-glibc () {
- 	fi
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'nss', 'true', 'false', d)}; then
- 		sed -e 's#\(^passwd:.*\)#\1 systemd#' \
--			-e 's#\(^group:.*\)#\1 systemd#' \
-+			-e 's#\(^group:.*\)#\1 [SUCCESS=merge] systemd#' \
- 			-e 's#\(^shadow:.*\)#\1 systemd#' \
- 			-i $D${sysconfdir}/nsswitch.conf
- 	fi
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.4.bb b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+index 5166ef25112..e23bf3826b8 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+@@ -79,6 +79,10 @@ do_compile_ptest() {
+ SKIPPED_TESTS = ""
+ # Assumes locales other than provided by musl-locales
+ SKIPPED_TESTS:append:libc-musl = " unixInit-3*"
++# RISC-V widens a negative float NaN to the positive canonical NaN, so the
++# sign check fails: https://core.tcl-lang.org/tcl/tktview/bf029ced86
++SKIPPED_TESTS:append:riscv32 = " binary-40.3"
++SKIPPED_TESTS:append:riscv64 = " binary-40.3"
+ 
+ do_install_ptest() {
+ 	cp ${B}/tcltest ${D}${PTEST_PATH}
+diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+index 07f3ad4592d..5e296cc7e6d 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
++++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+@@ -83,6 +83,10 @@ do_compile_ptest() {
+ SKIPPED_TESTS = ""
+ # Assumes locales other than provided by musl-locales
+ SKIPPED_TESTS:append:libc-musl = " unixInit-3*"
++# RISC-V widens a negative float NaN to the positive canonical NaN, so the
++# sign check fails: https://core.tcl-lang.org/tcl/tktview/bf029ced86
++SKIPPED_TESTS:append:riscv32 = " binary-40.3"
++SKIPPED_TESTS:append:riscv64 = " binary-40.3"
+ 
+ do_install_ptest() {
+ 	cp ${B}/tcltest ${D}${PTEST_PATH}
