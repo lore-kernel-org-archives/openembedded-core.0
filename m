@@ -1,152 +1,152 @@
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27953.1793857637577694789
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.27970.1793857746755215731
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 21:47:17 -0800
+ Wed, 04 Nov 2026 21:49:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LVC8+ebG;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=OFQvpr0G;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=576940a4f8=abinivesh.ga@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A55R8Vw3858387
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Nov 2026 05:47:16 GMT
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A50prYG238418
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Nov 2026 05:49:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-type:date:from:message-id:mime-version:subject:to; s=
-	PPS06212021; bh=Z4DMn8JzwGJIxKwdY9AQ5gWD9eHXsylHtzw+ADY8IZI=; b=
-	LVC8+ebGEh+TDeavVsswVChiFbicSV/B+Ywxk27J/lYe0OMN9zinrQmpCThLThdp
-	ir2WTvYeNXPo8d+aKF3yMvHFCY6n5cQTbY3P49Kuy8LTQABDZgKMM1zlJYhpJyTD
-	v5VSnekQ7LufJ32cFcu6IvD8/umtnCexUgVELN6DgyvuPGXUoT8xWYI2mjTZ6ED6
-	LZJ8b3LgUsFIQWjhzj0X8/nH5Hj1QmKdIX4zmPhfKfINIZMDuGe8Hrq9eThgJIr8
-	OuinbAju2S5ce8daliUjsMhNHbwlG0c3wr50CyBiCh6+njl1gR+1SW6wSUSUiLFx
-	UzqC0wCOh2Fm2EutjUNq1A==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021107.outbound.protection.outlook.com [52.101.57.107])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4hrafhs4yr-1
+	PPS06212021; bh=2iaPHJTgwKDIS4syMdOs21wD4N/jH/b540C/R3Wa9Lo=; b=
+	OFQvpr0G4/iyFRwpyyiiGZv2jQDJGEaD7GHbOlg5+vPQjSoW7sqF9woodL5HSGAz
+	14oi2rcr3GFtT4jhlG8BnfmZOrUbHx5JsTnnHLIC+fnMRDlf5qm91zKohfSB23TX
+	rVyNa6E9zSb9Zfa5pyw2o5YG1KsHBar9I1Khmg0OTVN4DWoHq83vplHRKkRw7b5z
+	mpGA0Y14GU/n3CsuewRIfBvfpPWWyn00UyadJcNe+BiMqKLCX2LiMq9uuDn4ssa9
+	+2RP7FfniufcQTLn0qNOzN0zJgpndXiwW6jCQPtjDno3/80+UxyZiGlBpSu9VtVn
+	cL82RvRZkBjnSiV7YyYmYw==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020096.outbound.protection.outlook.com [52.101.61.96])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4hram4h4nb-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 05 Nov 2026 05:47:15 +0000 (GMT)
+	Thu, 05 Nov 2026 05:49:05 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MD9+C7CCOEv1WqfIl9Z7BmeajiOtMIhgeUYRa6UmuKsBQonm55Qx+yfRp2boja8F65yZO6yzj+jffLPXeRGBfRL13PYxzy52zDjwTcBR/5PD6X1lxSChMpJyxMulRlViTj4vwgU4VSQBaPaF7Y5fV3zAA0hkYhJaxG1bH2Ys9jjy5f5fKCW32tpldWnNNMuOyVcHALQEjXJNBe9eGKSOom1SLS5W+z0GapnwurYey+G/NtDg1dX9tp07QMRO8mv9QIANL8t3q2A7+ODo2AnV6Zvb3VDgAwaDUH9HG6ACAepG3Bfheccr9bGRTpbQOdyx59x0zk1to3QTvTElV9qjqg==
+ b=x8lSNtmEEs+qGYoT2sVGTL6TBeR/JpKAIaKvGmngsnkFXhbGdh2ktfG64qggK+3N3KwxQ0uoxS5AU5M5KWi2o8s4UTSn3W28EaKCRHgmay4s3xMtRR8KpZIPg+XoIM0Q9FbpakiIxZHz1azb6tQpF180TYxcToDCVRg7UN6gFia7aQPyYdtsMHWmmvcc1LHiK7vVaj3WcDKYtp5S6Tbqx6ELVNDzb4VssGwdb+pqwrtnLw2I6zl9/lqFAVrC6OYqPuzua9ShSkAMAsOuL9LAL7Eoa84qNZ2odt7D2zzCLuYqeXel/qHSE84ZoKH1Ja5hLftVbXz+1Zk9HJnrri/TcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z4DMn8JzwGJIxKwdY9AQ5gWD9eHXsylHtzw+ADY8IZI=;
- b=D2HG9T9qLrYqRBvdPQrigP4dWyao9h7tZCUjlXfEsYn1QlO3DC+hzMs4fUMp3s1lSg7jSz6/slWREHaAbxRGC8otXsXM5RUZj1unYmd64dLiZhnr9s4YY+NSctgrxepwLcYUGjYLbE6b96uvLFDSPAf2MXy28R2EPJtcoTCEEEqkIpvAOv9XcZSFCNGwbdEiKlbUdmXs7+XTO/tuPPTGhHFPsmC2RRLEjIbFIScO85HBAXQKD2zydZ8xQiEAQ2F8OeHV6yQujZL40aMGawS0vQ7zrTzfn7A+xNPMX9u+j8h9nYhM8MGoc2Acd4+o2nIyeChvLr3c7kBQQqr4o/zTBw==
+ bh=2iaPHJTgwKDIS4syMdOs21wD4N/jH/b540C/R3Wa9Lo=;
+ b=MZmRNKAdI5E+ENRWUH3lmgQ7sQQj5knWww5Hs0CePezUN90dBK0hO3W61x5y1aFrjgL9YUKNLUqoigmeu/x6/W1zbEe/rYee1D5lkx0+OUQty7Ta4PNX11TDGGYh5MkKpLB/o8COcvDckru98UDc8JmlbuzDaOLo4To2RGClZwtWfxALZNrDvqKsCQd3qoxGucxAHGiPyPcg/ReP67SGn/ZzSVINVrgiQwQrcI8rvCytvEuKGcn2P3BO0D/oIbkrUZNhWIKW4Lr9udhSm/nDgQNQTlPybrprmA91EJkG/at0YKaL6DKtNhu18Bgno6YVSGsxJxnJZifMNU/EFyGnYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from BY1PR11MB8031.namprd11.prod.outlook.com (2603:10b6:a03:529::21)
- by SA2PR11MB5036.namprd11.prod.outlook.com (2603:10b6:806:114::24) with
+ by DS0PR11MB7311.namprd11.prod.outlook.com (2603:10b6:8:11e::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
- 2026 05:47:14 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.9; Thu, 5 Nov 2026
+ 05:48:57 +0000
 Received: from BY1PR11MB8031.namprd11.prod.outlook.com
  ([fe80::a757:a627:ec17:3a6b]) by BY1PR11MB8031.namprd11.prod.outlook.com
  ([fe80::a757:a627:ec17:3a6b%4]) with mapi id 15.21.0592.009; Thu, 5 Nov 2026
- 05:47:14 +0000
+ 05:48:57 +0000
 From: "G A, Abinivesh" <Abinivesh.GA@windriver.com>
 To: Yoann Congal <yoann.congal@smile.fr>,
         "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [scarthgap][PATCH] ffmpeg: fix CVE-2026-75143
 Thread-Topic: [scarthgap][PATCH] ffmpeg: fix CVE-2026-75143
-Thread-Index: AQHdbOgNrA/zCIqc+UqqaaIlgRT97Q==
-Date: Thu, 5 Nov 2026 05:47:14 +0000
-Message-ID: <BY1PR11MB8031A62694F8067F9ECF572396772@BY1PR11MB8031.namprd11.prod.outlook.com>
+Thread-Index: AQHdbOlZbu06aGv/A0WimssAjZUdfw==
+Date: Thu, 5 Nov 2026 05:48:56 +0000
+Message-ID: <BY1PR11MB8031C5D92AA0B7B1A31ED62396772@BY1PR11MB8031.namprd11.prod.outlook.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=True;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2026-11-05T05:47:13.368Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=1;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;
+msip_labels: MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Enabled=True;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SiteId=8ddb2873-a1ad-4a18-ae4e-4644631433be;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_SetDate=2026-11-05T05:48:56.286Z;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Name=INTERNAL;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_ContentBits=1;MSIP_Label_3ea094ce-8c76-406f-84c8-0af1663f74b7_Method=Standard;
 authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=windriver.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY1PR11MB8031:EE_|SA2PR11MB5036:EE_
-x-ms-office365-filtering-correlation-id: fef7e24c-fb61-4d8c-2cde-08df3b003e5a
+x-ms-traffictypediagnostic: BY1PR11MB8031:EE_|DS0PR11MB7311:EE_
+x-ms-office365-filtering-correlation-id: ab1c0420-1480-4e7d-697e-08df3b007ba1
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|38070700021|11063799006|56012099006|261022105027099003|261022075727099003|261021121427099003|261009223027099003|261026121527099003|261026140227099003|261102123227099003|261028144727099003|18002099003|6133799003|10067099003|13003099007|8096899003|3023799007;
-x-microsoft-antispam-message-info: So04E5+MWUHwYFdagclF6Y+kPQ0IPObsNdNnV9DyJUhnsdpqOKDDsc0sPISjPI+eg/iR46KV/TFLmFQL44d2+1Ra+m1l5QNGJV1oWM//0tcQZPaFEXKaQWfbMLf43GN6PXNc0QMnxBPykJFSjXW1c1I9cjt+SnokDYGno3K26gqe48CiNIr+6wTr/Lf1KlJkTAZFBMywVLPJg5kfbp2AocQE7acAYyAEznEt33WOpLPJG7J+Zo+BaddzJWZMw2g2ysc8DvqRvGYbDBCH5WugNK7USmWhUQ+4fmOyjO9dHkmoDpVSX6Z4pqLYZiT8Z4G7yZa3+XzgSn4ociByVBWFXX5i6liAae4y4WrQJCj9I3ghQ8haK7+SFg4Ec/e3drr7N1b5SNwGNGgt/Q0tksUzJCq8+4Vsr1VG65BGsgxQrnK36KJGAEVsUyNgS2vNdfzXOVWeh7ZesoANqSBIlS1G4axpau/uV0Fp9dpqHsaq1/IWPWeXQZiL6eDUUl3KobaXX9bkhrI3vg8Z9AYL+ujHiF7UdPSn4y/eFr2Oaia+dr9SKTjUqoBVedPA//ctQLcFKHsQW7DuHquyw01l+YdawWcr7i2XzvnpJI6qWDd0LqEBNglPbR9bUIYGs+9NiRSWFAPTjJ6L1OVOTnF3VT9y/MQ+ozGWn54Zpfnz2mLKK/w=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY1PR11MB8031.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(38070700021)(11063799006)(56012099006)(261022105027099003)(261022075727099003)(261021121427099003)(261009223027099003)(261026121527099003)(261026140227099003)(261102123227099003)(261028144727099003)(18002099003)(6133799003)(10067099003)(13003099007)(8096899003)(3023799007);DIR:OUT;SFP:1102;
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|38070700021|11063799006|261021121427099003|261009223027099003|261102123227099003|56012099006|261026140227099003|261026121527099003|261022105027099003|261022075727099003|261028144727099003|10067099003|18002099003|6133799003|13003099007|3023799007|8096899003;
+x-microsoft-antispam-message-info: Iroc+J49crwm6/UzO1fOnon43L1MLe8nW8ngl28TcmZuZYHr4tgcwiHfANrsooVLH7PoUuFkE/OGu8tYJPweEknXEz5fa1cTvmUcqsW6jcllD9x9+rXHqba3mIPriDhLKEnFrnPRQMFEXq7zo4u7eLumSjF99SVrrvbGHdex9mZJj7eOiQluORZkplHyUPve30XZ/qLKGf1JSqjbIAoN1Zv1T23U3rjgi/gO3k4d2Yicpd8kUfuynSfVpfBir/ihc2LN2t6kXKnKHGrhE2kJcSOBRhwbwKYZqRzNe8+YNPTMkjFpmJAcfQx0DeJ5b06k9zq+73YQp3SDWsNhvU3nM8iFoEjzMn4dHGBpI7ws9dcl/lgMc+0j2RnhqEL1zyKfhHV2bmOznKrt05DCeitcByykjYKjeLiB585ESAYqv94XxJ+N8wYlRCHKEWOG/pTEXqR3R8JmYniS5TI5C5le2baqqgH6l41NWPV/lFcNmwMcNX2jmCiiQs9JPp0cz449qcAqRvKp0SG+mOGBNUFDfDbMzK47Mt/YHkWRvOvSuuKn5/xL6JO4BMtvrHl7ejirSFV6jWphhMyVup4CbdG1jhfZJyCc95WRv6EpogwjNxgUyKpccbn7Jr3BWvlM/w11sbhUTj1bIoeqFEYiW+hRUJXqSlqJ/XdCoNCxgPCdBTA=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY1PR11MB8031.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(38070700021)(11063799006)(261021121427099003)(261009223027099003)(261102123227099003)(56012099006)(261026140227099003)(261026121527099003)(261022105027099003)(261022075727099003)(261028144727099003)(10067099003)(18002099003)(6133799003)(13003099007)(3023799007)(8096899003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?7acS7bIk4sFzRSb7auSm4WXRPfQhXQauME28fGznKuVHcNCE/Vw3KNvE?=
- =?Windows-1252?Q?AYA6zYVy4IJ2FDMfPuVAga3aLWiC8W7ZznWDHBAKPxUZorzJ/evKVCeS?=
- =?Windows-1252?Q?qXdF+EIBgyzK54j87cTz9yv89pVkC+YD1Fvdte1MbBW9cWCNhguDq0H1?=
- =?Windows-1252?Q?y3dMyIWY1Fp7WG0BAGhBfZVaWCFDK5kArlceNKpHB36d7hBQdMdqucIo?=
- =?Windows-1252?Q?A6O7VjMJRaOzgNgFQWYGyqUBJAHu6bOEM7UL1qmk8hTIuLa7PC3qdRad?=
- =?Windows-1252?Q?YYIvJTuaE5A12DKVcW3hAn0M8JuCZzPZT1IN0SFcAGH3jWDBhzj5lzWN?=
- =?Windows-1252?Q?0IDy/W8yIZ//+mw3AjLhTxv5L/0z24Mz/OlMXDQBAS6RGTwelxpS7Yj4?=
- =?Windows-1252?Q?tCL0k/p2FlaipG2qGhXsr76h0jbCY+8sf3GylpJG7GUea+wFr6AT2598?=
- =?Windows-1252?Q?d0H3IxorqI4Glps4SrO7WsxTWICOAVapwKsMsl/LhrFZu8JV0gLxq7He?=
- =?Windows-1252?Q?Of4YnWA5de0KH14HcYiyxc/b4fV0jnHIgO/ZbWWxDSERyUzY+0zkYVDd?=
- =?Windows-1252?Q?Corr+D74Xe0tuIM+0PsOgtMhs/Dpd/UQfG7M6O+NYVVJPU6aBBZeBC8s?=
- =?Windows-1252?Q?h4UWX/tMVSwtLNnhGnSLAZgMaxy/Vjs2/PB9D+an4pLE4E2gRKfzPtPh?=
- =?Windows-1252?Q?RKhwc42v6bbnREi1EqrYeYbhDA87Hl5uxzig9fsi0cMzhF0PsCK7WG1o?=
- =?Windows-1252?Q?sHLmx/lSmm2QYXH7IGmkX02z13K1Mzu9nPZsRMNfD7RAL9NaHpLqqaPQ?=
- =?Windows-1252?Q?XX/cnQG10uK9OWl+8iXXah7yVKs2ZOCWCH/x92m8RSiDhsEBo/RNovk8?=
- =?Windows-1252?Q?PtWuunoX5bBhbpcBr8CptW62M+mKloAg5M/AD/Ma/y4LQhuVW7xbqMje?=
- =?Windows-1252?Q?JtDf/7VISEZwnyIRtLc6gOVG9CC1jO7ce5nf4xHU+I+ceqcZ7oZLowfS?=
- =?Windows-1252?Q?ddgSym3Mxf/AMTEUvrZNiuZm+DrI/r3nuWB+PvPghY13OyvsKNb3a6Yx?=
- =?Windows-1252?Q?j4WkfVGKXulXbqEQFJ0THbcdOyJAsQcHy+3YRu4zYdCg2wHZ/WySYFNS?=
- =?Windows-1252?Q?aot8CyJjbBkdnQtqPEm5zIIS3P+2OMnpDJROqRPGuiyygMV8j+eMRsBj?=
- =?Windows-1252?Q?1hQCxMPBXwxPDX6pbA/S/q0xj98kE1gDPGVGJaN4rNSxPvLERyz4Iyen?=
- =?Windows-1252?Q?m9vGMZwo2TL7dyy47FKkNInZCaBJJVqG8viZ7uMO3/CDOl5X/EyRsVlF?=
- =?Windows-1252?Q?OLuOBqWlNESjIPxwmo6GEMLgkxR46hUtYCap4l2naB4P7SD+DX4mtzc8?=
- =?Windows-1252?Q?m0uPDur5MYXR7MOr8/Xf4te402MYDfKhZ2siz+k4eR9Li/I7fCJuXaMS?=
- =?Windows-1252?Q?mLQW7uKuvKi8j39ji3LJJWUkJpcABsTIhAhMfh4INF0yG0K4Edju3QFG?=
- =?Windows-1252?Q?irWdkz9MzRBHF2ZRB0THuJ0EmgNeLCkz2Biwz2TwFg7ggpsVhbTMBhir?=
- =?Windows-1252?Q?kPrakVI743qRXmTWH+XCMWR2UKSTHBOFHngg6whcqd+XU8ZUT35LJ2Ag?=
- =?Windows-1252?Q?2Me5WNhRZZTvPxwWhL/y4Rb0Uhndz6wXkbp3sEKLM8nRcPrMB1VxTi3P?=
- =?Windows-1252?Q?bslHTmZ4qQZV1Ik2dUS2tnghDt+Iia/wZ6TkFMY5OLZklWFwUAPExl2M?=
- =?Windows-1252?Q?gmggMLRqMOX5bUIAeO7Al/g9Sy90DmEiIPZ7WIguwZZjVw3URmQXz9Pl?=
- =?Windows-1252?Q?R7WqZryAeGlqoovVR5ATCoEayXocffSbPic1rkyHhDmPAUIZ1rSiIO9F?=
- =?Windows-1252?Q?dq62IOQ2/1Ou6g=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?V33Xx7t6rneNoqP+Uz/KtB2UFnddMJesGtD6uUwzCco3dxJgS7wVEdBH?=
+ =?Windows-1252?Q?9FD82S4f6XVQBbhH2omPUNTNrJvXd3BrMPWkcJyQLl8tdmL7hACJELyn?=
+ =?Windows-1252?Q?OEnjn0iB8dlZQSVEG55bsw+xFhJ7bEx/8bzLkmvO3DrUqbeLnNC5cHB/?=
+ =?Windows-1252?Q?IScXaE4AYu9C++9MccPzMYKSnXeNqpIbc1t0wUIs+2zSxIypbJoffUqq?=
+ =?Windows-1252?Q?4dzGKygvjZk/+vBBUA6xZNJfn9p/ZKFFPFBQjS73AZf7w7s+Ec77kgvx?=
+ =?Windows-1252?Q?w3bcwX+Kxyv9EI00HRYtvB41oxloDYD2fHKpcbnbylCLzPTuYUOzxm16?=
+ =?Windows-1252?Q?NAvIAZlONaxYJk/8eevoJBRB0IRXeRF7LzxQdZISfFzDSNi1bL6Sj3v7?=
+ =?Windows-1252?Q?L+ZAu5vZmrHrpAMNwLOAe+lZWIQAgZHXMAKsfb6f6r4D8nmVHDmuzGVa?=
+ =?Windows-1252?Q?YWRA250mFTab4cOW4JMNC2zswK0rPtMdCT85QomMm5fsn0zMzvUReQ9R?=
+ =?Windows-1252?Q?LMrGnvaL78z3yKbYER+qEsjyPWT5HBLHNO3CVYQqMeK1IJbWqZeIwB9R?=
+ =?Windows-1252?Q?IhRyXChEln7a23gAY3w9TyXVG2K+EvmW0gdbm6Okvuoxd30FIL+a9ZNl?=
+ =?Windows-1252?Q?iSqd5KsuKrqsjtB0xH3tSllS+UJkDoT3D2rtDyiXReEOED65RbvM+i9U?=
+ =?Windows-1252?Q?9+qF4sfytlOVsyoeoDFv6eRnhbRzZYVlghEmebnk/Q9J//JSV2jabh7j?=
+ =?Windows-1252?Q?n1Mb73w+yvn2yPzgfQ31r5UlJyG8x9wEp233E5TDpDW3upgjlBBAuoOf?=
+ =?Windows-1252?Q?dt//+WNCCGUbAy3NsY7yL+cmmQNYSVx6V1tAzo4FX1Z2IySbuv27F5ZQ?=
+ =?Windows-1252?Q?stTNIPu1VE/q9hJXMz/HrtFyjHdSgwbCkKqIdyOTyw6CQBaoZTOrMM5i?=
+ =?Windows-1252?Q?JvDFPSwXXeAtK0YvFiDI0xK0q9eU9ZNYHTvJIgP9DVBM85KJFJA3i3Ia?=
+ =?Windows-1252?Q?ovRLy9jMtElPyrjRYH5ZWWe/6LBXtV2O85C1O0dqwTibswMqT3yUvoZJ?=
+ =?Windows-1252?Q?/eXA4xKx7IuhRj9WSa3k2HNknN1Yi6GAogDjNfnFXfVVoxn9ZqjmeJis?=
+ =?Windows-1252?Q?SBqFrDwSrPOBNagslHBbT/XxPxabQ45KFI0xq2ZPPt5020yljTiEnAqK?=
+ =?Windows-1252?Q?46BcNJLuP6jcVHe/8356bXlZnXMuTcN+mvCX9EIcsA8Yy2Lb31gB6I12?=
+ =?Windows-1252?Q?FYwVCd/8W78SliLMFg1l3+gXzWTo14OSf222+xXTFBvca54lBwe61mvG?=
+ =?Windows-1252?Q?yM1ACj8+jFr7DW0B0fKmnQD0+dLTh6cKyMH228+KQN2Jtjn8gcByDIaV?=
+ =?Windows-1252?Q?UDU31/7qS42JnRwgTwCR6XtbmmdzQWY+zH0gSVWx4tngR54rRPzg5yhy?=
+ =?Windows-1252?Q?J4LD08AR23vRABRVYuQDPnUl9c4+6/RegZw42HnykNFc1Ijtl2cUZrdC?=
+ =?Windows-1252?Q?FWa4RQ31meoecB7VAoxn7TiKK0xY3xkldAkBL2e4+/JfBIq1VwmbGWwd?=
+ =?Windows-1252?Q?5s4NvC+qd40Sb0A6hMeqIw9W5U8Bm8VgSbMPK9EelymrNIR06hyc9mIv?=
+ =?Windows-1252?Q?tq6SJkzoT5TeyWL3gEd0P8uSCKwL35p8ka4TGoQ066XREd9gP54zrIvU?=
+ =?Windows-1252?Q?r6qnLoxm44vq0QjUBWvEKC2cXPE3Z9GD5YXC+BRD2pgGJUJNfEk4XegL?=
+ =?Windows-1252?Q?5OYj8C6suK91TbottI4oKD1MP2ne2XA+t14uWgzwze+Pm2U0Bpk7LgXR?=
+ =?Windows-1252?Q?rZeIGwBunJpIqMjOBrUCLMN4cr8iHRLZxkGPd3taXpnLhmY1fogYzemk?=
+ =?Windows-1252?Q?7MFZm7Qpo4ZBcQ=3D=3D?=
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: Gd/CtzcqKxCIvwMBiObtkiFeZe5dpd48OmDkXYbf6FQbxmkBRJ6yvjtLb31rnQjE7b7xrEnrPWS2M3xTJ1bHZ0u8GYt8YEh+Wj5nU2yeTLpEP9dYOc3z06miUeojs2NgTZtQhyuNUuNzVM1qcbPZ0UKmoJ+DZYSrhqN4e2SHAxpgSwylqlEn3TdtCC9qWh0V8GLqapn6S3IucMKfhsO8oQA8JzlBWQlCpEOyhN62mV+lkd1J89+ZTMuJOXcmkbXOYm78W78oMiahedt8e9WngibFVmn81geC7PhHGq82niaz49nNaU3mlbT6NVTzhQzO7t4ei7UsVuhLn3PaAJ7w0g==
+X-Exchange-RoutingPolicyChecked: Z3E6fipcqHHQcs7SZ2yCBLqWKZAtENS2CkjzxVUVJ3gCnS1DDFDmMxRhwxAwUYuWRcyXYL8+TB4e2o5QZOmvUyRsuRuXUsnjZoixs9kexo1fLNsxTz76nXB/kVVXkGHDJtsRhvnoqVmeFinRh3kgvJxw66dO7W+F2KwbhtuhBlaKARVRoKptlWKDImordlnmOS9roJESDEoO79Ge+fjT+jgw1oxNs9h+RSJ66i2xvnHvkTsfMJQPVqVxtdIUB3IBnsDDUGQHa2PIkoLplECnzjvyHt3uAflvGHy7SdNzqEwOoBbohQVQldu8p0TprAOmCZkjj4GDfS5RWCh+MIMBEQ==
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BY1PR11MB8031.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fef7e24c-fb61-4d8c-2cde-08df3b003e5a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2026 05:47:14.1586
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab1c0420-1480-4e7d-697e-08df3b007ba1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2026 05:48:56.9605
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YWBejcZTLPLZAsQeBuisJGrt7Ug7AFi8vtFE6Oc1+UJzoyKZbDvckhikRUNcnsCbNnu2WjqjwKwT7vDd6B3JJivGVNWKUt3visDXdp38OHA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5036
+X-MS-Exchange-CrossTenant-userprincipalname: HFUwEsmz8KcXFLgyRhWNFLQXyMtUr+/1gEHNgnfyoRdPsvhcWnI6Wtr7C6pMN9TQaY3MFQAY837k9pDIl3/QXaC+deKCL8r9UhjNcu39UoY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7311
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDAyMiBTYWx0ZWRfX00H3IsMYIEMu
- 6ER9bbvl7jeXUWELtUev/3hmNsPRTV59kZAgf3boVhbfd8HiiK4Dh9R/4nChp9niMOU9YVzoMRt
- XdegvDvFvZysCCnBmlfFcBWexNw9mnDkTk903pwHaM4Hv4THGe6Mpqy6NqNpExgukJb3weoKdXT
- 6B2eEjeAmbBvy/BcKut/cifJmSYIEgCoOCn9zKieEGUIWHIJDpGOE+luJtUY1nwTCkjs/R9jv1E
- KYdNXkGPAUnoAA9D3AfMlqLPFp3plmGqSB+2s286LRzK7zeOY55kJYbBhnT7Ke+frBtLWKjTGGK
- oPX7M7yTbxrOZ2Rgremx4ehc2kczPs+E1OmcKgTFM6m4Cra5DJar059bmRgbz/1L+xc8ZmeGBdp
- q6+FfDd+IrwrCFHfFY2Z3HC5sdQ3ytP79GZKvfrNgZZtNvDmhU++02mlQSOKoYQi5eVuAYCPfyC
- 4OOMhVLtQuuDF+sfRYw==
-X-Proofpoint-GUID: 4KKE1tcxuHMXcUtTv21SJkZNRIuVps81
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDAyMiBTYWx0ZWRfX6Rb7ge5nFGc3
- HAEuFqnkN0IDRxdi65w0BSiXWurQc92khD07KyYcu2WnBmjWX1jIPt0CojoS6R/GtieOL5MHKyx
- vso7zZtV6jMaBkIyCby8+DfhycObNCwvc09IX/1x+IKnp6jWdqu4
-X-Authority-Analysis: v=2.4 cv=ZIJCCn7b c=1 sm=1 tr=0 ts=6aec1864 cx=c_pps
- a=AVViaUQ/FgKrFaIAxxVSSQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+X-Authority-Analysis: v=2.4 cv=cpMOAF4i c=1 sm=1 tr=0 ts=6aec18d1 cx=c_pps
+ a=TvliyZNEFSK35vtP2Nadqg==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=zJRp6_cAMcgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
  a=emhf11hzAAAA:8 a=t7CeM3EgAAAA:8 a=Q4-j1AaZAAAA:8 a=LVVdaqqDU9W9cF4QaU8A:9
- a=pILNOxqGKmIA:10 a=O8hF6Hzn-FEA:10 a=os6td0F4vwOMeDdL:21 a=frz4AuCg-hUA:10
+ a=pILNOxqGKmIA:10 a=O8hF6Hzn-FEA:10 a=RyLSzrIHGVG2HWH3:21 a=frz4AuCg-hUA:10
  a=_W_S_7VecoQA:10 a=HLUCug_QN4oeKp6PugZw:22 a=FdTzh2GWekK77mhwV6Dw:22
  a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-ORIG-GUID: GzQe3hSqtIFR7rfDY-E0Ap1WemjoQXIZ
+X-Proofpoint-GUID: meBJdonf7ynS085G1Znoq0Hy8s5q6uCm
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDAyMiBTYWx0ZWRfX7z7NwXJ1ItMP
+ qZU6yWsJ4ZBIvidSzZ9e18d5UnBO+CImv09nWUZmjSSPkns6Wl9Xl/PSaJJ79VAnLxSqF5F9+eW
+ 6aDRJ3fZG3dbMgFuoswM2XXO35usmFruQgnQgYRfkGeRkXn5BBGh
+X-Proofpoint-ORIG-GUID: 8vsqCafR2pk_hBzaQMISAS1YfrYOSZHR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDAyMiBTYWx0ZWRfX+JVDryJiXg2o
+ CexOxxYJ7BublGhORbXgnzIwuTYRKJs3x2ttD9k8UT5JnE/YXOHKjcZyc8LaPvH2TcohOqsm0N7
+ eLCpVj4SlQebzQ8AZ24Bha5kw8UHSrIbkXLx1OTsCAqrWiVxm1Q3FL/R2Jy9PXA2MbPCuKKx9N9
+ iEKRS606pB1431pjIFg1cPlBOPVCxMNeC9zXpPjGbBYeR7uzAFfn6JvK5EgXaBR6cBCgzZUNZPH
+ QUoZ7u4b6wTxA6rYOuYg0zO+4enGumONxN8R/o+A2CXYwf/RFLArYFPqMb2PT/XjPTayI6vFtVF
+ wgMkQqB8IjQf3tziFqoFKyzC8U0S9kZ5Jt5PTFJncT3RiasqFT/UDbuGOIrRQ327emXbs9bvGYX
+ OjWJEL8AfKflwyt0dvcDc4AG8/urjIzuFQKmTRTXnoSLyz4Z3pLxUAE3lQmGe7liWYa6Apj3iPr
+ CJJQMFCpFBnNRrpkX4A==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-05_01,2026-11-04_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 suspectscore=0 spamscore=0 priorityscore=1501
- phishscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 phishscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 spamscore=0 malwarescore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611050022
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_BY1PR11MB8031A62694F8067F9ECF572396772BY1PR11MB8031namp_"
+	boundary="_000_BY1PR11MB8031C5D92AA0B7B1A31ED62396772BY1PR11MB8031namp_"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 06:22:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249445
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 06:22:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249446
 
---_000_BY1PR11MB8031A62694F8067F9ECF572396772BY1PR11MB8031namp_
+--_000_BY1PR11MB8031C5D92AA0B7B1A31ED62396772BY1PR11MB8031namp_
 Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
@@ -173,22 +173,21 @@ ry the fix yet:
    scarthgap 6.1.4, styhead 7.0.2, walnascar 7.1.2, whinlatter 8.0, wrynose=
  8.0.3 =97 all affected by the same one-liner (master is already on 9.0.2, =
 post-fix).
-   So merging scarthgap   doesn't   leave a newer branch exposed on our sid=
-e =97 the newer streams are tracked separately and will get the same backpo=
-rt;
+   So merging scarthgap      doesn't   leave a newer branch exposed on our =
+side =97 the newer streams are tracked separately and will get the same bac=
+kport;
    happy to send those too if you'd prefer one series.
 
    Testing =97 note the oe-core ffmpeg recipe has no librist PACKAGECONFIG,=
  so a default build compiles ffmpeg without the RIST protocol and the vulne=
-rable path isn't in the shipped                 binary   (same situation Re=
-d Hat describes).   Verification is therefore build + boot + runtime sanity=
- rather than a RIST repro =97 which is how the equivalent LTS backport was =
-validated on        our side  (clean build,  target boots with no calltrace=
-/coredump, runtime sanity pass).
+rable path isn't in the shipped                  binary   (same situation R=
+ed Hat describes).    Verification is therefore build + boot + runtime sani=
+ty rather than a RIST repro =97 which is how the equivalent LTS backport wa=
+s validated on      our side  (clean build,    target boots with no calltra=
+ce/coredump, runtime sanity pass).
 
    Regards,
    Abinivesh
-
 ________________________________
 From: Yoann Congal <yoann.congal@smile.fr>
 Sent: Wednesday, November 4, 2026 8:48 PM
@@ -239,7 +238,7 @@ Yoann Congal
 Smile ECS
 
 
---_000_BY1PR11MB8031A62694F8067F9ECF572396772BY1PR11MB8031namp_
+--_000_BY1PR11MB8031C5D92AA0B7B1A31ED62396772BY1PR11MB8031namp_
 Content-Type: text/html; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
@@ -251,9 +250,9 @@ Content-Transfer-Encoding: quoted-printable
 ttom:0;} </style>
 </head>
 <body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"direction: ltr; font-family: Aptos, =
-Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; fo=
-nt-size: 12pt; color: rgb(0, 0, 0);">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
 &nbsp; &nbsp;Hi Yoann,</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
@@ -313,9 +312,9 @@ on 9.0.2, post-fix).&nbsp;</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
 olor: rgb(0, 0, 0);">
-&nbsp; &nbsp;So merging scarthgap&nbsp; &nbsp;doesn't&nbsp; &nbsp;leave a n=
-ewer branch exposed on our side =97 the newer streams are tracked separatel=
-y and will get the same backport;&nbsp;</div>
+&nbsp; &nbsp;So merging scarthgap &nbsp; &nbsp; &nbsp;doesn't&nbsp; &nbsp;l=
+eave a newer branch exposed on our side =97 the newer streams are tracked s=
+eparately and will get the same backport;&nbsp;</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
 olor: rgb(0, 0, 0);">
@@ -330,12 +329,12 @@ olor: rgb(0, 0, 0);">
 &nbsp; &nbsp;Testing =97 note the oe-core ffmpeg recipe has no librist PACK=
 AGECONFIG, so a default build compiles ffmpeg without the RIST protocol and=
  the vulnerable path isn't in the shipped&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp;binary&nbsp;&nbsp; (same situation Red Hat desc=
-ribes).&nbsp; &nbsp;Verification is
- therefore build + boot + runtime sanity rather than a RIST repro =97 which=
- is how the equivalent LTS backport was validated on&nbsp; &nbsp; &nbsp; &n=
-bsp; our side&nbsp; (clean build,&nbsp; target boots with no calltrace/core=
-dump, runtime sanity pass).</div>
+ &nbsp; &nbsp; &nbsp; &nbsp; binary&nbsp;&nbsp; (same situation Red Hat des=
+cribes). &nbsp; &nbsp;Verification
+ is therefore build + boot + runtime sanity rather than a RIST repro =97 wh=
+ich is how the equivalent LTS backport was validated on&nbsp; &nbsp; &nbsp;=
+ our side&nbsp; (clean build, &nbsp; &nbsp;target boots with no calltrace/c=
+oredump, runtime sanity pass).</div>
 <div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
 nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
 olor: rgb(0, 0, 0);">
@@ -347,13 +346,6 @@ olor: rgb(0, 0, 0);">
 <div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
 Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
 &nbsp; &nbsp;Abinivesh</div>
-<div class=3D"elementToProof" data-signature-name=3D"Abinivesh">
-<div class=3D"elementToProof" style=3D"direction: ltr; font-family: Aptos, =
-Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; fo=
-nt-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-</div>
 <hr style=3D"direction: ltr; display: inline-block; width: 98%;">
 <div id=3D"x_divRplyFwdMsg" class=3D"elementToProof">
 <div class=3D"elementToProof" style=3D"direction: ltr; font-family: Calibri=
@@ -393,8 +385,8 @@ Look at recent CVE patches to see what we expect.<br>
 <br>
 &gt; Upstream fix:<br>
 &gt; <a href=3D"https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/1c10bcc2e17255=
-dacb717a25ab3db142ce390602" target=3D"_blank" id=3D"OWAa8eb9107-be84-f034-a=
-734-121c204b5e4d" class=3D"OWAAutoLink" rel=3D"noopener noreferrer" data-au=
+dacb717a25ab3db142ce390602" target=3D"_blank" id=3D"OWA8ad994d4-951e-2dad-c=
+62c-8a02665b4f37" class=3D"OWAAutoLink" rel=3D"noopener noreferrer" data-au=
 th=3D"NotApplicable">
 https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/1c10bcc2e17255dacb717a25ab3db1=
 42ce390602</a><br>
@@ -424,4 +416,4 @@ Smile ECS<br>
 </body>
 </html>
 
---_000_BY1PR11MB8031A62694F8067F9ECF572396772BY1PR11MB8031namp_--
+--_000_BY1PR11MB8031C5D92AA0B7B1A31ED62396772BY1PR11MB8031namp_--
