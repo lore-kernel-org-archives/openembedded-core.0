@@ -1,314 +1,155 @@
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30267.1793870243403185830
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30719.1793872574561069242
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 01:17:23 -0800
+ Thu, 05 Nov 2026 01:56:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=D4Oozzf+;
- spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: dkelaiya@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=9428; q=dns/txt;
-  s=iport01; t=1793870243; x=1795079843;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EtRzmsnrTPd+E3ZHttimD5e2e8+G0whNFkBTPkrM2hI=;
-  b=D4Oozzf+m8j/uxVa0axmabqIpoGDizrAPS98tR+ii3hIuTFznkcoXWqX
-   yM4LOMMvGVb+U7U8hqEO6557B4UZasJYkWAOooMYyXlhRmTsneK5Ig5Mk
-   6zgTgiJQEelw7H18YGXTEFdZhUmze3twgsRlectTHzMfyjtb6zuim94M/
-   hFDpuLKXDvzLZlhIHV8C1vbFm8tAX3nq5aFZ0KED2Fm1GKCbREweF3V8N
-   I5GwQ8t426FHe1Bvu0hPwgXabEvFmYDRV963+PWxIm5F5AH/E4fyftgvB
-   eAtCPa4ZM01PkjJr280iUU2xSng6wh5VgaopseyTFOLuEit2NC0tbHjA1
-   g==;
-X-CSE-ConnectionGUID: o/KbutR2RVSu4mhWo//dbA==
-X-CSE-MsgGUID: srwzds91Q1SOsqunmHY6Ew==
-X-IPAS-Result: =?us-ascii?q?A0BLAgCwSOxq/5T/Ja1aglmCV3VgQ0kDlkgDniEUgWoPA?=
- =?us-ascii?q?QEBDy4WDQQBAYQ/RgKOHQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMBJgsBGAEtEBwDAQIWGScEIwgZgwIBgnQDEbt2G?=
- =?us-ascii?q?zeBeTOBAYMpAYFU2zMBCxQBgTiFQIgjXRgBhH0nGxuBcoR+gQWBXAEBgRkOe?=
- =?us-ascii?q?IYHBIIigQyBWh5ljBUCgVKGcUiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjP?=
- =?us-ascii?q?heBBxsGBYEdgR6BEoEHXYErKF0BIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckI?=
- =?us-ascii?q?ggSCQETGiwKgRo1PAkmPxUMZAsaBWEIAg0McjkQMB4kLwUcJkAbChgYDUgRL?=
- =?us-ascii?q?DcVGQQ+bgeSL4MRAX4PASsgUCEyEVgkozGCIaERCiiDeIwkjT6HfBozqnELm?=
- =?us-ascii?q?H2OChaVbk2EaYFoPIFZcBWCbgEzCUoZD44tDAuDYM5NJjICCQMvAQEHAgcOA?=
- =?us-ascii?q?wuBaJAAAiYHgU8BAQ?=
-IronPort-Data: A9a23:fnBaV6I0uHSf+RgOFE+RgJQlxSXFcZb7ZxGr2PjKsXjdYENS02QEn
- zFLXmuDbPmNZTChfNkka4mw9RsFu5HRn4IxSwAd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZpCCea+Uf1WlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
- T/Oi5eHYgH8gmYpajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1pS2I8IJEioNxJOnwS8
- PwnL3dKYhqq0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSAVLAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MESojx5nYj/7DLoyn+qsj3juehVTqUmeouw85G27IAlZjeS2b4KNK4LSLSlTtl2Cu
- XDK5DWgO0ghE8eG1DyA0kPyq/CayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRul/fDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:ERs1/KHWtJc++QybpLqEyseALOsnbusQ8zAXPo5KJiC9Ffbo8P
- xG88576faZslsssTQb6LK90cq7MBfhHOBOgbX5VI3KNGKNhILrFvAG0WKI+VPd8kPFmtK1rZ
- 0QEJRWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqUuEiWpRGtldB8ATMHfjLnFL
-X-Talos-CUID: 9a23:fOma5GMB/2BCee5DX25E/lMIIJofTEbAkHLQHEj/TmpjYejA
-X-Talos-MUID: =?us-ascii?q?9a23=3AgDpF5Q590W6zLNXVosSto4Otxoxz+bu8BFtcyKx?=
- =?us-ascii?q?fgO6fLDF2Phes0hmoF9o=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
-   d="scan'208";a="543700960"
-Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
-  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 09:17:22 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 2881818000263;
-	Thu,  5 Nov 2026 09:17:22 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id C7971CBF202; Thu,  5 Nov 2026 01:17:21 -0800 (PST)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 3/3] expat: fix CVE-2026-118370
-Date: Thu,  5 Nov 2026 01:17:19 -0800
-Message-Id: <20261105091719.1622520-3-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261105091719.1622520-1-dkelaiya@cisco.com>
-References: <20261105091719.1622520-1-dkelaiya@cisco.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-11.cisco.com
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=1Ysv9BYo;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 1766E1A0830
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Nov 2026 09:56:12 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B81AB5FF85;
+	Thu,  5 Nov 2026 09:56:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 25CC110328E77;
+	Thu,  5 Nov 2026 10:56:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793872571; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=iRpgiIS5VD0S4rOfoLkYJQxjoSyp9bK3XnHhQi3654U=;
+	b=1Ysv9BYoOmaOqg7WnWdpBCGiZYtRKOWB6mIh2x6hMZTWQPM6CPjBZEkwVsNsLUqF/X+PAU
+	PufXwCTFOVXmlUKzIqkbzPBw0daCZ/uHqUe4Lkg2D5UN7oZ7xJUPaahAFqloJHPAilcCAk
+	7/rswmwNx7IHNFRYbgbiNEkOcWdRAhpFS8CyNa/Ea9Ojz5di6QNYZgr4UsvV3mF7aBTZru
+	ObiL/ieaMTLJsWFmX9R4Op8tpSSfv+EeyZKvDD26Nro6+RMSHXVSRGIkNlt0j9oroperCA
+	2IzRsLjC4dDi9DgPjW6exzbfgWScTp5Tf8JQSAfNFCAnKbSIqphnh/upmPU5wA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Nov 2026 10:56:09 +0100
+Message-Id: <DMN6R5OD6K0L.KNE00WT6X3LP@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v8 0/9] Implement SPDX for deploy tasks
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261028220609.1348489-1-JPEWhacker@gmail.com>
+ <20261104153535.3184146-1-JPEWhacker@gmail.com>
+In-Reply-To: <20261104153535.3184146-1-JPEWhacker@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 09:17:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249522
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 09:56:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249523
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+On Wed Nov 4, 2026 at 4:33 PM CET, Joshua Watt via openembedded-core wrote:
+> The SPDX use case for file system image has been well defined since SPDX
+> was first implemented, however there has always been a desire to also
+> express SPDX output for other non-image deliverables (primarily, those
+> that have a do_deploy task or similar). These types of tasks cannot
+> easily use the traditional method of having a separate SPDX task that
+> runs to create their SPDX output as this causes lots of problems with
+> the way dependencies are specified. Instead, it is desirable for these
+> tasks to directly produce SPDX output that can be consumed by other
+> tasks that depend on them.
+>
+> This patch series adds support for this. Any sstate task that starts
+> with "do_deploy" can now be added to the SPDX_DEPLOY_TASKS list and it
+> will run a postfunc to generate SPDX output that describes what is being
+> deployed. For classical do_deploy tasks, this is setup to be easy by
+> automatically capturing all the deployed output files in the SPDX data,
+> but other tasks can be added as well.
+>
+> Finally, the do_create_image_spdx task is removed and replaced with a
+> SPDX deploy postfunc using this new system. This means that any task
+> that depends on do_image_complete will automatically also get the SPDX
+> output for the image, simplifying the dependency handling.
+>
 
-Backport the upstream prefix and attribute-index fixes [1,2]
-identified by the release announcement [3]. Use size_t for storeAtts
-bookkeeping and reject values that cannot be represented by the
-existing public int attribute-count interfaces.
+Hi Joshua,
 
-Include the related tokenizer-count correction [4] so XmlGetAttributes
-and getAtts do not overflow a signed count or narrow the available
-attribute capacity before the storeAtts checks. This closes the same
-large-attribute data path; it corrects a pre-existing issue rather than
-a regression introduced by the first two fixes. Preserve Expat 2.8.3's
-PTRCALL annotations on the tokenizer callback and implementation.
+Sorry, it looks like one of the selftests is still failing:
 
-Validated with the full native unit suite, inline undefined-behavior
-traps and an arithmetic boundary model. A multi-gigabyte attribute
-payload and BitBake were not run.
+2026-11-04 20:54:56,255 - oe-selftest - INFO - sstatetests.SStateHashSameSi=
+gs2.test_sstate_allarch_samesigs (subunit.RemotedTestCase)
+2026-11-04 20:54:56,256 - oe-selftest - INFO -  ... FAIL
+...
+2026-11-04 20:54:56,257 - oe-selftest - INFO - 14: 40/74 566/796 (126.20s) =
+(0 failed) (sstatetests.SStateHashSameSigs2.test_sstate_allarch_samesigs)
+2026-11-04 20:54:56,257 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 474, in test_=
+sstate_allarch_samesigs
+    self.sstate_common_samesigs(configA, configB, allarch=3DTrue)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/meta/lib/oeqa/selftest/cases/sstatetests.py", line 207, in sstat=
+e_common_samesigs
+    self.assertEqual(files1, files2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/unittest/case.py", line 907, in assertEqual
+    assertion_func(first, second, msg=3Dmsg)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/unittest/case.py", line 1206, in assertDictEqua=
+l
+    self.fail(self._formatMessage(msg, standardMsg))
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/unittest/case.py", line 732, in fail
+    raise self.failureException(msg)
+AssertionError: {'nat[270260 chars]do_package_qa': '857626b7bdd74c4b2507f08=
+5ec1d3[30298 chars]ccf'} !=3D {'nat[270260 chars]do_patch': '58d5b3102c4ba7=
+a2388712a2a7f962d88e[30298 chars]ccf'}
+  {'adwaita-icon-theme/do_compile': '5390f85c42205bb5a14f7d92537a8420867861=
+c0ef9adc409863aa1a1cd61709',
+   'adwaita-icon-theme/do_configure': 'a280235b7d74824b3743f9490b3549add607=
+d66c38976212ef67a5598819592e',
+   'adwaita-icon-theme/do_create_package_spdx': 'e62d8265977d1a7e3ad698899b=
+e0f643a79e7a5a7b7b6f10292c8959a58fc267',
+   'adwaita-icon-theme/do_create_recipe_spdx': 'efe776c196e9c591367785ce9a3=
+2d02228af827c2995ce26df1885b88065da9d',
+   'adwaita-icon-theme/do_create_spdx': 'bde607fa1590084bb0b587b76f48bec54b=
+0ecff13a4a437385558eeb7a5595dd',
+   'adwaita-icon-theme/do_deploy_source_date_epoch': '8de41ddc1f7abb948c161=
+ec6591dbe887186eafe18890b24a13568793ab8e897',
+   'adwaita-icon-theme/do_fetch': '21febaeb8a75763a5eed0a68a22d15a4cb491f25=
+c5d59a086c5d3a48c6ac7176',
+   'adwaita-icon-theme/do_install': '7d74cc9d42787eb59d2185a92d974e5a61d7cb=
+8e60a23319fdb947cb42389739',
+   'adwaita-icon-theme/do_package': '435d8e3412602a492d7b016d3b8615f78fc4de=
+88113bd8180ed8e2c420a55ca2',
+   'adwaita-icon-theme/do_package_qa': '497742679e6ab012cb1050d1f6358737f31=
+2fe0520b3ab55a8329924af0b42a8',
+   'adwaita-icon-theme/do_package_write_rpm': '7d5c34df18018681012fc3544d90=
+fa227d311c18c0093459cf9082c9cddb9e6c',
+   'adwaita-icon-theme/do_packagedata': 'eb4f146bb2fed70fb92c69bf02d1e44784=
+29b02ea6a9354442cb1af3a34edd2b',
+   'adwaita-icon-theme/do_patch': 'ee2331e00fd0a461aece4ec16f69cecb8463aac4=
+b5a01e07858a515b85c39c53',
+   'adwaita-icon-theme/do_populate_lic': 'e41b536e4515805e401b974e48c25168b=
+7e95d523f38806bf101aa4b923d3dfc',
+   'adwaita-icon-theme/do_populate_sysroot': 'b5ff360309b0769e840d56103b803=
+6fa882da881d7bfcd0fc89d93a0e460b5d8',
+   'adwaita-icon-theme/do_prepare_recipe_sysroot': 'd82174494f146d0936439e3=
+c5bb1a3d85759fe369008ad968017194f4b03733e',
+   'adwaita-icon-theme/do_recipe_qa': 'b63675adc7d32dfccfe8a0a8b3be5a5aa892=
+fcfb7a09288714502274ca318d0f',
+   'adwaita-icon-theme/do_unpack': '04087c36f3690f91199bbe4e6a61a01bbf32550=
+f289cdccdbc382227566aa54e',
+   'adwaita-icon-theme/do_write_config': '3a0d46da99ab5c777732a0143eaedf231=
+9bc385163d544a538ab918bc10ef664',
+   'alsa-topology-conf/do_compile': '310c99f93ad20956d61fff0b5a8a18d8b84a17=
+5c415110986f4a439023dba11b',
+   ...
 
-[1] https://github.com/libexpat/libexpat/commit/621cb2c78b253ee023a86bc91d6ddb048481c04c
-[2] https://github.com/libexpat/libexpat/commit/1bac53c4fc460a03cd9860f39501c7979f6750ae
-[3] https://www.openwall.com/lists/oss-security/2026/11/02/6
-[4] https://github.com/libexpat/libexpat/commit/c67cbc6185d1b494f521f2f46280d5982f50f2cf
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/5193
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/5006
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/5221
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
----
- .../expat/expat/CVE-2026-118370_p1.patch      | 29 +++++++
- .../expat/expat/CVE-2026-118370_p2.patch      | 58 ++++++++++++++
- .../expat/expat/CVE-2026-118370_p3.patch      | 77 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.8.3.bb        |  3 +
- 4 files changed, 167 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-118370_p1.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-118370_p2.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-118370_p3.patch
+Can you have a look at the issue?
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-118370_p1.patch b/meta/recipes-core/expat/expat/CVE-2026-118370_p1.patch
-new file mode 100644
-index 0000000000..0b2e5f48d6
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-118370_p1.patch
-@@ -0,0 +1,29 @@
-+From 621cb2c78b253ee023a86bc91d6ddb048481c04c Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Tue, 27 Oct 2026 17:57:19 +0100
-+Subject: [PATCH] lib: Protect `nPrefixes` in `storeAtts` from signed integer
-+ overflow
-+
-+.. by migrating to `size_t`
-+
-+CVE: CVE-2026-118370
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/621cb2c78b253ee023a86bc91d6ddb048481c04c]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ lib/xmlparse.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index b17f5e0..6fdfbc8 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -3871,7 +3871,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
-+   int attIndex = 0;
-+   XML_Char *uri;
-+-  int nPrefixes = 0;
-++  size_t nPrefixes = 0;
-+   BINDING *binding;
-+   const XML_Char *localPart;
-+ 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-118370_p2.patch b/meta/recipes-core/expat/expat/CVE-2026-118370_p2.patch
-new file mode 100644
-index 0000000000..0015f4f1cd
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-118370_p2.patch
-@@ -0,0 +1,58 @@
-+From 1bac53c4fc460a03cd9860f39501c7979f6750ae Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Tue, 27 Oct 2026 15:20:33 +0100
-+Subject: [PATCH] lib: Protect `attIndex` in `storeAtts` from signed integer
-+ overflow
-+
-+.. by migrating to `size_t`
-+
-+CVE: CVE-2026-118370
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/1bac53c4fc460a03cd9860f39501c7979f6750ae]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ lib/xmlparse.c | 15 ++++++++++-----
-+ 1 file changed, 10 insertions(+), 5 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 6fdfbc8..6c97639 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -3869,7 +3869,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+           TAG_NAME *tagNamePtr, BINDING **bindingsPtr,
-+           enum XML_Account account) {
-+   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
-+-  int attIndex = 0;
-++  size_t attIndex = 0;
-+   XML_Char *uri;
-+   size_t nPrefixes = 0;
-+   BINDING *binding;
-+@@ -4048,11 +4048,16 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+   }
-+ 
-+   /* set-up for XML_GetSpecifiedAttributeCount and XML_GetIdAttributeIndex */
-+-  parser->m_nSpecifiedAtts = attIndex;
-++  // Detect and reject integer overflow
-++  if (attIndex > INT_MAX)
-++    return XML_ERROR_NO_MEMORY;
-++  parser->m_nSpecifiedAtts = (int)attIndex;
-+   if (elementType->idAtt && (elementType->idAtt->name)[-1]) {
-+-    for (int i = 0; i < attIndex; i += 2)
-++    for (size_t i = 0; i < attIndex; i += 2)
-+       if (appAtts[i] == elementType->idAtt->name) {
-+-        parser->m_idAttIndex = i;
-++        if (i > INT_MAX)
-++          return XML_ERROR_NO_MEMORY;
-++        parser->m_idAttIndex = (int)i;
-+         break;
-+       }
-+   } else
-+@@ -4085,7 +4090,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+ 
-+   /* expand prefixed attribute names, check for duplicates,
-+      and clear flags that say whether attributes were specified */
-+-  int i = 0;
-++  size_t i = 0;
-+   if (nPrefixes) {
-+     unsigned int j; /* hash table index */
-+     unsigned long version = parser->m_nsAttsVersion;
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-118370_p3.patch b/meta/recipes-core/expat/expat/CVE-2026-118370_p3.patch
-new file mode 100644
-index 0000000000..2ad72abee6
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-118370_p3.patch
-@@ -0,0 +1,77 @@
-+From c67cbc6185d1b494f521f2f46280d5982f50f2cf Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Fri, 30 Oct 2026 18:37:11 +0100
-+Subject: [PATCH] lib: Fix integer truncation in `XmlGetAttributes`/`getAtts`
-+
-+CVE: CVE-2026-118370
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/c67cbc6185d1b494f521f2f46280d5982f50f2cf]
-+
-+Backport Changes:
-+- Retain PTRCALL on the getAtts callback and implementation for Expat
-+  2.8.3 calling-convention compatibility, and align the callback
-+  continuation with the retained annotation.
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ lib/xmlparse.c    | 5 ++---
-+ lib/xmltok.h      | 4 ++--
-+ lib/xmltok_impl.c | 6 +++---
-+ 3 files changed, 7 insertions(+), 8 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 6c97639..2a4e47b 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -3898,8 +3898,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+     return XML_ERROR_NO_MEMORY;
-+ 
-+   /* get the attributes from the tokenizer */
-+-  size_t n = (size_t)XmlGetAttributes(enc, attStr, (int)parser->m_attsSize,
-+-                                      parser->m_atts);
-++  size_t n = XmlGetAttributes(enc, attStr, parser->m_attsSize, parser->m_atts);
-+ 
-+   /* Detect and prevent integer overflow */
-+   if (n > SIZE_MAX - nDefaultAtts) {
-+@@ -3949,7 +3948,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+       /* Detect and prevent integer overflow. */
-+       if (n > (size_t)INT_MAX)
-+         return XML_ERROR_NO_MEMORY;
-+-      XmlGetAttributes(enc, attStr, (int)n, parser->m_atts);
-++      XmlGetAttributes(enc, attStr, n, parser->m_atts);
-+     }
-+   }
-+ 
-+diff --git a/lib/xmltok.h b/lib/xmltok.h
-+index bd868b8..4be6fdc 100644
-+--- a/lib/xmltok.h
-++++ b/lib/xmltok.h
-+@@ -180,8 +180,8 @@ struct encoding {
-+                                  const char *);
-+   int(PTRFASTCALL *nameLength)(const ENCODING *, const char *);
-+   const char *(PTRFASTCALL *skipS)(const ENCODING *, const char *);
-+-  int(PTRCALL *getAtts)(const ENCODING *enc, const char *ptr, int attsMax,
-+-                        ATTRIBUTE *atts);
-++  size_t(PTRCALL *getAtts)(const ENCODING *enc, const char *ptr, size_t attsMax,
-++                           ATTRIBUTE *atts);
-+   int(PTRFASTCALL *charRefNumber)(const ENCODING *enc, const char *ptr);
-+   int(PTRCALL *predefinedEntityName)(const ENCODING *, const char *,
-+                                      const char *);
-+diff --git a/lib/xmltok_impl.c b/lib/xmltok_impl.c
-+index 2719e06..3955285 100644
-+--- a/lib/xmltok_impl.c
-++++ b/lib/xmltok_impl.c
-+@@ -1504,11 +1504,11 @@ PREFIX(isPublicId)(const ENCODING *enc, const char *ptr, const char *end,
-+    first attsMax attributes are stored in atts.
-+ */
-+ 
-+-static int PTRCALL
-+-PREFIX(getAtts)(const ENCODING *enc, const char *ptr, int attsMax,
-++static size_t PTRCALL
-++PREFIX(getAtts)(const ENCODING *enc, const char *ptr, size_t attsMax,
-+                 ATTRIBUTE *atts) {
-+   enum { other, inName, inValue } state = inName;
-+-  int nAtts = 0;
-++  size_t nAtts = 0;
-+   int open = 0; /* defined when state == inValue;
-+                    initialization just to shut up compilers */
-+ 
-diff --git a/meta/recipes-core/expat/expat_2.8.3.bb b/meta/recipes-core/expat/expat_2.8.3.bb
-index b6911e79de..89ec156e92 100644
---- a/meta/recipes-core/expat/expat_2.8.3.bb
-+++ b/meta/recipes-core/expat/expat_2.8.3.bb
-@@ -27,6 +27,9 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2 \
-            file://CVE-2026-113351_p5.patch \
-            file://CVE-2026-117610_p1.patch \
-            file://CVE-2026-117610_p2.patch \
-+           file://CVE-2026-118370_p1.patch \
-+           file://CVE-2026-118370_p2.patch \
-+           file://CVE-2026-118370_p3.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
--- 
-2.35.6
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
