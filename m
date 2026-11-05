@@ -1,190 +1,127 @@
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.22089.1793832616924163964
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27192.1793852531033638715
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 14:50:17 -0800
+ Wed, 04 Nov 2026 20:22:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=QTqXYzJK;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202611042250144ae2245b23000207f0-yajf6c@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202611042250144ae2245b23000207f0
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 04 Nov 2026 23:50:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=+Y1YH03ZEJ1PsL4KQLoZgfLEDOaF/HMQSQFA8euVClg=;
- b=QTqXYzJKObedXQ62rCyR/r6pCMMIz4EHZQCbATg1Fq5dY2sCEy6ryzQWSjPZ13tUwGC1fK
- caqjJaQcw5yvIPOIwcfaitWPQTAmMtIjcIRKXea5lZ47DRQhp8ZXPgcsXo9QExeP8yvzBN6X
- V0wtNFMaCc3k4yJlo6EtSG09Q+Dka+PvuW/laKSMwb69MVXUr2twK7HWmeCfgSS9y/pewHvI
- VX5Nqd6pVLKWqTAUTu8cf//weE7TtQml7rnVYifE4ypEdvwXWq7+m7vUe6r+15zlI7oq48mQ
- Y7/iIJWojL745hPZ7Vo+asHxZHh2BkQAVOMV9F6yhVGNp5cH3e+GsKRg==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=SbKVXX56;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: hthakar@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=2613; q=dns/txt;
+  s=iport01; t=1793852531; x=1795062131;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jbLZlDmTz2mG8L7NqtqbyL7pgiRcYoekLHI2tnPl7DA=;
+  b=SbKVXX56JnYosL8e61WhV+QuFJHCR/kIsVoKjjk59adCaHsPTN6W3tku
+   Wl7tNE/P216ICmRRtbz7iBKhNykLmBzHJ2Q/V7/8BWfMuzC4tML/MROmQ
+   aC6E1mj938d9xtId2el5QT99IUcngnqcHNKcvLt4UeZbLNf8Nuf+BTm8Q
+   Y/FVoXNrTKqkC1dyADEBooBjd9m7ADxB1NpF8FsHS3+lpzt5TzsiSXDAM
+   N1v1yJYySRCXiUz7sLrNYgN2WF0LHVKLqO0xTtX3TFrLSO5xRs1AK7Vw3
+   ppVn5XPpVchePt0oBESUjWQD4qcIIzeNSiZLRbUYW3unqBYLdJJFxo/y5
+   w==;
+X-CSE-ConnectionGUID: fkFHsyjuSfma6zJXK3WAwg==
+X-CSE-MsgGUID: NmKzIVeOT6WlYdn3OovtVw==
+X-IPAS-Result: =?us-ascii?q?A0D6AgBoA+xq/4//Ja1aglmCV3VgQ0mUKqBFgX4PAQEBD?=
+ =?us-ascii?q?0QNBAEBhD+OZAImNgcOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGTw2QEgEtCwEYAVkDAQJaIyGDAgGCdAMRvGWBeTOBAYMpAYFU2zMBCxQBg?=
+ =?us-ascii?q?TiFQIgjXRgBhH0nGxuBcoR+gmECA4IqhXkEgiJ6EoFaHox6AoFShnBIgR4DW?=
+ =?us-ascii?q?SwBVRMNCgsHBYFoAzUSKhVuMh2BIz4XgQcbBgWBHYEegRKBB12BKyheIYEIg?=
+ =?us-ascii?q?XYCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZAsaBWEIA?=
+ =?us-ascii?q?g0McjkQMB4kLwUcJkAbChgYDUgRLDcVGQQ+bgeSL4MRexMBK5YnkXuhEQoog?=
+ =?us-ascii?q?3iMJJU6GjOqcZkIjgoWljuEaYFuATWBWXAVgyIJShkPkiSFE8k7JjICOwEBB?=
+ =?us-ascii?q?wIHDgMLgWiRfgEB?=
+IronPort-Data: A9a23:tZHfN6KgxGZdtiVPFE+Rh5QlxSXFcZb7ZxGr2PjKsXjdYENS1TcPn
+ WAfUGrQO6vYMWP9eI1wPtm18hgO6J/VnINnQQUd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZpCCea+Uf1WlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
+ T/Oi5eHYgH8gmYoajh8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1gD28WJpwa5915BGgQ5
+ 94oC2syRw+M0rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBU7AtQIvIROPB4towMDUY358VW62BI
+ ZBENHw2ME+ojx5nYj/7DLo+gOehhXDlWzZZs1mS46Ew5gA/ySQsjOS3aoaOJITiqcN9uEO7t
+ EP48kPFXC4eBdCZkh2C7G6Smbqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
+ AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MvUCSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:/aPcNq+OdgqRJtDVXL5uk+DoI+orL9Y04lQ7vn2ZLiYlEPBw+P
+ rBoB1273LJYVUqKRIdcK67WZVoKEm0nfUe3WB7B9iftWfd1FdAVLsD0aLShxv9Bib56ulRkY
+ 1kc6R4FZnMKGISt7ee3OF9eOxQp+VuN8uT9IPj80s=
+X-Talos-CUID: =?us-ascii?q?9a23=3AlUhiumrCy6kVN1Jb/SUbC1DmUc4mXF3G3XXNGEG?=
+ =?us-ascii?q?9ADh7ao22EmC556wxxg=3D=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AFjacfg+ivaZozmOW5invZrKQf+FtwLaPNk0qrcs?=
+ =?us-ascii?q?5v/iIM3dXPCmBsiviFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,196,1787011200"; 
+   d="scan'208";a="544224360"
+Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 04:22:10 +0000
+Received: from sjc-ads-7857.cisco.com (sjc-ads-7857.cisco.com [10.30.222.144])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id EB8321800024F
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Nov 2026 04:22:09 +0000 (GMT)
+Received: by sjc-ads-7857.cisco.com (Postfix, from userid 1887505)
+	id 96BCDCC161E; Wed,  4 Nov 2026 20:22:09 -0800 (PST)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH] alsa-lib: patch CVE-2026-96674 and CVE-2026-96675
-Date: Wed,  4 Nov 2026 23:49:33 +0100
-Message-ID: <20261104224933.2433979-1-peter.marko@siemens.com>
+Subject: [OE-core][blacksail][PATCH ] openssh: Upgrade 10.5p1 -> 10.6p1
+Date: Wed,  4 Nov 2026 20:22:09 -0800
+Message-Id: <20261105042209.1168511-1-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-7857.cisco.com [10.30.222.144];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.30.222.144, sjc-ads-7857.cisco.com
+X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2026 22:50:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249417
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 04:22:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249418
 Content-Type: text/plain; charset="utf-8"
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-Pick same patches as done in master commit
-fbe75cba76c36924d7569bafc5f2d4f037c429c4
+Release Notes: https://www.openssh.org/txt/release-10.6
 
-Adapt CVE-2026-96674 patch by replacing snd_error(TOPOLOGY, ...) calls
-by SNDERR(...), since the new log macros were only introduced later.
+CompareLog: https://github.com/openssh/openssh-portable/compare/V_10_5_P1...V_10_6_P1
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+- Refresh existing patch
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 71d89d5a2ac8c02a0e6890f5dc86f40e31648609)
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
- .../alsa/alsa-lib/CVE-2026-96674.patch        | 69 +++++++++++++++++++
- .../alsa/alsa-lib/CVE-2026-96675.patch        | 45 ++++++++++++
- .../alsa/alsa-lib_1.2.11.bb                   |  2 +
- 3 files changed, 116 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
+ ...1-regress-banner.sh-log-input-and-output-files-on-erro.patch | 2 +-
+ .../openssh/{openssh_10.5p1.bb => openssh_10.6p1.bb}            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_10.5p1.bb => openssh_10.6p1.bb} (99%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
-new file mode 100644
-index 00000000000..fb2cba41bd5
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
-@@ -0,0 +1,69 @@
-+From f8253a68baf9a5f57cdff1cd178920d13e5beb2b Mon Sep 17 00:00:00 2001
-+From: Harsh Raj Singhania <raj.harshraut@gmail.com>
-+Date: Thu, 1 Oct 2026 00:28:15 +0530
-+Subject: [PATCH] topology: fix uint32_t overflow in control decoder size
-+ checks
-+
-+size2 = x->size + x->priv.size was computed in 32-bit arithmetic and could
-+wrap on a 64-bit host, bypassing the subsequent bounds check. Pre-check
-+for overflow then cast to size_t. Affects tplg_decode_control_mixer,
-+tplg_decode_control_enum, and tplg_decode_control_bytes.
-+
-+Closes: https://github.com/alsa-project/alsa-lib/pull/527
-+Signed-off-by: Harsh Raj Singhania <raj.harshraut@gmail.com>
-+Signed-off-by: Takashi Iwai <tiwai@suse.de>
-+
-+CVE: CVE-2026-96674
-+Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/f8253a68baf9a5f57cdff1cd178920d13e5beb2b]
-+Adapted snd_error(TOPOLOGY, ...) calls to SNDERR(...) since the new log macros were introduced only later
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/topology/ctl.c | 21 ++++++++++++++++++---
-+ 1 file changed, 18 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/topology/ctl.c b/src/topology/ctl.c
-+index 322c461c..93a09f1e 100644
-+--- a/src/topology/ctl.c
-++++ b/src/topology/ctl.c
-+@@ -1311,7 +1311,12 @@ next:
-+ 	}
-+ 	INIT_LIST_HEAD(&heap);
-+ 	mc = bin;
-+-	size2 = mc->size + mc->priv.size;
-++	if (mc->priv.size > size || mc->size > size - mc->priv.size) {
-++		SNDERR("mixer: element sizes overflow (%d, priv %d)",
-++		       mc->size, mc->priv.size);
-++		return -EINVAL;
-++	}
-++	size2 = (size_t)mc->size + (size_t)mc->priv.size;
-+ 	if (size2 > size) {
-+ 		SNDERR("mixer: wrong element size (%d, priv %d)",
-+ 		       mc->size, mc->priv.size);
-+@@ -1414,7 +1419,12 @@ next:
-+ 	}
-+ 	INIT_LIST_HEAD(&heap);
-+ 	ec = bin;
-+-	size2 = ec->size + ec->priv.size;
-++	if (ec->priv.size > size || ec->size > size - ec->priv.size) {
-++		SNDERR("enum: element sizes overflow (%d, priv %d)",
-++		       ec->size, ec->priv.size);
-++		return -EINVAL;
-++	}
-++	size2 = (size_t)ec->size + (size_t)ec->priv.size;
-+ 	if (size2 > size) {
-+ 		SNDERR("enum: wrong element size (%d, priv %d)",
-+ 		       ec->size, ec->priv.size);
-+@@ -1504,7 +1514,12 @@ next:
-+ 		return -EINVAL;
-+ 	}
-+ 	bc = bin;
-+-	size2 = bc->size + bc->priv.size;
-++	if (bc->priv.size > size || bc->size > size - bc->priv.size) {
-++		SNDERR("bytes: element sizes overflow (%d, priv %d)",
-++		       bc->size, bc->priv.size);
-++		return -EINVAL;
-++	}
-++	size2 = (size_t)bc->size + (size_t)bc->priv.size;
-+ 	if (size2 > size) {
-+ 		SNDERR("bytes: wrong element size (%d, priv %d)",
-+ 		       bc->size, bc->priv.size);
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
-new file mode 100644
-index 00000000000..bd8c35a1c32
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.patch
-@@ -0,0 +1,45 @@
-+From 81c4a89eb445f8e991ca80ab55b5649530c0aacd Mon Sep 17 00:00:00 2001
-+From: Harsh Raj Singhania <raj.harshraut@gmail.com>
-+Date: Thu, 1 Oct 2026 00:28:53 +0530
-+Subject: [PATCH] pcm: replace multi plugin binding asserts with -EINVAL checks
-+
-+Sparse binding maps leave sidxs[i] == -1 for gap indices. The previous
-+assert() calls caused SIGABRT in debug builds and OOB reads under NDEBUG.
-+Return -EINVAL with explicit bounds and sign checks instead.
-+
-+[ fixed coding style -- tiwai ]
-+
-+Closes: https://github.com/alsa-project/alsa-lib/pull/527
-+Signed-off-by: Harsh Raj Singhania <raj.harshraut@gmail.com>
-+Signed-off-by: Takashi Iwai <tiwai@suse.de>
-+
-+CVE: CVE-2026-96675
-+Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/81c4a89eb445f8e991ca80ab55b5649530c0aacd]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/pcm/pcm_multi.c | 12 ++++++++++--
-+ 1 file changed, 10 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/pcm/pcm_multi.c b/src/pcm/pcm_multi.c
-+index 121c4c20..c7c67e73 100644
-+--- a/src/pcm/pcm_multi.c
-++++ b/src/pcm/pcm_multi.c
-+@@ -1121,8 +1121,16 @@ int snd_pcm_multi_open(snd_pcm_t **pcmp, const char *name,
-+ 	}
-+ 	for (i = 0; i < channels_count; ++i) {
-+ 		snd_pcm_multi_channel_t *bind = &multi->channels[i];
-+-		assert(sidxs[i] < (int)slaves_count);
-+-		assert(schannels[i] < schannels_count[sidxs[i]]);
-++		if (sidxs[i] < 0 || sidxs[i] >= (int)slaves_count) {
-++			SNDERR("multi: ch %d invalid slave idx %d",
-++			       i, sidxs[i]);
-++			return -EINVAL;
-++		}
-++		if (schannels[i] >= schannels_count[sidxs[i]]) {
-++			SNDERR("multi: ch %d channel %d out of range",
-++			       i, schannels[i]);
-++			return -EINVAL;
-++		}
-+ 		bind->slave_idx = sidxs[i];
-+ 		bind->slave_channel = schannels[i];
-+ 		if (sidxs[i] < 0)
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-index 5b67d1cc426..5f493760f0d 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-@@ -14,6 +14,8 @@ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
-            file://CVE-2026-25068.patch \
-            file://CVE-2026-56109.patch \
-            file://CVE-2026-90781.patch \
-+           file://CVE-2026-96674.patch \
-+           file://CVE-2026-96675.patch \
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+index f424288e37..902ac7411a 100644
+--- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
++++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+@@ -1,4 +1,4 @@
+-From 5cc897fe2effe549e1e280c2f606bce8b532b61e Mon Sep 17 00:00:00 2001
++From bea215955125b39c802d2a255cd08dff4fa6298e Mon Sep 17 00:00:00 2001
+ From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ Date: Mon, 11 Sep 2023 09:55:21 +0100
+ Subject: [PATCH] regress/banner.sh: log input and output files on error
+diff --git a/meta/recipes-connectivity/openssh/openssh_10.5p1.bb b/meta/recipes-connectivity/openssh/openssh_10.6p1.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh_10.5p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_10.6p1.bb
+index 052686f289..6043f140b3 100644
+--- a/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_10.6p1.bb
+@@ -25,7 +25,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://sshd_check_keys \
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
             "
- SRC_URI[sha256sum] = "9f3f2f69b995f9ad37359072fbc69a3a88bfba081fc83e9be30e14662795bb4d"
+-SRC_URI[sha256sum] = "d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11"
++SRC_URI[sha256sum] = "a9dc9565dffe8640f64d863cd29a32bc4a3dbdec0566a7fc44c5d6ee767d5f39"
  
+ CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
+ 
+-- 
+2.35.6
+
