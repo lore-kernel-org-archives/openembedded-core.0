@@ -1,40 +1,41 @@
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.27745.1793856424539973886
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.27746.1793856424668652193
  for <openembedded-core@lists.openembedded.org>;
  Wed, 04 Nov 2026 21:27:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=d3BbBTQW;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=twaQ2Pzt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1aa2cc6ae-7504c7bf-ba78-4367-b232-ec6bd0ff70f6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SBQbmkZ9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Mw9Xer0J;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1aa2cc74c-8e280b22-3c54-4032-a9de-723103f812a5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1793856423;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=HMR55A+jP4ACcwQ4d5fM2weqRdHZ1+UsNZbbEihGSSc=;
-	b=d3BbBTQWl6moVy+2qnjKBacqMmtxy2we/1bkYMjbxc/napdZuehVfhb/GNPwFFhQ
-	GkMArQG8lBZ0jy6VhWVRJhLrftESvEOKJ2sIUsbpsS4uQrOEiozuItDCBhnPSkDiM5m
-	lXJvZFz9p22QDAKZzJt1Z1oSUp4Oy5kfw7w1jZ9k=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=mfiBEv8iMVWN/C2hrf0vKmKX7qfeGCAuHcKDb4uulCY=;
+	b=SBQbmkZ97wd6Iuc7hNhCkl9z9ujvKKVC4ajDORg5Ff9LaHzon4m89fPOuKOF+hSa
+	JTkgAmtrgNADBp/lTHKCZIWu0rvPi8OETeDoy87IK3UTr5npeqp4EIZgin0qlG9U1p0
+	fOSevRpkG0+koc4echpA5hfptuRmQqSo7XGrcKbI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793856423;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=HMR55A+jP4ACcwQ4d5fM2weqRdHZ1+UsNZbbEihGSSc=;
-	b=twaQ2PztsExYaiS0YPFoVkfGtCJdy7LvxKpOU6/DitPxxDz2yn+SuWWMEMZG7u9Z
-	Ne/KCcgfylpgHOUvMN/1t91o04jfSWSTsvjeAOe7a0vEJe8683UXuB+w3xYLR9JQbKd
-	APvzf8wP+XX1EJy+Z0Gu1CJEGfZ+7uHTXl6/APpY=
-Content-Type: multipart/mixed; boundary="===============6687187321487281451=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=mfiBEv8iMVWN/C2hrf0vKmKX7qfeGCAuHcKDb4uulCY=;
+	b=Mw9Xer0JVZTdEGZn8i/Sf+if+PejreIS4ROCjPSQt+Z3FB3VWts3fmS4qD1rWuML
+	hV3P0bxWWpJqOypd49BsiMg4YPenn97+h6rp+vxWdwZV105AxRs/qsuse0I5j12ZSdo
+	vRUJ2HgxJQH/evN6jNgrzwFrbllZsfQFVrIJUYxw=
+Content-Type: multipart/mixed; boundary="===============4283675938372117366=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] harfbuzz: upgrading to 15.1.0 SUCCEEDED
-Message-ID: <010101a1aa2cc6ae-7504c7bf-ba78-4367-b232-ec6bd0ff70f6-000000@us-west-2.amazonses.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] lz4: upgrading to 1.11.0 FAILED
+Message-ID: <010101a1aa2cc74c-8e280b22-3c54-4032-a9de-723103f812a5-000000@us-west-2.amazonses.com>
 Date: Thu, 5 Nov 2026 05:27:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.05-54.240.27.30
+X-SES-Outgoing: 2026.11.05-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 05:27:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249425
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249426
 
---===============6687187321487281451==
+--===============4283675938372117366==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -42,10 +43,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *harfbuzz* to *15.1.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *lz4* to *1.11.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-harfbuzz-upgrade-15.0.0-15.1.0.patch
+    - apply the patch: git am 0001-lz4-upgrade-1.10.0-1.11.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -63,306 +70,355 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 92f76bd64966b13a97dc81f852fe55ca5372aa28 Mon Sep 17 00:00:00 2001
+From e5648229fed972c884c1477bf089565406278a24 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 5 Nov 2026 05:24:48 +0000
-Subject: [PATCH] harfbuzz: upgrade 15.0.0 -> 15.1.0
+Date: Thu, 5 Nov 2026 05:26:57 +0000
+Subject: [PATCH] lz4: upgrade 1.10.0 -> 1.11.0
 
-Overview of changes leading to 15.1.0
-Wednesday, November 4, 2026
-=====================================
-- Add buffer deserialization APIs that report progress as a byte offset, for
-  use from introspection bindings.
-- Fix Indic shaping of the Unicode 18 Devanagari and Bengali additions.
-- Fix Arabic fallback shaping: wrong ligatures when a component is missing from
-  the font, and disappearing marks in legacy fonts.
-- Fix `COLR` glyph extents and mark positioning in fonts with empty layers.
-- Fix AAT shaping: wrong `kerx` kerning (formats 1 and 2) and mark positioning
-  (format 4, a 14.3.0 regression), and ignored `kern` and `mort` tables with a
-  non-first initial state.
-- Various fixes to the Graphite2 shaper.
-- Report HarfRust shaping failures through `hb_buffer_allocation_successful()`.
-- Fix wrong outlines in `gvar` fonts with intermediate tuples.
-- Fix `hb_face_create_or_fail()` rejecting face indices with named-instance
-  bits set.
-- Fix wrong fallback metrics: the vertical descender in fonts without `vhea`,
-  and the hanging baseline for some scripts.
-- Fix `hb_ot_layout_lookup_collect_glyph_alternates()` collecting garbage from
-  `AlternateSubst` and `SingleSubst` format 1 lookups.
-- Speed up shaping on faces with many shape plans, `hb_language_from_string()`,
-  vertical text with `hb-ft`, and `CBDT` and `sbix` fonts.
-- Fix crashes and deadlocks with FreeType, including `hb_ft_font_set_funcs()` on
-  immutable fonts and font queries from color paint callbacks.
-- Fix crashes with NULL result pointers in
-  `hb_ot_metrics_get_position_with_fallback()`,
-  `hb_ot_layout_get_font_extents()`, and `hb_ot_layout_get_font_extents2()`.
-- Fix use-after-free in `hb_map_update()` when updating a map from itself.
-- Various fixes for crashes, hangs, and memory use with malformed fonts.
-- Faster subsetting of large `GSUB` and `GPOS` tables, and smaller `CFF` output.
-- Partially instancing or desubroutinizing `CFF2` fonts with nested blends now
-  fails instead of changing the outlines.
-- Subsetting now fails if a glyph mapping assigns another glyph to glyph 0.
-- Fix `hb_subset_axis_range_from_string()` reading past the given length.
-- Fix subsetting beyond-64k variable fonts losing `HVAR` advance deltas.
-- Various subsetting and instancing fixes, mostly for `CFF`, `CFF2`, and `COLR`.
-- Fix rotated and skewed rectangle clips hiding their contents in the raster
-  library, and out-of-bounds access when extents change during painting.
-- Fix the vector library mirroring path clips in SVG, and writing PDFs with
-  wrong page bounds and misplaced or clipped `COLR` gradients.
-- Fix wrong clipping of `COLR` layers in the GPU library.
-- Various Cairo integration fixes, including a memory leak per scaled font.
-- Fix `hb-info --list-*` crashes on unusual fonts.
-- Various build and CI fixes.
-
-- New API:
-  +hb_buffer_deserialize_glyphs2()
-  +hb_buffer_deserialize_unicode2()
+v1.11.0
+fix  : data corruption in valid usage : ring buffer decoding
+(`LZ4_decoderRingBufferSize()`, since v1.9.0), rare cases of streaming or
+`destSize` compression, one reported by @freedom-winds
+fix  : single-thread `lz4` could truncate the decoding of concatenated frames
+with block checksums
+fix  : multithreaded decompression could write out of bounds after 2^31 frames
+(since v1.10.0), by @arshsmith1
+fix  : `LZ4F_compressBegin_usingDict()` ignored the dictionary with independent
+blocks
+fix  : some periodic data compressed up to 30x worse at fast levels, and very
+slowly at level 12, reported by @martinus
+fix  : invalid arguments (negative sizes, `NULL`, invalid `blockSizeID`, extreme
+levels) no longer crash nor overflow, by @arthuz-th, @jaypatrickhoward,
+@louislafosse, @akashdeshmukh-git, @rinsuki
+fix  : lz4file reports truncated files and write failures, and accepts files <
+19 bytes, by @axiqia
+perf : faster decompression on aarch64 and x86-64 (up to +19%, +4% on
+silesia.tar), `LZ4_FAST_DEC_LOOP` on aarch64 with clang and on riscv64, by
+@Nicoshev and @arpadpanyik-arm
+perf : faster compression of small blocks at fast levels, with reused states (up
+to +80%) or dictionaries (up to +35%), partly proposed by @BiplabRaut
+perf : faster levels 11 and 12 (+8% to +27%), level 2 compresses ~0.8% better
+perf : x86 builds avoid the JCC erratum : up to +12% compression and +31%
+decompression on Intel Skylake-family cpus
+api  : multithreaded lz4frame compression (experimental
+`LZ4F_preferences_t.nbWorkers`) : output independent of the nb of workers and of
+the context's history
+api  : random access within frames and lz4 files : `LZ4F_resumeFrame()`,
+`LZ4F_seek()`, `LZ4F_tell()` (static)
+api  : `LZ4_decompress_safe()` returns distinct error codes : `-1` malformed
+input, `-2` `dstCapacity` too small, `-3` missing dictionary
+api  : lz4frame compression accepts any `dstCapacity`, and only fails if the
+output doesn't fit
+api  : removed from headers : functions deprecated since v1.7.x / v1.8.0 (still
+exported by liblz4), unprefixed lz4frame enums ; `LZ4_resetStream()` and
+`LZ4_resetStreamHC()` are deprecated
+api  : `LZ4F_compressOptions_t` must be zero-initialized ; reserved fields are
+scalars (flatten positional initializers) ; `LZ4F_uncompressedUpdate()`
+deprecated (use `.uncompressed`)
+api  : custom allocators for lz4file (`_advanced()` functions),
+`LZ4_USER_MEMORY_FUNCTIONS` also for lz4frame and lz4file ; `LZ4F_cctx_size()`
+and `LZ4F_dctx_size()` by @felixhandte
+api  : HC states include the buffer of levels 10+ (+64 KB per state) : no
+allocation during compression
+cli  : multithreaded compression relies on liblz4 : same output with any nb of
+threads and without multithreading support ; `-T#` within a memory budget
+(`--memory=#`) ; new `--single-thread`
+cli  : decodes Firefox's mozlz4 files, proposed by @UnitedMarsupials, and legacy
+frames with the Linux kernel end marker, requested by @benjarobin (frame format
+documentation by @Artoria2e5)
+cli  : safer file handling : an output identical to the input is refused, a
+source modified during compression is detected, `--rm` keeps the source after
+failures, by @Furan666, @Nexory and @immanuwell
+cli  : benchmark (`-b`) measures frames, compressed as `lz4` does with the same
+options
+cli  : various fixes (`--list`, legacy format, benchmark, `-t -m`, numeric
+arguments), by @tansy, @jmestwa-coder, @akashdeshmukh-git, @arshsmith1, @jlee303
+and @Nexory
+build: dynamic library multithreaded by default, static library single-threaded
+; cmake `lz4` multithreaded
+build: cmake : exported `lz4::lz4` target by @dg0yt, CMake 4 support by
+@GeorgH93, `CMAKE_POSITION_INDEPENDENT_CODE` by @ds-sloth
+build: cmake : as a subproject, the `lz4` program is no longer built by default
+(`-DLZ4_BUILD_CLI=ON` restores it), by @crueter
+build: reproducible static library by @rpurdie, AIX support by @shubhamhii,
+meson fixes by @grobian, @bgilbert and @eli-schwartz, other fixes by @hotschmoe,
+@iwamatsu, @doraorak, @JCash and @brainy
+port : RISC-V with `Zicclsm` uses unaligned memory accesses, by @Polaris-911
 ---
- .../harfbuzz/{harfbuzz_15.0.0.bb => harfbuzz_15.1.0.bb}         | 2 +-
+ meta/recipes-support/lz4/{lz4_1.10.0.bb => lz4_1.11.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_15.0.0.bb => harfbuzz_15.1.0.bb} (96%)
+ rename meta/recipes-support/lz4/{lz4_1.10.0.bb => lz4_1.11.0.bb} (96%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_15.0.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_15.1.0.bb
+diff --git a/meta/recipes-support/lz4/lz4_1.10.0.bb b/meta/recipes-support/lz4/lz4_1.11.0.bb
 similarity index 96%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_15.0.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_15.1.0.bb
-index ec829e0a24..b3d6318f5e 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_15.0.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_15.1.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+rename from meta/recipes-support/lz4/lz4_1.10.0.bb
+rename to meta/recipes-support/lz4/lz4_1.11.0.bb
+index 5a39f89871..d04df5b0ca 100644
+--- a/meta/recipes-support/lz4/lz4_1.10.0.bb
++++ b/meta/recipes-support/lz4/lz4_1.11.0.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=5cd5f851b52ec832b10eedb3f01f885a \
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "968536e9abd782f07f7954044c0c4020199fcdd39b41d221ec42d2a3be4a44df"
-+SRC_URI[sha256sum] = "0fc7c565443a5f4be7da65ac5ee5bd737d9b158dc908708b7689a0a5796b0c8d"
+ PE = "1"
  
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection github-releases
+-SRCREV = "ebb370ca83af193212df4dcbadcc5d87bc0de2f0"
++SRCREV = "c72c7c0ec132ad2ce2fe9fad7b0c728d9faee2fc"
  
+ SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https;tag=v${PV} \
+            file://reproducibility.patch \
 -- 
 2.47.1
 
 
---===============6687187321487281451==
+--===============4283675938372117366==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="lz4-changelog.txt"
 
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: FILES: removed "/usr/lib/libharfbuzz-cairo.so.0.61500.0", added "/usr/lib/libharfbuzz-cairo.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.61500.0", added "/usr/lib/libharfbuzz-cairo.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 127202240 to 127589344 (+0%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-gobject.so.0.61500.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61500.0 /usr/lib/.debug/libharfbuzz.so.0.61500.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61500.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61500.0", added "/usr/lib/.debug/libharfbuzz-subset.so.0.61510.0 /usr/lib/.debug/libharfbuzz.so.0.61510.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61510.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61510.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1944979 to 1951573 (+0%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: FILES: removed "/usr/lib/libharfbuzz-gobject.so.0.61500.0", added "/usr/lib/libharfbuzz-gobject.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.61500.0", added "/usr/lib/libharfbuzz-gobject.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILES: removed "/usr/lib/libharfbuzz-icu.so.0.61500.0", added "/usr/lib/libharfbuzz-icu.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61500.0", added "/usr/lib/libharfbuzz-icu.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 5862885 to 5925742 (+1%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: FILELIST: directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Color/svg -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Color/svg, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/glyf -> /usr/src/debug/harfbuzz/15.1.0/src/OT/glyf, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Color/sbix -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Color/sbix, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Layout/GPOS -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Layout/GPOS, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Var/VARC -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Var/VARC, directory renamed /usr/src/debug/harfbuzz/15.0.0/util -> /usr/src/debug/harfbuzz/15.1.0/util, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/graph -> /usr/src/debug/harfbuzz/15.1.0/src/graph, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Layout/GDEF -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Layout/GDEF, directory renamed /usr/src/debu
- g/harfbuzz/15.0.0/src/OT/Color/CPAL -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Color/CPAL, directory renamed /usr/src/debug/harfbuzz/15.0.0/src -> /usr/src/debug/harfbuzz/15.1.0/src, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Color/COLR -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Color/COLR, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Color/CBDT -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Color/CBDT, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/name -> /usr/src/debug/harfbuzz/15.1.0/src/OT/name, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Layout/Common -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Layout/Common, directory renamed /usr/src/debug/harfbuzz/15.0.0/src/OT/Layout/GSUB -> /usr/src/debug/harfbuzz/15.1.0/src/OT/Layout/GSUB
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILES: removed "/usr/lib/libharfbuzz-subset.so.0.61500.0", added "/usr/lib/libharfbuzz-subset.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PKGSIZE changed from 1427655 to 1439943 (+1%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61500.0", added "/usr/lib/libharfbuzz-subset.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1186592 to 1215676 (+2%)
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.61500.0", added "/usr/lib/libharfbuzz.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-packages/x86-64-v3-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/15.0.0/harfbuzz-15.0.0.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/15.1.0/harfbuzz-15.1.0.tar.xz"
-packages/x86-64-v3-poky-linux/harfbuzz: PV changed from "15.0.0" to "15.1.0"
-packages/x86-64-v3-poky-linux/harfbuzz: PKGV changed from 15.0.0 [default] to 15.1.0 [default]
-Changes to packages/x86-64-v3-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61500.0 to libharfbuzz-cairo.so.0.61510.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61500.0 to libharfbuzz-gobject.so.0.61510.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61500.0 to libharfbuzz-icu.so.0.61510.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61500.0 to libharfbuzz.so.0.61510.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61500.0 to libharfbuzz-subset.so.0.61510.0
-  /usr/lib/libharfbuzz-cairo.so.0.61500.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61510.0
-  /usr/lib/libharfbuzz-gobject.so.0.61500.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61510.0
-  /usr/lib/libharfbuzz-icu.so.0.61500.0 moved to /usr/lib/libharfbuzz-icu.so.0.61510.0
-  /usr/lib/libharfbuzz.so.0.61500.0 moved to /usr/lib/libharfbuzz.so.0.61510.0
-  /usr/lib/libharfbuzz-subset.so.0.61500.0 moved to /usr/lib/libharfbuzz-subset.so.0.61510.0
+v1.11.0
+fix  : data corruption in valid usage : ring buffer decoding
+(`LZ4_decoderRingBufferSize()`, since v1.9.0), rare cases of streaming or
+`destSize` compression, one reported by @freedom-winds
+fix  : single-thread `lz4` could truncate the decoding of concatenated frames
+with block checksums
+fix  : multithreaded decompression could write out of bounds after 2^31 frames
+(since v1.10.0), by @arshsmith1
+fix  : `LZ4F_compressBegin_usingDict()` ignored the dictionary with independent
+blocks
+fix  : some periodic data compressed up to 30x worse at fast levels, and very
+slowly at level 12, reported by @martinus
+fix  : invalid arguments (negative sizes, `NULL`, invalid `blockSizeID`, extreme
+levels) no longer crash nor overflow, by @arthuz-th, @jaypatrickhoward,
+@louislafosse, @akashdeshmukh-git, @rinsuki
+fix  : lz4file reports truncated files and write failures, and accepts files <
+19 bytes, by @axiqia
+perf : faster decompression on aarch64 and x86-64 (up to +19%, +4% on
+silesia.tar), `LZ4_FAST_DEC_LOOP` on aarch64 with clang and on riscv64, by
+@Nicoshev and @arpadpanyik-arm
+perf : faster compression of small blocks at fast levels, with reused states (up
+to +80%) or dictionaries (up to +35%), partly proposed by @BiplabRaut
+perf : faster levels 11 and 12 (+8% to +27%), level 2 compresses ~0.8% better
+perf : x86 builds avoid the JCC erratum : up to +12% compression and +31%
+decompression on Intel Skylake-family cpus
+api  : multithreaded lz4frame compression (experimental
+`LZ4F_preferences_t.nbWorkers`) : output independent of the nb of workers and of
+the context's history
+api  : random access within frames and lz4 files : `LZ4F_resumeFrame()`,
+`LZ4F_seek()`, `LZ4F_tell()` (static)
+api  : `LZ4_decompress_safe()` returns distinct error codes : `-1` malformed
+input, `-2` `dstCapacity` too small, `-3` missing dictionary
+api  : lz4frame compression accepts any `dstCapacity`, and only fails if the
+output doesn't fit
+api  : removed from headers : functions deprecated since v1.7.x / v1.8.0 (still
+exported by liblz4), unprefixed lz4frame enums ; `LZ4_resetStream()` and
+`LZ4_resetStreamHC()` are deprecated
+api  : `LZ4F_compressOptions_t` must be zero-initialized ; reserved fields are
+scalars (flatten positional initializers) ; `LZ4F_uncompressedUpdate()`
+deprecated (use `.uncompressed`)
+api  : custom allocators for lz4file (`_advanced()` functions),
+`LZ4_USER_MEMORY_FUNCTIONS` also for lz4frame and lz4file ; `LZ4F_cctx_size()`
+and `LZ4F_dctx_size()` by @felixhandte
+api  : HC states include the buffer of levels 10+ (+64 KB per state) : no
+allocation during compression
+cli  : multithreaded compression relies on liblz4 : same output with any nb of
+threads and without multithreading support ; `-T#` within a memory budget
+(`--memory=#`) ; new `--single-thread`
+cli  : decodes Firefox's mozlz4 files, proposed by @UnitedMarsupials, and legacy
+frames with the Linux kernel end marker, requested by @benjarobin (frame format
+documentation by @Artoria2e5)
+cli  : safer file handling : an output identical to the input is refused, a
+source modified during compression is detected, `--rm` keeps the source after
+failures, by @Furan666, @Nexory and @immanuwell
+cli  : benchmark (`-b`) measures frames, compressed as `lz4` does with the same
+options
+cli  : various fixes (`--list`, legacy format, benchmark, `-t -m`, numeric
+arguments), by @tansy, @jmestwa-coder, @akashdeshmukh-git, @arshsmith1, @jlee303
+and @Nexory
+build: dynamic library multithreaded by default, static library single-threaded
+; cmake `lz4` multithreaded
+build: cmake : exported `lz4::lz4` target by @dg0yt, CMake 4 support by
+@GeorgH93, `CMAKE_POSITION_INDEPENDENT_CODE` by @ds-sloth
+build: cmake : as a subproject, the `lz4` program is no longer built by default
+(`-DLZ4_BUILD_CLI=ON` restores it), by @crueter
+build: reproducible static library by @rpurdie, AIX support by @shubhamhii,
+meson fixes by @grobian, @bgilbert and @eli-schwartz, other fixes by @hotschmoe,
+@iwamatsu, @doraorak, @JCash and @brainy
+port : RISC-V with `Zicclsm` uses unaligned memory accesses, by @Polaris-911
 
---===============6687187321487281451==
+--===============4283675938372117366==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-harfbuzz-upgrade-15.0.0-15.1.0.patch"
+ filename="0001-lz4-upgrade-1.10.0-1.11.0.patch"
 
-RnJvbSA5MmY3NmJkNjQ5NjZiMTNhOTdkYzgxZjg1MmZlNTVjYTUzNzJhYTI4IE1vbiBTZXAgMTcg
+RnJvbSBlNTY0ODIyOWZlZDk3MmM4ODRjMTQ3N2JmMDg5NTY1NDA2Mjc4YTI0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgNSBOb3YgMjAyNiAwNToyNDo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGhh
-cmZidXp6OiB1cGdyYWRlIDE1LjAuMCAtPiAxNS4xLjAKCk92ZXJ2aWV3IG9mIGNoYW5nZXMgbGVh
-ZGluZyB0byAxNS4xLjAKV2VkbmVzZGF5LCBOb3ZlbWJlciA0LCAyMDI2Cj09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT0KLSBBZGQgYnVmZmVyIGRlc2VyaWFsaXphdGlvbiBBUElz
-IHRoYXQgcmVwb3J0IHByb2dyZXNzIGFzIGEgYnl0ZSBvZmZzZXQsIGZvcgogIHVzZSBmcm9tIGlu
-dHJvc3BlY3Rpb24gYmluZGluZ3MuCi0gRml4IEluZGljIHNoYXBpbmcgb2YgdGhlIFVuaWNvZGUg
-MTggRGV2YW5hZ2FyaSBhbmQgQmVuZ2FsaSBhZGRpdGlvbnMuCi0gRml4IEFyYWJpYyBmYWxsYmFj
-ayBzaGFwaW5nOiB3cm9uZyBsaWdhdHVyZXMgd2hlbiBhIGNvbXBvbmVudCBpcyBtaXNzaW5nIGZy
-b20KICB0aGUgZm9udCwgYW5kIGRpc2FwcGVhcmluZyBtYXJrcyBpbiBsZWdhY3kgZm9udHMuCi0g
-Rml4IGBDT0xSYCBnbHlwaCBleHRlbnRzIGFuZCBtYXJrIHBvc2l0aW9uaW5nIGluIGZvbnRzIHdp
-dGggZW1wdHkgbGF5ZXJzLgotIEZpeCBBQVQgc2hhcGluZzogd3JvbmcgYGtlcnhgIGtlcm5pbmcg
-KGZvcm1hdHMgMSBhbmQgMikgYW5kIG1hcmsgcG9zaXRpb25pbmcKICAoZm9ybWF0IDQsIGEgMTQu
-My4wIHJlZ3Jlc3Npb24pLCBhbmQgaWdub3JlZCBga2VybmAgYW5kIGBtb3J0YCB0YWJsZXMgd2l0
-aCBhCiAgbm9uLWZpcnN0IGluaXRpYWwgc3RhdGUuCi0gVmFyaW91cyBmaXhlcyB0byB0aGUgR3Jh
-cGhpdGUyIHNoYXBlci4KLSBSZXBvcnQgSGFyZlJ1c3Qgc2hhcGluZyBmYWlsdXJlcyB0aHJvdWdo
-IGBoYl9idWZmZXJfYWxsb2NhdGlvbl9zdWNjZXNzZnVsKClgLgotIEZpeCB3cm9uZyBvdXRsaW5l
-cyBpbiBgZ3ZhcmAgZm9udHMgd2l0aCBpbnRlcm1lZGlhdGUgdHVwbGVzLgotIEZpeCBgaGJfZmFj
-ZV9jcmVhdGVfb3JfZmFpbCgpYCByZWplY3RpbmcgZmFjZSBpbmRpY2VzIHdpdGggbmFtZWQtaW5z
-dGFuY2UKICBiaXRzIHNldC4KLSBGaXggd3JvbmcgZmFsbGJhY2sgbWV0cmljczogdGhlIHZlcnRp
-Y2FsIGRlc2NlbmRlciBpbiBmb250cyB3aXRob3V0IGB2aGVhYCwKICBhbmQgdGhlIGhhbmdpbmcg
-YmFzZWxpbmUgZm9yIHNvbWUgc2NyaXB0cy4KLSBGaXggYGhiX290X2xheW91dF9sb29rdXBfY29s
-bGVjdF9nbHlwaF9hbHRlcm5hdGVzKClgIGNvbGxlY3RpbmcgZ2FyYmFnZSBmcm9tCiAgYEFsdGVy
-bmF0ZVN1YnN0YCBhbmQgYFNpbmdsZVN1YnN0YCBmb3JtYXQgMSBsb29rdXBzLgotIFNwZWVkIHVw
-IHNoYXBpbmcgb24gZmFjZXMgd2l0aCBtYW55IHNoYXBlIHBsYW5zLCBgaGJfbGFuZ3VhZ2VfZnJv
-bV9zdHJpbmcoKWAsCiAgdmVydGljYWwgdGV4dCB3aXRoIGBoYi1mdGAsIGFuZCBgQ0JEVGAgYW5k
-IGBzYml4YCBmb250cy4KLSBGaXggY3Jhc2hlcyBhbmQgZGVhZGxvY2tzIHdpdGggRnJlZVR5cGUs
-IGluY2x1ZGluZyBgaGJfZnRfZm9udF9zZXRfZnVuY3MoKWAgb24KICBpbW11dGFibGUgZm9udHMg
-YW5kIGZvbnQgcXVlcmllcyBmcm9tIGNvbG9yIHBhaW50IGNhbGxiYWNrcy4KLSBGaXggY3Jhc2hl
-cyB3aXRoIE5VTEwgcmVzdWx0IHBvaW50ZXJzIGluCiAgYGhiX290X21ldHJpY3NfZ2V0X3Bvc2l0
-aW9uX3dpdGhfZmFsbGJhY2soKWAsCiAgYGhiX290X2xheW91dF9nZXRfZm9udF9leHRlbnRzKClg
-LCBhbmQgYGhiX290X2xheW91dF9nZXRfZm9udF9leHRlbnRzMigpYC4KLSBGaXggdXNlLWFmdGVy
-LWZyZWUgaW4gYGhiX21hcF91cGRhdGUoKWAgd2hlbiB1cGRhdGluZyBhIG1hcCBmcm9tIGl0c2Vs
-Zi4KLSBWYXJpb3VzIGZpeGVzIGZvciBjcmFzaGVzLCBoYW5ncywgYW5kIG1lbW9yeSB1c2Ugd2l0
-aCBtYWxmb3JtZWQgZm9udHMuCi0gRmFzdGVyIHN1YnNldHRpbmcgb2YgbGFyZ2UgYEdTVUJgIGFu
-ZCBgR1BPU2AgdGFibGVzLCBhbmQgc21hbGxlciBgQ0ZGYCBvdXRwdXQuCi0gUGFydGlhbGx5IGlu
-c3RhbmNpbmcgb3IgZGVzdWJyb3V0aW5pemluZyBgQ0ZGMmAgZm9udHMgd2l0aCBuZXN0ZWQgYmxl
-bmRzIG5vdwogIGZhaWxzIGluc3RlYWQgb2YgY2hhbmdpbmcgdGhlIG91dGxpbmVzLgotIFN1YnNl
-dHRpbmcgbm93IGZhaWxzIGlmIGEgZ2x5cGggbWFwcGluZyBhc3NpZ25zIGFub3RoZXIgZ2x5cGgg
-dG8gZ2x5cGggMC4KLSBGaXggYGhiX3N1YnNldF9heGlzX3JhbmdlX2Zyb21fc3RyaW5nKClgIHJl
-YWRpbmcgcGFzdCB0aGUgZ2l2ZW4gbGVuZ3RoLgotIEZpeCBzdWJzZXR0aW5nIGJleW9uZC02NGsg
-dmFyaWFibGUgZm9udHMgbG9zaW5nIGBIVkFSYCBhZHZhbmNlIGRlbHRhcy4KLSBWYXJpb3VzIHN1
-YnNldHRpbmcgYW5kIGluc3RhbmNpbmcgZml4ZXMsIG1vc3RseSBmb3IgYENGRmAsIGBDRkYyYCwg
-YW5kIGBDT0xSYC4KLSBGaXggcm90YXRlZCBhbmQgc2tld2VkIHJlY3RhbmdsZSBjbGlwcyBoaWRp
-bmcgdGhlaXIgY29udGVudHMgaW4gdGhlIHJhc3RlcgogIGxpYnJhcnksIGFuZCBvdXQtb2YtYm91
-bmRzIGFjY2VzcyB3aGVuIGV4dGVudHMgY2hhbmdlIGR1cmluZyBwYWludGluZy4KLSBGaXggdGhl
-IHZlY3RvciBsaWJyYXJ5IG1pcnJvcmluZyBwYXRoIGNsaXBzIGluIFNWRywgYW5kIHdyaXRpbmcg
-UERGcyB3aXRoCiAgd3JvbmcgcGFnZSBib3VuZHMgYW5kIG1pc3BsYWNlZCBvciBjbGlwcGVkIGBD
-T0xSYCBncmFkaWVudHMuCi0gRml4IHdyb25nIGNsaXBwaW5nIG9mIGBDT0xSYCBsYXllcnMgaW4g
-dGhlIEdQVSBsaWJyYXJ5LgotIFZhcmlvdXMgQ2Fpcm8gaW50ZWdyYXRpb24gZml4ZXMsIGluY2x1
-ZGluZyBhIG1lbW9yeSBsZWFrIHBlciBzY2FsZWQgZm9udC4KLSBGaXggYGhiLWluZm8gLS1saXN0
-LSpgIGNyYXNoZXMgb24gdW51c3VhbCBmb250cy4KLSBWYXJpb3VzIGJ1aWxkIGFuZCBDSSBmaXhl
-cy4KCi0gTmV3IEFQSToKICAraGJfYnVmZmVyX2Rlc2VyaWFsaXplX2dseXBoczIoKQogICtoYl9i
-dWZmZXJfZGVzZXJpYWxpemVfdW5pY29kZTIoKQotLS0KIC4uLi9oYXJmYnV6ei97aGFyZmJ1enpf
-MTUuMC4wLmJiID0+IGhhcmZidXp6XzE1LjEuMC5iYn0gICAgICAgICB8IDIgKy0KIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy9oYXJmYnV6ei97aGFyZmJ1enpfMTUuMC4wLmJiID0+IGhhcmZidXp6XzE1LjEu
-MC5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enov
-aGFyZmJ1enpfMTUuMC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZi
-dXp6XzE1LjEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMTUuMC4wLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMTUuMS4wLmJiCmluZGV4IGVjODI5ZTBh
-MjQuLmIzZDYzMThmNWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6
-ei9oYXJmYnV6el8xNS4wLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6
-L2hhcmZidXp6XzE1LjEuMC5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vQ09QWUlORzttZDU9Yjk4NDI5YjhlOGUzYzJhNjdjZmVmMDFlOTllNDg5M2QgXAogICAg
-ICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25s
-b2FkLyR7UFZ9LyR7QlBOfS0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTY4
-NTM2ZTlhYmQ3ODJmMDdmNzk1NDA0NGMwYzQwMjAxOTlmY2RkMzliNDFkMjIxZWM0MmQyYTNiZTRh
-NDRkZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwZmM3YzU2NTQ0M2E1ZjRiZTdkYTY1YWM1ZWU1
-YmQ3MzdkOWIxNThkYzkwODcwOGI3Njg5YTBhNTc5NmIwYzhkIgogCiBpbmhlcml0IG1lc29uIHBr
-Z2NvbmZpZyBsaWJfcGFja2FnZSBndGstZG9jIGdvYmplY3QtaW50cm9zcGVjdGlvbiBnaXRodWIt
-cmVsZWFzZXMKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgNSBOb3YgMjAyNiAwNToyNjo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGx6
+NDogdXBncmFkZSAxLjEwLjAgLT4gMS4xMS4wCgp2MS4xMS4wCmZpeCAgOiBkYXRhIGNvcnJ1cHRp
+b24gaW4gdmFsaWQgdXNhZ2UgOiByaW5nIGJ1ZmZlciBkZWNvZGluZwooYExaNF9kZWNvZGVyUmlu
+Z0J1ZmZlclNpemUoKWAsIHNpbmNlIHYxLjkuMCksIHJhcmUgY2FzZXMgb2Ygc3RyZWFtaW5nIG9y
+CmBkZXN0U2l6ZWAgY29tcHJlc3Npb24sIG9uZSByZXBvcnRlZCBieSBAZnJlZWRvbS13aW5kcwpm
+aXggIDogc2luZ2xlLXRocmVhZCBgbHo0YCBjb3VsZCB0cnVuY2F0ZSB0aGUgZGVjb2Rpbmcgb2Yg
+Y29uY2F0ZW5hdGVkIGZyYW1lcwp3aXRoIGJsb2NrIGNoZWNrc3VtcwpmaXggIDogbXVsdGl0aHJl
+YWRlZCBkZWNvbXByZXNzaW9uIGNvdWxkIHdyaXRlIG91dCBvZiBib3VuZHMgYWZ0ZXIgMl4zMSBm
+cmFtZXMKKHNpbmNlIHYxLjEwLjApLCBieSBAYXJzaHNtaXRoMQpmaXggIDogYExaNEZfY29tcHJl
+c3NCZWdpbl91c2luZ0RpY3QoKWAgaWdub3JlZCB0aGUgZGljdGlvbmFyeSB3aXRoIGluZGVwZW5k
+ZW50CmJsb2NrcwpmaXggIDogc29tZSBwZXJpb2RpYyBkYXRhIGNvbXByZXNzZWQgdXAgdG8gMzB4
+IHdvcnNlIGF0IGZhc3QgbGV2ZWxzLCBhbmQgdmVyeQpzbG93bHkgYXQgbGV2ZWwgMTIsIHJlcG9y
+dGVkIGJ5IEBtYXJ0aW51cwpmaXggIDogaW52YWxpZCBhcmd1bWVudHMgKG5lZ2F0aXZlIHNpemVz
+LCBgTlVMTGAsIGludmFsaWQgYGJsb2NrU2l6ZUlEYCwgZXh0cmVtZQpsZXZlbHMpIG5vIGxvbmdl
+ciBjcmFzaCBub3Igb3ZlcmZsb3csIGJ5IEBhcnRodXotdGgsIEBqYXlwYXRyaWNraG93YXJkLApA
+bG91aXNsYWZvc3NlLCBAYWthc2hkZXNobXVraC1naXQsIEByaW5zdWtpCmZpeCAgOiBsejRmaWxl
+IHJlcG9ydHMgdHJ1bmNhdGVkIGZpbGVzIGFuZCB3cml0ZSBmYWlsdXJlcywgYW5kIGFjY2VwdHMg
+ZmlsZXMgPAoxOSBieXRlcywgYnkgQGF4aXFpYQpwZXJmIDogZmFzdGVyIGRlY29tcHJlc3Npb24g
+b24gYWFyY2g2NCBhbmQgeDg2LTY0ICh1cCB0byArMTklLCArNCUgb24Kc2lsZXNpYS50YXIpLCBg
+TFo0X0ZBU1RfREVDX0xPT1BgIG9uIGFhcmNoNjQgd2l0aCBjbGFuZyBhbmQgb24gcmlzY3Y2NCwg
+YnkKQE5pY29zaGV2IGFuZCBAYXJwYWRwYW55aWstYXJtCnBlcmYgOiBmYXN0ZXIgY29tcHJlc3Np
+b24gb2Ygc21hbGwgYmxvY2tzIGF0IGZhc3QgbGV2ZWxzLCB3aXRoIHJldXNlZCBzdGF0ZXMgKHVw
+CnRvICs4MCUpIG9yIGRpY3Rpb25hcmllcyAodXAgdG8gKzM1JSksIHBhcnRseSBwcm9wb3NlZCBi
+eSBAQmlwbGFiUmF1dApwZXJmIDogZmFzdGVyIGxldmVscyAxMSBhbmQgMTIgKCs4JSB0byArMjcl
+KSwgbGV2ZWwgMiBjb21wcmVzc2VzIH4wLjglIGJldHRlcgpwZXJmIDogeDg2IGJ1aWxkcyBhdm9p
+ZCB0aGUgSkNDIGVycmF0dW0gOiB1cCB0byArMTIlIGNvbXByZXNzaW9uIGFuZCArMzElCmRlY29t
+cHJlc3Npb24gb24gSW50ZWwgU2t5bGFrZS1mYW1pbHkgY3B1cwphcGkgIDogbXVsdGl0aHJlYWRl
+ZCBsejRmcmFtZSBjb21wcmVzc2lvbiAoZXhwZXJpbWVudGFsCmBMWjRGX3ByZWZlcmVuY2VzX3Qu
+bmJXb3JrZXJzYCkgOiBvdXRwdXQgaW5kZXBlbmRlbnQgb2YgdGhlIG5iIG9mIHdvcmtlcnMgYW5k
+IG9mCnRoZSBjb250ZXh0J3MgaGlzdG9yeQphcGkgIDogcmFuZG9tIGFjY2VzcyB3aXRoaW4gZnJh
+bWVzIGFuZCBsejQgZmlsZXMgOiBgTFo0Rl9yZXN1bWVGcmFtZSgpYCwKYExaNEZfc2VlaygpYCwg
+YExaNEZfdGVsbCgpYCAoc3RhdGljKQphcGkgIDogYExaNF9kZWNvbXByZXNzX3NhZmUoKWAgcmV0
+dXJucyBkaXN0aW5jdCBlcnJvciBjb2RlcyA6IGAtMWAgbWFsZm9ybWVkCmlucHV0LCBgLTJgIGBk
+c3RDYXBhY2l0eWAgdG9vIHNtYWxsLCBgLTNgIG1pc3NpbmcgZGljdGlvbmFyeQphcGkgIDogbHo0
+ZnJhbWUgY29tcHJlc3Npb24gYWNjZXB0cyBhbnkgYGRzdENhcGFjaXR5YCwgYW5kIG9ubHkgZmFp
+bHMgaWYgdGhlCm91dHB1dCBkb2Vzbid0IGZpdAphcGkgIDogcmVtb3ZlZCBmcm9tIGhlYWRlcnMg
+OiBmdW5jdGlvbnMgZGVwcmVjYXRlZCBzaW5jZSB2MS43LnggLyB2MS44LjAgKHN0aWxsCmV4cG9y
+dGVkIGJ5IGxpYmx6NCksIHVucHJlZml4ZWQgbHo0ZnJhbWUgZW51bXMgOyBgTFo0X3Jlc2V0U3Ry
+ZWFtKClgIGFuZApgTFo0X3Jlc2V0U3RyZWFtSEMoKWAgYXJlIGRlcHJlY2F0ZWQKYXBpICA6IGBM
+WjRGX2NvbXByZXNzT3B0aW9uc190YCBtdXN0IGJlIHplcm8taW5pdGlhbGl6ZWQgOyByZXNlcnZl
+ZCBmaWVsZHMgYXJlCnNjYWxhcnMgKGZsYXR0ZW4gcG9zaXRpb25hbCBpbml0aWFsaXplcnMpIDsg
+YExaNEZfdW5jb21wcmVzc2VkVXBkYXRlKClgCmRlcHJlY2F0ZWQgKHVzZSBgLnVuY29tcHJlc3Nl
+ZGApCmFwaSAgOiBjdXN0b20gYWxsb2NhdG9ycyBmb3IgbHo0ZmlsZSAoYF9hZHZhbmNlZCgpYCBm
+dW5jdGlvbnMpLApgTFo0X1VTRVJfTUVNT1JZX0ZVTkNUSU9OU2AgYWxzbyBmb3IgbHo0ZnJhbWUg
+YW5kIGx6NGZpbGUgOyBgTFo0Rl9jY3R4X3NpemUoKWAKYW5kIGBMWjRGX2RjdHhfc2l6ZSgpYCBi
+eSBAZmVsaXhoYW5kdGUKYXBpICA6IEhDIHN0YXRlcyBpbmNsdWRlIHRoZSBidWZmZXIgb2YgbGV2
+ZWxzIDEwKyAoKzY0IEtCIHBlciBzdGF0ZSkgOiBubwphbGxvY2F0aW9uIGR1cmluZyBjb21wcmVz
+c2lvbgpjbGkgIDogbXVsdGl0aHJlYWRlZCBjb21wcmVzc2lvbiByZWxpZXMgb24gbGlibHo0IDog
+c2FtZSBvdXRwdXQgd2l0aCBhbnkgbmIgb2YKdGhyZWFkcyBhbmQgd2l0aG91dCBtdWx0aXRocmVh
+ZGluZyBzdXBwb3J0IDsgYC1UI2Agd2l0aGluIGEgbWVtb3J5IGJ1ZGdldAooYC0tbWVtb3J5PSNg
+KSA7IG5ldyBgLS1zaW5nbGUtdGhyZWFkYApjbGkgIDogZGVjb2RlcyBGaXJlZm94J3MgbW96bHo0
+IGZpbGVzLCBwcm9wb3NlZCBieSBAVW5pdGVkTWFyc3VwaWFscywgYW5kIGxlZ2FjeQpmcmFtZXMg
+d2l0aCB0aGUgTGludXgga2VybmVsIGVuZCBtYXJrZXIsIHJlcXVlc3RlZCBieSBAYmVuamFyb2Jp
+biAoZnJhbWUgZm9ybWF0CmRvY3VtZW50YXRpb24gYnkgQEFydG9yaWEyZTUpCmNsaSAgOiBzYWZl
+ciBmaWxlIGhhbmRsaW5nIDogYW4gb3V0cHV0IGlkZW50aWNhbCB0byB0aGUgaW5wdXQgaXMgcmVm
+dXNlZCwgYQpzb3VyY2UgbW9kaWZpZWQgZHVyaW5nIGNvbXByZXNzaW9uIGlzIGRldGVjdGVkLCBg
+LS1ybWAga2VlcHMgdGhlIHNvdXJjZSBhZnRlcgpmYWlsdXJlcywgYnkgQEZ1cmFuNjY2LCBATmV4
+b3J5IGFuZCBAaW1tYW51d2VsbApjbGkgIDogYmVuY2htYXJrIChgLWJgKSBtZWFzdXJlcyBmcmFt
+ZXMsIGNvbXByZXNzZWQgYXMgYGx6NGAgZG9lcyB3aXRoIHRoZSBzYW1lCm9wdGlvbnMKY2xpICA6
+IHZhcmlvdXMgZml4ZXMgKGAtLWxpc3RgLCBsZWdhY3kgZm9ybWF0LCBiZW5jaG1hcmssIGAtdCAt
+bWAsIG51bWVyaWMKYXJndW1lbnRzKSwgYnkgQHRhbnN5LCBAam1lc3R3YS1jb2RlciwgQGFrYXNo
+ZGVzaG11a2gtZ2l0LCBAYXJzaHNtaXRoMSwgQGpsZWUzMDMKYW5kIEBOZXhvcnkKYnVpbGQ6IGR5
+bmFtaWMgbGlicmFyeSBtdWx0aXRocmVhZGVkIGJ5IGRlZmF1bHQsIHN0YXRpYyBsaWJyYXJ5IHNp
+bmdsZS10aHJlYWRlZAo7IGNtYWtlIGBsejRgIG11bHRpdGhyZWFkZWQKYnVpbGQ6IGNtYWtlIDog
+ZXhwb3J0ZWQgYGx6NDo6bHo0YCB0YXJnZXQgYnkgQGRnMHl0LCBDTWFrZSA0IHN1cHBvcnQgYnkK
+QEdlb3JnSDkzLCBgQ01BS0VfUE9TSVRJT05fSU5ERVBFTkRFTlRfQ09ERWAgYnkgQGRzLXNsb3Ro
+CmJ1aWxkOiBjbWFrZSA6IGFzIGEgc3VicHJvamVjdCwgdGhlIGBsejRgIHByb2dyYW0gaXMgbm8g
+bG9uZ2VyIGJ1aWx0IGJ5IGRlZmF1bHQKKGAtRExaNF9CVUlMRF9DTEk9T05gIHJlc3RvcmVzIGl0
+KSwgYnkgQGNydWV0ZXIKYnVpbGQ6IHJlcHJvZHVjaWJsZSBzdGF0aWMgbGlicmFyeSBieSBAcnB1
+cmRpZSwgQUlYIHN1cHBvcnQgYnkgQHNodWJoYW1oaWksCm1lc29uIGZpeGVzIGJ5IEBncm9iaWFu
+LCBAYmdpbGJlcnQgYW5kIEBlbGktc2Nod2FydHosIG90aGVyIGZpeGVzIGJ5IEBob3RzY2htb2Us
+CkBpd2FtYXRzdSwgQGRvcmFvcmFrLCBASkNhc2ggYW5kIEBicmFpbnkKcG9ydCA6IFJJU0MtViB3
+aXRoIGBaaWNjbHNtYCB1c2VzIHVuYWxpZ25lZCBtZW1vcnkgYWNjZXNzZXMsIGJ5IEBQb2xhcmlz
+LTkxMQotLS0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2x6NC97bHo0XzEuMTAuMC5iYiA9PiBsejRf
+MS4xMS4wLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2x6NC97bHo0XzEuMTAuMC5iYiA9
+PiBsejRfMS4xMS4wLmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2x6NC9sejRfMS4xMC4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbHo0L2x6NF8xLjExLjAu
+YmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+bHo0L2x6NF8xLjEwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2x6NC9sejRf
+MS4xMS4wLmJiCmluZGV4IDVhMzlmODk4NzEuLmQwNGRmNWIwY2EgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1zdXBwb3J0L2x6NC9sejRfMS4xMC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L2x6NC9sejRfMS4xMS4wLmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL2xpYi9MSUNFTlNFO21kNT01Y2Q1Zjg1MWI1MmVjODMyYjEwZWVkYjNmMDFmODg1
+YSBcCiAKIFBFID0gIjEiCiAKLVNSQ1JFViA9ICJlYmIzNzBjYTgzYWYxOTMyMTJkZjRkY2JhZGNj
+NWQ4N2JjMGRlMmYwIgorU1JDUkVWID0gImM3MmM3YzBlYzEzMmFkMmNlMmZlOWZhZDdiMGM3Mjhk
+OWZhZWUyZmMiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9sejQvbHo0LmdpdDticmFu
+Y2g9cmVsZWFzZTtwcm90b2NvbD1odHRwczt0YWc9diR7UFZ9IFwKICAgICAgICAgICAgZmlsZTov
+L3JlcHJvZHVjaWJpbGl0eS5wYXRjaCBcCi0tIAoyLjQ3LjEKCg==
 
---===============6687187321487281451==
+--===============4283675938372117366==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-cairo: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.61500.0", added "/usr/lib/libharfbuzz-cairo.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-gobject: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.61500.0", added "/usr/lib/libharfbuzz-gobject.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61500.0", added "/usr/lib/libharfbuzz-icu.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61500.0", added "/usr/lib/libharfbuzz-subset.so.0.61510.0"
-packages/x86-64-v3-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.61500.0", added "/usr/lib/libharfbuzz.so.0.61510.0"
-Changes to packages/x86-64-v3-poky-linux/harfbuzz (sysroot):
-  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61500.0 to libharfbuzz-cairo.so.0.61510.0
-  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61500.0 to libharfbuzz-gobject.so.0.61510.0
-  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61500.0 to libharfbuzz-icu.so.0.61510.0
-  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61500.0 to libharfbuzz.so.0.61510.0
-  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61500.0 to libharfbuzz-subset.so.0.61510.0
-  /usr/lib/libharfbuzz-cairo.so.0.61500.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61510.0
-  /usr/lib/libharfbuzz-gobject.so.0.61500.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61510.0
-  /usr/lib/libharfbuzz-icu.so.0.61500.0 moved to /usr/lib/libharfbuzz-icu.so.0.61510.0
-  /usr/lib/libharfbuzz.so.0.61500.0 moved to /usr/lib/libharfbuzz.so.0.61510.0
-  /usr/lib/libharfbuzz-subset.so.0.61500.0 moved to /usr/lib/libharfbuzz-subset.so.0.61510.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 960 .bb files complete (0 cached, 960 parsed). 2003 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============6687187321487281451==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="harfbuzz-changelog.txt"
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-a05a922e53229d4140e42da63853926b9adcd130"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:a05a922e53229d4140e42da63853926b9adcd130"
+meta-yocto-bsp       
+meta-poky            = "master:dd6c2950bb507f8c311bd82410a032ed6eb38063"
+workspace            = "<unknown>:<unknown>"
 
-Overview of changes leading to 15.1.0
-Wednesday, November 4, 2026
-=====================================
-- Add buffer deserialization APIs that report progress as a byte offset, for
-  use from introspection bindings.
-- Fix Indic shaping of the Unicode 18 Devanagari and Bengali additions.
-- Fix Arabic fallback shaping: wrong ligatures when a component is missing from
-  the font, and disappearing marks in legacy fonts.
-- Fix `COLR` glyph extents and mark positioning in fonts with empty layers.
-- Fix AAT shaping: wrong `kerx` kerning (formats 1 and 2) and mark positioning
-  (format 4, a 14.3.0 regression), and ignored `kern` and `mort` tables with a
-  non-first initial state.
-- Various fixes to the Graphite2 shaper.
-- Report HarfRust shaping failures through `hb_buffer_allocation_successful()`.
-- Fix wrong outlines in `gvar` fonts with intermediate tuples.
-- Fix `hb_face_create_or_fail()` rejecting face indices with named-instance
-  bits set.
-- Fix wrong fallback metrics: the vertical descender in fonts without `vhea`,
-  and the hanging baseline for some scripts.
-- Fix `hb_ot_layout_lookup_collect_glyph_alternates()` collecting garbage from
-  `AlternateSubst` and `SingleSubst` format 1 lookups.
-- Speed up shaping on faces with many shape plans, `hb_language_from_string()`,
-  vertical text with `hb-ft`, and `CBDT` and `sbix` fonts.
-- Fix crashes and deadlocks with FreeType, including `hb_ft_font_set_funcs()` on
-  immutable fonts and font queries from color paint callbacks.
-- Fix crashes with NULL result pointers in
-  `hb_ot_metrics_get_position_with_fallback()`,
-  `hb_ot_layout_get_font_extents()`, and `hb_ot_layout_get_font_extents2()`.
-- Fix use-after-free in `hb_map_update()` when updating a map from itself.
-- Various fixes for crashes, hangs, and memory use with malformed fonts.
-- Faster subsetting of large `GSUB` and `GPOS` tables, and smaller `CFF` output.
-- Partially instancing or desubroutinizing `CFF2` fonts with nested blends now
-  fails instead of changing the outlines.
-- Subsetting now fails if a glyph mapping assigns another glyph to glyph 0.
-- Fix `hb_subset_axis_range_from_string()` reading past the given length.
-- Fix subsetting beyond-64k variable fonts losing `HVAR` advance deltas.
-- Various subsetting and instancing fixes, mostly for `CFF`, `CFF2`, and `COLR`.
-- Fix rotated and skewed rectangle clips hiding their contents in the raster
-  library, and out-of-bounds access when extents change during painting.
-- Fix the vector library mirroring path clips in SVG, and writing PDFs with
-  wrong page bounds and misplaced or clipped `COLR` gradients.
-- Fix wrong clipping of `COLR` layers in the GPU library.
-- Various Cairo integration fixes, including a memory leak per scaled font.
-- Fix `hb-info --list-*` crashes on unusual fonts.
-- Various build and CI fixes.
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 293 Local 278 Mirrors 0 Missed 15 Current 298 (94% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1053 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.0.bb:do_recipe_qa)
+NOTE: Running task 1451 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.0.bb:do_create_recipe_spdx)
+NOTE: recipe lz4-1_1.11.0-r0: task do_recipe_qa: Started
+NOTE: recipe lz4-1_1.11.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe lz4-1_1.11.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1478 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.0.bb:do_fetch)
+NOTE: recipe lz4-1_1.11.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe lz4-1_1.11.0-r0: task do_fetch: Started
+NOTE: recipe lz4-1_1.11.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1479 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.0.bb:do_unpack)
+NOTE: Running task 1480 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lz4-1_1.11.0-r0: task do_unpack: Started
+NOTE: recipe lz4-1_1.11.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lz4-1_1.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe lz4-1_1.11.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1481 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.0.bb:do_patch)
+NOTE: recipe lz4-1_1.11.0-r0: task do_patch: Started
+NOTE: recipe lz4-1_1.11.0-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1481 tasks of which 1475 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261105052642.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261105052642.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-- New API:
-  +hb_buffer_deserialize_glyphs2()
-  +hb_buffer_deserialize_unicode2()
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.0.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.0/temp/log.do_patch.50529
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: lz4-1_1.11.0-r0 do_patch: Applying patch '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4/reproducibility.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.0/sources/lz4-1.11.0'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.0/recipe-sysroot-native/etc/quiltrc push', 1, 'stdout: Applying patch reproducibility.patch
+patching file lib/Makefile
+Hunk #1 FAILED at 55.
+Hunk #2 FAILED at 102.
+2 out of 2 hunks FAILED -- rejects in file lib/Makefile
+Patch reproducibility.patch does not apply (enforce with -f)
 
---===============6687187321487281451==--
+stderr: ')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.0/temp/log.do_patch.50529
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.0.bb:do_patch) failed with exit code '1'
+
+--===============4283675938372117366==--
