@@ -1,889 +1,981 @@
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29108.1793863963056791743
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29111.1793863969865105276
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2026 23:32:43 -0800
+ Wed, 04 Nov 2026 23:32:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Mjx7s3na;
- spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=NCXL1G6r;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=32471; q=dns/txt;
-  s=iport01; t=1793863963; x=1795073563;
-  h=from:to:subject:date:message-id:mime-version:
+  d=cisco.com; i=@cisco.com; l=33210; q=dns/txt;
+  s=iport01; t=1793863969; x=1795073569;
+  h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=9eY8UJS1hB+ZVQXVPxJJVUjlLnfw90RQNRVd4NBKqs4=;
-  b=Mjx7s3navECZgV7/JNBkfH7CGNg9f6MB6A/pVDv69N3c44rmYbTsSHVo
-   BJJKlobbmGXYgg59oOwivn5+vdgHkGE4Ch0rGLRvYHxS6w3gTwA9lroS5
-   YO5LXfdfiuA59zlZFJxAvOoKyFMR1OrXz5/hHfZ+ZmMxIc7m8tGK6UA0B
-   onBew/vBb4ZtngxFk2iL5RSCG3jDoC0kLf7h4zcABQi94dsqDTCAuH56p
-   owPVu4MZFFpywrI0zTe0+Y/fafjn/ESbsM1La4buz9xAg9yLupNw4L8T+
-   ElrUZQYSj0aM0pjaSFhh4p5o4Y3AiXpqEs9+JrMyyASEugMoJWZHS3GYv
-   g==;
-X-CSE-ConnectionGUID: YECj570nRLSvZiNF1/PdJA==
-X-CSE-MsgGUID: mQtBtM6nSlC+8aFTpxUYHw==
-X-IPAS-Result: =?us-ascii?q?A0AaAADSMOxq/5D/Ja1RCRwBAQEBAQEHAQESAQEEBAEBT?=
- =?us-ascii?q?IEwBwEBCwGCVnVgQ0mMcoc4giGLaIVnjFWBfg8BAQEPRA0EAQGEP4EXFY05A?=
- =?us-ascii?q?iY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASASABD?=
- =?us-ascii?q?AsBGAFZAwECTwsjIYMCAYI6AzcDEbw8gXkzgQGDKQE5AQUCQ1DYTA0Ha4FoA?=
- =?us-ascii?q?QsUAYE4AYU/gn+FJF0YAUSEOScbgUlEhAh2gQVLAU4YKgEBgTQUhl4EgxwSg?=
- =?us-ascii?q?VoejHoCgVKGcUiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdg?=
- =?us-ascii?q?R6BEoEHXYErKF4hgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiCBIJARMaLAqBG?=
- =?us-ascii?q?jU8CSY/FQxkCxoFYQgCDQxyORAwHiQvBRwmQBsKGBgNSBEsNxUZBD5uB5Ivg?=
- =?us-ascii?q?nEeAgF6EwEqASJ2TRgIWZMFAZI+oCBxhCqMJI8+hXwaM4VbpRYLmH2JAYI2g?=
- =?us-ascii?q?lOECoFMglaNPQsNGTeEaYFoPIFHCwczGggbFYMiCUoZD445g2uBfzeDLshxJ?=
- =?us-ascii?q?jICCTIBAQcCBw4DC4FohGECix8tgU8BAQ?=
-IronPort-Data: A9a23:rdqK1KC6u4L0KRVW/37iw5YqxClBgxIJ4kV8jS/XYbTApDpwhDABn
- WdOXGyDOPmIYTb1c9B1atu1p05UvcSGmIRrOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCCCM/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
- fuo+5eBYQb9h2YuWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE8thFDhxpZYsi3t1pM2Bo2
- 6VfEDwvR0XW7w626OrTpuhEnM8vKozveYgYoHwllW6fBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGYzBPjDS0Un1lM/GY8kleulrnL+aDZf7lmSoMLb5kCOkFAqieazaIW9ltqiQPxJtFq9+
- GT9+0+6Uhg0CMSP9Aul7Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aetRIaHt4VGOog5UTVlezf4h2SAS4PSTsphMEaifLajAcCj
- jeh9+4FzxQ22FFJYRpxLoupkA4=
-IronPort-HdrOrdr: A9a23:aSlWF6igxjx6bWmLlHCYJjVeq3BQXuoji2hC6mlwRA09TyX+rb
- HNoB1173HJYVoqNU3I+urwW5VoP0m8yXcd2+B4Vt2ftWLd11dAQrsP0WKb+V3dMhy70PJB3q
- F9dKU7ItjxAV9myfve2mCDYrMdKB3tytHOuQ8YpE0dKT1XVw==
-X-Talos-CUID: 9a23:JIbsrm7RSOCTF0u+IdssxWM/GJ16Knvn6EzOEU6eJz8ucLG3YArF
-X-Talos-MUID: 9a23:KZ00AgRsKZbbems4RXTpvS1IKOI25Z+qIwNdmLs6o9m5BAxvbmI=
+  bh=wOTpbv3AdTP6WD1unTUmZvAqXwGHa7OAFVwPfNyOO1s=;
+  b=NCXL1G6rKh0ILzE7/duqk1F5noKh7zo3cFQcVupJ7VzYzprWNB9aQZ+G
+   iJRK6XXyWK6/SsvIYmIhy6GHkqOyhEFr2vTsO0+Y7CJ8VodOTdGZ+aw8y
+   DpniHvr/j2ZrZNTRdSxtHNDHiaL4N/KHcC/8wEbgc3Tj1KMOPet60u1JS
+   mvKnhuomqxWVGOmfKFdmvJ/9/tpp1kHLeDeSSF2NJOcBlioeGEXV645IW
+   pL5AaBklRQsl1Ei8MUNp5ELAiW7N4aSiypjcIpQeeXFEiB/evKSdSuHKa
+   lyVjETvHe/BNX78rIGjsKlgHQyWnNI5qN5NeJKh83xjp8SVkg4xhxrLU8
+   A==;
+X-CSE-ConnectionGUID: 7JlP35tCRZie8pIiNUlCNw==
+X-CSE-MsgGUID: jbcpolYcS5+jls0khrF8zQ==
+X-IPAS-Result: =?us-ascii?q?A0BIAgDiL+xq/5T/Ja1aHgEBCxIMggULgld1YENJlkuBF?=
+ =?us-ascii?q?p0OFIFqDwEBAQ9EDQQBAYISgnOOHwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
+ =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgECAR0BDAsBGAEtLAECAQJaHQYhgwIBgnQDE?=
+ =?us-ascii?q?bxZgXkzgQGDCh8BPwJDUNszAQsUAYE4hUCII10YAYR9JxsbgXKBFYJzdoEFg?=
+ =?us-ascii?q?VwBAYEjBIZ/BIIigQyBWhgGbowMAoFShnFIgR4DWSwBVRMNCgsHBYFoAzUSK?=
+ =?us-ascii?q?hVuMh2BIz4XgQcbBgWBHYEegRKBB12BKyhdASGBCIF2AoJRggACAUlBDgdFU?=
+ =?us-ascii?q?wklQxJHJCIIEgkBExosCoEaNTwJJj8VDGQLGgVhCAINDHI5EDAeJC8FHCZAG?=
+ =?us-ascii?q?woYGA1IESw3FRkEPm4Hki+CHz0uBwEOIgw+EwEHAyFQNRsPHisQNSkUkk0TB?=
+ =?us-ascii?q?wEBAQc5j12CIYE1n1wKKIN4jCSVOhozhASUGZJUC5h9glmBP4lylWkLXYRpg?=
+ =?us-ascii?q?Wg8gUcLB3AVgyIJShkPjisDCwuDYIF/hkvGCyYyAgkzAQcCBw8CgXOEYYsfg?=
+ =?us-ascii?q?R5gAQE?=
+IronPort-Data: A9a23:ehnfRKkitrwiZ+5KJpvSvijo5gzQJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xIdXzyPPKqNNDbzeIh2Oo7n90ICuZfSnYJrTQs/pS83F1tH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4Errav6+/SEUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZK31GONgWYubDtNs/7b8nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FdI6/t4sXH1lz
+ 84ZJWAVTxGluuad5q3uH4GAhux7RCXqFJkUtnclyXTSCuwrBMmaBa7L/tRfmjw3g6iiH96HO
+ JFfMmUpNkmdJUQTaj/7C7pm9AusrnX8fjlRqUOcjaE2+GPUigd21dABNfKIJoDaH5UPwRzwS
+ mTu/W7yGhYeBdeklHmH9mn0he/Vs3PpYddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1dF3hKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:dP3wdagxkKa35ay4DKnq/m3htHBQXuwji2hC6mlwRA09TyVXra
+ +TdZMgpHrJYVkqOU3I9ersBEDiewK/yXcK2+ks1N6ZNWGM0ldAR7sN0WKN+VHd8lXFh41g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gcSVbSO09QYKcemsAJsQiDtENg==
+X-Talos-CUID: =?us-ascii?q?9a23=3Asyk0IWgIqKc8d5sJyWwSaKcBSTJuLV/Z9CyNP2S?=
+ =?us-ascii?q?CO2dkGKW0SHmt/IhCjJ87?=
+X-Talos-MUID: 9a23:w8e7iAjaGGCUCWtcfk/YhMMpNs1j+6OqOUs2zNYEv9LcNixqFWePtWHi
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,196,1787011200"; 
-   d="scan'208";a="544316607"
-Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 07:32:42 +0000
-Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
+   d="scan'208";a="544828272"
+Received: from rcdn-l-core-11.cisco.com ([173.37.255.148])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 05 Nov 2026 07:32:48 +0000
+Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id C834E180003C5
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Nov 2026 07:32:41 +0000 (GMT)
-Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 76A1FCC1611; Wed,  4 Nov 2026 23:32:41 -0800 (PST)
-From: Yogita Urade <yurade@cisco.com>
+	by rcdn-l-core-11.cisco.com (Postfix) with ESMTPS id 8E6FF18000140;
+	Thu,  5 Nov 2026 07:32:48 +0000 (GMT)
+Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
+	id 3888ECC1611; Wed,  4 Nov 2026 23:32:48 -0800 (PST)
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH] python3-urllib3: Fix CVE-2026-97687
-Date: Wed,  4 Nov 2026 23:32:40 -0800
-Message-Id: <20261105073240.382906-1-yurade@cisco.com>
+Cc: Darsh Kelaiya <dkelaiya@cisco.com>
+Subject: [OE-core][master][PATCH] sudo: fix CVE-2026-82474
+Date: Wed,  4 Nov 2026 23:32:45 -0800
+Message-Id: <20261105073245.887852-1-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-07.cisco.com
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
+X-Outbound-Node: rcdn-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 07:32:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249452
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249453
 Content-Type: text/plain; charset="utf-8"
 
-This patch applies the upstream fix as referenced in [3],
-using the commit shown in [1] and [2].
+From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-[1] https://github.com/urllib3/urllib3/commit/b6447295fff7b38fdffc67e0df9712d60cef3cc3
-[2] https://github.com/urllib3/urllib3/commit/07408cec79d1856d81bb42c74a904a24fdb9e465
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-97687
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-Signed-off-by: Yogita Urade <yurade@cisco.com>
+The recipe enables Linux intercept support. Check execveat commands
+and log subcommands instead of allowing this syscall unconditionally.
+Resolve directory file descriptors and AT_EMPTY_PATH to paths for
+sudoers policy checks.
+
+Apply prerequisites [3] and [4] for proc_read_link() and fexecve paths.
+Include follow-ups [5] and [6] to reject failed pathname rewrites and
+correct relative-path moves. Keep the upstream source changes intact.
+
+[1] https://github.com/sudo-project/sudo/commit/71fbe42dcd5a1c8f799540583a2dfb2ae6221edf
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-82474
+[3] https://github.com/sudo-project/sudo/commit/1a312af6348594df371e6088aeed99685977f575
+[4] https://github.com/sudo-project/sudo/commit/e822b729da31baf9154946329a9d6ef569f0d182
+[5] https://github.com/sudo-project/sudo/commit/d1121181a87b2b47b4dfbb2af42399fcc5f1e3cd
+[6] https://github.com/sudo-project/sudo/commit/02b14c043825b52be6cd537b7f11bd5e7e10512e
+
+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../python3-urllib3/CVE-2026-97687_p1.patch   | 285 +++++++++++
- .../python3-urllib3/CVE-2026-97687_p2.patch   | 482 ++++++++++++++++++
- .../python/python3-urllib3_2.2.2.bb           |   2 +
- 3 files changed, 769 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p2.patch
+ .../files/CVE-2026-82474-dependent_p1.patch   |  94 +++
+ .../files/CVE-2026-82474-dependent_p2.patch   |  34 +
+ .../files/CVE-2026-82474-regression_p1.patch  |  39 ++
+ .../files/CVE-2026-82474-regression_p2.patch  |  33 +
+ .../sudo/files/CVE-2026-82474.patch           | 617 ++++++++++++++++++
+ meta/recipes-extended/sudo/sudo_1.9.17p2.bb   |   5 +
+ 6 files changed, 822 insertions(+)
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch
+ create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474.patch
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p1.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p1.patch
+diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch
 new file mode 100644
-index 0000000000..241be4adaa
+index 00000000000..2e9d1e0a6d7
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p1.patch
-@@ -0,0 +1,285 @@
-+From b6447295fff7b38fdffc67e0df9712d60cef3cc3 Mon Sep 17 00:00:00 2001
-+From: Dustin Hoeppner <dhoepp@me.com>
-+Date: Fri, 12 Jun 2026 08:27:08 -0500
-+Subject: [PATCH] Fix `proxy_ssl_context` ignored for HTTPS forwarding proxies
-+ (#3786)
++++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch
+@@ -0,0 +1,94 @@
++From 1a312af6348594df371e6088aeed99685977f575 Mon Sep 17 00:00:00 2001
++From: "Todd C. Miller" <Todd.Miller@sudo.ws>
++Date: Thu, 19 Mar 2026 13:57:53 -0600
++Subject: [PATCH] get_execve_info: read /proc/self/fd/N link for pathname
 +
-+Co-authored-by: Illia Volochii <illia.volochii@gmail.com>
++When fexecve(3) is used to execute a command and the kernel doesn't
++support execveat(2), glibc will use /proc/self/fd/N for the execve(2)
++pathname.  We need to resolve this link to the actual pathname used
++for intercept and log_subcmds.
 +
-+CVE: CVE-2026-97687
-+Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/b6447295fff7b38fdffc67e0df9712d60cef3cc3]
++CVE: CVE-2026-82474
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/1a312af6348594df371e6088aeed99685977f575]
 +
-+Backport Changes:
-+- Shifted the upstream policy-selection block to the target method's
-+  indentation so this intermediate patch applies and compiles.
-+
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
++(cherry picked from commit 1a312af6348594df371e6088aeed99685977f575)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ changelog/2577.bugfix.rst                     |   2 +
-+ src/urllib3/connection.py                     |  16 +-
-+ src/urllib3/poolmanager.py                    |  15 ++
-+ .../test_proxy_poolmanager.py                 | 149 ++++++++++++++++--
-+ 4 files changed, 165 insertions(+), 17 deletions(-)
-+ create mode 100644 changelog/2577.bugfix.rst
++ src/exec_ptrace.c | 31 +++++++++++++++++++++++--------
++ 1 file changed, 23 insertions(+), 8 deletions(-)
 +
-+diff --git a/changelog/2577.bugfix.rst b/changelog/2577.bugfix.rst
-+new file mode 100644
-+index 0000000..57d7f1f
-+--- /dev/null
-++++ b/changelog/2577.bugfix.rst
-+@@ -0,0 +1,2 @@
-++Fixed usage of ``proxy_ssl_context`` with ``ProxyManager`` when ``use_forwarding_for_https=True``.
-++Passing ``ssl_context`` instead of ``proxy_ssl_context`` for HTTPS proxies in this configuration now emits a ``FutureWarning`` and will raise an error in v3.0.
-+diff --git a/src/urllib3/connection.py b/src/urllib3/connection.py
-+index 1b16279..b9760c6 100644
-+--- a/src/urllib3/connection.py
-++++ b/src/urllib3/connection.py
-+@@ -649,6 +649,20 @@ class HTTPSConnection(HTTPConnection):
-+         # Remove trailing '.' from fqdn hostnames to allow certificate validation
-+         server_hostname_rm_dot = server_hostname.rstrip(".")
++diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
++index e780dfd..5b901a7 100644
++--- a/src/exec_ptrace.c
+++++ b/src/exec_ptrace.c
++@@ -951,9 +951,10 @@ ptrace_write_vec(pid_t pid, struct sudo_ptrace_regs *regs, char **vec,
++ /*
++  * Read a link from /proc/PID and store the result in buf.
++  * Used to read the cwd and exe links in /proc/PID.
++- * Returns true on success, else false.
+++ * Returns the number of bytes written to buf on success, else -1.
+++ * Note: name and buf _may_ overlap.
++  */
++-static bool
+++static ssize_t
++ proc_read_link(pid_t pid, const char *name, char *buf, size_t bufsize)
++ {
++     ssize_t len;
++@@ -962,14 +963,14 @@ proc_read_link(pid_t pid, const char *name, char *buf, size_t bufsize)
 + 
-++        # Forwarding proxies should use proxy SSL context for
-++        # wrapping since that's the connection being established,
-++        # whereas tunneling proxies should use the connection's SSL
-++        # context.
-++        # However, for backwards compatibility reasons, if the proxy
-++        # is forwarding but no proxy SSL context is provided, we
-++        # fall back to using the connection's SSL context until
-++        # urllib3 v3.0. Appropriate warning is emitted in
-++        # ``ProxyManager.__init__``.
-++        if self.proxy_is_forwarding and self.proxy_config is not None:
-++            ssl_context = self.proxy_config.ssl_context
-++        else:
-++            ssl_context = self.ssl_context
-++
-+         sock_and_verified = _ssl_wrap_socket_and_match_hostname(
-+             sock=sock,
-+             cert_reqs=self.cert_reqs,
-+@@ -662,7 +676,7 @@ class HTTPSConnection(HTTPConnection):
-+             key_file=self.key_file,
-+             key_password=self.key_password,
-+             server_hostname=server_hostname_rm_dot,
-+-            ssl_context=self.ssl_context,
-++            ssl_context=ssl_context,
-+             tls_in_tls=tls_in_tls,
-+             assert_hostname=self.assert_hostname,
-+             assert_fingerprint=self.assert_fingerprint,
-+diff --git a/src/urllib3/poolmanager.py b/src/urllib3/poolmanager.py
-+index 5763fea..290cfe1 100644
-+--- a/src/urllib3/poolmanager.py
-++++ b/src/urllib3/poolmanager.py
-+@@ -581,6 +581,21 @@ class ProxyManager(PoolManager):
-+         if proxy.scheme not in ("http", "https"):
-+             raise ProxySchemeUnknown(proxy.scheme)
++     len = snprintf(path, sizeof(path), "/proc/%d/%s", (int)pid, name);
++     if (len > 0 && len < ssizeof(path)) {
++-	len = readlink(path, buf, bufsize - 1);
++-	if (len != -1) {
+++	len = readlink(path, buf, bufsize);
+++	if (len != -1 && (size_t)len != bufsize) {
++ 	    /* readlink(2) does not add the NUL for us. */
++ 	    buf[len] = '\0';
++-	    debug_return_bool(true);
+++	    debug_return_ssize_t(len + 1);
++ 	}
++     }
++-    debug_return_bool(false);
+++    debug_return_ssize_t(-1);
++ }
 + 
-++        if (
-++            use_forwarding_for_https
-++            and proxy.scheme == "https"
-++            and connection_pool_kw.get("ssl_context") is not None
-++        ):
-++            warnings.warn(
-++                "Passing ssl_context when use_forwarding_for_https=True is deprecated "
-++                "and will raise an error in urllib3 v3.0. "
-++                "Use proxy_ssl_context to configure the TLS connection to the proxy.",
-++                FutureWarning,
-++                stacklevel=2,
-++            )
-++            if proxy_ssl_context is None:
-++                proxy_ssl_context = connection_pool_kw.get("ssl_context")
++ /*
++@@ -1011,6 +1012,20 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
++ 		"unable to read execve pathname for process %d", (int)pid);
++ 	    goto bad;
++ 	}
 ++
-+         if not proxy.port:
-+             port = port_by_scheme.get(proxy.scheme, 80)
-+             proxy = proxy._replace(port=port)
-+diff --git a/test/with_dummyserver/test_proxy_poolmanager.py b/test/with_dummyserver/test_proxy_poolmanager.py
-+index a0b1172..f116b41 100644
-+--- a/test/with_dummyserver/test_proxy_poolmanager.py
-++++ b/test/with_dummyserver/test_proxy_poolmanager.py
-+@@ -10,6 +10,7 @@ import shutil
-+ import socket
-+ import ssl
-+ import tempfile
-++import typing
-+ from test import LONG_TIMEOUT, SHORT_TIMEOUT, resolvesLocalhostFQDN, withPyOpenSSL
-+ from test.conftest import ServerConfig
+++	/* For fexecve() the path may be in the form /proc/self/fd/N */
+++	if (strncmp(argbuf, "/proc/self/fd/", 14) == 0) {
+++	    const char *errstr;
+++	    const char *fdstr = argbuf + 14;
+++	    (void)sudo_strtonum(fdstr, 0, INT_MAX, &errstr);
+++	    if (errstr == NULL) {
+++		/* Rewrite argbuf with link target (if it is one). */
+++		ssize_t len = proc_read_link(pid, fdstr, argbuf, bufsize);
+++		if (len != -1)
+++		    nread = len;
+++	    }
+++	}
+++
++ 	/* Defer setting pathname until after all reallocations are done. */
++ 	off = (size_t)nread;
++     }
++@@ -1626,7 +1641,7 @@ ptrace_verify_post_exec(pid_t pid, struct sudo_ptrace_regs *regs,
++     }
 + 
-+@@ -24,7 +25,7 @@ from dummyserver.testcase import (
-+ )
-+ from urllib3 import HTTPResponse
-+ from urllib3._collections import HTTPHeaderDict
-+-from urllib3.connection import VerifiedHTTPSConnection
-++from urllib3.connection import HTTPSConnection, VerifiedHTTPSConnection
-+ from urllib3.connectionpool import connection_from_url
-+ from urllib3.exceptions import (
-+     ConnectTimeoutError,
-+@@ -165,6 +166,43 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+             r = https.request("GET", f"{self.https_url}/")
-+             assert r.status == 200
++     /* Get the executable path. */
++-    if (!proc_read_link(pid, "exe", pathname, sizeof(pathname))) {
+++    if (proc_read_link(pid, "exe", pathname, sizeof(pathname)) == -1) {
++ 	/* Missing /proc file system is not a fatal error. */
++ 	sudo_debug_printf(SUDO_DEBUG_ERROR, "%s: unable to read /proc/%d/exe",
++ 	    __func__, (int)pid);
++@@ -1768,7 +1783,7 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
++     }
 + 
-++    @requires_network()
-++    @pytest.mark.parametrize(
-++        "proxy_ssl_context_kw",
-++        [
-++            ("ssl_context",),
-++            ("proxy_ssl_context",),
-++            ("ssl_context", "proxy_ssl_context"),
-++        ],
-++    )
-++    def test_https_proxy_forwarding_for_https_with_custom_context(
-++        self, proxy_ssl_context_kw: tuple[str, ...]
-++    ) -> None:
-++        """
-++        Test that an HTTP request succeeds when using a forwarding HTTPS
-++        proxy with an SSL context provided via either
-++        ``proxy_ssl_context``, ``ssl_context`` (fallback), or both.
-++        """
-++
-++        proxy_ctx = ssl.create_default_context()
-++        proxy_ctx.load_verify_locations(DEFAULT_CA)
-++
-++        warning_checker: contextlib.AbstractContextManager[typing.Any]
-++        if "ssl_context" in proxy_ssl_context_kw:
-++            warning_checker = pytest.warns(FutureWarning, match="ssl_context")
-++        else:
-++            warning_checker = contextlib.nullcontext()
-++        with warning_checker:
-++            proxy = proxy_from_url(
-++                self.https_proxy_url,
-++                **{kw: proxy_ctx for kw in proxy_ssl_context_kw},
-++                use_forwarding_for_https=True,
-++            )
-++
-++        with proxy:
-++            resp = proxy.request("GET", self.https_url)
-++            assert resp.status == 200
-++
-+     def test_nagle_proxy(self) -> None:
-+         """Test that proxy connections do not have TCP_NODELAY turned on"""
-+         with ProxyManager(self.proxy_url) as http:
-+@@ -708,20 +746,8 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+     # see https://github.com/python/cpython/issues/103472
-+     @pytest.mark.filterwarnings("default::ResourceWarning")
-+     @requires_network()
-+-    @pytest.mark.parametrize(
-+-        ["proxy_scheme", "use_forwarding_for_https"],
-+-        [
-+-            ("http", False),
-+-            ("https", False),
-+-            ("https", True),
-+-        ],
-+-    )
-+-    def test_proxy_https_target_tls_error(
-+-        self, proxy_scheme: str, use_forwarding_for_https: str
-+-    ) -> None:
-+-        if proxy_scheme == "https" and use_forwarding_for_https:
-+-            pytest.skip("Test is expected to fail due to urllib3/urllib3#2577")
-+-
-++    @pytest.mark.parametrize("proxy_scheme", ["http", "https"])
-++    def test_proxy_https_target_tls_error(self, proxy_scheme: str) -> None:
-+         proxy_url = self.https_proxy_url if proxy_scheme == "https" else self.proxy_url
-+         proxy_ctx = ssl.create_default_context()
-+         proxy_ctx.load_verify_locations(DEFAULT_CA)
-+@@ -731,12 +757,103 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+             proxy_url,
-+             proxy_ssl_context=proxy_ctx,
-+             ssl_context=ctx,
-+-            use_forwarding_for_https=use_forwarding_for_https,
-+         ) as proxy:
-+             with pytest.raises(MaxRetryError) as e:
-+                 proxy.request("GET", self.https_url)
-+             assert isinstance(e.value.reason, SSLError)
-+ 
-++    @requires_network()
-++    def test_forwarding_proxy_tls_error_with_fallback(self) -> None:
-++        """
-++        Test that when only ``ssl_context`` is passed to a forwarding
-++        HTTPS proxy, a ``FutureWarning`` is emitted and if the TLS
-++        handshake with the proxy fails using that context, the error is
-++        a ``ProxyError`` wrapping the original TLS error.
-++        """
-++        ctx = ssl.create_default_context()
-++
-++        with pytest.warns(FutureWarning, match="ssl_context"):
-++            proxy = proxy_from_url(
-++                self.https_proxy_url,
-++                ssl_context=ctx,
-++                use_forwarding_for_https=True,
-++            )
-++
-++        with proxy:
-++            with pytest.raises(MaxRetryError) as e:
-++                proxy.request("GET", self.https_url)
-++            assert isinstance(e.value.reason, ProxyError)
-++            assert isinstance(e.value.reason.original_error, SSLError)
-++
-++    @requires_network()
-++    def test_forwarding_proxy_ssl_context_precedence(self) -> None:
-++        """
-++        Test that when both ``ssl_context`` and ``proxy_ssl_context``
-++        are passed to a forwarding HTTPS proxy, ``proxy_ssl_context`` is
-++        used for the proxy connection and ``ssl_context`` is ignored
-++        (with a warning).
-++        """
-++        ssl_context = ssl.create_default_context(cafile=DEFAULT_CA)
-++        proxy_ssl_context = ssl.create_default_context(cafile=DEFAULT_CA)
-++
-++        with pytest.warns(FutureWarning, match="ssl_context"):
-++            proxy = proxy_from_url(
-++                self.https_proxy_url,
-++                proxy_ssl_context=proxy_ssl_context,
-++                ssl_context=ssl_context,
-++                use_forwarding_for_https=True,
-++            )
-++
-++        with proxy:
-++            pool = proxy.connection_from_url(self.https_url)
-++            with contextlib.closing(pool._new_conn()) as conn:
-++                conn = typing.cast(HTTPSConnection, conn)
-++                conn.connect()
-++                assert isinstance(conn.sock, ssl.SSLSocket)
-++                assert conn.sock.context is proxy_ssl_context
-++
-++    @requires_network()
-++    def test_forwarding_proxy_ssl_context_fallback(self) -> None:
-++        """
-++        Test that when only ``ssl_context`` is passed to a forwarding
-++        HTTPS proxy, a ``FutureWarning`` is emitted and ``ssl_context``
-++        is used as the proxy TLS context (fallback).
-++        """
-++        ssl_context = ssl.create_default_context(cafile=DEFAULT_CA)
-++
-++        with pytest.warns(FutureWarning, match="ssl_context"):
-++            proxy = proxy_from_url(
-++                self.https_proxy_url,
-++                ssl_context=ssl_context,
-++                use_forwarding_for_https=True,
-++            )
-++
-++        with proxy:
-++            pool = proxy.connection_from_url(self.https_url)
-++            with contextlib.closing(pool._new_conn()) as conn:
-++                conn = typing.cast(HTTPSConnection, conn)
-++                conn.connect()
-++                assert isinstance(conn.sock, ssl.SSLSocket)
-++                assert conn.sock.context is ssl_context
-++
-++    @requires_network()
-++    def test_forwarding_non_https_proxy_ssl_context_fallback(self) -> None:
-++        """
-++        Test that when only ``ssl_context`` is passed to a forwarding
-++        non-HTTPS proxy, no warning or error is emitted.
-++        """
-++        ssl_context = ssl.create_default_context(cafile=DEFAULT_CA)
-++        # No warning/error should be emitted even when ``ssl_context``
-++        # is provided to a non-HTTPS proxy for some reason.
-++        proxy = proxy_from_url(
-++            self.proxy_url,
-++            ssl_context=ssl_context,
-++            use_forwarding_for_https=True,
-++        )
-++        with proxy:
-++            resp = proxy.request("GET", self.https_url)
-++            assert resp.status == 200
-++
-+     # stdlib http.client.HTTPConnection._tunnel() causes a ResourceWarning
-+     # see https://github.com/python/cpython/issues/103472
-+     @pytest.mark.filterwarnings("default::ResourceWarning")
-diff --git a/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p2.patch b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p2.patch
++     /* Get the current working directory and execve info. */
++-    if (!proc_read_link(pid, "cwd", cwd, sizeof(cwd)))
+++    if (proc_read_link(pid, "cwd", cwd, sizeof(cwd)) == -1)
++ 	(void)strlcpy(cwd, "unknown", sizeof(cwd));
++     buf = get_execve_info(pid, &regs, &pathname, &argc, &argv,
++ 	&envc, &envp);
+diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch
 new file mode 100644
-index 0000000000..5824a5664b
+index 00000000000..f48607a9572
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p2.patch
-@@ -0,0 +1,482 @@
-+From 07408cec79d1856d81bb42c74a904a24fdb9e465 Mon Sep 17 00:00:00 2001
-+From: Andrey Petrov <andrey.petrov@shazow.net>
-+Date: Wed, 29 Jul 2026 18:20:36 -0400
-+Subject: [PATCH] Isolate HTTPS proxy TLS settings from target TLS (#5093)
++++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch
+@@ -0,0 +1,34 @@
++From e822b729da31baf9154946329a9d6ef569f0d182 Mon Sep 17 00:00:00 2001
++From: "Todd C. Miller" <Todd.Miller@sudo.ws>
++Date: Fri, 20 Mar 2026 05:50:47 -0600
++Subject: [PATCH] get_execve_info: pass correct name to proc_read_link()
 +
-+CVE: CVE-2026-97687
-+Upstream-Status: Backport [https://github.com/urllib3/urllib3/commit/07408cec79d1856d81bb42c74a904a24fdb9e465]
++CVE: CVE-2026-82474
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/e822b729da31baf9154946329a9d6ef569f0d182]
 +
-+Backport Changes:
-+- The upstream connection.py hunk conflicted because Scarthgap's
-+  urllib3 2.2.2 lacks the newer HTTP/2 connection-probe structure.
-+  Ported the proxy-only TLS policy through the existing
-+  HTTPSConnection.connect() and _connect_tls_proxy() paths.
-+- Adapted proxy-context tests for Scarthgap's API: create_urllib3_context()
-+  has no verify_flags keyword, so tests set verify_flags on the returned
-+  SSLContext. Tests distinguish target CERT_REQUIRED and proxy CERT_NONE,
-+  assert that the proxy context is unchanged, and check the fallback policy
-+  with pool cert_reqs/ca_certs.
-+
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
++(cherry picked from commit e822b729da31baf9154946329a9d6ef569f0d182)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ changelog/5093.bugfix.rst                     |   7 +
-+ src/urllib3/connection.py                     | 102 +++++++-----
-+ src/urllib3/poolmanager.py                    |   8 +-
-+ .../test_proxy_poolmanager.py                 | 159 +++++++++++++++++-
-+ 4 files changed, 222 insertions(+), 54 deletions(-)
-+ create mode 100644 changelog/5093.bugfix.rst
++ src/exec_ptrace.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
 +
-+diff --git a/changelog/5093.bugfix.rst b/changelog/5093.bugfix.rst
-+new file mode 100644
-+index 0000000..f64ad4a
-+--- /dev/null
-++++ b/changelog/5093.bugfix.rst
-+@@ -0,0 +1,7 @@
-++Fixed ``HTTPSConnection.connect()`` overriding
-++``ProxyConfig.ssl_context``'s certificate policy and proxy identity checks with
-++the target connection's TLS settings when forwarding through an HTTPS proxy.
++diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
++index 5b901a7..5b78702 100644
++--- a/src/exec_ptrace.c
+++++ b/src/exec_ptrace.c
++@@ -1015,12 +1015,13 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
++ 
++ 	/* For fexecve() the path may be in the form /proc/self/fd/N */
++ 	if (strncmp(argbuf, "/proc/self/fd/", 14) == 0) {
++-	    const char *errstr;
++ 	    const char *fdstr = argbuf + 14;
+++	    const char *name = argbuf + 11;
+++	    const char *errstr;
++ 	    (void)sudo_strtonum(fdstr, 0, INT_MAX, &errstr);
++ 	    if (errstr == NULL) {
++ 		/* Rewrite argbuf with link target (if it is one). */
++-		ssize_t len = proc_read_link(pid, fdstr, argbuf, bufsize);
+++		ssize_t len = proc_read_link(pid, name, argbuf, bufsize);
++ 		if (len != -1)
++ 		    nread = len;
++ 	    }
+diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch
+new file mode 100644
+index 00000000000..84abcd65999
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch
+@@ -0,0 +1,39 @@
++From d1121181a87b2b47b4dfbb2af42399fcc5f1e3cd Mon Sep 17 00:00:00 2001
++From: "Todd C. Miller" <Todd.Miller@sudo.ws>
++Date: Thu, 23 Apr 2026 09:39:35 -0600
++Subject: [PATCH] get_exec_info: error out if we run out of space rewriting
++ pathname
++
++Since proc_read_link() is destructive on error we could end up with
++missing NUL terminator in the rewritten pathname.
++Coverity CID 560390.
++
++CVE: CVE-2026-82474
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/d1121181a87b2b47b4dfbb2af42399fcc5f1e3cd]
++
++(cherry picked from commit d1121181a87b2b47b4dfbb2af42399fcc5f1e3cd)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ src/exec_ptrace.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
++index 82a5947..90d6a48 100644
++--- a/src/exec_ptrace.c
+++++ b/src/exec_ptrace.c
++@@ -1120,8 +1120,13 @@ get_exec_info(pid_t pid, bool is_execveat, struct sudo_ptrace_regs *regs,
++ 	    if (errstr == NULL) {
++ 		/* Rewrite argbuf with link target (if it is one). */
++ 		ssize_t len = proc_read_link(pid, name, argbuf, bufsize);
++-		if (len != -1)
++-		    nread = len + 1;
+++		if (len == -1) {
+++		    sudo_debug_printf(
+++			SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
+++			"unable to rewrite pathname for process %d", (int)pid);
+++		    goto bad;
+++		}
+++		nread = len + 1;
++ 	    }
++ 	}
++ 
+diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch
+new file mode 100644
+index 00000000000..19a499bfef3
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch
+@@ -0,0 +1,33 @@
++From 02b14c043825b52be6cd537b7f11bd5e7e10512e Mon Sep 17 00:00:00 2001
++From: "Todd C. Miller" <Todd.Miller@sudo.ws>
++Date: Sat, 25 Apr 2026 12:05:23 -0600
++Subject: [PATCH] Fix handling of relative paths in the execveat(2) intercept
++ support.
++
++The code to prepend the directory when fully-qualifying a relative
++path used the wrong length the memmove(3) call.
++
++Reported by and fix from Marius Momeu
++
++CVE: CVE-2026-82474
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/02b14c043825b52be6cd537b7f11bd5e7e10512e]
++
++(cherry picked from commit 02b14c043825b52be6cd537b7f11bd5e7e10512e)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ src/exec_ptrace.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
++index 90d6a48..9521f18 100644
++--- a/src/exec_ptrace.c
+++++ b/src/exec_ptrace.c
++@@ -1100,7 +1100,7 @@ get_exec_info(pid_t pid, bool is_execveat, struct sudo_ptrace_regs *regs,
++ 		    goto bad;
++ 		}
++ 		/* Prepend directory to relative pathname.  */
++-		memmove(argbuf + len + 1, argbuf, len + 1);
+++		memmove(argbuf + len + 1, argbuf, nread);
++ 		memcpy(argbuf, dir, len);
++ 		argbuf[len] = '/';
++ 		nread += len + 1;
+diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474.patch
+new file mode 100644
+index 00000000000..b51e73731ab
+--- /dev/null
++++ b/meta/recipes-extended/sudo/files/CVE-2026-82474.patch
+@@ -0,0 +1,617 @@
++From 71fbe42dcd5a1c8f799540583a2dfb2ae6221edf Mon Sep 17 00:00:00 2001
++From: "Todd C. Miller" <Todd.Miller@sudo.ws>
++Date: Fri, 20 Mar 2026 06:48:32 -0600
++Subject: [PATCH] Add intercept and log_subcmds support for execveat(2).
++
++Previously, sudo would always allow execveat(2) in intercept mode
++to support sudo's own use of fexecve(3) for the "fdexec" setting.
++Since sudoers is path-based, we must use /proc to resolve the file
++descriptor in execveat(2) to a path.
++
++Credit:
++ - XlabAI Team of Tencent Xuanwu Lab (xlabai@tencent.com)
++ - Atuin Automated Vulnerability Discovery Engine
++ - Guannan Wang, Zhanpeng Liu, Guancheng Li
++
++Also reported by:
++ - Nofil Qasim
++ - Quentin Chalabi
++
++CVE: CVE-2026-82474
++Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/71fbe42dcd5a1c8f799540583a2dfb2ae6221edf]
++
++(cherry picked from commit 71fbe42dcd5a1c8f799540583a2dfb2ae6221edf)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ src/exec_ptrace.c | 188 ++++++++++++++++++++++++++++++++++++----------
++ src/exec_ptrace.h |  54 ++++++++++---
++ 2 files changed, 192 insertions(+), 50 deletions(-)
++
++diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
++index 5b78702..92e8082 100644
++--- a/src/exec_ptrace.c
+++++ b/src/exec_ptrace.c
++@@ -1,5 +1,5 @@
++ /*
++- * Copyright (c) 2022 Todd C. Miller <Todd.Miller@sudo.ws>
+++ * Copyright (c) 2022, 2026 Todd C. Miller <Todd.Miller@sudo.ws>
++  *
++  * Permission to use, copy, modify, and distribute this software for any
++  * purpose with or without fee is hereby granted, provided that the above
++@@ -115,7 +115,7 @@ set_syscallno(pid_t pid, struct sudo_ptrace_regs *regs, int syscallno)
++ }
++ 
++ static inline unsigned long
++-get_sc_arg1(struct sudo_ptrace_regs *regs)
+++get_sc_arg1(pid_t pid, struct sudo_ptrace_regs *regs)
++ {
++     if (regs->compat) {
++ 	return compat_reg_arg1(regs->u.compat);
++@@ -135,7 +135,7 @@ set_sc_arg1(struct sudo_ptrace_regs *regs, unsigned long addr)
++ }
++ 
++ static inline unsigned long
++-get_sc_arg2(struct sudo_ptrace_regs *regs)
+++get_sc_arg2(pid_t pid, struct sudo_ptrace_regs *regs)
++ {
++     if (regs->compat) {
++ 	return compat_reg_arg2(regs->u.compat);
++@@ -155,7 +155,7 @@ set_sc_arg2(struct sudo_ptrace_regs *regs, unsigned long addr)
++ }
++ 
++ static inline unsigned long
++-get_sc_arg3(struct sudo_ptrace_regs *regs)
+++get_sc_arg3(pid_t pid, struct sudo_ptrace_regs *regs)
++ {
++     if (regs->compat) {
++ 	return compat_reg_arg3(regs->u.compat);
++@@ -164,7 +164,6 @@ get_sc_arg3(struct sudo_ptrace_regs *regs)
++     }
++ }
++ 
++-#  ifdef notyet
++ static inline void
++ set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
++ {
++@@ -176,7 +175,7 @@ set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
++ }
++ 
++ static inline unsigned long
++-get_sc_arg4(struct sudo_ptrace_regs *regs)
+++get_sc_arg4(pid_t pid, struct sudo_ptrace_regs *regs)
++ {
++     if (regs->compat) {
++ 	return compat_reg_arg4(regs->u.compat);
++@@ -185,8 +184,9 @@ get_sc_arg4(struct sudo_ptrace_regs *regs)
++     }
++ }
++ 
+++#  ifdef notyet
++ static inline void
++-set_sc_arg4(struct sudo_ptrace_regs *regs, unsigned long addr)
+++set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
++ {
++     if (regs->compat) {
++ 	compat_reg_set_arg4(regs->u.compat, addr);
++@@ -196,6 +196,28 @@ set_sc_arg4(struct sudo_ptrace_regs *regs, unsigned long addr)
++ }
++ #  endif /* notyet */
++ 
+++static inline unsigned long
+++get_sc_arg5(pid_t pid, struct sudo_ptrace_regs *regs)
+++{
+++    if (regs->compat) {
+++	return compat_reg_arg5(regs->u.compat);
+++    } else {
+++	return reg_arg5(regs->u.native);
+++    }
+++}
 ++
-++``HTTPSConnection`` no longer applies target SNI, assertions, or client
-++credentials to forwarding proxy handshakes and continues to use its
-++``ssl_context`` as a fallback when an HTTPS proxy forwards an HTTP target.
-+diff --git a/src/urllib3/connection.py b/src/urllib3/connection.py
-+index b9760c6..e69bfb1 100644
-+--- a/src/urllib3/connection.py
-++++ b/src/urllib3/connection.py
-+@@ -649,39 +649,34 @@ class HTTPSConnection(HTTPConnection):
-+         # Remove trailing '.' from fqdn hostnames to allow certificate validation
-+         server_hostname_rm_dot = server_hostname.rstrip(".")
-+ 
-+-        # Forwarding proxies should use proxy SSL context for
-+-        # wrapping since that's the connection being established,
-+-        # whereas tunneling proxies should use the connection's SSL
-+-        # context.
-+-        # However, for backwards compatibility reasons, if the proxy
-+-        # is forwarding but no proxy SSL context is provided, we
-+-        # fall back to using the connection's SSL context until
-+-        # urllib3 v3.0. Appropriate warning is emitted in
-+-        # ``ProxyManager.__init__``.
-++        # Forwarding proxies should establish TLS using proxy-specific policy.
-++        # For tunneling proxies, the target connection uses its own TLS policy.
-++        wrapped_socket: ssl.SSLSocket | SSLTransport
-+         if self.proxy_is_forwarding and self.proxy_config is not None:
-+-            ssl_context = self.proxy_config.ssl_context
-++            wrapped_socket = self._connect_tls_proxy(self.host, sock)
-++            is_verified = self.proxy_is_verified is True
-+         else:
-+-            ssl_context = self.ssl_context
-+-
-+-        sock_and_verified = _ssl_wrap_socket_and_match_hostname(
-+-            sock=sock,
-+-            cert_reqs=self.cert_reqs,
-+-            ssl_version=self.ssl_version,
-+-            ssl_minimum_version=self.ssl_minimum_version,
-+-            ssl_maximum_version=self.ssl_maximum_version,
-+-            ca_certs=self.ca_certs,
-+-            ca_cert_dir=self.ca_cert_dir,
-+-            ca_cert_data=self.ca_cert_data,
-+-            cert_file=self.cert_file,
-+-            key_file=self.key_file,
-+-            key_password=self.key_password,
-+-            server_hostname=server_hostname_rm_dot,
-+-            ssl_context=ssl_context,
-+-            tls_in_tls=tls_in_tls,
-+-            assert_hostname=self.assert_hostname,
-+-            assert_fingerprint=self.assert_fingerprint,
-+-        )
-+-        self.sock = sock_and_verified.socket
-++            sock_and_verified = _ssl_wrap_socket_and_match_hostname(
-++                sock=sock,
-++                cert_reqs=self.cert_reqs,
-++                ssl_version=self.ssl_version,
-++                ssl_minimum_version=self.ssl_minimum_version,
-++                ssl_maximum_version=self.ssl_maximum_version,
-++                ca_certs=self.ca_certs,
-++                ca_cert_dir=self.ca_cert_dir,
-++                ca_cert_data=self.ca_cert_data,
-++                cert_file=self.cert_file,
-++                key_file=self.key_file,
-++                key_password=self.key_password,
-++                server_hostname=server_hostname_rm_dot,
-++                ssl_context=self.ssl_context,
-++                tls_in_tls=tls_in_tls,
-++                assert_hostname=self.assert_hostname,
-++                assert_fingerprint=self.assert_fingerprint,
-++            )
-++            wrapped_socket = sock_and_verified.socket
-++            is_verified = sock_and_verified.is_verified
-++        self.sock = wrapped_socket
-+ 
-+         # Forwarding proxies can never have a verified target since
-+         # the proxy is the one doing the verification. Should instead
-+@@ -690,7 +685,7 @@ class HTTPSConnection(HTTPConnection):
-+         if self.proxy_is_forwarding:
-+             self.is_verified = False
-+         else:
-+-            self.is_verified = sock_and_verified.is_verified
-++            self.is_verified = is_verified
-+ 
-+         # If there's a proxy to be connected to we are fully connected.
-+         # This is set twice (once above and here) due to forwarding proxies
-+@@ -700,24 +695,47 @@ class HTTPSConnection(HTTPConnection):
-+         # Set `self.proxy_is_verified` unless it's already set while
-+         # establishing a tunnel.
-+         if self._has_connected_to_proxy and self.proxy_is_verified is None:
-+-            self.proxy_is_verified = sock_and_verified.is_verified
-++            self.proxy_is_verified = is_verified
-+ 
-+     def _connect_tls_proxy(self, hostname: str, sock: socket.socket) -> ssl.SSLSocket:
-+         """
-+         Establish a TLS connection to the proxy using the provided SSL context.
-+         """
-+-        # `_connect_tls_proxy` is called when self._tunnel_host is truthy.
-+         proxy_config = typing.cast(ProxyConfig, self.proxy_config)
-+-        ssl_context = proxy_config.ssl_context
-++        proxy_ssl_context = proxy_config.ssl_context
+++#  ifdef notyet
+++static inline void
+++set_sc_arg5(struct sudo_ptrace_regs *regs, unsigned long addr)
+++{
+++    if (regs->compat) {
+++	compat_reg_set_arg5(regs->u.compat, addr);
+++    } else {
+++	reg_set_arg5(regs->u.native, addr);
+++    }
+++}
+++#  endif /* notyet */
 ++
-++        ssl_context: ssl.SSLContext | None
-++        cert_reqs: int | str | None
-++        if proxy_ssl_context is not None:
-++            # Prefer the proxy's cert policy for the proxy connection
-++            ssl_context = proxy_ssl_context
-++            cert_reqs = proxy_ssl_context.verify_mode
-++            ca_certs = None
-++            ca_cert_dir = None
-++            ca_cert_data = None
-++            ssl_version = None
-++            ssl_minimum_version = None
-++            ssl_maximum_version = None
-++        else:
-++            # Otherwise we inherit the pool's cert policies
-++            ssl_context = self.ssl_context if self.proxy_is_forwarding else None
-++            cert_reqs = self.cert_reqs
-++            ca_certs = self.ca_certs
-++            ca_cert_dir = self.ca_cert_dir
-++            ca_cert_data = self.ca_cert_data
-++            ssl_version = self.ssl_version
-++            ssl_minimum_version = self.ssl_minimum_version
-++            ssl_maximum_version = self.ssl_maximum_version
++ # else /* SECCOMP_AUDIT_ARCH_COMPAT */
++ 
++ static inline unsigned long
++@@ -223,7 +245,7 @@ set_syscallno(pid_t pid, struct sudo_ptrace_regs *regs, int syscallno)
++ }
++ 
++ static inline unsigned long
++-get_sc_arg1(struct sudo_ptrace_regs *regs)
+++get_sc_arg1(pid_t pid, struct sudo_ptrace_regs *regs)
++ {
++     return reg_arg1(regs->u.native);
++ }
++@@ -235,7 +257,7 @@ set_sc_arg1(struct sudo_ptrace_regs *regs, unsigned long addr)
++ }
++ 
++ static inline unsigned long
++-get_sc_arg2(struct sudo_ptrace_regs *regs)
+++get_sc_arg2(pid_t pid, struct sudo_ptrace_regs *regs)
++ {
++     return reg_arg2(regs->u.native);
++ }
++@@ -247,12 +269,11 @@ set_sc_arg2(struct sudo_ptrace_regs *regs, unsigned long addr)
++ }
++ 
++ static inline unsigned long
++-get_sc_arg3(struct sudo_ptrace_regs *regs)
+++get_sc_arg3(pid_t pid, struct sudo_ptrace_regs *regs)
++ {
++     return reg_arg3(regs->u.native);
++ }
++ 
++-#  ifdef notyet
++ static inline void
++ set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
++ {
++@@ -260,17 +281,33 @@ set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
++ }
++ 
++ static inline unsigned long
++-get_sc_arg4(struct sudo_ptrace_regs *regs)
+++get_sc_arg4(pid_t pid, struct sudo_ptrace_regs *regs)
++ {
++     return reg_arg4(regs->u.native);
++ }
++ 
+++#  ifdef notyet
++ static inline void
++ set_sc_arg4(struct sudo_ptrace_regs *regs, unsigned long addr)
++ {
++     reg_set_arg4(regs->u.native, addr);
++ }
++ #  endif /* notyet */
 ++
-+         sock_and_verified = _ssl_wrap_socket_and_match_hostname(
-+             sock,
-+-            cert_reqs=self.cert_reqs,
-+-            ssl_version=self.ssl_version,
-+-            ssl_minimum_version=self.ssl_minimum_version,
-+-            ssl_maximum_version=self.ssl_maximum_version,
-+-            ca_certs=self.ca_certs,
-+-            ca_cert_dir=self.ca_cert_dir,
-+-            ca_cert_data=self.ca_cert_data,
-++            cert_reqs=cert_reqs,
-++            ssl_version=ssl_version,
-++            ssl_minimum_version=ssl_minimum_version,
-++            ssl_maximum_version=ssl_maximum_version,
-++            ca_certs=ca_certs,
-++            ca_cert_dir=ca_cert_dir,
-++            ca_cert_data=ca_cert_data,
-+             server_hostname=hostname,
-+             ssl_context=ssl_context,
-+             assert_hostname=proxy_config.assert_hostname,
-+diff --git a/src/urllib3/poolmanager.py b/src/urllib3/poolmanager.py
-+index 290cfe1..1cf0167 100644
-+--- a/src/urllib3/poolmanager.py
-++++ b/src/urllib3/poolmanager.py
-+@@ -581,6 +581,9 @@ class ProxyManager(PoolManager):
-+         if proxy.scheme not in ("http", "https"):
-+             raise ProxySchemeUnknown(proxy.scheme)
-+ 
-++        # Keep the deprecated ssl_context fallback on the manager for
-++        # compatibility, while passing only explicit proxy policy to connections.
-++        self.proxy_ssl_context = proxy_ssl_context
-+         if (
-+             use_forwarding_for_https
-+             and proxy.scheme == "https"
-+@@ -593,8 +596,8 @@ class ProxyManager(PoolManager):
-+                 FutureWarning,
-+                 stacklevel=2,
-+             )
-+-            if proxy_ssl_context is None:
-+-                proxy_ssl_context = connection_pool_kw.get("ssl_context")
-++            if self.proxy_ssl_context is None:
-++                self.proxy_ssl_context = connection_pool_kw.get("ssl_context")
-+ 
-+         if not proxy.port:
-+             port = port_by_scheme.get(proxy.scheme, 80)
-+@@ -602,7 +605,6 @@ class ProxyManager(PoolManager):
-+ 
-+         self.proxy = proxy
-+         self.proxy_headers = proxy_headers or {}
-+-        self.proxy_ssl_context = proxy_ssl_context
-+         self.proxy_config = ProxyConfig(
-+             proxy_ssl_context,
-+             use_forwarding_for_https,
-+diff --git a/test/with_dummyserver/test_proxy_poolmanager.py b/test/with_dummyserver/test_proxy_poolmanager.py
-+index f116b41..6dbae5f 100644
-+--- a/test/with_dummyserver/test_proxy_poolmanager.py
-++++ b/test/with_dummyserver/test_proxy_poolmanager.py
-+@@ -113,6 +113,13 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+             assert r.status == 200
-+             assert_is_verified(https, proxy=True, target=False)
-+ 
-++    def test_is_verified_https_proxy_to_http_target_without_proxy_config(self) -> None:
-++        with proxy_from_url(self.https_proxy_url, ca_certs=DEFAULT_CA) as https:
-++            https.connection_pool_kw["_proxy_config"] = None
-++            r = https.request("GET", f"{self.http_url}/")
-++            assert r.status == 200
-++            assert_is_verified(https, proxy=True, target=False)
+++static inline unsigned long
+++get_sc_arg5(pid_t pid, struct sudo_ptrace_regs *regs)
+++{
+++    return reg_arg5(regs->u.native);
+++}
 ++
-+     def test_is_verified_https_proxy_to_https_target(self) -> None:
-+         with proxy_from_url(self.https_proxy_url, ca_certs=DEFAULT_CA) as https:
-+             r = https.request("GET", f"{self.https_url}/")
-+@@ -143,6 +150,18 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+             r = https.request("GET", f"{self.http_url}/")
-+             assert r.status == 200
+++#  ifdef notyet
+++static inline void
+++set_sc_arg5(struct sudo_ptrace_regs *regs, unsigned long addr)
+++{
+++    reg_set_arg5(regs->u.native, addr);
+++}
+++#  endif /* notyet */
+++
++ # endif /* SECCOMP_AUDIT_ARCH_COMPAT */
 + 
-++    @withPyOpenSSL
-++    def test_https_proxy_with_proxy_ssl_context_pyopenssl(self) -> None:
-++        proxy_ssl_context = create_urllib3_context()
-++        proxy_ssl_context.load_verify_locations(DEFAULT_CA)
-++
-++        with proxy_from_url(
-++            self.https_proxy_url,
-++            proxy_ssl_context=proxy_ssl_context,
-++        ) as https:
-++            response = https.request("GET", f"{self.http_url}/")
-++            assert response.status == 200
-++
-+     @withPyOpenSSL
-+     def test_https_proxy_pyopenssl_not_supported(self) -> None:
-+         with proxy_from_url(self.https_proxy_url, ca_certs=DEFAULT_CA) as https:
-+@@ -793,8 +812,8 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+         used for the proxy connection and ``ssl_context`` is ignored
-+         (with a warning).
-+         """
-+-        ssl_context = ssl.create_default_context(cafile=DEFAULT_CA)
-+-        proxy_ssl_context = ssl.create_default_context(cafile=DEFAULT_CA)
-++        ssl_context = create_urllib3_context(cert_reqs=ssl.CERT_REQUIRED)
-++        proxy_ssl_context = create_urllib3_context(cert_reqs=ssl.CERT_NONE)
++ /*
++@@ -358,7 +395,7 @@ ptrace_readv_string(pid_t pid, unsigned long addr, char *buf, size_t bufsize)
++     const char *cp, *buf0 = buf;
++     struct iovec local, remote;
++     ssize_t nread;
++-    debug_decl(ptrace_read_string, SUDO_DEBUG_EXEC);
+++    debug_decl(ptrace_readv_string, SUDO_DEBUG_EXEC);
 + 
-+         with pytest.warns(FutureWarning, match="ssl_context"):
-+             proxy = proxy_from_url(
-+@@ -811,6 +830,7 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+                 conn.connect()
-+                 assert isinstance(conn.sock, ssl.SSLSocket)
-+                 assert conn.sock.context is proxy_ssl_context
-++                assert proxy_ssl_context.verify_mode == ssl.CERT_NONE
++     /*
++      * Read the string via process_vm_readv(2) one page at a time.
++@@ -951,7 +988,8 @@ ptrace_write_vec(pid_t pid, struct sudo_ptrace_regs *regs, char **vec,
++ /*
++  * Read a link from /proc/PID and store the result in buf.
++  * Used to read the cwd and exe links in /proc/PID.
++- * Returns the number of bytes written to buf on success, else -1.
+++ * Returns the length of the link on success, else -1.
+++ * NUL-terminates buf on success (not included in length).
++  * Note: name and buf _may_ overlap.
++  */
++ static ssize_t
++@@ -967,26 +1005,27 @@ proc_read_link(pid_t pid, const char *name, char *buf, size_t bufsize)
++ 	if (len != -1 && (size_t)len != bufsize) {
++ 	    /* readlink(2) does not add the NUL for us. */
++ 	    buf[len] = '\0';
++-	    debug_return_ssize_t(len + 1);
+++	    debug_return_ssize_t(len);
++ 	}
++     }
++     debug_return_ssize_t(-1);
++ }
 + 
-+     @requires_network()
-+     def test_forwarding_proxy_ssl_context_fallback(self) -> None:
-+@@ -819,15 +839,21 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+         HTTPS proxy, a ``FutureWarning`` is emitted and ``ssl_context``
-+         is used as the proxy TLS context (fallback).
-+         """
-+-        ssl_context = ssl.create_default_context(cafile=DEFAULT_CA)
-++        ssl_context = create_urllib3_context(cert_reqs=ssl.CERT_NONE)
++ /*
++- * Read the filename, argv and envp of the execve(2) system call.
+++ * Read execve(2) or execveat(2) system call arguments from pid.
++  * Returns a dynamically allocated buffer the parent is responsible for.
++  */
++ static char *
++-get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
++-    int *argc_out, char ***argv_out, int *envc_out, char ***envp_out)
+++get_exec_info(pid_t pid, bool is_execveat, struct sudo_ptrace_regs *regs,
+++    char **pathname_out, int *argc_out, char ***argv_out, int *envc_out,
+++    char ***envp_out)
++ {
++     char *argbuf, **argv, **envp, *pathname = NULL;
++     unsigned long argv_addr, envp_addr, path_addr;
++     size_t bufsize, off = 0;
++-    int i, argc, envc = 0;
+++    int i, argc, dirfd = -1, flags = 0, envc = 0;
++     ssize_t nread;
++-    debug_decl(get_execve_info, SUDO_DEBUG_EXEC);
+++    debug_decl(get_exec_info, SUDO_DEBUG_EXEC);
 + 
-+         with pytest.warns(FutureWarning, match="ssl_context"):
-+             proxy = proxy_from_url(
-+                 self.https_proxy_url,
-+                 ssl_context=ssl_context,
-++                cert_reqs=ssl.CERT_REQUIRED,
-++                ca_certs=DEFAULT_CA,
-+                 use_forwarding_for_https=True,
-+             )
++     bufsize = PATH_MAX + arg_max;
++     argbuf = malloc(bufsize);
++@@ -995,13 +1034,22 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
++ 	goto bad;
++     }
 + 
-++        assert proxy.proxy_ssl_context is ssl_context
-++        assert proxy.proxy_config is not None
-++        assert proxy.proxy_config.ssl_context is None
-++
-+         with proxy:
-+             pool = proxy.connection_from_url(self.https_url)
-+             with contextlib.closing(pool._new_conn()) as conn:
-+@@ -835,6 +861,23 @@ class TestHTTPProxyManager(HypercornDummyProxyTestCase):
-+                 conn.connect()
-+                 assert isinstance(conn.sock, ssl.SSLSocket)
-+                 assert conn.sock.context is ssl_context
-++                assert ssl_context.verify_mode == ssl.CERT_REQUIRED
-++
-++    @requires_network()
-++    def test_https_proxy_to_http_target_ssl_context_fallback(self) -> None:
-++        ssl_context = create_urllib3_context()
-++        ssl_context.load_verify_locations(DEFAULT_CA)
-++
-++        with proxy_from_url(
-++            self.https_proxy_url,
-++            ssl_context=ssl_context,
-++        ) as proxy:
-++            pool = proxy.connection_from_url(self.http_url)
-++            with contextlib.closing(pool._new_conn()) as conn:
-++                conn = typing.cast(HTTPSConnection, conn)
-++                conn.connect()
-++                assert isinstance(conn.sock, ssl.SSLSocket)
-++                assert conn.sock.context is ssl_context
++-    /* execve(2) takes three arguments: pathname, argv, envp. */
++-    path_addr = get_sc_arg1(regs);
++-    argv_addr = get_sc_arg2(regs);
++-    envp_addr = get_sc_arg3(regs);
+++    if (is_execveat) {
+++	/* execveat(2) takes five arguments */
+++	dirfd = get_sc_arg1(pid, regs) & 0xffffffff;
+++	path_addr = get_sc_arg2(pid, regs);
+++	argv_addr = get_sc_arg3(pid, regs);
+++	envp_addr = get_sc_arg4(pid, regs);
+++	flags = get_sc_arg5(pid, regs) & 0xffffffff;
+++    } else {
+++	/* execve(2) takes three arguments */
+++	path_addr = get_sc_arg1(pid, regs);
+++	argv_addr = get_sc_arg2(pid, regs);
+++	envp_addr = get_sc_arg3(pid, regs);
+++    }
++     sudo_debug_printf(SUDO_DEBUG_INFO,
++-	"%s: %d: path 0x%lx, argv 0x%lx, envp 0x%lx", __func__,
++-	(int)pid, path_addr, argv_addr, envp_addr);
+++	"%s: %d: dirfd %d, path 0x%lx, argv 0x%lx, envp 0x%lx, flags: 0x%x",
+++	__func__, (int)pid, dirfd, path_addr, argv_addr, envp_addr, flags);
 + 
-+     @requires_network()
-+     def test_forwarding_non_https_proxy_ssl_context_fallback(self) -> None:
-+@@ -946,10 +989,14 @@ class TestHTTPSProxyVerification:
-+         proxy_url = f"https://{proxy.host}:{proxy.port}"
-+         destination_url = f"https://{server.host}:{server.port}"
++     /* Read the pathname, if not NULL. */
++     if (path_addr != 0) {
++@@ -1009,12 +1057,62 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
++ 	if (nread == -1) {
++ 	    sudo_debug_printf(
++ 		SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
++-		"unable to read execve pathname for process %d", (int)pid);
+++		"unable to read execveat pathname for process %d", (int)pid);
++ 	    goto bad;
++ 	}
 + 
-++        proxy_ctx = urllib3.util.ssl_.create_urllib3_context()
-++        proxy_ctx.verify_flags = 0
-++        proxy_ctx.load_verify_locations(proxy.ca_certs)
-+         proxy_fingerprint = self._get_proxy_fingerprint_md5(proxy.ca_certs)
-+         with proxy_from_url(
-+             proxy_url,
-+-            ca_certs=proxy.ca_certs,
-++            ca_certs=server.ca_certs,
-++            proxy_ssl_context=proxy_ctx,
-+             proxy_assert_fingerprint=proxy_fingerprint,
-+         ) as https:
-+             https.request("GET", destination_url)
-+@@ -957,21 +1004,29 @@ class TestHTTPSProxyVerification:
-+     # stdlib http.client.HTTPConnection._tunnel() causes a ResourceWarning
-+     # see https://github.com/python/cpython/issues/103472
-+     @pytest.mark.filterwarnings("default::ResourceWarning")
-++    @pytest.mark.parametrize("use_forwarding_for_https", [False, True])
-+     def test_https_proxy_assert_fingerprint_md5_non_matching(
-+-        self, no_san_proxy_with_server: tuple[ServerConfig, ServerConfig]
-++        self,
-++        no_san_proxy_with_server: tuple[ServerConfig, ServerConfig],
-++        use_forwarding_for_https: bool,
-+     ) -> None:
-+         proxy, server = no_san_proxy_with_server
-+         proxy_url = f"https://{proxy.host}:{proxy.port}"
-+         destination_url = f"https://{server.host}:{server.port}"
++-	/* For fexecve() the path may be in the form /proc/self/fd/N */
++-	if (strncmp(argbuf, "/proc/self/fd/", 14) == 0) {
+++	/* Handle relative path and AT_EMPTY_PATH for execveat() */
+++	if (is_execveat && argbuf[0] != '/') {
+++	    if (argbuf[0] == '\0' && ISSET(flags, AT_EMPTY_PATH)) {
+++		/* Used to implement fexecve(3) */
+++		char name[64];
+++		(void)snprintf(name, sizeof(name), "fd/%d", dirfd);
+++		ssize_t len = proc_read_link(pid, name, argbuf, bufsize);
+++		if (len == -1) {
+++		    sudo_debug_printf(
+++			SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
+++			"unable to read link /proc/%d/fd/%d", (int)pid, dirfd);
+++		    goto bad;
+++		}
+++		nread = len + 1;
+++	    } else {
+++		/* Relative path, resolve dirfd to a path. */
+++		char dir[PATH_MAX];
+++		char name[64];
+++
+++		if (dirfd == AT_FDCWD) {
+++		    (void)strlcpy(name, "cwd", sizeof(name));
+++		} else {
+++		    (void)snprintf(name, sizeof(name), "fd/%d", dirfd);
+++		}
+++		ssize_t len = proc_read_link(pid, name, dir, sizeof(dir));
+++		if (len == -1) {
+++		    sudo_debug_printf(
+++			SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
+++			"unable to read link /proc/%d/%s", (int)pid, name);
+++		    goto bad;
+++		}
+++		if ((size_t)(nread + len + 1) >= bufsize) {
+++		    sudo_debug_printf(
+++			SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
+++			"out of space storing path for process %d",
+++			(int)pid);
+++		    goto bad;
+++		}
+++		/* Prepend directory to relative pathname.  */
+++		memmove(argbuf + len + 1, argbuf, len + 1);
+++		memcpy(argbuf, dir, len);
+++		argbuf[len] = '/';
+++		nread += len + 1;
+++	    }
+++	}
+++
+++	/*
+++	 * For fexecve() the path may be in the form /proc/self/fd/N
+++	 * Used by glibc when the system doesn't support execveat(2).
+++	 */
+++	if (!ISSET(flags, AT_SYMLINK_NOFOLLOW) &&
+++		strncmp(argbuf, "/proc/self/fd/", 14) == 0) {
++ 	    const char *fdstr = argbuf + 14;
++ 	    const char *name = argbuf + 11;
++ 	    const char *errstr;
++@@ -1023,7 +1121,7 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
++ 		/* Rewrite argbuf with link target (if it is one). */
++ 		ssize_t len = proc_read_link(pid, name, argbuf, bufsize);
++ 		if (len != -1)
++-		    nread = len;
+++		    nread = len + 1;
++ 	    }
++ 	}
 + 
-++        proxy_ctx = urllib3.util.ssl_.create_urllib3_context()
-++        proxy_ctx.verify_flags = 0
-++        proxy_ctx.load_verify_locations(proxy.ca_certs)
-+         proxy_fingerprint = self._get_proxy_fingerprint_md5(proxy.ca_certs)
-+         new_char = "b" if proxy_fingerprint[5] == "a" else "a"
-+         proxy_fingerprint = proxy_fingerprint[:5] + new_char + proxy_fingerprint[6:]
++@@ -1037,7 +1135,7 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
++     if (nread == -1) {
++ 	sudo_debug_printf(
++ 	    SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
++-	    "unable to read execve argv for process %d", (int)pid);
+++	    "unable to read argv for process %d", (int)pid);
++ 	goto bad;
++     }
++     off += (size_t)nread;
++@@ -1057,7 +1155,7 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
++     if (nread == -1) {
++ 	sudo_debug_printf(
++ 	    SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
++-	    "unable to read execve envp for process %d", (int)pid);
+++	    "unable to read envp for process %d", (int)pid);
++ 	goto bad;
++     }
 + 
-+         with proxy_from_url(
-+             proxy_url,
-+-            ca_certs=proxy.ca_certs,
-++            ca_certs=server.ca_certs,
-++            proxy_ssl_context=proxy_ctx,
-+             proxy_assert_fingerprint=proxy_fingerprint,
-++            use_forwarding_for_https=use_forwarding_for_https,
-+         ) as https:
-+             with pytest.raises(MaxRetryError) as e:
-+                 https.request("GET", destination_url)
-+@@ -995,8 +1050,11 @@ class TestHTTPSProxyVerification:
-+     # stdlib http.client.HTTPConnection._tunnel() causes a ResourceWarning
-+     # see https://github.com/python/cpython/issues/103472
-+     @pytest.mark.filterwarnings("default::ResourceWarning")
-++    @pytest.mark.parametrize("use_forwarding_for_https", [False, True])
-+     def test_https_proxy_assert_hostname_non_matching(
-+-        self, san_proxy_with_server: tuple[ServerConfig, ServerConfig]
-++        self,
-++        san_proxy_with_server: tuple[ServerConfig, ServerConfig],
-++        use_forwarding_for_https: bool,
-+     ) -> None:
-+         proxy, server = san_proxy_with_server
-+         destination_url = f"https://{server.host}:{server.port}"
-+@@ -1006,6 +1065,7 @@ class TestHTTPSProxyVerification:
-+             proxy.base_url,
-+             ca_certs=proxy.ca_certs,
-+             proxy_assert_hostname=proxy_hostname,
-++            use_forwarding_for_https=use_forwarding_for_https,
-+         ) as https:
-+             with pytest.raises(MaxRetryError) as e:
-+                 https.request("GET", destination_url)
-+@@ -1099,7 +1159,9 @@ class TestHTTPSProxyVerification:
-+         proxy_url = f"https://{proxy.host}:{proxy.port}"
-+         destination_url = f"https://{server.host}:{server.port}"
++@@ -1579,6 +1677,7 @@ check_argv:
 + 
-+-        proxy_ctx = urllib3.util.ssl_.create_urllib3_context()
-++        proxy_ctx = urllib3.util.ssl_.create_urllib3_context()
-++        proxy_ctx.verify_flags = 0
-++        proxy_ctx.load_verify_locations(proxy.ca_certs)
-+         try:
-+             proxy_ctx.hostname_checks_common_name = True
-+         # PyPy doesn't like us setting 'hostname_checks_common_name'
-+@@ -1110,6 +1172,86 @@ class TestHTTPSProxyVerification:
-+             pytest.skip("Test requires 'SSLContext.hostname_checks_common_name=True'")
++ /*
++  * Verify that the execve(2) argument we wrote match the contents of closure.
+++ * TODO: test execveat(2) too.
++  * Returns true if they match, else false.
++  */
++ static bool
++@@ -1590,7 +1689,7 @@ verify_execve_args(pid_t pid, struct sudo_ptrace_regs *regs,
++     bool ret = false;
++     debug_decl(verify_execve_args, SUDO_DEBUG_EXEC);
 + 
-+         with proxy_from_url(
-+-            proxy_url, ca_certs=proxy.ca_certs, proxy_ssl_context=proxy_ctx
-++            proxy_url, ca_certs=server.ca_certs, proxy_ssl_context=proxy_ctx
-+         ) as https:
-+             https.request("GET", destination_url)
-++
-++    @pytest.mark.parametrize(
-++        "target_tls_kwargs",
-++        [
-++            pytest.param({"server_hostname": "example.com"}, id="server-hostname"),
-++            pytest.param({"assert_hostname": "example.com"}, id="assert-hostname"),
-++            pytest.param({"assert_fingerprint": "00" * 32}, id="assert-fingerprint"),
-++        ],
-++    )
-++    def test_https_proxy_forwarding_ignores_target_identity_settings(
-++        self,
-++        san_proxy_with_server: tuple[ServerConfig, ServerConfig],
-++        target_tls_kwargs: dict[str, typing.Any],
-++    ) -> None:
-++        proxy, server = san_proxy_with_server
-++        proxy_ctx = create_urllib3_context()
-++        proxy_ctx.load_verify_locations(proxy.ca_certs)
-++
-++        with proxy_from_url(
-++            proxy.base_url,
-++            proxy_ssl_context=proxy_ctx,
-++            proxy_assert_hostname=proxy.host,
-++            use_forwarding_for_https=True,
-++            **target_tls_kwargs,
-++        ) as https:
-++            pool = https.connection_from_url(server.base_url)
-++            with contextlib.closing(pool._new_conn()) as conn:
-++                conn = typing.cast(HTTPSConnection, conn)
-++                conn.connect()
-++                assert isinstance(conn.sock, ssl.SSLSocket)
-++                assert conn.sock.context is proxy_ctx
-++
-++    def test_https_proxy_forwarding_ignores_target_client_certificate(
-++        self,
-++        san_proxy_with_server: tuple[ServerConfig, ServerConfig],
-++    ) -> None:
-++        proxy, server = san_proxy_with_server
-++        proxy_ctx = create_urllib3_context()
-++        proxy_ctx.load_verify_locations(proxy.ca_certs)
-++        missing_cert = str(pathlib.Path(proxy.ca_certs).with_name("missing-cert.pem"))
-++
-++        with proxy_from_url(
-++            proxy.base_url,
-++            proxy_ssl_context=proxy_ctx,
-++            cert_file=missing_cert,
-++            use_forwarding_for_https=True,
-++        ) as https:
-++            pool = https.connection_from_url(server.base_url)
-++            with contextlib.closing(pool._new_conn()) as conn:
-++                conn = typing.cast(HTTPSConnection, conn)
-++                conn.connect()
-++                assert isinstance(conn.sock, ssl.SSLSocket)
-++                assert conn.sock.context is proxy_ctx
-++
-++    def test_https_proxy_forwarding_ignores_target_tls_policy(
-++        self,
-++        san_proxy_with_server: tuple[ServerConfig, ServerConfig],
-++    ) -> None:
-++        proxy, server = san_proxy_with_server
-++        proxy_ctx = create_urllib3_context(cert_reqs=ssl.CERT_REQUIRED)
-++        proxy_ctx.load_verify_locations(proxy.ca_certs)
-++        proxy_cert_store_stats = proxy_ctx.cert_store_stats()
-++
-++        with proxy_from_url(
-++            proxy.base_url,
-++            proxy_ssl_context=proxy_ctx,
-++            cert_reqs=ssl.CERT_NONE,
-++            ca_certs=DEFAULT_CA,
-++            use_forwarding_for_https=True,
-++        ) as https:
-++            for target_url in (server.base_url, "https://example.com/"):
-++                pool = https.connection_from_url(target_url)
-++                with contextlib.closing(pool._new_conn()) as conn:
-++                    conn = typing.cast(HTTPSConnection, conn)
-++                    conn.connect()
-++                    assert isinstance(conn.sock, ssl.SSLSocket)
-++                    assert conn.sock.context is proxy_ctx
-++
-++        assert proxy_ctx.verify_mode == ssl.CERT_REQUIRED
-++        assert proxy_ctx.cert_store_stats() == proxy_cert_store_stats
-diff --git a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-index f75a74dc74..1cf45a0e1d 100644
---- a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
-@@ -14,6 +14,8 @@ SRC_URI += " \
-     file://CVE-2026-21441.patch \
-     file://CVE-2026-44431.patch \
-     file://CVE-2026-97689.patch \
-+    file://CVE-2026-97687_p1.patch \
-+    file://CVE-2026-97687_p2.patch \
- "
++-    buf = get_execve_info(pid, regs, &pathname, &argc, &argv,
+++    buf = get_exec_info(pid, false, regs, &pathname, &argc, &argv,
++ 	&envc, &envp);
++     if (buf != NULL) {
++ 	ret = execve_args_match(pathname, argc, argv, envc, envp, false, closure);
++@@ -1717,6 +1816,7 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
++     bool path_mismatch = false;
++     bool argv_mismatch = false;
++     char cwd[PATH_MAX], *orig_argv0;
+++    bool is_execveat = false;
++     unsigned long msg;
++     bool ret = false;
++     int i, oldcwd = -1;
++@@ -1751,8 +1851,8 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
++ 	    /* Handled below. */
++ 	    break;
++ 	case COMPAT_execveat:
++-	    /* We don't currently check execveat(2). */
++-	    debug_return_bool(true);
+++	    /* Handled below. */
+++	    is_execveat = true;
++ 	    break;
++ 	default:
++ 	    sudo_warnx("%s: unexpected compat system call %d",
++@@ -1774,8 +1874,8 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
++ 	case X32_execveat:
++ # endif
++ 	case __NR_execveat:
++-	    /* We don't currently check execveat(2). */
++-	    debug_return_bool(true);
+++	    /* Handled below. */
+++	    is_execveat = true;
++ 	    break;
++ 	default:
++ 	    sudo_warnx("%s: unexpected system call %d", __func__, syscallno);
++@@ -1786,7 +1886,7 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
++     /* Get the current working directory and execve info. */
++     if (proc_read_link(pid, "cwd", cwd, sizeof(cwd)) == -1)
++ 	(void)strlcpy(cwd, "unknown", sizeof(cwd));
++-    buf = get_execve_info(pid, &regs, &pathname, &argc, &argv,
+++    buf = get_exec_info(pid, is_execveat, &regs, &pathname, &argc, &argv,
++ 	&envc, &envp);
++     if (buf == NULL) {
++ 	sudo_debug_printf(SUDO_DEBUG_ERROR|SUDO_DEBUG_ERRNO,
++@@ -1910,7 +2010,11 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
++ 
++ 	    if (argv_mismatch) {
++ 		/* Update argv address in the tracee to our new value. */
++-		set_sc_arg2(&regs, sp);
+++		if (is_execveat) {
+++		    set_sc_arg3(&regs, sp);
+++		} else {
+++		    set_sc_arg2(&regs, sp);
+++		}
++ 
++ 		/* Skip over argv pointers (plus NULL) for string table. */
++ 		strtab += ((size_t)argc + 1 + regs.compat) * regs.wordsize;
++@@ -1923,7 +2027,11 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
++ 	    }
++ 	    if (path_mismatch) {
++ 		/* Update pathname address in the tracee to our new value. */
++-		set_sc_arg1(&regs, strtab);
+++		if (is_execveat) {
+++		    set_sc_arg2(&regs, strtab);
+++		} else {
+++		    set_sc_arg1(&regs, strtab);
+++		}
++ 
++ 		/* Write pathname to the string table. */
++ 		nwritten = ptrace_write_string(pid, strtab, closure->command);
++diff --git a/src/exec_ptrace.h b/src/exec_ptrace.h
++index 2da6233..6e86d65 100644
++--- a/src/exec_ptrace.h
+++++ b/src/exec_ptrace.h
++@@ -1,5 +1,5 @@
++ /*
++- * Copyright (c) 2022 Todd C. Miller <Todd.Miller@sudo.ws>
+++ * Copyright (c) 2022-2026 Todd C. Miller <Todd.Miller@sudo.ws>
++  *
++  * Permission to use, copy, modify, and distribute this software for any
++  * purpose with or without fee is hereby granted, provided that the above
++@@ -87,6 +87,7 @@
++ # define reg_arg2(x)		(x).rsi
++ # define reg_arg3(x)		(x).rdx
++ # define reg_arg4(x)		(x).r10
+++# define reg_arg5(x)		(x).r8
++ #elif defined(__aarch64__)
++ # define SECCOMP_AUDIT_ARCH	AUDIT_ARCH_AARCH64
++ # define sudo_pt_regs		struct user_pt_regs
++@@ -97,6 +98,7 @@
++ # define reg_arg2(x)		(x).regs[1]	/* x1 */
++ # define reg_arg3(x)		(x).regs[2]	/* x2 */
++ # define reg_arg4(x)		(x).regs[3]	/* x3 */
+++# define reg_arg5(x)		(x).regs[4]	/* x4 */
++ # define reg_set_syscall(_r, _nr) do {					\
++     struct iovec _iov;							\
++     long _syscallno = (_nr);						\
++@@ -115,6 +117,7 @@
++ # define reg_arg2(x)		(x).ARM_r1
++ # define reg_arg3(x)		(x).ARM_r2
++ # define reg_arg4(x)		(x).ARM_r3
+++# define reg_arg5(x)		(x).ARM_r4
++ # define reg_set_syscall(_r, _nr) do {					\
++     ptrace(PTRACE_SET_SYSCALL, pid, NULL, _nr);				\
++ } while (0)
++@@ -129,6 +132,7 @@
++ # define reg_arg2(x)		(x).gr[25]	/* r25 */
++ # define reg_arg3(x)		(x).gr[24]	/* r24 */
++ # define reg_arg4(x)		(x).gr[23]	/* r23 */
+++# define reg_arg5(x)		(x).gr[22]	/* r22 */
++ #elif defined(__i386__)
++ # define SECCOMP_AUDIT_ARCH	AUDIT_ARCH_I386
++ # define sudo_pt_regs		struct user_regs_struct
++@@ -139,6 +143,7 @@
++ # define reg_arg2(x)		(x).ecx
++ # define reg_arg3(x)		(x).edx
++ # define reg_arg4(x)		(x).esi
+++# define reg_arg5(x)		(x).edi
++ #elif defined(__mips__)
++ # if _MIPS_SIM == _MIPS_SIM_ABI32
++ #  /* Linux o32 style syscalls, 4000-4999. */
++@@ -204,15 +209,16 @@
++     else								\
++ 	(_r).regs[6] = _v; /* a2 */					\
++ } while (0)
++-/* XXX - reg_arg4 probably wrong for syscall() type calls on 032. */
+++/*
+++ * The o32 ABI uses registers a0 - a3 for the first 4 args, all others
+++ * are on the stack.  We do not implement reg_set_arg4 or reg_set_arg5.
+++ */
++ # define reg_arg4(x)		\
++-    ((x).regs[2] == __NR_O32_Linux ? (x).regs[8] : (x).regs[7])
++-# define reg_set_arg4(_r, _v) do {					\
++-    if ((_r).regs[2] == __NR_O32_Linux)					\
++-	(_r).regs[8] = _v; /* a4 */					\
++-    else								\
++-	(_r).regs[7] = _v; /* a3 */					\
++-} while (0)
+++    ((x).regs[2] == __NR_O32_Linux ? \
+++	(ptrace(PTRACE_PEEKDATA, pid, reg_sp(x) + 16, NULL)) : (x).regs[7])
+++# define reg_arg5(x)		\
+++    ptrace(PTRACE_PEEKDATA, pid, reg_sp(x) + \
+++	((x).regs[2] == __NR_O32_Linux ? 20 : 16))
++ # define reg_set_syscall(_r, _nr) do {					\
++     if ((_r).regs[2] == __NR_O32_Linux)					\
++ 	(_r).regs[4] = _nr; /* a0 */					\
++@@ -237,6 +243,7 @@
++ # define reg_arg2(x)		(x).gpr[4]	/* r4 */
++ # define reg_arg3(x)		(x).gpr[5]	/* r5 */
++ # define reg_arg4(x)		(x).gpr[6]	/* r6 */
+++# define reg_arg5(x)		(x).gpr[7]	/* r7 */
++ # define reg_set_retval(_r, _v) do {					\
++     if (((_r).trap & 0xfff0) == 0x3000) {				\
++ 	/* scv 0 system call, uses negative error code for result. */	\
++@@ -260,6 +267,7 @@
++ # define reg_arg2(x)		(x).a1
++ # define reg_arg3(x)		(x).a2
++ # define reg_arg4(x)		(x).a3
+++# define reg_arg5(x)		(x).a4
++ #elif defined(__s390__)
++ /*
++  * Both the syscall number and return value are stored in r2 for
++@@ -277,7 +285,8 @@
++ # define reg_arg1(x)		(x).orig_gpr2	/* r2 */
++ # define reg_arg2(x)		(x).gprs[3]	/* r3 */
++ # define reg_arg3(x)		(x).gprs[4]	/* r4 */
++-# define reg_arg4(x)		(x).gprs[5]	/* r6 */
+++# define reg_arg4(x)		(x).gprs[5]	/* r5 */
+++# define reg_arg5(x)		(x).gprs[6]	/* r6 */
++ #else
++ # error "Do not know how to find your architecture's registers"
++ #endif
++@@ -322,6 +331,7 @@ struct i386_user_regs_struct {
++ # define compat_reg_arg2(x)		(x).ecx
++ # define compat_reg_arg3(x)		(x).edx
++ # define compat_reg_arg4(x)		(x).esi
+++# define compat_reg_arg5(x)		(x).edi
++ #elif defined(__aarch64__)
++ struct arm_pt_regs {
++   unsigned int uregs[18];
++@@ -337,6 +347,7 @@ struct arm_pt_regs {
++ # define compat_reg_arg2(x)		(x).uregs[1]	/* r1 */
++ # define compat_reg_arg3(x)		(x).uregs[2]	/* r2 */
++ # define compat_reg_arg4(x)		(x).uregs[3]	/* r3 */
+++# define compat_reg_arg5(x)		(x).uregs[4]	/* r4 */
++ # define compat_reg_set_syscall(_r, _nr) reg_set_syscall(_r, _nr)
++ #elif defined(__mips__)
++ # if _MIPS_SIM == _MIPS_SIM_ABI64
++@@ -374,6 +385,8 @@ struct arm_pt_regs {
++ # define compat_reg_set_arg3(_r, _v)	reg_set_arg3(_r, _v)
++ # define compat_reg_arg4(x)		reg_arg4(x)
++ # define compat_reg_set_arg4(_r, _v)	reg_set_arg4(_r, _v)
+++# define compat_reg_arg5(x)		reg_arg5(x)
+++# define compat_reg_set_arg5(_r, _v)	reg_set_arg5(_r, _v)
++ # define compat_reg_set_syscall(_r, _nr) reg_set_syscall(_r, _nr)
++ #elif defined(__powerpc64__)
++ struct ppc_pt_regs {
++@@ -407,6 +420,7 @@ struct ppc_pt_regs {
++ # define compat_reg_arg2(x)		(x).gpr[4]	/* r4 */
++ # define compat_reg_arg3(x)		(x).gpr[5]	/* r5 */
++ # define compat_reg_arg4(x)		(x).gpr[6]	/* r6 */
+++# define compat_reg_arg5(x)		(x).gpr[7]	/* r7 */
++ # define compat_reg_set_retval(_r, _v)	reg_set_retval(_r, _v)
++ #endif
++ 
++@@ -475,6 +489,16 @@ struct ppc_pt_regs {
++     compat_reg_arg4(_r) = (_v);						\
++ } while (0)
++ #endif
+++#ifndef reg_set_arg5
+++# define reg_set_arg5(_r, _v) do {					\
+++    reg_arg5(_r) = (_v);						\
+++} while (0)
+++#endif
+++#ifndef compat_reg_set_arg5
+++# define compat_reg_set_arg5(_r, _v) do {				\
+++    compat_reg_arg5(_r) = (_v);						\
+++} while (0)
+++#endif
++ 
++ /* Set the syscall arguments the "normal" way by default. */
++ #ifndef reg_set_arg1
++@@ -517,6 +541,16 @@ struct ppc_pt_regs {
++     compat_reg_arg4(_r) = (_v);						\
++ } while (0)
++ #endif
+++#ifndef reg_set_arg5
+++# define reg_set_arg5(_r, _v) do {					\
+++    reg_arg5(_r) = (_v);						\
+++} while (0)
+++#endif
+++#ifndef compat_reg_set_arg5
+++# define compat_reg_set_arg5(_r, _v) do {				\
+++    compat_reg_arg5(_r) = (_v);						\
+++} while (0)
+++#endif
++ 
++ struct sudo_ptrace_regs {
++     union {
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+index 2b01684ee52..6e99c45f17b 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
+@@ -6,6 +6,11 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+ 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
+ 		   file://CVE-2026-35535.patch \
+ 		   file://0001-lib-iolog-use-accessor-for-ASN1_STRING-length.patch \
++           file://CVE-2026-82474-dependent_p1.patch \
++           file://CVE-2026-82474-dependent_p2.patch \
++           file://CVE-2026-82474.patch \
++           file://CVE-2026-82474-regression_p1.patch \
++           file://CVE-2026-82474-regression_p2.patch \
+            "
  
- RDEPENDS:${PN} += "\
+ PAM_SRC_URI = "file://sudo.pam"
 -- 
 2.35.6
-
