@@ -1,62 +1,62 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29836.1793868248471639815
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29838.1793868249343816763
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 00:44:08 -0800
+ Thu, 05 Nov 2026 00:44:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=dsvVkpj5;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48e20edd106so1055949f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:44:08 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=grn8sdz+;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso10412325e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 00:44:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google2; t=1793868247; x=1794473047; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=xHzL/haYzMLuoPUzbIvRE5P9vG+vjqYgVtbP2M1fBgM=;
-        b=dsvVkpj5D2JTTadwJOvFJtznKfLxPDViclUUSADlrHMve7W9iq6fl5CavlDvNAkOzu
-         dgwyTTD81/WwAKDWGzifJK/PckSWNDGOpGNyVmq1cX8+sHFOJaO2p37RujvQLwaVTwZh
-         Hm4dOMt5KjJIWMFZXyyJhiR7G9agNEHiOV5MjN1dXOFe+CMbzLGrM6WbVh6Qwf172M7H
-         ydAJPRO8VSSfQ6/9uwjKCtwwoGqsV404uPQhEilB/lL7rGstL2LH6gwmJ8XMZGFp93NS
-         XtKZXAIg+C0/OdcEFF9ucRRnG0uHykYhaANkC4BWyPFMRrQlVRRRtTpkMuvP/gfN4vRk
-         5XJw==
+        bh=tG2ESOmikz6UvNRqUdiJf+Vit+UzAtyfc/OuATEVPWk=;
+        b=grn8sdz+ci8Dw+swvzjthVPybkv1jmE1oOxYSFYNKcVM/2+quu3ohOwiO2qM0l+bak
+         6HXVZvs7EW8bymO78QyOuG/UWLAnb3ri15zd8NTcCMvIpuh68dxHznWUWZpwurp1g4Ax
+         +JJCHbjykX5s3hiErEGRn+57RWqQL3vVSgVeEDEm8Iw1yIS7q/9pJlgGbltPJiB3Uffx
+         IcaRoBo+RoONF87gql347HKkV/hoeUcbR401FNj9i7WFWOJE7JxHW2pOp/nivsTGXuN0
+         BRAeoFgDWuBKf5tGBzYOGjdaOCpiikyG7+ID8/S91T/OHFT9CU7GjMg0Yi2w4vjnNy6T
+         efbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1793868247; x=1794473047;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=xHzL/haYzMLuoPUzbIvRE5P9vG+vjqYgVtbP2M1fBgM=;
-        b=yqhjnd+rIFFTtvqA/2nDcren75wOawJ49ca/ETexqfQlWnjlaYhvooR5S+3GxzEUSy
-         9OR9Q8e5c56LneoMlZN7HW4O4XQYW1DWzgV9slDOAi3p9YCUrPl0QiikKD61QEXTTicZ
-         3SFdliS7xWjW2jtb3aXn8H7rcaMH41DBzYfbBuFxYcbda35Q74v8qmNMfDsajNZydBOj
-         5ctuLyK4IW4gbh0/mxxz1aGnnSMw9J87HgGr3aBWt2bkBpIHBIm5VJXImqP+3M6h2OFs
-         NLHDoflLei2s74H9R8sD27lZjRCIvJpDf39DLTgoxemCvKDUlQ/qUMzauxlsbjVtsX1R
-         fnjA==
-X-Gm-Message-State: APuU4Z/46aWzX4RTUzFLxsjXiIL1BHsgo5+44QHwI8g8PxgXhtYKe2Zv
-	Al5wQISTn18kNtBQ6MvtiPeP68Aqn8y9j4Q1OvVOj7sA+4xL+U9zEWNDVD8Twkm8c2wExhqWqGL
-	0IVHRrfU=
-X-Gm-Gg: AYBFou0q8pnu+nyYcEaHNmeoScAdktz3trvRFHD760NfVdDeHZqo5nMnoNsnYbPV25y
-	DhrWK+Vp18Fl2XJL3TUmZEC9aY21tg5eUmeisL9T1GxOK1lZXa6pEhF6P5Vx4qc4goW1X/sfFRK
-	yVM1MKegVTttS7J+N1QI7qsX3Qr04+g/dpatmUSSn1YmtDWDA715Z/zfZVRnyCb005izzLPVdi3
-	qkaHn27YXxs7TbY37Z/Ku9kWjF54L542RfBURzZj9RMGmsUSc1VQxjZAoHAQcCYGU5gHs0ivV1D
-	MVHc1D1sZsbCc8ZCXZApjig1SUCza/yOLFQgfdMPoqLz9cIncx8nypdIrAx/V7zgMgW3ixb+Vnh
-	knvJxI1RKwalThudb4lCMz4M9Zje0QXWI6UOVqQAngauQoK+kX4cLfxF2rxJ1qFcTgJPoNAJfWX
-	eKvIR6ipv+TTPRalQkBG4SHukYJNUW5PaaSpSslfMhQnSSnuWkc2O1Wj+W5Xa8NdJOMWUHaCNHT
-	MFYC+O+X4KzUi4L+/JuSDz8epJ3lC+qaCIoOgMsFTgzH6mquH2UMiNBvOdIKwjq2YohjgvOCgOj
-	lqZZjtSmHFmwFteJd5J9NffQs53aBluim8Hu7RNnglAdF6gGNyiIHS2uen4tnvKE05cGB9tguLb
-	+BtAsKOcSl3sZYmz3cN38cnE9j+qQ
-X-Received: by 2002:a05:6000:188b:b0:48e:3df8:74cb with SMTP id ffacd0b85a97d-48e6e2ba5dfmr41811687f8f.6.1793868246630;
-        Thu, 05 Nov 2026 00:44:06 -0800 (PST)
+        bh=tG2ESOmikz6UvNRqUdiJf+Vit+UzAtyfc/OuATEVPWk=;
+        b=MAFU4I+mNZxI+idSJy9NrQVuUfGFKtxs3/CmepN9tR6SpT55ofaFFbiAjoiHZKNHRu
+         Pga8ZtwGZDJqG8daLtFwIZMj6meZSZ5mRr8HaYUGDTXsG218Mb9iYb7J55tp7NqUdwME
+         GNQE0Jp68i/xkLZkzBy6sBGfoAfu3T61rLVVo6U5tZoju7Q4L0xlTI1WgQ5KOXrstQwm
+         fnOjmynW7jVwT3omoZ4B5K38ncY8RKiqoHI3Xu5lDWu4kjwCIUHQkIdicMB5lYeJg+lF
+         P/UZk+mYPL8585S91sM7zvgNzxwnd9i93FuRMWzlZrIWFOqF3yHratzbk3TGPIs+3I72
+         J7dg==
+X-Gm-Message-State: APuU4Z8IA1nteM69wQdZYaudVaih+BJcX9/M66wrxxVJYJZzCD3KhMNb
+	IXX6WkaieabvnZTEU+I77cWWLsQaFAFCfPURtXaQrN0TJn9EmgVSExC1m/1DhJtNrbztANmL+q+
+	Scf95/dE=
+X-Gm-Gg: AYBFou07fDK48RbkrP0VDb2uG1nanB4dqf5dkHHVnVyKlejksodXVO6JcehijMAcB5O
+	JtB09XgbR/OJfNlgnmwYcJ/8yMfdjcTlw3TQuuboJdWzCEQrdoj96aQnFkRb5fzr3K7PDDqsxlJ
+	B4Tq3dv7XQQOVId2blQKNJ7TEj7D3q6ImeLGZJVfMCZ7Em5/9ADL03a6x9dEAXn+D6GSRQuPU49
+	V6ArJvEtT/9va2GaH/No3e2OB4VuBK/xtqjTgZ3FTfOUbjP4Akr0PHH925qRsE5b6rfJLmuefXW
+	O/k2UP3PazT2OVWQXM7Jkay8VKCFE371R5ZxEtW6MUfk+N0qk/ueNIcKsOULVrSVBAP1NnByPQ9
+	bLCJkO8jU7jfSIHKEAwa1vgcIpiq5Ebtmd0YFkk6EvGd1GhV3bVYNyBn0L9OvCVY2xyPdsqq8iv
+	nEgDeTnupnBptehHYx2uYGNDoeMnrAtPNHmNcmJG6rBfcE2YVXTbKAG12OdTXAn2go0m92JPJEI
+	z1XfWjvZDHIRgFUr6z4DFn4vdaixuQiHXiEvwk6jZVfW984zwX+IbjVhqNi4aV7sk73CMXoojVg
+	Thj1qSprgWS51xab5RuTdLus+6PxdEtsOW1eUTogECJv7II5FnmJnAvo0GZVdWVKW8Fgtr3x1X9
+	7+ENs9vvPIgZnxKwbjApyIPi+hgSL
+X-Received: by 2002:a05:600c:474f:b0:4a1:f8cb:7d70 with SMTP id 5b1f17b1804b1-4ac1793ed87mr411541515e9.24.1793868247572;
+        Thu, 05 Nov 2026 00:44:07 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.44.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d8e29sm9200620f8f.19.2026.11.05.00.44.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 00:44:06 -0800 (PST)
+        Thu, 05 Nov 2026 00:44:07 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 54/60] kernel-fit-image: add FIT_LOADABLE_* variables to do_compile vardeps
-Date: Thu,  5 Nov 2026 09:43:13 +0100
-Message-ID: <60c4dc612afabffdc0a8b6b8e87e67f116f05007.1793867929.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 56/60] oe-selftest: devtool: do not add ide-sdk test kits to the user's CMake kits
+Date: Thu,  5 Nov 2026 09:43:15 +0100
+Message-ID: <07d8a26686a90d1ff0c365d70b74d0c7c303af16.1793867929.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1793867929.git.yoann.congal@smile.fr>
 References: <cover.1793867929.git.yoann.congal@smile.fr>
@@ -64,64 +64,55 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 08:44:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249513
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249515
 Content-Type: text/plain; charset="utf-8"
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-do_compile only reads the per-loadable flags of the FIT_LOADABLE_*
-variables with d.getVarFlag('FIT_LOADABLE_*', loadable), never their
-values. As the flag names are not literals, bitbake cannot track these
-accesses, so the flags are not part of the do_compile signature.
-Changing e.g. FIT_LOADABLE_LOADADDRESS[atf] did not trigger a rebuild
-and a stale FIT image was reused.
-
-When FIT_LOADABLES is set, add the FIT_LOADABLE_* variables to
-do_compile[vardeps] with a single appendVarFlag call after the loop
-that already processes them.
-Referencing a variable includes all its flags in the signature.
-
-While at it, fix the duplicated word in the comment.
-
-This is a fixup for commit 2535427d8de0
-"kernel-fit-image: support arbitrary loadables"
+The shared sysroot test of devtool ide-sdk adds a cmake-kit with the path
+of the temporary test build directory to ~/.local/share/CMakeTools. Every
+test run adds another stale kit, which is never removed again. Use a
+temporary XDG_DATA_HOME for the test, and verify that the kit is added
+there.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 418a35dd0b4a6d0ccddb49047f059120907f6061)
+(cherry picked from commit fa83da7da277a641c3a997d3da26041fa46d48ab)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes-recipe/kernel-fit-image.bbclass | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/kernel-fit-image.bbclass b/meta/classes-recipe/kernel-fit-image.bbclass
-index 7b2bcd46737..a238de1aa2d 100644
---- a/meta/classes-recipe/kernel-fit-image.bbclass
-+++ b/meta/classes-recipe/kernel-fit-image.bbclass
-@@ -32,17 +32,19 @@ python () {
-     # Parse loadables config
-     loadables = d.getVar('FIT_LOADABLES')
-     if loadables:
--        # Check that the loadables configuration variables are not set directly
--        # directly, then assign them a synthetic value for testability purposes
--        for v in ['FIT_LOADABLE_ARCH', 'FIT_LOADABLE_COMPRESSION',
--                  'FIT_LOADABLE_DESCRIPTION', 'FIT_LOADABLE_ENTRYPOINT',
--                  'FIT_LOADABLE_FILENAME', 'FIT_LOADABLE_LOADADDRESS',
--                  'FIT_LOADABLE_OS', 'FIT_LOADABLE_TYPE']:
-+        # Forbid direct assignment, set synthetic values for testability and
-+        # add the vars to vardeps so their flags are part of the signature.
-+        loadable_vars = ['FIT_LOADABLE_ARCH', 'FIT_LOADABLE_COMPRESSION',
-+                         'FIT_LOADABLE_DESCRIPTION', 'FIT_LOADABLE_ENTRYPOINT',
-+                         'FIT_LOADABLE_FILENAME', 'FIT_LOADABLE_LOADADDRESS',
-+                         'FIT_LOADABLE_OS', 'FIT_LOADABLE_TYPE']
-+        for v in loadable_vars:
-             if d.getVar(v):
-                 raise bb.parse.SkipRecipe("You cannot use %s as a variable, you can only set flags." % v)
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index dbe039f8e6e..436eccafb93 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -4556,9 +4556,14 @@ class DevtoolIdeSdkSharedTests(DevtoolIdeSdkTests):
+         # Handle the workspace (which is not needed by this test case)
+         self._check_workspace()
  
-             synt_value = " ? ".join([ d.getVarFlag(v, loadable) or "" for loadable in loadables.split() ])
-             d.setVar(v, synt_value)
-+        d.appendVarFlag('do_compile', 'vardeps', ' ' + ' '.join(loadable_vars))
- }
++        # Do not add a cmake-kit to the kits of the user
++        xdg_data_home = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(xdg_data_home)
++        ide_env = dict(os.environ, XDG_DATA_HOME=xdg_data_home)
++
+         result_init = runCmd(
+             'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code',
+-            output_log=self._cmd_logger)
++            output_log=self._cmd_logger, env=ide_env)
+         bb_vars = get_bb_vars(
+             ['REAL_MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_IMAGE', 'COREBASE'], "meta-ide-support")
+         environment_script = 'environment-setup-%s' % bb_vars['REAL_MULTIMACH_TARGET_SYS']
+@@ -4570,6 +4575,11 @@ class DevtoolIdeSdkSharedTests(DevtoolIdeSdkTests):
+         # Verify the cross environment script is available
+         self.assertExists(environment_script_path)
  
- do_configure[noexec] = "1"
++        # Verify the cmake-kit is added to the location where CMake Tools looks for it
++        with open(os.path.join(xdg_data_home, 'CMakeTools', 'cmake-tools-kits.json')) as f:
++            kits = json.load(f)
++        self.assertEqual([kit['environmentSetupScript'] for kit in kits], [environment_script_path])
++
+         def runCmdEnv(cmd, cwd, output_log=self._cmd_logger):
+             cmd = '/bin/sh -c ". %s > /dev/null && %s"' % (
+                 environment_script_path, cmd)
