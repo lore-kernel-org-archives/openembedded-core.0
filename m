@@ -1,158 +1,239 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.64])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.35946.1793889751972169565
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36157.1793890271584975575
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 06:42:32 -0800
+ Thu, 05 Nov 2026 06:51:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=fMd1sAE3;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=fMd1sAE3;
- spf=pass (domain: arm.com, ip: 52.101.72.64, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=g7jNpD0vSqYFrb9E59cgyGUcBMU3PY/k2fSyqbQw2muc5HqRlNxK4Wsy7pxgnnfQHDDJqo7UgSFVIJLLjOTzW8THAjD5mulKPOxE2gM2uTgjrWnrlXwkcQDqnJ7RnoA1MpIBSMXTKbAM62D9YLdNSRb685EaMep7KeM+UTi17GlSRqLKfHtSYoY2z3ltsOATYkz074yszdP0PlUyfJe4c65EKA6ATxCoZBeJDyBjqw3qy/hq9tzC5j0rz1HeWwDh5N8hBL+65snO+4KnP6vbiMJWJTlSJyXW+r+QUefKyO2bgV0witbQ4L9maz0uhOX+B9siSyfyYo+pM/A0do28cA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C31QotHbIhQ6Uql/nLRJnzADzBv8fI4jDX72JVU4QPE=;
- b=IJXYC9E7hTu9M6vUKCgnN2o7yp/x+HRSdDJCQReoDgnl39n6jCReo38IhFZ29GoP5RoIsOmP0Lbc9UfuXUOnUUSMYMpP900K2AZzFINV7gYMVmtsXYt0iKhN6AoAkTpOKDcwb5LxfEliIJy6at/VPX/NgjNAhMp8m8HBCbXR+awXtyWHJULEqDWS9zbChJtx+5+7phKqUZwSIzomwnlhdGNQm7w1mYtn4T6MxL/trBq2HpO1tXDy3GZYkG3bMg70G1lbnrxs3mI87Po4rtZiAS8bnBQRmx3T57Aq0frZbFCJJBP9xxxhbYHXKwjYJQuMMRiVcTJGGEMPtmEk81UK9A==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=konsulko.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C31QotHbIhQ6Uql/nLRJnzADzBv8fI4jDX72JVU4QPE=;
- b=fMd1sAE3qzU1Qk3N4xWsk3Bfg3Ft1iza+lXOOvRKefdCozMs4c9E7Uew1MUXXrh9Uz46DysCbRLPTPKYnByw+toGqGCAcZpuxr8UAR5tcKFzDwW7lQU2KFh7ntmQv52FQO1qyCt4Gzr99GNC9KeEM/LwHDJvMA+cJOEIsgtCjWc=
-Received: from DUZPR01CA0190.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b6::8) by MI9PR08MB890576.eurprd08.prod.outlook.com
- (2603:10a6:290:c3::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
- 2026 14:42:24 +0000
-Received: from DB1PEPF000509FA.eurprd03.prod.outlook.com
- (2603:10a6:10:4b6:cafe::ac) by DUZPR01CA0190.outlook.office365.com
- (2603:10a6:10:4b6::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Thu, 5
- Nov 2026 14:42:24 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB1PEPF000509FA.mail.protection.outlook.com (10.167.242.36) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
- via Frontend Transport; Thu, 5 Nov 2026 14:42:24 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VH5EpETzKvHo8ETFZdq6kh+Tq1bo2+qpsnp9VB1nZ3p8A28o8tqBvXFf2/YBYwTDM6cg6csj2w64oHI8Y8Km5jmr1eyGQB8HorDtDV0Ozh6Pvn841sbh3jU2Tapbp80LdLolDOnyF3UdCq1eyRUzj2IKNDisQBZWVFK4Y1C0iST705JvNCnyedBCTy03mQz5VpRcK1/Aw30cSATI3Tr/GwpPxbaSQTbSPxuevKzu4xNb43fs3JetmwpD29IQPCJn6EoTC0WgIl6x6XB31pVxiCQuWv3/oBQ2eR6QyKq9gmtxB4PTMdjMVwE+e2J/natW9n1MtkWmAtmmhh5UKf+hjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C31QotHbIhQ6Uql/nLRJnzADzBv8fI4jDX72JVU4QPE=;
- b=KRvL2uNVTl+Uowv5sTCKV19EQqBKeuRFRfwBtgFQDukDv7uEVnv3j69JhQvXyF56C661Idi1R8X855tqOQdtM6ZxfySNUhs3UkvrKbGTe1W/Xn9f0QpGhVpUHPWcNXULRrPLCtjVOoRprtitG4u9jqJ/ITNoJ5DhyHN44aDcVH+a5SXYdXYe/VDge6os/5YKfXnW2j4Vi2WQOy5+mpC/flNB4Q4b1wvrg7FlgZh9+u6k+HpVrdpM6Ro7ie9sV5BzsBEfx9GZFy/SicFlyCgG9ynCh2wZpLf2iElsms69dczQYZUzaS9YyNeCQqwAj/OXNPSBMY8AxTdcP96q7J7+sQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C31QotHbIhQ6Uql/nLRJnzADzBv8fI4jDX72JVU4QPE=;
- b=fMd1sAE3qzU1Qk3N4xWsk3Bfg3Ft1iza+lXOOvRKefdCozMs4c9E7Uew1MUXXrh9Uz46DysCbRLPTPKYnByw+toGqGCAcZpuxr8UAR5tcKFzDwW7lQU2KFh7ntmQv52FQO1qyCt4Gzr99GNC9KeEM/LwHDJvMA+cJOEIsgtCjWc=
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com (2603:10a6:20b:5a9::13)
- by DU4PR08MB11030.eurprd08.prod.outlook.com (2603:10a6:10:576::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
- 2026 14:41:51 +0000
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb]) by AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb%5]) with mapi id 15.21.0546.012; Thu, 5 Nov 2026
- 14:41:51 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "tim.orling@konsulko.com" <tim.orling@konsulko.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 4/5] python3-websockets: enable ptest; use
- git fetcher
-Thread-Topic: [OE-core] [PATCH v2 4/5] python3-websockets: enable ptest; use
- git fetcher
-Thread-Index: AQHda8tZKeRHrmcHkUKSJ7M1S4kZ6Lcfj/IA
-Date: Thu, 5 Nov 2026 14:41:50 +0000
-Message-ID: <93C8C258-4D9A-46A2-9164-D177A681F6DC@arm.com>
-References: <20261102011816.3710992-1-tim.orling@konsulko.com>
- <20261103193829.1806542-8-tim.orling@konsulko.com>
-In-Reply-To: <20261103193829.1806542-8-tim.orling@konsulko.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3864.700.51.1.3)
-Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
- signed) header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: AS8PR08MB9410:EE_|DU4PR08MB11030:EE_|DB1PEPF000509FA:EE_|MI9PR08MB890576:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac10a1fc-6ed5-4afb-4ec9-08df3b4b0167
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|22082099003|10067099003|18002099003|38070700021|56012099006|11063799006|261026140227099003|261026121527099003|4143699003|261102123227099003|261022105027099003|261028144727099003|261021121427099003|261021123027099003|261009223027099003|260925021911599003|260925022911599003|260925021311599003;
-X-Microsoft-Antispam-Message-Info-Original: bbs+enJ8joX2TbdkTpHQoM7rmTZ4CpSftvG52xUkhbA9Whn5u5IRZ4wzvTCAW2ViT93YhxGNnXm/AHkiYB7pP2CGCTzD7P7DrmmB9mPyFvdtCOadV3jOs3Z3jhI5wuHf4BkE5rqSCQg1ddFfTqAYVnjINrV746drq10+l/0iR6yquNILmW454NkEDhCc+pOey/8hp5TUcLThJVIGyxcyjNaItPDLlm129+NLIRz6u8RH6HSUBCtpjOrWgYVU3n7gc3RUfMfFarAfQuur4UEAnB3kLMbYM3PZKUqGfE1QH7oOlQSH2iKRifs2Qs2v+yknr4+aJJHZYPHYeQShWJ9G+PAY5tgtsrx5+n82k9gaMzzL+9/84WIoqJEW0GXHHlhqPRH1NyPP5YlkEO/gMRRstlvq4RoLggsY19/0BbN1t2itLfBw8dfyfp2r+Uwggr1XrP6avlikGjOMEMuVw3YbDtX992sgv4/8ZxX46fm99BUHIh/3MnkpH8E2hN7ykvXSG4FPVQBO6TvipIB6cjKKSYKBNXSE5W71WRIt2+K7YzCnI3isxpwdsk785vNIVhWzx9Rid1Qgls7SA0uRrIOAUN9bCw+ewOdDQskanRtQtFnP9iVz99hSjZ/lTX6t+d/O366jK4q3754E8MPFydBfA38NOtHHmyzbBPIMm24e7OU=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB9410.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(22082099003)(10067099003)(18002099003)(38070700021)(56012099006)(11063799006)(261026140227099003)(261026121527099003)(4143699003)(261102123227099003)(261022105027099003)(261028144727099003)(261021121427099003)(261021123027099003)(261009223027099003)(260925021911599003)(260925022911599003)(260925021311599003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C292AA85165DA545A965135B19066116@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: Py7G4vSlGgmph9dPUfJm0xbg3rOcenlBeftVqiRzn7rFqwBOY24g6PNQeWEFyT/ImEIGfI/swU2bwPx3AdxES0lH7UllVD6gv4Qa+gQBdU+/B8mP9x20zI0pYjR7kkjPQiZ9aVsO9IEITrQ38ZN4hf80AdzAwrb+QNuJiNpq0Bj9mRJfI8YRy/z23tcupY78hQRlyJj0Jl9TXDPQGOhJipIz3ODZlRQ/8/ZMvSYs8l/2MtlC85dEpOlLP/3tC2ZHjBHSFld6/HX5skh52Wbyn46QxmpeUgvsi2tDWNmgwoDaOhjH6NVB/LVw0NY7AY8Sr1m/cdIqNNmbORbjv2ktbg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR08MB11030
-Return-Path: Ross.Burton@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB1PEPF000509FA.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 5d660a06-5ad6-4cb2-cf56-08df3b4aed99
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|376014|14060799003|35042699022|82310400026|36860700016|260925021311599003|260925022911599003|260925021911599003|11063799006|4143699003|56012099006|261022105027099003|261021123027099003|261021121427099003|261009223027099003|261026121527099003|261026140227099003|261028144727099003|261102123227099003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: Ix/rehswbmf4241YNFmrCIIGtOs/FdhKwxJS0BocQGPcP2tuQfcDzw5bphmSlj6TjNyiGrygpFlSc+uVJvUKTDtBPb9D2TDCvNWHt/7HR4i+juoJiTbfxl1X7g7XI7fbzw2feIfhEyQmShOx+780zOrvfyJGOk/VQofok98NOMKHpz6MbmFhRrSoeOGWfW8y/qdP9c59NI03PIELmSqjKf1lDuupIXGPd0cKEAsSELqoPkZYEdJ8x/B8IypYE5/wsfC/1VTnzpfAcGIu64r++lfFMceXxjXX2g2qB+XpfZj4c37HxlnWqrylp1WAhd4MxTLNesoZSnV08FGZD3WKJ71oRt70S1+vTlzcPmNjASRHP6+kLab50K6Ufts9LF2SA6K+x9nabMIGG1UK1xc/Aw6tdPz5R11Un31nC+I0xQS+7ZyVpTs6+J+PFdWzxx5gQUOU/mTRDD7SdkDINyxPZ671yzPigyP57B+zyoa7c8obb0SfnTLxK+DdMZ6F2sj04+eeoYSyrktEQPlu72x3N6OMI6f6KLe3MChBlDIvxl4AqqScL0QdYeCE0nKzcmTBTh39USRTiud5Xx9vOejBndRv8fjSOhUQH3q63J2hLsnUZyHO4uC4KFYd44LSBztfPMvrSvsRdIMdGl2eOvOmfw==
-X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(14060799003)(35042699022)(82310400026)(36860700016)(260925021311599003)(260925022911599003)(260925021911599003)(11063799006)(4143699003)(56012099006)(261022105027099003)(261021123027099003)(261021121427099003)(261009223027099003)(261026121527099003)(261026140227099003)(261028144727099003)(261102123227099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: mggODFTsQVoLVwJaaEPV+U04H8FJ20AYEegx3k63hL0Mz1b/lgOZybUSdQis3ypfKAoSVAG22wSGMOA8J6YIw3qyqeIk6u/XMbXzGl2ugq4FgCmHuMf1U7HLjYbL7xkFNGpViAOvfbS9CJdVqKzJZ7Ecs+8Cw5AN4OCtvQdo7O+1MCCyYRsjCArSoeAcDLiJzQQAyr9gT97mM3qK8XwahIkHXa5co0nlOEAH/prvR+ht/TcFB7HQy6mXb6ay4zQOBaN0BhprOjpC3ZDJ0TzZZbq/33HF3wC+EfwtRGkllrozKJYXlysplfs2VCguqwEexmIAWpkW5G79JKjemuD6RWgOWYF0DpnPZ8gSGWfYDbzyacg1CVhk+I8aw9mdz/BeSIzhUjhrk61FnUgzE4HqoWOnCVkOZxlfjwEeSZuDPYW6iRxSRCU8HqacgZZbBXpp
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 14:42:24.1559
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac10a1fc-6ed5-4afb-4ec9-08df3b4b0167
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF000509FA.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI9PR08MB890576
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=jF+9kWGD;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=dYA0cWAf;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id CB5467A01B1
+	for <openembedded-core@lists.openembedded.org>; Thu,  5 Nov 2026 09:51:10 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Thu, 05 Nov 2026 09:51:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793890270;
+	 x=1793976670; bh=fg51Fqt04kN4JM7grtBEnO9JOGnGYOA1OeZuy7o87jo=; b=
+	jF+9kWGDlHEC3mXuc748MUtEY5S0cSMHOWxuoS0O5hHWXLwG+e4xGt4XmwjPnVr+
+	BMsnlYQJBNrgVJh8lVyAH98q+cv5xGm6+j6C5RgfkvkK3imyibDa52liSJizYlaR
+	FBt/Zpndvpoi6OFqMFg5GPKrUUbndARhMUQVEQN2zW4dPJLfXKG5VrM7vBW1SrWq
+	XnlSjDSCHOmLYDkoKyhPhb+l14jfkjbQv9QKn+WNmkD3OqgzydhdKaks6s+q1+ph
+	NuWcbCXTccV1tKUwDcXAYyaBRbWuL5WNqOu5h8EH/FrptIyJcIVWHkxH9hMHadVA
+	fXTNkDPsRkwL/VFrGW9qcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793890270; x=
+	1793976670; bh=fg51Fqt04kN4JM7grtBEnO9JOGnGYOA1OeZuy7o87jo=; b=d
+	YA0cWAfT1HCIggbCG9PmgIdBl+MPhMBfhez2ZBmUgUV4XDnmk/UWrEYgjeaZXa4d
+	zIn3G+IrcUTeILzVjlQdMRthxVw7/iuM/maXjbtTWLlhqOoD0JK8y/8SLt0vtSJj
+	9JzRzZlpi91rOHX7d6TMhKk7r2cmb33adKuBJUfFXwRLKH+c5ldof3QSaBMrxPg1
+	TFBVDVFOgkkrPaW9tjTrIJHfk0Dq8yPqXU0LxS3r93MqS6MiAS2PQTPhW/YsYcoN
+	PLExH9p5HPv5dtmS6HUKA5AAMSOAbrfdLVRkYhkb7Q2JxCB7D/8U0eycRhCcaoTS
+	668AtKVe4/kwUQ+UQXn4g==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793890270; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm1:rsa-sha256:kApzsuV1GmALs3FcVeWbbqlb3n4zDMgNDsa8RhgesDy5YLS
+	8666wGE/UjY7hPm4Y4q4HfO9109Uir3ks9zEurw9v6jHILSSbB6cLfJVxcrd734O
+	+aU2NlEg8USePjY7UoeNkBqBSq12JKVn9joFKpm3oY42qtDe9iSCjLFSNBuKRBci
+	fMZjPCdOX8f/PwlRJ4JL+aIW1poA1FmkAjZjQ0GMvE2MBTsxYlsrEjIi13FG7mPz
+	JoJfokbyXhDfs5drOmZLnccabi2uzt35uFu38uxBKAHVsnIjnZdqgozaWZZwOM1m
+	7y7xv4bl8Au3oqadcZ0AGh3VGJ6fCRwvnngD5lw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:88JJMr8cIF/9GD7JZ2l/zhdd9it8ALvkItnaSsD2Csc=:3HMnND8RIRNeE3ELJTXNrybB7edxrpI6nfLSNl1U5kY=;
+X-ME-Sender: <xms:3pfsau-jOsSW-yUw2Qieoy0e0baE7ohKwDoW72rxQvZcuJYDZRntQA>
+    <xme:3pfsamJ-ZlBd8b0l-_hFhw1gGOfsguPnUxfuCTzwVhsWOvsVuh9Lpi6XIikEcGtm1
+    bSnk9ZUoRZaXxyxWO46EymPw2jl22e_UYUBgvS-5u4D3Hg6I6SXFQ>
+X-ME-Received: <xmr:3pfsahbkBQR1Cu296pU979a78x6yPL2-Ep4-R9BfV_tkgqjE6jUE6a5bcOgKCAomNjxTYWwT5hDkLy0l-jLgHaxCKIs2>
+X-ME-Proxy-Cause: dmFkZTGDGoDYKcQdbCSsLWJinUclziA/IjkVqeT02YRCatHhq81BhCWEpoz4fKf3XDW3l7
+    dHMTJ3qiHeTf/cn69LWvtpe8txpmPidCJuxsZgxRxwLwvNrJ0uZGahKP/dACQp/1BI3DFl
+    grU/2r9rWJDsc9N7Fq1HYHOZ3CaGjgnZklDCy1jcI8n4S1tOsHxcHv0EQlSyZaufHaGC/W
+    N88u1WqvEb3IdHm7R2YAo3or++C9Q0Wg3KfnE6F0g0j4+4MDVgZ/G6Wy21TSu1n7s8klpf
+    qjja9eb8pJkef0/HG6vMI/ddYrEYDQNwWUgX/bUDDVvQCjST1uM2CjDP78vafRgxw75/l6
+    moelxZ1wJcmg3OxUFK2REaAKaLLSCGXLEqNL5sPxB3Es0uprtiLusApYVzlDddhaSuyMZd
+    +a8e6PaFtOAagjsXO7UTDKh7lOPAtvXOAdVAX3mynFtDPJPJdNNJPOOGUXI9S6yNgUQ4dM
+    n4Vz8mFSsqwfQhy3xpOZU92DiPg2Aftro3chcqpblK1B28kQdBw285aquOyP0f5Xg0nlSv
+    zLLNomM5RkdWcvaBYDFoY5M3PThP+vcovejYSYnUg8BNNSORvBfRgC2bI9q3ETnsaWmSWV
+    50L2m4PZ8Ra8XIcmYwvnyaJ43jwaU1cYC7yjHn/mHbMFfOo273cEcbech76g
+X-ME-Proxy: <xmx:3pfsagJlgEIIUnqP92Y50q51KazZo_KrBIqZDM1lmRg2PeazCbbBiw>
+    <xmx:3pfsanBJpO9f4fnHvU-nip2A1OcflQeyj9TMMeOgAegq4Np62H22fA>
+    <xmx:3pfsatplv4AZS_T54ogCqnbixHPAc9UG6IQhS5YWuRvo-RtFH73TxQ>
+    <xmx:3pfsaqhDyyW7wCqTbDhXdHpjzWSZDLqUgTyYEMt_M2kLmUkBmj5GEw>
+    <xmx:3pfsapy_nKdqH0BEuvUJDcDA7XpOLdusIaIWTVeG1MgMetBLCqLDeual>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Nov 2026 09:51:09 -0500 (EST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Nov 2026 14:51:08 +0000
+Message-Id: <DMND10P3QR3O.3C38IOM96LHDE@pbarker.dev>
+From: "Paul Barker" <paul@pbarker.dev>
+To: "Pratik Farkase" <pratik.farkase@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+Cc: <pratik.farkase@ericsson.com>
+Subject: Re: [OE-core][PATCH] glib-2.0: ptest: skip memory-monitor-psi
+ /dev/null test
+X-Mailer: aerc 0.22.0
+References: <20261026121406.30391-1-pratik.farkase@est.tech>
+In-Reply-To: <20261026121406.30391-1-pratik.farkase@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 14:42:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249559
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2026 14:51:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249560
 
-T24gMyBOb3YgMjAyNiwgYXQgMTk6MzgsIFRpbSBPcmxpbmcgdmlhIG9wZW5lbWJlZGRlZC1jb3Jl
-IDx0aW0ub3JsaW5nPWtvbnN1bGtvLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToN
-Cj4gVGhlIFB5UEkgc2Rpc3QgcHJ1bmVzIHRlc3RzLywgc28gZmV0Y2ggdGhlIDE3LjEgdGFnIGZy
-b20gZ2l0LiBUaGlzDQo+IHJlLWVuYWJsZXMgcHRlc3QsIHJldmVydGVkIGluIGEwNDg4ZjJlMWQg
-d2hlbiB0aGUgc2Rpc3QgZHJvcHBlZCB0aGUgdGVzdHMuDQo+IA0KPiBVcHN0cmVhbSBhZHZpc2Vz
-IHBhY2thZ2VycyBhZ2FpbnN0IHJ1bm5pbmcgdGhlIHN1aXRlIGJlY2F1c2UgdGltZW91dA0KPiB0
-ZXN0cyBjYW4gZmxha2Ugb24gc2xvdyBidWlsZCBmYXJtczsgdW5kZXIgcHRlc3QgaXQgcnVucyBv
-biB0aGUgdGFyZ2V0LA0KPiBhbmQgaXQgcGFzc2VkIHJlcGVhdGVkbHkgb24gcWVtdXg4Ni02NC4N
-Cg0KV2hpbHN0IEkgYXBwcm92ZSBvZiBwdGVzdHMgaW4gZ2VuZXJhbCwgSSB0aGluayB0aGlzIG9u
-ZSB3aWxsIGJlIGEgY2F1c2Ugb2YgcGFpbi4NCg0KVGVzdHMgYXJlIG5vdCBzaGlwcGVkIGluIHRo
-ZSBzZGlzdHMgb24gcHVycG9zZVsxXSwgYW5kIHVwc3RyZWFtIGlzIHZlcnkgY2xlYXIgdGhhdCB0
-aGUgdGVzdHMgYXJlIG5vdCBmb3IgcGFja2FnZXJzWzJdOg0KDQrigJzigJ0iDQpJZiB5b3XigJly
-ZSBwYWNrYWdpbmcgd2Vic29ja2V0cyBmb3IgYSBkaXN0cmlidXRpb24sIHlvdSBtdXN0IHVzZSBy
-ZWxlYXNlcyBwdWJsaXNoZWQgb24gUHlQSSBhcyBpbnB1dC4gWW91IG1heSBjaGVjayBTTFNBIGF0
-dGVzdGF0aW9ucyBvbiBHaXRIdWIuDQpZb3UgbXVzdG7igJl0IHJlbHkgb24gdGhlIGdpdCByZXBv
-c2l0b3J5IGFzIGlucHV0LiBTcGVjaWZpY2FsbHksIHlvdSBtdXN0buKAmXQgYXR0ZW1wdCB0byBy
-dW4gdGhlIG1haW4gdGVzdCBzdWl0ZS4gSXQgaXNu4oCZdCB0cmVhdGVkIGFzIGEgZGVsaXZlcmFi
-bGUgb2YgdGhlIHByb2plY3QuIEl0IGRvZXNu4oCZdCBkbyB3aGF0IHlvdSB0aGluayBpdCBkb2Vz
-LiBJdOKAmXMgZGVzaWduZWQgZm9yIHRoZSBuZWVkcyBvZiBkZXZlbG9wZXJzLCBub3QgcGFja2Fn
-ZXJzLg0KT24gYSB0eXBpY2FsIGJ1aWxkIGZhcm0gZm9yIGEgZGlzdHJpYnV0aW9uLCB0ZXN0cyB0
-aGF0IGV4ZXJjaXNlIHRpbWVvdXRzIHdpbGwgZmFpbCByYW5kb21seS4gSW5kZWVkLCB0aGUgdGVz
-dCBzdWl0ZSBpcyBvcHRpbWl6ZWQgZm9yIHJ1bm5pbmcgdmVyeSBmYXN0LCB3aXRoIGEgdG9sZXJh
-YmxlIGxldmVsIG9mIGZsYWtpbmVzcywgb24gYSBoaWdoLWVuZCBsYXB0b3Agd2l0aG91dCBub2lz
-eSBuZWlnaGJvcnMuIFRoaXMgaXNu4oCZdCB5b3VyIGNvbnRleHQuDQrigJzigJ3igJ0NCg0KVGhp
-cyBmZWVscyBsaWtlIGl0IHdpbGwgYmUgdG9vIGZsYWt5IGZvciB0aGUgYXV0b2J1aWxkZXIsIGV2
-ZW4gaWYgd2UgcmVtb3ZlIHRlc3RzIHdoaWNoIGhhdmUgdGlnaHQgdGltZW91dHMuDQoNClJvc3MN
-Cg0KWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9weXRob24td2Vic29ja2V0cy93ZWJzb2NrZXRzL2lz
-c3Vlcy8xNzM5I2lzc3VlY29tbWVudC01MDE2MDg0Nzk5DQpbMl0gaHR0cHM6Ly93ZWJzb2NrZXRz
-LnJlYWR0aGVkb2NzLmlvL2VuL3N0YWJsZS9wcm9qZWN0L2NvbnRyaWJ1dGluZy5odG1sI3BhY2th
-Z2luZw==
+On Mon Oct 26, 2026 at 12:14 PM GMT, Pratik Farkase wrote:
+> The /memory-monitor-psi-env-set/write-env-null test sets
+> MEMORY_PRESSURE_WATCH=3D/dev/null and asserts that no low-memory-warning
+> is emitted. That assumption is unsound: GMemoryMonitorPsi polls the
+> watch fd for G_IO_IN and /dev/null is always readable, so the
+> low-memory callback fires and the assertion (warning_level =3D=3D -1)
+> fails. It reproduces under QEMU system emulation on the autobuilders
+> (qemuarm64), and the resulting abort leaves the mock PSI FIFO behind,
+> cascading into a mkfifo failure in the memory-monitor-psi test.
+>
+> Add a patch dropping the test (and its now-unused function); the other
+> memory-monitor-psi-env-set subtests still run.
+>
+> [YOCTO #16464]
+>
+> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+> ---
+>  ...ip-memory-monitor-psi-write-env-null.patch | 88 +++++++++++++++++++
+>  meta/recipes-core/glib-2.0/glib.inc           |  1 +
+>  2 files changed, 89 insertions(+)
+>  create mode 100644 meta/recipes-core/glib-2.0/files/skip-memory-monitor-=
+psi-write-env-null.patch
+>
+> diff --git a/meta/recipes-core/glib-2.0/files/skip-memory-monitor-psi-wri=
+te-env-null.patch b/meta/recipes-core/glib-2.0/files/skip-memory-monitor-ps=
+i-write-env-null.patch
+> new file mode 100644
+> index 0000000000..aa9ef919df
+> --- /dev/null
+> +++ b/meta/recipes-core/glib-2.0/files/skip-memory-monitor-psi-write-env-=
+null.patch
+> @@ -0,0 +1,88 @@
+> +From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+> +From: Pratik Farkase <pratik.farkase@est.tech>
+> +Date: Mon, 26 Oct 2026 11:55:00 +0000
+> +Subject: [PATCH] Skip /memory-monitor-psi-env-set/write-env-null test
+> +
+> +test_write_env_null sets MEMORY_PRESSURE_WATCH=3D/dev/null and asserts
+> +that no low-memory-warning signal is emitted (warning_level stays -1).
+> +
+> +This assumption does not hold. When MEMORY_PRESSURE_WATCH points at an
+> +existing path, GMemoryMonitorPsi opens it with O_RDWR | O_NONBLOCK and
+> +creates a GSource polling for G_IO_IN. /dev/null is always readable
+> +(reads return immediate EOF), so the source is immediately dispatchable,
+> +the low-memory callback fires and warning_level becomes 50, making the
+> +assertion (warning_level =3D=3D -1) fail:
+> +
+> +  GLib-GIO:ERROR:.../gio/tests/memory-monitor-psi-env-set.c:300:
+> +  test_write_env_null: assertion failed (warning_level =3D=3D -1): (50 =
+=3D=3D -1)
+> +
+> +Whether the spurious event is caught before the monitor is torn down
+> +depends on GMainContext iteration timing, so it only reproduces in
+> +slower environments such as QEMU system emulation on the Yocto
+> +autobuilders (seen on qemuarm64). The test's abort also leaves the mock
+> +PSI FIFO $TMPDIR/cgroup behind, which then makes the separate
+> +memory-monitor-psi test fail in tests_setup with "mkfifo(): File exists"=
+.
+> +
+> +Drop the test registration and the now-unused test function. The
+> +remaining memory-monitor-psi-env-set subtests still run.
+> +
+> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16464
+> +
+> +Upstream-Status: Inappropriate [upstream ticket: https://gitlab.gnome.or=
+g/GNOME/glib/-/work_items/4094]
+> +Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+> +---
+> + gio/tests/memory-monitor-psi-env-set.c | 36 --------------------------
+> + 1 file changed, 36 deletions(-)
+> +
+> +--- a/gio/tests/memory-monitor-psi-env-set.c
+> ++++ b/gio/tests/memory-monitor-psi-env-set.c
+> +@@ -269,39 +269,6 @@
+> +   g_clear_error (&local_error);
+> + }
+> +=20
+> +-static void
+> +-test_write_env_null (SetupData *setup, gconstpointer data)
+> +-{
+> +-  GMemoryMonitorPsi *monitor;
+> +-  unsigned long warning_id;
+> +-  int warning_level =3D -1;
+> +-  GError *local_error =3D NULL;
+> +-
+> +-  /* The contents is generated by running "dd if=3D/dev/random of=3D/fo=
+o/bar bs=3D128 count=3D1" */
+> +-  const gchar *env_write =3D "hVh9eV0BZsh/GWEs9V6zKyO3VUe2MnxTxLZbA7BRo=
+7GJKHAAayIRsgO8EI4m8iFskhx/O4cAfpyL"
+> +-                           "YQ8LFHMG5XBuBmqD9spZghu0eVYF2X8lCCT+iBlEFw5=
+dWiSa6XwJN++AmHi1tp4uJj0UBR7CwV5c"
+> +-                           "+ms9ZDUqOQrvlFHUSxw=3D";
+> +-
+> +-  g_setenv ("MEMORY_PRESSURE_WATCH", "/dev/null", TRUE);
+> +-  g_setenv ("MEMORY_PRESSURE_WRITE", env_write, TRUE);
+> +-
+> +-  monitor =3D g_object_new (G_TYPE_MEMORY_MONITOR_PSI,
+> +-                          "proc-path", setup->mock_proc_path,
+> +-                          NULL);
+> +-  warning_id =3D g_signal_connect (monitor, "low-memory-warning",
+> +-                                 G_CALLBACK (memory_monitor_psi_signal_=
+cb), &warning_level);
+> +-  g_initable_init (G_INITABLE (monitor), NULL, &local_error);
+> +-  g_assert_no_error (local_error);
+> +-
+> +-  g_signal_handler_disconnect (monitor, warning_id);
+> +-  g_object_unref (monitor);
+> +-
+> +-  /* warning_level shouldn't be set */
+> +-  g_assert_cmpint (warning_level, =3D=3D, -1);
+> +-
+> +-  g_clear_error (&local_error);
+> +-}
+> +-
+
+Hi Pratik,
+
+The other patches for glib-2.0 do not remove the actual test function,
+just the g_test_add() call below. That is preferred as the diff is
+smaller and so there will be less need to rebase as we update to future
+releases. Could you send a v2 which just does that?
+
+> + static gpointer
+> + test_write_env_unix_domain_socket_thread (gpointer user_data)
+> + {
+> +@@ -395,9 +362,6 @@
+> +   g_test_add ("/memory-monitor-psi-env-set/write-env", SetupData, NULL,
+> +               tests_setup, test_write_env, tests_teardown);
+> +=20
+> +-  g_test_add ("/memory-monitor-psi-env-set/write-env-null", SetupData, =
+NULL,
+> +-              tests_setup, test_write_env_null, tests_teardown);
+> +-
+> +   g_test_add ("/memory-monitor-psi-env-set/write-env-unix-domain-socket=
+", SetupData, NULL,
+> +               tests_unix_domain_setup, test_write_env_unix_domain_socke=
+t, tests_unix_domain_teardown);
+> +=20
+
+Best regards,
+
+--=20
+Paul Barker
+
