@@ -1,114 +1,338 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1576.1793986648750430998
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1754.1793987241089242669
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 09:37:28 -0800
+ Fri, 06 Nov 2026 09:47:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=queLAEiM;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8a06454116eso458080b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 09:37:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793986648; x=1794591448; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XA8JbnX0yMfCLKAtg7U0aoNchl+2879mYlo5sjUqCcI=;
-        b=queLAEiMfPF0OMIUwnwiI0rpR5+YGqtIcs5pTFNsbvXwcdLSe4a86XPxux/Dwjlj0/
-         Fo2rMjL2vlKgCV/DjUiPL4a1Tt8fHPzCUKf9YhTchSqqiZ3RzQYBHcd6gJ7SWp6GL6yu
-         W+kZbh2hEKmZA0EMN5zhtX8Jx3+TLm7kdPHR6bCWIe6mONSnTWH57L0Z/AhJH7YE/U0E
-         hrBi1VDeu1gvncmfkVb9A9m9ZcaAKcMEI+YxykvFe1fsMluww8+8mE15OFWF2QInKvqE
-         79JiyuTSfiB4AZFHFSb/uyu/uapzA/wxYeCwPVbj7RXynKmF28obBjlbfQsXtxqzLbBl
-         qOGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793986648; x=1794591448;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XA8JbnX0yMfCLKAtg7U0aoNchl+2879mYlo5sjUqCcI=;
-        b=Sok96nP5dp+zIPAGFo4SiDJnHnbMk7FCAkQw4lm1uEqWjMbckY09ZGRrUL6ffl69Wj
-         oXx1W1fUwlJmCu1SRCAfVs+1Dq9SNry5c4w4lBaxWMBZNpR8g5IhPeUXVsePPFHYGMWR
-         v9L7eS4b/nz5SKqdYQZEL7zRQu9qIW0IHR6Zo/cQ4Yg6JNKpR4MiL+pEGHr570ZDUZ2G
-         ECdMJYTA2TmbVBKu46xei/bwiJcXVI1UEKxem9arGoLko9qSdwevqG9bIublOxfuFpNe
-         exOYZWxI1N8yjgyYk/9HfyUUT6bsT4ryr4dvX4A8tPtxPV912NuW718fUpAaPkYTU+Of
-         x7Uw==
-X-Gm-Message-State: APuU4Z+nz+suI639KdcplD/9RMRpzw9m61pfnU/dRmwENPW2QBOLMMIe
-	DvMggXV+MmjPOayErJuDp0LrdcwUdj86UTnZkDWFYtoy8z96DrC8o/NeU7DMjsaWft0=
-X-Gm-Gg: AYBFou3kTX2F+9quoFf+SUjrIxfHONoW/iwSd2n1W4CtOpbrGuBPUInovp+HTd/T4GY
-	gM4S4dCYiQM/VZzFXxRwe1PkZlS00yXIXa2U31zXKM/LCxTvYx0wezQ8RdB60MShqPxPMYhDfPY
-	qmV7G0TEKEPfLZhGQ2qvb0hDyoEwxUZyxwKmMDHH6xe3iptqGCRpjV5MHv8XY7OILg6hgc1DruJ
-	mNm+8kmKKv3iYJCG0n60b5w1RiL5/ptNZOJtG5g2pFTVKzDGPT0qQbd8fGn9t+CePO36q+mMer7
-	UZXTsvzYlD4H4UVI5vMQuepD1njvxvUbdnm2aHu4yK9DDhLa88pZQpjUk8ir0ZDnYdBYr4ARoue
-	y6q04YbhY4wyYFD4/bxAZ/nfm4XNrxi05sfnmMoqjoRkEfVM0WkmnLNuc6R2apVrpvhKkbFyTf/
-	sxM7pSZaTBvwzCSep+zkGUTK8hIHOWG43zAYiLizc3TF6LDjpWnbte+m2QxUlNMV0GT27eZDyuM
-	SOJqII25TrhVoI/y1kSOz6ybzq/uF0k5DNlj6Zp2yMJDU0gXpKpRCxRbM74pdIN/4IE3ySdrH+8
-	tbu4HEr0aXID32LM709UmzKRWE5ZksF+d24DmwomeuFF9DZHOuUHCLy6KxVyuVypb836fSMACzV
-	8zXtH/eX/2kDk50yKyjdEZejD380lDxdJFBVKWKKWe+BwRKA3QXc7tFtFVg6MekbdPsyb3UOmIP
-	utgb17VzQ2HcIs+ZzE2z75Mt4yhiNuJpL6NiI6Qhuiaa1VRd45WNO17wqXxFCc4xcjlLW2vvqMn
-	oed0JpnUcKprWbHsVu81UYQnlo1uPQGUtQNaYu6l+DuTq59qiYyN3Au2wcz2UUASxmVR3sWfvYE
-	S/QvWoqiYudoDw0lY+Mdha295Jk=
-X-Received: by 2002:a05:6a00:98a:b0:8a0:7677:c8c9 with SMTP id d2e1a72fcca58-8b37c33fe42mr3269790b3a.51.1793986647876;
-        Fri, 06 Nov 2026 09:37:27 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b356c2d918sm814411b3a.6.2026.11.06.09.37.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 09:37:27 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=DzEFpeIK;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20261106174717d01ba3a5020002074d-pjvrkt@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20261106174717d01ba3a5020002074d
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 06 Nov 2026 18:47:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=zsTK4Oqx2PIoZwvqN8t1YqPBMwzhXPVCi9/nPnzemnQ=;
+ b=DzEFpeIKTDu8/LPEo3rEcKryCiI4MS6GM4m7g1ESMib0KX6lBptZ8NAzekOBq9sfcA49XQ
+ fTTTpo+awM7UtvNOKroS5pbartTsurjaYy0RT+Ge0Q9MIGH/zlKW4g8TrlsHiG50Wmuz5UnW
+ 6/V24uAL9BHKA2IbDieAnpncqKFji6mygVQQpR0qS9YxzoJpVALW16x3jgdOvmYBTucri9FF
+ 7BPOCPOp/Kp6GbywzePku32PHPSNaxQ4oSCdIhURWSszRkzxoKkob21sBHBhxwpSjbeqS7xd
+ Z8dyJo1waP9eB1vkGxsG1FPOkC7Wmw06WJX2phrTF/5KyUJnUVMIc3vg==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH v2 2/2] staging.bbclass: Do not stage X11 locale data in sysroots
-Date: Fri,  6 Nov 2026 09:37:17 -0800
-Message-ID: <20261106173717.1054294-2-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261106173717.1054294-1-khem.raj@oss.qualcomm.com>
-References: <20261106173717.1054294-1-khem.raj@oss.qualcomm.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] glibc: patch CVE-2026-86805 and CVE-2026-95818
+Date: Fri,  6 Nov 2026 18:47:02 +0100
+Message-ID: <20261106174702.378945-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 17:37:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249710
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 17:47:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249711
 Content-Type: text/plain; charset="utf-8"
 
-Commit 63204f5551 moved the X11 locale data from the native to the
-target sysroot for meson-based ibus 1.5.35.
+From: Peter Marko <peter.marko@siemens.com>
 
-ibus 1.5.34, which is what meta-oe currently ships, still copies
-en_US.UTF-8/Compose from STAGING_DATADIR_NATIVE, so its do_compile now
-fails.
+Pick patch [1] which is [2] backported to 2.41 (oldest release still
+receiving security updates) which is mentioned in [3] and [4].
 
-On distros without x11 there is no target libx11 to provide the
-data either. Keep the directory in every sysroot so both ibus versions
-find it.
+On request, all testing code was removed from the patch.
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=629565b0c91dc326ac622b05982f21a374cd03c4
+[2] https://sourceware.org/git/?p=glibc.git;a=commit;h=ed0c137b97eb940b4b64981e84ed806d3276edd9
+[3] https://security-tracker.debian.org/tracker/CVE-2026-86805
+[4] https://security-tracker.debian.org/tracker/CVE-2026-95818
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-v2: Remove staging x11/locale from staging class
+ .../0049-CVE-2026-86805-CVE-2026-95818.patch  | 267 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
+ 2 files changed, 268 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0049-CVE-2026-86805-CVE-2026-95818.patch
 
- meta/classes-global/staging.bbclass             | 1 -
- meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb | 2 --
- 2 files changed, 3 deletions(-)
-
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index 5833abebc8..20340a16e1 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -34,7 +34,6 @@ SYSROOT_DIRS_IGNORE = " \
-     ${mandir} \
-     ${docdir} \
-     ${infodir} \
--    ${datadir}/X11/locale \
-     ${datadir}/applications \
-     ${datadir}/bash-completion \
-     ${datadir}/fonts \
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb
-index 25fcd6d8b9..5e35bda3c5 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb
-@@ -39,6 +39,4 @@ FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/
- FILES:${PN}-xcb += "${libdir}/libX11-xcb.so.*"
- FILES:${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
-
--SYSROOT_DIRS_IGNORE:remove:class-target = "${datadir}/X11/locale"
--
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/glibc/glibc/0049-CVE-2026-86805-CVE-2026-95818.patch b/meta/recipes-core/glibc/glibc/0049-CVE-2026-86805-CVE-2026-95818.patch
+new file mode 100644
+index 00000000000..dde4f8b901f
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0049-CVE-2026-86805-CVE-2026-95818.patch
+@@ -0,0 +1,267 @@
++From 629565b0c91dc326ac622b05982f21a374cd03c4 Mon Sep 17 00:00:00 2001
++From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
++Date: Mon, 17 Aug 2026 15:15:32 -0300
++Subject: [PATCH] elf: Open the normalized $ORIGIN rpath in AT_SECURE programs
++ (BZ 34360)
++
++For AT_SECURE programs the loader honors $ORIGIN in DT_RPATH only when the
++expansion is rooted in a trusted directory, but it validated the lexically
++normalized path while opening the raw expansion.  As "a/b/../c" only names
++"a/c" when "b" is not a symlink, an attacker who controls a component of
++$ORIGIN -- e.g. by hard-linking the setuid binary into an attacker-owned
++directory -- can make the opened path escape the trusted directory even
++though the check passed, loading an attacker-controlled object.
++
++Normalize the expansion in place and open that, so the path that is opened
++is exactly the path that was validated.  _dl_normalize_path rewrites the
++string in place without ever advancing its write cursor past its read
++cursor or appending, so it stays within the original storage.
++
++Add elf/tst-origin-secure as a regression test.
++
++Reviewed-by: Florian Weimer <fweimer@redhat.com>
++(cherry picked from commit ed0c137b97eb940b4b64981e84ed806d3276edd9)
++
++CVE: CVE-2026-86805
++CVE: CVE-2026-95818
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=629565b0c91dc326ac622b05982f21a374cd03c4]
++Omit the regression tests and their test harness prerequisites from this backport.
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ elf/dl-load.c           |  74 +++++++++----------------
++ elf/dl-path-normalize.h | 118 ++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 143 insertions(+), 49 deletions(-)
++ create mode 100644 elf/dl-path-normalize.h
++
++diff --git a/elf/dl-load.c b/elf/dl-load.c
++index 7b21f1dffa..0d141a61c1 100644
++--- a/elf/dl-load.c
+++++ b/elf/dl-load.c
++@@ -32,6 +32,7 @@
++ #include <sys/stat.h>
++ #include <sys/types.h>
++ #include <gnu/lib-names.h>
+++#include <dl-path-normalize.h>
++ 
++ /* Type for the buffer we put the ELF header and hopefully the program
++    header.  This buffer does not really have to be too large.  In most
++@@ -124,54 +125,24 @@ static const size_t system_dirs_len[] =
++ };
++ #define nsystem_dirs_len array_length (system_dirs_len)
++ 
+++/* Return true if the normalized path NPATH of length NLEN is rooted in one of
+++   the trusted system directories.  The system_dirs entries carry a trailing
+++   '/'; NPATH matches an entry when it shares the entry's leading component
+++   sequence and then either ends or continues with '/'.  For instance,
+++   "/lib64" and "/lib64/x" match "/lib64/" but "/lib64x" does not.  */
++ static bool
++-is_trusted_path_normalize (const char *path, size_t len)
+++path_is_trusted (const char *npath, size_t nlen)
++ {
++-  if (len == 0)
++-    return false;
++-
++-  char *npath = (char *) alloca (len + 2);
++-  char *wnp = npath;
++-  while (*path != '\0')
++-    {
++-      if (path[0] == '/')
++-	{
++-	  if (path[1] == '.')
++-	    {
++-	      if (path[2] == '.' && (path[3] == '/' || path[3] == '\0'))
++-		{
++-		  while (wnp > npath && *--wnp != '/')
++-		    ;
++-		  path += 3;
++-		  continue;
++-		}
++-	      else if (path[2] == '/' || path[2] == '\0')
++-		{
++-		  path += 2;
++-		  continue;
++-		}
++-	    }
++-
++-	  if (wnp > npath && wnp[-1] == '/')
++-	    {
++-	      ++path;
++-	      continue;
++-	    }
++-	}
++-
++-      *wnp++ = *path++;
++-    }
++-
++-  if (wnp == npath || wnp[-1] != '/')
++-    *wnp++ = '/';
++-
++   const char *trun = system_dirs;
++ 
++   for (size_t idx = 0; idx < nsystem_dirs_len; ++idx)
++     {
++-      if (wnp - npath >= system_dirs_len[idx]
++-	  && memcmp (trun, npath, system_dirs_len[idx]) == 0)
++-	/* Found it.  */
+++      /* Compare against the entry without its trailing '/'.  */
+++      size_t dirlen = system_dirs_len[idx] - 1;
+++
+++      if (nlen >= dirlen
+++	  && memcmp (trun, npath, dirlen) == 0
+++	  && (npath[dirlen] == '/' || npath[dirlen] == '\0'))
++ 	return true;
++ 
++       trun += system_dirs_len[idx] + 1;
++@@ -361,16 +332,21 @@ _dl_dst_substitute (struct link_map *l, const char *input, char *result)
++      checked for trust, the authors of the binaries themselves are
++      trusted to have designed this correctly.  Only $ORIGIN is tested in
++      this way because it may be manipulated in some ways with hard
++-     links.  */
++-  if (__glibc_unlikely (check_for_trusted)
++-      && !is_trusted_path_normalize (result, wp - result))
++-    {
++-      *result = '\0';
++-      return result;
++-    }
+++     links.
+++
+++     _dl_normalize_path replaces the expansion with its normalized form
+++     in place, so that the path that is opened is exactly the path that
+++     was validated.  */
++ 
++   *wp = '\0';
++ 
+++  if (__glibc_unlikely (check_for_trusted))
+++    {
+++      size_t nlen = _dl_normalize_path (result);
+++      if (!path_is_trusted (result, nlen))
+++	*result = '\0';
+++    }
+++
++   return result;
++ }
++ 
++diff --git a/elf/dl-path-normalize.h b/elf/dl-path-normalize.h
++new file mode 100644
++index 0000000000..ca4b14698c
++--- /dev/null
+++++ b/elf/dl-path-normalize.h
++@@ -0,0 +1,118 @@
+++/* In-place lexical path normalization for the dynamic loader.
+++   Copyright (C) 2026 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <https://www.gnu.org/licenses/>.  */
+++
+++#ifndef _DL_PATH_NORMALIZE_H
+++#define _DL_PATH_NORMALIZE_H
+++
+++#include <stddef.h>
+++#include <string.h>
+++
+++/* Lexically normalize the null-terminated PATH in place and return the
+++   length of the result (excluding the terminating NUL byte):
+++
+++   - Runs of '/' are collapsed to a single '/'.
+++
+++   - "." components are removed.
+++
+++   - A ".." component removes the preceding component if there is one and it
+++     is not itself a preserved "..".  In an absolute path a surplus ".." at
+++     the root is dropped ("/../a" normalizes to "/a"), in a relative path
+++     leading ".." components are preserved ("../a" stays "../a", "a/../../b"
+++     normalizes to "../b").
+++
+++   - The result has no trailing '/' except for the root path "/" itself
+++     ("/a/" normalizes to "/a").
+++
+++   - The result is empty if and only if every component cancels or is removed
+++     ("", ".", "a/.." all normalize to "").
+++
+++   The PATH is written in place, and the internal write cursor never runs
+++   ahead of the read cursor.  Only bytes within the strlen (PATH) + 1 storage
+++   are accessed.  */
+++static inline size_t
+++_dl_normalize_path (char *path)
+++{
+++  /* The root '/' of an absolute path is not removed.  */
+++  char *pstart = path + (path[0] == '/');
+++  const char *rnp = pstart;
+++  char *wnp = pstart;
+++  /* End of the prefix a ".." may not remove.  Either the root '/', or, for
+++     relative paths, the original start of the string extended by any
+++     preserved leading ".." components.  */
+++  char *limit = pstart;
+++
+++  while (*rnp != '\0')
+++    {
+++      /* Collapse consecutive separators.  */
+++      if (*rnp == '/')
+++	{
+++	  ++rnp;
+++	  continue;
+++	}
+++
+++      /* [RNP, REND) is the next input component.  */
+++      const char *rend = rnp;
+++      while (*rend != '\0' && *rend != '/')
+++	++rend;
+++      size_t clen = rend - rnp;
+++
+++      /* Drop '.' component.  */
+++      if (clen == 1 && rnp[0] == '.')
+++	;
+++      else if (clen == 2 && rnp[0] == '.' && rnp[1] == '.')
+++	{
+++	  if (wnp > limit)
+++	    {
+++	      /* Remove the last component along with the '/' separating it
+++		 from its predecessor (the root '/' of an absolute path is
+++		 retained).  */
+++	      while (wnp > limit && wnp[-1] != '/')
+++		--wnp;
+++	      if (wnp > pstart)
+++		--wnp;
+++	    }
+++	  else if (pstart == path)
+++	    {
+++	      /* No component is left and the original path is relative:
+++		 keep the unresolvable ".." (it becomes part of the
+++		 preserved prefix).  */
+++	      if (wnp > pstart)
+++		*wnp++ = '/';
+++	      *wnp++ = '.';
+++	      *wnp++ = '.';
+++	      limit = wnp;
+++	    }
+++	  /* Otherwise the path is absolute and the surplus ".." at the
+++	     root is dropped ("/../a" normalizes to "/a").  */
+++	}
+++      else
+++	{
+++	  if (wnp > pstart)
+++	    *wnp++ = '/';
+++	  memmove (wnp, rnp, clen);
+++	  wnp += clen;
+++	}
+++
+++      rnp = rend;
+++    }
+++
+++  *wnp = '\0';
+++  return wnp - path;
+++}
+++
+++#endif /* _DL_PATH_NORMALIZE_H */
+diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
+index 09ac0fc53f7..1598249b7b3 100644
+--- a/meta/recipes-core/glibc/glibc_2.39.bb
++++ b/meta/recipes-core/glibc/glibc_2.39.bb
+@@ -77,6 +77,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0042-CVE-2026-8674.patch \
+            file://0047-CVE-2026-89092.patch \
+            file://0048-CVE-2026-97399.patch \
++           file://0049-CVE-2026-86805-CVE-2026-95818.patch \
+ "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
