@@ -1,71 +1,71 @@
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7337.1793976214149599703
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7521.1793976220823708730
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 06:43:34 -0800
+ Fri, 06 Nov 2026 06:43:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=R9Y+PkW1;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=CI9sgnQq;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7171; q=dns/txt;
-  s=iport01; t=1793976214; x=1795185814;
+  d=cisco.com; i=@cisco.com; l=6426; q=dns/txt;
+  s=iport01; t=1793976220; x=1795185820;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=dSSe1VBHmKiPBi/yFt4xxsEyCT2xDHF1UBNinPP5rVY=;
-  b=R9Y+PkW1W6lXRvBv762JXcNKFsBsqgb8oxtNVdnDqeedk+ZX1FSpaBSQ
-   XUpGWGfLAU7qg+Gss22TlS9KTVGJJ1K23bUbwWk2i0NXQ2e64ofqUXJD7
-   WaRl+fAiLSLFjLtW1BzOrw71tQIBB/fipUODCCIzAQ9TVWKpLEcVRhe1v
-   4blrYz5bpzv6bh2by3ahr38FxqkTeP2G0VebG8hp22dS26JTqx9LahyzI
-   nxlx2p2FMN4iU0dZd1ukr7eXTwo8UCjNshmd6yPqE6Z/47iZlrehvUg8o
-   2BeQp0aePetGtStgru3sUUQeEIxMcPEq6naYcDJO5R31C9sr/Ss6SpULC
+  bh=SOhRAgNrTc9u8M2D9k9aQAhDW8BJAdacJb7wFDRCDs0=;
+  b=CI9sgnQqdjw86UjWWTIV8qQVbfQrSju4rpuOzmV8ZNIKNZEUFFVI1rOe
+   RTGDBiVtNoQHBrzVnfjgy8oizKwbiWhA03BvnWkwLepCHApBN6obsij/5
+   l5WvFu2JMHE2VDcpTcrqBSwGW1Pc5QY2wiwKCr/JHkU6tS1jMW9HHM0jg
+   kKr7avCTV8AoZuDztmgUMrJInTYCI6zc1+xWMrv4Py4JLeOdufTYKdhDj
+   Ht9BYYu5Ey+GtB+sN4V8UHSHD4xQFe3uwX7nyIy+rAOpLqhrG5UswVa2S
+   eIj40IAuF92AE/1zhQS0eNvnp5/soGfCQJfeKzSWpDGvGH+EhkLAEsAGA
    A==;
-X-CSE-ConnectionGUID: APXNeR1ESCKynszTeL/CAA==
-X-CSE-MsgGUID: MCM3AdIKRzepXtYXrovgbw==
-X-IPAS-Result: =?us-ascii?q?A0BYAACS5u1q/5D/Ja1aHQEBAQEJARIBBQUBgX4GAQsBg?=
- =?us-ascii?q?lZ1YENJA5QngiEDi2WSPIF+DwEBAQ9EDQQBAYQ/RgKOHQImNgcOAQIEAwIDA?=
- =?us-ascii?q?QEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECL?=
- =?us-ascii?q?yALIwgZgwIBgjoDNwMRvEWBeTOBAYMpAT8CQ1DYTA0Db4FoAQsUAYE4AYVBg?=
- =?us-ascii?q?wCFJF0YAUSEOScbgUlEhH6BBYEaQgEBgSeGfwSDHBKBWoEDjBUCgVGGeUiBH?=
- =?us-ascii?q?gNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdgR6BEoEHXYErKF4hg?=
- =?us-ascii?q?QiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiCBIJARMaLAqBGjU8CSY/FQxkCxoFY?=
- =?us-ascii?q?QgCDQx0ORAwHiQvBRwmPhsKLxgNSBEsNxUZBD5uB5I9giAlTQEsEFEBCiGBV?=
- =?us-ascii?q?T6UCo9kgiGBNZ5rcYQqjCSPPoV8GjOqcQuYfY4KhAqRMi1ohGmBbwUwgUcLB?=
- =?us-ascii?q?zMaCBsVO4JnCUoZD445g2uBf4NlxggmMgIGAzIBAQcCBw4DC4FokAACJgeBT?=
- =?us-ascii?q?wEB?=
-IronPort-Data: A9a23:S36Pm6hmC878UJAGHWkex4wFX161NxEKZh0ujC45NGQN5FlHY01je
- htvXGDQOP/YY2L8e94kbIzg8U0DusCEn4djTVM+qC00QiJjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNsvre8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUxwtZRDFsX2
- MczCyELdQK/isbx65uSH7wEasQLdKEHPasFsX1miDWcBvE8TNWbHOPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgt/5JEWxI9EglHubidRpF+9rqss6G+Vxwt0uFToGIeOJI3THZgOxy50o
- Erj1EGiKx07F+aNxCK17kOcnOjRkinkDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBbCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:74jpoq1fNa40t1qV+ej1HAqjBJ4kLtp133Aq2lEZdPUzSL39qy
- nAppomPHPP5Qr5HUtQ+uxoW5PwJE80i6QV3WB5B97LN2PbUSmTXeNfBODZrAEIdReTygck78
- ddWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
-X-Talos-CUID: =?us-ascii?q?9a23=3AZ2H6aGubRLih4/ZTywue9m706IsMSk37wU2JDnS?=
- =?us-ascii?q?TKndvU6+pRHvX04pNxp8=3D?=
-X-Talos-MUID: 9a23:LGzYRwhlHz7ygfnWk5a6HcMpEexNuI2iKWM3g5gei9W1BTZ3JTiXk2Hi
+X-CSE-ConnectionGUID: iF508r/dSZu1/zR1N6CO3w==
+X-CSE-MsgGUID: tv229FN0SwGWPyJClQRZYA==
+X-IPAS-Result: =?us-ascii?q?A0ACAwAN5+1q/43/Ja1aH4I6gld1YENJA5QngiEDniEUg?=
+ =?us-ascii?q?WoPAQEBD0QNBAEBhD9GAo4dAiY2Bw4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDZASAQIBAycLARgBPRwDAQIvKyMIGYMCAYI6AzcDEbxNg?=
+ =?us-ascii?q?XkzgQGDKQE/AkNQ2EwQb4FoAQsUAYE4hUKIJF0YAUSEOScbgUlEgRWDaYEFg?=
+ =?us-ascii?q?VwBAYFGhmAEgxwSgVqBA4wVAoFRW4YeSIEeA1ksAVUTDQoLBwWBaAM1EioVb?=
+ =?us-ascii?q?jIdgSM+F4EHGwYFgR2BHoESgQddgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQ?=
+ =?us-ascii?q?xJHJCIIEgkBExosCoEaNTwJJj8VDGQLGgVhCAINDHQ5EDAeJC8FHCY+GwovG?=
+ =?us-ascii?q?A1IESw3FRkEPm4Hkj2CRQgzEgEsEFEBCiGCFBildp9TgT6EKowklToaM6pxC?=
+ =?us-ascii?q?5h9jgqVPIEVhGmBbwYvgUcLBzMaCBsVO4JnCUoZD445g2uBf4NlxggmMgIGA?=
+ =?us-ascii?q?wMvAQEHAgcOAwuBaJACLYFPAQE?=
+IronPort-Data: A9a23:d4Sl7qBmGjHB+xVW/37iw5YqxClBgxIJ4kV8jS/XYbTApDsn02NTn
+ TEbD2DSbP/fYGqgetwkPo7lpkxQ7ZDVyIdrOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGcYZsCCCM/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
+ fuo+5eBYQb9hmYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEwtszVBEseoEjyPsuRnN0r
+ NpGAxdWcUXW7w626OrTpuhEnM8vKozveYgYoHwllW2fBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGY2BPjDS0Un1lM/GY8kleulrnL+aDZf7lmSoMLb5kCOkFAtj+axbYe9ltqiWdsPxBe2g
+ Dr94EvGOgA4H9im8wi02yf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
+ 0ES9y8koKQ++UDtScPyNyBUu1aetRIaHt4VGOog5UTVluzf4h2SAS4PSTsphMEaifLajAcCj
+ jeh9+4FzxQ02FFJYRpxLoupkA4=
+IronPort-HdrOrdr: A9a23:o8LyMK4oc/0QADRKAgPXwOTXdLJyesId70hD6qkXc20wTiX2ra
+ 6TdZgguCMczQxhO03I+urwXZVoP0m8yXcd2+B4Vt2ftUvdyQmVxepZgrcKrQeNJ8SHzI5g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
+X-Talos-CUID: =?us-ascii?q?9a23=3ANDORk2lacuyBFZUAV5V64fvYS2bXOXzzkS+AOQi?=
+ =?us-ascii?q?0MlR0EfqHcwa2pohDyNU7zg=3D=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3Aq7AUPw8L03bfzimL4OOPlFuQf9t2uf7/JmZVqoo?=
+ =?us-ascii?q?phPGVFwd0Ag2vvR3iFw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
-   d="scan'208";a="536910531"
-Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:33 +0000
+   d="scan'208";a="544476455"
+Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:33 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id 13F53180003C1
+	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id 19EDC180004AF
 	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 14:43:33 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id AF865CBF203; Fri,  6 Nov 2026 06:43:32 -0800 (PST)
+	id B6D5BCBF204; Fri,  6 Nov 2026 06:43:32 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][v2 PATCH 03/27] python3-git: Fix CVE-2026-67325
-Date: Fri,  6 Nov 2026 06:43:07 -0800
-Message-Id: <20261106144331.3354811-4-yurade@cisco.com>
+Subject: [OE-core][wrynose][v2 PATCH 04/27] python3-git: fix CVE-2026-67324
+Date: Fri,  6 Nov 2026 06:43:08 -0800
+Message-Id: <20261106144331.3354811-5-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261106144331.3354811-1-yurade@cisco.com>
 References: <20261106144331.3354811-1-yurade@cisco.com>
@@ -73,157 +73,141 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-07.cisco.com
+X-Outbound-Node: rcdn-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:43:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249665
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249689
 Content-Type: text/plain; charset="utf-8"
 
-CVE-2026-67325 concerns bypasses using abbreviated long options.
-Commit [1] introduces rejection of those abbreviations, and [2]
-refines that check. The CVE description is in [3].
+Upstream commit [1] adds joined-short-option parsing, including
+clustered forms such as -fuVALUE, while preserving safe attached
+values. This behavior matches CVE-2026-67324's description [2] and
+the upstream advisory [3]. The commit also adjusts clone-option
+handling to preserve long-option abbreviation checks.
 
-[1] https://github.com/gitpython-developers/GitPython/commit/2ab051697940144545a14d2f4a639c6409c3187f
-[2] https://github.com/gitpython-developers/GitPython/commit/181e8ede7543dbbdcee92756cea260f675316c63
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-67325
+[1] https://github.com/gitpython-developers/GitPython/commit/56806080c1348749b07daa4a2024ce47b3cad285
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-67324
+[3] https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-v396-v7q4-x2qj
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
 Changes in v2:
-- Kept p1's UnsafeOptionError raise in upstream's multi-line form.
-- Formatted p2's exact-match UnsafeOptionError raise on one line to match
-  upstream.
+-  Refreshed patch context and removed trailing whitespace.
 ---
- .../python3-git/CVE-2026-67325_p1.patch       | 49 +++++++++++++++++
- .../python3-git/CVE-2026-67325_p2.patch       | 52 +++++++++++++++++++
- .../python/python3-git_3.1.43.bb              |  2 +
- 3 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67325_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67325_p2.patch
+ .../python/python3-git/CVE-2026-67324.patch   | 94 +++++++++++++++++++
+ .../python/python3-git_3.1.43.bb              |  1 +
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-67325_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-67325_p1.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
 new file mode 100644
-index 0000000000..4c1f3195d9
+index 0000000000..73722344c1
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-67325_p1.patch
-@@ -0,0 +1,49 @@
-+From 048f65847761514ebccf3cd8a889fef7a0068c07 Mon Sep 17 00:00:00 2001
-+From: abhiprd2000 <8292aniarc@gmail.com>
-+Date: Thu, 9 Jul 2026 21:22:50 +0530
-+Subject: [PATCH] Reject abbreviated forms of unsafe git options
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
+@@ -0,0 +1,94 @@
++From b09720b6f8311edac108392bd834e74918836c4f Mon Sep 17 00:00:00 2001
++From: "GPT 5.6" <codex@openai.com>
++Date: Sun, 12 Jul 2026 14:12:16 +0200
++Subject: [PATCH] fix: reject joined unsafe short options
 +
-+CVE: CVE-2026-67325
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/2ab051697940144545a14d2f4a639c6409c3187f]
++GitPython blocks options such as --upload-pack/-u and --config/-c
++because they can execute arbitrary commands unless unsafe options are
++explicitly allowed. Git also accepts a short option with its value
++joined to the same token, including after clusterable flags. Forms
++such as -uVALUE, -fuVALUE, -cVALUE, and -vcVALUE could therefore
++bypass an exact-token check.
++
++Parse single-dash option tokens sufficiently to recognize blocked
++short options while preserving safe attached values such as
++-oupstream. Also distinguish clone multi-option values from bare
++kwargs so positional values are not treated as long-option
++abbreviations.
++
++This completes the option-validation hardening for
++GHSA-2f96-g7mh-g2hx.
++
++CVE: CVE-2026-67324
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/56806080c1348749b07daa4a2024ce47b3cad285]
 +
 +Backport Changes:
-+- Omitted test/test_clone.py because the current PyPI source
-+  archive does not include the test suite and the python3-git
-+  recipe does not run it.
++- Omitted test/test_clone.py, test/test_git.py, test/test_remote.py
++  because the current PyPI source archive does not include the test
++  suite and the python3-git recipe does not run it.
 +
-+(cherry picked from commit 2ab051697940144545a14d2f4a639c6409c3187f)
++Reviewed-by: Sebastian Thiel <sebastian.thiel@icloud.com>
++(cherry picked from commit 56806080c1348749b07daa4a2024ce47b3cad285)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/cmd.py | 17 ++++++++++++-----
-+ 1 file changed, 12 insertions(+), 5 deletions(-)
++ git/cmd.py | 40 ++++++++++++++++++++++++++++++++++++----
++ 1 file changed, 36 insertions(+), 4 deletions(-)
 +
 +diff --git a/git/cmd.py b/git/cmd.py
-+index 87866be2..f8fead70 100644
++index 523029fc..75495dc1 100644
 +--- a/git/cmd.py
 ++++ b/git/cmd.py
-+@@ -739,13 +739,20 @@ Git.check_unsafe_options
-+         arbitrary commands. These are blocked by default.
++@@ -734,8 +734,21 @@
++     @classmethod
++     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
++-        """Check for unsafe options.
++-
++-        Some options that are passed to ``git <command>`` can be used to execute
++-        arbitrary commands. These are blocked by default.
+++        """Raise :class:`~git.exc.UnsafeOptionError` for blocked option spellings.
+++
+++        In addition to exact matches, this rejects abbreviated long options accepted
+++        by Git (for example, ``--upl`` for ``--upload-pack``) and unsafe short options
+++        whose values are joined to the same token, including after clusterable flags
+++        (for example, ``-uVALUE`` and ``-fuVALUE``).
+++
+++        A list containing only bare names is treated as normalized keyword arguments,
+++        so multi-character names such as ``upload_p`` are checked as long-option
+++        abbreviations. If any item starts with ``-``, the list is treated as tokenized
+++        command-line input: bare items can be option values and are not checked as
+++        abbreviations. Thus ``["--origin", "upload"]`` is allowed. Single-dash options
+++        use short-option parsing rather than broad prefix matching, preserving safe
+++        attached values such as ``-oupstream`` and ``-bcurrent``.
+++
+++        Some options passed to ``git <command>`` can execute arbitrary commands and
+++        are therefore blocked by default unless the caller explicitly allows them.
 +         """
 +         # Options can be of the form `foo`, `--foo`, `--foo bar`, or `--foo=bar`.
-++        # Git accepts any unambiguous prefix of a long option, so an abbreviated
-++        # spelling such as `--upl` for `--upload-pack` must be rejected too. An
-++        # option is unsafe if its canonical name is a prefix of any blocked
-++        # option's canonical name.
++@@ -747,4 +760,13 @@
++         # only.
 +         canonical_unsafe_options = {cls._canonicalize_option_name(option): option for option in unsafe_options}
+++        unsafe_short_options = {
+++            canonical: option
+++            for canonical, option in canonical_unsafe_options.items()
+++            if option.startswith("-") and not option.startswith("--") and len(canonical) == 1
+++        }
+++        # These value-less Git flags can be clustered before another short option
+++        # (for example, ``-fuVALUE``). Stop at any other character because it may
+++        # begin an attached value, as ``o`` does in the safe option ``-oupstream``.
+++        clusterable_short_options = frozenset("46flnqsv")
++         options_are_kwargs = all(not option.startswith("-") for option in options)
 +         for option in options:
-+-            unsafe_option = canonical_unsafe_options.get(cls._canonicalize_option_name(option))
-+-            if unsafe_option is not None:
-+-                raise UnsafeOptionError(
-+-                    f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+-                )
-++            candidate = cls._canonicalize_option_name(option)
-++            if not candidate:
-++                continue
-++            for canonical, unsafe_option in canonical_unsafe_options.items():
-++                if canonical.startswith(candidate):
-++                    raise UnsafeOptionError(
-++                        f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-++                    )
-+ 
-+     @classmethod
-+     def _option_candidates(cls, args: Sequence[Any] = (), kwargs: Optional[Mapping[str, Any]] = None) -> List[str]:
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-67325_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-67325_p2.patch
-new file mode 100644
-index 0000000000..65a914f0a0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-67325_p2.patch
-@@ -0,0 +1,52 @@
-+From 6de6760007664e5e9178b98e616d0b9edc959a53 Mon Sep 17 00:00:00 2001
-+From: "GPT 5.6" <codex@openai.com>
-+Date: Sun, 12 Jul 2026 13:45:42 +0200
-+Subject: [PATCH] Address review feedback about unsafe option abbreviations
-+
-+The prefix check could reject otherwise allowed one-letter short options when an unrelated blocked long option began with the same character. Keep exact matches for every spelling, but restrict prefix matching to explicit long options and multi-character kwargs.
-+
-+This addresses the review comment: single-letter short options and kwargs must not be treated as long-option abbreviations. It also adds coverage for abbreviated unsafe kwargs so both clone validation paths remain protected.
-+
-+CVE: CVE-2026-67325
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/181e8ede7543dbbdcee92756cea260f675316c63]
-+
-+Backport Changes:
-+- Omitted test/test_clone.py, test/test_git.py because the current
-+  PyPI source archive does not include the test suite and the
-+  python3-git recipe does not run it.
-+
-+Reviewd-by: Sebastian Thiel <sebastian.thiel@icloud.com>
-+(cherry picked from commit 181e8ede7543dbbdcee92756cea260f675316c63)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
-+---
-+ git/cmd.py | 10 +++++++++-
-+ 1 file changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index cd22aa83..3b97871e 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -742,14 +742,22 @@ Git.check_unsafe_options
-+         # Git accepts any unambiguous prefix of a long option, so an abbreviated
-+         # spelling such as `--upl` for `--upload-pack` must be rejected too. An
-+         # option is unsafe if its canonical name is a prefix of any blocked
-+-        # option's canonical name.
-++        # option's canonical name. Only long options and multi-character kwargs
-++        # can be abbreviations; single-character short options remain exact-match
-++        # only.
-+         canonical_unsafe_options = {cls._canonicalize_option_name(option): option for option in unsafe_options}
-++        options_are_kwargs = all(not option.startswith("-") for option in options)
-+         for option in options:
-+             candidate = cls._canonicalize_option_name(option)
-+             if not candidate:
++@@ -757,3 +779,13 @@
++                 raise UnsafeOptionError(f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it.")
+++            option_token = option.split("=", 1)[0].split(None, 1)[0]
+++            if option_token.startswith("-") and not option_token.startswith("--"):
+++                for option_char in option_token[1:]:
+++                    unsafe_option = unsafe_short_options.get(option_char)
+++                    if unsafe_option is not None:
+++                        raise UnsafeOptionError(
+++                            f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
+++                        )
+++                    if option_char not in clusterable_short_options:
+++                        break
++             if not (option.startswith("--") or (options_are_kwargs and len(candidate) > 1)):
 +                 continue
-++            unsafe_option = canonical_unsafe_options.get(candidate)
-++            if unsafe_option is not None:
-++                raise UnsafeOptionError(f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it.")
-++            if not (option.startswith("--") or (options_are_kwargs and len(candidate) > 1)):
-++                continue
-+             for canonical, unsafe_option in canonical_unsafe_options.items():
-+                 if canonical.startswith(candidate):
-+                     raise UnsafeOptionError(
-+                         f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+                     )
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index 72eb073196..76a21c670f 100644
+index 76a21c670f..ca2efce37e 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -23,6 +23,8 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-44244_p2.patch \
-            file://CVE-2026-67326.patch \
+@@ -25,6 +25,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
             file://CVE-2026-67323.patch \
-+           file://CVE-2026-67325_p1.patch \
-+           file://CVE-2026-67325_p2.patch \
+            file://CVE-2026-67325_p1.patch \
+            file://CVE-2026-67325_p2.patch \
++           file://CVE-2026-67324.patch \
             "
  SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
