@@ -1,41 +1,41 @@
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.466.1793944896943825213
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.491.1793944902881868872
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2026 22:01:37 -0800
+ Thu, 05 Nov 2026 22:01:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=tEjKLYks;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1PvwzFoE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a1af72c13e-146c4f19-41bf-41a6-89cb-a32fe7a05481-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rDVerx0j;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EJ2aWNwv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1af72d8da-777abbdc-c24d-4c25-8ad8-b466f6a0e4b8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1793944896;
+	t=1793944902;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=B9BsfDOuJKeEmrWUmqNnRzuY65+00yhNCvedABONYfg=;
-	b=tEjKLYksy9T9RkgKzy5ZQozTDkTBKFANNhUlTlAbffLeyAeZ/R80UG1/Or/WM0xp
-	A5USzmCwbRBQaOCb7umeP66XVTkjFEAymruRQj/xMyhmpWyilmRxtBW7wpQm+k4l4FA
-	FiXEQ7zou6Svfhi4pRKYez3W7ALuTlLUP54kytA4=
+	bh=DH1dinKVSjdeo4ITMw1TGBwLkBMPdYvJhvcz5MAsHVQ=;
+	b=rDVerx0jCcNQ/wvDRdLWH50GgB6mBLef7jvzNQbQtjkZ0ox7s4Kj/MJjz5+wcnlP
+	XGph9NRzGnUCdecrF13bkL2jCfAyN8nS5aD5ajKCw6EvVEONTm/Fhy7nkfhzax7mGRG
+	CdCFAm2QG0RLXhPiccSEeF3EmbjtmFIz6dt5A7gQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793944896;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1793944902;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=B9BsfDOuJKeEmrWUmqNnRzuY65+00yhNCvedABONYfg=;
-	b=1PvwzFoEk/9KQTzNrf18hjT/U7PVi/2iciO4HOSwXKlWkrsqTVd7nkD0MWqtc/OV
-	N4xckKfOvneqnQtx5SwXCY+0D7yTaGjtiacl1On9tbdpEGvacXPY6kyMngxwBYVs3UW
-	NZmjbtGDS9ksjJVbIYhXFqU6NCjMfFnchSd7E9/w=
-Content-Type: multipart/mixed; boundary="===============1233460416065510089=="
+	bh=DH1dinKVSjdeo4ITMw1TGBwLkBMPdYvJhvcz5MAsHVQ=;
+	b=EJ2aWNwvE/a1lch8V5jALmXi+9l/Ya+D8VN+NGStwcdHeNYQQexvhY7lCBEv6yyx
+	XwGrVoUnooTm0tiS9Pi1DStMQBiLFLLL6xoZ416SOoS4vJyXGbBgZep5U/Z0D+L6Y5u
+	RXzoXPaos+Og4UuA/0xvRYcvmaMLtBNyUsYfJitE=
+Content-Type: multipart/mixed; boundary="===============1584658193484296865=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] openssh: upgrading to 10.6p2 SUCCEEDED
-Message-ID: <010101a1af72c13e-146c4f19-41bf-41a6-89cb-a32fe7a05481-000000@us-west-2.amazonses.com>
-Date: Fri, 6 Nov 2026 06:01:35 +0000
+Subject: [AUH] diffoscope: upgrading to 337 SUCCEEDED
+Message-ID: <010101a1af72d8da-777abbdc-c24d-4c25-8ad8-b466f6a0e4b8-000000@us-west-2.amazonses.com>
+Date: Fri, 6 Nov 2026 06:01:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.06-54.240.27.193
+X-SES-Outgoing: 2026.11.06-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 06:01:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249586
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249595
 
---===============1233460416065510089==
+--===============1584658193484296865==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *openssh* to *10.6p2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *diffoscope* to *337* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-openssh-upgrade-10.6p1-10.6p2.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-332-337.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,140 +64,101 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f953e7a1024b95018dfc959ff93e7a616da1f160 Mon Sep 17 00:00:00 2001
+From 65d0a3e663c43e5862b3c12562ea30a2d54b7e1b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 6 Nov 2026 05:18:55 +0000
-Subject: [PATCH] openssh: upgrade 10.6p1 -> 10.6p2
+Date: Fri, 6 Nov 2026 06:01:32 +0000
+Subject: [PATCH] diffoscope: upgrade 332 -> 337
 
 ---
- ...1-regress-banner.sh-log-input-and-output-files-on-erro.patch | 2 +-
- .../openssh/{openssh_10.6p1.bb => openssh_10.6p2.bb}            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh_10.6p1.bb => openssh_10.6p2.bb} (99%)
+ .../diffoscope/{diffoscope_332.bb => diffoscope_337.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_332.bb => diffoscope_337.bb} (93%)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-index 902ac7411a..46bd7e8d3c 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-@@ -1,4 +1,4 @@
--From bea215955125b39c802d2a255cd08dff4fa6298e Mon Sep 17 00:00:00 2001
-+From 715dcbdc4724618a4224a4ee78bdf9bef0cd26f4 Mon Sep 17 00:00:00 2001
- From: Mikko Rapeli <mikko.rapeli@linaro.org>
- Date: Mon, 11 Sep 2023 09:55:21 +0100
- Subject: [PATCH] regress/banner.sh: log input and output files on error
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.6p1.bb b/meta/recipes-connectivity/openssh/openssh_10.6p2.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssh/openssh_10.6p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_10.6p2.bb
-index bad22b879c..24a9102949 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.6p2.bb
-@@ -25,7 +25,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://sshd_check_keys \
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-            "
--SRC_URI[sha256sum] = "a9dc9565dffe8640f64d863cd29a32bc4a3dbdec0566a7fc44c5d6ee767d5f39"
-+SRC_URI[sha256sum] = "9ae44872090cf2f06b3cf9ff147e7f16f309671340763ed2f99248398ae29d5b"
+diff --git a/meta/recipes-support/diffoscope/diffoscope_332.bb b/meta/recipes-support/diffoscope/diffoscope_337.bb
+similarity index 93%
+rename from meta/recipes-support/diffoscope/diffoscope_332.bb
+rename to meta/recipes-support/diffoscope/diffoscope_337.bb
+index a43b20b460..c3c6adb3d1 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_332.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_337.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
+ inherit pypi setuptools3
  
+-SRC_URI[sha256sum] = "da858807ce2535f1bb5c3942020b01c7aef14f870257c964b70cd4e1f2333206"
++SRC_URI[sha256sum] = "ca1c12904e7ef441649c34675de50496d2228a709662864a613844ee207e4dcd"
+ 
+ RDEPENDS:${PN} += "\
+         binutils \
 -- 
 2.47.1
 
 
---===============1233460416065510089==
+--===============1584658193484296865==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/openssh: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh: SRC_URI changed from "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.6p1.tar.gz file://sshd_config file://ssh_config file://init file://sshd file://sshd.service file://sshd.socket file://sshd@.service file://sshdgenkeys.service file://volatiles.99_sshd file://run-ptest file://sshd_check_keys file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch" to "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.6p2.tar.gz file://sshd_config file://ssh_config file://init file://sshd file://sshd.service file://sshd.socket file://sshd@.service file://sshdgenkeys.service file://volatiles.99_sshd file://run-ptest file://sshd_check_keys file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch"
-packages/x86-64-v3-poky-linux/openssh: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PKGSIZE changed from 41417456 to 41412480 (-0%)
-packages/x86-64-v3-poky-linux/openssh/openssh-dbg: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-dev: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-dev: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-doc: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-doc: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-keygen: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-keygen: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-locale: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-locale: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-misc: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-misc: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PKGSIZE changed from 8499590 to 8499582 (-0%)
-packages/x86-64-v3-poky-linux/openssh/openssh-ptest: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-scp: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-scp: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp-server: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp-server: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-sftp: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-src: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-src: PKGSIZE changed from 4856148 to 4856694 (+0%)
-packages/x86-64-v3-poky-linux/openssh/openssh-src: FILELIST: directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/conversion -> /usr/src/debug/openssh/10.6p2/regress/unittests/conversion, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/kex -> /usr/src/debug/openssh/10.6p2/regress/unittests/kex, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/servconf -> /usr/src/debug/openssh/10.6p2/regress/unittests/servconf, directory renamed /usr/src/debug/openssh/10.6p1/openbsd-compat -> /usr/src/debug/openssh/10.6p2/openbsd-compat, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/test_helper -> /usr/src/debug/openssh/10.6p2/regress/unittests/test_helper, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/utf8 -> /usr/src/debug/openssh/10.6p2/regress/unittests/utf8, directory renamed /usr/src/debug/openssh/10.6p1/regress -> /usr/src/debug/openssh/10.6p2/regress, directory renamed /usr/src/debug/openssh/10.6p1/regress
- /unittests/sshkey -> /usr/src/debug/openssh/10.6p2/regress/unittests/sshkey, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/authopt -> /usr/src/debug/openssh/10.6p2/regress/unittests/authopt, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/hostkeys -> /usr/src/debug/openssh/10.6p2/regress/unittests/hostkeys, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/sshbuf -> /usr/src/debug/openssh/10.6p2/regress/unittests/sshbuf, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/crypto -> /usr/src/debug/openssh/10.6p2/regress/unittests/crypto, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/match -> /usr/src/debug/openssh/10.6p2/regress/unittests/match, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/bitmap -> /usr/src/debug/openssh/10.6p2/regress/unittests/bitmap, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/sshsig -> /usr/src/debug/openssh/10.6p2/regress/unittests/
- sshsig, directory renamed /usr/src/debug/openssh/10.6p1/regress/unittests/misc -> /usr/src/debug/openssh/10.6p2/regress/unittests/misc, directory renamed /usr/src/debug/openssh/10.6p1 -> /usr/src/debug/openssh/10.6p2
-packages/x86-64-v3-poky-linux/openssh/openssh-src: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-ssh: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-ssh: PKGSIZE changed from 1020121 to 1024217 (+0%)
-packages/x86-64-v3-poky-linux/openssh/openssh-ssh: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-sshd: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh-staticdev: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh-staticdev: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
-packages/x86-64-v3-poky-linux/openssh/openssh: PV changed from "10.6p1" to "10.6p2"
-packages/x86-64-v3-poky-linux/openssh/openssh: PKGV changed from 10.6p1 [default] to 10.6p2 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dbg: PV changed from "332" to "337"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 332 [default] to 337 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dev: PV changed from "332" to "337"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 332 [default] to 337 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-doc: PV changed from "332" to "337"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 332 [default] to 337 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-locale: PV changed from "332" to "337"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 332 [default] to 337 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-src: PV changed from "332" to "337"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-src: PKGV changed from 332 [default] to 337 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "332" to "337"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 332 [default] to 337 [default]
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PV changed from "332" to "337"
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.14/site-packages/diffoscope-332.dist-info -> /usr/lib/python3.14/site-packages/diffoscope-337.dist-info, directory renamed /usr/lib/python3.14/site-packages/diffoscope-332.dist-info/licenses -> /usr/lib/python3.14/site-packages/diffoscope-337.dist-info/licenses
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1433312 to 1448530 (+1%)
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: PKGV changed from 332 [default] to 337 [default]
+packages/x86-64-v3-poky-linux/diffoscope: PV changed from "332" to "337"
+packages/x86-64-v3-poky-linux/diffoscope: PKGV changed from 332 [default] to 337 [default]
+packages/x86-64-v3-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-332.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-337.tar.gz"
+Changes to packages/x86-64-v3-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.14/site-packages/diffoscope-332.dist-info moved to /usr/lib/python3.14/site-packages/diffoscope-337.dist-info
 
---===============1233460416065510089==
+--===============1584658193484296865==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-openssh-upgrade-10.6p1-10.6p2.patch"
+ filename="0001-diffoscope-upgrade-332-337.patch"
 
-RnJvbSBmOTUzZTdhMTAyNGI5NTAxOGRmYzk1OWZmOTNlN2E2MTZkYTFmMTYwIE1vbiBTZXAgMTcg
+RnJvbSA2NWQwYTNlNjYzYzQzZTU4NjJiM2MxMjU2MmVhMzBhMmQ1NGI3ZTFiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgNiBOb3YgMjAyNiAwNToxODo1NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG9w
-ZW5zc2g6IHVwZ3JhZGUgMTAuNnAxIC0+IDEwLjZwMgoKLS0tCiAuLi4xLXJlZ3Jlc3MtYmFubmVy
-LnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2ggfCAyICstCiAuLi4v
-b3BlbnNzaC97b3BlbnNzaF8xMC42cDEuYmIgPT4gb3BlbnNzaF8xMC42cDIuYmJ9ICAgICAgICAg
-ICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gve29wZW5zc2hfMTAu
-NnAxLmJiID0+IG9wZW5zc2hfMTAuNnAyLmJifSAoOTklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gt
-bG9nLWlucHV0LWFuZC1vdXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaCBiL21ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlu
-cHV0LWFuZC1vdXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaAppbmRleCA5MDJhYzc0MTFhLi40NmJk
-N2U4ZDNjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3Bl
-bnNzaC8wMDAxLXJlZ3Jlc3MtYmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9u
-LWVycm8ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5z
-c2gvMDAwMS1yZWdyZXNzLWJhbm5lci5zaC1sb2ctaW5wdXQtYW5kLW91dHB1dC1maWxlcy1vbi1l
-cnJvLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZWEyMTU5NTUxMjViMzljODAyZDJhMjU1
-Y2QwOGRmZjRmYTYyOThlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3MTVkY2JkYzQ3
-MjQ2MThhNDIyNGE0ZWU3OGJkZjliZWYwY2QyNmY0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
-RnJvbTogTWlra28gUmFwZWxpIDxtaWtrby5yYXBlbGlAbGluYXJvLm9yZz4KIERhdGU6IE1vbiwg
-MTEgU2VwIDIwMjMgMDk6NTU6MjEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gcmVncmVzcy9iYW5u
-ZXIuc2g6IGxvZyBpbnB1dCBhbmQgb3V0cHV0IGZpbGVzIG9uIGVycm9yCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF8xMC42cDEuYmIgYi9tZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF8xMC42cDIuYmIKc2ltaWxhcml0
-eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3No
-L29wZW5zc2hfMTAuNnAxLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29w
-ZW5zc2gvb3BlbnNzaF8xMC42cDIuYmIKaW5kZXggYmFkMjJiODc5Yy4uMjRhOTEwMjk0OSAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfMTAuNnAx
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzEwLjZw
-Mi5iYgpAQCAtMjUsNyArMjUsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZnRwLm9wZW5ic2Qub3Jn
-L3B1Yi9PcGVuQlNEL09wZW5TU0gvcG9ydGFibGUvb3BlbnNzaC0ke1BWfS50YQogICAgICAgICAg
-ICBmaWxlOi8vc3NoZF9jaGVja19rZXlzIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtcmVncmVz
-cy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1vdXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaCBcCiAg
-ICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhOWRjOTU2NWRmZmU4NjQwZjY0ZDg2
-M2NkMjlhMzJiYzRhM2RiZGVjMDU2NmE3ZmM0NGM1ZDZlZTc2N2Q1ZjM5IgorU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjlhZTQ0ODcyMDkwY2YyZjA2YjNjZjlmZjE0N2U3ZjE2ZjMwOTY3MTM0MDc2M2Vk
-MmY5OTI0ODM5OGFlMjlkNWIiCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMDctMjc2OF0gPSAibm90LWFw
-cGxpY2FibGUtY29uZmlnOiBUaGlzIENWRSBpcyBzcGVjaWZpYyB0byBPcGVuU1NIIHdpdGggdGhl
-IHBhbSBvcGllIHdoaWNoIHdlIGRvbid0IGJ1aWxkL3VzZSBoZXJlLiIKIAotLSAKMi40Ny4xCgo=
+CkRhdGU6IEZyaSwgNiBOb3YgMjAyNiAwNjowMTozMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRp
+ZmZvc2NvcGU6IHVwZ3JhZGUgMzMyIC0+IDMzNwoKLS0tCiAuLi4vZGlmZm9zY29wZS97ZGlmZm9z
+Y29wZV8zMzIuYmIgPT4gZGlmZm9zY29wZV8zMzcuYmJ9ICAgICAgICAgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9kaWZmb3Njb3BlL3tkaWZmb3Njb3BlXzMzMi5iYiA9PiBkaWZmb3Njb3BlXzMz
+Ny5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Njb3Bl
+L2RpZmZvc2NvcGVfMzMyLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZm
+b3Njb3BlXzMzNy5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9kaWZmb3Njb3BlL2RpZmZvc2NvcGVfMzMyLmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9kaWZmb3Njb3BlL2RpZmZvc2NvcGVfMzM3LmJiCmluZGV4IGE0M2IyMGI0
+NjAuLmMzYzZhZGIzZDEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
+cGUvZGlmZm9zY29wZV8zMzIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
+ZS9kaWZmb3Njb3BlXzMzNy5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0g
+ImZpbGU6Ly9DT1BZSU5HO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4MGQ0N2ZhZTUwNCIKIAog
+aW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkYTg1ODgw
+N2NlMjUzNWYxYmI1YzM5NDIwMjBiMDFjN2FlZjE0Zjg3MDI1N2M5NjRiNzBjZDRlMWYyMzMzMjA2
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImNhMWMxMjkwNGU3ZWY0NDE2NDljMzQ2NzVkZTUwNDk2
+ZDIyMjhhNzA5NjYyODY0YTYxMzg0NGVlMjA3ZTRkY2QiCiAKIFJERVBFTkRTOiR7UE59ICs9ICJc
+CiAgICAgICAgIGJpbnV0aWxzIFwKLS0gCjIuNDcuMQoK
 
---===============1233460416065510089==--
+--===============1584658193484296865==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.14/site-packages/diffoscope-332.dist-info/licenses -> /usr/lib/python3.14/site-packages/diffoscope-337.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/diffoscope-332.dist-info -> /usr/lib/python3.14/site-packages/diffoscope-337.dist-info
+Changes to packages/x86-64-v3-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.14/site-packages/diffoscope-332.dist-info moved to /usr/lib/python3.14/site-packages/diffoscope-337.dist-info
+
+--===============1584658193484296865==--
