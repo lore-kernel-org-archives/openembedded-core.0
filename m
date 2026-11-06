@@ -1,385 +1,114 @@
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2432.1793956886987921934
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2417.1793956988428694968
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 01:21:27 -0800
+ Fri, 06 Nov 2026 01:23:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=HYVjTTl1;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: hthakar@cisco.com)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=dXJYk6Ym;
+ spf=pass (domain: gmail.com, ip: 74.125.82.170, mailfrom: ragaprasanth@gmail.com)
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36dbde64409so572523eec.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 01:23:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793956988; cv=none;
+        d=google.com; s=arc-20260327;
+        b=GTUsaXkANUxvcPuPzd/LrygyzBi4+PIn1XyQjcb3QBX4uUa7iPy/mOrvagDbm4i7Ej
+         ql8dFsq6oV6aG7gF2z1vQbfM3aZqaoydMqg1T1YqeSvmneolzWnVTmTfkqmWHe4dgyO1
+         VlCvw9uVqLYENnZq0CGr2u58mG1J0i5kD2pbe9KaE5Nu8GTdn4JPLwIyFo3T8HbI3Ab4
+         FonCzX6WsJ4G+L2W2O9gYKaObX+PEFdTb66m8z/UrZnzUiS72IUgoEjnv1W78TUxWSlp
+         z/Xcx3fAXJQfi6qFX6xrQvlOedrCoKw8Rgcpnya63DXnaplIg73jRDSv8KxVBqIJa9J3
+         ApUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=rdgOpn6G9td9C2WCByxuLh0fkA1p+2j4JMceOOKcVH0=;
+        fh=3ODOBvrnyLb9LIEoT6yOMLI6ckVYInlS8hnLdPQpDlo=;
+        b=ZPDbOpUxJxPyE141BHoz6bECAIeONkf2T660wpteroJEsp+pMV+A7ZbtS82TyfkHtR
+         0dMP7xsFTmZGxftnzuWMZPpvyx3VpoipYuvvb3gntzZArlT/mg5JfoaRIW54x+W5pE1D
+         3tQMrxahKILMLk4fQeoAjdf9u1plHAk36d58wZUdOM4wm5fOQmhV8JPmZ0wfXwV+8Hkh
+         C9nogiY3rt9uJHBID3l9NLJJ2njTOrj+Ejok4k2DkNGMbFseM+qGZYK5AYUx5kpN3w/2
+         DqOd+uZkUMlpndQ4Bvj64kkai8rw3A4qbIfvp+k4uHqXfzWO+JBB1uzDG971LAkLmdgU
+         9R6w==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8902; q=dns/txt;
-  s=iport01; t=1793956887; x=1795166487;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UbZ3GKT4skvr+Ddhxqmw7baSV3a2OZLyHS4iK0kH5/A=;
-  b=HYVjTTl1ngZAlDI4tgcrtxAr1taWVWEu1ux/owSWEtRFE2VV3zqxt76m
-   /OsQB/yX6y3vbiQxBpWauNWy98T3JnzArU3v+1IUqi84kq34EmX61qgNH
-   P/2h7DXotmmjlm/Yn2swMibbUirFSb8EtxJzd7nASXqbJGn1MGNdlnpZZ
-   S5JaF1d4z904RKooO/ER4lIp6TG/A3meCnSS4iySvkFn4ZbNqImbbOnbQ
-   2qeXlkIYAUHt5YlBviJJN0wrNEDGEeqL7X5D02DsykpmLOUM33ZmztTMy
-   gZXIgwmZLkyGYWtEsiasLvJ0MTFclGm16qb/l7WcKjy9P1SpGlS3YWeBD
-   g==;
-X-CSE-ConnectionGUID: cIqM5FPkSZ+hx2KTTiNzjg==
-X-CSE-MsgGUID: vb7ndh2FQRGDGHt01mqjXw==
-X-IPAS-Result: =?us-ascii?q?A0BFAgDpmu1q/4r/Ja1aHgEBCxIMggULgld1YENJA5Qng?=
- =?us-ascii?q?iGeJIF+DwEBAQ9EDQQBAYUFjh8CJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NkBIBLQsBGAFZAwECWiMhGoJoAYJ0AxG8KoF5M4EBg?=
- =?us-ascii?q?ykBPwJDUNszAQsUAYE4hUCII10YAYR9JxsbgXKBFAGBO4IugQWBXAKCBoYgB?=
- =?us-ascii?q?IIiehKBWh6GIoZYAoFRhnlIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIz4Xg?=
- =?us-ascii?q?QcbBgWBHYEegRKBB12BKyheIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSC?=
- =?us-ascii?q?QETGiwKgRo1PAkmPxUMZAsaBWEIAg0MdDkQMB4kLwUcJj4bCi8YDUgRLDcVG?=
- =?us-ascii?q?QQ+bgeSPYMLB1MoEwETGIERVwEUAQ8fHJMbCJAWgiGhEQoog3iMJJU6GjOqc?=
- =?us-ascii?q?QuYfY4KiRGMQ32EaYFoPIFZcBWDIglKGQ+OLgsLg2AzhB1DxmUmMgIJAy8BA?=
- =?us-ascii?q?QcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:GIvmw6gXUmS4FWdTInNtuPmHX161NhEKZh0ujC45NGQN5FlHY01je
- htvCGuGaPrcZWD3LtklO9nj9kwH7JXUx9dhSAU9qC5nFiJjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNsvre8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUT2/9SXE929
- scqazAdNDO/u+OQ0rC0H7wEasQLdKEHPasFsX1miDWcBvE8TNWbGuPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWYQd/5JEWxI9EglH/bz1Rq1uPjaE2+GPUigd21dABNfKIJoHRHJkMxx3wS
- mTu4W6mBB0abvKm8xWp3VKw3rbKhCHLR9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cF3hKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:xcXm16qw0TvMy5g0jkpXJPQaV5obeYIsimQD101hICG9Ffbo9f
- xG88506faZslsssRIb6LO90de7IE80nKQdieJ6AV7IZmbbUQWTQL2KlbGD/xTQXwvj6+Vaya
- BsN4J6CNH2EBxGqPyS2njcLz7lq+P3l5xBQozlvhNQcT0=
-X-Talos-CUID: =?us-ascii?q?9a23=3AbeO2rWjAw1cwXlc3QOfeR9ilqjJueVzE6Sr+G0y?=
- =?us-ascii?q?DOyVpWOe2dWOR3rFmnJ87?=
-X-Talos-MUID: 9a23:xE5gxAXxgQT5oEPq/CHm2zduNJ1G2p6BJG8tjc1fvtCGBTMlbg==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
-   d="scan'208";a="545314113"
-Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 09:21:26 +0000
-Received: from sjc-ads-7857.cisco.com (sjc-ads-7857.cisco.com [10.30.222.144])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 8312F180001F2
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 09:21:25 +0000 (GMT)
-Received: by sjc-ads-7857.cisco.com (Postfix, from userid 1887505)
-	id 293EFCC161E; Fri,  6 Nov 2026 01:21:25 -0800 (PST)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail][PATCH  1/3] lrzsz: fix CVE-2026-105841
-Date: Fri,  6 Nov 2026 01:21:23 -0800
-Message-Id: <20261106092125.2587191-1-hthakar@cisco.com>
-X-Mailer: git-send-email 2.35.6
+        d=gmail.com; s=20260707; t=1793956988; x=1794561788; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rdgOpn6G9td9C2WCByxuLh0fkA1p+2j4JMceOOKcVH0=;
+        b=dXJYk6YmqJ6WQ3gZLFf5pjqqbEM7+LnlKQKq6aCM+bKVaMiZPut6DSQ9SSHpN3Cs4U
+         yD5N0sL/KviMGZrTc3DJjdnm2DL/bZ/Gb45xed4RF+Mi6k31WgkNHyvaUc6rytkx5g8K
+         8Rj8zN1KnpGRRuQURo7J/fuydVj4PvZ3WW69IXl4Ak0B3kM82ccUYicG+9H9u/qRXBXy
+         Ca5Zl5a9KDO59eKQTXkM/okTRtNl1ZSKsmSf2x6MHvGs1yops4RP1gkC/ctDqhsfdyz8
+         h6W0a62DEsrkEg/3v+7zJYwb21+OwKWQHHsLQ9xg+QMNj4lUcLuogwJLSUfecJvFNZKk
+         OVcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793956988; x=1794561788;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=rdgOpn6G9td9C2WCByxuLh0fkA1p+2j4JMceOOKcVH0=;
+        b=THKWfFlHtntIBQdBaBA6vzoXJMgzTBojPmgsH0ztpn5P2ywEImRkZcUJnRP5e0tvmV
+         pv1wkjr/rCSceyDqMF7V6f8dBhRF2W5RBekupqBLfM7Je9/p9AV5MoaTKdCNuYeN8lG1
+         33oSYIx2EKktsWwcKPvYwnCu+T7jLfsoEsRNbJsTn5fZYQA1+hLwh2WvsjT+73SV8LKt
+         Pw9/OM0G2dytCBbMH2U9qmzvOsHLENTcXV+tZJnUwZJUbBh9a5Gwp88hmnu8lQneITWH
+         SsMtRKRUB/QG3CA+VE1H2HoD5Ia+opmr2nzfTWkL+sSqCjS3Bgf1ktTmlthiu/sQ1aVj
+         cBrQ==
+X-Gm-Message-State: APuU4Z8GrfruQAkyrDLiugQ8kzUp/+jE28nUHOe+3ZQG93HrGHJh/UQe
+	ZO3pVNsb8LHK8a86RwvVvqicJELzK4SMaEqCEvMx6U4fozAz2iJowyZxDWyArkoVhem64HZYAFw
+	IJ4ULAgeNp0XmBtoKfBPe9R1igA9EkBvWHGHEk2iDQMxS06/dsH0n4kObD0UxT+0if/Kk3mc=
+X-Gm-Gg: AYBFou25tDtR1DKNdbR4HMxUuHgjGyX5IFhBMyoRLhHsonQHYB+EnHSY4f+ZdhSj3AD
+	AgAZyEDATanRJsS1rR8Xys9UqtMbL5krr6PY3Hd+jggKbDF24M39I5lCm4m7FuTruCbmqz2S4yu
+	6ShKw/9BkdcACvop6klcCIcuo05UN2ELFOhWZ5pc+i/t5Qj1wrPchmU8kuWYctblykFyLsUcbuj
+	Y4qWt9qwc3Ec3j8z03lZ3S++PBmBbtZVngcc7MsHej/K85XQalqEF/tZXT2YCxo4Z25JZ7F5ZPA
+	z8rhM+R9lDeM1WGe2c0aga5krpYuaP3WzRbLuL0I0Ai5KEljQsWJ6Pqd9vUht9nZUePvVmo0qp/
+	eZ2bYRPP3QCvgd5FKRl7yZASkIOADlPypq7tnugGIHVYRTfQOV8GcLoJmAT5I+oOJZL02pw==
+X-Received: by 2002:a05:693c:68c3:b0:358:8f02:e0ca with SMTP id
+ 5a478bee46e88-36f754414a0mr2734996eec.9.1793956987622; Fri, 06 Nov 2026
+ 01:23:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-7857.cisco.com [10.30.222.144];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 10.30.222.144, sjc-ads-7857.cisco.com
-X-Outbound-Node: rcdn-l-core-01.cisco.com
+References: <20261106011324.626292-1-ragaprasanth@gmail.com>
+ <20261106011324.626292-2-ragaprasanth@gmail.com> <AS8PR10MB50735550B026B9C13DAB259DFD762@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+ <CAG7eodHrvRHJj8P5MGmAxm99Umxb12qeVDaRkggFOdw+sTfjNg@mail.gmail.com>
+ <CAG7eodHPk6FYtFE7-M35ymXqH40RpYEHkdoUbkcgpNKaSdYC0g@mail.gmail.com> <DMO0N33RMCHP.JKXW47OTMMNB@pbarker.dev>
+In-Reply-To: <DMO0N33RMCHP.JKXW47OTMMNB@pbarker.dev>
+From: Prasanth Ramesh <ragaprasanth@gmail.com>
+Date: Fri, 6 Nov 2026 18:22:55 +0900
+X-Gm-Features: AclHuK_qIPv90pye84-U6EIRYTHDunhMSduB3TXSKyFpGSlq8FA-pHHP4amhOP8
+Message-ID: <CAG7eodGSb_x1UPON2crNPVfe3VJzfpOby309GdbTeN0x-7CCOA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] zlib: ignore CVE-2026-76844
+To: Paul Barker <paul@pbarker.dev>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Marko, Peter" <peter.marko@siemens.com>
+Content-Type: multipart/alternative; boundary="000000000000fd5a9c065f98282c"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 09:21:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249626
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 09:23:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249628
 
-From: Hetvi Thakar <hthakar@cisco.com>
+--000000000000fd5a9c065f98282c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When invoked under a suffixed name such as lrztar, lrz passes
-sender-controlled filenames to popen() without shell escaping.
-A malicious sender can use this to execute commands with the
-receiving user's privileges.
-Backport upstream commit [1], which removes this pipe-execution
-mode, addressing the vulnerability described in [2].
+=F0=9F=91=8D
 
-[1] https://github.com/UweOhse/lrzsz/commit/9eef71ce20fda2b345ef8431359aec96121215bd
-[2] https://security-tracker.debian.org/tracker/CVE-2026-105841
+Prasanth Ramesh reacted via Gmail
+<https://www.google.com/gmail/about/?utm_source=3Dgmail-in-product&utm_medi=
+um=3Det&utm_campaign=3Demojireactionemail#app>
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
----
- .../lrzsz/lrzsz-0.12.20/CVE-2026-105841.patch | 266 ++++++++++++++++++
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |   1 +
- 2 files changed, 267 insertions(+)
- create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/CVE-2026-105841.patch
+--000000000000fd5a9c065f98282c
+Content-Type: text/vnd.google.email-reaction+json; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/CVE-2026-105841.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/CVE-2026-105841.patch
-new file mode 100644
-index 0000000000..000cb9b832
---- /dev/null
-+++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/CVE-2026-105841.patch
-@@ -0,0 +1,266 @@
-+From 9eef71ce20fda2b345ef8431359aec96121215bd Mon Sep 17 00:00:00 2001
-+From: Uwe Ohse at akiar <uwe@ohse.de>
-+Date: Mon, 10 Aug 2026 17:55:28 +0200
-+Subject: [PATCH] remove topipe 'feature'
-+
-+CVE: CVE-2026-105841
-+Upstream-Status: Backport [https://github.com/UweOhse/lrzsz/commit/9eef71ce20fda2b345ef8431359aec96121215bd]
-+
-+Backport Changes:
-+- Retained sys2() and exec2() and their declarations because 0.12.20
-+  still calls them in its separate, opt-in ZCOMMAND handling. Removing
-+  them as upstream does causes undefined references when linking lrz.
-+- Omitted NEWS because its 0.13.0 release-note hunk conflicts with the
-+  0.12.20 release history and is not needed for the security fix.
-+
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/lrz.c | 193 ++++++++++++++++++++++--------------------------------
-+ 1 file changed, 79 insertions(+), 114 deletions(-)
-+
-+diff --git a/src/lrz.c b/src/lrz.c
-+index ae3c62d..9c08a3d 100644
-+--- a/src/lrz.c
-++++ b/src/lrz.c
-+@@ -76,7 +76,6 @@ int skip_if_not_found;
-+ char *Pathname;
-+ const char *program_name;		/* the name by which we were called */
-+ 
-+-int Topipe=0;
-+ int MakeLCPathname=TRUE;	/* make received pathname lower case */
-+ int Verbose=0;
-+ int Quiet=0;		/* overrides logic that would otherwise set verbose */
-+@@ -803,9 +802,6 @@ fubar:
-+ 			shortname ? shortname : "no.name", protname());
-+ #endif
-+ 	canit(STDOUT_FILENO);
-+-	if (Topipe && fout) {
-+-		pclose(fout);  return ERROR;
-+-	}
-+ 	if (fout)
-+ 		fclose(fout);
-+ 
-+@@ -1286,111 +1282,89 @@ procheader(char *name, struct zm_fileinfo *zi)
-+ 	if (!zmodem_requested && MakeLCPathname && !IsAnyLower(name_static)
-+ 	  && !(zi->mode&UNIXFILE))
-+ 		uncaps(name_static);
-+-	if (Topipe > 0) {
-+-		if (Pathname)
-+-			free(Pathname);
-+-		Pathname=malloc((PATH_MAX)*2);
-+-		if (!Pathname)
-+-			error(1,0,_("out of memory"));
-+-		sprintf(Pathname, "%s %s", program_name+2, name_static);
-+-		if (Verbose) {
-+-			vstringf("%s: %s %s\n",
-+-				_("Topipe"),
-+-				Pathname, Thisbinary?"BIN":"ASCII");
-+-		}
-+-		if ((fout=popen(Pathname, "w")) == NULL)
-+-			return ERROR;
-+-	} else {
-+-		if (protocol==ZM_XMODEM)
-+-			/* we don't have the filename yet */
-+-			return OK; /* dummy */
-+-		if (Pathname)
-+-			free(Pathname);
-+-		Pathname=malloc((PATH_MAX)*2);
-+-		if (!Pathname)
-+-			error(1,0,_("out of memory"));
-+-		strcpy(Pathname, name_static);
-+-		if (Verbose) {
-+-			/* overwrite the "waiting to receive" line */
-+-			vstring("\r                                                                     \r");
-+-			vstringf(_("Receiving: %s\n"), name_static);
-+-		}
-+-		checkpath(name_static);
-+-		if (Nflag)
-+-		{
-+-			/* cast because we might not have a prototyp for strdup :-/ */
-+-			free(name_static);
-+-			name_static=(char *) strdup("/dev/null");
-+-			if (!name_static)
-+-			{
-+-				fprintf(stderr,"%s: %s\n", program_name, _("out of memory"));
-+-				exit(1);
-+-			}
-+-		}
-+-#ifdef OMEN
-+-		/* looks like a security hole -- uwe */
-+-		if (name_static[0] == '!' || name_static[0] == '|') {
-+-			if ( !(fout = popen(name_static+1, "w"))) {
-+-				return ERROR;
-+-			}
-+-			Topipe = -1;  return(OK);
-+-		}
-+-#endif
-+-		if (Thisbinary && zconv==ZCRESUM) {
-+-			struct stat st;
-+-			fout = fopen(name_static, "r+");
-+-			if (fout && 0==fstat(fileno(fout),&st))
-+-			{
-+-				int can_resume=TRUE;
-+-				if (zmanag==ZF1_ZMCRC) {
-+-					int r=do_crc_check(fout,zi->bytes_total,st.st_size);
-+-					if (r==ERROR) {
-+-						fclose(fout);
-+-						return ZFERR;
-+-					}
-+-					if (r==ZCRC_DIFFERS) {
-+-						can_resume=FALSE;
-+-					}
-+-				}
-+-				if ((unsigned long)st.st_size > zi->bytes_total) {
-+-					can_resume=FALSE;
-+-				}
-+-				/* retransfer whole blocks */
-+-				zi->bytes_skipped = st.st_size & ~(1023);
-+-				if (can_resume) {
-+-					if (fseek(fout, (long) zi->bytes_skipped, SEEK_SET)) {
-+-						fclose(fout);
-+-						return ZFERR;
-+-					}
-+-				}
-+-				else
-+-					zi->bytes_skipped=0; /* resume impossible, file has changed */
-+-				goto buffer_it;
-+-			}
-+-			zi->bytes_skipped=0;
-+-			if (fout)
-+-				fclose(fout);
-+-		}
-+-		fout = fopen(name_static, openmode);
-++
-++        if (protocol==ZM_XMODEM)
-++                /* we don't have the filename yet */
-++                return OK; /* dummy */
-++        if (Pathname)
-++                free(Pathname);
-++        Pathname=malloc((PATH_MAX)*2);
-++        if (!Pathname)
-++                error(1,0,_("out of memory"));
-++        strcpy(Pathname, name_static);
-++        if (Verbose) {
-++                /* overwrite the "waiting to receive" line */
-++                vstring("\r                                                                     \r");
-++                vstringf(_("Receiving: %s\n"), name_static);
-++        }
-++        checkpath(name_static);
-++        if (Nflag)
-++        {
-++                /* cast because we might not have a prototyp for strdup :-/ */
-++                free(name_static);
-++                name_static=(char *) strdup("/dev/null");
-++                if (!name_static)
-++                {
-++                        fprintf(stderr,"%s: %s\n", program_name, _("out of memory"));
-++                        exit(1);
-++                }
-++        }
-++
-++        if (Thisbinary && zconv==ZCRESUM) {
-++                struct stat st;
-++                fout = fopen(name_static, "r+");
-++                if (fout && 0==fstat(fileno(fout),&st))
-++                {
-++                        int can_resume=TRUE;
-++                        if (zmanag==ZF1_ZMCRC) {
-++                                int r=do_crc_check(fout,zi->bytes_total,st.st_size);
-++                                if (r==ERROR) {
-++                                        fclose(fout);
-++                                        return ZFERR;
-++                                }
-++                                if (r==ZCRC_DIFFERS) {
-++                                        can_resume=FALSE;
-++                                }
-++                        }
-++                        if ((unsigned long)st.st_size > zi->bytes_total) {
-++                                can_resume=FALSE;
-++                        }
-++                        /* retransfer whole blocks */
-++                        zi->bytes_skipped = st.st_size & ~(1023);
-++                        if (can_resume) {
-++                                if (fseek(fout, (long) zi->bytes_skipped, SEEK_SET)) {
-++                                        fclose(fout);
-++                                        return ZFERR;
-++                                }
-++                        }
-++                        else
-++                                zi->bytes_skipped=0; /* resume impossible, file has changed */
-++                        goto buffer_it;
-++                }
-++                zi->bytes_skipped=0;
-++                if (fout)
-++                        fclose(fout);
-++        }
-++        fout = fopen(name_static, openmode);
-+ #ifdef ENABLE_MKDIR
-+-		if ( !fout && Restricted < 2) {
-+-			if (make_dirs(name_static))
-+-				fout = fopen(name_static, openmode);
-+-		}
-++        if ( !fout && Restricted < 2) {
-++                if (make_dirs(name_static))
-++                        fout = fopen(name_static, openmode);
-++        }
-+ #endif
-+-		if ( !fout)
-+-		{
-++        if ( !fout)
-++        {
-+ #ifdef ENABLE_SYSLOG
-+-			int e=errno;
-++                int e=errno;
-+ #endif
-+-			zpfatal(_("cannot open %s"), name_static);
-+-			DO_SYSLOG((LOG_ERR,"%s: cannot open: %s",
-+-				protname(),strerror(e)));
-+-			return ERROR;
-+-		}
-+-	}
-++                zpfatal(_("cannot open %s"), name_static);
-++                DO_SYSLOG((LOG_ERR,"%s: cannot open: %s",
-++                        protname(),strerror(e)));
-++                return ERROR;
-++        }
-++
-+ buffer_it:
-+-	if (Topipe == 0) {
-++	{
-+ 		static char *s=NULL;
-+ 		static size_t last_length=0;
-+ #if defined(F_GETFD) && defined(F_SETFD) && defined(O_SYNC)
-+@@ -1550,8 +1524,7 @@ report(int sct)
-+ }
-+ 
-+ /*
-+- * If called as [-][dir/../]vrzCOMMAND set Verbose to 1
-+- * If called as [-][dir/../]rzCOMMAND set the pipe flag
-++ * If called as [-][dir/../]vrz set Verbose to 1
-+  * If called as rb use YMODEM protocol
-+  */
-+ static void
-+@@ -1576,8 +1549,6 @@ chkinvok(const char *s)
-+ 		protocol=ZM_XMODEM;
-+ 	if (s[0]=='r' && (s[1]=='b' || s[1]=='y'))
-+ 		protocol=ZM_YMODEM;
-+-	if (s[2] && protocol!=ZM_XMODEM)
-+-		Topipe = 1;
-+ }
-+ 
-+ /*
-+@@ -2207,12 +2178,6 @@ static int
-+ closeit(struct zm_fileinfo *zi)
-+ {
-+ 	int ret;
-+-	if (Topipe) {
-+-		if (pclose(fout)) {
-+-			return ERROR;
-+-		}
-+-		return OK;
-+-	}
-+ 	if (in_tcpsync) {
-+ 		rewind(fout);
-+ 		if (!fgets(tcp_buf,sizeof(tcp_buf),fout)) {
-+-- 
-+2.35.6
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-index 042cf7fbac..403266743e 100644
---- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-+++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
-            file://0001-Fix-cross-compilation-using-autoconf-detected-AR.patch \
-            file://0001-Fix-build-with-GCC-15.patch \
-            file://0001-lrzsz-convert-K-R-function-definitions-to-ANSI-C-pro.patch \
-+           file://CVE-2026-105841.patch \
-            "
- SRC_URI[sha256sum] = "c28b36b14bddb014d9e9c97c52459852f97bd405f89113f30bee45ed92728ff1"
- 
--- 
-2.35.6
+{
+  "emoji": "=F0=9F=91=8D",
+  "version": 1
+}
+--000000000000fd5a9c065f98282c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><p style=3D"font-size:50px;margin-top:0;margin-bottom:0">=F0=9F=91=8D<=
+/p><p style=3D"margin-top:10px;margin-bottom:0">Prasanth Ramesh reacted via=
+ <a href=3D"https://www.google.com/gmail/about/?utm_source=3Dgmail-in-produ=
+ct&amp;utm_medium=3Det&amp;utm_campaign=3Demojireactionemail#app">Gmail</a>=
+</p></div>
+
+--000000000000fd5a9c065f98282c--
