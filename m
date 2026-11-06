@@ -1,93 +1,73 @@
 Received: from mailrelay-egress7.pub.mailoutpod3-cph3.one.com (mailrelay-egress7.pub.mailoutpod3-cph3.one.com [46.30.211.246])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6727.1793974440966369879
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6731.1793974454768821128
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 06:14:01 -0800
+ Fri, 06 Nov 2026 06:14:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@berginkonsult.se header.s=rsa1 header.b=I3qewFs9;
- dkim=pass header.i=@berginkonsult.se header.s=ed1 header.b=VXwLFOH1;
+ dkim=pass header.i=@berginkonsult.se header.s=rsa1 header.b=LUyjU10b;
+ dkim=pass header.i=@berginkonsult.se header.s=ed1 header.b=gVe8rw/6;
  spf=none, err=SPF record not found (domain: berginkonsult.se, ip: 46.30.211.246, mailfrom: peter@berginkonsult.se)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793974439; x=1794579239;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793974452; x=1794579252;
 	d=berginkonsult.se; s=rsa1;
-	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
-	 subject:cc:to:from:from;
-	bh=gJlfniiDtXk89vZ0zm1fQXjrPOGugAaEUb0yf2BxH/8=;
-	b=I3qewFs9o1+P3sPj9T0pBHCcwYaAFdZcpFuOQqND9lFeZxbl2aNtGoPqjDs5Ff1tmSTfwj7qoDajV
-	 B8kvq/FQUVlU3wgGhu+JLbqQuea2FdNCbMC2c9Zw5KIuK1lubv3VvkdbPSI+lwECKsQeWld1jqsOnP
-	 r+EqN7CN1rxzLfQHetxLc4WrtRy1zMkHrsXp+qq24v8bGo6tMtgVYhnrr0Cq167vI2XHmEZnmA1zDa
-	 x40nOi0bdhnbHGDlncAuXDv+dgSTr0TnKtNchg3BPD/f1RcRIbiUATC260it0q0yA4jLS/zuS2+y52
-	 HrzNPxp/dPZoeTinnAjSln01HOh/ppA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793974439; x=1794579239;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=8fccGkEZsVD9vNHbDl9sEDiVSZvwpFa7V6mHYiDH7WE=;
+	b=LUyjU10bTB6LDoZinc9GFXL0rrAsHkyEEj2X1BhbnWi+1yvA0y6ww2YbANa4mzNWh2UniA2RKyZek
+	 aNNfv6K3n88rnd5GmrvjfvMbRJ2c/yBebn1/5jBxTBPEjMHFTDDo4PgbtvsyOmiXuoyA3F46a7EoS4
+	 3VLTqc3/VrW0NRGHFM/ILDi9g4Qc9Z/TsMQdkTNkIeqUlYqrI+J3bHDOlwJUR9td8DxUSq8c6nN7Qv
+	 gBRuZgl+UpPudXvt7knP6MU+x+GFoqK9e+NrAKHSJeVK0ZmMniv9oK8ohYShu+y93ibyRJiLMArufL
+	 0fj3eEl9UfP1PRa80e/9xE2rKjBic7Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793974452; x=1794579252;
 	d=berginkonsult.se; s=ed1;
-	h=content-transfer-encoding:mime-version:references:in-reply-to:message-id:date:
-	 subject:cc:to:from:from;
-	bh=gJlfniiDtXk89vZ0zm1fQXjrPOGugAaEUb0yf2BxH/8=;
-	b=VXwLFOH1UMLa5CeHtQO0jP8nlSSt+T+KbxbtllFIm5aKqgpHR4PHnlAgr5f6n2EwX6dyT9pQ9eWKo
-	 axT9satBg==
-X-HalOne-ID: 4ef3c086-d9ec-11f1-8922-1b46ed53ce32
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=8fccGkEZsVD9vNHbDl9sEDiVSZvwpFa7V6mHYiDH7WE=;
+	b=gVe8rw/6sUHGAhvuJqJpw9Da76fV+qulUa0oqOJgm9y4QkXjxHXZ6mIGDxdk/ndzdqOcIk0tVCW6j
+	 GwkgOg+AQ==
+X-HalOne-ID: 553c9e1a-d9ec-11f1-9ed4-adacc84a9bfa
 Received: from pbkserver2.metrum.local (c83-191-168-223.bredband.tele2.se [83.191.168.223])
-	by mailrelay4.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id 4ef3c086-d9ec-11f1-8922-1b46ed53ce32;
-	Fri, 06 Nov 2026 14:13:58 +0000 (UTC)
+	by mailrelay2.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+	id 553c9e1a-d9ec-11f1-9ed4-adacc84a9bfa;
+	Fri, 06 Nov 2026 14:14:12 +0000 (UTC)
 From: Peter Bergin <peter@berginkonsult.se>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Bergin <peter@berginkonsult.se>
-Subject: [PATCH 2/2] oe-selftest: usergrouptests: compare shadow files across package backends
-Date: Fri,  6 Nov 2026 15:13:48 +0100
-Message-ID: <20261106141348.2757557-3-peter@berginkonsult.se>
+Subject: [PATCH] oe-selftest: rootfspostcommandstests: fix check for default sort command
+Date: Fri,  6 Nov 2026 15:14:08 +0100
+Message-ID: <20261106141408.2757659-1-peter@berginkonsult.se>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261106141348.2757557-1-peter@berginkonsult.se>
-References: <20261106141348.2757557-1-peter@berginkonsult.se>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:14:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249653
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:14:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249654
 Content-Type: text/plain; charset="utf-8"
 
-Build core-image-minimal with rpm, ipk and deb rootfs and check that
-/etc/shadow and /etc/gshadow match per account. passwd/group are not
-compared as dynamically allocated IDs depend on install order.
+Since commit [1] SORT_PASSWD_POSTPROCESS_COMMAND defaults to
+"tidy_shadowutils_files" without the trailing ';', so the check never
+matched and both tests in ShadowUtilsTidyFiles have been skipped ever
+since. The yocto-4.3 regression report [2] shows both going from
+PASSED to SKIPPED. Fix the check so the tests run again.
 
-[YOCTO #14139]
+[1] https://git.openembedded.org/openembedded-core/commit/?id=c3365dfd9ddd7fbe70b62e0f11166e57a8ca6f73
+[2] https://downloads.yoctoproject.org/releases/yocto/yocto-4.3/testresults/testresult-regressions-report.txt
 
 AI-Generated: Uses Claude Code (Claude Opus 5.5)
+Fixes: c3365dfd9ddd ("classes: Drop ';' delimiter from ROOTFS/IMAGE*COMMAND variables")
 Signed-off-by: Peter Bergin <peter@berginkonsult.se>
 ---
- .../lib/oeqa/selftest/cases/usergrouptests.py | 24 +++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/usergrouptests.py b/meta/lib/oeqa/selftest/cases/usergrouptests.py
-index 69025a59aa..40e6e24606 100644
---- a/meta/lib/oeqa/selftest/cases/usergrouptests.py
-+++ b/meta/lib/oeqa/selftest/cases/usergrouptests.py
-@@ -56,6 +56,30 @@ class UserGroupTests(OESelftestTestCase):
-         self.logger.info("Rebuild with other staticids")
-         self.assertTrue(bitbake(' core-image-minimal'))
+diff --git a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py b/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
+index 44e2c09a6f..46940a2eb1 100644
+--- a/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
++++ b/meta/lib/oeqa/selftest/cases/rootfspostcommandstests.py
+@@ -34,7 +34,7 @@ class ShadowUtilsTidyFiles(OESelftestTestCase):
+             test_image)
+         passwd_postprocess_cmd = vars["SORT_PASSWD_POSTPROCESS_COMMAND"]
+         self.assertIsNotNone(passwd_postprocess_cmd)
+-        if (passwd_postprocess_cmd.strip() != 'tidy_shadowutils_files;'):
++        if (passwd_postprocess_cmd.strip() != 'tidy_shadowutils_files'):
+             raise unittest.SkipTest("Testcase skipped as 'tidy_shadowutils_files' "
+                 "rootfs post process command is not the set SORT_PASSWD_POSTPROCESS_COMMAND.")
  
-+    def test_shadow_files_match_across_package_backends(self):
-+        # Test for YOCTO #14139
-+        image = 'core-image-minimal'
-+        backends = ('rpm', 'ipk', 'deb')
-+        # Dynamic IDs and line order vary by backend: skip passwd/group, key by name
-+        files = ('shadow', 'gshadow')
-+        results = {}
-+        for backend in backends:
-+            classes = ' '.join(['package_' + backend] + ['package_' + b for b in backends if b != backend])
-+            self.write_config('PACKAGE_CLASSES = "%s"\nIMAGE_INSTALL:append = " creategroup1"\n' % classes)
-+            self.logger.info("Building %s with %s rootfs" % (image, backend))
-+            bitbake(image)
-+            etcdir = os.path.join(get_bb_var('IMAGE_ROOTFS', image), 'etc')
-+            results[backend] = {}
-+            for f in files:
-+                with open(os.path.join(etcdir, f)) as fd:
-+                    results[backend][f] = dict(line.split(':', 1) for line in fd.read().splitlines())
-+
-+        self.maxDiff = None
-+        for backend in backends[1:]:
-+            for f in files:
-+                self.assertEqual(results[backends[0]][f], results[backend][f],
-+                                 "/etc/%s differs between %s and %s rootfs" % (f, backends[0], backend))
-+
-     def test_useradd_depends_only(self):
-         # Test that a recipe inheriting useradd with only USERADD_DEPENDS
-         # (and no USERADD_PACKAGES) parses and builds successfully. [YOCTO #15863]
