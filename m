@@ -1,185 +1,107 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1451.1793986358425291136
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1455.1793986363248744280
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 09:32:38 -0800
+ Fri, 06 Nov 2026 09:32:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=idILJxW8;
- spf=pass (domain: gmail.com, ip: 209.85.222.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-9908e3cd939so212077241.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 09:32:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=pvg8Sncy;
+ spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-7c03744ef27so329017137.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 09:32:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793986357; x=1794591157; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OrMvgBHmNXzGRfMdV77qbRwTGVSzJihBUTRb6o3D+bY=;
-        b=idILJxW8LFWUI5GbP2DyFhgCb7TMOoHU6OAG6UzqSTqlDhLH0fwmm79QeSAET9MiAt
-         3xusSnlAj9MgJaX21BBzkwrXAW8UbWwLb4k+z8wmoKTkQj1m7mBQlY0GNEOXHPHIrvki
-         5HzfS5khuMOfY4MSMTwieUhgvViURzdlGPJGIDJh6qbN/BFoHv/Hn78UrbP9onmyUbqP
-         K55HCfjS3U6Au83PbwG/p0BvIsEJ3V7ZDFAghSNCgsiS9hYmAiZoQycMVJpXd4qJu9Ol
-         +y5JFFCXx5xv2Y5scn1vM7g6DFC0wHrHBepeSWiiPKPmhEB/reEcFKm5gJQXBgfraA77
-         pGSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793986357; x=1794591157;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793986362; x=1794591162; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OrMvgBHmNXzGRfMdV77qbRwTGVSzJihBUTRb6o3D+bY=;
-        b=jR29yEluZ6hQU1LR5K7g6G7zUac+++9c9lrSyiiOst05dc4gfXrAdhEfNWaCXvhxFs
-         mpyE1OMUhTL3tNmTJ63pQ9r2vRBz/cFXUe/VtWhVgiSkBBaZ6yMgxbm1SEzxs2uadD9n
-         179IC5yZxPiVzqCC0kgKlgyRJuv9wg62TCxuG4qiiJ4/atu7HYxFp6rrkHvp8jMGRYi9
-         iLr3w/V7Z75vo8b/Qqv58FePUJCGjOXq9FwI3fSi1eWWdnSuGCyt2uvp0iz68AeNKDD0
-         ADKJyTaH9NBHxkXyXkFPNKINXoQIkULPV4ATYdD6K+ZVBm14h6YKH6/4j+1w7pItAR0n
-         CZcw==
-X-Gm-Message-State: APuU4Z+bdI0P6bgESV87iryaUs4LiPoeNgIRcfIMglEeg1sDX4Jj+/Wk
-	ZjrNxhrjULxkc+oBMF43s1nDZR0QWfRXPAKLKWN6ouUbiPzN8Tf/H8qAKAu8yg3o
-X-Gm-Gg: AYBFou0YMIfncbifV8siHtpUfGV/Jq4Wzb2MFresQE2cWRrKyZBy7RzwKs93kKUifFJ
-	MgtZ7Ssgdh4W/L0OP7Tfje2RewbDrt+brks9WW0X7oJ8YVp9RzDtSzjyMCa3BIrAAjiMNcxaVC2
-	YAwrFSr4cOxV576Iocmo2YMJ4QW5/JvQuXGWkvx0IBOmWnB4mcn6yJjxHjYld01dCStn+I7ja1Y
-	AiR4MVgEZyINfspzP9ky+nQ/esPrd/Gy4hvmxS1NAOf7zv6dQ9jYk0AdNXeuZB2S8YVBfAuDEC8
-	EtwUryjWct+eb63QV8kyg+gqD8PpiRF3COFfMtvwiRitFE7XeO1ClDhalbxB9KE5SIlp2WSRKJ+
-	JrRsM2OqK+DJyo+0cYmKop8x3R1Obo6MI64ajmUrW0INqTY7XdH7FekJ/7tTIV9jkI7XQwEziPK
-	CBm5qwnHHYl02eSSqR3EaMX+qqKvwSZV68bJiW1rtIvQkakec/SLijUe2sjc3blfCBxk3KoxS1/
-	ZpgiYbWnGpL+CcWE9f3goYAupNvb3E2G3Dnv857GIgydC8IuSCztZltpEpUG/VzAfqSUKTQPWIx
-	xEsc5wHE85i4hu57x02JVy9D8yes8LREdTjNroXRyNdkRdhRTG9Er8mExFlGb/B1JGQkLs4JClD
-	ky1S5JBdoiWZW+EaUUnle3ILjjnlwytgZD/YSgy4XiIboD6f+oeOzLVV8kwIQWs+qtbt0i0UjZ4
-	h8vMuYzX5X6jGO06IsDTvdCAsQVfW4ZMHScSCk6wcFsu19SQ==
-X-Received: by 2002:a05:6123:6e:b0:5ea:c120:4514 with SMTP id 71dfb90a1353d-5ecc441bed1mr1594932e0c.15.1793986356816;
-        Fri, 06 Nov 2026 09:32:36 -0800 (PST)
+        bh=u5Z6YrLfxqocpjtXk8xLikFRsxudsx8noPdvGGWYODo=;
+        b=pvg8SncyzEbHKFmVhjo/XYrUwCPcVDPXD8cbYqaFE7LnpqNjatO5LJ3mbnd3bXGq5t
+         5lT2nMkeij2X/kR6L9l9jW46cGWoRLr+D2HRS+ermKFZZ9A0FcaHs0lRNhbELkUG0Pi2
+         c6ypowxJJ9NhZ8W8pnxhSpgkMmC1RKNO4aDHN04A7TU6LuZOGnBaNZgiYe0DkL9aduVZ
+         gQ1fgVE4Xc+uenhg+YN9fWFdLVSXOSggCJn7MdQikzVuq+7f/BOlPPQ7B950HQXZ5khm
+         p8YRV+WK6KLSiMK8M8dtRrzciSq/z4Kki36Iz2SdIiTOGdo3rIh9w80FqruOittaaSuu
+         rtWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793986362; x=1794591162;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=u5Z6YrLfxqocpjtXk8xLikFRsxudsx8noPdvGGWYODo=;
+        b=K8JHv/AHZ/kXeb1gWi/P4sSRPJNrnyd48v+jQrgTpZvqZDpIcq4uih09LNldtXYsGy
+         ubgMMLhJd2QDEv3lYJqH+x0+uwCPcKTEUl36bUOUkmUu2Z6fj0aZ5NbDBpezoxMArify
+         LfGUfh4n8gJs5OC98O8m+R4XVB5hiQWhgl7CXxsvgo40rRx13LrYT1t6H9k8SC3dZVNs
+         xwvZHuJ52sgDgbXFQYq/IjkQGDbamfu3Q/kjgFq2hcMA9mELHIr2xv+imG/RUyQfkipa
+         f++sDrl9LBJUy5UyAUmtBuXclnH5v3lEJU6Heh0PZdyBNVwdt0VyKzE2zQGOj7dEifAg
+         YvCA==
+X-Gm-Message-State: APuU4Z9+iIW0UCIsfr3QVewj4yKAW+Ary90G0NFDybo73qcjWhCSxdCc
+	fUMsyKGwJuriZOgULtwrhx1M+jk2gtT35czxap3elrfh6P8NPQxI++MOM73qUkD6
+X-Gm-Gg: AYBFou1mF/6dWAqeiFhjYCVEbBPlKrUuAQ9egWkY3ba1GME1a8xVHugo28a8JLzZFRZ
+	3opfEDZI6mgWHZbiNhMjS+FbyppQTkdwJsxaYZgjrrwzTFQQxvOYTDUNl2QQ2v4Shi4It0392C6
+	hv5cNgNi4nPmEA9186BwV0KbQVqfkgLEKkNN1b7ATokf24MwjtBHJX9V4SLHSbo4/llQv1MLYsT
+	tdhAubHAV2eIeAMGC9FM6M/kJeu+1Z/HkD93GNAX6o2/CSf59YoxVEDSE1L6Cfup5i5vTjkKt/2
+	6bu9aq1d0I52thHVlMdZaBTdb8/oh/aSgsZ7EomlCR2mmqDEU3N9TGPJyB/95myJ9v5b/vbsU/A
+	PcC4DnNjyr+LUUNz16v9UHyXXaGKmkgna4gey+HB8SDeP+4LqcT513vJshiCr+r/H7HWsn/e0Kr
+	3ndVnJg9i3E6dcjoPbrdvYbCKkfvN/uN82RmYJwSYPwEirQqfjL+UE7S5KetgY4b21D3+Nt0/Mc
+	LoX2yCvSWS5q+5SveiREBu+I5s0uldqhOJJnW9urDcT5KYwYDGAuWpZO5naiyBD0YEVM5uFnnta
+	urWGejRSz4IqA/2c74wwmMMSIqAw0XlR1RZU2WM+PeBdNbn/dCRO1H72Uwi66PFE5j78NhawTXG
+	Mh+AUkzxmxqfzd5c2dMIx2VD4FoqZFMxXHWHVfyHcqTtPEw0FFjdHVqkQE0nO3sUsZSEFyQWH5p
+	wrVcJAqaGMldofAmlpDBVNLLDuiGcRXDrN7UhutSy2FAeYPQ==
+X-Received: by 2002:a05:6102:148b:b0:7d0:b125:79c3 with SMTP id ada2fe7eead31-7d2a16545d1mr1565058137.26.1793986361889;
+        Fri, 06 Nov 2026 09:32:41 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from bruce-XPS-8940.localdomain (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99ba74a6964sm2335848241.0.2026.11.06.09.32.36
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99ba74a6964sm2335848241.0.2026.11.06.09.32.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 09:32:36 -0800 (PST)
+        Fri, 06 Nov 2026 09:32:41 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [OE-core][RFC PATCH 0/8] enhance kernel -devsrc output options
-Date: Fri,  6 Nov 2026 12:32:27 -0500
-Message-ID: <20261106173235.4155305-1-bruce.ashfield@gmail.com>
+Subject: [OE-core][RFC PATCH 06/08] kernel-devsrc: skip the recipe if no PACKAGECONFIG level is set
+Date: Fri,  6 Nov 2026 12:32:33 -0500
+Message-ID: <20261106173235.4155305-7-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261106173235.4155305-1-bruce.ashfield@gmail.com>
+References: <20261106173235.4155305-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 17:32:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249700
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 17:32:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249706
 Content-Type: text/plain; charset="utf-8"
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Hi all,
+With none of build, source, full or tarball in PACKAGECONFIG,
+kernel-devsrc still builds and installs, but the package is only the
+/usr/src/kernel link to an empty tree. Nothing fails until someone
+tries to use it on target, and then it is not obvious why.
 
-This RFC follows on from the "Fix kernel complementary package
-installation" thread with Adrian, and covers the use cases listed there:
-debugging a kernel built for a specific MACHINE, from a debug rootfs on
-the host (TRACE32 and similar), or on the target.
+Skip the recipe with a message instead, so an image that installs
+kernel-devsrc fails at parse time and says which PACKAGECONFIG
+is missing.
 
-kernel-devsrc today is what is needed to build out of tree modules on
-the target ('make scripts prepare'): headers, Kconfig/Makefiles and
-scripts. It has almost no .c files, and installing it pulls in the build
-tools (bc, bison, flex, gcc-plugins, openssl-dev, ...), which aren't
-wanted in a rootfs-dbg.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Adding another source package just means more maintenance and
-complexity.  We can keep the tightly curated kernel-devsrc as the
-deafult, and add to it via packageconfigs. kernel-devsrc stays one
-package and one tree at /usr/src/kernel, where the debug info points,
-and PACKAGECONFIG chooses what goes in it:
-
-  build:   what kernel-devsrc is today, with its RDEPENDS. The default,
-           so nothing changes for existing users.
-  source:  a curated spine (core directories plus the machine's arch),
-           and the rest of the files the kernel build read, from a
-           manifest of kbuild's .cmd files that kernel.bbclass now
-           stages. No RDEPENDS.
-  full:    the whole tree.
-  tarball: the whole tree as a tarball, to unpack elsewhere.
-
-They can be combined: "source build" gives both the source and what is
-needed to build modules on target. With 'build' and the whole tree, the
-tools to build the kernel itself are added to the RDEPENDS.
-
-The package can optionally be versioned (kernel-devsrc-<release>, with
-kernel-devsrc holding just the /usr/src/kernel link), so the source of
-more than one kernel can be installed side by side.
-
-The patches:
-
-  1:   maps the kernel's build directory to KERNEL_SRC_PATH, so all of
-       the kernel's debug source paths are under /usr/src/kernel.
-  2:   stages the manifest of the source files the build read.
-  3-6: the kernel-devsrc levels, versioning, and a check that at least
-       one level is set.
-  7-8: two general oe-core fixes, for issues I noticed in the debug
-       rootfs while working on this support. They aren't kernel
-       specific and don't depend on the rest of the series:
-       postinsts of debug only packages being registered against the
-       image, and IMAGE_INSTALL_DEBUGFS packages with broken
-       dependencies being silently skipped.
-
-With:
-
-  PACKAGECONFIG:pn-kernel-devsrc = "source"
-  IMAGE_INSTALL_DEBUGFS = "kernel-dbg kernel-vmlinux kernel-devsrc"
-
-on qemux86-64 (7.2.13), rootfs-dbg gets the symbols and 254MB of source
-at /usr/src/kernel, and no build tools. All 9016 source files named in
-the kernel's debug info are there. The only ones missing are the 592
-generated files from the build directory. The full tree is 1.5GB.
-
-One thing to know: if the image itself already installs kernel-devsrc,
-IMAGE_INSTALL_DEBUGFS won't put it in rootfs-dbg. rootfs-dbg starts from
-the image's package database, so it is seen as already installed, and
-only the debug files are copied over. That's how the debug rootfs works
-in general, but it will need documenting.
-
-Tested on qemux86-64 (7.2.13), core-image-minimal:
-
-  build (default): same content and RDEPENDS as before.
-  source build:    the build content plus the source.
-  build full:      the image builds, and on target both
-                   'make scripts prepare' and a full kernel build work
-                   from /usr/src/kernel.
-  build tarball:   the tarball unpacks on target, 94915 files.
-  source:          in rootfs-dbg via IMAGE_INSTALL_DEBUGFS, as above,
-                   with no build tools in either rootfs.
-  versioned:       kernel-devsrc-<release> holds the tree, and
-                   kernel-devsrc only the /usr/src/kernel link.
-  no level set:    the recipe is skipped with an error.
-
-kernel-devsrc package sizes, same build (installed size, and the rpm):
-
-  level             files  installed     rpm  RDEPENDS
-  build (default)   13623      79 MB   20 MB  module build tools
-  source            17590     254 MB   61 MB  none
-  source build      24022     283 MB   69 MB  module build tools
-  full              94915    1618 MB  251 MB  none
-  build full        94935    1630 MB  253 MB  + kernel build tools
-  build tarball     13623     278 MB  217 MB  + kernel build tools,
-                  + tarball  (199 MB)           bzip2
-  versioned source  17590     254 MB   61 MB  none
-                  (kernel-devsrc itself is just the 43 byte link)
-
-'build' has the same files and size (79302094 bytes) as kernel-devsrc
-before the series.
-
-Bruce
-
-openembedded-core (8):
-  kernel.bbclass: map the kernel build directory to KERNEL_SRC_PATH
-  kernel.bbclass: stage a manifest of the source files the build read
-  kernel-devsrc: add build and source PACKAGECONFIG levels
-  kernel-devsrc: add full and tarball PACKAGECONFIG levels
-  kernel-devsrc: optionally version the package
-  kernel-devsrc: skip the recipe if no PACKAGECONFIG level is set
-  rootfs: don't carry debug rootfs postinst registrations into the image
-  rootfs: fail if an IMAGE_INSTALL_DEBUGFS package can't be installed
-
- openembedded-core:
- meta/classes-recipe/kernel.bbclass         |  47 +++++++
- meta/lib/oe/rootfs.py                      |  19 ++-
- meta/recipes-kernel/linux/kernel-devsrc.bb | 195 ++++++++++++++++++++++++-----
- 3 files changed, 231 insertions(+), 30 deletions(-)
-
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index c2021002d4..621afb04de 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -50,6 +50,13 @@ PACKAGECONFIG[tarball] = ",,,bzip2"
+ # python3, make, ...).
+ SKIP_FILEDEPS:${PN} = "${@'1' if bb.utils.contains('PACKAGECONFIG', 'full', True, False, d) and not bb.utils.contains_any('PACKAGECONFIG', 'build tarball', True, False, d) else '0'}"
+ 
++# Without a level, kernel-devsrc would only be a /usr/src/kernel link to an
++# empty tree.
++python () {
++    if not bb.utils.contains_any('PACKAGECONFIG', 'build source full tarball', True, False, d):
++        raise bb.parse.SkipRecipe("PACKAGECONFIG needs at least one of build, source, full or tarball")
++}
++
+ # The curated part of the 'source' level, copied in full along with
+ # arch/${ARCH}. The rest (drivers, sound, samples, ...) is not curated: the
+ # files the kernel build read are discovered from the manifest the kernel
 -- 
 2.43.0
+
