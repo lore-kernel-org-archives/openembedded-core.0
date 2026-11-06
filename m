@@ -1,164 +1,189 @@
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7341.1793976215074198551
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7518.1793976213994639424
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 06:43:35 -0800
+ Fri, 06 Nov 2026 06:43:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=P+A+mWVb;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=fFDRcRoS;
+ spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3646; q=dns/txt;
-  s=iport01; t=1793976215; x=1795185815;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=wc+aJacDn7v/d6g/byeP3tis0hlb93WuDK5BApsqmM8=;
-  b=P+A+mWVbWzLiRKXJIAAsXFkZASEOdwYP+fotULwQw8AzJ4NZYXIYkJ3+
-   qOcUZ0guKr0smeLPdA0syJWtxWyUw4BnJ31w+39ic6jPQDaKUrUKEib9i
-   3fFwDnFJbVi+v6MWt4tbgYPTLtKzVMuxeMK9xOsz7vdpGrsgp3SEeU3ws
-   eilZ/GA51kHQHPdnOA+6E6lHYecQPCq3JDCu1dzNNfYVKxbKv6SmklEeS
-   a9e9shrzZhLX5dAFEzBsQIYWie5+UZ9sAQotwo/B4EAgUvQQvAjA5S7b0
-   kfLT6Ph5rgmlRS+2RnUZoEKS6Ifz3J2MtcoyDzdeEy0WweDAmpsR9oDfv
-   A==;
-X-CSE-ConnectionGUID: +/KarDdzSjWQSbPSwcyuSg==
-X-CSE-MsgGUID: ImTJRSaHSZqViKv4efULdA==
-X-IPAS-Result: =?us-ascii?q?A0BJAgAQ5u1q/4z/Ja1aglmCV3VgQ0kDlCeCIQOeIYF+D?=
- =?us-ascii?q?wEBAQ9EDQQBAYQ/RgKOHQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECLysjCBmDAgGCOgM3AxG8P4F5M?=
- =?us-ascii?q?4EBgykBPwJDUNhMEG+BaAELFAGBOIVCiCRdGAGEfScbgUlEgRWDaYEFgVwCg?=
- =?us-ascii?q?SeGfwSDHBKBWo0YAoFRhnlIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIz4Xg?=
- =?us-ascii?q?QcbBgWBHYEegRKBB12BKyheIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSC?=
- =?us-ascii?q?QETGiwKgRo1PAkmPxUMZAsaBWEIAg0MdDkQMB4kLwUcJj4bCi8YDUgRLDcVG?=
- =?us-ascii?q?QQ+bgeSPYJFTT0cNQErBIENgRtOkmeSQaERhCqMJJU6GjOEBIFXkkKSVAuYf?=
- =?us-ascii?q?Y4KllGEaYFoPIFZMxoIGxWDIglKGQ+OOYNrhRNRxggmMgIJAy8BAQcCBw4DC?=
- =?us-ascii?q?4FokACBfgEB?=
-IronPort-Data: A9a23:IbRS9qgSJNXRictiRqj8uKOoX161NxEKZh0ujC45NGQN5FlHY01je
- htvUTiBbvyNZDCgf98jPYji/U1U68PVmtBjGQJk/3gyEChjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNsvre8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqVbvcV+G01C5
- 8caFwk2ZCi4mOmn3Ym0H7wEasQLdKEHPasFsX1miDWcBvE8TNWbGOPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZg9/5JEWxI9EglHubidRpF+9rqss6G+Vxwt0uFToGIeJJ4faG5kPxS50o
- Ern+ljbOCoTFOet0ASE0Wzwi+HyuS/SDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBfCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u38Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:oRaqS6ujRto9G4yv6ThWwJS+7skDWtV00zEX/kB9WHVpm6uj5q
- STdZsguyMc5Ax9ZJhko6HiBEDiewK4yXcK2+gs1N6ZNWGM0ldAbrsSj7cKqAeOJ8SRzIJgPN
- 9bE5RWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqEuEiWpRGthdB8ATMHf8LnFL
-X-Talos-CUID: 9a23:fc0C9G2WvYhDOeugTiGXnLxfWYcGe2fxwGXrIXCBMmxRc6KeWEKr9/Yx
-X-Talos-MUID: =?us-ascii?q?9a23=3APRkDYQ1AYg1Zfy5MSpUnywG6DDUjwqGSKno2mLU?=
- =?us-ascii?q?9idC6NA9uZzqTsRC7a9py?=
+  d=cisco.com; i=@cisco.com; l=6393; q=dns/txt;
+  s=iport01; t=1793976214; x=1795185814;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=J9SNdMko2ZpFfeIvXVZwm/pJ9cEn4ZNxurIHpqTfxeg=;
+  b=fFDRcRoSK08qeKp+0HsgMzdzqrxOpC52gxj45bTzYdgE+KjKdx6VXAo+
+   qk+4pGo9Bc+9nrgOcaB7WNwWq34cmELCfUhtzMpVaK4RSytyvS+JAvUso
+   mjUKvouE+JJ3CfGXPRSFXnZvXgFPyZkNSrRVomUvpYO2muMYq3uf3pABh
+   +FD/cK3PTnG7PCAHNoaMRmQkSQ6dt0pSYRRKeHiNmmp39XbF3L8VHq2bn
+   8lMgDX/l+LscAiN1z41zZLUDPD44xTu+qysIWv3I4x68pBs6ZBxVV+Giz
+   t/eaXqC99xYh1VIzIu62U33nOa/tY8OARYccvJdSV0KnuU5kJn37ejCwa
+   g==;
+X-CSE-ConnectionGUID: PQdK58WVR7WK/NoCyOQI8A==
+X-CSE-MsgGUID: op/NtT4kS3mu2GzbPxdJ4Q==
+X-IPAS-Result: =?us-ascii?q?A0BiBAAQ5u1q/5P/Ja1aglmDTGBDSZQqoEUUgWoPAQEBD?=
+ =?us-ascii?q?zcaBAEBkyQCJjYHDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFgQ4Th?=
+ =?us-ascii?q?lyQSwEYARuBHoNGAYJ0A7xQgiyBAYMpAYFU2UuBdBWBOI1mdoR9JxuBSUSEf?=
+ =?us-ascii?q?oQphmAEgy6QRYZ5SIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+F4EHGwYFg?=
+ =?us-ascii?q?R2BHoESgQddgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosC?=
+ =?us-ascii?q?oEaNTwJJj8VDGQLGgVhCAINDHQ5EDAeJC8FHCY+GwovGA1IESw3FRkEPm4Hk?=
+ =?us-ascii?q?j2DEoEPB4I4GKV2oRGEKowklToaM6pxmQikDk2EaYFuATWBWTMaCBsVgyIJS?=
+ =?us-ascii?q?hkP3hAmMgI7AQEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:ODSBKKmU4xbeEQbbrYBfhLro5gzWJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJLUTqBaP6CajHwc4sgYdvg/UsHsJbQndVqTlRur3o8EFtH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4Errav6+/SEUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZK31GONgWYubDtNs//b8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FbUh9sUqUV5wz
+ 6MnC3craTuSoNuXkJvuH4GAhux7RCXqFJkUtnclyXTSCuwrBMmbBa7L/tRfmjw3g6iiH96HO
+ JFfMmUpNkmdJUQTZT/7C7pm9AusrmjiaTRUpXqepLE85C7YywkZPL3FbYaII4XbHpQO9qqej
+ mXeuELlPk0ZD4ea1GCq4HiUluPtwRquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXzBCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:TsyGsa5Aj/o5x6HbWgPXwPjXdLJyesId70hD6qkXc202TiX2ra
+ 6TdZgguCMc6wxhO03I5+rgBEDoexq1nvRICOIqUotKMjOLhILRFuFfxLqn5SH8ECvj8eMY/6
+ Jhf69iTODUNzFB/KPHCM3SKadG/DFBm5rY4dvj8w==
+X-Talos-CUID: =?us-ascii?q?9a23=3AtseuZGnxTfnD7UQoiy7MAudGHIHXOUXkwFSNc3C?=
+ =?us-ascii?q?GMzlWa/qzTnSB35pFw+M7zg=3D=3D?=
+X-Talos-MUID: 9a23:WRuCDgWq+paWY5Tq/Dj0wxd+CJtr2P+rFRoig58+q8WmaRUlbg==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
-   d="scan'208";a="545386423"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:34 +0000
+   d="scan'208";a="545119393"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:33 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id D81D9180001CD
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 03F7D18000890
 	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 14:43:33 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 53D53CBEF7D; Fri,  6 Nov 2026 06:43:33 -0800 (PST)
+	id 9B9CFCC1611; Fri,  6 Nov 2026 06:43:32 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][v2 PATCH 23/27] python3-git: fix CVE-2026-78675
-Date: Fri,  6 Nov 2026 06:43:27 -0800
-Message-Id: <20261106144331.3354811-24-yurade@cisco.com>
+Subject: [OE-core][wrynose][v2 PATCH 00/27] python3-git: Security fixes
+Date: Fri,  6 Nov 2026 06:43:04 -0800
+Message-Id: <20261106144331.3354811-1-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261106144331.3354811-1-yurade@cisco.com>
-References: <20261106144331.3354811-1-yurade@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:43:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249681
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249664
 Content-Type: text/plain; charset="utf-8"
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+Backport 27 GitPython security fixes covering 28 CVEs to the python3-git
+3.1.43 recipe on wrynose. The series adds the fixes as patches and updates
+the recipe to apply them.
 
-[1] https://github.com/gitpython-developers/GitPython/commit/ef7568e3b317ce617eacda39b8b54dcdff8c3b5c
-[2] https://security-tracker.debian.org/tracker/CVE-2026-78675
+CVE-2026-78678 and CVE-2026-78679 are addressed together. The CVE-2026-76222
+fix includes a regression correction and follow-up patch, CVE-2026-73619
+and CVE-2026-87819 are each carried in two patches. The patches retain
+upstream references.
 
-Signed-off-by: Yogita Urade <yurade@cisco.com>
----
 Changes in v2:
-- Changed the advisory reference from NVD to Debian Security Tracker.
----
- .../python/python3-git/CVE-2026-78675.patch   | 47 +++++++++++++++++++
- .../python/python3-git_3.1.43.bb              |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
+- Re-reviewed all patches and removed changes that were not needed for the backports.
+- Restored upstream commit metadata and corrected CVE references.
+- Updated Backport Changes notes to describe the differences from upstream.
+- Removed trailing whitespace and regenerated the series diffstat.
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
-new file mode 100644
-index 0000000000..0cef9a19b0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
-@@ -0,0 +1,47 @@
-+From eaa63265a59f069bf13384481c48fa48a25ff087 Mon Sep 17 00:00:00 2001
-+From: Byron <sebastian.thiel@icloud.com>
-+Date: Mon, 10 Aug 2026 12:32:24 +0200
-+Subject: [PATCH] fix: ignore includes in submodule configuration
-+
-+<!-- agent -->
-+Submodule configuration is read from .gitmodules, whose contents may come
-+from an untrusted repository. Its parser inherited merge_includes=True and
-+could therefore open files named by include directives during ordinary
-+submodule enumeration.
-+
-+Disable include merging at the SubmoduleConfigParser construction site. This
-+matches Repo.config_writer() hardening from 41ecc6a4 and addresses
-+GHSA-7833-fr7j-v32q without changing include behavior for trusted config
-+parsers.
-+
-+The regression points .gitmodules at a non-config file and verifies the
-+submodule entry remains readable without opening the included path.
-+
-+CVE: CVE-2026-78675
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/ef7568e3b317ce617eacda39b8b54dcdff8c3b5c]
-+
-+Backport Changes:
-+- Omitted test/test_submodule.py because the current PyPI source archive
-+  does not include the test suite and the python3-git recipe does not run it.
-+
-+Assisted-by: GPT 5.6
-+Co-authored-by: GPT 5.6 <codex@openai.com>
-+(cherry picked from commit ef7568e3b317ce617eacda39b8b54dcdff8c3b5c)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
-+---
-+ git/objects/submodule/base.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/git/objects/submodule/base.py b/git/objects/submodule/base.py
-+index 410f41e2..e37f8fa9 100644
-+--- a/git/objects/submodule/base.py
-++++ b/git/objects/submodule/base.py
-+@@ -268,7 +268,7 @@ class Submodule(IndexObject, TraversableIterableObj):
-+             raise ValueError("Cannot write blobs of 'historical' submodule configurations")
-+         # END handle writes of historical submodules
-+
-+-        return SubmoduleConfigParser(fp_module, read_only=read_only)
-++        return SubmoduleConfigParser(fp_module, read_only=read_only, merge_includes=False)
-+
-+     def _clear_cache(self) -> None:
-+         """Clear the possibly changed values."""
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index badbf04415..0dd42e1f04 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -47,6 +47,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-78678_CVE-2026-78679.patch \
-            file://CVE-2026-78677.patch \
-            file://CVE-2026-78676.patch \
-+           file://CVE-2026-78675.patch \
-            "
- SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
- 
+Yogita Urade (27):
+  python3-git: fix CVE-2026-67326
+  python3-git: fix CVE-2026-67323
+  python3-git: Fix CVE-2026-67325
+  python3-git: Fix CVE-2026-67324
+  python3-git: fix CVE-2026-67322
+  python3-git: fix CVE-2026-69097
+  python3-git: fix CVE-2026-73625
+  python3-git: fix CVE-2026-73623
+  python3-git: fix CVE-2026-73624
+  python3-git: fix CVE-2026-73622
+  python3-git: fix CVE-2026-73621
+  python3-git: fix CVE-2026-73620
+  python3-git: fix CVE-2026-73619
+  python3-git: fix CVE-2026-76221
+  python3-git: fix CVE-2026-76220
+  python3-git: fix CVE-2026-76219
+  python3-git: fix CVE-2026-76218
+  python3-git: fix CVE-2026-76217
+  python3-git: fix CVE-2026-76222
+  python3-git: fix CVE-2026-78678 CVE-2026-78679
+  python3-git: fix CVE-2026-78677
+  python3-git: fix CVE-2026-78676
+  python3-git: fix CVE-2026-78675
+  python3-git: fix CVE-2026-87817
+  python3-git: fix CVE-2026-87818
+  python3-git: Fix CVE-2026-87819
+  python3-git: fix CVE-2026-100689
+
+ .../python/python3-git/CVE-2026-100689.patch       |  91 +++++
+ .../python/python3-git/CVE-2026-67322.patch        | 171 ++++++++
+ .../python/python3-git/CVE-2026-67323.patch        | 356 +++++++++++++++++
+ .../python/python3-git/CVE-2026-67324.patch        |  94 +++++
+ .../python/python3-git/CVE-2026-67325_p1.patch     |  49 +++
+ .../python/python3-git/CVE-2026-67325_p2.patch     |  52 +++
+ .../python/python3-git/CVE-2026-67326.patch        | 107 +++++
+ .../python/python3-git/CVE-2026-69097.patch        |  60 +++
+ .../python/python3-git/CVE-2026-73619_p1.patch     |  58 +++
+ .../python/python3-git/CVE-2026-73619_p2.patch     |  43 ++
+ .../python/python3-git/CVE-2026-73620.patch        | 130 ++++++
+ .../python/python3-git/CVE-2026-73621.patch        |  72 ++++
+ .../python/python3-git/CVE-2026-73622.patch        |  60 +++
+ .../python/python3-git/CVE-2026-73623.patch        |  53 +++
+ .../python/python3-git/CVE-2026-73624.patch        | 139 +++++++
+ .../python/python3-git/CVE-2026-73625.patch        |  59 +++
+ .../python/python3-git/CVE-2026-76217.patch        | 179 +++++++++
+ .../python/python3-git/CVE-2026-76218.patch        |  92 +++++
+ .../python/python3-git/CVE-2026-76219.patch        | 153 +++++++
+ .../python/python3-git/CVE-2026-76220.patch        |  65 +++
+ .../python/python3-git/CVE-2026-76221.patch        |  59 +++
+ .../python3-git/CVE-2026-76222-regression.patch    |  39 ++
+ .../python/python3-git/CVE-2026-76222_p1.patch     | 118 ++++++
+ .../python/python3-git/CVE-2026-76222_p2.patch     |  45 +++
+ .../python/python3-git/CVE-2026-78675.patch        |  47 +++
+ .../python/python3-git/CVE-2026-78676.patch        |  67 ++++
+ .../python/python3-git/CVE-2026-78677.patch        |  87 ++++
+ .../CVE-2026-78678_CVE-2026-78679.patch            | 220 ++++++++++
+ .../python/python3-git/CVE-2026-87817.patch        | 443 +++++++++++++++++++++
+ .../python/python3-git/CVE-2026-87818.patch        |  55 +++
+ .../python/python3-git/CVE-2026-87819_p1.patch     |  78 ++++
+ .../python/python3-git/CVE-2026-87819_p2.patch     | 146 +++++++
+ meta/recipes-devtools/python/python3-git_3.1.43.bb |  32 ++
+ 33 files changed, 3519 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-100689.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67322.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67325_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67325_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67326.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-69097.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73619_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73619_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73621.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73622.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73623.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73624.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73625.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76218.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76219.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76220.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76221.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222-regression.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78676.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78677.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78678_CVE-2026-78679.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87817.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87818.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87819_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87819_p2.patch
 -- 
 2.53.0
 
