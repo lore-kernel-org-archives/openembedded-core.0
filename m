@@ -1,69 +1,70 @@
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7337.1793976214149599703
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7341.1793976215074198551
  for <openembedded-core@lists.openembedded.org>;
  Fri, 06 Nov 2026 06:43:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=REq5hy//;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=P+A+mWVb;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5371; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=3646; q=dns/txt;
   s=iport01; t=1793976215; x=1795185815;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=Z4S+0jUd5yYgp6hP/gWALaBiUzhtCWD6q58KWDeoSB8=;
-  b=REq5hy//HaLvnhSZ+c0YD0kcxCBi3gOANuO1G3oEeJ+YC+QNEIlX+qY1
-   edlvGkBzL9fBZf0UZzmfItOtV5WnoSdLuqeb0aEtZyKgldL6ykA/0XWfM
-   hDeWgNrAw/GsIlWp62D9y5uDKcstEnxxr8P4A5KF0fqDjljmzL30fvhwv
-   zE93lvHoSo2rMlkpBlLCw/J4e0KTj+kGc7pch24SFyj4GZJkKeVf4M4yF
-   SX7CzLGszl1h4ToAUObBeWVfwB+7AgfYa+0CQNjv45Da3IoDqpxir3sDb
-   nNKwa8xlhbgeFtTzYi1ku3YNLnpcx6yaGJtYxcfylv43xRYmMotfbTSdb
-   Q==;
-X-CSE-ConnectionGUID: lA80B5+fQf+X7ABflnoxYA==
-X-CSE-MsgGUID: hpHaWWGtS0Kg0USwWb0kmg==
-X-IPAS-Result: =?us-ascii?q?A0AaAACS5u1q/4//Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBglZ1YENJA4xvhziCIQOeIYF+DwEBAQ9EDQQBAYQ/RgKOHQImNAkOA?=
- =?us-ascii?q?QIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGTw2QEgECAQMnCwEYA?=
- =?us-ascii?q?T0cAwECLysjCBmDAgGCOgM3AxG8RYF5M4EBgykBPwJDUNhMEG+BaAELFAGBO?=
- =?us-ascii?q?AGFQYgkXRgBhH0nG4FJRIEVg2mBBYFcAogmBIMcEoFajRgCgVGGeUiBHgNZL?=
- =?us-ascii?q?AFVEw0KCwcFgWgDNRIqFW4yHYEjPheBBxsGBYEdgR6BEoEHXYErKF4hgQiBd?=
- =?us-ascii?q?gKCUYIAAgFJQQ4HRVMJJUMSRyQiCBIJARMaLAqBGjU8CSY/FQxkCxoFYQgCD?=
- =?us-ascii?q?Qx0ORAwHiQvBRwmPhsKLxgNSBEsNxUZBD5uB5I9gh8mLQ4SLw5RAStWRYERk?=
- =?us-ascii?q?y5Dj2SCIYE1n1yEKowklToaM4QEgVelFguYfYJZizGWUYRpgWg8gVkzGggbF?=
- =?us-ascii?q?YMiCUoZD44uCwuDYIUTUcYIJjICCQMvAQEHAgcOAwuBaJACLYFPAQE?=
-IronPort-Data: A9a23:dRKaFaD3adqAARVW/37iw5YqxClBgxIJ4kV8jS/XYbTApG4qhTQPy
- WMWDGuDaf3eMWfxKN13OY7jp00C7Z7WyNc1OVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCCCM/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
- fuo+5eBYQb9hmYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEx9w+VGtrfoMh9KVHXkhk+
- /geLyA8R0XW7w626OrTpuhEnM8vKozveYgYoHwllW+fBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGY0BPjDS0Un1lM/GY8kleulrnL+aDZf7lmSoMLb5kCOl1IgieCwa4W9ltqiRd11l3mni
- X79p0f2WiwhK+OVkTmA/Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aetRIaHt4VGOog5UTVlOzf4h2SAS4PSTsphMEaifLajAcCj
- jeh9+4FzxQ12FFJYRpxLoupkA4=
-IronPort-HdrOrdr: A9a23:MKfYbqDqYVzrdM3lHemA55DYdb4zR+YMi2TDsHoBLSC9Hfb3qy
- nDppkmPFrP+VUssRIb6LW90de7IE80nKQdieJ6AV7hZniFhILCFu5fBOXZrwEIYxefysdtkY
- F9bqN5FNr8SXJ+jcr8/U2ENuxI+qjhzEht7t2utkuEimpRGsdd0zs=
-X-Talos-CUID: 9a23:s/P+XWAHZg/Opt76Ey1OpBY+R4MrS3Oe/Cj5CUG8D2F5eZTAHA==
-X-Talos-MUID: 9a23:wXArHgsqgx7YSsPPLc2nhClCPfhXzLiVUGMCyag9pPaObS91NGLI
+  bh=wc+aJacDn7v/d6g/byeP3tis0hlb93WuDK5BApsqmM8=;
+  b=P+A+mWVbWzLiRKXJIAAsXFkZASEOdwYP+fotULwQw8AzJ4NZYXIYkJ3+
+   qOcUZ0guKr0smeLPdA0syJWtxWyUw4BnJ31w+39ic6jPQDaKUrUKEib9i
+   3fFwDnFJbVi+v6MWt4tbgYPTLtKzVMuxeMK9xOsz7vdpGrsgp3SEeU3ws
+   eilZ/GA51kHQHPdnOA+6E6lHYecQPCq3JDCu1dzNNfYVKxbKv6SmklEeS
+   a9e9shrzZhLX5dAFEzBsQIYWie5+UZ9sAQotwo/B4EAgUvQQvAjA5S7b0
+   kfLT6Ph5rgmlRS+2RnUZoEKS6Ifz3J2MtcoyDzdeEy0WweDAmpsR9oDfv
+   A==;
+X-CSE-ConnectionGUID: +/KarDdzSjWQSbPSwcyuSg==
+X-CSE-MsgGUID: ImTJRSaHSZqViKv4efULdA==
+X-IPAS-Result: =?us-ascii?q?A0BJAgAQ5u1q/4z/Ja1aglmCV3VgQ0kDlCeCIQOeIYF+D?=
+ =?us-ascii?q?wEBAQ9EDQQBAYQ/RgKOHQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
+ =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECLysjCBmDAgGCOgM3AxG8P4F5M?=
+ =?us-ascii?q?4EBgykBPwJDUNhMEG+BaAELFAGBOIVCiCRdGAGEfScbgUlEgRWDaYEFgVwCg?=
+ =?us-ascii?q?SeGfwSDHBKBWo0YAoFRhnlIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIz4Xg?=
+ =?us-ascii?q?QcbBgWBHYEegRKBB12BKyheIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSC?=
+ =?us-ascii?q?QETGiwKgRo1PAkmPxUMZAsaBWEIAg0MdDkQMB4kLwUcJj4bCi8YDUgRLDcVG?=
+ =?us-ascii?q?QQ+bgeSPYJFTT0cNQErBIENgRtOkmeSQaERhCqMJJU6GjOEBIFXkkKSVAuYf?=
+ =?us-ascii?q?Y4KllGEaYFoPIFZMxoIGxWDIglKGQ+OOYNrhRNRxggmMgIJAy8BAQcCBw4DC?=
+ =?us-ascii?q?4FokACBfgEB?=
+IronPort-Data: A9a23:IbRS9qgSJNXRictiRqj8uKOoX161NxEKZh0ujC45NGQN5FlHY01je
+ htvUTiBbvyNZDCgf98jPYji/U1U68PVmtBjGQJk/3gyEChjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNsvre8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqVbvcV+G01C5
+ 8caFwk2ZCi4mOmn3Ym0H7wEasQLdKEHPasFsX1miDWcBvE8TNWbGOPB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZg9/5JEWxI9EglHubidRpF+9rqss6G+Vxwt0uFToGIeJJ4faG5kPxS50o
+ Ern+ljbOCoTFOet0ASE0Wzwi+HyuS/SDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBfCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ32JX9dJ5X3u38Qe+aUcTNEVI/WA==
+IronPort-HdrOrdr: A9a23:oRaqS6ujRto9G4yv6ThWwJS+7skDWtV00zEX/kB9WHVpm6uj5q
+ STdZsguyMc5Ax9ZJhko6HiBEDiewK4yXcK2+gs1N6ZNWGM0ldAbrsSj7cKqAeOJ8SRzIJgPN
+ 9bE5RWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqEuEiWpRGthdB8ATMHf8LnFL
+X-Talos-CUID: 9a23:fc0C9G2WvYhDOeugTiGXnLxfWYcGe2fxwGXrIXCBMmxRc6KeWEKr9/Yx
+X-Talos-MUID: =?us-ascii?q?9a23=3APRkDYQ1AYg1Zfy5MSpUnywG6DDUjwqGSKno2mLU?=
+ =?us-ascii?q?9idC6NA9uZzqTsRC7a9py?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
-   d="scan'208";a="536910537"
-Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:34 +0000
+   d="scan'208";a="545386423"
+Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:34 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id D3D38180004BA
+	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id D81D9180001CD
 	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 14:43:33 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 461F9CBEF72; Fri,  6 Nov 2026 06:43:33 -0800 (PST)
+	id 53D53CBEF7D; Fri,  6 Nov 2026 06:43:33 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][v2 PATCH 21/27] python3-git: fix CVE-2026-78677
-Date: Fri,  6 Nov 2026 06:43:25 -0800
-Message-Id: <20261106144331.3354811-22-yurade@cisco.com>
+Subject: [OE-core][wrynose][v2 PATCH 23/27] python3-git: fix CVE-2026-78675
+Date: Fri,  6 Nov 2026 06:43:27 -0800
+Message-Id: <20261106144331.3354811-24-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261106144331.3354811-1-yurade@cisco.com>
 References: <20261106144331.3354811-1-yurade@cisco.com>
@@ -71,133 +72,90 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-06.cisco.com
+X-Outbound-Node: rcdn-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:43:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249680
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249681
 Content-Type: text/plain; charset="utf-8"
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/b68afff45af0f49e79a3e2d2162018986b37ad5d
-[2] https://security-tracker.debian.org/tracker/CVE-2026-78677
+[1] https://github.com/gitpython-developers/GitPython/commit/ef7568e3b317ce617eacda39b8b54dcdff8c3b5c
+[2] https://security-tracker.debian.org/tracker/CVE-2026-78675
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
 Changes in v2:
 - Changed the advisory reference from NVD to Debian Security Tracker.
-  Clarified the --bundle-uri comment and changed the unsafe-clone-options
-  docstring to cover unsafe command execution or I/O. The --separate-git-dir
-  guard is unchanged.
 ---
- .../python/python3-git/CVE-2026-78677.patch   | 87 +++++++++++++++++++
+ .../python/python3-git/CVE-2026-78675.patch   | 47 +++++++++++++++++++
  .../python/python3-git_3.1.43.bb              |  1 +
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78677.patch
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-78677.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-78677.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
 new file mode 100644
-index 0000000000..2f7714e6cc
+index 0000000000..0cef9a19b0
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-78677.patch
-@@ -0,0 +1,87 @@
-+From 03baa6374b8769a9544292d84040b323c5f1437a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
+@@ -0,0 +1,47 @@
++From eaa63265a59f069bf13384481c48fa48a25ff087 Mon Sep 17 00:00:00 2001
 +From: Byron <sebastian.thiel@icloud.com>
-+Date: Mon, 10 Aug 2026 11:20:03 +0200
-+Subject: [PATCH] Block separate git directories during clone
++Date: Mon, 10 Aug 2026 12:32:24 +0200
++Subject: [PATCH] fix: ignore includes in submodule configuration
 +
 +<!-- agent -->
-+Repo.clone() and Repo.clone_from() did not reject the clone option that
-+redirects repository metadata to a caller-controlled path (GHSA-8mcc-hrx5-hvxc).
-+Regression coverage exercises both keyword and multi-option input through both
-+public clone APIs.
++Submodule configuration is read from .gitmodules, whose contents may come
++from an untrusted repository. Its parser inherited merge_includes=True and
++could therefore open files named by include directives during ordinary
++submodule enumeration.
 +
-+Add the option to the existing clone denylist, matching Repo.init()
-+and the documented allow_unsafe_options contract. Git itself registers
++Disable include merging at the SubmoduleConfigParser construction site. This
++matches Repo.config_writer() hardening from 41ecc6a4 and addresses
++GHSA-7833-fr7j-v32q without changing include behavior for trusted config
++parsers.
 +
-+The Python package and Alpine test workflows failed across the submodule suite
-+because GitPython internally supplies --separate-git-dir when creating modern
-+submodule layouts. The new public clone guard correctly rejected that option,
-+but could not distinguish the library-generated path from caller input.
++The regression points .gitmodules at a non-config file and verifies the
++submodule entry remains readable without opening the included path.
 +
-+Validate caller-provided keyword and multi-options before adding the
-+library-controlled metadata path, then explicitly allow the resulting trusted
-+clone invocation. This preserves rejection of unsafe clone_multi_options while
-+restoring normal submodule creation. Update the one test that intentionally
-+invokes Repo.clone_from() with its own separate git directory to opt in
-+explicitly.
-+
-+CVE: CVE-2026-78677
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/b68afff45af0f49e79a3e2d2162018986b37ad5d]
++CVE: CVE-2026-78675
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/ef7568e3b317ce617eacda39b8b54dcdff8c3b5c]
 +
 +Backport Changes:
-+- Omitted test/test_clone.py, test/test_submodule.py because the current PyPI
-+  source archive does not include the test suite and the python3-git recipe
-+  does not run it.
++- Omitted test/test_submodule.py because the current PyPI source archive
++  does not include the test suite and the python3-git recipe does not run it.
 +
 +Assisted-by: GPT 5.6
 +Co-authored-by: GPT 5.6 <codex@openai.com>
-+Assisted-by: GPT 5.6
-+Co-authored-by: GPT 5.6 <codex@openai.com>
-+(cherry picked from commit b68afff45af0f49e79a3e2d2162018986b37ad5d)
++(cherry picked from commit ef7568e3b317ce617eacda39b8b54dcdff8c3b5c)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/objects/submodule/base.py | 10 ++++++++++
-+ git/repo/base.py              |  2 ++
-+ 2 files changed, 12 insertions(+)
++ git/objects/submodule/base.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
 +diff --git a/git/objects/submodule/base.py b/git/objects/submodule/base.py
-+index d25df367..410f41e2 100644
++index 410f41e2..e37f8fa9 100644
 +--- a/git/objects/submodule/base.py
 ++++ b/git/objects/submodule/base.py
-+@@ -9,6 +9,7 @@ import logging
-+ import ntpath
-+ import os
-+ import os.path as osp
-++import shlex
-+ import stat
-+ import sys
-+ import uuid
-+@@ -360,6 +361,15 @@ class Submodule(IndexObject, TraversableIterableObj):
-+         module_abspath = cls._module_abspath(repo, path, name)
-+         module_checkout_path = module_abspath
-+         if cls._need_gitfile_submodules(repo.git):
-++            if not allow_unsafe_options:
-++                Git.check_unsafe_options(Git._option_candidates([], kwargs), repo.unsafe_git_clone_options)
-++                multi_options = kwargs.get("multi_options")
-++                if multi_options:
-++                    Git.check_unsafe_options(
-++                        shlex.split(" ".join(cast("Sequence[str]", multi_options))),
-++                        repo.unsafe_git_clone_options,
-++                    )
-++            allow_unsafe_options = True
-+             kwargs["separate_git_dir"] = module_abspath
-+             module_abspath_dir = osp.dirname(module_abspath)
-+             if not osp.isdir(module_abspath_dir):
-+diff --git a/git/repo/base.py b/git/repo/base.py
-+index fd6d660d..56a19dc5 100644
-+--- a/git/repo/base.py
-++++ b/git/repo/base.py
-+@@ -158,7 +158,9 @@ class Repo:
-+         "-c",
-+         # Can install hooks that execute during clone:
-+         "--template",
-++        # Redirects the repository metadata to a caller-controlled path:
-++        "--separate-git-dir",
-+         # Fetches from an additional caller-controlled URI:
-+         "--bundle-uri",
-+     ]
-+     """Options to :manpage:`git-clone(1)` that permit unsafe command execution or I/O.
++@@ -268,7 +268,7 @@ class Submodule(IndexObject, TraversableIterableObj):
++             raise ValueError("Cannot write blobs of 'historical' submodule configurations")
++         # END handle writes of historical submodules
++
++-        return SubmoduleConfigParser(fp_module, read_only=read_only)
+++        return SubmoduleConfigParser(fp_module, read_only=read_only, merge_includes=False)
++
++     def _clear_cache(self) -> None:
++         """Clear the possibly changed values."""
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index dc7694f593..fbb1553778 100644
+index badbf04415..0dd42e1f04 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -45,6 +45,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-76222-regression.patch \
-            file://CVE-2026-76222_p2.patch \
+@@ -47,6 +47,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
             file://CVE-2026-78678_CVE-2026-78679.patch \
-+           file://CVE-2026-78677.patch \
+            file://CVE-2026-78677.patch \
+            file://CVE-2026-78676.patch \
++           file://CVE-2026-78675.patch \
             "
  SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
