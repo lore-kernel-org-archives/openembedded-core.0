@@ -1,210 +1,142 @@
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7521.1793976220823708730
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7695.1793976611012503565
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 06:43:41 -0800
+ Fri, 06 Nov 2026 06:50:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=V9G8lNSj;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: yurade@cisco.com)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=V7ykqzte;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=Adp+A47J;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: viswanath.kraleti@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A6EPveK1046897
+	for <openembedded-core@lists.openembedded.org>; Fri, 6 Nov 2026 14:50:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=ofmF+6Bx26JshGX/Fto02qjpotwLQMQg9C4
+	AYaMaDFw=; b=V7ykqztefAfgTqsNmDDq6ilLkM04hlloZVXIFeZLRBAI/TaQ+t0
+	nipZB6n37pv81Yu5zFqUj0tNUCD11+P2m+wMY5fqHwZiD39B8sfKPT7MOPedj254
+	sOKTxQ1geZ0DJW+tR51OC3FaoDNyWpCJXBa3mngz063Aaqwlp2QPuN1KzSNZaqv/
+	DOHoYlIVDncu+rGQgLH9QX/8hNlVSvuGwgXYA3ZDTA+wKxggGPV+PuTEl088yKFn
+	a9eTMO9gev/NvtR11EDkqjuhQusTDZV2GQdkZ/x9NSMH/T96F5vq1k1+Xx8CMnUx
+	d0bgMCpdoaycTIr4ngefchwoUQ6kl248KZw==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hs3p9u7c1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:50:10 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-36efb506f29so2094488eec.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 06:50:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5527; q=dns/txt;
-  s=iport01; t=1793976221; x=1795185821;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=uFziTky3YxaeS8gD6qeKkBaBI0OnWoTOaXZmVb/QPTU=;
-  b=V9G8lNSjDaMgQQuYTsKMzO1b/xPP4/dtA8UtR/9vXgDFkecxhrF1Swhk
-   Dr9N7na7FT2t70XB0bN3Bzo5h/yXXX+zP1I9SpYTE7p7wHWR3M7hcpI9H
-   Tb0HqfveVxYASaduZETxpo1kTJP44JLDnll8Ue5KJGdruui5XQlmRAJtg
-   5rYA8RDojjJzerrYNPvMxPVog5nHpktb+2B1Pm+QRpmveMdodX71PHyt6
-   YXAntqXsGvaS7N+P5PoiNVydM3YXp1Vbuz7yYacL8BksW2OhRG7yjtDF4
-   52TIbYqYRjT9LJaS50ZbEegEW0MItJj8NONQZ6O/rzj4sUiwP4ohUaQtm
-   A==;
-X-CSE-ConnectionGUID: QcZ+ZcWzReq1+O+y4WS84Q==
-X-CSE-MsgGUID: UkfQLt+tRFuxCJqv0tFbPQ==
-X-IPAS-Result: =?us-ascii?q?A0AnAAAN5+1q/43/Ja1aHQEBAQEJARIBBQUBgXwIAQsBg?=
- =?us-ascii?q?lZ1YENJA4xvhziCIQOTIIsBgX4PAQEBD0QNBAEBhD9GAo4dAiY0CQ4BAgQDA?=
- =?us-ascii?q?gMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBAycLARgBPRwDA?=
- =?us-ascii?q?QIvKyMIGYMCAYI6AzcDEbxNgXkzgQGDKQE/AkNQ2EwQb4FoAQsUAYE4AYVBi?=
- =?us-ascii?q?CRdGAFEglaBYycbgUlEgRWBF4JSgQWBXAKIJgSCDYEPEoFagyWJcwKBUYZ5S?=
- =?us-ascii?q?IEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+F4EHGwYFgR2BHoESgQddgSsoX?=
- =?us-ascii?q?iGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VDGQLG?=
- =?us-ascii?q?gVhCAINDHQ5EDAeJC8FHCY+GwovGA1IESw3FRkEPm4Hkj2CRU0BgQ0BKxc5g?=
- =?us-ascii?q?R0LNA8TGJJ7CpI3oRGEKowklToaM4QEgVeSQpJUC5h9glmLMZZRhGmBaDyBW?=
- =?us-ascii?q?TMaCBsVgyIJShkPjjmDa4UTUWzFHCYyAgkDLwEBBwIHDgMLgWiQAi2BTwEB?=
-IronPort-Data: A9a23:rpyYcK1cxMl41s93L/bD5YRwkn2cJEfYwER7XKvMYLTBsI5bp2FSm
- mYXDGDUP6yOZWHzfohwYYjnpBhX7MDXzdNrGgBo3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yEzmE4Ej9atANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- rsen+WFYAX7gmcsbzpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGNUoEfr8TxfRNDHgXt
- ttbOWwyVUDfvrfjqF67YrEEasULNsLnOsYb/3pn1zycVapgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUiZC/FMEg9/5JYWjfqyj3XyWzZZs1mS46Ew5gA/ySQsjOSxb4SJJ4PiqcN9o0WWn
- 0bavHjDLAwKH/6G12KZ3HiUv7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++Mv0CSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXJIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:2Nmsuq+RyW8CRBfuY2huk+D0I+orL9Y04lQ7vn2ZLiYlFvBw+P
- rBoB1273LJYXMqKRIdcLO7Scy9qA3nlKKdiLN5VdzJYOClghrLEGgI1+TfKlPbdxEWjtQ86Y
- 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHOuQ8bpE0dND2DrMpbnmFENjo=
-X-Talos-CUID: 9a23:1GfpsG1l14SdhYO1PHw5VLxfI8sXMU/W82XqLlbhSkEqWeGqcg/MwfYx
-X-Talos-MUID: 9a23:1a6lbgaNgG6xIeBTijzivRV+d9tSzbm+I2IUj80alcO8DHkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
-   d="scan'208";a="544476457"
-Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:34 +0000
-Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id DE93F180005CA
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 14:43:33 +0000 (GMT)
-Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 71805CC8C93; Fri,  6 Nov 2026 06:43:33 -0800 (PST)
-From: Yogita Urade <yurade@cisco.com>
+        d=oss.qualcomm.com; s=google; t=1793976609; x=1794581409; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ofmF+6Bx26JshGX/Fto02qjpotwLQMQg9C4AYaMaDFw=;
+        b=Adp+A47JsIIy3qX2wKG6NctolAhbR23Os6TBpSZc3EJQAOMTybSP61/PiHipD9gLj9
+         YMt6ljy2RQlxol22aDcPU+FkHL/2MlaK3NUKT/nw6r83wjOpx7Yu3lH7+EAWQIbgijFS
+         zibHx/+3wnZU4dkr7kAJmY9GtTFkflZgMo4gyCuWPkIZiNb/wTiAA/kojo979vm286W/
+         lVmhPz3CP0+rTlDmSzQGWteF9P5OwRm41HzehVUV/4TtBrXUqgnem8OgfgwssU/pBYu2
+         VPLNQcimLDuZCFN1ZfD6QUYM71ha9Mq4BDqhROYtzX0RfDs1Hal8OwYdzZ9mej+ynN8M
+         C9fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793976609; x=1794581409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ofmF+6Bx26JshGX/Fto02qjpotwLQMQg9C4AYaMaDFw=;
+        b=FH/bbPIb7nxgu50h8+QakmEIOZSFD5TLjTd1HoQ3EClwKSqc1DCvLY0p7KnbFssLY7
+         kUYyDAcuUwhxuJHxmiTwVld6hGYLtvWZG6JCpxByLI/347dtfeymcYWfQIt2JzzuaxAZ
+         MXEv6jiUpzoGgtgkt641kuu2/jCi4Mqr80U8mbrnECbTOIHx+oiik5NVuVyizfIYpB9O
+         1fY2rEtUGwLUiPjFW3BpIp5mlkeDoWtLCc7PiJrCUe/efgLFKV7jeaWxCvdeALHRizY/
+         Q28NCxjqvVgmtgFm0AyHi/m+llQM1Pqf+halV5jdOPEStLNQDbA4sDXVD6pLoO7p8vfH
+         kb/g==
+X-Gm-Message-State: APuU4Z9LTmmAkXG5ch+yVxLDufM9tbOGpYjD17p++jdzHdlBHw8W3AK3
+	z7yQIv5h9oSoUcDztdefa1IHO+UC7s/miFebsKAOa5w0Pku0tQCJO/bWDT8M5PruJkSXutgvgPD
+	/3K/xNq5NGW1d7uINP5pxO/547fU6iXbzy3mJBJL4RZMcFDBbW7aOpPxAj2gabI0WjTodP0DMAO
+	XF5aO0Z84Fjoyav5Q=
+X-Gm-Gg: AYBFou1R1kPRoo7Xog5kW9DX2z9hAp0Mr1WK0/uJ6tDlCLGEqbO+Tx/oVyCEisFAZE3
+	lYVdjytOPXeq54n18FJGNU6pmG64hLITAkJfXbptOO4VpUxH9mBosFW6KZILYCTBUumoIeGXAmi
+	DNblTxfvmO4RdkXWcKs/DDzIBB8BxBjCsJ/j0cEDT7bkkeTbZXtV10JrNoU/T7oOcnyaafYEbOc
+	/OUCXrj+KtCs2LGk9BiN5aNGepbTLkwKf1Q4Qgv5nKkP7G4er5LfbnCtXmDdsIwaNyK64cdlGOT
+	FO3s3B3hW01ZW8SRaohACIpa32l1EnFIXNMkprjCpoTcTEuqfZmwXmV539hTV+rLcr94iYm5c4q
+	RUdvgtKi8UO0nTgdqSdcKsca+xTavMZKOxVmGjOAIPwuIGqDToUSJRdvEAQX8mOPgZcGU964Ebs
+	2Jbsux7w+4WvtlyvDWohoWZnzTgHBoz2gnAQ8xtC3261g=
+X-Received: by 2002:a05:7301:f8e:b0:36e:3a0a:2953 with SMTP id 5a478bee46e88-36f775f83f4mr3975177eec.41.1793976609301;
+        Fri, 06 Nov 2026 06:50:09 -0800 (PST)
+X-Received: by 2002:a05:7301:f8e:b0:36e:3a0a:2953 with SMTP id 5a478bee46e88-36f775f83f4mr3975114eec.41.1793976608557;
+        Fri, 06 Nov 2026 06:50:08 -0800 (PST)
+Received: from hu-vkraleti-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa9be7077sm7466502eec.17.2026.11.06.06.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 06:50:08 -0800 (PST)
+From: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][v2 PATCH 27/27] python3-git: fix CVE-2026-100689
-Date: Fri,  6 Nov 2026 06:43:31 -0800
-Message-Id: <20261106144331.3354811-28-yurade@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261106144331.3354811-1-yurade@cisco.com>
-References: <20261106144331.3354811-1-yurade@cisco.com>
+Cc: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>,
+        Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>
+Subject: [OE-core][PATCH 0/4] uboot-sign: support an SPL FIT with firmware
+Date: Fri,  6 Nov 2026 20:19:53 +0530
+Message-Id: <20261106144957.3818987-1-viswanath.kraleti@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-04.cisco.com
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA2MDA1OSBTYWx0ZWRfX2q8GL34S2eeI
+ yaCEZ/X9JS90wD8/rmzWFatg1YvYO3MzUQal8Ndd3e/7OR/lnXNcS2BziURVItsrgdjGGaCTQc+
+ EW5eWdRuemhHxxSA6bbPZpmGeQB0Ne4=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA2MDA1OSBTYWx0ZWRfX7p71MW/wTn/X
+ G+2Ac27efj9PakMoN8C+YyiuJxkIWJM1S7DE+2/KB8TPF73++u3Dx8UfN5gihO+K1J1c1jaojek
+ v+EDfR3zThtXnvL6AQ6m9mAsmpD+USFmtFZG02yU3q7g9DUeh/vkCmslVMbB+8iLg34PW0YvAG3
+ uxWM2uaiHeRrTQm7Yx+ctnKyQcCHrJFclb8mKG2bJAYZnahnE+2VJuXtgaZgyKMPz2WAom822fy
+ OXASxXSFYrDjSpoTImsHYFlkEWuLPguwXeXuRb0fJ5C8VQ+1+cTvxc7g8SVmAWG9bW8rOCpJ+hB
+ saEtHJDJyHcE4nf0EIE351RWtr0LNyRhWrvOMrB42Vlx0OyU/a4EIG9rB4ppaEFn0rPqoWHkdxK
+ bnuLkAQWSliZsm+FwOnFNd8g3d7za2pExFAaX5zgXivhhS4VZ5Nzt3d8k+G4qDHitvjPe5lrnWG
+ eMDUcsUqrZSbfec4/aQ==
+X-Proofpoint-ORIG-GUID: dj0NA3QSxKEFHEp9vZqGC8SbJGAbJ7LM
+X-Authority-Analysis: v=2.4 cv=f6Pdl+yM c=1 sm=1 tr=0 ts=6aede922 cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=y_30nQMSxBjSmNvzmbUA:9
+ a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-GUID: dj0NA3QSxKEFHEp9vZqGC8SbJGAbJ7LM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-06_04,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0
+ adultscore=0 spamscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611060059
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:43:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249690
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:50:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249691
 Content-Type: text/plain; charset="utf-8"
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+The Qualcomm Shikra boot flow replaces XBL with the U-Boot SPL. The SPL
+loads a single FIT from the uefi partition, which holds two
+configurations: "pre-ddr" for the PMIC, DDR and QcLib firmware it runs
+before DRAM is up, and "post-ddr" for BL31, U-Boot, OP-TEE and the RPM
+firmware it loads afterwards. It picks the configuration by its
+description.
 
-[1] https://github.com/gitpython-developers/GitPython/commit/1ed0ebc2f2e74d979cdc367a4864a7731fdcc093
-[2] https://security-tracker.debian.org/tracker/CVE-2026-100689
+uboot-sign can't build that FIT today. This series adds the knobs it
+needs, so the layer can describe the extra images and configuration
+through UBOOT_FIT_USER_SETTINGS and the new UBOOT_FIT_USER_CONFIGURATIONS 
+instead of redefining the class functions:
 
-Signed-off-by: Yogita Urade <yurade@cisco.com>
----
-Changes in v2:
-- Changed the advisory reference from NVD to Debian Security Tracker.
-  Rewrote Backport Changes to explain that the GitPython 3.1.43
-  adaptation normalizes root and candidate paths and enforces containment
-  with commonpath.
----
- .../python/python3-git/CVE-2026-100689.patch  | 91 +++++++++++++++++++
- .../python/python3-git_3.1.43.bb              |  1 +
- 2 files changed, 92 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-100689.patch
+    1. UBOOT_FIT_TEE_TYPE, so OP-TEE can be a "firmware" image
+    2. UBOOT_FIT_FDT, to drop the separate fdt image when the U-Boot dtb
+       is appended to the uboot image
+    3. SPL_MKIMAGE_ARGS, to pass options such as -E to mkimage when the
+       fitImage is created and signed
+    4. UBOOT_FIT_USER_CONFIGURATIONS and UBOOT_FIT_CONF_NAME, to add
+       configurations next to the class one and name it
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-100689.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-100689.patch
-new file mode 100644
-index 0000000000..807d97dcfc
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-100689.patch
-@@ -0,0 +1,91 @@
-+From 1ed0ebc2f2e74d979cdc367a4864a7731fdcc093 Mon Sep 17 00:00:00 2001
-+From: Byron <sebastian.thiel@icloud.com>
-+Date: Tue, 1 Sep 2026 11:33:19 +0200
-+Subject: [PATCH] Reject submodule checkout paths outside the repository
-+
-+GHSA-59cr-6r3x-644w identifies that submodule update paths could reach
-+filesystem operations without the containment check already used by add and
-+move.
-+
-+Add a regression that proves update rejects a parent-directory checkout
-+path before cloning, and override Submodule.abspath to apply the shared
-+_to_relative_path guard for every filesystem consumer.
-+
-+Git baseline: git.git read-cache.c verify_path_internal() rejects invalid index
-+paths, covered for parent traversal by t/t9300-fast-import.sh.
-+
-+CVE: CVE-2026-100689
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/1ed0ebc2f2e74d979cdc367a4864a7731fdcc093]
-+
-+Backport Changes:
-+- Adapted _to_relative_path for 3.1.43: normalize root and candidate paths
-+  and enforce containment with commonpath, replacing the old prefix check
-+  that allowed relative .. traversal. This extra validation is not in the
-+  upstream hunk, which adds the Submodule.abspath override.
-+- Omitted doc/source/changes.rst because it only records the release note.
-+- Omitted test/test_submodule.py because the PyPI source archive does not
-+  include the test suite.
-+
-+Assisted-by: GPT 5.6
-+Co-authored-by: GPT 5.6 <codex@openai.com>
-+(cherry picked from commit 1ed0ebc2f2e74d979cdc367a4864a7731fdcc093)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
-+---
-+ git/objects/submodule/base.py | 46 +++++++++++++++++++++++++++++------------
-+ 1 file changed, 33 insertions(+), 13 deletions(-)
-+
-+--- a/git/objects/submodule/base.py
-++++ b/git/objects/submodule/base.py
-+@@ -400,19 +400,39 @@
-+             path = path[:-1]
-+         # END handle trailing slash
-+
-+-        if osp.isabs(path) and parent_repo.working_tree_dir:
-+-            working_tree_linux = to_native_path_linux(parent_repo.working_tree_dir)
-+-            if not path.startswith(working_tree_linux):
-+-                raise ValueError(
-+-                    "Submodule checkout path '%s' needs to be within the parents repository at '%s'"
-+-                    % (working_tree_linux, path)
-+-                )
-+-            path = path[len(working_tree_linux.rstrip("/")) + 1 :]
-+-            if not path:
-+-                raise ValueError("Absolute submodule path '%s' didn't yield a valid relative path" % path)
-+-            # END verify converted relative path makes sense
-+-        # END convert to a relative path
-+-
-++        root = parent_repo.working_tree_dir
-++        if root:
-++            drive, tail = osp.splitdrive(path)
-++            separators = (os.sep,) if os.altsep is None else (os.sep, os.altsep)
-++            if drive and not tail.startswith(separators):
-++                raise ValueError("Drive-relative path %r is not supported" % path)
-++
-++            root_abs = osp.abspath(to_native_path_linux(root))
-++            path_abs = osp.abspath(osp.join(root_abs, path))
-++            try:
-++                common_path = osp.commonpath([root_abs, path_abs])
-++            except ValueError as e:
-++                raise ValueError("Submodule checkout path %r is not in repository at %r" % (path, root_abs)) from e
-++            if osp.normcase(common_path) != osp.normcase(root_abs):
-++                raise ValueError("Submodule checkout path %r is not in repository at %r" % (path, root_abs))
-++
-++            path = to_native_path_linux(osp.relpath(path_abs, root_abs))
-++
-++        if not path or path == ".":
-++            raise ValueError("Submodule checkout path must not be the repository root")
-++
-++        return path
-++
-++    @property
-++    def abspath(self) -> PathLike:
-++        root = self.repo.working_tree_dir
-++        if root is None:
-++            return super().abspath
-++        path = root
-++        for component in self._to_relative_path(self.repo, self.path).split("/"):
-++            path = join_path_native(path, component)
-++            if osp.islink(path):
-++                raise ValueError("Submodule checkout path %r contains a symbolic link" % self.path)
-+         return path
-+
-+     @classmethod
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index 1c77341132..170fe989d9 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -52,6 +52,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-87818.patch \
-            file://CVE-2026-87819_p1.patch \
-            file://CVE-2026-87819_p2.patch \
-+           file://CVE-2026-100689.patch \
-            "
- SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
- 
--- 
-2.53.0
+All defaults keep the current output unchanged. The fitimage selftests
+are updated as needed.
+
+Viswanath Kraleti (4):
+  uboot-sign: make the type of the tee image node configurable
+  uboot-sign: add SPL_MKIMAGE_ARGS for the U-Boot fitImage
+  uboot-sign: make the separate fdt image optional
+  uboot-sign: add UBOOT_FIT_USER_CONFIGURATIONS
+
+ meta/classes-recipe/uboot-sign.bbclass   | 65 +++++++++++++++++++-----
+ meta/lib/oeqa/selftest/cases/fitimage.py | 47 ++++++++++++-----
+ 2 files changed, 85 insertions(+), 27 deletions(-)
 
