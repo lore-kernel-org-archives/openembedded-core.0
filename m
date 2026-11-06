@@ -1,71 +1,70 @@
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7520.1793976214416324349
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7343.1793976215204878691
  for <openembedded-core@lists.openembedded.org>;
  Fri, 06 Nov 2026 06:43:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VL/Kag4x;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=eJvAP+em;
+ spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=15600; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=19416; q=dns/txt;
   s=iport01; t=1793976215; x=1795185815;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=gr1rEDswaQS264q1SbQW6W7V2I5wQqJp1hQf26UeihQ=;
-  b=VL/Kag4x7sB/HKFALYIckBI+ArNAKb4+WNwg+hWW/uXUJ+yROST+NiRW
-   UuLa9mXU9CrmOStuHRaQUJSmxryfHk+QeWGJGPBFuJ8JA9zeWlgsbrWyH
-   5o5Fp++kZkZEaICN9KKvfgJ4aBi93O9zbvOEq6hwD3elwUh4Qa2qU9Mcj
-   55mVuoVCyxlbnxCarVJumteCTTEfUN9cuHeHxcERvXWWftL6OG+UM55r3
-   YxP2mgFWTHeax7TEtOcg19zxEhREncM4oOxgFWPsIdUgj0gMYoTYqIjhD
-   oKeCddmdONmR7fZZ6VvpVfsdXtHQmEOEFErgQPWdkX7x9gUBW/72SL/6P
+  bh=KOhuz3cjhgUENidZvWzNC/bN18SDZ+0CvsYiItEnthg=;
+  b=eJvAP+emdIPhcYmJ2m6/YjVm7kxZ386SbgFIcHXDzB2bF7fqMsHXzjaP
+   cvlCN9Rul+7iblIVf3VEEvDc8qc6Q6gNN/WAJ2KVXLkRIpBmzRp0LYwxv
+   XOFHbNRB1vDHkEyc+VBRynpW/5b04N5fCMRGpGDE7cBYik3O0Aq4yijKn
+   tGcxIReyHNwSB+6u9VYoWC8WSxm1ZpjQomghTukK41K+GVrK2IFqUx3f6
+   x8LBUfa+vN631UnFOuZTbALf0NStzm44v1NlOXry1G5Br5Skr8AC8HgKZ
+   7fjB0q/39RlphCT1hOegZ/4kCU0I1bRVkNlQKow5DRP1v0jxIaUeXbAP/
    A==;
-X-CSE-ConnectionGUID: FsKXNF2cT4+uJl1UOBLWvw==
-X-CSE-MsgGUID: A+YCs7FCQ/qaORRdhUXX0g==
-X-IPAS-Result: =?us-ascii?q?A0BJAgAN5+1q/5L/Ja1aglmCV3VgQ0kDlCeCIQOeIYEbA?=
- =?us-ascii?q?2APAQEBD0QNBAEBhD9GAo4dAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFA?=
- =?us-ascii?q?QEBAgEHBYEOE4ZPDZASAQIBAycLARgBPRwDAQIvKyMIGYMCAYI6AzcDEbxNg?=
- =?us-ascii?q?XkzgQGDKQE/AgJAAVDYTBBvgWgBCxQBgTiFQogkXRgBRIJWgWMnG4FJRIEVg?=
- =?us-ascii?q?2mBBYEyKgICggqGGgSDHBKBWoEDjBUCgVFbhh5IgR4DWSwBVRMNCgsHBYFoA?=
- =?us-ascii?q?zUSKhVuMh2BIz4XgQcbBgWBHYEegRKBB12BKyheIYEIgXYCglGCAAIBSUEOB?=
- =?us-ascii?q?0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZAsaBWEIAg0MdDkQMB4kLwUcJ?=
- =?us-ascii?q?j4bCi8YDUgRLDcVGQQ+bgeSPYJFCDMSPSQtASsiWUgKGxAcGBwGLJJnA5Adg?=
- =?us-ascii?q?iGhEYQqjCSVOhozhVulFguYfY4KllGEaYFoPIFZMxoIGxU7gmcJShkPjisOC?=
- =?us-ascii?q?4NghRNRxggmMgIGAwMvAQEHAgcOAwuBaJACLYFPAQE?=
-IronPort-Data: A9a23:0HSI4azb0u/oH6UIZBV6t+dgxyrEfRIJ4+MujC+fZmUNrF6WrkVTn
- TAbWjuAOqnfYWfwfYhzPIq/pExQu5LSnYdiGlA9rlhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 4yaT/H3Ygf/hWctaj9MsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJG8tHr0+1Lx8PT0N6
- N4ccQ0qRDS8mf3jldpXSsE07igiBNPgMIVavjRryivUSK53B5vCWK7No9Rf2V/chOgXQq2YP
- JVfM2cyKk2cPXWjOX9PYH46tPa1nHDzfhVTqUmeouw85G27IAlZjeO1YIaMKozXLSlTtm/bl
- 0ndoErSO1YDPful8zaFz0Kc3uCayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1ffDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9ExpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:BMxxE6E5NVjWC24BpLqExMeALOsnbusQ8zAXPidKOHhom6Oj+f
- xG8M536fawskdzZJhCo6HkBED/exLhHPdOiOF7V4tKHjOW2ldAR7sM0WKN+VHd8lXFltJ15O
- NHb7V0DsH2ABxRiMb35xT9LvMbqeP3l5xBQYzlvg5QpcYAUdAH0ztE
-X-Talos-CUID: =?us-ascii?q?9a23=3ATXk1fWjs1w6foTu4rzZIu9ixSTJuXGb+/FH+eUS?=
- =?us-ascii?q?EVSV0arnMdHi63Jx6jJ87?=
-X-Talos-MUID: =?us-ascii?q?9a23=3AM53lrgwyJZEoMG0BmtHHmK+nxVeaqI3tOWsWzrs?=
- =?us-ascii?q?tgo6dPAtKATudsQSHGoByfw=3D=3D?=
+X-CSE-ConnectionGUID: T5pSOWqySHicKilN6IRtcA==
+X-CSE-MsgGUID: yvM54Hj9QQS5d4vXpIXJ6w==
+X-IPAS-Result: =?us-ascii?q?A0BPAgAQ5u1q/47/Ja1aHgEBCxIMggULgld1YENJA4RUj?=
+ =?us-ascii?q?1OCIQORTIFUiwEUgWoPAQEBD0QNBAEBhD9GAo4dAiY0CQ4BAgQDAgMBAQEBA?=
+ =?us-ascii?q?QEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBAyMECwEYAT0cAwECAwIRF?=
+ =?us-ascii?q?QICKx0BBQgZHoJkAYI6AzcDEbw/en8zgQGDKQE/AkNQ2EwQb4FoAQsUAYEKL?=
+ =?us-ascii?q?oVCgyABhQNdGAGEfScbgUlEgRWBO4IugQWBXAKBGS0EVYMdgmoEgxwSgVqBA?=
+ =?us-ascii?q?4wVAoFRhnlIgQIcA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+Fy9YGwYFgR2BH?=
+ =?us-ascii?q?oESgQddgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaN?=
+ =?us-ascii?q?TwJJj8VDGQLGgVhCAINDHQ5EDAeJC8FHCY+GwovGA1IESw3FRkEPQFuB5I9g?=
+ =?us-ascii?q?kU7CwcBPBs2ASsXegcDBS0YEwULAwgZBQwRApMRAQIHkjehEYQqjCSHJ44TG?=
+ =?us-ascii?q?jOEBIFXkkKSVAuYfY4KlTUwBAsQTYRpgWg8Rn0PBzMaCBsVO4JnCUoZD44rA?=
+ =?us-ascii?q?gwLg2CFE1HGCCYyAgkDLwEBBwIHDgMLgWiQAQEmB4FPAQE?=
+IronPort-Data: A9a23:tBlxhat1/6wc3c3yBAZwl+K36+fnVAFfMUV32f8akzHdYApBsoF/q
+ tZmKT2CO6mPZWShe9EnbYnnpkxT7cTXx9VgTwY/qyhjEiwXgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrb/656yYsjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZzdJ5xYuajhKsvvb9Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwxrtvOkZx7
+ O0jCDEGTRGHobyX+q6wY7w57igjBJGD0II3oHpsy3TdSP0hW52GG/iM7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtNYH49tL/Aan3XYiBCoV6YjaE2+GPUigd21dABNfKIJoDTFJoIzx3wS
+ mTu7nrcX006No2m8AHY/i6ytvfurQGlR9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cE3hKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:p1VYdKPvKihmZcBcTuOjsMiBIKoaSvp037BN7TEXdfU1SL39qy
+ nAppomPHPP5Qr5HUtQ+uxoW5PwJE80i6QV3WB5B97LN2PbUSmTXeNfBODZrAEIdReTygck78
+ ddWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IHjJ7MHd3ATV0mmhD0JczqmLg==
+X-Talos-CUID: 9a23:FmJXn2/j7zFIFtyYPLGVv3JJAvsCTWTM91fRKGy5DUA3aYeJQnbFrQ==
+X-Talos-MUID: 9a23:2qRs1Ao3KG/l7vzH3WYezyB8EZo0w6b/MXk2zJlapfmcFBxSZSjI2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
-   d="scan'208";a="530841885"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:33 +0000
+   d="scan'208";a="544197593"
+Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
+  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:34 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 0F5551800023E
+	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id D92CB180007F1
 	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 14:43:33 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id A8325CBF202; Fri,  6 Nov 2026 06:43:32 -0800 (PST)
+	id 5B959CC4D0E; Fri,  6 Nov 2026 06:43:33 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][v2 PATCH 02/27] python3-git: fix CVE-2026-67323
-Date: Fri,  6 Nov 2026 06:43:06 -0800
-Message-Id: <20261106144331.3354811-3-yurade@cisco.com>
+Subject: [OE-core][wrynose][v2 PATCH 24/27] python3-git: fix CVE-2026-87817
+Date: Fri,  6 Nov 2026 06:43:28 -0800
+Message-Id: <20261106144331.3354811-25-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261106144331.3354811-1-yurade@cisco.com>
 References: <20261106144331.3354811-1-yurade@cisco.com>
@@ -73,401 +72,492 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+X-Outbound-Node: rcdn-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:43:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249687
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249686
 Content-Type: text/plain; charset="utf-8"
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/701ce32fe5ba8cb622c0e0342a376a6beb47d738
-[2] https://security-tracker.debian.org/tracker/CVE-2026-67323
+[1] https://github.com/gitpython-developers/GitPython/commit/c7cf4d13b1ed0a2e70f2a1f3c6b4fc6c2652cf0b
+[2] https://security-tracker.debian.org/tracker/CVE-2026-87817
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
 Changes in v2:
-- Changed the advisory reference from NVD to Debian Security Tracker.
-  Changed the ls_remote documentation to describe --upload-pack
-  without --exec.
+- Changed the advisory reference from NVD to Debian Security Tracker and
+  corrected the embedded From hash to the cited upstream commit. Added the
+  missing re import. Updated alternates lookup to use self.odb.root_path();
+  moved Cygwin and relative-path handling in find_submodule_git_dir() and
+  return a path only when is_git_dir() validates it. Expanded Backport
+  Changes to describe the GitPython 3.1.43 adaptations and omitted
+  documentation/tests.
 ---
- .../python/python3-git/CVE-2026-67323.patch   | 356 ++++++++++++++++++
+ .../python/python3-git/CVE-2026-87817.patch   | 443 ++++++++++++++++++
  .../python/python3-git_3.1.43.bb              |   1 +
- 2 files changed, 357 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
+ 2 files changed, 444 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87817.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-87817.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-87817.patch
 new file mode 100644
-index 0000000000..3901f6244b
+index 0000000000..fc604ca44f
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
-@@ -0,0 +1,356 @@
-+From 80bf84d6f24adcc181b78d71fa94544924a85b2c Mon Sep 17 00:00:00 2001
-+From: "GPT 5.6" <codex@openai.com>
-+Date: Sun, 12 Jul 2026 15:06:42 +0200
-+Subject: [PATCH] fix: Guard unsafe git command options (GHSA-956x-8gvw-wg5v)
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-87817.patch
+@@ -0,0 +1,443 @@
++From c7cf4d13b1ed0a2e70f2a1f3c6b4fc6c2652cf0b Mon Sep 17 00:00:00 2001
++From: Byron <sebastian.thiel@icloud.com>
++Date: Tue, 25 Aug 2026 04:57:29 +0200
++Subject: [PATCH] fix: prefer `.git` during repository discovery
 +
-+Reject command options that can execute arbitrary helpers or write files when passed through archive, revision traversal, blame, clone, fetch, pull, push, and ls-remote APIs. Validate positional option tokens and transformed keyword options consistently, including Git-supported long-option abbreviations, attached short-option values, and falsey stringifiable remotes. Preserve explicit allow_unsafe_options and allow_unsafe_protocols escape hatches.
++<!-- agent -->
++GitPython considered worktree administration and bare-repository signatures
++before a worktree's real .git entry. Align discovery with Git so .git files
++and directories win, malformed .git files stop discovery, and candidate git
++directories validate HEAD plus commondir-backed object and ref storage. This
++addresses GHSA-239g-whfq-7xj9.
 +
-+Add regression coverage for each guarded API, option spelling and abbreviation forms, inert keyword values, mixed positional and keyword candidates, tuple blame options, stringifiable remotes, and unsafe commands that must not create marker files.
++Regression coverage compares ambiguous layouts with git rev-parse and rejects
++invalid HEAD/.git metadata.
 +
-+CVE: CVE-2026-67323
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/701ce32fe5ba8cb622c0e0342a376a6beb47d738]
++Git baseline: 15c6308cf7ad276b306aa5b3ababfbdebfb1a917; setup.c
++setup_git_directory_gently_1(), is_git_directory(), and validate_headref().
++
++Repository validation can use GIT_COMMON_DIR for refs and objects. Preserve the
++same value on Repo so later config, ref, and object access uses the directory
++that made discovery succeed.
++
++Capture GIT_COMMON_DIR before the first repository config read so bare-state
++detection uses the same metadata location as discovery. Resolve relative
++environment values immediately so later working-directory changes cannot
++retarget the Repo.
++
++Review feedback: relative GIT_COMMON_DIR left Git subprocesses resolving GIT_DIR
++and GIT_COMMON_DIR from a different working directory; malformed commondir data,
++empty GIT_OBJECT_DIRECTORY, and the linked-worktree signature were also handled
++inconsistently.
++
++Pin the repository environment to resolved paths, reject invalid
++metadata without consulting the process working directory, and
++restore HEAD-based linked-worktree detection. Keep the loose HEAD
++and dangling .git behavior because both match Git setup.c at baseline
++15c6308cf7ad276b306aa5b3ababfbdebfb1a917.
++
++Review feedback identified that chained or self-referential .git pointers
++recurse, filesystem-encoded metadata can fail text decoding, and a relative
++GIT_DIR is not retained for later Git commands.
++
++Parse one regular, size-bounded Gitfile exactly once, decode Gitfile and
++commondir paths with the filesystem codec, and retain the resolved GIT_DIR
++for subprocesses. This rejects cycles like Git instead of recursing and keeps
++commands stable after working-directory changes.
++
++Review feedback noted that a dangling commondir symlink was treated as absent,
++allowing local objects and refs to validate the repository.
++
++Distinguish a truly missing commondir from a dangling symlink. This follows
++Git's get_common_dir_noenv(), whose file_exists check uses lstat before
++attempting to read the entry.
++
++Python 3.9 on Windows raised UnicodeDecodeError while the repository-discovery
++regression test parsed invalid commondir bytes, causing the Python package test
++(windows, 3.9) check to fail.
++
++Treat UnicodeError like an unreadable metadata file in both commondir and
++gitfile parsing. Invalid bytes now make discovery reject the candidate
++repository, matching Git's behavior.
++
++Review feedback noted that GIT_OBJECT_DIRECTORY made discovery succeed without
++becoming the Repo ODB root, while a relative value could later be resolved from
++the Git wrapper's different working directory.
++
++Resolve the environment value against the construction directory, use it as the
++ODB root, and preserve the absolute value for later Git commands. The regression
++moves the only object store outside the git directory and verifies access
++through both GitDB and git cat-file after the original environment and current
++directory are restored.
++
++Review feedback identified four setup mismatches: non-missing .git stat failures
++could fall through to another repository, explicit GIT_DIR could be redirected
++through a nested .git entry, Gitfile reads were not bounded to the stat-reported
++size, and alternates ignored GIT_OBJECT_DIRECTORY.
++
++Match Git setup.c by bypassing discovery for an environment-selected GIT_DIR,
++stopping discovery when Gitfile stat fails for reasons other than a missing
++path, and reading exactly the previously observed Gitfile size. Resolve
++alternates below the active ODB root so custom object stores remain internally
++consistent.
++
++The commit review noted that treating every present GIT_DIR as explicit broke
++two documented cases: an empty GIT_DIR must fall back to current-directory
++discovery, while an empty Repo path must still use a nonempty GIT_DIR.
++
++CVE: CVE-2026-87817
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/c7cf4d13b1ed0a2e70f2a1f3c6b4fc6c2652cf0b]
 +
 +Backport Changes:
-+- Omitted test/test_clone.py, test/test_commit.py, test/test_git.py,
-+  test/test_remote.py, test/test_repo.py because the current PyPI
-+  source archive does not include the test suite and the python3-git
-+  recipe does not run it.
++- Omitted doc/source/changes.rst because its upstream hunk is a
++  release-note entry; the file is present in the recipe PyPI archive.
++- Adapted the repository-discovery and environment-handling changes to
++  GitPython 3.1.43’s Repo.__init__ implementation. This includes its
++  linked-worktree and .git discovery flow, resolving and preserving
++  GIT_DIR/GIT_COMMON_DIR, and using GIT_OBJECT_DIRECTORY as the object
++  database root. These version-specific changes account for the difference
++  in git/repo/base.py from upstream; the alternates accessor changes are
++  part of that adaptation.
++- Added the standard-library re import in git/repo/fun.py because the
++  upstream re.match() call relies on an import from an earlier commit that
++  is absent from GitPython 3.1.43.
++- Omitted test/test_repo.py because the current PyPI source archive
++  does not include the test suite and the python3-git recipe does
++  not run it.
 +
-+Reviewed-by: Sebastian Thiel <sebastian.thiel@icloud.com>
-+(cherry picked from commit 701ce32fe5ba8cb622c0e0342a376a6beb47d738)
++Assisted-by: GPT 5.6
++Co-authored-by: GPT 5.6 <codex@openai.com>
++(cherry picked from commit c7cf4d13b1ed0a2e70f2a1f3c6b4fc6c2652cf0b)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/cmd.py            | 37 +++++++++++++++++++++-
-+ git/objects/commit.py | 12 +++++++
-+ git/remote.py         | 15 ++++++--
-+ git/repo/base.py      | 80 +++++++++++++++++++++++++++++++++++++++----
-+ 4 files changed, 133 insertions(+), 11 deletions(-)
++ git/repo/base.py |  91 +++++++++++++++++++++++++++++++--------------
++ git/repo/fun.py  | 111 +++++++++++++++++++++++++++++++++++++-----------------
++ 2 files changed, 135 insertions(+), 67 deletions(-)
 +
-+diff --git a/git/cmd.py b/git/cmd.py
-+index bb8f93a8..87866be2 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -414,6 +414,11 @@ class Git:
-+         "_version_info_token",
-+     )
-+ 
-++    unsafe_git_ls_remote_options = [
-++        # This option allows arbitrary command execution in git-ls-remote.
-++        "--upload-pack",
-++    ]
-++
-+     re_unsafe_protocol = re.compile(r"(.+)::.+")
-+ 
-+     def __getstate__(self) -> Dict[str, Any]:
-+@@ -742,6 +747,20 @@ Git.check_unsafe_options
-+                     f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+                 )
-+ 
-++    @classmethod
-++    def _option_candidates(cls, args: Sequence[Any] = (), kwargs: Optional[Mapping[str, Any]] = None) -> List[str]:
-++        """Collect possible option spellings before command-line transformation."""
-++        options = [
-++            option for option in cls._unpack_args([arg for arg in args if arg is not None]) if option.startswith("-")
-++        ]
-++        if kwargs:
-++            for key, value in kwargs.items():
-++                values = value if isinstance(value, (list, tuple)) else (value,)
-++                if any(value is True or (value is not False and value is not None) for value in values):
-++                    key = str(key)
-++                    options.append(f"-{key}" if len(key) == 1 else f"--{dashify(key)}")
-++        return options
-++
-+     class AutoInterrupt:
-+         """Process wrapper that terminates the wrapped process on finalization.
-+ 
-+@@ -999,6 +1019,22 @@ Git.__getattr__
-+             return super().__getattribute__(name)
-+         return lambda *args, **kwargs: self._call_process(name, *args, **kwargs)
-+ 
-++    def ls_remote(
-++        self,
-++        *args: Any,
-++        allow_unsafe_options: bool = False,
-++        **kwargs: Any,
-++    ) -> Union[str, bytes, Tuple[int, Union[str, bytes], str], "Git.AutoInterrupt"]:
-++        """List references in a remote repository.
-++
-++        :param allow_unsafe_options:
-++            Allow unsafe options, like ``--upload-pack``.
-++        """
-++        if not allow_unsafe_options:
-++            candidate_options = self._option_candidates(args, kwargs)
-++            Git.check_unsafe_options(options=candidate_options, unsafe_options=self.unsafe_git_ls_remote_options)
-++        return self._call_process("ls_remote", *args, **kwargs)
-++
-+     def set_persistent_git_options(self, **kwargs: Any) -> None:
-+         """Specify command line options to the git executable for subsequent
-+         subcommand calls.
-+@@ -1488,7 +1524,7 @@ Git._unpack_args
-+         return args
-+ 
-+     @classmethod
-+-    def _unpack_args(cls, arg_list: Sequence[str]) -> List[str]:
-++    def _unpack_args(cls, arg_list: Sequence[Any]) -> List[str]:
-+         outlist = []
-+         if isinstance(arg_list, (list, tuple)):
-+             for arg in arg_list:
-+diff --git a/git/objects/commit.py b/git/objects/commit.py
-+index d957c905..6e2ff759 100644
-+--- a/git/objects/commit.py
-++++ b/git/objects/commit.py
-+@@ -85,6 +85,12 @@ class Commit:
-+ 
-+     # INVARIANTS
-+     default_encoding = "UTF-8"
-++    # Options to :manpage:`git-rev-list(1)` that can overwrite files.
-++    unsafe_git_rev_options = [
-++        "--output",
-++        "-o",
-++    ]
-++
-+ 
-+     type: Literal["commit"] = "commit"
-+ 
-+@@ -302,6 +308,7 @@ Commit.iter_items
-+         repo: "Repo",
-+         rev: Union[str, "Commit", "SymbolicReference"],
-+         paths: Union[PathLike, Sequence[PathLike]] = "",
-++        allow_unsafe_options: bool = False,
-+         **kwargs: Any,
-+     ) -> Iterator["Commit"]:
-+         R"""Find all commits matching the given criteria.
-+@@ -329,6 +336,11 @@ Commit.iter_items
-+         if "pretty" in kwargs:
-+             raise ValueError("--pretty cannot be used as parsing expects single sha's only")
-+         # END handle pretty
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([rev], kwargs), unsafe_options=cls.unsafe_git_rev_options
-++            )
-++
-+ 
-+         # Use -- in all cases, to prevent possibility of ambiguous arguments.
-+         # See https://github.com/gitpython-developers/GitPython/issues/264.
-+diff --git a/git/remote.py b/git/remote.py
-+index f2ecd0f3..cafa1f84 100644
-+--- a/git/remote.py
-++++ b/git/remote.py
-+@@ -1061,7 +1061,10 @@ Remote.fetch
-+                     Git.check_unsafe_protocols(ref)
-+ 
-+         if not allow_unsafe_options:
-+-            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_fetch_options)
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=self.unsafe_git_fetch_options,
-++            )
-+ 
-+         proc = self.repo.git.fetch(
-+             "--", self, *args, as_process=True, with_stdout=False, universal_newlines=False, v=verbose, **kwargs
-+@@ -1115,7 +1118,10 @@ Remote.pull
-+                 Git.check_unsafe_protocols(ref)
-+ 
-+         if not allow_unsafe_options:
-+-            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_pull_options)
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=self.unsafe_git_pull_options,
-++            )
-+ 
-+         proc = self.repo.git.pull(
-+             "--", self, refspec, with_stdout=False, as_process=True, universal_newlines=False, v=True, **kwargs
-+@@ -1188,7 +1194,10 @@ Remote.push
-+                 Git.check_unsafe_protocols(ref)
-+ 
-+         if not allow_unsafe_options:
-+-            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_push_options)
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=self.unsafe_git_push_options,
-++            )
-+ 
-+         proc = self.repo.git.push(
-+             "--",
 +diff --git a/git/repo/base.py b/git/repo/base.py
-+index 8059fceb..e9e7aa66 100644
++index e3b10459..a5532ae5 100644
 +--- a/git/repo/base.py
 ++++ b/git/repo/base.py
-+@@ -159,6 +159,20 @@ class Repo:
-+     ``protocol.allow`` and ``core.gitProxy`` to execute arbitrary commands:
-+     https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---configltkeygtltvaluegt
++@@ -45,7 +45,6 @@ Repo imports
++ 
++ from .fun import (
++     find_submodule_git_dir,
++-    find_worktree_git_dir,
++     is_git_dir,
++     rev_parse,
++     touch,
++@@ -231,6 +230,10 @@ Repo.__init__ reftable note
++     ) -> None:
++         R"""Create a new :class:`Repo` instance.
++ 
+++        .. note::
+++            Repositories using reftable may be opened, but GitPython's direct reference
+++            access does not support reftable.
+++
++         :param path:
++             The path to either the root git directory or the bare git repo::
++ 
++@@ -265,7 +268,11 @@ Repo.__init__ environment paths
++             :class:`Repo`
++         """
++ 
++-        epath = path or os.getenv("GIT_DIR")
+++        git_dir_env = os.getenv("GIT_DIR")
+++        object_dir_env = os.getenv("GIT_OBJECT_DIRECTORY")
+++        if object_dir_env is not None:
+++            object_dir_env = osp.abspath(object_dir_env)
+++        epath = path or git_dir_env
++         if not epath:
++             epath = os.getcwd()
++         if Git.is_cygwin():
++@@ -289,15 +296,47 @@ Repo.__init__ repository discovery
++                 raise NoSuchPathError(epath)
++ 
++         # Walk up the path to find the `.git` dir.
++-        curpath = epath
++-        git_dir = None
+++        curpath = os.fspath(epath) if epath is not None else ""
+++        git_dir: Optional[str] = None
+++        explicit_git_dir = not path and bool(git_dir_env)
++         while curpath:
++             # ABOUT osp.NORMPATH
++             # It's important to normalize the paths, as submodules will otherwise
++             # initialize their repo instances with paths that depend on path-portions
++             # that will not exist after being removed. It's just cleaner.
+++            if not explicit_git_dir:
+++                dotgit = osp.join(curpath, ".git")
+++                try:
+++                    sm_gitpath = find_submodule_git_dir(dotgit)
+++                except OSError:
+++                    break
+++                if sm_gitpath is not None:
+++                    # Worktrees can use relative paths as of Git 2.48, so join to curpath.
+++                    git_dir = osp.normpath(osp.join(curpath, os.fspath(sm_gitpath)))
+++                    self._working_tree_dir = curpath
+++                    break
+++
+++                # Like Git, do not fall back to a bare repository or parent directory when
+++                # a non-directory .git entry exists but is not a valid gitfile.
+++                if osp.exists(dotgit) and not osp.isdir(dotgit):
+++                    break
++             if is_git_dir(curpath):
++                 git_dir = curpath
+++                if osp.isfile(osp.join(curpath, "gitdir")) and osp.isfile(osp.join(curpath, "commondir")):
+++                    if "GIT_WORK_TREE" in os.environ:
+++                        self._working_tree_dir = os.getenv("GIT_WORK_TREE")
+++                    else:
+++                        # Linked worktree administrative directories store the path to
+++                        # the worktree's .git file in gitdir (without a "gitdir: " prefix).
+++                        with open(osp.join(git_dir, "gitdir")) as fp:
+++                            worktree_gitfile = fp.read().strip()
+++
+++                        if not osp.isabs(worktree_gitfile):
+++                            worktree_gitfile = osp.normpath(osp.join(git_dir, worktree_gitfile))
+++
+++                        self._working_tree_dir = osp.dirname(worktree_gitfile)
+++                    break
+++
++                 # from man git-config : core.worktree
++                 # Set the path to the root of the working tree. If GIT_COMMON_DIR
++                 # environment variable is set, core.worktree is ignored and not used for
++@@ -317,21 +356,7 @@ Repo.__init__ directory search
++                     self._working_tree_dir = os.getenv("GIT_WORK_TREE")
++                 break
++ 
++-            dotgit = osp.join(curpath, ".git")
++-            sm_gitpath = find_submodule_git_dir(dotgit)
++-            if sm_gitpath is not None:
++-                git_dir = osp.normpath(sm_gitpath)
++-
++-            sm_gitpath = find_submodule_git_dir(dotgit)
++-            if sm_gitpath is None:
++-                sm_gitpath = find_worktree_git_dir(dotgit)
++-
++-            if sm_gitpath is not None:
++-                git_dir = expand_path(sm_gitpath, expand_vars)
++-                self._working_tree_dir = curpath
++-                break
++-
++-            if not search_parent_directories:
+++            if explicit_git_dir or not search_parent_directories:
++                 break
++             curpath, tail = osp.split(curpath)
++             if not tail:
++@@ -342,6 +367,16 @@ Repo.__init__ common directory
++             raise InvalidGitRepositoryError(epath)
++         self.git_dir = git_dir
++ 
+++        common_dir_env = os.getenv("GIT_COMMON_DIR")
+++        if common_dir_env is not None:
+++            self._common_dir = osp.abspath(common_dir_env)
+++        else:
+++            try:
+++                common_dir = os.fsdecode((Path(self.git_dir) / "commondir").read_bytes()).rstrip("\r\n")
+++                self._common_dir = osp.join(self.git_dir, common_dir)
+++            except OSError:
+++                self._common_dir = ""
+++
++         self._bare = False
++         try:
++             self._bare = self.config_reader("repository").getboolean("core", "bare")
++@@ -349,12 +384,6 @@ Repo.__init__ bare-state detection
++             # Let's not assume the option exists, although it should.
++             pass
++ 
++-        try:
++-            common_dir = (Path(self.git_dir) / "commondir").read_text().splitlines()[0].strip()
++-            self._common_dir = osp.join(self.git_dir, common_dir)
++-        except OSError:
++-            self._common_dir = ""
++-
++         # Adjust the working directory in case we are actually bare - we didn't know
++         # that in the first place.
++         if self._bare:
++@@ -363,9 +392,15 @@ Repo.__init__ Git environment and object database
++ 
++         self.working_dir: PathLike = self._working_tree_dir or self.common_dir
++         self.git = self.GitCommandWrapperType(self.working_dir)
+++        if common_dir_env is not None:
+++            self.git.update_environment(GIT_DIR=os.fspath(self.git_dir), GIT_COMMON_DIR=os.fspath(self.common_dir))
+++        elif git_dir_env is not None:
+++            self.git.update_environment(GIT_DIR=os.fspath(self.git_dir))
+++        if object_dir_env is not None:
+++            self.git.update_environment(GIT_OBJECT_DIRECTORY=object_dir_env)
++ 
++         # Special handling, in special times.
++-        rootpath = osp.join(self.common_dir, "objects")
+++        rootpath = object_dir_env if object_dir_env is not None else osp.join(self.common_dir, "objects")
++         if issubclass(odbt, GitCmdObjectDB):
++             self.odb = odbt(rootpath, self.git)
++         else:
++@@ -952,7 +987,7 @@ Repo._get_alternates
++             List of strings being pathnames of alternates
++         """
++         if self.git_dir:
++-            alternates_path = osp.join(self.git_dir, "objects", "info", "alternates")
+++            alternates_path = osp.join(self.odb.root_path(), "info", "alternates")
++ 
++         if osp.exists(alternates_path):
++             with open(alternates_path, "rb") as f:
++@@ -973,7 +1008,7 @@ Repo._set_alternates
++             The method does not check for the existence of the paths in `alts`, as the
++             caller is responsible.
++         """
++-        alternates_path = osp.join(self.common_dir, "objects", "info", "alternates")
+++        alternates_path = osp.join(self.odb.root_path(), "info", "alternates")
++         if not alts:
++             if osp.isfile(alternates_path):
++                 os.remove(alternates_path)
++
++diff --git a/git/repo/fun.py b/git/repo/fun.py
++index e44d9c64..30c30ebb 100644
++--- a/git/repo/fun.py
+++++ b/git/repo/fun.py
++@@ -20,5 +20,6 @@ standard-library imports
++ import os
++ import os.path as osp
+++import re
++ from pathlib import Path
++ import stat
++ from string import digits
++@@ -57,22 +58,61 @@ is_git_dir repository validation
++ def is_git_dir(d: PathLike) -> bool:
++     """This is taken from the git setup.c:is_git_directory function.
++ 
+++    .. note::
+++        This function recognizes repositories using reftable through their
+++        compatibility files, but GitPython's direct reference access does not support
+++        reftable.
+++
++     :raise git.exc.WorkTreeRepositoryUnsupported:
++         If it sees a worktree directory. It's quite hacky to do that here, but at least
++         clearly indicates that we don't support it. There is the unlikely danger to
++         throw if we see directories which just look like a worktree dir, but are none.
 +     """
-++    unsafe_git_archive_options = [
-++        # Allows arbitrary command execution through the remote git-upload-archive command.
-++        "--exec",
-++        # Writes output to a caller-controlled filesystem path.
-++        "--output",
-++        "-o",
-++    ]
++     if osp.isdir(d):
++-        if (osp.isdir(osp.join(d, "objects")) or "GIT_OBJECT_DIRECTORY" in os.environ) and osp.isdir(
++-            osp.join(d, "refs")
++-        ):
++-            headref = osp.join(d, "HEAD")
++-            return osp.isfile(headref) or (osp.islink(headref) and os.readlink(headref).startswith("refs"))
++-        elif (
++-            osp.isfile(osp.join(d, "gitdir"))
++-            and osp.isfile(osp.join(d, "commondir"))
++-            and osp.isfile(osp.join(d, "gitfile"))
++-        ):
+++        headref = osp.join(d, "HEAD")
+++        if osp.islink(headref):
+++            try:
+++                valid_head = os.readlink(headref).startswith("refs/")
+++            except OSError:
+++                valid_head = False
+++        else:
+++            try:
+++                with open(headref, "rb") as fp:
+++                    head = fp.read(256)
+++            except OSError:
+++                valid_head = False
+++            else:
+++                valid_head = (head.startswith(b"ref:") and head[4:].lstrip().startswith(b"refs/")) or bool(
+++                    re.match(rb"(?:[0-9A-Fa-f]{64}|[0-9A-Fa-f]{40})", head)
+++                )
 ++
-++    unsafe_git_revision_options = [
-++        # This option allows output to be written to arbitrary files before revision parsing.
-++        "--output",
-++        "-o",
-++    ]
+++        common_dir = os.getenv("GIT_COMMON_DIR")
+++        if common_dir == "":
+++            return False
+++        if common_dir is None:
+++            common_dir_file = Path(d) / "commondir"
+++            try:
+++                common_dir = os.fsdecode(common_dir_file.read_bytes()).rstrip("\r\n")
+++            except FileNotFoundError:
+++                if osp.lexists(common_dir_file):
+++                    return False
+++                common_dir = os.fspath(d)
+++            except (OSError, UnicodeError):
+++                return False
+++            else:
+++                if not common_dir:
+++                    return False
+++                try:
+++                    common_dir = osp.realpath(osp.join(d, common_dir))
+++                except (OSError, ValueError):
+++                    return False
 ++
+++        object_dir = os.getenv("GIT_OBJECT_DIRECTORY")
+++        if object_dir is None:
+++            object_dir = osp.join(common_dir, "objects")
+++        if valid_head and osp.isdir(object_dir) and osp.isdir(osp.join(common_dir, "refs")):
+++            return True
+++        if osp.isfile(osp.join(d, "gitdir")) and osp.isfile(osp.join(d, "commondir")) and osp.isfile(headref):
++             raise WorkTreeRepositoryUnsupported(d)
++     return False
 + 
-+     # Invariants
-+     config_level: ConfigLevels_Tup = ("system", "user", "global", "repository")
-+@@ -743,6 +757,7 @@ Repo.iter_commits
-+         self,
-+         rev: Union[str, Commit, "SymbolicReference", None] = None,
-+         paths: Union[PathLike, Sequence[PathLike]] = "",
-++        allow_unsafe_options: bool = False,
-+         **kwargs: Any,
-+     ) -> Iterator[Commit]:
-+         """An iterator of :class:`~git.objects.commit.Commit` objects representing the
-+@@ -759,6 +774,9 @@ Repo.iter_commits
-+         :param kwargs:
-+             Arguments to be passed to :manpage:`git-rev-list(1)`.
-+             Common ones are ``max_count`` and ``skip``.
-++        :param allow_unsafe_options:
-++            Allow unsafe options in the revision argument, like ``--output``.
++@@ -81,19 +121,20 @@ find_worktree_git_dir bounded Gitfile parsing
++     """Search for a gitdir for this worktree."""
++     try:
++         statbuf = os.stat(dotgit)
++-    except OSError:
+++    except (FileNotFoundError, NotADirectoryError):
++         return None
++-    if not stat.S_ISREG(statbuf.st_mode):
+++    if not stat.S_ISREG(statbuf.st_mode) or statbuf.st_size > (1 << 20):
++         return None
++ 
++     try:
++-        lines = Path(dotgit).read_text().splitlines()
++-        for key, value in [line.strip().split(": ") for line in lines]:
++-            if key == "gitdir":
++-                return value
++-    except ValueError:
++-        pass
++-    return None
+++        with open(dotgit, "rb") as fp:
+++            content_bytes = fp.read(statbuf.st_size)
+++        if len(content_bytes) != statbuf.st_size:
+++            return None
+++        content = os.fsdecode(content_bytes).rstrip("\r\n")
+++    except (OSError, UnicodeError):
+++        return None
+++    return content[8:] if len(content) >= 9 and content.startswith("gitdir: ") else None
++ 
++ 
++ def find_submodule_git_dir(d: PathLike) -> Optional[PathLike]:
++@@ -101,26 +142,18 @@ find_submodule_git_dir validated Gitfile resolution
++     if is_git_dir(d):
++         return d
++ 
++-    try:
++-        with open(d) as fp:
++-            content = fp.read().rstrip()
++-    except IOError:
++-        # It's probably not a file.
++-        pass
++-    else:
++-        if content.startswith("gitdir: "):
++-            path = content[8:]
++-
++-            if Git.is_cygwin():
++-                # Cygwin creates submodules prefixed with `/cygdrive/...` suffixes.
++-                # Cygwin git understands Cygwin paths much better than Windows ones.
++-                # Also the Cygwin tests are assuming Cygwin paths.
++-                path = cygpath(path)
++-            if not osp.isabs(path):
++-                path = osp.normpath(osp.join(osp.dirname(d), path))
++-            return find_submodule_git_dir(path)
++-    # END handle exception
++-    return None
+++    path = find_worktree_git_dir(d)
+++    if path is None:
+++        return None
 ++
+++    if Git.is_cygwin():
+++        # Cygwin creates submodules prefixed with `/cygdrive/...`.
+++        # Cygwin git understands Cygwin paths much better than Windows ones.
+++        # Also the Cygwin tests are assuming Cygwin paths.
+++        path = cygpath(path)
+++    if not osp.isabs(path):
+++        path = osp.normpath(osp.join(osp.dirname(d), path))
+++    return path if is_git_dir(path) else None
 + 
-+         :note:
-+             To receive only commits between two named revisions, use the
-+@@ -770,7 +788,18 @@ Repo.iter_commits
-+         if rev is None:
-+             rev = self.head.commit
 + 
-+-        return Commit.iter_items(self, rev, paths, **kwargs)
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([rev], kwargs), unsafe_options=self.unsafe_git_revision_options
-++            )
-++
-++        return Commit.iter_items(
-++            self,
-++            rev,
-++            paths,
-++            allow_unsafe_options=allow_unsafe_options,
-++            **kwargs,
-++        )
-+ 
-+     def merge_base(self, *rev: TBD, **kwargs: Any) -> List[Commit]:
-+         R"""Find the closest common ancestor for the given revision
-+@@ -1035,7 +1064,9 @@ Repo.blame_incremental
-+         # reveal_type(self.head.reference)  # => Reference
-+         return self.head.reference
-+ 
-+-    def blame_incremental(self, rev: str | HEAD | None, file: str, **kwargs: Any) -> Iterator["BlameEntry"]:
-++    def blame_incremental(
-++        self, rev: str | HEAD | None, file: str, allow_unsafe_options: bool = False, **kwargs: Any
-++    ) -> Iterator["BlameEntry"]:
-+         """Iterator for blame information for the given file at the given revision.
-+ 
-+         Unlike :meth:`blame`, this does not return the actual file's contents, only a
-+@@ -1046,6 +1077,9 @@ Repo.blame_incremental
-+             uncommitted changes. Otherwise, anything successfully parsed by
-+             :manpage:`git-rev-parse(1)` is a valid option.
-+ 
-++        :param allow_unsafe_options:
-++            Allow unsafe options in revision argument, like ``--output``.
-++
-+         :return:
-+             Lazy iterator of :class:`BlameEntry` tuples, where the commit indicates the
-+             commit to blame for the line, and range indicates a span of line numbers in
-+@@ -1055,6 +1089,10 @@ Repo.blame_incremental
-+         a continuous range spanning all line numbers in the file.
-+         """
-+ 
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([rev], kwargs), unsafe_options=self.unsafe_git_revision_options
-++            )
-+         data: bytes = self.git.blame(rev, "--", file, p=True, incremental=True, stdout_as_string=False, **kwargs)
-+         commits: Dict[bytes, Commit] = {}
-+ 
-+@@ -1132,7 +1170,8 @@ Repo.blame
-+         rev: Union[str, HEAD, None],
-+         file: str,
-+         incremental: bool = False,
-+-        rev_opts: Optional[List[str]] = None,
-++        rev_opts: Optional[Sequence[str]] = None,
-++        allow_unsafe_options: bool = False,
-+         **kwargs: Any,
-+     ) -> List[List[Commit | List[str | bytes] | None]] | Iterator[BlameEntry] | None:
-+         """The blame information for the given file at the given revision.
-+@@ -1141,6 +1180,9 @@ Repo.blame
-+             Revision specifier. If ``None``, the blame will include all the latest
-+             uncommitted changes. Otherwise, anything successfully parsed by
-+             :manpage:`git-rev-parse(1)` is a valid option.
-++        :param allow_unsafe_options:
-++            Allow unsafe options in revision argument, like ``--output``.
-++
-+ 
-+         :return:
-+             list: [git.Commit, list: [<line>]]
-+@@ -1151,9 +1193,14 @@ Repo.blame
-+             appearance.
-+         """
-+         if incremental:
-+-            return self.blame_incremental(rev, file, **kwargs)
-+-        rev_opts = rev_opts or []
-+-        data: bytes = self.git.blame(rev, *rev_opts, "--", file, p=True, stdout_as_string=False, **kwargs)
-++            return self.blame_incremental(rev, file, allow_unsafe_options=allow_unsafe_options, **kwargs)
-++        rev_opts_list = list(rev_opts or [])
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([rev, rev_opts_list], kwargs),
-++                unsafe_options=self.unsafe_git_revision_options,
-++            )
-++        data: bytes = self.git.blame(rev, *rev_opts_list, "--", file, p=True, stdout_as_string=False, **kwargs)
-+         commits: Dict[str, Commit] = {}
-+         blames: List[List[Commit | List[str | bytes] | None]] = []
-+ 
-+@@ -1364,7 +1411,10 @@ Repo.clone_from
-+         if not allow_unsafe_protocols:
-+             Git.check_unsafe_protocols(str(url))
-+         if not allow_unsafe_options:
-+-            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=cls.unsafe_git_clone_options)
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=cls.unsafe_git_clone_options,
-++            )
-+         if not allow_unsafe_options and multi:
-+             Git.check_unsafe_options(options=multi, unsafe_options=cls.unsafe_git_clone_options)
-+ 
-+@@ -1539,6 +1589,8 @@ Repo.archive
-+         ostream: Union[TextIO, BinaryIO],
-+         treeish: Optional[str] = None,
-+         prefix: Optional[str] = None,
-++        allow_unsafe_options: bool = False,
-++        allow_unsafe_protocols: bool = False,
-+         **kwargs: Any,
-+     ) -> Repo:
-+         """Archive the tree at the given revision.
-+@@ -1560,6 +1612,12 @@ Repo.archive
-+             * You may specify the special ``path`` keyword, which may either be a
-+               repository-relative path to a directory or file to place into the archive,
-+               or a list or tuple of multiple paths.
-++        :param allow_unsafe_options:
-++            Allow unsafe options, like ``--exec`` or ``--output``.
-++
-++        :param allow_unsafe_protocols:
-++            Allow unsafe protocols to be used in ``remote``, like ``ext``.
-++
-+ 
-+         :raise git.exc.GitCommandError:
-+             If something went wrong.
-+@@ -1571,6 +1629,14 @@ Repo.archive
-+             treeish = self.head.commit
-+         if prefix and "prefix" not in kwargs:
-+             kwargs["prefix"] = prefix
-++        remote = kwargs.get("remote")
-++        if not allow_unsafe_protocols and remote is not None:
-++            Git.check_unsafe_protocols(str(remote))
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=self.unsafe_git_archive_options,
-++            )
-+         kwargs["output_stream"] = ostream
-+         path = kwargs.pop("path", [])
-+         path = cast(Union[PathLike, List[PathLike], Tuple[PathLike, ...]], path)
++ def short_to_long(odb: "GitCmdObjectDB", hexsha: str) -> Optional[bytes]:
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index 474206d4ed..72eb073196 100644
+index 0dd42e1f04..558846a950 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -22,6 +22,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-44244_p1.patch \
-            file://CVE-2026-44244_p2.patch \
-            file://CVE-2026-67326.patch \
-+           file://CVE-2026-67323.patch \
+@@ -48,6 +48,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
+            file://CVE-2026-78677.patch \
+            file://CVE-2026-78676.patch \
+            file://CVE-2026-78675.patch \
++           file://CVE-2026-87817.patch \
             "
  SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
