@@ -1,108 +1,114 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1571.1793986642539718478
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1576.1793986648750430998
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 09:37:22 -0800
+ Fri, 06 Nov 2026 09:37:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=xv2fvMgZ;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8a9f9473029so685797b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 09:37:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=queLAEiM;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8a06454116eso458080b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 09:37:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793986642; x=1794591442; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZNQ45cy9koHmUHFy3nTsMrUfajTB3My/mUTDzFVG0tE=;
-        b=xv2fvMgZ74d6sp3KlGNQu9hck3puvQ3Sy0ae3l0DK8hF+HRC9ZvdU4ZmOp86ceU1nV
-         bSkf4ddSIEC0etuQQlUXIgkpgNCNWJ8fl8od1MBDRGmJmlSbC4b8R5TWW9U/eHacFywR
-         Txt3ZNolDF9Il5TX8V2qeMp/icwre6dPHPk2c5zwe3ItpZS7O+ljHTOoIfD4Q7BGu4cu
-         25Ljx/k4nZLR4FvKhJyyV3CxljPbQdshlX98Cxmm8wwB6miEdrCVvlgMgaYmOhuiZzU5
-         rHQgl5k+EKLKWUjrC3vl+HgDkc1ToV2WqNlebv8DunpaI+jIMHtPILsdZz9nESAXVFKX
-         Wv0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793986642; x=1794591442;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793986648; x=1794591448; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZNQ45cy9koHmUHFy3nTsMrUfajTB3My/mUTDzFVG0tE=;
-        b=RoTSq1Yqlw/PhBWal9v1S+Z4S7tRSTl9HM1qjtnp1rDR15o8mB9L1dv0CWN+ksyq6J
-         C17UM1vvdsnvLpr2fk7kwieo1/6YlP0rSL8jg4No0+T+B/YWk3zmNMWrpwb3K7qa+MDD
-         ywQl8KSTOuJ51w5YJEAyNKupm0DIQlFyiRpKFhHAY8S07rvn0NWhSGhXlLpVc1lGBLrO
-         VuqxGLu7c6CFe4+pgtb/uNmebulPT0rS90dSCAi3V4tdZXgSbZdnIS/TdtyBqGjlp4Mk
-         Ts60mj++84ZfAclFCuxHHifTWr6PWYmXDOCNvl9jwIpgYDH5ALHPxX2QKgRrC/mKa7KB
-         ETSg==
-X-Gm-Message-State: APuU4Z+I3yElSLXvdGtL18jjVhRr17pLY2olQMnHVUo/C9aFJT4oemkC
-	4LhA5cUjqJoJlXMhiZhPN0nEHnBKUkIGBPPh0PSvehu6DBdR2uw23K1blPImckpC5oc=
-X-Gm-Gg: AYBFou1qYqgn/QiGO9G3f5ec+yj0yHGB86lLUGt72R/hRk/BBE+rS5f/iNzVltM5xb0
-	Z3LE51zNvWmOh+KBULjpobbz4zNZpboLNjCThpPJF0CBwh0aoxKHnM8/ksQv4ALRChnr/xBtMRN
-	Ls2OdL7RIZDkgrcOC1EV0VPG+mt5LoZTL6AMrnBmxKg8Wso8DNMRsZKQpJdA925HF4HziCqkhts
-	z2mqqdIcaK8YTXW4vuwR32udvRJ1+3yTHqGFLxr7MKAUWKmf9zLIpR7ANd3wwnHZGJxaO+VrdaO
-	Jg4Llzd7SDqMg0fbMzWgX4uCGQ8B+E36T23FlI47gKd58Un/5KqloAK+iGlOqrPWSQzJBFWQm0v
-	6Cz46n7nPxHpnaXMO6p9cXIegYOu2bC9Q1Tr0GnxVmBS3CAhap7knst6EaEfhCC6q3Jq8+8QmB3
-	B3yas1GSmRfpjgxcPXN1QY7jlreK/V9bsDjKGlM2BeAlkyLPpJWXcVqU8YWXnWlPI8En77R6KUL
-	BTmZKXYvt4755HzZwcVCnJZGpfj+kyeRJT8wVlcehimaAeYRpN+uh8o3P8/N6WCcPd5ES2fQIHi
-	PGtqOBkBDlyeSpZmAooK04HNlpMUnUkr1HxhEqqmWqAahZvXSyZjqWS028q9n+DzDrk7ta40Nlg
-	LdXG4gBtXDYTV4bKZNnII4ne+nzP1vdj1y9rSOAaLhwbaNLPxqj9slV2zWsLYnR2llKQbGmCpd0
-	fv3Ip/mnC+29Oe0RpzNGNUI15RqOM9i2Soax0EVgO9lpXtRla9r1hh0xLKzU8NxVBTwbiouXo88
-	TiMYvSdFVH2kpbJuhpdAQwBZLaOZ0RhESHOrWOrnrJoxyLtDl77E0UhMvxJPzHRL7XDlzK4vzGP
-	DW5P
-X-Received: by 2002:a05:6a21:7017:b0:3e1:885f:b49d with SMTP id adf61e73a8af0-3ebb2aaedb9mr4021425637.52.1793986641593;
-        Fri, 06 Nov 2026 09:37:21 -0800 (PST)
+        bh=XA8JbnX0yMfCLKAtg7U0aoNchl+2879mYlo5sjUqCcI=;
+        b=queLAEiMfPF0OMIUwnwiI0rpR5+YGqtIcs5pTFNsbvXwcdLSe4a86XPxux/Dwjlj0/
+         Fo2rMjL2vlKgCV/DjUiPL4a1Tt8fHPzCUKf9YhTchSqqiZ3RzQYBHcd6gJ7SWp6GL6yu
+         W+kZbh2hEKmZA0EMN5zhtX8Jx3+TLm7kdPHR6bCWIe6mONSnTWH57L0Z/AhJH7YE/U0E
+         hrBi1VDeu1gvncmfkVb9A9m9ZcaAKcMEI+YxykvFe1fsMluww8+8mE15OFWF2QInKvqE
+         79JiyuTSfiB4AZFHFSb/uyu/uapzA/wxYeCwPVbj7RXynKmF28obBjlbfQsXtxqzLbBl
+         qOGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793986648; x=1794591448;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XA8JbnX0yMfCLKAtg7U0aoNchl+2879mYlo5sjUqCcI=;
+        b=Sok96nP5dp+zIPAGFo4SiDJnHnbMk7FCAkQw4lm1uEqWjMbckY09ZGRrUL6ffl69Wj
+         oXx1W1fUwlJmCu1SRCAfVs+1Dq9SNry5c4w4lBaxWMBZNpR8g5IhPeUXVsePPFHYGMWR
+         v9L7eS4b/nz5SKqdYQZEL7zRQu9qIW0IHR6Zo/cQ4Yg6JNKpR4MiL+pEGHr570ZDUZ2G
+         ECdMJYTA2TmbVBKu46xei/bwiJcXVI1UEKxem9arGoLko9qSdwevqG9bIublOxfuFpNe
+         exOYZWxI1N8yjgyYk/9HfyUUT6bsT4ryr4dvX4A8tPtxPV912NuW718fUpAaPkYTU+Of
+         x7Uw==
+X-Gm-Message-State: APuU4Z+nz+suI639KdcplD/9RMRpzw9m61pfnU/dRmwENPW2QBOLMMIe
+	DvMggXV+MmjPOayErJuDp0LrdcwUdj86UTnZkDWFYtoy8z96DrC8o/NeU7DMjsaWft0=
+X-Gm-Gg: AYBFou3kTX2F+9quoFf+SUjrIxfHONoW/iwSd2n1W4CtOpbrGuBPUInovp+HTd/T4GY
+	gM4S4dCYiQM/VZzFXxRwe1PkZlS00yXIXa2U31zXKM/LCxTvYx0wezQ8RdB60MShqPxPMYhDfPY
+	qmV7G0TEKEPfLZhGQ2qvb0hDyoEwxUZyxwKmMDHH6xe3iptqGCRpjV5MHv8XY7OILg6hgc1DruJ
+	mNm+8kmKKv3iYJCG0n60b5w1RiL5/ptNZOJtG5g2pFTVKzDGPT0qQbd8fGn9t+CePO36q+mMer7
+	UZXTsvzYlD4H4UVI5vMQuepD1njvxvUbdnm2aHu4yK9DDhLa88pZQpjUk8ir0ZDnYdBYr4ARoue
+	y6q04YbhY4wyYFD4/bxAZ/nfm4XNrxi05sfnmMoqjoRkEfVM0WkmnLNuc6R2apVrpvhKkbFyTf/
+	sxM7pSZaTBvwzCSep+zkGUTK8hIHOWG43zAYiLizc3TF6LDjpWnbte+m2QxUlNMV0GT27eZDyuM
+	SOJqII25TrhVoI/y1kSOz6ybzq/uF0k5DNlj6Zp2yMJDU0gXpKpRCxRbM74pdIN/4IE3ySdrH+8
+	tbu4HEr0aXID32LM709UmzKRWE5ZksF+d24DmwomeuFF9DZHOuUHCLy6KxVyuVypb836fSMACzV
+	8zXtH/eX/2kDk50yKyjdEZejD380lDxdJFBVKWKKWe+BwRKA3QXc7tFtFVg6MekbdPsyb3UOmIP
+	utgb17VzQ2HcIs+ZzE2z75Mt4yhiNuJpL6NiI6Qhuiaa1VRd45WNO17wqXxFCc4xcjlLW2vvqMn
+	oed0JpnUcKprWbHsVu81UYQnlo1uPQGUtQNaYu6l+DuTq59qiYyN3Au2wcz2UUASxmVR3sWfvYE
+	S/QvWoqiYudoDw0lY+Mdha295Jk=
+X-Received: by 2002:a05:6a00:98a:b0:8a0:7677:c8c9 with SMTP id d2e1a72fcca58-8b37c33fe42mr3269790b3a.51.1793986647876;
+        Fri, 06 Nov 2026 09:37:27 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b356c2d918sm814411b3a.6.2026.11.06.09.37.20
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b356c2d918sm814411b3a.6.2026.11.06.09.37.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 09:37:20 -0800 (PST)
+        Fri, 06 Nov 2026 09:37:27 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH v2 1/2] dbus: Let the ptest package install alongside dbus-broker
-Date: Fri,  6 Nov 2026 09:37:16 -0800
-Message-ID: <20261106173717.1054294-1-khem.raj@oss.qualcomm.com>
+Subject: [PATCH v2 2/2] staging.bbclass: Do not stage X11 locale data in sysroots
+Date: Fri,  6 Nov 2026 09:37:17 -0800
+Message-ID: <20261106173717.1054294-2-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261106173717.1054294-1-khem.raj@oss.qualcomm.com>
+References: <20261106173717.1054294-1-khem.raj@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 17:37:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249709
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249710
 Content-Type: text/plain; charset="utf-8"
 
-dbus-ptest RDEPENDS on dbus, both explicitly and through ptest.bbclass,
-and dbus-broker RCONFLICTS dbus. With VIRTUAL-RUNTIME_dbus = "dbus-broker"
-(systemd pulls it in) core-image-ptest-dbus fails in do_rootfs:
+Commit 63204f5551 moved the X11 locale data from the native to the
+target sysroot for meson-based ibus 1.5.35.
 
-  package dbus-broker-37-r0.6.cortexa57 conflicts with dbus provided by dbus-1-1.16.2-r0.45.cortexa57
-  package dbus-ptest-1.16.2-r0.45.cortexa57 requires dbus, but none of the providers can be installed
+ibus 1.5.34, which is what meta-oe currently ships, still copies
+en_US.UTF-8/Compose from STAGING_DATADIR_NATIVE, so its do_compile now
+fails.
 
-The installed tests don't use the system bus. They start private buses
-with dbus-daemon (DBUS_TEST_DAEMON) and use dbus-send, so depend on the
-dbus-daemon and dbus-tools packages instead and drop the dbus dependency,
-like avahi does.
-
-With this the images using dbus-broker as the system bus also pass all 60 dbus
-ptests.
+On distros without x11 there is no target libx11 to provide the
+data either. Keep the directory in every sysroot so both ibus versions
+find it.
 
 Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
-v2: Do not use remove operation
+v2: Remove staging x11/locale from staging class
 
- meta/recipes-core/dbus/dbus_1.16.2.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/classes-global/staging.bbclass             | 1 -
+ meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb | 2 --
+ 2 files changed, 3 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus_1.16.2.bb b/meta/recipes-core/dbus/dbus_1.16.2.bb
-index e602c67727..2928e4953f 100644
---- a/meta/recipes-core/dbus/dbus_1.16.2.bb
-+++ b/meta/recipes-core/dbus/dbus_1.16.2.bb
-@@ -108,7 +108,11 @@ RRECOMMENDS:${PN}-lib = "${PN}"
- RRECOMMENDS:${PN}-lib:class-target = "${VIRTUAL-RUNTIME_dbus}"
- FILES:${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-test-tool ${datadir}/xml/dbus-1"
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
+index 5833abebc8..20340a16e1 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -34,7 +34,6 @@ SYSROOT_DIRS_IGNORE = " \
+     ${mandir} \
+     ${docdir} \
+     ${infodir} \
+-    ${datadir}/X11/locale \
+     ${datadir}/applications \
+     ${datadir}/bash-completion \
+     ${datadir}/fonts \
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb b/meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb
+index 25fcd6d8b9..5e35bda3c5 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.8.14.bb
+@@ -39,6 +39,4 @@ FILES:${PN} += "${datadir}/X11/XKeysymDB ${datadir}/X11/XErrorDB ${datadir}/X11/
+ FILES:${PN}-xcb += "${libdir}/libX11-xcb.so.*"
+ FILES:${PN}-locale += "${datadir}/X11/locale ${libdir}/X11/locale"
 
--RDEPENDS:${PN}-ptest += "bash make dbus"
-+# Not using += or append here is to avoid adding PN as dependency.
-+# The tests start their own buses with dbus-daemon and talk to them with
-+# dbus-send; they don't need the system bus (dbus), which would conflict with
-+# other system bus implementations such as dbus-broker.
-+RDEPENDS:${PN}-ptest = "bash make ${@bb.utils.contains('PACKAGECONFIG', 'message-bus', '${PN}-daemon', '', d)} ${PN}-tools"
-
- pkg_postinst:${PN}() {
- 	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+-SYSROOT_DIRS_IGNORE:remove:class-target = "${datadir}/X11/locale"
+-
+ BBCLASSEXTEND = "native nativesdk"
