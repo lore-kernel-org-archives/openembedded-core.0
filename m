@@ -1,288 +1,230 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4386.1793965705212723709
+Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4333.1793966109559174484
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 03:48:25 -0800
+ Fri, 06 Nov 2026 03:55:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=eNWZGHd3;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a20a37703bso3648605e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 03:48:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793965703; x=1794570503; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DSmdl9KwRFPWxHgo7Jg9CkmqkZWgRnwcSTzurGgPr4c=;
-        b=eNWZGHd37+lZsfBPJTzl2v+UE0TZ38tgb6g7OFbqyilBQQUNcB0TFQOdi5tMD9dMXI
-         dnqf9DzIDhPia6h9RTI+4x0IgBFCnNXp+5v/ht7x0X0RmmkaJncLj7rAX8EerSjLLKep
-         u1jY5wbHhzHnYP75acTD1E2PKW6CLMo5cH2NOYRAR1sR+CuxV8jE+KQ07KbOUUNJv+yE
-         5z8+4fltjrGUPuGQSO51bUoEYxmqUBm8yta5VPEfdS6K9T/Ni8dGngTCJdAYC/A79b4u
-         dnRxC/KQig5Pk6m97O3FgOdExoUX74BQyIwBVuGlfiBTRPzkLMdI2KSO2m5TFe/9608+
-         efpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793965703; x=1794570503;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DSmdl9KwRFPWxHgo7Jg9CkmqkZWgRnwcSTzurGgPr4c=;
-        b=lNAX/VlTaQBnHE475BuYX4EMbYJSAG6qXSq64CGvQYF0PErPCaBDNUfYlxQPk/kyLI
-         zqoWhyXwLdepN1DuRETf2dulJ6h+hIFJj5IlSZqZMJg58WANoF3y2LaYWv3T9mYgbtJX
-         WoR/N8/tNQvcGFH+IwHyLQ9zXn185XwG3htOfw4Ra7JJM1c8QRoA5Csk+Pi4P0VyiRUx
-         BPKkF5ASulVVXsYfSPq/E55kFX30IY3mCYtaLHCFr88RhvUf2IynxevQiAoKEqgctDjx
-         o3uJEFe4iC+YYBDNsb2BuyCDVMYEz1tjudoWe9aU9WaIiuK0qAkU23gmLNx3MTq1+an+
-         7Ftw==
-X-Gm-Message-State: APuU4Z8x0jYknWFvT9keWpGNz8PEgmarcAt1bEPtTsIeTnCfgI+jQOcr
-	QwxLoOpqWrxuCr3Zq+pBA6U3/otmZ0nMthDEDks5VM3L5Bam6hqM1Q/SbN98wWSRa7w4umKUzbW
-	XY3Todn0=
-X-Gm-Gg: AYBFou36aFvT2ss7Cxylgtbfp33wtINwraG3QfFVoUoTCd1yj80kd7lWj7KGa9u6IOB
-	A7ZGkhaFpL0D+kHFK6tYgaelJxZvj7UntEaPo5PqkIluTeTWSAwh4RSpHP0bOT19vPKGqN88vHk
-	m+ZVgDtN5/eSzX9N5pepQpQrFw9k2n6cB0MUMRBhxImdHKGsbyzQKY3CIgkY854vvnwlQJAzRiV
-	Fm6jKmJxhRXzQMNJUNA8ZKOibux15JcTjrfa6rQa7+eoKLRVgydWEwYgAI090Y26PqkGFLcOFrJ
-	je6IlvTUnOpDXsPFQ2tdPL3QD3BZETejQ4deQBggRrUbwgFmzBqGn9+V/HUQKKgv1eJDaKxv05Z
-	EIxci6MYSpM5XEz+uJqtk+C3FsdHJCXhuSxY3/a+Jq7kcjOdZtd9VRIJIihN5v0P6r6QrojJoen
-	Nj6X3r28JlaPA12nc3CRVISQa4YWLjDOcLHkkr09dO0h5FM0OA7u5XUZcW+fWtgKmNO8s7MRQcs
-	ojXe28zeQKC0PCNarWumxRaYKK3ZFEEtgbbmX91v+4OBRRb+A4pFQiKv4EOd5VcgRtjT5/Ojlx+
-	pWzd2t9GFm7UPblL9/eGsnrgc8skhBviGvQ6+XE4p+8d/wHku8VEybyNxHHyCOrZxZ8q0RkmPhq
-	HIUW6O6CzIA4fZy29+g80Tl2oJH9X
-X-Received: by 2002:a05:600c:4747:b0:4b3:6900:280c with SMTP id 5b1f17b1804b1-4b6de3b17f2mr41542205e9.19.1793965703214;
-        Fri, 06 Nov 2026 03:48:23 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d7cc6187sm3314126f8f.46.2026.11.06.03.48.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:48:22 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=SjgkErjd;
+ spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: dwagenknecht@emlix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1793966107;
+	bh=OZgsEHJ3YRCHdvEzzNZ3pIQD/4d73Y4zkarjQGLnero=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SjgkErjdKAWJzXraHPE3qZaIU+PSBaZ603AXHL1yQQW8uLUOqFFk0R25ann2GBH0A
+	 CW14xSAN8xLuekr6GFEB7pF3QOppp0XDrfDOKSB4AJLO3RFAN4zwNng6ZR9klYvJfG
+	 dGgWMC5vgc63qDG2RhIWJOaXAHWDx8C42qYZ6EpsIFz01kfxS5sSerUF7fEtsBVGfu
+	 6243lVR5LRSXADOQPu8/XH6z0BiEJSvYQsyczZb5F8rmPnYrggI4njWNcIXF4Wa0Bs
+	 kwASkkhPuZt9t9OHcKfbnhScBfeQ4knBT7qWyJtTa30zFf719qrKjMxaSS2zZ0qCyI
+	 g2nbySOape25A==
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.emlix.com (Postfix) with ESMTPS id 1A4135F8C9
+	for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 12:55:07 +0100 (CET)
+From: Daniel Wagenknecht <dwagenknecht@emlix.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [blacksail][PATCH] openssh: fix CVE-2026-123158 (aka "sshhole")
-Date: Fri,  6 Nov 2026 12:47:56 +0100
-Message-ID: <20261106114756.3807676-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.55.0
+Cc: Daniel Wagenknecht <dwagenknecht@emlix.com>
+Subject: [DRAFT PATCH v3 1/2] spdx: add entries for meta-layers
+Date: Fri,  6 Nov 2026 12:54:54 +0100
+Message-ID: <20261106115455.4141199-2-dwagenknecht@emlix.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261106115455.4141199-1-dwagenknecht@emlix.com>
+References: <20260915130509.2184318-1-dwagenknecht@emlix.com>
+ <20261106115455.4141199-1-dwagenknecht@emlix.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 1.4.3 at mx1.emlix.com
+X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 11:48:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249632
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 11:55:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249633
 Content-Type: text/plain; charset="utf-8"
 
-From: Yoann Congal <yoann.congal@smile.fr>
+This adds support for determining the revision and downloadLocation of
+meta-layers and adds them to the OE generated SPDX document.
 
-Backport the fix referenced by NVD[0].
+This downloadLocation will result in a NOASSERTION entry if
+* the meta-layer is not in a git repo
+* the git repo is dirty
+* the git remote does not have a valid URL
+* the git remote does not contain the used revision as far as can be
+  eluded from the local repo
 
-[0]: https://nvd.nist.gov/vuln/detail/cve-2026-123158
+Variables to configure the behavior:
+* SPDX_LAYER_REMOTE (default: origin): select the name of the git remote
+  to use for layers. Set to an empty string to always return NOASSERTION
+* SPDX_LAYER_REMOTE_layername: override SPDX_LAYER_REMOTE for a specific
+  layer
+* SPDX_REQUIRE_LAYER_ASSERTION: set to true to fail a build if
+  determining downloadLocation fails for any layer
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Daniel Wagenknecht <dwagenknecht@emlix.com>
 ---
- .../openssh/openssh/CVE-2026-123158.patch     | 191 ++++++++++++++++++
- .../openssh/openssh_10.5p1.bb                 |   1 +
- 2 files changed, 192 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-123158.patch
+ meta/classes/create-spdx-3.0.bbclass |  1 +
+ meta/classes/spdx-common.bbclass     |  3 ++
+ meta/lib/oe/sbom30.py                | 12 +++++
+ meta/lib/oe/spdx30_tasks.py          | 74 ++++++++++++++++++++++++++++
+ 4 files changed, 90 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-123158.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-123158.patch
-new file mode 100644
-index 00000000000..6fb42827a02
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-123158.patch
-@@ -0,0 +1,191 @@
-+From 66caf6873206a863372f696083929c6cc69ea9ee Mon Sep 17 00:00:00 2001
-+From: Damien Miller <djm@mindrot.org>
-+Date: Thu, 5 Nov 2026 08:18:18 +1100
-+Subject: [PATCH] avoid password authn bypass
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
+pdx-3.0.bbclass
+index 6d47aa13016..507486cfd19 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -288,6 +288,7 @@ python spdx30_build_started_handler () {
+     import oe.spdx30_tasks
+     d =3D e.data.createCopy()
+     oe.spdx30_tasks.write_bitbake_spdx(d)
++    oe.spdx30_tasks.write_layers_spdx(d)
+ }
+=20
+ addhandler spdx30_build_started_handler
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.=
+bbclass
+index 40701730a69..b64537dfb48 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -89,6 +89,9 @@ SPDX_FILE_EXCLUDE_PATTERNS[doc] =3D "Space-separated li=
+st of Python regular \
+     (no filtering). Example: \
+     SPDX_FILE_EXCLUDE_PATTERNS =3D '\\.patch$ \\.diff$ /test/ \\.pyc$ \\=
+.o$'"
+=20
++SPDX_REQUIRE_LAYER_ASSERTION ??=3D "0"
++SPDX_LAYER_REMOTE ??=3D "origin"
 +
-+This bypass affects some configurations and runtime configurations.
-+We do not consider the root cause to be within OpenSSH but we are
-+well equipped to avoid it.
+ python () {
+     from oe.cve_check import extend_cve_status
+     extend_cve_status(d)
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index e279cfc82bf..bde3ff1f553 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -816,6 +816,16 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+=20
+         return bb_objset
+=20
++    def import_layers_objset(self):
++        deploy_dir_spdx =3D Path(self.d.getVar("DEPLOY_DIR_SPDX"))
++        layers_objset =3D load_jsonld(
++            self.d, deploy_dir_spdx / "layers.spdx.json", required=3DTru=
+e
++        )
++        self.doc.import_.extend(layers_objset.doc.import_)
++        self.update(layers_objset.objects)
 +
-+CVE: CVE-2026-123158
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/4353fdc43ef646c43a8dda7025cc1a898caf1482]
++        return layers_objset
 +
-+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-+---
-+ auth-passwd.c            | 17 +++++++++++++----
-+ openbsd-compat/port-uw.c | 16 ++++++++--------
-+ openbsd-compat/xcrypt.c  | 18 +++++++++++++-----
-+ 3 files changed, 34 insertions(+), 17 deletions(-)
+     def import_bitbake_build(self):
+         def find_bitbake_build(objset):
+             return objset.find_filter(
+@@ -857,6 +867,8 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+                 [build],
+             )
+=20
++        layers =3D self.import_layers_objset()
 +
-+diff --git a/auth-passwd.c b/auth-passwd.c
-+index a9d768891..fb3b22a05 100644
-+--- a/auth-passwd.c
-++++ b/auth-passwd.c
-+@@ -50,6 +50,7 @@
-+ #include "ssherr.h"
-+ #include "log.h"
-+ #include "misc.h"
-++#include "xmalloc.h"
-+ #include "servconf.h"
-+ #include "sshkey.h"
-+ #include "hostfile.h"
-+@@ -67,6 +68,7 @@ extern login_cap_t *lc;
-+ #define DAY		(24L * 60 * 60) /* 1 day in seconds */
-+ #define TWO_WEEKS	(2L * 7 * DAY)	/* 2 weeks in seconds */
-+ 
-++#define MIN_PASSWORD_HASH_LEN	4
-+ #define MAX_PASSWORD_LEN	1024
-+ 
-+ /*
-+@@ -194,16 +196,20 @@ sys_auth_passwd(struct ssh *ssh, const char *password)
-+ 	Authctxt *authctxt = ssh->authctxt;
-+ 	struct passwd *pw = authctxt->pw;
-+ 	char *encrypted_password, *salt = NULL;
-++	int ret;
-+ 
-+ 	/* Just use the supplied fake password if authctxt is invalid */
-+-	char *pw_password = authctxt->valid ? shadow_pw(pw) : pw->pw_passwd;
-++	char *pw_password = authctxt->valid ?
-++	    shadow_pw(pw) : xstrdup(pw->pw_passwd);
-+ 
-+ 	if (pw_password == NULL)
-+ 		return 0;
-+ 
-+ 	/* Check for users with no password. */
-+-	if (strcmp(pw_password, "") == 0 && strcmp(password, "") == 0)
-+-		return (1);
-++	if (strcmp(pw_password, "") == 0 && strcmp(password, "") == 0) {
-++		free(pw_password);
-++		return 1;
-++	}
-+ 
-+ 	/*
-+ 	 * Encrypt the candidate password using the proper salt, or pass a
-+@@ -217,7 +223,10 @@ sys_auth_passwd(struct ssh *ssh, const char *password)
-+ 	 * Authentication is accepted if the encrypted passwords
-+ 	 * are identical.
-+ 	 */
-+-	return encrypted_password != NULL &&
-++	ret = encrypted_password != NULL &&
-++	    strlen(pw_password) >= MIN_PASSWORD_HASH_LEN &&
-+ 	    strcmp(encrypted_password, pw_password) == 0;
-++	freezero(pw_password, strlen(pw_password));
-++	return ret;
-+ }
-+ #endif
-+diff --git a/openbsd-compat/port-uw.c b/openbsd-compat/port-uw.c
-+index 074f80c8d..5c50ffa0f 100644
-+--- a/openbsd-compat/port-uw.c
-++++ b/openbsd-compat/port-uw.c
-+@@ -58,14 +58,17 @@ sys_auth_passwd(struct ssh *ssh, const char *password)
-+ 	int result;
-+ 
-+ 	/* Just use the supplied fake password if authctxt is invalid */
-+-	char *pw_password = authctxt->valid ? shadow_pw(pw) : pw->pw_passwd;
-++	char *pw_password = authctxt->valid ?
-++	    shadow_pw(pw) : xstrdup(pw->pw_passwd);
-+ 
-+ 	if (pw_password == NULL)
-+ 		return 0;
-+ 
-+ 	/* Check for users with no password. */
-+-	if (strcmp(pw_password, "") == 0 && strcmp(password, "") == 0)
-+-		return (1);
-++	if (strcmp(pw_password, "") == 0 && strcmp(password, "") == 0) {
-++		free(pw_password);
-++		return 1;
-++	}
-+ 
-+ 	/* Encrypt the candidate password using the proper salt. */
-+ 	salt = (pw_password[0] && pw_password[1]) ? pw_password : "xx";
-+@@ -83,11 +86,8 @@ sys_auth_passwd(struct ssh *ssh, const char *password)
-+ #endif /* UNIXWARE_LONG_PASSWORDS */
-+ 		result = (strcmp(xcrypt(password, salt), pw_password) == 0);
-+ 
-+-#ifdef USE_LIBIAF
-+-	if (authctxt->valid)
-+-		free(pw_password);
-+-#endif
-+-	return(result);
-++	freezero(pw_password, strlen(pw_password));
-++	return result;
-+ }
-+ 
-+ #ifdef UNIXWARE_LONG_PASSWORDS
-+diff --git a/openbsd-compat/xcrypt.c b/openbsd-compat/xcrypt.c
-+index 9cded6684..2721b3342 100644
-+--- a/openbsd-compat/xcrypt.c
-++++ b/openbsd-compat/xcrypt.c
-+@@ -25,6 +25,8 @@
-+ #include "includes.h"
-+ 
-+ #include <sys/types.h>
-++#include <stdarg.h>
-++#include <stdlib.h>
-+ #include <string.h>
-+ #include <unistd.h>
-+ #include <pwd.h>
-+@@ -59,6 +61,8 @@
-+ #  define crypt DES_crypt
-+ # endif
-+ 
-++#include "xmalloc.h"
-++
-+ #define MINIMUM(a, b)	(((a) < (b)) ? (a) : (b))
-+ 
-+ /*
-+@@ -71,7 +75,7 @@ static const char *
-+ pick_salt(void)
-+ {
-+ 	struct passwd *pw;
-+-	char *passwd, *p;
-++	char *passwd = NULL, *p;
-+ 	size_t typelen;
-+ 	static char salt[32];
-+ 
-+@@ -80,6 +84,8 @@ pick_salt(void)
-+ 	strlcpy(salt, "xx", sizeof(salt));
-+ 	setpwent();
-+ 	while ((pw = getpwent()) != NULL) {
-++		if (passwd != NULL)
-++			freezero(passwd, strlen(passwd));
-+ 		if ((passwd = shadow_pw(pw)) == NULL)
-+ 			continue;
-+ 		if (passwd[0] == '$' && (p = strrchr(passwd+1, '$')) != NULL) {
-+@@ -90,6 +96,8 @@ pick_salt(void)
-+ 		}
-+ 	}
-+  out:
-++	if (passwd != NULL)
-++		freezero(passwd, strlen(passwd));
-+ 	endpwent();
-+ 	return salt;
-+ }
-+@@ -122,9 +130,8 @@ xcrypt(const char *password, const char *salt)
-+ 
-+ /*
-+  * Handle shadowed password systems in a cleaner way for portable
-+- * version.
-++ * version. Caller must free returned value.
-+  */
-+-
-+ char *
-+ shadow_pw(struct passwd *pw)
-+ {
-+@@ -138,7 +145,8 @@ shadow_pw(struct passwd *pw)
-+ # endif
-+ 
-+ #ifdef USE_LIBIAF
-+-	return(get_iaf_password(pw));
-++	pw_password = get_iaf_password(pw);
-++	return pw_password == NULL ? NULL : xstrdup(pw_password);
-+ #endif
-+ 
-+ # if defined(HAVE_GETPWANAM) && !defined(DISABLE_SHADOW)
-+@@ -152,5 +160,5 @@ shadow_pw(struct passwd *pw)
-+ 		pw_password = spw->ufld.fd_encrypt;
-+ # endif
-+ 
-+-	return pw_password;
-++	return pw_password == NULL ? NULL : xstrdup(pw_password);
-+ }
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.5p1.bb b/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
-index 052686f2896..297caacc427 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
-@@ -24,6 +24,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://run-ptest \
-            file://sshd_check_keys \
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-+           file://CVE-2026-123158.patch \
-            "
- SRC_URI[sha256sum] = "d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11"
- 
+         if self.d.getVar("SPDX_INCLUDE_BUILD_VARIABLES") =3D=3D "1":
+             for varname in sorted(self.d.keys()):
+                 if varname.startswith("__"):
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 646ec7d0743..31d964d8ce8 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -1232,6 +1232,80 @@ def create_package_spdx(d):
+     oe.sbom30.write_recipe_jsonld_doc(d, common_objset, "common-package"=
+, deploydir)
+=20
+=20
++def git_remote_has_rev(path, remote, rev):
++    try:
++        branchlist, _ =3D bb.process.run(f"git branch --remotes --list '=
+{remote}/*' --contains {rev}", cwd=3Dpath)
++    except bb.process.ExecutionError:
++        return False
++    return len(branchlist) > 0
++
++def get_layer_downloadLocation(d, l_path, l_name, l_branch, l_rev, l_ism=
+odified):
++    from urllib.parse import urlparse, urlunparse
++
++    repo =3D oe.buildcfg.get_metadata_git_toplevel(l_path)
++
++    if not repo or not l_name or l_ismodified:
++        return "NOASSERTION"
++
++    remoteName =3D d.getVar(f"SPDX_LAYER_REMOTE_{l_name}") or d.getVar(f=
+"SPDX_LAYER_REMOTE")
++    if not remoteName:
++        return "NOASSERTION"
++
++    # parse and reconstruct the url to drop potentially present username=
+ and password
++    remoteUrl =3D urlparse(oe.buildcfg.get_metadata_git_remote_url(repo,=
+ remoteName))
++    if not remoteUrl or remoteUrl.scheme not in ["https", "http", "git",=
+ "ssh"]:
++        return "NOASSERTION"
++    remoteUrl =3D urlunparse(remoteUrl)
++
++    revision =3D l_rev
++    if revision =3D=3D "<unknown>" or not git_remote_has_rev(repo, remot=
+eName, revision):
++        return "NOASSERTION"
++
++    relpath =3D os.path.relpath(l_path, repo)
++
++    return f"git+{remoteUrl}@{revision}{'#' + relpath if relpath else ''=
+}"
++
++
++def write_layers_spdx(d):
++    d.setVar("PN", "layers")
++    d.setVar("BB_TASKHASH", "layers")
++    oe.spdx_common.load_spdx_license_data(d)
++    deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
++
++    layer_objset =3D oe.sbom30.ObjectSet.new_objset(d, "layers")
++
++    layers =3D oe.buildcfg.get_layer_revisions(d)
++    for (l_path, l_name, l_branch, l_rev, l_ismodified) in layers:
++        downloadLocation =3D get_layer_downloadLocation(d, l_path, l_nam=
+e, l_branch, l_rev, l_ismodified)
++
++
++        if oe.utils.vartrue("SPDX_REQUIRE_LAYER_ASSERTION", True, False,=
+ d) and downloadLocation =3D=3D "NOASSERTION":
++            bb.fatal(f"Layer {l_name} does not have a valid downloadLoca=
+tion")
++        layer =3D oe.spdx30.software_Package(
++            _id=3Dlayer_objset.new_spdxid("layer", l_name),
++            creationInfo=3Dlayer_objset.doc.creationInfo,
++            name=3Dl_name,
++            software_packageVersion=3Dl_rev,
++            software_primaryPurpose=3Doe.spdx30.software_SoftwarePurpose=
+.specification,
++            software_downloadLocation=3DdownloadLocation,
++            software_sourceInfo=3Djson.dumps(
++                {
++                    "branch": l_branch,
++                    "is-modified": (len(l_ismodified) > 0),
++                },
++                separators=3D(",", ":"),
++            ),
++        )
++
++        layer_objset.add_root(layer)
++
++    for obj in layer_objset.foreach_type(oe.spdx30.Element):
++        obj.extension.append(oe.sbom30.OEIdAliasExtension())
++
++    oe.sbom30.write_jsonld_doc(d, layer_objset, deploy_dir_spdx / "layer=
+s.spdx.json")
++
++
++
+ def write_bitbake_spdx(d):
+     # Set PN to "bitbake" so that SPDX IDs can be generated
+     d.setVar("PN", "bitbake")
+--=20
+2.54.0
+
