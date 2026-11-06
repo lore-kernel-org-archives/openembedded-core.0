@@ -1,146 +1,198 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2150.1793955086958824927
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2129.1793955248950874260
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 00:51:27 -0800
+ Fri, 06 Nov 2026 00:54:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=rg6ALIGW;
- spf=pass (domain: est.tech, ip: 52.101.66.45, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GKERD8PNuzmHUu0xedZXFq49enEluRKi/+Ku0TjuIRh6GgLuT4Nnd5yrQgOHYgfiVeI5q9nTaESor3Pfc8Dumspdo0C6c6OhYs9I5OPXrfTNoJ74sCQywrf3HybA9H5ldT/9JGGQ1iuUS6FkHhY1mqbP9A/IE8B97u1TSyZ1RjfX2cwrIkJQ8LuRNEHBgnpknn9Z3tgDdifWPbatDue4jbBVK6kE98jfmzZg7Crnkuhl5AjwTES3pt7GAsw5VFRp8DF3Yv5NpFfXO5jZGw6FomXA9iWYYgWwS9YFWUFGSu4OiKp6/xQWcVz+Y/dhMVgGk2pQdZVohFLNBQF3e86nfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cBPVRR4kkx930WI8N8pevf5ou2IlaOEJif/+ylT5K5U=;
- b=SzYNLPYfSPYn9m/plF0BSg1z8gWbpVDmjCLIiAJZE0DlJ8bUqnfmBIcu76Nrt3qduDurejTsnEMwxqxuxw24DK5zpTIZIQgtYOUpC9Xxj5UORahhSIzjkeg1MniGxES1u+GRQZOhWAgPL2yHy1QdFulaqDfwYBALftFqdcmtF91wuDR5riIdHKj2JXDtBfIRPI8O/QQqPARES9UtZmitUFkir/4x8E/WbIVwxZydJYNJeHxah0LtypCrc11/W40Va3cm5VDO3aZMX9Bvbs3bQzQNNLj8XC7Lcdy22h5iZsmQEJTLef10z5M7KftlJ+ROXIg9H/LL3yYehdD1HdCLLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cBPVRR4kkx930WI8N8pevf5ou2IlaOEJif/+ylT5K5U=;
- b=rg6ALIGWDPiVFq/VaSiTYOqoe5Res8qAfZQ9D+iHvyIlsOyoXIfqOiLTaNkS7/e43MNKmIEUI0bqFs+Y461VQf5aysX7szXGz16QmhA4MWqJxSvhFoqiM4bNbEsXkXz4vqVzBbHJzEDDU+PahV15vP0ZK1U3NlX0hIaJYjQryhyVjGnk8ZJwnZQbpzmpJgf9XAVGqiiRvEUaSq2Q+RNB56LMpwkGn49kR2o4dyTrYFURbQ8vpLo1nP+FlteEskbSFIBZR1YVG4cL3gBqSJBBl+fyZl1lMUNE+kK94I4SvCW47HU6ydW0JmPmfTA5oYmfDHCuWozIbRpuqmPcM6Eplg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by WA4P189MB004753.EURP189.PROD.OUTLOOK.COM (2603:10a6:1d0:101::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Fri, 6 Nov
- 2026 08:51:21 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0592.009; Fri, 6 Nov 2026
- 08:51:21 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Pe65n5XT;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: arpitpa@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=4833; q=dns/txt;
+  s=iport01; t=1793955248; x=1795164848;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=laSJCytpL/IPxBP+TRrOSD0M5ot6aiwORfU7uK92KL4=;
+  b=Pe65n5XT4Ef1bYtzXGZdJn2U2lumf9DzYJKYnnhjCiCVSSaq2aERZYXo
+   2zNPTwuOvA+u4a2FPRzb+YSyc10YUOzn0TUaVpfMrQtGFWN7jhI2NdIb3
+   6kI7+k+zZlpXdCgW5R+FqogKhNwV+j+RR+ISSdsAXZDULBTXXOaJwdDWA
+   XFrzeNtTk2lG1txKKqKQ6f9T1c5wdjTD+aNfhsbbpX4I8OhQHvZQv6/zi
+   ynUC1nRTiWL6paiwMU6U1fApOG934xx+iyIezPGvsBGq5oDgjbq46rBGD
+   Yq3DkFYcQDe51sDuLLYQddIzFJHv0PIBDL7JoF0MXovaSpFtOs8/b7Zeo
+   Q==;
+X-CSE-ConnectionGUID: Q0HrCociQSC3XN99J69KpQ==
+X-CSE-MsgGUID: feOwt5+zQSasY7plFkMPLg==
+X-IPAS-Result: =?us-ascii?q?A0BIAgBxlO1q/5H/Ja1aHgEBCxIMggULgld1YENJlksDn?=
+ =?us-ascii?q?iGBfg8BAQEPRA0EAQGEP0YCjh0CJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBA?=
+ =?us-ascii?q?QUBAQECAQcFgQ4Thk8NkBIBAgEDJwsBGAEtEBwDAQIvKyMIGQmCeQGCdAMRv?=
+ =?us-ascii?q?AKBeTOBAYJmQwE/AkNQ2UuBaAELFAEFgTOFQDKHcV0YAYR9JxuBSUSCUIIug?=
+ =?us-ascii?q?QWBXAEBgTiGbgSDHBKBWh6MegKBUYZ5SIEeA1ksAVUTDQoLBwWBaAM1EioVb?=
+ =?us-ascii?q?jIdgSM+F4EHGwYFgR2BHoESgQddgSsoXQEhgQiBdgKCUYIAAgFJQQ4HRVMJJ?=
+ =?us-ascii?q?UMSRyQiCBIJARMaLAqBGjU8CSY/FQxkCxoFYQgCDQx0ORAwHiQvBRwmPhsKL?=
+ =?us-ascii?q?xgNSBEsNxUZBD5uB5I9gn8TAYENASoBgj2jRIIhoRGEKoFoijyVOhozhVulF?=
+ =?us-ascii?q?guYfY4KllGEaYFoPIFHCwczGggbFYMiCUoZD44uCwuDYIF/gxTGfSYyAgkyA?=
+ =?us-ascii?q?QEHAgcOAwuBaJABgX0BAQ?=
+IronPort-Data: A9a23:ihsAb6w4gGX/XXy62/56t+dhxyrEfRIJ4+MujC+fZmUNrF6WrkUPm
+ DMeWG/QOvuJazP8ed0kO96+/EgDvJTTmNViHAc/+FhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWctaj9MsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJHhuHZcz/e12OFplr
+ sw+eWEvMEGgn9vjldpXSsE07igiBNPgMIVavjRryivUSK52B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cPnWjOX9PYH46tO6ynnjjazRwo1OOrq1x6G/WpOB0+OWxbIWEJYzVFa25mG6Wq
+ 0XZ4zm6ECghPceuliKB3HGJvsvAyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7JQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:fUJSvq/zD0rtVlXSEWZuk+AAI+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
+ 5ISdkZNDSJNykYse/KpC+lDt0n3N6LtIqshevY0jNRaDsCUdAY0++8YTzraXGfg2J9dOIEKK
+ Y=
+X-Talos-CUID: =?us-ascii?q?9a23=3AErKs0GoLHcnTepru3Ut0FCXmUfl9Umf2y3zRGnS?=
+ =?us-ascii?q?TUlZPGey3Fw6z4Joxxg=3D=3D?=
+X-Talos-MUID: 9a23:O1ncRwhwkwuQ8FW6sh+NscMpOspP/LjzS1I0qpwdipacMQJzHg+5g2Hi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
+   d="scan'208";a="544797878"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 08:54:08 +0000
+Received: from sjc-ads-10129.cisco.com (sjc-ads-10129.cisco.com [10.30.210.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 058CF180001C5;
+	Fri,  6 Nov 2026 08:54:08 +0000 (GMT)
+Received: by sjc-ads-10129.cisco.com (Postfix, from userid 1877011)
+	id 5BFF3CBF23E; Fri,  6 Nov 2026 00:54:07 -0800 (PST)
+From: Arpit Patel <arpitpa@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] openssh: upgrade 10.6p1 -> 10.6p2
-Date: Fri,  6 Nov 2026 09:51:17 +0100
-Message-ID: <20261106085118.63845-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DUZPR01CA0341.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b8::11) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core][scarthgap][PATCH 08/10] sqlite3: fix CVE-2026-119376
+Date: Fri,  6 Nov 2026 00:54:03 -0800
+Message-Id: <20261106085405.3517095-8-arpitpa@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20261106085405.3517095-1-arpitpa@cisco.com>
+References: <20261106085405.3517095-1-arpitpa@cisco.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|WA4P189MB004753:EE_
-X-MS-Office365-Filtering-Correlation-Id: 068bcbdc-651e-4634-2f49-08df3be32119
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|11063799006|56012099006|261022105027099003|261021121427099003|261021123027099003|261009223027099003|261026140227099003|261026121527099003|261028144727099003|261102123227099003|10067099003|12006099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info: QNfewQ3lgF/TFtJdHsdm4/foolEjAaCn8otgfu5PwnVPieLLNi3ZLwsZKHZAlW5u8HoDBHyX5Xs9exM948IuFGswIMNw2sp2nUy0dt4G+CZ3mKv8IRlEOYjnqmUfGHfINNtCCgCjjvan2NlQaY6GV2NGzTL5jqp3f8eMIOIaoo/EUcqHxulkoxzik6ZPC1H3woi+z6M7jSY6taBGHrJp2i/UOuECDU3SGg1J2pnONkh86hr1aaT5rzCYGLERrDBalwWnfE58O0QsirVjroiwshmLgmg0gMtT0edNEaVZi5DXvHSkrb4Pf+B4c/fnFc5ZwRu0ba6pVYnkxutzVXuQCSiqC2xXRO5L3fhaaXsuirR47HpTH/BXGpp6CbPXkxI2WG1iztXeKQKyXYBkRPjUkWPD2QfYLZAdoOXQ+YpFeZWLUBcvJAP/lByfsiHzHo5LLZh8CNVIgoH3hOGK1PeM/SsS0n88Zh0pXl8rHhUYvU6AyfZDBpjdjiYb7fIAVovQYNnS9g/ejatMpVGdjVQ4O1nV1suudKXHTAFVEJ8qMuzidnPkeqq3spJYNgLnM0o+cMQxwe/vdWR3kh+1W7jiGM9xc6+ei5uViiw8y7JLjjtSE7r7hhFyN5DlsxHJ8xAE
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(11063799006)(56012099006)(261022105027099003)(261021121427099003)(261021123027099003)(261009223027099003)(261026140227099003)(261026121527099003)(261028144727099003)(261102123227099003)(10067099003)(12006099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+zjjX9Km0xcDPk7KRXHVBYDgx3MQl4HqQgM+1hbtjeMK2ba1Q2TNCxRsz+EM?=
- =?us-ascii?Q?eTMeiBbeIH3HYq5kYbMeGaeJmzJhWIgSSaEb9x98fLqTr6kjEofAIMJaN78V?=
- =?us-ascii?Q?7VSTl/5GFhzCoSGp4aeU3UoeKw5WGjXkwgwVPK09QgEsFsRPiY0DvwpecSeV?=
- =?us-ascii?Q?wN1adRr7KjJWrMlH/8JQWptjP97WZieKuD1fEIJ2Vmm2t50lUQ2KYPYT2Cxp?=
- =?us-ascii?Q?rAGvVzpBdI7A4ulZveJTM7t89eJP1AVeqARuU4IG0VAq6iM2vKxgcCAXBv9W?=
- =?us-ascii?Q?durC4JqMgAwZi40Zq21BHQKozrOHLEAOi5sT/FkyRMJlt3JPzWnbMNNpMbSG?=
- =?us-ascii?Q?08X0MDJ6Zo3/9D1SQNkafiLzob7rqJ9Axz2l+yw5x7lBv7+jXt5nu4KgxJHw?=
- =?us-ascii?Q?eHeg8eLM6NzEa9J00tVtTuK2wrnOUwU/NbjSHCpZxeCsuPUYmSI40YPMj2yq?=
- =?us-ascii?Q?85H1bCyYBR3GuEz3abrY06vfu6OWp8LOlrYF/3WBmBtAiM3deEhXF9S9nlBj?=
- =?us-ascii?Q?0NrR2DU0AJUxOjDI8wxqQj1lsHy6mf9RtTwxvftDKV5+OFZUXLCFMBoI8GI8?=
- =?us-ascii?Q?AMWOWzCisqobj3Ye+TOIQb/zDRI/J7/XV/r05Rzv14gumEMVsd1zTUowbfAG?=
- =?us-ascii?Q?2X+bbjKgDHinxss7BjRC78zB4aOtSz+COMEmAvv3tVLOqe0Oy6ozb+SWgbAG?=
- =?us-ascii?Q?o/4eZQ0jg2DJ86iKxXIiakxIKB1XyQnuUl40BFOFpnpBtJgyu6B+pNEc/c/U?=
- =?us-ascii?Q?/BiPNC0TIUV0h3NUVwFZVGubWAx4q15O3Amthuhla/sU8b92EeSzzfHI5+KV?=
- =?us-ascii?Q?8NUqvHSL8B+MjX/hcotBiie49LhMGXWn66TwnN/Ct7DdI+1/9PVDHhU+FwkT?=
- =?us-ascii?Q?H04vPEwV2aQcUvhRRmVndNRCIkbEM2ljd5j02Xx0SgM0bP7/n1oTxVkIzk5f?=
- =?us-ascii?Q?nXK3nwm/rd/TO4dWdXEEPXpKPOiLDQnhP8C7bVHWm3DmFcHDYDxrbANAk26e?=
- =?us-ascii?Q?F5sSoPGbwAWQcXSsbi94M8IVUoa6HsF+WGSlXLsbOkxMIE5w0bUCgyz1uCUH?=
- =?us-ascii?Q?CkaRTTbuQs0Z/U2rBX+oL9QvvvAF6pUIXDyCm6arQMU7y3LXIlPGMVpd2R6y?=
- =?us-ascii?Q?E9fsNVtMcWccBEBbWzes5V4ODx3qcBMOeb6eO/7VLlTdmR0jXOf+Mu4TU3WU?=
- =?us-ascii?Q?lTwRxP77MHy2a9bAMyO4ZSKPMbZDYJzK9r9211pKsrBcq/hYdImIvKDTMdja?=
- =?us-ascii?Q?pMjZYYF5gb0HYu+LzSo4Z9+ZYkHoOduY2dmgkcJFgaD+TqFO5N/v2ixz2Tg5?=
- =?us-ascii?Q?2zgayIPQ4YZjcj6MlOcGTLmNCXJeTZI9YAqrQYjBKSM448wRTx5uKb83jgQX?=
- =?us-ascii?Q?7epZ+G7ZjzVpr0Z+IZ4nCf91Sa90nI8sVuhMFtsl0uBwiUM8bIA8oU0FU5gI?=
- =?us-ascii?Q?3wlUbKmXPRr8DJty2CTp/IzOgotsAzm53HoRZ/rsPAnDHishpdedTCqsqENK?=
- =?us-ascii?Q?bAN5nEqaUT1d6IqM6Px8Nn63ezycw/PEmRNaJkTT3Rws90nRDNph2VEa2XL4?=
- =?us-ascii?Q?9vfHUljXcfwxQhLy1BPl/fTNbuog+Voo/X9tMeVQCnzA5iw7Os55a+s2wl9R?=
- =?us-ascii?Q?a4Zchd2ie8TbVOCzG/C87F2DjFJhv9A8ocj95C8HpLaM+OEJFDWaHhhdgE5X?=
- =?us-ascii?Q?+O3vF3Nv9YoCHBmorJxdiksNb2ezoEXXuel9H0GyXK/0T78J1SjDpJC8pgdJ?=
- =?us-ascii?Q?f2SS4KXIiO7zPnD1ZuLpTukhZ0q1G3w=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 068bcbdc-651e-4634-2f49-08df3be32119
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 08:51:21.0291
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9/veuK2WKaXKS1z7FmfkyUZFcggI9xSKyCe1r1m/dXJqoYPf9HgIDNSZE5Als3AjwdJOYnbTHKI5DloIRjN0Zw0I0o/GBk5Ax81Q7+GzYRI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: WA4P189MB004753
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-10129.cisco.com [10.30.210.133];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.30.210.133, sjc-ads-10129.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 08:51:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249610
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 08:54:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249616
 Content-Type: text/plain; charset="utf-8"
 
-Release Notes: https://www.openssh.org/txt/release-10.6p2
+This patch applies the upstream fix [1], which includes COLLATE
+expressions in expression tree depth calculations and prevents bypass
+of the expression depth limit. The GitHub mirror commit [1] corresponds
+to the SQLite Fossil check-in shown in [2].
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+[1] https://github.com/sqlite/sqlite/commit/d54522a5b832422ab893a1e9fa7a99ab314ea4e2
+[2] https://sqlite.org/src/info/252c0b7bf5a727d2
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-119376
+
+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 ---
- ...1-regress-banner.sh-log-input-and-output-files-on-erro.patch | 2 +-
- .../openssh/{openssh_10.6p1.bb =3D> openssh_10.6p2.bb}            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh_10.6p1.bb =3D> openssh_1=
-0.6p2.bb} (99%)
+ .../sqlite/sqlite3/CVE-2026-119376.patch      | 75 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.=
-sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/ope=
-nssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patc=
-h
-index 902ac7411a8..46bd7e8d3cb 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-=
-input-and-output-files-on-erro.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-=
-input-and-output-files-on-erro.patch
-@@ -1,4 +1,4 @@
--From bea215955125b39c802d2a255cd08dff4fa6298e Mon Sep 17 00:00:00 2001
-+From 715dcbdc4724618a4224a4ee78bdf9bef0cd26f4 Mon Sep 17 00:00:00 2001
- From: Mikko Rapeli <mikko.rapeli@linaro.org>
- Date: Mon, 11 Sep 2023 09:55:21 +0100
- Subject: [PATCH] regress/banner.sh: log input and output files on error
-diff --git a/meta/recipes-connectivity/openssh/openssh_10.6p1.bb b/meta/rec=
-ipes-connectivity/openssh/openssh_10.6p2.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssh/openssh_10.6p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_10.6p2.bb
-index bad22b879c9..24a91029492 100644
---- a/meta/recipes-connectivity/openssh/openssh_10.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_10.6p2.bb
-@@ -25,7 +25,7 @@ SRC_URI =3D "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/=
-portable/openssh-${PV}.ta
-            file://sshd_check_keys \
-            file://0001-regress-banner.sh-log-input-and-output-files-on-err=
-o.patch \
-            "
--SRC_URI[sha256sum] =3D "a9dc9565dffe8640f64d863cd29a32bc4a3dbdec0566a7fc44=
-c5d6ee767d5f39"
-+SRC_URI[sha256sum] =3D "9ae44872090cf2f06b3cf9ff147e7f16f309671340763ed2f9=
-9248398ae29d5b"
-=20
- CVE_STATUS[CVE-2007-2768] =3D "not-applicable-config: This CVE is specific=
- to OpenSSH with the pam opie which we don't build/use here."
-=20
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
+new file mode 100644
+index 0000000000..975054e843
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
+@@ -0,0 +1,75 @@
++From 2af844923ba3e32fb16b06adab4e4ad3b2f4da49 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sun, 4 Oct 2026 21:54:17 +0000
++Subject: [PATCH] Fix expression tree depth calculations for COLLATE.
++ [bugs:/info/2026-10-04T04:50:56Z|Bug 2026-10-04T04:50:56Z]
++
++FossilOrigin-Name: 252c0b7bf5a727d29605672bb58e06c758173c276671df3e388a68294998b4d3
++
++CVE: CVE-2026-119376
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/d54522a5b832422ab893a1e9fa7a99ab314ea4e2]
++
++Backport Changes:
++- Ported the src/expr.c and src/sqliteInt.h changes into sqlite3.c
++  because the recipe source uses the amalgamated SQLite layout.
++- Omitted test/sqllimits1.test because the extracted source does not
++  include the upstream test tree.
++- Omitted manifest and manifest.uuid because they are Fossil
++  repository metadata and are not needed for this source patch.
++
++Signed-off-by: Arpit Patel <arpitpa@cisco.com>
++---
++ sqlite3.c | 16 +++++++++++-----
++ 1 file changed, 11 insertions(+), 5 deletions(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 4b1c310fd6..7385344f84 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -21204,8 +21204,8 @@ SQLITE_PRIVATE void sqlite3SetTextEncoding(sqlite3 *db, u8);
++ SQLITE_PRIVATE CollSeq *sqlite3ExprCollSeq(Parse *pParse, const Expr *pExpr);
++ SQLITE_PRIVATE CollSeq *sqlite3ExprNNCollSeq(Parse *pParse, const Expr *pExpr);
++ SQLITE_PRIVATE int sqlite3ExprCollSeqMatch(Parse*,const Expr*,const Expr*);
++-SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(const Parse *pParse, Expr*, const Token*, int);
++-SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(const Parse*,Expr*,const char*);
+++SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(Parse *pParse, Expr*, const Token*, int);
+++SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(Parse*,Expr*,const char*);
++ SQLITE_PRIVATE Expr *sqlite3ExprSkipCollate(Expr*);
++ SQLITE_PRIVATE Expr *sqlite3ExprSkipCollateAndLikely(Expr*);
++ SQLITE_PRIVATE int sqlite3CheckCollSeq(Parse *, CollSeq *);
++@@ -108701,23 +108701,29 @@ SQLITE_PRIVATE int sqlite3ExprDataType(const Expr *pExpr){
++ ** and the pExpr parameter is returned unchanged.
++ */
++ SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(
++-  const Parse *pParse,     /* Parsing context */
+++  Parse *pParse,           /* Parsing context */
++   Expr *pExpr,             /* Add the "COLLATE" clause to this expression */
++   const Token *pCollName,  /* Name of collating sequence */
++   int dequote              /* True to dequote pCollName */
++ ){
++-  if( pCollName->n>0 ){
+++  if( pCollName->n>0 && pParse->nErr==0 ){
++     Expr *pNew = sqlite3ExprAlloc(pParse->db, TK_COLLATE, pCollName, dequote);
+++    assert( pExpr!=0 );
++     if( pNew ){
++       pNew->pLeft = pExpr;
++       pNew->flags |= EP_Collate|EP_Skip;
+++#if SQLITE_MAX_EXPR_DEPTH>0
+++      pNew->nHeight = pExpr->nHeight+1;
+++      sqlite3ExprCheckHeight(pParse, pNew->nHeight);
+++      testcase( pParse->nErr>0 );
+++#endif
++       pExpr = pNew;
++     }
++   }
++   return pExpr;
++ }
++ SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(
++-  const Parse *pParse,  /* Parsing context */
+++  Parse *pParse,        /* Parsing context */
++   Expr *pExpr,          /* Add the "COLLATE" clause to this expression */
++   const char *zC        /* The collating sequence name */
++ ){
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
+index 2ad46aa5f2..761087f1a3 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://CVE-2026-119379.patch \
+            file://CVE-2026-119372.patch \
+            file://CVE-2026-119378.patch \
++           file://CVE-2026-119376.patch \
+           "
+ SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
+ 
+-- 
+2.35.6
+
