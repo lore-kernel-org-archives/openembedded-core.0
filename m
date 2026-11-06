@@ -1,176 +1,151 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4523.1793966321708188652
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4640.1793966687441808572
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 03:58:42 -0800
+ Fri, 06 Nov 2026 04:04:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=IELYF4rA;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e6eb21a8fso237969f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 03:58:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=OSo3AjZV;
+ spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-7cc0892f92cso157894137.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 04:04:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793966686; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NoZbg0qNFOkapvdCqxRUeVCj2uB+fbdtSRF3Nc5wW46XsXDT7R+Mwxt9yXINluwrIv
+         Hgg4cEADvMqXiBaMw9BQJvXuxaXSDPFs5OSOzCcG34MsVzuyLUVzrCKgofCGcTKdCLvp
+         LJ0ETwh/wcNKmyfmWIDzfBiF3NzBK3YNRiTxw248qxM7FB1xJHiZiSxqaXmYVSXWJyrc
+         WQg9xDd17qG9EFZDDNxf5xaJ62cEPIUUDIGFsnhKL8ybyIZo6iXRLSeaMDpoVz1IFCAr
+         OTEnYMtQ/vaV3M6mmT7n5bSV8JwNmMiarAoZTM+98qKJB5s+CiEmzsl+RO8/beIlOWeh
+         Hiig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=o2KJRP7o9OEaBwenhmTGz6i9ltU1EFZgFtwstSUQcsM=;
+        fh=IZgbv7R9sOY8kU1pJip7dFN9xpK7Ia3dlg0PQ/mRXGA=;
+        b=RUODSmOXmtBYF6AgrR3qwdo3tGAP3YHt3FYPhESOfZ6uTMXx2MhuNXK7+/mIlspZ1t
+         jEqDMqSO/eFW0UGQga+V9SpQJmxvMbqBgW7HcMcF1PlQweXciOw95RxbfOaGmGr9VrJq
+         OX6JzcEMnYywm5EIcm4mTGRl5NJTiLsAQ3oJASjHSzGm8/BREO7W9M/CLbYIaecP0A9d
+         OVoK0Vxl9J8kRGATsEPfugcvm/qoq6laGopA0xzOT/FJCFMAwKt9Hy8gmn+LiIYkzUQ0
+         bX2hX1++8KHvl9LC2h9H8ZSG2m1J6xWVbNdHB6ojmwvD9N93h/D2s3WX3KCKHGDGNqGi
+         phwA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1793966320; x=1794571120; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZbHkpSKr6Hr8XvTV3pxYoFBOFG0oWspxzk5ULVYu4xc=;
-        b=IELYF4rAmWDxOCh8y30Ku5sGQYuOcS4wjO2UaFHzC/FmEeNPDeRlzhuGeqfPSS/0Ez
-         A9Qe5X2wHuLZUvtjGukUO7CwMxg3zsz3TRuBTrGGaxJVAKo8Ml+KnDSj/6z7GnDzeMml
-         ZzrCeJYzQ7Hro+X73reNXoWxBo8upoMSZQYnkG7aB/U9hPKdXwoZ1m+B5Sc2CelnHtgj
-         JYIdVjpufQACPJs/u++4u1c8GRH209/c8uvmEQ/z/FGMNcfD/Y5U9qZPTBT/ELgUqBlM
-         Ui4pq7h+NdXseyVMSjAvvks7MrYy2XHdtJvNrcyQI6KoVX5QNA03xQfcfvpfZzcdqr9E
-         UJUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793966320; x=1794571120;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793966686; x=1794571486; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZbHkpSKr6Hr8XvTV3pxYoFBOFG0oWspxzk5ULVYu4xc=;
-        b=wXrOsQzJPjPleQokG3wVO2PNqbnPbxEkEGsmgwHDtXDzJUN+uM7GsHmyxHupEpAYCi
-         dsV+2+o9EFGZMgkdquNxUPMnPHB9+CEQf1oGk8LrRLqUgQOrPxSMHp2AgC2oyPhfGmf2
-         zvyGZ4fgyC5Y8qUSzhpEoJYinBNmnwA3lwlkcOIqX0NHSHfjmdF0e2oytv8wgJRgRG6P
-         pBOED9zp/YdeJv3BHt+u+hjGknIg1quudOO9/lxKJpCTrorBJb+3afB6GFLnK2itJgCB
-         ZPyHerOpKNQgrQMdhYUtZLqj1yJLu3qvPonwCWrwNg0GA0pnLNBvhQIpQamWSbeuB5+A
-         uRMw==
-X-Gm-Message-State: APuU4Z+uOanzroYH6LodikGHSSombDvZZXO9ANt/DPAIbip+wDEBkEB/
-	VMeO1YKsX/ri6qhTXDHIJS/5esrJkasG9yWoeH6gBLCGiyCGxbB3IkhJ+rMZwo87wZg=
-X-Gm-Gg: AYBFou0S/YA5qO03nB3WF16S56f8GuH40fIxH4lau+qr8iEnGOe5qzW1lVpip2V9Ovs
-	13Kp7iKHnZ1C38h68k+NgS4HPrWiG/pyuAlsau6gyn0yi0w1YPRbi+5w9YgEiPb+pr3cDq23Uzp
-	lnjNpd053b+WaDdKr7jy1rWWcRQ23bVQUCsIqpgMCywCytoXJO4aHWA/OhmQV7OluaMD1Or8KBC
-	AFGGIfB8S9eRjsDEk6wIj1MZNBAf169uDxzlw5N1fquWYomqQ3gC0sUSUNfxXorUHBbikytUpeu
-	c4oj8ha8qdPraobemir5OZr/aVKZ81Zww9T77GCEkjTtZ+vpepb6osPhQarFrKLr4JyHwB+6Iof
-	AFUUT5FSUGIgfZxUVxIg8xVaukXmaF4lS7IVkNxZne+TRgDqrdsMGZ3byuEaR2rb531+TW/DNi5
-	APRWfKvyrg9Bv/mmKyOlKVIl/vmZyMwfb/9zYvqz0bXKbS5BDz2OiJEg6ELyGbyGIwJ1RZq+6lh
-	7Lj+0PgTezN2ZhSqkOTPKSNnxvPtGCX7T2gT6jUBnfqBWLrgDAT68gZsUyy28Aay6d6AfHzulEv
-	m2r7qcwyZMTtdXHzRwnhWCjSz9/wsHWLu1ahLMAubV4Uj9hDmYO6sjbtr7LVQjDUdjXLKuzgTzX
-	5YhNOp4imQtTYvAGv
-X-Received: by 2002:adf:e014:0:10b0:490:658d:995d with SMTP id ffacd0b85a97d-49278ee87dbmr3426399f8f.57.1793966319825;
-        Fri, 06 Nov 2026 03:58:39 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d3d60e94sm3627632f8f.2.2026.11.06.03.58.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Nov 2026 03:58:39 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Nov 2026 12:58:38 +0100
-Message-Id: <DMO3ZHLGJ8R1.3BSNRF1WEBFZ3@smile.fr>
-Subject: Re: [OE-core] [PATCH] musl: Keep clang from raising spurious FP
- exceptions
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Patches and discussions about the oe-core layer"
- <openembedded-core@lists.openembedded.org>, "Khem Raj"
- <khem.raj@oss.qualcomm.com>
-To: "Khem Raj" <raj.khem@gmail.com>
-X-Mailer: aerc 0.20.0
-References: <20261028051959.2975770-1-khem.raj@oss.qualcomm.com>
- <DMMQO5OTJXPD.WW6MQOZ8JTK2@smile.fr>
- <CAMKF1sqsO6Dbjdh9LHiZ1zrG9AMM6m0tbjA1BZnE9XLd8CUjag@mail.gmail.com>
-In-Reply-To: <CAMKF1sqsO6Dbjdh9LHiZ1zrG9AMM6m0tbjA1BZnE9XLd8CUjag@mail.gmail.com>
+        bh=o2KJRP7o9OEaBwenhmTGz6i9ltU1EFZgFtwstSUQcsM=;
+        b=OSo3AjZVRiORnaI1G3zH6JDJs8uEiOzc53pVqX1sYS6darK1g7eiMUAS0VZPSm8glo
+         AJoK7gNb69+TRrEBk19M63YISAc4H8QtiGs2cLZSb+ZTFMyZfVMTPjh0dpW9YtlL7VXW
+         FhGyAHNw1314mxzED8sNNqI53Dx+TpFr4fBHs1ngb88ySx30pURfrO9w4V6T+/4NIbET
+         V5aIr93iwdaxBy+PpsBknsJTIQpk1W2CkhWipyJtKVkiJhJwX9VrCeJXRvBQaJYUaSH4
+         eZmb/XTObVPb7oGFd+3e0cgMTqdmA2kp8qeee/0Dh1xxE9wRMcUBKtukD5bxqOsicyPx
+         lKZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793966686; x=1794571486;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=o2KJRP7o9OEaBwenhmTGz6i9ltU1EFZgFtwstSUQcsM=;
+        b=lrDlBLuKCuoqGctMDxbacxESjBZUu2m2sBoy858Ed0CqX6OTfG5YhSWoDV/x5JFRF7
+         Zu7NrPkoQijVei4YgwiyUP0RV8Ta7kyt81J8HwGNt5iv+mvH1OIof/n9k8+95c2J5oEj
+         /ajQlv5QMFUx/JpS/2wuRCZtm+BbO3R8IGyhH0IQzYX1t8RCGkKG9aR268QIbWv7ZEo0
+         FIH588Wdqqqdvnv9vZ4oPriSZ7r+Tcxtx9aNtTJZ3bWxeH4Alr2Wf4Iib/rtmaJAWy0k
+         orCXCEZrsdmS0y/R01OiVtCcrn3paTbkbuFW8NfQucLmGBEWYQbqakd19Bxycg/hdjoa
+         XeSA==
+X-Gm-Message-State: APuU4Z/GQ+kzPlu4fh2Nn3Gpad5G8gY7sHKSGrCr+gvusDlrSrb4OT0R
+	EEu+IgOPAbrN6N57nh+TnsYEaf1Z7nSQ926Zjemt1iai5KXqtg9OjqNzKyfBmRayjzC+K2jivTU
+	tevNFG8Z5b0jbfImlXEkQqqErvqaY5eM=
+X-Gm-Gg: AYBFou2vtclYBrLYGCjY+zj+DVWn2a7YxfhhxD9pT57cUa7JJnYUnBD3ph1MvcV05MG
+	kye9orKCqrWeVjaQvGS70SlU1AIXRoKM13tcWoK/hoEShZV/c9JxFEDJYhhImpirpNSKLDc9CxE
+	yMV0oqJdbufgBWxM8/SNdLMf2ZsLJxRzt7LZs+z47mSjDE3eW2Q/SH6YzP8b6RAP9PkqfQrxVrO
+	HYTm3If2JRrU/xSes4gtRDvAyKNIQBe3tutvy/tTjLBVhBDg7n0dqezVYHY1+2mNWwZh4IgJXkO
+	LoqJKUSZDo+fkwCAxDB/eyK/xWeRaIEPceSrqtroB2g3kEeDiRB8U5EzhOqKYPJsUJTZBfpAR4T
+	kBlLdsE2J/qqO8uEymlOpnllVcxizGVCe/jUJmOW+QcCwbw7G94iyNZ6U1EHC4lCZDaw6ZFg=
+X-Received: by 2002:a05:6102:f14:b0:7b3:7653:5487 with SMTP id
+ ada2fe7eead31-7d2a16b4f28mr1126157137.32.1793966686139; Fri, 06 Nov 2026
+ 04:04:46 -0800 (PST)
+MIME-Version: 1.0
+References: <CANNYZj9=G4+jmRx7UJMYbsp2xwDxwSmm+Gv2HxcPJtOen_9LUA@mail.gmail.com>
+ <20261105210554.1648512-1-stondo@gmail.com>
+In-Reply-To: <20261105210554.1648512-1-stondo@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 6 Nov 2026 13:04:34 +0100
+X-Gm-Features: AclHuK9H7LVGnDfflIrbOAITin1kQ1OP5mbFYaoatTsO8Ed8ifaFjpU6IXRxSBU
+Message-ID: <CANNYZj9-JNh8uRFWFMZRwnsNy1_dN+_OEDLA2NN3Z8smAKBRdg@mail.gmail.com>
+Subject: Re: [RFC] spdx30: name, version and purl for dependency downloads
+To: Stefano Tondo <stondo@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	bitbake-devel@lists.openembedded.org, Joshua Watt <JPEWhacker@gmail.com>, 
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>, 
+	Peter Marko <peter.marko@siemens.com>, Adrian Freihofer <adrian.freihofer@siemens.com>, 
+	Patrick Wicki <patrick.wicki@siemens.com>, stefano.tondo.ext@siemens.com
+Content-Type: multipart/alternative; boundary="00000000000010f910065f9a6b45"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 11:58:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249636
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 12:04:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249637
 
-On Wed Nov 4, 2026 at 11:28 PM CET, Khem Raj wrote:
-> I am going to post v2 soon perhaps by end of this week and whatever lands
-> upstream I will update oe master. I would suggest to hold any stable bran=
-ch
-> backport of this patch until then
+--00000000000010f910065f9a6b45
+Content-Type: text/plain; charset="UTF-8"
 
-Sounds good.
+On Thu, 5 Nov 2026 at 22:05, Stefano Tondo <stondo@gmail.com> wrote:
 
-Thanks Khem :)
-
+> Yocto already knows all of this at fetch time; the RFC is only about
+> writing it into the SPDX it already produces, without changing how
+> anything is fetched. I hope that makes the context clearer, and I am
+> happy to go into more detail on any of it.
 >
-> On Wed, Nov 4, 2026, 1:19=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr>=
- wrote:
->
->> On Wed Oct 28, 2026 at 6:19 AM CET, Khem Raj via lists.openembedded.org
->> wrote:
->> > With clang built musl's math code assumes
->> > floating point exceptions are never inspected and speculates FP
->> > operations across branches. expm1() then evaluates both scaling
->> > multiplies and selects one, raising a spurious OVERFLOW, and libc-test
->> > math/expm1, expm1f, hypot, hypotf and sinh fail on qemuarm64.
->> >
->> > Pass -ffp-exception-behavior=3Dmaytrap from musl's configure when the
->> > compiler accepts it. GCC does not accept it, so GCC builds are
->> > unchanged.
->> >
->> > Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
->> > ---
->> >  ...p-exception-behavior-maytrap-when-su.patch | 46 ++++++++++++++++++=
-+
->> >  meta/recipes-core/musl/musl_git.bb            |  1 +
->> >  2 files changed, 47 insertions(+)
->> >  create mode 100644
->> meta/recipes-core/musl/musl/0004-configure-use-ffp-exception-behavior-ma=
-ytrap-when-su.patch
->> >
->> > diff --git
->> a/meta/recipes-core/musl/musl/0004-configure-use-ffp-exception-behavior-=
-maytrap-when-su.patch
->> b/meta/recipes-core/musl/musl/0004-configure-use-ffp-exception-behavior-=
-maytrap-when-su.patch
->> > new file mode 100644
->> > index 0000000000..dfff81299b
->> > --- /dev/null
->> > +++
->> b/meta/recipes-core/musl/musl/0004-configure-use-ffp-exception-behavior-=
-maytrap-when-su.patch
->> > @@ -0,0 +1,46 @@
->> > +From fe310a5e2fe6be3c28f800bde383d7df5aac4b49 Mon Sep 17 00:00:00 200=
-1
->> > +From: Khem Raj <khem.raj@oss.qualcomm.com>
->> > +Date: Sun, 25 Oct 2026 21:54:26 -0700
->> > +Subject: [PATCH] configure: use -ffp-exception-behavior=3Dmaytrap whe=
-n
->> supported
->> > +
->> > +The math library relies on floating point exception flags being raise=
-d
->> > +exactly as the C code would raise them. GCC keeps that by default
->> > +(-ftrapping-math), but clang assumes floating point exceptions are ne=
-ver
->> > +inspected unless told otherwise, and may then evaluate both arms of a
->> > +branch and select the result. Built with clang 23 for aarch64, expm1(=
-)
->> > +computes both y*2.0*0x1p1023 and y*twopk for the k < 0 || k > 56 case
->> > +and picks one with fcsel, so the unused multiply raises a spurious
->> > +OVERFLOW. libc-test's math/expm1, expm1f, hypot, hypotf and sinh fail
->> > +because of that.
->> > +
->> > +-ffp-exception-behavior=3Dmaytrap tells clang to avoid transformation=
-s
->> > +that raise exceptions the original code would not raise. GCC does not
->> > +accept the option, so tryflag leaves GCC builds unchanged.
->> > +
->> > +Upstream-Status: Submitted [
->> https://www.openwall.com/lists/musl/2026/10/28/1]
->> > +Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
->> > +---
->> > + configure | 10 ++++++++++
->> > + 1 file changed, 10 insertions(+)
->>
->> Hello Khem,
->>
->> I think this patch (now merged on master) is a good candidate for stable
->> inclusion. But upstream seems to have rejected the patch[0]. Any advice
->> on what to do regarding blacksail?
->> Merge like this or wait for a fix that is accepted by upstream?
->>
->> Thanks!
->>
->> [0]: https://www.openwall.com/lists/musl/2026/10/28/2
->> --
->> Yoann Congal
->> Smile ECS
->>
->>
 
+Hello Stefano,
 
---=20
-Yoann Congal
-Smile ECS
+thanks for the detailed response. I need to look at code to give specific
+guidance, but I want to make a couple general points:
 
+- do not make fetchers any more complex than they already are. The reason
+is that few people understand or have an interest in that code, even fewer
+are able to meaningfully review contributions to it. And still fewer
+actually show up to patch review meetings where patches are looked at.
+Rather try to do as much as possible in oe-core through a clear API.
+
+- gitsm and npmsw are historical mistakes, however 'convenient' they may
+be. Doing internal magic just resulted in a ton of corner cases,
+maintenance headaches and (in case of npm) bitrot and lack of integrity
+protection that caused the whole thing to be disabled until that disabling
+forced someone to fix the issues. I would want to replace them with flat,
+explicit implementations.
+
+Alex
+
+--00000000000010f910065f9a6b45
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 5 Nov 2026 at 22:05, Stefano Tond=
+o &lt;<a href=3D"mailto:stondo@gmail.com">stondo@gmail.com</a>&gt; wrote:</=
+div><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+Yocto already knows all of this at fetch time; the RFC is only about<br>
+writing it into the SPDX it already produces, without changing how<br>
+anything is fetched. I hope that makes the context clearer, and I am<br>
+happy to go into more detail on any of it.<br></blockquote><br></div><div c=
+lass=3D"gmail_quote gmail_quote_container">Hello Stefano,</div><div class=
+=3D"gmail_quote gmail_quote_container"><br></div><div class=3D"gmail_quote =
+gmail_quote_container">thanks for the detailed response. I need to look at =
+code to give specific guidance, but I want to make a couple general points:=
+</div><div class=3D"gmail_quote gmail_quote_container"><br></div><div class=
+=3D"gmail_quote gmail_quote_container">- do not make fetchers any more comp=
+lex than they already are. The reason is that few people understand or have=
+ an interest in that code, even fewer are able to meaningfully review contr=
+ibutions to it. And still fewer actually show up to patch review meetings w=
+here patches are looked at. Rather try to do as much as possible in oe-core=
+ through a clear API.</div><div class=3D"gmail_quote gmail_quote_container"=
+><br></div><div class=3D"gmail_quote gmail_quote_container">- gitsm and npm=
+sw are historical mistakes, however &#39;convenient&#39; they may be. Doing=
+ internal magic just resulted in a ton of corner cases, maintenance headach=
+es and (in case of npm) bitrot and lack of integrity protection that caused=
+ the whole thing to be disabled until that disabling forced someone to fix =
+the issues. I would want to replace them with flat, explicit implementation=
+s.</div><div class=3D"gmail_quote gmail_quote_container"><br></div><div cla=
+ss=3D"gmail_quote gmail_quote_container">Alex</div></div>
+
+--00000000000010f910065f9a6b45--
