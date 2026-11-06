@@ -1,70 +1,69 @@
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7520.1793976214416324349
+Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7337.1793976214149599703
  for <openembedded-core@lists.openembedded.org>;
  Fri, 06 Nov 2026 06:43:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=dh5KDhZY;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=cAqyi3+D;
+ spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3714; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=4385; q=dns/txt;
   s=iport01; t=1793976214; x=1795185814;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=9R105VMwMvmqcOaHFu+LaE+QayjkHKo/xA1t/q/Mz9s=;
-  b=dh5KDhZYawqN7s7v/6UrzR3gmMu9FUPwEgHUA7nXKqlI5H46ho90mGU6
-   ImqkDyKtE+nek/mI72TlY5S1uGJgP673/Qh0Nix+M/OzNTdM+Oaq12PEF
-   61gI1Bxs0i7HdkvZtBoCYVYkTrVmuSC6USgSY62D6UWM6nDFcZcfUEGuw
-   pCusAtQp2kYVGDdVglLpg2fjsdeZM70mw+VYq0PK9sBTeGkGg/K/61khe
-   ZF1IBlwO8xRtXSvS3G7y6jB7VFpRt+6Oxkip0SKWJ5PdyIYBpXdcFl1+u
-   3mgWRW0uYaRrfgXV8/Xmfyvy/G8FN1K3U+IydtseuXyr2Pjwo0a3tuI7q
-   g==;
-X-CSE-ConnectionGUID: oOgIoMmQQ2inMyZwedhbJw==
-X-CSE-MsgGUID: 1+tLY4hFTPeDmSBxFld+kg==
-X-IPAS-Result: =?us-ascii?q?A0BLAgAN5+1q/4r/Ja1aHgE8DA4LgVmCV3VgQ0kDlCeCI?=
- =?us-ascii?q?QOeIYF+DwEBAQ9EDQQBAYQ/RgKOHQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
- =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgECAQMnCwEYAT0cAwECLysjCBmDAgGCOgM3A?=
- =?us-ascii?q?xG8TYF5M4EBgykBPwICQAFQ2EwQb4FoAQsUAYE4hUKIJF0YAYR9JxuBSUSBF?=
- =?us-ascii?q?YNpgQWBXAICiCQEgxwSgVqNGAKBUYZ5SIEeA1ksAVUTDQoLBwWBaAM1EioVb?=
- =?us-ascii?q?jIdgSM+F4EHGwYFgR2BHoESgQddgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQ?=
- =?us-ascii?q?xJHJCIIEgkBExosCoEaNTwJJj8VDGQLGgVhCAINDHQ5EDAeJC8FHCY+GwovG?=
- =?us-ascii?q?A1IESw3FRkEPm4Hkj2CRTsSPRsJLQErgiweBqVSoRGEKowklToaM4VbpRYLm?=
- =?us-ascii?q?H2OCpZRhGmBaDyBWTMaCBsVgyIJShkPjjmDa4UTUcYIJjICCQMvAQEHAgcOA?=
- =?us-ascii?q?wuBaJACLYFPAQE?=
-IronPort-Data: A9a23:3LJ//6qJZLki1a/gldsa8yL3FbFeBmJPZBIvgKrLsJaIsI4StFCzt
- garIBmFOfaOMWH3co1xOdzg8EJVsJ/UxtM2SlRv+XtnH34WpOPIVI+TRqvS04x+DSFioGZPt
+  bh=RULGvOBQHJDQA6sR5MMmpN6lHG84BWVBm8fc19hPC9s=;
+  b=cAqyi3+DjIJnKowvh0cgDtzS2cu7ZpmpuTNVk4lF6hlDQpX4lJK6UmfX
+   PGN3SypAbS/SKHeWEAchmr7IBM+Rj4MzCm4ZQk9hZkHkhKCtBZBaEMFkD
+   X9bwAU+fxPpsjV6au/UDlS4/AKGIWVlo1n4XyyhBUepTeA88apLVFl9XB
+   3GlAYHfdnYr2s8DddKLd5//5cMoGJqaeYfeu8lIDY31AjBHmQSlg9KwUX
+   4RPLAgrFlnERA0gtyn5OBcmrRDPJ/QNkWM9JMGIGL40Dk4WVHYlLhyvwg
+   W1viuCgURNeSahnc+rfG3UvISgq9NEdZiASBHiIPGnrGIY+xPE6G4uqTw
+   A==;
+X-CSE-ConnectionGUID: sO6QQB3WQBm0SK84tLY4Bw==
+X-CSE-MsgGUID: ekQC8M0sQ3iMizVdvwZ6JA==
+X-IPAS-Result: =?us-ascii?q?A0BIAgCS5u1q/5H/Ja1aHgEBCxIMggULgld1YENJA5Qng?=
+ =?us-ascii?q?iEDniGBfg8BAQEPRA0EAQGEP0YCjh0CJjQJDgECBAMCAwEBAQEBAQEBAQEBA?=
+ =?us-ascii?q?QoBAQUBAQECAQcFgQ4Thk8NkBIBAgEDJwsBGAE9HAMBAi8rIwgZgwIBgjoDN?=
+ =?us-ascii?q?wMRvEWBeTOBAYMpAT8CQ1DYTBBvgWgBCxQBgTiFQogkXRgBhH0nG4FJRIEVg?=
+ =?us-ascii?q?2mBBYFcAogmBIMcEoFaGI0AAoFRhnlIgR4DWSwBVRMNCgsHBYFoAzUSKhVuM?=
+ =?us-ascii?q?h2BIz4XgQcbBgWBHYEegRKBB12BKyheIYEIgXYCglGCAAIBSUEOB0VTCSVDE?=
+ =?us-ascii?q?kckIggSCQETGiwKgRo1PAkmPxUMZAsaBWEIAg0MdDkQMB4kLwUcJj4bCi8YD?=
+ =?us-ascii?q?UgRLDcVGQQ+bgeSPYJFTT1RAQohRoEaJScikxWQHoIhoRGEKowklToaM4Vbp?=
+ =?us-ascii?q?RYLmH2OCpZRhGmBaDyBWTMaCBsVgyIJShkPji0MC4NghRNRxggmMgIJAy8BA?=
+ =?us-ascii?q?QcCBw4DC4FokAItgU8BAQ?=
+IronPort-Data: A9a23:qD7y66q7ABqkKV9MQMrP030OV+peBmJPZBIvgKrLsJaIsI4StFCzt
+ garIBnTOvbeMTGme94gboiy8UxX7JXcm99nHgFt+Cw2EXgQ8uPIVI+TRqvS04x+DSFioGZPt
  Zh2hgzodZhsJpPkjk7zdOWn9T8jhfngqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
  T/Ji5OZYgDNNwJcaDpOtfva8E435ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
  86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0uFQDkBJ0
- PkhEWoMaDWStf27zLKxaPY506zPLOGzVG8ekmtrwTecCbMtRorOBv2To9RZxzw3wMtJGJ4yZ
- eJANmEpN0uGOUASfA5MWPrSn8/w7pX7WyxFsluZqII84nPYy0p6172F3N/9J4fSFZkMzhbGz
- o7A1z26HjUraNyx9QKI3neXrP/hmS+4W41HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFmcHY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn2891te5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:T/6vHaBFbi+qxIflHemA55DYdb4zR+YMi2TDsHoBLSC9Hfb3qy
- nDppkmPFrP+VUssRIb6LW90de7IE80nKQdieJ6AV7hZniFhILCFu5fBOXZrwEIYxefysdtkY
- F9bqN5FNr8SXJ+jcr8/U2ENuxI+qjhzEht7t2utkuEimpRGsdd0zs=
-X-Talos-CUID: =?us-ascii?q?9a23=3ASF/E9Gsz4agouA7VKubIj8rM6IsiVXL8y1LVGnb?=
- =?us-ascii?q?iCGBMWY+KRFOQ8oF7xp8=3D?=
-X-Talos-MUID: 9a23:O0+ZBQozRBeI6v21qkAez2ghKONZv6SANHgAvZA9kdmqMSAzODjI2Q==
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0v1QX1h33
+ 6cnERoINiug176q5IPnYPY506zPLOGzVG8ekmtrwTecCbMtRorOBv2ao9RZxzw3wMtJGJ4yZ
+ eJANmEpN0uGOUASfA5LVfrSn8/w7pX7WyxFsluZqII84nPYy0p6172F3N/9J4fUFJwNwx3Dz
+ o7A12n6OzpKEYSE8GGE13O+uOPRghGleqtHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBFm4HY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:VdllRKvTuhqi1i/WIWmHv+2z7skDWtV00zEX/kB9WHVpm6uj5q
+ STdZsguyMc5Ax9ZJhko6HiBEDiewK4yXcK2+gs1N6ZNWGM0ldAbrsSj7cKqAeOJ8SRzIJgPN
+ 9bE5RWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqEuEiWpRGthdB8ATMHf8LnFL
+X-Talos-CUID: 9a23:1y1zpG29P05iIX7xLn47AbxfAed7S0T3l0jpCUrgMkU5FKGxeAO65/Yx
+X-Talos-MUID: 9a23:XWMGJQZodS1JlOBTujzVr2FHbNxRuKWLCVIznYsZiZemHHkl
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,197,1787011200"; 
-   d="scan'208";a="530841886"
-Received: from rcdn-l-core-01.cisco.com ([173.37.255.138])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:33 +0000
+   d="scan'208";a="536910533"
+Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 06 Nov 2026 14:43:33 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-01.cisco.com (Postfix) with ESMTPS id 6E9E2180001DC
+	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id 694BE180005B3
 	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 14:43:33 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id E1911CBEF98; Fri,  6 Nov 2026 06:43:32 -0800 (PST)
+	id D0533CBF234; Fri,  6 Nov 2026 06:43:32 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][v2 PATCH 08/27] python3-git: fix CVE-2026-73623
-Date: Fri,  6 Nov 2026 06:43:12 -0800
-Message-Id: <20261106144331.3354811-9-yurade@cisco.com>
+Subject: [OE-core][wrynose][v2 PATCH 06/27] python3-git: fix CVE-2026-69097
+Date: Fri,  6 Nov 2026 06:43:10 -0800
+Message-Id: <20261106144331.3354811-7-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261106144331.3354811-1-yurade@cisco.com>
 References: <20261106144331.3354811-1-yurade@cisco.com>
@@ -72,97 +71,106 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-01.cisco.com
+X-Outbound-Node: rcdn-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:43:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249670
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249671
 Content-Type: text/plain; charset="utf-8"
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/ffcb5359e87619f4fe4a70a4aff5f08c5580ba97
-[2] https://security-tracker.debian.org/tracker/CVE-2026-73623
+[1] https://github.com/gitpython-developers/GitPython/commit/1ed1b924f4e2d2ee7bab296df77b978af21853f1
+[2] https://security-tracker.debian.org/tracker/CVE-2026-69097
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
 Changes in v2:
 - Changed the advisory reference from NVD to Debian Security Tracker.
-  Updated the Backport Changes line wrapping and hunk context.
+  Restored the longer upstream commit explanation and Sebastian Thiel
+  co-author trailer, and corrected the abbreviated upstream/cherry-pick
+  hash to the full commit hash. The source fix is unchanged.
 ---
- .../python/python3-git/CVE-2026-73623.patch   | 53 +++++++++++++++++++
+ .../python/python3-git/CVE-2026-69097.patch   | 60 +++++++++++++++++++
  .../python/python3-git_3.1.43.bb              |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73623.patch
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-69097.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-73623.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-73623.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-69097.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-69097.patch
 new file mode 100644
-index 0000000000..7cb48e1511
+index 0000000000..55b76ece40
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-73623.patch
-@@ -0,0 +1,53 @@
-+From 3621c3099fef859e91f9f960707902018a370978 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-69097.patch
+@@ -0,0 +1,60 @@
++From 1ed1b924f4e2d2ee7bab296df77b978af21853f1 Mon Sep 17 00:00:00 2001
 +From: "GPT 5.6" <codex@openai.com>
-+Date: Wed, 22 Jul 2026 04:43:26 +0200
-+Subject: [PATCH] fix: reject unsafe clone templates
++Date: Mon, 20 Jul 2026 14:13:22 +0200
++Subject: [PATCH] fix: validate config section delimiters
 +
-+<!-- agent -->
++GHSA-3rp5-jjmw-4wv2 identified that configuration section names could alter the
++structure of serialized config despite the existing control-character checks.
 +
-+Treat git clone --template as unsafe because caller-controlled
-+templates can install hooks that execute during clone.
++Reject unquoted closing section delimiters across all writer entry points
++while preserving valid delimiters inside quoted subsections and the
++existing option-name behavior. Add regression coverage for unsafe plain and
++quoted-subsection-shaped names as well as a valid quoted subsection.
 +
-+Add regression coverage for both direct option and keyword forms.
++Git baseline: a23bace963d508bd96983cc637131392d3face18. Git config parsing
++treats an unquoted closing bracket as the end of a basic section header, while
++its extended form permits brackets inside a quoted subsection and requires a
++final bracket after the closing quote.
 +
-+References GHSA-6p8h-3wgx-97gf.
-+Validated against Git baseline a23bace9.
-+
-+CVE: CVE-2026-73623
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/ffcb5359e87619f4fe4a70a4aff5f08c5580ba97]
++CVE: CVE-2026-69097
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/1ed1b924f4e2d2ee7bab296df77b978af21853f1]
 +
 +Backport Changes:
-+- Omitted test/test_clone.py because the current PyPI
++- Omitted test/test_config.py because the current PyPI
 +  source archive does not include the test suite and
 +  the python3-git recipe does not run it.
 +
 +Co-authored-by: Sebastian Thiel <sebastian.thiel@icloud.com>
-+(cherry picked from commit ffcb5359e87619f4fe4a70a4aff5f08c5580ba97)
++(cherry picked from commit 1ed1b924f4e2d2ee7bab296df77b978af21853f1)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/repo/base.py | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ git/config.py | 16 ++++++++++++++++
++ 1 file changed, 16 insertions(+)
 +
-+diff --git a/git/repo/base.py b/git/repo/base.py
-+index d661f036..2776c19e 100644
-+--- a/git/repo/base.py
-++++ b/git/repo/base.py
-+@@ -148,6 +148,8 @@ Repo.unsafe_git_clone_options
-+         # Can override configuration variables that execute arbitrary commands:
-+         "--config",
-+         "-c",
-++        # Can install hooks that execute during clone:
-++        "--template",
-+     ]
-+     """Options to :manpage:`git-clone(1)` that allow arbitrary commands to be executed.
++diff --git a/git/config.py b/git/config.py
++index 236de3a6..21f6e8aa 100644
++--- a/git/config.py
+++++ b/git/config.py
++@@ -875,6 +875,22 @@ GitConfigParser._assure_config_name_safe
++     def _assure_config_name_safe(self, name: "cp._SectionName", label: str) -> None:
++         if isinstance(name, str) and UNSAFE_CONFIG_CHARS_RE.search(name):
++             raise ValueError("Git config %s names must not contain CR, LF, or NUL" % label)
+++        if label == "section" and isinstance(name, str):
+++            in_quotes = False
+++            escaped = False
+++            for index, char in enumerate(name):
+++                if escaped:
+++                    escaped = False
+++                elif in_quotes and char == "\\":
+++                    escaped = True
+++                elif char == '"':
+++                    if not in_quotes and (index == 0 or name[index - 1] not in " \t"):
+++                        raise ValueError("Git config quoted subsection names must begin after whitespace")
+++                    in_quotes = not in_quotes
+++                elif char == "]" and not in_quotes:
+++                    raise ValueError("Git config section names must not contain an unquoted closing bracket")
+++            if in_quotes:
+++                raise ValueError("Git config section names must not contain an unterminated quote")
 + 
-+@@ -158,6 +160,9 @@ Repo.unsafe_git_clone_options
-+     The ``--config``/``-c`` option allows users to override configuration variables like
-+     ``protocol.allow`` and ``core.gitProxy`` to execute arbitrary commands:
-+     https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---configltkeygtltvaluegt
-++
-++    The ``--template`` option can install hooks that execute during clone:
-++    https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---templatetemplate-directory
-+     """
-+     unsafe_git_archive_options = [
-+         # Allows arbitrary command execution through the remote git-upload-archive command.
++ 
++     @needs_values
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index 551b47fc39..d996d4f9f5 100644
+index fafb9972ef..781ec512cc 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -29,6 +29,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
+@@ -27,6 +27,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
+            file://CVE-2026-67325_p2.patch \
+            file://CVE-2026-67324.patch \
             file://CVE-2026-67322.patch \
-            file://CVE-2026-69097.patch \
-            file://CVE-2026-73625.patch \
-+           file://CVE-2026-73623.patch \
++           file://CVE-2026-69097.patch \
             "
  SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
