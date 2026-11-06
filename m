@@ -1,35 +1,35 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7470.1793976113413926888
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7295.1793976111115014209
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 06:41:53 -0800
+ Fri, 06 Nov 2026 06:41:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=wyHL+0Ub;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=c0CAUXBM;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B44574E4145B
-	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 14:41:51 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3F93B1A14E1
+	for <openembedded-core@lists.openembedded.org>; Fri,  6 Nov 2026 14:41:49 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8A0745FFBC;
-	Fri,  6 Nov 2026 14:41:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 62A24103288D3;
-	Fri,  6 Nov 2026 15:41:50 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0B22B5FFBC;
+	Fri,  6 Nov 2026 14:41:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D9444103293BA;
+	Fri,  6 Nov 2026 15:41:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793976110; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1793976108; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=8Fohwr1aFSrRWwOsAE8FIdV6lFmZ93y/AK29NdzWo4w=;
-	b=wyHL+0Ub4iA6VtAfbrhqVLV7iiIcltEJubcQF7VMKvqFaFQBzyi5p/qolSsZRY7VVbJUyi
-	//oI1Ts6QLkm5mp5zcpketq0MRdhAlc4pRPCaQpq7kGxz4K7m6xeyH4iEQB9w1vJqQwI/C
-	LbuCNvfGE2TQbwG/ohftqcCxIS0it8y8Hkur/T3abLXeT9OWFcj6skhTEVJbXN27BHA3da
-	/z538R+MMpKOugdN4fs4EJvKdHRPQIbLcv79HCnnogmMuzkqDvigq7bsIXQZxKkWRjESD1
-	NjD1ZxpKB+51PalzJDBxehsTmJFHIaD/RhuHiNiqDm8yVyPtww++4Vfrwx3+Ew==
+	bh=x8UoHukdQHxe1BPuYJ11wdpyExz7uLphMxvEyLZAiUc=;
+	b=c0CAUXBM6ZgK7Te0Ue1+1k/FVtQIGKGaANs1XSwb9N7GkKHujW/uf9o09rvhvqUXPgIqm4
+	awNyTLCAMIY2YtKrZ1QJrY6Krjt1TZZdbX3+H26+VlZ76+0CY/WI2Li2TcP3Tpl5sUh67E
+	4HiUCZq259I1HUhntEU8y6F2mRTEbo10WHaAw1DNMzd9iigZscOh7Xq1kQC8ONBmGTkfKv
+	yf4D+ih2IPLbWSiRo58rPEqSLXTd84eBUhrNYOSEAcFWbU//vjaim0wpn+HgHfVRQI5LTM
+	XsCSQEqqN81Psk36X3kWYECcROyXCOdc1Rg4PLX8wT0OnziW9nzVVU8HHTAVvg==
 From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: thomas.petazzoni@bootlin.com,
 	yoann.congal@smile.fr,
 	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-Subject: [scarthgap][PATCH 6/7] curl: fix CVE-2026-92391
-Date: Fri,  6 Nov 2026 15:41:33 +0100
-Message-ID: <20261106144134.1370928-7-joaomarcos.costa@bootlin.com>
+Subject: [scarthgap][PATCH 3/7] curl: fix CVE-2026-87865
+Date: Fri,  6 Nov 2026 15:41:30 +0100
+Message-ID: <20261106144134.1370928-4-joaomarcos.costa@bootlin.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261106144134.1370928-1-joaomarcos.costa@bootlin.com>
 References: <20261106144134.1370928-1-joaomarcos.costa@bootlin.com>
@@ -39,108 +39,94 @@ X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2026 14:41:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249661
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249658
 
 This vulnerability, marked as High [1], was fixed upstream [2] since
 v8.23.0.
 
 Backport the fix to curl v8.7.1.
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-92391
-[2] https://curl.se/docs/CVE-2026-92391.html
+[1] https://nvd.nist.gov/vuln/detail/cve-2026-87865
+[2] https://curl.se/docs/CVE-2026-87865.html
 
 Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
 sta@bootlin.com>
 ---
- .../curl/curl/CVE-2026-92391.patch            | 185 ++++++++++++++++++
+ .../curl/curl/CVE-2026-87865.patch            | 212 ++++++++++++++++++
  meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
- 2 files changed, 186 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92391.patch
+ 2 files changed, 213 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87865.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-92391.patch b/meta/r=
-ecipes-support/curl/curl/CVE-2026-92391.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-87865.patch b/meta/r=
+ecipes-support/curl/curl/CVE-2026-87865.patch
 new file mode 100644
-index 0000000000..d7d9c3e18a
+index 0000000000..9abc7bb427
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-92391.patch
-@@ -0,0 +1,185 @@
-+From 7ba6d6df009e5dba8cced2607005825a142ff525 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sun, 13 Sep 2026 00:06:44 +0200
-+Subject: [PATCH] mime: do curl_mime_free() non-recursively
++++ b/meta/recipes-support/curl/curl/CVE-2026-87865.patch
+@@ -0,0 +1,212 @@
++From e86ba6bcce298c3fe5d9f4a5848311cb458dfbc0 Mon Sep 17 00:00:00 2001
++From: Bobbeh Rhino <bobbeh@rhino.Rhino>
++Date: Tue, 8 Sep 2026 06:33:27 -0400
++Subject: [PATCH] libssh2: match hashed known_hosts entries by host
 +MIME-Version: 1.0
 +Content-Type: text/plain; charset=3DUTF-8
 +Content-Transfer-Encoding: 8bit
 +
-+Verify with test 3595: deeply nested curl_mime_free()
++libssh2 does not expose the plaintext name for hashed entries. Check
++each entry key against the requested hostname before using its key type.
++Otherwise an unrelated hashed entry can select the wrong algorithm.
 +
-+Closes #22927
++Add an SFTP regression test 3500 with an unrelated hashed entry before
++the requested host.
 +
-+CVE: CVE-2026-92391
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/d7546809d=
-5bd548b69ec49fca26565c8f6f0d344]
++Closes #22874
++
++CVE: CVE-2026-87865
++Upstream-Status: Backport [https://github.com/curl/curl/commit/323c184b6=
+bdf5b1988a10c0a61560666e1588149]
 +
 +Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 +---
-+ lib/mime.c              | 28 +++++++++++++----
-+ tests/data/Makefile.inc |  2 +-
-+ tests/data/test3595     | 21 +++++++++++++
-+ tests/libtest/lib3595.c | 70 +++++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 114 insertions(+), 7 deletions(-)
-+ create mode 100644 tests/data/test3595
-+ create mode 100644 tests/libtest/lib3595.c
++ lib/vssh/libssh2.c        | 16 +++++++--
++ tests/data/Makefile.inc   |  2 +-
++ tests/data/test3500       | 47 +++++++++++++++++++++++++
++ tests/libtest/Makefile.am |  2 +-
++ tests/libtest/test3500.pl | 72 +++++++++++++++++++++++++++++++++++++++
++ 5 files changed, 134 insertions(+), 5 deletions(-)
++ create mode 100644 tests/data/test3500
++ create mode 100755 tests/libtest/test3500.pl
 +
-+diff --git a/lib/mime.c b/lib/mime.c
-+index 5bc6d38931..254d6c93aa 100644
-+--- a/lib/mime.c
-++++ b/lib/mime.c
-+@@ -1180,20 +1180,36 @@ void Curl_mime_cleanpart(curl_mimepart *part)
-+   }
-+ }
-+=20
-+-/* Recursively delete a mime handle and its parts. */
-++/* Non-recursively delete a mime handle and its parts. */
-+ void curl_mime_free(curl_mime *mime)
-+ {
-+   curl_mimepart *part;
-+=20
-+-  if(mime) {
-+-    mime_subparts_unbind(mime);  /* Be sure it's not referenced anymore=
-. */
-+-    while(mime->firstpart) {
-+-      part =3D mime->firstpart;
-++  if(!mime)
-++    return;
-++
-++  mime_subparts_unbind(mime);  /* Be sure it is not referenced anymore.=
- */
-++
-++  while(mime) {
-++    part =3D mime->firstpart;
-++    if(part) {
-+       mime->firstpart =3D part->nextpart;
-++      if(part->kind =3D=3D MIMEKIND_MULTIPART && part->arg &&
-++         part->freefunc =3D=3D mime_subparts_free) {
-++        curl_mime *subparts =3D (curl_mime *)part->arg;
-++        part->freefunc =3D NULL;
-++        cleanup_part_content(part);
-++        subparts->parent =3D mime->parent;
-++        mime->parent =3D (curl_mimepart *)subparts;
-++      }
-+       Curl_mime_cleanpart(part);
-+       free(part);
++diff --git a/lib/vssh/libssh2.c b/lib/vssh/libssh2.c
++index 3cfbe126c6..28946cf598 100644
++--- a/lib/vssh/libssh2.c
+++++ b/lib/vssh/libssh2.c
++@@ -876,9 +876,19 @@ static CURLcode ssh_force_knownhost_key_type(struct=
+ Curl_easy *data)
++             break;
++           }
++         }
++-        else {
++-          found =3D true;
++-          break;
+++        else if(store->key) {
+++          int keycheck =3D libssh2_knownhost_checkp(
+++            sshc->kh, conn->origin->hostname,
+++            (conn->origin->port !=3D PORT_SSH) ? conn->origin->port : -=
+1,
+++            store->key, strlen(store->key),
+++            LIBSSH2_KNOWNHOST_TYPE_PLAIN |
+++              LIBSSH2_KNOWNHOST_KEYENC_BASE64 |
+++              (store->typemask & LIBSSH2_KNOWNHOST_KEY_MASK),
+++            NULL);
+++          if(keycheck =3D=3D LIBSSH2_KNOWNHOST_CHECK_MATCH) {
+++            found =3D TRUE;
+++            break;
+++          }
++         }
++       }
 +     }
-+-    free(mime);
-++    else {
-++      curl_mime *parent =3D (curl_mime *)mime->parent;
-++      free(mime);
-++      mime =3D parent;
-++    }
-+   }
-+ }
-+=20
 +diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-+index 614b6baf4b..9efae9cefe 100644
++index aafd309a9d..614b6baf4b 100644
 +--- a/tests/data/Makefile.inc
 ++++ b/tests/data/Makefile.inc
 +@@ -262,4 +262,4 @@ test3024 test3025 test3026 test3027 test3028 test302=
@@ -148,128 +134,180 @@ index 0000000000..d7d9c3e18a
 + \
 + test3100 test3101 test3102 test3103 \
 + test3200 \
-+-test3201 test3202 test3500
-++test3201 test3202 test3500 test3595
-+diff --git a/tests/data/test3595 b/tests/data/test3595
++-test3201 test3202
+++test3201 test3202 test3500
++diff --git a/tests/data/test3500 b/tests/data/test3500
 +new file mode 100644
-+index 0000000000..b2b1dd26c2
++index 0000000000..1bcf3bc17d
 +--- /dev/null
-++++ b/tests/data/test3595
-+@@ -0,0 +1,21 @@
+++++ b/tests/data/test3500
++@@ -0,0 +1,47 @@
 ++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
 ++<testcase>
 ++<info>
 ++<keywords>
-++mime
+++SFTP
+++known_hosts
+++libssh2
 ++</keywords>
 ++</info>
 ++
+++# Server-side
+++<reply>
+++<data>
+++Test data
+++for hashed known hosts
+++</data>
+++</reply>
+++
 ++# Client-side
 ++<client>
-++<tool>
-++lib%TESTNUMBER
-++</tool>
+++<server>
+++sftp
+++</server>
+++<features>
+++sftp
+++libssh2
+++!badlibssh
+++</features>
+++<precheck>
+++%PERL %SRCDIR/libtest/test3500.pl %LOGDIR/server/curl_host_key.pub %LOG=
+DIR/known%TESTNUMBER "[%HOSTIP]:%SSHPORT"
+++</precheck>
 ++<name>
-++curl_mime_free
+++SFTP matches requested hashed known_hosts entry
 ++</name>
+++<command>
+++--knownhosts %LOGDIR/known%TESTNUMBER --key %LOGDIR/server/curl_client_=
+key --pubkey %LOGDIR/server/curl_client_key.pub -u %USER: sftp://%HOSTIP:=
+%SSHPORT%SFTP_PWD/%LOGDIR/file%TESTNUMBER.txt
+++</command>
+++<file name=3D"%LOGDIR/file%TESTNUMBER.txt">
+++Test data
+++for hashed known hosts
+++</file>
 ++</client>
 ++
+++# Verify data after the test has been "shot"
 ++<verify>
 ++</verify>
 ++</testcase>
-+diff --git a/tests/libtest/lib3595.c b/tests/libtest/lib3595.c
-+new file mode 100644
-+index 0000000000..1f343f503e
++diff --git a/tests/libtest/Makefile.am b/tests/libtest/Makefile.am
++index 8ae972a248..bb44e1745f 100644
++--- a/tests/libtest/Makefile.am
+++++ b/tests/libtest/Makefile.am
++@@ -36,7 +36,7 @@ AM_CPPFLAGS =3D -I$(top_srcdir)/include        \
++               -I$(top_builddir)/lib          \
++               -I$(top_srcdir)/lib
++=20
++-EXTRA_DIST =3D test307.pl test610.pl test613.pl test1013.pl test1022.pl=
+   \
+++EXTRA_DIST =3D test307.pl test610.pl test613.pl test1013.pl test1022.pl=
+ test3500.pl \
++   Makefile.inc notexists.pl CMakeLists.txt mk-lib1521.pl .checksrc
++=20
++ CFLAG_CURL_SYMBOL_HIDING =3D @CFLAG_CURL_SYMBOL_HIDING@
++diff --git a/tests/libtest/test3500.pl b/tests/libtest/test3500.pl
++new file mode 100755
++index 0000000000..d95f54cecf
 +--- /dev/null
-++++ b/tests/libtest/lib3595.c
-+@@ -0,0 +1,70 @@
-++/**********************************************************************=
+++++ b/tests/libtest/test3500.pl
++@@ -0,0 +1,72 @@
+++#!/usr/bin/env perl
+++#**********************************************************************=
 *****
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or =
-sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY O=
-F ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ **********************************************************************=
-*****/
-++#include "unitcheck.h"
+++#                                  _   _ ____  _
+++#  Project                     ___| | | |  _ \| |
+++#                             / __| | | | |_) | |
+++#                            | (__| |_| |  _ <| |___
+++#                             \___|\___/|_| \_\_____|
+++#
+++# Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+++#
+++# This software is licensed as described in the file COPYING, which
+++# you should have received as part of this distribution. The terms
+++# are also available at https://curl.se/docs/copyright.html.
+++#
+++# You may opt to use, copy, modify, merge, publish, distribute and/or s=
+ell
+++# copies of the Software, and permit persons to whom the Software is
+++# furnished to do so, under the terms of the COPYING file.
+++#
+++# This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF=
+ ANY
+++# KIND, either express or implied.
+++#
+++# SPDX-License-Identifier: curl
+++#
+++#######################################################################=
+####
+++use strict;
+++use warnings;
 ++
-++static CURLcode test_lib3595(const char *arg)
-++{
-++  UNITTEST_BEGIN_SIMPLE
+++use Digest::SHA qw(hmac_sha1);
+++use MIME::Base64 qw(encode_base64);
 ++
-++#if !defined(CURL_DISABLE_MIME) &&                                     =
- \
-++  (!defined(CURL_DISABLE_HTTP) ||                                      =
- \
-++   !defined(CURL_DISABLE_SMTP) ||                                      =
- \
-++   !defined(CURL_DISABLE_IMAP))
-++
-++  curl_mime *root =3D NULL;
-++  curl_mime *current =3D NULL;
-++  curl_mime *sub =3D NULL;
-++  curl_mimepart *part =3D NULL;
-++  int i;
-++
-++  if(curl_global_init(CURL_GLOBAL_ALL) !=3D CURLE_OK) {
-++    curl_mfprintf(stderr, "curl_global_init() failed\n");
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  /* Create a deeply nested mime structure to verify that non-recursive
-++     curl_mime_free works properly. */
-++  (void)arg;
-++  root =3D curl_mime_init(NULL);
-++  fail_unless(root !=3D NULL, "curl_mime_init root failed");
-++  current =3D root;
-++
-++  for(i =3D 0; i < 50; i++) {
-++    part =3D curl_mime_addpart(current);
-++    fail_unless(part !=3D NULL, "curl_mime_addpart failed");
-++    sub =3D curl_mime_init(NULL);
-++    fail_unless(sub !=3D NULL, "curl_mime_init sub failed");
-++    curl_mime_subparts(part, sub);
-++    current =3D sub;
-++  }
-++
-++  /* Free deep structure */
-++  curl_mime_free(root);
-++  curl_global_cleanup();
-++#else
-++  (void)arg;
-++#endif
-++
-++  UNITTEST_END_SIMPLE
+++sub errout {
+++    print $_[0] . "\n";
+++    exit 1;
 ++}
+++
+++if(@ARGV !=3D 3) {
+++    errout "Usage: $0 host-public-key known-hosts-file target";
+++}
+++
+++my ($hostkey_file, $knownhosts_file, $target) =3D @ARGV;
+++open(my $hostkey, "<", $hostkey_file) or errout "$!";
+++my $hostkey_line =3D <$hostkey>;
+++close($hostkey) or errout "$!";
+++
+++my ($hostkey_algo, $hostkey_data) =3D split(/\s+/, $hostkey_line);
+++if(!$hostkey_algo || !$hostkey_data) {
+++    errout "Failed parsing SSH host public key";
+++}
+++
+++my $rsa_key =3D
+++    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCgSyqrUP2xhqLqkyopVapoKeucYI=
+p" .
+++    "ZXeUqj+Q9WLWyXka5re62Y3R/lxZUXtkJjlpdD2LNMFenNlDQvPaXH5Utllt+c3z" =
+.
+++    "wOkOLy7RXX5S37SfQFm/0fPkZqoZfMDB6XDcwA4cakjCRn4oZyKs8dWAxoNaTtYc" =
+.
+++    "nKKMJ6rmc8PttykJw9fwiKAjPyYf21/BMvWIzu9req+TrDA/Jcd2UAug94CikJIX" =
+.
+++    "uwKmSYleAOo4eJWx8GyujgEgZn05eq+K1LSg9RqRVIxOdqjoE5K3abBfs0rmUuLd" =
+.
+++    "MFh7nHseTFXYbKzpz46V7iZMfFuoyURrzVsqGUm+/m7dxBM98In12kOm3";
+++my $ed25519_key =3D
+++    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqmXRY8k+W9GtpWxYru6ELAXYHdXq=
+" .
+++    "jf33ziITGTiJUN";
+++my $other_key =3D $hostkey_algo eq "ssh-ed25519" ? $rsa_key : $ed25519_=
+key;
+++
+++my $salt =3D "curl-knownhosts-test";
+++my $salt64 =3D encode_base64($salt, "");
+++my $hash64 =3D encode_base64(hmac_sha1("unrelated.invalid", $salt), "")=
+;
+++my $target_hash64 =3D encode_base64(hmac_sha1($target, $salt), "");
+++
+++open(my $knownhosts, ">", $knownhosts_file) or errout "$!";
+++print $knownhosts "|1|$salt64|$hash64 $other_key\n";
+++print $knownhosts "|1|$salt64|$target_hash64 $hostkey_algo $hostkey_dat=
+a\n";
+++close($knownhosts) or errout "$!";
+++
+++exit 0;
 diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-suppo=
 rt/curl/curl_8.7.1.bb
-index 39e804a1c3..3bd1b92d44 100644
+index 9ca79a14fc..40de36e151 100644
 --- a/meta/recipes-support/curl/curl_8.7.1.bb
 +++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -48,6 +48,7 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-87865.patch \
-            file://CVE-2026-92386.patch \
-            file://CVE-2026-92389.patch \
-+           file://CVE-2026-92391.patch \
+@@ -45,6 +45,7 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-80230.patch \
+            file://CVE-2026-86409.patch \
+            file://CVE-2026-87864.patch \
++           file://CVE-2026-87865.patch \
             "
 =20
  SRC_URI:append:class-nativesdk =3D " \
