@@ -1,373 +1,132 @@
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4616.1794032732794100288
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.20])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5204.1794037381404467256
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2026 22:25:32 -0800
+ Fri, 06 Nov 2026 23:43:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dxhARms3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dz9awKXF;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a1b4af0664-dc11e968-5f26-42ca-a779-ac7e8e91923f-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794032731;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=Bx2mQxm7khPpJMEW7htJ1ZteAbWgtTxdaBVXOsumOFU=;
-	b=dxhARms3WFFedewCcLzxap8k7B9zxrPmRByxK+258yxFXzjQeaJdoHJXQ0GHO4oX
-	Y2EBB9/4Bkg9haLQDHTWZd4psd0mv9Y+ak8scYWbikI1HzIOaKph/ghruXDnk6EG/dO
-	BVeLZSyNQUB9VdMxfK3BEoTozi0q2Ts0ZRP5/ROQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794032731;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=Bx2mQxm7khPpJMEW7htJ1ZteAbWgtTxdaBVXOsumOFU=;
-	b=dz9awKXFByLBIcaRZvxpdpPjyVQ3WmJfXQgx0XWO+5MszguhCoGMfUMF60efBz8Z
-	/oUOiaqT14w77Dzu0ap5EUeyxULS28Zz6XxhlYZzNSJbIkfGS08ihGz/dOeR6Rw10tP
-	5OsMaqOihUAhgS+rmwULPQd4Ermzr5QtbRRf/myM=
-Content-Type: multipart/mixed; boundary="===============1066029595607471459=="
-MIME-Version: 1.0
-From: auh@yoctoproject.org
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=0ad4Dv6Y;
+ spf=pass (domain: est.tech, ip: 52.101.83.20, mailfrom: anders.heimer@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jOI1cogO735EYHylZ9Jgfi0cmVMqBvNcr/6mscqCiy1SRz08ky9NCVei6cp72nH9L9drr7xMGsWfBTw7r+UmEUVqQ7d7/72OVq8BHxsGPF93wx0QRXYtFyyxHGLqSyHp8T0fBSNbhgRzfXR39P5j2Ub/IsD60qTh91yPDgmUb8oyiTKNusAVI7PJna5OY/keygoP/y7++xHjeO1nNqTOBkklggf8AEake/8LZOkez7DUgJW1bxbpFEqOLm2QEhrrz7T8rk3Awy5h+IG5ih7MNbUs+ZO1ToId4Vfrjjkh148mZjznNm4dD0WBQJ4u4dYaoRvju6mOznbB0S39JK5rNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jrG4IqUB1bqcwLymWRay0VnJAHYVKtWFEGYisBTumho=;
+ b=OUif9BGHuQ/0xdZD70dvMkKQcGhybkGvGRQd33OlQY1DZk02bqyhDvhvcnia+xo9kn9gUiYrSjxGny9qJErPCO4uATBTEOO1gO5clmals/Z6daC6EeA2AHe05Pt/xp7HiaQ6NUo1QoMci5W+jpOMvdU/s2s0pdsx7ic4+pFZPGUxvVuIXc592pDsl1rbUf6J8cOCQz8E+TUn0ZMP1Hn3bXcmTs+3jsxBAR+p4IUPh7WtP86+zSZH0f044g7LC6fhstAyeu6gu1KeF0ts1o/6KY9nRm+T//5JEeU3mXeX3+PNV94mwcMF230byxfDJRazIS4r7EV3gLgKDHpu/NLcCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jrG4IqUB1bqcwLymWRay0VnJAHYVKtWFEGYisBTumho=;
+ b=0ad4Dv6YuqhVspxpHoDWWX7ttHFfyyt2epicKeKWvBtSRhQdHriV4uwbfEGAw/FjL5Q1FkYmUJ8EF2w0HhEvOG9PsxcNKtC8sjZMrpdYhcPfuCTxpM1wcHSQ1A+BJs4L+frp0CqMLBGD9ialhGJtmWVs4uXhE2nTauR1ysfOn0MifDu3jlnKpHrpKgmYvweVtAOTxw8Ve7bIEWU7RT+x3Y3xwc/M48roVFMDks6N9rnOYimWDMEbw9KgQEUnY/Ypabo6t5i0VJKYzn97R9o/3HPomyMnIYxoTF4kapxb8RjLyqaGx0SXzyFObLxVoKVyKHIQiP8ExWSO3vyzcpsm0Q==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from PAXP189MB1776.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:138::10)
+ by DB9P189MB1857.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:326::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Sat, 7 Nov
+ 2026 07:42:55 +0000
+Received: from PAXP189MB1776.EURP189.PROD.OUTLOOK.COM
+ ([fe80::53aa:751:3d59:b6b7]) by PAXP189MB1776.EURP189.PROD.OUTLOOK.COM
+ ([fe80::53aa:751:3d59:b6b7%6]) with mapi id 15.21.0592.010; Sat, 7 Nov 2026
+ 07:42:55 +0000
+From: Anders Heimer <anders.heimer@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xserver-xorg: upgrading to 21.1.25 SUCCEEDED
-Message-ID: <010101a1b4af0664-dc11e968-5f26-42ca-a779-ac7e8e91923f-000000@us-west-2.amazonses.com>
-Date: Sat, 7 Nov 2026 06:25:31 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.07-54.240.27.45
+CC: tim.orling@konsulko.com,
+	Anders Heimer <anders.heimer@est.tech>,
+	Henrik Nilsson <henrik.b.nilsson@est.tech>
+Subject: [blacksail][PATCH] python3-certifi: correct license to MPL-2.0
+Date: Sat,  7 Nov 2026 08:42:01 +0100
+Message-ID: <20261107074201.1995747-1-anders.heimer@est.tech>
+X-Mailer: git-send-email 2.53.0
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: GV3PEPF0001DC0B.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:400::274) To PAXP189MB1776.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:138::10)
+Return-Path: anders.heimer@est.tech
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXP189MB1776:EE_|DB9P189MB1857:EE_
+X-MS-Office365-Filtering-Correlation-Id: f407db8f-a17f-4898-5579-08df3ca2bc78
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|11063799006|56012099006|261021135927099003|261021123027099003|261021121427099003|261022105027099003|261009223027099003|261026140227099003|261028144727099003|261102123227099003|10067099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: +bm7loT9NX5fA+pPA+vVw/7BTYPuevaYa29Zrmuu1vgMLI8li840xQL7oAwhBj9TJiFGkvD7esdND+J4ku6AGh9epj0pq9lV6XytlW8SY4ZIcoPuWi7GvfA0L8O3l8+86rzDrRlThiJWeVolLQAiaYJLLXO5LPDDN3N5jlARUjz3XXNNt+PAmQR3N7ee9Dx6eW+sqYD2OhSxVhg8hLFhkfx2x3ArQNnj6SbPu2BmdVj+i7lTnBGAHIkg/etLOjwjmiiiw0+hN2MC8PvZfgqXncT8RyK8fsva33+90vnpHw4YSnIUAKZ9vIPCpxwMh2T50Z8UZZbcLZh8Tr8uFpB7oHXNEV+PpcCgJigIXvXGq9/pMtXpGKbJQaPDqxN+v3q+p9BsMpC9FvA7ENINol35hZPKbefz4XTlr9SeoqEuJrzUn0Ctpy34d6h4AqBQ3Y3ijum5A52fcCxZyQnzU7+2rWSl0ITVB1vVILjVjwwEpKU9+hFN7cVQo+0ZVwsRrtlWxgbQ1YG6dsn8RCxTSAy1iJGDfCBA5cV8RNV/11vdl0MSpWMPy02lKf9p1Y1XnOjmHwUezaADied1/bSDb7vnCcbE0L0iRPRMWdKtmBkw2PE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXP189MB1776.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(11063799006)(56012099006)(261021135927099003)(261021123027099003)(261021121427099003)(261022105027099003)(261009223027099003)(261026140227099003)(261028144727099003)(261102123227099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Vac7atSxzFjJgaFWYy66X6Q6f9mrT2bLveG79RLNnVh9dchcLbFHbaSg2/zB?=
+ =?us-ascii?Q?LtIPyQ5hqQTy33F/jas8dLeoCCYXVmpn+6JZB9dSnDSCOmuQCm9qR475Laha?=
+ =?us-ascii?Q?HYbdRg3P0wK+Pe9x+Pi5AFfRrUcgeF1UGXZy4yX6PUHc+htYwxrObVQp7tVO?=
+ =?us-ascii?Q?71H2iIJ5iQki90iJUpUWQrd5+mt5ovFfoMYuNJt54LrdUWGH80HiCrDOSQM5?=
+ =?us-ascii?Q?5a7CMHicFI7Px/kh/peftIpG6YsNN8DUsH3O/aI2qU3A9KCS4C4B23xzIiaA?=
+ =?us-ascii?Q?udmDUph6ll9WEkh3guTgKklOuaLeTGZXnNgyxbArAy9t3iO8j5DcOEWa7bm1?=
+ =?us-ascii?Q?lbRST+oabtymxCWVEYgnVWkYq7Qsbu91QYr5SjhR4bSl24FaBA8C7HbUDEAz?=
+ =?us-ascii?Q?C1bRmfAYLcBnVK0XqABcoYj9ot8ZwJGQtLtVtPf6MW2xXzyB4cI/bZlCCGgE?=
+ =?us-ascii?Q?g4STuskFBLJDnZTJ6elKEMJaQ00izO6yCHcVxLpgPzPkuDcIs2ts6uxx61um?=
+ =?us-ascii?Q?Fkibq5Dujv2MsHf7d1FO9UjoO6GIKDSZfVYX8XpbeJ4BklLV/GcDCgr+1vrR?=
+ =?us-ascii?Q?BEf/kR9w9QPka3cWSoOIluAwZcXYggwAo2R41RRG2OJQIWbXnVM3KFgDFQsU?=
+ =?us-ascii?Q?iDl4gp1exRQuuAvbFljHyhQ33x4rfZFn/W6vw10lrVs7LrvqojxzgjJ3UufU?=
+ =?us-ascii?Q?8ggc1thJhZadpi/u9K18h+fah/zTtERuPMTmmTgRv+psbG6HYWUPxLSPqItp?=
+ =?us-ascii?Q?thlzPJzOwaXaZBYev/IV6F8bVY0I551PzAtA6AH5u9isWYH738+SL1Mzj3+G?=
+ =?us-ascii?Q?LY9m40q0sC3yb67nO8FdTFu3+P6tLkNaH1DfvddWiEUQDW3rEuEXk7qWDDIR?=
+ =?us-ascii?Q?mOs86Z7s46ECoTCmXSxiitiPNXpUKWMJs41ji/pxfZ8vzya0f+AFlwU+HgXV?=
+ =?us-ascii?Q?RhBTnkjBhv7aa2XlSZtSdYrDKACcwnrUwqxQUGjuqWOx9LmAeZ4xIXVLGqPg?=
+ =?us-ascii?Q?hJNkpCqV7sj9MhP1o6iV17Ov3kXbxSYh7UA7KDvoKxjfKBFR0efBnROeVNlC?=
+ =?us-ascii?Q?Dwt0ZXMolYfh4Oj8O2jE/8prBhml2Xg2f/4Ofb/APnuc3c3qgFPkj0EH9lXX?=
+ =?us-ascii?Q?/sNbaXKqmM+vkaO7+G2RuIzmEXkKmZNaA5Yw14STwZQTo6u65rIVH7nzAqXD?=
+ =?us-ascii?Q?+i1DRfaTuyWy44WKBpl5Xcw5C3jbjWJpD20nP/gbGXXNhra1zDjL97JLxu7O?=
+ =?us-ascii?Q?g6kqw9IEMoJsxFgeSe5OZsdss36OtxZZJnCvAWXZ+o0kTB37d4wFSn+pkmEA?=
+ =?us-ascii?Q?kXyWMMB2hpAxy0mtMBng11PZYTqg35DB6jAwasOMRLF1UnvxhaRP7AXU/aEs?=
+ =?us-ascii?Q?KorkrBAtae4YEnzuU+eD9mplZ9oJ3gdnlDoLLwXiTg7I3/S7snmrl96g5QxR?=
+ =?us-ascii?Q?x1qD+MwGJ4pcgnh6s6jqi65l7DXKSkvDXHeDLULIw5Kh6x1Hoz5JOKcRbTRS?=
+ =?us-ascii?Q?Jpl1IY5Aatn5AP3Tibg95vOlXr+Se9oJEHWmZ/Oq3S/n72O5+e+CeoGkp9bW?=
+ =?us-ascii?Q?O9Wlj5GNI/90/P0bLLhaTyak+Acxu7oOv7NLxSS8ul/PzkooF2foHxuDbSaQ?=
+ =?us-ascii?Q?5EooiwYLtcoG+NFPepHQ1JhJs19eZrbLOzxDJ6k3bkGpoTGA+oUESKQGilwU?=
+ =?us-ascii?Q?7mfVO/Ompsaa/PBRU5cUmnaAe3BLCOb1+dN2u83XDSiiUCRyo3vPGdrSjvd3?=
+ =?us-ascii?Q?7dwDtStVbg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: f407db8f-a17f-4898-5579-08df3ca2bc78
+X-MS-Exchange-CrossTenant-AuthSource: PAXP189MB1776.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2026 07:42:55.5411
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V69uSQxZn7/zZWXcBClWZRwNg43eFat/xVdbks2JWrHQDLECbGMq5ACMupAgjWkPicApOpqLkkU47+b6ovwbVw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB1857
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 07 Nov 2026 06:25:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249729
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 07 Nov 2026 07:43:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249737
+Content-Type: text/plain; charset="utf-8"
 
---===============1066029595607471459==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Correct the LICENSE variable to match upstreams MPL 2.0.
+The LICENSE file and checksum remain the same.
 
-Hello,
+License-Update: Change declared license from ISC to MPL 2.0
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xserver-xorg* to *21.1.25* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-xserver-xorg-upgrade-21.1.24-21.1.25.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 6fde9dc3fb5bd5ecc7f75fe2f86fb9dd292b0c8b Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 7 Nov 2026 05:53:29 +0000
-Subject: [PATCH] xserver-xorg: upgrade 21.1.24 -> 21.1.25
-
-xserver 21.1.25
-Xi: clean up gesture sprite traces in WindowGone
-Xi: add bounds check for barrier events in input_constrain_cursor
-dix: remove passive grabs referencing a device on removal
-present: unlink notifies from window list in present_clear_window_notifies
-glx: validate dataBytes against cmdlen in RenderLarge first request
-Xi: validate modifier values in ProcXIPassiveUngrabDevice
-randr: fix size and offset in RRChangeProviderProperty PrependMode
-xkb: fix CheckKeySyms overwriting request-range symsPerKey entries
-xkb: widen size_syms, num_syms, size_acts, num_acts to unsigned int
-xkb: allocate names->keys to MAP_LENGTH in XkbAllocNames
-xkb: NULL text pointer after free in _CheckSetDoodad error path
-glamor: Set `need_free_region` immediately after pixman region allocation
-xf86: mark wasset unused in xf86UnblockSIGIO() compatibility wrapper
-xkb: Keep the group counts of a loaded keymap in range
-xkb: Never recompute a keymap's group count down to zero
-xkb: Default to one group whenever a keymap reports none
-xkb: Guard XkbAdjustGroup() against a keymap with no groups
-damage: Unlink a damage from the list it was actually inserted on
-meson: check cpu_family() instead of cpu()
-meson: Fix build on FreeBSD/powerpc*
-RegionValidate: Fix double free of badreg->data on the error path
-Xi: byte-swap XIQueryDevice ScrollClass flags
-Xi: byte-swap DeviceChanged valuator and scroll data
-meson: only install dri3.h if building dri3 support
-Handle -Wimplicit-fallthrough warnings from gcc 16.1
-xf86: handle malloc failure in DoSubstitution()
-exa: silence -Wold-style-declaration warning from gcc 16
-test: silence -Wanalyzer-null-argument warnings in strndup tests
-xf86: silence -Wanalyzer-possible-null-dereference warning in parser
-xf86: prevent passing NULL pointer as strcat() destination
-xf86: prevent passing NULL pointer as strcpy destination
-xkb: Fix -Wcalloc-transposed-args warning in _XkbCopyGeom()
-enhance: popen-fdopen-error-handling
-xorg.conf.man: Fix escape sequence typo
-config/udev: guard against NULL subsystem in fallback bus id
-xfree86: set GPU screen FB/DGA defaults on runtime hotplug
-Fix use-after-free caused by duplicate glyphs in one glyphset
-fb: Don't widen the planemask over padding bits when ROOTLESS_SAFEALPHA is set
-xquartz/GL: Log failures on the indirect GLX make-current path
-modesetting: Check for NULL mode_output before printing warning message
-ci: Prevent duplicate pipelines for MRs
-gitlab CI: add workflow rules
-xquartz: Activate the app via xp_window_activate() in -set_front_process:
+Reviewed-by: Henrik Nilsson <henrik.b.nilsson@est.tech>
+Signed-off-by: Anders Heimer <anders.heimer@est.tech>
+(cherry picked from commit dc95b2df65be00643f280a5ee9c885131f001263)
 ---
- ...1-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch | 2 +-
- .../{xserver-xorg_21.1.24.bb => xserver-xorg_21.1.25.bb}        | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.24.bb => xserver-xorg_21.1.25.bb} (92%)
+ meta/recipes-devtools/python/python3-certifi_2026.10.19.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
-index 14831b1a9b..a8f02d85f6 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
-@@ -1,4 +1,4 @@
--From d387580194e91ad73f896a9669757612c8601c92 Mon Sep 17 00:00:00 2001
-+From 2822e2e7a32ea1c42db5877cab23d2a33ac9c290 Mon Sep 17 00:00:00 2001
- From: California Sullivan <california.l.sullivan@intel.com>
- Date: Fri, 16 Mar 2018 17:23:11 -0700
- Subject: [PATCH] xf86pciBus.c: use Intel ddx only for pre-gen4 hardware
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.25.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.25.bb
-index 8d7f9ae14d..b875efdebe 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.25.bb
-@@ -1,7 +1,7 @@
- require xserver-xorg.inc
- 
- SRC_URI += " file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch"
--SRC_URI[sha256sum] = "1a4eb36ca65cc3b1b936566d677a9786e13c11cd5806e951ac55f3f5ce3984af"
-+SRC_URI[sha256sum] = "6ad4e3c7b59a309b32c92e5c15ce1267110f9e13f1ac78da62361a628da1a0eb"
- 
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
--- 
-2.47.1
-
-
---===============1066029595607471459==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/xserver-xorg: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg: SRC_URI changed from "https://www.x.org/releases//individual/xserver/xorg-server-21.1.24.tar.xz file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch" to "https://www.x.org/releases//individual/xserver/xorg-server-21.1.25.tar.xz file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch"
-packages/x86-64-v3-poky-linux/xserver-xorg: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xf86-video-modesetting: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xf86-video-modesetting: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dbg: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dbg: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dbg: PKGSIZE changed from 18735664 to 18740280 (+0%)
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dev: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dev: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dev: PKGSIZE changed from 1155696 to 1156011 (+0%)
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-doc: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-doc: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-doc: PKGSIZE changed from 132739 to 132740 (+0%)
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dbe: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dbe: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dri: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dri: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dri2: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dri2: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-extmod: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-extmod: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-glx: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-glx: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-record: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-record: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-fbdev: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-fbdev: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-locale: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-locale: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-exa: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-exa: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libafb: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libafb: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libcfb: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libcfb: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libint10: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libint10: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libmfb: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libmfb: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libwfb: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libwfb: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libxf1bpp: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libxf1bpp: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libxf4bpp: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libxf4bpp: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-xaa: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-xaa: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-multimedia-modules: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-multimedia-modules: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-sdl: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-sdl: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-src: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-src: FILELIST: directory renamed /usr/src/debug/xserver-xorg/21.1.24/dri3 -> /usr/src/debug/xserver-xorg/21.1.25/dri3, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/i2c -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/i2c, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/utils/gtf -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/utils/gtf, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/drivers/inputtest -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/drivers/inputtest, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/ddc -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/ddc, directory renamed /usr/src/debug/xserver-xorg/21.1.24/exa -> /usr/src/debug/xserver-xorg/21.1.25/exa, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support/misc -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/os-support/misc, directory renamed /usr/src/debug/xser
- ver-xorg/21.1.24/render -> /usr/src/debug/xserver-xorg/21.1.25/render, directory renamed /usr/src/debug/xserver-xorg/21.1.24/xfixes -> /usr/src/debug/xserver-xorg/21.1.25/xfixes, directory renamed /usr/src/debug/xserver-xorg/21.1.24/xkb -> /usr/src/debug/xserver-xorg/21.1.25/xkb, directory renamed /usr/src/debug/xserver-xorg/21.1.24/present -> /usr/src/debug/xserver-xorg/21.1.25/present, directory renamed /usr/src/debug/xserver-xorg/21.1.24/randr -> /usr/src/debug/xserver-xorg/21.1.25/randr, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/vgahw -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/vgahw, directory renamed /usr/src/debug/xserver-xorg/21.1.24/dix -> /usr/src/debug/xserver-xorg/21.1.25/dix, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/glamor_egl -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/glamor_egl, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/x86emu -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/x86emu, di
- rectory renamed /usr/src/debug/xserver-xorg/21.1.24/mi -> /usr/src/debug/xserver-xorg/21.1.25/mi, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/x86emu/x86emu -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/x86emu/x86emu, directory renamed /usr/src/debug/xserver-xorg/21.1.24/miext/damage -> /usr/src/debug/xserver-xorg/21.1.25/miext/damage, directory renamed /usr/src/debug/xserver-xorg/21.1.24/config -> /usr/src/debug/xserver-xorg/21.1.25/config, directory renamed /usr/src/debug/xserver-xorg/21.1.24/glamor -> /usr/src/debug/xserver-xorg/21.1.25/glamor, directory renamed /usr/src/debug/xserver-xorg/21.1.24/record -> /usr/src/debug/xserver-xorg/21.1.25/record, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/int10 -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/int10, directory renamed /usr/src/debug/xserver-xorg/21.1.24/Xext -> /usr/src/debug/xserver-xorg/21.1.25/Xext, directory renamed /usr/src/debug/xserver-xorg/21.1.24/miext/shadow -> /usr/src/
- debug/xserver-xorg/21.1.25/miext/shadow, directory renamed /usr/src/debug/xserver-xorg/21.1.24/os -> /usr/src/debug/xserver-xorg/21.1.25/os, directory renamed /usr/src/debug/xserver-xorg/21.1.24/composite -> /usr/src/debug/xserver-xorg/21.1.25/composite, directory renamed /usr/src/debug/xserver-xorg/21.1.24/dbe -> /usr/src/debug/xserver-xorg/21.1.25/dbe, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/dri2/pci_ids -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/dri2/pci_ids, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/dixmods -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/dixmods, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support/shared -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/os-support/shared, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/parser -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/parser, directory renamed /usr/src/debug/xserver-xorg/21.1.24/fb -> /usr/src/debug/xserver-x
- org/21.1.25/fb, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/dri -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/dri, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support/bus -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/os-support/bus, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/exa -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/exa, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/drivers/modesetting -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/drivers/modesetting, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/modes -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/modes, directory renamed /usr/src/debug/xserver-xorg/21.1.24/damageext -> /usr/src/debug/xserver-xorg/21.1.25/damageext, directory renamed /usr/src/debug/xserver-xorg/21.1.24/glx -> /usr/src/debug/xserver-xorg/21.1.25/glx, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/fbdevhw -> /usr/src/de
- bug/xserver-xorg/21.1.25/hw/xfree86/fbdevhw, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/common -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/common, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/xkb -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/xkb, directory renamed /usr/src/debug/xserver-xorg/21.1.24/Xi -> /usr/src/debug/xserver-xorg/21.1.25/Xi, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/os-support, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/shadowfb -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/shadowfb, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/dri2 -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/dri2, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support/linux -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/os-support/linux, directory renamed /usr/src/debug/xserver-xorg/21.1
- .24/hw/xfree86/ramdac -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/ramdac, directory renamed /usr/src/debug/xserver-xorg/21.1.24/include -> /usr/src/debug/xserver-xorg/21.1.25/include, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/loader -> /usr/src/debug/xserver-xorg/21.1.25/hw/xfree86/loader, directory renamed /usr/src/debug/xserver-xorg/21.1.24/miext/sync -> /usr/src/debug/xserver-xorg/21.1.25/miext/sync
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-src: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-src: PKGSIZE changed from 11908448 to 11916983 (+0%)
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-staticdev: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-staticdev: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-utils: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-utils: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-xephyr: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-xephyr: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-xvfb: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-xvfb: PV changed from "21.1.24" to "21.1.25"
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg: PKGV changed from 21.1.24 [default] to 21.1.25 [default]
-packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg: PV changed from "21.1.24" to "21.1.25"
-
---===============1066029595607471459==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="xserver-xorg-changelog.txt"
-
-xserver 21.1.25
-Xi: clean up gesture sprite traces in WindowGone
-Xi: add bounds check for barrier events in input_constrain_cursor
-dix: remove passive grabs referencing a device on removal
-present: unlink notifies from window list in present_clear_window_notifies
-glx: validate dataBytes against cmdlen in RenderLarge first request
-Xi: validate modifier values in ProcXIPassiveUngrabDevice
-randr: fix size and offset in RRChangeProviderProperty PrependMode
-xkb: fix CheckKeySyms overwriting request-range symsPerKey entries
-xkb: widen size_syms, num_syms, size_acts, num_acts to unsigned int
-xkb: allocate names->keys to MAP_LENGTH in XkbAllocNames
-xkb: NULL text pointer after free in _CheckSetDoodad error path
-glamor: Set `need_free_region` immediately after pixman region allocation
-xf86: mark wasset unused in xf86UnblockSIGIO() compatibility wrapper
-xkb: Keep the group counts of a loaded keymap in range
-xkb: Never recompute a keymap's group count down to zero
-xkb: Default to one group whenever a keymap reports none
-xkb: Guard XkbAdjustGroup() against a keymap with no groups
-damage: Unlink a damage from the list it was actually inserted on
-meson: check cpu_family() instead of cpu()
-meson: Fix build on FreeBSD/powerpc*
-RegionValidate: Fix double free of badreg->data on the error path
-Xi: byte-swap XIQueryDevice ScrollClass flags
-Xi: byte-swap DeviceChanged valuator and scroll data
-meson: only install dri3.h if building dri3 support
-Handle -Wimplicit-fallthrough warnings from gcc 16.1
-xf86: handle malloc failure in DoSubstitution()
-exa: silence -Wold-style-declaration warning from gcc 16
-test: silence -Wanalyzer-null-argument warnings in strndup tests
-xf86: silence -Wanalyzer-possible-null-dereference warning in parser
-xf86: prevent passing NULL pointer as strcat() destination
-xf86: prevent passing NULL pointer as strcpy destination
-xkb: Fix -Wcalloc-transposed-args warning in _XkbCopyGeom()
-enhance: popen-fdopen-error-handling
-xorg.conf.man: Fix escape sequence typo
-config/udev: guard against NULL subsystem in fallback bus id
-xfree86: set GPU screen FB/DGA defaults on runtime hotplug
-Fix use-after-free caused by duplicate glyphs in one glyphset
-fb: Don't widen the planemask over padding bits when ROOTLESS_SAFEALPHA is set
-xquartz/GL: Log failures on the indirect GLX make-current path
-modesetting: Check for NULL mode_output before printing warning message
-ci: Prevent duplicate pipelines for MRs
-gitlab CI: add workflow rules
-xquartz: Activate the app via xp_window_activate() in -set_front_process:
-
---===============1066029595607471459==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xserver-xorg-upgrade-21.1.24-21.1.25.patch"
-
-RnJvbSA2ZmRlOWRjM2ZiNWJkNWVjYzdmNzVmZTJmODZmYjlkZDI5MmIwYzhiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgNyBOb3YgMjAyNiAwNTo1MzoyOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHhz
-ZXJ2ZXIteG9yZzogdXBncmFkZSAyMS4xLjI0IC0+IDIxLjEuMjUKCnhzZXJ2ZXIgMjEuMS4yNQpY
-aTogY2xlYW4gdXAgZ2VzdHVyZSBzcHJpdGUgdHJhY2VzIGluIFdpbmRvd0dvbmUKWGk6IGFkZCBi
-b3VuZHMgY2hlY2sgZm9yIGJhcnJpZXIgZXZlbnRzIGluIGlucHV0X2NvbnN0cmFpbl9jdXJzb3IK
-ZGl4OiByZW1vdmUgcGFzc2l2ZSBncmFicyByZWZlcmVuY2luZyBhIGRldmljZSBvbiByZW1vdmFs
-CnByZXNlbnQ6IHVubGluayBub3RpZmllcyBmcm9tIHdpbmRvdyBsaXN0IGluIHByZXNlbnRfY2xl
-YXJfd2luZG93X25vdGlmaWVzCmdseDogdmFsaWRhdGUgZGF0YUJ5dGVzIGFnYWluc3QgY21kbGVu
-IGluIFJlbmRlckxhcmdlIGZpcnN0IHJlcXVlc3QKWGk6IHZhbGlkYXRlIG1vZGlmaWVyIHZhbHVl
-cyBpbiBQcm9jWElQYXNzaXZlVW5ncmFiRGV2aWNlCnJhbmRyOiBmaXggc2l6ZSBhbmQgb2Zmc2V0
-IGluIFJSQ2hhbmdlUHJvdmlkZXJQcm9wZXJ0eSBQcmVwZW5kTW9kZQp4a2I6IGZpeCBDaGVja0tl
-eVN5bXMgb3ZlcndyaXRpbmcgcmVxdWVzdC1yYW5nZSBzeW1zUGVyS2V5IGVudHJpZXMKeGtiOiB3
-aWRlbiBzaXplX3N5bXMsIG51bV9zeW1zLCBzaXplX2FjdHMsIG51bV9hY3RzIHRvIHVuc2lnbmVk
-IGludAp4a2I6IGFsbG9jYXRlIG5hbWVzLT5rZXlzIHRvIE1BUF9MRU5HVEggaW4gWGtiQWxsb2NO
-YW1lcwp4a2I6IE5VTEwgdGV4dCBwb2ludGVyIGFmdGVyIGZyZWUgaW4gX0NoZWNrU2V0RG9vZGFk
-IGVycm9yIHBhdGgKZ2xhbW9yOiBTZXQgYG5lZWRfZnJlZV9yZWdpb25gIGltbWVkaWF0ZWx5IGFm
-dGVyIHBpeG1hbiByZWdpb24gYWxsb2NhdGlvbgp4Zjg2OiBtYXJrIHdhc3NldCB1bnVzZWQgaW4g
-eGY4NlVuYmxvY2tTSUdJTygpIGNvbXBhdGliaWxpdHkgd3JhcHBlcgp4a2I6IEtlZXAgdGhlIGdy
-b3VwIGNvdW50cyBvZiBhIGxvYWRlZCBrZXltYXAgaW4gcmFuZ2UKeGtiOiBOZXZlciByZWNvbXB1
-dGUgYSBrZXltYXAncyBncm91cCBjb3VudCBkb3duIHRvIHplcm8KeGtiOiBEZWZhdWx0IHRvIG9u
-ZSBncm91cCB3aGVuZXZlciBhIGtleW1hcCByZXBvcnRzIG5vbmUKeGtiOiBHdWFyZCBYa2JBZGp1
-c3RHcm91cCgpIGFnYWluc3QgYSBrZXltYXAgd2l0aCBubyBncm91cHMKZGFtYWdlOiBVbmxpbmsg
-YSBkYW1hZ2UgZnJvbSB0aGUgbGlzdCBpdCB3YXMgYWN0dWFsbHkgaW5zZXJ0ZWQgb24KbWVzb246
-IGNoZWNrIGNwdV9mYW1pbHkoKSBpbnN0ZWFkIG9mIGNwdSgpCm1lc29uOiBGaXggYnVpbGQgb24g
-RnJlZUJTRC9wb3dlcnBjKgpSZWdpb25WYWxpZGF0ZTogRml4IGRvdWJsZSBmcmVlIG9mIGJhZHJl
-Zy0+ZGF0YSBvbiB0aGUgZXJyb3IgcGF0aApYaTogYnl0ZS1zd2FwIFhJUXVlcnlEZXZpY2UgU2Ny
-b2xsQ2xhc3MgZmxhZ3MKWGk6IGJ5dGUtc3dhcCBEZXZpY2VDaGFuZ2VkIHZhbHVhdG9yIGFuZCBz
-Y3JvbGwgZGF0YQptZXNvbjogb25seSBpbnN0YWxsIGRyaTMuaCBpZiBidWlsZGluZyBkcmkzIHN1
-cHBvcnQKSGFuZGxlIC1XaW1wbGljaXQtZmFsbHRocm91Z2ggd2FybmluZ3MgZnJvbSBnY2MgMTYu
-MQp4Zjg2OiBoYW5kbGUgbWFsbG9jIGZhaWx1cmUgaW4gRG9TdWJzdGl0dXRpb24oKQpleGE6IHNp
-bGVuY2UgLVdvbGQtc3R5bGUtZGVjbGFyYXRpb24gd2FybmluZyBmcm9tIGdjYyAxNgp0ZXN0OiBz
-aWxlbmNlIC1XYW5hbHl6ZXItbnVsbC1hcmd1bWVudCB3YXJuaW5ncyBpbiBzdHJuZHVwIHRlc3Rz
-CnhmODY6IHNpbGVuY2UgLVdhbmFseXplci1wb3NzaWJsZS1udWxsLWRlcmVmZXJlbmNlIHdhcm5p
-bmcgaW4gcGFyc2VyCnhmODY6IHByZXZlbnQgcGFzc2luZyBOVUxMIHBvaW50ZXIgYXMgc3RyY2F0
-KCkgZGVzdGluYXRpb24KeGY4NjogcHJldmVudCBwYXNzaW5nIE5VTEwgcG9pbnRlciBhcyBzdHJj
-cHkgZGVzdGluYXRpb24KeGtiOiBGaXggLVdjYWxsb2MtdHJhbnNwb3NlZC1hcmdzIHdhcm5pbmcg
-aW4gX1hrYkNvcHlHZW9tKCkKZW5oYW5jZTogcG9wZW4tZmRvcGVuLWVycm9yLWhhbmRsaW5nCnhv
-cmcuY29uZi5tYW46IEZpeCBlc2NhcGUgc2VxdWVuY2UgdHlwbwpjb25maWcvdWRldjogZ3VhcmQg
-YWdhaW5zdCBOVUxMIHN1YnN5c3RlbSBpbiBmYWxsYmFjayBidXMgaWQKeGZyZWU4Njogc2V0IEdQ
-VSBzY3JlZW4gRkIvREdBIGRlZmF1bHRzIG9uIHJ1bnRpbWUgaG90cGx1ZwpGaXggdXNlLWFmdGVy
-LWZyZWUgY2F1c2VkIGJ5IGR1cGxpY2F0ZSBnbHlwaHMgaW4gb25lIGdseXBoc2V0CmZiOiBEb24n
-dCB3aWRlbiB0aGUgcGxhbmVtYXNrIG92ZXIgcGFkZGluZyBiaXRzIHdoZW4gUk9PVExFU1NfU0FG
-RUFMUEhBIGlzIHNldAp4cXVhcnR6L0dMOiBMb2cgZmFpbHVyZXMgb24gdGhlIGluZGlyZWN0IEdM
-WCBtYWtlLWN1cnJlbnQgcGF0aAptb2Rlc2V0dGluZzogQ2hlY2sgZm9yIE5VTEwgbW9kZV9vdXRw
-dXQgYmVmb3JlIHByaW50aW5nIHdhcm5pbmcgbWVzc2FnZQpjaTogUHJldmVudCBkdXBsaWNhdGUg
-cGlwZWxpbmVzIGZvciBNUnMKZ2l0bGFiIENJOiBhZGQgd29ya2Zsb3cgcnVsZXMKeHF1YXJ0ejog
-QWN0aXZhdGUgdGhlIGFwcCB2aWEgeHBfd2luZG93X2FjdGl2YXRlKCkgaW4gLXNldF9mcm9udF9w
-cm9jZXNzOgotLS0KIC4uLjEteGY4NnBjaUJ1cy5jLXVzZS1JbnRlbC1kZHgtb25seS1mb3ItcHJl
-LWdlbjQtaGFyZHdhci5wYXRjaCB8IDIgKy0KIC4uLi97eHNlcnZlci14b3JnXzIxLjEuMjQuYmIg
-PT4geHNlcnZlci14b3JnXzIxLjEuMjUuYmJ9ICAgICAgICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdl
-ZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1n
-cmFwaGljcy94b3JnLXhzZXJ2ZXIve3hzZXJ2ZXIteG9yZ18yMS4xLjI0LmJiID0+IHhzZXJ2ZXIt
-eG9yZ18yMS4xLjI1LmJifSAoOTIlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy94b3JnLXhzZXJ2ZXIveHNlcnZlci14b3JnLzAwMDEteGY4NnBjaUJ1cy5jLXVzZS1JbnRlbC1k
-ZHgtb25seS1mb3ItcHJlLWdlbjQtaGFyZHdhci5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy94b3JnLXhzZXJ2ZXIveHNlcnZlci14b3JnLzAwMDEteGY4NnBjaUJ1cy5jLXVzZS1JbnRlbC1k
-ZHgtb25seS1mb3ItcHJlLWdlbjQtaGFyZHdhci5wYXRjaAppbmRleCAxNDgzMWIxYTliLi5hOGYw
-MmQ4NWY2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy14c2VydmVyL3hz
-ZXJ2ZXIteG9yZy8wMDAxLXhmODZwY2lCdXMuYy11c2UtSW50ZWwtZGR4LW9ubHktZm9yLXByZS1n
-ZW40LWhhcmR3YXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmcteHNlcnZl
-ci94c2VydmVyLXhvcmcvMDAwMS14Zjg2cGNpQnVzLmMtdXNlLUludGVsLWRkeC1vbmx5LWZvci1w
-cmUtZ2VuNC1oYXJkd2FyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkMzg3NTgwMTk0ZTkx
-YWQ3M2Y4OTZhOTY2OTc1NzYxMmM4NjAxYzkyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSAyODIyZTJlN2EzMmVhMWM0MmRiNTg3N2NhYjIzZDJhMzNhYzljMjkwIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogQ2FsaWZvcm5pYSBTdWxsaXZhbiA8Y2FsaWZvcm5pYS5sLnN1bGxp
-dmFuQGludGVsLmNvbT4KIERhdGU6IEZyaSwgMTYgTWFyIDIwMTggMTc6MjM6MTEgLTA3MDAKIFN1
-YmplY3Q6IFtQQVRDSF0geGY4NnBjaUJ1cy5jOiB1c2UgSW50ZWwgZGR4IG9ubHkgZm9yIHByZS1n
-ZW40IGhhcmR3YXJlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy14c2Vy
-dmVyL3hzZXJ2ZXIteG9yZ18yMS4xLjI0LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-eHNlcnZlci94c2VydmVyLXhvcmdfMjEuMS4yNS5iYgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy14c2VydmVyL3hzZXJ2ZXIteG9yZ18y
-MS4xLjI0LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy14c2VydmVyL3hz
-ZXJ2ZXIteG9yZ18yMS4xLjI1LmJiCmluZGV4IDhkN2Y5YWUxNGQuLmI4NzVlZmRlYmUgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXhzZXJ2ZXIveHNlcnZlci14b3JnXzIx
-LjEuMjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmcteHNlcnZlci94c2VydmVy
-LXhvcmdfMjEuMS4yNS5iYgpAQCAtMSw3ICsxLDcgQEAKIHJlcXVpcmUgeHNlcnZlci14b3JnLmlu
-YwogCiBTUkNfVVJJICs9ICIgZmlsZTovLzAwMDEteGY4NnBjaUJ1cy5jLXVzZS1JbnRlbC1kZHgt
-b25seS1mb3ItcHJlLWdlbjQtaGFyZHdhci5wYXRjaCIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIx
-YTRlYjM2Y2E2NWNjM2IxYjkzNjU2NmQ2NzdhOTc4NmUxM2MxMWNkNTgwNmU5NTFhYzU1ZjNmNWNl
-Mzk4NGFmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjZhZDRlM2M3YjU5YTMwOWIzMmM5MmU1YzE1
-Y2UxMjY3MTEwZjllMTNmMWFjNzhkYTYyMzYxYTYyOGRhMWEwZWIiCiAKICMgVGhlc2UgZXh0ZW5z
-aW9ucyBhcmUgbm93IGludGVncmF0ZWQgaW50byB0aGUgc2VydmVyLCBzbyBkZWNsYXJlIHRoZSBt
-aWdyYXRpb24KICMgcGF0aCBmb3IgaW4tcGxhY2UgdXBncmFkZXMuCi0tIAoyLjQ3LjEKCg==
-
---===============1066029595607471459==--
+diff --git a/meta/recipes-devtools/python/python3-certifi_2026.10.19.bb b/m=
+eta/recipes-devtools/python/python3-certifi_2026.10.19.bb
+index 02cdbe9a08..e65e5ede60 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2026.10.19.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2026.10.19.bb
+@@ -4,7 +4,7 @@ Python code. This is useful for verifying HTTP requests, fo=
+r example.  This is t
+ which ships with the Requests codebase, and is derived from Mozilla Firefo=
+x's canonical set."
+ HOMEPAGE =3D "http://certifi.io/"
+=20
+-LICENSE =3D "ISC"
++LICENSE =3D "MPL-2.0"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D11618cb6a975948679286b1211bd573=
+c"
+=20
+ SRC_URI[sha256sum] =3D "035c1e85572b141bf1c3a3eff0e33a8eb74917522f2559075f=
+f8d2fea780a1ae"
