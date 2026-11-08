@@ -1,125 +1,592 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2931.1794165934385807238
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4101.1794169781545007215
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2026 11:25:34 -0800
+ Sun, 08 Nov 2026 12:29:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: roosesweb@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a208d93758so2055115e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 11:25:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794165932; x=1794770732;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RZr2J9IQT5nGrlrfk3tJS0GONJvZHArIJzHQ456x3Xc=;
-        b=yOK8Zpwhm1SdvqqfUieNK3zIrNjo2xCV0bCSxOMISxx/Qpmd/UI2ZEhhKL9Izd7lyX
-         OvJUnktZTXphLSMY+mRcNuluuJHQr9sYBS82WSsOTc77lneoxSW0ttuLGCJ2D+pKh4BV
-         /3qkrl0w79UF6rpTdsQWhRcibFP6v7M9fQ6nU378hJsUiFAkMQVPoQq+EJE69i7K2rhz
-         HubMnG+7eRceqRozB5KLHOjAMSygjnXd5jNMnDdrqnXNl8rSVNIHlt9HgjjAe+ga9uhN
-         3OFglo0TXe/GqvndcW7yb8TZgablFb8D36D7YjrfcmU7PCoQ7JjEUI8Uv6R76VN5MwV1
-         3cMQ==
-X-Gm-Message-State: APuU4Z8ZV6ZRmxHiKcYvuTAGk0X5L4o0BthUJ+jv0G9WA+JDhpjG/woI
-	AGX3hWjp0Iu76RzSa3PNsqKIIrEOSjPPDbhJfmtaek27RMNJ0p7VpsRFBvwGlQ==
-X-Gm-Gg: AYBFou2MGvGBNAUGzSJKoWlM7Jcyutdl6JPmtKiIyLznhJGHadOEBjsSSJd1esrDkxm
-	O3K/UpYdy1BPK8ZsYryN7l0kN3NdYWgfnTy48Pirni/6Z2kqnyDmozOQRrlz9O1KTyN/TUW8ASU
-	Ny8saSG83IdMrEmifFBTUdJXyFrukNCYbIdx1YBLR4w9v0Dh8V39L7PXSqnxKKV6V5+xMn9SMbn
-	HgKdcov2vWitEH7pxl+rXY3mhenf5TY2AHK1T0u2TZf5dZEAgwOovXmcSWyNbnB24q0Seh0sRfv
-	ed1edh9TQK2gkMUG0VtKKScOEnhyTnf7i3+8MVmm1qO7H47KpbMmUKIvN0/bOMpwuxGWY97tUOh
-	Ml2/vDuZkDvHo4mj7qlFHtw/WXsn/4ZGKI5gWz5opSNi5Of7A5VcEydb7dTeGun0i/apmZUb4ou
-	8t0yAvsdNJ3TwqwluX8W+qrESpiro7sShWyTXgfgO+s/W513vzCEnj0B3pgro8pTiUt0YEjQJfI
-	a78k4UO17J5l7YqoH1tx5gRkKA2906SKH5WPUE+/6YybR8ELnoOrBmy52HRk84XoNOK24zBh3dL
-	ueR3+x8dQRNg9WySsprwBgQMN4B3Mf+Xe9xkeisTvAKtj2zIXZwHk8WwpxpHsZgTdJ/7dD/nsOX
-	1hADAWjtBAcSu9gSKfWzgYeB7E4jOTsRCv9REQqyL05GoO/Tpt+SCnGKeXg==
-X-Received: by 2002:a05:6000:22c1:b0:48d:eec6:308b with SMTP id ffacd0b85a97d-4958a9b260amr4952367f8f.21.1794165932345;
-        Sun, 08 Nov 2026 11:25:32 -0800 (PST)
-Return-Path: <roosesweb@gmail.com>
-Received: from mother.tail4535.ts.net ([2a02:810d:ae08:d00:e5a9:b4b9:ba2:5901])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49592f39c8asm5453136f8f.7.2026.11.08.11.25.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 11:25:32 -0800 (PST)
-From: Thomas Roos <thomas@roosesweb.de>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=XTV/UDRj;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20261108202937c404f65bd9000207b0-z81ug_@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261108202937c404f65bd9000207b0
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 08 Nov 2026 21:29:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=pprq/xybtb4wdXGjbG9DiR3gvwp22aQnCQCZ5UT4CLY=;
+ b=XTV/UDRjl25K9Ad4kAKFYzqdylD6hUgthGhsSwRTKmIz7rkxDSxmZjy/WPxyOuoXTyap49
+ xuc1PcXBlFx5DN3iR67gc6G6rKIc9b/hea0mK38GPyWTHeA2a7D5Mk05Iyv8FQWIo4RCL9G0
+ eHkesx8rREbASeCwJuCS3ltRCAWASWI7YQvJJ6rhfKU6BRWzDvhAamm9gsOpbOpXjmd3zLdn
+ 6xgBbPQE3f2L5GFe+w/WBUyQDTRiU+d+A+DS+310ITWgadeS47PqHMB0Dk8w0ckRFlrdglFq
+ EE8R76umv7clkYWQXCif3A6XN8JWb2j7lz3iBMuNCs16lzok8bxANDsw==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Thomas Roos <thomas@roosesweb.de>
-Subject: [PATCH] python3-cython: upgrade 3.2.9 -> 3.3.1
-Date: Sun,  8 Nov 2026 20:25:25 +0100
-Message-ID: <20261108192525.1082675-1-thomas@roosesweb.de>
-X-Mailer: git-send-email 2.56.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH 1/2] popt: patch CVE-2026-18839
+Date: Sun,  8 Nov 2026 21:28:54 +0100
+Message-ID: <20261108202855.2743590-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 19:25:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249763
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 20:29:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249764
 Content-Type: text/plain; charset="utf-8"
 
-PyAV 19.0.0, which Home Assistant 2026.11 pins for its stream and
-generic camera integrations, requires Cython 3.3: its generated code
-uses __Pyx_BEGIN_CRITICAL_SECTION, which Cython 3.2 does not provide.
+From: Peter Marko <peter.marko@siemens.com>
 
-Refresh the line numbers of the build path patch for 3.3.1.
+Pick commits from PR [1] referencing this CVE.
+Modify the patch by converting cmake change to autotools.
 
-License-Update: none, LICENSE.txt is unchanged.
-AI-Generated: Claude Code, Claude Opus 5.5
-Signed-off-by: Thomas Roos <thomas@roosesweb.de>
+[1] https://github.com/rpm-software-management/popt/pull/142
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
+ .../popt/popt/CVE-2026-18839-01.patch         |  89 ++++
+ .../popt/popt/CVE-2026-18839-02.patch         | 419 ++++++++++++++++++
+ meta/recipes-support/popt/popt_1.19.bb        |   4 +-
+ 3 files changed, 511 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
 
-PyAV 19.0.0 (needed by Home Assistant 2026.11) requires Cython >= 3.3.0.
-Built with this upgrade for qemux86-64: python3-av 19.0.0, aiohttp, yarl,
-multidict, frozenlist, propcache (with its 0.5.4 upgrade in meta-python),
-numpy, pandas, scipy and uvloop. python3-propcache 0.4.1 in meta-python
-pins Cython ~= 3.2.0 and fails with this patch; the meta-python series
-upgrades it to 0.5.4, so the two should land together.
-Checked with bodnuti: patchtest 10 pass, 0 fail; no new findings.
-
-Related changes for the Home Assistant 2026.11 upgrade. They belong
-together and are meant to land as a set:
-
-- openembedded-core: python3-cython 3.2.9 -> 3.3.1
-  https://github.com/thomas-roos/openembedded-core/commits/ha-2026.11
-- meta-openembedded (meta-python): two series, fixes (6) and updates (13)
-  https://github.com/thomas-roos/meta-openembedded/commits/ha-2026.11
-- meta-python-ai: 7 upgrades
-  https://github.com/zboszor/meta-python-ai/pull/46
-- meta-homeassistant: Home Assistant 2026.3.1 -> 2026.11.0
-  https://github.com/meta-homeassistant/meta-homeassistant/pull/207
-
-AI disclosure: the patch and its commit message were written with Claude
-Code (Claude Opus 5.5), as the AI-Generated tag says. I reviewed the
-change and ran the builds above.
-
- ...1-Replace-not-predictable-build-path-prefix-with-hardc.patch | 2 +-
- .../python/{python3-cython_3.2.9.bb => python3-cython_3.3.1.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-cython_3.2.9.bb => python3-cython_3.3.1.bb} (93%)
-
-diff --git a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-index 573a53ee56..9481b9c16f 100644
---- a/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-+++ b/meta/recipes-devtools/python/python3-cython/0001-Replace-not-predictable-build-path-prefix-with-hardc.patch
-@@ -56,7 +56,7 @@ diff --git a/Cython/Compiler/ModuleNode.py b/Cython/Compiler/ModuleNode.py
- index 34f1b32..b09350b 100644
- --- a/Cython/Compiler/ModuleNode.py
- +++ b/Cython/Compiler/ModuleNode.py
--@@ -877,7 +877,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
-+@@ -899,7 +899,9 @@ class ModuleNode(Nodes.Node, Nodes.BlockNode):
-          code.put_generated_by()
-          if metadata:
-              code.putln("/* BEGIN: Cython Metadata")
-diff --git a/meta/recipes-devtools/python/python3-cython_3.2.9.bb b/meta/recipes-devtools/python/python3-cython_3.3.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-cython_3.2.9.bb
-rename to meta/recipes-devtools/python/python3-cython_3.3.1.bb
-index 3457a91490..49f1e83cb0 100644
---- a/meta/recipes-devtools/python/python3-cython_3.2.9.bb
-+++ b/meta/recipes-devtools/python/python3-cython_3.3.1.bb
-@@ -7,7 +7,7 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
+diff --git a/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch b/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
+new file mode 100644
+index 00000000000..c3cb7e319c8
+--- /dev/null
++++ b/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
+@@ -0,0 +1,89 @@
++From 4f5a070cd98aade2767677de22661f4854d4a195 Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Thu, 20 Aug 2026 13:46:32 +0300
++Subject: [PATCH] Bring in our own allocating printf() variants
++
++These are brought mostly as-is from rpm under a new POPT_ name, just
++with a slight change return an error on memory alloc failure whereas
++rpm exits on error.
++As the author of rvasprintf() and rasprintf() there, I'm at liberty to
++(re)license them under MIT as well.
++
++No functional changes here, just needed for sanity going forward.
++
++CVE: CVE-2026-18839
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/4f5a070cd98aade2767677de22661f4854d4a195]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/poptint.c | 38 ++++++++++++++++++++++++++++++++++++++
++ src/poptint.h |  4 ++++
++ 2 files changed, 42 insertions(+)
++
++diff --git a/src/poptint.c b/src/poptint.c
++index b8dc90f..6b61ae3 100644
++--- a/src/poptint.c
+++++ b/src/poptint.c
++@@ -192,3 +192,41 @@ POPT_fprintf (FILE * stream, const char * format, ...)
++ }
++ 
++ #endif	/* !defined(POPT_fprintf) */
+++
+++int POPT_vasprintf(char **strp, const char *fmt, va_list ap)
+++{
+++    char * p = NULL;
+++    va_list aq;
+++
+++    if (strp == NULL)
+++	return -1;
+++
+++    va_copy(aq, ap);
+++    int n = vsnprintf(NULL, 0, fmt, aq);
+++    va_end(aq);
+++
+++    if (n >= 0) {
+++	size_t nb = (size_t)n + 1;
+++	if ((p = malloc(nb))) {
+++	    va_copy(aq, ap);
+++	    n = vsnprintf(p, nb, fmt, aq);
+++	    va_end(aq);
+++	} else {
+++	    n = -1;
+++ 	}
+++    }
+++    *strp = p;
+++
+++    return n;
+++}
+++
+++int POPT_asprintf(char **strp, const char *fmt, ...)
+++{
+++    va_list ap;
+++
+++    va_start(ap, fmt);
+++    int n = POPT_vasprintf(strp, fmt, ap);
+++    va_end(ap);
+++
+++    return n;
+++}
++diff --git a/src/poptint.h b/src/poptint.h
++index 910d6f5..d4127b3 100644
++--- a/src/poptint.h
+++++ b/src/poptint.h
++@@ -10,6 +10,7 @@
++ #define H_POPTINT
++ 
++ #include <stdint.h>
+++#include <stdarg.h>
++ 
++ /**
++  * Wrapper to free(3), hides const compilation noise, permit NULL, return NULL.
++@@ -136,6 +137,9 @@ const char *POPT_next_char (const char *str);
++ 
++ #endif
++ 
+++int POPT_vasprintf(char **strp, const char *fmt, va_list ap);
+++int POPT_asprintf(char **strp, const char *fmt, ...);
+++
++ #if defined(ENABLE_NLS) && defined(HAVE_LIBINTL_H)
++ #include <libintl.h>
++ #endif
+diff --git a/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch b/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
+new file mode 100644
+index 00000000000..702403c2b3a
+--- /dev/null
++++ b/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
+@@ -0,0 +1,419 @@
++From af6f19e5968d48608a062d6d92d28b7fd248f8ea Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Thu, 20 Aug 2026 14:28:11 +0300
++Subject: [PATCH] Fix a bucketful of buffer overflows in popt --help printing
++
++singleOptionDefaultValue() based the default value string output buffer
++size on the available line length, without any sort of bounds checking
++for most data. This was trivial to overflow with longer option names.
++
++There was also this baffling ellipsizing of long string arguments, done
++done based on the rather arbitrary buffer size instead of screen limits.
++Ellipsizing of long values might be totally reasonable but that belongs
++to the display code that does all manner of formatting too.
++
++Just use our newly introduced allocating sprintf() to get it right for
++good. Drop the line length argument entirely, it was only used for
++a bad estimation of the needed buffer size.
++
++At the other end, make sure the indent length stays below available
++columns to avoid the underflow from help printing.
++
++Annoyingly we need multiple different test programs for this because
++the various crashes are quite sensitive to the max length of a single
++option in the table. There are more broken cases than these, but we
++can't test everything and these cover the CVE-2026-18839 case.
++Update the ellipsis test a bit because it no longer makes sense.
++
++Note: this depends on the previous commit.
++
++Fixes: CVE-2026-18839
++
++CVE: CVE-2026-18839
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/af6f19e5968d48608a062d6d92d28b7fd248f8ea]
++Convert cmake change to autotools.
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/popthelp.c    | 55 ++++++++++++++++-------------------------------
++ tests/Makefile.am | 10 ++++++++-
++ tests/test1.c     |  2 +-
++ tests/test4-1.c   | 33 ++++++++++++++++++++++++++++
++ tests/test4-2.c   | 33 ++++++++++++++++++++++++++++
++ tests/test4-3.c   | 33 ++++++++++++++++++++++++++++
++ tests/test4-4.c   | 33 ++++++++++++++++++++++++++++
++ tests/testit.sh   | 36 +++++++++++++++++++++++++++++--
++ 8 files changed, 195 insertions(+), 40 deletions(-)
++ create mode 100644 tests/test4-1.c
++ create mode 100644 tests/test4-2.c
++ create mode 100644 tests/test4-3.c
++ create mode 100644 tests/test4-4.c
++
++diff --git a/src/popthelp.c b/src/popthelp.c
++index fa31901..3950975 100644
++--- a/src/popthelp.c
+++++ b/src/popthelp.c
++@@ -197,79 +197,60 @@ getArgDescrip(const struct poptOption * opt,
++ 
++ /**
++  * Display default value for an option.
++- * @param lineLength	display positions remaining
++  * @param opt		option(s)
++  * @param translation_domain	translation domain
++  * @return
++  */
++ static char *
++-singleOptionDefaultValue(size_t lineLength,
+++singleOptionDefaultValue(
++ 		const struct poptOption * opt,
++ 		/* FIX: i18n macros disabled with lclint */
++ 		const char * translation_domain)
++ {
++     const char * defstr = D_(translation_domain, "default");
++-    char * le = malloc(4*lineLength + 1);
++-    char * l = le;
+++    char * l = NULL;
++ 
++-    if (le == NULL) return NULL;	/* XXX can't happen */
++-    *le = '\0';
++-    *le++ = '(';
++-    le = stpcpy(le, defstr);
++-    *le++ = ':';
++-    *le++ = ' ';
++   if (opt->arg) {	/* XXX programmer error */
++     poptArg arg = { .ptr = opt->arg };
++     switch (poptArgType(opt)) {
++     case POPT_ARG_VAL:
++     case POPT_ARG_INT:
++-	le += sprintf(le, "%d", arg.intp[0]);
+++	POPT_asprintf(&l, "(%s: %d)", defstr, arg.intp[0]);
++ 	break;
++     case POPT_ARG_SHORT:
++-	le += sprintf(le, "%hd", arg.shortp[0]);
+++	POPT_asprintf(&l, "(%s: %hd)", defstr, arg.shortp[0]);
++ 	break;
++     case POPT_ARG_LONG:
++-	le += sprintf(le, "%ld", arg.longp[0]);
+++	POPT_asprintf(&l, "(%s: %ld)", defstr, arg.longp[0]);
++ 	break;
++     case POPT_ARG_LONGLONG:
++-	le += sprintf(le, "%lld", arg.longlongp[0]);
+++	POPT_asprintf(&l, "(%s: %lld)", defstr, arg.longlongp[0]);
++ 	break;
++     case POPT_ARG_FLOAT:
++     {	double aDouble = (double) arg.floatp[0];
++-	le += sprintf(le, "%g", aDouble);
+++	POPT_asprintf(&l, "(%s: %g)", defstr, aDouble);
++     }	break;
++     case POPT_ARG_DOUBLE:
++-	le += sprintf(le, "%g", arg.doublep[0]);
+++	POPT_asprintf(&l, "(%s: %g)", defstr, arg.doublep[0]);
++ 	break;
++     case POPT_ARG_MAINCALL:
++-	le += sprintf(le, "%p", opt->arg);
+++	POPT_asprintf(&l, "(%s: %p)", defstr, opt->arg);
++ 	break;
++     case POPT_ARG_ARGV:
++-	le += sprintf(le, "%p", opt->arg);
+++	POPT_asprintf(&l, "(%s: %p)", defstr, opt->arg);
++ 	break;
++     case POPT_ARG_STRING:
++-    {	const char * s = arg.argv[0];
++-	if (s == NULL)
++-	    le = stpcpy(le, "null");
++-	else {
++-	    size_t limit = 4*lineLength - (le - l) - sizeof("\"\")");
++-	    size_t slen;
++-	    *le++ = '"';
++-	    strncpy(le, s, limit); le[limit] = '\0'; le += (slen = strlen(le));
++-	    if (slen == limit && s[limit])
++-		le[-1] = le[-2] = le[-3] = '.';
++-	    *le++ = '"';
++-	}
++-    }	break;
+++	if (arg.argv[0])
+++	    POPT_asprintf(&l, "(%s: \"%s\")", defstr, arg.argv[0]);
+++	else
+++	    POPT_asprintf(&l, "(%s: %s)", defstr, "null");
+++	break;
++     case POPT_ARG_NONE:
++     default:
++-	l = _free(l);
++ 	return NULL;
++ 	break;
++     }
++   }
++-    *le++ = ')';
++-    *le = '\0';
++ 
++     return l;
++ }
++@@ -286,7 +267,9 @@ static void singleOptionHelp(FILE * fp, columns_t columns,
++ 		const char * translation_domain)
++ {
++     size_t maxLeftCol = columns->cur;
++-    size_t indentLength = maxLeftCol + 5;
+++    size_t indentLength = maxLeftCol + 5 < columns->max ?
+++			maxLeftCol + 5 :
+++			columns->max - (maxLeftCol % columns->max) - 1;
++     size_t lineLength = columns->max - indentLength;
++     const char * help = D_(translation_domain, opt->descrip);
++     const char * argDescrip = getArgDescrip(opt, translation_domain);
++@@ -347,7 +330,7 @@ static void singleOptionHelp(FILE * fp, columns_t columns,
++ 
++ 	/* Choose type of output */
++ 	if (F_ISSET(opt, SHOW_DEFAULT)) {
++-	    defs = singleOptionDefaultValue(lineLength, opt, translation_domain);
+++	    defs = singleOptionDefaultValue(opt, translation_domain);
++ 	    if (defs) {
++ 		char * t = malloc((help ? strlen(help) : 0) +
++ 				strlen(defs) + sizeof(" "));
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 99fbf64..dfc60e7 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -11,7 +11,7 @@ EXTRA_DIST = testit.sh \
++ 
++ AM_CPPFLAGS = -I. -I$(top_srcdir)/src
++ 
++-noinst_PROGRAMS = test1 test2 tdict test3 tstuff
+++noinst_PROGRAMS = test1 test2 tdict test3 tstuff test4-1 test4-2 test4-3 test4-4
++ tstuff_SOURCES = tstuff.c
++ tstuff_LDFLAGS =
++ tstuff_LDADD = $(top_builddir)/src/libpopt.la
++@@ -24,6 +24,14 @@ test2_LDADD = $(top_builddir)/src/libpopt.la
++ test3_SOURCES = test3.c
++ test3_LDFLAGS = 
++ test3_LDADD = $(top_builddir)/src/libpopt.la
+++test4_1_SOURCES = test4-1.c
+++test4_1_LDADD = $(top_builddir)/src/libpopt.la
+++test4_2_SOURCES = test4-2.c
+++test4_2_LDADD = $(top_builddir)/src/libpopt.la
+++test4_3_SOURCES = test4-3.c
+++test4_3_LDADD = $(top_builddir)/src/libpopt.la
+++test4_4_SOURCES = test4-4.c
+++test4_4_LDADD = $(top_builddir)/src/libpopt.la
++ tdict_SOURCES = tdict.c
++ tdict_LDFLAGS = 
++ tdict_LDADD = $(top_builddir)/src/libpopt.la
++diff --git a/tests/test1.c b/tests/test1.c
++index 7a3e663..3007f27 100644
++--- a/tests/test1.c
+++++ b/tests/test1.c
++@@ -49,7 +49,7 @@ static char * oStr = (char *) -1;
++ static int singleDash = 0;
++ 
++ static const char * lStr =
++-"This tests default strings and exceeds the ... limit. "
+++"This tests default strings and exceeds the former ... limit. "
++ "123456789+123456789+123456789+123456789+123456789+ "
++ "123456789+123456789+123456789+123456789+123456789+ "
++ "123456789+123456789+123456789+123456789+123456789+ "
++diff --git a/tests/test4-1.c b/tests/test4-1.c
++new file mode 100644
++index 0000000..2a0f094
++--- /dev/null
+++++ b/tests/test4-1.c
++@@ -0,0 +1,33 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++static char *arg2 = "meh";
+++
+++static struct poptOption options[] = {
+++    { "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaargh",
+++	    '\0', POPT_ARG_STRING | POPT_ARGFLAG_SHOW_DEFAULT,
+++	    &arg2, 0, "Second", NULL },
+++
+++    POPT_AUTOALIAS
+++    POPT_AUTOHELP
+++    POPT_TABLEEND
+++};
+++
+++int main(int argc, const char *argv[])
+++{
+++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
+++
+++    poptReadDefaultConfig(optCon, 0);
+++
+++    int rc = poptGetNextOpt(optCon);
+++
+++    if (rc < -1) {
+++	fprintf(stderr, "%s: bad argument %s: %s\n",
+++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
+++		poptStrerror(rc));
+++	goto exit;
+++    }
+++
+++exit:
+++    poptFreeContext(optCon);
+++}
++diff --git a/tests/test4-2.c b/tests/test4-2.c
++new file mode 100644
++index 0000000..f9cd13d
++--- /dev/null
+++++ b/tests/test4-2.c
++@@ -0,0 +1,33 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++static char *arg3 = NULL;
+++
+++static struct poptOption options[] = {
+++    { "brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgh",
+++	    '\0', POPT_ARG_STRING | POPT_ARGFLAG_SHOW_DEFAULT,
+++	    &arg3, 0, "Third", NULL },
+++
+++    POPT_AUTOALIAS
+++    POPT_AUTOHELP
+++    POPT_TABLEEND
+++};
+++
+++int main(int argc, const char *argv[])
+++{
+++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
+++
+++    poptReadDefaultConfig(optCon, 0);
+++
+++    int rc = poptGetNextOpt(optCon);
+++
+++    if (rc < -1) {
+++	fprintf(stderr, "%s: bad argument %s: %s\n",
+++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
+++		poptStrerror(rc));
+++	goto exit;
+++    }
+++
+++exit:
+++    poptFreeContext(optCon);
+++}
++diff --git a/tests/test4-3.c b/tests/test4-3.c
++new file mode 100644
++index 0000000..a29f359
++--- /dev/null
+++++ b/tests/test4-3.c
++@@ -0,0 +1,33 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++static char *arg2 = NULL;
+++
+++static struct poptOption options[] = {
+++    { "aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrggggggh",
+++	    '\0', POPT_ARG_STRING,
+++	    &arg2, 0, "xxxxx", NULL },
+++
+++    POPT_AUTOALIAS
+++    POPT_AUTOHELP
+++    POPT_TABLEEND
+++};
+++
+++int main(int argc, const char *argv[])
+++{
+++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
+++
+++    poptReadDefaultConfig(optCon, 0);
+++
+++    int rc = poptGetNextOpt(optCon);
+++
+++    if (rc < -1) {
+++	fprintf(stderr, "%s: bad argument %s: %s\n",
+++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
+++		poptStrerror(rc));
+++	goto exit;
+++    }
+++
+++exit:
+++    poptFreeContext(optCon);
+++}
++diff --git a/tests/test4-4.c b/tests/test4-4.c
++new file mode 100644
++index 0000000..b1b1322
++--- /dev/null
+++++ b/tests/test4-4.c
++@@ -0,0 +1,33 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++static char *arg2 = NULL;
+++
+++static struct poptOption options[] = {
+++    { "aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgggggghyyyyy",
+++	    '\0', POPT_ARG_STRING,
+++	    &arg2, 0, "xxxxx", NULL },
+++
+++    POPT_AUTOALIAS
+++    POPT_AUTOHELP
+++    POPT_TABLEEND
+++};
+++
+++int main(int argc, const char *argv[])
+++{
+++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
+++
+++    poptReadDefaultConfig(optCon, 0);
+++
+++    int rc = poptGetNextOpt(optCon);
+++
+++    if (rc < -1) {
+++	fprintf(stderr, "%s: bad argument %s: %s\n",
+++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
+++		poptStrerror(rc));
+++	goto exit;
+++    }
+++
+++exit:
+++    poptFreeContext(optCon);
+++}
++diff --git a/tests/testit.sh b/tests/testit.sh
++index d26be3a..b8357c8 100755
++--- a/tests/testit.sh
+++++ b/tests/testit.sh
++@@ -149,8 +149,8 @@ Usage: test1 [OPTION...]
++       --nstr=STRING               POPT_ARG_STRING: (null) (default: null)
++       --lstr=STRING               POPT_ARG_STRING: \"123456789...\" (default:
++                                   \"This tests default strings and exceeds the
++-                                  ... limit.
++-                                  123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 1234567...\")
+++                                  former ... limit.
+++                                  123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ \")
++ 
++ arg for cb2
++   -c, --cb2=STRING                Test argument callbacks
++@@ -183,5 +183,37 @@ run_diff test3 "test3 - 2" test3-data/02.input test3-data/02.answer
++ run_diff test3 "test3 - 3" test3-data/03.input test3-data/03.answer
++ run_diff test3 "test3 - 5" test3-data/05.input test3-data/05.answer
++ 
+++run test4-1 "test 4-1 - 63" "\
+++Usage: test4-1 [OPTION...]
+++      --aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaargh=STRING     Second (default: \"meh\")
+++
+++Help options:
+++  -?, --help                                                                Show this help message
+++      --usage                                                               Display brief usage message" --help
+++
+++run test4-2 "test 4-2 - 64" "\
+++Usage: test4-2 [OPTION...]
+++      --brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgh=STRING     Third (default: null)
+++
+++Help options:
+++  -?, --help                                                                                                              Show this help message
+++      --usage                                                                                                             Display brief usage message" --help
+++
+++run test4-3 "test 4-3 - 65" "\
+++Usage: test4-3 [OPTION...]
+++      --aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrggggggh=STRING     xxxxx
+++
+++Help options:
+++  -?, --help                                                                   Show this help message
+++      --usage                                                                  Display brief usage message" --help
+++
+++run test4-4 "test 4-4 - 66" "\
+++Usage: test4-4 [OPTION...]
+++      --aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgggggghyyyyy=STRING     xxxxx
+++
+++Help options:
+++  -?, --help                                                                        Show this help message
+++      --usage                                                                       Display brief usage message" --help
+++
++ echo ""
++ echo "Passed."
+diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
+index 10c4b4b0af7..cd35ddcdc63 100644
+--- a/meta/recipes-support/popt/popt_1.19.bb
++++ b/meta/recipes-support/popt/popt_1.19.bb
+@@ -12,6 +12,8 @@ SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
+            file://run-ptest \
+            file://CVE-2026-18743.patch \
+            file://CVE-2026-18739.patch \
++           file://CVE-2026-18839-01.patch \
++           file://CVE-2026-18839-02.patch \
+            "
+ SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
  
--SRC_URI[sha256sum] = "d249c9022ab13286b17bd66f30609e800c5f95efeecb06168990c7a66cecde6c"
-+SRC_URI[sha256sum] = "e0e45989e821bef6aa9ae15c7d583ab5e055f7406c4b3624e49e06d24e90375a"
+@@ -24,7 +26,7 @@ do_compile_ptest() {
+ }
  
- inherit pypi setuptools3 cython
- 
--- 
-2.56.0
-
+ do_install_ptest() {
+-    for f in test1 test2 tdict test3 tstuff testit.sh test-poptrc; do
++    for f in test1 test2 tdict test3 test4-1 test4-2 test4-3 test4-4 tstuff testit.sh test-poptrc; do
+         ${B}/libtool --mode=install install ${B}/tests/$f ${D}/${PTEST_PATH}
+     done
+ }
