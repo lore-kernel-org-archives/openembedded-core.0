@@ -1,184 +1,118 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8305.1794115345268111178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9275.1794123067322997106
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Nov 2026 21:22:25 -0800
+ Sat, 07 Nov 2026 23:31:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fTH8SAg1;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AhbAE5fz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1b99b98a3-64044f0c-9724-40a6-98b0-ee333d0809e6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794115344;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZmInd3j8tIXr/fHNmexuNsNfT9JAoDFNQEuC0ZdqHds=;
-	b=fTH8SAg1Y+13m5Av0eDn6P/+z1FI32TSh983o74CDTeea9A8L39vFd5L0llmidFI
-	slSKKZyuRobfUa+4VLZNeQUrwr6mMNQEeI/VEEJWllVplz7qLPqsS7q7gVUiZIRN3ET
-	Fj+OC+HVzjYJc+ymq0IslEzSNXN2DPfBasaRsKAw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794115344;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZmInd3j8tIXr/fHNmexuNsNfT9JAoDFNQEuC0ZdqHds=;
-	b=AhbAE5fzIX0f6L17QCpm4PI63m3ZMwQHuDazjGjEvQLmvi5coNvVpfEqc6txH5cp
-	8wk0USjX0/WzA6pqMXAuNtYcOEzrbvUCAnmJnUXOf0RckIkMpAR3GDGNcnGzQ//iJVr
-	u+1FerbT4xQCXPpbLUZc2+INM2mdJUe5e1KVS5ss=
-Content-Type: multipart/mixed; boundary="===============8625184525385289766=="
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=F2SgDgxs;
+ spf=pass (domain: gmail.com, ip: 74.125.82.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-36ff9c9da34so423348eec.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Nov 2026 23:31:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794123066; x=1794727866; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9lvAdzhxCFFUg8JMzxxN5g/7EtQuAxgBu0fXbLAq38U=;
+        b=F2SgDgxsn/mRyeG/z2ErMZpzVH1YtcVMLZ+B62klBhKLH5bAlNNg1cuLAjhwwDoT7F
+         5qDHHHlrXVgB1oYnGrI9TDNyRHPhg+uR93DKib2Lz7/V/J+8HdELONWPQdn74aOB1Oz/
+         C97bOCYbjxQ25Acusy4yhyjK9s3EhzXZ/cFs/0NbdNx03ZnaTxL0jhHY1UHxipuk8Bxi
+         mhQXs0sSQSGYuWkUj81fBN0eIi1UyIp/H6Qk9WpU2Ja3RcEwtI3a9as8m8zQbN17yQ0+
+         y0gAVAkc3jGGG7sHPsaW8nEVKlHnpAXpV8m1PdB9bINi8tdV0mx7riNsEd933vaE7ujL
+         dOVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794123066; x=1794727866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9lvAdzhxCFFUg8JMzxxN5g/7EtQuAxgBu0fXbLAq38U=;
+        b=ROKdF228PA6OS/cOE1MfiQ8IJ3g3AS58JYBGtI05Vfku+BtU9OctIcdsqlR7VHfERj
+         oYj4LhDslQzdr7Pnek0mgOcVlD/ciyImrgRvUWYAUa1KVKSex4qZqGI7nXVuKJFLLoYG
+         Yzz6PSiOsrLGXb66sMSrue31PNnso/woEWVu8GBJJywV9flhEGVpyNoPX0tP/4LkMP4p
+         uA4g5OxgoJn/S97zQnr4MNlObIY3LOmHPCieDwTxkGLNf1zrxW/Gr3SN68sCzRAEXlOm
+         L2mgXdMZDc8lw0a3N2ceHkFeXVoPcsEgdnt47/XebTm500M7+c4vsR1Mzw9lKSY6aIf9
+         1pCA==
+X-Gm-Message-State: APuU4Z+viZ8ABRv64s8hKTgaEt2uMTbCYMsQTgKCuQVhbxv7wJURQqUX
+	cXA0dNNjAjear/YCLQPPUl/mOEjlypz8IXuv94t0So1Djg4zUKFNYx5wJ6BBknc+1HM=
+X-Gm-Gg: AYBFou3zcU8pZu8xL/+YGsWHpqqewkrWHr1UseQ+ayGNxMu3IncFzYXGELQXEvVbKRQ
+	b/Aqez3z0i2lBKlUuBlw4aYGt0PCLuNOn2N8MIS8P6ZrAv3EpKY/sa+kLDmQU8QBPKTrUwZWoNS
+	Xencr5v2rTkoEVb5Q8LEVqUf1Qy8XFrxZ9hrWWzXptAdIhXupJTyfpPK5kZn7H0GZ5kWTOYSeHW
+	GzNcokzIWzVsGu+QOiOQzfFScA+Lye+uI/dRfyHelxp/ZGuJEzGrmZhoshH7on2XK2mFmacXTGL
+	H7q3hm0BhocO2L36j1Zi0KqeixV1wC/scPqClxfk/9qxjyKEn1pklgiGXFjBuHnPl+DVge1hILc
+	jkr6OOqYc3Awy/G7b3t9zvuVO70ljaU9VFN21+XW7oAvaC+GFyfJ4QdJ8x+Aw/BWb1tsQa+xWIA
+	t+1lgv2XlLwIHXAvKdPLhGLHqvAoQL/ajYSNCWGEX7qnFqiimccD5aA3U+5D4T6KhLl3gbHoyP1
+	+Sy4Ff0aIzwMREUOknaaToYW5dE0KgSpU4+TUmu8jl8UI5y8kBL1eZ/RrnCov5dZ9mGts/t+pOP
+	S/ECAjzkofAuoZ7VYI1CXc3pO4JgE/TuAa6vEgjcVDIKFH1fCQ0hgAYdnt6Xd0btGnsQdMB7G8C
+	85PBXYTf4t2KMxEZRGyUjTZ6ohlcH1HWGbyJQq15F/iHEEFh+efIksavwH96U+UdnZjElgLPRKp
+	RKNw4zbMR94KsrCsHMZwd/mNkPPFZ1Xf/fdloQHEglb5mwm6DrIz7gyJlmn1QxCzKVoPaVeeXpR
+	QUyxeCv6a5VCH2PlIl64PkNa8sjaE62KdZPfTL5kWuFesY1TZTgfnkCwi/pr2GUP8J5Y1LriCpd
+	uIGY
+X-Received: by 2002:a05:7301:dd92:b0:36a:4a68:84e5 with SMTP id 5a478bee46e88-37256038e85mr1927203eec.8.1794123066473;
+        Sat, 07 Nov 2026 23:31:06 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265a16f9csm3536291eec.12.2026.11.07.23.31.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 23:31:05 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] packagegroups: Add clang to the SDK
+Date: Sat,  7 Nov 2026 23:31:03 -0800
+Message-ID: <20261108073103.1232032-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.0
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pbr: upgrading to 7.1.3 SUCCEEDED
-Message-ID: <010101a1b99b98a3-64044f0c-9724-40a6-98b0-ee333d0809e6-000000@us-west-2.amazonses.com>
-Date: Sun, 8 Nov 2026 05:22:24 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.08-54.240.27.33
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 05:22:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249748
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 07:31:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249753
+Content-Type: text/plain; charset="utf-8"
 
---===============8625184525385289766==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Now that clang is part of oe-core, ship it in the SDK the way meta-clang
+did through its packagegroup bbappends:
 
-Hello,
+- packagegroup-cross-canadian pulls in clang-cross-canadian for each
+  multilib, next to gcc-cross-canadian.
+- packagegroup-core-standalone-sdk-target adds the libcxx and
+  compiler-rt dev/staticdev packages when TC_CXX_RUNTIME is llvm or
+  android, so the SDK can link against the LLVM C++ runtime.
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pbr* to *7.1.3* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-python3-pbr-upgrade-7.1.0-7.1.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 237704daaa9c1f62530aabb50d676c482bcc4c4a Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 8 Nov 2026 05:16:44 +0000
-Subject: [PATCH] python3-pbr: upgrade 7.1.0 -> 7.1.3
-
-7.1.3
------
-
-7.1.2
------
-
-7.1.1
------
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- .../python/{python3-pbr_7.1.0.bb => python3-pbr_7.1.3.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pbr_7.1.0.bb => python3-pbr_7.1.3.bb} (83%)
+ .../packagegroups/packagegroup-core-standalone-sdk-target.bb | 5 +++++
+ .../packagegroups/packagegroup-cross-canadian.bb             | 2 ++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-pbr_7.1.0.bb b/meta/recipes-devtools/python/python3-pbr_7.1.3.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-pbr_7.1.0.bb
-rename to meta/recipes-devtools/python/python3-pbr_7.1.3.bb
-index 7fc227e6bb..e11dbe6398 100644
---- a/meta/recipes-devtools/python/python3-pbr_7.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-pbr_7.1.3.bb
-@@ -13,4 +13,4 @@ RDEPENDS:${PN} += "python3-setuptools"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+index 06fdda90c7..dbe9cc0449 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+@@ -12,6 +12,11 @@ RDEPENDS:${PN} = "\
+     libstdc++ \
+     libstdc++-dev \
+     ${LIBC_DEPENDENCIES} \
++    ${@bb.utils.contains_any('TC_CXX_RUNTIME', 'llvm android', 'libcxx-dev \
++    libcxx-staticdev \
++    compiler-rt-dev \
++    compiler-rt-staticdev \
++    ', '', d)} \
+     "
  
- BBCLASSEXTEND = "native nativesdk"
+ RRECOMMENDS:${PN}:mingw32 = "\
+diff --git a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+index b87721a4bc..b9479b6bb5 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+@@ -9,11 +9,13 @@ PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
+ BINUTILS = "binutils-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+ GCC = "gcc-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+ GDB = "gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}"
++CLANG = "clang-cross-canadian-${TRANSLATED_TARGET_ARCH}"
  
--SRC_URI[sha256sum] = "66ece3a2f5c4f05e5f37569213e755193f6e00b8aa361bfb190533ea8ee8b10c"
-+SRC_URI[sha256sum] = "9a4a85b84e906337708009af0b5f5cdabeeb72d4dc213c9e97974da54fd9acc5"
--- 
-2.47.1
-
-
---===============8625184525385289766==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-pbr: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-pbr: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pbr/pbr-7.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pbr/pbr-7.1.3.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pbr: PV changed from "7.1.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dbg: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dbg: PV changed from "7.1.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dev: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dev: PV changed from "7.1.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-doc: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-doc: PV changed from "7.1.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-locale: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-locale: PV changed from "7.1.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-src: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-src: PV changed from "7.1.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-staticdev: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-staticdev: PV changed from "7.1.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PKGV changed from 7.1.0 [default] to 7.1.3 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PKGSIZE changed from 740280 to 741067 (+0%)
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PV changed from "7.1.0" to "7.1.3"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info -> /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-pbr (sysroot):
-  /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info moved to /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info
-
---===============8625184525385289766==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-pbr-changelog.txt"
-
-7.1.3
------
-
-7.1.2
------
-
-7.1.1
------
-
---===============8625184525385289766==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pbr-upgrade-7.1.0-7.1.3.patch"
-
-RnJvbSAyMzc3MDRkYWFhOWMxZjYyNTMwYWFiYjUwZDY3NmM0ODJiY2M0YzRhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgOCBOb3YgMjAyNiAwNToxNjo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcGJyOiB1cGdyYWRlIDcuMS4wIC0+IDcuMS4zCgo3LjEuMwotLS0tLQoKNy4xLjIKLS0t
-LS0KCjcuMS4xCi0tLS0tCi0tLQogLi4uL3B5dGhvbi97cHl0aG9uMy1wYnJfNy4xLjAuYmIgPT4g
-cHl0aG9uMy1wYnJfNy4xLjMuYmJ9ICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi97cHl0aG9uMy1wYnJfNy4xLjAuYmIgPT4gcHl0aG9uMy1wYnJfNy4xLjMuYmJ9ICg4MyUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBicl83
-LjEuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYnJfNy4xLjMu
-YmIKc2ltaWxhcml0eSBpbmRleCA4MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXBicl83LjEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXBicl83LjEuMy5iYgppbmRleCA3ZmMyMjdlNmJiLi5lMTFkYmU2
-Mzk4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGJy
-XzcuMS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYnJf
-Ny4xLjMuYmIKQEAgLTEzLDQgKzEzLDQgQEAgUkRFUEVORFM6JHtQTn0gKz0gInB5dGhvbjMtc2V0
-dXB0b29scyIKIAogQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgogCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiNjZlY2UzYTJmNWM0ZjA1ZTVmMzc1NjkyMTNlNzU1MTkzZjZlMDBiOGFh
-MzYxYmZiMTkwNTMzZWE4ZWU4YjEwYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5YTRhODViODRl
-OTA2MzM3NzA4MDA5YWYwYjVmNWNkYWJlZWI3MmQ0ZGMyMTNjOWU5Nzk3NGRhNTRmZDlhY2M1Igot
-LSAKMi40Ny4xCgo=
-
---===============8625184525385289766==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info -> /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info, directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-pbr (sysroot):
-  /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info moved to /usr/lib/python3.14/site-packages/pbr-7.1.3.dist-info
-
---===============8625184525385289766==--
+ RDEPENDS:${PN} = "\
+     ${@oe.utils.all_multilib_tune_values(d, 'BINUTILS')} \
+     ${@oe.utils.all_multilib_tune_values(d, 'GCC')} \
+     ${@oe.utils.all_multilib_tune_values(d, 'GDB')} \
++    ${@oe.utils.all_multilib_tune_values(d, 'CLANG')}\
+     meta-environment-${MACHINE} \
+     "
+ 
