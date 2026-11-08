@@ -1,35 +1,35 @@
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4009.1794169816957771559
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4012.1794169824321400364
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2026 12:30:17 -0800
+ Sun, 08 Nov 2026 12:30:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=hVzUHznL;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261108203014d1d744b673000207af-m4p91r@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261108203014d1d744b673000207af
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=VpLK2P2j;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20261108203022c5c575002400020783-jr_hem@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20261108203022c5c575002400020783
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 08 Nov 2026 21:30:14 +0100
+        Sun, 08 Nov 2026 21:30:22 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=78XdjqHD80LDsycfSCAoWEBbYQWYhi/Hyr1OhGFQN28=;
- b=hVzUHznLUV4PbZgRWpihsMdrue8o5kfKzGyFweWghYfVssiSd6M37xHmnAQMfNnvQ6Cn7A
- eXgBGDeF1m4rYHgQNipgFvW5FMBcXRp8lS1m9Cy74uciq08sZPODPXZvRuhunoYpJgO28Xpt
- 6onmNgoohZ9GCfgNNZVAqdjW/ZLAWqXNStGwyhHtStIzMf+2UBhsv2AvxFx/f5w1vKbBSxjm
- CCNyL+t+pz/w2SjOVfaaJ/qY1SYANfhVGOuorDh4x4Lxd9Qbajflqc6v9PaOE0leNgC7GF0W
- 8hqddwROxbt4ggGRWe/VKfyjFTU2PK0yxVkW1K4qEGaJEsUEjaopQLCw==;
+ bh=GaFsjQFRzGsQqYZ0rD0XL/HLLAs/n+I3ikaoWiBc420=;
+ b=VpLK2P2jx0Hp36IQ94/1pUKw8Zpy0loWg6Z544COaTxVpc6M9oxKJrjWyiAVtTk21fxjhT
+ N8gXCdyNZwC55IlI+uAYCqQ66iNjMTe5LtBuWhIuwi+geRtS0SZuB4YIwsOSWP6KvdweV8do
+ gvgHINA+X7rH9dTFv86WHDcnyMBcKbgtD11gVn+9I2xqNMcWnTXU2wepquoKzL76E/Bm4pOy
+ v5MqVnzDN4s/lvbyFUPCvZcnlhYlemy5nbf76sdBd2CWBlAsd4vQVSNPNz6CuuLHa5albJpg
+ eqTKX3MV7A6+/3cWGnQh/z2W8CFUTuBt9c1URYbV8nv6iU7GG1O05q6Q==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] popt: patch CVE-2026-18839
-Date: Sun,  8 Nov 2026 21:29:14 +0100
-Message-ID: <20261108202914.2743675-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] popt: patch CVE-2026-18839
+Date: Sun,  8 Nov 2026 21:29:22 +0100
+Message-ID: <20261108202922.2743710-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 20:30:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249767
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 20:30:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249768
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -43,14 +43,14 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../popt/popt/CVE-2026-18839-01.patch         |  89 ++++
  .../popt/popt/CVE-2026-18839-02.patch         | 419 ++++++++++++++++++
- meta/recipes-support/popt/popt_1.19.bb        |   4 +-
- 3 files changed, 511 insertions(+), 1 deletion(-)
+ meta/recipes-support/popt/popt_1.19.bb        |   2 +
+ 3 files changed, 510 insertions(+)
  create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
  create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
 
 diff --git a/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch b/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
 new file mode 100644
-index 0000000000..c3cb7e319c
+index 00000000000..c3cb7e319c8
 --- /dev/null
 +++ b/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
 @@ -0,0 +1,89 @@
@@ -145,7 +145,7 @@ index 0000000000..c3cb7e319c
 + #endif
 diff --git a/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch b/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
 new file mode 100644
-index 0000000000..702403c2b3
+index 00000000000..702403c2b3a
 --- /dev/null
 +++ b/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
 @@ -0,0 +1,419 @@
@@ -569,7 +569,7 @@ index 0000000000..702403c2b3
 + echo ""
 + echo "Passed."
 diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
-index 10c4b4b0af..cd35ddcdc6 100644
+index 18cc4f2867d..33f07552a6e 100644
 --- a/meta/recipes-support/popt/popt_1.19.bb
 +++ b/meta/recipes-support/popt/popt_1.19.bb
 @@ -12,6 +12,8 @@ SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
@@ -581,12 +581,3 @@ index 10c4b4b0af..cd35ddcdc6 100644
             "
  SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
  
-@@ -24,7 +26,7 @@ do_compile_ptest() {
- }
- 
- do_install_ptest() {
--    for f in test1 test2 tdict test3 tstuff testit.sh test-poptrc; do
-+    for f in test1 test2 tdict test3 test4-1 test4-2 test4-3 test4-4 tstuff testit.sh test-poptrc; do
-         ${B}/libtool --mode=install install ${B}/tests/$f ${D}/${PTEST_PATH}
-     done
- }
