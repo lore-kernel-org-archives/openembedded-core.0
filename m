@@ -1,35 +1,35 @@
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5704.1794175873924645525
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5907.1794175882602165511
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2026 14:11:15 -0800
+ Sun, 08 Nov 2026 14:11:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=f8GchoQM;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20261108221110295658307a00020706-fvwugw@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20261108221110295658307a00020706
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=d6fwdFAf;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20261108221120e1c919760f000207fe-pps9_l@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20261108221120e1c919760f000207fe
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 08 Nov 2026 23:11:11 +0100
+        Sun, 08 Nov 2026 23:11:20 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=2sfY0OvDpyt+Kk7AA/eP9Jtby6sShvychxGOno568LY=;
- b=f8GchoQMFwDqBRR/KY1xXziqLSuC4kbJx9trk/fJHCbE6huP+d7fIcJomGwODH+kPxfwkp
- VoXBVgO+toqXqro2mxPRVDAao+6+9P4YmaOy2cDWV7zsCP2xUi67ZjR1T3OZ0E7CkTdMDn63
- 0pfGmah18rv9JCyTy/o9NM7h43yLnXO67WP45SxVKNGh8oljVFepHWRcI3RcHy+KHEbpYy4j
- NlqqDuUP/AneFMff7MNMCZrkWry7aBuSfpCEEa47zo58TTsVNezOULd74wjPzrTjBeaE4UFm
- 04ZPSb3MqHlsCmg+hqLpoIqiZxRqVwbDoXFuhwA78hLq5CEmobYOTYvw==;
+ bh=zp7aWyWa89GL8ZUANsB2m8gw61U/9Opn0ANGn5lISIA=;
+ b=d6fwdFAfa/BlCsk2ng3uKethcVlGbtNq+L5MLp8xy9/B8qSs6etPXTxF71w75+JpWAegHj
+ Zl33zLNjdlmBdLAF7Lc+SvZyLVGFT1IqpMPM2/QNYSPe+s31ee1WMfPBqx7IPO7yLJEy6Wxy
+ sUy/Dm0VqmxlinCCEbyoeEqjb6LvYKKrUubofexgIqFdlMRZS85Jsh0Pr0o1Bj/tBjllyOBJ
+ VE4AMEP6jUFaaDbLHXY/0dM5hJDKncQ7X9aOpyf4kFLh5KFZVaoyaSFn4laTUwp0fHOiGeYK
+ 0aavBt33vBXGY8haSTlKB6V9PQHqqo/nqMk00N9UcjIeJoI1ImkK+XNA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH] aspell: upgrade 0.60.8.2 -> 0.60.8.3
-Date: Sun,  8 Nov 2026 23:10:25 +0100
-Message-ID: <20261108221025.4041301-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH] aspell: upgrade 0.60.8.2 -> 0.60.8.3
+Date: Sun,  8 Nov 2026 23:10:39 +0100
+Message-ID: <20261108221039.4041353-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 22:11:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249777
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 22:11:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249778
 Content-Type: text/plain; charset="utf-8"
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
@@ -53,10 +53,10 @@ diff --git a/meta/recipes-support/aspell/aspell_0.60.8.2.bb b/meta/recipes-suppo
 similarity index 93%
 rename from meta/recipes-support/aspell/aspell_0.60.8.2.bb
 rename to meta/recipes-support/aspell/aspell_0.60.8.3.bb
-index 60d3376678..d97958d83b 100644
+index 5b4fab7c35..6ac547887b 100644
 --- a/meta/recipes-support/aspell/aspell_0.60.8.2.bb
 +++ b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
-@@ -14,7 +14,7 @@ LICENSE = "LGPL-2.0-only OR LGPL-2.1-only"
+@@ -14,7 +14,7 @@ LICENSE = "LGPL-2.0-only | LGPL-2.1-only"
  LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
  
  SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
