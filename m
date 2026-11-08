@@ -1,41 +1,41 @@
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8306.1794115345407220905
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8307.1794115345408253468
  for <openembedded-core@lists.openembedded.org>;
  Sat, 07 Nov 2026 21:22:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=nnVqGEo2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bwHkSI0t;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a1b99b98a3-f80ecd96-2467-4e6d-a89b-933e865f8482-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Ork0vHP6;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=eNP6O+Tr;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a1b99b99d8-492e9367-cfe7-418f-b7d7-78bb5ace7e5f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794115344;
+	t=1794115345;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5Uw5doh1K1n8rAokOQv91Cki2kC/g6Gg0HCjeoZHnZE=;
-	b=nnVqGEo2wx2EP3eESb/gFUiIzcRkEwXHAl9lrbLKh1IwsW7s8Y6Q9Mm6FkgMnfkd
-	hDz8B8AFGupcad5qNH8IOAG16Gt1v+lYMFseCErwN2ym6oFhhU4nVqNUDpmo4OssGBZ
-	rIel0nmV4/LoPmArZ+ZEne4PROz0SgWRUwbt4YOo=
+	bh=l/l4zaPColMX469skXb9lVT38w3EA01e4Fqkn6mos+0=;
+	b=Ork0vHP6cJNP4udF8cU90Qtk7ps72qIm0a0+jmp6f4f7+t2TaGxVrTYNTyZhEMzv
+	R1/CqcWQpWH2MBN4yQs2MZGilU4muKrDkFDGdpNqsou82x5afpEl3GbvrrNIYB2RW9z
+	/3GxflgReRfssi9Y2FdH1UrB4oEIiAr/vHeLBvII=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794115344;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794115345;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5Uw5doh1K1n8rAokOQv91Cki2kC/g6Gg0HCjeoZHnZE=;
-	b=bwHkSI0tehE0L4DI7WR8iTkXZKJDRM2wIyJNCQ9yRI3JU0OV8Hd4yzkdNVPm1Lax
-	8z2Kt9t3k36XFxxmJiADTv5irwZ8N+WXpf3G4sX0RbzKBWBBYNpo/W/n6X2aQIpoFnl
-	/2kISBhl08taiAdzkmRxQcG+ocJNGXQGIcZd1U6o=
-Content-Type: multipart/mixed; boundary="===============1480187526380524899=="
+	bh=l/l4zaPColMX469skXb9lVT38w3EA01e4Fqkn6mos+0=;
+	b=eNP6O+TrPXiJtW5FIXvhgpOOzC36f9VueDrV+3CFY4z4lplzqP89e1Noe0IR3JLi
+	JdYEUzZJoAZuaGCTYs/kXknKWyAH5pW4Jxl4fhyYH/qAnKVCFnFaFoahxwxKP4x5wDP
+	mEjg+opp6zdLTPagDuQSmFmk7Pe/+TTyqUjFy4p4=
+Content-Type: multipart/mixed; boundary="===============4233596860516329910=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Marta Rybczynska <marta.rybczynska@ygreky.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-uritools: upgrading to 6.1.5 SUCCEEDED
-Message-ID: <010101a1b99b98a3-f80ecd96-2467-4e6d-a89b-933e865f8482-000000@us-west-2.amazonses.com>
+Subject: [AUH] groff: upgrading to 1.25.0 FAILED
+Message-ID: <010101a1b99b99d8-492e9367-cfe7-418f-b7d7-78bb5ace7e5f-000000@us-west-2.amazonses.com>
 Date: Sun, 8 Nov 2026 05:22:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.08-54.240.27.29
+X-SES-Outgoing: 2026.11.08-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 05:22:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249749
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249751
 
---===============1480187526380524899==
+--===============4233596860516329910==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,173 +43,424 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-uritools* to *6.1.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *groff* to *1.25.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-uritools-upgrade-6.1.3-6.1.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe groff failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 960 .bb files complete (0 cached, 960 parsed). 2003 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-8a21d5ffc1e112448c4009932979e09e656b79dc"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:8a21d5ffc1e112448c4009932979e09e656b79dc"
+meta-yocto-bsp       
+meta-poky            = "master:dd6c2950bb507f8c311bd82410a032ed6eb38063"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 9 Local 9 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 961 .bb files complete (0 cached, 961 parsed). 2004 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-8a21d5ffc1e112448c4009932979e09e656b79dc"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:8a21d5ffc1e112448c4009932979e09e656b79dc"
+meta-yocto-bsp       
+meta-poky            = "master:dd6c2950bb507f8c311bd82410a032ed6eb38063"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  11% |####                                | ETA:  0:00:01
+Adding changed files:  23% |########                            | ETA:  0:00:00
+Adding changed files:  34% |############                        | ETA:  0:00:00
+Adding changed files:  46% |################                    | ETA:  0:00:00
+Adding changed files:  58% |####################                | ETA:  0:00:00
+Adding changed files:  69% |#########################           | ETA:  0:00:00
+Adding changed files:  81% |#############################       | ETA:  0:00:00
+Adding changed files:  92% |#################################   | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftpmirror.gnu.org//groff/groff-1.25.0.tar.gz...
+INFO: Rebasing devtool onto fa0cb9e74c3d008c652e569ade006d03c2874c8a
+WARNING: Command 'git rebase fa0cb9e74c3d008c652e569ade006d03c2874c8a' failed:
+Auto-merging font/devpdf/Foundry.in
+CONFLICT (content): Merge conflict in font/devpdf/Foundry.in
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-native onto fa0cb9e74c3d008c652e569ade006d03c2874c8a
+WARNING: Command 'git rebase fa0cb9e74c3d008c652e569ade006d03c2874c8a' failed:
+Auto-merging font/devpdf/Foundry.in
+CONFLICT (content): Merge conflict in font/devpdf/Foundry.in
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since recipe inherits autotools-brokensep
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/groff
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/groff/groff_1.25.0.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/groff.txt
+INFO: Changelog metadata written to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/groff.json
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 924fa5bb787d1f1aa34ec63bbd6ef228948f4011 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 8 Nov 2026 05:20:05 +0000
-Subject: [PATCH] python3-uritools: upgrade 6.1.3 -> 6.1.5
-
-v6.1.5 (2026-11-07)
-===================
-
-- Bound ``uriencode()`` lookup table using ``functools.lru_cache()``.
-- Minor code and test improvements.
-
-v6.1.4 (2026-11-04)
-===================
-
-- Fix newline handling in ``uricompose()`` and ``urisplit()``.
-- Compare schemes case-insensitively in non-strict ``urijoin()``.
-- Recognize an uppercase ``IPvFuture`` version flag.
-- Various documentation improvements.
-- Minor unit test improvements.
-- Update build environment.
----
- .../{python3-uritools_6.1.3.bb => python3-uritools_6.1.5.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-uritools_6.1.3.bb => python3-uritools_6.1.5.bb} (79%)
-
-diff --git a/meta/recipes-devtools/python/python3-uritools_6.1.3.bb b/meta/recipes-devtools/python/python3-uritools_6.1.5.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-uritools_6.1.3.bb
-rename to meta/recipes-devtools/python/python3-uritools_6.1.5.bb
-index 47fddec046..f886a3b38d 100644
---- a/meta/recipes-devtools/python/python3-uritools_6.1.3.bb
-+++ b/meta/recipes-devtools/python/python3-uritools_6.1.5.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/tkem/uritools/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=079933dfba36eb60b5e3512ca0ab61ae"
- 
--SRC_URI[sha256sum] = "3a498e7e85ef3249343d5710618d641a414da0fbae6d23053ada7976ee83ea5f"
-+SRC_URI[sha256sum] = "5a46002351b745a6910f24167abc1ba0a7f78818121fffb32dbe1fc7767f462f"
- 
- inherit pypi python_setuptools_build_meta ptest-python-pytest
- 
--- 
-2.47.1
-
-
---===============1480187526380524899==
-Content-Type: application/octet-stream
+--===============4233596860516329910==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-uritools-upgrade-6.1.3-6.1.5.patch"
+Content-Disposition: attachment; filename="groff-changelog.txt"
 
-RnJvbSA5MjRmYTViYjc4N2QxZjFhYTM0ZWM2M2JiZDZlZjIyODk0OGY0MDExIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgOCBOb3YgMjAyNiAwNToyMDowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtdXJpdG9vbHM6IHVwZ3JhZGUgNi4xLjMgLT4gNi4xLjUKCnY2LjEuNSAoMjAyNi0xMS0w
-NykKPT09PT09PT09PT09PT09PT09PQoKLSBCb3VuZCBgYHVyaWVuY29kZSgpYGAgbG9va3VwIHRh
-YmxlIHVzaW5nIGBgZnVuY3Rvb2xzLmxydV9jYWNoZSgpYGAuCi0gTWlub3IgY29kZSBhbmQgdGVz
-dCBpbXByb3ZlbWVudHMuCgp2Ni4xLjQgKDIwMjYtMTEtMDQpCj09PT09PT09PT09PT09PT09PT0K
-Ci0gRml4IG5ld2xpbmUgaGFuZGxpbmcgaW4gYGB1cmljb21wb3NlKClgYCBhbmQgYGB1cmlzcGxp
-dCgpYGAuCi0gQ29tcGFyZSBzY2hlbWVzIGNhc2UtaW5zZW5zaXRpdmVseSBpbiBub24tc3RyaWN0
-IGBgdXJpam9pbigpYGAuCi0gUmVjb2duaXplIGFuIHVwcGVyY2FzZSBgYElQdkZ1dHVyZWBgIHZl
-cnNpb24gZmxhZy4KLSBWYXJpb3VzIGRvY3VtZW50YXRpb24gaW1wcm92ZW1lbnRzLgotIE1pbm9y
-IHVuaXQgdGVzdCBpbXByb3ZlbWVudHMuCi0gVXBkYXRlIGJ1aWxkIGVudmlyb25tZW50LgotLS0K
-IC4uLi97cHl0aG9uMy11cml0b29sc182LjEuMy5iYiA9PiBweXRob24zLXVyaXRvb2xzXzYuMS41
-LmJifSAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdXJpdG9v
-bHNfNi4xLjMuYmIgPT4gcHl0aG9uMy11cml0b29sc182LjEuNS5iYn0gKDc5JSkKCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNi4xLjMu
-YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNi4xLjUu
-YmIKc2ltaWxhcml0eSBpbmRleCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXVyaXRvb2xzXzYuMS4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNi4xLjUuYmIKaW5kZXggNDdmZGRlYzA0
-Ni4uZjg4NmEzYjM4ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXVyaXRvb2xzXzYuMS4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy11cml0b29sc182LjEuNS5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAi
-aHR0cHM6Ly9naXRodWIuY29tL3RrZW0vdXJpdG9vbHMvIgogTElDRU5TRSA9ICJNSVQiCiBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0wNzk5MzNkZmJhMzZlYjYwYjVlMzUx
-MmNhMGFiNjFhZSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNhNDk4ZTdlODVlZjMyNDkzNDNk
-NTcxMDYxOGQ2NDFhNDE0ZGEwZmJhZTZkMjMwNTNhZGE3OTc2ZWU4M2VhNWYiCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiNWE0NjAwMjM1MWI3NDVhNjkxMGYyNDE2N2FiYzFiYTBhN2Y3ODgxODEyMWZm
-ZmIzMmRiZTFmYzc3NjdmNDYyZiIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1
-aWxkX21ldGEgcHRlc3QtcHl0aG9uLXB5dGVzdAogCi0tIAoyLjQ3LjEKCg==
+VmVyc2lvbiAxLjI1LjAgcmVsZWFzZWQgMjAyNi0xMS0wNwoKU3lzdGVtcyBsaWtlIEFyY2ggYW5k
+IE1hbmphcm8gTGludXggZG9uJ3QgdXNlIERlYmlhbidzIGFwcHJvYWNoCnRvIEdob3N0c2NyaXB0
+IGFuZCBVUlcgZm9udCBwYWNrYWdpbmcuICBPdXIgImNvbmZpZ3VyZSIgc2NyaXB0CnNob3VsZCBi
+ZSBsb29raW5nIG9ubHkgZm9yIHRoZSBmdWxsIFVSVyBmb250cyBwYWNrYWdlLCBub3QKR2hvc3Rz
+Y3JpcHQncyAiUmVzb3VyY2UvRm9udCIgZGlyZWN0b3J5LiAgSWYgR2hvc3RzY3JpcHQgaXMKaW5z
+dGFsbGVkLCB3ZSBjYW4gY29uZmlndXJlIGdyb3BkZidzICJpbnRlcm1lZGlhdGUiIHNlcnZpY2UK
+bGV2ZWwgYXQgbGVhc3QsIGFuZCB0aGUgZGlyZWN0b3J5IHdpbGwgYmUgZm91bmQgYnkKIkJ1aWxk
+Rm91bmRyaWVzIiB3aGVuIGl0IHBhcnNlcyB0aGUgb3V0cHV0IG9mIHRoZSAiZ3MgLWgiCmNvbW1h
+bmQuICBXaGF0ICJjb25maWd1cmUiIHNob3VsZCBiZSBkb2luZyBpcyBmaW5kaW5nIHRoZSBmdWxs
+ClVSVyBmb250cyBkaXJlY3RvcnksIGFuZCBpZiBmb3VuZCwgc2V0dGluZyAiJHVyd2ZvbnRzZGly
+LiIgIEl0CnNob3VsZCBub3QgYmUgbG9va2luZyBmb3IgR2hvc3RzY3JpcHQtcHJvdmlkZWQgZm9u
+dHMgYXQgYWxsLgoKV2Uga25vdyB0aGF0IGlmIHRoZSBvbmx5IFVSVyBmb250cyBmb3VuZCBhcmUg
+dGhlIG9uZXMgc3VwcGxpZWQKaW4gR2hvc3RzY3JpcHQncyAiUmVzb3VyY2UiIGZvbnQgZGlyZWN0
+b3J5LCB0aGVyZSBhcmUgbm90IGdvaW5nCnRvIGJlIGFueSBBRk1zLiAgYGdyb2ZmX2hhdmVfdXJ3
+X2ZvbnRzYCBzaG91bGQgYmUgc2V0IG9ubHkgaWYKdGhlIFBGQiBmaWxlcyBhcmUgZm91bmQgZWxz
+ZXdoZXJlLiAgSXQgc3VmZmljZXMgdG8gaGF2ZQpgJEdIT1NUU0NSSVBUICE9ICJtaXNzaW5nImAg
+dG8ga25vdyB0aGF0ICJpbnRlcm1lZGlhdGUiIHNlcnZpY2UKaXMgYXZhaWxhYmxlLgoKVGVzdGVk
+IGJ5IGFkZGluZyBteSBHaG9zdHNjcmlwdCAiUmVzb3VyY2UvRm9udCIgdG8gImdyb2ZmLm00IiwK
+aGlkaW5nIHJlYWwgVVJXIGZvbnRzIHdoZXJlICJjb25maWd1cmUiIHdvbid0IGZpbmQgdGhlbSwg
+YW5kCnJlcHJvZHVjaW5nIHRoZSAiY2hlY2stdXJ3LWZvdW5kcnkuc2giIHRlc3Qgc2NyaXB0IGZh
+aWx1cmUKb2JzZXJ2ZWQgb24gTWFuamFyby4gIElmIEkgdGhlbiByZW1vdmUgdGhhdCBkaXJlY3Rv
+cnkgZnJvbQoiZ3JvZmYubTQiIGl0IHRoZW4gcmVwb3J0cyAiaW50ZXJtZWRpYXRlIiBhbmQgdGhl
+IHRlc3QgcGFzc2VzLgoKImNvbmZpZ3VyZSIgY291bGQgbG9vayBmb3IgQUZNIGZpbGVzIGFzIHdl
+bGwsIGJ1dCBpdCBpcwp1bm5lY2Vzc2FyeSBzbyBsb25nIGFzIHdlIGRvbid0IHNlYXJjaCBwYXRo
+cyBtYXRjaGluZwoiUmVzb3VyY2UvRm9udCIuCgpGaXhlcyA8aHR0cHM6Ly9zYXZhbm5haC5nbnUu
+b3JnL2J1Z3MvPzY4NTY3Pi4gIFRoYW5rcyB0byBCcnVubwpIYWlibGUgZm9yIHRoZSByZXBvcnQu
+CgpGaXhlcyA8aHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzY4NTc2Pi4gIFRoYW5rcyB0
+byBOZ3V54buFbgpHaWEgUGhvbmcgYW5kIFJpY2hhcmQgUHVyZGllIGZvciB0aGUgcmVwb3J0LgoK
+RmVhdHVyZSBwcm9tcHRlZCBieSBzdXJwcmlzaW5nIGRpYWdub3NpcyBvZiBMZXNrJ3MgIk5vdGVz
+IG9uIHRoZQpJQk0gQyBDb21waWxlci4iIG1lbW8gYXMgYSBfbWVfKDcpIGRvY3VtZW50IGluc3Rl
+YWQgb2YgdGhlIG1vcmUKY29ycmVjdCBfbXNfKDcpLiAgVGhlIG1pc2RpYWdub3NpcyBhcHBlYXJz
+IHRvIGJlIGR1ZSB0byB0aGUKcHJlc2VuY2Ugb2YgbG93ZXJjYXNlIG1hY3JvIGNhbGxzLCBgaXBg
+IGFuZCBgdHBgLCB3aGljaCBoYXBwZW4KdG8gYmUgZGVmaW5lZCBieSBfbWVfKDcpLiAgKFRoZXJl
+IGFyZSBvdGhlciBwcm9ibGVtcyB3aXRoIHRoZQpkb2N1bWVudCwgaW5jbHVkaW5nIGEgZmFzY2lu
+YXRpbmcgY3JpbWUgYWdhaW5zdCB0aGUgQ1NUUiAjNDkKc3BlY2lmaWNhdGlvbiBvZiBfdGJsXyBp
+bnB1dCB0aGF0IG5vIGNvbnRlbXBvcmFyeSBpbXBsZW1lbnRhdGlvbgpzdXBwb3J0cywgYW5kIHBl
+cmhhcHMgb25seSBMZXNrIGhpbXNlbGYga25ldyBhYm91dCwgYmVpbmcgdGhhdApwcm9ncmFtJ3Mg
+YXV0aG9yLikgIFNlZQo8aHR0cHM6Ly93d3cudHVocy5vcmcvcGlwZXJtYWlsL3R1aHMvMjAyNi1K
+dWx5LzAzNDAxMC5odG1sPiBmZi4KCkZpeGVzIDxodHRwczovL3NhdmFubmFoLmdudS5vcmcvYnVn
+cy8/Njg1MjU+LiAgUHJvYmxlbQppbnRyb2R1Y2VkIGJ5IG1lIGluIGNvbW1pdCA0YTRlZjI4YTRl
+LCAyIEp1bHkuICBUaGFua3MgdG8gRGF2ZQpLZW1wZXIgZm9yIHRoZSByZXBvcnQuCgpGaXhlcyA8
+aHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzY4NTI0Pi4gIFByb2JsZW0KaW50cm9kdWNl
+ZCBieSBtZSBpbiBjb21taXQgODVjOGRhYTI3ZCwgMSBBcHJpbC4gIFRoYW5rcyB0byBEYXZlCktl
+bXBlciBmb3IgdGhlIHJlcG9ydC4KCkZpeGVzIDxodHRwczovL3NhdmFubmFoLmdudS5vcmcvYnVn
+cy8/NjgzMDk+LiAgVGhhbmtzIHRvIENvbGluCldhdHNvbiBhbmQgU3RlcGhlbiBHaWxkZWEgZm9y
+IHRoZSByZXBvcnRzIGFuZCB0byB0aGVtIGFuZCBJbmdvClNjaHdhcnplIGZvciBkaXNjdXNzaW9u
+IG9uIHRoZSBncm9mZiBsaXN0LgoKRml4ZXMgPGh0dHBzOi8vc2F2YW5uYWguZ251Lm9yZy9idWdz
+Lz82ODUxMT4uICBQcm9ibGVtCmludHJvZHVjZWQgYnkgbWUgaW4gY29tbWl0IDk5NGZjY2U3NzUs
+IDI0IE1heS4gIFRoYW5rcyB0byBEYXZlCktlbXBlciBmb3IgdGhlIHJlcG9ydC4KCkZpeGVzIDxo
+dHRwczovL3NhdmFubmFoLmdudS5vcmcvYnVncy8/Njg0MDc+LiAgVGhhbmtzIHRvIFN0ZWZhbgpN
+w7ZkaW5nIGZvciB0aGUgbmV3IGRpYWdyYW0hCgpGaXhlcyBgLVdtaXNzaW5nLWRlY2xhcmF0aW9u
+c2AgR0NDIHdhcm5pbmdzLgoKW3Ryb2ZmXTogUmVmYWN0b3IgdG8ga2lsbCBvZmYgYEVTQ0FQRV9O
+RVdMSU5FYC4gIFRoZXJlIGFwcGVhcnMKdG8gYmUgbm8gYWR2YW50YWdlIHRvIGVuY29kaW5nIGVz
+Y2FwZWQgbmV3bGluZXMgaW4gbWFjcm8KZGVmaW5pdGlvbnMuICBJdHMgcHVycG9zZSBjYW5ub3Qg
+YmUgdG8gcmVzdG9yZSBvciBwcmV0dHktcHJpbnQgYQptYWNybyBkZWZpbml0aW9uIGV4YWN0bHkg
+YXMgaXQgd2FzIGlucHV0LCBhcyBubyBtZWNoYW5pc20gZm9yCmRvaW5nIHNvIGV4aXN0cywgYW5k
+IGNvbW1lbnRzIGFyZSBhbHJlYWR5IGRpc2NhcmRlZCB1cG9uCnJlYWRpbmcuCgpbbGliZ3JvZmYs
+dHJvZmZdOiBSZWFsbG9jYXRlIGZhdGFsIGVycm9yIGV4aXQgcmVzcG9uc2liaWxpdGllcywKYW5k
+IGNvbW11bmljYXRlIHRoZW0gdG8gdGhlIGNvbXBpbGVyLgoKW3JlZmVyXTogQWRkIHNtb2tlIHRl
+c3QuCltsaWJncm9mZl06IERpc2FibGUgdW51c2VkIGBzdHJpbmdgIGZ1bmN0aW9ucy4KCltsaWJn
+cm9mZl06IFRyaXZpYWxseSByZWZhY3Rvci4gIFJlbmFtZSBgc3RyaW5nYCBjbGFzcydzIHByaXZh
+dGUKbWVtYmVyIGZ1bmN0aW9uIGBncm93MSgpYCB0byBgZW1iaWdnZW4oKWAuICBUaGUgZm9ybWVy
+IG5hbWUgaXMKbm93IHBvdGVudGlhbGx5IG1pc2xlYWRpbmcgYmVjYXVzZSB0aGUgaW50ZXJuYWwg
+ZnVuY3Rpb24KYHNyZWFsbG9jKClgIG5vdyBkb3VibGVzIGEgYHN0cmluZ2Agb2JqZWN0J3MgY2Fw
+YWNpdHkgKGBzemApCndoZW4gZXhjZWVkZWQuCgpbbGliZ3JvZmZdOiBVc2UgYSBtb3JlIGFwcHJv
+cHJpYXRlIHJldHVybiB0eXBlIGZvcgpgc3RyaW5nOjpmaW5kKClgOiBgc3NpemVfdGAgaW5zdGVh
+ZCBvZiBgc2l6ZV90YCwgc2luY2UgdGhlCmZ1bmN0aW9uIGNhbiByZXR1cm4gYC0xYC4KCkNvbnRp
+bnVlcyB0aGUgbG9uZyBwcm9jZXNzIG9mIGZpeGluZyBTYXZhbm5haCAjNjgxOTIuCgpJdCBpcyBu
+b3QgbmVjZXNzYXJ5IHRvIG1ha2UgY29uZGl0aW9uYWwgdGhlIGRlbGV0aW9uIChvciBhcnJheQpk
+ZWxldGlvbikgb2YgYSBudWxsIHBvaW50ZXIuICAiSWYgdGhlIF9kZWxldGUtZXhwcmVzc2lvbl8g
+Y2FsbHMKdGhlIGltcGxlbWVudGF0aW9uIGRlYWxsb2NhdGlvbiBmdW5jdGlvbiAoMy43LjMuMiks
+IGFuZCBpZiB0aGUKb3BlcmFuZCBvZiB0aGUgZGVsZXRlIGV4cHJlc3Npb24gaXMgbm90IHRoZSBu
+dWxsIHBvaW50ZXIKY29uc3RhbnQsIHRoZSBkZWFsbG9jYXRpb24gZnVuY3Rpb24gd2lsbCBkZWFs
+bG9jYXRlIHRoZSBzdG9yYWdlCnJlZmVyZW5jZWQgYnkgdGhlIHBvaW50ZXIgdGh1cyByZW5kZXJp
+bmcgdGhlIHBvaW50ZXIgaW52YWxpZCIKe0lTTy9JRUMgMTQ4ODItMTk5OCwgwqc1LjMuNSwgcGFy
+YWdyYXBoIDR9LiAgT3IgYXMgU3Ryb3VzdHJ1cApwdXRzIGl0LCAiQXBwbHlpbmcgX2RlbGV0ZV8g
+dG8gemVybyBoYXMgbm8gZWZmZWN0LiIgKF9UaGUgQysrClByb2dyYW1taW5nIExhbmd1YWdlLCBT
+cGVjaWFsIEVkaXRpb25fLCBwLiAxMjgpLgoKW2dyb2h0bWxdOiBCZSBtb3JlIGZhc3RpZGlvdXMg
+d2l0aCBoZWFwLWFsbG9jYXRlZCBtZW1vcnkuCkNvbnRpbnVlcyB0aGUgbG9uZyBwcm9jZXNzIG9m
+IGZpeGluZyBTYXZhbm5haCAjNjgxOTIuCltncm9odG1sXTogRml4IGNvZGUgc3R5bGUgbml0Lgpb
+Z3JvaHRtbF06IEJlIG1vcmUgZmFzdGlkaW91cyB3aXRoIGhlYXAtYWxsb2NhdGVkIG1lbW9yeS4K
+CltwaWNdOiBSYXRpb25hbGl6ZSBoZWFkZXIgZmlsZSBpbmNsdXNpb25zLiAgTW92ZSBzb21lIGlu
+dG8KIm9iamVjdC5oIiBvciAicGljLmgiIHdoZXJlIG5vdCBkb2luZyBzbyBpbnRyb2R1Y2VzIGN5
+Y2xlcy4KCkZpeGVzIDxodHRwczovL3NhdmFubmFoLmdudS5vcmcvYnVncy8/NjgzNDA+LiAgUmVz
+b2x2ZXMgQVNBTgpydW50aW1lIGVycm9yIHdoZW4gZm9ybWF0dGluZyB0aGUgZ3JvZmZfbWRvYyg3
+KSBtYW4gcGFnZSBpbgp0cm9mZiBtb2RlLiAgVGhhbmtzIHRvIEJqYXJuaSBJbmdpIEdpc2xhc29u
+IGZvciB0aGUgcmVwb3J0LgoKW21hbl06IEJlZ2luIGltcGxlbWVudGluZyBuZXcgYExTYCBhbmQg
+YExFYCBtYWNyb3MuCkJlZ2lucyBmaXhpbmcgPGh0dHBzOi8vc2F2YW5uYWguZ251Lm9yZy9idWdz
+Lz82ODMzNT4uCgpGaXhlcyA8aHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzY4MzM2Pi4g
+IFRoYW5rcyB0bwpTYW50aWFnbyBWaWxhIGZvciB0aGUgcmVwb3J0IGFuZCBhbmFseXNpcy4gIFBy
+b2JsZW0gaW50cm9kdWNlZApieSBtZSBpbiBjb21taXQgODkxMGM2M2I2ZCwgMjAyNC0xMi0xMC4K
+Clt0cm9mZl06IFJlZmFjdG9yLiAgU2VwYXJhdGUgZW5naW5lIGxvZ2ljIGZyb20gcGFyc2luZyBs
+b2dpYwp3aXRoIHJlc3BlY3QgdG8gYW4gZW52aXJvbm1lbnQncyB0ZW1wb3JhcnkgaW5kZW50YXRp
+b24uCgpDb3JyZWN0IHNvbWUgaGlnaGx5IG91dGRhdGVkIE1pY3Jvc29mdCBET1MvV2luZG93cyBw
+b3J0IHN0dWZmLgpbZ3JvcHNdOiBCb29saWZ5IGFuZCByZW5hbWUgY2xhc3MgbWVtYmVyIHZhcmlh
+YmxlLgoKKHBzX291dHB1dDo6cHV0X2ZpeF9udW1iZXIpOgoocHNfb3V0cHV0OjpwdXRfZmxvYXQp
+OgoocHNfb3V0cHV0OjpwdXRfc3ltYm9sKToKKHBzX291dHB1dDo6cHV0X2NvbG9yKToKKHBzX291
+dHB1dDo6cHV0X2xpdGVyYWxfc3ltYm9sKTogRXhwbGljaXRseSBjb25zdHJ1Y3QgaW50ZWdlcgpm
+cm9tIGl0cyBCb29sZWFuIHZhbHVlIHdoZW4gc3VtbWluZyBpdCB3aXRoIGBjb2xgIGFuZCBgZW5k
+YCB0bwpkZWNpZGUgd2hldGhlciB0byBwdXQgYSBuZXdsaW5lIG9uIHRoZSBvdXRwdXQuCgpGaXhl
+cyA8aHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzY4MzAzPi4gIFByb2JsZW0KaW50cm9k
+dWNlZCBieSBtZSBpbiBjb21taXQgZDQ0NWFlZTk0ZSwgMTAgU2VwdGVtYmVyLCBhcyBwYXJ0IG9m
+CnRoZSByZWRlc2lnbiBvZiB0aGUgImFzY2lpZnkiIGZlYXR1cmUuICBUaGFua3MgdG8gRGVyaSBK
+YW1lcyBmb3IKY2F0Y2hpbmcgdGhlIHByb2JsZW0gYW5kIHJvb3QtY2F1c2UgYW5hbHl6aW5nIGl0
+LgoKW3Ryb2ZmXTogU3RvcCByZXBvcnRpbmcgbnVtYmVyIGZvcm1hdCBmb3IgcmVhZC1vbmx5IHJl
+Z2lzdGVycy4KCkZpeGVzIDxodHRwczovL3NhdmFubmFoLmdudS5vcmcvYnVncy8/NjgyODQ+LiAg
+UHJvYmxlbSBhcHBlYXJzCnRvIGRhdGUgYmFjayB0byBmZWF0dXJlIGFkZGl0aW9uIGluIGNvbW1p
+dCBiYzM0ODgxOTgwLAoyMDA3LTA5LTE5LgoKW2xpYmdyb2ZmXTogRGVjb3VwbGUgZGlhZ25vc2lz
+IG9mIGZpbGUgSS9PIGVycm9yIGZyb20gZm9udApkZXNjcmlwdGlvbiBmaWxlIGNvbnRlbnQgdmFs
+aWRhdGlvbi4KClt0cm9mZl06IFRyaXZpYWxseSByZWZhY3Rvci4gIFJlbmFtZSBgZ2V0X2ZsYWdz
+KClgIGdsb2JhbApmdW5jdGlvbiB0byBgcmVjb21wdXRlX2NoYXJhY3Rlcl9mbGFncygpYC4gIElu
+IGFkZGl0aW9uIHRvIGJlaW5nCm1vcmUgY2xlYXIgYW5kIGV4cGxpY2l0LCBpdCBhdm9pZHMgYSBj
+b2xsaXNpb24gd2l0aCB0aGUKYGNoYXJpbmZvYCBjbGFzcydzIG93biBgZ2V0X2ZsYWdzKClgIG1l
+bWJlciBmdW5jdGlvbi4KClt0cm9mZl06IERyb3AgZGVhZC91bnJlYWNoYWJsZSBuZXN0ZWQgY2hh
+cmFjdGVyIGNsYXNzIGNvZGUuCgpbRml4ZXMgPGh0dHBzOi8vc2F2YW5uYWguZ251Lm9yZy9idWdz
+Lz81MDc3MD4uICBQZXIgdGhlCmZvcmVnb2luZywgcHJvYmxlbSBkYXRlcyBiYWNrIHRvIGdyb2Zm
+IDEuMDUsIE1hcmNoIDE5OTIuICBUaGFua3MKdG8gRGF2ZSBhbmQgRGVyaSBmb3Igc29ydGluZyB0
+aGlzIG91dCEgLS1HQlJdCgpbcGRmbW9tXTogRG9uJ3QgdHJ5IHRvIHBhc3MgY29tbWFuZHMgdG8g
+cGRmcm9mZiAoLVRwcykgaWYKcGRmcm9mZiBpcyBub3QgaW5zdGFsbGVkLgoKU2VlOiA8aHR0cHM6
+Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzY4MjA3PgpDb250aW51ZXMgY29tbWl0IDAyMjBmMDBj
+M2MsIDE4IE1hcmNoLgoKW3Ryb2ZmXTogVGhyb3cgd2FybmluZyBpbiBjYXRlZ29yeSAic3R5bGUi
+IHdoZW4gbmlscG90ZW50IGJyYWNlCmVzY2FwZSBzZXF1ZW5jZXMgYXJlIGVuY291bnRlcmVkLgoK
+Rml4ZXMgPGh0dHBzOi8vc2F2YW5uYWguZ251Lm9yZy9idWdzLz82ODI2MD4uICBQcm9ibGVtcyBh
+cHBlYXIKbW9zdGx5IHRvIGRhdGUgYmFjayB0byBncm9mZidzIGJpcnRoOiBzZWUgZ3JvZmYgMS4w
+MSxbMV0KImlucHV0L3Ryb2ZmLmNjIiwgbGluZXMgNzQxLTc0NiwgMzExMywgYW5kIDMxMTkuICBD
+b21taXQKNWJhNGM0ZGRiMywgMjAwMS0xMS0xNiwgYWRkZWQgYW5vdGhlciBpbnN0YW5jZSBvZgpg
+cmVhZF9jaGFyYWN0ZXJfaW5fY29weV9tb2RlKClgICh0aGVuIGNhbGxlZCBgZ2V0X2NvcHkoKWAp
+IGJlaW5nCmdpdmVuIG9ubHkgb25lIGFyZ3VtZW50LgoKWzFdIGh0dHBzOi8vbWlubmllLnR1aHMu
+b3JnL2NnaS1iaW4vdXRyZWUucGw/ZmlsZT1OZXQyL3Vzci9zcmMvXAp1c3IuYmluL2dyb2ZmL3Ry
+b2ZmL2lucHV0LmNjCgpbZ3JvZmZdOiBSZWdyZXNzaW9uLXRlc3QgU2F2YW5uYWggIzY4MjU3LgoK
+VGltZSB0byBmaXJlIHVwIHRoZSBkZXZlbG9wbWVudCBtYWlsaW5nIGxpc3QgY3JpdGljYWwgaG9t
+dW5jdWx1cwphbmQgaGF2ZSBhIFNvY3JhdGljIGRpYWxvZ3VlIHdpdGggaXQuCgoiUmV3cml0ZSI/
+ICBXaHkgaGl0IHN1Y2ggYSBzbWFsbCB0aGluZyB3aXRoIHN1Y2ggYSBiaWcgaGFtbWVyPwpXaHkg
+bm90IGp1c3QgZml4IG15IHN0dXBpZCBtaXN0YWtlIG9mIGFkZGluZyBhbiBhc3NlcnRpb24/ICB7
+QX0KSSBjb3VsZG4ndC0td291bGRuJ3QtLWp1c3QgcmlwIHRoZSBhc3NlcnRpb24gb3V0LCBiZWNh
+dXNlIGl0J3MKaW4gYSBob3QtcGF0aCBmdW5jdGlvbiB3aGVyZSBtdWNoIHNhbml0eSBjaGVja2lu
+ZyB0YWtlcyBwbGFjZS4Ke0J9IFRoaXMgY29kZSBpbXBsaWNhdGVzIG9uZSBvZiB0aGUgbW9yZSBj
+aGFsbGVuZ2luZyBwYXJ0cyBvZgp0aGUgKnJvZmYgbGFuZ3VhZ2UgZ3JhbW1hcjogKGFsbW9zdCkg
+YW55d2hlcmUgeW91IGNhbiByZWFkIGEKZm9udCBpZGVudGlmaWVyIGxpa2UgYEJgLCBgVFJgLCBv
+ciBgTUFSSUdPTERgLCBpdCdzIGFsc28gdmFsaWQKdG8gcmVhZCBhIGZvbnQgbW91bnRpbmcgcG9z
+aXRpb24sIGEgbm9ubmVnYXRpdmUgaW50ZWdlci4gIEluCipyb2ZmLCBub25uZWdhdGl2ZSBpbnRl
+Z2VycyBhbHNvIGhhcHBlbiB0byBiZSB2YWxpZCBpZGVudGlmaWVyCm5hbWVzISAgWW91IGNhbiBo
+YXZlIGEgcmVnaXN0ZXIgbmFtZWQgYDU1YCBvciBhIHN0cmluZy9tYWNyby8KZGl2ZXJzaW9uIG5h
+bWVkIGAxMGAge2hlbGxvLCBlcW4oMSl9LiAge0N9IFRoaXMgZnVuY3Rpb24gaXMKY2FsbGVkIG9u
+bHkgYnkgdW5jb21tb25seSB1c2VkIHJlcXVlc3QgaGFuZGxlcnMsIHRob3NlIGZvciBgdWZgLApg
+ZnNjaGFyYCwgYHJmc2NoYXJgLCBgc3BlY2lhbGAsIGBmc3BlY2lhbGAsIGBmem9vbWAsIGBiZGAs
+IGFuZApgdGtmYC4gIHtJdCdzIGEgcmFyZSBncm9mZiB1c2VyIHdobyBjYW4gc2F5IHdpdGggY29u
+ZmlkZW5jZSB3aGF0Cl9hbGxfIG9mIHRob3NlIHJlcXVlc3RzIGRvLn0gICJCdXQgd2FpdCwiIHlv
+dSBzYXksICJpc24ndCB0aGlzCnNhbWUga2luZCBvZiBmb250IGxvb2t1cCBkb25lIHdpbGRseSBj
+b21tb25seSwgbGlrZSB3aXRoIGV2ZXJ5CmBmdGAgcmVxdWVzdCBvciBgXGZgIGVzY2FwZSBzZXF1
+ZW5jZT8gIHtEfSBZZXMhICBTbyB0aGVyZSdzIGdvb2QKbmV3cyBhbmQgYmFkIG5ld3MsIGFuZCB0
+aGV5J3JlIHRoZSBzYW1lIG5ld3MuICBUaGVyZSBpcyBsb2dpYyB0bwpkbyBleGFjdGx5IHRoYXQt
+LXRvIGRpc2FtYmlndWF0ZSBhbmQgcmVzb2x2ZSBmb250IG1vdW50aW5nCnBvc2l0aW9ucyBhbmQg
+aWRlbnRpZmllcnMgYmVoaW5kIHRoYXQgcmVxdWVzdCBhbmQgdGhhdCBlc2NhcGUKc2VxdWVuY2Uu
+ICBJdCBsaXZlcywgZHVwbGljYXRpdmVseSwgaW4gYW5vdGhlciBmdW5jdGlvbiBpbiBhCmRpZmZl
+cmVudCBzb3VyY2UgZmlsZS4gIHtFfSAiQnV0IHdhaXQsIiB5b3Ugc2F5LCAid2h5IHdhcyB0aGlz
+CmZ1bmN0aW9uLCBhIHN1cHBvcnRpbmcgZnVuY3Rpb24gZm9yIHJlcXVlc3QgaGFuZGxlcnMgdGhh
+dCByZWFkCm9ubHkgc3BhY2UtZGVsaW1pdGVkIGFyZ3VtZW50cywgY2FsbGluZyBgdG9rZW46Ogpp
+c191c2FibGVfYXNfZGVsaW1pdGVyKClgPyIgIEdvb2QgcXVlc3Rpb24hICBJIGRvbid0IGtub3cs
+IGJ1dAppdCdzIGJlZW4gZG9pbmcgdGhhdCwgbW9kdWx1cyB0aGUgcmVuYW1pbmdzIGZvciB3aGlj
+aCBJIGZlYXIgSQphbSBiZWNvbWluZyBub3RvcmlvdXMsIGF0IGxlYXN0IHNpbmNlIGdyb2ZmIDEu
+MjIuMyBpbiBOb3ZlbWJlcgoyMDE0LiAgV2l0aGluIHRoZSByZXF1ZXN0IGhhbmRsZXJzLCB3ZSBh
+cmVuJ3QgaW4gYSBkZWxpbWl0ZWQKaW5wdXQgY29udGV4dCBhdCBhbGwtLWFzIHRoZSBHTlUgdHJv
+ZmYgY29kZSBiYXNlIHVzZXMgdGhhdAp0ZXJtLS1zbyBpdCdzIGEgbXlzdGVyeS4KCmB0b2tlbjo6
+aXNfdXNhYmxlX2FzX2RlbGltaXRlcigpYCB1c2VkIHRvIGJlIGtub3duIGFzCmB0b2tlbjo6ZGVs
+aW1pdGVyKClgLiAgSSBpbnZpdGUgdGhlIHJlYWRlciB0byBjb21wYXJlIGFuZApjb250cmFzdCB0
+aGUgZm9sbG93aW5nLgoKaHR0cHM6Ly9jZ2l0LmdpdC5zYXZhbm5haC5nbnUub3JnL2NnaXQvZ3Jv
+ZmYuZ2l0L3RyZWUvc3JjL3JvZmYvXAp0cm9mZi9ub2RlLmNwcD9oPTEuMjIuMyNuNjE2MwoKaHR0
+cHM6Ly9jZ2l0LmdpdC5zYXZhbm5haC5nbnUub3JnL2NnaXQvZ3JvZmYuZ2l0L3RyZWUvdHJvZmYv
+XApub2RlLmM/aD0xLjAyI240MzczCgpXaHkgbm90IGp1c3QgaGF2ZSBgcmVhZF9mb250X2lkZW50
+aWZpZXIoKWAgY2FsbCBgc2VsZWN0X2ZvbnQoKWAKb3ZlciBpbiAiZW52LmNwcCI/ICBTaWRlIGVm
+ZmVjdHMuICBBcyB3aXRoIG1hbnkgR05VIHRyb2ZmCmZ1bmN0aW9ucywgcGFyc2luZyBsb2dpYyBp
+cyBlbnRhbmdsZWQgd2l0aCBlbmdpbmUgbG9naWM7IHNlZQpTYXZhbm5haCAjNjgyNDAuICBTbyBp
+bnN0ZWFkIEkgY29weSB0aGUgbGV4aWNhbCBhbmFseXNpcyBiaXRzIG9mCmBzZWxlY3RfZm9udCgp
+YCBpbnRvIHRoaXMgZnVuY3Rpb24sIHJlcGxhY2luZyBtb3N0IG9mIGl0LiAgSG93CmNhbiBJIGJl
+IGNvbmZpZGVudCB0aGlzIHdpbGwgd29yayB3ZWxsPyAgQXBhcnQgZnJvbSBhIGJ1aWxkCnByb2Nl
+ZWRpbmcgc3VjY2Vzc2Z1bGx5IGFuZCBwYXNzaW5nIG91ciB0ZXN0IHN1aXRlIChub3cgd2l0aCAz
+NDAKYXV0b21hdGVkIHRlc3RzKSwgdGhlIGBzZWxlY3RfZm9udCgpYCBsb2dpYyBpcyBhIGhvdHRl
+ciBjb2RlCnBhdGggYW5kLCBJIHN1c3BlY3QsIGFsd2F5cyBoYXMgYmVlbi4gIEFmdGVyIG15IGxh
+c3QgcHVzaAplYXJsaWVyIHRoaXMgd2VlaywgSSBnYXRoZXJlZCBjb3ZlcmFnZSBzdGF0aXN0aWNz
+IGZyb20gYSBmdWxsCmJ1aWxkIHdpdGggdGVzdHMuICBgcmVhZF9mb250X2lkZW50aWZpZXIoKSB3
+YXMgaGl0IDEyLDAyMyB0aW1lcy4KVGhhdCBzZWVtcyBsaWtlIGEgbG90LCByaWdodD8KCmBzZWxl
+Y3RfZm9udCgpYCB3YXMgaGl0IDI1NCw0ODkgdGltZXMuICBJZiB5b3UgY2FuJ3QKc3VjY2Vzc2Z1
+bGx5IGNoYW5nZSBmb250cyBpbiBHTlUgdHJvZmYsIGEgbG90IG1vcmUgcGVvcGxlIChhbmQKdGVz
+dCBzY3JpcHRzIG9mIG91cnMpIHdpbGwgbm90aWNlIHRoYW4gY2FuIG9ic2VydmUgbWFsZnVuY3Rp
+b25zCm9mIHRoZSBgdWZgLCBgZnNjaGFyYCwgYHJmc2NoYXJgLCBgc3BlY2lhbGAsIGBmc3BlY2lh
+bGAsCmBmem9vbWAsIGBiZGAsIG9yIGB0a2ZgIHJlcXVlc3RzLiAgKEFuZCwgaW4gZmFjdCwgYGJk
+YCBfZG9lc24ndF8Kd29yayB3ZWxsLiAgU2VlIFNhdmFubmFoICM2ODI1Ni4pICBTbyBpZiBJIGhh
+dmUgdG8gdmlvbGF0ZSBEUlksCkknbSBjcmliYmluZyB0aGUgYmF0dGxlLWhhcmRlbmVkIGNvZGUu
+ICBNb3Jlb3ZlciB0aGVyZSdzIG5vCnJlYXNvbiBhdCBhbGwsIG9uIGFueSBwcmluY2lwbGUsIHRv
+IGJlIGNoZWNraW5nIGZvciBkZWxpbWl0ZXJzCmluIHRoaXMgaW5wdXQgY29udGV4dCwgYXMgbm90
+ZWQgYWJvdmUuCgpGaXhlcyA8aHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzY4MjUyPi4g
+IFRoZSByb290IGNhdXNlIG9mCnRoZSBwcm9ibGVtIGRlcGVuZHMgb24gd2hhdCB5b3UgY29uc2lk
+ZXIgdGhlIGRlZmVjdCB0byBiZS4gIEFzCm5vdGVkIGFib3ZlLCB0aGUgYXNzZXJ0aW9uIGNhbWUg
+aW4gd2l0aCBjb21taXQgOGI4M2ZkM2RkOCwgMgpOb3ZlbWJlciwgYWZmZWN0aW5nIGdyb2ZmIDEu
+MjQuMC4gIEJ1dCB0aGUgY29kZSBwYXRoCl9jb250YWluaW5nXyB0aGUgYXNzZXJ0aW9uIHNob3Vs
+ZCBuZXZlciBoYXZlIGJlZW4gdGFrZW4gaW4gdGhlCmZpcnN0IHBsYWNlIGJ5IHRoZSByZXF1ZXN0
+IGhhbmRsZXJzIGZvciBgYmRgIGV0IGFsLi0teWV0IGl0IGhhcwpiZWVuLCBldmVyIHNpbmNlIGdy
+b2ZmJ3MgYmlydGguICBVbnRpbCBub3cuCgpGaXhlcyA8aHR0cHM6Ly9zYXZhbm5haC5nbnUub3Jn
+L2J1Z3MvPzY4MjQ2Pi4KW2dyb2ZmXTogSW1wcm92ZSBgZHRgIHJlcXVlc3QgdW5pdCB0ZXN0LgpX
+ZSBjYW4gY29uc2VxdWVudGx5IGRyb3Agc29tZSBub3ctdW51c2VkIGNvZGUuCgooY2xhc3MgcGFn
+ZV9sZW5ndGhfcmVnKTogRHJvcCBgZ2V0X3ZhbHVlKClgIGRlY2xhcmF0aW9uLgoocGFnZV9sZW5n
+dGhfcmVnOjpnZXRfdmFsdWUpOiBEZWxldGUuCgooY2xhc3MgdmVydGljYWxfcG9zaXRpb25fcmVn
+KTogRHJvcCBgZ2V0X3ZhbHVlKClgIGRlY2xhcmF0aW9uLgoodmVydGljYWxfcG9zaXRpb25fcmVn
+OjpnZXRfdmFsdWUpOiBEZWxldGUuCgooY2xhc3MgaGlnaF93YXRlcl9tYXJrX3JlZyk6IERyb3Ag
+YGdldF92YWx1ZSgpYCBkZWNsYXJhdGlvbi4KKGhpZ2hfd2F0ZXJfbWFya19yZWc6OmdldF92YWx1
+ZSk6IERlbGV0ZS4KCihjbGFzcyBkaXN0YW5jZV90b19uZXh0X3RyYXBfcmVnKTogRHJvcCBgZ2V0
+X3ZhbHVlKClgCmRlY2xhcmF0aW9uLgooZGlzdGFuY2VfdG9fbmV4dF90cmFwX3JlZzo6Z2V0X3Zh
+bHVlKTogRGVsZXRlLgoKW2xpYmdyb2ZmXTogVHJpdmlhbGx5IHJlZmFjdG9yLiAgUmVuYW1lIGxp
+YnJhcnkncyBgY29uY2F0KClgCmZ1bmN0aW9uIHRvIGBjYXRlbmF0ZSgpYC4KClt0cm9mZl06IFRy
+aXZpYWxseSByZWZhY3RvciBmb3Igc2VtYW50aWMgY2xhcml0eS4gIFRoZSBwYXJhbWV0ZXIKbmFt
+ZWQgYHJlcXVpcmVkYCB1c2VkIGJ5IG1hbnkgZnVuY3Rpb25zIHdhcyBlbXBsb3llZCBmb3IgdHdv
+CnNsaWdodGx5IGRpZmZlcmVudCBwdXJwb3Nlcy4gIEluIHNvbWUgaW5zdGFuY2VzLCBpdCBpbmRp
+Y2F0ZWQKd2hldGhlciBlbWlzc2lvbiBvZiBhIGRpYWdub3N0aWMgbWVzc2FnZSB3YXMgZGVzaXJl
+ZCBpbiB0aGUKZXZlbnQgYSB0b2tlbiBleHBlY3RlZCBvbiB0aGUgaW5wdXQgc3RyZWFtIChvciBz
+aW1pbGFyKSB3YXMKYWJzZW50LiAgSW4gb3RoZXJzLCBpdCBlbmNvZGVkIHdoZXRoZXIgdGhlIHBy
+ZXNlbmNlIG9mIHN1Y2ggYQp0b2tlbiB3YXMgX29wdGlvbmFsXywgaW4gd2hpY2ggY2FzZSBib3Ro
+IGl0cyBwcmVzZW5jZSBhbmQKYWJzZW5jZSB3ZXJlIHZhbGlkLiAgVGhlIGxhdHRlciB0ZW5kcyB0
+byBiZSB0aGUgY2FzZSB3aGVuIGEKdG9rZW4gaXMgcHJlc2VudCBidXQgbWlnaHQgb3IgbWlnaHQg
+bm90IGhhdmUgYXNzb2NpYXRlZApgY2hhcmluZm9gIGRhdGEuICBEZXRhbmdsZSB0aGVzZSBpc3N1
+ZXMgYnkgcmVuYW1pbmcgYHJlcXVpcmVkYAphcmd1bWVudHMgdG8gYHdhbnRfZGlhZ25vc3RpY2Ag
+YW5kIGBpc19tYW5kYXRvcnlgIGFzCmFwcHJvcHJpYXRlLgoKW2J1aWxkXTogRHJvcCBubyBsb25n
+ZXIgbmVlZGVkIGNoZWNrIGZvciBgc3RydWN0IGV4Y2VwdGlvbmAuICBJdAp3YXMgdXNlZCBvbmx5
+IGJ5IHRoZSBub3ctZGVsZXRlZCAic3JjL2xpYnMvbGliZ3JvZmYvbWF0aGVyci5jIi4KCltsaWJn
+cm9mZl06IERyb3AgIm1hdGhlcnIuYyIgZmlsZSwgZGVjbGFyaW5nICh1bmRlciB0aGUKcHJlcHJv
+Y2Vzc29yIGNvbmRpdGlvbnMgYEhBVkVfU1RSVUNUX0VYQ0VQVElPTmAgYW5kIGBUTE9TU2ApCmBt
+YXRoZXJyKClgIGFuZCBgc3RydWN0IGV4Y2VwdGlvbmAuICBUaGUgZm9ybWVyIGlzIEsmUi1zdHls
+ZSwKdGh1cyBwcm9oaWJpdGVkIGluIElTTyBDMjMsIGFuZCBjYW4gKHNob3VsZCkgY2F1c2UgYnVp
+bGQKZmFpbHVyZXMgd2l0aCBjb21waWxlcnMgY29uZmlndXJlZCBmb3IgdGhhdCB2ZXJzaW9uIG9m
+IHRoZSBDCmxhbmd1YWdlLiAgQXV0b2NvbmYgMi43MywgcmVsZWFzZWQgbGFzdCBtb250aCwgdHJp
+ZXMgaGFyZGVyIHRvCmFycmFuZ2UgYnVpbGRzIHRvIHVzZSBDMjMgYnkgZGVmYXVsdC4gIEFsc28g
+d2Ugc3RyYWlnaHQgdXAgZG9uJ3QKX25lZWRfIHRoaXMgZGVjbGFyYXRpb24gKGFueW1vcmUpOyBu
+b3RoaW5nIGluIGdyb2ZmIGNhbGxzCmBtYXRoZXJyKClgLiAgSXQgZGF0ZXMgYmFjayB0byB0aGUg
+Q2xhcmsgZGF5cywgd2hlbiB0aGVyZSB3YXMgbm8KZ251bGliIGZvciBncm9mZiB0byB1c2UgKG9y
+IG1heWJlIGl0IGRpZG4ndCBzdXBwb3J0IEMrKyBwcm9qZWN0cwphdCB0aGUgdGltZSkuICBXaGF0
+ZXZlciBnbnVsaWIgbmVlZHMsIGl0IHRyYW5zaXRpdmVseSBjbG9zdXJlcwpmb3IgdXMsIHNvIHdl
+IG5vIGxvbmdlciBuZWVkIHRvIGFuZCBjYW4gdGhyb3cgdGhpcyAzMC15ZWFyIG9sZApzdHVmZiBv
+ZiBvdXJzIGF3YXkuCgpGaXhlcyA8aHR0cHM6Ly9zYXZhbm5haC5nbnUub3JnL2J1Z3MvPzY4MjAy
+Pi4gIFByb2JsZW0gYXBwZWFycwp0byBkYXRlIGJhY2sgdG8gZ3JvZmYncyBiaXJ0aC4KCkV2ZW4g
+dGhlIHVzZSBvZiBgaW50YCBpcyBhIGJpdCBzbGlwcGVyeSBvZiB1cywgc2luY2UgaXQncyBhCnNp
+Z25lZCB0eXBlIHdpdGggYSAzMS1iaXQgc2lnbmlmaWNhbmQuICBCdXQgbGliZ3JvZmYncwpgZ2x5
+cGhfdG9fdW5pY29kZSgpYCwgd2hpY2ggYGdldF91bmljb2RlX2NvZGUoKWAgY2FsbHMsIHVzZXMK
+Ii0xIiB0byBzaWduYWwgYW4gZXJyb3IgaW4tYmFuZC4KClt0cm9mZl06IFJlbmFtZSBzb21lIG1l
+bWJlciBmdW5jdGlvbnMuCgpbdHJvZmZdOiBSZWZhY3Rvci4gIE1ha2UgdGhlICJndXRzIiBvZiB0
+aGUgYGNob3BfbWFjcm8oKWAKZnVuY3Rpb24gYSBtZW1iZXIgZnVuY3Rpb24gb2YgY2xhc3MgYG1h
+Y3JvYC4KCltncm90dHldOiBSZXZpc2UgZHluYW1pYyBtZW1vcnkgYWxsb2NhdGlvbiBzdHJhdGVn
+eS4gIFRoZQpgdHR5X3ByaW50ZXJgIGNsYXNzIG1haW50YWlucyBhIG1lbWJlciB2YXJpYWJsZSBg
+bGluZXNgLCBhCnBvaW50ZXIgdG8gYSBwb2ludGVyIHRvIHR5cGUgYHR0eV9nbHlwaGAsIHdoaWNo
+IGl0IHVzZXMgYXMgYQpyZWZlcmVuY2UgdG8gYSBkeW5hbWljYWxseSBhbGxvY2F0ZWQgcmVjdGFu
+Z3VsYXIgYXJyYXkgb2YKY2hhcmFjdGVyIGNlbGxzLiAgVGhlIHNpemUgb2YgdGhpcyBhcnJheSBp
+cyBub3QgZml4ZWQ7IGBwbGAKcmVxdWVzdHMgaW4gYW4gaW5wdXQgZG9jdW1lbnQgY2FuIGdyb3cg
+b3Igc2hyaW5rIHRoZSBwYWdlCmxlbmd0aC4gIFRoZSBzdHJhdGVneSBpdCBoYXMgdXNlZCB0byBk
+YXRlIHRvIGhhbmRsZSBhCm5vbi1kZWZhdWx0IHBhZ2UgbGVuZ3RoIHByb3ZlZCB0byBwZXJmb3Jt
+IGJhZGx5IHdpdGggdGhlIG5ldwphcHByb2FjaCB0byBjb250aW51b3VzIHJlbmRlcmluZyB1c2Vk
+IGJ5IGdyb2ZmJ3MgbWFuKDcpIGFuZAptZG9jKDcpIHBhY2thZ2VzIGluIHZlcnNpb24gMS4yNC4w
+LiAgSWYgdGhlIGluaXRpYWwgYWxsb2NhdGlvbgpvZiA2NiBsaW5lcyAocm93cykgb2YgY2hhcmFj
+dGVyIGNlbGxzIHdhcyBpbnN1ZmZpY2llbnQgYmVjYXVzZQp0aGUgaW5wdXQgZXh0ZW5kZWQgdGhl
+IHBhZ2UgbGVuZ3RoLCBpdCBncmV3IHRoZSBhbGxvY2F0aW9uIChhbmQKcGVyZm9ybWVkIGEgbWVt
+Y3B5KDMpIG9mIGl0cyBleGlzdGluZyBjb250ZW50cykgYnkgb25seSBhcyBtdWNoCmFzIHJlcXVp
+cmVkIHRvIGFjY29tbW9kYXRlIHRoZSBjdXJyZW50IHZlcnRpY2FsIGRyYXdpbmcKcG9zaXRpb24s
+IHBsdXMgb25lIGxpbmUuICBGb3IgYSBmYW1vdXNseSBsZW5ndGh5IG1hbiBwYWdlIGxpa2UKYmFz
+aCgxKSwgdGhpcyBtZWFudCBtYW55IHJlcGVhdGVkIHRyaXBzIHRocm91Z2gKbmV3L21lbWNweSgp
+L2RlbGV0ZSBzZXF1ZW5jZXMsIGdpdmluZyB0aGUgbGFuZ3VhZ2UgcnVudGltZQphbGxvY2F0b3Ig
+YSBsb3Qgb2Ygd29yayB0byBkby4gIEluIGFuIGV4dHJlbWUgY2FzZSB7Zm9ybWF0dGluZwo2NCBj
+YXRlbmF0ZWQgY29waWVzIG9mIGJhc2goMSl9LCB0aGlzIGxlZCB0byBsb25nIHJ1bnRpbWVzIHdp
+dGgKdHdvLXRoaXJkcyBvZiBwcm9ncmFtIHRpbWUgc3BlbnQgaW4gdGhlIGtlcm5lbC4KClRoZSBu
+ZXcgc3RyYXRlZ3kgaXMgdG8gZG91YmxlIHRoZSBhbGxvY2F0aW9uIHNpemUgZXZlcnkgdGltZSBp
+dAppcyBleGNlZWRlZCwgYnV0IGFsc28gdG8gZnJlZSBhbnkgcmVzaXplZCBhbGxvY2F0aW9uIGF0
+IHRoZSBlbmQKb2YgZXZlcnkgcGFnZS4gIFdoZW4gY29udGludW91c2x5IHJlbmRlcmluZywgdGhl
+cmUgd2lsbCBvbmx5CmV2ZXIgYmUgb25lIHBhZ2UgYW55d2F5LCBidXQgdGhpcyB0YWN0aWMgaXMg
+bW9yZSBjb25zaWRlcmF0ZSBmb3IKdGhlIHthZG1pdHRlZGx5IG5pY2hlfSBjYXNlIG9mIHBhZ2lu
+YXRlZCBkb2N1bWVudHMgdGhhdCB2YXJ5IHRoZQpwYWdlIGxlbmd0aCBmcmVxdWVudGx5LS13aGlj
+aCBpcyB0aGUgYXBwcm9hY2ggdGhhdCBncm9mZiAxLjIzLjAKYW5kIGVhcmxpZXIgdG9vayB0byBj
+b250aW51b3VzIHJlbmRlcmluZywgYW5kIHRoYXQgb3RoZXIgbWFjcm8KcGFja2FnZXMgb3IgZG9j
+dW1lbnRzIG1pZ2h0IHN0aWxsLiAgKHRibCgxKSB1c2VycyBzaG91bGQgYmV3YXJlCm9mIHRoZSBz
+b3J0IG9mIHByb2JsZW0gb2JzZXJ2ZWQgaW4gU2F2YW5uYWggIzY1MTg5LikgIFRoaXMKY2hhbmdl
+IHJlZHVjZXMgZ3JvdHR5KDEpJ3Mgd2FsbC1jbG9jayB0aW1lIGZvciB0aGUKYWZvcmVtZW50aW9u
+ZWQgNjQgY29waWVzIG9mIGJhc2goMSkgZnJvbSA5Mi4xIHNlY29uZHMgdG8gMy41LAphbmQgdGhl
+IHByb3BvcnRpb24gb2YgcHJvY2VzcyB0aW1lIHNwZW50IGluIHRoZSBzeXN0ZW0gZnJvbQo2My4z
+JSB0byA2LjM4JS4KClsxXSBodHRwczovL3NvdXJjZXdhcmUub3JnL2dpdC8/cD1nbGliYy5naXQ7
+YT1jb21taXQ7XApoPTQ2YjVlOThlZjZmMQoKRml4ZXMgPGh0dHBzOi8vc2F2YW5uYWguZ251Lm9y
+Zy9idWdzLz82ODE0NT4uICBUaGFua3MgdG8gRG15dHJvCkJhZ3JpaSBmb3IgdGhlIHJlcG9ydCwg
+dG8gTW9ydGVuIEJvIEpvaGFuc2VuIGZvciBoZWxwCnJlcHJvZHVjaW5nIHRoZSBwcm9ibGVtLCBh
+bmQgdG8gRGVyaSBKYW1lcyBmb3IgYSBzaHJld2QgcG9pbnRlcgppbiB0aGUgcmlnaHQgZGlyZWN0
+aW9uLgoKW3Ryb2ZmXTogQWRkIGludGVybmFsIG1lY2hhbmlzbSBmb3IgZGlzdGluZ3Vpc2hpbmcg
+dmFsaWRpdHkgb2YKZm9udCBtb3VudGluZyBwb3NpdGlvbnMgYXMgX3ZhbHVlc18gZnJvbSB0aGVp
+ciB1c2FiaWxpdHkgdG8KZm9ybWF0IG91dHB1dC4gIEEgZm9udCBtb3VudGluZyBwb3NpdGlvbiBp
+cyBhbiBpbnRlZ2VyIHdpdGggYQpsaW1pdGVkIHJhbmdlLiAgVGhlIGZvbnQgaW5mb3JtYXRpb24g
+YXNzb2NpYXRlZCB3aXRoIHRoYXQKe290aGVyd2lzZSB2YWxpZH0gcG9zaXRpb24gY2FuIG5ldmVy
+dGhlbGVzcyBub3QgYmUgdXNhYmxlIGZvcgpmb3JtYXR0aW5nIG91dHB1dC4gIFdoaWxlIHRoZSBm
+b3JtYXR0ZXIgYXR0ZW1wdHMgdG8gcHJldmVudAppbnB1dCBkb2N1bWVudHMgZnJvbSBjb250b3J0
+aW5nIHRoZW1zZWx2ZXMgaW50byB0aGlzIHNpdHVhdGlvbiwKaXQgYWxzbyBhZmZvcmRzIGEgbWVh
+bnMgb2YgZWdyZXNzIGZyb20gdmFsaWQgc3RhdGUuICBTZWUgdGhlCmBzdHlgIChjb3VudGVyLSll
+eGFtcGxlIGluIGdyb2ZmJ3MgVGV4aW5mbyBtYW51YWwgPGh0dHBzOi8vXAp3d3cuZ251Lm9yZy9z
+b2Z0d2FyZS9ncm9mZi9tYW51YWwvZ3JvZmYuaHRtbC5ub2RlLwpGb250LUZhbWlsaWVzLmh0bWw+
+LgoKQWRkIG5ldyBmdW5jdGlvbiB0YWtpbmcgYW4gaW50ZWdlciBtb3VudGluZyBwb3NpdGlvbiBh
+bmQKcmV0dXJuaW5nIGEgQm9vbGVhbi4KClt0cm9mZl06IFJlZmFjdG9yIHJlc29sdXRpb24gb2Yg
+Y3VycmVudGx5IHNlbGVjdGVkIGZvbnQgKHdoaWNoCmNhbiBiZSBhbiBhYnN0cmFjdCBzdHlsZSwg
+b3IgZXZlbiBpbnZhbGlkKSB0byBhIGZvbnQgbW91bnRpbmcKcG9zaXRpb24uCgpbdHJvZmZdOiBN
+YWtlIHdhcm5pbmcgZGlhZ25vc3RpYyBmdW5jdGlvbnMgcmV0dXJuIGB2b2lkYC4KQ2hhbmdlIHJl
+dHVybiB0eXBlIG9mIGB3YXJuaW5nKClgIGFuZCBgb3V0cHV0X3dhcm5pbmcoKWAKZnVuY3Rpb25z
+IGZyb20gYGludGAgdG8gYHZvaWRgLiAgSSB3b3VsZCBoYXZlIGJvb2xpZmllZCB0aGVtLApidXQg
+bm90aGluZyBldmVyIGNoZWNrcyB0aGVpciByZXR1cm4gdmFsdWVzLgoKKGRvX2V4cHJfdGVzdCk6
+IFJlbmFtZSBsb2NhbCB2YXJpYWJsZSBgc2F2ZWRfd2FybmluZ19tYXNrYCB0bwpgc2F2ZWRfZGVz
+aXJlZF93YXJuaW5nc2AuCihlbmFibGVfd2FybmluZywgZGlzYWJsZV93YXJuaW5nKTogUmVuYW1l
+IGxvY2FsIHZhcmlhYmxlIGBtYXNrYAp0byBgY2F0ZWdvcnlgLgoKKHNldF93YXJuaW5nX21hc2tf
+cmVxdWVzdCk6IFJlbmFtZSB0aGlzLi4uCihjb25maWd1cmVfZGVzaXJlZF93YXJuaW5nc19yZXF1
+ZXN0KTogLi4udG8gdGhpcy4KKGluaXRfaW5wdXRfcmVxdWVzdHMpIDx3YXJuPjogVXBkYXRlIHdp
+cmUtdXBwZXJ5LgoKKHN0cnVjdCB3YXJuaW5nX2NhdGVnb3J5KTogUmVuYW1lIGBtYXNrYCBtZW1i
+ZXIgdG8gYHNldGAuCihsb29rdXBfd2FybmluZyk6IFRyYWNrIHJlbmFtZSBvZiBzdHJ1Y3R1cmUg
+bWVtYmVyLgo=
 
---===============1480187526380524899==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-6.1.3.tar.gz" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-6.1.5.tar.gz"
-packages/x86-64-v3-poky-linux/python3-uritools: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGSIZE changed from 50062 to 56253 (+12%)
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-src: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info -> /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PV changed from "6.1.3" to "6.1.5"
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PKGSIZE changed from 73198 to 75487 (+3%)
-Changes to packages/x86-64-v3-poky-linux/python3-uritools (sysroot):
-  /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info moved to /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info
-
---===============1480187526380524899==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-uritools-changelog.txt"
-
-v6.1.5 (2026-11-07)
-===================
-
-- Bound ``uriencode()`` lookup table using ``functools.lru_cache()``.
-- Minor code and test improvements.
-
-v6.1.4 (2026-11-04)
-===================
-
-- Fix newline handling in ``uricompose()`` and ``urisplit()``.
-- Compare schemes case-insensitively in non-strict ``urijoin()``.
-- Recognize an uppercase ``IPvFuture`` version flag.
-- Various documentation improvements.
-- Minor unit test improvements.
-- Update build environment.
-
---===============1480187526380524899==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGSIZE changed from 50062 to 56253 (+12%)
-packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info -> /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-uritools (sysroot):
-  /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info moved to /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info
-
---===============1480187526380524899==--
+--===============4233596860516329910==--
