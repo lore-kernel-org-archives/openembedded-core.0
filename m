@@ -1,583 +1,186 @@
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4012.1794169824321400364
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4235.1794170762879812565
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2026 12:30:24 -0800
+ Sun, 08 Nov 2026 12:46:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=VpLK2P2j;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20261108203022c5c575002400020783-jr_hem@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20261108203022c5c575002400020783
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 08 Nov 2026 21:30:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=GaFsjQFRzGsQqYZ0rD0XL/HLLAs/n+I3ikaoWiBc420=;
- b=VpLK2P2jx0Hp36IQ94/1pUKw8Zpy0loWg6Z544COaTxVpc6M9oxKJrjWyiAVtTk21fxjhT
- N8gXCdyNZwC55IlI+uAYCqQ66iNjMTe5LtBuWhIuwi+geRtS0SZuB4YIwsOSWP6KvdweV8do
- gvgHINA+X7rH9dTFv86WHDcnyMBcKbgtD11gVn+9I2xqNMcWnTXU2wepquoKzL76E/Bm4pOy
- v5MqVnzDN4s/lvbyFUPCvZcnlhYlemy5nbf76sdBd2CWBlAsd4vQVSNPNz6CuuLHa5albJpg
- eqTKX3MV7A6+/3cWGnQh/z2W8CFUTuBt9c1URYbV8nv6iU7GG1O05q6Q==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=bxkIB4zX;
+ spf=pass (domain: gmail.com, ip: 74.125.82.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36eb1cb7aabso363462eec.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 12:46:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794170762; x=1794775562; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XqMn6ueoZnPfQQH9zu/PCRiBhNJ3SNcqJO+zQJob8rw=;
+        b=bxkIB4zXiS73zA10ePDGGE3HmFqcLZmt5w5AYtxF1IQ1sU9szWNIEPEE+wMP+klItg
+         BBTMtSj+dyWSgjZCuYlzeUMaOxBhMiM9i5niClsg0tb8TSrfD65IhClMKITwOxfA86id
+         erY4juQ3hU4TNoT5tj0fcbzGzXWfK6yMr1WgHn/he0i4gg6/74gMNF1m/eJHSx+Q1c6t
+         y2k9bAtVkGy5C+ZnOPk1h88+T8DaVOdLK8L5+7nsFSG9YssTc33j+BFlQTxcXM7MkIUD
+         s3pEzEwHzLbPrgK0MVQKPlMo2eeC9OOxBq8fNcyYUHNT6OT6FlfPsLvT6QRLi+N3zr7g
+         DM8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794170762; x=1794775562;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XqMn6ueoZnPfQQH9zu/PCRiBhNJ3SNcqJO+zQJob8rw=;
+        b=EnG6fIInIBLwSjs0i1VTPwMv7P3xWP7bMTMfdqhm0ivwRO9j35IUAFtyuFUZMUiBn1
+         zWcxJ9GDjcr/+Acp4XgLCCIAxMR5vdmSpY7Db1Ufj6lJEMM1ez0hpNDItGe5ktgqPIAA
+         zD+sLxtUdB70SdPivOYgIssXlTwBS0hQa14+3KP2oCpyTsylLhdvMfAJ/5HAwfClYN/E
+         wU6eWZDmvzpBVrD7OYyQm+1onTl8I7lVGmWuvmgCU3353pcurydTcIpXehwCIfE1vmZ7
+         J/xZhA4iJe1tTZ4orOwHYY+VFraNnst5YQnUPZdehCwTAX+qzW+7d6gKAxAEaN2AH93I
+         NiUA==
+X-Gm-Message-State: APuU4Z+gMflZxJ4sDaLncjAn0Zq2+Ual3pDmNCuVBgHFBe/3wnsRR9zV
+	icX4BDBwODT2AIL4FGCa/LdT+c1yUlPimRWpu4hmJGz/J5IIf3jd2zaVakHKK/Dqf5o=
+X-Gm-Gg: AYBFou0RsawMM+hbf1bcOERUdYJL5nsmFUURs9clRhfjokh6B/Okmo6rbnywtAerkuK
+	Wi/4Pnv9fC5CnzWTpsd3AZsX6gyp8vZe9bmUlkdczuHYiL9Mp9qe5YiQI/pgIHBiMUXV19kC5kV
+	ktHj1FdwVDikw/zi0XXtk3M4Xat44SyP2pfnOg4QdXeRD5tHxIckfg0jHcKfr2VUEk8VuPiVhf2
+	tLp1rVi9CdswO2m5Y/okaHCgVc0zhIeb4xD70QDpQgZlZSEdLPfrmFIb974qH2EsQ/JR2haC0ey
+	tZwzT4iTqe5SOGU6faq0PbnecFVYUR6idW6mRQoBFYyg3jLNNBeVVwsDCNR4wflmYLhBGnMou9U
+	R7KLPQnzA8lQUSHWzL3U5mTs49mU9yU/rtlHTOP3y8Tz23sW1W+scSZkEcm98wVrKS0iujMj/NV
+	4twBaKRKXkq94TznzVvxqruLFnVIOObBn0Q9Z6FRknfVxSNwCwjaBn15avQSyhgtbAt3vOWmHBq
+	26GjS6CYBL8sEC0C53VlHaG4maoCPnPQjXg8LdRVgAYpT/ba9VqKxT9oRuu7J49vb+XBOHfihPt
+	BQvF3OcUuq46kQ9WP5uOnLErXt+QuTiYGhknolQN1rFwdpbJFayV0uUg/gPD3HYL9OF4s1LSGTA
+	mqmCYFgdTWkLpoJbKk5vBDZYJnTkQej8PiNR9PoHMSj5NuwdT2FMa0+Gqibf3F0ggfpc6a53ga1
+	n+9vDevkLJlOKh3qLUHxtACrVfCLmRf5g0zrK3o139A70SPT8/tQ8Eg5a5eTeGGLJjS9+y/j3Ml
+	AxvU1UjXbRakmgaehfbb5BEFh4mCf00dXBqfqVIg8ZJ7CfyaWds7Ob8YiAWCrMEhR3XqFHlvYSi
+	QEwoCrtpv+8k3EkjeZPLjPy6TPE=
+X-Received: by 2002:a05:693c:4002:b0:36a:1e9e:ae61 with SMTP id 5a478bee46e88-37256615acamr3823736eec.38.1794170762090;
+        Sun, 08 Nov 2026 12:46:02 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-372665db733sm6821005eec.23.2026.11.08.12.46.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 12:46:01 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH] popt: patch CVE-2026-18839
-Date: Sun,  8 Nov 2026 21:29:22 +0100
-Message-ID: <20261108202922.2743710-1-peter.marko@siemens.com>
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>,
+	Sunil Dora <sunilkumar.dora@windriver.com>
+Subject: [PATCH v2] packagegroups: Add clang to the SDK
+Date: Sun,  8 Nov 2026 12:45:58 -0800
+Message-ID: <20261108204558.3577002-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 20:30:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249768
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 20:46:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249769
 Content-Type: text/plain; charset="utf-8"
 
-From: Peter Marko <peter.marko@siemens.com>
+Add clang to packagegroup-clang-cross-canadian gate it on SDK_FEATURES
 
-Pick commits from PR [1] referencing this CVE.
-Modify the patch by converting cmake change to autotools.
+Add packagegroup-clang-cross-canadian-${MACHINE}, mirroring the go and
+rust ones, and add it to TOOLCHAIN_HOST_TASK only when SDK_FEATURES
+contains 'clang'.
 
-[1] https://github.com/rpm-software-management/popt/pull/142
+This keeps clang out of SDKs that don't ask for it.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Add llvm runtime knob to the SDK
+
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Cc: Sunil Dora <sunilkumar.dora@windriver.com>
 ---
- .../popt/popt/CVE-2026-18839-01.patch         |  89 ++++
- .../popt/popt/CVE-2026-18839-02.patch         | 419 ++++++++++++++++++
- meta/recipes-support/popt/popt_1.19.bb        |   2 +
- 3 files changed, 510 insertions(+)
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
+v2: Add it via SDK_FEATURES
 
-diff --git a/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch b/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
+ meta/classes-recipe/populate_sdk_base.bbclass       |  2 ++
+ .../packagegroup-clang-cross-canadian.bb            | 11 +++++++++++
+ .../packagegroups/packagegroup-clang-sdk-target.bb  | 13 +++++++++++++
+ .../packagegroups/packagegroup-core-sdk.bb          |  3 ++-
+ .../packagegroup-core-standalone-sdk-target.bb      |  5 +++++
+ 5 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-clang-cross-canadian.bb
+ create mode 100644 meta/recipes-core/packagegroups/packagegroup-clang-sdk-target.bb
+
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+index 0d67ab6ac6..35d2f20339 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -71,12 +71,14 @@ SDK_FEATURES:remove:powerpc = "go"
+ TOOLCHAIN_HOST_TASK ?= " \
+     nativesdk-packagegroup-sdk-host \
+     packagegroup-cross-canadian-${MACHINE} \
++    ${@bb.utils.contains('SDK_FEATURES', 'clang', 'packagegroup-clang-cross-canadian-${MACHINE}', '', d)} \
+     ${@bb.utils.contains('SDK_FEATURES', 'go', 'packagegroup-go-cross-canadian-${MACHINE}', '', d)} \
+     ${@bb.utils.contains('SDK_FEATURES', 'rust', 'packagegroup-rust-cross-canadian-${MACHINE}', '', d)} \
+ "
+ TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
+ TOOLCHAIN_TARGET_TASK ?= " \
+     ${@oe.utils.multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} \
++    ${@bb.utils.contains('SDK_FEATURES', 'clang', oe.utils.multilib_pkg_extend(d, 'packagegroup-clang-sdk-target'), '', d)} \
+     ${@bb.utils.contains('SDK_FEATURES', 'go', oe.utils.multilib_pkg_extend(d, 'packagegroup-go-sdk-target'), '', d)} \
+     ${@bb.utils.contains('SDK_FEATURES', 'rust', oe.utils.multilib_pkg_extend(d, 'libstd-rs'), '', d)} \
+     ${@bb.utils.contains('SDK_FEATURES', 'kernel-src', 'kernel-devsrc', '', d)} \
+diff --git a/meta/recipes-core/packagegroups/packagegroup-clang-cross-canadian.bb b/meta/recipes-core/packagegroups/packagegroup-clang-cross-canadian.bb
 new file mode 100644
-index 00000000000..c3cb7e319c8
+index 0000000000..a1d7445b71
 --- /dev/null
-+++ b/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
-@@ -0,0 +1,89 @@
-+From 4f5a070cd98aade2767677de22661f4854d4a195 Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Thu, 20 Aug 2026 13:46:32 +0300
-+Subject: [PATCH] Bring in our own allocating printf() variants
++++ b/meta/recipes-core/packagegroups/packagegroup-clang-cross-canadian.bb
+@@ -0,0 +1,11 @@
++SUMMARY = "Host SDK package for clang cross canadian toolchain"
 +
-+These are brought mostly as-is from rpm under a new POPT_ name, just
-+with a slight change return an error on memory alloc failure whereas
-+rpm exits on error.
-+As the author of rvasprintf() and rasprintf() there, I'm at liberty to
-+(re)license them under MIT as well.
++include recipes-core/packagegroups/packagegroup-cross-canadian.bb
 +
-+No functional changes here, just needed for sanity going forward.
++PN = "packagegroup-clang-cross-canadian-${MACHINE}"
 +
-+CVE: CVE-2026-18839
-+Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/4f5a070cd98aade2767677de22661f4854d4a195]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/poptint.c | 38 ++++++++++++++++++++++++++++++++++++++
-+ src/poptint.h |  4 ++++
-+ 2 files changed, 42 insertions(+)
++CLANG = "clang-cross-canadian-${TRANSLATED_TARGET_ARCH}"
 +
-+diff --git a/src/poptint.c b/src/poptint.c
-+index b8dc90f..6b61ae3 100644
-+--- a/src/poptint.c
-++++ b/src/poptint.c
-+@@ -192,3 +192,41 @@ POPT_fprintf (FILE * stream, const char * format, ...)
-+ }
-+ 
-+ #endif	/* !defined(POPT_fprintf) */
-++
-++int POPT_vasprintf(char **strp, const char *fmt, va_list ap)
-++{
-++    char * p = NULL;
-++    va_list aq;
-++
-++    if (strp == NULL)
-++	return -1;
-++
-++    va_copy(aq, ap);
-++    int n = vsnprintf(NULL, 0, fmt, aq);
-++    va_end(aq);
-++
-++    if (n >= 0) {
-++	size_t nb = (size_t)n + 1;
-++	if ((p = malloc(nb))) {
-++	    va_copy(aq, ap);
-++	    n = vsnprintf(p, nb, fmt, aq);
-++	    va_end(aq);
-++	} else {
-++	    n = -1;
-++ 	}
-++    }
-++    *strp = p;
-++
-++    return n;
-++}
-++
-++int POPT_asprintf(char **strp, const char *fmt, ...)
-++{
-++    va_list ap;
-++
-++    va_start(ap, fmt);
-++    int n = POPT_vasprintf(strp, fmt, ap);
-++    va_end(ap);
-++
-++    return n;
-++}
-+diff --git a/src/poptint.h b/src/poptint.h
-+index 910d6f5..d4127b3 100644
-+--- a/src/poptint.h
-++++ b/src/poptint.h
-+@@ -10,6 +10,7 @@
-+ #define H_POPTINT
-+ 
-+ #include <stdint.h>
-++#include <stdarg.h>
-+ 
-+ /**
-+  * Wrapper to free(3), hides const compilation noise, permit NULL, return NULL.
-+@@ -136,6 +137,9 @@ const char *POPT_next_char (const char *str);
-+ 
-+ #endif
-+ 
-++int POPT_vasprintf(char **strp, const char *fmt, va_list ap);
-++int POPT_asprintf(char **strp, const char *fmt, ...);
-++
-+ #if defined(ENABLE_NLS) && defined(HAVE_LIBINTL_H)
-+ #include <libintl.h>
-+ #endif
-diff --git a/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch b/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
++RDEPENDS:${PN} += "\
++    ${@oe.utils.all_multilib_tune_values(d, 'CLANG')} \
++"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-clang-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-clang-sdk-target.bb
 new file mode 100644
-index 00000000000..702403c2b3a
+index 0000000000..fb6eff8707
 --- /dev/null
-+++ b/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
-@@ -0,0 +1,419 @@
-+From af6f19e5968d48608a062d6d92d28b7fd248f8ea Mon Sep 17 00:00:00 2001
-+From: Panu Matilainen <pmatilai@redhat.com>
-+Date: Thu, 20 Aug 2026 14:28:11 +0300
-+Subject: [PATCH] Fix a bucketful of buffer overflows in popt --help printing
++++ b/meta/recipes-core/packagegroups/packagegroup-clang-sdk-target.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "Target packages for the clang SDK"
 +
-+singleOptionDefaultValue() based the default value string output buffer
-+size on the available line length, without any sort of bounds checking
-+for most data. This was trivial to overflow with longer option names.
++inherit packagegroup
 +
-+There was also this baffling ellipsizing of long string arguments, done
-+done based on the rather arbitrary buffer size instead of screen limits.
-+Ellipsizing of long values might be totally reasonable but that belongs
-+to the display code that does all manner of formatting too.
-+
-+Just use our newly introduced allocating sprintf() to get it right for
-+good. Drop the line length argument entirely, it was only used for
-+a bad estimation of the needed buffer size.
-+
-+At the other end, make sure the indent length stays below available
-+columns to avoid the underflow from help printing.
-+
-+Annoyingly we need multiple different test programs for this because
-+the various crashes are quite sensitive to the max length of a single
-+option in the table. There are more broken cases than these, but we
-+can't test everything and these cover the CVE-2026-18839 case.
-+Update the ellipsis test a bit because it no longer makes sense.
-+
-+Note: this depends on the previous commit.
-+
-+Fixes: CVE-2026-18839
-+
-+CVE: CVE-2026-18839
-+Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/af6f19e5968d48608a062d6d92d28b7fd248f8ea]
-+Convert cmake change to autotools.
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/popthelp.c    | 55 ++++++++++++++++-------------------------------
-+ tests/Makefile.am | 10 ++++++++-
-+ tests/test1.c     |  2 +-
-+ tests/test4-1.c   | 33 ++++++++++++++++++++++++++++
-+ tests/test4-2.c   | 33 ++++++++++++++++++++++++++++
-+ tests/test4-3.c   | 33 ++++++++++++++++++++++++++++
-+ tests/test4-4.c   | 33 ++++++++++++++++++++++++++++
-+ tests/testit.sh   | 36 +++++++++++++++++++++++++++++--
-+ 8 files changed, 195 insertions(+), 40 deletions(-)
-+ create mode 100644 tests/test4-1.c
-+ create mode 100644 tests/test4-2.c
-+ create mode 100644 tests/test4-3.c
-+ create mode 100644 tests/test4-4.c
-+
-+diff --git a/src/popthelp.c b/src/popthelp.c
-+index fa31901..3950975 100644
-+--- a/src/popthelp.c
-++++ b/src/popthelp.c
-+@@ -197,79 +197,60 @@ getArgDescrip(const struct poptOption * opt,
-+ 
-+ /**
-+  * Display default value for an option.
-+- * @param lineLength	display positions remaining
-+  * @param opt		option(s)
-+  * @param translation_domain	translation domain
-+  * @return
-+  */
-+ static char *
-+-singleOptionDefaultValue(size_t lineLength,
-++singleOptionDefaultValue(
-+ 		const struct poptOption * opt,
-+ 		/* FIX: i18n macros disabled with lclint */
-+ 		const char * translation_domain)
-+ {
-+     const char * defstr = D_(translation_domain, "default");
-+-    char * le = malloc(4*lineLength + 1);
-+-    char * l = le;
-++    char * l = NULL;
-+ 
-+-    if (le == NULL) return NULL;	/* XXX can't happen */
-+-    *le = '\0';
-+-    *le++ = '(';
-+-    le = stpcpy(le, defstr);
-+-    *le++ = ':';
-+-    *le++ = ' ';
-+   if (opt->arg) {	/* XXX programmer error */
-+     poptArg arg = { .ptr = opt->arg };
-+     switch (poptArgType(opt)) {
-+     case POPT_ARG_VAL:
-+     case POPT_ARG_INT:
-+-	le += sprintf(le, "%d", arg.intp[0]);
-++	POPT_asprintf(&l, "(%s: %d)", defstr, arg.intp[0]);
-+ 	break;
-+     case POPT_ARG_SHORT:
-+-	le += sprintf(le, "%hd", arg.shortp[0]);
-++	POPT_asprintf(&l, "(%s: %hd)", defstr, arg.shortp[0]);
-+ 	break;
-+     case POPT_ARG_LONG:
-+-	le += sprintf(le, "%ld", arg.longp[0]);
-++	POPT_asprintf(&l, "(%s: %ld)", defstr, arg.longp[0]);
-+ 	break;
-+     case POPT_ARG_LONGLONG:
-+-	le += sprintf(le, "%lld", arg.longlongp[0]);
-++	POPT_asprintf(&l, "(%s: %lld)", defstr, arg.longlongp[0]);
-+ 	break;
-+     case POPT_ARG_FLOAT:
-+     {	double aDouble = (double) arg.floatp[0];
-+-	le += sprintf(le, "%g", aDouble);
-++	POPT_asprintf(&l, "(%s: %g)", defstr, aDouble);
-+     }	break;
-+     case POPT_ARG_DOUBLE:
-+-	le += sprintf(le, "%g", arg.doublep[0]);
-++	POPT_asprintf(&l, "(%s: %g)", defstr, arg.doublep[0]);
-+ 	break;
-+     case POPT_ARG_MAINCALL:
-+-	le += sprintf(le, "%p", opt->arg);
-++	POPT_asprintf(&l, "(%s: %p)", defstr, opt->arg);
-+ 	break;
-+     case POPT_ARG_ARGV:
-+-	le += sprintf(le, "%p", opt->arg);
-++	POPT_asprintf(&l, "(%s: %p)", defstr, opt->arg);
-+ 	break;
-+     case POPT_ARG_STRING:
-+-    {	const char * s = arg.argv[0];
-+-	if (s == NULL)
-+-	    le = stpcpy(le, "null");
-+-	else {
-+-	    size_t limit = 4*lineLength - (le - l) - sizeof("\"\")");
-+-	    size_t slen;
-+-	    *le++ = '"';
-+-	    strncpy(le, s, limit); le[limit] = '\0'; le += (slen = strlen(le));
-+-	    if (slen == limit && s[limit])
-+-		le[-1] = le[-2] = le[-3] = '.';
-+-	    *le++ = '"';
-+-	}
-+-    }	break;
-++	if (arg.argv[0])
-++	    POPT_asprintf(&l, "(%s: \"%s\")", defstr, arg.argv[0]);
-++	else
-++	    POPT_asprintf(&l, "(%s: %s)", defstr, "null");
-++	break;
-+     case POPT_ARG_NONE:
-+     default:
-+-	l = _free(l);
-+ 	return NULL;
-+ 	break;
-+     }
-+   }
-+-    *le++ = ')';
-+-    *le = '\0';
-+ 
-+     return l;
-+ }
-+@@ -286,7 +267,9 @@ static void singleOptionHelp(FILE * fp, columns_t columns,
-+ 		const char * translation_domain)
-+ {
-+     size_t maxLeftCol = columns->cur;
-+-    size_t indentLength = maxLeftCol + 5;
-++    size_t indentLength = maxLeftCol + 5 < columns->max ?
-++			maxLeftCol + 5 :
-++			columns->max - (maxLeftCol % columns->max) - 1;
-+     size_t lineLength = columns->max - indentLength;
-+     const char * help = D_(translation_domain, opt->descrip);
-+     const char * argDescrip = getArgDescrip(opt, translation_domain);
-+@@ -347,7 +330,7 @@ static void singleOptionHelp(FILE * fp, columns_t columns,
-+ 
-+ 	/* Choose type of output */
-+ 	if (F_ISSET(opt, SHOW_DEFAULT)) {
-+-	    defs = singleOptionDefaultValue(lineLength, opt, translation_domain);
-++	    defs = singleOptionDefaultValue(opt, translation_domain);
-+ 	    if (defs) {
-+ 		char * t = malloc((help ? strlen(help) : 0) +
-+ 				strlen(defs) + sizeof(" "));
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 99fbf64..dfc60e7 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -11,7 +11,7 @@ EXTRA_DIST = testit.sh \
-+ 
-+ AM_CPPFLAGS = -I. -I$(top_srcdir)/src
-+ 
-+-noinst_PROGRAMS = test1 test2 tdict test3 tstuff
-++noinst_PROGRAMS = test1 test2 tdict test3 tstuff test4-1 test4-2 test4-3 test4-4
-+ tstuff_SOURCES = tstuff.c
-+ tstuff_LDFLAGS =
-+ tstuff_LDADD = $(top_builddir)/src/libpopt.la
-+@@ -24,6 +24,14 @@ test2_LDADD = $(top_builddir)/src/libpopt.la
-+ test3_SOURCES = test3.c
-+ test3_LDFLAGS = 
-+ test3_LDADD = $(top_builddir)/src/libpopt.la
-++test4_1_SOURCES = test4-1.c
-++test4_1_LDADD = $(top_builddir)/src/libpopt.la
-++test4_2_SOURCES = test4-2.c
-++test4_2_LDADD = $(top_builddir)/src/libpopt.la
-++test4_3_SOURCES = test4-3.c
-++test4_3_LDADD = $(top_builddir)/src/libpopt.la
-++test4_4_SOURCES = test4-4.c
-++test4_4_LDADD = $(top_builddir)/src/libpopt.la
-+ tdict_SOURCES = tdict.c
-+ tdict_LDFLAGS = 
-+ tdict_LDADD = $(top_builddir)/src/libpopt.la
-+diff --git a/tests/test1.c b/tests/test1.c
-+index 7a3e663..3007f27 100644
-+--- a/tests/test1.c
-++++ b/tests/test1.c
-+@@ -49,7 +49,7 @@ static char * oStr = (char *) -1;
-+ static int singleDash = 0;
-+ 
-+ static const char * lStr =
-+-"This tests default strings and exceeds the ... limit. "
-++"This tests default strings and exceeds the former ... limit. "
-+ "123456789+123456789+123456789+123456789+123456789+ "
-+ "123456789+123456789+123456789+123456789+123456789+ "
-+ "123456789+123456789+123456789+123456789+123456789+ "
-+diff --git a/tests/test4-1.c b/tests/test4-1.c
-+new file mode 100644
-+index 0000000..2a0f094
-+--- /dev/null
-++++ b/tests/test4-1.c
-+@@ -0,0 +1,33 @@
-++#include <stdio.h>
-++#include <popt.h>
-++
-++static char *arg2 = "meh";
-++
-++static struct poptOption options[] = {
-++    { "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaargh",
-++	    '\0', POPT_ARG_STRING | POPT_ARGFLAG_SHOW_DEFAULT,
-++	    &arg2, 0, "Second", NULL },
-++
-++    POPT_AUTOALIAS
-++    POPT_AUTOHELP
-++    POPT_TABLEEND
-++};
-++
-++int main(int argc, const char *argv[])
-++{
-++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
-++
-++    poptReadDefaultConfig(optCon, 0);
-++
-++    int rc = poptGetNextOpt(optCon);
-++
-++    if (rc < -1) {
-++	fprintf(stderr, "%s: bad argument %s: %s\n",
-++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
-++		poptStrerror(rc));
-++	goto exit;
-++    }
-++
-++exit:
-++    poptFreeContext(optCon);
-++}
-+diff --git a/tests/test4-2.c b/tests/test4-2.c
-+new file mode 100644
-+index 0000000..f9cd13d
-+--- /dev/null
-++++ b/tests/test4-2.c
-+@@ -0,0 +1,33 @@
-++#include <stdio.h>
-++#include <popt.h>
-++
-++static char *arg3 = NULL;
-++
-++static struct poptOption options[] = {
-++    { "brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgh",
-++	    '\0', POPT_ARG_STRING | POPT_ARGFLAG_SHOW_DEFAULT,
-++	    &arg3, 0, "Third", NULL },
-++
-++    POPT_AUTOALIAS
-++    POPT_AUTOHELP
-++    POPT_TABLEEND
-++};
-++
-++int main(int argc, const char *argv[])
-++{
-++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
-++
-++    poptReadDefaultConfig(optCon, 0);
-++
-++    int rc = poptGetNextOpt(optCon);
-++
-++    if (rc < -1) {
-++	fprintf(stderr, "%s: bad argument %s: %s\n",
-++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
-++		poptStrerror(rc));
-++	goto exit;
-++    }
-++
-++exit:
-++    poptFreeContext(optCon);
-++}
-+diff --git a/tests/test4-3.c b/tests/test4-3.c
-+new file mode 100644
-+index 0000000..a29f359
-+--- /dev/null
-++++ b/tests/test4-3.c
-+@@ -0,0 +1,33 @@
-++#include <stdio.h>
-++#include <popt.h>
-++
-++static char *arg2 = NULL;
-++
-++static struct poptOption options[] = {
-++    { "aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrggggggh",
-++	    '\0', POPT_ARG_STRING,
-++	    &arg2, 0, "xxxxx", NULL },
-++
-++    POPT_AUTOALIAS
-++    POPT_AUTOHELP
-++    POPT_TABLEEND
-++};
-++
-++int main(int argc, const char *argv[])
-++{
-++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
-++
-++    poptReadDefaultConfig(optCon, 0);
-++
-++    int rc = poptGetNextOpt(optCon);
-++
-++    if (rc < -1) {
-++	fprintf(stderr, "%s: bad argument %s: %s\n",
-++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
-++		poptStrerror(rc));
-++	goto exit;
-++    }
-++
-++exit:
-++    poptFreeContext(optCon);
-++}
-+diff --git a/tests/test4-4.c b/tests/test4-4.c
-+new file mode 100644
-+index 0000000..b1b1322
-+--- /dev/null
-++++ b/tests/test4-4.c
-+@@ -0,0 +1,33 @@
-++#include <stdio.h>
-++#include <popt.h>
-++
-++static char *arg2 = NULL;
-++
-++static struct poptOption options[] = {
-++    { "aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgggggghyyyyy",
-++	    '\0', POPT_ARG_STRING,
-++	    &arg2, 0, "xxxxx", NULL },
-++
-++    POPT_AUTOALIAS
-++    POPT_AUTOHELP
-++    POPT_TABLEEND
-++};
-++
-++int main(int argc, const char *argv[])
-++{
-++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
-++
-++    poptReadDefaultConfig(optCon, 0);
-++
-++    int rc = poptGetNextOpt(optCon);
-++
-++    if (rc < -1) {
-++	fprintf(stderr, "%s: bad argument %s: %s\n",
-++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
-++		poptStrerror(rc));
-++	goto exit;
-++    }
-++
-++exit:
-++    poptFreeContext(optCon);
-++}
-+diff --git a/tests/testit.sh b/tests/testit.sh
-+index d26be3a..b8357c8 100755
-+--- a/tests/testit.sh
-++++ b/tests/testit.sh
-+@@ -149,8 +149,8 @@ Usage: test1 [OPTION...]
-+       --nstr=STRING               POPT_ARG_STRING: (null) (default: null)
-+       --lstr=STRING               POPT_ARG_STRING: \"123456789...\" (default:
-+                                   \"This tests default strings and exceeds the
-+-                                  ... limit.
-+-                                  123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 1234567...\")
-++                                  former ... limit.
-++                                  123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ \")
-+ 
-+ arg for cb2
-+   -c, --cb2=STRING                Test argument callbacks
-+@@ -183,5 +183,37 @@ run_diff test3 "test3 - 2" test3-data/02.input test3-data/02.answer
-+ run_diff test3 "test3 - 3" test3-data/03.input test3-data/03.answer
-+ run_diff test3 "test3 - 5" test3-data/05.input test3-data/05.answer
-+ 
-++run test4-1 "test 4-1 - 63" "\
-++Usage: test4-1 [OPTION...]
-++      --aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaargh=STRING     Second (default: \"meh\")
-++
-++Help options:
-++  -?, --help                                                                Show this help message
-++      --usage                                                               Display brief usage message" --help
-++
-++run test4-2 "test 4-2 - 64" "\
-++Usage: test4-2 [OPTION...]
-++      --brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgh=STRING     Third (default: null)
-++
-++Help options:
-++  -?, --help                                                                                                              Show this help message
-++      --usage                                                                                                             Display brief usage message" --help
-++
-++run test4-3 "test 4-3 - 65" "\
-++Usage: test4-3 [OPTION...]
-++      --aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrggggggh=STRING     xxxxx
-++
-++Help options:
-++  -?, --help                                                                   Show this help message
-++      --usage                                                                  Display brief usage message" --help
-++
-++run test4-4 "test 4-4 - 66" "\
-++Usage: test4-4 [OPTION...]
-++      --aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgggggghyyyyy=STRING     xxxxx
-++
-++Help options:
-++  -?, --help                                                                        Show this help message
-++      --usage                                                                       Display brief usage message" --help
-++
-+ echo ""
-+ echo "Passed."
-diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
-index 18cc4f2867d..33f07552a6e 100644
---- a/meta/recipes-support/popt/popt_1.19.bb
-+++ b/meta/recipes-support/popt/popt_1.19.bb
-@@ -12,6 +12,8 @@ SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
-            file://run-ptest \
-            file://CVE-2026-18743.patch \
-            file://CVE-2026-18739.patch \
-+           file://CVE-2026-18839-01.patch \
-+           file://CVE-2026-18839-02.patch \
-            "
- SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
- 
++RDEPENDS:${PN} = " \
++    clang \
++    clang-format \
++    clang-tidy \
++    compiler-rt-dev \
++    compiler-rt-staticdev \
++    libcxx-dev \
++    libcxx-staticdev \
++"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index b3010d7674..56a2588e35 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -10,7 +10,7 @@ inherit packagegroup
+
+ #PACKAGEFUNCS =+ 'generate_sdk_pkgs'
+
+-TARGET_TOOLCHAIN_LANGS ??= "${@bb.utils.filter('SDK_FEATURES', 'go rust', d)}"
++TARGET_TOOLCHAIN_LANGS ??= "${@bb.utils.filter('SDK_FEATURES', 'clang go rust', d)}"
+ TARGET_TOOLCHAIN_LANGS:remove:sdkmingw32 = "rust"
+ # libstd-rs doesn't build for mips n32 with compiler constraint errors
+ TARGET_TOOLCHAIN_LANGS:remove:mipsarchn32 = "rust"
+@@ -30,6 +30,7 @@ RDEPENDS:packagegroup-core-sdk = "\
+     ldd \
+     file \
+     tcl \
++    ${@bb.utils.contains('TARGET_TOOLCHAIN_LANGS', 'clang', 'packagegroup-clang-sdk-target', '', d)} \
+     ${@bb.utils.contains('TARGET_TOOLCHAIN_LANGS', 'go', 'packagegroup-go-sdk-target', '', d)} \
+     ${@bb.utils.contains('TARGET_TOOLCHAIN_LANGS', 'rust', 'packagegroup-rust-sdk-target', '', d)} \
+ "
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+index 06fdda90c7..dbe9cc0449 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+@@ -12,6 +12,11 @@ RDEPENDS:${PN} = "\
+     libstdc++ \
+     libstdc++-dev \
+     ${LIBC_DEPENDENCIES} \
++    ${@bb.utils.contains_any('TC_CXX_RUNTIME', 'llvm android', 'libcxx-dev \
++    libcxx-staticdev \
++    compiler-rt-dev \
++    compiler-rt-staticdev \
++    ', '', d)} \
+     "
+
+ RRECOMMENDS:${PN}:mingw32 = "\
