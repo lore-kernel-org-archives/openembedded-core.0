@@ -1,136 +1,215 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1473.1794080268835422793
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8306.1794115345407220905
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Nov 2026 11:37:48 -0800
+ Sat, 07 Nov 2026 21:22:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=IAdz5TaD;
- spf=pass (domain: gmail.com, ip: 74.125.82.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso70247eec.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Nov 2026 11:37:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794080268; x=1794685068; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DOOMi8UftRpwDcDJAESTKhDJJF6CSlSU1q5Ab29WOH4=;
-        b=IAdz5TaDoWSGZjA1vw/W/bXzAoqE03KUui/1WRZkWLBBWPLABHWhKcjZagfRkQ7GgX
-         Dhisf7QW7HQuBpKo4LzrEBqtUTT9u+4OoQzCSGaoFJYoJKxy3kX40dR+2ljr3Hc+RvjM
-         IBLSV/wf0L15/LFFG2B7HsOOiQ8tMD08cKCs530E+WQWGEPitSvXrbBd+m/Hf7i7PyIo
-         oP1Q5gbNx2IrEjxlCUFZcHuJ+PLJfmsGgdZG8IqJvWAD4nsL+X1XKJZHOBJgsnGih0qS
-         Wr3qT2ua0UBqFA53OLG9RGkrGFK1JLY7HodGieElApmmDysuylc8hmmAEi4czhPqRDoH
-         pbnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794080268; x=1794685068;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DOOMi8UftRpwDcDJAESTKhDJJF6CSlSU1q5Ab29WOH4=;
-        b=notJAoD1v/vQlUrEdIcCOnjYCt+X1ho+fEjbUXJYEFzMLWufNhLC8SFiJ09SAF6Kr1
-         Gz4gcw6d3spWYjsYcdPO+UoVBbworYm15x4XCzU7sdR4Ep7eU6e7r93kIhqnkRisuRid
-         ehOeJDar6ODmrqtQuT3tBOGIkQGJTXOqptsnT+4MRyVDAIyA7GyPj5Va7vMyXiuzxcwE
-         Q42F8/a7s1Vp4FRQjEsZhGi96GrcS3fP1nevnCQDS4GqgMQm0jUiMGKpgExHEKp9k7Ed
-         TDhMRc63OVcbjy1tORwzFYvyA+lN+6X+avyD7Cku1I2R0c8PVSZ8U9/+8+50Ukw2f4Xr
-         Pakw==
-X-Gm-Message-State: APuU4Z/WKftFJYsntrfWRNd5at1Y4Ev56hXlOgSsE9+78kvHk5QvE4dj
-	wltoVceSF3A0ersUuBegYYu6J9kH1MFRjMpXh5WOB17zxo1YGNWdrCuOL2ZvCZBuIIk=
-X-Gm-Gg: AYBFou11RW+R6cv4I2oOgcVE1BPUIvmrkOBxpDNE7Q3SZVT1bR5YDsSqpuAG3mTLVk7
-	jyiNsAl5TEl0sCQ8w0g+RHUh9xrLU+dFvAsWvYrVA78ibQT0cdp84jAPaPvwBB00V76zJHMbune
-	R4Doc+LgOVuznugJ9RQI6VrGzx26DNd/fQu8++nn920N7Rae1RLRuNnMnIBO43ufXZQ20/M24Vw
-	fvrUPVrdBwHDJULGM/0vC1orTZT5/I3NOJESnwnDuPwSeMqLftlXHrBs1svFuaERhErQTrc9eZf
-	lerNc238asc13o8/EV0RhFBpddMGouykQnOWkrHvNAJMJgS4o1nY8qzO0xZmBVK5QLZRcFImRX1
-	kzOOPrG3bDgGqmv2wihpEou5xjvef7VIaxNXd649APTntccTzxanCCLNPH1mj5KpRWXZ3kIlZmk
-	y6V/MG8tDAyu8PffK1cgfrmer8HOFVXxMGhK5N/851I0wzgdNADvJe12zyiccqio8T5DUfFdwsx
-	gxfLodWwAjPCOv3vWJGtY1r1YvN/nPYUTON3X/CYcIZXTU7WeYT+2NnxGEOllGZJmYZ4PHQFGMK
-	dkQUGjSoBDMHKL5IhpwwAaMdl92vdEn2YTMEr1/Kc/c/RJslZFWHqUQSmz5y2CN1UDuLp1PPN1I
-	28PZ0ZtwmKFJR4/GywIJdX+Lu7gioucz/5kOcA02H3NGEqbFP+VwOLGsAFNWOfqjA01DnV3sDGK
-	IuInW2N2mb6+2sNTp20V1S9XdEM2zkZ2p5/++h+p1tm1kGI226mPxTVMqsvvxRaRXn9RJi3jzFl
-	agi9MkmSxXkrK9eqxVgXtH2Z6HNSlKEZhymXY/NHCC95vdCQ8D9Sle2iPBmfmj/SYstW4NGes5Z
-	/e5H
-X-Received: by 2002:a05:7022:ea46:10b0:152:3812:496a with SMTP id a92af1059eb24-1b25d3769b2mr8226158c88.43.1794080267738;
-        Sat, 07 Nov 2026 11:37:47 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b37314626dsm668099c88.1.2026.11.07.11.37.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 11:37:46 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] slang: Fix link with lld
-Date: Sat,  7 Nov 2026 11:37:44 -0800
-Message-ID: <20261107193744.1040700-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=nnVqGEo2;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bwHkSI0t;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a1b99b98a3-f80ecd96-2467-4e6d-a89b-933e865f8482-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1794115344;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=5Uw5doh1K1n8rAokOQv91Cki2kC/g6Gg0HCjeoZHnZE=;
+	b=nnVqGEo2wx2EP3eESb/gFUiIzcRkEwXHAl9lrbLKh1IwsW7s8Y6Q9Mm6FkgMnfkd
+	hDz8B8AFGupcad5qNH8IOAG16Gt1v+lYMFseCErwN2ym6oFhhU4nVqNUDpmo4OssGBZ
+	rIel0nmV4/LoPmArZ+ZEne4PROz0SgWRUwbt4YOo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794115344;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=5Uw5doh1K1n8rAokOQv91Cki2kC/g6Gg0HCjeoZHnZE=;
+	b=bwHkSI0tehE0L4DI7WR8iTkXZKJDRM2wIyJNCQ9yRI3JU0OV8Hd4yzkdNVPm1Lax
+	8z2Kt9t3k36XFxxmJiADTv5irwZ8N+WXpf3G4sX0RbzKBWBBYNpo/W/n6X2aQIpoFnl
+	/2kISBhl08taiAdzkmRxQcG+ocJNGXQGIcZd1U6o=
+Content-Type: multipart/mixed; boundary="===============1480187526380524899=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Marta Rybczynska <marta.rybczynska@ygreky.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-uritools: upgrading to 6.1.5 SUCCEEDED
+Message-ID: <010101a1b99b98a3-f80ecd96-2467-4e6d-a89b-933e865f8482-000000@us-west-2.amazonses.com>
+Date: Sun, 8 Nov 2026 05:22:24 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.08-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 07 Nov 2026 19:37:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249745
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 05:22:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249749
 
-src/slang.ver lists SLang_Rline_Quit, which is not defined anywhere.
-lld defaults to --no-undefined-version and fails:
+--===============1480187526380524899==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-  ld.lld: error: version script assignment of 'SLANG2' to symbol
-  'SLang_Rline_Quit' failed: symbol not defined
+Hello,
 
-meta-clang worked around this with -Wl,--undefined-version for slang;
-backport the upstream fix instead, which drops the entry. GNU ld ignored
-it, so the exported symbol set is unchanged.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-uritools* to *6.1.5* has Succeeded.
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Next steps:
+    - apply the patch: git am 0001-python3-uritools-upgrade-6.1.3-6.1.5.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 924fa5bb787d1f1aa34ec63bbd6ef228948f4011 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 8 Nov 2026 05:20:05 +0000
+Subject: [PATCH] python3-uritools: upgrade 6.1.3 -> 6.1.5
+
+v6.1.5 (2026-11-07)
+===================
+
+- Bound ``uriencode()`` lookup table using ``functools.lru_cache()``.
+- Minor code and test improvements.
+
+v6.1.4 (2026-11-04)
+===================
+
+- Fix newline handling in ``uricompose()`` and ``urisplit()``.
+- Compare schemes case-insensitively in non-strict ``urijoin()``.
+- Recognize an uppercase ``IPvFuture`` version flag.
+- Various documentation improvements.
+- Minor unit test improvements.
+- Update build environment.
 ---
- ...ve-undefined-symbol-SLang_Rline_Quit.patch | 32 +++++++++++++++++++
- meta/recipes-extended/slang/slang_2.3.3.bb    |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-extended/slang/slang/0001-src-slang.ver-Remove-undefined-symbol-SLang_Rline_Quit.patch
+ .../{python3-uritools_6.1.3.bb => python3-uritools_6.1.5.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-uritools_6.1.3.bb => python3-uritools_6.1.5.bb} (79%)
 
-diff --git a/meta/recipes-extended/slang/slang/0001-src-slang.ver-Remove-undefined-symbol-SLang_Rline_Quit.patch b/meta/recipes-extended/slang/slang/0001-src-slang.ver-Remove-undefined-symbol-SLang_Rline_Quit.patch
-new file mode 100644
-index 0000000000..30458ad721
---- /dev/null
-+++ b/meta/recipes-extended/slang/slang/0001-src-slang.ver-Remove-undefined-symbol-SLang_Rline_Quit.patch
-@@ -0,0 +1,32 @@
-+From eb22c5c3cb253bd4c6ad20d73f76dc7105ed0f3d Mon Sep 17 00:00:00 2001
-+From: "John E. Davis" <jed@jedsoft.org>
-+Date: Thu, 1 Feb 2024 13:18:03 -0500
-+Subject: [PATCH] src/slang.ver: Remove the undefined symbol SLang_Rline_Quit
-+
-+SLang_Rline_Quit is listed in the version script but not defined
-+anywhere. lld rejects this by default (--no-undefined-version):
-+
-+  ld.lld: error: version script assignment of 'SLANG2' to symbol
-+  'SLang_Rline_Quit' failed: symbol not defined
-+
-+Only the src/slang.ver hunk of the upstream commit is taken; the rest
-+is the pre-release version bump and changes.txt.
-+
-+Upstream-Status: Backport [git://git.jedsoft.org/git/slang.git eb22c5c3cb253bd4c6ad20d73f76dc7105ed0f3d]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-+---
-+ src/slang.ver | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/src/slang.ver b/src/slang.ver
-+index aa030c9..4b01f9f 100644
-+--- a/src/slang.ver
-++++ b/src/slang.ver
-+@@ -70,7 +70,6 @@ SLANG2 {
-+ 		SLang_Last_Key_Char;
-+ 		SLang_Load_File_Hook;
-+ 		SLang_Num_Function_Args;
-+-		SLang_Rline_Quit;
-+ 		SLang_TT_Baud_Rate;
-+ 		SLang_TT_Read_FD;
-+ 		SLang_TT_Write_FD;
-diff --git a/meta/recipes-extended/slang/slang_2.3.3.bb b/meta/recipes-extended/slang/slang_2.3.3.bb
-index 3f365cb3cf..67d1d62eba 100644
---- a/meta/recipes-extended/slang/slang_2.3.3.bb
-+++ b/meta/recipes-extended/slang/slang_2.3.3.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
-            file://test-add-output-in-the-format-result-testname.patch \
-            file://terminfo_fixes.patch \
-            file://array_test.patch \
-+           file://0001-src-slang.ver-Remove-undefined-symbol-SLang_Rline_Quit.patch \
-            file://run-ptest \
-           "
+diff --git a/meta/recipes-devtools/python/python3-uritools_6.1.3.bb b/meta/recipes-devtools/python/python3-uritools_6.1.5.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-uritools_6.1.3.bb
+rename to meta/recipes-devtools/python/python3-uritools_6.1.5.bb
+index 47fddec046..f886a3b38d 100644
+--- a/meta/recipes-devtools/python/python3-uritools_6.1.3.bb
++++ b/meta/recipes-devtools/python/python3-uritools_6.1.5.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/tkem/uritools/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=079933dfba36eb60b5e3512ca0ab61ae"
  
+-SRC_URI[sha256sum] = "3a498e7e85ef3249343d5710618d641a414da0fbae6d23053ada7976ee83ea5f"
++SRC_URI[sha256sum] = "5a46002351b745a6910f24167abc1ba0a7f78818121fffb32dbe1fc7767f462f"
+ 
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
+-- 
+2.47.1
+
+
+--===============1480187526380524899==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-uritools-upgrade-6.1.3-6.1.5.patch"
+
+RnJvbSA5MjRmYTViYjc4N2QxZjFhYTM0ZWM2M2JiZDZlZjIyODk0OGY0MDExIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgOCBOb3YgMjAyNiAwNToyMDowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdXJpdG9vbHM6IHVwZ3JhZGUgNi4xLjMgLT4gNi4xLjUKCnY2LjEuNSAoMjAyNi0xMS0w
+NykKPT09PT09PT09PT09PT09PT09PQoKLSBCb3VuZCBgYHVyaWVuY29kZSgpYGAgbG9va3VwIHRh
+YmxlIHVzaW5nIGBgZnVuY3Rvb2xzLmxydV9jYWNoZSgpYGAuCi0gTWlub3IgY29kZSBhbmQgdGVz
+dCBpbXByb3ZlbWVudHMuCgp2Ni4xLjQgKDIwMjYtMTEtMDQpCj09PT09PT09PT09PT09PT09PT0K
+Ci0gRml4IG5ld2xpbmUgaGFuZGxpbmcgaW4gYGB1cmljb21wb3NlKClgYCBhbmQgYGB1cmlzcGxp
+dCgpYGAuCi0gQ29tcGFyZSBzY2hlbWVzIGNhc2UtaW5zZW5zaXRpdmVseSBpbiBub24tc3RyaWN0
+IGBgdXJpam9pbigpYGAuCi0gUmVjb2duaXplIGFuIHVwcGVyY2FzZSBgYElQdkZ1dHVyZWBgIHZl
+cnNpb24gZmxhZy4KLSBWYXJpb3VzIGRvY3VtZW50YXRpb24gaW1wcm92ZW1lbnRzLgotIE1pbm9y
+IHVuaXQgdGVzdCBpbXByb3ZlbWVudHMuCi0gVXBkYXRlIGJ1aWxkIGVudmlyb25tZW50LgotLS0K
+IC4uLi97cHl0aG9uMy11cml0b29sc182LjEuMy5iYiA9PiBweXRob24zLXVyaXRvb2xzXzYuMS41
+LmJifSAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdXJpdG9v
+bHNfNi4xLjMuYmIgPT4gcHl0aG9uMy11cml0b29sc182LjEuNS5iYn0gKDc5JSkKCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNi4xLjMu
+YmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNi4xLjUu
+YmIKc2ltaWxhcml0eSBpbmRleCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXVyaXRvb2xzXzYuMS4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNi4xLjUuYmIKaW5kZXggNDdmZGRlYzA0
+Ni4uZjg4NmEzYjM4ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXVyaXRvb2xzXzYuMS4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy11cml0b29sc182LjEuNS5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAi
+aHR0cHM6Ly9naXRodWIuY29tL3RrZW0vdXJpdG9vbHMvIgogTElDRU5TRSA9ICJNSVQiCiBMSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0wNzk5MzNkZmJhMzZlYjYwYjVlMzUx
+MmNhMGFiNjFhZSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNhNDk4ZTdlODVlZjMyNDkzNDNk
+NTcxMDYxOGQ2NDFhNDE0ZGEwZmJhZTZkMjMwNTNhZGE3OTc2ZWU4M2VhNWYiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiNWE0NjAwMjM1MWI3NDVhNjkxMGYyNDE2N2FiYzFiYTBhN2Y3ODgxODEyMWZm
+ZmIzMmRiZTFmYzc3NjdmNDYyZiIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1
+aWxkX21ldGEgcHRlc3QtcHl0aG9uLXB5dGVzdAogCi0tIAoyLjQ3LjEKCg==
+
+--===============1480187526380524899==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-6.1.3.tar.gz" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-6.1.5.tar.gz"
+packages/x86-64-v3-poky-linux/python3-uritools: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGSIZE changed from 50062 to 56253 (+12%)
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-src: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info -> /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PKGV changed from 6.1.3 [default] to 6.1.5 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PV changed from "6.1.3" to "6.1.5"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PKGSIZE changed from 73198 to 75487 (+3%)
+Changes to packages/x86-64-v3-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info moved to /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info
+
+--===============1480187526380524899==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-uritools-changelog.txt"
+
+v6.1.5 (2026-11-07)
+===================
+
+- Bound ``uriencode()`` lookup table using ``functools.lru_cache()``.
+- Minor code and test improvements.
+
+v6.1.4 (2026-11-04)
+===================
+
+- Fix newline handling in ``uricompose()`` and ``urisplit()``.
+- Compare schemes case-insensitively in non-strict ``urijoin()``.
+- Recognize an uppercase ``IPvFuture`` version flag.
+- Various documentation improvements.
+- Minor unit test improvements.
+- Update build environment.
+
+--===============1480187526380524899==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGSIZE changed from 50062 to 56253 (+12%)
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info -> /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info moved to /usr/lib/python3.14/site-packages/uritools-6.1.5.dist-info
+
+--===============1480187526380524899==--
