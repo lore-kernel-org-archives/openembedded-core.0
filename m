@@ -1,168 +1,157 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2291.1794249965131350303
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3700.1794253686309113381
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 10:46:05 -0800
+ Mon, 09 Nov 2026 11:48:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=Nz24AzL2;
- spf=pass (domain: gmail.com, ip: 74.125.224.51, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-679334baa1fso1574820d50.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 10:46:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794249964; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GE6pzBwV9uYPLjnu2XkO22Fa+rfq9khviA+7U7U0730H7RERa1f0V/kFzr7HFE3V3O
-         j9UbmP6DLd3QTmxfKS2gkW2/d50wKpuk1bH2+0Bh8PUN/GHXgsdRmYP/wiL+7nvCtCXB
-         NCHE6ooY54uYML+GOfJ0LAeL+Wczeg+SjRaaHkhIyY2sAk23p5rYukS1N8VdeAUkt7bE
-         jPWzqRDQRKC+eJzTihE6mMKHQX3afEUbL6v5g5WKXOH3DZNZoM0UPB0pnBKcdiChcx31
-         +mS74Q1ItheiTnX1mHGOSUprPWsvpPpU99gcznplPiu48jkylnNE6CdwhX/hRZYznigF
-         zAwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hliNiK/7b82pQ5Ohh2ZoFeAby8CqBhQziTWwJ0gs1og=;
-        fh=AleUWv161yB2R8zWUBSjqQrISOpc033WA1EaxTb7q7k=;
-        b=m+jWJ/1K51yF+oU78fpUoaek0kLz58nHIeX4a6N2G6pEFLUWw1NnIQLzRHItgTbm9i
-         8tNt64SO44waiaPwQtnUb/jxlL9TUl3a8pLkf+A0X+MO1t49KIUvo3GwoHK+uLgD6voW
-         OJvmEdeLTJXrz9L27zXHs/NVsG4KTkUPwC3nuaTdeUNq2aa2+7P3PD4uQeFC/t6WVX3Y
-         l8FIWfE0tg2FOo4pZ8y/7KNXtqM8C0o+hjK8fa9w/MPvSpwDgMdmR80cQy8qWsSYfDOq
-         McHIC6rq6bCjn0WeX5kRHgnrtIXbMrpBpkA6vv5g3DhYO+1LLq43iU3v96hQvzUy958F
-         Hynw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=q+WbQhBK;
+ spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-70059e4dab6so684421eaf.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 11:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794249964; x=1794854764; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hliNiK/7b82pQ5Ohh2ZoFeAby8CqBhQziTWwJ0gs1og=;
-        b=Nz24AzL2XFtlgnpAY/kfdrQVK3sRk8wKC0sXnlUhFEMwb/mjbKI/H1443OKG+BE4zy
-         XmKJYVZvEYTbzWev4tcvkucJziSazpB7xTzIQsATQ+e796Z5hPbwVRCf/hKTKAixM+YD
-         juxtrDj/h4d604aSWMvaalZFCOjdiagjkV062GRuBoY5BuaXM/J+gXIwmyxbbNR7jVDQ
-         ULg2DFjR0W7+YKNEKMVX5cq3x+b2n4MLhi4HB9uya7HEyjIL9bX+NSbtYsZP8nqYmIPY
-         YtzLYUYcha5XUXcaSc0XRc8zgn1bZqvrdTnbePDDVo/MRcyt5hLf8ls6Zn7e6jCHNP6Z
-         VVHg==
+        d=gmail.com; s=20260707; t=1794253685; x=1794858485; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/2WIZpwPimqavDkzbT1ZpVYufGFe+CtcAal/HZACf5Y=;
+        b=q+WbQhBK+t6kZSRig4nsTYrY/Jewxa2Rn04A+YiYM4ZuYJghnfDNqtAiW6mR2W6qA5
+         H7gOA7laYWI32qpn5qF/0rRAwyWyt+CFocSN6qVsQKnSqdO7JWTbXpZspzVtL+QYpZmt
+         9KLQBQgJyJPoQ1cToYZRESX5eOrnPr/WIlqF+ktExg0xb8JJt2ip4HNZvlNhz1AAuj/N
+         96drW47vzpJfPo7pSyIm+RnnoWxmhtrZFG/poUVOjA5EEpdLkCu8k53Us83hPot2HOEs
+         HRfEyRoeRTws8eKfT4SYgkTwXFkGB58SjbHyMcf0FCzHk1Ee14LHs2PysvO4AJPOpRoo
+         1kOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794249964; x=1794854764;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hliNiK/7b82pQ5Ohh2ZoFeAby8CqBhQziTWwJ0gs1og=;
-        b=k4NZGxkL18qb1PzaXEeDCk9dcgfOVTZWu2+lnACPbTm8FiGjecaOZJWMEeS9LGOTuf
-         gfmXqoHlNSkzEJ6haHMX9BbsXDD030iO4W5BUWMUn3GW1ndGTXPxr7smjC9qcBkkIVBH
-         FjvMOcfPmAKI5KdLtE4ZnkZMOAc3dcpcCP7htcl8cT2ReOE8qoQBZB0S7YAJ72Ms2cWE
-         LTguegsSFo+tdO0ZBpSA5d1JxIOTmb+lCnd3F+rSRZVqls8fqM4RwqdZH/VvvcCrPBlm
-         ita0OtzrpY7MBSYt0S1WRLMsSWonyXKFuFo1/q0HEKRZGU1tlta068KV6Gd69IdU8LaQ
-         Qj/A==
-X-Forwarded-Encrypted: i=1; AL+hErEj9q8pxBP6pHRC/rwK/+5OXbrtV+QbJOaM147DSrzVXi8MoCXmeqZEziiGKRlvQkOhd+tG7f/0xfgZCy6GQbK2sQ==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/tKunXqz7hDBgcMUUoYBkYebCVzcoHhcqGHLYGCaX249Y7UK6j
-	juSXjI2ngLtxkUiPbVV2TNF3c/22ZoFTgLO22TRf+haS+J2DqDa8JHTzNpM3D6kt0zM1xjkuzS/
-	0mlJqhOzhMckqr5g89v275kR9xoKQPvmVrNuZ
-X-Gm-Gg: AYBFou3y3QY/dwcBXIGqQFp8mzLfLGLH8mAIV9w7bhnklMyFww+RGQq8MimRwweBV7d
-	HR5WIBYWIgN+Zlm0RWhidz+wUE+7pwNp0QoxeL0lqmDoeMiBt7u8zaEYs2GtXyELtRY4GbtoypA
-	prMVOm43uA1HeidHa86IDnWmNgn1K5W6qzMvQt0i9WJn5OqHqwRrTzKoFeuWsnKkTDhltk7Sx5w
-	kCG5hQbwTDy5qmCsn8U9UZwVkk0p2YY+q4LRbxczIe5DJ4am+8uFgH1cKW4dry9kST/gGnUSDEn
-	WRvMO4jmD8auQRUn56AewfOkffRJl3/UIVjwAEC0GHateQEHhV/Dm8DTpNnaWPP07R4Ai06m+pE
-	1GDL+tlC6s4PryUaZfAeEJSKIQA3EJv3t6pDJLLYRhcf25UQG8BKJ6BxIMtvLudo=
-X-Received: by 2002:a05:690e:418e:b0:675:3585:242d with SMTP id
- 956f58d0204a3-67c56800383mr193410d50.123.1794249964100; Mon, 09 Nov 2026
- 10:46:04 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794253685; x=1794858485;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/2WIZpwPimqavDkzbT1ZpVYufGFe+CtcAal/HZACf5Y=;
+        b=zSOf1lqw2HGC2ol1vWou6m2JvALQA935AfOvKEIowUSH7CXRT2Yi+8vPqPRl7qfxmV
+         HHrfhDWTz1iu2qyT8UU5RKN2bKndMhoVEki/svPxb7wefkHsVM2MyM2OZhhmjUC1N076
+         cmbaR0CNo/BRmEUNqUlRHbJ4PkSMqv3sFkcj5JJiNRzFVcDq8wy5ZEey/NduixarQB03
+         Rc6c3NE6r6wKTyFUZhBom+XIy1d9kdUNiJw6JIZDmhgZ2jhqnMbL6s+B7VGDFzWP2ncF
+         J15ru9IfXESU4KiWJ/DTDBGzbLVBMXQWrxEsLiZd0kX8CJgat3KwMlLiSlza3ZW6c79d
+         81bQ==
+X-Gm-Message-State: APuU4Z8rnpPkdgC/M7fqQYcE41k5WrmhsCnJ/0UPh1hthl39y2+spzg/
+	Zs5hp8SWb3N5nh0UflBLuPThVZ+7RrHZsNFYEr/CmoL04GezBOoY9CtZEbHFRA==
+X-Gm-Gg: AYBFou0sakk4MdJBiziubwHN6rBQsKhEqnxfGuiifIu1DnfCGZge0hzY31HyjOj7C1v
+	6NpynM386bbZvhu7ACS7rQvQ2wp+B4Ph6O2UaEnCYmKq3qFbL0mhEh2mmuXPbpxinNmaTj2aC85
+	/t0PmDIfwd7JCDrc7CxxVGj31J7iepFNSi9EQMk4wIn9qu1xqA8D4o4QivvLR0YAQvEhHd/QI/J
+	Ce/WZFHU93+BEagbYiRjTvD3esJ4O4paDF3qMW68iWyDqyq0BJGGnByY97tLF7aUVUUFOlnFsn7
+	UVEFYMU+Gr3Tla6i1+8qT0ktSMVs92Z88OywdSQA/F24W4q+0mcNqmjkF/n+uC8lwXrtXXdg4Km
+	eA9pq/LiEvvmZgjOHAdEGVDrhMXZKHAKtykkT/vxKfYH0gZSDGZhChIImZVg4tIZoJrRhF6P0X+
+	9ZsjVnlD9tq8dFJnTVQSVG40GW1zMlWQ/Wchs4nBXPSgaK5OBhggROSG0qMDHwHFR7KcHvuhGhx
+	5GR3XZLKlNqDvgZfQITeE5mhQdtV5IxgGJE2B2ThpWAvJ/TA4DUHZIDuLqbAfxoGMfVsIqzhndL
+	uDQ3Avn49tp++qQGPGABKCRSGu8VG5koHWS7VlSOhsB06HBY
+X-Received: by 2002:a05:6820:6fc5:b0:714:adb2:3245 with SMTP id 006d021491bc7-718a5f4ab69mr79054eaf.37.1794253685424;
+        Mon, 09 Nov 2026 11:48:05 -0800 (PST)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2601:283:4b01:ba50::3232])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-718aa132e65sm70363eaf.14.2026.11.09.11.48.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 11:48:05 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v9 4/9] classes-global/sstate: Keep SPDX generating setscene dependencies
+Date: Mon,  9 Nov 2026 12:45:40 -0700
+Message-ID: <20261109194759.550935-5-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261109194759.550935-1-JPEWhacker@gmail.com>
+References: <20261104153535.3184146-1-JPEWhacker@gmail.com>
+ <20261109194759.550935-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-References: <20261013-fontcache-reproducible-mtime-v1-0-950f07b80f0f@gmail.com>
- <DMQQVSTB0X1G.UN5EOW5V25PS@pbarker.dev> <18E6685CF84244C0.681194@lists.openembedded.org>
-In-Reply-To: <18E6685CF84244C0.681194@lists.openembedded.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 9 Nov 2026 18:45:53 +0000
-X-Gm-Features: AclHuK_mtHmBfHW84HrdAZBkrnz_p_vsLJwwwR0dEaTqM3QYN7DPPfPTT2e73dU
-Message-ID: <CAO5Uq5So4YXX6KDTj+2d1uW=RTEisFsG76+OBcKmYq5DEdtQaA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/4] fontcache: make the caches built into an
- image valid
-To: alex.kiernan@gmail.com
-Cc: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 18:46:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249864
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 19:48:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249869
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, Nov 9, 2026 at 2:57=E2=80=AFPM Alex Kiernan via openembedded-core
-<alex.kiernan=3Dgmail.com@lists.openembedded.org> wrote:
->
-> On Mon, Nov 9, 2026 at 2:20=E2=80=AFPM Paul Barker <paul@pbarker.dev> wro=
-te:
-> >
-> > On Tue Oct 13, 2026 at 11:49 AM BST, Alex Kiernan wrote:
-> > > The fontconfig caches update_font_cache builds into an image are neve=
-r
-> > > used on the target. fontconfig accepts a cache only while the directo=
-ry
-> > > mtime it recorded matches the directory, and three things disagree ab=
-out
-> > > that mtime:
-> > >
-> > > - fc-cache records min(directory mtime, SOURCE_DATE_EPOCH). When the
-> > >   intercept runs, the font directories still carry their packages'
-> > >   mtimes and SOURCE_DATE_EPOCH is the image's fallback value.
-> > > - reproducible_final_image_task then sets every mtime in the rootfs t=
-o
-> > >   REPRODUCIBLE_TIMESTAMP_ROOTFS.
-> > > - mke2fs clamps every inode time to the SOURCE_DATE_EPOCH in its
-> > >   environment, so an ext image ends up with a different time again fr=
-om
-> > >   a tar or squashfs image of the same rootfs.
-> > >
-> > > So every process using fonts rescans and writes a cache of its own, o=
-r
-> > > fails to on a read-only rootfs. fc-cache also deletes a cache it has
-> > > just written for a directory newer than SOURCE_DATE_EPOCH, so with th=
-e
-> > > default values some caches are missing from the image entirely.
-> > >
-> > > Patches 1-2 run fc-cache under REPRODUCIBLE_TIMESTAMP_ROOTFS, with th=
-e
-> > > font directories' mtimes already set to it. Patch 3 keeps that time i=
-n ext
-> > > images, as oe_mksquashfs already does for squashfs. That moves every
-> > > inode and superblock time in an ext image from
-> > > SOURCE_DATE_EPOCH_FALLBACK to REPRODUCIBLE_TIMESTAMP_ROOTFS, which wi=
-th
-> > > the bitbake.conf defaults is from 2011-04-05 to 2018-03-09. Patch 4
-> > > adds a selftest that boots an image carrying a font and checks that
-> > > fontconfig accepts every cache and writes none. On qemuarm64 it fails
-> > > without patches 1-3 and passes with them.
-> >
-> > Hi Alex,
-> >
-> > If the selftest case in patch 4 is ran without the other changes in thi=
-s
-> > series, does it fail? I'd like to confirm that this test case would
-> > catch the failure case.
-> >
->
-> Hi Paul
->
-> It does, and did - that's how I found the ext2/3/4 case, initially I
-> just had the squashfs code, which covered my use case, but it failed
-> when I built for qemu.
->
-> I'll go & rerun it to double check just in case anything else has
-> moved since then.
->
+Tasks that create SPDX documents can reference SPDX ids from documents
+created by any task they depend on. When it comes time to create the
+final SBoM, these referenced SPDX ids must be present so that they can
+be merged into the SBoM. Specifically, when a task that restores from
+sstate (a setscene task) is one that can create an SPDX document, and
+that task is depended on by at least one other task that can create an
+SPDX document, it must always be restored.
 
-Yes, fails with just the test case commit cherry-picked:
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes-global/sstate.bbclass | 38 ++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
-2026-11-09 15:44:50,879 - oe-selftest - INFO - Ran 1 test in 218.834s
-2026-11-09 15:44:50,879 - oe-selftest - INFO - FAILED
-2026-11-09 15:44:50,879 - oe-selftest - INFO -  (failures=3D1)
-NOTE: Starting bitbake server...
-2026-11-09 15:44:54,103 - oe-selftest - INFO - RESULTS:
-2026-11-09 15:44:54,103 - oe-selftest - INFO - RESULTS -
-fontcache.FontCache.test_image_font_cache_is_valid: FAILED (217.83s)
-2026-11-09 15:44:54,105 - oe-selftest - INFO - SUMMARY:
-2026-11-09 15:44:54,105 - oe-selftest - INFO - oe-selftest () - Ran 1
-test in 218.837s
-2026-11-09 15:44:54,105 - oe-selftest - INFO - oe-selftest - FAIL -
-Required tests failed (successes=3D0, skipped=3D0, failures=3D1, errors=3D0=
-)
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
+index b2fa93650a..c6d9459182 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -1125,11 +1125,28 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+ 
+     logit("Considering setscene task: %s" % (str(taskdependees[task])), log)
+ 
+-    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_create_spdx", "do_create_recipe_spdx", "do_deploy_archives"]
++    directtasks = ["do_populate_lic", "do_deploy_source_date_epoch", "do_shared_workdir", "do_stash_locale", "do_gcc_stash_builddir", "do_deploy_archives"]
++
++    # SPDX tasks are only needed if depended on directly, unless they are
++    # needed by another task that is creating SPDX documents
++    SPDX_TASKS = {"do_create_spdx", "do_create_recipe_spdx", "do_create_package_spdx"}
+ 
+     def isNativeCross(x):
+         return x.endswith("-native") or "-cross-" in x or "-crosssdk" in x or x.endswith("-cross")
+ 
++    def isSpdxTask(key):
++        taskname = taskdependees[key][1]
++        # Tasks that start with "do_deploy" might be included in
++        # SPDX_DEPLOY_TASKS and should be kept
++        if taskname.startswith("do_deploy"):
++            return True
++
++        # Tasks that are don't start with do_deploy, but still deploy SPDX data
++        if taskname in {"do_image_complete", "do_populate_sdk", "do_populate_sdk_ext"}:
++            return True
++
++        return taskname in SPDX_TASKS
++
+     # We only need to trigger deploy_source_date_epoch through direct dependencies
+     if taskdependees[task][1] in directtasks:
+         return True
+@@ -1142,6 +1159,8 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+                 return False
+         return True
+ 
++    spdx_deps = []
++
+     for dep in taskdependees:
+         logit("  considering dependency: %s" % (str(taskdependees[dep])), log)
+         if task == dep:
+@@ -1198,12 +1217,27 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+             # Target populate_sysroot need their dependencies
+             return False
+ 
+-        if taskdependees[dep][1] in directtasks:
++        # Collect dependees that create SPDX documents
++        if isSpdxTask(dep):
++            spdx_deps.append(dep)
++            continue
++
++        if taskdependees[dep][1] in directtasks or taskdependees[dep][1] in SPDX_TASKS:
+             continue
+ 
+         # Safe fallthrough default
+         logit(" Default setscene dependency fall through due to dependency: %s" % (str(taskdependees[dep])), log)
+         return False
++
++    # SPDX generating tasks can refer to the SPDXID from the SPDX output of
++    # their dependencies. Therefore if the current task can generate SPDX and
++    # is depended on by another SPDX generating task, it must be kept so that
++    # the IDs can be correctly resolved when merging SPDX output into a
++    # complete SBoM
++    if spdx_deps and isSpdxTask(task):
++        logit(f"Keeping SPDX task {taskdependees[task]} needed by SPDX task(s) {', '.join(str(taskdependees[k]) for k in spdx_deps)}", log)
++        return False
++
+     return True
+ 
+ addhandler sstate_eventhandler
+-- 
+2.56.0
 
---=20
-Alex Kiernan
