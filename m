@@ -1,146 +1,157 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.36])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6128.1794231673296071714
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6190.1794231916180754002
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 05:41:13 -0800
+ Mon, 09 Nov 2026 05:45:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=yyliNkU1;
- spf=pass (domain: est.tech, ip: 52.101.65.36, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N0I4a8uqJV93n2JJ7W4Q5EI+W5US0DgKy2qORs3/kfsW1oIqBZl9tPVifq7t8deoMlOEmeDEqHKstI0xIiaFzhrCVKRQl42+gIG5jMklFGjk0u+Dw9AzDk1Lp0VEBQl0EMZFA60uRO9hBoEjbBcgEL60y//nRbI1KjcKXwLdLji2cyjuYVpUMHp2TVq+/7OGhoFDZl5xjC6KFcAf6SeInsVf8N9KmIsjRgQb1tkly3XIpqY+X0R5EMYP/bcXKwnEU1AZxhbUB0+CFYWr3fVi/RF/NDAqSW70YH22g167U3wEEuWKXT+FP7gWxs4GRDIYkkqvk38gu5ZGZkGiAQw24w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2aXKC6/2o4+1ADntHA4NqU2C0oEnoS1rEGHDDDF572Q=;
- b=K/bz0JP/vYtv0NpNjB0yQE+FRSvZ2X0Izd+4UfI4gkAFdEPbMiBU0XFiZxRkJXPbjRCZujuR96k4B5duY/0CAN3pXov+Wcsy8mtRYVxMvrXrQSHLLxfd+/h2r70hZHKKGgfXlu+wDYuH5Ro3RLDxxNXYhNst9rHmahKJJiSotHUStK8EHILIKiRp43ZJT0v3U0D4dVbyOQqVu+xhIDgRw2UmjpHk1RyCfI3mW69DTSiFJeRWalY0xHZg1mBcL6EfQCbYZ5qu0bcDuXCSs51dSS5SMBIrZ/S3mscZvoZOWfCggjg/bT4hxegATsn3EWUtCUkUT02IpTzgEufBC9iIpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2aXKC6/2o4+1ADntHA4NqU2C0oEnoS1rEGHDDDF572Q=;
- b=yyliNkU16SbdOeLqTRrRuf2bwYveqK7+RG/GGMwwH03QwOoufZYyYJNHHJy2oyeGwn0x+VgQgTgV6UnUq5DIWUmWFrUVcZGELak+iZ/z5IsHNe4OT15TFMCLQTcqRamsdtbiz0pirfmT+TJZ9YLK2JwaxchenF92RVT0bJuTIQsFauFjgBi1zhe+hNmk6OrzbGJAuoLTS5qDup4Vzfn6IzXLBY+3/bnUr4IYleRJDPvPxYiotHL1eXnp8q4ahqxpF8I1LZBJc3+R1StdOnUv+YONZRlFZ8SEEraMPRqh2GiVIzb0GAfdmj5K2Iqs/SEp0xg9FdJ8LSW+wtMQaqbJmg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by AM7P189MB0994.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:14c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Mon, 9 Nov
- 2026 13:41:09 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0592.010; Mon, 9 Nov 2026
- 13:41:09 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 20/21] python3-uritools: Upgrade 6.1.5 -> 7.0.0
-Date: Mon,  9 Nov 2026 14:40:33 +0100
-Message-ID: <20261109134034.74458-21-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261109134034.74458-1-jaipaul.cheernam@est.tech>
-References: <20261109134034.74458-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P302CA0011.GBRP302.PROD.OUTLOOK.COM
- (2603:10a6:600:2c2::7) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=GEnxRg5q;
+ spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 37B1D3D818F4;
+	Mon,  9 Nov 2026 08:45:15 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id bytq-E14sF1s; Mon,  9 Nov 2026 08:45:14 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id DF8733D8176B;
+	Mon,  9 Nov 2026 08:45:13 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com DF8733D8176B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1794231913; bh=wI78uxHd1pMbYbJcXjonsVp2w/BTllkH4Wqbys6og3c=;
+	h=From:Date:MIME-Version:Message-Id:To;
+	b=GEnxRg5qzIcslKhzyKWfc/YadHvudXt8Cqkc5x5jQYbJxIJarIuKZhwzpkCE65SXF
+	 2SXdkkBQAU68BE0gSCjMBMiPia1SupdE2mmel4JvFTXqbiaF/mhAmc+fOv331xsDnK
+	 7f0FKD+RQGBmT43BzVwEpeu8JaTjyLInoaP/NJBX9wLMh7R3b1N7MiCoEAyCw3N6cg
+	 EA8yDY69EulHD94gCrR6OXoHrrlVCCbM5ns7WoEexOECIRkpSDnLkyAY2GEuc9yIVC
+	 4F46zhLvXUa33BNDovJkOQTGt10+xGJ8WtD/m0L7w3QLjD1Hrwhu+RNHAPHHj+UyZy
+	 ZwfRS5Ahep7Ww==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id 8ZcRlXxUi7bi; Mon,  9 Nov 2026 08:45:13 -0500 (EST)
+Received: from isabelle.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 60B643D81838;
+	Mon,  9 Nov 2026 08:45:13 -0500 (EST)
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Date: Mon, 09 Nov 2026 14:44:19 +0100
+Subject: [PATCH v2 02/18] devtool: ide-sdk: capture Cargo cross environment
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AM7P189MB0994:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ec0e587-0004-4abf-b6a0-08df3e671c8f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|11063799006|261021121427099003|56012099006|261021123027099003|261022075727099003|261022105027099003|261009223027099003|261026140227099003|261028144727099003|261102123227099003|10067099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info: MD413ZlDap/SphuEnPYxJPARL47xYu70Msr7QH7u/QmTxkKwNvrf0z30g4G4VyF5O+niEbk+F/+i445iotjyqE7hZC3DSLNubCczMI7p1yiurUvuGKt/bdfGH8mtoxQ36Y3JuMMq6vuFl/7OEmSEbIf+1GTCvInvH4G1aamd0lwHZb+5Vb+6fGdS6j/apV5H9bQL8hgYXXJUsynNWPaJcC/tOdsRNDD7GTFx+SoTeHkrMHlF7y5B7Wi/3RBd4wQ+qsPmLvP9QF7ysx5L2kkIXRVXXoWlCu9n1CRh1TNtxYaQMrDguzd7SktEoYepir66JaE5B3+cb8B4ZYvywX3aBbhD6KDCeaCfp1Y5G/kKTecai8yYoPVsh1zlp4izQ2zaNDREU4Vaxx5hLCW4+UG1dfOzjNIMPXS3juGnFwMnVbwVW0j+2M+NE2FeTdzNH/9j3KWSGf2a4EXr6E8ogArb35nH9HqB+esVKJ1p1FoNk8RDpY5+m7sHVN9pdLMRO67OUdXJzOSPOYvVqneoa8PulqFLch5jbt/uNWMYk03i6skvKiT6Z15RQmiJH1rb5DAWsUymt5VNsMU6aDMGyDaC5haT1EPbiVMxZsoS6d/5rt/BPPp7mFn0L2q9vpwZwGwQr1kkQsTs2+LXIQ4at3b1cDhdMCnywggaXKQ2QNITDc4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(11063799006)(261021121427099003)(56012099006)(261021123027099003)(261022075727099003)(261022105027099003)(261009223027099003)(261026140227099003)(261028144727099003)(261102123227099003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sVxy8oJQN7cC03dVZ6xYNPWDnTLzvtnp5j1jAuLgdvl2xXeY0/8S0gRzSslK?=
- =?us-ascii?Q?e4ccM3OIbQb9BkxOQAVOnmzixCbfT1//2SrkTuUP2LTK13kaubyriChKd4j2?=
- =?us-ascii?Q?QTnpkGV6lsEbS+kFRW+xT9FCRk9or9HLeVrvnXvC0pJdv7snIX2Ubttczqt2?=
- =?us-ascii?Q?oOrA+CEI37/SasBkPZTegNsOBW1Nx09xdaEVcBNMikdm1f6IvmCD1D+PHArw?=
- =?us-ascii?Q?pXI8cwJ8dqRlPK/xNdUKSm0KPq/W7Zj28eymM1RwvJAIL06FK3nl8C/ClzPx?=
- =?us-ascii?Q?Bfcos2XDVOvYtuiPPhn1gcaneCPLvk14ERWgTr3emeDVGiWnYsD+7wyiW8uX?=
- =?us-ascii?Q?J2tCi+/K5uSsVQb3SNb3GazM12Kjk5T62Z7IO0FHMLgHPKjM7HlGD9KP2c2Z?=
- =?us-ascii?Q?3WqgLc8NxbXUEG9i5sK9d5+hf/gKv9LQN33I/qm/xNTJRHutH+t6Ys2m7wd9?=
- =?us-ascii?Q?ttIcbV6sLQk5zpxiUAPWh1DLsaRTSBm7cdg+MsvgahYo/bnX0KzFgf3e4TWJ?=
- =?us-ascii?Q?tk969mDYKrTa0Ro1bhEB7bRY29W2WHykNxVE2QoICKC+lyfSqcxDuciGhdre?=
- =?us-ascii?Q?ELgrV+Adu3VtKFvkc2pCTHbdcEXJ/tcvvk6ZMifS5lVEy49xR7hrbJbDJ1+C?=
- =?us-ascii?Q?/k1bFgCBRRdullVcC6AQdtnjGwO7py5fsWFJPn6JqShNylaqYbjMKwESZz6s?=
- =?us-ascii?Q?nvruhLg/MaMPBayyxZ89+qRRg7fELZlt+dWx5k7GusHDw59NDWqE2T4kPoqU?=
- =?us-ascii?Q?U1bQ8B1smumbjD062HWWYFe063Ro+t+jy0RiIBPRZA7Nxp5JaDGjM3UijfeC?=
- =?us-ascii?Q?8jMRt1sRdEbCKI4SWaKkgjFAAkm7/xtwDwlugszagTzQAIKzz6X/t/ag2wA8?=
- =?us-ascii?Q?FTVjk3EbXnqkiF7rcvEfijA+7bvNAXSWFBDLYhgNHV2Wq1ZACj6/wBTYc2Nc?=
- =?us-ascii?Q?lP9mT2+0kHI2EKb2oRlZaw/hURtZbv22s7K29p2msSd9JkF0NM9cMXjUJ1cO?=
- =?us-ascii?Q?uHFtCPdFdhdSEip+e698aosGaV6pN68+hPaX/TokH8kljuDAR2hl7siySL35?=
- =?us-ascii?Q?at6XR4F3XLPlekCMcXkF+b8J1WkVfbfN2oTEcFiL1j1t9loBHw5WnkH50i9W?=
- =?us-ascii?Q?qFI4iw1Afk3xJSNucix/X3xEdcBn7SdLMSeHJ9Dv0VThH8VvgF/HzjkyOJcM?=
- =?us-ascii?Q?QkXvNTf5/9pvTtQOUuXX3QtPd3ToO1ulkEpvQDl/0kYxBvK3eSHP6LUJ9kk5?=
- =?us-ascii?Q?NoFkOYXA1LJvBGfh9hFUlpX5ckcubPNh796BOTSveHnORqC3hIPpquN/zhSf?=
- =?us-ascii?Q?YrBeeRXa4ksZK18J7Ko+0jxjB2NCmfLWwfU6fC/D1bl6sgWvKaNGggi0Ar4D?=
- =?us-ascii?Q?1Y2swIVT5szQP4L7wWxT/F6LRBCROfefFpzofYGKLm7UfJFJfRbLi5ZKctwO?=
- =?us-ascii?Q?mgeZa0TbGZs1WQyX8+OxjLwF7Q3CUhl55gyC8yY4VMVTNpHDLdybRw9FHXuH?=
- =?us-ascii?Q?KvU9D4yMr81xIeikaZ78AVS4lgjvcUwaUqytPY0pvye/OdD1ApdrnjqDcQ8J?=
- =?us-ascii?Q?DtaIfJZc/gG8D5yw6C2hA3B8OovkrVM1pCsss4wWmjTOPP8yC/jjCfZA9Q9p?=
- =?us-ascii?Q?3OL1RB4RXEnau5nv3dL8tvtgQts9yhqfiSYa3USZ5i9r9PxW2b0W2mJe41GS?=
- =?us-ascii?Q?qM9k4IYgfotCAij9xlgkIEexQDiyEzgJFvgpU9c7oJwoTNWP2dmK+Rde1NTS?=
- =?us-ascii?Q?oWUvrYKQFw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ec0e587-0004-4abf-b6a0-08df3e671c8f
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 13:41:09.2937
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vpa0Ojakg+05bW9CHrJ7ZH/s85EKSSNkTP3U6MUQ8PwFIloHhYvwoQXT/Hv5rQfaAHpAskgoQwF0waiUwrRR/J8J2/oYJj4Q1qwaxVIb+gQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB0994
-List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 13:41:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249825
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261109-devtool-ide-sdk-cargo-v2-2-d56134000561@savoirfairelinux.com>
+References: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
+In-Reply-To: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>, 
+ Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+X-Mailer: b4 0.16.0
+List-Id: <openembedded-core.lists.openembedded.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 13:45:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249827
 
-Changelog: https://github.com/tkem/uritools/blob/master/CHANGELOG.rst#v700-=
-2026-11-08
+Capture Cargo target and host compiler settings, recipe Cargo state, and
+package configuration to generate IDE settings. Rust source paths use Cargo
+RUSTFLAGS and TARGET_DBGSRC_DIR because Rust does not use compiler
+DEBUG_PREFIX_MAP.
 
-v7.0.0 (2026-11-08)
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Mirror the -sys and pkg-config exports from cargo_common.bbclass so
+Cargo config matches OE's system-library behavior.
 
-- Drop Python 3.10 support (breaking change).
-
-- Fix ``SplitResult.host`` for registered names consisting of digits
-  only (potentially breaking change).
-
-- ``uriencode()`` and ``uricompose()`` now raise ``TypeError`` on a
-  wrong type instead of leaking ``AttributeError`` (potentially
-  breaking change).
-
-- Update build and test environment.
-- Add support for Python 3.15.
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+AI-Generated: Uses GitHub Copilot
+Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 ---
- .../{python3-uritools_6.1.5.bb =3D> python3-uritools_7.0.0.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-uritools_6.1.5.bb =3D> python=
-3-uritools_7.0.0.bb} (79%)
+ scripts/lib/devtool/ide_plugins/__init__.py |  1 +
+ scripts/lib/devtool/ide_sdk.py              | 57 +++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-uritools_6.1.5.bb b/meta/=
-recipes-devtools/python/python3-uritools_7.0.0.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-uritools_6.1.5.bb
-rename to meta/recipes-devtools/python/python3-uritools_7.0.0.bb
-index f886a3b38de..a19949c7211 100644
---- a/meta/recipes-devtools/python/python3-uritools_6.1.5.bb
-+++ b/meta/recipes-devtools/python/python3-uritools_7.0.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE =3D "https://github.com/tkem/uritools/"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D079933dfba36eb60b5e3512ca0ab61a=
-e"
-=20
--SRC_URI[sha256sum] =3D "5a46002351b745a6910f24167abc1ba0a7f78818121fffb32d=
-be1fc7767f462f"
-+SRC_URI[sha256sum] =3D "110b773e3f8fbaebcdcbe1377d04e418b1985adf69deeca4ed=
-569f3e328cbf48"
-=20
- inherit pypi python_setuptools_build_meta ptest-python-pytest
-=20
+diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
+index 7841bc37b9..10fcde471f 100644
+--- a/scripts/lib/devtool/ide_plugins/__init__.py
++++ b/scripts/lib/devtool/ide_plugins/__init__.py
+@@ -33,6 +33,7 @@ class BuildTool(Enum):
+     UNDEFINED = auto()
+     CMAKE = auto()
+     MESON = auto()
++    CARGO = auto()
+     KERNEL_MODULE = auto()
+ 
+     @property
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 9faf041957..e686dbcff8 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -877,6 +877,15 @@ class RecipeModified:
+         self.extra_oemake = None
+         self.kernel_cc = None
+         self.staging_kernel_dir = None
++        # Cargo application
++        self.cargo = None
++        self.cargo_target = None
++        self.cargo_linker = None
++        self.cargo_home = None
++        self.cargo_build_flags = None
++        self.cargo_packageconfig_confargs = None
++        self.cargo_rustflags = None
++        self.cargo_env = None
+ 
+         # Populated after bitbake built all the recipes
+         self._installed_binaries = None
+@@ -1032,6 +1041,54 @@ class RecipeModified:
+             self.extra_oemeson = recipe_d.getVar('EXTRA_OEMESON')
+             self.meson_cross_file = recipe_d.getVar('MESON_CROSS_FILE')
+             self.build_tool = BuildTool.MESON
++        elif bb.data.inherits_class('cargo', recipe_d):
++            self.cargo = recipe_d.getVar('CARGO') or 'cargo'
++            self.cargo_target = recipe_d.getVar('RUST_HOST_SYS')
++            self.cargo_linker = recipe_d.getVar('CARGO_RUST_TARGET_CCLD')
++            self.cargo_home = recipe_d.getVar('CARGO_HOME')
++            self.cargo_build_flags = recipe_d.getVar('CARGO_BUILD_FLAGS') or ''
++            self.cargo_packageconfig_confargs = recipe_d.getVar(
++                'PACKAGECONFIG_CONFARGS') or ''
++            self.cargo_rustflags = recipe_d.getVar('RUSTFLAGS') or ''
++            # Rust DWARF paths need remapping to the target debug-source path
++            # so LLDB can resolve files after the source tree is relocated.
++            target_dbgsrc_dir = recipe_d.getVar('TARGET_DBGSRC_DIR')
++            if target_dbgsrc_dir:
++                source_map = '--remap-path-prefix=%s=%s' % (
++                    self.real_srctree, target_dbgsrc_dir)
++                self.cargo_rustflags = '%s %s' % (
++                    self.cargo_rustflags, shlex.quote(source_map))
++            # This environment feeds the generated Cargo config and the C/C++
++            # IntelliSense settings; build tasks themselves only need PATH.
++            self.cargo_env = self.exported_vars.copy()
++            self.cargo_env.update({
++                'CC': recipe_d.getVar('RUST_TARGET_CC'),
++                'CXX': recipe_d.getVar('RUST_TARGET_CXX'),
++                'CFLAGS': recipe_d.getVar('CFLAGS'),
++                'CXXFLAGS': recipe_d.getVar('CXXFLAGS'),
++                'AR': recipe_d.getVar('AR'),
++                'TARGET_CC': recipe_d.getVar('RUST_TARGET_CC'),
++                'TARGET_CXX': recipe_d.getVar('RUST_TARGET_CXX'),
++                'TARGET_CFLAGS': recipe_d.getVar('CFLAGS'),
++                'TARGET_CXXFLAGS': recipe_d.getVar('CXXFLAGS'),
++                'TARGET_AR': recipe_d.getVar('AR'),
++                'HOST_CC': recipe_d.getVar('RUST_BUILD_CC'),
++                'HOST_CXX': recipe_d.getVar('RUST_BUILD_CXX'),
++                'HOST_CFLAGS': recipe_d.getVar('BUILD_CFLAGS'),
++                'HOST_CXXFLAGS': recipe_d.getVar('BUILD_CXXFLAGS'),
++                'HOST_AR': recipe_d.getVar('BUILD_AR'),
++                # Match cargo_common.bbclass so Cargo -sys crates use OE's
++                # staged libraries through pkg-config instead of vendoring.
++                'LIBGIT2_NO_VENDOR': '1',
++                'LIBSSH2_SYS_USE_PKG_CONFIG': '1',
++                'LIBSQLITE3_SYS_USE_PKG_CONFIG': '1',
++                'OPENSSL_NO_VENDOR': '1',
++                'PKG_CONFIG_ALLOW_CROSS': '1',
++                'PKG_CONFIG_ALL_DYNAMIC': '1',
++                'SYSTEM_DEPS_BUILD_INTERNAL': 'never',
++                'ZSTD_SYS_USE_PKG_CONFIG': '1',
++            })
++            self.build_tool = BuildTool.CARGO
+         elif bb.data.inherits_class('module', recipe_d):
+             self.build_tool = BuildTool.KERNEL_MODULE
+             self.wants_gdbserver = False
+
+-- 
+2.53.0
+
