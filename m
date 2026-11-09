@@ -1,121 +1,132 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.880.1794204972263526297
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.874.1794205552511090382
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2026 22:16:12 -0800
+ Sun, 08 Nov 2026 22:25:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=RWMSi2jS;
- spf=pass (domain: konsulko.com, ip: 74.125.82.42, mailfrom: tim.orling@konsulko.com)
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-15ea896ddc8so1019044c88.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 22:16:12 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Vx12um//;
+ spf=pass (domain: konsulko.com, ip: 74.125.82.41, mailfrom: tim.orling@konsulko.com)
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1931ff67a29so1453086c88.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 22:25:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1794204971; x=1794809771; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
+        d=konsulko.com; s=google; t=1794205552; x=1794810352; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=JBb1TTJm7yuvt05SuNBdljcSZBKr25mskZcgCstB37Q=;
-        b=RWMSi2jSPwTOqEID3O+FZ4bWk7vLNcWt5zholcHD1NniwxBH9n1h11atrZbA1xvRNX
-         4iLCXDdpthENR4F3kFU1LneW8rhBS0luOXUwVnKt/zKkFzCFLDhBTEfgbXpY65i//H4X
-         ErQpgvVWGpXooiciDMNNaZ/PgE2Uwg0YFiEVk=
+        bh=uMVrTD2ESBqUmdkPCUF8UYMn1mZw8t1DiaWeW6khQZU=;
+        b=Vx12um//3sjpZlIMsi//+O8nb2LiTOA62ErR2EguEJ3Qjq4b2qdvsBbFBS392INh7m
+         pEu7qk6gU7Kt/uLuFSHs/caaiJoDpnT4y4lxrf+Lezk/5USXgOSj6tEZkfe4YS/1HGoj
+         oj8yIExq8FDnCIsXyOk3+S3MdZj7PdxFGx0yg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794204971; x=1794809771;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
+        d=1e100.net; s=20260707; t=1794205552; x=1794810352;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JBb1TTJm7yuvt05SuNBdljcSZBKr25mskZcgCstB37Q=;
-        b=xMppFCeqrMTdOauQAoqydslwjnutDasHHdNQ4edgd8eo+HPLxz1zezQ6nyE3sRbXn+
-         4orRaSIhEjh7WRWDk/iZArhh9qB0qTR18XsKcnZEMezFif3OFfRUS2hu1v2UWiDIXyYr
-         vMSN0ll4xJn2ZlCSXRZ31Hyv8ciVv567wH38DuLJKmWQcnUqd398gPMubT+lq2LiDugW
-         rG+VLwWCI4e9+Jn5ELgEF5YlRLuumoToqN9WUUfqpO/5zI6boVbGkxFPlxU0sV4KiWD4
-         lZgkjf+0H3HTDj7grGgsJ+Ud7EPyZwNb//Bund/YqgkDKnpCSCpOUl7wJRrQmW6trx95
-         NJqw==
-X-Gm-Message-State: APuU4Z9TRvB7HFJzc45mPrk3h3zZhWLow2vHPS4sA60mM1mhkFG16CMu
-	LHHqr8TFBe6W+0ZOyMB7XbpUgtlzTENbq9LV2jqaDha/HS2elC8bxKeFUxTUZT9z/84=
-X-Gm-Gg: AYBFou2W3LfPsSt0eKzkUq3km+2VneR8FPH9QivazBbEleMECwX395TGPYIGPFaoItB
-	e8igqhNiE/RAfrmn/0YjwyMSolkk/QNuxmRUeymByxH7Gp02sY1R1njq3mi9gLjbHN2UIaOGCKs
-	X6Q6ZZONIK44BLo3CkoskQaa3AJvvXTpwzGH2inHHcZyD49MvjwA0XaYIK/mcnxdQjxIaQdEpTz
-	IhcjB3Zsfs+byKwHf7Gm1K1/YZk3AeTkmm3w+3zr70X/4YWJ+ELMtS9002si9KzWyTQfz3YaeLf
-	fdVKtJwMRmdU+A9q66kuA4FR5gGX7EaD1CgtdqobyuMaL2qYFnZsbG8aVgbXkoJwbRKsjgnzHki
-	V9/azCkfn5dNieabd1HTue8W7AGJyHasIzMII4l62ujRQ+6QYHgU8vEhb2E3otkqU0LwAkREldO
-	TLi+fgA88+BbkAjexmLj/yKKokZXaaBaeb3XVLylMllAZzE+5hfPY8W40fnlNh+sVrzcgcFxZVJ
-	RaA2fTSOlVg0tIMEaZ98vEGxFGICRUDJIhOPYzWtR+s8i/GOGatmEtkcSWbaAP3A7FBr7wTzB5y
-	fpTW4zRnDDgmvpY3d5invAhsFn5puwis17MtFDW7cCGVfZNExdhNjYezp/T7uiVEy4YztahIiKU
-	oqw9X4ws81dBFbPM9W2/luTxV
-X-Received: by 2002:a05:7022:1708:b0:15e:6541:3099 with SMTP id a92af1059eb24-1b39fe81533mr4601366c88.7.1794204971299;
-        Sun, 08 Nov 2026 22:16:11 -0800 (PST)
+        bh=uMVrTD2ESBqUmdkPCUF8UYMn1mZw8t1DiaWeW6khQZU=;
+        b=p0JHhmDE61Z6t6H7P7laXhLBz5ltrflXmSbrOGcqzx9rLwylq8OL2kbZl/3xI/7JN5
+         BVmxF0f3c/INZS7E/1BPxUevtyzdpTrhMPTB2PUayexD6WOubatOds4bkJL95L7fvv5/
+         UN2JVv+QnjOZVqMdbbAvobVK4ca9FKydp+IZ5kFQGhS034mh3pT5GJgYyx1G2QCQHu8e
+         zW5rIOjEzaMxiEmvVJ1htUXoqhcSawrTJGTxBJsY0p8hhmr7X7JTQPzi5ltSEsUlJVsB
+         15kDBN9DHs4ZfXgIYAcvVjnvfCBPhV5+mZ5i/zcJQ3Ko+D4hMdf6gr/G0c2u24DIWeS3
+         VYJQ==
+X-Forwarded-Encrypted: i=1; AL+hErF96Yk/ZTFXHR+02RK7hysa4RT+l7H5wLpIU1rX32xtJpm1hoyHKAnT77QNC+Pszpx39THd7WP2phTNUMCmIFcDtA==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9EzFJFyon7z5t0PzUaf5muFTTh2lLD+HlmpL8vufeho6wSxLFc
+	qa0zH18UvqfwQQg6+Z5dH68mKhvXBL8+WhRUYoCw7enWkUw1Do6yCDJJBNrZWUV+RPNgwhv5o4h
+	MaBe4/ro=
+X-Gm-Gg: AYBFou3rHXm8b6syPA6L5jfprwZs/r6rKQ9ySWbWDt5yOkRy1ykKqv8RUFBeVJEnKeM
+	g1/0eFDQ7g4TWnoE3BTxRDPzOhtyYQOH/65nZ6V0c7pizkYKZyB1fTftLEDZ97RWe0E5dBOCI52
+	jxe94cxuK6JuMkedUvzdxdiUFYO8YIABeDvYPMI95VfMk7YFc5kBnjg04BJaFI5gNyNVOeYEazx
+	ApfkltTik38S2wUwjjIUHGDmiYYJXh7AkdDodpqhUVz0+FnX7JRD27yTdvMMGcH7A7HQaPUj+tq
+	xHC643zgarF4Vv3wORrEC3Op0EKAHZYRpHkm3jMcjHel5krPZnsJJU9atrkVovEfBxzFzV0c4zN
+	JN/+YfoSKgdEOen/ATnzxClY5ef2JjpPFKNjInzAn3hZUEoXAISEjS+B4YHpuVX9Bp80EtTNNob
+	J2cJrUn2bwbBxDIfksRNYS5oKpRZEPR1D8KtbNMXTf4qZ1ZAnjCGlGwUbtwy5ypzze1rOLKTAo3
+	n/7kU/IMJLaYcdlNUastVH5/Jq8S86Cw978hZVAQeE82v9Kq1agk2uhSS6D5qGXxwpZhYYQnd6P
+	nkMndYelN7mBpYTVfQ/5mIipD1YkJ8I4rExfGE4OVyd/YseGbwBOlU0PEjbbTor+/48W/++aBS/
+	oNT/F8Jaom67vAb4v8PhbEhC7
+X-Received: by 2002:a05:701a:ca09:b0:13b:2f26:6881 with SMTP id a92af1059eb24-1b39fe2f4f3mr5784724c88.4.1794205551652;
+        Sun, 08 Nov 2026 22:25:51 -0800 (PST)
 Return-Path: <tim.orling@konsulko.com>
 Received: from localhost ([12.169.103.88])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3771fa200sm9992885c88.22.2026.11.08.22.16.10
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3757214cbsm9922473c88.13.2026.11.08.22.25.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Nov 2026 22:16:10 -0800 (PST)
+        Sun, 08 Nov 2026 22:25:51 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 08 Nov 2026 22:16:10 -0800
-Message-Id: <DMQGKWEKQD80.3AGDOFXBSG08H@konsulko.com>
-From: "Tim Orling" <tim.orling@konsulko.com>
-To: "Ross Burton" <Ross.Burton@arm.com>, "tim.orling@konsulko.com"
- <tim.orling@konsulko.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Date: Sun, 08 Nov 2026 22:25:50 -0800
+Message-Id: <DMQGSB08IKGW.1G17GNWTQKQC5@konsulko.com>
+To: "Joao Marcos Costa" <joaomarcos.costa@bootlin.com>,
+ <mathieu.dubois-briand@bootlin.com>, <tim.orling@konsulko.com>,
  <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 4/5] python3-websockets: enable ptest; use
- git fetcher
+Cc: "Trevor Gamblin" <tgamblin@baylibre.com>
+Subject: Re: [OE-core] [PATCH 2/5] python3-uvloop: enable ptest
+From: "Tim Orling" <tim.orling@konsulko.com>
 X-Mailer: aerc 0.22.0
 References: <20261102011816.3710992-1-tim.orling@konsulko.com>
- <20261103193829.1806542-8-tim.orling@konsulko.com>
- <93C8C258-4D9A-46A2-9164-D177A681F6DC@arm.com>
-In-Reply-To: <93C8C258-4D9A-46A2-9164-D177A681F6DC@arm.com>
+ <20261102011816.3710992-2-tim.orling@konsulko.com>
+ <DMKSA11YDYBP.33D4G9KGENZHA@bootlin.com>
+ <eacf0910-e3a1-4820-ae91-513e3644db5a@bootlin.com>
+In-Reply-To: <eacf0910-e3a1-4820-ae91-513e3644db5a@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 06:16:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249794
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 06:25:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249795
 
-On Thu Nov 5, 2026 at 6:41 AM PST, Ross Burton wrote:
-> On 3 Nov 2026, at 19:38, Tim Orling via openembedded-core <tim.orling=3Dk=
-onsulko.com@lists.openembedded.org> wrote:
->> The PyPI sdist prunes tests/, so fetch the 17.1 tag from git. This
->> re-enables ptest, reverted in a0488f2e1d when the sdist dropped the test=
-s.
+On Thu Nov 5, 2026 at 8:54 AM PST, Joao Marcos Costa wrote:
+> Hello, Tim and Mathieu
+>
+> On 11/2/26 3:10 PM, Mathieu Dubois-Briand via openembedded-core wrote:
+> (...)
 >>=20
->> Upstream advises packagers against running the suite because timeout
->> tests can flake on slow build farms; under ptest it runs on the target,
->> and it passed repeatedly on qemux86-64.
+>> I can see it tends to fail on riscv.
+>>=20
+>> First build:
+>> Failed ptests:
+>> {'python3-uvloop': ['tests/test_regr1.py:TestIssue39Regr.test_issue39_re=
+gression',
+>>                      'tests/test_tcp.py:Test_UV_TCPSSL.test_create_conne=
+ction_ssl_1',
+>>                      'tests/test_tcp.py:Test_UV_TCPSSL.test_create_serve=
+r_ssl_over_ssl',
+>>                      'tests/test_tcp.py:Test_UV_TCPSSL.test_renegotiatio=
+n',
+>>                      'tests/test_tcp.py:Test_AIO_TCPSSL.test_create_conn=
+ection_ssl_1',
+>>                      'tests/test_unix.py:Test_UV_UnixSSL.test_create_uni=
+x_connection_ssl_1',
+>>                      'tests/test_unix.py:Test_AIO_UnixSSL.test_create_un=
+ix_connection_ssl_1',
+>>                      'tests/test_unix.py:Test_AIO_UnixSSL.test_create_un=
+ix_server_ssl_1']}
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2713
+>>=20
+>> Second build:
+>> Failed ptests:
+>> {'python3-uvloop': ['tests/test_regr1.py:TestIssue39Regr.test_issue39_re=
+gression']}
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2714
+>>=20
+>> This is riscv, so emulation is slower than for other architectures.
+>> Maybe we need to relax a bit some timings.
+>>=20
+>> Thanks,
+>> Mathieu
 >
-> Whilst I approve of ptests in general, I think this one will be a cause o=
-f pain.
+> FYI, there was another failure on RISC-V related to another patch in=20
+> this series:
 >
-> Tests are not shipped in the sdists on purpose[1], and upstream is very c=
-lear that the tests are not for packagers[2]:
->
-> =E2=80=9C=E2=80=9D"
-> If you=E2=80=99re packaging websockets for a distribution, you must use r=
-eleases published on PyPI as input. You may check SLSA attestations on GitH=
-ub.
-> You mustn=E2=80=99t rely on the git repository as input. Specifically, yo=
-u mustn=E2=80=99t attempt to run the main test suite. It isn=E2=80=99t trea=
-ted as a deliverable of the project. It doesn=E2=80=99t do what you think i=
-t does. It=E2=80=99s designed for the needs of developers, not packagers.
-> On a typical build farm for a distribution, tests that exercise timeouts =
-will fail randomly. Indeed, the test suite is optimized for running very fa=
-st, with a tolerable level of flakiness, on a high-end laptop without noisy=
- neighbors. This isn=E2=80=99t your context.
-> =E2=80=9C=E2=80=9D=E2=80=9D
->
-> This feels like it will be too flaky for the autobuilder, even if we remo=
-ve tests which have tight timeouts.
+> Failed ptests:
+> {'python3-websockets':=20
+> ['tests/asyncio/test_client.py:ClientTests.test_reconnect']}
 
-As much as I want ptest to feel comfortable with updates, I cannot deny you=
-r conclusions.
+Given the discussion with Ross about abandoning ptest for python3-websocket=
+s, there is no
+longer a reason to import python3-uvloop, so drop this entire series.
 
-I am abandoning this series.
+Thank you for the review and feedback.
 
 --Tim
-
 >
-> Ross
->
-> [1] https://github.com/python-websockets/websockets/issues/1739#issuecomm=
-ent-5016084799
-> [2] https://websockets.readthedocs.io/en/stable/project/contributing.html=
-#packaging
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2734/s=
+teps/15/logs/stdio
 
 
