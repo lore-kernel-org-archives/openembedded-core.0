@@ -1,182 +1,156 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.5])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6122.1794231660299882387
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.11])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6125.1794231665512141146
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 05:41:00 -0800
+ Mon, 09 Nov 2026 05:41:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=GDGO3lxv;
- spf=pass (domain: est.tech, ip: 52.101.69.5, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=eceUGqx2;
+ spf=pass (domain: est.tech, ip: 52.101.69.11, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y4oikT5hLw1bjDEq0z5vZ7WUFOK++eJCCHhu4RPDiNYHPvtQk9FX8F2Px4W7azHDe+HJaaoRP6nl5UWZNmFWopSYw0FnUyToQS1VW6TO1J8P1c64wN7u2oWXP6ErZwWIVXJ7ai/bgYweohH+cg1TQXDxfgD3LRrfD4LEl0n46T1IkaVT59TCRqMpCcW8QwXz56FGD1Z4vZdwJwOzRjrZlqCBm0pqtkhwootY9WOKhbjG3u3WzZZlJjnyZS9wuDcNDRrK+9glQirp+WlMbLpe9HDTdV+h6EwPVusXcyKmFvSAxo6XbBPE6hikj7on5yCIiQbI3ncdbJPh352SjDR3OQ==
+ b=rnEEiCExL1cpKqvKr/Aa2DBqEKdCjF7kz7TvVu+0VbhOIAH79e2w1tCo0b2HQr/9oag/ez/i8MAPoxk3r84ZvmazykYm6N4WADiXM/YQwFLEhO3J0+IfIWqxIt83lDreJRiShVOhw+R0r71wkPBTofu4GiCP32QjuCgHAnQoDRWJUMAxhkNoefbQkRRKMyKnS7vKEgx09nOhoSGxtXj3y6cZgkhzlUuSOQQlA0wp/7XcDORNFQvS8aZDYxBrjhjwBQRIrATRCVet5vIY1RPHdWgnTLHUL4eDcL89xALdkXTbfT4DM0KWvdPqollx+1yMdFTVr6KBNr43S84JWecq1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cXZd9OTc2eslt57+SpREPF3lJpyPypRmg1UeOiRzCfc=;
- b=eF6UYoNKVoehyhe/3k+b0n2HJ6Git9HZnrs4FEbYAa2yoViicmZANwyUM7OfRIxEX8zJg+KlAP4ELdCNA8+bL8lZfxgMRPi//ysU9aBeMEsRrJE4zapceRiE68/XzlwjgSrTKsaxeyoJG84I/JaI9e0+/IIjKJLn144DO/mAIhAGZX0sICouVMWmtOQgkV+n/du4rGRAw3+1ZRWcsgS+iqNx1N5WxUC8Mt3rLIpulK6cms0JeIfvCuVY7RLpXIOywpJNN7pry35nxSGOThNrs/fZ1UWRn0ujZ7NK+ETzIVPqJAO+J3rh+QA9rz5g73MHY+hrVcF/OXkQuJ5DXypjxg==
+ bh=1G2gBfd7Mf1SGulw2Jib38HZ36iacdRCMRAzRAXHIMI=;
+ b=umutVKsTe+YFzkElTzLl1+oTLrkK7LBU1Tv8i7HYudYnkGqsmtZKoMMdKmDnYvZnhcmhfJnJ46Tw0sF/on973WucXgtogIjhXPNiEympB2yOEmelh67AW/j0w3QgN7H/hoQ7PVGQCz/ZGz7h+eBlOweOs6oA0euBvzSePLjQOw7bIUdcoO8hwL1pNi/QGO420yL0yO0BDpi6Bh7HTlngfXRe4OV33h2hGVXauqUDG2q6m2rwux9R3mlfQvtYKz5V7yZ2flmB/MmQ7s+EuUssAdheLAJbMrhcqWOKGex65J9xpOg/Bak0aSTvkSZlqDIZOs7Ivv45EGfr773IZGigAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cXZd9OTc2eslt57+SpREPF3lJpyPypRmg1UeOiRzCfc=;
- b=GDGO3lxvxOjt1C+0n06ObVuwOX1aRTNbRUsEd40OFFshwg0YqpflSy9bWnACSD5I6T1gqN4XpacdTPQ/Ae+TmBVEML+I59soyuNfQCqgjVv4e1v9w3WQiNz9rgYtVPnNVl8sOFa8qlaf0soTf4So8+EsKLXzmfc/9S3SCDJZ4GlbtpX4O+ykAuv3TKbTOW204EHGhxSE8SwOFvRtX5CpJ3dH8jOEsbt6I0sXlq9pTAGigYCwrvQC2xdrLIy43bXzuglX9VAgwRVi49RZ4frEFBm6AAH6MIxGp/+gxvDZt5VdDwgteJoZ1CfFakk/dVK6+gaQoTPFZCM79BQ98594Tw==
+ bh=1G2gBfd7Mf1SGulw2Jib38HZ36iacdRCMRAzRAXHIMI=;
+ b=eceUGqx2+n3vTDr7NTH80OLN2KWw2dQrA+lYR4Q24D5GgcjrkQp6DSW8WdIDvE1FccolMcdm7XQ3YjL0Oll//NDa2K/1xKabzukfa4uJUsO1ttgsPCFfFiaYH536AtTEDLgERwlDNRAkui/UjMYyFHF1QBmStY0JLNGz8Gi55zJXpVwm72zLG1FA6CvkTtVjQorwnX0htlt7f5vumZjeDhpon++b0GD1r399UjrOr5fyq1+84JGdunzJiofzKxhZwDpXCOImmMnWuv6CsGeTY2m91HHDvRbjwSgR0wSvoxbgmTrJhisb2tAcjm3Yd5oSOg9A3avbiPblpzjbErfLBg==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by CPJP189MB287125.EURP189.PROD.OUTLOOK.COM (2603:10a6:380:20e::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Mon, 9 Nov
- 2026 13:40:54 +0000
+ 2026 13:41:04 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0592.010; Mon, 9 Nov 2026
- 13:40:54 +0000
+ 13:41:04 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 11/21] gstreamer1.0-plugins-base: upgrade 1.28.8 -> 1.28.9
-Date: Mon,  9 Nov 2026 14:40:24 +0100
-Message-ID: <20261109134034.74458-12-jaipaul.cheernam@est.tech>
+Subject: [PATCH 17/21] desktop-file-utils: upgrade 0.28 -> 0.29
+Date: Mon,  9 Nov 2026 14:40:30 +0100
+Message-ID: <20261109134034.74458-18-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261109134034.74458-1-jaipaul.cheernam@est.tech>
 References: <20261109134034.74458-1-jaipaul.cheernam@est.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DU2P251CA0010.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:10:230::25) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU6P191CA0064.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:53e::24) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|CPJP189MB287125:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86a812e2-7f8e-4ee1-3b27-08df3e6713c9
+X-MS-Office365-Filtering-Correlation-Id: dde2997f-86c8-41e1-342b-08df3e6719d1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|11063799006|261021121427099003|56012099006|261021123027099003|261022105027099003|261009223027099003|261026140227099003|261026121527099003|261028144727099003|261102123227099003|10067099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info: rQsPVmUkaRRRHL+0691QNLWG2wjNN8ClWiQVz48kSq2gUZks24sa9AHGyJpqRyVe/lynXzqbL+eTb8vnfmJM/41z1yJHFJfMY4PQjlBOr8vyeGeRA+CdBCWePxMOm234VXytXObbk01DWXh+idy7x87nHbahfD5XTVosC3hcmBG832zUWxXRnc6924+EiSgKoKHz8g860uiAY3QT97o9tIgBLRVp1bxi9tHVp1Vwn1cX1abFfSgJTsitDHkIdSgdtolU2Rqo+AUfQgP6Oz/MCDnsV6h8gkWE0pQdFrVKitDW8wKChB/lDnn+MvstfLYOx+zDpkeGetUnEaHhMaXDX6btoB0Q6dOhTwaOG2z6utn7+BofGuDKVRcQetzSKjhJpGzNK7oPDxksoIn3lKTEpBWiJqqM96bhIBVhuF0UaZs0eMaudd/KuKokkzpQMccTFU8jmH24xfXDGBPraNn7fzZzn+2fXmPo809dnFrIxrcoVR6NDmxuxXg7XjCVHhk/Wxy4qjfN5uRIrff4pHD+6H0lkkrN5phSf2sUJmCthAuctUsw60NRFYiJm7nwQcC+aj2JapIAdy/acrFeURp/urQSsERyYp+WMFbPColpKoM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(11063799006)(261021121427099003)(56012099006)(261021123027099003)(261022105027099003)(261009223027099003)(261026140227099003)(261026121527099003)(261028144727099003)(261102123227099003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|14125299003|11063799006|261021121427099003|56012099006|261021123027099003|261022105027099003|261009223027099003|261026140227099003|261026121527099003|261028144727099003|261102123227099003|10067099003|12006099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info: WzpbB0nb+YVinVgom6cRPIAgztAq0yt/pTZGJfEsalVxmgTc0SDMWgbp8ksS3w8ofZ39AJFuXx2gEHIM6VdCxv5oz15Q1nRDrXn1MHKLgHUlcvk6kjetPV3sDWUXVgrYF7qAreHB9ZXpWZAKRuQ+85S40qfwkKmUZbwonZ6S+nWXfK13HtbHaFLH6WlDkvjqeqTWw09sK+P58lHADvcVGVd/GUIL43KX9KG9g1U0BG0eF5d2EPZNESjm1URQ5zcpzNcjEU2/BJGMlJRK1++DvZG/4ex2Xq2GT8+/s0+EIUZbltdQGFxB+zo8hLOqIDiANHroxjuk0vg0BLndrYGPZM7Rcoe0ra2AEqSqjjO49KXq3R9urCbHKO/y/eN1jswOiSmNykGw8ht6yUXPXfI4XI1eeXXHmCr9nlxwkCra7YuTf5x1gIDPzDuCogAShsO0PeOhRrp3i/eGnVBPTtywNmvgv3OAT3CpSw10Gq8JWU2TdN0a6sB6IyKfLr+/gOshHXiXsfQqCOs6GxtQeGXrfJF89Xf8U819HY8+WwaJAbgAhdT8+8lUIkRQXoijEBtPORQcjsanqiJPa0fKv1C6hN6Fpd/QD29aRc7mmAZ9HBidLR3zofDcCQiG/bg+FxMLsKe0DecpOCkT/NB49qb+LzcTrWbrWl+ClgzLYhbW1C8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(14125299003)(11063799006)(261021121427099003)(56012099006)(261021123027099003)(261022105027099003)(261009223027099003)(261026140227099003)(261026121527099003)(261028144727099003)(261102123227099003)(10067099003)(12006099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xZKLRbgDhlFHG+s7UqINLPBb9AFse3Gb/Gw9ruKnWifN1NJbgsnNXWFv/Tq/?=
- =?us-ascii?Q?XTeKKYWigeuq1vEJXJF8EdsR6jlMYbtrCWr1MPIK8N91zUQ58rAY95tzt4AO?=
- =?us-ascii?Q?4o8R+eh3ftkYp1WwfvDhR64dOXBBs7B+/TR5BI4eyUdCyvK2eD560CPSUt6N?=
- =?us-ascii?Q?dvOdvlng1GxzyMXQbTOd8Pf3ZQTqaihMsUX0cWUVCMrsxA07EcQKpootA4y4?=
- =?us-ascii?Q?AaNTYJFRq1peLSbIrDdDVXEw7LcQLIyfKdzsVVubGPlcbLjZmFhPN/lmJ2QS?=
- =?us-ascii?Q?zuUVaAqzqE+YOzMuqBLH1rPPnmAyNMGEonAZ4Xv3W3A9A7vriFnWdDgfrgiL?=
- =?us-ascii?Q?Xu4W5PMreVR4rxXM30kudOIBRm3EQ5y0o4DQnF8V6NaKDQwkvags/z3j+WNs?=
- =?us-ascii?Q?jeKYSK9VTTWOP2aSl2un3Yj9akNfIWaplpSpiXPSmVfM7xEFgxLNHNFHUQXB?=
- =?us-ascii?Q?7a5xrIq6/FkJNltOzEkXmzZIHZ3ny6glmuMrm12FI+jLlO6y+eskcUunmS0v?=
- =?us-ascii?Q?IN8nnPn/JsXJn1yTwZp8+Q/8luMTEAGR0bmdg25KUb8VHRKvjp0mucpB9R+W?=
- =?us-ascii?Q?4i3RMWK7x7JmOL6zaS75IZLY6UxmaeKaLwrZx81VliQj1VbNhx8VFtmbSVoD?=
- =?us-ascii?Q?l0/IyVKSMHQXAfhCrg19vCfEEoMzwmGrdhnEloMjmYupUX/QdwdqmS9N8zow?=
- =?us-ascii?Q?zCHeDUxyVjB2WX5i5IR6imHV1UtaPnJKplPCYigNDoNHVXYoPl3H05rX1BBT?=
- =?us-ascii?Q?QzyGNUcysmxPyp9TvjBC2tqR4w8Rlfz2ZOBpH+w9u3yilZWJr7Bd+OZHcI+b?=
- =?us-ascii?Q?vYUK6kTIZ8t1R8z/0v5PeglOBB3mS+lZUA7HnDpu0a+OhQR0dIfw8XGpb9NR?=
- =?us-ascii?Q?Gcy4imaC8IQuor/QzaDAXHUeoMR35dElc5HL8Hs50668Vn6GeSlH3VwU5fcB?=
- =?us-ascii?Q?YWuRcPrg8u6aQW8xsNUTqPwJKnTyOk3dqQBCSa4HbKGUDmxuvpBPOdHcYt3r?=
- =?us-ascii?Q?gEMWTHkyPWqa4zh05RgjJn/j4G+/22TI+k28TyRuOSPYwV/va9CKYhlXY3WD?=
- =?us-ascii?Q?Ufp2qbLIi5DC3TS4QOg3gBb9r8LZKhA6tuOJFenTL5nCln4xZgmxVEA/FZ0g?=
- =?us-ascii?Q?l+SohaKf1bOOswrA1diJzal5IQpe59ZovN4kztvjWGScBsQBgfz9D2itutTN?=
- =?us-ascii?Q?qRo+gGfjvmwtOMIGBc3NBk36zeTTxkbeWKUJPbdJAxclHdEFZPb6aVeZvGtV?=
- =?us-ascii?Q?X0YOEswdmzZqUABEHTKcoqctZKPMpia2dlm5alpDRooXqu7ITXobF1ZmpNek?=
- =?us-ascii?Q?RcMiUkylL6+aTYsuGSgWI2RS2fpHrfNeWIbX3M1jLPr2rXH90U8ZKZtqXYHV?=
- =?us-ascii?Q?qHDmGtNZuTBzXOrmQhAxRpDPBC6QSvNV08zHDFiBKa1dRm7y178jaG+8JrvT?=
- =?us-ascii?Q?Ag4bG7+8nLkH0sBLWepCI5vF+vGFGhysLMOpE7w3zQTskmDxulSf0majWmTH?=
- =?us-ascii?Q?c27i3AIa8GmZVFVZ3y8AU9oCMZhjTrG2T3lBxvrA42Q3Oqp92HEPlCaw6VC8?=
- =?us-ascii?Q?FbEo53yzgavOiTYRsF/E9wbJfcf6T+eYrvN20Pr6F3Rxi49Jx9lzAWW3UlU2?=
- =?us-ascii?Q?ZtBSPMIEDDv8rLeTxeKVh8IItXxjMLyOtkAiMwEvIhWlEdcc4Rbpco8EFdzS?=
- =?us-ascii?Q?uqQmyRb9MoMrivWnyha1PGu7NMfRT4fHowkCbERza/FG6lYLcTPdmMbWlmIn?=
- =?us-ascii?Q?tf7j6ocRgg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TkuTh1ceSa6r/Cfy/+1XuA9Wl3RmPjdFm8Zb9dHMzccVN4xa046NKbLbqixP?=
+ =?us-ascii?Q?Yvg3CrRih/OqnozSJCR2lTsrdxpeWbbya06SRz6YDAC/o3dkno60H6b9sdFC?=
+ =?us-ascii?Q?3HCn88rfVqhvqRJBLfzYzfTqvU+xMDyOSFiz86WsmEaIzYawB2k0+tIV4WKV?=
+ =?us-ascii?Q?SCWvw1h09tapkN1TXOc9oHqS8RWroUMauL+OtZJo9+8Llb7BdbbW8ykvilVM?=
+ =?us-ascii?Q?+gyNypo/WHtDESVGbTSZltto+I2DMWvy1Nzb2ZApI5X9giVdj8wioiDE0xbo?=
+ =?us-ascii?Q?iLyQ5jm4AqVkIuOHGi6DxmLxeI+riFQAz5TFv1I1wRuMQwltjbZmf2dUrOFc?=
+ =?us-ascii?Q?T0EMDDRplbqNqa9ldQW008bD5tm6pQpDA7gsZAtlcpvi8AzH+VOPJDud2oCW?=
+ =?us-ascii?Q?4egVaLEnr9OjM2bU/HETrGVBkkDXyulXEk/lEGH6feBcHuxl3RQQeNnfOPDy?=
+ =?us-ascii?Q?S7gFCn1V+U/EZU2x1uPyJPbpKNPcfUnHtcU2jpH6lljJTFIUrPRSHxC/yjEe?=
+ =?us-ascii?Q?+wq1Fi9e54mRq+O22DAVrVIC2HMIigYCFneInvIKjxb7sbr9ZKlHNNKwYJpn?=
+ =?us-ascii?Q?NX5cCfYlE/dMS+M0opZ7Cb1C1ZMr3EmHODfvo8x+Nyz7vpraINu6/llMF/HJ?=
+ =?us-ascii?Q?STuVHNqxyOWJAuDAAzPH+p5yDV/u/1Sbpzo3U5jAvNMi2BC6ciCKA4uoNy/t?=
+ =?us-ascii?Q?eXTpWJ+S8dHLYVj68oZe+Rg/Ocpf3E1oVClZFzYlu7XralHWDqX3hVEsZQEi?=
+ =?us-ascii?Q?9rw2SV//0wdE4E9N3wN9u7kfGGcn9PWDcAodYOsG/OoiDHU018vpansXh3Yw?=
+ =?us-ascii?Q?9iEus+yX1pQsnwPlxtaxn1xZvevwil5s3ZXSzV6TJG1/5foaye9lic+dgnXi?=
+ =?us-ascii?Q?dEWwCmwz+z1DlkYvpTrGyavRzzmphftbfzP/AeHwVmQkqV/VxEgmdhy3L3Wk?=
+ =?us-ascii?Q?LhQ0PrPmWrj7brxvaeM28yyd7DdMVdTPH1FCw4lqgyTYOBZL9SoVl/zrjjTU?=
+ =?us-ascii?Q?zBzKOKd9x+LPh1CbVzXLp+XQ2t6gwM/GOXt/vjm6nHBwvTInkLGxPL1xJhoW?=
+ =?us-ascii?Q?HsD2ABpZjvT5i/Et7DArAdn2AJxoApPgqu8wcYTzayyKLlhS0qRprRFucO3x?=
+ =?us-ascii?Q?L4SGAaeh6pbeZBruMsgT5c5byBF1vkDvfnCaJsW80zI7/dzqwuTptQWaatGl?=
+ =?us-ascii?Q?RD6YGB4s91GSUzS4u8cNU4xQUxOJvwG4JAY8hNrP+G/X/dJ+JvLTh7p+znxh?=
+ =?us-ascii?Q?6hyaFrDyYm75Kd8EFW8uDUfkYIlDn0UQpc/ZQnZYiYMdnA5UpG87mbS/KEpD?=
+ =?us-ascii?Q?/5YVY8sVR9ZuBqqvIJSiOO0roGZvBSdGjh1HETEkHElPjlhppu6G1uCYOxfA?=
+ =?us-ascii?Q?FLTOvk1kaIw6+BzY3bAGxIfB3ihfF5nSg45Dlob2SrLIgn0w3B3PLLbgoW0k?=
+ =?us-ascii?Q?KC2x1tuRbUxMGZ0TR+mwSGTHCKL5gu4s+unDsLIjj9TheXYlaObem+870hHk?=
+ =?us-ascii?Q?xwfVWnQgMmxJOFfnntyjtiwGakoS0CrejI0iZxsULmPtJtJ7iaNuw3aCENjj?=
+ =?us-ascii?Q?IVntZda0RS1quuHS+jK0CL8+sEcWGviX3dCGhT49/yptgg2te9+2xEbtK9FE?=
+ =?us-ascii?Q?t43Usx31uzMRu3mM3bwHQsUssgdCBFdFr/SJCDzobXQV9xJ/2VQTABUIzG47?=
+ =?us-ascii?Q?Cu9TsVftw+vahA49AN9PKus0cQxUhXMWpTcnvucCPASncm15hUUl6U5YnPjE?=
+ =?us-ascii?Q?zgG7tFTuOg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86a812e2-7f8e-4ee1-3b27-08df3e6713c9
+X-MS-Exchange-CrossTenant-Network-Message-Id: dde2997f-86c8-41e1-342b-08df3e6719d1
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 13:40:54.5478
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 13:41:04.6836
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SeLgHaIA88fyanNu9ExZ2JKfy4wgwuL7Uh8HgACDd9sHLvcdteRiK3MzCQLWvYH6x43a6yHQJ1M92h5RWBrsM3y6doVcFsIKBZ+JUf2l1Jw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: snqMyNU9dSv0/vp1CtddGi0W3OlRo60yG3N3uG/P8C5l/YtMJr6ihJHf7SP9Wo9DQ54aZIGMCVyXOgAyqPZ5Hzfh9nVJHLSlTtIKqvXVgW4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPJP189MB287125
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 13:41:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249816
-Content-Type: text/plain; charset="utf-8"
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249822
 
-ReleaseNotes: https://gstreamer.freedesktop.org/releases/1.28/#1.28.9
-- Refresh existing patch
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Version 0.29
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+ desktop-file-install
+  - Add support for --add-keywords and --remove-keywords (fdo#78) (KlfJoat)=
+.
+  - Add --set-exec shortcut for setting the Exec key (JakobDev).
+
+ desktop-file-validate
+  - Require Exec key when DBusActivatable is unset (Ball=C3=B3 Gy=C3=B6rgy)=
+.
+  - Validate the Keywords key (KlfJoat).
+  - Add Phosh to list of valid OnlyShowIn=3D environments (Sam Day).
+  - Add new game categories (JakobDev).
+  - Add HealthFitness category (JakobDev).
+
+ update-desktop-database
+  - Implement the intent cache from the intent-apps spec (Sebastian Wick).
+  - Code cleanup and modernization (Sebastian Wick).
+
+ misc
+  - Manpage fixes (fdo#76, fdo#77) (KlfJoat).
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch | 2 +-
- .../0002-ssaparse-enhance-SSA-text-lines-parsing.patch          | 2 +-
- .../0003-viv-fb-Make-sure-config.h-is-included.patch            | 2 +-
- ...ugins-base_1.28.8.bb =3D> gstreamer1.0-plugins-base_1.28.9.bb} | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.28.8=
-.bb =3D> gstreamer1.0-plugins-base_1.28.9.bb} (98%)
+ .../{desktop-file-utils_0.28.bb =3D> desktop-file-utils_0.29.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/desktop-file-utils/{desktop-file-utils_0.28.b=
+b =3D> desktop-file-utils_0.29.bb} (88%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/00=
-01-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-=
-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-f=
-rom-src-pad-when-query-caps.patch
-index b01ec37fbb3..5e41992d58b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR=
-00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR=
-00312515-get-caps-from-src-pad-when-query-caps.patch
-@@ -1,4 +1,4 @@
--From 40eaa1cd3e6609cf92f7e3caa70dced21a90f431 Mon Sep 17 00:00:00 2001
-+From 09ed10895efd65740601a3f4d6f22484b722262c Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/00=
-02-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/=
-gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-pa=
-rsing.patch
-index 305e631a160..548f7c310e1 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssap=
-arse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssap=
-arse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From 7cfd9f7e7fded0c02966564fd9d60062a618d19f Mon Sep 17 00:00:00 2001
-+From 415e22761bb952ff8bc01a91621461f68407b07d Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/00=
-03-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gs=
-treamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-include=
-d.patch
-index 5ebd0cfe796..9348c20e3bc 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-=
-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-=
-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From 95ed3557e398de576d18e8f9077b1c908838a83d Mon Sep 17 00:00:00 2001
-+From 2d6669e7163322cccafd1ea0a6fae2eb7939b2f0 Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.=
-28.8.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.=
-9.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.2=
-8.8.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.=
-9.bb
-index f7ce3d71f85..0f7044b7adc 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.8.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.9.bb
-@@ -11,7 +11,7 @@ SRC_URI =3D "https://gstreamer.freedesktop.org/src/gst-pl=
-ugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] =3D "ade70e3381fcbb024f1f20aa9ede9b5654aeed39d5bd70b1a9=
-8f53015e501117"
-+SRC_URI[sha256sum] =3D "c1fda668b520e6aef763c0eb962c032c9fe52bce322e8b00c6=
-9b4e9e847bddc1"
+diff --git a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.=
+28.bb b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.29.bb
+similarity index 88%
+rename from meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.2=
+8.bb
+rename to meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.29.=
+bb
+index 35537572fef..8e4138319a6 100644
+--- a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb
++++ b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.29.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4=
+486a80fdaf4a4263 \
+                     file://src/validator.c;beginline=3D4;endline=3D27;md5=
+=3D281e1114ee6c486a1a0a4295986b9416"
 =20
- S =3D "${UNPACKDIR}/gst-plugins-base-${PV}"
+ SRC_URI =3D "http://www.freedesktop.org/software/${BPN}/releases/${BP}.tar=
+.xz"
+-SRC_URI[sha256sum] =3D "4401d4e231d842c2de8242395a74a395ca468cd96f5f610d82=
+2df33594898a70"
++SRC_URI[sha256sum] =3D "661f225be4c667abc4962f075717db4252b63c84480f6d37b2=
+6050d029da8fa0"
+=20
+ DEPENDS =3D "glib-2.0"
 =20
