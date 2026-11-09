@@ -1,44 +1,45 @@
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6199.1794231925343675182
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6074.1794231922196809365
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 05:45:25 -0800
+ Mon, 09 Nov 2026 05:45:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=iLcqSrbI;
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=UCC5hUlH;
  spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 72E153D8176B;
-	Mon,  9 Nov 2026 08:45:24 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 4CEB13D8176B;
+	Mon,  9 Nov 2026 08:45:21 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id Jwh8AzjLB_Gb; Mon,  9 Nov 2026 08:45:23 -0500 (EST)
+ with ESMTP id DvbqVrQqfGnF; Mon,  9 Nov 2026 08:45:20 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 682C63D81838;
-	Mon,  9 Nov 2026 08:45:23 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 682C63D81838
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id E94593D818F3;
+	Mon,  9 Nov 2026 08:45:19 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com E94593D818F3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1794231923; bh=fUw/aP++f+syKwl+31QMkC9oA3gcNdnoeXcEna27yzA=;
+	t=1794231920; bh=TJbL/Ug0+0fZ8oQ5yp5cr/FU1qS8tHB2OChIVDVKqQg=;
 	h=From:Date:MIME-Version:Message-Id:To;
-	b=iLcqSrbIZJWk966P/Z4IVNZ8fU4ewlkxSWWqq11LbfQgr7u6Wd4JRcxpmQ8P4U930
-	 UjcKwcAhdAZXvFTARbN8p24Tr27rwsC0Jr4J26HYm9177j14pVznISCA8SG+OFRwdS
-	 lCvHFtLvK1Xn+cFgj5o4XbIeg4wo1jTKsH7Dq/smcdHNZBErI8mDLKYl0EjhTv4cn4
-	 MZ+HeDQzTl7wHqLNLAvHnPP+GUSsWGMcy6Soy87yvJ0iNwgRQXGfX0OzWGBTZFUZCZ
-	 9WbgN89e3ohJAbQIppWaxfeR4I8jHvlDct3Y6s7QY2VzOzLmVaVTaWqZHHCIR4/qGH
-	 ZYMf+YI1BhlnQ==
+	b=UCC5hUlH6qbS369AWMaBedWa4EqXAmN8AW1sR/8osRybvpfYygajTsLwkJbW/lhvW
+	 C6tWy4SQlEj+0Uk7JhGsK7o0fNP1jQVR7Zo97mQQuT5X3GkvxMaXNP0G/FIOT8Agw5
+	 WsyYTkboir7UjHHOWPVmapj974XL833YiYI4OCSp7yPUTBP9NvAO7XQE/cOXPublYv
+	 oi4MI9ks+i/36+H6wtPSIVz+maml/hfhnnprj97gXJg/A+OctByWmgOIruJyKnlKJM
+	 YuUfiVhKjueJQ+oHYQk2Hjv5l8g5kGsmqokcsjq6zuAqXOwmjRVGenDxPqXT1yVP5Q
+	 H4Lac6JgAJVcg==
 X-Virus-Scanned: amavis at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id VajSjwILUvRF; Mon,  9 Nov 2026 08:45:23 -0500 (EST)
+ with ESMTP id l15F38LbneYF; Mon,  9 Nov 2026 08:45:19 -0500 (EST)
 Received: from isabelle.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id AE2503D81892;
-	Mon,  9 Nov 2026 08:45:22 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 36AA93D818FC;
+	Mon,  9 Nov 2026 08:45:19 -0500 (EST)
 From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Date: Mon, 09 Nov 2026 14:44:35 +0100
-Subject: [PATCH v2 18/18] oeqa/selftest: verify Cargo rebuild and redeploy
+Date: Mon, 09 Nov 2026 14:44:29 +0100
+Subject: [PATCH v2 12/18] devtool: ide-sdk: remap Cargo sources for BitBake
+ builds
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-devtool-ide-sdk-cargo-v2-18-d56134000561@savoirfairelinux.com>
+Message-Id: <20261109-devtool-ide-sdk-cargo-v2-12-d56134000561@savoirfairelinux.com>
 References: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
 In-Reply-To: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
@@ -46,69 +47,108 @@ Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
  Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Mailer: b4 0.16.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 13:45:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249845
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 13:45:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249839
 
-After a source edit, run the ordered Cargo build/install/deploy tasks and
-verify the changed Fibonacci result. Use a helper to shift source lines so
-the breakpoint location can change without hard-coded line numbers; reuse
-the shared LLDB runner for both debug sessions.
+With devtool modify, Cargo sources can live outside WORKDIR, so the
+standard Rust remaps leave the workspace path in DWARF and package QA
+rejects the debug package. Append a workspace-specific remap to
+RUST_DEBUG_REMAP in a managed bbappend section so repeated ide-sdk runs
+restore and reparse it.
 
 AI-Generated: Uses GitHub Copilot
-Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 0128d37d83..c54f13de5a 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3147,6 +3147,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
-                     return lineno
-         self.fail("Could not find marker %r in %s" % (marker, source_path))
+---
+
+Changes in v2:
+
+- Revert bbappend comparison after stripping managed sections to avoid
+  reparse when the ide-sdk section is not modified. I think there is a
+  pre-existing bug with that logic however. An ide-sdk re-run leaves the
+  stripped bbappend for clang and cargo classes. As a consequence, I
+  simplified the Qemu selftest to no longer run ide-sdk twice.
+---
+ scripts/lib/devtool/ide_sdk.py | 34 +++++++++++++++++++++++++---------
+ 1 file changed, 25 insertions(+), 9 deletions(-)
+
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 0ce2a7780e..5096297b32 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -831,6 +831,7 @@ class RecipeModified:
+     VALID_BASH_ENV_NAME_CHARS = re.compile(r"^[a-zA-Z0-9_]*$")
  
-+    def _insert_source_line_shift(self, source_path, marker, line_count):
-+        with open(source_path) as source_handle:
-+            source = source_handle.read()
-+        self.assertEqual(source.count(marker), 1)
-+        inserted_lines = ''.join(
-+            '    // line shift %d\n' % index for index in range(line_count))
-+        with open(source_path, 'w') as source_handle:
-+            source_handle.write(source.replace(marker, inserted_lines + marker, 1))
-+
-     def _find_multi_script_port(self, recipe_name, script_prefix, example_exe):
-         """Discover the port assigned to a generated 'multi' mode debug-server
-         script (gdbserver_*/lldb_server_*), since each --ide plugin allocates
-@@ -4485,6 +4494,28 @@ class DevtoolIdeSdkRustTests(DevtoolIdeSdkTests):
-             self.assertIsNotNone(qemu.port, 'No SSH port for the slirp target')
-             self._verify_rust_lldb_debugging(tempdir, expected_input=4)
+     MARKER = '# devtool ide-sdk: clangd toolchain support'
++    CARGO_REMAP_MARKER = '# devtool ide-sdk: Cargo source debug remap'
  
-+            main_rs = os.path.join(tempdir, 'src', 'main.rs')
-+            self._insert_source_line_shift(main_rs, '    match n {', 4)
-+            with open(main_rs) as source_file:
-+                shifted_source = source_file.read()
-+            self.assertEqual(shifted_source.count('fibonacci(4)'), 1)
-+            with open(main_rs, 'w') as source_file:
-+                source_file.write(
-+                    shifted_source.replace('fibonacci(4)', 'fibonacci(5)', 1))
+     # PROVIDES of recipes that are deployed via do_deploy (e.g. to
+     # DEPLOY_DIR_IMAGE) rather than installed into the rootfs, so adding them
+@@ -951,13 +952,14 @@ class RecipeModified:
+                 content = f.read()
+             originals[name] = content
+             stripped = cls._strip_marker_section(content, cls.MARKER)
++            stripped = cls._strip_marker_section(stripped, cls.CARGO_REMAP_MARKER)
+             if stripped != content:
+                 with open(bbappend, 'w') as f:
+                     f.write(stripped)
+         return originals
+ 
+     def update_bbappend(self):
+-        """Add DEPENDS on clang-native when clangd is used as only the IntelliSense engine"""
++        """Add workspace-only clang dependencies or Cargo debug path remaps."""
+         wants_clang_native = (
+             self.build_tool.is_c_cpp
+             and self.ide_sdk_intellisense == 'clangd'
+@@ -970,17 +972,27 @@ class RecipeModified:
+         else:
+             parsed_content = ''
+ 
+-        if not wants_clang_native:
++        new_sections = []
++        if wants_clang_native:
++            new_sections.append(
++                self.MARKER + '\nDEPENDS:append = " clang-native"\n')
++        if self.build_tool is BuildTool.CARGO:
++            new_sections.append(
++                self.CARGO_REMAP_MARKER
++                + '\nRUST_DEBUG_REMAP:append = " '
++                '--remap-path-prefix=${S}=${TARGET_DBGSRC_DIR}"\n')
 +
-+            with open(os.path.join(tempdir, '.vscode', 'tasks.json')) as tasks_file:
-+                tasks = json.load(tasks_file)['tasks']
-+            install_task = next(
-+                task for task in tasks
-+                if task['label'].startswith('install && deploy-target '))
-+            task_results = self._run_vscode_task_with_dependencies(
-+                tempdir, install_task['label'])
-+            self.assertTrue(
-+                any('Compiling cargo-example' in result.output
-+                    for result in task_results),
-+                'Cargo build task did not recompile the modified Rust source')
-+            self._verify_rust_lldb_debugging(tempdir, expected_input=5)
-+
-     def _verify_rust_lldb_debugging(self, tempdir, expected_input):
-         with open(os.path.join(tempdir, '.vscode', 'launch.json')) as launch_file:
-             launch = json.load(launch_file)['configurations'][0]
++        if not new_sections:
+             if self.MARKER in original_content:
+                 logger.info(
+                     "Removed clangd toolchain support from %s: no longer needed", self.bbappend)
+             return False
+ 
+-        new_section = self.MARKER + '\nDEPENDS:append = " clang-native"\n'
+         new_content = parsed_content
+-        if new_content and not new_content.endswith('\n'):
+-            new_content += '\n'
+-        new_content += new_section
++        for section in new_sections:
++            if new_content and not new_content.endswith('\n'):
++                new_content += '\n'
++            new_content += section
+ 
+         if new_content == original_content:
+             return False
+@@ -989,9 +1001,13 @@ class RecipeModified:
+         os.makedirs(appends_dir, exist_ok=True)
+         with open(self.bbappend, 'w') as f:
+             f.write(new_content)
+-        logger.info(
+-            "Updated %s: added DEPENDS on clang-native, needed to stage clangd "
+-            "for IDE_SDK_INTELLISENSE=\"clangd\"", self.bbappend)
++        if wants_clang_native:
++            logger.info(
++                "Updated %s: added DEPENDS on clang-native, needed to stage clangd "
++                "for IDE_SDK_INTELLISENSE=\"clangd\"", self.bbappend)
++        if self.build_tool is BuildTool.CARGO:
++            logger.info(
++                "Updated %s: remapped Cargo external sources for debug info", self.bbappend)
+         return True
+ 
+     def initialize(self, config, workspace, tinfoil):
 
 -- 
 2.53.0
