@@ -1,141 +1,575 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7688.1794264210142570059
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7891.1794264945654887906
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 14:43:30 -0800
+ Mon, 09 Nov 2026 14:55:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=EmUrYHWl;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4ac95761c85so10132095e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 14:43:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794264208; x=1794869008; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9O9LcGGaAZpPfmg1HlzWKCXeEVAGRhbnGk3+g1LAZFw=;
-        b=EmUrYHWlEbkSwcNXuOw7wpXeHNJqGlzhYNlreN5TwUqO4l3T2QXcQsC4hygOjRuwVh
-         ghOyJi0lqdpErtnDFgwLJhVJmKg6IVYVsWJbTzncJ/CNp0C4MId7DaOTN69oi7GQNKzN
-         eWqiL/KDNjNVyhvCXB7cqGJ151nj4MD1XGa+sQvCSrFqakwpn5dyMHhrk1ZmKuwrTk3q
-         M8+jPEGA47b0pE/RMg+/m5+sZ2IzzyaDt1sQpZ1OU7g0i971svbQcOfTWmfFu6Rf211J
-         Bfej/GtA0rZnFReyrzn8drf2F2oF/GN4WyLyZcwgjTvO9yM7Mq2N5NcTs9v023Ns2mB5
-         rFLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794264208; x=1794869008;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9O9LcGGaAZpPfmg1HlzWKCXeEVAGRhbnGk3+g1LAZFw=;
-        b=WeWiJL6984zrnQ0/uRvRGd2owslEQTSJnEqMMQP90lBuAeKB6FPWEmGei5dU+aznb4
-         GQ53moVeuOvUr1BvdU4JodxbdFMRWLQq2R/tnCuV/Qh6jELIdh/tL5Tep6OxyFQiJrQv
-         72ObY5t+5c0SwioEjnFC3DS0Ksdwk3/EL6IgI65zRvCllg6G1dxmE2AxlvlAFlPi2xm7
-         0E+lb9wqe62iZ43LlKKtZS6ExrsWJ+U7nUpTNZDqvieDQebbs89p1e9zpv5pccXLxvsf
-         PbLywk0VPX+pRRu/dedoUOTBc91MRWYx1RyvBpYpPo4NsrRApC/MrGrMzfC7s8ePBVE8
-         S1kw==
-X-Forwarded-Encrypted: i=1; AL+hErFcVuk2W0+4huzjob3zO0t2wXxH5UBAzGO+BGsDlbcOesWONB4St2beUPBUNDHTmk+Kru/9Cpe/EMlTFrvHCqCxug==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z8922fQySaQNabNLPLvu8tO1n9/8oA6qZXbal2k+XwlItTEpMgA
-	xiTCtCY7sygTIrfzXyB+exbSp7IYx3d1eBdUg3LicWeOHFTup+kYJyEvETbORTfyFGQ=
-X-Gm-Gg: AYBFou17BUdg6S3rqZwtFeiCDjdZjUn25V7FQ4PqBciBXZHiq+82aQE3haSCmMGwPwT
-	jBi8TD19M0xe3/GMdTJ5/pqfJpVQSdBwNE5PRFOF2dMIxpn8iEnzIUETRCl9mwjxp0fpa4DaIpM
-	YrkofOWtArk5wUl2E3EYGdOPMSZp7FkZKgc7nkQ1vZLAydiXwjzN7TSLhHeNOAM7sp90XoTQhO4
-	z6VWCnKURTEf8KiiW5zYSa3kOGV1ftg/a9PpEm94+DuQh7fSlhop17QaYy+jnDeAkVGwVRT9ZS0
-	RxcmawcdbsZrwj0dmFe/J81GNSQ/BdE7Xd2YPQlLenzdno5tZFZ7dQ+jUY88HOkx9SMHstUV4z8
-	CVlQssL6inluMgqlSd/YEuQUWG6ceVFqkzXi+XtWqEpN2bO5MX2aHj0yAH+2T9uBQaC8yv8oQGu
-	8ddzNAIiUPt/HznHMBQAyDjqO6AyfiMIdTp1ex/zuoajlH2JkYif+byaKE9TfvA2RXwuQJMdSf/
-	oPLjMs74sB8uCKopnEZer7pjQ6/QDVAFLzYLTdG0KaTW+41CoS/epi2bEWDc0MFDv+BRCVjDzav
-	O1Hq4OEkvZls6pvbLJw0PWAMSqh8dqbU9T0EtFTrkRdf46X97IRMnRh6Zttwot6LqW6KMjaTpgH
-	iZfolVfTIQrVEvxNC
-X-Received: by 2002:a05:600c:4e8a:b0:4a2:fd2:985d with SMTP id 5b1f17b1804b1-4ba02345745mr10997985e9.12.1794264208341;
-        Mon, 09 Nov 2026 14:43:28 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba01d9df5csm24794875e9.0.2026.11.09.14.43.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 14:43:27 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Nov 2026 23:43:27 +0100
-Message-Id: <DMR1KTSW5FKT.1P6PEDH59FE7B@smile.fr>
-Subject: Re: [OE-core] [wrynose][PATCH 1/2] dropbear: add follow-up patches
- for CVE-2019-6111
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: "Marko, Peter" <Peter.Marko@siemens.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261023192914.159339-1-peter.marko@siemens.com>
- <DMQU8C661EIP.20I8FSF0VPP9L@smile.fr>
- <AS8PR10MB5073B9D7D28749124C032589FD732@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS8PR10MB5073B9D7D28749124C032589FD732@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=D0hXZ3Ch;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261109225542d02d037e9300020790-7sxzvv@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261109225542d02d037e9300020790
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 09 Nov 2026 23:55:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=wehhkOb1SLBGj9/EFQzpgOVuHwBINNryWkS0zif0Tos=;
+ b=D0hXZ3ChiFMEoomBjKbsJCaCmA1quyGwahaeADmgdBgg4vCqv8WYgaVH1uMPsKzyZTX/yc
+ 8DpwSMdiDtzXkZvZ+XHWjWcMZxr8gkimBVyX79pH2TGvRjmGlA8xYPHQGxO9q5+8tN8KYPOi
+ TPQSHVqQ+f8TaiV0+zzz2aIquMFvqK4jxwykYYoHwqOXIgVARlWonj2djCEOXXbddABQ7/q0
+ DVMrQLfdmA/WgzpCAujos1StbmbYNooZ0ZfqWTh0zSJMd3Ohu4yfQsNEfxrLk1SncHYjIqvL
+ fpCbEVEcJs2YCDq/EphBxFip6MF/BSZqdkbpzZEhdejbdbYCZVk+UKLQ==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [wrynose][PATCH v2 1/2] dropbear: add follow-up patches for CVE-2019-6111
+Date: Mon,  9 Nov 2026 23:55:32 +0100
+Message-ID: <20261109225533.1221067-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 22:43:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249878
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 22:55:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249879
+Content-Type: text/plain; charset="utf-8"
 
-On Mon Nov 9, 2026 at 11:37 PM CET, Peter Marko wrote:
->
->
->> -----Original Message-----
->> From: Yoann Congal <yoann.congal@smile.fr>
->> Sent: Monday, November 9, 2026 5:58 PM
->> To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
->> openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [wrynose][PATCH 1/2] dropbear: add follow-up patc=
-hes for
->> CVE-2019-6111
->>=20
->> On Fri Oct 23, 2026 at 9:29 PM CEST, Peter Marko via lists.openembedded.=
-org
->> wrote:
->> > From: Peter Marko <peter.marko@siemens.com>
->> >
->> > Pick additional patches referencing this CVE from 2026.90 or 2026.91
->> > releases.
->> >
->> > Signed-off-by: Peter Marko <peter.marko@siemens.com>
->> > ---
->> >  .../dropbear/dropbear/CVE-2019-6111-01.patch  | 364 +++++++++++++++++=
+From: Peter Marko <peter.marko@siemens.com>
+
+Pick additional patches referencing this CVE from 2026.90 or 2026.91
+releases.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../dropbear/dropbear/CVE-2019-6111-01.patch  | 364 ++++++++++++++++++
+ .../dropbear/dropbear/CVE-2019-6111-02.patch  |  43 +++
+ .../dropbear/dropbear/CVE-2019-6111-03.patch  |  34 ++
+ .../dropbear/dropbear/CVE-2019-6111-04.patch  |  43 +++
+ .../recipes-core/dropbear/dropbear_2025.89.bb |   4 +
+ 5 files changed, 488 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-01.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch
+
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-01.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-01.patch
+new file mode 100644
+index 0000000000..8e6da5fc23
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-01.patch
+@@ -0,0 +1,364 @@
++From 143291baca6ebb3407a0c25c85bd53bf041a6ab7 Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Mon, 20 Apr 2026 20:57:11 +0800
++Subject: [PATCH] scp: more CVE-2019-6111 fix
 +
->> >  .../dropbear/dropbear/CVE-2019-6111-02.patch  |  43 +++
->> >  .../dropbear/dropbear/CVE-2019-6111-03.patch  |  34 ++
->> >  .../recipes-core/dropbear/dropbear_2025.89.bb |   3 +
->> >  4 files changed, 444 insertions(+)
->> >  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-
->> 01.patch
->> >  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-
->> 02.patch
->> >  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-
->> 03.patch
->>=20
->> Hello,
->>=20
->> Should'nt we also backport this commit?
->> https://github.com/mkj/dropbear/commit/16ce059ed8e914e210af67e199041943e=
-c747
->> 034
->> | scp: fix recursive overwrite check
->> | Non-recursive transfers were incorrectly disallowed to an existing
->> | destination.
->> |
->> | In addition, the destination check logic was wrong.
->> |
->> | Fixes: 61bd0e3 ("scp: Disallow -r to an existing directory")
->
-> This is a good find.
-> I'll send a v2 with this patch added on top.
-
-Thanks!
-
->
-> Peter
->
->>=20
->> Regards,
->> --
->> Yoann Congal
->> Smile ECS
-
-
---=20
-Yoann Congal
-Smile ECS
-
++Cherrypicked from OpenSSH portable
++
++commit 3d896c157c722bc47adca51a58dca859225b5874
++djm Sun Feb 10 11:15:52 2019 +0000
++
++upstream: when checking that filenames sent by the server side
++
++match what the client requested, be prepared to handle shell-style brace
++alternations, e.g. "{foo,bar}".
++
++"looks good to me" millert@ + in snaps for the last week courtesy
++deraadt@
++
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/143291baca6ebb3407a0c25c85bd53bf041a6ab7]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/scp.c | 281 +++++++++++++++++++++++++++++++++++++++++++++++++++---
++ 1 file changed, 269 insertions(+), 12 deletions(-)
++
++diff --git a/src/scp.c b/src/scp.c
++index bf98986c..d151587c 100644
++--- a/src/scp.c
+++++ b/src/scp.c
++@@ -74,7 +74,6 @@
++  */
++ 
++ #include "includes.h"
++-/*RCSID("$OpenBSD: scp.c,v 1.130 2006/01/31 10:35:43 djm Exp $");*/
++ 
++ #include <fnmatch.h>
++ 
++@@ -600,6 +599,253 @@ tolocal(int argc, char **argv)
++ 	}
++ }
++ 
+++/* Appends a string to an array; returns 0 on success, -1 on alloc failure */
+++static int
+++append(char *cp, char ***ap, size_t *np)
+++{
+++	char **tmp;
+++
+++	if ((tmp = reallocarray(*ap, *np + 1, sizeof(*tmp))) == NULL)
+++		return -1;
+++	tmp[(*np)] = cp;
+++	(*np)++;
+++	*ap = tmp;
+++	return 0;
+++}
+++
+++/*
+++ * Finds the start and end of the first brace pair in the pattern.
+++ * returns 0 on success or -1 for invalid patterns.
+++ */
+++static int
+++find_brace(const char *pattern, int *startp, int *endp)
+++{
+++	int i;
+++	int in_bracket, brace_level;
+++
+++	*startp = *endp = -1;
+++	in_bracket = brace_level = 0;
+++	for (i = 0; i < INT_MAX && *endp < 0 && pattern[i] != '\0'; i++) {
+++		switch (pattern[i]) {
+++		case '\\':
+++			/* skip next character */
+++			if (pattern[i + 1] != '\0')
+++				i++;
+++			break;
+++		case '[':
+++			in_bracket = 1;
+++			break;
+++		case ']':
+++			in_bracket = 0;
+++			break;
+++		case '{':
+++			if (in_bracket)
+++				break;
+++			if (pattern[i + 1] == '}') {
+++				/* Protect a single {}, for find(1), like csh */
+++				i++; /* skip */
+++				break;
+++			}
+++			if (*startp == -1)
+++				*startp = i;
+++			brace_level++;
+++			break;
+++		case '}':
+++			if (in_bracket)
+++				break;
+++			if (*startp < 0) {
+++				/* Unbalanced brace */
+++				return -1;
+++			}
+++			if (--brace_level <= 0)
+++				*endp = i;
+++			break;
+++		}
+++	}
+++	/* unbalanced brackets/braces */
+++	if (*endp < 0 && (*startp >= 0 || in_bracket))
+++		return -1;
+++	return 0;
+++}
+++
+++/*
+++ * Assembles and records a successfully-expanded pattern, returns -1 on
+++ * alloc failure.
+++ */
+++static int
+++emit_expansion(const char *pattern, int brace_start, int brace_end,
+++    int sel_start, int sel_end, char ***patternsp, size_t *npatternsp)
+++{
+++	char *cp;
+++	int o = 0, tail_len = strlen(pattern + brace_end + 1);
+++
+++	if ((cp = malloc(brace_start + (sel_end - sel_start) +
+++	    tail_len + 1)) == NULL)
+++		return -1;
+++
+++	/* Pattern before initial brace */
+++	if (brace_start > 0) {
+++		memcpy(cp, pattern, brace_start);
+++		o = brace_start;
+++	}
+++	/* Current braced selection */
+++	if (sel_end - sel_start > 0) {
+++		memcpy(cp + o, pattern + sel_start,
+++		    sel_end - sel_start);
+++		o += sel_end - sel_start;
+++	}
+++	/* Remainder of pattern after closing brace */
+++	if (tail_len > 0) {
+++		memcpy(cp + o, pattern + brace_end + 1, tail_len);
+++		o += tail_len;
+++	}
+++	cp[o] = '\0';
+++	if (append(cp, patternsp, npatternsp) != 0) {
+++		free(cp);
+++		return -1;
+++	}
+++	return 0;
+++}
+++
+++/*
+++ * Expand the first encountered brace in pattern, appending the expanded
+++ * patterns it yielded to the *patternsp array.
+++ *
+++ * Returns 0 on success or -1 on allocation failure.
+++ *
+++ * Signals whether expansion was performed via *expanded and whether
+++ * pattern was invalid via *invalid.
+++ */
+++static int
+++brace_expand_one(const char *pattern, char ***patternsp, size_t *npatternsp,
+++    int *expanded, int *invalid)
+++{
+++	int i;
+++	int in_bracket, brace_start, brace_end, brace_level;
+++	int sel_start, sel_end;
+++
+++	*invalid = *expanded = 0;
+++
+++	if (find_brace(pattern, &brace_start, &brace_end) != 0) {
+++		*invalid = 1;
+++		return 0;
+++	} else if (brace_start == -1)
+++		return 0;
+++
+++	in_bracket = brace_level = 0;
+++	for (i = sel_start = brace_start + 1; i < brace_end; i++) {
+++		switch (pattern[i]) {
+++		case '{':
+++			if (in_bracket)
+++				break;
+++			brace_level++;
+++			break;
+++		case '}':
+++			if (in_bracket)
+++				break;
+++			brace_level--;
+++			break;
+++		case '[':
+++			in_bracket = 1;
+++			break;
+++		case ']':
+++			in_bracket = 0;
+++			break;
+++		case '\\':
+++			if (i < brace_end - 1)
+++				i++; /* skip */
+++			break;
+++		}
+++		if (pattern[i] == ',' || i == brace_end - 1) {
+++			if (in_bracket || brace_level > 0)
+++				continue;
+++			/* End of a selection, emit an expanded pattern */
+++
+++			/* Adjust end index for last selection */
+++			sel_end = (i == brace_end - 1) ? brace_end : i;
+++			if (emit_expansion(pattern, brace_start, brace_end,
+++			    sel_start, sel_end, patternsp, npatternsp) != 0)
+++				return -1;
+++			/* move on to the next selection */
+++			sel_start = i + 1;
+++			continue;
+++		}
+++	}
+++	if (in_bracket || brace_level > 0) {
+++		*invalid = 1;
+++		return 0;
+++	}
+++	/* success */
+++	*expanded = 1;
+++	return 0;
+++}
+++
+++/* Expand braces from pattern. Returns 0 on success, -1 on failure */
+++static int
+++brace_expand(const char *pattern, char ***patternsp, size_t *npatternsp)
+++{
+++	char *cp, *cp2, **active = NULL, **done = NULL;
+++	size_t i, nactive = 0, ndone = 0;
+++	int ret = -1, invalid = 0, expanded = 0;
+++
+++	*patternsp = NULL;
+++	*npatternsp = 0;
+++
+++	/* Start the worklist with the original pattern */
+++	if ((cp = strdup(pattern)) == NULL)
+++		return -1;
+++	if (append(cp, &active, &nactive) != 0) {
+++		free(cp);
+++		return -1;
+++	}
+++	while (nactive > 0) {
+++		cp = active[nactive - 1];
+++		nactive--;
+++		if (brace_expand_one(cp, &active, &nactive,
+++		    &expanded, &invalid) == -1) {
+++			free(cp);
+++			goto fail;
+++		}
+++		if (invalid)
+++			fatal("%s: invalid brace pattern \"%s\"", __func__, cp);
+++		if (expanded) {
+++			/*
+++			 * Current entry expanded to new entries on the
+++			 * active list; discard the progenitor pattern.
+++			 */
+++			free(cp);
+++			continue;
+++		}
+++		/*
+++		 * Pattern did not expand; append the finename component to
+++		 * the completed list
+++		 */
+++		if ((cp2 = strrchr(cp, '/')) != NULL)
+++			*cp2++ = '\0';
+++		else
+++			cp2 = cp;
+++		if (append(xstrdup(cp2), &done, &ndone) != 0) {
+++			free(cp);
+++			goto fail;
+++		}
+++		free(cp);
+++	}
+++	/* success */
+++	*patternsp = done;
+++	*npatternsp = ndone;
+++	done = NULL;
+++	ndone = 0;
+++	ret = 0;
+++ fail:
+++	for (i = 0; i < nactive; i++)
+++		free(active[i]);
+++	free(active);
+++	for (i = 0; i < ndone; i++)
+++		free(done[i]);
+++	free(done);
+++	return ret;
+++}
+++
++ void
++ source(int argc, char **argv)
++ {
++@@ -841,7 +1087,8 @@ sink(int argc, char **argv, const char *src)
++ 	off_t size, statbytes;
++ 	int setimes, targisdir, wrerrno = 0;
++ 	char ch, *cp, *np, *targ, *why, *vect[1], buf[2048];
++-	char *src_copy = NULL, *restrict_pattern = NULL;
+++	char **patterns = NULL;
+++	size_t n, npatterns = 0;
++ 	struct timeval tv[2];
++ 
++ #define	atime	tv[0]
++@@ -868,16 +1115,13 @@ sink(int argc, char **argv, const char *src)
++ 		 * Prepare to try to restrict incoming filenames to match
++ 		 * the requested destination file glob.
++ 		 */
++-		if ((src_copy = strdup(src)) == NULL)
++-			fatal("strdup failed");
++-		if ((restrict_pattern = strrchr(src_copy, '/')) != NULL) {
++-			*restrict_pattern++ = '\0';
++-		}
+++		if (brace_expand(src, &patterns, &npatterns) != 0)
+++			fatal("%s: could not expand pattern", __func__);
++ 	}
++ 	for (first = 1;; first = 0) {
++ 		cp = buf;
++ 		if (atomicio(read, remin, cp, 1) != 1)
++-			return;
+++			goto done;
++ 		if (*cp++ == '\n')
++ 			SCREWUP("unexpected <newline>");
++ 		do {
++@@ -900,7 +1144,7 @@ sink(int argc, char **argv, const char *src)
++ 		}
++ 		if (buf[0] == 'E') {
++ 			(void) atomicio(vwrite, remout, "", 1);
++-			return;
+++			goto done;
++ 		}
++ 		if (ch == '\n')
++ 			*--cp = 0;
++@@ -956,9 +1200,14 @@ sink(int argc, char **argv, const char *src)
++ 			run_err("error: unexpected filename: %s", cp);
++ 			exit(1);
++ 		}
++-		if (restrict_pattern != NULL &&
++-		    fnmatch(restrict_pattern, cp, 0) != 0)
++-			SCREWUP("filename does not match request");
+++		if (npatterns > 0) {
+++			for (n = 0; n < npatterns; n++) {
+++				if (fnmatch(patterns[n], cp, 0) == 0)
+++					break;
+++			}
+++			if (n >= npatterns)
+++				SCREWUP("filename does not match request");
+++		}
++ 		if (targisdir) {
++ 			static char *namebuf = NULL;
++ 			static size_t cursize = 0;
++@@ -1123,7 +1372,15 @@ bad:			run_err("%s: %s", np, strerror(errno));
++ 			break;
++ 		}
++ 	}
+++done:
+++	for (n = 0; n < npatterns; n++)
+++		free(patterns[n]);
+++	free(patterns);
+++	return;
++ screwup:
+++	for (n = 0; n < npatterns; n++)
+++		free(patterns[n]);
+++	free(patterns);
++ 	run_err("protocol error: %s", why);
++ 	exit(1);
++ }
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch
+new file mode 100644
+index 0000000000..99819b732a
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch
+@@ -0,0 +1,43 @@
++From 61bd0e3e6573277de17359763aa5827a189c8d7f Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Sat, 2 May 2026 08:43:26 +0800
++Subject: [PATCH] scp: Disallow -r to an existing directory
++
++Checks of received paths don't catch all cases in -r recursive mode, so
++disallow -r when the destination directory exists. This mitigates
++CVE-2019-6111, where unexpected files would be accepted from a malicious
++scp server.
++
++Alternatives like rsync could be used in that case.
++
++The new error message may be misleading if parent path components of the
++destination are also missing, though the command would have failed
++regardless.
++
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/61bd0e3e6573277de17359763aa5827a189c8d7f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/scp.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/src/scp.c b/src/scp.c
++index d151587c..09297a5b 100644
++--- a/src/scp.c
+++++ b/src/scp.c
++@@ -583,6 +583,15 @@ tolocal(int argc, char **argv)
++ 			if (*suser == '\0')
++ 				suser = NULL;
++ 		}
+++
+++		char *dest = *(argv + argc - 1);
+++		if (!(access(dest, F_OK) == 0 && errno == ENOENT)) {
+++			/* paths sent from the server in recursive mode aren't adequately
+++			 * checked that they match the requested files, so disallow this */
+++			fprintf(stderr, "-r destination \"%s\" must not already exist\n", dest);
+++			exit(1);
+++		}
+++
++ 		host = cleanhostname(host);
++ 		len = strlen(src) + CMDNEEDS + 20;
++ 		bp = xmalloc(len);
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch
+new file mode 100644
+index 0000000000..c70bf4bb68
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch
+@@ -0,0 +1,34 @@
++From 0c5629a5d543ef5e4eff43345b1eedf2afef84ca Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Mon, 4 May 2026 21:35:57 +0800
++Subject: [PATCH] scp: don't use reallocarray
++
++reallocarray() isn't portable. An overflow check can be used instead.
++
++Fixes: 143291baca6e ("scp: more CVE-2019-6111 fix")
++
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/0c5629a5d543ef5e4eff43345b1eedf2afef84ca]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/scp.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/src/scp.c b/src/scp.c
++index e5ce4e2f..2f7a6279 100644
++--- a/src/scp.c
+++++ b/src/scp.c
++@@ -614,7 +614,12 @@ append(char *cp, char ***ap, size_t *np)
++ {
++ 	char **tmp;
++ 
++-	if ((tmp = reallocarray(*ap, *np + 1, sizeof(*tmp))) == NULL)
+++	if (*np + 1 > (SIZE_MAX / sizeof(*tmp))) {
+++		/* overflow */
+++		return -1;
+++	}
+++
+++	if ((tmp = realloc(*ap, (*np + 1) * sizeof(*tmp))) == NULL)
++ 		return -1;
++ 	tmp[(*np)] = cp;
++ 	(*np)++;
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch
+new file mode 100644
+index 0000000000..810e7e7963
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch
+@@ -0,0 +1,43 @@
++From 16ce059ed8e914e210af67e199041943ec747034 Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Mon, 4 May 2026 21:36:41 +0800
++Subject: [PATCH] scp: fix recursive overwrite check
++
++Non-recursive transfers were incorrectly disallowed to an existing
++destination.
++
++In addition, the destination check logic was wrong.
++
++Fixes: 61bd0e3e6573 ("scp: Disallow -r to an existing directory")
++
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/16ce059ed8e914e210af67e199041943ec747034]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/scp.c | 13 ++++++++-----
++ 1 file changed, 8 insertions(+), 5 deletions(-)
++
++diff --git a/src/scp.c b/src/scp.c
++index 2f7a6279..4b4990ea 100644
++--- a/src/scp.c
+++++ b/src/scp.c
++@@ -585,11 +585,14 @@ tolocal(int argc, char **argv)
++ 		}
++ 
++ 		char *dest = *(argv + argc - 1);
++-		if (!(access(dest, F_OK) == 0 && errno == ENOENT)) {
++-			/* paths sent from the server in recursive mode aren't adequately
++-			 * checked that they match the requested files, so disallow this */
++-			fprintf(stderr, "-r destination \"%s\" must not already exist\n", dest);
++-			exit(1);
+++		if (iamrecursive) {
+++			/* Destination must not exist */
+++			if (!(access(dest, F_OK) == -1 && errno == ENOENT)) {
+++				/* paths sent from the server in recursive mode aren't adequately
+++				 * checked that they match the requested files, so disallow this */
+++				fprintf(stderr, "-r destination \"%s\" must not already exist\n", dest);
+++				exit(1);
+++			}
++ 		}
++ 
++ 		host = cleanhostname(host);
+diff --git a/meta/recipes-core/dropbear/dropbear_2025.89.bb b/meta/recipes-core/dropbear/dropbear_2025.89.bb
+index 685ecf9a1b..6cb520f68d 100644
+--- a/meta/recipes-core/dropbear/dropbear_2025.89.bb
++++ b/meta/recipes-core/dropbear/dropbear_2025.89.bb
+@@ -25,6 +25,10 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://dropbear.socket \
+            file://dropbear.default \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
++           file://CVE-2019-6111-01.patch \
++           file://CVE-2019-6111-02.patch \
++           file://CVE-2019-6111-03.patch \
++           file://CVE-2019-6111-04.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0d1f7ca711cfc336dc8a85e672cab9cfd8223a02fe2da0a4a7aeb58c9e113634"
