@@ -1,44 +1,45 @@
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6069.1794231917223012450
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6070.1794231917356673281
  for <openembedded-core@lists.openembedded.org>;
  Mon, 09 Nov 2026 05:45:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=m0PwVNHc;
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=sPFJarJc;
  spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3FA5A3D818F9;
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 65DAD3D818F1;
 	Mon,  9 Nov 2026 08:45:16 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id 8k5z8NPfVqO5; Mon,  9 Nov 2026 08:45:15 -0500 (EST)
+ with ESMTP id 1GcET_s4anHG; Mon,  9 Nov 2026 08:45:14 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 262C53D81892;
-	Mon,  9 Nov 2026 08:45:15 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 262C53D81892
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7D0863D81838;
+	Mon,  9 Nov 2026 08:45:14 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 7D0863D81838
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1794231915; bh=B13kUIrUvQDimnqARUVsnNYd6tsy5hTK1xIxggVl5Aw=;
+	t=1794231914; bh=3u8yMDt24SsZiL0sasZJpdoNgWmoG+iAl3YU+JMOF+o=;
 	h=From:Date:MIME-Version:Message-Id:To;
-	b=m0PwVNHcoMgABB9ftfKv8fmWfQHVcDncoeHPaaXxgK4oPayA82omREYymc12EQFPj
-	 QN/VQNJBczSjOaS1zBssmExas/bvjOVWpULSU6kvwNuyPfPeQEbXpwKjxnlZpVYqWh
-	 wW0UeCBSpjn3RoeR/yHc5k67d21SRvmYwmjBGx28R8jsAp18Eo/DB34D/yONmUKjCv
-	 WV+zqJVrgJ3BoJA83udiFKQ4Qo0s13ollluA3vVBECiNVuz4JWLili5KZeEbBBT8j5
-	 UxcTvOfqUk4KaZWbHVU4I+93e/DOlyNKph/mNG7kD9wRa4NB6SPIyqovt5VNakElFD
-	 VUrisXsPKSdeA==
+	b=sPFJarJc6yTeBzpGySeRF3PthtdUiOyBKF3CbkBUyl6+o3A1Wl6ai4/42/7tuliUA
+	 f928ExkUurTCWDj/Y8kpIE0Q2Jb+2b7RjlWc1xGmg89I6J7juZqdXU+slrS0IiUd4s
+	 bm2ud6zPI5CgFJ4Qo1D33BzKXJE3Eg+bwkvsll2ndpp7fs9j5tpU4ztJWiKlutSSSO
+	 0GUsMVbtyC3XIVqyIf67Cw4OSZuXM5uPcztDADEl/8zGZ8pGUUmUiIGt9LfCgIfL+k
+	 UGrn1naaNbcKlnEmFqDMmGiAP8gLylZcrkCn841+sedU0v2oLFHNTRze1PB5YU7Xx6
+	 clzIbDThXELLw==
 X-Virus-Scanned: amavis at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id 7_kHgTTgKO1k; Mon,  9 Nov 2026 08:45:14 -0500 (EST)
+ with ESMTP id SKVT_NFuSs39; Mon,  9 Nov 2026 08:45:14 -0500 (EST)
 Received: from isabelle.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 880EF3D818F1;
-	Mon,  9 Nov 2026 08:45:14 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id EE3793D81892;
+	Mon,  9 Nov 2026 08:45:13 -0500 (EST)
 From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Date: Mon, 09 Nov 2026 14:44:21 +0100
-Subject: [PATCH v2 04/18] oeqa/selftest: verify Cargo config serialization
+Date: Mon, 09 Nov 2026 14:44:20 +0100
+Subject: [PATCH v2 03/18] devtool: ide-sdk: export recipe Cargo
+ configuration
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-devtool-ide-sdk-cargo-v2-4-d56134000561@savoirfairelinux.com>
+Message-Id: <20261109-devtool-ide-sdk-cargo-v2-3-d56134000561@savoirfairelinux.com>
 References: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
 In-Reply-To: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
@@ -47,92 +48,163 @@ Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
 X-Mailer: b4 0.16.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 13:45:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249830
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249831
 
-Parse the config exported by devtool and round-trip the TOML writer's
-supported tables and values.
+Export recipe Cargo config to the devtool workspace so Cargo and
+rust-analyzer reuse target, linker, rustflags, and dependency settings
+instead of duplicating them in settings.json and tasks.json. Other IDE
+integrations can reuse the generated config too.
+
+The original input is generated by cargo_common.bbclass. Updating it
+in-place would require a Python TOML writer dependency, so regenerate it
+with a bounded writer helper.
 
 AI-Generated: Uses GitHub Copilot
 Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 
 ---
 Changes in v2:
-- Commit added to verify the generated Cargo config.
+- Replace in-place Cargo config updates with a helper that rewrites
+  the full file.
+- Generate Cargo config for all IDE modes.
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 63 +++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ scripts/lib/devtool/ide_sdk.py | 102 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 102 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 265f2147a4..cab49b4c02 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -5242,3 +5242,66 @@ class DevtoolIdeSdkMiscTests(DevtoolIdeSdkTests):
-         with open(modified_config_file) as modified_config:
-             modified_config_new = modified_config.read()
-         self.assertEqual(modified_config_str, modified_config_new)
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index e686dbcff8..98e39703e7 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -22,6 +22,7 @@ from pathlib import Path
+ 
+ import scriptutils
+ import bb
++from bb._vendor import tomli
+ from devtool import exec_build_env_command, setup_tinfoil, check_workspace_recipe, DevtoolError, parse_recipe
+ from devtool.standard import get_real_srctree
+ from devtool.deploy import parse_packages_arg
+@@ -787,6 +788,41 @@ class ExecutableBinary:
+         return None
+ 
+ 
++def _toml_dumps(config):
++    """Serialize TOML values and tables."""
++    def format_value(value):
++        if isinstance(value, str):
++            return json.dumps(value)
++        if isinstance(value, bool):
++            return str(value).lower()
++        if isinstance(value, (int, float)):
++            return repr(value)
++        if isinstance(value, list):
++            return '[%s]' % ', '.join(format_value(item) for item in value)
++        if isinstance(value, dict):
++            return '{ %s }' % ', '.join(
++                '%s = %s' % (json.dumps(key), format_value(item))
++                for key, item in value.items())
++        raise TypeError('Unsupported TOML value: %s' % type(value).__name__)
++
++    lines = []
++
++    def write_table(table, path=()):
++        if path:
++            if lines:
++                lines.append('')
++            lines.append('[%s]' % '.'.join(json.dumps(key) for key in path))
++        for key, value in table.items():
++            if not isinstance(value, dict):
++                lines.append('%s = %s' % (json.dumps(key), format_value(value)))
++        for key, value in table.items():
++            if isinstance(value, dict):
++                write_table(value, path + (key,))
++
++    write_table(config)
++    return '\n'.join(lines) + ('\n' if lines else '')
 +
 +
-+class DevtoolIdeSdkCargoConfigTests(DevtoolIdeSdkTests):
+ class RecipeModified:
+     """Handling of recipes in the workspace created by devtool modify"""
+     OE_INIT_BUILD_ENV = 'oe-init-build-env'
+@@ -1122,6 +1158,70 @@ class RecipeModified:
+         self.recipe_id = self.bpn + "-" + self.package_arch
+         self.recipe_id_pretty = self.bpn + ": " + self.package_arch
+ 
++    @property
++    def cargo_config_path(self):
++        return os.path.join(self.ide_sdk_dir, 'cargo-config.toml')
 +
-+    def test_cargo_toml_serialization(self):
-+        import importlib
-+        import sys
-+
-+        from bb._vendor import tomli
-+
-+        config = {
-+            'paths': ['/work/crate', '/work/quoted "crate"\\dir'],
-+            'source': {'bitbake': {'directory': '/downloads/cargo'}},
-+            'patch': {
-+                'https://example.com/repo': {
-+                    'example': {'path': '/work/patched-crate'}
-+                }
-+            },
-+            'env': {
-+                'CC': {'value': '/tool/cc --flag="quoted"\\path', 'force': True}
-+            },
-+            'target': {
-+                'x86_64-poky-linux': {
-+                    'linker': '/tool/ld',
-+                    'rustflags': ['--sysroot', '/sysroot path'],
-+                }
-+            },
-+            'term': {'progress': {'when': 'always', 'width': 80}},
-+        }
-+
-+        scripts_lib = os.path.join(get_bb_var('COREBASE'), 'scripts', 'lib')
-+        sys.path.insert(0, scripts_lib)
-+        oeqa_devtool = sys.modules.pop('devtool')
++    def update_cargo_config(self):
++        """Export the recipe Cargo config to the devtool workspace."""
++        source_config = os.path.join(self.cargo_home, 'config.toml')
 +        try:
-+            ide_sdk = importlib.import_module('devtool.ide_sdk')
-+            self.assertEqual(tomli.loads(ide_sdk._toml_dumps(config)), config)
-+        finally:
-+            for name in tuple(sys.modules):
-+                if name == 'devtool' or name.startswith('devtool.'):
-+                    del sys.modules[name]
-+            sys.modules['devtool'] = oeqa_devtool
-+            sys.path.remove(scripts_lib)
++            with open(source_config, 'r') as config_file:
++                cargo_config = tomli.loads(config_file.read())
++        except FileNotFoundError as exc:
++            raise DevtoolError(
++                'Cargo config not found at %s; build the recipe first' % source_config) from exc
 +
-+    def test_cargo_config_is_generated_and_valid(self):
-+        from bb._vendor import tomli
++        if 'build' not in cargo_config:
++            cargo_config['build'] = {}
++        cargo_config['build']['target'] = self.cargo_target
 +
-+        recipe_name = 'cargo-example'
-+        self._check_workspace()
-+        self._write_bb_config()
-+        self._devtool_ide_sdk_recipe(recipe_name, 'Cargo.toml', None)
-+        runCmd('devtool ide-sdk %s oe-selftest-image --ide=code' % recipe_name,
-+               output_log=self._cmd_logger)
++        if 'target' not in cargo_config:
++            cargo_config['target'] = {}
++        target_config = cargo_config['target']
++        if self.cargo_target not in target_config:
++            target_config[self.cargo_target] = {}
++        target_config = target_config[self.cargo_target]
++        target_config['linker'] = self.cargo_linker
++        target_config['rustflags'] = shlex.split(self.cargo_rustflags)
 +
-+        cargo_config = os.path.join(
-+            self.workspacedir, 'ide-sdk', recipe_name, 'cargo-config.toml')
-+        self.assertExists(cargo_config, 'Cargo config was not generated')
-+        with open(cargo_config) as cargo_config_file:
-+            config = tomli.loads(cargo_config_file.read())
-+        rust_target = get_bb_var('RUST_HOST_SYS', recipe_name)
-+        self.assertEqual(config['build']['target'], rust_target)
-+        self.assertEqual(
-+            config['target'][rust_target]['linker'],
-+            get_bb_var('CARGO_RUST_TARGET_CCLD', recipe_name))
++        if 'env' not in cargo_config:
++            cargo_config['env'] = {}
++        env_config = cargo_config['env']
++        env_names = (
++            'CC', 'CXX', 'CFLAGS', 'CXXFLAGS', 'AR',
++            'TARGET_CC', 'TARGET_CXX', 'TARGET_CFLAGS', 'TARGET_CXXFLAGS', 'TARGET_AR',
++            'HOST_CC', 'HOST_CXX', 'HOST_CFLAGS', 'HOST_CXXFLAGS', 'HOST_AR',
++            'RUST_TARGET_PATH', 'RUST_BACKTRACE', 'SOURCE_DATE_EPOCH',
++            'PKG_CONFIG', 'PKG_CONFIG_FOR_BUILD', 'PKG_CONFIG_FOR_TARGET',
++            'PKG_CONFIG_SYSROOT_DIR', 'PKG_CONFIG_PATH', 'PKG_CONFIG_LIBDIR',
++            'LIBGIT2_NO_VENDOR', 'LIBSSH2_SYS_USE_PKG_CONFIG',
++            'LIBSQLITE3_SYS_USE_PKG_CONFIG', 'OPENSSL_NO_VENDOR',
++            'PKG_CONFIG_ALLOW_CROSS', 'PKG_CONFIG_ALL_DYNAMIC',
++            'SYSTEM_DEPS_BUILD_INTERNAL', 'ZSTD_SYS_USE_PKG_CONFIG',
++        )
++        for name in env_names:
++            value = self.cargo_env.get(name)
++            if value is not None:
++                env_config[name] = {'value': str(value), 'force': True}
++
++        content = (
++            '# Generated by devtool ide-sdk for the active build environment.\n'
++            '\n'
++            + _toml_dumps(cargo_config))
++
++        config_path = self.cargo_config_path
++        os.makedirs(os.path.dirname(config_path), exist_ok=True)
++        try:
++            with open(config_path, 'r') as config_file:
++                current = config_file.read()
++        except FileNotFoundError:
++            current = None
++        if current != content:
++            with open(config_path, 'w') as config_file:
++                config_file.write(content)
++        return config_path
++
+     @staticmethod
+     def is_valid_shell_variable(var):
+         """Skip strange shell variables like systemd
+@@ -2019,6 +2119,8 @@ def ide_setup(args, config, basepath, workspace):
+                 image.extract_nfs_rootfs(nfs_export_base_dir, args.nfs, args.target)
+     if DevtoolIdeMode.modified in modes:
+         for recipe_modified in recipes_modified:
++            if recipe_modified.build_tool is BuildTool.CARGO:
++                recipe_modified.update_cargo_config()
+             if recipe_modified.build_tool is BuildTool.CMAKE:
+                 recipe_modified.cmake_preset()
+             if recipe_modified.build_tool is BuildTool.MESON:
 
 -- 
 2.53.0
