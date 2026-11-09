@@ -1,132 +1,228 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.5])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6122.1794231660299882387
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.22])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5991.1794231665316227038
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 05:41:02 -0800
+ Mon, 09 Nov 2026 05:41:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=vGinO6AG;
- spf=pass (domain: est.tech, ip: 52.101.69.5, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=DOPTDcyk;
+ spf=pass (domain: est.tech, ip: 52.101.69.22, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CtVzkXeBQdtk2cwsavU24LWTdhVhxDT6U/M677ILH31TGgWSK0OY0zmLzT22ZCf98VAa6cHxCqfk7wP08shPs2IjEU6lHw0w2QsDZFinf7heV8g81E32Oy0LpafUuJdRUZQ7BvhyD0bzCknJe5w0sT/bTkqIo9zcpWccszdeQvOOex6auPIEKJJoIzx2ubtoaTEp1fQ/FxwEgz0XwmNIx2S+/PsBg6tV7laF/Pl8PzDMMLVa4sC5laZ9ziK72vZXg6R68X3FAM6tsLZ/kJzoYy7ga0CdmQylERMn28bLAt3Cp6uk8axtyRI+gyBZSNFJ3CoqpqQA1lUzdiCA/EppzA==
+ b=DChVUFG87k18brLcPIBRqciW6yihzBERlJYUsBuxojMiPm3puSjICiTpSi7lnZsxOEg07DmEs2WuOK1Aqdw6fRddPeNPCN0U+ej110p8xTmXar9W916XlBtXBShD78bZyTMn171s4MUrilgFgd8+/nNVnWSDcOVcPvt5ipUsQPTL4zi9WJbyAJMz5hSc5/4/OIgyD05yVhpmt5B+S1/uC4BqaTHPH8mYf2YvOr5HeJt0V9GR1Abub/xVbgJ5DQCXjoIyIdp1XWeLLSvlisq79RyApXAg30bYBsrxqfFdPPbOYURJVsk+jyxk0m6hEwlFE9zMSH+fl3/9QSvcPfWicQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6dl6f5lsR7baa9VKYkOur3etSqZKOAEmcTxO6bIrHNw=;
- b=Q5PXCOqbCOmP5m18BU9/p627uazC5XM5NhGRlHIYTXk7eEoBf/xnOsSfuBLS4WxZ/1dT+VRrvg+3VsmACkzOqHwEEY5sCsoIgL0HQYYg19fqJOcnEfpf0/5B7hQKzsYnNDjKbMd0s13Hh9oJuUWhb7JMm72r8IAtfYOxh7y5XehDEmRjoTuOf+K36GnrH0BWU1jrMJl1BHBSHVHVMQXtM2ws+3Ocg3hLXfaEshfMoJgFhPPqQIuLMBjb6idJeh7EXlm/IF69SMdRyiBxWU0h8+goKCjsSvQh8oszsv1uSpaQohxV0KnMMpi+Iw/U41Q/hcLsg8QrXgEpv2VbSUfGGw==
+ bh=F+zyr3qmfuGVMIz4TTjQd5b3pOjZEyfXgpovo5miTgQ=;
+ b=sFj/qDGXNm2r6pjo5I97kFIUwB8Zf9aLUZUPApTIvbt8uHQlBBH9T0DJL30ACcPvUqgpRCSHgbDOZ+lKV/YKL52KtXv16tXSCSpS74HajzNvVNIAb4HNBVtZkm+KBEM9F2r9hIAFjbiPw2prjNtSXC06jZ1MQEfCMyL/+M1Bao/6JzYEO3oNEsp83ahshgJusSHpwFgk+e5EWbz1FPDGgNYhZ8Ld+qUvp5cvrxsvZWqwL2BM65hpdrOTX0SHS958iIvy3p8ldNWaKFPveDJhxGo2Arqy/UbCDXVpiI3x1P5/MEoz+qgG0ClTxEVReMt9jJGWZdgdISQjW2FXoNBuKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6dl6f5lsR7baa9VKYkOur3etSqZKOAEmcTxO6bIrHNw=;
- b=vGinO6AG/B6jWpuxDXoyKHclOeTISXyi4kYdTrD8sbhy32AE3xTHgqwFv2nhlBEhxZ56uBWTfNJJbtg3U3fbcBs98w2AYphw8zima9ZFX15slXMvFYZZxcEheKOIVmcEec8YleOP5sZQPNhM17PdZ3yQioXneefHlZkb4GJ3FXqD03PCuE5p+zt3HZAcV4uSv/cRNWMxYZOhnVfOykn9NA8caMmzWLlFQS8TLYyoCnEODAbg5yYA123OsbtDiApn/oXbyONrKqfwQFyIkZhsLkwFIUejEv8HycmOytAzgMrmF0ZhLFQN0f7G5bt1Z96e5OU6fFjcH85t6uowcYrB6g==
+ bh=F+zyr3qmfuGVMIz4TTjQd5b3pOjZEyfXgpovo5miTgQ=;
+ b=DOPTDcyk7WZClu3TUI4/yyFAF3ujtdZbPvf+PLIgRG87Cf6BUDksig8ercxwqDjnPoud65l2N3F6572weV14ad6Zx9U38QoYypk+vzUqOuiCetzMNJpnUsOxNhVIaPiZWjGFLUNejAd/28BSQn1Tgt/ty5pHHgV9Pc6nd737c/ijY5KoBdVkRmeXNcA4sM4zxJy3tjpZWkMTwVV5vR/fj0gaftUPgTSopR6Mqp9omt97MxJyTpoa6G+PGNdDfvCylA2IOCWeVaUDrxLLQ4xbIcX6LpCg21qg3v5E2QvtBye2CIc5Yms+96jvjVb3AOKptEqylz3XK+1+UWmpsDhjxQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by CPJP189MB287125.EURP189.PROD.OUTLOOK.COM (2603:10a6:380:20e::16) with
+ by AS8P189MB2200.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:561::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Mon, 9 Nov
- 2026 13:40:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Mon, 9 Nov
+ 2026 13:41:01 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0592.010; Mon, 9 Nov 2026
- 13:40:59 +0000
+ 13:41:01 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 14/21] gstreamer1.0-rtsp-server: Upgrade 1.28.8 -> 1.28.9
-Date: Mon,  9 Nov 2026 14:40:27 +0100
-Message-ID: <20261109134034.74458-15-jaipaul.cheernam@est.tech>
+Subject: [PATCH 15/21] fmt: upgrade 12.2.0 -> 12.2.1
+Date: Mon,  9 Nov 2026 14:40:28 +0100
+Message-ID: <20261109134034.74458-16-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261109134034.74458-1-jaipaul.cheernam@est.tech>
 References: <20261109134034.74458-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DU7P195CA0026.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:10:54d::6) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU2PR04CA0212.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b1::7) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|CPJP189MB287125:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2dc48447-3712-46f2-3c43-08df3e6716e7
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS8P189MB2200:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a6b0bd9-6b56-43e5-5441-08df3e6717e2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|11063799006|261021121427099003|56012099006|261021123027099003|261022105027099003|261009223027099003|261026140227099003|261028144727099003|261102123227099003|10067099003|12006099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: ECdqjknxr9EYn/sZu247d7qxS2/BD+dEZ28Wxv/2Tikp3+nrdf9t3rFU2kcZEhzrGRnKNDGraxXNjRvNmCUL+NTZOr3RaN+aEC/CZjbKLgjczITn0LZ8/qWe+7C5CgJw6msVDYWJwk5nDFNk7PN/lAWa+KnyboQiugHbLQgllUohi7mjEwBFdKsT56dWIOVL58TpE2ZZaKlyBoXbvxn6lO1L36SdrBJhBWyq65xojJAA4pqX/JeHFG5/hmhHptehuinJLyEXJ9i83ktBMtyo7pK4VMhQhay+t11bhU/VUFLhcW8fcwG+52ajkrms9DesKKY2KheogxctY3D+rzq1FepVVup1+6JGfpkghXjhrGjD3sMFl2LdKYsEZBsEMXC/YoDdt53GhXRQTBF0O202EDHG4WP/zHjViWbl+ieBIPNZP4CB9KsGb5KtHqxji87axLRptNKG9qrw43iNSqpTxuwgezBKC8K09bIt4vdWpIzO0gjZpX0Ejr0GIqFT3yOlm83ezYJGtK/WGiDQtW1e6SDfJ0OeriVawJe2+uH3/jcbAbslDrUyUGImcpHrsP7Cp7nCrXkwhTvz3JkdJYJjD3eW/owBnYjOHgbTpucJ8CE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(11063799006)(261021121427099003)(56012099006)(261021123027099003)(261022105027099003)(261009223027099003)(261026140227099003)(261028144727099003)(261102123227099003)(10067099003)(12006099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|22082099003|18002099003|6133799003|3023799007|11063799006|56012099006|10067099003|261026121527099003|261028144727099003|261102123227099003|261022105027099003|261021121427099003|261021123027099003|261026140227099003|261009223027099003|260925021911599003|260925021311599003|260925022911599003;
+X-Microsoft-Antispam-Message-Info: yUVdX+XvDCCiY7MaZjmmEuZv7y1VrSnHE3dRS42B1mPmloK0mo8ku9gr+XzxWK3jzYjg/NrB4PRRaTR7eVihu+8byZhQSMEQy2laSh8sl83YBGJKgxiDM3WxXy/IfjzwJOSV3dp81RQvAhnf+tdLwlxQSk6ePo9x3zbR/x9iV8O5Q3DI431PRcFBOvykrIKRPy8nzxa4CSGpdzDxZAob7mYLt5+fTUBK4Vry6FnsrNCblA+fJPXinWWhua97h1eDBpn2o3G8JEi+4D2yGSht7Ec+xFG5lLqakhEjduw+cz+BINHBh/wwxM5ZaIY7k62YuEKg1UNXS/epYnSbfCwNK00wkW7qk4DeyNJq+etwddNeqipjWzdKYDMYGZFWemXbnJfYAQeyjTo5/vt99iqaapMWERcMXhxCWtm75tDCGdaAUxKKmJ9jVKztWVqDbzfJlaNjy06DYf7WP16Hi8SxBuSRcCP0ysRxCbndafS7LeWQuwauH4UTEg2feHW6ApRCjB1TASoPEmohWAtN3zmNvG0X0zz0Y/rO/ZOVFyZK4ZAXmU4QAoLmEUNvyVu3lkXHJFw0tqktC+FSGo5v/J879afwFvjAiBLGCPQ9Cj22gCQMuSNd7yNdY9J5ATTsaSMUvH92j5XT9X3Ishp5PXOPDX6dtRmTM7e9KX+9/+opK78=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(22082099003)(18002099003)(6133799003)(3023799007)(11063799006)(56012099006)(10067099003)(261026121527099003)(261028144727099003)(261102123227099003)(261022105027099003)(261021121427099003)(261021123027099003)(261026140227099003)(261009223027099003)(260925021911599003)(260925021311599003)(260925022911599003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wIPKD9zpmmUvlhTMnLz3GwwXuW/0M/Lqk6v/AchB9brKyX47ETjQ4lPZy5mo?=
- =?us-ascii?Q?efhncWiG9mDKgi5fo76YTli9kRVlZRGSKi+raZQVXFiAp5tO12l/MWL7QTsQ?=
- =?us-ascii?Q?4jWeeTl8pdSYKjPsM1C3m4txG5gRTa0OHJIhvGiZkQVjqHCfVQeYwbMtAH9Y?=
- =?us-ascii?Q?CGHCrKOwbb8qDn7n5USSQkAhCNEDVQOD6AAF/uN1rrvxsEtAELNbIRq40cty?=
- =?us-ascii?Q?5hh+W37StDssG/zsEwsKaflU0DCnOEvbz0z/6hsjaNmSlyUzeN8n1jXkYzBG?=
- =?us-ascii?Q?vb34GDv9Ip8OO9NvTRTwWglL9f8WLiv83kIi6/p9zpKb7wlsWgXFm7SF+jrw?=
- =?us-ascii?Q?BvoaYKwlkrBAoatz0ISk9rH9606a3tHjREatT5Fc/9SpGf/xetg2oLg4ZErS?=
- =?us-ascii?Q?Gs6N1cDaV33cuJGnS/GfUMIQfffhcdguvycASkgs1N8szaJ8T43Dn8Vt5x7z?=
- =?us-ascii?Q?IGe91fTgRYdU5p10ZCxJeIzTIMaOQspToPYQ6TBkHz1G1HbLSA/Z/v9OWUj2?=
- =?us-ascii?Q?QC2amMTcol5abdXsEyedbt826fwbnHNGR14VxnMaAzp0naiaLtw/k5vAyrxW?=
- =?us-ascii?Q?0mG5+xN7L1nfKxXOeDLGYdlug9xF199WiFwQEuTiYThN/vIfIXUz7E6F0PHa?=
- =?us-ascii?Q?4aC/MYNzz3Zfg9IIeTn6kMZX5e6veAbtKMwKwxD2JZnXTDxUh3fpaVCoXrV7?=
- =?us-ascii?Q?b17eAjsJFyDBTU9gM9mLcgzcpxH6P/GWwoDPP+I7Y3i7v+wAloR9UGfnJXED?=
- =?us-ascii?Q?oHdgxnINxFzkchnBugnr9m0gqRoYAozRGqHwdg1quN03JG/+WDAd+xRBf0iR?=
- =?us-ascii?Q?i0yvkNJ/YpMqHbwdbyWNIoABL1+ejFfALJV4aUSznPjqASGu4G38BO432KHR?=
- =?us-ascii?Q?YagfTCipw1yHG2pgoFrGsGtgH19OKhSrlDG0iUJutaQQHGfEyJVGxrOVlC+4?=
- =?us-ascii?Q?ZFwa7KHrzRmBuFMNKRKycAnT+hSB7RDZpoUgpjNDYVpx+nn0U/qdtcVk2GZZ?=
- =?us-ascii?Q?zxkY9cwI8g2i58XAHD5jVgK1NbXeYWEzDF5+Keoh10BhJGz7IMDWLLgsLDJ7?=
- =?us-ascii?Q?lK5NExxQmSlJdf5cChsuwfUPDxgrSZwJ5amZYQ/unvlJu4EsyNJ4ztGnaYrp?=
- =?us-ascii?Q?8I5zlRFqEcoGBnjerkId/OhotF0QGFa+IWdXAEa19S/j1oB6B1CPPOfP5JIu?=
- =?us-ascii?Q?LrOmEdt44pNNB0JAntIZiL8gEh2sEcHqGwPIJUEjQmITE0jqOiR5mWoUt+2r?=
- =?us-ascii?Q?u4qdkcqcxTchcGLDFarm+4j80fqs4wjU25BLmuSxba2fCzXgFGe1UNZ46DO4?=
- =?us-ascii?Q?vS2Q5x3yJI287wttOAPZf0PzNzd0xhNLgZrKPaDFrSlepzE8aaHofY+ljLyj?=
- =?us-ascii?Q?VjXClLEoe2+Oj9dvVe4yx7dKIrK2oBz46TCM2BraoyR8oqnjGTHrFUDk85/K?=
- =?us-ascii?Q?i1q+qAG469UA+CFK9gAlcXpalsCzPa6OXJddo0enqN6VEA/Jl08I1AUpHP9T?=
- =?us-ascii?Q?KlP0OrsT1jjNQuUGVtKM9oOp53p8DrlSjd9JwvXcFafGsYzzMxXpsXijbTre?=
- =?us-ascii?Q?V/wy39Ssg9AKn/U44Tqcbe7j8ORHFiul/eRqw1uXfGtdWMj/g7yIE65I1LEk?=
- =?us-ascii?Q?vQLP4sBP1lvJIn1iwDn4enC45RlsM8OpfL/+E5Q29OiqW5RlJXEaZQ/1Kg72?=
- =?us-ascii?Q?n7lqJTPOBwPIDh/LWTNcBLU9cBPGKxvaYcv/ZXhpshgWrNjFzdPMVRrsPVGH?=
- =?us-ascii?Q?0tmlUfOgFw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0fcHy+5CKmmSlGlXTyX8qPCdAPK6BMSTf+qUFqXAYbZr05y185SI8r+6SL4L?=
+ =?us-ascii?Q?WgrAy3AC/3bY1uVFb72bRv6y/FJYQs3oIXLlPrJ0iEIN/ck8GpwiDV7g+Oub?=
+ =?us-ascii?Q?2euYdFrucDe/mCmy6WlDT37yvwhhiSLP/VpBaRInSow7vh0z/cgIjJdsgYgI?=
+ =?us-ascii?Q?WcMcLOR05TfvpYLPsCNfhw5QDagtXNkxD0E9z4b3bqW9X+8kzU/bJmDFRoyH?=
+ =?us-ascii?Q?rW07V2ft/iLqn3GsBfD5cbymFWIGkAVwp3AR9kzfGEuoigqSEP9r/NSRRI/O?=
+ =?us-ascii?Q?AvNntqVPQ0Tnu5GlSUa6mDlpR77Jv3uzbbU5gFfUfzZdQx46hDYMPygCr94z?=
+ =?us-ascii?Q?9qZ8ODBmd/Cp1Xkeodpc0sefaGOx4041Z6QuBqMwJvFehNpkmVX+HlJ6aam/?=
+ =?us-ascii?Q?HJzfjdoLWtdXZdu9OwL+442swjpa3EndGu3cdC3V2SuBE5Ns9WTv4X3LkYxG?=
+ =?us-ascii?Q?Lj8CS4u7NSc99c4uAesOndzgKwA0XKchzSwYuUe9TaeeyPZU6s1XQhYS5qII?=
+ =?us-ascii?Q?r0SENtfXsQN7k81/PCVuqOVhMiwf8LAez8j+yO0hlROv0yoezvLxNWOkLUCU?=
+ =?us-ascii?Q?KuKkbmpMn1LcV4JXxFsV4Ys05fivoHHvJL5m9+tMy8JhqgF6z5zVLgyBGf7q?=
+ =?us-ascii?Q?Nrq74P3JD1wuR8CODg3Qmgh9yCabynA9n3ds4FGk/d4jdi3jdgBC53tz7az/?=
+ =?us-ascii?Q?s7f9LCDqC6fsyy9MegDzXFhqQZciWI8X3mHyDU9spUdlOIsq7zOGTA3d6OgJ?=
+ =?us-ascii?Q?qFLNd2EIaD/XaHiEFbZrW6WXTS1vqyNihphVL3vE8z/LAifo8IXuogfmWZla?=
+ =?us-ascii?Q?Ps4UV92J31kiNqd+Mr6Ek4lc9HOdDun0AVJ14Lt7+jsjlq9gfw4NVyhwWvAy?=
+ =?us-ascii?Q?pxjtTsK4A3RwEsn41TX8unpJxQcYOk3d2gABfI4YiFX8TanjkaEnMRnO77cu?=
+ =?us-ascii?Q?59PHdeZCYA3luumMF1INctnxc+COMMlprF4X4GcrsqsT7NvKIjk3XC9nXy1Z?=
+ =?us-ascii?Q?Ix/2K+6PiVz1xvVOZjZzqVlvKOpKbsvDH++ONDZPnsxA0fQkISKOksGX2Cr6?=
+ =?us-ascii?Q?NYUBwobh0gqNu0FgmvNENa2ppRzCVItkU37zwlU+u1w94FqILNVUhhGlmQB6?=
+ =?us-ascii?Q?e5VWAiw5FY47JTh5texF7+I/I+PbdGRpmN/ANOUBqVqFT7GMyHYv3sIa6h4P?=
+ =?us-ascii?Q?C52pfVIZlyVUWMxt3B1fxdKZGVZXEPlUdhDkNV06CETpvGP9xodj7wHBJtZc?=
+ =?us-ascii?Q?T4mLWEw0P7uzGwXno7mIGpsdVXOGKjQYWJB4OgCvMs+30EGzII+GXBVuqHUY?=
+ =?us-ascii?Q?sMlOegTtIkWdGyG4rsj40jtnDr4NtLPs3T/QrMFRn4deVhe9/dscR419ZRWe?=
+ =?us-ascii?Q?prew8p7uakQv3+amiHGsez0RSqSRwPTw6hSVUow3VOxiOopTVl+g+5zbQGlF?=
+ =?us-ascii?Q?SwrPB4G8iPe3SpvaIQgBf66acNsGWlJ0SyxyyGjvTBMXZ3gHmSq4861OV3Mu?=
+ =?us-ascii?Q?TLXsLxxENwMb5AbscT8mUouDIDA3/0VM29kx2oQYFMFdUw2UUMHzMy5z7Xvb?=
+ =?us-ascii?Q?g6xqYU9S6V56yWfsAFNSLZYAo+1IaedCkdpsYU/K7+zpSMoAviJoHBivsdjO?=
+ =?us-ascii?Q?mlq3/YG+/WRDpV3I++9CEKm3E97Cbn2PKRCuymwZD9O/rj77xO5MZ3lvMJTY?=
+ =?us-ascii?Q?dOtHFWagfmADYYYq/tCwnD+pcLGKNXEMvRn8A9Agggaopsaks5UMan7et4I1?=
+ =?us-ascii?Q?qwnqCj+Kfw=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dc48447-3712-46f2-3c43-08df3e6716e7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a6b0bd9-6b56-43e5-5441-08df3e6717e2
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 13:40:59.7298
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 13:41:01.4242
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f4QIVLqK7qcl8TkSjT6Oywj6zXVbN1CYqDkVWvRwsiTH6bLAsZ9YgonXHo+w2f3eOPVxPc7O1+/yJomoCRLpII1LzpyF4F32Gn3EnqTbZtw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPJP189MB287125
+X-MS-Exchange-CrossTenant-UserPrincipalName: xXT/4WAOJ/qMw8M0NZ5RYI/R1NgRCojrrgXNUXvDNYz9s57PfgfbwauYF/JHpJ1ntJ/vEwx2/34PToTmCZ+b2WzRSlHyQiasgXOdcR5BhtI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB2200
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 13:41:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249819
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249820
 Content-Type: text/plain; charset="utf-8"
 
-ReleaseNotes: https://gstreamer.freedesktop.org/releases/1.28/#1.28.9
+12.2.1 - 2026-11-07
+
+- Fixed a heap buffer overflow on 32-bit targets when the size of a formatt=
+ing
+  buffer overflows, e.g. `fmt::format(L"{:>{}}", s, 1100000000)`. Such
+  allocations now throw `std::bad_alloc`.
+
+- Fixed an out-of-bounds read when parsing format specifiers of
+  `std::error_code` ( ).
+  Thanks @IfkumRfnl.
+
+- Fixed a crash when formatting `nullptr` with `FMT_COMPILE` and an excepti=
+on
+  in `fmt::to_string(nullptr)`; both now format it as `0x0`
+  ( ). Thanks @INo-xious.
+
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...rtsp-server_1.28.8.bb =3D> gstreamer1.0-rtsp-server_1.28.9.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.28.8.=
-bb =3D> gstreamer1.0-rtsp-server_1.28.9.bb} (90%)
+ .../0001-Fix-fallback-uint128-bitwise-not-4813.patch   | 10 +++++-----
+ .../fmt/0001-Workaround-an-ABI-issue-in-spdlog.patch   |  8 ++++----
+ .../fmt/{fmt_12.2.0.bb =3D> fmt_12.2.1.bb}               |  4 ++--
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+ rename meta/recipes-devtools/fmt/{fmt_12.2.0.bb =3D> fmt_12.2.1.bb} (88%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.2=
-8.8.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.9.=
-bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28=
-.8.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.9=
-.bb
-index 36c3f2f9a80..b9db97451dd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.8.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.9.bb
-@@ -10,7 +10,7 @@ PNREAL =3D "gst-rtsp-server"
+diff --git a/meta/recipes-devtools/fmt/fmt/0001-Fix-fallback-uint128-bitwis=
+e-not-4813.patch b/meta/recipes-devtools/fmt/fmt/0001-Fix-fallback-uint128-=
+bitwise-not-4813.patch
+index ef5c6e9f82f..e07e89b39b1 100644
+--- a/meta/recipes-devtools/fmt/fmt/0001-Fix-fallback-uint128-bitwise-not-4=
+813.patch
++++ b/meta/recipes-devtools/fmt/fmt/0001-Fix-fallback-uint128-bitwise-not-4=
+813.patch
+@@ -1,4 +1,4 @@
+-From d838c8c7923730afb751350ecac2b169256f1445 Mon Sep 17 00:00:00 2001
++From ae7e9eb7f0c17735d577d1a7dea4f2ce78b46700 Mon Sep 17 00:00:00 2001
+ From: Vinay Kumar <vkslog69@gmail.com>
+ Date: Thu, 18 Jun 2026 12:22:12 +0530
+ Subject: [PATCH] Fix fallback uint128 bitwise not (#4813)
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  2 files changed, 8 insertions(+)
 =20
- SRC_URI =3D "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${P=
-V}.tar.xz"
+ diff --git a/include/fmt/format.h b/include/fmt/format.h
+-index f33c8b87..ca95f6df 100644
++index 36f483a4..07b99ca9 100644
+ --- a/include/fmt/format.h
+ +++ b/include/fmt/format.h
+-@@ -326,6 +326,9 @@ class uint128 {
++@@ -327,6 +327,9 @@ class uint128 {
+        -> uint128 {
+      return {lhs.hi_ & rhs.hi_, lhs.lo_ & rhs.lo_};
+    }
+@@ -25,10 +25,10 @@ index f33c8b87..ca95f6df 100644
+        -> uint128 {
+      auto result =3D uint128(lhs);
+ diff --git a/test/format-test.cc b/test/format-test.cc
+-index 61a53c72..7e48b751 100644
++index 3de178a0..d2ef0144 100644
+ --- a/test/format-test.cc
+ +++ b/test/format-test.cc
+-@@ -81,6 +81,11 @@ TEST(uint128_test, minus) {
++@@ -82,6 +82,11 @@ TEST(uint128_test, minus) {
+    EXPECT_EQ(n - 2, 40);
+  }
+ =20
+diff --git a/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-=
+spdlog.patch b/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-i=
+n-spdlog.patch
+index afae644d490..f2df082a48f 100644
+--- a/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.=
+patch
++++ b/meta/recipes-devtools/fmt/fmt/0001-Workaround-an-ABI-issue-in-spdlog.=
+patch
+@@ -1,4 +1,4 @@
+-From 6ee6b54766c50ae8df9478efd91075543e89f66e Mon Sep 17 00:00:00 2001
++From 96adf3e174ad93daa2833e9a924e195a70392b6a Mon Sep 17 00:00:00 2001
+ From: Victor Zverovich <viz@meta.com>
+ Date: Sat, 22 Mar 2025 06:57:04 -0700
+ Subject: [PATCH] Workaround an ABI issue in spdlog
+@@ -10,10 +10,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 4 insertions(+), 2 deletions(-)
 =20
--SRC_URI[sha256sum] =3D "59181ed21a5bc0533fb4f77cb7bc6005d89365e834b0c1294a=
-fb9ab5f7d96fe0"
-+SRC_URI[sha256sum] =3D "b87ed564d857a226a3135bd2c42eae7b40eb64031cb9cbce12=
-4722af92cc8b9d"
+ diff --git a/include/fmt/format.h b/include/fmt/format.h
+-index 5044befd..f33c8b87 100644
++index 672a8ddf..36f483a4 100644
+ --- a/include/fmt/format.h
+ +++ b/include/fmt/format.h
+-@@ -774,7 +774,9 @@ enum { inline_buffer_size =3D 500 };
++@@ -775,7 +775,9 @@ enum { inline_buffer_size =3D 500 };
+   * converted to `std::string` with `to_string(out)`.
+   */
+  template <typename T, size_t SIZE =3D inline_buffer_size,
+@@ -24,7 +24,7 @@ index 5044befd..f33c8b87 100644
+  class basic_memory_buffer : public detail::buffer<T> {
+   private:
+    T store_[SIZE];
+-@@ -2769,7 +2771,7 @@ class bigint {
++@@ -2770,7 +2772,7 @@ class bigint {
+    }
+ =20
+   public:
+diff --git a/meta/recipes-devtools/fmt/fmt_12.2.0.bb b/meta/recipes-devtool=
+s/fmt/fmt_12.2.1.bb
+similarity index 88%
+rename from meta/recipes-devtools/fmt/fmt_12.2.0.bb
+rename to meta/recipes-devtools/fmt/fmt_12.2.1.bb
+index d68684e4f69..0f3eeec20ea 100644
+--- a/meta/recipes-devtools/fmt/fmt_12.2.0.bb
++++ b/meta/recipes-devtools/fmt/fmt_12.2.1.bb
+@@ -5,12 +5,12 @@ LICENSE =3D "MIT WITH fmt-exception"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D6ec080902ed8f82f5a97ed13e804263=
+4 \
+                     file://doc/LICENSE-exception;md5=3Db9257785fc4f3803a4b=
+71b76c1412729"
 =20
- S =3D "${UNPACKDIR}/${PNREAL}-${PV}"
+-SRC_URI =3D "git://github.com/fmtlib/fmt;branch=3Dmain;protocol=3Dhttps;ta=
+g=3D${PV} \
++SRC_URI =3D "git://github.com/fmtlib/fmt;branch=3D12.x;protocol=3Dhttps;ta=
+g=3D${PV} \
+            file://0001-Workaround-an-ABI-issue-in-spdlog.patch \
+            file://run-ptest \
+            file://0001-Fix-fallback-uint128-bitwise-not-4813.patch \
+            "
+-SRCREV =3D "1be298e1bd68957e4cd352e1f676f00e07dcfb57"
++SRCREV =3D "208219daff58f2a7438f6931cc2ddc358acf33ef"
+=20
+ inherit cmake ptest
 =20
