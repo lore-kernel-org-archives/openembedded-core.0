@@ -1,181 +1,257 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10045.1794193927321062671
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10936.1794198361342267298
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2026 19:12:07 -0800
+ Sun, 08 Nov 2026 20:26:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=c5z6jLUw;
- spf=pass (domain: gmail.com, ip: 74.125.82.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so865466eec.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2026 19:12:07 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PXsJ9gm6;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794193927; x=1794798727; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=l5qMXA4x/zEM/zMdeduXAkTLDh1k9zYewjwGhAe5x4I=;
-        b=c5z6jLUwXaFtZo837d7DG27ZrTN5gMydRpAkjRH8cO54ajnul/5dWuuL4mVA9sZOd3
-         0/IhrHl7MzC9c2sSUVGpYnJN38m7BAIE1Rz9PsHt5jL06Y/sFoTnhmyUht8PL4uFO4I9
-         q77vISgKiG1Kx4DsYvmSDJvkZlKU9izWUpJO9xn4s5JAYXGd6+YrCoNof74HCQLc3dPs
-         IBLbtJYHE8i46TPp+mYd9Q+KEYsfj675Wa0osbR3FrvIZxnsfyhNwjRS71moB6TBm/iX
-         IMORhWr+/PF0Tb4x9vdGmM2yVyugLNdGoiDUGzPmBceDqNm87nMhzcfdnzgHjuWS9gGV
-         9+JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794193927; x=1794798727;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=l5qMXA4x/zEM/zMdeduXAkTLDh1k9zYewjwGhAe5x4I=;
-        b=1/oqdeTKLMsn/RIV0qGivStQAU3SJt38QjDuAhzfZHfvo0uLn37ANLcz4r78WEzJFq
-         NprKREjbfiCmdKx+z52AQ6OVA5LIwMDtszLkmTyZQ+RCEEBlxsaF8mDsDm6Rgjo7/K7j
-         l5YZmIge0aZrMA51OYQe3ol6KlRaKcMaJNbEl46CuM7w7xrurwX/eKdwowsdUD1NCAc3
-         LAdq1DYwtfeEFSrbw0hocYI0C2WsvzYI8qfNn4y2BmMoBAFlR0idgYbTZ6flygHadDE0
-         2F8UpVJM65fsoMrTBpxnJV3WpF7v1FXewH6NK3daVVimi9Yq3xxfGeCoMzDcCc0DpgbU
-         XppQ==
-X-Gm-Message-State: APuU4Z/fkgqGrdo+VxQhcaFZwGiSbpgfXWdY5t4JM9mYmg+PSD1cAJD5
-	guSVpUvKo//mUvRe9RPauNxMsfn3KUQS+8QU9uJQR+TzuyUlutuU6plAqq2sX1iGU48=
-X-Gm-Gg: AYBFou0YvMlp1HIAt8/lOOGCvT41MgH/nBFFxH56HduDGg3Ou3R0oA4Oh1SqGg4iPVN
-	Gw/6XHwWYmn6vOXFhz6SXe8MmpUes/9xq7iCqZw1hX60epJ9SMMIdBXjmfr5dWZ/kRQ+/sKiz7y
-	omnmOGIiVMVmCbXQNzbNjCKDQnRcCfDiIlG4EuQMwmSSa56uAuFhLNEXDyPI/KHuxnUJnxhwJxE
-	Ak5a1dZ9waLvPk6QOUy/OTqlTEI82fnOXRpl4Q3hO+oE+63hoiL1CMzAs2+s9femJxxnkkw7aix
-	k/DidIH1Be//9J/w9X3x1TuTcysaa2uVLMpXy8WDywXFs2s04vFTL1iTWDLXGhz66AQfbidm+xn
-	U1cGzsNJC5nIDfDHaTww9eu2uEvMtKc2e+e2MU0kwQ1Un7cn6rpmqrMj4Oq86cooa6zeh49V0pl
-	9xnOe4VicrCyHgtP32+wXlCpwEY3nhk+Onm81ifiy16nIkNldrp2CQDxNe6J6pSHVESUWjfU7Nn
-	9tBeaIR1/r+dxPy2bxXYvXfrIpZZbwNlnSk4dWphuJNv/CGlPkLN0ifEO4uMhkFsrQxQHeDMecH
-	mDSJMPIFQswxzAttrseDXPOfjRCyM2TBYi7YHWl0UloVH/bFB1nV5Lla7eEuwIxwQ3/JldEt+5N
-	GWP/oyUrRsVaSELVGVQ3eZWL4/F0fVV95FBkD9Cv9EIzcd92Nur7ozBsnkDFxbZq0y7cThzxym6
-	ivL7/yZuR8qCupuLGMzj3P633mwV1ZkiD+n4lvzP9Xjw3+5Y4Tgb664Pzbv8AHpmtiKFF7+Pp6h
-	6g/URGkZKaKgxno5OwiSqKeCNb1+Rd3Kr4e2A9EHd3vzRIgMApGXE7zAK+EgBwE9JRfnXT8UP6Q
-	IdmS2A4wKSnpurAWyiC60AwoRQ==
-X-Received: by 2002:a05:7300:6822:b0:366:83dd:46f7 with SMTP id 5a478bee46e88-37256becc67mr6240838eec.17.1794193926412;
-        Sun, 08 Nov 2026 19:12:06 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265a16c49sm8749346eec.10.2026.11.08.19.12.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 19:12:05 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+  d=cisco.com; i=@cisco.com; l=7234; q=dns/txt;
+  s=iport01; t=1794198361; x=1795407961;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZiM8kuisdnhufb/cf/M+kJjzCiYELSjVCyb/RsFh2h8=;
+  b=PXsJ9gm6vOEE07UtwkChaXE7KdmdJTDdGwBQjvByQvdFspb7M1QqJ2pW
+   FN0qXZo/oN+p3+9ThmSNmzIUEZtTmIGcJlGl8zKA963FP9Vj8nZUNXmXw
+   vWEW9B5YOgqadD5F6jn97e7CzSJlV0JYu7ZbNq5UlFVXWM4RvpGvNHUUk
+   e3AIrKqj8R6ovX+K0HB0wHhZwYlxbPJU3bq2eVPUvTktDOX+9Q31RGX7C
+   rmMTuvkgK0o9WO0IKMyziA/rRFKWPrKIuA7fOsUkPrMRldnT6pjJLSRmm
+   8j84jL9edoETdKymHCihT4UKNqyI//mV9ro4jTOjPDO+hVqfJKRiwqBHR
+   A==;
+X-CSE-ConnectionGUID: D/n0tphiS92aIPLcckFxFQ==
+X-CSE-MsgGUID: Oz+QQ5z1Ty6UL1E90goveQ==
+X-IPAS-Result: =?us-ascii?q?A0BIAgDlSfFq/5L/Ja1aglmCV3VhQkmWS4EWilKSPIF+D?=
+ =?us-ascii?q?wEBAQ9EDQQBAYUFjh8CJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECA?=
+ =?us-ascii?q?QcFgQ4Thk8NkBIBAgEqCwFGLAMBAk8LIyGDAgGCOgM3AgERuhGBeTOBAYNbA?=
+ =?us-ascii?q?4Eg2EwNgloBBQYUAQWBM4VCgwCFJF0YAYR9JxsbgXKBFYJzdoEFgRpCAoFKh?=
+ =?us-ascii?q?lwEgiKBDIFaHox6AoFRhntIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIz4Xg?=
+ =?us-ascii?q?QcbBgWBHYEegRKBB12BKyhdASGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIE?=
+ =?us-ascii?q?gkBExosCoEaNTwJJj8VDGQLGgVhCAINDHQ5EDAeJC8FHCY+Gwo2GA1IESw3F?=
+ =?us-ascii?q?RkEPm4HkkKDEgEsYQErInY4NCiTNQMRki2gIHEKKIN4jCSPPoV8GjOEBJQZk?=
+ =?us-ascii?q?lQLmH2OCoQKkkeEaYFoPIFZcBWDIlMZD44tAQsLg2DKMCM1AgkyAQEHAgcOA?=
+ =?us-ascii?q?wuBaJABASYHb2ABAQ?=
+IronPort-Data: A9a23:F2rCUaB1xiEn6xVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApDwi1TcFn
+ 2YeXT+DbPuNa2X2KY92Ptjl8R4E6MTSz9FnOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGcYZsCCCM/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
+ fuo+5eBYQb9imYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE77JoVF0uPYwjq7x+IFlq/
+ vcbBiAjV0XW7w626OrTpuhEnM8vKozveYgYoHwllWCfBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
+ pdfMGYxBPjDS0Un1lM/AYkmlf2tj2PXeDxDo1XTrq0yi4TW5FEtjea3YYCFJbRmQ+1yjAWhn
+ z/UpljoXCw+bfHOkTWC7H+V07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/KFpQ2YHWMDCDVGbbTKqfMLeNDj7
+ XfR9/uBONClmOT9pa61nltMkQ6PBA==
+IronPort-HdrOrdr: A9a23:MQAoha3mRD/+EpDJ8yFxaAqjBJ4kLtp133Aq2lEZdPWaSKOlfq
+ eV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKhTbaknDH5ZmpM
+ RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
+X-Talos-CUID: 9a23:Rr7zhGDwdZhQdmn6EwUg8hYIAsAkSSyHxVboB0SzCkh5ZoTAHA==
+X-Talos-MUID: 9a23:V9mnIgZy53ZwzeBTkC2vvQg/Jp5U8vqTLBkgwM0JvNeJDHkl
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,203,1787011200"; 
+   d="scan'208";a="545629287"
+Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Nov 2026 04:26:00 +0000
+Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 18E001800023E;
+	Mon,  9 Nov 2026 04:26:00 +0000 (GMT)
+Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
+	id B19E1CC1634; Sun,  8 Nov 2026 20:25:59 -0800 (PST)
+From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] elfutils: Fix intermittent run-stackprof-system-gprof.sh ptest failure
-Date: Sun,  8 Nov 2026 19:12:03 -0800
-Message-ID: <20261109031203.101959-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
+Cc: xe-linux-external@cisco.com,
+	Ashishkumar Parmar <asparmar@cisco.com>
+Subject: [OE-Core][wrynose][PATCH] bluez5: fix CVE-2026-19774
+Date: Sun,  8 Nov 2026 20:25:55 -0800
+Message-Id: <20261109042555.1097654-1-asparmar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
+X-Outbound-Node: rcdn-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 03:12:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249783
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 04:26:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249784
 Content-Type: text/plain; charset="utf-8"
 
-GNU timeout sends SIGTERM to the command and then again to its
-process group. stackprof exits with _exit(1) on a second signal, so
-when its handler runs between the two kill() calls it quits before
-printing the sample counts and the test fails:
+From: Ashishkumar Parmar <asparmar@cisco.com>
 
-Fixes
+This patch applies the upstream BlueZ codec capability storage fix [1]
+and its required cache-loading correction [3] to version 5.86. The
+public security advisory is referenced in [2]. Both upstream code
+changes are preserved without adaptation.
 
-  + grep -E '^buildid [0-9a-f]+' test.out
-  FAIL: run-stackprof-system-gprof.sh
+Bound serialization and cache parsing while retaining normal endpoint
+restoration and checking the decoded capability buffer length.
 
-Use timeout --foreground in the system-wide stackprof tests so only
-stackprof gets signalled. Reproduced in about 1 in 15 runs on a loaded
-4-CPU qemux86-64; no failures in 40 runs with --foreground.
+[1] https://github.com/bluez/bluez/commit/912f5efb0dd9bb08e408d33371a57182c5678aef
+[2] https://www.zerodayinitiative.com/advisories/ZDI-26-589/
+[3] https://github.com/bluez/bluez/commit/b7d71e5067856b0daf2f1f73b3fc95483236610e
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../elfutils/elfutils_0.197.bb                |  1 +
- ...rof-system-.sh-run-stackprof-with-ti.patch | 73 +++++++++++++++++++
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/0001-tests-run-stackprof-system-.sh-run-stackprof-with-ti.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  2 +
+ .../bluez5/bluez5/CVE-2026-19774_p1.patch     | 63 +++++++++++++++++++
+ .../bluez5/bluez5/CVE-2026-19774_p2.patch     | 62 ++++++++++++++++++
+ 3 files changed, 127 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.197.bb b/meta/recipes-devtools/elfutils/elfutils_0.197.bb
-index ca640517f2..b37f068ac5 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.197.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.197.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
-            file://0001-config-eu.am-do-not-force-Werror.patch \
-+           file://0001-tests-run-stackprof-system-.sh-run-stackprof-with-ti.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index d857c23a57..a748d40768 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -76,6 +76,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
+            file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
+            file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
++           file://CVE-2026-19774_p1.patch \
++           file://CVE-2026-19774_p2.patch \
             "
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/0001-tests-run-stackprof-system-.sh-run-stackprof-with-ti.patch b/meta/recipes-devtools/elfutils/files/0001-tests-run-stackprof-system-.sh-run-stackprof-with-ti.patch
+ S = "${UNPACKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
 new file mode 100644
-index 0000000000..9be19c8ca7
+index 0000000000..5a7d42b522
 --- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/0001-tests-run-stackprof-system-.sh-run-stackprof-with-ti.patch
-@@ -0,0 +1,73 @@
-+From c2a4fcba9dd949e72826591367aeabbb72d826ef Mon Sep 17 00:00:00 2001
-+From: Khem Raj <khem.raj@oss.qualcomm.com>
-+Date: Sun, 8 Nov 2026 16:06:40 -0800
-+Subject: [PATCH] tests/run-stackprof-system*.sh: run stackprof with timeout
-+ --foreground
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
+@@ -0,0 +1,63 @@
++From d4b922a688f5cd50f31afd663835ff05f294a85b Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Mon, 15 Jun 2026 09:44:11 -0400
++Subject: [PATCH] a2dp: Fix handling of codec capability storage
 +
-+GNU timeout sends the timeout signal to the command and then again to
-+its whole process group. stackprof treats a second SIGINT/SIGTERM as a
-+request to exit immediately, now if the handler runs between the two
-+kill() calls, the second one makes it _exit(1) before the destructors
-+print the summary. The output then lacks the pid/buildid sample counts
-+and run-stackprof-system{,-gprof}.sh fail intermittently, more often on
-+loaded SMP machines.
++Codec capability is one byte long (max 255) the storage format is
++02hhx which means each byte ends up as 2 characters so the buffer
++needs to be doubled in order to handle capabilities of that size.
 +
-+stackprof does not spawn children in system-wide mode, so --foreground,
-+which signals only the command, is enough.
++CVE: CVE-2026-19774
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/912f5efb0dd9bb08e408d33371a57182c5678aef]
 +
-+Changelog:
-+
-+        * tests/run-stackprof-system.sh: Invoke timeout with --foreground
-+          option.
-+        * tests/run-stackprof-system-gprof.sh: Invoke timeout with
-+          --foreground option.
-+
-+Upstream-Status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2026q4/009891.html]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
++Reported-by:  p0her (_@p0her_) in TeamH4C working with TrendAI Zero Day Initiative
++Reported-by: Michael Bommarito <michael.bommarito@gmail.com>
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ tests/run-stackprof-system-gprof.sh | 4 ++--
-+ tests/run-stackprof-system.sh       | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
++ profiles/audio/a2dp.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
 +
-+diff --git a/tests/run-stackprof-system-gprof.sh b/tests/run-stackprof-system-gprof.sh
-+index 980a35be..1c511aaf 100755
-+--- a/tests/run-stackprof-system-gprof.sh
-++++ b/tests/run-stackprof-system-gprof.sh
-+@@ -33,14 +33,14 @@ tempfiles test.out
-+ testjob_launch
++diff --git a/profiles/audio/a2dp.c b/profiles/audio/a2dp.c
++index 7a37003a2..aec54728e 100644
++--- a/profiles/audio/a2dp.c
+++++ b/profiles/audio/a2dp.c
++@@ -971,7 +971,7 @@ static void store_remote_sep(void *data, void *user_data)
++ {
++ 	struct a2dp_remote_sep *sep = data;
++ 	GKeyFile *key_file = user_data;
++-	char seid[4], value[256];
+++	char seid[4], value[9 + 512];
++ 	struct avdtp_service_capability *service = avdtp_get_codec(sep->sep);
++ 	struct avdtp_media_codec_capability *codec;
++ 	unsigned int i;
++@@ -2373,7 +2373,7 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 		uint8_t codec;
++ 		uint8_t delay_reporting;
++ 		GSList *l = NULL;
++-		char caps[256];
+++		char caps[513];
++ 		uint8_t data[128];
++ 		int i, size;
++ 
++@@ -2386,10 +2386,10 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 			continue;
++ 
++ 		/* Try loading with delay_reporting first */
++-		if (sscanf(value, "%02hhx:%02hhx:%02hhx:%s", &type, &codec,
+++		if (sscanf(value, "%02hhx:%02hhx:%02hhx:%512s", &type, &codec,
++ 					&delay_reporting, caps) != 4) {
++ 			/* Try old format */
++-			if (sscanf(value, "%02hhx:%02hhx:%s", &type, &codec,
+++			if (sscanf(value, "%02hhx:%02hhx:%512s", &type, &codec,
++ 								caps) != 3) {
++ 				warn("Unable to load Endpoint: seid %u", rseid);
++ 				g_free(value);
++@@ -2398,7 +2398,7 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 			delay_reporting = false;
++ 		}
++ 
++-		for (i = 0, size = strlen(caps); i < size; i += 2) {
+++		for (i = 0, size = strlen(caps); i < size && i >= 2; i += 2) {
++ 			uint8_t *tmp = data + i / 2;
++ 
++ 			if (sscanf(caps + i, "%02hhx", tmp) != 1) {
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
+new file mode 100644
+index 0000000000..88dcd66c3e
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
+@@ -0,0 +1,62 @@
++From 1bbcccb35c946e079074e64c217c81089442a568 Mon Sep 17 00:00:00 2001
++From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
++Date: Fri, 10 Jul 2026 12:28:17 +0500
++Subject: [PATCH] a2dp: Fix loading of remote SEP from cache
 +
-+ # run systemwide scan, no gprof output
-+-testrun timeout -p --kill-after=5 10 ${abs_top_builddir}/src/stackprof -v 2>&1 | tee test.out
-++testrun timeout -p --foreground --kill-after=5 10 ${abs_top_builddir}/src/stackprof -v 2>&1 | tee test.out
-+ grep "^perf_event_attr configuration" test.out
-+ grep "Starting stack profile collection systemwide" test.out || (grep "ERROR: Unsupported architecture" test.out && echo "unsupported arch" && exit 77)
-+ grep -E "^[0-9]+ " test.out # -- pid / sample counts entries
++Commit 912f5efb0dd9 ("a2dp: Fix handling of codec capability storage")
++added an 'i >= 2' condition to the loop that parses the stored codec
++capabilities. Since i starts at 0 the loop body never runs, i stays 0,
++and the subsequent 'if (i != size)' check discards every endpoint found
++in the cache:
 +
-+ # run systemwide scan again, with gprof output
-+ # reduce verbosity, bump post-processing timeout compared to the first run
-+-testrun timeout -p --kill-after=10 10 ${abs_top_builddir}/src/stackprof -g 2>&1 | tee test.out
-++testrun timeout -p --foreground --kill-after=10 10 ${abs_top_builddir}/src/stackprof -g 2>&1 | tee test.out
-+ tempfiles gmon.*
-+ grep "^perf_event_attr configuration" test.out
-+ grep "Starting stack profile collection systemwide" test.out
-+diff --git a/tests/run-stackprof-system.sh b/tests/run-stackprof-system.sh
-+index af64e7f1..76da8d8f 100755
-+--- a/tests/run-stackprof-system.sh
-++++ b/tests/run-stackprof-system.sh
-+@@ -32,14 +32,14 @@ tempfiles test.out
-+ testjob_launch
++  load_remote_sep() Unable to load LastUsed: rseid 6 not found
 +
-+ # run systemwide scan, no gprof output
-+-testrun timeout -p --kill-after=5 10 ${abs_top_builddir}/src/stackprof -v 2>&1 | tee test.out
-++testrun timeout -p --foreground --kill-after=5 10 ${abs_top_builddir}/src/stackprof -v 2>&1 | tee test.out
-+ grep "^perf_event_attr configuration" test.out
-+ grep "Starting stack profile collection systemwide" test.out || (grep "ERROR: Unsupported architecture" test.out && echo "unsupported arch" && exit 77)
-+ grep -E "^[0-9]+ " test.out # -- pid / sample counts entries
++With no remote SEP loaded, avdtp_discover() can no longer take the
++cached path and issues AVDTP Discover/Get All Capabilities on every
++reconnect, and a2dp_setup_remote_path() returns NULL so the transport
++ends up at /org/bluez/hciX/dev_YY/fd0 instead of .../sepN/fd0.
 +
-+ # run systemwide scan again, with gprof output
-+ # reduce verbosity, bump post-processing timeout compared to the first run
-+-testrun timeout -p --kill-after=10 15 ${abs_top_builddir}/src/stackprof -g 2>&1 | tee test.out
-++testrun timeout -p --foreground --kill-after=10 15 ${abs_top_builddir}/src/stackprof -g 2>&1 | tee test.out
-+ tempfiles gmon.*
-+ grep "^perf_event_attr configuration" test.out
-+ grep "Starting stack profile collection systemwide" test.out
++The condition was presumably meant to bound the writes into data[128],
++which the original commit did not actually fix: caps is read with
++'%512s' so size / 2 can be up to 256. Validate size up front instead.
++
++CVE: CVE-2026-19774
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/b7d71e5067856b0daf2f1f73b3fc95483236610e]
++
++Fixes: https://github.com/bluez/bluez/issues/2285
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ profiles/audio/a2dp.c | 13 ++++++++++---
++ 1 file changed, 10 insertions(+), 3 deletions(-)
++
++diff --git a/profiles/audio/a2dp.c b/profiles/audio/a2dp.c
++index aec54728e..93cf11fe1 100644
++--- a/profiles/audio/a2dp.c
+++++ b/profiles/audio/a2dp.c
++@@ -2398,7 +2398,16 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 			delay_reporting = false;
++ 		}
++ 
++-		for (i = 0, size = strlen(caps); i < size && i >= 2; i += 2) {
+++		size = strlen(caps);
+++
+++		g_free(value);
+++
+++		if (size % 2 || size / 2 > (int) sizeof(data)) {
+++			warn("Unable to load Endpoint: seid %u", rseid);
+++			continue;
+++		}
+++
+++		for (i = 0; i < size; i += 2) {
++ 			uint8_t *tmp = data + i / 2;
++ 
++ 			if (sscanf(caps + i, "%02hhx", tmp) != 1) {
++@@ -2407,8 +2416,6 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 			}
++ 		}
++ 
++-		g_free(value);
++-
++ 		if (i != size)
++ 			continue;
++ 
+-- 
+2.35.6
+
