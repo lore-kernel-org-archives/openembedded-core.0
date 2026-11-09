@@ -1,102 +1,108 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1319.1794242424677463717
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1859.1794243483920520784
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 08:40:24 -0800
+ Mon, 09 Nov 2026 08:58:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=M5KhyWHL;
- spf=pass (domain: gmail.com, ip: 74.125.224.46, mailfrom: rybczynska@gmail.com)
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-67be7b9abc8so874304d50.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 08:40:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794242424; cv=none;
-        d=google.com; s=arc-20260327;
-        b=An/Gas4euG02inWpDnW2olCNLyeNrIE6Z+pNT3TETJbVeMoHo/YNwcO/4GplA7CjHT
-         vziA/WGxymKC3T//0VXfqKxezJfkDXNNu0/fgwQkZ5nPGHT3xOBE0zMNUiPo1Fcle0no
-         eTdmOfnCIi/ejTm87tdP4QklvQgsP1kYGRwVke3D+qCaO4y7bvDx9vvh93aFwHPitmpJ
-         nWyPXLW/QfimNYec5AhUZRPqr9BzEuV0mTPRB9W1mhgiSiGcZ2OMvcnld1/PvwKVvsTT
-         WVuzN/TamZcQuG0BxJzZQBAiGxCUwWmrl0NgaF1dv1Gp9ThlG5kvdMC+g0kpOZFUfEeE
-         Bzuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=q+jVJ829ywuOXgDIFZPthNpkSO2bhD8fm2/hDrAinD4=;
-        fh=kGhvP+CVO2AoFl1MOPJBPRM9gmaD2ZbdVV1jdTDf27w=;
-        b=gnPy9MBvU0NQ8ibK7WTyTkXCCRrpa+Adcddjce/uTihshfUKM1Ne5LjukypB+jtvhx
-         8pIBGi+S0suFcRI12mE80oihlM2/y4pt++evdZjqAuPeOO8geAvFR13ovyAMa9bqO/BD
-         p98+5I88b8/FE/BMjzU2xbCBNcgiFfwj6VCsH0ds6VFxb7W8qmW16BjvevUro6ysxoCI
-         daTZOmmB4Ub39377Y0O6f1Xul9wYm96gBAEoqkpB8QsJnKBPP/dh6LAlag1KdndWISYT
-         REcnJj4kBNe8goI24l+n16e4bkiDlxUBKGmivKw+wFf8cReEum6JDtmFcdwmVS0D3jLx
-         +fQQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=j9Y66TCa;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso6683365e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 08:58:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794242424; x=1794847224; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=q+jVJ829ywuOXgDIFZPthNpkSO2bhD8fm2/hDrAinD4=;
-        b=M5KhyWHLFilmyWCIOktrxTFoSBqlzaeEizDMNDfdn/sBTfhE1Rab4nhnNGH5fFcgUQ
-         /2pmHgTC2nc4IyhPJhE+CB8dkvsTCnKy4HEC5zYgNuq5zPGxZkvZ0zwyY7vXSeyncN8c
-         s/6X3J9RPNsySU5Ff1ysh8nAr8qppEK7qNdpwW4MA6DhGDrLY/2QgJ+f8gcCzLFo6q7q
-         PmBx7GVDUzr7BFbHC/kFondQMdY/S+qduSJJ4Rzw3AqNjqR2w7ccn74E6ARE7VZxD98p
-         VyY65isONS0qtnvOdf567ZB8bTXdgbFc/83pOTm0AmN2gwn4Bo+0pVExa1g8Lbv0xUce
-         PdHg==
+        d=smile.fr; s=google2; t=1794243482; x=1794848282; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RmWvUQPdU9BV9uGcfEJ0+WMAPZTxH9BJINaNrzjZe0g=;
+        b=j9Y66TCaGDHYRItLK2hX9W9zmtTIvIus4f1JIm4nRX4I++/uzpnZXc0KN2UqjmsOoT
+         jAsqRbuuJ3nya4MxH0CRTgh3l7TKZ9vBTD/r1QtgZtItWgTxU82u/n+OIdDoBErYrKyN
+         MnnQp4kd5k0tUz54EXT3/ucMh+eAvgGfbMlHoq5a5yc1ipTTgFpzuisaGaBPauOrOxZ9
+         qQRNhxjgO8bu5iKonKtmDlVRC+YOJvlYIxARFd6HCLppY7pIj8CktF1hQ4UjL3f2BUpL
+         GvJfx0HM9CeH3v9AHHE8Dd1YPwFeiE1/7gcYZT8Ehg236GqyZj9lDHkREOjsVVJUhj2Z
+         trVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794242424; x=1794847224;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=q+jVJ829ywuOXgDIFZPthNpkSO2bhD8fm2/hDrAinD4=;
-        b=aTC96PI8GJLZhdriDQOZ9EuAWlJxKgu6zVnPipfoidFCiY0LAY0QUnYpr5M+F9SxVf
-         HXuW4y3U0la7rZO3eRyXNHO22xwP/SCtOxqtcCPXJpChZOkkobteZVlzOnkCOq53w+rE
-         PGPWU7pHsO52xYivn9eVlW0qCM2Lyi0mj3QQYz0wJYVJugeB64tqoX6BsiwFyStWfJ1R
-         U3ogSJ1Htm/AZTckeJ/DEmn2R5gkuTemVj4rJDEiimDLh04lKkaDtM3m4eD7RM4CDCpn
-         L508MyB9B/I1OUNnzi7aVVRL2n6+efu8WOxksK2Aa+Yh1J0zQZ/FdBN5oe1c1inojyhm
-         dX1w==
-X-Forwarded-Encrypted: i=1; AL+hErEQGexVdlkIcwcbX0l5h5IuFgfISG2x6QsxDvTK2pyU/C953ttZ0UaWI8ZR+QA2cvwNgXZW1gRR30r8zD15hZVuIw==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z9KEFmpGH5ygb9iWIFSHrSny5f5g+EU2wKm30jsDURUU+lHA/1M
-	cqr1c/fsITGijsvNhKlVkvEPFBjNOshPVgSDfxCfrdp6/1d7zJRe9UvRhrQa2B20Hh6CJEta7Oq
-	CjOSjZ0bREXANAQM7/4wBUx6/odWQvarYLA==
-X-Gm-Gg: AYBFou23rJnH70OFywOr7eyIc2WXTwutSba+SvukPHDxHNjyFF9cPulK3NSrlSRDZRi
-	2nth1yS0ap54IPKXJzUp7f2sBR0jIBII/UjJaoYp2bprlpk6McDj8MpLqw3MYiAJFLZ9bCumXAk
-	RsgMLAmZs25uueHYiBCJKYPkKlBZqn9/SFGmfotN2ZTjsUnEcJnT8PEAz0ON2X/eYi5X1MZg/Vv
-	knx/L1ofdoluS4lBGEjWARtVyIlvCo7qR3LHKowNV7klefjawD1b5HJY2yK+nxBM80+tAFyv87K
-	YiIyOPW89eIvjAABwIbqExY3+4NP+C4KuF4bSLdfD8700/CO4HZh4urf6JbxM530xFHtAWM1PBv
-	exTQq8r9PRRoZFk1qyaRT3efCue+ggp0ajLaV71kSkTeaF1+bVMSAoNMFnlID+AQekpwMYcI+2O
-	+NyNm7QmRktUNeytAhENjw63rAj7P46Zwe0kV6AlNfg5l13YU5qlJ7UaNmozwXyvOzmJzn4dn7i
-	kv/
-X-Received: by 2002:a05:690e:4890:10b0:67b:f39d:6265 with SMTP id
- 956f58d0204a3-67c56751108mr57757d50.21.1794242423450; Mon, 09 Nov 2026
- 08:40:23 -0800 (PST)
-MIME-Version: 1.0
-References: <CAApg2=RBygWWkQi9HtLHAbzdyTJGb7SLo=RJn8tcFyve21LdRA@mail.gmail.com>
- <CAMKF1srwK1AFKj1dZWb4iHMaBOMdQPd+QiBswO=RY76vXYJRyg@mail.gmail.com>
-In-Reply-To: <CAMKF1srwK1AFKj1dZWb4iHMaBOMdQPd+QiBswO=RY76vXYJRyg@mail.gmail.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Mon, 9 Nov 2026 17:40:12 +0100
-X-Gm-Features: AclHuK89Dlr-28OsbGJnHGBX24b60LJg5knSx9yzl4BymddOmXgpPUGuPgSPH44
-Message-ID: <CAApg2=Ru1mT8s+xADhCf-Zi5rFjwS0UmMPVCyru3fEQGnqi8Sw@mail.gmail.com>
-Subject: Re: [OE-core] Yocto Project Security Advisory: CVE-2026-123158
- (openssh with musl)
-To: Khem Raj <raj.khem@gmail.com>
-Cc: yocto-security@lists.yoctoproject.org, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20260707; t=1794243482; x=1794848282;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RmWvUQPdU9BV9uGcfEJ0+WMAPZTxH9BJINaNrzjZe0g=;
+        b=gltIS81UVYdBWMver5wpXUEL5pbFhJdbzPsd7vqv0emUIWrGJ7JLcyNJQyT0DPJ9UI
+         9PIfMRH0wSstptFxPzueo24NDXBOyVFBMkw+GAAH/AVqQmgW7KInsp5kZ1R/R2EpAoak
+         NdU9I3iMdLbrqhnpj5uxqbde48k4sf0A0q9/Yhhf5/6q+bg4Y/a2FZCq9ikvBYa1Sisz
+         Dgkgm7RLWBjsqaD3ZhKFG2HKL635kT6+e+Ul8xLzq7zJAIaDf1TL4Kb9IDVZmCclGXDL
+         HzR0/ijxaIe/47tlgk3iMnCKg9T7mVj3WwgALTOt8ZO00s908fanyTP6UT9n9XYv49in
+         XzRg==
+X-Forwarded-Encrypted: i=1; AL+hErFcoQ8/ClQKLMVNKm8rZF/vOxG/Xe+tbiqzKTMPYNN2tYimgEk2vHwo+4/e0Tpm7H379JwShjFnpWmhsNWPlXceeQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z+7ar4h1Bpre3vOwIxd4lKQQUg2oSgqiXCo0cEZPf3WxJe4USl1
+	vhT4DKJbRgw1Yj9wsEHe/MXz8uecUwfrbmBQoAsTd2G5swk27DFv1fchxtJF4wJDMrY=
+X-Gm-Gg: AYBFou2G+k+lbaz1UvuPuJVoxh/QApNQ3dZEQJNucflBxHSHn6NArNl1/6WnT5eGsUN
+	RbT/aYLzhJ+8Mcs30+48Z8KCOaj5DX3mrFlgp0xdhN/7X6wa4y3jRVrrCJx9NGpRVb6wuEs+mbX
+	rQ2gaE8fs64eKiE+w3lW5QsWg96lIXKtKO5oTIczpJcBOR5GzH+RsnqLnkFoYzhUQWqxrpNLaJi
+	yDp6eHRUi+/PAOsjL6CAtqb3Xu/mABxerLoejRc0qfwg5xhwAQ/bZxxA45/5pfIbPrDcj1N7Nz2
+	ZbU9T2QGY6L18LdhjiW9nYFqdfajie7/MTx9XHvX4FSH5DniWLbCUIWdUYmxCwOhqM2dis5mI8w
+	Xt6sq59vNIUI+qBfhL0F8q2yx6l+DYwRWEWimmy5nq3Vun68X5s/cIfGpDylCxtVrM2Y2GVkTGj
+	526uiLjNTJkoY4W1lsTWUJZ7Zu4d4NN/DlJwHjtFYVRbRuUVJQwMjcAIAiyz2IWTnqH9e8etQgS
+	1ZGyJMD4tZNjzhOs+FGEQvUnZeUFsZB3n565SYFQGbMoaKVXEO1x6nyTn1wkvvP8fHS9YWPxGN/
+	HsMCE/vqFS23y/Zr0O5AkSwj3xbdCIBYCDsdURy/N/UnEPlwnkODT3mFhOnCWhqrengBqVDkcBR
+	yMvEORlYNOyQOIQ==
+X-Received: by 2002:a05:600c:310e:b0:4a1:d087:f6ab with SMTP id 5b1f17b1804b1-4b963c70cb2mr82906935e9.18.1794243482047;
+        Mon, 09 Nov 2026 08:58:02 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983284c990sm22435f8f.3.2026.11.09.08.58.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2026 08:58:01 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Nov 2026 17:58:01 +0100
+Message-Id: <DMQU8C661EIP.20I8FSF0VPP9L@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH 1/2] dropbear: add follow-up patches
+ for CVE-2019-6111
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261023192914.159339-1-peter.marko@siemens.com>
+In-Reply-To: <20261023192914.159339-1-peter.marko@siemens.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 16:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249860
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 16:58:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249861
 
-On Mon, Nov 9, 2026 at 5:02=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote:
+On Fri Oct 23, 2026 at 9:29 PM CEST, Peter Marko via lists.openembedded.org=
+ wrote:
+> From: Peter Marko <peter.marko@siemens.com>
 >
-> Thanks Marta, there is a long thread on it on musl ml - https://www.openw=
-all.com/lists/musl/2026/11/05/4
-> there are more packages that might need patching e.g. vsftp see - https:/=
-/github.com/InfrastructureServices/vsftpd/pull/9
+> Pick additional patches referencing this CVE from 2026.90 or 2026.91
+> releases.
 >
-Thanks Khem. There is likely more to fix indeed. I hope musl will come
-with a new version
-(if they decide to fix the behavior).
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  .../dropbear/dropbear/CVE-2019-6111-01.patch  | 364 ++++++++++++++++++
+>  .../dropbear/dropbear/CVE-2019-6111-02.patch  |  43 +++
+>  .../dropbear/dropbear/CVE-2019-6111-03.patch  |  34 ++
+>  .../recipes-core/dropbear/dropbear_2025.89.bb |   3 +
+>  4 files changed, 444 insertions(+)
+>  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-01.=
+patch
+>  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.=
+patch
+>  create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.=
+patch
 
-Kind regards,
-Marta
+Hello,
+
+Should'nt we also backport this commit?
+https://github.com/mkj/dropbear/commit/16ce059ed8e914e210af67e199041943ec74=
+7034
+| scp: fix recursive overwrite check
+| Non-recursive transfers were incorrectly disallowed to an existing
+| destination.
+|=20
+| In addition, the destination check logic was wrong.
+|=20
+| Fixes: 61bd0e3 ("scp: Disallow -r to an existing directory")
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
+
