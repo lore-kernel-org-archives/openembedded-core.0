@@ -1,149 +1,139 @@
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6067.1794231915956854289
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6069.1794231917223012450
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 05:45:16 -0800
+ Mon, 09 Nov 2026 05:45:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=KNhaeVWp;
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=m0PwVNHc;
  spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 90B443D818F3;
-	Mon,  9 Nov 2026 08:45:14 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3FA5A3D818F9;
+	Mon,  9 Nov 2026 08:45:16 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id rAEKYaB_a_RH; Mon,  9 Nov 2026 08:45:12 -0500 (EST)
+ with ESMTP id 8k5z8NPfVqO5; Mon,  9 Nov 2026 08:45:15 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id CBB6E3D8182D;
-	Mon,  9 Nov 2026 08:45:12 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com CBB6E3D8182D
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 262C53D81892;
+	Mon,  9 Nov 2026 08:45:15 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 262C53D81892
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1794231912; bh=ay409KLYrf3A22d+PdLgMsZExkkSMusxcG26DJ3qKBc=;
-	h=From:Date:Message-Id:MIME-Version:To;
-	b=KNhaeVWpgG63TMxmyxdOhnQ63NpybwU2XdJE286Xe1SjBxIl9i6za5+BT0gesFRw2
-	 5PcLABEmeD1T/DYAzwkjK1p4RXGGhmmHj1tUcnc1HI17h80LK4QpsE9wx0y6eF7p/R
-	 z7myrNNwo1p/Gdb3qkBBtSIgsD3tr3jrHqziKGM3hMVNhiMHclyTD4sn0BiPdCT069
-	 H+ogiNDyN1ahx5rJKUHxTiSMy7mHbl491J3ahJ2xFYM05cSOTgq8uVKHZWXEfv0HuE
-	 D6Yiq+eEsWoFS9KRg33d0cPd9b+cYd8hkJgnEAyD7RV+gCPQNHRn2bEHboot4SAgfu
-	 nYogX6a2KirfA==
+	t=1794231915; bh=B13kUIrUvQDimnqARUVsnNYd6tsy5hTK1xIxggVl5Aw=;
+	h=From:Date:MIME-Version:Message-Id:To;
+	b=m0PwVNHcoMgABB9ftfKv8fmWfQHVcDncoeHPaaXxgK4oPayA82omREYymc12EQFPj
+	 QN/VQNJBczSjOaS1zBssmExas/bvjOVWpULSU6kvwNuyPfPeQEbXpwKjxnlZpVYqWh
+	 wW0UeCBSpjn3RoeR/yHc5k67d21SRvmYwmjBGx28R8jsAp18Eo/DB34D/yONmUKjCv
+	 WV+zqJVrgJ3BoJA83udiFKQ4Qo0s13ollluA3vVBECiNVuz4JWLili5KZeEbBBT8j5
+	 UxcTvOfqUk4KaZWbHVU4I+93e/DOlyNKph/mNG7kD9wRa4NB6SPIyqovt5VNakElFD
+	 VUrisXsPKSdeA==
 X-Virus-Scanned: amavis at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id ISQ6HyfT808i; Mon,  9 Nov 2026 08:45:12 -0500 (EST)
+ with ESMTP id 7_kHgTTgKO1k; Mon,  9 Nov 2026 08:45:14 -0500 (EST)
 Received: from isabelle.rennes.sfl (80-15-101-118.ftth.fr.orangecustomers.net [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 385233D80F35;
-	Mon,  9 Nov 2026 08:45:12 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 880EF3D818F1;
+	Mon,  9 Nov 2026 08:45:14 -0500 (EST)
 From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Subject: [PATCH v2 00/18] devtool: ide-sdk: add support for Rust recipes
-Date: Mon, 09 Nov 2026 14:44:17 +0100
-Message-Id: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
+Date: Mon, 09 Nov 2026 14:44:21 +0100
+Subject: [PATCH v2 04/18] oeqa/selftest: verify Cargo config serialization
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNwQ6CMBBEf4X0bE27AhpP/ofhUNsFVpGaLjQYw
- r9bMB49vsnMvFkwBkIW52wWASMx+T4B7DJhW9M3KMklFqCg1ApAOoyD912KUbJ7SGtC46VT6qC
- Lk0GotUjbV8Capu33Wn2Zx9sd7bCerY2WePDhvYmjXns/R/nHEbVU0uWFylFD7tTxwiZ6CrWhg
- B3147S3/imqZVk+NW1iXdcAAAA=
-X-Change-ID: 20261022-devtool-ide-sdk-cargo-d003158ae2f1
+Message-Id: <20261109-devtool-ide-sdk-cargo-v2-4-d56134000561@savoirfairelinux.com>
+References: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
+In-Reply-To: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>, 
  Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Mailer: b4 0.16.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 13:45:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249829
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249830
 
-Hello, this series introduces support for Rust ide-sdk VS Code
-configuration against the Yocto cross-compilation toolchain:
+Parse the config exported by devtool and round-trip the TOML writer's
+supported tables and values.
 
- - editor symbol resolution and linting
- - build task
- - deploy task
- - debugging
-
-It introduces a cargo-example recipe following the model used for
-cmake and meson.
-
-The generated configurations can be portable to standalone SDK
-installations by manually updating the paths.
-
-C/C++ IntelliSense could provide navigation for native code compiled
-by Cargo build scripts, using the recipe compiler and sysroot. This
-first series defers it because no mixed-language fixture is available
-to validate that workflow.
-
-BitBake generates the Cargo configuration consumed by ide-sdk. This series
-updates the parsed configuration and writes its supported TOML values
-without adding a new dependency.
-
-I reproduced the selftest coverage expected from other recipe classes,
-including configuration analysis up to actual debugging symbol resolution.
-
-I largely used AI generation to write this stack. After many iterations,
-I am finally happy with the code and commit history quality of this series.
-I also have a documentation commit ready for the manual if this gets
-approved.
-
-Any feedback is appreciated. Hope this will help lots of Rust developers
-working with Yocto distros :).
-
-Cheers,
-Enguerrand de Ribaucourt
-
+AI-Generated: Uses GitHub Copilot
 Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+
 ---
 Changes in v2:
-- Replace Cargo config in-place update with a simple TOML serializer.
-- Add Cargo config parser coverage.
-- Generate Cargo config for all IDE modes.
-- Route ide=none Cargo debugging through LLDB and explain GDB limitations.
-- Configure the rustc problems matcher.
-- Map Rust sources with STAGING_LIBDIR_NATIVE.
-- Discard C/C++ IntelliSense mixed-language feature.
-- Fix bbappend always being modified on re-runs
-- Fix '=' ordering in remap
-- Fix install task duplication
-- Link to v1: https://patch.msgid.link/20261026-devtool-ide-sdk-cargo-v1-0-d4504e124d07@savoirfairelinux.com
-
-Thank you very much for the detailed review Adrian, it's been really
-helpful!
-
+- Commit added to verify the generated Cargo config.
 ---
-Enguerrand de Ribaucourt (18):
-      cargo-example: add minimal selftest fixture
-      devtool: ide-sdk: capture Cargo cross environment
-      devtool: ide-sdk: export recipe Cargo configuration
-      oeqa/selftest: verify Cargo config serialization
-      devtool: ide-sdk: recommend Rust Analyzer for Cargo
-      devtool: ide-sdk: configure Rust Analyzer for Cargo
-      devtool: ide-sdk: generalize binary install task name
-      devtool: ide-sdk: extract install task definition
-      devtool: ide-sdk: order install after optional build task
-      devtool: ide-sdk: add Cargo build task
-      devtool: ide-sdk: enforce LLDB for Cargo
-      devtool: ide-sdk: remap Cargo sources for BitBake builds
-      devtool: ide-sdk: map Cargo workspace sources for LLDB
-      devtool: ide-sdk: map libstd-rs sources to Rust SDK
-      oeqa/selftest: share source breakpoint lookup
-      oeqa/selftest: run IDE tasks with configured environment
-      oeqa/selftest: debug Cargo example over QEMU slirp
-      oeqa/selftest: verify Cargo rebuild and redeploy
+ meta/lib/oeqa/selftest/cases/devtool.py | 63 +++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
- meta-selftest/recipes-test/rust/cargo-example.bb   |  15 +
- .../recipes-test/rust/cargo-example/Cargo.lock     |   5 +
- .../recipes-test/rust/cargo-example/Cargo.toml     |   8 +
- .../recipes-test/rust/cargo-example/build.rs       |  20 ++
- .../recipes-test/rust/cargo-example/src/main.rs    |  11 +
- meta/lib/oeqa/selftest/cases/devtool.py            | 347 ++++++++++++++++++++-
- scripts/lib/devtool/ide_plugins/__init__.py        |   1 +
- scripts/lib/devtool/ide_plugins/ide_code.py        |  83 ++++-
- scripts/lib/devtool/ide_plugins/ide_none.py        |   4 +-
- scripts/lib/devtool/ide_sdk.py                     | 249 +++++++++++++--
- 10 files changed, 688 insertions(+), 55 deletions(-)
----
-base-commit: 39b27e524f3c092e5018cbed23ddf1829390ae65
-change-id: 20261022-devtool-ide-sdk-cargo-d003158ae2f1
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 265f2147a4..cab49b4c02 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -5242,3 +5242,66 @@ class DevtoolIdeSdkMiscTests(DevtoolIdeSdkTests):
+         with open(modified_config_file) as modified_config:
+             modified_config_new = modified_config.read()
+         self.assertEqual(modified_config_str, modified_config_new)
++
++
++class DevtoolIdeSdkCargoConfigTests(DevtoolIdeSdkTests):
++
++    def test_cargo_toml_serialization(self):
++        import importlib
++        import sys
++
++        from bb._vendor import tomli
++
++        config = {
++            'paths': ['/work/crate', '/work/quoted "crate"\\dir'],
++            'source': {'bitbake': {'directory': '/downloads/cargo'}},
++            'patch': {
++                'https://example.com/repo': {
++                    'example': {'path': '/work/patched-crate'}
++                }
++            },
++            'env': {
++                'CC': {'value': '/tool/cc --flag="quoted"\\path', 'force': True}
++            },
++            'target': {
++                'x86_64-poky-linux': {
++                    'linker': '/tool/ld',
++                    'rustflags': ['--sysroot', '/sysroot path'],
++                }
++            },
++            'term': {'progress': {'when': 'always', 'width': 80}},
++        }
++
++        scripts_lib = os.path.join(get_bb_var('COREBASE'), 'scripts', 'lib')
++        sys.path.insert(0, scripts_lib)
++        oeqa_devtool = sys.modules.pop('devtool')
++        try:
++            ide_sdk = importlib.import_module('devtool.ide_sdk')
++            self.assertEqual(tomli.loads(ide_sdk._toml_dumps(config)), config)
++        finally:
++            for name in tuple(sys.modules):
++                if name == 'devtool' or name.startswith('devtool.'):
++                    del sys.modules[name]
++            sys.modules['devtool'] = oeqa_devtool
++            sys.path.remove(scripts_lib)
++
++    def test_cargo_config_is_generated_and_valid(self):
++        from bb._vendor import tomli
++
++        recipe_name = 'cargo-example'
++        self._check_workspace()
++        self._write_bb_config()
++        self._devtool_ide_sdk_recipe(recipe_name, 'Cargo.toml', None)
++        runCmd('devtool ide-sdk %s oe-selftest-image --ide=code' % recipe_name,
++               output_log=self._cmd_logger)
++
++        cargo_config = os.path.join(
++            self.workspacedir, 'ide-sdk', recipe_name, 'cargo-config.toml')
++        self.assertExists(cargo_config, 'Cargo config was not generated')
++        with open(cargo_config) as cargo_config_file:
++            config = tomli.loads(cargo_config_file.read())
++        rust_target = get_bb_var('RUST_HOST_SYS', recipe_name)
++        self.assertEqual(config['build']['target'], rust_target)
++        self.assertEqual(
++            config['target'][rust_target]['linker'],
++            get_bb_var('CARGO_RUST_TARGET_CCLD', recipe_name))
 
-Best regards,
---  
-Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+-- 
+2.53.0
 
