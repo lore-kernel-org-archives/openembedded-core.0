@@ -1,93 +1,101 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3761.1794253690075745992
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3843.1794253947589932441
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 11:48:10 -0800
+ Mon, 09 Nov 2026 11:52:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=fWkvgYHg;
- spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-716ea2598eeso727638eaf.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 11:48:09 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=foX7Nyof;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so12964945e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 11:52:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794253689; x=1794858489; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=smile.fr; s=google2; t=1794253946; x=1794858746; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=eQGYr8GCQvUsr05n7h4ns23NXlVBlfSkuZZYFiRn/H0=;
-        b=fWkvgYHgOGa5umfjYVV78QPIdOpH2lFaUELq2tP3rn4pjtLFof47WICnw5iGcrIeFX
-         M4kUNGrNgsgQIlNFGFy62tuJgeiygL9jpp0YvSZs/G6kkzsq6MJearMz9YmZSUr6S2KY
-         TH8iME/+NmDyAt3mwlXdBvidaMxAGKEzHIggRswvF+ZYacGAMsCb5mPpyWkFmoj9IikV
-         MAWmzDlt3ivJeUrg8dMHIP/Kg8MJCEd5DKJNETuWjhoI8uXww0CV1EbEFL4nNzhP6gWv
-         jLXl6Jmr87dPJXQLSI/Lj4gbnZ4eGHlMgd8WC6LH5s9iwZJLOm6Ues4eGzA5+rVfMooW
-         mkFQ==
+        bh=S4JteEGSZ8rsyvcHpBGCOWGdn2vZECOSSakptVc27Dg=;
+        b=foX7NyofGqiVZ2MTbdXlbHh9NI4eTEh+nn7mrMeNg0wL5VJO3oHsq7jfM4zBSFHJN/
+         T1X8FOA2LdftVk7GrWNb7kQNXDGq4L7p6X1rcQvCfg24EvUjKFm9PTpF4E0dk90DMUEn
+         MQy9LXIjf+5A5uxBpYm4suZyUHQUNouBDP86gfaudn4EXZ+GjxNqyIhYZQwr53NVB30G
+         bJ8tnt6flffqVGBrMti+mLzOJyMFRx6sgpCoL/cfyT61vzy7reJnN/gTb455HhjGvmH8
+         wNh3uPRVheMHtZkT/4gxW6uNR6uvflhUdX7qvQ4il3Rqfi5233gPxqiIyOMyAq2N3KnP
+         j+5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794253689; x=1794858489;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eQGYr8GCQvUsr05n7h4ns23NXlVBlfSkuZZYFiRn/H0=;
-        b=V51dcCBpxUGyFhS63LOWdLoeMjBYmStPIBtmnDSUgEIE/D737UnkIFbnJQCp4db3lc
-         g90AsgZQnGVC+tWBFLQtGJWKAW+R7yz82X9FcOPokM+wCJ40bfylk5mo8ws6pd5I32A1
-         BgOW8O7p3lfnbiOJSvKnm2M0c7BuqMEAIJdRozy2cyBDW1L+ys73el7QiytvYSdTvcVR
-         bLalStNew3F8StshiYSpJCKg+G0VoMKC86dPQz3MV7Z9kg35zADjJgeryYwkPwwMJQfJ
-         rKPT9dYSEKTv36F0++syvot6FTHdOCwCFmmKVup56lVcHamDqwPtS+Jh0s+OEkDTkSgv
-         Liow==
-X-Gm-Message-State: APuU4Z9sYInylO4WzQNoa7Ri3SRBKPjYcD668OqMEK8ejSsaKPqL2Vi7
-	WkCvKwEDFACRUEC2rQVDJssZIHJ4k4DDjKICgOW8MPREc/IqQVyIz3qCRs4NFw==
-X-Gm-Gg: AYBFou0zGocN3ddCTzxsZkhU21B2+/rohy8NWapMptWs5evb5CkGNDmgLMrrt0+Ltsf
-	hePV64L9B8rSMB2QR37eHhfMPQ6jupDy8o6X0U/AagM6kVDnvvehcuWNEhDZl9712FAGGX9YoMd
-	JoK/1GNycb4vM0aonWVuVcdPHkRIZJQ4sp3mIls9n8QH65RfpPdnfyeJSM/xV1E6wQ7LVjzIbka
-	fHkp9ZL/SShjnjmod18N+1NjgfTVEttAUcxl7aToTpWiELlwzLFUVvJOOHfKOrA1UMHxvmFWjVC
-	cIOAew0lkdSgZtpCWKKGBD8lmqkBzp+A/YjyKFsMRslmtlsneEW+l518OV8YlATsx1IyONQx/vm
-	ASP3sWle3bcuZT21VRc6BQLd5YOdDBD70jBBbG2p4aEvQUg9gkQ2jd/T+kgtbYcRV1WwZaxUSLN
-	knFDQJEOmGVRRQMKPH4kuJsAIUjCuTbYGh9E88okjO0XyikT+MkFIBXgwBvHWLM4UlHY00mvVEk
-	TVIdyw6jLP67R8y8Zba4Ap79IE61xwrJA0GmRWJrTp0AweFLCR04faXQWMeoCZVSo8z4GjDQu7C
-	GoqhI2hf8q1v1q3ik2koxsbN2YM=
-X-Received: by 2002:a05:6820:806:b0:6f8:2346:cd8e with SMTP id 006d021491bc7-718a78edb80mr85402eaf.80.1794253689268;
-        Mon, 09 Nov 2026 11:48:09 -0800 (PST)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2601:283:4b01:ba50::3232])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-718aa132e65sm70363eaf.14.2026.11.09.11.48.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 11:48:08 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v9 9/9] linux-dummy: Allow empty SPDX deploy artifacts
-Date: Mon,  9 Nov 2026 12:45:45 -0700
-Message-ID: <20261109194759.550935-10-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261109194759.550935-1-JPEWhacker@gmail.com>
-References: <20261104153535.3184146-1-JPEWhacker@gmail.com>
- <20261109194759.550935-1-JPEWhacker@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20260707; t=1794253946; x=1794858746;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=S4JteEGSZ8rsyvcHpBGCOWGdn2vZECOSSakptVc27Dg=;
+        b=NIkrsPOdP96tuM2Dfs/7rrYFaZtQNvkNHNxOPgF0jLjDEBtFNxY+W9TyNmtb4iy3/U
+         iZyN6SjcCi8YbQ+XT4XjWIUPy6cJM8NcW319lY8GRIRfF5/EaqyStFM73wSTkn9yrb0K
+         4tL7QJxGYg47C21stF9/OqaZ4VZuRr0qZN6GMyOgB75GOIoy21G3aJslEg5S6fjtxki1
+         SLSSzUeq6kMh+W6JGTNa5d1Sc2YHPFh3GMUFmhevWN+6jdzVXEfbJGLAHSK8hlRCFmVU
+         e4ACoTQDzbWaL3TXWQh3Rn35UCah8bymdSM/CKJQZ5kvlNp8jQHtGn8Pr6tSuq3ndk2D
+         xAtw==
+X-Forwarded-Encrypted: i=1; AL+hErH58I+BQMrjWBGq+E+UHyVk5Cwii77Gw3PU9ww+zJw4hdgFGz++VKbU9dJ1oO2mKhQIkoYIg5hKdyupkG6rJOn9cQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9uHUD3AqApo8zWzZKqb6bxG7OlQT7NRcRvBHJrEuCKLm7uWH/5
+	6BcBWGOuxRlAzgG+b0KnbmuzCB47dDAe6/X+zLOfkb4IDRCAf+vxoUZiFRzNYpN8EWI=
+X-Gm-Gg: AYBFou2J6AKbBHwLW9BB8Juz4SB1c4O4cRmsW24NA81LTqiZDU6aObO+xWx6zXhqoKw
+	CWx0yAAnepDoqyxYJIzCYjHRbBkMvE1TeV56b9uB5Scsv7ey0JHM1NAhwkhzyItQSgJZfLYAK3c
+	GIHNwgBFHOMD6Or2FYFy3nf1dPr7+vp+zv2GLqWbRvGlMbfdtw7vJQBP/R00rhusfny0aNTs/ER
+	eAeaOHU+uogZSpKpxU+7lf1YQ6oI8bCSsC+9lUcnErONUbUP/ArEu9B2BuomCVIMpEqyJFCUwIl
+	E+PbIf0nyPy/YI+lqewLoxkGCAv5a+8U7o6Pyg8IQa/sZCw4zy25SgdKE2nEBIZAW2TYx0YEEZI
+	iqWDzy+uXcFP/7x0IC4ACnUm9BMEvUmSl+fp6d83l4rwuQpADqeMyoE+6TbWW3k6gTQ16yrv7DA
+	G0bvHAm5zs7HASnZqw9RFuVVGBSKuALNNCr0ysFQBQHzju9HJbNM4cy20ytbBiy4OXHqrMOwWXy
+	Kb76d0TPw/cV9anfp4R01Zz3RJUcaM/xBkMFc2aRoI/ZcXZnS6+G1FtjYMVkOFiEiGMq/kn6i+f
+	vNA5skPSLv1bD3P63xlgily5LBhP4WHH8AjKnrH9aMPI2ZOKd67b82ZbMNg15++zTDE9B10SJrj
+	5qS2wkZ2L2PDppe01
+X-Received: by 2002:a05:600c:6291:b0:4a1:811c:8078 with SMTP id 5b1f17b1804b1-4ba0234f0b1mr4631385e9.26.1794253945732;
+        Mon, 09 Nov 2026 11:52:25 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba01fef675sm10006785e9.14.2026.11.09.11.52.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2026 11:52:25 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Nov 2026 20:52:24 +0100
+Message-Id: <DMQXXV4EAR2S.2L62KIFZJCR0@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH] recipe_sanity: Drop rename overwrite
+ detection
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <anuj.mittal@oss.qualcomm.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261028081905.1780834-1-anuj.mittal@oss.qualcomm.com>
+In-Reply-To: <20261028081905.1780834-1-anuj.mittal@oss.qualcomm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 19:48:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249874
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 19:52:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249875
 
-The recipe doesn't deploy anything so set SPDX_DEPLOY_ALLOW_EMPTY so
-that it doesn't generate an error
+On Wed Oct 28, 2026 at 9:19 AM CET, Anuj Mittal via lists.openembedded.org =
+wrote:
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> Bitbake itself checks for probelmatic renames now during key expansion so=
+ this
+> check shouldn't be needed anymore (it dates from pre 2011).
+>
+> (https://git.openembedded.org/bitbake/tree/lib/bb/data.py#n96 in expandKe=
+ys())
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 7944665886cb0bf881807a5d849ebdf42a33d1bf)
+> Signed-off-by: Anuj Mittal <anuj.mittal@oss.qualcomm.com>
+> ---
+>  meta/classes/recipe_sanity.bbclass | 21 ---------------------
+>  1 file changed, 21 deletions(-)
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/recipes-kernel/linux/linux-dummy.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Hello,
 
-diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-index d7f39a452d..c45352aab2 100644
---- a/meta/recipes-kernel/linux/linux-dummy.bb
-+++ b/meta/recipes-kernel/linux/linux-dummy.bb
-@@ -23,6 +23,8 @@ FILES:kernel-vmlinux = ""
- ALLOW_EMPTY:kernel-vmlinux = "1"
- DESCRIPTION:kernel-vmlinux = "Kernel vmlinux meta package"
- 
-+SPDX_DEPLOY_ALLOW_EMPTY:task-deploy = "1"
-+
- INHIBIT_DEFAULT_DEPS = "1"
- 
- COMPATIBLE_HOST = ".*-linux"
--- 
-2.56.0
+Is this a cleanup? ... in which case I can't take it as those are not
+acceptable under stable policy.
+Or does it fix a bug/error/failure of some kind? In that case, please add m=
+ore
+detail about it (like the error message, the condition to trigger it, ...)
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
