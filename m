@@ -1,135 +1,124 @@
 Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6863.1794234037675593809
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6995.1794234298221227944
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 06:20:37 -0800
+ Mon, 09 Nov 2026 06:24:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=MaKNvn4M;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=LgGlu0/w;
+ dkim=pass header.i=@pbarker.dev header.s=fm1 header.b=MmSMb8rm;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=KqHFvMta;
  spf=pass (domain: pbarker.dev, ip: 103.168.172.152, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B09191400131
-	for <openembedded-core@lists.openembedded.org>; Mon,  9 Nov 2026 09:20:36 -0500 (EST)
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6326E140015A
+	for <openembedded-core@lists.openembedded.org>; Mon,  9 Nov 2026 09:24:57 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Mon, 09 Nov 2026 09:20:36 -0500
+  by phl-compute-08.internal (MEProxy); Mon, 09 Nov 2026 09:24:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1794234036;
-	 x=1794320436; bh=Cs19B5iDKSjTq5tjS/GvTQMkdroVo6FOl9hiM1nKI2M=; b=
-	MaKNvn4MVEChZqQ2pJ2P2UmFEfdfWJ54+jpnPmLa+DPfNgNpFPFxw4gSo/Z22QUB
-	xmkyZJ1Nfdby8uu9J63TruDkUWj0Vn4yaryACPCz5Wvpn4eBHfhzsJASyFFZAsX6
-	VH4E+YmRHQoj058/+mXM9Swi91ysIE0nWSxfK9n93FgS+zH0cbk8PR6W5ZG6dAdC
-	OZHO24z1CRCTBDaiGlzuVjaE/Rp68D0xCWv52IdJQ+3MFqF833MOohrzyahToS7W
-	kL7pBjBhW3GQiEz25lNspGNxj4MUHBUairv136qRBzZyTGgSTQOlzAREAZDhGJJD
-	kNvhK9z8OA+5qvUfg2MpYA==
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1794234297;
+	 x=1794320697; bh=7tcmB9f22UaByWxwjCKWTOsNGRuj1lkdK/vnDg/on0I=; b=
+	MmSMb8rmGP6tVxOKRtphJOfdchwFywe3HqNKqabl6TgkLr3zQm3MrjeIXtEtI8YK
+	qFtdUFUWSWIkApg275jWpcLpBuDyWB0JDKxJ8H1tJB022TRacO7fQ0RYIFIkgiFC
+	gAop31hoJmbaMZmMU3z64Y4ZVT/ZsDR0N8DNhxaE3zVQ/CYq++AtRqFPeiaau9C3
+	v+ph6lIBoD2nyJUO0QcEFI6XZmXC9jdUFmwnl9//WDqkUGp9IPppEmeVth10did4
+	56++Simf3zk/5TpiED1lZNVOgX7OhY6QHuS4O2aYsWE8cXATQjQ3vO6zjNyDR20T
+	+q5Zw5bFrYr3RMcvJZpvBQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1794234036; x=1794320436; bh=C
-	s19B5iDKSjTq5tjS/GvTQMkdroVo6FOl9hiM1nKI2M=; b=LgGlu0/w+lP1jNfLA
-	XrolWRgzrUt40b9IHmD99Lg26/tQq7Q5NPi9nPx1DcOdSejXMWBRpQRHgA8HffAV
-	0gWFsV3wfEzjtY/WYmeNRY7BcxDJnYqeL2Fh0orCsid0X1G8NR0KEg8Qr8xt6Xrb
-	R+Tj6e43W7MQh+/xGHySFIfLDq9Pr27uTyjmMR68d6BngtrrCZToBL7IcSU5tJOe
-	l+BBXo3EggGLA/RQ0GT8ZQ6pAzyb1uVULExxF1kPiLfGW/Th+1a3oJnyIHTim+Zl
-	avSHhsawZ1j4nNiaw5KpH8jwaoLHdoUGrX4avUUQ/FNYxjA0EdXK6TIjFtiaJZKT
-	2Eb+Q==
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794234297; x=
+	1794320697; bh=7tcmB9f22UaByWxwjCKWTOsNGRuj1lkdK/vnDg/on0I=; b=K
+	qHFvMtaHo3IqVP3ZHJYP+Shgfw00psdPpQUOCrFt9VZYmzL70ixBvPdL487IfkHV
+	ngH4JGamPriEANkA+3N5vbPq4R/dsn/ONGnf7vuT2U71xJNZaYjd3imaOoTmafNx
+	knU4P/iZMWPA/5g+g0ovImxSQpM8vZJxElIa6EUNxDxK9q3iYDuK1mbZMIBo+pE/
+	ObXqyHy52URffPHOM+Z6SwtVzRaNETL9xCN/3W9+tBIaN1YPKJfbd7mKijDNMD8j
+	3zdYs8qFZuKXwe3nXmRewHDQ7xH1MXkasHU33+COd1sOqkiaaHweZkjEUU7pXw7r
+	GqrDd19JRPEp9wWTaYmpQ==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794234036; d=pbarker.dev;
+DKIM2-Signature: i=1; m=1; t=1794234297; d=pbarker.dev;
 	mf=PHBhdWxAcGJhcmtlci5kZXY+;
 	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm1:rsa-sha256:j3RX8+5S0/oBrS8z3ZEtJLsUJM+g8MYs9NYhZwCKK7j2RPJ
-	Auts1onzQZcSZ8vezcs1g6IWmpomegbLmv3t8AbcSlTpTGJoR2971zBg7BX/ANo0
-	gSxoK1PKQMLiDqya8XhvXY8ERDJEKUEap88lM/U604T9c/y0lJeA0pOG5aObR7lv
-	K8u/QXUFYPuiKtsZXF3jKAxcBUEOIhUC23gW3sQtJQsXifqjp6yNrknkoHfylLqi
-	qX30hQsbUiJlDGZ5DYamU86yz4y5so9cXukihEERcNpCiwZNdQtlIlbGfRwxh+zI
-	agvtQzNjlBH7v99Z/U/4j8cMx6D6KRKpFuX2HAA==;
+	s=fm1:rsa-sha256:oVEId8PIuuPObkcfrBN1BC3N2rSDDySUQBCFrbx7sU7rFm6
+	RloiUKl3AOtyeT0gfXOPAfsTy1gVmrQmBZOUzNaQpBxz1Y6msptxg1tXNUEDkHlF
+	vmA5iT4gaM/a+IlUlPV5q9SMjPknBotOKc7umdVN4/gTcITaUSlyKofgShJjPVbb
+	JPOzpc+BGVyGvCNHOdks/a3PsjwkPmczqCVMSLpWxIPRkqLKt2xr1N/WOd1o/qi0
+	uQICWxn8ceK/Pau/BKfrpHfnwi6nPqqIi4fVxjkpatoK8PQ/eA3WEEQvgQ5GZ6ka
+	ViezvO7aDtFHm+4FybdtWM24+HPyvyHHG/LDuAA==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=11;
-	hn=content-transfer-encoding,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:8ZBugF/4CuinyndLCbYSx9gIIKcoqpZDn44S1/fNR7I=:BKL8Bo/fa5bPal1V27LpMTDHXE4PXKj5kzHYlopQySU=;
-X-ME-Sender: <xms:tNbxamSFg5F4OTiiBvJ63uoislqBiSVx3sYcCn96zI--PikC20P99g>
-    <xme:tNbxahxDm6cEfg2rPrL03QZV-nO-Pl079DQqs0tyi5NfWp1Zsc-9JNYWvztFVYCbD
-    gwIzbDP-87UYiS0nJP18CDtcEX0ZrvAHoh1eZcPseQoEzoQjzYsFS4>
-X-ME-Received: <xmr:tNbxahexfzVFq9GfyyUhgXHq7lylPib48ipGJ6GLAoFeWEwBE-qqleP5gNcSrgPN8fSeL6oBjP_Ri732fxFO8eekHLOJ>
-X-ME-Proxy-Cause: dmFkZTGvaIaF6DQy6IO9uwE1GkKpCBithGQW5MMPoEFrUEgCh3QtJtNmmSRELs+MYdxkkD
-    tcbu2CW1x+82PagXKUQ1RSlVCd4vhyR+/xF4SWVfdN/u7rSoallYUlQr+IJ0nfpoFb4iYI
-    RqaMycO7aTY7Vb5lTIM6FaFlOz7SN/YtbdJSOeDawBOouBQww6z6J8XHZKAWfhI+qvWPIb
-    i27PeEM8JSjpNP1IUTNBSXv0Jvp4q54vzIYeQP93SuEyLrCDsWRslX6R5/CnSWBLK5vP8W
-    ZtNVWfszFcUiCy9i2oWU7EpYTTES6C9oFL6SJ3gUYOWRbCHd+rrJl5EY9lvRrvown5ITQ9
-    YjJ+J4GJBXl8zdP3JVfY7JZhnJhq8iqGQfAAtCz6UcXgDmI648Ymof6a190AUSzrg4ZEAS
-    xk7NjqmyGRNklQQaGN3Zmoaw0DEpMzRsD/7moou9HRalieKmEHS6W+YeNyGzF1ulNVf3t+
-    r9BjhGYD3RwLRAzAy+Vtxwe0GV5ZvQKJfsfohZrYhnaTmZSkYTxkPD5jnyorBbj7WxPNHo
-    vzfCmtjYdawtOm0nCxoapzFSn/2vXHZUNdJmzqioR7luieRzmW3GTUH8bCQ2eOjLZJbLpP
-    GWKeugO5CboWi1r08hM5n0OzGlg/Lp1oghVJ217i0yGEkMewo1aCwfCoPxXA
-X-ME-Proxy: <xmx:tNbxatJZh9uM7bCjckw89i5yAwP7KiTeemq3QWLbmICCx05yYXdd-g>
-    <xmx:tNbxaiFosubVWDDiHt0JwPHN1pYJczfVE9TgacWiASwCF0B0uXE3WQ>
-    <xmx:tNbxanrnh71Ltge-ClE9mDxv-OGVNj69MTeTmouNQ0rFyb5iU9E-oA>
-    <xmx:tNbxarTd4dgrnCQv8VwrCvvYi8McpbjZQxKBa7C3MMOJeDqKANCx7w>
-    <xmx:tNbxaljjLKX28o0izhw40DoKhJvJNZWhxYwVS8AXqKKrGoZ4CcFuCPGj>
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:2SBIhL0XnB89MHkJxJLm9ZMvT1JRK0CSCEAbD3Hqr4E=:7tcmB9f22UaByWxwjCKWTOsNGRuj1lkdK/vnDg/on0I=;
+X-ME-Sender: <xms:udfxaiyU1oe9WvZJwPxG7jUKO2XC7M_VX7yv4B7hL5NKp3M5nr4Vhw>
+    <xme:udfxapvsoq67SbaMY_lk_t9UMdESrwwSpssskqb_-A_oojPJi7Ithgg34So5UVjmq
+    ZVQOVh2tXNuLFzoWIHfFDGvzW-I62T6upo3OAlAMM8DEjRpaOy8z-p1>
+X-ME-Received: <xmr:udfxan0TwcxDzakpmPockUA1NE74rs2j4TJ8pULNoTQ8RVrjOs0mH2yskYNmeARhKbagWTK0agYvUw2cSc7XC_zMHJAr>
+X-ME-Proxy-Cause: dmFkZTGnMKuIOnvGyQ7zWqcUYlDo43FWwsLI62VAc9pgleLQI1l+yLDIOLTLG5mYdUGrq+
+    jBeEc4LD6VsoJXrE+RtCHEn+kQYMz1Q9w8XOtId2mfGKl8QkUunkxbObwX78PoEzrQZky/
+    S9OTUZczRI+jDOdXkJSHy8ljTb1iebdRrU7mFoIPhgZUlI4edwVGEioeE+y1hGC958YcXQ
+    f53pO4IqF7nNKFh7MIHcAE31R9odNlRTuTCqAF03mTba1bW7M+m9MTVFEbzru4O1YZOOvY
+    CBzlgZMSOPGaOov5y+CQdUmf1ldgGjCiVM/nigR7Mr/Sc6sIQr7+VY/+Nd5dUg3k9B+HMA
+    sutjtUMIwLbH4eybS9Wm7p52z2tz82YAxQhd3lW4Q607et1gNcHqWM/styr8QtDDe8oi37
+    0vju7B/BlfcDl1sQx9glAOwg7mpBTxO7EAQlNQba2Omj8r0xqE1MkPhlsMQd4qrs7IHPY2
+    UdlPFi8WFVOKQBkVaBSdkuNY3STGl9eSfkcY6Fvb5u0Ztl1w4vasoZcvETlT+DWKC91SwW
+    gTYZK+dcHBITRBXsbQKOC8Cu7M3fZYHujQk7ln8uPLqnQiL/5pp3E8hydKiAU+yR8Geco1
+    baW/5h2XTUjvKNKp2knGznNFEC/auak3M0YEBhWoeJBgCm2cUaOQPa74Gg6Q
+X-ME-Proxy: <xmx:udfxas-AIB5ivm4hKmD-1I2sJ9cYozsW4V2u9NUCZe2ToWfGfYjxwQ>
+    <xmx:udfxagNld-tNABY_rRMZ070_hhoXNYQLmazB0Y_Th5uinZirGL9bzA>
+    <xmx:udfxaofe-8QAfFDGN1SzZcrg1j1fpTGk2RACnEwu00JRhmW3_7EK6A>
+    <xmx:udfxanXGtJQ0QZtHtxfjPaC6XfkH3WAU7gMv7GmeHEWPUEBvJWrCvg>
+    <xmx:udfxavxn7qDtPy_K6rscnVp_ZyhJG5ti-b9ayWWh8Zqky7GupVYsUOON>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Nov 2026 09:20:36 -0500 (EST)
+ 9 Nov 2026 09:24:56 -0500 (EST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Nov 2026 14:20:35 +0000
-Message-Id: <DMQQVSTB0X1G.UN5EOW5V25PS@pbarker.dev>
-To: "Alex Kiernan" <alex.kiernan@gmail.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] fontcache: make the caches built into an image
- valid
+Date: Mon, 09 Nov 2026 14:24:55 +0000
+Message-Id: <DMQQZ4DQ48LP.1O3YZ9RX6JP8S@pbarker.dev>
+Cc: "Paul Barker" <paul@pbarker.dev>, "Luciano Dittgen"
+ <luciano.dittgen@ossystems.com.br>
+Subject: Re: [PATCH v2 1/3] yocto-check-layer: Add --run-tests to select the
+ tests to run
 From: "Paul Barker" <paul@pbarker.dev>
+To: "Otavio Salvador" <otavio@ossystems.com.br>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.22.0
-References: <20261013-fontcache-reproducible-mtime-v1-0-950f07b80f0f@gmail.com>
-In-Reply-To: <20261013-fontcache-reproducible-mtime-v1-0-950f07b80f0f@gmail.com>
+References: <20261017225656.680168-1-otavio@ossystems.com.br>
+ <20261019143924.1521981-1-otavio@ossystems.com.br>
+ <20261019143924.1521981-2-otavio@ossystems.com.br>
+In-Reply-To: <20261019143924.1521981-2-otavio@ossystems.com.br>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 14:20:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249848
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 14:25:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249849
 
-On Tue Oct 13, 2026 at 11:49 AM BST, Alex Kiernan wrote:
-> The fontconfig caches update_font_cache builds into an image are never
-> used on the target. fontconfig accepts a cache only while the directory
-> mtime it recorded matches the directory, and three things disagree about
-> that mtime:
+On Mon Oct 19, 2026 at 3:39 PM BST, Otavio Salvador wrote:
+> The common and distro tests ignore --machines, so a BSP layer checked in
+> several runs, one per group of machines, repeats them in each. Add
+> --run-tests, taking <module>[.<class>[.<name>]] as oe-test does, so the
+> common tests can run once and only the BSP ones in the others. A name
+> matching no test is an error rather than a run that checked nothing.
 >
-> - fc-cache records min(directory mtime, SOURCE_DATE_EPOCH). When the
->   intercept runs, the font directories still carry their packages'
->   mtimes and SOURCE_DATE_EPOCH is the image's fallback value.
-> - reproducible_final_image_task then sets every mtime in the rootfs to
->   REPRODUCIBLE_TIMESTAMP_ROOTFS.
-> - mke2fs clamps every inode time to the SOURCE_DATE_EPOCH in its
->   environment, so an ext image ends up with a different time again from
->   a tar or squashfs image of the same rootfs.
+> Tested on meta-freescale with "--run-tests common distro" and
+> "--run-tests bsp --machines imx8mm-ddr4-evk imx8mn-ddr4-evk".
 >
-> So every process using fonts rescans and writes a cache of its own, or
-> fails to on a read-only rootfs. fc-cache also deletes a cache it has
-> just written for a directory newer than SOURCE_DATE_EPOCH, so with the
-> default values some caches are missing from the image entirely.
->
-> Patches 1-2 run fc-cache under REPRODUCIBLE_TIMESTAMP_ROOTFS, with the
-> font directories' mtimes already set to it. Patch 3 keeps that time in ex=
-t
-> images, as oe_mksquashfs already does for squashfs. That moves every
-> inode and superblock time in an ext image from
-> SOURCE_DATE_EPOCH_FALLBACK to REPRODUCIBLE_TIMESTAMP_ROOTFS, which with
-> the bitbake.conf defaults is from 2011-04-05 to 2018-03-09. Patch 4
-> adds a selftest that boots an image carrying a font and checks that
-> fontconfig accepts every cache and writes none. On qemuarm64 it fails
-> without patches 1-3 and passes with them.
+> Suggested-by: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
+> AI-Generated: Uses Claude Code (Claude Opus 5.5)
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Hi Alex,
+Hi Otavio,
 
-If the selftest case in patch 4 is ran without the other changes in this
-series, does it fail? I'd like to confirm that this test case would
-catch the failure case.
+Please could you respond to the questions I asked in discussion of the
+v1 patch series [1]?
 
-Thanks,
+[1]: https://lore.kernel.org/openembedded-core/83b27a0e093d6e6df87ab2106b3a=
+163064226f39.camel@pbarker.dev/
+
+Best regards,
 
 --=20
 Paul Barker
