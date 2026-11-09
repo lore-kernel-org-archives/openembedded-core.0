@@ -1,205 +1,253 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.283.1794201493057759139
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.284.1794201493057910702
  for <openembedded-core@lists.openembedded.org>;
  Sun, 08 Nov 2026 21:18:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e1Bc+nvD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=hr/Zo2yn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1bebe1a52-1cf51f96-c07b-40bb-a092-cf31466a599b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=tYgYmsfI;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=m1RkLOlk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a1bebe1b57-a83c5c2e-5ca3-427e-ad54-db117738d3ee-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1794201492;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=4XciAFC/SNQl4TH8GpL09ybHIzcjs16iziPDRoMmymQ=;
-	b=e1Bc+nvDGlQNc3uboVDcxI+zItGvNmiYr9iG4m51jQx4iSmkFIJ3IvsGnAvlrsn1
-	eSWTbkhy559Wxxf/f5fcBv1wEpMaRQN++y13SXk07fV2A9xUjlDZXTCcLVT/yWLTlqe
-	8uvrSJs/vj/jwVHLruhuQCooGpfeojAz5kW5b9es=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=rbAfcvKFhxQs8r0L6agYxNboVktySwwEF7a58ivdMCg=;
+	b=tYgYmsfIGIyY4QqkLKriQbfz2tHYyq4Sk8jlsHadxdnOEU4BbI6lifqKrQJ89s1V
+	GwPhVksUPlgyl/VV0tMRUbxNQEZfs3boTg3CVFB0Tu/1S1OqUZrdwoU2Mq8dqiVDhpT
+	wbY/xv9ny0UpUu4eBTSDWgLGLLeEDza9Nfr7p9Go=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794201492;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=4XciAFC/SNQl4TH8GpL09ybHIzcjs16iziPDRoMmymQ=;
-	b=hr/Zo2ynD80FheSJavazW4StN3VPkQxlHM4QxQ6Ns/kLlbxYhb3mKSdCTr4514+y
-	aMLGvPxIGdUfFq0dMa5eOi2HBbejp52Y8KdxBpANhcshwbOVeu3OM5zUlW71iK4VU6J
-	+HTEPGerEnQ04VWuslYH9IcVt7w/KGdSQTT0vzDI=
-Content-Type: multipart/mixed; boundary="===============5617492040898338778=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=rbAfcvKFhxQs8r0L6agYxNboVktySwwEF7a58ivdMCg=;
+	b=m1RkLOlkVS4jtqtr+XlXcvA7sSjYy4I9ZreXlBA5EwUCcS9o98kK9CdbkMGrwL+c
+	kN/hPwQ/5TuvdZxp1MSDbUDI77T6OJRbuqylcxg+b8BtL3R4p2lJOkW3M/vCP6/kvS1
+	0+dX2kX2ruJ8N1V7qF738PxCNANxmZjwXiB8qBKk=
+Content-Type: multipart/mixed; boundary="===============2055729957773670176=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] desktop-file-utils: upgrading to 0.29 SUCCEEDED
-Message-ID: <010101a1bebe1a52-1cf51f96-c07b-40bb-a092-cf31466a599b-000000@us-west-2.amazonses.com>
+To: Marta Rybczynska <marta.rybczynska@ygreky.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-uritools: upgrading to 7.0.0 SUCCEEDED
+Message-ID: <010101a1bebe1b57-a83c5c2e-5ca3-427e-ad54-db117738d3ee-000000@us-west-2.amazonses.com>
 Date: Mon, 9 Nov 2026 05:18:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.09-54.240.27.31
+X-SES-Outgoing: 2026.11.09-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 05:18:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249786
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249787
 
---===============5617492040898338778==
-Content-Type: text/plain; charset="utf-8"
+--===============2055729957773670176==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpkZXNrdG9wLWZpbGUtdXRpbHMqIHRvICowLjI5KiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBz
-dGVwczoKICAgIC0gYXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1kZXNrdG9wLWZpbGUtdXRp
-bHMtdXBncmFkZS0wLjI4LTAuMjkucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBz
-dHJlYW0gcGF0Y2hlcyBhbmQgc3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAog
-ICAgLSBjb21waWxlIGFuIGltYWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVy
-Zm9ybSBzb21lIGJhc2ljIHNhbml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNp
-Z24gaXQgb2ZmOiBnaXQgY29tbWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2Vu
-ZCBpdCB0byB0aGUgYXBwcm9wcmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5
-b3UgYmVsaWV2ZSB0aGUgcmVjaXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1l
-LAp5b3UgY2FuIGZpbGwgUkVDSVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNp
-cGUgZmlsZSBzbyB0aGF0CmF1dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0
-ZW1wdGVkLgoKUGxlYXNlIHJldmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5m
-b3JtYXRpb24gYW5kIGJ1aWxkL3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZp
-bGUgYSBidWcgYXQgaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5j
-Z2k/cHJvZHVjdD1BdXRvbWF0ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBn
-cmFkZSBIZWxwZXIKCi0tID44IC0tCkZyb20gZDczNmU5NTE1MzcxOWUwOGUxM2VlOGY4MjJkZjRj
-MGVlYjQ3NjRhNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIg
-PGF1aEB5b2N0b3Byb2plY3Qub3JnPgpEYXRlOiBNb24sIDkgTm92IDIwMjYgMDU6MTE6NDMgKzAw
-MDAKU3ViamVjdDogW1BBVENIXSBkZXNrdG9wLWZpbGUtdXRpbHM6IHVwZ3JhZGUgMC4yOCAtPiAw
-LjI5Ck1JTUUtVmVyc2lvbjogMS4wCkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1V
-VEYtOApDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0Cgo9PT09PT09PT09PT0KVmVyc2lv
-biAwLjI5Cj09PT09PT09PT09PQoKIGRlc2t0b3AtZmlsZS1pbnN0YWxsCiAgLSBBZGQgc3VwcG9y
-dCBmb3IgLS1hZGQta2V5d29yZHMgYW5kIC0tcmVtb3ZlLWtleXdvcmRzIChmZG8jNzgpIChLbGZK
-b2F0KS4KICAtIEFkZCAtLXNldC1leGVjIHNob3J0Y3V0IGZvciBzZXR0aW5nIHRoZSBFeGVjIGtl
-eSAoSmFrb2JEZXYpLgoKIGRlc2t0b3AtZmlsZS12YWxpZGF0ZQogIC0gUmVxdWlyZSBFeGVjIGtl
-eSB3aGVuIERCdXNBY3RpdmF0YWJsZSBpcyB1bnNldCAoQmFsbMOzIEd5w7ZyZ3kpLgogIC0gVmFs
-aWRhdGUgdGhlIEtleXdvcmRzIGtleSAoS2xmSm9hdCkuCiAgLSBBZGQgUGhvc2ggdG8gbGlzdCBv
-ZiB2YWxpZCBPbmx5U2hvd0luPSBlbnZpcm9ubWVudHMgKFNhbSBEYXkpLgogIC0gQWRkIG5ldyBn
-YW1lIGNhdGVnb3JpZXMgKEpha29iRGV2KS4KICAtIEFkZCBIZWFsdGhGaXRuZXNzIGNhdGVnb3J5
-IChKYWtvYkRldikuCgogdXBkYXRlLWRlc2t0b3AtZGF0YWJhc2UKICAtIEltcGxlbWVudCB0aGUg
-aW50ZW50IGNhY2hlIGZyb20gdGhlIGludGVudC1hcHBzIHNwZWMgKFNlYmFzdGlhbiBXaWNrKS4K
-ICAtIENvZGUgY2xlYW51cCBhbmQgbW9kZXJuaXphdGlvbiAoU2ViYXN0aWFuIFdpY2spLgoKIG1p
-c2MKICAtIE1hbnBhZ2UgZml4ZXMgKGZkbyM3NiwgZmRvIzc3KSAoS2xmSm9hdCkuCi0tLQogLi4u
-L3tkZXNrdG9wLWZpbGUtdXRpbHNfMC4yOC5iYiA9PiBkZXNrdG9wLWZpbGUtdXRpbHNfMC4yOS5i
-Yn0gIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy97ZGVza3Rv
-cC1maWxlLXV0aWxzXzAuMjguYmIgPT4gZGVza3RvcC1maWxlLXV0aWxzXzAuMjkuYmJ9ICg4OCUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy9k
-ZXNrdG9wLWZpbGUtdXRpbHNfMC4yOC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kZXNrdG9w
-LWZpbGUtdXRpbHMvZGVza3RvcC1maWxlLXV0aWxzXzAuMjkuYmIKc2ltaWxhcml0eSBpbmRleCA4
-OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy9k
-ZXNrdG9wLWZpbGUtdXRpbHNfMC4yOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L2Rlc2t0b3AtZmlsZS11dGlscy9kZXNrdG9wLWZpbGUtdXRpbHNfMC4yOS5iYgppbmRleCAzNTUz
-NzU3MmZlLi44ZTQxMzgzMTlhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVz
-a3RvcC1maWxlLXV0aWxzL2Rlc2t0b3AtZmlsZS11dGlsc18wLjI4LmJiCisrKyBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9kZXNrdG9wLWZpbGUtdXRpbHMvZGVza3RvcC1maWxlLXV0aWxzXzAuMjku
-YmIKQEAgLTgsNyArOCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1
-PWIyMzRlZTRkNjlmNWZjZTQ0ODZhODBmZGFmNGE0MjYzIFwKICAgICAgICAgICAgICAgICAgICAg
-ZmlsZTovL3NyYy92YWxpZGF0b3IuYztiZWdpbmxpbmU9NDtlbmRsaW5lPTI3O21kNT0yODFlMTEx
-NGVlNmM0ODZhMWEwYTQyOTU5ODZiOTQxNiIKIAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LmZyZWVk
-ZXNrdG9wLm9yZy9zb2Z0d2FyZS8ke0JQTn0vcmVsZWFzZXMvJHtCUH0udGFyLnh6IgotU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjQ0MDFkNGUyMzFkODQyYzJkZTgyNDIzOTVhNzRhMzk1Y2E0NjhjZDk2
-ZjVmNjEwZDgyMmRmMzM1OTQ4OThhNzAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjYxZjIyNWJl
-NGM2NjdhYmM0OTYyZjA3NTcxN2RiNDI1MmI2M2M4NDQ4MGY2ZDM3YjI2MDUwZDAyOWRhOGZhMCIK
-IAogREVQRU5EUyA9ICJnbGliLTIuMCIKIAotLSAKMi40Ny4xCgo=
+Hello,
 
---===============5617492040898338778==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-uritools* to *7.0.0* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-uritools-upgrade-6.1.3-7.0.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From f1e6e4cc8d11805ec87901636addfe0df7b2c66f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 9 Nov 2026 05:15:07 +0000
+Subject: [PATCH] python3-uritools: upgrade 6.1.3 -> 7.0.0
+
+v7.0.0 (2026-11-08)
+===================
+
+- Drop Python 3.10 support (breaking change).
+
+- Fix ``SplitResult.host`` for registered names consisting of digits
+  only (potentially breaking change).
+
+- ``uriencode()`` and ``uricompose()`` now raise ``TypeError`` on a
+  wrong type instead of leaking ``AttributeError`` (potentially
+  breaking change).
+
+- Update build and test environment.
+
+v6.1.5 (2026-11-07)
+===================
+
+- Bound ``uriencode()`` lookup table using ``functools.lru_cache()``.
+- Minor code and test improvements.
+
+v6.1.4 (2026-11-04)
+===================
+
+- Add support for Python 3.15.
+- Fix newline handling in ``uricompose()`` and ``urisplit()``.
+- Compare schemes case-insensitively in non-strict ``urijoin()``.
+- Recognize an uppercase ``IPvFuture`` version flag.
+- Various documentation improvements.
+- Minor unit test improvements.
+- Update build environment.
+---
+ .../{python3-uritools_6.1.3.bb => python3-uritools_7.0.0.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-uritools_6.1.3.bb => python3-uritools_7.0.0.bb} (79%)
+
+diff --git a/meta/recipes-devtools/python/python3-uritools_6.1.3.bb b/meta/recipes-devtools/python/python3-uritools_7.0.0.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-uritools_6.1.3.bb
+rename to meta/recipes-devtools/python/python3-uritools_7.0.0.bb
+index 47fddec046..a19949c721 100644
+--- a/meta/recipes-devtools/python/python3-uritools_6.1.3.bb
++++ b/meta/recipes-devtools/python/python3-uritools_7.0.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/tkem/uritools/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=079933dfba36eb60b5e3512ca0ab61ae"
+ 
+-SRC_URI[sha256sum] = "3a498e7e85ef3249343d5710618d641a414da0fbae6d23053ada7976ee83ea5f"
++SRC_URI[sha256sum] = "110b773e3f8fbaebcdcbe1377d04e418b1985adf69deeca4ed569f3e328cbf48"
+ 
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
+-- 
+2.47.1
+
+
+--===============2055729957773670176==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dbg: PV changed from "0.28" to "0.29"
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dbg: PKGSIZE changed from 328040 to 369960 (+13%)
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dbg: PKGV changed from 0.28 [default] to 0.29 [default]
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dev: PV changed from "0.28" to "0.29"
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dev: PKGV changed from 0.28 [default] to 0.29 [default]
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-doc: PV changed from "0.28" to "0.29"
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-doc: PKGSIZE changed from 17856 to 18758 (+5%)
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-doc: PKGV changed from 0.28 [default] to 0.29 [default]
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-locale: PV changed from "0.28" to "0.29"
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-locale: PKGV changed from 0.28 [default] to 0.29 [default]
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-src: PV changed from "0.28" to "0.29"
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-src: PKGSIZE changed from 182436 to 197446 (+8%)
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-src: PKGV changed from 0.28 [default] to 0.29 [default]
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-src: FILELIST: directory renamed /usr/src/debug/desktop-file-utils/0.28/src -> /usr/src/debug/desktop-file-utils/0.29/src
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-staticdev: PV changed from "0.28" to "0.29"
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-staticdev: PKGV changed from 0.28 [default] to 0.29 [default]
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils: PV changed from "0.28" to "0.29"
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils: PKGSIZE changed from 207764 to 215956 (+4%)
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils: PKGV changed from 0.28 [default] to 0.29 [default]
-packages/x86-64-v3-poky-linux/desktop-file-utils: SRC_URI changed from "http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.28.tar.xz" to "http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.29.tar.xz"
-packages/x86-64-v3-poky-linux/desktop-file-utils: PKGV changed from 0.28 [default] to 0.29 [default]
-packages/x86-64-v3-poky-linux/desktop-file-utils: PV changed from "0.28" to "0.29"
+packages/x86-64-v3-poky-linux/python3-uritools: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-6.1.3.tar.gz" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-7.0.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGSIZE changed from 50062 to 58857 (+18%)
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-src: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PV changed from "6.1.3" to "7.0.0"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/uritools-7.0.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info -> /usr/lib/python3.14/site-packages/uritools-7.0.0.dist-info
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PKGV changed from 6.1.3 [default] to 7.0.0 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PKGSIZE changed from 73198 to 76280 (+4%)
+Changes to packages/x86-64-v3-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info moved to /usr/lib/python3.14/site-packages/uritools-7.0.0.dist-info
 
---===============5617492040898338778==
+--===============2055729957773670176==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-uritools-changelog.txt"
+
+v7.0.0 (2026-11-08)
+===================
+
+- Drop Python 3.10 support (breaking change).
+
+- Fix ``SplitResult.host`` for registered names consisting of digits
+  only (potentially breaking change).
+
+- ``uriencode()`` and ``uricompose()`` now raise ``TypeError`` on a
+  wrong type instead of leaking ``AttributeError`` (potentially
+  breaking change).
+
+- Update build and test environment.
+
+v6.1.5 (2026-11-07)
+===================
+
+- Bound ``uriencode()`` lookup table using ``functools.lru_cache()``.
+- Minor code and test improvements.
+
+v6.1.4 (2026-11-04)
+===================
+
+- Add support for Python 3.15.
+- Fix newline handling in ``uricompose()`` and ``urisplit()``.
+- Compare schemes case-insensitively in non-strict ``urijoin()``.
+- Recognize an uppercase ``IPvFuture`` version flag.
+- Various documentation improvements.
+- Minor unit test improvements.
+- Update build environment.
+
+--===============2055729957773670176==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dbg: PKGSIZE changed from 328040 to 369960 (+13%)
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGSIZE changed from 50062 to 58857 (+18%)
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info -> /usr/lib/python3.14/site-packages/uritools-7.0.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/uritools-7.0.0.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.14/site-packages/uritools-6.1.3.dist-info moved to /usr/lib/python3.14/site-packages/uritools-7.0.0.dist-info
 
---===============5617492040898338778==
+--===============2055729957773670176==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-desktop-file-utils-upgrade-0.28-0.29.patch"
+ filename="0001-python3-uritools-upgrade-6.1.3-7.0.0.patch"
 
-RnJvbSBkNzM2ZTk1MTUzNzE5ZTA4ZTEzZWU4ZjgyMmRmNGMwZWViNDc2NGE1IE1vbiBTZXAgMTcg
+RnJvbSBmMWU2ZTRjYzhkMTE4MDVlYzg3OTAxNjM2YWRkZmUwZGY3YjJjNjZmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgOSBOb3YgMjAyNiAwNToxMTo0MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRl
-c2t0b3AtZmlsZS11dGlsczogdXBncmFkZSAwLjI4IC0+IDAuMjkKTUlNRS1WZXJzaW9uOiAxLjAK
-Q29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXIt
-RW5jb2Rpbmc6IDhiaXQKCj09PT09PT09PT09PQpWZXJzaW9uIDAuMjkKPT09PT09PT09PT09Cgog
-ZGVza3RvcC1maWxlLWluc3RhbGwKICAtIEFkZCBzdXBwb3J0IGZvciAtLWFkZC1rZXl3b3JkcyBh
-bmQgLS1yZW1vdmUta2V5d29yZHMgKGZkbyM3OCkgKEtsZkpvYXQpLgogIC0gQWRkIC0tc2V0LWV4
-ZWMgc2hvcnRjdXQgZm9yIHNldHRpbmcgdGhlIEV4ZWMga2V5IChKYWtvYkRldikuCgogZGVza3Rv
-cC1maWxlLXZhbGlkYXRlCiAgLSBSZXF1aXJlIEV4ZWMga2V5IHdoZW4gREJ1c0FjdGl2YXRhYmxl
-IGlzIHVuc2V0IChCYWxsw7MgR3nDtnJneSkuCiAgLSBWYWxpZGF0ZSB0aGUgS2V5d29yZHMga2V5
-IChLbGZKb2F0KS4KICAtIEFkZCBQaG9zaCB0byBsaXN0IG9mIHZhbGlkIE9ubHlTaG93SW49IGVu
-dmlyb25tZW50cyAoU2FtIERheSkuCiAgLSBBZGQgbmV3IGdhbWUgY2F0ZWdvcmllcyAoSmFrb2JE
-ZXYpLgogIC0gQWRkIEhlYWx0aEZpdG5lc3MgY2F0ZWdvcnkgKEpha29iRGV2KS4KCiB1cGRhdGUt
-ZGVza3RvcC1kYXRhYmFzZQogIC0gSW1wbGVtZW50IHRoZSBpbnRlbnQgY2FjaGUgZnJvbSB0aGUg
-aW50ZW50LWFwcHMgc3BlYyAoU2ViYXN0aWFuIFdpY2spLgogIC0gQ29kZSBjbGVhbnVwIGFuZCBt
-b2Rlcm5pemF0aW9uIChTZWJhc3RpYW4gV2ljaykuCgogbWlzYwogIC0gTWFucGFnZSBmaXhlcyAo
-ZmRvIzc2LCBmZG8jNzcpIChLbGZKb2F0KS4KLS0tCiAuLi4ve2Rlc2t0b3AtZmlsZS11dGlsc18w
-LjI4LmJiID0+IGRlc2t0b3AtZmlsZS11dGlsc18wLjI5LmJifSAgfCAyICstCiAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL3tkZXNrdG9wLWZpbGUtdXRpbHNfMC4yOC5iYiA9
-PiBkZXNrdG9wLWZpbGUtdXRpbHNfMC4yOS5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rlc2t0b3AtZmlsZS11dGlsc18wLjI4
-LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy9kZXNrdG9wLWZp
-bGUtdXRpbHNfMC4yOS5iYgpzaW1pbGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rlc2t0b3AtZmlsZS11dGlsc18wLjI4
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rl
-c2t0b3AtZmlsZS11dGlsc18wLjI5LmJiCmluZGV4IDM1NTM3NTcyZmUuLjhlNDEzODMxOWEgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kZXNrdG9wLWZpbGUtdXRpbHMvZGVza3Rv
-cC1maWxlLXV0aWxzXzAuMjguYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3At
-ZmlsZS11dGlscy9kZXNrdG9wLWZpbGUtdXRpbHNfMC4yOS5iYgpAQCAtOCw3ICs4LDcgQEAgTElD
-X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4
-MGZkYWY0YTQyNjMgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vc3JjL3ZhbGlkYXRvci5j
-O2JlZ2lubGluZT00O2VuZGxpbmU9Mjc7bWQ1PTI4MWUxMTE0ZWU2YzQ4NmExYTBhNDI5NTk4NmI5
-NDE2IgogCiBTUkNfVVJJID0gImh0dHA6Ly93d3cuZnJlZWRlc2t0b3Aub3JnL3NvZnR3YXJlLyR7
-QlBOfS9yZWxlYXNlcy8ke0JQfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDQwMWQ0
-ZTIzMWQ4NDJjMmRlODI0MjM5NWE3NGEzOTVjYTQ2OGNkOTZmNWY2MTBkODIyZGYzMzU5NDg5OGE3
-MCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2NjFmMjI1YmU0YzY2N2FiYzQ5NjJmMDc1NzE3ZGI0
-MjUyYjYzYzg0NDgwZjZkMzdiMjYwNTBkMDI5ZGE4ZmEwIgogCiBERVBFTkRTID0gImdsaWItMi4w
-IgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IE1vbiwgOSBOb3YgMjAyNiAwNToxNTowNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtdXJpdG9vbHM6IHVwZ3JhZGUgNi4xLjMgLT4gNy4wLjAKCnY3LjAuMCAoMjAyNi0xMS0w
+OCkKPT09PT09PT09PT09PT09PT09PQoKLSBEcm9wIFB5dGhvbiAzLjEwIHN1cHBvcnQgKGJyZWFr
+aW5nIGNoYW5nZSkuCgotIEZpeCBgYFNwbGl0UmVzdWx0Lmhvc3RgYCBmb3IgcmVnaXN0ZXJlZCBu
+YW1lcyBjb25zaXN0aW5nIG9mIGRpZ2l0cwogIG9ubHkgKHBvdGVudGlhbGx5IGJyZWFraW5nIGNo
+YW5nZSkuCgotIGBgdXJpZW5jb2RlKClgYCBhbmQgYGB1cmljb21wb3NlKClgYCBub3cgcmFpc2Ug
+YGBUeXBlRXJyb3JgYCBvbiBhCiAgd3JvbmcgdHlwZSBpbnN0ZWFkIG9mIGxlYWtpbmcgYGBBdHRy
+aWJ1dGVFcnJvcmBgIChwb3RlbnRpYWxseQogIGJyZWFraW5nIGNoYW5nZSkuCgotIFVwZGF0ZSBi
+dWlsZCBhbmQgdGVzdCBlbnZpcm9ubWVudC4KCnY2LjEuNSAoMjAyNi0xMS0wNykKPT09PT09PT09
+PT09PT09PT09PQoKLSBCb3VuZCBgYHVyaWVuY29kZSgpYGAgbG9va3VwIHRhYmxlIHVzaW5nIGBg
+ZnVuY3Rvb2xzLmxydV9jYWNoZSgpYGAuCi0gTWlub3IgY29kZSBhbmQgdGVzdCBpbXByb3ZlbWVu
+dHMuCgp2Ni4xLjQgKDIwMjYtMTEtMDQpCj09PT09PT09PT09PT09PT09PT0KCi0gQWRkIHN1cHBv
+cnQgZm9yIFB5dGhvbiAzLjE1LgotIEZpeCBuZXdsaW5lIGhhbmRsaW5nIGluIGBgdXJpY29tcG9z
+ZSgpYGAgYW5kIGBgdXJpc3BsaXQoKWBgLgotIENvbXBhcmUgc2NoZW1lcyBjYXNlLWluc2Vuc2l0
+aXZlbHkgaW4gbm9uLXN0cmljdCBgYHVyaWpvaW4oKWBgLgotIFJlY29nbml6ZSBhbiB1cHBlcmNh
+c2UgYGBJUHZGdXR1cmVgYCB2ZXJzaW9uIGZsYWcuCi0gVmFyaW91cyBkb2N1bWVudGF0aW9uIGlt
+cHJvdmVtZW50cy4KLSBNaW5vciB1bml0IHRlc3QgaW1wcm92ZW1lbnRzLgotIFVwZGF0ZSBidWls
+ZCBlbnZpcm9ubWVudC4KLS0tCiAuLi4ve3B5dGhvbjMtdXJpdG9vbHNfNi4xLjMuYmIgPT4gcHl0
+aG9uMy11cml0b29sc183LjAuMC5iYn0gICAgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
+aG9uL3tweXRob24zLXVyaXRvb2xzXzYuMS4zLmJiID0+IHB5dGhvbjMtdXJpdG9vbHNfNy4wLjAu
+YmJ9ICg3OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLXVyaXRvb2xzXzYuMS4zLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLXVyaXRvb2xzXzcuMC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggNzklCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc182LjEuMy5iYgpyZW5h
+bWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVyaXRvb2xzXzcuMC4w
+LmJiCmluZGV4IDQ3ZmRkZWMwNDYuLmExOTk0OWM3MjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cml0b29sc182LjEuMy5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNy4wLjAuYmIKQEAgLTQsNyAr
+NCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS90a2VtL3VyaXRvb2xzLyIKIExJ
+Q0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MDc5
+OTMzZGZiYTM2ZWI2MGI1ZTM1MTJjYTBhYjYxYWUiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIz
+YTQ5OGU3ZTg1ZWYzMjQ5MzQzZDU3MTA2MThkNjQxYTQxNGRhMGZiYWU2ZDIzMDUzYWRhNzk3NmVl
+ODNlYTVmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjExMGI3NzNlM2Y4ZmJhZWJjZGNiZTEzNzdk
+MDRlNDE4YjE5ODVhZGY2OWRlZWNhNGVkNTY5ZjNlMzI4Y2JmNDgiCiAKIGluaGVyaXQgcHlwaSBw
+eXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhIHB0ZXN0LXB5dGhvbi1weXRlc3QKIAotLSAKMi40
+Ny4xCgo=
 
---===============5617492040898338778==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="desktop-file-utils-changelog.txt"
-
-PT09PT09PT09PT09ClZlcnNpb24gMC4yOQo9PT09PT09PT09PT0KCiBkZXNrdG9wLWZpbGUtaW5z
-dGFsbAogIC0gQWRkIHN1cHBvcnQgZm9yIC0tYWRkLWtleXdvcmRzIGFuZCAtLXJlbW92ZS1rZXl3
-b3JkcyAoZmRvIzc4KSAoS2xmSm9hdCkuCiAgLSBBZGQgLS1zZXQtZXhlYyBzaG9ydGN1dCBmb3Ig
-c2V0dGluZyB0aGUgRXhlYyBrZXkgKEpha29iRGV2KS4KCiBkZXNrdG9wLWZpbGUtdmFsaWRhdGUK
-ICAtIFJlcXVpcmUgRXhlYyBrZXkgd2hlbiBEQnVzQWN0aXZhdGFibGUgaXMgdW5zZXQgKEJhbGzD
-syBHecO2cmd5KS4KICAtIFZhbGlkYXRlIHRoZSBLZXl3b3JkcyBrZXkgKEtsZkpvYXQpLgogIC0g
-QWRkIFBob3NoIHRvIGxpc3Qgb2YgdmFsaWQgT25seVNob3dJbj0gZW52aXJvbm1lbnRzIChTYW0g
-RGF5KS4KICAtIEFkZCBuZXcgZ2FtZSBjYXRlZ29yaWVzIChKYWtvYkRldikuCiAgLSBBZGQgSGVh
-bHRoRml0bmVzcyBjYXRlZ29yeSAoSmFrb2JEZXYpLgoKIHVwZGF0ZS1kZXNrdG9wLWRhdGFiYXNl
-CiAgLSBJbXBsZW1lbnQgdGhlIGludGVudCBjYWNoZSBmcm9tIHRoZSBpbnRlbnQtYXBwcyBzcGVj
-IChTZWJhc3RpYW4gV2ljaykuCiAgLSBDb2RlIGNsZWFudXAgYW5kIG1vZGVybml6YXRpb24gKFNl
-YmFzdGlhbiBXaWNrKS4KCiBtaXNjCiAgLSBNYW5wYWdlIGZpeGVzIChmZG8jNzYsIGZkbyM3Nykg
-KEtsZkpvYXQpLgo=
-
---===============5617492040898338778==--
+--===============2055729957773670176==--
