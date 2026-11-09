@@ -1,148 +1,108 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3752.1794253683478169194
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3696.1794253684246225957
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 11:48:03 -0800
+ Mon, 09 Nov 2026 11:48:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=LnlBWAcC;
- spf=pass (domain: gmail.com, ip: 209.85.161.52, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6df0b02fe91so724438eaf.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 11:48:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=MFd1ySPs;
+ spf=pass (domain: gmail.com, ip: 209.85.210.42, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-85a6c747dc9so812481a34.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 11:48:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794253682; x=1794858482; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1794253683; x=1794858483; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+NlKUz8MgS4Kq4pFCuqZXEnP3UJGmS8i6zP367nAEHg=;
-        b=LnlBWAcCZfVL6jHE40YVh1ZGw7zvGdFdu+uy5vHYZuvxNwqMkMSZrXHBE3wpgbRyJj
-         Ng1Db/28rCc2SNX3eYnM2Nt3BarSBuH2evdRafDj2SJw9BtKDS/Yk6m3/xSzrs7nn3xt
-         7CN5mWJFFNtcQH3Eex0Rc1tDCldWdtvo9xtVh6q4fzllU8h0hkoK7ULW7EQx87EwQjbm
-         Xvy8GLWgLg/yUyhrKTMuPHUyKE0ffbl73VdEqhPVWjMAhi54iEdCkLCM3LSzXqNKjYsc
-         lyUJbd2AZUFLo+2l+r8waYDiUDcD5WMQiaDqV8yh5rohLbjCou+aJiVUB6XLNk3UJIgs
-         KHzg==
+        bh=k6HhJL9qpsmK5T5siTyfRkDD4MIqxFfeTZ9MsiurJnE=;
+        b=MFd1ySPsl+ZWA8t2f1gr/Djq+CJKAtfMvCyY3xPqG5/p7cZYB0p7m2Xhs0xkRPXAIP
+         nWr3kBmy8u6O/0lYzZ3FcVre7Nl5jGOgTJMmYQdcSeSa2gHChDAFWBwmUGTR6AzB9+pk
+         BL39lyZ1tuGUXZjELyGwqQA7WMAS85VgpGsO/FhQWcd/UQW1rv4qXtowpYiKUhwPPk69
+         JfydyHhfhKKNHiGkDV95x3RwQ/eArV8mbZ6bnuiRiR1xu/LRQJ5kIG9lE5nf8LRbHeBf
+         lqimhelwWIGrmoUBV5gBa34BGku2tYZlwzHlQFFfYd4hLvp2vWgz+ooYhAZDV99Huacj
+         asPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794253682; x=1794858482;
+        d=1e100.net; s=20260707; t=1794253683; x=1794858483;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+NlKUz8MgS4Kq4pFCuqZXEnP3UJGmS8i6zP367nAEHg=;
-        b=sLF9wVq22OEf1a4gKOGkUIYM4+QCTw+LJsMi0v3yeXuHGqPAmHX32XJd1sTnFainwh
-         P+3Y0LTm7iLsYeBsUt8K2QO0517P4VzoFCRmoHM6FaRIgOGjpA9EPXRJGg6GxFrb+gYj
-         bInVztTwwQ0MwHXnCzvcDkZGbypLke2Owl+JRtrRWtOT6spRWWBHDXDfzQFJc8kLohBf
-         5g2ghdlpVlaD+xgfKQKisDPK7gIi8NYti6E2ZZdEbGlZpFWREc/fRMyHP6JNfI4t1Tn2
-         CX1QS2qIvsqziP15OWpcWTOt+9dr5q8I7gS1zitoVWj96i0mLbNzNz6Njd7MbVzyBPOf
-         XSzw==
-X-Gm-Message-State: APuU4Z+KPTN9ZqNLNEYwy6LAw7wSVov/R09bSEiFQJxniqhGqFyQrWGz
-	5s26cBckyJrxfddqBgZE76Fk4VBh4rcJrV82/mhoXsegMMfz2T2Nzl+XIVH7/A==
-X-Gm-Gg: AYBFou1mKXk29sjY59fozt9pz8SzB8MYXe1QvIycIXcLs7IYE9qGCdMmy2IF9cla4U2
-	QpIvbr9OrcDQ0cju0NbJgCkEHtoxP9CuBiNoxnPBqY2NbjY97C++chS10k6vR1u8vkBG3NMscdZ
-	FZ25B1tPF0hgIH+GbbzoMzqcpAyDDoj/t4htwqg2erKWauldI7yPhzBfNLl2RrRjmRzkdDPkgWu
-	Oh1X9SKz4aJdrMG0GRjaF1vU0cY7KEltxd6sCKbuyEdJjQFeMX8MIZlvCbjyW8+3gPpeyP7ypNG
-	YWu7NScIhBmURM/nO/ffPjyR9XhORvyMhD3+OqNWpR4asSbwxiurcQoJkINKKdhc+jynxAntI0w
-	CnNfgOXG3xsVO00bAbTOUmNarEzKJzrGf4582JMwezZdSeqs4BZZwTtEoT5ohyqplgaR7Pqz0Rj
-	/8k+2Lmvh2LzgzAGtVyHOGEvO31X29kNLWt2KR2nAiFlNxaTH2uEVK0K8uzN1ewxeg24M5bOAZz
-	QatQX4Zd3/F2bDCD7Uzb4yf/SA69EYGORAvdoRbS5DHURhlu+5zExrGSiOlKJ3YnTra5q54Py8V
-	t/+a/r6uGtilOt+Z9SiZVd2jPq4fEDu1aG8Hz/fnGuDxUKGn
-X-Received: by 2002:a05:6820:8913:10b0:6cd:3fdc:2664 with SMTP id 006d021491bc7-718a7504e0fmr38595eaf.37.1794253682502;
-        Mon, 09 Nov 2026 11:48:02 -0800 (PST)
+        bh=k6HhJL9qpsmK5T5siTyfRkDD4MIqxFfeTZ9MsiurJnE=;
+        b=JDkJGGEsJkWzXMcRTklQdyEdngkaWe1XelkARgcevrzhA1yClmOW8X4YG0WUCqHm7r
+         IaZ0Vin6+j+3qVMJxWsNg+wk4KBMV4z8y9orox008JiEN9JHJmajoteWK/4rOxybDENP
+         /lyVNGakWpIldcaHykN2U4fVqWNDl3vRJBCZCMvCwLjTZWWmOMaomD4Kz0UYKQfWTizn
+         qPpVZ01jvuddFxccqfl+Z9ExVhiuWhPRwTANgqYKaf45fuTK/Nv0JlH9r5fFs5Sje5i6
+         GNY0QcynRS19m0CHe4Gt+J+be60+WQotW23Qy6iTOFcAnHTrX8zJeQ1KJqSskZ8fV509
+         iWxw==
+X-Gm-Message-State: APuU4Z+8m6Kn7OOjh1BLPfFaY6mvHIw2KyXeUVqKtyIOLarsXcU+kNet
+	uNNrcruevZuVZ5P2YC2n2ovsLp2iijw7lAu/dSlao2K6/b2YJvQRu9yLVWy9CA==
+X-Gm-Gg: AYBFou2AgRMWyKEBqynLuqGA1t7UdoHJ+YJcfe+9Gc7gcgSJ/5rBbD5rfpSkpUfBvnZ
+	ewhgEQT4ypeTBQwnmpjs2ANla7ylLfo41rmRvN7UjZ6nnT34tfvxpouLAm4H5tffNWtuKyF3iRm
+	AOdJZdyFFddMpz84m6CCmTFXj1GocrrS7n5cpmAjPMrW40dSihG2wINN1nzTZYNnWDeXNQa54HZ
+	pkONMYugVO8awPIV31eNvkODiw9B9aUoeTEQgA121s9hxU4vlWo8lTNX3AT8rsXLQsEGNk4dwNr
+	8m89GJYoEFIldVmWyyoGoRzQnhlAxE1IiHa1fkoUm2FibG1ooQfdx+jVS5Zlwpy6E9jRjwm8YPP
+	3Aqxv8wyckZCxUECC/32n/uQWrArjbOF2wTNSK6z87ypJU0ZjS7Yqc+qqx9O/x5S/row2XgvlMC
+	EYQ1CGAjWC/X45zprCit6AnndiWkNB1w3S5SQ9Kl5/beDdoJ1dh9WubNuAEnjwbtaD8cCP9x5Uk
+	1Ey4HCQZrpMtLdrwvSGn+6JRZrFm4GZqOqLH/s65d+69w75s5/zaH71jz6tSN6ekw0kkXO9V1+d
+	YkIIwZBHtgsMRUs9vyL2QbM6lQI=
+X-Received: by 2002:a05:6820:3401:20b0:716:ab86:59f6 with SMTP id 006d021491bc7-718a5288860mr50493eaf.8.1794253683257;
+        Mon, 09 Nov 2026 11:48:03 -0800 (PST)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2601:283:4b01:ba50::3232])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-718aa132e65sm70363eaf.14.2026.11.09.11.48.01
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-718aa132e65sm70363eaf.14.2026.11.09.11.48.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 11:48:01 -0800 (PST)
+        Mon, 09 Nov 2026 11:48:02 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v9 0/9] Implement SPDX for deploy tasks
-Date: Mon,  9 Nov 2026 12:45:36 -0700
-Message-ID: <20261109194759.550935-1-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v9 1/9] spdx: Skip dependencies that are not in the taskhash
+Date: Mon,  9 Nov 2026 12:45:37 -0700
+Message-ID: <20261109194759.550935-2-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261104153535.3184146-1-JPEWhacker@gmail.com>
+In-Reply-To: <20261109194759.550935-1-JPEWhacker@gmail.com>
 References: <20261104153535.3184146-1-JPEWhacker@gmail.com>
+ <20261109194759.550935-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 19:48:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249865
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249866
 Content-Type: text/plain; charset="utf-8"
 
-The SPDX use case for file system image has been well defined since SPDX
-was first implemented, however there has always been a desire to also
-express SPDX output for other non-image deliverables (primarily, those
-that have a do_deploy task or similar). These types of tasks cannot
-easily use the traditional method of having a separate SPDX task that
-runs to create their SPDX output as this causes lots of problems with
-the way dependencies are specified. Instead, it is desirable for these
-tasks to directly produce SPDX output that can be consumed by other
-tasks that depend on them.
+If a dependency is not in the taskhash, it cannot be included in the
+SPDX data because the dependency may not trigger the recipe to rebuild
+if it changes (although aliases help with this), but more importantly
+bitbake may not restore the sstate object associated with the dependency
+which causes errors when constructing the final SBoM
 
-This patch series adds support for this. Any sstate task that starts
-with "do_deploy" can now be added to the SPDX_DEPLOY_TASKS list and it
-will run a postfunc to generate SPDX output that describes what is being
-deployed. For classical do_deploy tasks, this is setup to be easy by
-automatically capturing all the deployed output files in the SPDX data,
-but other tasks can be added as well.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Finally, the do_create_image_spdx task is removed and replaced with a
-SPDX deploy postfunc using this new system. This means that any task
-that depends on do_image_complete will automatically also get the SPDX
-output for the image, simplifying the dependency handling.
-
-V2: Fixed SPDX documents missing at SBoM creation time when the
-documents were not a direct dependency of the SBoM, and were present in
-a sstate object. Previously, these sstate objects were not restored
-because they were "covered" by the later sstate tasks, but now they are
-restored if they are depended on by a task that creates SPDX output.
-
-V3: Fixed a bug where dependencies that are not in the taskhash could be
-missing when the final SBoM is created and added tests.
-
-V4: Fixed some testing errors that revealed that EFI providers have to
-be MACHINE_ARCH (and consequently, wic-tools)
-
-V6: Fixed a bug where eudev/systemd initramfs-framework was not being
-properly detected and the wrong link was in the SPDX due to the switch
-between the two not being detected.
-
-Also, deploy.bbclass now always adds do_deploy to SPDX_DEPLOY_TASKS, so
-any recipe inheriting that class gets it automatically.
-
-V7: Add SPDX_DEPLOY_ALLOW_EMPTY variable, and set it on ovmf to fix it
-erroring out for native builds.
-
-V8: Fix deploy error for linux-dummy, and allarch signature error for
-initramfs-framework
-
-V9: Fix initramfs-module-setup-live allarch signature error now that
-initramfs-framwork is no longer allarch.
-
-Joshua Watt (9):
-  spdx: Skip dependencies that are not in the taskhash
-  spdx: Add ability for deploy tasks to create SPDX
-  oeqa: Add SPDX deploy SBoM test
-  classes-global/sstate: Keep SPDX generating setscene dependencies
-  classes-recipe/deploy: Add do_deploy to SPDX_DEPLOY_TASKS
-  spdx: Replace do_create_image_spdx with deploy task
-  layer.conf: Fix initramfs-framework not knowing which udev it has
-  ovmf: Allow empty SPDX deploy artifacts
-  linux-dummy: Allow empty SPDX deploy artifacts
-
- meta/classes-global/sstate.bbclass            |  38 ++-
- .../create-spdx-image-3.0.bbclass             |  32 +-
- meta/classes-recipe/deploy.bbclass            |   2 +
- meta/classes-recipe/nospdx.bbclass            |   2 +-
- meta/classes/create-spdx-3.0.bbclass          | 185 ++++++++++
- meta/classes/spdx-common.bbclass              |   2 +-
- meta/conf/layer.conf                          |   3 +-
- meta/lib/oe/sbom30.py                         |  46 ++-
- meta/lib/oe/spdx30_tasks.py                   | 323 ++++++++++++++----
- meta/lib/oe/spdx_common.py                    |   2 +-
- meta/lib/oeqa/selftest/cases/spdx.py          |  11 +
- .../initrdscripts/initramfs-framework_1.0.bb  |   2 -
- meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
- meta/recipes-kernel/linux/linux-dummy.bb      |   2 +
- 14 files changed, 546 insertions(+), 105 deletions(-)
-
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 646ec7d074..3c3ba15e74 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -306,13 +306,14 @@ def collect_dep_objsets(d, direct_deps, subdir, fn_prefix, obj_type, **attr_filt
+         dep_obj, dep_objset = oe.sbom30.find_root_obj_in_jsonld(
+             d, subdir, fn_prefix + dep.pn, obj_type, **attr_filter
+         )
+-        # If the dependency is part of the taskhash, return it to be linked
+-        # against. Otherwise, it cannot be linked against because this recipe
+-        # will not rebuilt if dependency changes
+-        if dep.in_taskhash:
+-            dep_objsets.append(dep_objset)
++        # If the dependency is not part of the task hash, do not include it
++        # since the dependency may not be present in subsequent runs, and may
++        # not rebuild if it changes
++        if not dep.in_taskhash:
++            bb.debug(1, f"Skipping dependency {dep.pn} (not in taskhash)")
++            continue
+ 
+-        # The object _can_ be linked against (by alias)
++        dep_objsets.append(dep_objset)
+         dep_objs.add(dep_obj)
+ 
+     return dep_objsets, dep_objs
 -- 
 2.56.0
 
