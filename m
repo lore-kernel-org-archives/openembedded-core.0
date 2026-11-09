@@ -1,303 +1,205 @@
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.285.1794201493129191347
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.283.1794201493057759139
  for <openembedded-core@lists.openembedded.org>;
  Sun, 08 Nov 2026 21:18:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=p86tju3w;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=26PYG31D;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a1bebe1a8f-265cfe5f-06b6-4cc3-bfc5-10eb1d226d12-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e1Bc+nvD;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=hr/Zo2yn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1bebe1a52-1cf51f96-c07b-40bb-a092-cf31466a599b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1794201492;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=G+x4v4Ddmj2Fh8beNe4Je6HBP7u1dLM7lvsyCHGe07g=;
-	b=p86tju3wBo9kV+UxbUKTQ9M+K/FSw5IN67E6SB02FejZFXmBR2HDWk3jDlVw243R
-	gZLm/bNUKOe2eqEs+2bVveFLqzZhC7bACY/RXIkmZwwuL5O0wj+dT7gL5siOg3nAhA3
-	WyI1v5BM4OvmuIv6IxN0A/aqXX3brHhKr6w+0UO0=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=4XciAFC/SNQl4TH8GpL09ybHIzcjs16iziPDRoMmymQ=;
+	b=e1Bc+nvDGlQNc3uboVDcxI+zItGvNmiYr9iG4m51jQx4iSmkFIJ3IvsGnAvlrsn1
+	eSWTbkhy559Wxxf/f5fcBv1wEpMaRQN++y13SXk07fV2A9xUjlDZXTCcLVT/yWLTlqe
+	8uvrSJs/vj/jwVHLruhuQCooGpfeojAz5kW5b9es=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794201492;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=G+x4v4Ddmj2Fh8beNe4Je6HBP7u1dLM7lvsyCHGe07g=;
-	b=26PYG31De1QpQgXBlR/ZS5YOWeqSLAdkgVSJkU/IE8kIDdPJhjYctWHpxmyYkrTo
-	Aea3oQaDcYLttvwkh/G0eUNlnlF2+fU29cMm/lQ42jOYfp0b8E8vxS1S5xn+z5Xk1Pf
-	tN86Vd4YC5FfARA6fd8/eFZTHWvXFqn0VlrCwrco=
-Content-Type: multipart/mixed; boundary="===============8761904596302467445=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=4XciAFC/SNQl4TH8GpL09ybHIzcjs16iziPDRoMmymQ=;
+	b=hr/Zo2ynD80FheSJavazW4StN3VPkQxlHM4QxQ6Ns/kLlbxYhb3mKSdCTr4514+y
+	aMLGvPxIGdUfFq0dMa5eOi2HBbejp52Y8KdxBpANhcshwbOVeu3OM5zUlW71iK4VU6J
+	+HTEPGerEnQ04VWuslYH9IcVt7w/KGdSQTT0vzDI=
+Content-Type: multipart/mixed; boundary="===============5617492040898338778=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Sumanth Gavini <sumanth.gavini@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ccache: upgrading to 4.14.3 SUCCEEDED
-Message-ID: <010101a1bebe1a8f-265cfe5f-06b6-4cc3-bfc5-10eb1d226d12-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] desktop-file-utils: upgrading to 0.29 SUCCEEDED
+Message-ID: <010101a1bebe1a52-1cf51f96-c07b-40bb-a092-cf31466a599b-000000@us-west-2.amazonses.com>
 Date: Mon, 9 Nov 2026 05:18:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.09-54.240.27.23
+X-SES-Outgoing: 2026.11.09-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 05:18:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249785
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249786
 
---===============8761904596302467445==
-Content-Type: text/plain; charset="us-ascii"
+--===============5617492040898338778==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpkZXNrdG9wLWZpbGUtdXRpbHMqIHRvICowLjI5KiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBz
+dGVwczoKICAgIC0gYXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1kZXNrdG9wLWZpbGUtdXRp
+bHMtdXBncmFkZS0wLjI4LTAuMjkucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBz
+dHJlYW0gcGF0Y2hlcyBhbmQgc3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAog
+ICAgLSBjb21waWxlIGFuIGltYWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVy
+Zm9ybSBzb21lIGJhc2ljIHNhbml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNp
+Z24gaXQgb2ZmOiBnaXQgY29tbWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2Vu
+ZCBpdCB0byB0aGUgYXBwcm9wcmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5
+b3UgYmVsaWV2ZSB0aGUgcmVjaXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1l
+LAp5b3UgY2FuIGZpbGwgUkVDSVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNp
+cGUgZmlsZSBzbyB0aGF0CmF1dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0
+ZW1wdGVkLgoKUGxlYXNlIHJldmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5m
+b3JtYXRpb24gYW5kIGJ1aWxkL3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZp
+bGUgYSBidWcgYXQgaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5j
+Z2k/cHJvZHVjdD1BdXRvbWF0ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBn
+cmFkZSBIZWxwZXIKCi0tID44IC0tCkZyb20gZDczNmU5NTE1MzcxOWUwOGUxM2VlOGY4MjJkZjRj
+MGVlYjQ3NjRhNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIg
+PGF1aEB5b2N0b3Byb2plY3Qub3JnPgpEYXRlOiBNb24sIDkgTm92IDIwMjYgMDU6MTE6NDMgKzAw
+MDAKU3ViamVjdDogW1BBVENIXSBkZXNrdG9wLWZpbGUtdXRpbHM6IHVwZ3JhZGUgMC4yOCAtPiAw
+LjI5Ck1JTUUtVmVyc2lvbjogMS4wCkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1V
+VEYtOApDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0Cgo9PT09PT09PT09PT0KVmVyc2lv
+biAwLjI5Cj09PT09PT09PT09PQoKIGRlc2t0b3AtZmlsZS1pbnN0YWxsCiAgLSBBZGQgc3VwcG9y
+dCBmb3IgLS1hZGQta2V5d29yZHMgYW5kIC0tcmVtb3ZlLWtleXdvcmRzIChmZG8jNzgpIChLbGZK
+b2F0KS4KICAtIEFkZCAtLXNldC1leGVjIHNob3J0Y3V0IGZvciBzZXR0aW5nIHRoZSBFeGVjIGtl
+eSAoSmFrb2JEZXYpLgoKIGRlc2t0b3AtZmlsZS12YWxpZGF0ZQogIC0gUmVxdWlyZSBFeGVjIGtl
+eSB3aGVuIERCdXNBY3RpdmF0YWJsZSBpcyB1bnNldCAoQmFsbMOzIEd5w7ZyZ3kpLgogIC0gVmFs
+aWRhdGUgdGhlIEtleXdvcmRzIGtleSAoS2xmSm9hdCkuCiAgLSBBZGQgUGhvc2ggdG8gbGlzdCBv
+ZiB2YWxpZCBPbmx5U2hvd0luPSBlbnZpcm9ubWVudHMgKFNhbSBEYXkpLgogIC0gQWRkIG5ldyBn
+YW1lIGNhdGVnb3JpZXMgKEpha29iRGV2KS4KICAtIEFkZCBIZWFsdGhGaXRuZXNzIGNhdGVnb3J5
+IChKYWtvYkRldikuCgogdXBkYXRlLWRlc2t0b3AtZGF0YWJhc2UKICAtIEltcGxlbWVudCB0aGUg
+aW50ZW50IGNhY2hlIGZyb20gdGhlIGludGVudC1hcHBzIHNwZWMgKFNlYmFzdGlhbiBXaWNrKS4K
+ICAtIENvZGUgY2xlYW51cCBhbmQgbW9kZXJuaXphdGlvbiAoU2ViYXN0aWFuIFdpY2spLgoKIG1p
+c2MKICAtIE1hbnBhZ2UgZml4ZXMgKGZkbyM3NiwgZmRvIzc3KSAoS2xmSm9hdCkuCi0tLQogLi4u
+L3tkZXNrdG9wLWZpbGUtdXRpbHNfMC4yOC5iYiA9PiBkZXNrdG9wLWZpbGUtdXRpbHNfMC4yOS5i
+Yn0gIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy97ZGVza3Rv
+cC1maWxlLXV0aWxzXzAuMjguYmIgPT4gZGVza3RvcC1maWxlLXV0aWxzXzAuMjkuYmJ9ICg4OCUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy9k
+ZXNrdG9wLWZpbGUtdXRpbHNfMC4yOC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kZXNrdG9w
+LWZpbGUtdXRpbHMvZGVza3RvcC1maWxlLXV0aWxzXzAuMjkuYmIKc2ltaWxhcml0eSBpbmRleCA4
+OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy9k
+ZXNrdG9wLWZpbGUtdXRpbHNfMC4yOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2Rlc2t0b3AtZmlsZS11dGlscy9kZXNrdG9wLWZpbGUtdXRpbHNfMC4yOS5iYgppbmRleCAzNTUz
+NzU3MmZlLi44ZTQxMzgzMTlhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVz
+a3RvcC1maWxlLXV0aWxzL2Rlc2t0b3AtZmlsZS11dGlsc18wLjI4LmJiCisrKyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9kZXNrdG9wLWZpbGUtdXRpbHMvZGVza3RvcC1maWxlLXV0aWxzXzAuMjku
+YmIKQEAgLTgsNyArOCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1
+PWIyMzRlZTRkNjlmNWZjZTQ0ODZhODBmZGFmNGE0MjYzIFwKICAgICAgICAgICAgICAgICAgICAg
+ZmlsZTovL3NyYy92YWxpZGF0b3IuYztiZWdpbmxpbmU9NDtlbmRsaW5lPTI3O21kNT0yODFlMTEx
+NGVlNmM0ODZhMWEwYTQyOTU5ODZiOTQxNiIKIAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LmZyZWVk
+ZXNrdG9wLm9yZy9zb2Z0d2FyZS8ke0JQTn0vcmVsZWFzZXMvJHtCUH0udGFyLnh6IgotU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjQ0MDFkNGUyMzFkODQyYzJkZTgyNDIzOTVhNzRhMzk1Y2E0NjhjZDk2
+ZjVmNjEwZDgyMmRmMzM1OTQ4OThhNzAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjYxZjIyNWJl
+NGM2NjdhYmM0OTYyZjA3NTcxN2RiNDI1MmI2M2M4NDQ4MGY2ZDM3YjI2MDUwZDAyOWRhOGZhMCIK
+IAogREVQRU5EUyA9ICJnbGliLTIuMCIKIAotLSAKMi40Ny4xCgo=
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ccache* to *4.14.3* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-ccache-upgrade-4.14.2-4.14.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From a4720dc49f6e9c17ef5684aa8dc1e193c69fdc92 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 9 Nov 2026 05:08:27 +0000
-Subject: [PATCH] ccache: upgrade 4.14.2 -> 4.14.3
-
-== Ccache 4.14.3
-Release date: 2026-11-08
-=== Bug fixes and improvements
-
-- Fixed an abort when standard error is closed. +
-  [small]#_[contributed by GitHub user Skytuhua]_#
-
-- Fixed detection of assembler `.incbin` directives with macro operands,
-  preventing false cache hits. +
-  [small]#_[contributed by Oleg Sidorkin]_#
-
-- Fixed escaping of backslashes in temporary MSVC response files for long
-  command lines, restoring correct behavior of options such as `/d1trimfile`. +
-  [small]#_[contributed by Vaibhav Awale]_#
-
-- Fixed depend mode to fall back to the compiler when a GCC precompiled header
-  cannot be located, preventing false cache hits. +
-  [small]#_[contributed by Don Yin]_#
-
-- Fixed display of diagnostic colors and Unicode text on Windows consoles. +
-  [small]#_[contributed by GitHub user Peter0x44]_#
-
-- Fixed matching of `ignore_headers_in_manifest` entries against header paths
-  starting with `.\` on Windows. +
-  [small]#_[contributed by Chris Burr]_#
-
-- Reduced memory usage and copying when reading local cache entries, hashing
-  binary files and storing compilation results. +
-  [small]#_[contributed by Joel Rosdahl]_#
-
-=== Test improvements
-
-- Made tests skip unsupported `-march=native` and `-gz` configurations when the
-  compiler only emits a warning, and skip Clang profiling tests when the
-  profiling runtime is unavailable. +
-  [small]#_[contributed by Chris Burr]_#
-
-- Fixed ThinLTO index generation with `lld-link` and comparison of debug object
-  files containing CodeView information. +
-  [small]#_[contributed by Chris Burr]_#
-
-- Fixed storage server and helper cleanup to avoid blocking removal of test
-  directories on Windows. +
-  [small]#_[contributed by Joel Rosdahl]_#
-
-- Removed an invalid check for split DWARF debug logs. +
-  [small]#_[contributed by Joel Rosdahl]_#
-
-=== Documentation improvements
-
-- Clarified that configuring remote storage disables `file_clone` and
-  `hard_link` for the local cache as well. +
-  [small]#_[contributed by Joel Rosdahl]_#
----
- .../ccache/{ccache_4.14.2.bb => ccache_4.14.3.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/ccache/{ccache_4.14.2.bb => ccache_4.14.3.bb} (93%)
-
-diff --git a/meta/recipes-devtools/ccache/ccache_4.14.2.bb b/meta/recipes-devtools/ccache/ccache_4.14.3.bb
-similarity index 93%
-rename from meta/recipes-devtools/ccache/ccache_4.14.2.bb
-rename to meta/recipes-devtools/ccache/ccache_4.14.3.bb
-index eae9a33536..b05058b20c 100644
---- a/meta/recipes-devtools/ccache/ccache_4.14.2.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.14.3.bb
-@@ -16,7 +16,7 @@ DEPENDS = "zstd fmt xxhash"
- 
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
- 
--SRC_URI[sha256sum] = "35921f80a93d6453a874525f2e4bd97264c46ddc349d87aacc1032cde4dd2924"
-+SRC_URI[sha256sum] = "d50587abd5b787a7ba48cb1d76f7a4f09036e0181e742fc7383a8b154d73f0ba"
- 
- inherit cmake github-releases
- 
--- 
-2.47.1
-
-
---===============8761904596302467445==
+--===============5617492040898338778==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PV changed from "4.14.2" to "4.14.3"
-packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 42214616 to 42329672 (+0%)
-packages/x86-64-v3-poky-linux/ccache/ccache-dev: PV changed from "4.14.2" to "4.14.3"
-packages/x86-64-v3-poky-linux/ccache/ccache-dev: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-doc: PV changed from "4.14.2" to "4.14.3"
-packages/x86-64-v3-poky-linux/ccache/ccache-doc: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-locale: PV changed from "4.14.2" to "4.14.3"
-packages/x86-64-v3-poky-linux/ccache/ccache-locale: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-src: PV changed from "4.14.2" to "4.14.3"
-packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache-src: FILELIST: directory renamed /usr/src/debug/ccache/4.14.2/src/third_party/blake3/blake3 -> /usr/src/debug/ccache/4.14.3/src/third_party/blake3/blake3, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/util -> /usr/src/debug/ccache/4.14.3/src/ccache/util, directory renamed /usr/src/debug/ccache/4.14.2/src/third_party/cpp-httplib -> /usr/src/debug/ccache/4.14.3/src/third_party/cpp-httplib, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/storage -> /usr/src/debug/ccache/4.14.3/src/ccache/storage, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/compiler -> /usr/src/debug/ccache/4.14.3/src/ccache/compiler, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/storage/remote -> /usr/src/debug/ccache/4.14.3/src/ccache/storage/remote, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/core -> /usr/src/debug/ccache/4.14.3/src/ccache/core, directory renamed /usr/src/debug/ccache/4.14.2/src/third_party/cxxurl
- /cxxurl -> /usr/src/debug/ccache/4.14.3/src/third_party/cxxurl/cxxurl, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache -> /usr/src/debug/ccache/4.14.3/src/ccache, directory renamed /usr/src/debug/ccache/4.14.2/src/third_party/tl-expected/tl -> /usr/src/debug/ccache/4.14.3/src/third_party/tl-expected/tl, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/storage/local -> /usr/src/debug/ccache/4.14.3/src/ccache/storage/local
-packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGSIZE changed from 1880976 to 1897294 (+1%)
-packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PV changed from "4.14.2" to "4.14.3"
-packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache: PV changed from "4.14.2" to "4.14.3"
-packages/x86-64-v3-poky-linux/ccache/ccache: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
-packages/x86-64-v3-poky-linux/ccache/ccache: PKGSIZE changed from 2124328 to 2132520 (+0%)
-packages/x86-64-v3-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.14.2/ccache-4.14.2.tar.gz" to "https://github.com/ccache/ccache/releases//download/v4.14.3/ccache-4.14.3.tar.gz"
-packages/x86-64-v3-poky-linux/ccache: PV changed from "4.14.2" to "4.14.3"
-packages/x86-64-v3-poky-linux/ccache: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dbg: PV changed from "0.28" to "0.29"
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dbg: PKGSIZE changed from 328040 to 369960 (+13%)
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dbg: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dev: PV changed from "0.28" to "0.29"
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dev: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-doc: PV changed from "0.28" to "0.29"
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-doc: PKGSIZE changed from 17856 to 18758 (+5%)
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-doc: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-locale: PV changed from "0.28" to "0.29"
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-locale: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-src: PV changed from "0.28" to "0.29"
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-src: PKGSIZE changed from 182436 to 197446 (+8%)
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-src: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-src: FILELIST: directory renamed /usr/src/debug/desktop-file-utils/0.28/src -> /usr/src/debug/desktop-file-utils/0.29/src
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-staticdev: PV changed from "0.28" to "0.29"
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-staticdev: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils: PV changed from "0.28" to "0.29"
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils: PKGSIZE changed from 207764 to 215956 (+4%)
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils: SRC_URI changed from "http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.28.tar.xz" to "http://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.29.tar.xz"
+packages/x86-64-v3-poky-linux/desktop-file-utils: PKGV changed from 0.28 [default] to 0.29 [default]
+packages/x86-64-v3-poky-linux/desktop-file-utils: PV changed from "0.28" to "0.29"
 
---===============8761904596302467445==
+--===============5617492040898338778==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/desktop-file-utils/desktop-file-utils-dbg: PKGSIZE changed from 328040 to 369960 (+13%)
+
+--===============5617492040898338778==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ccache-upgrade-4.14.2-4.14.3.patch"
+ filename="0001-desktop-file-utils-upgrade-0.28-0.29.patch"
 
-RnJvbSBhNDcyMGRjNDlmNmU5YzE3ZWY1Njg0YWE4ZGMxZTE5M2M2OWZkYzkyIE1vbiBTZXAgMTcg
+RnJvbSBkNzM2ZTk1MTUzNzE5ZTA4ZTEzZWU4ZjgyMmRmNGMwZWViNDc2NGE1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgOSBOb3YgMjAyNiAwNTowODoyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNj
-YWNoZTogdXBncmFkZSA0LjE0LjIgLT4gNC4xNC4zCgo9PSBDY2FjaGUgNC4xNC4zClJlbGVhc2Ug
-ZGF0ZTogMjAyNi0xMS0wOAo9PT0gQnVnIGZpeGVzIGFuZCBpbXByb3ZlbWVudHMKCi0gRml4ZWQg
-YW4gYWJvcnQgd2hlbiBzdGFuZGFyZCBlcnJvciBpcyBjbG9zZWQuICsKICBbc21hbGxdI19bY29u
-dHJpYnV0ZWQgYnkgR2l0SHViIHVzZXIgU2t5dHVodWFdXyMKCi0gRml4ZWQgZGV0ZWN0aW9uIG9m
-IGFzc2VtYmxlciBgLmluY2JpbmAgZGlyZWN0aXZlcyB3aXRoIG1hY3JvIG9wZXJhbmRzLAogIHBy
-ZXZlbnRpbmcgZmFsc2UgY2FjaGUgaGl0cy4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBP
-bGVnIFNpZG9ya2luXV8jCgotIEZpeGVkIGVzY2FwaW5nIG9mIGJhY2tzbGFzaGVzIGluIHRlbXBv
-cmFyeSBNU1ZDIHJlc3BvbnNlIGZpbGVzIGZvciBsb25nCiAgY29tbWFuZCBsaW5lcywgcmVzdG9y
-aW5nIGNvcnJlY3QgYmVoYXZpb3Igb2Ygb3B0aW9ucyBzdWNoIGFzIGAvZDF0cmltZmlsZWAuICsK
-ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgVmFpYmhhdiBBd2FsZV1fIwoKLSBGaXhlZCBkZXBl
-bmQgbW9kZSB0byBmYWxsIGJhY2sgdG8gdGhlIGNvbXBpbGVyIHdoZW4gYSBHQ0MgcHJlY29tcGls
-ZWQgaGVhZGVyCiAgY2Fubm90IGJlIGxvY2F0ZWQsIHByZXZlbnRpbmcgZmFsc2UgY2FjaGUgaGl0
-cy4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBEb24gWWluXV8jCgotIEZpeGVkIGRpc3Bs
-YXkgb2YgZGlhZ25vc3RpYyBjb2xvcnMgYW5kIFVuaWNvZGUgdGV4dCBvbiBXaW5kb3dzIGNvbnNv
-bGVzLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEdpdEh1YiB1c2VyIFBldGVyMHg0NF1f
-IwoKLSBGaXhlZCBtYXRjaGluZyBvZiBgaWdub3JlX2hlYWRlcnNfaW5fbWFuaWZlc3RgIGVudHJp
-ZXMgYWdhaW5zdCBoZWFkZXIgcGF0aHMKICBzdGFydGluZyB3aXRoIGAuXGAgb24gV2luZG93cy4g
-KwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBDaHJpcyBCdXJyXV8jCgotIFJlZHVjZWQgbWVt
-b3J5IHVzYWdlIGFuZCBjb3B5aW5nIHdoZW4gcmVhZGluZyBsb2NhbCBjYWNoZSBlbnRyaWVzLCBo
-YXNoaW5nCiAgYmluYXJ5IGZpbGVzIGFuZCBzdG9yaW5nIGNvbXBpbGF0aW9uIHJlc3VsdHMuICsK
-ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgo9PT0gVGVzdCBpbXBy
-b3ZlbWVudHMKCi0gTWFkZSB0ZXN0cyBza2lwIHVuc3VwcG9ydGVkIGAtbWFyY2g9bmF0aXZlYCBh
-bmQgYC1nemAgY29uZmlndXJhdGlvbnMgd2hlbiB0aGUKICBjb21waWxlciBvbmx5IGVtaXRzIGEg
-d2FybmluZywgYW5kIHNraXAgQ2xhbmcgcHJvZmlsaW5nIHRlc3RzIHdoZW4gdGhlCiAgcHJvZmls
-aW5nIHJ1bnRpbWUgaXMgdW5hdmFpbGFibGUuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkg
-Q2hyaXMgQnVycl1fIwoKLSBGaXhlZCBUaGluTFRPIGluZGV4IGdlbmVyYXRpb24gd2l0aCBgbGxk
-LWxpbmtgIGFuZCBjb21wYXJpc29uIG9mIGRlYnVnIG9iamVjdAogIGZpbGVzIGNvbnRhaW5pbmcg
-Q29kZVZpZXcgaW5mb3JtYXRpb24uICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgQ2hyaXMg
-QnVycl1fIwoKLSBGaXhlZCBzdG9yYWdlIHNlcnZlciBhbmQgaGVscGVyIGNsZWFudXAgdG8gYXZv
-aWQgYmxvY2tpbmcgcmVtb3ZhbCBvZiB0ZXN0CiAgZGlyZWN0b3JpZXMgb24gV2luZG93cy4gKwog
-IFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCi0gUmVtb3ZlZCBhbiBp
-bnZhbGlkIGNoZWNrIGZvciBzcGxpdCBEV0FSRiBkZWJ1ZyBsb2dzLiArCiAgW3NtYWxsXSNfW2Nv
-bnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKPT09IERvY3VtZW50YXRpb24gaW1wcm92ZW1l
-bnRzCgotIENsYXJpZmllZCB0aGF0IGNvbmZpZ3VyaW5nIHJlbW90ZSBzdG9yYWdlIGRpc2FibGVz
-IGBmaWxlX2Nsb25lYCBhbmQKICBgaGFyZF9saW5rYCBmb3IgdGhlIGxvY2FsIGNhY2hlIGFzIHdl
-bGwuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCi0tLQogLi4u
-L2NjYWNoZS97Y2NhY2hlXzQuMTQuMi5iYiA9PiBjY2FjaGVfNC4xNC4zLmJifSAgICAgICAgICAg
-ICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS97Y2NhY2hlXzQuMTQuMi5iYiA9
-PiBjY2FjaGVfNC4xNC4zLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2Fj
-aGUvY2NhY2hlXzQuMTQuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjE0LjIuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMy5iYgppbmRleCBlYWU5YTMzNTM2
-Li5iMDUwNThiMjBjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2Nj
-YWNoZV80LjE0LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVf
-NC4xNC4zLmJiCkBAIC0xNiw3ICsxNiw3IEBAIERFUEVORFMgPSAienN0ZCBmbXQgeHhoYXNoIgog
-CiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vJHtCUH0udGFy
-Lmd6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzU5MjFmODBhOTNkNjQ1M2E4NzQ1MjVmMmU0
-YmQ5NzI2NGM0NmRkYzM0OWQ4N2FhY2MxMDMyY2RlNGRkMjkyNCIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICJkNTA1ODdhYmQ1Yjc4N2E3YmE0OGNiMWQ3NmY3YTRmMDkwMzZlMDE4MWU3NDJmYzczODNh
-OGIxNTRkNzNmMGJhIgogCiBpbmhlcml0IGNtYWtlIGdpdGh1Yi1yZWxlYXNlcwogCi0tIAoyLjQ3
-LjEKCg==
+CkRhdGU6IE1vbiwgOSBOb3YgMjAyNiAwNToxMTo0MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRl
+c2t0b3AtZmlsZS11dGlsczogdXBncmFkZSAwLjI4IC0+IDAuMjkKTUlNRS1WZXJzaW9uOiAxLjAK
+Q29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXIt
+RW5jb2Rpbmc6IDhiaXQKCj09PT09PT09PT09PQpWZXJzaW9uIDAuMjkKPT09PT09PT09PT09Cgog
+ZGVza3RvcC1maWxlLWluc3RhbGwKICAtIEFkZCBzdXBwb3J0IGZvciAtLWFkZC1rZXl3b3JkcyBh
+bmQgLS1yZW1vdmUta2V5d29yZHMgKGZkbyM3OCkgKEtsZkpvYXQpLgogIC0gQWRkIC0tc2V0LWV4
+ZWMgc2hvcnRjdXQgZm9yIHNldHRpbmcgdGhlIEV4ZWMga2V5IChKYWtvYkRldikuCgogZGVza3Rv
+cC1maWxlLXZhbGlkYXRlCiAgLSBSZXF1aXJlIEV4ZWMga2V5IHdoZW4gREJ1c0FjdGl2YXRhYmxl
+IGlzIHVuc2V0IChCYWxsw7MgR3nDtnJneSkuCiAgLSBWYWxpZGF0ZSB0aGUgS2V5d29yZHMga2V5
+IChLbGZKb2F0KS4KICAtIEFkZCBQaG9zaCB0byBsaXN0IG9mIHZhbGlkIE9ubHlTaG93SW49IGVu
+dmlyb25tZW50cyAoU2FtIERheSkuCiAgLSBBZGQgbmV3IGdhbWUgY2F0ZWdvcmllcyAoSmFrb2JE
+ZXYpLgogIC0gQWRkIEhlYWx0aEZpdG5lc3MgY2F0ZWdvcnkgKEpha29iRGV2KS4KCiB1cGRhdGUt
+ZGVza3RvcC1kYXRhYmFzZQogIC0gSW1wbGVtZW50IHRoZSBpbnRlbnQgY2FjaGUgZnJvbSB0aGUg
+aW50ZW50LWFwcHMgc3BlYyAoU2ViYXN0aWFuIFdpY2spLgogIC0gQ29kZSBjbGVhbnVwIGFuZCBt
+b2Rlcm5pemF0aW9uIChTZWJhc3RpYW4gV2ljaykuCgogbWlzYwogIC0gTWFucGFnZSBmaXhlcyAo
+ZmRvIzc2LCBmZG8jNzcpIChLbGZKb2F0KS4KLS0tCiAuLi4ve2Rlc2t0b3AtZmlsZS11dGlsc18w
+LjI4LmJiID0+IGRlc2t0b3AtZmlsZS11dGlsc18wLjI5LmJifSAgfCAyICstCiAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL3tkZXNrdG9wLWZpbGUtdXRpbHNfMC4yOC5iYiA9
+PiBkZXNrdG9wLWZpbGUtdXRpbHNfMC4yOS5iYn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rlc2t0b3AtZmlsZS11dGlsc18wLjI4
+LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy9kZXNrdG9wLWZp
+bGUtdXRpbHNfMC4yOS5iYgpzaW1pbGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rlc2t0b3AtZmlsZS11dGlsc18wLjI4
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rl
+c2t0b3AtZmlsZS11dGlsc18wLjI5LmJiCmluZGV4IDM1NTM3NTcyZmUuLjhlNDEzODMxOWEgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kZXNrdG9wLWZpbGUtdXRpbHMvZGVza3Rv
+cC1maWxlLXV0aWxzXzAuMjguYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3At
+ZmlsZS11dGlscy9kZXNrdG9wLWZpbGUtdXRpbHNfMC4yOS5iYgpAQCAtOCw3ICs4LDcgQEAgTElD
+X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4
+MGZkYWY0YTQyNjMgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vc3JjL3ZhbGlkYXRvci5j
+O2JlZ2lubGluZT00O2VuZGxpbmU9Mjc7bWQ1PTI4MWUxMTE0ZWU2YzQ4NmExYTBhNDI5NTk4NmI5
+NDE2IgogCiBTUkNfVVJJID0gImh0dHA6Ly93d3cuZnJlZWRlc2t0b3Aub3JnL3NvZnR3YXJlLyR7
+QlBOfS9yZWxlYXNlcy8ke0JQfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDQwMWQ0
+ZTIzMWQ4NDJjMmRlODI0MjM5NWE3NGEzOTVjYTQ2OGNkOTZmNWY2MTBkODIyZGYzMzU5NDg5OGE3
+MCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2NjFmMjI1YmU0YzY2N2FiYzQ5NjJmMDc1NzE3ZGI0
+MjUyYjYzYzg0NDgwZjZkMzdiMjYwNTBkMDI5ZGE4ZmEwIgogCiBERVBFTkRTID0gImdsaWItMi4w
+IgogCi0tIAoyLjQ3LjEKCg==
 
---===============8761904596302467445==
-Content-Type: text/plain; charset="us-ascii"
+--===============5617492040898338778==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="ccache-changelog.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="desktop-file-utils-changelog.txt"
 
-== Ccache 4.14.3
-Release date: 2026-11-08
-=== Bug fixes and improvements
+PT09PT09PT09PT09ClZlcnNpb24gMC4yOQo9PT09PT09PT09PT0KCiBkZXNrdG9wLWZpbGUtaW5z
+dGFsbAogIC0gQWRkIHN1cHBvcnQgZm9yIC0tYWRkLWtleXdvcmRzIGFuZCAtLXJlbW92ZS1rZXl3
+b3JkcyAoZmRvIzc4KSAoS2xmSm9hdCkuCiAgLSBBZGQgLS1zZXQtZXhlYyBzaG9ydGN1dCBmb3Ig
+c2V0dGluZyB0aGUgRXhlYyBrZXkgKEpha29iRGV2KS4KCiBkZXNrdG9wLWZpbGUtdmFsaWRhdGUK
+ICAtIFJlcXVpcmUgRXhlYyBrZXkgd2hlbiBEQnVzQWN0aXZhdGFibGUgaXMgdW5zZXQgKEJhbGzD
+syBHecO2cmd5KS4KICAtIFZhbGlkYXRlIHRoZSBLZXl3b3JkcyBrZXkgKEtsZkpvYXQpLgogIC0g
+QWRkIFBob3NoIHRvIGxpc3Qgb2YgdmFsaWQgT25seVNob3dJbj0gZW52aXJvbm1lbnRzIChTYW0g
+RGF5KS4KICAtIEFkZCBuZXcgZ2FtZSBjYXRlZ29yaWVzIChKYWtvYkRldikuCiAgLSBBZGQgSGVh
+bHRoRml0bmVzcyBjYXRlZ29yeSAoSmFrb2JEZXYpLgoKIHVwZGF0ZS1kZXNrdG9wLWRhdGFiYXNl
+CiAgLSBJbXBsZW1lbnQgdGhlIGludGVudCBjYWNoZSBmcm9tIHRoZSBpbnRlbnQtYXBwcyBzcGVj
+IChTZWJhc3RpYW4gV2ljaykuCiAgLSBDb2RlIGNsZWFudXAgYW5kIG1vZGVybml6YXRpb24gKFNl
+YmFzdGlhbiBXaWNrKS4KCiBtaXNjCiAgLSBNYW5wYWdlIGZpeGVzIChmZG8jNzYsIGZkbyM3Nykg
+KEtsZkpvYXQpLgo=
 
-- Fixed an abort when standard error is closed. +
-  [small]#_[contributed by GitHub user Skytuhua]_#
-
-- Fixed detection of assembler `.incbin` directives with macro operands,
-  preventing false cache hits. +
-  [small]#_[contributed by Oleg Sidorkin]_#
-
-- Fixed escaping of backslashes in temporary MSVC response files for long
-  command lines, restoring correct behavior of options such as `/d1trimfile`. +
-  [small]#_[contributed by Vaibhav Awale]_#
-
-- Fixed depend mode to fall back to the compiler when a GCC precompiled header
-  cannot be located, preventing false cache hits. +
-  [small]#_[contributed by Don Yin]_#
-
-- Fixed display of diagnostic colors and Unicode text on Windows consoles. +
-  [small]#_[contributed by GitHub user Peter0x44]_#
-
-- Fixed matching of `ignore_headers_in_manifest` entries against header paths
-  starting with `.\` on Windows. +
-  [small]#_[contributed by Chris Burr]_#
-
-- Reduced memory usage and copying when reading local cache entries, hashing
-  binary files and storing compilation results. +
-  [small]#_[contributed by Joel Rosdahl]_#
-
-=== Test improvements
-
-- Made tests skip unsupported `-march=native` and `-gz` configurations when the
-  compiler only emits a warning, and skip Clang profiling tests when the
-  profiling runtime is unavailable. +
-  [small]#_[contributed by Chris Burr]_#
-
-- Fixed ThinLTO index generation with `lld-link` and comparison of debug object
-  files containing CodeView information. +
-  [small]#_[contributed by Chris Burr]_#
-
-- Fixed storage server and helper cleanup to avoid blocking removal of test
-  directories on Windows. +
-  [small]#_[contributed by Joel Rosdahl]_#
-
-- Removed an invalid check for split DWARF debug logs. +
-  [small]#_[contributed by Joel Rosdahl]_#
-
-=== Documentation improvements
-
-- Clarified that configuring remote storage disables `file_clone` and
-  `hard_link` for the local cache as well. +
-  [small]#_[contributed by Joel Rosdahl]_#
-
---===============8761904596302467445==--
+--===============5617492040898338778==--
