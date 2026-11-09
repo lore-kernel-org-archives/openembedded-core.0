@@ -1,257 +1,303 @@
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10936.1794198361342267298
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.285.1794201493129191347
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2026 20:26:01 -0800
+ Sun, 08 Nov 2026 21:18:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PXsJ9gm6;
- spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: asparmar@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=7234; q=dns/txt;
-  s=iport01; t=1794198361; x=1795407961;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZiM8kuisdnhufb/cf/M+kJjzCiYELSjVCyb/RsFh2h8=;
-  b=PXsJ9gm6vOEE07UtwkChaXE7KdmdJTDdGwBQjvByQvdFspb7M1QqJ2pW
-   FN0qXZo/oN+p3+9ThmSNmzIUEZtTmIGcJlGl8zKA963FP9Vj8nZUNXmXw
-   vWEW9B5YOgqadD5F6jn97e7CzSJlV0JYu7ZbNq5UlFVXWM4RvpGvNHUUk
-   e3AIrKqj8R6ovX+K0HB0wHhZwYlxbPJU3bq2eVPUvTktDOX+9Q31RGX7C
-   rmMTuvkgK0o9WO0IKMyziA/rRFKWPrKIuA7fOsUkPrMRldnT6pjJLSRmm
-   8j84jL9edoETdKymHCihT4UKNqyI//mV9ro4jTOjPDO+hVqfJKRiwqBHR
-   A==;
-X-CSE-ConnectionGUID: D/n0tphiS92aIPLcckFxFQ==
-X-CSE-MsgGUID: Oz+QQ5z1Ty6UL1E90goveQ==
-X-IPAS-Result: =?us-ascii?q?A0BIAgDlSfFq/5L/Ja1aglmCV3VhQkmWS4EWilKSPIF+D?=
- =?us-ascii?q?wEBAQ9EDQQBAYUFjh8CJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECA?=
- =?us-ascii?q?QcFgQ4Thk8NkBIBAgEqCwFGLAMBAk8LIyGDAgGCOgM3AgERuhGBeTOBAYNbA?=
- =?us-ascii?q?4Eg2EwNgloBBQYUAQWBM4VCgwCFJF0YAYR9JxsbgXKBFYJzdoEFgRpCAoFKh?=
- =?us-ascii?q?lwEgiKBDIFaHox6AoFRhntIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIz4Xg?=
- =?us-ascii?q?QcbBgWBHYEegRKBB12BKyhdASGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIE?=
- =?us-ascii?q?gkBExosCoEaNTwJJj8VDGQLGgVhCAINDHQ5EDAeJC8FHCY+Gwo2GA1IESw3F?=
- =?us-ascii?q?RkEPm4HkkKDEgEsYQErInY4NCiTNQMRki2gIHEKKIN4jCSPPoV8GjOEBJQZk?=
- =?us-ascii?q?lQLmH2OCoQKkkeEaYFoPIFZcBWDIlMZD44tAQsLg2DKMCM1AgkyAQEHAgcOA?=
- =?us-ascii?q?wuBaJABASYHb2ABAQ?=
-IronPort-Data: A9a23:F2rCUaB1xiEn6xVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApDwi1TcFn
- 2YeXT+DbPuNa2X2KY92Ptjl8R4E6MTSz9FnOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCCCM/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
- fuo+5eBYQb9imYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE77JoVF0uPYwjq7x+IFlq/
- vcbBiAjV0XW7w626OrTpuhEnM8vKozveYgYoHwllWCfBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGYxBPjDS0Un1lM/AYkmlf2tj2PXeDxDo1XTrq0yi4TW5FEtjea3YYCFJbRmQ+1yjAWhn
- z/UpljoXCw+bfHOkTWC7H+V07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/KFpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOT9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:MQAoha3mRD/+EpDJ8yFxaAqjBJ4kLtp133Aq2lEZdPWaSKOlfq
- eV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKhTbaknDH5ZmpM
- RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
-X-Talos-CUID: 9a23:Rr7zhGDwdZhQdmn6EwUg8hYIAsAkSSyHxVboB0SzCkh5ZoTAHA==
-X-Talos-MUID: 9a23:V9mnIgZy53ZwzeBTkC2vvQg/Jp5U8vqTLBkgwM0JvNeJDHkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,203,1787011200"; 
-   d="scan'208";a="545629287"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Nov 2026 04:26:00 +0000
-Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id 18E001800023E;
-	Mon,  9 Nov 2026 04:26:00 +0000 (GMT)
-Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id B19E1CC1634; Sun,  8 Nov 2026 20:25:59 -0800 (PST)
-From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Ashishkumar Parmar <asparmar@cisco.com>
-Subject: [OE-Core][wrynose][PATCH] bluez5: fix CVE-2026-19774
-Date: Sun,  8 Nov 2026 20:25:55 -0800
-Message-Id: <20261109042555.1097654-1-asparmar@cisco.com>
-X-Mailer: git-send-email 2.35.6
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=p86tju3w;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=26PYG31D;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a1bebe1a8f-265cfe5f-06b6-4cc3-bfc5-10eb1d226d12-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1794201492;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=G+x4v4Ddmj2Fh8beNe4Je6HBP7u1dLM7lvsyCHGe07g=;
+	b=p86tju3wBo9kV+UxbUKTQ9M+K/FSw5IN67E6SB02FejZFXmBR2HDWk3jDlVw243R
+	gZLm/bNUKOe2eqEs+2bVveFLqzZhC7bACY/RXIkmZwwuL5O0wj+dT7gL5siOg3nAhA3
+	WyI1v5BM4OvmuIv6IxN0A/aqXX3brHhKr6w+0UO0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794201492;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=G+x4v4Ddmj2Fh8beNe4Je6HBP7u1dLM7lvsyCHGe07g=;
+	b=26PYG31De1QpQgXBlR/ZS5YOWeqSLAdkgVSJkU/IE8kIDdPJhjYctWHpxmyYkrTo
+	Aea3oQaDcYLttvwkh/G0eUNlnlF2+fU29cMm/lQ42jOYfp0b8E8vxS1S5xn+z5Xk1Pf
+	tN86Vd4YC5FfARA6fd8/eFZTHWvXFqn0VlrCwrco=
+Content-Type: multipart/mixed; boundary="===============8761904596302467445=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+From: auh@yoctoproject.org
+To: Sumanth Gavini <sumanth.gavini@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] ccache: upgrading to 4.14.3 SUCCEEDED
+Message-ID: <010101a1bebe1a8f-265cfe5f-06b6-4cc3-bfc5-10eb1d226d12-000000@us-west-2.amazonses.com>
+Date: Mon, 9 Nov 2026 05:18:12 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.09-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 04:26:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249784
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 05:18:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249785
 
-From: Ashishkumar Parmar <asparmar@cisco.com>
+--===============8761904596302467445==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-This patch applies the upstream BlueZ codec capability storage fix [1]
-and its required cache-loading correction [3] to version 5.86. The
-public security advisory is referenced in [2]. Both upstream code
-changes are preserved without adaptation.
+Hello,
 
-Bound serialization and cache parsing while retaining normal endpoint
-restoration and checking the decoded capability buffer length.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *ccache* to *4.14.3* has Succeeded.
 
-[1] https://github.com/bluez/bluez/commit/912f5efb0dd9bb08e408d33371a57182c5678aef
-[2] https://www.zerodayinitiative.com/advisories/ZDI-26-589/
-[3] https://github.com/bluez/bluez/commit/b7d71e5067856b0daf2f1f73b3fc95483236610e
+Next steps:
+    - apply the patch: git am 0001-ccache-upgrade-4.14.2-4.14.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From a4720dc49f6e9c17ef5684aa8dc1e193c69fdc92 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 9 Nov 2026 05:08:27 +0000
+Subject: [PATCH] ccache: upgrade 4.14.2 -> 4.14.3
+
+== Ccache 4.14.3
+Release date: 2026-11-08
+=== Bug fixes and improvements
+
+- Fixed an abort when standard error is closed. +
+  [small]#_[contributed by GitHub user Skytuhua]_#
+
+- Fixed detection of assembler `.incbin` directives with macro operands,
+  preventing false cache hits. +
+  [small]#_[contributed by Oleg Sidorkin]_#
+
+- Fixed escaping of backslashes in temporary MSVC response files for long
+  command lines, restoring correct behavior of options such as `/d1trimfile`. +
+  [small]#_[contributed by Vaibhav Awale]_#
+
+- Fixed depend mode to fall back to the compiler when a GCC precompiled header
+  cannot be located, preventing false cache hits. +
+  [small]#_[contributed by Don Yin]_#
+
+- Fixed display of diagnostic colors and Unicode text on Windows consoles. +
+  [small]#_[contributed by GitHub user Peter0x44]_#
+
+- Fixed matching of `ignore_headers_in_manifest` entries against header paths
+  starting with `.\` on Windows. +
+  [small]#_[contributed by Chris Burr]_#
+
+- Reduced memory usage and copying when reading local cache entries, hashing
+  binary files and storing compilation results. +
+  [small]#_[contributed by Joel Rosdahl]_#
+
+=== Test improvements
+
+- Made tests skip unsupported `-march=native` and `-gz` configurations when the
+  compiler only emits a warning, and skip Clang profiling tests when the
+  profiling runtime is unavailable. +
+  [small]#_[contributed by Chris Burr]_#
+
+- Fixed ThinLTO index generation with `lld-link` and comparison of debug object
+  files containing CodeView information. +
+  [small]#_[contributed by Chris Burr]_#
+
+- Fixed storage server and helper cleanup to avoid blocking removal of test
+  directories on Windows. +
+  [small]#_[contributed by Joel Rosdahl]_#
+
+- Removed an invalid check for split DWARF debug logs. +
+  [small]#_[contributed by Joel Rosdahl]_#
+
+=== Documentation improvements
+
+- Clarified that configuring remote storage disables `file_clone` and
+  `hard_link` for the local cache as well. +
+  [small]#_[contributed by Joel Rosdahl]_#
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  2 +
- .../bluez5/bluez5/CVE-2026-19774_p1.patch     | 63 +++++++++++++++++++
- .../bluez5/bluez5/CVE-2026-19774_p2.patch     | 62 ++++++++++++++++++
- 3 files changed, 127 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
+ .../ccache/{ccache_4.14.2.bb => ccache_4.14.3.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/ccache/{ccache_4.14.2.bb => ccache_4.14.3.bb} (93%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index d857c23a57..a748d40768 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -76,6 +76,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
-            file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
-            file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
-+           file://CVE-2026-19774_p1.patch \
-+           file://CVE-2026-19774_p2.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-devtools/ccache/ccache_4.14.2.bb b/meta/recipes-devtools/ccache/ccache_4.14.3.bb
+similarity index 93%
+rename from meta/recipes-devtools/ccache/ccache_4.14.2.bb
+rename to meta/recipes-devtools/ccache/ccache_4.14.3.bb
+index eae9a33536..b05058b20c 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.14.2.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.14.3.bb
+@@ -16,7 +16,7 @@ DEPENDS = "zstd fmt xxhash"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
-new file mode 100644
-index 0000000000..5a7d42b522
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
-@@ -0,0 +1,63 @@
-+From d4b922a688f5cd50f31afd663835ff05f294a85b Mon Sep 17 00:00:00 2001
-+From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-+Date: Mon, 15 Jun 2026 09:44:11 -0400
-+Subject: [PATCH] a2dp: Fix handling of codec capability storage
-+
-+Codec capability is one byte long (max 255) the storage format is
-+02hhx which means each byte ends up as 2 characters so the buffer
-+needs to be doubled in order to handle capabilities of that size.
-+
-+CVE: CVE-2026-19774
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/912f5efb0dd9bb08e408d33371a57182c5678aef]
-+
-+Reported-by:  p0her (_@p0her_) in TeamH4C working with TrendAI Zero Day Initiative
-+Reported-by: Michael Bommarito <michael.bommarito@gmail.com>
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ profiles/audio/a2dp.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/profiles/audio/a2dp.c b/profiles/audio/a2dp.c
-+index 7a37003a2..aec54728e 100644
-+--- a/profiles/audio/a2dp.c
-++++ b/profiles/audio/a2dp.c
-+@@ -971,7 +971,7 @@ static void store_remote_sep(void *data, void *user_data)
-+ {
-+ 	struct a2dp_remote_sep *sep = data;
-+ 	GKeyFile *key_file = user_data;
-+-	char seid[4], value[256];
-++	char seid[4], value[9 + 512];
-+ 	struct avdtp_service_capability *service = avdtp_get_codec(sep->sep);
-+ 	struct avdtp_media_codec_capability *codec;
-+ 	unsigned int i;
-+@@ -2373,7 +2373,7 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
-+ 		uint8_t codec;
-+ 		uint8_t delay_reporting;
-+ 		GSList *l = NULL;
-+-		char caps[256];
-++		char caps[513];
-+ 		uint8_t data[128];
-+ 		int i, size;
-+ 
-+@@ -2386,10 +2386,10 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
-+ 			continue;
-+ 
-+ 		/* Try loading with delay_reporting first */
-+-		if (sscanf(value, "%02hhx:%02hhx:%02hhx:%s", &type, &codec,
-++		if (sscanf(value, "%02hhx:%02hhx:%02hhx:%512s", &type, &codec,
-+ 					&delay_reporting, caps) != 4) {
-+ 			/* Try old format */
-+-			if (sscanf(value, "%02hhx:%02hhx:%s", &type, &codec,
-++			if (sscanf(value, "%02hhx:%02hhx:%512s", &type, &codec,
-+ 								caps) != 3) {
-+ 				warn("Unable to load Endpoint: seid %u", rseid);
-+ 				g_free(value);
-+@@ -2398,7 +2398,7 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
-+ 			delay_reporting = false;
-+ 		}
-+ 
-+-		for (i = 0, size = strlen(caps); i < size; i += 2) {
-++		for (i = 0, size = strlen(caps); i < size && i >= 2; i += 2) {
-+ 			uint8_t *tmp = data + i / 2;
-+ 
-+ 			if (sscanf(caps + i, "%02hhx", tmp) != 1) {
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
-new file mode 100644
-index 0000000000..88dcd66c3e
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
-@@ -0,0 +1,62 @@
-+From 1bbcccb35c946e079074e64c217c81089442a568 Mon Sep 17 00:00:00 2001
-+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-+Date: Fri, 10 Jul 2026 12:28:17 +0500
-+Subject: [PATCH] a2dp: Fix loading of remote SEP from cache
-+
-+Commit 912f5efb0dd9 ("a2dp: Fix handling of codec capability storage")
-+added an 'i >= 2' condition to the loop that parses the stored codec
-+capabilities. Since i starts at 0 the loop body never runs, i stays 0,
-+and the subsequent 'if (i != size)' check discards every endpoint found
-+in the cache:
-+
-+  load_remote_sep() Unable to load LastUsed: rseid 6 not found
-+
-+With no remote SEP loaded, avdtp_discover() can no longer take the
-+cached path and issues AVDTP Discover/Get All Capabilities on every
-+reconnect, and a2dp_setup_remote_path() returns NULL so the transport
-+ends up at /org/bluez/hciX/dev_YY/fd0 instead of .../sepN/fd0.
-+
-+The condition was presumably meant to bound the writes into data[128],
-+which the original commit did not actually fix: caps is read with
-+'%512s' so size / 2 can be up to 256. Validate size up front instead.
-+
-+CVE: CVE-2026-19774
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/b7d71e5067856b0daf2f1f73b3fc95483236610e]
-+
-+Fixes: https://github.com/bluez/bluez/issues/2285
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ profiles/audio/a2dp.c | 13 ++++++++++---
-+ 1 file changed, 10 insertions(+), 3 deletions(-)
-+
-+diff --git a/profiles/audio/a2dp.c b/profiles/audio/a2dp.c
-+index aec54728e..93cf11fe1 100644
-+--- a/profiles/audio/a2dp.c
-++++ b/profiles/audio/a2dp.c
-+@@ -2398,7 +2398,16 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
-+ 			delay_reporting = false;
-+ 		}
-+ 
-+-		for (i = 0, size = strlen(caps); i < size && i >= 2; i += 2) {
-++		size = strlen(caps);
-++
-++		g_free(value);
-++
-++		if (size % 2 || size / 2 > (int) sizeof(data)) {
-++			warn("Unable to load Endpoint: seid %u", rseid);
-++			continue;
-++		}
-++
-++		for (i = 0; i < size; i += 2) {
-+ 			uint8_t *tmp = data + i / 2;
-+ 
-+ 			if (sscanf(caps + i, "%02hhx", tmp) != 1) {
-+@@ -2407,8 +2416,6 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
-+ 			}
-+ 		}
-+ 
-+-		g_free(value);
-+-
-+ 		if (i != size)
-+ 			continue;
-+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "35921f80a93d6453a874525f2e4bd97264c46ddc349d87aacc1032cde4dd2924"
++SRC_URI[sha256sum] = "d50587abd5b787a7ba48cb1d76f7a4f09036e0181e742fc7383a8b154d73f0ba"
+ 
+ inherit cmake github-releases
+ 
 -- 
-2.35.6
+2.47.1
 
+
+--===============8761904596302467445==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PV changed from "4.14.2" to "4.14.3"
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 42214616 to 42329672 (+0%)
+packages/x86-64-v3-poky-linux/ccache/ccache-dev: PV changed from "4.14.2" to "4.14.3"
+packages/x86-64-v3-poky-linux/ccache/ccache-dev: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-doc: PV changed from "4.14.2" to "4.14.3"
+packages/x86-64-v3-poky-linux/ccache/ccache-doc: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-locale: PV changed from "4.14.2" to "4.14.3"
+packages/x86-64-v3-poky-linux/ccache/ccache-locale: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PV changed from "4.14.2" to "4.14.3"
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache-src: FILELIST: directory renamed /usr/src/debug/ccache/4.14.2/src/third_party/blake3/blake3 -> /usr/src/debug/ccache/4.14.3/src/third_party/blake3/blake3, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/util -> /usr/src/debug/ccache/4.14.3/src/ccache/util, directory renamed /usr/src/debug/ccache/4.14.2/src/third_party/cpp-httplib -> /usr/src/debug/ccache/4.14.3/src/third_party/cpp-httplib, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/storage -> /usr/src/debug/ccache/4.14.3/src/ccache/storage, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/compiler -> /usr/src/debug/ccache/4.14.3/src/ccache/compiler, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/storage/remote -> /usr/src/debug/ccache/4.14.3/src/ccache/storage/remote, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/core -> /usr/src/debug/ccache/4.14.3/src/ccache/core, directory renamed /usr/src/debug/ccache/4.14.2/src/third_party/cxxurl
+ /cxxurl -> /usr/src/debug/ccache/4.14.3/src/third_party/cxxurl/cxxurl, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache -> /usr/src/debug/ccache/4.14.3/src/ccache, directory renamed /usr/src/debug/ccache/4.14.2/src/third_party/tl-expected/tl -> /usr/src/debug/ccache/4.14.3/src/third_party/tl-expected/tl, directory renamed /usr/src/debug/ccache/4.14.2/src/ccache/storage/local -> /usr/src/debug/ccache/4.14.3/src/ccache/storage/local
+packages/x86-64-v3-poky-linux/ccache/ccache-src: PKGSIZE changed from 1880976 to 1897294 (+1%)
+packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PV changed from "4.14.2" to "4.14.3"
+packages/x86-64-v3-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache: PV changed from "4.14.2" to "4.14.3"
+packages/x86-64-v3-poky-linux/ccache/ccache: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+packages/x86-64-v3-poky-linux/ccache/ccache: PKGSIZE changed from 2124328 to 2132520 (+0%)
+packages/x86-64-v3-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.14.2/ccache-4.14.2.tar.gz" to "https://github.com/ccache/ccache/releases//download/v4.14.3/ccache-4.14.3.tar.gz"
+packages/x86-64-v3-poky-linux/ccache: PV changed from "4.14.2" to "4.14.3"
+packages/x86-64-v3-poky-linux/ccache: PKGV changed from 4.14.2 [default] to 4.14.3 [default]
+
+--===============8761904596302467445==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ccache-upgrade-4.14.2-4.14.3.patch"
+
+RnJvbSBhNDcyMGRjNDlmNmU5YzE3ZWY1Njg0YWE4ZGMxZTE5M2M2OWZkYzkyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgOSBOb3YgMjAyNiAwNTowODoyNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNj
+YWNoZTogdXBncmFkZSA0LjE0LjIgLT4gNC4xNC4zCgo9PSBDY2FjaGUgNC4xNC4zClJlbGVhc2Ug
+ZGF0ZTogMjAyNi0xMS0wOAo9PT0gQnVnIGZpeGVzIGFuZCBpbXByb3ZlbWVudHMKCi0gRml4ZWQg
+YW4gYWJvcnQgd2hlbiBzdGFuZGFyZCBlcnJvciBpcyBjbG9zZWQuICsKICBbc21hbGxdI19bY29u
+dHJpYnV0ZWQgYnkgR2l0SHViIHVzZXIgU2t5dHVodWFdXyMKCi0gRml4ZWQgZGV0ZWN0aW9uIG9m
+IGFzc2VtYmxlciBgLmluY2JpbmAgZGlyZWN0aXZlcyB3aXRoIG1hY3JvIG9wZXJhbmRzLAogIHBy
+ZXZlbnRpbmcgZmFsc2UgY2FjaGUgaGl0cy4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBP
+bGVnIFNpZG9ya2luXV8jCgotIEZpeGVkIGVzY2FwaW5nIG9mIGJhY2tzbGFzaGVzIGluIHRlbXBv
+cmFyeSBNU1ZDIHJlc3BvbnNlIGZpbGVzIGZvciBsb25nCiAgY29tbWFuZCBsaW5lcywgcmVzdG9y
+aW5nIGNvcnJlY3QgYmVoYXZpb3Igb2Ygb3B0aW9ucyBzdWNoIGFzIGAvZDF0cmltZmlsZWAuICsK
+ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgVmFpYmhhdiBBd2FsZV1fIwoKLSBGaXhlZCBkZXBl
+bmQgbW9kZSB0byBmYWxsIGJhY2sgdG8gdGhlIGNvbXBpbGVyIHdoZW4gYSBHQ0MgcHJlY29tcGls
+ZWQgaGVhZGVyCiAgY2Fubm90IGJlIGxvY2F0ZWQsIHByZXZlbnRpbmcgZmFsc2UgY2FjaGUgaGl0
+cy4gKwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBEb24gWWluXV8jCgotIEZpeGVkIGRpc3Bs
+YXkgb2YgZGlhZ25vc3RpYyBjb2xvcnMgYW5kIFVuaWNvZGUgdGV4dCBvbiBXaW5kb3dzIGNvbnNv
+bGVzLiArCiAgW3NtYWxsXSNfW2NvbnRyaWJ1dGVkIGJ5IEdpdEh1YiB1c2VyIFBldGVyMHg0NF1f
+IwoKLSBGaXhlZCBtYXRjaGluZyBvZiBgaWdub3JlX2hlYWRlcnNfaW5fbWFuaWZlc3RgIGVudHJp
+ZXMgYWdhaW5zdCBoZWFkZXIgcGF0aHMKICBzdGFydGluZyB3aXRoIGAuXGAgb24gV2luZG93cy4g
+KwogIFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBDaHJpcyBCdXJyXV8jCgotIFJlZHVjZWQgbWVt
+b3J5IHVzYWdlIGFuZCBjb3B5aW5nIHdoZW4gcmVhZGluZyBsb2NhbCBjYWNoZSBlbnRyaWVzLCBo
+YXNoaW5nCiAgYmluYXJ5IGZpbGVzIGFuZCBzdG9yaW5nIGNvbXBpbGF0aW9uIHJlc3VsdHMuICsK
+ICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCgo9PT0gVGVzdCBpbXBy
+b3ZlbWVudHMKCi0gTWFkZSB0ZXN0cyBza2lwIHVuc3VwcG9ydGVkIGAtbWFyY2g9bmF0aXZlYCBh
+bmQgYC1nemAgY29uZmlndXJhdGlvbnMgd2hlbiB0aGUKICBjb21waWxlciBvbmx5IGVtaXRzIGEg
+d2FybmluZywgYW5kIHNraXAgQ2xhbmcgcHJvZmlsaW5nIHRlc3RzIHdoZW4gdGhlCiAgcHJvZmls
+aW5nIHJ1bnRpbWUgaXMgdW5hdmFpbGFibGUuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkg
+Q2hyaXMgQnVycl1fIwoKLSBGaXhlZCBUaGluTFRPIGluZGV4IGdlbmVyYXRpb24gd2l0aCBgbGxk
+LWxpbmtgIGFuZCBjb21wYXJpc29uIG9mIGRlYnVnIG9iamVjdAogIGZpbGVzIGNvbnRhaW5pbmcg
+Q29kZVZpZXcgaW5mb3JtYXRpb24uICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgQ2hyaXMg
+QnVycl1fIwoKLSBGaXhlZCBzdG9yYWdlIHNlcnZlciBhbmQgaGVscGVyIGNsZWFudXAgdG8gYXZv
+aWQgYmxvY2tpbmcgcmVtb3ZhbCBvZiB0ZXN0CiAgZGlyZWN0b3JpZXMgb24gV2luZG93cy4gKwog
+IFtzbWFsbF0jX1tjb250cmlidXRlZCBieSBKb2VsIFJvc2RhaGxdXyMKCi0gUmVtb3ZlZCBhbiBp
+bnZhbGlkIGNoZWNrIGZvciBzcGxpdCBEV0FSRiBkZWJ1ZyBsb2dzLiArCiAgW3NtYWxsXSNfW2Nv
+bnRyaWJ1dGVkIGJ5IEpvZWwgUm9zZGFobF1fIwoKPT09IERvY3VtZW50YXRpb24gaW1wcm92ZW1l
+bnRzCgotIENsYXJpZmllZCB0aGF0IGNvbmZpZ3VyaW5nIHJlbW90ZSBzdG9yYWdlIGRpc2FibGVz
+IGBmaWxlX2Nsb25lYCBhbmQKICBgaGFyZF9saW5rYCBmb3IgdGhlIGxvY2FsIGNhY2hlIGFzIHdl
+bGwuICsKICBbc21hbGxdI19bY29udHJpYnV0ZWQgYnkgSm9lbCBSb3NkYWhsXV8jCi0tLQogLi4u
+L2NjYWNoZS97Y2NhY2hlXzQuMTQuMi5iYiA9PiBjY2FjaGVfNC4xNC4zLmJifSAgICAgICAgICAg
+ICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS97Y2NhY2hlXzQuMTQuMi5iYiA9
+PiBjY2FjaGVfNC4xNC4zLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2Fj
+aGUvY2NhY2hlXzQuMTQuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjE0LjIuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMTQuMy5iYgppbmRleCBlYWU5YTMzNTM2
+Li5iMDUwNThiMjBjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2Nj
+YWNoZV80LjE0LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVf
+NC4xNC4zLmJiCkBAIC0xNiw3ICsxNiw3IEBAIERFUEVORFMgPSAienN0ZCBmbXQgeHhoYXNoIgog
+CiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQVn0vJHtCUH0udGFy
+Lmd6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzU5MjFmODBhOTNkNjQ1M2E4NzQ1MjVmMmU0
+YmQ5NzI2NGM0NmRkYzM0OWQ4N2FhY2MxMDMyY2RlNGRkMjkyNCIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJkNTA1ODdhYmQ1Yjc4N2E3YmE0OGNiMWQ3NmY3YTRmMDkwMzZlMDE4MWU3NDJmYzczODNh
+OGIxNTRkNzNmMGJhIgogCiBpbmhlcml0IGNtYWtlIGdpdGh1Yi1yZWxlYXNlcwogCi0tIAoyLjQ3
+LjEKCg==
+
+--===============8761904596302467445==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="ccache-changelog.txt"
+
+== Ccache 4.14.3
+Release date: 2026-11-08
+=== Bug fixes and improvements
+
+- Fixed an abort when standard error is closed. +
+  [small]#_[contributed by GitHub user Skytuhua]_#
+
+- Fixed detection of assembler `.incbin` directives with macro operands,
+  preventing false cache hits. +
+  [small]#_[contributed by Oleg Sidorkin]_#
+
+- Fixed escaping of backslashes in temporary MSVC response files for long
+  command lines, restoring correct behavior of options such as `/d1trimfile`. +
+  [small]#_[contributed by Vaibhav Awale]_#
+
+- Fixed depend mode to fall back to the compiler when a GCC precompiled header
+  cannot be located, preventing false cache hits. +
+  [small]#_[contributed by Don Yin]_#
+
+- Fixed display of diagnostic colors and Unicode text on Windows consoles. +
+  [small]#_[contributed by GitHub user Peter0x44]_#
+
+- Fixed matching of `ignore_headers_in_manifest` entries against header paths
+  starting with `.\` on Windows. +
+  [small]#_[contributed by Chris Burr]_#
+
+- Reduced memory usage and copying when reading local cache entries, hashing
+  binary files and storing compilation results. +
+  [small]#_[contributed by Joel Rosdahl]_#
+
+=== Test improvements
+
+- Made tests skip unsupported `-march=native` and `-gz` configurations when the
+  compiler only emits a warning, and skip Clang profiling tests when the
+  profiling runtime is unavailable. +
+  [small]#_[contributed by Chris Burr]_#
+
+- Fixed ThinLTO index generation with `lld-link` and comparison of debug object
+  files containing CodeView information. +
+  [small]#_[contributed by Chris Burr]_#
+
+- Fixed storage server and helper cleanup to avoid blocking removal of test
+  directories on Windows. +
+  [small]#_[contributed by Joel Rosdahl]_#
+
+- Removed an invalid check for split DWARF debug logs. +
+  [small]#_[contributed by Joel Rosdahl]_#
+
+=== Documentation improvements
+
+- Clarified that configuring remote storage disables `file_clone` and
+  `hard_link` for the local cache as well. +
+  [small]#_[contributed by Joel Rosdahl]_#
+
+--===============8761904596302467445==--
