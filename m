@@ -1,152 +1,152 @@
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.905.1794339542562764910
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1007.1794339822987959230
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2026 11:39:02 -0800
+ Tue, 10 Nov 2026 11:43:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=GsPSP1IG;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=RiVn48qe;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=5774d2e964=randy.macleod@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAIpmJl1085695
-	for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 11:39:02 -0800
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAIqBHK1086019
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 11:43:42 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=A19v4YPfd9HWcN8EpqHZCG
-	6L8tKiQVyBEbzeLYnCon0=; b=GsPSP1IG/+scXQlbPd+JDqNckZ4ruhfWEO3UdJ
-	VKZpv6KW0gyOijcglpOxzeDZMUhaEJu7H1bZQ5pN3RmQPBHkEVZklgCZgTeGU1h0
-	+BFVC2XO0sGdpqLFpUYSsr0xpo+uUw6RMNVHAUZ0qb1m6ycbelMyc5ktzjZBL2Cb
-	EZuAP5OTC4LtYsp0njv+iGzpsKXq1QU2/Rr2yxcyZbvD038ri/GYHV5CLVQ40GG/
-	XPVha4dvuQy8ZyfDAwa6tDONLq2SeE3ZnMgSrBYurl2ZgdyCIjYR3pdig9alvspi
-	eBBDxo8HH08cxpIN7jmSawF7r0AskLbkoaVlLsr6cTdjqw2Q==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022120.outbound.protection.outlook.com [52.101.48.120])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ht4cje0am-1
+	:references:subject:to; s=PPS06212021; bh=woWj1pvVHpZwDMQXZeZbfg
+	RATB7c82xUtx5RWPhMLuI=; b=RiVn48qeJg5tRxnaznp+iDF2QklMnrW73ZpDAX
+	KJZU42uSwe4Fy69i9mj1NVy/OuW5ryNP0pxvIz2T8QsJT3AMHe29XtBLkvi8uUp2
+	76t19W8l4DhaovGXn9VoRDOwya00ULrYNzw/fbdF6j1NWs9ruy1XJa+9hWGSxufq
+	V+SXU4zwPfw2v3stW/VucvA1T+/YstjX1WQh4OYUKnvGgCs2VMXDme7lZ/VnQ0jU
+	IEv7/tRcTn6avijofVCyuwptwUCVpn2uux2/lRG5GG3tBw32Y/Wd2mNG7b2Qok6M
+	YmSg9NqOyJ5qTSfnwlAYToZ/o4Zl/k01Na9u1srwYly8kekw==
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020141.outbound.protection.outlook.com [52.101.201.141])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ht4cje0jv-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 10 Nov 2026 11:39:01 -0800 (PST)
+	Tue, 10 Nov 2026 11:43:41 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UCxGxvWDjw7VuugoOkR5LlTFn8q4egGltkW6u+Hguuima1ntMPuELMMScmjWs5hAOppAHwkEw9/xhRtqM1J5Qo0JHWAApMRbOHa5RtL0aa1FkGabA/nZzQrJvj3pJAZoSY1CfqctNyZkch+aFoq9ZWmR0k2UK3WODJPeeM8ZihIFKCNvJxayuZBIzfIdceoAIH8424eX8oevyeMc20rvv3rg8ej+wkjTlCgjTlq450OQJXZcsPPnyrq/MMSm9iZ8wo6LJraHrkaNfruFk9oLFVQ1v7Asgx1rO6wv4XNKTIkGWB1XQicrUZ4olsx4dhKCdXgsoghjzGDOwt2Mj7/khQ==
+ b=xa8K+A7c0vnTaqpdeXArIWs3hlkMSpWysKAp8Lb30xT3UeC1+E1LXq8FVaBn9pSOjsBH17gI3qcecMmi6ue4Els/64v5UHyFo9Phf1BnM7SXwlEVYhz1XV3UJVYRvqUTlzraJQRDHZeqf6qGh2+96kcWdfftgSHTgLkubu/Oh51WNAKjU+0+coO7munko2YTiFQP2HIx5s+D6tfpofKSNEGwzv2dPtHg0/YF2K76jlC8FavfFrqiuJ3GpuXkcrzZ9AfAtJh2yPgrDosGKMCRKjZwu+rlqOXMf75gJ2oViXxBNUIXzrZ800FYEBDBKeOMQ3spcXOQNCbna1qtCpMqZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A19v4YPfd9HWcN8EpqHZCG6L8tKiQVyBEbzeLYnCon0=;
- b=mLzj0cXkqOSrA7qRlgT4U6N11Xig7cUq+oxeGQh1po1RImmGnh1gUHDNsh/V+wUM3X1fL36wGDUrFzCCwsg8bEVsP6dmHqB97B+89iJdWwcFYwkNUNkYuoLO5t+T3vVxDbhhYZVJHt73wDO000WmVQJ8IRV8sRXDonhG1JO8qe/q6igZWKMJBbrmGrMJ4Xud2BnRvklqow+hVHvhfYi0btndYZtfCTPNiTJkJVuaI58I/xdtA707UGILcOIaOkuPFK0Tz7oEEnMt0IZh7elJJr3Cv+EYomxZad/6409vGZFYXSFf+30ltR4+u27sztS3gCENU0TVFLOihFZ1qWbLMw==
+ bh=woWj1pvVHpZwDMQXZeZbfgRATB7c82xUtx5RWPhMLuI=;
+ b=GOB8PUB/S2VPjN84O/QOHtUqTLRsNawmTr1LlChJB6Ui+JJKwJIMlsKue6MjL2LG95atTE19qsB9H2f4UFb8R56hYW9E5eUY1tqCJTgl968oH09hA8F9FOCQHN4bU6kxPClsSHZHemWN64FgNRlMbw8H2Sl8bt80RmEBtkN0V//sk4Dq1kbjS1cEzuZVZZay0Q4Bg9yjllMAbVVztzzCviG+8hiOWY492lkche8Umr+B3g/TLlHo+kdLB2kxsTrjlMhT+1NqvxJ9DDjdhu0c4M9t9zPLJZFoEPcxqSFi7cOb1aF+XNAhum1B+sSEJ5Cqb5l8W0ZG3/FGs0zuQQkGeg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=windriver.com;
 Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by SA1PR11MB9635.namprd11.prod.outlook.com (2603:10b6:806:4dc::17) with
+ by PH7PR11MB8249.namprd11.prod.outlook.com (2603:10b6:510:1a7::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Tue, 10 Nov
- 2026 19:38:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Tue, 10 Nov
+ 2026 19:43:38 +0000
 Received: from CH3PR11MB8496.namprd11.prod.outlook.com
  ([fe80::5627:e3a5:cb26:b555]) by CH3PR11MB8496.namprd11.prod.outlook.com
  ([fe80::5627:e3a5:cb26:b555%4]) with mapi id 15.21.0615.007; Tue, 10 Nov 2026
- 19:38:58 +0000
+ 19:43:38 +0000
 Content-Type: multipart/alternative;
- boundary="------------D92uTKPv4mG0o9H00bVx6X9L"
-Message-ID: <98abc2dc-5119-4dcf-a120-9d3eca47a8ab@windriver.com>
-Date: Tue, 10 Nov 2026 14:38:55 -0500
+ boundary="------------BEHn3lu0VAv6iVs4UkfuMS9A"
+Message-ID: <1cd5c40a-0ce2-439c-9591-0a2826419e6c@windriver.com>
+Date: Tue, 10 Nov 2026 14:43:37 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v4] tiff: add ptest support
-To: "HimaniRamesh.Barde@windriver.com" <HimaniRamesh.Barde@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
-        Shiva Komati <Shiva.Komati@windriver.com>,
-        Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-        Ross Burton <Ross.Burton@arm.com>
-References: <20260925080552.4144665-1-HimaniRamesh.Barde@windriver.com>
- <20260930073432.3027882-1-HimaniRamesh.Barde@windriver.com>
- <7EB8E0D5-83B6-4567-9FE7-A9CBB8940435@arm.com>
+Subject: Re: [OE-core] [PATCH v5] igt-gpu-tools: fix build on non-x86
+ platforms
+To: Jose Quaresma <jose.quaresma@oss.qualcomm.com>,
+        "Mahajan, Ajay" <Ajay.Mahajan@windriver.com>
+Cc: openembedded-core@lists.openembedded.org,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20261029093738.1507-2-jose.quaresma@oss.qualcomm.com>
+ <1905cd5a-760f-4f3e-99af-4aea68136154@windriver.com>
+ <CADWMC-bB9oEOe_KdGxQj-pzXrx5_iZD-mZrQ4B5G_4Sfxcvxow@mail.gmail.com>
 Content-Language: en-CA
 From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <7EB8E0D5-83B6-4567-9FE7-A9CBB8940435@arm.com>
-X-ClientProxiedBy: BY1P220CA0022.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:5c3::14) To CH3PR11MB8496.namprd11.prod.outlook.com
+In-Reply-To: <CADWMC-bB9oEOe_KdGxQj-pzXrx5_iZD-mZrQ4B5G_4Sfxcvxow@mail.gmail.com>
+X-ClientProxiedBy: YT4PR01CA0201.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:ad::9) To CH3PR11MB8496.namprd11.prod.outlook.com
  (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|SA1PR11MB9635:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fcf824d-e16b-47ce-b2ba-08df3f624397
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|PH7PR11MB8249:EE_
+X-MS-Office365-Filtering-Correlation-Id: a5d132e2-76e1-41f0-45ef-08df3f62ea7f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|4143699003|11063799006|56012099006|261022105027099003|10067099003|261026121527099003|261028144727099003|261009223027099003|261026140227099003|18002099003|22082099003|8096899003;
-X-Microsoft-Antispam-Message-Info: LByB48oECtjI/dnUop80gNe3KjSxq41zJT9r6bolL5mFgtCI6zO5ePztUpg4ZjMseU6/VLE8qNpD5PYqz0O2ue6ET2m9fUlLIE5eHT5mfFXN478O8hHjZKk/S4v/95j1eCHyWkloEzUX6EAxLjdRSrtqMiSaht+NitXA5Qa1DV9GudmGLb9Uy+uQ/5P5F/pZVgS/bJgX21nF8vyDi8UumBwZOhtrTQAEIcBXJTz+aJnmalFTrfHyQPUcIo+0Wt2fITGXZPc+OUMNb9iCJ/YDcR+YF4ba2DasNmmzFeoOLaxeooJu93RY3BAgFLh5kNyerToSNl3aIbNEMfoJmkDTPch5J1qjkriqm9ZWz5QVDH02ZaEYu/UY/HOJQATzo/KCmRKB6cLShAT9xYoIm43CjrOBepxlCSMly5dC/TmR+2SMw8Fik7L6lsOA2at9KH6oC59RdCu1M4eAJG2Fl28R8UrIlPs6G5kzyqdorJALN0CqHC+/e0WzwZNPM0LwGW8vmV5PI4JtLMrKtq1anlT0UBM+2rOTJNtyneH46EISo4qZ3JjY4/vAsa9Yk3N/0QKKB3RhSu0pciqwtFM5EVxFQ9L9J20gwDsHwjOaeFshy57v9UHekmQXx2crP+OSzty15Te+89Mj+//pIexQrPOhTcPs5/xNGxM6UnR8etA0Wfg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(4143699003)(11063799006)(56012099006)(261022105027099003)(10067099003)(261026121527099003)(261028144727099003)(261009223027099003)(261026140227099003)(18002099003)(22082099003)(8096899003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|4022899009|376014|23010399003|18002099003|22082099003|6133799003|8096899003|3023799007|10067099003|13003099007|11063799006|261021135927099003|261028144727099003|261026121527099003|261022075727099003|261021123027099003|261026135527099003|261022115727099003|261021130227099003|261021121427099003|261021133027099003|261022105027099003|261026140227099003|261009223027099003|56012099006|261022113327099003|261026130827099003|260925021311599003|260925022911599003|4143699003|261102123227099003|260925021911599003;
+X-Microsoft-Antispam-Message-Info: eUNdSJcgh1rbI1XL4CPcOKXB2xcki2pftAGgr8oeANrkqAccBIIuU6BBjP8zlZjykzD9fmfvAYChByiGJ7QgW7lHI55HDcNo0UaugrFq2YnCQiMW8gc0sMmxcc5Pb5Uc/EGSUrUQ8AhAbIh2lvM7ncExyO38tO+NabBjWKPabFM4qWbDYKBvdXBRyZjwL6417nGGBnHJj938iZuCpxOqUoKoyYFeUaYPVm/idSart5b1KCY68lkyF0M4OCd4tfwylEwYJDKqU4D1oqJKOdb/To60GSmiqb+kHi+UDYv4Ywv+uPvj7T3XWaSacS92SwznFw17puc4wV+dbNCoOMoazSEGca2Vvrx/vVtTxNKn67K3p8YA1qJivapLihi3pWtlHtDUeqVPw4OJ+//tGAEgzFiCaKiOhi5MhJ6XJ1nAsitFN5OPFoDCOaakf1Clq2ha6lQW7/0eDSAP5qPv0RH1E0nbR3HYqECoOsHt6QumW4srTRu9ZbmYxeIZt+bt7vcWjaZFKcmNbyImfMTmZSA6LtJy54zd3I7F0B5dEbPEP1EWD6JyhSNtD9unon3OVDMWVP9EB8ZF2SqSqbs0K8kEVisQvFsCxQ3SCoy4Hni1wyY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(4022899009)(376014)(23010399003)(18002099003)(22082099003)(6133799003)(8096899003)(3023799007)(10067099003)(13003099007)(11063799006)(261021135927099003)(261028144727099003)(261026121527099003)(261022075727099003)(261021123027099003)(261026135527099003)(261022115727099003)(261021130227099003)(261021121427099003)(261021133027099003)(261022105027099003)(261026140227099003)(261009223027099003)(56012099006)(261022113327099003)(261026130827099003)(260925021311599003)(260925022911599003)(4143699003)(261102123227099003)(260925021911599003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N21uMVpIUG1Jc25pcE9Yblc3ek9SUGJmVTZNWjNjVXhvaGZMditBV0dUOTBu?=
- =?utf-8?B?U05NNDNOMU9JUnZzWnRLZ1FYbyt0UVF5dXQ3WGdhTCtaSThVNEYzdiswSU95?=
- =?utf-8?B?UTQxODIxSDc5UlZTc0VCRWRLVWpDQ1J3dnVPSWdpUk10aHpIbXNicmpLTjE4?=
- =?utf-8?B?dFVqZklWU3dUSmFCYk8rU2hkQTFoOFhNRmFrdFJxM3ZhM3Q3OE1nT1V3ci9q?=
- =?utf-8?B?N2Qwc0Rsc2JLUGNvREJORFdMMm53d0VHL0R4TlFERU9aSEJYWW92NFBhdlM0?=
- =?utf-8?B?bTd3clpjaTREa0RLTFZKSktuMktGRE9pbVZFREtSRVVDQStDcGVHM3h4Y2NH?=
- =?utf-8?B?UlRtYjJYd2FMRzJoUTJIaXk4Wmg4bHY0Zm1GTWdFclVYbUNJcU5TUStNdjVz?=
- =?utf-8?B?dmZBeEhIWUNrcXBPTjU2Q3JhME1tRGh2czUxa2NoaVQ1Yk4xUDRuSS9SdXRm?=
- =?utf-8?B?ajMxQWIzOGYyZ3o1djZLaWlTb0hQVHFQdmpZbzdBdWJGS3hmQllyQzJ0OGVj?=
- =?utf-8?B?cml0dTBWNThCQW14M2hBNVdoeHNBS2ZJQ0YvZ2llR3VTME1NVG5OUGtQbmxZ?=
- =?utf-8?B?MFhRU3BqOXQwMjdnOFV4enU0U2ZsZElTWERFUVRhUXhBU21ESXRYekVWeXUv?=
- =?utf-8?B?YTFqT05oVGg3MDZzSk1JaGlCSU5mUElzQXE5NUJjUUhSdHA3Ty84TlFVc0Jp?=
- =?utf-8?B?cUpXeWRtdjd1MitFYjBNRlplajU5ZzhlaGI5UUVGRjVRQ2xrbVdXVVVnd09B?=
- =?utf-8?B?dGpKZTRBZVlxeVdEaWtKZDZGWk1uWnZxVDVxNHFsRlRnb3VKZFFYUzVrRytB?=
- =?utf-8?B?UWNFTU90YXNxdnVUR2s0eU93Wnk1cGhLbEF0QzhZejNYM2RLTlkya3hWSDBs?=
- =?utf-8?B?dnY0a1R2TlUrclFLUG44bjlLSVRTS0tjZ2YyS0ZlcXgvRWkzUmpoTGk0ZTll?=
- =?utf-8?B?R000WHUzNUd0N0lFR3BZdlpMNXVheG1mQWhicVFtOUJCd1JmWDFkN21LN20v?=
- =?utf-8?B?TDhHVE53dSt6VzUySkNYMW90bkQ4MXZIaWMwWDJtQUdoUEZIU3RyYVo0RVg0?=
- =?utf-8?B?MEQzUXV1K1JpY0hlZ3gweHl5VVlVaUpkbDVaT2VyWG80QnNzVDQrSXB1YXdY?=
- =?utf-8?B?UmxoV29PekVwdFcxNlhiaWhGcVNOVW5RSVpTN1NWTE1LdGxodnJzS2JHVHY3?=
- =?utf-8?B?eHg0QlpYZlpjaHZNSC9hUm1jWHlzdC93cDJFaHBKVm44NFVuZndWM0o0Wm4r?=
- =?utf-8?B?TGNRZzFzZ1JNYktmK2FNcEZwaEtSRlN3UlU2ZGVIMjRiL09YaTRNL3NadnpU?=
- =?utf-8?B?Mk1uelRMYUM5cCtqWkZEVjkzYUx6MTJSenpYZTRvK0JZNHNtc09RdjNlUi9Q?=
- =?utf-8?B?N1pvb2hJbW5GYnFlbzVPeFEwOHFHYXlrQ2E2eENXcmFTOHprTDhVUG9HUjV4?=
- =?utf-8?B?emQrNlZxSEFvc3hzU3A4eGdaUzN1cG0xWjBzbCtBOUtnNkFIaWxqaE1IY2tU?=
- =?utf-8?B?VFA0NEk3TVFYbElyTWtQRHVFcmI1dU1PSW1zSms0VkxTVUtHaENabHZ4Zm0v?=
- =?utf-8?B?WmcxN1kxN1Z4aUYzQlhoZDNxV0VtZjY1YXpBWDUrV1F4YUNJMWFCQkVicXBC?=
- =?utf-8?B?eVF4TDdQZllMVXpxL2ZHaVZLQWVXTFE1OUg3OUZnaGYraWllOXBYajlZVVkz?=
- =?utf-8?B?T1BWMlVVMjVMQUFFaGdTYjZrZWdVV3dpa0JvOWN6dFNnZWtiVDhOSlhVM21L?=
- =?utf-8?B?d0lwc1RkQ3NHTFlYYkNTSU1jMC9zV1BmSzNMWEdlOFZ4UjNHWEtHam9iNEh4?=
- =?utf-8?B?TEJ0cUplVkVkZ0ZSbVArVWMvcDhhSVpTMW1BZ1lBN0hhMkJMSXduUzVTUXFD?=
- =?utf-8?B?LzlKSmhvOE9tMWJnOC9oQjN4QVFVeHVuZC9Idkw1alF0dW5RUThEOGxoaGY2?=
- =?utf-8?B?TXdiNlZXQXMwM0xhaWIyOUc4UktKNUNHOGVlT1ZubzlySW1MdlhIRlZMVDdm?=
- =?utf-8?B?bXB1YkVQNHdSWVMvWFg1cVJ3YUJreGJuSjRUVzN3Y2RjeXpNVjVleTJJUEJI?=
- =?utf-8?B?dG9nWEdKOVFpSzQ3Nis5MmI4ckVvQTVBZ0EwRTgwazFiWjlIV0hEaEFJdlJv?=
- =?utf-8?B?Rkh2clNBNjkzSCtuMndnMzB2MHkwbjYyTUVkbmFDQUEyczVrck1aVTFXZUs0?=
- =?utf-8?B?UkNzME5ocjZOQWgzbWR0dlE4SU1OZFI0WXhYOGViWG41dkJuS0pEOWkveWNC?=
- =?utf-8?B?dFU1S3ZJanBKNk9KWnhRU0FWaTg5N3lPTlVma2UwSGRJbjdSUStEQW02YTJh?=
- =?utf-8?B?NFdzdWM5WHRma09XYk1yd2N5dDVlZGJyMlNPMmg0OXYzdi9jSG80bDltWmds?=
- =?utf-8?Q?ZECfyhR3/EnCEkFg=3D?=
-X-Exchange-RoutingPolicyChecked: qjzLMYKd84hFA+5GvZLCssmR9bcEn3ES1ejMoTsZgyQlQttWLIOl7u4Zj7PhJ3NspfG9mtU1odVZJf/PNTkh5B1hmbgFQYidizYCbDtT9R/Ukb79SFQ7z0rfvNYFub7QHFWJUsMdHEmhk56ztQ6k1KgYOOpdQjYuq7wHFxpNA4JbICwazKRAKliRRK4cfmY2z3JYppkGGaJAxnUFBYMFb7PTkhzV3Kxyp1a8+eowre1q0pE4TOdKucOYxyp0RsqqctufOcyavHjnE1Vvo4rzSUfvyDh92K5H6RIZby8Knc8KkmyO/RYCG5I/E0uZ74eEEfty+J2PmCOatDWkw9RmoQ==
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cFpNaU5BZ0NxdVN0cVpmL3F4clZiL3c1S2JCZlljT1lvckQ1VmFKa1dlYTA1?=
+ =?utf-8?B?c3pYalgwZHJUY1F3a01SeEJyeGc2UHErVmxoVDFSaThRRWhlRk9iRXB4MHQr?=
+ =?utf-8?B?ZzhkdmY3MjYvSDB2VzhpUFlHd24zWGhCZGpHeG9rVnZ2S1JCRkNXcGlsZFJt?=
+ =?utf-8?B?YnJldG5Pdkcvc3o4djc1dDBYN3ZLVTB0MDQveWxjYUZRcnkyT2xqenBBUGRS?=
+ =?utf-8?B?MTdiQnZoam1XWVdSRVhxdWxoOG1xbU9EcTlkVVNSbnpaTVFkNitIWGYxeHdH?=
+ =?utf-8?B?OFI2RUg0aDA0QTlmMDZ6czNZM1hLZGh0bGt6YmV1dzAwWUh2KytFeVBJeGlq?=
+ =?utf-8?B?N0lHcFVWb3pRZDdXN01LVnc4dFltazhTcmRCZ1ZHOC9kYlU3MzAycmZKUHJL?=
+ =?utf-8?B?RG1ObXc2bVJna2tjUU00U2FiTVNuQThOcWxhS3NpRjc4Q2U0cDBCWElDUlpu?=
+ =?utf-8?B?S2NDcUhoRVNsMENEdnhrd05ReTRxaC8xVFVhSHpyQmpVL0FMdWl1c01xRGZs?=
+ =?utf-8?B?ZU80cm1DWlhQM2JwSE9yRlNuZkRScGc1WXhFb1RHR2Fla0hkKy9ISFJCWDBj?=
+ =?utf-8?B?TVlSdjhGMjV0b28vZXhpNWhRR1VIVVVJRlBDdi9LemlHK0VsSkFHM2J6SjYz?=
+ =?utf-8?B?TTRtcFpVc3dEd1N6cGZlQTJkMkdRK3hWNGl6NzlaVStvb09SdG5KZlN1YzZh?=
+ =?utf-8?B?bnpuQTNid2lodGlNNmxRUUREZ2NHMzNaU0dycUNlVE9BbE1haXpCZXJITTVm?=
+ =?utf-8?B?dHgxdU1pSitCNWszTjZUb09nSEVkYzZPZ1dYNGVEQjRhS2tENmNPWHFwbFRH?=
+ =?utf-8?B?WEZuTURGVm51elBRUkxDVnBJbzZGOWFiSXVncktRQm9ERnNTUk5CT0phMDQ4?=
+ =?utf-8?B?VWU5ODc2RlFMaURKbDZQL3F6b1R0MUU3MkMyaGJmZ2dYK3BYSE1zN2JrcHpN?=
+ =?utf-8?B?enlsYkhiM0VpZFppWjU1bjNKSDlwSTN2OVVZcWxkN3pjdlhLOGVpNzdubnEz?=
+ =?utf-8?B?L1Qzdm9OSFBqWFI3UEE3UzZPSCtybkFIeldlMytkZ1ZrZHFQY1Ryd3pOaG5i?=
+ =?utf-8?B?dG0vYWZ4NHR3WkoyTnAyRGVCVjZCZkxTUHQ4NmVuYUIrT01QeUcvbWZubUxX?=
+ =?utf-8?B?R1YyMVZ3blFremxXeS9pN3J1dVRNTVZ0bGJVeWw1RmNMalI0dnVmVnZidFZu?=
+ =?utf-8?B?U3MxNU84ZGpVWTB1VmRFN05JTEZXbWF3SnhSK2g2Z1RGN1d1dG5xeGtzWDJu?=
+ =?utf-8?B?NHVFOWx0Nkxyekp2b1Z0bzFzUFFlQnJuMG1qd0M2d25JcExoNDdaZ0lKVUZs?=
+ =?utf-8?B?WFFsdWIwUU1NU3d1eWVlMEhTUUg5eHRVaElYbWVQZGd0L3dBWnpQS2phbC9R?=
+ =?utf-8?B?SmVjS0lNL21mVXpRbURNVEZNVGI5UTdlbmJrakd3c0tVK3IrQjF2L1J5UktM?=
+ =?utf-8?B?TEVyYk1KVnE0SXVpd0hVRFFoZGp4eEx0cWJnTXJQK1BBUlUxVE1TNjFxN3E3?=
+ =?utf-8?B?T2xUUnBpdEY2V2RNTm1GQ0RtRXdYQ2p1bERQZlIvTmpOSk5HN2lSem1FUk5N?=
+ =?utf-8?B?TmV0L1pUY1hMYXN6dWlKZzR4eHRiY2ZkSGM3Qm9GNzAzWlFnSDluVm85eVFL?=
+ =?utf-8?B?STNXWXNKa3J2Z08zRC96aTRHWHpLcmxsYURNMXd1ZXFrTjVEeDZHNkNJc0pv?=
+ =?utf-8?B?a0NCOHdBTS9ZUUlpWVpza1lRMmd2eHF6Yk1udGNyaWJmb3pZU0JFY3BLVkpD?=
+ =?utf-8?B?WElBdHA2ekZMQk9sZEc1bCtxNXIzOUNaQjZHWTR6TEpOUTlPcjNWT2E2bFM2?=
+ =?utf-8?B?VE9qWDhIYzNydHhhbk9QMXBpMzd6RW9XaDl4N0RYVGhuTnZMOTh5TXVvUEdw?=
+ =?utf-8?B?QjI2TWIzZFk4cmNhQjd2YlArbTZJZWt4THFpNjlFbkJMUUU0MGFJTFo2Q1NR?=
+ =?utf-8?B?UFo2WHdGMTZ4K09QbS91MDRGOW5pRWFNR1dML1hLcXQvYXNuZzhhd2JzUVBV?=
+ =?utf-8?B?T0llNVhQU2xsMVlYcjNoN2FpTTlaZW9OQUVTelY4ME5ldUxKR1UzZlVsQ1k5?=
+ =?utf-8?B?QXVlRkFJVHVnNmhkbmxEQm5hRStCcWZoTmM3SDAwK2l2SVh5ZWp6OGZPdXlu?=
+ =?utf-8?B?UXo4Q2ljMHB1d09XS3BwUTdMb0MwUmYzWG1kS1VZQmFNQkhhVTF3NnBzcHNX?=
+ =?utf-8?B?OWVUdTFjYnJCbThPTnFEM0xJRGkzQ0dTTGVHa1VadlNKTENZRzlrU0svbEJO?=
+ =?utf-8?B?STIxK29KcTE5TW1IdG1RenZiS1NIQ010bnpjWjdieGlpZG1qd3BIazFoeHlt?=
+ =?utf-8?B?bGJqOVp4K3ZDNkpaTllxdDhXdHVNQnFvcUwxdUp0OGF0akNlampKMnVtcUE0?=
+ =?utf-8?Q?EwQINyrqOxkF2SdA=3D?=
+X-Exchange-RoutingPolicyChecked: 02EJf84bCyiTUdB8fS+j2qt3RsmtBm3EZVMRCghPuGPug0bvm3744VZnAZIaFltsLlcwbtU7zm5fn+olIE2ZLnIdsT7hzv8ym4bmOq+aarX2OblIXstd+9BGp/VBihf+B5gF/b2xAxt4H/Lpex8huJ6NpyALQ4kr8nur/HDjUZvE1gFByXbQ7lgEWQME2FcBKbVVj2IWzO9ggfLhJ1JyD654V+KwYwVjjV1mFfkcJz3Mez3PqsnfORahiP0z9HlnT6m9DShcjFVucjl+1CMyBLCfE5Zw/HojFhF1wxP+qN1dWIYqiLxd/9WQaGGknCKYbBbODnKCaKWPFnbiibDROA==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fcf824d-e16b-47ce-b2ba-08df3f624397
+X-MS-Exchange-CrossTenant-Network-Message-Id: a5d132e2-76e1-41f0-45ef-08df3f62ea7f
 X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 19:38:58.4613
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 19:43:38.4726
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V53MfNWK0GAz1SSwHMX3NOTOehAkxZVKcCw7Xw3RGVGeTiXr846f0Nu2JBAjKmPxNBfpu0tkO1tUsr7ovTpK4WzPtnbpb5qGtvVG7gO5Yus=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB9635
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lk1keZg9QvGeIgfWCTLwB2kseR5AxaenCf5xQGgbb5aJPG2r2YNYeBJu46XUOSpDn01o0fzWNKYYzVocQ8XPn5uu+fRB1dgtA6SHxVlN8DM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8249
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: NFro4OL-RwUdPUDYUxTl3jSe5nf23yBR
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA3NyBTYWx0ZWRfXwVDSu5Mqx7VN
- aObcjsfjlBk8u9sSDMyPrKfsOMn0r0eR2XpZK494JIGSor8AJ6nvCYCiKUj2WgpAW5QGFKY7a0a
- VrIrhmYXR6RrQc0J1kiuzVwQsS0n0/rBgVpi4Mt0RxsnRd4ZQHGx
-X-Proofpoint-GUID: szckN0hmilPVFr1i1GTnBOvBzR0KBdVS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA3NyBTYWx0ZWRfX7ePBhTpKgr2Y
- pFAgZnCnuQVqNLwVI7MIaPFwxngpRWVEfMn3zmLFSuWdGIvyE9DwhOOzLdUzEbGfWBcd9I2xerF
- 7W7Lvs4RLcOk6PZjhQqDA991b4ZOqCP2Y43MyYo4YL717DrdNZakms5f/Ce6upKUKauqwltHU3P
- W8lD/WllvgZ+XnS+FUVahEO8mGxLEL44ZVqoSqJmU+l2J3vfbu/b0calqEm+4GdqZHZV+FM3JdK
- t2G9uy7HaeynK3GVvCDh+tSDcCjV1KxNF/VIucdhCe6RyV1h838UbhYjnu/9m5tl0fxnKERz/8+
- OPQ/Y4+BaVUX0ijekA8JGPB/OxJXMqMpNM1V/RJntd+s5k8dPNds4QVQ7zeOaX0jLVVh5QMr0DS
- yjbkQ4RaIFu3V6F1dw1RX8p1CgFgq7xDqjdF8/OlZb/uH4tKWeemJSP1ZX1aC2Cjg13b1+0/HUv
- 3niNo7OtGeNCPGtgaag==
-X-Authority-Analysis: v=2.4 cv=X9bHu2Te c=1 sm=1 tr=0 ts=6af372d5 cx=c_pps
- a=MceEdFpa07MrPAxPau0EtA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-ORIG-GUID: qMJv6HF0mIBaHcnOTFYonedYwoDf4dWW
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA3OCBTYWx0ZWRfX2whIVpz9A82Y
+ 2vwUrj7Jm5Sb4lfj3QrVLh5jlQoa5hbmuqRSHl5nWNzV/CjwB9Lzg4w0SV+P0KpjtQ09CHUJUiT
+ hAvuRjnjoqrI0f7KkfFZCfMr4LiuZY+9XllrvG6uqV5orD3C5tNZ
+X-Proofpoint-GUID: ZtxDC4fEz6EBMckvdMlQ2Z13r-2Nag3q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA3OCBTYWx0ZWRfXzwt6vTww7vYL
+ CvDFxiB15YICl6gbyjNNkB6q6kJN3JaEQ6Gzia28k6VdDW63b4QBXxavzBDKk7w2KZBil4JshFV
+ w4rxOVVAd7LlEpRfeEUIgpikU6E46Y3urj7cgfcZsxvp7D61v7eTjpE6J8Q//rzbUe15jNliCb2
+ AgPgOBey1LAKuinBfq/6b5KDg9jlS1QUEcB3ymkuSfRBdlH6ES3l0tS90BkzCq40387xY649Zrs
+ zAwbLCp5c/N369o6RINXn17GbYFtkZVOD+/pHSYZKye0wb8Sc9qgO1W4a3UJRJIUIeqxmmuSSRQ
+ ubA/FN0h6q/h8IQ8l8HPJFV0CMv7FnNHPh2qLJT+xxhINRrqFsBhQWAMlCJKxi2zDFIj6R5QIuI
+ C5PmMMBSos7Ven/ghDzqoEZMr5sRMThUIA3sHUQmeWFAYSRMLHlJhm9jycAZb8ObZB3mfAq4mRA
+ U7Xtsg4O4C23vK9AhZA==
+X-Authority-Analysis: v=2.4 cv=X9bHu2Te c=1 sm=1 tr=0 ts=6af373ee cx=c_pps
+ a=QyNrOpZ8ttbodQqJgga0rw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=Q4-j1AaZAAAA:8
- a=zyeXhFTpkExpCtfxIQIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=7CQSdrXTAAAA:8
- a=ymD9p91CZmGwUDRHDGEA:9 a=dPPXh5-fJ2FvkPsJ:21 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+ a=e5mUnYsNAAAA:8 a=t7CeM3EgAAAA:8 a=EUspDBNiAAAA:8 a=iuqZZovRtkq_OkQOiccA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=pGLkceISAAAA:8 a=v_8XfsD2siLktM4FwqwA:9
+ a=gCBCHQmJbfwqno_t:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=Vxmtnl_E_bksehYqCbjh:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-10_06,2026-11-06_01,2025-10-01_01
@@ -155,45 +155,204 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 bulkscore=0 adultscore=0 malwarescore=0 spamscore=0
  phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611100077
+ definitions=main-2611100078
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 19:39:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249930
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 19:43:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249931
 
---------------D92uTKPv4mG0o9H00bVx6X9L
+--------------BEHn3lu0VAv6iVs4UkfuMS9A
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6AAIpmJl1085695
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6AAIqBHK1086019
 
-On 2026-10-26 10:36, Ross Burton wrote:
-> On 30 Sep 2026, at 08:34, Himani Ramesh Barde via lists.openembedded.or=
-g<HimaniRamesh.Barde=3Dwindriver.com@lists.openembedded.org> wrote:
->> +    for prog in ${TIFF_PTEST_PROGS}; do
->> +        if [ -e ${B}/test/.libs/$prog ]; then
->> +            install -m 0755 ${B}/test/.libs/$prog ${D}${PTEST_PATH}/t=
-est/
->> +        else
->> +            install -m 0755 ${B}/test/$prog ${D}${PTEST_PATH}/test/
->> +        fi
->> +    done
-> Use =E2=80=98${LIBTOOL} =E2=80=94mode=3Dinstall =E2=80=A6=E2=80=99 here=
-, lots of examples in other ptest-using recipes.
+Hi Jose,
+
+Add Ajay, explained below.
+
+On 2026-11-04 05:22, Jose Quaresma wrote:
+> Hi Randy,
 >
-> Ross
+> On Tue, Nov 3, 2026 at 10:04=E2=80=AFPM Randy MacLeod=20
+> <randy.macleod@windriver.com> wrote:
+>
+>     Jose,
+>
+>     Thanks for the fix. When people were discussing it on the YP patch
+>     review call today,
+>     the question arose: Why didn't the YP autobuilder catch this error
+>     and are there more
+>     inline assembly issues that we are not testing and catching at
+>     build time ?
+>
+>
+> Taking a quick look at the layer, I observe that this tool is not a=20
+> dependency of any other
+> package, nor is it included in any image.
+>
+> However, it should be included in the bitbake world building.
+> I don't know if it will be excluded due to some setting.
 
-Any progress Himani?
-Any questions ?
 
-v5=C2=A0 soon?
+Yeah, that's a bit odd.
+
+
+>
+>     Can you look into that or explain why it's not worth doing so?
+>
+>
+> I would very much like to be able to help with this part, but my=20
+> knowledge regarding
+> autobuilder is very limited.
+Understood.
+
+Ajay and I are hoping to make use of, and ideally add to, the YP AB=20
+tests so
+we will try to consider that as we ramp up that work over the coming mont=
+hs.
+
+Thanks again,
+
+../Randy
+
+
+>
+> Jose
+>
+>
+>     Thanks,
+>     ../Randy
+>
+>
+>     On 2026-10-29 05:37, Jose Quaresma via lists.openembedded.org
+>     <https://urldefense.com/v3/__http://lists.openembedded.org__;!!Ajve=
+Ydw8EvQ!Y1KNjcfrqKOJg8dyHnKeTia9K_6kTfsfJHGUrnLTN_4W2ErtNcU508mS5-JSMPP44=
+e1V4Zh_TjJwpW94TwU0Ph7_avOUN81Tmt0$>
+>     wrote:
+>>     From: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
+>>
+>>     The "pause" assembly mnemonic is only available on IA-32 platforms=
+,
+>>     breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
+>>     assembly with the preprocessor checks, making sure that other plat=
+forms
+>>     don't see the invalid assembly.
+>>
+>>     FAILED: [code=3D1] tests/amdgpu/amd_basic.p/amd_basic.c.o
+>>     Assembler messages:
+>>     {standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
+>>
+>>     Signed-off-by: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
+>>     Signed-off-by: Jose Quaresma<jose.quaresma@oss.qualcomm.com>
+>>     ---
+>>
+>>     v5: Move Upstream-Status to the carried patch
+>>
+>>       ...t-pause-mnemonic-only-on-x86-x86_64-.patch | 37 +++++++++++++=
+++++++
+>>       .../igt-gpu-tools/igt-gpu-tools_2.6.bb        |  1 +
+>>       2 files changed, 38 insertions(+)
+>>       create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-t=
+ools/0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+>>
+>>     diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/000=
+1-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch b/meta/recip=
+es-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnem=
+onic-only-on-x86-x86_64-.patch
+>>     new file mode 100644
+>>     index 0000000000..38582bf1d4
+>>     --- /dev/null
+>>     +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-a=
+mdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+>>     @@ -0,0 +1,37 @@
+>>     +From dc072dc0fc680a055d0cdf5adfdccbab6d0566d6 Mon Sep 17 00:00:00=
+ 2001
+>>     +From: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com>
+>>     +Date: Fri, 26 Jun 2026 22:34:06 +0300
+>>     +Subject: [PATCH] lib/amdgpu: insert pause mnemonic only on x86 / =
+x86_64
+>>     + platforms
+>>     +
+>>     +The "pause" assembly mnemonic is only available on IA-32 platform=
+s,
+>>     +breaking e.g. debug IGT builds on ARM / AArch64. Guard this inlin=
+e
+>>     +assembly with the preprocessor checks, making sure that other pla=
+tforms
+>>     +don't see the invalid assembly.
+>>     +
+>>     +FAILED: [code=3D1] tests/amdgpu/amd_basic.p/amd_basic.c.o
+>>     +Assembler messages:
+>>     +{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
+>>     +
+>>     +Upstream-Status: Backport [https://gitlab.freedesktop.org/drm/igt=
+-gpu-tools/-/commit/125c0289617f3c7ba7ee376ea1d8aabd2ff5afdc]
+>>     +
+>>     +Signed-off-by: Dmitry Baryshkov<dmitry.baryshkov@oss.qualcomm.com=
+>
+>>     +---
+>>     + tests/amdgpu/amd_basic.c | 2 ++
+>>     + 1 file changed, 2 insertions(+)
+>>     +
+>>     +diff --git a/tests/amdgpu/amd_basic.c b/tests/amdgpu/amd_basic.c
+>>     +index 3ad023472136..e5475f337549 100644
+>>     +--- a/tests/amdgpu/amd_basic.c
+>>     ++++ b/tests/amdgpu/amd_basic.c
+>>     +@@ -703,8 +703,10 @@ static int wait_for_value64(volatile uint64_=
+t *ptr, uint64_t expected,
+>>     + 		/* Sleep if interval specified, otherwise tight loop */
+>>     + 		if (check_interval_ns > 0)
+>>     + 			nanosleep(&sleep_time, NULL);
+>>     ++#if defined(x86_64) || defined(i386)
+>>     + 		else
+>>     + 			__asm__ __volatile__("pause" ::: "memory"); /* CPU hint for s=
+pin-wait */
+>>     ++#endif
+>>     + 	}
+>>     + }
+>>     +
+>>     diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6=
+.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+>>     index d76c2355a1..a46b002b83 100644
+>>     --- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+>>     +++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+>>     @@ -12,6 +12,7 @@ inherit meson pkgconfig
+>>       SRCREV =3D "916c79cfb7675ca01607dcd821f8c49d4f633a6f"
+>>      =20
+>>       SRC_URI =3D "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;=
+protocol=3Dhttps;branch=3Dmaster;tag=3Dv${PV} \
+>>     +file://0001-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.=
+patch \
+>>                  "
+>>      =20
+>>       DEPENDS +=3D "libdrm libpciaccess cairo udev glib-2.0 procps lib=
+unwind kmod openssl elfutils alsa-lib json-c bison-native pciutils jansso=
+n"
+>>
+>>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>     Links: You receive all messages sent to this group.
+>>     View/Reply Online (#248920):https://lists.openembedded.org/g/opene=
+mbedded-core/message/248920
+>>     Mute This Topic:https://lists.openembedded.org/mt/121991366/361676=
+5
+>>     Group Owner:openembedded-core+owner@lists.openembedded.org
+>>     Unsubscribe:https://lists.openembedded.org/g/openembedded-core/uns=
+ub [randy.macleod@windriver.com]
+>>     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>
+>     --=20
+>     # Randy MacLeod
+>     # Wind River Linux
+>
 
 --=20
 # Randy MacLeod
 # Wind River Linux
 
---------------D92uTKPv4mG0o9H00bVx6X9L
+--------------BEHn3lu0VAv6iVs4UkfuMS9A
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6AAIpmJl1085695
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6AAIqBHK1086019
 
 <!DOCTYPE html><html><head>
 <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
@@ -203,43 +362,271 @@ X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.co
    =20
   </head>
   <body>
-    <div class=3D"moz-cite-prefix">On 2026-10-26 10:36, Ross Burton wrote=
-:<br>
+    <div class=3D"moz-cite-prefix">
+      <p>Hi Jose,</p>
+      <p>Add Ajay, explained below.</p>
     </div>
-    <blockquote type=3D"cite" cite=3D"mid:7EB8E0D5-83B6-4567-9FE7-A9CBB89=
-40435@arm.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">On 30 Sep 2026, at 08:34, Hi=
-mani Ramesh Barde via lists.openembedded.org <a class=3D"moz-txt-link-rfc=
-2396E" href=3D"mailto:HimaniRamesh.Barde=3Dwindriver.com@lists.openembedd=
-ed.org">&lt;HimaniRamesh.Barde=3Dwindriver.com@lists.openembedded.org&gt;=
-</a> wrote:
-</pre>
-      <blockquote type=3D"cite">
-        <pre wrap=3D"" class=3D"moz-quote-pre">+    for prog in ${TIFF_PT=
-EST_PROGS}; do
-+        if [ -e ${B}/test/.libs/$prog ]; then
-+            install -m 0755 ${B}/test/.libs/$prog ${D}${PTEST_PATH}/test=
-/
-+        else
-+            install -m 0755 ${B}/test/$prog ${D}${PTEST_PATH}/test/
-+        fi
-+    done
-</pre>
-      </blockquote>
-      <pre wrap=3D"" class=3D"moz-quote-pre">Use =E2=80=98${LIBTOOL} =E2=80=
-=94mode=3Dinstall =E2=80=A6=E2=80=99 here, lots of examples in other ptes=
-t-using recipes.
-
-Ross</pre>
+    <div class=3D"moz-cite-prefix">On 2026-11-04 05:22, Jose Quaresma
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:CADWMC-bB9oEOe_KdGxQj-pzXrx5_iZ=
+D-mZrQ4B5G_4Sfxcvxow@mail.gmail.com">
+     =20
+      <div dir=3D"ltr">
+        <div><span style=3D"background-color:transparent">Hi&nbsp;</span>=
+<span style=3D"background-color:transparent">Randy,</span></div>
+        <div><span style=3D"background-color:transparent"><br>
+          </span></div>
+        <div class=3D"gmail_quote">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 3, 2026 at
+            10:04=E2=80=AFPM Randy MacLeod &lt;<a href=3D"mailto:randy.ma=
+cleod@windriver.com" target=3D"_blank" moz-do-not-send=3D"true" class=3D"=
+moz-txt-link-freetext">randy.macleod@windriver.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <div>
+              <div>Jose,<br>
+              </div>
+              <div><br>
+              </div>
+              <div>Thanks for the fix. When people were discussing it on
+                the YP patch review call today,&nbsp;</div>
+              <div>the question arose: Why didn't the YP autobuilder
+                catch this error and are there more<br>
+                inline assembly issues that we are not testing and
+                catching at build time ?<br>
+              </div>
+            </div>
+          </blockquote>
+          <div><br>
+          </div>
+          <div><span style=3D"background-color:transparent">Taking a quic=
+k
+              look at the layer, I observe&nbsp;</span><span style=3D"bac=
+kground-color:transparent">that this tool is not
+              a dependency of any other</span></div>
+          <div><span style=3D"background-color:transparent">package</span=
+><span style=3D"background-color:transparent">, nor is it included
+              in any image.</span></div>
+          <div><br>
+          </div>
+          <div>However, it should be included in the bitbake world
+            building.</div>
+          <div>I don't know if it will be excluded due to some setting.</=
+div>
+        </div>
+      </div>
     </blockquote>
-    <p>Any progress Himani?<br>
-      Any questions ?<br>
-      <br>
-      v5&nbsp; soon?</p>
+    <p><br>
+    </p>
+    <p>Yeah, that's a bit odd.</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:CADWMC-bB9oEOe_KdGxQj-pzXrx5_iZ=
+D-mZrQ4B5G_4Sfxcvxow@mail.gmail.com">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+          <div>&nbsp;</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <div>
+              <div> <br>
+                Can you look into that or explain why it's not worth
+                doing so?<br>
+              </div>
+            </div>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>I would very much like to be able to help with this part,
+            but my knowledge regarding</div>
+          <div>autobuilder is very limited.</div>
+        </div>
+      </div>
+    </blockquote>
+    Understood.<br>
+    <br>
+    Ajay and I are hoping to make use of, and ideally add to, the YP AB
+    tests so&nbsp;<br>
+    we will try to consider that as we ramp up that work over the coming
+    months.<br>
+    <br>
+    Thanks again,
+    <p>../Randy</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite" cite=3D"mid:CADWMC-bB9oEOe_KdGxQj-pzXrx5_iZ=
+D-mZrQ4B5G_4Sfxcvxow@mail.gmail.com">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+          <div><br>
+          </div>
+          <div>Jose<br>
+            <br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <div>
+              <div> <br>
+                Thanks,</div>
+              <div>../Randy</div>
+              <div><br>
+              </div>
+              <div><br>
+              </div>
+              <div>On 2026-10-29 05:37, Jose Quaresma via <a href=3D"http=
+s://urldefense.com/v3/__http://lists.openembedded.org__;!!AjveYdw8EvQ!Y1K=
+NjcfrqKOJg8dyHnKeTia9K_6kTfsfJHGUrnLTN_4W2ErtNcU508mS5-JSMPP44e1V4Zh_TjJw=
+pW94TwU0Ph7_avOUN81Tmt0$" target=3D"_blank" moz-do-not-send=3D"true">list=
+s.openembedded.org</a>
+                wrote:<br>
+              </div>
+              <blockquote type=3D"cite">
+                <pre>From: Dmitry Baryshkov <a class=3D"moz-txt-link-rfc2=
+396E" href=3D"mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.barysh=
+kov@oss.qualcomm.com&gt;</a>
+
+The &quot;pause&quot; assembly mnemonic is only available on IA-32 platfo=
+rms,
+breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
+assembly with the preprocessor checks, making sure that other platforms
+don't see the invalid assembly.
+
+FAILED: [code=3D1] tests/amdgpu/amd_basic.p/amd_basic.c.o
+Assembler messages:
+{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
+
+Signed-off-by: Dmitry Baryshkov <a class=3D"moz-txt-link-rfc2396E" href=3D=
+"mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualc=
+omm.com&gt;</a>
+Signed-off-by: Jose Quaresma <a class=3D"moz-txt-link-rfc2396E" href=3D"m=
+ailto:jose.quaresma@oss.qualcomm.com">&lt;jose.quaresma@oss.qualcomm.com&=
+gt;</a>
+---
+
+v5: Move Upstream-Status to the carried patch
+
+ ...t-pause-mnemonic-only-on-x86-x86_64-.patch | 37 +++++++++++++++++++
+ .../igt-gpu-tools/igt-gpu-tools_2.6.bb        |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/000=
+1-lib-amdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch
+
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-a=
+mdgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch b/meta/recipes-grap=
+hics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-insert-pause-mnemonic-on=
+ly-on-x86-x86_64-.patch
+new file mode 100644
+index 0000000000..38582bf1d4
+--- /dev/null
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-amdgpu-i=
+nsert-pause-mnemonic-only-on-x86-x86_64-.patch
+@@ -0,0 +1,37 @@
++From dc072dc0fc680a055d0cdf5adfdccbab6d0566d6 Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto=
+:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualcomm.com=
+&gt;</a>
++Date: Fri, 26 Jun 2026 22:34:06 +0300
++Subject: [PATCH] lib/amdgpu: insert pause mnemonic only on x86 / x86_64
++ platforms
++
++The &quot;pause&quot; assembly mnemonic is only available on IA-32 platf=
+orms,
++breaking e.g. debug IGT builds on ARM / AArch64. Guard this inline
++assembly with the preprocessor checks, making sure that other platforms
++don't see the invalid assembly.
++
++FAILED: [code=3D1] tests/amdgpu/amd_basic.p/amd_basic.c.o
++Assembler messages:
++{standard input}:3702: Error: unknown mnemonic `pause' -- `pause'
++
++Upstream-Status: Backport [<a class=3D"moz-txt-link-freetext" href=3D"ht=
+tps://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/125c0289617f3c7ba=
+7ee376ea1d8aabd2ff5afdc">https://gitlab.freedesktop.org/drm/igt-gpu-tools=
+/-/commit/125c0289617f3c7ba7ee376ea1d8aabd2ff5afdc</a>]
++
++Signed-off-by: Dmitry Baryshkov <a class=3D"moz-txt-link-rfc2396E" href=3D=
+"mailto:dmitry.baryshkov@oss.qualcomm.com">&lt;dmitry.baryshkov@oss.qualc=
+omm.com&gt;</a>
++---
++ tests/amdgpu/amd_basic.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/tests/amdgpu/amd_basic.c b/tests/amdgpu/amd_basic.c
++index 3ad023472136..e5475f337549 100644
++--- a/tests/amdgpu/amd_basic.c
+++++ b/tests/amdgpu/amd_basic.c
++@@ -703,8 +703,10 @@ static int wait_for_value64(volatile uint64_t *ptr,=
+ uint64_t expected,
++ 		/* Sleep if interval specified, otherwise tight loop */
++ 		if (check_interval_ns &gt; 0)
++ 			nanosleep(&amp;sleep_time, NULL);
+++#if defined(x86_64) || defined(i386)
++ 		else
++ 			__asm__ __volatile__(&quot;pause&quot; ::: &quot;memory&quot;); /* C=
+PU hint for spin-wait */
+++#endif
++ 	}
++ }
++=20
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb b/m=
+eta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+index d76c2355a1..a46b002b83 100644
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+@@ -12,6 +12,7 @@ inherit meson pkgconfig
+ SRCREV =3D &quot;916c79cfb7675ca01607dcd821f8c49d4f633a6f&quot;
+=20
+ SRC_URI =3D &quot;git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;pro=
+tocol=3Dhttps;branch=3Dmaster;tag=3Dv${PV} \
++           <a class=3D"moz-txt-link-freetext" href=3D"file://0001-lib-am=
+dgpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch">file://0001-lib-amd=
+gpu-insert-pause-mnemonic-only-on-x86-x86_64-.patch</a> \
+            &quot;
+=20
+ DEPENDS +=3D &quot;libdrm libpciaccess cairo udev glib-2.0 procps libunw=
+ind kmod openssl elfutils alsa-lib json-c bison-native pciutils jansson&q=
+uot;
+</pre>
+                <br>
+                <fieldset></fieldset>
+                <pre>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#248920): <a class=3D"moz-txt-link-freetext" href=3D"h=
+ttps://lists.openembedded.org/g/openembedded-core/message/248920">https:/=
+/lists.openembedded.org/g/openembedded-core/message/248920</a>
+Mute This Topic: <a class=3D"moz-txt-link-freetext" href=3D"https://lists=
+.openembedded.org/mt/121991366/3616765">https://lists.openembedded.org/mt=
+/121991366/3616765</a>
+Group Owner: <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:openemb=
+edded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.op=
+enembedded.org</a>
+Unsubscribe: <a class=3D"moz-txt-link-freetext" href=3D"https://lists.ope=
+nembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g=
+/openembedded-core/unsub</a> [<a class=3D"moz-txt-link-abbreviated" href=3D=
+"mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</pre>
+              </blockquote>
+              <p><br>
+              </p>
+              <pre cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
     <pre class=3D"moz-signature" cols=3D"72">--=20
 # Randy MacLeod
 # Wind River Linux</pre>
   </body>
 </html>
 
---------------D92uTKPv4mG0o9H00bVx6X9L--
+--------------BEHn3lu0VAv6iVs4UkfuMS9A--
