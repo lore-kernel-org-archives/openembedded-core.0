@@ -1,196 +1,437 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17642.1794309976340935786
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.25])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17627.1794310413992854354
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2026 03:26:16 -0800
+ Tue, 10 Nov 2026 03:33:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=TxxDmPG8;
- spf=pass (domain: est.tech, ip: 52.101.70.68, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=0MJt7c3A;
+ spf=pass (domain: est.tech, ip: 40.107.162.25, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=skk0fhNBOux3AZ5J+lDc+0yJLPZPdBKxHTRS2XsVS16SMmzdGu7/kVq74fX+4cqBmn3YZAXQmj2O7VLubcwYxr3YffZCrkLComcP77Y1G5WLk613z6Us8hJUQU9mMPPi/GIfou2kvWSli8fG3gJqT/7UN8LTA2x1EFc7Ogs3Dg/LuqMvwTnlxSIb6jPsIUBn6wBVbjTpF9kj7PR+tDFzXcReRLJozhbGLzyk5hbSSlmbDg1WsUo5ic2oaQgziHP6fYKQMwsLK703crn8AMWXv6dxoICMgsAm9k/EXmVaqRPHhIiA1PHO0264fQ0DD9G8IsDUkaQI46GYZKOd6gxTQg==
+ b=nD9GmhYKGfghfhVLS6lz+2qPma2XjPPinAbJjaaRfJVqvrUDa4skT7VWVoAwfwoK2p++WZb5857/pj9dU2nisF0r9luaAaoVnz0whMAgl35iyqVPTd4PwjhKC7vCAXYGlGdo3SocCasC+iHxY/m67QvWiU7YncfCF/lBexXiWLi2/pzV2xoYn6WCLk11EozkeMG5em24VUIX6tNmqQjXsN+RqrCHRBAk8m8BnakaAVy3MkLLDDuJ0ouu77o5eGBlS8BOIXBk8xFtEN8ipMZFo61T9xJLKqlbucXeeYKUco/kWfUiMLN9kMRa+QX+8aYbzL142SNJlmBrzC+mqxYq0g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=899UcBe1cM5O9D6uFN30isqJOP9tRQoIEdwa7/j8izE=;
- b=jt8F5CTu10E4yc2B9jmDMPGgOBlfZQ0YJjXSqk9wYXdz7nF2aIZKfmTCPIv2X40222v2+fbi5T0+nNri9Z6jFOznHoAI6cxsz9LnPPn6IZ1lutA5uLu+DtC+/Rhzugk9q5gssvf4znUZu06vjQx1vjv0nl1tKkwS0lt8LrK1blASCbnbIDpO3exyE0msjyTjFKUTzWBVILgen0Bf8ZngnLlNHPPMNLzuzVvohpMt+hOJ51UMh89XekNdNtv0XaDzpasGMG50JPG8+QMYutDkM74UD9dUiZyu36/xdHm/SZyOYPjbKzxqP9KrbEGQMs0egbLFP3DvxqWh/3nHEOUT3g==
+ bh=EnHqhnnKMm8rs0/oMCB8qsSdc0OLx7mLAlsBo9+TkBI=;
+ b=H29OPPp07t1/SX0DHf92aywHNmOZ/y9px6V5UALcfxBOxGoP9lY5W3GPVTEJsfFFHaTiDXHvm+NwDpjTBNfeJ9MSUFaBgK+5/wXmFFKdLa1e7cf5RJKSn2PfvY4Z8u43tfv1ZEe+psxpb/92tik5URCgm6clxLzAr3UTis648aO+pMinMByDgAs3pLkHiDlPJnaiPCZQIHuOzrjs/mSMlFXPGd7jdemiRXSEVB18HwU7ovJjUeWs7s6TMcvcycy71WYe5wcP/E2/8Ejl1M15lmntprxnTIwtZ/K9r1fmPmufq1xdQy9Tz56w3gS+Sb4RsCJFE/FxfhYvRYL3HNaMKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=899UcBe1cM5O9D6uFN30isqJOP9tRQoIEdwa7/j8izE=;
- b=TxxDmPG8yYWjQfGOGMCKKFUucenJWnNoDIvGNVC2UjyjkVA029mtw02HOZ1zaUxYP447BNZC/N1oVIIL82+vx3wQJ7gXDkvxlSSTwbWTX3QlnmtY02+fAj4STno+q4jLNHCMFqTtk80RDoThsbTEiBW0eijzqF8sO/Ld2OGcUCJvDVJrm1pRMExStTj6Xn5xVG3ivZqt0sllySc76ENHPQDAjaijJg6+6C7h4z0rsmRfXolx3azH8xDg8hhlpkOnXi0NPGB6dcjI2tMAu/IFtw+Imy5rWV10EHoa9cjfb6vfEL2gUxY+k8HrUOBLFO7c5XNa2TOjgMc56eoZivJ6IQ==
+ bh=EnHqhnnKMm8rs0/oMCB8qsSdc0OLx7mLAlsBo9+TkBI=;
+ b=0MJt7c3AZfO1sA7N1RFzUthh2+bJeiHcpnhBVqh3sQQvWmVTxCeRm7zYisMsqL/NG/LtOwCgK7d+UXuskUWP5+J/mvGyUhndWFvgo4ScJm7Dd/inTlycZUT1IsYrSzfLusGjqrZh356piKb8mKYQU+lYE5e9ha83zNHTGC2OpdVfViEvvj802lKdCAOfITHLGV4557bgYhM+7CizSwmN2XP1VNVFm5W1UUZduYk5AnWCmgJa9KGufD6xtd0+DSezweY7u/N82CHiiwKPunFDOxm9AdC2m5qW0e2zWl/NsGtFO7fAVkfAAj+BA6HIywAZlwM3xRKDX4EbY2B/klenLw==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by DU4P189MB2742.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:566::12) with
+ by VI0P189MB3113.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2cd::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Tue, 10 Nov
- 2026 11:26:12 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Tue, 10 Nov
+ 2026 11:33:29 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0592.010; Tue, 10 Nov 2026
- 11:26:11 +0000
+ 11:33:28 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] tcf-agent: upgrade 1.11.0 -> 1.11.1
-Date: Tue, 10 Nov 2026 12:26:10 +0100
-Message-ID: <20261110112610.80766-1-jaipaul.cheernam@est.tech>
+Subject: [PATCH v2] groff: Upgrade 1.24.2 -> 1.25.0
+Date: Tue, 10 Nov 2026 12:33:27 +0100
+Message-ID: <20261110113327.80833-1-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20261109134034.74458-17-jaipaul.cheernam@est.tech>
+References: <20261109134034.74458-17-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DUZPR01CA0318.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4ba::7) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P123CA0186.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a4::11) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU4P189MB2742:EE_
-X-MS-Office365-Filtering-Correlation-Id: d92267c8-7569-4ff0-5a92-08df3f1d6c81
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|VI0P189MB3113:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3043063-a974-4f1d-0534-08df3f1e7106
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|18002099003|6133799003|10067099003|3023799007|11063799006|261026121527099003|261026140227099003|261021121427099003|261102123227099003|261022105027099003|56012099006|261009223027099003|261022075727099003|261028144727099003|261021123027099003;
-X-Microsoft-Antispam-Message-Info: j+UQ52Z2/pCzEJMHJaWau85kT6OG7t516dYo9aLFpcJ5GNA8IwZdmp78gZgiu++lCtIr3/OECEuNLbVZ6OwqJ0c0AEUr94qysqugrCBYquZ8oo3qU+tEzXtuXnjWABGRDRCX258zUcBMtbXAiC26oi5CBDebHnfnJgD+Be4E6OVgzHPFbuS2ndGjgQkC79EMF6e3hjT7AWIf4x0SKRI6f4/VvrZxzby5HSd75q2nJQrXQ5AZMVGjiRoXIokQ5jaQIABVbeRKzWxm7tD3HPxuSb+S09OnQvl3TcUIoMZZPChr/JRe0IWO9NUCRMKPBBnGFVtFQ+/9rW68h92OSNdQzuUSViQg33Eg2ezX5IO3ZUelRcMu1I9TZsSvL98R98jPHmU3GBJVy/x6GGpvZKF33dUMYDA1ghXz6i5ycO7Cw5nZ6bOLm7Tp1RFjgZ7vXgu/d3ywPTDahmMhtHoLn6XkGawUQNC5gfq4TmMlBRE+Rqs8bmRwTFEDq2QPV2SpLwgFhzSMN0MpF22A1QwqdaGTy68AcdouY1MeQ3WfPVl4sJKbH9CEiictQAywvZOJykdkdHqjszBXKwTl9sFFCDoXm6yEItryzc+6OoI5VmpkG2pBZ5lw9SVweX2yZKjesRWM
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(18002099003)(6133799003)(10067099003)(3023799007)(11063799006)(261026121527099003)(261026140227099003)(261021121427099003)(261102123227099003)(261022105027099003)(56012099006)(261009223027099003)(261022075727099003)(261028144727099003)(261021123027099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|260925021311599003|260925021911599003|260925022911599003|10067099003|11063799006|56012099006|261022105027099003|261022075727099003|261021121427099003|261021123027099003|261009223027099003|261102123227099003|261026121527099003|261026140227099003|261028144727099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info: ZpIitkK9tkQiyvYhBiojGm0oVP4IGYepmFQlslusrdFZHepIciglixzqFfYNJ/Xk16N+YD9HmIP+bLQk1B4VwtBo58LydjtYABtV1DmjPh5qLAs3xTdZmtA1nsa8YRRgsdzgzii1YGp+YghQCV2sKqzJVtj7sSApuFYUdMRnxpIwOIoZLwXsSILG6upfrKoBRdP7m9zgcikMAdBdoPzNZ7XQnLoIO0sGnZyqa3B8AZ12kaRU7VuyczJv5Rna79/RuOM1vUihDTUKY18T9KPtjLNkrVZSXH8Ldk+VTNQ9+1knoOqv6ArlY5Pqc8cVQWWk3ZVIkfqnfR1U4u1/T0lGhT1fkHJBtCNYkiQyAKpBnE1hMVpZP8zNQ+24NT4GifOa8o1fsh7alhVMzh0JR+YgNnyAcNEHxIYdaPMsdKVRx5m3NlV1I35DlYi4qljsGNJcevXGHKUE3kynOOfs9PsmPUGIga9PaWBcKkXpT3X3OSIm/GD7Ku4/+h0uHOZ7fhBWgC9wUd8WcGlSis/UhsY6mQvFKEHOe+WtM9VgoHax7vW/8vrlouabBSvMnrQ81eyBdoDMECU5IbNzCqMrpZoAWh4DeYJdinwPXH0bMTlY97x71gk01G6e04Y3OV+xwTUC
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(260925021311599003)(260925021911599003)(260925022911599003)(10067099003)(11063799006)(56012099006)(261022105027099003)(261022075727099003)(261021121427099003)(261021123027099003)(261009223027099003)(261102123227099003)(261026121527099003)(261026140227099003)(261028144727099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4Zk7Un+ZQdH+zGjxATEZeUkNrBdCAiiX0RHbt7CklKxZMLcOUb55KjjCCY/d?=
- =?us-ascii?Q?HLFnDzaRbsrA502sUzuZTU4jg9drbeaaAK/V2ylM8XJirAOujZQdUdRruR9L?=
- =?us-ascii?Q?oKv4va5SO6rFdqYuEG42ulInyIn394oSoYyLrfR7B4g87viBM4FyIjNxJRb/?=
- =?us-ascii?Q?kVomctGpxfWN1cOgWhEiehpPVPX0OCuXiqC7yHfq2YE3hE8c6kzrOs2kexxj?=
- =?us-ascii?Q?T3njSa3XWjru+HBiCi3uKfDNb+iPPnqgSVjZKbP0RvKqwAYIKoe0Me36qfQF?=
- =?us-ascii?Q?JyxJFfCbUuHcLsk+KKuNyVxhkqltySnmPZ+Lmt17OcAA2gkJ1bQHSqfbZWrR?=
- =?us-ascii?Q?jAKNX2/9qo76ZJa6Lx3/C5E4dx6TrA6vfZ3YafcGblsxJXpkAP5huKEIopwv?=
- =?us-ascii?Q?aeGm/sHwc5xA87ln4NZrOKPnQGUByyYYDDc7C9/lSE0jyp5aHB4+XEpXjE9G?=
- =?us-ascii?Q?GxSrQ+8wprJVkWlFjshRcIJDLuSX879x7l08crJJLK+xDhhcl3fhmXY53vpQ?=
- =?us-ascii?Q?ZtncjHQwqBGDZw0ZCuccUAG1fI+BUNKujiHhJfZyCxjWlTlwV1IK3e8ucaY/?=
- =?us-ascii?Q?kBRcud0rhSorfWnwU4PC9rsZw9AMJ7FGhNziXuxGbymaj4ENmUucxLMk7kwj?=
- =?us-ascii?Q?8ogVS3mlh7RdP/UuBMVNQwShF+E4byj6joAnpIwgBoTHk/Be33OXJDCy6yYG?=
- =?us-ascii?Q?pcbZeBUv6nC+Gnmfg6q4+bkZHz15OD4BFtu++DpsrZnYZocqfRUQaxRSCHwJ?=
- =?us-ascii?Q?FDYXZtesy9WXRv595tltcafaCj+xJAQZi21RpDKmzbtGDzqJST0iELlmr9Jb?=
- =?us-ascii?Q?FkmztdEm3meMp+dPavGrmAiFypiRgpRxmy8tzKn9d696gxHxyItW3ujycpqX?=
- =?us-ascii?Q?SOAON7erMBqhA7zKDnGWoq2WgLt7q0lwwHIwPS6jV46m+diKpF4eccHvUuLS?=
- =?us-ascii?Q?OHLzwJEIo2pOOQM/ryR+6+Q5L5o1yxa2pJBiVMAX058hjUOI5VfhmecCRX2a?=
- =?us-ascii?Q?slVRUzTcLKWSekuCqM2IQtFIaP2Eutvqvu2n8v5k6yrv++m411VlDoR7nkFW?=
- =?us-ascii?Q?6VWRG1d/IHWUdUF+3rzesHZR+XOxQmRcbGHkxbg8bLmuUVFyU0b5Blpeh5g+?=
- =?us-ascii?Q?/BXsBmhbBVdLBUK+SF6QKUt4b5PpqzEgzLxfNu267+qsJNWd1eyANhxlHoTD?=
- =?us-ascii?Q?yQlwZg4+A4vsW5bSPy82N/tb/57igRMBr/gJll7LFPEoYxEBdFi1h/6z+AC6?=
- =?us-ascii?Q?pd7mDKFZBbNy0Gu1yr1HwT0VRut1BcGaxHrPl8tMz6qtfscegmgbsMzmbwkt?=
- =?us-ascii?Q?duU4HcfpuusGaGbUt4KZbYiSACUJ5JsHkBzAb4E8OGonKJH/gnW32z2K5PWa?=
- =?us-ascii?Q?+ptSXjnhOg8LcT8vlLvGFXeQ89iznCYR/tNhCH+Y0zUKZM6Ycm3pbkdHVGiN?=
- =?us-ascii?Q?qMYOyXwY8s8wfudaJaSrCWA8LWHD9l8j5sA5/RKOEYCRTqxlqikICd2byIWZ?=
- =?us-ascii?Q?ns6s0UMH7ASqldynBjeTM/SCmrT5a2jvUfhFnufxLPADIxl8fTJxG23D1nx9?=
- =?us-ascii?Q?w+0l//qoz1tOJZQSmso48nMuMV2H/uqRM7wettupXZBqB5XA6IQycr4AUBHY?=
- =?us-ascii?Q?TpIOobAs/jBdEQj05qh4a9XLcla0kAY/qai0XZ0Mx3HE4IUngUAFPThCIL4H?=
- =?us-ascii?Q?Q8+QNanyEplMj0uJTyBDDuVQaHxOMAR+f55+uIpaYfRawrqlPgpFl+Y4SwhR?=
- =?us-ascii?Q?v9knAfUqwBEKI32yHj5DGcO+B7v6WrA=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZUNknC9kXn+jsHFTgN8Do5OMyhIcKLFT06cx6m2HVQVQAF+brWhnE8KGyAcI?=
+ =?us-ascii?Q?6ptcql+ApLK9lty4409ob//4zHpHtUL0eK5sWxQSHp6aUkqDsSiRr6pgvK3g?=
+ =?us-ascii?Q?NK0N7N/zRMz03Exqc6rCOwavbvD7yr3gO9gHKPaPIjvdNkL5TsSglUvFODU6?=
+ =?us-ascii?Q?sytx1dUP6Rnv7uUJ7xR8pb34fqK2hiI+63MEN1DHga2OkvJ10K+Cm8QGOvKF?=
+ =?us-ascii?Q?YCMNWnlI1z2ouAybMpq1DciCMNSnE8WzFwO6ffGoAFmWVkodM21qGLFwO09z?=
+ =?us-ascii?Q?grkixSYF+xmfeoN68AZ3vl+TUkRBaXheYlnY15rPfeAJRU9f5WSB236DCCav?=
+ =?us-ascii?Q?zARdrsxaHqADiokObxHEerA/61xbowCOcqe42KCH4tinmpiHwa6B6zESO8fa?=
+ =?us-ascii?Q?4HesnsWoE+LifO5IWs8heFDoy+wO2x1rdR8U5w/v82/z/w3VE3ag8mkaYEOX?=
+ =?us-ascii?Q?mo5FD6XguHjafywia3dAiUhVtkePxDGngg9rnNLvlF1A0DJIqnZoQzdu5VTo?=
+ =?us-ascii?Q?Nom9sMud+HQwzLAjT4lMjL89y8lhW3Laaxpbhyw28baSUbzhqlxzZ3G3v0vB?=
+ =?us-ascii?Q?cGsYqXtlcIiEcq458GWdjtpmBLfmH4OIyvNJ4XWbpnEdXr0y1buqSVopVAeL?=
+ =?us-ascii?Q?SPpzWR1BpWipCOZaN5MJAGqxN/TpSoskz9g+RcSWRGGooKu+cdYBmrM79gV4?=
+ =?us-ascii?Q?fzS672LFBNTlcRsvdWALhj2j/vI9aUy9MXEa24v9i3acnp+X/CFxkRFObrFu?=
+ =?us-ascii?Q?IPUgbwUSh8QLUkvZ/qowmw+2LU2ZjfWLrNcmrP3ifDt2o2gf3LGmVEM9uuKM?=
+ =?us-ascii?Q?NMA+y8sHxTRk41MY78t30PmfCjFP/3pAklv1mO1YUTLxbR7Ri+IOqH5XPmIl?=
+ =?us-ascii?Q?x0sT3hKEwzKbVccnaNRcMHLSIFpob/l0cLTiTD4n/Tf6vvGvd6Wbz5BHPBVI?=
+ =?us-ascii?Q?/qGVZ4NPFF8gP2seFkfKKkGDYT5Pmg8gfZkujVijpDCCZag8ErTT61gsiTNf?=
+ =?us-ascii?Q?aNVoK0zK9HEXf7DA0SJbihk/14Cj+hZGyooukqv5M9Z6BQL7Ivim5HIU8hzU?=
+ =?us-ascii?Q?4wylmzyt9v082VKRrI3u2JfKlgzUuatKoqRWtJtEn3jeWbV9YzA6R/yKu/N/?=
+ =?us-ascii?Q?r0ZbT9z+j2FJTtjZffQNNjIGV8qD8oRQtYp0QyejPT2jRmPrtYZwlOaCpK+8?=
+ =?us-ascii?Q?O2olxL86RKnulVMRBIFPkeavS7tUh+gmNhqlfeG6q/awgbrka8LwR+Q5u9hI?=
+ =?us-ascii?Q?HnwgSslzgoxiTJOjoR4IqPW2oCZ5ox/dE+ixAP0Ml7rD017dWhXdRV2L9x3P?=
+ =?us-ascii?Q?yVQBU21dbXWUs+rvPPkM+e42r9tiSH6eCat+9cdvBsweaBjPoV+lYAYhqGp5?=
+ =?us-ascii?Q?LWNKJzWv1gQTXhQsCyCCTYbbQezJE6peOi3Kw0dlgTUakpAKNUmBlaLsEZdC?=
+ =?us-ascii?Q?DwHr/Ge4IFGhegmIi0pz5Yfk7tKUdAEWfsYyno2EZDdXEO3NuLJ8yvROzqpA?=
+ =?us-ascii?Q?t3rJJgBOMb794GFriNDHMhlGpE6cXsqhxq0Nn+6c1xCQrLo/W7zaPAfOpsbR?=
+ =?us-ascii?Q?JPW721QkJ37aw1NuTnWHZIFj3nymMdViJ6pL01JDJbZcJz1BoPD7RotEeLpe?=
+ =?us-ascii?Q?Qlu5t99ygDScVvvCpvxdD3o4IWqZIRD26a19pBeL8g+XTqxO5LZAkStEqR3P?=
+ =?us-ascii?Q?4FPnJWn96eqhT3AFcBwdBAg0pIPgzaBAGmmmJq6rSyvVo6E811p6TtKs3Eo/?=
+ =?us-ascii?Q?Ffp14IzaZXDaTtAic8NY/1yAKaLPrFA=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: d92267c8-7569-4ff0-5a92-08df3f1d6c81
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3043063-a974-4f1d-0534-08df3f1e7106
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 11:26:11.8441
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 11:33:28.8958
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UoDSyPL3hHRst5x0196uOoD/0uR4T8mPUz3rikORMPCt0+7+dSBPL2YV+aAxXu0nswhsdFMu3Qtci9OpSMlXkquGNhKVxaPxoWV+jCAPL0M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4P189MB2742
+X-MS-Exchange-CrossTenant-UserPrincipalName: QQPY/FZZN6whwcDzhsBU4TNkpOhSh7HTzc8rKO16ne5u/v4nefgDpYLpJiu2QGNCcEdHCBVgw60mWAU01c2e2Z//nCxMBLeJxo005SzUxok=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3113
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 11:26:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249916
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 11:33:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249917
 Content-Type: text/plain; charset="utf-8"
 
-TCF Agent: fixed possible NULL pointer dereference in Processes.getCapabili=
-ties
-
-- Drop ldflag patch and add LDFLAGS to EXTRA_OEMAKE
+- Drop builddep.patch as fix is part of release
+- Refresh exisitng patches
+- Fix cross-compilation of man pages by using native soelim and stripping b=
+uild paths.
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../tcf-agent/tcf-agent/ldflags.patch         | 33 -------------------
- ...cf-agent_1.11.0.bb =3D> tcf-agent_1.11.1.bb} |  9 +++--
- 2 files changed, 4 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
- rename meta/recipes-devtools/tcf-agent/{tcf-agent_1.11.0.bb =3D> tcf-agent=
-_1.11.1.bb} (94%)
+Changes since v1:
+- Fix cross-compilation of man pages by using native soelim and stripping b=
+uild paths.
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta=
-/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+ ...001-Make-manpages-mulitlib-identical.patch |  7 ++--
+ ...groff-not-found-in-cross-compilation.patch | 15 ++++-----
+ ...E_DATE_EPOCH-for-reproducible-builds.patch |  7 ++--
+ .../groff/files/build-less.patch              | 22 +++++++++++--
+ .../groff/files/builddep.patch                | 33 -------------------
+ ...groff-not-search-fonts-on-build-host.patch | 13 ++++----
+ .../{groff_1.24.2.bb =3D> groff_1.25.0.bb}      | 11 ++++---
+ 7 files changed, 44 insertions(+), 64 deletions(-)
+ delete mode 100644 meta/recipes-extended/groff/files/builddep.patch
+ rename meta/recipes-extended/groff/{groff_1.24.2.bb =3D> groff_1.25.0.bb} =
+(89%)
+
+diff --git a/meta/recipes-extended/groff/files/0001-Make-manpages-mulitlib-=
+identical.patch b/meta/recipes-extended/groff/files/0001-Make-manpages-muli=
+tlib-identical.patch
+index 6dc84c9062..093f447bc2 100644
+--- a/meta/recipes-extended/groff/files/0001-Make-manpages-mulitlib-identic=
+al.patch
++++ b/meta/recipes-extended/groff/files/0001-Make-manpages-mulitlib-identic=
+al.patch
+@@ -1,20 +1,19 @@
+-From aa1f37f1e0ff0dc0eeb199b52959e0deb275721e Mon Sep 17 00:00:00 2001
++From 3497a04ab9bf74f7d686ebbd3bc5997227083f6c Mon Sep 17 00:00:00 2001
+ From: Jeremy Puhlman <jpuhlman@mvista.com>
+ Date: Sat, 7 Mar 2020 00:59:13 +0000
+ Subject: [PATCH] Make manpages mulitlib identical
+=20
+ Upstream-Status: Submitted [by email to g.branden.robinson@gmail.com]
+ Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+-
+ ---
+  Makefile.am | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+ diff --git a/Makefile.am b/Makefile.am
+-index f7ab410..7e1f3fb 100644
++index 32deb25..b74e100 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -891,7 +891,7 @@ SUFFIXES +=3D .man
++@@ -860,7 +860,7 @@ SUFFIXES +=3D .man
+  	     -e "s|[@]PAGE[@]|\\\\%$(PAGE)|g" \
+  	     -e "s|[@]PDFDOCDIR[@]|`echo $(pdfdocdir) | sed -f $(makevarescape)`=
+|g" \
+  	     -e "s|[@]PSPRINT[@]|`echo $(PSPRINT) | sed -f $(makevarescape)`|g" =
+\
+diff --git a/meta/recipes-extended/groff/files/0001-groff-fix-test-groff-no=
+t-found-in-cross-compilation.patch b/meta/recipes-extended/groff/files/0001=
+-groff-fix-test-groff-not-found-in-cross-compilation.patch
+index e9214519e7..c1db0134f8 100644
+--- a/meta/recipes-extended/groff/files/0001-groff-fix-test-groff-not-found=
+-in-cross-compilation.patch
++++ b/meta/recipes-extended/groff/files/0001-groff-fix-test-groff-not-found=
+-in-cross-compilation.patch
+@@ -1,4 +1,4 @@
+-From c0f835a59d7b33452f280c8a73c3214e0a3a3d9f Mon Sep 17 00:00:00 2001
++From f0dfb4b314893769659b25da145d602d1dd87499 Mon Sep 17 00:00:00 2001
+ From: Zhang Peng <peng.zhang1.cn@windriver.com>
+ Date: Fri, 6 Mar 2026 05:18:33 +0000
+ Subject: [PATCH] groff: fix test-groff not found in cross-compilation
+@@ -29,7 +29,7 @@ Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+  3 files changed, 8 insertions(+), 4 deletions(-)
+=20
+ diff --git a/contrib/mom/mom.am b/contrib/mom/mom.am
+-index b99e869..120d3ee 100644
++index 98d1def..57a3b3e 100644
+ --- a/contrib/mom/mom.am
+ +++ b/contrib/mom/mom.am
+ @@ -24,7 +24,7 @@ mom_srcdir =3D $(top_srcdir)/contrib/mom
+@@ -42,12 +42,12 @@ index b99e869..120d3ee 100644
+    GROFF_BIN_PATH=3D"$(GROFF_BIN_PATH)" \
+    $(PDFMOMBIN) $(FFLAG) $(MFLAG) -M$(mom_srcdir) -K utf8 -p -e -t \
+ diff --git a/doc/doc.am b/doc/doc.am
+-index 6cf9db5..906a989 100644
++index 8220a5d..e159f70 100644
+ --- a/doc/doc.am
+ +++ b/doc/doc.am
+-@@ -54,7 +54,7 @@ groffmanpagesoption =3D -P-e
+- endif
+-=20
++@@ -65,7 +65,7 @@ endif # HAVE_URW_FONTS
++ # Use this macro to render a document if it has forward internal
++ # references.
+  DOC_PDFMOM =3D \
+ -  GROFF_COMMAND=3Dtest-groff \
+ +  GROFF_COMMAND=3D$(abs_top_builddir)/test-groff \
+@@ -77,6 +77,3 @@ index a65898a..9c6a8b6 100644
+ =20
+ -exec $builddir/groff "$@"
+ +exec $GROFF_BIN_PATH/groff "$@"
+---=20
+-2.51.2
+-
+diff --git a/meta/recipes-extended/groff/files/0001-gropdf-use-SOURCE_DATE_=
+EPOCH-for-reproducible-builds.patch b/meta/recipes-extended/groff/files/000=
+1-gropdf-use-SOURCE_DATE_EPOCH-for-reproducible-builds.patch
+index 8ab3668edc..512ba81585 100644
+--- a/meta/recipes-extended/groff/files/0001-gropdf-use-SOURCE_DATE_EPOCH-f=
+or-reproducible-builds.patch
++++ b/meta/recipes-extended/groff/files/0001-gropdf-use-SOURCE_DATE_EPOCH-f=
+or-reproducible-builds.patch
+@@ -1,4 +1,4 @@
+-From f28f0c4d8dfdfb1c173d21df6ffbe35448fada9f Mon Sep 17 00:00:00 2001
++From ac24fa823dbe17630cfe7e1e9ec56abd5767cd4c Mon Sep 17 00:00:00 2001
+ From: Zhang Peng <peng.zhang1.cn@windriver.com>
+ Date: Mon, 9 Mar 2026 20:10:00 +0800
+ Subject: [PATCH] gropdf: use SOURCE_DATE_EPOCH for reproducible builds
+@@ -17,7 +17,7 @@ Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+  1 file changed, 7 insertions(+)
+=20
+ diff --git a/src/devices/gropdf/gropdf.pl b/src/devices/gropdf/gropdf.pl
+-index f519a53..3a79b4c 100644
++index cf996d8..3d7ec2d 100644
+ --- a/src/devices/gropdf/gropdf.pl
+ +++ b/src/devices/gropdf/gropdf.pl
+ @@ -30,6 +30,13 @@ use POSIX qw(mktime);
+@@ -34,6 +34,3 @@ index f519a53..3a79b4c 100644
+  use constant
+  {
+      WIDTH    =3D> 0,
+---=20
+-2.50.0
+-
+diff --git a/meta/recipes-extended/groff/files/build-less.patch b/meta/reci=
+pes-extended/groff/files/build-less.patch
+index dc560fbb30..62cd9f1718 100644
+--- a/meta/recipes-extended/groff/files/build-less.patch
++++ b/meta/recipes-extended/groff/files/build-less.patch
+@@ -1,12 +1,25 @@
++From d30928c7ee37eabf32075d88b1e6a406968651c2 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Tue, 19 May 2026 15:15:07 +0100
++Subject: [PATCH] groff: build less in groff-native
++
+ Build less bits of groff to save time and reduce random build
+ failures from missing dependencies in this logic.
+=20
+ Upstream-Status: Inappropriate
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ Makefile.am | 15 ---------------
++ 1 file changed, 15 deletions(-)
+=20
+---- a/Makefile.am~	2026-05-15 13:23:08.000000000 +0100
+-+++ b/Makefile.am	2026-05-15 13:29:17.053867035 +0100
+-@@ -556,15 +556,0 @@
++diff --git a/Makefile.am b/Makefile.am
++index b74e100..9b5ecec 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -553,21 +553,6 @@ AM_CFLAGS =3D
++ include $(top_srcdir)/lib/gnulib.mk
++ include $(top_srcdir)/arch/mingw/mingw.am
++ include $(top_srcdir)/arch/misc/misc.am
+ -include $(top_srcdir)/contrib/chem/chem.am
+ -include $(top_srcdir)/contrib/eqn2graph/eqn2graph.am
+ -include $(top_srcdir)/contrib/gdiffmk/gdiffmk.am
+@@ -22,3 +35,6 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ -include $(top_srcdir)/contrib/rfc1345/rfc1345.am
+ -include $(top_srcdir)/contrib/sboxes/sboxes.am
+ -include $(top_srcdir)/doc/doc.am
++ include $(top_srcdir)/font/devX100/devX100.am
++ include $(top_srcdir)/font/devX100-12/devX100-12.am
++ include $(top_srcdir)/font/devX75/devX75.am
+diff --git a/meta/recipes-extended/groff/files/builddep.patch b/meta/recipe=
+s-extended/groff/files/builddep.patch
 deleted file mode 100644
-index 9a911051e6b..00000000000
---- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
+index 71c23d60b5..0000000000
+--- a/meta/recipes-extended/groff/files/builddep.patch
 +++ /dev/null
 @@ -1,33 +0,0 @@
--From 2132bc5206b5d619c74caa391bc00d6f91d6ebe2 Mon Sep 17 00:00:00 2001
--From: Abdur Rehman <abdur_rehman@mentor.com>
--Date: Wed, 26 Aug 2015 19:18:11 +0500
--Subject: [PATCH] tcf-agent: obey LDFLAGS
+-[mom]: Fix example build dependencies
 -
--We need LDFLAGS to be respected otherwise there are QA warnings as the rig=
-ht
--flags don't get used.
+-We are seeing occasional failures for eqn being missing when building
+-mom examples, e.g.:
 -
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
+-| groff-1.24.0/groff: error: couldn't exec eqn: Permission denied
+-| pdfmom: fatal error: groff-1.24.0/test-groff exited with status 24
+-| make[2]: *** [Makefile:19256: contrib/mom/examples/slide-demo.pdf] Error=
+ 1
 -
--Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
+-It may find eqn from the host system if installed too.
 -
--Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+-Fix the build dependencies to add eqn, pic, tbl and preconv since a=20
+-quick strace indicates them all being used here
 -
--Signed-off-by: Mark hatle <mark.hatle@amd.com>
-----
-- Makefile.inc | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+-Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/groff.gi=
+t/commit/?id=3D3f7d8ea20f91a8abf248fbf7ec73049cd8c3c9c2]
 -
--diff --git a/Makefile.inc b/Makefile.inc
--index 63f062b2..5da23c02 100644
----- a/Makefile.inc
--+++ b/Makefile.inc
--@@ -111,7 +111,7 @@ NO_LINK_F   ?=3D -c
-- # Linker definition and flags
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Index: groff-1.24.0/contrib/mom/mom.am
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- groff-1.24.0.orig/contrib/mom/mom.am
+-+++ groff-1.24.0/contrib/mom/mom.am
+-@@ -144,8 +144,8 @@ SUFFIXES +=3D .mom .pdf
+- 	&& LC_ALL=3DC $(MOMPDFMOM) $< >$@
 -=20
-- LINK        ?=3D $(CC)
---LINK_FLAGS  ?=3D $(CFLAGS)
--+LINK_FLAGS  ?=3D $(LDFLAGS) $(CFLAGS)
-- LINK_OUT_F  ?=3D $(OUT_OBJ_F)
+- $(MOMPROCESSEDEXAMPLEFILES): $(MOMNORMALFILES) \
+--  test-groff groff troff gropdf pdfmom penguin.ps penguin.pdf \
+--  font/devpdf/stamp tmac/pdf.tmac
+-+  test-groff groff troff gropdf pdfmom eqn pic tbl preconv \
+-+  penguin.ps penguin.pdf font/devpdf/stamp tmac/pdf.tmac
 -=20
-- # Archiver definition and flags
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb b/meta/rec=
-ipes-devtools/tcf-agent/tcf-agent_1.11.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
-rename to meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb
-index 01e4b7df497..94c502371ab 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb
-@@ -6,14 +6,13 @@ BUGTRACKER =3D "https://bugs.eclipse.org/bugs/"
- LICENSE =3D "BSD-3-Clause OR EPL-1.0"
- LIC_FILES_CHKSUM =3D "file://edl-v10.html;md5=3D522a390a83dc186513f0500543=
-ad3679"
+- penguin.ps:
+- 	$(AM_V_at)cp $(mom_srcdir)/examples/penguin.ps $@
+diff --git a/meta/recipes-extended/groff/files/groff-not-search-fonts-on-bu=
+ild-host.patch b/meta/recipes-extended/groff/files/groff-not-search-fonts-o=
+n-build-host.patch
+index 111dbd385e..b1e7a08cf3 100644
+--- a/meta/recipes-extended/groff/files/groff-not-search-fonts-on-build-hos=
+t.patch
++++ b/meta/recipes-extended/groff/files/groff-not-search-fonts-on-build-hos=
+t.patch
+@@ -1,7 +1,8 @@
+-From eb16276c3e2e34aa2e57f6a0e68554657b90cd28 Mon Sep 17 00:00:00 2001
++From 6c2c062e9ccd4235a6262e1effbdd40ec7d35b25 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Sat, 11 May 2019 17:06:29 +0800
+ Subject: [PATCH] groff searchs fonts which are provided by ghostscript on
++
+  build host. It causes non-determinism issue. So not search font dirs on h=
+ost.
 =20
--SRCREV =3D "3051a4806ac4b041ec7c49ffc6d07f0014b8480c"
-+SRCREV =3D "8e23af30895e085e3e6a9d694f2c5b521d844742"
+ Upstream-Status: Inappropriate [cross build specific]
+@@ -13,25 +14,24 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 =20
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
--SRC_URI =3D "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=
-=3Dhttps;branch=3Dmaster;tag=3D${PV} \
--           file://ldflags.patch \
-+SRC_URI =3D "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=
-=3Dhttps;branch=3D1.11;tag=3D${PV} \
-            file://tcf-agent.init \
-            file://tcf-agent.service \
--          "
-+           "
+ Rebase to 1.24.0
+ Signed-off-by: Zhang Peng <peng.zhang1.cn@windriver.com>
+-
+ ---
+  font/devpdf/Foundry.in | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
 =20
- DEPENDS =3D "util-linux openssl"
- RDEPENDS:${PN} =3D "bash"
-@@ -31,7 +30,7 @@ INITSCRIPT_PARAMS =3D "start 99 3 5 . stop 20 0 1 2 6 ."
- MAKE_ARCH =3D "`echo ${TARGET_ARCH} | sed s,i.86,i686, | sed s,aarch64.*,a=
-64, | sed s,armeb,arm,`"
- MAKE_OS =3D "`echo ${TARGET_OS} | sed s,^linux.*,GNU/Linux,`"
+ diff --git a/font/devpdf/Foundry.in b/font/devpdf/Foundry.in
+-index e5aba65..5441734 100644
++index 56297fc..3a43aaa 100644
+ --- a/font/devpdf/Foundry.in
+ +++ b/font/devpdf/Foundry.in
+-@@ -23,7 +23,7 @@
++@@ -21,7 +21,7 @@
+ =20
+  #=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  #Foundry|Name|Search path
+--foundry||@urwfontsdir@:(gs):/usr/share/fonts/type1/urw-base35/:/usr/share=
+/fonts/urw-base35:/opt/local/share/fonts/urw-fonts/:/usr/local/share/fonts/=
+ghostscript/:/usr/share/fonts/type1/gsfonts/:/usr/share/fonts/type1/:/usr/s=
+hare/fonts/default/Type1/adobestd35/:/usr/share/fonts/default/Type1/:/usr/s=
+hare/ghostscript/Resource/Font
++-foundry||@urwfontsdir@:(gs):/usr/share/fonts/type1/urw-base35/:/usr/share=
+/fonts/urw-base35:/opt/local/share/fonts/urw-fonts/:/usr/local/share/fonts/=
+ghostscript/:/usr/share/fonts/type1/gsfonts/:/usr/share/fonts/type1/:/usr/s=
+hare/fonts/default/Type1/adobestd35/:/usr/share/fonts/default/Type1/
+ +foundry||(gs)
+ =20
+  # Enable the font description files for grops (generated from Adobe
+  # foundry font files) to be used with gropdf.  afmtodit must not be
+-@@ -79,7 +79,7 @@ EURO|N||||*../devps/freeeuro.pfa
++@@ -73,7 +73,7 @@ EURO|N||||*../devps/freeeuro.pfa
+  # URW fonts are typically shipped with Ghostscript, but can be replaced.
+ =20
+  #Foundry|Name|Search path
+@@ -39,3 +39,4 @@ index e5aba65..5441734 100644
+ +foundry|U|(gs)
+ =20
+  # Define flags for afmtodit.
++=20
+diff --git a/meta/recipes-extended/groff/groff_1.24.2.bb b/meta/recipes-ext=
+ended/groff/groff_1.25.0.bb
+similarity index 89%
+rename from meta/recipes-extended/groff/groff_1.24.2.bb
+rename to meta/recipes-extended/groff/groff_1.25.0.bb
+index e13996500f..a13236d92c 100644
+--- a/meta/recipes-extended/groff/groff_1.24.2.bb
++++ b/meta/recipes-extended/groff/groff_1.25.0.bb
+@@ -11,13 +11,11 @@ SRC_URI =3D "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
+            file://groff-not-search-fonts-on-build-host.patch \
+            file://0001-Make-manpages-mulitlib-identical.patch \
+            file://0001-groff-fix-test-groff-not-found-in-cross-compilation=
+.patch \
+-           file://0001-gropdf-use-SOURCE_DATE_EPOCH-for-reproducible-build=
+s.patch \
+-           file://builddep.patch \
+            "
 =20
--EXTRA_OEMAKE =3D "MACHINE=3D${MAKE_ARCH} OPSYS=3D${MAKE_OS} 'CC=3D${CC}' '=
-AR=3D${AR}'"
-+EXTRA_OEMAKE =3D "MACHINE=3D${MAKE_ARCH} OPSYS=3D${MAKE_OS} 'CC=3D${CC}' '=
-AR=3D${AR}' 'LINK_FLAGS=3D${LDFLAGS} ${CFLAGS}'"
+ SRC_URI:append:class-native =3D "file://build-less.patch"
 =20
- LCL_STOP_SERVICES =3D "-DSERVICE_RunControl=3D0 -DSERVICE_Breakpoints=3D0 =
-\
-     -DSERVICE_Memory=3D0 -DSERVICE_Registers=3D0 -DSERVICE_MemoryMap=3D0 \
+-SRC_URI[sha256sum] =3D "f9c1efd5bebbe37fc6e1063db7473ce8df1e3e0be4ff0f43ce=
+04fce57e9c5dd9"
++SRC_URI[sha256sum] =3D "24d103a07eb79e418963bce206c8771b649871f83bda2fd4c2=
+e65529c1c56921"
+=20
+ DEPENDS =3D "bison-native groff-native"
+ RDEPENDS:${PN} +=3D "perl sed"
+@@ -27,7 +25,7 @@ inherit autotools-brokensep texinfo multilib_script pkgco=
+nfig
+ MULTILIB_SCRIPTS =3D "${PN}:${bindir}/gpinyin ${PN}:${bindir}/grog"
+=20
+ EXTRA_OECONF =3D "--without-x --with-urw-fonts-dir=3D/completely/bogus/dir=
+/"
+-EXTRA_OEMAKE:class-target =3D "GROFFBIN=3Dgroff GROFF_BIN_PATH=3D${STAGING=
+_BINDIR_NATIVE}"
++EXTRA_OEMAKE:class-target =3D "GROFFBIN=3Dgroff GROFF_BIN_PATH=3D${STAGING=
+_BINDIR_NATIVE} SOELIMBIN=3D${STAGING_BINDIR_NATIVE}/soelim"
+=20
+ CACHED_CONFIGUREVARS +=3D "ac_cv_path_PERL=3D'/usr/bin/env perl' ac_cv_pat=
+h_BASH_PROG=3D'no' PAGE=3DA4"
+=20
+@@ -71,6 +69,11 @@ do_install:append() {
+ 	if [ -d ${D}${docdir}/${BP}/examples/hdtbl/ ]; then
+ 		sed -i -e 's:${HOSTTOOLS_DIR}/::g' ${D}${docdir}/${BP}/examples/hdtbl/*.=
+roff
+ 	fi
++
++	# Remove build paths from generated groff.7 for reproducibility.
++	if [ -f ${D}${mandir}/man7/groff.7 ]; then
++		sed -i -e 's:${S}/::g' ${D}${mandir}/man7/groff.7
++	fi
+ }
+=20
+ do_install:append:class-native() {
