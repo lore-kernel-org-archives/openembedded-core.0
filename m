@@ -1,96 +1,82 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14730.1794294022564328298
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15025.1794294944935634850
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 23:00:22 -0800
+ Mon, 09 Nov 2026 23:15:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=ksjqi//B;
- spf=pass (domain: gmail.com, ip: 74.125.82.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-3282db206d3so364061eec.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 23:00:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794294022; x=1794898822; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NeTuHPwL6oFAtpem8qJUw1pz33nsNTuT1v456QzRfbk=;
-        b=ksjqi//BcFo2VEE98GAaPr9Y0IQy3xhlgfRYQYGI1xFBNlnZ8313NOYYG/WzDii6c3
-         O25zYLzc2dljxshKDh/FPQr8O8Jt8lkQw1lSxFycTEKHpHT/NCU3L3rFpmZfrTM8bo7v
-         dokFg7kZcu5m1es0yVXpwgnLXqe7nJDC1Dy3FEJLlQ2HqJHVGlWZZQ9/KAykXml3aqtE
-         ImYkuRaEkhOwoVGR0sdYrQ+9Yu0mRUvoLuipOFwvbORMF48KDN64nvIRCot51EgEJyIq
-         YVgkpewLhRuw6wuvI/sqR2hkYjxQu07lHfebGAVN630k8Gn6+AJcIe/ID1PVDyVzwnsH
-         IK2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794294022; x=1794898822;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NeTuHPwL6oFAtpem8qJUw1pz33nsNTuT1v456QzRfbk=;
-        b=O5GohcPeayehtgam4H0looXXU7RjliFbrNOn/yFC4aqSRERGkFgMZnkhJXyxFMQ6Ao
-         6Ekk5tpjMWcclLUXNvUb1Oy+c9H0nc1hM7Y22rTzmhLdJH/o+v9H4DdTxFWBX3N++EY4
-         BpWrHUojhC1fLdxQSFeI0lhMSg7DilpLvSQByB7HCoBsO3q49y0pRGZW1l2IwQLp0Qe7
-         CYdMsYFXpQ9IDTHni85Z2QLKtkhpdNzwdQ9Ty4m/q0q+lmDx8OoGiSVdG7nwYh1cjugO
-         /XJBhPIDKcY7SMK+y9dWs6bGlNij4WYnWsaHHN/A/lxehr/tmNeSoHHXkLuzib6oHsti
-         JyMg==
-X-Gm-Message-State: APuU4Z+vaR0h1W5bSusEomlEUQSQjLCfSceppcQ2oFHTd9CwCU7u+LD0
-	GU1AEFq3IHtHNGrwGPa+8HG4vf3dIGCP2BI95lMkAr85gBbYHvCmc6v8N3U2Q1k4aKU=
-X-Gm-Gg: AYBFou10KmH1D2xDxRGKK5Z50AfbGO+tc9+DOMxepJYeDiTzWW5emG4Rxs/HzHJalYa
-	k65DXZ/KgBWa/icA7nHZCVacmHuKwN3Ql03591HAPoYSiNzOaJYvjhVA9lFuUDF2Co1C6X5VZ1e
-	dc3DlTad7Ep7w8i1GsFr6+QPiquzit5som5lZ5rPcqeBZdTYuAQV3i3lKpXyrQb+Ihe1zz5qNnO
-	TklN9W45i7NeCXuN6lcl5YGshKCJxGbj402D65nerJzgEBjf64zzPilDeIk7SxqwEm8u+vG90Bj
-	bwYXjLYpU18UwyQ0FYurSHvyIkDCNiZM2CGh6rpoFVwF/9a7erVdS0pOosy1obJ9PtazFaFrgjx
-	ryHFNuGbB8EZwjKQjj/9TlRwpj+/2gTJn5yhB+OeWe4U7dZXQ1Zx1u8QiOT0K60QeD/pfV1QE3i
-	LMzhgwoW3Gr7nleO1LH5mrlmk8gPd86zzZGSXHHzf9zMDJkfKwh2/WbG4XmCXe6nZIquMS1UuGc
-	jhmTdHlcCl0aN7bzh3RWOBwYOXKNZl93hT62jOKHTFLHewyurp7WSjLcYAsXsh+IhPhcIRS44uo
-	qLuyBVJz5TINehM2D8YN12ntpkNdZy9jJBvX5qL6Pps8zOL4Up7038KY0TcdylrdiG/hCkeWj7Z
-	WHofxyOHB3tOrUcoZVvYrvC4r+1fWMokq7egQIx/07wZ9iYcaFoPC5E03u4izSIa2/K/lqgUw5S
-	159mJOjt4xATb+tSgO/HFzMIC8DClxV8x7JMwhZhmIATLEz1EEkfG6GzVgHlMTxwdasZu2QWQgA
-	XnH9u/JMcMYsT3sC/nWgO+zhh/VJWV82caNaUpJ9hFcIBnnuUiZkugW4JGQEIHsCZKqMBbQjiv+
-	IQLctA==
-X-Received: by 2002:a05:7301:a01:b0:36d:a466:9d0b with SMTP id 5a478bee46e88-3751ef7c90emr2385273eec.19.1794294021447;
-        Mon, 09 Nov 2026 23:00:21 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751ff2ab59sm4532278eec.6.2026.11.09.23.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 23:00:20 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] libfaketime: Fix build with lld
-Date: Mon,  9 Nov 2026 23:00:17 -0800
-Message-ID: <20261110070017.3292688-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=ETjw8daS;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A182C1A15C1
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 07:15:42 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 76EC260012;
+	Tue, 10 Nov 2026 07:15:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BFDA610328531;
+	Tue, 10 Nov 2026 08:15:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794294942; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=2JgvAL+IzMYCuGJGNsLg3AtjvtzjEEggAo2NcwzpvSU=;
+	b=ETjw8daS+cMOEW89LK52EFkbnJw0Ac2/9HfUgJdH32U7Jph4lrbCzOUt0dsm1On/KBLgW8
+	fMOZaIqS4MVSCr1Z0zt8u/oiFajtLVvrdrnIDcmKS6bmzSdDxwLyqft/zD5cG6KUlXdVdc
+	dC6fy/DeFLsgzSYhXYPojtDvkNaWN7pZNJlhQuWnWjtVYk9VUvAnyDNUUIUWW//OTJOuLu
+	VxSxxQQC+PBSxqyH4iviKpjct7ayP+9hhJeKNSLn9b69ZZ7ux6gtSNxRj5HoHAzwh6AfE4
+	o4o1CJnLcuHbER2Jv1gVETj3/VaqHHAwjdv2w4Ih0DOwOeyduBRVeMHVMU/9Wg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 10 Nov 2026 08:15:38 +0100
+Message-Id: <DMRCGZJ1946G.23GSWKZLKMZHI@bootlin.com>
+Subject: Re: [OE-core] [PATCH 16/21] groff: Upgrade 1.24.2 -> 1.25.0
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261109134034.74458-1-jaipaul.cheernam@est.tech>
+ <20261109134034.74458-17-jaipaul.cheernam@est.tech>
+In-Reply-To: <20261109134034.74458-17-jaipaul.cheernam@est.tech>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 07:00:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249905
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 07:15:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249906
 
-The version script names symbols that are only defined through .symver,
-so lld fails with:
+On Mon Nov 9, 2026 at 2:40 PM CET, Jaipaul Cheernam wrote:
+> - Drop builddep.patch as fix is part of release
+> - Refresh exisitng patches
+>
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> ---
 
-  error: version script assignment of 'GLIBC_2.2' to symbol 'timer_gettime' failed: symbol not defined
+Hi Jaipaul,
 
-Allow undefined versioned symbols with lld, the .symver definitions
-still get the expected versions.
+Thanks for the upgrade. We can see this failure:
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
----
- meta/recipes-support/libfaketime/libfaketime_0.9.13.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ERROR: groff-1.25.0-r0 do_compile: oe_runmake failed
+...
+utils/tfmtodit/tfmtodit.o libgroff.a -lm lib/libgnu.a
+| /bin/bash: line 2: /srv/pokybuild/yocto-worker/genericx86-64/build/build/=
+tmp/work/core2-64-poky-linux/groff/1.25.0/sources/groff-1.25.0/soelim: cann=
+ot execute: required file not found
+| make[2]: *** [Makefile:21098: man/groff.7.man] Error 127
+| make[2]: *** Deleting file 'man/groff.7.man'
+| make[2]: *** Waiting for unfinished jobs....
+| make[2]: Leaving directory '/srv/pokybuild/yocto-worker/genericx86-64/bui=
+ld/build/tmp/work/core2-64-poky-linux/groff/1.25.0/sources/groff-1.25.0'
+| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/genericx86-64/bui=
+ld/build/tmp/work/core2-64-poky-linux/groff/1.25.0/sources/groff-1.25.0'
+| make[1]: *** [Makefile:13422: all-recursive] Error 1
+| make: *** [Makefile:7743: all] Error 2
+| ERROR: oe_runmake failed
 
-diff --git a/meta/recipes-support/libfaketime/libfaketime_0.9.13.bb b/meta/recipes-support/libfaketime/libfaketime_0.9.13.bb
-index 7280d58cd3..bcbf53181f 100644
---- a/meta/recipes-support/libfaketime/libfaketime_0.9.13.bb
-+++ b/meta/recipes-support/libfaketime/libfaketime_0.9.13.bb
-@@ -11,6 +11,9 @@ SRC_URI = "git://github.com/wolfcw/libfaketime.git;branch=master;tag=v${PV};prot
-            file://0001-Mark-write-only-real_-pointers-as-unused.patch \
- "
- 
-+# The version script names the symbols that are defined with .symver
-+LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
-+
- do_install () {
-     install -d ${D}${libdir}/faketime
-     oe_libinstall -C src libfaketime ${D}${libdir}/faketime
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/5006
+
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
