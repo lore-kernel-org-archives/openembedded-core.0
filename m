@@ -1,60 +1,60 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12906.1794282760526724691
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12907.1794282762646217211
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2026 19:52:40 -0800
+ Mon, 09 Nov 2026 19:52:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=wbc07rY6;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2e9e53d011eso11430305ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 19:52:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=IvjMTrqh;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3b08a162d4bso908705a91.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2026 19:52:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794282760; x=1794887560; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1794282762; x=1794887562; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kQuyr10FM8MT11aneiTMxJ1S52al7QiFMTzga3k8GU8=;
-        b=wbc07rY63dUaExk0UtaXT5XgeP7ZDuLKJeV4kHvuxVChJ8dUtVIRZhgtYtKjqfelWm
-         Cxug4fKymT7VZd/kYJ0MaP/ghfJnPiiNwg7j70WleW9VLoeM+bamWdLMHp6+c+d1b+e/
-         K/zer2Hlt6Kv4I7JpClMTawSvxzc0O2vpaPXGSTUXLBSUNjDu85ql/MYA0l1XyMBA/Mn
-         sknPNrPyNa6Q21BJxMC6OW7plp9tyYZNuKEmjkiG2hbXIsaZPf0vL5yM6X7s9+wzGcJ2
-         SFoKk7MavPdBY+wMKSghHxEyWnoegQcwAZAtvY7m1oO2B0RKwWuSStj6gKMVak5VbOOV
-         LaKw==
+        bh=IDJ03+FHgBMUnJQPPli1WJHNROOHupsqXif2NhN79dA=;
+        b=IvjMTrqhkco1BScW3jSiDIRta8d2IJuqw16uB+K94otL1Bi6YQ7d02y0NRgPyxKi2y
+         4dSD0skzo+55lbs32qUj13bt7XC10x8H9nep7ECFfEy+yoK3dUJyMOcgaU+nHRGvz7BR
+         LzsgBdUFCMp/ZoHUpuu7s9fgJJ8LMYo/dQSzSDYlC2RsujXLM8uRQ5+NktV6aht4FNev
+         lI08yIIlRsc0i8LwFSopoXUbWrz7qqyP9FSCm64GnSHHY3VLdlKR8XWGpm35Sc5xUlEP
+         3OmZOmlBOe3KQYylY9x5ndvG4NLy6DwRsyzT/Inm4x3SUstKn9yCMFfqSL7GNzE1ni8d
+         +y2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794282760; x=1794887560;
+        d=1e100.net; s=20260707; t=1794282762; x=1794887562;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kQuyr10FM8MT11aneiTMxJ1S52al7QiFMTzga3k8GU8=;
-        b=IDvm1W/6DTwCsAB92obuPbcY3+cmwjNIzDPsA2gqjDo+uUp0RHSb5yLvuylai6PtfP
-         aQutZJGM3c7ABF7FJIxb3wWmac2KpJquRPbIdejrFrfpgloYE5Ldn30kZB1Wyj8i4dRa
-         TDDzhW627WTf/nJ+b+sYK3+3cJAdKqt3TZUMQhSwa6piuY/PLQdE3sAPkQurALhCTBJa
-         4SbP03WYbzrQhGLzjOesTNhGW/pyOOkey2liRLv+wVYvHfmKKFKUwqil6q9FamriuevX
-         Tynb5dxLuE4O5J/Nk/Xp9k6VnL3jgpBfhpZRt8hQdrYEoHN9Ph3aBOkvpE1WW1p6Ozgz
-         c/5g==
-X-Gm-Message-State: APuU4Z+sug/zjUd8lJ4NzivcSFMpF5fN8Pd/rj/T4jf5iHdtunq3Xyh3
-	WOie2GufdsjXY34Jm5RcSMWyneyTjH8BPYISoy59sxe+YPVQtEjMGBtBp8C6wina
-X-Gm-Gg: AYBFou3/HPpMVfrfy6AQPAdFvynbyylr+Wr9XvjjwMxHyL2un9gH0rSNXAPns8hxM36
-	y4DmsiQAXnMqZNUkIaeZSBZJVaZimvLkDQUS7ooYLOth5aISBt7pkVM3QYO8YBfiuOUpc2PN3pb
-	QE8JX3g7MiLpHhOj5fKmPdPlIDp9nfFEJAIlV+dGWiAXGFrw9WJu4Xjpcl5Fp0JMqUmIgBepz8v
-	/YmcAwArSLolgyevbgrzWeyfEcz9I7+hy2n7xUKRAWwKzCcAHnuYoSH9ajo4ZGea+s6YtR8KKWY
-	YptWuj3Op3QYGEoaMKz/VQVK6pISTiu6OSvURUSp02YYbtLRq15HbLPezgIVOFG7kpbc2d0yBjh
-	2qHMf39Zvhou4E+MJghVK9SqQI3G9F/fmQNI1+w97tFOyL23IJx+nr8/n2b7fMWz32Rkr7FDf4q
-	pxcCJxLgQO1qi0kYh4wy41VywozSeEDM0+qN6amSHYkVVhT6S67G0kzfWILyztk2Ccs0ZfGD1vD
-	PcCwzWkt2N0+GPIIOV9eYoRv75Cwb8YxYIfuTgMxOFJeDCZI/NlZZfW5EfmelveZI0a1CzuTY79
-	ICNOEcDjz5DzayAaoIOaZNhfgeCRGHrgxpwixbL/b9QgHx5NeuAgyLrKsoLvUA==
-X-Received: by 2002:a17:90b:2f87:b0:3ac:9c37:9418 with SMTP id 98e67ed59e1d1-3b166f69fe1mr1594539a91.19.1794282759701;
-        Mon, 09 Nov 2026 19:52:39 -0800 (PST)
+        bh=IDJ03+FHgBMUnJQPPli1WJHNROOHupsqXif2NhN79dA=;
+        b=l0Rwbx2w6uN+jBy+mTAANbbPicK6Kx3ZSAJg9Y1MuFF6mKudC5RYauut7ygHt22yDK
+         1rwQXSXExuM4m1ikDq8gh8rgEOS9FmVEaKrt7p+iKfHrAqIAB01B5yY+9b69zrtV9NMl
+         gOnoUuPyAyqUMqoQoOPddcmZ0+Hn8Bkm+Swx2bSU0isX8bsdYuTcY9TTi4tNv0yWxUdo
+         PgWVI5wCn6KT1OASdaOduuVVcd6fbd1F5rqs8Dgxzb9Awy6hTvIFLHJVrLHUci7b7WhD
+         SQtCK7Rs6kjCugDFLH3UFidEUXAarfAA5cLtWQqL7GM6uBlXhjrsWMMaHqxytBUytOhZ
+         ZzXg==
+X-Gm-Message-State: APuU4Z8+Sc4a4PZSnahkcqD6RhrOcdKfBVAuO56aVmQnbYBIQDpIF0SC
+	RljRmTzCKJ1RME16t9vKm9qGh0VQ+QZGE/5qpdQaUUlmLnj2sXvoUBRqwKXA4ZzB
+X-Gm-Gg: AYBFou2L9UeJCykdvrlfUp5YkM3o7A//Whx7pdkC7jchlOSB3LoT9H7qSGk7ATIZ7TP
+	6WozQpJPNMUMwdU1Vlu52jgL6MXTOoRk0QP6j6dC1MmAGcWFEle+iFEaLn30/YOq6/p37cyCHvz
+	W/RcxLPDSTxOzuQEMCZu+8He9PecFu5zIoKwFGdYvNkYYo6VFb82DtLufRuxGI9qS2l4UEgZh5V
+	k/EpGgBKuieJUfWrAp8/Z4edARvGOjLAYUG5nbbuiLld3DEsq0NmFBQDZ6mfkTfK1Us+0+b0fS5
+	I6K1kicshovK6bDe+6mKO3RFSl/yvUXVwOEoQoAK0E0HEoF8w+hwyy+AjtnnRNYkpy8BBJPGYLP
+	R43OzbmlsS6E8TYTC21OnxfWokwsB80DPx/aNzCR6I+lCP6pqeiUiXesvpAU0+JDfqcVqSGqDgz
+	qgxqG9Xxd4bRR1SaE9dS84UKYz3uMNoB/7gjR4hP+JX2aJYXVkirPrLTkJtPppQV20K1pfIreCh
+	iW0pkYhBACiV6rL4dPX0hewF6XTGbMBKQZMXpGuTVjCzcNMDhoduo2hI1pWn3NVFpwBS3aXOvdJ
+	taxYWa/1lLVmweYUZOHZjRJGBlaIq62uB+/IrZ3qSBJjccUAzlS5y+L3FRDOzQ==
+X-Received: by 2002:a17:90b:17cd:b0:3ad:f949:667b with SMTP id 98e67ed59e1d1-3b166d37183mr1730536a91.57.1794282761875;
+        Mon, 09 Nov 2026 19:52:41 -0800 (PST)
 Return-Path: <ankur.tyagi85@gmail.com>
 Received: from NVAPF55DW0D-IPD.. ([147.161.217.9])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b16708f963sm2077346a91.1.2026.11.09.19.52.37
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b16708f963sm2077346a91.1.2026.11.09.19.52.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 19:52:38 -0800 (PST)
+        Mon, 09 Nov 2026 19:52:41 -0800 (PST)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][PATCH 2/7] ppp: upgrade 2.5.4 -> 2.5.5
-Date: Tue, 10 Nov 2026 16:52:24 +1300
-Message-ID: <20261110035229.2940188-2-ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 3/7] apt: upgrade 3.0.3 -> 3.0.4
+Date: Tue, 10 Nov 2026 16:52:25 +1300
+Message-ID: <20261110035229.2940188-3-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261110035229.2940188-1-ankur.tyagi85@gmail.com>
 References: <20261110035229.2940188-1-ankur.tyagi85@gmail.com>
@@ -62,33 +62,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 03:52:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249889
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249890
 Content-Type: text/plain; charset="utf-8"
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
 Changelog:
-https://github.com/ppp-project/ppp/releases/tag/v2.5.5
+https://metadata.ftp-master.debian.org/changelogs/main/a/apt/apt_3.0.4_changelog
 
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/recipes-connectivity/ppp/{ppp_2.5.4.bb => ppp_2.5.5.bb} | 2 +-
+ meta/recipes-devtools/apt/{apt_3.0.3.bb => apt_3.0.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/ppp/{ppp_2.5.4.bb => ppp_2.5.5.bb} (98%)
+ rename meta/recipes-devtools/apt/{apt_3.0.3.bb => apt_3.0.4.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.4.bb b/meta/recipes-connectivity/ppp/ppp_2.5.5.bb
+diff --git a/meta/recipes-devtools/apt/apt_3.0.3.bb b/meta/recipes-devtools/apt/apt_3.0.4.bb
 similarity index 98%
-rename from meta/recipes-connectivity/ppp/ppp_2.5.4.bb
-rename to meta/recipes-connectivity/ppp/ppp_2.5.5.bb
-index 6f7977ece37..4a21b94907b 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.5.4.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.5.5.bb
-@@ -25,7 +25,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-            file://ppp@.service \
+rename from meta/recipes-devtools/apt/apt_3.0.3.bb
+rename to meta/recipes-devtools/apt/apt_3.0.4.bb
+index 393008f05e5..c56819f0990 100644
+--- a/meta/recipes-devtools/apt/apt_3.0.3.bb
++++ b/meta/recipes-devtools/apt/apt_3.0.4.bb
+@@ -23,7 +23,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
             "
  
--SRC_URI[sha256sum] = "379a630a40d858a1347f6592d671791dde12101697a743ef9900012f3765be31"
-+SRC_URI[sha256sum] = "0ebbcfef906d16cfbb9cbdd19c0d92aa3df2fd8fdd29731f614c58d16a279aa5"
+-SRC_URI[sha256sum] = "5b5f6f6d26121742a83aa80d4ed0eb0c6ce9bea259518db412edefd95760e4ef"
++SRC_URI[sha256sum] = "e853aec49afbe520ebcd4dbcbc98e1c55262c6bf1c119cf43e6aec69752443c6"
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- inherit autotools pkgconfig systemd
- 
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
