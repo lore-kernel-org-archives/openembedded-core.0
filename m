@@ -1,35 +1,35 @@
 Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3030.1794427798330398239
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3145.1794427807054734104
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 12:09:59 -0800
+ Wed, 11 Nov 2026 12:10:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=bxdIbyx7;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202611112009550cdeda81f600020761-9t7maw@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202611112009550cdeda81f600020761
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=nE2/kFUN;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2026111120100540fe3ddca9000207b6-kyzp_x@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026111120100540fe3ddca9000207b6
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 11 Nov 2026 21:09:55 +0100
+        Wed, 11 Nov 2026 21:10:05 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
  bh=NILKJS7BfKRLFXN0PEcvHRJEmU0Jdo8v6Ps+wWQDdgM=;
- b=bxdIbyx7dnvhVF0ylDgkb8yJfoXIU3OhbwV7yjj9ZWFj0wx9lhVA0KWa+1TE5PIls/J+gQ
- 4wUocPWooe4TGwUd+L4DxGMCUdKcGg3uz/NiL3GYJlWKLWswg3i36Ticop4vvczUfDnOfvuy
- pG3pzslDO26kf6JR6ObU1gyQv1rK1Bg6roFEXxy3NgiBb7+ivzocIFAd8pauzcOj+6ln1pSU
- RaWBoEJohmKCouxg2XPCL3uREcnoEfXjf+h9JzmCqFKG/Ped9ZGkWk3JLhGBjvlun8iJBOOs
- 8nUUBSI9wg9Xs7nX6cF8tb6LK2nMDs9WFfTQB6wStL4LE7nZ/3QfxPLg==;
+ b=nE2/kFUNaVi59ozFNns7G15PUZY6DKZbeIaD31qL3WGOGjxiSyGshyLs6QcINqUN4jqLa7
+ ICW2R6Pim9lIhX1YcfQkJjRr15BpYBPINQ72xjgwwJPwiwX/PHAEXwz5duI49FtJeulVkOmj
+ v2lEF9C1X4QddxwG0u4+5iv/PxfhydUsxLEoEspC8Wproz+HEGjwmhUevTMAKW1r6S7Z2HD+
+ Y3Cvtlfo65UTbKO+9I6bHCIBAwmbNmlGJBdEUJhjP0Jd1IEWviKOjU3BIP6h/2rlNSWT1sNO
+ Wij+PA1f5kRLhm76oLXQQkk7yBMUFCiwSL6bSjwuSs0VPPPaGcWnx2NA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] go: upgrade 1.27.3 -> 1.27.4
-Date: Wed, 11 Nov 2026 21:09:14 +0100
-Message-ID: <20261111200914.2475550-1-peter.marko@siemens.com>
+Subject: [blacksail][PATCH] go: upgrade 1.27.3 -> 1.27.4
+Date: Wed, 11 Nov 2026 21:09:30 +0100
+Message-ID: <20261111200930.2475585-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 20:10:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250052
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 20:10:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250053
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
