@@ -1,73 +1,72 @@
-Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3242.1794374735135445517
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3331.1794374735405499012
  for <openembedded-core@lists.openembedded.org>;
  Tue, 10 Nov 2026 21:25:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=htKjh6T3;
- spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: arpitpa@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VGCO8994;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: arpitpa@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4170; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=4810; q=dns/txt;
   s=iport01; t=1794374735; x=1795584335;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xVTOL/Wnc6Jdvw14ZV4Ay5UxD9tbPaVyI/GJMRbIRrw=;
-  b=htKjh6T3D1K4l+c7x54nMlqEU5VAgHFiOtp2GZfUwUwB4Vzmzt6SbanO
-   0YcxSaSJAp8VQ6YXi05wPgMEvO66B6uJRHCAjJ0jC9imbWp44KkxdI9s/
-   v9+iOlZt58Bj0btMr+3a1HDYtn06RqgQVb7EzoiDwFfu8J2VRdUYzTerf
-   qwTijrYRSE0NhJVvbgA8yiXxqSLIQGBigns9DX8WcUqrgC8b4NxNBrCaX
-   UYHICCGJjxBn9l00WtDze9WcekG3SF3xSaLI3v6sq46IcPq/b34hEO1G8
-   SLsX5LWuJ94PwVuNV5hftU7EjrJtIbLgn1j7dUrfporXUjC0n1SspLnhE
+  bh=KuFJzfQ+JGmOGk7By8RkrrZyU4zv8FSXH+dGlyOBQyU=;
+  b=VGCO8994fFUTDPqj1lFOhuXNFh5p+EjZiPIeN01b3AaxI0aQom6vfhoC
+   B34QlQHqZwthMdNpc7wVxgJABrjJlX9FmfTLEwaWGt802/9zpDdkio9yt
+   li145s8/kiYh6b51YiXNZgCIGBQ+M3dhLgyQgqptmBTWS+UEPBUmEzDzf
+   0X3xZREWFPKQHrT5T1P2RkHzUUF4Jzyd7rq9frOfE/W5m2UuqE8MqqLMY
+   fMhZv2a9fOKQjkbyUwNcrPyRg0bACgO1qID9m13qlRJ+K9hsQjeDfifud
+   Lw/jmS0sxNsyMUTlNBOfTrxVSRzRgoqbT7adOqKtiNOWmkWu5bKesTbDn
    w==;
-X-CSE-ConnectionGUID: KJfEiatETS+HtqfKfMwUAQ==
-X-CSE-MsgGUID: vYi4WS2gSZi1PvSZitI9OA==
-X-IPAS-Result: =?us-ascii?q?A0AaAAAG+/Nq/5P/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBglZ1YENJjHKJWQOeIoF+DwEBAQ9EDQQBAYQ/RgKOHgImNAkOAQIEA?=
- =?us-ascii?q?wIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGTw2QEgECAQMnCwEYAS0QH?=
- =?us-ascii?q?AMBAi8rIwgZgwIBgnQDEblWgXkzgQGCZkMBPwJDUNlLgWgBCxQBBYEzAYVBM?=
- =?us-ascii?q?odyXRgBhH0nG4FJRIR+gQWBXAEBiCYEgxwSgVqNGgKBT4clSIEeA1ksAVUTD?=
- =?us-ascii?q?QoLBwWBaAM1EioVbjIdgSM+F4EHGwYFgRyBHoESgQddgSsoXQEhgQiBdgKCU?=
- =?us-ascii?q?YIAAgFJQQ4HRVMJJUMSRyQiCBIJARMaLAqBGjU8CSY/FQxnCxoFYQgCDQx0O?=
- =?us-ascii?q?RAwHiQvBRomPhsKfhgNSBEsNxUZBD5uB5JugxUBWDUBK4EFQGIWo0SCIaERh?=
- =?us-ascii?q?CqBaIo8lToaM4VbpRcLmH2OCpZRhGqBaDxGgQELBzMaCBsVgyIJShkPjisDC?=
- =?us-ascii?q?wuDYIF/gxTJSCYyAgkyAQEHAgcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:OvBu66sHK0vsgWefJrFJ2Ka5cOfnVABfMUV32f8akzHdYApBsoF/q
- tZmKW6FOa6CMDCnL4tyPo229kkC65CBytFmSwE9/C1jRngTgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrb/656yYsjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZzdJ5xYuajhKsvva8Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw2cR5LGBH6
- dEkE3MtcgmNpOyT34+Sc7w57igjBJGD0II3oHpsy3TdSP0hW52GGv2M7t5D1zB2jcdLdRrcT
- 5NGMnw0M1KaPkAJYwtIYH49tL/Aan3XeidAqU6NrII84nPYy0p6172F3N/9J4DUGZoFxxbCz
- o7A13rIA00lD4aQ8giEq0qyvd3OgQKqf6tHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS8gqBzO/Qpg2eHGVBF2YHY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn2891te5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:UZf6869M///hACbmwuxuk+AAI+orL9Y04lQ7vn2ZhyY7TiX+rb
- HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
- 5ISdkZNDSJNykYse/KpC+lDt0n3N6LtIqshevY0jNRaDsCUdAY0++8YTzraXGfg2J9dOIEKK
- Y=
-X-Talos-CUID: =?us-ascii?q?9a23=3AG6E5dWtMpetFz/colFGdsxui6IsGUHPwzX7MDnO?=
- =?us-ascii?q?DSkZ1UbO2R3qPxYpdxp8=3D?=
-X-Talos-MUID: 9a23:VP2tLwWnJFzACrrq/CHdhW1dD51n2JavUXgTqqcHp+jVEgUlbg==
+X-CSE-ConnectionGUID: 0y8YjfvCSMuH/gsu3/2Nsg==
+X-CSE-MsgGUID: 5iV5rabnRu6LGICQrWb65w==
+X-IPAS-Result: =?us-ascii?q?A0AnAAAG+/Nq/5P/Ja1aHQEBAQEJARIBBQUBgXwIAQsBg?=
+ =?us-ascii?q?lZ1YENJjHKJWQOeIoF+DwEBAQ9EDQQBAYQ/RgKOHgImNAkOAQIEAwIDAQEBA?=
+ =?us-ascii?q?QEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGTw2QEgECAQMnCwEYAS0QHAMBAi8rI?=
+ =?us-ascii?q?wgZgwIBgnQDEblWgXkzgQGCZkMBPwJDUNlLgWgBCxQBBYEzAYVBModyXRgBh?=
+ =?us-ascii?q?H0nG4FJRIJQgi6BBYFcAQGBOIZuBIMcEoFajRoCgU+HJUiBHgNZLAFVEw0KC?=
+ =?us-ascii?q?wcFgWgDNRIqFW4yHYEjPheBBxsGBYEcgR6BEoEHXYErKF0BIYEIgXYCglGCA?=
+ =?us-ascii?q?AIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQM?=
+ =?us-ascii?q?B4kLwUaJj4bCn4YDUgRLDcVGQQ+bgeSboMCEwFYNQErgj2jRIIhoRGEKoFoi?=
+ =?us-ascii?q?jyVOhozhVulFwuYfY4KllGEaoFoPIFHCwczGggbFYMiCUoZD44uCwuDYIF/g?=
+ =?us-ascii?q?xTJSCYyAgkyAQEHAgcOAwuBaJABgX0BAQ?=
+IronPort-Data: A9a23:M6/IWaOLpYLvfxLvrR3zlsFynXyQoLVcMsEvi/4bfWQNrUoq1jxVy
+ jBNUDiOOq3eNjbxKdxxPtvj8BhUvpWDztJkQXM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+ ykmQoCeap1yFjmD9k/F3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WVzlV
+ e/a+ZWFZgb8gmcsawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
+ 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj661/XHA0M5MzwcNqISZB7
+ uFDb2ordR/W0opawJrjIgVtrt4oIM+uOMYUvWttiGiBS/0nWpvEBa7N4Le03h9p2ZsIRqmYP
+ ZdEL2MzM3wsYDUXUrsTIJskhOa0nnDXeDxDo1XTrq0yi4TW5FEtjue8b4eEKrRmQ+0In3jFv
+ GvM+V7kXDU1Ffem0wWPrC+z07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/OMpQ2YHWMDCDVGbbTKqfMLeNDj7
+ XfR9/uBONClmOT9pa61nltMkQ6PBA==
+IronPort-HdrOrdr: A9a23:erdmpa0dTS71b6bUJpGArQqjBGokLtp133Aq2lEZdPWaSKOlfq
+ eV7ZMmPHDP6Qr5NEtMpTnEAtjjfZq+z+8Q3WBuB9eftWDd0QPCRr2Kr7GSpgEIcBeRygcy78
+ tdmoFFebvN5CBB/KXHyTj9Nco8y9+a963tr+Lfw3BxCTxOUchbnn5E4sLxKDwMeOGAbqBJbK
+ ah2g==
+X-Talos-CUID: 9a23:DF+HK2FUvJm3H0VRqmI/5R4lGM47WUb40VeXLFSlUiEzbqaaHAo=
+X-Talos-MUID: 9a23:g2fTFgthc/4RM7I+I82n2TBcad1h6aKUFR4pvrQtgtO7P3ItJGLI
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,207,1787011200"; 
-   d="scan'208";a="546478182"
+   d="scan'208";a="546797598"
 Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
-  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 11 Nov 2026 05:25:34 +0000
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 11 Nov 2026 05:25:34 +0000
 Received: from sjc-ads-10129.cisco.com (sjc-ads-10129.cisco.com [10.30.210.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 115691800025B;
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 74B551800025B;
 	Wed, 11 Nov 2026 05:25:34 +0000 (GMT)
 Received: by sjc-ads-10129.cisco.com (Postfix, from userid 1877011)
-	id AABE3CBF22F; Tue, 10 Nov 2026 21:25:33 -0800 (PST)
+	id C461ACBF23E; Tue, 10 Nov 2026 21:25:33 -0800 (PST)
 From: Arpit Patel <arpitpa@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com
-Subject: [OE-core][blacksail][PATCH 03/10] sqlite3: fix CVE-2026-119374
-Date: Tue, 10 Nov 2026 21:25:25 -0800
-Message-Id: <20261111052532.1258975-3-arpitpa@cisco.com>
+Subject: [OE-core][blacksail][PATCH 08/10] sqlite3: fix CVE-2026-119376
+Date: Tue, 10 Nov 2026 21:25:30 -0800
+Message-Id: <20261111052532.1258975-8-arpitpa@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261111052532.1258975-1-arpitpa@cisco.com>
 References: <20261111052532.1258975-1-arpitpa@cisco.com>
@@ -79,120 +78,117 @@ X-Outbound-SMTP-Client: 10.30.210.133, sjc-ads-10129.cisco.com
 X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 05:25:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249946
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249947
 Content-Type: text/plain; charset="utf-8"
 
-This patch applies the upstream fix [1], which addresses an FTS5
-secure-delete buffer overrun when handling a corrupted database.
-The GitHub mirror commit [1] corresponds to the SQLite Fossil
-check-in shown in [2].
+This patch applies the upstream fix [1], which includes COLLATE
+expressions in expression tree depth calculations and prevents bypass
+of the expression depth limit. The GitHub mirror commit [1] corresponds
+to the SQLite Fossil check-in shown in [2].
 
-[1] https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21df5960704d9
-[2] https://sqlite.org/src/info/9cd4f9e920
+[1] https://github.com/sqlite/sqlite/commit/d54522a5b832422ab893a1e9fa7a99ab314ea4e2
+[2] https://sqlite.org/src/info/252c0b7bf5a727d2
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-119374
+https://nvd.nist.gov/vuln/detail/CVE-2026-119376
 
 Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 ---
- .../sqlite/sqlite3/CVE-2026-119374.patch      | 78 +++++++++++++++++++
+ .../sqlite/sqlite3/CVE-2026-119376.patch      | 75 +++++++++++++++++++
  meta/recipes-support/sqlite/sqlite3_3.53.4.bb |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
 new file mode 100644
-index 0000000000..15ca70d338
+index 0000000000..5a6bc97259
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
-@@ -0,0 +1,78 @@
-+From 6875e24f0c0612feccb97ab4c3f92c8444833373 Mon Sep 17 00:00:00 2001
-+From: dan <Dan Kennedy>
-+Date: Tue, 11 Aug 2026 14:16:12 +0000
-+Subject: [PATCH] Fix a problem in fts5 secure-delete code that could lead to a
-+ buffer overrun when dealing with a strategically corrupted database. Problem
-+ reported by YEONBA.
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
+@@ -0,0 +1,75 @@
++From 2af844923ba3e32fb16b06adab4e4ad3b2f4da49 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sun, 4 Oct 2026 21:54:17 +0000
++Subject: [PATCH] Fix expression tree depth calculations for COLLATE.
++ [bugs:/info/2026-10-04T04:50:56Z|Bug 2026-10-04T04:50:56Z]
 +
-+FossilOrigin-Name: 9cd4f9e9205c5a5096388397a39349db9ff5377d19095c6b20388ff799969c31
++FossilOrigin-Name: 252c0b7bf5a727d29605672bb58e06c758173c276671df3e388a68294998b4d3
 +
-+CVE: CVE-2026-119374
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21df5960704d9]
++CVE: CVE-2026-119376
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/d54522a5b832422ab893a1e9fa7a99ab314ea4e2]
 +
 +Backport Changes:
-+- Applied the fix from ext/fts5/fts5_index.c to sqlite3.c because the
-+  recipe uses SQLite's amalgamated source.
-+- Omitted ext/fts5/test/fts5corruptB.test because the extracted source
-+  does not include the upstream Tcl test tree.
-+- Omitted manifest and manifest.uuid because they are Fossil metadata
-+  and are not needed for this source patch.
++- Ported the src/expr.c and src/sqliteInt.h changes into sqlite3.c
++  because the recipe source uses the amalgamated SQLite layout.
++- Omitted test/sqllimits1.test because the extracted source does not
++  include the upstream test tree.
++- Omitted manifest and manifest.uuid because they are Fossil
++  repository metadata and are not needed for this source patch.
 +
 +Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 +---
-+ sqlite3.c | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
++ sqlite3.c | 16 +++++++++++-----
++ 1 file changed, 11 insertions(+), 5 deletions(-)
 +
 +diff --git a/sqlite3.c b/sqlite3.c
-+index 06ceecf..4fb0674 100644
++index d2c0f23..cb678b2 100644
 +--- a/sqlite3.c
 ++++ b/sqlite3.c
-+@@ -256381,34 +256381,38 @@ static void fts5DoSecureDelete(
-+   if( p->rc==SQLITE_OK ){
-+     const int nMove = nPg - iNextOff;     /* Number of bytes to move */
-+     int nShift = iNextOff - iOff;         /* Distance to move them */
-+-
-++    int nNewPg = 0;
-+     int iPrevKeyOut = 0;
-+-    int iKeyIn = 0;
-++    i64 iKeyIn = 0;
-+ 
-+     if( nMove>0 ){
-+       memmove(&aPg[iOff], &aPg[iNextOff], nMove);
++@@ -22409,8 +22409,8 @@ SQLITE_PRIVATE void sqlite3SetTextEncoding(sqlite3 *db, u8);
++ SQLITE_PRIVATE CollSeq *sqlite3ExprCollSeq(Parse *pParse, const Expr *pExpr);
++ SQLITE_PRIVATE CollSeq *sqlite3ExprNNCollSeq(Parse *pParse, const Expr *pExpr);
++ SQLITE_PRIVATE int sqlite3ExprCollSeqMatch(Parse*,const Expr*,const Expr*);
++-SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(const Parse *pParse, Expr*, const Token*, int);
++-SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(const Parse*,Expr*,const char*);
+++SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(Parse *pParse, Expr*, const Token*, int);
+++SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(Parse*,Expr*,const char*);
++ SQLITE_PRIVATE Expr *sqlite3ExprSkipCollate(Expr*);
++ SQLITE_PRIVATE Expr *sqlite3ExprSkipCollateAndLikely(Expr*);
++ SQLITE_PRIVATE int sqlite3CheckCollSeq(Parse *, CollSeq *);
++@@ -113018,23 +113018,29 @@ SQLITE_PRIVATE int sqlite3ExprDataType(const Expr *pExpr){
++ ** and the pExpr parameter is returned unchanged.
++ */
++ SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(
++-  const Parse *pParse,     /* Parsing context */
+++  Parse *pParse,           /* Parsing context */
++   Expr *pExpr,             /* Add the "COLLATE" clause to this expression */
++   const Token *pCollName,  /* Name of collating sequence */
++   int dequote              /* True to dequote pCollName */
++ ){
++-  if( pCollName->n>0 ){
+++  if( pCollName->n>0 && pParse->nErr==0 ){
++     Expr *pNew = sqlite3ExprAlloc(pParse->db, TK_COLLATE, pCollName, dequote);
+++    assert( pExpr!=0 );
++     if( pNew ){
++       pNew->pLeft = pExpr;
++       pNew->flags |= EP_Collate|EP_Skip;
+++#if SQLITE_MAX_EXPR_DEPTH>0
+++      pNew->nHeight = pExpr->nHeight+1;
+++      sqlite3ExprCheckHeight(pParse, pNew->nHeight);
+++      testcase( pParse->nErr>0 );
+++#endif
++       pExpr = pNew;
 +     }
-+     iPgIdx -= nShift;
-+-    nPg = iPgIdx;
-++    nNewPg = iPgIdx;
-+     fts5PutU16(&aPg[2], iPgIdx);
-+ 
-+     for(iIdx=0; iIdx<nIdx; /* no-op */){
-+       u32 iVal = 0;
-+       iIdx += fts5GetVarint32(&aIdx[iIdx], iVal);
-+       iKeyIn += iVal;
-++      if( iKeyIn>nPg ){
-++        FTS5_CORRUPT_IDX(p);
-++        break;
-++      }
-+       if( iKeyIn!=iDelKeyOff ){
-+         int iKeyOut = (iKeyIn - (iKeyIn>iOff ? nShift : 0));
-+-        nPg += sqlite3Fts5PutVarint(&aPg[nPg], iKeyOut - iPrevKeyOut);
-++        nNewPg += sqlite3Fts5PutVarint(&aPg[nNewPg], iKeyOut - iPrevKeyOut);
-+         iPrevKeyOut = iKeyOut;
-+       }
-+     }
-+ 
-+-    if( iPgIdx==nPg && nIdx>0 && pSeg->iLeafPgno!=1 ){
-++    if( p->rc==SQLITE_OK && iPgIdx==nNewPg && nIdx>0 && pSeg->iLeafPgno!=1 ){
-+       fts5SecureDeleteIdxEntry(p, iSegid, pSeg->iLeafPgno);
-+     }
-+ 
-+-    assert_nc( nPg>4 || fts5GetU16(aPg)==0 );
-+-    fts5DataWrite(p, FTS5_SEGMENT_ROWID(iSegid,pSeg->iLeafPgno), aPg, nPg);
-++    assert_nc( nNewPg>4 || fts5GetU16(aPg)==0 );
-++    fts5DataWrite(p, FTS5_SEGMENT_ROWID(iSegid,pSeg->iLeafPgno), aPg, nNewPg);
 +   }
-+   sqlite3_free(aIdx);
++   return pExpr;
 + }
++ SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(
++-  const Parse *pParse,  /* Parsing context */
+++  Parse *pParse,        /* Parsing context */
++   Expr *pExpr,          /* Add the "COLLATE" clause to this expression */
++   const char *zC        /* The collating sequence name */
++ ){
 +-- 
 +2.35.6
 +
 diff --git a/meta/recipes-support/sqlite/sqlite3_3.53.4.bb b/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
-index 4ec6eb230e..0c7b713728 100644
+index 1aea7cb374..06cd34818f 100644
 --- a/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
 +++ b/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
-@@ -26,6 +26,7 @@ SRC_URI += "file://0001-Add-option-to-disable-zlib.patch \
- 	file://CVE-2026-119377_p1.patch \
- 	file://CVE-2026-119377_p2.patch \
- 	file://CVE-2026-119373.patch \
-+	file://CVE-2026-119374.patch \
+@@ -31,6 +31,7 @@ SRC_URI += "file://0001-Add-option-to-disable-zlib.patch \
+ 	file://CVE-2026-119379.patch \
+ 	file://CVE-2026-119372.patch \
+ 	file://CVE-2026-119378.patch \
++	file://CVE-2026-119376.patch \
  "
  SRC_URI[sha256sum] = "0e9483900e92cd5de8fd48d16bf9200145a61f7fd5be542a5ac81d8a9516eb9c"
  
