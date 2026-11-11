@@ -1,275 +1,409 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1676.1794366725812175817
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3330.1794374735166642856
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2026 19:12:05 -0800
+ Tue, 10 Nov 2026 21:25:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=zCye75an;
- spf=pass (domain: gmail.com, ip: 74.125.82.170, mailfrom: ragaprasanth@gmail.com)
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so5415873eec.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 19:12:05 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Y2S88M6g;
+ spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: arpitpa@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794366725; x=1794971525; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=D+pxMmJKxDPW5C9w58EJoQpGxAKTgO1zM0Xw27Fd3lw=;
-        b=zCye75anGaUGy5o/TE0cQYvZH0VTuLk4zluVM+13ff/PZThCJVT9acGxozE9leak9T
-         wJGKcDE2H8022BiTpBnGKKL9YI5ACCv1RGI3Db9uI0QXQFMJECoOf81Vh80kqpBvcYFy
-         UjEVcNGP042wWmOXl+PltQVtgeANlwRvjw4jlX+cbasQ8+9/cMRqbZ3+M9eiiGoASEIk
-         hPxiRFlbbn2AygxNgEZoJZDiWgddV7UHUu5mJ8cfzGgZddOIYqpJQMLE7bFrWn+k+xjI
-         6TfY9aerN1dQnyoo1cMlU8LShctAzAaddhFs0Q+S6Er2CEeEuzaqhyVG8sA6dbMSTinb
-         GUcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794366725; x=1794971525;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=D+pxMmJKxDPW5C9w58EJoQpGxAKTgO1zM0Xw27Fd3lw=;
-        b=TgfQCdrz3JHtEPspQMM+BlB8wrO+As4hJ1U7FbR4opLLaIVJQAhrizWgP3y41Dizgg
-         mn9+xd8w75kezDSkXdIFuRaoiCmdTImEE3UPkKn2LVPmgr8bzN+GrPzpgNt5IafjEyh2
-         s/VIaHYjVCaKr7t/wKxNeAhlzVNTDJ1RzofUOPUOIqcmI6cOB5PCWxJHLabVnRKbwqNd
-         KXws8Aix5YJ2q1j3TMut6fFjfeyhQ6/yfI2oKXmiWfKU9Ajo2L9tnKwmPzGrNQ1V8xeA
-         mnxZhoKidZK9OS0crOH6Q3UV55ieMJ0BVe70I02Cbxngh9X1rrSgMgZYdqIItVMWdPeB
-         24vw==
-X-Gm-Message-State: APuU4Z88YXdOHnOQzCXcEDrdpaOZJcIMrZyHnNQzQshth3Ewfn4YUPfC
-	DcWZC08uW4H+A8DPc9lFeAXKvNCkFl3XMHCn1rGBSxYs0GP0RjquqvnOZZFvWg==
-X-Gm-Gg: AYBFou1yOiglxgZNBTtDGK9wL2750WgJSorU/1CAQMLfnJjUTF8nvf+qLcRl2b6P4Mm
-	PBV+1O8iZh7INM3pTQtCgcebf3H3xLbISp+oYO9lsB21xTH/n6w/FkAG0/nHv/QPr9yxGnCYidK
-	op3ogMpZmiDEy/Q6tvm2DeHsYFc8+Zwb17ylE4tZusJf3dn8dWmIIZUCWO4FozSToiWuvSES8AX
-	jOpserX6qb6P1JBpmNgM9lhLW3cnoijrxaTGyMtarQx1ex3Y2aC0AwRRKc9Da44S9YjRKputxDc
-	ZUvpMEu2wCVzr8+oIYxm0LaQ6H7lpK0NGzU055kVfRBe0knjOJSsOFcpmgTWErZ6ycIN05jSFIX
-	fWpmYSrk+1awtJbwzTaKrF4yI/Iqd4GhIx+5/eFB9AaFw5WRjbiSEBeJAzUeIate5xeHGxe37By
-	QDaACGtDhqcfHLMLambzZFLUwY+tzOeMVfGBOdVPC0unEHiblGv+mvMY0HdnoYQDrHekC1MViG5
-	4bub2/yTJIwDHKv/811SkLRPU72lY0tyMYMT3t7yfvTSc6iaqzMU6ikUcJBoTiqugHdGbl1q14v
-	5b6C71+Ju7dT713Zp69V8H1ScFRvh/JSMOd5DA90iHL7uIpw1pa86t0FUG0gXZ7WTJXitrZMzM7
-	IjPDHHk8vtw==
-X-Received: by 2002:a05:7301:4544:b0:373:5561:8d06 with SMTP id 5a478bee46e88-37687212a1bmr1517955eec.37.1794366724760;
-        Tue, 10 Nov 2026 19:12:04 -0800 (PST)
-Return-Path: <ragaprasanth@gmail.com>
-Received: from prasanth.alps.lineo.co.jp (vpn1.lineo.co.jp. [203.141.200.204])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375215d8889sm11903949eec.27.2026.11.10.19.12.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 19:12:04 -0800 (PST)
-From: Prasanth R <ragaprasanth@gmail.com>
+  d=cisco.com; i=@cisco.com; l=12843; q=dns/txt;
+  s=iport01; t=1794374735; x=1795584335;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YIxuvdqWtCdsMKXotK+mPdAzGMdhJqb+dbrOU/5UaZk=;
+  b=Y2S88M6gj256xO3G+2XSyvzhTrAXkUGxGGFIjKDhvLeMMSfcg/GMciju
+   5ADtWNXcmKcyLy1GWswBNPRYxZdmQcWWeeagK3gfZpNWyXFJ2RwgggqVD
+   7R15YoaEDT2Lhw1IXsLMhbOd7ra6wx7Ue853bbs+V1h2I4WmeTB4zczV2
+   +x7JKZ8TUnvLCj2rpoPKA35zganRygwjsBp9jeWrfL7+HouX6hpHCzLx3
+   e61fh3nRbphUy0tUAmLsPgebxzNDgzRIExftVWb2bDSWmSIa1m0X5fRqg
+   d85guq8D3KyI1D2xa9k5FF54N5T57vzn43RWRfCoQgWNyGQ4wTjcbRHFW
+   w==;
+X-CSE-ConnectionGUID: pr1tVwlkQgSWGHBZI3OKzg==
+X-CSE-MsgGUID: NUj1NXBYR/aujUA5LZmkmw==
+X-IPAS-Result: =?us-ascii?q?A0AaAAAG+/Nq/43/Ja1aHAEBAQEBAQcBARIBAQQEAQGBf?=
+ =?us-ascii?q?AcBAQsBglZ1YENJjHKJWZ4lgX4PAQEBD0QNBAEBhD9GAo4eAiY0CQ4BAgQDA?=
+ =?us-ascii?q?gMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBKgsBGAEtLAMBA?=
+ =?us-ascii?q?lojIQmCeQGCdAMRuVaBeTOBAYJmQwE/AkNQ2UuBaAELFAEFgTMBhUEyh3JdG?=
+ =?us-ascii?q?AGEfScbgUlEhH6BBYFcAQGIJgSDLoFaHoYhhlsCgU+HJUiBHgNZLAFVEw0KC?=
+ =?us-ascii?q?wcFgWgDNRIqFW4yHYEjPheBBxsGBYEcgR6BEoEHXYErKF0BIYEIgXYCglGCA?=
+ =?us-ascii?q?AIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQM?=
+ =?us-ascii?q?B4kLwUaJj4bCn4YDUgRLDcVGQQ+bgeSboMOBgEBWCITAQcjAXsdcDU6owqCI?=
+ =?us-ascii?q?aERhCqBaIo8lToaM4VbpRcLmH2OCpZRhGqBaDyBRwsHMxoIGxWDIglKGQ+OL?=
+ =?us-ascii?q?gsLg2CBf4MUyUgmMgIJMgEBBwIHDgMLgWiRfgEB?=
+IronPort-Data: A9a23:qiRQ9qhSmXPSPf5ZdSKaFvh4X161NhEKZh0ujC45NGQN5FlHY01je
+ htvUTiDb/feYmb9LYhxb4vloB8H7ceAmtRmTVY5+HwxRC5jpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNsvva8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUA4L9rP35K9
+ sUXEw8iTjqxprmR46C0H7wEasQLdKEHPasFsX1miDWcBvE8TNWbH+PB5MRT23E7gcUm8fT2P
+ pVCL2EwKk6dPlsWZg5/5JEWxI9EglH2aSVZtEqcjaE2+GPUigd21dABNfKIJoLRHZsFwx/wS
+ mTu2Vn7WzcqHu2ljjOY8E+F28v9mCD+R9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUg4w2Lj66R6AGDCy1cEnhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:M4fK0q1UvD7AnBaxEo7jZQqjBJ4kLtp133Aq2lEZdPWaSKOlfq
+ eV7ZEmPHDP6Qr5NEtMpTniAtjjfZqjz/5ICOAqVN/INjUO01HHEGgN1+ffKhTbaknDH5ZmpM
+ RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
+X-Talos-CUID: 9a23:2ISJRmGAz9W58OGSqmJ/7hcIJN8hcUTS90j/A2WKKD1Oa6+aHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3ATWAgAgxG+b0GV9yh45lw7XyepnWaqIKTChkrob8?=
+ =?us-ascii?q?3gY6NKC5NEmq5vjG0R5Byfw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,207,1787011200"; 
+   d="scan'208";a="546306851"
+Received: from rcdn-l-core-04.cisco.com ([173.37.255.141])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 11 Nov 2026 05:25:34 +0000
+Received: from sjc-ads-10129.cisco.com (sjc-ads-10129.cisco.com [10.30.210.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-04.cisco.com (Postfix) with ESMTPS id 0C7D3180001AE;
+	Wed, 11 Nov 2026 05:25:34 +0000 (GMT)
+Received: by sjc-ads-10129.cisco.com (Postfix, from userid 1877011)
+	id A52DECC2EF1; Tue, 10 Nov 2026 21:25:33 -0800 (PST)
+From: Arpit Patel <arpitpa@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denis@denix.org>,
-	Prasanth R <ragaprasanth@gmail.com>
-Subject: [PATCH] lz4: upgrade 1.10.0 -> 1.11.1
-Date: Wed, 11 Nov 2026 12:11:22 +0900
-Message-Id: <20261111031122.3270583-1-ragaprasanth@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core][blacksail][PATCH 01/10] sqlite3: Fix CVE-2026-119377
+Date: Tue, 10 Nov 2026 21:25:23 -0800
+Message-Id: <20261111052532.1258975-1-arpitpa@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-10129.cisco.com [10.30.210.133];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.30.210.133, sjc-ads-10129.cisco.com
+X-Outbound-Node: rcdn-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 03:12:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249941
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 05:25:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249942
 Content-Type: text/plain; charset="utf-8"
 
-Drop reproducibility.patch and fix-null-error-handling.patch, both
-are part of this release.
+This patch applies the upstream fix series [1], [3], [5], and [7] for
+the authorizer bypass. Commits [1] and [3] are dependent commits. Commit
+[5] adds authorizer checks for RIGHT JOIN USING terms, and commit [7]
+corrects the loop so every term is checked. The GitHub mirror commits
+correspond to the SQLite Fossil check-ins shown in [2], [4], [6], and
+[8], respectively.
 
-The unit tests moved out of frametest into a new unittest program,
-so install and run it in the ptest too. run-ptest is now plain sh,
-so drop the bash dependency.
+[1] https://github.com/sqlite/sqlite/commit/c70fbd39f9c130bbe1cc45269c3b490dfdf7f259
+[2] https://sqlite.org/src/info/625f78a630bb
+[3] https://github.com/sqlite/sqlite/commit/ddea119f825bf07f145c55f623022286bc644664
+[4] https://sqlite.org/src/info/4ef88a36f9d9
+[5] https://github.com/sqlite/sqlite/commit/7ff247c5b9ead3ad8a69c26d3fd264878e127237
+[6] https://sqlite.org/src/info/bbd69ce27462
+[7] https://github.com/sqlite/sqlite/commit/5694c3bb2a6a40770ecd2f65910eea756734dfd8
+[8] https://sqlite.org/src/info/2cb228776836
 
-Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-119377
+
+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 ---
- .../lz4/lz4/fix-null-error-handling.patch     | 68 -------------------
- .../lz4/lz4/reproducibility.patch             | 33 ---------
- meta/recipes-support/lz4/lz4/run-ptest        | 27 ++++----
- .../lz4/{lz4_1.10.0.bb => lz4_1.11.1.bb}      | 10 +--
- 4 files changed, 15 insertions(+), 123 deletions(-)
- delete mode 100644 meta/recipes-support/lz4/lz4/fix-null-error-handling.patch
- delete mode 100644 meta/recipes-support/lz4/lz4/reproducibility.patch
- rename meta/recipes-support/lz4/{lz4_1.10.0.bb => lz4_1.11.1.bb} (88%)
+ .../CVE-2026-119377-dependent_p1.patch        | 86 +++++++++++++++++++
+ .../CVE-2026-119377-dependent_p2.patch        | 61 +++++++++++++
+ .../sqlite/sqlite3/CVE-2026-119377_p1.patch   | 52 +++++++++++
+ .../sqlite/sqlite3/CVE-2026-119377_p2.patch   | 51 +++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.53.4.bb |  8 +-
+ 5 files changed, 256 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p1.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p2.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p1.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p2.patch
 
-diff --git a/meta/recipes-support/lz4/lz4/fix-null-error-handling.patch b/meta/recipes-support/lz4/lz4/fix-null-error-handling.patch
-deleted file mode 100644
-index 1527cc7591..0000000000
---- a/meta/recipes-support/lz4/lz4/fix-null-error-handling.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From f64efec011c058bd70348576438abac222fe6c82 Mon Sep 17 00:00:00 2001
--From: louislafosse <louis.lafosse@epitech.eu>
--Date: Mon, 31 Mar 2025 20:48:52 +0200
--Subject: [PATCH] fix(null) : improve error handlings when passing a null
-- pointer to some functions from lz4frame
--
--Upstream-Status: Backport [https://github.com/lz4/lz4/commit/f64efec011c058bd70348576438abac222fe6c82]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- lib/lz4frame.c    | 15 +++++++++++++--
-- tests/frametest.c |  9 ++++++---
-- 2 files changed, 19 insertions(+), 5 deletions(-)
--
--diff --git a/lib/lz4frame.c b/lib/lz4frame.c
--index 85daca7b..c9e4a3cf 100644
----- a/lib/lz4frame.c
--+++ b/lib/lz4frame.c
--@@ -539,9 +539,16 @@ LZ4F_CDict*
-- LZ4F_createCDict_advanced(LZ4F_CustomMem cmem, const void* dictBuffer, size_t dictSize)
-- {
--     const char* dictStart = (const char*)dictBuffer;
---    LZ4F_CDict* const cdict = (LZ4F_CDict*)LZ4F_malloc(sizeof(*cdict), cmem);
--+    LZ4F_CDict* cdict = NULL;
--+
--     DEBUGLOG(4, "LZ4F_createCDict_advanced");
---    if (!cdict) return NULL;
--+
--+    if (!dictStart)
--+        return NULL;
--+    cdict = (LZ4F_CDict*)LZ4F_malloc(sizeof(*cdict), cmem);
--+    if (!cdict)
--+        return NULL;
--+
--     cdict->cmem = cmem;
--     if (dictSize > 64 KB) {
--         dictStart += dictSize - 64 KB;
--@@ -1486,6 +1493,10 @@ LZ4F_errorCode_t LZ4F_getFrameInfo(LZ4F_dctx* dctx,
--                                    LZ4F_frameInfo_t* frameInfoPtr,
--                              const void* srcBuffer, size_t* srcSizePtr)
-- {
--+    assert(dctx != NULL);
--+    RETURN_ERROR_IF(frameInfoPtr == NULL, parameter_null);
--+    RETURN_ERROR_IF(srcSizePtr == NULL, parameter_null);
--+
--     LZ4F_STATIC_ASSERT(dstage_getFrameHeader < dstage_storeFrameHeader);
--     if (dctx->dStage > dstage_storeFrameHeader) {
--         /* frameInfo already decoded */
--diff --git a/tests/frametest.c b/tests/frametest.c
--index de0fe643..90247547 100644
----- a/tests/frametest.c
--+++ b/tests/frametest.c
--@@ -714,10 +714,13 @@ static int unitTests(U32 seed, double compressibility)
--         size_t const srcSize = 65 KB; /* must be > 64 KB to avoid short-size optimizations */
--         size_t const dstCapacity = LZ4F_compressFrameBound(srcSize, NULL);
--         size_t cSizeNoDict, cSizeWithDict;
---        LZ4F_CDict* const cdict = LZ4F_createCDict(CNBuffer, dictSize);
---        if (cdict == NULL) goto _output_error;
---        CHECK( LZ4F_createCompressionContext(&cctx, LZ4F_VERSION) );
--+        LZ4F_CDict* cdict = NULL;
-- 
--+        CHECK( LZ4F_createCompressionContext(&cctx, LZ4F_VERSION) );
--+        cdict = LZ4F_createCDict(CNBuffer, dictSize);
--+        if (cdict == NULL)
--+            goto _output_error;
--+        
--         DISPLAYLEVEL(3, "Testing LZ4F_createCDict_advanced : ");
--         {   LZ4F_CDict* const cda = LZ4F_createCDict_advanced(lz4f_cmem_test, CNBuffer, dictSize);
--             if (cda == NULL) goto _output_error;
-diff --git a/meta/recipes-support/lz4/lz4/reproducibility.patch b/meta/recipes-support/lz4/lz4/reproducibility.patch
-deleted file mode 100644
-index c138986da8..0000000000
---- a/meta/recipes-support/lz4/lz4/reproducibility.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--lib/Makefile: Fix static library reproducibility
--
--The static library contents varies depending of the order of the object files on disk meaning
--it isn't reproducible.
--
--To avoid this, use the SRCFILES values which are already sorted, mapped to the object names
--instead.
--
--
--Upstream-Status: Submitted [https://github.com/lz4/lz4/pull/1497]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Index: git/lib/Makefile
--===================================================================
----- git.orig/lib/Makefile
--+++ git/lib/Makefile
--@@ -55,6 +55,7 @@ CFLAGS   = $(DEBUGFLAGS) $(USERCFLAGS)
-- ALLFLAGS = $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
-- 
-- SRCFILES := $(sort $(wildcard *.c))
--+OBJFILES = $(SRCFILES:.c=.o)
-- 
-- include ../Makefile.inc
-- 
--@@ -102,7 +103,7 @@ liblz4.a: $(SRCFILES)
-- ifeq ($(BUILD_STATIC),yes)  # can be disabled on command line
-- 	@echo compiling static library
-- 	$(COMPILE.c) $^
---	$(AR) rcs $@ *.o
--+	$(AR) rcs $@ $(OBJFILES)
-- endif
-- 
-- ifeq ($(WINBASED),yes)
-diff --git a/meta/recipes-support/lz4/lz4/run-ptest b/meta/recipes-support/lz4/lz4/run-ptest
-index f4a46a4f2c..34527ae68f 100644
---- a/meta/recipes-support/lz4/lz4/run-ptest
-+++ b/meta/recipes-support/lz4/lz4/run-ptest
-@@ -1,17 +1,14 @@
- #!/bin/sh
- 
--# Define test work dir
--WORKDIR=@PTEST_PATH@/tests/
--
--# Run test
--cd ${WORKDIR}
--
--case_name="test_frame"
--./frametest 
--ret=$?
--if [[ ${ret} == "0" ]]; then
--    echo "PASS: lz4/$case_name"
--else
--    echo "FAIL: lz4/$case_name"
--fi
--
-+cd @PTEST_PATH@/tests/ || exit 1
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p1.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p1.patch
+new file mode 100644
+index 0000000000..57f44bc645
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p1.patch
+@@ -0,0 +1,86 @@
++From c3cab0322ae36fe6ca21df300c670af379c0a423 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sat, 2 May 2026 17:30:33 +0000
++Subject: [PATCH] Minor optimization to the authorizer.
 +
-+run() {
-+    if "./$1"; then
-+        echo "PASS: lz4/$2"
-+    else
-+        echo "FAIL: lz4/$2"
-+    fi
-+}
++FossilOrigin-Name: 625f78a630bbf897f945065f1b85a92fe26e426302c8f6edc4d26a817ff62358
 +
-+run frametest test_frame
-+run unittest test_unit
-diff --git a/meta/recipes-support/lz4/lz4_1.10.0.bb b/meta/recipes-support/lz4/lz4_1.11.1.bb
-similarity index 88%
-rename from meta/recipes-support/lz4/lz4_1.10.0.bb
-rename to meta/recipes-support/lz4/lz4_1.11.1.bb
-index 5a39f89871..47fa5117f2 100644
---- a/meta/recipes-support/lz4/lz4_1.10.0.bb
-+++ b/meta/recipes-support/lz4/lz4_1.11.1.bb
-@@ -10,13 +10,11 @@ LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=5cd5f851b52ec832b10eedb3f01f885a \
++CVE: CVE-2026-119377
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/c70fbd39f9c130bbe1cc45269c3b490dfdf7f259]
++
++Backport Changes:
++- Applied the src/auth.c and src/resolve.c changes to sqlite3.c because
++  the Yocto sqlite-autoconf source uses the amalgamated SQLite layout.
++- Kept SQLITE_PRIVATE on sqlite3AuthCheck() to match the amalgamated
++  source.
++- Omitted manifest and manifest.uuid because they are repository
++  metadata and are not needed for this sqlite3.c backport.
++
++Signed-off-by: Arpit Patel <arpitpa@cisco.com>
++---
++ sqlite3.c | 27 ++++++++++++++++++++++-----
++ 1 file changed, 22 insertions(+), 5 deletions(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 0644a39..6a795f7 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -111320,9 +111320,7 @@ lookupname_end:
++   if( cnt==1 ){
++     assert( pNC!=0 );
++ #ifndef SQLITE_OMIT_AUTHORIZATION
++-    if( pParse->db->xAuth
++-     && (pExpr->op==TK_COLUMN || pExpr->op==TK_TRIGGER)
++-    ){
+++    if( db->xAuth && (pExpr->op==TK_COLUMN || pExpr->op==TK_TRIGGER) ){
++       sqlite3AuthRead(pParse, pExpr, pSchema, pNC->pSrcList);
++     }
++ #endif
++@@ -126468,8 +126466,14 @@ SQLITE_PRIVATE void sqlite3AuthRead(
++ ** either SQLITE_OK (zero) or SQLITE_IGNORE or SQLITE_DENY.  If SQLITE_DENY
++ ** is returned, then the error count and error message in pParse are
++ ** modified appropriately.
+++**
+++** Divided into two routines.  realAuthCheck() does the work.  The
+++** sqlite3AuthCheck() routine is usually a fast no-op but invokes
+++** realAuthCheck() (and spends time doing some stack pushes and pops
+++** as a result) in the uncommon case where an authorization check is
+++** actually needed.
++ */
++-SQLITE_PRIVATE int sqlite3AuthCheck(
+++static int SQLITE_NOINLINE realAuthCheck(
++   Parse *pParse,
++   int code,
++   const char *zArg1,
++@@ -126483,7 +126487,7 @@ SQLITE_PRIVATE int sqlite3AuthCheck(
++   ** or if the parser is being invoked from within sqlite3_declare_vtab.
++   */
++   assert( !IN_RENAME_OBJECT || db->xAuth==0 );
++-  if( db->xAuth==0 || db->init.busy || IN_SPECIAL_PARSE ){
+++  if( IN_SPECIAL_PARSE ){
++     return SQLITE_OK;
++   }
++ 
++@@ -126508,6 +126512,19 @@ SQLITE_PRIVATE int sqlite3AuthCheck(
++   }
++   return rc;
++ }
+++SQLITE_PRIVATE int sqlite3AuthCheck(
+++  Parse *pParse,
+++  int code,
+++  const char *zArg1,
+++  const char *zArg2,
+++  const char *zArg3
+++){
+++  if( pParse->db->xAuth!=0 && pParse->db->init.busy==0 ){
+++    return realAuthCheck(pParse,code,zArg1,zArg2,zArg3);
+++  }else{
+++    return SQLITE_OK;
+++  }
+++}
++ 
++ /*
++ ** Push an authorization context.  After this routine is called, the
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p2.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p2.patch
+new file mode 100644
+index 0000000000..121424308e
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p2.patch
+@@ -0,0 +1,61 @@
++From 4ad8d0b4f4de75182a835bfadf0dc14c1c8c1a70 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Mon, 1 Jun 2026 16:49:39 +0000
++Subject: [PATCH] Make sure the authenticator is called for columns that are
++ part of a USING in a FULL JOIN. [bugs:/info/2026-05-31T02:00:37Z|Bug
++ 2026-05-31T02:00:37Z].
++
++FossilOrigin-Name: 4ef88a36f9d9669b0d74c58f79ad497803885ff6078e5f9685f13c96eab397cc
++
++CVE: CVE-2026-119377
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/ddea119f825bf07f145c55f623022286bc644664]
++
++Backport Changes:
++- Applied the src/resolve.c change to sqlite3.c because this recipe
++  uses the amalgamated SQLite source.
++- Omitted manifest and manifest.uuid updates because they are Fossil
++  repository metadata and are not needed in this backport.
++
++Signed-off-by: Arpit Patel <arpitpa@cisco.com>
++---
++ sqlite3.c | 17 +++++++++++++---
++ 1 file changed, 13 insertions(+), 4 deletions(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 6a795f7..9353a03 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -111237,7 +111237,7 @@ static int lookupName(
++   ** cnt>1 means there were two or more matches.
++   **
++   ** cnt==0 is always an error.  cnt>1 is often an error, but might
++-  ** be multiple matches for a NATURAL LEFT JOIN or a LEFT JOIN USING.
+++  ** be multiple matches for a NATURAL OUTER JOIN or a OUTER JOIN USING.
++   */
++   assert( pFJMatch==0 || cnt>0 );
++   assert( !ExprHasProperty(pExpr, EP_xIsSelect|EP_IntValue) );
++@@ -111320,9 +111320,18 @@
++   if( cnt==1 ){
++     assert( pNC!=0 );
++ #ifndef SQLITE_OMIT_AUTHORIZATION
++-    if( db->xAuth && (pExpr->op==TK_COLUMN || pExpr->op==TK_TRIGGER) ){
++-      sqlite3AuthRead(pParse, pExpr, pSchema, pNC->pSrcList);
++-    }
+++    if( db->xAuth ){
+++      if( pFJMatch ){
+++        assert( pExpr->op==TK_FUNCTION );
+++        assert( sqlite3_stricmp(pExpr->u.zToken,"coalesce")==0 );
+++        assert( pExpr->x.pList==pFJMatch );
+++        assert( pFJMatch->nExpr>0 );
+++        pExpr = pFJMatch->a[0].pExpr;
+++      }
+++      if( pExpr->op==TK_COLUMN || pExpr->op==TK_TRIGGER ){
+++        sqlite3AuthRead(pParse, pExpr, pSchema, pNC->pSrcList);
+++      }
+++    } 
++ #endif
++     /* Increment the nRef value on all name contexts from TopNC up to
++     ** the point where the name matched. */
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p1.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p1.patch
+new file mode 100644
+index 0000000000..4ab2f652bf
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p1.patch
+@@ -0,0 +1,52 @@
++From 7e76b79f06869f46def99a3ec08d9dfb53a346b1 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sun, 5 Jul 2026 16:06:33 +0000
++Subject: [PATCH] Be sure to invoke the authorizer callback on all terms of the
++ USING clause in a RIGHT JOIN. [bugs:/info/2026-07-05T08:15:45Z|Bug
++ 2026-07-05T08:15:45Z]
++
++FossilOrigin-Name: bbd69ce27462000873af053bfebdd305c53deac85c426b1e7dbd927b5f17d622
++
++CVE: CVE-2026-119377
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/7ff247c5b9ead3ad8a69c26d3fd264878e127237]
++
++Backport Changes:
++- Applied the src/resolve.c change in sqlite3.c because the Yocto
++  sqlite-autoconf source uses the amalgamated layout.
++- Omitted test/auth.test because the extracted recipe source lacks the
++  upstream Tcl test tree.
++- Omitted manifest and manifest.uuid because they are repository
++  metadata and are not needed in this source patch.
++
++Signed-off-by: Arpit Patel <arpitpa@cisco.com>
++---
++ sqlite3.c | 9 ++++++---
++ 1 file changed, 6 insertions(+), 3 deletions(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 9353a03..411a39a 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -111322,13 +111322,16 @@ lookupname_end:
++ #ifndef SQLITE_OMIT_AUTHORIZATION
++     if( db->xAuth ){
++       if( pFJMatch ){
+++        int ii;
++         assert( pExpr->op==TK_FUNCTION );
++         assert( sqlite3_stricmp(pExpr->u.zToken,"coalesce")==0 );
++         assert( pExpr->x.pList==pFJMatch );
++         assert( pFJMatch->nExpr>0 );
++-        pExpr = pFJMatch->a[0].pExpr;
++-      }
++-      if( pExpr->op==TK_COLUMN || pExpr->op==TK_TRIGGER ){
+++        for(ii=0; ii<pFJMatch->nExpr; ii++){
+++          assert( pFJMatch->a[0].pExpr->op==TK_COLUMN );
+++          sqlite3AuthRead(pParse, pFJMatch->a[0].pExpr, pSchema, pNC->pSrcList);
+++        }
+++      }else if( pExpr->op==TK_COLUMN || pExpr->op==TK_TRIGGER ){
++         sqlite3AuthRead(pParse, pExpr, pSchema, pNC->pSrcList);
++       }
++     } 
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p2.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p2.patch
+new file mode 100644
+index 0000000000..827d5fe750
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p2.patch
+@@ -0,0 +1,51 @@
++From a98f25c8a88d1e0e24f677279ac90b30567f93ee Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Fri, 24 Jul 2026 14:53:59 +0000
++Subject: [PATCH] Fix a bug in the check-in [bbd69ce274620008] causing that
++ bug-fix check-in to fail to completely fix the original bug.  This fix is in
++ response to the follow-up report at [bugs:/info/2026-07-24T02:52:08Z|Bug
++ 2026-07-24T02:52:08Z].
++
++FossilOrigin-Name: 2cb22877683680c1f89bcc9edb47bd1a4a8755d4a6b846a1a20136a657dacdcc
++
++CVE: CVE-2026-119377
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/5694c3bb2a6a40770ecd2f65910eea756734dfd8]
++
++Backport Changes:
++- Applied the src/resolve.c correction to sqlite3.c because the Yocto
++  recipe source uses the amalgamated SQLite layout.
++- Omitted test/auth.test because the extracted recipe source lacks the
++  upstream Tcl test tree.
++- Omitted manifest and manifest.uuid because they are Fossil
++  repository metadata and are not needed in the source patch.
++
++Signed-off-by: Arpit Patel <arpitpa@cisco.com>
++---
++ sqlite3.c | 7 +++----
++ 1 file changed, 3 insertions(+), 4 deletions(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 273ef4a..6130466 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -111322,14 +111322,13 @@ lookupname_end:
++ #ifndef SQLITE_OMIT_AUTHORIZATION
++     if( db->xAuth ){
++       if( pFJMatch ){
++-        int ii;
++         assert( pExpr->op==TK_FUNCTION );
++         assert( sqlite3_stricmp(pExpr->u.zToken,"coalesce")==0 );
++         assert( pExpr->x.pList==pFJMatch );
++         assert( pFJMatch->nExpr>0 );
++-        for(ii=0; ii<pFJMatch->nExpr; ii++){
++-          assert( pFJMatch->a[0].pExpr->op==TK_COLUMN );
++-          sqlite3AuthRead(pParse, pFJMatch->a[0].pExpr, pSchema, pNC->pSrcList);
+++        for(i=0; i<pFJMatch->nExpr; i++){
+++          assert( pFJMatch->a[i].pExpr->op==TK_COLUMN );
+++          sqlite3AuthRead(pParse,pFJMatch->a[i].pExpr,pSchema,pNC->pSrcList);
++         }
++       }else if( pExpr->op==TK_COLUMN || pExpr->op==TK_TRIGGER ){
++         sqlite3AuthRead(pParse, pExpr, pSchema, pNC->pSrcList);
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.53.4.bb b/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
+index 007a823dc5..c7c081b393 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
+@@ -20,8 +20,12 @@ S = "${UNPACKDIR}/sqlite-autoconf-${SQLITE_PV}"
+ B = "${WORKDIR}/build"
  
- PE = "1"
- 
--SRCREV = "ebb370ca83af193212df4dcbadcc5d87bc0de2f0"
-+SRCREV = "aa4647fad575d01a874aaaadcdbe8e6a40e072f5"
- 
- SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https;tag=v${PV} \
--           file://reproducibility.patch \
-            file://run-ptest \
--           file://fix-null-error-handling.patch \
--"
-+           "
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
- inherit ptest
-@@ -31,8 +29,6 @@ do_install() {
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--RDEPENDS:${PN}-ptest += "bash"
+ SRC_URI = "http://www.sqlite.org/2026/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI += "file://0001-Add-option-to-disable-zlib.patch"
 -
- do_compile_ptest() {
-         oe_runmake -C ${B}/tests/
- }
-@@ -40,7 +36,7 @@ do_compile_ptest() {
- do_install_ptest() {
- 	install -d ${D}${PTEST_PATH}/tests/
- 	install --mode=755 ${B}/tests/frametest ${D}${PTEST_PATH}/tests/
-+	install --mode=755 ${B}/tests/unittest ${D}${PTEST_PATH}/tests/
- 	sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/run-ptest
--
- }
++SRC_URI += "file://0001-Add-option-to-disable-zlib.patch \
++	file://CVE-2026-119377-dependent_p1.patch \
++	file://CVE-2026-119377-dependent_p2.patch \
++	file://CVE-2026-119377_p1.patch \
++	file://CVE-2026-119377_p2.patch \
++"
+ SRC_URI[sha256sum] = "0e9483900e92cd5de8fd48d16bf9200145a61f7fd5be542a5ac81d8a9516eb9c"
  
+ UPSTREAM_CHECK_URI = "http://www.sqlite.org/"
 -- 
-2.34.1
+2.35.6
 
