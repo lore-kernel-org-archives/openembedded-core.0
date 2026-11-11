@@ -1,41 +1,41 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3801.1794377113394396000
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3803.1794377113441477539
  for <openembedded-core@lists.openembedded.org>;
  Tue, 10 Nov 2026 22:05:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BJemdRoa;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jHTxQxFC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1c935db71-67e4bb45-c2bb-4ad5-a389-0acda6258f53-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NL9JRPev;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TOBEQjQD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a1c935dcab-4455ea10-0f97-436d-91ba-e4b6406ed4bd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1794377112;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2aEkso7A5XLzfj8D3atni29toC01KVu1a2NnY6Jgssg=;
-	b=BJemdRoaFxWV74JthtbSc896IbsBNXeAK/I0cdifCxJoJOOc0+KSZa4n2/1DY1kj
-	YjKDPsevUeTzQriFinXvm0K/8UdEZ3vuvXcvKi8IHhSTPnBhjo5tiCOolOUfscRQ7DF
-	bKlShTH7UkvZvEBhTjWx3lSeXORLUym6xdrMz0rA=
+	bh=7kjJWBiCTvy+qanjFgsvhVXHkhWNATOc6n9O4utV1yA=;
+	b=NL9JRPevHCYPgmpSxObAAg9K1QsoztqU1Moozabz892CzjmFEbwdpWnkq+pB1Az3
+	Xs5ROw2uxX71vJ9T1P6xRx+Bbm85fYHi/U8qvItbnuCrRYDIEVmNjNAcke/VnVZp5wJ
+	C4mK2V0JP2PgZo11jLwsSxtxeX5XrJNlNG1eiAPQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794377112;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2aEkso7A5XLzfj8D3atni29toC01KVu1a2NnY6Jgssg=;
-	b=jHTxQxFCaoAdk/BKWTS0MHHQW+tSVLBP5De7rYGsY6f6vVdIeDZnkUJnDpwNmmbe
-	rzkG7imenOWVKJqKJ+lFnxoJN/jAnnmR/DcxXaZQwPCWDqkleq+GmSq4vjgVVsJr7ST
-	I/tU9pAC+5oQ9KwjZXMkqu2hfcUD1GdtOZajAawk=
-Content-Type: multipart/mixed; boundary="===============2254148407742662233=="
+	bh=7kjJWBiCTvy+qanjFgsvhVXHkhWNATOc6n9O4utV1yA=;
+	b=TOBEQjQD4mBl6b+57r0gSYgBJg1l1ilVHC+zOf3DDOZy4kq+t4c3Jr423nsNzyqK
+	nUR61Z3AHeZMsix4rOCeREufLSCSsVThV1Pi7mJlwISRkDRqT4Tc9qqpTkOAudejMbA
+	7xLZdQcvFjWAMbsiwlhX1xdGvyqv6V0Vq4w8DwVE=
+Content-Type: multipart/mixed; boundary="===============0798386916199015010=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxmlb: upgrading to 0.3.30 SUCCEEDED
-Message-ID: <010101a1c935db71-67e4bb45-c2bb-4ad5-a389-0acda6258f53-000000@us-west-2.amazonses.com>
+Subject: [AUH] lz4: upgrading to 1.11.1 FAILED
+Message-ID: <010101a1c935dcab-4455ea10-0f97-436d-91ba-e4b6406ed4bd-000000@us-west-2.amazonses.com>
 Date: Wed, 11 Nov 2026 06:05:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.11-54.240.27.31
+X-SES-Outgoing: 2026.11.11-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 06:05:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249963
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249964
 
---===============2254148407742662233==
+--===============0798386916199015010==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxmlb* to *0.3.30* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *lz4* to *1.11.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libxmlb-upgrade-0.3.29-0.3.30.patch
+    - apply the patch: git am 0001-lz4-upgrade-1.10.0-1.11.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,255 +70,419 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From fb654892d0e4b8a35a7a6b1a3134dc85a3d19649 Mon Sep 17 00:00:00 2001
+From 58f0192ecafbfbf8d7e08f6ff7d5c13d020deacb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 11 Nov 2026 05:40:48 +0000
-Subject: [PATCH] libxmlb: upgrade 0.3.29 -> 0.3.30
+Date: Wed, 11 Nov 2026 06:05:03 +0000
+Subject: [PATCH] lz4: upgrade 1.10.0 -> 1.11.1
 
-Version 0.3.30
-~~~~~~~~~~~~~~
-Released: 2026-11-10
+v1.11.1
+fix  : `LZ4_resetStreamHC()` could write out of bounds at levels >= 10, on a
+state containing garbage (since v1.11.0)
+perf : faster decompression on ppc64 (+12% to +24% on silesia),
+`LZ4_FAST_DEC_LOOP` enabled, by @runlevel5
+perf : `lz4 -l` compresses small files up to 10x faster : no more threads than
+blocks
+api  : restored the unprefixed lz4frame enums and types
+(`LZ4F_ENABLE_OBSOLETE_ENUMS`), employed by zstd, now deprecated (compilation
+warning), reported by @diizzyy
+cli  : help (`-h`, `-H`, `--help`) outputs to stdout, requested by @tansy
+cli  : `--list` reads standard input again (since v1.10.0)
+cli  : various fixes (`--list`, `--stdout`, `--force`, multiple inputs, Windows
+pipes, modification time, output creation), by @lee3Q, @immanuwell and
+@rudycelekli
+build: `lz4file.h` usable from cmake (since v1.10.0) and meson installations,
+reported by @rudycelekli
+build: MinGW builds with clang and lld (since v1.11.0), reported by @tansy
+build: `make` with `BUILD_STATIC=no` or `BUILD_SHARED=no` (since v1.11.0), by
+@xry111
 
-New Features:
- - Add support for the XPath normalize-space() function (Richard Hughes)
- - Increase the maximum number of node attributes and tokens (Richard Hughes)
- - Record in the silo if the node was added as external info (Richard Hughes)
+v1.11.0
+fix  : data corruption in valid usage : ring buffer decoding
+(`LZ4_decoderRingBufferSize()`, since v1.9.0), rare cases of streaming or
+`destSize` compression, one reported by @freedom-winds
+fix  : single-thread `lz4` could truncate the decoding of concatenated frames
+with block checksums
+fix  : multithreaded decompression could write out of bounds after 2^31 frames
+(since v1.10.0), by @arshsmith1
+fix  : `LZ4F_compressBegin_usingDict()` ignored the dictionary with independent
+blocks
+fix  : some periodic data compressed up to 30x worse at fast levels, and very
+slowly at level 12, reported by @martinus
+fix  : invalid arguments (negative sizes, `NULL`, invalid `blockSizeID`, extreme
+levels) no longer crash nor overflow, by @arthuz-th, @jaypatrickhoward,
+@louislafosse, @akashdeshmukh-git, @rinsuki
+fix  : lz4file reports truncated files and write failures, and accepts files <
+19 bytes, by @axiqia
+perf : faster decompression on aarch64 and x86-64 (up to +19%, +4% on
+silesia.tar), `LZ4_FAST_DEC_LOOP` on aarch64 with clang and on riscv64, by
+@Nicoshev and @arpadpanyik-arm
+perf : faster compression of small blocks at fast levels, with reused states (up
+to +80%) or dictionaries (up to +35%), partly proposed by @BiplabRaut
+perf : faster levels 11 and 12 (+8% to +27%), level 2 compresses ~0.8% better
+perf : x86 builds avoid the JCC erratum : up to +12% compression and +31%
+decompression on Intel Skylake-family cpus
+api  : multithreaded lz4frame compression (experimental
+`LZ4F_preferences_t.nbWorkers`) : output independent of the nb of workers and of
+the context's history
+api  : random access within frames and lz4 files : `LZ4F_resumeFrame()`,
+`LZ4F_seek()`, `LZ4F_tell()` (static)
+api  : `LZ4_decompress_safe()` returns distinct error codes : `-1` malformed
+input, `-2` `dstCapacity` too small, `-3` missing dictionary
+api  : lz4frame compression accepts any `dstCapacity`, and only fails if the
+output doesn't fit
+api  : removed from headers : functions deprecated since v1.7.x / v1.8.0 (still
+exported by liblz4), unprefixed lz4frame enums ; `LZ4_resetStream()` and
+`LZ4_resetStreamHC()` are deprecated
+api  : `LZ4F_compressOptions_t` must be zero-initialized ; reserved fields are
+scalars (flatten positional initializers) ; `LZ4F_uncompressedUpdate()`
+deprecated (use `.uncompressed`)
+api  : custom allocators for lz4file (`_advanced()` functions),
+`LZ4_USER_MEMORY_FUNCTIONS` also for lz4frame and lz4file ; `LZ4F_cctx_size()`
+and `LZ4F_dctx_size()` by @felixhandte
+api  : HC states include the buffer of levels 10+ (+64 KB per state) : no
+allocation during compression
+cli  : multithreaded compression relies on liblz4 : same output with any nb of
+threads and without multithreading support ; `-T#` within a memory budget
+(`--memory=#`) ; new `--single-thread`
+cli  : decodes Firefox's mozlz4 files, proposed by @UnitedMarsupials, and legacy
+frames with the Linux kernel end marker, requested by @benjarobin (frame format
+documentation by @Artoria2e5)
+cli  : safer file handling : an output identical to the input is refused, a
+source modified during compression is detected, `--rm` keeps the source after
+failures, by @Furan666, @Nexory and @immanuwell
+cli  : benchmark (`-b`) measures frames, compressed as `lz4` does with the same
+options
+cli  : various fixes (`--list`, legacy format, benchmark, `-t -m`, numeric
+arguments), by @tansy, @jmestwa-coder, @akashdeshmukh-git, @arshsmith1, @jlee303
+and @Nexory
+build: dynamic library multithreaded by default, static library single-threaded
+; cmake `lz4` multithreaded
+build: cmake : exported `lz4::lz4` target by @dg0yt, CMake 4 support by
+@GeorgH93, `CMAKE_POSITION_INDEPENDENT_CODE` by @ds-sloth
+build: cmake : as a subproject, the `lz4` program is no longer built by default
+(`-DLZ4_BUILD_CLI=ON` restores it), by @crueter
+build: reproducible static library by @rpurdie, AIX support by @shubhamhii,
+meson fixes by @grobian, @bgilbert and @eli-schwartz, other fixes by @hot
 
-Bugfixes:
- - Convert xml:lang tags to POSIX form when required (Richard Hughes)
- - Fix OR branches still being evaluated after the limit is reached (Richard
-   Hughes)
- - Fix XbLzmaDecompressor reset leaving the stream unusable (Richard Hughes)
- - Fix a bound value losing its level inside a tuple (Richard Hughes)
- - Fix a crash when a query value was never bound (Richard Hughes)
- - Fix a crash when searching one silo from several threads (car12o)
- - Fix comma-separated function arguments being parsed in reverse (Richard
-   Hughes)
- - Fix escaped tab and newline not decoding in query parsing (Richard Hughes)
- - Fix literal backslashes not surviving the query escape round-trip (Richard
-   Hughes)
- - Fix mixed-type comparisons swapping their operands (Richard Hughes)
- - Fix parser depth leaking from one failed source to the next (Richard Hughes)
- - Fix unbound query variables silently comparing against zero (Richard Hughes)
- - Fix unfinished predicates being ignored at the start of a section (Richard
-   Hughes)
- - Fix xb_query_context_copy() silently dropping bindings after a gap (Richard
-   Hughes)
- - Fix xb_silo_stem() returning the unstemmed string on equal length (Richard
-   Hughes)
- - Fix xb_value_bindings_copy() aborting when a slot is unbound (Richard Hughes)
+[Changelog truncated as it exceeds 5000 characters;
+the full changelog can be found in an attachment to the AUH email]
 ---
- .../libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch | 6 +++---
- .../libxmlb/{libxmlb_0.3.29.bb => libxmlb_0.3.30.bb}        | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.29.bb => libxmlb_0.3.30.bb} (93%)
+ meta/recipes-support/lz4/{lz4_1.10.0.bb => lz4_1.11.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/lz4/{lz4_1.10.0.bb => lz4_1.11.1.bb} (96%)
 
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-index f0db37031e..82ec03bd64 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-+++ b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-@@ -1,4 +1,4 @@
--From d4aa8d857e1b18dff8bc23cc810c56b4dba3aa95 Mon Sep 17 00:00:00 2001
-+From 361bbfeb5b7bb6d89a022986746f8063e6df25b2 Mon Sep 17 00:00:00 2001
- From: Markus Volk <f_l_k@t-online.de>
- Date: Sat, 16 Sep 2023 14:02:57 +0200
- Subject: [PATCH] xb-self-test.c: hardcode G_TEST_SRCDIR
-@@ -18,10 +18,10 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-support/lz4/lz4_1.10.0.bb b/meta/recipes-support/lz4/lz4_1.11.1.bb
+similarity index 96%
+rename from meta/recipes-support/lz4/lz4_1.10.0.bb
+rename to meta/recipes-support/lz4/lz4_1.11.1.bb
+index 5a39f89871..4dc4a6d362 100644
+--- a/meta/recipes-support/lz4/lz4_1.10.0.bb
++++ b/meta/recipes-support/lz4/lz4_1.11.1.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=5cd5f851b52ec832b10eedb3f01f885a \
  
- diff --git a/src/xb-self-test.c b/src/xb-self-test.c
--index 795167d..ab2b582 100644
-+index ddc4c9d..4b46161 100644
- --- a/src/xb-self-test.c
- +++ b/src/xb-self-test.c
--@@ -3329,7 +3329,7 @@ xb_speed_precompiled_func(void)
-+@@ -14,7 +14,7 @@
-  int
-  main(int argc, char **argv)
-  {
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb b/meta/recipes-gnome/libxmlb/libxmlb_0.3.30.bb
-similarity index 93%
-rename from meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb
-rename to meta/recipes-gnome/libxmlb/libxmlb_0.3.30.bb
-index b070cbf99c..16089a3187 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb
-+++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.30.bb
-@@ -8,7 +8,7 @@ SRC_URI = " \
- 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
- 	file://run-ptest \
- "
--SRCREV = "d942cd68a7d78e35b312b9299e69f68f9cd2e503"
-+SRCREV = "35e0ece96ae9438ccdfe9fca5f11c161e396a481"
+ PE = "1"
  
- DEPENDS = "glib-2.0 xz zstd"
+-SRCREV = "ebb370ca83af193212df4dcbadcc5d87bc0de2f0"
++SRCREV = "aa4647fad575d01a874aaaadcdbe8e6a40e072f5"
  
+ SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https;tag=v${PV} \
+            file://reproducibility.patch \
 -- 
 2.47.1
 
 
---===============2254148407742662233==
+--===============0798386916199015010==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PKGSIZE changed from 297574 to 347590 (+17%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PKGSIZE changed from 540120 to 597294 (+11%)
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 960 .bb files complete (0 cached, 960 parsed). 2004 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============2254148407742662233==
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-2bebd39cf62b3e964a18b44809a97448e1b2ffae"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:2bebd39cf62b3e964a18b44809a97448e1b2ffae"
+meta-yocto-bsp       
+meta-poky            = "master:8becfabefdf5df564aafe2d07d10e4b05fbaedb1"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 255 Local 240 Mirrors 0 Missed 15 Current 336 (94% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 505 of 591 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_create_spdx_setscene)
+NOTE: Running task 1050 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_recipe_qa)
+NOTE: Running task 1408 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_create_recipe_spdx)
+NOTE: recipe lz4-1_1.11.1-r0: task do_recipe_qa: Started
+NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe lz4-1_1.11.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: recipe lz4-1_1.11.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1478 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_fetch)
+NOTE: recipe lz4-1_1.11.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe lz4-1_1.11.1-r0: task do_fetch: Started
+NOTE: recipe lz4-1_1.11.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1479 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_unpack)
+NOTE: Running task 1480 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe lz4-1_1.11.1-r0: task do_unpack: Started
+NOTE: recipe lz4-1_1.11.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe lz4-1_1.11.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe lz4-1_1.11.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1481 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_patch)
+NOTE: recipe lz4-1_1.11.1-r0: task do_patch: Started
+NOTE: recipe lz4-1_1.11.1-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1481 tasks of which 1475 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261111060445.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261111060445.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.1/temp/log.do_patch.1553449
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: lz4-1_1.11.1-r0 do_patch: Applying patch '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4/reproducibility.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.1/sources/lz4-1.11.1'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.1/recipe-sysroot-native/etc/quiltrc push', 1, 'stdout: Applying patch reproducibility.patch
+patching file lib/Makefile
+Hunk #1 FAILED at 55.
+Hunk #2 FAILED at 102.
+2 out of 2 hunks FAILED -- rejects in file lib/Makefile
+Patch reproducibility.patch does not apply (enforce with -f)
+
+stderr: ')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.1/temp/log.do_patch.1553449
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_patch) failed with exit code '1'
+
+--===============0798386916199015010==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="lz4-changelog.txt"
 
-packages/x86-64-v3-poky-linux/libxmlb: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb: SRC_URI changed from "git://github.com/hughsie/libxmlb.git;branch=main;protocol=https;tag=0.3.29 file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch file://run-ptest" to "git://github.com/hughsie/libxmlb.git;branch=main;protocol=https;tag=0.3.30 file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch file://run-ptest"
-packages/x86-64-v3-poky-linux/libxmlb: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-bin: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-bin: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PKGSIZE changed from 2033192 to 2206672 (+9%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dbg: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PKGSIZE changed from 358274 to 364415 (+2%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-dev: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PKGSIZE changed from 624 to 625 (+0%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-doc: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-locale: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-locale: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PKGSIZE changed from 297574 to 347590 (+17%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-ptest: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PKGSIZE changed from 540120 to 597294 (+11%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: FILELIST: removed "/usr/src/debug/libxmlb/0.3.29/src/xb-query-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-silo-query.c /usr/src/debug/libxmlb/0.3.29/src/xb-opcode-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-silo-query.h /usr/src/debug/libxmlb/0.3.29/src/xb-string-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-lzma-decompressor.h /usr/src/debug/libxmlb/0.3.29/src/xb-builder-source-ctx.c /usr/src/debug/libxmlb/0.3.29/src/xb-version.c /usr/src/debug/libxmlb/0.3.29/src/xb-common.c /usr/src/debug/libxmlb/0.3.29/src/xb-tool.c /usr/src/debug/libxmlb/0.3.29/src/xb-builder-source-ctx.h /usr/src/debug/libxmlb/0.3.29/src/xb-lzma-decompressor.c /usr/src/debug/libxmlb/0.3.29/src/xb-machine.c /usr/src/debug/libxmlb/0.3.29/src/xb-node-silo.h /usr/src/debug/libxmlb/0.3.29/src/xb-stack.c /usr/src/debug/libxmlb/0.3.29/src/xb-silo-node.h /usr/src/debug/libxmlb/0.3.29/src/xb-builder-source.h /usr/src/debug/libxmlb/0.3.29/src/xb-version.h /usr/src/
- debug/libxmlb/0.3.29/src/xb-builder-fixup.c /usr/src/debug/libxmlb/0.3.29/src/xb-silo-node.c /usr/src/debug/libxmlb/0.3.29/src/xb-stack.h /usr/src/debug/libxmlb/0.3.29/src/xb-machine.h /usr/src/debug/libxmlb/0.3.29/src/xb-builder-fixup.h /usr/src/debug/libxmlb/0.3.29/src/xb-builder-source.c /usr/src/debug/libxmlb/0.3.29/src/xb-builder.h /usr/src/debug/libxmlb/0.3.29/src/xb-string.c /usr/src/debug/libxmlb/0.3.29/src/xb-value-bindings.c /usr/src/debug/libxmlb/0.3.29/src/xb-zstd-decompressor.h /usr/src/debug/libxmlb/0.3.29/src/xb-node.h /usr/src/debug/libxmlb/0.3.29/src/xb-value-bindings.h /usr/src/debug/libxmlb/0.3.29/src/xb-string.h /usr/src/debug/libxmlb/0.3.29/src/xb-builder.c /usr/src/debug/libxmlb/0.3.29/src/xb-zstd-decompressor.c /usr/src/debug/libxmlb/0.3.29/src/xb-silo-export-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-node-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-node.c /usr/src/debug/libxmlb/0.3.29/src/xb-common-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-query.c
-  /usr/src/debug/libxmlb/0.3.29/src/xb-opcode.h /usr/src/debug/libxmlb/0.3.29/src/xb-query-context.c /usr/src/debug/libxmlb/0.3.29/src/xb-query.h /usr/src/debug/libxmlb/0.3.29/src/xb-builder-node-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-silo-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-query-context.h /usr/src/debug/libxmlb/0.3.29/src/xb-opcode.c /usr/src/debug/libxmlb/0.3.29/src/xb-builder-source-ctx-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-silo-query-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-silo.c /usr/src/debug/libxmlb/0.3.29/src/xb-value-bindings-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-machine-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-self-test.c /usr/src/debug/libxmlb/0.3.29/src/xb-builder-source-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-stack-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-silo.h /usr/src/debug/libxmlb/0.3.29/src/xb-node-query.c /usr/src/debug/libxmlb/0.3.29/src/xb-builder-node.h /usr/src/debug/libxmlb/0.3.29/src/xb-node-quer
- y.h /usr/src/debug/libxmlb/0.3.29/src/xb-silo-export.h /usr/src/debug/libxmlb/0.3.29/src/xb-builder-node.c /usr/src/debug/libxmlb/0.3.29/src/xb-builder-fixup-private.h /usr/src/debug/libxmlb/0.3.29/src/xb-silo-export.c", added "/usr/src/debug/libxmlb/0.3.30/src/xb-test-common.h /usr/src/debug/libxmlb/0.3.30/src/xb-xpath-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-builder-fixup-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-source-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-test-common.c /usr/src/debug/libxmlb/0.3.30/src/xb-query-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-silo-query.c /usr/src/debug/libxmlb/0.3.30/src/xb-opcode-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-threading-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-silo-query.h /usr/src/debug/libxmlb/0.3.30/src/xb-string-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-xpath-limit-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-lzma-decompressor.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-source-ctx.c /usr/src/de
- bug/libxmlb/0.3.30/src/xb-version.c /usr/src/debug/libxmlb/0.3.30/src/xb-common.c /usr/src/debug/libxmlb/0.3.30/src/xb-tool.c /usr/src/debug/libxmlb/0.3.30/src/xb-builder-source-ctx.h /usr/src/debug/libxmlb/0.3.30/src/xb-common-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-lzma-decompressor.c /usr/src/debug/libxmlb/0.3.30/src/xb-machine.c /usr/src/debug/libxmlb/0.3.30/src/xb-node-silo.h /usr/src/debug/libxmlb/0.3.30/src/xb-silo-node.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-source.h /usr/src/debug/libxmlb/0.3.30/src/xb-stack.c /usr/src/debug/libxmlb/0.3.30/src/xb-version.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-fixup.c /usr/src/debug/libxmlb/0.3.30/src/xb-silo-node.c /usr/src/debug/libxmlb/0.3.30/src/xb-stack.h /usr/src/debug/libxmlb/0.3.30/src/xb-opcode-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-machine.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-fixup.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-source.c /usr/src/debug/libxmlb/0.3.30/src/xb-builder.h /usr/src/debug/
- libxmlb/0.3.30/src/xb-string.c /usr/src/debug/libxmlb/0.3.30/src/xb-value-bindings.c /usr/src/debug/libxmlb/0.3.30/src/xb-zstd-decompressor.h /usr/src/debug/libxmlb/0.3.30/src/xb-node.h /usr/src/debug/libxmlb/0.3.30/src/xb-value-bindings.h /usr/src/debug/libxmlb/0.3.30/src/xb-string.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder.c /usr/src/debug/libxmlb/0.3.30/src/xb-zstd-decompressor.c /usr/src/debug/libxmlb/0.3.30/src/xb-silo-export-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-node-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-node-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-common-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-node.c /usr/src/debug/libxmlb/0.3.30/src/xb-query.c /usr/src/debug/libxmlb/0.3.30/src/xb-opcode.h /usr/src/debug/libxmlb/0.3.30/src/xb-query-context.c /usr/src/debug/libxmlb/0.3.30/src/xb-query.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-node-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-silo-privat
- e.h /usr/src/debug/libxmlb/0.3.30/src/xb-query-context.h /usr/src/debug/libxmlb/0.3.30/src/xb-opcode.c /usr/src/debug/libxmlb/0.3.30/src/xb-builder-node-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-builder-source-ctx-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-silo-query-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-silo.c /usr/src/debug/libxmlb/0.3.30/src/xb-value-bindings-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-self-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-builder-source-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-stack-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-xpath-predicate-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-silo.h /usr/src/debug/libxmlb/0.3.30/src/xb-node-query.c /usr/src/debug/libxmlb/0.3.30/src/xb-builder-node.h /usr/src/debug/libxmlb/0.3.30/src/xb-speed-test.c /usr/src/debug/libxmlb/0.3.30/src/xb-node-query.h /usr/src/debug/libxmlb/0.3.30/src/xb-silo-export.h /usr/src/debug/libxmlb/0.3.30/src/xb-builder-node.c /usr/src/debug/libxmlb/0.3.30/src/
- xb-machine-private.h /usr/src/debug/libxmlb/0.3.30/src/xb-silo-export.c"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-src: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-staticdev: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb-staticdev: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PV changed from "0.3.29" to "0.3.30"
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PKGSIZE changed from 207784 to 211988 (+2%)
-packages/x86-64-v3-poky-linux/libxmlb/libxmlb: PKGV changed from 0.3.29 [default] to 0.3.30 [default]
+v1.11.1
+fix  : `LZ4_resetStreamHC()` could write out of bounds at levels >= 10, on a
+state containing garbage (since v1.11.0)
+perf : faster decompression on ppc64 (+12% to +24% on silesia),
+`LZ4_FAST_DEC_LOOP` enabled, by @runlevel5
+perf : `lz4 -l` compresses small files up to 10x faster : no more threads than
+blocks
+api  : restored the unprefixed lz4frame enums and types
+(`LZ4F_ENABLE_OBSOLETE_ENUMS`), employed by zstd, now deprecated (compilation
+warning), reported by @diizzyy
+cli  : help (`-h`, `-H`, `--help`) outputs to stdout, requested by @tansy
+cli  : `--list` reads standard input again (since v1.10.0)
+cli  : various fixes (`--list`, `--stdout`, `--force`, multiple inputs, Windows
+pipes, modification time, output creation), by @lee3Q, @immanuwell and
+@rudycelekli
+build: `lz4file.h` usable from cmake (since v1.10.0) and meson installations,
+reported by @rudycelekli
+build: MinGW builds with clang and lld (since v1.11.0), reported by @tansy
+build: `make` with `BUILD_STATIC=no` or `BUILD_SHARED=no` (since v1.11.0), by
+@xry111
 
---===============2254148407742662233==
+v1.11.0
+fix  : data corruption in valid usage : ring buffer decoding
+(`LZ4_decoderRingBufferSize()`, since v1.9.0), rare cases of streaming or
+`destSize` compression, one reported by @freedom-winds
+fix  : single-thread `lz4` could truncate the decoding of concatenated frames
+with block checksums
+fix  : multithreaded decompression could write out of bounds after 2^31 frames
+(since v1.10.0), by @arshsmith1
+fix  : `LZ4F_compressBegin_usingDict()` ignored the dictionary with independent
+blocks
+fix  : some periodic data compressed up to 30x worse at fast levels, and very
+slowly at level 12, reported by @martinus
+fix  : invalid arguments (negative sizes, `NULL`, invalid `blockSizeID`, extreme
+levels) no longer crash nor overflow, by @arthuz-th, @jaypatrickhoward,
+@louislafosse, @akashdeshmukh-git, @rinsuki
+fix  : lz4file reports truncated files and write failures, and accepts files <
+19 bytes, by @axiqia
+perf : faster decompression on aarch64 and x86-64 (up to +19%, +4% on
+silesia.tar), `LZ4_FAST_DEC_LOOP` on aarch64 with clang and on riscv64, by
+@Nicoshev and @arpadpanyik-arm
+perf : faster compression of small blocks at fast levels, with reused states (up
+to +80%) or dictionaries (up to +35%), partly proposed by @BiplabRaut
+perf : faster levels 11 and 12 (+8% to +27%), level 2 compresses ~0.8% better
+perf : x86 builds avoid the JCC erratum : up to +12% compression and +31%
+decompression on Intel Skylake-family cpus
+api  : multithreaded lz4frame compression (experimental
+`LZ4F_preferences_t.nbWorkers`) : output independent of the nb of workers and of
+the context's history
+api  : random access within frames and lz4 files : `LZ4F_resumeFrame()`,
+`LZ4F_seek()`, `LZ4F_tell()` (static)
+api  : `LZ4_decompress_safe()` returns distinct error codes : `-1` malformed
+input, `-2` `dstCapacity` too small, `-3` missing dictionary
+api  : lz4frame compression accepts any `dstCapacity`, and only fails if the
+output doesn't fit
+api  : removed from headers : functions deprecated since v1.7.x / v1.8.0 (still
+exported by liblz4), unprefixed lz4frame enums ; `LZ4_resetStream()` and
+`LZ4_resetStreamHC()` are deprecated
+api  : `LZ4F_compressOptions_t` must be zero-initialized ; reserved fields are
+scalars (flatten positional initializers) ; `LZ4F_uncompressedUpdate()`
+deprecated (use `.uncompressed`)
+api  : custom allocators for lz4file (`_advanced()` functions),
+`LZ4_USER_MEMORY_FUNCTIONS` also for lz4frame and lz4file ; `LZ4F_cctx_size()`
+and `LZ4F_dctx_size()` by @felixhandte
+api  : HC states include the buffer of levels 10+ (+64 KB per state) : no
+allocation during compression
+cli  : multithreaded compression relies on liblz4 : same output with any nb of
+threads and without multithreading support ; `-T#` within a memory budget
+(`--memory=#`) ; new `--single-thread`
+cli  : decodes Firefox's mozlz4 files, proposed by @UnitedMarsupials, and legacy
+frames with the Linux kernel end marker, requested by @benjarobin (frame format
+documentation by @Artoria2e5)
+cli  : safer file handling : an output identical to the input is refused, a
+source modified during compression is detected, `--rm` keeps the source after
+failures, by @Furan666, @Nexory and @immanuwell
+cli  : benchmark (`-b`) measures frames, compressed as `lz4` does with the same
+options
+cli  : various fixes (`--list`, legacy format, benchmark, `-t -m`, numeric
+arguments), by @tansy, @jmestwa-coder, @akashdeshmukh-git, @arshsmith1, @jlee303
+and @Nexory
+build: dynamic library multithreaded by default, static library single-threaded
+; cmake `lz4` multithreaded
+build: cmake : exported `lz4::lz4` target by @dg0yt, CMake 4 support by
+@GeorgH93, `CMAKE_POSITION_INDEPENDENT_CODE` by @ds-sloth
+build: cmake : as a subproject, the `lz4` program is no longer built by default
+(`-DLZ4_BUILD_CLI=ON` restores it), by @crueter
+build: reproducible static library by @rpurdie, AIX support by @shubhamhii,
+meson fixes by @grobian, @bgilbert and @eli-schwartz, other fixes by @hotschmoe,
+@iwamatsu, @doraorak, @JCash and @brainy
+port : RISC-V with `Zicclsm` uses unaligned memory accesses, by @Polaris-911
+
+--===============0798386916199015010==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxmlb-upgrade-0.3.29-0.3.30.patch"
+ filename="0001-lz4-upgrade-1.10.0-1.11.1.patch"
 
-RnJvbSBmYjY1NDg5MmQwZTRiOGEzNWE3YTZiMWEzMTM0ZGM4NWEzZDE5NjQ5IE1vbiBTZXAgMTcg
+RnJvbSA1OGYwMTkyZWNhZmJmYmY4ZDdlMDhmNmZmN2Q1YzEzZDAyMGRlYWNiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTEgTm92IDIwMjYgMDU6NDA6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4bWxiOiB1cGdyYWRlIDAuMy4yOSAtPiAwLjMuMzAKClZlcnNpb24gMC4zLjMwCn5+fn5+fn5+
-fn5+fn5+ClJlbGVhc2VkOiAyMDI2LTExLTEwCgpOZXcgRmVhdHVyZXM6CiAtIEFkZCBzdXBwb3J0
-IGZvciB0aGUgWFBhdGggbm9ybWFsaXplLXNwYWNlKCkgZnVuY3Rpb24gKFJpY2hhcmQgSHVnaGVz
-KQogLSBJbmNyZWFzZSB0aGUgbWF4aW11bSBudW1iZXIgb2Ygbm9kZSBhdHRyaWJ1dGVzIGFuZCB0
-b2tlbnMgKFJpY2hhcmQgSHVnaGVzKQogLSBSZWNvcmQgaW4gdGhlIHNpbG8gaWYgdGhlIG5vZGUg
-d2FzIGFkZGVkIGFzIGV4dGVybmFsIGluZm8gKFJpY2hhcmQgSHVnaGVzKQoKQnVnZml4ZXM6CiAt
-IENvbnZlcnQgeG1sOmxhbmcgdGFncyB0byBQT1NJWCBmb3JtIHdoZW4gcmVxdWlyZWQgKFJpY2hh
-cmQgSHVnaGVzKQogLSBGaXggT1IgYnJhbmNoZXMgc3RpbGwgYmVpbmcgZXZhbHVhdGVkIGFmdGVy
-IHRoZSBsaW1pdCBpcyByZWFjaGVkIChSaWNoYXJkCiAgIEh1Z2hlcykKIC0gRml4IFhiTHptYURl
-Y29tcHJlc3NvciByZXNldCBsZWF2aW5nIHRoZSBzdHJlYW0gdW51c2FibGUgKFJpY2hhcmQgSHVn
-aGVzKQogLSBGaXggYSBib3VuZCB2YWx1ZSBsb3NpbmcgaXRzIGxldmVsIGluc2lkZSBhIHR1cGxl
-IChSaWNoYXJkIEh1Z2hlcykKIC0gRml4IGEgY3Jhc2ggd2hlbiBhIHF1ZXJ5IHZhbHVlIHdhcyBu
-ZXZlciBib3VuZCAoUmljaGFyZCBIdWdoZXMpCiAtIEZpeCBhIGNyYXNoIHdoZW4gc2VhcmNoaW5n
-IG9uZSBzaWxvIGZyb20gc2V2ZXJhbCB0aHJlYWRzIChjYXIxMm8pCiAtIEZpeCBjb21tYS1zZXBh
-cmF0ZWQgZnVuY3Rpb24gYXJndW1lbnRzIGJlaW5nIHBhcnNlZCBpbiByZXZlcnNlIChSaWNoYXJk
-CiAgIEh1Z2hlcykKIC0gRml4IGVzY2FwZWQgdGFiIGFuZCBuZXdsaW5lIG5vdCBkZWNvZGluZyBp
-biBxdWVyeSBwYXJzaW5nIChSaWNoYXJkIEh1Z2hlcykKIC0gRml4IGxpdGVyYWwgYmFja3NsYXNo
-ZXMgbm90IHN1cnZpdmluZyB0aGUgcXVlcnkgZXNjYXBlIHJvdW5kLXRyaXAgKFJpY2hhcmQKICAg
-SHVnaGVzKQogLSBGaXggbWl4ZWQtdHlwZSBjb21wYXJpc29ucyBzd2FwcGluZyB0aGVpciBvcGVy
-YW5kcyAoUmljaGFyZCBIdWdoZXMpCiAtIEZpeCBwYXJzZXIgZGVwdGggbGVha2luZyBmcm9tIG9u
-ZSBmYWlsZWQgc291cmNlIHRvIHRoZSBuZXh0IChSaWNoYXJkIEh1Z2hlcykKIC0gRml4IHVuYm91
-bmQgcXVlcnkgdmFyaWFibGVzIHNpbGVudGx5IGNvbXBhcmluZyBhZ2FpbnN0IHplcm8gKFJpY2hh
-cmQgSHVnaGVzKQogLSBGaXggdW5maW5pc2hlZCBwcmVkaWNhdGVzIGJlaW5nIGlnbm9yZWQgYXQg
-dGhlIHN0YXJ0IG9mIGEgc2VjdGlvbiAoUmljaGFyZAogICBIdWdoZXMpCiAtIEZpeCB4Yl9xdWVy
-eV9jb250ZXh0X2NvcHkoKSBzaWxlbnRseSBkcm9wcGluZyBiaW5kaW5ncyBhZnRlciBhIGdhcCAo
-UmljaGFyZAogICBIdWdoZXMpCiAtIEZpeCB4Yl9zaWxvX3N0ZW0oKSByZXR1cm5pbmcgdGhlIHVu
-c3RlbW1lZCBzdHJpbmcgb24gZXF1YWwgbGVuZ3RoIChSaWNoYXJkCiAgIEh1Z2hlcykKIC0gRml4
-IHhiX3ZhbHVlX2JpbmRpbmdzX2NvcHkoKSBhYm9ydGluZyB3aGVuIGEgc2xvdCBpcyB1bmJvdW5k
-IChSaWNoYXJkIEh1Z2hlcykKLS0tCiAuLi4vbGlieG1sYi8wMDAxLXhiLXNlbGZ0ZXN0LmMtaGFy
-ZGNvZGUtR19URVNUX1NSQ0RJUi5wYXRjaCB8IDYgKysrLS0tCiAuLi4vbGlieG1sYi97bGlieG1s
-Yl8wLjMuMjkuYmIgPT4gbGlieG1sYl8wLjMuMzAuYmJ9ICAgICAgICB8IDIgKy0KIDIgZmlsZXMg
-Y2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1nbm9tZS9saWJ4bWxiL3tsaWJ4bWxiXzAuMy4yOS5iYiA9PiBsaWJ4bWxiXzAuMy4zMC5i
-Yn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxi
-LzAwMDEteGItc2VsZnRlc3QuYy1oYXJkY29kZS1HX1RFU1RfU1JDRElSLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYi8wMDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUt
-R19URVNUX1NSQ0RJUi5wYXRjaAppbmRleCBmMGRiMzcwMzFlLi44MmVjMDNiZDY0IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiLzAwMDEteGItc2VsZnRlc3Qu
-Yy1oYXJkY29kZS1HX1RFU1RfU1JDRElSLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9s
-aWJ4bWxiL2xpYnhtbGIvMDAwMS14Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIu
-cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQ0YWE4ZDg1N2UxYjE4ZGZmOGJjMjNjYzgxMGM1
-NmI0ZGJhM2FhOTUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDM2MWJiZmViNWI3YmI2
-ZDg5YTAyMjk4Njc0NmY4MDYzZTZkZjI1YjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
-OiBNYXJrdXMgVm9sayA8Zl9sX2tAdC1vbmxpbmUuZGU+CiBEYXRlOiBTYXQsIDE2IFNlcCAyMDIz
-IDE0OjAyOjU3ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIHhiLXNlbGYtdGVzdC5jOiBoYXJkY29k
-ZSBHX1RFU1RfU1JDRElSCkBAIC0xOCwxMCArMTgsMTAgQEAgU2lnbmVkLW9mZi1ieTogTWFya3Vz
-IFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL3hiLXNlbGYtdGVzdC5jIGIvc3Jj
-L3hiLXNlbGYtdGVzdC5jCi1pbmRleCA3OTUxNjdkLi5hYjJiNTgyIDEwMDY0NAoraW5kZXggZGRj
-NGM5ZC4uNGI0NjE2MSAxMDA2NDQKIC0tLSBhL3NyYy94Yi1zZWxmLXRlc3QuYwogKysrIGIvc3Jj
-L3hiLXNlbGYtdGVzdC5jCi1AQCAtMzMyOSw3ICszMzI5LDcgQEAgeGJfc3BlZWRfcHJlY29tcGls
-ZWRfZnVuYyh2b2lkKQorQEAgLTE0LDcgKzE0LDcgQEAKICBpbnQKICBtYWluKGludCBhcmdjLCBj
-aGFyICoqYXJndikKICB7CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9s
-aWJ4bWxiXzAuMy4yOS5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJ4bWxiL2xpYnhtbGJfMC4z
-LjMwLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1nbm9t
-ZS9saWJ4bWxiL2xpYnhtbGJfMC4zLjI5LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ25vbWUv
-bGlieG1sYi9saWJ4bWxiXzAuMy4zMC5iYgppbmRleCBiMDcwY2JmOTljLi4xNjA4OWEzMTg3IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4yOS5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4zMC5iYgpAQCAtOCw3
-ICs4LDcgQEAgU1JDX1VSSSA9ICIgXAogCWZpbGU6Ly8wMDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNv
-ZGUtR19URVNUX1NSQ0RJUi5wYXRjaCBcCiAJZmlsZTovL3J1bi1wdGVzdCBcCiAiCi1TUkNSRVYg
-PSAiZDk0MmNkNjhhN2Q3OGUzNWIzMTJiOTI5OWU2OWY2OGY5Y2QyZTUwMyIKK1NSQ1JFViA9ICIz
-NWUwZWNlOTZhZTk0MzhjY2RmZTlmY2E1ZjExYzE2MWUzOTZhNDgxIgogCiBERVBFTkRTID0gImds
-aWItMi4wIHh6IHpzdGQiCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTEgTm92IDIwMjYgMDY6MDU6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+ejQ6IHVwZ3JhZGUgMS4xMC4wIC0+IDEuMTEuMQoKdjEuMTEuMQpmaXggIDogYExaNF9yZXNldFN0
+cmVhbUhDKClgIGNvdWxkIHdyaXRlIG91dCBvZiBib3VuZHMgYXQgbGV2ZWxzID49IDEwLCBvbiBh
+CnN0YXRlIGNvbnRhaW5pbmcgZ2FyYmFnZSAoc2luY2UgdjEuMTEuMCkKcGVyZiA6IGZhc3RlciBk
+ZWNvbXByZXNzaW9uIG9uIHBwYzY0ICgrMTIlIHRvICsyNCUgb24gc2lsZXNpYSksCmBMWjRfRkFT
+VF9ERUNfTE9PUGAgZW5hYmxlZCwgYnkgQHJ1bmxldmVsNQpwZXJmIDogYGx6NCAtbGAgY29tcHJl
+c3NlcyBzbWFsbCBmaWxlcyB1cCB0byAxMHggZmFzdGVyIDogbm8gbW9yZSB0aHJlYWRzIHRoYW4K
+YmxvY2tzCmFwaSAgOiByZXN0b3JlZCB0aGUgdW5wcmVmaXhlZCBsejRmcmFtZSBlbnVtcyBhbmQg
+dHlwZXMKKGBMWjRGX0VOQUJMRV9PQlNPTEVURV9FTlVNU2ApLCBlbXBsb3llZCBieSB6c3RkLCBu
+b3cgZGVwcmVjYXRlZCAoY29tcGlsYXRpb24Kd2FybmluZyksIHJlcG9ydGVkIGJ5IEBkaWl6enl5
+CmNsaSAgOiBoZWxwIChgLWhgLCBgLUhgLCBgLS1oZWxwYCkgb3V0cHV0cyB0byBzdGRvdXQsIHJl
+cXVlc3RlZCBieSBAdGFuc3kKY2xpICA6IGAtLWxpc3RgIHJlYWRzIHN0YW5kYXJkIGlucHV0IGFn
+YWluIChzaW5jZSB2MS4xMC4wKQpjbGkgIDogdmFyaW91cyBmaXhlcyAoYC0tbGlzdGAsIGAtLXN0
+ZG91dGAsIGAtLWZvcmNlYCwgbXVsdGlwbGUgaW5wdXRzLCBXaW5kb3dzCnBpcGVzLCBtb2RpZmlj
+YXRpb24gdGltZSwgb3V0cHV0IGNyZWF0aW9uKSwgYnkgQGxlZTNRLCBAaW1tYW51d2VsbCBhbmQK
+QHJ1ZHljZWxla2xpCmJ1aWxkOiBgbHo0ZmlsZS5oYCB1c2FibGUgZnJvbSBjbWFrZSAoc2luY2Ug
+djEuMTAuMCkgYW5kIG1lc29uIGluc3RhbGxhdGlvbnMsCnJlcG9ydGVkIGJ5IEBydWR5Y2VsZWts
+aQpidWlsZDogTWluR1cgYnVpbGRzIHdpdGggY2xhbmcgYW5kIGxsZCAoc2luY2UgdjEuMTEuMCks
+IHJlcG9ydGVkIGJ5IEB0YW5zeQpidWlsZDogYG1ha2VgIHdpdGggYEJVSUxEX1NUQVRJQz1ub2Ag
+b3IgYEJVSUxEX1NIQVJFRD1ub2AgKHNpbmNlIHYxLjExLjApLCBieQpAeHJ5MTExCgp2MS4xMS4w
+CmZpeCAgOiBkYXRhIGNvcnJ1cHRpb24gaW4gdmFsaWQgdXNhZ2UgOiByaW5nIGJ1ZmZlciBkZWNv
+ZGluZwooYExaNF9kZWNvZGVyUmluZ0J1ZmZlclNpemUoKWAsIHNpbmNlIHYxLjkuMCksIHJhcmUg
+Y2FzZXMgb2Ygc3RyZWFtaW5nIG9yCmBkZXN0U2l6ZWAgY29tcHJlc3Npb24sIG9uZSByZXBvcnRl
+ZCBieSBAZnJlZWRvbS13aW5kcwpmaXggIDogc2luZ2xlLXRocmVhZCBgbHo0YCBjb3VsZCB0cnVu
+Y2F0ZSB0aGUgZGVjb2Rpbmcgb2YgY29uY2F0ZW5hdGVkIGZyYW1lcwp3aXRoIGJsb2NrIGNoZWNr
+c3VtcwpmaXggIDogbXVsdGl0aHJlYWRlZCBkZWNvbXByZXNzaW9uIGNvdWxkIHdyaXRlIG91dCBv
+ZiBib3VuZHMgYWZ0ZXIgMl4zMSBmcmFtZXMKKHNpbmNlIHYxLjEwLjApLCBieSBAYXJzaHNtaXRo
+MQpmaXggIDogYExaNEZfY29tcHJlc3NCZWdpbl91c2luZ0RpY3QoKWAgaWdub3JlZCB0aGUgZGlj
+dGlvbmFyeSB3aXRoIGluZGVwZW5kZW50CmJsb2NrcwpmaXggIDogc29tZSBwZXJpb2RpYyBkYXRh
+IGNvbXByZXNzZWQgdXAgdG8gMzB4IHdvcnNlIGF0IGZhc3QgbGV2ZWxzLCBhbmQgdmVyeQpzbG93
+bHkgYXQgbGV2ZWwgMTIsIHJlcG9ydGVkIGJ5IEBtYXJ0aW51cwpmaXggIDogaW52YWxpZCBhcmd1
+bWVudHMgKG5lZ2F0aXZlIHNpemVzLCBgTlVMTGAsIGludmFsaWQgYGJsb2NrU2l6ZUlEYCwgZXh0
+cmVtZQpsZXZlbHMpIG5vIGxvbmdlciBjcmFzaCBub3Igb3ZlcmZsb3csIGJ5IEBhcnRodXotdGgs
+IEBqYXlwYXRyaWNraG93YXJkLApAbG91aXNsYWZvc3NlLCBAYWthc2hkZXNobXVraC1naXQsIEBy
+aW5zdWtpCmZpeCAgOiBsejRmaWxlIHJlcG9ydHMgdHJ1bmNhdGVkIGZpbGVzIGFuZCB3cml0ZSBm
+YWlsdXJlcywgYW5kIGFjY2VwdHMgZmlsZXMgPAoxOSBieXRlcywgYnkgQGF4aXFpYQpwZXJmIDog
+ZmFzdGVyIGRlY29tcHJlc3Npb24gb24gYWFyY2g2NCBhbmQgeDg2LTY0ICh1cCB0byArMTklLCAr
+NCUgb24Kc2lsZXNpYS50YXIpLCBgTFo0X0ZBU1RfREVDX0xPT1BgIG9uIGFhcmNoNjQgd2l0aCBj
+bGFuZyBhbmQgb24gcmlzY3Y2NCwgYnkKQE5pY29zaGV2IGFuZCBAYXJwYWRwYW55aWstYXJtCnBl
+cmYgOiBmYXN0ZXIgY29tcHJlc3Npb24gb2Ygc21hbGwgYmxvY2tzIGF0IGZhc3QgbGV2ZWxzLCB3
+aXRoIHJldXNlZCBzdGF0ZXMgKHVwCnRvICs4MCUpIG9yIGRpY3Rpb25hcmllcyAodXAgdG8gKzM1
+JSksIHBhcnRseSBwcm9wb3NlZCBieSBAQmlwbGFiUmF1dApwZXJmIDogZmFzdGVyIGxldmVscyAx
+MSBhbmQgMTIgKCs4JSB0byArMjclKSwgbGV2ZWwgMiBjb21wcmVzc2VzIH4wLjglIGJldHRlcgpw
+ZXJmIDogeDg2IGJ1aWxkcyBhdm9pZCB0aGUgSkNDIGVycmF0dW0gOiB1cCB0byArMTIlIGNvbXBy
+ZXNzaW9uIGFuZCArMzElCmRlY29tcHJlc3Npb24gb24gSW50ZWwgU2t5bGFrZS1mYW1pbHkgY3B1
+cwphcGkgIDogbXVsdGl0aHJlYWRlZCBsejRmcmFtZSBjb21wcmVzc2lvbiAoZXhwZXJpbWVudGFs
+CmBMWjRGX3ByZWZlcmVuY2VzX3QubmJXb3JrZXJzYCkgOiBvdXRwdXQgaW5kZXBlbmRlbnQgb2Yg
+dGhlIG5iIG9mIHdvcmtlcnMgYW5kIG9mCnRoZSBjb250ZXh0J3MgaGlzdG9yeQphcGkgIDogcmFu
+ZG9tIGFjY2VzcyB3aXRoaW4gZnJhbWVzIGFuZCBsejQgZmlsZXMgOiBgTFo0Rl9yZXN1bWVGcmFt
+ZSgpYCwKYExaNEZfc2VlaygpYCwgYExaNEZfdGVsbCgpYCAoc3RhdGljKQphcGkgIDogYExaNF9k
+ZWNvbXByZXNzX3NhZmUoKWAgcmV0dXJucyBkaXN0aW5jdCBlcnJvciBjb2RlcyA6IGAtMWAgbWFs
+Zm9ybWVkCmlucHV0LCBgLTJgIGBkc3RDYXBhY2l0eWAgdG9vIHNtYWxsLCBgLTNgIG1pc3Npbmcg
+ZGljdGlvbmFyeQphcGkgIDogbHo0ZnJhbWUgY29tcHJlc3Npb24gYWNjZXB0cyBhbnkgYGRzdENh
+cGFjaXR5YCwgYW5kIG9ubHkgZmFpbHMgaWYgdGhlCm91dHB1dCBkb2Vzbid0IGZpdAphcGkgIDog
+cmVtb3ZlZCBmcm9tIGhlYWRlcnMgOiBmdW5jdGlvbnMgZGVwcmVjYXRlZCBzaW5jZSB2MS43Lngg
+LyB2MS44LjAgKHN0aWxsCmV4cG9ydGVkIGJ5IGxpYmx6NCksIHVucHJlZml4ZWQgbHo0ZnJhbWUg
+ZW51bXMgOyBgTFo0X3Jlc2V0U3RyZWFtKClgIGFuZApgTFo0X3Jlc2V0U3RyZWFtSEMoKWAgYXJl
+IGRlcHJlY2F0ZWQKYXBpICA6IGBMWjRGX2NvbXByZXNzT3B0aW9uc190YCBtdXN0IGJlIHplcm8t
+aW5pdGlhbGl6ZWQgOyByZXNlcnZlZCBmaWVsZHMgYXJlCnNjYWxhcnMgKGZsYXR0ZW4gcG9zaXRp
+b25hbCBpbml0aWFsaXplcnMpIDsgYExaNEZfdW5jb21wcmVzc2VkVXBkYXRlKClgCmRlcHJlY2F0
+ZWQgKHVzZSBgLnVuY29tcHJlc3NlZGApCmFwaSAgOiBjdXN0b20gYWxsb2NhdG9ycyBmb3IgbHo0
+ZmlsZSAoYF9hZHZhbmNlZCgpYCBmdW5jdGlvbnMpLApgTFo0X1VTRVJfTUVNT1JZX0ZVTkNUSU9O
+U2AgYWxzbyBmb3IgbHo0ZnJhbWUgYW5kIGx6NGZpbGUgOyBgTFo0Rl9jY3R4X3NpemUoKWAKYW5k
+IGBMWjRGX2RjdHhfc2l6ZSgpYCBieSBAZmVsaXhoYW5kdGUKYXBpICA6IEhDIHN0YXRlcyBpbmNs
+dWRlIHRoZSBidWZmZXIgb2YgbGV2ZWxzIDEwKyAoKzY0IEtCIHBlciBzdGF0ZSkgOiBubwphbGxv
+Y2F0aW9uIGR1cmluZyBjb21wcmVzc2lvbgpjbGkgIDogbXVsdGl0aHJlYWRlZCBjb21wcmVzc2lv
+biByZWxpZXMgb24gbGlibHo0IDogc2FtZSBvdXRwdXQgd2l0aCBhbnkgbmIgb2YKdGhyZWFkcyBh
+bmQgd2l0aG91dCBtdWx0aXRocmVhZGluZyBzdXBwb3J0IDsgYC1UI2Agd2l0aGluIGEgbWVtb3J5
+IGJ1ZGdldAooYC0tbWVtb3J5PSNgKSA7IG5ldyBgLS1zaW5nbGUtdGhyZWFkYApjbGkgIDogZGVj
+b2RlcyBGaXJlZm94J3MgbW96bHo0IGZpbGVzLCBwcm9wb3NlZCBieSBAVW5pdGVkTWFyc3VwaWFs
+cywgYW5kIGxlZ2FjeQpmcmFtZXMgd2l0aCB0aGUgTGludXgga2VybmVsIGVuZCBtYXJrZXIsIHJl
+cXVlc3RlZCBieSBAYmVuamFyb2JpbiAoZnJhbWUgZm9ybWF0CmRvY3VtZW50YXRpb24gYnkgQEFy
+dG9yaWEyZTUpCmNsaSAgOiBzYWZlciBmaWxlIGhhbmRsaW5nIDogYW4gb3V0cHV0IGlkZW50aWNh
+bCB0byB0aGUgaW5wdXQgaXMgcmVmdXNlZCwgYQpzb3VyY2UgbW9kaWZpZWQgZHVyaW5nIGNvbXBy
+ZXNzaW9uIGlzIGRldGVjdGVkLCBgLS1ybWAga2VlcHMgdGhlIHNvdXJjZSBhZnRlcgpmYWlsdXJl
+cywgYnkgQEZ1cmFuNjY2LCBATmV4b3J5IGFuZCBAaW1tYW51d2VsbApjbGkgIDogYmVuY2htYXJr
+IChgLWJgKSBtZWFzdXJlcyBmcmFtZXMsIGNvbXByZXNzZWQgYXMgYGx6NGAgZG9lcyB3aXRoIHRo
+ZSBzYW1lCm9wdGlvbnMKY2xpICA6IHZhcmlvdXMgZml4ZXMgKGAtLWxpc3RgLCBsZWdhY3kgZm9y
+bWF0LCBiZW5jaG1hcmssIGAtdCAtbWAsIG51bWVyaWMKYXJndW1lbnRzKSwgYnkgQHRhbnN5LCBA
+am1lc3R3YS1jb2RlciwgQGFrYXNoZGVzaG11a2gtZ2l0LCBAYXJzaHNtaXRoMSwgQGpsZWUzMDMK
+YW5kIEBOZXhvcnkKYnVpbGQ6IGR5bmFtaWMgbGlicmFyeSBtdWx0aXRocmVhZGVkIGJ5IGRlZmF1
+bHQsIHN0YXRpYyBsaWJyYXJ5IHNpbmdsZS10aHJlYWRlZAo7IGNtYWtlIGBsejRgIG11bHRpdGhy
+ZWFkZWQKYnVpbGQ6IGNtYWtlIDogZXhwb3J0ZWQgYGx6NDo6bHo0YCB0YXJnZXQgYnkgQGRnMHl0
+LCBDTWFrZSA0IHN1cHBvcnQgYnkKQEdlb3JnSDkzLCBgQ01BS0VfUE9TSVRJT05fSU5ERVBFTkRF
+TlRfQ09ERWAgYnkgQGRzLXNsb3RoCmJ1aWxkOiBjbWFrZSA6IGFzIGEgc3VicHJvamVjdCwgdGhl
+IGBsejRgIHByb2dyYW0gaXMgbm8gbG9uZ2VyIGJ1aWx0IGJ5IGRlZmF1bHQKKGAtRExaNF9CVUlM
+RF9DTEk9T05gIHJlc3RvcmVzIGl0KSwgYnkgQGNydWV0ZXIKYnVpbGQ6IHJlcHJvZHVjaWJsZSBz
+dGF0aWMgbGlicmFyeSBieSBAcnB1cmRpZSwgQUlYIHN1cHBvcnQgYnkgQHNodWJoYW1oaWksCm1l
+c29uIGZpeGVzIGJ5IEBncm9iaWFuLCBAYmdpbGJlcnQgYW5kIEBlbGktc2Nod2FydHosIG90aGVy
+IGZpeGVzIGJ5IEBob3QKCltDaGFuZ2Vsb2cgdHJ1bmNhdGVkIGFzIGl0IGV4Y2VlZHMgNTAwMCBj
+aGFyYWN0ZXJzOwp0aGUgZnVsbCBjaGFuZ2Vsb2cgY2FuIGJlIGZvdW5kIGluIGFuIGF0dGFjaG1l
+bnQgdG8gdGhlIEFVSCBlbWFpbF0KLS0tCiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9sejQve2x6NF8x
+LjEwLjAuYmIgPT4gbHo0XzEuMTEuMS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9sejQv
+e2x6NF8xLjEwLjAuYmIgPT4gbHo0XzEuMTEuMS5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9sejQvbHo0XzEuMTAuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2x6NC9sejRfMS4xMS4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1zdXBwb3J0L2x6NC9sejRfMS4xMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9sejQvbHo0XzEuMTEuMS5iYgppbmRleCA1YTM5Zjg5ODcxLi40ZGM0YTZkMzYyIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9sejQvbHo0XzEuMTAuMC5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9sejQvbHo0XzEuMTEuMS5iYgpAQCAtMTAsNyArMTAsNyBAQCBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9saWIvTElDRU5TRTttZDU9NWNkNWY4NTFiNTJlYzgz
+MmIxMGVlZGIzZjAxZjg4NWEgXAogCiBQRSA9ICIxIgogCi1TUkNSRVYgPSAiZWJiMzcwY2E4M2Fm
+MTkzMjEyZGY0ZGNiYWRjYzVkODdiYzBkZTJmMCIKK1NSQ1JFViA9ICJhYTQ2NDdmYWQ1NzVkMDFh
+ODc0YWFhYWRjZGJlOGU2YTQwZTA3MmY1IgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20v
+bHo0L2x6NC5naXQ7YnJhbmNoPXJlbGVhc2U7cHJvdG9jb2w9aHR0cHM7dGFnPXYke1BWfSBcCiAg
+ICAgICAgICAgIGZpbGU6Ly9yZXByb2R1Y2liaWxpdHkucGF0Y2ggXAotLSAKMi40Ny4xCgo=
 
---===============2254148407742662233==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libxmlb-changelog.txt"
-
-Version 0.3.30
-~~~~~~~~~~~~~~
-Released: 2026-11-10
-
-New Features:
- - Add support for the XPath normalize-space() function (Richard Hughes)
- - Increase the maximum number of node attributes and tokens (Richard Hughes)
- - Record in the silo if the node was added as external info (Richard Hughes)
-
-Bugfixes:
- - Convert xml:lang tags to POSIX form when required (Richard Hughes)
- - Fix OR branches still being evaluated after the limit is reached (Richard
-   Hughes)
- - Fix XbLzmaDecompressor reset leaving the stream unusable (Richard Hughes)
- - Fix a bound value losing its level inside a tuple (Richard Hughes)
- - Fix a crash when a query value was never bound (Richard Hughes)
- - Fix a crash when searching one silo from several threads (car12o)
- - Fix comma-separated function arguments being parsed in reverse (Richard
-   Hughes)
- - Fix escaped tab and newline not decoding in query parsing (Richard Hughes)
- - Fix literal backslashes not surviving the query escape round-trip (Richard
-   Hughes)
- - Fix mixed-type comparisons swapping their operands (Richard Hughes)
- - Fix parser depth leaking from one failed source to the next (Richard Hughes)
- - Fix unbound query variables silently comparing against zero (Richard Hughes)
- - Fix unfinished predicates being ignored at the start of a section (Richard
-   Hughes)
- - Fix xb_query_context_copy() silently dropping bindings after a gap (Richard
-   Hughes)
- - Fix xb_silo_stem() returning the unstemmed string on equal length (Richard
-   Hughes)
- - Fix xb_value_bindings_copy() aborting when a slot is unbound (Richard Hughes)
-
---===============2254148407742662233==--
+--===============0798386916199015010==--
