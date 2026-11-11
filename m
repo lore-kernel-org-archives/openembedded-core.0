@@ -1,242 +1,197 @@
 Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.39])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.7494.1794396278315459600
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 03:24:38 -0800
+ Wed, 11 Nov 2026 03:24:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=jwvfh/Kc;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=R0nkOHBU;
  spf=pass (domain: est.tech, ip: 52.101.84.39, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dJoNpSuAynN9rktAl1bxqXEGhvAEb1toHvYsbXMQ5bwExv/inkpVZbKznAVbKcBiCLannVoNaj0PCuZ+QEhLQtKRZpdo9RD06weTcZb+a8VOiOK5tpjnu1dZZEJud+W+nrSkDxrbQvM7UEFCvygQpEXpv7hzAS66at1pTD2Ijo5ppBdesOqbOhQPpKDUNt/hyAV56lF16Fva9XE1IRKrS/C7sIY8iya/tZU+t1QrV59srhuWRbNBKVcDQOgKGlc3puKKgn4Z3cGGjl0i211oO67tZSB75+HX0rACorcaR5EyfD1FlVyeYcP9SfH9LxjLKDapciLvXcLBW4IyM8GvFw==
+ b=EvHJYvpCqv2RtjIopVOn89cXw8HjNPS/Zgr+pX1neSwbU7CkzgfELz5fCw39I8IL8MN9flxevxUgThO56Hz3Qms/BruxzX9BFc+okP5y6gLx2N4dN0fXLtIqk8FAV0gw/vc4eJfWe6kIRGeTSuYd1ZLfETGbc84ixVmE53PGc+tKOm7CsHKjVPX5rikDXHZKP39K33NdwtfmqEAo337owZJHWoGkBh0ndOoCwxdf7cHxjfItqLLhjeM3yXIGV9qm7Ftx/Qe1LYkM/k8BuR+XYcCMixxnjDY5LC7b0lTQ9ADsZv8CMD/4JcSMe5/odrCLoT6mOn1On4vXPV5S47OdDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DFh/wz6sDefIz/2ZRRlZzA5vFhMPxEH3zHdFVLSDofc=;
- b=sGCMR5hIwPmu95TYrsQBgR1jAB+nT4Xq9jPbvTzkwkBMh0T4G4CgGNA8wm8OaFDk2KbwCnKniTmskxDTG8ORliy6EQSOj5389RA1oiBVdPF9Zwm8Ggl+2rHABA622r6frD4l2YUyL/dltcoK8wOYNd9m+xgfn7PNOo9u9vnkP9dTBxyAtKY5op0roIBJC1e8/KNDaBWerEfKivX/dICFSoBIvXXPoHxTKOMfnzFnPP019UHtp1MvCVrYZ5J5NGrB12QekV/nbFdNe7bZAHyveLr/xopL3AacsAIlgYp+BwOQRrMBlV4OdfNWypTlCA9A1JFGIEAxBJIJsKyh1C8FcQ==
+ bh=lzA0zb+ULEPmaJPmzkTtMoWOYS2F9soAuj5t/Ey1MWA=;
+ b=eUPloT2bZcZ9Q/qNxJ3pFOU7xMbOFCtl1lb5Vm6jo+xAjxJbHqCrEcYhDc/hKqsznNKGNdT8lqZ0/7hUhyGcy20oZqa/NM/gUCBQ0i+zgdJHZp/NyDt9AMlD7s6Qf2KHsZAApfaXOBv+8rDZyAgE0PV7o9GCZbKeW4wtWUvpv1OC4wNJq2gmg1JUVWuZZownPOvVNfgYBEwpO8KmgLtwjHNOnTOa6oY0N9p8vtcTyFAIGBBom7XcEPcSyIRHSOVhCIIrQpFhYe6xuUKUeljcWIRsoYt7nhvmLF3DyF7L8r+pkZd9yDqX5CiBl0uGetavYA3xOkbLJSV/p3n75CD19g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DFh/wz6sDefIz/2ZRRlZzA5vFhMPxEH3zHdFVLSDofc=;
- b=jwvfh/KclJMWWuwMCdBxAhainKYqA7FmwWUXbXRJGXcgF/rHq8QVg9r9Dk+koe2gNimwL7KwXa1YTo+h9Z6x3XIJrFjplh8jm2WQZM83t8BZY7JowdDwsKdKiBalzYV5BlpCofFEOwKg9ZVA3oSyOve1q8fejTg9XPRe8k8ayPI9OJoHfT1jkvZhht921PjzgqFNUf62NhF1cf/dcfOsEZI+SEOxNgkmQ2NCvXgVfCfwgd/xD4AlgpJtO9Vj9eniiFMxO2iv4RSK2ipkfKH6M5jV8fNbsTJnSBjtD6AoVk1rwMoo3l3PKR63Uu8iYu1MEy6h3BbdhfSnCQLVUyNapw==
+ bh=lzA0zb+ULEPmaJPmzkTtMoWOYS2F9soAuj5t/Ey1MWA=;
+ b=R0nkOHBUgpRfE+vCyc96nC3BfE0BoMKvayr6+a0Yl1ZU2YaX/n2A3NGyYRT9J+Xf4JYU7NoiqAt+RbFEd6UNK96RD0j+GSywMqWah2O2ss5XVWFUs83bUzK4eGRTtgI3kza009Iwzvcmkb7TzXwOxul4OoZfxvY3geG6/6SMjM2INDg0U7RKThU5iYzs49EmY5RtNYQBuaQLZg0ZZc+HWW0tpQUPNPi/5t9BLLLQV9bI9vnwVrtKQmmC6mEAbWIWajGZDvprhxo1kcRzkrFEV/c/qHnCCYqAq43WvqE5iaaWB8Blr6lHerDsMDnB5KCtA5zrkpE28JsfAOn1sKJ6ew==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by PA3P189MB3204.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d6::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
- 2026 11:24:35 +0000
+ 2026 11:24:36 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0615.007; Wed, 11 Nov 2026
- 11:24:34 +0000
+ 11:24:36 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/5] appstream: upgrade 1.2.1 -> 1.2.3
-Date: Wed, 11 Nov 2026 12:24:25 +0100
-Message-ID: <20261111112426.85977-5-jaipaul.cheernam@est.tech>
+Subject: [PATCH 5/5] libxmlb: upgrade 0.3.29 -> 0.3.30
+Date: Wed, 11 Nov 2026 12:24:26 +0100
+Message-ID: <20261111112426.85977-6-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261111112426.85977-1-jaipaul.cheernam@est.tech>
 References: <20261111112426.85977-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DUZPR01CA0030.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46b::19) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZPR01CA0254.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b5::26) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PA3P189MB3204:EE_
-X-MS-Office365-Filtering-Correlation-Id: 604b0030-f75f-4ad0-e144-08df3fe65cfe
+X-MS-Office365-Filtering-Correlation-Id: 3569a2b0-f45b-42ca-e418-08df3fe65dcb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|261102123227099003|261022105027099003|11063799006|56012099006|261021121427099003|10067099003|261022075727099003|261022113327099003|261021123027099003|261028144727099003|261026140227099003|261026121527099003|261009223027099003|18002099003|22082099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info: NQskZUfSpy5Oh7KcVmfTfSgTghMyeF06D8/H32JRUaylpjZTAKCXlZ9VpxgjX5E0S3qoHjlmcoVRFrHwNccIvxpy0R5VuLbk9WKNogy93MXbN30FNObgA3EGPUqTXggwzWW8L4iZyNWxUF7qc9YvMKfYwz7CmVWWxEvmxZ6Ya036y1Gg86QAY1k4DM9JqYrHct75HTsX6uGMmnS/D0d93V4GXYEyhSbqKDzm0P3ElEwgrFB8MJqvpfm3+PCj1Ey6gHWXoFEASH48GNzyhFvTjBFd8XBN2WzMKXH7K2dGHfDs2dVa0LFMXwZwcEC4xJDakYj4LX0eRdruwQtJH7zyvWGLbApU43GSBEhFEH/EhbEqj5vVjvDVAIYlofdNRFafvKAGwOGcDzRQi45JHkIJCitknxQ5yHeq/sJQStYPpSDhnkvpfUz3zIAXsd5mRcEQ7v8+6C2t93IUg4kp08WJPCuYMPkijH7CUk+LTvpcnQnzUbzT9nd3uO6W7vNr/xWBrxIj5xMl1m/DmiUAV77SF6BMUd2dr6byplLFI4fgG41NnCm0INj+9xOMZVFvnW12wEO455XyhN5ViC4LfDkVT/MzzrZ8iJp/WUFGvMKEhKG5ziMYxq6FwoeVKOoFzwLN
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(261102123227099003)(261022105027099003)(11063799006)(56012099006)(261021121427099003)(10067099003)(261022075727099003)(261022113327099003)(261021123027099003)(261028144727099003)(261026140227099003)(261026121527099003)(261009223027099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|261102123227099003|261022105027099003|11063799006|56012099006|261021121427099003|10067099003|261022113327099003|261021123027099003|261028144727099003|261026140227099003|261026121527099003|261021130227099003|261009223027099003|261022115727099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: gvQzBia+iHHXIbsmID+QNewAvX7Kl+2owYVivFNiVzezRsKz9vwCYI3FE5ty8EPOxSI7guo0x9qA/ponHTXWABUd7SPRzT7433unuwoHFL91mTwsjaVxb2lHjqlvFMFD7qk2rfSLYwyLskdOx5Ks9WGxM5c54GhKws3aFm+vemZQrW8tCUzz2/QdevUM46UDfRJRaZMwZfc/RiXlpEil8nAKrG+VIuWlmjt2pipdvUSZjwRg5nz00TSkaO4Ayas112u1fhXvPKQPDy5B6H/aBnn/wC+4pAy7iXLVeD42OS1XAIp1+pwZg48X/PP9JweOk4hkUDkb+oVRwo8n2QFBLpzu/KZv3vhyjN8Qc7MO6HPmIi0+SV2+g4sbMQwh1iHeKnBclZWRckA9sHL9gre8MIsu34duFhM2BGdXSDc4fCk2adOi0VdkUAw5/hsn9i8d9R2gEDDR3dKLgfPVEHxJ6DRkF9YARVY+pG5Pg9xprIHpwWbgIteUdOU3jq+fjC/bg4nOGgJ4VsShJfd2q0+3ozzu8bx/AFrHSQFL6tzLbAYyHOqNDeZbrFNNnJ+1r80vCoXXt3JVLpcJHYQ30OUEc/GwNPLjQmmgcyluMVIj7L58JeouJO7Wgq0qNBvCyKpaIylfLJG+YPFoKo718AIOVKc2Un1lmrKuO/NWYf5qF1A=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(261102123227099003)(261022105027099003)(11063799006)(56012099006)(261021121427099003)(10067099003)(261022113327099003)(261021123027099003)(261028144727099003)(261026140227099003)(261026121527099003)(261021130227099003)(261009223027099003)(261022115727099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nOynLBHJxpJhksaYAFei0wcE1XoKoqYMHz9Us/mS6qtNScB1u3w2H0bPoSS+?=
- =?us-ascii?Q?P+sBeZOauyKrC5qYtZlTd3RjVSKYh7rqaKE739WJUAK5+KVkWTlw8VheErEX?=
- =?us-ascii?Q?DYFn+Er6LGuDSCm6lUJ9QGoyo4Q6bUSDl5WJ6bzZAyfrBhP9Xpy7MZ8ZZ5HF?=
- =?us-ascii?Q?JV5Q/PkGv5hZK/Boymo3v58k7SBpKDOj/3wYSte5HyqPMsfJD5HfAVbSRVi/?=
- =?us-ascii?Q?/ppdg2rd/ggas4Rtp7uv04bCQhLjGOT2R/u3vVFP00ebWBf5aQOo4dQ4kOGg?=
- =?us-ascii?Q?v02bfqaQH6YUD8IxVpimRjBJYp4Mx38xaCOnmtPXPOixEeOHVML3NIGyEvj4?=
- =?us-ascii?Q?ZG3fjh7hvTIwOBD4rNkMQCWdpjGCZEz0mVEvy6vqZ6/cGhMVo7/o3HTV2nZr?=
- =?us-ascii?Q?nTYTygm6GulIcX0/gkqaxo0cgDoMnRmpuYGLU3RAyBZ236hADJPbdtJeE8c1?=
- =?us-ascii?Q?xTSA3OdLWSqovrgYCSMOU6vgIH7WRrN0eacLyAmIK14FPnbNsqL618oKVSB8?=
- =?us-ascii?Q?BLgOMYg3r00XkZA3F0WDQCmVzNeeD0m9UbyHcQA0Oq3GTlNfZfmMKLZu3wSF?=
- =?us-ascii?Q?tUIbL3SQ9+WMqLwkXYDkWrocA92iZaQgyFqjTKfMQoI3GpXFjr+MOOOd168s?=
- =?us-ascii?Q?tCBgck4J8zFSARu4VMSGaRuD2/XnJTCdsTA+QswLGtovtBZWUP90FAPxl425?=
- =?us-ascii?Q?IZbrnX6nUzNDp77xqYVIyqDJFvnfkjIuYTDFyX5BrRnXrBiefSBOyZu4Ybtj?=
- =?us-ascii?Q?REgIyeIkUU9dZRfrwhLlPFyjcUk/d9fAbOjnZMOK2oi2HOp58IYerNqQq9cJ?=
- =?us-ascii?Q?FGMHZ9+DAwVOJQOr8EGl7fOS46IQ2P4jb4F4ouTtrVgH9o09tjJa8WHi9PN7?=
- =?us-ascii?Q?CHNYV1jnNlOiRe9F4u61bJuZdAC1z0GUj0wutKs9xMLQkHftkJK0I93PH6r6?=
- =?us-ascii?Q?SBLDxMS6czGuc4Ab64Z3ooGP1Gn7GAjeDJckWMzDYYW+T1CdUwzTMiyJe6M9?=
- =?us-ascii?Q?StZozLynfGQANLV5dabgKDu/MlFVHRmYRag1u4aSnGThJD0zTRmfL7SO4noG?=
- =?us-ascii?Q?XbTWM0LJ47/YDzeHVxIxpcazsLm+D//AKLZlnfcg5X3sh/xLqRm7MMinUAT4?=
- =?us-ascii?Q?DmHcrQmXv70ymhm8d1HPazZzXhMl9ABHh7w/qcTfAsx+8ZTGrz2IQgn1xLV4?=
- =?us-ascii?Q?CL4dkRFKygvkplVBRgj/5FlBZh6+dRe1i0tKTpBmXPsWRopTXvOoa92k0dRI?=
- =?us-ascii?Q?mVAH5ntP10mNpRtE02FpEajhmgPW4REGr1EASfW7/VCriWtHziw2+HdzXD35?=
- =?us-ascii?Q?s5mI8ZnWM2ySb+lKCYoOLdVGk0fg8e0i/aGsoA2lPN0jJiVg69OMBXvF84Q2?=
- =?us-ascii?Q?ADZ3eeYZWPsFeEineeovMpu1OgEft9/iWBXqRHPaRhW1FAqkJvhPWCxjIlcn?=
- =?us-ascii?Q?5SXb7WzHWhW6944rK9LxOUgyyeswAGacLMwOhPgYYp2JzA2G7IEzBK/A/wba?=
- =?us-ascii?Q?deypAG0YCYXT6Bb2vPVUKZWhzbNfgqiz18rwSMuzq4pVwGaUhxcPULbiwQrw?=
- =?us-ascii?Q?HZQzGqurh/R7P2GXaWZGH0IWHMUkZc8Y8ZwL5j3hk4EN39DwCnZPNh7BLcWx?=
- =?us-ascii?Q?2fvrB3lvDKOqu40xEzcBFTAmF93rtNYfnNdrld5XqfJVK9rRKDkucQbWp3PN?=
- =?us-ascii?Q?gOhjygRrgDAFR/Gl82pX+SLg4qg+5xqpJa3WnzzuoPDJpB4sxhUePDv8HCCD?=
- =?us-ascii?Q?vui3nrmj5A=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PFE9ys58PBjyssqDbB0zZMON9dhNik2wsT/R9S5kh6a32R0R5dkithNzjf6o?=
+ =?us-ascii?Q?rCnikNLQVv5h28IYttMrfKZqj+v1P4S0wxueaP/oe/bI8IzwmxGwXAmvoh2w?=
+ =?us-ascii?Q?ZblGbC21VTo8jPhJo4bxHY15PEgG2ZMtXZ3bHZijLXVTBGoxRyPwBzn3nkOI?=
+ =?us-ascii?Q?mY7WkLcb87+eQVFVym22uXoDir5CVOr6IiwjbAkHD2ZZ6lZWoA4ZgrnAC6C/?=
+ =?us-ascii?Q?WIWdXQcozakWWCwZ3pxSldglZFmK6cmo7BpbvHakWF9q1hZZP4qRBLmWfhIq?=
+ =?us-ascii?Q?mThHDMukmN3J/cSjlnObiSZS3M/pFeO8mHD3/jqu9Gi6XqYx2IyP6shBER/w?=
+ =?us-ascii?Q?VkBaIA/Lx6+1FLMYxW9nBnSzBwsVbz6Es4p4y7/ntUpPU3tn1WRhbgIS+Eg3?=
+ =?us-ascii?Q?a5z+Wdy73URJqpVtGYJBWZXMmQ5CHyt6k2oodflJ1sOcjYNJrjb/oGcaoYvU?=
+ =?us-ascii?Q?KP51BLrww9wB+rkeLoMeT4fgJ7vuPi33DJ0Bv7hUBMANaoPjaNZpk7gmxSH8?=
+ =?us-ascii?Q?/wbNPv2ax1z0nNzKbeucZjkrYUYAPbMomGt1KWD+GOWLi93drzajVJgB5An2?=
+ =?us-ascii?Q?RUhcESVXmH9zIHJ47AVlqD6YOGZ3xuJlCGfy8psl7uf8nR6YUtMWWZNtaZB8?=
+ =?us-ascii?Q?rNa0+eNpQ4KgVkIQaYRghQBUk5vADqoAAoaEhwHKqsOTI5ZtLAn2FoXXw7KP?=
+ =?us-ascii?Q?QJcUndQkre6jWEbKIREWOonyjzbtcKMrOqftA/0q1/YV0KN17n0prSb2tRD9?=
+ =?us-ascii?Q?bkQWvlNCf6HFsX2Qi7UJbCeLlsv4xla8UYIDJmY8jYW39+rNi1e2p61a7qdd?=
+ =?us-ascii?Q?f5vZIOGwPAkcuIb/ZdZq8eL+EUxxOo87fLTyzyKGaPsu9fDa2bxEfL8XMRQ/?=
+ =?us-ascii?Q?OV7JbQox9ETloDG1VmOOjmbeamgavIQYCNLCGcY+zG81ItJWN2eVs9jgjEBy?=
+ =?us-ascii?Q?w+hsFraqPL2cjg/DS2iAUXd4fYZs6SdeRtAYolCKlEI1s0qxwx+/wr8sfMwu?=
+ =?us-ascii?Q?2MbHENNK/CyxMS7S2ecVxruuL4S3BfrG0CdUK8a4sO7j2NgeWlkwRjuoS+Wy?=
+ =?us-ascii?Q?4x2UrDYBY2vfQNwWMidKHgU0/QnTMyYSMs9EbigmCZ25+rEPR/NQlK+O6DdK?=
+ =?us-ascii?Q?zizkl249kOEVCBNhRcEr/6KqAosliNk6VU3Mv+m4Dxeu6TRPcOW6CJyvhVuA?=
+ =?us-ascii?Q?j/IweFwjg8qnNqcAANd41YFK/LyQQzbIqUJCYN12RblnOq+eVuM9QdyEohU7?=
+ =?us-ascii?Q?Lhyc/D+bCVKQIzZPb+pcpVHjZZ2HHKlQ/+BZV0fDUB9GLr3kNNhW4ONK1Uij?=
+ =?us-ascii?Q?DL3HH6Z6fmhNeKScXLoM4zXucuS69SRNPAk4j+79mSrRYMKksySl3wzYCgZy?=
+ =?us-ascii?Q?ykLyddj+7lNpuY0nY+7ILbcWVoqiXsW/XjuiFJYFHXaIoQa0LURHZ2Kmy+23?=
+ =?us-ascii?Q?JUZb71nOpaMlZVkcwFnhlxTMAAWn0XnCC4AyAa5XG6N7NFCH/1JA8lXSPQAd?=
+ =?us-ascii?Q?ovvte3eFzVRjHZG05oRZKG6L3HdEDA+5lk5swDjFhpG8lI8CZhaatKt+pwgJ?=
+ =?us-ascii?Q?mZGqWxJuX8XLCGH0DE19hc2DbhP4DvNo7USWw58XQzU8f0g207AzcVJwK2fH?=
+ =?us-ascii?Q?Q+//HihT/bYNGoL5+12MRoscawce7b0gJXC5d9m+a3cC4j6YQxStREj/GbYZ?=
+ =?us-ascii?Q?2QcdMBvZNRAlLIqfcwjIBYdpbqsGMcte9kl1Qz63yizhIm5wr48S9aoi89uW?=
+ =?us-ascii?Q?PSEQtl1Jr51iL4tBo4ODUJ4xbWVnP3s=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 604b0030-f75f-4ad0-e144-08df3fe65cfe
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3569a2b0-f45b-42ca-e418-08df3fe65dcb
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 11:24:34.6236
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 11:24:36.0264
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vaQ/xldTLxzQxHmNz23VGVDeKYtF4ri0UbE7CpJpvZSqGE9IyCdfvH6whoYDq3Rk6C1yVbUaYd5L8u9nULs7vp2LvRu0zjtMwkImQTem+cs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7EYjlljJ2b+W0Hl07YLqg4IFbHBIbSFZHai66U5ggafzEvu4gaILjI8DfOeHx3vjvNFJzsOlV+rksDBqk/8StiKpn2sR7/H+AsOfwRScjVo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA3P189MB3204
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 11:24:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250020
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 11:24:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250021
 Content-Type: text/plain; charset="utf-8"
 
-NEWS: https://github.com/ximion/appstream/blob/v1.2.3/NEWS
-
-Version 1.2.3
-~~~~~~~~~~~~
+Version 0.3.30
+~~~~~~~~~~~~~
 Released: 2026-11-10
 
-Features:
- * search: Make fulltext token search a bit more space and time-efficient
- * xml: Leave out translations we don't need while parsing
- * Reduce allocations in as_locale_is_compatible
- * Avoid some needless copying and folding when writing the cache
- * stemmer: Cache stems in-memory instead of recreating them every time
+New Features:
+ - Add support for the XPath normalize-space() function (Richard Hughes)
+ - Increase the maximum number of node attributes and tokens (Richard Hughe=
+s)
+ - Record in the silo if the node was added as external info (Richard Hughe=
+s)
 
 Bugfixes:
- * release: Don't drop catalog descriptions when reading other translations
- * cache: Do not free a the GError we propagate to the caller
- * Reject loading bundles that do not have an explicit type
- * compose: Actually add the bundle of a unit to its components
- * meson: compose: Run the pkgconf file fixup in the global build root
- * bundle: Add back support for Limba
- * yaml: Handle translated screenshot media like the XML reader does
- * Split words properly when tokenizing values with + or -
- * Validate incoming locale strings more strictly before passing them on
- * compose: Reject Qt locale with non-POSIX names
- * compose: Fix potential crashes when encounterim bad QM translations
- * cli: Fix not used `--datapath` option
- * cli: Make --no-cache work and reject a bad --datapath
-
-Miscellaneous:
- * Move locale-related code into its own unit
-
-Contributors:
- Alexander Vanhee, LeeJiEun, Matthias Klumpp, Vladimir Romanov
-
-Version 1.2.2
-~~~~~~~~~~~~
-Released: 2026-10-28
-
-Features:
- * content-rating: Add attribute titles and group descriptions
- * pool: Allow adding extra data locations with explicit scope and origin
- * ascli: sysinfo: Print some more information about the OS, like its suppo=
-rt period
- * bundle: Drop Limba, add Manifold
-
-Bugfixes:
- * cli: Fail YAML validation for missing input
- * compose: Fix build on a newer kernel with an old glibc
- * pool: Work around all Flatpak origins having the same name
- * pool: Include scope in metadata cache keys for Flatpak
- * apt: Don't hang when tar emits lots of stderr output
- * its: Support MetaInfo files that use the specification's namespace
- * system-info: Don't prefix an OS ID that already is rDNS
- * sysinfo: Also replace `-` with `_` at `dns_to_rdns` function
-
-Contributors:
- Eugenio Depalo, Florian Leander Singer, Matthias Klumpp, Vladimir Romanov
-
+ - Convert xml:lang tags to POSIX form when required (Richard Hughes)
+ - Fix OR branches still being evaluated after the limit is reached (Richar=
+d
+   Hughes)
+ - Fix XbLzmaDecompressor reset leaving the stream unusable (Richard Hughes=
+)
+ - Fix a bound value losing its level inside a tuple (Richard Hughes)
+ - Fix a crash when a query value was never bound (Richard Hughes)
+ - Fix a crash when searching one silo from several threads (car12o)
+ - Fix comma-separated function arguments being parsed in reverse (Richard
+   Hughes)
+ - Fix escaped tab and newline not decoding in query parsing (Richard Hughe=
+s)
+ - Fix literal backslashes not surviving the query escape round-trip (Richa=
+rd
+   Hughes)
+ - Fix mixed-type comparisons swapping their operands (Richard Hughes)
+ - Fix parser depth leaking from one failed source to the next (Richard Hug=
+hes)
+ - Fix unbound query variables silently comparing against zero (Richard Hug=
+hes)
+ - Fix unfinished predicates being ignored at the start of a section (Richa=
+rd
+   Hughes)
+ - Fix xb_query_context_copy() silently dropping bindings after a gap (Rich=
+ard
+   Hughes)
+ - Fix xb_silo_stem() returning the unstemmed string on equal length (Richa=
+rd
+   Hughes)
+ - Fix xb_value_bindings_copy() aborting when a slot is unbound (Richard Hu=
+ghes)
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../appstream/appstream/0002-Do-not-build-qt-tests.patch    | 6 +++---
- ...x-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch | 4 ++--
- .../appstream/{appstream_1.2.1.bb =3D> appstream_1.2.3.bb}    | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-support/appstream/{appstream_1.2.1.bb =3D> appstream_1=
-.2.3.bb} (95%)
+ .../libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch | 6 +++---
+ .../libxmlb/{libxmlb_0.3.29.bb =3D> libxmlb_0.3.30.bb}        | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.29.bb =3D> libxmlb_0.3.30.b=
+b} (93%)
 
-diff --git a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-=
-tests.patch b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt=
--tests.patch
-index 5f35a8bf230..b1993f58c2d 100644
---- a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.p=
-atch
-+++ b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.p=
-atch
+diff --git a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode=
+-G_TEST_SRCDIR.patch b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.=
+c-hardcode-G_TEST_SRCDIR.patch
+index f0db37031e9..82ec03bd642 100644
+--- a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST=
+_SRCDIR.patch
++++ b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST=
+_SRCDIR.patch
 @@ -1,4 +1,4 @@
--From 1110cb5c658de30c63642929c1128ab4f9b9b98e Mon Sep 17 00:00:00 2001
-+From bdf11270cdd510f119a8be42cad3d417e9aa0072 Mon Sep 17 00:00:00 2001
- From: Marc Ferland <marc.ferland@sonatest.com>
- Date: Fri, 26 Jul 2024 15:41:00 -0400
- Subject: [PATCH] Do not build qt/tests
-@@ -23,10 +23,10 @@ Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
-  1 file changed, 2 deletions(-)
-=20
- diff --git a/qt/meson.build b/qt/meson.build
--index 488fe60b61c0..83c2715c5fe7 100644
-+index 1837c97..131aaef 100644
- --- a/qt/meson.build
- +++ b/qt/meson.build
--@@ -144,5 +144,3 @@ install_data (
-+@@ -148,5 +148,3 @@ install_data (
-      join_paths(meson.current_build_dir(), 'AppStreamQtConfigVersion.cmake=
-'),
-      install_dir: join_paths(get_option('libdir'), 'cmake', 'AppStreamQt')
-  )
-diff --git a/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREF=
-IX_DIR-in-qt-cmake-AppStreamQtConfig.patch b/meta/recipes-support/appstream=
-/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
-index 3774bfa7c61..06196f76392 100644
---- a/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-=
-in-qt-cmake-AppStreamQtConfig.patch
-+++ b/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-=
-in-qt-cmake-AppStreamQtConfig.patch
-@@ -1,4 +1,4 @@
--From b8d73820cdb685089c0f805c7ca8163b21a78acd Mon Sep 17 00:00:00 2001
-+From 393214ea44d02eb83cb186c3864764206727bd39 Mon Sep 17 00:00:00 2001
- From: Marc Ferland <marc.ferland@sonatest.com>
- Date: Mon, 29 Jul 2024 09:35:51 -0400
- Subject: [PATCH] Fix PACKAGE_PREFIX_DIR in qt/cmake/AppStreamQtConfig.cmak=
-e.in
-@@ -39,7 +39,7 @@ Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
+-From d4aa8d857e1b18dff8bc23cc810c56b4dba3aa95 Mon Sep 17 00:00:00 2001
++From 361bbfeb5b7bb6d89a022986746f8063e6df25b2 Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+ Date: Sat, 16 Sep 2023 14:02:57 +0200
+ Subject: [PATCH] xb-self-test.c: hardcode G_TEST_SRCDIR
+@@ -18,10 +18,10 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
   1 file changed, 1 insertion(+), 1 deletion(-)
 =20
- diff --git a/qt/cmake/AppStreamQtConfig.cmake.in b/qt/cmake/AppStreamQtCon=
-fig.cmake.in
--index 63df65f25676..5ab2d0ec7bd3 100644
-+index 63df65f..5ab2d0e 100644
- --- a/qt/cmake/AppStreamQtConfig.cmake.in
- +++ b/qt/cmake/AppStreamQtConfig.cmake.in
- @@ -1,5 +1,5 @@
-diff --git a/meta/recipes-support/appstream/appstream_1.2.1.bb b/meta/recip=
-es-support/appstream/appstream_1.2.3.bb
-similarity index 95%
-rename from meta/recipes-support/appstream/appstream_1.2.1.bb
-rename to meta/recipes-support/appstream/appstream_1.2.3.bb
-index fcfc1aea6cc..84e5791e650 100644
---- a/meta/recipes-support/appstream/appstream_1.2.1.bb
-+++ b/meta/recipes-support/appstream/appstream_1.2.3.bb
-@@ -22,7 +22,7 @@ SRC_URI =3D "https://www.freedesktop.org/software/appstre=
-am/releases/AppStream-${P
-            file://0002-Do-not-build-qt-tests.patch \
-            file://0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfi=
-g.patch \
-            "
--SRC_URI[sha256sum] =3D "7df664fd3ad3b1640c6a0ff77fa84f9fabe264111bf1fe8f5d=
-f3444d6d4caaca"
-+SRC_URI[sha256sum] =3D "8daa01a4d66c73f036aa92af9bf76abfe8408eaa76fcda6ca5=
-4fa8ef5b93ed17"
+ diff --git a/src/xb-self-test.c b/src/xb-self-test.c
+-index 795167d..ab2b582 100644
++index ddc4c9d..4b46161 100644
+ --- a/src/xb-self-test.c
+ +++ b/src/xb-self-test.c
+-@@ -3329,7 +3329,7 @@ xb_speed_precompiled_func(void)
++@@ -14,7 +14,7 @@
+  int
+  main(int argc, char **argv)
+  {
+diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb b/meta/recipes-gn=
+ome/libxmlb/libxmlb_0.3.30.bb
+similarity index 93%
+rename from meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb
+rename to meta/recipes-gnome/libxmlb/libxmlb_0.3.30.bb
+index b070cbf99cd..16089a31878 100644
+--- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb
++++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.30.bb
+@@ -8,7 +8,7 @@ SRC_URI =3D " \
+ 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
+ 	file://run-ptest \
+ "
+-SRCREV =3D "d942cd68a7d78e35b312b9299e69f68f9cd2e503"
++SRCREV =3D "35e0ece96ae9438ccdfe9fca5f11c161e396a481"
 =20
- S =3D "${UNPACKDIR}/AppStream-${PV}"
+ DEPENDS =3D "glib-2.0 xz zstd"
 =20
