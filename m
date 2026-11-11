@@ -1,70 +1,71 @@
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7151.1794395004341060430
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7189.1794395099271606333
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 03:03:24 -0800
+ Wed, 11 Nov 2026 03:04:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=grpnV4VS;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ksH8MWHA;
+ spf=pass (domain: cisco.com, ip: 173.37.86.75, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=9571; q=dns/txt;
-  s=iport01; t=1794395004; x=1795604604;
+  d=cisco.com; i=@cisco.com; l=11005; q=dns/txt;
+  s=iport01; t=1794395099; x=1795604699;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=zgDBibZhSf2Hy1NpJot9+Y+vCSMJ2Bpa0lItN4moUTM=;
-  b=grpnV4VShSYlubHggZQHHv9r+g75/10/zhmXhZH+DJA+y2Ir7WNrPchh
-   0oiOfis5/K+5DIlo0+c8Hgqs5QXsQPQbYxJThiojMc2fIwbIS+J0UjFP1
-   Z/ufdNsQ/UeaNH7oUhcDXWFV+yaJTGwJlMzy/xZ1hxzZfB5vDZZNMPZvU
-   N3DF0FomwYDh6sin1fEwk4UYh2oNXktjt5+sw+eled6iyByrJe4SG6sFp
-   /BvwOLL6oPXs8LyKPwNwTje7yA+K0+U0prySlpDXe9KqO9LDXGm6ZIIUE
-   xcN4NQckIoNqaKsx8zQBKZuAWkH/8Xz4BDeQjzbIzFNHypyoinNguYf2/
+  bh=UmSnZTRS4M4BvomY1RhDgLqZAljXcE1iKCrweIjrctA=;
+  b=ksH8MWHAFjIsQ66HsOaDiKhTgtusTxONjRkNkWmacv4zIpriLqWJRkoF
+   KZwpNADC2g4rPRr2tlFob2odi7A54M5D75+NpqtQUVWV7WA6+8RwMRIKM
+   5aYJcOrDUN+HP56jibLQWVnIeIOZq4uV/WAME24qhtPyfSwQLppobrwbW
+   yUlRJQH056SU1umpERAQw+ToX9bCJMmMYYEybaeZ4fdxgM5id5WG7eVvB
+   pDDSOMGzurg/NwMYVCXV7aUwQC6juITUqiMqGKMQZn5/Pq+Bk7o+FOysq
+   9rXjG4uhQQ4qRdfeqQtMJUtikmX/7ndYagyMz+H20TbQo5yuE5PuhtmRr
    g==;
-X-CSE-ConnectionGUID: hh4+nYp8QEibq/vFd3CwCA==
-X-CSE-MsgGUID: 2T7ToJf3TEagXnrEM44aRg==
-X-IPAS-Result: =?us-ascii?q?A0BFAgCOSvRq/5P/Ja1aglmCV3VhQkmUKoIhi2iSPYF+D?=
- =?us-ascii?q?wEBAQ89FAQBAZMlAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDZASAS0LARgBWQMBAk8LIyEagmgBgjoDNwIBEblVgXkzgQGDKQGBV?=
- =?us-ascii?q?NhMDYJaAQsUAYE4hUKDAIUkXRgBhH0nGxuBcoR/gh9CAYEohn8EgiKBDIFaH?=
- =?us-ascii?q?mSMGAKBT4clSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+F4EHGwYFgRyBH?=
- =?us-ascii?q?oESgQddgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaN?=
- =?us-ascii?q?TwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+Gwp+GA1IESw3FRkEPm4Hkm6DF?=
- =?us-ascii?q?AGBDgErFzlIlQ+PWoIhoCBxCiiDeIwkjz6FfBozhASmbpkIglmPO5JHK4Q/g?=
- =?us-ascii?q?Wg8gVlwFTuCMwEBATEJShkPlzfJSCM1AjsCBwIHDgMLkWiBfgEB?=
-IronPort-Data: A9a23:Eq2WpKBMQ+J21hVW/3jiw5YqxClBgxIJ4kV8jS/XYbTApDsh02QDm
- zAZUTyFaP6LY2b2Kd9/btnj9h9V6JbUx981OVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCCCM/n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
- fuo+5eBYQb8gmYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEw/UyT0cHJd0h1+d9GCZQ2
- /BDAy8mR0XW7w626OrTpuhEnM8vKozveYgYoHwllGmfBvc9SpeFSKLPjTNa9G5v3YYVQrCEO
- pdfMGYwBPjDS0Un1lM/BJ8zhu60hn7XeDxDo1XTrq0yi4TW5FEqgOS3a4CMJbRmQ+0Pohmko
- UDIpFjUCx4qMsay7GbZ+0ij07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflgQXV9wVF6gx7xuAj/OMpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOT9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:lWPMNK08t5HsXgztrSVqtQqjBIIkLtp133Aq2lEZdPUzSL37qy
- nAppomPHPP5Qr5O0tQ+uxoRpPgfZq0z/cciuMs1NyZMzUO1lHFEGgb1+vf6gylPTHi/ehA0q
- olWa1/BNrsSWVet6/BkWyF+xJK+qjhzEhu7t2uq0tQcQ==
-X-Talos-CUID: 9a23:uxBGqGNmLSm6Ge5DWCk7t0glApAcX3zX1TDODUPjInlCYejA
-X-Talos-MUID: =?us-ascii?q?9a23=3A8SRK8Q96vorsJZyxg4WDFYCQf51UvJipKk5Wrbg?=
- =?us-ascii?q?PtPmCLwFVZ2uUtjviFw=3D=3D?=
+X-CSE-ConnectionGUID: D5VE59BGRLu1kiB6XpPEZw==
+X-CSE-MsgGUID: W3NKYmt1T5mpFoDHitTSvw==
+X-IPAS-Result: =?us-ascii?q?A0BEAgAGS/Rq/5P/Ja1aglmCV3VhQkmUKoIhniWBfg8BA?=
+ =?us-ascii?q?QEPRA0EAQGTJQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGTw2QEgEtCwEYAVkDAQJaIyEagmgBgnQCARG5VoF5M4EBgykBRg9/2zMBC?=
+ =?us-ascii?q?xQBgTiFQogkXRgBhH0nGxuBcoQJdoEFgVwBAYEnEYZuBIIigQyBWh6MfAKBT?=
+ =?us-ascii?q?4clSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM+F4EHGwYFgRyBHoESgQddg?=
+ =?us-ascii?q?SsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VD?=
+ =?us-ascii?q?GcLGgVhCAINDHQ5EDAeJC8FGiY+Gwp+GA1IESw3FRkEPm4HklUZgw4HAXoTA?=
+ =?us-ascii?q?QcjARdoBhsxk2yQRIIhoREKKIN4jCSPQoV4GjOFW6UXC5h9jgqVaWiEaoFoP?=
+ =?us-ascii?q?IFZcBWCbgEBATEJShkPjjmDa4UTyUgjNQIJMgEBBwIHDgMLgWiQAAEngVYBA?=
+ =?us-ascii?q?Q?=
+IronPort-Data: A9a23:k2OTn6uY1jmck4Nbyowx6ZTp4OfnVAdfMUV32f8akzHdYApBsoF/q
+ tZmKWDSbv+DN2L1fI9wPoXgphsG75DVm4A3SQJspH1kEShEgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrb/656yYsjclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZzdJ5xYuajhKsvva8Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw1rtJLDwf3
+ 9MiDC1UbRGp2dKu+J+JVbw57igjBJGD0II3oHpsy3TdSP0hW52GGv2M7t5D1zB2jcdLdRrcT
+ 5NGMnw0M1KaPkAJYwtIYH49tL/Aan3XfzBVsluJpa0f6GnIxws327/oWDbQUoHWG5sMxhrI/
+ Aoq+UzGWTc5BdmDkAbY92qCgcPvnD/HY5wNQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwBuGxqyR50OSAXIJC2cZLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:d2MvtKqlU6MgN5uzrdQluisaV5obeYIsimQD101hICG9Ffbo9f
+ xG88506faZslsssRIb6LO90de7IE80nKQdieJ6AV7IZmbbUQWTQL2KlbGD/xTQXwvj6+Vaya
+ BsN4J6CNH2EBxGqPyS2njcLz7lq+P3l5xBQozlvhNQcT0=
+X-Talos-CUID: 9a23:OTKntWGaSjUUOC3xqmJLqXA5R5EPXUf50S7TImXmOX5RZY+KHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3AFJ/OrQxvat7CuUEfkJgx4acAIWyaqJv1LmM8lIl?=
+ =?us-ascii?q?fh5SBLQJ3FxeckAiMXJByfw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,207,1787011200"; 
-   d="scan'208";a="538423217"
+   d="scan'208";a="546610482"
 Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 11 Nov 2026 11:03:23 +0000
+  by rcdn-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 11 Nov 2026 11:04:58 +0000
 Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 2ABF91800025E
-	for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 11:03:23 +0000 (GMT)
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id 1BF771800025E
+	for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 11:04:58 +0000 (GMT)
 Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
-	id BEFB5CC1600; Wed, 11 Nov 2026 03:03:22 -0800 (PST)
+	id BE585CC1600; Wed, 11 Nov 2026 03:04:57 -0800 (PST)
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH] ruby: upgrade 4.0.5 -> 4.0.9
-Date: Wed, 11 Nov 2026 03:02:51 -0800
-Message-Id: <20261111110251.3301210-1-deeratho@cisco.com>
+Subject: [OE-core][scarthgap][PATCH] ruby: Fix CVE-2026-97229
+Date: Wed, 11 Nov 2026 03:04:48 -0800
+Message-Id: <20261111110448.3303353-1-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -72,166 +73,272 @@ X-Outbound-Client-TLS: VERIFIED;sjc-ads-3552.cisco.com [171.68.249.250];TLSv1.3;
 X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
 X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 11:03:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250013
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 11:05:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250014
 Content-Type: text/plain; charset="utf-8"
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-Release notes:
-* https://www.ruby-lang.org/en/news/2026/07/14/ruby-4-0-6-released/
-* This is a routine update that includes bugfixes.
-* https://www.ruby-lang.org/en/news/2026/09/15/ruby-4-0-7-released/
-* This is a routine update that includes bugfixes.
-* https://www.ruby-lang.org/en/news/2026/10/22/ruby-4-0-8-released/
-* This release includes the regexp fix for CVE-2026-97229.
-* https://www.ruby-lang.org/en/news/2026/10/23/ruby-4-0-9-released/
-* This release includes a fix for a regexp compilation bug related to
-  CVE-2026-110264.
+This patch applies the upstream Ruby 3.3 fixes for
+CVE-2026-97229. The three backported commits are referenced in
+[1], [2], and [3]. The upstream fix discussion is referenced in
+[4], and the public CVE advisory is referenced in [5].
+
+[1] https://github.com/ruby/ruby/commit/fa98ef030a54595d4387998b2fb48a412fc5c63c
+[2] https://github.com/ruby/ruby/commit/b03e500193371ae87dc4536d855008b42a9cd1a7
+[3] https://github.com/ruby/ruby/commit/f6496bca68ca445bcc1ced04818bfa4220b2bc7f
+[4] https://github.com/ruby/ruby/pull/19020
+[5] https://www.ruby-lang.org/en/news/2026/10/23/regexp-fixes-for-gitlab-cves/
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../0001-Don-t-save-the-original-name-and-timestamp.patch   | 2 +-
- .../0001-extmk-fix-cross-compilation-of-external-gems.patch | 2 +-
- ...-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch | 4 ++--
- .../ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch    | 2 +-
- .../ruby/0003-rdoc-build-reproducible-documentation.patch   | 2 +-
- ...b-mkmf.rb-sort-list-of-object-files-in-generated-M.patch | 2 +-
- ...Mark-Gemspec-reproducible-change-fixing-784225-too.patch | 6 +++---
- .../ruby/ruby/0006-Make-gemspecs-reproducible.patch         | 2 +-
- ...0007-Skip-test_rm_r_no_permissions-test-under-root.patch | 2 +-
- meta/recipes-devtools/ruby/{ruby_4.0.5.bb => ruby_4.0.9.bb} | 2 +-
- 10 files changed, 13 insertions(+), 13 deletions(-)
- rename meta/recipes-devtools/ruby/{ruby_4.0.5.bb => ruby_4.0.9.bb} (98%)
+ .../ruby/ruby/CVE-2026-97229_p1.patch         | 96 +++++++++++++++++++
+ .../ruby/ruby/CVE-2026-97229_p2.patch         | 78 +++++++++++++++
+ .../ruby/ruby/CVE-2026-97229_p3.patch         | 30 ++++++
+ meta/recipes-devtools/ruby/ruby_3.3.10.bb     |  5 +-
+ 4 files changed, 208 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p1.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p2.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p3.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch b/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
-index b5bcfab924..f3ef90ccb7 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-Don-t-save-the-original-name-and-timestamp.patch
-@@ -1,4 +1,4 @@
--From efd3a6d0f0cef4b2313a106f1a00e7d4a597d510 Mon Sep 17 00:00:00 2001
-+From 50214e465cf7ed0e61a9bddf40776ea02ea016a6 Mon Sep 17 00:00:00 2001
- From: Changqing Li <changqing.li@windriver.com>
- Date: Fri, 27 Feb 2026 16:59:24 +0800
- Subject: [PATCH] Don't save the original name and timestamp
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch b/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-index e00ce7bb73..82642a32ef 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-@@ -1,4 +1,4 @@
--From 7c1f11416499ce7cd1e6874840df2498e922ab78 Mon Sep 17 00:00:00 2001
-+From a7223627ee307d17aaefec37af91be8aa713d13f Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
- Date: Mon, 30 Sep 2019 16:57:01 +0100
- Subject: [PATCH] extmk: fix cross-compilation of external gems
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-index 8ae4202e60..1e8b4ce719 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-@@ -1,4 +1,4 @@
--From 4b66682db87a92d20c5ef0a00ea6eef41526d0cc Mon Sep 17 00:00:00 2001
-+From 26cb483121c5c8c8842ff77e00ddff0a706002a8 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 25 Jan 2022 20:29:14 -0800
- Subject: [PATCH] vm_dump.c: Define REG_S1 and REG_S2 for musl/riscv
-@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 5 insertions(+)
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p1.patch b/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p1.patch
+new file mode 100644
+index 0000000000..5585e8ceb4
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p1.patch
+@@ -0,0 +1,96 @@
++From 59296a88f6d19fe07e1e0301fa4abeb53f89d117 Mon Sep 17 00:00:00 2001
++From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
++Date: Fri, 25 Sep 2026 11:44:12 +0900
++Subject: [PATCH] Avoid overflow in the quantifier expansion size check
++
++Nested bounded repeats let the int product tlen * qn->lower overflow, so
++the check that keeps the compiler from unrolling a large repeat could pass
++for an enormous one, hanging the compile or emitting wrapped jump offsets.
++Compare against the limit by division instead.
++
++CVE: CVE-2026-97229
++Upstream-Status: Backport [https://github.com/ruby/ruby/commit/fa98ef030a54595d4387998b2fb48a412fc5c63c]
++
++Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ regcomp.c                | 16 ++++++++++------
++ test/ruby/test_regexp.rb | 12 ++++++++++++
++ 2 files changed, 22 insertions(+), 6 deletions(-)
++
++diff --git a/regcomp.c b/regcomp.c
++index 7bba1455e3..4eaccfaaa8 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -739,6 +739,10 @@ is_anychar_star_quantifier(QtfrNode* qn)
++ }
++ 
++ #define QUANTIFIER_EXPAND_LIMIT_SIZE   50
+++/* (tlen * n <= QUANTIFIER_EXPAND_LIMIT_SIZE) without overflowing int: tlen
+++   and n are each bounded by ONIG_MAX_REPEAT_NUM, but their product is not. */
+++#define IS_EXPAND_LIMIT_OK(tlen, n) \
+++  ((n) <= 0 || (tlen) <= QUANTIFIER_EXPAND_LIMIT_SIZE / (n))
++ #define CKN_ON   (ckn > 0)
++ 
++ #ifdef USE_COMBINATION_EXPLOSION_CHECK
++@@ -1003,7 +1007,7 @@ compile_length_quantifier_node(QtfrNode* qn, regex_t* reg)
++     mod_tlen = tlen;
++ 
++   if (infinite &&
++-      (qn->lower <= 1 || tlen * qn->lower <= QUANTIFIER_EXPAND_LIMIT_SIZE)) {
+++      (qn->lower <= 1 || IS_EXPAND_LIMIT_OK(tlen, qn->lower))) {
++     if (qn->lower == 1 && tlen > QUANTIFIER_EXPAND_LIMIT_SIZE) {
++       len = SIZE_OP_JUMP;
++     }
++@@ -1029,8 +1033,8 @@ compile_length_quantifier_node(QtfrNode* qn, regex_t* reg)
++     len = SIZE_OP_JUMP + tlen;
++   }
++   else if (!infinite && qn->greedy &&
++-           (qn->upper == 1 || (tlen + SIZE_OP_PUSH) * qn->upper
++-                                      <= QUANTIFIER_EXPAND_LIMIT_SIZE)) {
+++           (qn->upper == 1 ||
+++            IS_EXPAND_LIMIT_OK(tlen + SIZE_OP_PUSH, qn->upper))) {
++     len = tlen * qn->lower;
++     len += (SIZE_OP_PUSH + tlen) * (qn->upper - qn->lower);
++   }
++@@ -1080,7 +1084,7 @@ compile_quantifier_node(QtfrNode* qn, regex_t* reg)
++     mod_tlen = tlen;
++ 
++   if (infinite &&
++-      (qn->lower <= 1 || tlen * qn->lower <= QUANTIFIER_EXPAND_LIMIT_SIZE)) {
+++      (qn->lower <= 1 || IS_EXPAND_LIMIT_OK(tlen, qn->lower))) {
++     if (qn->lower == 1 && tlen > QUANTIFIER_EXPAND_LIMIT_SIZE) {
++       if (qn->greedy) {
++ #ifdef USE_OP_PUSH_OR_JUMP_EXACT
++@@ -1150,8 +1154,8 @@ compile_quantifier_node(QtfrNode* qn, regex_t* reg)
++     r = compile_tree(qn->target, reg);
++   }
++   else if (!infinite && qn->greedy &&
++-           (qn->upper == 1 || (tlen + SIZE_OP_PUSH) * qn->upper
++-                                  <= QUANTIFIER_EXPAND_LIMIT_SIZE)) {
+++           (qn->upper == 1 ||
+++            IS_EXPAND_LIMIT_OK(tlen + SIZE_OP_PUSH, qn->upper))) {
++     int n = qn->upper - qn->lower;
++ 
++     r = compile_tree_n_times(qn->target, qn->lower, reg);
++diff --git a/test/ruby/test_regexp.rb b/test/ruby/test_regexp.rb
++index 010be01960..debded0683 100644
++--- a/test/ruby/test_regexp.rb
+++++ b/test/ruby/test_regexp.rb
++@@ -2107,4 +2107,16 @@ class TestRegexp < Test::Unit::TestCase
++       re =~ s
++     end
++   end
+++
+++  def test_nested_repeat_expansion_overflow
+++    assert_separately([], "#{<<-"begin;"}\n#{<<-'end;'}", timeout: 30)
+++    begin;
+++      # A nested repeat whose expanded size overflows int must not be
+++      # unrolled: the compiler used to hang or emit wrapped jump offsets.
+++      ["(?:.{90000,}){90000}", "(?:.{46341,}){46341}"].each do |src|
+++        re = Regexp.new(src)
+++        assert_nil(re.match("x" * 10), src)
+++      end
+++    end;
+++  end
++ end
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p2.patch b/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p2.patch
+new file mode 100644
+index 0000000000..169958f3db
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p2.patch
+@@ -0,0 +1,78 @@
++From 83e9b083d47536b4e10f3e8685af5c89646efab9 Mon Sep 17 00:00:00 2001
++From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
++Date: Fri, 25 Sep 2026 12:10:25 +0900
++Subject: [PATCH] Reject a compiled program too big for its offset type
++
++Concatenated large repeats reach a program past INT_MAX from a few hundred
++kilobytes of source, and the offsets emitted into it wrap.  Cap the size
++while the program is emitted, which does not depend on the length pass that
++overflows along with it.
++
++CVE: CVE-2026-97229
++Upstream-Status: Backport [https://github.com/ruby/ruby/commit/b03e500193371ae87dc4536d855008b42a9cd1a7]
++
++Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ include/ruby/onigmo.h | 1 +
++ regcomp.c             | 4 ++++
++ regerror.c            | 2 ++
++ regint.h              | 5 +++++
++ 4 files changed, 12 insertions(+)
++
++diff --git a/include/ruby/onigmo.h b/include/ruby/onigmo.h
++index db290cd47a..8c8ee5a7ea 100644
++--- a/include/ruby/onigmo.h
+++++ b/include/ruby/onigmo.h
++@@ -687,6 +687,7 @@ ONIG_EXTERN const OnigSyntaxType*   OnigDefaultSyntax;
++ #define ONIGERR_NEVER_ENDING_RECURSION                       -221
++ #define ONIGERR_GROUP_NUMBER_OVER_FOR_CAPTURE_HISTORY        -222
++ #define ONIGERR_INVALID_CHAR_PROPERTY_NAME                   -223
+++#define ONIGERR_TOO_BIG_COMPILED_PROGRAM                     -226
++ #define ONIGERR_INVALID_CODE_POINT_VALUE                     -400
++ #define ONIGERR_INVALID_WIDE_CHAR_VALUE                      -400
++ #define ONIGERR_TOO_BIG_WIDE_CHAR_VALUE                      -401
++diff --git a/regcomp.c b/regcomp.c
++index 4eaccfaaa8..986b53eb55 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -223,6 +223,10 @@ unset_addr_list_add(UnsetAddrList* uslist, int offset, struct _Node* node)
++ static int
++ add_opcode(regex_t* reg, int opcode)
++ {
+++  /* Every instruction passes here, so this is where a program that would
+++     outgrow its offset type is stopped, while it is still being emitted. */
+++  if (reg->used > MAX_COMPILED_PROGRAM_SIZE)
+++    return ONIGERR_TOO_BIG_COMPILED_PROGRAM;
++   BBUF_ADD1(reg, opcode);
++   return 0;
++ }
++diff --git a/regerror.c b/regerror.c
++index b18fc2e88b..0ff581ad42 100644
++--- a/regerror.c
+++++ b/regerror.c
++@@ -165,6 +165,8 @@ onig_error_code_to_format(OnigPosition code)
++     p = "group number is too big for capture history"; break;
++   case ONIGERR_INVALID_CHAR_PROPERTY_NAME:
++     p = "invalid character property name {%n}"; break;
+++  case ONIGERR_TOO_BIG_COMPILED_PROGRAM:
+++    p = "too big compiled program"; break;
++   case ONIGERR_TOO_MANY_CAPTURE_GROUPS:
++     p = "too many capture groups are specified"; break;
++   case ONIGERR_INVALID_CODE_POINT_VALUE:
++diff --git a/regint.h b/regint.h
++index 75abfba235..8de93f5bdf 100644
++--- a/regint.h
+++++ b/regint.h
++@@ -394,6 +394,11 @@ typedef unsigned int  BitStatusType;
++ #define INT_MAX_LIMIT           ((1UL << (SIZEOF_INT * 8 - 1)) - 1)
++ #define LONG_MAX_LIMIT           ((1UL << (SIZEOF_LONG * 8 - 1)) - 1)
++ 
+++/* Program offsets are RelAddrType, and the compile_length_*() functions sum
+++   into int, so a larger program would wrap both.  The quarter leaves room
+++   for the sums the offset arithmetic makes out of those lengths. */
+++#define MAX_COMPILED_PROGRAM_SIZE  ((unsigned int )(INT_MAX_LIMIT / 4))
+++
++ #define DIGITVAL(code)    ((code) - '0')
++ #define ODIGITVAL(code)   DIGITVAL(code)
++ #define XDIGITVAL(enc,code) \
+diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p3.patch b/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p3.patch
+new file mode 100644
+index 0000000000..aa8bfd18c3
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/CVE-2026-97229_p3.patch
+@@ -0,0 +1,30 @@
++From 4cca9e5cadd7b56525d012ff783c6abcf52094ba Mon Sep 17 00:00:00 2001
++From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
++Date: Fri, 23 Oct 2026 10:22:03 +0900
++Subject: [PATCH] Keep the program size error from OP_END with subexp calls
++
++With a subexp call, the result of unset_addr_list_fix overwrote the error, so a pattern over the limit compiled without raising RegexpError.
++
++Follow-up to cf35145fc46.
++
++CVE: CVE-2026-97229
++Upstream-Status: Backport [https://github.com/ruby/ruby/commit/f6496bca68ca445bcc1ced04818bfa4220b2bc7f]
++
++Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ regcomp.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/regcomp.c b/regcomp.c
++index 986b53eb55..b1f63e6534 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -5971,6 +5971,7 @@ onig_compile(regex_t* reg, const UChar* pattern, const UChar* pattern_end,
++   r = compile_tree(root, reg);
++   if (r == 0) {
++     r = add_opcode(reg, OP_END);
+++    if (r != 0) goto err_unset;
++ #ifdef USE_SUBEXP_CALL
++     if (scan_env.num_call > 0) {
++       r = unset_addr_list_fix(&uslist, reg);
+diff --git a/meta/recipes-devtools/ruby/ruby_3.3.10.bb b/meta/recipes-devtools/ruby/ruby_3.3.10.bb
+index 936bc73e32..0cd0822ac9 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.3.10.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.3.10.bb
+@@ -27,7 +27,10 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
+            file://0006-Make-gemspecs-reproducible.patch \
+            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
+            file://0007-Skip-test_rm_r_no_permissions-test-under-root.patch \
+-          "
++           file://CVE-2026-97229_p1.patch \
++           file://CVE-2026-97229_p2.patch \
++           file://CVE-2026-97229_p3.patch \
++           "
+ UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
- diff --git a/vm_dump.c b/vm_dump.c
--index e2b4804..0b7d868 100644
-+index 8558ed8..230702d 100644
- --- a/vm_dump.c
- +++ b/vm_dump.c
- @@ -40,6 +40,11 @@
-diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-index af4f768442..d76a31cdec 100644
---- a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-@@ -1,4 +1,4 @@
--From e1cb706a8653c632419803f8d36f3dd2d787face Mon Sep 17 00:00:00 2001
-+From 1093a46b7a4b9e7981921ead5818bccd03e05830 Mon Sep 17 00:00:00 2001
- From: Christopher Larson <chris_larson@mentor.com>
- Date: Thu, 5 May 2016 10:59:07 -0700
- Subject: [PATCH] Obey LDFLAGS for the link of libruby
-diff --git a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-index 5c038a50cc..2ec279ab53 100644
---- a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-@@ -1,4 +1,4 @@
--From 8476953b735fabad857ddfe78dd3ffcbef4028c5 Mon Sep 17 00:00:00 2001
-+From bc9ead00cb7700381689be2362a8db9ceda9be40 Mon Sep 17 00:00:00 2001
- From: Christian Hofstaedtler <zeha@debian.org>
- Date: Tue, 10 Oct 2017 15:04:34 -0300
- Subject: [PATCH] rdoc: build reproducible documentation
-diff --git a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-index 0ba10724cb..9ee19ed3ab 100644
---- a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-@@ -1,4 +1,4 @@
--From 9fa6d40d1f7eed5be981c034c3f36bd4a3b5efab Mon Sep 17 00:00:00 2001
-+From eec9acef646d6ed28a859e18461688520b2de1ba Mon Sep 17 00:00:00 2001
- From: Reiner Herrmann <reiner@reiner-h.de>
- Date: Tue, 10 Oct 2017 15:06:13 -0300
- Subject: [PATCH] lib/mkmf.rb: sort list of object files in generated Makefile
-diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-index 4a10f861dc..0cf6ba62eb 100644
---- a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-@@ -1,4 +1,4 @@
--From 265381bc616fa281a58b3761c33620c465884ca8 Mon Sep 17 00:00:00 2001
-+From aff3fa8a85ae050bcb4cf6ff5cac5d4a93863643 Mon Sep 17 00:00:00 2001
- From: Lucas Kanashiro <kanashiro@debian.org>
- Date: Fri, 1 Nov 2019 15:25:17 -0300
- Subject: [PATCH] Make gemspecs reproducible
-@@ -12,10 +12,10 @@ Upstream-Status: Backport [debian]
-  1 file changed, 3 insertions(+), 1 deletion(-)
- 
- diff --git a/lib/rubygems/specification.rb b/lib/rubygems/specification.rb
--index 2db9352..925b7a0 100644
-+index 9ae135c..427ab48 100644
- --- a/lib/rubygems/specification.rb
- +++ b/lib/rubygems/specification.rb
--@@ -1714,7 +1714,9 @@ class Gem::Specification < Gem::BasicSpecification
-+@@ -1726,7 +1726,9 @@ class Gem::Specification < Gem::BasicSpecification
-                  raise(Gem::InvalidSpecificationException,
-                        "invalid date format in specification: #{date.inspect}")
-                end
-diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-index 92439ffd7a..dfdab29d89 100644
---- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-@@ -1,4 +1,4 @@
--From 40236d16b640b0c522a550b628cbfb6ee0cdc972 Mon Sep 17 00:00:00 2001
-+From c8d3ce447197ce9fdb23b1f37b3b0cc161aa2791 Mon Sep 17 00:00:00 2001
- From: Lucas Kanashiro <kanashiro@debian.org>
- Date: Fri, 1 Nov 2019 15:25:17 -0300
- Subject: [PATCH] Make gemspecs reproducible
-diff --git a/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch b/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
-index cb77fffe56..95c2fc8bd5 100644
---- a/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0007-Skip-test_rm_r_no_permissions-test-under-root.patch
-@@ -1,4 +1,4 @@
--From ccb40b4715abfb6c53d431bf421ccfbcdbc4ff93 Mon Sep 17 00:00:00 2001
-+From 7e2e3baece59ae73a15a7d28a6f3330eeb09851f Mon Sep 17 00:00:00 2001
- From: Jiaying Song <jiaying.song.cn@windriver.com>
- Date: Mon, 7 Jul 2025 15:05:57 +0800
- Subject: [PATCH] Skip test_rm_r_no_permissions test under root
-diff --git a/meta/recipes-devtools/ruby/ruby_4.0.5.bb b/meta/recipes-devtools/ruby/ruby_4.0.9.bb
-similarity index 98%
-rename from meta/recipes-devtools/ruby/ruby_4.0.5.bb
-rename to meta/recipes-devtools/ruby/ruby_4.0.9.bb
-index a0981bf622..1b87feeb45 100644
---- a/meta/recipes-devtools/ruby/ruby_4.0.5.bb
-+++ b/meta/recipes-devtools/ruby/ruby_4.0.9.bb
-@@ -48,7 +48,7 @@ do_configure:prepend() {
- 
- DEPENDS:append:libc-musl = " libucontext"
- 
--SRC_URI[sha256sum] = "7d6149079a63f8ae1d326c9fa65c6019ba2dc3155eae7b39159817911c88958e"
-+SRC_URI[sha256sum] = "c35350682ff050b79702d57ade4516e7336063f510155d19fb2fb5b3f3909511"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ inherit autotools ptest pkgconfig
 -- 
 2.35.6
 
