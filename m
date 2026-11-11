@@ -1,142 +1,150 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5346.1794386243901849698
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5347.1794386246120278231
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 00:37:23 -0800
+ Wed, 11 Nov 2026 00:37:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=GeMoZXd8;
- spf=pass (domain: gmail.com, ip: 74.125.82.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-36f8cdd30beso4977689eec.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 00:37:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=0e8xrM/5;
+ spf=pass (domain: gmail.com, ip: 74.125.82.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-37071c0f42aso5093901eec.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 00:37:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794386243; x=1794991043; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1794386245; x=1794991045; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IGTwN3piz8aECWUpe7c8hzhvlJtfopUrPtGWc8F5Q+k=;
-        b=GeMoZXd8b3ifXKIqfR+DdtiKrdrI0zEQ0GQlXciWi423ydZSdoofPL8N2CpVb7J0Ud
-         MqMGULboEzgd3oI41HdH4HFd0TwXkCgCiTgV4Lh6/DIvZjEXQu0UFBmS0QvAll5zvaeE
-         r92+t7I64ti/H3jVfjsyy82L/monXwjRSme3/4XOvZjJW2cxaXhQQdl6ysb2eOGVxpPb
-         /bQyBstXwcyd1YgxfaOcwIrYKGUnQD5DLo/VOZZ/LcYw2c7M2/aEsSPvbIiDlKS1ncSK
-         19NtMHvizhqaQOoOquiPZQ6Osu64ltg/RAju+g91AvtYEI/omRbVnG6WuK/NVd6A/wNV
-         imRw==
+        bh=AnFA6LUxd7/kcUMlrZtCpjAjs7iZOJ57Vb/nH48kiDw=;
+        b=0e8xrM/57Gcadtmn0/jh0v/PA6h8nwTwS8oHsPaNFbhDh3TM4cfMMIF3030SPa3FN1
+         /8xtWSwoD56twaSyzjoi6lT8fDTORAMwn+r1h3Z/MUzTufAS/JNSp0WZTj5MS2uBpcfO
+         A3QiBDNjzr/nctsMmp45n07eHDwLgRLC2emPCXEUYUTC2h86QnSDEfSFi38isAx9l8Zh
+         +eQMLJkb8MWlqWpNdbPcwPOT+0VsIMfWR63Qj+UNxTzG4LS7kD0zFnRaI0ChIJonwcZ0
+         Z/ZLABFmGYaou+tqK9TEozSmQXEfeeg21c8MMGo2ndeAmVFhddwDeBaBFfT2rlQk5Q9o
+         qDLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794386243; x=1794991043;
+        d=1e100.net; s=20260707; t=1794386245; x=1794991045;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IGTwN3piz8aECWUpe7c8hzhvlJtfopUrPtGWc8F5Q+k=;
-        b=ez3H3z9sEpSUKjiLoZ3SCr9t6K0eUMDbFtkVKZWybuKjKPfEZPs588qVcxUxmuT/J+
-         GAMXHPcmlJkVIeP3dwM0l3nfxNQ+8ObGviMsGXITd+FSIEygogs53IVqkVohMEQx7jvd
-         AHo7e2zItrM/HRPyhCrbjGzG/VTMgJtFT6NlpiKaBPPzRL/GU9V4ZvX/oucbVyleVZ9q
-         Kg9YTAf8HkVAA/K7A44avWMtR/ZrhziZQmAPpAqduqynTjiD89I4K3g7rchbOn3t9OEX
-         VPgFdPQwDeS6kiZqu4TI9pMhwY5n1F2NYk8S3q2MurOf9xlgF4S2q6yaIju9M8o1AGa9
-         VYbg==
-X-Gm-Message-State: APuU4Z/8ROWEol4NMCnBkhXre5PJpQZM69+r9dcmPII7xZeU/xdmQlow
-	iGAKonGc3AAt5CHR5MqGURtNW5/F7k5H9sNIxEZLXbgLYQ4IkXmPqE+4ZZtSzKGkmoQ2Iw==
-X-Gm-Gg: AYBFou26WUNgRoTU9esUeyC/Oo1TwzUZaZeDChbDsmBbit6n2ssveJpyy/gmfjRcs09
-	LWMXTdm+ZpUSb4Hnmt7F/uVvuS3/c6A0ohStM65wE9la4xfPHFxQB5HIrZKyF1K1lZmqfUwb8ub
-	BiTTaS2IMAtWqbutQ3HirEf0m7ulEbWsdcGYQP81uwD08bmA/K8nwEVU3Nbc0UpGXMuOnFIqZks
-	9jyk0jVAI40IZb9RW9i0DrV4HKOlj6JM9FNasP4uaKU/2zZv6GGt0MWbnXt8293Hv7aVIBIGILL
-	PVFjvAuBFFoejN9qNaFiqgW5+cIl3zYHldq8Wsnwo/Bh6wsi5FfviqgrbkPT8/Q2K04LJ3tMJoM
-	Kau2zasXLgZrCZ3hgZoCBdxE9OTzBv+qcmbgIafvk+Gdze2Pr2LbzEFT7HvbN7Fbj/WmusgT0kV
-	+5zc1NyQXEkzJkKwd+Mguiecc8l/t35xVdnMF23RLdFPjOzVwYYUacj0IQ220ouk0NMVOChzAb2
-	W2uLLSi/WSNpjWV6rMQbP55GG7h3XZoGHqDMWil+QWNlzXF144qq2p7blRsBrsS3d+RGQzvm2HP
-	BaSz3XqcWibnqJOlTn3Z4cBEJvvNyRbWpsxVAxQ1Fo0T1aqmHkopdyHN1HcYmoUuY7+dMNGPYiZ
-	lOcRTAwmKts3Ap1ruGLzNbIdDr98QLZIN1s7GTxfKGIKUYpqcl+Ej+l7kk3JPqDY5Kyo0SL0qQS
-	4K/TkPbj4Mf+BqOWbCj+NUM4c1Nm3+Xo9bnUHBKm09KZGGfGP7FWqzKxpMigvChsDqNzGTIMjK8
-	eT2duV3lZOvu79YhIF6EZhMpPblOL+CYsWH8X5QrxwatdyWX0CIWdabCy2H4c2XWmKGK2Uf1h4W
-	2FS8
-X-Received: by 2002:a05:7301:3f19:b0:36f:3da8:dbc8 with SMTP id 5a478bee46e88-37686d31fa8mr3236805eec.31.1794386243203;
-        Wed, 11 Nov 2026 00:37:23 -0800 (PST)
+        bh=AnFA6LUxd7/kcUMlrZtCpjAjs7iZOJ57Vb/nH48kiDw=;
+        b=uF3h80nUK9uEWRqJn8cf8H1m/4m5hKK6oltrahBI8x/uVWIlVJVKlSsj6CsG3iaT4v
+         aJQpV8DmVABIU4ClE5o3xX1NfWjnsW5SJv+AbGf+VbRYmnv6vejmmMxNIQJLmaoyhirH
+         qqUz/eaK6w8HRVBCxADSjU9JDtnU5ECRFM3SA978FtpKCO8yLFgqRSQA7UgplxU93q+B
+         76AMyg903qjX75+dNxLmDsihZuhIl5OoYEQhEDruRS7z780qi5qLyM0QykJlZUNmQ0pn
+         USdDMTH8unqhc/6vobo2vUKwYzrsMxEEV4JBGWluPykWpE2EHZ92X9Upr/Es11pNtMbU
+         waqw==
+X-Gm-Message-State: APuU4Z+AcqCxJKe6dnZfmiXWOiTLiwE8XQcfStk9wYOalmRZQIbNDlaG
+	11v7OvK/xoSLJPiEOgiBxHQPNMo85Ki4hYWPG8vMQQygaFn0UGq7hqiYO0hHQHuVJqeQxg==
+X-Gm-Gg: AYBFou1tMxurivvd8TZQfIdscYROcxIt2o6My9cVwS3J0k8XXbSbp8lUerdwfUzYEa1
+	4v7iiAPPchz2AMaHuvYIi82NSrgEmxi6zMWtwc+xW5uAStHiIOg3sYQ3qTOjwwUfaBiDrlZFTpr
+	azRUe0/sUtU93rbsAw3uafvErk46PaGbNuj8K0//A6mAmSTwPeayiqTJb07AJSLp9oSVBSWwAB6
+	1gzvknfbEONP2lrSLVEwzVt0vkAh47fe9tKt6k+7Rq0EakL00smiB1DTXpoiKwt0nDGV8I6WAR9
+	F9CvkDnzg+k6KyitiBl1GwK6NxK4HLvbefo7mqEbMmBPUCCYyD4U1SzjU3hcmXALQzc/AIpoMlq
+	+plXlCuX5pqX0uC5zxT+v1+3GTRrc6HPP+3+m5dYGKizkCXTg66qcqosxn1eEWfzRUgv+kzvsN3
+	usx404MNVV4Rladux695UZ9UJZkdPeKlDjGOXAks7hSJI6KOevzBxA4ZOHaJyubBdGhEoS7t/UY
+	FPpgY5RoQv+TwLg3wodasa0pxxOQv3gaESSjzS9vvOy3QjlDbzyB5+XbAeqh9F5YAWwk/4LwfdE
+	xx7VHX+f8OaHZDxKgbMr1vdoDBBm4CTUdGQl2kP2ZFDXS4/c77V77lmF6/wIlJBTcaKu4rHyjx4
+	AVDOb0lpHPtbczm6vDeQardp3ezMwgXOWNEz67LT47eDJbnOOo76kiQ3jOrrVgs+Azz5b/5sw5l
+	gWxWv7UJdeB2Loti1xyGg9ikSEuhbJKV8+hcoA32PaB6xe0h71RNCqhxmrH06AqL5VrLUa3Vh10
+	TB+ZpfJ6x4ixaEk8W+G16N/JG4J8Q3RWbuvFFfsd+agwVQKc8alq+kQYNxWLjK+nnx1qwET5Oma
+	RvYl
+X-Received: by 2002:a05:693c:80cd:b0:36f:202c:48 with SMTP id 5a478bee46e88-37685d728d6mr2740537eec.14.1794386245371;
+        Wed, 11 Nov 2026 00:37:25 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe306e3sm14504599eec.7.2026.11.11.00.37.22
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe306e3sm14504599eec.7.2026.11.11.00.37.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 00:37:22 -0800 (PST)
+        Wed, 11 Nov 2026 00:37:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/3] musl: Disable FP contraction in yn
-Date: Wed, 11 Nov 2026 00:37:10 -0800
-Message-ID: <20261111083711.549321-2-khem.raj@oss.qualcomm.com>
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH 3/3] libc-test: Re-enable yn test
+Date: Wed, 11 Nov 2026 00:37:11 -0800
+Message-ID: <20261111083711.549321-3-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261111083711.549321-1-khem.raj@oss.qualcomm.com>
 References: <20261111083711.549321-1-khem.raj@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 08:37:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249969
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 08:37:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249970
 Content-Type: text/plain; charset="utf-8"
 
-clang contracts a*b+c into fma by default, unlike GCC in ISO C mode.
-That changes the rounding of the yn() forward recurrence, and
-libc-test math/yn fails with a 3.2 ulp error when musl is built with
-clang. Turn contraction off in jn.c with #pragma STDC FP_CONTRACT OFF.
+its now fixed in musl
 
-Tested natively on aarch64 with clang 23.1.3 and gcc 14.2 for
-generic, cortex-a57, cortex-a72 and neoverse-n1: math/yn passes with
-both compilers.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-AI-Generated: Uses Claude Code
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- ...-math-disable-FP-contraction-in-jn.c.patch | 34 +++++++++++++++++++
- meta/recipes-core/musl/musl_git.bb            |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl/0005-math-disable-FP-contraction-in-jn.c.patch
+ .../0001-math-Delete-failing-tests.patch      | 51 -------------------
+ 1 file changed, 51 deletions(-)
 
-diff --git a/meta/recipes-core/musl/musl/0005-math-disable-FP-contraction-in-jn.c.patch b/meta/recipes-core/musl/musl/0005-math-disable-FP-contraction-in-jn.c.patch
-new file mode 100644
-index 0000000000..f87f9752e2
---- /dev/null
-+++ b/meta/recipes-core/musl/musl/0005-math-disable-FP-contraction-in-jn.c.patch
-@@ -0,0 +1,34 @@
-+From 3c36c2969dc3bea32d7e465428f7b2c78787de77 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <khem.raj@oss.qualcomm.com>
-+Date: Tue, 10 Nov 2026 20:13:06 -0800
-+Subject: [PATCH] math: disable FP contraction in jn.c
-+
-+GCC does not contract floating point expressions in ISO C mode
-+(-std=c99), but clang contracts a*b+c into fma by default. In yn()
-+that turns the forward recurrence b = (2.0*i/x)*b - a into an fma,
-+which changes its rounding. Built with clang 23 for aarch64,
-+libc-test's math/yn then fails with
-+
-+  yn(6, 0x1.8c5db097f7442p-1) want -0x1.6dbc18f9d5ddep+13
-+  got -0x1.6dbc18f9d5de1p+13, ulperr -3.219
-+
-+Turn contraction off for this file, as GCC builds already have it.
-+
-+Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2026/11/11/4]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-+---
-+ src/math/jn.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/math/jn.c b/src/math/jn.c
-+index 4878a54..b077f02 100644
-+--- a/src/math/jn.c
-++++ b/src/math/jn.c
-+@@ -35,6 +35,7 @@
-+  */
-+ 
-+ #include "libm.h"
-++#pragma STDC FP_CONTRACT OFF
-+ 
-+ static const double invsqrtpi = 5.64189583547756279280e-01; /* 0x3FE20DD7, 0x50429B6D */
-+ 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 0be24b22f1..ff8a08337c 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://git.musl-libc.org/musl;branch=master \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
-            file://0003-tools-version.sh-fall-back-to-VERSION-when-git-descr.patch \
-            file://0004-math-enable-FENV_ACCESS-in-expm1-expm1f-hypot-and-hy.patch \
-+           file://0005-math-disable-FP-contraction-in-jn.c.patch \
-           "
+diff --git a/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch b/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch
+index 96ff279fa6..814d7bcb64 100644
+--- a/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch
++++ b/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch
+@@ -15,13 +15,11 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  src/math/fmaf.c | 47 --------------------------------------------
+  src/math/fmal.c | 52 -------------------------------------------------
+  src/math/powf.c | 47 --------------------------------------------
+- src/math/yn.c   | 43 ----------------------------------------
+  5 files changed, 236 deletions(-)
+  delete mode 100644 src/math/fma.c
+  delete mode 100644 src/math/fmaf.c
+  delete mode 100644 src/math/fmal.c
+  delete mode 100644 src/math/powf.c
+- delete mode 100644 src/math/yn.c
  
- PROVIDES += "virtual/libc virtual/libiconv virtual/libintl virtual/crypt"
+ diff --git a/src/math/fma.c b/src/math/fma.c
+ deleted file mode 100644
+@@ -240,52 +238,3 @@ index 4778c2f..0000000
+ -	}
+ -	return !!err;
+ -}
+-diff --git a/src/math/yn.c b/src/math/yn.c
+-deleted file mode 100644
+-index 244dbb8..0000000
+---- a/src/math/yn.c
+-+++ /dev/null
+-@@ -1,43 +0,0 @@
+--#define _XOPEN_SOURCE 700
+--#include <stdint.h>
+--#include <stdio.h>
+--#include "mtest.h"
+--
+--static struct di_d t[] = {
+--#include "sanity/yn.h"
+--#include "special/yn.h"
+--};
+--
+--int main(void)
+--{
+--	#pragma STDC FENV_ACCESS ON
+--	double y;
+--	float d;
+--	int e, i, err = 0;
+--	struct di_d *p;
+--
+--	for (i = 0; i < sizeof t/sizeof *t; i++) {
+--		p = t + i;
+--
+--		if (p->r < 0)
+--			continue;
+--		fesetround(p->r);
+--		feclearexcept(FE_ALL_EXCEPT);
+--		y = yn(p->i, p->x);
+--		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
+--
+--		if (!checkexcept(e, p->e, p->r)) {
+--			printf("%s:%d: bad fp exception: %s yn(%lld, %a)=%a, want %s",
+--				p->file, p->line, rstr(p->r), p->i, p->x, p->y, estr(p->e));
+--			printf(" got %s\n", estr(e));
+--			err++;
+--		}
+--		d = ulperr(y, p->y, p->dy);
+--		if ((!(p->x < 0) && !checkulp(d, p->r)) || (p->x < 0 && !isnan(y) && y != -inf)) {
+--			printf("%s:%d: %s yn(%lld, %a) want %a got %a, ulperr %.3f = %a + %a\n",
+--				p->file, p->line, rstr(p->r), p->i, p->x, p->y, y, d, d-p->dy, p->dy);
+--			err++;
+--		}
+--	}
+--	return !!err;
+--}
