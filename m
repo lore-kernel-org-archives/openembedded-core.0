@@ -1,41 +1,40 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3725.1794377113838369280
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3800.1794377113394013615
  for <openembedded-core@lists.openembedded.org>;
  Tue, 10 Nov 2026 22:05:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=n6HM+JGg;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yZCPCVxP;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1c935dde6-2c2c9162-d7f8-4b7b-97ae-36dd078bf524-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=F3ZnsEXD;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EWPz4PqJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1c935dc4a-c20a7392-e54f-4074-9907-764454c00c44-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794377113;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zd6lQ/8FeVnUnVgil1OnzPKDM7Ew9yQCir7t2NILVvI=;
-	b=n6HM+JGgcBC1GHC9BuWxCVuY1LkE5L5LBavJZ+uj/4DEzhJxkEW9BJRSsmCQPrvG
-	KA3SeYPmJo4FPDhf5gqkN11B+R7AoLGLUc0mnejB7kwP3wpUx/vManeopWf5doEPED6
-	VUyUE9TcUM8FvRPs8W9J14+0DRMZGjbuF04F5mzA=
+	t=1794377112;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=Z1Kiefm97xgigfu6mEbEKhdq7NLrzt1tzmaZcq0H4Nw=;
+	b=F3ZnsEXDSbstw/iobnIH0aZalJGWjf3gaYkqiel/GCZBr4yILaueMHShcAzVMvzv
+	t+1qxSuzkngJRbg3MU6U+40f0aMGtUrcrLu1PDWjhf1W4wCcaBcmIxnlBQkSqS/waAT
+	LEwFF2FwkyXCGQ39MvD8j/G1ejapOImQ3fxgqwTc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794377113;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zd6lQ/8FeVnUnVgil1OnzPKDM7Ew9yQCir7t2NILVvI=;
-	b=yZCPCVxPnnfNTHQ6xV3Pbfc96JsFqxmJZlOd/egcSxHrkSyYbSm/s/TYUGn9PY3G
-	BYcXODSA/1MFPjonJwc8hQyRZNZSdP+OZFPJUwLkrnXoeofQfMkVqq+sVOjeHiZoaqJ
-	HR9xqdXKKVMKZzPRgwqQzWFveVEHLYUl9+/vVyAE=
-Content-Type: multipart/mixed; boundary="===============5758142968756958865=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794377112;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=Z1Kiefm97xgigfu6mEbEKhdq7NLrzt1tzmaZcq0H4Nw=;
+	b=EWPz4PqJnkTrqsoMtDZLScc+/jupAhlaQQmV3izY+zaHkVlJucitpFAC24ewwFXG
+	AgGfCJn7367FOMxyzQYWRDz1heBwDChZGaCpbMh9WioglolV3JJLRGvO+wHGsARtvbA
+	o9HPmseEr69kfrrCuDC1hU8xfTdE4/jvpgUHyoyg=
+Content-Type: multipart/mixed; boundary="===============2894926456326513850=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] appstream: upgrading to 1.2.3 SUCCEEDED
-Message-ID: <010101a1c935dde6-2c2c9162-d7f8-4b7b-97ae-36dd078bf524-000000@us-west-2.amazonses.com>
-Date: Wed, 11 Nov 2026 06:05:13 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] xserver-xorg: upgrading to 21.1.26 SUCCEEDED
+Message-ID: <010101a1c935dc4a-c20a7392-e54f-4074-9907-764454c00c44-000000@us-west-2.amazonses.com>
+Date: Wed, 11 Nov 2026 06:05:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.11-54.240.27.31
+X-SES-Outgoing: 2026.11.11-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 06:05:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249966
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249962
 
---===============5758142968756958865==
+--===============2894926456326513850==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +42,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *appstream* to *1.2.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *xserver-xorg* to *21.1.26* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-appstream-upgrade-1.2.1-1.2.3.patch
+    - apply the patch: git am 0001-xserver-xorg-upgrade-21.1.24-21.1.26.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,977 +63,358 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3f64dec6ea4297e3b264b354fc9d96d651141e5a Mon Sep 17 00:00:00 2001
+From 2c258665ba26b3231e0cad12fc5c445cca10660b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 11 Nov 2026 06:02:53 +0000
-Subject: [PATCH] appstream: upgrade 1.2.1 -> 1.2.3
+Date: Wed, 11 Nov 2026 05:50:43 +0000
+Subject: [PATCH] xserver-xorg: upgrade 21.1.24 -> 21.1.26
 
-Version 1.2.3
-~~~~~~~~~~~~~
-Released: 2026-11-10
-
-Features:
-Bugfixes:
-Miscellaneous:
-
-Contributors:
- Alexander Vanhee, LeeJiEun, Matthias Klumpp, Vladimir Romanov
-
-Version 1.2.2
-~~~~~~~~~~~~~
-Released: 2026-10-28
-
-Features:
-Bugfixes:
-
-Contributors:
- Eugenio Depalo, Florian Leander Singer, Matthias Klumpp, Vladimir Romanov
+xserver 21.1.26
+Xv: reject negative image size in QueryImageAttributes
+Xv: reject negative image size in PutImage
+glamor: prevent overflow in Xv image size calculation
+XRes: prevent overflow in resource bytes swap path
+XRes: prevent overflow in client ID request size
+XTest: validate valuator range before writing
+Xv: prevent overflow in shared-memory bounds check
+test: cover EDID DS_RANGES overflow of hsync/vrefresh arrays
+xfree86: bound EDID DS_RANGES against hsync/vrefresh array size
+meson: use the right cpu family name for 32-bit x86 in int10
+xkb: fix typo in sizeof expression
+Xi: fix event_id & time delta in generated barrier events
+Xi: avoid memory leak when hitting bounds check for barrier events
+meson: don't build the int10 helpers for the stub backend
+Revert "damage: Unlink a damage from the list it was actually inserted on"
+xserver 21.1.25
+Xi: clean up gesture sprite traces in WindowGone
+Xi: add bounds check for barrier events in input_constrain_cursor
+dix: remove passive grabs referencing a device on removal
+present: unlink notifies from window list in present_clear_window_notifies
+glx: validate dataBytes against cmdlen in RenderLarge first request
+Xi: validate modifier values in ProcXIPassiveUngrabDevice
+randr: fix size and offset in RRChangeProviderProperty PrependMode
+xkb: fix CheckKeySyms overwriting request-range symsPerKey entries
+xkb: widen size_syms, num_syms, size_acts, num_acts to unsigned int
+xkb: allocate names->keys to MAP_LENGTH in XkbAllocNames
+xkb: NULL text pointer after free in _CheckSetDoodad error path
+glamor: Set `need_free_region` immediately after pixman region allocation
+xf86: mark wasset unused in xf86UnblockSIGIO() compatibility wrapper
+xkb: Keep the group counts of a loaded keymap in range
+xkb: Never recompute a keymap's group count down to zero
+xkb: Default to one group whenever a keymap reports none
+xkb: Guard XkbAdjustGroup() against a keymap with no groups
+damage: Unlink a damage from the list it was actually inserted on
+meson: check cpu_family() instead of cpu()
+meson: Fix build on FreeBSD/powerpc*
+RegionValidate: Fix double free of badreg->data on the error path
+Xi: byte-swap XIQueryDevice ScrollClass flags
+Xi: byte-swap DeviceChanged valuator and scroll data
+meson: only install dri3.h if building dri3 support
+Handle -Wimplicit-fallthrough warnings from gcc 16.1
+xf86: handle malloc failure in DoSubstitution()
+exa: silence -Wold-style-declaration warning from gcc 16
+test: silence -Wanalyzer-null-argument warnings in strndup tests
+xf86: silence -Wanalyzer-possible-null-dereference warning in parser
+xf86: prevent passing NULL pointer as strcat() destination
+xf86: prevent passing NULL pointer as strcpy destination
+xkb: Fix -Wcalloc-transposed-args warning in _XkbCopyGeom()
+enhance: popen-fdopen-error-handling
+xorg.conf.man: Fix escape sequence typo
+config/udev: guard against NULL subsystem in fallback bus id
+xfree86: set GPU screen FB/DGA defaults on runtime hotplug
+Fix use-after-free caused by duplicate glyphs in one glyphset
+fb: Don't widen the planemask over padding bits when ROOTLESS_SAFEALPHA is set
+xquartz/GL: Log failures on the indirect GLX make-current path
+modesetting: Check for NULL mode_output before printing warning message
+ci: Prevent duplicate pipelines for MRs
+gitlab CI: add workflow rules
+xquartz: Activate the app via xp_window_activate() in -set_front_process:
 ---
- .../appstream/appstream/0002-Do-not-build-qt-tests.patch    | 6 +++---
- ...x-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch | 4 ++--
- .../appstream/{appstream_1.2.1.bb => appstream_1.2.3.bb}    | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-support/appstream/{appstream_1.2.1.bb => appstream_1.2.3.bb} (95%)
+ ...1-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch | 2 +-
+ .../{xserver-xorg_21.1.24.bb => xserver-xorg_21.1.26.bb}        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.24.bb => xserver-xorg_21.1.26.bb} (92%)
 
-diff --git a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
-index 5f35a8bf23..b1993f58c2 100644
---- a/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
-+++ b/meta/recipes-support/appstream/appstream/0002-Do-not-build-qt-tests.patch
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
+index 14831b1a9b..f5d6f18036 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
 @@ -1,4 +1,4 @@
--From 1110cb5c658de30c63642929c1128ab4f9b9b98e Mon Sep 17 00:00:00 2001
-+From bdf11270cdd510f119a8be42cad3d417e9aa0072 Mon Sep 17 00:00:00 2001
- From: Marc Ferland <marc.ferland@sonatest.com>
- Date: Fri, 26 Jul 2024 15:41:00 -0400
- Subject: [PATCH] Do not build qt/tests
-@@ -23,10 +23,10 @@ Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
-  1 file changed, 2 deletions(-)
+-From d387580194e91ad73f896a9669757612c8601c92 Mon Sep 17 00:00:00 2001
++From 459e3d9a30af905896bc9c42a32cd8dc54c4ecf4 Mon Sep 17 00:00:00 2001
+ From: California Sullivan <california.l.sullivan@intel.com>
+ Date: Fri, 16 Mar 2018 17:23:11 -0700
+ Subject: [PATCH] xf86pciBus.c: use Intel ddx only for pre-gen4 hardware
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.26.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.26.bb
+index 8d7f9ae14d..d5a0f65640 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.26.bb
+@@ -1,7 +1,7 @@
+ require xserver-xorg.inc
  
- diff --git a/qt/meson.build b/qt/meson.build
--index 488fe60b61c0..83c2715c5fe7 100644
-+index 1837c97..131aaef 100644
- --- a/qt/meson.build
- +++ b/qt/meson.build
--@@ -144,5 +144,3 @@ install_data (
-+@@ -148,5 +148,3 @@ install_data (
-      join_paths(meson.current_build_dir(), 'AppStreamQtConfigVersion.cmake'),
-      install_dir: join_paths(get_option('libdir'), 'cmake', 'AppStreamQt')
-  )
-diff --git a/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch b/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
-index 3774bfa7c6..06196f7639 100644
---- a/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
-+++ b/meta/recipes-support/appstream/appstream/0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch
-@@ -1,4 +1,4 @@
--From b8d73820cdb685089c0f805c7ca8163b21a78acd Mon Sep 17 00:00:00 2001
-+From 393214ea44d02eb83cb186c3864764206727bd39 Mon Sep 17 00:00:00 2001
- From: Marc Ferland <marc.ferland@sonatest.com>
- Date: Mon, 29 Jul 2024 09:35:51 -0400
- Subject: [PATCH] Fix PACKAGE_PREFIX_DIR in qt/cmake/AppStreamQtConfig.cmake.in
-@@ -39,7 +39,7 @@ Signed-off-by: Marc Ferland <marc.ferland@sonatest.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ SRC_URI += " file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch"
+-SRC_URI[sha256sum] = "1a4eb36ca65cc3b1b936566d677a9786e13c11cd5806e951ac55f3f5ce3984af"
++SRC_URI[sha256sum] = "c8609f9cdafde14de7ec7cb406dac9507add1d536df8d3c3e3d3d9c1cd864066"
  
- diff --git a/qt/cmake/AppStreamQtConfig.cmake.in b/qt/cmake/AppStreamQtConfig.cmake.in
--index 63df65f25676..5ab2d0ec7bd3 100644
-+index 63df65f..5ab2d0e 100644
- --- a/qt/cmake/AppStreamQtConfig.cmake.in
- +++ b/qt/cmake/AppStreamQtConfig.cmake.in
- @@ -1,5 +1,5 @@
-diff --git a/meta/recipes-support/appstream/appstream_1.2.1.bb b/meta/recipes-support/appstream/appstream_1.2.3.bb
-similarity index 95%
-rename from meta/recipes-support/appstream/appstream_1.2.1.bb
-rename to meta/recipes-support/appstream/appstream_1.2.3.bb
-index fcfc1aea6c..84e5791e65 100644
---- a/meta/recipes-support/appstream/appstream_1.2.1.bb
-+++ b/meta/recipes-support/appstream/appstream_1.2.3.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://www.freedesktop.org/software/appstream/releases/AppStream-${P
-            file://0002-Do-not-build-qt-tests.patch \
-            file://0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch \
-            "
--SRC_URI[sha256sum] = "7df664fd3ad3b1640c6a0ff77fa84f9fabe264111bf1fe8f5df3444d6d4caaca"
-+SRC_URI[sha256sum] = "8daa01a4d66c73f036aa92af9bf76abfe8408eaa76fcda6ca54fa8ef5b93ed17"
- 
- S = "${UNPACKDIR}/AppStream-${PV}"
- 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 2.47.1
 
 
---===============5758142968756958865==
+--===============2894926456326513850==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="xserver-xorg-changelog.txt"
+
+xserver 21.1.26
+Xv: reject negative image size in QueryImageAttributes
+Xv: reject negative image size in PutImage
+glamor: prevent overflow in Xv image size calculation
+XRes: prevent overflow in resource bytes swap path
+XRes: prevent overflow in client ID request size
+XTest: validate valuator range before writing
+Xv: prevent overflow in shared-memory bounds check
+test: cover EDID DS_RANGES overflow of hsync/vrefresh arrays
+xfree86: bound EDID DS_RANGES against hsync/vrefresh array size
+meson: use the right cpu family name for 32-bit x86 in int10
+xkb: fix typo in sizeof expression
+Xi: fix event_id & time delta in generated barrier events
+Xi: avoid memory leak when hitting bounds check for barrier events
+meson: don't build the int10 helpers for the stub backend
+Revert "damage: Unlink a damage from the list it was actually inserted on"
+xserver 21.1.25
+Xi: clean up gesture sprite traces in WindowGone
+Xi: add bounds check for barrier events in input_constrain_cursor
+dix: remove passive grabs referencing a device on removal
+present: unlink notifies from window list in present_clear_window_notifies
+glx: validate dataBytes against cmdlen in RenderLarge first request
+Xi: validate modifier values in ProcXIPassiveUngrabDevice
+randr: fix size and offset in RRChangeProviderProperty PrependMode
+xkb: fix CheckKeySyms overwriting request-range symsPerKey entries
+xkb: widen size_syms, num_syms, size_acts, num_acts to unsigned int
+xkb: allocate names->keys to MAP_LENGTH in XkbAllocNames
+xkb: NULL text pointer after free in _CheckSetDoodad error path
+glamor: Set `need_free_region` immediately after pixman region allocation
+xf86: mark wasset unused in xf86UnblockSIGIO() compatibility wrapper
+xkb: Keep the group counts of a loaded keymap in range
+xkb: Never recompute a keymap's group count down to zero
+xkb: Default to one group whenever a keymap reports none
+xkb: Guard XkbAdjustGroup() against a keymap with no groups
+damage: Unlink a damage from the list it was actually inserted on
+meson: check cpu_family() instead of cpu()
+meson: Fix build on FreeBSD/powerpc*
+RegionValidate: Fix double free of badreg->data on the error path
+Xi: byte-swap XIQueryDevice ScrollClass flags
+Xi: byte-swap DeviceChanged valuator and scroll data
+meson: only install dri3.h if building dri3 support
+Handle -Wimplicit-fallthrough warnings from gcc 16.1
+xf86: handle malloc failure in DoSubstitution()
+exa: silence -Wold-style-declaration warning from gcc 16
+test: silence -Wanalyzer-null-argument warnings in strndup tests
+xf86: silence -Wanalyzer-possible-null-dereference warning in parser
+xf86: prevent passing NULL pointer as strcat() destination
+xf86: prevent passing NULL pointer as strcpy destination
+xkb: Fix -Wcalloc-transposed-args warning in _XkbCopyGeom()
+enhance: popen-fdopen-error-handling
+xorg.conf.man: Fix escape sequence typo
+config/udev: guard against NULL subsystem in fallback bus id
+xfree86: set GPU screen FB/DGA defaults on runtime hotplug
+Fix use-after-free caused by duplicate glyphs in one glyphset
+fb: Don't widen the planemask over padding bits when ROOTLESS_SAFEALPHA is set
+xquartz/GL: Log failures on the indirect GLX make-current path
+modesetting: Check for NULL mode_output before printing warning message
+ci: Prevent duplicate pipelines for MRs
+gitlab CI: add workflow rules
+xquartz: Activate the app via xp_window_activate() in -set_front_process:
+
+--===============2894926456326513850==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-appstream-upgrade-1.2.1-1.2.3.patch"
+ filename="0001-xserver-xorg-upgrade-21.1.24-21.1.26.patch"
 
-RnJvbSAzZjY0ZGVjNmVhNDI5N2UzYjI2NGIzNTRmYzlkOTZkNjUxMTQxZTVhIE1vbiBTZXAgMTcg
+RnJvbSAyYzI1ODY2NWJhMjZiMzIzMWUwY2FkMTJmYzVjNDQ1Y2NhMTA2NjBiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTEgTm92IDIwMjYgMDY6MDI6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
-cHBzdHJlYW06IHVwZ3JhZGUgMS4yLjEgLT4gMS4yLjMKClZlcnNpb24gMS4yLjMKfn5+fn5+fn5+
-fn5+fgpSZWxlYXNlZDogMjAyNi0xMS0xMAoKRmVhdHVyZXM6CkJ1Z2ZpeGVzOgpNaXNjZWxsYW5l
-b3VzOgoKQ29udHJpYnV0b3JzOgogQWxleGFuZGVyIFZhbmhlZSwgTGVlSmlFdW4sIE1hdHRoaWFz
-IEtsdW1wcCwgVmxhZGltaXIgUm9tYW5vdgoKVmVyc2lvbiAxLjIuMgp+fn5+fn5+fn5+fn5+ClJl
-bGVhc2VkOiAyMDI2LTEwLTI4CgpGZWF0dXJlczoKQnVnZml4ZXM6CgpDb250cmlidXRvcnM6CiBF
-dWdlbmlvIERlcGFsbywgRmxvcmlhbiBMZWFuZGVyIFNpbmdlciwgTWF0dGhpYXMgS2x1bXBwLCBW
-bGFkaW1pciBSb21hbm92Ci0tLQogLi4uL2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMi1Eby1ub3Qt
-YnVpbGQtcXQtdGVzdHMucGF0Y2ggICAgfCA2ICsrKy0tLQogLi4ueC1QQUNLQUdFX1BSRUZJWF9E
-SVItaW4tcXQtY21ha2UtQXBwU3RyZWFtUXRDb25maWcucGF0Y2ggfCA0ICsrLS0KIC4uLi9hcHBz
-dHJlYW0ve2FwcHN0cmVhbV8xLjIuMS5iYiA9PiBhcHBzdHJlYW1fMS4yLjMuYmJ9ICAgIHwgMiAr
-LQogMyBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL3thcHBzdHJlYW1fMS4yLjEuYmIgPT4g
-YXBwc3RyZWFtXzEuMi4zLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMi1Eby1ub3QtYnVpbGQtcXQtdGVzdHMucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDItRG8tbm90LWJ1
-aWxkLXF0LXRlc3RzLnBhdGNoCmluZGV4IDVmMzVhOGJmMjMuLmIxOTkzZjU4YzIgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMi1Eby1ub3Qt
-YnVpbGQtcXQtdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFt
-L2FwcHN0cmVhbS8wMDAyLURvLW5vdC1idWlsZC1xdC10ZXN0cy5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gMTExMGNiNWM2NThkZTMwYzYzNjQyOTI5YzExMjhhYjRmOWI5Yjk4ZSBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYmRmMTEyNzBjZGQ1MTBmMTE5YThiZTQyY2FkM2Q0MTdl
-OWFhMDA3MiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE1hcmMgRmVybGFuZCA8bWFy
-Yy5mZXJsYW5kQHNvbmF0ZXN0LmNvbT4KIERhdGU6IEZyaSwgMjYgSnVsIDIwMjQgMTU6NDE6MDAg
-LTA0MDAKIFN1YmplY3Q6IFtQQVRDSF0gRG8gbm90IGJ1aWxkIHF0L3Rlc3RzCkBAIC0yMywxMCAr
-MjMsMTAgQEAgU2lnbmVkLW9mZi1ieTogTWFyYyBGZXJsYW5kIDxtYXJjLmZlcmxhbmRAc29uYXRl
-c3QuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEv
-cXQvbWVzb24uYnVpbGQgYi9xdC9tZXNvbi5idWlsZAotaW5kZXggNDg4ZmU2MGI2MWMwLi44M2My
-NzE1YzVmZTcgMTAwNjQ0CitpbmRleCAxODM3Yzk3Li4xMzFhYWVmIDEwMDY0NAogLS0tIGEvcXQv
-bWVzb24uYnVpbGQKICsrKyBiL3F0L21lc29uLmJ1aWxkCi1AQCAtMTQ0LDUgKzE0NCwzIEBAIGlu
-c3RhbGxfZGF0YSAoCitAQCAtMTQ4LDUgKzE0OCwzIEBAIGluc3RhbGxfZGF0YSAoCiAgICAgIGpv
-aW5fcGF0aHMobWVzb24uY3VycmVudF9idWlsZF9kaXIoKSwgJ0FwcFN0cmVhbVF0Q29uZmlnVmVy
-c2lvbi5jbWFrZScpLAogICAgICBpbnN0YWxsX2Rpcjogam9pbl9wYXRocyhnZXRfb3B0aW9uKCds
-aWJkaXInKSwgJ2NtYWtlJywgJ0FwcFN0cmVhbVF0JykKICApCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDMtRml4LVBBQ0tBR0VfUFJFRklY
-X0RJUi1pbi1xdC1jbWFrZS1BcHBTdHJlYW1RdENvbmZpZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMy1GaXgtUEFDS0FHRV9QUkVGSVhfRElSLWlu
-LXF0LWNtYWtlLUFwcFN0cmVhbVF0Q29uZmlnLnBhdGNoCmluZGV4IDM3NzRiZmE3YzYuLjA2MTk2
-Zjc2MzkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJl
-YW0vMDAwMy1GaXgtUEFDS0FHRV9QUkVGSVhfRElSLWluLXF0LWNtYWtlLUFwcFN0cmVhbVF0Q29u
-ZmlnLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0v
-MDAwMy1GaXgtUEFDS0FHRV9QUkVGSVhfRElSLWluLXF0LWNtYWtlLUFwcFN0cmVhbVF0Q29uZmln
-LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiOGQ3MzgyMGNkYjY4NTA4OWMwZjgwNWM3Y2E4
-MTYzYjIxYTc4YWNkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzOTMyMTRlYTQ0ZDAy
-ZWI4M2NiMTg2YzM4NjQ3NjQyMDY3MjdiZDM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogTWFyYyBGZXJsYW5kIDxtYXJjLmZlcmxhbmRAc29uYXRlc3QuY29tPgogRGF0ZTogTW9uLCAy
-OSBKdWwgMjAyNCAwOTozNTo1MSAtMDQwMAogU3ViamVjdDogW1BBVENIXSBGaXggUEFDS0FHRV9Q
-UkVGSVhfRElSIGluIHF0L2NtYWtlL0FwcFN0cmVhbVF0Q29uZmlnLmNtYWtlLmluCkBAIC0zOSw3
-ICszOSw3IEBAIFNpZ25lZC1vZmYtYnk6IE1hcmMgRmVybGFuZCA8bWFyYy5mZXJsYW5kQHNvbmF0
-ZXN0LmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IAogZGlmZiAtLWdpdCBhL3F0L2NtYWtlL0FwcFN0cmVhbVF0Q29uZmlnLmNtYWtlLmluIGIvcXQv
-Y21ha2UvQXBwU3RyZWFtUXRDb25maWcuY21ha2UuaW4KLWluZGV4IDYzZGY2NWYyNTY3Ni4uNWFi
-MmQwZWM3YmQzIDEwMDY0NAoraW5kZXggNjNkZjY1Zi4uNWFiMmQwZSAxMDA2NDQKIC0tLSBhL3F0
-L2NtYWtlL0FwcFN0cmVhbVF0Q29uZmlnLmNtYWtlLmluCiArKysgYi9xdC9jbWFrZS9BcHBTdHJl
-YW1RdENvbmZpZy5jbWFrZS5pbgogQEAgLTEsNSArMSw1IEBACmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEuMi4xLmJiIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjIuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDk1
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEu
-Mi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFt
-XzEuMi4zLmJiCmluZGV4IGZjZmMxYWVhNmMuLjg0ZTU3OTFlNjUgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW1fMS4yLjEuYmIKKysrIGIvbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjIuMy5iYgpAQCAtMjIsNyArMjIs
-NyBAQCBTUkNfVVJJID0gImh0dHBzOi8vd3d3LmZyZWVkZXNrdG9wLm9yZy9zb2Z0d2FyZS9hcHBz
-dHJlYW0vcmVsZWFzZXMvQXBwU3RyZWFtLSR7UAogICAgICAgICAgICBmaWxlOi8vMDAwMi1Eby1u
-b3QtYnVpbGQtcXQtdGVzdHMucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMy1GaXgtUEFD
-S0FHRV9QUkVGSVhfRElSLWluLXF0LWNtYWtlLUFwcFN0cmVhbVF0Q29uZmlnLnBhdGNoIFwKICAg
-ICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjdkZjY2NGZkM2FkM2IxNjQwYzZhMGZm
-NzdmYTg0ZjlmYWJlMjY0MTExYmYxZmU4ZjVkZjM0NDRkNmQ0Y2FhY2EiCitTUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiOGRhYTAxYTRkNjZjNzNmMDM2YWE5MmFmOWJmNzZhYmZlODQwOGVhYTc2ZmNkYTZj
-YTU0ZmE4ZWY1YjkzZWQxNyIKIAogUyA9ICIke1VOUEFDS0RJUn0vQXBwU3RyZWFtLSR7UFZ9Igog
-Ci0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMTEgTm92IDIwMjYgMDU6NTA6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+c2VydmVyLXhvcmc6IHVwZ3JhZGUgMjEuMS4yNCAtPiAyMS4xLjI2Cgp4c2VydmVyIDIxLjEuMjYK
+WHY6IHJlamVjdCBuZWdhdGl2ZSBpbWFnZSBzaXplIGluIFF1ZXJ5SW1hZ2VBdHRyaWJ1dGVzClh2
+OiByZWplY3QgbmVnYXRpdmUgaW1hZ2Ugc2l6ZSBpbiBQdXRJbWFnZQpnbGFtb3I6IHByZXZlbnQg
+b3ZlcmZsb3cgaW4gWHYgaW1hZ2Ugc2l6ZSBjYWxjdWxhdGlvbgpYUmVzOiBwcmV2ZW50IG92ZXJm
+bG93IGluIHJlc291cmNlIGJ5dGVzIHN3YXAgcGF0aApYUmVzOiBwcmV2ZW50IG92ZXJmbG93IGlu
+IGNsaWVudCBJRCByZXF1ZXN0IHNpemUKWFRlc3Q6IHZhbGlkYXRlIHZhbHVhdG9yIHJhbmdlIGJl
+Zm9yZSB3cml0aW5nClh2OiBwcmV2ZW50IG92ZXJmbG93IGluIHNoYXJlZC1tZW1vcnkgYm91bmRz
+IGNoZWNrCnRlc3Q6IGNvdmVyIEVESUQgRFNfUkFOR0VTIG92ZXJmbG93IG9mIGhzeW5jL3ZyZWZy
+ZXNoIGFycmF5cwp4ZnJlZTg2OiBib3VuZCBFRElEIERTX1JBTkdFUyBhZ2FpbnN0IGhzeW5jL3Zy
+ZWZyZXNoIGFycmF5IHNpemUKbWVzb246IHVzZSB0aGUgcmlnaHQgY3B1IGZhbWlseSBuYW1lIGZv
+ciAzMi1iaXQgeDg2IGluIGludDEwCnhrYjogZml4IHR5cG8gaW4gc2l6ZW9mIGV4cHJlc3Npb24K
+WGk6IGZpeCBldmVudF9pZCAmIHRpbWUgZGVsdGEgaW4gZ2VuZXJhdGVkIGJhcnJpZXIgZXZlbnRz
+ClhpOiBhdm9pZCBtZW1vcnkgbGVhayB3aGVuIGhpdHRpbmcgYm91bmRzIGNoZWNrIGZvciBiYXJy
+aWVyIGV2ZW50cwptZXNvbjogZG9uJ3QgYnVpbGQgdGhlIGludDEwIGhlbHBlcnMgZm9yIHRoZSBz
+dHViIGJhY2tlbmQKUmV2ZXJ0ICJkYW1hZ2U6IFVubGluayBhIGRhbWFnZSBmcm9tIHRoZSBsaXN0
+IGl0IHdhcyBhY3R1YWxseSBpbnNlcnRlZCBvbiIKeHNlcnZlciAyMS4xLjI1ClhpOiBjbGVhbiB1
+cCBnZXN0dXJlIHNwcml0ZSB0cmFjZXMgaW4gV2luZG93R29uZQpYaTogYWRkIGJvdW5kcyBjaGVj
+ayBmb3IgYmFycmllciBldmVudHMgaW4gaW5wdXRfY29uc3RyYWluX2N1cnNvcgpkaXg6IHJlbW92
+ZSBwYXNzaXZlIGdyYWJzIHJlZmVyZW5jaW5nIGEgZGV2aWNlIG9uIHJlbW92YWwKcHJlc2VudDog
+dW5saW5rIG5vdGlmaWVzIGZyb20gd2luZG93IGxpc3QgaW4gcHJlc2VudF9jbGVhcl93aW5kb3df
+bm90aWZpZXMKZ2x4OiB2YWxpZGF0ZSBkYXRhQnl0ZXMgYWdhaW5zdCBjbWRsZW4gaW4gUmVuZGVy
+TGFyZ2UgZmlyc3QgcmVxdWVzdApYaTogdmFsaWRhdGUgbW9kaWZpZXIgdmFsdWVzIGluIFByb2NY
+SVBhc3NpdmVVbmdyYWJEZXZpY2UKcmFuZHI6IGZpeCBzaXplIGFuZCBvZmZzZXQgaW4gUlJDaGFu
+Z2VQcm92aWRlclByb3BlcnR5IFByZXBlbmRNb2RlCnhrYjogZml4IENoZWNrS2V5U3ltcyBvdmVy
+d3JpdGluZyByZXF1ZXN0LXJhbmdlIHN5bXNQZXJLZXkgZW50cmllcwp4a2I6IHdpZGVuIHNpemVf
+c3ltcywgbnVtX3N5bXMsIHNpemVfYWN0cywgbnVtX2FjdHMgdG8gdW5zaWduZWQgaW50CnhrYjog
+YWxsb2NhdGUgbmFtZXMtPmtleXMgdG8gTUFQX0xFTkdUSCBpbiBYa2JBbGxvY05hbWVzCnhrYjog
+TlVMTCB0ZXh0IHBvaW50ZXIgYWZ0ZXIgZnJlZSBpbiBfQ2hlY2tTZXREb29kYWQgZXJyb3IgcGF0
+aApnbGFtb3I6IFNldCBgbmVlZF9mcmVlX3JlZ2lvbmAgaW1tZWRpYXRlbHkgYWZ0ZXIgcGl4bWFu
+IHJlZ2lvbiBhbGxvY2F0aW9uCnhmODY6IG1hcmsgd2Fzc2V0IHVudXNlZCBpbiB4Zjg2VW5ibG9j
+a1NJR0lPKCkgY29tcGF0aWJpbGl0eSB3cmFwcGVyCnhrYjogS2VlcCB0aGUgZ3JvdXAgY291bnRz
+IG9mIGEgbG9hZGVkIGtleW1hcCBpbiByYW5nZQp4a2I6IE5ldmVyIHJlY29tcHV0ZSBhIGtleW1h
+cCdzIGdyb3VwIGNvdW50IGRvd24gdG8gemVybwp4a2I6IERlZmF1bHQgdG8gb25lIGdyb3VwIHdo
+ZW5ldmVyIGEga2V5bWFwIHJlcG9ydHMgbm9uZQp4a2I6IEd1YXJkIFhrYkFkanVzdEdyb3VwKCkg
+YWdhaW5zdCBhIGtleW1hcCB3aXRoIG5vIGdyb3VwcwpkYW1hZ2U6IFVubGluayBhIGRhbWFnZSBm
+cm9tIHRoZSBsaXN0IGl0IHdhcyBhY3R1YWxseSBpbnNlcnRlZCBvbgptZXNvbjogY2hlY2sgY3B1
+X2ZhbWlseSgpIGluc3RlYWQgb2YgY3B1KCkKbWVzb246IEZpeCBidWlsZCBvbiBGcmVlQlNEL3Bv
+d2VycGMqClJlZ2lvblZhbGlkYXRlOiBGaXggZG91YmxlIGZyZWUgb2YgYmFkcmVnLT5kYXRhIG9u
+IHRoZSBlcnJvciBwYXRoClhpOiBieXRlLXN3YXAgWElRdWVyeURldmljZSBTY3JvbGxDbGFzcyBm
+bGFncwpYaTogYnl0ZS1zd2FwIERldmljZUNoYW5nZWQgdmFsdWF0b3IgYW5kIHNjcm9sbCBkYXRh
+Cm1lc29uOiBvbmx5IGluc3RhbGwgZHJpMy5oIGlmIGJ1aWxkaW5nIGRyaTMgc3VwcG9ydApIYW5k
+bGUgLVdpbXBsaWNpdC1mYWxsdGhyb3VnaCB3YXJuaW5ncyBmcm9tIGdjYyAxNi4xCnhmODY6IGhh
+bmRsZSBtYWxsb2MgZmFpbHVyZSBpbiBEb1N1YnN0aXR1dGlvbigpCmV4YTogc2lsZW5jZSAtV29s
+ZC1zdHlsZS1kZWNsYXJhdGlvbiB3YXJuaW5nIGZyb20gZ2NjIDE2CnRlc3Q6IHNpbGVuY2UgLVdh
+bmFseXplci1udWxsLWFyZ3VtZW50IHdhcm5pbmdzIGluIHN0cm5kdXAgdGVzdHMKeGY4Njogc2ls
+ZW5jZSAtV2FuYWx5emVyLXBvc3NpYmxlLW51bGwtZGVyZWZlcmVuY2Ugd2FybmluZyBpbiBwYXJz
+ZXIKeGY4NjogcHJldmVudCBwYXNzaW5nIE5VTEwgcG9pbnRlciBhcyBzdHJjYXQoKSBkZXN0aW5h
+dGlvbgp4Zjg2OiBwcmV2ZW50IHBhc3NpbmcgTlVMTCBwb2ludGVyIGFzIHN0cmNweSBkZXN0aW5h
+dGlvbgp4a2I6IEZpeCAtV2NhbGxvYy10cmFuc3Bvc2VkLWFyZ3Mgd2FybmluZyBpbiBfWGtiQ29w
+eUdlb20oKQplbmhhbmNlOiBwb3Blbi1mZG9wZW4tZXJyb3ItaGFuZGxpbmcKeG9yZy5jb25mLm1h
+bjogRml4IGVzY2FwZSBzZXF1ZW5jZSB0eXBvCmNvbmZpZy91ZGV2OiBndWFyZCBhZ2FpbnN0IE5V
+TEwgc3Vic3lzdGVtIGluIGZhbGxiYWNrIGJ1cyBpZAp4ZnJlZTg2OiBzZXQgR1BVIHNjcmVlbiBG
+Qi9ER0EgZGVmYXVsdHMgb24gcnVudGltZSBob3RwbHVnCkZpeCB1c2UtYWZ0ZXItZnJlZSBjYXVz
+ZWQgYnkgZHVwbGljYXRlIGdseXBocyBpbiBvbmUgZ2x5cGhzZXQKZmI6IERvbid0IHdpZGVuIHRo
+ZSBwbGFuZW1hc2sgb3ZlciBwYWRkaW5nIGJpdHMgd2hlbiBST09UTEVTU19TQUZFQUxQSEEgaXMg
+c2V0CnhxdWFydHovR0w6IExvZyBmYWlsdXJlcyBvbiB0aGUgaW5kaXJlY3QgR0xYIG1ha2UtY3Vy
+cmVudCBwYXRoCm1vZGVzZXR0aW5nOiBDaGVjayBmb3IgTlVMTCBtb2RlX291dHB1dCBiZWZvcmUg
+cHJpbnRpbmcgd2FybmluZyBtZXNzYWdlCmNpOiBQcmV2ZW50IGR1cGxpY2F0ZSBwaXBlbGluZXMg
+Zm9yIE1ScwpnaXRsYWIgQ0k6IGFkZCB3b3JrZmxvdyBydWxlcwp4cXVhcnR6OiBBY3RpdmF0ZSB0
+aGUgYXBwIHZpYSB4cF93aW5kb3dfYWN0aXZhdGUoKSBpbiAtc2V0X2Zyb250X3Byb2Nlc3M6Ci0t
+LQogLi4uMS14Zjg2cGNpQnVzLmMtdXNlLUludGVsLWRkeC1vbmx5LWZvci1wcmUtZ2VuNC1oYXJk
+d2FyLnBhdGNoIHwgMiArLQogLi4uL3t4c2VydmVyLXhvcmdfMjEuMS4yNC5iYiA9PiB4c2VydmVy
+LXhvcmdfMjEuMS4yNi5iYn0gICAgICAgIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2Vy
+dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hv
+cmcteHNlcnZlci97eHNlcnZlci14b3JnXzIxLjEuMjQuYmIgPT4geHNlcnZlci14b3JnXzIxLjEu
+MjYuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmcteHNl
+cnZlci94c2VydmVyLXhvcmcvMDAwMS14Zjg2cGNpQnVzLmMtdXNlLUludGVsLWRkeC1vbmx5LWZv
+ci1wcmUtZ2VuNC1oYXJkd2FyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmcteHNl
+cnZlci94c2VydmVyLXhvcmcvMDAwMS14Zjg2cGNpQnVzLmMtdXNlLUludGVsLWRkeC1vbmx5LWZv
+ci1wcmUtZ2VuNC1oYXJkd2FyLnBhdGNoCmluZGV4IDE0ODMxYjFhOWIuLmY1ZDZmMTgwMzYgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXhzZXJ2ZXIveHNlcnZlci14b3Jn
+LzAwMDEteGY4NnBjaUJ1cy5jLXVzZS1JbnRlbC1kZHgtb25seS1mb3ItcHJlLWdlbjQtaGFyZHdh
+ci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy14c2VydmVyL3hzZXJ2ZXIt
+eG9yZy8wMDAxLXhmODZwY2lCdXMuYy11c2UtSW50ZWwtZGR4LW9ubHktZm9yLXByZS1nZW40LWhh
+cmR3YXIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQzODc1ODAxOTRlOTFhZDczZjg5NmE5
+NjY5NzU3NjEyYzg2MDFjOTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDQ1OWUzZDlh
+MzBhZjkwNTg5NmJjOWM0MmEzMmNkOGRjNTRjNGVjZjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CiBGcm9tOiBDYWxpZm9ybmlhIFN1bGxpdmFuIDxjYWxpZm9ybmlhLmwuc3VsbGl2YW5AaW50ZWwu
+Y29tPgogRGF0ZTogRnJpLCAxNiBNYXIgMjAxOCAxNzoyMzoxMSAtMDcwMAogU3ViamVjdDogW1BB
+VENIXSB4Zjg2cGNpQnVzLmM6IHVzZSBJbnRlbCBkZHggb25seSBmb3IgcHJlLWdlbjQgaGFyZHdh
+cmUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXhzZXJ2ZXIveHNlcnZl
+ci14b3JnXzIxLjEuMjQuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy14c2VydmVyL3hz
+ZXJ2ZXIteG9yZ18yMS4xLjI2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXhzZXJ2ZXIveHNlcnZlci14b3JnXzIxLjEuMjQuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXhzZXJ2ZXIveHNlcnZlci14b3Jn
+XzIxLjEuMjYuYmIKaW5kZXggOGQ3ZjlhZTE0ZC4uZDVhMGY2NTY0MCAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmcteHNlcnZlci94c2VydmVyLXhvcmdfMjEuMS4yNC5iYgor
+KysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy14c2VydmVyL3hzZXJ2ZXIteG9yZ18yMS4x
+LjI2LmJiCkBAIC0xLDcgKzEsNyBAQAogcmVxdWlyZSB4c2VydmVyLXhvcmcuaW5jCiAKIFNSQ19V
+UkkgKz0gIiBmaWxlOi8vMDAwMS14Zjg2cGNpQnVzLmMtdXNlLUludGVsLWRkeC1vbmx5LWZvci1w
+cmUtZ2VuNC1oYXJkd2FyLnBhdGNoIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFhNGViMzZjYTY1
+Y2MzYjFiOTM2NTY2ZDY3N2E5Nzg2ZTEzYzExY2Q1ODA2ZTk1MWFjNTVmM2Y1Y2UzOTg0YWYiCitT
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiYzg2MDlmOWNkYWZkZTE0ZGU3ZWM3Y2I0MDZkYWM5NTA3YWRk
+MWQ1MzZkZjhkM2MzZTNkM2Q5YzFjZDg2NDA2NiIKIAogIyBUaGVzZSBleHRlbnNpb25zIGFyZSBu
+b3cgaW50ZWdyYXRlZCBpbnRvIHRoZSBzZXJ2ZXIsIHNvIGRlY2xhcmUgdGhlIG1pZ3JhdGlvbgog
+IyBwYXRoIGZvciBpbi1wbGFjZSB1cGdyYWRlcy4KLS0gCjIuNDcuMQoK
 
---===============5758142968756958865==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="appstream-changelog.txt"
-
-Version 1.2.3
-~~~~~~~~~~~~~
-Released: 2026-11-10
-
-Features:
-Bugfixes:
-Miscellaneous:
-
-Contributors:
- Alexander Vanhee, LeeJiEun, Matthias Klumpp, Vladimir Romanov
-
-Version 1.2.2
-~~~~~~~~~~~~~
-Released: 2026-10-28
-
-Features:
-Bugfixes:
-
-Contributors:
- Eugenio Depalo, Florian Leander Singer, Matthias Klumpp, Vladimir Romanov
-
---===============5758142968756958865==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/appstream/appstream-dev: FILELIST: added "/usr/include/appstream/as-locale.h"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-nb: PKGSIZE changed from 34644 to 123336 (+256%)
-packages/x86-64-v3-poky-linux/appstream/appstream: FILELIST: removed "/usr/lib/libappstream.so.1.2.1", added "/usr/lib/libappstream.so.1.2.3"
-packages/x86-64-v3-poky-linux/appstream: PACKAGES: added "appstream-locale-nn"
-Changes to packages/x86-64-v3-poky-linux/appstream (sysroot):
-  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.2.1 to libappstream.so.1.2.3
-  /usr/lib/libappstream.so.1.2.1 moved to /usr/lib/libappstream.so.1.2.3
-  /usr/include/appstream/as-locale.h was added
-Changes to packages/x86_64-linux/appstream-native (sysroot):
-  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.2.1 to libappstream.so.1.2.3
-  /usr/lib/libappstream.so.1.2.1 moved to /usr/lib/libappstream.so.1.2.3
-  /usr/include/appstream/as-locale.h was added
-
---===============5758142968756958865==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 960 .bb files complete (0 cached, 960 parsed). 2004 targets, 66 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-musleabi"
-MACHINE              = "qemuarm"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-3e2f0290990a3c1acefc090ef0db9627ce07424a"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-meta                 = "tmp-auh-upgrades:3e2f0290990a3c1acefc090ef0db9627ce07424a"
-meta-yocto-bsp       
-meta-poky            = "master:8becfabefdf5df564aafe2d07d10e4b05fbaedb1"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 428 Local 401 Mirrors 0 Missed 27 Current 270 (93% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 285 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 286 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_package_qa_setscene)
-NOTE: Running setscene task 297 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 298 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 350 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.2.3.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 404 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.23.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 412 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 414 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.90.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 434 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 436 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 438 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bash-completion-2.18.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_package_qa_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe appstream-1.2.3-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe vala-0.56.19-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe curl-8.23.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.26.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_package_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.18.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe bash-completion-2.18.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-completion-2.18.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe vala-0.56.19-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 439 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 440 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_recipe_qa_setscene)
-NOTE: recipe appstream-1.2.3-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe wayland-1.26.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 442 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 443 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 444 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 445 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 446 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_recipe_qa_setscene)
-NOTE: recipe curl-8.23.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxmlb-0.3.29-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 447 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.23.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 448 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 449 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.23.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 450 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.23.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 454 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.90.0.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 457 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 459 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.90.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 460 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.90.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe vala-0.56.19-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe wayland-1.26.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxml2-2.15.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.26.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.26.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe curl-8.23.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe curl-8.23.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe curl-8.23.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: Running task 854 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_write_config)
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.19-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 864 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_fetch)
-NOTE: recipe libfyaml-0.9.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 866 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_fetch)
-NOTE: recipe wayland-1.26.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libxmlb-0.3.29-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.15.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 873 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_fetch)
-NOTE: Running setscene task 461 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.4.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe curl-8.23.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running task 890 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.2.3.bb:do_recipe_qa)
-NOTE: recipe wayland-1.26.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 466 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.4.bb:do_packagedata_setscene)
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 923 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.2.3.bb:do_write_config)
-NOTE: recipe libxmlb-0.3.29-r0: task do_write_config: Started
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe curl-8.23.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 469 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 470 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 472 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe wayland-1.26.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 475 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe vala-0.56.19-r0: task do_fetch: Started
-NOTE: recipe curl-8.23.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_fetch: Started
-NOTE: Running setscene task 483 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.4.bb:do_create_spdx_setscene)
-NOTE: recipe libxmlb-0.3.29-r0: task do_write_config: Succeeded
-NOTE: recipe libxml2-2.15.4-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_fetch: Succeeded
-NOTE: recipe bash-5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxmlb-0.3.29-r0: task do_fetch: Started
-NOTE: Running setscene task 484 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.3.bb:do_packagedata_setscene)
-NOTE: recipe appstream-1.2.3-r0: task do_recipe_qa: Started
-NOTE: Running setscene task 486 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 492 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.23.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxml2-2.15.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe vala-0.56.19-r0: task do_fetch: Succeeded
-NOTE: recipe zstd-1.5.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 496 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/wayland/wayland_1.26.0.bb:do_recipe_qa_setscene)
-NOTE: recipe appstream-1.2.3-r0: task do_write_config: Started
-NOTE: recipe libxml2-2.15.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe xz-5.8.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 927 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_unpack)
-NOTE: recipe libxml2-2.15.4-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running task 928 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_unpack)
-NOTE: recipe libpsl-0.23.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe appstream-1.2.3-r0: task do_write_config: Succeeded
-NOTE: recipe libpsl-0.23.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe curl-8.23.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe wayland-1.26.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 502 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libxml2-2.15.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 508 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe xz-5.8.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 514 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.4.bb:do_create_recipe_spdx_setscene)
-NOTE: Running setscene task 515 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 516 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
-NOTE: recipe vala-0.56.19-r0: task do_unpack: Started
-NOTE: recipe appstream-1.2.3-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_unpack: Started
-NOTE: recipe curl-8.23.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 962 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.2.3.bb:do_fetch)
-NOTE: recipe libxml2-2.15.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.26.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 518 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/libxml/libxml2_2.15.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libpsl-0.23.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 520 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_packagedata_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.6.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpsl-0.23.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 521 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 523 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.3.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.8.4-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_fetch: Succeeded
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_unpack: Succeeded
-NOTE: Running task 974 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_unpack)
-NOTE: Running setscene task 525 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 526 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.49.bb:do_packagedata_setscene)
-NOTE: Running setscene task 527 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 528 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.4.bb:do_packagedata_setscene)
-NOTE: recipe appstream-1.2.3-r0: task do_fetch: Started
-NOTE: recipe libxml2-2.15.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe appstream-1.2.3-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 530 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe bash-completion-2.18.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 531 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.90.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.6.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 976 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_patch)
-NOTE: Running task 977 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.2.3.bb:do_unpack)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 532 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.2.bb:do_create_spdx_setscene)
-NOTE: recipe libidn2-2.3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.8.4-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libpsl-0.23.3-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 533 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libxml2-2.15.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 534 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe libxmlb-0.3.29-r0: task do_unpack: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.49-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.42.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpsl-0.23.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-cross-2.6.2-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe util-linux-2.42.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe appstream-1.2.3-r0: task do_unpack: Started
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_patch: Started
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libidn2-2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 536 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 538 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 539 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 541 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.10.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.90.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-cross-2.6.2-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libpcre2-10.49-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 544 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 545 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.2.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 548 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.86.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 549 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 550 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.49.bb:do_populate_sysroot_setscene)
-NOTE: recipe libunistring-1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunistring-1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.42.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vala-0.56.19-r0: task do_unpack: Succeeded
-NOTE: Running task 1000 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_patch)
-NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.14.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libidn2-2.3.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe appstream-1.2.3-r0: task do_unpack: Succeeded
-NOTE: recipe libpcre2-10.49-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1006 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.2.3.bb:do_patch)
-NOTE: recipe libunistring-1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe vala-0.56.19-r0: task do_patch: Started
-NOTE: recipe python3-3.14.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libunistring-1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 559 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libunistring/libunistring_1.5.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-1.86.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Running setscene task 561 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe appstream-1.2.3-r0: task do_patch: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_patch: Succeeded
-NOTE: recipe vala-0.56.19-r0: task do_patch: Succeeded
-NOTE: recipe libpcre2-10.49-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunistring-1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 563 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpcre/libpcre2_10.49.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe libunistring-1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-3.14.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: recipe libpcre2-10.49-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 565 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 566 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 567 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 568 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 569 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 570 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_packagedata_setscene)
-NOTE: Running setscene task 571 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.10.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 572 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_4.1.0.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.42.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 586 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 587 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 588 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 589 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.6.bb:do_packagedata_setscene)
-NOTE: recipe libpcre2-10.49-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 590 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.54.1.bb:do_packagedata_setscene)
-NOTE: recipe libedit-20260512-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe appstream-1.2.3-r0: task do_patch: Succeeded
-NOTE: recipe libffi-3.8.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 591 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.4.bb:do_packagedata_setscene)
-NOTE: recipe xz-5.8.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.10.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-4.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.42.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.9.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.7.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_unpack: Succeeded
-NOTE: recipe python3-3.14.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.54.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 592 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 594 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20260512-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.8.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 595 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.54.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 597 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe zstd-1.5.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 598 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 599 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.10.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.10.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 600 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.42.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 601 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_4.1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libcap-ng-0.9.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 603 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-4.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20260512-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.9.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 606 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.10.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.54.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 608 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 609 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.4.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.8.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 610 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.54.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.7.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.42.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 611 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 612 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.10.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.8.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-4.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.42.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.8.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.14.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.9.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20260512-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 617 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libedit/libedit_20260512-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 623 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe sqlite3-3_3.54.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.42.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 624 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 626 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libcap-ng/libcap-ng_0.9.6.bb:do_recipe_qa_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.10.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 628 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_packagedata_setscene)
-NOTE: recipe libffi-3.8.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 630 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.54.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.14.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.42.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zstd-1.5.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 631 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux-libuuid_2.42.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 633 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 637 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.10.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 638 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libffi/libffi_3.8.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20260512-3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.18.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 639 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 641 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.4.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 644 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/gdbm/gdbm_1.26.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-completion-2.18.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.9.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.8.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 646 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.4.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.54.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.42.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20260512-3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-4.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.8.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 648 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_4.1.0.bb:do_recipe_qa_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.10.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.7.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 651 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/pam/libpam_1.7.3.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.9.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1133 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_patch)
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1177 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.2.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe sqlite3-3_3.54.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.42.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.8.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.8.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1203 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_create_recipe_spdx)
-NOTE: recipe ncurses-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.10.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1211 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_create_recipe_spdx)
-NOTE: Running task 1212 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_create_recipe_spdx)
-NOTE: recipe zstd-1.5.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.18.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-4.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 653 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/bash-completion/bash-completion_2.18.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.26-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.7.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_patch: Started
-NOTE: recipe ncurses-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.8.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 655 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 656 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 658 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 659 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe appstream-1.2.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vala-0.56.19-r0: task do_create_recipe_spdx: Started
-NOTE: recipe openssl-4.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_create_recipe_spdx: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_create_recipe_spdx: Started
-NOTE: recipe libpam-1.7.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-cross-2.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.18.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxmlb-0.3.29-r0: task do_patch: Succeeded
-NOTE: recipe ncurses-6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 661 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.2.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 663 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 664 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 666 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/libtool/libtool-cross_2.6.2.bb:do_recipe_qa_setscene)
-NOTE: recipe appstream-1.2.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.6.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vala-0.56.19-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe libxmlb-0.3.29-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-cross-2.6.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libfyaml-0.9.6-r0: task do_create_recipe_spdx: Succeeded
-NOTE: Running task 1281 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/appstream/appstream_1.2.3.bb:do_create_recipe_spdx)
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 668 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.2.bb:do_packagedata_setscene)
-NOTE: recipe appstream-1.2.3-r0: task do_create_recipe_spdx: Started
-NOTE: recipe libgcc-16.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-16.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 670 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 671 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 672 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-16.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe appstream-1.2.3-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 675 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 676 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 677 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_7.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-16.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-16.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe linux-libc-headers-7.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 678 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 679 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/libgcc_16.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-16.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-7.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-16.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.6+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 684 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 686 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 687 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 688 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_7.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-7.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.6+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 694 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 696 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-7.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 698 of 698 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_7.2.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-7.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-7.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1571 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1626 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1627 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxmlb-0.3.29-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vala-0.56.19-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1674 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_configure)
-NOTE: recipe libfyaml-0.9.6-r0: task do_configure: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1675 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_configure)
-NOTE: recipe vala-0.56.19-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1676 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_configure)
-NOTE: recipe libxmlb-0.3.29-r0: task do_configure: Started
-NOTE: recipe vala-0.56.19-r0: task do_configure: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_configure: Succeeded
-NOTE: Running task 1677 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_configure_ptest_base)
-NOTE: recipe libxmlb-0.3.29-r0: task do_configure_ptest_base: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1678 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_compile)
-NOTE: recipe libxmlb-0.3.29-r0: task do_compile: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_compile: Succeeded
-NOTE: Running task 1679 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_compile_ptest_base)
-NOTE: recipe libxmlb-0.3.29-r0: task do_compile_ptest_base: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1680 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_install)
-NOTE: recipe libxmlb-0.3.29-r0: task do_install: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_configure: Succeeded
-NOTE: Running task 1681 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_compile)
-NOTE: recipe libfyaml-0.9.6-r0: task do_compile: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_install: Succeeded
-NOTE: Running task 1682 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_install_ptest_base)
-NOTE: recipe libxmlb-0.3.29-r0: task do_install_ptest_base: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1683 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_package)
-NOTE: Running task 1684 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_populate_sysroot)
-NOTE: recipe libxmlb-0.3.29-r0: task do_package: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_populate_sysroot: Started
-NOTE: recipe vala-0.56.19-r0: task do_configure: Succeeded
-NOTE: Running task 1685 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/vala/vala_0.56.19.bb:do_compile)
-NOTE: recipe vala-0.56.19-r0: task do_compile: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxmlb-0.3.29-r0: task do_package: Succeeded
-NOTE: Running task 1686 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_packagedata)
-NOTE: recipe libxmlb-0.3.29-r0: task do_packagedata: Started
-NOTE: recipe libfyaml-0.9.6-r0: task do_compile: Succeeded
-NOTE: Running task 1687 of 1711 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libfyaml/libfyaml_0.9.6.bb:do_install)
-NOTE: recipe libfyaml-0.9.6-r0: task do_install: Started
-NOTE: recipe libxmlb-0.3.29-r0: task do_packagedata: Failed
-NOTE: recipe libfyaml-0.9.6-r0: task do_install: Succeeded
-NOTE: recipe vala-0.56.19-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1687 tasks of which 1650 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261111060212.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261111060212.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_packagedata
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libxmlb/0.3.29/temp/log.do_packagedata.1539374
-Summary: There were 10 ERROR messages, returning a non-zero exit code.
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb-src went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb-dbg went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb-ptest went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb-staticdev went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb-dev went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb-doc went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb-locale went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb-bin went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: QA Issue: Package version for package libxmlb went backwards which would break package feeds (from 0:0.3.30-r0 to 0:0.3.29-r0) [version-going-backwards]
-ERROR: libxmlb-0.3.29-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libxmlb/0.3.29/temp/log.do_packagedata.1539374
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb:do_packagedata) failed with exit code '1'
-
---===============5758142968756958865==
+--===============2894926456326513850==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/appstream/appstream-bash-completion: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-bash-completion: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-dbg: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-dbg: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-dbg: PKGSIZE changed from 2835216 to 2944856 (+4%)
-packages/x86-64-v3-poky-linux/appstream/appstream-dbg: FILELIST: removed "/usr/lib/.debug/libappstream.so.1.2.1", added "/usr/lib/.debug/libappstream.so.1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-dev: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-dev: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-dev: PKGSIZE changed from 1360901 to 1375289 (+1%)
-packages/x86-64-v3-poky-linux/appstream/appstream-dev: FILELIST: added "/usr/include/appstream/as-locale.h"
-packages/x86-64-v3-poky-linux/appstream/appstream-doc: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-doc: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-doc: PKGSIZE changed from 2851570 to 2853395 (+0%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ain: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ain: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ar: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ar: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-bg: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-bg: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-bn-bd: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-bn-bd: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-bn: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-bn: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ca: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ca: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ckb: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ckb: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-cs: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-cs: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-da: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-da: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-de: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-de: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-de: PKGSIZE changed from 116159 to 116651 (+0%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-en-gb: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-en-gb: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-eo: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-eo: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-es: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-es: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-et: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-et: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-eu: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-eu: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-fi: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-fi: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-fr: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-fr: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-gd: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-gd: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-gl: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-gl: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-he: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-he: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-hi: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-hi: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-hr: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-hr: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-hu: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-hu: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ia: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ia: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-id: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-id: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-it: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-it: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-it: PKGSIZE changed from 103308 to 110553 (+7%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ja: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ja: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ka: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ka: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ka: PKGSIZE changed from 38076 to 39385 (+3%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-kk: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-kk: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-kk: PKGSIZE changed from 158911 to 166468 (+5%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ko: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ko: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-kw: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-kw: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-lt: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-lt: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-nb: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-nb: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-nb: PKGSIZE changed from 34644 to 123336 (+256%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-nl: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-nl: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-oc: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-oc: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-pl: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-pl: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-pl: PKGSIZE changed from 125936 to 132339 (+5%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-pt-br: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-pt-br: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-pt: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-pt: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-pt: PKGSIZE changed from 124871 to 130696 (+5%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ro: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ro: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ro: PKGSIZE changed from 129639 to 135628 (+5%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-rom: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-rom: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ru: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ru: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ru: PKGSIZE changed from 150574 to 161454 (+7%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sk: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sk: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sl: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sl: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sl: PKGSIZE changed from 120689 to 126144 (+5%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sr+latin: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sr+latin: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sr: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sr: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sv: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sv: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-sv: PKGSIZE changed from 119857 to 125956 (+5%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ta: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-ta: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-th: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-th: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-tr: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-tr: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-uk: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-uk: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-uk: PKGSIZE changed from 160784 to 163663 (+2%)
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-zh-cn: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-zh-cn: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-zh-tw: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-locale-zh-tw: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-src: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-src: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream-src: PKGSIZE changed from 2081554 to 2156316 (+4%)
-packages/x86-64-v3-poky-linux/appstream/appstream-src: FILELIST: directory renamed /usr/src/debug/appstream/1.2.1/tools -> /usr/src/debug/appstream/1.2.3/tools, removed "/usr/src/debug/appstream/1.2.1/src/as-agreement-section-private.h /usr/src/debug/appstream/1.2.1/src/as-developer.h /usr/src/debug/appstream/1.2.1/src/as-relation-private.h /usr/src/debug/appstream/1.2.1/src/as-developer.c /usr/src/debug/appstream/1.2.1/src/as-yaml.h /usr/src/debug/appstream/1.2.1/src/as-validator-issue.h /usr/src/debug/appstream/1.2.1/src/as-reference.h /usr/src/debug/appstream/1.2.1/src/as-validator-issue.c /usr/src/debug/appstream/1.2.1/src/as-yaml.c /usr/src/debug/appstream/1.2.1/src/as-reference.c /usr/src/debug/appstream/1.2.1/src/as-video-private.h /usr/src/debug/appstream/1.2.1/src/as-release-list.h /usr/src/debug/appstream/1.2.1/src/as-component.h /usr/src/debug/appstream/1.2.1/src/as-component.c /usr/src/debug/appstream/1.2.1/src/as-release-list.c /usr/src/debug/appstream/1.2.1/src/as-compo
- nent-private.h /usr/src/debug/appstream/1.2.1/src/as-enum-types.h /usr/src/debug/appstream/1.2.1/src/as-enum-types.c /usr/src/debug/appstream/1.2.1/src/as-wayland-private.c /usr/src/debug/appstream/1.2.1/src/as-tag-yaml.gperf /usr/src/debug/appstream/1.2.1/src/as-wayland-private.h /usr/src/debug/appstream/1.2.1/src/as-file-monitor.h /usr/src/debug/appstream/1.2.1/src/as-file-monitor.c /usr/src/debug/appstream/1.2.1/src/as-utils-private.h /usr/src/debug/appstream/1.2.1/src/as-desktop-entry.c /usr/src/debug/appstream/1.2.1/src/as-icon.c /usr/src/debug/appstream/1.2.1/src/as-bundle-private.h /usr/src/debug/appstream/1.2.1/src/as-curl.h /usr/src/debug/appstream/1.2.1/src/as-relation-check-result.h /usr/src/debug/appstream/1.2.1/src/as-spdx-data.h /usr/src/debug/appstream/1.2.1/src/as-curl.c /usr/src/debug/appstream/1.2.1/src/as-relation-check-result.c /usr/src/debug/appstream/1.2.1/src/as-desktop-entry.h /usr/src/debug/appstream/1.2.1/src/as-icon.h /usr/src/debug/appstream/1.2.1/src/as-
- checksum.c /usr/src/debug/appstream/1.2.1/src/as-checksum.h /usr/src/debug/appstream/1.2.1/src/as-version.c /usr/src/debug/appstream/1.2.1/src/as-release.h /usr/src/debug/appstream/1.2.1/src/as-version.h /usr/src/debug/appstream/1.2.1/src/as-release.c /usr/src/debug/appstream/1.2.1/src/as-resources.c /usr/src/debug/appstream/1.2.1/src/as-provided.c /usr/src/debug/appstream/1.2.1/src/as-category.c /usr/src/debug/appstream/1.2.1/src/as-image.c /usr/src/debug/appstream/1.2.1/src/as-category.h /usr/src/debug/appstream/1.2.1/src/as-launchable-private.h /usr/src/debug/appstream/1.2.1/src/as-provided.h /usr/src/debug/appstream/1.2.1/src/as-resources.h /usr/src/debug/appstream/1.2.1/src/as-image.h /usr/src/debug/appstream/1.2.1/src/as-artifact.c /usr/src/debug/appstream/1.2.1/src/as-screenshot-private.h /usr/src/debug/appstream/1.2.1/src/as-desktop-env-data.h /usr/src/debug/appstream/1.2.1/src/as-review-private.h /usr/src/debug/appstream/1.2.1/src/as-reference-private.h /usr/src/debug/appst
- ream/1.2.1/src/as-artifact.h /usr/src/debug/appstream/1.2.1/src/as-news-convert.h /usr/src/debug/appstream/1.2.1/src/as-issue-private.h /usr/src/debug/appstream/1.2.1/src/as-image-private.h /usr/src/debug/appstream/1.2.1/src/as-distro-extras.c /usr/src/debug/appstream/1.2.1/src/as-news-convert.c /usr/src/debug/appstream/1.2.1/src/as-screenshot.h /usr/src/debug/appstream/1.2.1/src/as-vercmp.h /usr/src/debug/appstream/1.2.1/src/as-agreement.c /usr/src/debug/appstream/1.2.1/src/as-pool.c /usr/src/debug/appstream/1.2.1/src/as-validator-issue-tag.h /usr/src/debug/appstream/1.2.1/src/as-agreement.h /usr/src/debug/appstream/1.2.1/src/as-branding-private.h /usr/src/debug/appstream/1.2.1/src/as-pool.h /usr/src/debug/appstream/1.2.1/src/as-screenshot.c /usr/src/debug/appstream/1.2.1/src/as-vercmp.c /usr/src/debug/appstream/1.2.1/src/as-icon-private.h /usr/src/debug/appstream/1.2.1/src/as-pool-private.h /usr/src/debug/appstream/1.2.1/src/as-issue.h /usr/src/debug/appstream/1.2.1/src/as-release
- -list-private.h /usr/src/debug/appstream/1.2.1/src/as-issue.c /usr/src/debug/appstream/1.2.1/src/as-artifact-private.h /usr/src/debug/appstream/1.2.1/src/as-branding.h /usr/src/debug/appstream/1.2.1/src/as-component-box.h /usr/src/debug/appstream/1.2.1/src/as-tag.c /usr/src/debug/appstream/1.2.1/src/as-tag.h /usr/src/debug/appstream/1.2.1/src/as-branding.c /usr/src/debug/appstream/1.2.1/src/as-component-box.c /usr/src/debug/appstream/1.2.1/src/as-gcve.c /usr/src/debug/appstream/1.2.1/src/as-metadata.h /usr/src/debug/appstream/1.2.1/src/as-agreement-private.h /usr/src/debug/appstream/1.2.1/src/as-gcve.h /usr/src/debug/appstream/1.2.1/src/as-metadata.c /usr/src/debug/appstream/1.2.1/src/as-context-private.h /usr/src/debug/appstream/1.2.1/src/as-launchable.h /usr/src/debug/appstream/1.2.1/src/as-launchable.c /usr/src/debug/appstream/1.2.1/src/as-developer-private.h /usr/src/debug/appstream/1.2.1/src/as-translation.c /usr/src/debug/appstream/1.2.1/src/as-release-private.h /usr/src/debug
- /appstream/1.2.1/src/as-zstd-decompressor.c /usr/src/debug/appstream/1.2.1/src/as-translation.h /usr/src/debug/appstream/1.2.1/src/as-zstd-decompressor.h /usr/src/debug/appstream/1.2.1/src/as-agreement-section.h /usr/src/debug/appstream/1.2.1/src/as-utils.h /usr/src/debug/appstream/1.2.1/src/as-content-rating.c /usr/src/debug/appstream/1.2.1/src/as-video.c /usr/src/debug/appstream/1.2.1/src/as-utils.c /usr/src/debug/appstream/1.2.1/src/as-agreement-section.c /usr/src/debug/appstream/1.2.1/src/as-video.h /usr/src/debug/appstream/1.2.1/src/as-content-rating.h /usr/src/debug/appstream/1.2.1/src/as-translation-private.h /usr/src/debug/appstream/1.2.1/src/as-cache.h /usr/src/debug/appstream/1.2.1/src/as-xml.c /usr/src/debug/appstream/1.2.1/src/as-tag-xml.gperf /usr/src/debug/appstream/1.2.1/src/as-cache.c /usr/src/debug/appstream/1.2.1/src/as-xml.h /usr/src/debug/appstream/1.2.1/src/as-content-rating-private.h /usr/src/debug/appstream/1.2.1/src/as-review.h /usr/src/debug/appstream/1.2.1/
- src/as-stemmer.h /usr/src/debug/appstream/1.2.1/src/as-validator.c /usr/src/debug/appstream/1.2.1/src/as-validator.h /usr/src/debug/appstream/1.2.1/src/as-review.c /usr/src/debug/appstream/1.2.1/src/as-stemmer.c /usr/src/debug/appstream/1.2.1/src/as-bundle.h /usr/src/debug/appstream/1.2.1/src/as-profile.c /usr/src/debug/appstream/1.2.1/src/as-spdx.h /usr/src/debug/appstream/1.2.1/src/as-relation.h /usr/src/debug/appstream/1.2.1/src/as-bundle.c /usr/src/debug/appstream/1.2.1/src/as-profile.h /usr/src/debug/appstream/1.2.1/src/as-relation.c /usr/src/debug/appstream/1.2.1/src/as-spdx.c /usr/src/debug/appstream/1.2.1/src/as-reviews-client.h /usr/src/debug/appstream/1.2.1/src/as-reviews-client.c /usr/src/debug/appstream/1.2.1/src/as-suggested.h /usr/src/debug/appstream/1.2.1/src/as-suggested.c /usr/src/debug/appstream/1.2.1/src/as-context.c /usr/src/debug/appstream/1.2.1/src/as-suggested-private.h /usr/src/debug/appstream/1.2.1/src/as-system-info.c /usr/src/debug/appstream/1.2.1/src/as-c
- ontext.h /usr/src/debug/appstream/1.2.1/src/as-system-info.h /usr/src/debug/appstream/1.2.1/src/as-checksum-private.h", added "/usr/src/debug/appstream/1.2.3/src/as-agreement-section-private.h /usr/src/debug/appstream/1.2.3/src/as-developer.h /usr/src/debug/appstream/1.2.3/src/as-relation-private.h /usr/src/debug/appstream/1.2.3/src/as-developer.c /usr/src/debug/appstream/1.2.3/src/as-yaml.h /usr/src/debug/appstream/1.2.3/src/as-validator-issue.h /usr/src/debug/appstream/1.2.3/src/as-reference.h /usr/src/debug/appstream/1.2.3/src/as-validator-issue.c /usr/src/debug/appstream/1.2.3/src/as-yaml.c /usr/src/debug/appstream/1.2.3/src/as-reference.c /usr/src/debug/appstream/1.2.3/src/as-video-private.h /usr/src/debug/appstream/1.2.3/src/as-release-list.h /usr/src/debug/appstream/1.2.3/src/as-component.h /usr/src/debug/appstream/1.2.3/src/as-component.c /usr/src/debug/appstream/1.2.3/src/as-release-list.c /usr/src/debug/appstream/1.2.3/src/as-component-private.h /usr/src/debug/appstream/1.
- 2.3/src/as-enum-types.h /usr/src/debug/appstream/1.2.3/src/as-enum-types.c /usr/src/debug/appstream/1.2.3/src/as-wayland-private.c /usr/src/debug/appstream/1.2.3/src/as-tag-yaml.gperf /usr/src/debug/appstream/1.2.3/src/as-wayland-private.h /usr/src/debug/appstream/1.2.3/src/as-file-monitor.h /usr/src/debug/appstream/1.2.3/src/as-file-monitor.c /usr/src/debug/appstream/1.2.3/src/as-utils-private.h /usr/src/debug/appstream/1.2.3/src/as-locale-private.h /usr/src/debug/appstream/1.2.3/src/as-desktop-entry.c /usr/src/debug/appstream/1.2.3/src/as-icon.c /usr/src/debug/appstream/1.2.3/src/as-bundle-private.h /usr/src/debug/appstream/1.2.3/src/as-curl.h /usr/src/debug/appstream/1.2.3/src/as-relation-check-result.h /usr/src/debug/appstream/1.2.3/src/as-spdx-data.h /usr/src/debug/appstream/1.2.3/src/as-curl.c /usr/src/debug/appstream/1.2.3/src/as-desktop-entry.h /usr/src/debug/appstream/1.2.3/src/as-icon.h /usr/src/debug/appstream/1.2.3/src/as-relation-check-result.c /usr/src/debug/appstream/
- 1.2.3/src/as-checksum.c /usr/src/debug/appstream/1.2.3/src/as-checksum.h /usr/src/debug/appstream/1.2.3/src/as-version.c /usr/src/debug/appstream/1.2.3/src/as-release.h /usr/src/debug/appstream/1.2.3/src/as-version.h /usr/src/debug/appstream/1.2.3/src/as-release.c /usr/src/debug/appstream/1.2.3/src/as-resources.c /usr/src/debug/appstream/1.2.3/src/as-provided.c /usr/src/debug/appstream/1.2.3/src/as-category.c /usr/src/debug/appstream/1.2.3/src/as-image.c /usr/src/debug/appstream/1.2.3/src/as-category.h /usr/src/debug/appstream/1.2.3/src/as-launchable-private.h /usr/src/debug/appstream/1.2.3/src/as-provided.h /usr/src/debug/appstream/1.2.3/src/as-resources.h /usr/src/debug/appstream/1.2.3/src/as-image.h /usr/src/debug/appstream/1.2.3/src/as-artifact.c /usr/src/debug/appstream/1.2.3/src/as-screenshot-private.h /usr/src/debug/appstream/1.2.3/src/as-desktop-env-data.h /usr/src/debug/appstream/1.2.3/src/as-review-private.h /usr/src/debug/appstream/1.2.3/src/as-reference-private.h /usr/sr
- c/debug/appstream/1.2.3/src/as-artifact.h /usr/src/debug/appstream/1.2.3/src/as-news-convert.h /usr/src/debug/appstream/1.2.3/src/as-issue-private.h /usr/src/debug/appstream/1.2.3/src/as-image-private.h /usr/src/debug/appstream/1.2.3/src/as-distro-extras.c /usr/src/debug/appstream/1.2.3/src/as-news-convert.c /usr/src/debug/appstream/1.2.3/src/as-screenshot.h /usr/src/debug/appstream/1.2.3/src/as-vercmp.h /usr/src/debug/appstream/1.2.3/src/as-agreement.c /usr/src/debug/appstream/1.2.3/src/as-pool.c /usr/src/debug/appstream/1.2.3/src/as-validator-issue-tag.h /usr/src/debug/appstream/1.2.3/src/as-agreement.h /usr/src/debug/appstream/1.2.3/src/as-branding-private.h /usr/src/debug/appstream/1.2.3/src/as-pool.h /usr/src/debug/appstream/1.2.3/src/as-screenshot.c /usr/src/debug/appstream/1.2.3/src/as-vercmp.c /usr/src/debug/appstream/1.2.3/src/as-icon-private.h /usr/src/debug/appstream/1.2.3/src/as-pool-private.h /usr/src/debug/appstream/1.2.3/src/as-issue.h /usr/src/debug/appstream/1.2.3/s
- rc/as-release-list-private.h /usr/src/debug/appstream/1.2.3/src/as-issue.c /usr/src/debug/appstream/1.2.3/src/as-artifact-private.h /usr/src/debug/appstream/1.2.3/src/as-branding.h /usr/src/debug/appstream/1.2.3/src/as-component-box.h /usr/src/debug/appstream/1.2.3/src/as-tag.c /usr/src/debug/appstream/1.2.3/src/as-tag.h /usr/src/debug/appstream/1.2.3/src/as-branding.c /usr/src/debug/appstream/1.2.3/src/as-component-box.c /usr/src/debug/appstream/1.2.3/src/as-gcve.c /usr/src/debug/appstream/1.2.3/src/as-metadata.h /usr/src/debug/appstream/1.2.3/src/as-agreement-private.h /usr/src/debug/appstream/1.2.3/src/as-gcve.h /usr/src/debug/appstream/1.2.3/src/as-metadata.c /usr/src/debug/appstream/1.2.3/src/as-context-private.h /usr/src/debug/appstream/1.2.3/src/as-launchable.h /usr/src/debug/appstream/1.2.3/src/as-launchable.c /usr/src/debug/appstream/1.2.3/src/as-developer-private.h /usr/src/debug/appstream/1.2.3/src/as-translation.c /usr/src/debug/appstream/1.2.3/src/as-release-private.h /
- usr/src/debug/appstream/1.2.3/src/as-zstd-decompressor.c /usr/src/debug/appstream/1.2.3/src/as-translation.h /usr/src/debug/appstream/1.2.3/src/as-zstd-decompressor.h /usr/src/debug/appstream/1.2.3/src/as-agreement-section.h /usr/src/debug/appstream/1.2.3/src/as-utils.h /usr/src/debug/appstream/1.2.3/src/as-content-rating.c /usr/src/debug/appstream/1.2.3/src/as-video.c /usr/src/debug/appstream/1.2.3/src/as-utils.c /usr/src/debug/appstream/1.2.3/src/as-agreement-section.c /usr/src/debug/appstream/1.2.3/src/as-video.h /usr/src/debug/appstream/1.2.3/src/as-content-rating.h /usr/src/debug/appstream/1.2.3/src/as-translation-private.h /usr/src/debug/appstream/1.2.3/src/as-cache.h /usr/src/debug/appstream/1.2.3/src/as-xml.c /usr/src/debug/appstream/1.2.3/src/as-tag-xml.gperf /usr/src/debug/appstream/1.2.3/src/as-cache.c /usr/src/debug/appstream/1.2.3/src/as-xml.h /usr/src/debug/appstream/1.2.3/src/as-content-rating-private.h /usr/src/debug/appstream/1.2.3/src/as-review.h /usr/src/debug/app
- stream/1.2.3/src/as-locale.c /usr/src/debug/appstream/1.2.3/src/as-stemmer.h /usr/src/debug/appstream/1.2.3/src/as-validator.c /usr/src/debug/appstream/1.2.3/src/as-locale.h /usr/src/debug/appstream/1.2.3/src/as-review.c /usr/src/debug/appstream/1.2.3/src/as-stemmer.c /usr/src/debug/appstream/1.2.3/src/as-validator.h /usr/src/debug/appstream/1.2.3/src/as-bundle.h /usr/src/debug/appstream/1.2.3/src/as-profile.c /usr/src/debug/appstream/1.2.3/src/as-spdx.h /usr/src/debug/appstream/1.2.3/src/as-relation.h /usr/src/debug/appstream/1.2.3/src/as-bundle.c /usr/src/debug/appstream/1.2.3/src/as-profile.h /usr/src/debug/appstream/1.2.3/src/as-relation.c /usr/src/debug/appstream/1.2.3/src/as-spdx.c /usr/src/debug/appstream/1.2.3/src/as-reviews-client.h /usr/src/debug/appstream/1.2.3/src/as-reviews-client.c /usr/src/debug/appstream/1.2.3/src/as-suggested.h /usr/src/debug/appstream/1.2.3/src/as-suggested.c /usr/src/debug/appstream/1.2.3/src/as-context.c /usr/src/debug/appstream/1.2.3/src/as-sugg
- ested-private.h /usr/src/debug/appstream/1.2.3/src/as-system-info.c /usr/src/debug/appstream/1.2.3/src/as-context.h /usr/src/debug/appstream/1.2.3/src/as-system-info.h /usr/src/debug/appstream/1.2.3/src/as-checksum-private.h"
-packages/x86-64-v3-poky-linux/appstream/appstream-staticdev: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream-staticdev: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream/appstream: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream/appstream: PKGSIZE changed from 1110354 to 1140762 (+3%)
-packages/x86-64-v3-poky-linux/appstream/appstream: FILELIST: removed "/usr/lib/libappstream.so.1.2.1", added "/usr/lib/libappstream.so.1.2.3"
-packages/x86-64-v3-poky-linux/appstream: PKGV changed from 1.2.1 [default] to 1.2.3 [default]
-packages/x86-64-v3-poky-linux/appstream: PV changed from "1.2.1" to "1.2.3"
-packages/x86-64-v3-poky-linux/appstream: SRC_URI changed from "https://www.freedesktop.org/software/appstream/releases/AppStream-1.2.1.tar.xz file://0002-Do-not-build-qt-tests.patch file://0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch" to "https://www.freedesktop.org/software/appstream/releases/AppStream-1.2.3.tar.xz file://0002-Do-not-build-qt-tests.patch file://0003-Fix-PACKAGE_PREFIX_DIR-in-qt-cmake-AppStreamQtConfig.patch"
-packages/x86-64-v3-poky-linux/appstream: PACKAGES: added "appstream-locale-nn"
-Changes to packages/x86-64-v3-poky-linux/appstream (sysroot):
-  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.2.1 to libappstream.so.1.2.3
-  /usr/lib/libappstream.so.1.2.1 moved to /usr/lib/libappstream.so.1.2.3
-  /usr/include/appstream/as-locale.h was added
-Changes to packages/x86_64-linux/appstream-native (sysroot):
-  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.2.1 to libappstream.so.1.2.3
-  /usr/lib/libappstream.so.1.2.1 moved to /usr/lib/libappstream.so.1.2.3
-  /usr/include/appstream/as-locale.h was added
+packages/x86-64-v3-poky-linux/xserver-xorg: SRC_URI changed from "https://www.x.org/releases//individual/xserver/xorg-server-21.1.24.tar.xz file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch" to "https://www.x.org/releases//individual/xserver/xorg-server-21.1.26.tar.xz file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch"
+packages/x86-64-v3-poky-linux/xserver-xorg: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xf86-video-modesetting: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xf86-video-modesetting: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dbg: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dbg: PKGSIZE changed from 18735664 to 18739936 (+0%)
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dbg: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dev: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dev: PKGSIZE changed from 1155696 to 1155719 (+0%)
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-dev: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-doc: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-doc: PKGSIZE changed from 132739 to 132740 (+0%)
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-doc: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dbe: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dbe: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dri: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dri: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dri2: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-dri2: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-extmod: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-extmod: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-glx: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-glx: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-record: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-extension-record: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-fbdev: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-fbdev: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-locale: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-locale: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-exa: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-exa: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libafb: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libafb: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libcfb: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libcfb: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libint10: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libint10: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libmfb: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libmfb: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libwfb: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libwfb: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libxf1bpp: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libxf1bpp: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libxf4bpp: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-libxf4bpp: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-xaa: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-module-xaa: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-multimedia-modules: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-multimedia-modules: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-sdl: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-sdl: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-src: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-src: FILELIST: directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/modes -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/modes, directory renamed /usr/src/debug/xserver-xorg/21.1.24/include -> /usr/src/debug/xserver-xorg/21.1.26/include, directory renamed /usr/src/debug/xserver-xorg/21.1.24/glx -> /usr/src/debug/xserver-xorg/21.1.26/glx, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/xkb -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/xkb, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/dri -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/dri, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/loader -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/loader, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/exa -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/exa, directory renamed /usr/src/debug/xserver-xorg/21.1.24/present -> /usr/src/debug/xserv
+ er-xorg/21.1.26/present, directory renamed /usr/src/debug/xserver-xorg/21.1.24/dbe -> /usr/src/debug/xserver-xorg/21.1.26/dbe, directory renamed /usr/src/debug/xserver-xorg/21.1.24/record -> /usr/src/debug/xserver-xorg/21.1.26/record, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/drivers/inputtest -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/drivers/inputtest, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/dixmods -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/dixmods, directory renamed /usr/src/debug/xserver-xorg/21.1.24/randr -> /usr/src/debug/xserver-xorg/21.1.26/randr, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support/shared -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/os-support/shared, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support/bus -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/os-support/bus, directory renamed /usr/src/debug/xserver-xorg/21.1.24/miext/sync -> /usr/s
+ rc/debug/xserver-xorg/21.1.26/miext/sync, directory renamed /usr/src/debug/xserver-xorg/21.1.24/composite -> /usr/src/debug/xserver-xorg/21.1.26/composite, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/common -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/common, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/ramdac -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/ramdac, directory renamed /usr/src/debug/xserver-xorg/21.1.24/os -> /usr/src/debug/xserver-xorg/21.1.26/os, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/utils/gtf -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/utils/gtf, directory renamed /usr/src/debug/xserver-xorg/21.1.24/render -> /usr/src/debug/xserver-xorg/21.1.26/render, directory renamed /usr/src/debug/xserver-xorg/21.1.24/xfixes -> /usr/src/debug/xserver-xorg/21.1.26/xfixes, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/parser -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/parser,
+  directory renamed /usr/src/debug/xserver-xorg/21.1.24/mi -> /usr/src/debug/xserver-xorg/21.1.26/mi, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/dri2 -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/dri2, directory renamed /usr/src/debug/xserver-xorg/21.1.24/xkb -> /usr/src/debug/xserver-xorg/21.1.26/xkb, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support/misc -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/os-support/misc, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/int10 -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/int10, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/fbdevhw -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/fbdevhw, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/i2c -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/i2c, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/shadowfb -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/shadowfb, di
+ rectory renamed /usr/src/debug/xserver-xorg/21.1.24/config -> /usr/src/debug/xserver-xorg/21.1.26/config, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/os-support, directory renamed /usr/src/debug/xserver-xorg/21.1.24/exa -> /usr/src/debug/xserver-xorg/21.1.26/exa, directory renamed /usr/src/debug/xserver-xorg/21.1.24/glamor -> /usr/src/debug/xserver-xorg/21.1.26/glamor, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/glamor_egl -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/glamor_egl, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/vgahw -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/vgahw, directory renamed /usr/src/debug/xserver-xorg/21.1.24/Xext -> /usr/src/debug/xserver-xorg/21.1.26/Xext, directory renamed /usr/src/debug/xserver-xorg/21.1.24/damageext -> /usr/src/debug/xserver-xorg/21.1.26/damageext, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xf
+ ree86/dri2/pci_ids -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/dri2/pci_ids, directory renamed /usr/src/debug/xserver-xorg/21.1.24/fb -> /usr/src/debug/xserver-xorg/21.1.26/fb, directory renamed /usr/src/debug/xserver-xorg/21.1.24/miext/damage -> /usr/src/debug/xserver-xorg/21.1.26/miext/damage, directory renamed /usr/src/debug/xserver-xorg/21.1.24/dri3 -> /usr/src/debug/xserver-xorg/21.1.26/dri3, directory renamed /usr/src/debug/xserver-xorg/21.1.24/Xi -> /usr/src/debug/xserver-xorg/21.1.26/Xi, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/drivers/modesetting -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/drivers/modesetting, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/os-support/linux -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/os-support/linux, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/x86emu/x86emu -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/x86emu/x86emu, directory renamed /usr/src/debug/xserver
+ -xorg/21.1.24/miext/shadow -> /usr/src/debug/xserver-xorg/21.1.26/miext/shadow, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/ddc -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/ddc, directory renamed /usr/src/debug/xserver-xorg/21.1.24/dix -> /usr/src/debug/xserver-xorg/21.1.26/dix, directory renamed /usr/src/debug/xserver-xorg/21.1.24/hw/xfree86/x86emu -> /usr/src/debug/xserver-xorg/21.1.26/hw/xfree86/x86emu
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-src: PKGSIZE changed from 11908448 to 11917278 (+0%)
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-src: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-staticdev: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-staticdev: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-utils: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-utils: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-xephyr: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-xephyr: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-xvfb: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg-xvfb: PV changed from "21.1.24" to "21.1.26"
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg: PKGV changed from 21.1.24 [default] to 21.1.26 [default]
+packages/x86-64-v3-poky-linux/xserver-xorg/xserver-xorg: PV changed from "21.1.24" to "21.1.26"
 
---===============5758142968756958865==--
+--===============2894926456326513850==--
