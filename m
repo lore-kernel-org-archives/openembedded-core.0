@@ -1,208 +1,242 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2748.1794426966815463155
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3030.1794427798330398239
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 11:56:06 -0800
+ Wed, 11 Nov 2026 12:09:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=nXAOZ73Q;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: bbnpreetsingh@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cdb1199bfd8so1494483a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 11:56:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794426966; x=1795031766; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SzNALlCuEyOZXkk29BwX2+76/gi2S/lfCu3sJPs4DZA=;
-        b=nXAOZ73Q5UhW0MqkHA1aiIW3LI6m242RzX1OCs68HZCH+N+O77NK0k2MAMz2lFSDJ7
-         jqm1m6+jqrsS0sSMBtsx1JtBv38/C3Hjt5GvACQXSVLsBUT4A2VsiLsQmHmoGUr7mqaB
-         Isf7AK/7BFxJs/Xfo2otMOjSxeZ74v4ZD6sctlMi/PN63xdpQi/ahHi9plRMRUm7Av8b
-         7WcIzWjJC0zS1TgLoSWsvn9MjkyX0tFumStWSkRvw2+wkabT7rzZKmVkTC4nvSPflq8F
-         Do9ExQu0wbWkYsXr3mKaMV3oKU95P9dBXUu+BxikIXw1VIAClKY6Htm3NviYpUGRfFzU
-         TWPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794426966; x=1795031766;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SzNALlCuEyOZXkk29BwX2+76/gi2S/lfCu3sJPs4DZA=;
-        b=hdB6jMo1JO9sjdb0dBAI3cccSJD4Fv7YWS5a/jHbf/heClYS0rCaysYGeMWrwWa5nl
-         /cCf1Qje+E3jftSayfATwhQJAqyRk7D6B8nNN/SVRWsi53+WJtgBUgtlYyRuoKT/3X+6
-         P86fk7zG4Us7MpzXfyY0AWcAQu8lsDlFit42D6fjAFOLt0nZRx8cibKftHwToNIMpTYn
-         zmZQ7gVpni/6sPVzoUJa3sV0DbGtJ2NgbgA7AUUva5MkdZMQ2oIL9Ccdfz6f+McJnJaC
-         dZ1QV+RuP+DjZKDsRRZ25ueiOk8GzH8sRlySwYlgnOs8dGvczD/KGcK+4MQ/iL7NAU4R
-         AGtQ==
-X-Gm-Message-State: APuU4Z+pE1oC72bP1HR42tldMHfxbUGyYYp+IR+aBEJdgF2ZMtzXHsHd
-	J23sWICpYvJhM9qMLh0cCstw3dO9TozTXSqXLTWJgj2/SSlhTmXFw8d/qUQbyg==
-X-Gm-Gg: AYBFou1O3vXWTzpT+9EsOfzpY0wYHsEn8PmCzOEtD5vfnGqHTpZ9RSSruHlBmKGETRz
-	Et5pW0kwYUFqHa+lqHd0XAhTl5gB8ASPUknCF/LL9igUt9sypwdMvJWBP9H4xfckRWnRrkhVIZi
-	SMbQ/C+AVZP5A29AZn5nQi3LFr8Vu5Pry6byp9Q6tNEGB/zo1Vkh07gK5ErSOQMCD5RpE8xd0GV
-	WGKntkEqHU/7p07EQrIV2h8ThyninDezuur7ChyUvrEqB4+/4T7PGUBYDo/FsgzmifIxLFWoL2z
-	y25R4U0of8HfViBw+Z2piX7R8OV7YRVASOn+wftY96GRdwo51ywcOxoiTf9uv+SLckWYRuqIRTy
-	qTTsUkVl9MfN6H4o8wOCymiIWHtVqg9uhgBvY1g5hHM57f2wq7BpxEKJdILyRweTcQn7Ag2/GMy
-	iM7X/plTvd0hDpLfqNtVws0ia/KL/i+U6gXwwrWQ98/CcZMdu1wU7tb6vlXjkyXskiuTU/bcvPj
-	gPzbehm47JanAfyrPV1qaWuAD2Ectdp1GpgVEwaKbS27ScHRR8pkkrCdLu64PA2uhK6qpDe4P1Q
-	A7KCTHgyz0yvz4x47w7x6tAci0Mb3/KgOJWnGOzc3sD7ehc3CXNxzQSPVzFowIM=
-X-Received: by 2002:a17:90b:2f07:b0:3b0:a970:caad with SMTP id 98e67ed59e1d1-3b182f26e50mr3427330a91.28.1794426965802;
-        Wed, 11 Nov 2026 11:56:05 -0800 (PST)
-Return-Path: <bbnpreetsingh@gmail.com>
-Received: from localhost.localdomain ([108.180.159.198])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197c771aesm682648a91.12.2026.11.11.11.56.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 11:56:05 -0800 (PST)
-From: Babanpreet Singh <bbnpreetsingh@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=bxdIbyx7;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202611112009550cdeda81f600020761-9t7maw@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202611112009550cdeda81f600020761
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 11 Nov 2026 21:09:55 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=NILKJS7BfKRLFXN0PEcvHRJEmU0Jdo8v6Ps+wWQDdgM=;
+ b=bxdIbyx7dnvhVF0ylDgkb8yJfoXIU3OhbwV7yjj9ZWFj0wx9lhVA0KWa+1TE5PIls/J+gQ
+ 4wUocPWooe4TGwUd+L4DxGMCUdKcGg3uz/NiL3GYJlWKLWswg3i36Ticop4vvczUfDnOfvuy
+ pG3pzslDO26kf6JR6ObU1gyQv1rK1Bg6roFEXxy3NgiBb7+ivzocIFAd8pauzcOj+6ln1pSU
+ RaWBoEJohmKCouxg2XPCL3uREcnoEfXjf+h9JzmCqFKG/Ped9ZGkWk3JLhGBjvlun8iJBOOs
+ 8nUUBSI9wg9Xs7nX6cF8tb6LK2nMDs9WFfTQB6wStL4LE7nZ/3QfxPLg==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>,
-	Babanpreet Singh <bbnpreetsingh@gmail.com>
-Subject: [PATCH] oe-init-build-env: fix unbound variable errors under 'set -u'
-Date: Wed, 11 Nov 2026 19:56:04 +0000
-Message-ID: <20261111195604.7-1-bbnpreetsingh@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] go: upgrade 1.27.3 -> 1.27.4
+Date: Wed, 11 Nov 2026 21:09:14 +0100
+Message-ID: <20261111200914.2475550-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 19:56:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250051
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 20:10:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250052
 Content-Type: text/plain; charset="utf-8"
 
-Sourcing oe-init-build-env from a shell running with 'set -u' fails:
+From: Peter Marko <peter.marko@siemens.com>
 
-  ./oe-init-build-env: line 29: BBSERVER: unbound variable
+Upgrade to latest 1.27.x release [1]:
 
-Give the variables that may be unset an explicit empty default, here
-and in oe-buildenv-internal.
+$ git --no-pager log --oneline go1.27.3..go1.27.4
+7b2881024c (tag: go1.27.4) [release-branch.go1.27] go1.27.4
+4c1752a033 [release-branch.go1.27] net/http: prevent HTTP/1 server crash due to MaxBytesReader header race
+3eb71096dd [release-branch.go1.27] cmd/go, cmd/compile: unquote //go:cgo_ldflag and bound slice removal
+e6ea940f9b [release-branch.go1.27] cmd/cgo, cmd/compile, cmd/link: validate cgo_import_dynamic library names
+55515b6fe4 [release-branch.go1.27] cmd/compile, cmd/link: validate cgo symbol names and prevent export overwrite
+b207530349 [release-branch.go1.27] cmd/go, cmd/link: reject .syso files with Go object or unrecognized formats
+e7b9584fec [release-branch.go1.27] cmd/go: disallow pkg-config local .pc paths and inspect cgoCPPFLAGS
+51dadca52c [release-branch.go1.27] cmd/go: validate .syso and linker input files against scripts and embedded options
+5f05d301a7 [release-branch.go1.27] cmd/go: validate split -Wl, next-arg flags and linker script targets
+0edfcc8731 [release-branch.go1.27] cmd/go: disallow separated -l flag followed by to_library
+cbd457366f [release-branch.go1.27] cmd/go: disallow -gen-* and -gnat* in flag allowlists
+c5426cee10 [release-branch.go1.27] cmd/go: reject GCC spec files in linker search directories
+8e7ba03754 [release-branch.go1.27] cmd/go: disallow --sysroot and -target, validate -isysroot/-syslibroot, and restrict -x
+251c4ee2e8 [release-branch.go1.27] runtime: match deferring function when looking for linked defers in nextFrame
+1bf5d09e4f [release-branch.go1.27] crypto/tls: omit ML-DSA from signature_algorithms_cert
+5f0af78b52 [release-branch.go1.27] cmd/compile: record method indices before encoding a named type
+c56bcdef12 [release-branch.go1.27] crypto/internal/fips140/sha3: record legacy Keccak as non-approved
+bb19eae15c [release-branch.go1.27] crypto/internal/fips140/tls12: record SHA-384 as approved in MasterSecret
+96f62c8958 [release-branch.go1.27] crypto/hkdf: remove unnecessary HMAC key length allowance for HKDF-Expand
+4d34001816 [release-branch.go1.27] crypto/rsa: apply FIPS 140-3 approved checks to MGF hash in OAEP
+caa055b6a4 [release-branch.go1.27] crypto/internal/fips140: run CASTs when generating keys
+41d6346743 [release-branch.go1.27] net: fix zero value address handling in Dialer.Dial{TCP,UDP,IP}
+8b28706da8 [release-branch.go1.27] cmd/compile: teach deadstore about CondSelect
+c1ff416cd8 [release-branch.go1.27] Revert "runtime: fix timespec definition on 32bits systems"
+a0c618c225 [release-branch.go1.27] cmd/internal/obj/x86: clear forward-jump list on PCALIGN
+62cbde4f2f [release-branch.go1.27] cmd/dist: fix GOFIPS140 toolchain compilation
 
-[YOCTO #15469]
+Fixes CVE-2026-97054, CVE-2026-97033, CVE-2026-97034, CVE-2026-97035,
+      CVE-2026-97036, CVE-2026-97037, CVE-2026-97038, CVE-2026-97039,
+      CVE-2026-97040, CVE-2026-97041, CVE-2026-97042, CVE-2026-97043.
 
-Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
+Release information: [2]
+
+[1] https://github.com/golang/go/compare/go1.27.3...go1.27.4
+[2] https://groups.google.com/g/golang-announce/c/iY8TY0wWgbM
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- oe-init-build-env            | 14 +++++++-------
- scripts/oe-buildenv-internal | 22 +++++++++++-----------
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ .../go/{go-1.27.3.inc => go-1.27.4.inc}              |  2 +-
+ ...y-native_1.27.3.bb => go-binary-native_1.27.4.bb} |  6 +++---
+ ...anadian_1.27.3.bb => go-cross-canadian_1.27.4.bb} |  0
+ .../go/{go-cross_1.27.3.bb => go-cross_1.27.4.bb}    |  0
+ .../{go-crosssdk_1.27.3.bb => go-crosssdk_1.27.4.bb} |  0
+ .../{go-runtime_1.27.3.bb => go-runtime_1.27.4.bb}   |  0
+ ...ke-content-based-hash-generation-less-pedan.patch | 12 ++++++------
+ ...0006-cmd-go-make-GOROOT-precious-by-default.patch |  2 +-
+ ...ilter-out-build-specific-paths-from-linker-.patch |  4 ++--
+ ...ear-GOROOT-for-func-ldShared-when-trimpath-.patch |  2 +-
+ .../go/{go_1.27.3.bb => go_1.27.4.bb}                |  0
+ 11 files changed, 14 insertions(+), 14 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.27.3.inc => go-1.27.4.inc} (91%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.27.3.bb => go-binary-native_1.27.4.bb} (80%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.27.3.bb => go-cross-canadian_1.27.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.27.3.bb => go-cross_1.27.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.27.3.bb => go-crosssdk_1.27.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.27.3.bb => go-runtime_1.27.4.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.27.3.bb => go_1.27.4.bb} (100%)
 
-diff --git a/oe-init-build-env b/oe-init-build-env
-index 5a2bd0f4d9..660c6ad02e 100755
---- a/oe-init-build-env
-+++ b/oe-init-build-env
-@@ -14,9 +14,9 @@
- # when being sourced.  To workaround the shell limitation use "set <builddir>"
- # prior to sourcing this script.
- #
--if [ -n "$BASH_SOURCE" ]; then
-+if [ -n "${BASH_SOURCE:-}" ]; then
-     THIS_SCRIPT=$BASH_SOURCE
--elif [ -n "$ZSH_NAME" ]; then
-+elif [ -n "${ZSH_NAME:-}" ]; then
-     THIS_SCRIPT=$0
- else
-     THIS_SCRIPT="$(pwd)/oe-init-build-env"
-@@ -26,16 +26,16 @@ else
-         exit 1
-     fi
- fi
--if [ -n "$BBSERVER" ]; then
-+if [ -n "${BBSERVER:-}" ]; then
-     unset BBSERVER
- fi
+diff --git a/meta/recipes-devtools/go/go-1.27.3.inc b/meta/recipes-devtools/go/go-1.27.4.inc
+similarity index 91%
+rename from meta/recipes-devtools/go/go-1.27.3.inc
+rename to meta/recipes-devtools/go/go-1.27.4.inc
+index 7c906e8b5a8..3e987ea0b75 100644
+--- a/meta/recipes-devtools/go/go-1.27.3.inc
++++ b/meta/recipes-devtools/go/go-1.27.4.inc
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
+     file://0011-internal-cgrouptest-skip-when-cpu.max-is-not-availab.patch \
+ "
+-SRC_URI[main.sha256sum] = "6e7749035cf360f06b2575d162ea79df9fda8ef671889e5c375f8e50777f26bb"
++SRC_URI[main.sha256sum] = "73cfb8571aec0c01177687db87163d46aa20e9779672772891aa17654d9a6099"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.27.3.bb b/meta/recipes-devtools/go/go-binary-native_1.27.4.bb
+similarity index 80%
+rename from meta/recipes-devtools/go/go-binary-native_1.27.3.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.27.4.bb
+index c245af8fb80..699f984b918 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.27.3.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.27.4.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
--if [ -z "$ZSH_NAME" ] && [ "$0" = "$THIS_SCRIPT" ]; then
-+if [ -z "${ZSH_NAME:-}" ] && [ "$0" = "$THIS_SCRIPT" ]; then
-     echo "Error: This script needs to be sourced. Please run as '. $THIS_SCRIPT'" >&2
-     exit 1
- fi
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40"
+-SRC_URI[go_linux_arm64.sha256sum] = "a06e99309dbcbdca1a8ccd2282c3ee146e55930886e26b4f1193269587165f49"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "f180f01943865b7942ab3b4acbab6da6f0f669b61da999d004d16c537a49f7b5"
++SRC_URI[go_linux_amd64.sha256sum] = "7226736c2339719cda28fbf3a54d71aa63bcefe376e98cef00034268dab24840"
++SRC_URI[go_linux_arm64.sha256sum] = "3392582988a273a87ab5043ee1b2c9c17a2c3c00580bf9326c47a2e0aaaeac92"
++SRC_URI[go_linux_ppc64le.sha256sum] = "f508314644fa6f466d1935f8a34f01e7980092a4730bfb9d7fa3ffde81910d20"
  
--if [ -z "$OEROOT" ]; then
-+if [ -z "${OEROOT:-}" ]; then
-     OEROOT=$(dirname "$THIS_SCRIPT")
-     OEROOT=$(readlink -f "$OEROOT")
- fi
-@@ -43,12 +43,12 @@ unset THIS_SCRIPT
- 
- export OEROOT
- . "$OEROOT"/scripts/oe-buildenv-internal &&
--    TEMPLATECONF="$TEMPLATECONF" "$OEROOT"/scripts/oe-setup-builddir || {
-+    TEMPLATECONF="${TEMPLATECONF:-}" "$OEROOT"/scripts/oe-setup-builddir || {
-     unset OEROOT
-     return 1
- }
- 
- unset OEROOT
- 
--[ -z "$BUILDDIR" ] || cd "$BUILDDIR"
-+[ -z "${BUILDDIR:-}" ] || cd "$BUILDDIR"
- 
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 2fdb19565a..6b2e4ea518 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -19,12 +19,12 @@ if ! $(return >/dev/null 2>&1) ; then
- fi
- 
- # It is assumed OEROOT is already defined when this is called
--if [ -z "$OEROOT" ]; then
-+if [ -z "${OEROOT:-}" ]; then
-     echo >&2 "Error: OEROOT is not defined!"
-     return 1
- fi
- 
--if [ -z "$OE_SKIP_SDK_CHECK" ] && [ -n "$OECORE_SDK_VERSION" ]; then
-+if [ -z "${OE_SKIP_SDK_CHECK:-}" ] && [ -n "${OECORE_SDK_VERSION:-}" ]; then
-     echo >&2 "Error: The OE SDK/ADT was detected as already being present in this shell environment. Please use a clean shell when sourcing this environment script."
-     return 1
- fi
-@@ -39,8 +39,8 @@ if [ "$py_v38_check" != "True" ]; then
- fi
- unset py_v38_check
- 
--if [ -z "$BDIR" ]; then
--    if [ -z "$1" ]; then
-+if [ -z "${BDIR:-}" ]; then
-+    if [ -z "${1:-}" ]; then
-         BDIR="build"
-     else
-         BDIR="$1"
-@@ -61,7 +61,7 @@ if [ -z "$BDIR" ]; then
-             return 1
-         fi
-     fi
--    if [ -n "$2" ]; then
-+    if [ -n "${2:-}" ]; then
-         BITBAKEDIR="$2"
-     fi
- fi
-@@ -72,9 +72,9 @@ else
- fi
- unset BDIR
- 
--if [ -z "$BITBAKEDIR" ]; then
--    BITBAKEDIR="$OEROOT/bitbake$BBEXTRA"
--    test -d "$BITBAKEDIR" || BITBAKEDIR="$OEROOT/../bitbake$BBEXTRA"
-+if [ -z "${BITBAKEDIR:-}" ]; then
-+    BITBAKEDIR="$OEROOT/bitbake${BBEXTRA:-}"
-+    test -d "$BITBAKEDIR" || BITBAKEDIR="$OEROOT/../bitbake${BBEXTRA:-}"
- fi
- 
- BITBAKEDIR=$(readlink -f "$BITBAKEDIR")
-@@ -89,11 +89,11 @@ if [ ! -d "$BITBAKEDIR" ]; then
- fi
- 
- # Add BitBake's library to PYTHONPATH
--PYTHONPATH=$BITBAKEDIR/lib:$PYTHONPATH
-+PYTHONPATH=$BITBAKEDIR/lib:${PYTHONPATH:-}
- export PYTHONPATH
- 
- # Remove any paths added by sourcing this script before
--[ -n "$OE_ADDED_PATHS" ] && PATH=$(echo $PATH | sed -e "s#$OE_ADDED_PATHS##") ||
-+[ -n "${OE_ADDED_PATHS:-}" ] && PATH=$(echo $PATH | sed -e "s#$OE_ADDED_PATHS##") ||
-     PATH=$(echo $PATH | sed -e "s#$OEROOT/scripts:$BITBAKEDIR/bin:##")
- 
- # Make sure our paths are at the beginning of $PATH
-@@ -114,6 +114,6 @@ SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND \
- SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA BB_SETSCENE_ENFORCE \
- BB_LOGCONFIG"
- 
--BB_ENV_PASSTHROUGH_ADDITIONS="$(echo $BB_ENV_PASSTHROUGH_ADDITIONS $BB_ENV_PASSTHROUGH_ADDITIONS_OE | tr ' ' '\n' | LC_ALL=C sort --unique | tr '\n' ' ')"
-+BB_ENV_PASSTHROUGH_ADDITIONS="$(echo ${BB_ENV_PASSTHROUGH_ADDITIONS:-} $BB_ENV_PASSTHROUGH_ADDITIONS_OE | tr ' ' '\n' | LC_ALL=C sort --unique | tr '\n' ' ')"
- 
- export BB_ENV_PASSTHROUGH_ADDITIONS
--- 
-2.43.0
-
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.27.3.bb b/meta/recipes-devtools/go/go-cross-canadian_1.27.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.27.3.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.27.4.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.27.3.bb b/meta/recipes-devtools/go/go-cross_1.27.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.27.3.bb
+rename to meta/recipes-devtools/go/go-cross_1.27.4.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.27.3.bb b/meta/recipes-devtools/go/go-crosssdk_1.27.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.27.3.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.27.4.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.27.3.bb b/meta/recipes-devtools/go/go-runtime_1.27.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.27.3.bb
+rename to meta/recipes-devtools/go/go-runtime_1.27.4.bb
+diff --git a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+index 92e2a1bc8bc..07ae6896d2f 100644
+--- a/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
++++ b/meta/recipes-devtools/go/go/0001-cmd-go-make-content-based-hash-generation-less-pedan.patch
+@@ -108,7 +108,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	}
+  
+  	// Configuration specific to compiler toolchain.
+-@@ -2839,8 +2841,25 @@ func envList(key, def string) []string {
++@@ -2845,8 +2847,25 @@ func envList(key, def string) []string {
+  	return args
+  }
+  
+@@ -135,9 +135,9 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	if cppflags, err = buildFlags("CPPFLAGS", "", p.CgoCPPFLAGS, checkCompilerFlags); err != nil {
+  		return
+  	}
+-@@ -2856,6 +2875,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
+- 	if ldflags, err = buildFlags("LDFLAGS", DefaultCFlags, p.CgoLDFLAGS, checkLinkerFlags); err != nil {
+- 		return
++@@ -2867,6 +2886,13 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
++ 			return
++ 		}
+  	}
+ +	if filtered {
+ +		cppflags = filterCompilerFlags(cppflags, false)
+@@ -149,7 +149,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  
+  	return
+  }
+-@@ -2944,7 +2970,7 @@ func (b *Builder) runCgo(ctx context.Context, a *Action) error {
++@@ -2955,7 +2981,7 @@ func (b *Builder) runCgo(ctx context.Context, a *Action) error {
+  	cgoExe := base.Tool("cgo")
+  	cgofiles = mkAbsFiles(p.Dir, cgofiles)
+  
+@@ -158,7 +158,7 @@ index 8dcf324529f5..617b7ece73f0 100644
+  	if err != nil {
+  		return err
+  	}
+-@@ -3502,7 +3528,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
++@@ -3523,7 +3549,7 @@ func (b *Builder) swigOne(a *Action, file, objdir string, pcCFLAGS []string, cxx
+  	p := a.Package
+  	sh := b.Shell(a)
+  
+diff --git a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+index 77b4bedd017..5df9e17349c 100644
+--- a/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
++++ b/meta/recipes-devtools/go/go/0006-cmd-go-make-GOROOT-precious-by-default.patch
+@@ -94,7 +94,7 @@ index 617b7ece73f0..46c0712c5bd0 100644
+  	if err := sh.Mkdir(buildAction.Objdir); err != nil {
+  		return nil, err
+  	}
+-@@ -1923,6 +1940,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
++@@ -1929,6 +1946,14 @@ func (b *Builder) linkShared(ctx context.Context, a *Action) (err error) {
+  		return err
+  	}
+  
+diff --git a/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch b/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
+index e6a5ce587eb..c5c4f35e492 100644
+--- a/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
++++ b/meta/recipes-devtools/go/go/0007-exec.go-filter-out-build-specific-paths-from-linker-.patch
+@@ -18,7 +18,7 @@ diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
+ index 46c0712c5bd0..e7c0459ee4c0 100644
+ --- a/src/cmd/go/internal/work/exec.go
+ +++ b/src/cmd/go/internal/work/exec.go
+-@@ -1598,6 +1598,29 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
++@@ -1604,6 +1604,29 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
+  	return h.Sum()
+  }
+  
+@@ -48,7 +48,7 @@ index 46c0712c5bd0..e7c0459ee4c0 100644
+  // printLinkerConfig prints the linker config into the hash h,
+  // as part of the computation of a linker-related action ID.
+  func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
+-@@ -1608,7 +1631,7 @@ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
++@@ -1614,7 +1637,7 @@ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
+  	case "gc":
+  		fmt.Fprintf(h, "link %s %q %s\n", b.toolID("link"), forcedLdflags, ldBuildmode)
+  		if p != nil {
+diff --git a/meta/recipes-devtools/go/go/0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch b/meta/recipes-devtools/go/go/0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch
+index 6e711873b9d..56b040a0324 100644
+--- a/meta/recipes-devtools/go/go/0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch
++++ b/meta/recipes-devtools/go/go/0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch
+@@ -29,7 +29,7 @@ diff --git a/src/cmd/go/internal/work/gc.go b/src/cmd/go/internal/work/gc.go
+ index 49b26e15609b..7c0d2ac9e0f0 100644
+ --- a/src/cmd/go/internal/work/gc.go
+ +++ b/src/cmd/go/internal/work/gc.go
+-@@ -721,6 +721,12 @@ func (gcToolchain) ldShared(b *Builder, root *Action, toplevelactions []*Action,
++@@ -725,6 +725,12 @@ func (gcToolchain) ldShared(b *Builder, root *Action, toplevelactions []*Action,
+  	// the output file path is recorded in the .gnu.version_d section.
+  	dir, targetPath := filepath.Split(targetPath)
+  
+diff --git a/meta/recipes-devtools/go/go_1.27.3.bb b/meta/recipes-devtools/go/go_1.27.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.27.3.bb
+rename to meta/recipes-devtools/go/go_1.27.4.bb
