@@ -1,488 +1,418 @@
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3803.1794377113441477539
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4218.1794379596170771057
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2026 22:05:13 -0800
+ Tue, 10 Nov 2026 22:46:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NL9JRPev;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TOBEQjQD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a1c935dcab-4455ea10-0f97-436d-91ba-e4b6406ed4bd-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794377112;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7kjJWBiCTvy+qanjFgsvhVXHkhWNATOc6n9O4utV1yA=;
-	b=NL9JRPevHCYPgmpSxObAAg9K1QsoztqU1Moozabz892CzjmFEbwdpWnkq+pB1Az3
-	Xs5ROw2uxX71vJ9T1P6xRx+Bbm85fYHi/U8qvItbnuCrRYDIEVmNjNAcke/VnVZp5wJ
-	C4mK2V0JP2PgZo11jLwsSxtxeX5XrJNlNG1eiAPQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794377112;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7kjJWBiCTvy+qanjFgsvhVXHkhWNATOc6n9O4utV1yA=;
-	b=TOBEQjQD4mBl6b+57r0gSYgBJg1l1ilVHC+zOf3DDOZy4kq+t4c3Jr423nsNzyqK
-	nUR61Z3AHeZMsix4rOCeREufLSCSsVThV1Pi7mJlwISRkDRqT4Tc9qqpTkOAudejMbA
-	7xLZdQcvFjWAMbsiwlhX1xdGvyqv6V0Vq4w8DwVE=
-Content-Type: multipart/mixed; boundary="===============0798386916199015010=="
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=GSdYTVUR;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so2424411f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2026 22:46:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794379594; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XwS6TIjnSdfUWxrJyMumYGQgSQKM6Q5F/mqA5oKFh/SjNqODKcrxCZbM4irDQmCD/6
+         ra8CxCKeAP07PMUpghcgn6ds8XltxyzoYtYImkTbofw1cRxLVjBygCCMkpkQpzAWoo2V
+         9u0U8vMmsVVFtVn7i5JM0KcOUyvUw73KImyxDWRiKKK4Or3d5aazfM2p2Zog2FTgVFsp
+         JbeH+jhDGtD3+p54R9JraT9QUeo/xu7l4l2JNMn/D1rW1j08w+IMZIqU8yU1cKpfiRb5
+         JlfvQTS/yWZla5zXD3s8uMhtHzgc9nVPhjttvFzNAAuymRiPoqb2NtY6GjRyNCDPzHGv
+         9ChQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ilJui2iWwLloOCllC3/0WKL8odntM0FZeJzbcxXm2Os=;
+        fh=hCw97YdChfln84upe/YmWq2cFG/m5eKrF4fwvs0Xp4Y=;
+        b=WUwryDAgerux0I+ffd66d7K7g40ywnYv7GzmVbB96nJfK0vWYLzcql9ZtdJ5hZYTUA
+         A1Mxj1rOxcqwgrDRSfFW5obe1acj+a/0gwybUUIdPGPttxNzRBqDDs3uLztxfY4xYJDw
+         D9vIm0wrpTLjrpIfgNyHJUPGayJmKSeuzViUU3ATAWKs5L2pPSGAjQSGLb/81VAWMvsT
+         iDl7EfB3Ehh9+jpYKpRlZJjCNDqXACgpVGC5I4sQSr8nqwF1O1mGDyhMpgw8zDfQ9jqw
+         DtQExG0LbxbOzz3Vm2fxo2r9OBvDJHfV9Rg/mcX62LRnvfFRdw6ks5ZMTKyy18vBMsjw
+         0/zQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794379594; x=1794984394; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ilJui2iWwLloOCllC3/0WKL8odntM0FZeJzbcxXm2Os=;
+        b=GSdYTVURTqvQczr5DgMP5M5BMhFAsN3Rx0NG1LPGAld3f/0DlqFv4XpLZ6yRrO3cdy
+         2feIHW7waehFfLJhw9v6V7kZEnrwluohmpfvPUswK9M/C7fGLjgSX//gSq1Mm3umNtzA
+         mn88vtx5orD8N4Q8pp3076OG48Ve7dc7Nj1cq2sKy0TwagIPpgJ/P2QnIIvIjIEAJila
+         U6TDsFrxROj4ii7pY3/OTZJfVFZAqep5iMe42PTyps0EzaavFf6UNdGfYWXi5JBaHA5R
+         RJtsn9HiUR+9eglWuIBPv2WjwQqxrhpBVUwMPkjlKQdLaS0iQwM3yjfP5zZcllvVt9t7
+         3yCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794379594; x=1794984394;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ilJui2iWwLloOCllC3/0WKL8odntM0FZeJzbcxXm2Os=;
+        b=HvTqBFjGi4fTk9NmdAaZk8SqwwiEODw+GJ6zWgP5mPOrdL8QvWeuVqQ3rhhlZf7PbG
+         XR4nidMxFf9zm2vE3PMiOJTM1jirHaIAb8GQLi/jfqKFMyHt9r6NNDfbq4JkF6luh58E
+         /keGDJmPjB0AMCuCLlnP+FXvID9O47guMP7He7N7wSjDwZ1ztlEC+IU6zxd3v6EnEpNo
+         di7/Tn7j++a92DvUBSzVYUZObscZU3y2dIjyGjSwFWO3UZFnrP50sfAQ6Zcj4vMEvLjo
+         qZLU7Bqe0Zth3lIEuwUwKbRrJDeVcKEc+ePLKY+X9CeRG+atbQn677sCy/pE6wJVq7hT
+         +6rQ==
+X-Forwarded-Encrypted: i=1; AL+hErGQvdrWK9JYCRaokOY7rEitrVfufk+02i6vAkbFys8qsRQK6muP1j2vUVDqYb/X3c2kDBCqxS1EEiYsLUBXAUsV9g==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9X6AgKWSbXrlzUXWaJ7fDeYVlUkbTfPAECyeNloEHVT/DKYyW5
+	YOW67VIfaQXIRpx8Nq1vLVdMutd1UoJhAbq4i7FPR59mL+nbWhivxWTWpMdKJ+9YJaNqDcp7Iew
+	b21wf4ML6tM7J3w/2mC5NQMk5gTVBVZI=
+X-Gm-Gg: AYBFou1qzZd1x5vdLkeNdDHBuFjDbXsnJZ9uBEt7d45x9bMp3YNk7+R2I13pMqaerkG
+	gAgCb6gIkFzFU8iXBIGLBb4qIdd3yi1M0fdS0gTeVp1Y4ciVOjN9035fhaM9CRClM7qpMYvohwx
+	v+Ff0eFuzyULZbwEFRhR4jugZF31Tc+nfiPQm8E1HP+781ANBh/C2rWkMKp1gx1c5xXjsBrbHQQ
+	h19xmSZOMv3G1axXq08GSICcxupaTZL7rm8MCKFZrXAD7gBwKNZTrQOLn7yksLAo23LbF9Jikum
+	2Ph8hDR1mGP0/AJSi3OXwk05ndEgVtIG4UkzIHAxT7IZlCA0twnnZZ1AV1N9CBE+3Rhwpl5Ez81
+	Z/S2paTnwAl4P8uQJouX7oqJKVRMaamfFo8KM5aiz
+X-Received: by 2002:a5d:5f46:0:b0:492:820d:5e6 with SMTP id
+ ffacd0b85a97d-499c7ef353bmr1815737f8f.49.1794379593979; Tue, 10 Nov 2026
+ 22:46:33 -0800 (PST)
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lz4: upgrading to 1.11.1 FAILED
-Message-ID: <010101a1c935dcab-4455ea10-0f97-436d-91ba-e4b6406ed4bd-000000@us-west-2.amazonses.com>
-Date: Wed, 11 Nov 2026 06:05:12 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.11-54.240.27.191
+References: <20261109-devtool-ide-sdk-cargo-v2-0-d56134000561@savoirfairelinux.com>
+ <DMRJ1ZHRD2GY.3FYG0JMUT4C3I@bootlin.com>
+In-Reply-To: <DMRJ1ZHRD2GY.3FYG0JMUT4C3I@bootlin.com>
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+Date: Wed, 11 Nov 2026 07:46:22 +0100
+X-Gm-Features: AclHuK--hraigbdBgJCsO7Fb_cIXNEWU1PtGKbXt2wHxh4BRwFkG9SMYF-VNzEw
+Message-ID: <CAB3asfiNShsoU4MzCjkUieDaBqs36MiGLuV6oLb7K1tX3ufbTw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 00/18] devtool: ide-sdk: add support for Rust recipes
+To: mathieu.dubois-briand@bootlin.com
+Cc: enguerrand.de-ribaucourt@savoirfairelinux.com, 
+	openembedded-core@lists.openembedded.org, 
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Content-Type: multipart/alternative; boundary="0000000000004a99e9065ffa8e37"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 06:05:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249964
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 06:46:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/249967
 
---===============0798386916199015010==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+--0000000000004a99e9065ffa8e37
+Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Am Di., 10. Nov. 2026 um 13:25 Uhr schrieb Mathieu Dubois-Briand via
+openembedded-core <mathieu.dubois-briand=bootlin.com@lists.openembedded.org
+>:
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *lz4* to *1.11.1* has Failed(do_compile).
+> On Mon Nov 9, 2026 at 2:44 PM CET, Enguerrand de Ribaucourt via
+> openembedded-core wrote:
+> > Hello, this series introduces support for Rust ide-sdk VS Code
+> > configuration against the Yocto cross-compilation toolchain:
+> >
+> >  - editor symbol resolution and linting
+> >  - build task
+> >  - deploy task
+> >  - debugging
+> >
+> > It introduces a cargo-example recipe following the model used for
+> > cmake and meson.
+> >
+> > The generated configurations can be portable to standalone SDK
+> > installations by manually updating the paths.
+> >
+> > C/C++ IntelliSense could provide navigation for native code compiled
+> > by Cargo build scripts, using the recipe compiler and sysroot. This
+> > first series defers it because no mixed-language fixture is available
+> > to validate that workflow.
+> >
+> > BitBake generates the Cargo configuration consumed by ide-sdk. This
+> series
+> > updates the parsed configuration and writes its supported TOML values
+> > without adding a new dependency.
+> >
+> > I reproduced the selftest coverage expected from other recipe classes,
+> > including configuration analysis up to actual debugging symbol
+> resolution.
+> >
+> > I largely used AI generation to write this stack. After many iterations,
+> > I am finally happy with the code and commit history quality of this
+> series.
+> > I also have a documentation commit ready for the manual if this gets
+> > approved.
+> >
+> > Any feedback is appreciated. Hope this will help lots of Rust developers
+> > working with Yocto distros :).
+> >
+> > Cheers,
+> > Enguerrand de Ribaucourt
+> >
+> > Signed-off-by: Enguerrand de Ribaucourt <
+> enguerrand.de-ribaucourt@savoirfairelinux.com>
+> > ---
+>
+> Hi Enguerrand,
+>
+> Thanks for the v2.
+>
+> I can see one of the selftest is failing, but only in 1 of the 3
+> selftest builds. So it might be something not fully deterministic with
+> lldb-server installation:
+>
+> 2026-11-10 10:42:27,794 - oe-selftest - INFO -
+> devtool.DevtoolIdeSdkRustTests.test_code_cargo_qemu_slirp
+> (subunit.RemotedTestCase)
+> 2026-11-10 10:42:27,795 - oe-selftest - INFO -  ... FAIL
+> ...
+> 2026-11-10 10:42:27,795 - oe-selftest - INFO -
+> testtools.testresult.real._StringException: Traceback (most recent call
+> last):
+>   File
+> "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/layers/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py",
+> line 4503, in test_code_cargo_qemu_slirp
+>     self._verify_rust_lldb_debugging(tempdir, expected_input=4)
+>   File
+> "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/layers/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py",
+> line 4545, in _verify_rust_lldb_debugging
+>     runCmd(ssh_args, output_log=self._cmd_logger)
+>   File
+> "/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/layers/openembedded-core/meta/lib/oeqa/utils/commands.py",
+> line 214, in runCmd
+>     raise AssertionError("Command '%s' returned non-zero exit status
+> %d:\n%s" % (command, result.status, exc_output))
+> AssertionError: Command '['ssh', '-p', '2222', '-o',
+> 'UserKnownHostsFile=/dev/null', '-o', 'StrictHostKeyChecking=no',
+> 'root@localhost', "/bin/sh -c 'grep -q :04F2 /proc/net/tcp /proc/net/tcp6
+> 2>/dev/null && exit 0; mkdir -p
+> /tmp/lldb_server_1266_usr-bin-cargo-example_multi; cd
+> /tmp/lldb_server_1266_usr-bin-cargo-example_multi; /usr/bin/lldb-server
+> platform --server --listen *:1266 --gdbserver-port 1267 >
+> /tmp/lldb_server_1266_usr-bin-cargo-example_multi/lldb_server.log 2>&1 &
+> _lldb_server_pid=$!; echo $_lldb_server_pid >
+> /tmp/lldb_server_1266_usr-bin-cargo-example_multi/lldb_server.pid; _w=0;
+> while ! grep -q :04F2 /proc/net/tcp /proc/net/tcp6 2>/dev/null; do kill -0
+> $_lldb_server_pid 2>/dev/null || { cat
+> /tmp/lldb_server_1266_usr-bin-cargo-example_multi/lldb_server.log >&2; echo
+> lldb-server exited before it started listening on port 1266 >&2; exit 1; };
+> _w=$((_w+1)); [ $_w -lt 600 ] || { kill $_lldb_server_pid 2>/dev/null; echo
+> lldb-server did not start on port 1266 after $_w retries >&2; cat
+> /tmp/lldb_server_1266_usr-bin-cargo-example_multi/lldb_server.log >&2; exit
+> 1; }; sleep 0.1; done;'"]' returned non-zero exit status 1:
+> Warning: Permanently added '[localhost]:2222' (RSA) to the list of known
+> hosts.
+> /bin/sh: line 0: /usr/bin/lldb-server: not found
+> lldb-server exited before it started listening on port 1266
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/5043
+>
+> Can you have a look at the issue?
+>
+> I launched a rebuild of that build, out of curiosity. But in all cases,
+> we should understand what happened here.
+>
 
-Detailed error information:
+This can be tricky. The explanation could be that a test
 
-do_compile failed
+   1. devtool ide-sdk adds the lldb-server to the image and builds it
+   2. The test
+      1. starts Qemu
+      2. starts lldb-server in Qemu which goes wrong because lldb-server is
+      not in the image
 
+That can happen if one test instance tries to connect to the wrong runqemu
+instance (e.g. one with gdb-server installed) respectively the port exposed
+on the build machine. There is a patch series which tries to fix that. But
+v1 was rejected because it used Qemu's human readable QMP API instead of
+the machine readable JSON API. v2 is still WIP
+https://git.openembedded.org/openembedded-core-contrib/log/?h=adrianf/runqemu-use-qmp-for-port-alloc.
+It requires adding some APIs to Qemu upstream. Not a trivial quick fix. I
+was also lowering the priority on that because it seemed like working.
 
-
-Next steps:
-    - apply the patch: git am 0001-lz4-upgrade-1.10.0-1.11.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+Probably this issue is not directly introduced by this patch series. But
+the more tests we add, the more likely it becomes that two of them run in
+parallel and fail in that wy.
 
 Regards,
-The Upgrade Helper
-
--- >8 --
-From 58f0192ecafbfbf8d7e08f6ff7d5c13d020deacb Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 11 Nov 2026 06:05:03 +0000
-Subject: [PATCH] lz4: upgrade 1.10.0 -> 1.11.1
-
-v1.11.1
-fix  : `LZ4_resetStreamHC()` could write out of bounds at levels >= 10, on a
-state containing garbage (since v1.11.0)
-perf : faster decompression on ppc64 (+12% to +24% on silesia),
-`LZ4_FAST_DEC_LOOP` enabled, by @runlevel5
-perf : `lz4 -l` compresses small files up to 10x faster : no more threads than
-blocks
-api  : restored the unprefixed lz4frame enums and types
-(`LZ4F_ENABLE_OBSOLETE_ENUMS`), employed by zstd, now deprecated (compilation
-warning), reported by @diizzyy
-cli  : help (`-h`, `-H`, `--help`) outputs to stdout, requested by @tansy
-cli  : `--list` reads standard input again (since v1.10.0)
-cli  : various fixes (`--list`, `--stdout`, `--force`, multiple inputs, Windows
-pipes, modification time, output creation), by @lee3Q, @immanuwell and
-@rudycelekli
-build: `lz4file.h` usable from cmake (since v1.10.0) and meson installations,
-reported by @rudycelekli
-build: MinGW builds with clang and lld (since v1.11.0), reported by @tansy
-build: `make` with `BUILD_STATIC=no` or `BUILD_SHARED=no` (since v1.11.0), by
-@xry111
-
-v1.11.0
-fix  : data corruption in valid usage : ring buffer decoding
-(`LZ4_decoderRingBufferSize()`, since v1.9.0), rare cases of streaming or
-`destSize` compression, one reported by @freedom-winds
-fix  : single-thread `lz4` could truncate the decoding of concatenated frames
-with block checksums
-fix  : multithreaded decompression could write out of bounds after 2^31 frames
-(since v1.10.0), by @arshsmith1
-fix  : `LZ4F_compressBegin_usingDict()` ignored the dictionary with independent
-blocks
-fix  : some periodic data compressed up to 30x worse at fast levels, and very
-slowly at level 12, reported by @martinus
-fix  : invalid arguments (negative sizes, `NULL`, invalid `blockSizeID`, extreme
-levels) no longer crash nor overflow, by @arthuz-th, @jaypatrickhoward,
-@louislafosse, @akashdeshmukh-git, @rinsuki
-fix  : lz4file reports truncated files and write failures, and accepts files <
-19 bytes, by @axiqia
-perf : faster decompression on aarch64 and x86-64 (up to +19%, +4% on
-silesia.tar), `LZ4_FAST_DEC_LOOP` on aarch64 with clang and on riscv64, by
-@Nicoshev and @arpadpanyik-arm
-perf : faster compression of small blocks at fast levels, with reused states (up
-to +80%) or dictionaries (up to +35%), partly proposed by @BiplabRaut
-perf : faster levels 11 and 12 (+8% to +27%), level 2 compresses ~0.8% better
-perf : x86 builds avoid the JCC erratum : up to +12% compression and +31%
-decompression on Intel Skylake-family cpus
-api  : multithreaded lz4frame compression (experimental
-`LZ4F_preferences_t.nbWorkers`) : output independent of the nb of workers and of
-the context's history
-api  : random access within frames and lz4 files : `LZ4F_resumeFrame()`,
-`LZ4F_seek()`, `LZ4F_tell()` (static)
-api  : `LZ4_decompress_safe()` returns distinct error codes : `-1` malformed
-input, `-2` `dstCapacity` too small, `-3` missing dictionary
-api  : lz4frame compression accepts any `dstCapacity`, and only fails if the
-output doesn't fit
-api  : removed from headers : functions deprecated since v1.7.x / v1.8.0 (still
-exported by liblz4), unprefixed lz4frame enums ; `LZ4_resetStream()` and
-`LZ4_resetStreamHC()` are deprecated
-api  : `LZ4F_compressOptions_t` must be zero-initialized ; reserved fields are
-scalars (flatten positional initializers) ; `LZ4F_uncompressedUpdate()`
-deprecated (use `.uncompressed`)
-api  : custom allocators for lz4file (`_advanced()` functions),
-`LZ4_USER_MEMORY_FUNCTIONS` also for lz4frame and lz4file ; `LZ4F_cctx_size()`
-and `LZ4F_dctx_size()` by @felixhandte
-api  : HC states include the buffer of levels 10+ (+64 KB per state) : no
-allocation during compression
-cli  : multithreaded compression relies on liblz4 : same output with any nb of
-threads and without multithreading support ; `-T#` within a memory budget
-(`--memory=#`) ; new `--single-thread`
-cli  : decodes Firefox's mozlz4 files, proposed by @UnitedMarsupials, and legacy
-frames with the Linux kernel end marker, requested by @benjarobin (frame format
-documentation by @Artoria2e5)
-cli  : safer file handling : an output identical to the input is refused, a
-source modified during compression is detected, `--rm` keeps the source after
-failures, by @Furan666, @Nexory and @immanuwell
-cli  : benchmark (`-b`) measures frames, compressed as `lz4` does with the same
-options
-cli  : various fixes (`--list`, legacy format, benchmark, `-t -m`, numeric
-arguments), by @tansy, @jmestwa-coder, @akashdeshmukh-git, @arshsmith1, @jlee303
-and @Nexory
-build: dynamic library multithreaded by default, static library single-threaded
-; cmake `lz4` multithreaded
-build: cmake : exported `lz4::lz4` target by @dg0yt, CMake 4 support by
-@GeorgH93, `CMAKE_POSITION_INDEPENDENT_CODE` by @ds-sloth
-build: cmake : as a subproject, the `lz4` program is no longer built by default
-(`-DLZ4_BUILD_CLI=ON` restores it), by @crueter
-build: reproducible static library by @rpurdie, AIX support by @shubhamhii,
-meson fixes by @grobian, @bgilbert and @eli-schwartz, other fixes by @hot
-
-[Changelog truncated as it exceeds 5000 characters;
-the full changelog can be found in an attachment to the AUH email]
----
- meta/recipes-support/lz4/{lz4_1.10.0.bb => lz4_1.11.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/lz4/{lz4_1.10.0.bb => lz4_1.11.1.bb} (96%)
-
-diff --git a/meta/recipes-support/lz4/lz4_1.10.0.bb b/meta/recipes-support/lz4/lz4_1.11.1.bb
-similarity index 96%
-rename from meta/recipes-support/lz4/lz4_1.10.0.bb
-rename to meta/recipes-support/lz4/lz4_1.11.1.bb
-index 5a39f89871..4dc4a6d362 100644
---- a/meta/recipes-support/lz4/lz4_1.10.0.bb
-+++ b/meta/recipes-support/lz4/lz4_1.11.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=5cd5f851b52ec832b10eedb3f01f885a \
- 
- PE = "1"
- 
--SRCREV = "ebb370ca83af193212df4dcbadcc5d87bc0de2f0"
-+SRCREV = "aa4647fad575d01a874aaaadcdbe8e6a40e072f5"
- 
- SRC_URI = "git://github.com/lz4/lz4.git;branch=release;protocol=https;tag=v${PV} \
-            file://reproducibility.patch \
--- 
-2.47.1
+Adrian
 
 
---===============0798386916199015010==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+> Thanks,
+> Mathieu
+>
+> --
+> Mathieu Dubois-Briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#249920):
+> https://lists.openembedded.org/g/openembedded-core/message/249920
+> Mute This Topic: https://lists.openembedded.org/mt/122173943/4454582
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> adrian.freihofer@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 960 .bb files complete (0 cached, 960 parsed). 2004 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+--0000000000004a99e9065ffa8e37
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-2bebd39cf62b3e964a18b44809a97448e1b2ffae"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:2bebd39cf62b3e964a18b44809a97448e1b2ffae"
-meta-yocto-bsp       
-meta-poky            = "master:8becfabefdf5df564aafe2d07d10e4b05fbaedb1"
-workspace            = "<unknown>:<unknown>"
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">Am Di., 10. Nov=
+. 2026 um 13:25=C2=A0Uhr schrieb Mathieu Dubois-Briand via openembedded-cor=
+e &lt;mathieu.dubois-briand=3D<a href=3D"mailto:bootlin.com@lists.openembed=
+ded.org">bootlin.com@lists.openembedded.org</a>&gt;:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">On Mon Nov 9, 2026 at 2:44 PM CET, Eng=
+uerrand de Ribaucourt via openembedded-core wrote:<br>
+&gt; Hello, this series introduces support for Rust ide-sdk VS Code<br>
+&gt; configuration against the Yocto cross-compilation toolchain:<br>
+&gt;<br>
+&gt;=C2=A0 - editor symbol resolution and linting<br>
+&gt;=C2=A0 - build task<br>
+&gt;=C2=A0 - deploy task<br>
+&gt;=C2=A0 - debugging<br>
+&gt;<br>
+&gt; It introduces a cargo-example recipe following the model used for<br>
+&gt; cmake and meson.<br>
+&gt;<br>
+&gt; The generated configurations can be portable to standalone SDK<br>
+&gt; installations by manually updating the paths.<br>
+&gt;<br>
+&gt; C/C++ IntelliSense could provide navigation for native code compiled<b=
+r>
+&gt; by Cargo build scripts, using the recipe compiler and sysroot. This<br=
+>
+&gt; first series defers it because no mixed-language fixture is available<=
+br>
+&gt; to validate that workflow.<br>
+&gt;<br>
+&gt; BitBake generates the Cargo configuration consumed by ide-sdk. This se=
+ries<br>
+&gt; updates the parsed configuration and writes its supported TOML values<=
+br>
+&gt; without adding a new dependency.<br>
+&gt;<br>
+&gt; I reproduced the selftest coverage expected from other recipe classes,=
+<br>
+&gt; including configuration analysis up to actual debugging symbol resolut=
+ion.<br>
+&gt;<br>
+&gt; I largely used AI generation to write this stack. After many iteration=
+s,<br>
+&gt; I am finally happy with the code and commit history quality of this se=
+ries.<br>
+&gt; I also have a documentation commit ready for the manual if this gets<b=
+r>
+&gt; approved.<br>
+&gt;<br>
+&gt; Any feedback is appreciated. Hope this will help lots of Rust develope=
+rs<br>
+&gt; working with Yocto distros :).<br>
+&gt;<br>
+&gt; Cheers,<br>
+&gt; Enguerrand de Ribaucourt<br>
+&gt;<br>
+&gt; Signed-off-by: Enguerrand de Ribaucourt &lt;<a href=3D"mailto:enguerra=
+nd.de-ribaucourt@savoirfairelinux.com" target=3D"_blank">enguerrand.de-riba=
+ucourt@savoirfairelinux.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+Hi Enguerrand,<br>
+<br>
+Thanks for the v2.<br>
+<br>
+I can see one of the selftest is failing, but only in 1 of the 3<br>
+selftest builds. So it might be something not fully deterministic with<br>
+lldb-server installation:<br>
+<br>
+2026-11-10 10:42:27,794 - oe-selftest - INFO - devtool.DevtoolIdeSdkRustTes=
+ts.test_code_cargo_qemu_slirp (subunit.RemotedTestCase)<br>
+2026-11-10 10:42:27,795 - oe-selftest - INFO -=C2=A0 ... FAIL<br>
+...<br>
+2026-11-10 10:42:27,795 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/laye=
+rs/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py&quot;, line 45=
+03, in test_code_cargo_qemu_slirp<br>
+=C2=A0 =C2=A0 self._verify_rust_lldb_debugging(tempdir, expected_input=3D4)=
+<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/laye=
+rs/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py&quot;, line 45=
+45, in _verify_rust_lldb_debugging<br>
+=C2=A0 =C2=A0 runCmd(ssh_args, output_log=3Dself._cmd_logger)<br>
+=C2=A0 File &quot;/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/laye=
+rs/openembedded-core/meta/lib/oeqa/utils/commands.py&quot;, line 214, in ru=
+nCmd<br>
+=C2=A0 =C2=A0 raise AssertionError(&quot;Command &#39;%s&#39; returned non-=
+zero exit status %d:\n%s&quot; % (command, result.status, exc_output))<br>
+AssertionError: Command &#39;[&#39;ssh&#39;, &#39;-p&#39;, &#39;2222&#39;, =
+&#39;-o&#39;, &#39;UserKnownHostsFile=3D/dev/null&#39;, &#39;-o&#39;, &#39;=
+StrictHostKeyChecking=3Dno&#39;, &#39;root@localhost&#39;, &quot;/bin/sh -c=
+ &#39;grep -q :04F2 /proc/net/tcp /proc/net/tcp6 2&gt;/dev/null &amp;&amp; =
+exit 0; mkdir -p /tmp/lldb_server_1266_usr-bin-cargo-example_multi; cd /tmp=
+/lldb_server_1266_usr-bin-cargo-example_multi; /usr/bin/lldb-server platfor=
+m --server --listen *:1266 --gdbserver-port 1267 &gt; /tmp/lldb_server_1266=
+_usr-bin-cargo-example_multi/lldb_server.log 2&gt;&amp;1 &amp; _lldb_server=
+_pid=3D$!; echo $_lldb_server_pid &gt; /tmp/lldb_server_1266_usr-bin-cargo-=
+example_multi/lldb_server.pid; _w=3D0; while ! grep -q :04F2 /proc/net/tcp =
+/proc/net/tcp6 2&gt;/dev/null; do kill -0 $_lldb_server_pid 2&gt;/dev/null =
+|| { cat /tmp/lldb_server_1266_usr-bin-cargo-example_multi/lldb_server.log =
+&gt;&amp;2; echo lldb-server exited before it started listening on port 126=
+6 &gt;&amp;2; exit 1; }; _w=3D$((_w+1)); [ $_w -lt 600 ] || { kill $_lldb_s=
+erver_pid 2&gt;/dev/null; echo lldb-server did not start on port 1266 after=
+ $_w retries &gt;&amp;2; cat /tmp/lldb_server_1266_usr-bin-cargo-example_mu=
+lti/lldb_server.log &gt;&amp;2; exit 1; }; sleep 0.1; done;&#39;&quot;]&#39=
+; returned non-zero exit status 1:<br>
+Warning: Permanently added &#39;[localhost]:2222&#39; (RSA) to the list of =
+known hosts.<br>
+/bin/sh: line 0: /usr/bin/lldb-server: not found<br>
+lldb-server exited before it started listening on port 1266<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/buil=
+ds/5043" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/48/builds/5043</a><br>
+<br>
+Can you have a look at the issue?<br>
+<br>
+I launched a rebuild of that build, out of curiosity. But in all cases,<br>
+we should understand what happened here.<br></blockquote><div><br></div><di=
+v>This can be tricky. The explanation could be that a test</div><div><ol><l=
+i>devtool ide-sdk adds the lldb-server to the image and builds it</li><li>T=
+he test</li><ol><li>starts Qemu</li><li>starts lldb-server in Qemu which go=
+es wrong because lldb-server is not in the image</li></ol></ol><div>That ca=
+n happen if one test instance tries to connect to the wrong runqemu instanc=
+e (e.g. one with gdb-server installed) respectively the port exposed on the=
+ build machine. There is a patch series which tries to fix that. But v1 was=
+ rejected because it used Qemu&#39;s human readable QMP API instead of the =
+machine readable JSON API. v2 is still WIP=C2=A0<a href=3D"https://git.open=
+embedded.org/openembedded-core-contrib/log/?h=3Dadrianf/runqemu-use-qmp-for=
+-port-alloc">https://git.openembedded.org/openembedded-core-contrib/log/?h=
+=3Dadrianf/runqemu-use-qmp-for-port-alloc</a>. It requires adding some APIs=
+ to Qemu upstream. Not a trivial quick fix. I was also lowering the priorit=
+y on that because it seemed like working.</div><div><br></div><div>Probably=
+ this issue is not directly introduced by this patch series. But the more t=
+ests we add, the more likely it becomes that two of them run in parallel an=
+d fail in that wy.</div><div><br></div><div>Regards,</div><div>Adrian</div>=
+<div><br></div></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Thanks,<br>
+Mathieu<br>
+<br>
+-- <br>
+Mathieu Dubois-Briand, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#249920): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/249920" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/249920</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/122173943/445=
+4582" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/122173943/4454582</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:adrian.freihofer@gmail.com=
+" target=3D"_blank">adrian.freihofer@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 255 Local 240 Mirrors 0 Missed 15 Current 336 (94% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 505 of 591 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_create_spdx_setscene)
-NOTE: Running task 1050 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_recipe_qa)
-NOTE: Running task 1408 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_create_recipe_spdx)
-NOTE: recipe lz4-1_1.11.1-r0: task do_recipe_qa: Started
-NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe lz4-1_1.11.1-r0: task do_create_recipe_spdx: Started
-NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe lz4-1_1.11.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1478 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_fetch)
-NOTE: recipe lz4-1_1.11.1-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe lz4-1_1.11.1-r0: task do_fetch: Started
-NOTE: recipe lz4-1_1.11.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1479 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_unpack)
-NOTE: Running task 1480 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lz4-1_1.11.1-r0: task do_unpack: Started
-NOTE: recipe lz4-1_1.11.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lz4-1_1.11.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lz4-1_1.11.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1481 of 1499 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_patch)
-NOTE: recipe lz4-1_1.11.1-r0: task do_patch: Started
-NOTE: recipe lz4-1_1.11.1-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1481 tasks of which 1475 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261111060445.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261111060445.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.1/temp/log.do_patch.1553449
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: lz4-1_1.11.1-r0 do_patch: Applying patch '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4/reproducibility.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.1/sources/lz4-1.11.1'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.1/recipe-sysroot-native/etc/quiltrc push', 1, 'stdout: Applying patch reproducibility.patch
-patching file lib/Makefile
-Hunk #1 FAILED at 55.
-Hunk #2 FAILED at 102.
-2 out of 2 hunks FAILED -- rejects in file lib/Makefile
-Patch reproducibility.patch does not apply (enforce with -f)
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/lz4/1.11.1/temp/log.do_patch.1553449
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/lz4/lz4_1.11.1.bb:do_patch) failed with exit code '1'
-
---===============0798386916199015010==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="lz4-changelog.txt"
-
-v1.11.1
-fix  : `LZ4_resetStreamHC()` could write out of bounds at levels >= 10, on a
-state containing garbage (since v1.11.0)
-perf : faster decompression on ppc64 (+12% to +24% on silesia),
-`LZ4_FAST_DEC_LOOP` enabled, by @runlevel5
-perf : `lz4 -l` compresses small files up to 10x faster : no more threads than
-blocks
-api  : restored the unprefixed lz4frame enums and types
-(`LZ4F_ENABLE_OBSOLETE_ENUMS`), employed by zstd, now deprecated (compilation
-warning), reported by @diizzyy
-cli  : help (`-h`, `-H`, `--help`) outputs to stdout, requested by @tansy
-cli  : `--list` reads standard input again (since v1.10.0)
-cli  : various fixes (`--list`, `--stdout`, `--force`, multiple inputs, Windows
-pipes, modification time, output creation), by @lee3Q, @immanuwell and
-@rudycelekli
-build: `lz4file.h` usable from cmake (since v1.10.0) and meson installations,
-reported by @rudycelekli
-build: MinGW builds with clang and lld (since v1.11.0), reported by @tansy
-build: `make` with `BUILD_STATIC=no` or `BUILD_SHARED=no` (since v1.11.0), by
-@xry111
-
-v1.11.0
-fix  : data corruption in valid usage : ring buffer decoding
-(`LZ4_decoderRingBufferSize()`, since v1.9.0), rare cases of streaming or
-`destSize` compression, one reported by @freedom-winds
-fix  : single-thread `lz4` could truncate the decoding of concatenated frames
-with block checksums
-fix  : multithreaded decompression could write out of bounds after 2^31 frames
-(since v1.10.0), by @arshsmith1
-fix  : `LZ4F_compressBegin_usingDict()` ignored the dictionary with independent
-blocks
-fix  : some periodic data compressed up to 30x worse at fast levels, and very
-slowly at level 12, reported by @martinus
-fix  : invalid arguments (negative sizes, `NULL`, invalid `blockSizeID`, extreme
-levels) no longer crash nor overflow, by @arthuz-th, @jaypatrickhoward,
-@louislafosse, @akashdeshmukh-git, @rinsuki
-fix  : lz4file reports truncated files and write failures, and accepts files <
-19 bytes, by @axiqia
-perf : faster decompression on aarch64 and x86-64 (up to +19%, +4% on
-silesia.tar), `LZ4_FAST_DEC_LOOP` on aarch64 with clang and on riscv64, by
-@Nicoshev and @arpadpanyik-arm
-perf : faster compression of small blocks at fast levels, with reused states (up
-to +80%) or dictionaries (up to +35%), partly proposed by @BiplabRaut
-perf : faster levels 11 and 12 (+8% to +27%), level 2 compresses ~0.8% better
-perf : x86 builds avoid the JCC erratum : up to +12% compression and +31%
-decompression on Intel Skylake-family cpus
-api  : multithreaded lz4frame compression (experimental
-`LZ4F_preferences_t.nbWorkers`) : output independent of the nb of workers and of
-the context's history
-api  : random access within frames and lz4 files : `LZ4F_resumeFrame()`,
-`LZ4F_seek()`, `LZ4F_tell()` (static)
-api  : `LZ4_decompress_safe()` returns distinct error codes : `-1` malformed
-input, `-2` `dstCapacity` too small, `-3` missing dictionary
-api  : lz4frame compression accepts any `dstCapacity`, and only fails if the
-output doesn't fit
-api  : removed from headers : functions deprecated since v1.7.x / v1.8.0 (still
-exported by liblz4), unprefixed lz4frame enums ; `LZ4_resetStream()` and
-`LZ4_resetStreamHC()` are deprecated
-api  : `LZ4F_compressOptions_t` must be zero-initialized ; reserved fields are
-scalars (flatten positional initializers) ; `LZ4F_uncompressedUpdate()`
-deprecated (use `.uncompressed`)
-api  : custom allocators for lz4file (`_advanced()` functions),
-`LZ4_USER_MEMORY_FUNCTIONS` also for lz4frame and lz4file ; `LZ4F_cctx_size()`
-and `LZ4F_dctx_size()` by @felixhandte
-api  : HC states include the buffer of levels 10+ (+64 KB per state) : no
-allocation during compression
-cli  : multithreaded compression relies on liblz4 : same output with any nb of
-threads and without multithreading support ; `-T#` within a memory budget
-(`--memory=#`) ; new `--single-thread`
-cli  : decodes Firefox's mozlz4 files, proposed by @UnitedMarsupials, and legacy
-frames with the Linux kernel end marker, requested by @benjarobin (frame format
-documentation by @Artoria2e5)
-cli  : safer file handling : an output identical to the input is refused, a
-source modified during compression is detected, `--rm` keeps the source after
-failures, by @Furan666, @Nexory and @immanuwell
-cli  : benchmark (`-b`) measures frames, compressed as `lz4` does with the same
-options
-cli  : various fixes (`--list`, legacy format, benchmark, `-t -m`, numeric
-arguments), by @tansy, @jmestwa-coder, @akashdeshmukh-git, @arshsmith1, @jlee303
-and @Nexory
-build: dynamic library multithreaded by default, static library single-threaded
-; cmake `lz4` multithreaded
-build: cmake : exported `lz4::lz4` target by @dg0yt, CMake 4 support by
-@GeorgH93, `CMAKE_POSITION_INDEPENDENT_CODE` by @ds-sloth
-build: cmake : as a subproject, the `lz4` program is no longer built by default
-(`-DLZ4_BUILD_CLI=ON` restores it), by @crueter
-build: reproducible static library by @rpurdie, AIX support by @shubhamhii,
-meson fixes by @grobian, @bgilbert and @eli-schwartz, other fixes by @hotschmoe,
-@iwamatsu, @doraorak, @JCash and @brainy
-port : RISC-V with `Zicclsm` uses unaligned memory accesses, by @Polaris-911
-
---===============0798386916199015010==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-lz4-upgrade-1.10.0-1.11.1.patch"
-
-RnJvbSA1OGYwMTkyZWNhZmJmYmY4ZDdlMDhmNmZmN2Q1YzEzZDAyMGRlYWNiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTEgTm92IDIwMjYgMDY6MDU6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-ejQ6IHVwZ3JhZGUgMS4xMC4wIC0+IDEuMTEuMQoKdjEuMTEuMQpmaXggIDogYExaNF9yZXNldFN0
-cmVhbUhDKClgIGNvdWxkIHdyaXRlIG91dCBvZiBib3VuZHMgYXQgbGV2ZWxzID49IDEwLCBvbiBh
-CnN0YXRlIGNvbnRhaW5pbmcgZ2FyYmFnZSAoc2luY2UgdjEuMTEuMCkKcGVyZiA6IGZhc3RlciBk
-ZWNvbXByZXNzaW9uIG9uIHBwYzY0ICgrMTIlIHRvICsyNCUgb24gc2lsZXNpYSksCmBMWjRfRkFT
-VF9ERUNfTE9PUGAgZW5hYmxlZCwgYnkgQHJ1bmxldmVsNQpwZXJmIDogYGx6NCAtbGAgY29tcHJl
-c3NlcyBzbWFsbCBmaWxlcyB1cCB0byAxMHggZmFzdGVyIDogbm8gbW9yZSB0aHJlYWRzIHRoYW4K
-YmxvY2tzCmFwaSAgOiByZXN0b3JlZCB0aGUgdW5wcmVmaXhlZCBsejRmcmFtZSBlbnVtcyBhbmQg
-dHlwZXMKKGBMWjRGX0VOQUJMRV9PQlNPTEVURV9FTlVNU2ApLCBlbXBsb3llZCBieSB6c3RkLCBu
-b3cgZGVwcmVjYXRlZCAoY29tcGlsYXRpb24Kd2FybmluZyksIHJlcG9ydGVkIGJ5IEBkaWl6enl5
-CmNsaSAgOiBoZWxwIChgLWhgLCBgLUhgLCBgLS1oZWxwYCkgb3V0cHV0cyB0byBzdGRvdXQsIHJl
-cXVlc3RlZCBieSBAdGFuc3kKY2xpICA6IGAtLWxpc3RgIHJlYWRzIHN0YW5kYXJkIGlucHV0IGFn
-YWluIChzaW5jZSB2MS4xMC4wKQpjbGkgIDogdmFyaW91cyBmaXhlcyAoYC0tbGlzdGAsIGAtLXN0
-ZG91dGAsIGAtLWZvcmNlYCwgbXVsdGlwbGUgaW5wdXRzLCBXaW5kb3dzCnBpcGVzLCBtb2RpZmlj
-YXRpb24gdGltZSwgb3V0cHV0IGNyZWF0aW9uKSwgYnkgQGxlZTNRLCBAaW1tYW51d2VsbCBhbmQK
-QHJ1ZHljZWxla2xpCmJ1aWxkOiBgbHo0ZmlsZS5oYCB1c2FibGUgZnJvbSBjbWFrZSAoc2luY2Ug
-djEuMTAuMCkgYW5kIG1lc29uIGluc3RhbGxhdGlvbnMsCnJlcG9ydGVkIGJ5IEBydWR5Y2VsZWts
-aQpidWlsZDogTWluR1cgYnVpbGRzIHdpdGggY2xhbmcgYW5kIGxsZCAoc2luY2UgdjEuMTEuMCks
-IHJlcG9ydGVkIGJ5IEB0YW5zeQpidWlsZDogYG1ha2VgIHdpdGggYEJVSUxEX1NUQVRJQz1ub2Ag
-b3IgYEJVSUxEX1NIQVJFRD1ub2AgKHNpbmNlIHYxLjExLjApLCBieQpAeHJ5MTExCgp2MS4xMS4w
-CmZpeCAgOiBkYXRhIGNvcnJ1cHRpb24gaW4gdmFsaWQgdXNhZ2UgOiByaW5nIGJ1ZmZlciBkZWNv
-ZGluZwooYExaNF9kZWNvZGVyUmluZ0J1ZmZlclNpemUoKWAsIHNpbmNlIHYxLjkuMCksIHJhcmUg
-Y2FzZXMgb2Ygc3RyZWFtaW5nIG9yCmBkZXN0U2l6ZWAgY29tcHJlc3Npb24sIG9uZSByZXBvcnRl
-ZCBieSBAZnJlZWRvbS13aW5kcwpmaXggIDogc2luZ2xlLXRocmVhZCBgbHo0YCBjb3VsZCB0cnVu
-Y2F0ZSB0aGUgZGVjb2Rpbmcgb2YgY29uY2F0ZW5hdGVkIGZyYW1lcwp3aXRoIGJsb2NrIGNoZWNr
-c3VtcwpmaXggIDogbXVsdGl0aHJlYWRlZCBkZWNvbXByZXNzaW9uIGNvdWxkIHdyaXRlIG91dCBv
-ZiBib3VuZHMgYWZ0ZXIgMl4zMSBmcmFtZXMKKHNpbmNlIHYxLjEwLjApLCBieSBAYXJzaHNtaXRo
-MQpmaXggIDogYExaNEZfY29tcHJlc3NCZWdpbl91c2luZ0RpY3QoKWAgaWdub3JlZCB0aGUgZGlj
-dGlvbmFyeSB3aXRoIGluZGVwZW5kZW50CmJsb2NrcwpmaXggIDogc29tZSBwZXJpb2RpYyBkYXRh
-IGNvbXByZXNzZWQgdXAgdG8gMzB4IHdvcnNlIGF0IGZhc3QgbGV2ZWxzLCBhbmQgdmVyeQpzbG93
-bHkgYXQgbGV2ZWwgMTIsIHJlcG9ydGVkIGJ5IEBtYXJ0aW51cwpmaXggIDogaW52YWxpZCBhcmd1
-bWVudHMgKG5lZ2F0aXZlIHNpemVzLCBgTlVMTGAsIGludmFsaWQgYGJsb2NrU2l6ZUlEYCwgZXh0
-cmVtZQpsZXZlbHMpIG5vIGxvbmdlciBjcmFzaCBub3Igb3ZlcmZsb3csIGJ5IEBhcnRodXotdGgs
-IEBqYXlwYXRyaWNraG93YXJkLApAbG91aXNsYWZvc3NlLCBAYWthc2hkZXNobXVraC1naXQsIEBy
-aW5zdWtpCmZpeCAgOiBsejRmaWxlIHJlcG9ydHMgdHJ1bmNhdGVkIGZpbGVzIGFuZCB3cml0ZSBm
-YWlsdXJlcywgYW5kIGFjY2VwdHMgZmlsZXMgPAoxOSBieXRlcywgYnkgQGF4aXFpYQpwZXJmIDog
-ZmFzdGVyIGRlY29tcHJlc3Npb24gb24gYWFyY2g2NCBhbmQgeDg2LTY0ICh1cCB0byArMTklLCAr
-NCUgb24Kc2lsZXNpYS50YXIpLCBgTFo0X0ZBU1RfREVDX0xPT1BgIG9uIGFhcmNoNjQgd2l0aCBj
-bGFuZyBhbmQgb24gcmlzY3Y2NCwgYnkKQE5pY29zaGV2IGFuZCBAYXJwYWRwYW55aWstYXJtCnBl
-cmYgOiBmYXN0ZXIgY29tcHJlc3Npb24gb2Ygc21hbGwgYmxvY2tzIGF0IGZhc3QgbGV2ZWxzLCB3
-aXRoIHJldXNlZCBzdGF0ZXMgKHVwCnRvICs4MCUpIG9yIGRpY3Rpb25hcmllcyAodXAgdG8gKzM1
-JSksIHBhcnRseSBwcm9wb3NlZCBieSBAQmlwbGFiUmF1dApwZXJmIDogZmFzdGVyIGxldmVscyAx
-MSBhbmQgMTIgKCs4JSB0byArMjclKSwgbGV2ZWwgMiBjb21wcmVzc2VzIH4wLjglIGJldHRlcgpw
-ZXJmIDogeDg2IGJ1aWxkcyBhdm9pZCB0aGUgSkNDIGVycmF0dW0gOiB1cCB0byArMTIlIGNvbXBy
-ZXNzaW9uIGFuZCArMzElCmRlY29tcHJlc3Npb24gb24gSW50ZWwgU2t5bGFrZS1mYW1pbHkgY3B1
-cwphcGkgIDogbXVsdGl0aHJlYWRlZCBsejRmcmFtZSBjb21wcmVzc2lvbiAoZXhwZXJpbWVudGFs
-CmBMWjRGX3ByZWZlcmVuY2VzX3QubmJXb3JrZXJzYCkgOiBvdXRwdXQgaW5kZXBlbmRlbnQgb2Yg
-dGhlIG5iIG9mIHdvcmtlcnMgYW5kIG9mCnRoZSBjb250ZXh0J3MgaGlzdG9yeQphcGkgIDogcmFu
-ZG9tIGFjY2VzcyB3aXRoaW4gZnJhbWVzIGFuZCBsejQgZmlsZXMgOiBgTFo0Rl9yZXN1bWVGcmFt
-ZSgpYCwKYExaNEZfc2VlaygpYCwgYExaNEZfdGVsbCgpYCAoc3RhdGljKQphcGkgIDogYExaNF9k
-ZWNvbXByZXNzX3NhZmUoKWAgcmV0dXJucyBkaXN0aW5jdCBlcnJvciBjb2RlcyA6IGAtMWAgbWFs
-Zm9ybWVkCmlucHV0LCBgLTJgIGBkc3RDYXBhY2l0eWAgdG9vIHNtYWxsLCBgLTNgIG1pc3Npbmcg
-ZGljdGlvbmFyeQphcGkgIDogbHo0ZnJhbWUgY29tcHJlc3Npb24gYWNjZXB0cyBhbnkgYGRzdENh
-cGFjaXR5YCwgYW5kIG9ubHkgZmFpbHMgaWYgdGhlCm91dHB1dCBkb2Vzbid0IGZpdAphcGkgIDog
-cmVtb3ZlZCBmcm9tIGhlYWRlcnMgOiBmdW5jdGlvbnMgZGVwcmVjYXRlZCBzaW5jZSB2MS43Lngg
-LyB2MS44LjAgKHN0aWxsCmV4cG9ydGVkIGJ5IGxpYmx6NCksIHVucHJlZml4ZWQgbHo0ZnJhbWUg
-ZW51bXMgOyBgTFo0X3Jlc2V0U3RyZWFtKClgIGFuZApgTFo0X3Jlc2V0U3RyZWFtSEMoKWAgYXJl
-IGRlcHJlY2F0ZWQKYXBpICA6IGBMWjRGX2NvbXByZXNzT3B0aW9uc190YCBtdXN0IGJlIHplcm8t
-aW5pdGlhbGl6ZWQgOyByZXNlcnZlZCBmaWVsZHMgYXJlCnNjYWxhcnMgKGZsYXR0ZW4gcG9zaXRp
-b25hbCBpbml0aWFsaXplcnMpIDsgYExaNEZfdW5jb21wcmVzc2VkVXBkYXRlKClgCmRlcHJlY2F0
-ZWQgKHVzZSBgLnVuY29tcHJlc3NlZGApCmFwaSAgOiBjdXN0b20gYWxsb2NhdG9ycyBmb3IgbHo0
-ZmlsZSAoYF9hZHZhbmNlZCgpYCBmdW5jdGlvbnMpLApgTFo0X1VTRVJfTUVNT1JZX0ZVTkNUSU9O
-U2AgYWxzbyBmb3IgbHo0ZnJhbWUgYW5kIGx6NGZpbGUgOyBgTFo0Rl9jY3R4X3NpemUoKWAKYW5k
-IGBMWjRGX2RjdHhfc2l6ZSgpYCBieSBAZmVsaXhoYW5kdGUKYXBpICA6IEhDIHN0YXRlcyBpbmNs
-dWRlIHRoZSBidWZmZXIgb2YgbGV2ZWxzIDEwKyAoKzY0IEtCIHBlciBzdGF0ZSkgOiBubwphbGxv
-Y2F0aW9uIGR1cmluZyBjb21wcmVzc2lvbgpjbGkgIDogbXVsdGl0aHJlYWRlZCBjb21wcmVzc2lv
-biByZWxpZXMgb24gbGlibHo0IDogc2FtZSBvdXRwdXQgd2l0aCBhbnkgbmIgb2YKdGhyZWFkcyBh
-bmQgd2l0aG91dCBtdWx0aXRocmVhZGluZyBzdXBwb3J0IDsgYC1UI2Agd2l0aGluIGEgbWVtb3J5
-IGJ1ZGdldAooYC0tbWVtb3J5PSNgKSA7IG5ldyBgLS1zaW5nbGUtdGhyZWFkYApjbGkgIDogZGVj
-b2RlcyBGaXJlZm94J3MgbW96bHo0IGZpbGVzLCBwcm9wb3NlZCBieSBAVW5pdGVkTWFyc3VwaWFs
-cywgYW5kIGxlZ2FjeQpmcmFtZXMgd2l0aCB0aGUgTGludXgga2VybmVsIGVuZCBtYXJrZXIsIHJl
-cXVlc3RlZCBieSBAYmVuamFyb2JpbiAoZnJhbWUgZm9ybWF0CmRvY3VtZW50YXRpb24gYnkgQEFy
-dG9yaWEyZTUpCmNsaSAgOiBzYWZlciBmaWxlIGhhbmRsaW5nIDogYW4gb3V0cHV0IGlkZW50aWNh
-bCB0byB0aGUgaW5wdXQgaXMgcmVmdXNlZCwgYQpzb3VyY2UgbW9kaWZpZWQgZHVyaW5nIGNvbXBy
-ZXNzaW9uIGlzIGRldGVjdGVkLCBgLS1ybWAga2VlcHMgdGhlIHNvdXJjZSBhZnRlcgpmYWlsdXJl
-cywgYnkgQEZ1cmFuNjY2LCBATmV4b3J5IGFuZCBAaW1tYW51d2VsbApjbGkgIDogYmVuY2htYXJr
-IChgLWJgKSBtZWFzdXJlcyBmcmFtZXMsIGNvbXByZXNzZWQgYXMgYGx6NGAgZG9lcyB3aXRoIHRo
-ZSBzYW1lCm9wdGlvbnMKY2xpICA6IHZhcmlvdXMgZml4ZXMgKGAtLWxpc3RgLCBsZWdhY3kgZm9y
-bWF0LCBiZW5jaG1hcmssIGAtdCAtbWAsIG51bWVyaWMKYXJndW1lbnRzKSwgYnkgQHRhbnN5LCBA
-am1lc3R3YS1jb2RlciwgQGFrYXNoZGVzaG11a2gtZ2l0LCBAYXJzaHNtaXRoMSwgQGpsZWUzMDMK
-YW5kIEBOZXhvcnkKYnVpbGQ6IGR5bmFtaWMgbGlicmFyeSBtdWx0aXRocmVhZGVkIGJ5IGRlZmF1
-bHQsIHN0YXRpYyBsaWJyYXJ5IHNpbmdsZS10aHJlYWRlZAo7IGNtYWtlIGBsejRgIG11bHRpdGhy
-ZWFkZWQKYnVpbGQ6IGNtYWtlIDogZXhwb3J0ZWQgYGx6NDo6bHo0YCB0YXJnZXQgYnkgQGRnMHl0
-LCBDTWFrZSA0IHN1cHBvcnQgYnkKQEdlb3JnSDkzLCBgQ01BS0VfUE9TSVRJT05fSU5ERVBFTkRF
-TlRfQ09ERWAgYnkgQGRzLXNsb3RoCmJ1aWxkOiBjbWFrZSA6IGFzIGEgc3VicHJvamVjdCwgdGhl
-IGBsejRgIHByb2dyYW0gaXMgbm8gbG9uZ2VyIGJ1aWx0IGJ5IGRlZmF1bHQKKGAtRExaNF9CVUlM
-RF9DTEk9T05gIHJlc3RvcmVzIGl0KSwgYnkgQGNydWV0ZXIKYnVpbGQ6IHJlcHJvZHVjaWJsZSBz
-dGF0aWMgbGlicmFyeSBieSBAcnB1cmRpZSwgQUlYIHN1cHBvcnQgYnkgQHNodWJoYW1oaWksCm1l
-c29uIGZpeGVzIGJ5IEBncm9iaWFuLCBAYmdpbGJlcnQgYW5kIEBlbGktc2Nod2FydHosIG90aGVy
-IGZpeGVzIGJ5IEBob3QKCltDaGFuZ2Vsb2cgdHJ1bmNhdGVkIGFzIGl0IGV4Y2VlZHMgNTAwMCBj
-aGFyYWN0ZXJzOwp0aGUgZnVsbCBjaGFuZ2Vsb2cgY2FuIGJlIGZvdW5kIGluIGFuIGF0dGFjaG1l
-bnQgdG8gdGhlIEFVSCBlbWFpbF0KLS0tCiBtZXRhL3JlY2lwZXMtc3VwcG9ydC9sejQve2x6NF8x
-LjEwLjAuYmIgPT4gbHo0XzEuMTEuMS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9sejQv
-e2x6NF8xLjEwLjAuYmIgPT4gbHo0XzEuMTEuMS5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9sejQvbHo0XzEuMTAuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2x6NC9sejRfMS4xMS4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L2x6NC9sejRfMS4xMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9sejQvbHo0XzEuMTEuMS5iYgppbmRleCA1YTM5Zjg5ODcxLi40ZGM0YTZkMzYyIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9sejQvbHo0XzEuMTAuMC5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9sejQvbHo0XzEuMTEuMS5iYgpAQCAtMTAsNyArMTAsNyBAQCBM
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9saWIvTElDRU5TRTttZDU9NWNkNWY4NTFiNTJlYzgz
-MmIxMGVlZGIzZjAxZjg4NWEgXAogCiBQRSA9ICIxIgogCi1TUkNSRVYgPSAiZWJiMzcwY2E4M2Fm
-MTkzMjEyZGY0ZGNiYWRjYzVkODdiYzBkZTJmMCIKK1NSQ1JFViA9ICJhYTQ2NDdmYWQ1NzVkMDFh
-ODc0YWFhYWRjZGJlOGU2YTQwZTA3MmY1IgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20v
-bHo0L2x6NC5naXQ7YnJhbmNoPXJlbGVhc2U7cHJvdG9jb2w9aHR0cHM7dGFnPXYke1BWfSBcCiAg
-ICAgICAgICAgIGZpbGU6Ly9yZXByb2R1Y2liaWxpdHkucGF0Y2ggXAotLSAKMi40Ny4xCgo=
-
---===============0798386916199015010==--
+--0000000000004a99e9065ffa8e37--
