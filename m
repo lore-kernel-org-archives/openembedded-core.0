@@ -1,54 +1,54 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2361.1794418542001750182
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2359.1794418537534450943
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 09:35:42 -0800
+ Wed, 11 Nov 2026 09:35:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=IIFv17UG;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so27905505e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 09:35:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=T0EahSlm;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-491f34b4e0fso1527773f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 09:35:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794418540; x=1795023340; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RbD7WYgglXdxJtLkaySuDfJFA2qpjDxpsNFx8OuLs9c=;
-        b=IIFv17UGW44AjPbx0CNX844QjtYECXRvVNsK9X2LWzjtLp7U8sjKdwoko2vPHAq508
-         BzH6s7OLDEo2WtuafXFb138tJsBpji1/zHrBgIIfVahhvqfgxirEW7q5aDrmVRU42uOH
-         2zzseE0FTLi14OEL78yyvvkTF3GmwQV6AL6ODfOGRSnPNnyVc58/qhhfecg1U37ifCIb
-         R+KWWFlAlDtOrVrFBQRE8W9I6cAuPGiR9n5nqluodelZo+fre0IZQNYhWiYrLMoU1Ufq
-         bPOcE93SkilJHFAh8mYJ9KOk4RTW2tfxdXwxEyVUCmSoaxkTXm8Jlae19VyGHnyYFwMg
-         pniA==
+        d=gmail.com; s=20260707; t=1794418536; x=1795023336; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=I1Q4pjR2qqa0qfnyUZhl/SmuC5IWufw5Ot40YMG4hZs=;
+        b=T0EahSlmfVOYsfD8g890qj2DrFA7VHGBXb9mnJWzBQwKcEXWZgN+a0dtUU/Y6lXHHV
+         KqVm5KFfh5ya8E1EQdhmH6zum8ngPG50HOLIgSGdowZXd2rMoAz/1FjNUELGQrLME+WY
+         lETdC0INYLdplfxtYtQ5Fge6eg6+rSJicwcPdKCiUDoUclJi5S5FsL/5f/kpTkKDD9xQ
+         R3J0dKcKkMPEXGqLLMFgweQOdSVumAuvqIxJu6RbMD6g9JORH/8I8dutORlaSDgy5kT2
+         csTnnvDGQ1GfqoHsBnddkVsSQMIgQAzULPnPrixxqMDrfEWtS96O3VS1OZQlqVgBw69s
+         QV7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794418540; x=1795023340;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RbD7WYgglXdxJtLkaySuDfJFA2qpjDxpsNFx8OuLs9c=;
-        b=OnRGBmhAUptjhD7h1uFYuNam49ifPBR7CztHJc6k92gEDH5+hIb6WtgedQ1N5ahc5p
-         VKdM4SjxBPZqrRT+aF57Kx6HjMdY1agmz/k8C0EOlJKdloXHCXqwo/K3bLTsioyN/rBY
-         FHbN6uKGN79JjSzhhV/+3HgBcouxhjc6EUofyvKTVCXFr23M+j8Y9mP5j7ajOsrYQ6x3
-         UOcHG5/c89JXx2qCkABNr9S1of8jCzghxJaCwhPx7EfsB+8VTtQ/b+4zxUH3tKXl98oL
-         WO3oTKmr5NMFyiJ02IaRmBuWnNrHiCqQ04GgiNXt3B9fl8Hxfg9of03pMhnGPq70nOz3
-         Ko0Q==
-X-Gm-Message-State: APuU4Z8EdbWSORQc9OGYDi1pHbFN77sfJJXo09n6DZ8Kon0mL7cDuK96
-	+k0O8/D42sG88RgWfQk260kxvtL4AW7AwFWtyY0YjiaZx6Q7WN9PlPYiq85CxjXW
-X-Gm-Gg: AYBFou27nH1XpMqwkYLFLV8r7JmGXX2IVdwjPcxpsSc/khZuVCxKANMqNwa2u75FbE5
-	8GK17TcULAxKu51djqfljg7P44Wzq7h3co9SyqPlN4kwCbLtp2F9rzaceRgS/7oq2tqp8HJx3Kp
-	jj4Q9wLwHyEtWFZmmh7upsaos7e/iPznrvXdrVHs4I0iz3//rxAFpDyVC3mqvIVu77UeACLdAaE
-	yS9Y+NQc3IraBUQqEea/ya50LdNlWhnKtx89jT0WcSIhvOeb9ml3SRgNlrvnMwFFbOYAptjCrUS
-	PZI+6WhyL8oQkQ/wNh8LWe6mP0yaX6m7sNFWV1gM4lQAGVlD4KD+li1SbjSwfzQDQ64JeEH2MHV
-	Ddf8LOQ6+gHGY3zXJ6cix7XywLyHvxjFnZf9e9dZ16GhbiUrBqSoFiRCT3DO8qGGjWMUMcO/lst
-	5hNuTQD5VYKa0AVh5Eg0VwfvR1F5rgIWBgCnE6w1NMJUfRYXWIdQaVKQ3t6hAZnCwQkDK26ayKK
-	g8+6YUcWK8tv0yDtdIB3F6nbenrQ5foGeTmO0B3xDXPUTOATSsC6SfV6tJohx/8mHrgXlQY9Wap
-	osBK7T6GoDmsmkNeVP6gRgLzoY304CU0juwOm9y6IwQ8QQ==
-X-Received: by 2002:a05:600d:82c6:b0:4a3:59c9:a758 with SMTP id 5b1f17b1804b1-4ba0937fee9mr61337525e9.32.1794418540190;
-        Wed, 11 Nov 2026 09:35:40 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794418536; x=1795023336;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=I1Q4pjR2qqa0qfnyUZhl/SmuC5IWufw5Ot40YMG4hZs=;
+        b=kiyJr2um1AVPfJtzeZYv4Qp4vp3p7dvHNfVyLcbURzIY7ODzLcIuRK8RiPmzl3k4u7
+         qlO5CA3qDyw+Xs6hJBNNovpb3c9dRfiUaJKIFwrBfp9fxLm32YYdTIwvoDy4G0RugZIr
+         GlmJ+5Gmym13vuFWg4jVhWEQ1Bj3gXt9cqpqPV4P2pOhOWu5KlVfjOhWKHmzWLnBTJTK
+         VqyA6whpOPfL6xkCCRaG/ys8f8xMOuRyuu4z9GlrSo1mzYc++DCx/Gs+UPRUawtzPknB
+         0pyd/y3OzJokd3MkpAszO02nyUzg8MV9+6RZYxhfs0fMWmvcRR+uJWBlMsBYVw702tgO
+         haTw==
+X-Gm-Message-State: APuU4Z9GTGIbWxUX+qpSO2JqgnmzIMFg+DTxJXu7wt1U5qrRDar2P+qA
+	vpRP22HQ6wWNWR6AVwW/NlE7MAKT5NfUtGnRasx3el6dInnAWiM5n1h4Lvosly3R
+X-Gm-Gg: AYBFou1mk6LTVySyp7eoDHgP1UzSHFaLkEyxrFJ1byFz939+Z2ZWvigXZRRAyRDAzzv
+	WnKFoKRqDRtvH0Kc9wR8scYHvBpd2f6KA4xbVch2RIIOf2yUf0HWU6X7Kiii0jrkmgEx4+vYbug
+	Ejo5LnrbiIuG3tekjtwzhj2OIkR3DWdFtYhbMPqTR+7GtM75HVK4LszguPpNoRDSsETxJyeP3eM
+	JcSVkQIRPNmbnZ1s6NHVtyDjzh+N2BCas+cL587hYt8op+2ANcCQQioVSICchymo2Cw7hN6j38p
+	xK6Hc5meBKG++RwdzJogi+5LsfXiRHjzUCRaqIOkxcN36rknL+7Ujpg8IUlXR9qJ/Q2tXw8z02s
+	54Z58kf9rSVaj+1aNDzsmPn9keVaJc+7I+QTz7VAjU0EA79r+VvS52E9m7Wp+rRac6FehQ+8GqI
+	up9rwoYZY//sasDrep9Bb93F2QmaOX4bXJPinHdgdgFJqxZmjgOesdFSSy/frIF6C+yDIRgFZXr
+	Lxvpk8AkboOfjO54wp775eVgB3s65AsKbfO9hHHmHDKZlhK4K/6l2NRfBqSCrmAyqvboBrEoYV1
+	6Zm4KpG6d4wmZ7xtU+tcKKz3bZKWXeqLMsk0XLSSUls8Ni0=
+X-Received: by 2002:a05:6000:25c6:b0:491:6c24:65f5 with SMTP id ffacd0b85a97d-499c5e3c13dmr5220916f8f.17.1794418535556;
+        Wed, 11 Nov 2026 09:35:35 -0800 (PST)
 Return-Path: <stondo@gmail.com>
 Received: from fedora ([165.225.94.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba0950394fsm54823785e9.2.2026.11.11.09.35.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498363df7a5sm12214329f8f.37.2026.11.11.09.35.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 09:35:39 -0800 (PST)
+        Wed, 11 Nov 2026 09:35:34 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr,
@@ -56,81 +56,51 @@ Cc: yoann.congal@smile.fr,
 	peter.marko@siemens.com,
 	adrian.freihofer@siemens.com,
 	patrick.wicki@siemens.com,
-	stefano.tondo.ext@siemens.com
-Subject: [wrynose][PATCH 0/4] spdx30: fix the source download enrichment
-Date: Wed, 11 Nov 2026 18:35:33 +0100
-Message-ID: <20261111173537.3653558-1-stondo@gmail.com>
+	stefano.tondo.ext@siemens.com,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [blacksail][PATCH 2/3] spdx30: Enrich gitsm source downloads like git ones
+Date: Wed, 11 Nov 2026 18:35:25 +0100
+Message-ID: <20261111173526.3653122-3-stondo@gmail.com>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261111173526.3653122-1-stondo@gmail.com>
+References: <20261111173526.3653122-1-stondo@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 17:35:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250045
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250043
 Content-Type: text/plain; charset="utf-8"
 
-Hi Yoann,
+From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-This series backports three spdx30 fixes from master to wrynose, plus
-their tests. Patches 2 to 4 also go to blacksail in a separate series.
-Blacksail already has patch 1.
+The source download enrichment only handled fd.type "git", so gitsm
+downloads got the VCS external reference but neither the SRCREV as
+version nor the PURL. The gitsm fetcher is a git fetcher with
+submodule support and carries the same revision, so treat it the same.
 
-Wrynose has 9f1825e74d ("spdx30: Add Git version and PURL to source
-downloads"). It adds the commit hash as version and a purl to the Git
-source downloads in the SPDX. That code has three bugs, and master
-fixed all of them:
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1e5146d8f9111416c3fc9247b152d1d70b55c7fe)
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-1. spdx30_tasks: Fix duplicated revision in Git PURLs (e31479ddba)
-
-   On wrynose, every Git purl has the revision twice, for example
-   pkg:github/fastfloat/fast_float@<rev>@<rev>. That purl is invalid,
-   so scanners cannot match it. Master reformatted the file after this
-   fix, so I applied it by hand. The change is the same.
-
-2. spdx30: Make source download enrichment part of the task signature
-   (e57ec14f8d)
-
-   The enrichment code is in two functions whose names start with an
-   underscore. bitbake leaves such functions out of the task
-   signature. So do_create_spdx did not track them, or the
-   SPDX_GIT_PURL_MAPPINGS variable that they read. After a change,
-   bitbake restored the old SPDX from sstate. The fix renames the two
-   functions. As a side effect, the do_create_spdx signature of every
-   recipe changes once.
-
-3. spdx30: Enrich gitsm source downloads like git ones (1e5146d8f9)
-
-   This one can look like a feature, but I think it is a fix.
-   9f1825e74d enriches Git source downloads, but it checks only
-   fd.type == "git". gitsm is the Git fetcher with submodule support,
-   and it has the same revision. So a recipe that changes from git://
-   to gitsm:// loses the version and the purl of its main repository,
-   with no warning. The fix is one line.
-
-4. oeqa/selftest: Add tests for source download enrichment
-   (3ca309cbd3)
-
-   Two selftests for patches 2 and 3, which fail without them. On
-   wrynose, test_git_purl_mappings_rerun_create_spdx also fails
-   without patch 1. That is how I found that wrynose does not have it.
-   If you take only fixes, you can drop this patch. Patchwork can show
-   it as accepted already, because a March commit (9a622a2062) has the
-   same subject.
-
-I tested the series with oe-selftest -r spdx.SPDX30Check on wrynose
-(bitbake 2.18). All 14 tests pass.
-
-KAZUYOSHI AKIYAMA (秋山 和慶) (1):
-  spdx30_tasks: Fix duplicated revision in Git PURLs
-
-Stefano Tondo (3):
-  spdx30: Make source download enrichment part of the task signature
-  spdx30: Enrich gitsm source downloads like git ones
-  oeqa/selftest: Add tests for source download enrichment
-
- meta/lib/oe/spdx30_tasks.py          | 17 +++++-----
- meta/lib/oeqa/selftest/cases/spdx.py | 47 ++++++++++++++++++++++++++++
- 2 files changed, 57 insertions(+), 7 deletions(-)
-
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 19661152ff..d15dae8fdb 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -405,7 +405,7 @@ def enrich_source_package(d, dl, fd, file_name, primary_purpose):
+     version = None
+     purl = None
+ 
+-    if fd.type == "git":
++    if fd.type in ("git", "gitsm"):
+         # Use full SHA-1 from fd.revision
+         srcrev = getattr(fd, "revision", None)
+         if srcrev and srcrev not in {"${AUTOREV}", "AUTOINC", "INVALID"}:
 -- 
 2.56.0
 
