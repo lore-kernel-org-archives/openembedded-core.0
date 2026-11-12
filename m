@@ -1,135 +1,306 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.70])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.61.1794497220065422424
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.439.1794500895174017977
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2026 07:27:01 -0800
+ Thu, 12 Nov 2026 08:28:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=LBfqth5z;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=LBfqth5z;
- spf=pass (domain: arm.com, ip: 52.101.66.70, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=Mkx/4LfYaUPJIOeum261WhQWR1TjDtiYhpeKNBf7Y4V80uQlDTOIyFNtsiE4OJx5su2LnA2bUjcTMDaUmCA07Db9oAzzciBkRRaDBtTgg6zdFodZxfPSwN9X9y4RuJT9MNLvvN6f2u1hPD4GkQ6ueh6iG5sjiDhoehP00gWxlz9oAl5xI0RyQOxBHPiCbvkzyb5+Xs2BToiKQIPPtVKNjKW+qhMeZ2kQHi/Q37cBxu0Fjq2RutBQX0skp1r1JT0HEOYLh7xFNCsvU04lllXk6PpBcu5B2dtkfCpaVaV8Urqy487zYK8xz/PQ3ZyM0E8gYQI7NyyekKitFx7Rb4OwzQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VK05NKgGCRELGBTEBpcB6elPH0hNx4zSv6qkl1+t2Ug=;
- b=t2KPHTnloO86b9xa+aTpaPuCfEgI8nVvjvLn42A9duWaOCQpjSpN7GYi5fN7BOnNGXIX+XFe6CRKs4tnc39XZZ4bBjXwghzIPwmW9CpxbnpFGI3w1QakNQ9gtkeK8HqNZAtMkdf5qs+Zg+5fCRTTyLDVv7MAoV/KQpdM1AD77lbd2p8YCzQ8kRrMDzG9ol9umgPMav9F5GINiNHTOS5pOcRn50W2AjgEQHdecrYMCYUIFUTAhszQWQKNuP9qirpdgxUkujQLS7x63efOqV134o8Q1QbpPS3l7LHlBzM6X1AmZ+Vgpkkg4RCDUIC8EHe7pVJrsK8zzAui9UAbBUG5lQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=bootlin.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VK05NKgGCRELGBTEBpcB6elPH0hNx4zSv6qkl1+t2Ug=;
- b=LBfqth5zC1boUc3wP5PhRNtQrC6pihBFxBq0qDWe84u7qfzb5Rian/9YSk5mNkXoQ7skWF7ikjDWPxdqhYRLl7ERlg2XEg+vE+j9AUwBPTnzWgSSwXzJ+9CGl7WxPlW4j/REL+Dagsbtsm0A8lMWgP3EPZWKvNP+r9G9i5bYF1A=
-Received: from VI1PR04CA0072.eurprd04.prod.outlook.com (2603:10a6:802:2::43)
- by GV2PR08MB337037.eurprd08.prod.outlook.com (2603:10a6:150:39a::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Thu, 12 Nov
- 2026 15:26:53 +0000
-Received: from MI3PEPF00008481.eurprd02.prod.outlook.com
- (2603:10a6:802:2:cafe::44) by VI1PR04CA0072.outlook.office365.com
- (2603:10a6:802:2::43) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.10 via Frontend Transport; Thu,
- 12 Nov 2026 15:26:53 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- MI3PEPF00008481.mail.protection.outlook.com (10.167.240.168) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
- via Frontend Transport; Thu, 12 Nov 2026 15:26:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=T81XZg/XzKhNG3JbMo+3ld6uqGLaWz6xLOV4hTURZ3BMkB1RqjkbSMk4Pu+n7B9AytBKSoz8W91mjB8jMaPUERYpHwkU75W5+PWZwNAq0AhcdqduKxh/0HuNt11OKbzQ2Xbk0G4yn4sN112AHgHw6NqsidBSEtmiGTRea6NU2eXy0Js35/ev9tvQ5OYDgUL2Klefl39XJfa2yiuFcyJ5FBNOh3nnv/QaJd1mIMP8CUTsn/TfNKGN0IopwOWc5+zLwqTG5yqai7ho8x9ftAyDGKSf3lJBz+pqr2tAY3lms7LOG3rtH73iWC3HbmyrxgCHrc2MBRsaUQyYpxsAdQsrYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VK05NKgGCRELGBTEBpcB6elPH0hNx4zSv6qkl1+t2Ug=;
- b=bCZnxZ5sBRChx5clfBQpPXNoD2DQ1QDnmyjhzdj0Ujye8pqr4j2tcoB8Ti+taqX1YZdp3iZeASuKF/kRROVCq/eNW/qZluDXl2xSElT5KMOZ2+HFGHqbmRbv0HuzX59nuipwC8Y8Qp7VLckww11JdzvUri5bxwO2rcROnL+DelHstgONzkp4CO+XosnOxvUHwH+B1VdCSpDXLVtJMWWkKBJibKftFdXzqk4xRVX1mY7p7fjRQvdK8/8vEMF1zr4wVqX5VZ6G7DFo2RAQRNR8L99xH2mpHLVJ9jWvgE3Q8pYFkgKNkiQ4gAAte+P6EALawoCRpG3qvEeue7hnWhLhvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VK05NKgGCRELGBTEBpcB6elPH0hNx4zSv6qkl1+t2Ug=;
- b=LBfqth5zC1boUc3wP5PhRNtQrC6pihBFxBq0qDWe84u7qfzb5Rian/9YSk5mNkXoQ7skWF7ikjDWPxdqhYRLl7ERlg2XEg+vE+j9AUwBPTnzWgSSwXzJ+9CGl7WxPlW4j/REL+Dagsbtsm0A8lMWgP3EPZWKvNP+r9G9i5bYF1A=
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com (2603:10a6:20b:5a9::13)
- by PAWPR08MB8934.eurprd08.prod.outlook.com (2603:10a6:102:33e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Thu, 12 Nov
- 2026 15:26:19 +0000
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb]) by AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb%5]) with mapi id 15.21.0546.012; Thu, 12 Nov 2026
- 15:26:18 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-CC: "roosesweb@gmail.com" <roosesweb@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Thomas Roos <thomas@roosesweb.de>
-Subject: Re: [OE-core] [PATCH v2] python3-cython: upgrade 3.2.9 -> 3.3.1
-Thread-Topic: [OE-core] [PATCH v2] python3-cython: upgrade 3.2.9 -> 3.3.1
-Thread-Index: AQHdcoaWpCANtqR6SE+oDkSTJ4HPZbcqjzoA
-Date: Thu, 12 Nov 2026 15:26:18 +0000
-Message-ID: <97217559-8A94-4D6B-9149-9BB4E6389592@arm.com>
-References: <20261108192525.1082675-1-thomas@roosesweb.de>
- <20261108214236.1294076-1-thomas@roosesweb.de>
- <DMT4AZG7HHGE.3SZFW7TTHZV29@bootlin.com>
-In-Reply-To: <DMT4AZG7HHGE.3SZFW7TTHZV29@bootlin.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3864.700.51.1.4)
-Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
- signed) header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: AS8PR08MB9410:EE_|PAWPR08MB8934:EE_|MI3PEPF00008481:EE_|GV2PR08MB337037:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b6423d0-1807-411f-b599-08df40d16146
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|38070700021|10067099003|4143699003|11063799006|56012099006|261022105027099003|261022075727099003|261028144727099003|261026121527099003|261026140227099003|261009223027099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info-Original: qwi28IqQNlMjVRRMZ9QEln28BsexUHS23QYZe+C85t/enDB/H9+hmPk9BXAi07I0rnQ+95qDvL/zSoYulIfKbhqppWzRt9b2/S8QawAT59lC8zRm5QG5uyJJjnjK6hQyr7WC+e0NhYJFDY0r2NWQR4D+L+xhjymZsYpz6r5Mgi0s54VBdXD/yqBmqfxH7zblrCqKCEYUjOWt37b2+l15AxfihKPCb2Hsr8NGsOQhzvxBdwnW4hxkxlAo4VBlMGmaxijE+BeuIZUqh5VjTe8XGvrMudwxB8I1WKK5IuwUINOhASjorh555npzN5xTSn4s1T8X3CIUY1fA8QfHmWtdu1R5Df4wLwNe0KGK9W5IyabzZEdeFDYYELLApj6FUX1mdky6F4LCa4tztwPj7TIGeBtp4EHe3UVyY0mKRXSiKdHZ+E/15fJd3BifHNfD14/FhtC0fTLY4394hDyRXea2k7RXhD6D+DpkTkraiTUto05co37xtBYj4SPBCO5ef36qd1DQFFwuTxGxXI2lFZ21v8sjT+GVXWAgZlwcWoE1XsHNzgklaC5/6Y34JmPg2Mrs+LaJ9TikJoPF4pEyCCZp/cyGEvteurmbflCLwrp7eQyBArmfZ37qreGnf8OD56aNcVmxvmtzsvQhem6SOLQ9SEHQdQkUJXvzriH5Gkyx2SS/p1BepNTrM2MS1FrJd8AYqCKPZ62Glji1thU+OVTfANw0IkaiHNCHQKLHCQnsB7g=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB9410.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(38070700021)(10067099003)(4143699003)(11063799006)(56012099006)(261022105027099003)(261022075727099003)(261028144727099003)(261026121527099003)(261026140227099003)(261009223027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <60FE7AAE46218B4DA905F9AB7ED50ABD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=SGcYp9ev;
+ spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-8b10d24345dso464377b3.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 08:28:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794500894; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OAVpeaLy6SfWWrXI17ihoLNk5KSu/xTrUSJbVsRHPzP65j6kTuVKO3FFqchO8x5mAc
+         Xkzfy+0xOfZP5xtYy7wrMinnDIyHmgzaQpKN0MySO4WHWwXEOyVhy9SF0ERW3ZESnxQs
+         b3732jnn7+jYHyNTCLN6Obd1zoOR8qtoqtW+kGOZH2GPjxiYMgv975xHVoB4t7ob6dbN
+         BRwUMHBQq0EoyQFTb8fHKKVnntoh4UdDeWzWiM1meqOOoJ9fv8dvpH6Gcx3mwCwH9Wng
+         HNh38JB79hEEfNCP7OSFzYHUFuxI/3uwVOrvxFdWmkJfkgSvwESQGCrIqgDrSs6rmxbA
+         d55A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=py+f9FXmEkVDQjsBZrtDM5nWm07c+Lm/R5Z/GvK9suk=;
+        fh=JJMDP9qz8DwA5GLagdkB3JuG2LmOTUKwKEgpuUvUjoE=;
+        b=hLrOfEhMm12np1X0CXthgzEe1qh9FzOsT1W8+g4iwVim28azMtWr9FOK90wEa8Vm7a
+         e/6FGUFZs4e8Yt1S0mTdyNlVOaMv1t6leV47La1AuQXdwUu7HgBPIFOiE7D+wVXRq1U0
+         tBtRpzUgGcdEqeVaSnlveqElOWIDEo4FCDrik4vf9Ak+Ij8kdxIiXe1fA7tdtLE9MBVo
+         AYNYXnhkUJCkYek2hU89S9gT7TVRxDDSkXHKV0gHJ3BXlJPV3iNQUptUKX+9CKNce76F
+         2vJ8bT/SzPv1mdDjQyCHDbgCJgNO6/6CWjozHFM9YygMQCbfuZ3yN+kCq1Vw75qFONO0
+         xIpg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794500894; x=1795105694; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=py+f9FXmEkVDQjsBZrtDM5nWm07c+Lm/R5Z/GvK9suk=;
+        b=SGcYp9evsyfompRaZMIbqWm0ZAMF7b66TkdhXtbsv9vZihqaAQZO5QR1s/COT5MSwQ
+         lbZF0o9vgXfEnlp0bHLhZbE2jPzoaC5wnJhMBZRJiwMFxy2Q4AwW0qcw+VpqgeK3Fytk
+         JqEdatNOoi/yXMjoHNAQhrxj1MtoLH74t2f6z/hSGnLNwwqNngEOIrdvBwMNLKNYip1x
+         OlFBquIYk5b0gmFUMGk0fAuIuYMwPl1Yl5JUSEmVh+gNfLDdoKlJy02NlpNLJU5PxKll
+         Qj53NcoClMVIE14+58UxsWRlFa8WRU09Z4wLKlk1dHS1J+v1tjwCv2iycNR5BcpNdnzd
+         uT8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794500894; x=1795105694;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=py+f9FXmEkVDQjsBZrtDM5nWm07c+Lm/R5Z/GvK9suk=;
+        b=bmQTt1rddE6U3aNKfLhWaTupAOzkkXhIhfyuLbxQoqgV2ih9sLVkZ0mhADyXOvI6J4
+         16hmOJtTGBEuPVN8nPABY7lU/VS6Ry/WGJRFAvYk69kihHyrUqxpjgC5yXwsLgcUgrvo
+         nJio/l9ndPIv1ziB4CibWFscNvF73LfZ90jFEsVfSUkqoNLpW8n0EE1Jq9huAAMBbitf
+         EvRdpUT1NpXXhkY78n4EwoprEoDMv/t1f09LoqOCJrPZhFTTrrOoiaGfTRvbEg/bP70V
+         VB+a4ka0P5TSfnu8JQ5fahIWUhkJ/u9Pn1IdgcL4W+V8tCas6pWOXsmz4gRD1HVt4pOa
+         CFEQ==
+X-Gm-Message-State: APuU4Z9yU8vwDkSgbKa6PWJNiZMj2JrttMWltkMww5nJgHPVJyib5oyX
+	+RNonw1CmPCf5JQW+ZGJ3PlOUuaWyBFo//a49p/q51MNDh8pjR1JfSQoJ1TwOQ1iw89fTML8ZrQ
+	iiW49D/JJX+3390xOgMF2Lupj0V6bof1VTg==
+X-Gm-Gg: AYBFou0wEH+OxpyNNYJRm9J4niYbCOqUmEnr2tR9QOFCc2fgv34N60aAAm6NRxvJQxX
+	35zWIRkzS6zpp0E3mIeeNhId2UDnoqBcRmzsv60QOtmFdagyigy9Lx4p8Z7elv6iwH3+mUz1NxC
+	NcKnFTQdEeLcq/RCnPdq1vsHAA/iMPk9ktj07gxtgRUMEi26//q3M2Gr3SJ1rarpROaR34SCK6U
+	6BEgCMF2/euRLHQ2aCVUgpjCBlKK3J3+P4eFoOG1KXyU6Il/lJwqVPNQO8V7xgBLLCP+SzYh+BK
+	lJ0QRKvGaUbch0YjKnWjshliFFPIiO1kLEVluTGvzEz3xpT0eHd+xwHwQrVL8LTa3joWQvXspQu
+	swU66RXJsYAFa9ueHMHItU+dAq0WR4QmxfA88g6k1ShoHjBuDEnlo8CjZBLojAGl24QHhEQiEzn
+	tIuoqzZNjtbxmVtFP78qwyUNHVQyVtnbFGS9hfV5bAgd1a5dy2ORb7kAN/wWO7vJ8A9ac6/n1RI
+	zEIz7MV5ji72cwKTYqfv2PlINaCPoLEfP+spKvuQFmmQVHvs2bUIVdwI4xv3LNLJryqcWdbiIcT
+	CqlXhvI9Gb4L/mTGvXMVnsrcrsfdiw0xN3zTagrdWKTi5P+WynEO1NQ1/TotoUqplL5B+ERyuGi
+	9iRqlOBBydJYrxiRQHIsrMzY=
+X-Received: by 2002:a05:690e:1309:b0:67c:cab:bd73 with SMTP id
+ 956f58d0204a3-67c67fdf3d3mr3981176d50.96.1794500893958; Thu, 12 Nov 2026
+ 08:28:13 -0800 (PST)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: BMNFFgBGvAIMrq8hLAyl3V/T2nf//qCz+EPR51etzkuXL4s8apuTWEjaCbH7MN6nO7Wu1zAcePicnq9hvQEIkwk4/0oeb359OWDnOiGm5CnjWO0uz+F0IKqorBT7eezskTjTWHczLk7c34au/MxMAfhvYw/BEb8iSLuw2Axo38/yotDK3pMrXid0Y6UewXlECeWintgAnG29lDQFAdHgt9ZRPQxyqb5ZF6f/I/Q+UxxHFzPDowM3juQ498fkOcyfiwfQRRuLk7LNdRTs5hRzadKgdA1X9OuodrAf9cRQDV9DLFkCRNwaPkiEJzNWt7GmKTUu/AhBUibtJfWg6OHiAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB8934
-Return-Path: Ross.Burton@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: MI3PEPF00008481.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 60c06906-4725-4c1c-d70d-08df40d14cad
-X-Microsoft-Antispam: BCL:0;ARA:13230040|35042699022|14060799003|376014|23010399003|1800799024|82310400026|36860700016|10067099003|11063799006|4143699003|56012099006|261022105027099003|261022075727099003|261028144727099003|261026121527099003|261026140227099003|261009223027099003|18002099003|22082099003|13003099007;
-X-Microsoft-Antispam-Message-Info: muny85cYmQQcBkDqy9iwyQ8HN51PotXMSbTrrhaGN1WByIXot74TVLYr2z+dgEvnWJ19c0mHKZLdEPQ6kK2KyxZ2+irhDaVDIR3Yj8WdgQgbYcNBZ61yc1M5Lrfgbj/Dvt4UBWZwAw2EjL/d1HtAJ30mOF1IfOfwq00+N8sPwWHiCr+kJjY+ly2VqYQLtdZKDzKVZMqlExY4LV0XdmkPqBZL0lhdWKuWdSdBpdwXoBJmcTZ5yvc8W2DHKOjaIcwKuCJzTQjy1ESCXfifu76/psU1BT4N8lKkW0fLOkNu9Q1R7L+rvqHAYvFsrukn6RIo/rptbYIFpbsAKxWEteOT8wbirSiUlENYmfafW9ZQtSkWB+woEYZf/NO6OCWiFiL+cqrfvP8oBhDLVmPbtvFbxnoycGUCZkwOgLK3CyjVu78FZ8G0XF6ujf8Slow6zk4pq2MBmLJYTh/NjrKhEOAFWOhJ3trrLq+plR1YSerYSMy3y92mg8qKZLBUk0ocadyi8qlDErAyXd2LNVHXG8jMV+KpzI4+8QpXOWSMUq6FySkM2wmc/AInJ218DKAiD6aGvtXlmci1l/Hmf7yrDFZ4RGFaRH1X8ikG3UZE3gC671kQEn1SHA0Mgr8CyfB2HKEY51Nlw9OjStLK6GQsras0v97XqHllaaIW+kgCvRj95sa1VYsu9j8JiKzStUYJifs7ccqhSujHCu3YDQjcpu7SSQ==
-X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(14060799003)(376014)(23010399003)(1800799024)(82310400026)(36860700016)(10067099003)(11063799006)(4143699003)(56012099006)(261022105027099003)(261022075727099003)(261028144727099003)(261026121527099003)(261026140227099003)(261009223027099003)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: QzPFN0ehX9n9TRosZ9zx2wMNl+UUfzuUb9IeCYGIqjAR8OoQy4BLrFh3ospa5YdWvbVPUgvbx1EpkfPFHmYkgMCuYMBwT4w77RyDsV/V7xPqwWX8CXbDGsEURCRg9wv9/hOqAVJgmGYxInVSoswD/wWZ4U3KKcgdcTg4nz7Ip+eBINYCvtUug7RsUQi8Auvuv5nnQIBJHQPP+DyD0iE0g+W/+JLEV0Dtyb7653f3TNGqp2pgxtufHlso3sLtUztZkM5sayUO8RPB/CE98FQ1pv5civH2COcjPAzccR1uE8gwaS4lRfUwSspkq7A4erq9x5eXv9KvqzFwr0N8UjGf/1vcGsYPz3kgbKMnFQ140LxO3ZTteJEF+qAMEyXgip64nrhnn/b+jg5Na1qrwJUjxOVE4f3PKnt39EwWM7IcEi85+GsrjqU3v1E6BIhAzfz5
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 15:26:53.2119
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b6423d0-1807-411f-b599-08df40d16146
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: MI3PEPF00008481.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB337037
+References: <20261111083711.549321-1-khem.raj@oss.qualcomm.com> <20261111083711.549321-3-khem.raj@oss.qualcomm.com>
+In-Reply-To: <20261111083711.549321-3-khem.raj@oss.qualcomm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 12 Nov 2026 08:27:46 -0800
+X-Gm-Features: AclHuK9rVLmTsgnXjygAe5WeuVaycYiT7lwTZwfLY6vKXZXGXGYBig90cpTpz5I
+Message-ID: <CAMKF1spNnQ=Ej+LNDFamDJWObj0mWMS=e6yqR6aSaSm1i=oSvQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] libc-test: Re-enable yn test
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Content-Type: multipart/alternative; boundary="00000000000055669d066016cc56"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 15:27:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250107
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 16:28:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250108
 
-T24gMTIgTm92IDIwMjYsIGF0IDA5OjE2LCBNYXRoaWV1IER1Ym9pcy1CcmlhbmQgPG1hdGhpZXUu
-ZHVib2lzLWJyaWFuZEBib290bGluLmNvbT4gd3JvdGU6DQo+IEl0IGRvZXMgbG9vayBiZXR0ZXIs
-IGJ1dCBpdCBsb29rcyBsaWtlIHdlIHN0aWxsIHNlZSBzb21lIGludGVybWl0dGVudA0KPiByZXBy
-b2R1Y2liaWxpdHkgaXNzdWVzLiBJIGhhZCBpdCBvbiBteSBicmFuY2ggZm9yIGEgZmV3IGRheXMs
-IGFuZA0KPiBzdWRkZW5seSB3ZSBoYWQgYSBmYWlsZWQgdGVzdDoNCg0KSeKAmXZlIGZpbGVkIGFu
-IHVwc3RyZWFtIHRpY2tldCBhdCBodHRwczovL2dpdGh1Yi5jb20vY3l0aG9uL2N5dGhvbi9pc3N1
-ZXMvODEzNi4NCg0KUm9zcw==
+--00000000000055669d066016cc56
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+FWIW I see this one is merged but it depends on musl patches that were sent
+before it which are not yet applied
+
+On Wed, Nov 11, 2026 at 12:37=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrot=
+e:
+
+> its now fixed in musl
+>
+> Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+> ---
+>  .../0001-math-Delete-failing-tests.patch      | 51 -------------------
+>  1 file changed, 51 deletions(-)
+>
+> diff --git
+> a/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch
+> b/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch
+> index 96ff279fa6..814d7bcb64 100644
+> --- a/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.pat=
+ch
+> +++ b/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.pat=
+ch
+> @@ -15,13 +15,11 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>   src/math/fmaf.c | 47 --------------------------------------------
+>   src/math/fmal.c | 52 -------------------------------------------------
+>   src/math/powf.c | 47 --------------------------------------------
+> - src/math/yn.c   | 43 ----------------------------------------
+>   5 files changed, 236 deletions(-)
+>   delete mode 100644 src/math/fma.c
+>   delete mode 100644 src/math/fmaf.c
+>   delete mode 100644 src/math/fmal.c
+>   delete mode 100644 src/math/powf.c
+> - delete mode 100644 src/math/yn.c
+>
+>  diff --git a/src/math/fma.c b/src/math/fma.c
+>  deleted file mode 100644
+> @@ -240,52 +238,3 @@ index 4778c2f..0000000
+>  -      }
+>  -      return !!err;
+>  -}
+> -diff --git a/src/math/yn.c b/src/math/yn.c
+> -deleted file mode 100644
+> -index 244dbb8..0000000
+> ---- a/src/math/yn.c
+> -+++ /dev/null
+> -@@ -1,43 +0,0 @@
+> --#define _XOPEN_SOURCE 700
+> --#include <stdint.h>
+> --#include <stdio.h>
+> --#include "mtest.h"
+> --
+> --static struct di_d t[] =3D {
+> --#include "sanity/yn.h"
+> --#include "special/yn.h"
+> --};
+> --
+> --int main(void)
+> --{
+> --      #pragma STDC FENV_ACCESS ON
+> --      double y;
+> --      float d;
+> --      int e, i, err =3D 0;
+> --      struct di_d *p;
+> --
+> --      for (i =3D 0; i < sizeof t/sizeof *t; i++) {
+> --              p =3D t + i;
+> --
+> --              if (p->r < 0)
+> --                      continue;
+> --              fesetround(p->r);
+> --              feclearexcept(FE_ALL_EXCEPT);
+> --              y =3D yn(p->i, p->x);
+> --              e =3D
+> fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
+> --
+> --              if (!checkexcept(e, p->e, p->r)) {
+> --                      printf("%s:%d: bad fp exception: %s yn(%lld,
+> %a)=3D%a, want %s",
+> --                              p->file, p->line, rstr(p->r), p->i, p->x,
+> p->y, estr(p->e));
+> --                      printf(" got %s\n", estr(e));
+> --                      err++;
+> --              }
+> --              d =3D ulperr(y, p->y, p->dy);
+> --              if ((!(p->x < 0) && !checkulp(d, p->r)) || (p->x < 0 &&
+> !isnan(y) && y !=3D -inf)) {
+> --                      printf("%s:%d: %s yn(%lld, %a) want %a got %a,
+> ulperr %.3f =3D %a + %a\n",
+> --                              p->file, p->line, rstr(p->r), p->i, p->x,
+> p->y, y, d, d-p->dy, p->dy);
+> --                      err++;
+> --              }
+> --      }
+> --      return !!err;
+> --}
+>
+
+--00000000000055669d066016cc56
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">FWIW I see this one is merged but it depends on musl patch=
+es that were sent before it which are not yet applied</div><br><div class=
+=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Wed, Nov 11, 2026 at 12:37=E2=80=AFAM Khem Raj &lt;<a href=3D"mailto:r=
+aj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">its now fixed in musl<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:khem.raj@oss.qualcomm.com" ta=
+rget=3D"_blank">khem.raj@oss.qualcomm.com</a>&gt;<br>
+---<br>
+=C2=A0.../0001-math-Delete-failing-tests.patch=C2=A0 =C2=A0 =C2=A0 | 51 ---=
+----------------<br>
+=C2=A01 file changed, 51 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-test=
+s.patch b/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.p=
+atch<br>
+index 96ff279fa6..814d7bcb64 100644<br>
+--- a/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch=
+<br>
++++ b/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch=
+<br>
+@@ -15,13 +15,11 @@ Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@=
+gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+=C2=A0 src/math/fmaf.c | 47 --------------------------------------------<br=
+>
+=C2=A0 src/math/fmal.c | 52 -----------------------------------------------=
+--<br>
+=C2=A0 src/math/powf.c | 47 --------------------------------------------<br=
+>
+- src/math/yn.c=C2=A0 =C2=A0| 43 ----------------------------------------<b=
+r>
+=C2=A0 5 files changed, 236 deletions(-)<br>
+=C2=A0 delete mode 100644 src/math/fma.c<br>
+=C2=A0 delete mode 100644 src/math/fmaf.c<br>
+=C2=A0 delete mode 100644 src/math/fmal.c<br>
+=C2=A0 delete mode 100644 src/math/powf.c<br>
+- delete mode 100644 src/math/yn.c<br>
+<br>
+=C2=A0diff --git a/src/math/fma.c b/src/math/fma.c<br>
+=C2=A0deleted file mode 100644<br>
+@@ -240,52 +238,3 @@ index 4778c2f..0000000<br>
+=C2=A0-=C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0-=C2=A0 =C2=A0 =C2=A0 return !!err;<br>
+=C2=A0-}<br>
+-diff --git a/src/math/yn.c b/src/math/yn.c<br>
+-deleted file mode 100644<br>
+-index 244dbb8..0000000<br>
+---- a/src/math/yn.c<br>
+-+++ /dev/null<br>
+-@@ -1,43 +0,0 @@<br>
+--#define _XOPEN_SOURCE 700<br>
+--#include &lt;stdint.h&gt;<br>
+--#include &lt;stdio.h&gt;<br>
+--#include &quot;mtest.h&quot;<br>
+--<br>
+--static struct di_d t[] =3D {<br>
+--#include &quot;sanity/yn.h&quot;<br>
+--#include &quot;special/yn.h&quot;<br>
+--};<br>
+--<br>
+--int main(void)<br>
+--{<br>
+--=C2=A0 =C2=A0 =C2=A0 #pragma STDC FENV_ACCESS ON<br>
+--=C2=A0 =C2=A0 =C2=A0 double y;<br>
+--=C2=A0 =C2=A0 =C2=A0 float d;<br>
+--=C2=A0 =C2=A0 =C2=A0 int e, i, err =3D 0;<br>
+--=C2=A0 =C2=A0 =C2=A0 struct di_d *p;<br>
+--<br>
+--=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; sizeof t/sizeof *t; i++) {<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D t + i;<br>
+--<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (p-&gt;r &lt; 0)<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 continue;<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fesetround(p-&gt;r);<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 feclearexcept(FE_ALL_EXC=
+EPT);<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y =3D yn(p-&gt;i, p-&gt;=
+x);<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 e =3D fetestexcept(INEXA=
+CT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);<br>
+--<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!checkexcept(e, p-&g=
+t;e, p-&gt;r)) {<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 printf(&quot;%s:%d: bad fp exception: %s yn(%lld, %a)=3D%a, want %s&quo=
+t;,<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p-&gt;file, p-&gt;line, rstr(p-&gt;r), p-&g=
+t;i, p-&gt;x, p-&gt;y, estr(p-&gt;e));<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 printf(&quot; got %s\n&quot;, estr(e));<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 err++;<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d =3D ulperr(y, p-&gt;y,=
+ p-&gt;dy);<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((!(p-&gt;x &lt; 0) &=
+amp;&amp; !checkulp(d, p-&gt;r)) || (p-&gt;x &lt; 0 &amp;&amp; !isnan(y) &a=
+mp;&amp; y !=3D -inf)) {<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 printf(&quot;%s:%d: %s yn(%lld, %a) want %a got %a, ulperr %.3f =3D %a =
++ %a\n&quot;,<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p-&gt;file, p-&gt;line, rstr(p-&gt;r), p-&g=
+t;i, p-&gt;x, p-&gt;y, y, d, d-p-&gt;dy, p-&gt;dy);<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 err++;<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+--=C2=A0 =C2=A0 =C2=A0 }<br>
+--=C2=A0 =C2=A0 =C2=A0 return !!err;<br>
+--}<br>
+</blockquote></div>
+
+--00000000000055669d066016cc56--
