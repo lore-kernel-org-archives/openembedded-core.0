@@ -1,35 +1,35 @@
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7130.1794521096070902507
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7126.1794521107377436425
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2026 14:04:56 -0800
+ Thu, 12 Nov 2026 14:05:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=g17SbAM0;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261112220453ebf35723d5000207c0-p1_6ob@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261112220453ebf35723d5000207c0
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=qb5irKDd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2026111222050578eff590910002071a-tbuyad@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026111222050578eff590910002071a
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 12 Nov 2026 23:04:53 +0100
+        Thu, 12 Nov 2026 23:05:05 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=KoAG6fJF7UWdNs4ORcA17Ni6BR7xdLI5Sb9c3BtymqU=;
- b=g17SbAM06lkVBUJ0zALtLL5waPApRl15zzMHjuNHZJliBEM5/jfc7CZGP2m5rfyh6rSZDh
- qJiVH/pcS/+rnvYFkj9S3RD2SEU5VGNxK+22KnYZ8XGl/F7SynCgCdyjrXoQch7MFRAQpf2H
- CZJY28oFcivv+uCsuQrlDm7WYsUXGbhPuoqCQ3uAIvI5RkKRbQtod411Zq0FdnO6KAd36KG+
- 9R5FtigZFWiBwEXc4/EJk5sSDjWvC5A701anXTXwjLtWYnT5Oy1oQHXFJ2YtFOUvk89lnVa8
- XgOvxTinEXk3n+qBLWYcGpi9CJStmKAWLYRJV7HvSj+9Z0GU2HYCGIQA==;
+ bh=WP6lRDg2iPgrU+ZDB8aNHRKo+MXZtd1S9d9N3tZ364M=;
+ b=qb5irKDdxJliaitjkPbFAoDLILwCzvPBD/dytKI0DBwZTdhIVhEFZVREJsiGs3qshLz7h4
+ Xt1hlJ20W27e4VzPfFYEFpF4sKs0MZnDfQVEpGKOc0O/gD1H7I49ne9SMQWvd7Fk660Bzemt
+ 2vj/HoT8Hv/bdtwWZ0aIVqLA8v6DpW6TZ3M6SS5xFdIM3V/ixJNxLQmkjdK4HxIwLWUmriPW
+ zwDRoEujLIoMq7mSI+86pe7hwwlYxdDivMUcYaFKOq40HSHcxn6JlTTGJ0lBOW2mYaxu1Kns
+ Rdhcca+/CRae+JBGVn2ydU/sE0c8XJ032y15a67OTP7zlIZWD0UM1DZw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH] speex: patch CVE-2026-116741
-Date: Thu, 12 Nov 2026 23:04:44 +0100
-Message-ID: <20261112220444.1044457-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH] speex: patch CVE-2026-116741
+Date: Thu, 12 Nov 2026 23:04:54 +0100
+Message-ID: <20261112220454.1044536-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 22:05:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250128
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 22:05:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250129
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -47,7 +47,7 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 
 diff --git a/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch b/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
 new file mode 100644
-index 00000000000..4d71f7fa82c
+index 0000000000..4d71f7fa82
 --- /dev/null
 +++ b/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
 @@ -0,0 +1,29 @@
@@ -81,7 +81,7 @@ index 00000000000..4d71f7fa82c
 +    }
 + 
 diff --git a/meta/recipes-multimedia/speex/speex_1.2.1.bb b/meta/recipes-multimedia/speex/speex_1.2.1.bb
-index c40198fa8f3..2a174db0aa4 100644
+index c40198fa8f..2a174db0aa 100644
 --- a/meta/recipes-multimedia/speex/speex_1.2.1.bb
 +++ b/meta/recipes-multimedia/speex/speex_1.2.1.bb
 @@ -8,7 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eff3f76350f52a99a3df5eec6b79c02a \
