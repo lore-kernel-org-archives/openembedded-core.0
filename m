@@ -1,171 +1,124 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2833.1794441924667135707
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6454.1794455917448530779
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 16:05:24 -0800
+ Wed, 11 Nov 2026 19:58:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=MBq+DGaK;
- spf=pass (domain: gmail.com, ip: 74.125.82.169, mailfrom: ragaprasanth@gmail.com)
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso2570820eec.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 16:05:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794441924; cv=none;
-        d=google.com; s=arc-20260327;
-        b=M5XajWWlS3+fXUD232ShiT/g0GrQwbU1KCDDpSgoUHyE0EyItI/2epMxUt0eNhVwMY
-         FJsjkX7s/spitfukMr/UnaRQ+YBi3kefD2DaonGQApfRV7HGbJNHtHb+gPZjS+qHpBjs
-         PGRYyl2dskmI+CYD4nVjovbNSoRSx6nK455Mb2zdUYenVtZwV414801AcO9JEkqwDjzd
-         GHKsuynGBFnEX7lqCbHFVI2Qkg9UH8rPIwIUaWFtLY1gjMsqzJx6r7IUeKoGwJQVhtiD
-         amVZpTAwRHR0I2OF7ABsxDsngiWYS3KgRg2swDdVHven5va3vL4Nj5EEq4hr/L7GEsuz
-         eUVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0HcOGlRkREAG9OQIJG5K5xgj38KJZ/054m+H2C0i/HM=;
-        fh=VOVZu8FjXojtP/2iv884q8pvwCQeeuFgwI9OY1sYm5U=;
-        b=I4BZGNsgiMvMOAK/dZQhnj3hKh/SqsF/PudCgA2meaQ0r5Ti+uPE3eG7QBh/NZCoHb
-         4SRgToYupykdpYsSpKzddph+jbAAWy/b5ORcPSrrmvdM7KUoNTPc33WTUi/gAL6nizRT
-         LDyLTwZknLIkyJ07pyTAI2ASDkFqRs/8ewzBmiPI30lfUkXe+ewh2MieJndleWotQyBy
-         HCJFy687HM9opWfHGZhE5IVc3a1y8ChXohXm1E40phvnEaa1q8lrdnP5MhJhE9UgFkrG
-         IDlxjljSiKd6hioT6c5MQxdH6mgxFTSl68NkBXRf0jZZJ6QRRKDM2TCQW82Tu5RZIaRQ
-         HYhA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=CexGym+H;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: bbnpreetsingh@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cdb15cd8558so1601396a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 19:58:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794441924; x=1795046724; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0HcOGlRkREAG9OQIJG5K5xgj38KJZ/054m+H2C0i/HM=;
-        b=MBq+DGaK07k1FGVT4Hx7255/YGzB85wQyvgeZcuuQkzknAKqCf+s0PRUNoml2rRYlP
-         oT3NdhtslzinhzDAdUy9PeE/LLBteUg3v1EnAL4RmtcIYlZ6kCEz5DJMO0JgMe3ujI7u
-         tgpAXV645DkozAWzyuLvtFQezp3/iG8teS2xfMavX/ED+P9jtMdSj4AMDNpmsSuvTtT1
-         4sj+ntEl0j80uOuGYSeX0ryLqmnZdUhn2gURzOer2hj/raWD/wqjgzptL4DfdBfDHAn0
-         J5FVHrQJRVaPtHvcaK6sZxPupJrQRSd79jlk6RnKYLAz8jZHe7ZiqVoOrCbZ07jjRJdE
-         aRRw==
+        d=gmail.com; s=20260707; t=1794455917; x=1795060717; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=f1buTejLNLEUMYN5D8y8OPhTNjlU3XPZg52p1N9Yv1Y=;
+        b=CexGym+H14wnHymx1Uj7GEEIxvBmqYP26UqXmKYJBX1XU7nAh7fMT383fxJcN6P1VP
+         GEOwHrIFotqLsSMPUFfVy7kEbYTk1i8aHG4eAraAw0BWa6uMQmnlntmOuqzIrKZKL4h8
+         CuXKxwqwYcnmX05nkmfhx0PTAfvqanJs75Y9Dfxk9j0p9Ax/9EE39L9EEyWqUbT6GRK1
+         /SOLlrp7UolZBD2TTUgMvTZHXO58VIecEKfo12cGEi3N+vFH6+Q1RHzVHro0YMmbkN2u
+         At4hg9njGTyhjZuC6cfBXOtmaxvkMUxW4I+WKsR1yPYzMok3BRzYJmybqBk7xiQKXpgm
+         Vb1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794441924; x=1795046724;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0HcOGlRkREAG9OQIJG5K5xgj38KJZ/054m+H2C0i/HM=;
-        b=qQSKxIkQPyUfy/Zmc99DoJ09gwp7s1j+XAHBTeUxveS91Sq+jZblOIDFtUXl0l+Qwa
-         4L9AFlkm93eZhcph1qenc13Oc2tC2AgpjqlDSIyKfyFCmgB2qiBR4iLjT+m7of/rE9SH
-         7K+g1YgcUTUrMLDwt/mrHRNul+J6EBfd5KoI9pqy4FfQzgXqHQRu3YauS+sZSwizesvb
-         mRsl8/HPeBry1HOfgDINuaUuJghDtfbn201+eZ69CK2BdlQqjx2TH75Kb8dO2s0Nft63
-         Md9MfDHuOV+ba9R5gus4WrM++DjOht/TAT89EpUqfaJ7vJ8Ow48wbULlibg+DhkRe4R+
-         Ty6w==
-X-Gm-Message-State: APuU4Z8GyaAiqQ2xgbR7Kh5nLG9W2IeAmzNT9wInEvTMVRWQK2fPWZp7
-	mfuwTbFdzwBO7GDRlFSeN6of+ZDcAUSv0sz+5r/aHdvA0UeyQJrDw/dgZEgQrnoV5sw9mehjF4x
-	5xRinw3um50qXBhhqfVpZDCD9dIRbxnk=
-X-Gm-Gg: AYBFou007uklkMY2Bc7AaQnsa7jcMHaVSFPWzIg7usTZ+EsFF23ciE5Z/fgxO54Celw
-	VwNi5GrymE0PIVtVieu3LftuxX5Ndmx85I7WJ+/5E6cOP3BirC6kqEl/pGv2ckW/Jjb1plunXx3
-	ylNv+h8ndV3a8eiVGmUcQMPrqmMSR9xEeXF+nXFN5q/pQsljet4ld21FOCSVBwrNduqxVQVV7x2
-	5eWm89cwSO++maPnz10qguXQgKN2dkrvZ1mv+gkfh+exqCX9n2O1kCmBFxVKvVAt5uMa60jfuwZ
-	Ey9JSzBielcn/MtkI8xjGM9s0VbMDp5mlSdXM2GA7nsfUX5dfIsbpMl4SLkUSMPdSy7ffrd/XRI
-	JaieXCfzuL28ig561URGLmfpNEztrqhIe6Gb6qT+ugiPZKO0ocaqOmWIGqeXv
-X-Received: by 2002:a05:693c:65d5:b0:36a:1f8:a5a4 with SMTP id
- 5a478bee46e88-37687213f9dmr4583665eec.38.1794441923814; Wed, 11 Nov 2026
- 16:05:23 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794455917; x=1795060717;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=f1buTejLNLEUMYN5D8y8OPhTNjlU3XPZg52p1N9Yv1Y=;
+        b=Cu/m9nlSCtLiPXHWMtouqZILAWZQGgS8Rp4FWMOp06fToMlnR2lAsDqXTFfEHTx6BU
+         LkUGaBZ31SPp9GkxDyoNDe7T3hTN1oHpp2Hyj5gqylqxgOsHT63tLvOBZdWkZblJHkrf
+         //qJMO13Oyijm+ebAfk5e5JNgJoKiZkHzUfxZH8fsKF1j9eFY+hPt1KzUJn0ZE51LmGY
+         5Vl8UtuTmAuYj1Q+blZUhCZ6Q9mIlKknM6x8z3SwY/nqXkmSQvXVKYgJC8if1aGzm7E9
+         4JWJQDORZL9KWUD+K99MnKVC8vkbhB72BtMpBMMr7nuEfKGOEuRo4mfN8492Og+6Xbem
+         KIzQ==
+X-Gm-Message-State: APuU4Z/r0zojGf1Ejx++SXS23hNcnwPSNnkwDVvaV7MRuXx5dTGI3GYB
+	DE7+wZKOhxEs963hSyN2KMNE1KI+PNqWfazuSv5hAoJjNpLY7hnKtUIljUSedaAX
+X-Gm-Gg: AYBFou3cdEP7VMSINh+kRLvwvK2syfogAYaQ6g5k0+EzL+YU5xpPzsH2QhjQbcVhWOj
+	ebIeZR9WyEgXoLHOc7fggnLgM6aa8J2wEMiPMnnsUvYSDZ230K3WItdj08+Vd1n3tyNfUc3wxcV
+	mrxBB6A4MCJGSXviLvp9B1F06B0A93cPRNRMMft50KBtOqvge283WlGbmNFtGH4OJOjKDrKgBSV
+	X2I5eX0ylaPdFxk0WUIKle5870skIXK4+6AgMRo0VeYLzW+zBuOMenS/sq0E4WxEmGL5d2QeTaq
+	XF3G8iBsRUihS6HustOOpeIAoIf8RP0ZeDf3C7cqheQcAftIY5hl5UMvPpE+jitJ9lVzGjv8qzU
+	G2PbfH76uhtZIyKzxsaOqgQyWJr8y0OoDFobAe5dAxo5nHd0bFx6uJLFKxtsHydMlPX1n8576zX
+	XbW+Fil2tuJp0l0UWdTruty0jGhHJ1wRXRd9vtkg+4HHtWEpPJ0U4cW5WU6L+9xw/GbuwsaN8ce
+	aJZ4ovul6OmB0KVfH70OpSuTapuHuRkFA+gJH7jlHVc01a18MSEz3uQQmxuVnWAQ8nOBCbiTdaO
+	u7/OOHuFIgk+jJFFNbO77fDQipf2WpCd1ZIJ1tO6ZwcUkauCnfyDwemnQbE56/4=
+X-Received: by 2002:a17:90b:1642:b0:3b0:9941:ec79 with SMTP id 98e67ed59e1d1-3b182f85322mr4143341a91.53.1794455916576;
+        Wed, 11 Nov 2026 19:58:36 -0800 (PST)
+Return-Path: <bbnpreetsingh@gmail.com>
+Received: from localhost.localdomain ([108.180.159.198])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197d0fdbdsm2254249a91.10.2026.11.11.19.58.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 19:58:36 -0800 (PST)
+From: Babanpreet Singh <bbnpreetsingh@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross.burton@arm.com>,
+	Babanpreet Singh <bbnpreetsingh@gmail.com>
+Subject: [PATCH 1/2] recipetool: create: keep tag= in SRC_URI
+Date: Thu, 12 Nov 2026 03:58:33 +0000
+Message-ID: <20261112035834.7-1-bbnpreetsingh@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20261106025416.631340-1-ragaprasanth@gmail.com> <73F56A84-6C13-47D4-99A4-A08613A3263D@arm.com>
-In-Reply-To: <73F56A84-6C13-47D4-99A4-A08613A3263D@arm.com>
-From: Prasanth Ramesh <ragaprasanth@gmail.com>
-Date: Thu, 12 Nov 2026 09:04:47 +0900
-X-Gm-Features: AclHuK8dXsedQg2PkBulzgbzoIBvMRifCX1gyzHWYR8ASkHtiBY2H-pRTQnxFSY
-Message-ID: <CAG7eodFD6zD-WNXjTF==4U1gGzqPjhMSExjYKxJc9beL55FERw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sanity: fix NameError when upgrading a TMPDIR
- from ABI 14
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007067880660091130"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 00:05:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250061
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 03:58:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250062
+Content-Type: text/plain; charset="utf-8"
 
---0000000000007067880660091130
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The fetcher now checks that tag= resolves to SRCREV, so stop dropping
+the tag from the SRC_URI of the recipe.
 
-Hi Ross,
+[YOCTO #15816]
 
-I saw your commit, fair point.
-As ABI 14 trees are honister or older, would it be better to drop the 14 ->
-15 conversion instead? Those trees would then get the normal layout-change
-message rather than a traceback. I can send a v2.
+Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/recipetool.py | 7 ++++++-
+ scripts/lib/recipetool/create.py           | 2 --
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-Thanks,
-Prasanth
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index 54b7cb3a65..c278abdab2 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -776,7 +776,7 @@ class RecipetoolCreateTests(RecipetoolBase):
+         inherits = ['setuptools3']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
+-    def _test_recipetool_create_git(self, srcuri, branch=None):
++    def _test_recipetool_create_git(self, srcuri, branch=None, extravars=None):
+         # Basic test to check http git URL mangling works
+         temprecipe = os.path.join(self.tempdir, 'recipe')
+         os.makedirs(temprecipe)
+@@ -792,6 +792,7 @@ class RecipetoolCreateTests(RecipetoolBase):
+                 checkvars['SRC_URI'] = 'git%s;protocol=%s' % (srcuri[len(scheme):], scheme)
+         if ';branch=' not in srcuri:
+             checkvars['SRC_URI'] += ';branch=' + (branch or 'master')
++        checkvars.update(extravars or {})
+         self._test_recipe_contents(recipefile, checkvars, [])
+ 
+     def test_recipetool_create_git_http(self):
+@@ -806,6 +807,10 @@ class RecipetoolCreateTests(RecipetoolBase):
+     def test_recipetool_create_git_srcbranch(self):
+         self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;protocol=https', 'matchbox-keyboard-0-1')
+ 
++    def test_recipetool_create_git_srcuri_branch_tag(self):
++        self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;branch=matchbox-keyboard-0-1;protocol=https;tag=0.1.1',
++                                         extravars={'SRCREV': '630d89068dc0a1e9199306d405cb32f892dfa4d3'})
++
+     def _go_urifiy(self, url, version, modulepath = None, pathmajor = None, subdir = None):
+         modulepath = ",path='%s'" % modulepath if len(modulepath) else ''
+         pathmajor = ",pathmajor='%s'" % pathmajor if len(pathmajor) else ''
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index e0da96dea0..662e7a6232 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -600,8 +600,6 @@ def create_recipe(args):
+                 logger.error(str(err))
+                 logger.error("Possibly wrong tag name is provided")
+                 sys.exit(1)
+-            # Drop tag from srcuri as it will have conflicts with SRCREV during recipe parse.
+-            del params['tag']
+         srcuri = bb.fetch.encodeurl((scheme, network, path, user, passwd, params))
+ 
+         if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
+-- 
+2.43.0
 
-
-On Thu, Nov 12, 2026 at 2:45=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
-
-> On 6 Nov 2026, at 02:54, prasanth via openembedded-core <ragaprasanth=3D
-> gmail.com@lists.openembedded.org> wrote:
-> >
-> > drop_v14_cross_builds() calls sstate_clean_manifest(), which is defined
-> > in sstate.bbclass. Since the sanity code moved to lib/oe in 4efa61f049
-> > ("sanity: Move code to lib/oe"), that name is no longer in scope, so a
-> > TMPDIR with ABI 14 fails with:
->
-> Whilst I agree that upgrading from ABI 14 shouldn=E2=80=99t cause an erro=
-r, 15 was
-> introduced in kirkstone so you=E2=80=99re presumably trying to use a buil=
-d tree
-> that previously was used to build gatesgarth/hardknott/honister?
->
-> > -                    sstate_clean_manifest(m, d)
-> > +
-> bb.utils.exec_flat_python_func("sstate_clean_manifest", m, d)
->
-> Why exec_flat_python_func?  Literally nothing has used this function sinc=
-e
-> 2016, I=E2=80=99ll send a patch to remove it.
->
-> Ross
->
->
-
---0000000000007067880660091130
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Ross,<br><br>I saw your commit, fair point.=C2=A0<div>A=
-s ABI 14 trees are honister or older, would it be better to
-drop the 14 -&gt; 15 conversion instead? Those trees would then get the nor=
-mal layout-change message rather than a traceback. I can send a v2.=C2=A0<d=
-iv><br>Thanks,<br>Prasanth<br><br></div></div></div><br><div class=3D"gmail=
-_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu,=
- Nov 12, 2026 at 2:45=E2=80=AFAM Ross Burton &lt;<a href=3D"mailto:Ross.Bur=
-ton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On 6 Nov 2026, at 02:54, prasanth via open=
-embedded-core &lt;ragaprasanth=3D<a href=3D"mailto:gmail.com@lists.openembe=
-dded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:=
-<br>
-&gt; <br>
-&gt; drop_v14_cross_builds() calls sstate_clean_manifest(), which is define=
-d<br>
-&gt; in sstate.bbclass. Since the sanity code moved to lib/oe in 4efa61f049=
-<br>
-&gt; (&quot;sanity: Move code to lib/oe&quot;), that name is no longer in s=
-cope, so a<br>
-&gt; TMPDIR with ABI 14 fails with:<br>
-<br>
-Whilst I agree that upgrading from ABI 14 shouldn=E2=80=99t cause an error,=
- 15 was introduced in kirkstone so you=E2=80=99re presumably trying to use =
-a build tree that previously was used to build gatesgarth/hardknott/honiste=
-r?<br>
-<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- sstate_clean_manifest(m, d)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- bb.utils.exec_flat_python_func(&quot;sstate_clean_manifest&quot;, m, d)<br=
->
-<br>
-Why exec_flat_python_func?=C2=A0 Literally nothing has used this function s=
-ince 2016, I=E2=80=99ll send a patch to remove it.<br>
-<br>
-Ross<br>
-<br>
-</blockquote></div>
-
---0000000000007067880660091130--
