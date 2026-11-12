@@ -1,35 +1,35 @@
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2267.1794505382240375343
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2271.1794505390270882388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2026 09:43:03 -0800
+ Thu, 12 Nov 2026 09:43:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=eFozZmi6;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20261112174258aef9611f11000207e7-54kmwp@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20261112174258aef9611f11000207e7
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=cG8/GKPY;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20261112174308be2054d99d00020706-zrjwyu@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20261112174308be2054d99d00020706
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 12 Nov 2026 18:42:59 +0100
+        Thu, 12 Nov 2026 18:43:08 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=VL/LpsVmbzIPGfPyO67tq9fIPWuq76uEk/NXhLPpR3o=;
- b=eFozZmi6BNw/jp8WegRuRm2Z3zOAbQahpXxb2B/WZ2DPx1zo8Jn90NnnOkjK1l5hL69dqm
- qj+HU8p4R0O/vz5tWHMu9XTtJVVHmSxvsz5rYqNUHRSEc9VjgOTbXWE/ja4WqS5b+NMI3kqm
- AuCbszJ44ST2OFe+zV3VA0z1Jj9ysxNFttAnHNnXcKeItqapQGpHR7g/qzxHJ9ojswu10e/U
- 0ILmCcGEV0x1ZTX0+jHiy3xMLeslsueLoq92H3gBf3EvfUEiwaalw0LWAHYkhXlE6VjdSwBy
- +qDEsARPY9jTor9fZkvTU9L4CCDRmXYvfBS2A28NpSsg6KAqNvFpiVrA==;
+ bh=HGhylUtOUHUMVeTecCgrSjCd5UxhnUwp5HD8s0UPLtw=;
+ b=cG8/GKPYLux9BPHEX/rczOasg+K3n2tNGGK6MA93JixKklxItYUkaVPkCA5ERimCv+0nf2
+ 1smGVEa6SnNurOGP3qDglJqxTLZnSOJEUad3bIaLsIuiF3KnfaqS+1zmAgdggHxWF6hEUg57
+ B8unGUTnuJYJe9hofJaYh+R5sZitCuE9QiT5iulJmimXusAM9EOhlzX9h4Jl15ArgODA8fHX
+ FJDtHjgZxQ6xnzHdHAQg11kBRkOgkj9KWqeQeNsAJD9FdHrhz6qXcI03vfrP9915b7jK5PUw
+ 3j33w0IiqmckjJh923jCU6auWJ2yvHn0l31LIp0QQpqe63PPcYzv2Qaw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] avahi: set status of 10 pre-rc5 CVEs
-Date: Thu, 12 Nov 2026 18:42:44 +0100
-Message-ID: <20261112174244.332987-1-peter.marko@siemens.com>
+Subject: [blacksail][PATCH] avahi: set status of 10 pre-rc5 CVEs
+Date: Thu, 12 Nov 2026 18:42:57 +0100
+Message-ID: <20261112174257.333089-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 17:43:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250109
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250110
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -54,10 +54,10 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/meta/recipes-connectivity/avahi/avahi_0.9.bb b/meta/recipes-connectivity/avahi/avahi_0.9.bb
-index 560e95fce38..44ec08d8956 100644
+index 15189d09063..4f34b29fea3 100644
 --- a/meta/recipes-connectivity/avahi/avahi_0.9.bb
 +++ b/meta/recipes-connectivity/avahi/avahi_0.9.bb
-@@ -33,6 +33,12 @@ SRCREV = "71b640e686964efb27cb708f4457ffaed183c319"
+@@ -32,6 +32,12 @@ SRCREV = "71b640e686964efb27cb708f4457ffaed183c319"
  GITHUB_BASE_URI = "https://github.com/avahi/avahi/releases/"
  
  CVE_STATUS[CVE-2021-26720] = "not-applicable-platform: Issue only affects Debian/SUSE"
