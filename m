@@ -1,237 +1,127 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12986.1794489603440104348
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12958.1794489633405545775
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2026 05:20:04 -0800
+ Thu, 12 Nov 2026 05:20:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OM7jhY2M;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4b79502c27aso41646905e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 05:20:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=z4kFThTZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b2d14968c9so46445117b3.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 05:20:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794489632; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RidpmmLscOBvtsky231j+yE0CpVSgTuoDQLJ/8vCJoi59AQPPcflDRwenEjlmy3oJV
+         Hncwzq5KFtKsLHcecbBS43lfn5+nsmeb6UKE5hCPZTYoIAYFAA7K/9zlXvlByEC0pU+k
+         ljLwHp+3P6kz9MwGumL+/EAE8UoVwWdDdi5AnxNAGOvEJxCd7c2ewwbiFkSp1buxVJfI
+         AmWSKjVUFBzoFuJwitpRONzIPuZsBlDDIileKLnJRdLXIQd8uQm93fwQzAxAR/9Fj/bj
+         ZBn2caWc291zTN5WlAeBfPPslYGVtY3qPXa4n3ekdQUxqHgSNNlwVspGRgmlvBwJ3l68
+         Ggeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=bOQmmybAAxsuTigReJgNzAMrWn/AusnQr5gsz3bSCR4=;
+        fh=FxPQcvcPQCuYv5p+cTI4sfqaVBcM23gFaSmq5pfnDY4=;
+        b=fFD4ocICWzhu7AyrUHDwnM07efm8VYRzkKt/NvVsYoRVzv8yRu+VJQwkFS+uzsWc1r
+         GxDW1DDY11VWHvFKHwjRVrZ4noapZCgj3iA96JFG3gVdjwwUMrLzakj6msNDyBY3MpFK
+         G8gECiwSIy1TOsWmXSCpnao5pmkxWNbirs4ZWuB8Eq/3wxiOEaVD3oIx335qnux+bx3/
+         AqDoQjd8V39I9QPFDTYm9BdQg3fOI2PrN0f2OBYqMjfvy+b9YHGkwCT1/3j3U1piCEkR
+         BIEADBbVKCcVtLDnqEGKXJOZrfZGLvQTbgTot1OUWEV6/agMLVx5RJ0XJcM6XrHl+Vxf
+         aOtg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1794489601; x=1795094401; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=aZ2wL3QSN9MVr+MAUfykhIaZBIX1c6z3h12p7MFm70M=;
-        b=OM7jhY2MHPzCvf0N3A02bRQGKl3ILz/wLhejomg8YkoAIpef++RodmZFL+h0JicwXp
-         lY5vbRCGHlM2oNEpjx4+OuVu3ZvgRZqvrnnpMD6Dso8hbzsZchJ58HAV1vQjlepF2cor
-         l+9D4NFQhoNZCoIED2aeTppeRK2MaskObm5SE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794489601; x=1795094401;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1794489632; x=1795094432; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aZ2wL3QSN9MVr+MAUfykhIaZBIX1c6z3h12p7MFm70M=;
-        b=Pn4yQj8TpOTLwjRtUTpHyHyHntRtyCZXQ1REc9BdEUH7IcMYpHpKWAWYHrxnLDWlYx
-         Aupu0FDqlSi8pFb/05Id+q9VHt5imMTYmiWGzaFWdlNp4SnoyerCeBEZDBcAENRBcOcm
-         j5+RCUqEHlsLih8SU6KgnA+whwkzoASBcTREdhlFlPnlr/5a6eXvQB63ABjHTs2q4mgZ
-         TOb/M7T2R7uvZlmdXHeq20jJDCR4yDQHUUmPbx1jBIn0EScz5BtPcKKam3I4CQs4pzIQ
-         fy+xZ2WYtS7ysT8mujyXeGwfihqkPWVqe3RA4nfwqIwJ2xoeC2vjo2AFVBC7jS+W5/W7
-         aOvg==
-X-Forwarded-Encrypted: i=1; AL+hErHaZrSxf/z/crfShPnEOq49d54cWCVfhgOI+rNifSjIxSTxcy/wVKyg+vuSG8rWuSZXpHXc72N8F6uEqlBSh5Y3lg==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z8yaIb7OMSyy3R1B9czUHSEOfaLoANuS36CczMLg6UivTPk+BnX
-	B1l4n+oNlQmaHFlBmwKeKcP5KikhmO9HFknpq/CLk8cc57J2XmBoXraiVjzPeoTa5IaBVlsn/Ca
-	6oacUtcQ=
-X-Gm-Gg: AYBFou3xU/Iff4DRLmixldTUeETHxuLRqUooKbBJxLc8ZdOeeDt+/b5Zu6ZoZWi4Qz7
-	mEx23NFPtPAvYkiPrRS6nmi98lHUHenKXm3SKBQ7H9J0/hnPQWUUIjMOFsjks+bncGlvtcymSBY
-	XETGLoEIOeC+H6TjQaxkccmKDsFlm8qW5p7nXALA1X88ubL7vI5cBGkWwBCI881ec2r/YK3S6uw
-	5X1LG6qqAB7iOKHLEy9Kg9/53SSPhJ4lRWu73ZbWjS1gPTA1CUc/nnXKZBjPQptlL49sQZCN8Jh
-	86YXBKqgBIrJceZWKfffT5TSEbt/NsX5rpARa/kkg9VT7Me004B0CuBCPDXXJqVMF+EZeAYQzE8
-	oncb8HAMwwUvRk2lYy1LISmlI8kr48MQibAPZ7y60HhI7YD3Cju9ABM/L6njZ2Bh/wMTJcReUTK
-	tybcHjd0TuzgECkW1WBObnMKQciqAT+WHSGvGB/dVJK+Rb3IIfzWDfbTM3kHMyaQGET2ZTlmfnU
-	Op2gY8et3BSA6cAb+UpktlebTkYdVzH1YdrH0y0gCnyNJnXpYsBzqC02W/Yg6eW5dGu0XDnmghA
-	Q7YMA5v0G3e+yZHiZBUosk9x7Nrwu1UfzHTSGmO/IcDN9uooaEhSS0vUyFdU2QyiFJ/343xLZuD
-	Nx69PgcVTVcPnnwKTsQ==
-X-Received: by 2002:a05:600c:1d28:b0:4a1:e6c8:ff74 with SMTP id 5b1f17b1804b1-4ba0939db75mr110377695e9.29.1794489601537;
-        Thu, 12 Nov 2026 05:20:01 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:1562:9f61:e354:1b51? ([2001:8b0:aba:5f3c:1562:9f61:e354:1b51])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e26700fsm79277115e9.10.2026.11.12.05.19.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 05:19:59 -0800 (PST)
-Message-ID: <04496584f2ea27a4af59b09e4603ebbe50018869.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel-yocto.bbclass: capture stderr from
- subprocess.check_output()
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 12 Nov 2026 13:19:58 +0000
-In-Reply-To: <20261104114341.656092-1-mikko.rapeli@linaro.org>
-References: <20261104114341.656092-1-mikko.rapeli@linaro.org>
+        bh=bOQmmybAAxsuTigReJgNzAMrWn/AusnQr5gsz3bSCR4=;
+        b=z4kFThTZ2na3FwbN2jq+lL0hQNcMbH/rXPLzoT8XoKo9zhJCP37pFvG1/KsTr9I1nA
+         ZAkdSN+jLLg1qitB/SDM6usQPJaw3TarYf0TvmbcjR0seoHTxj3nhaFmCey87n+p2CE8
+         4DehJZqcChjxytTp0sHetCyLRpYNUllrq90Tc4X7VkQUf6BGhRePuyLnCS6vMRnW5Y67
+         jHK2oPSoJKKDUvlTCcDWxMuBvsDZUOIjtMBMH9sHztt+ZyIznET7f/VbM4IoYH10YgMu
+         qytT0MyFeMg7SnrRVvz/C5fQ5nxzkClA0+y0MGeTBbY/qXTPeoRdS2BQYvtKrscHf8KH
+         pO2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794489632; x=1795094432;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=bOQmmybAAxsuTigReJgNzAMrWn/AusnQr5gsz3bSCR4=;
+        b=oKhKeKH/VGnUtXqmsnjScs2PRj1YlUxYVUfVEb/BENC/WOn9uZ44pIR2ZjIuVWLJyE
+         Wx0gBYWyPUGYNOq+dgE+OZxLNRI0w/4kZbVIsB0hjSNs+vVuH1CpEaKAOl9eJ9fA+t/V
+         PVy1AkJcXl1VJisv90v5SX7gFSdi91Ta7XwihxObBg1f+fONHVSX598XpK0gB1bkDvSL
+         X7GlXUxYpCiEStMrgX/aP7IKX8ff2hBRGlwSPAF2tJ4ufiFGDORDszEYKlOtmZhouC+v
+         loGOfXVi8isY3dVsI43Ch5t0SUG5mxQ1EpqvaC1hWO589CfsggV6Enj5qyHDFPeDy0rg
+         91kQ==
+X-Gm-Message-State: APuU4Z9MZbJdOlVwFT2QTF5MaQrvBxJj/dtoj7coedQcoC6FYdxWAvRC
+	P54HqY3WmcYBVqYD3IBH41dJ38Pl/H9wWI6hHRm+67C+Xo1DeQzoMi3vJtJHe6lo4lhQ7O3BngF
+	srnIJiFZii964h52kcG8oHxkfPO4EUW0=
+X-Gm-Gg: AYBFou3y5uzUCxccXRDJZpLmszjpPPbT3Z8xAJSRXCmVenIhvqbejTiWKu4m73x3x9R
+	K8mlLZOvY/nb6KSJeqKSF9a+KxNV67RQtByFlanjobqwN1d8bciAf6mY8F4TK0i+/ZxbcA+BL1o
+	HVsMSkHK5Nt9tNiMdmhoaLnKeXE3IQo5PiaMmVahT6AeLnYZU/e1/eXEhgXQg4F9+BjbV3hkNst
+	vUOVxh0xgGL4fQI8mMSg3j1lMevZl3pBlSt0DWmRTwjpslJGe4QxPpHlPYPYrVDKEo1bEBRWiSN
+	Z8b2WG5HFh2JYmJuELie7LTSnkEXjXmIegpe1Hk/SLq0XzQr3/F3ROCUPdk7hFQwFLPtgw5uNsi
+	hq5gkfBKg5ggdjsvOyb8BEank0jtgU1/sT/sEnEfL5H8BDU9ga5huh6iJkSYYiqNxJQzX37o=
+X-Received: by 2002:a05:690e:14c1:b0:67c:c1d:e5f9 with SMTP id
+ 956f58d0204a3-67c67a46423mr3328468d50.0.1794489632349; Thu, 12 Nov 2026
+ 05:20:32 -0800 (PST)
+MIME-Version: 1.0
+References: <F1E91B20-6F2B-413B-B4B2-3EF9769D0E6B@geanix.com>
+ <CANNYZj9DLje7=bQC2PLsb_rkDCePKPM2yWWxFLmx5dZUcHbQ9w@mail.gmail.com>
+ <8A3AB7CF-6273-4D4A-9B95-073EEAE37CB1@geanix.com> <CANNYZj-32deiRNk9ZwzvTTFZuj7evLyPB3d_+33eDM+YSzr0og@mail.gmail.com>
+ <18E7449543C100DC.893556@lists.openembedded.org> <8ABE57A1-35A3-4E3E-85FB-1CD7E3D27EE6@geanix.com>
+ <CANNYZj--_8eu7tQsuwhdNNEZQ+wSh05AGKHgWnX71-wGZ-SKPw@mail.gmail.com> <4D0A9B16-8E0E-46E8-9EAE-73324C6D632D@geanix.com>
+In-Reply-To: <4D0A9B16-8E0E-46E8-9EAE-73324C6D632D@geanix.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 12 Nov 2026 14:20:20 +0100
+X-Gm-Features: AclHuK_Kj6Q2-WgD4-AwPCxDSLZBPalvJf4K5Ckq1VH4b1d5xqswM8-jK4fKq2Y
+Message-ID: <CANNYZj-CO6Vkuy9xw8sH2HxodF_c4R18X-kta1rO=MCtUzJQCA@mail.gmail.com>
+Subject: Re: [OE-core] INCOMPATIBLE_LICENSE
+To: Sean Nyekjaer <sean@geanix.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000016e60c0660142de5"
+List-Id: <openembedded-core.lists.openembedded.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 13:20:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250094
+
+--00000000000016e60c0660142de5
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-10build1 
-MIME-Version: 1.0
-List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 13:20:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250093
 
-On Wed, 2026-11-04 at 13:43 +0200, Mikko Rapeli via openembedded-core wrote=
-:
-> Hard to debug failures without stderr in output.
->=20
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
-> =C2=A0meta/classes-recipe/kernel-yocto.bbclass | 14 +++++++-------
-> =C2=A01 file changed, 7 insertions(+), 7 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-reci=
-pe/kernel-yocto.bbclass
-> index 43674e8bcb..002782f2ee 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -548,7 +548,7 @@ python do_config_analysis() {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for action in ["analysis=
-","audit"]:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-if action =3D=3D "analysis":
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 try:
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check_ou=
-tput(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') + '/=
-.config' ), '--blame', c], cwd=3Ds, env=3Denv ).decode('utf-8')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check_ou=
-tput(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') + '/=
-.config' ), '--blame', c], cwd=3Ds, stderr=3Dsubprocess.STDOUT, env=3Denv )=
-.decode('utf-8')
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal( "config analysis=
- failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')=
-))
+On Thu, 12 Nov 2026 at 13:49, Sean Nyekjaer <sean@geanix.com> wrote:
 
+> > Due to that change, the license check should probably be then fixed to
+> only run for the target rootfs, and not SDK sysroots. Can you reproduce
+> this on plain oe-core/poky master?
+> >
+>
+> Yes, I=E2=80=99m able to reproduce this on oe-core master.
+>
 
-Whilst I understand the intent here and agree with the goal of
-improving the error handling and failure messages, I think mixing
-stdout and stderror is likely a bad idea.
+A fix would be very appreciated then :) Note that there are tests
+in meta/lib/oeqa/selftest/cases/incompatible_lic.py which probably could be
+extended to cover SDKs.
 
-We already have exception handling there, can we improve that to give
-better errors instead?
+Alex
 
-(same comment to the other similar changes here).
+--00000000000016e60c0660142de5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Using text=3DTrue to subprocess would get rid of all the utf-8 decoding
-too FWIW which might simplify the changes.
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 12 Nov 2026 at 13:49, Sean Nyekja=
+er &lt;<a href=3D"mailto:sean@geanix.com">sean@geanix.com</a>&gt; wrote:</d=
+iv><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+&gt; Due to that change, the license check should probably be then fixed to=
+ only run for the target rootfs, and not SDK sysroots. Can you reproduce th=
+is on plain oe-core/poky master?<br>
+&gt; <br>
+<br>
+Yes, I=E2=80=99m able to reproduce this on oe-core master.<br></blockquote>=
+<br></div><div class=3D"gmail_quote gmail_quote_container">A fix would be v=
+ery appreciated then :) Note that there are tests in=C2=A0meta/lib/oeqa/sel=
+ftest/cases/incompatible_lic.py which probably could be extended to cover S=
+DKs.</div><div class=3D"gmail_quote gmail_quote_container"><br></div><div c=
+lass=3D"gmail_quote gmail_quote_container">Alex</div></div>
 
-Cheers,
-
-Richard
-
-> @@ -556,7 +556,7 @@ python do_config_analysis() {
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-if action =3D=3D "audit":
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 try:
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check_ou=
-tput(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') + '/=
-.config' ), '--summary', '--extended', '--sanity', c], cwd=3Ds, env=3Denv )=
-.decode('utf-8')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check_ou=
-tput(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') + '/=
-.config' ), '--summary', '--extended', '--sanity', c], cwd=3Ds, stderr=3Dsu=
-bprocess.STDOUT, env=3Denv ).decode('utf-8')
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal( "config analysis=
- failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8')=
-))
-> =C2=A0
-> @@ -593,7 +593,7 @@ python do_kernel_configcheck() {
-> =C2=A0=C2=A0=C2=A0=C2=A0 # passed a valid meta-series for processing
-> =C2=A0=C2=A0=C2=A0=C2=A0 kmeta =3D d.getVar("KMETA")
-> =C2=A0=C2=A0=C2=A0=C2=A0 if not kmeta or not os.path.exists('{}/{}'.forma=
-t(s,kmeta)):
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kmeta =3D subprocess.check_ou=
-tput(['kgit', '--meta'], cwd=3Dd.getVar('S')).decode('utf-8').rstrip()
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kmeta =3D subprocess.check_ou=
-tput(['kgit', '--meta'], cwd=3Dd.getVar('S'), stderr=3Dsubprocess.STDOUT).d=
-ecode('utf-8').rstrip()
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 env =3D os.environ.copy()
-> =C2=A0=C2=A0=C2=A0=C2=A0 env['PATH'] =3D "%s:%s%s" % (d.getVar('PATH'), s=
-, "/scripts/util/")
-> @@ -608,7 +608,7 @@ python do_kernel_configcheck() {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env['CLANG_FLAGS'] =3D "=
- -fintegrated-as"
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 try:
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 configs =3D subprocess.check_=
-output(['scc', '--configs', '-o', s + '/.kernel-meta'], env=3Denv).decode('=
-utf-8')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 configs =3D subprocess.check_=
-output(['scc', '--configs', '-o', s + '/.kernel-meta'], stderr=3Dsubprocess=
-.STDOUT, env=3Denv).decode('utf-8')
-> =C2=A0=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal( "Cannot gather=
- config fragments for audit: %s" % e.output.decode("utf-8") )
-> =C2=A0
-> @@ -627,7 +627,7 @@ python do_kernel_configcheck() {
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 # category #1: mismatches
-> =C2=A0=C2=A0=C2=A0=C2=A0 try:
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check=
-_output(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') +=
- '/.config' ), '--mismatches', extra_params], cwd=3Ds, env=3Denv ).decode('=
-utf-8')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check=
-_output(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') +=
- '/.config' ), '--mismatches', extra_params], cwd=3Ds, stderr=3Dsubprocess.=
-STDOUT, env=3Denv ).decode('utf-8')
-> =C2=A0=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal( "config analys=
-is failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8=
-')))
-> =C2=A0
-> @@ -649,7 +649,7 @@ python do_kernel_configcheck() {
-> =C2=A0=C2=A0=C2=A0=C2=A0 if bsp_check_visibility > 1:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 extra_params =3D "--stri=
-ct"
-> =C2=A0=C2=A0=C2=A0=C2=A0 try:
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check=
-_output(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') +=
- '/.config' ), '--invalid', extra_params], cwd=3Ds, env=3Denv ).decode('utf=
--8')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check=
-_output(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') +=
- '/.config' ), '--invalid', extra_params], cwd=3Ds, stderr=3Dsubprocess.STD=
-OUT, env=3Denv ).decode('utf-8')
-> =C2=A0=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal( "config analys=
-is failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8=
-')))
-> =C2=A0
-> @@ -668,7 +668,7 @@ python do_kernel_configcheck() {
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 # category #3: redefined options (this is pretty=
- verbose and is debug only)
-> =C2=A0=C2=A0=C2=A0=C2=A0 try:
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check=
-_output(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') +=
- '/.config' ), '--sanity'], cwd=3Ds, env=3Denv ).decode('utf-8')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 analysis =3D subprocess.check=
-_output(['symbol_why.py', '--dotconfig',=C2=A0 '{}'.format( d.getVar('B') +=
- '/.config' ), '--sanity'], cwd=3Ds, stderr=3Dsubprocess.STDOUT, env=3Denv =
-).decode('utf-8')
-> =C2=A0=C2=A0=C2=A0=C2=A0 except subprocess.CalledProcessError as e:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal( "config analys=
-is failed when running '%s': %s" % (" ".join(e.cmd), e.output.decode('utf-8=
-')))
-> =C2=A0
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#249371): https://lists.openembedded.org/g/openembedde=
-d-core/message/249371
-> Mute This Topic: https://lists.openembedded.org/mt/122090961/1686473
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=C2=
-=A0[richard.purdie@linuxfoundation.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+--00000000000016e60c0660142de5--
