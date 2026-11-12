@@ -1,87 +1,171 @@
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1111.1794436358111302009
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2833.1794441924667135707
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 14:32:38 -0800
+ Wed, 11 Nov 2026 16:05:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=lrml9os+;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-2026111122323688ee86b38c000207cd-7oufbo@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026111122323688ee86b38c000207cd
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 11 Nov 2026 23:32:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=3fxIjWw249WQ2OYtMXfaxxEh8VR5DQKVROuHD4bwGfg=;
- b=lrml9os+ZL/pLVCzX64tYValUQJnj2Z4GGlxbcOvaZnSSVaEBImzM+F9TEJaIeoJTm5ir3
- cE1ZZaFH5q8jiKbL/v4LgVwRRLCSD5V+rhHX1WZDWg80l3Dvgc3sTZZv78Sb9hIDjpu/kgGj
- wmDYw74wcvN6htB6Rh6J6tuEpfD+TP5U6mST9VT1eKfdbFgEJrMWG5O8/xtt6uiml1G2bgcd
- V7LGIAS9lbylDuS+5OgZxCN98/0Fnz3f6Rn8FBnAA1m6ta+qxiPVnnQaj8bNhlt8iuux8J70
- 7Y5VXvai8j8XvU+UQqi5a5lp5gVAIo78YRGEAWRs7KF27/BitkHnlSzw==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH 2/2] xserver-xorg: upgrade 21.1.24 -> 21.1.26
-Date: Wed, 11 Nov 2026 23:30:33 +0100
-Message-ID: <20261111223033.2727881-2-peter.marko@siemens.com>
-In-Reply-To: <20261111223033.2727881-1-peter.marko@siemens.com>
-References: <20261111223033.2727881-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=MBq+DGaK;
+ spf=pass (domain: gmail.com, ip: 74.125.82.169, mailfrom: ragaprasanth@gmail.com)
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso2570820eec.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 16:05:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794441924; cv=none;
+        d=google.com; s=arc-20260327;
+        b=M5XajWWlS3+fXUD232ShiT/g0GrQwbU1KCDDpSgoUHyE0EyItI/2epMxUt0eNhVwMY
+         FJsjkX7s/spitfukMr/UnaRQ+YBi3kefD2DaonGQApfRV7HGbJNHtHb+gPZjS+qHpBjs
+         PGRYyl2dskmI+CYD4nVjovbNSoRSx6nK455Mb2zdUYenVtZwV414801AcO9JEkqwDjzd
+         GHKsuynGBFnEX7lqCbHFVI2Qkg9UH8rPIwIUaWFtLY1gjMsqzJx6r7IUeKoGwJQVhtiD
+         amVZpTAwRHR0I2OF7ABsxDsngiWYS3KgRg2swDdVHven5va3vL4Nj5EEq4hr/L7GEsuz
+         eUVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0HcOGlRkREAG9OQIJG5K5xgj38KJZ/054m+H2C0i/HM=;
+        fh=VOVZu8FjXojtP/2iv884q8pvwCQeeuFgwI9OY1sYm5U=;
+        b=I4BZGNsgiMvMOAK/dZQhnj3hKh/SqsF/PudCgA2meaQ0r5Ti+uPE3eG7QBh/NZCoHb
+         4SRgToYupykdpYsSpKzddph+jbAAWy/b5ORcPSrrmvdM7KUoNTPc33WTUi/gAL6nizRT
+         LDyLTwZknLIkyJ07pyTAI2ASDkFqRs/8ewzBmiPI30lfUkXe+ewh2MieJndleWotQyBy
+         HCJFy687HM9opWfHGZhE5IVc3a1y8ChXohXm1E40phvnEaa1q8lrdnP5MhJhE9UgFkrG
+         IDlxjljSiKd6hioT6c5MQxdH6mgxFTSl68NkBXRf0jZZJ6QRRKDM2TCQW82Tu5RZIaRQ
+         HYhA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794441924; x=1795046724; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0HcOGlRkREAG9OQIJG5K5xgj38KJZ/054m+H2C0i/HM=;
+        b=MBq+DGaK07k1FGVT4Hx7255/YGzB85wQyvgeZcuuQkzknAKqCf+s0PRUNoml2rRYlP
+         oT3NdhtslzinhzDAdUy9PeE/LLBteUg3v1EnAL4RmtcIYlZ6kCEz5DJMO0JgMe3ujI7u
+         tgpAXV645DkozAWzyuLvtFQezp3/iG8teS2xfMavX/ED+P9jtMdSj4AMDNpmsSuvTtT1
+         4sj+ntEl0j80uOuGYSeX0ryLqmnZdUhn2gURzOer2hj/raWD/wqjgzptL4DfdBfDHAn0
+         J5FVHrQJRVaPtHvcaK6sZxPupJrQRSd79jlk6RnKYLAz8jZHe7ZiqVoOrCbZ07jjRJdE
+         aRRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794441924; x=1795046724;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=0HcOGlRkREAG9OQIJG5K5xgj38KJZ/054m+H2C0i/HM=;
+        b=qQSKxIkQPyUfy/Zmc99DoJ09gwp7s1j+XAHBTeUxveS91Sq+jZblOIDFtUXl0l+Qwa
+         4L9AFlkm93eZhcph1qenc13Oc2tC2AgpjqlDSIyKfyFCmgB2qiBR4iLjT+m7of/rE9SH
+         7K+g1YgcUTUrMLDwt/mrHRNul+J6EBfd5KoI9pqy4FfQzgXqHQRu3YauS+sZSwizesvb
+         mRsl8/HPeBry1HOfgDINuaUuJghDtfbn201+eZ69CK2BdlQqjx2TH75Kb8dO2s0Nft63
+         Md9MfDHuOV+ba9R5gus4WrM++DjOht/TAT89EpUqfaJ7vJ8Ow48wbULlibg+DhkRe4R+
+         Ty6w==
+X-Gm-Message-State: APuU4Z8GyaAiqQ2xgbR7Kh5nLG9W2IeAmzNT9wInEvTMVRWQK2fPWZp7
+	mfuwTbFdzwBO7GDRlFSeN6of+ZDcAUSv0sz+5r/aHdvA0UeyQJrDw/dgZEgQrnoV5sw9mehjF4x
+	5xRinw3um50qXBhhqfVpZDCD9dIRbxnk=
+X-Gm-Gg: AYBFou007uklkMY2Bc7AaQnsa7jcMHaVSFPWzIg7usTZ+EsFF23ciE5Z/fgxO54Celw
+	VwNi5GrymE0PIVtVieu3LftuxX5Ndmx85I7WJ+/5E6cOP3BirC6kqEl/pGv2ckW/Jjb1plunXx3
+	ylNv+h8ndV3a8eiVGmUcQMPrqmMSR9xEeXF+nXFN5q/pQsljet4ld21FOCSVBwrNduqxVQVV7x2
+	5eWm89cwSO++maPnz10qguXQgKN2dkrvZ1mv+gkfh+exqCX9n2O1kCmBFxVKvVAt5uMa60jfuwZ
+	Ey9JSzBielcn/MtkI8xjGM9s0VbMDp5mlSdXM2GA7nsfUX5dfIsbpMl4SLkUSMPdSy7ffrd/XRI
+	JaieXCfzuL28ig561URGLmfpNEztrqhIe6Gb6qT+ugiPZKO0ocaqOmWIGqeXv
+X-Received: by 2002:a05:693c:65d5:b0:36a:1f8:a5a4 with SMTP id
+ 5a478bee46e88-37687213f9dmr4583665eec.38.1794441923814; Wed, 11 Nov 2026
+ 16:05:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20261106025416.631340-1-ragaprasanth@gmail.com> <73F56A84-6C13-47D4-99A4-A08613A3263D@arm.com>
+In-Reply-To: <73F56A84-6C13-47D4-99A4-A08613A3263D@arm.com>
+From: Prasanth Ramesh <ragaprasanth@gmail.com>
+Date: Thu, 12 Nov 2026 09:04:47 +0900
+X-Gm-Features: AclHuK8dXsedQg2PkBulzgbzoIBvMRifCX1gyzHWYR8ASkHtiBY2H-pRTQnxFSY
+Message-ID: <CAG7eodFD6zD-WNXjTF==4U1gGzqPjhMSExjYKxJc9beL55FERw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sanity: fix NameError when upgrading a TMPDIR
+ from ABI 14
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000007067880660091130"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 22:32:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250060
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 00:05:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250061
 
-From: Peter Marko <peter.marko@siemens.com>
+--0000000000007067880660091130
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From release notes 24.1.25 ([1]):
-* CVE-2026-88812: XKB SetGeometry TextDoodad Double Free
-* CVE-2026-93515: Present Extension Cross-Window Notify Use-After-Free
-* CVE-2026-93516: XInput Passive Grab modifierDevice Use-After-Free
-* CVE-2026-93517: GLX RenderLarge Heap Buffer Overflow
-* CVE-2026-93518: XKB ResizeKeyType Numeric Truncation
-* CVE-2026-93519: XFixes Pointer Barrier Event List Buffer Overflow
-* CVE-2026-93520: XKB ChangeKeycodeRange Heap Out-of-Bounds Write
-* CVE-2026-93521: RandR ChangeProviderProperty Heap Buffer Overflow
-* CVE-2026-93522: Glamor CopyArea CPU-FBO Heap Buffer Overflow
-* CVE-2026-93523: XInput2 PassiveUngrabDevice Modifier Out-of-Bounds Write
-* CVE-2026-93524: XKB SetMap Key Width/Action Count Desync Out-Of-Bounds Read
-* CVE-2026-93536: GestureBuildSprite Use-After-Free
+Hi Ross,
 
-From release notes 24.1.26 ([2]):
-* CVE-2026-109091: X.Org Server EDID DS_RANGES Out-Of-Bounds Write
-* CVE-2026-109092: X.Org Server XvShmPutImage Shared-Memory Bounds Overflow
-* CVE-2026-109093: X.Org Server XTestFakeInput Valuator Stack Out-Of-Bounds Write
-* CVE-2026-109904: X.Org Server XRes QueryClientIds Request Size Overflow
-* CVE-2026-109094: X.Org Server XRes QueryResourceBytes Swap Path Size Overflow
-* CVE-2026-109095: X.Org Server glamor Xv Image Size Integer Overflow
-* CVE-2026-109096: X.Org Server XvPutImage Negative Image Size Length Bypass
-* CVE-2026-109903: X.Org Server XvQueryImageAttributes Negative Size Reply
+I saw your commit, fair point.
+As ABI 14 trees are honister or older, would it be better to drop the 14 ->
+15 conversion instead? Those trees would then get the normal layout-change
+message rather than a traceback. I can send a v2.
 
-[1] https://lists.x.org/archives/xorg-announce/2026-October/003748.html
-[2] https://lists.x.org/archives/xorg-announce/2026-November/003760.html
+Thanks,
+Prasanth
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../{xserver-xorg_21.1.24.bb => xserver-xorg_21.1.26.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.24.bb => xserver-xorg_21.1.26.bb} (92%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.26.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.26.bb
-index 8d7f9ae14d..d5a0f65640 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.26.bb
-@@ -1,7 +1,7 @@
- require xserver-xorg.inc
- 
- SRC_URI += " file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch"
--SRC_URI[sha256sum] = "1a4eb36ca65cc3b1b936566d677a9786e13c11cd5806e951ac55f3f5ce3984af"
-+SRC_URI[sha256sum] = "c8609f9cdafde14de7ec7cb406dac9507add1d536df8d3c3e3d3d9c1cd864066"
- 
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+On Thu, Nov 12, 2026 at 2:45=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
+
+> On 6 Nov 2026, at 02:54, prasanth via openembedded-core <ragaprasanth=3D
+> gmail.com@lists.openembedded.org> wrote:
+> >
+> > drop_v14_cross_builds() calls sstate_clean_manifest(), which is defined
+> > in sstate.bbclass. Since the sanity code moved to lib/oe in 4efa61f049
+> > ("sanity: Move code to lib/oe"), that name is no longer in scope, so a
+> > TMPDIR with ABI 14 fails with:
+>
+> Whilst I agree that upgrading from ABI 14 shouldn=E2=80=99t cause an erro=
+r, 15 was
+> introduced in kirkstone so you=E2=80=99re presumably trying to use a buil=
+d tree
+> that previously was used to build gatesgarth/hardknott/honister?
+>
+> > -                    sstate_clean_manifest(m, d)
+> > +
+> bb.utils.exec_flat_python_func("sstate_clean_manifest", m, d)
+>
+> Why exec_flat_python_func?  Literally nothing has used this function sinc=
+e
+> 2016, I=E2=80=99ll send a patch to remove it.
+>
+> Ross
+>
+>
+
+--0000000000007067880660091130
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Ross,<br><br>I saw your commit, fair point.=C2=A0<div>A=
+s ABI 14 trees are honister or older, would it be better to
+drop the 14 -&gt; 15 conversion instead? Those trees would then get the nor=
+mal layout-change message rather than a traceback. I can send a v2.=C2=A0<d=
+iv><br>Thanks,<br>Prasanth<br><br></div></div></div><br><div class=3D"gmail=
+_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu,=
+ Nov 12, 2026 at 2:45=E2=80=AFAM Ross Burton &lt;<a href=3D"mailto:Ross.Bur=
+ton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On 6 Nov 2026, at 02:54, prasanth via open=
+embedded-core &lt;ragaprasanth=3D<a href=3D"mailto:gmail.com@lists.openembe=
+dded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:=
+<br>
+&gt; <br>
+&gt; drop_v14_cross_builds() calls sstate_clean_manifest(), which is define=
+d<br>
+&gt; in sstate.bbclass. Since the sanity code moved to lib/oe in 4efa61f049=
+<br>
+&gt; (&quot;sanity: Move code to lib/oe&quot;), that name is no longer in s=
+cope, so a<br>
+&gt; TMPDIR with ABI 14 fails with:<br>
+<br>
+Whilst I agree that upgrading from ABI 14 shouldn=E2=80=99t cause an error,=
+ 15 was introduced in kirkstone so you=E2=80=99re presumably trying to use =
+a build tree that previously was used to build gatesgarth/hardknott/honiste=
+r?<br>
+<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ sstate_clean_manifest(m, d)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ bb.utils.exec_flat_python_func(&quot;sstate_clean_manifest&quot;, m, d)<br=
+>
+<br>
+Why exec_flat_python_func?=C2=A0 Literally nothing has used this function s=
+ince 2016, I=E2=80=99ll send a patch to remove it.<br>
+<br>
+Ross<br>
+<br>
+</blockquote></div>
+
+--0000000000007067880660091130--
