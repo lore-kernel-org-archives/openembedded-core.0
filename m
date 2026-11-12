@@ -1,48 +1,49 @@
 Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6454.1794455917448530779
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6455.1794455917821134604
  for <openembedded-core@lists.openembedded.org>;
  Wed, 11 Nov 2026 19:58:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=CexGym+H;
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=d17J2tP/;
  spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: bbnpreetsingh@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cdb15cd8558so1601396a12.2
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cd8ba7c2694so1512333a12.1
         for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2026 19:58:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20260707; t=1794455917; x=1795060717; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=f1buTejLNLEUMYN5D8y8OPhTNjlU3XPZg52p1N9Yv1Y=;
-        b=CexGym+H14wnHymx1Uj7GEEIxvBmqYP26UqXmKYJBX1XU7nAh7fMT383fxJcN6P1VP
-         GEOwHrIFotqLsSMPUFfVy7kEbYTk1i8aHG4eAraAw0BWa6uMQmnlntmOuqzIrKZKL4h8
-         CuXKxwqwYcnmX05nkmfhx0PTAfvqanJs75Y9Dfxk9j0p9Ax/9EE39L9EEyWqUbT6GRK1
-         /SOLlrp7UolZBD2TTUgMvTZHXO58VIecEKfo12cGEi3N+vFH6+Q1RHzVHro0YMmbkN2u
-         At4hg9njGTyhjZuC6cfBXOtmaxvkMUxW4I+WKsR1yPYzMok3BRzYJmybqBk7xiQKXpgm
-         Vb1g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jID7rv9CuP81VaLsbyAftDEqjSjFw28aBZ4LuywuYII=;
+        b=d17J2tP/LfxzffXW7O3PB9HDmrSjkDq8IiBJA24Hn4Oc2qmUSuyhCOkRgVupQKswOH
+         IjjW+3uNyRlP3TdQQNO5Fe+IZCzIJtCvky009dThng0TtdLtyCEfsl4OEFGB7JmbyIUT
+         I3hno/LlOw65X6/SABbC/wXNXPzgKERwmVDcl/zIv7Z0Q7b2EQ+ugiKjD/8u5giTLMmK
+         /8lLng5IyPIRyhTopGiIU2+zyDZIu5QIx3aEI9nbLsDFJVt43LU9jXl1l8/8hnG7GmpF
+         aalhBVM02lVDCchVQKg/vdvTHElah8w0FGM1e/6OBmBr5JIC5FV0RTfXEPW4P1KUbbyP
+         MUcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1794455917; x=1795060717;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=f1buTejLNLEUMYN5D8y8OPhTNjlU3XPZg52p1N9Yv1Y=;
-        b=Cu/m9nlSCtLiPXHWMtouqZILAWZQGgS8Rp4FWMOp06fToMlnR2lAsDqXTFfEHTx6BU
-         LkUGaBZ31SPp9GkxDyoNDe7T3hTN1oHpp2Hyj5gqylqxgOsHT63tLvOBZdWkZblJHkrf
-         //qJMO13Oyijm+ebAfk5e5JNgJoKiZkHzUfxZH8fsKF1j9eFY+hPt1KzUJn0ZE51LmGY
-         5Vl8UtuTmAuYj1Q+blZUhCZ6Q9mIlKknM6x8z3SwY/nqXkmSQvXVKYgJC8if1aGzm7E9
-         4JWJQDORZL9KWUD+K99MnKVC8vkbhB72BtMpBMMr7nuEfKGOEuRo4mfN8492Og+6Xbem
-         KIzQ==
-X-Gm-Message-State: APuU4Z/r0zojGf1Ejx++SXS23hNcnwPSNnkwDVvaV7MRuXx5dTGI3GYB
-	DE7+wZKOhxEs963hSyN2KMNE1KI+PNqWfazuSv5hAoJjNpLY7hnKtUIljUSedaAX
-X-Gm-Gg: AYBFou3cdEP7VMSINh+kRLvwvK2syfogAYaQ6g5k0+EzL+YU5xpPzsH2QhjQbcVhWOj
-	ebIeZR9WyEgXoLHOc7fggnLgM6aa8J2wEMiPMnnsUvYSDZ230K3WItdj08+Vd1n3tyNfUc3wxcV
-	mrxBB6A4MCJGSXviLvp9B1F06B0A93cPRNRMMft50KBtOqvge283WlGbmNFtGH4OJOjKDrKgBSV
-	X2I5eX0ylaPdFxk0WUIKle5870skIXK4+6AgMRo0VeYLzW+zBuOMenS/sq0E4WxEmGL5d2QeTaq
-	XF3G8iBsRUihS6HustOOpeIAoIf8RP0ZeDf3C7cqheQcAftIY5hl5UMvPpE+jitJ9lVzGjv8qzU
-	G2PbfH76uhtZIyKzxsaOqgQyWJr8y0OoDFobAe5dAxo5nHd0bFx6uJLFKxtsHydMlPX1n8576zX
-	XbW+Fil2tuJp0l0UWdTruty0jGhHJ1wRXRd9vtkg+4HHtWEpPJ0U4cW5WU6L+9xw/GbuwsaN8ce
-	aJZ4ovul6OmB0KVfH70OpSuTapuHuRkFA+gJH7jlHVc01a18MSEz3uQQmxuVnWAQ8nOBCbiTdaO
-	u7/OOHuFIgk+jJFFNbO77fDQipf2WpCd1ZIJ1tO6ZwcUkauCnfyDwemnQbE56/4=
-X-Received: by 2002:a17:90b:1642:b0:3b0:9941:ec79 with SMTP id 98e67ed59e1d1-3b182f85322mr4143341a91.53.1794455916576;
-        Wed, 11 Nov 2026 19:58:36 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jID7rv9CuP81VaLsbyAftDEqjSjFw28aBZ4LuywuYII=;
+        b=gS+afR7u0/Sl9r85PKsL02ZNuOq8ZdK1TSdybs52Bso/zNDCMATuJ1rb1wRvb4LdCV
+         oFp6mNS9d7o/y31ZC9XIN5ERyP5hVEscOjPqs5ZqqQGG/Em7JYV3ttuKm2QkL+uEDOaK
+         rFr+RIUe6NMo1QfS0hqJver6vb9JXWr0WKGbfNHXPZxVvreHdBWlOMybjSi1oqxXWi+Y
+         XjToRxPrM2cJllQrTvSO/ZNOLLnoxVb1uXAmbim5AcvzO26818Px8CfnU7nMnTlfW+iG
+         b9FuCAGL1rrdJ8bdPpzBrkwsix/bj748CqeKoORhi8r/KbfvMacjY/T/mF/bFv/YD5Xi
+         mQmg==
+X-Gm-Message-State: APuU4Z/6b6COwIXzdPFDZzNv6jKsakgHRaFcUSnarswgF/GpjTgIAOTr
+	/n26w87djChM9b5tuZjpJBZCciVGV1hWOKsWnVlDuRbUo0dhWc2pqO/63uGChXho
+X-Gm-Gg: AYBFou0dYGLRDEmjY+zY6DBEhOfajYTVwqbnzOrOvVYxqzX4DcIH3TmpZeBkzFyUKj/
+	dU7iqM3Dp1GRWyRHG2AFUljy+6Gn7VRfHOkuMviuAmxow97Pkmc5y2WaplVTNSctvifK+Q15ONL
+	qDsEUu4D+OhcbyEZLgeYPAVQtsM+E7qar1u750Y9+Z3CsU92JSvzPhlZ6kgwoFJCp0xJmvSNOel
+	VrRT6kkf2jYUnD3ynISivDm/k6lIoAqVq8A9GMb/LAjDKz+7dYc4RHRmxRy2U2GuOHjfZM0B5fX
+	zY9AZtmb/9On8KasTqhrMbk9hySloFHOV43qfhvYNJfOL+Xzsr+UchGfZ7Mymd/ybm5gZzm04cU
+	UB+zheXVl2S454HIl1lhZBuOm+wJKqGX1+mfeUiQY3cjGObBXRg+M33NfWcWbW7jK0FPCCEjYgk
+	TVkB8ZbpqcIPXhXwPwVcTDOx038G7F4J3oJAml21R3Qpol/TRkAmw1fwNCsBiWV2/dFvdn0llpN
+	j1oHgOK+qaa26fuaN3+/uSX5XrbgKl2N0ofuv+pjpDLCdA2/rtbJt4ogmwM44824W6MMRu66+Mo
+	QH79QtUhN3vzaen8JnnuDKcoY7K3NJOFoOw1pbDL6NoMU38jQ/HGg1V0ryBDdDo=
+X-Received: by 2002:a17:90b:2688:b0:3a7:9adb:2a0d with SMTP id 98e67ed59e1d1-3b182d4462bmr4111794a91.0.1794455917096;
+        Wed, 11 Nov 2026 19:58:37 -0800 (PST)
 Return-Path: <bbnpreetsingh@gmail.com>
 Received: from localhost.localdomain ([108.180.159.198])
         by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197d0fdbdsm2254249a91.10.2026.11.11.19.58.36
@@ -52,73 +53,72 @@ From: Babanpreet Singh <bbnpreetsingh@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ross Burton <ross.burton@arm.com>,
 	Babanpreet Singh <bbnpreetsingh@gmail.com>
-Subject: [PATCH 1/2] recipetool: create: keep tag= in SRC_URI
-Date: Thu, 12 Nov 2026 03:58:33 +0000
-Message-ID: <20261112035834.7-1-bbnpreetsingh@gmail.com>
+Subject: [PATCH 2/2] recipetool: create: fix git URLs that only specify a tag
+Date: Thu, 12 Nov 2026 03:58:34 +0000
+Message-ID: <20261112035834.7-2-bbnpreetsingh@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261112035834.7-1-bbnpreetsingh@gmail.com>
+References: <20261112035834.7-1-bbnpreetsingh@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 03:58:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250062
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250063
 Content-Type: text/plain; charset="utf-8"
 
-The fetcher now checks that tag= resolves to SRCREV, so stop dropping
-the tag from the SRC_URI of the recipe.
+A git URL with tag= and no branch= fails with:
 
-[YOCTO #15816]
+  Unable to resolve '' in upstream git repository
 
+AUTOREV has no branch to follow now that bitbake no longer defaults to
+master. Fetch the tag itself, which also lets the branch be found from
+it.
+
+AI-Generated: Uses Claude (claude-fable-5-2)
 Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py | 7 ++++++-
- scripts/lib/recipetool/create.py           | 2 --
- 2 files changed, 6 insertions(+), 3 deletions(-)
+
+Notes:
+    Tested with oe-selftest -r recipetool.RecipetoolCreateTests. Not tried
+    on wrynose, which has the same code.
+
+ meta/lib/oeqa/selftest/cases/recipetool.py | 7 +++++++
+ scripts/lib/recipetool/create.py           | 4 ++++
+ 2 files changed, 11 insertions(+)
 
 diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index 54b7cb3a65..c278abdab2 100644
+index c278abdab2..804efcc755 100644
 --- a/meta/lib/oeqa/selftest/cases/recipetool.py
 +++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -776,7 +776,7 @@ class RecipetoolCreateTests(RecipetoolBase):
-         inherits = ['setuptools3']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
+@@ -811,6 +811,13 @@ class RecipetoolCreateTests(RecipetoolBase):
+         self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;branch=matchbox-keyboard-0-1;protocol=https;tag=0.1.1',
+                                          extravars={'SRCREV': '630d89068dc0a1e9199306d405cb32f892dfa4d3'})
  
--    def _test_recipetool_create_git(self, srcuri, branch=None):
-+    def _test_recipetool_create_git(self, srcuri, branch=None, extravars=None):
-         # Basic test to check http git URL mangling works
-         temprecipe = os.path.join(self.tempdir, 'recipe')
-         os.makedirs(temprecipe)
-@@ -792,6 +792,7 @@ class RecipetoolCreateTests(RecipetoolBase):
-                 checkvars['SRC_URI'] = 'git%s;protocol=%s' % (srcuri[len(scheme):], scheme)
-         if ';branch=' not in srcuri:
-             checkvars['SRC_URI'] += ';branch=' + (branch or 'master')
-+        checkvars.update(extravars or {})
-         self._test_recipe_contents(recipefile, checkvars, [])
- 
-     def test_recipetool_create_git_http(self):
-@@ -806,6 +807,10 @@ class RecipetoolCreateTests(RecipetoolBase):
-     def test_recipetool_create_git_srcbranch(self):
-         self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;protocol=https', 'matchbox-keyboard-0-1')
- 
-+    def test_recipetool_create_git_srcuri_branch_tag(self):
-+        self._test_recipetool_create_git('git://git.yoctoproject.org/matchbox-keyboard;branch=matchbox-keyboard-0-1;protocol=https;tag=0.1.1',
-+                                         extravars={'SRCREV': '630d89068dc0a1e9199306d405cb32f892dfa4d3'})
++    def test_recipetool_create_git_srcuri_tag(self):
++        # The 0.1.1 tag is only on the matchbox-keyboard-0-1 branch
++        srcuri = 'git://git.yoctoproject.org/matchbox-keyboard;protocol=https;tag=0.1.1'
++        self._test_recipetool_create_git(srcuri,
++                                         extravars={'SRC_URI': srcuri + ';branch=matchbox-keyboard-0-1',
++                                                    'SRCREV': '630d89068dc0a1e9199306d405cb32f892dfa4d3'})
 +
      def _go_urifiy(self, url, version, modulepath = None, pathmajor = None, subdir = None):
          modulepath = ",path='%s'" % modulepath if len(modulepath) else ''
          pathmajor = ",pathmajor='%s'" % pathmajor if len(pathmajor) else ''
 diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index e0da96dea0..662e7a6232 100644
+index 662e7a6232..0e73f462d3 100644
 --- a/scripts/lib/recipetool/create.py
 +++ b/scripts/lib/recipetool/create.py
-@@ -600,8 +600,6 @@ def create_recipe(args):
-                 logger.error(str(err))
-                 logger.error("Possibly wrong tag name is provided")
-                 sys.exit(1)
--            # Drop tag from srcuri as it will have conflicts with SRCREV during recipe parse.
--            del params['tag']
-         srcuri = bb.fetch.encodeurl((scheme, network, path, user, passwd, params))
- 
-         if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
+@@ -520,6 +520,10 @@ def create_recipe(args):
+             storeTagName = params['tag']
+             params['nobranch'] = '1'
+             del params['tag']
++            if srcrev == '${AUTOREV}':
++                # Nothing for ${AUTOREV} to resolve without a branch, so
++                # fetch the tag itself
++                srcrev = storeTagName
+         # Assume 'master' branch if not set
+         if scheme in ['git', 'gitsm'] and 'branch' not in params and 'nobranch' not in params:
+             params['branch'] = 'master'
 -- 
 2.43.0
 
