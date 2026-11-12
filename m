@@ -1,120 +1,105 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10895.1794482522239812228
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11195.1794483745306356126
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2026 03:22:02 -0800
+ Thu, 12 Nov 2026 03:42:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=yWfY1SpA;
- spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-533797e72e8so26270301cf.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 03:22:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794482521; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lRTzY4Mo4xHS6TArFhI1RSSUjp9hKUiCGtJ7U/RgPf05jbxpX66SqVYOOIsD2KNd2g
-         yGRU3zXcJIpL6iUMTrvTbyET8b/59x8klCZFdXzabz3CKPdcH/Wzn9WyMVPVgsnG5Usf
-         arRuhn7YlH2pFLmcdIDZyYch+pFcQliR+0Ql+6YuE1y+q5aF0/onjEqKBuApHZrOK7cO
-         BzcHwPrB2z1skedkFhPpFiLMh598UwIDo/zvsO3INou1Uj8c3scHfMceFtwFsV+NJFEk
-         2qda9mVWR5AlTwrcibK+q7xlEfhxZA8dMRGBLbYbksXJ4fWa0T2iypZGX8a+enGPLeMX
-         71EQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HRUToyOKKJjZEXDxcskqMmV2nVDzpk4ZUL7bqMB3tQU=;
-        fh=FxPQcvcPQCuYv5p+cTI4sfqaVBcM23gFaSmq5pfnDY4=;
-        b=ZgGAVbsTcZypVxMyy7w2O+VJkpGDKL3EwY1ay4rpae3YQX00JuLnR/4Qpxq8Ml0Cmc
-         JvZbyAbtvwMI7vun1xr5Thnod0BMt0KYU5rQ3/0uRvIsq4y8RAq+wnT3Beo/fBoq0mwo
-         yVy+TUHLjRDhmA4zWV7snSwbinA5D+w06O6T9fdGZbxT/TaROgDR2LzCy2TlwZbamK50
-         G7KFYS6LsUevhKhY808su8sw5TXJ/JESdK3OOSdud//x7uKIa5YuiISq3S3X+RlUVBHI
-         txY0vlvp26LkjRnnwj6ujaqaSvxQFDEUv4YXP/vIyLvz7SPpy3066RYlryVlMXCLtLxr
-         yyxg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794482521; x=1795087321; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HRUToyOKKJjZEXDxcskqMmV2nVDzpk4ZUL7bqMB3tQU=;
-        b=yWfY1SpAnYfxrBoKmJEF3I3Tlem3GPLQilv3mG8+QxsU2sDgE5B6GGkyH+qVYNMlwu
-         ClSZFZsf9opzTGv1XUMsrvgv3WJIBgrnl5SX9el75/16U/dtm59OzFDwN7LIJTtJ8BTX
-         kEQZyMdaPdclnf/6rX+zH4s5r37rG7b6va9Q1DaRRlnGtXHkbaIsSFftrBKWx4evK+pX
-         bQ3D132+6ygWvZ4mZ+oaoZcJYlHsHdAzNf2MyKX70sFJGJ8ouL37Z2lINSMUMLieJvih
-         I6sH+9zvMJ9uDpZ6tjACLiKRrjSIUsTggedgRA7te4DJO92jRqIErP1x0m3zBuFkSr7c
-         iZyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794482521; x=1795087321;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=HRUToyOKKJjZEXDxcskqMmV2nVDzpk4ZUL7bqMB3tQU=;
-        b=eF6VVRAPOFJFoSrc2/jyg0y0BtibX47ZmDPcqzDtsqQ112jk+KqDTq2KNLhvUjLTiZ
-         /pHCOlxYiaZLqPXimHc3thCgFEUeeb737w8mpGoVOKZlYhlR7MsdZq/LO7hhnNnWA+Wh
-         TN+SvdOgo61s4r0xLFo8TAGMgGbRkUchspOoGuyT4BYJujrt0kS/kisPWItyvwjnqcrI
-         7cqlpoCQWCOcNrhUksMIhD+/jxKdH3J84ZXlZNMTeCFvbV670Pv3mdfrN6tVyABcRG6o
-         S3XnuoY/1m7+BmQ63nOgVmtlK9IlsvZF38vWVE9qe5aJb9SldnoJRLBGgTWcXFHWwYSR
-         Bhyg==
-X-Gm-Message-State: APuU4Z9NMmDKWR9TgoTVZJxb0RCeJ/bGW5uTY/yMJRtlHLJedySCDETy
-	2L0yo+y8hAKjlghiBSeOOMfn4mTU/qep4Zh2dz3dbIMDCTsoRWDgc+B0hOsbcyCSSc3oGNHnTIz
-	Lvl7bkg0wSKS0d23heu4XtrSstnYyqnc=
-X-Gm-Gg: AYBFou3JFqlv207MSONzMJ3xpzZ0J20MWAO5v+8hOZXLn/vMpXvtmwSk6UUrTp0yG1G
-	Gx2RgveWdvuq+lQYi4rTUB9HEt4+BM9tel321Upyr2AVqnG74uF3ZW07LZlwLUX2rqyBW8hi5h5
-	XJK1wBs9RvE5C0MJ+iBKti/0sSGWbzz13TRHe5smVL4w8Q0wz+xsFd5Qo0tclHyjPVYcmNERRqT
-	BlT0CaSPYRjz2HnfWBKMeMp19DnbBfGyT9vJAm5CUXGf92I9XqHHUdHBf8/8YFteZvEMWhDgVMk
-	feA9Dz9v0ounewZdVzbGzTEKxFDXMVaa8YRQPJEpUme2jFMZ484lnvRQLNB4/Tjy3v6CLcWF1FQ
-	KCGgHYlUV8tm+3Bdojak5Xcz/UFmIqxkmrs8HPDxUNgxyaO/IhumGBctn+ivriobwOvmTilM=
-X-Received: by 2002:a05:622a:4816:b0:549:df10:f62a with SMTP id
- d75a77b69052e-556c1b5d87cmr85771781cf.73.1794482521058; Thu, 12 Nov 2026
- 03:22:01 -0800 (PST)
-MIME-Version: 1.0
-References: <F1E91B20-6F2B-413B-B4B2-3EF9769D0E6B@geanix.com>
- <CANNYZj9DLje7=bQC2PLsb_rkDCePKPM2yWWxFLmx5dZUcHbQ9w@mail.gmail.com>
- <8A3AB7CF-6273-4D4A-9B95-073EEAE37CB1@geanix.com> <CANNYZj-32deiRNk9ZwzvTTFZuj7evLyPB3d_+33eDM+YSzr0og@mail.gmail.com>
- <18E7449543C100DC.893556@lists.openembedded.org> <8ABE57A1-35A3-4E3E-85FB-1CD7E3D27EE6@geanix.com>
-In-Reply-To: <8ABE57A1-35A3-4E3E-85FB-1CD7E3D27EE6@geanix.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 12 Nov 2026 12:21:49 +0100
-X-Gm-Features: AclHuK_3ttzPWGTp5E6zLViMgCjJrDYANaDFoPcgLani89GCjJTzusbUNzsFY7o
-Message-ID: <CANNYZj--_8eu7tQsuwhdNNEZQ+wSh05AGKHgWnX71-wGZ-SKPw@mail.gmail.com>
-Subject: Re: [OE-core] INCOMPATIBLE_LICENSE
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000039308b0660128508"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=otsTAX9/;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 09C4D4E41588;
+	Thu, 12 Nov 2026 11:42:23 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B84AD5FF85;
+	Thu, 12 Nov 2026 11:42:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2A8AF11BC0505;
+	Thu, 12 Nov 2026 12:42:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794483742; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=skiHwc2SgPxiUEJ+ZF4Tot/ZjJLViEnHJonaEZASc3Y=;
+	b=otsTAX9/tg0JhDu53iUOW5kOp5EY1rhYJoiw3sbqzMaCZMucCkOR2tVUF9Fk6f2BWGVYQn
+	hcB818IFySG94W6QL9cqzJq1O0befn5S0zgzJh1GDRUH3WlrBCLJsFgt+nbZHor8y0qATX
+	fkJmufSg8GdOCnPnXY7cwFeUGZM86fGCQBI098eYuWamhScJ47fEJQmuKR6ztHPUDcFvez
+	7YW4oQ0Ag4o+gn/ko223YbbZZPCnsdayJUqBRJv+3agIgCfgHbsgn9xpHBRt60QGQlBDUA
+	v6fvyCUSFRXkyMHO2aCqXc/ec0IthRmuO9mfCFIDsyC6+8zI53moU3ZId0zpqQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 12 Nov 2026 12:42:20 +0100
+Message-Id: <DMT7E9PPDIER.2WUJHFY3VAJ6O@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH v9 5/9] classes-recipe/deploy: Add do_deploy to
+ SPDX_DEPLOY_TASKS
+Cc: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261104153535.3184146-1-JPEWhacker@gmail.com>
+ <20261109194759.550935-1-JPEWhacker@gmail.com>
+ <20261109194759.550935-6-JPEWhacker@gmail.com>
+In-Reply-To: <20261109194759.550935-6-JPEWhacker@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 11:22:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250086
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 11:42:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250087
 
---00000000000039308b0660128508
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon Nov 9, 2026 at 8:45 PM CET, Joshua Watt via openembedded-core wrote:
+> Any recipe that inherits this class will automatically generate deploy
+> SPDX data for the do_deploy task
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
 
-On Thu, 12 Nov 2026 at 11:47, Sean Nyekjaer <sean@geanix.com> wrote:
+Hi Bruce, Joshua,
 
-> My intern pointed me to commit f757ae4dad ("license_image: extend to SDK
-> coverage")
-> When reverting that, I=E2=80=99m able to run bitbake os-rootfs -c populat=
-e_sdk
+I just note this is breaking meta-virt builds:
 
+ERROR: xen-tools-4.21.1+stable-r0 do_deploy: No deployed artifacts found in=
+ /srv/pokybuild/yocto-worker/meta-virt/build/build/tmp/work/x86-64-v3-poky-=
+linux/xen-tools/4.21.1+stable/deploy-xen-tools
+...
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/meta-virt/=
+build/build/tmp/work/x86-64-v3-poky-linux/xen-tools/4.21.1+stable/temp/log.=
+do_deploy.2548044
+NOTE: recipe xen-tools-4.21.1+stable-r0: task do_deploy: Failed
 
-Due to that change, the license check should probably be then fixed to only
-run for the target rootfs, and not SDK sysroots. Can you reproduce this on
-plain oe-core/poky master?
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/89/builds/4815
 
-Alex
+Here is the full content of the said log file:
 
---00000000000039308b0660128508
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+DEBUG: Executing python function sstate_task_prefunc
+DEBUG: Python function sstate_task_prefunc finished
+DEBUG: Executing shell function do_deploy
+NOTE: make STDVGA_ROM=3D/srv/pokybuild/yocto-worker/meta-virt/build/build/t=
+mp/work/x86-64-v3-poky-linux/xen-tools/4.21.1+stable/recipe-sysroot/usr/sha=
+re/firmware/vgabios-0.8a.bin CIRRUSVGA_ROM=3D/srv/pokybuild/yocto-worker/me=
+ta-virt/build/build/tmp/work/x86-64-v3-poky-linux/xen-tools/4.21.1+stable/r=
+ecipe-sysroot/usr/share/firmware/vgabios-0.8a.cirrus.bin SEABIOS_ROM=3D/srv=
+/pokybuild/yocto-worker/meta-virt/build/build/tmp/work/x86-64-v3-poky-linux=
+/xen-tools/4.21.1+stable/recipe-sysroot/usr/share/firmware/bios.bin ETHERBO=
+OT_ROMS=3D/srv/pokybuild/yocto-worker/meta-virt/build/build/tmp/work/x86-64=
+-v3-poky-linux/xen-tools/4.21.1+stable/recipe-sysroot/usr/share/firmware/rt=
+l8139.rom WGET=3D/bin/false GIT=3D/bin/false XEN_BUILD_DATE=3D2026-09-10 XE=
+N_BUILD_TIME=3D10:36:15 XEN_CONFIG_EXPERT=3Dy debug=3Dn -C /srv/pokybuild/y=
+octo-worker/meta-virt/build/build/tmp/work/x86-64-v3-poky-linux/xen-tools/4=
+.21.1+stable/sources/xen-tools-4.21.1+stable/xen xenversion --no-print-dire=
+ctory
+Makefile:57: "You must use e.g. 'make menuconfig' to enable/disable debug n=
+ow."
+DEBUG: Shell function do_deploy finished
+DEBUG: Executing python function create_deploy_spdx
+ERROR: No deployed artifacts found in /srv/pokybuild/yocto-worker/meta-virt=
+/build/build/tmp/work/x86-64-v3-poky-linux/xen-tools/4.21.1+stable/deploy-x=
+en-tools
+DEBUG: Python function create_deploy_spdx finished
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 12 Nov 2026 at 11:47, Sean Nyekja=
-er &lt;<a href=3D"mailto:sean@geanix.com">sean@geanix.com</a>&gt; wrote:</d=
-iv><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">
-My intern pointed me to commit f757ae4dad (&quot;license_image: extend to S=
-DK coverage&quot;)<br>
-When reverting that, I=E2=80=99m able to run bitbake os-rootfs -c populate_=
-sdk</blockquote><div><br></div><div>Due to that change, the license check s=
-hould probably be then fixed to only run for the target rootfs, and not SDK=
- sysroots. Can you reproduce this on plain oe-core/poky master?</div><div><=
-br></div><div>Alex</div></div></div>
+So this will not block merge in oe-core, but will probably need a fix in
+meta-virt.
 
---00000000000039308b0660128508--
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
