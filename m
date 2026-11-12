@@ -1,92 +1,73 @@
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7895.1794465086202679490
+Received: from mail-244119.protonmail.ch (mail-244119.protonmail.ch [109.224.244.119])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8467.1794467843963348118
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2026 22:31:26 -0800
+ Wed, 11 Nov 2026 23:17:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TpQ3R4Ko;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TClc2jai;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a1ce7436e7-bb882a45-2b14-481a-8bbb-df6d0bfb6f65-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794465085; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=eR1V7PalQjNMF2zwzgVLOdteeo5cJcVTAtL5+GtaR08=;
-	b=TpQ3R4Ko47QXNWvtFo12c1YIu5rif8QcH/UdiCG6FzddeBb1PZae+HHkM2wc+Yn+
-	xgBDWyLI0sslDqvK+lPFpgBRRUk28aPI7j7c0EFlD8HmmmNodRlrdqFTVOxuKdMCkXG
-	iwx3azQoSCaCjihR4ojPf187DDrZ68v7uVfyAemQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794465085;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=eR1V7PalQjNMF2zwzgVLOdteeo5cJcVTAtL5+GtaR08=;
-	b=TClc2jaiGVESCjFoUT+q7foX3hBZraQuFy33w3QFAB+eeoQMJnyJqIYhGeEhg3yW
-	qScEO1BXcLrC7pM7dwARJu4oAq0UgT/3QmC7BuVEjCBS4VfxtMs2hQW0WPX52Mdwayf
-	p1Qgk7BYi3aMeHn043PPPAxFgWGM/Z1pNPIXvXE4=
-From: patchtest@automation.yoctoproject.org
-To: ankur.tyagi85@gmail.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe][meta-oe][blacksail][PATCH v2] mpv: patch CVE-2026-123095
-In-Reply-To: <20261112062505.4067039-1-ankur.tyagi85@gmail.com>
-References: <20261112062505.4067039-1-ankur.tyagi85@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1ce7436e7-bb882a45-2b14-481a-8bbb-df6d0bfb6f65-000000@us-west-2.amazonses.com>
-Date: Thu, 12 Nov 2026 06:31:25 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.12-54.240.27.193
+ dkim=pass header.i=@geanix.com header.s=protonmail header.b=iUuvs+1/;
+ spf=pass (domain: geanix.com, ip: 109.224.244.119, mailfrom: sean@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
+	s=protonmail; t=1794467841; x=1794727041;
+	bh=AQSN2Kdx8yze62ZZLPonUAvMCjgnen3tyCQu5OLExDA=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=iUuvs+1/ABnUL6vRk39V2NqZWNyUQ2xIGQKmt2rm/8JpR8xkjyQGAYQeqg5vFIwKh
+	 Otq9xlmbu9XTL/MHbJgL3IENb9TAsMD7QJduZ4NYMJ1EqISdZZlOy54HIkaKDl24cq
+	 stbaGShnvaXpukD5GWFKRbVYWIYchJug8TRbD50nzwLon4BRZ57c3JC36AOjvbZNKy
+	 eKl+zHPR7Ze1IaF12Xo5VJE2llBImn2RpHTiesDjLPFaawCN1XZIdIE3PRBsjlnTRU
+	 JjeQnigyX/ISZU52Epzj37fKtQjS5orvIEbbqlWPu+muqw6SyCveeVZ3sMGHj4i0Wp
+	 itHL07A5dXF4g==
+Date: Thu, 12 Nov 2026 07:17:16 +0000
+To: openembedded-core@lists.openembedded.org
+From: Sean Nyekjaer <sean@geanix.com>
+Subject: INCOMPATIBLE_LICENSE
+Message-ID: <F1E91B20-6F2B-413B-B4B2-3EF9769D0E6B@geanix.com>
+Feedback-ID: 134068486:user:proton
+X-Pm-Message-ID: 39153b5f4d9cfb5be484a590bff04fad79bd58b0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 06:31:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250074
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 07:17:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250075
 
---NextPart
-Content-Type: text/plain
+Hi,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Our customer forbids GPLv3 on the device:
 
----
-Testing patch /home/patchtest/share/mboxes/oe-meta-oe-blacksail-v2-mpv-patch-CVE-2026-123095.patch
+  INCOMPATIBLE_LICENSE =3D "GPL-3.0* LGPL-3.0* AGPL-3.0*"
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+(I originally had INCOMPATIBLE_LICENSE:class-target, expecting it to
+keep the restriction away from native/SDK tooling, but it makes no
+difference, see below.)
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+Images build fine, but do_populate_sdk on the same image fails:
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+  ERROR: os-rootfs-1.0-r0 do_populate_sdk: Some packages cannot be
+  installed into the image because they have incompatible licenses:
+          binutils-cross-canadian-aarch64 (GPL-3.0-only)
+          gcc-cross-canadian-aarch64 (GPL-3.0-only)
+          gdb-cross-canadian-aarch64 (GPL-3.0-only LGPL-3.0-only)
+          nativesdk-autoconf (GPL-3.0-or-later)
+          nativesdk-bison (GPL-3.0-only)
+          nativesdk-m4 (GPL-3.0-only)
+          nativesdk-readline (GPL-3.0-or-later)
+          ... (15 packages in total)
 
----
+The only supported workaround I found is to list every host package
+in INCOMPATIBLE_LICENSE_EXCEPTIONS:
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+  INCOMPATIBLE_LICENSE_EXCEPTIONS +=3D " \
+      gcc-cross-canadian-${TRANSLATED_TARGET_ARCH}:GPL-3.0-only \
+      gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}:GPL-3.0-only \
+      gdb-cross-canadian-${TRANSLATED_TARGET_ARCH}:LGPL-3.0-only \
+      nativesdk-m4:GPL-3.0-only \
+      ...
+  "
+  ERROR_QA:remove =3D "license-exception"
+  WARN_QA:append =3D " license-exception"
 
---NextPart
+This works but is there a smarter solution?
+
+/Sean
 
 
---NextPart--
