@@ -1,138 +1,111 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9270.1794473655629902421
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9612.1794475026255388006
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2026 00:54:15 -0800
+ Thu, 12 Nov 2026 01:17:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=H44rcQGI;
- spf=pass (domain: gmail.com, ip: 209.85.219.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91ec396c93dso47394946d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 00:54:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794473654; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Y4W66Sh+9Zo660FseqDLDnYVNEVeDDRfnb2HlRZvmq8mZq6jZ/QBmkTE9eu6Pncktm
-         pQk9TQjKEcqPoEnOho4HrKz4nKYvPlbItzF8cfwYkBnsnXPghyepw3DXd8iZ06DsomjE
-         N13BYXh3oOH2GXJrEBYI+jSt9WQaCQP4JVx6bEN6Ui8l4vqdn/ad7SgRqmkZC83Ow4xu
-         97BfwHG6T8e+cemGdt6DBHg/wOnYja7oTXoK+Q4PETguu8RJPo/5iz52SgnJ7Uusohuy
-         UN7Um9REZtNPzdbbfkgnkzTCmPxBAyP7gdcNvS28CYamMj2bY7yXH3RljfOxUuxtO9li
-         oUJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=k92OmhPwZJrXUs7afrmIsoPQsDfWfDiiWNrHGDQ0pl4=;
-        fh=FxPQcvcPQCuYv5p+cTI4sfqaVBcM23gFaSmq5pfnDY4=;
-        b=CUBC2LkW3xn6CnaWn5jme3H5RNhiwPpryI+K/BaLrS93hKRXJBxnZF4hy21atZR8fA
-         mW7irAe4nS+CDfbn5sgK0bToVKg4agqj5MjdnWQcWjgV6tYsS0gudzpmb08ffg0xAmst
-         aCbgwsw6iW63yai21z5Fm/xWX5pPqtHkkizMhqTIZXWB6q0AhEAzvCgv/vjSdbQK4EpX
-         7dG035k3JGC1p9uBC4tYpTBJ7sL2j1h5mLIyjnGss27KA8c8NxaME3iJu8/CDVXQ8uME
-         FG9c8zlc8NEcZvEDQk8vLdCpaJW6R/HCi2jHEd9U5WsY8QJGH2Gzx2Rp+aARYn+4PWNM
-         sU8A==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794473654; x=1795078454; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=k92OmhPwZJrXUs7afrmIsoPQsDfWfDiiWNrHGDQ0pl4=;
-        b=H44rcQGIwxDtPfAmiMv2+3RC41MCqyd5wJNmJ0y8V24UrX/6wxslT9GpSXInmZ6Yw2
-         6C/3jJqqhGJIHlIo52YM7zpoBEqSmNuw4IEbpun3P8gzc3LjXAL/Y/ydxTrR7p3Yc7so
-         7I6oxVhJNMwDiTeowWdrxM/W82bkofvjcyOIIs0ca+j5+Vebd3wOPyClvMbJy4ioXSam
-         /6xgLTqxy06yuSIQ95K+AbmUdl+ElCHQraEgxpQcJZgld8cDcHkSn3K7t51QNKFMx5yK
-         ifjk0gJ6xj95rnqSBG1netlxLXNgSXKBWdUvLyx2iA69YKMNY+SbtV41khGAZ2qIdekC
-         vMDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794473654; x=1795078454;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=k92OmhPwZJrXUs7afrmIsoPQsDfWfDiiWNrHGDQ0pl4=;
-        b=BQPzVHL7Hll7MG8GsTeKz19xjKjweKwYk2kTrT8+Zu0ZhFTfdlAeCV7Hki0OCCmRNz
-         VS+wyyvHkPpGZXkaCi1/x4uY2OllfEO5x/IULN3PZSKxSFu60hB2p6ihiod3z7y7hZzS
-         CHD8WMwVtHvb3B2qVy7iPngw3v4UpSQqWJbRZNejCP+ek02XeCTiEKQLEaAGSG/CWbHi
-         Rlyd3en1U7U0+GJwcJqA8DrM+TiGInkw8npw8/ryKvpRMrEICCXZe8GFpFropR26m2FN
-         bJTwngfmCzo5Oj5lJqn/9SkkqgFupkmADq6skiN0t9U5PpLd2fYsi5i7SHVdCzrz5QRq
-         M+SA==
-X-Gm-Message-State: APuU4Z+LGsjqGJ7c7gHJRFClJ8Uexh+GYFxq96Bf6enG5yaNRAjqg4+0
-	bRN0ppGLyBprCCo3dXK+vHQel9cvUooqF6iPNPPXUoA4LguPYSq2iMEWOjzAIp10N9MtT5rEBsh
-	jbylM7GQqjkEGqRURTZTHKeADdXihEkeSdQ==
-X-Gm-Gg: AYBFou3pTor2VEfzmdMz2eY11qk/ENe6KhhUgdb+2dKpJwZq1OGSzBiM8wnd164jfjF
-	jmHmhJWO25pUZvi1ru4m+C46F77W1tW0A+m/Z+wt3Xq17ivHB8xGxPoDza4bX3tRUUSdEbwBC1P
-	mLPWaod35KJHkBQi1sXYILMfJqr7BwzTCH2ECPqXmci5cAw0RZrkVDqguu/VJHG6sLrAZzWZLNV
-	tQD4Uvl4s0gK4URIOUstOUfE0DdXL6nsielxhteBXvyrQyBw1t+nf27cNr5A8hGtatAP7o2ctj0
-	E09ZhPyyhsOPZUTObhqNQYBEaT04xj3R3kJlRcU0KxubYWzXXPFpf96xZU3rFRd6YVALEWygPSP
-	FJly5kuOMU9l7IyjwZ3RyrCizGNk9oZASWUvNhuI/wbiF7VyH5SxLUTBA3/zHW6UCKW1SGojI/F
-	ZcWUj1PBic3dBp1V0n
-X-Received: by 2002:a05:6214:80d8:b0:91f:b96:1094 with SMTP id
- 6a1803df08f44-91f0b962493mr49701256d6.47.1794473654371; Thu, 12 Nov 2026
- 00:54:14 -0800 (PST)
-MIME-Version: 1.0
-References: <F1E91B20-6F2B-413B-B4B2-3EF9769D0E6B@geanix.com>
- <CANNYZj9DLje7=bQC2PLsb_rkDCePKPM2yWWxFLmx5dZUcHbQ9w@mail.gmail.com> <8A3AB7CF-6273-4D4A-9B95-073EEAE37CB1@geanix.com>
-In-Reply-To: <8A3AB7CF-6273-4D4A-9B95-073EEAE37CB1@geanix.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 12 Nov 2026 09:54:03 +0100
-X-Gm-Features: AclHuK9qV3MSkJu9fXNOlVRBYp4uTHeCeefGOFiuejS4IaWax0BkbvG_YRbhVzE
-Message-ID: <CANNYZj-32deiRNk9ZwzvTTFZuj7evLyPB3d_+33eDM+YSzr0og@mail.gmail.com>
-Subject: Re: [OE-core] INCOMPATIBLE_LICENSE
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ba4c6406601074b4"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=OJ14Qxog;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id E73F21A1621
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 09:17:03 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B32DA5FF85;
+	Thu, 12 Nov 2026 09:17:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6CD8411BC030A;
+	Thu, 12 Nov 2026 10:17:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794475023; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=uAqKGm5w4E9Qp2f66tdVMxseYAaFhg/OerymzactW7s=;
+	b=OJ14QxogZjCZoTytR1FJSGJXfRP3PXwlz1V3+VCtiFvtCWaGBCik0iQIOlcGkjZ3WHwYxV
+	1yjAkK1Eng85ODaBs2kQLd6IwZ25/xsrHc973oE6W7Z14ZH+AIWPMsLYVQ8qZrEKyCkGzi
+	bSv1Ab5sh/fWybGWsCvehzRf/d1IvDKRin8uOE1tIa6SRT/N4LFBFrE15qfDeubWxzLnnf
+	zZ3xQkN7clnQkd4wKBq2D0aogKnm+mKcyArjXbQ+hA1Jbba0dKl+j87GxwYjAjyPFSWL6b
+	yZl/Q1AQ2511LX35E00g9ikIVMGgRYSfti+L1wJ+RAtRgl5/dUCXQDLNzYeJrQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 12 Nov 2026 10:16:59 +0100
+Message-Id: <DMT4AZG7HHGE.3SZFW7TTHZV29@bootlin.com>
+Cc: "Ross Burton" <ross.burton@arm.com>, "Thomas Roos" <thomas@roosesweb.de>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <roosesweb@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2] python3-cython: upgrade 3.2.9 -> 3.3.1
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261108192525.1082675-1-thomas@roosesweb.de>
+ <20261108214236.1294076-1-thomas@roosesweb.de>
+In-Reply-To: <20261108214236.1294076-1-thomas@roosesweb.de>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 08:54:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250079
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2026 09:17:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250080
 
---000000000000ba4c6406601074b4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 12 Nov 2026 at 09:35, Sean Nyekjaer <sean@geanix.com> wrote:
-
-> Globally in my distro conf.
+On Sun Nov 8, 2026 at 10:42 PM CET, Thomas Roos via openembedded-core wrote=
+:
+> PyAV 19.0.0, which Home Assistant 2026.11 pins for its stream and
+> generic camera integrations, requires Cython 3.3: its generated code
+> uses __Pyx_BEGIN_CRITICAL_SECTION, which Cython 3.2 does not provide.
 >
-> I have tried:
-> INCOMPATIBLE_LICENSE:pn-os-rootfs =3D "GPL-3.0* LGPL-3.0* AGPL-3.0*=E2=80=
-=9D
+> 3.3.1 contains the upstream fixes for the non-deterministic generated
+> code that held back the 3.3.0 upgrade (cython#8045, #7982, #8025).
 >
-> INCOMPATIBLE_LICENSE =3D "GPL-3.0* LGPL-3.0* AGPL-3.0*=E2=80=9D
+> Cython 3.3 still fails intermittently when it builds itself in
+> parallel (cython#7997; #8008 and #8013 are not merged). Clean builds
+> of python3-cython-native with PARALLEL_MAKE =3D "-j 32" failed 6 out of
+> 20 times with 3.3.1 (and 8 out of 20 with 3.3.0), with the refnanny
+> error seen on the autobuilder. With PARALLEL_MAKE =3D "" all 20 builds
+> passed, so build serially for now.
 >
-> INCOMPATIBLE_LICENSE:class-target =3D "GPL-3.0* LGPL-3.0* AGPL-3.0*=E2=80=
-=9D
+> Refresh the line numbers of the build path patch for 3.3.1.
 >
+> License-Update: none, LICENSE.txt is unchanged.
+> AI-Generated: Claude Code, Claude Opus 5.5
+> Signed-off-by: Thomas Roos <thomas@roosesweb.de>
+> ---
 
-What is os-rootfs?
+Hi Thomas,
 
-Setting this globally is obsolete since several years ago and it only ever
-worked in combination with meta-gpl2. You need to put INCOMPATIBLE_LICENSE
-into your product image (which is the only place where it matters), and
-then it will be applied only to that image during do_rootfs. Is there some
-documentation you followed which misled you?
+Thanks for the new version.
 
-Alex
+It does look better, but it looks like we still see some intermittent
+reproducibility issues. I had it on my branch for a few days, and
+suddenly we had a failed test:
 
---000000000000ba4c6406601074b4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+AssertionError: The following deb packages are different and not in exclusi=
+on list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/deb/./x86-64-v3/python3-cython-dbg_3.3.1-r0_amd64.deb
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/deb/./x86-64-v3/python3-cython-src_3.3.1-r0_amd64.deb
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/deb/./x86-64-v3/python3-cython_3.3.1-r0_amd64.deb
+The following ipk packages are different and not in exclusion list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/ipk/./x86-64-v3/python3-cython-dbg_3.3.1-r0_x86-64-v3.ipk
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/ipk/./x86-64-v3/python3-cython-src_3.3.1-r0_x86-64-v3.ipk
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/ipk/./x86-64-v3/python3-cython_3.3.1-r0_x86-64-v3.ipk
+The following rpm packages are different and not in exclusion list:
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/rpm/./x86_64_v3/python3-cython-3.3.1-r0.x86_64_v3.rpm
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/rpm/./x86_64_v3/python3-cython-dbg-3.3.1-r0.x86_64_v3.rpm
+/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
+ded/tmp/deploy/rpm/./x86_64_v3/python3-cython-src-3.3.1-r0.x86_64_v3.rpm
 
-<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Thu, 12 Nov 2026 at 09:35, Sean Nyekjaer &=
-lt;<a href=3D"mailto:sean@geanix.com">sean@geanix.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">Globally in my distro =
-conf.<br>
-<br>
-I have tried:<br>
-INCOMPATIBLE_LICENSE:pn-os-rootfs =3D &quot;GPL-3.0* LGPL-3.0* AGPL-3.0*=E2=
-=80=9D<br>
-<br>
-INCOMPATIBLE_LICENSE =3D &quot;GPL-3.0* LGPL-3.0* AGPL-3.0*=E2=80=9D<br>
-<br>
-INCOMPATIBLE_LICENSE:class-target =3D &quot;GPL-3.0* LGPL-3.0* AGPL-3.0*=E2=
-=80=9D<br></blockquote><div><br></div><div>What is os-rootfs?</div><div><br=
-></div><div>Setting this globally is obsolete since several years ago and i=
-t only ever worked in combination with meta-gpl2. You need to put INCOMPATI=
-BLE_LICENSE into your product image (which is the only place where it matte=
-rs), and then it will be applied only to that image during do_rootfs. Is th=
-ere some documentation you followed which misled you?</div><div><br></div><=
-div>Alex=C2=A0</div></div></div>
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/5342
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20261111-opb4ps2w/=
+packages/diff-html/
 
---000000000000ba4c6406601074b4--
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
