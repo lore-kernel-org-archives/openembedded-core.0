@@ -1,94 +1,92 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12896.1794581053701500871
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13369.1794582060850185553
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2026 06:44:14 -0800
+ Fri, 13 Nov 2026 07:01:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=V/smbMDN;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: michalwsieron@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4bb55cda775so4781395e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 06:44:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794581052; x=1795185852; darn=lists.openembedded.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=4wTm3UZDTAGvediAH2uHO1lBRIpuOui36SO1PJdB8G8=;
-        b=V/smbMDNktAHxyeyyc0/IoCJxQ/DwLpkzdJazaf4k+aRScai1NcC6XDXHtkNQyfGPW
-         x+6aFJF8pfs3dGxgDhq47lbTnt3XUTNNnRaqz4dcZHd27vwaV+JJhTnHYq6GJvtLsDuG
-         3uPuEv92WJj47FXlqMsblGksRoACdGQU3wDhFwB2/HbNCvHjqNn1tkuYndpKCCfDZfgp
-         ypCpuzeBZu918M9Oznv/XkNycWhRB+HG40F1fXKdqWlKh8XWy5vWZrExMqkVsvjjQNtH
-         pu2VI5yHhIFyWOUZc2pL9X5VES604LSNNi0cOvh5Hg/J0BMBhQe4e23quN8jYVqmE2Uh
-         XQYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794581052; x=1795185852;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=4wTm3UZDTAGvediAH2uHO1lBRIpuOui36SO1PJdB8G8=;
-        b=jfMl19w3yGQxaZdetM046GKIv274lEg221fyOiVwH74pWEkJUo+Ryk82WAIdEmUKwY
-         J+h3uuO5iSpLXem6oRrDam3BMSWqNFMzYBSYeizR8Qd+UulQBvefC9xb6W5oLDXh+D6B
-         zbKwPb2I6PjMlJavdkLjOdapkR3ktbS1c8arVbXSwN9mb3FGqi4rgRElzwAwa0hRgT6e
-         gR4r62aJ50zB5H/lRy1q13ZqevoMHJzg/FaIXs2j+ZDWHrtt/EKSiucXdyowetxaaVjU
-         m9tA7K1r0ghjS4qKTRAb63uaBQX2zUl07FuosYdgZj6tatdLh44f44eWUQm+DH24MLrj
-         8XlA==
-X-Gm-Message-State: APuU4Z+yR6TLPtoec+guzKhzM1p3YO5Y6XTdRRJsdA4eP654FrElZ9On
-	EPiM/BLXEalrnFKYFP6o46Oyqrt3AGuHjSCKJZsZzaqlmrn1UlEPLzNVufAFAS/8
-X-Gm-Gg: AYBFou2fVXTwG6NDRV8Ok1oTYDdFYBpW3hQivGp/X4IHhwpBYTXNpu/I3NTDJzQUvxm
-	Nu/SNLds0OK+bRGhSNsPyMPcDZNTWXoLAvCO5CkRlnUIvhogR2vRg2/A3CZeEgRU1Hmzh1ypI2I
-	9zGW3smMzC4Fry9Idjh76wRA6XxZSQMAsEoRX4o8Ey2BEwrDKh7Vbe5X6kheyTgSSMmGJuSDmTL
-	AcebNxbUcQJc3ein94NrFh++902k7GOV+WM7havJTif11+pvNpmSasI0rdi9jXR2HHXLy1k/GPD
-	9dtNNR63XJQIhYec+rRgUS3tj9rRwwidEl9AltO3+FmyUGkGLK8JcVqkLMDB/3lBIM1e50Mpbbt
-	uNDDkOfhC76Ap+dpOVZUL2hyMAgLTxoJqBLlzt7Y6KPNgUXSOl5LK2jkVfbITgX0PbPO3Wsa4gA
-	Jjpp+OVFVf1/Z9tfn+bxLFl+08GgJuz5/oxLmfnu4W7irCfZq5i0maGl3Pb2AikRCimslH9OL4k
-	tId0t7YTU9jPf115ZC85DrDp5CIS2CZVPdLQ/LF1kwUqEskFC2QjEd2kyCG+Om0rlqenVJCXDSe
-	8OTbBgAge/RuC292/Jc5pmKmKnvTQGDn
-X-Received: by 2002:a05:600c:8b38:b0:4a1:c27d:e1a8 with SMTP id 5b1f17b1804b1-4bb55a7b45bmr59669675e9.10.1794581051885;
-        Fri, 13 Nov 2026 06:44:11 -0800 (PST)
-Return-Path: <michalwsieron@gmail.com>
-Received: from [127.0.1.1] ([193.28.84.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb56f97257sm38874595e9.4.2026.11.13.06.44.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 06:44:11 -0800 (PST)
-From: Michal Sieron <michalwsieron@gmail.com>
-X-Google-Original-From: Michal Sieron <michal.sieron@nokia.com>
-Date: Fri, 13 Nov 2026 15:43:56 +0100
-Subject: [PATCH] tune-octeon.inc: Fix lack of whitespace
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-msieron-octeon-whitespace-fix-v1-1-1bfa0d19ebb3@nokia.com>
-X-B4-Tracking: v=1; b=H4sIACsi92oC/yXMywrCMBCF4Vcps3YgSbELX0VctPHEjmBSMvECp
- e/eUVeH7yz+lRRVoHTqVqp4iUrJBn/oKM5jvoHlaqbgwuC97/mhgloyl9hg856lQZcxgpN8OIU
- 0ITgXBxzJGkuF3b/++fK3Pqc7YvtGadt2anM8o4EAAAA=
-X-Change-ID: 20261113-msieron-octeon-whitespace-fix-f2fbe200c6e5
-To: openembedded-core@lists.openembedded.org
-Cc: Michal Sieron <michal.sieron@nokia.com>
-X-Mailer: b4 0.15.2
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BZ8wfvCr;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=eEYC190n;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1d56d1c30-56cf8575-8f08-43c8-b1eb-a8cc5fd2e7fd-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1794582060; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=w/OL22lo/GE65/bbqpA4fGRqYynSnRN9on5+UYPubr8=;
+	b=BZ8wfvCrCfTGQSWU3oH3nId6RoBbYbZrZ8FDayFA0IVZqy8nfMQ1arWqPPNlJ/n3
+	ThRuGri4GC4Jyj10AKAymZhPqo1IGzYmP61X167CGhr7nq8flhbtCy9NjNYLZXZdnvN
+	Ai25SolL/I0pAqsGjvJ79I+rx2lXbF/OqT8Yi4No=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794582060;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=w/OL22lo/GE65/bbqpA4fGRqYynSnRN9on5+UYPubr8=;
+	b=eEYC190n/Z90WYLUrHy/oT2cjCcmmUNDB3qRMru56IUs8/JslgO95jI3g7dEY3qZ
+	OhZpdj6gCMbVWtVQc1TqKErveEx12Ghq45NjRl75gynFxLSignjGYu0XD/lNBBN3sKo
+	7POiebRy6q9aZfwTQuZOowLGrPn2q91NdW2tYwIo=
+From: patchtest@automation.yoctoproject.org
+To: Michal Sieron <michalwsieron@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] tune-octeon.inc: Fix lack of whitespace
+In-Reply-To: <20261113-msieron-octeon-whitespace-fix-v1-1-1bfa0d19ebb3@nokia.com>
+References: <20261113-msieron-octeon-whitespace-fix-v1-1-1bfa0d19ebb3@nokia.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a1d56d1c30-56cf8575-8f08-43c8-b1eb-a8cc5fd2e7fd-000000@us-west-2.amazonses.com>
+Date: Fri, 13 Nov 2026 15:01:00 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.13-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 14:44:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250181
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 15:01:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250182
 
-Signed-off-by: Michal Sieron <michal.sieron@nokia.com>
----
- meta/conf/machine/include/mips/tune-octeon.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--NextPart
+Content-Type: text/plain
 
-diff --git a/meta/conf/machine/include/mips/tune-octeon.inc b/meta/conf/machine/include/mips/tune-octeon.inc
-index 0004190c34..96df9b1a60 100644
---- a/meta/conf/machine/include/mips/tune-octeon.inc
-+++ b/meta/conf/machine/include/mips/tune-octeon.inc
-@@ -1,4 +1,4 @@
--DEFAULTTUNE ?="octeon2"
-+DEFAULTTUNE ?= "octeon2"
- 
- require conf/machine/include/mips/tune-mips64.inc
- 
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
 ---
-base-commit: 34991d0ce3cc5f38dd29e824af7579512d2b917e
-change-id: 20261113-msieron-octeon-whitespace-fix-f2fbe200c6e5
+Testing patch /home/patchtest/share/mboxes/tune-octeon.inc-Fix-lack-of-whitespace.patch
 
-Best regards,
---  
-Michal Sieron <michal.sieron@nokia.com>
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
