@@ -1,41 +1,41 @@
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1895.1794530890380393634
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1909.1794530891255914677
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2026 16:48:10 -0800
+ Thu, 12 Nov 2026 16:48:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BfNhWtyO;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=h7Jk4b3I;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a1d2604eb8-7d63d405-f396-4bc1-a02d-d562626154f9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=p/waegjX;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=B5F7QkeT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1d26051ed-cb909788-8898-45e9-848d-e22f7dba0304-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794530889; i=@automation.yoctoproject.org;
+	t=1794530890; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=i/9beUu5er5qNPwXM9my1ciTr+BKoRU+ygngTi7Hg8Q=;
-	b=BfNhWtyOslF1uNZB45V+Ag468Uv77L8VzFPhDkqRfZ+SFMDYPHognJVjng1shrvh
-	i6RigPMV5TMbL0m13yeyMbPvfN7fXohhdJI04ND62HOdT9XAIL+v+kClgTOhBJlM80q
-	FsdYfpaViYhpXtPCKqP0kptB6oGqKhUactf/dZi4=
+	bh=1lcqdMbtaECuByOMcaHAShjNc3Dt9KP8jpVJX/NR+30=;
+	b=p/waegjXyw+9jWvj0qzxX7u0hlhb1NQO2SCdWv50MyTheWV2Z/r1R+6hN4K0JxIV
+	CQ31ybsNBeTexTpk5ms++OG8K7Z/17/dJgGmeMxpmU/HwFHMEk3nY8gXM66oSU4Vegf
+	58qciRDqbgMv4zrGTqkbMYveikAZJeZpVve1WnDs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794530889;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794530890;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=i/9beUu5er5qNPwXM9my1ciTr+BKoRU+ygngTi7Hg8Q=;
-	b=h7Jk4b3Ivcx8W3DUSyhpEr9hXtvbXfdFTooQMDUMkvlJhdVWq9HKLuN7RSEPo5Hn
-	46BXLTuvM6jPlfB7KegOjqcoe2PdEZuorIO+RC7WHHp10+qIeXUbLWq/F7irGqtyuSC
-	hYgC2fJATiZ+2OW+RNUxQsL+ab1Z2GZq9P3Q9y5g=
+	bh=1lcqdMbtaECuByOMcaHAShjNc3Dt9KP8jpVJX/NR+30=;
+	b=B5F7QkeTikNtqqMglkG0tuc+YUo55SAAsn/di0ATDOLzST4l2Oq3i2Vv5EeNf2ZU
+	mL5+pFB1q2vP8JACMHb0PhMAeThgXzvddQHGnchvuqmXapRInQg0o27uK4cWhcV9Mfc
+	2P4Jcgdl4QR/qCk9+IJEphrpfrmvBUkRdCgP/uKs=
 From: patchtest@automation.yoctoproject.org
 To: Tim Orling <ticotimo@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 4/5] libxml-parser-perl: upgrade 2.47 -> 2.59
-In-Reply-To: <20261113003302.20809-5-tim.orling@konsulko.com>
-References: <20261113003302.20809-5-tim.orling@konsulko.com>
+Subject: Patchtest results for [PATCH 5/5] libtimedate-perl: upgrade 2.30 -> 2.35
+In-Reply-To: <20261113003302.20809-6-tim.orling@konsulko.com>
+References: <20261113003302.20809-6-tim.orling@konsulko.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1d2604eb8-7d63d405-f396-4bc1-a02d-d562626154f9-000000@us-west-2.amazonses.com>
-Date: Fri, 13 Nov 2026 00:48:09 +0000
+Message-ID: <010101a1d26051ed-cb909788-8898-45e9-848d-e22f7dba0304-000000@us-west-2.amazonses.com>
+Date: Fri, 13 Nov 2026 00:48:10 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.13-54.240.27.45
+X-SES-Outgoing: 2026.11.13-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 00:48:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250138
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250139
 
 --NextPart
 Content-Type: text/plain
@@ -45,7 +45,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/4-5-libxml-parser-perl-upgrade-2.47---2.59.patch
+Testing patch /home/patchtest/share/mboxes/5-5-libtimedate-perl-upgrade-2.30---2.35.patch
 
 FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
