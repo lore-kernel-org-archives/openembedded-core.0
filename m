@@ -1,356 +1,365 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12351.1794579787284363502
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12533.1794580246262496718
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2026 06:23:07 -0800
+ Fri, 13 Nov 2026 06:30:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=BA/kEWla;
- spf=pass (domain: amarulasolutions.com, ip: 209.85.218.52, mailfrom: adam.duskett@amarulasolutions.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c50692e6c0aso19731166b.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 06:23:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1794579785; x=1795184585; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rCF5gfZd6sUkjbRTj1SPhiThZb5DxQIOnFaQ8gb57kg=;
-        b=BA/kEWlazLJw1b+yCS8CBmXs+7P1UEKv+aS6mBX3CErzybt84sJqBjB3l4T+IryPP4
-         MUadwuKVD4yOGfH4xcpDWJ1W6vOmzv22v7aTQ85gdEQDnXSpgVynIhVHmFA/yW5otmBc
-         s4md5Ph5+oFJTmxT7GEbhkOKgLc6FXtlcs8lM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794579785; x=1795184585;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rCF5gfZd6sUkjbRTj1SPhiThZb5DxQIOnFaQ8gb57kg=;
-        b=WWztE6lfLanbwC/+0eI7J+86ckH8ZK10KDJnrI0an+YovfgYDPCCeyJGY3LHSVQEIz
-         ue5pJU/X+Byst9DrAu/iVrqlgz0VvaZ49tRGk+ZGVrfDJdd3isFIdIr+fXyMxKszbi9F
-         cfzTLfzBu6lkzkqQux5pvDJNBIJGMXMk+9T1w19JT6BIA2sLldhw2TmLAXXSmeSccH9J
-         MM/Uahm2/qYFLR0XAN0qykrUuXbvYC7BFcOLsoTmnuIUf9LProTVFZL4k0rwhZ2/cyxr
-         66mCVavnaJ3mElDgYj06NcDDxhJbfahfQLYz5dLajbWpVCyy+RIoVw3BIUpWeQc4EixR
-         2vUA==
-X-Gm-Message-State: APuU4Z/JYXLg3+Z+8FUBXnuKygq3J9R+wGTf4XIHV5gD2AfcCOb+6Ut6
-	P9uOz0labdchHQ6VFLZMQHcZJhLh8C9Nh2B756KiI5omsiB3+Mtje6LXRPBOa4AqQ5uXIv/8BGn
-	NQtuzYK8=
-X-Gm-Gg: AYBFou2wSh9cORKa01Iv5sZVYTd2s0GakZYloMAuc2otboqtf0Kf3xLzadDUDOyAHKK
-	iEOK0Y2Xmjd7RqoBMOdH/CcTbxdHcG1ah9Jik+WqiJXkW9StiVFjkOTGUD347fWvmcOSHhyZ3Lr
-	mVtxHG+AkkvVDLH5X8UDU1aqJrWknnpXcdzTAl8ChOfjK1MgdBvcgc6QqLx/FMNAZqCtoUzOf4X
-	dIbm6Vd/dQpXBAcJJeDVHToazEasMXAoHpb6NlJ4aefziOCFmpnU79A0/XN5xxFHbTL/h4DP0+x
-	/Hyk1QyXPaBFW6E8ozYDxytgAGeKblAeGHgJ1USTgmZwJwSApyooxuZ3eJZ69MeP2CfpDosL/6G
-	oAGZnJ/RTw6f1GbzT5V3d7F/Jg5QOW16lG730JrkdcE1BPjTxuOel4gADFis/6pwtWuP+fklSw4
-	MwFGi45WclQCppZw2uXKqeuuU9kTqjoZvRD60cXVVHOpIRp16B37tN2QN3vPge3N8EFCgzzh61k
-	CvloDYfHkapnM0nptLq2lxnAMZbqaGlO0rd2LHM2nsVgveAJQ0n+3dl5CLtnj8I9TaEpUa1AJ5V
-	xJKs32GrThk6sCRpo7JsZZVHLKitlugmuz4cCvFrnzkj2O9sDe+Jm71IITUinf2B5QUwzsOU95x
-	cqqaS1ZK/CZ0K8AUMSrSgZMSEaHgIhyVKkRSZEMi0h23QO0jioNnCXftMRQ3MalZP+noSVluN3N
-	pCCXVCCqdkaJV8ewtT2i2R7vWXrP7+CTjaRqXNRD5XWqvphlfKr8S1JfBXqrhjsl1+Uu4jSg38G
-	rvE7cyHj4IY5z8=
-X-Received: by 2002:a17:907:6eaa:b0:c4d:1768:48eb with SMTP id a640c23a62f3a-c50962f0b77mr417108266b.2.1794579785411;
-        Fri, 13 Nov 2026 06:23:05 -0800 (PST)
-Return-Path: <adam.duskett@amarulasolutions.com>
-Received: from adam-linux.arnhem.chello.nl (2001-1c00-8181-e800-030c-182b-b2a8-e89d.cable.dynamic.v6.ziggo.nl. [2001:1c00:8181:e800:30c:182b:b2a8:e89d])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b8651bsm104620666b.78.2026.11.13.06.23.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 06:23:04 -0800 (PST)
-From: Adam Duskett <adam.duskett@amarulasolutions.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=XodCVdrC;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D17621516
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 06:30:42 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 741303F8C6
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 06:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794580245; bh=dRqjrlkIugelNY4J/Rc+qI8IBt2D5EJqd42zCVTDLLQ=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=XodCVdrCpSBWyv9M/J08mM+UZgT3ZBYfe2+Avu3qb5YvH3AdY/SiL3Fr9ck71M+IU
+	 qySZlyl/kSlv8ylhUoUNakainjgA9rlg1RNS230X2640IQDrERMw/t+h9tZru05a0v
+	 4GKoWxe6z1YVpqoAxfK6iQHE8HrayPCAiPY6bI8w=
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
-Subject: [PATCH v14 5/5] dnf: bump to version 5.4.8.0
-Date: Fri, 13 Nov 2026 15:22:58 +0100
-Message-ID: <20261113142259.1708386-5-adam.duskett@amarulasolutions.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261113142259.1708386-1-adam.duskett@amarulasolutions.com>
-References: <20261113142259.1708386-1-adam.duskett@amarulasolutions.com>
+Subject: [PATCH v3 5/5] python3: refresh manifest
+Date: Fri, 13 Nov 2026 14:30:38 +0000
+Message-ID: <20261113143038.1651404-5-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261113143038.1651404-1-ross.burton@arm.com>
+References: <20261113143038.1651404-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ARM-No-Footer: NoDisclaimer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 14:23:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250175
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 14:30:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250180
 Content-Type: text/plain; charset="utf-8"
 
-Drop the two upstreamed patches
+Add some dependency skips:
 
-Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
+- the core imports in zipimport (->compression), but as importing of
+  .zip files is relatively niche skip this dependency.
+- shutil imports all of compression to determine what methods are
+  available. Skip this dependency, packages which use
+  shutil.make_archive() can depend on -compression. Notable, ensurepip
+  needs to unpack a wheel.
+
+Consolidate the compression files into -compression instead of being
+spread across multiple packages.
+
+Put _interpreters.so and _remote_debugging.so into the appropriate
+packages, remove some previously installed libraries that are now
+part of the interpreter, and refresh the dependencies.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../0006-rename-stdout-stderr-members.patch   | 205 ------------------
- ...f5-offline-fix-build-without-systemd.patch |  35 ---
- .../dnf/{dnf_5.4.7.0.bb => dnf_5.4.8.0.bb}    |   4 +-
- 3 files changed, 1 insertion(+), 243 deletions(-)
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0006-rename-stdout-stderr-members.patch
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0007-dnf5-offline-fix-build-without-systemd.patch
- rename meta/recipes-devtools/dnf/{dnf_5.4.7.0.bb => dnf_5.4.8.0.bb} (97%)
+ .../python/python3/python3-manifest.json      | 78 ++++++++++++++-----
+ .../python/python3_3.14.10.bb                 |  1 +
+ 2 files changed, 58 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0006-rename-stdout-stderr-members.patch b/meta/recipes-devtools/dnf/dnf/0006-rename-stdout-stderr-members.patch
-deleted file mode 100644
-index 68d1f33df3..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0006-rename-stdout-stderr-members.patch
-+++ /dev/null
-@@ -1,205 +0,0 @@
--From 42a4a73832913ce018cdc0147805ae324abb47a0 Mon Sep 17 00:00:00 2001
--From: Adam Duskett <adam.duskett@amarulasolutions.com>
--Date: Tue, 3 Nov 2026 12:33:12 +0100
--Subject: [PATCH] libdnf5: subprocess: rename stdout/stderr members of
-- CompletedProcess
--
--The C standard allows stdin, stdout and stderr to be defined as macros, which MUSL does:
--```
--  #define stdout (stdout)
--  #define stderr (stderr)
--```
--
--This breaks the build when cross-compiling on systems that use MUSL instead
--of glibc with the following error:
--  libdnf5/utils/bootc.cpp:44:74: error: expected unqualified-id before '(' token
--
--Rename the members to stdout_data and stderr_data to fix building against
--musl.
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/dnf5/pull/3024]
--Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-----
-- libdnf5/utils/bootc.cpp                | 11 +++---
-- libdnf5/utils/subprocess.cpp           |  4 +--
-- libdnf5/utils/subprocess.hpp           |  4 +--
-- test/libdnf5/utils/test_subprocess.cpp | 50 +++++++++++++-------------
-- 4 files changed, 36 insertions(+), 33 deletions(-)
--
--diff --git a/libdnf5/utils/bootc.cpp b/libdnf5/utils/bootc.cpp
--index 0027e02887..305114f30b 100644
----- a/libdnf5/utils/bootc.cpp
--+++ b/libdnf5/utils/bootc.cpp
--@@ -41,7 +41,8 @@ std::unique_ptr<json_object, decltype(&json_object_put)> get_bootc_status() {
--     // Check whether command failed (non-zero exit code)
--     if (result.returncode != 0) {
--         // Command ran but failed; show stderr to user
---        std::string stderr_content(reinterpret_cast<const char *>(result.stderr.data()), result.stderr.size());
--+        std::string stderr_content(
--+            reinterpret_cast<const char *>(result.stderr_data.data()), result.stderr_data.size());
--         if (!stderr_content.empty()) {
--             throw libdnf5::RuntimeError(M_("Error checking bootc status: {}"), stderr_content);
--         } else {
--@@ -50,7 +51,7 @@ std::unique_ptr<json_object, decltype(&json_object_put)> get_bootc_status() {
--         }
--     }
-- 
---    std::string stdout_content(reinterpret_cast<const char *>(result.stdout.data()), result.stdout.size());
--+    std::string stdout_content(reinterpret_cast<const char *>(result.stdout_data.data()), result.stdout_data.size());
--     std::unique_ptr<json_object, decltype(&json_object_put)> root(
--         json_tokener_parse(stdout_content.c_str()), json_object_put);
-- 
--@@ -120,7 +121,8 @@ void make_usr_writable() {
--         // Set up transient overlay
--         const auto & result = subprocess::run("bootc", {"bootc", "usr-overlay", "--read-only"});
--         if (result.returncode != 0) {
---            std::string stderr_content(reinterpret_cast<const char *>(result.stderr.data()), result.stderr.size());
--+            std::string stderr_content(
--+                reinterpret_cast<const char *>(result.stderr_data.data()), result.stderr_data.size());
--             if (!stderr_content.empty()) {
--                 throw libdnf5::RuntimeError(M_("Error running `bootc usr-overlay --read-only`: {}"), stderr_content);
--             } else {
--@@ -139,7 +141,8 @@ void make_usr_writable() {
--     const auto & result = subprocess::run("mount", {"mount", "--options-source=disable", "-o", "remount,rw", "/usr"});
-- 
--     if (result.returncode != 0) {
---        std::string stderr_content(reinterpret_cast<const char *>(result.stderr.data()), result.stderr.size());
--+        std::string stderr_content(
--+            reinterpret_cast<const char *>(result.stderr_data.data()), result.stderr_data.size());
--         throw libdnf5::RuntimeError(M_("Failed to remount /usr as read-write: {}"), stderr_content);
--     }
-- }
--diff --git a/libdnf5/utils/subprocess.cpp b/libdnf5/utils/subprocess.cpp
--index 33299e0fec..3175d804f2 100644
----- a/libdnf5/utils/subprocess.cpp
--+++ b/libdnf5/utils/subprocess.cpp
--@@ -259,8 +259,8 @@ CompletedProcess run(const std::string & command, const std::vector<std::string>
-- 
--     return CompletedProcess{
--         .returncode = returncode,
---        .stdout = stdout_bytes,
---        .stderr = stderr_bytes,
--+        .stdout_data = stdout_bytes,
--+        .stderr_data = stderr_bytes,
--     };
-- }
-- 
--diff --git a/libdnf5/utils/subprocess.hpp b/libdnf5/utils/subprocess.hpp
--index 7a5066ea30..73f3934bc4 100644
----- a/libdnf5/utils/subprocess.hpp
--+++ b/libdnf5/utils/subprocess.hpp
--@@ -11,8 +11,8 @@ namespace libdnf5::utils::subprocess {
-- 
-- struct CompletedProcess {
--     int returncode;
---    std::vector<std::byte> stdout;
---    std::vector<std::byte> stderr;
--+    std::vector<std::byte> stdout_data;
--+    std::vector<std::byte> stderr_data;
-- };
-- 
-- /// @brief Run a command in a child process and wait for it to complete.
--diff --git a/test/libdnf5/utils/test_subprocess.cpp b/test/libdnf5/utils/test_subprocess.cpp
--index 20fdb7c52c..55084a2193 100644
----- a/test/libdnf5/utils/test_subprocess.cpp
--+++ b/test/libdnf5/utils/test_subprocess.cpp
--@@ -34,8 +34,8 @@ void UtilsSubprocessTest::test_stdout_capture() {
--         libdnf5::utils::subprocess::run("/usr/bin/env", {"/usr/bin/env", "sh", "-c", "echo 'Hello, World!'"});
-- 
--     CPPUNIT_ASSERT_EQUAL(0, result.returncode);
---    CPPUNIT_ASSERT_EQUAL(std::string("Hello, World!\n"), bytes_to_string(result.stdout));
---    CPPUNIT_ASSERT_EQUAL(std::string(""), bytes_to_string(result.stderr));
--+    CPPUNIT_ASSERT_EQUAL(std::string("Hello, World!\n"), bytes_to_string(result.stdout_data));
--+    CPPUNIT_ASSERT_EQUAL(std::string(""), bytes_to_string(result.stderr_data));
-- }
-- 
-- 
--@@ -45,8 +45,8 @@ void UtilsSubprocessTest::test_stderr_capture() {
--         libdnf5::utils::subprocess::run("/usr/bin/env", {"/usr/bin/env", "sh", "-c", "echo 'Error message' >&2"});
-- 
--     CPPUNIT_ASSERT_EQUAL(0, result.returncode);
---    CPPUNIT_ASSERT_EQUAL(std::string(""), bytes_to_string(result.stdout));
---    CPPUNIT_ASSERT_EQUAL(std::string("Error message\n"), bytes_to_string(result.stderr));
--+    CPPUNIT_ASSERT_EQUAL(std::string(""), bytes_to_string(result.stdout_data));
--+    CPPUNIT_ASSERT_EQUAL(std::string("Error message\n"), bytes_to_string(result.stderr_data));
-- }
-- 
-- 
--@@ -56,8 +56,8 @@ void UtilsSubprocessTest::test_stdout_and_stderr_capture() {
--         "/usr/bin/env", {"/usr/bin/env", "sh", "-c", "echo 'stdout line'; echo 'stderr line' >&2"});
-- 
--     CPPUNIT_ASSERT_EQUAL(0, result.returncode);
---    CPPUNIT_ASSERT_EQUAL(std::string("stdout line\n"), bytes_to_string(result.stdout));
---    CPPUNIT_ASSERT_EQUAL(std::string("stderr line\n"), bytes_to_string(result.stderr));
--+    CPPUNIT_ASSERT_EQUAL(std::string("stdout line\n"), bytes_to_string(result.stdout_data));
--+    CPPUNIT_ASSERT_EQUAL(std::string("stderr line\n"), bytes_to_string(result.stderr_data));
-- }
-- 
-- 
--@@ -66,8 +66,8 @@ void UtilsSubprocessTest::test_exit_code_success() {
--     const auto result = libdnf5::utils::subprocess::run("/usr/bin/env", {"/usr/bin/env", "sh", "-c", "exit 0"});
-- 
--     CPPUNIT_ASSERT_EQUAL(0, result.returncode);
---    CPPUNIT_ASSERT_EQUAL(std::string(""), bytes_to_string(result.stdout));
---    CPPUNIT_ASSERT_EQUAL(std::string(""), bytes_to_string(result.stderr));
--+    CPPUNIT_ASSERT_EQUAL(std::string(""), bytes_to_string(result.stdout_data));
--+    CPPUNIT_ASSERT_EQUAL(std::string(""), bytes_to_string(result.stderr_data));
-- }
-- 
-- 
--@@ -97,17 +97,17 @@ void UtilsSubprocessTest::test_binary_data() {
--     CPPUNIT_ASSERT_EQUAL(0, result.returncode);
-- 
--     // Verify stdout contains the expected binary data
---    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(5), result.stdout.size());
---    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x00), result.stdout[0]);
---    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x01), result.stdout[1]);
---    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x02), result.stdout[2]);
---    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0xff), result.stdout[3]);
---    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0xfe), result.stdout[4]);
--+    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(5), result.stdout_data.size());
--+    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x00), result.stdout_data[0]);
--+    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x01), result.stdout_data[1]);
--+    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x02), result.stdout_data[2]);
--+    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0xff), result.stdout_data[3]);
--+    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0xfe), result.stdout_data[4]);
-- 
--     // Verify stderr contains the expected binary data
---    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), result.stderr.size());
---    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x03), result.stderr[0]);
---    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x04), result.stderr[1]);
--+    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), result.stderr_data.size());
--+    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x03), result.stderr_data[0]);
--+    CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>(0x04), result.stderr_data[1]);
-- }
-- 
-- 
--@@ -131,20 +131,20 @@ done
--     const auto result = libdnf5::utils::subprocess::run("/usr/bin/env", {"/usr/bin/env", "sh", "-c", script});
-- 
--     // The expected size is: 1000 × 100 bytes = 100,000 bytes per stream
---    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(100000), result.stdout.size());
---    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(100000), result.stderr.size());
--+    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(100000), result.stdout_data.size());
--+    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(100000), result.stderr_data.size());
-- 
--     // Verify the command succeeded (didn't deadlock or error)
--     CPPUNIT_ASSERT_EQUAL(0, result.returncode);
-- 
--     // Verify the data is correct (should be all a's on stdout, b's on stderr)
--     // Check first few bytes (only if we have data)
---    if (result.stdout.size() > 0) {
---        CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>('a'), result.stdout[0]);
---        CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>('a'), result.stdout[100]);
--+    if (result.stdout_data.size() > 0) {
--+        CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>('a'), result.stdout_data[0]);
--+        CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>('a'), result.stdout_data[100]);
--     }
---    if (result.stderr.size() > 0) {
---        CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>('b'), result.stderr[0]);
---        CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>('b'), result.stderr[100]);
--+    if (result.stderr_data.size() > 0) {
--+        CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>('b'), result.stderr_data[0]);
--+        CPPUNIT_ASSERT_EQUAL(static_cast<std::byte>('b'), result.stderr_data[100]);
--     }
-- }
-diff --git a/meta/recipes-devtools/dnf/dnf/0007-dnf5-offline-fix-build-without-systemd.patch b/meta/recipes-devtools/dnf/dnf/0007-dnf5-offline-fix-build-without-systemd.patch
-deleted file mode 100644
-index dba69d4bd9..0000000000
---- a/meta/recipes-devtools/dnf/dnf/0007-dnf5-offline-fix-build-without-systemd.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 81405407f84d87ebec7c3f9eeeaafaa148e9f462 Mon Sep 17 00:00:00 2001
--From: Adam Duskett <adam.duskett@amarulasolutions.com>
--Date: Fri, 6 Nov 2026 13:29:35 +0100
--Subject: [PATCH] dnf5: offline: fix build without systemd
--
--The plymouth argument of reboot() is only used when dnf5 is built with
--systemd support. Without it, the argument is unused and the build fails:
--
--  dnf5/commands/offline/offline.cpp:277:53: error: unused parameter
--  'plymouth' [-Werror=unused-parameter]
--
--Mark the argument as [[maybe_unused]].
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/dnf5/pull/3030]
--Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
-----
-- dnf5/commands/offline/offline.cpp | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/dnf5/commands/offline/offline.cpp b/dnf5/commands/offline/offline.cpp
--index 74123e2..f95ecdc 100644
----- a/dnf5/commands/offline/offline.cpp
--+++ b/dnf5/commands/offline/offline.cpp
--@@ -274,7 +274,7 @@ void invalidate_if_not_valid(libdnf5::offline::OfflineTransactionState & state,
--     }
-- }
-- 
---void reboot(bool poweroff = false, PlymouthOutput * plymouth = nullptr) {
--+void reboot(bool poweroff = false, [[maybe_unused]] PlymouthOutput * plymouth = nullptr) {
--     if (std::getenv("DNF_SYSTEM_UPGRADE_NO_REBOOT")) {
--         if (poweroff) {
--             std::cerr << "DNF_SYSTEM_UPGRADE_NO_REBOOT is set, not powering off." << std::endl;
---- 
--2.56.0
--
-diff --git a/meta/recipes-devtools/dnf/dnf_5.4.7.0.bb b/meta/recipes-devtools/dnf/dnf_5.4.8.0.bb
-similarity index 97%
-rename from meta/recipes-devtools/dnf/dnf_5.4.7.0.bb
-rename to meta/recipes-devtools/dnf/dnf_5.4.8.0.bb
-index d07b5e1f9f..2373114cd3 100644
---- a/meta/recipes-devtools/dnf/dnf_5.4.7.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_5.4.8.0.bb
-@@ -37,11 +37,9 @@ SRC_URI = "\
-     file://0003-Do-not-hardcode-system_cachedir.patch \
-     file://0004-add-support-for-gcc-12-and-below.patch \
-     file://0005-libdnf-fix-arm-arch-mapping-issues-for-qemuarmv5.patch \
--    file://0006-rename-stdout-stderr-members.patch \
--    file://0007-dnf5-offline-fix-build-without-systemd.patch \
- "
- SRC_URI:append:class-native = " file://0001-Do-not-hardcode-the-systemd-unit-directory.patch"
--SRCREV = "a42787112973edb4e5ba237d4fca6f878ac5f4c1"
-+SRCREV = "01329a46d840894d9fac207f06ed5bc37e752612"
- 
- inherit bash-completion cmake gettext pkgconfig siteinfo systemd
- inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3targetconfig', '', d)}
--- 
-2.56.1
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b=
+/meta/recipes-devtools/python/python3/python3-manifest.json
+index 50fdf5d0eae..0c91745e675 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -107,6 +107,7 @@
+         "summary": "Python Asynchronous I/O",
+         "rdepends": [
+             "core",
++            "debugger",
+             "io",
+             "logging",
+             "netclient",
+@@ -165,20 +166,39 @@
+             "core"
+         ],
+         "files": [
++            "${libdir}/python${PYTHON_MAJMIN}/bz2.py",
++            "${libdir}/python${PYTHON_MAJMIN}/compression",
+             "${libdir}/python${PYTHON_MAJMIN}/gzip.py",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_lzma.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_zstd.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/lzma.py",
+             "${libdir}/python${PYTHON_MAJMIN}/tarfile.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/zipfile/",
+-            "${libdir}/python${PYTHON_MAJMIN}/compression/",
+-            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_zstd.*.so"
++            "${libdir}/python${PYTHON_MAJMIN}/zipfile"
+         ],
+         "cached": [
++            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/bz2.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/gzip.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/lzma.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/tarfile.*.pyc"
+         ]
+     },
+     "core": {
+         "summary": "Python interpreter and core modules",
+-        "rdepends": ["compression"],
++        "rdepends": [],
++        "skip_depends": {
++            "core": [
++                "zipimport"
++            ],
++            "shutil": [
++                "compression",
++                "bz2",
++                "lzma",
++                "zlib",
++                "zstd"
++            ]
++        },
+         "files": [
+             "${bindir}/python${PYTHON_MAJMIN}",
+             "${bindir}/python${PYTHON_MAJMIN}.real",
+@@ -193,22 +213,20 @@
+             "${libdir}/python${PYTHON_MAJMIN}/_bootlocale.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_collections_abc.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_colorize.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/_compression.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_markupbase.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_opcode_metadata.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_py_warnings.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_pyrepl",
+             "${libdir}/python${PYTHON_MAJMIN}/_pyrepl/pager.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_sysconfig_vars*.json",
++            "${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py",
+             "${libdir}/python${PYTHON_MAJMIN}/_weakrefset.py",
+             "${libdir}/python${PYTHON_MAJMIN}/abc.py",
+             "${libdir}/python${PYTHON_MAJMIN}/annotationlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/argparse.py",
+             "${libdir}/python${PYTHON_MAJMIN}/ast.py",
+             "${libdir}/python${PYTHON_MAJMIN}/bisect.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/bz2.py",
+             "${libdir}/python${PYTHON_MAJMIN}/code.py",
+             "${libdir}/python${PYTHON_MAJMIN}/codecs.py",
+             "${libdir}/python${PYTHON_MAJMIN}/codeop.py",
+@@ -250,10 +268,9 @@
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/ti=
+me.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/xr=
+eadlines.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bisect.*.so",
+-            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_csv.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_heapq.*.so",
+-            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_lzma.*.so",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_interpreters.=
+*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubproce=
+ss.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.so",
+@@ -269,10 +286,8 @@
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/time.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/unicodedata.*.=
+so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/xreadlines.*.s=
+o",
+-            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/linecache.py",
+             "${libdir}/python${PYTHON_MAJMIN}/locale.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/lzma.py",
+             "${libdir}/python${PYTHON_MAJMIN}/new.py",
+             "${libdir}/python${PYTHON_MAJMIN}/ntpath.py",
+             "${libdir}/python${PYTHON_MAJMIN}/opcode.py",
+@@ -283,6 +298,8 @@
+             "${libdir}/python${PYTHON_MAJMIN}/pathlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/pathlib/_abc.py",
+             "${libdir}/python${PYTHON_MAJMIN}/pathlib/_local.py",
++            "${libdir}/python${PYTHON_MAJMIN}/pathlib/_os.py",
++            "${libdir}/python${PYTHON_MAJMIN}/pathlib/types.py",
+             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
+             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
+             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
+@@ -341,7 +358,6 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/argparse.*.pyc=
+",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/ast.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/bisect.*.pyc",
+-            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/bz2.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/code.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/codecs.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/codeop.*.pyc",
+@@ -367,7 +383,6 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/keyword.*.pyc"=
+,
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/linecache.*.py=
+c",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/locale.*.pyc",
+-            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/lzma.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/ntpath.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/opcode.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/operator.*.pyc=
+",
+@@ -420,6 +435,8 @@
+             "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__",
+             "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__/_abc.*=
+.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__/_local=
+.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__/_os.*.=
+pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__/types.=
+*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__",
+             "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__/_casefix.*.=
+pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__/_compiler.*=
+.pyc",
+@@ -451,6 +468,7 @@
+     "ctypes": {
+         "summary": "Python C types support",
+         "rdepends": [
++            "compression",
+             "core",
+             "io",
+             "math"
+@@ -482,8 +500,7 @@
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/_strptime.py",
+             "${libdir}/python${PYTHON_MAJMIN}/calendar.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/datetime.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_datetime.*.so=
+"
++            "${libdir}/python${PYTHON_MAJMIN}/datetime.py"
+         ],
+         "cached": [
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_strptime.*.py=
+c",
+@@ -505,13 +522,22 @@
+     "debugger": {
+         "summary": "Python debugger",
+         "rdepends": [
++            "asyncio",
++            "compression",
+             "core",
++            "io",
++            "json",
++            "logging",
++            "math",
++            "netclient",
++            "numbers",
+             "pprint",
+             "shell",
+             "stringold"
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/bdb.py",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_remote_debugg=
+ing.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/pdb.py"
+         ],
+         "cached": [
+@@ -554,9 +580,17 @@
+     "doctest": {
+         "summary": "Python framework for running examples in docstrings"=
+,
+         "rdepends": [
++            "asyncio",
++            "compression",
+             "core",
+             "debugger",
+             "difflib",
++            "io",
++            "json",
++            "logging",
++            "math",
++            "netclient",
++            "numbers",
+             "pprint",
+             "shell",
+             "stringold",
+@@ -603,9 +637,7 @@
+         "rdepends": [
+             "core"
+         ],
+-        "files": [
+-            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/fcntl.*.so"
+-        ],
++        "files": [],
+         "cached": []
+     },
+     "gdbm": {
+@@ -654,6 +686,7 @@
+     "io": {
+         "summary": "Python low-level I/O",
+         "rdepends": [
++            "compression",
+             "core",
+             "math",
+             "netclient"
+@@ -818,10 +851,12 @@
+     "multiprocessing": {
+         "summary": "Python multiprocessing support",
+         "rdepends": [
++            "compression",
+             "core",
+             "crypt",
+             "ctypes",
+             "io",
++            "json",
+             "math",
+             "mmap",
+             "netclient",
+@@ -853,6 +888,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/hmac.py",
+             "${libdir}/python${PYTHON_MAJMIN}/http",
+             "${libdir}/python${PYTHON_MAJMIN}/http/__pycache__",
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_hmac.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_uuid.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/mimetypes.py",
+             "${libdir}/python${PYTHON_MAJMIN}/poplib.py",
+@@ -895,7 +931,6 @@
+             "${libdir}/python${PYTHON_MAJMIN}/contextvars.py",
+             "${libdir}/python${PYTHON_MAJMIN}/decimal.py",
+             "${libdir}/python${PYTHON_MAJMIN}/fractions.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_contextvars.*=
+.so",
+             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_decimal.*.so"=
+,
+             "${libdir}/python${PYTHON_MAJMIN}/numbers.py"
+         ],
+@@ -1004,8 +1039,7 @@
+     "shell": {
+         "summary": "Python shell-like functionality",
+         "rdepends": [
+-            "core",
+-            "stringold"
++            "core"
+         ],
+         "files": [
+             "${libdir}/python${PYTHON_MAJMIN}/cmd.py",
+@@ -1150,8 +1184,10 @@
+     "venv": {
+         "summary": "Provides support for creating lightweight virtual en=
+vironments with their own site directories, optionally isolated from syst=
+em site directories.",
+         "rdepends": [
++            "compression",
+             "core",
+             "logging",
++            "shell",
+             "stringold"
+         ],
+         "files": [
+diff --git a/meta/recipes-devtools/python/python3_3.14.10.bb b/meta/recip=
+es-devtools/python/python3_3.14.10.bb
+index 9c45f8e0c67..5ffab530c63 100644
+--- a/meta/recipes-devtools/python/python3_3.14.10.bb
++++ b/meta/recipes-devtools/python/python3_3.14.10.bb
+@@ -572,6 +572,7 @@ RDEPENDS:${PN}-tkinter +=3D "${@bb.utils.contains('PA=
+CKAGECONFIG', 'tk', '${MLPREF
+ RDEPENDS:${PN}-idle +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk', '$=
+{PN}-tkinter ${MLPREFIX}tcl', '', d)}"
+ DEV_PKG_DEPENDENCY =3D ""
+ RDEPENDS:${PN}-pydoc +=3D "${PN}-io"
++RDEPENDS:${PN}-ensurepip +=3D "${PN}-compression"
+=20
+ RDEPENDS:${PN}-tests:append:class-target =3D " ${MLPREFIX}bash"
+ RDEPENDS:${PN}-tests:append:class-nativesdk =3D " ${MLPREFIX}bash"
+--=20
+2.43.0
 
