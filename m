@@ -1,92 +1,100 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13369.1794582060850185553
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13457.1794582203915886074
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2026 07:01:00 -0800
+ Fri, 13 Nov 2026 07:03:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BZ8wfvCr;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=eEYC190n;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1d56d1c30-56cf8575-8f08-43c8-b1eb-a8cc5fd2e7fd-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794582060; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=w/OL22lo/GE65/bbqpA4fGRqYynSnRN9on5+UYPubr8=;
-	b=BZ8wfvCrCfTGQSWU3oH3nId6RoBbYbZrZ8FDayFA0IVZqy8nfMQ1arWqPPNlJ/n3
-	ThRuGri4GC4Jyj10AKAymZhPqo1IGzYmP61X167CGhr7nq8flhbtCy9NjNYLZXZdnvN
-	Ai25SolL/I0pAqsGjvJ79I+rx2lXbF/OqT8Yi4No=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794582060;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=w/OL22lo/GE65/bbqpA4fGRqYynSnRN9on5+UYPubr8=;
-	b=eEYC190n/Z90WYLUrHy/oT2cjCcmmUNDB3qRMru56IUs8/JslgO95jI3g7dEY3qZ
-	OhZpdj6gCMbVWtVQc1TqKErveEx12Ghq45NjRl75gynFxLSignjGYu0XD/lNBBN3sKo
-	7POiebRy6q9aZfwTQuZOowLGrPn2q91NdW2tYwIo=
-From: patchtest@automation.yoctoproject.org
-To: Michal Sieron <michalwsieron@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] tune-octeon.inc: Fix lack of whitespace
-In-Reply-To: <20261113-msieron-octeon-whitespace-fix-v1-1-1bfa0d19ebb3@nokia.com>
-References: <20261113-msieron-octeon-whitespace-fix-v1-1-1bfa0d19ebb3@nokia.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1d56d1c30-56cf8575-8f08-43c8-b1eb-a8cc5fd2e7fd-000000@us-west-2.amazonses.com>
-Date: Fri, 13 Nov 2026 15:01:00 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.13-54.240.27.31
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=ApcfP8Aj;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: michalwsieron@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c5067a2411bso206438866b.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 07:03:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794582202; x=1795187002; darn=lists.openembedded.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=LLR4wZwVceEZQV4fCaR541yI+qJZhxFfrpP8sllOxZM=;
+        b=ApcfP8AjRWCx0MtFzot2C+vVwHLCFycJ2+QQGdAo/ZHdV0SYAgpnqHLUJG7XKvR0ku
+         rYJFXRpIyNOUdZgEKGskrNAkOYxaPDrJ84fU4CsJDKNuaWClWDfNJmENhhGZ5FdrfKOs
+         5s2oAsrByeHC22cKH1JhS19QNN/eFzBE8gZ7fSNA0EMFETqHXV/H/59gOA1aLn5hmQjd
+         cEx8dnWg74btkjcLLaEg3Poyi1OlUrqL9rc08SV1Losrt1X3vSO+8QHhuvQj7ZRlANNR
+         tfR2zhi25w6+KPUUz67emanWE7e9I1NhWGILFG7nZOkzYARG3ZXcB9xE5oXN0DOg7o2f
+         2hcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794582202; x=1795187002;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=LLR4wZwVceEZQV4fCaR541yI+qJZhxFfrpP8sllOxZM=;
+        b=RBqPq9pblB7dgANinaxq3hzJS7J8DYR1FeP9S9rnjEx8h03qr/eFd4oFDCg08Oh3Ks
+         5ai396aVnQja3O286TRzOfv4yDfaMOp710iAa7Y8AAMTAmzonSK3wpqRjyYFZO/U7SOq
+         PQCQ4bk5mQ56yb6yEAEhQ/FaGrutrFN8A/BV6CmNaaw+AhS6m+dA3rhvx/d0k7tqlqjU
+         B5ZkBgbYkFOkvcwVhkX8TZH8GSvZYXRxUDuz81pGyr+Qtwf1fMMjT5Hyx2vCx2nRdCQk
+         wAN7qxyPtyF2lIA+tUDfl+jqc4IHiRKYHodWYNndmWiJBi967Kxno4U+64d4mFHGDAtn
+         Vipg==
+X-Gm-Message-State: APuU4Z89n3pSjS3zCaRXDI6nGMsQo8qI+5oBC5+2pWNIc95goosPRGmq
+	5LErD4In53P2bf8q6gvhdNFuYgGecvzApwugyJqkLVch3Wtz0PNggflWvuDboUVw
+X-Gm-Gg: AYBFou2TjwJ2YBIpeSUPykrUVKJDzL4KzLvMc7TwXrLozXbwOBBapAJrjFtMSHT2L4o
+	8bO0fApgbAaUSrASgcJi/2gdG5IL5aZLmw2U95SfPvqyeGXlW6LlinFDbz7k20q6vsktipgX1YD
+	4GWpUyNOzxQNWAhT7vb/FGGM9051Z+6CEjcJBq9+wy8YWP+S+Wg8tZP+mXUeSghHZE+2tR52hge
+	9RqmlteATBLgzpM6kRS9vQqSztT28VGN/xCsv0zhIyKVGA5nBjE37tz3P99PXLUHO0KHWun3FS6
+	kdGRlDL1apUg2Y+gs63otZocNCITCzGlhaAXGWylrxsdPJYQMVQZXMsRx0cn/VUsIO37VvHKK1q
+	HQ+3WJdRs5n79vtKLQCDNSFc3wWQ7d+AafBrr/oFTsODZidrOuHuQmAfIw3EnLHGQL9+Dr11uYY
+	c92lXKUHEPpBauBiUa7BPtYU3OhWHiIhJPDr3y+S3/G7WyIQfmzjBqSYvqKKWaAx4cqYReCV2Ew
+	TDLhCM8UE/BdeVd4QmSPyTLQWgBZ0fpR9rLRr6AwhgalQtZAzozbgFaz8MaHVmxYrPFntOARxrl
+	9Vaqp5kfK2+1dXCQ56tQT5IiNcAumsHT
+X-Received: by 2002:a17:906:99c9:b0:c50:95bd:e491 with SMTP id a640c23a62f3a-c50964377d8mr267935966b.28.1794582201921;
+        Fri, 13 Nov 2026 07:03:21 -0800 (PST)
+Return-Path: <michalwsieron@gmail.com>
+Received: from [127.0.1.1] ([193.28.84.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c6d079a2asm4970426f8f.16.2026.11.13.07.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 07:03:21 -0800 (PST)
+From: Michal Sieron <michalwsieron@gmail.com>
+X-Google-Original-From: Michal Sieron <michal.sieron@nokia.com>
+Date: Fri, 13 Nov 2026 16:03:04 +0100
+Subject: [PATCH] python3-sphinx: Make __pycache__ removal optional
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261113-msieron-python-sphinx-pycache-v1-1-7e641cba892f@nokia.com>
+X-B4-Tracking: v=1; b=H4sIAKcm92oC/yXMQQqDMBBA0avIrA2YWES8irhIpmMzQmPI2KKId
+ ++0XX3e5p8gVJgEhuqEQm8WXpPC1hVg9OlBhu9qcI3rrLWteQpTWZPJxxY1kiOnXYUeI5ngmu7
+ WB49+RtBHLjTz/vuP09/yCgvh9p3CdX0AXxcCz4EAAAA=
+X-Change-ID: 20261113-msieron-python-sphinx-pycache-b20648bacafc
+To: openembedded-core@lists.openembedded.org
+Cc: Michal Sieron <michal.sieron@nokia.com>
+X-Mailer: b4 0.15.2
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 15:01:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250182
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 15:03:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250183
 
---NextPart
-Content-Type: text/plain
+One can disable bytecode compilation via INSTALL_WHEEL_COMPILE_BYTECODE
+and in such case this rm will fail.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Signed-off-by: Michal Sieron <michal.sieron@nokia.com>
+---
+ meta/recipes-devtools/python/python3-sphinx_9.2.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/python/python3-sphinx_9.2.0.bb b/meta/recipes-devtools/python/python3-sphinx_9.2.0.bb
+index e54b35ca68..fde0777022 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_9.2.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_9.2.0.bb
+@@ -12,7 +12,7 @@ inherit python_flit_core pypi
+ 
+ do_install:append () {
+ 	# The cache format of "{None, 'en', 'ja'}" doesn't seem to be consistent (dict ordering?)
+-	rm ${D}${libdir}/${PYTHON_DIR}/site-packages/sphinx/writers/__pycache__/*latex*
++	rm -f ${D}${libdir}/${PYTHON_DIR}/site-packages/sphinx/writers/__pycache__/*latex*
+ }
+ 
+ RDEPENDS:${PN} = "\
 
 ---
-Testing patch /home/patchtest/share/mboxes/tune-octeon.inc-Fix-lack-of-whitespace.patch
+base-commit: 34991d0ce3cc5f38dd29e824af7579512d2b917e
+change-id: 20261113-msieron-python-sphinx-pycache-b20648bacafc
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+Best regards,
+--  
+Michal Sieron <michal.sieron@nokia.com>
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
