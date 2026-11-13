@@ -1,116 +1,94 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12537.1794580245594436809
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12896.1794581053701500871
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2026 06:30:45 -0800
+ Fri, 13 Nov 2026 06:44:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=K0NPzaXX;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 24CA3152B
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 06:30:42 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BA8D33F673
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 06:30:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794580245; bh=y3rA00Ps1b8ctsrHwkvM2F+mPfeE91ifVgLMWULPcbY=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=K0NPzaXXnLucQ8s9DrYStPP/aJPXVDcgEZCqgSPR08cS0b/620VVwV9ezZV1uFd6D
-	 VF8lFJT000BLJHzShAzTrcqbT4mQ+3zmepwOtShgFkB7iaxcEiP4aOUIrziptdg5B+
-	 reQeEbrgzyTMqlbTiFrLUbdsZn6zVQV4vztRuadU=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 4/5] python3: add support for skipping dependencies when building the manifest
-Date: Fri, 13 Nov 2026 14:30:37 +0000
-Message-ID: <20261113143038.1651404-4-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261113143038.1651404-1-ross.burton@arm.com>
-References: <20261113143038.1651404-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=V/smbMDN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: michalwsieron@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4bb55cda775so4781395e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 06:44:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794581052; x=1795185852; darn=lists.openembedded.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4wTm3UZDTAGvediAH2uHO1lBRIpuOui36SO1PJdB8G8=;
+        b=V/smbMDNktAHxyeyyc0/IoCJxQ/DwLpkzdJazaf4k+aRScai1NcC6XDXHtkNQyfGPW
+         x+6aFJF8pfs3dGxgDhq47lbTnt3XUTNNnRaqz4dcZHd27vwaV+JJhTnHYq6GJvtLsDuG
+         3uPuEv92WJj47FXlqMsblGksRoACdGQU3wDhFwB2/HbNCvHjqNn1tkuYndpKCCfDZfgp
+         ypCpuzeBZu918M9Oznv/XkNycWhRB+HG40F1fXKdqWlKh8XWy5vWZrExMqkVsvjjQNtH
+         pu2VI5yHhIFyWOUZc2pL9X5VES604LSNNi0cOvh5Hg/J0BMBhQe4e23quN8jYVqmE2Uh
+         XQYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794581052; x=1795185852;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=4wTm3UZDTAGvediAH2uHO1lBRIpuOui36SO1PJdB8G8=;
+        b=jfMl19w3yGQxaZdetM046GKIv274lEg221fyOiVwH74pWEkJUo+Ryk82WAIdEmUKwY
+         J+h3uuO5iSpLXem6oRrDam3BMSWqNFMzYBSYeizR8Qd+UulQBvefC9xb6W5oLDXh+D6B
+         zbKwPb2I6PjMlJavdkLjOdapkR3ktbS1c8arVbXSwN9mb3FGqi4rgRElzwAwa0hRgT6e
+         gR4r62aJ50zB5H/lRy1q13ZqevoMHJzg/FaIXs2j+ZDWHrtt/EKSiucXdyowetxaaVjU
+         m9tA7K1r0ghjS4qKTRAb63uaBQX2zUl07FuosYdgZj6tatdLh44f44eWUQm+DH24MLrj
+         8XlA==
+X-Gm-Message-State: APuU4Z+yR6TLPtoec+guzKhzM1p3YO5Y6XTdRRJsdA4eP654FrElZ9On
+	EPiM/BLXEalrnFKYFP6o46Oyqrt3AGuHjSCKJZsZzaqlmrn1UlEPLzNVufAFAS/8
+X-Gm-Gg: AYBFou2fVXTwG6NDRV8Ok1oTYDdFYBpW3hQivGp/X4IHhwpBYTXNpu/I3NTDJzQUvxm
+	Nu/SNLds0OK+bRGhSNsPyMPcDZNTWXoLAvCO5CkRlnUIvhogR2vRg2/A3CZeEgRU1Hmzh1ypI2I
+	9zGW3smMzC4Fry9Idjh76wRA6XxZSQMAsEoRX4o8Ey2BEwrDKh7Vbe5X6kheyTgSSMmGJuSDmTL
+	AcebNxbUcQJc3ein94NrFh++902k7GOV+WM7havJTif11+pvNpmSasI0rdi9jXR2HHXLy1k/GPD
+	9dtNNR63XJQIhYec+rRgUS3tj9rRwwidEl9AltO3+FmyUGkGLK8JcVqkLMDB/3lBIM1e50Mpbbt
+	uNDDkOfhC76Ap+dpOVZUL2hyMAgLTxoJqBLlzt7Y6KPNgUXSOl5LK2jkVfbITgX0PbPO3Wsa4gA
+	Jjpp+OVFVf1/Z9tfn+bxLFl+08GgJuz5/oxLmfnu4W7irCfZq5i0maGl3Pb2AikRCimslH9OL4k
+	tId0t7YTU9jPf115ZC85DrDp5CIS2CZVPdLQ/LF1kwUqEskFC2QjEd2kyCG+Om0rlqenVJCXDSe
+	8OTbBgAge/RuC292/Jc5pmKmKnvTQGDn
+X-Received: by 2002:a05:600c:8b38:b0:4a1:c27d:e1a8 with SMTP id 5b1f17b1804b1-4bb55a7b45bmr59669675e9.10.1794581051885;
+        Fri, 13 Nov 2026 06:44:11 -0800 (PST)
+Return-Path: <michalwsieron@gmail.com>
+Received: from [127.0.1.1] ([193.28.84.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb56f97257sm38874595e9.4.2026.11.13.06.44.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 06:44:11 -0800 (PST)
+From: Michal Sieron <michalwsieron@gmail.com>
+X-Google-Original-From: Michal Sieron <michal.sieron@nokia.com>
+Date: Fri, 13 Nov 2026 15:43:56 +0100
+Subject: [PATCH] tune-octeon.inc: Fix lack of whitespace
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
-List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 14:30:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250179
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261113-msieron-octeon-whitespace-fix-v1-1-1bfa0d19ebb3@nokia.com>
+X-B4-Tracking: v=1; b=H4sIACsi92oC/yXMywrCMBCF4Vcps3YgSbELX0VctPHEjmBSMvECp
+ e/eUVeH7yz+lRRVoHTqVqp4iUrJBn/oKM5jvoHlaqbgwuC97/mhgloyl9hg856lQZcxgpN8OIU
+ 0ITgXBxzJGkuF3b/++fK3Pqc7YvtGadt2anM8o4EAAAA=
+X-Change-ID: 20261113-msieron-octeon-whitespace-fix-f2fbe200c6e5
+To: openembedded-core@lists.openembedded.org
+Cc: Michal Sieron <michal.sieron@nokia.com>
+X-Mailer: b4 0.15.2
+List-Id: <openembedded-core.lists.openembedded.org>
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2026 14:44:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250181
 
-The manifest generation works by importing modules and seeing what other
-modules also get included.  This means the manifest is maximal, for examp=
-le
-shutil tries to import all of the compression modules to determine what
-compression types are available.
-
-Add a "skip_depends" element to the manifest so we can mark up specific
-dependencies that should be ignored when generating the manifest.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Michal Sieron <michal.sieron@nokia.com>
 ---
- .../python/python3/create_manifest3.py           | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ meta/conf/machine/include/mips/tune-octeon.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3/create_manifest3.py b/m=
-eta/recipes-devtools/python/python3/create_manifest3.py
-index 6d3108e46f7..9ce04fdd2aa 100644
---- a/meta/recipes-devtools/python/python3/create_manifest3.py
-+++ b/meta/recipes-devtools/python/python3/create_manifest3.py
-@@ -93,6 +93,14 @@ def print_indent(msg, offset):
-         msg =3D ' ' * offset + l
-         print(msg)
-=20
-+def is_dependency_skipped(manifest, package, dependency):
-+    """
-+    Check to see if this dependency should be ignored by matching substr=
-ings
-+    from the optional skip_depends element in the manifest.
-+    """
-+    skiplist =3D manifest.get('skip_depends', {}).get(package, [])
-+    return any((skip in dependency for skip in skiplist))
-+
-=20
- # Read existing JSON manifest
- with open('python3-manifest.json') as manifest:
-@@ -121,6 +129,8 @@ print_indent('Getting dependencies for package: core'=
-, 0)
-=20
- output =3D subprocess.check_output([sys.executable, 'get_module_deps3.py=
-', 'python-core-package', '%s' % debugFlag]).decode('utf8')
- for coredep in output.split():
-+    if is_dependency_skipped(old_manifest['core'], "core", coredep):
-+        continue
-     coredep =3D coredep.replace(pyversion,'${PYTHON_MAJMIN}')
-     if isCached(coredep):
-         if coredep not in old_manifest['core']['cached']:
-@@ -172,6 +182,8 @@ for filedep in old_manifest['core']['files']:
-=20
-=20
-     for pymodule_dep in output.split():
-+        if is_dependency_skipped(old_manifest['core'], pymodule, pymodul=
-e_dep):
-+            continue
-         pymodule_dep =3D pymodule_dep.replace(pyversion,'${PYTHON_MAJMIN=
-}')
-=20
-         if isCached(pymodule_dep):
-@@ -221,6 +233,8 @@ for pypkg in old_manifest:
-     new_manifest[pypkg] =3D {}
-     new_manifest[pypkg]['summary'] =3D old_manifest[pypkg]['summary']
-     new_manifest[pypkg]['rdepends'] =3D []
-+    if "skip_depends" in old_manifest[pypkg]:
-+        new_manifest[pypkg]['skip_depends'] =3D old_manifest[pypkg]['ski=
-p_depends']
-     new_manifest[pypkg]['files'] =3D []
-     new_manifest[pypkg]['cached'] =3D old_manifest[pypkg]['cached']
-=20
-@@ -298,6 +312,8 @@ for pypkg in old_manifest:
-         reportRDEPS =3D []
-=20
-         for pymodule_dep in output.split():
-+            if is_dependency_skipped(new_manifest[pypkg], pymodule, pymo=
-dule_dep):
-+                continue
-=20
-             # Warning: This first part is ugly
-             # One of the dependencies that was found, could be inside of=
- one of the folders included by another package
---=20
-2.43.0
+diff --git a/meta/conf/machine/include/mips/tune-octeon.inc b/meta/conf/machine/include/mips/tune-octeon.inc
+index 0004190c34..96df9b1a60 100644
+--- a/meta/conf/machine/include/mips/tune-octeon.inc
++++ b/meta/conf/machine/include/mips/tune-octeon.inc
+@@ -1,4 +1,4 @@
+-DEFAULTTUNE ?="octeon2"
++DEFAULTTUNE ?= "octeon2"
+ 
+ require conf/machine/include/mips/tune-mips64.inc
+ 
+
+---
+base-commit: 34991d0ce3cc5f38dd29e824af7579512d2b917e
+change-id: 20261113-msieron-octeon-whitespace-fix-f2fbe200c6e5
+
+Best regards,
+--  
+Michal Sieron <michal.sieron@nokia.com>
 
