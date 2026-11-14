@@ -1,62 +1,61 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3642.1794686921674785475
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3563.1794686916689630989
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Nov 2026 12:08:41 -0800
+ Sat, 14 Nov 2026 12:08:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=KycDZhS8;
- spf=pass (domain: gmail.com, ip: 209.85.216.53, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3ae7626d14aso1128593a91.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2026 12:08:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=OlarRG4u;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3b155f50c24so3335735a91.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2026 12:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794686921; x=1795291721; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1794686916; x=1795291716; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OLHI9y96IcICVxv7DO3bSA6pkDMewLIAB98vMYmbZC0=;
-        b=KycDZhS8OF1PMK0ZGOvEzdQSXIo2zpOIedARtBDfcbjJBjDaL55wiLqqrMUn/2qMSx
-         e7SdVLR4ht2wTXwz0AOdPa10xyy+Km9LpZ2Wixxsw6mPH/cekBC7i0j1DCF33sMHPP/3
-         0+KAt6fjOrMMjkqk6r/dxTiwYV+mSTH1PKVW0Ym+tEfA8861ElvxNmcInG37p2d1QiGw
-         f8HpRQ9oUWiZOhSkZ2fA2kOaZQwV/w2LWzGvS2yqu0BEum7Qn34dXbfvD6oyQjF2LRpF
-         BmS730QTFy5ANFS02jThtINhyHGqCtfcQdOD9yfOZXykZ2kLnjKEEUwvYdnT6JOyuqDG
-         PNaA==
+        bh=JYn6BSHe7BJtJSEPGbMy8ChAdIVTICc83M5zQfExSCY=;
+        b=OlarRG4uYFK6eCZVZJtpFDEuLw9JmPTkQOZE76H4Uv0jg01fSiQiS0f8TawVSXBOf4
+         dtJ22DwVsip5l6QTMEXgHsLhd8ixBMTBQsieCIXI2y82B5NABQQqgocqCfJ7Z5enaVCn
+         x2z5tSMtR4ZbH+iF8dC3+AsxVZZeNinOr2sQi3EA0TbSB+x8xXay/p2T/EeNAXh2otrk
+         AAMp6BiOoFhGa+uxCE9KAJgO9cItTYZX5bQXCqG+jslYGYshPXtMw7az6JtCScsoHEG0
+         U2sXZMznqd0rlb42wts3RPbhG82wK0XPq+NzWggoTUtCrjTGwgWVEnUeQTT4QxCmbI4u
+         wzQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794686921; x=1795291721;
+        d=1e100.net; s=20260707; t=1794686916; x=1795291716;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OLHI9y96IcICVxv7DO3bSA6pkDMewLIAB98vMYmbZC0=;
-        b=oBPh/p9/nqowkraNPmPKOXxsUPvhPyG20BzAygaAGYk9bSyVlkYy3jlr/kugI5vIEI
-         jg15igzcYLtkP1aOn6pSbKLUKbl09RnwqgZbPpUl0baw+qtxclZtLWeAiw3Cyyd4fuTF
-         D5U18spb4rab85rlZTrR3L8q78HZDKbNvAnQe1W/xl/cGccYNkZc9G2g16GIo+nXT65Z
-         yg34D08d6/0GSJuo+YNLv7mZfQNpNUcqq++oZHzBzoh09omEhmqa3WG4ZRCpVMuzzi5b
-         ZRQzLIWeH9gI9DEwUItW6BFCV+c3cO1RgJHhvSORJExnH5kxklNnWboVRTJYIjbXRpB1
-         eSVw==
-X-Gm-Message-State: APuU4Z8KVUZ20LJ077e+2shoIpjTP390a4ASZ/PI59aKLG2vm4kAU1QY
-	nRpMvutLaBrjbGF/J80hu5NobPnQWE+BP8qWhpJHxSZt7HtzS+QHwUKVQdyyoFXq
-X-Gm-Gg: AYBFou12ePDERJ0LR+Oki1lbsyKtEGNrmw5fSuYZMBO9KKJrkkuFhUq/xT7h26uA5+I
-	m4Lwgv9czvES7bAiFzQsDZqoOQEQ94ZRBAjGLllh6R3oxNVJukQrPDkUKEa1RrL8PORZhx3Hjsx
-	rjf2HgYOF4KVB+Vpwl7682fV3Z5aNu2ldHNsctTLUpa2MnZr/hWawVDQWFmQYiTAoqwJmx9+Hja
-	6ttPt2x4KkPLSilbuIH1jSRT1AlFo6xaidtJEk2hETMyQQ6LOBUGYDF7EA1PLTimMqPtaTdilm0
-	YpsOvIMk97HSJKzHLdv6Rvo4gDK3KBCB2X7zZ1zVUhDPDvfdDBolDBHtsqp7C8gz5PhMDwPHqXk
-	ws02yZjqSXbCuLHbcjPBaAckZwXUWW3qLjQqkRXboMUXvqCN9AoI86+//2IjzSMHA9mpPMI00Gx
-	GKfDvDL3MHerPFIlAJxreOdmHGOgt2lS8Fo2tvkX3cuG755e73WxLV3eABqPEIKtG0fCeeNXgMq
-	25hz/MgT4Vrj1ViIWIXnv7rwvudKQqlGu//+Tcy/39ftnqQPQ652vhtm4464z76fTjYTDblks0H
-	qu8WtFh0wP8h6KkCkqKn7kONaJDcLDaFbDwf6GHEjGwV8AELm2Q9DYZQQprmDkVPlGtKiVR8Loe
-	kAlh+NDI=
-X-Received: by 2002:a17:90b:3b8a:b0:3b0:9f53:e8a8 with SMTP id 98e67ed59e1d1-3b1b0b5f2c1mr6195872a91.52.1794686920569;
-        Sat, 14 Nov 2026 12:08:40 -0800 (PST)
+        bh=JYn6BSHe7BJtJSEPGbMy8ChAdIVTICc83M5zQfExSCY=;
+        b=HOcqK5H4mw0AJ11/vqMdOX/7pOJrZy4An9XGrMI8dWL85HONDs5byfHelk6lkwWYTM
+         /vacWfB69afU5pQ3goR8TB/A5IiKm/AUXwWZaZqDGDq6BqwqsU2rzHiG+lzEu6mCQ6dn
+         IMs472hH7dG5mUU5pdT1550bnmHGmlGGpsV9ElneNbLgxyEP0vipNb6q64vDNjUT7J1x
+         pJdV9+zXY9jiY2iqWyymfVqRKoxWaZrxd17jA/ouoICcoFzLtKdtlD1jYrcm8xOZKdxZ
+         hwXsiDKDaQxGaV4zwWdG3e45rPiimJRXRZ3UX8A29smAQelIvvr7JVASBw85Usl3ZD6G
+         eNRA==
+X-Gm-Message-State: APuU4Z+dvWp5bG13cCThMmP8Zicc5qxj5wV33J2m9CIsTp+wVYf7Hmmy
+	Ii6/NZFBx3+TISyiotA//YbsyiBRbCyZlTqVA56DsFRLDUzbSbGXsvfosqUx35Uj
+X-Gm-Gg: AYBFou21iRWdeINZIJE6pD71+A3A1VyuO0jzWxZle2l5nsv4wj0HLc9BgO5bYhREQVm
+	Cj598t8ccpgbAX9/pCyJADDwWRQc7z7aSNd6xUgKsyerd3NWP6pafiPj3Fzc4Jw4N0xfBSGWcK4
+	pQbVfdDPxuK0m+EEvgd5mpwIHy9KCxU1jWv356vF6oUnZDSuPa1iFmQs15AW1CdROsCr03J6/98
+	o4owt8+lT8ooo0xA0Bj79Z4Vdh4rcaEDP3/bPr0Ld1vXUVpzKPnfncl2XBf7WSlUt038ftMesxB
+	wLIOEC1DS4CFqD8GRonOztbQgO8iCVgwY2ipGmglDzEnccUlD9wvOhfBKAJ4OPACiyASrn0oPgG
+	M2Neqq4lcTsfw0Cfdw1prIdYu4JgU/aMCWGUzszG2HLcc5AeOupVLBSaAkJsNWzhT25u3Mtp2jV
+	5xt8hpQcyqtHql5xnLTrErG/X+8q3Y+PPGD+DbAcPlV2a+kVjbM99NH0o2eM7uZHgJ0CZvnztQq
+	Q58B+omc05/zz9py0lvRfaImUN99GCjGV2bWUZmM9OTuvBnCGVl31fU2Y7P59R2jBiVprlBE7AR
+	HY6+grDwjv5Jj7ZoQQCa9ZI983KFztqwXDJyAOFtwk9vhYryI8HrkkyG4E3U6Q==
+X-Received: by 2002:a17:90b:1fc4:b0:3ab:188b:c5bf with SMTP id 98e67ed59e1d1-3b1b0b57dc8mr6194333a91.18.1794686915960;
+        Sat, 14 Nov 2026 12:08:35 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from localhost.localdomain ([69.9.132.159])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197b76ccesm14965358a91.0.2026.11.14.12.08.37
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197b76ccesm14965358a91.0.2026.11.14.12.08.32
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 14 Nov 2026 12:08:38 -0800 (PST)
+        Sat, 14 Nov 2026 12:08:34 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 2/3] lib/oe/distro_check: fetch Debian updates from stable-updates
-Date: Sat, 14 Nov 2026 12:08:09 -0800
-Message-ID: <20261114200810.31078-3-tim.orling@konsulko.com>
+Subject: [PATCH 1/3] lib/oe/distro_check: skip a distro whose package list can't be fetched
+Date: Sat, 14 Nov 2026 12:08:08 -0800
+Message-ID: <20261114200810.31078-2-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261114200810.31078-1-tim.orling@konsulko.com>
 References: <20261114200810.31078-1-tim.orling@konsulko.com>
@@ -64,54 +63,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2026 20:08:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250210
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250209
 Content-Type: text/plain; charset="utf-8"
 
-ftp.debian.org no longer has dists/stable-proposed-updates, so the
-Debian package list always failed with HTTP 404. Use stable-updates,
-the equivalent of Ubuntu's -updates, which is only published as
-Sources.xz, so read .xz files with lzma.
+When a fetcher raised, create_distro_packages_list() only warned and
+then used release and package_list anyway, failing with
+UnboundLocalError on the first distro, so no package lists were
+written at all. Move on to the next distro instead.
 
-Tested against ftp.debian.org: the Debian list is fetched again, with
-both main and updates packages.
+Tested by making the Debian fetcher raise: the other four package
+lists are written.
 
 [YOCTO #16503]
 
 AI-Generated: Claude Opus 5.5
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/lib/oe/distro_check.py | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/lib/oe/distro_check.py | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
-index 56f81e630d..223bed2ec2 100644
+index 1d78348ff3..56f81e630d 100644
 --- a/meta/lib/oe/distro_check.py
 +++ b/meta/lib/oe/distro_check.py
-@@ -110,11 +110,13 @@ def find_latest_debian_release(url, d):
-         return "_NotFound_"
- 
- def get_debian_style_source_package_list(url, section, d):
--    "Return the list of package-names stored in the debian style Sources.gz file"
-+    "Return the list of package-names stored in the debian style Sources.gz or Sources.xz file"
-     import gzip
-+    import lzma
- 
-+    opener = lzma.open if url.endswith(".xz") else gzip.open
-     package_names = set()
--    for line in gzip.open(create_socket(url, d), mode="rt"):
-+    for line in opener(create_socket(url, d), mode="rt"):
-         if line.startswith("Package:"):
-             pkg = line.split(":", 1)[1].strip()
-             package_names.add(pkg + ":" + section)
-@@ -125,7 +127,7 @@ def get_latest_released_debian_source_package_list(d):
-     latest = find_latest_debian_release("http://ftp.debian.org/debian/dists/", d)
-     url = "http://ftp.debian.org/debian/dists/stable/main/source/Sources.gz"
-     package_names = get_debian_style_source_package_list(url, "main", d)
--    url = "http://ftp.debian.org/debian/dists/stable-proposed-updates/main/source/Sources.gz"
-+    url = "http://ftp.debian.org/debian/dists/stable-updates/main/source/Sources.xz"
-     package_names |= get_debian_style_source_package_list(url, "updates", d)
-     return latest, package_names
- 
+@@ -170,6 +170,7 @@ def create_distro_packages_list(distro_check_dir, d):
+             release, package_list = fetcher_func(d)
+         except Exception as e:
+             bb.warn("Cannot fetch packages for %s: %s" % (name, e))
++            continue
+         bb.note("Distro: %s, Latest Release: %s, # src packages: %d" % (name, release, len(package_list)))
+         if len(package_list) == 0:
+             bb.error("Didn't fetch any packages for %s %s" % (name, release))
 -- 
 2.56.1
 
