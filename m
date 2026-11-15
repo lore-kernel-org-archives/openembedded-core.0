@@ -1,58 +1,58 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4394.1794732585727613805
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4336.1794732586747354083
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Nov 2026 00:49:46 -0800
+ Sun, 15 Nov 2026 00:49:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AGKOgSHh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so17942915e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 00:49:45 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D838kozy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4bb6886d30aso4423305e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 00:49:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1794732584; x=1795337384; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1794732585; x=1795337385; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=5qFFVAfX+YGZ0x6GNk4C3sSkdNWvacVUulR0jwfm5IE=;
-        b=AGKOgSHhR5LgqUcQUg0+ra/f0jvq4JplvWUI84Jomkl0uKvrJPAPCYu8kl5/HFk+jL
-         B6+3QCGTFCl5AzoksMo4DdPpB5H5HWg3/ASBCn1cIBZ74MW2CRgJq6cnR6SIvweU8v2D
-         RaYwgMOnUZx5JknQ91DMCB6bYT6PZB8E+yjmQ=
+        bh=WHNmUCXfoovc28pQN+AdXsrZdjWqMte+sUiDKFRfbOU=;
+        b=D838kozynsyneyBbHGcJixMhoyYelbRKVtYKCMgb6YgtoRjM2kPUxB/nmwLOu5ddfV
+         CnC7yVMxesmX6iEkNh0OwclkNUCLLWaM1SvRdbmU+1qWdqOz+v40TC1HH0pG/MmTGB8t
+         97C9jI9JeR7MDPLRbhgUqc09Wr2uUMpiJogwQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794732584; x=1795337384;
+        d=1e100.net; s=20260707; t=1794732585; x=1795337385;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=5qFFVAfX+YGZ0x6GNk4C3sSkdNWvacVUulR0jwfm5IE=;
-        b=ZMa6kyxRz0se1ZzNWtDjCoH8uF56Sh/HM7S68d3OgA/5+JL/EaCjH0/1IqY5VxEVgr
-         9C6voVLeANzfIqhz3oJ+I0f0YiiLorrfyChyMqymFFsKVwm0QyJEYOQQYFuFFufIWqrA
-         sSFDCZxlOaKS64mdztw7BVh9Ua0ao5khnIXkWO0diCL5l0wNl77epuyPDE8YhnCByYKP
-         5G8PexYtR6FWaVJX8e6h8fytQb/iltCDC02btXblRrjVdv8Jewl9kvo3TSfhuBIR27da
-         hJOGQv0TWeeTmdPrGaF9ZCV2d0UKhiWrBrBSKdeMWY8bOnPXuwqi818fAt9e583l11O+
-         k6zA==
-X-Gm-Message-State: APuU4Z9azUCYycEzk8CQCDo1oRgPgc6dPsEXqehOmqg6kbNar8nLG4JY
-	3XFAEOB4TP77ZAoYNu894QqZ86DBqD6Daa+8YWTUR8zprhuXVftpM2+C8nSlYtBTX5dhRMLaxcu
-	/XjsGsdE=
-X-Gm-Gg: AYBFou0bVwUwSxDy1u13LWFXSjjGOyAAr31Eh+w9ge3XmVgJI762yJozZygioXbcHtH
-	YX13mXhKD3dOyeRCRfO9Agfn1sD8sQGoo2YlY+WEGa4PTA8UwHdUwhXcSFcl4CvtxNPetfbof25
-	tPyXrNbZ/F4J92lh2iZ1OFvhMmBbzGaR5MeilDfTviQWjPWFQyfHRBC0sT163uaqw9xTm06lLEb
-	YUXyLZLpytG9Zfo8ZS+roecwZxnUFkHmWjiX1jcpS3GwNGwJpmOY4WP0Fm2CP/RAlocyFBdwqXO
-	kFMsGYb3kqG4vwRxWz95q4JeRuaS/coDlVjFl9rdmB5zPmQUjUcPXCZ/HvjvJXL4bEr5S9aBX8g
-	3/9AciAJZnxtsxffKUtVfBAhSsk+i5gReiJBwrJszINyLOuvp/PJnS5BefcjFl5UwSzqy4b0jLG
-	6IKdQgt8b1SEFn9VV6dBybghKzGdY27EfTlqo1a9s3zv9SPXxDQvQxoUTYVNIFF+rwgsmS/BbEv
-	/Pz0ZoAbT94O3J7hM/wyIjy7IdFToGh88w3jv1/kHPX9nLxfHKdTO8WoFoOPMe98++PWjMoFumy
-	lSlLFKujMMDtcLZ2jkZk0/sglTxVliZ5SDnDe0H8xDI0QuYN1OTNsRZSUw==
-X-Received: by 2002:a05:600c:8b82:b0:4bb:6814:738c with SMTP id 5b1f17b1804b1-4bb6814762dmr67481465e9.22.1794732583952;
-        Sun, 15 Nov 2026 00:49:43 -0800 (PST)
+        bh=WHNmUCXfoovc28pQN+AdXsrZdjWqMte+sUiDKFRfbOU=;
+        b=sJ51t+uZB7jMRxRZ1zRDjyKNAtca/8WOIhUEI4l92Qm1r8Kv9X8jMljb3TmTjBqvww
+         9qq6GyJsTQjpS+7hFEZECntgXvaGZKUIVtvR0wejnVVTIB47gX+EBojQ6IRHOLOSRNvX
+         z5m/jIKAqngJfWL5BxxGsNDtvIQzqRvV8/6UHAl2ZAoPLIScIgtSpZDyUcjY5i5iAtg6
+         ZuG64keRQgxcLhTcOJo3NXgH+hKLnABQYnLnXwryx3vUJQQ9UqDSdQ0s/fjbrG6y7DrX
+         uttx9fPnVQlEm0U17dTOyA1RB/VvJTp3yK+jqqejyN+o5nQZlR61Py5BmiOSkkj4zuSZ
+         k9ug==
+X-Gm-Message-State: APuU4Z92KODITYzNp01qyurb1bmi3VO49UForVxOWyK8ho52NJrizPRs
+	Aq0oo3+0bKnZ7UWO4PohCr4sBr4I857TpYJhnXiSzfRj/2iN55mIIdeAqNN6/LNrwEBgv9AxhXz
+	53DBS38Y=
+X-Gm-Gg: AYBFou0PYumNf4/VQlvPu02Z6GIeqMyHJ8cvi05K+KIHIlodtNvJwIMpSJ43Bf4X49W
+	6ZHtRVALhEcCoeb/qxvDW2qATlVqQNT04HQO+FKzQhVWc2q1WPr5XSvLgkeMhtFhJEiLSu1XT1k
+	xAqjz4mE/iekHAJGQrxY3oiHr+p+TYLOIg+N3z2+4icOfHw4YPsQfpDw5M2yeRm90kbVulOTThe
+	7FUjDaeBtpVmM09ue07GvQQOdccllWB4WDhLMSKvJHqKWSOwLYrER0exhlde5bqY/wPVwd6KYxs
+	ykOdPQe0ZFtqUVUjMBELte7x6FJfQbDMFafuuUVvGjWH1YhAq6kNRQAO3AtqyvBiQtn8SreieZZ
+	XBIFtCmDOsFa4iHITeqktD/Pg6Bm4t6KnArjfca7j7dxIDdtibK1I5pNAP7FtqtlbdXKwhubGKT
+	Bd9KyA1M2AE2N9MvB2+ISPsiGvHl2bgl8YVxDl2/l8sHOm8DO6ptaAJl9JdNpkZdzM7D9kZZfOz
+	qUnuVcEPEtDOsVYG/bv3v3Y2lOtPHBxzrcxrPNcC6VK2s8RA+92f1ncjfLjCstGVdu6AV3V+W5A
+	0swoJ36R/1SOfrI2Ghx9TUAuQSUEpaifM7pKZ9V6yXXkn3F5ZjaAjQJIJUU=
+X-Received: by 2002:a05:600c:608e:b0:4ac:da92:2bd4 with SMTP id 5b1f17b1804b1-4bb55a238bemr140035435e9.1.1794732584927;
+        Sun, 15 Nov 2026 00:49:44 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4b65:588d:a4ce:ce3f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8d66esm13804452f8f.57.2026.11.15.00.49.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8d66esm13804452f8f.57.2026.11.15.00.49.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 00:49:42 -0800 (PST)
+        Sun, 15 Nov 2026 00:49:44 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 34/41] oeqa/core/runner: Use getSuiteCases() to list tests
-Date: Sun, 15 Nov 2026 08:48:37 +0000
-Message-ID: <20261115084845.701136-34-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 35/41] oeqa/core/decorator: Record decorators on the test function
+Date: Sun, 15 Nov 2026 08:48:38 +0000
+Message-ID: <20261115084845.701136-35-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261115084845.701136-1-richard.purdie@linuxfoundation.org>
 References: <20261115084845.701136-1-richard.purdie@linuxfoundation.org>
@@ -60,132 +60,115 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 08:49:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250265
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250266
 Content-Type: text/plain; charset="utf-8"
 
-The test listing code had its own recursive walk over the suite, and a
-counter stored on the runner, to do what getSuiteCases() already does.
-Use getSuiteCases() instead. The output is unchanged.
+OETestDecorator wrapped each test method in a function which only called
+it, with a dummy assignment to self so the decorator would be captured
+in the wrapper's closure. OETestLoader then walked the closures to find
+the decorators.
+
+Instead, record the decorators in an attribute on the test function and
+return it unchanged. The order they are set up in is the same as before,
+innermost first, and a test now checks this.
 
 AI-Generated: Uses Claude Opus 5.5
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/runner.py | 79 +++++++++++++-----------------------
- 1 file changed, 28 insertions(+), 51 deletions(-)
+ meta/lib/oeqa/core/decorator/__init__.py    | 10 ++++----
+ meta/lib/oeqa/core/loader.py                | 26 +++++++--------------
+ meta/lib/oeqa/core/tests/test_decorators.py |  8 +++++++
+ 3 files changed, 20 insertions(+), 24 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index f68203baa3b..6de9d865f4c 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -6,7 +6,6 @@
+diff --git a/meta/lib/oeqa/core/decorator/__init__.py b/meta/lib/oeqa/core/decorator/__init__.py
+index 93efd30e1db..e3e1326873c 100644
+--- a/meta/lib/oeqa/core/decorator/__init__.py
++++ b/meta/lib/oeqa/core/decorator/__init__.py
+@@ -4,7 +4,6 @@
+ # SPDX-License-Identifier: MIT
+ #
  
- import os
- import time
--import unittest
- import logging
- import re
- import json
-@@ -15,6 +14,8 @@ import sys
- from unittest import TextTestResult as _TestResult
- from unittest import TextTestRunner as _TestRunner
+-from functools import wraps
+ from abc import ABCMeta
  
-+from oeqa.core.utils.test import getSuiteCases
+ decoratorClasses = set()
+@@ -29,11 +28,10 @@ class OETestDecorator(object, metaclass=ABCMeta):
+             setattr(self, attr, value)
+ 
+     def __call__(self, func):
+-        @wraps(func)
+-        def wrapped_f(*args, **kwargs):
+-            self.attrs = self.attrs # XXX: Enables OETestLoader discover
+-            return func(*args, **kwargs)
+-        return wrapped_f
++        # Record the decorator on the test function for OETestLoader to find.
++        # They are set up in the order they are applied, innermost first.
++        func._oeqa_decorators = getattr(func, '_oeqa_decorators', []) + [self]
++        return func
+ 
+     # OETestLoader call it when is loading test cases.
+     # XXX: Most methods would change the registry for later
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index 28b4fd20166..94ade54506d 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -14,8 +14,7 @@ from oeqa.core.utils.test import getSuiteModules, getCaseID
+ 
+ from oeqa.core.exception import OEQATestNotFound
+ from oeqa.core.case import OETestCase
+-from oeqa.core.decorator import decoratorClasses, OETestDecorator, \
+-        OETestDiscover
++from oeqa.core.decorator import decoratorClasses, OETestDiscover
+ 
+ # When loading tests, the unittest framework stores any exceptions and
+ # displays them only when the run method is called.
+@@ -103,23 +102,14 @@ class OETestLoader(unittest.TestLoader):
+         self.tc._registry['cases'][case_id] = case
+ 
+     def _handleTestCaseDecorators(self, case):
+-        def _handle(obj):
+-            if isinstance(obj, OETestDecorator):
+-                if not obj.__class__ in decoratorClasses:
+-                    raise Exception("Decorator %s isn't registered" \
+-                            " in decoratorClasses." % obj.__class__.__name__)
+-                # The decorator instance is shared by every class that has
+-                # the method so bind a copy for this test case
+-                copy.copy(obj).bind(self.tc._registry, case)
+-
+-        def _walk_closure(obj):
+-            if hasattr(obj, '__closure__') and obj.__closure__:
+-                for f in obj.__closure__:
+-                    obj = f.cell_contents
+-                    _handle(obj)
+-                    _walk_closure(obj)
+         method = getattr(case, case._testMethodName, None)
+-        _walk_closure(method)
++        for obj in getattr(method, '_oeqa_decorators', []):
++            if not obj.__class__ in decoratorClasses:
++                raise Exception("Decorator %s isn't registered" \
++                        " in decoratorClasses." % obj.__class__.__name__)
++            # The decorator instance is shared by every class that has
++            # the method so bind a copy for this test case
++            copy.copy(obj).bind(self.tc._registry, case)
+ 
+     def _filterTest(self, case):
+         """
+diff --git a/meta/lib/oeqa/core/tests/test_decorators.py b/meta/lib/oeqa/core/tests/test_decorators.py
+index 74ac4632372..90ab1d3ff67 100755
+--- a/meta/lib/oeqa/core/tests/test_decorators.py
++++ b/meta/lib/oeqa/core/tests/test_decorators.py
+@@ -126,6 +126,14 @@ class TestDependsDecorator(TestBase):
+         self.assertEqual(result.skipped, [])
+         self.assertEqual(len(result.successes), len(tests))
+ 
++class TestDecoratorOrder(TestBase):
++    def test_decorator_order(self):
++        # Decorators are set up in the order they are applied, innermost first
++        tc = self._testLoader(modules=['timeout'])
++        case = tc._registry['cases']['timeout.TimeoutTest.testTimeoutDepends']
++        self.assertEqual([d.__class__.__name__ for d in case.decorators],
++                         ['OETimeout', 'OETestDepends'])
 +
- def _case_id(case):
-     # Failures in subtests are recorded against a subtest object, use the
-     # id of the test case it belongs to
-@@ -272,68 +273,44 @@ class OETestRunner(_TestRunner):
-         return self.resultclass(self.tc, self.stream, self.descriptions,
-                 self.verbosity)
+ class TestInheritedDecorators(TestBase):
+     modules = ['inherit']
  
--    def _walk_suite(self, suite, func):
--        for obj in suite:
--            if isinstance(obj, unittest.suite.TestSuite):
--                if len(obj._tests):
--                    self._walk_suite(obj, func)
--            elif isinstance(obj, unittest.case.TestCase):
--                func(self.tc.logger, obj)
--                self._walked_cases = self._walked_cases + 1
--
-     def _list_tests_name(self, suite):
--        self._walked_cases = 0
--
--        def _list_cases(logger, case):
--            oetags = []
--            if hasattr(case, '__oeqa_testtags'):
--                oetags = getattr(case, '__oeqa_testtags')
--            if oetags:
--                logger.info("%s (%s)" % (case.id(), ",".join(oetags)))
--            else:
--                logger.info("%s" % (case.id()))
-+        cases = getSuiteCases(suite)
- 
-         self.tc.logger.info("Listing all available tests:")
--        self._walked_cases = 0
-         self.tc.logger.info("test (tags)")
-         self.tc.logger.info("-" * 80)
--        self._walk_suite(suite, _list_cases)
-+        for case in cases:
-+            oetags = getattr(case, '__oeqa_testtags', None)
-+            if oetags:
-+                self.tc.logger.info("%s (%s)" % (case.id(), ",".join(oetags)))
-+            else:
-+                self.tc.logger.info("%s" % (case.id()))
-         self.tc.logger.info("-" * 80)
--        self.tc.logger.info("Total found:\t%s" % self._walked_cases)
-+        self.tc.logger.info("Total found:\t%s" % len(cases))
- 
-     def _list_tests_class(self, suite):
--        self._walked_cases = 0
--
--        curr = {}
--        def _list_classes(logger, case):
--            if not 'module' in curr or curr['module'] != case.__module__:
--                curr['module'] = case.__module__
--                logger.info(curr['module'])
--
--            if not 'class' in curr  or curr['class'] != \
--                    case.__class__.__name__:
--                curr['class'] = case.__class__.__name__
--                logger.info(" -- %s" % curr['class'])
--
--            logger.info(" -- -- %s" % case._testMethodName)
--
-         self.tc.logger.info("Listing all available test classes:")
--        self._walk_suite(suite, _list_classes)
-+        module = cls = None
-+        for case in getSuiteCases(suite):
-+            if case.__module__ != module:
-+                module = case.__module__
-+                self.tc.logger.info(module)
-+            if case.__class__.__name__ != cls:
-+                cls = case.__class__.__name__
-+                self.tc.logger.info(" -- %s" % cls)
-+            self.tc.logger.info(" -- -- %s" % case._testMethodName)
- 
-     def _list_tests_module(self, suite):
--        self._walked_cases = 0
--
--        listed = []
--        def _list_modules(logger, case):
--            if not case.__module__ in listed:
--                if case.__module__.startswith('_'):
--                    logger.info("%s (hidden)" % case.__module__)
--                else:
--                    logger.info(case.__module__)
--                listed.append(case.__module__)
--
-         self.tc.logger.info("Listing all available test modules:")
--        self._walk_suite(suite, _list_modules)
-+        listed = set()
-+        for case in getSuiteCases(suite):
-+            module = case.__module__
-+            if module not in listed:
-+                if module.startswith('_'):
-+                    self.tc.logger.info("%s (hidden)" % module)
-+                else:
-+                    self.tc.logger.info(module)
-+                listed.add(module)
- 
-     def list_tests(self, suite, display_type):
-         if display_type == 'name':
