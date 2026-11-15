@@ -1,58 +1,58 @@
 Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4395.1794732590604514838
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4396.1794732591685414621
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Nov 2026 00:49:50 -0800
+ Sun, 15 Nov 2026 00:49:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iEiNUP2P;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W4/7EK9K;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4919a880834so1131410f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 00:49:50 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-490a0e72588so1022852f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 00:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1794732589; x=1795337389; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1794732590; x=1795337390; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=wmLcBVUkMm6vSNtCN4x8U7mNWh31QOkztROT2aMVp/k=;
-        b=iEiNUP2PHdwhqe9JqQFaBEg/GYaB8rIXZU1JArGJSNQyRLCOY1/xEWYbGlA27K+F1T
-         vglUfNUca+kPXr5bcx7PWuGmTrbzCxtzFpHR/ayyUZ92Z5esluzqC7ezF+Q/uTqMeIhH
-         KuRxNrSVXOATGZGMEZNIF3T4zA+1haTJuDUQE=
+        bh=0upI0JkeOtdlV3/K9FWBma6qnIg4K4SSiqU5bydGtmo=;
+        b=W4/7EK9KNV7pi5rd5iChDZDbFvTqVoMpAmUQ7Wa4ivsRbvesL0M68VYLenXrxPCL0a
+         VV+1ZL8RmcuqzjO6U2fWR09H1txuY8HsrvRQKzrSJdmiCqfRL+qM4ust542/cUWXPGIh
+         CV3+OiukoEhHWoOYAnOIV84e8TAHrQDSHDJeM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794732589; x=1795337389;
+        d=1e100.net; s=20260707; t=1794732590; x=1795337390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=wmLcBVUkMm6vSNtCN4x8U7mNWh31QOkztROT2aMVp/k=;
-        b=SzOADL7s1aBkg5KOeNLwmMKbJlWktJORd3qw9l90i4M8RlV2e7cCxOebRCjyaTz+Vx
-         s75p/TIE8W4V/0dQ/It3JGKE7Of+vKqAMacQDxS0gJE+rsk1nryZSWfx++WD0549oyfR
-         uP5/xI5SMebCa8a1nV2uTkXotpUbrBjirLHQVElhDC5tPWgC5tb4uOjP0VaR/EeLMXOl
-         OMjvPDTIpE2fvdf+04uuA9IoWY/4BL73RELIwP3foGhwF7B7o6o/kZCG5EVgSzbd1Tw7
-         AGp53+jiod9bK5Jfhkjkf32AUlqQ1DOXD660nAKB3Ihtloidg0b/aaIGV+Sh3ES7jvQZ
-         hwsQ==
-X-Gm-Message-State: APuU4Z9rnOHoFTwP0r089EETc5DkvdeEy4kkAeHNt73Uk3o9lcFgjbCs
-	j11Z5eQMApbLUMfqnlysvovtsOFtUOrhEozTDDYP00VKJr//XaBXvr2wHBPnqoMeI+ciHUPOZUw
-	uKgzZ1ok=
-X-Gm-Gg: AYBFou3WLTmqdBDb0c0x1O+wwwS1PSKKEomzICmLjR1CbfEvWvf9q/DICstF37krF9i
-	YFQYFaBh8zFRzpB5aDbo3V6VTE+R8UXBSUUSVKHUMPLHw+5ks/V9a0Ony499pMpH4Y82yj+57DE
-	n4L64S0cwW4ccQt079d/Qp6rYYspymEkHncBN7A7xlyq5wr2BjkKAWul6iAPyUklR2WJOBB8CAQ
-	4PXGEEAhFqPoXAsQWOcZwH3x69rZQWG6nJVBlBJbitjiy5Zht4wwiMnWCK7RDpRTNvM/e178PMJ
-	AbSACHaz1wTaKTgc5UEoVCRHfxkNoHQ0OnkpkziDg9G1uFbW4l000zJnMXzWafYOxnaloZ3TJ3v
-	RjM/UQ/idtRhYjgaaE1ARTh/Vntv4BN9R52vp+kt4QrdPFx3/iHiZamJFIgVJRDJOvUSMpIjLux
-	0eQc8nd1AooKnYwvpzBZfi3EYUzEhM+TjISJhZkStp+jjPc5AM4NUcjcQV9zM2NQudJcXymbbcz
-	ACsFKFI5mI0e+x2e11o4KSq72P+1FpQLpQnxoQVh6yh9lODLD0JSdjs5QXERixMs9RHTTCQCRAZ
-	1OXXYDWOem8z3eQINjtbSzfX9D6LTbwSAyee9Y+kDV+sjJdrMqN+1ZEcew==
-X-Received: by 2002:a05:6000:200a:b0:48f:bf71:2ad9 with SMTP id ffacd0b85a97d-49c727d1f2dmr17248226f8f.41.1794732588784;
-        Sun, 15 Nov 2026 00:49:48 -0800 (PST)
+        bh=0upI0JkeOtdlV3/K9FWBma6qnIg4K4SSiqU5bydGtmo=;
+        b=kVyIDBl8JOrmX7tL8LbjTTGgz30CXXHI8wLo9rVVzXlfq1zrSLH5e1nUfJf5PMxkdu
+         bp3KLeVjq5I2zPIE2ecqEQGYeGD6n3TM+CFwQcgrto7sG1IN7zIj5YKIOePWG6rEh860
+         vd6xn3/8u9F1dfhr1L+SGQUwFzCaSqMT35p+pGfMnvi9wCuI5Jkz5vX7LknjdRaB6Y/v
+         4YPI1BkYl/rmSg/YKjj38CbO9sbAeHD1lnI3ULd4GRAYbrQ+ZzRZJi+VL2Nfg9lvr0mX
+         6f1dPCYJJmQT6ICEcPGnIgc6Rv0UHnPy/gzrVzU81ltm1ehp/jgzj93pBvV7iyufQgs9
+         ePWQ==
+X-Gm-Message-State: APuU4Z+SmEMCTY2Ah85Suh8OkcTdl9VRnN3Zrg2NR6cEqHY70LO5ZYWB
+	5BCsyDjUJtTLgbLOjzYDsZk9HjOQQA47opG/p36SV/1AlNvOFqy6KagU3zDPl00C+9pDKJJlp8f
+	xP5+TP0U=
+X-Gm-Gg: AYBFou1Xa1jJMyFowcab7Hm1sd0W2xmoR902EaL4RrCtPu+usJsZWHDAjI2lxRBqQTq
+	2+raaYA4b0c2thH5zXcyc3ZSvbp95v3Z6/WpymTElxpBpUm7gbM32r0+IhMrVPQn4+5wB9pAdIH
+	AMzsdguE+cvsEPv2D2MSIKwnSyLw9bKhjzrNplbz5GjTOG4Q1gv2hTfV+esMhtFJJDSTmY/Besk
+	UQip590XdbU1T9A5rSqw2Hkq46v83zlwAi2qW6kLdLn8+7v+g5CF1oolCnSkQ4axPGMBXn1uMAQ
+	esIY5qZB2j7nMfKa7EiEUh0NJR0nyPBiBHtbKyfNWfHPm1pzEdWjys6bsgzdrXEORqElvvvSnwk
+	5+gPtm5bl/1aoQMwFoE4qKhUVCLbkONi9dwkgzQwYyIvi3U46zA+EFMzPTScWgBxhY0sek5jiNq
+	tZbZx/3tPMTFkSbbX8ZQAV9JYcNJm53/aVLPRcuo0SQwDHvie1UK407xjrHXdmUa99yIGTm+jiF
+	5U2qsOxc2y24NHKc1ORmY3XIHJuRFV0YkTXR/a08pbwV3wrDVWuUBYZJldNBr/Hza8++XGnFIuK
+	oK3oCCefBPAJ054w0rwt75M8qqdeL4bgM9/zf2MaL38mEtlWf8qqzhTtRg==
+X-Received: by 2002:a5d:584c:0:b0:48a:f0cd:8712 with SMTP id ffacd0b85a97d-49c7325b837mr17556216f8f.50.1794732589864;
+        Sun, 15 Nov 2026 00:49:49 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4b65:588d:a4ce:ce3f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8d66esm13804452f8f.57.2026.11.15.00.49.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8d66esm13804452f8f.57.2026.11.15.00.49.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 00:49:46 -0800 (PST)
+        Sun, 15 Nov 2026 00:49:49 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 36/41] oeqa/core/tests: Add tests for skipping tests and td_vars checks
-Date: Sun, 15 Nov 2026 08:48:39 +0000
-Message-ID: <20261115084845.701136-36-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 37/41] oeqa/core: Use unittest's setup hook instead of patching test classes
+Date: Sun, 15 Nov 2026 08:48:40 +0000
+Message-ID: <20261115084845.701136-37-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261115084845.701136-1-richard.purdie@linuxfoundation.org>
 References: <20261115084845.701136-1-richard.purdie@linuxfoundation.org>
@@ -60,101 +60,165 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 08:49:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250267
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250268
 Content-Type: text/plain; charset="utf-8"
 
-Check that tests and whole classes can be skipped by id and that a
-skipped class doesn't run its setUpClass(), and that a missing td_vars
-variable is reported, ahead of reworking how test setup is hooked.
+To run the decorators and the td_vars check, OETestLoader renamed the
+setUp()/tearDown()/setUpClass()/tearDownClass() methods of every test
+class it loaded and replaced them with OETestCase wrappers, marking the
+class as patched. Since the marker was inherited, a subclass which
+overrode setUp() and was loaded after its parent class was left
+unpatched and silently lost its decorators.
+
+Override TestCase._callSetUp(), which unittest uses to run setUp(), to
+check td_vars and set up the decorators, and register the decorator
+teardowns as cleanups so they run after tearDown() and when setUp()
+fails. The td_vars check now runs per test rather than in setUpClass(),
+none of the classes using td_vars need the variables in setUpClass().
+
+The class level hook was otherwise only used to skip classes given on
+the command line, so use unittest.skip() for those and for skipped
+tests. Tests in a skipped class are now each reported as skipped rather
+than as a single class level skip.
+
+This does mean we use python internal API but we can adapt if python
+changes that.
 
 AI-Generated: Uses Claude Opus 5.5
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/tests/cases/skips.py  | 24 ++++++++++++++++++++++++
- meta/lib/oeqa/core/tests/cases/tdvars.py | 13 +++++++++++++
- meta/lib/oeqa/core/tests/test_runner.py  | 21 +++++++++++++++++++++
- 3 files changed, 58 insertions(+)
- create mode 100644 meta/lib/oeqa/core/tests/cases/skips.py
- create mode 100644 meta/lib/oeqa/core/tests/cases/tdvars.py
+ meta/lib/oeqa/core/case.py    | 37 +++++++++++------------------------
+ meta/lib/oeqa/core/context.py | 25 +++++++++--------------
+ meta/lib/oeqa/core/loader.py  | 30 +---------------------------
+ 3 files changed, 21 insertions(+), 71 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/tests/cases/skips.py b/meta/lib/oeqa/core/tests/cases/skips.py
-new file mode 100644
-index 00000000000..a24ee8d1c04
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/skips.py
-@@ -0,0 +1,24 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+from oeqa.core.case import OETestCase
-+
-+class SkipsClassTest(OETestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        raise Exception("setUpClass of a skipped class shouldn't run")
-+
-+    def testSkipsClass(self):
-+        pass
-+
-+class SkipsTest(OETestCase):
-+
-+    def testSkipsSkipped(self):
-+        self.fail("Skipped test shouldn't run")
-+
-+    def testSkipsRun(self):
-+        pass
-diff --git a/meta/lib/oeqa/core/tests/cases/tdvars.py b/meta/lib/oeqa/core/tests/cases/tdvars.py
-new file mode 100644
-index 00000000000..60313600754
---- /dev/null
-+++ b/meta/lib/oeqa/core/tests/cases/tdvars.py
-@@ -0,0 +1,13 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+from oeqa.core.case import OETestCase
-+
-+class TdVarsMissingTest(OETestCase):
-+    td_vars = ['NOT_IN_TD']
-+
-+    def testTdVarsMissing(self):
-+        pass
-diff --git a/meta/lib/oeqa/core/tests/test_runner.py b/meta/lib/oeqa/core/tests/test_runner.py
-index a9aac5ddf66..70107d1e25d 100755
---- a/meta/lib/oeqa/core/tests/test_runner.py
-+++ b/meta/lib/oeqa/core/tests/test_runner.py
-@@ -56,6 +56,27 @@ class TestResultStatus(TestBase):
-             'resultsmodule.ResultsModuleTest.testModuleError': 'ERROR',
-         })
+diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
+index e71cab5028c..86944cddde0 100644
+--- a/meta/lib/oeqa/core/case.py
++++ b/meta/lib/oeqa/core/case.py
+@@ -32,33 +32,18 @@ class OETestCase(unittest.TestCase):
+     # OEQAMissingVariable exception is raised
+     td_vars = None
  
-+    def test_skip_tests(self):
-+        # Tests and classes can be skipped by id prefix; a skipped class must
-+        # not run its setUpClass()
-+        tc = self._testLoader(modules=['skips'])
-+        result = tc.runTests(skips=['skips.SkipsClassTest', 'skips.SkipsTest.testSkipsSkipped'])
-+        statuses = {case_id: result._getTestResultDetails(case)[0]
-+                    for case_id, case in tc._registry['cases'].items()}
-+        self.assertEqual(statuses, {
-+            'skips.SkipsClassTest.testSkipsClass': 'SKIPPED',
-+            'skips.SkipsTest.testSkipsSkipped': 'SKIPPED',
-+            'skips.SkipsTest.testSkipsRun': 'PASSED',
-+        })
+-    @classmethod
+-    def _oeSetUpClass(clss):
+-        _validate_td_vars(clss.td, clss.td_vars, "class")
+-        if hasattr(clss, 'setUpHooker') and callable(getattr(clss, 'setUpHooker')):
+-            clss.setUpHooker()
+-        clss.setUpClassMethod()
+-
+-    @classmethod
+-    def _oeTearDownClass(clss):
+-        clss.tearDownClassMethod()
+-
+-    def _oeSetUp(self):
+-        # unittest doesn't call tearDown() if setUp() fails so the decorators
+-        # need tearing down here in that case too
+-        try:
+-            for d in self.decorators:
+-                d.setUpDecorator()
+-            self.setUpMethod()
+-        except:
+-            for d in self.decorators:
+-                d.tearDownDecorator()
+-            raise
+-
+-    def _oeTearDown(self):
++    # Decorators bound to this test case by OETestLoader
++    decorators = ()
 +
-+    def test_td_vars(self):
-+        tc = self._testLoader(modules=['tdvars'])
-+        result = tc.runTests()
-+        statuses = {case_id: result._getTestResultDetails(case)[0]
-+                    for case_id, case in tc._registry['cases'].items()}
-+        self.assertEqual(statuses, {'tdvars.TdVarsMissingTest.testTdVarsMissing': 'ERROR'})
-+        self.assertIn("OEQAMissingVariable", result.errors[0][1])
-+
-     def test_subtest_status(self):
-         self.assertEqual(self._statuses(['subtest']), {
-             'subtest.SubTestTest.testSubTestFail': 'FAILED',
++    def _callSetUp(self):
++        # unittest.TestCase.run() calls this to run setUp(). Check the test
++        # data and set up the decorators first. Decorators are torn down as
++        # cleanups, which run after tearDown() and also if setUp() fails.
++        _validate_td_vars(self.td, self.td_vars, "class")
+         for d in self.decorators:
+-            d.tearDownDecorator()
+-        self.tearDownMethod()
++            d.setUpDecorator()
++            self.addCleanup(d.tearDownDecorator)
++        super()._callSetUp()
+ 
+     def assertFileExists(self, filename, msg=None):
+         """
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index 3bd65ba35f6..601a8014d9b 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -47,24 +47,17 @@ class OETestContext:
+         return modules
+ 
+     def skipTests(self, skips):
+-        if not skips:
+-            return
+-        def skipfuncgen(skipmsg):
+-            def func():
+-                raise unittest.SkipTest(skipmsg)
+-            return func
+-        class_ids = {}
++        # Use unittest's skip support so that skipped tests, and the class
++        # setup of skipped classes, don't run
+         for test in self.suites:
+-            if test.__class__ not in class_ids:
+-                class_ids[test.__class__] = '.'.join(test.id().split('.')[:-1])
++            class_id = test.id().rsplit('.', 1)[0]
+             for skip in skips:
+-                if (test.id()+'.').startswith(skip+'.'):
+-                    setattr(test, 'setUp', skipfuncgen('Skip by the command line argument "%s"' % skip))
+-        for tclass in class_ids:
+-            cid = class_ids[tclass]
+-            for skip in skips:
+-                if (cid + '.').startswith(skip + '.'):
+-                    setattr(tclass, 'setUpHooker', skipfuncgen('Skip by the command line argument "%s"' % skip))
++                msg = 'Skip by the command line argument "%s"' % skip
++                if (class_id + '.').startswith(skip + '.'):
++                    unittest.skip(msg)(test.__class__)
++                elif (test.id() + '.').startswith(skip + '.'):
++                    method = getattr(test, test._testMethodName)
++                    setattr(test, test._testMethodName, unittest.skip(msg)(method))
+ 
+     def loadTests(self, module_paths, modules=[], tests=[],
+             modules_manifest="", modules_required=[], **kwargs):
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index 94ade54506d..d4f330dafc3 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -171,37 +171,9 @@ class OETestLoader(unittest.TestLoader):
+         return False
+ 
+     def _getTestCase(self, testCaseClass, tcName):
+-        if not hasattr(testCaseClass, '__oeqa_loader') and \
+-                issubclass(testCaseClass, OETestCase):
+-            # In order to support data_vars validation
+-            # monkey patch the default setUp/tearDown{Class} to use
+-            # the ones provided by OETestCase
+-            setattr(testCaseClass, 'setUpClassMethod',
+-                    getattr(testCaseClass, 'setUpClass'))
+-            setattr(testCaseClass, 'tearDownClassMethod',
+-                    getattr(testCaseClass, 'tearDownClass'))
+-            setattr(testCaseClass, 'setUpClass',
+-                    testCaseClass._oeSetUpClass)
+-            setattr(testCaseClass, 'tearDownClass',
+-                    testCaseClass._oeTearDownClass)
+-
+-            # In order to support decorators initialization
+-            # monkey patch the default setUp/tearDown to use
+-            # a setUpDecorators/tearDownDecorators that methods
+-            # will call setUp/tearDown original methods.
+-            setattr(testCaseClass, 'setUpMethod',
+-                    getattr(testCaseClass, 'setUp')) 
+-            setattr(testCaseClass, 'tearDownMethod',
+-                    getattr(testCaseClass, 'tearDown'))
+-            setattr(testCaseClass, 'setUp', testCaseClass._oeSetUp)
+-            setattr(testCaseClass, 'tearDown', testCaseClass._oeTearDown)
+-
+-            setattr(testCaseClass, '__oeqa_loader', True)
+-
+         case = testCaseClass(tcName)
+         if isinstance(case, OETestCase):
+-            setattr(case, 'decorators', [])
+-
++            case.decorators = []
+         return case
+ 
+     def loadTestsFromTestCase(self, testCaseClass):
