@@ -1,137 +1,338 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7788.1794751356800016417
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14411.1794775925657428247
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Nov 2026 06:02:37 -0800
+ Sun, 15 Nov 2026 12:52:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=FWWWXWLG;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4bb61185057so7737365e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 06:02:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=O8Q/33SK;
+ spf=pass (domain: gmail.com, ip: 74.125.82.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-3704d30b84fso3268817eec.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 12:52:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794751355; x=1795356155; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=aAeFTn6j6tybdXqUkMuL420f4+w4tFogD3Gr7GkD7xI=;
-        b=FWWWXWLGsG2xTb1ACeVjv/Mf8dSCumpnlL13BuSC1qEv5tOisKRNmabVCTWIuBJLgk
-         gIk3kdQNF+M6UpE8hohaddYP499xnsqTGFO8fFuLY0AMaWD7sYzX5Pp4F/aDMhna4jSK
-         hObKOFncLhEXBWmtKyaGDK+rJ7PNbjo9UnO7fvMy56qaudGeQhD6WxrkELNWSYtWRCIH
-         AQ0+fjKQ+Qd40VLgr744QMV0cHR6tAcLZK29R2D8yNWjgLr817PE0XrgRUCQRFB6E6lY
-         0LEn6VSQPPv8jjpWA+8kzooxsvCEtn5WkX4KGQfaLmyB9Q5nFEG/dI4qX8YFZeJeErJk
-         FJ0w==
+        d=gmail.com; s=20260707; t=1794775925; x=1795380725; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GzGpYei3qteiZtfseoWuXBvDYLfgy9yKpFQS/nrSw2w=;
+        b=O8Q/33SKJ3cj9Gw1ISZ71fA2sfVKFZcWuJyTIdMsNTPiIzR0GWUjnLO5E6oIUAf1M5
+         57/+QGXJsWQ5AIOhim72/5JHDDDilvXoeMdcs5Xr8r/sJC8oFJfs4hkBhlUy7UrY6dKz
+         5Y8rQrQ8lRewxn5API5qmI00f4FE+o6ooZv6Vbzc+ZouuwuiofGbHqudYhjSQuMDq7/C
+         FoEdX6hFjyk485XHsI5ENIusATzn06mLrUrbpg0sOCkxrgNQ920XfjBR6/IT14/JwXqW
+         uI9eO/es++Nwu6zormxd80wLiDaPdKfiz2bY3ZdW85i+sKbtniny7hwUa9YpQN7M+6nR
+         nqGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794751355; x=1795356155;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aAeFTn6j6tybdXqUkMuL420f4+w4tFogD3Gr7GkD7xI=;
-        b=QG488xt/lhGfRnUsJzws0Zx72nmG/671irvPl9on4QG7SRba6uDZ55PUvd+u/Bfq5p
-         boH5CPpcZJczP0vQ5zFdccyWpGPF9LjQg/bGPdZLKDdvYC2TQMI2Ns3MKGBWr9xyEF87
-         xQjUrxJwNQV5QXx8VKJTWxvy/9eoD1zyPrZTp9/mViyL/WuPm1ksWnraCggb2oRZ0SP0
-         CosH51TvF6sSt4XsNJfKl0G/ltJY6y+dBcx8iU3OQTo5rxqkeKskxCP0/txb9V5qyE7s
-         M/KSiZb41YmWtRbnbej0UiFMu4OGjacGVarrleSJ2m/fycrUJwORslw8i1hLqX+Le9qy
-         FAMA==
-X-Forwarded-Encrypted: i=1; AL+hErF27HW6r+050i42/3FSznwb5E2VNS2n9yQOKdsp59kZFrMZ7UkdJuLZHlD7qRzwjfTd4TsxZmfHea18DhTZ4EwX5Q==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z908clFk1fPgFCP0Knxayg9PS4Uu4fTsukvRTeVKrnA+my24r6q
-	d4v3rJvDq9e0S6LFrgQIUS6hofNOcdtfrj5WgLaYK1WbNX3RPm9S9/OpRDoOgJFaPX0=
-X-Gm-Gg: AYBFou2RNVCaTE4WJnkrHhCr1jbVbxU8WmrcLr9guqpYqeXnjqv8C3RbJZHIs3cnCS+
-	0DmSnCuROuH8LzjMNsdBl7mK5pbnlWLVtza7l6M7aAf0RZc3t5LSK5NEtmbIliKBwO1D6b/k6nc
-	NTE/HluGkiKf2wkECBBOcAIuukgiriaOxNd/nOrzooscp2PmhQhm9b7kego9tXgv1SbUWEs2oGr
-	bkAYBNugBQ09eEKYBI4Sq+HIKuKl/a4bAmMleFxT5iwH/VGl5bksy1+YpuuXXmBBq5mHemO9WeQ
-	uYQOsrN8Wl1RqIg7dU6gQFfYVYUzymRHK2Uas5mWmpScA4HEdky4dAzVjIZq4J4/Yy+G9nYM30q
-	iQosKw1JHrdg2qe/zLerS17pXD7luKd/o1GK8fLOnbmT+T4Jk0P9cKuiO9+a0bhsWvle4qCOt00
-	Mf0wNlPDmR+shDvT/XshZutBlDa2MJguuiUQlwfONwYxRkJmryL2VUrmpiFUrXb8BpmxfSoQyDB
-	pUol38veaQS8OFXXPaEwxQ0/htd2qNSkCpzwADkdJgXI7Q09nQnhCcXo7xJWZQGTzzWFTelWyHr
-	wUGUDC8yqnN9gdWMd4q/3tvHNuY0LCgYNTI3FQh99jjbSatdzDmyOFXXY0Y5GEjMxXLWCerO4hU
-	AGiE5OqjXb8yZMTY/
-X-Received: by 2002:a05:6000:4a03:b0:48e:f10:ceb8 with SMTP id ffacd0b85a97d-49c6fd932fcmr16399808f8f.11.1794751354572;
-        Sun, 15 Nov 2026 06:02:34 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5ff2be55sm17000697f8f.28.2026.11.15.06.02.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Nov 2026 06:02:33 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 15 Nov 2026 15:02:33 +0100
-Message-Id: <DMVU99KK0OIS.XC4NZF0E3TR8@smile.fr>
-Subject: Re: [OE-core] [PATCH 03/45] acl: upgrade 2.3.2 -> 2.4.0
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Alexander Kanavin" <alex@linutronix.de>
-To: <alex.kanavin@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260706171701.70536-1-alex.kanavin@gmail.com>
- <20260706171701.70536-3-alex.kanavin@gmail.com>
-In-Reply-To: <20260706171701.70536-3-alex.kanavin@gmail.com>
+        d=1e100.net; s=20260707; t=1794775925; x=1795380725;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GzGpYei3qteiZtfseoWuXBvDYLfgy9yKpFQS/nrSw2w=;
+        b=mD1izMGQ0I+fVzigL4jCYFcR9YB5WGecLOV60CEb5xx96EbzhiQmaOMyN1isthHcvx
+         EI8Lk+LLISp0WfLTuB4Ndc7Sf051Hen4vo/OprCeK/GPHJuhutr7nyZN/KcOkH7LT4A1
+         WVCFSn5D9wBsWMmN24BIwaHKEG0THV7s2F71LUTBJAWvzaV9Z0QashrrcRTt5OkWFq3A
+         JhIfXrgw4WEzMdLnTI4qkExMI843pta/OoA5lA/t6LHt6K4uIohHeAWsi0eAXgzKoNCK
+         Licz1tvanZx9w724AUq0juOjJ+XttEZlB4WqPYmvGc2mQLjeNgyGcvShvfbswkxeB2rY
+         CgzA==
+X-Gm-Message-State: APuU4Z87TwNoESWPbElJqCyawLTaHbL2po0W0gMrs4otunqCm8yj3UNz
+	R74dA5ew0HOrmmwb2IBmoD5Yc+yXRTTHEses5lqCWT0WGGTO+6pxW1hLDEWxMvds
+X-Gm-Gg: AYBFou09X+peQWPI0gGDNjtWNJzx6hb298rq6uaNzzh2FX9fuvWEJFc9WSd4atHvxNt
+	gs9Fyi0yC7QhfWoJ5u3XrSJmtkbK0E3ixbEUK7Ap1HsSGqo6FIK5TFU1xKBznWv11NbaXnMFTDL
+	Buhw/jg7Hlz51mcU223jvDYEx0jZa09nobpwiHdXuTSXdRAk3wpe9NtVPndu4ChPF5/bcpv80+F
+	h40BL6vrvsYUmE5XPU8SH86l1euLX0BMND9tEr3fS/iJMKdTLyodutDBqqUtBOThzhdiIYvY5rL
+	2PJNHJ607sefdFxfRikgYXgrqXlQY3SfUcfWS8WiXhryT6fIJsxhlG9Okq+AKuFptJelvsE9s3o
+	yNBBgTeeSWwQivqn/REFQn31NlhN0nEHl+xk90N1oDXEraFTZlZ+vXoujIBNfXtk85SwFt5fQyd
+	4G4J/yFNbbPpecemAJqER1hzmK6vbmS8PxPKaC5PVzOI8/g0WaSX4uc3QKvOTXLRWeYcT2SdYxg
+	NKW+Z0dac4Zgp9+Is6n7ZdYbIjUFSns+ewY2d/6GeYY3fjMpY2k987IokhHJuRrWrx2mUpnPZpk
+	7x7mVWOar9r90WtNMyJGKANd57+bv7yJDc5SkwcmVv7vhml0BFjqZAuuqeanDWcyYaq6NAuCFD7
+	uABSzE2oOn46280PcshnBar7EOapFG2FX4bmRyAGHXa0VjotsgMfgBYdf1XqKOSCmJO8cnX7G+P
+	G0ovKR84l6467w8keCfJF+E8KyrIaz/kTSREqFrSefERJ9VuqxxrXT2dNpnnTWjnDTrRPReKhSd
+	0ekYb34N2oicPr/mJLcbZXuR0ILAZyW5Pcc7qX8GNRSc/YT46qqG/Qdajw0nfTkuGddB7w0ksSu
+	HIO5
+X-Received: by 2002:a05:693c:2801:b0:369:d8e1:7bb6 with SMTP id 5a478bee46e88-37967ed6d47mr7914360eec.25.1794775924638;
+        Sun, 15 Nov 2026 12:52:04 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379559189e8sm28414897eec.11.2026.11.15.12.52.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 12:52:04 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>,
+	Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] glibc: Do not use Transparent Huge Pages in malloc by default
+Date: Sun, 15 Nov 2026 12:52:01 -0800
+Message-ID: <20261115205201.2462176-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 14:02:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250277
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 20:52:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250278
+Content-Type: text/plain; charset="utf-8"
 
-On Mon Jul 6, 2026 at 7:16 PM CEST, Alexander Kanavin via lists.openembedde=
-d.org wrote:
-> From: Alexander Kanavin <alex@linutronix.de>
->
-> Backport a patch to tar to avoid name clashes.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  ...0001-Avoid-acl_-prefix-for-functions.patch | 90 +++++++++++++++++++
->  meta/recipes-extended/tar/tar_1.35.bb         | 22 ++---
->  ...t_uid-fix-memory-wasting-loop-if-use.patch | 49 ----------
->  ...isc.test-Don-t-mix-stdout-and-stderr.patch | 35 --------
->  .../attr/{acl_2.3.2.bb =3D> acl_2.4.0.bb}       |  4 +-
->  5 files changed, 102 insertions(+), 98 deletions(-)
->  create mode 100644 meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-=
-for-functions.patch
->  delete mode 100644 meta/recipes-support/attr/acl/0001-libmisc-__acl_get_=
-uid-fix-memory-wasting-loop-if-use.patch
->  delete mode 100644 meta/recipes-support/attr/acl/0001-test-misc.test-Don=
--t-mix-stdout-and-stderr.patch
->  rename meta/recipes-support/attr/{acl_2.3.2.bb =3D> acl_2.4.0.bb} (90%)
+Since glibc 2.43 malloc on aarch64 defaults to glibc.malloc.hugetlb=1
+with a 2MB THP size and also applies MADV_HUGEPAGE to thread arenas.
+This considerably increases memory usage on embedded systems, an aarch64
+system with otherwise identical userspace went from 465 MiB AnonPages
+with glibc 2.39 to 1105 MiB with 2.43 at idle, 743 MiB of it in
+AnonHugePages, and started swapping. glibc 2.44 does not improve it.
 
-Hello Alex,
+The default is a compile-time constant in glibc and GLIBC_TUNABLES does
+not reach AT_SECURE programs, /etc/tunables.conf is only read from the
+ld.so.cache which ldconfig-native does not generate it into. Add a
+configure option to glibc to disable the default and wire it up as the
+malloc-default-thp PACKAGECONFIG, which is off by default to get the
+pre-2.43 behavior. THP can still be enabled at run time with
+glibc.malloc.hugetlb=1, or by default by adding malloc-default-thp to
+PACKAGECONFIG.
 
-I think this upgrade resulted in a silent ptest regression:
+[YOCTO #16490]
 
-Regression report for yocto-6.1_M2 (target master, base yocto-6.1_M1):
-https://downloads.yoctoproject.org/releases/yocto/milestones/yocto-6.1_M2/t=
-estresults/testresult-regressions-report.txt
-|Regression:  runtime_core-image-ptest-acl_qemux86-64_20260609020141
-|             runtime_core-image-ptest-acl_qemux86-64_20260723201535
-|    Total: 9 new regression(s):
-|    9 regression(s) for ptestresult.acl
-|        ptestresult.acl.cp.test: PASSED -> No matching test result
-|        ptestresult.acl.getfacl-lfs.test: PASSED -> No matching test resul=
-t
-|        ptestresult.acl.getfacl-noacl.test: PASSED -> No matching test res=
-ult
-|        ptestresult.acl.getfacl-recursive.test: PASSED -> No matching test=
- result
-|        ptestresult.acl.malformed-restore.test: PASSED -> No matching test=
- result
-|        ptestresult.acl.misc.test: PASSED -> No matching test result
-|        ptestresult.acl.sbits-restore.test: PASSED -> No matching test res=
-ult
-|        ptestresult.acl.setfacl-X.test: PASSED -> No matching test result
-|        ptestresult.acl.utf8-filenames.test: PASSED -> No matching test re=
-sult
-|    Additionally, 1 new test(s) is/are present
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Tested-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ ...le-malloc-default-thp-configure-opti.patch | 211 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.44.bb         |   7 +
+ 2 files changed, 218 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch
 
-Because upstream commit f55ec6b "Use .run as the filename extension for
-"run" test scripts" [0] changed tests filenames but our run-ptest calls:
-| for f in *.test; do
-|     LD_PRELOAD=3D$(pwd)/libtestlookup.so ./run $f
-Which, in case of no file matching "*.test", will call literally "./run
-'*.test'" and this succeed for having no failing tests (but no tests at
-all).
-
-[0]: https://github.com/sailfishos-mirror/acl/commit/f55ec6b2e6b9094414b41d=
-f67bd19cbbfd48e8be (random working mirror)
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/recipes-core/glibc/glibc/0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch b/meta/recipes-core/glibc/glibc/0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch
+new file mode 100644
+index 0000000000..ca3ad49102
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch
+@@ -0,0 +1,211 @@
++From 2fdef78855354e7ae389498c7c9eee1c31c0f4dd Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 9 Nov 2026 18:57:27 +0000
++Subject: [PATCH] malloc: Add --disable-malloc-default-thp configure option
++
++Since glibc 2.43, malloc on aarch64 defaults to glibc.malloc.hugetlb=1
++with a 2MB THP size (MALLOC_DEFAULT_THP_PAGESIZE), and also applies
++MADV_HUGEPAGE to thread arenas.  On memory constrained embedded systems
++this significantly increases the resident memory of every process.  One
++report on an aarch64 system with otherwise identical userspace showed
++idle AnonPages grow from 465 MiB with glibc 2.39 to 1105 MiB with
++2.43, 743 MiB of it in AnonHugePages, and the system started to swap
++(BZ #34081).
++
++The tunable can be set to 0 at run time, but GLIBC_TUNABLES is not
++honored by AT_SECURE programs and has to be propagated to every
++process, including init.  The default is a compile-time constant, so
++add a configure option, --disable-malloc-default-thp, which makes the
++generic hugepages.h override any target definition of
++MALLOC_DEFAULT_THP_PAGESIZE with 0.  This covers every target which
++enables THP in malloc by default, currently aarch64.  hugepages.h is
++included more than once by some files (e.g. via ldsodefs.h and
++malloc-internal.h in malloc.c), so add an include guard to the aarch64
++header to keep it from redefining MALLOC_DEFAULT_THP_PAGESIZE after the
++generic header has undefined it.  This gives the
++pre-2.43 behavior, glibc.malloc.hugetlb defaults to 0 (also as reported
++by ld.so --list-tunables), and THP can still be enabled at run time
++with glibc.malloc.hugetlb=1.
++
++The default is unchanged.
++
++Upstream-Status: Submitted [https://inbox.sourceware.org/libc-alpha/20261115204701.2368765-1-khem.raj@oss.qualcomm.com/]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ INSTALL                                     |  9 +++++++++
++ config.h.in                                 |  4 ++++
++ configure                                   | 21 +++++++++++++++++++++
++ configure.ac                                |  8 ++++++++
++ manual/install.texi                         |  8 ++++++++
++ manual/tunables.texi                        |  3 ++-
++ sysdeps/generic/hugepages.h                 |  4 ++++
++ sysdeps/unix/sysv/linux/aarch64/hugepages.h |  7 +++++++
++ 8 files changed, 63 insertions(+), 1 deletion(-)
++
++diff --git a/INSTALL b/INSTALL
++index bafae84f75..2980a0ac69 100644
++--- a/INSTALL
+++++ b/INSTALL
++@@ -230,6 +230,15 @@ passed to 'configure'.  For example:
++      Disable using 'scv' instruction for syscalls.  All syscalls will
++      use 'sc' instead, even if the kernel supports 'scv'.  PowerPC only.
++ 
+++'--disable-malloc-default-thp'
+++     Do not make 'malloc' use Transparent Huge Pages by default.  This
+++     restores the behavior of 'glibc.malloc.hugetlb=0' as the default,
+++     which can reduce memory usage on systems with limited memory.  Huge
+++     pages can still be enabled at run time by setting the
+++     'glibc.malloc.hugetlb' tunable to '1'.  This only affects targets
+++     which use Transparent Huge Pages in 'malloc' by default, currently
+++     AArch64.
+++
++ '--build=BUILD-SYSTEM'
++ '--host=HOST-SYSTEM'
++      These options are for cross-compiling.  If you specify both options
++diff --git a/config.h.in b/config.h.in
++index 17bdd30570..fc1e5268ca 100644
++--- a/config.h.in
+++++ b/config.h.in
++@@ -29,6 +29,10 @@
++ /* On powerpc*, define if scv should be used for syscalls (when available).  */
++ #undef USE_PPC_SCV
++ 
+++/* Define if malloc should use Transparent Huge Pages by default on
+++   targets which define MALLOC_DEFAULT_THP_PAGESIZE.  */
+++#undef USE_MALLOC_DEFAULT_THP
+++
++ /* Define if _Unwind_Find_FDE should be exported from glibc.  */
++ #undef  EXPORT_UNWIND_FIND_FDE
++ 
++diff --git a/configure b/configure
++index 604279533a..e0658545a1 100755
++--- a/configure
+++++ b/configure
++@@ -815,6 +815,7 @@ enable_pt_chown
++ enable_mathvec
++ enable_cet
++ enable_scv
+++enable_malloc_default_thp
++ enable_fortify_source
++ enable_sframe
++ with_cpu
++@@ -1495,6 +1496,10 @@ Optional Features:
++                           (CET), x86 only
++   --disable-scv           syscalls will not use scv instruction, even if the
++                           kernel supports it, powerpc only
+++  --disable-malloc-default-thp
+++                          malloc will not use Transparent Huge Pages by
+++                          default on targets which enable them,
+++                          glibc.malloc.hugetlb=1 can still enable them
++   --enable-fortify-source[=1|2|3]
++                           Use -D_FORTIFY_SOURCE=[1|2|3] to control code
++                           hardening, defaults to highest possible value
++@@ -4829,6 +4834,22 @@ then :
++ 
++ fi
++ 
+++# Check whether --enable-malloc-default-thp was given.
+++if test ${enable_malloc_default_thp+y}
+++then :
+++  enableval=$enable_malloc_default_thp; use_malloc_default_thp=$enableval
+++else case e in #(
+++  e) use_malloc_default_thp=yes ;;
+++esac
+++fi
+++
+++
+++if test "$use_malloc_default_thp" != "no"
+++then :
+++  printf "%s\n" "#define USE_MALLOC_DEFAULT_THP 1" >>confdefs.h
+++
+++fi
+++
++ # Check whether --enable-fortify-source was given.
++ if test ${enable_fortify_source+y}
++ then :
++diff --git a/configure.ac b/configure.ac
++index 2fe7980fc9..89e123529f 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -401,6 +401,14 @@ AC_ARG_ENABLE([scv],
++ 
++ AS_IF([[test "$use_scv" != "no"]],[AC_DEFINE(USE_PPC_SCV)])
++ 
+++AC_ARG_ENABLE([malloc-default-thp],
+++	      AS_HELP_STRING([--disable-malloc-default-thp],
+++			     [malloc will not use Transparent Huge Pages by default on targets which enable them, glibc.malloc.hugetlb=1 can still enable them]),
+++	      [use_malloc_default_thp=$enableval],
+++	      [use_malloc_default_thp=yes])
+++
+++AS_IF([[test "$use_malloc_default_thp" != "no"]],[AC_DEFINE(USE_MALLOC_DEFAULT_THP)])
+++
++ dnl Build glibc with _FORTIFY_SOURCE
++ AC_ARG_ENABLE(fortify-source,
++               AS_HELP_STRING([--enable-fortify-source@<:@=1|2|3@:>@],
++diff --git a/manual/install.texi b/manual/install.texi
++index fe4a368385..957b1f541c 100644
++--- a/manual/install.texi
+++++ b/manual/install.texi
++@@ -261,6 +261,14 @@ C++ libraries.
++ Disable using @code{scv} instruction for syscalls. All syscalls will use
++ @code{sc} instead, even if the kernel supports @code{scv}. PowerPC only.
++ 
+++@item --disable-malloc-default-thp
+++Do not make @code{malloc} use Transparent Huge Pages by default.  This
+++restores the behavior of @code{glibc.malloc.hugetlb=0} as the default,
+++which can reduce memory usage on systems with limited memory.  Huge pages
+++can still be enabled at run time by setting the @code{glibc.malloc.hugetlb}
+++tunable to @code{1}.  This only affects targets which use Transparent
+++Huge Pages in @code{malloc} by default, currently AArch64.
+++
++ @item --build=@var{build-system}
++ @itemx --host=@var{host-system}
++ These options are for cross-compiling.  If you specify both options and
++diff --git a/manual/tunables.texi b/manual/tunables.texi
++index b53cfbf4be..c7e9e7b239 100644
++--- a/manual/tunables.texi
+++++ b/manual/tunables.texi
++@@ -369,7 +369,8 @@ still be created depending on the OS settings.
++ Setting its value to @code{1} enables the use of @code{madvise} with
++ @code{MADV_HUGEPAGE} after memory allocation with @code{mmap}.  It is enabled
++ only if the system supports Transparent Huge Page (currently only on Linux).
++-This is the default used for AArch64.
+++This is the default used for AArch64, unless @theglibc{} was configured
+++with @option{--disable-malloc-default-thp}.
++ 
++ When @code{glibc.elf.thp} set to 1, malloc uses the actual kernel THP mode
++ instead of defaulting to madvise mode and madvise_thp will stop issuing
++diff --git a/sysdeps/generic/hugepages.h b/sysdeps/generic/hugepages.h
++index e8fc70fbf9..77856327bc 100644
++--- a/sysdeps/generic/hugepages.h
+++++ b/sysdeps/generic/hugepages.h
++@@ -53,6 +53,10 @@ enum thp_mode_t __get_thp_mode (void) attribute_hidden;
++ void __get_hugepage_config (size_t requested, size_t *pagesize, int *flags)
++      attribute_hidden;
++ 
+++#ifndef USE_MALLOC_DEFAULT_THP
+++# undef MALLOC_DEFAULT_THP_PAGESIZE
+++#endif
+++
++ #ifndef MALLOC_DEFAULT_THP_PAGESIZE
++ # define MALLOC_DEFAULT_THP_PAGESIZE	0
++ #endif
++diff --git a/sysdeps/unix/sysv/linux/aarch64/hugepages.h b/sysdeps/unix/sysv/linux/aarch64/hugepages.h
++index 4f9de8a394..6711169de2 100644
++--- a/sysdeps/unix/sysv/linux/aarch64/hugepages.h
+++++ b/sysdeps/unix/sysv/linux/aarch64/hugepages.h
++@@ -16,6 +16,13 @@
++    License along with the GNU C Library; see the file COPYING.LIB.  If
++    not, see <https://www.gnu.org/licenses/>.  */
++ 
+++#ifndef _LINUX_AARCH64_HUGEPAGES_H
+++#define _LINUX_AARCH64_HUGEPAGES_H
+++
+++/* Only define this on the first inclusion, the generic hugepages.h may
+++   undefine it if glibc is configured with --disable-malloc-default-thp.  */
++ #define MALLOC_DEFAULT_THP_PAGESIZE	(1UL << 21)
++ 
++ #include_next <hugepages.h>
+++
+++#endif
+diff --git a/meta/recipes-core/glibc/glibc_2.44.bb b/meta/recipes-core/glibc/glibc_2.44.bb
+index 886a15f157..e5068fac03 100644
+--- a/meta/recipes-core/glibc/glibc_2.44.bb
++++ b/meta/recipes-core/glibc/glibc_2.44.bb
+@@ -58,6 +58,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0020-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+            file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
+            file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
++           file://0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch \
+ "
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+ 
+@@ -94,6 +95,12 @@ PACKAGECONFIG ??= ""
+ 
+ PACKAGECONFIG[nscd] = "--enable-nscd,--disable-nscd"
+ 
++# Since glibc 2.43 malloc defaults to 2MB Transparent Huge Pages on aarch64,
++# which considerably increases memory usage on embedded systems
++# (https://bugzilla.yoctoproject.org/show_bug.cgi?id=16490). Keep it disabled
++# by default, THP can still be enabled at run time with glibc.malloc.hugetlb=1
++PACKAGECONFIG[malloc-default-thp] = "--enable-malloc-default-thp,--disable-malloc-default-thp"
++
+ do_configure () {
+ # override this function to avoid the autoconf/automake/aclocal/autoheader
+ # calls for now
