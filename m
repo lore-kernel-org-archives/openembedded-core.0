@@ -1,28 +1,28 @@
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15234.1794778898539790055
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15430.1794778907775812506
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Nov 2026 13:41:38 -0800
+ Sun, 15 Nov 2026 13:41:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=PjzjVDJE;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261115214136ac3e72bc37000207c2-4sudqq@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261115214136ac3e72bc37000207c2
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=F5l3K8vO;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20261115214145a97229ad2700020781-qjdv01@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20261115214145a97229ad2700020781
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 15 Nov 2026 22:41:36 +0100
+        Sun, 15 Nov 2026 22:41:45 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=H4WZb2a9kyx/c7MBvWnmK8Nqr202at8TBJfx/cHIdzs=;
- b=PjzjVDJEtCAKxIyHLG0sB0/Kmzrhnn4SCb8MqB2fXpV/nNTfalkYqB62PxkAgoePTx2ykd
- Y1t17jmlS6rBo47BJyxn5pJ/1ObrO72NDxEIIlMjGsEbKuvpNNezA8WBasvE3vmh+sHUjTNp
- yOP8KYuCgBlPeTYKIVwMHirjUTYjaVgxZ8UgqH0XdPoggR74AXMdWXgThSQdC58XkLUZcVoz
- He1dgm1IwBBxA818wMCZutmDDBsgri/AQzKBXjLNMYgDi0I4n9QZZ69NyLWwIJRN1D7ESYCT
- CWzr30wtbe7/RO4x/Rldda4KhV0bXUpywf9gg74oxB8NAWN9F6ZlRIGQ==;
+ bh=mC32MK/tPwKuld9hFMoROlWYPoco/EaQIcRV5TtxbGM=;
+ b=F5l3K8vOeKiD6VEPdLOCSRxH891RVOcfnfwAOs1IMhhJ8G2s07iidtYyvV9q54PW2FWmmN
+ +h/3yfDyggwsdKSX/SEcq3Orim2/8cBhjYFOhCE0lGxteuyC065eb4osRXa/gOHA4ExFFIWV
+ FAJKL+2cyi5Dro0lMFDNnh120J0zkyDWYkAxL+8Om5Wu9KFo7VJxd9E+pm1e6Wy0jxGnDbym
+ aPfcNRb0aWd57ryMfJeTS/Ex3KzbcgWT2yPtRtp8pUWSvZ/uCxUP34XGtVq1GltIRa0Hx25H
+ sDBL1FlvaXQxSBVrdUdtDwkK9Z/k/qF/MfbopQ5wppRkSC04trKhg2ww==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH 4/7] libxrender: Upgrade 0.9.12 -> 0.9.13
-Date: Sun, 15 Nov 2026 22:39:29 +0100
-Message-ID: <20261115213932.1652076-4-peter.marko@siemens.com>
+Subject: [blacksail][PATCH 5/7] libxtst: Upgrade 1.2.5 -> 1.2.6
+Date: Sun, 15 Nov 2026 22:39:30 +0100
+Message-ID: <20261115213932.1652076-5-peter.marko@siemens.com>
 In-Reply-To: <20261115213932.1652076-1-peter.marko@siemens.com>
 References: <20261115213932.1652076-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -30,38 +30,40 @@ Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 21:41:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250286
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 21:41:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250287
 Content-Type: text/plain; charset="utf-8"
 
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-libXrender 0.9.13
-Check numSubpixel against numScreens to avoid OOB writes (CVE-2026-88807)
+libXtst 1.2.6
+parse_reply_call_callback: reject zero-progress RECORD reply elements
+parse_reply_call_callback: check element size against remaining reply buffer
 gitlab CI: drop the ci-fairy check-mr job
-meson: Add option to build with meson
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: ac37616f068062e1d361f6e16e3c8274cf96caaa)
+(From OE-Core rev: 39e26025d22d408ca4d6bb36e80e506ac4da0848)
+Handles CVE-2026-109088 and CVE-2026-94286.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../xorg-lib/{libxrender_0.9.12.bb => libxrender_0.9.13.bb}     | 2 +-
+ .../xorg-lib/{libxtst_1.2.5.bb => libxtst_1.2.6.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxrender_0.9.12.bb => libxrender_0.9.13.bb} (87%)
+ rename meta/recipes-graphics/xorg-lib/{libxtst_1.2.5.bb => libxtst_1.2.6.bb} (86%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb b/meta/recipes-graphics/xorg-lib/libxrender_0.9.13.bb
-similarity index 87%
-rename from meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb
-rename to meta/recipes-graphics/xorg-lib/libxrender_0.9.13.bb
-index e946d9dd41a..667f469e690 100644
---- a/meta/recipes-graphics/xorg-lib/libxrender_0.9.12.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrender_0.9.13.bb
-@@ -18,5 +18,5 @@ PE = "1"
- XORG_PN = "libXrender"
+diff --git a/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb b/meta/recipes-graphics/xorg-lib/libxtst_1.2.6.bb
+similarity index 86%
+rename from meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb
+rename to meta/recipes-graphics/xorg-lib/libxtst_1.2.6.bb
+index df381b7d655..a59c5c69963 100644
+--- a/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb
++++ b/meta/recipes-graphics/xorg-lib/libxtst_1.2.6.bb
+@@ -15,6 +15,6 @@ PROVIDES = "xtst"
+ PE = "1"
+ 
+ XORG_PN = "libXtst"
+-SRC_URI[sha256sum] = "b50d4c25b97009a744706c1039c598f4d8e64910c9fde381994e1cae235d9242"
++SRC_URI[sha256sum] = "f94f0b37c07d80d877f3eda2c2405cc7e62aa9842f6310354aa349e3d66a4fe5"
  
  BBCLASSEXTEND = "native nativesdk"
--SRC_URI[sha256sum] = "b832128da48b39c8d608224481743403ad1691bf4e554e4be9c174df171d1b97"
-+SRC_URI[sha256sum] = "3fe88c609df6782e1e7af2e4de36b2563d70cd70ff7dcb1cda561ad64912bb64"
- 
